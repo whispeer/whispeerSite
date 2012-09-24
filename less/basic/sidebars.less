@@ -1,0 +1,47 @@
+/* Sidebars */
+	#sidebar-left {
+		position: fixed;
+		top: 30px;
+		left: 0;
+		width: 130px;
+		height: 100%;
+		border-top-right-radius: 100px;
+		border-bottom-right-radius: 100px;
+		border:1px solid @orange;
+		overflow: hidden;
+		display: none;
+	}
+	#sidebar-left .mCSB_horizontal {
+		display: none;
+	}
+	#sidebar-right {
+		position: fixed;
+		top: 30px;
+		right: 0;
+		width: 130px;
+		height: 100%;
+		border-top-left-radius: 100px;
+		border-bottom-left-radius: 100px;
+		border:1px solid @orange;
+		overflow: hidden;
+		display: none;
+	}
+	#sidebar-right .mCSB_horizontal {
+		display: none;
+	}
+	#groupsearch, #friendsearch {
+		margin-top: 50px;
+	}
+	#groupsearchinput, #friendsearchinput {
+		width: 80px;
+		margin-left: 15px;
+	}
+	/* Display sidebars @ 1475px browser width */
+	@media (min-width: 1475px) {
+		#innermainwrap {
+			margin-left: 100px;
+		}
+		#sidebar-left, #sidebar-right {
+			display: block;
+		}
+	}

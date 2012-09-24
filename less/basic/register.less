@@ -1,0 +1,60 @@
+/* Register Layout */
+	.error {
+		margin-left: 10px;
+	}
+	
+	#email, #email2, #pw, #pw2 {
+		display: none;
+	}	   
+	/* Password strength check styling */
+		.lock {
+			margin-left: 10px;
+		}
+		
+		.strength {
+		    position: relative;
+		}
+		
+		.strength[data-strength]:after {
+		    content: "";
+		    position: absolute;
+		    top: 13px;
+		    margin: -8px 0 0 -24px;
+		    -moz-border-radius: 8px;
+		    -webkit-border-radius: 8px;
+		    border-radius: 8px;
+		    width: 16px;
+		    height: 16px;
+		    background-color: #e99f9d;
+		    background-repeat: no-repeat;
+		    background-position: center;
+		    background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAKCAYAAACJxx+AAAAARklEQVQYGWNkgIL///8vg7FBNCMjYxScjy4JkoCJMcFV4WAwwlTikGcgaAKKApDDUBwHNBZFATZrCCog6EhGkLG4fAJyDwDwGBdV5VuQmwAAAABJRU5ErkJggg==);
+		}
+		.strength[data-strength="2"]:after {
+		    background-color: #e0cc73;
+		}
+		.strength[data-strength="3"]:after {
+		    background-color: #e2e389;
+		}
+		.strength[data-strength="4"]:after {
+		    background-color: #beda81;
+		}
+		.strength[data-strength="5"]:after {
+		    background-color: #a7da39;
+		}
+		.strength[data-strength="6"]:after {
+		    background-color: #a7da39;
+		}
+		.strength[data-strength="7"]:after {
+		    background-color: #a7da39;
+		}
+		.strength[data-strength="8"]:after {
+		    background-color: #a7da39;
+		}
+		.strength[data-strength="9"]:after {
+		    background-color: #a7da39;
+		}
+		.strength[data-strength="10"]:after {
+		    background-color: #a7da39;
+		}
+	/* Password strength check styling end */

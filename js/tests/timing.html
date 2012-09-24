@@ -1,0 +1,123 @@
+	<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                    "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+	<script src="../libs/sjcl.js"></script>
+	<script src="../libs/jquery-1.7.2.min.js"></script>
+	<script src="../libs/jquery.json.min.js"></script>
+	<script src="../libs/modernizr-2.5.3-respond-1.1.0.min.js"></script>
+
+	<script src="../crypto/jsbn.js"></script>
+	<script src="../crypto/jsbn2.js"></script>
+	
+	<script src="../crypto/rsa.js"></script>
+
+
+	<script src="../ssn.logger.js"></script>
+	<script src="../ssn.config.js"></script>
+	<script src="../ssn.exception.js"></script>
+
+	<script src="../crypto/ssn.crypto.js"></script>
+	<script src="../crypto/ssn.crypto.privateKey.js"></script>
+	<script src="../crypto/ssn.crypto.publicKey.js"></script>
+	<script src="../crypto/ssn.crypto.sessionKey.js"></script>
+
+	<script src="qunit.js"></script>
+	<link rel="stylesheet" href="qunit.css" type="text/css" media="screen" />
+
+<script>
+sjcl.random.startCollectors();
+
+var waitForReady = function (callback) {
+	if (sjcl.random.isReady()) {
+		callback();
+	} else {
+		stop();
+		ssn.logger.log("Not yet ready!");
+		sjcl.random.addEventListener("seeded", function () {
+			ssn.logger.log("Lets go!");
+
+			callback();
+			start();
+		});
+	}
+};
+
+var timing = function (field, startTime) {
+	ssn.logger.log(field + ":" + (new Date().getTime() - startTime));
+	localStorage.setItem(field, localStorage.getItem(field) + "," + (new Date().getTime() - startTime));
+};
+
+var password = "as3cur3P455word!";
+
+sjcl.random.addEntropy("1", 999, "lala");
+
+var rsa = new RSA();
+var startTime;
+
+var second = function () {
+	var privateKeyJSON = '{"ee":"10001","n":"d581e7a15678a61c7120a4b986195f424ca2239e262fd970d04c4a2c9297e63a88b62b880775599f3b8f617aa94b7274cd96bd1b64271359505e524fe80cce4e366fc50e35205795ebf7befdff4fdd128d8eefb936203640ad45d0044467b6b3ba846699933ff1ec8c04ab072536422a81b7734fb506e078d73a6ca138c4cac5","priv":{"iv":"YFUvNzgFBQwe0oHhVr+8wg","salt":"ZtkMf8WX8fo","ct":"PAQmEp2YbTxOTSp+VTky7OQcca0XW1peVr+57wgjci/GR+XxY7nrt9hPM7biPJrC52LA7MKSk2sKLavO7DqxpGzwrGh1WBcBlQS9GZti/JBC461M7qlNLDfw//Yz2e/+hC9fLAtRwqSYAos8vT9zdmUYknn/XW/IGByWPtE5czdMPtgiRTu+rHbsicsMQ80Np/yemIorUjTNMkLTVYpntayMYParA7uthRMDIVyuWLXEMyRu26iiP8eJ1cLBVQqMf9CVvIehTOpMgRWxFVja6TSjXUYxqCoM6nOK6OdweoSgoNsWQXzKxDAkmYX/rYPRyf5o77iKw+Vh8eZYv/00OwxQx4WLbi938/mrYoAw8chMSTQl6wL8mHEqpOtIoaxhZ5/0S7JwFaGb6EK1jmS+3VDzUI5xfmh31/sXJxs0LMzQqvfaJf4AjwlAtmTxI8aaSEUhYtR6buAhd52clT6iHDsGyTTtksdrVGB6d3mpQOY+I1qXLB1F1HM/hpEfwa8nYw8qCwgDkoNF+at8GG1AFReD5u7pidgg8urnAYonuoE4ByaMqZtek6VL3BY0GkMoKjyXWDg3qxJoeOG21mvUyK++DWLsD9JqCcMCtNyqSzey9euuAQRKW/59p9zy9IyW9wtlJRvXVOmGWwiL/fz8YwB96Npk67EuYGv69PIS04ezbLCqX8Hz6MNOAYmi8O1hPxSE1DNQvJqhXgmwy6idLtvvlXIHQDE4ECSvv6bSbmdLkSQLtnUgwxIOzj/iKgqSr2Pc/YrvkTws+jnYKFk9djL95ygKkWzbE/JjtFCzSI4xR6dourTVHgcWGnO8oxUfHRYTUnLkyRzR/BOCGB2wgXIMThx+Bifay40VUQ+ZilhClvCBFwCCqVsGh/rutq+PfSwW5A4"}}';
+	var privateKey = new ssn.crypto.privateKey(privateKeyJSON, password);
+	var publicKey = new ssn.crypto.publicKey(privateKeyJSON);
+
+	var message = "Dies ist ein Testtext! <br /> Er dient einzig und allein des Testes";
+	var message2 = "Dies ist ein Testtext! <br /> Er dient einzig und allein dem Testen";
+
+	startTime = new Date().getTime();
+	
+	var signature = ssn.crypto.signText(privateKey, message);
+	
+	timing("signature", startTime);
+	startTime = new Date().getTime();
+
+	ssn.crypto.verifyText(publicKey, message, signature);
+
+	timing("verify", startTime);
+	
+	var toEncrypt = sjcl.codec.hex.fromBits(sjcl.random.randomWords(8, 0), ssn.config.paranoia);
+
+	startTime = new Date().getTime();
+	var encryptedOAEP = rsa.encryptOAEP(new BigInteger(toEncrypt, 16), publicKey.ee, publicKey.n, "Socialize");
+	timing("encrypt", startTime);
+	
+	startTime = new Date().getTime();
+	var decryptedOAEP = privateKey.decryptOAEP(encryptedOAEP, "Socialize");
+	timing("decrypt", startTime);
+	
+	localStorage.setItem("count", parseInt(localStorage.getItem("count"), 10) + 1);
+
+	if (parseInt(localStorage.getItem("count"), 10) % 1000 === 0) {
+		alert(localStorage.getItem("count"));
+	} else {
+		window.setTimeout(run, "100");
+	}
+};
+
+var run = function () {
+	waitForReady(function () {
+		if (parseInt(localStorage.getItem("count"), 10) < 101) {
+			startTime = new Date().getTime();
+			ssn.crypto.generate_Key(password, function (privateKey, pubKey) {
+				timing("keygen", startTime);
+				second();
+			});
+		} else {
+			second();
+		}
+	});
+};
+
+run();
+</script>
+  
+</head>
+<body>
+	<h1 id="qunit-header">Secure Social Network Unit Tests</h1>
+	<h2 id="qunit-banner"></h2>
+	<div id="qunit-testrunner-toolbar"></div>
+	<h2 id="qunit-userAgent"></h2>
+	<ol id="qunit-tests"></ol>
+	<div id="qunit-fixture">test markup, will be hidden</div>
+	<div id="logger"><h1>Log:</h1></div>
+</body>
+</html>

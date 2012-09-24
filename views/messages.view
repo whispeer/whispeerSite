@@ -1,0 +1,26 @@
+<div class="span2" id="messageTopics">
+	<ul class="unstyled span2" id="topicul">
+		<li id="newmessage" class="topic">
+			<p class="left">+</p>
+			<p class="right">Neue Nachricht versenden!</p>
+		</li>
+	</ul>
+</div>
+<div class="span5">
+	<div id="messagetitle" class="span5">
+			<h1>Svenja Kenneweg <a href="" class="btn btn-warning">Profil</a></h1>
+	</div>
+	<div class="clear">
+	</div>
+	<div class="messageWrap">
+		<ul class="unstyled" id="messageul">
+		</ul>
+		<div id="messageinput">
+			<div class="form-inline">
+				<textarea id="theMessage" type="text" placeholder="Gebe deine Nachricht ein!"></textarea>
+				<button class="btn btn-warning" id="sendMessageSubmit">Senden</button>
+				<p><i class="icon-plus"></i> Füge Dateien zu deiner Nachricht hinzu!</p>
+			</div>		
+		</div>
+	</div>
+</div>
