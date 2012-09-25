@@ -1,0 +1,238 @@
+/*!
+ * InStyle
+ *	Something like a framework, though it's designed for the needs of socialHive
+ *
+ * Copyright 2012 Daniel Melchior
+ *
+ */
+/**
+ * html5doctor.com Reset Stylesheet v1.6.1 (http://html5doctor.com/html-5-reset-stylesheet/)
+ * Richard Clark (http://richclarkdesign.com)
+ * http://cssreset.com
+ */
+html,
+body,
+div,
+span,
+object,
+iframe,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote,
+pre,
+abbr,
+address,
+cite,
+code,
+del,
+dfn,
+em,
+img,
+ins,
+kbd,
+q,
+samp,
+small,
+strong,
+sub,
+sup,
+var,
+b,
+i,
+dl,
+dt,
+dd,
+ol,
+ul,
+li,
+fieldset,
+form,
+label,
+legend,
+table,
+caption,
+tbody,
+tfoot,
+thead,
+tr,
+th,
+td,
+article,
+aside,
+canvas,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+menu,
+nav,
+section,
+summary,
+time,
+mark,
+audio,
+video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  outline: 0;
+  font-size: 100%;
+  vertical-align: baseline;
+  background: transparent;
+}
+body {
+  line-height: 1;
+}
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+menu,
+nav,
+section {
+  display: block;
+}
+nav ul {
+  list-style: none;
+}
+blockquote,
+q {
+  quotes: none;
+}
+blockquote:before,
+blockquote:after,
+q:before,
+q:after {
+  content: '';
+  content: none;
+}
+a {
+  margin: 0;
+  padding: 0;
+  font-size: 100%;
+  vertical-align: baseline;
+  background: transparent;
+}
+/* change colours to suit your needs */
+ins {
+  background-color: #ff9;
+  color: #000;
+  text-decoration: none;
+}
+/* change colours to suit your needs */
+mark {
+  background-color: #ff9;
+  color: #000;
+  font-style: italic;
+  font-weight: bold;
+}
+del {
+  text-decoration: line-through;
+}
+abbr[title],
+dfn[title] {
+  border-bottom: 1px dotted;
+  cursor: help;
+}
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+/* change border colour to suit your needs */
+hr {
+  display: block;
+  height: 1px;
+  border: 0;
+  border-top: 1px solid #cccccc;
+  margin: 1em 0;
+  padding: 0;
+}
+input,
+select {
+  vertical-align: middle;
+}
+body {
+  width: 100%;
+  *zoom: 1;
+}
+body:before,
+body:after {
+  content: "";
+  display: table;
+}
+body:after {
+  clear: both;
+}
+input {
+  padding: 9px;
+  border: solid 1px #E5E5E5;
+  outline: 0;
+  font: normal 13px/100% Verdana, Tahoma, sans-serif;
+  width: 200px;
+  background: #FFFFFF;
+}
+.unstyled {
+  list-style-type: none;
+}
+nav {
+  display: block;
+  height: 50px;
+  background-color: #ffd33e;
+  background: -webkit-gradient(linear, left top, left bottom, from(#ffd33e), to(#ffc812));
+  background: -webkit-linear-gradient(top, #ffd33e, #ffc812);
+  background: -moz-linear-gradient(top, #ffd33e, #ffc812);
+  background: -ms-linear-gradient(top, #ffd33e, #ffc812);
+  background: -o-linear-gradient(top, #ffd33e, #ffc812);
+  box-shadow: 0px 0px 10px #a7a7a7;
+}
+nav .brand {
+  display: block;
+  float: left;
+  margin: 10px 5px 5px 15px;
+  font-size: 25px;
+  font-family: helvetica;
+  color: #f5f5f5;
+  text-shadow: 1px 1px 1px #d2d2d2;
+}
+.nav-icon {
+  float: left;
+  margin: 10px 5px 5px 15px;
+}
+.nav-icon-dropdown {
+  border: 1px solid #999;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  -webkit-box-shadow: 0 0 5px #999999;
+  -moz-box-shadow: 0 0 5px #999999;
+  box-shadow: 0 0 5px #999999;
+  display: inline;
+  float: left;
+  width: 220px;
+  margin: 0 10px;
+  display: none;
+}
+.nav-icon-dropdown-header {
+  border-bottom: 1px solid #999;
+  height: 25px;
+  text-align: center;
+}
+.nav-icon-dropdown-footer {
+  border-top: 1px solid #999;
+  height: 25px;
+  text-align: center;
+}
