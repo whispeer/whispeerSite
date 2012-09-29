@@ -1,0 +1,3 @@
+The following things were used:
+	Semantic Grid System from http://semantic.gs
+	Normalize.css from http://necolas.github.com/normalize.css/

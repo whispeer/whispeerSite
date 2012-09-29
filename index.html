@@ -20,9 +20,8 @@
 	<link rel="apple-touch-startup-image" href="img/socialize-splash.png">
 	<meta name="apple-mobile-web-app-capable" content="yes" />
 	
-	<link rel="stylesheet/less" href="less/social.less">
-	<link rel="stylesheet/less" href="less/responsive.less">
-	<script src="js/libs/less-1.3.0.min.js" type="text/javascript"></script>
+	<link rel="stylesheet" href="less/social.css">
+	<link rel="stylesheet" href="less/responsive.css">
 	<link rel="stylesheet" href="less/fontello.css">
 	<!--[if IE 7]><link rel="stylesheet" href="less/fontello-ie7.css"><![endif]-->
 	<script src="js/libs/modernizr.js"></script>
@@ -131,15 +130,17 @@
 					</div>
 				</div>
 			</div>
-			<div class="nav-collapse">
-				<form class="form-search form-navbar" id="nav-search">
-					<input type="text" class="search-query" placeholder="Suche">
+			<div class="nav-collapse collapse">
+				<div class="search">
+					<form class="form-search form-navbar" id="nav-search">
+						<input type="text" class="search-query" placeholder="Suche">
+					</form>
 					<div class="search-drop">
-						<ul class="unstyled" id="search-suggestions">
+						<ul class="unstyled search-suggestions">
 							<li><a href="#profile=daniel">Daniel Melchior</a></li>
 						</ul>
 					</div>
-				</form>
+				</div>
 				<div class="form-navbar" id="login" style="display: none;">
 					<input type="text" placeholder="Benutzername">
 					<input type="password" placeholder="Passwort">
@@ -148,7 +149,112 @@
 		</div>
 	</nav>
 	<div class="body">
-		Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+		<div id="container">
+			<div class="bubble sidebar" id="sidebar-left">
+				Hi
+			</div>
+			<div class="bubble" id="main">
+				<h1>HTML Ipsum Presents</h1>
+					       
+				<p><strong>Pellentesque habitant morbi tristique</strong> senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. <em>Aenean ultricies mi vitae est.</em> Mauris placerat eleifend leo. Quisque sit amet est et sapien ullamcorper pharetra. Vestibulum erat wisi, condimentum sed, <code>commodo vitae</code>, ornare sit amet, wisi. Aenean fermentum, elit eget tincidunt condimentum, eros ipsum rutrum orci, sagittis tempus lacus enim ac dui. <a href="#">Donec non enim</a> in turpis pulvinar facilisis. Ut felis.</p>
+				
+				<h2>Header Level 2</h2>
+					       
+				<ol>
+				   <li>Lorem ipsum dolor sit amet, consectetuer adipiscing elit.</li>
+				   <li>Aliquam tincidunt mauris eu risus.</li>
+				</ol>
+				
+				<blockquote><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus magna. Cras in mi at felis aliquet congue. Ut a est eget ligula molestie gravida. Curabitur massa. Donec eleifend, libero at sagittis mollis, tellus est malesuada tellus, at luctus turpis elit sit amet quam. Vivamus pretium ornare est.</p></blockquote>
+				
+				<h3>Header Level 3</h3>
+				
+				<ul>
+				   <li>Lorem ipsum dolor sit amet, consectetuer adipiscing elit.</li>
+				   <li>Aliquam tincidunt mauris eu risus.</li>
+				</ul>
+				
+				<pre><code>
+				#header h1 a { 
+					display: block; 
+					width: 300px; 
+					height: 80px; 
+				}
+				</code></pre>
+				<form action="#" method="post">
+				    <div>
+				         <label for="name">Text Input:</label>
+				         <input type="text" name="name" id="name" value="" tabindex="1">
+				    </div>
+				
+				    <div>
+				         <h4>Radio Button Choice</h4>
+				
+				         <label for="radio-choice-1">Choice 1</label>
+				         <input type="radio" name="radio-choice-1" id="radio-choice-1" tabindex="2" value="choice-1">
+				
+						 <label for="radio-choice-2">Choice 2</label>
+				         <input type="radio" name="radio-choice-2" id="radio-choice-2" tabindex="3" value="choice-2">
+				    </div>
+				
+					<div>
+						<label for="select-choice">Select Dropdown Choice:</label>
+						<select name="select-choice" id="select-choice">
+							<option value="Choice 1">Choice 1</option>
+							<option value="Choice 2">Choice 2</option>
+							<option value="Choice 3">Choice 3</option>
+						</select>
+					</div>
+					
+					<div>
+						<label for="textarea">Textarea:</label>
+						<textarea cols="40" rows="8" name="textarea" id="textarea"></textarea>
+					</div>
+					
+					<div>
+					    <label for="checkbox">Checkbox:</label>
+						<input type="checkbox" name="checkbox" id="checkbox" />
+				    </div>
+				
+					<div>
+					    <input type="submit" value="Submit" />
+				    </div>
+				</form>
+				<table>
+					<thead>
+						<tr>
+							<th></th>
+							<th></th>
+							<th></th>
+							<th></th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+						</tr>
+						<tr>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+						</tr>
+						<tr>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<div class="bubble sidebar" id="sidebar-right">
+				Werbung
+			</div>
+		</div>	
 	</div>
 	<script src="js/libs/sjcl.js"></script>
 	<script src="js/libs/jquery-1.7.2.min.js"></script>

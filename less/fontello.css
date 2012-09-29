@@ -20,13 +20,14 @@
   text-align: center;
   opacity: 0.7;
 /* Uncomment for 3D effect */
-/* text-shadow: 1px 1px 1px rgba(120, 120, 120, 0.3); */
+/* text-shadow: 1px 1px 1px rgba(127, 127, 127, 0.3); */
 /* fix buttons height */
   line-height: 1em;
 /* you can be more comfortable with increased icons size */
 /* font-size: 120%; */
 }
 
+.icon-minus:before { content: '\2d'; } /* '-' */
 .icon-info:before { content: '\2139'; } /* 'ℹ' */
 .icon-heart:before { content: '\2665'; } /* '♥' */
 .icon-attention:before { content: '\26a0'; } /* '⚠' */

@@ -5,15 +5,15 @@
  * Copyright 2012 Daniel Melchior
  *
  */
-/**
- * html5doctor.com Reset Stylesheet v1.6.1 (http://html5doctor.com/html-5-reset-stylesheet/)
- * Richard Clark (http://richclarkdesign.com)
- * http://cssreset.com
- */
+/* http://meyerweb.com/eric/tools/css/reset/ 
+   v2.0 | 20110126
+   License: none (public domain)
+*/
 html,
 body,
 div,
 span,
+applet,
 object,
 iframe,
 h1,
@@ -25,8 +25,11 @@ h6,
 p,
 blockquote,
 pre,
+a,
 abbr,
+acronym,
 address,
+big,
 cite,
 code,
 del,
@@ -36,14 +39,19 @@ img,
 ins,
 kbd,
 q,
+s,
 samp,
 small,
+strike,
 strong,
 sub,
 sup,
+tt,
 var,
 b,
+u,
 i,
+center,
 dl,
 dt,
 dd,
@@ -66,13 +74,16 @@ article,
 aside,
 canvas,
 details,
-figcaption,
+embed,
 figure,
+figcaption,
 footer,
 header,
 hgroup,
 menu,
 nav,
+output,
+ruby,
 section,
 summary,
 time,
@@ -82,14 +93,11 @@ video {
   margin: 0;
   padding: 0;
   border: 0;
-  outline: 0;
   font-size: 100%;
+  font: inherit;
   vertical-align: baseline;
-  background: transparent;
 }
-body {
-  line-height: 1;
-}
+/* HTML5 display-role reset for older browsers */
 article,
 aside,
 details,
@@ -103,7 +111,11 @@ nav,
 section {
   display: block;
 }
-nav ul {
+body {
+  line-height: 1;
+}
+ol,
+ul {
   list-style: none;
 }
 blockquote,
@@ -117,50 +129,9 @@ q:after {
   content: '';
   content: none;
 }
-a {
-  margin: 0;
-  padding: 0;
-  font-size: 100%;
-  vertical-align: baseline;
-  background: transparent;
-}
-/* change colours to suit your needs */
-ins {
-  background-color: #ff9;
-  color: #000;
-  text-decoration: none;
-}
-/* change colours to suit your needs */
-mark {
-  background-color: #ff9;
-  color: #000;
-  font-style: italic;
-  font-weight: bold;
-}
-del {
-  text-decoration: line-through;
-}
-abbr[title],
-dfn[title] {
-  border-bottom: 1px dotted;
-  cursor: help;
-}
 table {
   border-collapse: collapse;
   border-spacing: 0;
-}
-/* change border colour to suit your needs */
-hr {
-  display: block;
-  height: 1px;
-  border: 0;
-  border-top: 1px solid #cccccc;
-  margin: 1em 0;
-  padding: 0;
-}
-input,
-select {
-  vertical-align: middle;
 }
 body {
   width: 100%;
@@ -179,22 +150,59 @@ input {
   border: solid 1px #E5E5E5;
   outline: 0;
   font: normal 13px/100% Verdana, Tahoma, sans-serif;
-  width: 200px;
   background: #FFFFFF;
+  border-radius: 20px;
+  display: inline;
+  float: left;
+  width: 26.785714285714285%;
+  margin: 0 0.8928571428571428%;
+}
+.form-navbar input {
+  margin: 6px 0px 0px 5px;
 }
 .unstyled {
   list-style-type: none;
 }
+body {
+  background-color: #e7e9ea;
+  margin: 0 auto;
+}
+div {
+  display: block;
+}
+#container {
+  margin-top: 10px;
+}
+#sidebar-left {
+  display: inline;
+  float: left;
+  width: 19.642857142857142%;
+  margin: 0 0.8928571428571428%;
+  margin-left: 8.035714285714285%;
+}
+#main {
+  display: inline;
+  float: left;
+  width: 41.07142857142857%;
+  margin: 0 0.8928571428571428%;
+}
+#sidebar-right {
+  display: inline;
+  float: left;
+  width: 12.5%;
+  margin: 0 0.8928571428571428%;
+}
 nav {
   display: block;
   height: 50px;
-  background-color: #ffd33e;
-  background: -webkit-gradient(linear, left top, left bottom, from(#ffd33e), to(#ffc812));
-  background: -webkit-linear-gradient(top, #ffd33e, #ffc812);
-  background: -moz-linear-gradient(top, #ffd33e, #ffc812);
-  background: -ms-linear-gradient(top, #ffd33e, #ffc812);
-  background: -o-linear-gradient(top, #ffd33e, #ffc812);
-  box-shadow: 0px 0px 10px #a7a7a7;
+  border-bottom: 1px solid #a7a7a7;
+  outline: 1px solid #dbdbdb;
+  background-color: #ffffff;
+  background: -webkit-gradient(linear, left top, left bottom, from(#ffffff), to(#f1f1f1));
+  background: -webkit-linear-gradient(top, #ffffff, #f1f1f1);
+  background: -moz-linear-gradient(top, #ffffff, #f1f1f1);
+  background: -ms-linear-gradient(top, #ffffff, #f1f1f1);
+  background: -o-linear-gradient(top, #ffffff, #f1f1f1);
 }
 nav .brand {
   display: block;
@@ -202,12 +210,23 @@ nav .brand {
   margin: 10px 5px 5px 15px;
   font-size: 25px;
   font-family: helvetica;
-  color: #f5f5f5;
+  color: #555;
   text-shadow: 1px 1px 1px #d2d2d2;
 }
 .nav-icon {
   float: left;
-  margin: 10px 5px 5px 15px;
+  margin: 12px 5px 5px 15px;
+}
+.nav-icon-icons {
+  font-size: 20px;
+  color: #333;
+}
+.nav-icon-icons a {
+  text-decoration: none;
+  border: none;
+}
+.nav-icon-icons:hover {
+  color: #474747;
 }
 .nav-icon-dropdown {
   border: 1px solid #999;
@@ -222,8 +241,8 @@ nav .brand {
   box-shadow: 0 0 5px #999999;
   display: inline;
   float: left;
-  width: 220px;
-  margin: 0 10px;
+  width: 19.642857142857142%;
+  margin: 0 0.8928571428571428%;
   display: none;
 }
 .nav-icon-dropdown-header {
@@ -235,4 +254,36 @@ nav .brand {
   border-top: 1px solid #999;
   height: 25px;
   text-align: center;
+}
+.search {
+  display: inline;
+  float: left;
+  width: 26.785714285714285%;
+  margin: 0 0.8928571428571428%;
+}
+.search-drop {
+  position: absolute;
+  top: 50px;
+  display: inline;
+  float: left;
+  width: 26.785714285714285%;
+  margin: 0 0.8928571428571428%;
+  display: none;
+}
+.bubble {
+  background-color: #ffffff;
+  border: #e6e6e6 solid 2px;
+  display: inline;
+  float: left;
+  width: 5.357142857142857%;
+  margin: 0 0.8928571428571428%;
+  margin: 5px;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  border-radius: 10px;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  min-height: 50px;
+  padding: 10px;
 }
