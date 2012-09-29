@@ -1,0 +1,31 @@
+body {
+  width: 100%;
+  *zoom: 1;
+}
+body:before,
+body:after {
+  content: "";
+  display: table;
+}
+body:after {
+  clear: both;
+}
+@media (max-device-width: 768px) {
+  #sidebar-left,
+  #main {
+    display: inline;
+    float: left;
+    width: 97.91666666666666%;
+    margin: 0 1.0416666666666665%;
+    *width: 97.86458333333333%;
+    *margin: 0 0.9895833333333331%;
+    margin: 0 auto;
+    margin-bottom: 10px;
+  }
+  #sidebar-right {
+    display: none;
+  }
+  footer {
+    margin-bottom: 10px;
+  }
+}

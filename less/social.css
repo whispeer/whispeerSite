@@ -114,10 +114,6 @@ section {
 body {
   line-height: 1;
 }
-ol,
-ul {
-  list-style: none;
-}
 blockquote,
 q {
   quotes: none;
@@ -154,14 +150,61 @@ input {
   border-radius: 20px;
   display: inline;
   float: left;
-  width: 26.785714285714285%;
-  margin: 0 0.8928571428571428%;
+  width: 31.25%;
+  margin: 0 1.0416666666666665%;
+  *width: 31.197916666666668%;
+  *margin: 0 0.9895833333333331%;
 }
 .form-navbar input {
   margin: 6px 0px 0px 5px;
 }
-.unstyled {
-  list-style-type: none;
+ul,
+ol {
+  padding: 0;
+  margin: 0 0 10px 25px;
+}
+ul ul,
+ul ol,
+ol ol,
+ol ul {
+  margin-bottom: 0;
+}
+li {
+  line-height: 20px;
+}
+ul.unstyled,
+ol.unstyled {
+  margin-left: 0;
+  list-style: none;
+}
+dl {
+  margin-bottom: 20px;
+}
+dt,
+dd {
+  line-height: 20px;
+}
+dt {
+  font-weight: bold;
+}
+dd {
+  margin-left: 10px;
+}
+.dl-horizontal {
+  *zoom: 1;
+}
+.dl-horizontal:before,
+.dl-horizontal:after {
+  content: "";
+  display: table;
+}
+.dl-horizontal:after {
+  clear: both;
+}
+.dl-horizontal dt {
+  float: left;
+  clear: left;
+  text-align: right;
 }
 body {
   font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
@@ -259,6 +302,7 @@ h6 {
 body {
   background-color: #f1f5f7;
   margin: 0 auto;
+  padding-top: 50px;
 }
 div {
   display: block;
@@ -269,25 +313,45 @@ div {
 #sidebar-left {
   display: inline;
   float: left;
-  width: 19.642857142857142%;
-  margin: 0 0.8928571428571428%;
-  margin-left: 8.035714285714285%;
+  width: 22.916666666666664%;
+  margin: 0 1.0416666666666665%;
+  *width: 22.864583333333332%;
+  *margin: 0 0.9895833333333331%;
+  margin-left: 9.374999999999998%;
 }
 #main {
   display: inline;
   float: left;
-  width: 41.07142857142857%;
-  margin: 0 0.8928571428571428%;
+  width: 47.91666666666667%;
+  margin: 0 1.0416666666666665%;
+  *width: 47.864583333333336%;
+  *margin: 0 0.9895833333333331%;
+  display: block;
 }
 #sidebar-right {
   display: inline;
   float: left;
-  width: 12.5%;
-  margin: 0 0.8928571428571428%;
+  width: 14.583333333333334%;
+  margin: 0 1.0416666666666665%;
+  *width: 14.53125%;
+  *margin: 0 0.9895833333333331%;
+}
+footer {
+  display: inline;
+  float: left;
+  width: 97.91666666666666%;
+  margin: 0 1.0416666666666665%;
+  *width: 97.86458333333333%;
+  *margin: 0 0.9895833333333331%;
+  text-align: center;
+  margin-top: 10px;
 }
 nav {
   display: block;
+  position: fixed;
+  width: 100%;
   height: 50px;
+  top: 0;
   border-bottom: 1px solid #a7a7a7;
   outline: 1px solid #dbdbdb;
   background-color: #ffffff;
@@ -334,8 +398,10 @@ nav .brand {
   box-shadow: 0 0 5px #999999;
   display: inline;
   float: left;
-  width: 19.642857142857142%;
-  margin: 0 0.8928571428571428%;
+  width: 22.916666666666664%;
+  margin: 0 1.0416666666666665%;
+  *width: 22.864583333333332%;
+  *margin: 0 0.9895833333333331%;
   display: none;
 }
 .nav-icon-dropdown-header {
@@ -351,16 +417,20 @@ nav .brand {
 .search {
   display: inline;
   float: left;
-  width: 26.785714285714285%;
-  margin: 0 0.8928571428571428%;
+  width: 31.25%;
+  margin: 0 1.0416666666666665%;
+  *width: 31.197916666666668%;
+  *margin: 0 0.9895833333333331%;
 }
 .search-drop {
   position: absolute;
   top: 50px;
   display: inline;
   float: left;
-  width: 26.785714285714285%;
-  margin: 0 0.8928571428571428%;
+  width: 31.25%;
+  margin: 0 1.0416666666666665%;
+  *width: 31.197916666666668%;
+  *margin: 0 0.9895833333333331%;
   display: none;
 }
 .bubble {
@@ -368,8 +438,10 @@ nav .brand {
   border: #e6e6e6 solid 2px;
   display: inline;
   float: left;
-  width: 5.357142857142857%;
-  margin: 0 0.8928571428571428%;
+  width: 6.25%;
+  margin: 0 1.0416666666666665%;
+  *width: 6.197916666666667%;
+  *margin: 0 0.9895833333333331%;
   margin: 5px;
   -webkit-border-radius: 10px;
   -moz-border-radius: 10px;

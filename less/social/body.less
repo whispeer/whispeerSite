@@ -1,6 +1,7 @@
 body {
 	background-color: #f1f5f7;
 	margin: 0 auto;
+	padding-top: @navbarHeight;
 }
 div {
 	display: block;
@@ -14,7 +15,13 @@ div {
 }
 #main {
 	.column(6);
+	display: block;
 }
 #sidebar-right {
 	.column(2);
+}
+footer {
+	.column(12);
+	text-align: center;
+	margin-top: 10px;
 }

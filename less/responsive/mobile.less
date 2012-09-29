@@ -1,1 +1,21 @@
-// optimize stylesheet for mobile usage
+// Mobile Stylesheet
+// --------------------------
+
+@columns: 12;
+@column-width: 60;
+@gutter-width: 20;
+@total-width: 100%;
+
+@media (max-device-width: 768px) {
+	#sidebar-left, #main {
+		.column(12);
+		margin: 0 auto;
+		margin-bottom: 10px;
+	}
+	#sidebar-right {
+		display: none;
+	}
+	footer {
+		margin-bottom: 10px;
+	}
+}
