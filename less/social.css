@@ -5,130 +5,6 @@
  * Copyright 2012 Daniel Melchior
  *
  */
-/* http://meyerweb.com/eric/tools/css/reset/ 
-   v2.0 | 20110126
-   License: none (public domain)
-*/
-html,
-body,
-div,
-span,
-applet,
-object,
-iframe,
-h1,
-h2,
-h3,
-h4,
-h5,
-h6,
-p,
-blockquote,
-pre,
-a,
-abbr,
-acronym,
-address,
-big,
-cite,
-code,
-del,
-dfn,
-em,
-img,
-ins,
-kbd,
-q,
-s,
-samp,
-small,
-strike,
-strong,
-sub,
-sup,
-tt,
-var,
-b,
-u,
-i,
-center,
-dl,
-dt,
-dd,
-ol,
-ul,
-li,
-fieldset,
-form,
-label,
-legend,
-table,
-caption,
-tbody,
-tfoot,
-thead,
-tr,
-th,
-td,
-article,
-aside,
-canvas,
-details,
-embed,
-figure,
-figcaption,
-footer,
-header,
-hgroup,
-menu,
-nav,
-output,
-ruby,
-section,
-summary,
-time,
-mark,
-audio,
-video {
-  margin: 0;
-  padding: 0;
-  border: 0;
-  font-size: 100%;
-  font: inherit;
-  vertical-align: baseline;
-}
-/* HTML5 display-role reset for older browsers */
-article,
-aside,
-details,
-figcaption,
-figure,
-footer,
-header,
-hgroup,
-menu,
-nav,
-section {
-  display: block;
-}
-body {
-  line-height: 1;
-}
-blockquote,
-q {
-  quotes: none;
-}
-blockquote:before,
-blockquote:after,
-q:before,
-q:after {
-  content: '';
-  content: none;
-}
-table {
-  border-collapse: collapse;
-  border-spacing: 0;
-}
 body {
   width: 100%;
   *zoom: 1;
@@ -299,6 +175,13 @@ h6 {
   font-size: 10px;
   line-height: 20px;
 }
+a {
+  color: #efaf02;
+  text-decoration: none;
+}
+a:hover {
+  color: #ffc422;
+}
 body {
   background-color: #f1f5f7;
   margin: 0 auto;
@@ -317,23 +200,13 @@ div {
   margin: 0 1.0416666666666665%;
   *width: 22.864583333333332%;
   *margin: 0 0.9895833333333331%;
-  margin-left: 9.374999999999998%;
-}
-#main {
-  display: inline;
-  float: left;
-  width: 47.91666666666667%;
-  margin: 0 1.0416666666666665%;
-  *width: 47.864583333333336%;
-  *margin: 0 0.9895833333333331%;
-  display: block;
 }
 #sidebar-right {
   display: inline;
   float: left;
-  width: 14.583333333333334%;
+  width: 11.25%;
   margin: 0 1.0416666666666665%;
-  *width: 14.53125%;
+  *width: 11.197916666666666%;
   *margin: 0 0.9895833333333331%;
 }
 footer {
@@ -417,9 +290,9 @@ nav .brand {
 .search {
   display: inline;
   float: left;
-  width: 31.25%;
+  width: 64.58333333333334%;
   margin: 0 1.0416666666666665%;
-  *width: 31.197916666666668%;
+  *width: 64.53125000000001%;
   *margin: 0 0.9895833333333331%;
 }
 .search-drop {
@@ -427,9 +300,9 @@ nav .brand {
   top: 50px;
   display: inline;
   float: left;
-  width: 31.25%;
+  width: 64.58333333333334%;
   margin: 0 1.0416666666666665%;
-  *width: 31.197916666666668%;
+  *width: 64.53125000000001%;
   *margin: 0 0.9895833333333331%;
   display: none;
 }
@@ -451,4 +324,140 @@ nav .brand {
   background-clip: padding-box;
   min-height: 50px;
   padding: 10px;
+}
+#userpanel {
+  display: inline;
+  float: left;
+  width: 97.91666666666666%;
+  margin: 0 1.0416666666666665%;
+  *width: 97.86458333333333%;
+  *margin: 0 0.9895833333333331%;
+  text-align: center;
+}
+#userpanel .userimg {
+  display: inline;
+  float: left;
+  width: 72.91666666666666%;
+  margin: 0 1.0416666666666665%;
+  *width: 72.86458333333333%;
+  *margin: 0 0.9895833333333331%;
+  float: none;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+}
+#userpanel .username {
+  display: inline;
+  float: left;
+  width: 97.91666666666666%;
+  margin: 0 1.0416666666666665%;
+  *width: 97.86458333333333%;
+  *margin: 0 0.9895833333333331%;
+  margin-top: 5px;
+}
+#userpanel .left,
+#userpanel .right {
+  display: inline;
+  float: left;
+  width: 47.91666666666667%;
+  margin: 0 1.0416666666666665%;
+  *width: 47.864583333333336%;
+  *margin: 0 0.9895833333333331%;
+  margin-top: 5px;
+}
+#socialhive,
+#register {
+  display: inline;
+  float: left;
+  width: 39.58333333333333%;
+  margin: 0 1.0416666666666665%;
+  *width: 39.53124999999999%;
+  *margin: 0 0.9895833333333331%;
+  margin-left: 5.208333333333332%;
+}
+#register #nameRow,
+#register #lastNameRow,
+#register #emailRow,
+#register #emailRow2,
+#register #usernameRow,
+#register #passwordRow,
+#register #passwordRow2,
+#register #submitRow {
+  display: block;
+  width: 102.08333333333333%;
+  margin: 0 -1.0416666666666665%;
+  *width: 102.03125%;
+  *margin: 0 -1.0937499999999998%;
+  *zoom: 1;
+}
+#register #nameRow:before,
+#register #lastNameRow:before,
+#register #emailRow:before,
+#register #emailRow2:before,
+#register #usernameRow:before,
+#register #passwordRow:before,
+#register #passwordRow2:before,
+#register #submitRow:before,
+#register #nameRow:after,
+#register #lastNameRow:after,
+#register #emailRow:after,
+#register #emailRow2:after,
+#register #usernameRow:after,
+#register #passwordRow:after,
+#register #passwordRow2:after,
+#register #submitRow:after {
+  content: "";
+  display: table;
+}
+#register #nameRow:after,
+#register #lastNameRow:after,
+#register #emailRow:after,
+#register #emailRow2:after,
+#register #usernameRow:after,
+#register #passwordRow:after,
+#register #passwordRow2:after,
+#register #submitRow:after {
+  clear: both;
+}
+#register .marked {
+  display: block;
+  width: 102.08333333333333%;
+  margin: 0 -1.0416666666666665%;
+  *width: 102.03125%;
+  *margin: 0 -1.0937499999999998%;
+  *zoom: 1;
+  display: inline;
+  float: left;
+  width: 97.91666666666666%;
+  margin: 0 1.0416666666666665%;
+  *width: 97.86458333333333%;
+  *margin: 0 0.9895833333333331%;
+  text-align: center;
+}
+#register .marked:before,
+#register .marked:after {
+  content: "";
+  display: table;
+}
+#register .marked:after {
+  clear: both;
+}
+#register #nameRow #firstnameLabel {
+  display: inline;
+  float: left;
+  width: 22.916666666666664%;
+  margin: 0 1.0416666666666665%;
+  *width: 22.864583333333332%;
+  *margin: 0 0.9895833333333331%;
+}
+#register #nameRow #firstname {
+  display: inline;
+  float: left;
+  width: 64.58333333333334%;
+  margin: 0 1.0416666666666665%;
+  *width: 64.53125000000001%;
+  *margin: 0 0.9895833333333331%;
 }
