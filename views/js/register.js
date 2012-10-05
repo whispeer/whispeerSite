@@ -65,8 +65,8 @@ ssn.display.register = {
 				$(this).children(":first").attr('src', 'img/lock_closed.png').attr('alt', 'Encrypted');
 			}
 		});
-	}
-	unload: function() {
+	},
+	unload: function () {
 		$("body").removeClass("registerView");
 	}
 };
