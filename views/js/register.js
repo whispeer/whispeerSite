@@ -11,6 +11,7 @@ ssn.display.register = {
 		$("#mail").css("border-color", "").css("background-color", "").removeAttr("disabled");
 		$("#password").css("border-color", "").css("background-color", "").removeAttr("disabled");
 		$("#loginformsubmit").removeAttr("disabled");
+		$("body").addClass("registerView");
 
 		ssn.display.checkMail();
 		ssn.display.checkNickname();
@@ -64,5 +65,8 @@ ssn.display.register = {
 				$(this).children(":first").attr('src', 'img/lock_closed.png').attr('alt', 'Encrypted');
 			}
 		});
+	}
+	unload: function() {
+		$("body").removeClass("registerView");
 	}
 };
