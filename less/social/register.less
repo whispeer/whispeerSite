@@ -2,12 +2,13 @@
 	.column(6);
 }
 
-#register {
+#registerbubble {
 	.column(6);
 }
 #register {
 	#nameRow, #lastNameRow, #emailRow, #emailRow2, #usernameRow, #passwordRow, #passwordRow2, #submitRow {
 		.row(6);
+		margin-top: 5px;
 	}
 	.marked {
 		.row();
@@ -15,11 +16,64 @@
 		text-align: center;
 	}
 	#nameRow {
-		#firstnameLabel {
+		#firstNameLabel {
 			.column(2,6);
 		}
 		#firstname {
+			.column(3,6);
+		}
+	}
+	#lastNameRow {
+		#lastNameLabel {
 			.column(2,6);
+		}
+		#lastname {
+			.column(3,6);
+		}
+	}
+	#emailRow{
+		#emailLabel {
+			.column(2,6);
+		}
+		#rmail {
+			.column(3,6);
+		}
+	}
+	#emailRow2 {
+		#emailLabel2 {
+			.column(2,6);
+		}
+		#rmail2 {
+			.column(3,6);
+		}
+	}
+	#usernameRow {
+		#usernameLabel {
+			.column(2,6);
+		}
+		#rnickname {
+			.column(3,6);
+		}
+	}
+	#passwordRow {
+		#passwordLabel {
+			.column(2,6);
+		}
+		#rpassword {
+			.column(3,6);
+		}
+	}
+	#passwordRow2 {
+		#passwordLabel2 {
+			.column(2,6);
+		}
+		#rpassword2 {
+			.column(3,6);
+		}
+	}
+	#submitRow {
+		#registersubmit {
+			.column(3,6);
 		}
 	}
 }

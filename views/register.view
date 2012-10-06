@@ -4,45 +4,45 @@
 	<img src="img/main.png" alt="Image">
 	<p><a class="btn btn-success btn-large">Erfahre mehr! &raquo;</a></p>
 </div>
-<div class="bubble" id="register">
+<div class="bubble" id="registerbubble">
 	<div id="registerwarnings"></div>
 	<h2>Jetzt registrieren!</h2>
 	<br>
 	<div id="formwrap">
 		<form method="post" action="#" id="register">
 			<div id="nameRow">
-				<div id="firstnameLabel">Vorname:</div>
+				<div id="firstNameLabel">Vorname:</div>
 				<input type="text" class="firstname" id="firstname" placeholder="Gib hier deinen Vornamen ein!">
 				<span class="lock" encrypted="false" id="firstnamelock"><img src='img/lock_open.png' alt='lock'/></span>
 			</div>
 			<div id="lastNameRow">
-				<div class="span2">Nachname:</div>
-				<div class="span3"><input type="text" class="lastname span3" id="lastname" placeholder="Gib hier deinen Nachnamen ein!"></div>
+				<div id="lastNameLabel">Nachname:</div>
+				<input type="text" class="lastname" id="lastname" placeholder="Gib hier deinen Nachnamen ein!">
 				<span class="lock" encrypted="false" id ="lastnamelock"><img src='img/lock_open.png' alt='lock'/></span>
 			</div>
 			<div id="emailRow">
-				<div class="span2">E-Mail-Adresse:</div>
-				<div class="span3"><input type="text" class="rmail span3" id="rmail" placeholder="Gib hier deine E-Mail ein!"></div>
+				<div id="emailLabel">E-Mail-Adresse:</div>
+				<input type="text" class="rmail" id="rmail" placeholder="Gib hier deine E-Mail ein!">
 				<span class="error" id="email"><img class="micon" src="img/fail.png" alt=""></span>
 			</div>
 			<div id="emailRow2">
-				<div class="span2">E-Mail-Adresse wiederholen:</div>
-				<div class="span3"><input type="text" class="rmail span3" id="rmail2" placeholder="Bitte wiederhole deine E-Mail!"></div>
+				<div id="emailLabel2">E-Mail-Adresse wiederholen:</div>
+				<input type="text" class="rmail" id="rmail2" placeholder="Bitte wiederhole deine E-Mail!">
 				<span class="error" id="email2"><img class="micon2" src="img/fail.png" alt=""></span>
 			</div>
 			<div id="usernameRow">
-				<div class="span2">Username:</div>
-				<div class="span3"><input type="text" class="username span3" id="rnickname" placeholder="Gib hier deinen Usernamen ein!"></div>
+				<div id="usernameLabel">Username:</div>
+				<input type="text" class="username" id="rnickname" placeholder="Gib hier deinen Usernamen ein!">
 				<span class="error" id="username"><img class="micon3" src="img/fail.png" alt=""></span>
 			</div>
 			<div id="passwordRow">
-				<div class="span2">Passwort:</div>
-				<div class="span3"><div class="strength"><input type="password" class="rpw span3" id="rpassword" placeholder="Gib hier dein Passwort ein!"></div></div>
+				<div id="passwordLabel">Passwort:</div>
+				<div class="strength"><input type="password" class="rpw span3" id="rpassword" placeholder="Gib hier dein Passwort ein!"></div>
 				<span class="error" id="pw"><img class="pwicon" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAKCAYAAACJxx+AAAAARklEQVQYGWNkgIL///8vg7FBNCMjYxScjy4JkoCJMcFV4WAwwlTikGcgaAKKApDDUBwHNBZFATZrCCog6EhGkLG4fAJyDwDwGBdV5VuQmwAAAABJRU5ErkJggg==" alt="Test"></span>
 			</div>
 			<div id="passwordRow2">
-				<div class="span2">Passwort wiederholen:</div>
-				<div class="span3"><input type="password" class="rpw span3" id="rpassword2" placeholder="Bitte wiederhole dein Passwort!"></div>
+				<div id="passwordLabel2">Passwort wiederholen:</div>
+				<input type="password" class="rpw span3" id="rpassword2" placeholder="Bitte wiederhole dein Passwort!">
 				<span class="error" id="pw2"></span>
 			</div>
 			<div id="submitRow">

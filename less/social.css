@@ -17,6 +17,17 @@ body:after {
 body:after {
   clear: both;
 }
+.box-fix {
+  -webkit-box-sizing: border-box;
+  /* Safari/Chrome, other WebKit */
+
+  -moz-box-sizing: border-box;
+  /* Firefox, other Gecko */
+
+  box-sizing: border-box;
+  /* Opera/IE 8+ */
+
+}
 input {
   padding: 9px;
   border: solid 1px #E5E5E5;
@@ -24,12 +35,6 @@ input {
   font: normal 13px/100% Verdana, Tahoma, sans-serif;
   background: #FFFFFF;
   border-radius: 20px;
-  display: inline;
-  float: left;
-  width: 31.25%;
-  margin: 0 1.0416666666666665%;
-  *width: 31.197916666666668%;
-  *margin: 0 0.9895833333333331%;
 }
 .form-navbar input {
   margin: 6px 0px 0px 5px;
@@ -330,6 +335,23 @@ nav .brand {
   /* Opera/IE 8+ */
 
 }
+.btn {
+  -webkit-border-radius: 20px;
+  -moz-border-radius: 20px;
+  border-radius: 20px;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  border: 1px solid #cccccc;
+  text-decoration: none;
+  background-color: #f4f4f4;
+  background: -webkit-gradient(linear, left top, left bottom, from(#f4f4f4), to(#dcdcdc));
+  background: -webkit-linear-gradient(top, #f4f4f4, #dcdcdc);
+  background: -moz-linear-gradient(top, #f4f4f4, #dcdcdc);
+  background: -ms-linear-gradient(top, #f4f4f4, #dcdcdc);
+  background: -o-linear-gradient(top, #f4f4f4, #dcdcdc);
+  line-height: 20px;
+}
 #userpanel {
   display: inline;
   float: left;
@@ -381,7 +403,7 @@ nav .brand {
   *width: 47.864583333333336%;
   *margin: 0 0.9895833333333331%;
 }
-#register {
+#registerbubble {
   display: inline;
   float: left;
   width: 47.91666666666667%;
@@ -403,6 +425,7 @@ nav .brand {
   *width: 104.11458333333334%;
   *margin: 0 -2.1354166666666665%;
   *zoom: 1;
+  margin-top: 5px;
 }
 #register #nameRow:before,
 #register #lastNameRow:before,
@@ -456,7 +479,7 @@ nav .brand {
 #register .marked:after {
   clear: both;
 }
-#register #nameRow #firstnameLabel {
+#register #nameRow #firstNameLabel {
   display: inline;
   float: left;
   width: 29.166666666666668%;
@@ -467,8 +490,112 @@ nav .brand {
 #register #nameRow #firstname {
   display: inline;
   float: left;
+  width: 45.83333333333333%;
+  margin: 0 2.083333333333333%;
+  *width: 45.78124999999999%;
+  *margin: 0 2.0312499999999996%;
+}
+#register #lastNameRow #lastNameLabel {
+  display: inline;
+  float: left;
   width: 29.166666666666668%;
   margin: 0 2.083333333333333%;
   *width: 29.114583333333336%;
+  *margin: 0 2.0312499999999996%;
+}
+#register #lastNameRow #lastname {
+  display: inline;
+  float: left;
+  width: 45.83333333333333%;
+  margin: 0 2.083333333333333%;
+  *width: 45.78124999999999%;
+  *margin: 0 2.0312499999999996%;
+}
+#register #emailRow #emailLabel {
+  display: inline;
+  float: left;
+  width: 29.166666666666668%;
+  margin: 0 2.083333333333333%;
+  *width: 29.114583333333336%;
+  *margin: 0 2.0312499999999996%;
+}
+#register #emailRow #rmail {
+  display: inline;
+  float: left;
+  width: 45.83333333333333%;
+  margin: 0 2.083333333333333%;
+  *width: 45.78124999999999%;
+  *margin: 0 2.0312499999999996%;
+}
+#register #emailRow2 #emailLabel2 {
+  display: inline;
+  float: left;
+  width: 29.166666666666668%;
+  margin: 0 2.083333333333333%;
+  *width: 29.114583333333336%;
+  *margin: 0 2.0312499999999996%;
+}
+#register #emailRow2 #rmail2 {
+  display: inline;
+  float: left;
+  width: 45.83333333333333%;
+  margin: 0 2.083333333333333%;
+  *width: 45.78124999999999%;
+  *margin: 0 2.0312499999999996%;
+}
+#register #usernameRow #usernameLabel {
+  display: inline;
+  float: left;
+  width: 29.166666666666668%;
+  margin: 0 2.083333333333333%;
+  *width: 29.114583333333336%;
+  *margin: 0 2.0312499999999996%;
+}
+#register #usernameRow #rnickname {
+  display: inline;
+  float: left;
+  width: 45.83333333333333%;
+  margin: 0 2.083333333333333%;
+  *width: 45.78124999999999%;
+  *margin: 0 2.0312499999999996%;
+}
+#register #passwordRow #passwordLabel {
+  display: inline;
+  float: left;
+  width: 29.166666666666668%;
+  margin: 0 2.083333333333333%;
+  *width: 29.114583333333336%;
+  *margin: 0 2.0312499999999996%;
+}
+#register #passwordRow #rpassword {
+  display: inline;
+  float: left;
+  width: 45.83333333333333%;
+  margin: 0 2.083333333333333%;
+  *width: 45.78124999999999%;
+  *margin: 0 2.0312499999999996%;
+}
+#register #passwordRow2 #passwordLabel2 {
+  display: inline;
+  float: left;
+  width: 29.166666666666668%;
+  margin: 0 2.083333333333333%;
+  *width: 29.114583333333336%;
+  *margin: 0 2.0312499999999996%;
+}
+#register #passwordRow2 #rpassword2 {
+  display: inline;
+  float: left;
+  width: 45.83333333333333%;
+  margin: 0 2.083333333333333%;
+  *width: 45.78124999999999%;
+  *margin: 0 2.0312499999999996%;
+}
+#register #submitRow #registersubmit {
+  display: inline;
+  float: left;
+  width: 45.83333333333333%;
+  margin: 0 2.083333333333333%;
+  *width: 45.78124999999999%;
   *margin: 0 2.0312499999999996%;
 }
