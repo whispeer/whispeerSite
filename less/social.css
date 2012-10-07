@@ -248,7 +248,7 @@ body #spinner {
   display: none;
   text-align: center;
 }
-.registerView #main {
+.mainView #main {
   display: inline;
   float: left;
   width: 56.25%;
@@ -486,96 +486,6 @@ nav .brand {
 }
 .modal-footer .btn-group .btn + .btn {
   margin-left: -1px;
-}
-#shareForm {
-  display: block;
-  width: 103.57142857142858%;
-  margin: 0 -1.7857142857142856%;
-  *width: 103.51934523809526%;
-  *margin: 0 -1.8377976190476188%;
-  *zoom: 1;
-}
-#shareForm:before,
-#shareForm:after {
-  content: "";
-  display: table;
-}
-#shareForm:after {
-  clear: both;
-}
-.post {
-  display: block;
-  width: 103.57142857142858%;
-  margin: 0 -1.7857142857142856%;
-  *width: 103.51934523809526%;
-  *margin: 0 -1.8377976190476188%;
-  *zoom: 1;
-  background-color: #ffffff;
-  border: #e6e6e6 solid 2px;
-  -webkit-border-radius: 10px;
-  -moz-border-radius: 10px;
-  border-radius: 10px;
-  -moz-background-clip: padding;
-  -webkit-background-clip: padding-box;
-  background-clip: padding-box;
-  padding: 10px;
-  -webkit-box-sizing: border-box;
-  /* Safari/Chrome, other WebKit */
-
-  -moz-box-sizing: border-box;
-  /* Firefox, other Gecko */
-
-  box-sizing: border-box;
-  /* Opera/IE 8+ */
-
-  margin-top: 5px;
-  border-radius: 20px;
-}
-.post:before,
-.post:after {
-  content: "";
-  display: table;
-}
-.post:after {
-  clear: both;
-}
-.post .userimg {
-  border-radius: 200px;
-  display: inline;
-  float: left;
-  width: 10.714285714285714%;
-  margin: 0 1.7857142857142856%;
-  *width: 10.66220238095238%;
-  *margin: 0 1.7336309523809523%;
-  vertical-align: middle;
-}
-.post .postContent {
-  display: inline;
-  float: left;
-  width: 53.57142857142857%;
-  margin: 0 1.7857142857142856%;
-  *width: 53.519345238095234%;
-  *margin: 0 1.7336309523809523%;
-}
-.post .postContent .postText {
-  padding-left: 10px;
-  -webkit-box-sizing: border-box;
-  /* Safari/Chrome, other WebKit */
-
-  -moz-box-sizing: border-box;
-  /* Firefox, other Gecko */
-
-  box-sizing: border-box;
-  /* Opera/IE 8+ */
-
-}
-.post .postInfo {
-  display: inline;
-  float: left;
-  width: 25%;
-  margin: 0 1.7857142857142856%;
-  *width: 24.947916666666668%;
-  *margin: 0 1.7336309523809523%;
 }
 #userpanel {
   display: inline;
@@ -825,4 +735,151 @@ nav .brand {
   margin: 0 2.083333333333333%;
   *width: 45.78124999999999%;
   *margin: 0 2.0312499999999996%;
+}
+#shareForm {
+  display: block;
+  width: 103.57142857142858%;
+  margin: 0 -1.7857142857142856%;
+  *width: 103.51934523809526%;
+  *margin: 0 -1.8377976190476188%;
+  *zoom: 1;
+}
+#shareForm:before,
+#shareForm:after {
+  content: "";
+  display: table;
+}
+#shareForm:after {
+  clear: both;
+}
+.post {
+  display: block;
+  width: 103.57142857142858%;
+  margin: 0 -1.7857142857142856%;
+  *width: 103.51934523809526%;
+  *margin: 0 -1.8377976190476188%;
+  *zoom: 1;
+  background-color: #ffffff;
+  border: #e6e6e6 solid 2px;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  border-radius: 10px;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  padding: 10px;
+  -webkit-box-sizing: border-box;
+  /* Safari/Chrome, other WebKit */
+
+  -moz-box-sizing: border-box;
+  /* Firefox, other Gecko */
+
+  box-sizing: border-box;
+  /* Opera/IE 8+ */
+
+  margin-top: 5px;
+  border-radius: 20px;
+}
+.post:before,
+.post:after {
+  content: "";
+  display: table;
+}
+.post:after {
+  clear: both;
+}
+.post .userimg {
+  border-radius: 200px;
+  display: inline;
+  float: left;
+  width: 10.714285714285714%;
+  margin: 0 1.7857142857142856%;
+  *width: 10.66220238095238%;
+  *margin: 0 1.7336309523809523%;
+  vertical-align: middle;
+}
+.post .postContent {
+  display: inline;
+  float: left;
+  width: 53.57142857142857%;
+  margin: 0 1.7857142857142856%;
+  *width: 53.519345238095234%;
+  *margin: 0 1.7336309523809523%;
+}
+.post .postContent .postText {
+  padding-left: 10px;
+  -webkit-box-sizing: border-box;
+  /* Safari/Chrome, other WebKit */
+
+  -moz-box-sizing: border-box;
+  /* Firefox, other Gecko */
+
+  box-sizing: border-box;
+  /* Opera/IE 8+ */
+
+}
+.post .postInfo {
+  display: inline;
+  float: left;
+  width: 25%;
+  margin: 0 1.7857142857142856%;
+  *width: 24.947916666666668%;
+  *margin: 0 1.7336309523809523%;
+}
+.profileView #main {
+  display: inline;
+  float: left;
+  width: 56.25%;
+  margin: 0 1.0416666666666665%;
+  *width: 56.197916666666664%;
+  *margin: 0 0.9895833333333331%;
+}
+.profileView #infowrap {
+  display: block;
+  width: 103.57142857142858%;
+  margin: 0 -1.7857142857142856%;
+  *width: 103.51934523809526%;
+  *margin: 0 -1.8377976190476188%;
+  *zoom: 1;
+}
+.profileView #infowrap:before,
+.profileView #infowrap:after {
+  content: "";
+  display: table;
+}
+.profileView #infowrap:after {
+  clear: both;
+}
+.profileView #postOnWall {
+  display: block;
+  width: 103.57142857142858%;
+  margin: 0 -1.7857142857142856%;
+  *width: 103.51934523809526%;
+  *margin: 0 -1.8377976190476188%;
+  *zoom: 1;
+  margin-top: 5px;
+}
+.profileView #postOnWall:before,
+.profileView #postOnWall:after {
+  content: "";
+  display: table;
+}
+.profileView #postOnWall:after {
+  clear: both;
+}
+.profileView #userimg {
+  display: inline;
+  float: left;
+  width: 25%;
+  margin: 0 1.7857142857142856%;
+  *width: 24.947916666666668%;
+  *margin: 0 1.7336309523809523%;
+}
+.profileView #userinfo {
+  display: inline;
+  float: left;
+  width: 67.85714285714286%;
+  margin: 0 1.7857142857142856%;
+  *width: 67.80505952380953%;
+  *margin: 0 1.7336309523809523%;
 }

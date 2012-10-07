@@ -8,7 +8,7 @@ ssn.display.main = {
 	load: function () {
 		this.eventListener();
 		
-		$("body").addClass("registerView");
+		$("body").addClass("mainView");
 		$("#sidebar-left, #sidebar-right, #nav-icons, #nav-search").show();
 		$("#loginform").hide();
 		

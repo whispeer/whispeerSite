@@ -1,61 +1,51 @@
-<div class="row">
-	<div class="span8">
-		<div class="well" id="infowrap">
-			<div class="row">
-				<div class="span2"><img src="img/profil.jpg"></div>
-				<div class="span5">
-					<h1 id="pname"></h1> <a class="btn btn-success" id="pfriendShip"></a> <a class="btn btn-success" id="psendMessage"></a>
-					<div id="info">
-						<p id="birthday"><i class="icon-gift"></i> Geboren am 31.03.1997</p>
-						<p id="residence"><i class="icon-home"></i> Wohnt in Enger, Nordrhein-Westfahlen, Deutschland</p>
-						<p id="relationship"><i class="icon-heart"></i> in einer Beziehung mit Svenja Kenneweg</p>
-						<p id="school"><i class="icon-pencil"></i> geht hier zur Schule: Widukind-Gymnasium Enger</p>
-						<p id="job"><i class="icon-lock"></i> arbeitet als Web-Developer bei Socialize</p>
-						<p id="sex"><i class="icon"></i> Geschlecht: männlich</p>
-						<p id="languages"><i class="icon-globe"></i> Spricht: Deutsch, Englisch</p>
-					</div>
-				</div>
+<div class="bubble" id="infowrap">
+		<div id="userimg"><img src="img/profil.jpg"></div>
+		<div id="userinfo">
+			<h1 id="pname"></h1> <a class="btn btn-success" id="pfriendShip"></a> <a class="btn btn-success" id="psendMessage"></a>
+			<div id="info">
+				<p id="birthday"><i class="icon-gift"></i> Geboren am 31.03.1997</p>
+				<p id="residence"><i class="icon-home"></i> Wohnt in Enger, Nordrhein-Westfahlen, Deutschland</p>
+				<p id="relationship"><i class="icon-heart"></i> in einer Beziehung mit Svenja Kenneweg</p>
+				<p id="school"><i class="icon-pencil"></i> geht hier zur Schule: Widukind-Gymnasium Enger</p>
+				<p id="job"><i class="icon-lock"></i> arbeitet als Web-Developer bei Socialize</p>
+				<p id="sex"><i class="icon"></i> Geschlecht: männlich</p>
+				<p id="languages"><i class="icon-globe"></i> Spricht: Deutsch, Englisch</p>
 			</div>
 		</div>
 	</div>
 </div>
-<div class="row">
-<div class="span8">
-	<div class="well">
-		<h2>Pinnwand</h2>
-		<br>
-		<form class="form-inline">
-			<input class="span6" type="text" placeholder="Schreibe etwas an Daniel's Pinnwand!">
-			<input type="submit" class="btn btn-success" value="Posten!">
-		</form>
+<div class="bubble" id="postOnWall">
+	<h2>Pinnwand</h2>
+	<br>
+	<form class="form-inline">
+		<input class="span6" type="text" placeholder="Schreibe etwas an Daniel's Pinnwand!">
+		<input type="submit" class="btn btn-success" value="Posten!">
+	</form>
+</div>
+<div id="wall">	
+	<div class="post" id="post1">
+	<img class="userimg" src="img/profil.jpg" alt="User">
+	<div class="postContent">
+		<p class="author">Daniel Melchior:</p>
+		<div class="postText">Circus Afro Circus Afro \m/ </div>
 	</div>
-	<div id="wall">	
-		<div class="well span3">
-		<p class="user"><p class="user-icon"><img src="img/user.png"</p><a href="#">Daniel:</a></p>
-			<p>Ein wenig Korn :)</p>
-			<div class="row"><a href="#" class="thumbnail span3"><img src="http://i2.ytimg.com/vi/yQBVOEIBCCA/default.jpg" /></a></div>
-			<small>Freitag (08.06.12) um 21:19</small>
-		</div>
-		<div class="well span3">
-		<p class="user"><p class="user-icon"><img src="img/user.png"</p><a href="#">Daniel:</a></p>
-			<p>Epic Heizung is Epic \m/</p>
-			<div class="row"><a href="#" class="thumbnail span3"><img src="img/testbild.png"></a></div>
-			<small>Freitag (08.06.12) um 21:19</small>
-		</div>
-		<div class="well span3">
-		<p class="user"><p class="user-icon"><img src="img/user.png"</p><a href="#">Nils</a> <i class="icon-chevron-right"></i> <a href="#">Daniel:</a></p>
-			<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante venenatis.</p>
-			<small>Freitag (08.06.12) um 20:59</small>
-			<div class="comments">
-				<div class="comment">
-					<p class="user"><img src="img/user.png" class="user-icon"><a href="#">Daniel:</a> Lorem ipsum dolor sit amet!.</p>
-					<small>Freitag (08.06.12) um 21:05</small>
-				</div>
-				<div class="comment">
-					<p class="user"><img src="img/user.png" class="user-icon"><a href="#">Shelly:</a> Was zur… ?!</p>
-					<small>Freitag (08.06.12) um 21:08</small>
-				</div>
-			</div>
-		</div>
+	<div class="postInfo">
+		<p>Mit Svenja Kenneweg</p>
+		<p>20 Personen gefällt das</p>
+		<p>10 Kommentare</p>
+		<a href="#">Kommentare anzeigen</a>
 	</div>
+</div>
+<div class="post" id="post2">
+	<img class="userimg" src="img/user.png" alt="User">
+	<div class="postContent">
+		<p class="author">Svenja Kenneweg <i class="icon-arrow"></i> Daniel Melchior</p>
+		<div class="postText"> I love you :)</div>
+	</div>
+	<div class="postInfo">
+		<p>20 Personen gefällt das</p>
+		<p>10 Kommentare</p>
+		<a href="#">Kommentare anzeigen</a>
+	</div>
+</div>
 </div>
