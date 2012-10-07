@@ -141,3 +141,70 @@
 	-ms-transform-origin:     @x @y;
 	-o-transform-origin:      @x @y;
 }
+// IE7 inline-block
+// ----------------
+.ie7-inline-block() {
+  *display: inline; /* IE7 inline-block hack */
+  *zoom: 1;
+}
+
+// IE7 likes to collapse whitespace on either side of the inline-block elements.
+// Ems because we're attempting to match the width of a space character. Left
+// version is for form buttons, which typically come after other elements, and
+// right version is for icons, which come before. Applying both is ok, but it will
+// mean that space between those elements will be .6em (~2 space characters) in IE7,
+// instead of the 1 space in other browsers.
+.ie7-restore-left-whitespace() {
+  *margin-left: .3em;
+
+  &:first-child {
+    *margin-left: 0;
+  }
+}
+
+.ie7-restore-right-whitespace() {
+  *margin-right: .3em;
+}
+// Backface visibility
+// Prevent browsers from flickering when using CSS 3D transforms.
+// Default value is `visible`, but can be changed to `hidden
+// See git pull https://github.com/dannykeane/bootstrap.git backface-visibility for examples
+.backface-visibility(@visibility){
+	-webkit-backface-visibility: @visibility;
+	   -moz-backface-visibility: @visibility;
+	        backface-visibility: @visibility;
+}
+
+// Background clipping
+// Heads up: FF 3.6 and under need "padding" instead of "padding-box"
+.background-clip(@clip) {
+  -webkit-background-clip: @clip;
+     -moz-background-clip: @clip;
+          background-clip: @clip;
+}
+
+// Background sizing
+.background-size(@size){
+  -webkit-background-size: @size;
+     -moz-background-size: @size;
+       -o-background-size: @size;
+          background-size: @size;
+}
+
+
+// Box sizing
+.box-sizing(@boxmodel) {
+  -webkit-box-sizing: @boxmodel;
+     -moz-box-sizing: @boxmodel;
+          box-sizing: @boxmodel;
+}
+
+// User select
+// For selecting text on the page
+.user-select(@select) {
+  -webkit-user-select: @select;
+     -moz-user-select: @select;
+      -ms-user-select: @select;
+       -o-user-select: @select;
+          user-select: @select;
+}

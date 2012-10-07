@@ -9,8 +9,8 @@
 /* font-zize: 120%; */
 }
 
-.icon-minus { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#x2d;&nbsp;'); }
 .icon-info { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#x2139;&nbsp;'); }
+.icon-arrow { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#x2192;&nbsp;'); }
 .icon-heart { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#x2665;&nbsp;'); }
 .icon-attention { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#x26a0;&nbsp;'); }
 .icon-ok { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#x2713;&nbsp;'); }

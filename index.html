@@ -8,6 +8,9 @@
 	<!--[if IE]>    
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 	<![endif]-->
+	<!--[if lt IE 9]>
+		<script src="http://ie7-js.googlecode.com/svn/version/2.1(beta4)/IE9.js"></script>
+	<![endif]-->
 	<title>socialHive</title>
 	<meta name="description" content="" />
 	<meta name="author" content="" />
@@ -27,11 +30,11 @@
 	<script src="js/libs/modernizr.js"></script>
 </head>
 <body>
-	<!--[if lt IE 7]><p class=chromeframe>Your browser is <em>ancient!</em> <a href="http://browsehappy.com/">Upgrade to a different browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to experience this site.</p><![endif]-->
+	<!--[if lte IE 8]><p class=chromeframe>Your browser is <em>ancient!</em> <a href="http://browsehappy.com/">Upgrade to a different browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to experience this site.</p><![endif]-->
 	<nav>
 		<div class="nav-inner">
 			<div class="brand">socialHive</div>
-			<div class="nav-icons">
+			<div class="nav-icons" id="nav-icons" style="display: none;">
 				<div class="nav-icon" id="nav-friendrequests">
 					<a href="#"><i class="icon-users nav-icon-icons"></i></a>
 					<div class="nav-icon-dropdown">
@@ -131,8 +134,8 @@
 				</div>
 			</div>
 			<div class="nav-collapse collapse">
-				<div class="search">
-					<form class="form-search form-navbar" id="nav-search">
+				<div class="search" id="nav-search" style="display: none;">
+					<form class="form-search form-navbar" id="nav-searchForm">
 						<input type="text" class="search-query" placeholder="Suche">
 					</form>
 					<div class="search-drop">
@@ -141,9 +144,12 @@
 						</ul>
 					</div>
 				</div>
-				<div class="form-navbar" id="login" style="display: none;">
-					<input type="text" placeholder="Benutzername">
-					<input type="password" placeholder="Passwort">
+				<div class="form-navbar" id="loginform">
+					<form>
+					<input type="text" id="mail" placeholder="Benutzername">
+					<input type="password" id="password" placeholder="Passwort">
+					<button id="loginformsubmit" type="submit">Einloggen</button>
+					</form>
 				</div>
 			</div>
 		</div>
@@ -167,6 +173,12 @@
 						<li><a href="#">Logout</a></li>
 					</ul>
 				</div>
+				<div class="bubble" id="didYaKnow">
+					<h3>Wusstest du schon...</h3>
+					<p>
+					... das SocialHive einfach episch ist?
+					</p>
+				</div>
 			</div>
 			<div id="main">
 			</div>
@@ -179,6 +191,19 @@
 	<footer>
 	&copy; 2012 SocialHive
 	</footer>
+	<!-- Loading Modal -->
+	<div class="modal fade" id="loadingMain" style="display: none;">
+		<div class="modal-header">
+			<h3>Sammle Daten</h3>
+		</div>
+		<div class="modal-body">
+			<div class="progress progress-success" id="loadingMainProgress">
+				<div class="bar" id="loadingMainProgressBar" style="width: 0%; background-color: green;"></div>
+			</div>
+			<div id="loadingMainTexts"></div>
+		</div>
+		<div class="modal-footer"></div>
+	</div>
 	<!-- Le javascript -->
 	<script src="js/libs/sjcl.js"></script>
 	<script src="js/libs/jquery-1.7.2.min.js"></script>
