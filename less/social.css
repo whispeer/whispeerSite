@@ -45,6 +45,7 @@ input:not([type=submit]):not([type=file]):focus {
 }
 input[type=submit] {
   padding: 9px;
+  line-height: 20px;
 }
 .form-navbar input {
   margin: 6px 0px 0px 5px;
@@ -198,7 +199,7 @@ a:hover {
   color: #ffc422;
 }
 body {
-  background-color: #f1f5f7;
+  background-color: #fff;
   margin: 0 auto;
   padding-top: 50px;
 }
@@ -264,12 +265,12 @@ nav {
   top: 0;
   border-bottom: 1px solid #a7a7a7;
   outline: 1px solid #dbdbdb;
-  background-color: #ffffff;
-  background: -webkit-gradient(linear, left top, left bottom, from(#ffffff), to(#f1f1f1));
-  background: -webkit-linear-gradient(top, #ffffff, #f1f1f1);
-  background: -moz-linear-gradient(top, #ffffff, #f1f1f1);
-  background: -ms-linear-gradient(top, #ffffff, #f1f1f1);
-  background: -o-linear-gradient(top, #ffffff, #f1f1f1);
+  background-color: #ffd15d;
+  background: -webkit-gradient(linear, left top, left bottom, from(#ffd15d), to(#ffbc10));
+  background: -webkit-linear-gradient(top, #ffd15d, #ffbc10);
+  background: -moz-linear-gradient(top, #ffd15d, #ffbc10);
+  background: -ms-linear-gradient(top, #ffd15d, #ffbc10);
+  background: -o-linear-gradient(top, #ffd15d, #ffbc10);
 }
 nav .brand {
   display: block;
@@ -278,7 +279,7 @@ nav .brand {
   font-size: 25px;
   font-family: helvetica;
   color: #555;
-  text-shadow: 1px 1px 1px #d2d2d2;
+  text-shadow: 1px 1px 0px #6f6f6f;
 }
 .nav-icon {
   float: left;
@@ -286,7 +287,7 @@ nav .brand {
 }
 .nav-icon-icons {
   font-size: 20px;
-  color: #333;
+  color: #111;
 }
 .nav-icon-icons a {
   text-decoration: none;
@@ -352,8 +353,8 @@ nav .brand {
   display: none;
 }
 .bubble {
-  background-color: #ffffff;
-  border: #e6e6e6 solid 2px;
+  background-color: #fefcf6;
+  border: #f9efc8 solid 2px;
   -webkit-border-radius: 10px;
   -moz-border-radius: 10px;
   border-radius: 10px;
@@ -759,8 +760,8 @@ nav .brand {
   *width: 103.51934523809526%;
   *margin: 0 -1.8377976190476188%;
   *zoom: 1;
-  background-color: #ffffff;
-  border: #e6e6e6 solid 2px;
+  background-color: #fefcf6;
+  border: #f9efc8 solid 2px;
   -webkit-border-radius: 10px;
   -moz-border-radius: 10px;
   border-radius: 10px;
