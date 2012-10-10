@@ -32,19 +32,31 @@ input:not([type=submit]):not([type=file]) {
   padding: 9px;
   border: solid 1px #8c8c8c;
   outline: 0;
-  font: normal 13px/100% Verdana, Tahoma, sans-serif;
+  font: normal 13px/100% "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
   background: #ffffff;
   border-radius: 5px;
   -webkit-box-shadow: inset 1px #333333;
   -moz-box-shadow: inset 1px #333333;
   box-shadow: inset 1px #333333;
+  -webkit-box-sizing: border-box;
+  /* Safari/Chrome, other WebKit */
+
+  -moz-box-sizing: border-box;
+  /* Firefox, other Gecko */
+
+  box-sizing: border-box;
+  /* Opera/IE 8+ */
+
 }
 input:not([type=submit]):not([type=file]):focus {
   outline: 0;
   border: solid 1px #f7c600;
+  font: normal 13px/100% "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
 }
 input[type=submit] {
-  padding: 9px;
+  outline: 0;
+  background: #fff;
+  border: none;
   line-height: 20px;
 }
 .form-navbar input {
@@ -273,9 +285,14 @@ nav {
   background: -o-linear-gradient(top, #ffd15d, #ffbc10);
 }
 nav .brand {
+  display: inline;
+  width: 14.583333333333334%;
+  margin: 0 1.0416666666666665%;
+  *width: 14.53125%;
+  *margin: 0 0.9895833333333331%;
   display: block;
   float: left;
-  margin: 10px 5px 5px 15px;
+  margin-top: 10px;
   font-size: 25px;
   font-family: helvetica;
   color: #555;
@@ -531,6 +548,15 @@ nav .brand {
   *margin: 0 0.9895833333333331%;
   margin-top: 5px;
 }
+#loginform {
+  display: inline;
+  float: left;
+  width: 39.58333333333333%;
+  margin: 0 1.0416666666666665%;
+  *width: 39.53124999999999%;
+  *margin: 0 0.9895833333333331%;
+  margin-left: 42.708333333333336%;
+}
 #socialhive {
   display: inline;
   float: left;
@@ -593,6 +619,31 @@ nav .brand {
 #register #submitRow:after {
   clear: both;
 }
+#register #nameRow span,
+#register #lastNameRow span,
+#register #emailRow span,
+#register #emailRow2 span,
+#register #usernameRow span,
+#register #passwordRow span,
+#register #passwordRow2 span,
+#register #submitRow span {
+  display: inline;
+  float: left;
+  width: 12.5%;
+  margin: 0 2.083333333333333%;
+  *width: 12.447916666666666%;
+  *margin: 0 2.0312499999999996%;
+}
+#register #nameRow span img,
+#register #lastNameRow span img,
+#register #emailRow span img,
+#register #emailRow2 span img,
+#register #usernameRow span img,
+#register #passwordRow span img,
+#register #passwordRow2 span img,
+#register #submitRow span img {
+  padding-top: 5px;
+}
 #register .marked {
   display: block;
   width: 102.08333333333333%;
@@ -623,6 +674,7 @@ nav .brand {
   margin: 0 2.083333333333333%;
   *width: 29.114583333333336%;
   *margin: 0 2.0312499999999996%;
+  padding-top: 5px;
 }
 #register #nameRow #firstname {
   display: inline;
@@ -639,6 +691,7 @@ nav .brand {
   margin: 0 2.083333333333333%;
   *width: 29.114583333333336%;
   *margin: 0 2.0312499999999996%;
+  padding-top: 5px;
 }
 #register #lastNameRow #lastname {
   display: inline;
@@ -655,6 +708,7 @@ nav .brand {
   margin: 0 2.083333333333333%;
   *width: 29.114583333333336%;
   *margin: 0 2.0312499999999996%;
+  padding-top: 5px;
 }
 #register #emailRow #rmail {
   display: inline;
@@ -671,6 +725,7 @@ nav .brand {
   margin: 0 2.083333333333333%;
   *width: 29.114583333333336%;
   *margin: 0 2.0312499999999996%;
+  padding-top: 5px;
 }
 #register #emailRow2 #rmail2 {
   display: inline;
@@ -687,6 +742,7 @@ nav .brand {
   margin: 0 2.083333333333333%;
   *width: 29.114583333333336%;
   *margin: 0 2.0312499999999996%;
+  padding-top: 5px;
 }
 #register #usernameRow #rnickname {
   display: inline;
@@ -703,6 +759,7 @@ nav .brand {
   margin: 0 2.083333333333333%;
   *width: 29.114583333333336%;
   *margin: 0 2.0312499999999996%;
+  padding-top: 5px;
 }
 #register #passwordRow #rpassword {
   display: inline;
@@ -719,6 +776,7 @@ nav .brand {
   margin: 0 2.083333333333333%;
   *width: 29.114583333333336%;
   *margin: 0 2.0312499999999996%;
+  padding-top: 5px;
 }
 #register #passwordRow2 #rpassword2 {
   display: inline;
@@ -729,13 +787,13 @@ nav .brand {
   *margin: 0 2.0312499999999996%;
 }
 #register #submitRow #registersubmit {
-  margin-left: 17.708333333333332%;
   display: inline;
   float: left;
   width: 45.83333333333333%;
   margin: 0 2.083333333333333%;
   *width: 45.78124999999999%;
   *margin: 0 2.0312499999999996%;
+  margin-left: 34.37499999999999%;
 }
 #shareForm {
   display: block;

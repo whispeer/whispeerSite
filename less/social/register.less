@@ -1,3 +1,7 @@
+#loginform {
+	.column(5,12);
+	.push(5);
+}
 #socialhive {
 	.column(6);
 	text-align: center;
@@ -10,6 +14,12 @@
 	#nameRow, #lastNameRow, #emailRow, #emailRow2, #usernameRow, #passwordRow, #passwordRow2, #submitRow {
 		.row(6);
 		margin-top: 5px;
+		span {
+			.column(1,6);
+			img {
+				padding-top: 5px;
+			}
+		}
 	}
 	.marked {
 		.row();
@@ -19,6 +29,7 @@
 	#nameRow {
 		#firstNameLabel {
 			.column(2,6);
+			padding-top: 5px;
 		}
 		#firstname {
 			.column(3,6);
@@ -27,6 +38,7 @@
 	#lastNameRow {
 		#lastNameLabel {
 			.column(2,6);
+			padding-top: 5px;
 		}
 		#lastname {
 			.column(3,6);
@@ -35,6 +47,7 @@
 	#emailRow{
 		#emailLabel {
 			.column(2,6);
+			padding-top: 5px;
 		}
 		#rmail {
 			.column(3,6);
@@ -43,6 +56,7 @@
 	#emailRow2 {
 		#emailLabel2 {
 			.column(2,6);
+			padding-top: 5px;
 		}
 		#rmail2 {
 			.column(3,6);
@@ -51,6 +65,7 @@
 	#usernameRow {
 		#usernameLabel {
 			.column(2,6);
+			padding-top: 5px;
 		}
 		#rnickname {
 			.column(3,6);
@@ -59,6 +74,7 @@
 	#passwordRow {
 		#passwordLabel {
 			.column(2,6);
+			padding-top: 5px;
 		}
 		#rpassword {
 			.column(3,6);
@@ -67,6 +83,7 @@
 	#passwordRow2 {
 		#passwordLabel2 {
 			.column(2,6);
+			padding-top: 5px;
 		}
 		#rpassword2 {
 			.column(3,6);
@@ -74,8 +91,8 @@
 	}
 	#submitRow {
 		#registersubmit {
-			.push(2);
 			.column(3,6);
+			.push(4);
 		}
 	}
 }

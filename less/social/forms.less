@@ -2,17 +2,21 @@ input:not([type=submit]):not([type=file]) {
 	padding: 9px;  
     border: solid 1px darken(#ffffff, 45%);  
     outline: 0;  
-    font: normal 13px/100% Verdana, Tahoma, sans-serif;  
+    font: normal 13px/100% @sansFontFamily;
     background: #ffffff;
     border-radius: 5px;
     .box-shadow(inset 1px #333);
+    .box-fix;
 }
 input:not([type=submit]):not([type=file]):focus {
 	outline: 0;
 	border: solid 1px #f7c600;
+	font: normal 13px/100% @sansFontFamily;
 }
 input[type=submit] {
-	padding: 9px;
+	outline: 0;
+	background: #fff;
+	border: none;
 	line-height: @baseLineHeight;
 }
 input[type=submit]:focus {
