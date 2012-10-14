@@ -46,7 +46,7 @@
 				<span class="error" id="pw2"></span>
 			</div>
 			<div id="submitRow">
-				<input type="submit" id="registersubmit" class="btn btn-warning btn-large" value="Registrieren">
+				<button id="registersubmit" class="btn btn-large btn-warning">Registrieren</button>
 			</div>	
 		</form>				
 		<small class="marked">Mit Klicken auf den Button "Registrieren" akzeptierst du unsere <a href="#">Nutzungsbestimmungen</a>.</small>

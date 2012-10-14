@@ -15,10 +15,10 @@ body:after {
   #main {
     display: inline;
     float: left;
-    width: 97.91666666666666%;
-    margin: 0 1.0416666666666665%;
-    *width: 97.86458333333333%;
-    *margin: 0 0.9895833333333331%;
+    width: 97.9166666667%;
+    margin: 0 1.04166666667%;
+    *width: 97.8645833333%;
+    *margin: 0 0.989583333333%;
     margin: 0 auto;
     margin-bottom: 10px;
   }

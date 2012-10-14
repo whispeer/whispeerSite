@@ -9,21 +9,31 @@ nav {
 	.gradient(lighten(#ffbc10, 15%), #ffbc10);
 }
 .nav-inner {
-}
-nav .brand {
-	.column(2,12);
-	display: block;
-	float: left;
-	margin-top: 10px;
-	font-size: 25px;
-	font-family: helvetica;
-	color: #555;
-	.text-shadow(1px 1px 0px lighten(#555555, 10%));
+	.brand {
+		display: block;
+		float: left;
+		margin-top: 10px;
+		margin-left: 1%;
+		font-size: 25px;
+		font-family: helvetica;
+		color: #555;
+		.text-shadow(1px 1px 0px lighten(#555555, 10%));
+		.box-fix;
+	}
+	#nav-icons {
+		.box-fix;
+	}
+	#nav-search {
+		.search-query{
+			.column(5,12);
+			margin-top: 7px;
+		}	
+	}
 }
 
 .nav-icon {
 	float: left;
-	margin: 12px 5px 5px 15px;
+	margin: 10px 5px 5px 15px;
 }
 
 .nav-icon-icons {
