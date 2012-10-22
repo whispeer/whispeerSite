@@ -19,6 +19,7 @@ nav {
 		color: #555;
 		.text-shadow(1px 1px 0px lighten(#555555, 10%));
 		.box-fix;
+		line-height: @baseLineHeight;
 	}
 	#nav-icons {
 		.box-fix;
@@ -34,6 +35,7 @@ nav {
 .nav-icon {
 	float: left;
 	margin: 10px 5px 5px 15px;
+	line-height: @baseLineHeight;
 }
 
 .nav-icon-icons {
@@ -48,4 +50,8 @@ nav {
 
 .nav-icon-icons:hover {
 	color: #474747;
+}
+
+.form-navbar input {
+	margin: 6px 0px 0px 5px;
 }

@@ -10,9 +10,35 @@ body:after {
 body:after {
   clear: both;
 }
-@media (max-device-width: 768px) {
-  #sidebar-left,
-  #main {
+@media (max-width: 768px) {
+  #userpanel {
+    display: inline;
+    float: left;
+    width: 97.9166666667%;
+    margin: 0 1.04166666667%;
+    *width: 97.8645833333%;
+    *margin: 0 0.989583333333%;
+  }
+  #didYaKnow {
+    display: inline;
+    float: left;
+    width: 97.9166666667%;
+    margin: 0 1.04166666667%;
+    *width: 97.8645833333%;
+    *margin: 0 0.989583333333%;
+  }
+  #sidebar-right {
+    display: inline;
+    float: left;
+    width: 97.9166666667%;
+    margin: 0 1.04166666667%;
+    *width: 97.8645833333%;
+    *margin: 0 0.989583333333%;
+  }
+  footer {
+    margin-bottom: 10px;
+  }
+  .registerView #registerbubble {
     display: inline;
     float: left;
     width: 97.9166666667%;
@@ -22,10 +48,22 @@ body:after {
     margin: 0 auto;
     margin-bottom: 10px;
   }
-  #sidebar-right {
-    display: none;
-  }
-  footer {
+  .registerView #socialhive {
+    display: inline;
+    float: left;
+    width: 97.9166666667%;
+    margin: 0 1.04166666667%;
+    *width: 97.8645833333%;
+    *margin: 0 0.989583333333%;
+    margin: 0 auto;
     margin-bottom: 10px;
+  }
+  .registerView #socialhive img {
+    display: inline;
+    float: left;
+    width: 97.9166666667%;
+    margin: 0 1.04166666667%;
+    *width: 97.8645833333%;
+    *margin: 0 0.989583333333%;
   }
 }

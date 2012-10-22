@@ -361,20 +361,14 @@ ssn.display = {
 
 	/** show the menu which is available after you logged in. */
 	showLogedinMenu: function () {
-		$("#logindiv").hide();
-		$("#rightBar").show();
-		$("#logedinLeftMenu, .navbar-search, #logedindiv").show();
-		$(".ticker").removeClass("hidden").addClass("visible-desktop");
-		$("#main").removeClass("span12").addClass("span8");
+		$("#loginform").hide();
+		$("#sidebar-left, #sidebar-right, #nav-icons, #nav-search").show();
 	},
 
 	/** hide the menu which is available after you logged in */
 	hideLogedinMenu: function () {
-		$("#logindiv").show();
-		$("#rightBar").hide();
-		$("#logedinLeftMenu, .navbar-search, #logedindiv").hide();
-		$("#main").addClass("span12").removeClass("span8");
-		$(".ticker").addClass("hidden").removeClass("visible-desktop");
+		$("#loginform").show();
+		$("#sidebar-left, #sidebar-right, #nav-icons, #nav-search").hide();
 	},
 
 	/** logout button was clicked */

@@ -39,11 +39,11 @@ ssn.display.messages = {
 
 	load: function () {
 		$("#sendMessageSubmit").val(ssn.translation.getValue("sendMessage")).click(ssn.display.messages.sendMessageFunc);
-		$(".messageWrap").bind("mousewheel", function (ev, delta) {
+		$(".messageul").bind("mousewheel", function (ev, delta) {
 			var scrollTop = $(this).scrollTop();
 			$(this).scrollTop(scrollTop - Math.round(delta));
 		});
-
+		$("body").addClass("messageView");
 		ssn.display.messages.doLoad();
 	},
 

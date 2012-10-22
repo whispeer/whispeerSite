@@ -9,8 +9,6 @@ ssn.display.main = {
 		this.eventListener();
 		
 		$("body").addClass("mainView");
-		$("#sidebar-left, #sidebar-right, #nav-icons, #nav-search").show();
-		$("#loginform").hide();
 		
 	},
 
