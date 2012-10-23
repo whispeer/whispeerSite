@@ -7,9 +7,8 @@ ssn.display.main = {
 	*/
 	load: function () {
 		this.eventListener();
-		
 		$("body").addClass("mainView");
-		
+
 	},
 
 	showWarning: function (text, id) {
