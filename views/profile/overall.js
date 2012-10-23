@@ -31,9 +31,11 @@ ssn.display.profile = {
 		this.loadUser(theID, done);
 	},
 
-	unload: function (done) {
+	unload: function () {
 		this.userid = null;
 		this.user = null;
+
+		$("body").removeClass("profileView");
 	},
 
 	loadUser: function (theID, done) {

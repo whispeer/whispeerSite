@@ -69,6 +69,7 @@ ssn.display.register.main = {
 		});
 	},
 	unload: function () {
+		ssn.logger.log("unload for register");
 		$("body").removeClass("registerView");
 	}
 };

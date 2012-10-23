@@ -350,10 +350,10 @@ ssn.display = {
 	*/
 	loadSubView: function (page, subview) {
 		ssn.logger.log("load subview");
-		
+
 		$("#main").hide();
 		$("#spinner").show();
-		
+
 		var stage = 0;
 
 		var done = function () {
@@ -413,11 +413,25 @@ ssn.display = {
 			subview = "main";
 		}
 
+		if (typeof ssn.display[page] === "undefined") {
+			ssn.display[page] = {};
+		}
+
+		if (typeof ssn.display[page][subview] === "undefined") {
+			ssn.display[page][subview] = {};
+		}
+
 		if (ssn.display.loadedView !== page) {
 			try {
 				ssn.display[ssn.display.loadedView].unload();
 			} catch (e) {
 				ssn.logger.log(e, ssn.logger.NOTICE);
+			}
+
+			try {
+				ssn.display[ssn.display.loadedView][ssn.display.subview].unload();
+			} catch (e2) {
+				ssn.logger.log(e2, ssn.logger.NOTICE);
 			}
 
 			$("#main").hide();
@@ -448,7 +462,7 @@ ssn.display = {
 				type : "GET",
 				dataType: 'html',
 				url : "views/" + page + "/menu.view",
-				error : function (obj, error) {
+				error : function () {
 					$("#subMenu").html("");
 					done();
 				},
@@ -491,7 +505,7 @@ ssn.display = {
 				success: function () {
 					done();
 				},
-				error : function (obj, error) {
+				error : function () {
 					done();
 				}
 			});
