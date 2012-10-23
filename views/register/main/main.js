@@ -1,11 +1,11 @@
 "use strict";
 
-ssn.display.register = {
+ssn.display.register.main = {
 	/**
 	* Main load function.
 	* Defines all event handlers etc.
 	*/
-	load: function () {
+	load: function (done) {
 		this.eventListener();
 
 		$("#mail").css("border-color", "").css("background-color", "").removeAttr("disabled");
@@ -16,6 +16,8 @@ ssn.display.register = {
 		ssn.display.checkMail();
 		ssn.display.checkNickname();
 		ssn.display.mailSame();
+
+		done();
 	},
 
 	showWarning: function (text, id) {

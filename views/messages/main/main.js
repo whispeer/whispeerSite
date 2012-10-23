@@ -2,7 +2,7 @@
 
 var ssnH = ssn.helper;
 
-ssn.display.messages = {
+ssn.display.messages.main = {
 	topic: null,
 	receiver: null,
 	lastSender: 0,
@@ -37,7 +37,7 @@ ssn.display.messages = {
 		//TODO: display an error / prompt user to enter receivers.
 	},
 
-	load: function () {
+	load: function (done) {
 		$("#sendMessageSubmit").val(ssn.translation.getValue("sendMessage")).click(ssn.display.messages.sendMessageFunc);
 		$(".messageul").bind("mousewheel", function (ev, delta) {
 			var scrollTop = $(this).scrollTop();
@@ -45,10 +45,12 @@ ssn.display.messages = {
 		});
 		$("body").addClass("messageView");
 		ssn.display.messages.doLoad();
+		done();
 	},
 
-	hashChange: function () {
+	hashChange: function (done) {
 		ssn.display.messages.doLoad();
+		done();
 	},
 
 	doLoad: function () {

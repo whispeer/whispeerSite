@@ -1,14 +1,15 @@
 "use strict";
 
-ssn.display.main = {
+ssn.display.main.main = {
 	/**
 	* Main load function.
 	* Defines all event handlers etc.
 	*/
-	load: function () {
+	load: function (done) {
 		this.eventListener();
 		$("body").addClass("mainView");
 
+		done();
 	},
 
 	showWarning: function (text, id) {

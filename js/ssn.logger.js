@@ -7,6 +7,15 @@ if (typeof (ssn) === "undefined") {
 ssn.logger = {
 	/** into which div do we put logging messages */
 	logdivid: "logger",
+
+	ALL: 0,
+	NOTICE: 1,
+	BASIC: 2,
+	WARNING: 3,
+	ERROR: 4,
+
+	logLevel: 0,
+
 	/** log an error */
 	logError: function (toLog) {
 		this.log(toLog);
@@ -15,40 +24,42 @@ ssn.logger = {
 	* @param toLog what do we want to log
 	* @author Nilos
 	*/
-	log: function (toLog) {
-		if (toLog === null) {
-			console.trace();
-		} else if (typeof toLog === "string" || typeof toLog === "number" || typeof toLog === "boolean") {
-			jQuery('<div/>', {
-				text: toLog
-			}).appendTo("#" + this.logdivid);
-			try {
-				console.log(toLog);
-			} catch (e) {}
-		} else if (typeof toLog === "object") {
-			if (toLog instanceof Error) {
+	log: function (toLog, logLevel) {
+		if (typeof logLevel === "undefined" || this.logLevel <= logLevel) {
+			if (toLog === null) {
+				console.trace();
+			} else if (typeof toLog === "string" || typeof toLog === "number" || typeof toLog === "boolean") {
 				jQuery('<div/>', {
-					text: "Error: " + toLog.name + ": " + toLog.message,
-					style: {
-						color: "RED"
-					}
-				}).css("color", "red").appendTo("#" + this.logdivid);
+					text: toLog
+				}).appendTo("#" + this.logdivid);
 				try {
 					console.log(toLog);
-					console.trace();
-				} catch (e2) {}
-			} else {
-				jQuery('<div/>', {
-					text: "Error: " + toLog.toString(),
-					style: {
-						color: "RED"
-					}
-				}).css("color", "red").appendTo("#" + this.logdivid);
+				} catch (e) {}
+			} else if (typeof toLog === "object") {
+				if (toLog instanceof Error) {
+					jQuery('<div/>', {
+						text: "Error: " + toLog.name + ": " + toLog.message,
+						style: {
+							color: "RED"
+						}
+					}).css("color", "red").appendTo("#" + this.logdivid);
+					try {
+						console.log(toLog);
+						console.trace();
+					} catch (e2) {}
+				} else {
+					jQuery('<div/>', {
+						text: "Error: " + toLog.toString(),
+						style: {
+							color: "RED"
+						}
+					}).css("color", "red").appendTo("#" + this.logdivid);
 
-				try {
-					console.log(toLog);
-					console.trace();
-				} catch (e3) {}
+					try {
+						console.log(toLog);
+						console.trace();
+					} catch (e3) {}
+				}
 			}
 		}
 	},

@@ -1,0 +1,16 @@
+<div class="bubble" id="infowrap">
+		<div id="userimg"><img src="img/profil.jpg"></div>
+		<div id="userinfo">
+			<h1 id="pname"></h1> <a class="btn btn-success" id="pfriendShip"></a> <a class="btn btn-success" id="psendMessage"></a>
+			<div id="info">
+				<p id="birthday"><i class="icon-gift"></i> Geboren am 31.03.1997</p>
+				<p id="residence"><i class="icon-home"></i> Wohnt in Enger, Nordrhein-Westfahlen, Deutschland</p>
+				<p id="relationship"><i class="icon-heart"></i> in einer Beziehung mit Svenja Kenneweg</p>
+				<p id="school"><i class="icon-pencil"></i> geht hier zur Schule: Widukind-Gymnasium Enger</p>
+				<p id="job"><i class="icon-lock"></i> arbeitet als Web-Developer bei Socialize</p>
+				<p id="sex"><i class="icon"></i> Geschlecht: m&auml;nnlich</p>
+				<p id="languages"><i class="icon-globe"></i> Spricht: Deutsch, Englisch</p>
+			</div>
+		</div>
+	</div>
+</div>

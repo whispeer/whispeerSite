@@ -156,20 +156,21 @@
 		<div id="container">
 			<div class="sidebar" id="sidebar-left" style="display: none;">
 				<div class="bubble" id="userpanel">
-					<img src="img/profil.jpg" alt="" class="userimg">
-					<a href="#view=profile" class="username">Daniel Melchior</a>
-					<ul class="left unstyled">
-						<li><a href="#view=friends">Freunde</a></li>
-						<li><a href="#view=messages">Nachrichten</a></li>
-						<li><a href="#view=media">Fotos / Videos</a></li>
-						<li><a href="#view=groups">Gruppen</a></li>
-					</ul>
-					<ul class="right unstyled">
-						<li><a href="#view=secruity">Sicherheit</a></li>
-						<li><a href="#views=settings">Einstellungen</a></li>
-						<li><a href="#view=help">Hilfe</a></li>
-						<li><a href="#logout">Logout</a></li>
-					</ul>
+					<a href="#view=profile" class="username"><img src="img/profil.jpg" alt="" class="userimg"></a>	
+					<div id="menu">
+						<ul class="left unstyled" id="mainMenu">
+							<li><a href="#view=profile" view="profile" class="current">Profil</a></li>
+							<li><a href="#view=friends" view="friends">Freunde</a></li>
+							<li><a href="#view=messages" view="messages">Nachrichten</a></li>
+							<li><a href="#view=media" view="media">Fotos / Videos</a></li>
+							<li><a href="#view=groups" view="groups">Gruppen</a></li>
+							<li><a href="#views=settings" view="settings">Einstellungen</a></li>
+							<li><a href="#view=help" view="help">Hilfe</a></li>
+							<li><a href="#logout">Logout</a></li>
+						</ul>
+						<ul class="right unstyled" id="subMenu">
+						</ul>
+					</div>
 				</div>
 				<div class="bubble" id="didYaKnow">
 					<h3>Wusstest du schon...</h3>

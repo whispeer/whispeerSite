@@ -7,6 +7,10 @@ ssn.display = {
 	loadedView: "",
 	hashes: {},
 	hashHandles: {"logout": ssn.session.logout},
+
+	/** our script loading callback array. also safes when a script was already load before */
+	scriptC: [],
+
 	/** loading function is called on page load */
 	load: function () {
 		//Fix modals for Opera and IE.
@@ -14,11 +18,11 @@ ssn.display = {
 			$('#loadingMain').removeClass('fade');
 		}
 
-		var newHash      = "";
 		$(window).bind('hashchange', function () {
 			ssn.display.buildHashes();
 
 			var view = ssn.display.getHash("view");
+			var subview = ssn.display.getHash("subview");
 
 			if (typeof view === "undefined" || view === "") {
 				if (ssn.session.logedin) {
@@ -29,7 +33,7 @@ ssn.display = {
 			}
 
 			if (ssn.loaded) {
-				ssn.display.loadView(view);
+				ssn.display.loadView(view, subview);
 			}
 		});
 
@@ -44,7 +48,7 @@ ssn.display = {
 			return false;
 		});
 
-		$("#searchInput").keyup(function (e) {
+		$("#searchInput").keyup(function () {
 			if ($(this).val().length > 3) {
 				ssn.userManager.search($(this).val(), function (users) {
 					$("#search_results").html("");
@@ -76,7 +80,7 @@ ssn.display = {
 			}
 		});
 
-		$("body").click(function (e) {
+		$("body").click(function () {
 			$("#search_drop").hide();
 		});
 	},
@@ -286,60 +290,223 @@ ssn.display = {
 		$("#password").css("border-color", "green").css("background-color", "green");
 	},
 
+	viewScript: function () {
+		return ssn.display[ssn.display.loadedView];
+		//TODO
+	},
+
+	subviewScript: function () {
+		if (typeof ssn.display[ssn.display.loadedView] !== "undefined") {
+			return ssn.display[ssn.display.loadedView][ssn.display.subview];
+		}
+
+		return undefined;
+		//TODO
+	},
+
+	/** is called by external scripts onload
+	* @param script script which was loaded.
+	*/
+	scriptLoaded: function (script) {
+		var toCall = ssn.display.scriptC[script];
+		ssn.display.scriptC[script] = true;
+
+		var i;
+		for (i = 0; i < toCall.length; i += 1) {
+			try {
+				toCall[i]();
+			} catch (e) {
+				ssn.logger.log(e);
+			}
+		}
+	},
+
+	/** load a script
+	* @param script script path to load.
+	* @param callback callback to call onload
+	*/
+	loadScript: function (script, callback) {
+		if (typeof ssn.display.scriptC[script] === "undefined") {
+			ssn.display.scriptC[script] = [];
+		}
+
+		if (ssn.display.scriptC[script] === true) {
+			callback();
+		} else {
+			ssn.display.scriptC[script].push(callback);
+		}
+
+		if (ssn.display.scriptC[script].length === 1) {
+			var s = document.createElement("script");
+			s.setAttribute("src", script);
+			document.body.appendChild(s);
+		}
+	},
+
+	/** load a subview
+	* @param subview name of subview to load.
+	* @author Nilos
+	* @created 21-10-2012
+	*/
+	loadSubView: function (page, subview) {
+		ssn.logger.log("load subview");
+		
+		$("#main").hide();
+		$("#spinner").show();
+		
+		var stage = 0;
+
+		var done = function () {
+			stage += 1;
+
+			if (stage === 2) {
+				ssn.display.viewLoaded(page, subview);
+			}
+		};
+
+		ssn.display.subview = subview;
+
+		$("#subMenu").children().each(function () {
+			var ele = $(this.firstChild);
+			if (ele.attr("subview") === subview) {
+				ele.addClass("current");
+			} else {
+				ele.removeClass("current");
+			}
+		});
+
+		$.ajax({
+			type : "GET",
+			dataType: 'html',
+			url : "views/" + page + "/" + subview + "/" + subview + ".view",
+			error : function (obj, error) {
+				ssn.display.ajaxError(obj, error);
+			},
+			success : function (data) {
+				try {
+					$("#main").html(data);
+
+					done();
+				} catch (e) {
+					ssn.logger.log(e);
+				}
+			}
+		});
+
+		$.ajax({
+			url: "views/" + page + "/" + subview + "/" + subview + ".js",
+			dataType: "script",
+			success: done,
+			error : done
+		});
+	},
+
 	/** load a view. Loads html and display file.
 	* @TODO: fix eval loading
 	* @param page name of the view to load.
 	* @author Nilos
 	* @created ?
 	*/
-	loadView: function (page) {
+	loadView: function (page, subview) {
+		ssn.logger.log("load View");
+		if (typeof subview === "undefined") {
+			subview = "main";
+		}
+
 		if (ssn.display.loadedView !== page) {
-			if (typeof ssn.display[ssn.display.loadedView] === "object") {
-				if (typeof ssn.display[ssn.display.loadedView].unload === "function") {
-					ssn.display[ssn.display.loadedView].unload();
-				}
+			try {
+				ssn.display[ssn.display.loadedView].unload();
+			} catch (e) {
+				ssn.logger.log(e, ssn.logger.NOTICE);
 			}
 
 			$("#main").hide();
 			$("#spinner").show();
 
-			ssn.display.setHash("view", page);
+			$("#mainMenu").children().each(function () {
+				var ele = $(this.firstChild);
+				if (ele.attr("view") === page) {
+					ele.addClass("current");
+				} else {
+					ele.removeClass("current");
+				}
+			});
 
+			ssn.display.setHash("view", page);
 			ssn.display.loadedView = page;
+
 			var stage = 0;
+			var done = function () {
+				stage += 1;
+
+				if (stage === 2) {
+					ssn.display.loadSubView(page, subview);
+				}
+			};
 
 			$.ajax({
 				type : "GET",
 				dataType: 'html',
-				url : "views/" + page + ".view",
+				url : "views/" + page + "/menu.view",
 				error : function (obj, error) {
-					ssn.display.ajaxError(obj, error);
+					$("#subMenu").html("");
+					done();
 				},
 				success : function (data) {
 					try {
-						$("#main").html(data);
-						stage += 1;
+						$("#subMenu").html(data);
+						$("#subMenu").children().each(function () {
+							var ele = $(this.firstChild);
 
-						if (stage === 2) {
-							ssn.display.viewLoaded(page);
-						}
+							ele.click(function () {
+								if (typeof ele.attr("href") === "undefined") {
+									if (typeof ele.attr("link") === "undefined") {
+										if (typeof ele.attr("action") === "undefined") {
+											if (typeof ele.attr("subview") === "undefined") {
+												ssn.logger.log("no action defined");
+											} else {
+												ssn.display.setHash("subview", ele.attr("subview"));
+											}
+										} else {
+											ssn.display.viewScript()[ele.attr("action")]();
+										}
+									} else {
+										ssn.logger.log(ele.attr("link"));
+										//TODO
+									}
+								}
+							});
+						});
+
+						done();
 					} catch (e) {
 						ssn.logger.log(e);
 					}
 				}
 			});
 
-			$.getScript("views/js/" + page + ".js", function () {
-				stage += 1;
-
-				if (stage === 2) {
-					ssn.display.viewLoaded(page);
+			$.ajax({
+				url: "views/" + page + "/overall.js",
+				dataType: "script",
+				success: function () {
+					done();
+				},
+				error : function (obj, error) {
+					done();
 				}
 			});
+		} else if (ssn.display.subview !== subview) {
+			ssn.display.loadSubView(ssn.display.loadedView, subview);
 		} else {
 			if (typeof ssn.display[page] === "object") {
 				if (typeof ssn.display[page].hashChange === "function") {
 					ssn.display[page].hashChange();
+				}
+
+				if (typeof ssn.display[page][subview] === "object") {
+					if (typeof ssn.display[page][subview].hashChange === "function") {
+						ssn.display[page][subview].hashChange();
+					}
 				}
 			}
 		}
@@ -348,15 +515,27 @@ ssn.display = {
 	/** called when a view was loaded 
 	* @param page page which was loaded.
 	*/
-	viewLoaded: function (page) {
-		if (typeof ssn.display[page] === "object") {
-			if (typeof ssn.display[page].load === "function") {
-				ssn.display[page].load();
-			}
-		}
+	viewLoaded: function (page, subview) {
+		ssn.logger.log("view loaded");
 
-		$("#spinner").hide();
-		$("#main").show();
+		var end = function () {
+			$("#spinner").hide();
+			$("#main").show();
+		};
+
+		var done = function () {
+			try {
+				ssn.display[page][subview].load(end);
+			} catch (e) {
+				end();
+			}
+		};
+
+		try {
+			ssn.display[page].load(done);
+		} catch (e) {
+			done();
+		}
 	},
 
 	/** show the menu which is available after you logged in. */
@@ -382,7 +561,6 @@ ssn.display = {
 
 	/** used to load the latest messages (for icon at top */
 	loadLatestMessages: function (callback) {
-		var time = new Date().getTime();
 		ssn.messages.getLatestTopics(function (m) {
 			ssn.messages.getMessagesTeReSe(m, function (data) {
 				ssn.display.viewLatestMessages(data, callback);
@@ -447,7 +625,6 @@ ssn.display = {
 	loadFriendShipRequests: function (callback) {
 		ssn.userManager.loadFriends(function () {
 			ssn.userManager.friendShipRequestsUser(function (u) {
-				var userid;
 				var requests = false;
 
 				$("#friendShipRequests").html("");

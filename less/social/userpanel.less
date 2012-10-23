@@ -13,5 +13,20 @@
 	.left, .right {
 		.column(6);
 		margin-top: 5px;
+		text-align: left;
+	}
+	#menu {
+		a {
+			display: block;
+			color: black;
+		}
+		a:hover {
+			background-color: lighten(@orange, 15%);
+			.border-radius(5px);
+		}
+		.current {
+			background-color: lighten(@orange, 15%);
+			.border-radius(5px);
+		}
 	}
 }

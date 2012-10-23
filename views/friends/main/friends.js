@@ -1,7 +1,7 @@
 "use strict";
 
 ssn.display.friends = {
-	load: function () {
+	load: function (done) {
 		ssn.userManager.friendsUser(function (u) {
 			var user, i;
 			var element = $("#friendsList");
@@ -10,10 +10,13 @@ ssn.display.friends = {
 				var userElement = $("<li>").append($("<a>").attr("href", "#view=profile&userid=" + user.getUserID()).text(user.getName()));
 				element.append(userElement);
 			}
+
+			done();
 		});
 	},
 
-	hashChange: function () {
+	hashChange: function (done) {
+		done();
 	},
 
 	unload: function () {

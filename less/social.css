@@ -200,36 +200,36 @@ body #container {
 body #sidebar-left {
   display: inline;
   float: left;
-  width: 22.9166666667%;
-  margin: 0 1.04166666667%;
-  *width: 22.8645833333%;
-  *margin: 0 0.989583333333%;
+  width: 22.916666666667%;
+  margin: 0 1.0416666666667%;
+  *width: 22.864583333333%;
+  *margin: 0 0.98958333333333%;
 }
 body #sidebar-left #userpanel,
 body #sidebar-left #didYaKnow {
   display: inline;
   float: left;
-  width: 91.6666666667%;
-  margin: 0 4.16666666667%;
-  *width: 91.6145833333%;
-  *margin: 0 4.11458333333%;
+  width: 91.666666666667%;
+  margin: 0 4.1666666666667%;
+  *width: 91.614583333333%;
+  *margin: 0 4.1145833333333%;
   margin-bottom: 5px;
 }
 body #sidebar-right {
   display: inline;
   float: left;
-  width: 14.5833333333%;
-  margin: 0 1.04166666667%;
+  width: 14.583333333333%;
+  margin: 0 1.0416666666667%;
   *width: 14.53125%;
-  *margin: 0 0.989583333333%;
+  *margin: 0 0.98958333333333%;
 }
 body footer {
   display: inline;
   float: left;
-  width: 97.9166666667%;
-  margin: 0 1.04166666667%;
-  *width: 97.8645833333%;
-  *margin: 0 0.989583333333%;
+  width: 97.916666666667%;
+  margin: 0 1.0416666666667%;
+  *width: 97.864583333333%;
+  *margin: 0 0.98958333333333%;
   text-align: center;
   margin-top: 10px;
 }
@@ -242,9 +242,9 @@ body #spinner {
   display: inline;
   float: left;
   width: 56.25%;
-  margin: 0 1.04166666667%;
-  *width: 56.1979166667%;
-  *margin: 0 0.989583333333%;
+  margin: 0 1.0416666666667%;
+  *width: 56.197916666667%;
+  *margin: 0 0.98958333333333%;
 }
 nav {
   display: block;
@@ -283,10 +283,10 @@ nav {
 .nav-inner #nav-search .search-query {
   display: inline;
   float: left;
-  width: 39.5833333333%;
-  margin: 0 1.04166666667%;
+  width: 39.583333333333%;
+  margin: 0 1.0416666666667%;
   *width: 39.53125%;
-  *margin: 0 0.989583333333%;
+  *margin: 0 0.98958333333333%;
   margin-top: 7px;
 }
 .nav-icon {
@@ -321,10 +321,10 @@ nav {
   box-shadow: 0 0 5px #999;
   display: inline;
   float: left;
-  width: 22.9166666667%;
-  margin: 0 1.04166666667%;
-  *width: 22.8645833333%;
-  *margin: 0 0.989583333333%;
+  width: 22.916666666667%;
+  margin: 0 1.0416666666667%;
+  *width: 22.864583333333%;
+  *margin: 0 0.98958333333333%;
   display: none;
 }
 .nav-icon-dropdown-header {
@@ -340,10 +340,10 @@ nav {
 .search {
   display: inline;
   float: left;
-  width: 64.5833333333%;
-  margin: 0 1.04166666667%;
+  width: 64.583333333333%;
+  margin: 0 1.0416666666667%;
   *width: 64.53125%;
-  *margin: 0 0.989583333333%;
+  *margin: 0 0.98958333333333%;
 }
 .search-query {
   -webkit-border-radius: 20px;
@@ -354,29 +354,29 @@ nav {
   background-clip: padding-box;
   display: inline;
   float: left;
-  width: 64.5833333333%;
-  margin: 0 1.04166666667%;
+  width: 64.583333333333%;
+  margin: 0 1.0416666666667%;
   *width: 64.53125%;
-  *margin: 0 0.989583333333%;
+  *margin: 0 0.98958333333333%;
 }
 .search-drop {
   position: absolute;
   top: 50px;
   display: inline;
   float: left;
-  width: 64.5833333333%;
-  margin: 0 1.04166666667%;
+  width: 64.583333333333%;
+  margin: 0 1.0416666666667%;
   *width: 64.53125%;
-  *margin: 0 0.989583333333%;
+  *margin: 0 0.98958333333333%;
   display: none;
 }
 .search-suggestions {
   display: inline;
   float: left;
-  width: 64.5833333333%;
-  margin: 0 1.04166666667%;
+  width: 64.583333333333%;
+  margin: 0 1.0416666666667%;
   *width: 64.53125%;
-  *margin: 0 0.989583333333%;
+  *margin: 0 0.98958333333333%;
 }
 .bubble {
   background-color: #fefcf6;
@@ -860,19 +860,19 @@ input[type="submit"].btn.btn-mini {
 #userpanel {
   display: inline;
   float: left;
-  width: 97.9166666667%;
-  margin: 0 1.04166666667%;
-  *width: 97.8645833333%;
-  *margin: 0 0.989583333333%;
+  width: 97.916666666667%;
+  margin: 0 1.0416666666667%;
+  *width: 97.864583333333%;
+  *margin: 0 0.98958333333333%;
   text-align: center;
 }
 #userpanel .userimg {
   display: inline;
   float: left;
-  width: 72.9166666667%;
-  margin: 0 1.04166666667%;
-  *width: 72.8645833333%;
-  *margin: 0 0.989583333333%;
+  width: 72.916666666667%;
+  margin: 0 1.0416666666667%;
+  *width: 72.864583333333%;
+  *margin: 0 0.98958333333333%;
   float: none;
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
@@ -884,47 +884,70 @@ input[type="submit"].btn.btn-mini {
 #userpanel .username {
   display: inline;
   float: left;
-  width: 97.9166666667%;
-  margin: 0 1.04166666667%;
-  *width: 97.8645833333%;
-  *margin: 0 0.989583333333%;
+  width: 97.916666666667%;
+  margin: 0 1.0416666666667%;
+  *width: 97.864583333333%;
+  *margin: 0 0.98958333333333%;
   margin-top: 5px;
 }
 #userpanel .left,
 #userpanel .right {
   display: inline;
   float: left;
-  width: 47.9166666667%;
-  margin: 0 1.04166666667%;
-  *width: 47.8645833333%;
-  *margin: 0 0.989583333333%;
+  width: 47.916666666667%;
+  margin: 0 1.0416666666667%;
+  *width: 47.864583333333%;
+  *margin: 0 0.98958333333333%;
   margin-top: 5px;
+  text-align: left;
+}
+#userpanel #menu a {
+  display: block;
+  color: black;
+}
+#userpanel #menu a:hover {
+  background-color: #f9cb5b;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+}
+#userpanel #menu .current {
+  background-color: #f9cb5b;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
 }
 #loginform {
   display: inline;
   float: left;
-  width: 39.5833333333%;
-  margin: 0 1.04166666667%;
+  width: 39.583333333333%;
+  margin: 0 1.0416666666667%;
   *width: 39.53125%;
-  *margin: 0 0.989583333333%;
-  margin-left: 42.7083333333%;
+  *margin: 0 0.98958333333333%;
+  margin-left: 42.708333333333%;
 }
 #socialhive {
   display: inline;
   float: left;
-  width: 47.9166666667%;
-  margin: 0 1.04166666667%;
-  *width: 47.8645833333%;
-  *margin: 0 0.989583333333%;
+  width: 47.916666666667%;
+  margin: 0 1.0416666666667%;
+  *width: 47.864583333333%;
+  *margin: 0 0.98958333333333%;
   text-align: center;
 }
 #registerbubble {
   display: inline;
   float: left;
-  width: 47.9166666667%;
-  margin: 0 1.04166666667%;
-  *width: 47.8645833333%;
-  *margin: 0 0.989583333333%;
+  width: 47.916666666667%;
+  margin: 0 1.0416666666667%;
+  *width: 47.864583333333%;
+  *margin: 0 0.98958333333333%;
 }
 #register #nameRow,
 #register #lastNameRow,
@@ -935,10 +958,10 @@ input[type="submit"].btn.btn-mini {
 #register #passwordRow2,
 #register #submitRow {
   display: block;
-  width: 104.166666667%;
-  margin: 0 -2.08333333333%;
-  *width: 104.114583333%;
-  *margin: 0 -2.13541666667%;
+  width: 104.16666666667%;
+  margin: 0 -2.0833333333333%;
+  *width: 104.11458333333%;
+  *margin: 0 -2.1354166666667%;
   *zoom: 1;
   margin-top: 5px;
 }
@@ -982,8 +1005,8 @@ input[type="submit"].btn.btn-mini {
   display: inline;
   float: left;
   width: 12.5%;
-  margin: 0 2.08333333333%;
-  *width: 12.4479166667%;
+  margin: 0 2.0833333333333%;
+  *width: 12.447916666667%;
   *margin: 0 2.03125%;
 }
 #register #nameRow span img,
@@ -998,17 +1021,17 @@ input[type="submit"].btn.btn-mini {
 }
 #register .marked {
   display: block;
-  width: 102.083333333%;
-  margin: 0 -1.04166666667%;
+  width: 102.08333333333%;
+  margin: 0 -1.0416666666667%;
   *width: 102.03125%;
   *margin: 0 -1.09375%;
   *zoom: 1;
   display: inline;
   float: left;
-  width: 97.9166666667%;
-  margin: 0 1.04166666667%;
-  *width: 97.8645833333%;
-  *margin: 0 0.989583333333%;
+  width: 97.916666666667%;
+  margin: 0 1.0416666666667%;
+  *width: 97.864583333333%;
+  *margin: 0 0.98958333333333%;
   text-align: center;
 }
 #register .marked:before,
@@ -1022,137 +1045,137 @@ input[type="submit"].btn.btn-mini {
 #register #nameRow #firstNameLabel {
   display: inline;
   float: left;
-  width: 29.1666666667%;
-  margin: 0 2.08333333333%;
-  *width: 29.1145833333%;
+  width: 29.166666666667%;
+  margin: 0 2.0833333333333%;
+  *width: 29.114583333333%;
   *margin: 0 2.03125%;
   padding-top: 5px;
 }
 #register #nameRow #firstname {
   display: inline;
   float: left;
-  width: 45.8333333333%;
-  margin: 0 2.08333333333%;
+  width: 45.833333333333%;
+  margin: 0 2.0833333333333%;
   *width: 45.78125%;
   *margin: 0 2.03125%;
 }
 #register #lastNameRow #lastNameLabel {
   display: inline;
   float: left;
-  width: 29.1666666667%;
-  margin: 0 2.08333333333%;
-  *width: 29.1145833333%;
+  width: 29.166666666667%;
+  margin: 0 2.0833333333333%;
+  *width: 29.114583333333%;
   *margin: 0 2.03125%;
   padding-top: 5px;
 }
 #register #lastNameRow #lastname {
   display: inline;
   float: left;
-  width: 45.8333333333%;
-  margin: 0 2.08333333333%;
+  width: 45.833333333333%;
+  margin: 0 2.0833333333333%;
   *width: 45.78125%;
   *margin: 0 2.03125%;
 }
 #register #emailRow #emailLabel {
   display: inline;
   float: left;
-  width: 29.1666666667%;
-  margin: 0 2.08333333333%;
-  *width: 29.1145833333%;
+  width: 29.166666666667%;
+  margin: 0 2.0833333333333%;
+  *width: 29.114583333333%;
   *margin: 0 2.03125%;
   padding-top: 5px;
 }
 #register #emailRow #rmail {
   display: inline;
   float: left;
-  width: 45.8333333333%;
-  margin: 0 2.08333333333%;
+  width: 45.833333333333%;
+  margin: 0 2.0833333333333%;
   *width: 45.78125%;
   *margin: 0 2.03125%;
 }
 #register #emailRow2 #emailLabel2 {
   display: inline;
   float: left;
-  width: 29.1666666667%;
-  margin: 0 2.08333333333%;
-  *width: 29.1145833333%;
+  width: 29.166666666667%;
+  margin: 0 2.0833333333333%;
+  *width: 29.114583333333%;
   *margin: 0 2.03125%;
   padding-top: 5px;
 }
 #register #emailRow2 #rmail2 {
   display: inline;
   float: left;
-  width: 45.8333333333%;
-  margin: 0 2.08333333333%;
+  width: 45.833333333333%;
+  margin: 0 2.0833333333333%;
   *width: 45.78125%;
   *margin: 0 2.03125%;
 }
 #register #usernameRow #usernameLabel {
   display: inline;
   float: left;
-  width: 29.1666666667%;
-  margin: 0 2.08333333333%;
-  *width: 29.1145833333%;
+  width: 29.166666666667%;
+  margin: 0 2.0833333333333%;
+  *width: 29.114583333333%;
   *margin: 0 2.03125%;
   padding-top: 5px;
 }
 #register #usernameRow #rnickname {
   display: inline;
   float: left;
-  width: 45.8333333333%;
-  margin: 0 2.08333333333%;
+  width: 45.833333333333%;
+  margin: 0 2.0833333333333%;
   *width: 45.78125%;
   *margin: 0 2.03125%;
 }
 #register #passwordRow #passwordLabel {
   display: inline;
   float: left;
-  width: 29.1666666667%;
-  margin: 0 2.08333333333%;
-  *width: 29.1145833333%;
+  width: 29.166666666667%;
+  margin: 0 2.0833333333333%;
+  *width: 29.114583333333%;
   *margin: 0 2.03125%;
   padding-top: 5px;
 }
 #register #passwordRow #rpassword {
   display: inline;
   float: left;
-  width: 45.8333333333%;
-  margin: 0 2.08333333333%;
+  width: 45.833333333333%;
+  margin: 0 2.0833333333333%;
   *width: 45.78125%;
   *margin: 0 2.03125%;
 }
 #register #passwordRow2 #passwordLabel2 {
   display: inline;
   float: left;
-  width: 29.1666666667%;
-  margin: 0 2.08333333333%;
-  *width: 29.1145833333%;
+  width: 29.166666666667%;
+  margin: 0 2.0833333333333%;
+  *width: 29.114583333333%;
   *margin: 0 2.03125%;
   padding-top: 5px;
 }
 #register #passwordRow2 #rpassword2 {
   display: inline;
   float: left;
-  width: 45.8333333333%;
-  margin: 0 2.08333333333%;
+  width: 45.833333333333%;
+  margin: 0 2.0833333333333%;
   *width: 45.78125%;
   *margin: 0 2.03125%;
 }
 #register #submitRow #registersubmit {
   display: inline;
   float: left;
-  width: 45.8333333333%;
-  margin: 0 2.08333333333%;
+  width: 45.833333333333%;
+  margin: 0 2.0833333333333%;
   *width: 45.78125%;
   *margin: 0 2.03125%;
-  margin-left: 35.2083333333%;
+  margin-left: 35.208333333333%;
 }
 #shareForm {
   display: block;
-  width: 103.571428571%;
-  margin: 0 -1.78571428571%;
-  *width: 103.519345238%;
-  *margin: 0 -1.83779761905%;
+  width: 103.57142857143%;
+  margin: 0 -1.7857142857143%;
+  *width: 103.5193452381%;
+  *margin: 0 -1.8377976190476%;
   *zoom: 1;
 }
 #shareForm:before,
@@ -1165,10 +1188,10 @@ input[type="submit"].btn.btn-mini {
 }
 .post {
   display: block;
-  width: 103.571428571%;
-  margin: 0 -1.78571428571%;
-  *width: 103.519345238%;
-  *margin: 0 -1.83779761905%;
+  width: 103.57142857143%;
+  margin: 0 -1.7857142857143%;
+  *width: 103.5193452381%;
+  *margin: 0 -1.8377976190476%;
   *zoom: 1;
   background-color: #fefcf6;
   border: #f9efc8 solid 2px;
@@ -1197,19 +1220,19 @@ input[type="submit"].btn.btn-mini {
   border-radius: 200px;
   display: inline;
   float: left;
-  width: 10.7142857143%;
-  margin: 0 1.78571428571%;
-  *width: 10.662202381%;
-  *margin: 0 1.73363095238%;
+  width: 10.714285714286%;
+  margin: 0 1.7857142857143%;
+  *width: 10.662202380952%;
+  *margin: 0 1.733630952381%;
   vertical-align: middle;
 }
 .post .postContent {
   display: inline;
   float: left;
-  width: 53.5714285714%;
-  margin: 0 1.78571428571%;
-  *width: 53.5193452381%;
-  *margin: 0 1.73363095238%;
+  width: 53.571428571429%;
+  margin: 0 1.7857142857143%;
+  *width: 53.519345238095%;
+  *margin: 0 1.733630952381%;
 }
 .post .postContent .postText {
   padding-left: 10px;
@@ -1221,24 +1244,24 @@ input[type="submit"].btn.btn-mini {
   display: inline;
   float: left;
   width: 25%;
-  margin: 0 1.78571428571%;
-  *width: 24.9479166667%;
-  *margin: 0 1.73363095238%;
+  margin: 0 1.7857142857143%;
+  *width: 24.947916666667%;
+  *margin: 0 1.733630952381%;
 }
 .profileView #main {
   display: inline;
   float: left;
   width: 56.25%;
-  margin: 0 1.04166666667%;
-  *width: 56.1979166667%;
-  *margin: 0 0.989583333333%;
+  margin: 0 1.0416666666667%;
+  *width: 56.197916666667%;
+  *margin: 0 0.98958333333333%;
 }
 .profileView #infowrap {
   display: block;
-  width: 103.571428571%;
-  margin: 0 -1.78571428571%;
-  *width: 103.519345238%;
-  *margin: 0 -1.83779761905%;
+  width: 103.57142857143%;
+  margin: 0 -1.7857142857143%;
+  *width: 103.5193452381%;
+  *margin: 0 -1.8377976190476%;
   *zoom: 1;
 }
 .profileView #infowrap:before,
@@ -1251,10 +1274,10 @@ input[type="submit"].btn.btn-mini {
 }
 .profileView #postOnWall {
   display: block;
-  width: 103.571428571%;
-  margin: 0 -1.78571428571%;
-  *width: 103.519345238%;
-  *margin: 0 -1.83779761905%;
+  width: 103.57142857143%;
+  margin: 0 -1.7857142857143%;
+  *width: 103.5193452381%;
+  *margin: 0 -1.8377976190476%;
   *zoom: 1;
   margin-top: 5px;
 }
@@ -1270,17 +1293,17 @@ input[type="submit"].btn.btn-mini {
   display: inline;
   float: left;
   width: 25%;
-  margin: 0 1.78571428571%;
-  *width: 24.9479166667%;
-  *margin: 0 1.73363095238%;
+  margin: 0 1.7857142857143%;
+  *width: 24.947916666667%;
+  *margin: 0 1.733630952381%;
 }
 .profileView #userinfo {
   display: inline;
   float: left;
-  width: 67.8571428571%;
-  margin: 0 1.78571428571%;
-  *width: 67.8050595238%;
-  *margin: 0 1.73363095238%;
+  width: 67.857142857143%;
+  margin: 0 1.7857142857143%;
+  *width: 67.80505952381%;
+  *margin: 0 1.733630952381%;
 }
 .messages > li {
   min-height: 50px;
@@ -1302,10 +1325,10 @@ input[type="submit"].btn.btn-mini {
 #messageTopics {
   display: inline;
   float: left;
-  width: 14.5833333333%;
-  margin: 0 1.04166666667%;
+  width: 14.583333333333%;
+  margin: 0 1.0416666666667%;
   *width: 14.53125%;
-  *margin: 0 0.989583333333%;
+  *margin: 0 0.98958333333333%;
   height: 100%;
 }
 .topic {
@@ -1313,8 +1336,8 @@ input[type="submit"].btn.btn-mini {
   float: left;
   width: 87.5%;
   margin: 0 6.25%;
-  *width: 87.4479166667%;
-  *margin: 0 6.19791666667%;
+  *width: 87.447916666667%;
+  *margin: 0 6.1979166666667%;
   border: 1px solid #ffb700;
   min-height: 40px;
   margin-bottom: 5px;
@@ -1361,10 +1384,10 @@ input[type="submit"].btn.btn-mini {
 }
 #newmessage {
   display: block;
-  width: 116.666666667%;
-  margin: 0 -8.33333333333%;
-  *width: 116.614583333%;
-  *margin: 0 -8.38541666667%;
+  width: 125%;
+  margin: 0 -12.5%;
+  *width: 124.94791666667%;
+  *margin: 0 -12.552083333333%;
   *zoom: 1;
   margin-bottom: 15px;
 }
@@ -1387,8 +1410,8 @@ input[type="submit"].btn.btn-mini {
   display: inline;
   float: left;
   width: 50%;
-  margin: 0 8.33333333333%;
-  *width: 49.9479166667%;
+  margin: 0 8.3333333333333%;
+  *width: 49.947916666667%;
   *margin: 0 8.28125%;
   font-size: 65px;
   text-shadow: 0px 2px 5px #333;
@@ -1398,9 +1421,9 @@ input[type="submit"].btn.btn-mini {
   display: block;
   display: inline;
   float: left;
-  width: 16.6666666667%;
-  margin: 0 8.33333333333%;
-  *width: 16.6145833333%;
+  width: 16.666666666667%;
+  margin: 0 8.3333333333333%;
+  *width: 16.614583333333%;
   *margin: 0 8.28125%;
 }
 #messagetitle {
@@ -1409,10 +1432,10 @@ input[type="submit"].btn.btn-mini {
 #chathistory {
   display: inline;
   float: left;
-  width: 67.8571428571%;
-  margin: 0 1.78571428571%;
-  *width: 67.8050595238%;
-  *margin: 0 1.73363095238%;
+  width: 67.857142857143%;
+  margin: 0 1.7857142857143%;
+  *width: 67.80505952381%;
+  *margin: 0 1.733630952381%;
 }
 .messageWrap {
   -webkit-box-shadow: inset 0 0 5px #333;
