@@ -53,6 +53,9 @@ var ssn = {
 
 		ssn.display.loadingMain();
 
+		$("#sidebar-left, #sidebar-right, #nav-icons, #nav-search").show();
+		$("#loginform").hide();
+
 		ssn.logger.log("0:" + (new Date().getTime() - time));
 
 		ssn.session.getOwnUser(function (u) {
