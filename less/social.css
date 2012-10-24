@@ -261,7 +261,7 @@ nav {
   background: -ms-linear-gradient(top,#ffd15d,#ffbc10);
   background: -o-linear-gradient(top,#ffd15d,#ffbc10);
 }
-.nav-inner .brand {
+.nav-inner .brand a {
   display: block;
   float: left;
   margin-top: 10px;
