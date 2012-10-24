@@ -14,7 +14,7 @@ ssn.logger = {
 	WARNING: 3,
 	ERROR: 4,
 
-	logLevel: 0,
+	logLevel: 1,
 
 	/** log an error */
 	logError: function (toLog) {

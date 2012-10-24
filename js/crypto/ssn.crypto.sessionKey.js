@@ -63,8 +63,7 @@ ssn.crypto.sessionKey = function (key) {
 				var keyAsBigInt = new BigInteger(sessionKey, 16);
 
 				if (privateKey instanceof ssn.crypto.privateKey) {
-					ssn.logger.log("decryptKey Asym");
-					ssn.logger.log({});
+					ssn.logger.log("decryptKey Asym", ssn.logger.NOTICE);
 					var result = privateKey.decryptOAEP(keyAsBigInt, "Socialize");
 					if (result !== false) {
 						decrypted = true;
@@ -79,7 +78,7 @@ ssn.crypto.sessionKey = function (key) {
 				}
 
 				if (privateKey instanceof ssn.crypto.sessionKey) {
-					ssn.logger.log("decryptKey Sym");
+					ssn.logger.log("decryptKey Sym", ssn.logger.NOTICE);
 					try {
 						if (typeof sessionKey === "object") {
 							sessionKey = $.toJSON(sessionKey);
@@ -97,7 +96,7 @@ ssn.crypto.sessionKey = function (key) {
 
 						return true;
 					} catch (e) {
-						ssn.logger.log(e);
+						ssn.logger.log(e, ssn.logger.ERROR);
 						return false;
 					}
 				}

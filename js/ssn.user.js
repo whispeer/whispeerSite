@@ -45,8 +45,8 @@ ssn.userManager = function () {
 
 		/** userid */
 		var userid = 0;
-		
-		/** users nickname */ 
+
+		/** users nickname */
 		var nickname;
 
 		/** users public profile */

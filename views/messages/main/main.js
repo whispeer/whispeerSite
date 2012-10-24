@@ -249,5 +249,7 @@ ssn.display.messages.main = {
 		$("#topicul").append(element);
 	},
 
-	unload: function () {}
+	unload: function () {
+		$("body").removeClass("messageView");
+	}
 };

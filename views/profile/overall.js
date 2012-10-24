@@ -8,7 +8,6 @@ ssn.display.profile = {
 	* Hide big user picture
 	*/
 	load: function (done) {
-		ssn.logger.log("load" + done);
 		$("body").addClass("profileView");
 
 		if (typeof ssn.display.getHash("userid") === "undefined") {
@@ -21,7 +20,6 @@ ssn.display.profile = {
 	},
 
 	hashChange: function (done) {
-		ssn.logger.log("hashchange" + done);
 		if (typeof ssn.display.getHash("userid") === "undefined") {
 			ssn.display.setHash("userid", ssn.session.userid);
 		}

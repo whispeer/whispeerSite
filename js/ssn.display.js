@@ -349,7 +349,7 @@ ssn.display = {
 	* @created 21-10-2012
 	*/
 	loadSubView: function (page, subview) {
-		ssn.logger.log("load subview");
+		ssn.logger.log("load subview " + subview);
 
 		$("#main").hide();
 		$("#spinner").show();
@@ -408,7 +408,6 @@ ssn.display = {
 	* @created ?
 	*/
 	loadView: function (page, subview) {
-		ssn.logger.log("load View");
 		if (typeof subview === "undefined") {
 			subview = "main";
 		}
@@ -422,16 +421,18 @@ ssn.display = {
 		}
 
 		if (ssn.display.loadedView !== page) {
+			ssn.logger.log("load View " + page + " - " + subview);
+		
 			try {
 				ssn.display[ssn.display.loadedView].unload();
 			} catch (e) {
-				ssn.logger.log(e, ssn.logger.NOTICE);
+				ssn.logger.log(e, ssn.logger.ALL);
 			}
 
 			try {
 				ssn.display[ssn.display.loadedView][ssn.display.subview].unload();
 			} catch (e2) {
-				ssn.logger.log(e2, ssn.logger.NOTICE);
+				ssn.logger.log(e2, ssn.logger.ALL);
 			}
 
 			$("#main").hide();
@@ -512,16 +513,19 @@ ssn.display = {
 		} else if (ssn.display.subview !== subview) {
 			ssn.display.loadSubView(ssn.display.loadedView, subview);
 		} else {
-			if (typeof ssn.display[page] === "object") {
-				if (typeof ssn.display[page].hashChange === "function") {
-					ssn.display[page].hashChange();
+			var doneF = function () {
+				try {
+					ssn.display[page][subview].hashChange(function () {});
+				} catch (e) {
+					ssn.logger.log(e, ssn.logger.ALL);
 				}
+			};
 
-				if (typeof ssn.display[page][subview] === "object") {
-					if (typeof ssn.display[page][subview].hashChange === "function") {
-						ssn.display[page][subview].hashChange();
-					}
-				}
+			try {
+				ssn.display[page].hashChange(doneF);
+			} catch (e3) {
+				ssn.logger.log(e3, ssn.logger.ALL);
+				doneF();
 			}
 		}
 	},
