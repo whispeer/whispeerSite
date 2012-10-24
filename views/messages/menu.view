@@ -1,6 +1,4 @@
-<li><a subview="main">Empfangen</a></li>
-<li><a subview="sent">Gesendet</a></li>
+<li><a subview="main">Eingang</a></li>
 
 <li><a subview="send">Nachricht suchen</a></li>
-
 <li><a subview="send">Neue Nachricht</a></li>
