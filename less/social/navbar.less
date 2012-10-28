@@ -1,3 +1,4 @@
+//Don't touch any of the *.less or *.css files, or you will die an awful death.
 nav {
 	display: block;
 	position: fixed;
@@ -6,17 +7,17 @@ nav {
 	top: 0;
 	border-bottom: 1px solid #a7a7a7;
 	outline: 1px solid #dbdbdb;
-	.gradient(lighten(@mainColor, 20%), lighten(@mainColor, 10%));
+	.gradient(lighten(@green, 15%), lighten(@green, 5%));
 }
 .nav-inner {
-	.brand a {
+	.brand {
 		display: block;
 		float: left;
 		margin-top: 10px;
 		margin-left: 1%;
 		font-size: 25px;
 		font-family: helvetica;
-		color: #555;
+		color: #000;
 		.text-shadow(1px 1px 0px lighten(#555555, 10%));
 		.box-fix;
 		line-height: @baseLineHeight;
