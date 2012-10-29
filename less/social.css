@@ -184,7 +184,7 @@ a {
   text-decoration: none;
 }
 a:hover {
-  color: #496100;
+  color: #95c700;
 }
 body {
   background-color: #fff;
@@ -254,12 +254,12 @@ nav {
   top: 0;
   border-bottom: 1px solid #a7a7a7;
   outline: 1px solid #dbdbdb;
-  background-color: #bbfa00;
-  background: -webkit-gradient(linear,left top,left bottom,from(#bbfa00),to(#95c700));
-  background: -webkit-linear-gradient(top,#bbfa00,#95c700);
-  background: -moz-linear-gradient(top,#bbfa00,#95c700);
-  background: -ms-linear-gradient(top,#bbfa00,#95c700);
-  background: -o-linear-gradient(top,#bbfa00,#95c700);
+  background-color: #b4ef00;
+  background: -webkit-gradient(linear,left top,left bottom,from(#b4ef00),to(#95c700));
+  background: -webkit-linear-gradient(top,#b4ef00,#95c700);
+  background: -moz-linear-gradient(top,#b4ef00,#95c700);
+  background: -ms-linear-gradient(top,#b4ef00,#95c700);
+  background: -o-linear-gradient(top,#b4ef00,#95c700);
 }
 .nav-inner .brand {
   display: block;
@@ -379,8 +379,8 @@ nav {
   *margin: 0 0.989583333333%;
 }
 .bubble {
-  background-color: #deff7a;
-  border: #d1ff47 solid 2px;
+  background-color: #f7ffe0;
+  border: #e4ff94 solid 2px;
   -webkit-border-radius: 10px;
   -moz-border-radius: 10px;
   border-radius: 10px;
@@ -733,7 +733,7 @@ input[type="submit"].btn.btn-mini {
   background-clip: padding-box;
 }
 .btn-link:hover {
-  color: #496100;
+  color: #95c700;
   text-decoration: underline;
   background-color: transparent;
 }
@@ -1170,8 +1170,8 @@ input[type="submit"].btn.btn-mini {
   *width: 103.519345238%;
   *margin: 0 -1.83779761905%;
   *zoom: 1;
-  background-color: #deff7a;
-  border: #d1ff47 solid 2px;
+  background-color: #f7ffe0;
+  border: #e4ff94 solid 2px;
   -webkit-border-radius: 10px;
   -moz-border-radius: 10px;
   border-radius: 10px;
