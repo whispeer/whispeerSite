@@ -180,11 +180,11 @@ h6 {
   line-height: 20px;
 }
 a {
-  color: #82ad00;
+  color: #1c9328;
   text-decoration: none;
 }
 a:hover {
-  color: #95c700;
+  color: #20a82e;
 }
 body {
   background-color: #fff;
@@ -254,12 +254,12 @@ nav {
   top: 0;
   border-bottom: 1px solid #a7a7a7;
   outline: 1px solid #dbdbdb;
-  background-color: #b4ef00;
-  background: -webkit-gradient(linear,left top,left bottom,from(#b4ef00),to(#95c700));
-  background: -webkit-linear-gradient(top,#b4ef00,#95c700);
-  background: -moz-linear-gradient(top,#b4ef00,#95c700);
-  background: -ms-linear-gradient(top,#b4ef00,#95c700);
-  background: -o-linear-gradient(top,#b4ef00,#95c700);
+  background-color: #a8e000;
+  background: -webkit-gradient(linear,left top,left bottom,from(#a8e000),to(#8ab700));
+  background: -webkit-linear-gradient(top,#a8e000,#8ab700);
+  background: -moz-linear-gradient(top,#a8e000,#8ab700);
+  background: -ms-linear-gradient(top,#a8e000,#8ab700);
+  background: -o-linear-gradient(top,#a8e000,#8ab700);
 }
 .nav-inner .brand {
   display: block;
@@ -379,8 +379,8 @@ nav {
   *margin: 0 0.989583333333%;
 }
 .bubble {
-  background-color: #f7ffe0;
-  border: #e4ff94 solid 2px;
+  background-color: #a8e000;
+  border: #6f9400 solid 2px;
   -webkit-border-radius: 10px;
   -moz-border-radius: 10px;
   border-radius: 10px;
@@ -528,15 +528,15 @@ input[type="button"].btn-block {
 .btn-primary {
   color: #fff;
   text-shadow: 0 -1px 0 rgba(0,0,0,0.25);
-  background-color: #82ad00;
-  background: -webkit-gradient(linear,left top,left bottom,from(#82ad00),to(#48ad00));
-  background: -webkit-linear-gradient(top,#82ad00,#48ad00);
-  background: -moz-linear-gradient(top,#82ad00,#48ad00);
-  background: -ms-linear-gradient(top,#82ad00,#48ad00);
-  background: -o-linear-gradient(top,#82ad00,#48ad00);
-  border-color: #48ad00 #48ad00 #286100;
+  background-color: #1c9328;
+  background: -webkit-gradient(linear,left top,left bottom,from(#1c9328),to(#1c9350));
+  background: -webkit-linear-gradient(top,#1c9328,#1c9350);
+  background: -moz-linear-gradient(top,#1c9328,#1c9350);
+  background: -ms-linear-gradient(top,#1c9328,#1c9350);
+  background: -o-linear-gradient(top,#1c9328,#1c9350);
+  border-color: #1c9350 #1c9350 #10532d;
   border-color: rgba(0,0,0,0.1) rgba(0,0,0,0.1) rgba(0,0,0,0.25);
-  *background-color: #53c700;
+  *background-color: #20a85b;
   filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
 }
 .btn-primary:hover,
@@ -545,12 +545,12 @@ input[type="button"].btn-block {
 .btn-primary.disabled,
 .btn-primary[disabled] {
   color: #fff;
-  background: #53c700;
-  *background: #48ad00;
+  background: #20a85b;
+  *background: #1c9350;
 }
 .btn-primary:active,
 .btn-primary.active {
-  background-color: #337a00 \9;
+  background-color: #146838 \9;
 }
 .btn-warning {
   color: #fff;
@@ -724,7 +724,7 @@ input[type="submit"].btn.btn-mini {
 .btn-link {
   border-color: transparent;
   cursor: pointer;
-  color: #82ad00;
+  color: #1c9328;
   -webkit-border-radius: 0;
   -moz-border-radius: 0;
   border-radius: 0;
@@ -733,7 +733,7 @@ input[type="submit"].btn.btn-mini {
   background-clip: padding-box;
 }
 .btn-link:hover {
-  color: #95c700;
+  color: #20a82e;
   text-decoration: underline;
   background-color: transparent;
 }
@@ -1170,8 +1170,8 @@ input[type="submit"].btn.btn-mini {
   *width: 103.519345238%;
   *margin: 0 -1.83779761905%;
   *zoom: 1;
-  background-color: #f7ffe0;
-  border: #e4ff94 solid 2px;
+  background-color: #a8e000;
+  border: #6f9400 solid 2px;
   -webkit-border-radius: 10px;
   -moz-border-radius: 10px;
   border-radius: 10px;
