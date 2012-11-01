@@ -379,8 +379,8 @@ nav {
   *margin: 0 0.989583333333%;
 }
 .bubble {
-  background-color: #eaffd0;
-  border: #b9e200 solid 2px;
+  background-color: #f5ffe9;
+  border:  solid 2px;
   -webkit-border-radius: 10px;
   -moz-border-radius: 10px;
   border-radius: 10px;
@@ -1170,8 +1170,8 @@ input[type="submit"].btn.btn-mini {
   *width: 103.519345238%;
   *margin: 0 -1.83779761905%;
   *zoom: 1;
-  background-color: #eaffd0;
-  border: #b9e200 solid 2px;
+  background-color: #f5ffe9;
+  border:  solid 2px;
   -webkit-border-radius: 10px;
   -moz-border-radius: 10px;
   border-radius: 10px;
