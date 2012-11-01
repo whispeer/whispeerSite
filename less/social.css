@@ -380,7 +380,7 @@ nav {
 }
 .bubble {
   background-color: #f5ffe9;
-  border:  solid 2px;
+  border: #b9e200 solid 2px;
   -webkit-border-radius: 10px;
   -moz-border-radius: 10px;
   border-radius: 10px;
@@ -1171,7 +1171,7 @@ input[type="submit"].btn.btn-mini {
   *margin: 0 -1.83779761905%;
   *zoom: 1;
   background-color: #f5ffe9;
-  border:  solid 2px;
+  border: #b9e200 solid 2px;
   -webkit-border-radius: 10px;
   -moz-border-radius: 10px;
   border-radius: 10px;
