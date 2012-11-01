@@ -254,12 +254,12 @@ nav {
   top: 0;
   border-bottom: 1px solid #a7a7a7;
   outline: 1px solid #dbdbdb;
-  background-color: #a8e000;
-  background: -webkit-gradient(linear,left top,left bottom,from(#a8e000),to(#8ab700));
-  background: -webkit-linear-gradient(top,#a8e000,#8ab700);
-  background: -moz-linear-gradient(top,#a8e000,#8ab700);
-  background: -ms-linear-gradient(top,#a8e000,#8ab700);
-  background: -o-linear-gradient(top,#a8e000,#8ab700);
+  background-color: #a1d600;
+  background: -webkit-gradient(linear,left top,left bottom,from(#a1d600),to(#82ad00));
+  background: -webkit-linear-gradient(top,#a1d600,#82ad00);
+  background: -moz-linear-gradient(top,#a1d600,#82ad00);
+  background: -ms-linear-gradient(top,#a1d600,#82ad00);
+  background: -o-linear-gradient(top,#a1d600,#82ad00);
 }
 .nav-inner .brand {
   display: block;
@@ -379,8 +379,8 @@ nav {
   *margin: 0 0.989583333333%;
 }
 .bubble {
-  background-color: #a8e000;
-  border: #6f9400 solid 2px;
+  background-color: #eaffd0;
+  border: #b9e200 solid 2px;
   -webkit-border-radius: 10px;
   -moz-border-radius: 10px;
   border-radius: 10px;
@@ -1170,8 +1170,8 @@ input[type="submit"].btn.btn-mini {
   *width: 103.519345238%;
   *margin: 0 -1.83779761905%;
   *zoom: 1;
-  background-color: #a8e000;
-  border: #6f9400 solid 2px;
+  background-color: #eaffd0;
+  border: #b9e200 solid 2px;
   -webkit-border-radius: 10px;
   -moz-border-radius: 10px;
   border-radius: 10px;
