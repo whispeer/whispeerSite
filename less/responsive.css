@@ -14,26 +14,26 @@ body:after {
   #userpanel {
     display: inline;
     float: left;
-    width: 97.9166666667%;
-    margin: 0 1.04166666667%;
-    *width: 97.8645833333%;
-    *margin: 0 0.989583333333%;
+    width: 97.91666666666666%;
+    margin: 0 1.0416666666666665%;
+    *width: 97.86458333333333%;
+    *margin: 0 0.9895833333333331%;
   }
   #didYaKnow {
     display: inline;
     float: left;
-    width: 97.9166666667%;
-    margin: 0 1.04166666667%;
-    *width: 97.8645833333%;
-    *margin: 0 0.989583333333%;
+    width: 97.91666666666666%;
+    margin: 0 1.0416666666666665%;
+    *width: 97.86458333333333%;
+    *margin: 0 0.9895833333333331%;
   }
   #sidebar-right {
     display: inline;
     float: left;
-    width: 97.9166666667%;
-    margin: 0 1.04166666667%;
-    *width: 97.8645833333%;
-    *margin: 0 0.989583333333%;
+    width: 97.91666666666666%;
+    margin: 0 1.0416666666666665%;
+    *width: 97.86458333333333%;
+    *margin: 0 0.9895833333333331%;
   }
   footer {
     margin-bottom: 10px;
@@ -41,29 +41,29 @@ body:after {
   .registerView #registerbubble {
     display: inline;
     float: left;
-    width: 97.9166666667%;
-    margin: 0 1.04166666667%;
-    *width: 97.8645833333%;
-    *margin: 0 0.989583333333%;
+    width: 97.91666666666666%;
+    margin: 0 1.0416666666666665%;
+    *width: 97.86458333333333%;
+    *margin: 0 0.9895833333333331%;
     margin: 0 auto;
     margin-bottom: 10px;
   }
   .registerView #socialhive {
     display: inline;
     float: left;
-    width: 97.9166666667%;
-    margin: 0 1.04166666667%;
-    *width: 97.8645833333%;
-    *margin: 0 0.989583333333%;
+    width: 97.91666666666666%;
+    margin: 0 1.0416666666666665%;
+    *width: 97.86458333333333%;
+    *margin: 0 0.9895833333333331%;
     margin: 0 auto;
     margin-bottom: 10px;
   }
   .registerView #socialhive img {
     display: inline;
     float: left;
-    width: 97.9166666667%;
-    margin: 0 1.04166666667%;
-    *width: 97.8645833333%;
-    *margin: 0 0.989583333333%;
+    width: 97.91666666666666%;
+    margin: 0 1.0416666666666665%;
+    *width: 97.86458333333333%;
+    *margin: 0 0.9895833333333331%;
   }
 }
