@@ -15,4 +15,60 @@
 		.column(6);
 		margin-top: 5px;
 	}
+	#menu {
+		.column(12);
+	}
+	#mainMenu {
+		text-align: left;
+		li a {
+			.column(5,6);
+			padding: 5px;
+			background-color: transparent;
+			height: @baseLineHeight;
+			position: relative;
+			margin-top: 5px;
+		}
+		li:first-child a {
+			margin: 0;
+		}
+		li .current {
+			.column(5,6);
+			padding: 5px;
+			background-color: transparent;
+			border: 1px solid #333;
+			height: @baseLineHeight;
+			position: relative;
+			.border-radius(10px);
+			margin-top: 5px;
+		}
+		li .current:after {
+			content: '';
+			height: 0;
+			position: absolute;
+			width: 0;
+			border: 10px solid transparent;
+			border-left-color: #333;
+			left: 100%;
+			margin: 0px 0px 0px 15px;
+		}
+	}
+	#subMenu {
+		margin-top: 5px;
+		border: 1px solid #333;
+		.border-radius(10px);
+		text-align: left;
+		padding: 1px;
+		li {
+			padding: 5px;
+			margin: -1px;
+			.column(6,6);
+		}
+		li .current {
+			background-color: lighten(@greenDaniel, 10%);
+			padding: 5px;
+			.column(6,6);
+			.border-radius(10px);
+		}
+		.box-fix;
+	}
 }

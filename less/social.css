@@ -254,26 +254,34 @@ nav {
   top: 0;
   border-bottom: 1px solid #a7a7a7;
   outline: 1px solid #dbdbdb;
-  background-color: #a1d600;
-  background: -webkit-gradient(linear,left top,left bottom,from(#a1d600),to(#82ad00));
-  background: -webkit-linear-gradient(top,#a1d600,#82ad00);
-  background: -moz-linear-gradient(top,#a1d600,#82ad00);
-  background: -ms-linear-gradient(top,#a1d600,#82ad00);
-  background: -o-linear-gradient(top,#a1d600,#82ad00);
+  background-color: #559d00;
+  background: -webkit-gradient(linear,left top,left bottom,from(#559d00),to(#3a8100));
+  background: -webkit-linear-gradient(top,#559d00,#3a8100);
+  background: -moz-linear-gradient(top,#559d00,#3a8100);
+  background: -ms-linear-gradient(top,#559d00,#3a8100);
+  background: -o-linear-gradient(top,#559d00,#3a8100);
 }
 .nav-inner .brand {
-  display: block;
+  display: inline;
   float: left;
+  width: 6.25%;
+  margin: 0 1.04166666667%;
+  *width: 6.19791666667%;
+  *margin: 0 0.989583333333%;
   margin-top: 10px;
   margin-left: 1%;
   font-size: 25px;
-  font-family: helvetica;
-  color: #000;
-  text-shadow: 1px 1px 0px #6f6f6f;
+  color: #fff;
+  text-shadow: 0px 0px 2px #266300;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
   line-height: 20px;
+  font-weight: 700;
+}
+.nav-inner #brand-inverse {
+  color: #266300;
+  text-shadow: 0px 0px 2px #eee;
 }
 .nav-inner #nav-icons {
   -webkit-box-sizing: border-box;
@@ -426,6 +434,9 @@ nav {
   -webkit-background-clip: padding-box;
   background-clip: padding-box;
   *margin-left: .3em;
+  -webkit-box-shadow: "inset 0 1px 0 rgba(255,255,255,.2), 0 1px 2px rgba(0,0,0,.05)";
+  -moz-box-shadow: "inset 0 1px 0 rgba(255,255,255,.2), 0 1px 2px rgba(0,0,0,.05)";
+  box-shadow: "inset 0 1px 0 rgba(255,255,255,.2), 0 1px 2px rgba(0,0,0,.05)";
 }
 .btn:hover,
 .btn:active,
@@ -453,6 +464,9 @@ nav {
   background-color: #d9d9d9 \9;
   background-image: none;
   outline: 0;
+  -webkit-box-shadow: "inset 0 2px 4px rgba(0,0,0,.15), 0 1px 2px rgba(0,0,0,.05)";
+  -moz-box-shadow: "inset 0 2px 4px rgba(0,0,0,.15), 0 1px 2px rgba(0,0,0,.05)";
+  box-shadow: "inset 0 2px 4px rgba(0,0,0,.15), 0 1px 2px rgba(0,0,0,.05)";
 }
 .btn.disabled,
 .btn[disabled] {
@@ -899,6 +913,104 @@ input[type="submit"].btn.btn-mini {
   *width: 47.8645833333%;
   *margin: 0 0.989583333333%;
   margin-top: 5px;
+}
+#userpanel #menu {
+  display: inline;
+  float: left;
+  width: 97.9166666667%;
+  margin: 0 1.04166666667%;
+  *width: 97.8645833333%;
+  *margin: 0 0.989583333333%;
+}
+#userpanel #mainMenu {
+  text-align: left;
+}
+#userpanel #mainMenu li a {
+  display: inline;
+  float: left;
+  width: 79.1666666667%;
+  margin: 0 2.08333333333%;
+  *width: 79.1145833333%;
+  *margin: 0 2.03125%;
+  padding: 5px;
+  background-color: transparent;
+  height: 20px;
+  position: relative;
+  margin-top: 5px;
+}
+#userpanel #mainMenu li:first-child a {
+  margin: 0;
+}
+#userpanel #mainMenu li .current {
+  display: inline;
+  float: left;
+  width: 79.1666666667%;
+  margin: 0 2.08333333333%;
+  *width: 79.1145833333%;
+  *margin: 0 2.03125%;
+  padding: 5px;
+  background-color: transparent;
+  border: 1px solid #333;
+  height: 20px;
+  position: relative;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  border-radius: 10px;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  margin-top: 5px;
+}
+#userpanel #mainMenu li .current:after {
+  content: '';
+  height: 0;
+  position: absolute;
+  width: 0;
+  border: 10px solid transparent;
+  border-left-color: #333;
+  left: 100%;
+  margin: 0px 0px 0px 15px;
+}
+#userpanel #subMenu {
+  margin-top: 5px;
+  border: 1px solid #333;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  border-radius: 10px;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  text-align: left;
+  padding: 1px;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+#userpanel #subMenu li {
+  padding: 5px;
+  margin: -1px;
+  display: inline;
+  float: left;
+  width: 95.8333333333%;
+  margin: 0 2.08333333333%;
+  *width: 95.78125%;
+  *margin: 0 2.03125%;
+}
+#userpanel #subMenu li .current {
+  background-color: #a8e000;
+  padding: 5px;
+  display: inline;
+  float: left;
+  width: 95.8333333333%;
+  margin: 0 2.08333333333%;
+  *width: 95.78125%;
+  *margin: 0 2.03125%;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  border-radius: 10px;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
 }
 #loginform {
   display: inline;

@@ -7,27 +7,31 @@ nav {
 	top: 0;
 	border-bottom: 1px solid #a7a7a7;
 	outline: 1px solid #dbdbdb;
-	.gradient(lighten(@navbarBackgroundColor, 8%), @navbarBackgroundColor);
+	//.gradient(lighten(#5fbb00, 8%), #5fbb00);
+	.gradient(darken(#6bc600, 8%), darken(#4caa00, 8%));
 }
 .nav-inner {
 	.brand {
-		display: block;
-		float: left;
+		.column(1,12);
 		margin-top: 10px;
 		margin-left: 1%;
 		font-size: 25px;
-		font-family: helvetica;
-		color: #000;
-		.text-shadow(1px 1px 0px lighten(#555555, 10%));
+		color: #fff;
+		.text-shadow(0px 0px 2px #266300);
 		.box-fix;
 		line-height: @baseLineHeight;
+		font-weight: 700;
+	}
+	#brand-inverse {
+		color: #266300;
+		.text-shadow(0px 0px 2px #eee);
 	}
 	#nav-icons {
 		.box-fix;
 	}
 	#nav-search {
 		.search-query{
-			.column(5,12);
+			.column(5, 12);
 			margin-top: 7px;
 		}	
 	}
