@@ -26,11 +26,3 @@ ssn.display.profile.friends = {
 		$("body").removeClass("friendsView");
 	}
 };
-
-var userElement = $("<li>").append(
-					$("<a>").attr("href", "#view=profile&userid=" + user.getUserID()).append(
-						$("<img>").addClass("friendPicture").attr("src", "img/user.png")
-					).append(
-						$("<span>").addClass("friendName").text(user.getName())
-					)
-				);
