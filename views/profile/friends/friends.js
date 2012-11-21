@@ -13,9 +13,8 @@ ssn.display.profile.friends = {
 						$("<span>").addClass("friendName").text(d[i].getName())
 					)
 				);
+				element.append(names);
 			}
-
-			element.append(names);
 			$("body").addClass("friendsView");
 			done();
 		});
