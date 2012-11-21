@@ -3,16 +3,25 @@ if (typeof (ssn) === "undefined") {
 	var ssn = {};
 }
 
-ssn.socket = {
-	connect: function () {
-	
-	},
+ssn.socket = function () {
+	var useSocket = !!Modernizr.websockets;
 
-	connected: function () {
+	this.isConnected = function () {
+		if (useSocket) {
+		
+		} else {
+		
+		}
+	};
 	
-	},
+	this.send = function (dataObject) {
 
-	send: function () {
-	
-	}
+	};
+
+	this.addReceiveListener = function (topic) {
+
+	};
 };
+
+var theSocket = new ssn.socket();
+ssn.socket = theSocket;
