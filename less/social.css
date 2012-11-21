@@ -163,6 +163,21 @@ body:after {
   /* Opera/IE 8+ */
 
 }
+.clear-fix:before,
+.clear-fix:after {
+  content: " ";
+  /* 1 */
+
+  display: table;
+  /* 2 */
+
+}
+.clear-fix:after {
+  clear: both;
+}
+.clear-fix {
+  *zoom: 1;
+}
 /*
 .buttonBackground(@colorOne, @colorTwo, @tColor, @tShadow) {
 	.gradient(@colorOne, @colorTwo);
@@ -278,7 +293,7 @@ dd {
 }
 body {
   font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
-  font-weight: 400;
+  font-weight: 300;
 }
 small {
   font-size: 85%;
@@ -375,6 +390,7 @@ h6 {
 a {
   color: #559d00;
   text-decoration: none;
+  font-weight: 300;
 }
 a:hover {
   color: #63b700;
@@ -1201,7 +1217,6 @@ input[type="submit"].btn.btn-mini {
 }
 #userpanel #menu a {
   font-size: 15px;
-  font-weight: 300;
 }
 #userpanel #mainMenu {
   display: inline;
@@ -1244,7 +1259,7 @@ input[type="submit"].btn.btn-mini {
   -moz-background-clip: padding;
   -webkit-background-clip: padding-box;
   background-clip: padding-box;
-  background-color: #71d000;
+  background-color: #63b700;
   color: #f5ffe9;
   margin: 5px 0 0 0;
 }
@@ -1292,7 +1307,7 @@ input[type="submit"].btn.btn-mini {
   margin: -2px;
 }
 #userpanel #subMenu .current {
-  background-color: #71d000;
+  background-color: #63b700;
   -webkit-border-radius: 8px;
   -moz-border-radius: 8px;
   border-radius: 8px;
@@ -1906,4 +1921,55 @@ input[type="submit"].btn.btn-mini {
 }
 #messageul {
   overflow: hidden;
+}
+.friendsView #friendsList {
+  display: inline;
+  float: left;
+  width: 97.91666666666666%;
+  margin: 0 1.0416666666666665%;
+  *width: 97.86458333333333%;
+  *margin: 0 0.9895833333333331%;
+}
+.friendsView #friendsList li {
+  display: inline;
+  float: left;
+  width: 47.91666666666667%;
+  margin: 0 1.0416666666666665%;
+  *width: 47.864583333333336%;
+  *margin: 0 0.9895833333333331%;
+  background-color: #63b700;
+  border: 2px solid #5a5a5a;
+  -webkit-box-sizing: border-box;
+  /* Safari/Chrome, other WebKit */
+
+  -moz-box-sizing: border-box;
+  /* Firefox, other Gecko */
+
+  box-sizing: border-box;
+  /* Opera/IE 8+ */
+
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  border-radius: 10px;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+}
+.friendsView #friendsList li a .friendPicture {
+  display: inline;
+  float: left;
+  width: 20.833333333333336%;
+  margin: 0 2.083333333333333%;
+  *width: 20.781250000000004%;
+  *margin: 0 2.0312499999999996%;
+}
+.friendsView #friendsList li a .friendName {
+  display: inline;
+  float: left;
+  width: 70.83333333333334%;
+  margin: 0 2.083333333333333%;
+  *width: 70.78125000000001%;
+  *margin: 0 2.0312499999999996%;
+  padding-top: 8%;
+  color: #f5ffe9;
 }
