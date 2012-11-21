@@ -1149,7 +1149,7 @@ input[type="submit"].btn.btn-mini {
   *width: 79.11458333333333%;
   *margin: 0 2.0312499999999996%;
   background-color: transparent;
-  border: 1px solid #333;
+  border: 2px solid #5a5a5a;
   height: 20px;
   position: relative;
   -webkit-border-radius: 8px;
@@ -1165,7 +1165,7 @@ input[type="submit"].btn.btn-mini {
   position: absolute;
   width: 0;
   border: 10px solid transparent;
-  border-left-color: #333;
+  border-left-color: #5a5a5a;
   left: 100%;
   margin: 0px 0px 0px 6%;
 }
@@ -1176,7 +1176,7 @@ input[type="submit"].btn.btn-mini {
   margin: 0 1.0416666666666665%;
   *width: 47.864583333333336%;
   *margin: 0 0.9895833333333331%;
-  border: 1px solid #333;
+  border: 2px solid #5a5a5a;
   -webkit-border-radius: 10px;
   -moz-border-radius: 10px;
   border-radius: 10px;
@@ -1193,17 +1193,14 @@ input[type="submit"].btn.btn-mini {
   /* Opera/IE 8+ */
 
 }
-#userpanel #subMenu li a {
+#userpanel #subMenu li {
   text-align: left;
-  display: inline;
-  float: left;
-  width: 95.83333333333334%;
-  margin: 0 2.083333333333333%;
-  *width: 95.78125000000001%;
-  *margin: 0 2.0312499999999996%;
+}
+#userpanel #subMenu li a {
+  display: block;
   padding: 3px;
-  margin: -1px -1px 0px -1px;
   cursor: pointer;
+  margin: -2px -2px 0px -2px;
 }
 #userpanel #subMenu .current {
   background-color: #a8e000;
@@ -1213,7 +1210,7 @@ input[type="submit"].btn.btn-mini {
   -moz-background-clip: padding;
   -webkit-background-clip: padding-box;
   background-clip: padding-box;
-  border: 1px solid #000;
+  border: 2px solid #5a5a5a;
 }
 #loginform {
   display: inline;

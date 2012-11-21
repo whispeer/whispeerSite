@@ -36,7 +36,7 @@
 		li .current {
 			.column(5,6);
 			background-color: transparent;
-			border: 1px solid #333;
+			border: 2px solid #5a5a5a;
 			height: @baseLineHeight;
 			position: relative;
 			.border-radius(8px);
@@ -47,26 +47,28 @@
 			position: absolute;
 			width: 0;
 			border: 10px solid transparent;
-			border-left-color: #333;
+			border-left-color: #5a5a5a;
 			left: 100%;
 			margin: 0px 0px 0px 6%;
 		}
 	}
 	#subMenu {
 		.column(6,12);
-		border: 1px solid #333;
+		border: 2px solid #5a5a5a;
 		.border-radius(10px);
-		li a {
+		li {
 			text-align: left;
-			.column(6,6);
+		}
+		li a {
+			display: block;
 			padding: 3px;
-			margin: -1px -1px 0px -1px;
 			cursor: pointer;
+			margin: -2px -2px 0px -2px;
 		}
 		.current {
 			background-color: lighten(@greenDaniel, 10%);
 			.border-radius(8px);
-			border: 1px solid #000;
+			border: 2px solid #5a5a5a;
 		}
 		.box-fix;
 	}
