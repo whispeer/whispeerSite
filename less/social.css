@@ -192,7 +192,36 @@ input:not([type=submit]):not([type=file]) {
 }
 input:not([type=submit]):not([type=file]):focus {
   outline: 0;
-  border: solid 1px #f7c600;
+  border: solid 1px #559d00;
+  font: normal 13px/100% "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+  -webkit-transition: border-color 0.3s linear;
+  -moz-transition: border-color 0.3s linear;
+  -ms-transition: border-color 0.3s linear;
+  -o-transition: border-color 0.3s linear;
+}
+textarea {
+  padding: 9px;
+  border: solid 1px #8c8c8c;
+  outline: 0;
+  font: normal 13px/100% "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+  background: #ffffff;
+  border-radius: 5px;
+  -webkit-box-shadow: inset 1px #333333;
+  -moz-box-shadow: inset 1px #333333;
+  box-shadow: inset 1px #333333;
+  -webkit-box-sizing: border-box;
+  /* Safari/Chrome, other WebKit */
+
+  -moz-box-sizing: border-box;
+  /* Firefox, other Gecko */
+
+  box-sizing: border-box;
+  /* Opera/IE 8+ */
+
+}
+textarea:focus {
+  outline: 0;
+  border: solid 1px #559d00;
   font: normal 13px/100% "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
   -webkit-transition: border-color 0.3s linear;
   -moz-transition: border-color 0.3s linear;
@@ -344,11 +373,11 @@ h6 {
   line-height: 20px;
 }
 a {
-  color: #1c9328;
+  color: #559d00;
   text-decoration: none;
 }
 a:hover {
-  color: #20a82e;
+  color: #63b700;
 }
 /*
 	Don't touch any of the *.less or *.css files, or you will die an awful death.
@@ -467,15 +496,6 @@ nav {
   /* Opera/IE 8+ */
 
 }
-.nav-inner #nav-search .search-query {
-  display: inline;
-  float: left;
-  width: 39.58333333333333%;
-  margin: 0 1.0416666666666665%;
-  *width: 39.53124999999999%;
-  *margin: 0 0.9895833333333331%;
-  margin-top: 7px;
-}
 .nav-icon {
   float: left;
   margin: 10px 5px 5px 15px;
@@ -532,7 +552,7 @@ nav {
   *width: 64.53125000000001%;
   *margin: 0 0.9895833333333331%;
 }
-.search-query {
+#searchQuery {
   -webkit-border-radius: 20px;
   -moz-border-radius: 20px;
   border-radius: 20px;
@@ -545,25 +565,87 @@ nav {
   margin: 0 1.0416666666666665%;
   *width: 64.53125000000001%;
   *margin: 0 0.9895833333333331%;
+  margin-top: 6px;
 }
-.search-drop {
+#searchDrop {
   position: absolute;
-  top: 50px;
-  display: inline;
-  float: left;
-  width: 64.58333333333334%;
-  margin: 0 1.0416666666666665%;
-  *width: 64.53125000000001%;
-  *margin: 0 0.9895833333333331%;
+  display: block;
+  top: 45px;
+  margin-left: 5px;
+  background: #ffffff;
   display: none;
-}
-.search-suggestions {
+  border-radius: 5px;
+  box-shadow: 0 0 8px #999999;
   display: inline;
   float: left;
   width: 64.58333333333334%;
   margin: 0 1.0416666666666665%;
   *width: 64.53125000000001%;
   *margin: 0 0.9895833333333331%;
+}
+#searchSuggestions {
+  padding: 0;
+  margin: 0;
+}
+#searchSuggestions li {
+  width: 100%;
+  min-height: 40px;
+  display: block;
+  width: 103.125%;
+  margin: 0 -1.5625%;
+  *width: 103.07291666666667%;
+  *margin: 0 -1.6145833333333333%;
+  *zoom: 1;
+}
+#searchSuggestions li:before,
+#searchSuggestions li:after {
+  content: "";
+  display: table;
+}
+#searchSuggestions li:after {
+  clear: both;
+}
+#searchSuggestions li a {
+  display: block;
+  color: #63b700;
+  padding-top: 13px;
+  padding-bottom: 13px;
+  text-shadow: 0 0 1px #559d00;
+  display: inline;
+  float: left;
+  width: 96.875%;
+  margin: 0 1.5625%;
+  *width: 96.82291666666667%;
+  *margin: 0 1.5104166666666667%;
+}
+#searchSuggestions li a p.add-info {
+  display: block;
+  margin-left: 10px;
+  color: #999999;
+}
+#searchSuggestions li a :hover {
+  color: #ffffff;
+  text-decoration: none;
+}
+#searchSuggestions li a :hover p.add-info {
+  color: #eeeeee;
+}
+#searchSuggestions li :first-child {
+  border-radius: 5px 5px 0 0;
+  border-top: 0;
+}
+#searchSuggestions li :last-child {
+  border-radius: 0 0 5px 5px;
+  border-bottom: 0;
+}
+#searchSuggestions li :hover {
+  background: #559d00;
+  background-color: #559d00;
+  background: -webkit-gradient(linear, left top, left bottom, from(#559d00), to(#3a8100));
+  background: -webkit-linear-gradient(top, #559d00, #3a8100);
+  background: -moz-linear-gradient(top, #559d00, #3a8100);
+  background: -ms-linear-gradient(top, #559d00, #3a8100);
+  background: -o-linear-gradient(top, #559d00, #3a8100);
 }
 .bubble {
   background-color: #f5ffe9;
@@ -728,15 +810,15 @@ input[type="button"].btn-block {
 .btn-primary {
   color: #ffffff;
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
-  background-color: #1c9328;
-  background: -webkit-gradient(linear, left top, left bottom, from(#1c9328), to(#1c9350));
-  background: -webkit-linear-gradient(top, #1c9328, #1c9350);
-  background: -moz-linear-gradient(top, #1c9328, #1c9350);
-  background: -ms-linear-gradient(top, #1c9328, #1c9350);
-  background: -o-linear-gradient(top, #1c9328, #1c9350);
-  border-color: #1c9350 #1c9350 #10532d;
+  background-color: #559d00;
+  background: -webkit-gradient(linear, left top, left bottom, from(#559d00), to(#219d00));
+  background: -webkit-linear-gradient(top, #559d00, #219d00);
+  background: -moz-linear-gradient(top, #559d00, #219d00);
+  background: -ms-linear-gradient(top, #559d00, #219d00);
+  background: -o-linear-gradient(top, #559d00, #219d00);
+  border-color: #219d00 #219d00 #115100;
   border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
-  *background-color: #20a85b;
+  *background-color: #26b700;
   /* Darken IE7 buttons by default so they stand out more given they won't have borders */
 
   filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
@@ -747,12 +829,12 @@ input[type="button"].btn-block {
 .btn-primary.disabled,
 .btn-primary[disabled] {
   color: #ffffff;
-  background: #20a85b;
-  *background: #1c9350;
+  background: #26b700;
+  *background: #219d00;
 }
 .btn-primary:active,
 .btn-primary.active {
-  background-color: #146838 \9;
+  background-color: #166a00 \9;
 }
 .btn-warning {
   color: #ffffff;
@@ -936,7 +1018,7 @@ input[type="submit"].btn.btn-mini {
 .btn-link {
   border-color: transparent;
   cursor: pointer;
-  color: #1c9328;
+  color: #559d00;
   -webkit-border-radius: 0;
   -moz-border-radius: 0;
   border-radius: 0;
@@ -945,7 +1027,7 @@ input[type="submit"].btn.btn-mini {
   background-clip: padding-box;
 }
 .btn-link:hover {
-  color: #20a82e;
+  color: #63b700;
   text-decoration: underline;
   background-color: transparent;
 }
@@ -1116,6 +1198,10 @@ input[type="submit"].btn.btn-mini {
   *margin: 0 0.9895833333333331%;
   margin-top: 10px;
 }
+#userpanel #menu a {
+  font-size: 15px;
+  font-weight: 300;
+}
 #userpanel #mainMenu {
   display: inline;
   float: left;
@@ -1136,10 +1222,10 @@ input[type="submit"].btn.btn-mini {
   background-color: transparent;
   height: 20px;
   position: relative;
-  margin-top: 5px;
+  margin: 5px 0px 0px 2px;
 }
 #userpanel #mainMenu li:first-child a {
-  margin: 0;
+  margin-top: 0;
 }
 #userpanel #mainMenu li .current {
   display: inline;
@@ -1148,7 +1234,6 @@ input[type="submit"].btn.btn-mini {
   margin: 0 2.083333333333333%;
   *width: 79.11458333333333%;
   *margin: 0 2.0312499999999996%;
-  background-color: transparent;
   border: 2px solid #5a5a5a;
   height: 20px;
   position: relative;
@@ -1158,6 +1243,9 @@ input[type="submit"].btn.btn-mini {
   -moz-background-clip: padding;
   -webkit-background-clip: padding-box;
   background-clip: padding-box;
+  background-color: #71d000;
+  color: #f5ffe9;
+  margin: 5px 0 0 0;
 }
 #userpanel #mainMenu li .current:after {
   content: '';
@@ -1200,10 +1288,10 @@ input[type="submit"].btn.btn-mini {
   display: block;
   padding: 3px;
   cursor: pointer;
-  margin: -2px -2px 0px -2px;
+  margin: -2px;
 }
 #userpanel #subMenu .current {
-  background-color: #a8e000;
+  background-color: #71d000;
   -webkit-border-radius: 8px;
   -moz-border-radius: 8px;
   border-radius: 8px;
@@ -1211,6 +1299,7 @@ input[type="submit"].btn.btn-mini {
   -webkit-background-clip: padding-box;
   background-clip: padding-box;
   border: 2px solid #5a5a5a;
+  color: #f5ffe9;
 }
 #loginform {
   display: inline;
@@ -1716,10 +1805,10 @@ input[type="submit"].btn.btn-mini {
 #newmessage .left {
   display: inline;
   float: left;
-  width: 50%;
-  margin: 0 8.333333333333332%;
-  *width: 49.947916666666664%;
-  *margin: 0 8.281249999999998%;
+  width: 25%;
+  margin: 0 12.5%;
+  *width: 24.947916666666668%;
+  *margin: 0 12.447916666666666%;
   font-size: 65px;
   text-shadow: 0px 2px 5px #333;
   color: #5f5f5f;
@@ -1728,10 +1817,10 @@ input[type="submit"].btn.btn-mini {
   display: block;
   display: inline;
   float: left;
-  width: 16.666666666666664%;
-  margin: 0 8.333333333333332%;
-  *width: 16.614583333333332%;
-  *margin: 0 8.281249999999998%;
+  width: 25%;
+  margin: 0 12.5%;
+  *width: 24.947916666666668%;
+  *margin: 0 12.447916666666666%;
 }
 #messagetitle {
   margin-bottom: 10px;

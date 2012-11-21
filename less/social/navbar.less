@@ -8,7 +8,7 @@ nav {
 	border-bottom: 1px solid #a7a7a7;
 	outline: 1px solid #dbdbdb;
 	//.gradient(lighten(#5fbb00, 8%), #5fbb00);
-	.gradient(darken(#6bc600, 8%), darken(#4caa00, 8%));
+	.gradient(@green, @green2);
 }
 .nav-inner {
 	.brand {
@@ -28,12 +28,6 @@ nav {
 	}
 	#nav-icons {
 		.box-fix;
-	}
-	#nav-search {
-		.search-query{
-			.column(5, 12);
-			margin-top: 7px;
-		}	
 	}
 }
 

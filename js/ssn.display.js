@@ -48,10 +48,10 @@ ssn.display = {
 			return false;
 		});
 
-		$("#searchInput").keyup(function () {
+		$("#searchQuery").keyup(function () {
 			if ($(this).val().length > 3) {
 				ssn.userManager.search($(this).val(), function (users) {
-					$("#search_results").html("");
+					$("#searchSuggestions").html("");
 
 					var i = 0;
 					for (i = 0; i < users.length; i += 1) {
@@ -65,23 +65,23 @@ ssn.display = {
 						a.attr("href", "#view=profile&userid=" + user.getUserID());
 
 						li.append(a);
-						$("#search_results").append(li);
+						$("#searchSuggestions").append(li);
 					}
 
-					$("#search_drop").show();
+					$("#searchDrop").show();
 				});
 			}
 		});
 
-		$("#searchInput").click(function (e) {
+		$("#searchQuery").click(function (e) {
 			if ($(this).val().length > 3) {
-				$("#search_drop").show();
+				$("#searchDrop").show();
 				e.stopPropagation();
 			}
 		});
 
 		$("body").click(function () {
-			$("#search_drop").hide();
+			$("#searchDrop").hide();
 		});
 	},
 
