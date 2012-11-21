@@ -1,3 +1,5 @@
-Freunde!
-<div id="friendsList">
+<div class="bubble">
+	<h1>Freundesliste</h1>
+	<ul id="friendsList" class="unstyled">
+	</ul>
 </div>

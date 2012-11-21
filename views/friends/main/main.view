@@ -1,11 +1,7 @@
-<div class="row">
-	<div class="span8">
-		<div class="well">
-			<h1>Freundesliste</h1>
-			<div class="row">
-				<ul id="friendsList">
-				</ul>
-			</div>
-		</div>
-	</div>
+<div class="bubble">
+	<h1>Freundesliste</h1>
+	<ul id="friendsList" class="unstyled">
+		<li><a href="#view=profile&userid=5"><img class="friendPicture" src="img/user.png"><span class="friendName">Svenja Kenneweg323</span></a></li>
+		<li><a href="#view=profile&userid=5"><img class="friendPicture" src="img/user.png"><span class="friendName">Svenja Kenneweg324</span></a></li>
+	</ul>
 </div>

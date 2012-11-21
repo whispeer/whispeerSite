@@ -10,6 +10,7 @@ ssn.display.profile.friends = {
 			}
 
 			$("#friendsList").append(names);
+			$("body").addClass("friendsView");
 			done();
 		});
 	},
@@ -17,6 +18,6 @@ ssn.display.profile.friends = {
 		done();
 	},
 	unload: function () {
-
+		$("body").removeClass("friendsView");
 	}
 };

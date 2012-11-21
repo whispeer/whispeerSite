@@ -434,7 +434,8 @@ body #spinner {
   text-align: center;
 }
 .mainView #main,
-.messageView #main {
+.messageView #main,
+.friendsView #main {
   display: inline;
   float: left;
   width: 56.25%;
