@@ -409,6 +409,15 @@ body div {
 body #container {
   margin-top: 10px;
 }
+body noscript {
+  display: inline;
+  float: left;
+  width: 97.91666666666666%;
+  margin: 0 1.0416666666666665%;
+  *width: 97.86458333333333%;
+  *margin: 0 0.9895833333333331%;
+  margin-top: 10px;
+}
 body #sidebar-left {
   display: inline;
   float: left;
