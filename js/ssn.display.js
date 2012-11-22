@@ -352,7 +352,7 @@ ssn.display = {
 		ssn.logger.log("load subview " + subview);
 
 		$("#main").hide();
-		$("#spinner").show();
+		$("#loading").show();
 
 		var stage = 0;
 
@@ -436,7 +436,7 @@ ssn.display = {
 			}
 
 			$("#main").hide();
-			$("#spinner").show();
+			$("#loading").show();
 
 			$("#mainMenu").children().each(function () {
 				var ele = $(this.firstChild);
@@ -537,7 +537,7 @@ ssn.display = {
 		ssn.logger.log("view loaded");
 
 		var end = function () {
-			$("#spinner").hide();
+			$("#loading").hide();
 			$("#main").show();
 		};
 
@@ -679,16 +679,16 @@ ssn.display = {
 	* displays a modal with a loading bar
 	*/
 	loadingMain: function () {
-		$('#loadingMain').modal({"backdrop": "static"});
-		ssn.display.showLogedinMenu();
 		ssn.display.loadingMainProgress(10);
+		$("#loading").show();
 	},
 
 	/** called when loading main has finished. hides modal. */
 	endLoadingMain: function () {
 		ssn.logger.log("closing modal");
-		$('#loadingMain').modal('hide');
+		$("#loading").hide();
 		ssn.display.loadingMainProgress(0);
+		ssn.display.showLogedinMenu();
 	},
 
 	/** move the progress bar to percentage
