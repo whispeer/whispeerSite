@@ -434,7 +434,7 @@ body #sidebar-left #didYaKnow {
   margin: 0 4.166666666666666%;
   *width: 91.61458333333333%;
   *margin: 0 4.114583333333333%;
-  margin-bottom: 5px;
+  margin-bottom: 10px;
 }
 body #sidebar-right {
   display: inline;
@@ -443,6 +443,14 @@ body #sidebar-right {
   margin: 0 1.0416666666666665%;
   *width: 14.53125%;
   *margin: 0 0.9895833333333331%;
+}
+body #sidebar-right #ads {
+  display: inline;
+  float: left;
+  width: 87.5%;
+  margin: 0 6.25%;
+  *width: 87.44791666666667%;
+  *margin: 0 6.197916666666667%;
 }
 body footer {
   display: inline;
