@@ -43,6 +43,21 @@ ssn.display.profile = {
 				ssn.display.profile.user = u;
 
 				$("#subMenuName").text(u.getName()).attr("href", u.getLink());
+				
+				if (!u.ownUser()) {
+					if (u.isFriend()) {
+						$("#subMenuFriendShip").text(ssn.translation.getValue("isFriend"));
+					} else if (u.didIRequestFriendShip()) {
+						$("#subMenuFriendShip").text(ssn.translation.getValue("friendShipRequested"));
+					} else if (u.hasFriendShipRequested()) {
+						$("#subMenuFriendShip").text(ssn.translation.getValue("acceptFriendShipRequest"));
+					} else {
+						$("#subMenuFriendShip").text(ssn.translation.getValue("friendShipUser"));
+					}
+				} else {
+					$("#subMenuFriendShip").text(ssn.translation.getValue("thisIsYou"));
+				}
+				
 
 				done();
 			});
