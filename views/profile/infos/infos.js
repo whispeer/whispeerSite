@@ -61,7 +61,7 @@ ssn.display.profile.infos = {
 			$("#psendMessage").text(ssn.translation.getValue("sendMessage")).show();
 
 			if (u.isFriend()) {
-				$("#pfriendShip").hide();
+				$("#pfriendShip").text(ssn.translation.getValue("isFriend"));
 			} else if (u.didIRequestFriendShip()) {
 				$("#pfriendShip").text(ssn.translation.getValue("friendShipRequested"));
 			} else if (u.hasFriendShipRequested()) {
@@ -70,7 +70,8 @@ ssn.display.profile.infos = {
 				$("#pfriendShip").text(ssn.translation.getValue("friendShipUser"));
 			}
 		} else {
-			$("#pfriendShip").hide();
+			$("#psendMessage").hide();
+			$("#pfriendShip").text(ssn.translation.getValue("thisIsYou"));
 		}
 
 		done();
