@@ -46,6 +46,10 @@ ssn.crypto = function () {
 		sjclWorker.postMessage(data);
 	};
 
+	sjclWorker.onerror = function(event){
+		throw new Error(event.message + " (" + event.filename + ":" + event.lineno + ")");
+	};
+
 	sjclWorker.onmessage = function (event) {
 		var i;
 		var leftArray = [];
