@@ -10,8 +10,72 @@ body:after {
 body:after {
   clear: both;
 }
+.hidden {
+  display: none;
+  visibility: hidden;
+}
+.visible-phone {
+  display: none !important;
+}
+.visible-tablet {
+  display: none !important;
+}
+.hidden-desktop {
+  display: none !important;
+}
+.visible-desktop {
+  display: inherit !important;
+}
+@media (min-width: 768px) and (max-width: 1159px) {
+  .hidden-desktop {
+    display: inherit !important;
+  }
+  .visible-desktop {
+    display: none !important ;
+  }
+  .visible-tablet {
+    display: inherit !important;
+  }
+  .hidden-tablet {
+    display: none !important;
+  }
+}
+@media (max-width: 767px) {
+  .hidden-desktop {
+    display: inherit !important;
+  }
+  .visible-desktop {
+    display: none !important;
+  }
+  .visible-phone {
+    display: inherit !important;
+  }
+  .hidden-phone {
+    display: none !important;
+  }
+}
+@media (max-width: 480px) {
+  #sidebar-left {
+    display: inline;
+    float: left;
+    width: 97.91666666666666%;
+    margin: 0 1.0416666666666665%;
+    *width: 97.86458333333333%;
+    *margin: 0 0.9895833333333331%;
+  }
+  #sidebar-left #userpanel,
+  #sidebar-left #didYaKnow {
+    display: inline;
+    float: left;
+    width: 91.66666666666666%;
+    margin: 0 4.166666666666666%;
+    *width: 91.61458333333333%;
+    *margin: 0 4.114583333333333%;
+    margin-bottom: 10px;
+  }
+}
 @media (max-width: 768px) {
-  #userpanel {
+  #sidebar-left {
     display: inline;
     float: left;
     width: 97.91666666666666%;
@@ -19,51 +83,57 @@ body:after {
     *width: 97.86458333333333%;
     *margin: 0 0.9895833333333331%;
   }
-  #didYaKnow {
+  #sidebar-left #userpanel,
+  #sidebar-left #didYaKnow {
     display: inline;
     float: left;
-    width: 97.91666666666666%;
-    margin: 0 1.0416666666666665%;
-    *width: 97.86458333333333%;
-    *margin: 0 0.9895833333333331%;
+    width: 91.66666666666666%;
+    margin: 0 4.166666666666666%;
+    *width: 91.61458333333333%;
+    *margin: 0 4.114583333333333%;
   }
-  #sidebar-right {
+}
+@media screen and (min-width: 768px) and (max-width: 1159px) {
+  #sidebar-left {
     display: inline;
     float: left;
-    width: 97.91666666666666%;
+    width: 31.25%;
     margin: 0 1.0416666666666665%;
-    *width: 97.86458333333333%;
+    *width: 31.197916666666668%;
     *margin: 0 0.9895833333333331%;
   }
-  footer {
-    margin-bottom: 10px;
-  }
-  .registerView #registerbubble {
+  #sidebar-left #userpanel,
+  #sidebar-left #didYaKnow {
     display: inline;
     float: left;
-    width: 97.91666666666666%;
-    margin: 0 1.0416666666666665%;
-    *width: 97.86458333333333%;
-    *margin: 0 0.9895833333333331%;
-    margin: 0 auto;
-    margin-bottom: 10px;
+    width: 93.75%;
+    margin: 0 3.125%;
+    *width: 93.69791666666667%;
+    *margin: 0 3.0729166666666665%;
   }
-  .registerView #socialhive {
+  #main {
+    margin-left: 9.374999999999998%;
+  }
+}
+@media screen and (min-width: 1160px) {
+  #sidebar-left {
     display: inline;
     float: left;
-    width: 97.91666666666666%;
+    width: 22.916666666666664%;
     margin: 0 1.0416666666666665%;
-    *width: 97.86458333333333%;
+    *width: 22.864583333333332%;
     *margin: 0 0.9895833333333331%;
-    margin: 0 auto;
-    margin-bottom: 10px;
   }
-  .registerView #socialhive img {
+  #sidebar-left #userpanel,
+  #sidebar-left #didYaKnow {
     display: inline;
     float: left;
-    width: 97.91666666666666%;
-    margin: 0 1.0416666666666665%;
-    *width: 97.86458333333333%;
-    *margin: 0 0.9895833333333331%;
+    width: 91.66666666666666%;
+    margin: 0 4.166666666666666%;
+    *width: 91.61458333333333%;
+    *margin: 0 4.114583333333333%;
   }
+}
+@media screen and (min-width: 1824px) {
+  
 }
