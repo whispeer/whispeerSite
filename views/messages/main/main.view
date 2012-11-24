@@ -2,15 +2,15 @@
 	<ul class="unstyled" id="topicul">
 	</ul>
 </div>
-<div id="chathistory">
-	<div id="messagetitle">
+<div id="chatHistory">
+	<div id="messageTitle">
 	</div>
 	<div class="clear">
 	</div>
 	<div class="messageWrap">
 		<ul class="unstyled" id="messageul">
 		</ul>
-		<div id="messageinput">
+		<div id="messageInput">
 			<div class="form-inline">
 				<textarea id="theMessage" type="text" placeholder="Gebe deine Nachricht ein!"></textarea>
 				<button class="btn btn-warning" id="sendMessageSubmit">Senden</button>

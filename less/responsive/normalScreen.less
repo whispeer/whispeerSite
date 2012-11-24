@@ -1,10 +1,10 @@
 //Don't touch any of the *.less or *.css files, or you will die an awful death.
 // optimize the stylesheet for desktop usage
-@media screen and (max-width: 960px) {
-   nav {
-      .column(12);
-   }
-   .search {
-      .column(12);
-   }
+@media screen and (min-width: 1160px) {
+	#sidebar-left {
+		.column(3);
+   		#userpanel, #didYaKnow {
+			.column(3,3);
+		}
+	}
 }

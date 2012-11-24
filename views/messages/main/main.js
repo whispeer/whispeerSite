@@ -107,7 +107,7 @@ ssn.display.messages.main = {
 					ssn.logger.log("adding messages: " + d.length);
 					ssn.display.messages.main.lastSender = 0;
 
-					$("#messagetitle h1").text("Nachricht!");
+					$("#messageTitle h1").text("Nachricht!");
 					$(".messageWrap").hide();
 					var i = 0;
 					for (i = 0; i < m.length; i += 1) {
@@ -171,10 +171,10 @@ ssn.display.messages.main = {
 				names = names + u[i].getName();
 			}
 
-			$(".messagetitle h1").text(ssn.translation.getValue("sendMessageTo", names));
+			$(".messageTitle h1").text(ssn.translation.getValue("sendMessageTo", names));
 
 			$("#sendMessage").show();
-			$(".messagewrap").show();
+			$(".messageWrap").show();
 		});
 	},
 
@@ -185,7 +185,7 @@ ssn.display.messages.main = {
 		if (sender.getUserID() === ssn.display.messages.main.lastSender) {
 			ssn.logger.log(ssn.display.messages.main.lastSender);
 
-			var texts = $(".textwrap");
+			var texts = $(".textWrap");
 
 			texts.last().append(
 				$("<p/>").text(message).attr("id", "messageView-" + messageid).addClass("messagetext")
@@ -199,8 +199,8 @@ ssn.display.messages.main = {
 			var element = $("<li/>").addClass("message").append(
 				$("<div/>").append(senderImg).append(senderDiv)
 			).append(
-				$("<div/>").addClass("textwrap").append(
-					$("<p/>").addClass("messagetext").text(message)
+				$("<div/>").addClass("textWrap").append(
+					$("<p/>").addClass("messageText").text(message)
 				)
 			);
 			$("#messageul").append(element);
@@ -239,7 +239,7 @@ ssn.display.messages.main = {
 		).append(
 			senderDiv
 		).append(
-			$("<p/>").addClass("lastmessage").text(message)
+			$("<p/>").addClass("lastMessage").text(message)
 		);
 
 		element.click(function () {

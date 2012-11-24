@@ -2,37 +2,12 @@
 // Mobile Stylesheet
 // --------------------------
 
-@columns: 12;
-@column-width: 60;
-@gutter-width: 20;
-@total-width: 100%;
-
-@media (max-width: 768px) {
-	#userpanel {
+@media (max-width: 480px) {
+	#sidebar-left {
 		.column(12);
-	}
-	#didYaKnow{
-		.column(12);
-	}
-	#sidebar-right {
-		.column(12);
-	}
-	footer {
-		margin-bottom: 10px;
-	}
-	.registerView {
-		#registerbubble {
-			.column(12);
-			margin: 0 auto;
+		#userpanel, #didYaKnow {
+			.column(3,3);
 			margin-bottom: 10px;
-		}
-		#socialhive {
-			.column(12);
-			margin: 0 auto;
-			margin-bottom: 10px;
-			img {
-				.column(12);
-			}
 		}
 	}
 }
