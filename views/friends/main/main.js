@@ -1,6 +1,6 @@
 "use strict";
 
-ssn.display.friends = {
+ssn.display.friends.main = {
 	load: function (done) {
 		ssn.userManager.friendsUser(function (u) {
 			var user, i;

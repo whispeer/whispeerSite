@@ -182,19 +182,29 @@ ssn.crypto.sessionKey = function (key) {
 	/**
 	* @private
 	*/
-	var skEncryptText = function (plainText, iv) {
+	var skEncryptText = function (plainText, iv, callback) {
 		if (decrypted) {
-			var encryptedText;
-			if (typeof iv === "undefined") {
-				encryptedText = sjcl.encrypt(sjcl.codec.hex.toBits(decryptedSessionKey), plainText);
+			if (typeof callback === "function") {
+				ssn.crypto.encryptSJCLWorker(decryptedSessionKey, plainText, iv, callback);
+
+				return true;
 			} else {
-				encryptedText = sjcl.encrypt(sjcl.codec.hex.toBits(decryptedSessionKey), plainText, {"iv": iv});
+				var encryptedText;
+				if (typeof iv === "undefined") {
+					encryptedText = sjcl.encrypt(sjcl.codec.hex.toBits(decryptedSessionKey), plainText);
+				} else {
+					encryptedText = sjcl.encrypt(sjcl.codec.hex.toBits(decryptedSessionKey), plainText, {"iv": iv});
+				}
+
+				encryptedText = $.parseJSON(encryptedText);
+				var result = {"iv": encryptedText.iv, "ct": encryptedText.ct};
+
+				return $.toJSON(result);
 			}
+		}
 
-			encryptedText = $.parseJSON(encryptedText);
-			var result = {"iv": encryptedText.iv, "ct": encryptedText.ct};
-
-			return $.toJSON(result);
+		if (typeof callback === "function") {
+			callback(false);
 		}
 
 		return false;

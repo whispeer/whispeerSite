@@ -21,7 +21,9 @@ ssn.crypto = function () {
 	
 	var workerTasks = {};
 
-	var addWorkerTask = function (task, callback) {
+	var addWorkerTask = function (data, callback) {
+		var task = {'key': data.key, 'message': data.message, 'encrypt': data.encrypt, 'iv': data.iv};
+	
 		task.callback = callback;
 		if (typeof workerTasks[task.message] === "undefined") {
 			workerTasks[task.message] = [];
@@ -33,7 +35,7 @@ ssn.crypto = function () {
 	this.encryptSJCLWorker = function (key, message, iv, callback) {
 		var data = {'key': key, 'message': message, 'encrypt': true, 'iv': iv};
 		addWorkerTask(data, callback);
-
+		
 		sjclWorker.postMessage(data);
 	};
 
@@ -47,12 +49,12 @@ ssn.crypto = function () {
 	sjclWorker.onmessage = function (event) {
 		var i;
 		var leftArray = [];
-		for (i = 0; i < workerTasks[event.message].length; i += 1) {
-			var toCall = workerTasks[event.message][i];
+		for (i = 0; i < workerTasks[event.data.message].length; i += 1) {
+			var toCall = workerTasks[event.data.message][i];
 
-			if (toCall.key === event.key && toCall.iv === event.iv && toCall.encrypt === event.encrypt) {
+			if (toCall.key === event.data.key && toCall.iv === event.data.iv && toCall.encrypt === event.data.encrypt) {
 				try {
-					toCall.callback(toCall.result);
+					toCall.callback(event.data.result);
 				} catch (e) {
 					ssn.logger.log(e);
 				}
@@ -61,7 +63,7 @@ ssn.crypto = function () {
 			}
 		}
 
-		workerTasks[event.message] = leftArray;
+		workerTasks[event.data.message] = leftArray;
 	};
 
 	/**

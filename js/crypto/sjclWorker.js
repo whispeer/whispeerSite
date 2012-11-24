@@ -13,20 +13,20 @@ self.onmessage = function (event) {
 	var result;
 	if (encrypt) {
 		if (typeof iv === "undefined") {
-			result = sjcl.encrypt(sjcl.codec.hex.toBits(key), plainText);
+			result = sjcl.encrypt(sjcl.codec.hex.toBits(key), message);
 		} else {
-			result = sjcl.encrypt(sjcl.codec.hex.toBits(key), plainText, {"iv": iv});
+			result = sjcl.encrypt(sjcl.codec.hex.toBits(key), message, {"iv": iv});
 		}
 	} else {
 		if (typeof iv === "undefined") {
-			result = sjcl.decrypt(sjcl.codec.hex.toBits(key), encryptedText);
+			result = sjcl.decrypt(sjcl.codec.hex.toBits(key), message);
 		} else {
-			result = sjcl.decrypt(sjcl.codec.hex.toBits(key), encryptedText, {"iv": iv});
+			result = sjcl.decrypt(sjcl.codec.hex.toBits(key), message, {"iv": iv});
 		}
 	}
 
 	var callback = event.data;
 	callback.result = result;
 
-	self.postMessage(result);
-}
+	self.postMessage(callback);
+};
