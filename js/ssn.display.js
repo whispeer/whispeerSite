@@ -437,6 +437,7 @@ ssn.display = {
 
 			$("#main").hide();
 			$("#loading").show();
+			$("#subMenu").hide();
 
 			$("#mainMenu").children().each(function () {
 				var ele = $(this.firstChild);
@@ -455,7 +456,17 @@ ssn.display = {
 				stage += 1;
 
 				if (stage === 2) {
-					ssn.display.loadSubView(page, subview);
+					var done = function () {
+						$("#subMenu").show();
+						ssn.display.loadSubView(page, subview);
+					};
+
+					try {
+						console.log("running " + page + " loader");
+						ssn.display[page].load(done);
+					} catch (e) {
+						done();
+					}
 				}
 			};
 
@@ -549,11 +560,7 @@ ssn.display = {
 			}
 		};
 
-		try {
-			ssn.display[page].load(done);
-		} catch (e) {
-			done();
-		}
+		done();
 	},
 
 	/** show the menu which is available after you logged in. */

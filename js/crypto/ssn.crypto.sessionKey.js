@@ -8,6 +8,8 @@ if (typeof (ssn.crypto) === "undefined") {
 	ssn.crypto = {};
 }
 
+//sjclWorker: new Worker('../crypto/sjclWorker.js'),
+
 /**
 * a session Key
 * @class
@@ -55,10 +57,13 @@ ssn.crypto.sessionKey = function (key) {
 		if (typeof callback === "function") {
 			setTimeout(function () {
 				ssn.crypto.waitForReady(function () {
-					callback(that.decryptKey(privateKey));
+					callback(that.decryptKey(privateKey), true);
 				});
 			}, 1);
 		} else {
+			if (callback !== true) {
+				//ssn.logger.log("decryptKey called without callback");
+			}
 			if (!decrypted) {
 				var keyAsBigInt = new BigInteger(sessionKey, 16);
 
@@ -158,13 +163,17 @@ ssn.crypto.sessionKey = function (key) {
 	/**
 	* @private
 	*/
-	var skDecryptText = function (encryptedText, iv) {
+	var skDecryptText = function (encryptedText, iv, callback) {
 		if (decrypted) {
-			if (typeof iv === "undefined") {
-				return sjcl.decrypt(sjcl.codec.hex.toBits(decryptedSessionKey), encryptedText);
-			}
+			if (typeof callback === "function") {
+				ssn.crypto.decryptSJCLWorker(decryptedSessionKey, encryptedText, iv, callback);
+			} else {
+				if (typeof iv === "undefined") {
+					return sjcl.decrypt(sjcl.codec.hex.toBits(decryptedSessionKey), encryptedText);
+				}
 
-			return sjcl.decrypt(sjcl.codec.hex.toBits(decryptedSessionKey), encryptedText, {"iv": iv});
+				return sjcl.decrypt(sjcl.codec.hex.toBits(decryptedSessionKey), encryptedText, {"iv": iv});
+			}
 		}
 
 		return false;

@@ -10,7 +10,60 @@ if (typeof (ssn) === "undefined") {
 * Also Used to encrypt a session Key for another user.
 * @class
 */
-ssn.crypto = {
+ssn.crypto = function () {
+	var sjclWorker;
+
+	if (window.location.href.indexOf("/tests") > -1) {
+		sjclWorker = new Worker('../crypto/sjclWorker.js');
+	} else {
+		sjclWorker = new Worker('js/crypto/sjclWorker.js');
+	}
+	
+	var workerTasks = {};
+
+	var addWorkerTask = function (task, callback) {
+		task.callback = callback;
+		if (typeof workerTasks[task.message] === "undefined") {
+			workerTasks[task.message] = [];
+		}
+
+		workerTasks[task.message].push(task);
+	};
+
+	this.encryptSJCLWorker = function (key, message, iv, callback) {
+		var data = {'key': key, 'message': message, 'encrypt': true, 'iv': iv};
+		addWorkerTask(data, callback);
+
+		sjclWorker.postMessage(data);
+	};
+
+	this.decryptSJCLWorker = function (key, message, iv, callback) {
+		var data = {'key': key, 'message': message, 'encrypt': false, 'iv': iv};
+		addWorkerTask(data, callback);
+
+		sjclWorker.postMessage(data);
+	};
+
+	sjclWorker.onmessage = function (event) {
+		var i;
+		var leftArray = [];
+		for (i = 0; i < workerTasks[event.message].length; i += 1) {
+			var toCall = workerTasks[event.message][i];
+
+			if (toCall.key === event.key && toCall.iv === event.iv && toCall.encrypt === event.encrypt) {
+				try {
+					toCall.callback(toCall.result);
+				} catch (e) {
+					ssn.logger.log(e);
+				}
+			} else {
+				leftArray.push(toCall);
+			}
+		}
+
+		workerTasks[event.message] = leftArray;
+	};
+
 	/**
 	* Generate a Key
 	* @param password The Password used to encrypt the key.
@@ -18,7 +71,7 @@ ssn.crypto = {
 	* @function
 	* @public
 	*/
-	generate_Key: function (password, callback) {
+	this.generate_Key = function (password, callback) {
 		var rsa = new RSA();
 		if (typeof callback === "function") {
 			if (Modernizr.webworkers) {
@@ -46,7 +99,7 @@ ssn.crypto = {
 
 			return {privateKey: privKey, publicKey: pubKey};
 		}
-	},
+	};
 
 	/**
 	* Encrypts a Text
@@ -56,7 +109,7 @@ ssn.crypto = {
 	* @public
 	* @function
 	**/
-	encryptText: function (keys, message, callback) {
+	this.encryptText = function (keys, message, callback) {
 		if (typeof callback === "function") {
 			setTimeout(function () {
 				ssn.crypto.waitForReady(function () {
@@ -100,7 +153,7 @@ ssn.crypto = {
 
 			return false;
 		}
-	},
+	};
 
 	/**
 	* Decrypts a text.
@@ -110,7 +163,7 @@ ssn.crypto = {
 	* @public
 	* @function
 	*/
-	decryptText: function (privateKey, message, sessionKey, callback) {
+	this.decryptText = function (privateKey, message, sessionKey, callback) {
 		if (typeof callback === "function") {
 			setTimeout(function () {
 				callback(ssn.crypto.decryptText(privateKey, message, sessionKey));
@@ -130,7 +183,7 @@ ssn.crypto = {
 
 			return false;
 		}
-	},
+	};
 
 	/**
 	* Sign a Text
@@ -140,7 +193,7 @@ ssn.crypto = {
 	* @public
 	* @function
 	*/
-	signText: function (privateKey, message, callback) {
+	this.signText = function (privateKey, message, callback) {
 		if (typeof callback === "function") {
 			ssn.crypto.waitForReady(function () {
 				callback(ssn.crypto.signText(privateKey, message));
@@ -149,7 +202,7 @@ ssn.crypto = {
 			var hash = sjcl.codec.hex.fromBits(sjcl.hash.sha256.hash(message));
 			return privateKey.sign(hash).toString(16);
 		}
-	},
+	};
 
 	/**
 	* Verify A Signature.
@@ -160,7 +213,7 @@ ssn.crypto = {
 	* @public
 	* @function
 	*/
-	verifyText: function (publicKey, message, signature, callback) {
+	this.verifyText = function (publicKey, message, signature, callback) {
 		if (typeof callback === "function") {
 			setTimeout(function () {
 				callback(ssn.crypto.verifyText(publicKey, message, signature));
@@ -171,13 +224,13 @@ ssn.crypto = {
 			var rsa = new RSA();
 			return rsa.verifyPSS(real_hash, signature, publicKey.ee, publicKey.n);
 		}
-	},
+	};
 
 	/**
 	* Wait until randomizer is ready.
 	* calls callback if randomizer is ready.
 	*/
-	waitForReady: function (callback) {
+	this.waitForReady = function (callback) {
 		if (sjcl.random.isReady()) {
 			callback();
 		} else {
@@ -190,18 +243,18 @@ ssn.crypto = {
 				callback();
 			});
 		}
-	},
+	};
 
 	/**
 	* removes leading 0.
 	*/
-	r0: function (number) {
+	this.r0 = function (number) {
 		while (number.substr(0, 1) === "0") {
 			number = number.substr(1);
 		}
 
 		return number;
-	},
+	};
 
 	/**
 	* Encrypt a session key
@@ -212,7 +265,7 @@ ssn.crypto = {
 	* @public
 	* @function
 	*/
-	encryptSessionKey: function (publicKey, sessionKey, privateKey, callback) {
+	this.encryptSessionKey = function (publicKey, sessionKey, privateKey, callback) {
 		if (typeof callback === "function") {
 			setTimeout(function () {
 				ssn.crypto.waitForReady(function () {
@@ -234,7 +287,7 @@ ssn.crypto = {
 
 			return false;
 		}
-	},
+	};
 
 	/**
 	* SHA256 of a string.
@@ -243,7 +296,10 @@ ssn.crypto = {
 	* @public
 	* @function
 	*/
-	sha256: function (text) {
+	this.sha256 = function (text) {
 		return sjcl.codec.hex.fromBits(sjcl.hash.sha256.hash(text));
-	}
+	};
 };
+
+var ssnCrypto = new ssn.crypto();
+ssn.crypto = ssnCrypto;
