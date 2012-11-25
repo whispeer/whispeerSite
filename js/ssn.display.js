@@ -18,6 +18,8 @@ ssn.display = {
 			$('#loadingMain').removeClass('fade');
 		}
 
+		$("#subMenu").css("height", $("#menu").height())
+
 		$(window).bind('hashchange', function () {
 			ssn.display.buildHashes();
 
