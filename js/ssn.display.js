@@ -524,7 +524,15 @@ ssn.display = {
 				}
 			});
 		} else if (ssn.display.subview !== subview) {
-			ssn.display.loadSubView(ssn.display.loadedView, subview);
+			step(function () {
+				ssn.display[page].hashChange(this);
+			}, function (err) {
+				if (err) {
+					ssn.logger.log(err, ssn.logger.ALL);
+				}
+
+				ssn.display.loadSubView(ssn.display.loadedView, subview);
+			});
 		} else {
 			var doneF = function () {
 				try {
