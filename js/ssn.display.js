@@ -18,7 +18,7 @@ ssn.display = {
 			$('#loadingMain').removeClass('fade');
 		}
 
-		$("#subMenu").css("height", $("#menu").height())
+		//$("#subMenu").css("height", $("#menu").height());
 
 		$(window).bind('hashchange', function () {
 			ssn.display.buildHashes();
@@ -424,7 +424,7 @@ ssn.display = {
 
 		if (ssn.display.loadedView !== page) {
 			ssn.logger.log("load View " + page + " - " + subview);
-		
+
 			try {
 				ssn.display[ssn.display.loadedView].unload();
 			} catch (e) {

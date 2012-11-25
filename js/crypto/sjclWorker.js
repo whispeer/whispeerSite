@@ -4,7 +4,7 @@ importScripts("../libs/sjcl.js");
 
 self.onmessage = function (event) {
 	if (event.randomNumber) {
-		sjcl.random.addEntropy(event.randomNumber,event.entropy,"adding entropy")
+		sjcl.random.addEntropy(event.randomNumber, event.entropy, "adding entropy");
 
 		return;
 	}
@@ -15,7 +15,7 @@ self.onmessage = function (event) {
 	var message = event.data.message;
 
 	var iv = event.data.iv;
-	
+
 	var result;
 	if (encrypt) {
 		if (typeof iv === "undefined") {

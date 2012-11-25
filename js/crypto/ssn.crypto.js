@@ -18,12 +18,12 @@ ssn.crypto = function () {
 	} else {
 		sjclWorker = new Worker('js/crypto/sjclWorker.js');
 	}
-	
+
 	var workerTasks = {};
 
 	var addWorkerTask = function (data, callback) {
 		var task = {'key': data.key, 'message': data.message, 'encrypt': data.encrypt, 'iv': data.iv};
-	
+
 		task.callback = callback;
 		if (typeof workerTasks[task.message] === "undefined") {
 			workerTasks[task.message] = [];
@@ -35,7 +35,7 @@ ssn.crypto = function () {
 	this.encryptSJCLWorker = function (key, message, iv, callback) {
 		var data = {'key': key, 'message': message, 'encrypt': true, 'iv': iv};
 		addWorkerTask(data, callback);
-		
+
 		sjclWorker.postMessage(data);
 	};
 
@@ -46,7 +46,7 @@ ssn.crypto = function () {
 		sjclWorker.postMessage(data);
 	};
 
-	sjclWorker.onerror = function(event){
+	sjclWorker.onerror = function (event) {
 		throw new Error(event.message + " (" + event.filename + ":" + event.lineno + ")");
 	};
 

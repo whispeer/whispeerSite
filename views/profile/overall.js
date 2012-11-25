@@ -58,7 +58,7 @@ ssn.display.profile = {
 				} else {
 					$("#subMenuFriendShip").hide();
 				}
-				
+
 
 				done();
 			});
