@@ -133,7 +133,22 @@ body:after {
     *width: 91.61458333333333%;
     *margin: 0 4.114583333333333%;
   }
+  .friendsView #friendsList li {
+    display: inline;
+    float: left;
+    width: 46.42857142857143%;
+    margin: 0 1.7857142857142856%;
+    *width: 46.376488095238095%;
+    *margin: 0 1.7336309523809523%;
+  }
 }
 @media screen and (min-width: 1824px) {
-  
+  .friendsView #friendsList li {
+    display: inline;
+    float: left;
+    width: 29.28571428571429%;
+    margin: 0 1.7857142857142856%;
+    *width: 29.233630952380956%;
+    *margin: 0 1.7336309523809523%;
+  }
 }
