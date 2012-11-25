@@ -58,32 +58,32 @@ var ssn = {
 
 		ssn.logger.log("0:" + (new Date().getTime() - time));
 
-		ssn.session.getOwnUser(function (u) {
+		var u;
+		step(function getOwnUser() {
+			ssn.session.getOwnUser(this);
+		}, function (ownUser) {
+			u = ownUser;
 			ssn.logger.log("5:" + (new Date().getTime() - time));
 			u.decryptKeys();
 			ssn.logger.log("10:" + (new Date().getTime() - time));
 			ssn.display.loadingMainProgress(10);
 			$("#username").text(u.getName());
-			ssn.userManager.loadFriends(function () {
-
-				ssn.logger.log("20:" + (new Date().getTime() - time));
-				ssn.display.loadingMainProgress(20);
-				u.friends(function (friends) {
-
-					ssn.logger.log("30:" + (new Date().getTime() - time));
-					ssn.display.loadingMainProgress(30);
-					ssn.display.loadFriendShipRequests(function () {
-
-						ssn.logger.log("40:" + (new Date().getTime() - time));
-						ssn.display.loadingMainProgress(40);
-						ssn.display.loadLatestMessages(function () {
-
-							ssn.logger.log("100:" + (new Date().getTime() - time));
-							ssn.loadData2();
-						});
-					});
-				});
-			}, true);
+			ssn.userManager.loadFriends(this, true);
+		}, function () {
+			ssn.logger.log("20:" + (new Date().getTime() - time));
+			ssn.display.loadingMainProgress(20);
+			u.friends(this);
+		}, function (friends) {
+			ssn.logger.log("30:" + (new Date().getTime() - time));
+			ssn.display.loadingMainProgress(30);
+			ssn.display.loadFriendShipRequests(this);
+		}, function () {
+			ssn.logger.log("40:" + (new Date().getTime() - time));
+			ssn.display.loadingMainProgress(40);
+			ssn.display.loadLatestMessages(this);
+		}, function () {
+			ssn.logger.log("100:" + (new Date().getTime() - time));
+			ssn.loadData2();
 		});
 	},
 

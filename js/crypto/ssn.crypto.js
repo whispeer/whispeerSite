@@ -33,10 +33,12 @@ ssn.crypto = function () {
 	};
 
 	this.encryptSJCLWorker = function (key, message, iv, callback) {
-		var data = {'key': key, 'message': message, 'encrypt': true, 'iv': iv};
-		addWorkerTask(data, callback);
+		if (sjclWorker) {
+			var data = {'key': key, 'message': message, 'encrypt': true, 'iv': iv};
+			addWorkerTask(data, callback);
 
-		sjclWorker.postMessage(data);
+			sjclWorker.postMessage(data);
+		}
 	};
 
 	this.decryptSJCLWorker = function (key, message, iv, callback) {
