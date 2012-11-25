@@ -577,6 +577,7 @@ ssn.display = {
 	showLogedinMenu: function () {
 		$("#loginform").hide();
 		$("#sidebar-left, #sidebar-right, #nav-icons, #nav-search").show();
+		$("#subMenu").css("height", $("#menu").height());
 	},
 
 	/** hide the menu which is available after you logged in */
