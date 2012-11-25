@@ -11,10 +11,6 @@
 		.column(12);
 		margin-top: 5px;
 	}
-	/*.left, .right {
-		.column(6);
-		margin-top: 5px;
-	}*/
 	#menu {
 		.column(12);
 		margin-top: 10px;
@@ -38,7 +34,6 @@
 		}
 		li .current {
 			.column(5,6);
-			border: 2px solid #5a5a5a;
 			height: @baseLineHeight;
 			position: relative;
 			.border-radius(8px);
@@ -59,7 +54,7 @@
 	}
 	#subMenu {
 		.column(6,12);
-		border: 2px solid #5a5a5a;
+		border-left: 2px solid #5a5a5a;
 		.border-radius(10px);
 		li {
 			text-align: left;
@@ -69,12 +64,10 @@
 			padding: 3px;
 			padding-left: 10px;
 			cursor: pointer;
-			margin: -2px;
 		}
 		.current {
 			background-color: lighten(@green, 5%);
 			.border-radius(8px);
-			border: 2px solid #5a5a5a;
 			color: #f5ffe9;
 		}
 		.box-fix;

@@ -1183,11 +1183,6 @@ input[type="submit"].btn.btn-mini {
   *width: 97.86458333333333%;
   *margin: 0 0.9895833333333331%;
   text-align: center;
-  /*.left, .right {
-		.column(6);
-		margin-top: 5px;
-	}*/
-
 }
 #userpanel .userimg {
   display: inline;
@@ -1257,7 +1252,6 @@ input[type="submit"].btn.btn-mini {
   margin: 0 2.083333333333333%;
   *width: 79.11458333333333%;
   *margin: 0 2.0312499999999996%;
-  border: 2px solid #5a5a5a;
   height: 20px;
   position: relative;
   -webkit-border-radius: 8px;
@@ -1287,7 +1281,7 @@ input[type="submit"].btn.btn-mini {
   margin: 0 1.0416666666666665%;
   *width: 47.864583333333336%;
   *margin: 0 0.9895833333333331%;
-  border: 2px solid #5a5a5a;
+  border-left: 2px solid #5a5a5a;
   -webkit-border-radius: 10px;
   -moz-border-radius: 10px;
   border-radius: 10px;
@@ -1312,7 +1306,6 @@ input[type="submit"].btn.btn-mini {
   padding: 3px;
   padding-left: 10px;
   cursor: pointer;
-  margin: -2px;
 }
 #userpanel #subMenu .current {
   background-color: #63b700;
@@ -1322,7 +1315,6 @@ input[type="submit"].btn.btn-mini {
   -moz-background-clip: padding;
   -webkit-background-clip: padding-box;
   background-clip: padding-box;
-  border: 2px solid #5a5a5a;
   color: #f5ffe9;
 }
 #loginform {
@@ -2084,12 +2076,6 @@ input[type="submit"].btn.btn-mini {
   *margin: 0 0.9895833333333331%;
 }
 .friendsView #friendsList li {
-  display: inline;
-  float: left;
-  width: 46.42857142857143%;
-  margin: 0 1.7857142857142856%;
-  *width: 46.376488095238095%;
-  *margin: 0 1.7336309523809523%;
   background-color: #63b700;
   border: 2px solid #5a5a5a;
   -webkit-box-sizing: border-box;
@@ -2113,17 +2099,17 @@ input[type="submit"].btn.btn-mini {
   display: inline;
   float: left;
   width: 25%;
-  margin: 0 1.7857142857142856%;
+  margin: 0 4.166666666666666%;
   *width: 24.947916666666668%;
-  *margin: 0 1.7336309523809523%;
+  *margin: 0 4.114583333333333%;
 }
 .friendsView #friendsList li a .friendName {
   display: inline;
   float: left;
-  width: 67.85714285714286%;
-  margin: 0 1.7857142857142856%;
-  *width: 67.80505952380953%;
-  *margin: 0 1.7336309523809523%;
+  width: 58.333333333333336%;
+  margin: 0 4.166666666666666%;
+  *width: 58.28125%;
+  *margin: 0 4.114583333333333%;
   padding-top: 8%;
   color: #f5ffe9;
 }
