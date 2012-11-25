@@ -1316,6 +1316,7 @@ input[type="submit"].btn.btn-mini {
   -webkit-background-clip: padding-box;
   background-clip: padding-box;
   color: #f5ffe9;
+  border: none;
 }
 #loginform {
   display: inline;
@@ -2076,8 +2077,7 @@ input[type="submit"].btn.btn-mini {
   *margin: 0 0.9895833333333331%;
 }
 .friendsView #friendsList li {
-  background-color: #63b700;
-  border: 2px solid #5a5a5a;
+  border-bottom: 2px solid #5a5a5a;
   -webkit-box-sizing: border-box;
   /* Safari/Chrome, other WebKit */
 
@@ -2111,5 +2111,8 @@ input[type="submit"].btn.btn-mini {
   *width: 58.28125%;
   *margin: 0 4.114583333333333%;
   padding-top: 8%;
-  color: #f5ffe9;
+  color: #3a8100;
+}
+.friendsView #friendsList li:hover {
+  background-color: rgba(99, 183, 0, 0.3);
 }
