@@ -1926,7 +1926,7 @@ input[type="submit"].btn.btn-mini {
   *margin: 0 1.7336309523809523%;
 }
 .friendsView #friendsList li {
-  border-bottom: 2px solid #5a5a5a;
+  border-bottom: 2px solid #b9e200;
   -webkit-box-sizing: border-box;
   /* Safari/Chrome, other WebKit */
 
@@ -1942,7 +1942,7 @@ input[type="submit"].btn.btn-mini {
   -moz-background-clip: padding;
   -webkit-background-clip: padding-box;
   background-clip: padding-box;
-  margin-top: 10px;
+  margin-top: 10px !important;
 }
 .friendsView #friendsList li a {
   *zoom: 1;
