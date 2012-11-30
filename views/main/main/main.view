@@ -1,29 +1,33 @@
-<div class="bubble" id="shareForm">
-	<input id="newpost" type="text" placeholder="Share Something!">
-	<button class="btn">Posten</button>
-</div>
-<div class="post" id="post1">
-	<img class="userimg" src="img/profil.jpg" alt="User">
-	<div class="postContent">
-		<p class="author">Daniel Melchior:</p>
-		<div class="postText">Circus Afro Circus Afro \m/ </div>
-	</div>
-	<div class="postInfo">
-		<p>Mit Svenja Kenneweg</p>
-		<p>20 Personen gefällt das</p>
-		<p>10 Kommentare</p>
-		<a href="#">Kommentare anzeigen</a>
-	</div>
-</div>
-<div class="post" id="post2">
-	<img class="userimg" src="img/profil.jpg" alt="User">
-	<div class="postContent">
-		<p class="author">Daniel Melchior <i class="icon-arrow"></i> Svenja Kenneweg</p>
-		<div class="postText"> I love you :)</div>
-	</div>
-	<div class="postInfo">
-		<p>20 Personen gefällt das</p>
-		<p>10 Kommentare</p>
-		<a href="#">Kommentare anzeigen</a>
-	</div>
+<div class="bubble" id="wall">
+	<form class="form-inline shareForm">
+		<input type="text" placeholder="Teile etwas mit deinen Freunden!" id="shareText">
+		<input type="submit" class="btn btn-success" value="Posten!">
+	</form>
+	<div class="posts">
+		<div class="post" id="post1">
+			<img class="userimg" src="img/profil.jpg" alt="User">
+			<div class="postContent">
+				<p class="author">Daniel Melchior:</p>
+				<div class="postText">Circus Afro Circus Afro \m/ </div>
+			</div>
+			<div class="postInfo">
+				<p>Mit Svenja Kenneweg</p>
+				<p>20 Personen gefällt das</p>
+				<p>10 Kommentare</p>
+				<a href="#">Kommentare anzeigen</a>
+			</div>
+		</div>
+		<div class="post" id="post2">
+			<img class="userimg" src="img/user.png" alt="User">
+			<div class="postContent">
+				<p class="author">Svenja Kenneweg <i class="icon-arrow"></i> Daniel Melchior</p>
+				<div class="postText"> I love you :)</div>
+			</div>
+			<div class="postInfo">
+				<p>20 Personen gefällt das</p>
+				<p>10 Kommentare</p>
+				<a href="#">Kommentare anzeigen</a>
+			</div>
+		</div>
+	</div>	
 </div>

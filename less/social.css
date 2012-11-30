@@ -537,6 +537,7 @@ nav {
   margin: 6px 0px 0px 5px;
 }
 .nav-icon-dropdown {
+  position: absolute;
   border: 1px solid #999;
   -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
@@ -554,6 +555,8 @@ nav {
   *width: 22.864583333333332%;
   *margin: 0 0.9895833333333331%;
   display: none;
+  margin-top: 50px;
+  background-color: #baff81;
 }
 .nav-icon-dropdown-header {
   border-bottom: 1px solid #999;
@@ -677,9 +680,9 @@ nav {
   -moz-background-clip: padding;
   -webkit-background-clip: padding-box;
   background-clip: padding-box;
-  -webkit-box-shadow: inset 0 0 5px #b9e200;
-  -moz-box-shadow: inset 0 0 5px #b9e200;
-  box-shadow: inset 0 0 5px #b9e200;
+  -webkit-box-shadow: 0 0 2px #b9e200;
+  -moz-box-shadow: 0 0 2px #b9e200;
+  box-shadow: 0 0 2px #b9e200;
   padding: 10px;
   -webkit-box-sizing: border-box;
   /* Safari/Chrome, other WebKit */
@@ -1306,6 +1309,7 @@ input[type="submit"].btn.btn-mini {
   padding: 3px;
   padding-left: 10px;
   cursor: pointer;
+  margin: -2px;
 }
 #userpanel #subMenu .current {
   background-color: #63b700;
@@ -1565,52 +1569,51 @@ input[type="submit"].btn.btn-mini {
   *margin: 0 2.0312499999999996%;
   margin-left: 35.20833333333333%;
 }
-#shareForm {
-  display: block;
-  width: 103.57142857142858%;
-  margin: 0 -1.7857142857142856%;
-  *width: 103.51934523809526%;
-  *margin: 0 -1.8377976190476188%;
+.shareForm {
+  width: 100%;
   *zoom: 1;
+  border-bottom: 2px solid #b9e200;
 }
-#shareForm:before,
-#shareForm:after {
+.shareForm:before,
+.shareForm:after {
   content: "";
   display: table;
 }
-#shareForm:after {
+.shareForm:after {
   clear: both;
 }
-.post {
+.shareForm #shareText {
+  display: inline;
+  float: left;
+  width: 82.14285714285714%;
+  margin: 0 1.7857142857142856%;
+  *width: 82.09077380952381%;
+  *margin: 0 1.7336309523809523%;
+  margin-bottom: 10px;
+  margin-left: 20px;
+}
+.profileView #wall {
   display: block;
   width: 103.57142857142858%;
   margin: 0 -1.7857142857142856%;
   *width: 103.51934523809526%;
   *margin: 0 -1.8377976190476188%;
   *zoom: 1;
-  background-color: #f5ffe9;
-  border: #b9e200 solid 2px;
-  -webkit-border-radius: 10px;
-  -moz-border-radius: 10px;
-  border-radius: 10px;
-  -moz-background-clip: padding;
-  -webkit-background-clip: padding-box;
-  background-clip: padding-box;
-  -webkit-box-shadow: inset 0 0 5px #b9e200;
-  -moz-box-shadow: inset 0 0 5px #b9e200;
-  box-shadow: inset 0 0 5px #b9e200;
-  padding: 10px;
-  -webkit-box-sizing: border-box;
-  /* Safari/Chrome, other WebKit */
-
-  -moz-box-sizing: border-box;
-  /* Firefox, other Gecko */
-
-  box-sizing: border-box;
-  /* Opera/IE 8+ */
-
-  margin-top: 5px;
-  border-radius: 20px;
+  margin-top: 10px;
+}
+.profileView #wall:before,
+.profileView #wall:after {
+  content: "";
+  display: table;
+}
+.profileView #wall:after {
+  clear: both;
+}
+.post {
+  width: 100%;
+  margin: 10px 0 0 0;
+  border-bottom: 2px solid #b9e200;
+  *zoom: 1;
 }
 .post:before,
 .post:after {
@@ -1629,6 +1632,7 @@ input[type="submit"].btn.btn-mini {
   *width: 10.66220238095238%;
   *margin: 0 1.7336309523809523%;
   vertical-align: middle;
+  margin: 10px 0px 10px 0px;
 }
 .post .postContent {
   display: inline;
@@ -1637,6 +1641,9 @@ input[type="submit"].btn.btn-mini {
   margin: 0 1.7857142857142856%;
   *width: 53.519345238095234%;
   *margin: 0 1.7336309523809523%;
+  padding-top: 5px;
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
 .post .postContent .postText {
   padding-left: 10px;
@@ -1657,6 +1664,11 @@ input[type="submit"].btn.btn-mini {
   margin: 0 1.7857142857142856%;
   *width: 24.947916666666668%;
   *margin: 0 1.7336309523809523%;
+  padding-top: 5px;
+  margin-bottom: 10px;
+}
+.post:last-child {
+  border: none;
 }
 .profileView #infowrap {
   display: block;
@@ -1707,156 +1719,6 @@ input[type="submit"].btn.btn-mini {
   *width: 67.80505952380953%;
   *margin: 0 1.7336309523809523%;
 }
-/*
-//Don't touch any of the *.less or *.css files, or you will die an awful death.
-// Messages Stylesheet
-	
-	.messages > li {
-		min-height: 50px;
-		border-bottom: 1px solid #e5e5e5;
-		display: block;
-	}
-	
-	.message > li:hover {
-		background-color: #f3f7f2;
-	}
-	
-	.messageboxmessage{
-		margin-left: -10px;
-	}
-	 
-	.messagebox {
-		margin-left: 0px;
-	}
-	
-	.messagebox:hover {
-		background-color:green;
-	}
-	
-	#messageTopics {
-		.column(2);
-		height: 100%;
-	}
-	
-	.topic {
-		.column(2,2);
-		border: 1px solid #ffb700;
-		min-height: 40px;
-		margin-bottom: 5px;
-		.border-radius(5px);
-	}
-	
-	.topic:hover {
-		background-color: #ffb700;
-		.box-shadow(0px 0px 4px #ffb700);
-	}
-	
-	.topic .image {
-		height: 40px;
-		float: left;
-		.border-radiuses (0, 0, 0, 5px);
-	}
-	
-	.topic .name {
-		margin-left: 40px;
-	}
-	
-	.topic .lastmessage {
-		margin-left: 48px;
-		margin-top: -12px;
-		font-size: 11px;
-		color: #4e4e4e;
-	}
-	
-	#newmessage {
-		.row(1);
-		margin-bottom: 15px;
-	}
-	
-	#newmessage p {
-		padding-top: 10px;
-		padding-left: 10px;
-		.box-fix;
-	}
-	
-	#newmessage .left {
-		.column(0.5,1);
-		font-size: 65px;
-		text-shadow: 0px 2px 5px #333;
-		color: #5f5f5f;
-	}
-	
-	#newmessage .right {
-		display: block;
-		.column(0.5,1);
-	}
-	
-	#messagetitle {
-		margin-bottom: 10px;
-	}
-	
-	#chathistory {
-		.column(5,7);
-	}
-	
-	.messageWrap {
-		.box-shadow(inset 0 0 5px #333);
-		.border-radius(10px);
-	}
-	
-	.message {
-		min-height: 80px;
-		border-bottom: 1px solid #ffb700;
-		margin-left: 10px;
-	}
-	
-	.message:last-child {
-		border: 0;
-	}
-	
-	.message .image {
-		width: 60px;
-		margin-top: 8px;
-		float: left;
-		display: block;
-	}
-	
-	.message .messagetext {
-		margin-top: 0px;
-	}
-	
-	.message .name {
-		padding-top: 5px;
-		margin-left: 35px;
-		font-size: 16px;
-		color: @orange;
-	}
-	.message .textwrap {
-		padding-top: 10px;
-		margin-left: 75px;
-		margin-top: -10px;
-		margin-bottom: 5px;
-		font-size: 13px;
-		color: #393939;
-	}
-	#messageinput {
-		border-top: solid 1px #ffb700;
-		.border-radiuses(0, 10px, 10px, 0);
-		text-align: center;
-	}
-	#theMessage {
-		margin: 10px;
-	}
-	#messageinput p {
-		padding-bottom: 10px;
-	}
-	#messageinput .form-inline {
-		margin-top: 7px;
-	}
-	#messageul {
-		overflow: hidden;
-	}
-*/
 #messageTopics {
   display: inline;
   float: left;
@@ -1872,9 +1734,9 @@ input[type="submit"].btn.btn-mini {
   -moz-background-clip: padding;
   -webkit-background-clip: padding-box;
   background-clip: padding-box;
-  -webkit-box-shadow: inset 0 0 5px #b9e200;
-  -moz-box-shadow: inset 0 0 5px #b9e200;
-  box-shadow: inset 0 0 5px #b9e200;
+  -webkit-box-shadow: 0 0 2px #b9e200;
+  -moz-box-shadow: 0 0 2px #b9e200;
+  box-shadow: 0 0 2px #b9e200;
   padding: 10px;
   -webkit-box-sizing: border-box;
   /* Safari/Chrome, other WebKit */
@@ -1887,46 +1749,33 @@ input[type="submit"].btn.btn-mini {
 
 }
 .topic {
-  display: inline;
-  float: left;
-  width: 87.5%;
-  margin: 0 6.25%;
-  *width: 87.44791666666667%;
-  *margin: 0 6.197916666666667%;
-  border: 1px solid #ffb700;
+  display: block;
+  width: 112.5%;
+  margin: 0 -6.25%;
+  *width: 112.44791666666667%;
+  *margin: 0 -6.302083333333333%;
+  *zoom: 1;
+  border-bottom: 2px solid #b9e200;
   min-height: 40px;
   margin-bottom: 5px;
-  -webkit-border-radius: 5px;
-  -moz-border-radius: 5px;
-  border-radius: 5px;
-  -moz-background-clip: padding;
-  -webkit-background-clip: padding-box;
-  background-clip: padding-box;
+}
+.topic:before,
+.topic:after {
+  content: "";
+  display: table;
+}
+.topic:after {
+  clear: both;
 }
 .topic:hover {
-  background-color: #ffb700;
-  -webkit-box-shadow: 0px 0px 4px #ffb700;
-  -moz-box-shadow: 0px 0px 4px #ffb700;
-  box-shadow: 0px 0px 4px #ffb700;
+  background-color: #deffb6;
+  -webkit-box-shadow: 0px 0px 4px #b9e200;
+  -moz-box-shadow: 0px 0px 4px #b9e200;
+  box-shadow: 0px 0px 4px #b9e200;
 }
 .topic .image {
   height: 40px;
   float: left;
-  -webkit-border-top-right-radius: 0;
-  -webkit-border-bottom-right-radius: 0;
-  -webkit-border-bottom-left-radius: 0;
-  -webkit-border-top-left-radius: 5px;
-  -moz-border-radius-topright: 0;
-  -moz-border-radius-bottomright: 0;
-  -moz-border-radius-bottomleft: 0;
-  -moz-border-radius-topleft: 5px;
-  border-top-right-radius: 0;
-  border-bottom-right-radius: 0;
-  border-bottom-left-radius: 0;
-  border-top-left-radius: 5px;
-  -moz-background-clip: padding;
-  -webkit-background-clip: padding-box;
-  background-clip: padding-box;
 }
 .topic .name {
   margin-left: 40px;
@@ -1984,9 +1833,9 @@ input[type="submit"].btn.btn-mini {
   -moz-background-clip: padding;
   -webkit-background-clip: padding-box;
   background-clip: padding-box;
-  -webkit-box-shadow: inset 0 0 5px #b9e200;
-  -moz-box-shadow: inset 0 0 5px #b9e200;
-  box-shadow: inset 0 0 5px #b9e200;
+  -webkit-box-shadow: 0 0 2px #b9e200;
+  -moz-box-shadow: 0 0 2px #b9e200;
+  box-shadow: 0 0 2px #b9e200;
   padding: 10px;
   -webkit-box-sizing: border-box;
   /* Safari/Chrome, other WebKit */
@@ -2071,10 +1920,10 @@ input[type="submit"].btn.btn-mini {
 .friendsView #friendsList {
   display: inline;
   float: left;
-  width: 56.25%;
-  margin: 0 1.0416666666666665%;
-  *width: 56.197916666666664%;
-  *margin: 0 0.9895833333333331%;
+  width: 96.42857142857143%;
+  margin: 0 1.7857142857142856%;
+  *width: 96.3764880952381%;
+  *margin: 0 1.7336309523809523%;
 }
 .friendsView #friendsList li {
   border-bottom: 2px solid #5a5a5a;

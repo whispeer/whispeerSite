@@ -1,17 +1,23 @@
-"use strict";
-var instyle = {};
+/* ============================================================
+ * social-dropdown v0.1
+ * ========================================================= */
 
-instyle = {
-	dropdown: function() {
-		
-	},
-	showmodal: function() {
-		
-	},
-	hidemodal: function() {
-		
-	}
-};
+"use strict";
+
+
+$(".dropit").click(function() {
+	var position = $(this).position();
+	$($(this).attr("href")).position("left:" + position.left);
+	$($(this).attr("href")).show();
+	console.log($($(this).attr("href")).position());
+	return false;
+});
+$("body").click(function() {
+	$(".nav-icon-dropdown").hide();
+});
+
+
+
 /* =============================================================
  * bootstrap-collapse.js v2.0.3
  * http://twitter.github.com/bootstrap/javascript.html#collapse
