@@ -1944,6 +1944,9 @@ input[type="submit"].btn.btn-mini {
   background-clip: padding-box;
   margin-top: 5px;
 }
+.friendsView #friendsList li a {
+  *zoom: 1;
+}
 .friendsView #friendsList li a .friendPicture {
   display: inline;
   float: left;
@@ -1961,6 +1964,14 @@ input[type="submit"].btn.btn-mini {
   *margin: 0 4.114583333333333%;
   padding-top: 8%;
   color: #3a8100;
+}
+.friendsView #friendsList li a:before,
+.friendsView #friendsList li a:after {
+  content: "";
+  display: table;
+}
+.friendsView #friendsList li a:after {
+  clear: both;
 }
 .friendsView #friendsList li:hover {
   background-color: rgba(99, 183, 0, 0.3);
