@@ -1,0 +1,23 @@
+#mediawrap {
+	.column(7);
+	.image {
+		float: left;
+		margin-left: 5px;
+		img {
+			.border-radius(10px);
+			border: 1px solid darken(@bubbleBorderColor, 3%);
+			padding: 5px;
+		}
+		&:hover {
+			img {
+				border-color: @bubbleBorderColor;
+				cursor: pointer;
+			}
+		}
+	}
+	.droplet {
+		//display: none;
+		position: absolute;
+		.column(7);
+	}
+}

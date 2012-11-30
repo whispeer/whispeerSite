@@ -1,0 +1,14 @@
+<div id="mediawrap">
+	<div class="droplet bubble">
+			
+	</div>
+	<div class="image active" id="img1">
+		<img src="http://placehold.it/320x200">
+	</div> 
+	<div class="image" id="img2">
+		<img src="http://placehold.it/320x200">
+	</div>
+	<div class="image" id="img3">
+		<img src="http://placehold.it/320x200">
+	</div>
+</div>
