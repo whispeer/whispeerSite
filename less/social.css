@@ -1942,7 +1942,7 @@ input[type="submit"].btn.btn-mini {
   -moz-background-clip: padding;
   -webkit-background-clip: padding-box;
   background-clip: padding-box;
-  margin-top: 5px;
+  margin-top: 10px;
 }
 .friendsView #friendsList li a {
   *zoom: 1;
