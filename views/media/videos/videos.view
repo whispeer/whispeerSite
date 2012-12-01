@@ -1,14 +1,52 @@
-<div id="mediawrap">
+<div id="mediaWrap">
+	<div class="mediaRow">
+		<div class="image" id="img1">
+			<img src="http://placehold.it/355x200">
+		</div>
+		<div class="image" id="img2">
+			<img src="http://placehold.it/355x200">
+		</div>
+		<div class="image" id="img3">
+			<img src="http://placehold.it/355x200">
+		</div>
+	</div>
 	<div class="droplet bubble">
-			
+		<div class="comments">
+			<p>Svenja: Cooles Bild!</p>
+			<p>Igor: Bro 4 ever!</p>
+			<p>Alex: Ohne mich? :(</p>
+		</div>
+		<div class="info">
+			<p><a href="#">Daniel Melchior</a> mit <a href="#">Igor Safonov</a> und <a href="#">Olaf Lorenz</a></p>
+			<p><a href="#">50 Leute</a> finden das awesome!</p>
+			<p>3 Kommentare</p>
+		</div>
+		<div class="opinion">
+			<p><a href="#">Awesome!</a></p>
+			<br>
+			<p><a href="#">What ever..</a></p>
+		</div>
 	</div>
-	<div class="image active" id="img1">
-		<img src="http://placehold.it/320x200">
-	</div> 
-	<div class="image" id="img2">
-		<img src="http://placehold.it/320x200">
+	<div class="mediaRow">
+		<div class="image" id="img4">
+			<img src="http://placehold.it/355x200">
+		</div>
+		<div class="image" id="img5">
+			<img src="http://placehold.it/355x200">
+		</div>
+		<div class="image" id="img6">
+			<img src="http://placehold.it/355x200">
+		</div>
 	</div>
-	<div class="image" id="img3">
-		<img src="http://placehold.it/320x200">
+	<div class="mediaRow">
+		<div class="image" id="img7">
+			<img src="http://placehold.it/355x200">
+		</div>
+		<div class="image" id="img8">
+			<img src="http://placehold.it/355x200">
+		</div>
+		<div class="image" id="img9">
+			<img src="http://placehold.it/355x200">
+		</div>
 	</div>
 </div>

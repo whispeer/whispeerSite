@@ -1,5 +1,8 @@
-#mediawrap {
-	.column(7);
+#mediaWrap {
+	.mediaRow {
+		.row(7);
+		margin-top: 5px;
+	}
 	.image {
 		float: left;
 		margin-left: 5px;
@@ -16,8 +19,21 @@
 		}
 	}
 	.droplet {
-		//display: none;
-		position: absolute;
-		.column(7);
+		.row(7);
+		margin-top: 20px;
+		margin-bottom: 20px;
+		.comments {
+			.column(3.5,7);
+			border-right: 2px solid @bubbleBorderColor;
+			.box-fix;
+		}
+		.info {
+			.column(2.5,7);
+			border-right: 2px solid @bubbleBorderColor;
+			.box-fix;
+		}
+		.opinion {
+			.column(1,7);
+		}
 	}
 }
