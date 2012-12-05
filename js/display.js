@@ -1,5 +1,15 @@
-define(['jquery', 'helper/logger', 'model/state', 'helper/helper', 'libs/step'], function ($, logger, state, h, step) {
+define(['jquery', 'libs/step', 'helper/logger', 'model/state', 'helper/helper', 'config', 'helper/i18n'], function ($, step, logger, state, h, config, i18n) {
+	var hashes = [];
+
+	var loginF;
+	var checkMailF;
+	var checkNicknameF;
+
 	var display = {
+		//still missing functions:
+		//REGISTERNOW
+		//REGISTERERROR
+
 		hashHandles: {},
 		/** loading function is called on page load */
 		load: function () {
@@ -31,7 +41,7 @@ define(['jquery', 'helper/logger', 'model/state', 'helper/helper', 'libs/step'],
 
 			$('#loginform').submit(function () {
 				try {
-					session.login($('#mail').val(), $('#password').val());
+					loginF($('#mail').val(), $('#password').val());
 					$('#password').val("");
 				} catch (e) {
 					logger.log(e);
@@ -84,7 +94,7 @@ define(['jquery', 'helper/logger', 'model/state', 'helper/helper', 'libs/step'],
 
 		/** builds the variables from the hash string e.g. makes ["a" => "b", "d" => "f"] from #a=b&d=f  */
 		buildHashes: function () {
-			state.hashes = [];
+			hashes = [];
 
 			var hash = $(location).attr("hash").substr(1);
 
@@ -99,7 +109,7 @@ define(['jquery', 'helper/logger', 'model/state', 'helper/helper', 'libs/step'],
 				res = vals[i].split("=");
 				if (typeof res[1] !== "undefined" && typeof res[0] !== "undefined") {
 					if (res[0] !== "") {
-						state.hashes[res[0]] = res[1];
+						hashes[res[0]] = res[1];
 					}
 				}
 			}
@@ -107,19 +117,19 @@ define(['jquery', 'helper/logger', 'model/state', 'helper/helper', 'libs/step'],
 
 		/** get the value for a key from the hash object */
 		getHash: function (key) {
-			return state.hashes[key];
+			return hashes[key];
 		},
 
 		/** set the value for a key in the hash object */
 		setHash: function (key, value) {
-			state.hashes[key] = value;
+			hashes[key] = value;
 
 			var k;
 			var url = "";
-			for (k in state.hashes) {
-				if (state.hashes.hasOwnProperty(k)) {
-					if (typeof state.hashes[k] !== "undefined") {
-						url = url + "&" + k + "=" + state.hashes[k];
+			for (k in hashes) {
+				if (hashes.hasOwnProperty(k)) {
+					if (typeof hashes[k] !== "undefined") {
+						url = url + "&" + k + "=" + hashes[k];
 					}
 				}
 			}
@@ -128,7 +138,6 @@ define(['jquery', 'helper/logger', 'model/state', 'helper/helper', 'libs/step'],
 
 			window.location.hash = url;
 		},
-
 
 		/** change the count for a certain badge
 		* @param type badge type (e.g. message or friends)
@@ -182,7 +191,7 @@ define(['jquery', 'helper/logger', 'model/state', 'helper/helper', 'libs/step'],
 
 		/** show a warning that we are not ready for encryption yet */
 		showNotReadyWarning: function () {
-			display.showWarning(i18n.getValue("moveMouse"), "notReady");
+			display.showWarning(i18n.getValue("warnings.moveMouse"), "notReady");
 		},
 
 		/** hide a warning that we are not ready for encryption yet */
@@ -486,11 +495,17 @@ define(['jquery', 'helper/logger', 'model/state', 'helper/helper', 'libs/step'],
 
 		/** used to load the latest messages (for icon at top */
 		loadLatestMessages: function (callback) {
-			messages.getLatestTopics(function (m) {
-				messages.getMessagesTeReSe(m, function (data) {
-					display.viewLatestMessages(data, callback);
-				});
-			});
+			var messages;
+			step(function requireMessages() {
+				require.wrap('model/messages', this);
+			}, h.sF(function (m) {
+				messages = m;
+				messages.getLatestTopics(this);
+			}), h.sF(function (m) {
+				messages.getMessagesTeReSe(m, this);
+			}), h.sF(function (data) {
+				display.viewLatestMessages(data, this);
+			}), callback);
 		},
 
 		/** used to view the latest messages
@@ -548,6 +563,13 @@ define(['jquery', 'helper/logger', 'model/state', 'helper/helper', 'libs/step'],
 		* @author Nilos
 		*/
 		loadFriendShipRequests: function (callback) {
+			var userManager;
+/*			step(function requireUser() {
+				require.wrap('model/user', this);
+			}, h.sF(function getFriends(u) {
+				userManager = u;
+				userManager.loadFriends(this);
+			}), h.sF(function*/
 			userManager.loadFriends(function () {
 				userManager.friendShipRequestsUser(function (u) {
 					var requests = false;
@@ -607,9 +629,11 @@ define(['jquery', 'helper/logger', 'model/state', 'helper/helper', 'libs/step'],
 			$('#loadingMainProgressBar').css("width", percentage + "%");
 		},
 
-		// TODO
+		/** password strength
+		* show password strength
+		*/
 		passwordStrength: function () {
-			var strength = session.passwordStrength($(this).val());
+			var strength = h.passwordStrength($(this).val());
 
 			$(this).parent().attr('data-strength', strength);
 			if (strength < 4) {
@@ -673,7 +697,7 @@ define(['jquery', 'helper/logger', 'model/state', 'helper/helper', 'libs/step'],
 
 		checkMail: function () {
 			if ($("#rmail").val() !== "") {
-				session.checkMail($('#rmail').val(), this.checkMail2);
+				checkMailF($('#rmail').val(), this.checkMail2);
 			} else {
 				this.checkMail2(false, false, "");
 			}
@@ -699,7 +723,7 @@ define(['jquery', 'helper/logger', 'model/state', 'helper/helper', 'libs/step'],
 
 		checkNickname: function () {
 			if ($('#rnickname').val() !== "") {
-				session.checkNickname($('#rnickname').val(), this.checkNickname2);
+				checkNicknameF($('#rnickname').val(), this.checkNickname2);
 			} else {
 				this.checkNickname2(false, false, "");
 			}
