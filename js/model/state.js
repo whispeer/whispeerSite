@@ -1,4 +1,5 @@
 define({
 	loaded: false,
-	logedin: false
+	logedin: false,
+	hashes: []
 });

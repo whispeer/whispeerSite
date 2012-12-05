@@ -1,5 +1,6 @@
 define(['jquery', 'helper/logger', 'model/state', 'helper/helper', 'libs/step'], function ($, logger, state, h, step) {
 	var display = {
+		hashHandles: {},
 		/** loading function is called on page load */
 		load: function () {
 			//Fix modals for Opera and IE.
@@ -83,7 +84,7 @@ define(['jquery', 'helper/logger', 'model/state', 'helper/helper', 'libs/step'],
 
 		/** builds the variables from the hash string e.g. makes ["a" => "b", "d" => "f"] from #a=b&d=f  */
 		buildHashes: function () {
-			this.hashes = [];
+			state.hashes = [];
 
 			var hash = $(location).attr("hash").substr(1);
 
@@ -98,7 +99,7 @@ define(['jquery', 'helper/logger', 'model/state', 'helper/helper', 'libs/step'],
 				res = vals[i].split("=");
 				if (typeof res[1] !== "undefined" && typeof res[0] !== "undefined") {
 					if (res[0] !== "") {
-						this.hashes[res[0]] = res[1];
+						state.hashes[res[0]] = res[1];
 					}
 				}
 			}
@@ -106,19 +107,19 @@ define(['jquery', 'helper/logger', 'model/state', 'helper/helper', 'libs/step'],
 
 		/** get the value for a key from the hash object */
 		getHash: function (key) {
-			return this.hashes[key];
+			return state.hashes[key];
 		},
 
 		/** set the value for a key in the hash object */
 		setHash: function (key, value) {
-			this.hashes[key] = value;
+			state.hashes[key] = value;
 
 			var k;
 			var url = "";
-			for (k in this.hashes) {
-				if (this.hashes.hasOwnProperty(k)) {
-					if (typeof this.hashes[k] !== "undefined") {
-						url = url + "&" + k + "=" + this.hashes[k];
+			for (k in state.hashes) {
+				if (state.hashes.hasOwnProperty(k)) {
+					if (typeof state.hashes[k] !== "undefined") {
+						url = url + "&" + k + "=" + state.hashes[k];
 					}
 				}
 			}
