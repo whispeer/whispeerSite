@@ -1685,6 +1685,25 @@ var requirejs, require, define;
         return context.require(deps, callback, errback);
     };
 
+	req.wrap = function (deps, callback) {
+		if (typeof deps === "string") {
+			deps = [deps];
+		}
+
+		req(deps, function () {
+			var args = [null]; // empty array
+			var i;
+			// copy all other arguments we want to "pass through"
+			for (i = 0; i < arguments.length; i += 1) {
+				args.push(arguments[i]);
+			}
+
+			callback.apply(null, args);
+		}, function (err) {
+			callback(err);
+		});
+	};
+
     /**
      * Support require.config() to make it easier to cooperate with other
      * AMD loaders on globally agreed names.
