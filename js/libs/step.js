@@ -147,3 +147,9 @@ step.fn = function StepFn() {
 if (typeof module !== 'undefined' && module.hasOwnProperty("exports")) {
 	module.exports = step;
 }
+
+if (typeof define !== 'undefined') {
+	define([], function () {
+		return step;
+	});
+}

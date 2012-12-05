@@ -1,6 +1,8 @@
 <ifModule mod_headers.c>
-Header unset ETag
-Header set Cache-Control "max-age=0, no-cache, no-store, must-revalidate"
-Header set Pragma "no-cache"
-Header set Expires "Wed, 11 Jan 1984 05:00:00 GMT"
+	Header unset ETag
+	Header set Cache-Control "max-age=0, no-cache, no-store, must-revalidate"
+	Header set Pragma "no-cache"
+	Header set Expires "Wed, 11 Jan 1984 05:00:00 GMT"
+	Header add X-Content-Security-Policy "default-src 'self'; script-src 'self'; unsafe-eval; report-uri api/violation.php;"
+	Header add X-WebKit-CSP "default-src 'self' 'unsafe-eval'; script-src 'self' 'unsafe-eval'; report-uri api/violation.php;"
 </ifModule>
