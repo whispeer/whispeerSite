@@ -82,7 +82,7 @@ define(["libs/sjcl"], function (sjcl) {
 			if (Modernizr.webworkers) {
 				crypto.waitForReady(function () {
 					rsa.generateAsync(config.keyLength, "10001", function (rsaKey) {
-						var privKey = new crypto.privateKey(rsaKey, password);
+						var privKey = new PrivateKey(rsaKey, password);
 						var pubKey = new crypto.publicKey(rsaKey);
 
 						callback(privKey, pubKey);
