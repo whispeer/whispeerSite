@@ -1,4 +1,4 @@
-define(['jquery', 'helper/logger', 'helper/helper', 'libs/step', 'model/state'], function ($, logger, h, step, state) {
+define(['jquery', 'asset/logger', 'asset/helper', 'libs/step', 'model/state'], function ($, logger, h, step, state) {
 	"use strict";
 
 	require(['libs/sjcl'], function (sjcl) {
@@ -12,7 +12,7 @@ define(['jquery', 'helper/logger', 'helper/helper', 'libs/step', 'model/state'],
 	var load = function () {
 		step(function startUp() {
 			logger.log("Starting up");
-			require.wrap(['display', 'model/session', 'helper/i18n'], this);
+			require.wrap(['display', 'model/session', 'asset/i18n'], this);
 		}, h.sF(function (display, session, i18n) {
 			display.load();
 
@@ -54,6 +54,7 @@ define(['jquery', 'helper/logger', 'helper/helper', 'libs/step', 'model/state'],
 			$("#loginform").hide();
 
 			logger.log("0:" + (new Date().getTime() - time));
+
 			session.getOwnUser(this);
 		}, function (ownUser) {
 			u = ownUser;
@@ -61,23 +62,24 @@ define(['jquery', 'helper/logger', 'helper/helper', 'libs/step', 'model/state'],
 			u.decryptKeys();
 			logger.log("10:" + (new Date().getTime() - time));
 			display.loadingMainProgress(10);
+
 			$("#username").text(u.getName());
 			userManager.loadFriends(this, true);
 		}, function () {
 			logger.log("20:" + (new Date().getTime() - time));
 			display.loadingMainProgress(20);
+
 			u.friends(this);
 		}, function (friends) {
 			logger.log("30:" + (new Date().getTime() - time));
 			display.loadingMainProgress(30);
+
 			display.loadFriendShipRequests(this);
 		}, function () {
 			logger.log("40:" + (new Date().getTime() - time));
 			display.loadingMainProgress(40);
+
 			display.loadLatestMessages(this);
-		}, function () {
-			logger.log("100:" + (new Date().getTime() - time));
-			this();
 		}, function () {
 			display.loadingMainProgress(70);
 
@@ -92,8 +94,6 @@ define(['jquery', 'helper/logger', 'helper/helper', 'libs/step', 'model/state'],
 			}
 
 			display.loadingMainProgress(100);
-
-			//ssn.news.load();
 
 			display.endLoadingMain();
 		});

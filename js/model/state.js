@@ -1,4 +1,3 @@
 define({
-	loaded: false,
-	logedin: false
+	loaded: false
 });

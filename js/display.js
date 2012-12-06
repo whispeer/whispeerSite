@@ -1,14 +1,18 @@
-define(['jquery', 'libs/step', 'helper/logger', 'model/state', 'helper/helper', 'config', 'helper/i18n'], function ($, step, logger, state, h, config, i18n) {
+define(['jquery', 'libs/step', 'asset/logger', 'model/state', 'asset/helper', 'config', 'asset/i18n'], function ($, step, logger, state, h, config, i18n) {
+	"use strict";
 	var hashes = [];
 
 	var loginF;
-	var checkMailF;
-	var checkNicknameF;
 
 	var display = {
 		//still missing functions:
 		//REGISTERNOW
 		//REGISTERERROR
+
+		/** set the handler for the login function */
+		setLogin: function (func) {
+			loginF = func;
+		},
 
 		hashHandles: {},
 		/** loading function is called on page load */
@@ -17,8 +21,6 @@ define(['jquery', 'libs/step', 'helper/logger', 'model/state', 'helper/helper', 
 			if (navigator.appName === "Opera" || navigator.appName === "Microsoft Internet Explorer") {
 				$('#loadingMain').removeClass('fade');
 			}
-
-			//$("#subMenu").css("height", $("#menu").height());
 
 			$(window).bind('hashchange', function () {
 				display.buildHashes();
@@ -629,129 +631,9 @@ define(['jquery', 'libs/step', 'helper/logger', 'model/state', 'helper/helper', 
 			$('#loadingMainProgressBar').css("width", percentage + "%");
 		},
 
-		/** password strength
-		* show password strength
-		*/
-		passwordStrength: function () {
-			var strength = h.passwordStrength($(this).val());
-
-			$(this).parent().attr('data-strength', strength);
-			if (strength < 4) {
-				$('#rpassword').qtip({
-					content: "Dein Passwort ist nicht sicher. Bitte w&auml;hle ein st&auml;rkeres.",// <- Da editieren!
-					show: {
-						event: "click"
-					},
-					hide: {
-						event: "click"
-					},
-					position: {
-						at: "center right",
-						my: "center left"
-					},
-					style: {
-						classes: "ui-tooltip-red ui-tooltip-shadow ui-tooltip-rounded"
-					}
-				});
-			} else if (strength > 4 && strength < 10) {
-				$('#rpassword').qtip({
-					content: "Dein Passwort ist relativ sicher. Wir empfehlen dennoch ein noch stärkeres zu wählen!",// <- Da editieren!
-					show: {
-						event: "click"
-					},
-					hide: {
-						event: "click"
-					},
-					position: {
-						at: "center right",
-						my: "center left"
-					},
-					style: {
-						classes: "ui-tooltip-yellow ui-tooltip-shadow ui-tooltip-rounded"
-					}
-				});
-			} else if (strength === 10) {
-				$('#rmail').qtip({
-					content: "Deine Passwort ist sehr stark!",// <- Da editieren!
-					show: {
-						event: "click"
-					},
-					hide: {
-						event: "click"
-					},
-					position: {
-						at: "center right",
-						my: "center left"
-					},
-					style: {
-						classes: "ui-tooltip-green ui-tooltip-shadow ui-tooltip-rounded"
-					}
-				});
-			}
-		},
-
 		/** Display a Message in a certain Element.	*/
 		message: function (element, text) {
 			$('#display-' + element).text(text);
-		},
-
-		checkMail: function () {
-			if ($("#rmail").val() !== "") {
-				checkMailF($('#rmail').val(), this.checkMail2);
-			} else {
-				this.checkMail2(false, false, "");
-			}
-		},
-
-		checkMail2: function (mailok, mailvalid, mail) {
-			if ($('#rmail').val() === mail) {
-				if (mailok && mailvalid) {
-					$('#email').show();
-					$('.micon').attr("src", "img/accept.png");
-					//.text("&check; Die E-Mail Adresse ist g&uuml;ltig und wurde noch nicht verwendet!")
-				} else if (!mailvalid) {
-					$('#email').show();
-					$('.micon').attr("src", "img/fail.png");
-					//.text("Deine E-Mail Adresse ist ung&uuml;ltig!!")
-				} else {
-					$('#email').show();
-					$('.micon').attr("src", "img/fail.png");
-					//.text("Deine E-Mail Adresse wird bereits verwendet!")
-				}
-			}
-		},
-
-		checkNickname: function () {
-			if ($('#rnickname').val() !== "") {
-				checkNicknameF($('#rnickname').val(), this.checkNickname2);
-			} else {
-				this.checkNickname2(false, false, "");
-			}
-		},
-
-		checkNickname2: function (nicknameok, nicknamevalid, nickname) {
-			if ($('#rnickname').val() === nickname) {
-				if (nicknameok && nicknamevalid) {
-					$('.micon3').attr("src", "img/accept.png");
-				} else if (!nicknamevalid) {
-					$('.micon3').attr("src", "img/fail.png");
-				} else {
-					$('.micon3').attr("src", "img/fail.png");
-				}
-			}
-		},
-
-		/** checks if the two entered mails are the same. */
-		mailSame: function () {
-			if ($('#rmail').val() !== $('#rmail2').val()) {
-				$('#email2').show();
-				$('.micon2').attr("src", "img/fail.png");
-				//$('#mail2').text("Deine E-Mail Adressen stimmen nicht &uuml;berein!!");
-			} else {
-				$('#email2').show();
-				$('.micon2').attr("src", "img/accept.png").attr("alt", "&check;");
-				//$('#mail2').text("&check; Die E-Mail Adressen stimmen &uuml;berein!");
-			}
 		},
 
 		ajaxError: function () {
