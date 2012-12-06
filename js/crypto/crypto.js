@@ -83,7 +83,7 @@ define(["libs/sjcl"], function (sjcl) {
 				crypto.waitForReady(function () {
 					rsa.generateAsync(config.keyLength, "10001", function (rsaKey) {
 						var privKey = new PrivateKey(rsaKey, password);
-						var pubKey = new crypto.publicKey(rsaKey);
+						var pubKey = new PublicKey(rsaKey);
 
 						callback(privKey, pubKey);
 					});
@@ -118,7 +118,7 @@ define(["libs/sjcl"], function (sjcl) {
 		if (typeof callback === "function") {
 			setTimeout(function () {
 				crypto.waitForReady(function () {
-					callback(ssn.crypto.encryptText(keys, message));
+					callback(crypto.encryptText(keys, message));
 				});
 			}, 1);
 		} else {
@@ -129,7 +129,7 @@ define(["libs/sjcl"], function (sjcl) {
 					//encrypt message with session key
 					var sessionKey;
 
-					if (keys instanceof ssn.crypto.sessionKey) {
+					if (keys instanceof SessionKey) {
 						sessionKey = keys;
 					} else {
 						sessionKey = new ssn.crypto.sessionKey();
