@@ -1,5 +1,5 @@
-"use strict";
-define([], function () {
+define(['jquery', 'asset/logger', 'libs/step'], function ($, logger, step) {
+	"use strict";
 	var helper = {
 		/** is data a numeric?
 		* @param data data to check for being numeric
@@ -18,23 +18,19 @@ define([], function () {
 		* @author Nilos
 		*/
 		isID: function (data) {
-			return ssn.helper.isInt(data);
+			return helper.isInt(data);
 		},
 
-		setKey: function (keyType, key, receiverID, receiverKey, own, callback) {
-			key = key.getEncrypted(ssn.session.key);
-
-			var setKey = {
-				"type": keyType,
-				"key": key,
-				"receiver": receiverID,
-				"own": own
+		ajax: function (data, cb) {
+			data.success = function (data) {
+				cb(null, data);
 			};
 
-			ssn.crypto.signText(ssn.session.key, $.toJSON(setKey), function (s) {
-				setKey.s = s;
-				ssn.helper.getData({"setKey": setKey}, callback);
-			});
+			data.error = function (obj, error) {
+				cb(error);
+			};
+
+			$.ajax(data);
 		},
 
 		/** decode entities
@@ -104,14 +100,14 @@ define([], function () {
 		arraySet: function (arrayName) {
 			var i = 1;
 			var memory;
-			if (ssn.helper.isset(arrayName)) {
+			if (helper.isset(arrayName)) {
 				memory = arrayName;
 			} else {
 				return false;
 			}
 
 			for (i = 1; i < arguments.length; i += 1) {
-				if (ssn.helper.isset(memory[arguments[i]])) {
+				if (helper.isset(memory[arguments[i]])) {
 					memory = memory[arguments[i]];
 				} else {
 					return false;
@@ -119,20 +115,6 @@ define([], function () {
 			}
 
 			return true;
-		},
-
-		/** connects an asymmetrically encrypted key with its symmetrically encrypted counterpart 
-		* @param asymKey object for the asymmetric key to encrytp symmetrically
-		* @author Nilos
-		*/
-		setSymAsymKey: function (asymKey) {
-			ssn.crypto.waitForReady(function () {
-				asymKey.decryptKey(ssn.session.key, function () {
-					var asymKeyE = asymKey.getOriginal();
-					var symKeyE = $.parseJSON(asymKey.getEncrypted(ssn.session.getMainKey()));
-					ssn.helper.getData({"setSymAsymKey": {"asymKey": asymKeyE, "symKey": symKeyE}}, function () {});
-				});
-			});
 		},
 
 		/** getData helper function.
@@ -144,55 +126,51 @@ define([], function () {
 		* @author Nilos
 		*/
 		getData: function (data, callback) {
-			if (typeof data !== "object") {
-				data = $.parseJSON(data);
-			}
-
-			if (ssn.session.logedin) {
-				data.sid = ssn.session.getSID();
-			}
-
 			var isLogout = false;
-			if (typeof data.logout !== "undefined") {
-				isLogout = true;
-			}
 
-			$.ajax({
-				type: "POST",
-				url: "api/getData.php",
-				data: "data=" + encodeURIComponent($.toJSON(data)),
-				error: function (obj, error) {
-					ssn.display.ajaxError(obj, error);
-				},
-				success: function (data) {
+			step(function () {
+				if (typeof data !== "object") {
 					data = $.parseJSON(data);
-					if (data.logedin === 0) {
-						if (!isLogout) {
-							ssn.display.showWarning("Du wurdest automatisch ausgeloggt");
-							ssn.session.logout();
-						} else {
-							ssn.display.showWarning("Du wurdest ausgeloggt");
-						}
+				}
 
-						return;
+				if (session.logedin()) {
+					data.sid = session.getSID();
+				}
+
+				if (typeof data.logout !== "undefined") {
+					isLogout = true;
+				}
+
+				helper.ajax({
+					type: "POST",
+					url: "api/getData.php",
+					data: "data=" + encodeURIComponent($.toJSON(data))
+				}, this);
+			}, helper.sF(function (data) {
+				data = $.parseJSON(data);
+				if (data.logedin === 0) {
+					if (!isLogout) {
+						session.autoLogout();
 					}
 
-					if (data.status === 0) {
-						ssn.display.ajaxError();
-						return;
-					}
+					return;
+				}
 
-					if (typeof callback !== "undefined") {
-						try {
-							callback(data);
-						} catch (e) {
-							ssn.logger.log(e);
-							throw e;
-						}
+				if (data.status === 0) {
+					throw new Error("Server Error");
+				}
+
+				if (typeof callback !== "undefined") {
+					try {
+						callback(data);
+					} catch (e) {
+						logger.log(e);
+						throw e;
 					}
 				}
-			});
+			}), callback);
 		},
+
 		/** step function
 		* throws given errors
 		* passes on all other stuff to given function
