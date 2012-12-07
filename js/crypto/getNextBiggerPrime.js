@@ -1,12 +1,18 @@
-"use strict";
+importScripts("../libs/require.js");
 
-importScripts("jsbn.js", "jsbn2.js");
+require.wrap({baseUrl: "./"}, ["jsbn", "jsbn2"], function (err, BigInteger) {
+	"use strict";
 
-self.onmessage = function (event) {
-	var number = new BigInteger(event.data.number, 16);
-	var length = parseInt(event.data.length, 10);
+	if (err) {
+		throw err;
+	}
 
-	number.makePrime(length, 10);
+	self.onmessage = function (event) {
+		var number = new BigInteger(event.data.number, 16);
+		var length = parseInt(event.data.length, 10);
 
-	self.postMessage(number.toString(16));
-};
+		number.makePrime(length, 10);
+
+		self.postMessage(number.toString(16));
+	};
+});

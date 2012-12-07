@@ -1,5 +1,9 @@
-define(['jquery', 'libs/sjcl', 'crypto/jsbn', 'asset/logger', 'asset/config', 'crypto/rsa', 'crypto/privateKey', 'crypto/publicKey', 'crypto/jsbn2', 'libs/jquery.json.min'], function ($, sjcl, BigInteger, logger, config, RSA, PrivateKey, PublicKey) {
+define(['jquery', 'libs/sjcl', 'crypto/jsbn', 'asset/logger', 'config', 'crypto/rsa', 'crypto/privateKey', 'crypto/publicKey', 'crypto/waitForReady', 'crypto/jsbn2', 'libs/jquery.json.min'], function ($, sjcl, BigInteger, logger, config, RSA, PrivateKey, PublicKey, waitForReady) {
 	"use strict";
+
+	var numberOfWorkers = 4;
+
+
 
 	/**
 	* a session Key
@@ -47,13 +51,13 @@ define(['jquery', 'libs/sjcl', 'crypto/jsbn', 'asset/logger', 'asset/config', 'c
 		var skDecryptKey = function (privateKey, callback) {
 			if (typeof callback === "function") {
 				setTimeout(function () {
-					crypto.waitForReady(function () {
+					waitForReady(function () {
 						callback(that.decryptKey(privateKey), true);
 					});
 				}, 1);
 			} else {
 				if (callback !== true) {
-					//logger.log("decryptKey called without callback");
+					logger.log("decryptKey called without callback");
 				}
 
 				if (!decrypted) {

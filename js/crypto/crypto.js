@@ -4,70 +4,10 @@
 * Also Used to encrypt a session Key for another user.
 * @class
 */
-define(["libs/sjcl"], function (sjcl) {
+define(["libs/sjcl", "asset/logger", "config", "crypto/rsa", "crypto/waitForReady", "crypto/privateKey", "crypto/publicKey", "crypto/sessionKey"], function (sjcl, logger, config, RSA, waitForReady, PrivateKey, PublicKey, SessionKey) {
 	"use strict";
 
-	var sjclWorker;
 	var crypto = {};
-
-	if (window.location.href.indexOf("/tests") > -1) {
-		sjclWorker = new Worker('../crypto/sjclWorker.js');
-	} else {
-		sjclWorker = new Worker('js/crypto/sjclWorker.js');
-	}
-
-	var workerTasks = {};
-
-	var addWorkerTask = function (data, callback) {
-		var task = {'key': data.key, 'message': data.message, 'encrypt': data.encrypt, 'iv': data.iv};
-
-		task.callback = callback;
-		if (typeof workerTasks[task.message] === "undefined") {
-			workerTasks[task.message] = [];
-		}
-
-		workerTasks[task.message].push(task);
-	};
-
-	crypto.encryptSJCLWorker = function (key, message, iv, callback) {
-		if (sjclWorker) {
-			var data = {'key': key, 'message': message, 'encrypt': true, 'iv': iv};
-			addWorkerTask(data, callback);
-
-			sjclWorker.postMessage(data);
-		}
-	};
-
-	crypto.decryptSJCLWorker = function (key, message, iv, callback) {
-		var data = {'key': key, 'message': message, 'encrypt': false, 'iv': iv};
-		addWorkerTask(data, callback);
-
-		sjclWorker.postMessage(data);
-	};
-
-	sjclWorker.onerror = function (event) {
-		throw new Error(event.message + " (" + event.filename + ":" + event.lineno + ")");
-	};
-
-	sjclWorker.onmessage = function (event) {
-		var i;
-		var leftArray = [];
-		for (i = 0; i < workerTasks[event.data.message].length; i += 1) {
-			var toCall = workerTasks[event.data.message][i];
-
-			if (toCall.key === event.data.key && toCall.iv === event.data.iv && toCall.encrypt === event.data.encrypt) {
-				try {
-					toCall.callback(event.data.result);
-				} catch (e) {
-					logger.log(e);
-				}
-			} else {
-				leftArray.push(toCall);
-			}
-		}
-
-		workerTasks[event.data.message] = leftArray;
-	};
 
 	/**
 	* Generate a Key
@@ -80,7 +20,7 @@ define(["libs/sjcl"], function (sjcl) {
 		var rsa = new RSA();
 		if (typeof callback === "function") {
 			if (Modernizr.webworkers) {
-				crypto.waitForReady(function () {
+				waitForReady(function () {
 					rsa.generateAsync(config.keyLength, "10001", function (rsaKey) {
 						var privKey = new PrivateKey(rsaKey, password);
 						var pubKey = new PublicKey(rsaKey);
@@ -90,7 +30,7 @@ define(["libs/sjcl"], function (sjcl) {
 				});
 			} else {
 				setTimeout(function () {
-					crypto.waitForReady(function () {
+					waitForReady(function () {
 						var keys = crypto.generate_Key(password);
 						callback(keys.privateKey, keys.publicKey);
 					});
@@ -117,7 +57,7 @@ define(["libs/sjcl"], function (sjcl) {
 	crypto.encryptText = function (keys, message, callback) {
 		if (typeof callback === "function") {
 			setTimeout(function () {
-				crypto.waitForReady(function () {
+				waitForReady(function () {
 					callback(crypto.encryptText(keys, message));
 				});
 			}, 1);
@@ -132,23 +72,23 @@ define(["libs/sjcl"], function (sjcl) {
 					if (keys instanceof SessionKey) {
 						sessionKey = keys;
 					} else {
-						sessionKey = new ssn.crypto.sessionKey();
+						sessionKey = new SessionKey();
 					}
 
-					var encrMessage = sessionKey.encryptText(message);
+					var encrMessage = SessionKey.encryptText(message);
 
 					if (keys instanceof Array) {
 						//sessionKey is the BigInteger holding the session key.
 						//encrypt session key with keys
 						for (i = 0; i < keys.length; i += 1) {
-							result[keys[i].id] = sessionKey.getEncrypted(keys[i]);
+							result[keys[i].id] = SessionKey.getEncrypted(keys[i]);
 						}
-					} else if (keys instanceof ssn.crypto.publicKey) {
+					} else if (keys instanceof PublicKey) {
 						//encrypt session key with publicKey
-						result[keys.id] = sessionKey.getEncrypted(keys);
+						result[keys.id] = SessionKey.getEncrypted(keys);
 					}
 
-					if (keys instanceof ssn.crypto.sessionKey) {
+					if (keys instanceof SessionKey) {
 						return encrMessage;
 					}
 
@@ -171,11 +111,11 @@ define(["libs/sjcl"], function (sjcl) {
 	crypto.decryptText = function (privateKey, message, sessionKey, callback) {
 		if (typeof callback === "function") {
 			setTimeout(function () {
-				callback(ssn.crypto.decryptText(privateKey, message, sessionKey));
+				callback(crypto.decryptText(privateKey, message, sessionKey));
 			}, 1);
 		} else {
-			if (!(sessionKey instanceof ssn.crypto.sessionKey)) {
-				sessionKey = new ssn.crypto.sessionKey(sessionKey);
+			if (!(sessionKey instanceof sessionKey)) {
+				sessionKey = new SessionKey(sessionKey);
 			}
 
 			if (sessionKey.decryptKey(privateKey)) {
@@ -200,8 +140,8 @@ define(["libs/sjcl"], function (sjcl) {
 	*/
 	crypto.signText = function (privateKey, message, callback) {
 		if (typeof callback === "function") {
-			crypto.waitForReady(function () {
-				callback(ssn.crypto.signText(privateKey, message));
+			waitForReady(function () {
+				callback(crypto.signText(privateKey, message));
 			});
 		} else {
 			var hash = sjcl.codec.hex.fromBits(sjcl.hash.sha256.hash(message));
@@ -221,32 +161,13 @@ define(["libs/sjcl"], function (sjcl) {
 	crypto.verifyText = function (publicKey, message, signature, callback) {
 		if (typeof callback === "function") {
 			setTimeout(function () {
-				callback(ssn.crypto.verifyText(publicKey, message, signature));
+				callback(crypto.verifyText(publicKey, message, signature));
 			}, 1);
 		} else {
-			signature = new BigInteger(signature, 16);
+			//signature = new BigInteger(signature, 16);
 			var real_hash = sjcl.codec.hex.fromBits(sjcl.hash.sha256.hash(message));
 			var rsa = new RSA();
 			return rsa.verifyPSS(real_hash, signature, publicKey.ee, publicKey.n);
-		}
-	};
-
-	/**
-	* Wait until randomizer is ready.
-	* calls callback if randomizer is ready.
-	*/
-	crypto.waitForReady = function (callback) {
-		if (sjcl.random.isReady()) {
-			callback();
-		} else {
-			ssn.logger.log("Not yet ready!");
-			ssn.display.showNotReadyWarning();
-			sjcl.random.addEventListener("seeded", function () {
-				ssn.display.hideNotReadyWarning();
-				ssn.logger.log("Lets go!");
-
-				callback();
-			});
 		}
 	};
 
@@ -273,20 +194,20 @@ define(["libs/sjcl"], function (sjcl) {
 	crypto.encryptSessionKey = function (publicKey, sessionKey, privateKey, callback) {
 		if (typeof callback === "function") {
 			setTimeout(function () {
-				crypto.waitForReady(function () {
-					callback(ssn.crypto.encryptSessionKey(publicKey, sessionKey, privateKey));
+				waitForReady(function () {
+					callback(crypto.encryptSessionKey(publicKey, sessionKey, privateKey));
 				});
 			}, 1);
 		} else {
 			var time = new Date();
-			if (!(sessionKey instanceof ssn.crypto.sessionKey)) {
-				sessionKey = new ssn.crypto.sessionKey(sessionKey);
+			if (!(sessionKey instanceof sessionKey)) {
+				sessionKey = new SessionKey(sessionKey);
 			}
 
 			if (sessionKey.decryptKey(privateKey)) {
-				ssn.logger.log("SKey Decrypted:" + ((new Date().getTime()) - time));
+				logger.log("SKey Decrypted:" + ((new Date().getTime()) - time));
 				var result = sessionKey.getEncrypted(publicKey);
-				ssn.logger.log("SKey ReEncrypted:" + ((new Date().getTime()) - time));
+				logger.log("SKey ReEncrypted:" + ((new Date().getTime()) - time));
 				return result;
 			}
 

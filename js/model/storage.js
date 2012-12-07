@@ -1,5 +1,5 @@
-"use strict";
 define([], function () {
+	"use strict";
 	/** localStorage wrapper */
 	var storage = {
 		/** is localStorag available? */

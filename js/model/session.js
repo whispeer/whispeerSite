@@ -18,7 +18,6 @@ define(['jquery', 'display', 'model/storage', 'asset/logger', 'asset/helper', 'l
 
 	//TODO
 	var crypto;
-	var loadData;
 	var userManager;
 
 	var session = {
@@ -40,6 +39,70 @@ define(['jquery', 'display', 'model/storage', 'asset/logger', 'asset/helper', 'l
 			return sid;
 		},
 
+			/** Called when we logged in / restore our old session. */
+		loadData: function () {
+			var time;
+			var u, display;
+			step(function getDisplay() {
+				time = new Date().getTime();
+				require.wrap('display', this);
+			}, function rSession(err, d) {
+				display = d;
+				logger.log("Loading Data!");
+
+				display.loadingMain();
+
+				$("#sidebar-left, #sidebar-right, #nav-icons, #nav-search").show();
+				$("#loginform").hide();
+
+				logger.log("0:" + (new Date().getTime() - time));
+
+				session.getOwnUser(this);
+			}, function (ownUser) {
+				u = ownUser;
+				logger.log("5:" + (new Date().getTime() - time));
+				u.decryptKeys();
+				logger.log("10:" + (new Date().getTime() - time));
+				display.loadingMainProgress(10);
+
+				$("#username").text(u.getName());
+				userManager.loadFriends(this, true);
+			}, function () {
+				logger.log("20:" + (new Date().getTime() - time));
+				display.loadingMainProgress(20);
+
+				u.friends(this);
+			}, function (friends) {
+				logger.log("30:" + (new Date().getTime() - time));
+				display.loadingMainProgress(30);
+
+				display.loadFriendShipRequests(this);
+			}, function () {
+				logger.log("40:" + (new Date().getTime() - time));
+				display.loadingMainProgress(40);
+
+				display.loadLatestMessages(this);
+			}, function () {
+				display.loadingMainProgress(70);
+
+				require.wrap("model/state", this);
+			}, function (err, state) {
+				state.loaded = true;
+				$(window).trigger('hashchange');
+
+				//TODO think about something more robust here.
+				//mainly we need to detect whether we are restoring a session
+				// or whether we newly logged in.
+				if (display.loadedView === "register") {
+					display.loadView("main");
+				}
+
+				display.loadingMainProgress(100);
+
+				display.endLoadingMain();
+			});
+		},
+
 		/**
 		 * Loads an old Session. Looks if the Session Key is still valid. If this is
 		 * the case it looks if the key is there and tries decrypting it
@@ -58,7 +121,7 @@ define(['jquery', 'display', 'model/storage', 'asset/logger', 'asset/helper', 'l
 					if (parseInt(data.status, 10) === 1) {
 						if (parseInt(data.sessionok, 10) === 1) {
 							session.getStorage();
-							loadData();
+							session.loadData();
 						} else {
 							storage.clear();
 							//ssn.loaded = true;
@@ -76,7 +139,7 @@ define(['jquery', 'display', 'model/storage', 'asset/logger', 'asset/helper', 'l
 			storage.setItem("logedin", logedin);
 			storage.setItem("identifier", identifier);
 			storage.setItem("password", password);
-			storage.setItem("session", session);
+			storage.setItem("session", sid);
 			storage.setItem("key", key.getEncrypted());
 			storage.setItem("mainKey", mainKey.getOriginal());
 		},
@@ -102,10 +165,14 @@ define(['jquery', 'display', 'model/storage', 'asset/logger', 'asset/helper', 'l
 		 *            the password we want to login with
 		 * @return nothing
 		 */
-		login: function (identifierL, passwordL, cb) {
+		login: function (identifierL, passwordL) {
+			var crypto, PrivateKey, SessionKey;
 			step(function requireCrypto() {
-				require.wrap("crypto/crypto", this);
-			}, h.sF(function getCrypto(crypto) {
+				require.wrap(["crypto/crypto", "crypto/privateKey", "crypto/sessionKey"], this);
+			}, h.sF(function getCrypto(c, privKey, sessKey) {
+				crypto = c;
+				PrivateKey = privKey;
+				SessionKey = sessKey;
 				logger.log("Login: " + identifierL);
 
 				var hash = crypto.sha256(passwordL);
@@ -136,16 +203,16 @@ define(['jquery', 'display', 'model/storage', 'asset/logger', 'asset/helper', 'l
 						logedin = true;
 						identifier = identifierL;
 						password = passwordL;
-						session = data.session;
-						key = new crypto.privateKey($.toJSON(data.key), password);
-						mainKey = new crypto.sessionKey(data.mainKey);
+						sid = data.session;
+						key = new PrivateKey($.toJSON(data.key), password);
+						mainKey = new SessionKey(data.mainKey);
 						mainKey.decryptKey(key);
 						userid = key.id;
 
 						session.setStorage();
 
 						display.loginSuccess();
-						loadData();
+						session.loadData();
 					} else {
 						display.loginError(data.errorCode);
 					}
@@ -153,7 +220,7 @@ define(['jquery', 'display', 'model/storage', 'asset/logger', 'asset/helper', 'l
 					display.ajaxError();
 				}
 			}), function (e) {
-				console.log(e);
+				logger.log(e);
 			});
 		},
 
@@ -165,7 +232,7 @@ define(['jquery', 'display', 'model/storage', 'asset/logger', 'asset/helper', 'l
 				logedin = false;
 				identifier = "";
 				password = "";
-				session = "";
+				sid = "";
 				key = "";
 
 				userManager.reset();

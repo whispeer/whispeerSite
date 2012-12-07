@@ -17,7 +17,7 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 //
 // RSA implementation
-define(['libs/sjcl', 'asset/config', 'asset/logger', 'crypto/jsbn', 'crypto/jsbn2'], function (sjcl, config, logger, BigInteger) {
+define(['libs/sjcl', 'config', 'asset/logger', 'crypto/jsbn', 'crypto/jsbn2'], function (sjcl, config, logger, BigInteger) {
 	function SecureRandom() {
 		function nextBytes(byteArray) {
 			var n;
@@ -346,6 +346,10 @@ define(['libs/sjcl', 'asset/config', 'asset/logger', 'crypto/jsbn', 'crypto/jsbn
 		}
 
 		function verifyPSS(h, s, e, n) {
+			if (!s instanceof BigInteger) {
+				s = new BigInteger(s, 16);
+			}
+
 			//octet length of n
 			var k = Math.ceil(I2OSP(n).length / 2);
 			//bit length of n

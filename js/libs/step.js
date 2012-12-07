@@ -26,6 +26,10 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  */
 
+ //Ideas:
+ //this.last
+ //this.skip(stepNumber)
+
 // Inspired by http://github.com/willconant/flow-js, but reimplemented and
 // modified to fit my taste and the node.JS error handling system.
 function step() {
@@ -85,6 +89,26 @@ function step() {
 		}
 		lock = false;
 	}
+
+	//add a specific callback generator which will just call the last callback
+	next.last = function () {
+		while (steps.length > 1) {
+			steps.shift();
+		}
+
+		next.apply(null, arguments);
+	};
+
+	next.skip = function (remove) {
+		return function () {
+			var i;
+			for (i = 0; i < remove; i += 1) {
+				steps.shift();
+			}
+
+			next.apply(null, arguments);
+		};
+	};
 
 	// Add a special callback generator `this.parallel()` that groups stuff.
 	next.parallel = function () {
@@ -150,6 +174,7 @@ if (typeof module !== 'undefined' && module.hasOwnProperty("exports")) {
 
 if (typeof define !== 'undefined') {
 	define([], function () {
+		"use strict";
 		return step;
 	});
 }

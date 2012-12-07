@@ -51,6 +51,7 @@ define([], function () {
 
 	// return new, unset BigInteger
 	function nbi() { return new BigInteger(null); }
+	BigInteger.nbi = nbi;
 
 	// am: Compute w_j += (x*this_i), propagate carries,
 	// c is initial carry, returns final carry.
@@ -135,6 +136,7 @@ define([], function () {
 	  var c = BI_RC[s.charCodeAt(i)];
 	  return (c==null)?-1:c;
 	}
+	BigInteger.intAt = intAt;
 
 	// (protected) copy this to r
 	function bnpCopyTo(r) {
@@ -154,6 +156,7 @@ define([], function () {
 
 	// return bigint initialized to value
 	function nbv(i) { var r = nbi(); r.fromInt(i); return r; }
+	BigInteger.nbv = nbv;
 
 	// (protected) set from string and radix
 	function bnpFromString(s,b) {
@@ -486,6 +489,7 @@ define([], function () {
 	  this.um = (1<<(m.DB-15))-1;
 	  this.mt2 = 2*m.t;
 	}
+	BigInteger.Montgomery = Montgomery;
 
 	// xR mod m
 	function montConvert(x) {

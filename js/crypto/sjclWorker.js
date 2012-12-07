@@ -1,38 +1,43 @@
-"use strict";
+importScripts("../libs/require.js");
 
-importScripts("../libs/sjcl.js");
-
-self.onmessage = function (event) {
-	if (event.randomNumber) {
-		sjcl.random.addEntropy(event.randomNumber, event.entropy, "adding entropy");
-
-		return;
+require.wrap({baseUrl: "../"}, ["libs/sjcl"], function (err, sjcl) {
+	"use strict";
+	if (err) {
+		throw err;
 	}
 
-	var key = event.data.key;
+	self.onmessage = function (event) {
+		if (event.randomNumber) {
+			sjcl.random.addEntropy(event.randomNumber, event.entropy, "adding entropy");
 
-	var encrypt = event.data.encrypt;
-	var message = event.data.message;
-
-	var iv = event.data.iv;
-
-	var result;
-	if (encrypt) {
-		if (typeof iv === "undefined") {
-			result = sjcl.encrypt(sjcl.codec.hex.toBits(key), message);
-		} else {
-			result = sjcl.encrypt(sjcl.codec.hex.toBits(key), message, {"iv": iv});
+			return;
 		}
-	} else {
-		if (typeof iv === "undefined") {
-			result = sjcl.decrypt(sjcl.codec.hex.toBits(key), message);
+
+		var key = event.data.key;
+
+		var encrypt = event.data.encrypt;
+		var message = event.data.message;
+
+		var iv = event.data.iv;
+
+		var result;
+		if (encrypt) {
+			if (typeof iv === "undefined") {
+				result = sjcl.encrypt(sjcl.codec.hex.toBits(key), message);
+			} else {
+				result = sjcl.encrypt(sjcl.codec.hex.toBits(key), message, {"iv": iv});
+			}
 		} else {
-			result = sjcl.decrypt(sjcl.codec.hex.toBits(key), message, {"iv": iv});
+			if (typeof iv === "undefined") {
+				result = sjcl.decrypt(sjcl.codec.hex.toBits(key), message);
+			} else {
+				result = sjcl.decrypt(sjcl.codec.hex.toBits(key), message, {"iv": iv});
+			}
 		}
-	}
 
-	var callback = event.data;
-	callback.result = result;
+		var callback = event.data;
+		callback.result = result;
 
-	self.postMessage(callback);
-};
+		self.postMessage(callback);
+	};
+});

@@ -34,7 +34,15 @@
 
 // Version 1.1: new BigInteger("0", 10) returns "proper" zero
 // Version 1.2: square() API, isProbablePrime fix
-	define(['crypto/jsbn'], function (BigInteger) {
+define(['crypto/jsbn'], function (BigInteger) {
+	//functions we need:
+	var nbv = BigInteger.nbv;
+	var nbi = BigInteger.nbi;
+	var Montgomery = BigInteger.Montgomery;
+	var intAt = BigInteger.intAt;
+	//nbv
+	//nbi
+
 	// (public)
 	function bnClone() { var r = nbi(); this.copyTo(r); return r; }
 
@@ -87,7 +95,8 @@
 	  if(b == null) b = 10;
 	  var cs = this.chunkSize(b);
 	  var d = Math.pow(b,cs), mi = false, j = 0, w = 0;
-	  for(var i = 0; i < s.length; ++i) {
+	  var i;
+	  for(i = 0; i < s.length; ++i) {
 		var x = intAt(s,i);
 		if(x < 0) {
 		  if(s.charAt(i) == "-" && this.signum() == 0) mi = true;
@@ -216,7 +225,8 @@
 	// (public) ~this
 	function bnNot() {
 	  var r = nbi();
-	  for(var i = 0; i < this.t; ++i) r[i] = this.DM&~this[i];
+	  var i;
+	  for(i = 0; i < this.t; ++i) r[i] = this.DM&~this[i];
 	  r.t = this.t;
 	  r.s = ~this.s;
 	  return r;
@@ -250,7 +260,8 @@
 
 	// (public) returns index of lowest 1-bit (or -1 if none)
 	function bnGetLowestSetBit() {
-	  for(var i = 0; i < this.t; ++i)
+	  var i;
+	  for(i = 0; i < this.t; ++i)
 		if(this[i] != 0) return i*this.DB+lbit(this[i]);
 	  if(this.s < 0) return this.t*this.DB;
 	  return -1;
