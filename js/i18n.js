@@ -119,12 +119,14 @@
                     masterName = name;
                     suffix = match[4];
                     locale = masterConfig.locale;
+
                     if (!locale) {
                         locale = masterConfig.locale =
                             typeof navigator === "undefined" ? "root" :
                             (navigator.language ||
                              navigator.userLanguage || "root").toLowerCase();
                     }
+
                     parts = locale.split("-");
                 }
 

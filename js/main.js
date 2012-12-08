@@ -19,7 +19,7 @@ define(['jquery', 'asset/logger', 'asset/helper', 'libs/step', 'model/state'], f
 			//Local storage available?
 			if (session.storageAvailable()) {
 				// We already got a session?
-				if (session.logedin()) {
+				if (session.isOldSession()) {
 					session.loadOldSession();
 					return;
 				}

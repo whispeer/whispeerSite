@@ -1,4 +1,4 @@
-define(['jquery', 'display', 'model/storage', 'asset/logger', 'asset/helper', 'libs/step', 'libs/jquery.json.min'], function ($, display, storage, logger, h, step) {
+define(['jquery', 'display', 'model/storage', 'asset/logger', 'asset/helper', 'libs/step', "crypto/privateKey", "crypto/sessionKey", 'libs/jquery.json.min'], function ($, display, storage, logger, h, step, PrivateKey, SessionKey) {
 	"use strict";
 
 	/** user loged in? */
@@ -17,7 +17,6 @@ define(['jquery', 'display', 'model/storage', 'asset/logger', 'asset/helper', 'l
 	var userid = 0;
 
 	//TODO
-	var crypto;
 	var userManager;
 
 	var session = {
@@ -27,6 +26,10 @@ define(['jquery', 'display', 'model/storage', 'asset/logger', 'asset/helper', 'l
 
 		logedin: function () {
 			return logedin;
+		},
+
+		isOldSession: function () {
+			return !!storage.getItem("logedin");
 		},
 
 		/** get the main key */
@@ -55,6 +58,9 @@ define(['jquery', 'display', 'model/storage', 'asset/logger', 'asset/helper', 'l
 				$("#sidebar-left, #sidebar-right, #nav-icons, #nav-search").show();
 				$("#loginform").hide();
 
+				require.wrap("asset/i18n!menu", this);
+			}, function (err, i18n) {
+				i18n.translate($("#menu"));
 				logger.log("0:" + (new Date().getTime() - time));
 
 				session.getOwnUser(this);
@@ -150,8 +156,8 @@ define(['jquery', 'display', 'model/storage', 'asset/logger', 'asset/helper', 'l
 			identifier = storage.getItem("identifier");
 			password = storage.getItem("password");
 			sid = storage.getItem("session");
-			key = new crypto.privateKey(storage.getItem("key"), password);
-			mainKey = new crypto.sessionKey(storage.getItem("mainKey"));
+			key = new PrivateKey(storage.getItem("key"), password);
+			mainKey = new SessionKey(storage.getItem("mainKey"));
 			mainKey.decryptKey(key);
 			userid = key.id;
 		},
@@ -166,13 +172,12 @@ define(['jquery', 'display', 'model/storage', 'asset/logger', 'asset/helper', 'l
 		 * @return nothing
 		 */
 		login: function (identifierL, passwordL) {
-			var crypto, PrivateKey, SessionKey;
+			var crypto;
 			step(function requireCrypto() {
-				require.wrap(["crypto/crypto", "crypto/privateKey", "crypto/sessionKey"], this);
-			}, h.sF(function getCrypto(c, privKey, sessKey) {
+				require.wrap(["crypto/crypto"], this);
+			}, h.sF(function getCrypto(c) {
 				crypto = c;
-				PrivateKey = privKey;
-				SessionKey = sessKey;
+
 				logger.log("Login: " + identifierL);
 
 				var hash = crypto.sha256(passwordL);

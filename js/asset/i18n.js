@@ -1,5 +1,4 @@
-var preLoad = ['i18n!nls/errors', 'i18n!nls/warnings'];
-define(['asset/logger', 'asset/helper', 'libs/step'].concat(preLoad), function (logger, h, step) {
+define(['jquery', 'asset/logger', 'asset/helper', 'libs/step'], function ($, logger, h, step) {
 	"use strict";
 
 	var i18n = {
@@ -27,20 +26,28 @@ define(['asset/logger', 'asset/helper', 'libs/step'].concat(preLoad), function (
 		* @param ele element to translate
 		*/
 		translate: function (ele) {
-			//TODO
-			//child.each
+			ele.find("[i18n]").each(function (nop, sub) {
+				sub = $(sub);
+
+				sub.text(i18n.getValue(sub.attr("i18n")));
+			});
 		},
 		/** get the value of a translation.
 		* @param val value to get. Is split on dots to determine topic
 		*/
 		getValue: function (val) {
-			//TODO
-			if (typeof this.translations[val] === "undefined") {
+			var vals = val.split(".");
+			var topic = vals[0];
+			var value = vals[1];
+
+			if (!h.arraySet(i18n.locales, topic, value)) {
 				logger.log("unset translation:" + val);
 				return "";
 			}
 
-			var result = h.decodeEntities(translation.translations[val]);
+			var result = i18n.locales[topic][value];
+
+			result = h.decodeEntities(result);
 
 			var i = 1;
 			for (i = 1; i < arguments.length; i += 1) {
@@ -58,12 +65,22 @@ define(['asset/logger', 'asset/helper', 'libs/step'].concat(preLoad), function (
 		}
 	};
 
-	var i;
-	for (i = 0; i < preLoad.length; i += 1) {
-		var theLocale = arguments[i+3];
-		//TODO
-		//var localeName = preLoad[i].
-	}
+	return {
+		load: function (name, req, onLoad) {
+			step(function load() {
+				var names = name.split(";");
 
-	return i18n;
+				var i;
+				for (i = 0; i < names.length; i += 1) {
+					i18n.loadLocale(names[i], this.parallel());
+				}
+			}, function (err) {
+				if (err) {
+					logger.log(err);
+				}
+
+				this(i18n);
+			}, onLoad);
+		}
+	};
 });
