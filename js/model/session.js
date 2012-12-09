@@ -17,7 +17,6 @@ define(['jquery', 'display', 'model/storage', 'asset/logger', 'asset/helper', 'l
 	var userid = 0;
 
 	//TODO
-	var userManager;
 
 	var session = {
 		storageAvailable: function () {
@@ -45,10 +44,10 @@ define(['jquery', 'display', 'model/storage', 'asset/logger', 'asset/helper', 'l
 			/** Called when we logged in / restore our old session. */
 		loadData: function () {
 			var time;
-			var u, display;
+			var u, userManager, display;
 			step(function getDisplay() {
 				time = new Date().getTime();
-				require.wrap('display', this);
+				require.wrap(['display', 'model/userManager'], this);
 			}, function rSession(err, d) {
 				display = d;
 				logger.log("Loading Data!");
@@ -240,7 +239,10 @@ define(['jquery', 'display', 'model/storage', 'asset/logger', 'asset/helper', 'l
 				sid = "";
 				key = "";
 
-				userManager.reset();
+				require.wrap("model/userManager", function (userManager) {
+					userManager.reset();
+				});
+
 				//ssn.messages.reset();
 
 				h.getData({"logout" : 1});
@@ -254,7 +256,11 @@ define(['jquery', 'display', 'model/storage', 'asset/logger', 'asset/helper', 'l
 		* @author Nilos
 		*/
 		getOwnUser: function (callback) {
-			userManager.getUser(userid, userManager.FULL, callback);
+			step(function loadUManager() {
+				require.wrap("model/userManager", this);
+			}, h.sF(function (userManager) {
+				userManager.getUser(userid, userManager.FULL, this);
+			}), callback);
 		},
 
 		/** Returns a number between 0 and 10 for the strength of the password.

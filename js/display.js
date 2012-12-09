@@ -1,3 +1,6 @@
+var ssn = {};
+ssn.display = {};
+
 define(['jquery', 'libs/step', 'asset/logger', 'model/state', 'asset/helper', 'config', 'asset/i18n'], function ($, step, logger, state, h, config, i18n) {
 	"use strict";
 	var hashes = [];
@@ -5,10 +8,6 @@ define(['jquery', 'libs/step', 'asset/logger', 'model/state', 'asset/helper', 'c
 	var loginF;
 
 	var display = {
-		//still missing functions:
-		//REGISTERNOW
-		//REGISTERERROR
-
 		/** set the handler for the login function */
 		setLogin: function (func) {
 			loginF = func;
@@ -314,12 +313,12 @@ define(['jquery', 'libs/step', 'asset/logger', 'model/state', 'asset/helper', 'c
 				subview = "main";
 			}
 
-			if (typeof display[page] === "undefined") {
-				display[page] = {};
+			if (typeof ssn.display[page] === "undefined") {
+				ssn.display[page] = {};
 			}
 
-			if (typeof display[page][subview] === "undefined") {
-				display[page][subview] = {};
+			if (typeof ssn.display[page][subview] === "undefined") {
+				ssn.display[page][subview] = {};
 			}
 
 			if (display.loadedView !== page) {
@@ -365,7 +364,7 @@ define(['jquery', 'libs/step', 'asset/logger', 'model/state', 'asset/helper', 'c
 
 						try {
 							logger.log("running " + page + " loader");
-							display[page].load(done);
+							ssn.display[page].load(done);
 						} catch (e) {
 							done();
 						}
@@ -425,7 +424,7 @@ define(['jquery', 'libs/step', 'asset/logger', 'model/state', 'asset/helper', 'c
 				});
 			} else if (display.subview !== subview) {
 				step(function () {
-					display[page].hashChange(this);
+					ssn.display[page].hashChange(this);
 				}, function (err) {
 					if (err) {
 						logger.log(err, logger.ALL);
@@ -436,14 +435,14 @@ define(['jquery', 'libs/step', 'asset/logger', 'model/state', 'asset/helper', 'c
 			} else {
 				var doneF = function () {
 					try {
-						display[page][subview].hashChange(function () {});
+						ssn.display[page][subview].hashChange(function () {});
 					} catch (e) {
 						logger.log(e, logger.ALL);
 					}
 				};
 
 				try {
-					display[page].hashChange(doneF);
+					ssn.display[page].hashChange(doneF);
 				} catch (e3) {
 					logger.log(e3, logger.ALL);
 					doneF();
@@ -464,7 +463,7 @@ define(['jquery', 'libs/step', 'asset/logger', 'model/state', 'asset/helper', 'c
 
 			var done = function () {
 				try {
-					display[page][subview].load(end);
+					ssn.display[page][subview].load(end);
 				} catch (e) {
 					end();
 				}
