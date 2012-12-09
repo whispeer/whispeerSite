@@ -24,21 +24,22 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
- */
+*/
 
- //Ideas:
- //this.last
- //this.skip(stepNumber)
+//TODO: timing: get function names somehow.
 
 // Inspired by http://github.com/willconant/flow-js, but reimplemented and
 // modified to fit my taste and the node.JS error handling system.
 function step() {
 	"use strict";
+
 	var steps = Array.prototype.slice.call(arguments),
 		pending = 0,
 		counter = 0,
 		results = [],
-		lock = false;
+		lock = false,
+		timing = step.timing,
+		start = new Date().getTime();
 
 	// Define the main callback that's given as `this` to the steps.
 	function next(err) {
@@ -90,7 +91,7 @@ function step() {
 		lock = false;
 	}
 
-	//add a specific callback generator which will just call the last callback
+	/** just skip all calls and go directly to the last callback */
 	next.last = function () {
 		while (steps.length > 1) {
 			steps.shift();
@@ -99,6 +100,10 @@ function step() {
 		next.apply(null, arguments);
 	};
 
+	/** skip a certain number of callbacks
+	* @param remove number of callbacks to skip
+	* @return function to call
+	*/
 	next.skip = function (remove) {
 		return function () {
 			var i;
@@ -166,6 +171,8 @@ step.fn = function StepFn() {
 		step.apply(null, toRun);
 	};
 };
+
+step.timing = false;
 
 // Hook into commonJS module systems
 if (typeof module !== 'undefined' && module.hasOwnProperty("exports")) {
