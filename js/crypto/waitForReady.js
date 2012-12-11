@@ -1,4 +1,4 @@
-define(['libs/sjcl', 'asset/logger', 'display'], function (sjcl, logger, display) {
+define(['libs/sjcl'], function (sjcl) {
 	"use strict";
 
 	/**
@@ -8,16 +8,14 @@ define(['libs/sjcl', 'asset/logger', 'display'], function (sjcl, logger, display
 	var waitForReady = function (callback) {
 		if (sjcl.random.isReady()) {
 			callback();
-		} else {
-			logger.log("Not yet ready!");
-			display.showNotReadyWarning();
-			sjcl.random.addEventListener("seeded", function () {
-				display.hideNotReadyWarning();
-				logger.log("Lets go!");
-
-				callback();
-			});
+			return true;
 		}
+
+		sjcl.random.addEventListener("seeded", function () {
+			callback();
+		});
+
+		return false;
 	};
 
 	return waitForReady;

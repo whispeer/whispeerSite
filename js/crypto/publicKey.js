@@ -1,4 +1,4 @@
-define(['jquery', 'crypto/jsbn', 'asset/logger', 'libs/jquery.json.min', 'crypto/jsbn2'], function ($, BigInteger, logger) {
+define(['jquery', 'crypto/jsbn', 'asset/logger', 'libs/step', 'asset/helper', 'libs/jquery.json.min', 'crypto/jsbn2'], function ($, BigInteger, logger, step, h) {
 	"use strict";
 
 	/**
@@ -8,15 +8,66 @@ define(['jquery', 'crypto/jsbn', 'asset/logger', 'libs/jquery.json.min', 'crypto
 		/**
 		* The ee parameter of this key.
 		*/
-		this.ee = null;
+		var ee = null;
 		/**
 		* The n parameter of this key.
 		*/
-		this.n = null;
+		var n = null;
 		/**
 		* The ID of this key.
 		*/
-		this.id = null;
+		var id = null;
+
+		this.id = function () {
+			return id;
+		};
+
+		this.ee = function () {
+			return ee;
+		};
+
+		this.n = function () {
+			return n;
+		};
+
+		this.setID = function (theID) {
+			if (!id) {
+				id = theID;
+				return true;
+			}
+
+			return false;
+		};
+
+		this.encryptOAEP = function (message, label, callback) {
+			step(function getLibs() {
+				require.wrap(["crypto/rsa"], this);
+			}, h.sF(function theLibs(RSA) {
+				if (Modernizr.webworkers) {
+					//TODO: web worker
+				} else {
+					var rsa = new RSA();
+					this.last(null, rsa.encryptOAEP(message, ee, n, label));
+				}
+			}), callback);
+		};
+
+		this.verifyPSS = function (message, signature, callback) {
+			var realHash;
+			step(function getLibs() {
+				require.wrap(["libs/sjcl", "crypto/rsa"], this);
+			}, h.sF(function theLibs(sjcl, RSA) {
+				realHash = sjcl.codec.hex.fromBits(sjcl.hash.sha256.hash(message));
+				if (Modernizr.webworkers) {
+					require.wrap("crypto/rsaWorkerInclude", this);
+				} else {
+					var rsa = new RSA();
+					this.last(null, rsa.verifyPSS(realHash, signature, ee, n));
+				}
+			}), h.sF(function theWorker(rsaWorker) {
+				rsaWorker.verifyPSS(realHash, signature, ee, n, this);
+			}), callback);
+		};
 
 		/**
 		* @private
@@ -24,9 +75,9 @@ define(['jquery', 'crypto/jsbn', 'asset/logger', 'libs/jquery.json.min', 'crypto
 		var pkGetJSON = function () {
 			var endString =
 				'{' +
-				'"ee":"' + this.ee.toString(16) + '",' +
-				'"n":"' + this.n.toString(16) + '",' +
-				'"id":"' + this.id + '"' +
+				'"ee":"' + ee.toString(16) + '",' +
+				'"n":"' + n.toString(16) + '",' +
+				'"id":"' + id + '"' +
 				'}';
 
 			return endString;
@@ -47,9 +98,9 @@ define(['jquery', 'crypto/jsbn', 'asset/logger', 'libs/jquery.json.min', 'crypto
 				return false;
 			}
 
-			this.ee = new BigInteger(jsonData.ee, 16);
-			this.n = new BigInteger(jsonData.n, 16);
-			this.id = jsonData.id;
+			ee = new BigInteger(jsonData.ee, 16);
+			n = new BigInteger(jsonData.n, 16);
+			id = jsonData.id;
 
 			return true;
 		};
@@ -58,8 +109,8 @@ define(['jquery', 'crypto/jsbn', 'asset/logger', 'libs/jquery.json.min', 'crypto
 		* @private
 		*/
 		var pkReadFromRSA = function (theKey) {
-			this.ee = theKey.ee;
-			this.n = theKey.n;
+			ee = theKey.ee;
+			n = theKey.n;
 		};
 
 		/**
@@ -72,16 +123,11 @@ define(['jquery', 'crypto/jsbn', 'asset/logger', 'libs/jquery.json.min', 'crypto
 		* @function
 		*/
 		this.getJSON = pkGetJSON;
-		/**
-		* read from json representation.
-		* @function
-		*/
-		this.readFromJSON = pkReadFromJSON;
 
 		if (data !== null) {
 			try {
-				if (!this.readFromJSON(data)) {
-					this.readFromRSA(data);
+				if (!pkReadFromJSON(data)) {
+					pkReadFromRSA(data);
 				}
 			} catch (e) {
 				logger.log(e);

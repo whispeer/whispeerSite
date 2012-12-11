@@ -1,6 +1,6 @@
 importScripts("../libs/require.js");
 
-require.wrap({baseUrl: "./"}, ["jsbn", "jsbn2"], function (err, BigInteger) {
+require.wrap({baseUrl: "../"}, ["crypto/jsbn", "crypto/jsbn2"], function (err, BigInteger) {
 	"use strict";
 
 	if (err) {
@@ -15,4 +15,6 @@ require.wrap({baseUrl: "./"}, ["jsbn", "jsbn2"], function (err, BigInteger) {
 
 		self.postMessage(number.toString(16));
 	};
+
+	self.postMessage("ready");
 });

@@ -17,7 +17,7 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 //
 // RSA implementation
-define(['libs/sjcl', 'config', 'asset/logger', 'crypto/jsbn', 'crypto/jsbn2'], function (sjcl, config, logger, BigInteger) {
+define(['libs/sjcl', 'config', 'crypto/jsbn', 'crypto/jsbn2'], function (sjcl, config, BigInteger) {
 	function SecureRandom() {
 		function nextBytes(byteArray) {
 			var n;
@@ -129,7 +129,7 @@ define(['libs/sjcl', 'config', 'asset/logger', 'crypto/jsbn', 'crypto/jsbn2'], f
 			var cLen = Math.ceil(I2OSP(c).length / 2);
 
 			if (k < 2 * hlen + 2) {
-				logger.log("k < 2 * hlen + 2");
+				//logger.log("k < 2 * hlen + 2");
 				return false;
 			}
 
@@ -156,7 +156,7 @@ define(['libs/sjcl', 'config', 'asset/logger', 'crypto/jsbn', 'crypto/jsbn2'], f
 			var lHash2 = DB.substr(0, hlen * 2);
 
 			if (lHash2 !== lHash) {
-				logger.log("hashes not equal: " + lHash2 + "-" + lHash);
+				//logger.log("hashes not equal: " + lHash2 + "-" + lHash);
 				return false;
 			}
 
@@ -171,14 +171,14 @@ define(['libs/sjcl', 'config', 'asset/logger', 'crypto/jsbn', 'crypto/jsbn2'], f
 						M = DB.substr(i + 2);
 						break;
 					} else {
-						logger.log("not 01: " + val);
+						//logger.log("not 01: " + val);
 						return false;
 					}
 				}
 			}
 
 			if (Y !== "00") {
-				logger.log("y not 00");
+				//logger.log("y not 00");
 				return false;
 			}
 
@@ -321,12 +321,12 @@ define(['libs/sjcl', 'config', 'asset/logger', 'crypto/jsbn', 'crypto/jsbn2'], f
 			var emLen = Math.ceil(emBits / 8);
 
 			if (emLen < hlen + slen + 2) {
-				logger.log("emLen wrong");
+				//logger.log("emLen wrong");
 				return false;
 			}
 
 			if (EM.substr(EM.length - 2) !== "bc") {
-				logger.log("not bc");
+				//logger.log("not bc");
 				return false;
 			}
 
@@ -402,11 +402,11 @@ define(['libs/sjcl', 'config', 'asset/logger', 'crypto/jsbn', 'crypto/jsbn2'], f
 					//get a random number with the right length.
 					var number = new BigInteger(length, rng);
 					//send number to worker to calculate a prime number from it.
-					logger.log("Posting number to worker");
+					//logger.log("Posting number to worker");
 					primeCalculator.postMessage({'number': number.toString(16), 'length': length});
 				} catch (e) {
 					if (e instanceof sjcl.exception.notReady) {
-						logger.log("not yet ready - length: " + length);
+						//logger.log("not yet ready - length: " + length);
 						setTimeout(function () {generate(length); }, 500);
 					} else {
 						throw e;
@@ -415,7 +415,11 @@ define(['libs/sjcl', 'config', 'asset/logger', 'crypto/jsbn', 'crypto/jsbn2'], f
 			};
 
 			primeCalculator.onmessage = function (event) {
-				logger.log("data from worker!");
+				if (event.data === "ready") {
+					generate(B - qs);
+				}
+
+				//logger.log("data from worker!");
 
 				var number = new BigInteger(event.data, 16);
 
@@ -445,7 +449,7 @@ define(['libs/sjcl', 'config', 'asset/logger', 'crypto/jsbn', 'crypto/jsbn2'], f
 							key.q = null;
 						}
 					} else {
-						logger.logError("Worker Error! Worker produced more primes than needed");
+						//logger.logError("Worker Error! Worker produced more primes than needed");
 					}
 				}
 
@@ -458,8 +462,6 @@ define(['libs/sjcl', 'config', 'asset/logger', 'crypto/jsbn', 'crypto/jsbn2'], f
 					callback(key);
 				}
 			};
-
-			generate(B - qs);
 		}
 
 		// Generate a new random private key B bits long, using public expt E
