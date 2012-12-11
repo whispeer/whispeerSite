@@ -1,4 +1,4 @@
-define(['jquery', 'asset/logger', 'asset/helper', 'asset/exceptions', 'asset/config', 'crypto/sessionKey', 'model/session', 'libs/step', 'libs/jquery.json.min'], function ($, logger, h, exceptions, config, SessionKey, session, step) {
+define(['jquery', 'asset/logger', 'asset/helper', 'asset/exceptions', 'config', 'crypto/sessionKey', 'model/session', 'libs/step', 'libs/jquery.json.min'], function ($, logger, h, exceptions, config, SessionKey, session, step) {
 	"use strict";
 
 	//TODO
@@ -439,7 +439,7 @@ define(['jquery', 'asset/logger', 'asset/helper', 'asset/exceptions', 'asset/con
 				logger.log("pubKey:" + ((new Date().getTime()) - time));
 				publicKey = pk;
 				session.getOwnUser(this);
-			}, h.sF(function theOwnUser(u) {
+			}), h.sF(function theOwnUser(u) {
 				logger.log("ownUser:" + ((new Date().getTime()) - time));
 				u.getSessionKeys(this);
 			}), h.sF(function theSessionKeys(keys) {

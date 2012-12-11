@@ -1,7 +1,7 @@
 var ssn = {};
 ssn.display = {};
 
-define(['jquery', 'libs/step', 'asset/logger', 'model/state', 'asset/helper', 'config', 'asset/i18n'], function ($, step, logger, state, h, config, i18n) {
+define(['jquery', 'libs/step', 'asset/logger', 'model/state', 'asset/helper', 'config', 'asset/i18n!warnings;display'], function ($, step, logger, state, h, config, i18n) {
 	"use strict";
 	var hashes = [];
 

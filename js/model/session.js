@@ -92,6 +92,12 @@ define(['jquery', 'display', 'model/storage', 'asset/logger', 'asset/helper', 'l
 
 				require.wrap("model/state", this);
 			}, function (err, state) {
+				if (err) {
+					console.log(err);
+					throw err;
+				}
+
+				console.log(state);
 				state.loaded = true;
 				$(window).trigger('hashchange');
 
