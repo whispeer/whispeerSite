@@ -1,4 +1,4 @@
-define(['libs/sjcl', 'asset/logger', 'jquery', 'crypto/rsa', 'crypto/jsbn', 'crypto/jsbn2', 'libs/jquery.json.min'], function (sjcl, logger, $, RSA, BigInteger) {
+define(['libs/sjcl', 'asset/logger', 'jquery', 'crypto/publicKey', 'libs/step', 'asset/helper', 'libs/jquery.json.min'], function (sjcl, logger, $, PublicKey, step, h) {
 	"use strict";
 	/**
 	* A private Key
@@ -7,42 +7,81 @@ define(['libs/sjcl', 'asset/logger', 'jquery', 'crypto/rsa', 'crypto/jsbn', 'cry
 	* @class
 	*/
 	var PrivateKey = function (data, password) {
-		this.ee = null;
-		this.n = null;
-		this.id = null;
-
-		var RSAObject = new RSA();
+		var publicKey = new PublicKey(data);
+		var privateKey = this;
 
 		var d = null;
 		var p = null;
 		var q = null;
 		var u = null;
 
+		/** publicKey functions */
+		this.ee = function () {
+			return publicKey.ee();
+		};
+
+		this.n = function () {
+			return publicKey.n();
+		};
+
+		this.id = function () {
+			return publicKey.id();
+		};
+
+		this.setID = function (theID) {
+			return publicKey.setID(theID);
+		};
+
+		this.encryptOAEP = function (message, label, callback) {
+			return publicKey.encryptOAEP(message, label, callback);
+		};
+
+		this.verifyPSS = function (message, signature, callback) {
+			return publicKey.verifyPSS(message, signature, callback);
+		};
+
+		/** private key functions */
+
+
+		this.decryptOAEP = function (message, l, callback) {
+			step(function getLibs() {
+				require.wrap(["crypto/rsa"], this);
+			}, h.sF(function theLibs(RSA) {
+				if (Modernizr.webworkers) {
+					require.wrap("crypto/rsaWorkerInclude", this);
+				} else {
+					var rsa = new RSA();
+					this.last(null, rsa.decryptOAEP(message, d, p, q, u, privateKey.n(), l));
+				}
+			}), h.sF(function theWorker(rsaWorker) {
+				rsaWorker.decryptOAEP(message, d, p, q, u, privateKey.n(), l, this);
+			}), callback);
+		};
+
 		/**
 		* @private
 		*/
-		var pkDecrypt = function (message) {
-			return RSAObject.decryptcrt(message, d, p, q, u);
-		};
+		this.signPSS = function (message, callback) {
+			step(function getLibs() {
+				require.wrap(["crypto/rsa"], this);
+			}, h.sF(function theLibs(RSA) {
+				if (Modernizr.webworkers) {
+					require.wrap("crypto/rsaWorkerInclude", this);
+				} else {
+					var rsa = new RSA();
+					this.last(null, rsa.signPSS(message, d, p, q, u, privateKey.n()));
+				}
+			}), h.sF(function theWorker(rsaWorker) {
+				rsaWorker.signPSS(message, d, p, q, u, privateKey.n(), this);
+			}), callback);
 
-		var pkDecryptOAEP = function (message, l) {
-			return RSAObject.decryptOAEP(message, d, p, q, u, this.n, l);
-		};
-
-		/**
-		* @private
-		*/
-		var pkSign = function (message) {
-			return RSAObject.signPSS(message, d, p, q, u, this.n);
+			//return RSAObject.signPSS(message, d, p, q, u, privateKey.n());
 		};
 
 		/**
 		* @private
 		*/
 		var pkReadFromRSA = function (theKey) {
-			this.ee = theKey.ee;
-			this.n = theKey.n;
-
 			d = theKey.d;
 			p = theKey.p;
 			q = theKey.q;
@@ -62,9 +101,9 @@ define(['libs/sjcl', 'asset/logger', 'jquery', 'crypto/rsa', 'crypto/jsbn', 'cry
 
 			var endString =
 				'{' +
-				'"ee":"' + this.ee.toString(16) + '",' +
-				'"n":"' + this.n.toString(16) + '",' +
-				'"id":"' + this.id + '",' +
+				'"ee":"' + this.ee().toString(16) + '",' +
+				'"n":"' + this.n().toString(16) + '",' +
+				'"id":"' + this.id() + '",' +
 				'"priv":' + sjcl.json.encrypt(password, sjcl.json.encode(privatePart)) +
 				'}';
 
@@ -81,20 +120,16 @@ define(['libs/sjcl', 'asset/logger', 'jquery', 'crypto/rsa', 'crypto/jsbn', 'cry
 				return false;
 			}
 
-			this.ee = new BigInteger(jsonData.ee, 16);
-			this.n = new BigInteger(jsonData.n, 16);
-			this.id = jsonData.id;
-
 			var privatePartEnc = $.toJSON(jsonData.priv);
 
 			var decryptedPrivate = sjcl.json.decrypt(password, privatePartEnc);
 
 			var privatePart = $.parseJSON(decryptedPrivate);
 
-			d = new BigInteger(privatePart.d, 16);
-			p = new BigInteger(privatePart.p, 16);
-			q = new BigInteger(privatePart.q, 16);
-			u = new BigInteger(privatePart.u, 16);
+			d = privatePart.d;
+			p = privatePart.p;
+			q = privatePart.q;
+			u = privatePart.u;
 
 			return true;
 		};
@@ -142,21 +177,6 @@ define(['libs/sjcl', 'asset/logger', 'jquery', 'crypto/rsa', 'crypto/jsbn', 'cry
 		* @function
 		*/
 		this.readFromRSA = pkReadFromRSA;
-		/**
-		* Sign a  message with this key.
-		* @param message the message to sign
-		* @function
-		*/
-		this.sign = pkSign;
-
-		this.decryptOAEP = pkDecryptOAEP;
-
-		/**
-		* decrypt a message.
-		* @param message the message to decrypt.
-		* @function
-		*/
-		this.decrypt = pkDecrypt;
 
 		if (data !== null) {
 			try {
