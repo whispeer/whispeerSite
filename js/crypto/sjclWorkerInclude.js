@@ -1,19 +1,19 @@
-define(['asset/logger', 'libs/step', 'crypto/generalWorkerInclude', 'crypto/waitForReady'], function (logger, step, workerManager, waitForReady) {
+define(['libs/step', 'crypto/generalWorkerInclude', 'crypto/waitForReady', 'asset/helper', 'libs/sjcl'], function (step, WorkerManager, waitForReady, h, sjcl) {
 	"use strict";
 
 	var addEntropy = function (theWorker, callback) {
 		step(function waitReady() {
-			waitForReady(this)
+			waitForReady(this);
 		}, h.sF(function ready() {
 			theWorker.postMessage({randomNumber: sjcl.codec.hex.fromBits(sjcl.random.randomWords(16)), entropy: 1024});
-		}));
-	}
-	
+		}), callback);
+	};
+
 	var workers;
 	if (window.location.href.indexOf("/tests") > -1) {
-		workers = new workerManager('../crypto/sjclWorker.js', 4, addEntropy);
+		workers = new WorkerManager('../crypto/sjclWorker.js', 4, addEntropy);
 	} else {
-		workers = new workerManager('js/crypto/sjclWorker.js', 4, addEntropy);
+		workers = new WorkerManager('js/crypto/sjclWorker.js', 4, addEntropy);
 	}
 
 	var sjclWorker = {

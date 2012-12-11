@@ -44,11 +44,13 @@ define(['jquery', 'crypto/jsbn', 'asset/logger', 'libs/step', 'asset/helper', 'l
 				require.wrap(["crypto/rsa"], this);
 			}, h.sF(function theLibs(RSA) {
 				if (Modernizr.webworkers) {
-					//TODO: web worker
+					require.wrap("crypto/rsaWorkerInclude", this);
 				} else {
 					var rsa = new RSA();
 					this.last(null, rsa.encryptOAEP(message, ee, n, label));
 				}
+			}), h.sF(function theWorker(rsaWorker) {
+				rsaWorker.encryptOAEP(message, ee, n, label, this);
 			}), callback);
 		};
 
