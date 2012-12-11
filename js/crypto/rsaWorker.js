@@ -14,7 +14,7 @@ require.wrap({baseUrl: "../"}, ["crypto/rsa", "libs/sjcl", "crypto/waitForReady"
 			return;
 		}
 
-		waitForReady(function () {
+		if (!waitForReady(function () {
 			var rsa = new RSA();
 			var result;
 
@@ -83,7 +83,9 @@ require.wrap({baseUrl: "../"}, ["crypto/rsa", "libs/sjcl", "crypto/waitForReady"
 			}
 
 			self.postMessage({result: result});
-		});
+		})) {
+			throw new Error("Entropy should be first message!");
+		}
 	};
 
 	self.postMessage("ready");

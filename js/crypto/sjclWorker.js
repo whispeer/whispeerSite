@@ -8,7 +8,7 @@ require.wrap({baseUrl: "../"}, ["libs/sjcl"], function (err, sjcl) {
 
 	self.onmessage = function (event) {
 		if (event.randomNumber) {
-			sjcl.random.addEntropy(event.randomNumber, event.entropy, "adding entropy");
+			sjcl.random.addEntropy(event.data.randomNumber, event.data.entropy, "adding entropy");
 
 			return;
 		}
