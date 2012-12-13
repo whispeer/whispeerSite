@@ -1,9 +1,5 @@
-define(['jquery', 'libs/sjcl', 'crypto/jsbn', 'asset/logger', 'config', 'crypto/rsa', 'crypto/privateKey', 'crypto/publicKey', 'crypto/waitForReady', 'crypto/jsbn2', 'libs/jquery.json.min'], function ($, sjcl, BigInteger, logger, config, RSA, PrivateKey, PublicKey, waitForReady) {
+define(['jquery', 'libs/sjcl', 'crypto/jsbn', 'asset/logger', 'config', 'asset/helper', 'libs/step', 'libs/jquery.json.min'], function ($, sjcl, BigInteger, logger, config, h, step) {
 	"use strict";
-
-	var numberOfWorkers = 4;
-
-
 
 	/**
 	* a session Key
@@ -41,7 +37,8 @@ define(['jquery', 'libs/sjcl', 'crypto/jsbn', 'asset/logger', 'config', 'crypto/
 			}
 		}
 
-		var skGetOriginal = function () {
+		/** Get the originally initialized key value */
+		this.getOriginal = function () {
 			return sessionKey;
 		};
 
@@ -50,63 +47,57 @@ define(['jquery', 'libs/sjcl', 'crypto/jsbn', 'asset/logger', 'config', 'crypto/
 		*/
 		var skDecryptKey = function (privateKey, callback) {
 			if (typeof callback === "function") {
-				setTimeout(function () {
-					waitForReady(function () {
-						callback(that.decryptKey(privateKey), true);
-					});
-				}, 1);
-			} else {
-				if (callback !== true) {
-					logger.log("decryptKey called without callback");
-				}
+				var keyAsBigInt;
 
-				if (!decrypted) {
-					var keyAsBigInt = new BigInteger(sessionKey, 16);
+				step(function loadDeps() {
+					if (decrypted) {
+						this.last(null, true);
+					} else {
+						require.wrap(["crypto/PrivateKey", "asset/exceptions"], this);
+					}
+				}, h.sF(function (PrivateKey, exceptions) {
+					keyAsBigInt = new BigInteger(sessionKey, 16);
 
 					if (privateKey instanceof PrivateKey) {
 						logger.log("decryptKey Asym", logger.NOTICE);
-						var result = privateKey.decryptOAEP(keyAsBigInt, "Socialize");
-						if (result !== false) {
-							decrypted = true;
-							decryptedSessionKey = result.toString(16);
-							while (decryptedSessionKey.length < 64) {
-								decryptedSessionKey = "0" + decryptedSessionKey;
+						step(function decrypt() {
+							privateKey.decryptOAEP(keyAsBigInt, "Socialize", this);
+						}, h.sF(function decryptedF(result) {
+							if (result !== false) {
+								decryptedSessionKey = result.toString(16);
+								decrypted = true;
+
+								while (decryptedSessionKey.length < 64) {
+									decryptedSessionKey = "0" + decryptedSessionKey;
+								}
 							}
-							return true;
-						}
 
-						return false;
-					}
-
-					if (privateKey instanceof SessionKey) {
+							this(null, decrypted);
+						}), callback);
+					} else if (privateKey instanceof SessionKey) {
 						logger.log("decryptKey Sym", logger.NOTICE);
-						try {
+						step(function () {
 							if (typeof sessionKey === "object") {
 								sessionKey = $.toJSON(sessionKey);
 							}
 
-							decryptedSessionKey = privateKey.decryptText(sessionKey);
-
-							if (decryptedSessionKey !== false) {
+							decryptedSessionKey = privateKey.decryptText(sessionKey, this);
+						}, h.sF(function decryptedF(decryptedKey) {
+							if (decryptedKey !== false) {
+								decryptedSessionKey = decryptedKey;
 								decrypted = true;
+
+								while (decryptedSessionKey.length < 64) {
+									decryptedSessionKey = "0" + decryptedSessionKey;
+								}
 							}
 
-							while (decryptedSessionKey.length < 64) {
-								decryptedSessionKey = "0" + decryptedSessionKey;
-							}
-
-							return true;
-						} catch (e) {
-							logger.log(e, logger.ERROR);
-							return false;
-						}
+							this(null, decrypted);
+						}), callback);
+					} else {
+						throw new exceptions.needPrivateKey("Session Key Decryption Failed.");
 					}
-
-					logger.log(privateKey);
-					logger.log({});
-					throw new exception.needPrivateKey("Session Key Decryption Failed.");
-				}
-				return true;
+				}), callback);
 			}
 		};
 
@@ -139,78 +130,91 @@ define(['jquery', 'libs/sjcl', 'crypto/jsbn', 'asset/logger', 'config', 'crypto/
 		/**
 		* @private
 		*/
-		var skGetEncrypted = function (publicKey) {
-			if (!decrypted) {
-				return false;
-			}
+		var skGetEncrypted = function (key, callback) {
+			step(function () {
+				if (decrypted) {
+					require.wrap(["crypto/publicKey", "crypto/privateKey"], this);
+				} else {
+					this.last(null, false);
+				}
+			}, h.sF(function (PublicKey, PrivateKey) {
+				if (key instanceof PublicKey || key instanceof PrivateKey) {
+					key.encryptOAEP(new BigInteger(decryptedSessionKey, 16), "Socialize", this);
+				} else if (key instanceof SessionKey) {
+					key.encryptText(decryptedSessionKey, this);
+				} else {
+					this(null, false);
+				}
+			}), h.sF(function (result) {
+				if (result instanceof BigInteger) {
+					result = result.toString(16);
+				}
 
-			if (publicKey instanceof PublicKey || publicKey instanceof PrivateKey) {
-				var rsa = new RSA();
-				var encryptedKey = rsa.encryptOAEP(new BigInteger(decryptedSessionKey, 16), publicKey.ee, publicKey.n, "Socialize").toString(16);
-				return encryptedKey;
-			}
-
-			if (publicKey instanceof SessionKey) {
-				return publicKey.encryptText(decryptedSessionKey);
-			}
-
-			return false;
+				this(result);
+			}), callback);
 		};
 
 		/**
 		* @private
 		*/
 		var skDecryptText = function (encryptedText, iv, callback) {
-			if (decrypted) {
-				if (typeof callback === "function") {
-					//TODO: worker in closer.
-					//crypto.decryptSJCLWorker(decryptedSessionKey, encryptedText, iv, callback);
-				} else {
-					if (typeof iv === "undefined") {
-						return sjcl.decrypt(sjcl.codec.hex.toBits(decryptedSessionKey), encryptedText);
-					}
-
-					return sjcl.decrypt(sjcl.codec.hex.toBits(decryptedSessionKey), encryptedText, {"iv": iv});
-				}
+			if (typeof iv === "function") {
+				callback = iv;
+				iv = undefined;
 			}
 
-			return false;
+			step(function go() {
+				if (decrypted && typeof callback === "function") {
+					if (Modernizr.webworkers) {
+						require.wrap("crypto/sjclWorkerInclude", this);
+					} else {
+						if (typeof iv === "undefined") {
+							this.last(null, sjcl.decrypt(sjcl.codec.hex.toBits(decryptedSessionKey), encryptedText));
+						} else {
+							this.last(null, sjcl.decrypt(sjcl.codec.hex.toBits(decryptedSessionKey), encryptedText, {"iv": iv}));
+						}
+					}
+				} else {
+					this.last(null, false);
+				}
+			}, h.sF(function (sjclWorker) {
+				sjclWorker.decryptSJCLWorker(decryptedSessionKey, encryptedText, iv, this);
+			}), callback);
 		};
 
 		/**
 		* @private
 		*/
 		var skEncryptText = function (plainText, iv, callback) {
-			if (decrypted) {
-				if (typeof callback === "function") {
-					//TODO: worker in closure.
-					//crypto.encryptSJCLWorker(decryptedSessionKey, plainText, iv, callback);
+			if (typeof iv === "function") {
+				callback = iv;
+				iv = undefined;
+			}
 
-					return true;
-				}
+			step(function go() {
+				if (decrypted && typeof callback === "function") {
+					if (Modernizr.webworkers) {
+						require.wrap("crypto/sjclWorkerInclude", this);
+					} else {
+						var result;
+						if (typeof iv === "undefined") {
+							result = sjcl.encrypt(sjcl.codec.hex.toBits(decryptedSessionKey), plainText);
+						} else {
+							result = sjcl.encrypt(sjcl.codec.hex.toBits(decryptedSessionKey), plainText, {"iv": iv});
+						}
 
-				var encryptedText;
-				if (typeof iv === "undefined") {
-					encryptedText = sjcl.encrypt(sjcl.codec.hex.toBits(decryptedSessionKey), plainText);
+						result = $.parseJSON(result);
+						result = {"iv": result.iv, "ct": result.ct};
+						result = $.toJSON(result);
+						this.last(null, result);
+					}
 				} else {
-					encryptedText = sjcl.encrypt(sjcl.codec.hex.toBits(decryptedSessionKey), plainText, {"iv": iv});
+					this.last(null, false);
 				}
-
-				encryptedText = $.parseJSON(encryptedText);
-				var result = {"iv": encryptedText.iv, "ct": encryptedText.ct};
-
-				return $.toJSON(result);
-			}
-
-			if (typeof callback === "function") {
-				callback(false);
-			}
-
-			return false;
+			}, h.sF(function (sjclWorker) {
+				sjclWorker.encryptSJCLWorker(decryptedSessionKey, plainText, iv, this);
+			}), callback);
 		};
-
-		/** Get the originally initialized key value */
-		this.getOriginal = skGetOriginal;
 
 		/** Is this key symmetrically encrypted?
 		* @return true: symmetrically encrypted key; false: asymmetrically encrypted key

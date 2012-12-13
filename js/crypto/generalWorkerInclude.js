@@ -1,26 +1,93 @@
 define(['asset/logger', 'asset/helper', 'libs/step'], function (logger, h, step) {
 	"use strict";
 	var workerManager = function (path, numberOfWorkers, setupMethod) {
+		var workerWaitQueue = [];
+		var workerList = [];
+		var workersById = {};
+		var idCount = 0;
+
 		var MyWorker;
-		var workers;
+
+		var createWorker = function (callback) {
+			var fListener, mListener, newWorker;
+			step(function () {
+				idCount += 1;
+				newWorker = new MyWorker(idCount);
+				newWorker.busy = true;
+
+				workersById[idCount] = newWorker;
+				workerList.push(newWorker);
+
+				fListener = this;
+				mListener = function (event) {
+					fListener(null, event);
+				};
+
+				newWorker.addEventListener('error', mListener);
+				newWorker.addEventListener('message', mListener);
+			}, h.sF(function (event) {
+				newWorker.removeEventListener('error', fListener);
+				newWorker.removeEventListener('message', mListener);
+				if (event.data === "ready") {
+					if (typeof setupMethod === "function") {
+						setupMethod(newWorker, this);
+					} else {
+						this();
+					}
+				}
+			}), h.sF(function () {
+				newWorker.busy = false;
+				this(null, newWorker);
+			}), callback);
+		};
+
+		var exit = function (workerid) {
+			var i, worker;
+			for (i = 0; i < workerList.length; i += 1) {
+				worker = workerList[i];
+				if (worker.getId() === workerid) {
+					workerList.slice(i, 1);
+				}
+
+				delete workersById[workerid];
+			}
+		};
+
+		var signalFree = function (workerid) {
+			var worker = workersById[workerid];
+			if (typeof worker !== "undefined" && worker.busy === false) {
+				var waiter = workerWaitQueue.shift();
+				if (typeof waiter === "function") {
+					waiter(null, worker);
+				}
+			}
+		};
 
 		MyWorker = function (workerid) {
-			var theWorker;
+			var that = this;
 
-			theWorker = new Worker(path);
+			var theWorker = new Worker(path);
 
 			this.busy = false;
 			var listener;
 
-			this.postMessage = function (message, listener) {
+			this.addEventListener = function () {
+				theWorker.addEventListener.apply(theWorker, arguments);
+			};
+
+			this.removeEventListener = function () {
+				theWorker.removeEventListener.apply(theWorker, arguments);
+			};
+
+			this.postMessage = function (message, theListener) {
 				this.busy = true;
-				this.listener = listener;
+				listener = theListener;
 
 				theWorker.postMessage(message);
 			};
 
 			this.exit = function () {
-				workers.exit(workerid);
+				exit(workerid);
 				theWorker.terminate();
 			};
 
@@ -31,95 +98,37 @@ define(['asset/logger', 'asset/helper', 'libs/step'], function (logger, h, step)
 					listener(new Error(event.message + " (" + event.filename + ":" + event.lineno + ")"));
 				}
 
-				this.exit();
+				that.exit();
 			};
 
 			theWorker.onmessage = function (event) {
 				if (typeof listener === "function") {
-					listener(null, event.data.result);
+					listener(null, event);
 				}
 
 				this.busy = false;
-				this.listener = null;
-				workers.signalFree(workerid);
+				listener = undefined;
+				signalFree(workerid);
 			};
 		};
 
-
-		workers = {
-			workerWaitQueue: [],
-			workerList: [],
-			workersById: {},
-			idCount: 0,
-			createWorker: function (callback) {
-				var fListener, mListener, newWorker;
-				step(function () {
-					workers.idCount += 1;
-					newWorker = new MyWorker(workers.idCount);
-					fListener = this;
-					mListener = function (event) {
-						fListener(null, event);
-					};
-
-					newWorker.addEventListener('error', mListener);
-					newWorker.addEventListener('message', mListener);
-				}, h.sF(function (event) {
-					newWorker.removeEventListener('error', fListener);
-					newWorker.removeEventListener('message', mListener);
-					if (event.data === "ready") {
-						if (typeof setupMethod === "function") {
-							setupMethod(newWorker, this);
-						} else {
-							this();
-						}
-					}
-				}), h.sF(function () {
-					workers.workersById[workers.idCount] = newWorker;
-					workers.workerList.push(newWorker);
-
-					this(newWorker);
-				}), callback);
-			},
-
-			getFreeWorker: function (cb) {
-				step(function checkForFree() {
-					var i;
-					for (i = 0; i < workers.workerList.length; i += 1) {
-						if (workers.workerList[i].busy === false) {
-							this.last(null, workers.workerList[i]);
-							return;
-						}
-					}
-
-					if (workers.workerList.length < numberOfWorkers) {
-						workers.createWorker(this);
+		this.getFreeWorker = function (cb) {
+			step(function checkForFree() {
+				var i;
+				for (i = 0; i < workerList.length; i += 1) {
+					if (workerList[i].busy === false) {
+						this.last(null, workerList[i]);
 						return;
 					}
-
-					workers.workerWaitQueue.push(this);
-				}, cb);
-			},
-
-			exit: function (workerid) {
-				var i, worker;
-				for (i = 0; i < workers.workerList.length; i += 1) {
-					worker = workers.workerList[i];
-					if (worker.getId() === workerid) {
-						workers.workerList.slice(i, 1);
-					}
-
-					delete workers.workersById[workerid];
 				}
-			},
-			signalFree: function (workerid) {
-				var worker = workers.workersById[workerid];
-				if (typeof worker !== "undefined" && worker.busy === false) {
-					var waiter = workers.workerWaitQueue.shift();
-					if (typeof waiter === "function") {
-						waiter(null, worker);
-					}
+
+				if (workerList.length < numberOfWorkers) {
+					createWorker(this);
+					return;
 				}
-			}
+
+				workerWaitQueue.push(this);
+			}, cb);
 		};
 	};
 

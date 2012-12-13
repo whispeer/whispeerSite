@@ -5,7 +5,9 @@ define(['libs/step', 'crypto/generalWorkerInclude', 'crypto/waitForReady', 'asse
 		step(function waitReady() {
 			waitForReady(this);
 		}, h.sF(function ready() {
-			theWorker.postMessage({randomNumber: sjcl.codec.hex.fromBits(sjcl.random.randomWords(16)), entropy: 1024});
+			theWorker.postMessage({randomNumber: sjcl.codec.hex.fromBits(sjcl.random.randomWords(16)), entropy: 1024}, this);
+		}), h.sF(function setupDone(event) {
+			this();
 		}), callback);
 	};
 
@@ -28,6 +30,16 @@ define(['libs/step', 'crypto/generalWorkerInclude', 'crypto/waitForReady', 'asse
 				var data = {'key': key, 'message': message, 'encrypt': true, 'iv': iv};
 
 				worker.postMessage(data, this);
+			}, function (err, event) {
+				if (err) {
+					throw err;
+				}
+
+				if (event.data.result) {
+					this(null, event.data.result);
+				} else {
+					throw new Error("no clue!");
+				}
 			}, callback);
 		},
 		decryptSJCLWorker: function (key, message, iv, callback) {

@@ -7,9 +7,9 @@ require.wrap({baseUrl: "../"}, ["libs/sjcl"], function (err, sjcl) {
 	}
 
 	self.onmessage = function (event) {
-		if (event.randomNumber) {
+		if (event.data.randomNumber) {
 			sjcl.random.addEntropy(event.data.randomNumber, event.data.entropy, "adding entropy");
-
+			self.postMessage("entropy");
 			return;
 		}
 
@@ -40,4 +40,6 @@ require.wrap({baseUrl: "../"}, ["libs/sjcl"], function (err, sjcl) {
 
 		self.postMessage(callback);
 	};
+
+	self.postMessage("ready");
 });
