@@ -30,16 +30,13 @@ define(['libs/step', 'crypto/generalWorkerInclude', 'crypto/waitForReady', 'asse
 				var data = {'key': key, 'message': message, 'encrypt': true, 'iv': iv};
 
 				worker.postMessage(data, this);
-			}, function (err, event) {
+			}, function (err, result) {
+				console.log(arguments);
 				if (err) {
 					throw err;
 				}
 
-				if (event.data.result) {
-					this(null, event.data.result);
-				} else {
-					throw new Error("no clue!");
-				}
+				this(null, result);
 			}, callback);
 		},
 		decryptSJCLWorker: function (key, message, iv, callback) {

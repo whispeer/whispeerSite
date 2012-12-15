@@ -5,7 +5,7 @@ define(['libs/step', 'crypto/generalWorkerInclude', 'crypto/waitForReady', 'asse
 		step(function waitReady() {
 			waitForReady(this);
 		}, h.sF(function ready() {
-			theWorker.postMessage({randomNumber: sjcl.codec.hex.fromBits(sjcl.random.randomWords(16)), entropy: 1024});
+			theWorker.postMessage({randomNumber: sjcl.codec.hex.fromBits(sjcl.random.randomWords(16)), entropy: 1024}, this);
 		}), callback);
 	};
 
@@ -18,6 +18,12 @@ define(['libs/step', 'crypto/generalWorkerInclude', 'crypto/waitForReady', 'asse
 
 	var rsaWorker = {
 		signPSS: function (message, d, p, q, u, n, callback) {
+			d = d.toString(16);
+			p = p.toString(16);
+			q = q.toString(16);
+			u = u.toString(16);
+			n = n.toString(16);
+
 			step(function getFree() {
 				workers.getFreeWorker(this);
 			}, function (err, worker) {
@@ -31,6 +37,10 @@ define(['libs/step', 'crypto/generalWorkerInclude', 'crypto/waitForReady', 'asse
 			}, callback);
 		},
 		verifyPSS: function (hash, signature, ee, n, callback) {
+			console.log(hash);
+			ee = ee.toString(16);
+			n = n.toString(16);
+
 			step(function getFree() {
 				workers.getFreeWorker(this);
 			}, function (err, worker) {

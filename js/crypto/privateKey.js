@@ -1,4 +1,4 @@
-define(['libs/sjcl', 'asset/logger', 'jquery', 'crypto/publicKey', 'libs/step', 'asset/helper', 'libs/jquery.json.min'], function (sjcl, logger, $, PublicKey, step, h) {
+define(['libs/sjcl', 'asset/logger', 'jquery', 'crypto/publicKey', 'libs/step', 'asset/helper', 'crypto/jsbn', 'libs/jquery.json.min'], function (sjcl, logger, $, PublicKey, step, h, BigInteger) {
 	"use strict";
 	/**
 	* A private Key
@@ -32,6 +32,10 @@ define(['libs/sjcl', 'asset/logger', 'jquery', 'crypto/publicKey', 'libs/step', 
 			return publicKey.setID(theID);
 		};
 
+		this.getPublicKey = function () {
+			return publicKey;
+		};
+
 		this.encryptOAEP = function (message, label, callback) {
 			return publicKey.encryptOAEP(message, label, callback);
 		};
@@ -51,7 +55,7 @@ define(['libs/sjcl', 'asset/logger', 'jquery', 'crypto/publicKey', 'libs/step', 
 					require.wrap("crypto/rsaWorkerInclude", this);
 				} else {
 					var rsa = new RSA();
-					this.last(null, rsa.decryptOAEP(message, d, p, q, u, privateKey.n(), l));
+					this.last(null, rsa.decryptOAEP(message, d, p, q, u, privateKey.n(), l).toString(16));
 				}
 			}), h.sF(function theWorker(rsaWorker) {
 				rsaWorker.decryptOAEP(message, d, p, q, u, privateKey.n(), l, this);
@@ -62,20 +66,20 @@ define(['libs/sjcl', 'asset/logger', 'jquery', 'crypto/publicKey', 'libs/step', 
 		* @private
 		*/
 		this.signPSS = function (message, callback) {
+			var hash;
 			step(function getLibs() {
-				require.wrap(["crypto/rsa"], this);
-			}, h.sF(function theLibs(RSA) {
+				require.wrap(["crypto/rsa", "libs/sjcl"], this);
+			}, h.sF(function theLibs(RSA, sjcl) {
+				hash = sjcl.codec.hex.fromBits(sjcl.hash.sha256.hash(message));
 				if (Modernizr.webworkers) {
 					require.wrap("crypto/rsaWorkerInclude", this);
 				} else {
 					var rsa = new RSA();
-					this.last(null, rsa.signPSS(message, d, p, q, u, privateKey.n()));
+					this.last(null, rsa.signPSS(hash, d, p, q, u, privateKey.n()).toString(16));
 				}
 			}), h.sF(function theWorker(rsaWorker) {
-				rsaWorker.signPSS(message, d, p, q, u, privateKey.n(), this);
+				rsaWorker.signPSS(hash, d, p, q, u, privateKey.n(), this);
 			}), callback);
-
-			//return RSAObject.signPSS(message, d, p, q, u, privateKey.n());
 		};
 
 		/**
@@ -126,10 +130,10 @@ define(['libs/sjcl', 'asset/logger', 'jquery', 'crypto/publicKey', 'libs/step', 
 
 			var privatePart = $.parseJSON(decryptedPrivate);
 
-			d = privatePart.d;
-			p = privatePart.p;
-			q = privatePart.q;
-			u = privatePart.u;
+			d = new BigInteger(privatePart.d, 16);
+			p = new BigInteger(privatePart.p, 16);
+			q = new BigInteger(privatePart.q, 16);
+			u = new BigInteger(privatePart.u, 16);
 
 			return true;
 		};

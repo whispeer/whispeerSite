@@ -35,10 +35,7 @@ require.wrap({baseUrl: "../"}, ["libs/sjcl"], function (err, sjcl) {
 			}
 		}
 
-		var callback = event.data;
-		callback.result = result;
-
-		self.postMessage(callback);
+		self.postMessage(result);
 	};
 
 	self.postMessage("ready");

@@ -80,7 +80,7 @@ define(['asset/logger', 'asset/helper', 'libs/step'], function (logger, h, step)
 			};
 
 			this.postMessage = function (message, theListener) {
-				this.busy = true;
+				that.busy = true;
 				listener = theListener;
 
 				theWorker.postMessage(message);
@@ -89,6 +89,10 @@ define(['asset/logger', 'asset/helper', 'libs/step'], function (logger, h, step)
 			this.exit = function () {
 				exit(workerid);
 				theWorker.terminate();
+			};
+
+			this.getId = function () {
+				return workerid;
 			};
 
 			theWorker.onerror = function (event) {
@@ -102,13 +106,15 @@ define(['asset/logger', 'asset/helper', 'libs/step'], function (logger, h, step)
 			};
 
 			theWorker.onmessage = function (event) {
-				if (typeof listener === "function") {
-					listener(null, event);
-				}
+				var saveListener = listener;
 
-				this.busy = false;
+				that.busy = false;
 				listener = undefined;
 				signalFree(workerid);
+
+				if (typeof saveListener === "function") {
+					saveListener(null, event.data);
+				}
 			};
 		};
 

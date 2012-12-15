@@ -346,7 +346,7 @@ define(['libs/sjcl', 'config', 'crypto/jsbn', 'crypto/jsbn2'], function (sjcl, c
 		}
 
 		function verifyPSS(h, s, e, n) {
-			if (!s instanceof BigInteger) {
+			if (!(s instanceof BigInteger)) {
 				s = new BigInteger(s, 16);
 			}
 
@@ -415,8 +415,10 @@ define(['libs/sjcl', 'config', 'crypto/jsbn', 'crypto/jsbn2'], function (sjcl, c
 			};
 
 			primeCalculator.onmessage = function (event) {
+				console.log(event);
 				if (event.data === "ready") {
 					generate(B - qs);
+					return;
 				}
 
 				//logger.log("data from worker!");
@@ -459,7 +461,7 @@ define(['libs/sjcl', 'config', 'crypto/jsbn', 'crypto/jsbn2'], function (sjcl, c
 					generate(qs);
 				} else {
 					primeCalculator.terminate();
-					callback(key);
+					callback(null, key);
 				}
 			};
 		}

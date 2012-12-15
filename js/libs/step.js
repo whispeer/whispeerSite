@@ -58,6 +58,11 @@ function step() {
 		var fn = steps.shift();
 		results = [];
 
+		if (typeof fn !== "function") {
+			console.trace();
+			next(new Error("Not a callable Function!"));
+		};
+
 		var result;
 		// Run the step in a try..catch block so exceptions don't get out of hand.
 		try {
