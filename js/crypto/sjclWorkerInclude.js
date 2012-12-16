@@ -31,7 +31,6 @@ define(['libs/step', 'crypto/generalWorkerInclude', 'crypto/waitForReady', 'asse
 
 				worker.postMessage(data, this);
 			}, function (err, result) {
-				console.log(arguments);
 				if (err) {
 					throw err;
 				}

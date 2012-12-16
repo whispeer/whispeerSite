@@ -1,4 +1,5 @@
 //Modernizr.webworkers = false;
+var ssn;
 define(['jquery', 'libs/step', 'crypto/waitForReady', 'asset/helper', 'libs/jquery.json.min'], function ($, step, waitForReady, h) {
 	"use strict";
 	require(['libs/sjcl'], function (sjcl) {
@@ -65,6 +66,7 @@ define(['jquery', 'libs/step', 'crypto/waitForReady', 'asset/helper', 'libs/jque
 			it("export/import with sk", function (done) {
 				var text = "testText", encryptedText;
 
+				var encryptedSK;
 				var sk, sk2, exK, SessionKey;
 				step(function () {
 					require.wrap("crypto/sessionKey", this);
@@ -79,6 +81,7 @@ define(['jquery', 'libs/step', 'crypto/waitForReady', 'asset/helper', 'libs/jque
 
 					sk.getEncrypted(exK, this);
 				}), h.sF(function (encrypted) {
+					encryptedSK = encrypted;
 					expect(encrypted).not.to.be(undefined);
 					expect(encrypted).to.be.a("string");
 
@@ -92,16 +95,21 @@ define(['jquery', 'libs/step', 'crypto/waitForReady', 'asset/helper', 'libs/jque
 					sk2 = new SessionKey(encrypted);
 					expect(sk2.decrypted()).to.be(false);
 
-					console.log(sk);
 					sk2.decryptKey(sk, this);
 				}), h.sF(function (decrypted) {
 					expect(decrypted).to.be(false);
+
 					sk2.decryptText(encryptedText, this);
 				}), h.sF(function (decryptedText) {
 					expect(decryptedText).to.be(false);
+
 					sk2.decryptKey(exK, this);
 				}), h.sF(function (decrypted) {
 					expect(decrypted).to.be(true);
+
+					expect(sk2.getOriginal()).to.be(encryptedSK);
+					expect(sk2.isSymKey()).to.be(true);
+
 					sk2.decryptText(encryptedText, this);
 				}), h.sF(function (decryptedText) {
 					expect(decryptedText).to.be(text);
@@ -110,6 +118,47 @@ define(['jquery', 'libs/step', 'crypto/waitForReady', 'asset/helper', 'libs/jque
 			});
 		});
 
+		describe("RSA Keys", function () {
+			var password = "4s3cur3P455word!";
+
+			it("direct generation", function (done) {
+				this.timeout(15000);
+				var BigInteger;
+				step(function loadDeps() {
+					require.wrap(["crypto/rsa", "crypto/jsbn", "config"], this);
+				}, h.sF(function (RSA, BI, config) {
+					BigInteger = BI;
+					var rsa = new RSA();
+					rsa.generateAsync(config.keyLength, "10001", this);
+				}), h.sF(function (key) {
+					expect(key.n).to.be.a(BigInteger);
+					expect(key.ee).to.be.a(BigInteger);
+					expect(key.ee.toString(16)).to.be("10001");
+
+					expect(key.p.isProbablePrime(5)).to.be.ok();
+					expect(key.p.isProbablePrime(5)).to.be.ok();
+					this();
+				}), done);
+			});
+
+			it.only("crypto interface generation", function (done) {
+				this.timeout(15000);
+				var BigInteger;
+				step(function loadDeps() {
+					require.wrap(["crypto/crypto", "crypto/jsbn"], this);
+				}, h.sF(function (crypto, BI) {
+					BigInteger = BI;
+					crypto.generateKey(password, this);
+				}), h.sF(function (key) {
+					expect(key).not.to.be(undefined);
+					expect(key.n()).to.be.a(BigInteger);
+					expect(key.ee()).to.be.a(BigInteger);
+					expect(key.ee().toString(16)).to.be("10001");
+
+					this();
+				}), done);
+			});
+		});
 		mocha.run();
 
 		//mocha.run();
