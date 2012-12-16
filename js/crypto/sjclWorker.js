@@ -21,18 +21,22 @@ require.wrap({baseUrl: "../"}, ["libs/sjcl"], function (err, sjcl) {
 		var iv = event.data.iv;
 
 		var result;
-		if (encrypt) {
-			if (typeof iv === "undefined") {
-				result = sjcl.encrypt(sjcl.codec.hex.toBits(key), message);
+		try {
+			if (encrypt) {
+				if (typeof iv === "undefined") {
+					result = sjcl.encrypt(sjcl.codec.hex.toBits(key), message);
+				} else {
+					result = sjcl.encrypt(sjcl.codec.hex.toBits(key), message, {"iv": iv});
+				}
 			} else {
-				result = sjcl.encrypt(sjcl.codec.hex.toBits(key), message, {"iv": iv});
+				if (typeof iv === "undefined") {
+					result = sjcl.decrypt(sjcl.codec.hex.toBits(key), message);
+				} else {
+					result = sjcl.decrypt(sjcl.codec.hex.toBits(key), message, {"iv": iv});
+				}
 			}
-		} else {
-			if (typeof iv === "undefined") {
-				result = sjcl.decrypt(sjcl.codec.hex.toBits(key), message);
-			} else {
-				result = sjcl.decrypt(sjcl.codec.hex.toBits(key), message, {"iv": iv});
-			}
+		} catch (e) {
+			result = false;
 		}
 
 		self.postMessage(result);

@@ -150,7 +150,7 @@ define(['jquery', 'libs/sjcl', 'crypto/jsbn', 'asset/logger', 'config', 'asset/h
 					result = result.toString(16);
 				}
 
-				this(result);
+				this(null, result);
 			}), callback);
 		};
 
@@ -168,11 +168,18 @@ define(['jquery', 'libs/sjcl', 'crypto/jsbn', 'asset/logger', 'config', 'asset/h
 					if (Modernizr.webworkers) {
 						require.wrap("crypto/sjclWorkerInclude", this);
 					} else {
-						if (typeof iv === "undefined") {
-							this.last(null, sjcl.decrypt(sjcl.codec.hex.toBits(decryptedSessionKey), encryptedText));
-						} else {
-							this.last(null, sjcl.decrypt(sjcl.codec.hex.toBits(decryptedSessionKey), encryptedText, {"iv": iv}));
+						var result;
+						try {
+							if (typeof iv === "undefined") {
+								result = sjcl.decrypt(sjcl.codec.hex.toBits(decryptedSessionKey), encryptedText);
+							} else {
+								result = sjcl.decrypt(sjcl.codec.hex.toBits(decryptedSessionKey), encryptedText, {"iv": iv});
+							}
+						} catch (e) {
+							result = false;
 						}
+
+						this.last(null, result);
 					}
 				} else {
 					this.last(null, false);
@@ -197,10 +204,14 @@ define(['jquery', 'libs/sjcl', 'crypto/jsbn', 'asset/logger', 'config', 'asset/h
 						require.wrap("crypto/sjclWorkerInclude", this);
 					} else {
 						var result;
-						if (typeof iv === "undefined") {
-							result = sjcl.encrypt(sjcl.codec.hex.toBits(decryptedSessionKey), plainText);
-						} else {
-							result = sjcl.encrypt(sjcl.codec.hex.toBits(decryptedSessionKey), plainText, {"iv": iv});
+						try {
+							if (typeof iv === "undefined") {
+								result = sjcl.encrypt(sjcl.codec.hex.toBits(decryptedSessionKey), plainText);
+							} else {
+								result = sjcl.encrypt(sjcl.codec.hex.toBits(decryptedSessionKey), plainText, {"iv": iv});
+							}
+						} catch (e) {
+							result = false;
 						}
 
 						result = $.parseJSON(result);
@@ -213,7 +224,16 @@ define(['jquery', 'libs/sjcl', 'crypto/jsbn', 'asset/logger', 'config', 'asset/h
 				}
 			}, h.sF(function (sjclWorker) {
 				sjclWorker.encryptSJCLWorker(decryptedSessionKey, plainText, iv, this);
+			}), h.sF(function (result) {
+				result = $.parseJSON(result);
+				result = {"iv": result.iv, "ct": result.ct};
+				result = $.toJSON(result);
+				this(null, result);
 			}), callback);
+		};
+
+		this.decrypted = function () {
+			return decrypted;
 		};
 
 		/** Is this key symmetrically encrypted?
