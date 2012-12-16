@@ -108,6 +108,10 @@ define(['jquery', 'crypto/jsbn', 'asset/logger', 'libs/step', 'asset/helper', 'l
 			n = new BigInteger(jsonData.n, 16);
 			id = jsonData.id;
 
+			if (id === "null") {
+				id = null;
+			}
+
 			return true;
 		};
 

@@ -54,6 +54,10 @@ define(['libs/step', 'crypto/generalWorkerInclude', 'crypto/waitForReady', 'asse
 			}, callback);
 		},
 		encryptOAEP: function (message, ee, n, label, callback) {
+			message = message.toString(16);
+			ee = ee.toString(16);
+			n = n.toString(16);
+
 			step(function getFree() {
 				workers.getFreeWorker(this);
 			}, function (err, worker) {
@@ -67,6 +71,13 @@ define(['libs/step', 'crypto/generalWorkerInclude', 'crypto/waitForReady', 'asse
 			}, callback);
 		},
 		decryptOAEP: function (code, d, p, q, u, n, label, callback) {
+			code = code.toString(16);
+			d = d.toString(16);
+			p = p.toString(16);
+			q = q.toString(16);
+			u = u.toString(16);
+			n = n.toString(16);
+
 			step(function getFree() {
 				workers.getFreeWorker(this);
 			}, function (err, worker) {

@@ -37,6 +37,7 @@ define(['asset/logger', 'asset/helper', 'libs/step'], function (logger, h, step)
 				}
 			}), h.sF(function () {
 				newWorker.busy = false;
+				newWorker.setupDone();
 				this(null, newWorker);
 			}), callback);
 		};
@@ -65,11 +66,16 @@ define(['asset/logger', 'asset/helper', 'libs/step'], function (logger, h, step)
 
 		MyWorker = function (workerid) {
 			var that = this;
+			var setup = true;
 
 			var theWorker = new Worker(path);
 
 			this.busy = false;
 			var listener;
+
+			this.setupDone = function () {
+				setup = false;
+			};
 
 			this.addEventListener = function () {
 				theWorker.addEventListener.apply(theWorker, arguments);
@@ -106,11 +112,14 @@ define(['asset/logger', 'asset/helper', 'libs/step'], function (logger, h, step)
 			};
 
 			theWorker.onmessage = function (event) {
+				console.log(event);
 				var saveListener = listener;
 
 				that.busy = false;
 				listener = undefined;
-				signalFree(workerid);
+				if (!setup) {
+					signalFree(workerid);
+				}
 
 				if (typeof saveListener === "function") {
 					saveListener(null, event.data);
