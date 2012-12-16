@@ -383,27 +383,33 @@ define(['libs/sjcl', 'config', 'crypto/jsbn', 'crypto/jsbn2'], function (sjcl, c
 		* callback function to call when key is ready
 		*/
 		function generateAsync(B, E, callback) {
+			var start = new Date().getTime();
 			var key = new KeyObject();
 			var rng = new SecureRandom();
 			var qs = (B >> 1);
 			key.e = parseInt(E, 16);
 			key.ee = new BigInteger(E, 16);
 
-			//TODO: fix path for both tests and main
-			var primeCalculator;
+			var primeCalculator, primeCalculator2;
 			if (window.location.href.indexOf("/tests") > -1) {
 				primeCalculator = new Worker('../crypto/getNextBiggerPrime.js');
+				primeCalculator2 = new Worker('../crypto/getNextBiggerPrime.js');
 			} else {
 				primeCalculator = new Worker('js/crypto/getNextBiggerPrime.js');
+				primeCalculator2 = new Worker('js/crypto/getNextBiggerPrime.js');
 			}
 
-			var generate = function (length) {
+			var generate = function (length, threadNum) {
 				try {
 					//get a random number with the right length.
 					var number = new BigInteger(length, rng);
 					//send number to worker to calculate a prime number from it.
 					//logger.log("Posting number to worker");
-					primeCalculator.postMessage({'number': number.toString(16), 'length': length});
+					if (threadNum === 2) {
+						primeCalculator2.postMessage({'number': number.toString(16), 'length': length});
+					} else {
+						primeCalculator.postMessage({'number': number.toString(16), 'length': length});
+					}
 				} catch (e) {
 					if (e instanceof sjcl.exception.notReady) {
 						//logger.log("not yet ready - length: " + length);
@@ -414,54 +420,73 @@ define(['libs/sjcl', 'config', 'crypto/jsbn', 'crypto/jsbn2'], function (sjcl, c
 				}
 			};
 
-			primeCalculator.onmessage = function (event) {
+			var done = function () {
+				console.log(key);
+				if (key.q !== null && key.p !== null) {
+					var p1 = key.p.subtract(BigInteger.ONE);
+					var q1 = key.q.subtract(BigInteger.ONE);
+					var phi = p1.multiply(q1);
+					if (phi.gcd(key.ee).compareTo(BigInteger.ONE) === 0) {
+						key.n = key.p.multiply(key.q);
+						key.d = key.ee.modInverse(phi);
+						key.dmp1 = key.d.mod(p1);
+						key.dmq1 = key.d.mod(q1);
+						key.u = key.q.modInverse(key.p);
+
+						primeCalculator.terminate();
+						primeCalculator2.terminate();
+						callback(null, key);
+					} else {
+						key.p = null;
+						key.q = null;
+
+						generate(B - qs, 1);
+						generate(qs, 2);
+					}
+				}
+			};
+
+			primeCalculator2.onmessage = function (event) {
 				console.log(event);
+				console.log("Second:" + (new Date().getTime() - start));
 				if (event.data === "ready") {
-					generate(B - qs);
+					generate(qs, 2);
 					return;
 				}
 
-				//logger.log("data from worker!");
+				var number = new BigInteger(event.data, 16);
+
+				if (number.subtract(BigInteger.ONE).gcd(key.ee).compareTo(BigInteger.ONE) === 0) {
+					if (key.q === null) {
+						key.q = number;
+						done();
+					} else {
+						throw new Error("to many primes");
+					}
+				} else {
+					generate(qs, 2);
+				}
+			};
+
+			primeCalculator.onmessage = function (event) {
+				console.log(event);
+				console.log("First:" + (new Date().getTime() - start));
+				if (event.data === "ready") {
+					generate(B - qs, 1);
+					return;
+				}
 
 				var number = new BigInteger(event.data, 16);
 
 				if (number.subtract(BigInteger.ONE).gcd(key.ee).compareTo(BigInteger.ONE) === 0) {
 					if (key.p === null) {
 						key.p = number;
-					} else if (key.q === null) {
-						key.q = number;
-
-						var p1 = key.p.subtract(BigInteger.ONE);
-						var q1 = key.q.subtract(BigInteger.ONE);
-						var phi = p1.multiply(q1);
-						if (phi.gcd(key.ee).compareTo(BigInteger.ONE) === 0) {
-							key.n = key.p.multiply(key.q);
-							key.d = key.ee.modInverse(phi);
-							key.dmp1 = key.d.mod(p1);
-							key.dmq1 = key.d.mod(q1);
-							key.u = key.q.modInverse(key.p);
-
-	/*						if (key.d.toString(16).length != B / 4 || key.n.toString(16).length != B / 4) {
-								logger.log("wrong length " + B);
-								key.p = null;
-								key.q = null;
-							}*/
-						} else {
-							key.p = null;
-							key.q = null;
-						}
+						done();
 					} else {
-						//logger.logError("Worker Error! Worker produced more primes than needed");
+						throw new Error("to many primes");
 					}
-				}
-
-				if (key.p === null) {
-					generate(B - qs);
-				} else if (key.q === null) {
-					generate(qs);
 				} else {
-					primeCalculator.terminate();
-					callback(null, key);
+					generate(B - qs, 1);
 				}
 			};
 		}
