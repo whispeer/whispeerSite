@@ -22,7 +22,7 @@ define(["libs/sjcl", "asset/logger", "config", "asset/helper", "libs/step"], fun
 		}
 
 		//TODO: chunking for non blocking execution even on browsers without worker
-		var PublicKey, PrivateKey;
+		var PrivateKey;
 		step(function getWR() {
 			require.wrap("crypto/waitForReadyDisplay", this);
 		}, h.sF(function theWR(waitForReady) {
@@ -187,16 +187,17 @@ define(["libs/sjcl", "asset/logger", "config", "asset/helper", "libs/step"], fun
 	* @function
 	*/
 	crypto.verifyText = function (publicKey, message, signature, callback) {
-		if (typeof callback === "function") {
-			setTimeout(function () {
-				callback(crypto.verifyText(publicKey, message, signature));
-			}, 1);
-		} else {
-			//signature = new BigInteger(signature, 16);
-			var real_hash = sjcl.codec.hex.fromBits(sjcl.hash.sha256.hash(message));
-			var rsa = new RSA();
-			return rsa.verifyPSS(real_hash, signature, publicKey.ee, publicKey.n);
-		}
+		step(function () {
+			require.wrap(["crypto/waitForReadyDisplay", "crypto/privateKey", "crypto/publicKey"], this);
+		}, h.sF(function theDeps(waitForReady, PrivateKey, PublicKey) {
+			if (publicKey instanceof PrivateKey || publicKey instanceof PublicKey) {
+				waitForReady(this);
+			} else {
+				throw new Error("we need a rsa key!");
+			}
+		}), h.sF(function ready() {
+			publicKey.verifyPSS(message, signature, this);
+		}), callback);
 	};
 
 	/**
@@ -214,33 +215,31 @@ define(["libs/sjcl", "asset/logger", "config", "asset/helper", "libs/step"], fun
 	* Encrypt a session key
 	* @param publicKey the public Key to encrypt the session Key with
 	* @param sessionKey the session key to encrypt.
+	* @param callback callback.
 	* @param privateKey (optional) the private Key to decrypt the session Key if not already decrypted.
-	* @param callback (optional) a callback to call with the results. non blocking
 	* @public
 	* @function
 	*/
-	crypto.encryptSessionKey = function (publicKey, sessionKey, privateKey, callback) {
-		if (typeof callback === "function") {
-			setTimeout(function () {
-				waitForReady(function () {
-					callback(crypto.encryptSessionKey(publicKey, sessionKey, privateKey));
-				});
-			}, 1);
-		} else {
-			var time = new Date();
-			if (!(sessionKey instanceof sessionKey)) {
+	crypto.encryptSessionKey = function (publicKey, sessionKey, callback, privateKey) {
+		var SessionKey;
+		step(function () {
+			require.wrap(["crypto/waitForReadyDisplay", "crypto/sessionKey"], this);
+		}, h.sF(function theDeps(waitForReady, sk) {
+			SessionKey = sk;
+			waitForReady(this);
+		}), h.sF(function ready() {
+			if (!(sessionKey instanceof SessionKey)) {
 				sessionKey = new SessionKey(sessionKey);
 			}
 
-			if (sessionKey.decryptKey(privateKey)) {
-				logger.log("SKey Decrypted:" + ((new Date().getTime()) - time));
-				var result = sessionKey.getEncrypted(publicKey);
-				logger.log("SKey ReEncrypted:" + ((new Date().getTime()) - time));
-				return result;
+			sessionKey.decryptKey(privateKey, this);
+		}), h.sF(function decr(decrypted) {
+			if (!decrypted) {
+				this.last(null, false);
+			} else {
+				sessionKey.getEncrypted(publicKey, this);
 			}
-
-			return false;
-		}
+		}), callback);
 	};
 
 	/**

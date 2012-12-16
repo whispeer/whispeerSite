@@ -63,6 +63,10 @@ define(['jquery', 'crypto/jsbn', 'asset/logger', 'libs/step', 'asset/helper', 'l
 				if (Modernizr.webworkers) {
 					require.wrap("crypto/rsaWorkerInclude", this);
 				} else {
+					if (!signature instanceof BigInteger) {
+						signature = new BigInteger(signature, 16);
+					}
+
 					var rsa = new RSA();
 					this.last(null, rsa.verifyPSS(realHash, signature, ee, n));
 				}
