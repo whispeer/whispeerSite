@@ -53,7 +53,7 @@ define(['jquery', 'libs/sjcl', 'crypto/jsbn', 'asset/logger', 'config', 'asset/h
 					if (decrypted) {
 						this.last(null, true);
 					} else {
-						require.wrap(["crypto/PrivateKey", "asset/exceptions"], this);
+						require.wrap(["crypto/privateKey", "asset/exceptions"], this);
 					}
 				}, h.sF(function (PrivateKey, exceptions) {
 					keyAsBigInt = new BigInteger(sessionKey, 16);

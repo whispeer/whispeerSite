@@ -4,13 +4,12 @@
 * Also Used to encrypt a session Key for another user.
 * @class
 */
-define(["libs/sjcl", "asset/logger", "config", "asset/helper", "libs/step"], function (sjcl, logger, config, h, step) {
+define(["libs/sjcl", "config", "asset/helper", "libs/step"], function (sjcl, config, h, step) {
 	"use strict";
 
 	var crypto = {};
 
-	/**
-	* Generate a Key
+	/** Generate a Key
 	* @param password The Password used to encrypt the key.
 	* @param callback(privKey,pubKey) function to call when key generation is done.
 	* @function
@@ -45,8 +44,7 @@ define(["libs/sjcl", "asset/logger", "config", "asset/helper", "libs/step"], fun
 		}), callback);
 	};
 
-	/**
-	* Encrypts a Text
+	/** Encrypts a Text
 	* @param keys an array of public keys for the receivers / one public key
 	* @param message Message to encrypt
 	* @return {sessionKeys: array of session keys encrypted with public keys, encryptedMessage: encrypted Message}
@@ -94,13 +92,13 @@ define(["libs/sjcl", "asset/logger", "config", "asset/helper", "libs/step"], fun
 				throw new Error("keys got lost?");
 			}
 
-			var resultK = [];
+			var resultK = {};
 			var i;
 			for (i = 0; i < encryptedKey.length; i += 1) {
 				resultK[keys[i].id()] = encryptedKey[i];
 			}
 
-			callback(resultK, cryptedText);
+			callback(null, resultK, cryptedText);
 		}), callback);
 	};
 
@@ -121,8 +119,17 @@ define(["libs/sjcl", "asset/logger", "config", "asset/helper", "libs/step"], fun
 		}), callback);
 	};
 
-	/**
-	* Decrypts a text.
+	crypto.symDecryptText = function (sessionKey, message, callback, iv) {
+		step(function () {
+			require.wrap("crypto/waitForReadyDisplay", this);
+		}, h.sF(function theWR(waitForReady) {
+			waitForReady(this);
+		}), h.sF(function () {
+			sessionKey.decryptText(message, iv, this);
+		}), callback);
+	};
+
+	/** Decrypts a text.
 	* @param privateKey private Key to decrypt with
 	* @param message message to decrypt
 	* @param sessionKey session Key used for decryption
@@ -155,8 +162,7 @@ define(["libs/sjcl", "asset/logger", "config", "asset/helper", "libs/step"], fun
 		}), callback);
 	};
 
-	/**
-	* Sign a Text
+	/** Sign a Text
 	* @param privateKey private Key to sign with
 	* @param message Message/Hash to sign
 	* @param callback (optional) a callback to call with the results. non blocking
@@ -177,8 +183,7 @@ define(["libs/sjcl", "asset/logger", "config", "asset/helper", "libs/step"], fun
 		}), callback);
 	};
 
-	/**
-	* Verify A Signature.
+	/** Verify A Signature.
 	* @param publicKey publicKey of the sender.
 	* @param message Hash of the Message to verify.
 	* @param signature Signature send with the message.
@@ -200,9 +205,7 @@ define(["libs/sjcl", "asset/logger", "config", "asset/helper", "libs/step"], fun
 		}), callback);
 	};
 
-	/**
-	* removes leading 0.
-	*/
+	/**  removes leading 0. */
 	crypto.r0 = function (number) {
 		while (number.substr(0, 1) === "0") {
 			number = number.substr(1);
@@ -211,8 +214,7 @@ define(["libs/sjcl", "asset/logger", "config", "asset/helper", "libs/step"], fun
 		return number;
 	};
 
-	/**
-	* Encrypt a session key
+	/** Encrypt a session key
 	* @param publicKey the public Key to encrypt the session Key with
 	* @param sessionKey the session key to encrypt.
 	* @param callback callback.
@@ -242,8 +244,7 @@ define(["libs/sjcl", "asset/logger", "config", "asset/helper", "libs/step"], fun
 		}), callback);
 	};
 
-	/**
-	* SHA256 of a string.
+	/** SHA256 of a string.
 	* @param text text to calculate sha256 from
 	* @return sha256(text)
 	* @public
