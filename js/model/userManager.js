@@ -58,7 +58,7 @@ define(['jquery', 'asset/logger', 'asset/helper', 'asset/exceptions', 'config', 
 		* @param k keys json representation
 		* @author Nilos
 		*/
-		var keysToObjects = function (k, cb) {
+		var keysToObjects = function (k) {
 			logger.log("keysToObject");
 
 			var i = 0, currentKey = null;
@@ -229,8 +229,13 @@ define(['jquery', 'asset/logger', 'asset/helper', 'asset/exceptions', 'config', 
 				//decrypt or just return if already decrypted.
 				if (h.arraySet(activeProfile, name)) {
 					if (activeProfile[name].d === false) {
-						crypto.decryptText(session.key,
-							'{"ct": "' + activeProfile[name].v + '", "iv": "' + activeProfile.iv + '"}', sessionKeys.profile, this);
+						if (sessionKeys.profile.isSymKey()) {
+							crypto.decryptText(session.key,
+								'{"ct": "' + activeProfile[name].v + '", "iv": "' + activeProfile.iv + '"}', sessionKeys.profile, this);
+						} else {
+							crypto.decryptText(session.getMainKey(),
+								'{"ct": "' + activeProfile[name].v + '", "iv": "' + activeProfile.iv + '"}', sessionKeys.profile, this);
+						}
 					} else {
 						this.last(null, activeProfile[name].v);
 					}
@@ -275,15 +280,19 @@ define(['jquery', 'asset/logger', 'asset/helper', 'asset/exceptions', 'config', 
 		* This needs a callback because the key is not automatically send with the profile.
 		*/
 		this.getPublicKey = function (callback, overwrite) {
-			step(function () {
+			var PublicKey;
+			step(function loadDeps() {
+				require.wrap("crypto/publicKey", this);
+			}, h.sF(function (p) {
+				PublicKey = p;
 				if (!h.isset(publicKey) || overwrite === true) {
 					h.getData({"publicKey": [userid]}, this);
 				} else {
 					this.last(null, publicKey);
 				}
-			}, h.sF(function getPubKey(data) {
+			}), h.sF(function getPubKey(data) {
 				publicKey = new PublicKey(data.publicKey[userid]);
-				callback(publicKey);
+				this(null, publicKey);
 			}), callback);
 		};
 
@@ -328,38 +337,55 @@ define(['jquery', 'asset/logger', 'asset/helper', 'asset/exceptions', 'config', 
 			}
 		};
 
+		var decrypt = function (key, callback) {
+			step(function () {
+				if (key.isSymKey()) {
+					key.decryptKey(session.mainKey, this.last);
+				} else {
+					key.decryptKey(session.key, this);
+				}
+			}, h.sF(function (d) {
+				if (d) {
+					h.setSymAsymKey(key);
+				}
+			}), callback);
+		};
+
 		/** decrypt this users key
 		* @param callback called when keys are decrypted
 		* @author Nilos
 		*/
 		this.decryptKeys = function (callback) {
 			var k = sessionKeys;
-
-			var i = 0;
-			for (i = 0; i < userKeys.length; i += 1) {
-				var uK = userKeys[i];
-				if (h.arraySet(k, uK)) {
-					if (uK === "profile" && this.ownUser()) {
-						var groupid;
-						for (groupid in k[uK]) {
-							if (k[uK].hasOwnProperty(groupid)) {
-								if (k[uK][groupid] instanceof SessionKey) {
-									k[uK][groupid].decryptKey(session.key);
+			step(function () {
+				var i = 0;
+				for (i = 0; i < userKeys.length; i += 1) {
+					var uK = userKeys[i];
+					if (h.arraySet(k, uK)) {
+						if (uK === "profile" && this.ownUser()) {
+							var groupid;
+							for (groupid in k[uK]) {
+								if (k[uK].hasOwnProperty(groupid)) {
+									decrypt(k[uK], this.parallel());
 								}
 							}
+						} else {
+							decrypt(k[uK], this.parallel());
 						}
 					} else {
-						if (k[uK] instanceof SessionKey) {
-							k[uK].decryptKey(session.key);
-						}
+						logger.log("Session Key problem. Sessionkey for '" + uK + "' not found");
+						logger.log(k);
 					}
-				} else {
-					logger.log("Session Key problem. Sessionkey for '" + uK + "' not found");
-					logger.log(k);
 				}
-			}
-
-			return;
+			}, h.sF(function (d) {
+				var i;
+				for (i = 0; i < d.length; i += 1) {
+					if (!d[i]) {
+						this(null, false);
+						return;
+					}
+				}
+			}), callback);
 		};
 
 		/** get this users friends as object
@@ -445,26 +471,34 @@ define(['jquery', 'asset/logger', 'asset/helper', 'asset/exceptions', 'config', 
 				group = 1;
 			}
 
-			var time = new Date().getTime();
+			var crypto;
+			var publicKey, keys;
 
-			var publicKey, ownUser;
+			var time = new Date().getTime();
 			step(function doRequire() {
-				require.wrap("crypto/waitForReady", this);
-			}, h.sF(function wait(waitForReady) {
+				require.wrap(["crypto/waitForReady", "crypto/crypto"], this);
+			}, h.sF(function wait(waitForReady, c) {
+				crypto = c;
 				logger.log("deps:" + ((new Date().getTime()) - time));
 				waitForReady(this);
+
 			}), h.sF(function getPublicKey() {
 				that.getPublicKey(this);
+
 			}), h.sF(function thePublicKey(pk) {
 				logger.log("pubKey:" + ((new Date().getTime()) - time));
 				publicKey = pk;
 				session.getOwnUser(this);
+
 			}), h.sF(function theOwnUser(u) {
 				logger.log("ownUser:" + ((new Date().getTime()) - time));
 				u.getSessionKeys(this);
-			}), h.sF(function theSessionKeys(keys) {
+
+			}), h.sF(function theSessionKeys(k) {
+				keys = k;
 				logger.log("skeys:" + ((new Date().getTime()) - time));
 				crypto.signText(session.key, "friendShip" + userid, this);
+
 			}), h.sF(function theSignature(signature) {
 				logger.log("sign:" + ((new Date().getTime()) - time));
 
@@ -496,9 +530,9 @@ define(['jquery', 'asset/logger', 'asset/helper', 'asset/exceptions', 'config', 
 				logger.log("sending:" + ((new Date().getTime()) - time));
 
 				h.getData(getData, this);
-			}), h.sF(function (data) {
-				userManager.loadFriends(true, this);
 			}), h.sF(function () {
+				userManager.loadFriends(true, this);
+			}), h.sF(function (data) {
 				if (data.friendShip[userid] === "true" || data.friendShip[userid]) {
 					logger.log("done:" + ((new Date().getTime()) - time));
 					callback(true);
@@ -612,7 +646,6 @@ define(['jquery', 'asset/logger', 'asset/helper', 'asset/exceptions', 'config', 
 
 			if (request) {
 				var getData = {"userProfile": userRequest};
-				var that = this;
 
 				h.getData(getData, function (data) {
 					try {
@@ -677,18 +710,24 @@ define(['jquery', 'asset/logger', 'asset/helper', 'asset/exceptions', 'config', 
 		},
 
 		getPublicKeys: function (userids, callback) {
-			h.getData({"publicKey": userids}, function (data) {
+			var PublicKey;
+			step(function loadDeps() {
+				require.wrap("crypto/publicKey", this);
+			}, h.sF(function (p) {
+				PublicKey = p;
+				h.getData({"publicKey": userids}, this);
+			}), h.sF(function (data) {
 				var key;
 				var keys = [];
 
 				for (key in data.publicKey) {
 					if (data.publicKey.hasOwnProperty(key)) {
-						keys.push(new crypto.publicKey(data.publicKey[key]));
+						keys.push(new PublicKey(data.publicKey[key]));
 					}
 				}
 
-				callback(keys);
-			});
+				this(null, keys);
+			}), callback);
 		},
 
 		loadFriends: function (callback, loadAnyHow) {

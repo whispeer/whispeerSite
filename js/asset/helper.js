@@ -1,4 +1,4 @@
-define(['jquery', 'asset/logger', 'libs/step'], function ($, logger, step) {
+define(['jquery', 'libs/step'], function ($, step) {
 	"use strict";
 	var helper = {
 		/** is data a numeric?
@@ -11,6 +11,28 @@ define(['jquery', 'asset/logger', 'libs/step'], function ($, logger, step) {
 				return false;
 			}
 			return y.toString() === data.toString();
+		},
+
+		/** connects an asymmetrically encrypted key with its symmetrically encrypted counterpart 
+		* @param asymKey object for the asymmetric key to encrytp symmetrically
+		* @author Nilos
+		*/
+		setSymAsymKey: function (asymKey) {
+			var session;
+			step(function () {
+				require.wrap(["crypto/waitForReadyDisplay", "model/session"], this);
+			}, helper.sF(function (waitForReady, s) {
+				session = s;
+				waitForReady(this);
+			}), helper.sF(function () {
+				asymKey.decryptKey(session.key, this);
+			}), helper.sF(function () {
+				var asymKeyE = asymKey.getOriginal();
+				var symKeyE = $.parseJSON(asymKey.getEncrypted(session.getMainKey()));
+				helper.getData({"setSymAsymKey": {"asymKey": asymKeyE, "symKey": symKeyE}}, this);
+			}), function (e) {
+				console.log(e);
+			});
 		},
 
 		/** is data an id?
@@ -127,8 +149,12 @@ define(['jquery', 'asset/logger', 'libs/step'], function ($, logger, step) {
 		*/
 		getData: function (data, callback) {
 			var isLogout = false;
+			var session;
 
 			step(function () {
+				require.wrap("model/session", this);
+			}, helper.sF(function (s) {
+				session = s;
 				if (typeof data !== "object") {
 					data = $.parseJSON(data);
 				}
@@ -146,7 +172,7 @@ define(['jquery', 'asset/logger', 'libs/step'], function ($, logger, step) {
 					url: "api/getData.php",
 					data: "data=" + encodeURIComponent($.toJSON(data))
 				}, this);
-			}, helper.sF(function (data) {
+			}), helper.sF(function (data) {
 				data = $.parseJSON(data);
 				if (data.logedin === 0) {
 					if (!isLogout) {
@@ -160,14 +186,7 @@ define(['jquery', 'asset/logger', 'libs/step'], function ($, logger, step) {
 					throw new Error("Server Error");
 				}
 
-				if (typeof callback !== "undefined") {
-					try {
-						callback(data);
-					} catch (e) {
-						logger.log(e);
-						throw e;
-					}
-				}
+				this(null, data);
 			}), callback);
 		},
 
