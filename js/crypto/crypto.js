@@ -144,7 +144,7 @@ define(["libs/sjcl", "config", "asset/helper", "libs/step"], function (sjcl, con
 				sessionKey = new SessionKey(sessionKey);
 			}
 
-			if (privateKey instanceof PrivateKey && sessionKey instanceof SessionKey) {
+			if ((privateKey instanceof PrivateKey || privateKey instanceof SessionKey) && sessionKey instanceof SessionKey) {
 				sessionKey.decryptKey(privateKey, this);
 			} else {
 				throw new Error("need correct keys!");

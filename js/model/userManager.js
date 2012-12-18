@@ -202,48 +202,60 @@ define(['jquery', 'asset/logger', 'asset/helper', 'asset/exceptions', 'config', 
 			}), callback);
 		};
 
-		this.getValue = function (name, group) {
+		this.getValue = function (name, group, callback) {
+			var activeProfile;
 			name = name.toLowerCase();
-			//ownUser?
-			if (this.ownUser()) {
-				if (typeof group !== "number") {
-					var groupid;
-					for (groupid in profiles) {
-						if (profiles.hasOwnProperty(groupid)) {
-							group = groupid;
-							break;
+
+			step(function loadDeps() {
+				require.wrap("crypto/crypto", this);
+			}, h.sF(function c(crypto) {
+				//get the profile we are looking at. 
+				if (this.ownUser()) {
+					//ownUser: get the group which has a probability of this name.
+					if (typeof group !== "number") {
+						var groupid;
+						for (groupid in profiles) {
+							if (profiles.hasOwnProperty(groupid)) {
+								if (h.arraySet(profiles, groupid,  name)) {
+									activeProfile = profiles[group];
+								}
+							}
 						}
 					}
+				} else {
+					activeProfile = profiles;
 				}
 
-				if (h.arraySet(profiles, group, name) && h.arraySet(sessionKeys, "profile")) {
-					if (profiles[group][name].d === false) {
-						profiles[group][name].v = crypto.decryptText(session.key,
-							'{"ct": "' + profiles[group][name].v + '", "iv": "' + profiles[group].iv + '"}',
-							sessionKeys.profile[group]);
-						profiles[group][name].d = true;
+				//decrypt or just return if already decrypted.
+				if (h.arraySet(activeProfile, name)) {
+					if (activeProfile[name].d === false) {
+						crypto.decryptText(session.key,
+							'{"ct": "' + activeProfile[name].v + '", "iv": "' + activeProfile.iv + '"}', sessionKeys.profile, this);
+					} else {
+						this.last(null, activeProfile[name].v);
 					}
-
-					return profiles[group][name].v;
+				} else {
+					//don't have a value ... 
+					this(null, false);
 				}
-			//not own user
-			} else {
-				if (h.arraySet(profiles, name)) {
-					if (profiles[name].d === false) {
-						profiles[name].v = crypto.decryptText(session.key,
-							'{"ct": "' + profiles[name].v + '", "iv": "' + profiles.iv + '"}', sessionKeys.profile);
-						profiles[name].d = true;
-					}
+			}), h.sF(function (decrypted) {
+				//decrypted value ready. return if given (not false)
+				if (decrypted !== false) {
+					activeProfile[name].d = true;
+					activeProfile[name].v = decrypted;
 
-					return profiles[name].v;
+					this.last(null, activeProfile[name].v);
+				} else {
+					this();
 				}
-			}
-
-			if (h.arraySet(publicProfile, name)) {
-				return publicProfile[name];
-			}
-
-			return "";
+			}), h.sF(function () {
+				//last possibility: get publicProfile value
+				if (h.arraySet(publicProfile, name)) {
+					this(null, publicProfile[name]);
+				} else {
+					this(null, "");
+				}
+			}), callback);
 		};
 
 		/** get this users id */
@@ -263,14 +275,16 @@ define(['jquery', 'asset/logger', 'asset/helper', 'asset/exceptions', 'config', 
 		* This needs a callback because the key is not automatically send with the profile.
 		*/
 		this.getPublicKey = function (callback, overwrite) {
-			if (!h.isset(publicKey) || overwrite === true) {
-				h.getData({"publicKey": [userid]}, function (data) {
-					publicKey = new crypto.publicKey(data.publicKey[userid]);
-					callback(publicKey);
-				});
-			} else {
+			step(function () {
+				if (!h.isset(publicKey) || overwrite === true) {
+					h.getData({"publicKey": [userid]}, this);
+				} else {
+					this.last(null, publicKey);
+				}
+			}, h.sF(function getPubKey(data) {
+				publicKey = new PublicKey(data.publicKey[userid]);
 				callback(publicKey);
-			}
+			}), callback);
 		};
 
 		/** check a signature for this user.
@@ -281,9 +295,15 @@ define(['jquery', 'asset/logger', 'asset/helper', 'asset/exceptions', 'config', 
 		* gets public key and checks signature.
 		*/
 		this.checkSignature = function (signature, message, callback) {
-			this.getPublicKey(function (p) {
-				crypto.verifyText(p, message, signature, callback);
-			});
+			var publicKey;
+			step(function () {
+				theUser.getPublicKey(this);
+			}, h.sF(function (p) {
+				publicKey = p;
+				require.wrap("crypto/crypto", this);
+			}), h.sF(function (crypto) {
+				crypto.verifyText(publicKey, message, signature, this);
+			}), callback);
 		};
 
 		/** get this users session keys
