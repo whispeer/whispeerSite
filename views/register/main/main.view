@@ -1,3 +1,6 @@
+<div id="logo">
+	<img src="img/logo.png">
+</div>
 <form id="loginform">
 	<input type="text" id="mail" placeholder="Benutzername">
 	<input type="password" id="password" placeholder="Passwort">
