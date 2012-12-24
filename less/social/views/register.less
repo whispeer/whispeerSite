@@ -1,99 +1,36 @@
 //Don't touch any of the *.less or *.css files, or you will die an awful death.
-#loginform {
-	.column(5,12);
-	.push(5);
-}
-#socialhive {
-	.column(6);
-	text-align: center;
-}
-
-#registerbubble {
-	.column(6);
-}
-#register {
-	#nameRow, #lastNameRow, #emailRow, #emailRow2, #usernameRow, #passwordRow, #passwordRow2, #submitRow {
-		.row(6);
-		margin-top: 5px;
-		span {
-			.column(1,6);
-			img {
-				padding-top: 5px;
-			}
-		}
+.registerView {
+	// Tweak the standards a bit ;)
+	footer {
+		color: #f2fbec;
 	}
-	.marked {
-		.row();
-		.column(12);
+	// content
+	#main {
 		text-align: center;
 	}
-	#nameRow {
-		#firstNameLabel {
-			.column(2,6);
-			padding-top: 5px;
+	#loginform, #registerform {
+		width: 200px;
+		margin: 0 auto;
+		margin-bottom: 10px;
+		background-color: @white;
+		.border-radius(20px);
+		display: none;
+		input, button {
+			width: 100%;
+			margin: 0 auto;
+			outline: none;
+			border: none;
 		}
-		#firstname {
-			.column(3,6);
-		}
-	}
-	#lastNameRow {
-		#lastNameLabel {
-			.column(2,6);
-			padding-top: 5px;
-		}
-		#lastname {
-			.column(3,6);
-		}
-	}
-	#emailRow{
-		#emailLabel {
-			.column(2,6);
-			padding-top: 5px;
-		}
-		#rmail {
-			.column(3,6);
+		input {
+			border-bottom: 1px solid #ddd;
+			.border-radiuses(5px, 0px, 0px, 5px);
 		}
 	}
-	#emailRow2 {
-		#emailLabel2 {
-			.column(2,6);
-			padding-top: 5px;
-		}
-		#rmail2 {
-			.column(3,6);
-		}
+	a {
+		text-decoration: underline;
+		color: darken(@white, 10%);
 	}
-	#usernameRow {
-		#usernameLabel {
-			.column(2,6);
-			padding-top: 5px;
-		}
-		#rnickname {
-			.column(3,6);
-		}
-	}
-	#passwordRow {
-		#passwordLabel {
-			.column(2,6);
-			padding-top: 5px;
-		}
-		#rpassword {
-			.column(3,6);
-		}
-	}
-	#passwordRow2 {
-		#passwordLabel2 {
-			.column(2,6);
-			padding-top: 5px;
-		}
-		#rpassword2 {
-			.column(3,6);
-		}
-	}
-	#submitRow {
-		#registersubmit {
-			.column(3,6);
-			.push(4.1);
-		}
+	#callRegister, #callLogin {
+		display: none;
 	}
 }

@@ -191,7 +191,12 @@ input:not([type=submit]):not([type=file]) {
   outline: 0;
   font: normal 13px/100% "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
   background: #ffffff;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
   border-radius: 5px;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
   -webkit-box-shadow: inset 1px #333333;
   -moz-box-shadow: inset 1px #333333;
   box-shadow: inset 1px #333333;
@@ -220,7 +225,12 @@ textarea {
   outline: 0;
   font: normal 13px/100% "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
   background: #ffffff;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
   border-radius: 5px;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
   -webkit-box-shadow: inset 1px #333333;
   -moz-box-shadow: inset 1px #333333;
   box-shadow: inset 1px #333333;
@@ -399,7 +409,7 @@ a:hover {
 	Don't touch any of the *.less or *.css files, or you will die an awful death.
 */
 body {
-  background-color: #fff;
+  background-color: #3a8100;
   margin: 0 auto;
   padding-top: 50px;
 }
@@ -439,14 +449,18 @@ body #sidebar-right #ads {
   *margin: 0 6.197916666666667%;
 }
 body footer {
-  display: inline;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  padding: 5px;
+}
+body footer #left {
   float: left;
-  width: 97.91666666666666%;
-  margin: 0 1.0416666666666665%;
-  *width: 97.86458333333333%;
-  *margin: 0 0.9895833333333331%;
-  text-align: center;
-  margin-top: 10px;
+}
+body footer #right {
+  float: right;
+  margin-right: 10px;
 }
 body #loading {
   display: none;
@@ -1323,252 +1337,61 @@ input[type="submit"].btn.btn-mini {
   color: #f5ffe9;
   border: none;
 }
-#loginform {
-  display: inline;
-  float: left;
-  width: 39.58333333333333%;
-  margin: 0 1.0416666666666665%;
-  *width: 39.53124999999999%;
-  *margin: 0 0.9895833333333331%;
-  margin-left: 42.708333333333336%;
+.registerView footer {
+  color: #f2fbec;
 }
-#socialhive {
-  display: inline;
-  float: left;
-  width: 47.91666666666667%;
-  margin: 0 1.0416666666666665%;
-  *width: 47.864583333333336%;
-  *margin: 0 0.9895833333333331%;
+.registerView #main {
   text-align: center;
 }
-#registerbubble {
-  display: inline;
-  float: left;
-  width: 47.91666666666667%;
-  margin: 0 1.0416666666666665%;
-  *width: 47.864583333333336%;
-  *margin: 0 0.9895833333333331%;
+.registerView #loginform,
+.registerView #registerform {
+  width: 200px;
+  margin: 0 auto;
+  margin-bottom: 10px;
+  background-color: #ffffff;
+  -webkit-border-radius: 20px;
+  -moz-border-radius: 20px;
+  border-radius: 20px;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  display: none;
 }
-#register #nameRow,
-#register #lastNameRow,
-#register #emailRow,
-#register #emailRow2,
-#register #usernameRow,
-#register #passwordRow,
-#register #passwordRow2,
-#register #submitRow {
-  display: block;
-  width: 104.16666666666667%;
-  margin: 0 -2.083333333333333%;
-  *width: 104.11458333333334%;
-  *margin: 0 -2.1354166666666665%;
-  *zoom: 1;
-  margin-top: 5px;
+.registerView #loginform input,
+.registerView #registerform input,
+.registerView #loginform button,
+.registerView #registerform button {
+  width: 100%;
+  margin: 0 auto;
+  outline: none;
+  border: none;
 }
-#register #nameRow:before,
-#register #lastNameRow:before,
-#register #emailRow:before,
-#register #emailRow2:before,
-#register #usernameRow:before,
-#register #passwordRow:before,
-#register #passwordRow2:before,
-#register #submitRow:before,
-#register #nameRow:after,
-#register #lastNameRow:after,
-#register #emailRow:after,
-#register #emailRow2:after,
-#register #usernameRow:after,
-#register #passwordRow:after,
-#register #passwordRow2:after,
-#register #submitRow:after {
-  content: "";
-  display: table;
+.registerView #loginform input,
+.registerView #registerform input {
+  border-bottom: 1px solid #ddd;
+  -webkit-border-top-right-radius: 5px;
+  -webkit-border-bottom-right-radius: 0px;
+  -webkit-border-bottom-left-radius: 0px;
+  -webkit-border-top-left-radius: 5px;
+  -moz-border-radius-topright: 5px;
+  -moz-border-radius-bottomright: 0px;
+  -moz-border-radius-bottomleft: 0px;
+  -moz-border-radius-topleft: 5px;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 0px;
+  border-bottom-left-radius: 0px;
+  border-top-left-radius: 5px;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
 }
-#register #nameRow:after,
-#register #lastNameRow:after,
-#register #emailRow:after,
-#register #emailRow2:after,
-#register #usernameRow:after,
-#register #passwordRow:after,
-#register #passwordRow2:after,
-#register #submitRow:after {
-  clear: both;
+.registerView a {
+  text-decoration: underline;
+  color: #e6e6e6;
 }
-#register #nameRow span,
-#register #lastNameRow span,
-#register #emailRow span,
-#register #emailRow2 span,
-#register #usernameRow span,
-#register #passwordRow span,
-#register #passwordRow2 span,
-#register #submitRow span {
-  display: inline;
-  float: left;
-  width: 12.5%;
-  margin: 0 2.083333333333333%;
-  *width: 12.447916666666666%;
-  *margin: 0 2.0312499999999996%;
-}
-#register #nameRow span img,
-#register #lastNameRow span img,
-#register #emailRow span img,
-#register #emailRow2 span img,
-#register #usernameRow span img,
-#register #passwordRow span img,
-#register #passwordRow2 span img,
-#register #submitRow span img {
-  padding-top: 5px;
-}
-#register .marked {
-  display: block;
-  width: 102.08333333333333%;
-  margin: 0 -1.0416666666666665%;
-  *width: 102.03125%;
-  *margin: 0 -1.0937499999999998%;
-  *zoom: 1;
-  display: inline;
-  float: left;
-  width: 97.91666666666666%;
-  margin: 0 1.0416666666666665%;
-  *width: 97.86458333333333%;
-  *margin: 0 0.9895833333333331%;
-  text-align: center;
-}
-#register .marked:before,
-#register .marked:after {
-  content: "";
-  display: table;
-}
-#register .marked:after {
-  clear: both;
-}
-#register #nameRow #firstNameLabel {
-  display: inline;
-  float: left;
-  width: 29.166666666666668%;
-  margin: 0 2.083333333333333%;
-  *width: 29.114583333333336%;
-  *margin: 0 2.0312499999999996%;
-  padding-top: 5px;
-}
-#register #nameRow #firstname {
-  display: inline;
-  float: left;
-  width: 45.83333333333333%;
-  margin: 0 2.083333333333333%;
-  *width: 45.78124999999999%;
-  *margin: 0 2.0312499999999996%;
-}
-#register #lastNameRow #lastNameLabel {
-  display: inline;
-  float: left;
-  width: 29.166666666666668%;
-  margin: 0 2.083333333333333%;
-  *width: 29.114583333333336%;
-  *margin: 0 2.0312499999999996%;
-  padding-top: 5px;
-}
-#register #lastNameRow #lastname {
-  display: inline;
-  float: left;
-  width: 45.83333333333333%;
-  margin: 0 2.083333333333333%;
-  *width: 45.78124999999999%;
-  *margin: 0 2.0312499999999996%;
-}
-#register #emailRow #emailLabel {
-  display: inline;
-  float: left;
-  width: 29.166666666666668%;
-  margin: 0 2.083333333333333%;
-  *width: 29.114583333333336%;
-  *margin: 0 2.0312499999999996%;
-  padding-top: 5px;
-}
-#register #emailRow #rmail {
-  display: inline;
-  float: left;
-  width: 45.83333333333333%;
-  margin: 0 2.083333333333333%;
-  *width: 45.78124999999999%;
-  *margin: 0 2.0312499999999996%;
-}
-#register #emailRow2 #emailLabel2 {
-  display: inline;
-  float: left;
-  width: 29.166666666666668%;
-  margin: 0 2.083333333333333%;
-  *width: 29.114583333333336%;
-  *margin: 0 2.0312499999999996%;
-  padding-top: 5px;
-}
-#register #emailRow2 #rmail2 {
-  display: inline;
-  float: left;
-  width: 45.83333333333333%;
-  margin: 0 2.083333333333333%;
-  *width: 45.78124999999999%;
-  *margin: 0 2.0312499999999996%;
-}
-#register #usernameRow #usernameLabel {
-  display: inline;
-  float: left;
-  width: 29.166666666666668%;
-  margin: 0 2.083333333333333%;
-  *width: 29.114583333333336%;
-  *margin: 0 2.0312499999999996%;
-  padding-top: 5px;
-}
-#register #usernameRow #rnickname {
-  display: inline;
-  float: left;
-  width: 45.83333333333333%;
-  margin: 0 2.083333333333333%;
-  *width: 45.78124999999999%;
-  *margin: 0 2.0312499999999996%;
-}
-#register #passwordRow #passwordLabel {
-  display: inline;
-  float: left;
-  width: 29.166666666666668%;
-  margin: 0 2.083333333333333%;
-  *width: 29.114583333333336%;
-  *margin: 0 2.0312499999999996%;
-  padding-top: 5px;
-}
-#register #passwordRow #rpassword {
-  display: inline;
-  float: left;
-  width: 45.83333333333333%;
-  margin: 0 2.083333333333333%;
-  *width: 45.78124999999999%;
-  *margin: 0 2.0312499999999996%;
-}
-#register #passwordRow2 #passwordLabel2 {
-  display: inline;
-  float: left;
-  width: 29.166666666666668%;
-  margin: 0 2.083333333333333%;
-  *width: 29.114583333333336%;
-  *margin: 0 2.0312499999999996%;
-  padding-top: 5px;
-}
-#register #passwordRow2 #rpassword2 {
-  display: inline;
-  float: left;
-  width: 45.83333333333333%;
-  margin: 0 2.083333333333333%;
-  *width: 45.78124999999999%;
-  *margin: 0 2.0312499999999996%;
-}
-#register #submitRow #registersubmit {
-  display: inline;
-  float: left;
-  width: 45.83333333333333%;
-  margin: 0 2.083333333333333%;
-  *width: 45.78124999999999%;
-  *margin: 0 2.0312499999999996%;
-  margin-left: 35.20833333333333%;
+.registerView #callRegister,
+.registerView #callLogin {
+  display: none;
 }
 .shareForm {
   width: 100%;

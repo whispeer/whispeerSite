@@ -8,11 +8,34 @@ ssn.display.register.main = {
 	load: function (done) {
 		this.eventListener();
 
+		$("body").addClass("registerView");
+		$("nav").hide();
 		$("#mail").css("border-color", "").css("background-color", "").removeAttr("disabled");
 		$("#password").css("border-color", "").css("background-color", "").removeAttr("disabled");
 		$("#loginformsubmit").removeAttr("disabled");
-		$("body").addClass("registerView");
+		$("#loginform").fadeIn(1000, "linear");
+		$("#callRegister").show();
+		
+		$("#callRegister").click(function() {
+			// hide login and show register
+			$("#loginform").fadeOut(200, "linear", function() {
+				$("#registerform").fadeIn(500, "linear");
+				$("#callRegister").hide();
+				$("#callLogin").show();
+			});
+			return false;
+		});
 
+		$("#callLogin").click(function() {
+			// hide login and show register
+			$("#registerform").fadeOut(200, "linear", function() {
+				$("#loginform").fadeIn(500, "linear");
+				$("#callLogin").hide();
+				$("#callRegister").show();
+			});
+			return false;
+		});
+		
 		ssn.display.checkMail();
 		ssn.display.checkNickname();
 		ssn.display.mailSame();
@@ -41,7 +64,7 @@ ssn.display.register.main = {
 	eventListener: function () {
 		jQuery('.strength input').keyup(this.passwordStrength);
 
-		$("#register input").click(function () {
+		$("#registerform input").click(function () {
 			ssn.session.registerStarted();
 		});
 
@@ -56,7 +79,7 @@ ssn.display.register.main = {
 
 		$('#rmail2').change(ssn.display.mailSame);
 
-		$('#register').submit(ssn.display.registerNow);
+		$('#registerform').submit(ssn.display.registerNow);
 
 		$(".lock").click(function () {
 			if ($(this).attr('encrypted') === "true") {
@@ -71,5 +94,6 @@ ssn.display.register.main = {
 	unload: function () {
 		ssn.logger.log("unload for register");
 		$("body").removeClass("registerView");
+		$("nav").show();
 	}
 };
