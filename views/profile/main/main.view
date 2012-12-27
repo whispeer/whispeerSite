@@ -1,4 +1,4 @@
-<div class="bubble" id="infowrap">
+<div id="infowrap">
 		<div id="userimg"><img src="img/profil.jpg"></div>
 		<div id="userinfo">
 			<h1 id="pname"></h1> <a class="btn btn-success" id="pfriendShip"></a> <a class="btn btn-success" id="psendMessage"></a>
@@ -14,7 +14,7 @@
 		</div>
 	</div>
 </div>
-<div class="bubble" id="wall">
+<div id="wall">
 	<h2>Pinnwand</h2>
 	<br>
 	<form class="form-inline shareForm">

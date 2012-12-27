@@ -5,10 +5,12 @@ nav {
 	width: 100%;
 	height: @navbarHeight;
 	top: 0;
-	border-bottom: 1px solid #a7a7a7;
-	outline: 1px solid #dbdbdb;
+	border-bottom: 1px solid darken(@green2, 5%);
+	box-shadow: 0px 0px 1px darken(@green2, 5%);
+	//outline: 1px solid #dbdbdb;
 	//.gradient(lighten(#5fbb00, 8%), #5fbb00);
-	.gradient(@green, @green2);
+	//.gradient(@green, @green2);
+	background-color: @green2;
 }
 .nav-inner {
 	.brand {

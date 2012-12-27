@@ -49,10 +49,10 @@ ssn.display.profile.main = {
 		$("#pnick2").text(u.getNickname());
 		$("#pfirstname").text(u.getValue("firstname"));
 		$("#plastname").text(u.getValue("lastname"));
-		$("#infowrap").css("background-image", "url(img/testbanner.jpg)");
 		// TODO: just do the following two steps if the text really needs to be white!
 		$("#infowrap").css("color", "#fff");
 		$("#infowrap i").addClass("icon-white");
+		$("#infowrap").css("background-image", "url(img/testbanner.jpg)");
 
 		if (!u.ownUser()) {
 			$("#psendMessage").text(ssn.translation.getValue("sendMessage")).show();
