@@ -90,6 +90,16 @@ ssn.display.register.main = {
 				$(this).children(":first").attr('src', 'img/lock_closed.png').attr('alt', 'Encrypted');
 			}
 		});
+		$('#loginform').submit(function () {
+			try {
+				ssn.session.login($('#mail').val(), $('#password').val());
+				$('#password').val("");
+			} catch (e) {
+				ssn.logger.log(e);
+			}
+
+			return false;
+		});
 	},
 	unload: function () {
 		ssn.logger.log("unload for register");
