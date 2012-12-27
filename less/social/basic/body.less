@@ -3,7 +3,8 @@
 */
 
 body {
-	background-color: @green2;
+	background-color: @white;
+	background-color: rgba(105,228,0,0.1);
 	margin: 0 auto;
 	padding-top: @navbarHeight;
 	
@@ -34,17 +35,23 @@ body {
 	}
 	
 	footer {
-		position: fixed;
+		float: left;
+		position: relative;
 		bottom: 0;
 		left: 0;
 		width: 100%;
 		padding: 5px;
+		color: #f2fbec;
+		.box-fix;
 		#left {
 			float: left;
 		}
 		#right {
 			float: right;
-			margin-right: 10px;
+			margin-right: 5px;
+		}
+		a {
+			color: #f2fbec;
 		}
 	}
 	
@@ -53,7 +60,7 @@ body {
 		text-align: center;
 	}
 }
-.mainView, .messageView, .friendsView, .profileView, .mediaView {
+.mainView, .messageView, .friendsView, .profileView, .mediaView, .helpView, .settingsView {
 	#main {
 		.column(7);
 	}
