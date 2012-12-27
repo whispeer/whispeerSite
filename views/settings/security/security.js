@@ -1,7 +1,7 @@
 define([], function () {
 	"use strict";
 
-	var settingsMain = {
+	var settingsSecurity = {
 		load: function (done) {
 			done();
 		},
@@ -13,5 +13,5 @@ define([], function () {
 		}
 	};
 
-	return settingsMain;
+	return settingsSecurity;
 });
