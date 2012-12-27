@@ -178,6 +178,7 @@ define(['jquery', 'asset/logger', 'asset/helper', 'asset/exceptions', 'config', 
 		* returns: firstname lastname or nickname if no firstname and lastname set.
 		*/
 		this.getName = function (callback) {
+			console.time("getName");
 			step(function loadData() {
 				theUser.getValue("firstName", this.parallel());
 				theUser.getValue("lastName", this.parallel());
@@ -185,6 +186,7 @@ define(['jquery', 'asset/logger', 'asset/helper', 'asset/exceptions', 'config', 
 				var firstName = data[0];
 				var lastName = data[1];
 				if (firstName !== "" || lastName !== "") {
+					console.timeEnd("getName");
 					this.last.ne(firstName + " " + lastName);
 					return;
 				}

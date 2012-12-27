@@ -8,6 +8,8 @@ define(['jquery', 'libs/step', 'asset/logger', 'model/state', 'asset/helper', 'c
 	var loginF;
 
 	var viewjs = {};
+	var viewmenu = {};
+	var viewhtml = {};
 
 	var display = {
 		/** set the handler for the login function */
@@ -267,15 +269,25 @@ define(['jquery', 'libs/step', 'asset/logger', 'model/state', 'asset/helper', 'c
 			});
 
 			step(function () {
-				h.ajax({
-					type : "GET",
-					dataType: 'html',
-					url : "views/" + page + "/" + subview + "/" + subview + ".view"
-				}, this.parallel());
+				if (h.arraySet(viewhtml, page, subview) && h.arraySet(viewjs, page, subview)) {
+					this.ne([viewhtml[page][subview], viewjs[page][subview]]);
+				} else {
+					h.ajax({
+						type : "GET",
+						dataType: 'html',
+						url : "views/" + page + "/" + subview + "/" + subview + ".view"
+					}, this.parallel());
 
-				require.wrap("views/" + page + "/" + subview + "/" + subview + ".js", this.parallel());
+					require.wrap("views/" + page + "/" + subview + "/" + subview + ".js", this.parallel());
+				}
 			}, h.sF(function (data) {
+				if (typeof viewhtml[page] === "undefined") {
+					viewhtml[page] = {};
+				}
+
+				viewhtml[page][subview] = data[0];
 				$("#main").html(data[0]);
+
 				viewjs[page][subview] = data[1];
 				display.viewLoaded(page, subview);
 			}));
