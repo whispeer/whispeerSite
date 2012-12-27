@@ -3,7 +3,7 @@
 */
 
 body {
-	background-color: #fff;
+	background-color: @green2;
 	margin: 0 auto;
 	padding-top: @navbarHeight;
 	
@@ -34,9 +34,18 @@ body {
 	}
 	
 	footer {
-		.column(12);
-		text-align: center;
-		margin-top: 10px;
+		position: fixed;
+		bottom: 0;
+		left: 0;
+		width: 100%;
+		padding: 5px;
+		#left {
+			float: left;
+		}
+		#right {
+			float: right;
+			margin-right: 10px;
+		}
 	}
 	
 	#loading {
