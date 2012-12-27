@@ -1917,3 +1917,10 @@ input[type="submit"].btn.btn-mini {
   *width: 10.66220238095238%;
   *margin: 0 1.7336309523809523%;
 }
+.settingsView #main {
+  background-color: #ffffff;
+}
+.settingsView #toc {
+  float: left;
+  width: 100%;
+}
