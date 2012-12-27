@@ -4,8 +4,8 @@ define(['jquery', 'asset/logger', 'asset/helper', 'asset/exceptions', 'config', 
 	//TODO
 	//var SessionKey, session, i18n, crypto;
 
-	/** valid profile attributes */
-	var validAttributes = {"firstname": true, "lastname": true};
+	/** valid profile attributes not needed yet*/
+	//var validAttributes = {"firstname": true, "lastname": true};
 	/** users by id */
 	var usersID = {};
 	/** users by nickname */
@@ -210,8 +210,8 @@ define(['jquery', 'asset/logger', 'asset/helper', 'asset/exceptions', 'config', 
 				require.wrap("crypto/crypto", this);
 			}, h.sF(function c(crypto) {
 				//get the profile we are looking at. 
-				if (this.ownUser()) {
-					//ownUser: get the group which has a probability of this name.
+				if (theUser.ownUser()) {
+					//ownUser: get the group which has a attribute of this name.
 					if (typeof group !== "number") {
 						var groupid;
 						for (groupid in profiles) {
@@ -230,7 +230,7 @@ define(['jquery', 'asset/logger', 'asset/helper', 'asset/exceptions', 'config', 
 				if (h.arraySet(activeProfile, name)) {
 					if (activeProfile[name].d === false) {
 						if (sessionKeys.profile.isSymKey()) {
-							crypto.decryptText(session.key,
+							crypto.decryptText(session.getKey(),
 								'{"ct": "' + activeProfile[name].v + '", "iv": "' + activeProfile.iv + '"}', sessionKeys.profile, this);
 						} else {
 							crypto.decryptText(session.getMainKey(),
@@ -285,7 +285,7 @@ define(['jquery', 'asset/logger', 'asset/helper', 'asset/exceptions', 'config', 
 				require.wrap("crypto/publicKey", this);
 			}, h.sF(function (p) {
 				PublicKey = p;
-				if (!h.isset(publicKey) || overwrite === true) {
+				if (!h.isset(publicKey) || !(publicKey instanceof PublicKey) || overwrite === true) {
 					h.getData({"publicKey": [userid]}, this);
 				} else {
 					this.last(null, publicKey);
@@ -321,28 +321,42 @@ define(['jquery', 'asset/logger', 'asset/helper', 'asset/exceptions', 'config', 
 		* @author Nilos
 		*/
 		this.getSessionKeys = function (callback, overwrite) {
-			if (typeof sessionKeys === "undefined" || overwrite === true) {
+			step(function loadDeps() {
+				require.wrap("crypto/sessionKey", this);
+			}, h.sF(function (s) {
+				SessionKey = s;
+				if (typeof sessionKeys === "undefined" || overwrite === true) {
+					this.ne();
+				} else {
+					this.last.ne(sessionKeys);
+				}
+			}), h.sF(function () {
 				var getData = {"sessionKey": {}};
 				var i = 0;
 				for (i = 0; i < userKeys.length; i += 1) {
 					getData.sessionKey[userKeys[i]] = [userid];
 				}
 
-				h.getData(getData, function (data) {
-					sessionKeys = keysToObjects(data.sessionKey);
-					callback(sessionKeys);
-				});
-			} else {
-				callback(sessionKeys);
-			}
+				h.getData(getData, this);
+			}), h.sF(function () {
+				sessionKeys = keysToObjects(data.sessionKey);
+				this.ne(sessionKeys);
+			}), callback);
 		};
 
+		/** decrypt a key.
+		* @param key key to decrypt
+		* @param callback callback
+		*/
 		var decrypt = function (key, callback) {
 			step(function () {
+				console.log(key);
+				console.log(session.getMainKey());
+				console.log(session.getKey());
 				if (key.isSymKey()) {
-					key.decryptKey(session.mainKey, this.last);
+					key.decryptKey(session.getMainKey(), this.last);
 				} else {
-					key.decryptKey(session.key, this);
+					key.decryptKey(session.getKey(), this);
 				}
 			}, h.sF(function (d) {
 				if (d) {
@@ -362,7 +376,7 @@ define(['jquery', 'asset/logger', 'asset/helper', 'asset/exceptions', 'config', 
 				for (i = 0; i < userKeys.length; i += 1) {
 					var uK = userKeys[i];
 					if (h.arraySet(k, uK)) {
-						if (uK === "profile" && this.ownUser()) {
+						if (uK === "profile" && theUser.ownUser()) {
 							var groupid;
 							for (groupid in k[uK]) {
 								if (k[uK].hasOwnProperty(groupid)) {
@@ -393,12 +407,14 @@ define(['jquery', 'asset/logger', 'asset/helper', 'asset/exceptions', 'config', 
 		* @author Nilos
 		*/
 		this.friends = function (callback) {
-			h.getData({"friends": userid}, function (f) {
-				userManager.loadUsers(f.friends, userManager.BASIC, function (u) {
-					friendsList = u;
-					callback(u);
-				});
-			});
+			step(function loadFriendData() {
+				h.getData({"friends": userid}, this);
+			}, h.sF(function (f) {
+				userManager.loadUsers(f.friends, userManager.BASIC, this);
+			}), h.sF(function (u) {
+				friendsList = u;
+				this.ne(u);
+			}), callback);
 		};
 
 		/** check if this user has a certain friend
@@ -407,20 +423,20 @@ define(['jquery', 'asset/logger', 'asset/helper', 'asset/exceptions', 'config', 
 		* @author Nilos
 		*/
 		this.hasFriend = function (userid, callback) {
-			h.getData({"friends": userid}, function (f) {
+			step(function loadFriends() {
+				h.getData({"friends": userid}, this);
+			}, h.sF(function (f) {
 				var friends = f.friends;
-				var i, done = false;
+				var i;
 				for (i = 0; i < friends.length; i += 1) {
 					if (friends[i] === userid) {
-						callback(true);
-						done = true;
+						this.ne(true);
+						return;
 					}
 				}
 
-				if (!done) {
-					callback(false);
-				}
-			});
+				this.ne(false);
+			}), callback);
 		};
 
 		/** checks if this user is a friend */
@@ -428,7 +444,7 @@ define(['jquery', 'asset/logger', 'asset/helper', 'asset/exceptions', 'config', 
 			var friends = userManager.friends();
 			var i;
 			for (i = 0; i < friends.length; i += 1) {
-				if (friends[i] === this.getUserID()) {
+				if (friends[i] === theUser.getUserID()) {
 					return true;
 				}
 			}
@@ -441,7 +457,7 @@ define(['jquery', 'asset/logger', 'asset/helper', 'asset/exceptions', 'config', 
 			var friendShipRequests = userManager.friendShipRequests();
 			var i;
 			for (i = 0; i < friendShipRequests.length; i += 1) {
-				if (friendShipRequests[i] === this.getUserID()) {
+				if (friendShipRequests[i] === theUser.getUserID()) {
 					return true;
 				}
 			}
@@ -454,7 +470,7 @@ define(['jquery', 'asset/logger', 'asset/helper', 'asset/exceptions', 'config', 
 			var friendShipRequested = userManager.friendShipRequested();
 			var i;
 			for (i = 0; i < friendShipRequested.length; i += 1) {
-				if (friendShipRequested[i] === this.getUserID()) {
+				if (friendShipRequested[i] === theUser.getUserID()) {
 					return true;
 				}
 			}
@@ -473,6 +489,7 @@ define(['jquery', 'asset/logger', 'asset/helper', 'asset/exceptions', 'config', 
 
 			var crypto;
 			var publicKey, keys;
+			step.startTiming();
 
 			var time = new Date().getTime();
 			step(function doRequire() {
@@ -497,7 +514,7 @@ define(['jquery', 'asset/logger', 'asset/helper', 'asset/exceptions', 'config', 
 			}), h.sF(function theSessionKeys(k) {
 				keys = k;
 				logger.log("skeys:" + ((new Date().getTime()) - time));
-				crypto.signText(session.key, "friendShip" + userid, this);
+				crypto.signText(session.getKey(), "friendShip" + userid, this);
 
 			}), h.sF(function theSignature(signature) {
 				logger.log("sign:" + ((new Date().getTime()) - time));
@@ -507,9 +524,9 @@ define(['jquery', 'asset/logger', 'asset/helper', 'asset/exceptions', 'config', 
 				var i = 0;
 				for (i = 0; i < userKeys.length; i += 1) {
 					if (userKeys[i] === "profile") {
-						resultKeys[userKeys[i]] = crypto.encryptSessionKey(publicKey, keys[userKeys[i]][group], session.key);
+						resultKeys[userKeys[i]] = crypto.encryptSessionKey(publicKey, keys[userKeys[i]][group], session.getKey());
 					} else {
-						resultKeys[userKeys[i]] = crypto.encryptSessionKey(publicKey, keys[userKeys[i]], session.key);
+						resultKeys[userKeys[i]] = crypto.encryptSessionKey(publicKey, keys[userKeys[i]], session.getKey());
 					}
 				}
 
@@ -540,6 +557,8 @@ define(['jquery', 'asset/logger', 'asset/helper', 'asset/exceptions', 'config', 
 					callback(false);
 				}
 			}), callback);
+
+			step.stopTiming();
 		};
 
 		//load data from json
@@ -555,7 +574,7 @@ define(['jquery', 'asset/logger', 'asset/helper', 'asset/exceptions', 'config', 
 	* @param identifier identifier of the user.
 	* @author Nilos
 	*/
-	var umGetLoadedUser = function (identifier) {
+	var pUmGetLoadedUser = function (identifier) {
 		if (h.isID(identifier)) {
 			return usersID[identifier];
 		}
@@ -570,7 +589,7 @@ define(['jquery', 'asset/logger', 'asset/helper', 'asset/exceptions', 'config', 
 	/** Add a user to the loaded lists. Update timestamp.
 	* @param user user object to add to cache objects.
 	*/
-	var umAddLists = function (user) {
+	var pUmAddLists = function (user) {
 		var id = user.getUserID();
 		var nickname = user.getNickname();
 
@@ -583,7 +602,7 @@ define(['jquery', 'asset/logger', 'asset/helper', 'asset/exceptions', 'config', 
 	};
 
 	/** make raw userdata to users */
-	var umMakeUsers = function (profiles) {
+	var pUmMakeUsers = function (profiles) {
 		var id;
 		var users = [];
 		for (id in profiles) {
@@ -598,7 +617,7 @@ define(['jquery', 'asset/logger', 'asset/helper', 'asset/exceptions', 'config', 
 						theUser = new User(profiles[id]);
 					}
 
-					umAddLists(theUser);
+					pUmAddLists(theUser);
 					users.push(theUser);
 				}
 			}
@@ -621,57 +640,63 @@ define(['jquery', 'asset/logger', 'asset/helper', 'asset/exceptions', 'config', 
 		* identifiers: array of identifiers to load users for.
 		* scheme: how many data to load. "scheme"
 		* callback: function to call onload. called with array of users.
+		* done
 		*/
 		loadUsers: function (identifiers, scheme, callback) {
 			var i = 0;
 			var userRequest = {};
 			var usersLoaded = [];
 
-			if (identifiers.length === 0) {
-				callback([]);
-				return;
-			}
-
 			var request = false;
 
-			for (i = 0; i < identifiers.length; i += 1) {
-				var theUser = umGetLoadedUser(identifiers[i]);
-				if (this.userLoaded(identifiers[i]) && theUser.getScheme() >= scheme) {
-					usersLoaded.push(theUser);
+			step(function startup() {
+				if (identifiers.length === 0) {
+					this.last(null, []);
 				} else {
-					userRequest[identifiers[i]] = scheme;
-					request = true;
+					this();
 				}
-			}
+			}, h.sF(function findUsersToLoad() {
+				for (i = 0; i < identifiers.length; i += 1) {
+					var theUser = pUmGetLoadedUser(identifiers[i]);
+					if (userManager.userLoaded(identifiers[i]) && theUser.getScheme() >= scheme) {
+						usersLoaded.push(theUser);
+					} else {
+						userRequest[identifiers[i]] = scheme;
+						request = true;
+					}
+				}
 
-			if (request) {
+				this.ne();
+			}), h.sF(function isRequest() {
+				if (request) {
+					this();
+				} else {
+					this.last(null, usersLoaded);
+				}
+			}), h.sF(function loadUserData() {
 				var getData = {"userProfile": userRequest};
 
-				h.getData(getData, function (data) {
-					try {
-						if (typeof data.userProfile === "object") {
-							var users = umMakeUsers(data.userProfile);
-							callback(users.concat(usersLoaded));
-						}
-					} catch (e) {
-						logger.log(e);
-						throw e;
-					}
-				});
-			} else {
-				callback(usersLoaded);
-			}
+				h.getData(getData, this);
+			}), h.sF(function (data) {
+				if (typeof data.userProfile === "object") {
+					var users = pUmMakeUsers(data.userProfile);
+					this(null, users.concat(usersLoaded));
+				}
+			}), callback);
 		},
 
 		/** Load one user.
 		* identifier: identifier of user.
 		* scheme: "scheme"
 		* callback: function to call when user is loaded
+		* done
 		**/
 		getUser: function (identifier, scheme, callback) {
-			this.loadUsers([identifier], scheme, function (users) {
-				callback(users[0]);
-			});
+			step(function loadUsers() {
+				userManager.loadUsers([identifier], scheme, this);
+			}, h.sF(function (users) {
+				this(null, users[0]);
+			}), callback);
 		},
 
 		userLoaded: function (identifier) {
@@ -683,12 +708,15 @@ define(['jquery', 'asset/logger', 'asset/helper', 'asset/exceptions', 'config', 
 				return typeof usersNickname[identifier] === "object" && usersNickname[identifier] instanceof User;
 			}
 
+			console.trace();
 			//not a valid user identifier
 			throw new exceptions.invalidUserIdentifier(identifier);
 		},
 
 		search: function (search, callback) {
-			h.getData({"search": search}, function (data) {
+			step(function loadResults() {
+				h.getData({"search": search}, this);
+			}, h.sF(function (data) {
 				var results = [];
 
 				var theUser;
@@ -696,7 +724,7 @@ define(['jquery', 'asset/logger', 'asset/helper', 'asset/exceptions', 'config', 
 				for (user in data.search) {
 					if (data.search.hasOwnProperty(user)) {
 						if (userManager.userLoaded(user)) {
-							theUser = umGetLoadedUser(user);
+							theUser = pUmGetLoadedUser(user);
 						} else {
 							theUser = new User(data.search[user]);
 						}
@@ -705,8 +733,8 @@ define(['jquery', 'asset/logger', 'asset/helper', 'asset/exceptions', 'config', 
 					}
 				}
 
-				callback(results);
-			});
+				this(null, results);
+			}), callback);
 		},
 
 		getPublicKeys: function (userids, callback) {
@@ -731,27 +759,29 @@ define(['jquery', 'asset/logger', 'asset/helper', 'asset/exceptions', 'config', 
 		},
 
 		loadFriends: function (callback, loadAnyHow) {
-			if (loadAnyHow === true || config.reloadAfter < new Date().getTime() - friendsLoaded) {
-				h.getData({
-					"friendShipRequests": "true",
-					"friendShipRequested": "true",
-					"friends": "true"
-				}, function (data) {
-					friends = data.friends;
-					friendShipRequests = data.friendShipRequests;
-					friendShipRequested = data.friendShipRequested;
+			step(function shouldLoad() {
+				if (loadAnyHow === true || config.reloadAfter < new Date().getTime() - friendsLoaded) {
+					h.getData({
+						"friendShipRequests": "true",
+						"friendShipRequested": "true",
+						"friends": "true"
+					}, this);
+				} else {
+					this.last();
+				}
+			}, h.sF(function (data) {
+				friends = data.friends;
+				friendShipRequests = data.friendShipRequests;
+				friendShipRequested = data.friendShipRequested;
 
-					friendsLoaded = new Date().getTime();
+				friendsLoaded = new Date().getTime();
 
-					callback();
-				});
-			} else {
-				callback();
-			}
+				this();
+			}), callback);
 		},
 
 		friendShipFunction: function (user) {
-			if (this.userObject(user)) {
+			if (userManager.userObject(user)) {
 				return function () {
 					user.friendShip(function (ok) {
 						if (ok) {
@@ -772,15 +802,15 @@ define(['jquery', 'asset/logger', 'asset/helper', 'asset/exceptions', 'config', 
 		},
 
 		friendsUser: function (callback) {
-			this.loadUsers(friends, userManager.BASIC, function (u) {
-				callback(u);
-			});
+			step(function loadFriends() {
+				this.loadUsers(friends, userManager.BASIC, this);
+			}, callback);
 		},
 
 		friendShipRequestsUser: function (callback) {
-			this.loadUsers(friendShipRequests, userManager.BASIC, function (u) {
-				callback(u);
-			});
+			step(function loadFRequestsUser() {
+				this.loadUsers(friendShipRequests, userManager.BASIC, this);
+			}, callback);
 		},
 
 		friendShipRequests: function () {

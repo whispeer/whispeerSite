@@ -39,7 +39,8 @@ function step() {
 		results = [],
 		lock = false,
 		timing = step.timing,
-		start = new Date().getTime();
+		start = new Date().getTime(),
+		id = Math.floor(Math.random() * 100000);
 
 	// Define the main callback that's given as `this` to the steps.
 	function next(err) {
@@ -56,12 +57,25 @@ function step() {
 
 		// Get the next step to execute
 		var fn = steps.shift();
+
+		if (timing) {
+			var name;
+			if (typeof fn.getName === "function") {
+				name = fn.getName();
+			} else {
+				name = fn.name;
+			}
+
+			console.log("Step timing: " + name + " (" + (new Date().getTime() - start) + ") [" + steps.length + "] [" + id + "]");
+			console.log(fn);
+		}
+
 		results = [];
 
 		if (typeof fn !== "function") {
 			console.trace();
 			next(new Error("Not a callable Function!"));
-		};
+		}
 
 		var result;
 		// Run the step in a try..catch block so exceptions don't get out of hand.
@@ -96,6 +110,28 @@ function step() {
 		lock = false;
 	}
 
+	next.getName = function () {
+		if (typeof steps[0] === "function") {
+			if (typeof steps[0].getName === "function") {
+				return steps[0].getName();
+			}
+
+			return steps[0].name;
+		}
+
+		return "next";
+	};
+
+	/** just call the next argument with null as the first value
+	* makes it easier to highlight that no error should be passed
+	*/
+	next.ne = function () {
+		var rArgs = Array.prototype.slice.call(arguments);
+		rArgs.unshift(null);
+
+		next.apply(null, rArgs);
+	};
+
 	/** just skip all calls and go directly to the last callback */
 	next.last = function () {
 		while (steps.length > 1) {
@@ -103,6 +139,14 @@ function step() {
 		}
 
 		next.apply(null, arguments);
+	};
+
+	/** skip all calls and go directly to the last callback and add no error */
+	next.last.ne = function () {
+		var rArgs = Array.prototype.slice.call(arguments);
+		rArgs.unshift(null);
+
+		next.last.apply(null, rArgs);
 	};
 
 	/** skip a certain number of callbacks
@@ -177,7 +221,18 @@ step.fn = function StepFn() {
 	};
 };
 
-step.timing = false;
+
+step.startTiming = function () {
+	"use strict";
+	step.timing = true;
+};
+
+step.stopTiming = function () {
+	"use strict";
+	step.timing = false;
+};
+
+step.timing = true;
 
 // Hook into commonJS module systems
 if (typeof module !== 'undefined' && module.hasOwnProperty("exports")) {

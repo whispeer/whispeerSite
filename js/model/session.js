@@ -36,6 +36,10 @@ define(['jquery', 'display', 'model/storage', 'asset/logger', 'asset/helper', 'l
 			return mainKey;
 		},
 
+		getKey: function () {
+			return key;
+		},
+
 		/** get session id */
 		getSID: function () {
 			return sid;
@@ -43,12 +47,10 @@ define(['jquery', 'display', 'model/storage', 'asset/logger', 'asset/helper', 'l
 
 			/** Called when we logged in / restore our old session. */
 		loadData: function () {
-			var time;
 			var u, userManager, display;
 			step(function getDisplay() {
-				time = new Date().getTime();
 				require.wrap(['display', 'model/userManager'], this);
-			}, function rSession(err, d) {
+			}, h.sF(function rSession(d) {
 				display = d;
 				logger.log("Loading Data!");
 
@@ -57,41 +59,36 @@ define(['jquery', 'display', 'model/storage', 'asset/logger', 'asset/helper', 'l
 				$("#sidebar-left, #sidebar-right, #nav-icons, #nav-search").show();
 				$("#loginform").hide();
 
-				require.wrap("asset/i18n!menu", this);
-			}, function (err, i18n) {
-				i18n.translate($("#menu"));
-				logger.log("0:" + (new Date().getTime() - time));
+//				require.wrap("asset/i18n!menu", this);
+//			}), h.sF(function localLoaded(i18n) {
+//				i18n.translate($("#menu"));
 
 				session.getOwnUser(this);
-			}, function (ownUser) {
+			}), h.sF(function ownUserLoaded5(ownUser) {
 				u = ownUser;
-				logger.log("5:" + (new Date().getTime() - time));
-				u.decryptKeys();
-				logger.log("10:" + (new Date().getTime() - time));
 				display.loadingMainProgress(10);
-
-				$("#username").text(u.getName());
+				u.decryptKeys(this);
+			}), h.sF(function ownKeysDecrypted13() {
+				display.loadingMainProgress(13);
+				u.getName(this)
+			}), h.sF(function ownName15(name) {
+				console.log("OWN NAME: " + name);
+				display.loadingMainProgress(15);
+				$("#username").text(name);
 				userManager.loadFriends(this, true);
-			}, function () {
-				logger.log("20:" + (new Date().getTime() - time));
+			}), h.sF(function friendsLoaded20() {
 				display.loadingMainProgress(20);
 
 				u.friends(this);
-			}, function (friends) {
-				logger.log("30:" + (new Date().getTime() - time));
+			}), h.sF(function ownUserFriendsLoaded30(friends) {
 				display.loadingMainProgress(30);
 
 				display.loadFriendShipRequests(this);
-			}, function () {
-				logger.log("40:" + (new Date().getTime() - time));
+			}), h.sF(function fRequestsLoaded40() {
 				display.loadingMainProgress(40);
 
-				display.loadLatestMessages(this);
-			}, function () {
-				display.loadingMainProgress(70);
-
 				require.wrap("model/state", this);
-			}, function (err, state) {
+			}), function loadingDone(err, state) {
 				if (err) {
 					console.log(err);
 					throw err;
@@ -164,7 +161,7 @@ define(['jquery', 'display', 'model/storage', 'asset/logger', 'asset/helper', 'l
 			key = new PrivateKey(storage.getItem("key"), password);
 			mainKey = new SessionKey(storage.getItem("mainKey"));
 			mainKey.decryptKey(key);
-			userid = key.id;
+			userid = key.id();
 		},
 
 		/**
@@ -217,7 +214,7 @@ define(['jquery', 'display', 'model/storage', 'asset/logger', 'asset/helper', 'l
 						key = new PrivateKey($.toJSON(data.key), password);
 						mainKey = new SessionKey(data.mainKey);
 						mainKey.decryptKey(key);
-						userid = key.id;
+						userid = key.id();
 
 						session.setStorage();
 

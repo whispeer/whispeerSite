@@ -10,10 +10,10 @@ define(['jquery', 'asset/logger', 'asset/helper', 'libs/step', 'model/state'], f
 	*	Main program entry point.
 	*/
 	var load = function () {
-		step(function startUp() {
+		step(function startUpLoad() {
 			logger.log("Starting up");
 			require.wrap(['display', 'model/session', 'asset/i18n'], this);
-		}, h.sF(function (display, session, i18n) {
+		}, h.sF(function depsLoaded(display, session, i18n) {
 			display.load();
 
 			//Local storage available?
@@ -31,7 +31,7 @@ define(['jquery', 'asset/logger', 'asset/helper', 'libs/step', 'model/state'], f
 			}
 
 			display.loadView("register");
-		}), function (err) {
+		}), function checkError(err) {
 			//display.showError(
 			console.log(err);
 		});

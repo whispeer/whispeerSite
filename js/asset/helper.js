@@ -89,12 +89,20 @@ define(['jquery', 'libs/step'], function ($, step) {
 
 		/** is data a nickname? */
 		isNickname: function (data) {
-			return data.match(/^[A-z][A-z0-9]*$/);
+			if (typeof data === "string") {
+				return data.match(/^[A-z][A-z0-9]*$/);
+			}
+
+			return false;
 		},
 
 		/** is data a mail? */
 		isMail: function (data) {
-			return data.match(/^[A-Z0-9._%\-]+@[A-Z0-9.\-]+\.[A-Z]+$/i);
+			if (typeof data === "string") {
+				return data.match(/^[A-Z0-9._%\-]+@[A-Z0-9.\-]+\.[A-Z]+$/i);
+			}
+
+			return false;
 		},
 
 		/** is data a session key? */
@@ -195,9 +203,9 @@ define(['jquery', 'libs/step'], function ($, step) {
 		* passes on all other stuff to given function
 		*/
 		sF: function (cb) {
-			return function (err) {
+			var toCall = function (err) {
 				if (err) {
-					if (helper.log) {
+					if (helper.log || true) {
 						console.log(err);
 						console.trace();
 					}
@@ -213,6 +221,24 @@ define(['jquery', 'libs/step'], function ($, step) {
 
 				cb.apply(this, args);
 			};
+
+			toCall.getRealFunction = function () {
+				return cb;
+			};
+
+			toCall.getName = function () {
+				if (typeof cb === "function") {
+					if (typeof cb.getName === "function") {
+						return cb.getName();
+					}
+
+					return cb.name;
+				}
+
+				return "helper.sF";
+			};
+
+			return toCall;
 		}
 	};
 

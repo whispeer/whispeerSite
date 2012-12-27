@@ -16,7 +16,7 @@ define(['jquery', 'asset/logger', 'asset/helper', 'libs/step'], function ($, log
 				}
 			}, h.sF(function loadLocale() {
 				require.wrap('i18n!nls/' + topic, this);
-			}), h.sF(function (local) {
+			}), h.sF(function localLoaded(local) {
 				i18n.locales[topic] = local;
 				this();
 			}), cb);
