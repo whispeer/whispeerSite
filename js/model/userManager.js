@@ -59,8 +59,6 @@ define(['jquery', 'asset/logger', 'asset/helper', 'asset/exceptions', 'config', 
 		* @author Nilos
 		*/
 		var keysToObjects = function (k) {
-			logger.log("keysToObject");
-
 			var i = 0, currentKey = null;
 			for (i = 0; i < userKeys.length; i += 1) {
 				var uK = userKeys[i];
@@ -357,9 +355,6 @@ define(['jquery', 'asset/logger', 'asset/helper', 'asset/exceptions', 'config', 
 		*/
 		var decrypt = function (key, callback) {
 			step(function decryptKey() {
-				console.log(key);
-				console.log(session.getMainKey());
-				console.log(session.getKey());
 				if (key.isSymKey()) {
 					key.decryptKey(session.getMainKey(), this.last);
 				} else {

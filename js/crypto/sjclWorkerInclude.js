@@ -3,12 +3,12 @@ define(['libs/step', 'crypto/generalWorkerInclude', 'crypto/waitForReady', 'asse
 
 	var addEntropy = function (theWorker, callback) {
 		step(function waitReady() {
-			waitForReady(this);
+/*			waitForReady(this);
 		}, h.sF(function ready() {
 			theWorker.postMessage({randomNumber: sjcl.codec.hex.fromBits(sjcl.random.randomWords(16)), entropy: 1024}, this);
-		}), h.sF(function setupDone(event) {
+		}), h.sF(function setupDone(event) {*/
 			this();
-		}), callback);
+		}, callback);
 	};
 
 	var workers;

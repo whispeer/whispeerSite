@@ -77,7 +77,7 @@ function step() {
 					console.log(functions);
 				}
 			}
-			
+
 			console.log("Step timing: " + name + " (" + (new Date().getTime() - start) + ") [" + steps.length + "] [" + id + "]");
 			console.log(functions[functions.length - 1]);
 		}
@@ -176,7 +176,7 @@ function step() {
 		counter += 1;
 		pending += 1;
 
-		return function (err) {
+		var parallelFunction = function (err) {
 			pending -= 1;
 			// Compress the error from any result to the first argument
 			if (typeof err !== "undefined") {
@@ -198,6 +198,13 @@ function step() {
 				next.apply(null, results);
 			}
 		};
+		parallelFunction.getRealFunction = function () {
+			if (typeof steps[0] === "function") {
+				return steps[0];
+			}
+		};
+
+		return parallelFunction;
 	};
 
 	// Start the engine and pass nothing to the first step.
@@ -238,7 +245,7 @@ step.stopTiming = function () {
 	step.timing = false;
 };
 
-step.timing = true;
+step.timing = false;
 
 // Hook into commonJS module systems
 if (typeof module !== 'undefined' && module.hasOwnProperty("exports")) {
