@@ -1,0 +1,26 @@
+<div id="toc">
+	<h1>Einstellungen</h1>
+</div>
+<section id="general">
+	<h2>Allgemein</h2>
+	<div class="config" id="name">
+	</div>
+	<div class="config" id="nickname">
+	</div>
+	<div class="config" id="mail">
+	</div>
+	<div class="config" id="password">
+	</div>
+</section>
+<section id="safety">
+	<h2>Sicherheit</h2>
+</section>
+<section id="privacy">
+	<h2>Privatsphäre</h2>
+</section>
+<section id="notifications">
+	<h2>Benachrichtigungen</h2>
+</section>
+<section id="features">
+	<h2>Zusätzliche Funktionen</h2>
+</section>

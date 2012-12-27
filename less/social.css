@@ -409,7 +409,8 @@ a:hover {
 	Don't touch any of the *.less or *.css files, or you will die an awful death.
 */
 body {
-  background-color: #3a8100;
+  background-color: #ffffff;
+  background-color: rgba(105, 228, 0, 0.1);
   margin: 0 auto;
   padding-top: 50px;
 }
@@ -484,7 +485,9 @@ body #loading {
 .messageView #main,
 .friendsView #main,
 .profileView #main,
-.mediaView #main {
+.mediaView #main,
+.helpView #main,
+.settingsView #main {
   display: inline;
   float: left;
   width: 56.25%;
@@ -1346,6 +1349,9 @@ input[type="submit"].btn.btn-mini {
   background-clip: padding-box;
   color: #f5ffe9;
   border: none;
+}
+.registerView {
+  background-color: #3a8100;
 }
 .registerView footer {
   color: #f2fbec;
