@@ -49,19 +49,17 @@ define(['jquery', 'display', 'model/storage', 'asset/logger', 'asset/helper', 'l
 		loadData: function () {
 			var u, userManager, display;
 			step(function getDisplay() {
-				require.wrap(['display', 'model/userManager'], this);
-			}, h.sF(function rSession(d) {
+				require.wrap(['display', 'model/userManager', "asset/i18n!menu"], this);
+			}, h.sF(function rSession(d, um, i18n) {
+				i18n.translate($("#menu"));
 				display = d;
+				userManager = um;
 				logger.log("Loading Data!");
 
 				display.loadingMain();
 
 				$("#sidebar-left, #sidebar-right, #nav-icons, #nav-search").show();
 				$("#loginform").hide();
-
-//				require.wrap("asset/i18n!menu", this);
-//			}), h.sF(function localLoaded(i18n) {
-//				i18n.translate($("#menu"));
 
 				session.getOwnUser(this);
 			}), h.sF(function ownUserLoaded5(ownUser) {
@@ -82,10 +80,6 @@ define(['jquery', 'display', 'model/storage', 'asset/logger', 'asset/helper', 'l
 				u.friends(this);
 			}), h.sF(function ownUserFriendsLoaded30(friends) {
 				display.loadingMainProgress(30);
-
-				display.loadFriendShipRequests(this);
-			}), h.sF(function fRequestsLoaded40() {
-				display.loadingMainProgress(40);
 
 				require.wrap("model/state", this);
 			}), function loadingDone(err, state) {

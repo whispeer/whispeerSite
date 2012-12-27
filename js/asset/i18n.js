@@ -74,7 +74,7 @@ define(['jquery', 'asset/logger', 'asset/helper', 'libs/step'], function ($, log
 				for (i = 0; i < names.length; i += 1) {
 					i18n.loadLocale(names[i], this.parallel());
 				}
-			}, function (err) {
+			}, function i18nLoaded(err) {
 				if (err) {
 					logger.log(err);
 				}

@@ -59,15 +59,27 @@ function step() {
 		var fn = steps.shift();
 
 		if (timing) {
-			var name;
-			if (typeof fn.getName === "function") {
-				name = fn.getName();
-			} else {
-				name = fn.name;
+			var functions = [fn];
+			var theFunction = fn;
+			var timingC = 0;
+			while (typeof theFunction !== "undefined" && typeof theFunction.getRealFunction === "function" && timingC < 5) {
+				functions.push(theFunction.getRealFunction());
+				timingC += 1;
+
+				theFunction = theFunction.getRealFunction();
 			}
 
+			var name = "", i;
+			for (i = 0; i < functions.length; i += 1) {
+				if (typeof functions[i] !== "undefined") {
+					name = name + ":" + functions[i].name;
+				} else {
+					console.log(functions);
+				}
+			}
+			
 			console.log("Step timing: " + name + " (" + (new Date().getTime() - start) + ") [" + steps.length + "] [" + id + "]");
-			console.log(fn);
+			console.log(functions[functions.length - 1]);
 		}
 
 		results = [];
@@ -110,16 +122,10 @@ function step() {
 		lock = false;
 	}
 
-	next.getName = function () {
+	next.getRealFunction = function () {
 		if (typeof steps[0] === "function") {
-			if (typeof steps[0].getName === "function") {
-				return steps[0].getName();
-			}
-
-			return steps[0].name;
+			return steps[0];
 		}
-
-		return "next";
 	};
 
 	/** just call the next argument with null as the first value

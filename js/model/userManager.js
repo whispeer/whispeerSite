@@ -187,22 +187,27 @@ define(['jquery', 'asset/logger', 'asset/helper', 'asset/exceptions', 'config', 
 				var firstName = data[0];
 				var lastName = data[1];
 				if (firstName !== "" || lastName !== "") {
-					this.last(firstName + " " + lastName);
+					this.last.ne(firstName + " " + lastName);
 					return;
 				}
 
 				if (typeof nickname !== "undefined" && nickname !== "") {
-					this.last(nickname);
+					this.last.ne(nickname);
 					return;
 				}
 
 				require.wrap("asset/i18n!user", this);
 			}), h.sF(function thei18n(i18n) {
-				this(i18n.getValue("user.unknownName"));
+				this.ne(i18n.getValue("user.unknownName"));
 			}), callback);
 		};
 
 		this.getValue = function (name, group, callback) {
+			if (typeof group === "function") {
+				callback = group;
+				group = undefined;
+			}
+		
 			var activeProfile;
 			name = name.toLowerCase();
 
@@ -243,7 +248,7 @@ define(['jquery', 'asset/logger', 'asset/helper', 'asset/exceptions', 'config', 
 					//don't have a value ... 
 					this(null, false);
 				}
-			}), h.sF(function (decrypted) {
+			}), h.sF(function userValDecrypted(decrypted) {
 				//decrypted value ready. return if given (not false)
 				if (decrypted !== false) {
 					activeProfile[name].d = true;
@@ -253,7 +258,7 @@ define(['jquery', 'asset/logger', 'asset/helper', 'asset/exceptions', 'config', 
 				} else {
 					this();
 				}
-			}), h.sF(function () {
+			}), h.sF(function userValGetPublic() {
 				//last possibility: get publicProfile value
 				if (h.arraySet(publicProfile, name)) {
 					this(null, publicProfile[name]);
@@ -349,7 +354,7 @@ define(['jquery', 'asset/logger', 'asset/helper', 'asset/exceptions', 'config', 
 		* @param callback callback
 		*/
 		var decrypt = function (key, callback) {
-			step(function () {
+			step(function decryptKey() {
 				console.log(key);
 				console.log(session.getMainKey());
 				console.log(session.getKey());
@@ -358,10 +363,12 @@ define(['jquery', 'asset/logger', 'asset/helper', 'asset/exceptions', 'config', 
 				} else {
 					key.decryptKey(session.getKey(), this);
 				}
-			}, h.sF(function (d) {
+			}, h.sF(function keyDecrypted(d) {
 				if (d) {
 					h.setSymAsymKey(key);
 				}
+
+				this();
 			}), callback);
 		};
 

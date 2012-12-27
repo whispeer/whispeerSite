@@ -92,8 +92,10 @@ ssn.display.register.main = {
 		});
 		$('#loginform').submit(function () {
 			try {
-				ssn.session.login($('#mail').val(), $('#password').val());
-				$('#password').val("");
+				require.wrap("model/session", function theSession(err, session) {
+					session.login($('#mail').val(), $('#password').val());
+					$('#password').val("");
+				});
 			} catch (e) {
 				ssn.logger.log(e);
 			}
