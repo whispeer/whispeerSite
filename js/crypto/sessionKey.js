@@ -56,9 +56,8 @@ define(['jquery', 'libs/sjcl', 'crypto/jsbn', 'asset/logger', 'config', 'asset/h
 						require.wrap(["crypto/privateKey", "asset/exceptions"], this);
 					}
 				}, h.sF(function (PrivateKey, exceptions) {
-					keyAsBigInt = new BigInteger(sessionKey, 16);
-
 					if (privateKey instanceof PrivateKey) {
+						keyAsBigInt = new BigInteger(sessionKey, 16);
 						logger.log("decryptKey Asym", logger.NOTICE);
 						step(function decrypt() {
 							privateKey.decryptOAEP(keyAsBigInt, "Socialize", this);
@@ -77,7 +76,7 @@ define(['jquery', 'libs/sjcl', 'crypto/jsbn', 'asset/logger', 'config', 'asset/h
 					} else if (privateKey instanceof SessionKey) {
 						logger.log("decryptKey Sym", logger.NOTICE);
 						step(function () {
-							if (typeof sessionKey === "object") {
+							if (typeof sessionKey !== "object") {
 								sessionKey = $.toJSON(sessionKey);
 							}
 
@@ -170,6 +169,10 @@ define(['jquery', 'libs/sjcl', 'crypto/jsbn', 'asset/logger', 'config', 'asset/h
 					} else {
 						var result;
 						try {
+							if (typeof encryptedText !== "string") {
+								$.toJSON(encryptedText);
+							}
+
 							if (typeof iv === "undefined") {
 								result = sjcl.decrypt(sjcl.codec.hex.toBits(decryptedSessionKey), encryptedText);
 							} else {

@@ -1,28 +1,45 @@
-"use strict";
+define(["jquery", "display", "asset/helper", "libs/step"], function ($, display, h, step) {
+	"use strict";
 
-ssn.display.profile.friends = {
-	load: function (done) {
-		ssn.display.profile.user.friends(function (d) {
-			var element = $("#friendsList");
-			var i;
-			for (i = 0; i < d.length; i += 1) {
-				var names = $("<li>").append(
-					$("<a>").attr("href", d[i].getLink()).append(
-						$("<img>").addClass("friendPicture").attr("src", "img/user.png")
-					).append(
-						$("<span>").addClass("friendName").text(d[i].getName())
-					)
-				);
-				element.append(names);
-			}
-			$("body").addClass("friendsView");
+	var profileFriends = {
+		load: function (done) {
+			var friendsList;
+			step(function () {
+				display.viewScript().user.friends(this);
+			}, h.sF(function (d) {
+				friendsList = d;
+
+				var i;
+				for (i = 0; i < friendsList.length; i += 1) {
+					friendsList[i].getName(this.parallel());
+				}
+
+				$("body").addClass("friendsView");
+			}), h.sF(function (theNames) {
+				var element = $("#friendsList");
+
+				var i;
+				for (i = 0; i < theNames.length; i += 1) {
+					var names = $("<li>").append(
+						$("<a>").attr("href", friendsList[i].getLink()).append(
+							$("<img>").addClass("friendPicture").attr("src", "img/user.png")
+						).append(
+							$("<span>").addClass("friendName").text(theNames[i])
+						)
+					);
+					element.append(names);
+				}
+
+				this();
+			}), done);
+		},
+		hashChange: function (done) {
 			done();
-		});
-	},
-	hashChange: function (done) {
-		done();
-	},
-	unload: function () {
-		$("body").removeClass("friendsView");
-	}
-};
+		},
+		unload: function () {
+			$("body").removeClass("friendsView");
+		}
+	};
+
+	return profileFriends;
+});

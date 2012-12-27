@@ -13,6 +13,12 @@ define(['jquery', 'libs/step'], function ($, step) {
 			return y.toString() === data.toString();
 		},
 
+		callback: function (c) {
+			if (typeof c !== "function") {
+				throw new Error("not a callback function");
+			}
+		},
+
 		/** connects an asymmetrically encrypted key with its symmetrically encrypted counterpart 
 		* @param asymKey object for the asymmetric key to encrytp symmetrically
 		* @author Nilos

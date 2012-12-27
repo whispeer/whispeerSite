@@ -207,7 +207,9 @@ define(['jquery', 'asset/logger', 'asset/helper', 'asset/exceptions', 'config', 
 				callback = group;
 				group = undefined;
 			}
-		
+
+			h.callback(callback);
+
 			var activeProfile;
 			name = name.toLowerCase();
 
@@ -235,10 +237,10 @@ define(['jquery', 'asset/logger', 'asset/helper', 'asset/exceptions', 'config', 
 				if (h.arraySet(activeProfile, name)) {
 					if (activeProfile[name].d === false) {
 						if (sessionKeys.profile.isSymKey()) {
-							crypto.decryptText(session.getKey(),
+							crypto.decryptText(session.getMainKey(),
 								'{"ct": "' + activeProfile[name].v + '", "iv": "' + activeProfile.iv + '"}', sessionKeys.profile, this);
 						} else {
-							crypto.decryptText(session.getMainKey(),
+							crypto.decryptText(session.getKey(),
 								'{"ct": "' + activeProfile[name].v + '", "iv": "' + activeProfile.iv + '"}', sessionKeys.profile, this);
 						}
 					} else {
@@ -503,29 +505,19 @@ define(['jquery', 'asset/logger', 'asset/helper', 'asset/exceptions', 'config', 
 				require.wrap(["crypto/waitForReady", "crypto/crypto"], this);
 			}, h.sF(function wait(waitForReady, c) {
 				crypto = c;
-				logger.log("deps:" + ((new Date().getTime()) - time));
 				waitForReady(this);
-
 			}), h.sF(function getPublicKey() {
 				that.getPublicKey(this);
-
 			}), h.sF(function thePublicKey(pk) {
-				logger.log("pubKey:" + ((new Date().getTime()) - time));
 				publicKey = pk;
 				session.getOwnUser(this);
 
 			}), h.sF(function theOwnUser(u) {
-				logger.log("ownUser:" + ((new Date().getTime()) - time));
 				u.getSessionKeys(this);
-
 			}), h.sF(function theSessionKeys(k) {
 				keys = k;
-				logger.log("skeys:" + ((new Date().getTime()) - time));
 				crypto.signText(session.getKey(), "friendShip" + userid, this);
-
 			}), h.sF(function theSignature(signature) {
-				logger.log("sign:" + ((new Date().getTime()) - time));
-
 				var resultKeys = {};
 
 				var i = 0;

@@ -45,7 +45,11 @@ define(['jquery', 'display', 'model/storage', 'asset/logger', 'asset/helper', 'l
 			return sid;
 		},
 
-			/** Called when we logged in / restore our old session. */
+		userid: function () {
+			return userid;
+		},
+		
+		/** Called when we logged in / restore our old session. */
 		loadData: function () {
 			var u, userManager, display;
 			step(function getDisplay() {
@@ -60,6 +64,12 @@ define(['jquery', 'display', 'model/storage', 'asset/logger', 'asset/helper', 'l
 
 				$("#sidebar-left, #sidebar-right, #nav-icons, #nav-search").show();
 				$("#loginform").hide();
+
+				mainKey.decryptKey(key, this);
+			}), h.sF(function mainKeyDecrypt(decrypted) {
+				if (!decrypted) {
+					throw new Error("could not decrypt main key");
+				}
 
 				session.getOwnUser(this);
 			}), h.sF(function ownUserLoaded5(ownUser) {
@@ -154,7 +164,6 @@ define(['jquery', 'display', 'model/storage', 'asset/logger', 'asset/helper', 'l
 			sid = storage.getItem("session");
 			key = new PrivateKey(storage.getItem("key"), password);
 			mainKey = new SessionKey(storage.getItem("mainKey"));
-			mainKey.decryptKey(key);
 			userid = key.id();
 		},
 
@@ -207,19 +216,21 @@ define(['jquery', 'display', 'model/storage', 'asset/logger', 'asset/helper', 'l
 						sid = data.session;
 						key = new PrivateKey($.toJSON(data.key), password);
 						mainKey = new SessionKey(data.mainKey);
-						mainKey.decryptKey(key);
-						userid = key.id();
-
-						session.setStorage();
-
-						display.loginSuccess();
-						session.loadData();
 					} else {
 						display.loginError(data.errorCode);
 					}
 				} else {
 					display.ajaxError();
 				}
+
+				this();
+			}), h.sF(function () {
+				userid = key.id();
+
+				session.setStorage();
+
+				display.loginSuccess();
+				session.loadData();
 			}), function (e) {
 				logger.log(e);
 			});
@@ -236,7 +247,7 @@ define(['jquery', 'display', 'model/storage', 'asset/logger', 'asset/helper', 'l
 				sid = "";
 				key = "";
 
-				require.wrap("model/userManager", function (userManager) {
+				require.wrap("model/userManager", function (err, userManager) {
 					userManager.reset();
 				});
 

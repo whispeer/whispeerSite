@@ -1,69 +1,90 @@
-"use strict";
+define(["jquery", "display", "asset/helper", "libs/step"], function ($, display, h, step) {
+	"use strict";
 
-ssn.display.profile = {
-	userid: null,
-	user: null,
-	/**
-	* Profile load function
-	* Hide big user picture
-	*/
-	load: function (done) {
-		$("body").addClass("profileView");
+	var displayProfile = {
+		userid: null,
+		user: null,
+		/**
+		* Profile load function
+		* Hide big user picture
+		*/
+		load: function (done) {
+			$("body").addClass("profileView");
 
-		if (typeof ssn.display.getHash("userid") === "undefined") {
-			ssn.display.setHash("userid", ssn.session.userid);
-		}
-
-		var theID = ssn.display.getHash("userid");
-
-		this.loadUser(theID, done);
-	},
-
-	hashChange: function (done) {
-		if (typeof ssn.display.getHash("userid") === "undefined") {
-			ssn.display.setHash("userid", ssn.session.userid);
-		}
-
-		var theID = ssn.display.getHash("userid");
-
-		this.loadUser(theID, done);
-	},
-
-	unload: function () {
-		this.userid = null;
-		this.user = null;
-
-		$("body").removeClass("profileView");
-	},
-
-	loadUser: function (theID, done) {
-		if (theID !== this.userid) {
-			this.userid = theID;
-			ssn.userManager.getUser(theID, ssn.userManager.FULL, function (u) {
-				ssn.display.profile.user = u;
-
-				$("#subMenuName").text(u.getName()).attr("href", u.getLink());
-
-				$("#subMenuFriendShip").show();
-				if (!u.ownUser()) {
-					if (u.isFriend()) {
-						$("#subMenuFriendShip").hide();
-					} else if (u.didIRequestFriendShip()) {
-						$("#subMenuFriendShip").text(ssn.translation.getValue("friendShipRequested"));
-					} else if (u.hasFriendShipRequested()) {
-						$("#subMenuFriendShip").text(ssn.translation.getValue("acceptFriendShipRequest"));
-					} else {
-						$("#subMenuFriendShip").text(ssn.translation.getValue("friendShipUser"));
-					}
-				} else {
-					$("#subMenuFriendShip").hide();
+			step(function () {
+				require.wrap(["model/session"], this);
+			}, h.sF(function (session) {
+				if (typeof display.getHash("userid") === "undefined") {
+					display.setHash("userid", session.userid());
 				}
 
+				var theID = display.getHash("userid");
 
+				displayProfile.loadUser(theID, this);
+			}), done);
+
+		},
+
+		hashChange: function (done) {
+			step(function () {
+				require.wrap("model/session", this);
+			}, h.sF(function (session) {
+				if (typeof display.getHash("userid") === "undefined") {
+					display.setHash("userid", session.userid());
+				}
+
+				var theID = display.getHash("userid");
+
+				displayProfile.loadUser(theID, this);
+			}), done);
+		},
+
+		unload: function () {
+			displayProfile.userid = null;
+			displayProfile.user = null;
+
+			$("body").removeClass("profileView");
+		},
+
+		loadUser: function (theID, done) {
+			if (theID !== displayProfile.userid) {
+				displayProfile.userid = theID;
+				var u;
+				step(function loadUManager() {
+					require.wrap("model/userManager", this);
+				}, h.sF(function (userManager) {
+					userManager.getUser(theID, userManager.FULL, this);
+				}), h.sF(function (theU) {
+					u = theU;
+					displayProfile.user = u;
+
+					displayProfile.user.getName(this);
+				}), h.sF(function (name) {
+
+					$("#subMenuName").text(name).attr("href", u.getLink());
+
+					$("#subMenuFriendShip").show();
+					if (!u.ownUser()) {
+						if (u.isFriend()) {
+							$("#subMenuFriendShip").hide();
+						} else if (u.didIRequestFriendShip()) {
+							$("#subMenuFriendShip").text(translation.getValue("friendShipRequested"));
+						} else if (u.hasFriendShipRequested()) {
+							$("#subMenuFriendShip").text(translation.getValue("acceptFriendShipRequest"));
+						} else {
+							$("#subMenuFriendShip").text(translation.getValue("friendShipUser"));
+						}
+					} else {
+						$("#subMenuFriendShip").hide();
+					}
+
+					this();
+				}), done);
+			} else {
 				done();
-			});
-		} else {
-			done();
+			}
 		}
-	}
-};
+	};
+
+	return displayProfile;
+});

@@ -1,7 +1,9 @@
-"use strict";
+define([], function () {
+	"use strict";
 
-ssn.display.register = {
-	load: function (done) {
-		done();
-	}
-};
+	return {
+		load: function (done) {
+			done();
+		}
+	};
+});

@@ -20,19 +20,25 @@ require.wrap({baseUrl: "../"}, ["libs/sjcl"], function (err, sjcl) {
 
 		var iv = event.data.iv;
 
+		var key = sjcl.codec.hex.toBits(key);
+
+		if (typeof message !== "string") {
+			message = JSON.stringify(message);
+		}
+
 		var result;
 		try {
 			if (encrypt) {
 				if (typeof iv === "undefined") {
-					result = sjcl.encrypt(sjcl.codec.hex.toBits(key), message);
+					result = sjcl.encrypt(key, message);
 				} else {
-					result = sjcl.encrypt(sjcl.codec.hex.toBits(key), message, {"iv": iv});
+					result = sjcl.encrypt(key, message, {"iv": iv});
 				}
 			} else {
 				if (typeof iv === "undefined") {
-					result = sjcl.decrypt(sjcl.codec.hex.toBits(key), message);
+					result = sjcl.decrypt(key, message);
 				} else {
-					result = sjcl.decrypt(sjcl.codec.hex.toBits(key), message, {"iv": iv});
+					result = sjcl.decrypt(key, message, {"iv": iv});
 				}
 			}
 		} catch (e) {

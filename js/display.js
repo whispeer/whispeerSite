@@ -7,6 +7,8 @@ define(['jquery', 'libs/step', 'asset/logger', 'model/state', 'asset/helper', 'c
 
 	var loginF;
 
+	var viewjs = {};
+
 	var display = {
 		/** set the handler for the login function */
 		setLogin: function (func) {
@@ -231,13 +233,13 @@ define(['jquery', 'libs/step', 'asset/logger', 'model/state', 'asset/helper', 'c
 		},
 
 		viewScript: function () {
-			return display[display.loadedView];
+			return viewjs[display.loadedView];
 			//TODO
 		},
 
 		subviewScript: function () {
-			if (typeof display[display.loadedView] !== "undefined") {
-				return display[display.loadedView][display.subview];
+			if (typeof viewjs[display.loadedView] !== "undefined") {
+				return viewjs[display.loadedView][display.subview];
 			}
 
 			return undefined;
@@ -255,18 +257,6 @@ define(['jquery', 'libs/step', 'asset/logger', 'model/state', 'asset/helper', 'c
 			$("#main").hide();
 			$("#loading").show();
 
-			var stage = 0;
-
-			var done = function () {
-				stage += 1;
-
-				if (stage === 2) {
-					display.viewLoaded(page, subview);
-				}
-			};
-
-			display.subview = subview;
-
 			$("#subMenu").children().each(function () {
 				var ele = $(this.firstChild);
 				if (ele.attr("subview") === subview) {
@@ -276,30 +266,21 @@ define(['jquery', 'libs/step', 'asset/logger', 'model/state', 'asset/helper', 'c
 				}
 			});
 
-			$.ajax({
-				type : "GET",
-				dataType: 'html',
-				url : "views/" + page + "/" + subview + "/" + subview + ".view",
-				error : function (obj, error) {
-					display.ajaxError(obj, error);
-				},
-				success : function (data) {
-					try {
-						$("#main").html(data);
+			step(function () {
+				h.ajax({
+					type : "GET",
+					dataType: 'html',
+					url : "views/" + page + "/" + subview + "/" + subview + ".view"
+				}, this.parallel());
 
-						done();
-					} catch (e) {
-						logger.log(e);
-					}
-				}
-			});
+				require.wrap("views/" + page + "/" + subview + "/" + subview + ".js", this.parallel());
+			}, h.sF(function (data) {
+				$("#main").html(data[0]);
+				viewjs[page][subview] = data[1];
+				display.viewLoaded(page, subview);
+			}));
 
-			$.ajax({
-				url: "views/" + page + "/" + subview + "/" + subview + ".js",
-				dataType: "script",
-				success: done,
-				error : done
-			});
+			display.subview = subview;
 		},
 
 		/** load a view. Loads html and display file.
@@ -313,25 +294,25 @@ define(['jquery', 'libs/step', 'asset/logger', 'model/state', 'asset/helper', 'c
 				subview = "main";
 			}
 
-			if (typeof ssn.display[page] === "undefined") {
-				ssn.display[page] = {};
+			if (typeof viewjs[page] === "undefined") {
+				viewjs[page] = {};
 			}
 
-			if (typeof ssn.display[page][subview] === "undefined") {
-				ssn.display[page][subview] = {};
+			if (typeof viewjs[page][subview] === "undefined") {
+				viewjs[page][subview] = {};
 			}
 
 			if (display.loadedView !== page) {
 				logger.log("load View " + page + " - " + subview);
 
 				try {
-					display[display.loadedView].unload();
+					viewjs[display.loadedView].unload();
 				} catch (e) {
 					logger.log(e, logger.ALL);
 				}
 
 				try {
-					display[display.loadedView][display.subview].unload();
+					viewjs[display.loadedView][display.subview].unload();
 				} catch (e2) {
 					logger.log(e2, logger.ALL);
 				}
@@ -352,79 +333,55 @@ define(['jquery', 'libs/step', 'asset/logger', 'model/state', 'asset/helper', 'c
 				display.setHash("view", page);
 				display.loadedView = page;
 
-				var stage = 0;
-				var done = function () {
-					stage += 1;
+				step(function () {
+					h.ajax({
+						type : "GET",
+						dataType: 'html',
+						url : "views/" + page + "/menu.view"
+					}, this.parallel());
 
-					if (stage === 2) {
-						var done = function () {
-							$("#subMenu").show();
-							display.loadSubView(page, subview);
-						};
+					require.wrap(["views/" + page + "/overall.js"], this.parallel());
+				}, h.sF(function (data) {
+					console.log(data);
+					$("#subMenu").html(data[0]);
+					$("#subMenu").children().each(function () {
+						var ele = $(this.firstChild);
 
-						try {
-							logger.log("running " + page + " loader");
-							ssn.display[page].load(done);
-						} catch (e) {
-							done();
-						}
-					}
-				};
-
-				$.ajax({
-					type : "GET",
-					dataType: 'html',
-					url : "views/" + page + "/menu.view",
-					error : function () {
-						$("#subMenu").html("");
-						done();
-					},
-					success : function (data) {
-						try {
-							$("#subMenu").html(data);
-							$("#subMenu").children().each(function () {
-								var ele = $(this.firstChild);
-
-								ele.click(function () {
-									if (typeof ele.attr("href") === "undefined") {
-										if (typeof ele.attr("link") === "undefined") {
-											if (typeof ele.attr("action") === "undefined") {
-												if (typeof ele.attr("subview") === "undefined") {
-													logger.log("no action defined");
-												} else {
-													display.setHash("subview", ele.attr("subview"));
-												}
-											} else {
-												display.viewScript()[ele.attr("action")]();
-											}
+						ele.click(function () {
+							if (typeof ele.attr("href") === "undefined") {
+								if (typeof ele.attr("link") === "undefined") {
+									if (typeof ele.attr("action") === "undefined") {
+										if (typeof ele.attr("subview") === "undefined") {
+											logger.log("no action defined");
 										} else {
-											logger.log(ele.attr("link"));
-											//TODO
+											display.setHash("subview", ele.attr("subview"));
 										}
+									} else {
+										display.viewScript()[ele.attr("action")]();
 									}
-								});
-							});
+								} else {
+									logger.log(ele.attr("link"));
+									//TODO
+								}
+							}
+						});
+					});
 
-							done();
-						} catch (e) {
-							logger.log(e);
-						}
+					viewjs[page] = data[1];
+					try {
+						viewjs[page].load(this.ne);
+					} catch (e) {
+						console.log(e);
+						this.ne();
 					}
-				});
-
-				$.ajax({
-					url: "views/" + page + "/overall.js",
-					dataType: "script",
-					success: function () {
-						done();
-					},
-					error : function () {
-						done();
-					}
-				});
+				}), h.sF(function (err) {
+					console.log(err);
+					$("#subMenu").show();
+					display.loadSubView(page, subview);
+				}));
 			} else if (display.subview !== subview) {
 				step(function () {
-					ssn.display[page].hashChange(this);
+					viewjs[page].hashChange(this);
 				}, function (err) {
 					if (err) {
 						logger.log(err, logger.ALL);
@@ -433,20 +390,12 @@ define(['jquery', 'libs/step', 'asset/logger', 'model/state', 'asset/helper', 'c
 					display.loadSubView(display.loadedView, subview);
 				});
 			} else {
-				var doneF = function () {
-					try {
-						ssn.display[page][subview].hashChange(function () {});
-					} catch (e) {
-						logger.log(e, logger.ALL);
-					}
-				};
-
-				try {
-					ssn.display[page].hashChange(doneF);
-				} catch (e3) {
-					logger.log(e3, logger.ALL);
-					doneF();
-				}
+				step(function () {
+					viewjs[page].hashChange(this);
+				}, function () {
+					viewjs[page][subview].hashChange(this);
+				}, function () {
+				});
 			}
 		},
 
@@ -454,22 +403,15 @@ define(['jquery', 'libs/step', 'asset/logger', 'model/state', 'asset/helper', 'c
 		* @param page page which was loaded.
 		*/
 		viewLoaded: function (page, subview) {
-			logger.log("view loaded");
-
-			var end = function () {
+			step(function () {
+				logger.log("view loaded");
+				console.log(viewjs);
+				viewjs[page][subview].load(this);
+			}, function (e) {
+				console.log(e);
 				$("#loading").hide();
 				$("#main").show();
-			};
-
-			var done = function () {
-				try {
-					ssn.display[page][subview].load(end);
-				} catch (e) {
-					end();
-				}
-			};
-
-			done();
+			});
 		},
 
 		/** show the menu which is available after you logged in. */
