@@ -171,7 +171,7 @@ define(['jquery', 'asset/logger', 'asset/helper', 'asset/exceptions', 'config', 
 
 		/** is this the own user? */
 		this.ownUser = function () {
-			return (parseInt(session.userid, 10) === parseInt(userid, 10));
+			return (parseInt(session.userid(), 10) === parseInt(userid, 10));
 		};
 
 		/** get this users name

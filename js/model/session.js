@@ -54,12 +54,16 @@ define(['jquery', 'display', 'model/storage', 'asset/logger', 'asset/helper', 'l
 			console.time("loadData");
 			var u, userManager, display;
 			step(function getDisplay() {
+				$("#main").hide();
+				$("nav").show();
 				require.wrap(['display', 'model/userManager', "asset/i18n!menu"], this);
 			}, h.sF(function rSession(d, um, i18n) {
 				i18n.translate($("#menu"));
 				display = d;
 				userManager = um;
 				logger.log("Loading Data!");
+
+				display.setBodyClass("main");
 
 				display.loadingMain();
 

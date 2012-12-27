@@ -295,6 +295,18 @@ define(['jquery', 'libs/step', 'asset/logger', 'model/state', 'asset/helper', 'c
 			display.subview = subview;
 		},
 
+		setBodyClass: function (page) {
+			var classes = $("body").attr("class").split(" ");
+			var i;
+			for (i = 0; i < classes.length; i += 1) {
+				if (classes[i].match(/View$/)) {
+					$("body").removeClass(classes[i]);
+				}
+			}
+
+			$("body").addClass(page + "View");
+		},
+
 		/** load a view. Loads html and display file.
 		* @TODO: fix eval loading
 		* @param page name of the view to load.
@@ -316,6 +328,7 @@ define(['jquery', 'libs/step', 'asset/logger', 'model/state', 'asset/helper', 'c
 			}
 
 			if (display.loadedView !== page) {
+				display.setBodyClass(page);
 				logger.log("load View " + page + " - " + subview);
 
 				try {

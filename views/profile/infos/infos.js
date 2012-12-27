@@ -1,79 +1,97 @@
-"use strict";
+define(["jquery", "display", "asset/logger", "asset/helper", "libs/step"], function ($, display, logger, h, step) {
+	"use strict";
 
-ssn.display.profile.infos = {
-	/**
-	* Profile load function
-	* Hide big user picture
-	*/
-	load: function (done) {
-		$("#psendMessage").click(function () {
-			var u = ssn.display.profile.user;
-			if (u !== null && !u.ownUser()) {
-				window.location.href = "#view=messages&sendMessage=" + u.getUserID();
-			}
-		});
+	var i18n;
 
-		$("#pfriendShip").click(function () {
-			var u = ssn.display.profile.user;
-
-			if (u !== null && !u.ownUser() && !u.isFriend() && !u.didIRequestFriendShip()) {
-				u.friendShip(function (ret) {
-					ssn.logger.log("Friendship: " + ret);
-
-					if (ret === true) {
-						$("#pfriendShip").text(ssn.translation.getValue("friendShipRequested"));
-					} else {
-						$("#pfriendShip").text(ssn.translation.getValue("friendShipRequestedFailed"));
+	var profileInfos = {
+		/**
+		* Profile load function
+		* Hide big user picture
+		*/
+		load: function (done) {
+			step(function () {
+				require.wrap("asset/i18n!user", this);
+			}, h.sF(function (translation) {
+				i18n = translation;
+				$("#psendMessage").click(function () {
+					var u = display.viewScript().user;
+					if (u !== null && !u.ownUser()) {
+						window.location.href = "#view=messages&sendMessage=" + u.getUserID();
 					}
 				});
-			}
-		});
 
-		this.setUserData(done);
-	},
+				$("#pfriendShip").click(function () {
+					var u = display.viewScript().user;
 
-	hashChange: function (done) {
-		this.setUserData(done);
-	},
+					if (u !== null && !u.ownUser() && !u.isFriend() && !u.didIRequestFriendShip()) {
+						u.friendShip(function (ret) {
+							logger.log("Friendship: " + ret);
 
-	unload: function (done) {
-		done();
-	},
+							if (ret === true) {
+								$("#pfriendShip").text(translation.getValue("friendShipRequested"));
+							} else {
+								$("#pfriendShip").text(translation.getValue("friendShipRequestedFailed"));
+							}
+						});
+					}
+				});
 
-	setUserData: function (done) {
-		var u = ssn.display.profile.user;
-		$("#pname").text(u.getName());
+				profileInfos.setUserData(this);
+			}), done);
+		},
 
-		$("#subMenuName").text(u.getName()).attr("href", u.getLink());
+		hashChange: function (done) {
+			this.setUserData(done);
+		},
 
-		$("#pnick").text(u.getNickname());
+		unload: function (done) {
+			done();
+		},
 
-		$("#pid").text(u.getUserID());
-		$("#pnick2").text(u.getNickname());
-		$("#pfirstname").text(u.getValue("firstname"));
-		$("#plastname").text(u.getValue("lastname"));
-		$("#infowrap").css("background-image", "url(img/testbanner.jpg)");
-		// TODO: just do the following two steps if the text really needs to be white!
-		$("#infowrap").css("color", "#fff");
-		$("#infowrap i").addClass("icon-white");
+		setUserData: function (done) {
+			var u = display.viewScript().user;
+			step(function () {
+				u.getName(this.parallel());
+				u.getValue("firstname", this.parallel());
+				u.getValue("lastname", this.parallel());
+			}, h.sF(function (data) {
+				var name = data[0];
+				var firstName = data[1];
+				var lastName = data[2];
+				$("#pname").text(name);
 
-		if (!u.ownUser()) {
-			$("#psendMessage").text(ssn.translation.getValue("sendMessage")).show();
+				$("#pnick").text(u.getNickname());
 
-			if (u.isFriend()) {
-				$("#pfriendShip").text(ssn.translation.getValue("isFriend"));
-			} else if (u.didIRequestFriendShip()) {
-				$("#pfriendShip").text(ssn.translation.getValue("friendShipRequested"));
-			} else if (u.hasFriendShipRequested()) {
-				$("#pfriendShip").text(ssn.translation.getValue("acceptFriendShipRequest"));
-			} else {
-				$("#pfriendShip").text(ssn.translation.getValue("friendShipUser"));
-			}
-		} else {
-			$("#psendMessage").hide();
-			$("#pfriendShip").text(ssn.translation.getValue("thisIsYou"));
+				$("#pid").text(u.getUserID());
+				$("#pnick2").text(u.getNickname());
+				$("#pfirstname").text(firstName);
+				$("#plastname").text(lastName);
+				// TODO: just do the following two steps if the text really needs to be white!
+				$("#infowrap").css("color", "#fff");
+				$("#infowrap i").addClass("icon-white");
+				$("#infowrap").css("background-image", "url(img/testbanner.jpg)");
+
+				if (!u.ownUser()) {
+					$("#psendMessage").text(i18n.getValue("user.sendMessage")).show();
+
+					if (u.isFriend()) {
+						$("#pfriendShip").text(i18n.getValue("user.isFriend"));
+					} else if (u.didIRequestFriendShip()) {
+						$("#pfriendShip").text(i18n.getValue("user.friendShipRequested"));
+					} else if (u.hasFriendShipRequested()) {
+						$("#pfriendShip").text(i18n.getValue("user.acceptFriendShipRequest"));
+					} else {
+						$("#pfriendShip").text(i18n.getValue("user.friendShipUser"));
+					}
+				} else {
+					$("#psendMessage").hide();
+					$("#pfriendShip").text(i18n.getValue("user.thisIsYou"));
+				}
+
+				this();
+			}), done);
 		}
+	};
 
-		done();
-	}
-};
+	return profileInfos;
+});

@@ -1,31 +1,49 @@
-"use strict";
+define(["jquery", "model/userManager", "asset/helper", "libs/step", "model/session"], function ($, userManager, h, step, session) {
+	"use strict";
 
-ssn.display.friends.main = {
-	load: function (done) {
-		ssn.userManager.friendsUser(function (u) {
-			var user, i;
-			var element = $("#friendsList");
-			for (i = 0; i < u.length; i += 1) {
-				user = u[i];
-				var userElement = $("<li>").append(
-					$("<a>").attr("href", "#view=profile&userid=" + user.getUserID()).append(
-						$("<img>").addClass("friendPicture").attr("src", "img/user.png")
-					).append(
-						$("<span>").addClass("friendName").text(user.getName())
-					)
-				);
-				element.append(userElement);
-			}
-			$("body").addClass("friendsView");
+	var friendsMain = {
+		load: function (done) {
+			var friendsList;
+			step(function () {
+				session.getOwnUser(this);
+			}, h.sF(function (u) {
+				u.friends(this);
+			}), h.sF(function (d) {
+				friendsList = d;
+
+				var i;
+				for (i = 0; i < friendsList.length; i += 1) {
+					friendsList[i].getName(this.parallel());
+				}
+
+				$("body").addClass("friendsView");
+			}), h.sF(function (theNames) {
+				var element = $("#friendsList");
+
+				var i;
+				for (i = 0; i < theNames.length; i += 1) {
+					var names = $("<li>").append(
+						$("<a>").attr("href", friendsList[i].getLink()).append(
+							$("<img>").addClass("friendPicture").attr("src", "img/user.png")
+						).append(
+							$("<span>").addClass("friendName").text(theNames[i])
+						)
+					);
+					element.append(names);
+				}
+
+				this();
+			}), done);
+		},
+
+		hashChange: function (done) {
 			done();
-		});
-	},
+		},
 
-	hashChange: function (done) {
-		done();
-	},
+		unload: function () {
+			$("body").removeClass("friendsView");
+		}
+	};
 
-	unload: function () {
-		$("body").removeClass("friendsView");
-	}
-};
+	return friendsMain;
+});
