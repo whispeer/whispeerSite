@@ -290,6 +290,7 @@ define(['jquery', 'libs/step', 'asset/logger', 'model/state', 'asset/helper', 'c
 		* @created ?
 		*/
 		loadView: function (page, subview) {
+			console.time("loadView");
 			if (typeof subview === "undefined") {
 				subview = "main";
 			}
@@ -411,6 +412,7 @@ define(['jquery', 'libs/step', 'asset/logger', 'model/state', 'asset/helper', 'c
 				console.log(e);
 				$("#loading").hide();
 				$("#main").show();
+				console.timeEnd("loadView");
 			});
 		},
 

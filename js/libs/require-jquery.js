@@ -1135,7 +1135,7 @@ var requirejs, require, define;
         };
 
         function callGetModule(args) {
-			console.log(args);
+			//console.log(args);
             //Skip modules already defined.
             if (!hasProp(defined, args[0])) {
                 getModule(makeModuleMap(args[0], null, true)).init(args[1], args[2]);
@@ -1686,6 +1686,8 @@ var requirejs, require, define;
     };
 
 	req.wrap = function (deps, callback) {
+		console.time("loadDeps");
+		console.log("LOADING:" + JSON.stringify(deps));
 		if (typeof deps === "string") {
 			deps = [deps];
 		}
@@ -1698,6 +1700,7 @@ var requirejs, require, define;
 				args.push(arguments[i]);
 			}
 
+			console.timeEnd("loadDeps");
 			callback.apply(null, args);
 		}, function (err) {
 			callback(err);

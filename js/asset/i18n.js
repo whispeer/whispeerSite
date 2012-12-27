@@ -1,4 +1,4 @@
-define(['jquery', 'asset/logger', 'asset/helper', 'libs/step'], function ($, logger, h, step) {
+define(['jquery', 'asset/logger', 'asset/helper', 'libs/step', 'i18n!nls/warnings', 'i18n!nls/display'], function ($, logger, h, step) {
 	"use strict";
 
 	var i18n = {

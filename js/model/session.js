@@ -48,9 +48,10 @@ define(['jquery', 'display', 'model/storage', 'asset/logger', 'asset/helper', 'l
 		userid: function () {
 			return userid;
 		},
-		
+
 		/** Called when we logged in / restore our old session. */
 		loadData: function () {
+			console.time("loadData");
 			var u, userManager, display;
 			step(function getDisplay() {
 				require.wrap(['display', 'model/userManager', "asset/i18n!menu"], this);
@@ -78,7 +79,7 @@ define(['jquery', 'display', 'model/storage', 'asset/logger', 'asset/helper', 'l
 				u.decryptKeys(this);
 			}), h.sF(function ownKeysDecrypted13() {
 				display.loadingMainProgress(13);
-				u.getName(this)
+				u.getName(this);
 			}), h.sF(function ownName15(name) {
 				console.log("OWN NAME: " + name);
 				display.loadingMainProgress(15);
@@ -93,6 +94,7 @@ define(['jquery', 'display', 'model/storage', 'asset/logger', 'asset/helper', 'l
 
 				require.wrap("model/state", this);
 			}), function loadingDone(err, state) {
+				console.timeEnd("loadData");
 				if (err) {
 					console.log(err);
 					throw err;
