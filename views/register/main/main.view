@@ -1,54 +1,20 @@
-<div class="bubble" id="socialhive">
-	<h1>Hier sind deine Daten sicher!</h1>
-	<br>
-	<img src="img/main.png" alt="Image">
-	<p><a class="btn btn-success btn-large">Erfahre mehr! &raquo;</a></p>
+<div id="logo">
+	<img src="img/logo.png">
 </div>
-<div class="bubble" id="registerbubble">
-	<div id="registerwarnings"></div>
-	<h2>Jetzt registrieren!</h2>
-	<br>
-	<div id="formwrap">
-		<form method="post" action="#" id="register">
-			<div id="nameRow">
-				<div id="firstNameLabel">Vorname:</div>
-				<input type="text" class="firstname" id="firstname" placeholder="Gib hier deinen Vornamen ein!">
-				<span class="lock" encrypted="false" id="firstnamelock"><img src='img/lock_open.png' alt='lock'/></span>
-			</div>
-			<div id="lastNameRow">
-				<div id="lastNameLabel">Nachname:</div>
-				<input type="text" class="lastname" id="lastname" placeholder="Gib hier deinen Nachnamen ein!">
-				<span class="lock" encrypted="false" id ="lastnamelock"><img src='img/lock_open.png' alt='lock'/></span>
-			</div>
-			<div id="emailRow">
-				<div id="emailLabel">E-Mail-Adresse:</div>
-				<input type="text" class="rmail" id="rmail" placeholder="Gib hier deine E-Mail ein!">
-				<span class="error" id="email"><img class="micon" src="img/fail.png" alt=""></span>
-			</div>
-			<div id="emailRow2">
-				<div id="emailLabel2">E-Mail-Adresse wiederholen:</div>
-				<input type="text" class="rmail" id="rmail2" placeholder="Bitte wiederhole deine E-Mail!">
-				<span class="error" id="email2"><img class="micon2" src="img/fail.png" alt=""></span>
-			</div>
-			<div id="usernameRow">
-				<div id="usernameLabel">Username:</div>
-				<input type="text" class="username" id="rnickname" placeholder="Gib hier deinen Usernamen ein!">
-				<span class="error" id="username"><img class="micon3" src="img/fail.png" alt=""></span>
-			</div>
-			<div id="passwordRow">
-				<div id="passwordLabel">Passwort:</div>
-				<div class="strength"><input type="password" class="rpw span3" id="rpassword" placeholder="Gib hier dein Passwort ein!"></div>
-				<span class="error" id="pw"><img class="pwicon" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAKCAYAAACJxx+AAAAARklEQVQYGWNkgIL///8vg7FBNCMjYxScjy4JkoCJMcFV4WAwwlTikGcgaAKKApDDUBwHNBZFATZrCCog6EhGkLG4fAJyDwDwGBdV5VuQmwAAAABJRU5ErkJggg==" alt="Test"></span>
-			</div>
-			<div id="passwordRow2">
-				<div id="passwordLabel2">Passwort wiederholen:</div>
-				<input type="password" class="rpw span3" id="rpassword2" placeholder="Bitte wiederhole dein Passwort!">
-				<span class="error" id="pw2"></span>
-			</div>
-			<div id="submitRow">
-				<button id="registersubmit" class="btn btn-large btn-warning">Registrieren</button>
-			</div>	
-		</form>				
-		<small class="marked">Mit Klicken auf den Button "Registrieren" akzeptierst du unsere <a href="#">Nutzungsbestimmungen</a>.</small>
-	</div>
-</div>
+<form id="loginform">
+	<input type="text" id="mail" placeholder="Benutzername">
+	<input type="password" id="password" placeholder="Passwort">
+	<button id="loginformsubmit" class="btn" type="submit">Einloggen</button>
+</form>
+<form id="registerform">
+	<input type="text" id="firstname" placeholder="Vorname">
+	<input type="text" id="lastname" placeholder="Nachname">
+	<input type="text" id="rnickname" placeholder="Benutzername">
+	<input type="text" id="rmail" placeholder="E-Mail Adresse">
+	<input type="text" id="rmail2" placeholder="E-Mail Adresse wiederholen">
+	<input type="password" id="rpassword" placeholder="Passwort">
+	<input type="password" id="rpassword2" placeholder="Passwort wiederholen">
+	<button id="registerformsubmit" class="btn" type="submit">Registrieren</button>
+</form>
+<a href="#" id="callRegister">Registration</a>
+<a href="#" id="callLogin">Login</a>
