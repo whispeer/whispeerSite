@@ -1669,7 +1669,7 @@ input[type="submit"].btn.btn-mini {
   *width: 67.80505952380953%;
   *margin: 0 1.7336309523809523%;
 }
-.messageView #main {
+.messagesView #main {
   display: inline;
   float: left;
   width: 56.25%;
@@ -1700,7 +1700,7 @@ input[type="submit"].btn.btn-mini {
   padding: 0;
   height: 100%;
 }
-.messageView #topicListWrap {
+.messagesView #topicListWrap {
   display: inline;
   float: left;
   width: 25%;
@@ -1709,13 +1709,13 @@ input[type="submit"].btn.btn-mini {
   *margin: 0 1.7336309523809523%;
   margin-right: 3px;
 }
-.messageView #topicListWrap #topicList {
+.messagesView #topicListWrap #topicList {
   height: 420px;
   overflow: auto !important;
   margin-left: 0;
   list-style: none;
 }
-.messageView #topicListWrap #topicList .topic {
+.messagesView #topicListWrap #topicList .topic {
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
   border-radius: 5px;
@@ -1724,7 +1724,7 @@ input[type="submit"].btn.btn-mini {
   background-clip: padding-box;
   margin-bottom: 5px;
 }
-.messageView #topicListWrap #topicList .topic .userimg {
+.messagesView #topicListWrap #topicList .topic .userimg {
   display: inline;
   float: left;
   width: 37.5%;
@@ -1732,23 +1732,23 @@ input[type="submit"].btn.btn-mini {
   *width: 37.447916666666664%;
   *margin: 0 6.197916666666667%;
 }
-.messageView #topicListWrap #topicList .topic .username {
+.messagesView #topicListWrap #topicList .topic .username {
   font-size: 1em;
 }
-.messageView #topicListWrap #topicList .topic .lastMessage {
+.messagesView #topicListWrap #topicList .topic .lastMessage {
   font-size: 0.8em;
 }
-.messageView #topicListWrap #topicList .topic .left {
+.messagesView #topicListWrap #topicList .topic .left {
   float: left;
   margin-left: 10px;
 }
-.messageView #topicListWrap #topicList .topic:hover {
+.messagesView #topicListWrap #topicList .topic:hover {
   background-color: rgba(105, 228, 0, 0.1);
 }
-.messageView #topicListWrap #topicList .topic:first-child {
+.messagesView #topicListWrap #topicList .topic:first-child {
   margin-top: 10px;
 }
-.messageView #topicListWrap #topicList #newMessage {
+.messagesView #topicListWrap #topicList #newMessage {
   padding: 10px;
   -webkit-box-sizing: border-box;
   /* Safari/Chrome, other WebKit */
@@ -1760,7 +1760,7 @@ input[type="submit"].btn.btn-mini {
   /* Opera/IE 8+ */
 
 }
-.messageView #topicWrap {
+.messagesView #topicWrap {
   border-left: 1px solid #333;
   display: inline;
   float: left;
@@ -1769,16 +1769,16 @@ input[type="submit"].btn.btn-mini {
   *width: 67.80505952380953%;
   *margin: 0 1.7336309523809523%;
 }
-.messageView #topicWrap #messageTitle {
+.messagesView #topicWrap #messageTitle {
   padding-left: 10px;
 }
-.messageView #topicWrap #messageList {
+.messagesView #topicWrap #messageList {
   margin-left: 0;
   list-style: none;
   overflow: auto !important;
   height: 300px;
 }
-.messageView #topicWrap #messageList .message {
+.messagesView #topicWrap #messageList .message {
   display: inline;
   float: left;
   width: 95%;
@@ -1787,7 +1787,7 @@ input[type="submit"].btn.btn-mini {
   *margin: 0 2.4479166666666665%;
   margin-bottom: 5px;
 }
-.messageView #topicWrap #messageList .message .user {
+.messagesView #topicWrap #messageList .message .user {
   padding-left: 10px;
   display: block;
   width: 105%;
@@ -1805,25 +1805,25 @@ input[type="submit"].btn.btn-mini {
   /* Opera/IE 8+ */
 
 }
-.messageView #topicWrap #messageList .message .user:before,
-.messageView #topicWrap #messageList .message .user:after {
+.messagesView #topicWrap #messageList .message .user:before,
+.messagesView #topicWrap #messageList .message .user:after {
   content: "";
   display: table;
 }
-.messageView #topicWrap #messageList .message .user:after {
+.messagesView #topicWrap #messageList .message .user:after {
   clear: both;
 }
-.messageView #topicWrap #messageList .message .user .userimg {
+.messagesView #topicWrap #messageList .message .user .userimg {
   float: left;
 }
-.messageView #topicWrap #messageList .message .user .username {
+.messagesView #topicWrap #messageList .message .user .username {
   display: block;
   padding-top: 10px;
 }
-.messageView #topicWrap #messageList .message .messageText {
+.messagesView #topicWrap #messageList .message .messageText {
   padding: 0px 10px 10px 10px;
 }
-.messageView #topicWrap #messageList .message.me {
+.messagesView #topicWrap #messageList .message.me {
   color: #63b700;
   text-align: right;
   background-color: #f2f2f2;
@@ -1834,17 +1834,17 @@ input[type="submit"].btn.btn-mini {
   -webkit-background-clip: padding-box;
   background-clip: padding-box;
 }
-.messageView #topicWrap #messageList .message.me .user {
+.messagesView #topicWrap #messageList .message.me .user {
   padding-left: 0;
 }
-.messageView #topicWrap #messageList .message.me .user .userimg {
+.messagesView #topicWrap #messageList .message.me .user .userimg {
   float: right;
   padding-right: 10px;
 }
-.messageView #topicWrap #messageList .message.me .messageText {
+.messagesView #topicWrap #messageList .message.me .messageText {
   text-align: left;
 }
-.messageView #topicWrap #messageList .message.other {
+.messagesView #topicWrap #messageList .message.other {
   background-color: rgba(105, 228, 0, 0.1);
   -webkit-border-radius: 6px;
   -moz-border-radius: 6px;
