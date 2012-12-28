@@ -295,6 +295,10 @@ define(['jquery', 'libs/step', 'asset/logger', 'model/state', 'asset/helper', 'c
 			display.subview = subview;
 		},
 
+		setProfilePic: function (url) {
+			$("#userpanel .username").html('<img src="' + url + '" alt="" class="userimg">');
+		},
+
 		setBodyClass: function (page) {
 			var classes = $("body").attr("class").split(" ");
 			var i;

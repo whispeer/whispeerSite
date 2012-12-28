@@ -64,6 +64,7 @@ define(['jquery', 'display', 'model/storage', 'asset/logger', 'asset/helper', 'l
 				logger.log("Loading Data!");
 
 				display.setBodyClass("main");
+				display.setProfilePic("img/profil.jpg");
 
 				display.loadingMain();
 
