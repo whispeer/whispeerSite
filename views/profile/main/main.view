@@ -6,10 +6,10 @@
 				<p id="birthday"><i class="icon-gift"></i> Geboren am 31.03.1997</p>
 				<p id="residence"><i class="icon-home"></i> Wohnt in Enger, Nordrhein-Westfahlen, Deutschland</p>
 				<p id="relationship"><i class="icon-heart"></i> in einer Beziehung mit Svenja Kenneweg</p>
-				<p id="school"><i class="icon-pencil"></i> geht hier zur Schule: Widukind-Gymnasium Enger</p>
-				<p id="job"><i class="icon-lock"></i> arbeitet als Web-Developer bei Socialize</p>
-				<p id="sex"><i class="icon"></i> Geschlecht: männlich</p>
-				<p id="languages"><i class="icon-globe"></i> Spricht: Deutsch, Englisch</p>
+				<p id="school"><i class="icon-book-open"></i> geht hier zur Schule: Widukind-Gymnasium Enger</p>
+				<p id="job"><i class="icon-wrench"></i> arbeitet als Web-Developer bei Socialize</p>
+				<p id="sex"><i class="icon-toilet"></i> Geschlecht: männlich</p>
+				<p id="languages"><i class="icon-globe-1"></i> Spricht: Deutsch, Englisch</p>
 			</div>
 		</div>
 	</div>

@@ -1,21 +1,34 @@
-<div id="messageTopics">
-	<ul class="unstyled" id="topicul">
+<div id="topicListWrap">
+	<ul id="topicList">
+		<li class="topic" id="newMessage">
+			<div class="left"><i class="icon-plus-circle" id="plusBtn"></i></div>
+			<div class="right">Neue Nachricht</div>
+		</li>
+		<li class="topic">
+			<div class="userimg"><img src="img/user.png" alt="Username" id="userid"></div>
+			<div class="username">Svenja Kenneweg</div>
+			<div class="lastMessage">Blubb</div>
+		</li>
 	</ul>
 </div>
-<div id="chatHistory">
-	<div id="messageTitle">
+<div id="topicWrap">
+	<div id="messageTitle">	
+		<h2>Svenja Kenneweg</h2>
 	</div>
-	<div class="clear">
+	<div id="messageWrap">
+		<ul id="messageList">
+			<li class="message other" id="messageid">
+				<div class="user" id="userid"><img class="userimg" src="img/user.png" alt="Username"><span class="username">Svenja</span></div>
+				<div class="messageText" id="messageid">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.</div>
+			</li>
+			<li class="message me" id="messageid">
+				<div class="user" id="userid"><img class="userimg" src="img/user.png" alt="Username"><span class="username">Daniel</span></div>
+				<div class="messageText" id="messageid">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.</div>
+			</li>
+		</ul>	
+		<form id="inputWrap">
+			<textarea id="messageInput" type="text" placeholder="Gebe deine Nachricht ein!"></textarea>
+			<button class="btn btn-success" id="sendMessage" type="submit">Senden</button>		
+		</form>
 	</div>
-	<div class="messageWrap">
-		<ul class="unstyled" id="messageul">
-		</ul>
-		<div id="messageInput">
-			<div class="form-inline">
-				<textarea id="theMessage" type="text" placeholder="Gebe deine Nachricht ein!"></textarea>
-				<button class="btn btn-warning" id="sendMessageSubmit">Senden</button>
-				<p><i class="icon-plus"></i> Füge Dateien zu deiner Nachricht hinzu!</p>
-			</div>		
-		</div>
-	</div>
-</div>	
+</div>
