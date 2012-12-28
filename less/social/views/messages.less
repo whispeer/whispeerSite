@@ -1,106 +1,96 @@
-//Don't touch any of the *.less or *.css files, or you will die an awful death.
-// Messages Stylesheet
-
 .messageView {
 	#main {
+		.column(7);
 		.bubble;
+		padding: 0;
+		height: 100%;
 	}
-	#messageTopics {
+	#topicListWrap {
 		.column(2,7);
-	}
-	.topic {
-		.row(2);
-		border-bottom: 2px solid @bubbleBorderColor;
-		min-height: 40px;
-		margin-bottom: 5px;
-		&:hover {
-			background-color: darken(@bubbleBackgroundColor, 10%);
-			.box-shadow(0px 0px 4px @bubbleBorderColor);
-		}
-		.image {
-			height: 40px;
-			float: left;
-		}
-		.name {
-			margin-left: 40px;
-		}
-		.lastmessage {
-			margin: -5px 0px 0px 52px;
-			font-size: 14px;
-			color: #4e4e4e;
-		}
-	}
-	#newmessage {
-		p {
-			padding-top: 10px;
-			padding-left: 10px;
-			.box-fix;
-		}
-		.left {
-			.column(0.5,1);
-			font-size: 65px;
-			text-shadow: 0px 2px 5px #333;
-			color: #5f5f5f;
-		}
-		.right {
-			display: block;
-			.column(0.5,1);
+		margin-right: 3px;
+		#topicList {
+			height: 420px;
+			overflow: auto !important;
+			.unstyled;
+			.topic {
+				.border-radius(5px);
+				margin-bottom: 5px;
+				.userimg {
+					.column(1,2);
+				}
+				.username {
+					font-size: 1em;
+				}
+				.lastMessage {
+					font-size: 0.8em;
+				}
+				.left {
+					float: left;
+					margin-left: 10px;
+				}
+				&:hover {
+					background-color: rgba(105,228,0,0.1);
+				}
+				&:first-child {
+					margin-top: 10px;
+				}
+			}
+			#newMessage {
+				padding: 10px;
+				.box-fix;
+			}
 		}
 	}
-	
-	#chatHistory {
+	#topicWrap {
+		border-left: 1px solid #333;
 		.column(5,7);
-	}
-	.messageWrap {
-		.border-radius(10px);
-	}
-		
-	.message {
-		min-height: 80px;
-		border-bottom: 1px solid #ffb700;
-		margin-left: 10px;
-		&:last-child {
-			border: 0;
+		#messageTitle {
+			padding-left: 10px;
 		}
-		.image {
-			width: 60px;
-			margin-top: 8px;
-			float: left;
-			display: block;
+		#messageList {
+			.unstyled;
+			overflow: auto !important;
+			height: 300px;
+			.message {
+				.column(5,5);
+				margin-bottom: 5px;
+				.user {
+					padding-left: 10px;
+					.row(5);
+					.box-fix;
+					.userimg {
+						float: left;
+					}
+					.username {
+						display: block;
+						padding-top: 10px;
+					}
+				}
+				.messageText {
+					padding: 0px 10px 10px 10px;
+				}
+				&.me {
+					color: lighten(@green, 5%);
+					text-align: right;
+					.user {
+						padding-left: 0;
+						.userimg {
+							float: right;
+							padding-right: 10px;
+						}
+					}
+					.messageText {
+						text-align: left;
+					}
+					background-color: darken(@white, 5%);
+					.border-radius(6px);
+				}
+				&.other {
+					background-color: rgba(105,228,0,0.1);
+					.border-radius(6px);
+					color: #4e4e4e;
+				}
+			}
 		}
-		.messagetext {
-			margin-top: 0px;
-		}
-		.name {
-			padding-top: 5px;
-			margin-left: 35px;
-			font-size: 16px;
-			color: @orange;
-		}
-		.textwrap {
-			padding-top: 10px;
-			margin-left: 75px;
-			margin-top: -10px;
-			margin-bottom: 5px;
-			font-size: 13px;
-			color: #393939;
-		}
-	}
-	#messageInput {
-		border-top: solid 1px #ffb700;
-		.border-radiuses(0, 10px, 10px, 0);
-		text-align: center;
-		p {
-			padding-bottom: 10px;
-		}
-		.form-inline {
-			margin-top: 7px;
-		}
-	}
-	#theMessage {
-		margin: 10px;
-	}
-	#messageul {
-		overflow: hidden;
 	}
 }

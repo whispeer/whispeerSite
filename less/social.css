@@ -129,6 +129,92 @@ table {
   border-collapse: collapse;
   border-spacing: 0;
 }
+/*
+ * CSS Styles that are needed by jScrollPane for it to operate correctly.
+ *
+ * Include this stylesheet in your site or copy and paste the styles below into your stylesheet - jScrollPane
+ * may not operate correctly without them.
+ */
+.jspContainer {
+  overflow: hidden;
+  position: relative;
+}
+.jspPane {
+  position: absolute;
+}
+.jspVerticalBar {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 16px;
+  height: 100%;
+  background: red;
+}
+.jspHorizontalBar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 16px;
+  background: red;
+}
+.jspVerticalBar *,
+.jspHorizontalBar * {
+  margin: 0;
+  padding: 0;
+}
+.jspCap {
+  display: none;
+}
+.jspHorizontalBar .jspCap {
+  float: left;
+}
+.jspTrack {
+  background: #dde;
+  position: relative;
+}
+.jspDrag {
+  background: #bbd;
+  position: relative;
+  top: 0;
+  left: 0;
+  cursor: pointer;
+}
+.jspHorizontalBar .jspTrack,
+.jspHorizontalBar .jspDrag {
+  float: left;
+  height: 100%;
+}
+.jspArrow {
+  background: #50506d;
+  text-indent: -20000px;
+  display: block;
+  cursor: pointer;
+}
+.jspArrow.jspDisabled {
+  cursor: default;
+  background: #80808d;
+}
+.jspVerticalBar .jspArrow {
+  height: 16px;
+}
+.jspHorizontalBar .jspArrow {
+  width: 16px;
+  float: left;
+  height: 100%;
+}
+.jspVerticalBar .jspArrow:focus {
+  outline: none;
+}
+.jspCorner {
+  background: #eeeef4;
+  float: left;
+  height: 100%;
+}
+/* Yuk! CSS Hack for IE6 3 pixel bug :( */
+* html .jspCorner {
+  margin: 0 -3px 0 0;
+}
 body {
   width: 100%;
   *zoom: 1;
@@ -267,8 +353,7 @@ ol ul {
 li {
   line-height: 20px;
 }
-ul.unstyled,
-ol.unstyled {
+.unstyled {
   margin-left: 0;
   list-style: none;
 }
@@ -543,14 +628,17 @@ nav {
   box-sizing: border-box;
   /* Opera/IE 8+ */
 
+  margin-left: 20px;
+  display: block;
 }
 .nav-icon {
   float: left;
-  margin: 10px 5px 5px 15px;
+  margin: 12px 0 5px 0;
   line-height: 20px;
 }
 .nav-icon-icons {
-  font-size: 20px;
+  font-size: 1em;
+  font-style: normal;
   color: #111;
 }
 .nav-icon-icons a {
@@ -1582,6 +1670,12 @@ input[type="submit"].btn.btn-mini {
   *margin: 0 1.7336309523809523%;
 }
 .messageView #main {
+  display: inline;
+  float: left;
+  width: 56.25%;
+  margin: 0 1.0416666666666665%;
+  *width: 56.197916666666664%;
+  *margin: 0 0.9895833333333331%;
   background-color: #ffffff;
   border: #666666 solid 1px;
   -webkit-border-radius: 5px;
@@ -1603,55 +1697,59 @@ input[type="submit"].btn.btn-mini {
   box-sizing: border-box;
   /* Opera/IE 8+ */
 
+  padding: 0;
+  height: 100%;
 }
-.messageView #messageTopics {
+.messageView #topicListWrap {
   display: inline;
   float: left;
   width: 25%;
   margin: 0 1.7857142857142856%;
   *width: 24.947916666666668%;
   *margin: 0 1.7336309523809523%;
+  margin-right: 3px;
 }
-.messageView .topic {
-  display: block;
-  width: 112.5%;
-  margin: 0 -6.25%;
-  *width: 112.44791666666667%;
-  *margin: 0 -6.302083333333333%;
-  *zoom: 1;
-  border-bottom: 2px solid #666666;
-  min-height: 40px;
+.messageView #topicListWrap #topicList {
+  height: 420px;
+  overflow: auto !important;
+  margin-left: 0;
+  list-style: none;
+}
+.messageView #topicListWrap #topicList .topic {
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
   margin-bottom: 5px;
 }
-.messageView .topic:before,
-.messageView .topic:after {
-  content: "";
-  display: table;
-}
-.messageView .topic:after {
-  clear: both;
-}
-.messageView .topic:hover {
-  background-color: #e6e6e6;
-  -webkit-box-shadow: 0px 0px 4px #666666;
-  -moz-box-shadow: 0px 0px 4px #666666;
-  box-shadow: 0px 0px 4px #666666;
-}
-.messageView .topic .image {
-  height: 40px;
+.messageView #topicListWrap #topicList .topic .userimg {
+  display: inline;
   float: left;
+  width: 37.5%;
+  margin: 0 6.25%;
+  *width: 37.447916666666664%;
+  *margin: 0 6.197916666666667%;
 }
-.messageView .topic .name {
-  margin-left: 40px;
+.messageView #topicListWrap #topicList .topic .username {
+  font-size: 1em;
 }
-.messageView .topic .lastmessage {
-  margin: -5px 0px 0px 52px;
-  font-size: 14px;
-  color: #4e4e4e;
+.messageView #topicListWrap #topicList .topic .lastMessage {
+  font-size: 0.8em;
 }
-.messageView #newmessage p {
-  padding-top: 10px;
-  padding-left: 10px;
+.messageView #topicListWrap #topicList .topic .left {
+  float: left;
+  margin-left: 10px;
+}
+.messageView #topicListWrap #topicList .topic:hover {
+  background-color: rgba(105, 228, 0, 0.1);
+}
+.messageView #topicListWrap #topicList .topic:first-child {
+  margin-top: 10px;
+}
+.messageView #topicListWrap #topicList #newMessage {
+  padding: 10px;
   -webkit-box-sizing: border-box;
   /* Safari/Chrome, other WebKit */
 
@@ -1662,27 +1760,8 @@ input[type="submit"].btn.btn-mini {
   /* Opera/IE 8+ */
 
 }
-.messageView #newmessage .left {
-  display: inline;
-  float: left;
-  width: 25%;
-  margin: 0 12.5%;
-  *width: 24.947916666666668%;
-  *margin: 0 12.447916666666666%;
-  font-size: 65px;
-  text-shadow: 0px 2px 5px #333;
-  color: #5f5f5f;
-}
-.messageView #newmessage .right {
-  display: block;
-  display: inline;
-  float: left;
-  width: 25%;
-  margin: 0 12.5%;
-  *width: 24.947916666666668%;
-  *margin: 0 12.447916666666666%;
-}
-.messageView #chatHistory {
+.messageView #topicWrap {
+  border-left: 1px solid #333;
   display: inline;
   float: left;
   width: 67.85714285714286%;
@@ -1690,75 +1769,90 @@ input[type="submit"].btn.btn-mini {
   *width: 67.80505952380953%;
   *margin: 0 1.7336309523809523%;
 }
-.messageView .messageWrap {
-  -webkit-border-radius: 10px;
-  -moz-border-radius: 10px;
-  border-radius: 10px;
-  -moz-background-clip: padding;
-  -webkit-background-clip: padding-box;
-  background-clip: padding-box;
+.messageView #topicWrap #messageTitle {
+  padding-left: 10px;
 }
-.messageView .message {
-  min-height: 80px;
-  border-bottom: 1px solid #ffb700;
-  margin-left: 10px;
+.messageView #topicWrap #messageList {
+  margin-left: 0;
+  list-style: none;
+  overflow: auto !important;
+  height: 300px;
 }
-.messageView .message:last-child {
-  border: 0;
-}
-.messageView .message .image {
-  width: 60px;
-  margin-top: 8px;
+.messageView #topicWrap #messageList .message {
+  display: inline;
   float: left;
-  display: block;
-}
-.messageView .message .messagetext {
-  margin-top: 0px;
-}
-.messageView .message .name {
-  padding-top: 5px;
-  margin-left: 35px;
-  font-size: 16px;
-  color: #f7b311;
-}
-.messageView .message .textwrap {
-  padding-top: 10px;
-  margin-left: 75px;
-  margin-top: -10px;
+  width: 95%;
+  margin: 0 2.5%;
+  *width: 94.94791666666667%;
+  *margin: 0 2.4479166666666665%;
   margin-bottom: 5px;
-  font-size: 13px;
-  color: #393939;
 }
-.messageView #messageInput {
-  border-top: solid 1px #ffb700;
-  -webkit-border-top-right-radius: 0;
-  -webkit-border-bottom-right-radius: 10px;
-  -webkit-border-bottom-left-radius: 10px;
-  -webkit-border-top-left-radius: 0;
-  -moz-border-radius-topright: 0;
-  -moz-border-radius-bottomright: 10px;
-  -moz-border-radius-bottomleft: 10px;
-  -moz-border-radius-topleft: 0;
-  border-top-right-radius: 0;
-  border-bottom-right-radius: 10px;
-  border-bottom-left-radius: 10px;
-  border-top-left-radius: 0;
+.messageView #topicWrap #messageList .message .user {
+  padding-left: 10px;
+  display: block;
+  width: 105%;
+  margin: 0 -2.5%;
+  *width: 104.94791666666667%;
+  *margin: 0 -2.5520833333333335%;
+  *zoom: 1;
+  -webkit-box-sizing: border-box;
+  /* Safari/Chrome, other WebKit */
+
+  -moz-box-sizing: border-box;
+  /* Firefox, other Gecko */
+
+  box-sizing: border-box;
+  /* Opera/IE 8+ */
+
+}
+.messageView #topicWrap #messageList .message .user:before,
+.messageView #topicWrap #messageList .message .user:after {
+  content: "";
+  display: table;
+}
+.messageView #topicWrap #messageList .message .user:after {
+  clear: both;
+}
+.messageView #topicWrap #messageList .message .user .userimg {
+  float: left;
+}
+.messageView #topicWrap #messageList .message .user .username {
+  display: block;
+  padding-top: 10px;
+}
+.messageView #topicWrap #messageList .message .messageText {
+  padding: 0px 10px 10px 10px;
+}
+.messageView #topicWrap #messageList .message.me {
+  color: #63b700;
+  text-align: right;
+  background-color: #f2f2f2;
+  -webkit-border-radius: 6px;
+  -moz-border-radius: 6px;
+  border-radius: 6px;
   -moz-background-clip: padding;
   -webkit-background-clip: padding-box;
   background-clip: padding-box;
-  text-align: center;
 }
-.messageView #messageInput p {
-  padding-bottom: 10px;
+.messageView #topicWrap #messageList .message.me .user {
+  padding-left: 0;
 }
-.messageView #messageInput .form-inline {
-  margin-top: 7px;
+.messageView #topicWrap #messageList .message.me .user .userimg {
+  float: right;
+  padding-right: 10px;
 }
-.messageView #theMessage {
-  margin: 10px;
+.messageView #topicWrap #messageList .message.me .messageText {
+  text-align: left;
 }
-.messageView #messageul {
-  overflow: hidden;
+.messageView #topicWrap #messageList .message.other {
+  background-color: rgba(105, 228, 0, 0.1);
+  -webkit-border-radius: 6px;
+  -moz-border-radius: 6px;
+  border-radius: 6px;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  color: #4e4e4e;
 }
 .friendsView #friendsList {
   display: inline;
