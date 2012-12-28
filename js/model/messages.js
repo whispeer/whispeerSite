@@ -1,7 +1,7 @@
 //TODO: event listener for new messages in a topic.
 //TODO: SendMessage: Add Receiver (LOW Priority)
 
-define(["jquery", "asset/helper", "libs/step", "model/userManager", "model/session", "asset/logger", "crypto/crypto", "crypto/sessionKey", "asset/logger", "asset/exceptions"], function ($, h, step, userManager, session, crypto, SessionKey, logger, exception) {
+define(["jquery", "asset/helper", "libs/step", "model/userManager", "model/session", "crypto/crypto", "crypto/sessionKey", "asset/logger", "asset/exceptions"], function ($, h, step, userManager, session, crypto, SessionKey, logger, exception) {
 	"use strict";
 
 	var topics = {};
@@ -59,7 +59,7 @@ define(["jquery", "asset/helper", "libs/step", "model/userManager", "model/sessi
 		this.decryptKey = function (callback) {
 			step(function () {
 				if (h.isset(symKey) && symKey.isSymKey()) {
-					symKey.decryptKey(session.getMainKey(), this.last);
+					symKey.decryptKey(session.getMainKey(), this);
 				} else {
 					key.decryptKey(session.getKey(), this);
 				}
@@ -193,7 +193,7 @@ define(["jquery", "asset/helper", "libs/step", "model/userManager", "model/sessi
 		this.getSenderObj = function (callback) {
 			step(function () {
 				if (typeof senderObj === "undefined") {
-					userManager.getUser(this.getSender(), userManager.BASIC, this);
+					userManager.getUser(theMessage.getSender(), userManager.BASIC, this);
 				} else {
 					this.last.ne(senderObj);
 				}
@@ -206,7 +206,7 @@ define(["jquery", "asset/helper", "libs/step", "model/userManager", "model/sessi
 		this.getMessage = function (callback) {
 			step(function () {
 				if (typeof decryptedMessage === "undefined") {
-					this.getTopic(this);
+					theMessage.getTopic(this);
 				} else {
 					this.last.ne(decryptedMessage);
 				}
@@ -474,7 +474,9 @@ define(["jquery", "asset/helper", "libs/step", "model/userManager", "model/sessi
 		getTopic: function (topicid, callback) {
 			step(function () {
 				messageManager.loadTopics([topicid], this);
-			}, callback);
+			}, h.sF(function (data) {
+				this.ne(data[0]);
+			}), callback);
 		},
 		/** is a topic already in memory?
 		* @param topicid id of the topic
@@ -627,6 +629,7 @@ define(["jquery", "asset/helper", "libs/step", "model/userManager", "model/sessi
 		* @author Nilos
 		*/
 		getMessagesTeReSe: function (m, callback) {
+			console.time("TeReSe");
 			step(function teReSe1() {
 				var i = 0;
 				for (i = 0; i < m.length; i += 1) {
@@ -647,6 +650,7 @@ define(["jquery", "asset/helper", "libs/step", "model/userManager", "model/sessi
 					};
 				}
 
+				console.timeEnd("TeReSe");
 				this.ne(result);
 			}), callback);
 		}

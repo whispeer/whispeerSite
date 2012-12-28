@@ -1686,8 +1686,8 @@ var requirejs, require, define;
     };
 
 	req.wrap = function (deps, callback) {
-		console.time("loadDeps");
-		console.log("LOADING:" + JSON.stringify(deps));
+		//console.time("loadDeps");
+		//console.log("LOADING:" + JSON.stringify(deps));
 		if (typeof deps === "string") {
 			deps = [deps];
 		}
@@ -1700,7 +1700,7 @@ var requirejs, require, define;
 				args.push(arguments[i]);
 			}
 
-			console.timeEnd("loadDeps");
+			//console.timeEnd("loadDeps");
 			callback.apply(null, args);
 		}, function (err) {
 			callback(err);

@@ -178,6 +178,7 @@ define(['jquery', 'asset/logger', 'asset/helper', 'asset/exceptions', 'config', 
 		* returns: firstname lastname or nickname if no firstname and lastname set.
 		*/
 		this.getName = function (callback) {
+			h.callback(callback);
 			console.time("getName");
 			step(function loadData() {
 				theUser.getValue("firstName", this.parallel());
@@ -357,6 +358,7 @@ define(['jquery', 'asset/logger', 'asset/helper', 'asset/exceptions', 'config', 
 		*/
 		var decrypt = function (key, callback) {
 			step(function decryptKey() {
+				console.log(key);
 				if (key.isSymKey()) {
 					key.decryptKey(session.getMainKey(), this.last);
 				} else {
@@ -386,7 +388,7 @@ define(['jquery', 'asset/logger', 'asset/helper', 'asset/exceptions', 'config', 
 							var groupid;
 							for (groupid in k[uK]) {
 								if (k[uK].hasOwnProperty(groupid)) {
-									decrypt(k[uK], this.parallel());
+									decrypt(k[uK][groupid], this.parallel());
 								}
 							}
 						} else {
@@ -405,6 +407,8 @@ define(['jquery', 'asset/logger', 'asset/helper', 'asset/exceptions', 'config', 
 						return;
 					}
 				}
+
+				this();
 			}), callback);
 		};
 

@@ -15,6 +15,7 @@ define(['jquery', 'libs/step'], function ($, step) {
 
 		callback: function (c) {
 			if (typeof c !== "function") {
+				console.trace();
 				throw new Error("not a callback function");
 			}
 		},

@@ -19,9 +19,9 @@ define(['libs/step', 'crypto/generalWorkerInclude', 'crypto/waitForReady', 'asse
 
 	var workers;
 	if (window.location.href.indexOf("/tests") > -1) {
-		workers = new WorkerManager('../crypto/sjclWorker.js', 4, addEntropy);
+		workers = new WorkerManager('../crypto/sjclWorker.js', 2, addEntropy);
 	} else {
-		workers = new WorkerManager('js/crypto/sjclWorker.js', 4, addEntropy);
+		workers = new WorkerManager('js/crypto/sjclWorker.js', 2, addEntropy);
 	}
 
 	var sjclWorker = {
