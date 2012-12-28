@@ -25,8 +25,8 @@
 	
 	<link rel="stylesheet" href="less/social.css">
 	<link rel="stylesheet" href="less/responsive.css">
-	<link rel="stylesheet" href="less/fontello.css">
-	<!--[if IE 7]><link rel="stylesheet" href="less/fontello-ie7.css"><![endif]-->
+	<link rel="stylesheet" href="less/fontello/fontello.css">
+	<!--[if IE 7]><link rel="stylesheet" href="less/fontello/fontello-ie7.css"><![endif]-->
 	<script src="js/libs/modernizr.js"></script>
 	<script data-main="js/main.js" src="js/libs/require-jquery.js"></script>
 </head>
@@ -38,7 +38,7 @@
 			<a href="#" class="brand">whis<span id="brand-inverse">peer</div></a>
 			<div class="nav-icons" id="nav-icons" style="display: none;">
 				<div class="nav-icon" id="nav-friendrequests">
-					<a href="#friendrequestDrop" class="dropit"><i class="icon-users nav-icon-icons"></i></a>
+					<a href="#friendrequestDrop" class="dropit"><i class="icon-users-1 nav-icon-icons"></i></a>
 					<div class="nav-icon-dropdown" id="friendrequestDrop">
 						<div class="nav-icon-dropdown-header">
 							Freundschaftsanfragen
@@ -75,7 +75,7 @@
 					</div>
 				</div>
 				<div class="nav-icon" id="nav-messages">
-					<a href="#messageDrop" class="dropit"><i class="icon-chat nav-icon-icons"></i></a>
+					<a href="#messageDrop" class="dropit"><i class="icon-mail nav-icon-icons"></i></a>
 					<div class="nav-icon-dropdown" id="messageDrop">
 						<div class="nav-icon-dropdown-header">
 							Nachrichten <a href="" class="btn" id="newmessagebutton">+</a>
@@ -106,7 +106,7 @@
 					</div>
 				</div>
 				<div class="nav-icon" id="nav-news">
-					<a href="#newsDrop" class="dropit"><i class="icon-globe nav-icon-icons"></i></a>
+					<a href="#newsDrop" class="dropit"><i class="icon-globe-1 nav-icon-icons"></i></a>
 					<div class="nav-icon-dropdown" id="newsDrop">
 						<div class="nav-icon-dropdown-header">
 							News
@@ -150,8 +150,8 @@
 	</nav>
 	<div class="body">
 		<div id="container">
-			<div class="sidebar" id="sidebar-left" style="display: none;">
-				<div class="bubble" id="userpanel">
+			<div class="sidebar bubble" id="sidebar-left" style="display: none;">
+				<div id="userpanel">
 					<a href="#view=profile" class="username">
 						<!--<img src="img/profil.jpg" alt="" class="userimg">-->
 					</a>
@@ -168,14 +168,10 @@
 						</ul>
 						<ul class="right unstyled" id="subMenu">
 						</ul>
+						<div class="clear-fix">
+						</div>
 					</div>
-				</div>
-				<div class="bubble" id="didYaKnow">
-					<h3>Wusstest du schon...</h3>
-					<p>
-					... das WhisPeer einfach episch ist?
-					</p>
-				</div>
+				</div>	
 			</div>
 			<div id="main">
 				<div id="logo">
@@ -216,7 +212,7 @@
 	<script src="js/libs/lightbox.min.js"></script>
 	<script src="js/libs/hashchange.min.js"></script>
 	<script src="js/libs/jquery.mousewheel.min.js"></script>
-	<script src="js/libs/jquery.mCustomScrollbar.min.js"></script>
+	<script src="js/libs/jquery.jscrollpane.min.js"></script>
 
 	<script src="js/ssn.messages.js"></script>
 	-->
