@@ -62,8 +62,8 @@ define(["jquery", "display", "config"], function ($, display, config) {
 				}
 			});
 		},
-		unload: function () {
-			$("body").removeClass("mainView");
+		unload: function (done) {
+			done()
 		}
 	};
 

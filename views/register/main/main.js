@@ -107,7 +107,6 @@ define(["jquery", "display", "config", "asset/logger"], function ($, display, co
 		},
 		unload: function (done) {
 			logger.log("unload for register");
-			$("body").removeClass("registerView");
 			$("nav").show();
 			done();
 		}

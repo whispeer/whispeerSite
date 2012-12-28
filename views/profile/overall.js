@@ -41,7 +41,7 @@ define(["jquery", "display", "asset/helper", "libs/step"], function ($, display,
 			displayProfile.userid = null;
 			displayProfile.user = null;
 
-			$("body").removeClass("profileView");
+			done();
 		},
 
 		loadUser: function (theID, done) {

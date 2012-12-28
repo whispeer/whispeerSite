@@ -28,8 +28,8 @@ ssn.display.media.main = {
 		done();
 	},
 
-	unload: function () {
-		$("body").removeClass("mediaView");
+	unload: function (done) {
+		done()
 	}
 };
 

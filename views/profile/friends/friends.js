@@ -36,7 +36,7 @@ define(["jquery", "display", "asset/helper", "libs/step"], function ($, display,
 			done();
 		},
 		unload: function () {
-			$("body").removeClass("friendsView");
+			done();
 		}
 	};
 

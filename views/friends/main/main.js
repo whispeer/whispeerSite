@@ -38,8 +38,8 @@ define(["jquery", "model/userManager", "asset/helper", "libs/step", "model/sessi
 			done();
 		},
 
-		unload: function () {
-			$("body").removeClass("friendsView");
+		unload: function (done) {
+			done();
 		}
 	};
 

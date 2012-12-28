@@ -269,6 +269,29 @@ define(['jquery', 'display', 'model/storage', 'asset/logger', 'asset/helper', 'l
 			}
 		},
 
+		autologout: function () {
+			if (logedin) {
+				storage.clear();
+
+				logedin = false;
+				state.logedin = logedin;
+				identifier = "";
+				password = "";
+				sid = "";
+				key = "";
+
+				require.wrap("model/userManager", function (err, userManager) {
+					userManager.reset();
+				});
+
+				require.wrap("model/messages", function (err, messages) {
+					messages.reset();
+				});
+
+				display.logout();
+			}
+		},
+
 		/** get the own user
 		* @param callback is called with the user object
 		* @author Nilos
