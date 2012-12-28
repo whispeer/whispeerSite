@@ -15,8 +15,6 @@ define(["jquery", "model/userManager", "asset/helper", "libs/step", "model/sessi
 				for (i = 0; i < friendsList.length; i += 1) {
 					friendsList[i].getName(this.parallel());
 				}
-
-				$("body").addClass("friendsView");
 			}), h.sF(function (theNames) {
 				var element = $("#friendsList");
 

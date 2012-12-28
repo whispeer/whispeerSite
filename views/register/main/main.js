@@ -9,7 +9,6 @@ define(["jquery", "display", "config", "asset/logger"], function ($, display, co
 		load: function (done) {
 			this.eventListener();
 
-			$("body").addClass("registerView");
 			$("nav").hide();
 			$("#mail").css("border-color", "").css("background-color", "").removeAttr("disabled");
 			$("#password").css("border-color", "").css("background-color", "").removeAttr("disabled");

@@ -10,7 +10,6 @@ ssn.display.media.videos = {
 	},
 	
 	load: function (done) {
-		$("body").addClass("mediaView");
 		ssn.display.media.videos.doLoad();
 		done();
 	},

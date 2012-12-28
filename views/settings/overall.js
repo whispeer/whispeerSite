@@ -4,7 +4,6 @@ define(["jquery"], function ($) {
 	var settings = {
 		load: function (done) {
 			done();
-			$("body").addClass("settingsView");
 		}
 	};
 

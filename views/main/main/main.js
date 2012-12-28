@@ -8,7 +8,6 @@ define(["jquery", "display", "config"], function ($, display, config) {
 		*/
 		load: function (done) {
 			this.eventListener();
-			$("body").addClass("mainView");
 
 			done();
 		},

@@ -1,4 +1,4 @@
-define(['jquery', 'display', 'model/storage', 'asset/logger', 'asset/helper', 'libs/step', "crypto/privateKey", "crypto/sessionKey", 'libs/jquery.json.min'], function ($, display, storage, logger, h, step, PrivateKey, SessionKey) {
+define(['jquery', 'display', 'model/storage', 'asset/logger', 'asset/helper', 'libs/step', "crypto/privateKey", "crypto/sessionKey", "model/state", 'libs/jquery.json.min'], function ($, display, storage, logger, h, step, PrivateKey, SessionKey, state) {
 	"use strict";
 
 	/** user loged in? */
@@ -165,6 +165,7 @@ define(['jquery', 'display', 'model/storage', 'asset/logger', 'asset/helper', 'l
 		/** get all data from localStorage */
 		getStorage: function () {
 			logedin = storage.getItem("logedin");
+			state.logedin = logedin;
 			identifier = storage.getItem("identifier");
 			password = storage.getItem("password");
 			sid = storage.getItem("session");
@@ -217,6 +218,7 @@ define(['jquery', 'display', 'model/storage', 'asset/logger', 'asset/helper', 'l
 										+ data.session);
 
 						logedin = true;
+						state.logedin = logedin;
 						identifier = identifierL;
 						password = passwordL;
 						sid = data.session;
@@ -248,6 +250,7 @@ define(['jquery', 'display', 'model/storage', 'asset/logger', 'asset/helper', 'l
 				storage.clear();
 
 				logedin = false;
+				state.logedin = logedin;
 				identifier = "";
 				password = "";
 				sid = "";

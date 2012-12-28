@@ -14,7 +14,6 @@ define(["jquery", "display", "asset/helper", "libs/step"], function ($, display,
 					friendsList[i].getName(this.parallel());
 				}
 
-				$("body").addClass("friendsView");
 			}), h.sF(function (theNames) {
 				var element = $("#friendsList");
 

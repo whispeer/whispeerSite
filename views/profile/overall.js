@@ -9,8 +9,6 @@ define(["jquery", "display", "asset/helper", "libs/step"], function ($, display,
 		* Hide big user picture
 		*/
 		load: function (done) {
-			$("body").addClass("profileView");
-
 			step(function () {
 				require.wrap(["model/session"], this);
 			}, h.sF(function (session) {

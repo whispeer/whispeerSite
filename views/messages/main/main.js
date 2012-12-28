@@ -9,7 +9,6 @@ ssn.display.messages.main = {
 				var scrollTop = $(this).scrollTop();
 				$(this).scrollTop(scrollTop - Math.round(delta));
 			});
-			$("body").addClass("messageView");
 			ssn.display.messages.main.doLoad();
 			done();
 	},
