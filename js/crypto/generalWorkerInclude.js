@@ -77,6 +77,7 @@ define(['asset/logger', 'asset/helper', 'libs/step'], function (logger, h, step)
 		MyWorker = function (workerid) {
 			var that = this;
 			var setup = true;
+			var time;
 
 			var theWorker = new Worker(path);
 
@@ -97,6 +98,7 @@ define(['asset/logger', 'asset/helper', 'libs/step'], function (logger, h, step)
 
 			this.postMessage = function (message, theListener) {
 				that.busy = true;
+				time = new Date().getTime();
 				listener = theListener;
 
 				theWorker.postMessage(message);
@@ -141,6 +143,7 @@ define(['asset/logger', 'asset/helper', 'libs/step'], function (logger, h, step)
 				}
 
 				if (typeof saveListener === "function") {
+					console.log("job finished after:" + (new Date().getTime() - time));
 					saveListener(null, event.data);
 				}
 			};

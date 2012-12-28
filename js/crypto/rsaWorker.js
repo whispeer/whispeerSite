@@ -90,9 +90,10 @@ require.wrap({baseUrl: "../"}, ["crypto/rsa", "libs/sjcl", "crypto/waitForReady"
 			self.postMessage(result);
 		};
 
-		if (!waitForReady(runner)) {
-			throw new Error("Entropy should be first message!" + sjcl.random.isReady());
-		}
+		runner();
+		//if (!waitForReady(runner)) {
+		//	throw new Error("Entropy should be first message!" + sjcl.random.isReady());
+		//}
 	};
 
 	self.postMessage("ready");
