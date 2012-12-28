@@ -5,6 +5,10 @@ var subView = process.argv[3];
 
 var fs = require('fs');
 
+function capitaliseFirstLetter(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
 if (typeof page === "string") {
 	if (!fs.existsSync("views/" + page)) {
 		fs.mkdirSync("views/" + page);
@@ -34,7 +38,7 @@ if (typeof page === "string") {
 		//create overall.js with right content ifn
 		if (!fs.existsSync("views/" + page + "/" + subView + "/" + subView + ".js")) {
 			var data = fs.readFileSync("views/subViewExample.js", 'utf8');
-			var data = data.replace(/\$NAME\$/g, subView + page);
+			var data = data.replace(/\$NAME\$/g, subView + capitaliseFirstLetter(page));
 			fs.writeFileSync("views/" + page + "/" + subView + "/" + subView + ".js", data);
 		}
 

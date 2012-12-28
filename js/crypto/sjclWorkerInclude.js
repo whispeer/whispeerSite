@@ -1,14 +1,20 @@
 define(['libs/step', 'crypto/generalWorkerInclude', 'crypto/waitForReady', 'asset/helper', 'libs/sjcl'], function (step, WorkerManager, waitForReady, h, sjcl) {
 	"use strict";
 
-	var addEntropy = function (theWorker, callback) {
-		step(function waitReady() {
-/*			waitForReady(this);
-		}, h.sF(function ready() {
-			theWorker.postMessage({randomNumber: sjcl.codec.hex.fromBits(sjcl.random.randomWords(16)), entropy: 1024}, this);
-		}), h.sF(function setupDone(event) {*/
-			this();
-		}, callback);
+	var addEntropy = {
+		setup: function (theWorker, callback) {
+			step(function waitReady() {
+			/*
+				waitForReady(this);
+			}, h.sF(function ready() {
+				theWorker.postMessage({randomNumber: sjcl.codec.hex.fromBits(sjcl.random.randomWords(16)), entropy: 1024}, this);
+			*/
+				this();
+			}, callback);
+		},
+		needData: function (event, worker) {
+			//TODO
+		}
 	};
 
 	var workers;
@@ -19,9 +25,9 @@ define(['libs/step', 'crypto/generalWorkerInclude', 'crypto/waitForReady', 'asse
 	}
 
 	var sjclWorker = {
-		encryptSJCLWorker: function (key, message, iv, callback) {
+		encryptSJCLWorker: function (key, message, iv, callback, important) {
 			step(function getFree() {
-				workers.getFreeWorker(this);
+				workers.getFreeWorker(this, !!important);
 			}, function (err, worker) {
 				if (err) {
 					throw err;
@@ -38,9 +44,9 @@ define(['libs/step', 'crypto/generalWorkerInclude', 'crypto/waitForReady', 'asse
 				this(null, result);
 			}, callback);
 		},
-		decryptSJCLWorker: function (key, message, iv, callback) {
+		decryptSJCLWorker: function (key, message, iv, callback, important) {
 			step(function getFree() {
-				workers.getFreeWorker(this);
+				workers.getFreeWorker(this, !!important);
 			}, function (err, worker) {
 				if (err) {
 					throw err;

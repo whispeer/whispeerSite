@@ -2,6 +2,7 @@ define(['asset/logger', 'asset/helper', 'libs/step'], function (logger, h, step)
 	"use strict";
 	var workerManager = function (path, numberOfWorkers, setupMethod) {
 		var workerWaitQueue = [];
+		var workerWaitQueueImportant = [];
 		var workerList = [];
 		var workersById = {};
 		var idCount = 0;
@@ -29,8 +30,12 @@ define(['asset/logger', 'asset/helper', 'libs/step'], function (logger, h, step)
 				newWorker.removeEventListener('error', fListener);
 				newWorker.removeEventListener('message', mListener);
 				if (event.data === "ready") {
-					if (typeof setupMethod === "function") {
-						setupMethod(newWorker, this);
+					if (typeof setupMethod === "object") {
+						if (typeof setupMethod.setup === "function") {
+							setupMethod.setup(newWorker, this);
+						} else {
+							this();
+						}
 					} else {
 						this();
 					}
@@ -57,9 +62,14 @@ define(['asset/logger', 'asset/helper', 'libs/step'], function (logger, h, step)
 		var signalFree = function (workerid) {
 			var worker = workersById[workerid];
 			if (typeof worker !== "undefined" && worker.busy === false) {
-				var waiter = workerWaitQueue.shift();
+				var waiter = workerWaitQueueImportant.shift();
 				if (typeof waiter === "function") {
 					waiter(null, worker);
+				} else {
+					waiter = workerWaitQueue.shift();
+					if (typeof waiter === "function") {
+						waiter(null, worker);
+					}
 				}
 			}
 		};
@@ -112,7 +122,16 @@ define(['asset/logger', 'asset/helper', 'libs/step'], function (logger, h, step)
 			};
 
 			theWorker.onmessage = function (event) {
-				console.log(event);
+				if (event.type === "log") {
+					console.log(event);
+					return;
+				}
+
+				if (event.type === "needData") {
+					setupMethod.needData(event, theWorker);
+					return;
+				}
+
 				var saveListener = listener;
 
 				that.busy = false;
@@ -127,22 +146,29 @@ define(['asset/logger', 'asset/helper', 'libs/step'], function (logger, h, step)
 			};
 		};
 
-		this.getFreeWorker = function (cb) {
+		this.getFreeWorker = function (cb, important) {
 			step(function checkForFree() {
 				var i;
 				for (i = 0; i < workerList.length; i += 1) {
 					if (workerList[i].busy === false) {
+						console.log("free worker found");
 						this.last(null, workerList[i]);
 						return;
 					}
 				}
 
 				if (workerList.length < numberOfWorkers) {
+					console.log("creating worker");
 					createWorker(this);
 					return;
 				}
 
-				workerWaitQueue.push(this);
+				console.log("pushing to wait queue");
+				if (important) {
+					workerWaitQueueImportant.push(this);
+				} else {
+					workerWaitQueue.push(this);
+				}
 			}, cb);
 		};
 	};
