@@ -1,0 +1,210 @@
+<div id="topicListWrap">
+	<ul id="topicList">
+		<li class="topic" id="newmessage">
+			<div class="left"><i class="icon-plus-circle" id="plusBtn"></i></div>
+			<div class="right">Neue Nachricht</div>
+		</li>
+		<div id="topicListScroll">
+			<li class="topic">
+				<div class="userimg"><img src="img/user.png" alt="Username" id="userid"></div>
+				<div class="username">Svenja Kenneweg</div>
+				<div class="lastmessage">Blubb</div>
+			</li>
+			<li class="topic">
+				<div class="userimg"><img src="img/user.png" alt="Username" id="userid"></div>
+				<div class="username">Svenja Kenneweg</div>
+				<div class="lastmessage">Blubb</div>
+			</li>
+			<li class="topic">
+				<div class="userimg"><img src="img/user.png" alt="Username" id="userid"></div>
+				<div class="username">Svenja Kenneweg</div>
+				<div class="lastmessage">Blubb</div>
+			</li>
+			<li class="topic">
+				<div class="userimg"><img src="img/user.png" alt="Username" id="userid"></div>
+				<div class="username">Svenja Kenneweg</div>
+				<div class="lastmessage">Blubb</div>
+			</li>
+			<li class="topic">
+				<div class="userimg"><img src="img/user.png" alt="Username" id="userid"></div>
+				<div class="username">Svenja Kenneweg</div>
+				<div class="lastmessage">Blubb</div>
+			</li>
+			<li class="topic">
+				<div class="userimg"><img src="img/user.png" alt="Username" id="userid"></div>
+				<div class="username">Svenja Kenneweg</div>
+				<div class="lastmessage">Blubb</div>
+			</li>
+			<li class="topic">
+				<div class="userimg"><img src="img/user.png" alt="Username" id="userid"></div>
+				<div class="username">Svenja Kenneweg</div>
+				<div class="lastmessage">Blubb</div>
+			</li>
+			<li class="topic">
+				<div class="userimg"><img src="img/user.png" alt="Username" id="userid"></div>
+				<div class="username">Svenja Kenneweg</div>
+				<div class="lastmessage">Blubb</div>
+			</li>
+			<li class="topic">
+				<div class="userimg"><img src="img/user.png" alt="Username" id="userid"></div>
+				<div class="username">Svenja Kenneweg</div>
+				<div class="lastmessage">Blubb</div>
+			</li>
+			<li class="topic">
+				<div class="userimg"><img src="img/user.png" alt="Username" id="userid"></div>
+				<div class="username">Svenja Kenneweg</div>
+				<div class="lastmessage">Blubb</div>
+			</li>
+			<li class="topic">
+				<div class="userimg"><img src="img/user.png" alt="Username" id="userid"></div>
+				<div class="username">Svenja Kenneweg</div>
+				<div class="lastmessage">Blubb</div>
+			</li>
+			<li class="topic">
+				<div class="userimg"><img src="img/user.png" alt="Username" id="userid"></div>
+				<div class="username">Svenja Kenneweg</div>
+				<div class="lastmessage">Blubb</div>
+			</li>
+			<li class="topic">
+				<div class="userimg"><img src="img/user.png" alt="Username" id="userid"></div>
+				<div class="username">Svenja Kenneweg</div>
+				<div class="lastmessage">Blubb</div>
+			</li>
+			<li class="topic">
+				<div class="userimg"><img src="img/user.png" alt="Username" id="userid"></div>
+				<div class="username">Svenja Kenneweg</div>
+				<div class="lastmessage">Blubb</div>
+			</li>
+			<li class="topic">
+				<div class="userimg"><img src="img/user.png" alt="Username" id="userid"></div>
+				<div class="username">Svenja Kenneweg</div>
+				<div class="lastmessage">Blubb</div>
+			</li>
+		</div>
+	</ul>
+</div>
+<div id="topicWrap" class="peerChat">
+	<div id="messageTitle">	
+		<h2>Svenja Kenneweg</h2>
+	</div>
+	<div id="messageWrap">
+		<ul class="scroll-pane" id="messageList">
+			<li class="message other" id="messageid">
+				<div class="user" id="userid"><img class="userimg" src="img/user.png" alt="Username"><span class="username">Svenja</span></div>
+				<div class="messageText" id="messageid">Lorem ipsum dolor sit amet.</div>
+			</li>
+			<li class="message me" id="messageid">
+				<div class="user" id="userid"><img class="userimg" src="img/user.png" alt="Username"><span class="username">Daniel</span></div>
+				<div class="messageText" id="messageid">Lorem ipsum dolor sit amet, consetetur sadipscing elitr.</div>
+			</li>
+			<li class="message other" id="messageid">
+				<div class="user" id="userid"><img class="userimg" src="img/user.png" alt="Username"><span class="username">Svenja</span></div>
+				<div class="messageText" id="messageid">Lorem ipsum dolor sit amet.</div>
+			</li>
+			<li class="message me" id="messageid">
+				<div class="user" id="userid"><img class="userimg" src="img/user.png" alt="Username"><span class="username">Daniel</span></div>
+				<div class="messageText" id="messageid">Lorem ipsum dolor sit amet, consetetur sadipscing elitr.</div>
+			</li>
+			<li class="message other" id="messageid">
+				<div class="user" id="userid"><img class="userimg" src="img/user.png" alt="Username"><span class="username">Svenja</span></div>
+				<div class="messageText" id="messageid">Lorem ipsum dolor sit amet.</div>
+			</li>
+			<li class="message me" id="messageid">
+				<div class="user" id="userid"><img class="userimg" src="img/user.png" alt="Username"><span class="username">Daniel</span></div>
+				<div class="messageText" id="messageid">Lorem ipsum dolor sit amet, consetetur sadipscing elitr.</div>
+			</li>
+			<li class="message other" id="messageid">
+				<div class="user" id="userid"><img class="userimg" src="img/user.png" alt="Username"><span class="username">Svenja</span></div>
+				<div class="messageText" id="messageid">Lorem ipsum dolor sit amet.</div>
+			</li>
+			<li class="message me" id="messageid">
+				<div class="user" id="userid"><img class="userimg" src="img/user.png" alt="Username"><span class="username">Daniel</span></div>
+				<div class="messageText" id="messageid">Lorem ipsum dolor sit amet, consetetur sadipscing elitr.</div>
+			</li>
+			<li class="message other" id="messageid">
+				<div class="user" id="userid"><img class="userimg" src="img/user.png" alt="Username"><span class="username">Svenja</span></div>
+				<div class="messageText" id="messageid">Lorem ipsum dolor sit amet.</div>
+			</li>
+			<li class="message me" id="messageid">
+				<div class="user" id="userid"><img class="userimg" src="img/user.png" alt="Username"><span class="username">Daniel</span></div>
+				<div class="messageText" id="messageid">Lorem ipsum dolor sit amet, consetetur sadipscing elitr.</div>
+			</li>
+			<li class="message other" id="messageid">
+				<div class="user" id="userid"><img class="userimg" src="img/user.png" alt="Username"><span class="username">Svenja</span></div>
+				<div class="messageText" id="messageid">Lorem ipsum dolor sit amet.</div>
+			</li>
+			<li class="message me" id="messageid">
+				<div class="user" id="userid"><img class="userimg" src="img/user.png" alt="Username"><span class="username">Daniel</span></div>
+				<div class="messageText" id="messageid">Lorem ipsum dolor sit amet, consetetur sadipscing elitr.</div>
+			</li>
+			<li class="message other" id="messageid">
+				<div class="user" id="userid"><img class="userimg" src="img/user.png" alt="Username"><span class="username">Svenja</span></div>
+				<div class="messageText" id="messageid">Lorem ipsum dolor sit amet.</div>
+			</li>
+			<li class="message me" id="messageid">
+				<div class="user" id="userid"><img class="userimg" src="img/user.png" alt="Username"><span class="username">Daniel</span></div>
+				<div class="messageText" id="messageid">Lorem ipsum dolor sit amet, consetetur sadipscing elitr.</div>
+			</li>
+			<li class="message other" id="messageid">
+				<div class="user" id="userid"><img class="userimg" src="img/user.png" alt="Username"><span class="username">Svenja</span></div>
+				<div class="messageText" id="messageid">Lorem ipsum dolor sit amet.</div>
+			</li>
+			<li class="message me" id="messageid">
+				<div class="user" id="userid"><img class="userimg" src="img/user.png" alt="Username"><span class="username">Daniel</span></div>
+				<div class="messageText" id="messageid">Lorem ipsum dolor sit amet, consetetur sadipscing elitr.</div>
+			</li>
+			<li class="message other" id="messageid">
+				<div class="user" id="userid"><img class="userimg" src="img/user.png" alt="Username"><span class="username">Svenja</span></div>
+				<div class="messageText" id="messageid">Lorem ipsum dolor sit amet.</div>
+			</li>
+			<li class="message me" id="messageid">
+				<div class="user" id="userid"><img class="userimg" src="img/user.png" alt="Username"><span class="username">Daniel</span></div>
+				<div class="messageText" id="messageid">Lorem ipsum dolor sit amet, consetetur sadipscing elitr.</div>
+			</li>
+			<li class="message other" id="messageid">
+				<div class="user" id="userid"><img class="userimg" src="img/user.png" alt="Username"><span class="username">Svenja</span></div>
+				<div class="messageText" id="messageid">Lorem ipsum dolor sit amet.</div>
+			</li>
+			<li class="message me" id="messageid">
+				<div class="user" id="userid"><img class="userimg" src="img/user.png" alt="Username"><span class="username">Daniel</span></div>
+				<div class="messageText" id="messageid">Lorem ipsum dolor sit amet, consetetur sadipscing elitr.</div>
+			</li>
+			<li class="message other" id="messageid">
+				<div class="user" id="userid"><img class="userimg" src="img/user.png" alt="Username"><span class="username">Svenja</span></div>
+				<div class="messageText" id="messageid">Lorem ipsum dolor sit amet.</div>
+			</li>
+			<li class="message me" id="messageid">
+				<div class="user" id="userid"><img class="userimg" src="img/user.png" alt="Username"><span class="username">Daniel</span></div>
+				<div class="messageText" id="messageid">Lorem ipsum dolor sit amet, consetetur sadipscing elitr.</div>
+			</li>
+			<li class="message other" id="messageid">
+				<div class="user" id="userid"><img class="userimg" src="img/user.png" alt="Username"><span class="username">Svenja</span></div>
+				<div class="messageText" id="messageid">Lorem ipsum dolor sit amet.</div>
+			</li>
+			<li class="message me" id="messageid">
+				<div class="user" id="userid"><img class="userimg" src="img/user.png" alt="Username"><span class="username">Daniel</span></div>
+				<div class="messageText" id="messageid">Lorem ipsum dolor sit amet, consetetur sadipscing elitr.</div>
+			</li>
+			<li class="message other" id="messageid">
+				<div class="user" id="userid"><img class="userimg" src="img/user.png" alt="Username"><span class="username">Svenja</span></div>
+				<div class="messageText" id="messageid">Lorem ipsum dolor sit amet.</div>
+			</li>
+			<li class="message me" id="messageid">
+				<div class="user" id="userid"><img class="userimg" src="img/user.png" alt="Username"><span class="username">Daniel</span></div>
+				<div class="messageText" id="messageid">Lorem ipsum dolor sit amet, consetetur sadipscing elitr.</div>
+			</li>
+			<li class="message other" id="messageid">
+				<div class="user" id="userid"><img class="userimg" src="img/user.png" alt="Username"><span class="username">Svenja</span></div>
+				<div class="messageText" id="messageid">Lorem ipsum dolor sit amet.</div>
+			</li>
+			<li class="message me" id="messageid">
+				<div class="user" id="userid"><img class="userimg" src="img/user.png" alt="Username"><span class="username">Daniel</span></div>
+				<div class="messageText" id="messageid">Lorem ipsum dolor sit amet, consetetur sadipscing elitr.</div>
+			</li>
+		</ul>	
+		<form id="inputWrap">
+			<textarea id="messageInput" type="text" placeholder="Gebe deine Nachricht ein!"></textarea>
+			<button class="btn btn-success" id="sendmessage" type="submit">Senden</button>		
+		</form>
+	</div>
+</div>

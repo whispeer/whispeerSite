@@ -1,4 +1,6 @@
 <li><a subview="main">Eingang</a></li>
 
 <li><a subview="search">Nachricht suchen</a></li>
-<li><a subview="send">Neue Nachricht</a></li><li><a subview="messages2">messages2</a></li>
+<li><a subview="send">Neue Nachricht</a></li>
+<li><a subview="messages">Peer-Peer</a></li>
+<li><a subview="messages2">Group</a></li>

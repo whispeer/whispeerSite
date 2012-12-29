@@ -143,7 +143,10 @@ define(['asset/logger', 'asset/helper', 'libs/step'], function (logger, h, step)
 				}
 
 				if (typeof saveListener === "function") {
-					console.log("job finished after:" + (new Date().getTime() - time));
+					var diff = (new Date().getTime() - time);
+					if (diff > 10) {
+						console.log("job finished after:" + diff);
+					}
 					saveListener(null, event.data);
 				}
 			};
@@ -154,19 +157,16 @@ define(['asset/logger', 'asset/helper', 'libs/step'], function (logger, h, step)
 				var i;
 				for (i = 0; i < workerList.length; i += 1) {
 					if (workerList[i].busy === false) {
-						console.log("free worker found");
 						this.last(null, workerList[i]);
 						return;
 					}
 				}
 
 				if (workerList.length < numberOfWorkers) {
-					console.log("creating worker");
 					createWorker(this);
 					return;
 				}
 
-				console.log("pushing to wait queue");
 				if (important) {
 					workerWaitQueueImportant.push(this);
 				} else {
