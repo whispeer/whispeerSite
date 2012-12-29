@@ -120,7 +120,7 @@ define(["jquery", "display", "libs/step", "model/messages", "asset/helper"], fun
 					receiverNames = names.join(", ");
 				}
 
-				var messageHTML = '<li class="topic"><div class="userimg"><img alt="Userimage" src="img/user.png"></div><div class="username"></div><div class="lastmessage"></div><div class="clear-fix"></div></li>';
+				var messageHTML = '<li class="topic"><div class="left"><img alt="Userimage" src="img/user.png" class="userimg"></div><div class="username"></div><div class="lastmessage"></div><div class="clear-fix"></div></li>';
 				var ele = $(messageHTML);
 				ele.find(".username").text(receiverNames);
 				ele.find(".lastmessage").text(text);
