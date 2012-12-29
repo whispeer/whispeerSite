@@ -1734,6 +1734,7 @@ input[type="submit"].btn.btn-mini {
   background-clip: padding-box;
   margin-bottom: 5px;
   border-bottom: 1px solid #333;
+  *zoom: 1;
 }
 .messagesView #topicListWrap #topicList .topic .userimg {
   display: inline;
