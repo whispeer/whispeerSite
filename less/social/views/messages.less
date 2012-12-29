@@ -10,11 +10,15 @@
 		margin-right: 3px;
 		#topicList {
 			height: 420px;
-			overflow: auto !important;
 			.unstyled;
+			#topicListScroll {
+				overflow: auto !important;
+				height: 400px;
+			}
 			.topic {
 				.border-radius(5px);
 				margin-bottom: 5px;
+				border-bottom: 1px solid #333;
 				.userimg {
 					.column(1,2);
 				}
@@ -42,55 +46,100 @@
 		}
 	}
 	#topicWrap {
-		border-left: 1px solid #333;
-		.column(5,7);
-		#messageTitle {
-			padding-left: 10px;
-		}
-		#messageList {
-			.unstyled;
-			overflow: auto !important;
-			height: 300px;
-			.message {
-				.column(5,5);
-				margin-bottom: 5px;
-				.user {
-					padding-left: 10px;
-					.row(5);
-					.box-fix;
-					.userimg {
-						float: left;
-					}
-					.username {
-						display: block;
-						padding-top: 10px;
-					}
-				}
-				.messageText {
-					padding: 0px 10px 10px 10px;
-				}
-				&.me {
-					color: lighten(@green, 5%);
-					text-align: right;
+		&.peerChat {
+			//border-left: 1px solid #333;
+			.column(5,7);
+			#messageTitle {
+				padding-left: 10px;
+			}
+			#messageList {
+				.unstyled;
+				overflow: auto !important;
+				height: 300px;
+				.message {
+					.column(5,5);
+					margin-bottom: 5px;
+					.clear-fix;
 					.user {
-						padding-left: 0;
+						padding-left: 10px;
+						.box-fix;
 						.userimg {
-							float: right;
-							padding-right: 10px;
+							float: left;
+						}
+						.username {
+							display: none;
 						}
 					}
 					.messageText {
-						text-align: left;
+						padding: 15px 10px 10px 10px;
+						float: left;
+						position: relative;
 					}
-					background-color: darken(@white, 5%);
-					.border-radius(6px);
+					&.me {
+						color: lighten(@green, 5%);
+						text-align: right;
+						.border-radius(6px);
+						.user {
+							padding-left: 0;
+							.userimg {
+								float: right;
+								padding-right: 10px;
+								display: block;
+							}
+						}
+					}
+					&.other {
+						.border-radius(6px);
+						color: #4e4e4e;
+					}
 				}
-				&.other {
-					background-color: rgba(105,228,0,0.1);
-					.border-radius(6px);
-					color: #4e4e4e;
-				}
+			}		
+		}	
+		&.groupChat {
+			//border-left: 1px solid #333;
+			.column(5,7);
+			#messageTitle {
+				padding-left: 10px;
 			}
+			#messageList {
+				.unstyled;
+				overflow: auto !important;
+				height: 300px;
+				.message {
+					.column(5,5);
+					margin-bottom: 5px;
+					.clear-fix;
+					.user {
+						padding-left: 10px;
+						.box-fix;
+						.userimg {
+							float: left;
+						}
+						.username {
+							display: block;
+							padding-top: 10px;
+						}
+					}
+					.messageText {
+						//padding: 0px 10px 10px 10px;
+						float: left;
+						display: block;
+						padding: -10px 0px 0px 10px;
+					}
+					&.me {
+						color: lighten(@green, 5%);
+						.border-radius(6px);
+						.messageText {
+							text-align: left;
+						}
+					}
+					}
+					&.other {
+						.border-radius(6px);
+						color: #4e4e4e;
+					}
+				}
+			}		
 		}
 	}
 }

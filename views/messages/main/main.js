@@ -1,15 +1,18 @@
-ssn.display.messages.main = {
-	topic: null,
-	receiver: null,
-	lastSender: 0,
+define(["jquery", "libs/jquery.mousewheel.min", "libs/jquery.jscrollpane.min"], function ($) {
+	"use strict";
 
-	load: function (done) {
-			$("#sendMessageSubmit").val(ssn.translation.getValue("sendMessage")).click(ssn.display.messages.main.sendMessageFunc);
-			$(".messageul").bind("mousewheel", function (ev, delta) {
-				var scrollTop = $(this).scrollTop();
-				$(this).scrollTop(scrollTop - Math.round(delta));
-			});
-			ssn.display.messages.main.doLoad();
+	var mainMessages = {
+		load: function (done) {
+			//$('.scroll-pane').jScrollPane();
 			done();
-	},
-}
+		},
+		unload: function (done) {
+			done();
+		},
+		hashChange: function (done) {
+			done();
+		}
+	};
+
+	return mainMessages;
+});

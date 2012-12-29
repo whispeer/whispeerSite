@@ -566,6 +566,13 @@ body #loading {
   display: none;
   text-align: center;
 }
+body nav,
+body .nav-icons,
+body .search,
+body .sidebar,
+body .modal {
+  display: none;
+}
 .mainView #main,
 .messageView #main,
 .friendsView #main,
@@ -1711,9 +1718,12 @@ input[type="submit"].btn.btn-mini {
 }
 .messagesView #topicListWrap #topicList {
   height: 420px;
-  overflow: auto !important;
   margin-left: 0;
   list-style: none;
+}
+.messagesView #topicListWrap #topicList #topicListScroll {
+  overflow: auto !important;
+  height: 400px;
 }
 .messagesView #topicListWrap #topicList .topic {
   -webkit-border-radius: 5px;
@@ -1723,6 +1733,7 @@ input[type="submit"].btn.btn-mini {
   -webkit-background-clip: padding-box;
   background-clip: padding-box;
   margin-bottom: 5px;
+  border-bottom: 1px solid #333;
 }
 .messagesView #topicListWrap #topicList .topic .userimg {
   display: inline;
@@ -1760,8 +1771,7 @@ input[type="submit"].btn.btn-mini {
   /* Opera/IE 8+ */
 
 }
-.messagesView #topicWrap {
-  border-left: 1px solid #333;
+.messagesView #topicWrap.peerChat {
   display: inline;
   float: left;
   width: 67.85714285714286%;
@@ -1769,16 +1779,16 @@ input[type="submit"].btn.btn-mini {
   *width: 67.80505952380953%;
   *margin: 0 1.7336309523809523%;
 }
-.messagesView #topicWrap #messageTitle {
+.messagesView #topicWrap.peerChat #messageTitle {
   padding-left: 10px;
 }
-.messagesView #topicWrap #messageList {
+.messagesView #topicWrap.peerChat #messageList {
   margin-left: 0;
   list-style: none;
   overflow: auto !important;
   height: 300px;
 }
-.messagesView #topicWrap #messageList .message {
+.messagesView #topicWrap.peerChat #messageList .message {
   display: inline;
   float: left;
   width: 95%;
@@ -1786,15 +1796,10 @@ input[type="submit"].btn.btn-mini {
   *width: 94.94791666666667%;
   *margin: 0 2.4479166666666665%;
   margin-bottom: 5px;
-}
-.messagesView #topicWrap #messageList .message .user {
-  padding-left: 10px;
-  display: block;
-  width: 105%;
-  margin: 0 -2.5%;
-  *width: 104.94791666666667%;
-  *margin: 0 -2.5520833333333335%;
   *zoom: 1;
+}
+.messagesView #topicWrap.peerChat #messageList .message .user {
+  padding-left: 10px;
   -webkit-box-sizing: border-box;
   /* Safari/Chrome, other WebKit */
 
@@ -1805,28 +1810,20 @@ input[type="submit"].btn.btn-mini {
   /* Opera/IE 8+ */
 
 }
-.messagesView #topicWrap #messageList .message .user:before,
-.messagesView #topicWrap #messageList .message .user:after {
-  content: "";
-  display: table;
-}
-.messagesView #topicWrap #messageList .message .user:after {
-  clear: both;
-}
-.messagesView #topicWrap #messageList .message .user .userimg {
+.messagesView #topicWrap.peerChat #messageList .message .user .userimg {
   float: left;
 }
-.messagesView #topicWrap #messageList .message .user .username {
-  display: block;
-  padding-top: 10px;
+.messagesView #topicWrap.peerChat #messageList .message .user .username {
+  display: none;
 }
-.messagesView #topicWrap #messageList .message .messageText {
-  padding: 0px 10px 10px 10px;
+.messagesView #topicWrap.peerChat #messageList .message .messageText {
+  padding: 15px 10px 10px 10px;
+  float: left;
+  position: relative;
 }
-.messagesView #topicWrap #messageList .message.me {
+.messagesView #topicWrap.peerChat #messageList .message.me {
   color: #63b700;
   text-align: right;
-  background-color: #f2f2f2;
   -webkit-border-radius: 6px;
   -moz-border-radius: 6px;
   border-radius: 6px;
@@ -1834,18 +1831,87 @@ input[type="submit"].btn.btn-mini {
   -webkit-background-clip: padding-box;
   background-clip: padding-box;
 }
-.messagesView #topicWrap #messageList .message.me .user {
+.messagesView #topicWrap.peerChat #messageList .message.me .user {
   padding-left: 0;
 }
-.messagesView #topicWrap #messageList .message.me .user .userimg {
+.messagesView #topicWrap.peerChat #messageList .message.me .user .userimg {
   float: right;
   padding-right: 10px;
+  display: block;
 }
-.messagesView #topicWrap #messageList .message.me .messageText {
+.messagesView #topicWrap.peerChat #messageList .message.other {
+  -webkit-border-radius: 6px;
+  -moz-border-radius: 6px;
+  border-radius: 6px;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  color: #4e4e4e;
+}
+.messagesView #topicWrap.groupChat {
+  display: inline;
+  float: left;
+  width: 67.85714285714286%;
+  margin: 0 1.7857142857142856%;
+  *width: 67.80505952380953%;
+  *margin: 0 1.7336309523809523%;
+}
+.messagesView #topicWrap.groupChat #messageTitle {
+  padding-left: 10px;
+}
+.messagesView #topicWrap.groupChat #messageList {
+  margin-left: 0;
+  list-style: none;
+  overflow: auto !important;
+  height: 300px;
+}
+.messagesView #topicWrap.groupChat #messageList .message {
+  display: inline;
+  float: left;
+  width: 95%;
+  margin: 0 2.5%;
+  *width: 94.94791666666667%;
+  *margin: 0 2.4479166666666665%;
+  margin-bottom: 5px;
+  *zoom: 1;
+}
+.messagesView #topicWrap.groupChat #messageList .message .user {
+  padding-left: 10px;
+  -webkit-box-sizing: border-box;
+  /* Safari/Chrome, other WebKit */
+
+  -moz-box-sizing: border-box;
+  /* Firefox, other Gecko */
+
+  box-sizing: border-box;
+  /* Opera/IE 8+ */
+
+}
+.messagesView #topicWrap.groupChat #messageList .message .user .userimg {
+  float: left;
+}
+.messagesView #topicWrap.groupChat #messageList .message .user .username {
+  display: block;
+  padding-top: 10px;
+}
+.messagesView #topicWrap.groupChat #messageList .message .messageText {
+  float: left;
+  display: block;
+  padding: -10px 0px 0px 10px;
+}
+.messagesView #topicWrap.groupChat #messageList .message.me {
+  color: #63b700;
+  -webkit-border-radius: 6px;
+  -moz-border-radius: 6px;
+  border-radius: 6px;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+}
+.messagesView #topicWrap.groupChat #messageList .message.me .messageText {
   text-align: left;
 }
-.messagesView #topicWrap #messageList .message.other {
-  background-color: rgba(105, 228, 0, 0.1);
+.messagesView #topicWrap.groupChat #messageList.other {
   -webkit-border-radius: 6px;
   -moz-border-radius: 6px;
   border-radius: 6px;
