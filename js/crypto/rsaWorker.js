@@ -1,3 +1,9 @@
+var data = {};
+var d;
+for (d in self) {
+	data[d] = typeof self[d];
+}
+
 importScripts("../libs/require.js");
 
 require.wrap({baseUrl: "../"}, ["crypto/rsa", "libs/sjcl", "crypto/waitForReady", "crypto/jsbn", "crypto/jsbn2"], function (err, RSA, sjcl, waitForReady, BigInteger) {
