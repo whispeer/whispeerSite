@@ -1,8 +1,12 @@
-var data = {};
-var d;
+//var d = typeof self["name"];
+/*
 for (d in self) {
-	data[d] = typeof self[d];
-}
+	if (counter == 3) {
+		//data[d] = typeof self[d];
+		throw new Error(d);
+	}
+	counter ++;
+}*/
 
 importScripts("../libs/require.js");
 

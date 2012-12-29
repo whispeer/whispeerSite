@@ -566,13 +566,6 @@ body #loading {
   display: none;
   text-align: center;
 }
-body nav,
-body .nav-icons,
-body .search,
-body .sidebar,
-body .modal {
-  display: none;
-}
 .mainView #main,
 .messageView #main,
 .friendsView #main,
@@ -1454,6 +1447,9 @@ input[type="submit"].btn.btn-mini {
 .registerView #main {
   text-align: center;
 }
+.registerView #logo {
+  margin: 0 auto;
+}
 .registerView #loginform,
 .registerView #registerform {
   width: 200px;
@@ -1734,15 +1730,9 @@ input[type="submit"].btn.btn-mini {
   background-clip: padding-box;
   margin-bottom: 5px;
   border-bottom: 1px solid #333;
-  *zoom: 1;
 }
 .messagesView #topicListWrap #topicList .topic .userimg {
-  display: inline;
-  float: left;
-  width: 37.5%;
-  margin: 0 6.25%;
-  *width: 37.447916666666664%;
-  *margin: 0 6.197916666666667%;
+  width: 40px;
 }
 .messagesView #topicListWrap #topicList .topic .username {
   font-size: 1em;

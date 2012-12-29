@@ -5,80 +5,65 @@
 			<div class="right">Neue Nachricht</div>
 		</li>
 		<div id="topicListScroll">
-			<li class="topic">
-				<div class="userimg"><img src="img/user.png" alt="Username" id="userid"></div>
+						<li class="topic">
+				<div class="left"><img src="img/user.png" alt="Username" id="userid" class="userimg"></div>
 				<div class="username">Svenja Kenneweg</div>
 				<div class="lastmessage">Blubb</div>
+				<div class="clear-fix"></div>
 			</li>
 			<li class="topic">
-				<div class="userimg"><img src="img/user.png" alt="Username" id="userid"></div>
+				<div class="left"><img src="img/user.png" alt="Username" id="userid" class="userimg"></div>
 				<div class="username">Svenja Kenneweg</div>
 				<div class="lastmessage">Blubb</div>
+				<div class="clear-fix"></div>
 			</li>
 			<li class="topic">
-				<div class="userimg"><img src="img/user.png" alt="Username" id="userid"></div>
+				<div class="left"><img src="img/user.png" alt="Username" id="userid" class="userimg"></div>
 				<div class="username">Svenja Kenneweg</div>
 				<div class="lastmessage">Blubb</div>
+				<div class="clear-fix"></div>
 			</li>
 			<li class="topic">
-				<div class="userimg"><img src="img/user.png" alt="Username" id="userid"></div>
+				<div class="left"><img src="img/user.png" alt="Username" id="userid" class="userimg"></div>
 				<div class="username">Svenja Kenneweg</div>
 				<div class="lastmessage">Blubb</div>
+				<div class="clear-fix"></div>
 			</li>
 			<li class="topic">
-				<div class="userimg"><img src="img/user.png" alt="Username" id="userid"></div>
+				<div class="left"><img src="img/user.png" alt="Username" id="userid" class="userimg"></div>
 				<div class="username">Svenja Kenneweg</div>
 				<div class="lastmessage">Blubb</div>
+				<div class="clear-fix"></div>
 			</li>
 			<li class="topic">
-				<div class="userimg"><img src="img/user.png" alt="Username" id="userid"></div>
+				<div class="left"><img src="img/user.png" alt="Username" id="userid" class="userimg"></div>
 				<div class="username">Svenja Kenneweg</div>
 				<div class="lastmessage">Blubb</div>
+				<div class="clear-fix"></div>
 			</li>
 			<li class="topic">
-				<div class="userimg"><img src="img/user.png" alt="Username" id="userid"></div>
+				<div class="left"><img src="img/user.png" alt="Username" id="userid" class="userimg"></div>
 				<div class="username">Svenja Kenneweg</div>
 				<div class="lastmessage">Blubb</div>
+				<div class="clear-fix"></div>
 			</li>
 			<li class="topic">
-				<div class="userimg"><img src="img/user.png" alt="Username" id="userid"></div>
+				<div class="left"><img src="img/user.png" alt="Username" id="userid" class="userimg"></div>
 				<div class="username">Svenja Kenneweg</div>
 				<div class="lastmessage">Blubb</div>
+				<div class="clear-fix"></div>
 			</li>
 			<li class="topic">
-				<div class="userimg"><img src="img/user.png" alt="Username" id="userid"></div>
+				<div class="left"><img src="img/user.png" alt="Username" id="userid" class="userimg"></div>
 				<div class="username">Svenja Kenneweg</div>
 				<div class="lastmessage">Blubb</div>
+				<div class="clear-fix"></div>
 			</li>
 			<li class="topic">
-				<div class="userimg"><img src="img/user.png" alt="Username" id="userid"></div>
+				<div class="left"><img src="img/user.png" alt="Username" id="userid" class="userimg"></div>
 				<div class="username">Svenja Kenneweg</div>
 				<div class="lastmessage">Blubb</div>
-			</li>
-			<li class="topic">
-				<div class="userimg"><img src="img/user.png" alt="Username" id="userid"></div>
-				<div class="username">Svenja Kenneweg</div>
-				<div class="lastmessage">Blubb</div>
-			</li>
-			<li class="topic">
-				<div class="userimg"><img src="img/user.png" alt="Username" id="userid"></div>
-				<div class="username">Svenja Kenneweg</div>
-				<div class="lastmessage">Blubb</div>
-			</li>
-			<li class="topic">
-				<div class="userimg"><img src="img/user.png" alt="Username" id="userid"></div>
-				<div class="username">Svenja Kenneweg</div>
-				<div class="lastmessage">Blubb</div>
-			</li>
-			<li class="topic">
-				<div class="userimg"><img src="img/user.png" alt="Username" id="userid"></div>
-				<div class="username">Svenja Kenneweg</div>
-				<div class="lastmessage">Blubb</div>
-			</li>
-			<li class="topic">
-				<div class="userimg"><img src="img/user.png" alt="Username" id="userid"></div>
-				<div class="username">Svenja Kenneweg</div>
-				<div class="lastmessage">Blubb</div>
+				<div class="clear-fix"></div>
 			</li>
 		</div>
 	</ul>
