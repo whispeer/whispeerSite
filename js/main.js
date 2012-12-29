@@ -1,4 +1,4 @@
-define(['jquery', 'asset/logger', 'asset/helper', 'libs/step', 'model/state'], function ($, logger, h, step, state) {
+define(['jquery', 'asset/logger', 'asset/helper', 'libs/step', 'model/state', 'display', 'model/session'], function ($, logger, h, step, state, display, session) {
 	"use strict";
 
 	require(['libs/sjcl'], function (sjcl) {
@@ -12,8 +12,8 @@ define(['jquery', 'asset/logger', 'asset/helper', 'libs/step', 'model/state'], f
 	var load = function () {
 		step(function startUpLoad() {
 			logger.log("Starting up");
-			require.wrap(['display', 'model/session', 'asset/i18n'], this);
-		}, h.sF(function depsLoaded(display, session, i18n) {
+			require.wrap(['asset/i18n'], this);
+		}, h.sF(function depsLoaded(i18n) {
 			display.load();
 
 			//Local storage available?

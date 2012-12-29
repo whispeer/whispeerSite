@@ -442,6 +442,12 @@ define(['jquery', 'libs/step', 'asset/logger', 'model/state', 'asset/helper', 'c
 				$("#loading").hide();
 				$("#main").show();
 				logger.timeEnd("loadView");
+				if (!Modernizr.input.placeholder) {
+					require.wrap("libs/jquery.placeholder.min", this);
+				}
+			}, function (err) {
+				$('input[placeholder], textarea[placeholder]').placeholder();
+				console.log(err);		
 			});
 		},
 
