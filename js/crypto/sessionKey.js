@@ -76,7 +76,7 @@ define(['jquery', 'libs/sjcl', 'crypto/jsbn', 'asset/logger', 'config', 'asset/h
 					} else if (privateKey instanceof SessionKey) {
 						logger.log("decryptKey Sym", logger.NOTICE);
 						step(function () {
-							if (typeof sessionKey !== "object") {
+							if (typeof sessionKey === "object") {
 								sessionKey = $.toJSON(sessionKey);
 							}
 

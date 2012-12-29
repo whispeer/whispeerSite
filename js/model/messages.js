@@ -544,7 +544,7 @@ define(["jquery", "asset/helper", "libs/step", "model/userManager", "model/sessi
 		* @param start optional - offset to start at
 		* @param count optional - number of records to request
 		* @author Nilos
-		* @callback topic objects (array).
+		* @callback message objects (array).
 		*/
 		getLatestTopics: function (callback, start, count) {
 			step(function getLatestTopicsSetup() {

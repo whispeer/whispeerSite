@@ -124,12 +124,12 @@ define(['asset/logger', 'asset/helper', 'libs/step'], function (logger, h, step)
 			};
 
 			theWorker.onmessage = function (event) {
-				if (event.type === "log") {
+				if (event.data.type === "log") {
 					console.log(event);
 					return;
 				}
 
-				if (event.type === "needData") {
+				if (event.data.type === "needData") {
 					setupMethod.needData(event, theWorker);
 					return;
 				}

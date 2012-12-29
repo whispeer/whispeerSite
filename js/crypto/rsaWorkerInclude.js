@@ -1,27 +1,28 @@
-define(['libs/step', 'crypto/generalWorkerInclude', 'crypto/waitForReady', 'asset/helper', 'libs/sjcl'], function (step, WorkerManager, waitForReady, h, sjcl) {
+define(['libs/step', 'crypto/generalWorkerInclude', 'crypto/waitForReadyDisplay', 'asset/helper', 'libs/sjcl'], function (step, WorkerManager, waitForReady, h, sjcl) {
 	"use strict";
 
 	var addEntropy = {
 		setup: function (theWorker, callback) {
 			step(function waitReady() {
-			/*
-				waitForReady(this);
-			}, h.sF(function ready() {
-				theWorker.postMessage({randomNumber: sjcl.codec.hex.fromBits(sjcl.random.randomWords(16)), entropy: 1024}, this);
-			*/
 				this();
 			}, callback);
 		},
 		needData: function (event, worker) {
-			//TODO
+			if (event.data.needed === "entropy") {
+				waitForReady(function () {
+					worker.postMessage({randomNumber: sjcl.codec.hex.fromBits(sjcl.random.randomWords(16)), entropy: 1024}, this);
+				});
+			} else if (event.data.done === "entropy") {
+				console.log("entropy done!");
+			}
 		}
 	};
 
 	var workers;
 	if (window.location.href.indexOf("/tests") > -1) {
-		workers = new WorkerManager('../crypto/rsaWorker.js', 4, addEntropy);
+		workers = new WorkerManager('../crypto/rsaWorker.js', 2, addEntropy);
 	} else {
-		workers = new WorkerManager('js/crypto/rsaWorker.js', 4, addEntropy);
+		workers = new WorkerManager('js/crypto/rsaWorker.js', 2, addEntropy);
 	}
 
 	var rsaWorker = {
