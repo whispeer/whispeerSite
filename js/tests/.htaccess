@@ -1,0 +1,4 @@
+<ifModule mod_headers.c>
+	Header set X-Content-Security-Policy ""
+	Header set X-WebKit-CSP ""
+</ifModule>

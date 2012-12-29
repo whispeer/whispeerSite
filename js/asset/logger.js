@@ -61,6 +61,18 @@ define(['jquery'], function (jQuery) {
 			}
 		},
 
+		time: function (label) {
+			if (console.time) {
+				console.time(label);
+			}
+		},
+		
+		timeEnd: function (label) {
+			if (console.timeEnd) {
+				console.timeEnd(label);
+			}
+		},
+
 		/** mark a new section in the logging 
 		* @param theHeading text for new section
 		* @author Nilos

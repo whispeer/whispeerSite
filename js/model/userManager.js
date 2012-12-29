@@ -179,7 +179,7 @@ define(['jquery', 'asset/logger', 'asset/helper', 'asset/exceptions', 'config', 
 		*/
 		this.getName = function (callback) {
 			h.callback(callback);
-			console.time("getName");
+			logger.time("getName");
 			step(function loadData() {
 				theUser.getValue("firstName", this.parallel());
 				theUser.getValue("lastName", this.parallel());
@@ -187,7 +187,7 @@ define(['jquery', 'asset/logger', 'asset/helper', 'asset/exceptions', 'config', 
 				var firstName = data[0];
 				var lastName = data[1];
 				if (firstName !== "" || lastName !== "") {
-					console.timeEnd("getName");
+					logger.timeEnd("getName");
 					this.last.ne(firstName + " " + lastName);
 					return;
 				}

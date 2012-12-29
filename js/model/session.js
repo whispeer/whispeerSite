@@ -51,7 +51,7 @@ define(['jquery', 'display', 'model/storage', 'asset/logger', 'asset/helper', 'l
 
 		/** Called when we logged in / restore our old session. */
 		loadData: function () {
-			console.time("loadData");
+			logger.time("loadData");
 			var u, userManager, display;
 			step(function getDisplay() {
 				$("#main").hide();
@@ -99,7 +99,7 @@ define(['jquery', 'display', 'model/storage', 'asset/logger', 'asset/helper', 'l
 
 				require.wrap("model/state", this);
 			}), function loadingDone(err, state) {
-				console.timeEnd("loadData");
+				logger.timeEnd("loadData");
 				if (err) {
 					console.log(err);
 					throw err;

@@ -629,7 +629,7 @@ define(["jquery", "asset/helper", "libs/step", "model/userManager", "model/sessi
 		* @author Nilos
 		*/
 		getMessagesTeReSe: function (m, callback) {
-			console.time("TeReSe");
+			logger.time("TeReSe");
 			step(function teReSe1() {
 				var i = 0;
 				for (i = 0; i < m.length; i += 1) {
@@ -650,7 +650,7 @@ define(["jquery", "asset/helper", "libs/step", "model/userManager", "model/sessi
 					};
 				}
 
-				console.timeEnd("TeReSe");
+				logger.timeEnd("TeReSe");
 				this.ne(result);
 			}), callback);
 		}
