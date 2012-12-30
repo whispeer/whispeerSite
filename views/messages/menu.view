@@ -3,4 +3,4 @@
 <li><a subview="search">Nachricht suchen</a></li>
 <li><a subview="send">Neue Nachricht</a></li>
 <li><a subview="messages">Peer-Peer</a></li>
-<li><a subview="messages2">Group</a></li>
+<li><a subview="messages2">Group</a></li><li><a subview="newMessage">newMessage</a></li>

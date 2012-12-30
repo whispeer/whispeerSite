@@ -1,0 +1,22 @@
+<div id="topicListWrap">
+	<ul id="topicList">
+		<li class="topic" id="newmessage">
+			<div class="left"><i class="icon-plus-circle" id="plusBtn"></i></div>
+			<div class="right">Neue Nachricht</div>
+		</li>
+		<div id="topicListScroll">
+		</div>
+	</ul>
+</div>
+<div id="topicWrap" class="newMessage">
+	<div id="messageTitle">	
+		<h2>Neue Nachricht</h2>
+	</div>
+	<div id="messageWrap">	
+		<form id="inputWrap">
+			<input type="text" placeholder="Wer soll die Nachricht empfangen?" id="recieverInput">
+			<textarea type="text" placeholder="Gebe deine Nachricht ein!" id="messageInput"></textarea>
+			<button class="btn btn-success" id="sendmessage" type="submit">Senden</button>		
+		</form>
+	</div>
+</div>

@@ -1913,6 +1913,27 @@ input[type="submit"].btn.btn-mini {
   background-clip: padding-box;
   color: #4e4e4e;
 }
+.messagesView #topicWrap.newMessage {
+  display: inline;
+  float: left;
+  width: 67.85714285714286%;
+  margin: 0 1.7857142857142856%;
+  *width: 67.80505952380953%;
+  *margin: 0 1.7336309523809523%;
+}
+.messagesView #topicWrap.newMessage #recieverInput,
+.messagesView #topicWrap.newMessage #messageInput {
+  display: inline;
+  float: left;
+  width: 95%;
+  margin: 0 2.5%;
+  *width: 94.94791666666667%;
+  *margin: 0 2.4479166666666665%;
+  margin-bottom: 5px;
+}
+.messagesView #topicWrap.newMessage #sendmessage {
+  margin-left: 12px;
+}
 .friendsView #friendsList {
   display: inline;
   float: left;
