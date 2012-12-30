@@ -1,4 +1,4 @@
-define(["jquery", "display", "libs/step", "model/messages", "asset/helper"], function ($, display, step, messages, h) {
+define(["jquery", "display", "libs/step", "model/messages", "asset/helper", "model/userManager"], function ($, display, step, messages, h, userManager) {
 	"use strict";
 
 	var topic;
@@ -10,12 +10,139 @@ define(["jquery", "display", "libs/step", "model/messages", "asset/helper"], fun
 	var messagesMain = {
 		load: function (done) {
 			step(function () {
+				messagesMain.sendMessageTo(this);
+			}, h.sF(function () {
 				messagesMain.loadMainTopics(this.parallel());
 				messagesMain.loadTopic(display.getHash("topic"), this.parallel());
-			}, done);
+			}), done);
 
 			//$('.scroll-pane').jScrollPane();
 			done();
+		},
+		unload: function (done) {
+			done();
+		},
+		hashChange: function () {
+			step(function () {
+				messagesMain.sendMessageTo(this);
+			}, h.sF(function () {
+				messagesMain.loadTopic(display.getHash("topic"), this);
+			}));
+		},
+		createReceiverHeader: function (done) {
+			step(function () {
+				var i;
+				for (i = 0; i < receiver.length; i += 1) {
+					receiver[i].getName(this.parallel());
+				}
+			}, h.sF(function (names) {
+				names.join(", ");
+				$("#messageTitle h2").text(names);
+				this.ne();
+			}), done);
+		},
+		sendMessageTo: function (done) {
+			step(function () {
+				if (h.isset(display.getHash("sendMessage"))) {
+					if (h.isInt(display.getHash("sendMessage"))) {
+						messages.getUserTopic(display.getHash("sendMessage"), this);
+					} else {
+						this.ne();
+					}
+				} else {
+					this.last.ne();
+				}
+			}, h.sF(function (topic) {
+				if (topic) {
+					display.setHash("topic", topic.getID());
+					this.last.ne();
+				} else {
+					display.removeHash("topic");
+					var receiverIDs = display.getHash("sendMessage").split(",");
+
+					var i;
+					for (i = 0; i < receiverIDs.length; i += 1) {
+						if (!h.isInt(receiverIDs[i])) {
+							this.last.ne(false);
+						}
+					}
+
+					userManager.loadUsers(receiverIDs, userManager.BASIC, this);
+				}
+			}), h.sF(function (user) {
+				receiver = user;
+				$("#messageList").html("Sende die erste Nachricht!");
+				messagesMain.createReceiverHeader(this);
+			}), done);
+		},
+		loadTopic: function (topicid, done) {
+			step(function () {
+				if (h.isInt(topicid)) {
+					topicLoaded = false;
+					$("#messageList").html("Loading!");
+					display.setHash("topic", topicid);
+
+					if (topic !== topicid) {
+						topic = topicid;
+
+						messages.getTopic(topicid, this);
+					} else {
+						this.last.ne();
+					}
+				} else {
+					this.last.ne();
+				}
+			}, h.sF(function (topic) {
+				topicObject = topic;
+				receiver = topic.getReceiver();
+				topic.getLatestMessages(this);
+			}), h.sF(function (m) {
+				topicMessages = m;
+				messages.getMessagesTeReSe(m, this);
+			}), h.sF(function (d) {
+				var i;
+				for (i = 0; i < topicMessages.length; i += 1) {
+					messagesMain.addMessageView(d[i].m.getID(), d[i].t, d[i].s, this.parallel());
+				}
+
+				receiver = d[0].r;
+			}), h.sF(function (eles) {
+				var over = $("<div>");
+
+				var i;
+				for (i = 0; i < eles.length; i += 1) {
+					over.append(eles[i]);
+				}
+
+				$("#messageList").html("");
+				$("#messageList").append(over);
+
+				messagesMain.createReceiverHeader(this);
+			}), h.sF(function () {
+				topicLoaded = true;
+				this.ne();
+			}), done);
+		},
+		addMessageView: function (messageid, text, sender, done) {
+			step(function () {
+				sender.getName(this);
+			}, h.sF(function (name) {
+				var messageHTML = '<li class="message"><div class="user"><img class="userimg" alt="Username" src="img/user.png"><span class="username">Svenja</span></div><div class="messageText"></div></li>';
+				var ele = $(messageHTML);
+				ele.find(".username").text(name);
+				ele.find(".messageText").text(text);
+				ele.find(".user").attr("name", "user" + sender.getUserID());
+				ele.find(".user img").attr("name", "userImage" + sender.getUserID());
+
+				ele.attr("id", "messageView" + messageid);
+				if (sender.ownUser()) {
+					ele.addClass("me");
+				} else {
+					ele.addClass("other");
+				}
+
+				this.ne(ele);
+			}), done);
 		},
 		loadMainTopics: function (done) {
 			var mym;
@@ -41,71 +168,6 @@ define(["jquery", "display", "libs/step", "model/messages", "asset/helper"], fun
 				$("#topicListScroll").append(over);
 			}), done);
 		},
-		loadTopic: function (topicid, done) {
-			step(function () {
-				topicLoaded = false;
-				display.setHash("topic", topicid);
-
-				if (topic !== topicid) {
-					topic = topicid;
-
-					messages.getTopic(topicid, this);
-				} else {
-					this.last.ne();
-				}
-			}, h.sF(function (topic) {
-				topicObject = topic;
-				receiver = topic.getReceiver();
-				topic.getLatestMessages(this);
-			}), h.sF(function (m) {
-				topicMessages = m;
-				messages.getMessagesTeReSe(m, this);
-			}), h.sF(function (d) {
-				var i;
-				for (i = 0; i < topicMessages.length; i += 1) {
-					messagesMain.addMessageView(d[i].m.getID(), d[i].t, d[i].s, this.parallel());
-				}
-			}), h.sF(function (eles) {
-				$("#messageList").html("");
-				var over = $("<div>");
-
-				var i;
-				for (i = 0; i < eles.length; i += 1) {
-					over.append(eles[i]);
-				}
-
-				$("#messageList").append(over);
-			}), done);
-		},
-		unload: function (done) {
-			done();
-		},
-		hashChange: function (done) {
-			step(function () {
-				messagesMain.loadTopic(display.getHash("topic"), this);
-			}, done());
-		},
-		addMessageView: function (messageid, text, sender, done) {
-			step(function () {
-				sender.getName(this);
-			}, h.sF(function (name) {
-				var messageHTML = '<li class="message"><div class="user"><img class="userimg" alt="Username" src="img/user.png"><span class="username">Svenja</span></div><div class="messageText"></div></li>';
-				var ele = $(messageHTML);
-				ele.find(".username").text(name);
-				ele.find(".messageText").text(text);
-				ele.find(".user").attr("name", "user" + sender.getUserID());
-				ele.find(".user img").attr("name", "userImage" + sender.getUserID());
-
-				ele.attr("id", "messageView" + messageid);
-				if (sender.ownUser()) {
-					ele.addClass("me");
-				} else {
-					ele.addClass("other");
-				}
-
-				this.ne(ele);
-			}), done);
-		},
 		addTopicView: function (topicid, text, receiver, done) {
 			step(function () {
 				var i;
@@ -127,6 +189,7 @@ define(["jquery", "display", "libs/step", "model/messages", "asset/helper"], fun
 				ele.find(".userimg img").attr("name", "userImage");
 				ele.attr("id", "topicMain" + topicid);
 				ele.click(function () {
+					display.removeHash("sendMessage");
 					display.setHash("topic", topicid);
 				});
 

@@ -11,6 +11,22 @@ define(['jquery', 'libs/step', 'asset/logger', 'model/state', 'asset/helper', 'c
 	var viewmenu = {};
 	var viewhtml = {};
 
+	var updateURL = function () {
+		var k;
+		var url = "";
+		for (k in hashes) {
+			if (hashes.hasOwnProperty(k)) {
+				if (typeof hashes[k] !== "undefined") {
+					url = url + "&" + k + "=" + hashes[k];
+				}
+			}
+		}
+
+		url = url.substr(1);
+
+		window.location.hash = url;
+	};
+
 	var display = {
 		/** set the handler for the login function */
 		setLogin: function (func) {
@@ -129,19 +145,13 @@ define(['jquery', 'libs/step', 'asset/logger', 'model/state', 'asset/helper', 'c
 		setHash: function (key, value) {
 			hashes[key] = value;
 
-			var k;
-			var url = "";
-			for (k in hashes) {
-				if (hashes.hasOwnProperty(k)) {
-					if (typeof hashes[k] !== "undefined") {
-						url = url + "&" + k + "=" + hashes[k];
-					}
-				}
-			}
+			updateURL();
+		},
 
-			url = url.substr(1);
+		removeHash: function (key) {
+			delete hashes[key];
 
-			window.location.hash = url;
+			updateURL();
 		},
 
 		/** change the count for a certain badge
@@ -447,7 +457,7 @@ define(['jquery', 'libs/step', 'asset/logger', 'model/state', 'asset/helper', 'c
 				}
 			}, function (err) {
 				$('input[placeholder], textarea[placeholder]').placeholder();
-				console.log(err);		
+				console.log(err);
 			});
 		},
 
