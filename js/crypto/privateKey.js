@@ -1,4 +1,4 @@
-define(['libs/sjcl', 'asset/logger', 'jquery', 'crypto/publicKey', 'libs/step', 'asset/helper', 'crypto/jsbn', 'libs/jquery.json.min'], function (sjcl, logger, $, PublicKey, step, h, BigInteger) {
+define(['libs/sjcl', 'asset/logger', 'jquery', 'crypto/publicKey', 'libs/step', 'asset/helper', 'crypto/jsbn', 'crypto/rsa', 'libs/jquery.json.min'], function (sjcl, logger, $, PublicKey, step, h, BigInteger, RSA) {
 	"use strict";
 	/**
 	* A private Key
@@ -49,15 +49,13 @@ define(['libs/sjcl', 'asset/logger', 'jquery', 'crypto/publicKey', 'libs/step', 
 
 		this.decryptOAEP = function (message, l, callback) {
 			step(function getLibs() {
-				require.wrap(["crypto/rsa"], this);
-			}, h.sF(function theLibs(RSA) {
 				if (Modernizr.webworkers) {
 					require.wrap("crypto/rsaWorkerInclude", this);
 				} else {
 					var rsa = new RSA();
 					this.last(null, rsa.decryptOAEP(message, d, p, q, u, privateKey.n(), l).toString(16));
 				}
-			}), h.sF(function theWorker(rsaWorker) {
+			}, h.sF(function theWorker(rsaWorker) {
 				rsaWorker.decryptOAEP(message, d, p, q, u, privateKey.n(), l, this);
 			}), callback);
 		};
@@ -68,8 +66,6 @@ define(['libs/sjcl', 'asset/logger', 'jquery', 'crypto/publicKey', 'libs/step', 
 		this.signPSS = function (message, callback) {
 			var hash;
 			step(function getLibs() {
-				require.wrap(["crypto/rsa", "libs/sjcl"], this);
-			}, h.sF(function theLibs(RSA, sjcl) {
 				hash = sjcl.codec.hex.fromBits(sjcl.hash.sha256.hash(message));
 				if (Modernizr.webworkers) {
 					require.wrap("crypto/rsaWorkerInclude", this);
@@ -77,7 +73,7 @@ define(['libs/sjcl', 'asset/logger', 'jquery', 'crypto/publicKey', 'libs/step', 
 					var rsa = new RSA();
 					this.last(null, rsa.signPSS(hash, d, p, q, u, privateKey.n()).toString(16));
 				}
-			}), h.sF(function theWorker(rsaWorker) {
+			}, h.sF(function theWorker(rsaWorker) {
 				rsaWorker.signPSS(hash, d, p, q, u, privateKey.n(), this);
 			}), callback);
 		};

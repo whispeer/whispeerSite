@@ -52,8 +52,10 @@ define(['jquery', 'display', 'model/storage', 'asset/logger', 'asset/helper', 'l
 		/** Called when we logged in / restore our old session. */
 		loadData: function () {
 			logger.time("loadData");
+			step.startTiming();
 			var u, userManager, display;
 			step(function getDisplay() {
+				step.stopTiming();
 				$("#main").hide();
 				$("nav").show();
 				require.wrap(['display', 'model/userManager', "asset/i18n!menu"], this);

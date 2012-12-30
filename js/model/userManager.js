@@ -358,7 +358,6 @@ define(['jquery', 'asset/logger', 'asset/helper', 'asset/exceptions', 'config', 
 		*/
 		var decrypt = function (key, callback) {
 			step(function decryptKey() {
-				console.log(key);
 				if (key.isSymKey()) {
 					key.decryptKey(session.getMainKey(), this.last);
 				} else {

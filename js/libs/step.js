@@ -79,7 +79,7 @@ function step() {
 			}
 
 			console.log("Step timing: " + name + " (" + (new Date().getTime() - start) + ") [" + steps.length + "] [" + id + "]");
-			console.log(functions[functions.length - 1]);
+			//console.log(functions[functions.length - 1]);
 		}
 
 		results = [];

@@ -125,7 +125,7 @@ define(['asset/logger', 'asset/helper', 'libs/step'], function (logger, h, step)
 
 			theWorker.onmessage = function (event) {
 				if (event.data.type === "log") {
-					console.log(event);
+					console.log(event.data);
 					return;
 				}
 

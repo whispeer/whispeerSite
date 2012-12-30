@@ -191,7 +191,7 @@ define(['jquery', 'libs/step'], function ($, step) {
 				data = $.parseJSON(data);
 				if (data.logedin === 0) {
 					if (!isLogout) {
-						session.autoLogout();
+						session.autologout();
 					}
 
 					return;

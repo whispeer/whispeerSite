@@ -1,4 +1,4 @@
-define(['jquery', 'libs/sjcl', 'crypto/jsbn', 'asset/logger', 'config', 'asset/helper', 'libs/step', 'libs/jquery.json.min'], function ($, sjcl, BigInteger, logger, config, h, step) {
+define(['jquery', 'libs/sjcl', 'crypto/jsbn', 'asset/logger', 'config', 'asset/helper', 'libs/step', 'crypto/privateKey', 'asset/exceptions', 'libs/jquery.json.min'], function ($, sjcl, BigInteger, logger, config, h, step, PrivateKey, exceptions) {
 	"use strict";
 
 	/**
@@ -53,9 +53,10 @@ define(['jquery', 'libs/sjcl', 'crypto/jsbn', 'asset/logger', 'config', 'asset/h
 					if (decrypted) {
 						this.last(null, true);
 					} else {
-						require.wrap(["crypto/privateKey", "asset/exceptions"], this);
+						this();
 					}
-				}, h.sF(function (PrivateKey, exceptions) {
+				}, h.sF(function privateOrPublicKey() {
+					step.startTiming();
 					if (privateKey instanceof PrivateKey) {
 						keyAsBigInt = new BigInteger(sessionKey, 16);
 						logger.log("decryptKey Asym", logger.NOTICE);
@@ -96,6 +97,7 @@ define(['jquery', 'libs/sjcl', 'crypto/jsbn', 'asset/logger', 'config', 'asset/h
 					} else {
 						throw new exceptions.needPrivateKey("Session Key Decryption Failed.");
 					}
+					step.stopTiming();
 				}), callback);
 			}
 		};
