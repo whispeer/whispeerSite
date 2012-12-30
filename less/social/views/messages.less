@@ -61,29 +61,30 @@
 					margin-bottom: 5px;
 					.clear-fix;
 					.user {
-						padding-left: 10px;
 						.box-fix;
 						.userimg {
 							float: left;
+							width: 10%;
 						}
 						.username {
 							display: none;
 						}
 					}
 					.messageText {
-						padding: 15px 10px 10px 10px;
+						padding: 10px 10px 0px 10px;
 						float: left;
-						position: relative;
+						width: 80%;
+						display: block;
+						overflow: hidden;
 					}
 					&.me {
 						color: lighten(@green, 5%);
-						text-align: right;
+						text-align: left;
 						.border-radius(6px);
 						.user {
-							padding-left: 0;
+							padding-right: 10px;
 							.userimg {
 								float: right;
-								padding-right: 10px;
 								display: block;
 							}
 						}
@@ -91,6 +92,9 @@
 					&.other {
 						.border-radius(6px);
 						color: #4e4e4e;
+						.user {
+							padding-left: 10px;
+						}
 					}
 				}
 			}		
@@ -114,24 +118,21 @@
 						.box-fix;
 						.userimg {
 							float: left;
+							width: 10%;
 						}
 						.username {
-							display: block;
 							padding-top: 10px;
+							width: 10%;
 						}
 					}
 					.messageText {
-						//padding: 0px 10px 10px 10px;
 						float: left;
 						display: block;
-						padding: -10px 0px 0px 10px;
+						width: 70%;
 					}
 					&.me {
 						color: lighten(@green, 5%);
 						.border-radius(6px);
-						.messageText {
-							text-align: left;
-						}
 					}
 					}
 					&.other {

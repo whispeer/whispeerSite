@@ -1790,7 +1790,6 @@ input[type="submit"].btn.btn-mini {
   *zoom: 1;
 }
 .messagesView #topicWrap.peerChat #messageList .message .user {
-  padding-left: 10px;
   -webkit-box-sizing: border-box;
   /* Safari/Chrome, other WebKit */
 
@@ -1803,18 +1802,21 @@ input[type="submit"].btn.btn-mini {
 }
 .messagesView #topicWrap.peerChat #messageList .message .user .userimg {
   float: left;
+  width: 10%;
 }
 .messagesView #topicWrap.peerChat #messageList .message .user .username {
   display: none;
 }
 .messagesView #topicWrap.peerChat #messageList .message .messageText {
-  padding: 15px 10px 10px 10px;
+  padding: 10px 10px 0px 10px;
   float: left;
-  position: relative;
+  width: 80%;
+  display: block;
+  overflow: hidden;
 }
 .messagesView #topicWrap.peerChat #messageList .message.me {
   color: #63b700;
-  text-align: right;
+  text-align: left;
   -webkit-border-radius: 6px;
   -moz-border-radius: 6px;
   border-radius: 6px;
@@ -1823,11 +1825,10 @@ input[type="submit"].btn.btn-mini {
   background-clip: padding-box;
 }
 .messagesView #topicWrap.peerChat #messageList .message.me .user {
-  padding-left: 0;
+  padding-right: 10px;
 }
 .messagesView #topicWrap.peerChat #messageList .message.me .user .userimg {
   float: right;
-  padding-right: 10px;
   display: block;
 }
 .messagesView #topicWrap.peerChat #messageList .message.other {
@@ -1838,6 +1839,9 @@ input[type="submit"].btn.btn-mini {
   -webkit-background-clip: padding-box;
   background-clip: padding-box;
   color: #4e4e4e;
+}
+.messagesView #topicWrap.peerChat #messageList .message.other .user {
+  padding-left: 10px;
 }
 .messagesView #topicWrap.groupChat {
   display: inline;
@@ -1880,15 +1884,16 @@ input[type="submit"].btn.btn-mini {
 }
 .messagesView #topicWrap.groupChat #messageList .message .user .userimg {
   float: left;
+  width: 10%;
 }
 .messagesView #topicWrap.groupChat #messageList .message .user .username {
-  display: block;
   padding-top: 10px;
+  width: 10%;
 }
 .messagesView #topicWrap.groupChat #messageList .message .messageText {
   float: left;
   display: block;
-  padding: -10px 0px 0px 10px;
+  width: 70%;
 }
 .messagesView #topicWrap.groupChat #messageList .message.me {
   color: #63b700;
@@ -1898,9 +1903,6 @@ input[type="submit"].btn.btn-mini {
   -moz-background-clip: padding;
   -webkit-background-clip: padding-box;
   background-clip: padding-box;
-}
-.messagesView #topicWrap.groupChat #messageList .message.me .messageText {
-  text-align: left;
 }
 .messagesView #topicWrap.groupChat #messageList.other {
   -webkit-border-radius: 6px;
