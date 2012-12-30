@@ -246,6 +246,14 @@ define(["jquery", "asset/helper", "libs/step", "model/userManager", "model/sessi
 			return read;
 		};
 
+		this.getReceiver = function (callback) {
+			step(function () {
+				theMessage.getTopic(this);
+			}, h.sF(function (t) {
+				this.ne(t.getReceiver());
+			}), callback);
+		};
+
 		this.getReceiverObj = function (callback) {
 			step(function () {
 				theMessage.getTopic(this);
@@ -630,14 +638,31 @@ define(["jquery", "asset/helper", "libs/step", "model/userManager", "model/sessi
 		*/
 		getMessagesTeReSe: function (m, callback) {
 			logger.time("TeReSe");
+			var userids = [];
 			step(function teReSe1() {
+				var i = 0;
+				for (i = 0; i < m.length; i += 1) {
+					m[i].getReceiver(this.parallel());
+
+					userids.push(m[i].getSender());
+					//m[i].getReceiverObj(this.parallel());
+					//m[i].getSenderObj(this.parallel());
+				}
+			}, h.sF(function (data) {
+				var i;
+				for (i = 0; i < m.length; i += 1) {
+					userids = userids.concat(data[i]);
+				}
+
+				userManager.loadUsers(userids, userManager.BASIC, this);
+			}), h.sF(function () {
 				var i = 0;
 				for (i = 0; i < m.length; i += 1) {
 					m[i].getMessage(this.parallel());
 					m[i].getReceiverObj(this.parallel());
 					m[i].getSenderObj(this.parallel());
 				}
-			}, h.sF(function (data) {
+			}), h.sF(function (data) {
 				var result = [];
 
 				var i;
