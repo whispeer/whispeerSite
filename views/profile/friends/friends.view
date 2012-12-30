@@ -1,6 +1,3 @@
-<div class="bubble">
-	<h1>Freundesliste</h1>
-	<ul id="friendsList" class="unstyled">
-	</ul>
-	<div class="clear-fix"></div>
-</div>
+<h1>Freundesliste</h1>
+<ul id="friendsList" class="unstyled">
+</ul>

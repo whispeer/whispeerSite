@@ -1934,7 +1934,30 @@ input[type="submit"].btn.btn-mini {
 .messagesView #topicWrap.newMessage #sendmessage {
   margin-left: 12px;
 }
-.friendsView #friendsList {
+.friendsView #main {
+  background-color: #ffffff;
+  border: #666666 solid 1px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  -webkit-box-shadow: 0 0 2px #666666;
+  -moz-box-shadow: 0 0 2px #666666;
+  box-shadow: 0 0 2px #666666;
+  -webkit-box-sizing: border-box;
+  /* Safari/Chrome, other WebKit */
+
+  -moz-box-sizing: border-box;
+  /* Firefox, other Gecko */
+
+  box-sizing: border-box;
+  /* Opera/IE 8+ */
+
+}
+.friendsView #friendsList,
+.profileFriendsSubView #friendsList {
   display: inline;
   float: left;
   width: 96.42857142857143%;
@@ -1942,8 +1965,9 @@ input[type="submit"].btn.btn-mini {
   *width: 96.3764880952381%;
   *margin: 0 1.7336309523809523%;
 }
-.friendsView #friendsList li {
-  border-bottom: 2px solid #666666;
+.friendsView #friendsList li,
+.profileFriendsSubView #friendsList li {
+  border-bottom: 1px solid #666666;
   -webkit-box-sizing: border-box;
   /* Safari/Chrome, other WebKit */
 
@@ -1959,12 +1983,20 @@ input[type="submit"].btn.btn-mini {
   -moz-background-clip: padding;
   -webkit-background-clip: padding-box;
   background-clip: padding-box;
-  margin-top: 10px !important;
+  margin-bottom: 10px !important;
+  display: inline;
+  float: left;
+  width: 39.285714285714285%;
+  margin: 0 1.7857142857142856%;
+  *width: 39.23363095238095%;
+  *margin: 0 1.7336309523809523%;
 }
-.friendsView #friendsList li a {
+.friendsView #friendsList li a,
+.profileFriendsSubView #friendsList li a {
   *zoom: 1;
 }
-.friendsView #friendsList li a .friendPicture {
+.friendsView #friendsList li a .friendPicture,
+.profileFriendsSubView #friendsList li a .friendPicture {
   display: inline;
   float: left;
   width: 25%;
@@ -1972,7 +2004,8 @@ input[type="submit"].btn.btn-mini {
   *width: 24.947916666666668%;
   *margin: 0 4.114583333333333%;
 }
-.friendsView #friendsList li a .friendName {
+.friendsView #friendsList li a .friendName,
+.profileFriendsSubView #friendsList li a .friendName {
   display: inline;
   float: left;
   width: 58.333333333333336%;
@@ -1982,15 +2015,8 @@ input[type="submit"].btn.btn-mini {
   padding-top: 8%;
   color: #3a8100;
 }
-.friendsView #friendsList li a:before,
-.friendsView #friendsList li a:after {
-  content: "";
-  display: table;
-}
-.friendsView #friendsList li a:after {
-  clear: both;
-}
-.friendsView #friendsList li:hover {
+.friendsView #friendsList li:hover,
+.profileFriendsSubView #friendsList li:hover {
   background-color: rgba(99, 183, 0, 0.3);
 }
 #mediaWrap .mediaRow {
