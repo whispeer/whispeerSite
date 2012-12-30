@@ -81,7 +81,7 @@ define(['jquery', 'libs/sjcl', 'crypto/jsbn', 'asset/logger', 'config', 'asset/h
 								sessionKey = $.toJSON(sessionKey);
 							}
 
-							decryptedSessionKey = privateKey.decryptText(sessionKey, this);
+							privateKey.decryptText(sessionKey, this);
 						}, h.sF(function decryptedF(decryptedKey) {
 							if (decryptedKey !== false) {
 								decryptedSessionKey = decryptedKey;
