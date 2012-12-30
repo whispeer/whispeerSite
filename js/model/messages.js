@@ -7,6 +7,8 @@ define(["jquery", "asset/helper", "libs/step", "model/userManager", "model/sessi
 	var topics = {};
 	var messages = {};
 
+	var topicListener = [];
+
 	var mMakeTopic;
 	var mMakeMessage;
 	var messageManager;
@@ -24,7 +26,22 @@ define(["jquery", "asset/helper", "libs/step", "model/userManager", "model/sessi
 		};
 
 		this.addNewMessageListener = function (theListener) {
-			listeners.push(theListener);
+			if (typeof theListener === "function") {
+				listeners.push(theListener);
+			}
+		};
+
+		this.signalNewMessage = function (messageid) {
+			if (newest !== messageid) {
+				var i;
+				for (i = 0; i < listeners.length; i += 1) {
+					try {
+						listeners[i](messageid);
+					} catch (e) {
+						logger.log(e);
+					}
+				}
+			}
 		};
 
 		this.getReceiverObj = function (callback, reload) {
@@ -70,9 +87,19 @@ define(["jquery", "asset/helper", "libs/step", "model/userManager", "model/sessi
 					} else {
 						h.setSymAsymKey(key);
 					}
+
+					this.last.ne(res);
+				} else {
+					if (h.isset(symKey) && symKey.isSymKey()) {
+						key.decryptKey(session.getKey(), this);
+					}
+				}
+			}), h.sF(function (res) {
+				if (res) {
+					h.setSymAsymKey(key);
 				}
 
-				this.ne(res);
+				this.last.ne(res);
 			}), callback);
 		};
 
@@ -364,6 +391,18 @@ define(["jquery", "asset/helper", "libs/step", "model/userManager", "model/sessi
 		throw new exception.messageNotFound(jsonData.messageid);
 	};
 
+	var signalNewTopic = function (firstMessage) {
+		//TODO: still need to check here if the newest known topic is the same
+		var i;
+		for (i = 0; i < topicListener.length; i += 1) {
+			try {
+				topicListener[i](firstMessage);
+			} catch (e) {
+				logger.log(e);
+			}
+		}
+	};
+
 	/** send a new message (with a not existing topic)
 	* @param message message text to send
 	* @param receiver who receives the message?
@@ -394,8 +433,14 @@ define(["jquery", "asset/helper", "libs/step", "model/userManager", "model/sessi
 			};
 
 			h.getData(getData, this);
-		}), h.sF(function (result) {
-			this.ne(result.sendMessage);
+		}), h.sF(function (data) {
+			//we should just have the topic object in result.
+			//would make things a lot easier. as of now we just download it afterwards.
+			//signal new topic with result.topicid
+			var theMessage = mMakeMessage(data.sendMessage);
+			signalNewTopic(theMessage);
+
+			this.ne(theMessage);
 		}), callback);
 	};
 
@@ -408,11 +453,12 @@ define(["jquery", "asset/helper", "libs/step", "model/userManager", "model/sessi
 	*/
 	var continueMessage = function (message, topicid, callback) {
 		step.startTiming();
-		var EM;
+		var EM, theTopic;
 		step(function continueMessage1() {
 			step.stopTiming();
 			messageManager.getTopic(topicid, this);
 		}, h.sF(function (topic) {
+			theTopic = topic;
 			topic.getSessionKey().encryptText(message, this);
 		}), h.sF(function (theEM) {
 			EM = theEM;
@@ -429,7 +475,13 @@ define(["jquery", "asset/helper", "libs/step", "model/userManager", "model/sessi
 			};
 			h.getData(getData, this);
 		}), h.sF(function (data) {
-			this.ne(data.sendMessage);
+			//var theMessage = mMakeMessage(data.sendMessage);
+			//signal new message for topic
+			var theMessage = mMakeMessage(data.sendMessage);
+
+			theTopic.signalNewMessage(theMessage);
+
+			this.ne(theMessage);
 		}), callback);
 	};
 
@@ -438,6 +490,12 @@ define(["jquery", "asset/helper", "libs/step", "model/userManager", "model/sessi
 	};
 
 	messageManager = {
+		reset: function () {
+			topics = {};
+			messages = {};
+
+			topicListener = [];
+		},
 		/** load topics
 		* @param topicids ids of the topics (array)
 		* @param callback called with results
@@ -641,6 +699,9 @@ define(["jquery", "asset/helper", "libs/step", "model/userManager", "model/sessi
 		* @author Nilos
 		*/
 		getMessagesTeReSe: function (m, callback) {
+			if (!(m instanceof Array)) {
+				m = [m];
+			}
 			logger.time("TeReSe");
 			var userids = [];
 			step(function teReSe1() {
@@ -682,6 +743,11 @@ define(["jquery", "asset/helper", "libs/step", "model/userManager", "model/sessi
 				logger.timeEnd("TeReSe");
 				this.ne(result);
 			}), callback);
+		},
+		addTopicListener: function (listener) {
+			if (typeof listener === "function") {
+				topicListener.push(listener);
+			}
 		}
 	};
 

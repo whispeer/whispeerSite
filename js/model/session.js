@@ -259,8 +259,9 @@ define(['jquery', 'display', 'model/storage', 'asset/logger', 'asset/helper', 'l
 				sid = "";
 				key = "";
 
-				require.wrap("model/userManager", function (err, userManager) {
+				require.wrap(["model/userManager", "model/messages"], function (err, userManager, messages) {
 					userManager.reset();
+					messages.reset();
 				});
 
 				//ssn.messages.reset();

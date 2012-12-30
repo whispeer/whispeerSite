@@ -32,10 +32,12 @@ define(['jquery', 'libs/step'], function ($, step) {
 				session = s;
 				waitForReady(this);
 			}), helper.sF(function () {
-				asymKey.decryptKey(session.key, this);
+				asymKey.decryptKey(session.getKey(), this);
 			}), helper.sF(function () {
+				asymKey.getEncrypted(session.getMainKey(), this);
+			}), helper.sF(function (symKeyE) {
 				var asymKeyE = asymKey.getOriginal();
-				var symKeyE = $.parseJSON(asymKey.getEncrypted(session.getMainKey()));
+				symKeyE = $.parseJSON(symKeyE);
 				helper.getData({"setSymAsymKey": {"asymKey": asymKeyE, "symKey": symKeyE}}, this);
 			}), function (e) {
 				console.log(e);

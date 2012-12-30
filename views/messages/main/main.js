@@ -1,4 +1,4 @@
-define(["jquery", "display", "libs/step", "model/messages", "asset/helper", "model/userManager", "model/session"], function ($, display, step, messages, h, userManager, session) {
+define(["jquery", "display", "libs/step", "model/messages", "asset/helper", "model/userManager", "model/session", "asset/logger"], function ($, display, step, messages, h, userManager, session, logger) {
 	"use strict";
 
 	var topic;
@@ -10,7 +10,7 @@ define(["jquery", "display", "libs/step", "model/messages", "asset/helper", "mod
 	var messagesMain;
 
 	var sendMessageFunction = function () {
-		var text, messageid;
+		var text, sendMessage;
 		step(function () {
 			text = $("#messageInput").val();
 
@@ -19,39 +19,42 @@ define(["jquery", "display", "libs/step", "model/messages", "asset/helper", "mod
 			for (i = 0; i < receiver.length; i += 1) {
 				receiverIDs.push(receiver[i].getUserID());
 			}
-			
+
 			if (h.isset(topic)) {
 				messages.sendMessage(text, undefined, topic, this);
 			} else if (h.isset(receiver)) {
 				messages.sendMessage(text, receiverIDs, undefined, this);
 			}
-		}, h.sF(function (data) {
-			messageid = data.messageid;
-
-			if (h.isInt(data.topicid) && parseInt(topic, 10) !==  parseInt(data.topicid, 10)) {
-				messagesMain.loadTopic(data.topicid, this.last);
-			} else {
-				session.getOwnUser(this);
+		}, h.sF(function (theMessage) {
+			sendMessage = theMessage;
+			if (theMessage.getTopicID() !== topic) {
+				messagesMain.loadTopic(theMessage.getTopicID(), this.last);
 			}
-		}), h.sF(function (u) {
-			messagesMain.addMessageView(messageid, text, u, this);
-		}), h.sF(function (ele) {
-			$("#messageList").append(ele);
 		}), function (err) {
-
+			if (err) {
+				logger.log(err);
+			}
 		});
 	};
 
 	messagesMain = {
 		load: function (done) {
+			$("#sendmessage").click(sendMessageFunction);
 			step(function () {
 				messagesMain.sendMessageTo(this);
 			}, h.sF(function () {
 				messagesMain.loadMainTopics(this.parallel());
 				messagesMain.loadTopic(display.getHash("topic"), this.parallel());
-			}), done);
+			}), h.sF(function () {
+				messages.addTopicListener(messagesMain.topicListener);
 
-			$("#sendmessage").click(sendMessageFunction);
+				this.ne();
+			}), function (e) {
+				if (e) {
+					logger.log(e);
+				}
+				this(e);
+			}, done);
 
 			//$('.scroll-pane').jScrollPane();
 			done();
@@ -77,8 +80,21 @@ define(["jquery", "display", "libs/step", "model/messages", "asset/helper", "mod
 					receiver[i].getName(this.parallel());
 				}
 			}, h.sF(function (names) {
-				names.join(", ");
-				$("#messageTitle h2").text(names);
+				$("#messageTitle h2").html("");
+				var over = $("<div>");
+				var i;
+				for (i = 0; i < names.length; i += 1) {
+					var ele = $("<a>").attr("href", receiver[i].getLink());
+					ele.text(names[i]);
+
+					over.append(ele);
+
+					if (i !== names.length - 1) {
+						over.append(document.createTextNode(", "));
+					}
+				}
+				//names.join(", ");
+				$("#messageTitle h2").append(over);
 
 				if (!h.isset(topicObject)) {
 					$("#messageTitle h2").append("<input type='text' placeholder='Add Receiver'/>");
@@ -130,6 +146,7 @@ define(["jquery", "display", "libs/step", "model/messages", "asset/helper", "mod
 					display.setHash("topic", topicid);
 
 					if (topic !== topicid) {
+						display.removeHash("sendMessage");
 						topic = topicid;
 
 						messages.getTopic(topicid, this);
@@ -147,22 +164,31 @@ define(["jquery", "display", "libs/step", "model/messages", "asset/helper", "mod
 				topicMessages = m;
 				messages.getMessagesTeReSe(m, this);
 			}), h.sF(function (d) {
+				receiver = d[0].r;
+
 				var i;
 				for (i = 0; i < topicMessages.length; i += 1) {
 					messagesMain.addMessageView(d[i].m.getID(), d[i].t, d[i].s, this.parallel());
 				}
-
-				receiver = d[0].r;
 			}), h.sF(function (eles) {
 				var over = $("<div>");
 
 				var i;
 				for (i = 0; i < eles.length; i += 1) {
-					over.append(eles[i]);
+					over.prepend(eles[i]);
 				}
 
 				$("#messageList").html("");
 				$("#messageList").append(over);
+
+				console.log(receiver);
+				if (receiver.length > 1) {
+					$("#topicWrap").removeClass("peerChat");
+					$("#topicWrap").addClass("groupChat");
+				} else {
+					$("#topicWrap").removeClass("groupChat");
+					$("#topicWrap").addClass("peerChat");
+				}
 
 				messagesMain.createReceiverHeader(this);
 			}), h.sF(function () {
@@ -213,7 +239,25 @@ define(["jquery", "display", "libs/step", "model/messages", "asset/helper", "mod
 				}
 
 				$("#topicListScroll").append(over);
+				this.ne();
 			}), done);
+		},
+		topicListener: function (message) {
+			step(function () {
+				messages.getMessagesTeReSe(message, this);
+			}, h.sF(function (d) {
+				console.log(d);
+				if (d.length === 1) {
+					messagesMain.addTopicView(d[0].m.getTopicID(), d[0].t, d[0].r, this);
+				}
+			}), h.sF(function (ele) {
+				$("#topicListScroll").prepend(ele);
+				this.ne();
+			}), function (e) {
+				if (e) {
+					logger.log(e);
+				}
+			});
 		},
 		addTopicView: function (topicid, text, receiver, done) {
 			step(function () {
