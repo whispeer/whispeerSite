@@ -421,6 +421,12 @@ define(['jquery', 'libs/step', 'asset/logger', 'model/state', 'asset/helper', 'c
 				}));
 			} else if (display.subview !== subview) {
 				step(function () {
+					try {
+						viewjs[display.loadedView][display.subview].unload();
+					} catch (e2) {
+						logger.log(e2, logger.ALL);
+					}
+
 					viewjs[page].hashChange(this);
 				}, function (err) {
 					if (err) {

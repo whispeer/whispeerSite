@@ -20,6 +20,8 @@ define(["jquery", "display", "libs/step", "model/messages", "asset/helper", "mod
 			done();
 		},
 		unload: function (done) {
+			topic = receiver = topicObject = topicMessages = null;
+			topicLoaded = false;
 			done();
 		},
 		hashChange: function () {
