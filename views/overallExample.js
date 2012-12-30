@@ -5,8 +5,7 @@ define([], function () {
 		load: function (done) {
 			done();
 		},
-		unload: function (done) {
-			done();
+		unload: function () {
 		},
 		hashChange: function (done) {
 			done();

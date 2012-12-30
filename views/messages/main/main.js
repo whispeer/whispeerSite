@@ -19,10 +19,9 @@ define(["jquery", "display", "libs/step", "model/messages", "asset/helper", "mod
 			//$('.scroll-pane').jScrollPane();
 			done();
 		},
-		unload: function (done) {
+		unload: function () {
 			topic = receiver = topicObject = topicMessages = null;
 			topicLoaded = false;
-			done();
 		},
 		hashChange: function () {
 			step(function () {
