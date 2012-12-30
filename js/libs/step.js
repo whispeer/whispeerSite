@@ -26,8 +26,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-//TODO: timing: get function names somehow.
-
 // Inspired by http://github.com/willconant/flow-js, but reimplemented and
 // modified to fit my taste and the node.JS error handling system.
 function step() {
@@ -40,6 +38,7 @@ function step() {
 		lock = false,
 		timing = step.timing,
 		start = new Date().getTime(),
+		previousTime = start,
 		id = Math.floor(Math.random() * 100000);
 
 	// Define the main callback that's given as `this` to the steps.
@@ -78,7 +77,9 @@ function step() {
 				}
 			}
 
-			console.log("Step timing: " + name + " (" + (new Date().getTime() - start) + ") [" + steps.length + "] [" + id + "]");
+			var currentTime = new Date().getTime();
+			console.log("Step timing: " + name + " (" + (currentTime - previousTime) + ";" + (currentTime - start) + ") [" + steps.length + "] [" + id + "]");
+			previousTime = currentTime;
 			//console.log(functions[functions.length - 1]);
 		}
 

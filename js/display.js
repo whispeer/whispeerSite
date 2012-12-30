@@ -269,6 +269,8 @@ define(['jquery', 'libs/step', 'asset/logger', 'model/state', 'asset/helper', 'c
 			$("#main").hide();
 			$("#loading").show();
 
+			display.setBodySubViewClass(page, subview);
+
 			$("#subMenu").children().each(function () {
 				var ele = $(this.firstChild);
 				if (ele.attr("subview") === subview) {
@@ -309,7 +311,7 @@ define(['jquery', 'libs/step', 'asset/logger', 'model/state', 'asset/helper', 'c
 			$("#userpanel .username").html('<img src="' + url + '" alt="" class="userimg">');
 		},
 
-		setBodyClass: function (page) {
+		setBodyViewClass: function (page) {
 			var classes = $("body").attr("class").split(" ");
 			var i;
 			for (i = 0; i < classes.length; i += 1) {
@@ -319,6 +321,18 @@ define(['jquery', 'libs/step', 'asset/logger', 'model/state', 'asset/helper', 'c
 			}
 
 			$("body").addClass(page + "View");
+		},
+
+		setBodySubViewClass: function (page, subview) {
+			var classes = $("body").attr("class").split(" ");
+			var i;
+			for (i = 0; i < classes.length; i += 1) {
+				if (classes[i].match(/SubView$/)) {
+					$("body").removeClass(classes[i]);
+				}
+			}
+
+			$("body").addClass(page + h.firstCapital(subview) + "SubView");
 		},
 
 		/** load a view. Loads html and display file.
@@ -342,7 +356,7 @@ define(['jquery', 'libs/step', 'asset/logger', 'model/state', 'asset/helper', 'c
 			}
 
 			if (display.loadedView !== page) {
-				display.setBodyClass(page);
+				display.setBodyViewClass(page);
 				logger.log("load View " + page + " - " + subview);
 
 				try {

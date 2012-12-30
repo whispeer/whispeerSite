@@ -56,8 +56,8 @@ define(['jquery', 'libs/sjcl', 'crypto/jsbn', 'asset/logger', 'config', 'asset/h
 						this();
 					}
 				}, h.sF(function privateOrPublicKey() {
-					step.startTiming();
 					if (privateKey instanceof PrivateKey) {
+						step.startTiming();
 						keyAsBigInt = new BigInteger(sessionKey, 16);
 						logger.log("decryptKey Asym", logger.NOTICE);
 						step(function decrypt() {
