@@ -372,21 +372,21 @@ define(["jquery", "asset/helper", "libs/step", "model/userManager", "model/sessi
 	* @author Nilos
 	*/
 	var sendNewMessage = function (message, receiver, callback) {
-		var EM, theResult;
+		var EM, sessionKeys;
 		step(function () {
 			receiver.push(session.userid());
 
 			userManager.getPublicKeys(receiver, this);
 		}, h.sF(function (publicKeys) {
-			crypto.encryptText(publicKeys, message, this);
-		}), h.sF(function (result) {
-			theResult = result;
-			EM = $.parseJSON(result.EM);
+			crypto.asymEncryptText(publicKeys, message, this);
+		}), h.sF(function (sks, theEM) {
+			sessionKeys = sks;
+			EM = $.parseJSON(theEM);
 			crypto.signText(session.getKey(), message, this);
 		}), h.sF(function (signature) {
 			var getData = {
 				"sendMessage": {
-					"receiver": theResult.sessionKeys,
+					"receiver": sessionKeys,
 					"iv": EM.iv,
 					"message": EM.ct,
 					"signature": signature
@@ -407,11 +407,15 @@ define(["jquery", "asset/helper", "libs/step", "model/userManager", "model/sessi
 	* @author Nilos
 	*/
 	var continueMessage = function (message, topicid, callback) {
+		step.startTiming();
 		var EM;
 		step(function continueMessage1() {
+			step.stopTiming();
 			messageManager.getTopic(topicid, this);
 		}, h.sF(function (topic) {
-			EM = topic.getSessionKey().encryptText(message);
+			topic.getSessionKey().encryptText(message, this);
+		}), h.sF(function (theEM) {
+			EM = theEM;
 			EM = $.parseJSON(EM);
 			crypto.signText(session.getKey(), message, this);
 		}), h.sF(function (signature) {

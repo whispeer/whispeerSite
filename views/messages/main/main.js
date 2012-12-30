@@ -1,4 +1,4 @@
-define(["jquery", "display", "libs/step", "model/messages", "asset/helper", "model/userManager"], function ($, display, step, messages, h, userManager) {
+define(["jquery", "display", "libs/step", "model/messages", "asset/helper", "model/userManager", "model/session"], function ($, display, step, messages, h, userManager, session) {
 	"use strict";
 
 	var topic;
@@ -7,7 +7,42 @@ define(["jquery", "display", "libs/step", "model/messages", "asset/helper", "mod
 	var topicMessages;
 	var topicLoaded = false;
 
-	var messagesMain = {
+	var messagesMain;
+
+	var sendMessageFunction = function () {
+		var text, messageid;
+		step(function () {
+			text = $("#messageInput").val();
+
+			var receiverIDs = [];
+			var i;
+			for (i = 0; i < receiver.length; i += 1) {
+				receiverIDs.push(receiver[i].getUserID());
+			}
+			
+			if (h.isset(topic)) {
+				messages.sendMessage(text, undefined, topic, this);
+			} else if (h.isset(receiver)) {
+				messages.sendMessage(text, receiverIDs, undefined, this);
+			}
+		}, h.sF(function (data) {
+			messageid = data.messageid;
+
+			if (h.isInt(data.topicid) && parseInt(topic, 10) !==  parseInt(data.topicid, 10)) {
+				messagesMain.loadTopic(data.topicid, this.last);
+			} else {
+				session.getOwnUser(this);
+			}
+		}), h.sF(function (u) {
+			messagesMain.addMessageView(messageid, text, u, this);
+		}), h.sF(function (ele) {
+			$("#messageList").append(ele);
+		}), function (err) {
+
+		});
+	};
+
+	messagesMain = {
 		load: function (done) {
 			step(function () {
 				messagesMain.sendMessageTo(this);
@@ -16,10 +51,15 @@ define(["jquery", "display", "libs/step", "model/messages", "asset/helper", "mod
 				messagesMain.loadTopic(display.getHash("topic"), this.parallel());
 			}), done);
 
+			$("#sendmessage").click(sendMessageFunction);
+
 			//$('.scroll-pane').jScrollPane();
 			done();
 		},
 		unload: function () {
+			messagesMain.resetData();
+		},
+		resetData: function () {
 			topic = receiver = topicObject = topicMessages = null;
 			topicLoaded = false;
 		},
@@ -39,6 +79,11 @@ define(["jquery", "display", "libs/step", "model/messages", "asset/helper", "mod
 			}, h.sF(function (names) {
 				names.join(", ");
 				$("#messageTitle h2").text(names);
+
+				if (!h.isset(topicObject)) {
+					$("#messageTitle h2").append("<input type='text' placeholder='Add Receiver'/>");
+				}
+
 				this.ne();
 			}), done);
 		},
@@ -59,6 +104,7 @@ define(["jquery", "display", "libs/step", "model/messages", "asset/helper", "mod
 					this.last.ne();
 				} else {
 					display.removeHash("topic");
+					messagesMain.resetData();
 					var receiverIDs = display.getHash("sendMessage").split(",");
 
 					var i;
