@@ -501,6 +501,7 @@ define(['jquery', 'asset/logger', 'asset/helper', 'asset/exceptions', 'config', 
 			step.startTiming();
 
 			var time = new Date().getTime();
+			var theSignature;
 			step(function doRequire() {
 				require.wrap(["crypto/waitForReady", "crypto/crypto"], this);
 			}, h.sF(function wait(waitForReady, c) {
@@ -517,16 +518,22 @@ define(['jquery', 'asset/logger', 'asset/helper', 'asset/exceptions', 'config', 
 			}), h.sF(function theSessionKeys(k) {
 				keys = k;
 				crypto.signText(session.getKey(), "friendShip" + userid, this);
-			}), h.sF(function theSignature(signature) {
-				var resultKeys = {};
+			}), h.sF(function theSignatureF(signature) {
+				theSignature = signature;
 
 				var i = 0;
 				for (i = 0; i < userKeys.length; i += 1) {
 					if (userKeys[i] === "profile") {
-						resultKeys[userKeys[i]] = crypto.encryptSessionKey(publicKey, keys[userKeys[i]][group], session.getKey());
+						crypto.encryptSessionKey(publicKey, keys[userKeys[i]][group], session.getKey(), this.parallel());
 					} else {
-						resultKeys[userKeys[i]] = crypto.encryptSessionKey(publicKey, keys[userKeys[i]], session.getKey());
+						crypto.encryptSessionKey(publicKey, keys[userKeys[i]], session.getKey(), this.parallel());
 					}
+				}
+			}), h.sF(function theEncryptedKeys(keys) {
+				var resultKeys = {};
+				var i = 0;
+				for (i = 0; i < userKeys.length; i += 1) {
+					resultKeys[userKeys[i]] = keys[i];
 				}
 
 				logger.log("keys encrypted:" + ((new Date().getTime()) - time));
@@ -534,7 +541,7 @@ define(['jquery', 'asset/logger', 'asset/helper', 'asset/exceptions', 'config', 
 				var friendShip = [];
 				var friendShipR = {
 					"id": userid,
-					"sig": signature,
+					"sig": theSignature,
 					"keys": resultKeys
 				};
 
@@ -547,9 +554,9 @@ define(['jquery', 'asset/logger', 'asset/helper', 'asset/exceptions', 'config', 
 
 				h.getData(getData, this);
 			}), h.sF(function () {
-				userManager.loadFriends(true, this);
+				userManager.loadFriends(this, true);
 			}), h.sF(function (data) {
-				if (data.friendShip[userid] === "true" || data.friendShip[userid]) {
+				if (data.friends.lastIndexOf(userid) > -1 || data.friendShipRequested.lastIndexOf(userid) > -1) {
 					logger.log("done:" + ((new Date().getTime()) - time));
 					callback(true);
 				} else {
@@ -775,7 +782,7 @@ define(['jquery', 'asset/logger', 'asset/helper', 'asset/exceptions', 'config', 
 
 				friendsLoaded = new Date().getTime();
 
-				this();
+				this.ne(data);
 			}), callback);
 		},
 

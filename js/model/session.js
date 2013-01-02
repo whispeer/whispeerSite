@@ -248,7 +248,7 @@ define(['jquery', 'display', 'model/storage', 'asset/logger', 'asset/helper', 'l
 		},
 
 		/** log out. clears session and localStorage */
-		logout: function () {
+		logout: function (auto) {
 			if (logedin) {
 				storage.clear();
 
@@ -264,35 +264,16 @@ define(['jquery', 'display', 'model/storage', 'asset/logger', 'asset/helper', 'l
 					messages.reset();
 				});
 
-				//ssn.messages.reset();
-
-				h.getData({"logout" : 1});
+				if (!auto) {
+					h.getData({"logout" : 1});
+				}
 
 				display.logout();
 			}
 		},
 
 		autologout: function () {
-			if (logedin) {
-				storage.clear();
-
-				logedin = false;
-				state.logedin = logedin;
-				identifier = "";
-				password = "";
-				sid = "";
-				key = "";
-
-				require.wrap("model/userManager", function (err, userManager) {
-					userManager.reset();
-				});
-
-				require.wrap("model/messages", function (err, messages) {
-					messages.reset();
-				});
-
-				display.logout();
-			}
+			session.logout(true);
 		},
 
 		/** get the own user

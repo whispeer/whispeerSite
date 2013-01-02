@@ -1,4 +1,4 @@
-define(['jquery', 'crypto/jsbn', 'asset/logger', 'libs/step', 'asset/helper', 'libs/jquery.json.min', 'crypto/jsbn2'], function ($, BigInteger, logger, step, h) {
+define(['jquery', 'crypto/jsbn', 'asset/logger', 'libs/step', 'asset/helper', 'crypto/rsa', 'libs/sjcl', 'libs/jquery.json.min', 'crypto/jsbn2'], function ($, BigInteger, logger, step, h, RSA, sjcl) {
 	"use strict";
 
 	/**
@@ -41,15 +41,13 @@ define(['jquery', 'crypto/jsbn', 'asset/logger', 'libs/step', 'asset/helper', 'l
 
 		this.encryptOAEP = function (message, label, callback) {
 			step(function getLibs() {
-				require.wrap(["crypto/rsa"], this);
-			}, h.sF(function theLibs(RSA) {
 				if (Modernizr.webworkers) {
 					require.wrap("crypto/rsaWorkerInclude", this);
 				} else {
 					var rsa = new RSA();
 					this.last(null, rsa.encryptOAEP(message, ee, n, label));
 				}
-			}), h.sF(function theWorker(rsaWorker) {
+			}, h.sF(function theWorker(rsaWorker) {
 				rsaWorker.encryptOAEP(message, ee, n, label, this);
 			}), callback);
 		};
@@ -57,8 +55,6 @@ define(['jquery', 'crypto/jsbn', 'asset/logger', 'libs/step', 'asset/helper', 'l
 		this.verifyPSS = function (message, signature, callback) {
 			var realHash;
 			step(function getLibs() {
-				require.wrap(["libs/sjcl", "crypto/rsa"], this);
-			}, h.sF(function theLibs(sjcl, RSA) {
 				realHash = sjcl.codec.hex.fromBits(sjcl.hash.sha256.hash(message));
 				if (Modernizr.webworkers) {
 					require.wrap("crypto/rsaWorkerInclude", this);
@@ -70,7 +66,7 @@ define(['jquery', 'crypto/jsbn', 'asset/logger', 'libs/step', 'asset/helper', 'l
 					var rsa = new RSA();
 					this.last(null, rsa.verifyPSS(realHash, signature, ee, n));
 				}
-			}), h.sF(function theWorker(rsaWorker) {
+			}, h.sF(function theWorker(rsaWorker) {
 				rsaWorker.verifyPSS(realHash, signature, ee, n, this);
 			}), callback);
 		};

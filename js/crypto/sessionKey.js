@@ -1,4 +1,4 @@
-define(['jquery', 'libs/sjcl', 'crypto/jsbn', 'asset/logger', 'config', 'asset/helper', 'libs/step', 'crypto/privateKey', 'asset/exceptions', 'libs/jquery.json.min'], function ($, sjcl, BigInteger, logger, config, h, step, PrivateKey, exceptions) {
+define(['jquery', 'libs/sjcl', 'crypto/jsbn', 'asset/logger', 'config', 'asset/helper', 'libs/step', 'crypto/privateKey', 'crypto/publicKey', 'asset/exceptions', 'libs/jquery.json.min'], function ($, sjcl, BigInteger, logger, config, h, step, PrivateKey, PublicKey, exceptions) {
 	"use strict";
 
 	/**
@@ -134,11 +134,11 @@ define(['jquery', 'libs/sjcl', 'crypto/jsbn', 'asset/logger', 'config', 'asset/h
 		var skGetEncrypted = function (key, callback) {
 			step(function () {
 				if (decrypted) {
-					require.wrap(["crypto/publicKey", "crypto/privateKey"], this);
+					this.ne();
 				} else {
 					this.last(null, false);
 				}
-			}, h.sF(function (PublicKey, PrivateKey) {
+			}, h.sF(function () {
 				if (key instanceof PublicKey || key instanceof PrivateKey) {
 					key.encryptOAEP(new BigInteger(decryptedSessionKey, 16), "Socialize", this);
 				} else if (key instanceof SessionKey) {
@@ -165,8 +165,9 @@ define(['jquery', 'libs/sjcl', 'crypto/jsbn', 'asset/logger', 'config', 'asset/h
 			}
 
 			step(function go() {
+				//TODO: if length of encryptedtext is small we should not start the worker!
 				if (decrypted && typeof callback === "function") {
-					if (Modernizr.webworkers) {
+					if (Modernizr.webworkers && $.parseJSON(encryptedText).ct.length > 200) {
 						require.wrap("crypto/sjclWorkerInclude", this);
 					} else {
 						var result;
@@ -204,8 +205,9 @@ define(['jquery', 'libs/sjcl', 'crypto/jsbn', 'asset/logger', 'config', 'asset/h
 			}
 
 			step(function go() {
+				//TODO: see former todo
 				if (decrypted && typeof callback === "function") {
-					if (Modernizr.webworkers) {
+					if (Modernizr.webworkers  && plainText.length > 200) {
 						require.wrap("crypto/sjclWorkerInclude", this);
 					} else {
 						var result;

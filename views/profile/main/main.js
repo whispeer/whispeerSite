@@ -28,9 +28,13 @@ define(["jquery", "display", "asset/logger", "asset/helper", "libs/step"], funct
 							logger.log("Friendship: " + ret);
 
 							if (ret === true) {
-								$("#pfriendShip").text(translation.getValue("friendShipRequested"));
+								if (u.isFriend())  {
+									$("#pfriendShip").text(i18n.getValue("user.isFriend"));
+								} else {
+									$("#pfriendShip").text(i18n.getValue("user.friendShipRequested"));
+								}
 							} else {
-								$("#pfriendShip").text(translation.getValue("friendShipRequestedFailed"));
+								$("#pfriendShip").text(i18n.getValue("user.friendShipRequestedFailed"));
 							}
 						});
 					}

@@ -4,7 +4,7 @@
 * Also Used to encrypt a session Key for another user.
 * @class
 */
-define(["libs/sjcl", "config", "asset/helper", "libs/step"], function (sjcl, config, h, step) {
+define(["libs/sjcl", "config", "asset/helper", "libs/step", "crypto/waitForReadyDisplay", "crypto/rsa", "crypto/publicKey", "crypto/privateKey", "crypto/sessionKey"], function (sjcl, config, h, step, waitForReady, RSA, PublicKey, PrivateKey, SessionKey) {
 	"use strict";
 
 	var crypto = {};
@@ -21,16 +21,9 @@ define(["libs/sjcl", "config", "asset/helper", "libs/step"], function (sjcl, con
 		}
 
 		//TODO: chunking for non blocking execution even on browsers without worker
-		var PrivateKey;
 		step(function getWR() {
-			require.wrap("crypto/waitForReadyDisplay", this);
-		}, h.sF(function theWR(waitForReady) {
 			waitForReady(this);
-		}), h.sF(function ready() {
-			require.wrap(["crypto/rsa", "crypto/privateKey"], this);
-		}), h.sF(function theRSA(RSA, privK) {
-			PrivateKey = privK;
-
+		}, h.sF(function ready() {
 			var rsa = new RSA();
 			if (Modernizr.webworkers) {
 				rsa.generateAsync(config.keyLength, "10001", this);
@@ -56,16 +49,10 @@ define(["libs/sjcl", "config", "asset/helper", "libs/step"], function (sjcl, con
 			throw new Error("invalid call! Need Callback Function");
 		}
 
-		var sessionKey, cryptedText, PublicKey, PrivateKey;
+		var sessionKey, cryptedText;
 		step(function () {
-			require.wrap("crypto/waitForReadyDisplay", this);
-		}, h.sF(function theWR(waitForReady) {
 			waitForReady(this);
-		}), h.sF(function () {
-			require.wrap(["crypto/publicKey", "crypto/privateKey", "crypto/sessionKey"], this);
-		}), h.sF(function (pubK, privK, SessionKey) {
-			PublicKey = pubK;
-			PrivateKey = privK;
+		}, h.sF(function () {
 			//generate a session key or take the given one
 			sessionKey = new SessionKey();
 			crypto.symEncryptText(sessionKey, message, this);
@@ -104,10 +91,8 @@ define(["libs/sjcl", "config", "asset/helper", "libs/step"], function (sjcl, con
 
 	crypto.symEncryptText = function (sessionKeys, message, callback, iv) {
 		step(function () {
-			require.wrap("crypto/waitForReadyDisplay", this);
-		}, h.sF(function theWR(waitForReady) {
 			waitForReady(this);
-		}), h.sF(function () {
+		}, h.sF(function () {
 			if (sessionKeys instanceof Array) {
 				var i;
 				for (i = 0; i < sessionKeys.length; i += 1) {
@@ -121,10 +106,8 @@ define(["libs/sjcl", "config", "asset/helper", "libs/step"], function (sjcl, con
 
 	crypto.symDecryptText = function (sessionKey, message, callback, iv) {
 		step(function () {
-			require.wrap("crypto/waitForReadyDisplay", this);
-		}, h.sF(function theWR(waitForReady) {
 			waitForReady(this);
-		}), h.sF(function () {
+		}, h.sF(function () {
 			sessionKey.decryptText(message, iv, this);
 		}), callback);
 	};
@@ -138,8 +121,6 @@ define(["libs/sjcl", "config", "asset/helper", "libs/step"], function (sjcl, con
 	*/
 	crypto.decryptText = function (privateKey, message, sessionKey, callback) {
 		step(function () {
-			require.wrap(["crypto/privateKey", "crypto/sessionKey"], this);
-		}, h.sF(function (PrivateKey, SessionKey) {
 			if (typeof sessionKey === "string") {
 				sessionKey = new SessionKey(sessionKey);
 			}
@@ -149,7 +130,7 @@ define(["libs/sjcl", "config", "asset/helper", "libs/step"], function (sjcl, con
 			} else {
 				throw new Error("need correct keys!");
 			}
-		}), h.sF(function (success) {
+		}, h.sF(function (success) {
 			if (!success) {
 				throw new Error("wrong private key");
 			}
@@ -171,14 +152,12 @@ define(["libs/sjcl", "config", "asset/helper", "libs/step"], function (sjcl, con
 	*/
 	crypto.signText = function (privateKey, message, callback) {
 		step(function () {
-			require.wrap(["crypto/waitForReadyDisplay", "crypto/privateKey"], this);
-		}, h.sF(function theWR(waitForReady, PrivateKey) {
 			if (!privateKey instanceof PrivateKey) {
 				throw new Error("we need a private key!");
 			}
 
 			waitForReady(this);
-		}), h.sF(function () {
+		}, h.sF(function () {
 			privateKey.signPSS(message, this);
 		}), callback);
 	};
@@ -193,14 +172,12 @@ define(["libs/sjcl", "config", "asset/helper", "libs/step"], function (sjcl, con
 	*/
 	crypto.verifyText = function (publicKey, message, signature, callback) {
 		step(function () {
-			require.wrap(["crypto/waitForReadyDisplay", "crypto/privateKey", "crypto/publicKey"], this);
-		}, h.sF(function theDeps(waitForReady, PrivateKey, PublicKey) {
 			if (publicKey instanceof PrivateKey || publicKey instanceof PublicKey) {
 				waitForReady(this);
 			} else {
 				throw new Error("we need a rsa key!");
 			}
-		}), h.sF(function ready() {
+		}, h.sF(function ready() {
 			publicKey.verifyPSS(message, signature, this);
 		}), callback);
 	};
@@ -222,14 +199,15 @@ define(["libs/sjcl", "config", "asset/helper", "libs/step"], function (sjcl, con
 	* @public
 	* @function
 	*/
-	crypto.encryptSessionKey = function (publicKey, sessionKey, callback, privateKey) {
-		var SessionKey;
+	crypto.encryptSessionKey = function (publicKey, sessionKey, privateKey, callback) {
+		if (typeof privateKey === "function") {
+			callback = privateKey;
+			privateKey = null;
+		}
+
 		step(function () {
-			require.wrap(["crypto/waitForReadyDisplay", "crypto/sessionKey"], this);
-		}, h.sF(function theDeps(waitForReady, sk) {
-			SessionKey = sk;
 			waitForReady(this);
-		}), h.sF(function ready() {
+		}, h.sF(function ready() {
 			if (!(sessionKey instanceof SessionKey)) {
 				sessionKey = new SessionKey(sessionKey);
 			}

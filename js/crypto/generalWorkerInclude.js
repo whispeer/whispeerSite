@@ -125,7 +125,7 @@ define(['asset/logger', 'asset/helper', 'libs/step'], function (logger, h, step)
 
 			theWorker.onmessage = function (event) {
 				if (event.data.type === "log") {
-					console.log(event.data);
+					logger.log(event.data);
 					return;
 				}
 
@@ -145,7 +145,9 @@ define(['asset/logger', 'asset/helper', 'libs/step'], function (logger, h, step)
 				if (typeof saveListener === "function") {
 					var diff = (new Date().getTime() - time);
 					if (diff > 10) {
-						console.log("job finished after:" + diff);
+						logger.log("job finished after:" + diff);
+					} else {
+						logger.log("short job finished after:" + diff);
 					}
 					saveListener(null, event.data);
 				}

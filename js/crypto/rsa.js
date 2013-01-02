@@ -421,7 +421,6 @@ define(['libs/sjcl', 'config', 'crypto/jsbn', 'crypto/jsbn2'], function (sjcl, c
 			};
 
 			var done = function () {
-				console.log(key);
 				if (key.q !== null && key.p !== null) {
 					var p1 = key.p.subtract(BigInteger.ONE);
 					var q1 = key.q.subtract(BigInteger.ONE);
@@ -447,8 +446,6 @@ define(['libs/sjcl', 'config', 'crypto/jsbn', 'crypto/jsbn2'], function (sjcl, c
 			};
 
 			primeCalculator2.onmessage = function (event) {
-				console.log(event);
-				console.log("Second:" + (new Date().getTime() - start));
 				if (event.data === "ready") {
 					generate(qs, 2);
 					return;
@@ -469,8 +466,6 @@ define(['libs/sjcl', 'config', 'crypto/jsbn', 'crypto/jsbn2'], function (sjcl, c
 			};
 
 			primeCalculator.onmessage = function (event) {
-				console.log(event);
-				console.log("First:" + (new Date().getTime() - start));
 				if (event.data === "ready") {
 					generate(B - qs, 1);
 					return;
