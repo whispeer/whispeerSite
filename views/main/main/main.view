@@ -1,7 +1,7 @@
 <div class="bubble" id="wall">
 	<form class="form-inline shareForm">
 		<input type="text" placeholder="Teile etwas mit deinen Freunden!" id="shareText">
-		<input type="submit" class="btn btn-success" value="Posten!">
+		<button type="submit" class="btn btn-success">Posten</button>
 	</form>
 	<div class="posts">
 		<div class="post" id="post1">

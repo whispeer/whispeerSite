@@ -13,7 +13,10 @@ body {
 	}
 	
 	#container {
-		margin-top: 10px;
+		min-height: 100%;
+		height: auto !important;
+		height: 100%;
+		margin: 25px 0 25px 0;
 	}
 	
 	noscript {
@@ -34,15 +37,16 @@ body {
 		}
 	}
 	
+	.footerPlace {
+		height: 20px;
+	}
+	
 	footer {
-		float: left;
-		position: relative;
-		bottom: 0;
-		left: 0;
-		width: 100%;
+		.column(12);
 		padding: 5px;
-		color: #f2fbec;
-		.box-fix;
+		padding-bottom: 0;
+		height: 10px;
+		color: #3d9404;
 		#left {
 			float: left;
 		}
@@ -51,7 +55,10 @@ body {
 			margin-right: 5px;
 		}
 		a {
-			color: #f2fbec;
+			color: #3d9404;
+			&:hover {
+				color: #4eb508;
+			}
 		}
 	}
 	

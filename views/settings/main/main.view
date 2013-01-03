@@ -1,26 +1,50 @@
 <div id="toc">
 	<h1>Einstellungen</h1>
+	<a href="#view=settings&#general">Allgemein</a>
+	<a href="#view=settings&#safety">Sicherheit</a>
+	<a href="#view=settings&#privacy">Privatsphäre</a>
+	<a href="#view=settings&#notifications">Benachrichtigungen</a>
+	<a href="#view=settings&#features">Zusätzliche Funktionen</a>
 </div>
 <section id="general">
-	<h2>Allgemein</h2>
+	<h3>Allgemein</h2>
 	<div class="config" id="name">
+		<h5>Name ändern</h4>
+		<input type="text" id="firstname" placeholder="Vorname">
+		<input type="text" id="lastname" placeholder="Nachname">
+		<button type="submit"><i class="icon-ok-circle"></i></button>
+		<button type="reset"><i class="icon-cancel-circle"></i></button>
 	</div>
 	<div class="config" id="nickname">
+		<h5>Nickname ändern</h4>
+		<input type="text" id="newNickname" placeholder="Nickname">
+		<button type="submit"><i class="icon-ok-circle"></i></button>
+		<button type="reset"><i class="icon-cancel-circle"></i></button>
 	</div>
 	<div class="config" id="mail">
+		<h5>E-Mail Adresse ändern</h4>
+		<input type="text" id="email" placeholder="E-Mail Adresse">
+		<input type="text" id="email2" placeholder="E-Mail Adresse wiederholen">
+		<button type="submit"><i class="icon-ok-circle"></i></button>
+		<button type="reset"><i class="icon-cancel-circle"></i></button>
 	</div>
 	<div class="config" id="password">
+		<h5>Passwort ändern</h4>
+		<input type="password" id="newPassword" placeholder="Passwort">
+		<input type="password" id="newPassword2" placeholder="Passwort wiederholen">
+		<button type="submit"><i class="icon-ok-circle"></i></button>
+		<button type="reset"><i class="icon-cancel-circle"></i></button>
 	</div>
 </section>
 <section id="safety">
-	<h2>Sicherheit</h2>
+	<h3>Sicherheit</h2>
 </section>
 <section id="privacy">
-	<h2>Privatsphäre</h2>
+	<h3>Privatsphäre</h2>
 </section>
 <section id="notifications">
-	<h2>Benachrichtigungen</h2>
+	<h3>Benachrichtigungen</h2>
 </section>
 <section id="features">
-	<h2>Zusätzliche Funktionen</h2>
+	<h3>Zusätzliche Funktionen</h2>
 </section>

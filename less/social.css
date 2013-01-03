@@ -475,7 +475,7 @@ h4 {
   line-height: 20px;
 }
 h5 {
-  font-size: 12px;
+  font-size: 14px;
   line-height: 20px;
 }
 h6 {
@@ -503,7 +503,10 @@ body div {
   display: block;
 }
 body #container {
-  margin-top: 10px;
+  min-height: 100%;
+  height: auto !important;
+  height: 100%;
+  margin: 25px 0 25px 0;
 }
 body noscript {
   display: inline;
@@ -534,23 +537,20 @@ body #sidebar-right #ads {
   *width: 87.44791666666667%;
   *margin: 0 6.197916666666667%;
 }
+body .footerPlace {
+  height: 20px;
+}
 body footer {
+  display: inline;
   float: left;
-  position: relative;
-  bottom: 0;
-  left: 0;
-  width: 100%;
+  width: 97.91666666666666%;
+  margin: 0 1.0416666666666665%;
+  *width: 97.86458333333333%;
+  *margin: 0 0.9895833333333331%;
   padding: 5px;
-  color: #f2fbec;
-  -webkit-box-sizing: border-box;
-  /* Safari/Chrome, other WebKit */
-
-  -moz-box-sizing: border-box;
-  /* Firefox, other Gecko */
-
-  box-sizing: border-box;
-  /* Opera/IE 8+ */
-
+  padding-bottom: 0;
+  height: 10px;
+  color: #3d9404;
 }
 body footer #left {
   float: left;
@@ -560,7 +560,10 @@ body footer #right {
   margin-right: 5px;
 }
 body footer a {
-  color: #f2fbec;
+  color: #3d9404;
+}
+body footer a:hover {
+  color: #4eb508;
 }
 body #loading {
   display: none;
@@ -1500,6 +1503,10 @@ input[type="submit"].btn.btn-mini {
 .registerView #callLogin {
   display: none;
 }
+.registerView footer {
+  position: absolute;
+  bottom: 10px;
+}
 .shareForm {
   width: 100%;
   *zoom: 1;
@@ -1749,6 +1756,9 @@ input[type="submit"].btn.btn-mini {
 }
 .messagesView #topicListWrap #topicList .topic:first-child {
   margin-top: 10px;
+}
+.messagesView #topicListWrap #topicList .topic.active {
+  background-color: rgba(105, 228, 0, 0.2);
 }
 .messagesView #topicListWrap #topicList #newMessage {
   padding: 10px;
@@ -2142,4 +2152,24 @@ input[type="submit"].btn.btn-mini {
 .settingsView #toc {
   float: left;
   width: 100%;
+}
+.settingsView .config {
+  display: inline;
+  float: left;
+  width: 82.14285714285714%;
+  margin: 0 1.7857142857142856%;
+  *width: 82.09077380952381%;
+  *margin: 0 1.7336309523809523%;
+  margin-left: 9.374999999999998%;
+}
+.settingsView .config input:not([type=submit]):not([type=file]) {
+  display: inline;
+  float: left;
+  width: 22.916666666666664%;
+  margin: 0 1.0416666666666665%;
+  *width: 22.864583333333332%;
+  *margin: 0 0.9895833333333331%;
+}
+.settingsView .config #newNickname {
+  margin-left: 26.041666666666668%;
 }
