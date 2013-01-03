@@ -13,21 +13,48 @@
 		margin: 0 auto;
 	}
 	#loginform, #registerform {
-		width: 200px;
+		width: 300px;
 		margin: 0 auto;
 		margin-bottom: 10px;
-		background-color: @white;
-		.border-radius(20px);
+		//background-color: @white;
+		.border-radius(5px);
 		display: none;
 		input, button {
-			width: 100%;
+			width: 300px;
 			margin: 0 auto;
 			outline: none;
 			border: none;
+			.border-radius(0px);
+			&:first-child {
+				.border-radiuses(5px, 0px, 0px, 5px);
+			}
+			&:last-child {
+				.border-radiuses(0px, 5px, 5px, 0px);
+			}
+		}
+		.error, .success, .settings {
+			width: 300px;
+			padding: 5px;
+			margin: 0 auto;
+		}
+		.error {
+			border: 1px solid #5d0000;
+			background-color: #b40000;
+			.box-fix;
+		}
+		.success {
+			border: 1px solid #488200;
+			background-color: #66b900;
+			.box-fix;
+		}
+		.settings {
+			border: 1px solid #ddd;
+			border-top: none;
+			background-color: @white;
+			.box-fix;
 		}
 		input {
 			border-bottom: 1px solid #ddd;
-			.border-radiuses(5px, 0px, 0px, 5px);
 		}
 	}
 	a {
@@ -38,7 +65,7 @@
 		display: none;
 	}
 	footer {
-		position: absolute;
+		position: fixed;
 		bottom: 10px;
 	}
 }
