@@ -9,9 +9,9 @@
 </form>
 <form id="registerform">
 	<input type="text" id="firstname" placeholder="Vorname">
-	<div class="settings" id="settingsFirstname"><span class="lock" encrypted="false" id="firstnamelock"><img src="img/lock_open.png" alt="shall we encrypt that?"></span></div>
+	<span class="lock" encrypted="false" id="firstnamelock"><img src="img/lock_open.png" alt="shall we encrypt that?"></span>
 	<input type="text" id="lastname" placeholder="Nachname">
-	<div class="settings" id="settingsLastname"><span class="lock" encrypted="false" id ="lastnamelock"><img src="img/lock_open.png" alt="shall we encrypt that?"></span></div>
+	<span class="lock" encrypted="false" id ="lastnamelock"><img src="img/lock_open.png" alt="shall we encrypt that?"></span>
 	<input type="text" id="rnickname" placeholder="Benutzername">
 	<div class="error" id="errorNickname">Benutzername wird bereits verwendet!</div>
 	<div class="success" id="successNickname">Benutzername ist noch frei!</div>

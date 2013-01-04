@@ -31,8 +31,16 @@
 			&:last-child {
 				.border-radiuses(0px, 5px, 5px, 0px);
 			}
+			&#firstname, &#lastname {
+				padding-right: 30px;
+			}
 		}
-		.error, .success, .settings {
+		.lock {
+			position: absolute;
+			margin-top: -33px;
+			margin-left: 270px;
+		}
+		.error, .success {
 			width: 300px;
 			padding: 5px;
 			margin: 0 auto;
@@ -45,12 +53,6 @@
 		.success {
 			border: 1px solid #488200;
 			background-color: #66b900;
-			.box-fix;
-		}
-		.settings {
-			border: 1px solid #ddd;
-			border-top: none;
-			background-color: @white;
 			.box-fix;
 		}
 		input {
