@@ -31,19 +31,25 @@
 			&:last-child {
 				.border-radiuses(0px, 5px, 5px, 0px);
 			}
-			&#firstname, &#lastname {
-				padding-right: 30px;
-			}
 		}
-		.lock {
+		.icon {
 			position: absolute;
 			margin-top: -33px;
 			margin-left: 270px;
+			&.check, &.fail {
+				
+			}
+		}
+		/* fix firefox */
+		.icon, x:-moz-any-link, x:only-child { 
+			margin-top: 0px;
+			margin-left: -33px;
 		}
 		.error, .success {
 			width: 300px;
 			padding: 5px;
 			margin: 0 auto;
+			display: none;
 		}
 		.error {
 			border: 1px solid #5d0000;
@@ -57,6 +63,7 @@
 		}
 		input {
 			border-bottom: 1px solid #ddd;
+			padding-right: 30px;
 		}
 	}
 	a {

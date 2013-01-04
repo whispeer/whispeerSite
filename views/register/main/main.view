@@ -9,22 +9,35 @@
 </form>
 <form id="registerform">
 	<input type="text" id="firstname" placeholder="Vorname">
-	<span class="lock" encrypted="false" id="firstnamelock"><img src="img/lock_open.png" alt="shall we encrypt that?"></span>
+	<span class="icon lock" encrypted="false" id="firstnamelock">
+		<img src="img/lock_open.png" alt="shall we encrypt that?">
+	</span>
 	<input type="text" id="lastname" placeholder="Nachname">
-	<span class="lock" encrypted="false" id ="lastnamelock"><img src="img/lock_open.png" alt="shall we encrypt that?"></span>
+	<span class="icon lock" encrypted="false" id ="lastnamelock">
+		<img src="img/lock_open.png" alt="shall we encrypt that?">
+	</span>
 	<input type="text" id="rnickname" placeholder="Benutzername">
+	<span class="icon fail" id="rnicknameIcon">
+		<img src="img/fail.png" alt="click to show error message!">
+	</span>
 	<div class="error" id="errorNickname">Benutzername wird bereits verwendet!</div>
 	<div class="success" id="successNickname">Benutzername ist noch frei!</div>
 	<input type="text" id="rmail" placeholder="E-Mail Adresse">
+	<span class="icon check" id="rmailIcon">
+		<img src="img/accept.png" alt="Ok!">
+	</span>
 	<div class="error" id="errorRegisterMail">Fehler!</div>
 	<div class="success" id="errorRegisterMail">E-Mail Adresse ok!</div>
 	<input type="text" id="rmail2" placeholder="E-Mail Adresse wiederholen">
+	<span class="icon" id ="lastnamelock"><img src="img/lock_open.png" alt="shall we encrypt that?"></span>
 	<div class="error" id="errorRegisterMail2">Fehler!</div>
 	<div class="success" id="errorRegisterMail2">E-Mail Adresse ist ok!</div>
 	<input type="password" id="rpassword" placeholder="Passwort">
+	<span class="icon" id ="lastnamelock"><img src="img/lock_open.png" alt="shall we encrypt that?"></span>
 	<div class="error" id="errorRegisterPassword">Passwort erfüllt die Sicherheitskriterien nicht! Bitte wähle ein Passwort mit mindestens 6 Stellen, Groß und kleinschreibung sowie Zahlen und Sonderzeichen</div>
 	<div class="success" id="successRegisterPassword">Passwort ist PASSWORD STRENGTH?</div>
 	<input type="password" id="rpassword2" placeholder="Passwort wiederholen">
+	<span class="icon" id ="lastnamelock"><img src="img/lock_open.png" alt="shall we encrypt that?"></span>
 	<div class="error" id="errorRegisterPassword2">Die eingegebenen Passwörter stimmen nicht überein!</div>
 	<div class="success" id="successRegisterPassword2">Passwort ist ok!</div>
 	<button id="registerformsubmit" class="btn" type="submit">Registrieren</button>
