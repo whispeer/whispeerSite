@@ -37,13 +37,19 @@
 			margin-top: -33px;
 			margin-left: 270px;
 			&.check, &.fail {
-				
+				padding: 5px 7px 5px 3px;
 			}
 		}
 		/* fix firefox */
 		.icon, x:-moz-any-link, x:only-child { 
 			margin-top: 0px;
 			margin-left: -33px;
+		}
+		noindex:-o-prefocus, .icon {
+			margin-top: 0px;
+			&#firstnamelock {
+				margin-left: -34px;	
+			}
 		}
 		.error, .success {
 			width: 300px;
