@@ -177,6 +177,138 @@ define(['jquery', 'display', 'model/storage', 'asset/logger', 'asset/helper', 'l
 			userid = key.id();
 		},
 
+		/** really send the register request
+		* @param mail Mail of user
+		* @param nickname nickname of user
+		* @param key user key.
+		* @param password password for user
+		* @param profil user profile.
+		* @author Nilos
+		*/
+		registerAjax: function (mail, nickname, keyR, passwordR, profil) {
+			var publicProfile = {};
+			var privateProfile = {};
+			var privateProfileSig = {};
+
+			var crypto;
+
+			var hash, mainKeyR, profilKey, wallKey, shareKey;
+
+			var ajaxRequest = {};
+
+			step(function theRegisterF() {
+				require.wrap(["crypto/crypto", "libs/sjcl", "model/userManager"], this);
+			}, h.sF(function (c, sjcl, userManager) {
+				crypto = c;
+				hash = crypto.sha256(passwordR);
+
+				mainKeyR = new crypto.sessionKey();
+				profilKey =  new crypto.sessionKey();
+				wallKey =  new crypto.sessionKey();
+				shareKey =  new crypto.sessionKey();
+
+				if (mail !== "") {
+					ajaxRequest.mail = mail;
+				}
+
+				if (nickname !== "") {
+					ajaxRequest.nickname = nickname;
+				}
+
+				privateProfile.iv = sjcl.codec.base64.fromBits(sjcl.random.randomWords(4, 0));
+
+				var pattr;
+				for (pattr in profil) {
+					if (profil.hasOwnProperty(pattr)) {
+						if (userManager.validAttributes[pattr.toLowerCase()]) {
+							if (profil[pattr].e === "true") {
+								privateProfileSig[pattr] = profil[pattr].v;
+								profilKey.encryptText(profil[pattr].v, privateProfile.iv, this.parallel());
+							} else if (profil[pattr].e === "false") {
+								publicProfile[pattr] = profil[pattr].v;
+							}
+						} else {
+							logger.log("invalid: " + pattr);
+						}
+					}
+				}
+			}), h.sF(function (encryptedProfile) {
+				var pattr, i = 0;
+				for (pattr in profil) {
+					if (profil.hasOwnProperty(pattr)) {
+						if (profil[pattr].e === "true") {
+							privateProfile[pattr] = $.parseJSON(encryptedProfile[i]).ct;
+							i += 1;
+						}
+					}
+				}
+
+				//TODO: we need to sort the profile here!
+				crypto.signText(key, $.toJSON(privateProfileSig), this.parallel());
+				crypto.signText(key, $.toJSON(publicProfile), this.parallel());
+			}), h.sF(function profileSigsF(data) {
+				privateProfile.sig = data[0];
+				publicProfile.sig = data[1];
+
+				ajaxRequest.key = $.parseJSON(key.getJSON());
+				ajaxRequest.password = hash;
+				ajaxRequest.publicProfile = publicProfile;
+				ajaxRequest.privateProfile = privateProfile;
+
+				mainKeyR.getEncrypted(key, this.parallel());
+				profilKey.getEncrypted(key, this.parallel());
+				wallKey.getEncrypted(key, this.parallel());
+				shareKey.getEncrypted(key, this.parallel());
+			}), h.sF(function (data) {
+				ajaxRequest.keys =  {
+					"main": data[0],
+					"profile": data[1],
+					"wall": data[2],
+					"share": data[3]
+				};
+
+				var encodedData = encodeURIComponent($.toJSON(ajaxRequest));
+
+				//ssn.logger.log("Sending Register Request: " + encodedData);
+
+				$.ajax({
+					type: "POST",
+					url: "api/session/register.php",
+					data: "data=" + encodedData,
+					error: function (obj, error) {
+						display.ajaxError(obj, error);
+					},
+					success: function (data) {
+						data = $.parseJSON(data);
+						if (parseInt(data.status, 10) === 1) {
+							if (parseInt(data.error, 10) === 0) {
+								logedin = true;
+								if (mail !== "") {
+									identifier = mail;
+								} else {
+									identifier = nickname;
+								}
+
+								password = passwordR;
+								session = data.session;
+								key = keyR;
+								mainKey = mainKeyR;
+								userid = data.userid;
+								key.id = data.userid;
+
+								session.setStorage();
+
+								session.loadData();
+							} else {
+								display.registerError(data);
+							}
+						}
+					}
+				});
+			}));
+		},
+
+
 		/**
 		 * Login Function.
 		 * 

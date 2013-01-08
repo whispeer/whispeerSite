@@ -1,5 +1,22 @@
-define(["jquery", "display", "config", "asset/logger"], function ($, display, config, logger) {
+define(["jquery", "display", "config", "asset/logger", "libs/step", "crypto/crypto", "asset/helper"], function ($, display, config, logger, step, crypto, h) {
 	"use strict";
+
+	var isRegisterStarted = false;
+	var keyGenDone = false;
+	var keyGenPrivateKey = null;
+	var keyGenListener = [];
+
+	var checkMail = function () {
+	
+	};
+
+	var checkNickname = function () {
+	
+	};
+
+	var mailSame = function () {
+	
+	};
 
 	var registerMain = {
 		/**
@@ -36,9 +53,9 @@ define(["jquery", "display", "config", "asset/logger"], function ($, display, co
 				return false;
 			});
 
-			display.checkMail();
-			display.checkNickname();
-			display.mailSame();
+			checkMail();
+			checkNickname();
+			mailSame();
 
 			done();
 		},
@@ -61,27 +78,64 @@ define(["jquery", "display", "config", "asset/logger"], function ($, display, co
 			$("#registerwarning-" + id).remove();
 		},
 
+		registerStarted: function () {
+			if (!isRegisterStarted) {
+				isRegisterStarted = true;
+
+				logger.log("Register started");
+				step(function () {
+					crypto.generateKey("", step);
+				}, h.sF(function (privateKey) {
+					keyGenDone = true;
+					keyGenPrivateKey = privateKey;
+
+					var i;
+					for (i = 0; i < keyGenListener.length; i += 1) {
+						try {
+							keyGenListener[i]();
+						} catch (e) {
+							logger.log(e);
+						}
+					}
+
+					keyGenListener = [];
+				}));
+			}
+		},
+
+		addKeyListener: function (listener) {
+			if (keyGenDone) {
+				try {
+					listener();
+				} catch (e) {
+					logger.log(e);
+				}
+			} else {
+				if (typeof listener === "function") {
+					keyGenListener.push(listener);
+				} else {
+					logger.log("not a listener!" + typeof listener);
+				}
+			}
+		},
+
 		eventListener: function () {
 			$('.strength input').keyup(this.passwordStrength);
 
 			$("#registerform input").click(function () {
-				require(["model/session"], function theSession(session) {
-					session.registerStarted();
-				});
+				registerMain.registerStarted();
 			});
 
 			$('#rmail').change(function () {
-				display.checkMail();
-				display.mailSame();
+				checkMail();
+				mailSame();
 			});
 
-			$('#rnickname').change(function () {
-				display.checkNickname();
-			});
+			$('#rnickname').change(checkNickname);
 
-			$('#rmail2').change(display.mailSame);
+			$('#rmail2').change(mailSame);
 
-			$('#registerform').submit(display.registerNow);
+			$('#registerform').submit(registerMain.registerNow);
 
 			$(".lock").click(function () {
 				if ($(this).attr('encrypted') === "true") {
@@ -92,6 +146,7 @@ define(["jquery", "display", "config", "asset/logger"], function ($, display, co
 					$(this).children(":first").attr('src', 'img/lock_closed.png').attr('alt', 'Encrypted');
 				}
 			});
+
 			$('#loginform').submit(function () {
 				try {
 					require(["model/session"], function theSession(session) {
