@@ -9,33 +9,35 @@
 		margin-left: 20px;
 	}
 }
-.post {
-	width: 100%;
-	margin: 10px 0 0 0;
-	border-bottom: 1px solid @bubbleBorderColor;
-	.clearfix;
-	.userimg{
-		border-radius: 200px;
-		.column(1,7);
-		vertical-align: middle;
-		margin: 10px 0px 10px 0px;
-	}
-	.postContent {
-		.column(4,7);
-		padding-top: 5px;
-		margin-top: 10px;
-		margin-bottom: 10px;
-		.postText {
-			padding-left: 10px;
-			.box-fix;
+.posts {
+	article {
+		width: 100%;
+		margin: 10px 0 0 0;
+		border-bottom: 1px solid @bubbleBorderColor;
+		.clearfix;
+		.userimg{
+			border-radius: 200px;
+			.column(1,7);
+			vertical-align: middle;
+			margin: 10px 0px 10px 0px;
+		}
+		.postContent {
+			.column(4,7);
+			padding-top: 5px;
+			margin-top: 10px;
+			margin-bottom: 10px;
+			.postText {
+				padding-left: 10px;
+				.box-fix;
+			}
+		}
+		.postInfo {
+			.column(2,7);
+			padding-top: 5px;
+			margin-bottom: 10px;
+		}
+		&:last-child {
+			border:none;
 		}
 	}
-	.postInfo {
-		.column(2,7);
-		padding-top: 5px;
-		margin-bottom: 10px;
-	}
-}
-.post:last-child {
-	border: none;
 }

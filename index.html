@@ -33,7 +33,7 @@
 <body class="registerView">
 	<!--[if lte IE 8]><p class=chromeframe>Your browser is <em>ancient!</em> <a href="http://browsehappy.com/">Upgrade to a different browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to experience this site.</p><![endif]-->
 	<noscript class="bubble">Hallo! Leider steht uns bei deinem Browser kein Javascript zur Verfügung!<br> Daher ist es nicht möglich whispeer zu nutzen, da wir unbedingt Javascript benötigen!<br> Vielen Dank für dein Verständnis!</noscript>
-	<nav>
+	<nav id="topNav">
 		<div class="nav-inner">
 			<a href="#" class="brand">whis<span id="brand-inverse">peer</div></a>
 			<div class="nav-icons" id="nav-icons">
@@ -148,44 +148,39 @@
 			</div>
 		</div>
 	</nav>
-	<div class="body">
-		<div id="container">
-			<div class="sidebar bubble" id="sidebar-left" style="display:none">
-				<div id="userpanel">
-					<a href="#view=profile" class="username">
-						<!--<img src="img/profil.jpg" alt="" class="userimg">-->
-					</a>
-					<div id="menu">
-						<ul class="left unstyled" id="mainMenu">
-							<li><a href="#view=profile" view="profile" i18n="menu.profil"></a></li>
-							<li><a href="#view=friends" view="friends" i18n="menu.friends"></a></li>
-							<li><a href="#view=messages" view="messages" i18n="menu.messages"></a></li>
-							<li><a href="#view=media" view="media" i18n="menu.media"></a></li>
-							<li><a href="#view=groups" view="groups" i18n="menu.groups"></a></li>
-							<li><a href="#view=settings" view="settings" i18n="menu.settings"></a></li>
-							<li><a href="#view=help" view="help" i18n="menu.help"></a></li>
-							<li><a href="#logout">Logout</a></li>
-						</ul>
-						<ul class="right unstyled" id="subMenu">
-						</ul>
-						<div class="clear-fix">
-						</div>
+	<div id="container">
+		<aside class="bubble" id="sidebar-left" style="display:none">
+			<div id="userpanel">
+				<a href="#view=profile" class="username">
+					<!--<img src="img/profil.jpg" alt="" class="userimg">-->
+				</a>
+				<nav id="menu">
+					<ul class="left unstyled" id="mainMenu">
+						<li><a href="#view=profile" view="profile" i18n="menu.profil"></a></li>
+						<li><a href="#view=friends" view="friends" i18n="menu.friends"></a></li>
+						<li><a href="#view=messages" view="messages" i18n="menu.messages"></a></li>
+						<li><a href="#view=media" view="media" i18n="menu.media"></a></li>
+						<li><a href="#view=groups" view="groups" i18n="menu.groups"></a></li>
+						<li><a href="#view=settings" view="settings" i18n="menu.settings"></a></li>
+						<li><a href="#view=help" view="help" i18n="menu.help"></a></li>
+						<li><a href="#logout">Logout</a></li>
+					</ul>
+					<ul class="right unstyled" id="subMenu">
+					</ul>
+					<div class="clear-fix">
 					</div>
-				</div>	
+				</nav>
+			</div>	
+		</aside>
+		<section id="main">
+		</section>
+		<div id="loading"><img src="img/spinner.gif" alt="I'm turning and turning and turning and turning and turning... Oh I had to defood."></div>
+		<aside class="hidden-tablet" id="sidebar-right" style="display:none">
+			<div class="bubble" id="ads">
+				Werbung
 			</div>
-			<div id="main">
-				<div id="logo">
-					<img src="img/logo.png">
-				</div>
-			</div>
-			<div id="loading"><img src="img/spinner.gif" alt="I'm turning and turning and turning and turning and turning... Oh I had to defood."></div>
-			<div class="sidebar" id="sidebar-right" style="display:none">
-				<div class="bubble hidden-tablet" id="ads">
-					Werbung
-				</div>
-			</div>
-		</div>	
-	</div>
+		</aside>
+	</div>	
 	<footer>
 	<div id="left">&copy; 2012 WhisPeer</div> <div id="right"><a href="">AGB</a> <a href="">Datenschutzbestimmungen</a> <a href="">Kontakt</a> <a href="">Impressum</a></div>
 	</footer>

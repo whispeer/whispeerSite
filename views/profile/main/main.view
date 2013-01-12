@@ -22,7 +22,7 @@
 		<input type="submit" class="btn btn-success" value="Posten!">
 	</form>
 	<div class="posts">
-		<div class="post" id="post1">
+		<article id="post1">
 			<img class="userimg" src="img/profil.jpg" alt="User">
 			<div class="postContent">
 				<p class="author">Daniel Melchior:</p>
@@ -34,8 +34,8 @@
 				<p>10 Kommentare</p>
 				<a href="#">Kommentare anzeigen</a>
 			</div>
-		</div>
-		<div class="post" id="post2">
+		</article>
+		<article id="post2">
 			<img class="userimg" src="img/user.png" alt="User">
 			<div class="postContent">
 				<p class="author">Svenja Kenneweg <i class="icon-arrow"></i> Daniel Melchior</p>
@@ -46,6 +46,6 @@
 				<p>10 Kommentare</p>
 				<a href="#">Kommentare anzeigen</a>
 			</div>
-		</div>
+		</article>
 	</div>	
 </div>
