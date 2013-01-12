@@ -185,7 +185,7 @@ define(['jquery', 'display', 'model/storage', 'asset/logger', 'asset/helper', 'l
 		* @param profil user profile.
 		* @author Nilos
 		*/
-		registerAjax: function (mail, nickname, keyR, passwordR, profil) {
+		registerAjax: function (mail, nickname, keyR, passwordR, profil, callback) {
 			var publicProfile = {};
 			var privateProfile = {};
 			var privateProfileSig = {};

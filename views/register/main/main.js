@@ -18,6 +18,74 @@ define(["jquery", "display", "config", "asset/logger", "libs/step", "crypto/cryp
 	
 	};
 
+	var registerNow = function () {
+		step(function () {
+			var mail = $("#rmail").val();
+			var mail2 = $("#rmail2").val();
+			var nickname = $("#rnickname").val();
+			var password = $("#rpassword").val();
+			var password2 = $("#rpassword2").val();
+
+			//check data
+			var error = false;
+
+			if (mail !== mail2) {
+				error = true;
+				errors.push(mailNotEqual);
+			}
+
+			if (password !== password2) {
+				error = true;
+				errors.push(pwNotEqual);
+			}
+
+			if (error) {
+				this.last.ne(errors);
+			}
+
+			//set profile data
+			var profil = {};
+			profil["vorname"].v = $("#vorname").val();
+			profil["vorname"].e = false;
+			profil["nachname"].v = $("#lastname").val();
+			profil["nachname"].e = false;
+
+			//set key password
+			keyGenPrivateKey.setPassword("", password);
+			session.registerAjax(mail, nickname, keyGenPrivateKey, password, profil, this);
+		}, function (err, regErrors) {
+			logger.log(arguments);
+		});
+		return false;
+	};
+
+	var registerStarted = function () {
+		if (!isRegisterStarted) {
+			isRegisterStarted = true;
+
+			logger.log("Register started");
+			step(function () {
+				crypto.generateKey("", this);
+			}, h.sF(function (privateKey) {
+				logger.log("Key Generation done");
+				keyGenDone = true;
+				keyGenPrivateKey = privateKey;
+
+				var i;
+				for (i = 0; i < keyGenListener.length; i += 1) {
+					try {
+						keyGenListener[i]();
+					} catch (e) {
+						logger.log(e);
+					}
+				}
+
+				keyGenListener = [];
+			}));
+		}
+	};
+
+
 	var registerMain = {
 		/**
 		* Main load function.
@@ -78,31 +146,6 @@ define(["jquery", "display", "config", "asset/logger", "libs/step", "crypto/cryp
 			$("#registerwarning-" + id).remove();
 		},
 
-		registerStarted: function () {
-			if (!isRegisterStarted) {
-				isRegisterStarted = true;
-
-				logger.log("Register started");
-				step(function () {
-					crypto.generateKey("", step);
-				}, h.sF(function (privateKey) {
-					keyGenDone = true;
-					keyGenPrivateKey = privateKey;
-
-					var i;
-					for (i = 0; i < keyGenListener.length; i += 1) {
-						try {
-							keyGenListener[i]();
-						} catch (e) {
-							logger.log(e);
-						}
-					}
-
-					keyGenListener = [];
-				}));
-			}
-		},
-
 		addKeyListener: function (listener) {
 			if (keyGenDone) {
 				try {
@@ -122,9 +165,7 @@ define(["jquery", "display", "config", "asset/logger", "libs/step", "crypto/cryp
 		eventListener: function () {
 			$('.strength input').keyup(this.passwordStrength);
 
-			$("#registerform input").click(function () {
-				registerMain.registerStarted();
-			});
+			$("#registerform input").click(registerStarted);
 
 			$('#rmail').change(function () {
 				checkMail();
@@ -135,7 +176,7 @@ define(["jquery", "display", "config", "asset/logger", "libs/step", "crypto/cryp
 
 			$('#rmail2').change(mailSame);
 
-			$('#registerform').submit(registerMain.registerNow);
+			$('#registerform').submit(registerNow);
 
 			$(".lock").click(function () {
 				if ($(this).attr('encrypted') === "true") {
