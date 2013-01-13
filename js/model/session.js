@@ -276,42 +276,38 @@ define(['jquery', 'display', 'model/storage', 'asset/logger', 'asset/helper', 'l
 				var encodedData = encodeURIComponent($.toJSON(ajaxRequest));
 
 				//ssn.logger.log("Sending Register Request: " + encodedData);
-
-				$.ajax({
+				h.ajax({
 					type: "POST",
 					url: "api/session/register.php",
-					data: "data=" + encodedData,
-					error: function (obj, error) {
-						display.ajaxError(obj, error);
-					},
-					success: function (data) {
-						data = $.parseJSON(data);
-						if (parseInt(data.status, 10) === 1) {
-							if (parseInt(data.error, 10) === 0) {
-								logedin = true;
-								if (mail !== "") {
-									identifier = mail;
-								} else {
-									identifier = nickname;
-								}
-
-								password = passwordR;
-								session = data.session;
-								key = keyR;
-								mainKey = mainKeyR;
-								userid = data.userid;
-								key.id = data.userid;
-
-								session.setStorage();
-
-								session.loadData();
-							} else {
-								display.registerError(data);
-							}
+					data: "data=" + encodedData
+				}, this);
+			}), h.sF(function registerRequestResults(ajaxResult) {
+				ajaxResult = $.parseJSON(ajaxResult);
+				if (parseInt(ajaxResult.status, 10) === 1) {
+					if (parseInt(ajaxResult.error, 10) === 0) {
+						logedin = true;
+						if (mail !== "") {
+							identifier = mail;
+						} else {
+							identifier = nickname;
 						}
+
+						password = passwordR;
+						sid = ajaxResult.session;
+						key = keyR;
+						mainKey = mainKeyR;
+						userid = ajaxResult.userid;
+						key.setID(ajaxResult.userid);
+
+						session.setStorage();
+						this.ne();
+
+						session.loadData();
+					} else {
+						this.ne(ajaxResult);
 					}
-				});
-			}));
+				}
+			}), callback);
 		},
 
 
