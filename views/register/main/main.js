@@ -7,15 +7,73 @@ define(["jquery", "display", "config", "asset/logger", "libs/step", "crypto/cryp
 	var keyGenListener = [];
 
 	var checkMail = function () {
+		step(function () {
+			var mail = $("#rmail").val();
 
+			if (mail !== "") {
+				h.ajax({
+					url: "api/session/checkMail.php?mail=" + mail
+				}, this);
+			} else {
+				this.ne(false);
+			}
+		}, h.sF(function (mailData) {
+			mailData = $.parseJSON(mailData);
+			if (mailData.mailUsed === 0 && mailData.mailValid === 1) {
+				this.ne(true);
+			} else {
+				this.ne(false);
+			}
+		}), function (e, result) {
+			if (result) {
+				$("#rmailIcon").removeClass("fail").addClass("check").html('<img src="img/accept.png" alt="Ok!">');
+			} else {
+				$("#rmailIcon").removeClass("check").addClass("fail").html('<img src="img/fail.png" alt="Ok!">');
+			}
+		});
 	};
 
 	var checkNickname = function () {
+		step(function () {
+			var nick = $("#rnickname").val();
 
+			if (nick !== "") {
+				h.ajax({
+					url: "api/session/checkNickname.php?nickname=" + nick
+				}, this);
+			} else {
+				this.ne(false);
+			}
+		}, h.sF(function (nicknameData) {
+			nicknameData = $.parseJSON(nicknameData);
+			if (nicknameData.nicknameUsed === 0 && nicknameData.nicknameValid === 1) {
+				this.ne(true);
+			} else {
+				this.ne(false);
+			}
+		}), function (e, result) {
+			if (result) {
+				$("#rnicknameIcon").removeClass("fail").addClass("check").html('<img src="img/accept.png" alt="Ok!">');
+			} else {
+				$("#rnicknameIcon").removeClass("check").addClass("fail").html('<img src="img/fail.png" alt="Ok!">');
+			}
+		});
 	};
 
 	var mailSame = function () {
+		if ($("#rmail").val() === $("#rmail2").val() && $("#rmail").val() !== "") {
+			$("#rmail2Icon").removeClass("fail").addClass("check").html('<img src="img/accept.png" alt="Ok!">');
+		} else {
+			$("#rmail2Icon").removeClass("check").addClass("fail").html('<img src="img/fail.png" alt="Ok!">');
+		}
+	};
 
+	var pwSame = function () {
+		if ($("#rpassword").val() === $("#rpassword2").val() && $("#rpassword").val() !== "") {
+			$("#rpassword2Icon").removeClass("fail").addClass("check").html('<img src="img/accept.png" alt="Ok!">');
+		} else {
+			$("#rpassword2Icon").removeClass("check").addClass("fail").html('<img src="img/fail.png" alt="Ok!">');
+		}
 	};
 
 	var registerNow = function () {
@@ -61,16 +119,16 @@ define(["jquery", "display", "config", "asset/logger", "libs/step", "crypto/cryp
 			profil.firstname.e = $("#firstnamelock").attr("encrypted");
 			profil.lastname.v = $("#lastname").val();
 			profil.lastname.e = $("#lastnamelock").attr("encrypted");
-			
+
 			//set key password
 			keyGenPrivateKey.setPassword("", password);
 			session.registerAjax(mail, nickname, keyGenPrivateKey, password, profil, this);
 		}), function (err, regErrors) {
 			logger.log(arguments);
 		});
-		
+
 		$("#registerform").find(":input").attr("disabled", true);
-		
+
 		return false;
 	};
 
@@ -144,6 +202,7 @@ define(["jquery", "display", "config", "asset/logger", "libs/step", "crypto/cryp
 			checkMail();
 			checkNickname();
 			mailSame();
+			pwSame();
 
 			done();
 		},
@@ -185,18 +244,16 @@ define(["jquery", "display", "config", "asset/logger", "libs/step", "crypto/cryp
 		eventListener: function () {
 			$('.strength input').keyup(this.passwordStrength);
 
-			$("#registerform input").click(registerStarted);
-
 			$('#rmail').change(function () {
 				checkMail();
 				mailSame();
 			});
+			$('#rmail2').change(mailSame);
 
 			$('#rnickname').change(checkNickname);
 
-			$('#rmail2').change(mailSame);
-
-			$('#registerform').submit(registerNow);
+			$("#rpassword").change(pwSame);
+			$("#rpassword2").change(pwSame);
 
 			$(".lock").click(function () {
 				if ($(this).attr('encrypted') === "true") {
@@ -207,6 +264,9 @@ define(["jquery", "display", "config", "asset/logger", "libs/step", "crypto/cryp
 					$(this).children(":first").attr('src', 'img/lock_closed.png').attr('alt', 'Encrypted');
 				}
 			});
+
+			$("#registerform input").click(registerStarted);
+			$('#registerform').submit(registerNow);
 
 			$('#loginform').submit(function () {
 				try {
