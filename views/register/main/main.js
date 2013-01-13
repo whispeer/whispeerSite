@@ -7,19 +7,27 @@ define(["jquery", "display", "config", "asset/logger", "libs/step", "crypto/cryp
 	var keyGenListener = [];
 
 	var checkMail = function () {
-	
+
 	};
 
 	var checkNickname = function () {
-	
+
 	};
 
 	var mailSame = function () {
-	
+
 	};
 
 	var registerNow = function () {
 		step(function () {
+			if (!keyGenDone) {
+				registerMain.addKeyListener(this);
+			} else {
+				this.ne();
+			}
+		}, h.sF(function () {
+			require.wrap("model/session", this);
+		}), h.sF(function (session) {
 			var mail = $("#rmail").val();
 			var mail2 = $("#rmail2").val();
 			var nickname = $("#rnickname").val();
@@ -28,15 +36,16 @@ define(["jquery", "display", "config", "asset/logger", "libs/step", "crypto/cryp
 
 			//check data
 			var error = false;
+			var errors = [];
 
 			if (mail !== mail2) {
 				error = true;
-				errors.push(mailNotEqual);
+				errors.push(session.register.MAILNOTEQUAL);
 			}
 
 			if (password !== password2) {
 				error = true;
-				errors.push(pwNotEqual);
+				errors.push(session.register.PWNOTEQUAL);
 			}
 
 			if (error) {
@@ -45,17 +54,23 @@ define(["jquery", "display", "config", "asset/logger", "libs/step", "crypto/cryp
 
 			//set profile data
 			var profil = {};
-			profil["vorname"].v = $("#vorname").val();
-			profil["vorname"].e = false;
-			profil["nachname"].v = $("#lastname").val();
-			profil["nachname"].e = false;
+			profil.firstname = {};
+			profil.lastname = {};
 
+			profil.firstname.v = $("#firstname").val();
+			profil.firstname.e = $("#firstnamelock").attr("encrypted");
+			profil.lastname.v = $("#lastname").val();
+			profil.lastname.e = $("#lastnamelock").attr("encrypted");
+			
 			//set key password
 			keyGenPrivateKey.setPassword("", password);
 			session.registerAjax(mail, nickname, keyGenPrivateKey, password, profil, this);
-		}, function (err, regErrors) {
+		}), function (err, regErrors) {
 			logger.log(arguments);
 		});
+		
+		$("#registerform").find(":input").attr("disabled", true);
+		
 		return false;
 	};
 
@@ -92,6 +107,11 @@ define(["jquery", "display", "config", "asset/logger", "libs/step", "crypto/cryp
 		* Defines all event handlers etc.
 		*/
 		load: function (done) {
+			isRegisterStarted = false;
+			keyGenDone = false;
+			keyGenPrivateKey = null;
+			keyGenListener = [];
+
 			this.eventListener();
 
 			$("nav").hide();

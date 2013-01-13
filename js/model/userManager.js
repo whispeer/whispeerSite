@@ -4,8 +4,6 @@ define(['jquery', 'asset/logger', 'asset/helper', 'asset/exceptions', 'config', 
 	//TODO
 	//var SessionKey, session, i18n, crypto;
 
-	/** valid profile attributes not needed yet*/
-	//var validAttributes = {"firstname": true, "lastname": true};
 	/** users by id */
 	var usersID = {};
 	/** users by nickname */
@@ -368,7 +366,7 @@ define(['jquery', 'asset/logger', 'asset/helper', 'asset/exceptions', 'config', 
 					h.setSymAsymKey(key);
 				}
 
-				this();
+				this.ne(d);
 			}), callback);
 		};
 
@@ -634,6 +632,8 @@ define(['jquery', 'asset/logger', 'asset/helper', 'asset/exceptions', 'config', 
 
 	/** manages user. */
 	userManager = {
+		/** valid profile attributes not needed yet*/
+		validAttributes: {"firstname": true, "lastname": true},
 		reset: function () {
 			usersID = {};
 			usersNickname = {};

@@ -143,6 +143,12 @@ define(["libs/sjcl", "config", "asset/helper", "libs/step", "crypto/waitForReady
 		}), callback);
 	};
 
+	crypto.signObject = function (privateKey, it, toStringFunction, callback) {
+		step(function () {
+			crypto.signText(privateKey, toStringFunction(it), this);
+		}, callback);
+	};
+
 	/** Sign a Text
 	* @param privateKey private Key to sign with
 	* @param message Message/Hash to sign
@@ -231,6 +237,8 @@ define(["libs/sjcl", "config", "asset/helper", "libs/step", "crypto/waitForReady
 	crypto.sha256 = function (text) {
 		return sjcl.codec.hex.fromBits(sjcl.hash.sha256.hash(text));
 	};
+
+	Object.freeze(crypto);
 
 	return crypto;
 });

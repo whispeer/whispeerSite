@@ -10,7 +10,10 @@ define(['libs/step', 'crypto/generalWorkerInclude', 'crypto/waitForReadyDisplay'
 		needData: function (event, worker) {
 			if (event.data.needed === "entropy") {
 				waitForReady(function () {
-					worker.postMessage({randomNumber: sjcl.codec.hex.fromBits(sjcl.random.randomWords(16)), entropy: 1024}, this);
+					var toSend = {};
+					toSend.randomNumber = sjcl.codec.hex.fromBits(sjcl.random.randomWords(16));
+					toSend.entropy = 1024;
+					worker.postMessage(toSend);
 				});
 			} else if (event.data.done === "entropy") {
 				console.log("entropy done!");
