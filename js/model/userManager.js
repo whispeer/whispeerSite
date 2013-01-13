@@ -260,6 +260,7 @@ define(['jquery', 'asset/logger', 'asset/helper', 'asset/exceptions', 'config', 
 
 					this.last(null, activeProfile[name].v);
 				} else {
+					logger.log("Decrypting profile values failed!");
 					this();
 				}
 			}), h.sF(function userValGetPublic() {
