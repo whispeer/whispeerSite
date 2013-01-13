@@ -210,6 +210,7 @@ define(['jquery', 'asset/logger', 'asset/helper', 'asset/exceptions', 'config', 
 			h.callback(callback);
 
 			var activeProfile;
+			var activeKey;
 			name = name.toLowerCase();
 
 			step(function loadDeps() {
@@ -223,24 +224,26 @@ define(['jquery', 'asset/logger', 'asset/helper', 'asset/exceptions', 'config', 
 						for (groupid in profiles) {
 							if (profiles.hasOwnProperty(groupid)) {
 								if (h.arraySet(profiles, groupid,  name)) {
-									activeProfile = profiles[group];
+									activeProfile = profiles[groupid];
+									activeKey = sessionKeys.profile[groupid];
 								}
 							}
 						}
 					}
 				} else {
 					activeProfile = profiles;
+					activeKey = sessionKeys.profile;
 				}
 
 				//decrypt or just return if already decrypted.
 				if (h.arraySet(activeProfile, name)) {
 					if (activeProfile[name].d === false) {
-						if (sessionKeys.profile.isSymKey()) {
+						if (activeKey.isSymKey()) {
 							crypto.decryptText(session.getMainKey(),
-								'{"ct": "' + activeProfile[name].v + '", "iv": "' + activeProfile.iv + '"}', sessionKeys.profile, this);
+								'{"ct": "' + activeProfile[name].v + '", "iv": "' + activeProfile.iv + '"}', activeKey, this);
 						} else {
 							crypto.decryptText(session.getKey(),
-								'{"ct": "' + activeProfile[name].v + '", "iv": "' + activeProfile.iv + '"}', sessionKeys.profile, this);
+								'{"ct": "' + activeProfile[name].v + '", "iv": "' + activeProfile.iv + '"}', activeKey, this);
 						}
 					} else {
 						this.last(null, activeProfile[name].v);
