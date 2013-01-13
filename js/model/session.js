@@ -197,15 +197,15 @@ define(['jquery', 'display', 'model/storage', 'asset/logger', 'asset/helper', 'l
 			var ajaxRequest = {};
 
 			step(function theRegisterF() {
-				require.wrap(["crypto/crypto", "libs/sjcl", "model/userManager"], this);
-			}, h.sF(function (c, sjcl, userManager) {
+				require.wrap(["crypto/crypto", "libs/sjcl", "model/userManager", "crypto/sessionKey"], this);
+			}, h.sF(function (c, sjcl, userManager, SessionKey) {
 				crypto = c;
 				hash = crypto.sha256(passwordR);
 
-				mainKeyR = new crypto.sessionKey();
-				profilKey =  new crypto.sessionKey();
-				wallKey =  new crypto.sessionKey();
-				shareKey =  new crypto.sessionKey();
+				mainKeyR = new SessionKey();
+				profilKey =  new SessionKey();
+				wallKey =  new SessionKey();
+				shareKey =  new SessionKey();
 
 				if (mail !== "") {
 					ajaxRequest.mail = mail;
