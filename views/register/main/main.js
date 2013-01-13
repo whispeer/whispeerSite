@@ -61,13 +61,16 @@ define(["jquery", "display", "config", "asset/logger", "libs/step", "crypto/cryp
 			profil.firstname.e = $("#firstnamelock").attr("encrypted");
 			profil.lastname.v = $("#lastname").val();
 			profil.lastname.e = $("#lastnamelock").attr("encrypted");
-
+			
 			//set key password
 			keyGenPrivateKey.setPassword("", password);
 			session.registerAjax(mail, nickname, keyGenPrivateKey, password, profil, this);
 		}), function (err, regErrors) {
 			logger.log(arguments);
 		});
+		
+		$("#registerform").find(":input").attr("disabled", true);
+		
 		return false;
 	};
 

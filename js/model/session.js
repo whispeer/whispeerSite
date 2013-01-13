@@ -88,7 +88,7 @@ define(['jquery', 'display', 'model/storage', 'asset/logger', 'asset/helper', 'l
 				display.loadingMainProgress(13);
 				u.getName(this);
 			}), h.sF(function ownName15(name) {
-				console.log("OWN NAME: " + name);
+				logger.log("OWN NAME: " + name);
 				display.loadingMainProgress(15);
 				$("#username").text(name);
 				userManager.loadFriends(this, true);
@@ -103,11 +103,11 @@ define(['jquery', 'display', 'model/storage', 'asset/logger', 'asset/helper', 'l
 			}), function loadingDone(err, state) {
 				logger.timeEnd("loadData");
 				if (err) {
-					console.log(err);
+					logger.log(err);
 					throw err;
 				}
 
-				console.log(state);
+				logger.log(state);
 				state.loaded = true;
 				$(window).trigger('hashchange');
 
@@ -198,7 +198,7 @@ define(['jquery', 'display', 'model/storage', 'asset/logger', 'asset/helper', 'l
 
 			step(function theRegisterF() {
 				require.wrap(["crypto/crypto", "libs/sjcl", "model/userManager", "crypto/sessionKey"], this);
-			}, h.sF(function (c, sjcl, userManager, SessionKey) {
+			}, h.sF(function getModules(c, sjcl, userManager, SessionKey) {
 				crypto = c;
 				hash = crypto.sha256(passwordR);
 
@@ -216,6 +216,7 @@ define(['jquery', 'display', 'model/storage', 'asset/logger', 'asset/helper', 'l
 				}
 
 				privateProfile.iv = sjcl.codec.base64.fromBits(sjcl.random.randomWords(4, 0));
+				var encrypting = false;
 
 				var pattr;
 				for (pattr in profil) {
@@ -224,6 +225,7 @@ define(['jquery', 'display', 'model/storage', 'asset/logger', 'asset/helper', 'l
 							if (profil[pattr].e === "true") {
 								privateProfileSig[pattr] = profil[pattr].v;
 								profilKey.encryptText(profil[pattr].v, privateProfile.iv, this.parallel());
+								encrypting = true;
 							} else if (profil[pattr].e === "false") {
 								publicProfile[pattr] = profil[pattr].v;
 							}
@@ -232,7 +234,11 @@ define(['jquery', 'display', 'model/storage', 'asset/logger', 'asset/helper', 'l
 						}
 					}
 				}
-			}), h.sF(function (encryptedProfile) {
+
+				if (!encrypting) {
+					this.ne([]);
+				}
+			}), h.sF(function theEncryptedProfile(encryptedProfile) {
 				var pattr, i = 0;
 				for (pattr in profil) {
 					if (profil.hasOwnProperty(pattr)) {
@@ -244,21 +250,21 @@ define(['jquery', 'display', 'model/storage', 'asset/logger', 'asset/helper', 'l
 				}
 
 				//TODO: we need to sort the profile here!
-				crypto.signText(key, $.toJSON(privateProfileSig), this.parallel());
-				crypto.signText(key, $.toJSON(publicProfile), this.parallel());
+				crypto.signObject(keyR, privateProfileSig, $.toJSON, this.parallel());
+				crypto.signObject(keyR, publicProfile, $.toJSON, this.parallel());
 			}), h.sF(function profileSigsF(data) {
 				privateProfile.sig = data[0];
 				publicProfile.sig = data[1];
 
-				ajaxRequest.key = $.parseJSON(key.getJSON());
+				ajaxRequest.key = $.parseJSON(keyR.getJSON());
 				ajaxRequest.password = hash;
 				ajaxRequest.publicProfile = publicProfile;
 				ajaxRequest.privateProfile = privateProfile;
 
-				mainKeyR.getEncrypted(key, this.parallel());
-				profilKey.getEncrypted(key, this.parallel());
-				wallKey.getEncrypted(key, this.parallel());
-				shareKey.getEncrypted(key, this.parallel());
+				mainKeyR.getEncrypted(keyR, this.parallel());
+				profilKey.getEncrypted(keyR, this.parallel());
+				wallKey.getEncrypted(keyR, this.parallel());
+				shareKey.getEncrypted(keyR, this.parallel());
 			}), h.sF(function (data) {
 				ajaxRequest.keys =  {
 					"main": data[0],
