@@ -101,9 +101,9 @@ define(['libs/sjcl', 'asset/logger', 'jquery', 'crypto/publicKey', 'libs/step', 
 
 			var endString =
 				'{' +
-				'"ee":"' + this.ee().toString(16) + '",' +
-				'"n":"' + this.n().toString(16) + '",' +
-				'"id":"' + this.id() + '",' +
+				'"ee":"' + privateKey.ee().toString(16) + '",' +
+				'"n":"' + privateKey.n().toString(16) + '",' +
+				'"id":"' + privateKey.id() + '",' +
 				'"priv":' + sjcl.json.encrypt(password, sjcl.json.encode(privatePart)) +
 				'}';
 
