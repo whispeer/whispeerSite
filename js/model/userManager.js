@@ -366,7 +366,7 @@ define(['jquery', 'asset/logger', 'asset/helper', 'asset/exceptions', 'config', 
 					h.setSymAsymKey(key);
 				}
 
-				this();
+				this.ne(d);
 			}), callback);
 		};
 
