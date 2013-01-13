@@ -20,8 +20,14 @@ define(["jquery", "display", "config", "asset/logger", "libs/step", "crypto/cryp
 
 	var registerNow = function () {
 		step(function () {
+			if (!keyGenDone) {
+				registerMain.addKeyListener(this);
+			} else {
+				this.ne();
+			}
+		}, h.sF(function () {
 			require.wrap("model/session", this);
-		}, h.sF(function (session) {
+		}), h.sF(function (session) {
 			var mail = $("#rmail").val();
 			var mail2 = $("#rmail2").val();
 			var nickname = $("#rnickname").val();
@@ -48,6 +54,9 @@ define(["jquery", "display", "config", "asset/logger", "libs/step", "crypto/cryp
 
 			//set profile data
 			var profil = {};
+			profil.firstname = {};
+			profil.lastname = {};
+
 			profil.firstname.v = $("#firstname").val();
 			profil.firstname.e = $("#firstnamelock").attr("encrypted");
 			profil.lastname.v = $("#lastname").val();
@@ -95,6 +104,11 @@ define(["jquery", "display", "config", "asset/logger", "libs/step", "crypto/cryp
 		* Defines all event handlers etc.
 		*/
 		load: function (done) {
+			isRegisterStarted = false;
+			keyGenDone = false;
+			keyGenPrivateKey = null;
+			keyGenListener = [];
+
 			this.eventListener();
 
 			$("nav").hide();
