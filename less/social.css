@@ -1541,7 +1541,7 @@ input[type="submit"].btn.btn-mini {
 .registerView #registerform .icon.check,
 .registerView #loginform .icon.fail,
 .registerView #registerform .icon.fail {
-  padding: 5px 7px 5px 3px;
+  padding: 7px 7px 5px 3px;
 }
 .registerView #loginform .icon,
 .registerView #registerform .icon,
