@@ -594,6 +594,7 @@ body #loading {
 #topNav {
   display: block;
   position: fixed;
+  z-index: 1030;
   width: 100%;
   height: 50px;
   top: 0;
