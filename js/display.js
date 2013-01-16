@@ -41,6 +41,8 @@ define(['jquery', 'libs/step', 'asset/logger', 'model/state', 'asset/helper', 'c
 				$('#loadingMain').removeClass('fade');
 			}
 
+			$('#container').height(window.innerHeight() - $('#topNav').height - $('footer').height - 25);
+
 			$(window).bind('hashchange', function () {
 				display.buildHashes();
 
