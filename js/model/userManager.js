@@ -258,9 +258,15 @@ define(['jquery', 'asset/logger', 'asset/helper', 'asset/exceptions', 'config', 
 					activeProfile[name].d = true;
 					activeProfile[name].v = decrypted;
 
+					if (!activeKey.isSymKey()) {
+						h.setSymAsymKey(activeKey);
+					}
+
 					this.last(null, activeProfile[name].v);
 				} else {
-					logger.log("Decrypting profile values failed!");
+					if (h.arraySet(activeProfile, name)) {
+						logger.log("Decrypting profile values failed for " + userid + " and " + name);
+					}
 					this();
 				}
 			}), h.sF(function userValGetPublic() {
