@@ -1,6 +1,5 @@
-"use strict";
-
-define(['jquery'], function (jQuery) {
+define([], function () {
+	"use strict";
 	return {
 		/** into which div do we put logging messages */
 		logdivid: "logger",
@@ -26,32 +25,16 @@ define(['jquery'], function (jQuery) {
 				if (toLog === null) {
 					console.trace();
 				} else if (typeof toLog === "string" || typeof toLog === "number" || typeof toLog === "boolean") {
-					jQuery('<div/>', {
-						text: toLog
-					}).appendTo("#" + this.logdivid);
 					try {
 						console.log(toLog);
 					} catch (e) {}
 				} else if (typeof toLog === "object") {
 					if (toLog instanceof Error) {
-						jQuery('<div/>', {
-							text: "Error: " + toLog.name + ": " + toLog.message,
-							style: {
-								color: "RED"
-							}
-						}).css("color", "red").appendTo("#" + this.logdivid);
 						try {
 							console.log(toLog);
 							console.trace();
 						} catch (e2) {}
 					} else {
-						jQuery('<div/>', {
-							text: "Error: " + toLog.toString(),
-							style: {
-								color: "RED"
-							}
-						}).css("color", "red").appendTo("#" + this.logdivid);
-
 						try {
 							console.log(toLog);
 							console.trace();
@@ -66,22 +49,10 @@ define(['jquery'], function (jQuery) {
 				console.time(label);
 			}
 		},
-		
+
 		timeEnd: function (label) {
 			if (console.timeEnd) {
 				console.timeEnd(label);
-			}
-		},
-
-		/** mark a new section in the logging 
-		* @param theHeading text for new section
-		* @author Nilos
-		*/
-		heading: function (theHeading) {
-			if (typeof theHeading === "string" || typeof theHeading === "number" || typeof theHeading === "boolean") {
-				jQuery('<div/>', {
-					text: theHeading
-				}).css("font-size", "30px").css("color", "red").appendTo("#" + this.logdivid);
 			}
 		}
 	};
