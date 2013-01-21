@@ -1,4 +1,4 @@
-define(['jquery', 'asset/logger', 'asset/helper', 'libs/step', 'i18n!nls/warnings', 'i18n!nls/display'], function ($, logger, h, step) {
+define(['asset/logger', 'asset/helper', 'libs/step', 'i18n!nls/warnings', 'i18n!nls/display'], function (logger, h, step) {
 	"use strict";
 
 	var i18n = {
@@ -26,10 +26,19 @@ define(['jquery', 'asset/logger', 'asset/helper', 'libs/step', 'i18n!nls/warning
 		* @param ele element to translate
 		*/
 		translate: function (ele) {
-			ele.find("[i18n]").each(function (nop, sub) {
-				sub = $(sub);
+			step(function () {
+				require.wrap("jquery", this);
+			}, function (err, $) {
+				if (err) {
+					logger.log(err);
+					return;
+				}
 
-				sub.text(i18n.getValue(sub.attr("i18n")));
+				ele.find("[i18n]").each(function (nop, sub) {
+					sub = $(sub);
+
+					sub.text(i18n.getValue(sub.attr("i18n")));
+				});
 			});
 		},
 		/** get the value of a translation.

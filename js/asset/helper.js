@@ -1,4 +1,4 @@
-define(['jquery', 'libs/step'], function ($, step) {
+define(['libs/step'], function (step) {
 	"use strict";
 	var helper = {
 		/** is data a numeric?
@@ -26,11 +26,13 @@ define(['jquery', 'libs/step'], function ($, step) {
 		*/
 		setSymAsymKey: function (asymKey) {
 			var session;
+			var $;
 			step(function () {
-				require.wrap(["crypto/waitForReadyDisplay", "model/session"], this);
-			}, helper.sF(function (waitForReady, s) {
+				require.wrap(["crypto/waitForReadyDisplay", "model/session", "jquery"], this);
+			}, helper.sF(function (waitForReady, s, jquery) {
 				session = s;
 				waitForReady(this);
+				$ = jquery;
 			}), helper.sF(function () {
 				asymKey.decryptKey(session.getKey(), this);
 			}), helper.sF(function () {
@@ -53,15 +55,25 @@ define(['jquery', 'libs/step'], function ($, step) {
 		},
 
 		ajax: function (data, cb) {
-			data.success = function (data) {
-				cb(null, data);
-			};
+			step(function () {
+				require.wrap("jquery", this);
+			}, function (err, $) {
+				if (err) {
+					cb(err);
+					return;
+				}
 
-			data.error = function (obj, error) {
-				cb(error);
-			};
+				data.success = function (data) {
+					cb(null, data);
+				};
 
-			$.ajax(data);
+				data.error = function (obj, error) {
+					cb(error);
+				};
+
+				$.ajax(data);
+			});
+
 		},
 
 		/** decode entities
@@ -71,26 +83,33 @@ define(['jquery', 'libs/step'], function ($, step) {
 		* < and > are removed for security reasons.
 		*/
 		decodeEntities: (function () {
-			// this prevents any overhead from creating the object each time
-			var element = document.createElement('div');
+			var decodeHTMLEntities;
+			if (typeof document !== "undefined") {
+				// this prevents any overhead from creating the object each time
+				var element = document.createElement('div');
 
-			function decodeHTMLEntities(str) {
-				if (str && typeof str === 'string') {
-					// strip script/html tags
-					str = str.replace(/</gmi, '&gt;');
-					str = str.replace(/>/gmi, '&lt;');
-					element.innerHTML = str;
+				decodeHTMLEntities = function (str) {
+					if (str && typeof str === 'string') {
+						// strip script/html tags
+						str = str.replace(/</gmi, '&gt;');
+						str = str.replace(/>/gmi, '&lt;');
+						element.innerHTML = str;
 
-					if (typeof element.textContent === "undefined") {
-						str = element.innerText;
-						element.innerText = '';
-					} else {
-						str = element.textContent;
-						element.textContent = '';
+						if (typeof element.textContent === "undefined") {
+							str = element.innerText;
+							element.innerText = '';
+						} else {
+							str = element.textContent;
+							element.textContent = '';
+						}
 					}
-				}
 
-				return str;
+					return str;
+				};
+			} else {
+				decodeHTMLEntities = function () {
+					return "Document is not defined!";
+				};
 			}
 
 			return decodeHTMLEntities;
@@ -167,10 +186,12 @@ define(['jquery', 'libs/step'], function ($, step) {
 		getData: function (data, callback) {
 			var isLogout = false;
 			var session;
+			var $;
 
 			step(function () {
-				require.wrap("model/session", this);
-			}, helper.sF(function (s) {
+				require.wrap(["model/session", "jquery"], this);
+			}, helper.sF(function (s, jquery) {
+				$ = jquery;
 				session = s;
 				if (typeof data !== "object") {
 					data = $.parseJSON(data);
@@ -212,7 +233,7 @@ define(['jquery', 'libs/step'], function ($, step) {
 		* passes on all other stuff to given function
 		*/
 		sF: function (cb) {
-			var toCall = function (err) {
+			var toCall = function sF(err) {
 				if (err) {
 					if (helper.log || true) {
 						console.log(err);
