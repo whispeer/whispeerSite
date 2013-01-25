@@ -31,7 +31,7 @@ define(["asset/logger"], function (logger) {
 			doneListener[topic] = true;
 		},
 
-		addListener: function (func, topic) {
+		addListener: function (topic, func) {
 			if (typeof listener[topic] === "undefined") {
 				listener[topic] = [];
 			}
@@ -42,15 +42,21 @@ define(["asset/logger"], function (logger) {
 		},
 
 		removeListener: function (topic, id) {
-			return listener[topic].splice(id, 1);
+			try {
+				return listener[topic].splice(id, 1);
+			} catch (e) {
+				console.log(e);
+			}
 		},
 
 		callListener: function (topic, message) {
+			console.log(arguments);
+			console.log(listener);
 			if (typeof listener[topic] !== "undefined") {
 				var i;
 				for (i = 0; i < listener[topic].length; i += 1) {
 					try {
-						listener[topic][i](message);
+						listener[topic][i](topic, message);
 					} catch (e) {
 						logger.log(e);
 					}

@@ -121,13 +121,17 @@ define(['jquery', 'libs/step', 'asset/logger', 'model/state', 'asset/helper', 'c
 			var dropDowns = ["nav-friendrequests", "nav-messages", "nav-news"];
 			var dropDownElements = [];
 
-			var createDropDown = function (clickable, dropdown) {
+			var createDropDown = function (clickable, dropdown, id) {
 				
 				console.log(clickable);
 
 				clickable.click(function (e) {
 					dropdown.show();
 					e.stopPropagation();
+
+					require.wrap("model/eventBroadcaster", function (e, eventB) {
+						eventB.callListener("dropDownShown", id);
+					});
 				});
 			};
 
@@ -137,7 +141,7 @@ define(['jquery', 'libs/step', 'asset/logger', 'model/state', 'asset/helper', 'c
 				var dropdown = current.find(".nav-icon-dropdown");
 				dropDownElements.push(dropdown);
 
-				createDropDown(current, dropdown);
+				createDropDown(current, dropdown, dropDowns[i]);
 			}
 
 			$("body").click(function () {
