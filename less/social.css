@@ -504,8 +504,7 @@ body div {
 }
 body #container {
   min-height: 100%;
-  height: auto !important;
-  height: 100%;
+  height: 50px;
   margin: 25px 0 25px 0;
 }
 body noscript {
@@ -603,55 +602,39 @@ body #loading {
   background-color: #3a8100;
 }
 .nav-inner .brand {
-  display: inline;
-  float: left;
-  width: 6.25%;
-  margin: 0 1.0416666666666665%;
-  *width: 6.197916666666667%;
-  *margin: 0 0.9895833333333331%;
+  display: block;
   margin-top: 10px;
-  margin-left: 1%;
+  margin-right: -1%;
   font-size: 25px;
   color: #fff;
   text-shadow: 0px 0px 2px #266300;
-  -webkit-box-sizing: border-box;
-  /* Safari/Chrome, other WebKit */
-
-  -moz-box-sizing: border-box;
-  /* Firefox, other Gecko */
-
-  box-sizing: border-box;
-  /* Opera/IE 8+ */
-
   line-height: 20px;
   font-weight: 700;
+  width: 130px;
+  float: left;
+  margin-left: 5px;
 }
 .nav-inner #brand-inverse {
   color: #266300;
   text-shadow: 0px 0px 2px #eeeeee;
 }
 .nav-inner #nav-icons {
-  -webkit-box-sizing: border-box;
-  /* Safari/Chrome, other WebKit */
-
-  -moz-box-sizing: border-box;
-  /* Firefox, other Gecko */
-
-  box-sizing: border-box;
-  /* Opera/IE 8+ */
-
   margin-left: 20px;
+  width: 100px;
   display: block;
 }
 .nav-icon {
   float: left;
-  margin: 12px 0 5px 0;
+  margin: 12px 0 5px 5px;
   line-height: 20px;
 }
 .nav-icon-icons {
-  font-size: 1em;
   font-style: normal;
   color: #111;
+  width: 30px;
+}
+#friendrequesticon {
+  background-image: url(img/icons/friends.svg);
 }
 .nav-icon-icons a {
   text-decoration: none;
@@ -1437,7 +1420,7 @@ input[type="submit"].btn.btn-mini {
   padding: 3px;
   padding-left: 10px;
   cursor: pointer;
-  margin: -2px;
+  margin: 0px;
 }
 #userpanel #subMenu .current {
   background-color: #63b700;
@@ -1820,7 +1803,6 @@ input[type="submit"].btn.btn-mini {
   /* Opera/IE 8+ */
 
   padding: 0;
-  height: 100%;
 }
 .messagesView #topicListWrap {
   display: inline;

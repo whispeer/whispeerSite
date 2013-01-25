@@ -12,37 +12,43 @@
 }
 .nav-inner {
 	.brand {
-		.column(1,12);
+		display: block;
 		margin-top: 10px;
-		margin-left: 1%;
+		margin-right: -1%;
 		font-size: 25px;
 		color: #fff;
 		.text-shadow(0px 0px 2px #266300);
-		.box-fix;
 		line-height: @baseLineHeight;
 		font-weight: 700;
+		width: 130px;
+		float: left;
+		margin-left: 5px;
 	}
 	#brand-inverse {
 		color: #266300;
 		.text-shadow(0px 0px 2px #eee);
 	}
 	#nav-icons {
-		.box-fix;
 		margin-left: 20px;
+		width: 100px;
 		display: block;
 	}
 }
 
 .nav-icon {
 	float: left;
-	margin: 12px 0 5px 0;
+	margin: 12px 0 5px 5px;
 	line-height: @baseLineHeight;
 }
 
 .nav-icon-icons {
-	font-size: 1em;
 	font-style: normal;
 	color: #111;
+	width: 30px;
+}
+
+#friendrequesticon {
+	background-image: url(img/icons/friends.svg);
 }
 
 .nav-icon-icons a {
