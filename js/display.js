@@ -113,6 +113,38 @@ define(['jquery', 'libs/step', 'asset/logger', 'model/state', 'asset/helper', 'c
 			$("body").click(function () {
 				$("#searchDrop").hide();
 			});
+
+			display.registerDropDowns();
+		},
+
+		registerDropDowns: function () {
+			var dropDowns = ["nav-friendrequests", "nav-messages", "nav-news"];
+			var dropDownElements = [];
+
+			var createDropDown = function (clickable, dropdown) {
+				
+				console.log(clickable);
+
+				clickable.click(function (e) {
+					dropdown.show();
+					e.stopPropagation();
+				});
+			};
+
+			var i, current;
+			for (i = 0; i < dropDowns.length; i += 1) {
+				current = $("#" + dropDowns[i]);
+				var dropdown = current.find(".nav-icon-dropdown");
+				dropDownElements.push(dropdown);
+
+				createDropDown(current, dropdown);
+			}
+
+			$("body").click(function () {
+				for (i = 0; i < dropDownElements.length; i += 1) {
+					dropDownElements[i].hide();
+				}
+			});
 		},
 
 		/** builds the variables from the hash string e.g. makes ["a" => "b", "d" => "f"] from #a=b&d=f  */
