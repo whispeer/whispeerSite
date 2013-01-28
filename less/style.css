@@ -1,10 +1,63 @@
-/*!
- * InStyle
- *	Something like a framework, though it's designed for the needs of socialHive
- *
- * Copyright 2012 Daniel Melchior
- * 
- */
+/*
+*	╋╋╋╋╋┏┓
+*	╋╋╋╋╋┃┃
+*	┏┓┏┓┏┫┗━┳┳━━┳━━┳━━┳━━┳━┓
+*	┃┗┛┗┛┃┏┓┣┫━━┫┏┓┃┃━┫┃━┫┏┛
+*	┗┓┏┓┏┫┃┃┃┣━━┃┗┛┃┃━┫┃━┫┃
+*	╋┗┛┗┛┗┛┗┻┻━━┫┏━┻━━┻━━┻┛
+*	╋╋╋╋╋╋╋╋╋╋╋╋┃┃stylesheet
+*	╋╋╋╋╋╋╋╋╋╋╋╋┗┛©2013 by Daniel Melchior
+
+*/
+/* Initialize the Grid */
+/*
+┏┓┏┓┏┳┓╋╋╋╋╋╋╋╋╋╋╋╋╋╋╋╋╋┏━━━┓╋╋╋╋┏┓┏━━━┓╋╋╋╋╋╋┏┓
+┃┃┃┃┃┃┃╋╋╋╋╋╋╋╋╋╋╋╋╋╋╋╋╋┃┏━┓┃╋╋╋╋┃┃┃┏━┓┃╋╋╋╋╋┏┛┗┓
+┃┃┃┃┃┃┗━┳┳━━┳━━┳━━┳━━┳━┓┃┃╋┗╋━┳┳━┛┃┃┗━━┳┓╋┏┳━┻┓┏╋━━┳┓┏┓
+┃┗┛┗┛┃┏┓┣┫━━┫┏┓┃┃━┫┃━┫┏┛┃┃┏━┫┏╋┫┏┓┃┗━━┓┃┃╋┃┃━━┫┃┃┃━┫┗┛┃
+┗┓┏┓┏┫┃┃┃┣━━┃┗┛┃┃━┫┃━┫┃╋┃┗┻━┃┃┃┃┗┛┃┃┗━┛┃┗━┛┣━━┃┗┫┃━┫┃┃┃
+╋┗┛┗┛┗┛┗┻┻━━┫┏━┻━━┻━━┻┛╋┗━━━┻┛┗┻━━┛┗━━━┻━┓┏┻━━┻━┻━━┻┻┻┛
+╋╋╋╋╋╋╋╋╋╋╋╋┃┃╋╋╋╋╋╋╋╋╋╋╋╋╋╋╋╋╋╋╋╋╋╋╋╋╋┏━┛┃semantic and fluid
+╋╋╋╋╋╋╋╋╋╋╋╋┗┛╋╋╋╋╋╋╋╋╋╋╋╋╋╋╋╋╋╋╋╋╋╋╋╋╋┗━━┛Grid System "wrid"
+*/
+.box-fix {
+  -webkit-box-sizing: border-box;
+  /* Safari/Chrome, other WebKit */
+
+  -moz-box-sizing: border-box;
+  /* Firefox, other Gecko */
+
+  box-sizing: border-box;
+  /* Opera/IE 8+ */
+
+}
+.padding-fix {
+  -webkit-box-sizing: padding-box;
+  /* Safari/Chrome, other WebKit */
+
+  -moz-box-sizing: padding-box;
+  /* Firefox, other Gecko */
+
+  box-sizing: padding-box;
+  /* Opera/IE 8+ */
+
+}
+.clear-fix:before,
+.clear-fix:after {
+  content: " ";
+  /* 1 */
+
+  display: table;
+  /* 2 */
+
+}
+.clear-fix:after {
+  clear: both;
+}
+.clear-fix {
+  *zoom: 1;
+}
+/* Social Style */
 /* http://meyerweb.com/eric/tools/css/reset/ 
    v2.0 | 20110126
    License: none (public domain)
@@ -215,62 +268,6 @@ table {
 * html .jspCorner {
   margin: 0 -3px 0 0;
 }
-body {
-  width: 100%;
-  *zoom: 1;
-}
-body:before,
-body:after {
-  content: "";
-  display: table;
-}
-body:after {
-  clear: both;
-}
-.box-fix {
-  -webkit-box-sizing: border-box;
-  /* Safari/Chrome, other WebKit */
-
-  -moz-box-sizing: border-box;
-  /* Firefox, other Gecko */
-
-  box-sizing: border-box;
-  /* Opera/IE 8+ */
-
-}
-.padding-fix {
-  -webkit-box-sizing: padding-box;
-  /* Safari/Chrome, other WebKit */
-
-  -moz-box-sizing: padding-box;
-  /* Firefox, other Gecko */
-
-  box-sizing: padding-box;
-  /* Opera/IE 8+ */
-
-}
-.clear-fix:before,
-.clear-fix:after {
-  content: " ";
-  /* 1 */
-
-  display: table;
-  /* 2 */
-
-}
-.clear-fix:after {
-  clear: both;
-}
-.clear-fix {
-  *zoom: 1;
-}
-/*
-.buttonBackground(@colorOne, @colorTwo, @tColor, @tShadow) {
-	.gradient(@colorOne, @colorTwo);
-	color: @tColor;
-	text-shadow: @tShadow;
-}
-*/
 input:not([type=submit]):not([type=file]) {
   padding: 9px;
   border: solid 1px #8c8c8c;
@@ -372,14 +369,6 @@ dd {
 }
 .dl-horizontal {
   *zoom: 1;
-}
-.dl-horizontal:before,
-.dl-horizontal:after {
-  content: "";
-  display: table;
-}
-.dl-horizontal:after {
-  clear: both;
 }
 .dl-horizontal dt {
   float: left;
@@ -490,14 +479,12 @@ a {
 a:hover {
   color: #63b700;
 }
-/*
-	Don't touch any of the *.less or *.css files, or you will die an awful death.
-*/
 body {
   background-color: #ffffff;
-  background-color: rgba(105, 228, 0, 0.1);
   margin: 0 auto;
   padding-top: 50px;
+  width: 100%;
+  *zoom: 1;
 }
 body div {
   display: block;
@@ -505,59 +492,32 @@ body div {
 body #container {
   min-height: 100%;
   height: 50px;
-  margin: 25px 0 25px 0;
+  margin: 10px 0 25px 0;
 }
 body noscript {
-  display: inline;
-  float: left;
-  width: 97.91666666666666%;
-  margin: 0 1.0416666666666665%;
-  *width: 97.86458333333333%;
-  *margin: 0 0.9895833333333331%;
   margin-top: 10px;
-}
-body #sidebar-left {
-  display: inline;
-  float: left;
-  width: 22.916666666666664%;
-  margin: 0 1.0416666666666665%;
-  *width: 22.864583333333332%;
-  *margin: 0 0.9895833333333331%;
 }
 body #sidebar-left #userpanel,
 body #sidebar-left #didYaKnow {
   margin-bottom: 10px;
 }
-body #sidebar-right {
-  display: inline;
-  float: left;
-  width: 14.583333333333334%;
-  margin: 0 1.0416666666666665%;
-  *width: 14.53125%;
-  *margin: 0 0.9895833333333331%;
-}
-body #sidebar-right #ads {
-  display: inline;
-  float: left;
-  width: 87.5%;
-  margin: 0 6.25%;
-  *width: 87.44791666666667%;
-  *margin: 0 6.197916666666667%;
-}
 body .footerPlace {
   height: 20px;
 }
 body footer {
-  display: inline;
-  float: left;
-  width: 97.91666666666666%;
-  margin: 0 1.0416666666666665%;
-  *width: 97.86458333333333%;
-  *margin: 0 0.9895833333333331%;
   padding: 5px;
   padding-bottom: 0;
   height: 10px;
   color: #3d9404;
+  -webkit-box-sizing: border-box;
+  /* Safari/Chrome, other WebKit */
+
+  -moz-box-sizing: border-box;
+  /* Firefox, other Gecko */
+
+  box-sizing: border-box;
+  /* Opera/IE 8+ */
+
 }
 body footer #left {
   float: left;
@@ -575,20 +535,6 @@ body footer a:hover {
 body #loading {
   display: none;
   text-align: center;
-}
-.mainView #main,
-.messageView #main,
-.friendsView #main,
-.profileView #main,
-.mediaView #main,
-.helpView #main,
-.settingsView #main {
-  display: inline;
-  float: left;
-  width: 56.25%;
-  margin: 0 1.0416666666666665%;
-  *width: 56.197916666666664%;
-  *margin: 0 0.9895833333333331%;
 }
 #topNav {
   display: block;
@@ -658,12 +604,6 @@ body #loading {
   -webkit-box-shadow: 0 0 5px #999999;
   -moz-box-shadow: 0 0 5px #999999;
   box-shadow: 0 0 5px #999999;
-  display: inline;
-  float: left;
-  width: 22.916666666666664%;
-  margin: 0 1.0416666666666665%;
-  *width: 22.864583333333332%;
-  *margin: 0 0.9895833333333331%;
   display: none;
   margin-top: 50px;
   background-color: #baff81;
@@ -678,14 +618,6 @@ body #loading {
   height: 25px;
   text-align: center;
 }
-.search {
-  display: inline;
-  float: left;
-  width: 64.58333333333334%;
-  margin: 0 1.0416666666666665%;
-  *width: 64.53125000000001%;
-  *margin: 0 0.9895833333333331%;
-}
 #searchQuery {
   -webkit-border-radius: 20px;
   -moz-border-radius: 20px;
@@ -693,12 +625,6 @@ body #loading {
   -moz-background-clip: padding;
   -webkit-background-clip: padding-box;
   background-clip: padding-box;
-  display: inline;
-  float: left;
-  width: 64.58333333333334%;
-  margin: 0 1.0416666666666665%;
-  *width: 64.53125000000001%;
-  *margin: 0 0.9895833333333331%;
   margin-top: 6px;
 }
 #searchDrop {
@@ -710,34 +636,15 @@ body #loading {
   display: none;
   border-radius: 5px;
   box-shadow: 0 0 8px #999999;
-  display: inline;
-  float: left;
-  width: 64.58333333333334%;
-  margin: 0 1.0416666666666665%;
-  *width: 64.53125000000001%;
-  *margin: 0 0.9895833333333331%;
 }
 #searchSuggestions {
   padding: 0;
   margin: 0;
 }
 #searchSuggestions li {
+  display: block;
   width: 100%;
   min-height: 40px;
-  display: block;
-  width: 103.125%;
-  margin: 0 -1.5625%;
-  *width: 103.07291666666667%;
-  *margin: 0 -1.6145833333333333%;
-  *zoom: 1;
-}
-#searchSuggestions li:before,
-#searchSuggestions li:after {
-  content: "";
-  display: table;
-}
-#searchSuggestions li:after {
-  clear: both;
 }
 #searchSuggestions li a {
   display: block;
@@ -745,12 +652,6 @@ body #loading {
   padding-top: 13px;
   padding-bottom: 13px;
   text-shadow: 0 0 1px #559d00;
-  display: inline;
-  float: left;
-  width: 96.875%;
-  margin: 0 1.5625%;
-  *width: 96.82291666666667%;
-  *margin: 0 1.5104166666666667%;
 }
 #searchSuggestions li a p.add-info {
   display: block;
@@ -1273,14 +1174,6 @@ input[type="submit"].btn.btn-mini {
   box-shadow: inset 0 1px 0 #ffffff;
   *zoom: 1;
 }
-.modal-footer:before,
-.modal-footer:after {
-  content: "";
-  display: table;
-}
-.modal-footer:after {
-  clear: both;
-}
 .modal-footer .btn + .btn {
   margin-left: 5px;
   margin-bottom: 0;
@@ -1289,22 +1182,10 @@ input[type="submit"].btn.btn-mini {
   margin-left: -1px;
 }
 #userpanel {
-  display: inline;
-  float: left;
-  width: 97.91666666666666%;
-  margin: 0 1.0416666666666665%;
-  *width: 97.86458333333333%;
-  *margin: 0 0.9895833333333331%;
   text-align: center;
   display: block;
 }
 #userpanel .userimg {
-  display: inline;
-  float: left;
-  width: 72.91666666666666%;
-  margin: 0 1.0416666666666665%;
-  *width: 72.86458333333333%;
-  *margin: 0 0.9895833333333331%;
   float: none;
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
@@ -1313,59 +1194,21 @@ input[type="submit"].btn.btn-mini {
   -webkit-background-clip: padding-box;
   background-clip: padding-box;
 }
-#userpanel .username {
-  display: inline;
-  float: left;
-  width: 97.91666666666666%;
-  margin: 0 1.0416666666666665%;
-  *width: 97.86458333333333%;
-  *margin: 0 0.9895833333333331%;
-  margin-top: 5px;
-}
 #userpanel #menu {
-  display: inline;
-  float: left;
-  width: 97.91666666666666%;
-  margin: 0 1.0416666666666665%;
-  *width: 97.86458333333333%;
-  *margin: 0 0.9895833333333331%;
   margin-top: 10px;
 }
 #userpanel #menu a {
   font-size: 15px;
 }
-#userpanel #mainMenu {
-  display: inline;
-  float: left;
-  width: 47.91666666666667%;
-  margin: 0 1.0416666666666665%;
-  *width: 47.864583333333336%;
-  *margin: 0 0.9895833333333331%;
-}
-#userpanel #mainMenu li a {
+#userpanel #menu #mainMenu li a {
   text-align: left;
-  display: inline;
-  float: left;
-  width: 79.16666666666666%;
-  margin: 0 2.083333333333333%;
-  *width: 79.11458333333333%;
-  *margin: 0 2.0312499999999996%;
   padding: 3px;
   background-color: transparent;
   height: 20px;
   position: relative;
   margin: 5px 0px 0px 2px;
 }
-#userpanel #mainMenu li:first-child a {
-  margin-top: 0;
-}
-#userpanel #mainMenu li .current {
-  display: inline;
-  float: left;
-  width: 79.16666666666666%;
-  margin: 0 2.083333333333333%;
-  *width: 79.11458333333333%;
-  *margin: 0 2.0312499999999996%;
+#userpanel #menu #mainMenu li a.current {
   height: 20px;
   position: relative;
   -webkit-border-radius: 8px;
@@ -1378,7 +1221,7 @@ input[type="submit"].btn.btn-mini {
   color: #f5ffe9;
   margin: 5px 0 0 0;
 }
-#userpanel #mainMenu li .current:after {
+#userpanel #menu #mainMenu li a.current:after {
   content: '';
   height: 0;
   position: absolute;
@@ -1388,13 +1231,10 @@ input[type="submit"].btn.btn-mini {
   left: 100%;
   margin: 0px 0px 0px 6%;
 }
-#userpanel #subMenu {
-  display: inline;
-  float: left;
-  width: 47.91666666666667%;
-  margin: 0 1.0416666666666665%;
-  *width: 47.864583333333336%;
-  *margin: 0 0.9895833333333331%;
+#userpanel #menu #mainMenu li:first-child a {
+  margin-top: 0;
+}
+#userpanel #menu #subMenu {
   border-left: 2px solid #5a5a5a;
   -webkit-border-radius: 10px;
   -moz-border-radius: 10px;
@@ -1412,17 +1252,17 @@ input[type="submit"].btn.btn-mini {
   /* Opera/IE 8+ */
 
 }
-#userpanel #subMenu li {
+#userpanel #menu #subMenu li {
   text-align: left;
 }
-#userpanel #subMenu li a {
+#userpanel #menu #subMenu li a {
   display: block;
   padding: 3px;
   padding-left: 10px;
   cursor: pointer;
   margin: 0px;
 }
-#userpanel #subMenu .current {
+#userpanel #menu #subMenu li a.current {
   background-color: #63b700;
   -webkit-border-radius: 8px;
   -moz-border-radius: 8px;
@@ -1548,6 +1388,10 @@ input[type="submit"].btn.btn-mini {
 .registerView #registerform .icon#firstnamelock {
   margin-left: -34px;
 }
+.registerView #loginform #rpasswordIcon[data-strength="0"]:after,
+.registerView #registerform #rpasswordIcon[data-strength="0"]:after {
+  background-color: red;
+}
 .registerView #loginform .error,
 .registerView #registerform .error,
 .registerView #loginform .success,
@@ -1603,60 +1447,24 @@ input[type="submit"].btn.btn-mini {
   bottom: 10px;
 }
 .shareForm {
-  width: 100%;
   *zoom: 1;
   border-bottom: 1px solid #666666;
 }
-.shareForm:before,
-.shareForm:after {
-  content: "";
-  display: table;
-}
-.shareForm:after {
-  clear: both;
-}
 .shareForm #shareText {
-  display: inline;
-  float: left;
-  width: 82.14285714285714%;
-  margin: 0 1.7857142857142856%;
-  *width: 82.09077380952381%;
-  *margin: 0 1.7336309523809523%;
   margin-bottom: 10px;
   margin-left: 20px;
 }
 .posts article {
-  width: 100%;
   margin: 10px 0 0 0;
   border-bottom: 1px solid #666666;
   *zoom: 1;
 }
-.posts article:before,
-.posts article:after {
-  content: "";
-  display: table;
-}
-.posts article:after {
-  clear: both;
-}
 .posts article .userimg {
   border-radius: 200px;
-  display: inline;
-  float: left;
-  width: 10.714285714285714%;
-  margin: 0 1.7857142857142856%;
-  *width: 10.66220238095238%;
-  *margin: 0 1.7336309523809523%;
   vertical-align: middle;
   margin: 10px 0px 10px 0px;
 }
 .posts article .postContent {
-  display: inline;
-  float: left;
-  width: 53.57142857142857%;
-  margin: 0 1.7857142857142856%;
-  *width: 53.519345238095234%;
-  *margin: 0 1.7336309523809523%;
   padding-top: 5px;
   margin-top: 10px;
   margin-bottom: 10px;
@@ -1674,12 +1482,6 @@ input[type="submit"].btn.btn-mini {
 
 }
 .posts article .postInfo {
-  display: inline;
-  float: left;
-  width: 25%;
-  margin: 0 1.7857142857142856%;
-  *width: 24.947916666666668%;
-  *margin: 0 1.7336309523809523%;
   padding-top: 5px;
   margin-bottom: 10px;
 }
@@ -1710,7 +1512,6 @@ input[type="submit"].btn.btn-mini {
 }
 .profileView #infowrap {
   float: left;
-  width: 100%;
   background-color: none;
   -webkit-border-top-right-radius: 3px;
   -webkit-border-bottom-right-radius: 0;
@@ -1741,46 +1542,12 @@ input[type="submit"].btn.btn-mini {
   box-shadow: 0px 0px 3px #666666;
 }
 .profileView #wall {
-  display: inline;
-  float: left;
-  width: 96.42857142857143%;
-  margin: 0 1.7857142857142856%;
-  *width: 96.3764880952381%;
-  *margin: 0 1.7336309523809523%;
   margin-top: 10px;
 }
 .profileView #postOnWall {
-  display: inline;
-  float: left;
-  width: 56.25%;
-  margin: 0 1.0416666666666665%;
-  *width: 56.197916666666664%;
-  *margin: 0 0.9895833333333331%;
   margin-top: 5px;
 }
-.profileView #userimg {
-  display: inline;
-  float: left;
-  width: 25%;
-  margin: 0 1.7857142857142856%;
-  *width: 24.947916666666668%;
-  *margin: 0 1.7336309523809523%;
-}
-.profileView #userinfo {
-  display: inline;
-  float: left;
-  width: 67.85714285714286%;
-  margin: 0 1.7857142857142856%;
-  *width: 67.80505952380953%;
-  *margin: 0 1.7336309523809523%;
-}
 .messagesView #main {
-  display: inline;
-  float: left;
-  width: 56.25%;
-  margin: 0 1.0416666666666665%;
-  *width: 56.197916666666664%;
-  *margin: 0 0.9895833333333331%;
   background-color: #ffffff;
   border: #666666 solid 1px;
   -webkit-border-radius: 5px;
@@ -1805,12 +1572,6 @@ input[type="submit"].btn.btn-mini {
   padding: 0;
 }
 .messagesView #topicListWrap {
-  display: inline;
-  float: left;
-  width: 25%;
-  margin: 0 1.7857142857142856%;
-  *width: 24.947916666666668%;
-  *margin: 0 1.7336309523809523%;
   margin-right: 3px;
 }
 .messagesView #topicListWrap #topicList {
@@ -1866,14 +1627,6 @@ input[type="submit"].btn.btn-mini {
   /* Opera/IE 8+ */
 
 }
-.messagesView #topicWrap.peerChat {
-  display: inline;
-  float: left;
-  width: 67.85714285714286%;
-  margin: 0 1.7857142857142856%;
-  *width: 67.80505952380953%;
-  *margin: 0 1.7336309523809523%;
-}
 .messagesView #topicWrap.peerChat #messageTitle {
   padding-left: 10px;
 }
@@ -1884,12 +1637,6 @@ input[type="submit"].btn.btn-mini {
   height: 300px;
 }
 .messagesView #topicWrap.peerChat #messageList .message {
-  display: inline;
-  float: left;
-  width: 95%;
-  margin: 0 2.5%;
-  *width: 94.94791666666667%;
-  *margin: 0 2.4479166666666665%;
   margin-bottom: 5px;
   *zoom: 1;
 }
@@ -1947,14 +1694,6 @@ input[type="submit"].btn.btn-mini {
 .messagesView #topicWrap.peerChat #messageList .message.other .user {
   padding-left: 10px;
 }
-.messagesView #topicWrap.groupChat {
-  display: inline;
-  float: left;
-  width: 67.85714285714286%;
-  margin: 0 1.7857142857142856%;
-  *width: 67.80505952380953%;
-  *margin: 0 1.7336309523809523%;
-}
 .messagesView #topicWrap.groupChat #messageTitle {
   padding-left: 10px;
 }
@@ -1965,12 +1704,6 @@ input[type="submit"].btn.btn-mini {
   height: 300px;
 }
 .messagesView #topicWrap.groupChat #messageList .message {
-  display: inline;
-  float: left;
-  width: 95%;
-  margin: 0 2.5%;
-  *width: 94.94791666666667%;
-  *margin: 0 2.4479166666666665%;
   margin-bottom: 5px;
   *zoom: 1;
 }
@@ -2008,7 +1741,7 @@ input[type="submit"].btn.btn-mini {
   -webkit-background-clip: padding-box;
   background-clip: padding-box;
 }
-.messagesView #topicWrap.groupChat #messageList.other {
+.messagesView #topicWrap.groupChat #messageList .message.other {
   -webkit-border-radius: 6px;
   -moz-border-radius: 6px;
   border-radius: 6px;
@@ -2017,22 +1750,8 @@ input[type="submit"].btn.btn-mini {
   background-clip: padding-box;
   color: #4e4e4e;
 }
-.messagesView #topicWrap.newMessage {
-  display: inline;
-  float: left;
-  width: 67.85714285714286%;
-  margin: 0 1.7857142857142856%;
-  *width: 67.80505952380953%;
-  *margin: 0 1.7336309523809523%;
-}
 .messagesView #topicWrap.newMessage #recieverInput,
 .messagesView #topicWrap.newMessage #messageInput {
-  display: inline;
-  float: left;
-  width: 95%;
-  margin: 0 2.5%;
-  *width: 94.94791666666667%;
-  *margin: 0 2.4479166666666665%;
   margin-bottom: 5px;
 }
 .messagesView #topicWrap.newMessage #sendmessage {
@@ -2060,15 +1779,6 @@ input[type="submit"].btn.btn-mini {
   /* Opera/IE 8+ */
 
 }
-.friendsView #friendsList,
-.profileFriendsSubView #friendsList {
-  display: inline;
-  float: left;
-  width: 96.42857142857143%;
-  margin: 0 1.7857142857142856%;
-  *width: 96.3764880952381%;
-  *margin: 0 1.7336309523809523%;
-}
 .friendsView #friendsList li,
 .profileFriendsSubView #friendsList li {
   border-bottom: 1px solid #666666;
@@ -2088,34 +1798,13 @@ input[type="submit"].btn.btn-mini {
   -webkit-background-clip: padding-box;
   background-clip: padding-box;
   margin-bottom: 10px !important;
-  display: inline;
-  float: left;
-  width: 39.285714285714285%;
-  margin: 0 1.7857142857142856%;
-  *width: 39.23363095238095%;
-  *margin: 0 1.7336309523809523%;
 }
 .friendsView #friendsList li a,
 .profileFriendsSubView #friendsList li a {
   *zoom: 1;
 }
-.friendsView #friendsList li a .friendPicture,
-.profileFriendsSubView #friendsList li a .friendPicture {
-  display: inline;
-  float: left;
-  width: 25%;
-  margin: 0 4.166666666666666%;
-  *width: 24.947916666666668%;
-  *margin: 0 4.114583333333333%;
-}
 .friendsView #friendsList li a .friendName,
 .profileFriendsSubView #friendsList li a .friendName {
-  display: inline;
-  float: left;
-  width: 58.333333333333336%;
-  margin: 0 4.166666666666666%;
-  *width: 58.28125%;
-  *margin: 0 4.114583333333333%;
   padding-top: 8%;
   color: #3a8100;
 }
@@ -2124,21 +1813,7 @@ input[type="submit"].btn.btn-mini {
   background-color: rgba(99, 183, 0, 0.3);
 }
 #mediaWrap .mediaRow {
-  display: block;
-  width: 103.57142857142858%;
-  margin: 0 -1.7857142857142856%;
-  *width: 103.51934523809526%;
-  *margin: 0 -1.8377976190476188%;
-  *zoom: 1;
   margin-top: 5px;
-}
-#mediaWrap .mediaRow:before,
-#mediaWrap .mediaRow:after {
-  content: "";
-  display: table;
-}
-#mediaWrap .mediaRow:after {
-  clear: both;
 }
 #mediaWrap .image {
   float: left;
@@ -2159,30 +1834,10 @@ input[type="submit"].btn.btn-mini {
   cursor: pointer;
 }
 #mediaWrap .droplet {
-  display: block;
-  width: 103.57142857142858%;
-  margin: 0 -1.7857142857142856%;
-  *width: 103.51934523809526%;
-  *margin: 0 -1.8377976190476188%;
-  *zoom: 1;
   margin-top: 20px;
   margin-bottom: 20px;
 }
-#mediaWrap .droplet:before,
-#mediaWrap .droplet:after {
-  content: "";
-  display: table;
-}
-#mediaWrap .droplet:after {
-  clear: both;
-}
 #mediaWrap .droplet .comments {
-  display: inline;
-  float: left;
-  width: 46.42857142857143%;
-  margin: 0 1.7857142857142856%;
-  *width: 46.376488095238095%;
-  *margin: 0 1.7336309523809523%;
   border-right: 2px solid #666666;
   -webkit-box-sizing: border-box;
   /* Safari/Chrome, other WebKit */
@@ -2195,12 +1850,6 @@ input[type="submit"].btn.btn-mini {
 
 }
 #mediaWrap .droplet .info {
-  display: inline;
-  float: left;
-  width: 32.142857142857146%;
-  margin: 0 1.7857142857142856%;
-  *width: 32.09077380952381%;
-  *margin: 0 1.7336309523809523%;
   border-right: 2px solid #666666;
   -webkit-box-sizing: border-box;
   /* Safari/Chrome, other WebKit */
@@ -2211,14 +1860,6 @@ input[type="submit"].btn.btn-mini {
   box-sizing: border-box;
   /* Opera/IE 8+ */
 
-}
-#mediaWrap .droplet .opinion {
-  display: inline;
-  float: left;
-  width: 10.714285714285714%;
-  margin: 0 1.7857142857142856%;
-  *width: 10.66220238095238%;
-  *margin: 0 1.7336309523809523%;
 }
 .settingsView #main {
   background-color: #ffffff;
@@ -2245,25 +1886,664 @@ input[type="submit"].btn.btn-mini {
 }
 .settingsView #toc {
   float: left;
-  width: 100%;
 }
-.settingsView .config {
-  display: inline;
-  float: left;
-  width: 82.14285714285714%;
-  margin: 0 1.7857142857142856%;
-  *width: 82.09077380952381%;
-  *margin: 0 1.7336309523809523%;
-  margin-left: 9.374999999999998%;
+/* Do it responsive! */
+/* Smartphones (portrait and landscape) */
+@media only screen and (min-width: 320px) and (max-width: 767px) {
+  body noscript {
+    display: inline;
+    float: left;
+    width: 98%;
+    margin: 0 1% 0 1%;
+    margin-top: 10px;
+  }
+  body #sidebar-left {
+    display: block;
+    width: 98%;
+    margin: 0 1% 0 1%;
+    *zoom: 1;
+    margin-bottom: 10px;
+  }
+  body #sidebar-left #userpanel {
+    display: inline;
+    float: left;
+    width: 98%;
+    margin: 0 1% 0 1%;
+  }
+  body footer {
+    display: inline;
+    float: left;
+    width: 98%;
+    margin: 0 1% 0 1%;
+  }
+  body #main {
+    display: inline;
+    float: left;
+    width: 98%;
+    margin: 0 1% 0 1%;
+  }
+  #topNav {
+    width: 100%;
+  }
+  .nav-inner .brand {
+    width: 130px;
+  }
+  .nav-inner #nav-icons {
+    width: 100px;
+  }
+  .nav-icon-icons {
+    font-style: normal;
+    color: #111;
+    width: 30px;
+  }
+  #searchQuery {
+    display: inline;
+    float: left;
+    width: 64.66666666666667%;
+    margin: 0 1% 0 1%;
+    display: none;
+  }
+  #searchDrop {
+    display: inline;
+    float: left;
+    width: 64.66666666666667%;
+    margin: 0 1% 0 1%;
+  }
+  #searchSuggestions li {
+    display: block;
+    width: 98%;
+    margin: 0 1% 0 1%;
+    *zoom: 1;
+  }
+  #searchSuggestions li a {
+    display: inline;
+    float: left;
+    width: 98%;
+    margin: 0 1% 0 1%;
+  }
+  #userpanel #menu #mainMenu {
+    display: inline;
+    float: left;
+    width: 48%;
+    margin: 0 1% 0 1%;
+  }
+  #userpanel #menu #mainMenu li a {
+    display: inline;
+    float: left;
+    width: 81.33333333333334%;
+    margin: 0 1% 0 1%;
+  }
+  #userpanel #menu #mainMenu li a.current {
+    display: inline;
+    float: left;
+    width: 81.33333333333334%;
+    margin: 0 1% 0 1%;
+  }
+  #userpanel #menu #subMenu {
+    display: inline;
+    float: left;
+    width: 48%;
+    margin: 0 1% 0 1%;
+  }
+  #userpanel #menu #subMenu li a {
+    display: inline;
+    float: left;
+    width: 81.33333333333334%;
+    margin: 0 1% 0 1%;
+  }
+  .friendsView #friendsList,
+  .profileFriendsSubView #friendsList {
+    display: inline;
+    float: left;
+    width: 98%;
+    margin: 0 1% 0 1%;
+  }
+  .friendsView #friendsList li,
+  .profileFriendsSubView #friendsList li {
+    display: inline;
+    float: left;
+    width: 40.85714285714286%;
+    margin: 0 1% 0 1%;
+  }
+  .friendsView #friendsList li a .friendPicture,
+  .profileFriendsSubView #friendsList li a .friendPicture {
+    display: inline;
+    float: left;
+    width: 31.333333333333336%;
+    margin: 0 1% 0 1%;
+  }
+  .friendsView #friendsList li a .friendName,
+  .profileFriendsSubView #friendsList li a .friendName {
+    display: inline;
+    float: left;
+    width: 64.66666666666667%;
+    margin: 0 1% 0 1%;
+  }
+  #mediaWrap .mediaRow {
+    display: block;
+    width: 98%;
+    margin: 0 1% 0 1%;
+    *zoom: 1;
+  }
+  #mediaWrap .droplet {
+    display: block;
+    width: 98%;
+    margin: 0 1% 0 1%;
+    *zoom: 1;
+  }
+  #mediaWrap .droplet .comments {
+    display: inline;
+    float: left;
+    width: 48%;
+    margin: 0 1% 0 1%;
+  }
+  #mediaWrap .droplet .info {
+    display: inline;
+    float: left;
+    width: 33.714285714285715%;
+    margin: 0 1% 0 1%;
+  }
+  #mediaWrap .droplet .opinion {
+    display: inline;
+    float: left;
+    width: 12.285714285714286%;
+    margin: 0 1% 0 1%;
+  }
+  .messagesView #main {
+    display: inline;
+    float: left;
+    width: 56.333333333333336%;
+    margin: 0 1% 0 1%;
+  }
+  .messagesView #topicListWrap {
+    display: inline;
+    float: left;
+    width: 26.571428571428573%;
+    margin: 0 1% 0 1%;
+    margin-right: 3px;
+  }
+  .messagesView #topicWrap.peerChat {
+    display: inline;
+    float: left;
+    width: 69.42857142857143%;
+    margin: 0 1% 0 1%;
+  }
+  .messagesView #topicWrap.peerChat #messageList .message {
+    display: inline;
+    float: left;
+    width: 98%;
+    margin: 0 1% 0 1%;
+  }
+  .messagesView #topicWrap.peerChat #messageList .message .user .userimg {
+    width: 10%;
+  }
+  .messagesView #topicWrap.peerChat #messageList .message .messageText {
+    float: left;
+    width: 80%;
+  }
+  .messagesView #topicWrap.groupChat {
+    display: inline;
+    float: left;
+    width: 69.42857142857143%;
+    margin: 0 1% 0 1%;
+  }
+  .messagesView #topicWrap.groupChat #messageList .message {
+    display: inline;
+    float: left;
+    width: 98%;
+    margin: 0 1% 0 1%;
+  }
+  .messagesView #topicWrap.groupChat #messageList .message .user .userimg {
+    float: left;
+    width: 10%;
+  }
+  .messagesView #topicWrap.groupChat #messageList .message .user .username {
+    width: 10%;
+  }
+  .messagesView #topicWrap.groupChat #messageList .message .messageText {
+    width: 70%;
+  }
+  .messagesView #topicWrap.newMessage {
+    display: inline;
+    float: left;
+    width: 69.42857142857143%;
+    margin: 0 1% 0 1%;
+  }
+  .messagesView #topicWrap.newMessage #recieverInput,
+  .messagesView #topicWrap.newMessage #messageInput {
+    display: inline;
+    float: left;
+    width: 98%;
+    margin: 0 1% 0 1%;
+    margin-bottom: 5px;
+  }
+  .messagesView #topicWrap.newMessage #sendmessage {
+    margin-left: 12px;
+  }
+  .shareForm {
+    width: 100%;
+    *zoom: 1;
+    border-bottom: 1px solid #666666;
+  }
+  .shareForm #shareText {
+    display: inline;
+    float: left;
+    width: 83.71428571428572%;
+    margin: 0 1% 0 1%;
+    margin-bottom: 10px;
+    margin-left: 20px;
+  }
+  .posts article {
+    width: 100%;
+    margin: 10px 0 0 0;
+    border-bottom: 1px solid #666666;
+    *zoom: 1;
+  }
+  .posts article .userimg {
+    border-radius: 200px;
+    display: inline;
+    float: left;
+    width: 12.285714285714286%;
+    margin: 0 1% 0 1%;
+    vertical-align: middle;
+    margin: 10px 0px 10px 0px;
+  }
+  .posts article .postContent {
+    display: inline;
+    float: left;
+    width: 55.142857142857146%;
+    margin: 0 1% 0 1%;
+    padding-top: 5px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
+  .posts article .postContent .postText {
+    padding-left: 10px;
+    -webkit-box-sizing: border-box;
+    /* Safari/Chrome, other WebKit */
+  
+    -moz-box-sizing: border-box;
+    /* Firefox, other Gecko */
+  
+    box-sizing: border-box;
+    /* Opera/IE 8+ */
+  
+  }
+  .posts article .postInfo {
+    display: inline;
+    float: left;
+    width: 26.571428571428573%;
+    margin: 0 1% 0 1%;
+    padding-top: 5px;
+    margin-bottom: 10px;
+  }
+  .posts article:last-child {
+    border: none;
+  }
+  .profileView #main {
+    background-color: #ffffff;
+    border: #666666 solid 1px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    -moz-background-clip: padding;
+    -webkit-background-clip: padding-box;
+    background-clip: padding-box;
+    -webkit-box-shadow: 0 0 2px #666666;
+    -moz-box-shadow: 0 0 2px #666666;
+    box-shadow: 0 0 2px #666666;
+    -webkit-box-sizing: border-box;
+    /* Safari/Chrome, other WebKit */
+  
+    -moz-box-sizing: border-box;
+    /* Firefox, other Gecko */
+  
+    box-sizing: border-box;
+    /* Opera/IE 8+ */
+  
+  }
+  .profileView #infowrap {
+    float: left;
+    width: 100%;
+    background-color: none;
+    -webkit-border-top-right-radius: 3px;
+    -webkit-border-bottom-right-radius: 0;
+    -webkit-border-bottom-left-radius: 0;
+    -webkit-border-top-left-radius: 3px;
+    -moz-border-radius-topright: 3px;
+    -moz-border-radius-bottomright: 0;
+    -moz-border-radius-bottomleft: 0;
+    -moz-border-radius-topleft: 3px;
+    border-top-right-radius: 3px;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+    border-top-left-radius: 3px;
+    -moz-background-clip: padding;
+    -webkit-background-clip: padding-box;
+    background-clip: padding-box;
+    -webkit-box-sizing: border-box;
+    /* Safari/Chrome, other WebKit */
+  
+    -moz-box-sizing: border-box;
+    /* Firefox, other Gecko */
+  
+    box-sizing: border-box;
+    /* Opera/IE 8+ */
+  
+    -webkit-box-shadow: 0px 0px 3px #666666;
+    -moz-box-shadow: 0px 0px 3px #666666;
+    box-shadow: 0px 0px 3px #666666;
+  }
+  .profileView #wall {
+    display: inline;
+    float: left;
+    width: 98%;
+    margin: 0 1% 0 1%;
+    margin-top: 10px;
+  }
+  .profileView #postOnWall {
+    display: inline;
+    float: left;
+    width: 56.333333333333336%;
+    margin: 0 1% 0 1%;
+    margin-top: 5px;
+  }
+  .profileView #userimg {
+    display: inline;
+    float: left;
+    width: 26.571428571428573%;
+    margin: 0 1% 0 1%;
+  }
+  .profileView #userinfo {
+    display: inline;
+    float: left;
+    width: 69.42857142857143%;
+    margin: 0 1% 0 1%;
+  }
+  .registerView {
+    background-color: #3a8100;
+  }
+  .registerView footer {
+    color: #f2fbec;
+  }
+  .registerView #main {
+    text-align: center;
+  }
+  .registerView #logo {
+    margin: 0 auto;
+  }
+  .registerView #loginform,
+  .registerView #registerform {
+    width: 300px;
+    margin: 0 auto;
+    margin-bottom: 10px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    -moz-background-clip: padding;
+    -webkit-background-clip: padding-box;
+    background-clip: padding-box;
+    display: none;
+    /* fix firefox */
+  
+  }
+  .registerView #loginform input,
+  .registerView #registerform input,
+  .registerView #loginform button,
+  .registerView #registerform button {
+    width: 300px;
+    margin: 0 auto;
+    outline: none;
+    border: none;
+    -webkit-border-radius: 0px;
+    -moz-border-radius: 0px;
+    border-radius: 0px;
+    -moz-background-clip: padding;
+    -webkit-background-clip: padding-box;
+    background-clip: padding-box;
+  }
+  .registerView #loginform input:first-child,
+  .registerView #registerform input:first-child,
+  .registerView #loginform button:first-child,
+  .registerView #registerform button:first-child {
+    -webkit-border-top-right-radius: 5px;
+    -webkit-border-bottom-right-radius: 0px;
+    -webkit-border-bottom-left-radius: 0px;
+    -webkit-border-top-left-radius: 5px;
+    -moz-border-radius-topright: 5px;
+    -moz-border-radius-bottomright: 0px;
+    -moz-border-radius-bottomleft: 0px;
+    -moz-border-radius-topleft: 5px;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 0px;
+    border-bottom-left-radius: 0px;
+    border-top-left-radius: 5px;
+    -moz-background-clip: padding;
+    -webkit-background-clip: padding-box;
+    background-clip: padding-box;
+  }
+  .registerView #loginform input:last-child,
+  .registerView #registerform input:last-child,
+  .registerView #loginform button:last-child,
+  .registerView #registerform button:last-child {
+    -webkit-border-top-right-radius: 0px;
+    -webkit-border-bottom-right-radius: 5px;
+    -webkit-border-bottom-left-radius: 5px;
+    -webkit-border-top-left-radius: 0px;
+    -moz-border-radius-topright: 0px;
+    -moz-border-radius-bottomright: 5px;
+    -moz-border-radius-bottomleft: 5px;
+    -moz-border-radius-topleft: 0px;
+    border-top-right-radius: 0px;
+    border-bottom-right-radius: 5px;
+    border-bottom-left-radius: 5px;
+    border-top-left-radius: 0px;
+    -moz-background-clip: padding;
+    -webkit-background-clip: padding-box;
+    background-clip: padding-box;
+  }
+  .registerView #loginform .icon,
+  .registerView #registerform .icon {
+    position: absolute;
+    margin-top: -33px;
+    margin-left: 270px;
+  }
+  .registerView #loginform .icon.check,
+  .registerView #registerform .icon.check,
+  .registerView #loginform .icon.fail,
+  .registerView #registerform .icon.fail {
+    padding: 7px 7px 5px 3px;
+  }
+  .registerView #loginform .icon,
+  .registerView #registerform .icon,
+  .registerView #loginform x:-moz-any-link,
+  .registerView #registerform x:-moz-any-link,
+  .registerView #loginform x:only-child,
+  .registerView #registerform x:only-child {
+    margin-top: 0px;
+    margin-left: -33px;
+  }
+  .registerView #loginform noindex:-o-prefocus,
+  .registerView #registerform noindex:-o-prefocus,
+  .registerView #loginform .icon,
+  .registerView #registerform .icon {
+    margin-top: 0px;
+  }
+  .registerView #loginform noindex:-o-prefocus#firstnamelock,
+  .registerView #registerform noindex:-o-prefocus#firstnamelock,
+  .registerView #loginform .icon#firstnamelock,
+  .registerView #registerform .icon#firstnamelock {
+    margin-left: -34px;
+  }
+  .registerView #loginform #rpasswordIcon[data-strength="0"]:after,
+  .registerView #registerform #rpasswordIcon[data-strength="0"]:after {
+    background-color: red;
+  }
+  .registerView #loginform .error,
+  .registerView #registerform .error,
+  .registerView #loginform .success,
+  .registerView #registerform .success {
+    width: 300px;
+    padding: 5px;
+    margin: 0 auto;
+    display: none;
+  }
+  .registerView #loginform .error,
+  .registerView #registerform .error {
+    border: 1px solid #5d0000;
+    background-color: #b40000;
+    -webkit-box-sizing: border-box;
+    /* Safari/Chrome, other WebKit */
+  
+    -moz-box-sizing: border-box;
+    /* Firefox, other Gecko */
+  
+    box-sizing: border-box;
+    /* Opera/IE 8+ */
+  
+  }
+  .registerView #loginform .success,
+  .registerView #registerform .success {
+    border: 1px solid #488200;
+    background-color: #66b900;
+    -webkit-box-sizing: border-box;
+    /* Safari/Chrome, other WebKit */
+  
+    -moz-box-sizing: border-box;
+    /* Firefox, other Gecko */
+  
+    box-sizing: border-box;
+    /* Opera/IE 8+ */
+  
+  }
+  .registerView #loginform input,
+  .registerView #registerform input {
+    border-bottom: 1px solid #ddd;
+    padding-right: 30px;
+  }
+  .registerView a {
+    text-decoration: underline;
+    color: #e6e6e6;
+  }
+  .registerView #callRegister,
+  .registerView #callLogin {
+    display: none;
+  }
+  .registerView footer {
+    position: fixed;
+    bottom: 10px;
+  }
+  .settingsView #main {
+    background-color: #ffffff;
+    border: #666666 solid 1px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    -moz-background-clip: padding;
+    -webkit-background-clip: padding-box;
+    background-clip: padding-box;
+    -webkit-box-shadow: 0 0 2px #666666;
+    -moz-box-shadow: 0 0 2px #666666;
+    box-shadow: 0 0 2px #666666;
+    padding: 10px;
+    -webkit-box-sizing: border-box;
+    /* Safari/Chrome, other WebKit */
+  
+    -moz-box-sizing: border-box;
+    /* Firefox, other Gecko */
+  
+    box-sizing: border-box;
+    /* Opera/IE 8+ */
+  
+  }
+  .settingsView #toc {
+    float: left;
+    width: 100%;
+  }
+  .settingsView .config {
+    display: inline;
+    float: left;
+    width: 83.71428571428572%;
+    margin: 0 1% 0 1%;
+    margin-left: 8.333333333333334%;
+  }
+  .settingsView .config input:not([type=submit]):not([type=file]) {
+    display: inline;
+    float: left;
+    width: 23%;
+    margin: 0 1% 0 1%;
+  }
+  .settingsView .config #newNickname {
+    margin-left: 25%;
+  }
 }
-.settingsView .config input:not([type=submit]):not([type=file]) {
-  display: inline;
-  float: left;
-  width: 22.916666666666664%;
-  margin: 0 1.0416666666666665%;
-  *width: 22.864583333333332%;
-  *margin: 0 0.9895833333333331%;
+/* Tablets */
+/* Tablets (landscape) ----------- */
+@media only screen and (min-width: 768px) and (max-width: 1024px) and (orientation: landscape) {
+  
 }
-.settingsView .config #newNickname {
-  margin-left: 26.041666666666668%;
+/* Tablets (portrait) ----------- */
+@media only screen and (min-width: 768px) and (max-width: 1024px) and (orientation: portrait) {
+  
+}
+/* Small Screens ----------- */
+@media only screen and (min-width: 1024px) and (max-width: 1159px) {
+  
+}
+/* Normal Screens ---------- */
+@media only screen and (min-width: 1160px) {
+  
+}
+/* Large screens ----------- */
+@media only screen and (min-width: 1824px) {
+  
+}
+/* Utilities --------------- */
+.hidden {
+  display: none;
+  visibility: hidden;
+}
+.visible-phone {
+  display: none !important;
+}
+.visible-tablet {
+  display: none !important;
+}
+.hidden-desktop {
+  display: none !important;
+}
+.visible-desktop {
+  display: inherit !important;
+}
+@media (min-width: 768px) and (max-width: 1159px) {
+  .hidden-desktop {
+    display: inherit !important;
+  }
+  .visible-desktop {
+    display: none !important ;
+  }
+  .visible-tablet {
+    display: inherit !important;
+  }
+  .hidden-tablet {
+    display: none !important;
+  }
+}
+@media (max-width: 767px) {
+  .hidden-desktop {
+    display: inherit !important;
+  }
+  .visible-desktop {
+    display: none !important;
+  }
+  .visible-phone {
+    display: inherit !important;
+  }
+  .hidden-phone {
+    display: none !important;
+  }
+}
+nav,
+.sidebar {
+  display: none;
 }

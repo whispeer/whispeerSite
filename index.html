@@ -23,8 +23,7 @@
 	<link rel="apple-touch-startup-image" href="img/socialize-splash.png">
 	<meta name="apple-mobile-web-app-capable" content="yes" />
 	
-	<link rel="stylesheet" href="less/social.css">
-	<link rel="stylesheet" href="less/responsive.css">
+	<link rel="stylesheet" href="less/style.css">
 	<link rel="stylesheet" href="less/fontello/fontello.css">
 	<!--[if IE 7]><link rel="stylesheet" href="less/fontello/fontello-ie7.css"><![endif]-->
 	<script src="js/libs/modernizr.js"></script>
@@ -149,7 +148,7 @@
 		</div>
 	</nav>
 	<div id="container">
-		<aside class="bubble" id="sidebar-left" style="display:none">
+		<aside id="sidebar-left" style="display:none">
 			<div id="userpanel">
 				<a href="#view=profile" class="username">
 					<!--<img src="img/profil.jpg" alt="" class="userimg">-->
@@ -175,8 +174,8 @@
 		<section id="main">
 		</section>
 		<div id="loading"><img src="img/spinner.gif" alt="I'm turning and turning and turning and turning and turning... Oh I had to defood."></div>
-		<aside class="hidden-tablet" id="sidebar-right" style="display:none">
-			<div class="bubble" id="ads">
+		<aside id="sidebar-right" class="hidden-phone hidden-tablet">
+			<div id="ads">
 				Werbung
 			</div>
 		</aside>
@@ -185,6 +184,7 @@
 	<div id="left">&copy; 2012 WhisPeer</div> <div id="right"><a href="">AGB</a> <a href="">Datenschutzbestimmungen</a> <a href="">Kontakt</a> <a href="">Impressum</a></div>
 	</footer>
 	<!-- Le javascript -->
+	<script src="js/libs/passwordstrength.js"></script>
 	<!--
 
 	<script src="js/libs/jquery-ui-1.8.21.custom.min.js"></script>

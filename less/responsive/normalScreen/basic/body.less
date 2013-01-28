@@ -1,0 +1,22 @@
+body {
+	noscript {
+		.column(12);
+		margin-top: 10px;
+	}
+	#sidebar-left {
+		.column(3);
+		#userpanel {
+			.column(3,3);
+		}
+	}
+	#sidebar-right {
+		.column(2);
+		display: none;
+	}
+	footer {
+		.column(12);
+	}
+	&:not(.registerView) #main {
+		.column(7);
+	} 
+}

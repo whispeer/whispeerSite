@@ -1,27 +1,50 @@
-//Don't touch any of the *.less or *.css files, or you will die an awfull death.
 // Responsive Styles
-// ---------------------------
+// --------------------------- 
 
-// Grid System
-@import "social/basic/grid.less";
+/* Smartphones (portrait and landscape) */
+@media only screen 
+and (min-width : 320px) 
+and (max-width : 767px) {
+	@import "responsive/mobile/index";
+}
 
-// Variables
-@import "social/variables.less";
 
-// Mobile devices (up to 480px)
-@import "responsive/mobile.less";
+/* Tablets */
+	
+	/* Tablets (landscape) ----------- */
+	@media only screen 
+	and (min-width : 768px) 
+	and (max-width : 1024px) 
+	and (orientation : landscape) {
+		//@import "responsive/tablet/landscape/index";
+	}
+	
+	/* Tablets (portrait) ----------- */
+	@media only screen 
+	and (min-width : 768px) 
+	and (max-width : 1024px) 
+	and (orientation : portrait) {
+		//@import "responsive/tablet/portrait/index";
+	}
 
-// Tablet screens (up to 768px)
-@import "responsive/tablet.less";
+/* Small Screens ----------- */
+@media only screen
+and (min-width: 1024px)
+and (max-width: 1159px) {
+	//@import "responsive/smallScreen/index";
+}
 
-// Small screens (up to 1200px)
-@import "responsive/smallScreen.less";
+/* Normal Screens ---------- */
+@media only screen 
+and (min-width: 1160px) {
+	//@import "responsive/normalScreen/index";
+}
 
-// Normal screens (up to 1824px)
-@import "responsive/normalScreen.less";
+/* Large screens ----------- */
+@media only screen 
+and (min-width : 1824px) {
+	//@import "responsive/largeScreen/index";
+}
 
-// Widescreens (from 1824px)
-@import "responsive/wideScreen.less";
-
-// Utilities
+/* Utilities --------------- */
 @import "responsive/utilities.less";
