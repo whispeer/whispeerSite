@@ -1485,46 +1485,9 @@ input[type="submit"].btn.btn-mini {
 .posts article:last-child {
   border: none;
 }
-.profileView #main {
-  background-color: #ffffff;
-  border: #666666 solid 1px;
-  -webkit-border-radius: 5px;
-  -moz-border-radius: 5px;
-  border-radius: 5px;
-  -moz-background-clip: padding;
-  -webkit-background-clip: padding-box;
-  background-clip: padding-box;
-  -webkit-box-shadow: 0 0 2px #666666;
-  -moz-box-shadow: 0 0 2px #666666;
-  box-shadow: 0 0 2px #666666;
-  -webkit-box-sizing: border-box;
-  /* Safari/Chrome, other WebKit */
-
-  -moz-box-sizing: border-box;
-  /* Firefox, other Gecko */
-
-  box-sizing: border-box;
-  /* Opera/IE 8+ */
-
-}
 .profileView #infowrap {
   float: left;
   background-color: none;
-  -webkit-border-top-right-radius: 3px;
-  -webkit-border-bottom-right-radius: 0;
-  -webkit-border-bottom-left-radius: 0;
-  -webkit-border-top-left-radius: 3px;
-  -moz-border-radius-topright: 3px;
-  -moz-border-radius-bottomright: 0;
-  -moz-border-radius-bottomleft: 0;
-  -moz-border-radius-topleft: 3px;
-  border-top-right-radius: 3px;
-  border-bottom-right-radius: 0;
-  border-bottom-left-radius: 0;
-  border-top-left-radius: 3px;
-  -moz-background-clip: padding;
-  -webkit-background-clip: padding-box;
-  background-clip: padding-box;
   -webkit-box-sizing: border-box;
   /* Safari/Chrome, other WebKit */
 
@@ -1534,9 +1497,6 @@ input[type="submit"].btn.btn-mini {
   box-sizing: border-box;
   /* Opera/IE 8+ */
 
-  -webkit-box-shadow: 0px 0px 3px #666666;
-  -moz-box-shadow: 0px 0px 3px #666666;
-  box-shadow: 0px 0px 3px #666666;
 }
 .profileView #wall {
   margin-top: 10px;
@@ -2200,84 +2160,43 @@ input[type="submit"].btn.btn-mini {
     margin: 0 1% 0 1%;
     margin-left: 58.333333333333336%;
   }
-  .profileView #main {
-    background-color: #ffffff;
-    border: #666666 solid 1px;
-    -webkit-border-radius: 5px;
-    -moz-border-radius: 5px;
-    border-radius: 5px;
-    -moz-background-clip: padding;
-    -webkit-background-clip: padding-box;
-    background-clip: padding-box;
-    -webkit-box-shadow: 0 0 2px #666666;
-    -moz-box-shadow: 0 0 2px #666666;
-    box-shadow: 0 0 2px #666666;
-    -webkit-box-sizing: border-box;
-    /* Safari/Chrome, other WebKit */
-  
-    -moz-box-sizing: border-box;
-    /* Firefox, other Gecko */
-  
-    box-sizing: border-box;
-    /* Opera/IE 8+ */
-  
-  }
   .profileView #infowrap {
-    float: left;
-    width: 100%;
-    background-color: none;
-    -webkit-border-top-right-radius: 3px;
-    -webkit-border-bottom-right-radius: 0;
-    -webkit-border-bottom-left-radius: 0;
-    -webkit-border-top-left-radius: 3px;
-    -moz-border-radius-topright: 3px;
-    -moz-border-radius-bottomright: 0;
-    -moz-border-radius-bottomleft: 0;
-    -moz-border-radius-topleft: 3px;
-    border-top-right-radius: 3px;
-    border-bottom-right-radius: 0;
-    border-bottom-left-radius: 0;
-    border-top-left-radius: 3px;
-    -moz-background-clip: padding;
-    -webkit-background-clip: padding-box;
-    background-clip: padding-box;
-    -webkit-box-sizing: border-box;
-    /* Safari/Chrome, other WebKit */
-  
-    -moz-box-sizing: border-box;
-    /* Firefox, other Gecko */
-  
-    box-sizing: border-box;
-    /* Opera/IE 8+ */
-  
-    -webkit-box-shadow: 0px 0px 3px #666666;
-    -moz-box-shadow: 0px 0px 3px #666666;
-    box-shadow: 0px 0px 3px #666666;
-  }
-  .profileView #wall {
     display: inline;
     float: left;
     width: 98%;
     margin: 0 1% 0 1%;
-    margin-top: 10px;
   }
-  .profileView #postOnWall {
+  .profileView .shareForm {
     display: inline;
     float: left;
-    width: 56.333333333333336%;
+    width: 98%;
     margin: 0 1% 0 1%;
-    margin-top: 5px;
+    padding-bottom: 10px;
+  }
+  .profileView .shareForm #shareText {
+    display: inline;
+    float: left;
+    width: 73%;
+    margin: 0 1% 0 1%;
+  }
+  .profileView .shareForm button {
+    display: inline;
+    float: left;
+    width: 23%;
+    margin: 0 1% 0 1%;
   }
   .profileView #userimg {
     display: inline;
     float: left;
-    width: 26.571428571428573%;
+    width: 98%;
     margin: 0 1% 0 1%;
+    text-align: center;
+    padding-top: 10px;
   }
   .profileView #userinfo {
     display: inline;
     float: left;
-    width: 69.42857142857143%;
+    width: 98%;
     margin: 0 1% 0 1%;
   }
   .registerView {
