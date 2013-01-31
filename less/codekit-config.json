@@ -124,6 +124,19 @@
       "outputAbbreviatedPath" : "No Output Path",
       "fileType" : 16
     },
+    "\/responsive\/normalScreen\/basic\/body.less" : {
+      "ignoreWasSetByUser" : 0,
+      "ignore" : 1,
+      "hidden" : 0,
+      "outputPathIsSetByUser" : 0,
+      "inputAbbreviatedPath" : "\/responsive\/normalScreen\/basic\/body.less",
+      "outputStyle" : 0,
+      "shouldRunBless" : 1,
+      "outputAbbreviatedPath" : "\/responsive\/normalScreen\/css\/body.css",
+      "strictImports" : 0,
+      "fileType" : 1,
+      "debugStyle" : 0
+    },
     "\/responsive\/tablet\/landscape\/views\/messages.less" : {
       "ignoreWasSetByUser" : 0,
       "ignore" : 1,
@@ -133,19 +146,6 @@
       "outputStyle" : 0,
       "shouldRunBless" : 1,
       "outputAbbreviatedPath" : "\/responsive\/tablet\/landscape\/css\/messages.css",
-      "strictImports" : 0,
-      "fileType" : 1,
-      "debugStyle" : 0
-    },
-    "\/responsive\/mobile\/views\/profile.less" : {
-      "ignoreWasSetByUser" : 0,
-      "ignore" : 1,
-      "hidden" : 0,
-      "outputPathIsSetByUser" : 0,
-      "inputAbbreviatedPath" : "\/responsive\/mobile\/views\/profile.less",
-      "outputStyle" : 0,
-      "shouldRunBless" : 1,
-      "outputAbbreviatedPath" : "\/responsive\/mobile\/css\/profile.css",
       "strictImports" : 0,
       "fileType" : 1,
       "debugStyle" : 0
@@ -163,6 +163,15 @@
       "fileType" : 1,
       "debugStyle" : 0
     },
+    "\/style.css" : {
+      "ignoreWasSetByUser" : 0,
+      "ignore" : 1,
+      "hidden" : 0,
+      "outputPathIsSetByUser" : 0,
+      "inputAbbreviatedPath" : "\/style.css",
+      "outputAbbreviatedPath" : "No Output Path",
+      "fileType" : 16
+    },
     "\/responsive\/tablet\/landscape\/index.less" : {
       "ignoreWasSetByUser" : 0,
       "ignore" : 0,
@@ -172,6 +181,19 @@
       "outputStyle" : 0,
       "shouldRunBless" : 1,
       "outputAbbreviatedPath" : "\/responsive\/tablet\/css\/index.css",
+      "strictImports" : 0,
+      "fileType" : 1,
+      "debugStyle" : 0
+    },
+    "\/responsive\/mobile\/views\/profile.less" : {
+      "ignoreWasSetByUser" : 0,
+      "ignore" : 1,
+      "hidden" : 0,
+      "outputPathIsSetByUser" : 0,
+      "inputAbbreviatedPath" : "\/responsive\/mobile\/views\/profile.less",
+      "outputStyle" : 0,
+      "shouldRunBless" : 1,
+      "outputAbbreviatedPath" : "\/responsive\/mobile\/css\/profile.css",
       "strictImports" : 0,
       "fileType" : 1,
       "debugStyle" : 0
@@ -189,15 +211,15 @@
       "fileType" : 1,
       "debugStyle" : 0
     },
-    "\/responsive\/normalScreen\/basic\/body.less" : {
+    "\/responsive\/normalScreen\/views\/messages.less" : {
       "ignoreWasSetByUser" : 0,
       "ignore" : 1,
       "hidden" : 0,
       "outputPathIsSetByUser" : 0,
-      "inputAbbreviatedPath" : "\/responsive\/normalScreen\/basic\/body.less",
+      "inputAbbreviatedPath" : "\/responsive\/normalScreen\/views\/messages.less",
       "outputStyle" : 0,
       "shouldRunBless" : 1,
-      "outputAbbreviatedPath" : "\/responsive\/normalScreen\/css\/body.css",
+      "outputAbbreviatedPath" : "\/responsive\/normalScreen\/css\/messages.css",
       "strictImports" : 0,
       "fileType" : 1,
       "debugStyle" : 0
@@ -211,19 +233,6 @@
       "outputStyle" : 0,
       "shouldRunBless" : 1,
       "outputAbbreviatedPath" : "\/responsive\/tablet\/portrait\/css\/media.css",
-      "strictImports" : 0,
-      "fileType" : 1,
-      "debugStyle" : 0
-    },
-    "\/responsive\/normalScreen\/views\/messages.less" : {
-      "ignoreWasSetByUser" : 0,
-      "ignore" : 1,
-      "hidden" : 0,
-      "outputPathIsSetByUser" : 0,
-      "inputAbbreviatedPath" : "\/responsive\/normalScreen\/views\/messages.less",
-      "outputStyle" : 0,
-      "shouldRunBless" : 1,
-      "outputAbbreviatedPath" : "\/responsive\/normalScreen\/css\/messages.css",
       "strictImports" : 0,
       "fileType" : 1,
       "debugStyle" : 0
@@ -518,7 +527,7 @@
       "inputAbbreviatedPath" : "\/style.less",
       "outputStyle" : 0,
       "shouldRunBless" : 1,
-      "outputAbbreviatedPath" : "~\/Sites\/whispeer\/main\/less\/style.css",
+      "outputAbbreviatedPath" : "\/style.css",
       "strictImports" : 0,
       "fileType" : 1,
       "debugStyle" : 0
@@ -1231,19 +1240,6 @@
       "fileType" : 1,
       "debugStyle" : 0
     },
-    "\/responsive\/mobile\/views\/friends.less" : {
-      "ignoreWasSetByUser" : 0,
-      "ignore" : 1,
-      "hidden" : 0,
-      "outputPathIsSetByUser" : 0,
-      "inputAbbreviatedPath" : "\/responsive\/mobile\/views\/friends.less",
-      "outputStyle" : 0,
-      "shouldRunBless" : 1,
-      "outputAbbreviatedPath" : "\/responsive\/mobile\/css\/friends.css",
-      "strictImports" : 0,
-      "fileType" : 1,
-      "debugStyle" : 0
-    },
     "\/social\/variables.less" : {
       "ignoreWasSetByUser" : 0,
       "ignore" : 1,
@@ -1253,6 +1249,19 @@
       "outputStyle" : 0,
       "shouldRunBless" : 1,
       "outputAbbreviatedPath" : "\/css\/variables.css",
+      "strictImports" : 0,
+      "fileType" : 1,
+      "debugStyle" : 0
+    },
+    "\/responsive\/mobile\/views\/friends.less" : {
+      "ignoreWasSetByUser" : 0,
+      "ignore" : 1,
+      "hidden" : 0,
+      "outputPathIsSetByUser" : 0,
+      "inputAbbreviatedPath" : "\/responsive\/mobile\/views\/friends.less",
+      "outputStyle" : 0,
+      "shouldRunBless" : 1,
+      "outputAbbreviatedPath" : "\/responsive\/mobile\/css\/friends.css",
       "strictImports" : 0,
       "fileType" : 1,
       "debugStyle" : 0

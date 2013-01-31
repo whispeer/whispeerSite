@@ -1447,7 +1447,6 @@ input[type="submit"].btn.btn-mini {
   bottom: 10px;
 }
 .shareForm {
-  *zoom: 1;
   border-bottom: 1px solid #666666;
 }
 .shareForm #shareText {
@@ -1455,9 +1454,7 @@ input[type="submit"].btn.btn-mini {
   margin-left: 20px;
 }
 .posts article {
-  margin: 10px 0 0 0;
   border-bottom: 1px solid #666666;
-  *zoom: 1;
 }
 .posts article .userimg {
   border-radius: 200px;
@@ -1898,10 +1895,10 @@ input[type="submit"].btn.btn-mini {
     margin-top: 10px;
   }
   body #sidebar-left {
-    display: block;
+    display: inline;
+    float: left;
     width: 98%;
     margin: 0 1% 0 1%;
-    *zoom: 1;
     margin-bottom: 10px;
   }
   body #sidebar-left #userpanel {
@@ -2121,64 +2118,87 @@ input[type="submit"].btn.btn-mini {
     margin-left: 12px;
   }
   .shareForm {
-    width: 100%;
-    *zoom: 1;
-    border-bottom: 1px solid #666666;
+    display: inline;
+    float: left;
+    width: 98%;
+    margin: 0 1% 0 1%;
+    padding-bottom: 10px;
   }
   .shareForm #shareText {
     display: inline;
     float: left;
-    width: 83.71428571428572%;
+    width: 73%;
     margin: 0 1% 0 1%;
-    margin-bottom: 10px;
-    margin-left: 20px;
   }
-  .posts article {
-    width: 100%;
-    margin: 10px 0 0 0;
-    border-bottom: 1px solid #666666;
-    *zoom: 1;
-  }
-  .posts article .userimg {
-    border-radius: 200px;
+  .shareForm button {
     display: inline;
     float: left;
-    width: 12.285714285714286%;
+    width: 23%;
     margin: 0 1% 0 1%;
-    vertical-align: middle;
-    margin: 10px 0px 10px 0px;
+  }
+  .posts article {
+    display: inline;
+    float: left;
+    width: 98%;
+    margin: 0 1% 0 1%;
+    margin-top: 5px;
+  }
+  .posts article .userimg {
+    display: inline;
+    float: left;
+    width: 14.666666666666668%;
+    margin: 0 1% 0 1%;
   }
   .posts article .postContent {
     display: inline;
     float: left;
-    width: 55.142857142857146%;
+    width: 81.33333333333334%;
     margin: 0 1% 0 1%;
-    padding-top: 5px;
-    margin-top: 10px;
-    margin-bottom: 10px;
+  }
+  .posts article .postContent .author {
+    display: block;
+    width: 98%;
+    margin: 0 1% 0 1%;
+    *zoom: 1;
   }
   .posts article .postContent .postText {
-    padding-left: 10px;
-    -webkit-box-sizing: border-box;
-    /* Safari/Chrome, other WebKit */
-  
-    -moz-box-sizing: border-box;
-    /* Firefox, other Gecko */
-  
-    box-sizing: border-box;
-    /* Opera/IE 8+ */
-  
+    margin-top: 5px;
   }
   .posts article .postInfo {
     display: inline;
     float: left;
-    width: 26.571428571428573%;
+    width: 98%;
     margin: 0 1% 0 1%;
-    padding-top: 5px;
-    margin-bottom: 10px;
+    margin-top: 5px;
+    margin-bottom: 5px;
   }
-  .posts article:last-child {
-    border: none;
+  .posts article .postInfo .with {
+    color: #666;
+    display: inline;
+    float: left;
+    width: 81.33333333333334%;
+    margin: 0 1% 0 1%;
+    margin-left: 16.666666666666668%;
+  }
+  .posts article .postInfo .awesome {
+    display: inline;
+    float: left;
+    width: 48%;
+    margin: 0 1% 0 1%;
+    margin-left: 8.333333333333334%;
+  }
+  .posts article .postInfo p.comments {
+    display: inline;
+    float: left;
+    width: 39.66666666666667%;
+    margin: 0 1% 0 1%;
+  }
+  .posts article .postInfo .showComments {
+    display: inline;
+    float: left;
+    width: 39.66666666666667%;
+    margin: 0 1% 0 1%;
+    margin-left: 58.333333333333336%;
   }
   .profileView #main {
     background-color: #ffffff;
