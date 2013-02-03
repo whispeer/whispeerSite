@@ -5,7 +5,7 @@
 			<div class="right">Neue Nachricht</div>
 		</li>
 		<div id="topicListScroll">
-						<li class="topic">
+			<li class="topic">
 				<div class="left"><img src="img/user.png" alt="Username" id="userid" class="userimg"></div>
 				<div class="username">Svenja Kenneweg</div>
 				<div class="lastmessage">Blubb</div>
