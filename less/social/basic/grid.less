@@ -14,9 +14,9 @@
 @columns: 12;
 @column-size: @total-width / @columns;
 
-.row(@columns:@columns) {
+.row(@x, @columns:@columns) {
 	display: block;
-	width: (@column-size*@columns) - 2%;
+	width: (@column-size*@x) - 2%;
 	margin: 0 1% 0 1%;
 	.clear-fix;
 }

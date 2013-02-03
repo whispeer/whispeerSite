@@ -5,7 +5,7 @@
 	#topicListWrap {
 		.column(4,12);
 		height: 300px;
-		overflow: scroll;
+		overflow-x: scroll;
 		//margin-right: 3px;
 		.topic {
 			.userimg {
@@ -30,7 +30,7 @@
 			.column(8,12);
 			#messageList {
 				height: 150px;
-				overflow: scroll;
+				overflow-x: scroll;
 				.message {
 					.column(8,8);
 					.user {
@@ -49,19 +49,22 @@
 		&.groupChat {
 			.column(8,12);
 			#messageList {
+				height: 150px;
+				overflow-x: scroll;
 				.message {
 					.column(8,8);
 					.user {
+						.row(2,8);
 						.userimg {
-							float: left;
-							width: 10%;
+							.column(1,2);
+							padding-top: 10px;
 						}
 						.username {
-							width: 10%;
+							.column(1,2);
 						}
 					}
 					.messageText {
-						width: 70%;
+						.column(8,8);
 					}
 				}
 			}

@@ -1834,7 +1834,7 @@ input[type="submit"].btn.btn-mini {
   }
   #searchSuggestions li {
     display: block;
-    width: 98%;
+    width: 64.66666666666667%;
     margin: 0 1% 0 1%;
     *zoom: 1;
   }
@@ -1905,13 +1905,13 @@ input[type="submit"].btn.btn-mini {
   }
   #mediaWrap .mediaRow {
     display: block;
-    width: 98%;
+    width: 56.333333333333336%;
     margin: 0 1% 0 1%;
     *zoom: 1;
   }
   #mediaWrap .droplet {
     display: block;
-    width: 98%;
+    width: 56.333333333333336%;
     margin: 0 1% 0 1%;
     *zoom: 1;
   }
@@ -1945,7 +1945,7 @@ input[type="submit"].btn.btn-mini {
     width: 31.333333333333336%;
     margin: 0 1% 0 1%;
     height: 300px;
-    overflow: scroll;
+    overflow-x: scroll;
   }
   .messagesView #topicListWrap .topic .userimg {
     display: inline;
@@ -1984,7 +1984,7 @@ input[type="submit"].btn.btn-mini {
   }
   .messagesView #topicWrap.peerChat #messageList {
     height: 150px;
-    overflow: scroll;
+    overflow-x: scroll;
   }
   .messagesView #topicWrap.peerChat #messageList .message {
     display: inline;
@@ -2012,21 +2012,40 @@ input[type="submit"].btn.btn-mini {
     width: 64.66666666666667%;
     margin: 0 1% 0 1%;
   }
+  .messagesView #topicWrap.groupChat #messageList {
+    height: 150px;
+    overflow-x: scroll;
+  }
   .messagesView #topicWrap.groupChat #messageList .message {
     display: inline;
     float: left;
     width: 98%;
     margin: 0 1% 0 1%;
   }
+  .messagesView #topicWrap.groupChat #messageList .message .user {
+    display: block;
+    width: 23%;
+    margin: 0 1% 0 1%;
+    *zoom: 1;
+  }
   .messagesView #topicWrap.groupChat #messageList .message .user .userimg {
+    display: inline;
     float: left;
-    width: 10%;
+    width: 48%;
+    margin: 0 1% 0 1%;
+    padding-top: 10px;
   }
   .messagesView #topicWrap.groupChat #messageList .message .user .username {
-    width: 10%;
+    display: inline;
+    float: left;
+    width: 48%;
+    margin: 0 1% 0 1%;
   }
   .messagesView #topicWrap.groupChat #messageList .message .messageText {
-    width: 70%;
+    display: inline;
+    float: left;
+    width: 98%;
+    margin: 0 1% 0 1%;
   }
   .messagesView #topicWrap.newMessage {
     display: inline;
@@ -2085,7 +2104,7 @@ input[type="submit"].btn.btn-mini {
   }
   .posts article .postContent .author {
     display: block;
-    width: 98%;
+    width: 81.33333333333334%;
     margin: 0 1% 0 1%;
     *zoom: 1;
   }
