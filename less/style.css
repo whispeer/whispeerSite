@@ -1744,29 +1744,6 @@ input[type="submit"].btn.btn-mini {
   /* Opera/IE 8+ */
 
 }
-.settingsView #main {
-  background-color: #ffffff;
-  border: #666666 solid 1px;
-  -webkit-border-radius: 5px;
-  -moz-border-radius: 5px;
-  border-radius: 5px;
-  -moz-background-clip: padding;
-  -webkit-background-clip: padding-box;
-  background-clip: padding-box;
-  -webkit-box-shadow: 0 0 2px #666666;
-  -moz-box-shadow: 0 0 2px #666666;
-  box-shadow: 0 0 2px #666666;
-  padding: 10px;
-  -webkit-box-sizing: border-box;
-  /* Safari/Chrome, other WebKit */
-
-  -moz-box-sizing: border-box;
-  /* Firefox, other Gecko */
-
-  box-sizing: border-box;
-  /* Opera/IE 8+ */
-
-}
 .settingsView #toc {
   float: left;
 }
@@ -2359,29 +2336,6 @@ input[type="submit"].btn.btn-mini {
     position: fixed;
     bottom: 10px;
   }
-  .settingsView #main {
-    background-color: #ffffff;
-    border: #666666 solid 1px;
-    -webkit-border-radius: 5px;
-    -moz-border-radius: 5px;
-    border-radius: 5px;
-    -moz-background-clip: padding;
-    -webkit-background-clip: padding-box;
-    background-clip: padding-box;
-    -webkit-box-shadow: 0 0 2px #666666;
-    -moz-box-shadow: 0 0 2px #666666;
-    box-shadow: 0 0 2px #666666;
-    padding: 10px;
-    -webkit-box-sizing: border-box;
-    /* Safari/Chrome, other WebKit */
-  
-    -moz-box-sizing: border-box;
-    /* Firefox, other Gecko */
-  
-    box-sizing: border-box;
-    /* Opera/IE 8+ */
-  
-  }
   .settingsView #toc {
     float: left;
     width: 100%;
@@ -2389,18 +2343,18 @@ input[type="submit"].btn.btn-mini {
   .settingsView .config {
     display: inline;
     float: left;
-    width: 83.71428571428572%;
+    width: 89.66666666666667%;
     margin: 0 1% 0 1%;
     margin-left: 8.333333333333334%;
   }
   .settingsView .config input:not([type=submit]):not([type=file]) {
     display: inline;
     float: left;
-    width: 23%;
+    width: 34.36363636363637%;
     margin: 0 1% 0 1%;
   }
   .settingsView .config #newNickname {
-    margin-left: 25%;
+    margin-left: 36.36363636363637%;
   }
 }
 /* Tablets */
