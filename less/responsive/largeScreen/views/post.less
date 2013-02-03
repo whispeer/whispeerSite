@@ -1,40 +1,50 @@
 //Don't touch any of the *.less or *.css files, or you will die an awful death.
 .shareForm {
-	width: 100%;
-	.clearfix;
-	border-bottom: 1px solid @bubbleBorderColor;
+	.column(8,8);
 	#shareText {
-		.column(6,7);
+		.column(6,8);
 		margin-bottom: 10px;
 		margin-left: 20px;
 	}
 }
 .posts {
 	article {
-		width: 100%;
+		.column(8,8);
 		margin: 10px 0 0 0;
-		border-bottom: 1px solid @bubbleBorderColor;
-		.clearfix;
 		.userimg{
 			border-radius: 200px;
-			.column(1,7);
-			vertical-align: middle;
+			.column(1.5,8);
 			margin: 10px 0px 10px 0px;
 		}
 		.postContent {
-			.column(4,7);
+			.column(6.5,8);
 			padding-top: 5px;
 			margin-top: 10px;
 			margin-bottom: 10px;
 			.postText {
 				padding-left: 10px;
-				.box-fix;
 			}
 		}
 		.postInfo {
-			.column(2,7);
+			.column(8,8);
 			padding-top: 5px;
 			margin-bottom: 10px;
+			.with {
+				color: #666;
+				.column(6,8);
+				.push(1.5,8);
+			}
+			.awesome {
+				.column(3,8);
+				.push(1.5,8);
+			}
+			p.comments {
+				.column(3,8);
+			}
+			.showComments {
+				.column(3,8);
+				.push(4.5,8);
+			}
 		}
 		&:last-child {
 			border:none;
