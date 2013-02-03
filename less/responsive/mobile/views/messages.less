@@ -1,34 +1,56 @@
 .messagesView {
 	#main {
-		.column(7);
+		.column(12);
 	}
 	#topicListWrap {
-		.column(2,7);
-		margin-right: 3px;
+		.column(4,12);
+		height: 300px;
+		overflow: scroll;
+		//margin-right: 3px;
+		.topic {
+			.userimg {
+				.column(1,1);
+			}
+			.username {
+				font-size: 1em;
+				.column(2,4);
+			}
+			.lastMessage {
+				font-size: 0.8em;
+				.column(2,4);
+			}
+			.left {
+				.column(1,4);
+			}
+		}
 	}
 	#topicWrap {
+		height: 350px;
 		&.peerChat {
-			.column(5,7);
+			.column(8,12);
 			#messageList {
+				height: 150px;
+				overflow: scroll;
 				.message {
-					.column(5,5);
+					.column(8,8);
 					.user {
 						.userimg {
-							width: 10%;
+							.column(1,8);
+							padding-top: 10px;
 						}
 					}
 					.messageText {
-						float: left;
-						width: 80%;
+						.column(7,8);
+						padding: 10px 0px;
 					}
 				}
 			}		
 		}	
 		&.groupChat {
-			.column(5,7);
+			.column(8,12);
 			#messageList {
 				.message {
-					.column(5,5);
+					.column(8,8);
 					.user {
 						.userimg {
 							float: left;
