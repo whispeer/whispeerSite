@@ -2162,179 +2162,6 @@ input[type="submit"].btn.btn-mini {
     width: 98%;
     margin: 0 1% 0 1%;
   }
-  .registerView {
-    background-color: #3a8100;
-  }
-  .registerView footer {
-    color: #f2fbec;
-  }
-  .registerView #main {
-    text-align: center;
-  }
-  .registerView #logo {
-    margin: 0 auto;
-  }
-  .registerView #loginform,
-  .registerView #registerform {
-    width: 300px;
-    margin: 0 auto;
-    margin-bottom: 10px;
-    -webkit-border-radius: 5px;
-    -moz-border-radius: 5px;
-    border-radius: 5px;
-    -moz-background-clip: padding;
-    -webkit-background-clip: padding-box;
-    background-clip: padding-box;
-    display: none;
-    /* fix firefox */
-  
-  }
-  .registerView #loginform input,
-  .registerView #registerform input,
-  .registerView #loginform button,
-  .registerView #registerform button {
-    width: 300px;
-    margin: 0 auto;
-    outline: none;
-    border: none;
-    -webkit-border-radius: 0px;
-    -moz-border-radius: 0px;
-    border-radius: 0px;
-    -moz-background-clip: padding;
-    -webkit-background-clip: padding-box;
-    background-clip: padding-box;
-  }
-  .registerView #loginform input:first-child,
-  .registerView #registerform input:first-child,
-  .registerView #loginform button:first-child,
-  .registerView #registerform button:first-child {
-    -webkit-border-top-right-radius: 5px;
-    -webkit-border-bottom-right-radius: 0px;
-    -webkit-border-bottom-left-radius: 0px;
-    -webkit-border-top-left-radius: 5px;
-    -moz-border-radius-topright: 5px;
-    -moz-border-radius-bottomright: 0px;
-    -moz-border-radius-bottomleft: 0px;
-    -moz-border-radius-topleft: 5px;
-    border-top-right-radius: 5px;
-    border-bottom-right-radius: 0px;
-    border-bottom-left-radius: 0px;
-    border-top-left-radius: 5px;
-    -moz-background-clip: padding;
-    -webkit-background-clip: padding-box;
-    background-clip: padding-box;
-  }
-  .registerView #loginform input:last-child,
-  .registerView #registerform input:last-child,
-  .registerView #loginform button:last-child,
-  .registerView #registerform button:last-child {
-    -webkit-border-top-right-radius: 0px;
-    -webkit-border-bottom-right-radius: 5px;
-    -webkit-border-bottom-left-radius: 5px;
-    -webkit-border-top-left-radius: 0px;
-    -moz-border-radius-topright: 0px;
-    -moz-border-radius-bottomright: 5px;
-    -moz-border-radius-bottomleft: 5px;
-    -moz-border-radius-topleft: 0px;
-    border-top-right-radius: 0px;
-    border-bottom-right-radius: 5px;
-    border-bottom-left-radius: 5px;
-    border-top-left-radius: 0px;
-    -moz-background-clip: padding;
-    -webkit-background-clip: padding-box;
-    background-clip: padding-box;
-  }
-  .registerView #loginform .icon,
-  .registerView #registerform .icon {
-    position: absolute;
-    margin-top: -33px;
-    margin-left: 270px;
-  }
-  .registerView #loginform .icon.check,
-  .registerView #registerform .icon.check,
-  .registerView #loginform .icon.fail,
-  .registerView #registerform .icon.fail {
-    padding: 7px 7px 5px 3px;
-  }
-  .registerView #loginform .icon,
-  .registerView #registerform .icon,
-  .registerView #loginform x:-moz-any-link,
-  .registerView #registerform x:-moz-any-link,
-  .registerView #loginform x:only-child,
-  .registerView #registerform x:only-child {
-    margin-top: 0px;
-    margin-left: -33px;
-  }
-  .registerView #loginform noindex:-o-prefocus,
-  .registerView #registerform noindex:-o-prefocus,
-  .registerView #loginform .icon,
-  .registerView #registerform .icon {
-    margin-top: 0px;
-  }
-  .registerView #loginform noindex:-o-prefocus#firstnamelock,
-  .registerView #registerform noindex:-o-prefocus#firstnamelock,
-  .registerView #loginform .icon#firstnamelock,
-  .registerView #registerform .icon#firstnamelock {
-    margin-left: -34px;
-  }
-  .registerView #loginform #rpasswordIcon[data-strength="0"]:after,
-  .registerView #registerform #rpasswordIcon[data-strength="0"]:after {
-    background-color: red;
-  }
-  .registerView #loginform .error,
-  .registerView #registerform .error,
-  .registerView #loginform .success,
-  .registerView #registerform .success {
-    width: 300px;
-    padding: 5px;
-    margin: 0 auto;
-    display: none;
-  }
-  .registerView #loginform .error,
-  .registerView #registerform .error {
-    border: 1px solid #5d0000;
-    background-color: #b40000;
-    -webkit-box-sizing: border-box;
-    /* Safari/Chrome, other WebKit */
-  
-    -moz-box-sizing: border-box;
-    /* Firefox, other Gecko */
-  
-    box-sizing: border-box;
-    /* Opera/IE 8+ */
-  
-  }
-  .registerView #loginform .success,
-  .registerView #registerform .success {
-    border: 1px solid #488200;
-    background-color: #66b900;
-    -webkit-box-sizing: border-box;
-    /* Safari/Chrome, other WebKit */
-  
-    -moz-box-sizing: border-box;
-    /* Firefox, other Gecko */
-  
-    box-sizing: border-box;
-    /* Opera/IE 8+ */
-  
-  }
-  .registerView #loginform input,
-  .registerView #registerform input {
-    border-bottom: 1px solid #ddd;
-    padding-right: 30px;
-  }
-  .registerView a {
-    text-decoration: underline;
-    color: #e6e6e6;
-  }
-  .registerView #callRegister,
-  .registerView #callLogin {
-    display: none;
-  }
-  .registerView footer {
-    position: fixed;
-    bottom: 10px;
-  }
   .settingsView #toc {
     float: left;
     width: 100%;
@@ -2405,8 +2232,6 @@ input[type="submit"].btn.btn-mini {
     width: 100px;
   }
   .nav-icon-icons {
-    font-style: normal;
-    color: #111;
     width: 30px;
   }
   #searchQuery {
@@ -2649,7 +2474,6 @@ input[type="submit"].btn.btn-mini {
     float: left;
     width: 98%;
     margin: 0 1% 0 1%;
-    border-bottom: 1px solid #666666;
   }
   .shareForm #shareText {
     display: inline;
@@ -2665,7 +2489,6 @@ input[type="submit"].btn.btn-mini {
     width: 98%;
     margin: 0 1% 0 1%;
     margin: 10px 0 0 0;
-    border-bottom: 1px solid #666666;
   }
   .posts article .userimg {
     border-radius: 200px;
@@ -2673,7 +2496,6 @@ input[type="submit"].btn.btn-mini {
     float: left;
     width: 16.75%;
     margin: 0 1% 0 1%;
-    vertical-align: middle;
     margin: 10px 0px 10px 0px;
   }
   .posts article .postContent {
@@ -2687,15 +2509,6 @@ input[type="submit"].btn.btn-mini {
   }
   .posts article .postContent .postText {
     padding-left: 10px;
-    -webkit-box-sizing: border-box;
-    /* Safari/Chrome, other WebKit */
-  
-    -moz-box-sizing: border-box;
-    /* Firefox, other Gecko */
-  
-    box-sizing: border-box;
-    /* Opera/IE 8+ */
-  
   }
   .posts article .postInfo {
     display: inline;
@@ -2739,34 +2552,6 @@ input[type="submit"].btn.btn-mini {
   .profileView #infowrap {
     float: left;
     width: 100%;
-    background-color: none;
-    -webkit-border-top-right-radius: 3px;
-    -webkit-border-bottom-right-radius: 0;
-    -webkit-border-bottom-left-radius: 0;
-    -webkit-border-top-left-radius: 3px;
-    -moz-border-radius-topright: 3px;
-    -moz-border-radius-bottomright: 0;
-    -moz-border-radius-bottomleft: 0;
-    -moz-border-radius-topleft: 3px;
-    border-top-right-radius: 3px;
-    border-bottom-right-radius: 0;
-    border-bottom-left-radius: 0;
-    border-top-left-radius: 3px;
-    -moz-background-clip: padding;
-    -webkit-background-clip: padding-box;
-    background-clip: padding-box;
-    -webkit-box-sizing: border-box;
-    /* Safari/Chrome, other WebKit */
-  
-    -moz-box-sizing: border-box;
-    /* Firefox, other Gecko */
-  
-    box-sizing: border-box;
-    /* Opera/IE 8+ */
-  
-    -webkit-box-shadow: 0px 0px 3px #666666;
-    -moz-box-shadow: 0px 0px 3px #666666;
-    box-shadow: 0px 0px 3px #666666;
   }
   .profileView #wall {
     display: inline;
@@ -2794,182 +2579,12 @@ input[type="submit"].btn.btn-mini {
     width: 60.5%;
     margin: 0 1% 0 1%;
   }
-  .registerView {
-    background-color: #3a8100;
-  }
-  .registerView footer {
-    color: #f2fbec;
-  }
   .registerView #main {
     text-align: center;
     display: inline;
     float: left;
     width: 98%;
     margin: 0 1% 0 1%;
-  }
-  .registerView #logo {
-    margin: 0 auto;
-  }
-  .registerView #loginform,
-  .registerView #registerform {
-    width: 300px;
-    margin: 0 auto;
-    margin-bottom: 10px;
-    -webkit-border-radius: 5px;
-    -moz-border-radius: 5px;
-    border-radius: 5px;
-    -moz-background-clip: padding;
-    -webkit-background-clip: padding-box;
-    background-clip: padding-box;
-    display: none;
-    /* fix firefox */
-  
-  }
-  .registerView #loginform input,
-  .registerView #registerform input,
-  .registerView #loginform button,
-  .registerView #registerform button {
-    width: 300px;
-    margin: 0 auto;
-    outline: none;
-    border: none;
-    -webkit-border-radius: 0px;
-    -moz-border-radius: 0px;
-    border-radius: 0px;
-    -moz-background-clip: padding;
-    -webkit-background-clip: padding-box;
-    background-clip: padding-box;
-  }
-  .registerView #loginform input:first-child,
-  .registerView #registerform input:first-child,
-  .registerView #loginform button:first-child,
-  .registerView #registerform button:first-child {
-    -webkit-border-top-right-radius: 5px;
-    -webkit-border-bottom-right-radius: 0px;
-    -webkit-border-bottom-left-radius: 0px;
-    -webkit-border-top-left-radius: 5px;
-    -moz-border-radius-topright: 5px;
-    -moz-border-radius-bottomright: 0px;
-    -moz-border-radius-bottomleft: 0px;
-    -moz-border-radius-topleft: 5px;
-    border-top-right-radius: 5px;
-    border-bottom-right-radius: 0px;
-    border-bottom-left-radius: 0px;
-    border-top-left-radius: 5px;
-    -moz-background-clip: padding;
-    -webkit-background-clip: padding-box;
-    background-clip: padding-box;
-  }
-  .registerView #loginform input:last-child,
-  .registerView #registerform input:last-child,
-  .registerView #loginform button:last-child,
-  .registerView #registerform button:last-child {
-    -webkit-border-top-right-radius: 0px;
-    -webkit-border-bottom-right-radius: 5px;
-    -webkit-border-bottom-left-radius: 5px;
-    -webkit-border-top-left-radius: 0px;
-    -moz-border-radius-topright: 0px;
-    -moz-border-radius-bottomright: 5px;
-    -moz-border-radius-bottomleft: 5px;
-    -moz-border-radius-topleft: 0px;
-    border-top-right-radius: 0px;
-    border-bottom-right-radius: 5px;
-    border-bottom-left-radius: 5px;
-    border-top-left-radius: 0px;
-    -moz-background-clip: padding;
-    -webkit-background-clip: padding-box;
-    background-clip: padding-box;
-  }
-  .registerView #loginform .icon,
-  .registerView #registerform .icon {
-    position: absolute;
-    margin-top: -33px;
-    margin-left: 270px;
-  }
-  .registerView #loginform .icon.check,
-  .registerView #registerform .icon.check,
-  .registerView #loginform .icon.fail,
-  .registerView #registerform .icon.fail {
-    padding: 7px 7px 5px 3px;
-  }
-  .registerView #loginform .icon,
-  .registerView #registerform .icon,
-  .registerView #loginform x:-moz-any-link,
-  .registerView #registerform x:-moz-any-link,
-  .registerView #loginform x:only-child,
-  .registerView #registerform x:only-child {
-    margin-top: 0px;
-    margin-left: -33px;
-  }
-  .registerView #loginform noindex:-o-prefocus,
-  .registerView #registerform noindex:-o-prefocus,
-  .registerView #loginform .icon,
-  .registerView #registerform .icon {
-    margin-top: 0px;
-  }
-  .registerView #loginform noindex:-o-prefocus#firstnamelock,
-  .registerView #registerform noindex:-o-prefocus#firstnamelock,
-  .registerView #loginform .icon#firstnamelock,
-  .registerView #registerform .icon#firstnamelock {
-    margin-left: -34px;
-  }
-  .registerView #loginform #rpasswordIcon[data-strength="0"]:after,
-  .registerView #registerform #rpasswordIcon[data-strength="0"]:after {
-    background-color: red;
-  }
-  .registerView #loginform .error,
-  .registerView #registerform .error,
-  .registerView #loginform .success,
-  .registerView #registerform .success {
-    width: 300px;
-    padding: 5px;
-    margin: 0 auto;
-    display: none;
-  }
-  .registerView #loginform .error,
-  .registerView #registerform .error {
-    border: 1px solid #5d0000;
-    background-color: #b40000;
-    -webkit-box-sizing: border-box;
-    /* Safari/Chrome, other WebKit */
-  
-    -moz-box-sizing: border-box;
-    /* Firefox, other Gecko */
-  
-    box-sizing: border-box;
-    /* Opera/IE 8+ */
-  
-  }
-  .registerView #loginform .success,
-  .registerView #registerform .success {
-    border: 1px solid #488200;
-    background-color: #66b900;
-    -webkit-box-sizing: border-box;
-    /* Safari/Chrome, other WebKit */
-  
-    -moz-box-sizing: border-box;
-    /* Firefox, other Gecko */
-  
-    box-sizing: border-box;
-    /* Opera/IE 8+ */
-  
-  }
-  .registerView #loginform input,
-  .registerView #registerform input {
-    border-bottom: 1px solid #ddd;
-    padding-right: 30px;
-  }
-  .registerView a {
-    text-decoration: underline;
-    color: #e6e6e6;
-  }
-  .registerView #callRegister,
-  .registerView #callLogin {
-    display: none;
-  }
-  .registerView footer {
-    position: fixed;
-    bottom: 10px;
   }
   .settingsView #toc {
     float: left;
