@@ -51,9 +51,26 @@
 				margin-left: -34px;	
 			}
 		}
-		#rpasswordIcon[data-strength="0"]:after {
-			background-color: red;
-		}	
+		#rpasswordIcon[data-strength]:after {
+			content: url(../img/lock_open.png);
+			width: 100%;
+			height: 100%;
+		}
+		#rpasswordIcon[data-strength="1"]:after {
+			background-color: #690404 + lighten(@green, 50%);
+		}
+		#rpasswordIcon[data-strength="2"]:after {
+			background-color: #586600 + lighten(@green, 50%);
+		}
+		#rpasswordIcon[data-strength="3"]:after {
+			background-color: #586600 + lighten(@green, 40%);
+		}
+		#rpasswordIcon[data-strength="4"]:after {
+			background-color: #586600 + lighten(@green, 30%);
+		}
+		#rpasswordIcon[data-strength="5"]:after {
+			background-color: #586600 + lighten(@green, 20%);
+		}
 		.error, .success {
 			width: 300px;
 			padding: 5px;

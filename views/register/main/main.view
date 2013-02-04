@@ -35,8 +35,7 @@
 	<div class="error" id="errorRegisterMail2">Fehler!</div>
 	<div class="success" id="errorRegisterMail2">E-Mail Adresse ist ok!</div>
 	<input type="password" id="rpassword" placeholder="Passwort">
-	<span class="icon check" id="rpasswordIcon">
-		
+	<span class="icon" id="rpasswordIcon">
 	</span>
 	<div class="error" id="errorRegisterPassword">Passwort erfüllt die Sicherheitskriterien nicht! Bitte wähle ein Passwort mit mindestens 6 Stellen, Groß und kleinschreibung sowie Zahlen und Sonderzeichen</div>
 	<div class="success" id="successRegisterPassword">Passwort ist PASSWORD STRENGTH?</div>
