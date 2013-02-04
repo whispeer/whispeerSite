@@ -1,0 +1,51 @@
+//Don't touch any of the *.less or *.css files, or you will die an awful death.
+.shareForm {
+	.column(7,7);
+	#shareText {
+		.column(5,7);
+		margin-bottom: 10px;
+		margin-left: 20px;
+	}
+}
+.posts {
+	article {
+		.column(7,7);
+		margin: 10px 0 0 0;
+		.userimg{
+			border-radius: 200px;
+			.column(1,7);
+			margin: 10px 0px 10px 0px;
+		}
+		.postContent {
+			.column(4,7);
+			padding-top: 5px;
+			margin-top: 10px;
+			margin-bottom: 10px;
+			.postText {
+				padding-left: 10px;
+				.padding-fix;
+			}
+		}
+		.postInfo {
+			.column(2,8);
+			padding-top: 20px;
+			margin-bottom: 10px;
+			.with {
+				color: #666;
+				.column(2,2);
+			}
+			.awesome {
+				.column(2,2);
+			}
+			p.comments {
+				.column(2,2);
+			}
+			.showComments {
+				.column(2,2);
+			}
+		}
+		&:last-child {
+			border:none;
+		}
+	}
+}

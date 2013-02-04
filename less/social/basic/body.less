@@ -1,12 +1,10 @@
-/*
-	Don't touch any of the *.less or *.css files, or you will die an awful death.
-*/
-
 body {
 	background-color: @white;
-	background-color: rgba(105,228,0,0.1);
+	//background-color: rgba(105,228,0,0.1); 
 	margin: 0 auto;
 	padding-top: @navbarHeight;
+	width: 100%;
+	*zoom: 1;
 	
 	div {
 		display: block;
@@ -15,25 +13,16 @@ body {
 	#container {
 		min-height: 100%;
 		height: 50px;
-		margin: 25px 0 25px 0;
+		margin: 10px 0 25px 0;
 	}
 	
 	noscript {
-		.column(12);
 		margin-top: 10px;
 	}
 	
 	#sidebar-left {
-		.column(3);
 		#userpanel, #didYaKnow {
 			margin-bottom: 10px;
-		}
-	}
-	
-	#sidebar-right {
-		.column(2);
-		#ads {
-			.column(2,2);
 		}
 	}
 	
@@ -42,7 +31,6 @@ body {
 	}
 	
 	footer {
-		.column(12);
 		padding: 5px;
 		padding-bottom: 0;
 		height: 10px;
@@ -60,15 +48,11 @@ body {
 				color: #4eb508;
 			}
 		}
+		.box-fix;
 	}
 	
 	#loading {
 		display: none;
 		text-align: center;
-	}
-}
-.mainView, .messageView, .friendsView, .profileView, .mediaView, .helpView, .settingsView {
-	#main {
-		.column(7);
 	}
 }
