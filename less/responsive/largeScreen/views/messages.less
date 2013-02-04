@@ -1,67 +1,70 @@
 .messagesView {
 	#topicListWrap {
-		.column(2,8);
-		height: 460px;
-		overflow-x: scroll;
-		//margin-right: 3px;
-		.topic {
-			.userimg {
-				width: 100%;
+		.column(1.25,7);
+		#topicList {
+			#topicListScroll {
+				height: 600px;	
+				overflow: hidden;
 			}
-			.username {
-				font-size: 1em;
-				.column(1.30,2);
-			}
-			.lastMessage {
-				font-size: 0.8em;
-				.row(2,2);
-			}
-			.left {
-				.column(0.70,2);
+			.topic {
+				.userimg {
+					width: 100%;
+				}
+				.username {
+					font-size: 1em;
+					.column(1.30,2);
+				}
+				.lastMessage {
+					font-size: 0.8em;
+					.row(2,2);
+				}
+				.left {
+					.column(0.70,2);
+				}
 			}
 		}
 	}
 	#topicWrap {
-		height: 500px;
+		height: 700px;
 		&.peerChat {
-			.column(6,8);
+			.column(5,7);
 			#messageList {
-				height: 350px;
+				height: 550px;
 				overflow-x: scroll;
 				.message {
-					.column(6,6);
+					.column(5,5);
 					.user {
 						.userimg {
-							.column(1,6);
+							.column(0.5,5);
 							padding-top: 10px;
 						}
 					}
 					.messageText {
-						.column(5,6);
+						.column(4.5,5);
 						padding: 10px 0px;
 					}
 				}
 			}		
 		}	
 		&.groupChat {
-			.column(8,12);
+			.column(5,7);
 			#messageList {
-				height: 350px;
+				height: 550px;
 				overflow-x: scroll;
 				.message {
-					.column(8,8);
+					.column(5,5);
 					.user {
-						.row(2,8);
 						.userimg {
-							.column(1,2);
-							padding-top: 10px;
+							.column(0.6,5);
+							vertical-align: middle;
+							padding-top: 5px;
 						}
 						.username {
-							.column(1,2);
+							.column(3,5);
 						}
 					}
 					.messageText {
-						.column(8,8);
+						.column(3,5);
 					}
 				}
 			}
