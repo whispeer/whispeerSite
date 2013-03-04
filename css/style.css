@@ -549,7 +549,7 @@ body #loading {
 }
 .nav-inner .brand {
   display: block;
-  margin-top: 10px;
+  margin-top: 12px;
   margin-right: -1%;
   font-size: 25px;
   color: #fff;
@@ -571,7 +571,7 @@ body #loading {
 }
 .nav-icon {
   float: left;
-  margin: 12px 0 5px 5px;
+  margin: 10px 0 5px 5px;
   line-height: 20px;
 }
 .nav-icon-icons {
