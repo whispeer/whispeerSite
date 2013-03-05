@@ -544,7 +544,7 @@ body #loading {
   height: 50px;
   top: 0;
   border-bottom: 1px solid #2f6800;
-  box-shadow: 0px 0px 1px #2f6800;
+  box-shadow: 0px 0px 4px #2f6800;
   background-color: #3a8100;
 }
 .nav-inner .brand {
@@ -559,6 +559,7 @@ body #loading {
   width: 130px;
   float: left;
   margin-left: 5px;
+  text-decoration: none;
 }
 .nav-inner #brand-inverse {
   color: #266300;
@@ -1390,29 +1391,34 @@ input[type="submit"].btn.btn-mini {
 }
 .registerView #loginform #rpasswordIcon[data-strength]:after,
 .registerView #registerform #rpasswordIcon[data-strength]:after {
-  content: url(../img/lock_open.png);
-  width: 100%;
-  height: 100%;
+  content: "	";
+  background-image: url('../img/lock.png');
+  width: 40%;
+  height: 40%;
 }
 .registerView #loginform #rpasswordIcon[data-strength="1"]:after,
 .registerView #registerform #rpasswordIcon[data-strength="1"]:after {
-  background-color: #ffffa1;
+  background-color: #fe2101;
 }
 .registerView #loginform #rpasswordIcon[data-strength="2"]:after,
 .registerView #registerform #rpasswordIcon[data-strength="2"]:after {
-  background-color: #ffff9d;
+  background-color: #fb8411;
 }
 .registerView #loginform #rpasswordIcon[data-strength="3"]:after,
 .registerView #registerform #rpasswordIcon[data-strength="3"]:after {
-  background-color: #ffff6a;
+  background-color: #ecbd18;
 }
 .registerView #loginform #rpasswordIcon[data-strength="4"]:after,
 .registerView #registerform #rpasswordIcon[data-strength="4"]:after {
-  background-color: #fbff37;
+  background-color: #e0cc19;
 }
 .registerView #loginform #rpasswordIcon[data-strength="5"]:after,
 .registerView #registerform #rpasswordIcon[data-strength="5"]:after {
-  background-color: #e4ff04;
+  background-color: #77cc0d;
+}
+.registerView #loginform #rpasswordIcon[data-strength="6"]:after,
+.registerView #registerform #rpasswordIcon[data-strength="6"]:after {
+  background-color: #2bbe00;
 }
 .registerView #loginform .error,
 .registerView #registerform .error,

@@ -52,24 +52,28 @@
 			}
 		}
 		#rpasswordIcon[data-strength]:after {
-			content: url(../img/lock_open.png);
-			width: 100%;
-			height: 100%;
+			content: "	";
+			background-image: url('../img/lock.png');
+			width: 40%;
+			height: 40%;
 		}
 		#rpasswordIcon[data-strength="1"]:after {
-			background-color: #690404 + lighten(@green, 50%);
+			background-color: #fe2101;
 		}
 		#rpasswordIcon[data-strength="2"]:after {
-			background-color: #586600 + lighten(@green, 50%);
+			background-color: #fb8411;
 		}
 		#rpasswordIcon[data-strength="3"]:after {
-			background-color: #586600 + lighten(@green, 40%);
+			background-color: #ecbd18;
 		}
 		#rpasswordIcon[data-strength="4"]:after {
-			background-color: #586600 + lighten(@green, 30%);
+			background-color: #e0cc19;
 		}
 		#rpasswordIcon[data-strength="5"]:after {
-			background-color: #586600 + lighten(@green, 20%);
+			background-color: #77cc0d;
+		}
+		#rpasswordIcon[data-strength="6"]:after {
+			background-color: #2bbe00;
 		}
 		.error, .success {
 			width: 300px;
