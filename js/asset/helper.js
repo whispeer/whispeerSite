@@ -243,7 +243,7 @@ define(['libs/step'], function (step) {
 				}
 
 				var args = []; // empty array
-				var i = 1;
+				var i;
 				// copy all other arguments we want to "pass through"
 				for (i = 1; i < arguments.length; i += 1) {
 					args.push(arguments[i]);
