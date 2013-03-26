@@ -13,32 +13,56 @@ require.wrap({baseUrl: "../"}, ["libs/sjcl"], function (err, sjcl) {
 			return;
 		}
 
-		var key = event.data.key;
-
-		var encrypt = event.data.encrypt;
-		var message = event.data.message;
-
-		var iv = event.data.iv;
-
-		var key = sjcl.codec.hex.toBits(key);
-
-		if (typeof message !== "string") {
-			message = JSON.stringify(message);
-		}
+		var asym = event.data.asym;
 
 		var result;
 		try {
-			if (encrypt) {
-				if (typeof iv === "undefined") {
-					result = sjcl.encrypt(key, message);
+			if (asym) {
+				var generate = event.data.generate;
+				if (generate) {
+					var crypt = event.data.crypt;
+					if (crypt) {
+						sjcl.ecc.elGamal.generateKeys();
+					} else {
+						sjcl.ecc.elGamal.generateKeys();
+					}
 				} else {
-					result = sjcl.encrypt(key, message, {"iv": iv});
+					var action = event.data.action;
+					if (action === "sign") {
+
+					} else if (action === "verify") {
+
+					} else if (action === "asymEncrypt") {
+
+					} else if (action === "asymDecrypt") {
+
+					}
 				}
 			} else {
-				if (typeof iv === "undefined") {
-					result = sjcl.decrypt(key, message);
+				var key = event.data.key;
+
+				var message = event.data.message;
+				var iv = event.data.iv;
+
+				key = sjcl.codec.hex.toBits(key);
+				var encrypt = event.data.encrypt;
+
+				if (typeof message !== "string") {
+					message = JSON.stringify(message);
+				}
+
+				if (encrypt) {
+					if (iv === undefined) {
+						result = sjcl.encrypt(key, message);
+					} else {
+						result = sjcl.encrypt(key, message, {"iv": iv});
+					}
 				} else {
-					result = sjcl.decrypt(key, message, {"iv": iv});
+					if (iv === undefined) {
+						result = sjcl.decrypt(key, message);
+					} else {
+						result = sjcl.decrypt(key, message, {"iv": iv});
+					}
 				}
 			}
 		} catch (e) {
