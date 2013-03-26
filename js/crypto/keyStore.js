@@ -69,7 +69,7 @@ define(["libs/step", "asset/helper"], function (step, h) {
 
 		asym: {
 			generateKey: function () {
-
+				sjclWorker.generateAsymCryptKey();
 			},
 			symEncryptKey: function (realKeyID, parentKeyIDs) {
 
