@@ -1,4 +1,7 @@
-importScripts("../libs/require.js");
+
+if (importScripts) {
+	importScripts("../libs/require.js");
+}
 
 require.wrap({baseUrl: "../"}, ["libs/sjcl", "crypto/helper.js"], function (err, sjcl, chelper) {
 	"use strict";
