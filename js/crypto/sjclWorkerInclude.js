@@ -129,11 +129,60 @@ define(['libs/step', 'crypto/generalWorkerInclude', 'crypto/waitForReady', 'asse
 					this(null, result);
 				}, callback);
 			},
-			sign: function () {
-			
+			sign: function (privateKey, toSign, callback, important) {
+				step(function getFree() {
+					workers.getFreeWorker(this, !!important);
+				}, function (err, worker) {
+					if (err) {
+						throw err;
+					}
+
+					var data = {
+						asym: true,
+						generate: false,
+						action: "sign",
+						
+						curve: chelper.getCurveName(privateKey._curve),
+						exponent: privateKey._exponent.toString();
+						toSign: chelper.bits2hex(toSign);
+					}
+
+					worker.postMessage(data, this);
+				}, function (err, result) {
+					if (err) {
+						throw err;
+					}
+
+					this(null, result);
+				}, callback);
 			},
-			verify: function () {
-			
+			verify: function (publicKey, signature, hash, callback, important) {
+				step(function getFree() {
+					workers.getFreeWorker(this, !!important);
+				}, function (err, worker) {
+					if (err) {
+						throw err;
+					}
+
+					var data = {
+						asym: true,
+						generate: false,
+						action: "verify",
+						
+						curve: chelper.getCurveName(privateKey._curve),
+						exponent: privateKey._exponent.toString();
+						signature: chelper.bits2hex(signature);
+						hash: chelper.bits2hex(hash);
+					}
+
+					worker.postMessage(data, this);
+				}, function (err, result) {
+					if (err) {
+						throw err;
+					}
+
+					this(null, result);
+				}, callback);
 			}
 		},
 		sym: {
