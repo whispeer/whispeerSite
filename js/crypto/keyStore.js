@@ -3,12 +3,12 @@
 	keys are a little difficult because some keys look different but are the same because they are encrypted differently
 	also keys always have a decryptor because the are never distributed alone.
 **/
-define(["libs/step", "asset/helper"], function (step, h) {
+define(["libs/step", "asset/helper", "crypto/helper"], function (step, h, chelper) {
 	"use strict";
 	var symKeys = {};
 	var asymKeys = {};
 	var passwords = [];
-
+	
 	var symKey = {
 		fetch: function (keyid, callback) {
 

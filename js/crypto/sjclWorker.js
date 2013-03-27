@@ -1,6 +1,6 @@
 importScripts("../libs/require.js");
 
-require.wrap({baseUrl: "../"}, ["libs/sjcl"], function (err, sjcl) {
+require.wrap({baseUrl: "../"}, ["libs/sjcl", "crypto/helper.js"], function (err, sjcl, chelper) {
 	"use strict";
 	if (err) {
 		throw err;
@@ -28,14 +28,44 @@ require.wrap({baseUrl: "../"}, ["libs/sjcl"], function (err, sjcl) {
 					}
 				} else {
 					var action = event.data.action;
+					var curve = chelper.getCurve(event.data.curve);
+
+					var exponent, privateKey;
+					var x, y, point, publicKey;
+
+					if (action === "sign" || action === "decrypt") {
+						exponent = new sjcl.bn(event.data.exponent);
+					} else {
+						x =	curve.field(event.data.x);
+						y = curve.field(event.data.y);
+						point = new sjcl.ecc.point(curve, x, y);
+					}
+
 					if (action === "sign") {
+						privateKey = new sjcl.ecc.ecdsa.secretKey(curve, exponent);
+						var toSign = chelper.hex2bits(event.data.toSign);
 
+						result = privateKey.sign(toSign);
 					} else if (action === "verify") {
+						publicKey = new sjcl.ecc.ecdsa.publicKey(curve, point);
 
-					} else if (action === "asymEncrypt") {
+						var hash = chelper.hex2bits(event.data.hash);
+						var signature = chelper.hex2bits(event.data.signature);
 
-					} else if (action === "asymDecrypt") {
+						result = publicKey.verify(hash, signature);
+					} else if (action === "unkem") {
+						privateKey = new sjcl.ecc.elGamal.secretKey(curve, exponent);
 
+						var tag = chelper.hex2bits(event.data.tag);
+
+						result = privateKey.unkem(tag);
+					} else if (action === "kem") {
+						publicKey = new sjcl.ecc.elGamal.publicKey(curve, point);
+						var data = publicKey.kem();
+						result = {
+							key: chelper.bits2hex(data.key),
+							tag: chelper.bits2hex(data.tag)
+						};
 					}
 				}
 			} else {
@@ -44,7 +74,7 @@ require.wrap({baseUrl: "../"}, ["libs/sjcl"], function (err, sjcl) {
 				var message = event.data.message;
 				var iv = event.data.iv;
 
-				key = sjcl.codec.hex.toBits(key);
+				key = chelper.hex2bits(key);
 				var encrypt = event.data.encrypt;
 
 				if (typeof message !== "string") {
