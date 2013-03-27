@@ -1,4 +1,4 @@
-define(["jquery", "display", "config", "asset/logger", "libs/step", "crypto/crypto", "asset/helper"], function ($, display, config, logger, step, crypto, h) {
+define(["jquery", "display", "config", "asset/logger", "libs/step", "asset/helper"], function ($, display, config, logger, step, h) {
 	"use strict";
 
 	var isRegisterStarted = false;

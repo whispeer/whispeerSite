@@ -1,7 +1,7 @@
 //TODO: event listener for new messages in a topic.
 //TODO: SendMessage: Add Receiver (LOW Priority)
 
-define(["jquery", "asset/helper", "libs/step", "model/userManager", "model/session", "crypto/crypto", "crypto/sessionKey", "asset/logger", "asset/exceptions"], function ($, h, step, userManager, session, crypto, SessionKey, logger, exception) {
+define(["jquery", "asset/helper", "libs/step", "model/userManager", "model/session", "asset/logger", "asset/exceptions"], function ($, h, step, userManager, session, crypto, SessionKey, logger, exception) {
 	"use strict";
 
 	var topics = {};

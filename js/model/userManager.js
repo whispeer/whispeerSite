@@ -1,4 +1,4 @@
-define(['jquery', 'asset/logger', 'asset/helper', 'asset/exceptions', 'config', 'crypto/sessionKey', 'model/session', 'libs/step', 'libs/jquery.json.min'], function ($, logger, h, exceptions, config, SessionKey, session, step) {
+define(['jquery', 'asset/logger', 'asset/helper', 'asset/exceptions', 'config', 'model/session', 'libs/step', 'libs/jquery.json.min'], function ($, logger, h, exceptions, config, SessionKey, session, step) {
 	"use strict";
 
 	//TODO
@@ -214,8 +214,6 @@ define(['jquery', 'asset/logger', 'asset/helper', 'asset/exceptions', 'config', 
 			name = name.toLowerCase();
 
 			step(function loadDeps() {
-				require.wrap("crypto/crypto", this);
-			}, h.sF(function c(crypto) {
 				//get the profile we are looking at. 
 				if (theUser.ownUser()) {
 					//ownUser: get the group which has a attribute of this name.

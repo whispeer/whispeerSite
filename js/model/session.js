@@ -1,4 +1,4 @@
-define(['jquery', 'display', 'model/storage', 'asset/logger', 'asset/helper', 'libs/step', "crypto/privateKey", "crypto/sessionKey", "model/state", 'libs/jquery.json.min'], function ($, display, storage, logger, h, step, PrivateKey, SessionKey, state) {
+define(['jquery', 'display', 'model/storage', 'asset/logger', 'asset/helper', 'libs/step', "model/state", 'libs/jquery.json.min'], function ($, display, storage, logger, h, step, PrivateKey, SessionKey, state) {
 	"use strict";
 
 	/** user loged in? */
