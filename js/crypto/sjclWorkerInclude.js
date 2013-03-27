@@ -25,37 +25,164 @@ define(['libs/step', 'crypto/generalWorkerInclude', 'crypto/waitForReady', 'asse
 	}
 
 	var sjclWorker = {
-		encryptSJCLWorker: function (key, message, iv, callback, important) {
-			step(function getFree() {
-				workers.getFreeWorker(this, !!important);
-			}, function (err, worker) {
-				if (err) {
-					throw err;
+		asym: {
+			generateCryptKey: function (curve, callback) {
+				if (typeof curve === "function") {
+					callback = curve;
+					curve = undefined;
 				}
+			
+				step(function getFree() {
+					workers.getFreeWorker(this, !!important);
+				}, function (err, worker) {
+					if (err) {
+						throw err;
+					}
 
-				var data = {'key': key, 'message': message, 'encrypt': true, 'iv': iv};
+					var data = {
+						asym: true,
+						generate: true,
+						crypt: true
+					};
 
-				worker.postMessage(data, this);
-			}, function (err, result) {
-				if (err) {
-					throw err;
-				}
+					if (curve) {
+						data.curve = curve;
+					}
 
-				this(null, result);
-			}, callback);
+					worker.postMessage(data, this);
+				}, callback);
+			},
+			generateSignKey: function (callback, options) {
+				options = options || {
+					important: false,
+					curve: 0x100
+				};
+			
+				step(function getFree() {
+					workers.getFreeWorker(this, !!options.important);
+				}, function (err, worker) {
+					if (err) {
+						throw err;
+					}
+
+					var data = {
+						asym: true,
+						generate: true,
+						crypt: false,
+						curve: options.curve
+					};
+
+					worker.postMessage(data, this);
+				}, callback);
+			},
+			kem: function (publicKey, callback, important) {
+				step(function getFree() {
+					workers.getFreeWorker(this, !!important);
+				}, function (err, worker) {
+					if (err) {
+						throw err;
+					}
+
+					var data = {
+						asym: true,
+						generate: false,
+						action: "kem",
+						
+						curve: chelper.getCurveName(publicKey._curve),
+						x: publicKey._point.x.toString();
+						y: publicKey._point.y.toString();
+					}
+
+					worker.postMessage(data, this);
+				}, function (err, result) {
+					if (err) {
+						throw err;
+					}
+
+					this(null, result);
+				}, callback);
+			},
+			unkem: function (privateKey, tag, callback, important) {
+				step(function getFree() {
+					workers.getFreeWorker(this, !!important);
+				}, function (err, worker) {
+					if (err) {
+						throw err;
+					}
+
+					var data = {
+						asym: true,
+						generate: false,
+						action: "unkem",
+						
+						curve: chelper.getCurveName(privateKey._curve),
+						exponent: privateKey._exponent.toString();
+						tag: chelper.bits2hex(tag);
+					}
+
+					worker.postMessage(data, this);
+				}, function (err, result) {
+					if (err) {
+						throw err;
+					}
+
+					this(null, result);
+				}, callback);
+			},
+			sign: function () {
+			
+			},
+			verify: function () {
+			
+			}
 		},
-		decryptSJCLWorker: function (key, message, iv, callback, important) {
-			step(function getFree() {
-				workers.getFreeWorker(this, !!important);
-			}, function (err, worker) {
-				if (err) {
-					throw err;
-				}
+		sym: {
+			encrypt: function (key, message, iv, callback, important) {
+				step(function getFree() {
+					workers.getFreeWorker(this, !!important);
+				}, function (err, worker) {
+					if (err) {
+						throw err;
+					}
 
-				var data = {'key': key, 'message': message, 'encrypt': false, 'iv': iv};
+					var data = {
+						'key': key,
+						'message': message,
+						'iv': iv
 
-				worker.postMessage(data, this);
-			}, callback);
+						'asym': false,
+						'encrypt': true,
+					};
+
+					worker.postMessage(data, this);
+				}, function (err, result) {
+					if (err) {
+						throw err;
+					}
+
+					this(null, result);
+				}, callback);
+			},
+			decrypt: function (key, message, iv, callback, important) {
+				step(function getFree() {
+					workers.getFreeWorker(this, !!important);
+				}, function (err, worker) {
+					if (err) {
+						throw err;
+					}
+
+					var data = {
+						'key': key,
+						'message': message,
+						'iv': iv
+
+						'asym': false,
+						'encrypt': false,
+					};
+
+					worker.postMessage(data, this);
+				}, callback);
+			}
 		}
 	};
 

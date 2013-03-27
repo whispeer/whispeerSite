@@ -22,9 +22,9 @@ require.wrap({baseUrl: "../"}, ["libs/sjcl", "crypto/helper.js"], function (err,
 				if (generate) {
 					var crypt = event.data.crypt;
 					if (crypt) {
-						sjcl.ecc.elGamal.generateKeys();
+						sjcl.ecc.elGamal.generateKeys(event.data.curve);
 					} else {
-						sjcl.ecc.elGamal.generateKeys();
+						sjcl.ecc.elGamal.generateKeys(event.data.curve);
 					}
 				} else {
 					var action = event.data.action;
