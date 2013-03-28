@@ -2,6 +2,10 @@
 	handles all the keys, passwords, etc.
 	keys are a little difficult because some keys look different but are the same because they are encrypted differently
 	also keys always have a decryptor because the are never distributed alone.
+
+	keyid: identifier@timestamp
+	keyid: get from server
+	keyid: get reserved amount from server
 **/
 define(["libs/step", "asset/helper", "crypto/helper", "libs/sjcl", "crypto/sjclWorkerInclude"], function (step, h, chelper, sjcl, sjclWorkerInclude) {
 	"use strict";
@@ -9,8 +13,90 @@ define(["libs/step", "asset/helper", "crypto/helper", "libs/sjcl", "crypto/sjclW
 	var asymKeys = {};
 	var passwords = [];
 
-	var symKey = function (keydata) {
+	var webWorker = Modernizr.webworkers;
 
+	function internalDecrypt(decryptorid, decryptortype, ctext, callback, iv, salt) {
+
+	}
+
+	var symKey = function (keydata) {
+		var realid = keydata.realid;
+		var instid = keydata.id;
+
+		var decrypted = false;
+
+		var ct = keydata.ct;
+		var iv = keydata.iv;
+		var salt = keydata.salt;
+
+		var decryptorid = keydata.decryptorid;
+		var decryptortype = keydata.decryptortype;
+
+		var key;
+
+		function encryptF(text, callback, iv) {
+			step(function () {
+				if (!decrypted) {
+					throw "not yet decrypted";
+				}
+
+				var result;
+				if (iv) {
+					result = sjcl.encrypt(key, text, {"iv": iv});
+				} else {
+					result = sjcl.encrypt(key, text);
+				}
+
+				this.ne(result);
+			}, callback);
+		}
+
+		function decryptF(ctext, callback, iv, salt) {
+			step(function () {
+				if (!decrypted) {
+					throw "not yet decrypted";
+				}
+
+				var result;
+
+				var options = {};
+				if (iv) {
+					options.iv = iv;
+				}
+
+				if (salt) {
+					options.salt = salt;
+				}
+
+				result = sjcl.decrypt(key, ctext, options);
+
+				this.ne(result);
+			}, callback);
+		}
+
+		this.encrypt = encryptF;
+		this.decrypt = decryptF;
+
+		function decryptedF() {
+			return decrypted;
+		}
+
+		function decryptKeyF(callback) {
+			step(function () {
+				internalDecrypt(decryptorid, decryptortype, ct, this, iv, salt);
+			}, function (result) {
+				if (result === false) {
+					this.ne(false);
+				} else {
+					key = chelper.hex2bits(result);
+					decrypted = true;
+					this.ne(true);
+				}
+			});
+		}
+
+		this.decrypted = decryptedF;
+		this.decryptKey = decryptKeyF;
 	};
 
 	function symKeyFetch(keyid, callback) {
@@ -42,6 +128,7 @@ define(["libs/step", "asset/helper", "crypto/helper", "libs/sjcl", "crypto/sjclW
 		}
 
 		this.decrypt = decryptF;
+		this.encrypt = encryptF;
 	};
 
 	cryptKey.fetch = cryptKeyFetch;
@@ -143,28 +230,47 @@ define(["libs/step", "asset/helper", "crypto/helper", "libs/sjcl", "crypto/sjclW
 		},
 
 		asym: {
-			generateKey: function () {
-				sjclWorkerInclude.generateAsymCryptKey();
+			generateKey: function (callback, important) {
+				cryptKey.generate(callback);
 			},
-			symEncryptKey: function (realKeyID, parentKeyIDs) {
+			symEncryptKey: function (realKeyID, parentKeyIDs, callback) {
 
 			},
-			asymEncryptKey: function (realKeyID, parentKeyIDs) {
+			asymEncryptKey: function (realKeyID, parentKeyIDs, callback) {
 
 			},
-			generatePWEncryptedKey: function (password) {
+			generatePWEncryptedKey: function (password, callback) {
 
 			},
-			encrypt: function (text, keyID) {
+			encrypt: function (text, keyID, callback) {
 
 			},
-			decrypt: function (ctext, keyID) {
+			decrypt: function (ctext, keyID, callback) {
 
 			}
 		},
 
 		sign: {
-			generateKey: function () {
+			generateKey: function (callback) {
+				step(function () {
+					signKey.generate(this);
+				}, function (theKey) {
+					theKey.pushToServer(this);
+				}, callback);
+			},
+			symEncryptKey: function (realKeyID, parentKeyIDs, callback) {
+
+			},
+			asymEncryptKey: function (realKeyID, parentKeyIDs, callback) {
+
+			},
+			generatePWEncryptedKey: function (password, callback) {
+
+			},
+			sign: function (text, keyid, callback) {
+
+			},
+			verify: function (signature, text, keyid, callback) {
 
 			}
 		}
