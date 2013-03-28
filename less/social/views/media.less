@@ -1,34 +1,14 @@
-#mediaWrap {
-	.mediaRow {
-		margin-top: 5px;
+.mediaView {
+	#main {
+		height: 100%;
+		overflow-x: scroll;
 	}
-	.image {
-		float: left;
-		margin-left: 5px;
-		img {
-			.border-radius(10px);
-			border: 1px solid darken(@bubbleBorderColor, 3%);
-			padding: 5px;
-		}
-		&:hover {
-			img {
-				border-color: @bubbleBorderColor;
-				cursor: pointer;
+	.album {
+		.thumbnail {
+			-webkit-transition: all 0.2 ease-in-out;
+			&:hover {
+				width: 400px;
 			}
-		}
-	}
-	.droplet {
-		margin-top: 20px;
-		margin-bottom: 20px;
-		.comments {
-			border-right: 2px solid @bubbleBorderColor;
-			.box-fix;
-		}
-		.info {
-			border-right: 2px solid @bubbleBorderColor;
-			.box-fix;
-		}
-		.opinion {
 		}
 	}
 }

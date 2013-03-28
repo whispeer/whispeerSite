@@ -149,6 +149,11 @@ define(['jquery', 'libs/step', 'asset/logger', 'model/state', 'asset/helper', 'c
 					dropDownElements[i].hide();
 				}
 			});
+			$(document).ready(function() {
+				if($("html").hasClass("no-csscalc")) {
+					$("#main, #magicbar").css("height",	window.innerHeight - 90);
+				}
+			});
 		},
 
 		/** builds the variables from the hash string e.g. makes ["a" => "b", "d" => "f"] from #a=b&d=f  */

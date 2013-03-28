@@ -1,4 +1,4 @@
-define(["jquery", "libs/jquery.mousewheel.min", "libs/jquery.jscrollpane.min"], function ($) {
+define(["jquery"], function ($) {
 	"use strict";
 
 	var mainMessages = {

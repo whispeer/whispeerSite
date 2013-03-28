@@ -1,0 +1,27 @@
+#magicbar {
+	height: 100%;
+	.magic {
+		min-width: 100%;
+		max-width: 100%; 
+		float: left;
+		margin-top: 10px;
+		padding: 3px;
+		.box-fix;
+		font-size: @baseFontSize;
+		line-height: @baseLineHeight;
+		.gradient(@btnSuccessBackground, @btnSuccessBackgroundHighlight);
+		border: 1px solid @btnBorder;
+		border-bottom: 1px solid #000;
+		border-bottom-color: darken(@btnBorder, 10%);
+		.border-radius(4px);
+		&:first-child {
+			margin-top: 0;
+		}
+		&#magic1 {
+			height: 50%;
+		}
+		&#magic2 {
+			height: 20%;
+		}
+	}
+}

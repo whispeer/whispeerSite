@@ -4,7 +4,7 @@
 		#topicList {
 			.unstyled;
 			#topicListScroll {
-				overflow: auto !important;
+				overflow-x: scroll !important;
 				height: 400px;
 			}
 			.topic {
@@ -45,8 +45,8 @@
 			}
 			#messageList {
 				.unstyled;
-				overflow: auto !important;
-				//height: 300px;
+				overflow-x: scroll !important;
+				height: 100%;
 				.message {
 					margin-bottom: 5px;
 					.clear-fix;
@@ -58,7 +58,7 @@
 						}
 					}
 					.messageText {
-						overflow: hidden;
+						//overflow: scroll;
 					}
 					&.me {
 						color: lighten(@green, 5%);

@@ -1,19 +1,29 @@
+html, body {height: 100%;}
 body {
 	background-color: @white;
 	//background-color: rgba(105,228,0,0.1); 
 	margin: 0 auto;
 	padding-top: @navbarHeight;
+	.box-fix;
 	width: 100%;
 	*zoom: 1;
+	padding-top: 60px;
+	padding-bottom: 40px;
 	
 	div {
 		display: block;
 	}
-	
+
 	#container {
-		min-height: 100%;
-		height: 50px;
-		margin: 10px 0 25px 0;
+		height: 100%;
+	}
+	
+	#main, #sidebar-left, #sidebar-right {
+		height: 100%;
+	}
+	
+	#main {
+		//overflow-y: scroll;
 	}
 	
 	noscript {
@@ -25,11 +35,7 @@ body {
 			margin-bottom: 10px;
 		}
 	}
-	
-	.footerPlace {
-		height: 20px;
-	}
-	
+
 	footer {
 		padding: 5px;
 		padding-bottom: 0;
