@@ -57,14 +57,6 @@
 .clear-fix {
   *zoom: 1;
 }
-.reset {
-  padding: 0;
-  background: inherit;
-  display: block;
-  position: inherit;
-  border: inherit;
-  outline: inherit;
-}
 /* Social Style */
 /*! normalize.css v2.1.0 | MIT License | git.io/normalize */
 /* ==========================================================================
@@ -5233,11 +5225,61 @@ input[type="submit"].btn.btn-mini {
   height: 100%;
   overflow-x: scroll;
 }
-.mediaView .album .thumbnail {
-  -webkit-transition: all 0.2 ease-in-out;
+.mediaView .album {
+  display: inline;
+  float: left;
+  width: 31.33333333333333%;
+  margin: 0 1% 0 1%;
+  height: auto;
+  margin-bottom: 10px;
 }
-.mediaView .album .thumbnail:hover {
-  width: 400px;
+.mediaView .album .thumbnail {
+  z-index: 1;
+  position: relative;
+}
+.mediaView .album .thumbnail img {
+  width: 100%;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+}
+.mediaView .album .name {
+  display: inline;
+  float: left;
+  width: 98%;
+  margin: 0 1% 0 1%;
+  text-align: center;
+  display: inline-block;
+  visibility: none;
+  opacity: 0;
+  position: relative;
+  z-index: 1000;
+  margin-top: -25px;
+  color: #ffffff;
+  font-weight: 900;
+  -webkit-transition: opacity 0.2s ease-in-out;
+  -moz-transition: opacity 0.2s ease-in-out;
+  -ms-transition: opacity 0.2s ease-in-out;
+  -o-transition: opacity 0.2s ease-in-out;
+}
+.mediaView .album:hover .name {
+  display: inline-block;
+  visibility: visible;
+  opacity: 1;
+}
+.mediaView #imageView .arrow:hover {
+  display: block;
+}
+.mediaView #imageView #image {
+  height: 60%;
+  width: 100%;
+}
+.mediaView #imageView #image img {
+  height: 100%;
+  width: 100%;
 }
 .settingsView #toc {
   float: left;

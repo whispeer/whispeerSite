@@ -1,3 +1,1 @@
-<li><a subview="main">Übersicht</a></li>
-<li><a subview="pictures">Fotos</a></li>
-<li><a subview="videos">Videos</a></li>
+<li><a subview="main">main</a></li>

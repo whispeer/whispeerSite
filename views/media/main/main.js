@@ -1,42 +1,40 @@
-"use strict";
+define(["jquery"], function ($) {
+	"use strict";
 
-ssn.display.media.main = {
-	hideAll: function () {
-		//$("#mediaWrap").hide().html("");
-	},
-	
-	loadMedia: function() {
-		// TODO: load all media of the user that is availiable!
-	},
-	
-	load: function (done) {
-		ssn.display.media.main.doLoad();
-		done();
-	},
-	
-	doLoad: function () {
-		try {
-			ssn.display.media.main.hideAll();
-			ssn.display.media.main.loadMedia();
-		} catch (e) {
-			ssn.logger.log(e);
-			throw e;
+	var mediaMain = {
+		load: function (done) {
+			//media.loadMedia();
+			this.eventListener();
+			done();
+		},
+		eventListener: function() {
+			$(".album").click(function() {
+				var id = $(this).attr("id").substr(6);
+				$("#main").html("");
+				$("#main").append("<div id=\"imageView\"><div class=\"arrow\" id=\"prev\"></div><div id=\"image\"></div><div class=\"arrow\" id=\"next\"></div><div id=\"meta\"></div><div id=\"comments\"></div>");
+				$("#image").append("<img src=\"img/testbild_1.jpg\">");
+				$("#meta").append("<p class=\"awesomness\">20 Leute finden das Awesome!</p><p class=\"commentcount\">Es wurden 5 Kommentare hinterlassen</p>");
+				$("#comments").append("<ol id=\"commentList\"></ol>");
+				//for(var i = 0; i < comments.length; i++) { // Example for commentloop
+				$("#commentList").append("<li class=\"comment\" id=\"comment-1\"></li>");
+			});
+			$("#prev").click(function() {
+				//var imgId; // Get the id/src of the previous image
+				//$("#image img").attr("src", imgId);
+				console.log("Previous image!")
+			});
+			$("#next").click(function() {
+				//var imgId; // Get the id/src of the next image
+				//$("#image img").attr("src", imgId);
+				console.log("Next Image!")
+			});
+		},
+		unload: function () {
+		},
+		hashChange: function (done) {
+			done();
 		}
-	},
+	};
 
-	hashChange: function (done) {
-		done();
-	},
-
-	unload: function (done) {
-		done()
-	}
-};
-
-/*
-TODO: Append pictues and videos in rows and if a element is clicked switch them to active:
-how the pictures / videos have to be appended: divide the width of .mediaRow by 355.
-The outcome will be the number of pictures that will fit in one row! It may NOT be a number like 2,3 it HAS to be a number like 2 or 3.
-Each row has an id like 1,2,3 and so on. When a image or a video of the row is clicked, the row and the element go into the active state, and the droplet will be apended under the row (so it's the next element in the code, after the div of the row is closed).
-In the droplet itself the following info has to be loaded: People on the picture eg: "Daniel Melchior (user who postet the image / video) with Igor(Link to profile) and Olaf(Link to profile)", how many awesomes? eg: "50 People think this is awesome!", how many comments? eg: "300 comments". Also the option of giving an awesome or a whatever is given.
-*/
+	return mediaMain;
+});
