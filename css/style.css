@@ -4980,7 +4980,6 @@ input[type="submit"].btn.btn-mini {
 
   text-align: center;
   border-bottom: 1px solid #666666;
-  background-color: red;
 }
 .shareForm #shareText {
   margin-left: 20px;
@@ -5007,7 +5006,6 @@ input[type="submit"].btn.btn-mini {
   width: 98%;
   margin: 0 1% 0 1%;
   overflow-y: scroll;
-  background: blue;
 }
 .posts article {
   border-bottom: 1px solid #666666;
