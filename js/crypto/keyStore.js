@@ -13,13 +13,17 @@ define(["libs/step", "asset/helper", "crypto/helper", "libs/sjcl", "crypto/sjclW
 	var asymKeys = {};
 	var passwords = [];
 
-	var keyGenIdentifier;
+	var keyGenIdentifier = "";
 
 	this.setKeyGenIdentifier = function (identifier) {
 		this.keyGenIdentifier = identifier;
 	};
 
 	var webWorker = Modernizr.webworkers;
+
+	function generateid() {
+		return keyGenIdentifier + ":" + chelper.hex2bits(sjcl.hash.sha256.hash(new Date().getTime()));
+	}
 
 	/** our internal decryption function.
 	* @param decryptorid id of decryptor
@@ -102,8 +106,7 @@ define(["libs/step", "asset/helper", "crypto/helper", "libs/sjcl", "crypto/sjclW
 
 		if (keyData) {
 			if (typeof keyData === "string") {
-				//TODO: generate new id
-				//realid = 
+				realid = generateid();
 
 				decrypted = true;
 
@@ -127,8 +130,7 @@ define(["libs/step", "asset/helper", "crypto/helper", "libs/sjcl", "crypto/sjclW
 				});
 			}
 		} else {
-			//TODO: generate new id
-			//realid = 
+			realid = generateid();
 
 			decrypted = true;
 
@@ -181,7 +183,6 @@ define(["libs/step", "asset/helper", "crypto/helper", "libs/sjcl", "crypto/sjclW
 		this.uploadEncrypted = uploadEncryptedF;
 
 		/** encrypt a text.
-		* @TODO: replace :: with something else (somewhere else)
 		* @param text text to encrypt
 		* @param callback called with result
 		* @param optional iv initialization vector
@@ -192,7 +193,7 @@ define(["libs/step", "asset/helper", "crypto/helper", "libs/sjcl", "crypto/sjclW
 					throw "not yet decrypted";
 				}
 
-				//@TODO: use worker
+				//TODO: use worker
 				var result;
 				if (iv) {
 					result = sjcl.encrypt(key, text, {"iv": iv});
@@ -257,6 +258,59 @@ define(["libs/step", "asset/helper", "crypto/helper", "libs/sjcl", "crypto/sjclW
 
 		this.decrypted = decryptedF;
 		this.decryptKey = decryptKeyF;
+
+		//if we decrypt a key and the decryptor does not work.
+		//remove decryptor from set
+		
+		this.getFastestDecryptorSpeed = function (level) {
+			if (!level) {
+				level = 0;
+			}
+		
+			if (level > 100) {
+				console.log("dafuq, deeply nested keys");
+				return 99999;
+			}
+			
+			var speeds = {
+				symKey: {
+					loaded: 3,
+					unloaded: 50
+				},
+				asymKey: {
+					loaded: 100,
+					unloaded: 150
+				},
+				pw: 3
+			}
+
+			var i, cur, key, decryptorIndex = 0, smallest = 9999999999;
+			for (i = 0; i < decryptor.length; i += 1) {
+				cur = decryptor[i];
+				
+				if (cur.decryptortype === "pw") {
+					return speeds[cur.decryptortype];
+				} else {
+					key = getDecryptor(cur);
+					if (key) {
+						if (key.decrypted()) {
+							speed = speeds[cur.decryptortype].loaded;
+						} else {
+							speed = speeds[cur.decryptortype].loaded + symKeys[cur.decryptorid].getFastestDecryptorSpeed(level + 1);
+						}
+					} else {
+						speed = speeds[cur.decryptortype].unloaded;
+					}
+				}
+
+				if (speed < smallest) {
+					smallest = speed;
+					decryptorIndex = i;
+				}
+			}
+
+			return smallest;
+		}
 	};
 
 	//TODO
