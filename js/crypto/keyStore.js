@@ -168,15 +168,30 @@ define(["libs/step", "asset/helper", "crypto/helper", "libs/sjcl", "crypto/sjclW
 
 		/** encrypt and upload */
 		function uploadEncryptedF(symKeyID) {
-			var cryptor;
+			var cryptor, decryptorData;
 			step(function () {
 				symKey.get(symKeyID, this);
 			}, h.sF(function (theKey) {
 				cryptor = theKey;
 				theKey.decryptKey(this);
 			}), h.sF(function () {
-				cryptor.encrypt("key::" + key);
-				//TODO
+				cryptor.encrypt("key::" + key, this);
+			}), h.sF(function (ctext, iv) {
+				decryptorData = {
+					decryptortype: "symKey",
+					decryptorid: cryptor.getRealid(),
+					ctext: ctext,
+					iv: iv
+				};
+				h.get({
+					addKey: {
+						realid: realid,
+						decryptor: decryptorData
+					}
+				}, this);
+			}), h.sF(function (data) {
+				decryptorData.id = data.addKey.id;
+				this.decryptors.push(decryptorData);
 			}));
 		}
 
