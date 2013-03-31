@@ -113,6 +113,26 @@ define(['jquery', 'libs/step', 'asset/logger', 'model/state', 'asset/helper', 'c
 			$("body").click(function () {
 				$("#searchDrop").hide();
 			});
+			
+			$(".navIcon").click(function() {
+				var wrap = "<div class=\"magic magicNew\"></div>";
+				var id = $(this).attr("id");
+				var old = $("#magicbar").html(); // save old
+				$("#magicbar").fadeOut();
+				$("#magicbar").html(""); // clear magicbar
+				$("#magicbar").append(wrap); // append basic wrap
+				$(".magicNew").removeClass("magicNew").attr("id", "magic" + id);
+				$("#magic" + id).css("height", "100%");
+				switch(id) {
+					case "message":
+						break;
+					case "news":
+						break;
+					case "friends":
+						break;		
+				}
+				$("#magicbar").fadeIn();
+			});
 
 			display.registerDropDowns();
 		},

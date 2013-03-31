@@ -21,10 +21,10 @@
 	.clear-fix;
 }
 
-.column(@x, @columns:@columns) {
+.column(@x, @columns:@columns, @direction: left;) {
 	@column-size: @total-width / @columns;
 	display: inline;
-	float: left;
+	float: @direction;
 	width: (@column-size*@x) - 2%;
 	margin: 0 1% 0 1%;
 }
