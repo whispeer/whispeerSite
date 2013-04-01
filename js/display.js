@@ -115,23 +115,36 @@ define(['jquery', 'libs/step', 'asset/logger', 'model/state', 'asset/helper', 'c
 			});
 			
 			$(".navIcon").click(function() {
-				var wrap = "<div class=\"magic magicNew\"></div>";
+				var wrap = "<div class=\"magic magicOverlay\"><div class=\"header\"></div><div class=\"body\"></div><div class=\"footer\"></div></div>";
 				var id = $(this).attr("id");
-				var old = $("#magicbar").html(); // save old
-				$("#magicbar").fadeOut();
-				$("#magicbar").html(""); // clear magicbar
-				$("#magicbar").append(wrap); // append basic wrap
-				$(".magicNew").removeClass("magicNew").attr("id", "magic" + id);
-				$("#magic" + id).css("height", "100%");
+				$("#magicbar .magic").fadeOut("fast"); // clear magicbar
+				if($(".magicOverlay").length != 0) {
+					$(".magicOverlay").remove();
+				}
+				$("#magicbar").hide().prepend(wrap); // append basic wrap
+				$(".magicOverlay").attr("id", "magic" + id);
+				$("#magic" + id).css("height", "100%").append("<ul class=\"unstyled\"></ul>");
+				$("#magic" + id + " .header").append("<div class=\"close\">Close</div>");
 				switch(id) {
 					case "message":
+						console.log("Showing Messages in the MagicBar!");
+						$("#magicmessage .header").prepend("Nachrichten");
 						break;
 					case "news":
+						console.log("Showing News in the MagicBar!");
+						$("#magicnews .header").prepend("Neuigkeiten");
 						break;
 					case "friends":
+						console.log("Showing Friendship-Requests in the MagicBar!");
+						$("#magicfriends .header").prepend("Freundschaftsanfragen");
 						break;		
 				}
 				$("#magicbar").fadeIn();
+				$("#magicbar .header .close").click(function() {
+					// TODO: get the users magic bar settings and append them back to the magic bar!
+					$(".magicOverlay").fadeOut().remove();
+					$("#magicbar *").fadeIn();
+				});
 			});
 
 			display.registerDropDowns();
