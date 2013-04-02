@@ -114,6 +114,10 @@ define(['jquery', 'libs/step', 'asset/logger', 'model/state', 'asset/helper', 'c
 				$("#searchDrop").hide();
 			});
 			
+			/** load the dropdown for the clicked icon in the magicbar
+			* @author Daniel
+			* @created 31-03-13
+			*/	
 			$(".navIcon").click(function() {
 				var wrap = "<div class=\"magic magicOverlay\"><div class=\"header\"></div><div class=\"body\"></div><div class=\"footer\"></div></div>";
 				var id = $(this).attr("id");
@@ -129,6 +133,7 @@ define(['jquery', 'libs/step', 'asset/logger', 'model/state', 'asset/helper', 'c
 					case "message":
 						console.log("Showing Messages in the MagicBar!");
 						$("#magicmessage .header").prepend("Nachrichten");
+						display.loadLatestMessages();
 						break;
 					case "news":
 						console.log("Showing News in the MagicBar!");
@@ -144,13 +149,15 @@ define(['jquery', 'libs/step', 'asset/logger', 'model/state', 'asset/helper', 'c
 					// TODO: get the users magic bar settings and append them back to the magic bar!
 					$(".magicOverlay").fadeOut().remove();
 					$("#magicbar *").fadeIn();
+					console.log("Showing Default Magic Bar");
 				});
 			});
 
-			display.registerDropDowns();
+			//display.registerDropDowns();
 		},
 
 		registerDropDowns: function () {
+			// NOTE: this function is OBSOLETE since these dropdowns now are Part of the MagicBar!
 			var dropDowns = ["nav-friendrequests", "nav-messages", "nav-news"];
 			var dropDownElements = [];
 
@@ -180,11 +187,6 @@ define(['jquery', 'libs/step', 'asset/logger', 'model/state', 'asset/helper', 'c
 			$("body").click(function () {
 				for (i = 0; i < dropDownElements.length; i += 1) {
 					dropDownElements[i].hide();
-				}
-			});
-			$(document).ready(function() {
-				if($("html").hasClass("no-csscalc")) {
-					$("#main, #magicbar").css("height",	window.innerHeight - 90);
 				}
 			});
 		},
@@ -579,7 +581,7 @@ define(['jquery', 'libs/step', 'asset/logger', 'model/state', 'asset/helper', 'c
 
 		},
 
-		/** used to load the latest messages (for icon at top */
+		/** used to load the latest messages (for icon at top) */
 		loadLatestMessages: function (callback) {
 			var messages;
 			step(function requireMessages() {
