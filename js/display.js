@@ -157,11 +157,11 @@ define(['jquery', 'libs/step', 'asset/logger', 'model/state', 'asset/helper', 'c
 						break;
 					case "news":
 						console.log("Showing News in the MagicBar!");
-						$("#magicnews .header").prepend("Neuigkeiten");
+						$("#magicnews .header").prepend("<h4>Neuigkeiten</h4>");
 						break;
 					case "friends":
 						console.log("Showing Friendship-Requests in the MagicBar!");
-						$("#magicfriends .header").prepend("Freundschaftsanfragen");
+						$("#magicfriends .header").prepend("<h4>Anfragen</h4>");
 						break;		
 				}
 				$("#magicbar").fadeIn();

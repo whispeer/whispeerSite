@@ -1370,12 +1370,14 @@ input[type="submit"].btn.btn-mini {
 }
 #magicbar .magicOverlay .header h4 {
   float: left;
+  width: 60%;
   padding: 3px 0px 3px 3px;
   margin: 0;
 }
 #magicbar .magicOverlay .header .close {
   float: right;
   padding: 3px 3px 3px 0px;
+  cursor: pointer;
 }
 #magicbar .magicOverlay .body {
   height: 100%;
@@ -1394,7 +1396,7 @@ input[type="submit"].btn.btn-mini {
 #magicbar #magicmessage .body ul {
   width: 100%;
   height: 100%;
-  overflow: scroll;
+  overflow-y: scroll;
 }
 #magicbar #magicmessage .body .message {
   width: 100%;
@@ -1725,7 +1727,7 @@ input[type="submit"].btn.btn-mini {
   list-style: none;
 }
 .messagesView #topicListWrap #topicList #topicListScroll {
-  overflow-x: scroll !important;
+  overflow-y: scroll;
   height: 400px;
 }
 .messagesView #topicListWrap #topicList .topic {
@@ -1771,7 +1773,7 @@ input[type="submit"].btn.btn-mini {
 .messagesView #topicWrap.peerChat #messageList {
   margin-left: 0;
   list-style: none;
-  overflow-x: scroll !important;
+  overflow-y: scroll;
   height: 100%;
 }
 .messagesView #topicWrap.peerChat #messageList .message {
@@ -1810,7 +1812,7 @@ input[type="submit"].btn.btn-mini {
 .messagesView #topicWrap.groupChat #messageList {
   margin-left: 0;
   list-style: none;
-  overflow: auto !important;
+  overflow-y: scroll;
   height: 300px;
 }
 .messagesView #topicWrap.groupChat #messageList .message {
@@ -1933,10 +1935,22 @@ input[type="submit"].btn.btn-mini {
 .mediaView #imageView #image {
   height: 60%;
   width: 100%;
+  text-align: center;
+  background-color: rgba(0, 0, 0, 0.69);
+  padding: 5px;
+  -webkit-box-sizing: border-box;
+  /* Safari/Chrome, other WebKit */
+
+  -moz-box-sizing: border-box;
+  /* Firefox, other Gecko */
+
+  box-sizing: border-box;
+  /* Opera/IE 8+ */
+
 }
 .mediaView #imageView #image img {
-  height: 100%;
-  width: 100%;
+  max-height: 95%;
+  max-width: 95%;
 }
 .settingsView #toc {
   float: left;
