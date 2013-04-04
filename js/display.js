@@ -117,9 +117,10 @@ define(['jquery', 'libs/step', 'asset/logger', 'model/state', 'asset/helper', 'c
 			/** load the dropdown for the clicked icon in the magicbar
 			* @author Daniel
 			* @created 31-03-13
-			*/	
+			*/
+			// TODO: load data for the dropdowns!	
 			$(".navIcon").click(function() {
-				var wrap = "<div class=\"magic magicOverlay\"><div class=\"header\"></div><div class=\"body\"></div><div class=\"footer\"></div></div>";
+				var wrap = "<div class=\"magic magicOverlay\"><div class=\"header\"><div class=\"close\">Close</div></div><div class=\"body\"><ul class=\"unstyled\"></ul></div><div class=\"footer\"></div></div>";
 				var id = $(this).attr("id");
 				$("#magicbar .magic").fadeOut("fast"); // clear magicbar
 				if($(".magicOverlay").length != 0) {
@@ -127,13 +128,32 @@ define(['jquery', 'libs/step', 'asset/logger', 'model/state', 'asset/helper', 'c
 				}
 				$("#magicbar").hide().prepend(wrap); // append basic wrap
 				$(".magicOverlay").attr("id", "magic" + id);
-				$("#magic" + id).css("height", "100%").append("<ul class=\"unstyled\"></ul>");
-				$("#magic" + id + " .header").append("<div class=\"close\">Close</div>");
+				$("#magic" + id).css("height", "100%");
 				switch(id) {
 					case "message":
 						console.log("Showing Messages in the MagicBar!");
-						$("#magicmessage .header").prepend("Nachrichten");
-						display.loadLatestMessages();
+						$("#magicmessage .header").prepend("<h4>Nachrichten</h4>");
+						// append some lorem ipsum
+						$("#magicmessage .body ul.unstyled").append("<li class=\"message\"><img src=\"img/user.png\"><p class=\"username\">Lola Locki</p><p class=\"messageText\">Hey! Wie geht's dir? :)</p></li>");
+						$("#magicmessage .body ul.unstyled").append("<li class=\"message\"><img src=\"img/user.png\"><p class=\"username\">Lola Locki</p><p class=\"messageText\">Hey! Wie geht's dir? :)</p></li>");
+						$("#magicmessage .body ul.unstyled").append("<li class=\"message\"><img src=\"img/user.png\"><p class=\"username\">Lola Locki</p><p class=\"messageText\">Hey! Wie geht's dir? :)</p></li>");
+						$("#magicmessage .body ul.unstyled").append("<li class=\"message\"><img src=\"img/user.png\"><p class=\"username\">Lola Locki</p><p class=\"messageText\">Hey! Wie geht's dir? :)</p></li>");
+						$("#magicmessage .body ul.unstyled").append("<li class=\"message\"><img src=\"img/user.png\"><p class=\"username\">Lola Locki</p><p class=\"messageText\">Hey! Wie geht's dir? :)</p></li>");
+						$("#magicmessage .body ul.unstyled").append("<li class=\"message\"><img src=\"img/user.png\"><p class=\"username\">Lola Locki</p><p class=\"messageText\">Hey! Wie geht's dir? :)</p></li>");
+						$("#magicmessage .body ul.unstyled").append("<li class=\"message\"><img src=\"img/user.png\"><p class=\"username\">Lola Locki</p><p class=\"messageText\">Hey! Wie geht's dir? :)</p></li>");
+						$("#magicmessage .body ul.unstyled").append("<li class=\"message\"><img src=\"img/user.png\"><p class=\"username\">Lola Locki</p><p class=\"messageText\">Hey! Wie geht's dir? :)</p></li>");
+						$("#magicmessage .body ul.unstyled").append("<li class=\"message\"><img src=\"img/user.png\"><p class=\"username\">Lola Locki</p><p class=\"messageText\">Hey! Wie geht's dir? :)</p></li>");
+						$("#magicmessage .body ul.unstyled").append("<li class=\"message\"><img src=\"img/user.png\"><p class=\"username\">Lola Locki</p><p class=\"messageText\">Hey! Wie geht's dir? :)</p></li>");
+						$("#magicmessage .body ul.unstyled").append("<li class=\"message\"><img src=\"img/user.png\"><p class=\"username\">Lola Locki</p><p class=\"messageText\">Hey! Wie geht's dir? :)</p></li>");
+						$("#magicmessage .body ul.unstyled").append("<li class=\"message\"><img src=\"img/user.png\"><p class=\"username\">Lola Locki</p><p class=\"messageText\">Hey! Wie geht's dir? :)</p></li>");
+						$("#magicmessage .body ul.unstyled").append("<li class=\"message\"><img src=\"img/user.png\"><p class=\"username\">Lola Locki</p><p class=\"messageText\">Hey! Wie geht's dir? :)</p></li>");
+						$("#magicmessage .body ul.unstyled").append("<li class=\"message\"><img src=\"img/user.png\"><p class=\"username\">Lola Locki</p><p class=\"messageText\">Hey! Wie geht's dir? :)</p></li>");
+						$("#magicmessage .body ul.unstyled").append("<li class=\"message\"><img src=\"img/user.png\"><p class=\"username\">Lola Locki</p><p class=\"messageText\">Hey! Wie geht's dir? :)</p></li>");
+						$("#magicmessage .body ul.unstyled").append("<li class=\"message\"><img src=\"img/user.png\"><p class=\"username\">Lola Locki</p><p class=\"messageText\">Hey! Wie geht's dir? :)</p></li>");
+						$("#magicmessage .body ul.unstyled").append("<li class=\"message\"><img src=\"img/user.png\"><p class=\"username\">Lola Locki</p><p class=\"messageText\">Hey! Wie geht's dir? :)</p></li>");
+						$("#magicmessage .body ul.unstyled").append("<li class=\"message\"><img src=\"img/user.png\"><p class=\"username\">Lola Locki</p><p class=\"messageText\">Hey! Wie geht's dir? :)</p></li>");
+						$("#magicmessage .body ul.unstyled").append("<li class=\"message\"><img src=\"img/user.png\"><p class=\"username\">Lola Locki</p><p class=\"messageText\">Hey! Wie geht's dir? :)</p></li>");
+						$("#magicmessage .body ul.unstyled").append("<li class=\"message\"><img src=\"img/user.png\"><p class=\"username\">Lola Locki</p><p class=\"messageText\">Hey! Wie geht's dir? :)</p></li>");
 						break;
 					case "news":
 						console.log("Showing News in the MagicBar!");
@@ -146,7 +166,6 @@ define(['jquery', 'libs/step', 'asset/logger', 'model/state', 'asset/helper', 'c
 				}
 				$("#magicbar").fadeIn();
 				$("#magicbar .header .close").click(function() {
-					// TODO: get the users magic bar settings and append them back to the magic bar!
 					$(".magicOverlay").fadeOut().remove();
 					$("#magicbar *").fadeIn();
 					console.log("Showing Default Magic Bar");

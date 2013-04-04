@@ -638,9 +638,6 @@ body {
   padding-top: 60px;
   padding-bottom: 40px;
 }
-body div {
-  display: block;
-}
 body #container {
   height: 100%;
 }
@@ -1086,15 +1083,15 @@ input[type="button"].btn-block {
 .btn-success {
   color: #ffffff;
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
-  background-color: #62c462;
-  background: -webkit-gradient(linear, left top, left bottom, from(#62c462), to(#51a351));
-  background: -webkit-linear-gradient(top, #62c462, #51a351);
-  background: -moz-linear-gradient(top, #62c462, #51a351);
-  background: -ms-linear-gradient(top, #62c462, #51a351);
-  background: -o-linear-gradient(top, #62c462, #51a351);
-  border-color: #51a351 #51a351 #387038;
+  background-color: #559d00;
+  background: -webkit-gradient(linear, left top, left bottom, from(#559d00), to(#3a8100));
+  background: -webkit-linear-gradient(top, #559d00, #3a8100);
+  background: -moz-linear-gradient(top, #559d00, #3a8100);
+  background: -ms-linear-gradient(top, #559d00, #3a8100);
+  background: -o-linear-gradient(top, #559d00, #3a8100);
+  border-color: #3a8100 #3a8100 #183500;
   border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
-  *background-color: #5eaf5e;
+  *background-color: #459b00;
   /* Darken IE7 buttons by default so they stand out more given they won't have borders */
 
   filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
@@ -1105,12 +1102,12 @@ input[type="button"].btn-block {
 .btn-success.disabled,
 .btn-success[disabled] {
   color: #ffffff;
-  background: #5eaf5e;
-  *background: #51a351;
+  background: #459b00;
+  *background: #3a8100;
 }
 .btn-success:active,
 .btn-success.active {
-  background-color: #408140 \9;
+  background-color: #234e00 \9;
 }
 .btn-info {
   color: #ffffff;
@@ -1236,6 +1233,7 @@ input[type="submit"].btn.btn-mini {
   -moz-background-clip: padding;
   -webkit-background-clip: padding-box;
   background-clip: padding-box;
+  width: 100%;
 }
 #userpanel #menu {
   margin-top: 10px;
@@ -1340,12 +1338,12 @@ input[type="submit"].btn.btn-mini {
 
   font-size: 14px;
   line-height: 20px;
-  background-color: #62c462;
-  background: -webkit-gradient(linear, left top, left bottom, from(#62c462), to(#51a351));
-  background: -webkit-linear-gradient(top, #62c462, #51a351);
-  background: -moz-linear-gradient(top, #62c462, #51a351);
-  background: -ms-linear-gradient(top, #62c462, #51a351);
-  background: -o-linear-gradient(top, #62c462, #51a351);
+  background-color: #ffffff;
+  background: -webkit-gradient(linear, left top, left bottom, from(#ffffff), to(#e6e6e6));
+  background: -webkit-linear-gradient(top, #ffffff, #e6e6e6);
+  background: -moz-linear-gradient(top, #ffffff, #e6e6e6);
+  background: -ms-linear-gradient(top, #ffffff, #e6e6e6);
+  background: -o-linear-gradient(top, #ffffff, #e6e6e6);
   border: 1px solid #bbbbbb;
   border-bottom: 1px solid #000;
   border-bottom-color: #a2a2a2;
@@ -1359,11 +1357,72 @@ input[type="submit"].btn.btn-mini {
 #magicbar .magic:first-child {
   margin-top: 0;
 }
-#magicbar .magic#magic1 {
-  height: 50%;
+#magicbar .magicOverlay {
+  padding: 0;
+  width: 100%;
 }
-#magicbar .magic#magic2 {
-  height: 20%;
+#magicbar .magicOverlay .header {
+  float: left;
+  width: 100%;
+  height: 30px;
+  border-bottom: 1px solid #999999;
+  margin-bottom: -30px;
+}
+#magicbar .magicOverlay .header h4 {
+  float: left;
+  padding: 3px 0px 3px 3px;
+  margin: 0;
+}
+#magicbar .magicOverlay .header .close {
+  float: right;
+  padding: 3px 3px 3px 0px;
+}
+#magicbar .magicOverlay .body {
+  height: 100%;
+  width: 100%;
+  padding-top: 30px;
+  -webkit-box-sizing: border-box;
+  /* Safari/Chrome, other WebKit */
+
+  -moz-box-sizing: border-box;
+  /* Firefox, other Gecko */
+
+  box-sizing: border-box;
+  /* Opera/IE 8+ */
+
+}
+#magicbar #magicmessage .body ul {
+  width: 100%;
+  height: 100%;
+  overflow: scroll;
+}
+#magicbar #magicmessage .body .message {
+  width: 100%;
+  float: left;
+  margin: 2.5px 0 2.5px 0;
+}
+#magicbar #magicmessage .body .message img {
+  display: inline;
+  float: left;
+  width: 23%;
+  margin: 0 1% 0 1%;
+}
+#magicbar #magicmessage .body .message .username {
+  display: inline;
+  float: left;
+  width: 73%;
+  margin: 0 1% 0 1%;
+}
+#magicbar #magicmessage .body .message .messageText {
+  display: inline;
+  float: left;
+  width: 68.83333333333334%;
+  margin: 0 1% 0 1%;
+  margin-left: 4.166666666666667%;
+  color: #777;
+}
+#magicbar #magicmessage .body .message:hover {
+  background: rgba(0, 0, 0, 0.05);
 }
 .registerView {
   background-color: #3a8100;
