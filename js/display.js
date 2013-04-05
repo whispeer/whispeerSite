@@ -132,20 +132,27 @@ define(['jquery', 'libs/step', 'asset/logger', 'model/state', 'asset/helper', 'c
 				switch(id) {
 					case "message":
 						console.log("Showing Messages in the MagicBar!");
-						$("#magicmessage .header").prepend("<h4>Nachrichten</h4>");
+						$("#magic" + id + " .header").prepend("<h4>Nachrichten</h4>");
 						// append some lorem ipsum
 						for(var i = 1; i < 40; i++) {
-							$("#magicmessage .body ul.unstyled").append("<li class=\"message\"><img src=\"img/user.png\"><p class=\"username\">Lola Locki</p><p class=\"messageText\">Hey! Wie geht's dir? :)</p></li>");
+							$("#magic" + id + " .body ul.unstyled").append("<li class=\"message\"><img src=\"img/user.png\"><p class=\"username\">Lola Locki</p><p class=\"text\">Hey! Wie geht's dir? :)</p></li>");
 						}	
-						break;
-					case "news":
-						console.log("Showing News in the MagicBar!");
-						$("#magicnews .header").prepend("<h4>Neuigkeiten</h4>");
 						break;
 					case "friends":
 						console.log("Showing Friendship-Requests in the MagicBar!");
-						$("#magicfriends .header").prepend("<h4>Anfragen</h4>");
-						break;		
+						$("#magic" + id + " .header").prepend("<h4>Anfragen</h4>");
+						for(var i = 1; i < 40; i++) {
+							$("#magic" + id + " .body ul.unstyled").append("<li class=\"request\"><img src=\"img/user.png\"><p class=\"username\">Lola Locki</p><p class=\"similar\">20 gemeinsame Freunde</p><p class=\"action\"><button class=\"btn btn-success\">Bestätigen</button><button class=\"btn btn-danger\">Ablehnen</button></p></li>");
+						}
+						break;
+					case "news":
+						console.log("Showing News in the MagicBar!");
+						$("#magic" + id + " .header").prepend("<h4>Neuigkeiten</h4>");
+						for(var i = 1; i < 40; i++) {
+							$("#magic" + id + " .body ul.unstyled").append("<li class=\"notification\"><img src=\"img/user.png\"><p class=\"info\"><span class=\"username\">Lola Locki</span>&nbsp;hat dein <a href=\"#\">Foto</a> kommentiert: \"süß!\"</p></li>");
+							$("#magic" + id + " .body ul.unstyled").append("<li class=\"notification\"><img src=\"img/user.png\"><p class=\"info\"><span class=\"username\">Samantha Serpentin</span>&nbsp;findet dein <a href=\"#\">Foto</a> awesome!</p></li>");
+						}
+						break;			
 				}
 				$("#magicbar").fadeIn();
 				$("#magicbar .header .close").click(function() {
