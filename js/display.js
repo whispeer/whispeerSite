@@ -134,26 +134,9 @@ define(['jquery', 'libs/step', 'asset/logger', 'model/state', 'asset/helper', 'c
 						console.log("Showing Messages in the MagicBar!");
 						$("#magicmessage .header").prepend("<h4>Nachrichten</h4>");
 						// append some lorem ipsum
-						$("#magicmessage .body ul.unstyled").append("<li class=\"message\"><img src=\"img/user.png\"><p class=\"username\">Lola Locki</p><p class=\"messageText\">Hey! Wie geht's dir? :)</p></li>");
-						$("#magicmessage .body ul.unstyled").append("<li class=\"message\"><img src=\"img/user.png\"><p class=\"username\">Lola Locki</p><p class=\"messageText\">Hey! Wie geht's dir? :)</p></li>");
-						$("#magicmessage .body ul.unstyled").append("<li class=\"message\"><img src=\"img/user.png\"><p class=\"username\">Lola Locki</p><p class=\"messageText\">Hey! Wie geht's dir? :)</p></li>");
-						$("#magicmessage .body ul.unstyled").append("<li class=\"message\"><img src=\"img/user.png\"><p class=\"username\">Lola Locki</p><p class=\"messageText\">Hey! Wie geht's dir? :)</p></li>");
-						$("#magicmessage .body ul.unstyled").append("<li class=\"message\"><img src=\"img/user.png\"><p class=\"username\">Lola Locki</p><p class=\"messageText\">Hey! Wie geht's dir? :)</p></li>");
-						$("#magicmessage .body ul.unstyled").append("<li class=\"message\"><img src=\"img/user.png\"><p class=\"username\">Lola Locki</p><p class=\"messageText\">Hey! Wie geht's dir? :)</p></li>");
-						$("#magicmessage .body ul.unstyled").append("<li class=\"message\"><img src=\"img/user.png\"><p class=\"username\">Lola Locki</p><p class=\"messageText\">Hey! Wie geht's dir? :)</p></li>");
-						$("#magicmessage .body ul.unstyled").append("<li class=\"message\"><img src=\"img/user.png\"><p class=\"username\">Lola Locki</p><p class=\"messageText\">Hey! Wie geht's dir? :)</p></li>");
-						$("#magicmessage .body ul.unstyled").append("<li class=\"message\"><img src=\"img/user.png\"><p class=\"username\">Lola Locki</p><p class=\"messageText\">Hey! Wie geht's dir? :)</p></li>");
-						$("#magicmessage .body ul.unstyled").append("<li class=\"message\"><img src=\"img/user.png\"><p class=\"username\">Lola Locki</p><p class=\"messageText\">Hey! Wie geht's dir? :)</p></li>");
-						$("#magicmessage .body ul.unstyled").append("<li class=\"message\"><img src=\"img/user.png\"><p class=\"username\">Lola Locki</p><p class=\"messageText\">Hey! Wie geht's dir? :)</p></li>");
-						$("#magicmessage .body ul.unstyled").append("<li class=\"message\"><img src=\"img/user.png\"><p class=\"username\">Lola Locki</p><p class=\"messageText\">Hey! Wie geht's dir? :)</p></li>");
-						$("#magicmessage .body ul.unstyled").append("<li class=\"message\"><img src=\"img/user.png\"><p class=\"username\">Lola Locki</p><p class=\"messageText\">Hey! Wie geht's dir? :)</p></li>");
-						$("#magicmessage .body ul.unstyled").append("<li class=\"message\"><img src=\"img/user.png\"><p class=\"username\">Lola Locki</p><p class=\"messageText\">Hey! Wie geht's dir? :)</p></li>");
-						$("#magicmessage .body ul.unstyled").append("<li class=\"message\"><img src=\"img/user.png\"><p class=\"username\">Lola Locki</p><p class=\"messageText\">Hey! Wie geht's dir? :)</p></li>");
-						$("#magicmessage .body ul.unstyled").append("<li class=\"message\"><img src=\"img/user.png\"><p class=\"username\">Lola Locki</p><p class=\"messageText\">Hey! Wie geht's dir? :)</p></li>");
-						$("#magicmessage .body ul.unstyled").append("<li class=\"message\"><img src=\"img/user.png\"><p class=\"username\">Lola Locki</p><p class=\"messageText\">Hey! Wie geht's dir? :)</p></li>");
-						$("#magicmessage .body ul.unstyled").append("<li class=\"message\"><img src=\"img/user.png\"><p class=\"username\">Lola Locki</p><p class=\"messageText\">Hey! Wie geht's dir? :)</p></li>");
-						$("#magicmessage .body ul.unstyled").append("<li class=\"message\"><img src=\"img/user.png\"><p class=\"username\">Lola Locki</p><p class=\"messageText\">Hey! Wie geht's dir? :)</p></li>");
-						$("#magicmessage .body ul.unstyled").append("<li class=\"message\"><img src=\"img/user.png\"><p class=\"username\">Lola Locki</p><p class=\"messageText\">Hey! Wie geht's dir? :)</p></li>");
+						for(var i = 1; i < 40; i++) {
+							$("#magicmessage .body ul.unstyled").append("<li class=\"message\"><img src=\"img/user.png\"><p class=\"username\">Lola Locki</p><p class=\"messageText\">Hey! Wie geht's dir? :)</p></li>");
+						}	
 						break;
 					case "news":
 						console.log("Showing News in the MagicBar!");
