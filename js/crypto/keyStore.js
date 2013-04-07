@@ -107,6 +107,7 @@ define(["libs/step", "asset/helper", "crypto/helper", "libs/sjcl", "crypto/sjclW
 	var key = function keyConstructor(decryptors, secret) {
 		var internalSecret;
 		var decrypted = false;
+		var theKey = this;
 
 		if (secret) {
 			internalSecret = secret;
@@ -114,28 +115,120 @@ define(["libs/step", "asset/helper", "crypto/helper", "libs/sjcl", "crypto/sjclW
 		}
 
 		function decryptedF() {
-
+			return decrypted;
 		}
 
-		function decryptKeyF() {
+		/** decrypt this key.
+		* @param callback called with true/false
+		* searches your whole keyspace for a decryptor and decrypts if possible
+		*/
+		function decryptKeyF(callback) {
+			var usedDecryptor;
+			step(function () {
+				if (decrypted) {
+					this.last.ne(true);
+				}
 
+				usedDecryptor = theKey.getFastestDecryptor();
+
+				if (!usedDecryptor) {
+					this.last.ne(false);
+				}
+
+				internalDecrypt(usedDecryptor.decryptorid, usedDecryptor.decryptortype, usedDecryptor.ct, this, usedDecryptor.iv, usedDecryptor.salt);
+			}, function (err, result) {
+				if (err || result === false) {
+					var i;
+					for (i = 0; i < decryptors.length; i += 1) {
+						if (decryptors[i] === usedDecryptor) {
+							//TODO: remove
+						}
+					}
+
+					theKey.decryptKey(this.last);
+
+					return;
+				}
+
+				internalSecret = chelper.hex2bits(result);
+				decrypted = true;
+				this.ne(true);
+			}, callback);
 		}
 
 		this.decrypted = decryptedF;
 		this.decryptKey = decryptKeyF;
 
-		function getFastestDecryptorF() {
+		/** get the fastest decryptor for this key.
+		* @param level only used for recursion prevention.
+		* @return {
+		*  speed: speed of decryptor found.
+		*  decryptor: decryptor found.
+		* }
+		*/
+		function getFastestDecryptorF(level) {
+			var MAXSPEED = 99999999999;
+			if (!level) {
+				level = 0;
+			}
 
+			if (level > 100) {
+				console.log("dafuq, deeply nested keys");
+				return MAXSPEED;
+			}
+
+			var speeds = {
+				symKey: {
+					loaded: 3,
+					unloaded: 50
+				},
+				asymKey: {
+					loaded: 100,
+					unloaded: 150
+				},
+				pw: 3
+			};
+
+			var i, cur, key, decryptorIndex = 0, smallest = MAXSPEED, subKeyData, speed, curSpeeds;
+			for (i = 0; i < decryptors.length; i += 1) {
+				cur = decryptors[i];
+				curSpeeds = speeds[cur.decryptortype];
+
+				if (!curSpeeds) {
+					speed = MAXSPEED;
+				} else if (typeof curSpeeds === "number") {
+					speed = curSpeeds;
+				} else {
+					key = getDecryptor(cur);
+					if (key) {
+						if (key.decrypted()) {
+							speed = curSpeeds.loaded;
+						} else {
+							subKeyData = key.getFastestDecryptorSpeed(level + 1);
+							speed = curSpeeds.loaded + subKeyData.speed;
+						}
+					} else {
+						speed = curSpeeds.unloaded;
+					}
+				}
+
+				if (speed < smallest) {
+					smallest = speed;
+					decryptorIndex = i;
+				}
+			}
+
+			return {
+				speed: smallest,
+				decryptor: decryptors[decryptorIndex]
+			};
 		}
 
 		this.getFastestDecryptor = getFastestDecryptorF;
 
-		function uploadEncryptedF() {
-
-		}
-
 		this.uploadEncrypted =  uploadEncryptedF;
 
+		/** get the secret of this key */
 		function getSecretF() {
 			if (decrypted) {
 				return internalSecret;
@@ -309,85 +402,13 @@ define(["libs/step", "asset/helper", "crypto/helper", "libs/sjcl", "crypto/sjclW
 			return decrypted;
 		}
 
-		/** decrypt this key.
-		* @param callback called with true/false
-		* searches your whole keyspace for a decryptor and decrypts if possible
-		*/
-		function decryptKeyF(callback) {
-			step(function () {
-				this.getFastestDecryptor();
-				//TODO
-				//internalDecrypt(decryptorid, decryptortype, ct, this, iv, salt);
-			}, function (result) {
-				if (result === false) {
-					this.ne(false);
-				} else {
-					key = chelper.hex2bits(result);
-					decrypted = true;
-					this.ne(true);
-				}
-			});
-		}
-
 		this.decrypted = decryptedF;
 		this.decryptKey = decryptKeyF;
 
 		//if we decrypt a key and the decryptor does not work.
 		//remove decryptor from set
 
-		this.getFastestDecryptor = function (level) {
-			if (!level) {
-				level = 0;
-			}
-
-			if (level > 100) {
-				console.log("dafuq, deeply nested keys");
-				return 9999999999;
-			}
-
-			var speeds = {
-				symKey: {
-					loaded: 3,
-					unloaded: 50
-				},
-				asymKey: {
-					loaded: 100,
-					unloaded: 150
-				},
-				pw: 3
-			};
-
-			var i, cur, key, decryptorIndex = 0, smallest = 9999999999, subKeyData, speed;
-			for (i = 0; i < decryptors.length; i += 1) {
-				cur = decryptors[i];
-
-				if (cur.decryptortype === "pw") {
-					return speeds[cur.decryptortype];
-				}
-
-				key = getDecryptor(cur);
-				if (key) {
-					if (key.decrypted()) {
-						speed = speeds[cur.decryptortype].loaded;
-					} else {
-						subKeyData = key.getFastestDecryptorSpeed(level + 1);
-						speed = speeds[cur.decryptortype].loaded + subKeyData.speed;
-					}
-				} else {
-					speed = speeds[cur.decryptortype].unloaded;
-				}
-
-				if (speed < smallest) {
-					smallest = speed;
-					decryptorIndex = i;
-				}
-			}
-
-			return {
-				speed: smallest,
-				decryptor: decryptors[decryptorIndex]
-			};
-		};
+		this.getFastestDecryptor = BLA;
 	};
 
 	//TODO
