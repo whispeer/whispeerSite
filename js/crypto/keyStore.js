@@ -4,14 +4,16 @@
 	also keys always have a decryptor because the are never distributed alone.
 
 	keyid: identifier@timestamp
-	keyid: get from server
-	keyid: get reserved amount from server
 **/
 define(["libs/step", "asset/helper", "crypto/helper", "libs/sjcl", "crypto/sjclWorkerInclude"], function (step, h, chelper, sjcl, sjclWorkerInclude) {
 	"use strict";
 	var symKeys = {};
-	var asymKeys = {};
+	var cryptKeys = {};
+	var signKeys = {};
 	var passwords = [];
+
+	var SymKey;
+	var CryptKey;
 
 	var keyGenIdentifier = "";
 
@@ -38,7 +40,7 @@ define(["libs/step", "asset/helper", "crypto/helper", "libs/sjcl", "crypto/sjclW
 			var cryptor;
 			if (decryptortype === "symKey") {
 				step(function () {
-					symKey.get(decryptorid, this);
+					SymKey.get(decryptorid, this);
 				}, h.sF(function (theKey) {
 					cryptor = theKey;
 					theKey.decryptKey(this);
@@ -53,7 +55,7 @@ define(["libs/step", "asset/helper", "crypto/helper", "libs/sjcl", "crypto/sjclW
 				}), callback);
 			} else if (decryptortype === "asymKey") {
 				step(function () {
-					cryptKey.get(decryptorid, this);
+					CryptKey.get(decryptorid, this);
 				}, h.sF(function (theKey) {
 					cryptor = theKey;
 					theKey.decryptKey(this);
@@ -90,7 +92,62 @@ define(["libs/step", "asset/helper", "crypto/helper", "libs/sjcl", "crypto/sjclW
 		}, callback);
 	}
 
-	/** a symkey.
+	function getDecryptor(decryptorData) {
+		if (decryptorData.type === "symKey") {
+			return symKeys[decryptorData.id];
+		}
+
+		if (decryptorData.type === "asymKey") {
+			return cryptKeys[decryptorData.id];
+		}
+
+		return null;
+	}
+
+	var key = function keyConstructor(decryptors, secret) {
+		var internalSecret;
+		var decrypted = false;
+
+		if (secret) {
+			internalSecret = secret;
+			decrypted = true;
+		}
+
+		function decryptedF() {
+
+		}
+
+		function decryptKeyF() {
+
+		}
+
+		this.decrypted = decryptedF;
+		this.decryptKey = decryptKeyF;
+
+		function getFastestDecryptorF() {
+
+		}
+
+		this.getFastestDecryptor = getFastestDecryptorF;
+
+		function uploadEncryptedF() {
+
+		}
+
+		this.uploadEncrypted =  uploadEncryptedF;
+
+		function getSecretF() {
+			if (decrypted) {
+				return internalSecret;
+			}
+
+			return false;
+		}
+
+		this.getSecret = getSecretF;
+	};
+
+	/** a SymKey.
 	* @param keyData if not set: generate key; if string: hex of unencrypted key; otherwise: key data
 	* @attribute id
 	* @attribute realid
@@ -98,7 +155,7 @@ define(["libs/step", "asset/helper", "crypto/helper", "libs/sjcl", "crypto/sjclW
 	* @attribute encrypted key
 	* implements all symmetric key functions.
 	*/
-	var symKey = function (keyData) {
+	SymKey = function (keyData) {
 		var decryptors;
 
 		var realid, instid;
@@ -167,10 +224,10 @@ define(["libs/step", "asset/helper", "crypto/helper", "libs/sjcl", "crypto/sjclW
 		this.getDecryptorsF = getDecryptorsF;
 
 		/** encrypt and upload */
-		function uploadEncryptedF(symKeyID) {
+		function uploadEncryptedF(symKeyID, callback) {
 			var cryptor, decryptorData;
 			step(function () {
-				symKey.get(symKeyID, this);
+				SymKey.get(symKeyID, this);
 			}, h.sF(function (theKey) {
 				cryptor = theKey;
 				theKey.decryptKey(this);
@@ -178,9 +235,9 @@ define(["libs/step", "asset/helper", "crypto/helper", "libs/sjcl", "crypto/sjclW
 				cryptor.encrypt("key::" + key, this);
 			}), h.sF(function (ctext, iv) {
 				decryptorData = {
-					decryptortype: "symKey",
-					decryptorid: cryptor.getRealid(),
-					ctext: ctext,
+					type: "symKey",
+					id: cryptor.getRealid(),
+					ct: ctext,
 					iv: iv
 				};
 				h.get({
@@ -190,9 +247,9 @@ define(["libs/step", "asset/helper", "crypto/helper", "libs/sjcl", "crypto/sjclW
 					}
 				}, this);
 			}), h.sF(function (data) {
-				decryptorData.id = data.addKey.id;
+				decryptorData.instid = data.addKey.id;
 				this.decryptors.push(decryptorData);
-			}));
+			}), callback);
 		}
 
 		this.uploadEncrypted = uploadEncryptedF;
@@ -258,6 +315,7 @@ define(["libs/step", "asset/helper", "crypto/helper", "libs/sjcl", "crypto/sjclW
 		*/
 		function decryptKeyF(callback) {
 			step(function () {
+				this.getFastestDecryptor();
 				//TODO
 				//internalDecrypt(decryptorid, decryptortype, ct, this, iv, salt);
 			}, function (result) {
@@ -276,17 +334,17 @@ define(["libs/step", "asset/helper", "crypto/helper", "libs/sjcl", "crypto/sjclW
 
 		//if we decrypt a key and the decryptor does not work.
 		//remove decryptor from set
-		
-		this.getFastestDecryptorSpeed = function (level) {
+
+		this.getFastestDecryptor = function (level) {
 			if (!level) {
 				level = 0;
 			}
-		
+
 			if (level > 100) {
 				console.log("dafuq, deeply nested keys");
-				return 99999;
+				return 9999999999;
 			}
-			
+
 			var speeds = {
 				symKey: {
 					loaded: 3,
@@ -297,25 +355,26 @@ define(["libs/step", "asset/helper", "crypto/helper", "libs/sjcl", "crypto/sjclW
 					unloaded: 150
 				},
 				pw: 3
-			}
+			};
 
-			var i, cur, key, decryptorIndex = 0, smallest = 9999999999;
-			for (i = 0; i < decryptor.length; i += 1) {
-				cur = decryptor[i];
-				
+			var i, cur, key, decryptorIndex = 0, smallest = 9999999999, subKeyData, speed;
+			for (i = 0; i < decryptors.length; i += 1) {
+				cur = decryptors[i];
+
 				if (cur.decryptortype === "pw") {
 					return speeds[cur.decryptortype];
-				} else {
-					key = getDecryptor(cur);
-					if (key) {
-						if (key.decrypted()) {
-							speed = speeds[cur.decryptortype].loaded;
-						} else {
-							speed = speeds[cur.decryptortype].loaded + symKeys[cur.decryptorid].getFastestDecryptorSpeed(level + 1);
-						}
+				}
+
+				key = getDecryptor(cur);
+				if (key) {
+					if (key.decrypted()) {
+						speed = speeds[cur.decryptortype].loaded;
 					} else {
-						speed = speeds[cur.decryptortype].unloaded;
+						subKeyData = key.getFastestDecryptorSpeed(level + 1);
+						speed = speeds[cur.decryptortype].loaded + subKeyData.speed;
 					}
+				} else {
+					speed = speeds[cur.decryptortype].unloaded;
 				}
 
 				if (speed < smallest) {
@@ -324,12 +383,24 @@ define(["libs/step", "asset/helper", "crypto/helper", "libs/sjcl", "crypto/sjclW
 				}
 			}
 
-			return smallest;
-		}
+			return {
+				speed: smallest,
+				decryptor: decryptors[decryptorIndex]
+			};
+		};
 	};
 
 	//TODO
 	function makeSymKey(keyData) {
+		if (keyData && keyData.realid) {
+			key = new SymKey(keyData);
+
+			if (!symKeys[key.getRealid()]) {
+				symKeys[key.getRealid()] = key;
+			}
+
+			return symKeys[key.getRealid()];
+		}
 	}
 
 	function symKeyGet(realKeyid, callback) {
@@ -361,10 +432,10 @@ define(["libs/step", "asset/helper", "crypto/helper", "libs/sjcl", "crypto/sjclW
 
 	}
 
-	symKey.get = symKeyGet;
-	symKey.generate = symKeyGenerate;
+	SymKey.get = symKeyGet;
+	SymKey.generate = symKeyGenerate;
 
-	var cryptKey = function (keyData) {
+	CryptKey = function (keyData) {
 		var publicKey;
 		var privateKey;
 
@@ -464,8 +535,8 @@ define(["libs/step", "asset/helper", "crypto/helper", "libs/sjcl", "crypto/sjclW
 
 	}
 
-	cryptKey.get = cryptKeyGet;
-	cryptKey.generate = cryptKeyGenerate;
+	CryptKey.get = cryptKeyGet;
+	CryptKey.generate = cryptKeyGenerate;
 
 	var signKey = function (keyData) {
 		var publicKey;
@@ -574,8 +645,9 @@ define(["libs/step", "asset/helper", "crypto/helper", "libs/sjcl", "crypto/sjclW
 
 	var keyStore = {
 		reset: function reset() {
-			asymKeys = {};
+			cryptKeys = {};
 			symKeys = {};
+			signKeys = {};
 			passwords = [];
 		},
 
@@ -584,7 +656,7 @@ define(["libs/step", "asset/helper", "crypto/helper", "libs/sjcl", "crypto/sjclW
 				var cryptKey;
 
 				step(function () {
-					symKey.generateKey(this);
+					SymKey.generateKey(this);
 				}, callback);
 			},
 			generateAsymEncryptedKey: function (parentKeyIDs, callback) {
@@ -603,7 +675,7 @@ define(["libs/step", "asset/helper", "crypto/helper", "libs/sjcl", "crypto/sjclW
 
 		asym: {
 			generateSymEncryptedKey: function (callback, important) {
-				cryptKey.generate(callback);
+				CryptKey.generate(callback);
 			},
 			generatePWEncryptedKey: function (password, callback) {
 
