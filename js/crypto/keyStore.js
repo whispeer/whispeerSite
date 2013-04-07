@@ -92,6 +92,10 @@ define(["libs/step", "asset/helper", "crypto/helper", "libs/sjcl", "crypto/sjclW
 		}, callback);
 	}
 
+	/** returns a decryptors object if loaded
+	* @param decryptorData
+	* @return decryptorObject or null
+	*/
 	function getDecryptor(decryptorData) {
 		if (decryptorData.type === "symKey") {
 			return symKeys[decryptorData.id];
@@ -104,7 +108,12 @@ define(["libs/step", "asset/helper", "crypto/helper", "libs/sjcl", "crypto/sjclW
 		return null;
 	}
 
-	var key = function keyConstructor(decryptors, secret) {
+	/** general key object.
+	* @param realid keys real id
+	* @param decryptors array of decryptor data
+	* @param optional secret unencrypted secret if we already have it
+	*/
+	var Key = function keyConstructor(realid, decryptors, secret) {
 		var internalSecret;
 		var decrypted = false;
 		var theKey = this;
@@ -158,6 +167,37 @@ define(["libs/step", "asset/helper", "crypto/helper", "libs/sjcl", "crypto/sjclW
 
 		this.decrypted = decryptedF;
 		this.decryptKey = decryptKeyF;
+
+
+		/** getter for real id */
+		function getRealidF() {
+			return realid;
+		}
+
+		this.getRealid = getRealidF;
+
+		/** getter for decryptors array
+		* copies array before returning
+		*/
+		function getDecryptorsF() {
+			var result;
+
+			var i, tempR, k;
+			for (i = 0; i < decryptors.length; i += 1) {
+				tempR = {};
+				for (k in decryptors[i]) {
+					if (decryptors[i].hasOwnProperty(k)) {
+						tempR[k] = decryptors[i][k];
+					}
+				}
+
+				result.push(tempR);
+			}
+
+			return result;
+		}
+
+		this.getDecryptors = getDecryptorsF;
 
 		/** get the fastest decryptor for this key.
 		* @param level only used for recursion prevention.
@@ -226,7 +266,58 @@ define(["libs/step", "asset/helper", "crypto/helper", "libs/sjcl", "crypto/sjclW
 
 		this.getFastestDecryptor = getFastestDecryptorF;
 
-		this.uploadEncrypted =  uploadEncryptedF;
+		function uploadAsymEncryptedF(realid, tag, callback) {
+			var decryptorData;
+			step(function () {
+				decryptorData = {
+					type: "asymKey",
+					id: realid,
+					ct: chelper.bits2hex(tag)
+				};
+				h.get({
+					addKey: {
+						realid: realid,
+						decryptor: decryptorData
+					}
+				}, this);
+			}, h.sF(function (data) {
+				decryptorData.decryptorid = data.addKey.id;
+				this.decryptors.push(decryptorData);
+			}), callback);
+		}
+
+		this.uploadAsymEncrypted = uploadAsymEncryptedF;
+
+		/** encrypt and upload */
+		function uploadSymEncryptedF(symKeyID, callback) {
+			var cryptor, decryptorData;
+			step(function () {
+				SymKey.get(symKeyID, this);
+			}, h.sF(function (theKey) {
+				cryptor = theKey;
+				theKey.decryptKey(this);
+			}), h.sF(function () {
+				cryptor.encrypt("key::" + internalSecret, this);
+			}), h.sF(function (ctext, iv) {
+				decryptorData = {
+					type: "symKey",
+					id: cryptor.getRealid(),
+					ct: ctext,
+					iv: iv
+				};
+				h.get({
+					addKey: {
+						realid: realid,
+						decryptor: decryptorData
+					}
+				}, this);
+			}), h.sF(function (data) {
+				decryptorData.decryptorid = data.addKey.id;
+				this.decryptors.push(decryptorData);
+			}), callback);
+		}
+
+		this.uploadSymEncrypted =  uploadSymEncryptedF;
 
 		/** get the secret of this key */
 		function getSecretF() {
@@ -249,103 +340,27 @@ define(["libs/step", "asset/helper", "crypto/helper", "libs/sjcl", "crypto/sjclW
 	* implements all symmetric key functions.
 	*/
 	SymKey = function (keyData) {
-		var decryptors;
-
-		var realid, instid;
-		var decrypted, key;
+		var intKey;
 
 		if (keyData) {
 			if (typeof keyData === "string") {
-				realid = generateid();
-
-				decrypted = true;
-
-				key = chelper.hex2bits(keyData);
+				intKey = new Key(generateid(), [], chelper.hex2bits(keyData));
 			} else {
-				if (!keyData.ct || !keyData.decryptorid || !keyData.decryptortype || !keyData.realid || !keyData.id) {
-					throw "invalid symKey";
-				}
-
-				realid = keyData.realid;
-
-				decrypted = false;
-
-				decryptors.push({
-					ct: keyData.ct,
-					iv: keyData.iv,
-					salt: keyData.salt,
-					instid: keyData.id,
-					id: keyData.decryptorid,
-					type: keyData.decryptortype
-				});
+				intKey = new Key(keyData.realid, keyData.decryptors);
 			}
 		} else {
-			realid = generateid();
-
-			decrypted = true;
-
-			key = sjcl.random.randomWords(8);
+			intKey = new Key(generateid(), [], sjcl.random.randomWords(8));
 		}
 
-		/** getter for real id */
-		function getRealidF() {
-			return realid;
-		}
+		this.getRealid = intKey.getRealid;
+		this.getDecryptors = intKey.getDecryptors;
 
-		/** getter for decryptors array
-		* copies array before returning
-		*/
-		function getDecryptorsF() {
-			var result;
+		this.uploadEncrypted = intKey.uploadSymEncrypted;
 
-			var i, tempR, k;
-			for (i = 0; i < decryptors.length; i += 1) {
-				tempR = {};
-				for (k in decryptors[i]) {
-					if (decryptors[i].hasOwnProperty(k)) {
-						tempR[k] = decryptors[i][k];
-					}
-				}
+		this.decrypted = intKey.decrypted;
+		this.decryptKey = intKey.decryptKey;
 
-				result.push(tempR);
-			}
-
-			return result;
-		}
-
-		this.getRealid = getRealidF;
-		this.getDecryptorsF = getDecryptorsF;
-
-		/** encrypt and upload */
-		function uploadEncryptedF(symKeyID, callback) {
-			var cryptor, decryptorData;
-			step(function () {
-				SymKey.get(symKeyID, this);
-			}, h.sF(function (theKey) {
-				cryptor = theKey;
-				theKey.decryptKey(this);
-			}), h.sF(function () {
-				cryptor.encrypt("key::" + key, this);
-			}), h.sF(function (ctext, iv) {
-				decryptorData = {
-					type: "symKey",
-					id: cryptor.getRealid(),
-					ct: ctext,
-					iv: iv
-				};
-				h.get({
-					addKey: {
-						realid: realid,
-						decryptor: decryptorData
-					}
-				}, this);
-			}), h.sF(function (data) {
-				decryptorData.instid = data.addKey.id;
-				this.decryptors.push(decryptorData);
-			}), callback);
-		}
-
-		this.uploadEncrypted = uploadEncryptedF;
+		this.getFastestDecryptor = intKey.getFastestDecryptor;
 
 		/** encrypt a text.
 		* @param text text to encrypt
@@ -354,16 +369,16 @@ define(["libs/step", "asset/helper", "crypto/helper", "libs/sjcl", "crypto/sjclW
 		*/
 		function encryptF(text, callback, iv) {
 			step(function () {
-				if (!decrypted) {
+				if (!intKey.decrypted()) {
 					throw "not yet decrypted";
 				}
 
 				//TODO: use worker
 				var result;
 				if (iv) {
-					result = sjcl.encrypt(key, text, {"iv": iv});
+					result = sjcl.encrypt(intKey.getSecret(), text, {"iv": iv});
 				} else {
-					result = sjcl.encrypt(key, text);
+					result = sjcl.encrypt(intKey.getSecret(), text);
 				}
 
 				this.ne(result);
@@ -377,7 +392,7 @@ define(["libs/step", "asset/helper", "crypto/helper", "libs/sjcl", "crypto/sjclW
 		*/
 		function decryptF(ctext, callback, iv) {
 			step(function () {
-				if (!decrypted) {
+				if (!intKey.decrypted()) {
 					throw "not yet decrypted";
 				}
 
@@ -388,7 +403,7 @@ define(["libs/step", "asset/helper", "crypto/helper", "libs/sjcl", "crypto/sjclW
 					options.iv = iv;
 				}
 
-				result = sjcl.decrypt(key, ctext, options);
+				result = sjcl.decrypt(intKey.getSecret(), ctext, options);
 
 				this.ne(result);
 			}, callback);
@@ -396,25 +411,12 @@ define(["libs/step", "asset/helper", "crypto/helper", "libs/sjcl", "crypto/sjclW
 
 		this.encrypt = encryptF;
 		this.decrypt = decryptF;
-
-		/** is this key decrypted? */
-		function decryptedF() {
-			return decrypted;
-		}
-
-		this.decrypted = decryptedF;
-		this.decryptKey = decryptKeyF;
-
-		//if we decrypt a key and the decryptor does not work.
-		//remove decryptor from set
-
-		this.getFastestDecryptor = BLA;
 	};
 
 	//TODO
 	function makeSymKey(keyData) {
 		if (keyData && keyData.realid) {
-			key = new SymKey(keyData);
+			var key = new SymKey(keyData);
 
 			if (!symKeys[key.getRealid()]) {
 				symKeys[key.getRealid()] = key;
@@ -458,21 +460,27 @@ define(["libs/step", "asset/helper", "crypto/helper", "libs/sjcl", "crypto/sjclW
 
 	CryptKey = function (keyData) {
 		var publicKey;
-		var privateKey;
+		var privateKey, intKey;
 
 		var isPrivateKey = false;
-		var decrypted;
 
 		if (!keyData.point || !keyData.point.x || !keyData.point.y || !keyData.curve || !keyData.realid || !keyData.id) {
 			throw "invalid data";
 		}
 
 		var realid = keyData.realid;
-		var instid = keyData.id;
 
-		if (keyData.exponent) {
+		if (keyData.decryptors) {
 			privateKey = true;
-			decrypted = false;
+			intKey = new Key(realid, keyData.decryptors);
+
+			this.decrypted = intKey.decrypted;
+			this.decryptKey = intKey.decryptKey;
+
+			this.getRealid = intKey.getRealid;
+			this.getDecryptorsF = intKey.getDecryptors;
+
+			this.uploadEncrypted = intKey.uploadEncrypted;
 		}
 
 		var curve = chelper.getCurve(keyData.curve);
@@ -483,58 +491,16 @@ define(["libs/step", "asset/helper", "crypto/helper", "libs/sjcl", "crypto/sjclW
 
 		var sjclPubKey = new sjcl.ecc.elGamal.publicKey(curve, point);
 
-		function decryptedF() {
-			if (!privateKey) {
-				throw "do not call decrypted on public key";
-			}
-
-			return decrypted;
-		}
-
-		this.decrypted = decryptedF;
-
-		function decryptKeyF() {
-			//depends on key encryption type.
-		}
-
-		this.decryptKey = decryptKeyF;
-
-		/** getter for real id */
-		function getRealidF() {
-			return realid;
-		}
-
-		/** getter for decryptors array
-		* copies array before returning
-		*/
-		function getDecryptorsF() {
-			var result;
-
-			var i, tempR, k;
-			for (i = 0; i < decryptors.length; i += 1) {
-				tempR = {};
-				for (k in decryptors[i]) {
-					if (decryptors[i].hasOwnProperty(k)) {
-						tempR[k] = decryptors[i][k];
-					}
-				}
-
-				result.push(tempR);
-			}
-
-			return result;
-		}
-
-		this.getRealid = getRealidF;
-		this.getDecryptorsF = getDecryptorsF;
-
-		/** encrypt and upload */
-		function uploadEncryptedF() {
-		}
-
-		this.uploadEncrypted = uploadEncryptedF;
 		function kemF(callback) {
-
+			var resultKey;
+			step(function () {
+				this.ne(sjclPubKey.kem());
+			}, h.sF(function (keyData) {
+				resultKey = new SymKey(keyData.key);
+				resultKey.uploadAsymEncrypted(keyData.tag, this);
+			}), h.sF(function () {
+				this.ne(resultKey.realid);
+			}), callback);
 		}
 
 		function unkemF(tag, callback) {
@@ -564,18 +530,15 @@ define(["libs/step", "asset/helper", "crypto/helper", "libs/sjcl", "crypto/sjclW
 		var privateKey;
 
 		var isPrivateKey = false;
-		var decrypted;
 
-		if (!keyData.point || !keyData.point.x || !keyData.point.y || !keyData.curve || !keyData.realid || !keyData.id) {
+		if (!keyData.point || !keyData.point.x || !keyData.point.y || !keyData.curve || !keyData.realid) {
 			throw "invalid data";
 		}
 
 		var realid = keyData.realid;
-		var instid = keyData.id;
 
 		if (keyData.exponent) {
 			privateKey = true;
-			decrypted = false;
 		}
 
 		var curve = chelper.getCurve(keyData.curve);
@@ -586,54 +549,11 @@ define(["libs/step", "asset/helper", "crypto/helper", "libs/sjcl", "crypto/sjclW
 
 		var sjclPubKey = new sjcl.ecc.ecdsa.publicKey(curve, point);
 
-		function decryptedF() {
-			if (!privateKey) {
-				throw "do not call decrypted on public key";
-			}
-
-			return decrypted;
-		}
-
-		this.decrypted = decryptedF;
-
-		function decryptKeyF() {
-			//depends on key encryption type.
-		}
-
+		this.decrypted = intKey.decrypted;
 		this.decryptKey = decryptKeyF;
-
-		/** getter for real id */
-		function getRealidF() {
-			return realid;
-		}
-
-		/** getter for decryptors array
-		* copies array before returning
-		*/
-		function getDecryptorsF() {
-			var result;
-
-			var i, tempR, k;
-			for (i = 0; i < decryptors.length; i += 1) {
-				tempR = {};
-				for (k in decryptors[i]) {
-					if (decryptors[i].hasOwnProperty(k)) {
-						tempR[k] = decryptors[i][k];
-					}
-				}
-
-				result.push(tempR);
-			}
-
-			return result;
-		}
 
 		this.getRealid = getRealidF;
 		this.getDecryptorsF = getDecryptorsF;
-
-		/** encrypt and upload */
-		function uploadEncryptedF() {
-		}
 
 		this.uploadEncrypted = uploadEncryptedF;
 
@@ -649,7 +569,10 @@ define(["libs/step", "asset/helper", "crypto/helper", "libs/sjcl", "crypto/sjclW
 			}, callback);
 		}
 
-		this.sign = signF;
+		if (isPrivateKey) {
+			this.sign = signF;
+		}
+
 		this.verify = verifyF;
 	};
 
