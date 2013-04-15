@@ -1,4 +1,4 @@
-define(['libs/step', 'crypto/generalWorkerInclude', 'crypto/waitForReady', 'asset/helper', 'libs/sjcl'], function (step, WorkerManager, waitForReady, h, sjcl) {
+define(['libs/step', 'crypto/generalWorkerInclude', 'crypto/helper', 'libs/sjcl', 'crypto/waitForReady'], function (step, WorkerManager, chelper, sjcl, waitForReady) {
 	"use strict";
 
 	var addEntropy = {
@@ -13,7 +13,16 @@ define(['libs/step', 'crypto/generalWorkerInclude', 'crypto/waitForReady', 'asse
 			}, callback);
 		},
 		needData: function (event, worker) {
-			//TODO
+			if (event.data.needed === "entropy") {
+				waitForReady(function () {
+					var toSend = {};
+					toSend.randomNumber = chelper.bits2hex(sjcl.random.randomWords(16));
+					toSend.entropy = 1024;
+					worker.postMessage(toSend);
+				});
+			} else if (event.data.done === "entropy") {
+				console.log("entropy done!");
+			}
 		}
 	};
 
@@ -31,9 +40,9 @@ define(['libs/step', 'crypto/generalWorkerInclude', 'crypto/waitForReady', 'asse
 					callback = curve;
 					curve = undefined;
 				}
-			
+
 				step(function getFree() {
-					workers.getFreeWorker(this, !!important);
+					workers.getFreeWorker(this);
 				}, function (err, worker) {
 					if (err) {
 						throw err;
@@ -57,7 +66,7 @@ define(['libs/step', 'crypto/generalWorkerInclude', 'crypto/waitForReady', 'asse
 					important: false,
 					curve: 0x100
 				};
-			
+
 				step(function getFree() {
 					workers.getFreeWorker(this, !!options.important);
 				}, function (err, worker) {
@@ -87,11 +96,11 @@ define(['libs/step', 'crypto/generalWorkerInclude', 'crypto/waitForReady', 'asse
 						asym: true,
 						generate: false,
 						action: "kem",
-						
+
 						curve: chelper.getCurveName(publicKey._curve),
-						x: publicKey._point.x.toString();
-						y: publicKey._point.y.toString();
-					}
+						x: publicKey._point.x.toString(),
+						y: publicKey._point.y.toString()
+					};
 
 					worker.postMessage(data, this);
 				}, function (err, result) {
@@ -114,11 +123,11 @@ define(['libs/step', 'crypto/generalWorkerInclude', 'crypto/waitForReady', 'asse
 						asym: true,
 						generate: false,
 						action: "unkem",
-						
+
 						curve: chelper.getCurveName(privateKey._curve),
-						exponent: privateKey._exponent.toString();
-						tag: chelper.bits2hex(tag);
-					}
+						exponent: privateKey._exponent.toString(),
+						tag: chelper.bits2hex(tag)
+					};
 
 					worker.postMessage(data, this);
 				}, function (err, result) {
@@ -141,11 +150,11 @@ define(['libs/step', 'crypto/generalWorkerInclude', 'crypto/waitForReady', 'asse
 						asym: true,
 						generate: false,
 						action: "sign",
-						
+
 						curve: chelper.getCurveName(privateKey._curve),
-						exponent: privateKey._exponent.toString();
-						toSign: chelper.bits2hex(toSign);
-					}
+						exponent: privateKey._exponent.toString(),
+						toSign: chelper.bits2hex(toSign)
+					};
 
 					worker.postMessage(data, this);
 				}, function (err, result) {
@@ -168,12 +177,14 @@ define(['libs/step', 'crypto/generalWorkerInclude', 'crypto/waitForReady', 'asse
 						asym: true,
 						generate: false,
 						action: "verify",
-						
-						curve: chelper.getCurveName(privateKey._curve),
-						exponent: privateKey._exponent.toString();
-						signature: chelper.bits2hex(signature);
-						hash: chelper.bits2hex(hash);
-					}
+
+						curve: chelper.getCurveName(publicKey._curve),
+						x: publicKey._point.x.toString(),
+						y: publicKey._point.y.toString(),
+
+						signature: chelper.bits2hex(signature),
+						hash: chelper.bits2hex(hash)
+					};
 
 					worker.postMessage(data, this);
 				}, function (err, result) {
@@ -197,10 +208,10 @@ define(['libs/step', 'crypto/generalWorkerInclude', 'crypto/waitForReady', 'asse
 					var data = {
 						'key': key,
 						'message': message,
-						'iv': iv
+						'iv': iv,
 
 						'asym': false,
-						'encrypt': true,
+						'encrypt': true
 					};
 
 					worker.postMessage(data, this);
@@ -223,10 +234,10 @@ define(['libs/step', 'crypto/generalWorkerInclude', 'crypto/waitForReady', 'asse
 					var data = {
 						'key': key,
 						'message': message,
-						'iv': iv
+						'iv': iv,
 
 						'asym': false,
-						'encrypt': false,
+						'encrypt': false
 					};
 
 					worker.postMessage(data, this);
