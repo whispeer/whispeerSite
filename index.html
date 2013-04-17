@@ -29,10 +29,10 @@
 	<script src="js/libs/modernizr.js"></script>
 	<script data-main="js/main.js" src="js/libs/require-jquery.js"></script>
 </head>
-<body class="registerView">
+<body class="registerView" ng-app="whispeer" ng-controller="sessionController">
 	<!--[if lte IE 8]><p class=chromeframe>Your browser is <em>ancient!</em> <a href="http://browsehappy.com/">Upgrade to a different browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to experience this site.</p><![endif]-->
 	<noscript class="bubble">Hallo! Leider steht uns bei deinem Browser kein Javascript zur Verfügung!<br> Daher ist es nicht möglich whispeer zu nutzen, da wir unbedingt Javascript benötigen!<br> Vielen Dank für dein Verständnis!</noscript>
-	<nav id="topNav">
+	<nav id="topNav" ng-show="loggedin">
 		<div id="navInner">
 			<a href="#" id="brand"><span id="brandNormal">whis</span><span id="brandInverse">peer</span></a>
 			<div class="nav-collapse collapse">
@@ -65,7 +65,7 @@
 			</div>
 		</div>	
 	</nav>
-	<div id="container">
+	<div id="container" ng-show="loggedin">
 		<aside id="sidebar-left" style="display:none">
 			<div id="userpanel">
 				<a href="#view=profile" class="username">
@@ -89,10 +89,10 @@
 				</nav>
 			</div>	
 		</aside>
-		<section id="main">
+		<section id="main" ng-view>
 		</section>
 		<div id="loading"><img src="img/spinner.gif" alt="I'm turning and turning and turning and turning and turning... Oh I had to defood."></div>
-		<aside id="sidebar-right" class="hidden-phone hidden-tablet">
+		<aside id="sidebar-right" class="hidden-phone hidden-tablet"  ng-show="loggedin">
 			<div id="magicbar">
 				<div class="magic" id="magic1">
 				</div>
@@ -106,18 +106,6 @@
 	</footer>
 	<!-- Le javascript -->
 	<script src="js/libs/passwordstrength.js"></script>
-	<!--
-
-	<script src="js/libs/jquery-ui-1.8.21.custom.min.js"></script>
-	<script src="js/libs/jquery.qtip.min.js"></script>
-	<script src="js/libs/jquery.smooth-scroll.min.js"></script>
-	<script src="js/libs/social.js"></script>
-	<script src="js/libs/lightbox.min.js"></script>
-	<script src="js/libs/hashchange.min.js"></script>
-	<script src="js/libs/jquery.mousewheel.min.js"></script>
-	<script src="js/libs/jquery.jscrollpane.min.js"></script>
-	<script src="js/ssn.messages.js"></script>
-	-->
 	
 </body>
 </html>
