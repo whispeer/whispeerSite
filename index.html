@@ -27,12 +27,12 @@
 	<link rel="stylesheet" href="css/fontello/fontello.css">
 	<!--[if IE 7]><link rel="stylesheet" href="css/fontello/fontello-ie7.css"><![endif]-->
 	<script src="js/libs/modernizr.js"></script>
-	<script data-main="js/main.js" src="js/libs/require-jquery.js"></script>
+	<script data-main="js/main" src="js/libs/require.js"></script>
 </head>
-<body class="registerView" ng-app="whispeer" ng-controller="sessionController">
+<body class="registerView">
 	<!--[if lte IE 8]><p class=chromeframe>Your browser is <em>ancient!</em> <a href="http://browsehappy.com/">Upgrade to a different browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to experience this site.</p><![endif]-->
 	<noscript class="bubble">Hallo! Leider steht uns bei deinem Browser kein Javascript zur Verfügung!<br> Daher ist es nicht möglich whispeer zu nutzen, da wir unbedingt Javascript benötigen!<br> Vielen Dank für dein Verständnis!</noscript>
-	<nav id="topNav" ng-show="loggedin">
+	<nav id="topNav" ng-show="loggedin" style="display:none">
 		<div id="navInner">
 			<a href="#" id="brand"><span id="brandNormal">whis</span><span id="brandInverse">peer</span></a>
 			<div class="nav-collapse collapse">
@@ -65,22 +65,22 @@
 			</div>
 		</div>	
 	</nav>
-	<div id="container" ng-show="loggedin">
-		<aside id="sidebar-left" style="display:none">
+	<div id="container">
+		<aside id="sidebar-left" style="display:none" ng-show="loggedin">
 			<div id="userpanel">
 				<a href="#view=profile" class="username">
 					<!--<img src="img/profil.jpg" alt="" class="userimg">-->
 				</a>
 				<nav id="menu">
 					<ul class="left unstyled" id="mainMenu">
-						<li><a href="#view=profile" view="profile" i18n="menu.profil"></a></li>
-						<li><a href="#view=friends" view="friends" i18n="menu.friends"></a></li>
-						<li><a href="#view=messages" view="messages" i18n="menu.messages"></a></li>
-						<li><a href="#view=media" view="media" i18n="menu.media"></a></li>
-						<li><a href="#view=groups" view="groups" i18n="menu.groups"></a></li>
-						<li><a href="#view=settings" view="settings" i18n="menu.settings"></a></li>
-						<li><a href="#view=help" view="help" i18n="menu.help"></a></li>
-						<li><a href="#logout">Logout</a></li>
+						<li><a href="/profile" i18n="menu.profil"></a></li>
+						<li><a href="/friends" i18n="menu.friends"></a></li>
+						<li><a href="/messages" i18n="menu.messages"></a></li>
+						<li><a href="/media" i18n="menu.media"></a></li>
+						<li><a href="/groups" i18n="menu.groups"></a></li>
+						<li><a href="/settings" i18n="menu.settings"></a></li>
+						<li><a href="/help" i18n="menu.help"></a></li>
+						<li><a href="/" >Logout</a></li>
 					</ul>
 					<ul class="right unstyled" id="subMenu">
 					</ul>
@@ -89,9 +89,9 @@
 				</nav>
 			</div>	
 		</aside>
-		<section id="main" ng-view>
-		</section>
-		<div id="loading"><img src="img/spinner.gif" alt="I'm turning and turning and turning and turning and turning... Oh I had to defood."></div>
+
+		<section id="main" ng-view></section>
+
 		<aside id="sidebar-right" class="hidden-phone hidden-tablet"  ng-show="loggedin">
 			<div id="magicbar">
 				<div class="magic" id="magic1">

@@ -1,0 +1,51 @@
+<div id="logo">
+	<img src="img/logo.png">
+</div>
+<form id="loginform" ng-show="loginForm">
+	<input type="text" id="mail" placeholder="Benutzername">
+	<input type="password" id="password" placeholder="Passwort">
+	<div class="error" id="errorLogin">Benutzername und Password stimmen nicht überein!</div>
+	<button id="loginformsubmit" class="btn" type="submit">Einloggen</button>
+</form>
+<form id="registerform" ng-show="!loginForm">
+	<input type="text" id="firstname" placeholder="Vorname">
+	<span class="icon lock" encrypted="false" id="firstnamelock">
+		<img src="img/lock_open.png" alt="shall we encrypt that?">
+	</span>
+	<input type="text" id="lastname" placeholder="Nachname">
+	<span class="icon lock" encrypted="false" id ="lastnamelock">
+		<img src="img/lock_open.png" alt="shall we encrypt that?">
+	</span>
+	<input type="text" id="rnickname" placeholder="Benutzername">
+	<span class="icon fail" id="rnicknameIcon">
+		<img src="img/fail.png" alt="click to show error message!">
+	</span>
+	<div class="error" id="errorNickname">Benutzername wird bereits verwendet!</div>
+	<div class="success" id="successNickname">Benutzername ist noch frei!</div>
+	<input type="text" id="rmail" placeholder="E-Mail Adresse">
+	<span class="icon check" id="rmailIcon">
+		<img src="img/accept.png" alt="Ok!">
+	</span>
+	<div class="error" id="errorRegisterMail">Fehler!</div>
+	<div class="success" id="errorRegisterMail">E-Mail Adresse ok!</div>
+	<input type="text" id="rmail2" placeholder="E-Mail Adresse wiederholen">
+	<span class="icon check" id="rmail2Icon">
+		<img src="img/accept.png" alt="Ok!">
+	</span>
+	<div class="error" id="errorRegisterMail2">Fehler!</div>
+	<div class="success" id="errorRegisterMail2">E-Mail Adresse ist ok!</div>
+	<input type="password" id="rpassword" placeholder="Passwort">
+	<span class="icon" id="rpasswordIcon">
+	</span>
+	<div class="error" id="errorRegisterPassword">Passwort erfüllt die Sicherheitskriterien nicht! Bitte wähle ein Passwort mit mindestens 6 Stellen, Groß und kleinschreibung sowie Zahlen und Sonderzeichen</div>
+	<div class="success" id="successRegisterPassword">Passwort ist PASSWORD STRENGTH?</div>
+	<input type="password" id="rpassword2" placeholder="Passwort wiederholen">
+	<span class="icon check" id="rpassword2Icon">
+		<img src="img/accept.png" alt="Ok!">
+	</span>
+	<div class="error" id="errorRegisterPassword2">Die eingegebenen Passwörter stimmen nicht überein!</div>
+	<div class="success" id="successRegisterPassword2">Passwort ist ok!</div>
+	<button id="registerformsubmit" class="btn" type="submit">Registrieren</button>
+</form>
+<a href="#" id="callRegister" ng-show="loginForm" ng-click="showRegister()" eat-click>Registration</a>
+<a href="#" id="callLogin" ng-show="!loginForm"  ng-click="showLogin()" eat-click>Login</a>

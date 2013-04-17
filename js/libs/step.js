@@ -246,7 +246,7 @@ step.stopTiming = function () {
 	step.timing = false;
 };
 
-step.timing = false;
+step.timing = true;
 
 // Hook into commonJS module systems
 if (typeof module !== 'undefined' && module.hasOwnProperty("exports")) {

@@ -1,46 +1,32 @@
-define(['jquery', 'asset/logger', 'asset/helper', 'libs/step', 'model/state', 'display', 'model/session'], function ($, logger, h, step, state, display, session) {
-	"use strict";
+require.config({
+	paths: {
+		jquery: 'libs/jquery-1.9.1',
+		angular: 'libs/angular',
+	},
+	baseUrl: 'js',
+	shim: {
+		'angular' : {'exports' : 'angular'},
+		'angularMocks': {deps:['angular'], 'exports':'angular.mock'}
+	},
+	priority: [
+		"angular"
+	]
+});
 
-	require(['libs/sjcl'], function (sjcl) {
-		sjcl.random.startCollectors();
+require( [
+	'jquery',
+	'angular',
+	'app',
+	'routes'
+], function($, angular, app, routes) {
+	'use strict';
+	$(document).ready(function () {
+		var $html = $('html');
+		angular.bootstrap($html, [app['name']]);
+		// Because of RequireJS we need to bootstrap the app app manually
+		// and Angular Scenario runner won't be able to communicate with our app
+		// unless we explicitely mark the container as app holder
+		// More info: https://groups.google.com/forum/#!msg/angular/yslVnZh9Yjk/MLi3VGXZLeMJ
+		$html.addClass('ng-app');
 	});
-
-	/**
-	*	Load function is called on document load.
-	*	Main program entry point.
-	*/
-	var load = function () {
-		step(function startUpLoad() {
-			logger.log("Starting up");
-			require.wrap(['asset/i18n'], this);
-		}, h.sF(function depsLoaded(i18n) {
-			display.load();
-
-			//Local storage available?
-			if (session.storageAvailable()) {
-				// We already got a session?
-				if (session.isOldSession()) {
-					session.loadOldSession();
-					return;
-				}
-			} else {
-				//Display warning message.
-				display.showWarning(i18n.getValue("warning.noSessionSaving"));
-				state.loaded = true;
-				$(window).trigger('hashchange');
-			}
-
-			display.loadView("register");
-		}), function checkError(err) {
-			//display.showError(
-			console.log(err);
-		});
-	};
-
-	step(function startUp() {
-		$(document).ready(this);
-	}, function domReady() {
-		load();
-	});
-
 });
