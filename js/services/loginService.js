@@ -4,13 +4,13 @@
 define(['angular'], function (angular) {
 	"use strict";
 
-	var service = function () {
+	var service = function (socketService) {
 		return {
 			login: true
 		}
 	};
 
-	service.$inject = [];
+	service.$inject = ['ssn.socketService'];
 
 	return service;
 });
