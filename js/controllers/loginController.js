@@ -6,7 +6,30 @@ define(function () {
 	'use strict';
 
 	function loginController($scope, loginService) {
-		$scope.variable = 'empty';
+		$scope.password = "";
+		$scope.password2 = "";
+
+		$scope.mail = "";
+		$scope.mail2 = "";
+
+		$scope.nickname = "";
+
+		$scope.identifier = "";
+	
+		$scope.profileAttributes = [
+			{
+				name: "firstname",
+				placeHolder: "Vorname",
+				value: "",
+				encrypted: false
+			},
+			{
+				name: "lastname",
+				placeHolder: "Nachname",
+				value: "",
+				encrypted: false
+			}
+		]
 		
 		$scope.loginForm = true;
 		
@@ -18,17 +41,16 @@ define(function () {
 			$scope.loginForm = false;
 		};
 
-		$scope.init = function () {
-			console.log("test");
+		$scope.login = function() {	
+			
 		};
 
-		$scope.login = function() {	
-			console.log(loginService);
-			console.log('login() was called');
+		$scope.register = function() {	
+			
 		};
 	}
 
-	loginController.$inject = ['$scope', 'ssn.loginService'];
+	loginController.$inject = ['$scope', 'ssn.loginService', '$locale'];
 
 	return loginController;
 });
