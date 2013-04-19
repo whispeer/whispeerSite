@@ -32,7 +32,7 @@
 <body class="registerView">
 	<!--[if lte IE 8]><p class=chromeframe>Your browser is <em>ancient!</em> <a href="http://browsehappy.com/">Upgrade to a different browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to experience this site.</p><![endif]-->
 	<noscript class="bubble">Hallo! Leider steht uns bei deinem Browser kein Javascript zur Verfügung!<br> Daher ist es nicht möglich whispeer zu nutzen, da wir unbedingt Javascript benötigen!<br> Vielen Dank für dein Verständnis!</noscript>
-	<nav id="topNav" ng-show="loggedin" style="display:none">
+	<nav id="topNav" data-ng-show="loggedin" style="display:none">
 		<div id="navInner">
 			<a href="#" id="brand"><span id="brandNormal">whis</span><span id="brandInverse">peer</span></a>
 			<div class="nav-collapse collapse">
@@ -66,20 +66,20 @@
 		</div>	
 	</nav>
 	<div id="container">
-		<aside id="sidebar-left" style="display:none" ng-show="loggedin">
+		<aside id="sidebar-left" style="display:none" data-ng-show="loggedin">
 			<div id="userpanel">
 				<a href="#view=profile" class="username">
 					<!--<img src="img/profil.jpg" alt="" class="userimg">-->
 				</a>
 				<nav id="menu">
 					<ul class="left unstyled" id="mainMenu">
-						<li><a href="/profile" i18n="menu.profil"></a></li>
-						<li><a href="/friends" i18n="menu.friends"></a></li>
-						<li><a href="/messages" i18n="menu.messages"></a></li>
-						<li><a href="/media" i18n="menu.media"></a></li>
-						<li><a href="/groups" i18n="menu.groups"></a></li>
-						<li><a href="/settings" i18n="menu.settings"></a></li>
-						<li><a href="/help" i18n="menu.help"></a></li>
+						<li><a href="/profile" data-i18n="menu.profil"></a></li>
+						<li><a href="/friends" data-i18n="menu.friends"></a></li>
+						<li><a href="/messages" data-i18n="menu.messages"></a></li>
+						<li><a href="/media" data-i18n="menu.media"></a></li>
+						<li><a href="/groups" data-i18n="menu.groups"></a></li>
+						<li><a href="/settings" data-i18n="menu.settings"></a></li>
+						<li><a href="/help" data-i18n="menu.help"></a></li>
 						<li><a href="/" >Logout</a></li>
 					</ul>
 					<ul class="right unstyled" id="subMenu">
@@ -90,9 +90,9 @@
 			</div>	
 		</aside>
 
-		<section id="main" ng-view></section>
+		<section id="main" data-ng-view></section>
 
-		<aside id="sidebar-right" class="hidden-phone hidden-tablet"  ng-show="loggedin">
+		<aside id="sidebar-right" class="hidden-phone hidden-tablet"  data-ng-show="loggedin">
 			<div id="magicbar">
 				<div class="magic" id="magic1">
 				</div>
