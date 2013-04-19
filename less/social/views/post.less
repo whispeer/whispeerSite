@@ -1,48 +1,56 @@
-//Don't touch any of the *.less or *.css files, or you will die an awful death.
-.shareForm {
-	padding-top: 10px;
-	.padding-fix;
-	text-align: center;
-	border-bottom: 1px solid @bubbleBorderColor;
-	//background-color: red;
-	#shareText {
-		margin-left: 20px;
-	}
-}
 #wall {
 	height: 100%;
 	width: 100%;
 	float: left;
-}
-.posts {
-	height: 90%;
-	padding-bottom: 20px;
-	.box-fix;
-	.column(12,12);
-	overflow-y: scroll;
-	//background: blue;
-	article {
+	.shareForm {
+		padding-top: 10px;
+		text-align: center;
 		border-bottom: 1px solid @bubbleBorderColor;
-		.userimg{
-			border-radius: 200px;
-			vertical-align: middle;
-			margin: 10px 0px 10px 0px;
+		float: left;
+		height: 50px;
+		z-index: 1000;
+		#shareText {
+			margin-left: 20px;
 		}
-		.postContent {
-			padding-top: 5px;
-			margin-top: 10px;
-			margin-bottom: 10px;
-			.postText {
-				padding-left: 10px;
-				.box-fix;
+	}
+	.posts {
+		.column(12,12);
+		article {
+			border-bottom: 1px solid @bubbleBorderColor;
+			.userimg{
+				border-radius: 200px;
+				vertical-align: middle;
+				margin: 10px 0px 10px 0px;
 			}
-		}
-		.postInfo {
-			padding-top: 5px;
-			margin-bottom: 10px;
-		}
-		&:last-child {
-			border:none;
+			.postContent {
+				padding-top: 5px;
+				margin-top: 10px;
+				margin-bottom: 10px;
+				.postText {
+					padding-left: 10px;
+					.box-fix;
+				}
+			}
+			.postInfo {
+				padding-top: 5px;
+				margin-bottom: 10px;
+			}
+			&:last-child {
+				border:none;
+			}
 		}
 	}
 }
+body:not(.profileView) {
+	#wall {
+		padding-top: 50px;
+		.box-fix;
+		.shareForm {
+			margin-top: -50px;
+		}
+		.posts {
+			overflow-y: scroll;
+			height: 100%;
+		}
+	}
+}	

@@ -3,11 +3,11 @@
 		<div id="userinfo">
 			<h1 id="pname"></h1> <a class="btn btn-success" id="pfriendShip"></a> <a class="btn btn-success" id="psendMessage"></a>
 			<div id="info">
-				<p id="birthday"><i class="icon-gift"></i> Geboren am 31.03.1997</p>
-				<p id="residence"><i class="icon-home"></i> Wohnt in Enger, Nordrhein-Westfahlen, Deutschland</p>
-				<p id="relationship"><i class="icon-heart"></i> in einer Beziehung mit Svenja Kenneweg</p>
-				<p id="school"><i class="icon-book-open"></i> geht hier zur Schule: Widukind-Gymnasium Enger</p>
-				<p id="job"><i class="icon-wrench"></i> arbeitet als Web-Developer bei Socialize</p>
+				<p id="birthday"><i class="icon-gift"></i> Geboren am 5.5.2012</p>
+				<p id="residence"><i class="icon-home"></i> Wohnt in Whispeer Town, Whispeer-Bundesland, Whispeer-Staat</p>
+				<p id="relationship"><i class="icon-heart"></i> in einer Beziehung mit Whispeerina</p>
+				<p id="school"><i class="icon-book-open"></i> geht hier zur Schule: Whispeer-Gymnasium Enger</p>
+				<p id="job"><i class="icon-wrench"></i> arbeitet als Web-Developer bei whispeer</p>
 				<p id="sex"><i class="icon-toilet"></i> Geschlecht: männlich</p>
 				<p id="languages"><i class="icon-globe-1"></i> Spricht: Deutsch, Englisch</p>
 			</div>

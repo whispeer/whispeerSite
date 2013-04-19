@@ -635,28 +635,41 @@ body {
 
   width: 100%;
   *zoom: 1;
-  padding-top: 60px;
-  padding-bottom: 40px;
+}
+body nav {
+  display: none !important;
 }
 body #container {
   height: 100%;
+  padding-bottom: 30px;
+  -webkit-box-sizing: border-box;
+  /* Safari/Chrome, other WebKit */
+
+  -moz-box-sizing: border-box;
+  /* Firefox, other Gecko */
+
+  box-sizing: border-box;
+  /* Opera/IE 8+ */
+
 }
 body #main,
 body #sidebar-left,
 body #sidebar-right {
   height: 100%;
 }
+body:not(.mainView) #main {
+  overflow-y: scroll;
+}
 body noscript {
   margin-top: 10px;
 }
-body #sidebar-left #userpanel,
-body #sidebar-left #didYaKnow {
+body #sidebar-left #userpanel {
   margin-bottom: 10px;
 }
 body footer {
-  padding: 5px;
-  padding-bottom: 0;
+  padding: 5px 5px 2px 5px;
   height: 10px;
+  margin-top: -25px !important;
   color: #3d9404;
   -webkit-box-sizing: border-box;
   /* Safari/Chrome, other WebKit */
@@ -684,6 +697,12 @@ body footer a:hover {
 body #loading {
   display: none;
   text-align: center;
+}
+body:not(.registerView) {
+  padding-top: 60px;
+}
+body:not(.registerView) nav {
+  display: inline !important;
 }
 #topNav {
   display: block;
@@ -1357,29 +1376,25 @@ input[type="submit"].btn.btn-mini {
 #magicbar .magic:first-child {
   margin-top: 0;
 }
-#magicbar .magicOverlay {
-  padding: 0;
-  width: 100%;
-}
-#magicbar .magicOverlay .header {
+#magicbar .magic .header {
   float: left;
   width: 100%;
   height: 30px;
   border-bottom: 1px solid #999999;
   margin-bottom: -30px;
 }
-#magicbar .magicOverlay .header h4 {
+#magicbar .magic .header h4 {
   float: left;
   width: 60%;
   padding: 3px 0px 3px 3px;
   margin: 0;
 }
-#magicbar .magicOverlay .header .close {
+#magicbar .magic .header .close {
   float: right;
   padding: 3px 3px 3px 0px;
   cursor: pointer;
 }
-#magicbar .magicOverlay .body {
+#magicbar .magic .body {
   height: 100%;
   width: 100%;
   padding-top: 30px;
@@ -1393,32 +1408,32 @@ input[type="submit"].btn.btn-mini {
   /* Opera/IE 8+ */
 
 }
-#magicbar .magicOverlay .body ul {
+#magicbar .magic .body ul {
   width: 100%;
   height: 100%;
   overflow-y: scroll;
 }
-#magicbar .magicOverlay .body ul li {
+#magicbar .magic .body ul li {
   width: 100%;
   float: left;
   margin: 2.5px 0 2.5px 0;
 }
-#magicbar .magicOverlay .body ul li:hover {
+#magicbar .magic .body ul li:hover {
   background: rgba(0, 0, 0, 0.05);
 }
-#magicbar .magicOverlay .body ul li.message img {
+#magicbar .magic .body ul li.message img {
   display: inline;
   float: left;
   width: 23%;
   margin: 0 1% 0 1%;
 }
-#magicbar .magicOverlay .body ul li.message .username {
+#magicbar .magic .body ul li.message .username {
   display: inline;
   float: left;
   width: 73%;
   margin: 0 1% 0 1%;
 }
-#magicbar .magicOverlay .body ul li.message .text {
+#magicbar .magic .body ul li.message .text {
   display: inline;
   float: left;
   width: 68.83333333333334%;
@@ -1426,19 +1441,19 @@ input[type="submit"].btn.btn-mini {
   margin-left: 4.166666666666667%;
   color: #777;
 }
-#magicbar .magicOverlay .body ul li.request img {
+#magicbar .magic .body ul li.request img {
   display: inline;
   float: left;
   width: 23%;
   margin: 0 1% 0 1%;
 }
-#magicbar .magicOverlay .body ul li.request .username {
+#magicbar .magic .body ul li.request .username {
   display: inline;
   float: left;
   width: 73%;
   margin: 0 1% 0 1%;
 }
-#magicbar .magicOverlay .body ul li.request .similar {
+#magicbar .magic .body ul li.request .similar {
   display: inline;
   float: left;
   width: 73%;
@@ -1446,33 +1461,37 @@ input[type="submit"].btn.btn-mini {
   color: #777;
   font-size: 0.9em;
 }
-#magicbar .magicOverlay .body ul li.request .action {
+#magicbar .magic .body ul li.request .action {
   width: 99%;
   float: left;
   margin-left: 1%;
 }
-#magicbar .magicOverlay .body ul li.request .action button {
+#magicbar .magic .body ul li.request .action button {
   display: inline;
   float: left;
   width: 48%;
   margin: 0 1% 0 1%;
   padding: 2%;
 }
-#magicbar .magicOverlay .body ul li.notification img {
+#magicbar .magic .body ul li.notification img {
   display: inline;
   float: left;
   width: 23%;
   margin: 0 1% 0 1%;
 }
-#magicbar .magicOverlay .body ul li.notification .username {
+#magicbar .magic .body ul li.notification .username {
   float: left;
   font-weight: 800;
 }
-#magicbar .magicOverlay .body ul li.notification .info {
+#magicbar .magic .body ul li.notification .info {
   display: inline;
   float: left;
   width: 73%;
   margin: 0 1% 0 1%;
+}
+#magicbar .magicOverlay {
+  padding: 0;
+  width: 100%;
 }
 .registerView {
   background-color: #3a8100;
@@ -1676,60 +1695,42 @@ input[type="submit"].btn.btn-mini {
   position: fixed;
   bottom: 10px;
 }
-.shareForm {
-  padding-top: 10px;
-  -webkit-box-sizing: padding-box;
-  /* Safari/Chrome, other WebKit */
-
-  -moz-box-sizing: padding-box;
-  /* Firefox, other Gecko */
-
-  box-sizing: padding-box;
-  /* Opera/IE 8+ */
-
-  text-align: center;
-  border-bottom: 1px solid #666666;
-}
-.shareForm #shareText {
-  margin-left: 20px;
-}
 #wall {
   height: 100%;
   width: 100%;
   float: left;
 }
-.posts {
-  height: 90%;
-  padding-bottom: 20px;
-  -webkit-box-sizing: border-box;
-  /* Safari/Chrome, other WebKit */
-
-  -moz-box-sizing: border-box;
-  /* Firefox, other Gecko */
-
-  box-sizing: border-box;
-  /* Opera/IE 8+ */
-
+#wall .shareForm {
+  padding-top: 10px;
+  text-align: center;
+  border-bottom: 1px solid #666666;
+  float: left;
+  height: 50px;
+  z-index: 1000;
+}
+#wall .shareForm #shareText {
+  margin-left: 20px;
+}
+#wall .posts {
   display: inline;
   float: left;
   width: 98%;
   margin: 0 1% 0 1%;
-  overflow-y: scroll;
 }
-.posts article {
+#wall .posts article {
   border-bottom: 1px solid #666666;
 }
-.posts article .userimg {
+#wall .posts article .userimg {
   border-radius: 200px;
   vertical-align: middle;
   margin: 10px 0px 10px 0px;
 }
-.posts article .postContent {
+#wall .posts article .postContent {
   padding-top: 5px;
   margin-top: 10px;
   margin-bottom: 10px;
 }
-.posts article .postContent .postText {
+#wall .posts article .postContent .postText {
   padding-left: 10px;
   -webkit-box-sizing: border-box;
   /* Safari/Chrome, other WebKit */
@@ -1741,12 +1742,31 @@ input[type="submit"].btn.btn-mini {
   /* Opera/IE 8+ */
 
 }
-.posts article .postInfo {
+#wall .posts article .postInfo {
   padding-top: 5px;
   margin-bottom: 10px;
 }
-.posts article:last-child {
+#wall .posts article:last-child {
   border: none;
+}
+body:not(.profileView) #wall {
+  padding-top: 50px;
+  -webkit-box-sizing: border-box;
+  /* Safari/Chrome, other WebKit */
+
+  -moz-box-sizing: border-box;
+  /* Firefox, other Gecko */
+
+  box-sizing: border-box;
+  /* Opera/IE 8+ */
+
+}
+body:not(.profileView) #wall .shareForm {
+  margin-top: -50px;
+}
+body:not(.profileView) #wall .posts {
+  overflow-y: scroll;
+  height: 100%;
 }
 .profileView #infowrap {
   float: left;
@@ -1760,12 +1780,6 @@ input[type="submit"].btn.btn-mini {
   box-sizing: border-box;
   /* Opera/IE 8+ */
 
-}
-.profileView #wall {
-  margin-top: 10px;
-}
-.profileView #postOnWall {
-  margin-top: 5px;
 }
 .messagesView #topicListWrap {
   margin-right: 3px;
@@ -2004,1280 +2018,33 @@ input[type="submit"].btn.btn-mini {
   float: left;
 }
 /* Do it responsive! */
-/* Smartphones (portrait and landscape) */
-@media only screen and (min-device-width: 319px) and (max-device-width: 767px) {
-  body noscript {
-    display: inline;
-    float: left;
-    width: 98%;
-    margin: 0 1% 0 1%;
-    margin-top: 10px;
-  }
-  body #sidebar-left {
-    display: inline;
-    float: left;
-    width: 98%;
-    margin: 0 1% 0 1%;
-    margin-bottom: 10px;
-  }
-  body #sidebar-left #userpanel {
-    display: inline;
-    float: left;
-    width: 98%;
-    margin: 0 1% 0 1%;
-  }
-  body footer {
-    display: inline;
-    float: left;
-    width: 98%;
-    margin: 0 1% 0 1%;
-  }
-  body #main {
-    display: inline;
-    float: left;
-    width: 98%;
-    margin: 0 1% 0 1%;
-  }
-  #topNav {
-    width: 100%;
-  }
-  .nav-inner .brand {
-    width: 130px;
-  }
-  .nav-inner #nav-icons {
-    width: 100px;
-  }
-  .nav-icon-icons {
-    font-style: normal;
-    color: #111;
-    width: 30px;
-  }
-  #searchQuery {
-    display: inline;
-    float: left;
-    width: 64.66666666666667%;
-    margin: 0 1% 0 1%;
-    display: none;
-  }
-  #searchDrop {
-    display: inline;
-    float: left;
-    width: 64.66666666666667%;
-    margin: 0 1% 0 1%;
-  }
-  #searchSuggestions li {
-    display: block;
-    width: 64.66666666666667%;
-    margin: 0 1% 0 1%;
-    *zoom: 1;
-  }
-  #searchSuggestions li a {
-    display: inline;
-    float: left;
-    width: 98%;
-    margin: 0 1% 0 1%;
-  }
-  #userpanel #menu #mainMenu {
-    display: inline;
-    float: left;
-    width: 48%;
-    margin: 0 1% 0 1%;
-  }
-  #userpanel #menu #mainMenu li a {
-    display: inline;
-    float: left;
-    width: 81.33333333333334%;
-    margin: 0 1% 0 1%;
-  }
-  #userpanel #menu #mainMenu li a.current {
-    display: inline;
-    float: left;
-    width: 81.33333333333334%;
-    margin: 0 1% 0 1%;
-  }
-  #userpanel #menu #subMenu {
-    display: inline;
-    float: left;
-    width: 48%;
-    margin: 0 1% 0 1%;
-  }
-  #userpanel #menu #subMenu li a {
-    display: inline;
-    float: left;
-    width: 81.33333333333334%;
-    margin: 0 1% 0 1%;
-  }
-  .friendsView #friendsList,
-  .profileFriendsSubView #friendsList {
-    display: inline;
-    float: left;
-    width: 64.66666666666667%;
-    margin: 0 1% 0 1%;
-  }
-  .friendsView #friendsList li,
-  .profileFriendsSubView #friendsList li {
-    display: inline;
-    float: left;
-    width: 48%;
-    margin: 0 1% 0 1%;
-  }
-  .friendsView #friendsList li a .friendPicture,
-  .profileFriendsSubView #friendsList li a .friendPicture {
-    display: inline;
-    float: left;
-    width: 23%;
-    margin: 0 1% 0 1%;
-  }
-  .friendsView #friendsList li a .friendName,
-  .profileFriendsSubView #friendsList li a .friendName {
-    display: inline;
-    float: left;
-    width: 73%;
-    margin: 0 1% 0 1%;
-  }
-  #mediaWrap .mediaRow {
-    display: block;
-    width: 56.333333333333336%;
-    margin: 0 1% 0 1%;
-    *zoom: 1;
-  }
-  #mediaWrap .droplet {
-    display: block;
-    width: 56.333333333333336%;
-    margin: 0 1% 0 1%;
-    *zoom: 1;
-  }
-  #mediaWrap .droplet .comments {
-    display: inline;
-    float: left;
-    width: 48%;
-    margin: 0 1% 0 1%;
-  }
-  #mediaWrap .droplet .info {
-    display: inline;
-    float: left;
-    width: 33.714285714285715%;
-    margin: 0 1% 0 1%;
-  }
-  #mediaWrap .droplet .opinion {
-    display: inline;
-    float: left;
-    width: 12.285714285714286%;
-    margin: 0 1% 0 1%;
-  }
-  .messagesView #main {
-    display: inline;
-    float: left;
-    width: 98%;
-    margin: 0 1% 0 1%;
-  }
-  .messagesView #topicListWrap {
-    display: inline;
-    float: left;
-    width: 31.333333333333336%;
-    margin: 0 1% 0 1%;
-    height: 300px;
-    overflow-x: scroll;
-  }
-  .messagesView #topicListWrap .topic .userimg {
-    display: inline;
-    float: left;
-    width: 98%;
-    margin: 0 1% 0 1%;
-  }
-  .messagesView #topicListWrap .topic .username {
-    font-size: 1em;
-    display: inline;
-    float: left;
-    width: 48%;
-    margin: 0 1% 0 1%;
-  }
-  .messagesView #topicListWrap .topic .lastMessage {
-    font-size: 0.8em;
-    display: inline;
-    float: left;
-    width: 48%;
-    margin: 0 1% 0 1%;
-  }
-  .messagesView #topicListWrap .topic .left {
-    display: inline;
-    float: left;
-    width: 23%;
-    margin: 0 1% 0 1%;
-  }
-  .messagesView #topicWrap {
-    height: 350px;
-  }
-  .messagesView #topicWrap.peerChat {
-    display: inline;
-    float: left;
-    width: 64.66666666666667%;
-    margin: 0 1% 0 1%;
-  }
-  .messagesView #topicWrap.peerChat #messageList {
-    height: 150px;
-    overflow-x: scroll;
-  }
-  .messagesView #topicWrap.peerChat #messageList .message {
-    display: inline;
-    float: left;
-    width: 98%;
-    margin: 0 1% 0 1%;
-  }
-  .messagesView #topicWrap.peerChat #messageList .message .user .userimg {
-    display: inline;
-    float: left;
-    width: 10.5%;
-    margin: 0 1% 0 1%;
-    padding-top: 10px;
-  }
-  .messagesView #topicWrap.peerChat #messageList .message .messageText {
-    display: inline;
-    float: left;
-    width: 85.5%;
-    margin: 0 1% 0 1%;
-    padding: 10px 0px;
-  }
-  .messagesView #topicWrap.groupChat {
-    display: inline;
-    float: left;
-    width: 64.66666666666667%;
-    margin: 0 1% 0 1%;
-  }
-  .messagesView #topicWrap.groupChat #messageList {
-    height: 150px;
-    overflow-x: scroll;
-  }
-  .messagesView #topicWrap.groupChat #messageList .message {
-    display: inline;
-    float: left;
-    width: 98%;
-    margin: 0 1% 0 1%;
-  }
-  .messagesView #topicWrap.groupChat #messageList .message .user {
-    display: block;
-    width: 23%;
-    margin: 0 1% 0 1%;
-    *zoom: 1;
-  }
-  .messagesView #topicWrap.groupChat #messageList .message .user .userimg {
-    display: inline;
-    float: left;
-    width: 48%;
-    margin: 0 1% 0 1%;
-    padding-top: 10px;
-  }
-  .messagesView #topicWrap.groupChat #messageList .message .user .username {
-    display: inline;
-    float: left;
-    width: 48%;
-    margin: 0 1% 0 1%;
-  }
-  .messagesView #topicWrap.groupChat #messageList .message .messageText {
-    display: inline;
-    float: left;
-    width: 98%;
-    margin: 0 1% 0 1%;
-  }
-  .messagesView #topicWrap.newMessage {
-    display: inline;
-    float: left;
-    width: 69.42857142857143%;
-    margin: 0 1% 0 1%;
-  }
-  .messagesView #topicWrap.newMessage #recieverInput,
-  .messagesView #topicWrap.newMessage #messageInput {
-    display: inline;
-    float: left;
-    width: 98%;
-    margin: 0 1% 0 1%;
-    margin-bottom: 5px;
-  }
-  .messagesView #topicWrap.newMessage #sendmessage {
-    margin-left: 12px;
-  }
-  .shareForm {
-    display: inline;
-    float: left;
-    width: 98%;
-    margin: 0 1% 0 1%;
-    padding-bottom: 10px;
-  }
-  .shareForm #shareText {
-    display: inline;
-    float: left;
-    width: 73%;
-    margin: 0 1% 0 1%;
-  }
-  .shareForm button {
-    display: inline;
-    float: left;
-    width: 23%;
-    margin: 0 1% 0 1%;
-  }
-  .posts article {
-    display: inline;
-    float: left;
-    width: 98%;
-    margin: 0 1% 0 1%;
-    margin-top: 5px;
-  }
-  .posts article .userimg {
-    display: inline;
-    float: left;
-    width: 14.666666666666668%;
-    margin: 0 1% 0 1%;
-  }
-  .posts article .postContent {
-    display: inline;
-    float: left;
-    width: 81.33333333333334%;
-    margin: 0 1% 0 1%;
-  }
-  .posts article .postContent .author {
-    display: block;
-    width: 81.33333333333334%;
-    margin: 0 1% 0 1%;
-    *zoom: 1;
-  }
-  .posts article .postContent .postText {
-    margin-top: 5px;
-  }
-  .posts article .postInfo {
-    display: inline;
-    float: left;
-    width: 98%;
-    margin: 0 1% 0 1%;
-    margin-top: 5px;
-    margin-bottom: 5px;
-  }
-  .posts article .postInfo .with {
-    color: #666;
-    display: inline;
-    float: left;
-    width: 81.33333333333334%;
-    margin: 0 1% 0 1%;
-    margin-left: 16.666666666666668%;
-  }
-  .posts article .postInfo .awesome {
-    display: inline;
-    float: left;
-    width: 48%;
-    margin: 0 1% 0 1%;
-    margin-left: 8.333333333333334%;
-  }
-  .posts article .postInfo p.comments {
-    display: inline;
-    float: left;
-    width: 39.66666666666667%;
-    margin: 0 1% 0 1%;
-  }
-  .posts article .postInfo .showComments {
-    display: inline;
-    float: left;
-    width: 39.66666666666667%;
-    margin: 0 1% 0 1%;
-    margin-left: 58.333333333333336%;
-  }
-  .profileView #infowrap {
-    display: inline;
-    float: left;
-    width: 98%;
-    margin: 0 1% 0 1%;
-  }
-  .profileView .shareForm {
-    display: inline;
-    float: left;
-    width: 98%;
-    margin: 0 1% 0 1%;
-    padding-bottom: 10px;
-  }
-  .profileView .shareForm #shareText {
-    display: inline;
-    float: left;
-    width: 73%;
-    margin: 0 1% 0 1%;
-  }
-  .profileView .shareForm button {
-    display: inline;
-    float: left;
-    width: 23%;
-    margin: 0 1% 0 1%;
-  }
-  .profileView #userimg {
-    display: inline;
-    float: left;
-    width: 98%;
-    margin: 0 1% 0 1%;
-    text-align: center;
-    padding-top: 10px;
-  }
-  .profileView #userinfo {
-    display: inline;
-    float: left;
-    width: 98%;
-    margin: 0 1% 0 1%;
-  }
-  .settingsView #toc {
-    float: left;
-    width: 100%;
-  }
-  .settingsView .config {
-    display: inline;
-    float: left;
-    width: 89.66666666666667%;
-    margin: 0 1% 0 1%;
-    margin-left: 8.333333333333334%;
-  }
-  .settingsView .config input:not([type=submit]):not([type=file]) {
-    display: inline;
-    float: left;
-    width: 34.36363636363637%;
-    margin: 0 1% 0 1%;
-  }
-  .settingsView .config #newNickname {
-    margin-left: 36.36363636363637%;
-  }
+/*
+/* Smartphones (portrait and landscape)
+@media only screen 
+and (min-device-width : 319px) 
+and (max-device-width : 767px) {
+	@import "responsive/mobile/index";
 }
-/* Tablets */
-/* Tablets (landscape) ----------- */
-@media only screen and (min-width: 768px) and (max-width: 1024px) and (orientation: landscape) {
-  body noscript {
-    display: block;
-    width: 98%;
-    margin: 0 1% 0 1%;
-    *zoom: 1;
-    margin-top: 10px;
-  }
-  body #sidebar-left {
-    display: inline;
-    float: left;
-    width: 31.333333333333336%;
-    margin: 0 1% 0 1%;
-    margin-bottom: 10px;
-  }
-  body #sidebar-left #userpanel {
-    display: inline;
-    float: left;
-    width: 98%;
-    margin: 0 1% 0 1%;
-  }
-  body #main {
-    display: inline;
-    float: left;
-    width: 64.66666666666667%;
-    margin: 0 1% 0 1%;
-  }
-  body footer {
-    display: inline;
-    float: left;
-    width: 98%;
-    margin: 0 1% 0 1%;
-  }
-  #topNav {
-    width: 100%;
-  }
-  .nav-inner .brand {
-    width: 130px;
-  }
-  .nav-inner #nav-icons {
-    width: 100px;
-  }
-  .nav-icon-icons {
-    width: 30px;
-  }
-  #searchQuery {
-    display: inline;
-    float: left;
-    width: 64.66666666666667%;
-    margin: 0 1% 0 1%;
-    margin-top: 7px;
-  }
-  #searchDrop {
-    display: inline;
-    float: left;
-    width: 64.66666666666667%;
-    margin: 0 1% 0 1%;
-  }
-  #searchSuggestions li {
-    display: block;
-    width: 64.66666666666667%;
-    margin: 0 1% 0 1%;
-    *zoom: 1;
-  }
-  #searchSuggestions li a {
-    display: inline;
-    float: left;
-    width: 98%;
-    margin: 0 1% 0 1%;
-  }
-  #userpanel #menu #mainMenu {
-    display: inline;
-    float: left;
-    width: 48%;
-    margin: 0 1% 0 1%;
-  }
-  #userpanel #menu #mainMenu li a {
-    display: inline;
-    float: left;
-    width: 81.33333333333334%;
-    margin: 0 1% 0 1%;
-  }
-  #userpanel #menu #mainMenu li a.current {
-    display: inline;
-    float: left;
-    width: 81.33333333333334%;
-    margin: 0 1% 0 1%;
-  }
-  #userpanel #menu #subMenu {
-    display: inline;
-    float: left;
-    width: 48%;
-    margin: 0 1% 0 1%;
-  }
-  #userpanel #menu #subMenu li a {
-    display: inline;
-    float: left;
-    width: 98%;
-    margin: 0 1% 0 1%;
-  }
-  .friendsView #friendsList,
-  .profileFriendsSubView #friendsList {
-    display: inline;
-    float: left;
-    width: 98%;
-    margin: 0 1% 0 1%;
-  }
-  .friendsView #friendsList li,
-  .profileFriendsSubView #friendsList li {
-    display: inline;
-    float: left;
-    width: 40.85714285714286%;
-    margin: 0 1% 0 1%;
-  }
-  .friendsView #friendsList li a .friendPicture,
-  .profileFriendsSubView #friendsList li a .friendPicture {
-    display: inline;
-    float: left;
-    width: 31.333333333333336%;
-    margin: 0 1% 0 1%;
-  }
-  .friendsView #friendsList li a .friendName,
-  .profileFriendsSubView #friendsList li a .friendName {
-    display: inline;
-    float: left;
-    width: 64.66666666666667%;
-    margin: 0 1% 0 1%;
-  }
-  #mediaWrap .mediaRow {
-    display: block;
-    width: 56.333333333333336%;
-    margin: 0 1% 0 1%;
-    *zoom: 1;
-  }
-  #mediaWrap .droplet {
-    display: block;
-    width: 56.333333333333336%;
-    margin: 0 1% 0 1%;
-    *zoom: 1;
-  }
-  #mediaWrap .droplet .comments {
-    display: inline;
-    float: left;
-    width: 48%;
-    margin: 0 1% 0 1%;
-  }
-  #mediaWrap .droplet .info {
-    display: inline;
-    float: left;
-    width: 33.714285714285715%;
-    margin: 0 1% 0 1%;
-  }
-  #mediaWrap .droplet .opinion {
-    display: inline;
-    float: left;
-    width: 12.285714285714286%;
-    margin: 0 1% 0 1%;
-  }
-  .messagesView #topicListWrap {
-    display: inline;
-    float: left;
-    width: 23%;
-    margin: 0 1% 0 1%;
-    height: 420px;
-    overflow-x: scroll;
-  }
-  .messagesView #topicListWrap .topic .userimg {
-    width: 100%;
-  }
-  .messagesView #topicListWrap .topic .username {
-    font-size: 1em;
-    display: inline;
-    float: left;
-    width: 63%;
-    margin: 0 1% 0 1%;
-  }
-  .messagesView #topicListWrap .topic .lastMessage {
-    font-size: 0.8em;
-    display: block;
-    width: 98%;
-    margin: 0 1% 0 1%;
-    *zoom: 1;
-  }
-  .messagesView #topicListWrap .topic .left {
-    display: inline;
-    float: left;
-    width: 33%;
-    margin: 0 1% 0 1%;
-  }
-  .messagesView #topicWrap {
-    height: 450px;
-  }
-  .messagesView #topicWrap.peerChat {
-    display: inline;
-    float: left;
-    width: 73%;
-    margin: 0 1% 0 1%;
-  }
-  .messagesView #topicWrap.peerChat #messageList {
-    height: 300px;
-    overflow-x: scroll;
-  }
-  .messagesView #topicWrap.peerChat #messageList .message {
-    display: inline;
-    float: left;
-    width: 98%;
-    margin: 0 1% 0 1%;
-  }
-  .messagesView #topicWrap.peerChat #messageList .message .user .userimg {
-    display: inline;
-    float: left;
-    width: 14.666666666666668%;
-    margin: 0 1% 0 1%;
-    padding-top: 10px;
-  }
-  .messagesView #topicWrap.peerChat #messageList .message .messageText {
-    display: inline;
-    float: left;
-    width: 81.33333333333334%;
-    margin: 0 1% 0 1%;
-    padding: 10px 0px;
-  }
-  .messagesView #topicWrap.groupChat {
-    display: inline;
-    float: left;
-    width: 64.66666666666667%;
-    margin: 0 1% 0 1%;
-  }
-  .messagesView #topicWrap.groupChat #messageList {
-    height: 300px;
-    overflow-x: scroll;
-  }
-  .messagesView #topicWrap.groupChat #messageList .message {
-    display: inline;
-    float: left;
-    width: 98%;
-    margin: 0 1% 0 1%;
-  }
-  .messagesView #topicWrap.groupChat #messageList .message .user {
-    display: block;
-    width: 23%;
-    margin: 0 1% 0 1%;
-    *zoom: 1;
-  }
-  .messagesView #topicWrap.groupChat #messageList .message .user .userimg {
-    display: inline;
-    float: left;
-    width: 48%;
-    margin: 0 1% 0 1%;
-    padding-top: 10px;
-  }
-  .messagesView #topicWrap.groupChat #messageList .message .user .username {
-    display: inline;
-    float: left;
-    width: 48%;
-    margin: 0 1% 0 1%;
-  }
-  .messagesView #topicWrap.groupChat #messageList .message .messageText {
-    display: inline;
-    float: left;
-    width: 98%;
-    margin: 0 1% 0 1%;
-  }
-  .messagesView #topicWrap.newMessage {
-    display: inline;
-    float: left;
-    width: 69.42857142857143%;
-    margin: 0 1% 0 1%;
-  }
-  .messagesView #topicWrap.newMessage #recieverInput,
-  .messagesView #topicWrap.newMessage #messageInput {
-    display: inline;
-    float: left;
-    width: 98%;
-    margin: 0 1% 0 1%;
-    margin-bottom: 5px;
-  }
-  .messagesView #topicWrap.newMessage #sendmessage {
-    margin-left: 12px;
-  }
-  .shareForm {
-    display: inline;
-    float: left;
-    width: 98%;
-    margin: 0 1% 0 1%;
-  }
-  .shareForm #shareText {
-    display: inline;
-    float: left;
-    width: 73%;
-    margin: 0 1% 0 1%;
-    margin-bottom: 10px;
-    margin-left: 20px;
-  }
-  .posts article {
-    display: inline;
-    float: left;
-    width: 98%;
-    margin: 0 1% 0 1%;
-    margin: 10px 0 0 0;
-  }
-  .posts article .userimg {
-    border-radius: 200px;
-    display: inline;
-    float: left;
-    width: 16.75%;
-    margin: 0 1% 0 1%;
-    margin: 10px 0px 10px 0px;
-  }
-  .posts article .postContent {
-    display: inline;
-    float: left;
-    width: 79.25%;
-    margin: 0 1% 0 1%;
-    padding-top: 5px;
-    margin-top: 10px;
-    margin-bottom: 10px;
-  }
-  .posts article .postContent .postText {
-    padding-left: 10px;
-  }
-  .posts article .postInfo {
-    display: inline;
-    float: left;
-    width: 98%;
-    margin: 0 1% 0 1%;
-    padding-top: 5px;
-    margin-bottom: 10px;
-  }
-  .posts article .postInfo .with {
-    color: #666;
-    display: inline;
-    float: left;
-    width: 73%;
-    margin: 0 1% 0 1%;
-    margin-left: 18.75%;
-  }
-  .posts article .postInfo .awesome {
-    display: inline;
-    float: left;
-    width: 35.5%;
-    margin: 0 1% 0 1%;
-    margin-left: 18.75%;
-  }
-  .posts article .postInfo p.comments {
-    display: inline;
-    float: left;
-    width: 35.5%;
-    margin: 0 1% 0 1%;
-  }
-  .posts article .postInfo .showComments {
-    display: inline;
-    float: left;
-    width: 35.5%;
-    margin: 0 1% 0 1%;
-    margin-left: 56.25%;
-  }
-  .posts article:last-child {
-    border: none;
-  }
-  .profileView #infowrap {
-    float: left;
-    width: 100%;
-  }
-  .profileView #wall {
-    display: inline;
-    float: left;
-    width: 98%;
-    margin: 0 1% 0 1%;
-    margin-top: 10px;
-  }
-  .profileView #postOnWall {
-    display: inline;
-    float: left;
-    width: 98%;
-    margin: 0 1% 0 1%;
-    margin-top: 5px;
-  }
-  .profileView #userimg {
-    display: inline;
-    float: left;
-    width: 35.5%;
-    margin: 0 1% 0 1%;
-  }
-  .profileView #userinfo {
-    display: inline;
-    float: left;
-    width: 60.5%;
-    margin: 0 1% 0 1%;
-  }
-  .registerView #main {
-    text-align: center;
-    display: inline;
-    float: left;
-    width: 98%;
-    margin: 0 1% 0 1%;
-  }
-  .settingsView #toc {
-    float: left;
-    width: 100%;
-  }
-  .settingsView .config {
-    display: inline;
-    float: left;
-    width: 85.5%;
-    margin: 0 1% 0 1%;
-    margin-left: 8.333333333333334%;
-  }
-  .settingsView .config input:not([type=submit]):not([type=file]) {
-    display: inline;
-    float: left;
-    width: 33.714285714285715%;
-    margin: 0 1% 0 1%;
-  }
-  .settingsView .config #newNickname {
-    margin-left: 35.714285714285715%;
-  }
-}
-/* Tablets (portrait) ----------- */
-@media only screen and (min-width: 768px) and (max-width: 1024px) and (orientation: portrait) {
-  body noscript {
-    display: block;
-    width: 98%;
-    margin: 0 1% 0 1%;
-    *zoom: 1;
-    margin-top: 10px;
-  }
-  body #sidebar-left {
-    display: inline;
-    float: left;
-    width: 31.333333333333336%;
-    margin: 0 1% 0 1%;
-    margin-bottom: 10px;
-  }
-  body #sidebar-left #userpanel {
-    display: inline;
-    float: left;
-    width: 98%;
-    margin: 0 1% 0 1%;
-  }
-  body #main {
-    display: inline;
-    float: left;
-    width: 64.66666666666667%;
-    margin: 0 1% 0 1%;
-  }
-  body footer {
-    display: inline;
-    float: left;
-    width: 98%;
-    margin: 0 1% 0 1%;
-  }
-  #topNav {
-    width: 100%;
-  }
-  .nav-inner .brand {
-    width: 130px;
-  }
-  .nav-inner #nav-icons {
-    width: 100px;
-  }
-  .nav-icon-icons {
-    width: 30px;
-  }
-  #searchQuery {
-    display: inline;
-    float: left;
-    width: 64.66666666666667%;
-    margin: 0 1% 0 1%;
-    margin-top: 7px;
-  }
-  #searchDrop {
-    display: inline;
-    float: left;
-    width: 64.66666666666667%;
-    margin: 0 1% 0 1%;
-  }
-  #searchSuggestions li {
-    display: block;
-    width: 64.66666666666667%;
-    margin: 0 1% 0 1%;
-    *zoom: 1;
-  }
-  #searchSuggestions li a {
-    display: inline;
-    float: left;
-    width: 98%;
-    margin: 0 1% 0 1%;
-  }
-  #userpanel #menu #mainMenu {
-    display: inline;
-    float: left;
-    width: 48%;
-    margin: 0 1% 0 1%;
-  }
-  #userpanel #menu #mainMenu li a {
-    display: inline;
-    float: left;
-    width: 81.33333333333334%;
-    margin: 0 1% 0 1%;
-  }
-  #userpanel #menu #mainMenu li a.current {
-    display: inline;
-    float: left;
-    width: 81.33333333333334%;
-    margin: 0 1% 0 1%;
-  }
-  #userpanel #menu #subMenu {
-    display: inline;
-    float: left;
-    width: 48%;
-    margin: 0 1% 0 1%;
-  }
-  #userpanel #menu #subMenu li a {
-    display: inline;
-    float: left;
-    width: 98%;
-    margin: 0 1% 0 1%;
-  }
-  .friendsView #friendsList,
-  .profileFriendsSubView #friendsList {
-    display: inline;
-    float: left;
-    width: 98%;
-    margin: 0 1% 0 1%;
-  }
-  .friendsView #friendsList li,
-  .profileFriendsSubView #friendsList li {
-    display: inline;
-    float: left;
-    width: 40.85714285714286%;
-    margin: 0 1% 0 1%;
-  }
-  .friendsView #friendsList li a .friendPicture,
-  .profileFriendsSubView #friendsList li a .friendPicture {
-    display: inline;
-    float: left;
-    width: 31.333333333333336%;
-    margin: 0 1% 0 1%;
-  }
-  .friendsView #friendsList li a .friendName,
-  .profileFriendsSubView #friendsList li a .friendName {
-    display: inline;
-    float: left;
-    width: 64.66666666666667%;
-    margin: 0 1% 0 1%;
-  }
-  #mediaWrap .mediaRow {
-    display: block;
-    width: 56.333333333333336%;
-    margin: 0 1% 0 1%;
-    *zoom: 1;
-  }
-  #mediaWrap .droplet {
-    display: block;
-    width: 56.333333333333336%;
-    margin: 0 1% 0 1%;
-    *zoom: 1;
-  }
-  #mediaWrap .droplet .comments {
-    display: inline;
-    float: left;
-    width: 48%;
-    margin: 0 1% 0 1%;
-  }
-  #mediaWrap .droplet .info {
-    display: inline;
-    float: left;
-    width: 33.714285714285715%;
-    margin: 0 1% 0 1%;
-  }
-  #mediaWrap .droplet .opinion {
-    display: inline;
-    float: left;
-    width: 12.285714285714286%;
-    margin: 0 1% 0 1%;
-  }
-  .messagesView #topicListWrap {
-    display: inline;
-    float: left;
-    width: 23%;
-    margin: 0 1% 0 1%;
-    height: 460px;
-    overflow-x: scroll;
-  }
-  .messagesView #topicListWrap .topic .userimg {
-    width: 100%;
-  }
-  .messagesView #topicListWrap .topic .username {
-    font-size: 1em;
-    display: inline;
-    float: left;
-    width: 63%;
-    margin: 0 1% 0 1%;
-  }
-  .messagesView #topicListWrap .topic .lastMessage {
-    font-size: 0.8em;
-    display: block;
-    width: 98%;
-    margin: 0 1% 0 1%;
-    *zoom: 1;
-  }
-  .messagesView #topicListWrap .topic .left {
-    display: inline;
-    float: left;
-    width: 33%;
-    margin: 0 1% 0 1%;
-  }
-  .messagesView #topicWrap {
-    height: 500px;
-  }
-  .messagesView #topicWrap.peerChat {
-    display: inline;
-    float: left;
-    width: 73%;
-    margin: 0 1% 0 1%;
-  }
-  .messagesView #topicWrap.peerChat #messageList {
-    height: 350px;
-    overflow-x: scroll;
-  }
-  .messagesView #topicWrap.peerChat #messageList .message {
-    display: inline;
-    float: left;
-    width: 98%;
-    margin: 0 1% 0 1%;
-  }
-  .messagesView #topicWrap.peerChat #messageList .message .user .userimg {
-    display: inline;
-    float: left;
-    width: 14.666666666666668%;
-    margin: 0 1% 0 1%;
-    padding-top: 10px;
-  }
-  .messagesView #topicWrap.peerChat #messageList .message .messageText {
-    display: inline;
-    float: left;
-    width: 81.33333333333334%;
-    margin: 0 1% 0 1%;
-    padding: 10px 0px;
-  }
-  .messagesView #topicWrap.groupChat {
-    display: inline;
-    float: left;
-    width: 64.66666666666667%;
-    margin: 0 1% 0 1%;
-  }
-  .messagesView #topicWrap.groupChat #messageList {
-    height: 150px;
-    overflow-x: scroll;
-  }
-  .messagesView #topicWrap.groupChat #messageList .message {
-    display: inline;
-    float: left;
-    width: 98%;
-    margin: 0 1% 0 1%;
-  }
-  .messagesView #topicWrap.groupChat #messageList .message .user {
-    display: block;
-    width: 23%;
-    margin: 0 1% 0 1%;
-    *zoom: 1;
-  }
-  .messagesView #topicWrap.groupChat #messageList .message .user .userimg {
-    display: inline;
-    float: left;
-    width: 48%;
-    margin: 0 1% 0 1%;
-    padding-top: 10px;
-  }
-  .messagesView #topicWrap.groupChat #messageList .message .user .username {
-    display: inline;
-    float: left;
-    width: 48%;
-    margin: 0 1% 0 1%;
-  }
-  .messagesView #topicWrap.groupChat #messageList .message .messageText {
-    display: inline;
-    float: left;
-    width: 98%;
-    margin: 0 1% 0 1%;
-  }
-  .messagesView #topicWrap.newMessage {
-    display: inline;
-    float: left;
-    width: 69.42857142857143%;
-    margin: 0 1% 0 1%;
-  }
-  .messagesView #topicWrap.newMessage #recieverInput,
-  .messagesView #topicWrap.newMessage #messageInput {
-    display: inline;
-    float: left;
-    width: 98%;
-    margin: 0 1% 0 1%;
-    margin-bottom: 5px;
-  }
-  .messagesView #topicWrap.newMessage #sendmessage {
-    margin-left: 12px;
-  }
-  .shareForm {
-    display: inline;
-    float: left;
-    width: 98%;
-    margin: 0 1% 0 1%;
-  }
-  .shareForm #shareText {
-    display: inline;
-    float: left;
-    width: 73%;
-    margin: 0 1% 0 1%;
-    margin-bottom: 10px;
-    margin-left: 20px;
-  }
-  .posts article {
-    display: inline;
-    float: left;
-    width: 98%;
-    margin: 0 1% 0 1%;
-    margin: 10px 0 0 0;
-  }
-  .posts article .userimg {
-    border-radius: 200px;
-    display: inline;
-    float: left;
-    width: 16.75%;
-    margin: 0 1% 0 1%;
-    margin: 10px 0px 10px 0px;
-  }
-  .posts article .postContent {
-    display: inline;
-    float: left;
-    width: 79.25%;
-    margin: 0 1% 0 1%;
-    padding-top: 5px;
-    margin-top: 10px;
-    margin-bottom: 10px;
-  }
-  .posts article .postContent .postText {
-    padding-left: 10px;
-  }
-  .posts article .postInfo {
-    display: inline;
-    float: left;
-    width: 98%;
-    margin: 0 1% 0 1%;
-    padding-top: 5px;
-    margin-bottom: 10px;
-  }
-  .posts article .postInfo .with {
-    color: #666;
-    display: inline;
-    float: left;
-    width: 73%;
-    margin: 0 1% 0 1%;
-    margin-left: 18.75%;
-  }
-  .posts article .postInfo .awesome {
-    display: inline;
-    float: left;
-    width: 35.5%;
-    margin: 0 1% 0 1%;
-    margin-left: 18.75%;
-  }
-  .posts article .postInfo p.comments {
-    display: inline;
-    float: left;
-    width: 35.5%;
-    margin: 0 1% 0 1%;
-  }
-  .posts article .postInfo .showComments {
-    display: inline;
-    float: left;
-    width: 35.5%;
-    margin: 0 1% 0 1%;
-    margin-left: 56.25%;
-  }
-  .posts article:last-child {
-    border: none;
-  }
-  .profileView #infowrap {
-    float: left;
-    width: 100%;
-  }
-  .profileView #wall {
-    display: inline;
-    float: left;
-    width: 98%;
-    margin: 0 1% 0 1%;
-    margin-top: 10px;
-  }
-  .profileView #postOnWall {
-    display: inline;
-    float: left;
-    width: 98%;
-    margin: 0 1% 0 1%;
-    margin-top: 5px;
-  }
-  .profileView #userimg {
-    display: inline;
-    float: left;
-    width: 35.5%;
-    margin: 0 1% 0 1%;
-  }
-  .profileView #userinfo {
-    display: inline;
-    float: left;
-    width: 60.5%;
-    margin: 0 1% 0 1%;
-  }
-  .registerView #main {
-    text-align: center;
-    display: inline;
-    float: left;
-    width: 98%;
-    margin: 0 1% 0 1%;
-  }
-  .settingsView #toc {
-    float: left;
-    width: 100%;
-  }
-  .settingsView .config {
-    display: inline;
-    float: left;
-    width: 85.5%;
-    margin: 0 1% 0 1%;
-    margin-left: 8.333333333333334%;
-  }
-  .settingsView .config input:not([type=submit]):not([type=file]) {
-    display: inline;
-    float: left;
-    width: 33.714285714285715%;
-    margin: 0 1% 0 1%;
-  }
-  .settingsView .config #newNickname {
-    margin-left: 35.714285714285715%;
-  }
-}
+
+
+/* Tablets
+	
+	// Tablets (landscape) -----------
+	@media only screen 
+	and (min-width : 768px) 
+	and (max-width : 1024px) 
+	and (orientation : landscape) {
+		@import "responsive/tablet/landscape/index";
+	}
+	
+	// Tablets (portrait) -----------
+	@media only screen 
+	and (min-width : 768px) 
+	and (max-width : 1024px) 
+	and (orientation : portrait) {
+		@import "responsive/tablet/portrait/index";
+	}
+*/
 /* Small Screens ----------- */
 @media only screen and (min-width: 1024px) and (max-width: 1159px) {
   body noscript {
@@ -3744,7 +2511,7 @@ input[type="submit"].btn.btn-mini {
   }
   body #sidebar-right {
     display: inline;
-    float: left;
+    float: right;
     width: 14.666666666666668%;
     margin: 0 1% 0 1%;
     display: none;
@@ -4160,7 +2927,7 @@ input[type="submit"].btn.btn-mini {
   body #sidebar-left {
     display: inline;
     float: left;
-    width: 23%;
+    width: 14.666666666666668%;
     margin: 0 1% 0 1%;
     margin-bottom: 10px;
   }
@@ -4173,12 +2940,12 @@ input[type="submit"].btn.btn-mini {
   body #main {
     display: inline;
     float: left;
-    width: 56.333333333333336%;
+    width: 64.66666666666667%;
     margin: 0 1% 0 1%;
   }
   body #sidebar-right {
     display: inline;
-    float: left;
+    float: right;
     width: 14.666666666666668%;
     margin: 0 1% 0 1%;
     display: none;
