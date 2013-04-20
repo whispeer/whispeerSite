@@ -756,6 +756,22 @@ body:not(.registerView) nav {
   margin-top: 7px;
   width: 35px;
 }
+#topNav #navIcons .navIcon .badge {
+  background-color: #9d261d;
+  padding: 1px 2px 1px 2px;
+  margin-left: -13px;
+  margin-top: 25px;
+  color: #ffffff;
+  -webkit-border-radius: 50px;
+  -moz-border-radius: 50px;
+  border-radius: 50px;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  position: absolute;
+  font-size: 11px;
+  text-align: center;
+}
 .form-navbar input {
   margin: 6px 0px 0px 5px;
 }
