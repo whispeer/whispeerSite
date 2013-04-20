@@ -35,8 +35,8 @@ define(['angular', 'step', 'helper'], function (angular, step, h) {
 				if (password.length > 4) { strength += 1; } // Greater than 4 chars long
 				if ((password.match(/[a-z]/)) && (password.match(/[A-Z]/))) { strength += 2; } // Mix of upper and lower chars
 				if (password.match(/\d+/)) { strength += 1; } // Contains a number
-				if (password.match(/.[!,@,#,$,%,\^,&,*,?,_,~,-,(,)]/)) { strength += 1; } // Contains a special char
-				if (password.match(/.[!,@,#,$,%,\^,&,*,?,_,~,-,(,)](.*)[!,@,#,$,%,\^,&,*,?,_,~,-,(,)]/)) { strength += 1; } // Contains two special char
+				if (password.match(/[+,!,@,#,$,%,\^,&,*,?,_,~,-,(,)]/)) { strength += 1; } // Contains a special char
+				if (password.match(/[+,!,@,#,$,%,\^,&,*,?,_,~,-,(,)](.*)[+,!,@,#,$,%,\^,&,*,?,_,~,-,(,)]/)) { strength += 1; } // Contains two special char
 				if (password.length > 10) { strength += 1; } // Longer than 10 chars
 				if (password.length > 15) { strength += 1; } // Longer than 15 chars
 				if (password.length > 20) { strength += 1; } // Longer than 20 chars
