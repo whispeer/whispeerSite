@@ -29,28 +29,30 @@ define(function () {
 				value: "",
 				encrypted: false
 			}
-		]
-		
+		];
+
+		//gui show stuff
 		$scope.loginForm = true;
-		
-		$scope.showLogin = function () {
+		$scope.showLogin = function showLoginForm() {
 			$scope.loginForm = true;
 		};
 
-		$scope.showRegister = function () {
+		$scope.showRegister = function showRegisterForm() {
 			$scope.loginForm = false;
 		};
+		
+		$scope.passwordStrength = function passwordStrengthC() {
+			return loginService.passwordStrength($scope.password);
+		}
 
-		$scope.login = function() {	
-			
-		};
+		$scope.login = loginService.login;
 
-		$scope.register = function() {	
+		$scope.register = function doRegisterC() {	
 			
 		};
 	}
 
-	loginController.$inject = ['$scope', 'ssn.loginService', '$locale'];
+	loginController.$inject = ['$scope', 'ssn.loginService'];
 
 	return loginController;
 });

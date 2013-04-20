@@ -38,10 +38,10 @@
 	<div class="success" id="errorRegisterMail2">E-Mail Adresse ist ok!</div>
 
 	<input type="password" id="rpassword" placeholder="Passwort" data-ng-model="password">
-	<span class="icon" id="rpasswordIcon">
+	<span class="icon" id="rpasswordIcon" data-strength="{{passwordStrength()}}">
 	</span>
 	<div class="error" id="errorRegisterPassword">Passwort erfüllt die Sicherheitskriterien nicht! Bitte wähle ein Passwort mit mindestens 6 Stellen, Groß und kleinschreibung sowie Zahlen und Sonderzeichen</div>
-	<div class="success" id="successRegisterPassword">Passwort ist PASSWORD STRENGTH?</div>
+	<div class="success" id="successRegisterPassword" style="display:block">Passwort ist {{passwordStrength()}}?</div>
 
 	<input type="password" id="rpassword2" placeholder="Passwort wiederholen" data-ng-model="password2">
 	<span class="icon check" id="rpassword2Icon">

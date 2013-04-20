@@ -1,8 +1,12 @@
+var WEB_SOCKET_SWF_LOCATION = "libs/WebSocketMain.swf"
+
 require.config({
 	paths: {
 		jquery: 'libs/jquery-1.9.1',
 		angular: 'libs/angular',
-		socket: 'libs/socket.io'
+		socket: 'libs/socket.io',
+		step: 'libs/step',
+		helper: 'asset/helper'
 	},
 	baseUrl: 'js',
 	shim: {
