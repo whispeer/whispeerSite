@@ -1,21 +1,21 @@
 <div id="logo">
 	<img src="img/logo.png">
 </div>
-<form id="loginform" ng-show="loginForm">
-	<input type="text" id="mail" placeholder="Benutzername" ng-model="identifier">
-	<input type="password" id="password" placeholder="Passwort" ng-model="password">
-	<div class="error" id="errorLogin" ng-show="loginFailure">Benutzername und Password stimmen nicht überein!</div>
-	<button id="loginformsubmit" class="btn" type="submit" ng-click="login()">Einloggen</button>
+<form id="loginform" data-ng-show="loginForm">
+	<input type="text" id="mail" placeholder="Benutzername" data-ng-model="identifier">
+	<input type="password" id="password" placeholder="Passwort" data-ng-model="password">
+	<div class="error" id="errorLogin" data-ng-show="loginFailure">Benutzername und Password stimmen nicht überein!</div>
+	<button id="loginformsubmit" class="btn" type="submit" data-ng-click="login()">Einloggen</button>
 </form>
-<form id="registerform" ng-show="!loginForm">
-	<span ng-repeat="attribute in profileAttributes">
-		<input type="text" ng-class="{true: 'firstElement', false: ''}[$first]" placeholder="{{attribute.placeHolder}}" ng-model="attribute.value">
+<form id="registerform" data-ng-show="!loginForm">
+	<span data-ng-repeat="attribute in profileAttributes">
+		<input type="text" data-ng-class="{true: 'firstElement', false: ''}[$first]" placeholder="{{attribute.placeHolder}}" data-ng-model="attribute.value">
 		<span class="icon lock">
-			<img ng-src="{{{true: 'img/lock_closed.png', false: 'img/lock_open.png'}[attribute.encrypted]}}" alt="{{((attribute.encrypted) && ('Privat') || ('&Ouml;ffentlich'))}}" ng-click="attribute.encrypted=!attribute.encrypted"/>
+			<img data-ng-src="{{{true: 'img/lock_closed.png', false: 'img/lock_open.png'}[attribute.encrypted]}}" alt="{{((attribute.encrypted) && ('Privat') || ('&Ouml;ffentlich'))}}" data-ng-click="attribute.encrypted=!attribute.encrypted"/>
 		</span>
 	</span>
 
-	<input type="text" id="rnickname" placeholder="Benutzername" ng-model="nickname">
+	<input type="text" id="rnickname" placeholder="Benutzername" data-ng-model="nickname">
 	<span class="icon fail" id="rnicknameIcon">
 		<img src="img/fail.png" alt="click to show error message!">
 	</span>
@@ -23,34 +23,34 @@
 	<div class="error" id="errorNickname">Benutzername wird bereits verwendet!</div>
 	<div class="success" id="successNickname">Benutzername ist noch frei!</div>
 
-	<input type="text" id="rmail" placeholder="E-Mail Adresse" ng-model="mail">
+	<input type="text" id="rmail" placeholder="E-Mail Adresse" data-ng-model="mail">
 	<span class="icon check" id="rmailIcon">
 		<img src="img/accept.png" alt="Ok!">
 	</span>
 	<div class="error" id="errorRegisterMail">Fehler!</div>
 	<div class="success" id="errorRegisterMail">E-Mail Adresse ok!</div>
 
-	<input type="text" id="rmail2" placeholder="E-Mail Adresse wiederholen" ng-model="mail2">
+	<input type="text" id="rmail2" placeholder="E-Mail Adresse wiederholen" data-ng-model="mail2">
 	<span class="icon check" id="rmail2Icon">
-		<img ng-src="{{{true: 'img/accept.png', false: 'img/fail.png'}[mail2==mail]}}" alt="Ok!">
+		<img data-ng-src="{{{true: 'img/accept.png', false: 'img/fail.png'}[mail2==mail]}}" alt="Ok!">
 	</span>
 	<div class="error" id="errorRegisterMail2">Fehler!</div>
 	<div class="success" id="errorRegisterMail2">E-Mail Adresse ist ok!</div>
 
-	<input type="password" id="rpassword" placeholder="Passwort" ng-model="password">
+	<input type="password" id="rpassword" placeholder="Passwort" data-ng-model="password">
 	<span class="icon" id="rpasswordIcon">
 	</span>
 	<div class="error" id="errorRegisterPassword">Passwort erfüllt die Sicherheitskriterien nicht! Bitte wähle ein Passwort mit mindestens 6 Stellen, Groß und kleinschreibung sowie Zahlen und Sonderzeichen</div>
 	<div class="success" id="successRegisterPassword">Passwort ist PASSWORD STRENGTH?</div>
 
-	<input type="password" id="rpassword2" placeholder="Passwort wiederholen" ng-model="password2">
+	<input type="password" id="rpassword2" placeholder="Passwort wiederholen" data-ng-model="password2">
 	<span class="icon check" id="rpassword2Icon">
-		<img ng-src="{{{true: 'img/accept.png', false: 'img/fail.png'}[password2==password]}}" alt="Ok!">
+		<img data-ng-src="{{{true: 'img/accept.png', false: 'img/fail.png'}[password2==password]}}" alt="Ok!">
 	</span>
 	<div class="error" id="errorRegisterPassword2">Die eingegebenen Passwörter stimmen nicht überein!</div>
 	<div class="success" id="successRegisterPassword2">Passwort ist ok!</div>
 
-	<button id="registerformsubmit" class="btn" type="submit"  ng-click="register()">Registrieren</button>
+	<button id="registerformsubmit" class="btn" type="submit"  data-ng-click="register()">Registrieren</button>
 </form>
-<a href="#" id="callRegister" ng-show="loginForm" ng-click="showRegister()" eat-click>Registration</a>
-<a href="#" id="callLogin" ng-show="!loginForm"  ng-click="showLogin()" eat-click>Login</a>
+<a href="#" id="callRegister" data-ng-show="loginForm" data-ng-click="showRegister()" data-eat-click>Registration</a>
+<a href="#" id="callLogin" data-ng-show="!loginForm"  data-ng-click="showLogin()" data-eat-click>Login</a>

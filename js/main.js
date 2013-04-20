@@ -2,6 +2,7 @@ require.config({
 	paths: {
 		jquery: 'libs/jquery-1.9.1',
 		angular: 'libs/angular',
+		socket: 'libs/socket.io'
 	},
 	baseUrl: 'js',
 	shim: {
