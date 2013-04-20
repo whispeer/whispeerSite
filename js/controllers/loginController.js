@@ -43,7 +43,15 @@ define(function () {
 		
 		$scope.passwordStrength = function passwordStrengthC() {
 			return loginService.passwordStrength($scope.password);
-		}
+		};
+		
+		$scope.acceptIcon = function acceptIconC(value1, value2) {
+			if (value1 == value2) {
+				return 'img/accept.png';
+			} else {
+				return 'img/fail.png';
+			}
+		};
 
 		$scope.login = loginService.login;
 
