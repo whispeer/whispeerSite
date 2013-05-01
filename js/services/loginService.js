@@ -14,6 +14,7 @@ define(['angular', 'step', 'helper'], function (angular, step, h) {
 						name: name
 					}, this);
 				}, h.sF(function hashSalt(data) {
+					console.log(data);
 					//var hash = keyStoreService.hash(password, data.salt);
 					socketService.emit("login", {
 						name: name,

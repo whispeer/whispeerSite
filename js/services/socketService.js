@@ -1,7 +1,7 @@
 /**
 * LoginService
 **/
-define(['angular', 'socket', 'step', 'helper'], function (angular, socket, step, h) {
+define(['angular', 'socket', 'step', 'helper'], function (angular, io, step, h) {
 	"use strict";
 
 	var socket = io.connect('http://localhost:3000');
@@ -12,7 +12,7 @@ define(['angular', 'socket', 'step', 'helper'], function (angular, socket, step,
 				step(function () {
 					socket.on(channel, this.ne);
 				}, h.sF(function (data) {
-					this.ne(JSON.parse(data));
+					this.ne(data);
 				}), callback);
 			},
 			emit: function (channel, data, callback) {
@@ -29,7 +29,7 @@ define(['angular', 'socket', 'step', 'helper'], function (angular, socket, step,
 			send: function (data) {
 				socket.send(data);
 			}
-		}
+		};
 	};
 
 	service.$inject = [];

@@ -1,7 +1,7 @@
 /**
 * loginController
 **/
- 
+
 define(function () {
 	'use strict';
 
@@ -15,7 +15,7 @@ define(function () {
 		$scope.nickname = "";
 
 		$scope.identifier = "";
-	
+
 		$scope.profileAttributes = [
 			{
 				name: "firstname",
@@ -40,23 +40,23 @@ define(function () {
 		$scope.showRegister = function showRegisterForm() {
 			$scope.loginForm = false;
 		};
-		
+
 		$scope.passwordStrength = function passwordStrengthC() {
 			return loginService.passwordStrength($scope.password);
 		};
-		
+
 		$scope.acceptIcon = function acceptIconC(value1, value2) {
-			if (value1 == value2) {
+			if (value1 === value2) {
 				return 'img/accept.png';
-			} else {
-				return 'img/fail.png';
 			}
+
+			return 'img/fail.png';
 		};
 
 		$scope.login = loginService.login;
 
-		$scope.register = function doRegisterC() {	
-			
+		$scope.register = function doRegisterC() {
+
 		};
 	}
 
