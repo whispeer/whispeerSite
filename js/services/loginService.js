@@ -11,13 +11,13 @@ define(['angular', 'step', 'helper'], function (angular, step, h) {
 			login: function (name, password) {
 				step(function loginStartup() {
 					socketService.emit("salt", {
-						name: name
+						identifier: name
 					}, this);
 				}, h.sF(function hashSalt(data) {
 					console.log(data);
 					//var hash = keyStoreService.hash(password, data.salt);
 					socketService.emit("login", {
-						name: name,
+						identifier: name,
 						passwordHash: password
 					}, this);
 				}), h.sF(function loginResults(data) {
