@@ -8,21 +8,28 @@ define(['angular', 'step', 'helper'], function (angular, step, h) {
 		var sid = "";
 
 		return {
-			login: function (name, password) {
+			login: function (name, password, callback) {
 				step(function loginStartup() {
 					socketService.emit("salt", {
 						identifier: name
 					}, this);
 				}, h.sF(function hashSalt(data) {
-					console.log(data);
-					//var hash = keyStoreService.hash(password, data.salt);
-					socketService.emit("login", {
-						identifier: name,
-						passwordHash: password
-					}, this);
+					if (data.error) {
+						this.last(data.errorData);
+					} else {
+						//var hash = keyStoreService.hash(password, data.salt);
+						socketService.emit("login", {
+							identifier: name,
+							passwordHash: password
+						}, this);
+					}
 				}), h.sF(function loginResults(data) {
-					console.log(data);
-				}));
+					if (data.error) {
+						this.last(data.errorData);
+					} else {
+						
+					}
+				}), callback);
 			},
 
 			register: function () {

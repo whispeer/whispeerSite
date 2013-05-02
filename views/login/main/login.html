@@ -2,9 +2,10 @@
 	<img src="img/logo.png">
 </div>
 <form id="loginform" data-ng-show="loginForm">
+{{loginFailed}}
 	<input type="text" id="mail" placeholder="Benutzername" data-ng-model="identifier">
 	<input type="password" id="password" placeholder="Passwort" data-ng-model="password">
-	<div class="error" id="errorLogin" data-ng-show="loginFailure">Benutzername und Password stimmen nicht überein!</div>
+	<div class="error" id="errorLogin" data-ng-show="loginFailed">Benutzername und Password stimmen nicht &uuml;berein!</div>
 	<button id="loginformsubmit" class="btn" type="submit" data-ng-click="login(identifier, password)">Einloggen</button>
 </form>
 <form id="registerform" data-ng-show="!loginForm">
@@ -20,34 +21,28 @@
 		<img src="img/fail.png" alt="click to show error message!">
 	</span>
 	
-	<div class="error" id="errorNickname">Benutzername wird bereits verwendet!</div>
-	<div class="success" id="successNickname">Benutzername ist noch frei!</div>
+	<div class="error" id="errorNickname" data-ng-show="userNameError">Benutzername wird bereits verwendet!</div>
 
 	<input type="text" id="rmail" placeholder="E-Mail Adresse" data-ng-model="mail">
 	<span class="icon check" id="rmailIcon">
 		<img src="img/accept.png" alt="Ok!">
 	</span>
-	<div class="error" id="errorRegisterMail">Fehler!</div>
-	<div class="success" id="errorRegisterMail">E-Mail Adresse ok!</div>
+	<div class="error" id="errorRegisterMail" data-ng-show="emailError">E-Mail invalide!</div>
 
 	<input type="text" id="rmail2" placeholder="E-Mail Adresse wiederholen" data-ng-model="mail2">
 	<span class="icon check" id="rmail2Icon">
-		<img data-ng-src="{{acceptIcon(password, password2)}}" alt="Ok!">
+		<img data-ng-src="{{acceptIcon(mail, mail2)}}" alt="Ok!">
 	</span>
-	<div class="error" id="errorRegisterMail2">Fehler!</div>
-	<div class="success" id="errorRegisterMail2">E-Mail Adresse ist ok!</div>
 
 	<input type="password" id="rpassword" placeholder="Passwort" data-ng-model="password">
 	<span class="icon" id="rpasswordIcon" data-strength="{{passwordStrength()}}"></span>
-	<div class="error" id="errorRegisterPassword">Passwort erfüllt die Sicherheitskriterien nicht! Bitte wähle ein Passwort mit mindestens 6 Stellen, Groß und kleinschreibung sowie Zahlen und Sonderzeichen</div>
+	<div class="error" id="errorRegisterPassword" data-ng-show="passwordError">Passwort erfüllt die Sicherheitskriterien nicht! Bitte wähle ein Passwort mit mindestens 6 Stellen, Groß und kleinschreibung sowie Zahlen und Sonderzeichen</div>
 	<div class="success" id="successRegisterPassword" style="display:block">Passwort ist {{passwordStrength()}}?</div>
 
 	<input type="password" id="rpassword2" placeholder="Passwort wiederholen" data-ng-model="password2">
 	<span class="icon check" id="rpassword2Icon">
 		<img data-ng-src="{{acceptIcon(password, password2)}}" alt="Ok!">
 	</span>
-	<div class="error" id="errorRegisterPassword2">Die eingegebenen Passwörter stimmen nicht überein!</div>
-	<div class="success" id="successRegisterPassword2">Passwort ist ok!</div>
 
 	<button id="registerformsubmit" class="btn" type="submit"  data-ng-click="register()">Registrieren</button>
 </form>

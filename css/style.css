@@ -1699,7 +1699,6 @@ input[type="submit"].btn.btn-mini {
   width: 300px;
   padding: 5px;
   margin: 0 auto;
-  display: none;
 }
 .registerView #loginform .error,
 .registerView #registerform .error {

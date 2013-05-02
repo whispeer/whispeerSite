@@ -15,6 +15,9 @@ define(function () {
 		$scope.nickname = "";
 
 		$scope.identifier = "";
+		
+		$scope.loginFailed = false;
+		$scope.loginSuccess = false;
 
 		$scope.profileAttributes = [
 			{
@@ -52,8 +55,35 @@ define(function () {
 
 			return 'img/fail.png';
 		};
+		
+		function loginFailed() {
+			$scope.loginFailed = true;
+			$scope.loginSuccess = false;
+		}
 
-		$scope.login = loginService.login;
+		function loginSuccess() {
+			$scope.loginFailed = false;
+			$scope.loginSuccess = true;
+		}
+
+		$scope.login = function loginCF(identifier, password) {
+			step(function () {
+				loginService.login(identifier, password, this);
+			}, function (e, result) {
+				console.log(e);
+				if (e) {
+					if (e.userNotExisting) {
+						$scope.$apply(loginFailed);
+					}
+
+					if (e.invalidCredentials) {
+						$scope.$apply(loginFailed);
+					}
+				} else {
+					$scope.$apply(loginSuccess);
+				}
+			});
+		};
 
 		$scope.register = function doRegisterC() {
 
