@@ -15,7 +15,7 @@ define(function () {
 		$scope.nickname = "";
 
 		$scope.identifier = "";
-		
+
 		$scope.loginFailed = false;
 		$scope.loginSuccess = false;
 
@@ -55,7 +55,7 @@ define(function () {
 
 			return 'img/fail.png';
 		};
-		
+
 		function loginFailed() {
 			$scope.loginFailed = true;
 			$scope.loginSuccess = false;
