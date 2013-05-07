@@ -623,6 +623,7 @@ body {
 body {
   background-color: #ffffff;
   margin: 0 auto;
+  padding: 0;
   padding-top: 50px;
   -webkit-box-sizing: border-box;
   /* Safari/Chrome, other WebKit */
@@ -657,9 +658,6 @@ body #sidebar-left,
 body #sidebar-right {
   height: 100%;
 }
-body:not(.mainView) #main {
-  overflow-y: scroll;
-}
 body noscript {
   margin-top: 10px;
 }
@@ -667,6 +665,8 @@ body #sidebar-left #userpanel {
   margin-bottom: 10px;
 }
 body footer {
+  width: 100%;
+  margin: 0;
   padding: 5px 5px 2px 5px;
   height: 10px;
   margin-top: -25px !important;
@@ -681,12 +681,14 @@ body footer {
   /* Opera/IE 8+ */
 
 }
-body footer #left {
+body footer #left,
+body footer #right {
+  width: 50%;
   float: left;
+  text-align: left;
 }
 body footer #right {
-  float: right;
-  margin-right: 5px;
+  text-align: right;
 }
 body footer a {
   color: #3d9404;
@@ -703,6 +705,18 @@ body:not(.registerView) {
 }
 body:not(.registerView) nav {
   display: inline !important;
+}
+body:not(.mainView, .registerView) #main {
+  overflow-y: scroll;
+}
+body.registerView #container {
+  height: 280px;
+}
+body.registerView #container #main {
+  height: 250px;
+}
+body.registerView footer {
+  z-index: 1900;
 }
 #topNav {
   display: block;
