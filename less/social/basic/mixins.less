@@ -10,17 +10,15 @@
 	box-sizing: padding-box;         /* Opera/IE 8+ */
 }
 // Clear Fix
-.clear-fix:before,
-.clear-fix:after {
-    content: " "; /* 1 */
-    display: table; /* 2 */
-}
-
-.clear-fix:after {
-    clear: both;
-}
 .clear-fix {
-    *zoom: 1;
+	*zoom: 1;
+	&:before, &:after {
+		content: "";
+    	display: table;
+	}
+	&:after {
+		clear: both;
+	}
 }
 .text-shadow (@string: 0 1px 3px rgba(0, 0, 0, 0.25)) {
 	text-shadow: @string;
