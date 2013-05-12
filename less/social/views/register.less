@@ -53,29 +53,44 @@
 				margin-left: -34px;	
 			}
 		}
-		#rpasswordIcon[data-strength]:after {
-			content: "	";
+		#rpasswordIcon {
 			background-image: url('../img/lock.png');
-			width: 40%;
-			height: 40%;
-		}
-		#rpasswordIcon[data-strength="1"]:after {
-			background-color: #fe2101;
-		}
-		#rpasswordIcon[data-strength="2"]:after {
-			background-color: #fb8411;
-		}
-		#rpasswordIcon[data-strength="3"]:after {
-			background-color: #ecbd18;
-		}
-		#rpasswordIcon[data-strength="4"]:after {
-			background-color: #e0cc19;
-		}
-		#rpasswordIcon[data-strength="5"]:after {
-			background-color: #77cc0d;
-		}
-		#rpasswordIcon[data-strength="6"]:after {
-			background-color: #2bbe00;
+			background-repeat: no-repeat;
+			background-position: center center;
+			.background-size(12px);
+			.border-radius(50px);
+			width: 25px;
+			height: 25px;
+			&[data-strength="0"], [data-strength="1"] {
+				background-color: #ff2300;
+			}
+			&[data-strength="2"] {
+				background-color: #ff7000;
+			}
+			&[data-strength="3"] {
+				background-color: #ffbb00;
+			}
+			&[data-strength="4"] {
+				background-color: #e1ff00;
+			}
+			&[data-strength="5"] {
+				background-color: #9eff00;
+			}
+			&[data-strength="6"] {
+				background-color: #6bff00;
+			}
+			&[data-strength="7"] {
+				background-color: #38ff00;
+			}
+			&[data-strength="8"] {
+				background-color: #30ff29;
+			}
+			&[data-strength="9"] {
+				background-color: #29ff49;
+			}
+			&[data-strength="10"] {
+				background-color: #00ff5a;
+			}
 		}
 		.error, .success {
 			width: 300px;

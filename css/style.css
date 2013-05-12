@@ -1645,36 +1645,65 @@ input[type="submit"].btn.btn-mini {
 .registerView #registerform .icon#firstnamelock {
   margin-left: -34px;
 }
-.registerView #loginform #rpasswordIcon[data-strength]:after,
-.registerView #registerform #rpasswordIcon[data-strength]:after {
-  content: "	";
+.registerView #loginform #rpasswordIcon,
+.registerView #registerform #rpasswordIcon {
   background-image: url('../img/lock.png');
-  width: 40%;
-  height: 40%;
+  background-repeat: no-repeat;
+  background-position: center center;
+  -webkit-background-size: 12px;
+  -moz-background-size: 12px;
+  -o-background-size: 12px;
+  background-size: 12px;
+  -webkit-border-radius: 50px;
+  -moz-border-radius: 50px;
+  border-radius: 50px;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  width: 25px;
+  height: 25px;
 }
-.registerView #loginform #rpasswordIcon[data-strength="1"]:after,
-.registerView #registerform #rpasswordIcon[data-strength="1"]:after {
-  background-color: #fe2101;
+.registerView #loginform #rpasswordIcon[data-strength="0"],
+.registerView #registerform #rpasswordIcon[data-strength="0"],
+.registerView #loginform #rpasswordIcon [data-strength="1"],
+.registerView #registerform #rpasswordIcon [data-strength="1"] {
+  background-color: #ff2300;
 }
-.registerView #loginform #rpasswordIcon[data-strength="2"]:after,
-.registerView #registerform #rpasswordIcon[data-strength="2"]:after {
-  background-color: #fb8411;
+.registerView #loginform #rpasswordIcon[data-strength="2"],
+.registerView #registerform #rpasswordIcon[data-strength="2"] {
+  background-color: #ff7000;
 }
-.registerView #loginform #rpasswordIcon[data-strength="3"]:after,
-.registerView #registerform #rpasswordIcon[data-strength="3"]:after {
-  background-color: #ecbd18;
+.registerView #loginform #rpasswordIcon[data-strength="3"],
+.registerView #registerform #rpasswordIcon[data-strength="3"] {
+  background-color: #ffbb00;
 }
-.registerView #loginform #rpasswordIcon[data-strength="4"]:after,
-.registerView #registerform #rpasswordIcon[data-strength="4"]:after {
-  background-color: #e0cc19;
+.registerView #loginform #rpasswordIcon[data-strength="4"],
+.registerView #registerform #rpasswordIcon[data-strength="4"] {
+  background-color: #e1ff00;
 }
-.registerView #loginform #rpasswordIcon[data-strength="5"]:after,
-.registerView #registerform #rpasswordIcon[data-strength="5"]:after {
-  background-color: #77cc0d;
+.registerView #loginform #rpasswordIcon[data-strength="5"],
+.registerView #registerform #rpasswordIcon[data-strength="5"] {
+  background-color: #9eff00;
 }
-.registerView #loginform #rpasswordIcon[data-strength="6"]:after,
-.registerView #registerform #rpasswordIcon[data-strength="6"]:after {
-  background-color: #2bbe00;
+.registerView #loginform #rpasswordIcon[data-strength="6"],
+.registerView #registerform #rpasswordIcon[data-strength="6"] {
+  background-color: #6bff00;
+}
+.registerView #loginform #rpasswordIcon[data-strength="7"],
+.registerView #registerform #rpasswordIcon[data-strength="7"] {
+  background-color: #38ff00;
+}
+.registerView #loginform #rpasswordIcon[data-strength="8"],
+.registerView #registerform #rpasswordIcon[data-strength="8"] {
+  background-color: #30ff29;
+}
+.registerView #loginform #rpasswordIcon[data-strength="9"],
+.registerView #registerform #rpasswordIcon[data-strength="9"] {
+  background-color: #29ff49;
+}
+.registerView #loginform #rpasswordIcon[data-strength="10"],
+.registerView #registerform #rpasswordIcon[data-strength="10"] {
+  background-color: #00ff5a;
 }
 .registerView #loginform .error,
 .registerView #registerform .error,
