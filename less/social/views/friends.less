@@ -1,19 +1,74 @@
-.friendsView, .profileFriendsSubView {
+.friendsView {
+	#main {
+		padding-top: 30px;
+		padding-bottom: 10px;
+		height: 100%;
+		background-color: @btnBackgroundHighlight;
+		border: 1px solid @btnBorder;
+		border-bottom: 1px solid #000;
+		border-bottom-color: darken(@btnBorder, 10%);
+		.border-radius(5px);
+		.box-fix;
+	}
+	header {
+		height: 20px;
+		margin-top: -30px;
+		margin-bottom: 1%;
+		.gradient(darken(@btnBackground, 2%), @btnBackgroundHighlight);
+		border-bottom: 1px solid @btnBorder;
+		.border-radiuses(5px, 0px, 0px, 5px);
+		padding: 5px;
+	}
 	#friendsList {
+		height: 100%;
+		overflow-y: scroll;
+	}
+}
+.friendsView, .profileView {
+	#friendsList {
+		.clear-fix;
+		text-align: center;
 		li {
-			border-bottom: 1px solid @bubbleBorderColor;
+			.column(1,3);
+			height: 250px !important;
+			padding: 0;
+			margin-bottom: 15px !important;
 			.box-fix;
-			.border-radius(10px);
-			margin-bottom: 10px !important;
-			a {
-				.friendPicture {
-				}
-				.friendName {
-					color: @green2;
+			background-image: url(../img/user.png);
+			background-repeat: no-repeat;
+			background-position: center center;
+			.background-size(100%);
+			.border-radius(5px);
+			.username {
+				width: 100%;
+				text-align: center;
+			}
+			.pushup {
+				opacity: 0;
+				background: rgba(0,0,0,0.5);
+				height: 0;
+				width: 100%;
+				margin-top: 0px;
+				padding: 0;
+				.border-radius(5px);
+				border-top: 1px solid #333;
+				color: @white;
+				.box-fix;
+				.transition(all 1s ease);
+				p {
+					opacity: 0;
+					.transition(opacity 0.2s ease-in-out 0.5s);
 				}
 			}
 			&:hover {
-				background-color: rgba(99, 183,0,0.3);
+				.pushup {
+					opacity: 1;
+					height: 80px;
+					.transition(all 1s ease);
+					p {
+						opacity: 1;
+					}
+				}
 			}
 		}
 	}
