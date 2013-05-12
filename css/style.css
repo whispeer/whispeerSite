@@ -714,10 +714,10 @@ body:not(.mainView, .registerView) #main {
   overflow-y: scroll;
 }
 body.registerView #container {
-  height: 280px;
+  height: 480px;
 }
 body.registerView #container #main {
-  height: 250px;
+  height: 480px;
 }
 body.registerView footer {
   z-index: 1900;
