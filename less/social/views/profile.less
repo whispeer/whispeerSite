@@ -1,9 +1,148 @@
 .profileView {
-	#infowrap {
-		float: left;
-		background-color: none;
-		//.border-radiuses(3px, 0, 0, 3px);
-		.box-fix;
-		//.box-shadow(0px 0px 3px @bubbleBorderColor);
+	#main {
+		nav {
+			.column(8,8);
+			height: 50px;
+			.border-radius(20px);
+			.gradient(darken(@btnBackground, 2%), @btnBackgroundHighlight);
+			border: 1px solid @btnBorder;
+			border-bottom: 1px solid #000;
+			border-bottom-color: darken(@btnBorder, 10%);
+			margin-bottom: -50px;
+			heading {
+				.column(4,8);
+				h3 {
+					width: 100%;
+					color: rgba(156,255,85,0.5);
+					text-shadow: 1px 1px 1px @green2;
+					padding: 3px;
+					margin: 0;
+					text-rendering: optimizeLegibility;
+				}	
+			}
+			menu {
+				.column(4,8);
+				margin: 13px 0 10px 0;
+				padding: 0;
+				display: inline;
+				li {
+					.column(1,3);
+					text-align: center;
+					a {	
+						color: rgba(255,255,255,0.5);
+						text-shadow: 1px 1px 1px #000000;
+						font-weight: 600;
+						font-size: 1em;
+					}
+				}
+			}
+		}
+		#wrap { width: 100%; height: 100%; padding-top: 50px; .box-fix; margin: 0 auto; }
+		#scroller { width: 100%; height: 100%; overflow-y: scroll; .box-fix; margin:0 auto; margin-top: 10px; }
+		#info {
+			.column(8,8,left);
+			padding: 0;
+			article {
+				.column(1,3);
+				padding: 0;
+				margin-bottom: 10px;
+				background-color: @btnBackgroundHighlight;
+				border: 1px solid @btnBorder;
+				border-bottom: 1px solid #000;
+				border-bottom-color: darken(@btnBorder, 10%);
+				.border-radius(5px);
+				height: 150px;
+				.box-fix;
+				header {
+					.gradient(darken(@btnBackground, 2%), @btnBackgroundHighlight);
+					height: 20px;
+					border-bottom: 1px solid @btnBorder;
+					.border-radiuses(5px, 0px, 0px, 5px);
+					padding: 5px;
+				}
+				&#generalInfo {
+					.column(8,8);
+					height: auto;
+					margin-bottom: 10px;
+					padding: 0;
+					.userimage {
+						.column(2,8);
+						.border-radius(5px);
+						margin-top: 1%;
+						margin-bottom: 1%;
+					}
+					.info {
+						.column(6,8);
+						margin-top: -10px;
+						line-height: 10px;
+					}
+				}
+			}	
+		}
+		#wall {
+			.column(8,8);
+			background-color: @btnBackgroundHighlight;
+			border: 1px solid @btnBorder;
+			border-bottom: 1px solid #000;
+			border-bottom-color: darken(@btnBorder, 10%);
+			.border-radius(5px);
+			height: auto;
+			padding: 0;
+			margin-bottom: 1%;
+			header {
+				.gradient(darken(@btnBackground, 2%), @btnBackgroundHighlight);
+				height: 20px;
+				border-bottom: 1px solid @btnBorder;
+				.border-radiuses(5px, 0px, 0px, 5px);
+				padding: 5px;
+				margin-bottom: 1%;
+			}
+			article {
+				.column(8,8);
+				border-bottom: 1px solid #aaa;
+				.userimg{
+					.column(2,8);
+					border-radius: 200px;
+					vertical-align: middle;
+					margin: 10px 0px 10px 0px;
+				}
+				.postContent {
+					.column(4,8);
+					padding-top: 5px;
+					margin-top: 10px;
+					margin-bottom: 10px;
+					.postText {
+						padding-left: 10px;
+						.box-fix;
+					}
+				}
+				.postInfo {
+					.column(2,8);
+					padding-top: 5px;
+					margin-bottom: 10px;
+				}
+				&:last-child {
+					border:none;
+				}
+			}
+		}
+		#friends {
+			.column(8,8);
+			background-color: @btnBackgroundHighlight;
+			border: 1px solid @btnBorder;
+			border-bottom: 1px solid #000;
+			border-bottom-color: darken(@btnBorder, 10%);
+			.border-radius(5px);
+			height: auto;
+			padding: 0;
+			header {
+				.gradient(darken(@btnBackground, 2%), @btnBackgroundHighlight);
+				height: 20px;
+				border-bottom: 1px solid @btnBorder;
+				.border-radiuses(5px, 0px, 0px, 5px);
+				padding: 5px;
+				margin-bottom: 1%;
+			}
+		}
 	}
 }
