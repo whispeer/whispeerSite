@@ -42,20 +42,16 @@
   /* Opera/IE 8+ */
 
 }
+.clear-fix {
+  *zoom: 1;
+}
 .clear-fix:before,
 .clear-fix:after {
-  content: " ";
-  /* 1 */
-
+  content: "";
   display: table;
-  /* 2 */
-
 }
 .clear-fix:after {
   clear: both;
-}
-.clear-fix {
-  *zoom: 1;
 }
 /* Social Style */
 /*! normalize.css v2.1.0 | MIT License | git.io/normalize */
@@ -506,6 +502,14 @@ dd {
 .dl-horizontal {
   *zoom: 1;
 }
+.dl-horizontal:before,
+.dl-horizontal:after {
+  content: "";
+  display: table;
+}
+.dl-horizontal:after {
+  clear: both;
+}
 .dl-horizontal dt {
   float: left;
   clear: left;
@@ -619,6 +623,7 @@ a:hover {
 html,
 body {
   height: 100%;
+  width: 100%;
 }
 body {
   background-color: #ffffff;
@@ -634,7 +639,6 @@ body {
   box-sizing: border-box;
   /* Opera/IE 8+ */
 
-  width: 100%;
   *zoom: 1;
 }
 body nav {
@@ -1273,6 +1277,7 @@ input[type="submit"].btn.btn-mini {
 #userpanel {
   text-align: center;
   display: block;
+  margin: 0;
 }
 #userpanel .userimg {
   float: none;
@@ -1798,9 +1803,68 @@ body:not(.profileView) #wall .posts {
   overflow-y: scroll;
   height: 100%;
 }
-.profileView #infowrap {
+.profileView #main nav {
+  display: inline;
   float: left;
-  background-color: none;
+  width: 98%;
+  margin: 0 1% 0 1%;
+  height: 50px;
+  -webkit-border-radius: 20px;
+  -moz-border-radius: 20px;
+  border-radius: 20px;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  background-color: #fafafa;
+  background: -webkit-gradient(linear, left top, left bottom, from(#fafafa), to(#e6e6e6));
+  background: -webkit-linear-gradient(top, #fafafa, #e6e6e6);
+  background: -moz-linear-gradient(top, #fafafa, #e6e6e6);
+  background: -ms-linear-gradient(top, #fafafa, #e6e6e6);
+  background: -o-linear-gradient(top, #fafafa, #e6e6e6);
+  border: 1px solid #bbbbbb;
+  border-bottom: 1px solid #000;
+  border-bottom-color: #a2a2a2;
+  margin-bottom: -50px;
+}
+.profileView #main nav heading {
+  display: inline;
+  float: left;
+  width: 48%;
+  margin: 0 1% 0 1%;
+}
+.profileView #main nav heading h3 {
+  width: 100%;
+  color: rgba(156, 255, 85, 0.5);
+  text-shadow: 1px 1px 1px #3a8100;
+  padding: 3px;
+  margin: 0;
+  text-rendering: optimizeLegibility;
+}
+.profileView #main nav menu {
+  float: left;
+  width: 48%;
+  margin: 0 1% 0 1%;
+  margin: 13px 0 10px 0;
+  padding: 0;
+  display: inline;
+}
+.profileView #main nav menu li {
+  display: inline;
+  float: left;
+  width: 31.333333333333336%;
+  margin: 0 1% 0 1%;
+  text-align: center;
+}
+.profileView #main nav menu li a {
+  color: rgba(255, 255, 255, 0.5);
+  text-shadow: 1px 1px 1px #000000;
+  font-weight: 600;
+  font-size: 1em;
+}
+.profileView #main #wrap {
+  width: 100%;
+  height: 100%;
+  padding-top: 50px;
   -webkit-box-sizing: border-box;
   /* Safari/Chrome, other WebKit */
 
@@ -1810,6 +1874,254 @@ body:not(.profileView) #wall .posts {
   box-sizing: border-box;
   /* Opera/IE 8+ */
 
+  margin: 0 auto;
+}
+.profileView #main #scroller {
+  width: 100%;
+  height: 100%;
+  overflow-y: scroll;
+  -webkit-box-sizing: border-box;
+  /* Safari/Chrome, other WebKit */
+
+  -moz-box-sizing: border-box;
+  /* Firefox, other Gecko */
+
+  box-sizing: border-box;
+  /* Opera/IE 8+ */
+
+  margin: 0 auto;
+  margin-top: 10px;
+}
+.profileView #main #info {
+  display: inline;
+  float: left;
+  width: 98%;
+  margin: 0 1% 0 1%;
+  padding: 0;
+}
+.profileView #main #info article {
+  display: inline;
+  float: left;
+  width: 31.333333333333336%;
+  margin: 0 1% 0 1%;
+  padding: 0;
+  margin-bottom: 10px;
+  background-color: #e6e6e6;
+  border: 1px solid #bbbbbb;
+  border-bottom: 1px solid #000;
+  border-bottom-color: #a2a2a2;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  height: 150px;
+  -webkit-box-sizing: border-box;
+  /* Safari/Chrome, other WebKit */
+
+  -moz-box-sizing: border-box;
+  /* Firefox, other Gecko */
+
+  box-sizing: border-box;
+  /* Opera/IE 8+ */
+
+}
+.profileView #main #info article header {
+  background-color: #fafafa;
+  background: -webkit-gradient(linear, left top, left bottom, from(#fafafa), to(#e6e6e6));
+  background: -webkit-linear-gradient(top, #fafafa, #e6e6e6);
+  background: -moz-linear-gradient(top, #fafafa, #e6e6e6);
+  background: -ms-linear-gradient(top, #fafafa, #e6e6e6);
+  background: -o-linear-gradient(top, #fafafa, #e6e6e6);
+  height: 20px;
+  border-bottom: 1px solid #bbbbbb;
+  -webkit-border-top-right-radius: 5px;
+  -webkit-border-bottom-right-radius: 0px;
+  -webkit-border-bottom-left-radius: 0px;
+  -webkit-border-top-left-radius: 5px;
+  -moz-border-radius-topright: 5px;
+  -moz-border-radius-bottomright: 0px;
+  -moz-border-radius-bottomleft: 0px;
+  -moz-border-radius-topleft: 5px;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 0px;
+  border-bottom-left-radius: 0px;
+  border-top-left-radius: 5px;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  padding: 5px;
+}
+.profileView #main #info article#generalInfo {
+  display: inline;
+  float: left;
+  width: 98%;
+  margin: 0 1% 0 1%;
+  height: auto;
+  margin-bottom: 10px;
+  padding: 0;
+}
+.profileView #main #info article#generalInfo .userimage {
+  display: inline;
+  float: left;
+  width: 23%;
+  margin: 0 1% 0 1%;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  margin-top: 1%;
+  margin-bottom: 1%;
+}
+.profileView #main #info article#generalInfo .info {
+  display: inline;
+  float: left;
+  width: 73%;
+  margin: 0 1% 0 1%;
+  margin-top: -10px;
+  line-height: 10px;
+}
+.profileView #main #wall {
+  display: inline;
+  float: left;
+  width: 98%;
+  margin: 0 1% 0 1%;
+  background-color: #e6e6e6;
+  border: 1px solid #bbbbbb;
+  border-bottom: 1px solid #000;
+  border-bottom-color: #a2a2a2;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  height: auto;
+  padding: 0;
+  margin-bottom: 1%;
+}
+.profileView #main #wall header {
+  background-color: #fafafa;
+  background: -webkit-gradient(linear, left top, left bottom, from(#fafafa), to(#e6e6e6));
+  background: -webkit-linear-gradient(top, #fafafa, #e6e6e6);
+  background: -moz-linear-gradient(top, #fafafa, #e6e6e6);
+  background: -ms-linear-gradient(top, #fafafa, #e6e6e6);
+  background: -o-linear-gradient(top, #fafafa, #e6e6e6);
+  height: 20px;
+  border-bottom: 1px solid #bbbbbb;
+  -webkit-border-top-right-radius: 5px;
+  -webkit-border-bottom-right-radius: 0px;
+  -webkit-border-bottom-left-radius: 0px;
+  -webkit-border-top-left-radius: 5px;
+  -moz-border-radius-topright: 5px;
+  -moz-border-radius-bottomright: 0px;
+  -moz-border-radius-bottomleft: 0px;
+  -moz-border-radius-topleft: 5px;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 0px;
+  border-bottom-left-radius: 0px;
+  border-top-left-radius: 5px;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  padding: 5px;
+  margin-bottom: 1%;
+}
+.profileView #main #wall article {
+  display: inline;
+  float: left;
+  width: 98%;
+  margin: 0 1% 0 1%;
+  border-bottom: 1px solid #aaa;
+}
+.profileView #main #wall article .userimg {
+  display: inline;
+  float: left;
+  width: 23%;
+  margin: 0 1% 0 1%;
+  border-radius: 200px;
+  vertical-align: middle;
+  margin: 10px 0px 10px 0px;
+}
+.profileView #main #wall article .postContent {
+  display: inline;
+  float: left;
+  width: 48%;
+  margin: 0 1% 0 1%;
+  padding-top: 5px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+.profileView #main #wall article .postContent .postText {
+  padding-left: 10px;
+  -webkit-box-sizing: border-box;
+  /* Safari/Chrome, other WebKit */
+
+  -moz-box-sizing: border-box;
+  /* Firefox, other Gecko */
+
+  box-sizing: border-box;
+  /* Opera/IE 8+ */
+
+}
+.profileView #main #wall article .postInfo {
+  display: inline;
+  float: left;
+  width: 23%;
+  margin: 0 1% 0 1%;
+  padding-top: 5px;
+  margin-bottom: 10px;
+}
+.profileView #main #wall article:last-child {
+  border: none;
+}
+.profileView #main #friends {
+  display: inline;
+  float: left;
+  width: 98%;
+  margin: 0 1% 0 1%;
+  background-color: #e6e6e6;
+  border: 1px solid #bbbbbb;
+  border-bottom: 1px solid #000;
+  border-bottom-color: #a2a2a2;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  height: auto;
+  padding: 0;
+}
+.profileView #main #friends header {
+  background-color: #fafafa;
+  background: -webkit-gradient(linear, left top, left bottom, from(#fafafa), to(#e6e6e6));
+  background: -webkit-linear-gradient(top, #fafafa, #e6e6e6);
+  background: -moz-linear-gradient(top, #fafafa, #e6e6e6);
+  background: -ms-linear-gradient(top, #fafafa, #e6e6e6);
+  background: -o-linear-gradient(top, #fafafa, #e6e6e6);
+  height: 20px;
+  border-bottom: 1px solid #bbbbbb;
+  -webkit-border-top-right-radius: 5px;
+  -webkit-border-bottom-right-radius: 0px;
+  -webkit-border-bottom-left-radius: 0px;
+  -webkit-border-top-left-radius: 5px;
+  -moz-border-radius-topright: 5px;
+  -moz-border-radius-bottomright: 0px;
+  -moz-border-radius-bottomleft: 0px;
+  -moz-border-radius-topleft: 5px;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 0px;
+  border-bottom-left-radius: 0px;
+  border-top-left-radius: 5px;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  padding: 5px;
+  margin-bottom: 1%;
 }
 .messagesView #topicListWrap {
   margin-right: 3px;
@@ -1872,6 +2184,14 @@ body:not(.profileView) #wall .posts {
   margin-bottom: 5px;
   *zoom: 1;
 }
+.messagesView #topicWrap.peerChat #messageList .message:before,
+.messagesView #topicWrap.peerChat #messageList .message:after {
+  content: "";
+  display: table;
+}
+.messagesView #topicWrap.peerChat #messageList .message:after {
+  clear: both;
+}
 .messagesView #topicWrap.peerChat #messageList .message .user .username {
   display: none;
 }
@@ -1911,6 +2231,14 @@ body:not(.profileView) #wall .posts {
   margin-bottom: 5px;
   *zoom: 1;
 }
+.messagesView #topicWrap.groupChat #messageList .message:before,
+.messagesView #topicWrap.groupChat #messageList .message:after {
+  content: "";
+  display: table;
+}
+.messagesView #topicWrap.groupChat #messageList .message:after {
+  clear: both;
+}
 .messagesView #topicWrap.groupChat #messageList .message .user {
   padding-left: 10px;
 }
@@ -1944,9 +2272,20 @@ body:not(.profileView) #wall .posts {
 .messagesView #topicWrap.newMessage #sendmessage {
   margin-left: 12px;
 }
-.friendsView #friendsList li,
-.profileFriendsSubView #friendsList li {
-  border-bottom: 1px solid #666666;
+.friendsView #main {
+  padding-top: 30px;
+  padding-bottom: 10px;
+  height: 100%;
+  background-color: #e6e6e6;
+  border: 1px solid #bbbbbb;
+  border-bottom: 1px solid #000;
+  border-bottom-color: #a2a2a2;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
   -webkit-box-sizing: border-box;
   /* Safari/Chrome, other WebKit */
 
@@ -1956,21 +2295,142 @@ body:not(.profileView) #wall .posts {
   box-sizing: border-box;
   /* Opera/IE 8+ */
 
-  -webkit-border-radius: 10px;
-  -moz-border-radius: 10px;
-  border-radius: 10px;
+}
+.friendsView header {
+  height: 20px;
+  margin-top: -30px;
+  margin-bottom: 1%;
+  background-color: #fafafa;
+  background: -webkit-gradient(linear, left top, left bottom, from(#fafafa), to(#e6e6e6));
+  background: -webkit-linear-gradient(top, #fafafa, #e6e6e6);
+  background: -moz-linear-gradient(top, #fafafa, #e6e6e6);
+  background: -ms-linear-gradient(top, #fafafa, #e6e6e6);
+  background: -o-linear-gradient(top, #fafafa, #e6e6e6);
+  border-bottom: 1px solid #bbbbbb;
+  -webkit-border-top-right-radius: 5px;
+  -webkit-border-bottom-right-radius: 0px;
+  -webkit-border-bottom-left-radius: 0px;
+  -webkit-border-top-left-radius: 5px;
+  -moz-border-radius-topright: 5px;
+  -moz-border-radius-bottomright: 0px;
+  -moz-border-radius-bottomleft: 0px;
+  -moz-border-radius-topleft: 5px;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 0px;
+  border-bottom-left-radius: 0px;
+  border-top-left-radius: 5px;
   -moz-background-clip: padding;
   -webkit-background-clip: padding-box;
   background-clip: padding-box;
-  margin-bottom: 10px !important;
+  padding: 5px;
 }
-.friendsView #friendsList li a .friendName,
-.profileFriendsSubView #friendsList li a .friendName {
-  color: #3a8100;
+.friendsView #friendsList {
+  height: 100%;
+  overflow-y: scroll;
 }
-.friendsView #friendsList li:hover,
-.profileFriendsSubView #friendsList li:hover {
-  background-color: rgba(99, 183, 0, 0.3);
+.friendsView #friendsList,
+.profileView #friendsList {
+  *zoom: 1;
+  text-align: center;
+}
+.friendsView #friendsList:before,
+.profileView #friendsList:before,
+.friendsView #friendsList:after,
+.profileView #friendsList:after {
+  content: "";
+  display: table;
+}
+.friendsView #friendsList:after,
+.profileView #friendsList:after {
+  clear: both;
+}
+.friendsView #friendsList li,
+.profileView #friendsList li {
+  display: inline;
+  float: left;
+  width: 31.333333333333336%;
+  margin: 0 1% 0 1%;
+  height: 250px !important;
+  padding: 0;
+  margin-bottom: 15px !important;
+  -webkit-box-sizing: border-box;
+  /* Safari/Chrome, other WebKit */
+
+  -moz-box-sizing: border-box;
+  /* Firefox, other Gecko */
+
+  box-sizing: border-box;
+  /* Opera/IE 8+ */
+
+  background-image: url(../img/user.png);
+  background-repeat: no-repeat;
+  background-position: center center;
+  -webkit-background-size: 100%;
+  -moz-background-size: 100%;
+  -o-background-size: 100%;
+  background-size: 100%;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+}
+.friendsView #friendsList li .username,
+.profileView #friendsList li .username {
+  width: 100%;
+  text-align: center;
+}
+.friendsView #friendsList li .pushup,
+.profileView #friendsList li .pushup {
+  opacity: 0;
+  background: rgba(0, 0, 0, 0.5);
+  height: 0;
+  width: 100%;
+  margin-top: 0px;
+  padding: 0;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  border-top: 1px solid #333;
+  color: #ffffff;
+  -webkit-box-sizing: border-box;
+  /* Safari/Chrome, other WebKit */
+
+  -moz-box-sizing: border-box;
+  /* Firefox, other Gecko */
+
+  box-sizing: border-box;
+  /* Opera/IE 8+ */
+
+  -webkit-transition: all 1s ease;
+  -moz-transition: all 1s ease;
+  -ms-transition: all 1s ease;
+  -o-transition: all 1s ease;
+}
+.friendsView #friendsList li .pushup p,
+.profileView #friendsList li .pushup p {
+  opacity: 0;
+  -webkit-transition: opacity 0.2s ease-in-out 0.5s;
+  -moz-transition: opacity 0.2s ease-in-out 0.5s;
+  -ms-transition: opacity 0.2s ease-in-out 0.5s;
+  -o-transition: opacity 0.2s ease-in-out 0.5s;
+}
+.friendsView #friendsList li:hover .pushup,
+.profileView #friendsList li:hover .pushup {
+  opacity: 1;
+  height: 80px;
+  -webkit-transition: all 1s ease;
+  -moz-transition: all 1s ease;
+  -ms-transition: all 1s ease;
+  -o-transition: all 1s ease;
+}
+.friendsView #friendsList li:hover .pushup p,
+.profileView #friendsList li:hover .pushup p {
+  opacity: 1;
 }
 .mediaView #main {
   height: 100%;
@@ -2084,6 +2544,14 @@ and (max-device-width : 767px) {
     *zoom: 1;
     margin-top: 10px;
   }
+  body noscript:before,
+  body noscript:after {
+    content: "";
+    display: table;
+  }
+  body noscript:after {
+    clear: both;
+  }
   body #sidebar-left {
     display: inline;
     float: left;
@@ -2145,6 +2613,14 @@ and (max-device-width : 767px) {
     width: 64.66666666666667%;
     margin: 0 1% 0 1%;
     *zoom: 1;
+  }
+  #searchSuggestions li:before,
+  #searchSuggestions li:after {
+    content: "";
+    display: table;
+  }
+  #searchSuggestions li:after {
+    clear: both;
   }
   #searchSuggestions li a {
     display: inline;
@@ -2227,11 +2703,27 @@ and (max-device-width : 767px) {
     margin: 0 1% 0 1%;
     *zoom: 1;
   }
+  #mediaWrap .mediaRow:before,
+  #mediaWrap .mediaRow:after {
+    content: "";
+    display: table;
+  }
+  #mediaWrap .mediaRow:after {
+    clear: both;
+  }
   #mediaWrap .droplet {
     display: block;
     width: 56.333333333333336%;
     margin: 0 1% 0 1%;
     *zoom: 1;
+  }
+  #mediaWrap .droplet:before,
+  #mediaWrap .droplet:after {
+    content: "";
+    display: table;
+  }
+  #mediaWrap .droplet:after {
+    clear: both;
   }
   #mediaWrap .droplet .comments {
     display: inline;
@@ -2275,6 +2767,14 @@ and (max-device-width : 767px) {
     width: 98%;
     margin: 0 1% 0 1%;
     *zoom: 1;
+  }
+  .messagesView #topicListWrap .topic .lastMessage:before,
+  .messagesView #topicListWrap .topic .lastMessage:after {
+    content: "";
+    display: table;
+  }
+  .messagesView #topicListWrap .topic .lastMessage:after {
+    clear: both;
   }
   .messagesView #topicListWrap .topic .left {
     display: inline;
@@ -2336,6 +2836,14 @@ and (max-device-width : 767px) {
     width: 23%;
     margin: 0 1% 0 1%;
     *zoom: 1;
+  }
+  .messagesView #topicWrap.groupChat #messageList .message .user:before,
+  .messagesView #topicWrap.groupChat #messageList .message .user:after {
+    content: "";
+    display: table;
+  }
+  .messagesView #topicWrap.groupChat #messageList .message .user:after {
+    clear: both;
   }
   .messagesView #topicWrap.groupChat #messageList .message .user .userimg {
     display: inline;
@@ -2520,6 +3028,14 @@ and (max-device-width : 767px) {
     *zoom: 1;
     margin-top: 10px;
   }
+  body noscript:before,
+  body noscript:after {
+    content: "";
+    display: table;
+  }
+  body noscript:after {
+    clear: both;
+  }
   body #sidebar-left {
     display: inline;
     float: left;
@@ -2583,6 +3099,14 @@ and (max-device-width : 767px) {
     width: 64.66666666666667%;
     margin: 0 1% 0 1%;
     *zoom: 1;
+  }
+  #searchSuggestions li:before,
+  #searchSuggestions li:after {
+    content: "";
+    display: table;
+  }
+  #searchSuggestions li:after {
+    clear: both;
   }
   #searchSuggestions li a {
     display: inline;
@@ -2663,11 +3187,27 @@ and (max-device-width : 767px) {
     margin: 0 1% 0 1%;
     *zoom: 1;
   }
+  #mediaWrap .mediaRow:before,
+  #mediaWrap .mediaRow:after {
+    content: "";
+    display: table;
+  }
+  #mediaWrap .mediaRow:after {
+    clear: both;
+  }
   #mediaWrap .droplet {
     display: block;
     width: 56.333333333333336%;
     margin: 0 1% 0 1%;
     *zoom: 1;
+  }
+  #mediaWrap .droplet:before,
+  #mediaWrap .droplet:after {
+    content: "";
+    display: table;
+  }
+  #mediaWrap .droplet:after {
+    clear: both;
   }
   #mediaWrap .droplet .comments {
     display: inline;
@@ -2710,6 +3250,14 @@ and (max-device-width : 767px) {
     width: 98%;
     margin: 0 1% 0 1%;
     *zoom: 1;
+  }
+  .messagesView #topicListWrap .topic .lastMessage:before,
+  .messagesView #topicListWrap .topic .lastMessage:after {
+    content: "";
+    display: table;
+  }
+  .messagesView #topicListWrap .topic .lastMessage:after {
+    clear: both;
   }
   .messagesView #topicListWrap .topic .left {
     display: inline;
@@ -2954,6 +3502,14 @@ and (max-device-width : 767px) {
     *zoom: 1;
     margin-top: 10px;
   }
+  body noscript:before,
+  body noscript:after {
+    content: "";
+    display: table;
+  }
+  body noscript:after {
+    clear: both;
+  }
   body #sidebar-left {
     display: inline;
     float: left;
@@ -3017,6 +3573,14 @@ and (max-device-width : 767px) {
     width: 64.66666666666667%;
     margin: 0 1% 0 1%;
     *zoom: 1;
+  }
+  #searchSuggestions li:before,
+  #searchSuggestions li:after {
+    content: "";
+    display: table;
+  }
+  #searchSuggestions li:after {
+    clear: both;
   }
   #searchSuggestions li a {
     display: inline;
@@ -3101,11 +3665,27 @@ and (max-device-width : 767px) {
     margin: 0 1% 0 1%;
     *zoom: 1;
   }
+  #mediaWrap .mediaRow:before,
+  #mediaWrap .mediaRow:after {
+    content: "";
+    display: table;
+  }
+  #mediaWrap .mediaRow:after {
+    clear: both;
+  }
   #mediaWrap .droplet {
     display: block;
     width: 56.333333333333336%;
     margin: 0 1% 0 1%;
     *zoom: 1;
+  }
+  #mediaWrap .droplet:before,
+  #mediaWrap .droplet:after {
+    content: "";
+    display: table;
+  }
+  #mediaWrap .droplet:after {
+    clear: both;
   }
   #mediaWrap .droplet .comments {
     display: inline;
@@ -3150,6 +3730,14 @@ and (max-device-width : 767px) {
     width: 98%;
     margin: 0 1% 0 1%;
     *zoom: 1;
+  }
+  .messagesView #topicListWrap #topicList .topic .lastMessage:before,
+  .messagesView #topicListWrap #topicList .topic .lastMessage:after {
+    content: "";
+    display: table;
+  }
+  .messagesView #topicListWrap #topicList .topic .lastMessage:after {
+    clear: both;
   }
   .messagesView #topicListWrap #topicList .topic .left {
     display: inline;
