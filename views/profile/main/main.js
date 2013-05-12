@@ -71,8 +71,8 @@ define(["jquery", "display", "asset/logger", "asset/helper", "libs/step"], funct
 				$("#pfirstname").text(firstName);
 				$("#plastname").text(lastName);
 				// TODO: just do the following two steps if the text really needs to be white!
-				$("#infowrap").css("color", "#fff");
-				$("#infowrap i").addClass("icon-white");
+				//$("#infowrap").css("color", "#fff");
+				//$("#infowrap i").addClass("icon-white");
 				$("#infowrap").css("background-image", "url(img/testbanner.jpg)");
 
 				if (!u.ownUser()) {

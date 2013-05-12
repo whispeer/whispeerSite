@@ -27,7 +27,7 @@ define(["jquery", "model/userManager", "asset/helper", "libs/step", "model/sessi
 							$("<span>").addClass("friendName").text(theNames[i])
 						)
 					);
-					element.append(names);
+					//element.append(names);
 				}
 
 				this();
