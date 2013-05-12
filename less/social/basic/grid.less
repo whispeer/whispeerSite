@@ -21,12 +21,12 @@
 	.clear-fix;
 }
 
-.column(@x, @columns:@columns, @direction: left) {
+.column(@x, @columns:@columns, @direction: left, @margin: 2%) {
 	@column-size: @total-width / @columns;
 	display: inline;
 	float: @direction;
-	width: (@column-size*@x) - 2%;
-	margin: 0 1% 0 1%;
+	width: (@column-size*@x) - @margin;
+	margin: 0 @margin/2 0 @margin/2;
 }
 
 .push(@x: 1, @columns:@columns) {
