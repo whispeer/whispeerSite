@@ -36,8 +36,7 @@
 		}
 		.icon {
 			position: absolute;
-			margin-top: -33px;
-			margin-left: 270px;
+			margin: -33px 0 0 270px;
 			&.check, &.fail {
 				padding: 7px 7px 5px 3px;
 			}
@@ -57,10 +56,13 @@
 			background-image: url('../img/lock.png');
 			background-repeat: no-repeat;
 			background-position: center center;
-			.background-size(12px);
+			.background-size(10px);
 			.border-radius(50px);
-			width: 25px;
-			height: 25px;
+			width: 20px;
+			height: 20px;
+			float: left;
+			margin: -27px 0 0 271px;
+			.box-fix;
 			&[data-strength="0"], [data-strength="1"] {
 				background-color: #ff2300;
 			}
