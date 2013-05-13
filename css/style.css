@@ -1777,31 +1777,36 @@ input[type="submit"].btn.btn-mini {
 #wall .shareForm {
   padding-top: 10px;
   text-align: center;
-  border-bottom: 1px solid #666666;
+  border-bottom: 1px solid #bbb;
   float: left;
   height: 50px;
   z-index: 1000;
+  box-shadow: 0 2px 4px -2px #559d00;
 }
 #wall .shareForm #shareText {
   margin-left: 20px;
 }
 #wall .posts {
-  display: inline;
   float: left;
-  width: 98%;
-  margin: 0 1% 0 1%;
+  width: 100% !important;
+  margin: 0 0 0 1%;
 }
 #wall .posts article {
-  border-bottom: 1px solid #666666;
+  border-bottom: 1px solid #bbb;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
 }
 #wall .posts article .userimg {
   border-radius: 200px;
   vertical-align: middle;
-  margin: 10px 0px 10px 0px;
+  margin: 0 0 10px 0;
 }
 #wall .posts article .postContent {
-  padding-top: 5px;
-  margin-top: 10px;
+  margin-top: -5px;
   margin-bottom: 10px;
 }
 #wall .posts article .postContent .postText {
@@ -1817,7 +1822,7 @@ input[type="submit"].btn.btn-mini {
 
 }
 #wall .posts article .postInfo {
-  padding-top: 5px;
+  margin-top: -5px;
   margin-bottom: 10px;
 }
 #wall .posts article:last-child {
