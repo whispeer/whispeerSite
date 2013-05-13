@@ -15,51 +15,24 @@ body {
 		height: 100%;
 		padding-bottom: 30px;
 		.box-fix;
-	}
-	
-	#main, #sidebar-left, #sidebar-right {
-		height: 100%;
-	}
-	
-	noscript {
-		margin-top: 10px;
-	}
-	
-	#sidebar-left {
-		#userpanel {
-			margin-bottom: 10px;
+		#main, #sidebar-left, #sidebar-right {
+			height: 100%;
+		}
+		#loading {
+			display: none;
+			text-align: center;
 		}
 	}
-
 	footer {
-		width: 100%;
-		margin: 0;
-		padding: 5px 5px 2px 5px;
-		height: 10px;
-		margin-top: -25px !important;
+		.box-fix;
 		color: #3d9404;
-		//background: green;
-		#left, #right {
-			width: 50%;
-			float: left;
-			text-align: left;
-		}
-		#right {
-			text-align: right;
-		}
 		a {
 			color: #3d9404;
 			&:hover {
 				color: #4eb508;
 			}
 		}
-		.box-fix;
-	}
-	
-	#loading {
-		display: none;
-		text-align: center;
-	}
+	}	
 	&:not(.registerView) {
 		padding-top: 60px;
 		nav {
