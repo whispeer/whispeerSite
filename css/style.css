@@ -1782,6 +1782,12 @@ input[type="submit"].btn.btn-mini {
   height: 50px;
   z-index: 1000;
   box-shadow: 0 2px 4px -2px #559d00;
+  -webkit-border-radius: 2px;
+  -moz-border-radius: 2px;
+  border-radius: 2px;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
 }
 #wall .shareForm #shareText {
   margin-left: 20px;
