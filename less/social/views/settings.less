@@ -1,11 +1,57 @@
 .settingsView {
-	#toc {
-		float: left;
-	}
-	.config {
-		input:not([type=submit]):not([type=file]) {
+	#main {
+		padding-top: 30px;
+		height: 100%;
+		background-color: @btnBackgroundHighlight;
+		border: 1px solid @btnBorder;
+		border-bottom: 1px solid #000;
+		border-bottom-color: darken(@btnBorder, 10%);
+		.border-radius(5px);
+		.box-fix;
+		header {
+			height: 20px;
+			margin-top: -30px;
+			.gradient(darken(@btnBackground, 2%), @btnBackgroundHighlight);
+			border-bottom: 1px solid @btnBorder;
+			.border-radiuses(5px, 0px, 0px, 5px);
+			padding: 5px;
+			#links {
+				float: right;
+				 a {
+					 color: #666;
+				 }
+			}
 		}
-		#newNickname {
+		#settingsWrap {
+			height: 100%;
+			overflow-y: scroll;
 		}
-	}
+		section {
+			header {
+				background-color: @btnBackgroundHighlight;
+				border-top: 1px solid @btnBorder;
+				.border-radius(0px);
+				float: left;
+				width: 100%;
+				margin: 10px 0 10px 0;
+				padding: 5px 0px;
+				&:before, :after {
+					content: "";
+					margin-left: 5px;
+				}
+			}
+			&#general header {
+				border-top: none;
+				margin: 0 0 10px 0;
+			}
+			.config {
+				.column(8,8);
+				margin-top: -5px;
+				margin-bottom: 10px;
+			}
+			button, input[type=submit] {
+				.btn;
+			}
+		}
+	}	
 }

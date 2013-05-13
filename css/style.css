@@ -2543,8 +2543,196 @@ body:not(.profileView) #wall .posts {
   max-height: 95%;
   max-width: 95%;
 }
-.settingsView #toc {
+.settingsView #main {
+  padding-top: 30px;
+  height: 100%;
+  background-color: #e6e6e6;
+  border: 1px solid #bbbbbb;
+  border-bottom: 1px solid #000;
+  border-bottom-color: #a2a2a2;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  -webkit-box-sizing: border-box;
+  /* Safari/Chrome, other WebKit */
+
+  -moz-box-sizing: border-box;
+  /* Firefox, other Gecko */
+
+  box-sizing: border-box;
+  /* Opera/IE 8+ */
+
+}
+.settingsView #main header {
+  height: 20px;
+  margin-top: -30px;
+  background-color: #fafafa;
+  background: -webkit-gradient(linear, left top, left bottom, from(#fafafa), to(#e6e6e6));
+  background: -webkit-linear-gradient(top, #fafafa, #e6e6e6);
+  background: -moz-linear-gradient(top, #fafafa, #e6e6e6);
+  background: -ms-linear-gradient(top, #fafafa, #e6e6e6);
+  background: -o-linear-gradient(top, #fafafa, #e6e6e6);
+  border-bottom: 1px solid #bbbbbb;
+  -webkit-border-top-right-radius: 5px;
+  -webkit-border-bottom-right-radius: 0px;
+  -webkit-border-bottom-left-radius: 0px;
+  -webkit-border-top-left-radius: 5px;
+  -moz-border-radius-topright: 5px;
+  -moz-border-radius-bottomright: 0px;
+  -moz-border-radius-bottomleft: 0px;
+  -moz-border-radius-topleft: 5px;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 0px;
+  border-bottom-left-radius: 0px;
+  border-top-left-radius: 5px;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  padding: 5px;
+}
+.settingsView #main header #links {
+  float: right;
+}
+.settingsView #main header #links a {
+  color: #666;
+}
+.settingsView #main #settingsWrap {
+  height: 100%;
+  overflow-y: scroll;
+}
+.settingsView #main section header {
+  background-color: #e6e6e6;
+  border-top: 1px solid #bbbbbb;
+  -webkit-border-radius: 0px;
+  -moz-border-radius: 0px;
+  border-radius: 0px;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
   float: left;
+  width: 100%;
+  margin: 10px 0 10px 0;
+  padding: 5px 0px;
+}
+.settingsView #main section header:before,
+.settingsView #main section header :after {
+  content: "";
+  margin-left: 5px;
+}
+.settingsView #main section#general header {
+  border-top: none;
+  margin: 0 0 10px 0;
+}
+.settingsView #main section .config {
+  display: inline;
+  float: left;
+  width: 98%;
+  margin: 0 1% 0 1%;
+  margin-top: -5px;
+  margin-bottom: 10px;
+}
+.settingsView #main section button,
+.settingsView #main section input[type=submit] {
+  display: inline-block;
+  *display: inline;
+  /* IE7 inline-block hack */
+
+  *zoom: 1;
+  padding: 4px 14px;
+  margin-bottom: 0;
+  font-size: 14px;
+  line-height: 20px;
+  *line-height: 20px;
+  text-align: center;
+  vertical-align: middle;
+  cursor: pointer;
+  color: #333333;
+  text-shadow: 0 1px 1px rgba(255, 255, 255, 0.75);
+  background-color: #ffffff;
+  background: -webkit-gradient(linear, left top, left bottom, from(#ffffff), to(#e6e6e6));
+  background: -webkit-linear-gradient(top, #ffffff, #e6e6e6);
+  background: -moz-linear-gradient(top, #ffffff, #e6e6e6);
+  background: -ms-linear-gradient(top, #ffffff, #e6e6e6);
+  background: -o-linear-gradient(top, #ffffff, #e6e6e6);
+  border-color: #e6e6e6 #e6e6e6 #bfbfbf;
+  border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+  *background-color: #f2f2f2;
+  /* Darken IE7 buttons by default so they stand out more given they won't have borders */
+
+  filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
+  border: 1px solid #bbbbbb;
+  *border: 0;
+  border-bottom-color: #a2a2a2;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  *margin-left: .3em;
+  -webkit-box-shadow: "inset 0 1px 0 rgba(255,255,255,.2), 0 1px 2px rgba(0,0,0,.05)";
+  -moz-box-shadow: "inset 0 1px 0 rgba(255,255,255,.2), 0 1px 2px rgba(0,0,0,.05)";
+  box-shadow: "inset 0 1px 0 rgba(255,255,255,.2), 0 1px 2px rgba(0,0,0,.05)";
+  border-color: #c5c5c5;
+  border-color: rgba(0, 0, 0, 0.15) rgba(0, 0, 0, 0.15) rgba(0, 0, 0, 0.25);
+}
+.settingsView #main section button:hover,
+.settingsView #main section input[type=submit]:hover,
+.settingsView #main section button:active,
+.settingsView #main section input[type=submit]:active,
+.settingsView #main section button.active,
+.settingsView #main section input[type=submit].active,
+.settingsView #main section button.disabled,
+.settingsView #main section input[type=submit].disabled,
+.settingsView #main section button[disabled],
+.settingsView #main section input[type=submit][disabled] {
+  color: #333333;
+  background: #f2f2f2;
+  *background: #e6e6e6;
+}
+.settingsView #main section button:active,
+.settingsView #main section input[type=submit]:active,
+.settingsView #main section button.active,
+.settingsView #main section input[type=submit].active {
+  background-color: #cccccc \9;
+}
+.settingsView #main section button:first-child,
+.settingsView #main section input[type=submit]:first-child {
+  *margin-left: 0;
+}
+.settingsView #main section button:hover,
+.settingsView #main section input[type=submit]:hover {
+  color: #333333;
+  text-decoration: none;
+}
+.settingsView #main section button.active,
+.settingsView #main section input[type=submit].active,
+.settingsView #main section button:active,
+.settingsView #main section input[type=submit]:active {
+  background-color: #e6e6e6;
+  background-color: #d9d9d9 \9;
+  background-image: none;
+  outline: 0;
+  -webkit-box-shadow: "inset 0 2px 4px rgba(0,0,0,.15), 0 1px 2px rgba(0,0,0,.05)";
+  -moz-box-shadow: "inset 0 2px 4px rgba(0,0,0,.15), 0 1px 2px rgba(0,0,0,.05)";
+  box-shadow: "inset 0 2px 4px rgba(0,0,0,.15), 0 1px 2px rgba(0,0,0,.05)";
+}
+.settingsView #main section button.disabled,
+.settingsView #main section input[type=submit].disabled,
+.settingsView #main section button[disabled],
+.settingsView #main section input[type=submit][disabled] {
+  cursor: default;
+  background-color: #e6e6e6;
+  background-image: none;
+  -webkit-opacity: 65;
+  -moz-opacity: 65;
+  opacity: 65;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
 }
 /* Do it responsive! */
 /*
