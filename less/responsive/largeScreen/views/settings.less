@@ -1,16 +1,39 @@
 .settingsView {
-	#toc {
-		float: left;
-		width: 100%;
-	}
-	.config {
-		.column(7,8);
-		.push(1);
-		input:not([type=submit]):not([type=file]) {
-			.column(2.5,7);
+	#main {
+		padding-top: 30px;
+		height: 100%;
+		header {
+			height: 20px;
+			margin-top: -30px;
+			padding: 5px;
+			#links {
+				float: right;
+			}
 		}
-		#newNickname {
-			.push(2.5,7);
+		#settingsWrap {
+			height: 100%;
+			overflow-y: scroll;
+			overflow-x: hidden;
 		}
-	}
+		section {
+			header {
+				float: left;
+				width: 100%;
+				margin: 10px 0 10px 0;
+				padding: 5px 0px;
+				&:before, :after {
+					content: "";
+					margin-left: 5px;
+				}
+			}
+			&#general header {
+				margin: 0 0 10px 0;
+			}
+			.config {
+				.column(8,8);
+				margin-top: -5px;
+				margin-bottom: 10px;
+			}
+		}
+	}	
 }

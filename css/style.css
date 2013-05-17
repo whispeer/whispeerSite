@@ -1695,9 +1695,20 @@ input[type="submit"].btn.btn-mini {
   height: 100%;
   width: 100%;
   float: left;
+  padding-top: 50px;
+  -webkit-box-sizing: border-box;
+  /* Safari/Chrome, other WebKit */
+
+  -moz-box-sizing: border-box;
+  /* Firefox, other Gecko */
+
+  box-sizing: border-box;
+  /* Opera/IE 8+ */
+
 }
 #wall .shareForm {
   padding-top: 10px;
+  margin-top: -50px;
   text-align: center;
   border-bottom: 1px solid #bbb;
   float: left;
@@ -1718,6 +1729,8 @@ input[type="submit"].btn.btn-mini {
   float: left;
   width: 100% !important;
   margin: 0 0 0 1%;
+  overflow-y: scroll;
+  height: 100%;
 }
 #wall .posts article {
   border-bottom: 1px solid #bbb;
@@ -1756,31 +1769,7 @@ input[type="submit"].btn.btn-mini {
 #wall .posts article:last-child {
   border: none;
 }
-body:not(.profileView) #wall {
-  padding-top: 50px;
-  -webkit-box-sizing: border-box;
-  /* Safari/Chrome, other WebKit */
-
-  -moz-box-sizing: border-box;
-  /* Firefox, other Gecko */
-
-  box-sizing: border-box;
-  /* Opera/IE 8+ */
-
-}
-body:not(.profileView) #wall .shareForm {
-  margin-top: -50px;
-}
-body:not(.profileView) #wall .posts {
-  overflow-y: scroll;
-  height: 100%;
-}
 .profileView #main nav {
-  display: inline;
-  float: left;
-  width: 98%;
-  margin: 0 1% 0 1%;
-  height: 50px;
   -webkit-border-radius: 20px;
   -moz-border-radius: 20px;
   border-radius: 20px;
@@ -1796,35 +1785,13 @@ body:not(.profileView) #wall .posts {
   border: 1px solid #bbbbbb;
   border-bottom: 1px solid #000;
   border-bottom-color: #a2a2a2;
-  margin-bottom: -50px;
-}
-.profileView #main nav heading {
-  display: inline;
-  float: left;
-  width: 48%;
-  margin: 0 1% 0 1%;
 }
 .profileView #main nav heading h3 {
-  width: 100%;
   color: rgba(156, 255, 85, 0.5);
   text-shadow: 1px 1px 1px #3a8100;
-  padding: 3px;
-  margin: 0;
   text-rendering: optimizeLegibility;
 }
-.profileView #main nav menu {
-  float: left;
-  width: 48%;
-  margin: 0 1% 0 1%;
-  margin: 13px 0 10px 0;
-  padding: 0;
-  display: inline;
-}
 .profileView #main nav menu li {
-  display: inline;
-  float: left;
-  width: 31.333333333333336%;
-  margin: 0 1% 0 1%;
   text-align: center;
 }
 .profileView #main nav menu li a {
@@ -1833,51 +1800,7 @@ body:not(.profileView) #wall .posts {
   font-weight: 600;
   font-size: 1em;
 }
-.profileView #main #wrap {
-  width: 100%;
-  height: 100%;
-  padding-top: 50px;
-  -webkit-box-sizing: border-box;
-  /* Safari/Chrome, other WebKit */
-
-  -moz-box-sizing: border-box;
-  /* Firefox, other Gecko */
-
-  box-sizing: border-box;
-  /* Opera/IE 8+ */
-
-  margin: 0 auto;
-}
-.profileView #main #scroller {
-  width: 100%;
-  height: 100%;
-  overflow-y: scroll;
-  -webkit-box-sizing: border-box;
-  /* Safari/Chrome, other WebKit */
-
-  -moz-box-sizing: border-box;
-  /* Firefox, other Gecko */
-
-  box-sizing: border-box;
-  /* Opera/IE 8+ */
-
-  margin: 0 auto;
-  margin-top: 10px;
-}
-.profileView #main #info {
-  display: inline;
-  float: left;
-  width: 98%;
-  margin: 0 1% 0 1%;
-  padding: 0;
-}
 .profileView #main #info article {
-  display: inline;
-  float: left;
-  width: 31.333333333333336%;
-  margin: 0 1% 0 1%;
-  padding: 0;
-  margin-bottom: 10px;
   background-color: #e6e6e6;
   border: 1px solid #bbbbbb;
   border-bottom: 1px solid #000;
@@ -1888,7 +1811,6 @@ body:not(.profileView) #wall .posts {
   -moz-background-clip: padding;
   -webkit-background-clip: padding-box;
   background-clip: padding-box;
-  height: 150px;
   -webkit-box-sizing: border-box;
   /* Safari/Chrome, other WebKit */
 
@@ -1906,7 +1828,6 @@ body:not(.profileView) #wall .posts {
   background: -moz-linear-gradient(top, #fafafa, #e6e6e6);
   background: -ms-linear-gradient(top, #fafafa, #e6e6e6);
   background: -o-linear-gradient(top, #fafafa, #e6e6e6);
-  height: 20px;
   border-bottom: 1px solid #bbbbbb;
   -webkit-border-top-right-radius: 5px;
   -webkit-border-bottom-right-radius: 0px;
@@ -1923,44 +1844,22 @@ body:not(.profileView) #wall .posts {
   -moz-background-clip: padding;
   -webkit-background-clip: padding-box;
   background-clip: padding-box;
-  padding: 5px;
 }
 .profileView #main #info article#generalInfo {
   display: inline;
   float: left;
   width: 98%;
   margin: 0 1% 0 1%;
-  height: auto;
-  margin-bottom: 10px;
-  padding: 0;
 }
 .profileView #main #info article#generalInfo .userimage {
-  display: inline;
-  float: left;
-  width: 23%;
-  margin: 0 1% 0 1%;
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
   border-radius: 5px;
   -moz-background-clip: padding;
   -webkit-background-clip: padding-box;
   background-clip: padding-box;
-  margin-top: 1%;
-  margin-bottom: 1%;
-}
-.profileView #main #info article#generalInfo .info {
-  display: inline;
-  float: left;
-  width: 73%;
-  margin: 0 1% 0 1%;
-  margin-top: -10px;
-  line-height: 10px;
 }
 .profileView #main #wall {
-  display: inline;
-  float: left;
-  width: 98%;
-  margin: 0 1% 0 1%;
   background-color: #e6e6e6;
   border: 1px solid #bbbbbb;
   border-bottom: 1px solid #000;
@@ -1971,9 +1870,6 @@ body:not(.profileView) #wall .posts {
   -moz-background-clip: padding;
   -webkit-background-clip: padding-box;
   background-clip: padding-box;
-  height: auto;
-  padding: 0;
-  margin-bottom: 1%;
 }
 .profileView #main #wall header {
   background-color: #fafafa;
@@ -1982,7 +1878,6 @@ body:not(.profileView) #wall .posts {
   background: -moz-linear-gradient(top, #fafafa, #e6e6e6);
   background: -ms-linear-gradient(top, #fafafa, #e6e6e6);
   background: -o-linear-gradient(top, #fafafa, #e6e6e6);
-  height: 20px;
   border-bottom: 1px solid #bbbbbb;
   -webkit-border-top-right-radius: 5px;
   -webkit-border-bottom-right-radius: 0px;
@@ -1999,24 +1894,12 @@ body:not(.profileView) #wall .posts {
   -moz-background-clip: padding;
   -webkit-background-clip: padding-box;
   background-clip: padding-box;
-  padding: 5px;
-  margin-bottom: 1%;
 }
 .profileView #main #wall article {
-  display: inline;
-  float: left;
-  width: 98%;
-  margin: 0 1% 0 1%;
   border-bottom: 1px solid #aaa;
 }
 .profileView #main #wall article .userimg {
-  display: inline;
-  float: left;
-  width: 23%;
-  margin: 0 1% 0 1%;
   border-radius: 200px;
-  vertical-align: middle;
-  margin: 10px 0px 10px 0px;
 }
 .profileView #main #wall article .postContent {
   display: inline;
@@ -2096,9 +1979,6 @@ body:not(.profileView) #wall .posts {
   margin-bottom: 1%;
 }
 .messagesView #main {
-  padding-top: 30px;
-  padding-bottom: 10px;
-  height: 100%;
   background-color: #e6e6e6;
   border: 1px solid #bbbbbb;
   border-bottom: 1px solid #000;
@@ -2120,8 +2000,6 @@ body:not(.profileView) #wall .posts {
 
 }
 .messagesView header {
-  height: 20px;
-  margin-top: -30px;
   background-color: #fafafa;
   background: -webkit-gradient(linear, left top, left bottom, from(#fafafa), to(#e6e6e6));
   background: -webkit-linear-gradient(top, #fafafa, #e6e6e6);
@@ -2129,22 +2007,6 @@ body:not(.profileView) #wall .posts {
   background: -ms-linear-gradient(top, #fafafa, #e6e6e6);
   background: -o-linear-gradient(top, #fafafa, #e6e6e6);
   border-bottom: 1px solid #bbbbbb;
-  -webkit-border-top-right-radius: 5px;
-  -webkit-border-bottom-right-radius: 0px;
-  -webkit-border-bottom-left-radius: 0px;
-  -webkit-border-top-left-radius: 5px;
-  -moz-border-radius-topright: 5px;
-  -moz-border-radius-bottomright: 0px;
-  -moz-border-radius-bottomleft: 0px;
-  -moz-border-radius-topleft: 5px;
-  border-top-right-radius: 5px;
-  border-bottom-right-radius: 0px;
-  border-bottom-left-radius: 0px;
-  border-top-left-radius: 5px;
-  -moz-background-clip: padding;
-  -webkit-background-clip: padding-box;
-  background-clip: padding-box;
-  padding: 5px;
 }
 .messagesView #topicListWrap {
   margin-right: 3px;
@@ -2152,8 +2014,6 @@ body:not(.profileView) #wall .posts {
 .messagesView #topicListWrap #topicList {
   margin-left: 0;
   list-style: none;
-  height: 100%;
-  padding-top: 15px;
   -webkit-box-sizing: border-box;
   /* Safari/Chrome, other WebKit */
 
@@ -2165,7 +2025,6 @@ body:not(.profileView) #wall .posts {
 
 }
 .messagesView #topicListWrap #topicList #topicListScroll {
-  overflow-y: scroll;
   -webkit-box-sizing: border-box;
   /* Safari/Chrome, other WebKit */
 
@@ -2175,11 +2034,8 @@ body:not(.profileView) #wall .posts {
   box-sizing: border-box;
   /* Opera/IE 8+ */
 
-  height: 100%;
 }
 .messagesView #topicListWrap #topicList #newmessage {
-  height: 20px;
-  margin-top: -10px;
   border: none;
   -webkit-border-radius: 2px;
   -moz-border-radius: 2px;
@@ -2195,8 +2051,6 @@ body:not(.profileView) #wall .posts {
   -moz-background-clip: padding;
   -webkit-background-clip: padding-box;
   background-clip: padding-box;
-  margin-bottom: 5px;
-  padding: 0;
   border-bottom: 1px solid #aaa;
 }
 .messagesView #topicListWrap #topicList .topic .userimg {
@@ -2206,8 +2060,6 @@ body:not(.profileView) #wall .posts {
   -moz-background-clip: padding;
   -webkit-background-clip: padding-box;
   background-clip: padding-box;
-  margin: 0 0 -4px -2px;
-  padding: 0;
 }
 .messagesView #topicListWrap #topicList .topic .username {
   font-size: 1em;
@@ -2221,14 +2073,10 @@ body:not(.profileView) #wall .posts {
 .messagesView #topicListWrap #topicList .topic.active {
   background-color: rgba(0, 0, 0, 0.3);
 }
-.messagesView #topicWrap.peerChat #messageTitle {
-  padding-left: 10px;
-}
 .messagesView #topicWrap.peerChat #messageList {
   margin-left: 0;
   list-style: none;
   overflow-y: scroll;
-  height: 100%;
 }
 .messagesView #topicWrap.peerChat #messageList .message {
   margin-bottom: 5px;
@@ -2256,13 +2104,10 @@ body:not(.profileView) #wall .posts {
 }
 .messagesView #topicWrap.peerChat #messageList .message.me {
   color: #63b700;
-  text-align: left;
-  -webkit-border-radius: 6px;
-  -moz-border-radius: 6px;
-  border-radius: 6px;
-  -moz-background-clip: padding;
-  -webkit-background-clip: padding-box;
-  background-clip: padding-box;
+}
+.messagesView #topicWrap.peerChat #messageList .message.me .messageText {
+  float: right;
+  text-align: right;
 }
 .messagesView #topicWrap.peerChat #messageList .message.me .user .userimg {
   float: right;
@@ -2277,17 +2122,12 @@ body:not(.profileView) #wall .posts {
   background-clip: padding-box;
   color: #4e4e4e;
 }
-.messagesView #topicWrap.groupChat #messageTitle {
-  padding-left: 10px;
-}
 .messagesView #topicWrap.groupChat #messageList {
   margin-left: 0;
   list-style: none;
   overflow-y: scroll;
-  height: 300px;
 }
 .messagesView #topicWrap.groupChat #messageList .message {
-  margin-bottom: 5px;
   *zoom: 1;
 }
 .messagesView #topicWrap.groupChat #messageList .message:before,
@@ -2308,12 +2148,6 @@ body:not(.profileView) #wall .posts {
   -moz-background-clip: padding;
   -webkit-background-clip: padding-box;
   background-clip: padding-box;
-  padding: 0;
-}
-.messagesView #topicWrap.groupChat #messageList .message .messageText {
-  float: left;
-  display: block;
-  width: 70%;
 }
 .messagesView #topicWrap.groupChat #messageList .message.me {
   color: #63b700;
@@ -2333,30 +2167,6 @@ body:not(.profileView) #wall .posts {
   background-clip: padding-box;
   color: #4e4e4e;
 }
-.messagesView #topicWrap.groupChat #inputWrap #messageInput,
-.messagesView #topicWrap .peerChat #inputWrap #messageInput {
-  display: inline;
-  float: left;
-  width: 73%;
-  margin: 0 1% 0 1%;
-  height: 45px;
-}
-.messagesView #topicWrap.groupChat #inputWrap button,
-.messagesView #topicWrap .peerChat #inputWrap button {
-  display: inline;
-  float: left;
-  width: 23%;
-  margin: 0 1% 0 1%;
-  height: 45px;
-}
-.messagesView #topicWrap.newMessage #recieverInput,
-.messagesView #topicWrap.newMessage #messageInput {
-  margin-bottom: 5px;
-  height: 40px;
-}
-.messagesView #topicWrap.newMessage #messageInput {
-  height: 150px;
-}
 .messagesView #topicWrap.newMessage #sendmessage {
   padding: 9px 14px;
   font-size: 16px;
@@ -2367,7 +2177,6 @@ body:not(.profileView) #wall .posts {
   -moz-background-clip: padding;
   -webkit-background-clip: padding-box;
   background-clip: padding-box;
-  margin-left: 5px !important;
 }
 .friendsView #main {
   padding-top: 30px;
@@ -2462,16 +2271,17 @@ body:not(.profileView) #wall .posts {
   background-image: url(../img/user.png);
   background-repeat: no-repeat;
   background-position: center center;
-  -webkit-background-size: 100%;
-  -moz-background-size: 100%;
-  -o-background-size: 100%;
-  background-size: 100%;
+  -webkit-background-size: auto 100%;
+  -moz-background-size: auto 100%;
+  -o-background-size: auto 100%;
+  background-size: auto 100%;
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
   border-radius: 5px;
   -moz-background-clip: padding;
   -webkit-background-clip: padding-box;
   background-clip: padding-box;
+  border: 1px solid #e6e6e6;
 }
 .friendsView #friendsList li .username,
 .profileView #friendsList li .username {
@@ -2855,7 +2665,7 @@ and (max-device-width : 767px) {
   body #container #main {
     display: inline;
     float: left;
-    width: 64.66666666666667%;
+    width: 60.50000000000001%;
     margin: 0 1% 0 1%;
   }
   body #container #sidebar-right {
@@ -2868,7 +2678,7 @@ and (max-device-width : 767px) {
   body #container #sidebar-left {
     display: inline;
     float: left;
-    width: 14.666666666666668%;
+    width: 18.833333333333336%;
     margin: 0 1% 0 1%;
   }
   body #container #sidebar-left #userpanel {
@@ -3023,44 +2833,53 @@ and (max-device-width : 767px) {
     width: 98%;
     margin: 0 1% 0 1%;
   }
-  .friendsView #friendsList,
-  .profileFriendsSubView #friendsList {
-    display: inline;
-    float: left;
-    width: 98%;
-    margin: 0 1% 0 1%;
+  .friendsView #main {
+    padding-top: 30px;
+    padding-bottom: 10px;
+    height: 100%;
+  }
+  .friendsView header {
+    height: 20px;
+    margin-top: -30px;
+    margin-bottom: 1%;
+    padding: 5px;
+  }
+  .friendsView #friendsList {
+    height: 100%;
   }
   .friendsView #friendsList li,
-  .profileFriendsSubView #friendsList li {
+  .profileView #friendsList li {
     display: inline;
     float: left;
-    width: 30.857142857142854%;
+    width: 31.333333333333336%;
     margin: 0 1% 0 1%;
-    height: 60px;
-  }
-  .friendsView #friendsList li a .friendPicture,
-  .profileFriendsSubView #friendsList li a .friendPicture {
-    display: inline;
-    float: left;
-    width: 28.434782608695652%;
-    margin: 0 1% 0 1%;
-  }
-  .friendsView #friendsList li a .friendName,
-  .profileFriendsSubView #friendsList li a .friendName {
-    display: inline;
-    float: left;
-    width: 67.56521739130436%;
-    margin: 0 1% 0 1%;
-    padding-top: 10px;
-    -webkit-box-sizing: padding-box;
+    height: 250px;
+    padding: 0 !important;
+    -webkit-box-sizing: border-box;
     /* Safari/Chrome, other WebKit */
   
-    -moz-box-sizing: padding-box;
+    -moz-box-sizing: border-box;
     /* Firefox, other Gecko */
   
-    box-sizing: padding-box;
+    box-sizing: border-box;
     /* Opera/IE 8+ */
   
+    margin-bottom: 15px;
+  }
+  .friendsView #friendsList li .username,
+  .profileView #friendsList li .username {
+    width: 100%;
+  }
+  .friendsView #friendsList li .pushup,
+  .profileView #friendsList li .pushup {
+    height: 0;
+    width: 100%;
+    margin-top: 0px;
+    padding: 0;
+  }
+  .friendsView #friendsList li:hover .pushup,
+  .profileView #friendsList li:hover .pushup {
+    height: 80px;
   }
   #mediaWrap .mediaRow {
     display: block;
@@ -3108,126 +2927,207 @@ and (max-device-width : 767px) {
     width: 12.285714285714286%;
     margin: 0 1% 0 1%;
   }
+  .messagesView #main {
+    padding-top: 30px;
+    padding-bottom: 10px;
+    height: 100%;
+  }
+  .messagesView header {
+    height: 20px;
+    margin-top: -30px;
+    padding: 5px;
+  }
   .messagesView #topicListWrap {
     display: inline;
     float: left;
-    width: 23%;
+    width: 26.125%;
     margin: 0 1% 0 1%;
-    height: 460px;
-    overflow-x: scroll;
+    height: 100%;
   }
-  .messagesView #topicListWrap .topic .userimg {
+  .messagesView #topicListWrap #topicList {
+    height: 100%;
+    padding-top: 15px;
+    padding-bottom: 6px;
+  }
+  .messagesView #topicListWrap #topicList #topicListScroll {
+    height: 100%;
+    overflow-y: scroll;
+  }
+  .messagesView #topicListWrap #topicList .topic {
+    margin-bottom: 5px;
+    padding: 0;
+  }
+  .messagesView #topicListWrap #topicList .topic .userimg {
     width: 100%;
+    margin: 0 0 -4px -2px;
+    padding: 0;
   }
-  .messagesView #topicListWrap .topic .username {
+  .messagesView #topicListWrap #topicList .topic .username {
     font-size: 1em;
     display: inline;
     float: left;
     width: 63%;
     margin: 0 1% 0 1%;
   }
-  .messagesView #topicListWrap .topic .lastMessage {
+  .messagesView #topicListWrap #topicList .topic .lastMessage {
     font-size: 0.8em;
     display: block;
     width: 98%;
     margin: 0 1% 0 1%;
     *zoom: 1;
   }
-  .messagesView #topicListWrap .topic .lastMessage:before,
-  .messagesView #topicListWrap .topic .lastMessage:after {
+  .messagesView #topicListWrap #topicList .topic .lastMessage:before,
+  .messagesView #topicListWrap #topicList .topic .lastMessage:after {
     content: "";
     display: table;
   }
-  .messagesView #topicListWrap .topic .lastMessage:after {
+  .messagesView #topicListWrap #topicList .topic .lastMessage:after {
     clear: both;
   }
-  .messagesView #topicListWrap .topic .left {
+  .messagesView #topicListWrap #topicList .topic .left {
     display: inline;
     float: left;
     width: 33%;
     margin: 0 1% 0 1%;
   }
+  .messagesView #topicListWrap #topicList .topic#newmessage {
+    height: 20px;
+    margin-top: -10px;
+  }
   .messagesView #topicWrap {
-    height: 500px;
+    height: 100%;
   }
   .messagesView #topicWrap.peerChat {
     display: inline;
     float: left;
-    width: 73%;
+    width: 69.875%;
     margin: 0 1% 0 1%;
+    height: 100%;
+    padding: 0px 0px 120px 0px;
+    -webkit-box-sizing: border-box;
+    /* Safari/Chrome, other WebKit */
+  
+    -moz-box-sizing: border-box;
+    /* Firefox, other Gecko */
+  
+    box-sizing: border-box;
+    /* Opera/IE 8+ */
+  
+  }
+  .messagesView #topicWrap.peerChat #messageWrap {
+    height: 100%;
+  }
+  .messagesView #topicWrap.peerChat #messageTitle {
+    padding-left: 10px;
   }
   .messagesView #topicWrap.peerChat #messageList {
-    height: 350px;
-    overflow-x: scroll;
+    overflow-y: scroll;
+    height: 100%;
   }
   .messagesView #topicWrap.peerChat #messageList .message {
     display: inline;
     float: left;
     width: 98%;
     margin: 0 1% 0 1%;
+    height: auto;
+    margin-bottom: 5px;
   }
   .messagesView #topicWrap.peerChat #messageList .message .user .userimg {
     display: inline;
     float: left;
-    width: 14.666666666666668%;
+    width: 8%;
     margin: 0 1% 0 1%;
-    padding-top: 10px;
+    padding: 0;
   }
   .messagesView #topicWrap.peerChat #messageList .message .messageText {
     display: inline;
     float: left;
-    width: 81.33333333333334%;
+    width: 88%;
     margin: 0 1% 0 1%;
-    padding: 10px 0px;
+    word-break: break-word;
+  }
+  .messagesView #topicWrap.peerChat #inputWrap #messageInput {
+    display: inline;
+    float: left;
+    width: 73%;
+    margin: 0 1% 0 1%;
+    height: 45px;
+  }
+  .messagesView #topicWrap.peerChat #inputWrap button {
+    display: inline;
+    float: left;
+    width: 23%;
+    margin: 0 1% 0 1%;
+    height: 45px;
   }
   .messagesView #topicWrap.groupChat {
     display: inline;
     float: left;
-    width: 64.66666666666667%;
+    width: 69.875%;
     margin: 0 1% 0 1%;
+    height: 100%;
+    padding: 0px 0px 120px 0px;
+    -webkit-box-sizing: border-box;
+    /* Safari/Chrome, other WebKit */
+  
+    -moz-box-sizing: border-box;
+    /* Firefox, other Gecko */
+  
+    box-sizing: border-box;
+    /* Opera/IE 8+ */
+  
+  }
+  .messagesView #topicWrap.groupChat #messageWrap {
+    height: 100%;
+  }
+  .messagesView #topicWrap.groupChat #messageTitle {
+    padding-left: 10px;
   }
   .messagesView #topicWrap.groupChat #messageList {
-    height: 350px;
-    overflow-x: scroll;
+    overflow-y: scroll;
+    height: 100%;
   }
   .messagesView #topicWrap.groupChat #messageList .message {
     display: inline;
     float: left;
     width: 98%;
     margin: 0 1% 0 1%;
-  }
-  .messagesView #topicWrap.groupChat #messageList .message .user {
-    display: block;
-    width: 23%;
-    margin: 0 1% 0 1%;
-    *zoom: 1;
-  }
-  .messagesView #topicWrap.groupChat #messageList .message .user:before,
-  .messagesView #topicWrap.groupChat #messageList .message .user:after {
-    content: "";
-    display: table;
-  }
-  .messagesView #topicWrap.groupChat #messageList .message .user:after {
-    clear: both;
+    margin-bottom: 5px;
   }
   .messagesView #topicWrap.groupChat #messageList .message .user .userimg {
     display: inline;
     float: left;
-    width: 48%;
+    width: 10%;
     margin: 0 1% 0 1%;
-    padding-top: 10px;
+    vertical-align: middle;
+    padding: 0;
   }
   .messagesView #topicWrap.groupChat #messageList .message .user .username {
     display: inline;
     float: left;
-    width: 48%;
+    width: 58%;
     margin: 0 1% 0 1%;
   }
   .messagesView #topicWrap.groupChat #messageList .message .messageText {
     display: inline;
     float: left;
-    width: 98%;
+    width: 58%;
     margin: 0 1% 0 1%;
+    word-break: break-word;
+  }
+  .messagesView #topicWrap.groupChat #inputWrap #messageInput {
+    display: inline;
+    float: left;
+    width: 73%;
+    margin: 0 1% 0 1%;
+    height: 45px;
+  }
+  .messagesView #topicWrap.groupChat #inputWrap button {
+    display: inline;
+    float: left;
+    width: 23%;
+    margin: 0 1% 0 1%;
+    height: 45px;
   }
   .messagesView #topicWrap.newMessage {
     display: inline;
@@ -3242,9 +3142,13 @@ and (max-device-width : 767px) {
     width: 98%;
     margin: 0 1% 0 1%;
     margin-bottom: 5px;
+    height: 40px;
+  }
+  .messagesView #topicWrap.newMessage #messageInput {
+    height: 150px;
   }
   .messagesView #topicWrap.newMessage #sendmessage {
-    margin-left: 12px;
+    margin-left: 8px;
   }
   .shareForm {
     display: inline;
@@ -3326,35 +3230,183 @@ and (max-device-width : 767px) {
   .posts article:last-child {
     border: none;
   }
-  .profileView #infowrap {
-    float: left;
-    width: 100%;
-  }
-  .profileView #wall {
+  .profileView #main nav {
     display: inline;
     float: left;
     width: 98%;
     margin: 0 1% 0 1%;
+    height: 50px;
+    margin-bottom: -50px;
+  }
+  .profileView #main nav heading {
+    display: inline;
+    float: left;
+    width: 48%;
+    margin: 0 1% 0 1%;
+  }
+  .profileView #main nav heading h3 {
+    width: 100%;
+    padding: 3px;
+    margin: 0;
+  }
+  .profileView #main nav menu {
+    display: inline;
+    float: left;
+    width: 48%;
+    margin: 0 1% 0 1%;
+    margin: 13px 0 10px 0;
+    padding: 0;
+  }
+  .profileView #main nav menu li {
+    display: inline;
+    float: left;
+    width: 31.333333333333336%;
+    margin: 0 1% 0 1%;
+  }
+  .profileView #main #wrap {
+    width: 100%;
+    height: 100%;
+    padding-top: 50px;
+    -webkit-box-sizing: border-box;
+    /* Safari/Chrome, other WebKit */
+  
+    -moz-box-sizing: border-box;
+    /* Firefox, other Gecko */
+  
+    box-sizing: border-box;
+    /* Opera/IE 8+ */
+  
+    margin: 0 auto;
+  }
+  .profileView #main #scroller {
+    width: 100%;
+    height: 100%;
+    overflow-y: scroll;
+    -webkit-box-sizing: border-box;
+    /* Safari/Chrome, other WebKit */
+  
+    -moz-box-sizing: border-box;
+    /* Firefox, other Gecko */
+  
+    box-sizing: border-box;
+    /* Opera/IE 8+ */
+  
+    margin: 0 auto;
     margin-top: 10px;
   }
-  .profileView #postOnWall {
+  .profileView #main #info {
     display: inline;
     float: left;
     width: 98%;
     margin: 0 1% 0 1%;
-    margin-top: 5px;
+    padding: 0;
   }
-  .profileView #userimg {
+  .profileView #main #info article {
     display: inline;
     float: left;
-    width: 35.5%;
+    width: 31.333333333333336%;
     margin: 0 1% 0 1%;
+    padding: 0;
+    margin-bottom: 10px;
+    height: 150px;
+    -webkit-box-sizing: border-box;
+    /* Safari/Chrome, other WebKit */
+  
+    -moz-box-sizing: border-box;
+    /* Firefox, other Gecko */
+  
+    box-sizing: border-box;
+    /* Opera/IE 8+ */
+  
   }
-  .profileView #userinfo {
+  .profileView #main #info article header {
+    height: 20px;
+    padding: 5px;
+  }
+  .profileView #main #info article#generalInfo {
     display: inline;
     float: left;
-    width: 60.5%;
+    width: 98%;
     margin: 0 1% 0 1%;
+    height: auto;
+    margin-bottom: 10px;
+    padding: 0;
+  }
+  .profileView #main #info article#generalInfo .userimage {
+    display: inline;
+    float: left;
+    width: 23%;
+    margin: 0 1% 0 1%;
+    margin-top: 1%;
+    margin-bottom: 1%;
+  }
+  .profileView #main #info article#generalInfo .info {
+    display: inline;
+    float: left;
+    width: 73%;
+    margin: 0 1% 0 1%;
+    margin-top: -10px;
+    line-height: 10px;
+  }
+  .profileView #main #wall {
+    display: inline;
+    float: left;
+    width: 98%;
+    margin: 0 1% 0 1%;
+    height: auto;
+    padding: 0;
+    margin-bottom: 1%;
+  }
+  .profileView #main #wall header {
+    height: 20px;
+    padding: 5px;
+    margin-bottom: 1%;
+  }
+  .profileView #main #wall article {
+    display: inline;
+    float: left;
+    width: 98%;
+    margin: 0 1% 0 1%;
+  }
+  .profileView #main #wall article .userimg {
+    display: inline;
+    float: left;
+    width: 23%;
+    margin: 0 1% 0 1%;
+    margin: 10px 0px 10px 0px;
+  }
+  .profileView #main #wall article .postContent {
+    display: inline;
+    float: left;
+    width: 48%;
+    margin: 0 1% 0 1%;
+    padding-top: 5px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
+  .profileView #main #wall article .postContent .postText {
+    padding-left: 10px;
+  }
+  .profileView #main #wall article .postInfo {
+    display: inline;
+    float: left;
+    width: 23%;
+    margin: 0 1% 0 1%;
+    padding-top: 5px;
+    margin-bottom: 10px;
+  }
+  .profileView #main #friends {
+    display: inline;
+    float: left;
+    width: 98%;
+    margin: 0 1% 0 1%;
+    height: auto;
+    padding: 0;
+  }
+  .profileView #main #friends header {
+    height: 20px;
+    padding: 5px;
+    margin-bottom: 1%;
   }
   .registerView #main {
     text-align: center;
@@ -3363,25 +3415,46 @@ and (max-device-width : 767px) {
     width: 98%;
     margin: 0 1% 0 1%;
   }
-  .settingsView #toc {
+  .settingsView #main {
+    padding-top: 52px;
+    height: 100%;
+  }
+  .settingsView #main header {
+    height: 40px;
+    margin-top: -52px;
+    padding: 5px;
+  }
+  .settingsView #main header #links {
+    float: right;
+  }
+  .settingsView #main #settingsWrap {
+    height: 100%;
+    width: 100%;
+    overflow-y: scroll;
+    overflow-x: hidden;
+  }
+  .settingsView #main section header {
     float: left;
     width: 100%;
+    height: 20px;
+    margin: 10px 0 10px 0;
+    padding: 5px 0px;
   }
-  .settingsView .config {
+  .settingsView #main section header:before,
+  .settingsView #main section header :after {
+    content: "";
+    margin-left: 5px;
+  }
+  .settingsView #main section#general header {
+    margin: 0 0 10px 0;
+  }
+  .settingsView #main section .config {
     display: inline;
     float: left;
-    width: 85.5%;
+    width: 98%;
     margin: 0 1% 0 1%;
-    margin-left: 8.333333333333334% !important;
-  }
-  .settingsView .config input:not([type=submit]):not([type=file]) {
-    display: inline;
-    float: left;
-    width: 33.714285714285715%;
-    margin: 0 1% 0 1%;
-  }
-  .settingsView .config #newNickname {
-    margin-left: 35.714285714285715% !important;
+    margin-top: -5px;
+    margin-bottom: 10px;
   }
 }
 /* Normal Screens ---------- */
@@ -3590,42 +3663,44 @@ and (max-device-width : 767px) {
     width: 98%;
     margin: 0 1% 0 1%;
   }
-  .friendsView #friendsList,
-  .profileFriendsSubView #friendsList {
-    display: inline;
-    float: left;
-    width: 98%;
-    margin: 0 1% 0 1%;
+  .friendsView #main {
+    padding-top: 30px;
+    padding-bottom: 10px;
+    height: 100%;
+  }
+  .friendsView header {
+    height: 20px;
+    margin-top: -30px;
+    margin-bottom: 1%;
+    padding: 5px;
+  }
+  .friendsView #friendsList {
+    height: 100%;
   }
   .friendsView #friendsList li,
-  .profileFriendsSubView #friendsList li {
+  .profileView #friendsList li {
     display: inline;
     float: left;
-    width: 30.857142857142854%;
+    width: 31.333333333333336%;
     margin: 0 1% 0 1%;
-    height: 60px;
+    height: 250px;
+    padding: 0;
+    margin-bottom: 15px;
   }
-  .friendsView #friendsList li a .friendPicture,
-  .profileFriendsSubView #friendsList li a .friendPicture {
-    float: left;
-    width: 50px;
+  .friendsView #friendsList li .username,
+  .profileView #friendsList li .username {
+    width: 100%;
   }
-  .friendsView #friendsList li a .friendName,
-  .profileFriendsSubView #friendsList li a .friendName {
-    display: inline;
-    float: left;
-    width: 67.56521739130436%;
-    margin: 0 1% 0 1%;
-    padding-top: 10px;
-    -webkit-box-sizing: padding-box;
-    /* Safari/Chrome, other WebKit */
-  
-    -moz-box-sizing: padding-box;
-    /* Firefox, other Gecko */
-  
-    box-sizing: padding-box;
-    /* Opera/IE 8+ */
-  
+  .friendsView #friendsList li .pushup,
+  .profileView #friendsList li .pushup {
+    height: 0;
+    width: 100%;
+    margin-top: 0px;
+    padding: 0;
+  }
+  .friendsView #friendsList li:hover .pushup,
+  .profileView #friendsList li:hover .pushup {
+    height: 80px;
   }
   #mediaWrap .mediaRow {
     display: block;
@@ -3742,6 +3817,7 @@ and (max-device-width : 767px) {
     width: 88%;
     margin: 0 1% 0 1%;
     padding: 10px 0px;
+    word-break: break-word;
   }
   .messagesView #topicWrap.groupChat {
     display: inline;
@@ -3763,7 +3839,6 @@ and (max-device-width : 767px) {
     float: left;
     width: 10%;
     margin: 0 1% 0 1%;
-    vertical-align: middle;
     padding-top: 5px;
   }
   .messagesView #topicWrap.groupChat #messageList .message .user .username {
@@ -3777,6 +3852,7 @@ and (max-device-width : 767px) {
     float: left;
     width: 58%;
     margin: 0 1% 0 1%;
+    word-break: break-word;
   }
   .messagesView #topicWrap.newMessage {
     display: inline;
@@ -3881,35 +3957,183 @@ and (max-device-width : 767px) {
   .posts article:last-child {
     border: none;
   }
-  .profileView #infowrap {
-    float: left;
-    width: 100%;
-  }
-  .profileView #wall {
+  .profileView #main nav {
     display: inline;
     float: left;
     width: 98%;
     margin: 0 1% 0 1%;
+    height: 50px;
+    margin-bottom: -50px;
+  }
+  .profileView #main nav heading {
+    display: inline;
+    float: left;
+    width: 48%;
+    margin: 0 1% 0 1%;
+  }
+  .profileView #main nav heading h3 {
+    width: 100%;
+    padding: 3px;
+    margin: 0;
+  }
+  .profileView #main nav menu {
+    display: inline;
+    float: left;
+    width: 48%;
+    margin: 0 1% 0 1%;
+    margin: 13px 0 10px 0;
+    padding: 0;
+  }
+  .profileView #main nav menu li {
+    display: inline;
+    float: left;
+    width: 31.333333333333336%;
+    margin: 0 1% 0 1%;
+  }
+  .profileView #main #wrap {
+    width: 100%;
+    height: 100%;
+    padding-top: 50px;
+    -webkit-box-sizing: border-box;
+    /* Safari/Chrome, other WebKit */
+  
+    -moz-box-sizing: border-box;
+    /* Firefox, other Gecko */
+  
+    box-sizing: border-box;
+    /* Opera/IE 8+ */
+  
+    margin: 0 auto;
+  }
+  .profileView #main #scroller {
+    width: 100%;
+    height: 100%;
+    overflow-y: scroll;
+    -webkit-box-sizing: border-box;
+    /* Safari/Chrome, other WebKit */
+  
+    -moz-box-sizing: border-box;
+    /* Firefox, other Gecko */
+  
+    box-sizing: border-box;
+    /* Opera/IE 8+ */
+  
+    margin: 0 auto;
     margin-top: 10px;
   }
-  .profileView #postOnWall {
+  .profileView #main #info {
     display: inline;
     float: left;
     width: 98%;
     margin: 0 1% 0 1%;
-    margin-top: 5px;
+    padding: 0;
   }
-  .profileView #userimg {
+  .profileView #main #info article {
     display: inline;
     float: left;
-    width: 35.5%;
+    width: 31.333333333333336%;
     margin: 0 1% 0 1%;
+    padding: 0;
+    margin-bottom: 10px;
+    height: 150px;
+    -webkit-box-sizing: border-box;
+    /* Safari/Chrome, other WebKit */
+  
+    -moz-box-sizing: border-box;
+    /* Firefox, other Gecko */
+  
+    box-sizing: border-box;
+    /* Opera/IE 8+ */
+  
   }
-  .profileView #userinfo {
+  .profileView #main #info article header {
+    height: 20px;
+    padding: 5px;
+  }
+  .profileView #main #info article#generalInfo {
     display: inline;
     float: left;
-    width: 60.5%;
+    width: 98%;
     margin: 0 1% 0 1%;
+    height: auto;
+    margin-bottom: 10px;
+    padding: 0;
+  }
+  .profileView #main #info article#generalInfo .userimage {
+    display: inline;
+    float: left;
+    width: 23%;
+    margin: 0 1% 0 1%;
+    margin-top: 1%;
+    margin-bottom: 1%;
+  }
+  .profileView #main #info article#generalInfo .info {
+    display: inline;
+    float: left;
+    width: 73%;
+    margin: 0 1% 0 1%;
+    margin-top: -10px;
+    line-height: 10px;
+  }
+  .profileView #main #wall {
+    display: inline;
+    float: left;
+    width: 98%;
+    margin: 0 1% 0 1%;
+    height: auto;
+    padding: 0;
+    margin-bottom: 1%;
+  }
+  .profileView #main #wall header {
+    height: 20px;
+    padding: 5px;
+    margin-bottom: 1%;
+  }
+  .profileView #main #wall article {
+    display: inline;
+    float: left;
+    width: 98%;
+    margin: 0 1% 0 1%;
+  }
+  .profileView #main #wall article .userimg {
+    display: inline;
+    float: left;
+    width: 23%;
+    margin: 0 1% 0 1%;
+    margin: 10px 0px 10px 0px;
+  }
+  .profileView #main #wall article .postContent {
+    display: inline;
+    float: left;
+    width: 48%;
+    margin: 0 1% 0 1%;
+    padding-top: 5px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
+  .profileView #main #wall article .postContent .postText {
+    padding-left: 10px;
+  }
+  .profileView #main #wall article .postInfo {
+    display: inline;
+    float: left;
+    width: 23%;
+    margin: 0 1% 0 1%;
+    padding-top: 5px;
+    margin-bottom: 10px;
+  }
+  .profileView #main #friends {
+    display: inline;
+    float: left;
+    width: 98%;
+    margin: 0 1% 0 1%;
+    height: auto;
+    padding: 0;
+  }
+  .profileView #main #friends header {
+    height: 20px;
+    padding: 5px;
+    margin-bottom: 1%;
   }
   .registerView #main {
     text-align: center;
@@ -3918,25 +4142,44 @@ and (max-device-width : 767px) {
     width: 98%;
     margin: 0 1% 0 1%;
   }
-  .settingsView #toc {
+  .settingsView #main {
+    padding-top: 30px;
+    height: 100%;
+  }
+  .settingsView #main header {
+    height: 20px;
+    margin-top: -30px;
+    padding: 5px;
+  }
+  .settingsView #main header #links {
+    float: right;
+  }
+  .settingsView #main #settingsWrap {
+    height: 100%;
+    overflow-y: scroll;
+    overflow-x: hidden;
+  }
+  .settingsView #main section header {
     float: left;
     width: 100%;
+    margin: 10px 0 10px 0;
+    padding: 5px 0px;
   }
-  .settingsView .config {
+  .settingsView #main section header:before,
+  .settingsView #main section header :after {
+    content: "";
+    margin-left: 5px;
+  }
+  .settingsView #main section#general header {
+    margin: 0 0 10px 0;
+  }
+  .settingsView #main section .config {
     display: inline;
     float: left;
-    width: 85.5%;
+    width: 98%;
     margin: 0 1% 0 1%;
-    margin-left: 8.333333333333334% !important;
-  }
-  .settingsView .config input:not([type=submit]):not([type=file]) {
-    display: inline;
-    float: left;
-    width: 33.714285714285715%;
-    margin: 0 1% 0 1%;
-  }
-  .settingsView .config #newNickname {
-    margin-left: 35.714285714285715% !important;
+    margin-top: -5px;
+    margin-bottom: 10px;
   }
 }
 /* Large screens ----------- */
@@ -4143,42 +4386,48 @@ and (max-device-width : 767px) {
     width: 98%;
     margin: 0 1% 0 1%;
   }
-  .friendsView #friendsList,
-  .profileFriendsSubView #friendsList {
-    display: inline;
-    float: left;
-    width: 98%;
-    margin: 0 1% 0 1%;
+  .friendsView #main {
+    padding-top: 30px;
+    padding-bottom: 10px;
+    height: 100%;
+  }
+  .friendsView header {
+    height: 20px;
+    margin-top: -30px;
+    margin-bottom: 1%;
+    padding: 5px;
+  }
+  .friendsView #friendsList {
+    height: 100%;
   }
   .friendsView #friendsList li,
-  .profileFriendsSubView #friendsList li {
+  .profileView #friendsList li {
     display: inline;
     float: left;
-    width: 26.571428571428573%;
+    width: 23%;
     margin: 0 1% 0 1%;
-    height: 60px;
+    height: 250px;
+    padding: 0;
+    margin-bottom: 15px;
+    -webkit-background-size: 100% auto;
+    -moz-background-size: 100% auto;
+    -o-background-size: 100% auto;
+    background-size: 100% auto;
   }
-  .friendsView #friendsList li a .friendPicture,
-  .profileFriendsSubView #friendsList li a .friendPicture {
-    float: left;
-    width: 50px;
+  .friendsView #friendsList li .username,
+  .profileView #friendsList li .username {
+    width: 100%;
   }
-  .friendsView #friendsList li a .friendName,
-  .profileFriendsSubView #friendsList li a .friendName {
-    display: inline;
-    float: left;
-    width: 73%;
-    margin: 0 1% 0 1%;
-    padding-top: 10px;
-    -webkit-box-sizing: padding-box;
-    /* Safari/Chrome, other WebKit */
-  
-    -moz-box-sizing: padding-box;
-    /* Firefox, other Gecko */
-  
-    box-sizing: padding-box;
-    /* Opera/IE 8+ */
-  
+  .friendsView #friendsList li .pushup,
+  .profileView #friendsList li .pushup {
+    height: 0;
+    width: 100%;
+    margin-top: 0px;
+    padding: 0;
+  }
+  .friendsView #friendsList li:hover .pushup,
+  .profileView #friendsList li:hover .pushup {
+    height: 80px;
   }
   #mediaWrap .mediaRow {
     display: block;
@@ -4226,17 +4475,40 @@ and (max-device-width : 767px) {
     width: 12.285714285714286%;
     margin: 0 1% 0 1%;
   }
+  .messagesView #main {
+    padding-top: 30px;
+    padding-bottom: 10px;
+    height: 100%;
+  }
+  .messagesView header {
+    height: 20px;
+    margin-top: -30px;
+    padding: 5px;
+  }
   .messagesView #topicListWrap {
     display: inline;
     float: left;
     width: 15.857142857142858%;
     margin: 0 1% 0 1%;
+    height: 100%;
+  }
+  .messagesView #topicListWrap #topicList {
+    height: 100%;
+    padding-top: 15px;
+    padding-bottom: 6px;
   }
   .messagesView #topicListWrap #topicList #topicListScroll {
-    height: 600px;
+    height: 100%;
+    overflow-y: scroll;
+  }
+  .messagesView #topicListWrap #topicList .topic {
+    margin-bottom: 5px;
+    padding: 0;
   }
   .messagesView #topicListWrap #topicList .topic .userimg {
     width: 100%;
+    margin: 0 0 -4px -2px;
+    padding: 0;
   }
   .messagesView #topicListWrap #topicList .topic .username {
     font-size: 1em;
@@ -4266,30 +4538,53 @@ and (max-device-width : 767px) {
     width: 33%;
     margin: 0 1% 0 1%;
   }
+  .messagesView #topicListWrap #topicList .topic#newmessage {
+    height: 20px;
+    margin-top: -10px;
+  }
   .messagesView #topicWrap {
-    height: 700px;
+    height: 100%;
   }
   .messagesView #topicWrap.peerChat {
     display: inline;
     float: left;
-    width: 69.42857142857143%;
+    width: 80.14285714285715%;
     margin: 0 1% 0 1%;
+    height: 100%;
+    padding: 0px 0px 120px 0px;
+    -webkit-box-sizing: border-box;
+    /* Safari/Chrome, other WebKit */
+  
+    -moz-box-sizing: border-box;
+    /* Firefox, other Gecko */
+  
+    box-sizing: border-box;
+    /* Opera/IE 8+ */
+  
+  }
+  .messagesView #topicWrap.peerChat #messageWrap {
+    height: 100%;
+  }
+  .messagesView #topicWrap.peerChat #messageTitle {
+    padding-left: 10px;
   }
   .messagesView #topicWrap.peerChat #messageList {
-    height: 550px;
+    overflow-y: scroll;
+    height: 100%;
   }
   .messagesView #topicWrap.peerChat #messageList .message {
     display: inline;
     float: left;
     width: 98%;
     margin: 0 1% 0 1%;
+    margin-bottom: 5px;
   }
   .messagesView #topicWrap.peerChat #messageList .message .user .userimg {
     display: inline;
     float: left;
     width: 8%;
     margin: 0 1% 0 1%;
-    padding-top: 10px;
+    padding-top: 0;
   }
   .messagesView #topicWrap.peerChat #messageList .message .messageText {
     display: inline;
@@ -4297,21 +4592,66 @@ and (max-device-width : 767px) {
     width: 88%;
     margin: 0 1% 0 1%;
     padding: 10px 0px;
+    word-break: break-word;
+  }
+  .messagesView #topicWrap.peerChat #inputWrap #messageInput {
+    display: inline;
+    float: left;
+    width: 73%;
+    margin: 0 1% 0 1%;
+    height: 45px;
+  }
+  .messagesView #topicWrap.peerChat #inputWrap button {
+    display: inline;
+    float: left;
+    width: 23%;
+    margin: 0 1% 0 1%;
+    height: 45px;
   }
   .messagesView #topicWrap.groupChat {
     display: inline;
     float: left;
-    width: 69.42857142857143%;
+    width: 80.14285714285715%;
     margin: 0 1% 0 1%;
+    height: 100%;
+    padding: 0px 0px 120px 0px;
+    -webkit-box-sizing: border-box;
+    /* Safari/Chrome, other WebKit */
+  
+    -moz-box-sizing: border-box;
+    /* Firefox, other Gecko */
+  
+    box-sizing: border-box;
+    /* Opera/IE 8+ */
+  
+  }
+  .messagesView #topicWrap.groupChat #messageWrap {
+    height: 100%;
+  }
+  .messagesView #topicWrap.groupChat #messageTitle {
+    padding-left: 10px;
   }
   .messagesView #topicWrap.groupChat #messageList {
-    height: 550px;
+    overflow-y: scroll;
+    height: 100%;
   }
   .messagesView #topicWrap.groupChat #messageList .message {
     display: inline;
     float: left;
     width: 98%;
     margin: 0 1% 0 1%;
+    word-break: break-word;
+    padding: 2px;
+    -webkit-box-sizing: border-box;
+    /* Safari/Chrome, other WebKit */
+  
+    -moz-box-sizing: border-box;
+    /* Firefox, other Gecko */
+  
+    box-sizing: border-box;
+    /* Opera/IE 8+ */
+  
+    margin-bottom: 5px;
   }
   .messagesView #topicWrap.groupChat #messageList .message .user .userimg {
     display: inline;
@@ -4319,7 +4659,7 @@ and (max-device-width : 767px) {
     width: 10%;
     margin: 0 1% 0 1%;
     vertical-align: middle;
-    padding-top: 5px;
+    padding: 0;
   }
   .messagesView #topicWrap.groupChat #messageList .message .user .username {
     display: inline;
@@ -4332,6 +4672,20 @@ and (max-device-width : 767px) {
     float: left;
     width: 58%;
     margin: 0 1% 0 1%;
+  }
+  .messagesView #topicWrap.groupChat #inputWrap #messageInput {
+    display: inline;
+    float: left;
+    width: 73%;
+    margin: 0 1% 0 1%;
+    height: 45px;
+  }
+  .messagesView #topicWrap.groupChat #inputWrap button {
+    display: inline;
+    float: left;
+    width: 23%;
+    margin: 0 1% 0 1%;
+    height: 45px;
   }
   .messagesView #topicWrap.newMessage {
     display: inline;
@@ -4346,9 +4700,13 @@ and (max-device-width : 767px) {
     width: 98%;
     margin: 0 1% 0 1%;
     margin-bottom: 5px;
+    height: 40px;
+  }
+  .messagesView #topicWrap.newMessage #messageInput {
+    height: 150px;
   }
   .messagesView #topicWrap.newMessage #sendmessage {
-    margin-left: 12px;
+    margin-left: 8px;
   }
   .shareForm {
     display: inline;
@@ -4375,14 +4733,14 @@ and (max-device-width : 767px) {
     border-radius: 200px;
     display: inline;
     float: left;
-    width: 12.285714285714286%;
+    width: 10.5%;
     margin: 0 1% 0 1%;
     margin: 10px 0px 10px 0px;
   }
   .posts article .postContent {
     display: inline;
     float: left;
-    width: 55.142857142857146%;
+    width: 66.75%;
     margin: 0 1% 0 1%;
     padding-top: 5px;
     margin-top: 10px;
@@ -4403,7 +4761,7 @@ and (max-device-width : 767px) {
   .posts article .postInfo {
     display: inline;
     float: left;
-    width: 23%;
+    width: 16.75%;
     margin: 0 1% 0 1%;
     padding-top: 20px;
     margin-bottom: 10px;
@@ -4436,35 +4794,183 @@ and (max-device-width : 767px) {
   .posts article:last-child {
     border: none;
   }
-  .profileView #infowrap {
-    float: left;
-    width: 100%;
-  }
-  .profileView #wall {
+  .profileView #main nav {
     display: inline;
     float: left;
     width: 98%;
     margin: 0 1% 0 1%;
+    height: 50px;
+    margin-bottom: -50px;
+  }
+  .profileView #main nav heading {
+    display: inline;
+    float: left;
+    width: 48%;
+    margin: 0 1% 0 1%;
+  }
+  .profileView #main nav heading h3 {
+    width: 100%;
+    padding: 3px;
+    margin: 0;
+  }
+  .profileView #main nav menu {
+    display: inline;
+    float: left;
+    width: 48%;
+    margin: 0 1% 0 1%;
+    margin: 13px 0 10px 0;
+    padding: 0;
+  }
+  .profileView #main nav menu li {
+    display: inline;
+    float: left;
+    width: 31.333333333333336%;
+    margin: 0 1% 0 1%;
+  }
+  .profileView #main #wrap {
+    width: 100%;
+    height: 100%;
+    padding-top: 50px;
+    -webkit-box-sizing: border-box;
+    /* Safari/Chrome, other WebKit */
+  
+    -moz-box-sizing: border-box;
+    /* Firefox, other Gecko */
+  
+    box-sizing: border-box;
+    /* Opera/IE 8+ */
+  
+    margin: 0 auto;
+  }
+  .profileView #main #scroller {
+    width: 100%;
+    height: 100%;
+    overflow-y: scroll;
+    -webkit-box-sizing: border-box;
+    /* Safari/Chrome, other WebKit */
+  
+    -moz-box-sizing: border-box;
+    /* Firefox, other Gecko */
+  
+    box-sizing: border-box;
+    /* Opera/IE 8+ */
+  
+    margin: 0 auto;
     margin-top: 10px;
   }
-  .profileView #postOnWall {
+  .profileView #main #info {
     display: inline;
     float: left;
     width: 98%;
     margin: 0 1% 0 1%;
-    margin-top: 5px;
+    padding: 0;
   }
-  .profileView #userimg {
+  .profileView #main #info article {
     display: inline;
     float: left;
-    width: 35.5%;
+    width: 31.333333333333336%;
     margin: 0 1% 0 1%;
+    padding: 0;
+    margin-bottom: 10px;
+    height: 150px;
+    -webkit-box-sizing: border-box;
+    /* Safari/Chrome, other WebKit */
+  
+    -moz-box-sizing: border-box;
+    /* Firefox, other Gecko */
+  
+    box-sizing: border-box;
+    /* Opera/IE 8+ */
+  
   }
-  .profileView #userinfo {
+  .profileView #main #info article header {
+    height: 20px;
+    padding: 5px;
+  }
+  .profileView #main #info article#generalInfo {
     display: inline;
     float: left;
-    width: 60.5%;
+    width: 98%;
     margin: 0 1% 0 1%;
+    height: auto;
+    margin-bottom: 10px;
+    padding: 0;
+  }
+  .profileView #main #info article#generalInfo .userimage {
+    display: inline;
+    float: left;
+    width: 23%;
+    margin: 0 1% 0 1%;
+    margin-top: 1%;
+    margin-bottom: 1%;
+  }
+  .profileView #main #info article#generalInfo .info {
+    display: inline;
+    float: left;
+    width: 73%;
+    margin: 0 1% 0 1%;
+    margin-top: -10px;
+    line-height: 10px;
+  }
+  .profileView #main #wall {
+    display: inline;
+    float: left;
+    width: 98%;
+    margin: 0 1% 0 1%;
+    height: auto;
+    padding: 0;
+    margin-bottom: 1%;
+  }
+  .profileView #main #wall header {
+    height: 20px;
+    padding: 5px;
+    margin-bottom: 1%;
+  }
+  .profileView #main #wall article {
+    display: inline;
+    float: left;
+    width: 98%;
+    margin: 0 1% 0 1%;
+  }
+  .profileView #main #wall article .userimg {
+    display: inline;
+    float: left;
+    width: 23%;
+    margin: 0 1% 0 1%;
+    margin: 10px 0px 10px 0px;
+  }
+  .profileView #main #wall article .postContent {
+    display: inline;
+    float: left;
+    width: 48%;
+    margin: 0 1% 0 1%;
+    padding-top: 5px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
+  .profileView #main #wall article .postContent .postText {
+    padding-left: 10px;
+  }
+  .profileView #main #wall article .postInfo {
+    display: inline;
+    float: left;
+    width: 23%;
+    margin: 0 1% 0 1%;
+    padding-top: 5px;
+    margin-bottom: 10px;
+  }
+  .profileView #main #friends {
+    display: inline;
+    float: left;
+    width: 98%;
+    margin: 0 1% 0 1%;
+    height: auto;
+    padding: 0;
+  }
+  .profileView #main #friends header {
+    height: 20px;
+    padding: 5px;
+    margin-bottom: 1%;
   }
   .registerView #main {
     text-align: center;
@@ -4473,25 +4979,44 @@ and (max-device-width : 767px) {
     width: 98%;
     margin: 0 1% 0 1%;
   }
-  .settingsView #toc {
+  .settingsView #main {
+    padding-top: 30px;
+    height: 100%;
+  }
+  .settingsView #main header {
+    height: 20px;
+    margin-top: -30px;
+    padding: 5px;
+  }
+  .settingsView #main header #links {
+    float: right;
+  }
+  .settingsView #main #settingsWrap {
+    height: 100%;
+    overflow-y: scroll;
+    overflow-x: hidden;
+  }
+  .settingsView #main section header {
     float: left;
     width: 100%;
+    margin: 10px 0 10px 0;
+    padding: 5px 0px;
   }
-  .settingsView .config {
+  .settingsView #main section header:before,
+  .settingsView #main section header :after {
+    content: "";
+    margin-left: 5px;
+  }
+  .settingsView #main section#general header {
+    margin: 0 0 10px 0;
+  }
+  .settingsView #main section .config {
     display: inline;
     float: left;
-    width: 85.5%;
+    width: 98%;
     margin: 0 1% 0 1%;
-    margin-left: 8.333333333333334% !important;
-  }
-  .settingsView .config input:not([type=submit]):not([type=file]) {
-    display: inline;
-    float: left;
-    width: 33.714285714285715%;
-    margin: 0 1% 0 1%;
-  }
-  .settingsView .config #newNickname {
-    margin-left: 35.714285714285715% !important;
+    margin-top: -5px;
+    margin-bottom: 10px;
   }
 }
 /* Utilities --------------- */

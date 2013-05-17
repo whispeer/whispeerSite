@@ -1,13 +1,32 @@
 .messagesView {
+	#main {
+		padding-top: 30px;
+		padding-bottom: 10px;
+		height: 100%;
+	}
+	header {
+		height: 20px;
+		margin-top: -30px;
+		padding: 5px;
+	}
 	#topicListWrap {
 		.column(1.25,7);
+		height: 100%;
 		#topicList {
+			height: 100%;
+			padding-top: 15px;
+			padding-bottom: 6px;
 			#topicListScroll {
-				height: 600px;
+				height: 100%;
+				overflow-y: scroll;
 			}
 			.topic {
+				margin-bottom: 5px;
+				padding: 0;
 				.userimg {
 					width: 100%;
+					margin: 0 0 -4px -2px;
+					padding: 0;
 				}
 				.username {
 					font-size: 1em;
@@ -20,41 +39,81 @@
 				.left {
 					.column(0.70,2);
 				}
+				&#newmessage {
+					height: 20px;
+					margin-top: -10px;
+				}
 			}
 		}
 	}
 	#topicWrap {
-		height: 700px;
+		height: 100%;
 		&.peerChat {
-			.column(5,7);
+			.column(5.75,7);
+			height: 100%;
+			padding: 0px 0px 120px 0px;
+			.box-fix;
+			#messageWrap {
+				height: 100%;
+			}
+			#messageTitle {
+				padding-left: 10px;
+			}
 			#messageList {
-				height: 550px;
+				overflow-y: scroll;
+				height: 100%;
 				.message {
 					.column(5,5);
+					margin-bottom: 5px;
 					.user {
 						.userimg {
 							.column(0.5,5);
-							padding-top: 10px;
+							padding-top: 0;
 						}
 					}
 					.messageText {
 						.column(4.5,5);
 						padding: 10px 0px;
+						word-break: break-word;
 					}
+				}
+			}
+			#inputWrap {
+				#messageInput {
+					.column(3,4);
+					height: 45px;
+				}
+				button {
+					.column(1,4);
+					height: 45px;
 				}
 			}		
 		}	
 		&.groupChat {
-			.column(5,7);
+			.column(5.75,7);
+			height: 100%;
+			padding: 0px 0px 120px 0px;
+			.box-fix;
+			#messageWrap {
+				height: 100%;
+			}
+			#messageTitle {
+				padding-left: 10px;
+			}
 			#messageList {
-				height: 550px;
+				overflow-y: scroll;
+				height: 100%;
 				.message {
 					.column(5,5);
+					word-break: break-word;
+					padding: 2px;
+					.box-fix;
+					margin-bottom: 5px;
 					.user {
 						.userimg {
 							.column(0.6,5);
 							vertical-align: middle;
-							padding-top: 5px;
+							padding: 0;
 						}
 						.username {
 							.column(3,5);
@@ -65,15 +124,29 @@
 					}
 				}
 			}
+			#inputWrap {
+				#messageInput {
+					.column(3,4);
+					height: 45px;
+				}
+				button {
+					.column(1,4);
+					height: 45px;
+				}
+			}
 		}
 		&.newMessage {
 			.column(5,7);
 			#recieverInput, #messageInput {
 				.column(5,5);
 				margin-bottom: 5px;
+				height: 40px;
+			}
+			#messageInput {
+				height: 150px;
 			}
 			#sendmessage {
-				margin-left: 12px;
+				margin-left: 8px;
 			}
 		}		
 	}

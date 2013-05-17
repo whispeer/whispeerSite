@@ -1,8 +1,5 @@
 .messagesView {
 	#main {
-		padding-top: 30px;
-		padding-bottom: 10px;
-		height: 100%;
 		background-color: @btnBackgroundHighlight;
 		border: 1px solid @btnBorder;
 		border-bottom: 1px solid #000;
@@ -11,48 +8,32 @@
 		.box-fix;
 	}
 	header {
-		height: 20px;
-		margin-top: -30px;
 		.gradient(darken(@btnBackground, 2%), @btnBackgroundHighlight);
 		border-bottom: 1px solid @btnBorder;
-		.border-radiuses(5px, 0px, 0px, 5px);
-		padding: 5px;
 	}
 	#topicListWrap {
 		margin-right: 3px;
 		#topicList {
 			.unstyled;
-			height: 100%;
-			padding-top: 15px;
 			.box-fix;
 			#topicListScroll {
-				overflow-y: scroll;
 				.box-fix;
-				height: 100%;
 			}
 			#newmessage {
-				height: 20px;
-				margin-top: -10px;
 				border: none;
 				.border-radius(2px);
 			}
 			.topic {
 				.border-radius(5px);
-				margin-bottom: 5px;
-				padding: 0;
 				border-bottom: 1px solid #aaa;
 				.userimg {
 					.border-radius(5px);
-					margin: 0 0 -4px -2px;
-					padding: 0;
 				}
 				.username {
 					font-size: 1em;
 				}
 				.lastMessage {
 					font-size: 0.8em;
-				}
-				.left {
 				}
 				&:hover {
 					background-color: rgba(0,0,0,0.1);
@@ -65,13 +46,9 @@
 	}
 	#topicWrap {
 		&.peerChat {
-			#messageTitle {
-				padding-left: 10px;
-			}
 			#messageList {
 				.unstyled;
 				overflow-y: scroll;
-				height: 100%;
 				.message {
 					margin-bottom: 5px;
 					.clear-fix;
@@ -86,8 +63,10 @@
 					}
 					&.me {
 						color: lighten(@green, 5%);
-						text-align: left;
-						.border-radius(6px);
+						.messageText {
+							float: right;
+							text-align: right;
+						}
 						.user {
 							.userimg {
 								float: right;
@@ -106,27 +85,16 @@
 			}		
 		}	
 		&.groupChat {
-			#messageTitle {
-				padding-left: 10px;
-			}
 			#messageList {
 				.unstyled;
 				overflow-y: scroll;
-				height: 300px;
 				.message {
-					margin-bottom: 5px;
 					.clear-fix;
 					.user {
 						.userimg {
 							.border-radius(5px);
-							padding: 0;
 						}
 						padding-left: 10px;
-					}
-					.messageText {
-						float: left;
-						display: block;
-						width: 70%;
 					}
 					&.me {
 						color: lighten(@green, 5%);
@@ -139,29 +107,9 @@
 				}
 			}
 		}
-		&.groupChat, .peerChat {
-			#inputWrap {
-				#messageInput {
-					.column(3,4);
-					height: 45px;
-				}
-				button {
-					.column(1,4);
-					height: 45px;
-				}
-			}	
-		}
 		&.newMessage {
-			#recieverInput, #messageInput {
-				margin-bottom: 5px;
-				height: 40px;
-			}
-			#messageInput {
-				height: 150px;
-			}
 			#sendmessage {
 				.btn-large;
-				margin-left: 5px !important;
 			}
 		}		
 	}

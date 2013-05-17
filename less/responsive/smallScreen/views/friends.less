@@ -1,17 +1,39 @@
-.friendsView, .profileFriendsSubView {
+.friendsView {
+	#main {
+		padding-top: 30px;
+		padding-bottom: 10px;
+		height: 100%;
+	}
+	header {
+		height: 20px;
+		margin-top: -30px;
+		margin-bottom: 1%;
+		padding: 5px;
+	}
 	#friendsList {
-		.column(7,7);
+		height: 100%;
+	}
+}
+.friendsView, .profileView {
+	#friendsList {
 		li {
-			.column(2.3,7);
-			height: 60px;
-			a {
-				.friendPicture {
-					.column(0.7,2.3);
-				}
-				.friendName {
-					.column(1.6,2.3);
-					padding-top: 10px;
-					.padding-fix;
+			.column(1,3);
+			height: 250px;
+			padding: 0 !important;
+			.box-fix;
+			margin-bottom: 15px;
+			.username {
+				width: 100%;
+			}
+			.pushup {
+				height: 0;
+				width: 100%;
+				margin-top: 0px;
+				padding: 0;
+			}
+			&:hover {
+				.pushup {
+					height: 80px;
 				}
 			}
 		}
