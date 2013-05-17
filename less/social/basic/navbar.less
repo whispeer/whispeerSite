@@ -2,7 +2,6 @@
 	display: block;
 	position: fixed;
 	z-index: @zindexFixedNavbar;
-	width: 100%;
 	height: @navbarHeight;
 	top: 0;
 	border-bottom: 1px solid darken(@green2, 5%);
@@ -11,13 +10,10 @@
 	#navInner {
 		#brand {
 			display: block;
-			font-size: 25px;
+			
 			color: #fff;
 			.text-shadow(0px 0px 2px #266300);
-			line-height: @baseLineHeight;
 			font-weight: 700;
-			.column(2,12);
-			margin-top: 12px;
 			text-decoration: none;
 		}
 		#brandInverse {
@@ -25,28 +21,13 @@
 			.text-shadow(0px 0px 2px #eee);
 		}
 	}
-	#searchBar {
-		.column(8,12);
-	}
 	#navIcons {
-		//background: red;
-		height: 100%;
-		.column(2,12, right);
 		.navIcon {
-			.column(1,4);
-			.icon {
-				margin-top: 7px;
-				width: 35px;
-			}
 			.badge {
 				background-color: @red;
-				padding: 1px 2px 1px 2px;
-				margin-left: -13px;
-				margin-top: 25px;
 				color: @white;
 				.border-radius(50px);
 				position: absolute;
-				font-size: 11px;
 				text-align: center;
 			}
 		}
@@ -60,35 +41,23 @@
 
 #searchQuery {
 	.border-radius(20px);
-	margin-top: 6px;
 }
 #searchDrop {
 	position: absolute;
-	display: block;
-	top: 45px;
-	margin-left: 5px;
 	background: @white;
-	display: none;
 	border-radius: 5px;
 	box-shadow: 0 0 8px @grayLight;
 }
 
 #searchSuggestions {
-	padding: 0;
-	margin: 0;
 	li {
 		display: block;
-		width: 100%;
-		min-height: 40px;
 		a {
 			display: block;
 			color: lighten(@green, 5%);
-			padding-top: 13px;
-			padding-bottom: 13px;
 			text-shadow: 0 0 1px @green;
 			p.add-info {
 				display: block;
-				margin-left: 10px;
 				color: @grayLight;
 			}
 			:hover {

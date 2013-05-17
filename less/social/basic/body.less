@@ -1,9 +1,6 @@
 html, body {height: 100%; width: 100%;}
 body {
-	background-color: @white; 
-	margin: 0 auto;
-	padding: 0;
-	padding-top: @navbarHeight;
+	background-color: @white;
 	.box-fix;
 	*zoom: 1;
 	
@@ -12,12 +9,7 @@ body {
 	}
 	
 	#container {
-		height: 100%;
-		padding-bottom: 30px;
 		.box-fix;
-		#main, #sidebar-left, #sidebar-right {
-			height: 100%;
-		}
 		#loading {
 			display: none;
 			text-align: center;
@@ -56,6 +48,7 @@ body {
 		footer {
 			z-index: 1900;
 			//background: @blue;
+			height: 15px;
 		}
 	}
 }

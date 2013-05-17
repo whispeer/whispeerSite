@@ -627,9 +627,6 @@ body {
 }
 body {
   background-color: #ffffff;
-  margin: 0 auto;
-  padding: 0;
-  padding-top: 50px;
   -webkit-box-sizing: border-box;
   /* Safari/Chrome, other WebKit */
 
@@ -645,8 +642,6 @@ body nav {
   display: none !important;
 }
 body #container {
-  height: 100%;
-  padding-bottom: 30px;
   -webkit-box-sizing: border-box;
   /* Safari/Chrome, other WebKit */
 
@@ -656,11 +651,6 @@ body #container {
   box-sizing: border-box;
   /* Opera/IE 8+ */
 
-}
-body #container #main,
-body #container #sidebar-left,
-body #container #sidebar-right {
-  height: 100%;
 }
 body #container #loading {
   display: none;
@@ -701,12 +691,12 @@ body.registerView #container #main {
 }
 body.registerView footer {
   z-index: 1900;
+  height: 15px;
 }
 #topNav {
   display: block;
   position: fixed;
   z-index: 1030;
-  width: 100%;
   height: 50px;
   top: 0;
   border-bottom: 1px solid #2f6800;
@@ -715,50 +705,17 @@ body.registerView footer {
 }
 #topNav #navInner #brand {
   display: block;
-  font-size: 25px;
   color: #fff;
   text-shadow: 0px 0px 2px #266300;
-  line-height: 20px;
   font-weight: 700;
-  display: inline;
-  float: left;
-  width: 14.666666666666668%;
-  margin: 0 1% 0 1%;
-  margin-top: 12px;
   text-decoration: none;
 }
 #topNav #navInner #brandInverse {
   color: #266300;
   text-shadow: 0px 0px 2px #eeeeee;
 }
-#topNav #searchBar {
-  display: inline;
-  float: left;
-  width: 64.66666666666667%;
-  margin: 0 1% 0 1%;
-}
-#topNav #navIcons {
-  height: 100%;
-  display: inline;
-  float: right;
-  width: 14.666666666666668%;
-  margin: 0 1% 0 1%;
-}
-#topNav #navIcons .navIcon {
-  display: inline;
-  float: left;
-  width: 23%;
-  margin: 0 1% 0 1%;
-}
-#topNav #navIcons .navIcon .icon {
-  margin-top: 7px;
-  width: 35px;
-}
 #topNav #navIcons .navIcon .badge {
   background-color: #9d261d;
-  padding: 1px 2px 1px 2px;
-  margin-left: -13px;
-  margin-top: 25px;
   color: #ffffff;
   -webkit-border-radius: 50px;
   -moz-border-radius: 50px;
@@ -767,7 +724,6 @@ body.registerView footer {
   -webkit-background-clip: padding-box;
   background-clip: padding-box;
   position: absolute;
-  font-size: 11px;
   text-align: center;
 }
 .form-navbar input {
@@ -780,37 +736,23 @@ body.registerView footer {
   -moz-background-clip: padding;
   -webkit-background-clip: padding-box;
   background-clip: padding-box;
-  margin-top: 6px;
 }
 #searchDrop {
   position: absolute;
-  display: block;
-  top: 45px;
-  margin-left: 5px;
   background: #ffffff;
-  display: none;
   border-radius: 5px;
   box-shadow: 0 0 8px #999999;
 }
-#searchSuggestions {
-  padding: 0;
-  margin: 0;
-}
 #searchSuggestions li {
   display: block;
-  width: 100%;
-  min-height: 40px;
 }
 #searchSuggestions li a {
   display: block;
   color: #63b700;
-  padding-top: 13px;
-  padding-bottom: 13px;
   text-shadow: 0 0 1px #559d00;
 }
 #searchSuggestions li a p.add-info {
   display: block;
-  margin-left: 10px;
   color: #999999;
 }
 #searchSuggestions li a :hover {
@@ -1453,7 +1395,7 @@ input[type="submit"].btn.btn-mini {
   float: left;
   width: 68.83333333333334%;
   margin: 0 1% 0 1%;
-  margin-left: 4.166666666666667%;
+  margin-left: 4.166666666666667% !important;
   color: #777;
 }
 #magicbar .magic .body ul li.request img {
@@ -2718,6 +2660,7 @@ body:not(.profileView) #wall .posts {
 .settingsView #main #settingsWrap {
   height: 100%;
   overflow-y: scroll;
+  overflow-x: hidden;
 }
 .settingsView #main section header {
   background-color: #e6e6e6;
@@ -2865,7 +2808,7 @@ and (max-device-width : 767px) {
 	// Tablets (landscape) -----------
 	@media only screen 
 	and (min-width : 768px) 
-	and (max-width : 1024px) 
+	and (max-width : 1023px) 
 	and (orientation : landscape) {
 		@import "responsive/tablet/landscape/index";
 	}
@@ -2873,13 +2816,18 @@ and (max-device-width : 767px) {
 	// Tablets (portrait) -----------
 	@media only screen 
 	and (min-width : 768px) 
-	and (max-width : 1024px) 
+	and (max-width : 1023px) 
 	and (orientation : portrait) {
 		@import "responsive/tablet/portrait/index";
 	}
 */
 /* Small Screens ----------- */
-@media only screen and (min-width: 1024px) and (max-width: 1159px) {
+@media only screen and (max-width: 1159px) {
+  body {
+    margin: 0 auto;
+    padding: 50px 0 0;
+    min-width: 1024px;
+  }
   body noscript {
     display: block;
     width: 98%;
@@ -2895,48 +2843,122 @@ and (max-device-width : 767px) {
   body noscript:after {
     clear: both;
   }
-  body #sidebar-left {
-    display: inline;
-    float: left;
-    width: 14.666666666666668%;
-    margin: 0 1% 0 1%;
-    margin-bottom: 10px;
+  body #container {
+    height: 100%;
+    padding-bottom: 30px;
   }
-  body #sidebar-left #userpanel {
-    display: inline;
-    float: left;
-    width: 98%;
-    margin: 0 1% 0 1%;
+  body #container #main,
+  body #container #sidebar-left,
+  body #container #sidebar-right {
+    height: 100%;
   }
-  body #main {
+  body #container #main {
     display: inline;
     float: left;
     width: 64.66666666666667%;
     margin: 0 1% 0 1%;
   }
-  body #sidebar-right {
+  body #container #sidebar-right {
+    display: inline;
+    float: left;
+    width: 14.666666666666668%;
+    margin: 0 1% 0 1%;
+    display: none;
+  }
+  body #container #sidebar-left {
     display: inline;
     float: left;
     width: 14.666666666666668%;
     margin: 0 1% 0 1%;
   }
-  body footer {
+  body #container #sidebar-left #userpanel {
     display: inline;
     float: left;
     width: 98%;
     margin: 0 1% 0 1%;
+    margin-bottom: 10px;
+  }
+  body footer {
+    float: left;
+    width: 100%;
+    margin: -25px 0 0;
+    padding: 5px 5px 0px 5px;
+  }
+  body footer #left,
+  body footer #right {
+    width: 50%;
+    float: left;
+    text-align: left;
+  }
+  body footer #right {
+    text-align: right;
   }
   #topNav {
     width: 100%;
+    min-width: 1024px;
   }
-  .nav-inner .brand {
-    width: 130px;
+  #topNav #navInner #brand {
+    font-size: 25px;
+    line-height: 20px;
+    display: inline;
+    float: left;
+    width: 14.666666666666668%;
+    margin: 0 1% 0 1%;
+    margin-top: 12px;
   }
-  .nav-inner #nav-icons {
-    width: 100px;
+  #topNav #searchBar {
+    display: inline;
+    float: left;
+    width: 64.66666666666667%;
+    margin: 0 1% 0 1%;
   }
-  .nav-icon-icons {
-    width: 30px;
+  #topNav #navIcons {
+    height: 100%;
+    display: inline;
+    float: right;
+    width: 14.666666666666668%;
+    margin: 0 1% 0 1%;
+  }
+  #topNav #navIcons .navIcon {
+    display: inline;
+    float: left;
+    width: 23%;
+    margin: 0 1% 0 1%;
+  }
+  #topNav #navIcons .navIcon .icon {
+    margin-top: 7px;
+    width: 35px;
+  }
+  #topNav #navIcons .navIcon .badge {
+    padding: 1px 2px 1px 2px;
+    margin-left: 20px;
+    margin-top: -20px;
+    position: absolute;
+    font-size: 11px;
+  }
+  #searchQuery {
+    margin-top: 6px;
+  }
+  #searchDrop {
+    position: absolute;
+    top: 45px;
+    margin-left: 5px;
+  }
+  #searchSuggestions {
+    padding: 0;
+    margin: 0;
+  }
+  #searchSuggestions li {
+    display: none;
+    width: 100%;
+    min-height: 40px;
+  }
+  #searchSuggestions li a {
+    padding-top: 13px;
+    padding-bottom: 13px;
+  }
+  #searchSuggestions li a p.add-info {
+    margin-left: 10px;
   }
   #searchQuery {
     display: inline;
@@ -3279,14 +3301,14 @@ and (max-device-width : 767px) {
     float: left;
     width: 73%;
     margin: 0 1% 0 1%;
-    margin-left: 18.75%;
+    margin-left: 18.75% !important;
   }
   .posts article .postInfo .awesome {
     display: inline;
     float: left;
     width: 35.5%;
     margin: 0 1% 0 1%;
-    margin-left: 18.75%;
+    margin-left: 18.75% !important;
   }
   .posts article .postInfo p.comments {
     display: inline;
@@ -3299,7 +3321,7 @@ and (max-device-width : 767px) {
     float: left;
     width: 35.5%;
     margin: 0 1% 0 1%;
-    margin-left: 56.25%;
+    margin-left: 56.25% !important;
   }
   .posts article:last-child {
     border: none;
@@ -3350,7 +3372,7 @@ and (max-device-width : 767px) {
     float: left;
     width: 85.5%;
     margin: 0 1% 0 1%;
-    margin-left: 8.333333333333334%;
+    margin-left: 8.333333333333334% !important;
   }
   .settingsView .config input:not([type=submit]):not([type=file]) {
     display: inline;
@@ -3359,11 +3381,15 @@ and (max-device-width : 767px) {
     margin: 0 1% 0 1%;
   }
   .settingsView .config #newNickname {
-    margin-left: 35.714285714285715%;
+    margin-left: 35.714285714285715% !important;
   }
 }
 /* Normal Screens ---------- */
 @media only screen and (min-width: 1160px) and (max-width: 1823px) {
+  body {
+    margin: 0 auto;
+    padding: 50px 0 0;
+  }
   body noscript {
     display: block;
     width: 98%;
@@ -3380,43 +3406,45 @@ and (max-device-width : 767px) {
     clear: both;
   }
   body #container {
+    height: 100%;
     padding-bottom: 30px;
   }
-  body #sidebar-left {
+  body #container #main,
+  body #container #sidebar-left,
+  body #container #sidebar-right {
+    height: 100%;
+  }
+  body #container #main {
+    display: inline;
+    float: left;
+    width: 64.66666666666667%;
+    margin: 0 1% 0 1%;
+  }
+  body #container #sidebar-right {
+    display: inline;
+    float: left;
+    width: 14.666666666666668%;
+    margin: 0 1% 0 1%;
+    display: none;
+  }
+  body #container #sidebar-left {
     display: inline;
     float: left;
     width: 14.666666666666668%;
     margin: 0 1% 0 1%;
   }
-  body #sidebar-left #userpanel {
+  body #container #sidebar-left #userpanel {
     display: inline;
     float: left;
     width: 98%;
     margin: 0 1% 0 1%;
     margin-bottom: 10px;
   }
-  body #main {
-    display: inline;
-    float: left;
-    width: 64.66666666666667%;
-    margin: 0 1% 0 1%;
-  }
-  body #sidebar-right {
-    display: inline;
-    float: right;
-    width: 14.666666666666668%;
-    margin: 0 1% 0 1%;
-    display: none;
-  }
   body footer {
-    display: inline;
     float: left;
-    width: 98%;
-    margin: 0 1% 0 1%;
     width: 100%;
     margin: -25px 0 0;
-    padding: 5px 5px 2px 5px;
-    height: 10px;
+    padding: 5px 5px 0px 5px;
   }
   body footer #left,
   body footer #right {
@@ -3430,17 +3458,74 @@ and (max-device-width : 767px) {
   body:not(.registerView) {
     padding-top: 60px;
   }
+  body.registerView #main {
+    margin-left: 16.666666666666668% !important;
+  }
   #topNav {
     width: 100%;
   }
   #topNav #navInner #brand {
-    width: 130px;
+    font-size: 25px;
+    line-height: 20px;
+    display: inline;
+    float: left;
+    width: 14.666666666666668%;
+    margin: 0 1% 0 1%;
+    margin-top: 12px;
   }
-  #topNav #navInner #navIcons {
+  #topNav #searchBar {
+    display: inline;
+    float: left;
+    width: 64.66666666666667%;
+    margin: 0 1% 0 1%;
+  }
+  #topNav #navIcons {
+    height: 100%;
+    display: inline;
+    float: right;
+    width: 14.666666666666668%;
+    margin: 0 1% 0 1%;
+  }
+  #topNav #navIcons .navIcon {
     display: inline;
     float: left;
     width: 23%;
     margin: 0 1% 0 1%;
+  }
+  #topNav #navIcons .navIcon .icon {
+    margin-top: 7px;
+    width: 35px;
+  }
+  #topNav #navIcons .navIcon .badge {
+    padding: 1px 2px 1px 2px;
+    margin-left: -13px;
+    margin-top: 25px;
+    position: absolute;
+    font-size: 11px;
+  }
+  #searchQuery {
+    margin-top: 6px;
+  }
+  #searchDrop {
+    position: absolute;
+    top: 45px;
+    margin-left: 5px;
+  }
+  #searchSuggestions {
+    padding: 0;
+    margin: 0;
+  }
+  #searchSuggestions li {
+    display: none;
+    width: 100%;
+    min-height: 40px;
+  }
+  #searchSuggestions li a {
+    padding-top: 13px;
+    padding-bottom: 13px;
+  }
+  #searchSuggestions li a p.add-info {
+    margin-left: 10px;
   }
   #searchQuery {
     display: inline;
@@ -3842,7 +3927,7 @@ and (max-device-width : 767px) {
     float: left;
     width: 85.5%;
     margin: 0 1% 0 1%;
-    margin-left: 8.333333333333334%;
+    margin-left: 8.333333333333334% !important;
   }
   .settingsView .config input:not([type=submit]):not([type=file]) {
     display: inline;
@@ -3851,11 +3936,15 @@ and (max-device-width : 767px) {
     margin: 0 1% 0 1%;
   }
   .settingsView .config #newNickname {
-    margin-left: 35.714285714285715%;
+    margin-left: 35.714285714285715% !important;
   }
 }
 /* Large screens ----------- */
 @media only screen and (min-width: 1824px) {
+  body {
+    margin: 0 auto;
+    padding: 50px 0 0;
+  }
   body noscript {
     display: block;
     width: 98%;
@@ -3871,50 +3960,121 @@ and (max-device-width : 767px) {
   body noscript:after {
     clear: both;
   }
-  body #sidebar-left {
+  body #container {
+    height: 100%;
+    padding-bottom: 30px;
+  }
+  body #container #main,
+  body #container #sidebar-left,
+  body #container #sidebar-right {
+    height: 100%;
+  }
+  body #container #main {
+    display: inline;
+    float: left;
+    width: 68.83333333333334%;
+    margin: 0 1% 0 1%;
+  }
+  body #container #sidebar-right {
+    display: inline;
+    float: left;
+    width: 10.5%;
+    margin: 0 1% 0 1%;
+    display: none;
+  }
+  body #container #sidebar-left {
     display: inline;
     float: left;
     width: 14.666666666666668%;
     margin: 0 1% 0 1%;
-    margin-bottom: 10px;
   }
-  body #sidebar-left #userpanel {
+  body #container #sidebar-left #userpanel {
     display: inline;
     float: left;
     width: 98%;
     margin: 0 1% 0 1%;
+    margin-bottom: 10px;
   }
-  body #main {
+  body footer {
+    float: left;
+    width: 100%;
+    margin: -25px 0 0;
+    padding: 5px 5px 0px 5px;
+  }
+  body footer #left,
+  body footer #right {
+    width: 50%;
+    float: left;
+    text-align: left;
+  }
+  body footer #right {
+    text-align: right;
+  }
+  #topNav {
+    width: 100%;
+  }
+  #topNav #navInner #brand {
+    font-size: 25px;
+    line-height: 20px;
+    display: inline;
+    float: left;
+    width: 14.666666666666668%;
+    margin: 0 1% 0 1%;
+    margin-top: 12px;
+  }
+  #topNav #searchBar {
     display: inline;
     float: left;
     width: 64.66666666666667%;
     margin: 0 1% 0 1%;
   }
-  body #sidebar-right {
+  #topNav #navIcons {
+    height: 100%;
     display: inline;
     float: right;
-    width: 14.666666666666668%;
+    width: 10.5%;
     margin: 0 1% 0 1%;
-    display: none;
   }
-  body footer {
+  #topNav #navIcons .navIcon {
     display: inline;
     float: left;
-    width: 98%;
+    width: 23%;
     margin: 0 1% 0 1%;
-    margin-bottom: 5px;
   }
-  #topNav {
+  #topNav #navIcons .navIcon .icon {
+    margin-top: 7px;
+    width: 35px;
+  }
+  #topNav #navIcons .navIcon .badge {
+    padding: 1px 2px 1px 2px;
+    margin-left: -13px;
+    margin-top: 25px;
+    position: absolute;
+    font-size: 11px;
+  }
+  #searchQuery {
+    margin-top: 6px;
+  }
+  #searchDrop {
+    position: absolute;
+    top: 45px;
+    margin-left: 5px;
+  }
+  #searchSuggestions {
+    padding: 0;
+    margin: 0;
+  }
+  #searchSuggestions li {
+    display: none;
     width: 100%;
+    min-height: 40px;
   }
-  .nav-inner .brand {
-    width: 130px;
+  #searchSuggestions li a {
+    padding-top: 13px;
+    padding-bottom: 13px;
   }
-  .nav-inner #nav-icons {
-    width: 100px;
-  }
-  .nav-icon-icons {
-    width: 30px;
+  #searchSuggestions li a p.add-info {
+    margin-left: 10px;
   }
   #searchQuery {
     display: inline;
@@ -4322,7 +4482,7 @@ and (max-device-width : 767px) {
     float: left;
     width: 85.5%;
     margin: 0 1% 0 1%;
-    margin-left: 8.333333333333334%;
+    margin-left: 8.333333333333334% !important;
   }
   .settingsView .config input:not([type=submit]):not([type=file]) {
     display: inline;
@@ -4331,7 +4491,7 @@ and (max-device-width : 767px) {
     margin: 0 1% 0 1%;
   }
   .settingsView .config #newNickname {
-    margin-left: 35.714285714285715%;
+    margin-left: 35.714285714285715% !important;
   }
 }
 /* Utilities --------------- */
@@ -4351,7 +4511,7 @@ and (max-device-width : 767px) {
 .visible-desktop {
   display: inherit !important;
 }
-@media (min-width: 768px) and (max-width: 1024px) {
+@media (min-width: 768px) and (max-width: 1023px) {
   .hidden-desktop {
     display: inherit !important;
   }

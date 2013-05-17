@@ -1,15 +1,61 @@
-//Don't touch any of the *.less or *.css files, or you will die an awful death.
 #topNav {
 	width: 100%;
-}
-.nav-inner {
-	.brand {
-		width: 130px;
+	min-width: 1024px;
+	#navInner {
+		#brand {
+			font-size: 25px;
+			line-height: @baseLineHeight;
+			.column(2,12);
+			margin-top: 12px;
+		}
 	}
-	#nav-icons {
-		width: 100px;
+	#searchBar {
+		.column(8,12);
+	}
+	#navIcons {
+		height: 100%;
+		.column(2,12, right);
+		.navIcon {
+			.column(1,4);
+			.icon {
+				margin-top: 7px;
+				width: 35px;
+			}
+			.badge {
+				padding: 1px 2px 1px 2px;
+				margin-left: 20px;
+				margin-top: -20px;
+				position: absolute;
+				font-size: 11px;
+			}
+		}
 	}
 }
-.nav-icon-icons {
-	width: 30px;
+
+// Searchbar
+
+#searchQuery {
+	margin-top: 6px;
+}
+#searchDrop {
+	position: absolute;
+	top: 45px;
+	margin-left: 5px;
+}
+
+#searchSuggestions {
+	padding: 0;
+	margin: 0;
+	li {
+		display: none;
+		width: 100%;
+		min-height: 40px;
+		a {
+			padding-top: 13px;
+			padding-bottom: 13px;
+			p.add-info {
+				margin-left: 10px;
+			}
+		}
+	}
 }
