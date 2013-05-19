@@ -2636,7 +2636,6 @@ and (max-device-width : 767px) {
   body {
     margin: 0 auto;
     padding: 50px 0 0;
-    min-width: 1024px;
   }
   body noscript {
     display: block;
@@ -2702,6 +2701,9 @@ and (max-device-width : 767px) {
   }
   body footer #right {
     text-align: right;
+  }
+  body.registerView #main {
+    margin-left: 20.833333333333336% !important;
   }
   #topNav {
     width: 100%;
@@ -4252,6 +4254,11 @@ and (max-device-width : 767px) {
   }
   body footer #right {
     text-align: right;
+  }
+  body.registerView #main {
+    margin-left: 16.666666666666668% !important;
+    margin-right: 16.666666666666668% !important;
+    width: 64.66666666666667% !important;
   }
   #topNav {
     width: 100%;

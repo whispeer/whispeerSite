@@ -29,6 +29,11 @@
 	margin: 0 @margin/2 0 @margin/2;
 }
 
+.width(@x, @columns:@columns) {
+	@column-size: @total-width / @columns;
+	width: (@column-size*@x) - 2% !important;
+}
+
 .push(@x: 1, @columns:@columns) {
 	@column-size: @total-width / @columns;
 	margin-left: (@column-size*@x) !important;

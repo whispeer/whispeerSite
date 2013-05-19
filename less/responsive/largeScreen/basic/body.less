@@ -14,7 +14,7 @@ body {
 			height: 100%;
 		}
 		#main {
-			.column(8.5);
+			.column(8.5);		
 		}
 		#sidebar-right {
 			.column(1.5);
@@ -42,5 +42,12 @@ body {
 		#right {
 			text-align: right;
 		}
-	} 
+	}
+	&.registerView {
+		#main {
+			.push(2);
+			.pull(2);
+			.width(8);
+		}
+	}
 }
