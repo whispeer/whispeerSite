@@ -1596,46 +1596,48 @@ input[type="submit"].btn.btn-mini {
 
 }
 .registerView #loginform #rpasswordIcon[data-strength="0"],
-.registerView #registerform #rpasswordIcon[data-strength="0"],
-.registerView #loginform #rpasswordIcon [data-strength="1"],
-.registerView #registerform #rpasswordIcon [data-strength="1"] {
-  background-color: #ff2300;
+.registerView #registerform #rpasswordIcon[data-strength="0"] {
+  background-color: #ff0000;
+}
+.registerView #loginform #rpasswordIcon[data-strength="1"],
+.registerView #registerform #rpasswordIcon[data-strength="1"] {
+  background-color: #ff4d00;
 }
 .registerView #loginform #rpasswordIcon[data-strength="2"],
 .registerView #registerform #rpasswordIcon[data-strength="2"] {
-  background-color: #ff7000;
+  background-color: #ff7700;
 }
 .registerView #loginform #rpasswordIcon[data-strength="3"],
 .registerView #registerform #rpasswordIcon[data-strength="3"] {
-  background-color: #ffbb00;
+  background-color: #ffa200;
 }
 .registerView #loginform #rpasswordIcon[data-strength="4"],
 .registerView #registerform #rpasswordIcon[data-strength="4"] {
-  background-color: #e1ff00;
+  background-color: #ffc400;
 }
 .registerView #loginform #rpasswordIcon[data-strength="5"],
 .registerView #registerform #rpasswordIcon[data-strength="5"] {
-  background-color: #9eff00;
+  background-color: #ffff00;
 }
 .registerView #loginform #rpasswordIcon[data-strength="6"],
 .registerView #registerform #rpasswordIcon[data-strength="6"] {
-  background-color: #6bff00;
+  background-color: #cdff00;
 }
 .registerView #loginform #rpasswordIcon[data-strength="7"],
 .registerView #registerform #rpasswordIcon[data-strength="7"] {
-  background-color: #38ff00;
+  background-color: #afff00;
 }
 .registerView #loginform #rpasswordIcon[data-strength="8"],
 .registerView #registerform #rpasswordIcon[data-strength="8"] {
-  background-color: #30ff29;
+  background-color: #80ff00;
 }
 .registerView #loginform #rpasswordIcon[data-strength="9"],
 .registerView #registerform #rpasswordIcon[data-strength="9"] {
-  background-color: #29ff49;
+  background-color: #62ff00;
 }
 .registerView #loginform #rpasswordIcon[data-strength="10"],
 .registerView #registerform #rpasswordIcon[data-strength="10"] {
-  background-color: #00ff5a;
+  background-color: #11ff00;
 }
 .registerView #loginform #rpasswordIcon,
 .registerView #registerform #rpasswordIcon,
@@ -1807,16 +1809,20 @@ input[type="submit"].btn.btn-mini {
   border-bottom-color: #a2a2a2;
 }
 .profileView #main nav heading h3 {
-  color: rgba(156, 255, 85, 0.5);
-  text-shadow: 1px 1px 1px #3a8100;
+  background: -webkit-linear-gradient(#71d000, #3a8100);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: #459b00;
   text-rendering: optimizeLegibility;
 }
 .profileView #main nav menu li {
   text-align: center;
 }
 .profileView #main nav menu li a {
-  color: rgba(255, 255, 255, 0.5);
-  text-shadow: 1px 1px 1px #000000;
+  background: -webkit-linear-gradient(#999999, #555555);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: #626262;
   font-weight: 600;
   font-size: 1em;
 }
@@ -2656,6 +2662,7 @@ and (max-device-width : 767px) {
   body {
     margin: 0 auto;
     padding: 50px 0 0;
+    min-width: 1024px;
   }
   body noscript {
     display: block;
@@ -3317,10 +3324,7 @@ and (max-device-width : 767px) {
     margin-top: 10px;
   }
   .profileView #main #info {
-    display: inline;
-    float: left;
-    width: 98%;
-    margin: 0 1% 0 1%;
+    width: 100%;
     padding: 0;
   }
   .profileView #main #info article {
@@ -3382,7 +3386,6 @@ and (max-device-width : 767px) {
   .profileView #main #wall header {
     height: 20px;
     padding: 5px;
-    margin-bottom: 1%;
   }
   .profileView #main #wall article {
     display: inline;
@@ -3393,7 +3396,7 @@ and (max-device-width : 767px) {
   .profileView #main #wall article .userimg {
     display: inline;
     float: left;
-    width: 23%;
+    width: 13.625%;
     margin: 0 1% 0 1%;
     margin: 10px 0px 10px 0px;
   }
@@ -3402,9 +3405,12 @@ and (max-device-width : 767px) {
     float: left;
     width: 48%;
     margin: 0 1% 0 1%;
-    padding-top: 5px;
-    margin-top: 10px;
+    padding-top: 0px;
+    margin-top: 0;
     margin-bottom: 10px;
+  }
+  .profileView #main #wall article .postContent .author {
+    margin-bottom: 5px;
   }
   .profileView #main #wall article .postContent .postText {
     padding-left: 10px;
@@ -3412,10 +3418,15 @@ and (max-device-width : 767px) {
   .profileView #main #wall article .postInfo {
     display: inline;
     float: left;
-    width: 23%;
+    width: 29.25%;
     margin: 0 1% 0 1%;
     padding-top: 5px;
+    margin-top: 15px;
     margin-bottom: 10px;
+  }
+  .profileView #main #wall article .postInfo p {
+    padding: 0;
+    margin: 0;
   }
   .profileView #main #friends {
     display: inline;
@@ -4044,10 +4055,7 @@ and (max-device-width : 767px) {
     margin-top: 10px;
   }
   .profileView #main #info {
-    display: inline;
-    float: left;
-    width: 98%;
-    margin: 0 1% 0 1%;
+    width: 100%;
     padding: 0;
   }
   .profileView #main #info article {
@@ -4109,7 +4117,6 @@ and (max-device-width : 767px) {
   .profileView #main #wall header {
     height: 20px;
     padding: 5px;
-    margin-bottom: 1%;
   }
   .profileView #main #wall article {
     display: inline;
@@ -4120,18 +4127,22 @@ and (max-device-width : 767px) {
   .profileView #main #wall article .userimg {
     display: inline;
     float: left;
-    width: 23%;
+    width: 13.625%;
     margin: 0 1% 0 1%;
-    margin: 10px 0px 10px 0px;
+    margin-top: 10px;
+    margin-bottom: 10px;
   }
   .profileView #main #wall article .postContent {
     display: inline;
     float: left;
-    width: 48%;
+    width: 54.25%;
     margin: 0 1% 0 1%;
     padding-top: 5px;
-    margin-top: 10px;
+    margin-top: 0;
     margin-bottom: 10px;
+  }
+  .profileView #main #wall article .postContent .author {
+    margin-bottom: 5px;
   }
   .profileView #main #wall article .postContent .postText {
     padding-left: 10px;
@@ -4139,10 +4150,15 @@ and (max-device-width : 767px) {
   .profileView #main #wall article .postInfo {
     display: inline;
     float: left;
-    width: 23%;
+    width: 26.125%;
     margin: 0 1% 0 1%;
     padding-top: 5px;
+    margin-top: 15px;
     margin-bottom: 10px;
+  }
+  .profileView #main #wall article .postInfo p {
+    padding: 0;
+    margin: 0;
   }
   .profileView #main #friends {
     display: inline;
@@ -4886,10 +4902,7 @@ and (max-device-width : 767px) {
     margin-top: 10px;
   }
   .profileView #main #info {
-    display: inline;
-    float: left;
-    width: 98%;
-    margin: 0 1% 0 1%;
+    width: 100%;
     padding: 0;
   }
   .profileView #main #info article {
@@ -4951,7 +4964,6 @@ and (max-device-width : 767px) {
   .profileView #main #wall header {
     height: 20px;
     padding: 5px;
-    margin-bottom: 1%;
   }
   .profileView #main #wall article {
     display: inline;
@@ -4962,18 +4974,21 @@ and (max-device-width : 767px) {
   .profileView #main #wall article .userimg {
     display: inline;
     float: left;
-    width: 23%;
+    width: 10.5%;
     margin: 0 1% 0 1%;
     margin: 10px 0px 10px 0px;
   }
   .profileView #main #wall article .postContent {
     display: inline;
     float: left;
-    width: 48%;
+    width: 54.25%;
     margin: 0 1% 0 1%;
     padding-top: 5px;
     margin-top: 10px;
     margin-bottom: 10px;
+  }
+  .profileView #main #wall article .postContent .author {
+    margin-bottom: 5px;
   }
   .profileView #main #wall article .postContent .postText {
     padding-left: 10px;
@@ -4981,10 +4996,15 @@ and (max-device-width : 767px) {
   .profileView #main #wall article .postInfo {
     display: inline;
     float: left;
-    width: 23%;
+    width: 29.25%;
     margin: 0 1% 0 1%;
     padding-top: 5px;
+    margin-top: 30px;
     margin-bottom: 10px;
+  }
+  .profileView #main #wall article .postInfo p {
+    padding: 0;
+    margin: 0;
   }
   .profileView #main #friends {
     display: inline;

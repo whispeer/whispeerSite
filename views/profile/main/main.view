@@ -68,7 +68,7 @@
 			<article id="post1">
 				<img class="userimg" src="img/profil.jpg" alt="User">
 				<div class="postContent">
-					<p class="name">Daniel Melchior:</p>
+					<p class="author">Daniel Melchior:</p>
 					<div class="postText">Circus Afro Circus Afro \m/ </div>
 				</div>
 				<div class="postInfo">
@@ -82,7 +82,7 @@
 				<img class="userimg" src="img/user.png" alt="User">
 				<div class="postContent">
 					<p class="author">Svenja Kenneweg zu Daniel Melchior</p>
-					<div class="postText"> I love you :)</div>
+					<div class="postText">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. <a href="#">Weiterlesen &rarr;</a></div>
 				</div>
 				<div class="postInfo">
 						<p class="awesome">Awesomenes: 20</p>
@@ -94,7 +94,7 @@
 				<img class="userimg" src="img/user.png" alt="User">
 				<div class="postContent">
 					<p class="author">Svenja Kenneweg zu Daniel Melchior</p>
-					<div class="postText"> I love you :)</div>
+					<div class="postText">I love you :)</div>
 				</div>
 				<div class="postInfo">
 						<p class="awesome">Awesomenes: 20</p>

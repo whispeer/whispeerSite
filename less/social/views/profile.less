@@ -8,8 +8,12 @@
 			border-bottom-color: darken(@btnBorder, 10%);
 			heading {
 				h3 {
-					color: rgba(156,255,85,0.5);
-					text-shadow: 1px 1px 1px @green2;
+					// Awesome features for webkit-browsers!
+					background: -webkit-linear-gradient(lighten(@green, 10%), @green2);
+					-webkit-background-clip: text;
+					-webkit-text-fill-color: transparent;
+					color: lighten(@green2, 5%);
+					//text-shadow: 1px 1px 1px @green2;
 					text-rendering: optimizeLegibility;
 				}	
 			}
@@ -17,8 +21,11 @@
 				li {
 					text-align: center;
 					a {	
-						color: rgba(255,255,255,0.5);
-						text-shadow: 1px 1px 1px #000000;
+						background: -webkit-linear-gradient(@grayLight, @gray);
+						-webkit-background-clip: text;
+						-webkit-text-fill-color: transparent;
+						color: lighten(@gray, 5%);
+						//text-shadow: 1px 1px 1px #000000;
 						font-weight: 600;
 						font-size: 1em;
 					}

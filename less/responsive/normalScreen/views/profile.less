@@ -24,7 +24,7 @@
 		#wrap { width: 100%; height: 100%; padding-top: 50px; .box-fix; margin: 0 auto; }
 		#scroller { width: 100%; height: 100%; overflow-y: scroll; .box-fix; margin:0 auto; margin-top: 10px; }
 		#info {
-			.column(8,8,left);
+			width: 100%;
 			padding: 0;
 			article {
 				.column(1,3);
@@ -62,27 +62,35 @@
 			header {
 				height: 20px;
 				padding: 5px;
-				margin-bottom: 1%;
 			}
 			article {
 				.column(8,8);
 				.userimg{
-					.column(2,8);
-					margin: 10px 0px 10px 0px;
-				}
-				.postContent {
-					.column(4,8);
-					padding-top: 5px;
+					.column(1.25,8);
 					margin-top: 10px;
 					margin-bottom: 10px;
+				}
+				.postContent {
+					.column(4.5,8);
+					padding-top: 5px;
+					margin-top: 0;
+					margin-bottom: 10px;
+					.author {
+						margin-bottom: 5px;
+					}
 					.postText {
 						padding-left: 10px;
 					}
 				}
 				.postInfo {
-					.column(2,8);
+					.column(2.25,8);
 					padding-top: 5px;
+					margin-top: 15px;
 					margin-bottom: 10px;
+					p {
+						padding: 0;
+						margin: 0;
+					}
 				}
 			}
 		}
