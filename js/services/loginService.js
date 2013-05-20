@@ -39,16 +39,28 @@ define(['angular', 'step', 'helper'], function (angular, step, h) {
 			passwordStrength: function (password) {
 				var strength = 0;
 
+				/*
+					>=7  +1
+					>=10 +1
+					>=13 +1
+					>=16 +1
+					>=20 +1
+					Groß&Klein +2
+					1 Sonderzeichen +1
+					1 Sonderzeichen +1
+					Zahl +1
+				*/
+
 				// Adapted from http://www.codeproject.com/KB/scripting/passwordstrength.aspx
-				if (password.length > 4) { strength += 1; } // Greater than 4 chars long
+				if (password.length >= 7) { strength += 1; } // Greater than 4 chars long
+				if (password.length >= 10) { strength += 1; } // Longer than 10 chars
+				if (password.length >= 13) { strength += 1; } // Longer than 15 chars
+				if (password.length >= 16) { strength += 1; } // Longer than 15 chars
+				if (password.length >= 20) { strength += 1; } // Longer than 20 chars
 				if ((password.match(/[a-z]/)) && (password.match(/[A-Z]/))) { strength += 2; } // Mix of upper and lower chars
 				if (password.match(/\d+/)) { strength += 1; } // Contains a number
-				if (password.match(/[+,!,@,#,$,%,\^,&,*,?,_,~,-,(,)]/)) { strength += 1; } // Contains a special char
-				if (password.match(/[+,!,@,#,$,%,\^,&,*,?,_,~,-,(,)]([\w\W]*)[+,!,@,#,$,%,\^,&,*,?,_,~,-,(,)]/)) { strength += 1; } // Contains two special char
-				if (password.length > 10) { strength += 1; } // Longer than 10 chars
-				if (password.length > 15) { strength += 1; } // Longer than 15 chars
-				if (password.length > 20) { strength += 1; } // Longer than 20 chars
-				if (password.length > 20) { strength += 1; } // Longer than 20 chars
+				if (password.match(/[+,!,@,#,$,%,\^,&,*,?,_,~,-]/)) { strength += 1; } // Contains a special chars
+				if (password.match(/[+,!,@,#,$,%,\^,&,*,?,_,~,-]([\w\W]*)[+,!,@,#,$,%,\^,&,*,?,_,~,-]/)) { strength += 1; } // Contains two special chars
 
 				return strength;
 			}
