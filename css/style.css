@@ -701,16 +701,26 @@ body.registerView footer {
   top: 0;
   border-bottom: 1px solid #2f6800;
   box-shadow: 0px 0px 4px #2f6800;
+  background: #3a8100;
   background-color: #3a8100;
+  background: -webkit-gradient(linear, left top, left bottom, from(#3a8100), to(#419000));
+  background: -webkit-linear-gradient(top, #3a8100, #419000);
+  background: -moz-linear-gradient(top, #3a8100, #419000);
+  background: -ms-linear-gradient(top, #3a8100, #419000);
+  background: -o-linear-gradient(top, #3a8100, #419000);
 }
 #topNav #navInner #brand {
-  display: block;
-  color: #fff;
-  text-shadow: 0px 0px 2px #266300;
   font-weight: 700;
   text-decoration: none;
 }
-#topNav #navInner #brandInverse {
+#topNav #navInner #brand #brandNormal {
+  height: 30px;
+  background: -webkit-linear-gradient(#ffffff, #dddddd);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: #fff;
+}
+#topNav #navInner #brand #brandInverse {
   color: #266300;
   text-shadow: 0px 0px 2px #eeeeee;
 }
@@ -1764,7 +1774,7 @@ input[type="submit"].btn.btn-mini {
   background-clip: padding-box;
 }
 #wall .posts article .userimg {
-  border-radius: 200px;
+  border-radius: 10px;
   vertical-align: middle;
   margin: 0 0 10px 0;
 }
@@ -1925,7 +1935,7 @@ input[type="submit"].btn.btn-mini {
   border-bottom: 1px solid #aaa;
 }
 .profileView #main #wall article .userimg {
-  border-radius: 200px;
+  border-radius: 10px;
 }
 .profileView #main #wall article .postContent {
   display: inline;
@@ -2134,6 +2144,7 @@ input[type="submit"].btn.btn-mini {
 .messagesView #topicWrap.peerChat #messageList .message.me .messageText {
   float: right;
   text-align: right;
+  word-break: break-word;
 }
 .messagesView #topicWrap.peerChat #messageList .message.me .user .userimg {
   float: right;
@@ -3781,98 +3792,180 @@ and (max-device-width : 767px) {
     width: 12.285714285714286%;
     margin: 0 1% 0 1%;
   }
+  .messagesView #main {
+    padding-top: 30px;
+    padding-bottom: 10px;
+    height: 100%;
+  }
+  .messagesView header {
+    height: 20px;
+    margin-top: -30px;
+    padding: 5px;
+  }
   .messagesView #topicListWrap {
     display: inline;
     float: left;
-    width: 26.571428571428573%;
+    width: 26.125%;
     margin: 0 1% 0 1%;
-    height: 460px;
+    height: 100%;
   }
-  .messagesView #topicListWrap .topic .userimg {
+  .messagesView #topicListWrap #topicList {
+    height: 100%;
+    padding-top: 15px;
+    padding-bottom: 6px;
+  }
+  .messagesView #topicListWrap #topicList #topicListScroll {
+    height: 100%;
+    overflow-y: scroll;
+  }
+  .messagesView #topicListWrap #topicList .topic {
+    margin-bottom: 5px;
+    padding: 0;
+  }
+  .messagesView #topicListWrap #topicList .topic .userimg {
     width: 100%;
+    margin: 0 0 -4px -2px;
+    padding: 0;
   }
-  .messagesView #topicListWrap .topic .username {
+  .messagesView #topicListWrap #topicList .topic .username {
     font-size: 1em;
     display: inline;
     float: left;
     width: 63%;
     margin: 0 1% 0 1%;
   }
-  .messagesView #topicListWrap .topic .lastMessage {
+  .messagesView #topicListWrap #topicList .topic .lastMessage {
     font-size: 0.8em;
     display: block;
     width: 98%;
     margin: 0 1% 0 1%;
     *zoom: 1;
   }
-  .messagesView #topicListWrap .topic .lastMessage:before,
-  .messagesView #topicListWrap .topic .lastMessage:after {
+  .messagesView #topicListWrap #topicList .topic .lastMessage:before,
+  .messagesView #topicListWrap #topicList .topic .lastMessage:after {
     content: "";
     display: table;
   }
-  .messagesView #topicListWrap .topic .lastMessage:after {
+  .messagesView #topicListWrap #topicList .topic .lastMessage:after {
     clear: both;
   }
-  .messagesView #topicListWrap .topic .left {
+  .messagesView #topicListWrap #topicList .topic .left {
     display: inline;
     float: left;
     width: 33%;
     margin: 0 1% 0 1%;
   }
+  .messagesView #topicListWrap #topicList .topic#newmessage {
+    height: 20px;
+    margin-top: -10px;
+  }
   .messagesView #topicWrap {
-    height: 500px;
+    height: 100%;
   }
   .messagesView #topicWrap.peerChat {
     display: inline;
     float: left;
-    width: 69.42857142857143%;
+    width: 69.875%;
     margin: 0 1% 0 1%;
+    height: 100%;
+    padding: 0px 0px 120px 0px;
+    -webkit-box-sizing: border-box;
+    /* Safari/Chrome, other WebKit */
+  
+    -moz-box-sizing: border-box;
+    /* Firefox, other Gecko */
+  
+    box-sizing: border-box;
+    /* Opera/IE 8+ */
+  
+  }
+  .messagesView #topicWrap.peerChat #messageWrap {
+    height: 100%;
+  }
+  .messagesView #topicWrap.peerChat #messageTitle {
+    padding-left: 10px;
   }
   .messagesView #topicWrap.peerChat #messageList {
-    height: 350px;
+    overflow-y: scroll;
+    height: 100%;
   }
   .messagesView #topicWrap.peerChat #messageList .message {
     display: inline;
     float: left;
     width: 98%;
     margin: 0 1% 0 1%;
+    height: auto;
+    margin-bottom: 5px;
   }
   .messagesView #topicWrap.peerChat #messageList .message .user .userimg {
     display: inline;
     float: left;
-    width: 8%;
+    width: 6.6%;
     margin: 0 1% 0 1%;
-    padding-top: 10px;
+    padding: 0;
   }
   .messagesView #topicWrap.peerChat #messageList .message .messageText {
     display: inline;
     float: left;
     width: 88%;
     margin: 0 1% 0 1%;
-    padding: 10px 0px;
     word-break: break-word;
+  }
+  .messagesView #topicWrap.peerChat #inputWrap #messageInput {
+    display: inline;
+    float: left;
+    width: 73%;
+    margin: 0 1% 0 1%;
+    height: 45px;
+  }
+  .messagesView #topicWrap.peerChat #inputWrap button {
+    display: inline;
+    float: left;
+    width: 23%;
+    margin: 0 1% 0 1%;
+    height: 45px;
   }
   .messagesView #topicWrap.groupChat {
     display: inline;
     float: left;
-    width: 69.42857142857143%;
+    width: 69.875%;
     margin: 0 1% 0 1%;
+    height: 100%;
+    padding: 0px 0px 120px 0px;
+    -webkit-box-sizing: border-box;
+    /* Safari/Chrome, other WebKit */
+  
+    -moz-box-sizing: border-box;
+    /* Firefox, other Gecko */
+  
+    box-sizing: border-box;
+    /* Opera/IE 8+ */
+  
+  }
+  .messagesView #topicWrap.groupChat #messageWrap {
+    height: 100%;
+  }
+  .messagesView #topicWrap.groupChat #messageTitle {
+    padding-left: 10px;
   }
   .messagesView #topicWrap.groupChat #messageList {
-    height: 350px;
+    overflow-y: scroll;
+    height: 100%;
   }
   .messagesView #topicWrap.groupChat #messageList .message {
     display: inline;
     float: left;
     width: 98%;
     margin: 0 1% 0 1%;
+    margin-bottom: 5px;
   }
   .messagesView #topicWrap.groupChat #messageList .message .user .userimg {
     display: inline;
     float: left;
     width: 10%;
     margin: 0 1% 0 1%;
-    padding-top: 5px;
+    vertical-align: middle;
+    padding: 0;
   }
   .messagesView #topicWrap.groupChat #messageList .message .user .username {
     display: inline;
@@ -3887,6 +3980,20 @@ and (max-device-width : 767px) {
     margin: 0 1% 0 1%;
     word-break: break-word;
   }
+  .messagesView #topicWrap.groupChat #inputWrap #messageInput {
+    display: inline;
+    float: left;
+    width: 73%;
+    margin: 0 1% 0 1%;
+    height: 45px;
+  }
+  .messagesView #topicWrap.groupChat #inputWrap button {
+    display: inline;
+    float: left;
+    width: 23%;
+    margin: 0 1% 0 1%;
+    height: 45px;
+  }
   .messagesView #topicWrap.newMessage {
     display: inline;
     float: left;
@@ -3900,9 +4007,13 @@ and (max-device-width : 767px) {
     width: 98%;
     margin: 0 1% 0 1%;
     margin-bottom: 5px;
+    height: 40px;
+  }
+  .messagesView #topicWrap.newMessage #messageInput {
+    height: 150px;
   }
   .messagesView #topicWrap.newMessage #sendmessage {
-    margin-left: 12px;
+    margin-left: 8px;
   }
   .shareForm {
     display: inline;
@@ -4625,7 +4736,7 @@ and (max-device-width : 767px) {
   .messagesView #topicWrap.peerChat #messageList .message .user .userimg {
     display: inline;
     float: left;
-    width: 8%;
+    width: 6.6%;
     margin: 0 1% 0 1%;
     padding-top: 0;
   }

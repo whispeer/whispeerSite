@@ -7,20 +7,23 @@
 	border-bottom: 1px solid darken(@green2, 5%);
 	box-shadow: 0px 0px 4px darken(@green2, 5%);
 	background: @green2;
-	.gradient(@green2, lighten(@green2,2%));
+	.gradient(@green2, lighten(@green2,3%));
 	#navInner {
 		#brand {
-			display: block;
-			
-			color: #fff;
-			.text-shadow(0px 0px 2px #266300);
 			font-weight: 700;
 			text-decoration: none;
-		}
-		#brandInverse {
-			color: #266300;
-			.text-shadow(0px 0px 2px #eee);
-		}
+			#brandNormal {
+				height: 30px;
+				background: -webkit-linear-gradient(#fff, #ddd);
+				-webkit-background-clip: text;
+				-webkit-text-fill-color: transparent;
+				color: #fff;
+			}
+			#brandInverse {
+				color: #266300;
+				.text-shadow(0px 0px 2px #eee);
+			}
+		}	
 	}
 	#navIcons {
 		.navIcon {
