@@ -2894,7 +2894,7 @@ and (max-device-width : 767px) {
     width: 31.333333333333336%;
     margin: 0 1% 0 1%;
     height: 250px;
-    padding: 0 !important;
+    padding: 0;
     -webkit-box-sizing: border-box;
     /* Safari/Chrome, other WebKit */
   
@@ -3725,10 +3725,19 @@ and (max-device-width : 767px) {
   .profileView #friendsList li {
     display: inline;
     float: left;
-    width: 31.333333333333336%;
+    width: 23%;
     margin: 0 1% 0 1%;
     height: 250px;
     padding: 0;
+    -webkit-box-sizing: border-box;
+    /* Safari/Chrome, other WebKit */
+  
+    -moz-box-sizing: border-box;
+    /* Firefox, other Gecko */
+  
+    box-sizing: border-box;
+    /* Opera/IE 8+ */
+  
     margin-bottom: 15px;
   }
   .friendsView #friendsList li .username,
@@ -4558,15 +4567,11 @@ and (max-device-width : 767px) {
   .profileView #friendsList li {
     display: inline;
     float: left;
-    width: 23%;
+    width: 18%;
     margin: 0 1% 0 1%;
     height: 250px;
     padding: 0;
     margin-bottom: 15px;
-    -webkit-background-size: 100% auto;
-    -moz-background-size: 100% auto;
-    -o-background-size: 100% auto;
-    background-size: 100% auto;
   }
   .friendsView #friendsList li .username,
   .profileView #friendsList li .username {
