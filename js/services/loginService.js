@@ -10,17 +10,19 @@ define(['angular', 'step', 'helper'], function (angular, step, h) {
 		return {
 			login: function (name, password, callback) {
 				step(function loginStartup() {
-					socketService.emit("salt", {
+					socketService.emit("token", {
 						identifier: name
 					}, this);
-				}, h.sF(function hashSalt(data) {
+				}, h.sF(function hashWithToken(data) {
 					if (data.error) {
 						this.last(data.errorData);
 					} else {
-						//var hash = keyStoreService.hash(password, data.salt);
+						var hash = keyStoreService.hash(password);
+
+						hash = hash(hash.substr(0, 10) + token);
 						socketService.emit("login", {
 							identifier: name,
-							passwordHash: password
+							passwordHash: hash
 						}, this);
 					}
 				}), h.sF(function loginResults(data) {
@@ -34,6 +36,46 @@ define(['angular', 'step', 'helper'], function (angular, step, h) {
 
 			register: function () {
 
+			},
+
+			mailUsed: function (mail, callback) {
+				step(function mailCheck() {
+					if (mail === "" || !h.isMail(mail)) {
+						this.last.ne(true);
+					} else {
+						socketService.emit("mailFree", {
+							mail: mail
+						}, this);
+					}
+				}, h.sF(function mailResult(data) {
+					if (data.mailUsed === true) {
+						this.ne(true);
+					} else if (data.mailUsed === false) {
+						this.ne(false);
+					} else {
+						this.ne(new Error());
+					}
+				}), callback);
+			},
+
+			nicknameUsed: function (nickname, callback) {
+				step(function nicknameCheck() {
+					if (nickname === "" || !h.isNickname(nickname)) {
+						this.last.ne(true);
+					} else {
+						socketService.emit("nicknameFree", {
+							nickname: nickname
+						}, this);
+					}
+				}, h.sF(function nicknameResult(data) {
+					if (data.nicknameUsed === true) {
+						this.ne(true);
+					} else if (data.nicknameUsed === false) {
+						this.ne(false);
+					} else {
+						this.ne(new Error());
+					}
+				}), callback);
 			},
 
 			passwordStrength: function (password) {

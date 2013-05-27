@@ -16,16 +16,16 @@
 		</span>
 	</span>
 
-	<input type="text" id="rnickname" placeholder="Benutzername" data-ng-model="nickname">
+	<input type="text" id="rnickname" placeholder="Benutzername" data-ng-model="nickname" data-ng-model-onblur data-ng-change="nicknameChange()">
 	<span class="icon fail" id="rnicknameIcon">
-		<img src="img/fail.png" alt="click to show error message!">
+		<img data-ng-src="{{acceptIconNicknameFree()}}" alt="Ok!">
 	</span>
 	
 	<div class="error" id="errorNickname" data-ng-show="userNameError">Benutzername wird bereits verwendet!</div>
 
-	<input type="text" id="rmail" placeholder="E-Mail Adresse" data-ng-model="mail">
+	<input type="text" id="rmail" placeholder="E-Mail Adresse" data-ng-model="mail" data-ng-model-onblur data-ng-change="mailChange()">
 	<span class="icon check" id="rmailIcon">
-		<img src="img/accept.png" alt="Ok!">
+		<img data-ng-src="{{acceptIconMailFree()}}" alt="Ok!">
 	</span>
 	<div class="error" id="errorRegisterMail" data-ng-show="emailError">E-Mail invalide!</div>
 
