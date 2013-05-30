@@ -660,7 +660,7 @@ define(["libs/step", "asset/helper", "crypto/helper", "libs/sjcl", "crypto/sjclW
 		this.verify = verifyF;
 	};
 
-	function signKeyFetch(keyid, callback) {
+	function signKeyGet(realKeyid, callback) {
 
 	}
 
@@ -668,15 +668,15 @@ define(["libs/step", "asset/helper", "crypto/helper", "libs/sjcl", "crypto/sjclW
 
 	}
 
-	SignKey.fetch = signKeyFetch;
+	SignKey.get = signKeyGet;
 	SignKey.generate = signKeyGenerate;
 
 	var keyStore = {
 		SymKey: SymKey,
 
 		reset: function reset() {
-			cryptKeys = {};
 			symKeys = {};
+			cryptKeys = {};
 			signKeys = {};
 			passwords = [];
 		},
@@ -717,18 +717,26 @@ define(["libs/step", "asset/helper", "crypto/helper", "libs/sjcl", "crypto/sjclW
 		},
 
 		sign: {
-			generateKey: function (callback) {
+			generateSymEncryptedKey: function (realKeyID, parentKeyIDs, callback) {
+				var signKey, parentKey;
 				step(function () {
 					SignKey.generate(this);
-				}, function (theKey) {
-					theKey.pushToServer(this);
-				}, callback);
-			},
-			symEncryptKey: function (realKeyID, parentKeyIDs, callback) {
-
+				}, h.sF(function (key) {
+					signKey = key;
+					SymKey.get(parentKeyIDs, this);
+				}), h.sF(function (key) {
+					parentKey = key;
+					parentKey.decryptKey(this);
+				}), h.sF(function () {
+					signKey.encryptSym(parentKey);
+				});
 			},
 			generatePWEncryptedKey: function (password, callback) {
-
+				step(function () {
+					SignKey.generate(this);
+				}, h.sF(function (key) {
+					
+				}
 			},
 			sign: function (text, keyid, callback) {
 
