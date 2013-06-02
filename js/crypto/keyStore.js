@@ -2,7 +2,15 @@
 	handles all the keys, passwords, etc.
 	keys are a little difficult because some keys look different but are the same because they are encrypted differently
 	also keys always have a decryptor because the are never distributed alone.
+	
+	uploading:
+		key -> addSymDecryptor/addAsymDecryptor/addPWDecryptor -> intKey
+		key -> getUploadData() -> intKey
+		do for multiple keys, concat, submit.
 
+	the key should cache which of its data is dirty and which is not.
+	removing decryptors (later) should update directly if the key as such is already saved.
+	
 	keyid: identifier@timestamp
 **/
 define(["libs/step", "asset/helper", "crypto/helper", "libs/sjcl", "crypto/sjclWorkerInclude"], function (step, h, chelper, sjcl) {
@@ -21,6 +29,13 @@ define(["libs/step", "asset/helper", "crypto/helper", "libs/sjcl", "crypto/sjclW
 
 	function generateid() {
 		return keyGenIdentifier + ":" + chelper.bits2hex(sjcl.hash.sha256.hash(new Date().getTime()));
+	}
+
+	function encryptPW(pw, text, callback) {
+		step(function () {
+			var result = sjcl.encrypt(pw, text);
+			this.ne(sjcl.json.decode(result));
+		}, callback);
 	}
 
 	/** our internal decryption function.
@@ -110,6 +125,7 @@ define(["libs/step", "asset/helper", "crypto/helper", "libs/sjcl", "crypto/sjclW
 	* @param optional secret unencrypted secret if we already have it
 	*/
 	var Key = function keyConstructor(realid, decryptors, optionals) {
+		var dirtyDecryptors;
 		var internalSecret;
 
 		function pastProcessor(secret, callback) {
@@ -171,7 +187,6 @@ define(["libs/step", "asset/helper", "crypto/helper", "libs/sjcl", "crypto/sjclW
 				this.ne(true);
 			}), callback);
 		}
-
 		this.decrypted = decryptedF;
 		this.decryptKey = decryptKeyF;
 
@@ -180,7 +195,6 @@ define(["libs/step", "asset/helper", "crypto/helper", "libs/sjcl", "crypto/sjclW
 		function getRealidF() {
 			return realid;
 		}
-
 		this.getRealid = getRealidF;
 
 		/** getter for decryptors array
@@ -203,7 +217,6 @@ define(["libs/step", "asset/helper", "crypto/helper", "libs/sjcl", "crypto/sjclW
 
 			return result;
 		}
-
 		this.getDecryptors = getDecryptorsF;
 
 		/** get the fastest decryptor for this key.
@@ -270,61 +283,82 @@ define(["libs/step", "asset/helper", "crypto/helper", "libs/sjcl", "crypto/sjclW
 				decryptor: decryptors[decryptorIndex]
 			};
 		}
-
 		this.getFastestDecryptor = getFastestDecryptorF;
 
-		function uploadAsymEncryptedF(realid, tag, callback) {
-			var decryptorData;
+		function addAsymDecryptorF(realid, tag, callback) {
 			step(function () {
-				decryptorData = {
+				var decryptorData = {
+					decryptorid: 0,
 					type: "asymKey",
 					id: realid,
-					ct: chelper.bits2hex(tag)
+					ct: chelper.bits2hex(tag),
+					dirty: true
 				};
-				h.get({
-					addKey: {
-						realid: realid,
-						decryptor: decryptorData
-					}
-				}, this);
-			}, h.sF(function (data) {
-				decryptorData.decryptorid = data.addKey.id;
-				this.decryptors.push(decryptorData);
-			}), callback);
+				decryptors.push(decryptorData);
+				dirtyDecryptors.push(decryptorData);
+
+				this.ne();
+			}, callback);
 		}
 
-		this.uploadAsymEncrypted = uploadAsymEncryptedF;
-
-		/** encrypt and upload */
-		function uploadSymEncryptedF(symKeyID, callback) {
-			var cryptor, decryptorData;
+		function addSymDecryptorF(realid, callback) {
+			var cryptor;
 			step(function () {
-				SymKey.get(symKeyID, this);
+				SymKey.get(realid, this);
 			}, h.sF(function (theKey) {
 				cryptor = theKey;
 				theKey.decryptKey(this);
 			}), h.sF(function () {
 				cryptor.encrypt("key::" + internalSecret, this);
-			}), h.sF(function (ctext, iv) {
-				decryptorData = {
-					type: "symKey",
-					id: cryptor.getRealid(),
-					ct: ctext,
-					iv: iv
-				};
-				h.get({
-					addKey: {
-						realid: realid,
-						decryptor: decryptorData
-					}
-				}, this);
 			}), h.sF(function (data) {
-				decryptorData.decryptorid = data.addKey.id;
-				this.decryptors.push(decryptorData);
+				var decryptorData = {
+					decryptorid: 0,
+					type: "symKey",
+					id: realid,
+					ct: data.ct,
+					iv: data.iv,
+					dirty: true
+				};
+
+				decryptors.push(decryptorData);
+				dirtyDecryptors.push(decryptorData);
+
+				this.ne();
 			}), callback);
 		}
 
-		this.uploadSymEncrypted =  uploadSymEncryptedF;
+		function addPWDecryptorF(pw, callback) {
+			step(function () {
+				encryptPW(pw, internalSecret, this);
+			}, h.sF(function (data) {
+				data = sjcl.json.decode(data);
+				var decryptorData = {
+					decryptorid: 0,
+					type: "pw",
+					//Think, shortHash here? id: realid,
+					ct: data.ct,
+					iv: data.iv,
+					salt: data.salt,
+					dirty: true
+				};
+
+				decryptors.push(decryptorData);
+				dirtyDecryptors.push(decryptorData);
+
+				this.ne();
+			}), callback);
+		}
+
+		this.addAsymDecryptor = addAsymDecryptorF;
+		this.addSymDecryptor = addSymDecryptorF;
+		this.addPWDecryptor = addPWDecryptorF;
+
+		function getUploadDataF() {
+			//TODO
+			//upload the decryptors of this key.
+			//this will be called in the keys upload() function.
+		}
+		this.getUploadData = getUploadDataF;
 
 		/** get the secret of this key */
 		function getSecretF() {
@@ -361,8 +395,6 @@ define(["libs/step", "asset/helper", "crypto/helper", "libs/sjcl", "crypto/sjclW
 
 		this.getRealid = intKey.getRealid;
 		this.getDecryptors = intKey.getDecryptors;
-
-		this.uploadEncrypted = intKey.uploadSymEncrypted;
 
 		this.decrypted = intKey.decrypted;
 		this.decryptKey = intKey.decryptKey;
@@ -520,8 +552,6 @@ define(["libs/step", "asset/helper", "crypto/helper", "libs/sjcl", "crypto/sjclW
 
 			this.getRealid = intKey.getRealid;
 			this.getDecryptorsF = intKey.getDecryptors;
-
-			this.uploadEncrypted = intKey.uploadEncrypted;
 		}
 
 		function kemF(callback) {
@@ -530,7 +560,7 @@ define(["libs/step", "asset/helper", "crypto/helper", "libs/sjcl", "crypto/sjclW
 				this.ne(publicKey.kem());
 			}, h.sF(function (keyData) {
 				resultKey = new SymKey(keyData.key);
-				resultKey.uploadAsymEncrypted(keyData.tag, this);
+				resultKey.addAsymDecryptor(keyData.tag, this);
 			}), h.sF(function () {
 				this.ne(resultKey.realid);
 			}), callback);
@@ -631,8 +661,6 @@ define(["libs/step", "asset/helper", "crypto/helper", "libs/sjcl", "crypto/sjclW
 
 			this.getRealid = intKey.getRealid;
 			this.getDecryptorsF = intKey.getDecryptors;
-
-			this.uploadEncrypted = intKey.uploadEncrypted;
 		}
 
 		function signF(hash, callback) {
@@ -686,6 +714,7 @@ define(["libs/step", "asset/helper", "crypto/helper", "libs/sjcl", "crypto/sjclW
 		},
 
 		sym: {
+			//TODO: rethink interface. do we want to have generateKey and then encryptKeySym, encryptKeyAsym, encryptKeyPW or somewhat different?
 			generateSymEncryptedKey: function (parentKeyIDs, callback) {
 				var cryptKey;
 
@@ -729,14 +758,14 @@ define(["libs/step", "asset/helper", "crypto/helper", "libs/sjcl", "crypto/sjclW
 					parentKey.decryptKey(this);
 				}), h.sF(function () {
 					signKey.encryptSym(parentKey);
-				});
+				}));
 			},
 			generatePWEncryptedKey: function (password, callback) {
 				step(function () {
 					SignKey.generate(this);
 				}, h.sF(function (key) {
-					
-				}
+
+				}));
 			},
 			sign: function (text, keyid, callback) {
 
