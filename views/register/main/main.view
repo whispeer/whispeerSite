@@ -8,15 +8,15 @@
 	<button id="loginformsubmit" class="btn" type="submit">Einloggen</button>
 </form>
 <form id="registerform">
-	<input type="text" id="firstname" placeholder="Vorname">
+	<input type="text" id="firstname" placeholder="Vorname" data-title="Gebe hier deinen Vornamen ein. Mit Klick auf das Schloss rechts wird dieser verschlüsselt und ist nur für deine Freunde bei whispeer sichtbar!">
 	<span class="icon lock" encrypted="false" id="firstnamelock">
-		<img src="img/lock_open.png" alt="shall we encrypt that?">
+		<img src="img/lock_open.png" alt="shall we encrypt that?" data-title="Wenn du möchtest kannst du mit einem Klick auf dieses Schloss deinen Vornamen verschlüsseln, sodass er nur für Personen sichtbar ist, die du als Freund auf whispeer bestätigt hast!">
 	</span>
-	<input type="text" id="lastname" placeholder="Nachname">
+	<input type="text" id="lastname" placeholder="Nachname" data-title="Gebe hier deinen Nachnamen ein. Mit Klick auf das Schloss rechts wird dieser verschlüsselt und ist nur für deine Freunde bei whispeer sichtbar!">
 	<span class="icon lock" encrypted="false" id ="lastnamelock">
-		<img src="img/lock_open.png" alt="shall we encrypt that?">
+		<img src="img/lock_open.png" alt="shall we encrypt that?" data-title="Wenn du möchtest kannst du mit einem Klick auf dieses Schloss deinen Nachnamen verschlüsseln, sodass er nur für Personen sichtbar ist, die du als Freund auf whispeer bestätigt hast!">
 	</span>
-	<input type="text" id="rnickname" placeholder="Benutzername">
+	<input type="text" id="rnickname" placeholder="Benutzername" data-title="Gebe hier den Bentuzernamen ein, mit dem du dich bei whispeer einloggen willst">
 	<span class="icon fail" id="rnicknameIcon">
 		<img src="img/fail.png" alt="click to show error message!">
 	</span>
@@ -34,7 +34,7 @@
 	</span>
 	<div class="error" id="errorRegisterMail2">Fehler!</div>
 	<div class="success" id="errorRegisterMail2">E-Mail Adresse ist ok!</div>
-	<input type="password" id="rpassword" placeholder="Passwort">
+	<input type="password" id="rpassword" placeholder="Passwort" data-title="Hi">
 	<span class="icon" id="rpasswordIcon">
 	</span>
 	<div class="error" id="errorRegisterPassword">Passwort erfüllt die Sicherheitskriterien nicht! Bitte wähle ein Passwort mit mindestens 6 Stellen, Groß und kleinschreibung sowie Zahlen und Sonderzeichen</div>
@@ -47,5 +47,5 @@
 	<div class="success" id="successRegisterPassword2">Passwort ist ok!</div>
 	<button id="registerformsubmit" class="btn" type="submit">Registrieren</button>
 </form>
-<a href="#" id="callRegister">Registration</a>
-<a href="#" id="callLogin">Login</a>
+<a href="#" id="callRegister">Jetzt registrieren!</a>
+<a href="#" id="callLogin">Einloggen</a>
