@@ -10,6 +10,8 @@ define(["libs/sjcl"], function (sjcl) {
 					}
 				}
 			}
+
+			throw "curve not existing"
 		},
 		getCurve: function (curveName) {
 			if (sjcl.ecc.curves[curveName]) {
