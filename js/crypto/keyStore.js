@@ -794,6 +794,10 @@ define(["libs/step", "asset/helper", "crypto/helper", "libs/sjcl", "crypto/sjclW
 		this.verify = verifyF;
 	};
 
+	/** get a signature key
+	* @param realKeyID the real id of the sign key
+	* @param callback callback
+	*/
 	function signKeyGet(realKeyID, callback) {
 		step(function checkLoaded() {
 			if (signKeys[realKeyID]) {
@@ -810,6 +814,10 @@ define(["libs/step", "asset/helper", "crypto/helper", "libs/sjcl", "crypto/sjclW
 		}), callback);
 	}
 
+	/** generate a sign key
+	* @param curve curve for the key
+	* @param callback callback
+	*/
 	function signKeyGenerate(curve, callback) {
 		step(function () {
 			var curveO = chelper.getCurve(curve), key = sjcl.ecc.ecdsa.generateKeys(curveO);
@@ -834,6 +842,7 @@ define(["libs/step", "asset/helper", "crypto/helper", "libs/sjcl", "crypto/sjclW
 	SignKey.get = signKeyGet;
 	SignKey.generate = signKeyGenerate;
 
+	/** make a symkey out of keydata */
 	function makeSymKey(keyData) {
 		if (keyData && keyData.realid) {
 			if (!symKeys[keyData.realid]) {
@@ -845,6 +854,7 @@ define(["libs/step", "asset/helper", "crypto/helper", "libs/sjcl", "crypto/sjclW
 		}
 	}
 
+	/** make a crypt key out of keydata */
 	function makeCryptKey(keyData) {
 		if (keyData && keyData.realid) {
 			if (!cryptKeys[keyData.realid]) {
@@ -856,6 +866,7 @@ define(["libs/step", "asset/helper", "crypto/helper", "libs/sjcl", "crypto/sjclW
 		}
 	}
 
+	/** make a sign key out of keydata */
 	function makeSignKey(keyData) {
 		if (keyData && keyData.realid) {
 			if (!signKeys[keyData.realid]) {
@@ -867,6 +878,7 @@ define(["libs/step", "asset/helper", "crypto/helper", "libs/sjcl", "crypto/sjclW
 		}
 	}
 
+	/** make a key out of keyData. mainly checks type and calls appropriate function */
 	makeKey = function makeKeyF(key) {
 		if (key.type === "symKey") {
 			makeSymKey(key);
@@ -879,6 +891,7 @@ define(["libs/step", "asset/helper", "crypto/helper", "libs/sjcl", "crypto/sjclW
 		}
 	};
 
+	/** our interface */
 	keyStore = {
 		SymKey: SymKey,
 
