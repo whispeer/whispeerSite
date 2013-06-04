@@ -906,21 +906,20 @@ define(["libs/step", "asset/helper", "crypto/helper", "libs/sjcl", "crypto/sjclW
 			keyGenIdentifier = identifier;
 		},
 
+		//option:
+		//asymEncryptKey: new SymKey(kem()); key.symEncrypt(generatedKey)
+		//generateAsymEncryptedKey: new SymKey(kem());
+
 		sym: {
 			//TODO: rethink interface. do we want to have generateKey and then encryptKeySym, encryptKeyAsym, encryptKeyPW or somewhat different?
-			generateSymEncryptedKey: function (parentKeyIDs, callback) {
-				var cryptKey;
-
-				step(function () {
-					SymKey.generateKey(this);
-				}, callback);
-			},
-			generateAsymEncryptedKey: function (parentKeyID, callback) {
+			generateKey: function generateKeyF(callback) {
 
 			},
-			generatePWEncryptedKey: function (password, callback) {
+			generateAsymEncryptedKey: function generateAsymEncryptedKeyF(parentKeyID, callback) {
 
 			},
+			//symEncryptKey(realid, callback);
+			//pwEncryptKey(realid, pwHash, callback);
 			encrypt: function (text, realKeyID, callback) {
 
 			},
@@ -930,39 +929,78 @@ define(["libs/step", "asset/helper", "crypto/helper", "libs/sjcl", "crypto/sjclW
 		},
 
 		asym: {
-			generateSymEncryptedKey: function (callback, important) {
-				CryptKey.generate(callback);
-			},
-			generatePWEncryptedKey: function (password, callback) {
+			generateKey: function generateKeyF(callback) {
+				step(function () {
+					CryptKey.generate(this);
+				}, h.sF(function (key) {
+					var r = key.realid();
+					if (cryptKeys[r]) {
+						keyStore.asym.generateKey(this.last);
+					} else {
+						cryptKeys[r] = key;
+					}
 
+					this.ne(r);
+				}), callback);
+			},
+
+			symEncryptedKey: function symEncryptKeyF(realID, parentKey, callback) {
+				var parentKey;
+				step(function () {
+					CryptKey.get(realID, this);
+				}, h.sF(function (key) {
+					key.addSymDecryptor(parentKeyID, this);
+				}), callback);
+			},
+
+			pwEncryptedKey: function pwEncryptKeyF(realID, password, callback) {
+				var parentKey;
+				step(function () {
+					CryptKey.get(realID, this);
+				}, h.sF(function (key) {
+					key.addPWDecryptor(password, this);
+				}), callback);
 			}
 		},
 
 		sign: {
-			generateSymEncryptedKey: function (realKeyID, parentKeyIDs, callback) {
-				var signKey, parentKey;
+			generateKey: function generateKeyF(callback) {
 				step(function () {
 					SignKey.generate(this);
 				}, h.sF(function (key) {
-					signKey = key;
-					SymKey.get(parentKeyIDs, this);
-				}), h.sF(function (key) {
-					parentKey = key;
-					parentKey.decryptKey(this);
-				}), h.sF(function () {
-					signKey.encryptSym(parentKey);
-				}));
-			},
-			generatePWEncryptedKey: function (password, callback) {
-				step(function () {
-					SignKey.generate(this);
-				}, h.sF(function (key) {
+					var r = key.realid();
+					if (signKeys[r]) {
+						keyStore.sign.generateKey(this.last);
+					} else {
+						signKeys[r] = key;
+					}
 
-				}));
+					this.ne(r);
+				}), callback);
 			},
+
+			symEncryptKey: function symEncryptKeyF(realID, parentKeyID, callback) {
+				var parentKey;
+				step(function () {
+					SignKey.get(realID, this);
+				}, h.sF(function (key) {
+					key.addSymDecryptor(parentKeyID, this);
+				}), callback);
+			},
+
+			pwEncryptKey: function pwEncryptKeyF(realID, password, callback) {
+				var parentKey;
+				step(function () {
+					SignKey.get(realID, this);
+				}, h.sF(function (key) {
+					key.addPWDecryptor(password, this);
+				}), callback);
+			},
+
 			sign: function (text, keyid, callback) {
 
 			},
+
 			verify: function (signature, text, keyid, callback) {
 
 			}
