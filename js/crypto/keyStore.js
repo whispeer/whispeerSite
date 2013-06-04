@@ -31,10 +31,16 @@ define(["libs/step", "asset/helper", "crypto/helper", "libs/sjcl", "crypto/sjclW
 
 	//TODO: webworkers: var webWorker = Modernizr.webworkers;
 
+	/** generate an id */
 	function generateid() {
 		return keyGenIdentifier + ":" + chelper.bits2hex(sjcl.hash.sha256.hash(new Date().getTime()));
 	}
 
+	/** encrypt a password
+	* @param pw password to encrypt
+	* @param text text to encrypt
+	* @param callback callback
+	*/
 	function encryptPW(pw, text, callback) {
 		step(function () {
 			var result = sjcl.encrypt(pw, text);
@@ -42,6 +48,7 @@ define(["libs/step", "asset/helper", "crypto/helper", "libs/sjcl", "crypto/sjclW
 		}, callback);
 	}
 
+	/** which keys are already loaded. (only decryption keys) */
 	function loadedKeys() {
 		return Object.keys(symKeys).concat(Object.keys(cryptKeys));
 	}
@@ -134,6 +141,7 @@ define(["libs/step", "asset/helper", "crypto/helper", "libs/sjcl", "crypto/sjclW
 	Key = function keyConstructor(realid, decryptors, optionals) {
 		var theKey = this, decrypted = false, dirtyDecryptors, internalSecret;
 
+		/** identity past processor */
 		function pastProcessor(secret, callback) {
 			callback(null, secret);
 		}
@@ -149,6 +157,7 @@ define(["libs/step", "asset/helper", "crypto/helper", "libs/sjcl", "crypto/sjclW
 			pastProcessor = optionals.pastProcessor;
 		}
 
+		/** is the key decrypted */
 		function decryptedF() {
 			return decrypted;
 		}
@@ -374,11 +383,13 @@ define(["libs/step", "asset/helper", "crypto/helper", "libs/sjcl", "crypto/sjclW
 		}
 		this.getUploadData = getUploadDataF;
 
+		/** check if this key has dirty decryptors */
 		function isDirtyF() {
 			return (theKey.dirtyDecryptors.length !== 0);
 		}
 		this.isDirty = isDirtyF;
 
+		/** remove uploaded keys from dirty array */
 		function removeDirtyF(keys) {
 			var remaining = [], i, j, isRemaining, curD, curK;
 			for (i = 0; i < dirtyDecryptors.length; i += 1) {
@@ -497,6 +508,7 @@ define(["libs/step", "asset/helper", "crypto/helper", "libs/sjcl", "crypto/sjclW
 		this.decrypt = decryptF;
 	};
 
+	/** load a key and his keychain. remove loaded keys */
 	function getKey(realKeyID, callback) {
 		step(function getKeyF() {
 			h.get({
@@ -515,6 +527,7 @@ define(["libs/step", "asset/helper", "crypto/helper", "libs/sjcl", "crypto/sjclW
 		}), callback);
 	}
 
+	/** load  a symkey and its keychain */
 	function symKeyGet(realKeyID, callback) {
 		step(function checkLoaded() {
 			if (symKeys[realKeyID]) {
@@ -531,15 +544,28 @@ define(["libs/step", "asset/helper", "crypto/helper", "libs/sjcl", "crypto/sjclW
 		}), callback);
 	}
 
+	/** generates a symmetric key
+	* @param callback callback
+	*/
 	function symKeyGenerate(callback) {
 		step(function () {
 			this.ne(new SymKey());
-		}, callback);
+		}, h.sF(function (key) {
+			if (!symKeys[key.realid()]) {
+				symKeys[key.realid()] = key;
+				this.ne(symKeys[key.realid()]);
+			} else {
+				symKeyGenerate(this);
+			}
+		}), callback);
 	}
 
 	SymKey.get = symKeyGet;
 	SymKey.generate = symKeyGenerate;
 
+	/** a ecc crypto key
+	* @param keyData keys data.
+	*/
 	CryptKey = function (keyData) {
 		var publicKey, intKey, x, y, curve, point, realid, isPrivateKey = false;
 
@@ -592,6 +618,9 @@ define(["libs/step", "asset/helper", "crypto/helper", "libs/sjcl", "crypto/sjclW
 			this.getDecryptorsF = intKey.getDecryptors;
 		}
 
+		/** create a key 
+		* param callback callback
+		*/
 		function kemF(callback) {
 			var resultKey;
 			step(function () {
@@ -604,6 +633,10 @@ define(["libs/step", "asset/helper", "crypto/helper", "libs/sjcl", "crypto/sjclW
 			}), callback);
 		}
 
+		/** unkem a key from a tag
+		* @param tag the tag
+		* @param callback callback
+		*/
 		function unkemF(tag, callback) {
 			step(function () {
 				if (!isPrivateKey) {
@@ -627,6 +660,10 @@ define(["libs/step", "asset/helper", "crypto/helper", "libs/sjcl", "crypto/sjclW
 		}
 	};
 
+	/** get a crypt key
+	* @param realKeyID keys real id
+	* @param callback callback
+	*/
 	function cryptKeyGet(realKeyID, callback) {
 		step(function checkLoaded() {
 			if (cryptKeys[realKeyID]) {
@@ -643,6 +680,10 @@ define(["libs/step", "asset/helper", "crypto/helper", "libs/sjcl", "crypto/sjclW
 		}), callback);
 	}
 
+	/** generate a crypt key
+	* @param curve curve to use
+	* @param callback callback
+	*/
 	function cryptKeyGenerate(curve, callback) {
 		step(function () {
 			var curveO = chelper.getCurve(curve), key = sjcl.ecc.elGamal.generateKeys(curveO);
@@ -667,6 +708,9 @@ define(["libs/step", "asset/helper", "crypto/helper", "libs/sjcl", "crypto/sjclW
 	CryptKey.get = cryptKeyGet;
 	CryptKey.generate = cryptKeyGenerate;
 
+	/** a signature key
+	* @param keyData sign key data
+	*/
 	SignKey = function (keyData) {
 		var publicKey, intKey, x, y, curve, point, realid, isPrivateKey = false;
 
