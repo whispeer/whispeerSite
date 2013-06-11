@@ -13,7 +13,7 @@
 	
 	keyid: identifier@timestamp
 **/
-define(["libs/step", "asset/helper", "crypto/helper", "libs/sjcl", "crypto/sjclWorkerInclude"], function (step, h, chelper, sjcl) {
+define(["step", "helper", "crypto/helper", "libs/sjcl", "crypto/sjclWorkerInclude"], function (step, h, chelper, sjcl) {
 	"use strict";
 	var symKeys = {}, cryptKeys = {}, signKeys = {}, passwords = [], keyGenIdentifier = "", Key, SymKey, CryptKey, SignKey, makeKey, keyStore;
 

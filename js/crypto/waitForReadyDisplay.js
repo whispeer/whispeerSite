@@ -1,4 +1,4 @@
-define(['crypto/waitForReady', 'display', 'libs/step'], function (waitForReady, display, step) {
+define(['crypto/waitForReady', 'display', 'step'], function (waitForReady, display, step) {
 	"use strict";
 
 	var added = false;

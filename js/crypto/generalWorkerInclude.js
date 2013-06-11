@@ -1,4 +1,4 @@
-define(['asset/logger', 'asset/helper', 'libs/step'], function (logger, h, step) {
+define(['asset/logger', 'helper', 'step'], function (logger, h, step) {
 	"use strict";
 	var workerManager = function (path, numberOfWorkers, setupMethod) {
 		var workerWaitQueue = [];

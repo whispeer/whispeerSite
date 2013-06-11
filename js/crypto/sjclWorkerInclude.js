@@ -1,4 +1,4 @@
-define(['libs/step', 'crypto/generalWorkerInclude', 'crypto/helper', 'libs/sjcl', 'crypto/waitForReady'], function (step, WorkerManager, chelper, sjcl, waitForReady) {
+define(['step', 'crypto/generalWorkerInclude', 'crypto/helper', 'libs/sjcl', 'crypto/waitForReady'], function (step, WorkerManager, chelper, sjcl, waitForReady) {
 	"use strict";
 
 	var addEntropy = {
