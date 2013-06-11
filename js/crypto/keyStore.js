@@ -29,11 +29,18 @@ define(["step", "helper", "crypto/helper", "libs/sjcl", "crypto/sjclWorkerInclud
 		pw: 3
 	};
 
-	//TODO: webworkers: var webWorker = Modernizr.webworkers;
+	//TODO: webworkers: 
+	var webWorker = Modernizr.webworkers;
 
 	/** generate an id */
 	function generateid() {
-		return keyGenIdentifier + ":" + chelper.bits2hex(sjcl.hash.sha256.hash(new Date().getTime()));
+		var id = keyGenIdentifier + ":" + chelper.bits2hex(sjcl.hash.sha256.hash(new Date().getTime()));
+
+		if (symKeys[id] || cryptKeys[id] || signKeys[id]) {
+			return generateid();
+		}
+
+		return id;
 	}
 
 	/** encrypt a password
@@ -44,7 +51,7 @@ define(["step", "helper", "crypto/helper", "libs/sjcl", "crypto/sjclWorkerInclud
 	function encryptPW(pw, text, callback) {
 		step(function () {
 			var result = sjcl.encrypt(pw, text);
-			this.ne(sjcl.json.decode(result));
+			this.ne(chelper.sjclPacket2Object(result));
 		}, callback);
 	}
 
@@ -139,7 +146,7 @@ define(["step", "helper", "crypto/helper", "libs/sjcl", "crypto/sjclWorkerInclud
 	* @param optional secret unencrypted secret if we already have it
 	*/
 	Key = function keyConstructor(realid, decryptors, optionals) {
-		var theKey = this, decrypted = false, dirtyDecryptors, internalSecret;
+		var theKey = this, decrypted = false, dirtyDecryptors = [], internalSecret;
 
 		/** identity past processor */
 		function pastProcessor(secret, callback) {
@@ -204,10 +211,10 @@ define(["step", "helper", "crypto/helper", "libs/sjcl", "crypto/sjclWorkerInclud
 
 
 		/** getter for real id */
-		function getRealidF() {
+		function getRealIDF() {
 			return realid;
 		}
-		this.getRealid = getRealidF;
+		this.getRealID = getRealIDF;
 
 		/** getter for decryptors array
 		* copies array before returning
@@ -341,7 +348,6 @@ define(["step", "helper", "crypto/helper", "libs/sjcl", "crypto/sjclWorkerInclud
 			step(function () {
 				encryptPW(pw, internalSecret, this);
 			}, h.sF(function (data) {
-				data = sjcl.json.decode(data);
 				var decryptorData = {
 					decryptorid: 0,
 					type: "pw",
@@ -447,12 +453,15 @@ define(["step", "helper", "crypto/helper", "libs/sjcl", "crypto/sjclWorkerInclud
 			intKey = new Key(generateid(), [], {secret: sjcl.random.randomWords(8)});
 		}
 
-		this.getRealid = intKey.getRealid;
+		this.getRealID = intKey.getRealID;
 		this.getDecryptors = intKey.getDecryptors;
-
 		this.decrypted = intKey.decrypted;
-		this.decryptKey = intKey.decryptKey;
 
+		this.addAsymDecryptor = intKey.addAsymDecryptor;
+		this.addSymDecryptor = intKey.addSymDecryptor;
+		this.addPWDecryptor = intKey.addPWDecryptor;
+
+		this.decryptKey = intKey.decryptKey;
 		this.getFastestDecryptor = intKey.getFastestDecryptor;
 
 		/** encrypt a text.
@@ -461,7 +470,7 @@ define(["step", "helper", "crypto/helper", "libs/sjcl", "crypto/sjclWorkerInclud
 		* @param optional iv initialization vector
 		*/
 		function encryptF(text, callback, iv) {
-			step(function () {
+			step(function symEncryptI1() {
 				if (!intKey.decrypted()) {
 					throw "not yet decrypted";
 				}
@@ -473,7 +482,7 @@ define(["step", "helper", "crypto/helper", "libs/sjcl", "crypto/sjclWorkerInclud
 					result = sjcl.encrypt(intKey.getSecret(), text);
 				}
 
-				this.ne(result);
+				this.ne(chelper.sjclPacket2Object(result));
 			}, callback);
 		}
 
@@ -507,6 +516,18 @@ define(["step", "helper", "crypto/helper", "libs/sjcl", "crypto/sjclWorkerInclud
 		this.encrypt = encryptF;
 		this.decrypt = decryptF;
 	};
+
+	/** make a symkey out of keydata */
+	function makeSymKey(keyData) {
+		if (keyData && keyData.realid) {
+			if (!symKeys[keyData.realid]) {
+				var key = new SymKey(keyData);
+				symKeys[keyData.realid] = key;
+			}
+
+			return symKeys[keyData.realid];
+		}
+	}
 
 	/** load a key and his keychain. remove loaded keys */
 	function getKey(realKeyID, callback) {
@@ -551,9 +572,9 @@ define(["step", "helper", "crypto/helper", "libs/sjcl", "crypto/sjclWorkerInclud
 		step(function () {
 			this.ne(new SymKey());
 		}, h.sF(function (key) {
-			if (!symKeys[key.realid()]) {
-				symKeys[key.realid()] = key;
-				this.ne(symKeys[key.realid()]);
+			if (!symKeys[key.getRealID()]) {
+				symKeys[key.getRealID()] = key;
+				this.ne(symKeys[key.getRealID()]);
 			} else {
 				symKeyGenerate(this);
 			}
@@ -614,8 +635,12 @@ define(["step", "helper", "crypto/helper", "libs/sjcl", "crypto/sjclWorkerInclud
 			this.decrypted = intKey.decrypted;
 			this.decryptKey = intKey.decryptKey;
 
-			this.getRealid = intKey.getRealid;
+			this.getRealID = intKey.getRealID;
 			this.getDecryptorsF = intKey.getDecryptors;
+
+			this.addAsymDecryptor = intKey.addAsymDecryptor;
+			this.addSymDecryptor = intKey.addSymDecryptor;
+			this.addPWDecryptor = intKey.addPWDecryptor;
 		}
 
 		/** create a key 
@@ -627,9 +652,9 @@ define(["step", "helper", "crypto/helper", "libs/sjcl", "crypto/sjclWorkerInclud
 				this.ne(publicKey.kem());
 			}, h.sF(function (keyData) {
 				resultKey = new SymKey(keyData.key);
-				resultKey.addAsymDecryptor(keyData.tag, this);
+				resultKey.addAsymDecryptor(realid, keyData.tag, this);
 			}), h.sF(function () {
-				this.ne(resultKey.realid);
+				this.ne(resultKey.getRealID());
 			}), callback);
 		}
 
@@ -659,6 +684,18 @@ define(["step", "helper", "crypto/helper", "libs/sjcl", "crypto/sjclWorkerInclud
 			this.unkem = unkemF;
 		}
 	};
+
+	/** make a crypt key out of keydata */
+	function makeCryptKey(keyData) {
+		if (keyData && keyData.getRealID()) {
+			if (!cryptKeys[keyData.realid]) {
+				var key = new CryptKey(keyData);
+				cryptKeys[keyData.realid] = key;
+			}
+
+			return cryptKeys[keyData.realid];
+		}
+	}
 
 	/** get a crypt key
 	* @param realKeyID keys real id
@@ -701,7 +738,7 @@ define(["step", "helper", "crypto/helper", "libs/sjcl", "crypto/sjclWorkerInclud
 			};
 			/*jslint nomen: false*/
 
-			this.ne(new CryptKey(data));
+			this.ne(makeCryptKey(data));
 		}), callback);
 	}
 
@@ -765,8 +802,12 @@ define(["step", "helper", "crypto/helper", "libs/sjcl", "crypto/sjclWorkerInclud
 			this.decrypted = intKey.decrypted;
 			this.decryptKey = intKey.decryptKey;
 
-			this.getRealid = intKey.getRealid;
+			this.getRealID = intKey.getRealID;
 			this.getDecryptorsF = intKey.getDecryptors;
+
+			this.addAsymDecryptor = intKey.addAsymDecryptor;
+			this.addSymDecryptor = intKey.addSymDecryptor;
+			this.addPWDecryptor = intKey.addPWDecryptor;
 		}
 
 		function signF(hash, callback) {
@@ -793,6 +834,18 @@ define(["step", "helper", "crypto/helper", "libs/sjcl", "crypto/sjclWorkerInclud
 
 		this.verify = verifyF;
 	};
+
+	/** make a sign key out of keydata */
+	function makeSignKey(keyData) {
+		if (keyData && keyData.realid) {
+			if (!signKeys[keyData.realid]) {
+				var key = new SignKey(keyData);
+				signKeys[keyData.realid] = key;
+			}
+
+			return signKeys[keyData.realid];
+		}
+	}
 
 	/** get a signature key
 	* @param realKeyID the real id of the sign key
@@ -835,48 +888,12 @@ define(["step", "helper", "crypto/helper", "libs/sjcl", "crypto/sjclWorkerInclud
 			};
 			/*jslint nomen: false*/
 
-			this.ne(new SignKey(data));
+			this.ne(makeSignKey(data));
 		}), callback);
 	}
 
 	SignKey.get = signKeyGet;
 	SignKey.generate = signKeyGenerate;
-
-	/** make a symkey out of keydata */
-	function makeSymKey(keyData) {
-		if (keyData && keyData.realid) {
-			if (!symKeys[keyData.realid]) {
-				var key = new SymKey(keyData);
-				symKeys[keyData.realid] = key;
-			}
-
-			return symKeys[keyData.realid];
-		}
-	}
-
-	/** make a crypt key out of keydata */
-	function makeCryptKey(keyData) {
-		if (keyData && keyData.realid) {
-			if (!cryptKeys[keyData.realid]) {
-				var key = new CryptKey(keyData);
-				cryptKeys[keyData.realid] = key;
-			}
-
-			return cryptKeys[keyData.realid];
-		}
-	}
-
-	/** make a sign key out of keydata */
-	function makeSignKey(keyData) {
-		if (keyData && keyData.realid) {
-			if (!signKeys[keyData.realid]) {
-				var key = new SignKey(keyData);
-				signKeys[keyData.realid] = key;
-			}
-
-			return signKeys[keyData.realid];
-		}
-	}
 
 	/** make a key out of keyData. mainly checks type and calls appropriate function */
 	makeKey = function makeKeyF(key) {
@@ -906,25 +923,66 @@ define(["step", "helper", "crypto/helper", "libs/sjcl", "crypto/sjclWorkerInclud
 			keyGenIdentifier = identifier;
 		},
 
-		//option:
-		//asymEncryptKey: new SymKey(kem()); key.symEncrypt(generatedKey)
-		//generateAsymEncryptedKey: new SymKey(kem());
-
 		sym: {
-			//TODO: rethink interface. do we want to have generateKey and then encryptKeySym, encryptKeyAsym, encryptKeyPW or somewhat different?
 			generateKey: function generateKeyF(callback) {
+				step(function symGen1() {
+					SymKey.generate(this);
+				}, h.sF(function symGen2(key) {
+					var r = key.getRealID();
 
+					this.ne(r);
+				}), callback);
 			},
-			generateAsymEncryptedKey: function generateAsymEncryptedKeyF(parentKeyID, callback) {
+			symEncryptKey: function symEncryptKeyF(realID, parentKeyID, callback) {
+				step(function () {
+					SymKey.get(realID, this);
+				}, h.sF(function (key) {
+					key.addSymDecryptor(parentKeyID, this);
+				}), callback);
+			},
+			asymEncryptKey: function asymEncryptKeyF(realID, parentKeyID, callback) {
+				var symKey;
+				step(function () {
+					SymKey.get(realID);
+				}, h.sF(function (key) {
+					symKey = key;
+					CryptKey.get(parentKeyID);
+				}), h.sF(function (key) {
+					key.kem(this);
+				}), h.sF(function (parentRealID) {
+					keyStore.sym.symEncryptKey(realID, parentRealID, this);
+				}), callback);
+			},
+			pwEncryptKey: function pwEncryptKeyF(realID, password, callback) {
+				step(function () {
+					SymKey.get(realID, this);
+				}, h.sF(function (key) {
+					key.addPWDecryptor(password, this);
+				}), callback);
+			},
 
-			},
-			//symEncryptKey(realid, callback);
-			//pwEncryptKey(realid, pwHash, callback);
 			encrypt: function (text, realKeyID, callback) {
-
+				step(function symEncrypt1() {
+					text = "data::" + text;
+					SymKey.get(realKeyID, this);
+				}, h.sF(function symEncrypt2(key) {
+					key.encrypt(text, this);
+				}), h.sF(function symEncrypt3(ct) {
+					this.ne(ct);
+				}), callback);
 			},
 			decrypt: function (ctext, realKeyID, callback) {
-
+				step(function () {
+					SymKey.get(realKeyID, this);
+				}, h.sF(function (key) {
+					key.decrypt(ctext, this);
+				}), h.sF(function (text) {
+					if (text.substr(0, 6) === "data::") {
+						this.ne(text.substr(6));
+					} else {
+						throw new AccessViolation();
+					}
+				}), callback);
 			}
 		},
 
@@ -933,7 +991,7 @@ define(["step", "helper", "crypto/helper", "libs/sjcl", "crypto/sjclWorkerInclud
 				step(function () {
 					CryptKey.generate(this);
 				}, h.sF(function (key) {
-					var r = key.realid();
+					var r = key.getRealID();
 					if (cryptKeys[r]) {
 						keyStore.asym.generateKey(this.last);
 					} else {
@@ -944,8 +1002,7 @@ define(["step", "helper", "crypto/helper", "libs/sjcl", "crypto/sjclWorkerInclud
 				}), callback);
 			},
 
-			symEncryptedKey: function symEncryptKeyF(realID, parentKey, callback) {
-				var parentKey;
+			symEncryptKey: function symEncryptKeyF(realID, parentKeyID, callback) {
 				step(function () {
 					CryptKey.get(realID, this);
 				}, h.sF(function (key) {
@@ -953,8 +1010,7 @@ define(["step", "helper", "crypto/helper", "libs/sjcl", "crypto/sjclWorkerInclud
 				}), callback);
 			},
 
-			pwEncryptedKey: function pwEncryptKeyF(realID, password, callback) {
-				var parentKey;
+			pwEncryptKey: function pwEncryptKeyF(realID, password, callback) {
 				step(function () {
 					CryptKey.get(realID, this);
 				}, h.sF(function (key) {
@@ -968,7 +1024,7 @@ define(["step", "helper", "crypto/helper", "libs/sjcl", "crypto/sjclWorkerInclud
 				step(function () {
 					SignKey.generate(this);
 				}, h.sF(function (key) {
-					var r = key.realid();
+					var r = key.getRealID();
 					if (signKeys[r]) {
 						keyStore.sign.generateKey(this.last);
 					} else {
@@ -980,7 +1036,6 @@ define(["step", "helper", "crypto/helper", "libs/sjcl", "crypto/sjclWorkerInclud
 			},
 
 			symEncryptKey: function symEncryptKeyF(realID, parentKeyID, callback) {
-				var parentKey;
 				step(function () {
 					SignKey.get(realID, this);
 				}, h.sF(function (key) {
@@ -989,7 +1044,6 @@ define(["step", "helper", "crypto/helper", "libs/sjcl", "crypto/sjclWorkerInclud
 			},
 
 			pwEncryptKey: function pwEncryptKeyF(realID, password, callback) {
-				var parentKey;
 				step(function () {
 					SignKey.get(realID, this);
 				}, h.sF(function (key) {
@@ -997,12 +1051,41 @@ define(["step", "helper", "crypto/helper", "libs/sjcl", "crypto/sjclWorkerInclud
 				}), callback);
 			},
 
-			sign: function (text, keyid, callback) {
+			//TODO
+			signText: function (text, realID, callback) {
+				keyStore.sign.signHash(sjcl.hash.sha256.hash(text), realID, callback);
+			},
+			signHash: function (hash, realID, callback) {
+				step(function () {
+					hash = chelper.hex2bits(hash);
 
+					SignKey.get(realID, this);
+				}, h.sF(function (key) {
+					key.sign(hash, this);
+				}), h.sF(function (signature) {
+					this.ne(signature);
+				}), callback);
 			},
 
-			verify: function (signature, text, keyid, callback) {
+			//TODO
+			verifyText: function (signature, text, realID, callback) {
+				keyStore.sign.verifyHash(signature, sjcl.hash.sha256.hash(text), realID, callback);
+			},
+			verifyHash: function (signature, hash, realID, callback) {
+				step(function () {
+					hash = chelper.hex2bits(hash);
+					signature = chelper.hex2bits(signature);
 
+					SignKey.get(realID, this);
+				}, h.sF(function (key) {
+					key.verify(signature, hash, this);
+				}), function (e, correct) {
+					if (e) {
+						this.ne(false);
+					} else {
+						this.ne(correct);
+					}
+				}, callback);
 			}
 		}
 	};

@@ -1,17 +1,17 @@
-define(["libs/sjcl"], function (sjcl) {
+define(["libs/sjcl", "helper"], function (sjcl, h) {
 	"use strict";
 	var helper = {
 		getCurveName: function (curve) {
 			var curcurve;
 			for (curcurve in sjcl.ecc.curves) {
 				if (sjcl.ecc.curves.hasOwnProperty(curcurve)) {
-					if (sjcl.ecc.curves[curcurve] == curve) {
+					if (sjcl.ecc.curves[curcurve] === curve) {
 						return curcurve;
 					}
 				}
 			}
 
-			throw "curve not existing"
+			throw "curve not existing";
 		},
 		getCurve: function (curveName) {
 			if (sjcl.ecc.curves[curveName]) {
@@ -25,7 +25,12 @@ define(["libs/sjcl"], function (sjcl) {
 				return t;
 			}
 
-			return sjcl.codec.hex.toBits(t);
+			if (h.isHex(t)) {
+				return sjcl.codec.hex.toBits(t);
+			}
+
+			//TODO
+			throw new InvalidHexError();
 		},
 		bits2hex: function (t) {
 			if (typeof t === "string") {
@@ -33,7 +38,24 @@ define(["libs/sjcl"], function (sjcl) {
 			}
 
 			return sjcl.codec.hex.fromBits(t);
-		}
+		},
+		sjclPacket2Object: function (data) {
+			var decoded = sjcl.json.decode(data);
+			var result = {
+				ct: decoded.ct,
+				iv: decoded.iv
+			};
+
+			if (decoded.salt) {
+				result.salt = decoded.salt;
+			}
+
+			
+			return result;
+		},
+		Object2sjclPacket: function (data) {
+			return sjcl.json.encode(data);
+		},
 	};
 
 	return helper;
