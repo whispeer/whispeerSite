@@ -14,6 +14,10 @@ define(["libs/sjcl", "helper"], function (sjcl, h) {
 			throw "curve not existing";
 		},
 		getCurve: function (curveName) {
+			if (typeof curveName !== "string" || curveName.substr(0, 1) !== "c") {
+				curveName = "c" + curveName;
+			}
+
 			if (sjcl.ecc.curves[curveName]) {
 				return sjcl.ecc.curves[curveName];
 			}

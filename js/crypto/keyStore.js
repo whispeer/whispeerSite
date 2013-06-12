@@ -148,6 +148,10 @@ define(["step", "helper", "crypto/helper", "libs/sjcl", "crypto/sjclWorkerInclud
 	Key = function keyConstructor(realid, decryptors, optionals) {
 		var theKey = this, decrypted = false, dirtyDecryptors = [], internalSecret;
 
+		if (!decryptors) {
+			decryptors = [];
+		}
+
 		/** identity past processor */
 		function pastProcessor(secret, callback) {
 			callback(null, secret);
@@ -178,12 +182,14 @@ define(["step", "helper", "crypto/helper", "libs/sjcl", "crypto/sjclWorkerInclud
 			step(function () {
 				if (decrypted) {
 					this.last.ne(true);
+					return;
 				}
 
 				usedDecryptor = theKey.getFastestDecryptor();
 
 				if (!usedDecryptor) {
 					this.last.ne(false);
+					return;
 				}
 
 				internalDecrypt(usedDecryptor.decryptorid, usedDecryptor.decryptortype, usedDecryptor.ct, this, usedDecryptor.iv, usedDecryptor.salt);
@@ -316,14 +322,14 @@ define(["step", "helper", "crypto/helper", "libs/sjcl", "crypto/sjclWorkerInclud
 		*/
 		function addSymDecryptorF(realid, callback) {
 			var cryptor;
-			step(function () {
+			step(function addSymD1() {
 				SymKey.get(realid, this);
-			}, h.sF(function (theKey) {
+			}, h.sF(function addSymD2(theKey) {
 				cryptor = theKey;
 				theKey.decryptKey(this);
-			}), h.sF(function () {
+			}), h.sF(function addSymD3() {
 				cryptor.encrypt("key::" + internalSecret, this);
-			}), h.sF(function (data) {
+			}), h.sF(function addSymD4(data) {
 				var decryptorData = {
 					decryptorid: 0,
 					type: "symKey",
@@ -446,6 +452,8 @@ define(["step", "helper", "crypto/helper", "libs/sjcl", "crypto/sjclWorkerInclud
 		if (keyData) {
 			if (typeof keyData === "string") {
 				intKey = new Key(generateid(), [], {secret: chelper.hex2bits(keyData)});
+			} else if (keyData instanceof Array) {
+				intKey = new Key(generateid(), [], {secret: keyData});
 			} else {
 				intKey = new Key(keyData.realid, keyData.decryptors);
 			}
@@ -596,8 +604,8 @@ define(["step", "helper", "crypto/helper", "libs/sjcl", "crypto/sjclWorkerInclud
 
 		curve = chelper.getCurve(keyData.curve);
 
-		x =	curve.field(keyData.x);
-		y = curve.field(keyData.y);
+		x =	curve.field.fromBits(chelper.hex2bits(keyData.point.x));
+		y = curve.field.fromBits(chelper.hex2bits(keyData.point.y));
 		point = new sjcl.ecc.point(curve, x, y);
 
 		publicKey = new sjcl.ecc.elGamal.publicKey(curve, point);
@@ -606,7 +614,6 @@ define(["step", "helper", "crypto/helper", "libs/sjcl", "crypto/sjclWorkerInclud
 
 		if (keyData.exponent) {
 			isPrivateKey = true;
-			realid = generateid();
 
 			intKey = new Key(realid, keyData.decryptors, {
 				secret: keyData.exponent,
@@ -631,11 +638,12 @@ define(["step", "helper", "crypto/helper", "libs/sjcl", "crypto/sjclWorkerInclud
 			});
 		}
 
+		this.getRealID = intKey.getRealID;
+
 		if (isPrivateKey) {
 			this.decrypted = intKey.decrypted;
 			this.decryptKey = intKey.decryptKey;
 
-			this.getRealID = intKey.getRealID;
 			this.getDecryptorsF = intKey.getDecryptors;
 
 			this.addAsymDecryptor = intKey.addAsymDecryptor;
@@ -652,6 +660,7 @@ define(["step", "helper", "crypto/helper", "libs/sjcl", "crypto/sjclWorkerInclud
 				this.ne(publicKey.kem());
 			}, h.sF(function (keyData) {
 				resultKey = new SymKey(keyData.key);
+				symKeys[resultKey.getRealID()] = resultKey;
 				resultKey.addAsymDecryptor(realid, keyData.tag, this);
 			}), h.sF(function () {
 				this.ne(resultKey.getRealID());
@@ -687,7 +696,7 @@ define(["step", "helper", "crypto/helper", "libs/sjcl", "crypto/sjclWorkerInclud
 
 	/** make a crypt key out of keydata */
 	function makeCryptKey(keyData) {
-		if (keyData && keyData.getRealID()) {
+		if (keyData && keyData.realid) {
 			if (!cryptKeys[keyData.realid]) {
 				var key = new CryptKey(keyData);
 				cryptKeys[keyData.realid] = key;
@@ -761,8 +770,8 @@ define(["step", "helper", "crypto/helper", "libs/sjcl", "crypto/sjclWorkerInclud
 
 		curve = chelper.getCurve(keyData.curve);
 
-		x =	curve.field(keyData.x);
-		y = curve.field(keyData.y);
+		x =	curve.field(keyData.point.x);
+		y = curve.field(keyData.point.y);
 		point = new sjcl.ecc.point(curve, x, y);
 
 		publicKey = new sjcl.ecc.elGamal.publicKey(curve, point);
@@ -772,7 +781,6 @@ define(["step", "helper", "crypto/helper", "libs/sjcl", "crypto/sjclWorkerInclud
 		//add exponent/decryptors
 		if (keyData.exponent) {
 			isPrivateKey = true;
-			realid = generateid();
 
 			intKey = new Key(realid, keyData.decryptors, {
 				secret: keyData.exponent,
@@ -942,14 +950,14 @@ define(["step", "helper", "crypto/helper", "libs/sjcl", "crypto/sjclWorkerInclud
 			},
 			asymEncryptKey: function asymEncryptKeyF(realID, parentKeyID, callback) {
 				var symKey;
-				step(function () {
-					SymKey.get(realID);
-				}, h.sF(function (key) {
+				step(function asymEncr1() {
+					SymKey.get(realID, this);
+				}, h.sF(function asymEncr2(key) {
 					symKey = key;
-					CryptKey.get(parentKeyID);
-				}), h.sF(function (key) {
+					CryptKey.get(parentKeyID, this);
+				}), h.sF(function asymEncr3(key) {
 					key.kem(this);
-				}), h.sF(function (parentRealID) {
+				}), h.sF(function asymEncr4(parentRealID) {
 					keyStore.sym.symEncryptKey(realID, parentRealID, this);
 				}), callback);
 			},
@@ -989,14 +997,9 @@ define(["step", "helper", "crypto/helper", "libs/sjcl", "crypto/sjclWorkerInclud
 		asym: {
 			generateKey: function generateKeyF(callback) {
 				step(function () {
-					CryptKey.generate(this);
+					CryptKey.generate("256", this);
 				}, h.sF(function (key) {
 					var r = key.getRealID();
-					if (cryptKeys[r]) {
-						keyStore.asym.generateKey(this.last);
-					} else {
-						cryptKeys[r] = key;
-					}
 
 					this.ne(r);
 				}), callback);

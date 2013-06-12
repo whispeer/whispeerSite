@@ -1,18 +1,6 @@
 define(['step'], function (step) {
 	"use strict";
 	var helper = {
-		/** is data a numeric?
-		* @param data data to check for being numeric
-		* @author Nilos
-		*/
-		isInt: function (data) {
-			var y = parseInt(data, 10);
-			if (isNaN(y)) {
-				return false;
-			}
-			return y.toString() === data.toString();
-		},
-
 		callback: function (c) {
 			if (typeof c !== "function") {
 				console.trace();
@@ -44,14 +32,6 @@ define(['step'], function (step) {
 			}), function (e) {
 				console.log(e);
 			});
-		},
-
-		/** is data an id?
-		* @param data data to check for being an id
-		* @author Nilos
-		*/
-		isID: function (data) {
-			return helper.isInt(data);
 		},
 
 		ajax: function (data, cb) {
@@ -115,37 +95,70 @@ define(['step'], function (step) {
 			return decodeHTMLEntities;
 		}()),
 
-		/** is data a nickname? */
+		/** is data an integer?
+		* @param data value to check for int value
+		* @return bool is integer?
+		*/
+		isInt: function (data) {
+			var y = parseInt(data, 10);
+			if (isNaN(y)) {
+				return false;
+			}
+			return y.toString() === data.toString();
+		},
+
+		/** is data an id?*/
+		isID: function (data) {
+			if (helper.isInt(data)) {
+				data = parseInt(data, 10);
+
+				return (data > 0);
+			}
+
+			return false;
+		},
+
+		/** is data a valid nickname? */
 		isNickname: function (data) {
-			if (typeof data === "string") {
-				return data.match(/^[A-z][A-z0-9]*$/);
-			}
-
-			return false;
+			return (helper.isString(data) && !!data.match(/^[A-z][A-z0-9]*$/));
 		},
 
-		/** is data a mail? */
+		/** is data an e-mail? */
 		isMail: function (data) {
-			if (typeof data === "string") {
-				return data.match(/^[A-Z0-9._%\-]+@[A-Z0-9.\-]+\.[A-Z]+$/i);
-			}
+			return (helper.isString(data) && !!data.match(/^[A-Z0-9._%\-]+@[A-Z0-9.\-]+\.[A-Z]+$/i));
+		},
 
+		/** is data a session Key (hex value with certain length) */
+		isSessionKey: function (data) {
+			return (helper.isset(data) && (data.length === 64 || data.length === 32) && helper.isHex(data));
+		},
+
+		isPassword: function (data) {
+			return (data.isHex(data) && data.length === 10);
+		},
+
+		isCurve: function (data) {
+			//TODO!
 			return false;
 		},
 
-		/** is data a session key? */
-		isSessionKey: function (data) {
-			return (data.match(/^[A-z0-9]$/) && (data.length === 64 || data.length === 32));
+		isHex: function (data) {
+			return (helper.isset(data) && !!data.match(/^[A-Fa-f0-9]*$/));
 		},
 
-		/** is val an object? */
+		/** typeof val == object? */
 		isObject: function (val) {
 			return (typeof val === "object");
 		},
 
-		/** is data set (not null and not undefined)? */
+		/** is val set (not null/undefined) */
+		isString: function (val) {
+			return (val !== undefined && val !== null && typeof val === "string");
+		},
+
+		/** is val set (not null/undefined) */
 		isset: function (val) {
-			return (typeof val !== "undefined" && val !== null);
+			return (val !== undefined && val !== null);
 		},
 
 		/** checks if an array is set and attributes in that array are set.
