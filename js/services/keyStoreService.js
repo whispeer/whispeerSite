@@ -1,13 +1,11 @@
 /**
 * LoginService
 **/
-define(['angular'], function (angular) {
+define(['angular', 'keyStore'], function (angular, keyStore) {
 	"use strict";
 
 	var service = function () {
-		return {
-		
-		};
+		return keyStore;
 	};
 
 	service.$inject = [];

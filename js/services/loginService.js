@@ -4,7 +4,7 @@
 define(['angular', 'step', 'helper'], function (angular, step, h) {
 	"use strict";
 
-	var service = function (socketService) {
+	var service = function (socketService, keyStoreService) {
 		var sid = "";
 
 		return {
@@ -19,7 +19,7 @@ define(['angular', 'step', 'helper'], function (angular, step, h) {
 					} else {
 						var hash = keyStoreService.hash(password);
 
-						hash = hash(hash.substr(0, 10) + token);
+						hash = hash(hash.substr(0, 10) + data.token);
 						socketService.emit("login", {
 							identifier: name,
 							passwordHash: hash
@@ -29,13 +29,15 @@ define(['angular', 'step', 'helper'], function (angular, step, h) {
 					if (data.error) {
 						this.last(data.errorData);
 					} else {
-						
+						//TODO: go forward, login was successful
 					}
 				}), callback);
 			},
 
-			register: function () {
-
+			register: function (nickname, mail, password, profile, callback) {
+				step(function register1() {
+					
+				}, callback);
 			},
 
 			mailUsed: function (mail, callback) {
@@ -101,15 +103,15 @@ define(['angular', 'step', 'helper'], function (angular, step, h) {
 				if (password.length >= 20) { strength += 1; } // Longer than 20 chars
 				if ((password.match(/[a-z]/)) && (password.match(/[A-Z]/))) { strength += 2; } // Mix of upper and lower chars
 				if (password.match(/\d+/)) { strength += 1; } // Contains a number
-				if (password.match(/[+,!,@,#,$,%,\^,&,*,?,_,~,-]/)) { strength += 1; } // Contains a special chars
-				if (password.match(/[+,!,@,#,$,%,\^,&,*,?,_,~,-]([\w\W]*)[+,!,@,#,$,%,\^,&,*,?,_,~,-]/)) { strength += 1; } // Contains two special chars
+				if (password.match(/[+,!,@,#,$,%,\^,&,*,?,_,~,\-]/)) { strength += 1; } // Contains a special chars
+				if (password.match(/[+,!,@,#,$,%,\^,&,*,?,_,~,\-]([\w\W]*)[+,!,@,#,$,%,\^,&,*,?,_,~,\-]/)) { strength += 1; } // Contains two special chars
 
 				return strength;
 			}
 		};
 	};
 
-	service.$inject = ['ssn.socketService'];
+	service.$inject = ['ssn.socketService', 'ssn.keyStoreService'];
 
 	return service;
 });
