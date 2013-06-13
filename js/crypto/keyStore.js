@@ -934,6 +934,9 @@ define(["step", "helper", "crypto/helper", "libs/sjcl", "crypto/sjclWorkerInclud
 		},
 
 		sym: {
+			/** generate a key
+			* @param callback callback
+			*/
 			generateKey: function generateKeyF(callback) {
 				step(function symGen1() {
 					SymKey.generate(this);
@@ -943,6 +946,12 @@ define(["step", "helper", "crypto/helper", "libs/sjcl", "crypto/sjclWorkerInclud
 					this.ne(r);
 				}), callback);
 			},
+
+			/** encrypt key with sym key
+			* @param realID key to encrypt
+			* @param parentKeyID key to encrypt with
+			* @param callback callback
+			*/
 			symEncryptKey: function symEncryptKeyF(realID, parentKeyID, callback) {
 				step(function () {
 					SymKey.get(realID, this);
@@ -950,6 +959,12 @@ define(["step", "helper", "crypto/helper", "libs/sjcl", "crypto/sjclWorkerInclud
 					key.addSymDecryptor(parentKeyID, this);
 				}), callback);
 			},
+
+			/** encrypt this key with an asymmetric key
+			* @param realID key to encrypt
+			* @param parentKeyID key to encrypt with
+			* @param callback callback
+			*/
 			asymEncryptKey: function asymEncryptKeyF(realID, parentKeyID, callback) {
 				var symKey;
 				step(function asymEncr1() {
@@ -963,6 +978,12 @@ define(["step", "helper", "crypto/helper", "libs/sjcl", "crypto/sjclWorkerInclud
 					keyStore.sym.symEncryptKey(realID, parentRealID, this);
 				}), callback);
 			},
+
+			/** encrypt key with password
+			* @param realID key to encrypt
+			* @param password password to encrypt with
+			* @param callback callback
+			*/
 			pwEncryptKey: function pwEncryptKeyF(realID, password, callback) {
 				step(function () {
 					SymKey.get(realID, this);
@@ -971,6 +992,11 @@ define(["step", "helper", "crypto/helper", "libs/sjcl", "crypto/sjclWorkerInclud
 				}), callback);
 			},
 
+			/** encrypt text with this key.
+			* @param text text to encrypt
+			* @param realKeyID key to encrypt with
+			* @param callback callback
+			*/
 			encrypt: function (text, realKeyID, callback) {
 				step(function symEncrypt1() {
 					text = "data::" + text;
@@ -981,6 +1007,12 @@ define(["step", "helper", "crypto/helper", "libs/sjcl", "crypto/sjclWorkerInclud
 					this.ne(ct);
 				}), callback);
 			},
+
+			/** decrypt an encrypted text
+			* @param ctext text to decrypt
+			* @param realKeyID key to decrypt with
+			* @param callback callback
+			*/
 			decrypt: function (ctext, realKeyID, callback) {
 				step(function () {
 					SymKey.get(realKeyID, this);
@@ -997,6 +1029,9 @@ define(["step", "helper", "crypto/helper", "libs/sjcl", "crypto/sjclWorkerInclud
 		},
 
 		asym: {
+			/** generate a key
+			* @param callback callback
+			*/
 			generateKey: function generateKeyF(callback) {
 				step(function () {
 					CryptKey.generate("256", this);
@@ -1007,6 +1042,11 @@ define(["step", "helper", "crypto/helper", "libs/sjcl", "crypto/sjclWorkerInclud
 				}), callback);
 			},
 
+			/** encrypt key with sym key
+			* @param realID key to encrypt
+			* @param parentKeyID key to encrypt with
+			* @param callback callback
+			*/
 			symEncryptKey: function symEncryptKeyF(realID, parentKeyID, callback) {
 				step(function () {
 					CryptKey.get(realID, this);
@@ -1015,6 +1055,11 @@ define(["step", "helper", "crypto/helper", "libs/sjcl", "crypto/sjclWorkerInclud
 				}), callback);
 			},
 
+			/** encrypt key with password
+			* @param realID key to encrypt
+			* @param password password to encrypt with
+			* @param callback callback
+			*/
 			pwEncryptKey: function pwEncryptKeyF(realID, password, callback) {
 				step(function () {
 					CryptKey.get(realID, this);
@@ -1025,6 +1070,9 @@ define(["step", "helper", "crypto/helper", "libs/sjcl", "crypto/sjclWorkerInclud
 		},
 
 		sign: {
+			/** generate a key
+			* @param callback callback
+			*/
 			generateKey: function generateKeyF(callback) {
 				step(function () {
 					SignKey.generate(this);
@@ -1040,6 +1088,11 @@ define(["step", "helper", "crypto/helper", "libs/sjcl", "crypto/sjclWorkerInclud
 				}), callback);
 			},
 
+			/** encrypt key with sym key
+			* @param realID key to encrypt
+			* @param parentKeyID key to encrypt with
+			* @param callback callback
+			*/
 			symEncryptKey: function symEncryptKeyF(realID, parentKeyID, callback) {
 				step(function () {
 					SignKey.get(realID, this);
@@ -1048,6 +1101,11 @@ define(["step", "helper", "crypto/helper", "libs/sjcl", "crypto/sjclWorkerInclud
 				}), callback);
 			},
 
+			/** encrypt key with password
+			* @param realID key to encrypt
+			* @param password password to encrypt with
+			* @param callback callback
+			*/
 			pwEncryptKey: function pwEncryptKeyF(realID, password, callback) {
 				step(function () {
 					SignKey.get(realID, this);
@@ -1056,10 +1114,20 @@ define(["step", "helper", "crypto/helper", "libs/sjcl", "crypto/sjclWorkerInclud
 				}), callback);
 			},
 
-			//TODO
+			/** sign a given text
+			* @param text text to sign
+			* @param realID key id with which to sign
+			* @param callback callback
+			*/
 			signText: function (text, realID, callback) {
 				keyStore.sign.signHash(sjcl.hash.sha256.hash(text), realID, callback);
 			},
+
+			/** sign a hash
+			* @param hash hash to sign
+			* @param realID key id with which to sign
+			* @param callback callback
+			*/
 			signHash: function (hash, realID, callback) {
 				step(function () {
 					hash = chelper.hex2bits(hash);
@@ -1072,10 +1140,22 @@ define(["step", "helper", "crypto/helper", "libs/sjcl", "crypto/sjclWorkerInclud
 				}), callback);
 			},
 
-			//TODO
+			/** verify a given text
+			* @param signature given signature
+			* @param text given text
+			* @param realID key to verify against
+			* @param callback callback
+			*/
 			verifyText: function (signature, text, realID, callback) {
 				keyStore.sign.verifyHash(signature, sjcl.hash.sha256.hash(text), realID, callback);
 			},
+
+			/** verify a given hash
+			* @param signature given signature
+			* @param hash given hash
+			* @param realID key to verify against
+			* @param callback callback
+			*/
 			verifyHash: function (signature, hash, realID, callback) {
 				step(function () {
 					hash = chelper.hex2bits(hash);
