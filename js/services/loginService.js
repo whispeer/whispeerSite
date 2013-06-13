@@ -7,7 +7,7 @@ define(['angular', 'step', 'helper'], function (angular, step, h) {
 	var service = function (socketService, keyStoreService) {
 		var sid = "", keyGenerationStarted = false, asym, sign, sym, keyGenListener = [], keyGenDone;
 
-		return {
+		var loginService = {
 			login: function (name, password, callback) {
 				step(function loginStartup() {
 					socketService.emit("token", {
@@ -29,6 +29,7 @@ define(['angular', 'step', 'helper'], function (angular, step, h) {
 					if (data.error) {
 						this.last(data.errorData);
 					} else {
+						loginService.resetKey();
 						//TODO: go forward, login was successful
 					}
 				}), callback);
@@ -165,6 +166,8 @@ define(['angular', 'step', 'helper'], function (angular, step, h) {
 				return strength;
 			}
 		};
+
+		return loginService;
 	};
 
 	service.$inject = ['ssn.socketService', 'ssn.keyStoreService'];
