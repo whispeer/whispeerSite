@@ -71,6 +71,10 @@ define(['step'], function (step) {
 			return 'img/fail.png';
 		};
 
+		$scope.startKeyGeneration = function startKeyGen1() {
+			loginSerivce.startKeyGeneration();
+		};
+
 		$scope.mailChange = function mailChange() {
 			step(function doMailCheck() {
 				var internalMail = $scope.mail;

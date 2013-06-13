@@ -918,17 +918,19 @@ define(["step", "helper", "crypto/helper", "libs/sjcl", "crypto/sjclWorkerInclud
 
 	/** our interface */
 	keyStore = {
-		SymKey: SymKey,
-
 		reset: function reset() {
 			symKeys = {};
 			cryptKeys = {};
 			signKeys = {};
-			passwords = [];
+			passwords = {};
 		},
 
 		setKeyGenIdentifier: function (identifier) {
 			keyGenIdentifier = identifier;
+		},
+
+		hash: function (text) {
+			return sjcl.hash.sha256.hash(text);
 		},
 
 		sym: {

@@ -5,7 +5,7 @@ define(['angular', 'step', 'helper'], function (angular, step, h) {
 	"use strict";
 
 	var service = function (socketService, keyStoreService) {
-		var sid = "";
+		var sid = "", keyGenerationStarted = false, asym, sign, sym, keyGenListener = [], keyGenDone;
 
 		return {
 			login: function (name, password, callback) {
@@ -36,8 +36,64 @@ define(['angular', 'step', 'helper'], function (angular, step, h) {
 
 			register: function (nickname, mail, password, profile, callback) {
 				step(function register1() {
-					
+
 				}, callback);
+			},
+
+			resetKey: function () {
+				if (keyGenDone) {
+					keyGenerationStarted = false;
+					keyGenDone = false;
+					asym = undefined;
+					sym = undefined;
+					sign = undefined;
+					keyGenListener = [];
+				}
+			},
+
+			startKeyGeneration: function startKeyGen(callback) {
+				var kAsym = keyStoreService.asym, kSign = keyStoreService.sign, kSym = keyStoreService.sym;
+				step(function () {
+					if (typeof callback === "function") {
+						if (keyGenDone) {
+							callback(null, sym, asym, sign);
+							return;
+						}
+
+						keyGenListener.push(callback);
+					}
+
+					if (!keyGenerationStarted) {
+						keyGenerationStarted = true;
+						kAsym.generateKey(this.parallel());
+						kSign.generateKey(this.parallel());
+						kSym.generateKey(this.parallel());
+					}
+				}, h.sF(function (keys) {
+					asym = keys[0];
+					sign = keys[1];
+					sym = keys[2];
+
+					kAsym.symEncryptKey(asym, sym, this.parallel());
+					kSign.symEncryptKey(sign, sym, this.parallel());
+				}), function (e) {
+					if (e) {
+						console.log("Key Generation Error!");
+						console.log(e);
+					} else {
+						keyGenDone = true;
+					}
+
+					var i;
+					for (i = 0; i < keyGenListener.length; i += 1) {
+						try {
+							keyGenListener[i](e, sym, asym, sign);
+						} catch (e2) {
+							console.log("Listener error!");
+							console.log(e2);
+						}
+					}
+				});
 			},
 
 			mailUsed: function (mail, callback) {
