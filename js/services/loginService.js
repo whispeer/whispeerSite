@@ -54,7 +54,7 @@ define(['angular', 'step', 'helper'], function (angular, step, h) {
 
 			startKeyGeneration: function startKeyGen(callback) {
 				var kAsym = keyStoreService.asym, kSign = keyStoreService.sign, kSym = keyStoreService.sym;
-				step(function () {
+				step(function keyGen1() {
 					if (typeof callback === "function") {
 						if (keyGenDone) {
 							callback(null, sym, asym, sign);
@@ -70,14 +70,16 @@ define(['angular', 'step', 'helper'], function (angular, step, h) {
 						kSign.generateKey(this.parallel());
 						kSym.generateKey(this.parallel());
 					}
-				}, h.sF(function (keys) {
+				}, h.sF(function keyGen2(keys) {
+					console.log("key generation done!");
+					console.log(keys);
 					asym = keys[0];
 					sign = keys[1];
 					sym = keys[2];
 
 					kAsym.symEncryptKey(asym, sym, this.parallel());
 					kSign.symEncryptKey(sign, sym, this.parallel());
-				}), function (e) {
+				}), function keyGen3(e) {
 					if (e) {
 						console.log("Key Generation Error!");
 						console.log(e);

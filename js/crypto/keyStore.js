@@ -577,9 +577,9 @@ define(["step", "helper", "crypto/helper", "libs/sjcl", "crypto/sjclWorkerInclud
 	* @param callback callback
 	*/
 	function symKeyGenerate(callback) {
-		step(function () {
+		step(function symGenI1() {
 			this.ne(new SymKey());
-		}, h.sF(function (key) {
+		}, h.sF(function symGenI2(key) {
 			if (!symKeys[key.getRealID()]) {
 				symKeys[key.getRealID()] = key;
 				this.ne(symKeys[key.getRealID()]);
@@ -731,10 +731,10 @@ define(["step", "helper", "crypto/helper", "libs/sjcl", "crypto/sjclWorkerInclud
 	* @param callback callback
 	*/
 	function cryptKeyGenerate(curve, callback) {
-		step(function () {
+		step(function cryptGenI1() {
 			var curveO = chelper.getCurve(curve), key = sjcl.ecc.elGamal.generateKeys(curveO);
 			this.ne(key.pub, key.sec);
-		}, h.sF(function (pub, sec) {
+		}, h.sF(function cryptGenI2(pub, sec) {
 			/*jslint nomen: true*/
 			var p = pub._point, data = {
 				point: {
@@ -760,7 +760,7 @@ define(["step", "helper", "crypto/helper", "libs/sjcl", "crypto/sjclWorkerInclud
 	SignKey = function (keyData) {
 		var publicKey, intKey, x, y, curve, point, realid, isPrivateKey = false;
 
-		if (!keyData.point || !keyData.point.x || !keyData.point.y || !keyData.curve || !keyData.realid || !keyData.id) {
+		if (!keyData || !keyData.point || !keyData.point.x || !keyData.point.y || !keyData.curve || !keyData.realid) {
 			throw "invalid data";
 		}
 
@@ -770,8 +770,8 @@ define(["step", "helper", "crypto/helper", "libs/sjcl", "crypto/sjclWorkerInclud
 
 		curve = chelper.getCurve(keyData.curve);
 
-		x =	curve.field(keyData.point.x);
-		y = curve.field(keyData.point.y);
+		x =	curve.field.fromBits(chelper.hex2bits(keyData.point.x));
+		y = curve.field.fromBits(chelper.hex2bits(keyData.point.y));
 		point = new sjcl.ecc.point(curve, x, y);
 
 		publicKey = new sjcl.ecc.elGamal.publicKey(curve, point);
@@ -880,10 +880,10 @@ define(["step", "helper", "crypto/helper", "libs/sjcl", "crypto/sjclWorkerInclud
 	* @param callback callback
 	*/
 	function signKeyGenerate(curve, callback) {
-		step(function () {
+		step(function signGenI1() {
 			var curveO = chelper.getCurve(curve), key = sjcl.ecc.ecdsa.generateKeys(curveO);
 			this.ne(key.pub, key.sec);
-		}, h.sF(function (pub, sec) {
+		}, h.sF(function signGenI2(pub, sec) {
 			/*jslint nomen: true*/
 			var p = pub._point, data = {
 				point: {
@@ -1033,9 +1033,9 @@ define(["step", "helper", "crypto/helper", "libs/sjcl", "crypto/sjclWorkerInclud
 			* @param callback callback
 			*/
 			generateKey: function generateKeyF(callback) {
-				step(function () {
+				step(function cryptGen1() {
 					CryptKey.generate("256", this);
-				}, h.sF(function (key) {
+				}, h.sF(function cryptGen2(key) {
 					var r = key.getRealID();
 
 					this.ne(r);
@@ -1074,15 +1074,10 @@ define(["step", "helper", "crypto/helper", "libs/sjcl", "crypto/sjclWorkerInclud
 			* @param callback callback
 			*/
 			generateKey: function generateKeyF(callback) {
-				step(function () {
-					SignKey.generate(this);
-				}, h.sF(function (key) {
+				step(function signGen1() {
+					SignKey.generate("256", this);
+				}, h.sF(function signGen2(key) {
 					var r = key.getRealID();
-					if (signKeys[r]) {
-						keyStore.sign.generateKey(this.last);
-					} else {
-						signKeys[r] = key;
-					}
 
 					this.ne(r);
 				}), callback);

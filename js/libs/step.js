@@ -29,6 +29,16 @@ SOFTWARE.
 // Inspired by http://github.com/willconant/flow-js, but reimplemented and
 // modified to fit my taste and the node.JS error handling system.
 function step() {
+	function l0(number, count) {
+		number = number + "";
+
+		while (number.length < count) {
+			number = "0" + number;
+		}
+
+		return number;
+	}
+
 	"use strict";
 
 	var steps = Array.prototype.slice.call(arguments),
@@ -78,7 +88,7 @@ function step() {
 			}
 
 			var currentTime = new Date().getTime();
-			console.log("Step timing: " + name + " (" + (currentTime - previousTime) + ";" + (currentTime - start) + ") [" + steps.length + "] [" + id + "]");
+			console.log("" + l0(currentTime - start, 4) + ": Steper [" + l0(id, 5) + "] (" + l0(steps.length, 2) + "): " + name + " (" + (currentTime - previousTime) + ") ");
 			previousTime = currentTime;
 			//console.log(functions[functions.length - 1]);
 		}

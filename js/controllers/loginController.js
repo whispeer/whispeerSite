@@ -63,6 +63,12 @@ define(['step'], function (step) {
 			return loginService.passwordStrength($scope.password);
 		};
 
+
+		$scope.registerFormClick = function formClickF() {
+			console.log("click!");
+			loginService.startKeyGeneration();
+		};
+
 		$scope.acceptIcon = function acceptIconC(value1, value2) {
 			if (value1 === value2) {
 				return 'img/accept.png';

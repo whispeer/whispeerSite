@@ -1,7 +1,7 @@
 /**
 * LoginService
 **/
-define(['angular', 'keyStore'], function (angular, keyStore) {
+define(['angular', 'crypto/keyStore'], function (angular, keyStore) {
 	"use strict";
 
 	var service = function () {
