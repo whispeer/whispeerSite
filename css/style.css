@@ -1298,7 +1298,6 @@ input[type="submit"].btn.btn-mini {
   margin-top: 0;
 }
 #userpanel #menu #subMenu {
-  border-left: 2px solid #5a5a5a;
   -webkit-border-radius: 10px;
   -moz-border-radius: 10px;
   border-radius: 10px;
