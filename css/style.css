@@ -1695,6 +1695,7 @@ input[type="submit"].btn.btn-mini {
 .registerView #loginform .success,
 .registerView #registerform .success {
   width: 300px;
+  height: 50px;
   padding: 5px;
   margin: 0 auto;
   display: none;
