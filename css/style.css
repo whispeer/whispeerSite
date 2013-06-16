@@ -683,16 +683,6 @@ body:not(.registerView) nav {
 body:not(.mainView, .registerView) #main {
   overflow-y: scroll;
 }
-body.registerView #container {
-  height: 480px;
-}
-body.registerView #container #main {
-  height: 480px;
-}
-body.registerView footer {
-  z-index: 1900;
-  height: 15px;
-}
 [data-title]:hover:after,
 [data-title]:focus:after {
   min-height: 50px;
@@ -1495,6 +1485,11 @@ input[type="submit"].btn.btn-mini {
 }
 .registerView footer {
   color: #f2fbec;
+  z-index: 1900;
+  height: 15px;
+}
+.registerView #content {
+  height: 100%;
 }
 .registerView #main {
   text-align: center;
