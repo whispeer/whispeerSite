@@ -39,7 +39,8 @@ define(['step'], function (step) {
 				name: "firstname",
 				placeHolder: "Vorname",
 				value: "",
-				encrypted: false
+				encrypted: false,
+				hoverText: "Vorname!"
 			},
 			{
 				name: "lastname",

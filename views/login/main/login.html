@@ -3,48 +3,66 @@
 </div>
 <form id="loginform" data-ng-show="loginForm">
 {{loginFailed}}
-	<input type="text" id="mail" placeholder="Benutzername" data-ng-model="identifier">
-	<input type="password" id="password" placeholder="Passwort" data-ng-model="password">
+	<div>
+		<input type="text" id="mail" placeholder="Benutzername" data-ng-model="identifier">
+	</div>
+	<div>
+		<input type="password" id="password" placeholder="Passwort" data-ng-model="password">
+	</div>
 	<div class="error" id="errorLogin" data-ng-show="loginFailed">Benutzername und Password stimmen nicht &uuml;berein!</div>
-	<button id="loginformsubmit" class="btn" type="submit" data-ng-click="login(identifier, password)">Einloggen</button>
+	<div>
+		<button id="loginformsubmit" class="btn" type="submit" data-ng-click="login(identifier, password)">Einloggen</button>
+	</div>
 </form>
 <form id="registerform" data-ng-show="!loginForm" data-ng-click="registerFormClick">
-	<span data-ng-repeat="attribute in profileAttributes">
+	<div data-ng-repeat="attribute in profileAttributes" data-title="{{attribute.hoverText}}">
 		<input type="text" data-ng-class="{true: 'firstElement', false: ''}[$first]" placeholder="{{attribute.placeHolder}}" data-ng-model="attribute.value" data-ng-click="registerFormClick()">
 		<span class="icon lock">
 			<img data-ng-src="{{{true: 'img/lock_closed.png', false: 'img/lock_open.png'}[attribute.encrypted]}}" alt="{{((attribute.encrypted) && ('Privat') || ('&Ouml;ffentlich'))}}" data-ng-click="attribute.encrypted=!attribute.encrypted"/>
 		</span>
-	</span>
+	</div>
 
-	<input type="text" id="rnickname" placeholder="Benutzername" data-ng-model="nickname" data-ng-model-onblur data-ng-change="nicknameChange()">
-	<span class="icon fail" id="rnicknameIcon">
-		<img data-ng-src="{{acceptIconNicknameFree()}}" alt="Ok!">
-	</span>
+	<div>
+		<input type="text" id="rnickname" placeholder="Benutzername" data-ng-model="nickname" data-ng-model-onblur data-ng-change="nicknameChange()">
+		<span class="icon fail" id="rnicknameIcon">
+			<img data-ng-src="{{acceptIconNicknameFree()}}" alt="Ok!">
+		</span>
+	</div>
 	
 	<div class="error" id="errorNickname" data-ng-show="userNameError">Benutzername wird bereits verwendet!</div>
 
-	<input type="text" id="rmail" placeholder="E-Mail Adresse" data-ng-model="mail" data-ng-model-onblur data-ng-change="mailChange()">
-	<span class="icon check" id="rmailIcon">
-		<img data-ng-src="{{acceptIconMailFree()}}" alt="Ok!">
-	</span>
+	<div>
+		<input type="text" id="rmail" placeholder="E-Mail Adresse" data-ng-model="mail" data-ng-model-onblur data-ng-change="mailChange()">
+		<span class="icon check" id="rmailIcon">
+			<img data-ng-src="{{acceptIconMailFree()}}" alt="Ok!">
+		</span>
+	</div>
 	<div class="error" id="errorRegisterMail" data-ng-show="emailError">E-Mail invalide!</div>
 
-	<input type="text" id="rmail2" placeholder="E-Mail Adresse wiederholen" data-ng-model="mail2">
+	<div>
+		<input type="text" id="rmail2" placeholder="E-Mail Adresse wiederholen" data-ng-model="mail2">
 	<span class="icon check" id="rmail2Icon">
 		<img data-ng-src="{{acceptIcon(mail, mail2)}}" alt="Ok!">
 	</span>
+	</div>
 
-	<input type="password" id="rpassword" placeholder="Passwort" data-ng-model="password">
-	<span class="icon" id="rpasswordIcon" data-strength="{{passwordStrength()}}"></span>
+	<div>
+		<input type="password" id="rpassword" placeholder="Passwort" data-ng-model="password">
+		<span class="icon" id="rpasswordIcon" data-strength="{{passwordStrength()}}"></span>
+	</div>
 	<div class="error" id="errorRegisterPassword" data-ng-show="passwordError">Passwort erfüllt die Sicherheitskriterien nicht! Bitte wähle ein Passwort mit mindestens 6 Stellen, Groß und kleinschreibung sowie Zahlen und Sonderzeichen</div>
 	<div class="success" id="successRegisterPassword" style="display:block">Passwort ist {{passwordStrength()}}?</div>
 
-	<input type="password" id="rpassword2" placeholder="Passwort wiederholen" data-ng-model="password2">
-	<span class="icon check" id="rpassword2Icon">
-		<img data-ng-src="{{acceptIcon(password, password2)}}" alt="Ok!">
-	</span>
+	<div>
+		<input type="password" id="rpassword2" placeholder="Passwort wiederholen" data-ng-model="password2">
+		<span class="icon check" id="rpassword2Icon">
+			<img data-ng-src="{{acceptIcon(password, password2)}}" alt="Ok!">
+		</span>
+	</div>
 
-	<button id="registerformsubmit" class="btn" type="submit"  data-ng-click="register()">Registrieren</button>
+	<div>
+		<button id="registerformsubmit" class="btn" type="submit"  data-ng-click="register()">Registrieren</button>
+	</div>
 </form>
 <a href="#" id="callRegister" data-ng-show="loginForm" data-ng-click="showRegister()" data-eat-click>Registration</a>
 <a href="#" id="callLogin" data-ng-show="!loginForm"  data-ng-click="showLogin()" data-eat-click>Login</a>
