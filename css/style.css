@@ -683,16 +683,6 @@ body:not(.registerView) nav {
 body:not(.mainView, .registerView) #main {
   overflow-y: scroll;
 }
-body.registerView #container {
-  height: 480px;
-}
-body.registerView #container #main {
-  height: 480px;
-}
-body.registerView footer {
-  z-index: 1900;
-  height: 15px;
-}
 [data-title]:hover:after,
 [data-title]:focus:after {
   min-height: 50px;
@@ -1298,7 +1288,6 @@ input[type="submit"].btn.btn-mini {
   margin-top: 0;
 }
 #userpanel #menu #subMenu {
-  border-left: 2px solid #5a5a5a;
   -webkit-border-radius: 10px;
   -moz-border-radius: 10px;
   border-radius: 10px;
@@ -1496,6 +1485,11 @@ input[type="submit"].btn.btn-mini {
 }
 .registerView footer {
   color: #f2fbec;
+  z-index: 1900;
+  height: 15px;
+}
+.registerView #content {
+  height: 100%;
 }
 .registerView #main {
   text-align: center;
@@ -1516,7 +1510,6 @@ input[type="submit"].btn.btn-mini {
   -moz-background-clip: padding;
   -webkit-background-clip: padding-box;
   background-clip: padding-box;
-  /*display: none;*/
   /* fix firefox */
 
 }
@@ -1697,8 +1690,10 @@ input[type="submit"].btn.btn-mini {
 .registerView #loginform .success,
 .registerView #registerform .success {
   width: 300px;
+  height: 50px;
   padding: 5px;
   margin: 0 auto;
+  display: none;
 }
 .registerView #loginform .error,
 .registerView #registerform .error {
@@ -1756,10 +1751,6 @@ input[type="submit"].btn.btn-mini {
   text-decoration: underline;
   color: #e6e6e6;
 }
-.registerView #callRegister,
-.registerView #callLogin {
-  /*display: none;*/
-}
 .registerView footer {
   position: fixed;
   bottom: 10px;
@@ -1768,7 +1759,7 @@ input[type="submit"].btn.btn-mini {
   height: 100%;
   width: 100%;
   float: left;
-  padding-top: 50px;
+  padding-top: 100px;
   -webkit-box-sizing: border-box;
   /* Safari/Chrome, other WebKit */
 
@@ -1779,13 +1770,16 @@ input[type="submit"].btn.btn-mini {
   /* Opera/IE 8+ */
 
 }
-#wall .shareForm {
+#wall header {
+  display: inline;
+  float: left;
+  width: 98%;
+  margin: 0 1% 0 1%;
   padding-top: 10px;
-  margin-top: -50px;
+  margin-top: -100px;
   text-align: center;
   border-bottom: 1px solid #bbb;
-  float: left;
-  height: 50px;
+  height: 100px;
   z-index: 1000;
   box-shadow: 0 2px 4px -2px #559d00;
   -webkit-border-radius: 2px;
@@ -1795,8 +1789,188 @@ input[type="submit"].btn.btn-mini {
   -webkit-background-clip: padding-box;
   background-clip: padding-box;
 }
-#wall .shareForm #shareText {
-  margin-left: 20px;
+#wall header #shareText {
+  display: block;
+  width: 64.66666666666667%;
+  margin: 0 1% 0 1%;
+  *zoom: 1;
+}
+#wall header #shareText:before,
+#wall header #shareText:after {
+  content: "";
+  display: table;
+}
+#wall header #shareText:after {
+  clear: both;
+}
+#wall header #receiver {
+  display: inline;
+  float: left;
+  width: 43.833333333333336%;
+  margin: 0 1% 0 1%;
+  margin-top: 5px;
+}
+#wall header button {
+  display: inline;
+  float: left;
+  width: 18.833333333333336%;
+  margin: 0 1% 0 1%;
+  display: inline-block;
+  *display: inline;
+  /* IE7 inline-block hack */
+
+  *zoom: 1;
+  padding: 4px 14px;
+  margin-bottom: 0;
+  font-size: 14px;
+  line-height: 20px;
+  *line-height: 20px;
+  text-align: center;
+  vertical-align: middle;
+  cursor: pointer;
+  color: #333333;
+  text-shadow: 0 1px 1px rgba(255, 255, 255, 0.75);
+  background-color: #ffffff;
+  background: -webkit-gradient(linear, left top, left bottom, from(#ffffff), to(#e6e6e6));
+  background: -webkit-linear-gradient(top, #ffffff, #e6e6e6);
+  background: -moz-linear-gradient(top, #ffffff, #e6e6e6);
+  background: -ms-linear-gradient(top, #ffffff, #e6e6e6);
+  background: -o-linear-gradient(top, #ffffff, #e6e6e6);
+  border-color: #e6e6e6 #e6e6e6 #bfbfbf;
+  border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+  *background-color: #f2f2f2;
+  /* Darken IE7 buttons by default so they stand out more given they won't have borders */
+
+  filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
+  border: 1px solid #bbbbbb;
+  *border: 0;
+  border-bottom-color: #a2a2a2;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  *margin-left: .3em;
+  -webkit-box-shadow: "inset 0 1px 0 rgba(255,255,255,.2), 0 1px 2px rgba(0,0,0,.05)";
+  -moz-box-shadow: "inset 0 1px 0 rgba(255,255,255,.2), 0 1px 2px rgba(0,0,0,.05)";
+  box-shadow: "inset 0 1px 0 rgba(255,255,255,.2), 0 1px 2px rgba(0,0,0,.05)";
+  border-color: #c5c5c5;
+  border-color: rgba(0, 0, 0, 0.15) rgba(0, 0, 0, 0.15) rgba(0, 0, 0, 0.25);
+  padding: 7px;
+  margin-top: 5px;
+}
+#wall header button:hover,
+#wall header button:active,
+#wall header button.active,
+#wall header button.disabled,
+#wall header button[disabled] {
+  color: #333333;
+  background: #f2f2f2;
+  *background: #e6e6e6;
+}
+#wall header button:active,
+#wall header button.active {
+  background-color: #cccccc \9;
+}
+#wall header button:first-child {
+  *margin-left: 0;
+}
+#wall header button:hover {
+  color: #333333;
+  text-decoration: none;
+}
+#wall header button.active,
+#wall header button:active {
+  background-color: #e6e6e6;
+  background-color: #d9d9d9 \9;
+  background-image: none;
+  outline: 0;
+  -webkit-box-shadow: "inset 0 2px 4px rgba(0,0,0,.15), 0 1px 2px rgba(0,0,0,.05)";
+  -moz-box-shadow: "inset 0 2px 4px rgba(0,0,0,.15), 0 1px 2px rgba(0,0,0,.05)";
+  box-shadow: "inset 0 2px 4px rgba(0,0,0,.15), 0 1px 2px rgba(0,0,0,.05)";
+}
+#wall header button.disabled,
+#wall header button[disabled] {
+  cursor: default;
+  background-color: #e6e6e6;
+  background-image: none;
+  -webkit-opacity: 65;
+  -moz-opacity: 65;
+  opacity: 65;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+}
+#wall header button[type="submit"] {
+  color: #ffffff;
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+  background-color: #559d00;
+  background: -webkit-gradient(linear, left top, left bottom, from(#559d00), to(#3a8100));
+  background: -webkit-linear-gradient(top, #559d00, #3a8100);
+  background: -moz-linear-gradient(top, #559d00, #3a8100);
+  background: -ms-linear-gradient(top, #559d00, #3a8100);
+  background: -o-linear-gradient(top, #559d00, #3a8100);
+  border-color: #3a8100 #3a8100 #183500;
+  border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+  *background-color: #459b00;
+  /* Darken IE7 buttons by default so they stand out more given they won't have borders */
+
+  filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
+}
+#wall header button[type="submit"]:hover,
+#wall header button[type="submit"]:active,
+#wall header button[type="submit"].active,
+#wall header button[type="submit"].disabled,
+#wall header button[type="submit"][disabled] {
+  color: #ffffff;
+  background: #459b00;
+  *background: #3a8100;
+}
+#wall header button[type="submit"]:active,
+#wall header button[type="submit"].active {
+  background-color: #234e00 \9;
+}
+#wall header #filter {
+  display: inline;
+  float: left;
+  width: 31.333333333333336%;
+  margin: 0 1% 0 1%;
+  height: 77px;
+  margin-top: -36px;
+}
+#wall header #filter .title {
+  display: inline;
+  float: left;
+  width: 98%;
+  margin: 0 1% 0 1%;
+  height: 20px;
+  padding: 4px 0;
+  background-color: #ffffff;
+  background: -webkit-gradient(linear, left top, left bottom, from(#ffffff), to(#e6e6e6));
+  background: -webkit-linear-gradient(top, #ffffff, #e6e6e6);
+  background: -moz-linear-gradient(top, #ffffff, #e6e6e6);
+  background: -ms-linear-gradient(top, #ffffff, #e6e6e6);
+  background: -o-linear-gradient(top, #ffffff, #e6e6e6);
+  border: 1px solid #bbbbbb;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  font-size: 14px;
+  line-height: 20px;
+}
+#wall header #filter #theFilter {
+  display: inline;
+  float: left;
+  width: 98%;
+  margin: 0 1% 0 1%;
+  margin-top: 5px;
+  height: 42px;
+  padding: 5px;
+  resize: none;
 }
 #wall .posts {
   float: left;

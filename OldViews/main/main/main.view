@@ -1,8 +1,15 @@
 <div id="wall">
-	<form class="form-inline shareForm">
-		<input type="text" placeholder="Teile etwas mit deinen Freunden!" id="shareText">
-		<button type="submit" class="btn btn-success">Posten</button>
-	</form>
+	<header>
+		<form class="form-inline">
+			<input type="text" placeholder="Teile etwas mit deinen Freunden!" id="shareText">
+			<input type="text" placeholder="Wer soll dienen Beitrag lesen können?" id="receiver">
+			<button type="submit">Posten</button>
+		</form>
+		<div id="filter">
+			<div class="title">Filter</div>
+			<textarea placeholder="Wessen Posts möchtest du im News-Feed sehen?" id="theFilter"></textarea>
+		</div>
+	</header>
 	<div class="posts">
 		<article id="post1">
 			<img class="userimg" src="img/profil.jpg" alt="User">

@@ -3,8 +3,14 @@
 	// Tweak the standards a bit ;)
 	footer {
 		color: #f2fbec;
+		z-index: 1900;
+		//background: @blue;
+		height: 15px;
 	}
 	// content
+	#content {
+		height: 100%;
+	}
 	#main {
 		text-align: center;
 		overflow-y: hidden;
@@ -19,7 +25,6 @@
 		margin-bottom: 10px;
 		//background-color: @white;
 		.border-radius(5px);
-		display: none;
 		div {
 			width: 300px;
 			height: 35px;
@@ -113,6 +118,7 @@
 		}
 		.error, .success {
 			width: 300px;
+			height: 50px;
 			padding: 5px;
 			margin: 0 auto;
 			display: none;
@@ -144,9 +150,6 @@
 	a {
 		text-decoration: underline;
 		color: darken(@white, 10%);
-	}
-	#callRegister, #callLogin {
-		display: none;
 	}
 	footer {
 		position: fixed;
