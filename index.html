@@ -29,10 +29,10 @@
 	<script src="js/libs/modernizr.js"></script>
 	<script data-main="js/main" src="js/libs/require.js"></script>
 </head>
-<body class="registerView">
+<body class="registerView" data-ng-controller="ssn.sessionController">
 	<!--[if lte IE 8]><p class=chromeframe>Your browser is <em>ancient!</em> <a href="http://browsehappy.com/">Upgrade to a different browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to experience this site.</p><![endif]-->
 	<noscript class="bubble">Hallo! Leider steht uns bei deinem Browser kein Javascript zur Verfügung!<br> Daher ist es nicht möglich whispeer zu nutzen, da wir unbedingt Javascript benötigen!<br> Vielen Dank für dein Verständnis!</noscript>
-	<nav id="topNav" data-ng-show="loggedin" style="display:none">
+	<nav id="topNav" data-ng-show="loggedin">
 		<div id="navInner">
 			<a href="#" id="brand"><span id="brandNormal">whis</span><span id="brandInverse">peer</span></a>
 			<div class="nav-collapse collapse">
@@ -66,7 +66,7 @@
 		</div>	
 	</nav>
 	<div id="container">
-		<aside id="sidebar-left" style="display:none" data-ng-show="loggedin">
+		<aside id="sidebar-left" data-ng-show="loggedin">
 			<div id="userpanel">
 				<a href="#view=profile" class="username">
 					<!--<img src="img/profil.jpg" alt="" class="userimg">-->
