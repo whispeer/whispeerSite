@@ -38,10 +38,10 @@
 			<div class="nav-collapse collapse">
 				<div id="searchBar">
 					<form class="form-search form-navbar" id="nav-searchForm">
-						<input type="text" id="searchQuery" placeholder="Suche">
+						<input type="text" id="searchQuery" placeholder="Suche" data-ng-model="mainSearch">
 					</form>
 					<div id="searchDrop">
-						<ul class="unstyled" id="searchSuggestions">
+						<ul class="unstyled" id="searchSuggestions" data-ng-repeat="results in searchResults | filter:mainSearch">
 						</ul>
 					</div>
 				</div>
