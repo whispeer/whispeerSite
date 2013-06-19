@@ -14,26 +14,42 @@
 		z-index: 1000;
 		box-shadow: 0 2px 4px -2px @green;
 		.border-radius(2px);
-		#shareText {
-			.row(8,12);
-		}
-		#receiver {
-			.column(5.5,12);
-			margin-top: 5px;
-		}
-		button {
-			.column(2.5,12);
-			.btn;
-			padding: 7px;
-			margin-top: 5px;
-			&[type="submit"] {
-				.btn-success;
+		#postIt {
+			.column(8,12);
+			padding: 0;
+			border: 1px solid #aaa;
+			.border-radius(5px);
+			.box-fix;
+			#receiver {
+				.column(5.5,8,left,0);
+				border: none;
+				.border-radiuses(0,0,0,5px);
+				height: 38px;
 			}
-		}
+			#shareText {
+				.column(8,8,left,0);
+				height: 37px;
+				margin-top: -1px;
+				border: none;
+				border-top: 1px solid #aaa;
+				.border-radiuses(0, 5px, 5px, 0);
+			}
+			button {
+				.btn;
+				border: none;
+				.column(2.5,8,right,0);
+				height: 38px;
+				padding: 7px;
+				.border-radiuses(4px, 0, 0, 0);
+				&[type="submit"] {
+					.btn-success;
+				}
+			}
+		}	
 		#filter {
 			.column(4,12);
 			height: 77px;
-			margin-top: -36px;
+			//margin-top: -36px;
 			//background-color: green;
 			.title {
 				.column(12,12);

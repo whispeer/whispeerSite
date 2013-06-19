@@ -1,9 +1,9 @@
 <div id="wall">
 	<header>
-		<form class="form-inline">
-			<input type="text" placeholder="Teile etwas mit deinen Freunden!" id="shareText">
+		<form class="form-inline" id="postIt">
 			<input type="text" placeholder="Wer soll dienen Beitrag lesen können?" id="receiver">
 			<button type="submit">Posten</button>
+			<input type="text" placeholder="Teile etwas mit deinen Freunden!" id="shareText">
 		</form>
 		<div id="filter">
 			<div class="title">Filter</div>
