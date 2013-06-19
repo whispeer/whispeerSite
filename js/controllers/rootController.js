@@ -7,6 +7,7 @@ define(['step'], function (step) {
 
 	function sessionController($scope) {
 		$scope.loggedin = false;
+		$scope.cssClass = "registerView";
 	}
 
 	sessionController.$inject = ['$scope'];
