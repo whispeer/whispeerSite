@@ -36,6 +36,13 @@ define(['angular'], function (angular) {
 				$rootScope.$broadcast('localizeResourcesUpdates');
 			}
 
+			function loadDefault() {
+				// the request failed set the url to the default resource file
+				var url = 'js/i18n/l_en-US.js';
+				// request the default resource file
+				$http({ method: "GET", url: url, cache: false }).success(successCallback);
+			}
+
 			// loads the language resource file from the server
 			function initLocalizedResources() {
 				resourceFileLoaded = false;
@@ -44,10 +51,14 @@ define(['angular'], function (angular) {
 				var url = 'js/i18n/l_' + language + '.js';
 				// request the resource file
 				$http({ method: "GET", url: url, cache: false }).success(successCallback).error(function () {
-					// the request failed set the url to the default resource file
-					var url = 'js/i18n/l_en-US.js';
-					// request the default resource file
-					$http({ method: "GET", url: url, cache: false }).success(successCallback);
+					if (language.length === 2) {
+						loadDefault();
+					} else {
+						// the request failed set the url to a different url
+						var url = 'js/i18n/l_' + language.substr(0, 2) + '.js';
+
+						$http({ method: "GET", url: url, cache: false }).success(successCallback).error(loadDefault);
+					}
 				});
 			}
 

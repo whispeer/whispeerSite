@@ -2,7 +2,12 @@
 	"menu": {
 		"profil": "Profil",
 		"friends": "Freunde",
-		"messages": "Nachrichten"
+		"messages": "Nachrichten",
+		"media": "Medien",
+		"groups": "Gruppen",
+		"settings": "Einstellungen",
+		"help": "Hilfe",
+		"logout": "Logout"
 	},
 	"login": {
 		"username": "Benutzername",
