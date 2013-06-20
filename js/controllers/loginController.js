@@ -5,7 +5,7 @@
 define(['step'], function (step) {
 	'use strict';
 
-	function loginController($scope, loginService) {
+	function loginController($scope, sessionService) {
 		$scope.$parent.cssClass = "registerView";
 
 		$scope.password = "";
@@ -63,13 +63,13 @@ define(['step'], function (step) {
 		};
 
 		$scope.passwordStrength = function passwordStrengthC() {
-			return loginService.passwordStrength($scope.password);
+			return sessionService.passwordStrength($scope.password);
 		};
 
 
 		$scope.registerFormClick = function formClickF() {
 			console.log("click!");
-			loginService.startKeyGeneration();
+			sessionService.startKeyGeneration();
 		};
 
 		$scope.acceptIcon = function acceptIconC(value1, value2) {
@@ -91,7 +91,7 @@ define(['step'], function (step) {
 				$scope.mailCheck = false;
 				$scope.mailCheckError = false;
 
-				loginService.mailUsed(internalMail, this);
+				sessionService.mailUsed(internalMail, this);
 			}, function mailChecked(e, mailUsed) {
 				if (e) {
 					console.log(e);
@@ -134,7 +134,7 @@ define(['step'], function (step) {
 				$scope.nicknameCheck = false;
 				$scope.nicknameCheckError = false;
 
-				loginService.nicknameUsed(internalNickname, this);
+				sessionService.nicknameUsed(internalNickname, this);
 			}, function nicknameChecked(e, nicknameUsed) {
 				if (e) {
 					console.log(e);
@@ -182,7 +182,7 @@ define(['step'], function (step) {
 
 		$scope.login = function loginCF(identifier, password) {
 			step(function () {
-				loginService.login(identifier, password, this);
+				sessionService.login(identifier, password, this);
 			}, function (e, result) {
 				console.log(e);
 				if (e) {
@@ -200,11 +200,12 @@ define(['step'], function (step) {
 		};
 
 		$scope.register = function doRegisterC() {
-
+			sessionService.register(function () {
+			});
 		};
 	}
 
-	loginController.$inject = ['$scope', 'ssn.loginService'];
+	loginController.$inject = ['$scope', 'ssn.sessionService'];
 
 	return loginController;
 });
