@@ -53,7 +53,7 @@ define(['step', 'helper'], function (step, h) {
 				step(function register1() {
 					loggedin = true;
 					$rootScope.$broadcast('ssn.login');
-					$location.path("/user/5");
+					$location.path("/main");
 				}, callback);
 			},
 
