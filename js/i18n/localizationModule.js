@@ -41,11 +41,11 @@ define(['angular'], function (angular) {
 				resourceFileLoaded = false;
 
 				// build the url to retrieve the localized resource file
-				var url = 'js/i18n/resources-locale_' + language + '.js';
+				var url = 'js/i18n/l_' + language + '.js';
 				// request the resource file
 				$http({ method: "GET", url: url, cache: false }).success(successCallback).error(function () {
 					// the request failed set the url to the default resource file
-					var url = 'js/i18n/resources-locale_en-US.js';
+					var url = 'js/i18n/l_en-US.js';
 					// request the default resource file
 					$http({ method: "GET", url: url, cache: false }).success(successCallback);
 				});
@@ -102,6 +102,11 @@ define(['angular'], function (angular) {
 				return localize.getLocalizedString(input);
 			};
 		}])
+		.filter('l', ['localize', function (localize) {
+			return function (input) {
+				return localize.getLocalizedString(input);
+			};
+		}])
 		// translation directive that can handle dynamic strings
 		// updates the text value of the attached element
 		// usage <span data-i18n="TOKEN" ></span>
@@ -114,13 +119,17 @@ define(['angular'], function (angular) {
 					var values = token.split('|'), index;
 					if (values.length >= 1) {
 						// construct the tag to insert into the element
-						var tag = localize.getLocalizedString(values[0]);
+						var tag = localize.getLocalizedString(values[0]), toSet;
 						// update the element only if data was returned
 						if ((tag !== null) && (tag !== undefined) && (tag !== '')) {
 							if (values.length > 1) {
 								for (index = 1; index < values.length; index += 1) {
-									var target = '{' + (index - 1) + '}';
-									tag = tag.replace(target, values[index]);
+									toSet = values[index].split("=");
+
+									if (toSet.length === 2) {
+										var target = '{' + toSet[0] + '}';
+										tag = tag.replace(target, toSet[1]);
+									}
 								}
 							}
 							// insert the text into the element
@@ -148,7 +157,7 @@ define(['angular'], function (angular) {
 		// or
 		// <span data-i18n-attr="TOKEN|ATTRIBUTE|VALUE1|VALUE2" ></span>
 		.directive('i18nAttr', ['localize', function (localize) {
-			var i18NAttrDirective = {
+			var i18nAttrDirective = {
 				restrict: "EAC",
 				updateText: function (elm, token) {
 					var values = token.split('|');
@@ -167,16 +176,16 @@ define(['angular'], function (angular) {
 					}
 				},
 				link: function (scope, elm, attrs) {
-					scope.$on('localizeResourcesUpdated', function () {
-						i18NAttrDirective.updateText(elm, attrs.i18nAttr);
+					scope.$on('localizeResourcesUpdates', function () {
+						i18nAttrDirective.updateText(elm, attrs.i18nAttr);
 					});
 
 					attrs.$observe('i18nAttr', function (value) {
-						i18NAttrDirective.updateText(elm, value);
+						i18nAttrDirective.updateText(elm, value);
 					});
 				}
 			};
 
-			return i18NAttrDirective;
+			return i18nAttrDirective;
 		}]);
 });
