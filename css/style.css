@@ -1789,32 +1789,78 @@ input[type="submit"].btn.btn-mini {
   -webkit-background-clip: padding-box;
   background-clip: padding-box;
 }
-#wall header #shareText {
-  display: block;
+#wall header #postIt {
+  display: inline;
+  float: left;
   width: 64.66666666666667%;
   margin: 0 1% 0 1%;
-  *zoom: 1;
+  padding: 0;
+  border: 1px solid #aaa;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  -webkit-box-sizing: border-box;
+  /* Safari/Chrome, other WebKit */
+
+  -moz-box-sizing: border-box;
+  /* Firefox, other Gecko */
+
+  box-sizing: border-box;
+  /* Opera/IE 8+ */
+
 }
-#wall header #shareText:before,
-#wall header #shareText:after {
-  content: "";
-  display: table;
-}
-#wall header #shareText:after {
-  clear: both;
-}
-#wall header #receiver {
+#wall header #postIt #receiver {
   display: inline;
   float: left;
-  width: 43.833333333333336%;
-  margin: 0 1% 0 1%;
-  margin-top: 5px;
+  width: 68.75%;
+  margin: 0 0 0 0;
+  border: none;
+  -webkit-border-top-right-radius: 0;
+  -webkit-border-bottom-right-radius: 0;
+  -webkit-border-bottom-left-radius: 0;
+  -webkit-border-top-left-radius: 5px;
+  -moz-border-radius-topright: 0;
+  -moz-border-radius-bottomright: 0;
+  -moz-border-radius-bottomleft: 0;
+  -moz-border-radius-topleft: 5px;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+  border-top-left-radius: 5px;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  height: 38px;
 }
-#wall header button {
+#wall header #postIt #shareText {
   display: inline;
   float: left;
-  width: 18.833333333333336%;
-  margin: 0 1% 0 1%;
+  width: 100%;
+  margin: 0 0 0 0;
+  height: 38px;
+  margin-top: -1px;
+  border: none;
+  border-top: 1px solid #aaa;
+  -webkit-border-top-right-radius: 0;
+  -webkit-border-bottom-right-radius: 5px;
+  -webkit-border-bottom-left-radius: 5px;
+  -webkit-border-top-left-radius: 0;
+  -moz-border-radius-topright: 0;
+  -moz-border-radius-bottomright: 5px;
+  -moz-border-radius-bottomleft: 5px;
+  -moz-border-radius-topleft: 0;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 5px;
+  border-bottom-left-radius: 5px;
+  border-top-left-radius: 0;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+}
+#wall header #postIt button {
   display: inline-block;
   *display: inline;
   /* IE7 inline-block hack */
@@ -1848,40 +1894,57 @@ input[type="submit"].btn.btn-mini {
   -webkit-border-radius: 4px;
   -moz-border-radius: 4px;
   border-radius: 4px;
-  -moz-background-clip: padding;
-  -webkit-background-clip: padding-box;
-  background-clip: padding-box;
   *margin-left: .3em;
   -webkit-box-shadow: "inset 0 1px 0 rgba(255,255,255,.2), 0 1px 2px rgba(0,0,0,.05)";
   -moz-box-shadow: "inset 0 1px 0 rgba(255,255,255,.2), 0 1px 2px rgba(0,0,0,.05)";
   box-shadow: "inset 0 1px 0 rgba(255,255,255,.2), 0 1px 2px rgba(0,0,0,.05)";
   border-color: #c5c5c5;
   border-color: rgba(0, 0, 0, 0.15) rgba(0, 0, 0, 0.15) rgba(0, 0, 0, 0.25);
+  border: none;
+  display: inline;
+  float: right;
+  width: 31.25%;
+  margin: 0 0 0 0;
+  height: 38px;
   padding: 7px;
-  margin-top: 5px;
+  -webkit-border-top-right-radius: 4px;
+  -webkit-border-bottom-right-radius: 0;
+  -webkit-border-bottom-left-radius: 0;
+  -webkit-border-top-left-radius: 0;
+  -moz-border-radius-topright: 4px;
+  -moz-border-radius-bottomright: 0;
+  -moz-border-radius-bottomleft: 0;
+  -moz-border-radius-topleft: 0;
+  border-top-right-radius: 4px;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+  border-top-left-radius: 0;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
 }
-#wall header button:hover,
-#wall header button:active,
-#wall header button.active,
-#wall header button.disabled,
-#wall header button[disabled] {
+#wall header #postIt button:hover,
+#wall header #postIt button:active,
+#wall header #postIt button.active,
+#wall header #postIt button.disabled,
+#wall header #postIt button[disabled] {
   color: #333333;
   background: #f2f2f2;
   *background: #e6e6e6;
 }
-#wall header button:active,
-#wall header button.active {
+#wall header #postIt button:active,
+#wall header #postIt button.active {
   background-color: #cccccc \9;
 }
-#wall header button:first-child {
+#wall header #postIt button:first-child {
   *margin-left: 0;
 }
-#wall header button:hover {
+#wall header #postIt button:hover {
   color: #333333;
   text-decoration: none;
 }
-#wall header button.active,
-#wall header button:active {
+#wall header #postIt button.active,
+#wall header #postIt button:active {
   background-color: #e6e6e6;
   background-color: #d9d9d9 \9;
   background-image: none;
@@ -1890,8 +1953,8 @@ input[type="submit"].btn.btn-mini {
   -moz-box-shadow: "inset 0 2px 4px rgba(0,0,0,.15), 0 1px 2px rgba(0,0,0,.05)";
   box-shadow: "inset 0 2px 4px rgba(0,0,0,.15), 0 1px 2px rgba(0,0,0,.05)";
 }
-#wall header button.disabled,
-#wall header button[disabled] {
+#wall header #postIt button.disabled,
+#wall header #postIt button[disabled] {
   cursor: default;
   background-color: #e6e6e6;
   background-image: none;
@@ -1902,7 +1965,7 @@ input[type="submit"].btn.btn-mini {
   -moz-box-shadow: none;
   box-shadow: none;
 }
-#wall header button[type="submit"] {
+#wall header #postIt button[type="submit"] {
   color: #ffffff;
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
   background-color: #559d00;
@@ -1918,17 +1981,17 @@ input[type="submit"].btn.btn-mini {
 
   filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
 }
-#wall header button[type="submit"]:hover,
-#wall header button[type="submit"]:active,
-#wall header button[type="submit"].active,
-#wall header button[type="submit"].disabled,
-#wall header button[type="submit"][disabled] {
+#wall header #postIt button[type="submit"]:hover,
+#wall header #postIt button[type="submit"]:active,
+#wall header #postIt button[type="submit"].active,
+#wall header #postIt button[type="submit"].disabled,
+#wall header #postIt button[type="submit"][disabled] {
   color: #ffffff;
   background: #459b00;
   *background: #3a8100;
 }
-#wall header button[type="submit"]:active,
-#wall header button[type="submit"].active {
+#wall header #postIt button[type="submit"]:active,
+#wall header #postIt button[type="submit"].active {
   background-color: #234e00 \9;
 }
 #wall header #filter {
@@ -1937,7 +2000,6 @@ input[type="submit"].btn.btn-mini {
   width: 31.333333333333336%;
   margin: 0 1% 0 1%;
   height: 77px;
-  margin-top: -36px;
 }
 #wall header #filter .title {
   display: inline;
