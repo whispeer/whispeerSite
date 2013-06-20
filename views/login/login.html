@@ -4,14 +4,14 @@
 <form id="loginform" data-ng-show="loginForm">
 {{loginFailed}}
 	<div>
-		<input type="text" id="mail" placeholder="Benutzername" data-ng-model="identifier">
+		<input type="text" id="mail" data-i18n-attr="login.username|placeholder" data-ng-model="identifier">
 	</div>
 	<div>
-		<input type="password" id="password" placeholder="Passwort" data-ng-model="password">
+		<input type="password" id="password" data-i18n-attr="login.password|placeholder" data-ng-model="password">
 	</div>
-	<div class="error" id="errorLogin" data-ng-show="loginFailed">Benutzername und Password stimmen nicht &uuml;berein!</div>
+	<div class="error" id="errorLogin" data-ng-show="loginFailed">{{'login.loginFailed'|i18n}}</div>
 	<div>
-		<button id="loginformsubmit" class="btn" type="submit" data-ng-click="login(identifier, password)">Einloggen</button>
+		<button id="loginformsubmit" class="btn" type="submit" data-ng-click="login(identifier, password)">{{'login.login'|i18n}}</button>
 	</div>
 </form>
 <form id="registerform" data-ng-show="!loginForm" data-ng-click="registerFormClick">

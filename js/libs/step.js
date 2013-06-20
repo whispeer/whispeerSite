@@ -26,9 +26,14 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
+var depth = 0;
+
 // Inspired by http://github.com/willconant/flow-js, but reimplemented and
 // modified to fit my taste and the node.JS error handling system.
 function step() {
+	"use strict";
+	depth += 1;
+
 	function l0(number, count) {
 		number = number + "";
 
@@ -39,7 +44,7 @@ function step() {
 		return number;
 	}
 
-	"use strict";
+	var preErr = new Error();
 
 	var steps = Array.prototype.slice.call(arguments),
 		pending = 0,
@@ -59,6 +64,7 @@ function step() {
 		if (steps.length === 0) {
 			// Throw uncaught errors
 			if (typeof err !== "undefined") {
+				console.log(preErr.stack);
 				throw err;
 			}
 			return;
@@ -82,21 +88,33 @@ function step() {
 			for (i = 0; i < functions.length; i += 1) {
 				if (typeof functions[i] !== "undefined") {
 					name = name + ":" + functions[i].name;
-				} else {
-					console.log(functions);
 				}
 			}
 
+			var dString = "";
+			for (i = 1; i < depth; i += 1) {
+				dString += "-";
+			}
+
+			var isErr = "";
+
+			if (err) {
+				isErr = "(E)";
+			}
+			
 			var currentTime = new Date().getTime();
-			console.log("" + l0(currentTime - start, 4) + ": Steper [" + l0(id, 5) + "] (" + l0(steps.length, 2) + "): " + name + " (" + (currentTime - previousTime) + ") ");
+			console.log(dString + l0(currentTime - start, 4) + ": Stepper " + isErr + " [" + l0(id, 5) + "] (" + l0(steps.length, 2) + "): " + name + " (" + (currentTime - previousTime) + ") " + preErr.stack.split("\n")[2].replace(/^[^at]*at (.*).*/, "$1"));
 			previousTime = currentTime;
-			//console.log(functions[functions.length - 1]);
+
+			if (steps.length === 0) {
+				depth -= 1;
+			}
 		}
 
 		results = [];
 
 		if (typeof fn !== "function") {
-			console.trace();
+			console.log(preErr.stack);
 			next(new Error("Not a callable Function!"));
 		}
 
@@ -106,6 +124,7 @@ function step() {
 			lock = true;
 			result = fn.apply(next, arguments);
 		} catch (e) {
+			console.log(preErr.stack);
 			// Pass any exceptions on through the next callback
 			next(e);
 		}
