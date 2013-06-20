@@ -81,7 +81,7 @@ define(['step'], function (step) {
 		};
 
 		$scope.startKeyGeneration = function startKeyGen1() {
-			loginSerivce.startKeyGeneration();
+			sessionService.startKeyGeneration();
 		};
 
 		$scope.mailChange = function mailChange() {

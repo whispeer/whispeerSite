@@ -1,7 +1,9 @@
-define(['angular', 'app'], function(angular, app) {
+define(['app'], function (app) {
 	'use strict';
 
-	return app.config(['$routeProvider', function($routeProvider) {
+	return app.config(['$routeProvider', '$locationProvider', function ($routeProvider, $locationProvider) {
+		$locationProvider.html5Mode(false);
+
 		/** login and register */
 		$routeProvider.when('/login', {
 			templateUrl: 'views/login/login.html',
@@ -11,15 +13,15 @@ define(['angular', 'app'], function(angular, app) {
 		/** after login */
 		$routeProvider.when('/main', {
 			templateUrl: 'views/main/main.html',
-			controller: 'ssn.mainController'		
+			controller: 'ssn.mainController'
 		});
 		$routeProvider.when('/user/:userid', {
 			templateUrl: 'views/user/user.html',
-			controller: 'ssn.userController'		
+			controller: 'ssn.userController'
 		});
 		$routeProvider.when('/:identifier', {
 			redirectTo: function (params) {
-				return '/user/' + params["identifier"]	;
+				return '/user/' + params.identifier;
 			}
 		});
 		$routeProvider.otherwise({redirectTo: '/login'});

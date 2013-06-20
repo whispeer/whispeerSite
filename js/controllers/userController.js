@@ -5,11 +5,11 @@
 define(['step'], function (step) {
 	'use strict';
 
-	function userController($scope, $rootScope) {
+	function userController($scope) {
 		$scope.$parent.cssClass = "profileView";
 	}
 
-	userController.$inject = ['$scope', '$rootScope'];
+	userController.$inject = ['$scope'];
 
 	return userController;
 });
