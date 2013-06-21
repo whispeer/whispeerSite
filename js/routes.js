@@ -4,17 +4,18 @@ define(['app'], function (app) {
 	return app.config(['$routeProvider', '$locationProvider', function ($routeProvider, $locationProvider) {
 		$locationProvider.html5Mode(false);
 
-		/** login and register */
-		$routeProvider.when('/login', {
-			templateUrl: 'views/login/login.html',
-			controller: 'ssn.loginController'
-		});
+		function addMain(name) {
+			$routeProvider.when('/' + name, {
+				templateUrl: 'views/' + name + '/' + name + '.html',
+				controller: 'ssn.' + name + 'Controller'
+			});
+		}
+		
+		addMain("login");
+		addMain("main");
+		addMain("friends");
+		addMain("messages");
 
-		/** after login */
-		$routeProvider.when('/main', {
-			templateUrl: 'views/main/main.html',
-			controller: 'ssn.mainController'
-		});
 		$routeProvider.when('/user/:userid', {
 			templateUrl: 'views/user/user.html',
 			controller: 'ssn.userController'

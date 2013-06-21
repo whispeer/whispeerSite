@@ -102,7 +102,6 @@ function step() {
 				isErr = "(E)";
 			}
 
-			debugger;
 			if (preErr && typeof preErr.stack === "string") {
 				var trace = preErr.stack.split("\n")[2].replace(/^[^at]*at (.*).*/, "$1");
 			}

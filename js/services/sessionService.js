@@ -5,10 +5,49 @@ define(['step', 'helper'], function (step, h) {
 	"use strict";
 
 	var service = function ($rootScope, $location, socketService, keyStoreService) {
-		var sid = "", loggedin = false, keyGenerationStarted = false, asym, sign, sym, keyGenListener = [], keyGenDone;
+		var sid = "", loggedin = false, keyGenerationStarted = false, asym, sign, sym, keyGenListener = [], keyGenDone, returnURL;
+
+		function loginChange() {
+			$rootScope.$broadcast('ssn.login');
+
+			if (loggedin) {
+				if (returnURL) {
+					$location.path(returnURL);
+					returnURL = undefined;
+				} else {
+					$location.path("/main");
+				}
+			} else {
+				$location.path("/login");
+			}
+		}
 
 		var sessionService = {
+			loginRequired: function () {
+				if (!loggedin) {
+					returnURL = $location.path();
+					loginChange();
+
+					return false;
+				}
+
+				return true;
+			},
+
+			loggoutRequired: function () {
+				if (loggedin) {
+					loginChange();
+
+					return false;
+				}
+
+				return true;
+			},
+
 			login: function (name, password, callback) {
+				loggedin = true;
+				loginChange();
+
 				step(function loginStartup() {
 					socketService.emit("token", {
 						identifier: name
@@ -17,9 +56,9 @@ define(['step', 'helper'], function (step, h) {
 					if (data.error) {
 						this.last(data.errorData);
 					} else {
-						var hash = keyStoreService.hash(password);
+						var hash = keyStoreService.hashPW(password);
 
-						hash = hash(hash.substr(0, 10) + data.token);
+						hash = keyStoreService.hash(hash + data.token);
 						socketService.emit("login", {
 							identifier: name,
 							passwordHash: hash
@@ -32,9 +71,6 @@ define(['step', 'helper'], function (step, h) {
 						sessionService.resetKey();
 						loggedin = true;
 						sid = data.sid;
-
-						$rootScope.$broadcast('ssn.login');
-						//TODO: go forward, login was successful
 					}
 				}), callback);
 			},
@@ -44,17 +80,34 @@ define(['step', 'helper'], function (step, h) {
 					sid = "";
 					loggedin = false;
 
-					$rootScope.$broadcast('ssn.login');
-					$location.path("/login");
+					loginChange();
 				}
 			},
 
 			register: function (nickname, mail, password, profile, callback) {
+				var sym, asym, sign, keyData;
 				step(function register1() {
-					loggedin = true;
-					$rootScope.$broadcast('ssn.login');
-					$location.path("/main");
-				}, callback);
+					sessionService.startKeyGeneration(this)
+				}, h.sF(function register2(symK, asymK, signK) {
+					sym = symK;
+					asym = asymK;
+					sign = signK;
+
+					keyStore.sym.pwEncryptKey(sym, password, this);
+				}), h.sF(function register3() {
+					keyData = keyStore.getUploadData();
+
+					{
+						keyData: keyData,
+						nickname: nickname,
+						mail: mail,
+						password: keyStore.hashPW(password),
+						profile: {
+							pub: profile.pub,
+							priv: encryptProfile(profile.priv)
+						}
+					}
+				}), callback);
 			},
 
 			isLoggedin: function () {

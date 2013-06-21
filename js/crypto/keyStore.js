@@ -930,7 +930,11 @@ define(["step", "helper", "crypto/helper", "libs/sjcl", "crypto/sjclWorkerInclud
 		},
 
 		hash: function (text) {
-			return sjcl.hash.sha256.hash(text);
+			return chelper.bits2hex(sjcl.hash.sha256.hash(text));
+		},
+
+		hashPW: function (pw) {
+			return chelper.bits2hex(sjcl.hash.sha256.hash(text)).substr(0, 10);
 		},
 
 		sym: {
