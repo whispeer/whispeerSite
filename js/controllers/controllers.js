@@ -2,13 +2,23 @@
 * Base Controller
 **/
 
-define(['angular', 'controllers/loginController', 'controllers/rootController', 'controllers/userController', 'controllers/mainController'], function (angular, loginController, rootController, userController, mainController) {
-	"use strict";
-	var controllers = angular.module('ssn.controllers', ['ssn.services']);
-	controllers.controller('ssn.rootController', rootController);
-	controllers.controller('ssn.loginController', loginController);
-	controllers.controller('ssn.userController', userController);
-	controllers.controller('ssn.mainController', mainController);
+var controllers = ['login', 'root', 'user', 'main', 'friends', 'messages'];
 
-	return controllers;
+var includes = ['angular'];
+
+var i;
+for (i = 0; i < controllers.length; i += 1) {
+	includes.push('controllers/' + controllers[i] + 'Controller');
+}
+
+define(includes, function (angular) {
+	"use strict";
+	var cons = angular.module('ssn.controllers', ['ssn.services']);
+
+	var i;
+	for (i = 0; i < controllers.length; i += 1) {	
+		cons.controller('ssn.' + controllers[i] + 'Controller', arguments[i+1]);
+	}
+
+	return cons;
 });
