@@ -992,6 +992,30 @@ define(["step", "helper", "crypto/helper", "libs/sjcl", "crypto/sjclWorkerInclud
 		}
 	};
 
+	function object2Hash(obj, arr) {
+		var val, hashObj = {};
+		for (val in obj) {
+			if (obj.hasOwnProperty(val)) {
+				if (typeof obj[val] === "object") {
+					hashObj[val] = object2Hash(obj[val]);
+				} else if (typeof obj[val] === "function") {
+					throw "can not sign objects with functions";
+				} else {
+					hashObj[val] = obj[val].replace("{", "\{");
+				}
+			}
+		}
+
+		var sortation = Object.keys(hashObj).sort();
+		var json = JSON.stringify(hashObj, sortation);
+
+		if (!arr) {
+			return "hash:" + chelper.bits2hex(sjcl.hash.sha256.hash(json));
+		}
+
+		return sjcl.hash.sha256.hash(json);
+	}
+
 	/** our interface */
 	keyStore = {
 		reset: function reset() {
@@ -1286,6 +1310,13 @@ define(["step", "helper", "crypto/helper", "libs/sjcl", "crypto/sjclWorkerInclud
 				}), callback);
 			},
 
+			signObject: function signObjectF(object, realID, callback) {
+				step(function signO1() {
+					var hash = object2Hash(object, true);
+					keyStore.sign.signHash(hash, realID, this);
+				}, callback);
+			},
+
 			/** verify a given text
 			* @param signature given signature
 			* @param text given text
@@ -1294,6 +1325,13 @@ define(["step", "helper", "crypto/helper", "libs/sjcl", "crypto/sjclWorkerInclud
 			*/
 			verifyText: function (signature, text, realID, callback) {
 				keyStore.sign.verifyHash(signature, sjcl.hash.sha256.hash(text), realID, callback);
+			},
+
+			verifyObject: function signObjectF(signature, object, realID, callback) {
+				step(function signO1() {
+					var hash = object2Hash(object, true);
+					keyStore.sign.verifyHash(signature, hash, realID, this);
+				}, callback);
 			},
 
 			/** verify a given hash

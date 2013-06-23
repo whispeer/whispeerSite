@@ -106,8 +106,6 @@ define(['step', 'helper'], function (step, h) {
 					keyData = keyStoreService.upload.getData();
 
 					var registerData = {
-						nickname: nickname,
-						mail: mail,
 						password: keyStoreService.hash.hashPW(password),
 						mainKey: sym,
 						signKey: sign,
@@ -117,6 +115,19 @@ define(['step', 'helper'], function (step, h) {
 							priv: profileService.encryptProfile(profile.priv)
 						}
 					};
+
+					if (mail) {
+						registerData.mail = mail;
+					}
+
+					if (nickname) {
+						registerData.nickname = nickname;
+					}
+
+					var request = {
+						register: registerData,
+						addKeys: keyData.addKeys
+					}
 				}), callback);
 			},
 
