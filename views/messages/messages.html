@@ -3,7 +3,7 @@
 	<ul id="topicList">
 		<li class="topic" id="newmessage">
 			<div class="left"><i class="icon-plus-circle" id="plusBtn"></i></div>
-			<div class="right">Neue Nachricht</div>
+			<div class="right" data-i18n="messages.newMessage">Neue Nachricht</div>
 		</li>
 		<div id="topicListScroll">
 		</div>
@@ -17,8 +17,8 @@
 		<ul class="scroll-pane" id="messageList">
 		</ul>	
 		<form id="inputWrap">
-			<textarea id="messageInput" type="text" placeholder="Gebe deine Nachricht ein!"></textarea>
-			<button class="btn btn-success" id="sendmessage" type="submit">Senden</button>		
+			<textarea id="messageInput" type="text" data-i18n-attr="messages.sendMessage.text|placeholder"></textarea>
+			<button class="btn btn-success" id="sendmessage" data-i18n="messages.sendMessage.send" type="submit"></button>		
 		</form>
 	</div>
 </div>

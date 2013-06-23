@@ -2,7 +2,12 @@
 	"menu": {
 		"profil": "Profile",
 		"friends": "Friends",
-		"messages": "Messages"
+		"messages": "Messages",
+		"media": "Medien",
+		"groups": "Gruppen",
+		"settings": "Einstellungen",
+		"help": "Hilfe",
+		"logout": "Logout"
 	},
 	"login": {
 		"username": "Username",
@@ -19,6 +24,13 @@
 		"filter": {
 			"title": "Filter",
 			"placeholder": "Whose posts do you want to see?"
+		}
+	},
+	"messages": {
+		"newMessage": "New Message",
+		"sendMessage": {
+			"text": "Enter your message here!",
+			"send": "Send"
 		}
 	}
 }

@@ -25,5 +25,12 @@
 			"title": "Filter",
 			"placeholder": "Wessen Posts möchtest du im News-Feed sehen?"
 		}
+	},
+	"messages": {
+		"newMessage": "Neue Nachricht",
+		"sendMessage": {
+			"text": "Gebe deine Nachricht ein!",
+			"send": "Senden"
+		}
 	}
 }
