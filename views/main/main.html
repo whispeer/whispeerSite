@@ -1,13 +1,13 @@
 <div id="wall">
 	<header>
 		<form class="form-inline" id="postIt">
-			<input type="text" placeholder="Wer soll dienen Beitrag lesen können?" id="receiver">
-			<button type="submit">Posten</button>
-			<input type="text" placeholder="Teile etwas mit deinen Freunden!" id="shareText">
+			<input type="text" data-i18n-attr="main.post.receiver|placeholder" id="receiver">
+			<button type="submit" data-i18n="main.post.send">Posten</button>
+			<input type="text" data-i18n-attr="main.post.text|placeholder" id="shareText">
 		</form>
 		<div id="filter">
-			<div class="title">Filter</div>
-			<textarea placeholder="Wessen Posts möchtest du im News-Feed sehen?" id="theFilter"></textarea>
+			<div class="title" data-i18n="main.filter.title"></div>
+			<textarea data-i18n-attr="main.filter.placeholder|placeholder" id="theFilter"></textarea>
 		</div>
 	</header>
 	<div class="posts">
