@@ -56,9 +56,9 @@ define(['step', 'helper'], function (step, h) {
 					if (data.error) {
 						this.last(data.errorData);
 					} else {
-						var hash = keyStoreService.hashPW(password);
+						var hash = keyStoreService.hash.hashPW(password);
 
-						hash = keyStoreService.hash(hash + data.token);
+						hash = keyStoreService.hash.hash(hash + data.token);
 						socketService.emit("login", {
 							identifier: name,
 							passwordHash: hash
@@ -87,26 +87,36 @@ define(['step', 'helper'], function (step, h) {
 			register: function (nickname, mail, password, profile, callback) {
 				var sym, asym, sign, keyData;
 				step(function register1() {
-					sessionService.startKeyGeneration(this)
+					sessionService.startKeyGeneration(this);
 				}, h.sF(function register2(symK, asymK, signK) {
 					sym = symK;
 					asym = asymK;
 					sign = signK;
 
-					keyStore.sym.pwEncryptKey(sym, password, this);
-				}), h.sF(function register3() {
-					keyData = keyStore.getUploadData();
+					if (mail) {
+						keyStoreService.setKeyGenIdentifier(mail);
+					} else if (nickname) {
+						keyStoreService.setKeyGenIdentifier(nickname);
+					} else {
+						throw "need either nick or mail";
+					}
 
-					{
-						keyData: keyData,
+					keyStoreService.sym.pwEncryptKey(sym, password, this);
+				}), h.sF(function register3() {
+					keyData = keyStoreService.upload.getData();
+
+					var registerData = {
 						nickname: nickname,
 						mail: mail,
-						password: keyStore.hashPW(password),
+						password: keyStoreService.hash.hashPW(password),
+						mainKey: sym,
+						signKey: sign,
+						cryptKey: asym,
 						profile: {
 							pub: profile.pub,
-							priv: encryptProfile(profile.priv)
+							priv: profileService.encryptProfile(profile.priv)
 						}
-					}
+					};
 				}), callback);
 			},
 

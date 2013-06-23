@@ -15,7 +15,7 @@
 **/
 define(["step", "helper", "crypto/helper", "libs/sjcl", "crypto/sjclWorkerInclude"], function (step, h, chelper, sjcl) {
 	"use strict";
-	var symKeys = {}, cryptKeys = {}, signKeys = {}, passwords = [], keyGenIdentifier = "", Key, SymKey, CryptKey, SignKey, makeKey, keyStore;
+	var dirtyKeys = [], newKeys = [], symKeys = {}, cryptKeys = {}, signKeys = {}, passwords = [], keyGenIdentifier = "", Key, SymKey, CryptKey, SignKey, makeKey, keyStore;
 
 	var MAXSPEED = 99999999999, SPEEDS = {
 		symKey: {
@@ -98,8 +98,8 @@ define(["step", "helper", "crypto/helper", "libs/sjcl", "crypto/sjclWorkerInclud
 			} else if (decryptortype === "pw") {
 				step(function () {
 					var jsonData = sjcl.json.encode({
-						ct: ctext,
-						iv: iv,
+						ct: chelper.bits2hex(ctext),
+						iv: chelper.bits2hex(iv),
 						salt: salt
 					}), i, result;
 					for (i = 0; i < passwords.length; i += 1) {
@@ -145,7 +145,7 @@ define(["step", "helper", "crypto/helper", "libs/sjcl", "crypto/sjclWorkerInclud
 	* @param decryptors array of decryptor data
 	* @param optional secret unencrypted secret if we already have it
 	*/
-	Key = function keyConstructor(realid, decryptors, optionals) {
+	Key = function keyConstructor(superKey, realid, decryptors, optionals) {
 		var theKey = this, decrypted = false, dirtyDecryptors = [], internalSecret;
 
 		if (!decryptors) {
@@ -218,6 +218,16 @@ define(["step", "helper", "crypto/helper", "libs/sjcl", "crypto/sjclWorkerInclud
 
 		/** getter for real id */
 		function getRealIDF() {
+			var parts = realid.split(":");
+
+			if (parts.length !== 2) {
+				throw "This should not happen!";
+			}
+
+			if (parts[0].length === 0) {
+				return keyGenIdentifier + ":" + parts[1];
+			}
+
 			return realid;
 		}
 		this.getRealID = getRealIDF;
@@ -309,7 +319,9 @@ define(["step", "helper", "crypto/helper", "libs/sjcl", "crypto/sjclWorkerInclud
 					ct: chelper.bits2hex(tag),
 					dirty: true
 				};
+
 				decryptors.push(decryptorData);
+				dirtyKeys.push(superKey);
 				dirtyDecryptors.push(decryptorData);
 
 				this.ne();
@@ -334,12 +346,13 @@ define(["step", "helper", "crypto/helper", "libs/sjcl", "crypto/sjclWorkerInclud
 					decryptorid: 0,
 					type: "symKey",
 					id: realid,
-					ct: data.ct,
-					iv: data.iv,
+					ct: chelper.bits2hex(data.ct),
+					iv: chelper.bits2hex(data.iv),
 					dirty: true
 				};
 
 				decryptors.push(decryptorData);
+				dirtyKeys.push(superKey);
 				dirtyDecryptors.push(decryptorData);
 
 				this.ne();
@@ -358,13 +371,14 @@ define(["step", "helper", "crypto/helper", "libs/sjcl", "crypto/sjclWorkerInclud
 					decryptorid: 0,
 					type: "pw",
 					//Think, shortHash here? id: ?,
-					ct: data.ct,
-					iv: data.iv,
+					ct: chelper.bits2hex(data.ct),
+					iv: chelper.bits2hex(data.iv),
 					salt: data.salt,
 					dirty: true
 				};
 
 				decryptors.push(decryptorData);
+				dirtyKeys.push(superKey);
 				dirtyDecryptors.push(decryptorData);
 
 				this.ne();
@@ -376,10 +390,10 @@ define(["step", "helper", "crypto/helper", "libs/sjcl", "crypto/sjclWorkerInclud
 		this.addPWDecryptor = addPWDecryptorF;
 
 		/** get all data which need uploading. */
-		function getUploadDataF() {
+		function getDecryptorDataF() {
 			//get the upload data for the decryptors of this key.
 			//this will be called in the keys upload() function.
-			var result, i, tempR, k;
+			var result = [], i, tempR, k, parts;
 			for (i = 0; i < dirtyDecryptors.length; i += 1) {
 				tempR = {};
 				for (k in dirtyDecryptors[i]) {
@@ -388,12 +402,21 @@ define(["step", "helper", "crypto/helper", "libs/sjcl", "crypto/sjclWorkerInclud
 					}
 				}
 
+				parts = tempR.id.split(":");
+
+				if (parts.length !== 2) {
+					throw "This should not happen!";
+				}
+
+				if (parts[0].length === 0) {
+					tempR.id = keyGenIdentifier + ":" + parts[1];
+				}
 				result.push(tempR);
 			}
 
 			return result;
 		}
-		this.getUploadData = getUploadDataF;
+		this.getDecryptorData = getDecryptorDataF;
 
 		/** check if this key has dirty decryptors */
 		function isDirtyF() {
@@ -451,15 +474,26 @@ define(["step", "helper", "crypto/helper", "libs/sjcl", "crypto/sjclWorkerInclud
 
 		if (keyData) {
 			if (typeof keyData === "string") {
-				intKey = new Key(generateid(), [], {secret: chelper.hex2bits(keyData)});
+				intKey = new Key(this, generateid(), [], {secret: chelper.hex2bits(keyData)});
 			} else if (keyData instanceof Array) {
-				intKey = new Key(generateid(), [], {secret: keyData});
+				intKey = new Key(this, generateid(), [], {secret: keyData});
 			} else {
-				intKey = new Key(keyData.realid, keyData.decryptors);
+				intKey = new Key(this, keyData.realid, keyData.decryptors);
 			}
 		} else {
-			intKey = new Key(generateid(), [], {secret: sjcl.random.randomWords(8)});
+			intKey = new Key(this, generateid(), [], {secret: sjcl.random.randomWords(8)});
 		}
+
+		this.getFullUploadData = function () {
+			var data = {
+				realid: intKey.getRealID(),
+				decryptor: intKey.getDecryptorData()
+			};
+
+			return data;
+		};
+
+		this.getDecryptorData = intKey.getDecryptorData;
 
 		this.getRealID = intKey.getRealID;
 		this.getDecryptors = intKey.getDecryptors;
@@ -549,6 +583,7 @@ define(["step", "helper", "crypto/helper", "libs/sjcl", "crypto/sjclWorkerInclud
 		}, h.sF(function keyChain(data) {
 			var keys = data.keychain, i;
 			for (i = 0; i < keys.length; i += 1) {
+				h.isRealID(keys[i].realid);
 				makeKey(keys[i]);
 			}
 
@@ -582,6 +617,8 @@ define(["step", "helper", "crypto/helper", "libs/sjcl", "crypto/sjclWorkerInclud
 		}, h.sF(function symGenI2(key) {
 			if (!symKeys[key.getRealID()]) {
 				symKeys[key.getRealID()] = key;
+				newKeys.push(key);
+
 				this.ne(symKeys[key.getRealID()]);
 			} else {
 				symKeyGenerate(this);
@@ -615,7 +652,7 @@ define(["step", "helper", "crypto/helper", "libs/sjcl", "crypto/sjclWorkerInclud
 		if (keyData.exponent) {
 			isPrivateKey = true;
 
-			intKey = new Key(realid, keyData.decryptors, {
+			intKey = new Key(this, realid, keyData.decryptors, {
 				secret: keyData.exponent,
 				postProcessor: function cryptKeyPostProcessor(secret, callback) {
 					step(function () {
@@ -627,7 +664,7 @@ define(["step", "helper", "crypto/helper", "libs/sjcl", "crypto/sjclWorkerInclud
 			});
 		} else if (keyData.decryptors) {
 			isPrivateKey = true;
-			intKey = new Key(realid, keyData.decryptors, {
+			intKey = new Key(this, realid, keyData.decryptors, {
 				postProcessor: function cryptKeyPostProcessor(secret, callback) {
 					step(function () {
 						var exponent = new sjcl.bn(secret);
@@ -649,6 +686,22 @@ define(["step", "helper", "crypto/helper", "libs/sjcl", "crypto/sjclWorkerInclud
 			this.addAsymDecryptor = intKey.addAsymDecryptor;
 			this.addSymDecryptor = intKey.addSymDecryptor;
 			this.addPWDecryptor = intKey.addPWDecryptor;
+
+			this.getFullUploadData = function () {
+				var p = publicKey._point, data = {
+					realid: intKey.getRealID(),
+					point: {
+						x: chelper.bits2hex(p.x.toBits()),
+						y: chelper.bits2hex(p.y.toBits())
+					},
+					curve: chelper.getCurveName(publicKey._curve),
+					decryptor: intKey.getDecryptorData()
+				};
+
+				return data;
+			};
+
+			this.getDecryptorData = intKey.getDecryptorData;
 		}
 
 		/** create a key 
@@ -747,7 +800,11 @@ define(["step", "helper", "crypto/helper", "libs/sjcl", "crypto/sjclWorkerInclud
 			};
 			/*jslint nomen: false*/
 
-			this.ne(makeCryptKey(data));
+			var key = makeCryptKey(data);
+
+			newKeys.push(key);
+
+			this.ne(key);
 		}), callback);
 	}
 
@@ -782,7 +839,7 @@ define(["step", "helper", "crypto/helper", "libs/sjcl", "crypto/sjclWorkerInclud
 		if (keyData.exponent) {
 			isPrivateKey = true;
 
-			intKey = new Key(realid, keyData.decryptors, {
+			intKey = new Key(this, realid, keyData.decryptors, {
 				secret: keyData.exponent,
 				postProcessor: function cryptKeyPostProcessor(secret, callback) {
 					step(function () {
@@ -794,7 +851,7 @@ define(["step", "helper", "crypto/helper", "libs/sjcl", "crypto/sjclWorkerInclud
 			});
 		} else if (keyData.decryptors) {
 			isPrivateKey = true;
-			intKey = new Key(realid, keyData.decryptors, {
+			intKey = new Key(this, realid, keyData.decryptors, {
 				postProcessor: function cryptKeyPostProcessor(secret, callback) {
 					step(function () {
 						var exponent = new sjcl.bn(secret);
@@ -816,6 +873,22 @@ define(["step", "helper", "crypto/helper", "libs/sjcl", "crypto/sjclWorkerInclud
 			this.addAsymDecryptor = intKey.addAsymDecryptor;
 			this.addSymDecryptor = intKey.addSymDecryptor;
 			this.addPWDecryptor = intKey.addPWDecryptor;
+
+			this.getFullUploadData = function () {
+				var p = publicKey._point, data = {
+					realid: intKey.getRealID(),
+					point: {
+						x: chelper.bits2hex(p.x.toBits()),
+						y: chelper.bits2hex(p.y.toBits())
+					},
+					curve: chelper.getCurveName(publicKey._curve),
+					decryptor: intKey.getDecryptorData()
+				};
+
+				return data;
+			};
+
+			this.getDecryptorData = intKey.getDecryptorData;
 		}
 
 		function signF(hash, callback) {
@@ -896,7 +969,10 @@ define(["step", "helper", "crypto/helper", "libs/sjcl", "crypto/sjclWorkerInclud
 			};
 			/*jslint nomen: false*/
 
-			this.ne(makeSignKey(data));
+			var key = makeSignKey(data);
+			newKeys.push(key);
+
+			this.ne(key);
 		}), callback);
 	}
 
@@ -929,12 +1005,83 @@ define(["step", "helper", "crypto/helper", "libs/sjcl", "crypto/sjclWorkerInclud
 			keyGenIdentifier = identifier;
 		},
 
-		hash: function (text) {
-			return chelper.bits2hex(sjcl.hash.sha256.hash(text));
+		hash: {
+			hash: function (text) {
+				return chelper.bits2hex(sjcl.hash.sha256.hash(text));
+			},
+
+			hashPW: function (pw) {
+				return chelper.bits2hex(sjcl.hash.sha256.hash(pw)).substr(0, 10);
+			}
 		},
 
-		hashPW: function (pw) {
-			return chelper.bits2hex(sjcl.hash.sha256.hash(text)).substr(0, 10);
+		upload: {
+			getData: function () {
+				var data = {
+					addKeys: {},
+					addKeyDecryptors: {}
+				};
+				/*
+				{
+					addKeys: {
+						realid1: key1,
+						realid2: key2,
+						...
+					},
+					addKeyDecryptor: {
+						realid1: decryptors1
+						realid2: decryptors2
+					}
+				}
+				*/
+
+				var i;
+				for (i = 0; i < newKeys.length; i += 1) {
+					data.addKeys[newKeys[i].getRealID()] = newKeys[i].getFullUploadData();
+				}
+
+				for (i = 0; i < dirtyKeys.length; i += 1) {
+					if (!data.addKeys[dirtyKeys[i].getRealID()]) {
+						data.addKeyDecryptors[dirtyKeys[i].getRealID()] = dirtyKeys[i].getDecryptorData();
+					}
+				}
+
+				return data;
+			},
+			uploaded: function (data) {
+				/*
+				{
+					keys: {
+						realid1: realid1,
+						realid2: realid2,
+						realid3: realid3,
+						...
+					},
+					decryptors: {
+						realid1: data
+					}
+				}
+				*/
+				var realid;
+				for (realid in data.decryptors) {
+					if (data.decryptors.hasOwnProperty(realid)) {
+						getKey(realid).removeDirty(data.decryptors[realid]);
+					}
+				}
+
+				var remainedKeys = [];
+
+				var i;
+				for (i = 0; i < newKeys.length; i += 1) {
+					realid = newKeys[i].getRealID();
+
+					if (!data.keys[realid]) {
+						remainedKeys.push(newKeys[i]);
+					}
+				}
+
+				newKeys = remainedKeys;
+			}
 		},
 
 		sym: {

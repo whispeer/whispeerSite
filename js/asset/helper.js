@@ -118,6 +118,24 @@ define(['step'], function (step) {
 			return false;
 		},
 
+		isRealID: function (data) {
+			var parts = data.split(":");
+
+			if (parts.length !== 2) {
+				return false;
+			}
+
+			if (parts[1].length !== 64) {
+				return false;
+			}
+
+			if (!helper.isNickname(parts[0]) && !helper.isMail(parts[0])) {
+				return false;
+			}
+
+			return true;
+		},
+
 		/** is data a valid nickname? */
 		isNickname: function (data) {
 			return (helper.isString(data) && !!data.match(/^[A-z][A-z0-9]*$/));
