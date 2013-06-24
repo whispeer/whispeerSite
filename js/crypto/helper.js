@@ -54,12 +54,11 @@ define(["libs/sjcl", "helper"], function (sjcl, h) {
 				result.salt = decoded.salt;
 			}
 
-			
 			return result;
 		},
 		Object2sjclPacket: function (data) {
 			return sjcl.json.encode(data);
-		},
+		}
 	};
 
 	return helper;

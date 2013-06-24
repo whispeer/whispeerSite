@@ -542,10 +542,17 @@ define(["step", "helper", "crypto/helper", "libs/sjcl", "crypto/sjclWorkerInclud
 				var result;
 
 				if (typeof ctext !== "object") {
+					if (h.isHex(ctext)) {
+						ctext = chelper.hex2bits(ctext);
+					}
+
 					ctext = {ct: ctext};
 				}
 
 				if (iv) {
+					if (h.isHex(iv)) {
+						iv = chelper.hex2bits(iv);
+					}
 					ctext.iv = iv;
 				}
 
@@ -992,6 +999,7 @@ define(["step", "helper", "crypto/helper", "libs/sjcl", "crypto/sjclWorkerInclud
 		}
 	};
 
+	/** hash an object. */
 	function object2Hash(obj, arr) {
 		var val, hashObj = {};
 		for (val in obj) {
@@ -1001,7 +1009,7 @@ define(["step", "helper", "crypto/helper", "libs/sjcl", "crypto/sjclWorkerInclud
 				} else if (typeof obj[val] === "function") {
 					throw "can not sign objects with functions";
 				} else {
-					hashObj[val] = obj[val].replace("{", "\{");
+					hashObj[val] = obj[val].toString();
 				}
 			}
 		}
@@ -1014,6 +1022,81 @@ define(["step", "helper", "crypto/helper", "libs/sjcl", "crypto/sjclWorkerInclud
 		}
 
 		return sjcl.hash.sha256.hash(json);
+	}
+
+	/** decrypt an object attribute wise */
+	function internalObjDecrypt(iv, object, key, callback) {
+		var keys, result = {};
+
+		step(function decrObjI1() {
+			keys = Object.keys(object);
+
+			var i;
+			for (i = 0; i < keys.length; i += 1) {
+				if (keys[i] !== "iv") {
+					var cur = object[keys[i]];
+					if (typeof cur === "object") {
+						internalObjDecrypt(iv, cur, key, this.parallel());
+					} else if (typeof cur === "string") {
+						key.decrypt(cur, this.parallel(), iv);
+					} else {
+						throw "Invalid data!";
+					}
+				}
+			}
+		}, h.sF(function decrObjI2(results) {
+			if (results.length !== keys.length && results.length !== keys.length - 1) {
+				throw "bug!";
+			}
+
+			var i;
+			for (i = 0; i < keys.length; i += 1) {
+				if (keys[i] !== "iv") {
+					if (results[i].substr(0, 6) === "data::") {
+						result[keys[i]] = results[i].substr(6);
+					}
+				}
+			}
+
+			this.ne(result);
+		}), callback);
+	}
+
+	/** encrypt an object attribute wise */
+	function internalObjEncrypt(iv, object, key, callback) {
+		var keys, result = {};
+
+		step(function encrObjI1() {
+			keys = Object.keys(object);
+
+			var i, text;
+			for (i = 0; i < keys.length; i += 1) {
+				if (keys[i] !== "iv") {
+					var cur = object[keys[i]];
+					if (typeof cur === "object") {
+						internalObjEncrypt(iv, cur, key, this.parallel());
+					} else if (typeof cur === "string" || typeof cur === "number" || typeof cur === "boolean") {
+						text = "data::" + cur.toString();
+						key.encrypt(text, this.parallel(), iv);
+					} else {
+						throw "Invalid encrypt!";
+					}
+				}
+			}
+		}, h.sF(function encrObjI2(results) {
+			if (results.length !== keys.length && results.length !== keys.length - 1) {
+				throw "bug!";
+			}
+
+			var i;
+			for (i = 0; i < keys.length; i += 1) {
+				if (keys[i] !== "iv") {
+					result[keys[i]] = chelper.bits2hex(results[i].ct);
+				}
+			}
+
+			this.ne(result);
+		}), callback);
 	}
 
 	/** our interface */
@@ -1180,6 +1263,45 @@ define(["step", "helper", "crypto/helper", "libs/sjcl", "crypto/sjclWorkerInclud
 					key.encrypt(text, this);
 				}), h.sF(function symEncrypt3(ct) {
 					this.ne(ct);
+				}), callback);
+			},
+
+			/** encrypt an object
+			* @param object Object to encrypt
+			* @param realKeyID key to encrypt with
+			* @param callback callback
+			*/
+			encryptObject: function (object, realKeyID, callback, iv) {
+				step(function objEncrypt1() {
+					if (object.iv && object.iv !== iv) {
+						throw "IV already set.";
+					}
+
+					if (!iv) {
+						iv = sjcl.random.randomWords(4, 0);
+					}
+
+					SymKey.get(realKeyID, this);
+				}, h.sF(function objEncrypt2(key) {
+					internalObjEncrypt(iv, object, key, this);
+				}), h.sF(function objEncrypt3(result) {
+					result.iv = chelper.bits2hex(iv);
+
+					this.ne(result);
+				}), callback);
+			},
+
+			decryptObject: function (cobject, realKeyID, callback) {
+				step(function objDecrypt1() {
+					if (!cobject.iv) {
+						throw "no iv found";
+					}
+
+					SymKey.get(realKeyID, this);
+				}, h.sF(function objDecrypt2(key) {
+					internalObjDecrypt(cobject.iv, cobject, key, this);
+				}), h.sF(function objDecrypt3(result) {
+					this.ne(result);
 				}), callback);
 			},
 
