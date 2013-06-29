@@ -1,15 +1,15 @@
 /**
 * ProfileService
 **/
-define(['crypto/keyStore'], function (keyStore) {
+define(['crypto/keyStore', 'step', 'helper'], function (keyStore, step, h) {
 	"use strict";
 
 	var service = function () {
 		var validAttributes = {
 			basic: {
 				iv: false,
-				firstName: true,
-				lastName: true,
+				firstname: true,
+				lastname: true,
 				birthday: function (val) {
 					if (isNaN(Date.parse(val))) {
 						return false;
@@ -96,9 +96,7 @@ define(['crypto/keyStore'], function (keyStore) {
 			};
 		};
 
-		profileService.encryptProfile = function encryptProfileF(data) {
-			checkValid(data);
-		};
+		return profileService;
 	};
 
 	service.$inject = [];

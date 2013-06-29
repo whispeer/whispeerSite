@@ -43,6 +43,20 @@ define(["step", "helper", "crypto/helper", "libs/sjcl", "crypto/sjclWorkerInclud
 		return id;
 	}
 
+	function correctKeyIdentifier(realid) {
+		var parts = realid.split(":");
+
+		if (parts.length !== 2) {
+			throw "This should not happen!";
+		}
+
+		if (parts[0].length === 0) {
+			return keyGenIdentifier + ":" + parts[1];
+		}
+
+		return realid;
+	}
+
 	/** encrypt a password
 	* @param pw password to encrypt
 	* @param text text to encrypt
@@ -218,17 +232,7 @@ define(["step", "helper", "crypto/helper", "libs/sjcl", "crypto/sjclWorkerInclud
 
 		/** getter for real id */
 		function getRealIDF() {
-			var parts = realid.split(":");
-
-			if (parts.length !== 2) {
-				throw "This should not happen!";
-			}
-
-			if (parts[0].length === 0) {
-				return keyGenIdentifier + ":" + parts[1];
-			}
-
-			return realid;
+			return correctKeyIdentifier(realid);
 		}
 		this.getRealID = getRealIDF;
 
@@ -402,14 +406,8 @@ define(["step", "helper", "crypto/helper", "libs/sjcl", "crypto/sjclWorkerInclud
 					}
 				}
 
-				parts = tempR.id.split(":");
-
-				if (parts.length !== 2) {
-					throw "This should not happen!";
-				}
-
-				if (parts[0].length === 0) {
-					tempR.id = keyGenIdentifier + ":" + parts[1];
+				if (tempR.id) {
+					tempR.id = correctKeyIdentifier(tempR.id);
 				}
 				result.push(tempR);
 			}
@@ -1046,6 +1044,10 @@ define(["step", "helper", "crypto/helper", "libs/sjcl", "crypto/sjclWorkerInclud
 					this.parallel()(null, false);
 				}
 			}
+
+			if (keys.length === 0) {
+				this.ne([]);
+			}
 		}, h.sF(function decrObjI2(results) {
 			if (results.length !== keys.length) {
 				throw "bug!";
@@ -1087,6 +1089,10 @@ define(["step", "helper", "crypto/helper", "libs/sjcl", "crypto/sjclWorkerInclud
 					this.parallel()(null, false);
 				}
 			}
+
+			if (keys.length === 0) {
+				this.ne([]);
+			}
 		}, h.sF(function encrObjI2(results) {
 			if (results.length !== keys.length) {
 				throw "bug!";
@@ -1114,6 +1120,14 @@ define(["step", "helper", "crypto/helper", "libs/sjcl", "crypto/sjclWorkerInclud
 
 		setKeyGenIdentifier: function (identifier) {
 			keyGenIdentifier = identifier;
+		},
+
+		getKeyGenIdentifier: function () {
+			return keyGenIdentifier;
+		},
+
+		correctKeyIdentifier: function correctKeyIdentifierF(realid) {
+			return correctKeyIdentifier(realid);
 		},
 
 		hash: {

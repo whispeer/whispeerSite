@@ -4,7 +4,7 @@
 define(['step', 'helper'], function (step, h) {
 	"use strict";
 
-	var service = function ($rootScope, $location, socketService, keyStoreService) {
+	var service = function ($rootScope, $location, socketService, keyStoreService, ProfileService) {
 		var sid = "", loggedin = false, keyGenerationStarted = false, asym, sign, sym, keyGenListener = [], keyGenDone, returnURL;
 
 		function loginChange() {
@@ -101,18 +101,24 @@ define(['step', 'helper'], function (step, h) {
 						throw "need either nick or mail";
 					}
 
-					keyStoreService.sym.pwEncryptKey(sym, password, this);
-				}), h.sF(function register3() {
+					keyStoreService.sym.generateKey(this);
+				}), h.sF(function register21(profileKey) {
+					var privateProfile = new ProfileService(profile.priv);
+
+					privateProfile.encrypt(profileKey, this.parallel());
+					keyStoreService.sym.pwEncryptKey(sym, password, this.parallel());
+					keyStoreService.sym.symEncryptKey(profileKey, sym, this.parallel());
+				}), h.sF(function register3(data) {
 					keyData = keyStoreService.upload.getData();
 
 					var registerData = {
 						password: keyStoreService.hash.hashPW(password),
-						mainKey: sym,
-						signKey: sign,
-						cryptKey: asym,
+						mainKey: keyStoreService.correctKeyIdentifier(sym),
+						signKey: keyStoreService.correctKeyIdentifier(sign),
+						cryptKey: keyStoreService.correctKeyIdentifier(asym),
 						profile: {
 							pub: profile.pub,
-							priv: profileService.encryptProfile(profile.priv)
+							priv: data[0]
 						}
 					};
 
@@ -127,7 +133,9 @@ define(['step', 'helper'], function (step, h) {
 					var request = {
 						register: registerData,
 						addKeys: keyData.addKeys
-					}
+					};
+
+					socketService.emit("data", request, this);
 				}), callback);
 			},
 
@@ -266,7 +274,7 @@ define(['step', 'helper'], function (step, h) {
 		return sessionService;
 	};
 
-	service.$inject = ['$rootScope', '$location', 'ssn.socketService', 'ssn.keyStoreService'];
+	service.$inject = ['$rootScope', '$location', 'ssn.socketService', 'ssn.keyStoreService', 'ssn.profileService'];
 
 	return service;
 });
