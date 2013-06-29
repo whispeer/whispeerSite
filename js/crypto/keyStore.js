@@ -1033,7 +1033,7 @@ define(["step", "helper", "crypto/helper", "libs/sjcl", "crypto/sjclWorkerInclud
 
 			var i;
 			for (i = 0; i < keys.length; i += 1) {
-				if (keys[i] !== "iv") {
+				if (keys[i] !== "iv" && keys[i] !== "key") {
 					var cur = object[keys[i]];
 					if (typeof cur === "object") {
 						internalObjDecrypt(iv, cur, key, this.parallel());
@@ -1042,16 +1042,18 @@ define(["step", "helper", "crypto/helper", "libs/sjcl", "crypto/sjclWorkerInclud
 					} else {
 						throw "Invalid data!";
 					}
+				} else {
+					this.parallel()(null, false);
 				}
 			}
 		}, h.sF(function decrObjI2(results) {
-			if (results.length !== keys.length && results.length !== keys.length - 1) {
+			if (results.length !== keys.length) {
 				throw "bug!";
 			}
 
 			var i;
 			for (i = 0; i < keys.length; i += 1) {
-				if (keys[i] !== "iv") {
+				if (keys[i] !== "iv" && keys[i] !== "key") {
 					if (results[i].substr(0, 6) === "data::") {
 						result[keys[i]] = results[i].substr(6);
 					}
@@ -1071,7 +1073,7 @@ define(["step", "helper", "crypto/helper", "libs/sjcl", "crypto/sjclWorkerInclud
 
 			var i, text;
 			for (i = 0; i < keys.length; i += 1) {
-				if (keys[i] !== "iv") {
+				if (keys[i] !== "iv" && keys[i] !== "key") {
 					var cur = object[keys[i]];
 					if (typeof cur === "object") {
 						internalObjEncrypt(iv, cur, key, this.parallel());
@@ -1081,16 +1083,18 @@ define(["step", "helper", "crypto/helper", "libs/sjcl", "crypto/sjclWorkerInclud
 					} else {
 						throw "Invalid encrypt!";
 					}
+				} else {
+					this.parallel()(null, false);
 				}
 			}
 		}, h.sF(function encrObjI2(results) {
-			if (results.length !== keys.length && results.length !== keys.length - 1) {
+			if (results.length !== keys.length) {
 				throw "bug!";
 			}
 
 			var i;
 			for (i = 0; i < keys.length; i += 1) {
-				if (keys[i] !== "iv") {
+				if (keys[i] !== "iv" && keys[i] !== key) {
 					result[keys[i]] = chelper.bits2hex(results[i].ct);
 				}
 			}
@@ -1286,18 +1290,23 @@ define(["step", "helper", "crypto/helper", "libs/sjcl", "crypto/sjclWorkerInclud
 					internalObjEncrypt(iv, object, key, this);
 				}), h.sF(function objEncrypt3(result) {
 					result.iv = chelper.bits2hex(iv);
+					result.key = realKeyID;
 
 					this.ne(result);
 				}), callback);
 			},
 
-			decryptObject: function (cobject, realKeyID, callback) {
+			decryptObject: function (cobject, callback) {
 				step(function objDecrypt1() {
 					if (!cobject.iv) {
 						throw "no iv found";
 					}
 
-					SymKey.get(realKeyID, this);
+					if (!cobject.key) {
+						throw "no key found";
+					}
+
+					SymKey.get(cobject.key, this);
 				}, h.sF(function objDecrypt2(key) {
 					internalObjDecrypt(cobject.iv, cobject, key, this);
 				}), h.sF(function objDecrypt3(result) {
