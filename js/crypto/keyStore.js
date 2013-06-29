@@ -1101,7 +1101,11 @@ define(["step", "helper", "crypto/helper", "libs/sjcl", "crypto/sjclWorkerInclud
 			var i;
 			for (i = 0; i < keys.length; i += 1) {
 				if (keys[i] !== "iv" && keys[i] !== key) {
-					result[keys[i]] = chelper.bits2hex(results[i].ct);
+					if (results[i].ct) {
+						result[keys[i]] = chelper.bits2hex(results[i].ct);
+					} else {
+						result[keys[i]] = results[i];
+					}
 				}
 			}
 
