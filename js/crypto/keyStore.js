@@ -1058,6 +1058,10 @@ define(["step", "helper", "crypto/helper", "libs/sjcl", "crypto/sjclWorkerInclud
 				if (keys[i] !== "iv" && keys[i] !== "key") {
 					if (results[i].substr(0, 6) === "data::") {
 						result[keys[i]] = results[i].substr(6);
+					} else if (typeof results[i] === "object") {
+						result[keys[i]] = results[i];
+					} else {
+						throw "unexpected data!";
 					}
 				}
 			}

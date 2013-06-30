@@ -61,7 +61,8 @@ define(['step', 'helper'], function (step, h) {
 						hash = keyStoreService.hash.hash(hash + data.token);
 						socketService.emit("login", {
 							identifier: name,
-							passwordHash: hash
+							password: hash,
+							token: data.token
 						}, this);
 					}
 				}), h.sF(function loginResults(data) {
@@ -136,7 +137,10 @@ define(['step', 'helper'], function (step, h) {
 					};
 
 					socketService.emit("data", request, this);
-				}), callback);
+				}), function () {
+					debugger;
+					this.ne();
+				}, callback);
 			},
 
 			isLoggedin: function () {
