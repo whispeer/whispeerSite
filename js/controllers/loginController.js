@@ -190,13 +190,7 @@ define(['step'], function (step) {
 			}, function (e, result) {
 				console.log(e);
 				if (e) {
-					if (e.userNotExisting) {
-						$scope.$apply(loginFailed);
-					}
-
-					if (e.invalidCredentials) {
-						$scope.$apply(loginFailed);
-					}
+					$scope.$apply(loginFailed);
 				} else {
 					$scope.$apply(loginSuccess);
 				}

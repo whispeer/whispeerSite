@@ -45,9 +45,6 @@ define(['step', 'helper'], function (step, h) {
 			},
 
 			login: function (name, password, callback) {
-				loggedin = true;
-				loginChange();
-
 				step(function loginStartup() {
 					socketService.emit("token", {
 						identifier: name
@@ -67,11 +64,16 @@ define(['step', 'helper'], function (step, h) {
 					}
 				}), h.sF(function loginResults(data) {
 					if (data.error) {
-						this.last(data.errorData);
+						this.last.ne(data.errorData);
 					} else {
 						sessionService.resetKey();
 						loggedin = true;
 						sid = data.sid;
+
+						loggedin = true;
+						loginChange();
+
+						this.last.ne();
 					}
 				}), callback);
 			},
