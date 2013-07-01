@@ -397,7 +397,7 @@ define(["step", "helper", "crypto/helper", "libs/sjcl", "crypto/sjclWorkerInclud
 		function getDecryptorDataF() {
 			//get the upload data for the decryptors of this key.
 			//this will be called in the keys upload() function.
-			var result = [], i, tempR, k, parts;
+			var result = [], i, tempR, k;
 			for (i = 0; i < dirtyDecryptors.length; i += 1) {
 				tempR = {};
 				for (k in dirtyDecryptors[i]) {
@@ -485,7 +485,8 @@ define(["step", "helper", "crypto/helper", "libs/sjcl", "crypto/sjclWorkerInclud
 		this.getFullUploadData = function () {
 			var data = {
 				realid: intKey.getRealID(),
-				decryptor: intKey.getDecryptorData()
+				decryptor: intKey.getDecryptorData(),
+				type: "sym"
 			};
 
 			return data;
@@ -700,7 +701,8 @@ define(["step", "helper", "crypto/helper", "libs/sjcl", "crypto/sjclWorkerInclud
 						y: chelper.bits2hex(p.y.toBits())
 					},
 					curve: chelper.getCurveName(publicKey._curve),
-					decryptor: intKey.getDecryptorData()
+					decryptor: intKey.getDecryptorData(),
+					type: "crypt"
 				};
 
 				return data;
@@ -887,7 +889,8 @@ define(["step", "helper", "crypto/helper", "libs/sjcl", "crypto/sjclWorkerInclud
 						y: chelper.bits2hex(p.y.toBits())
 					},
 					curve: chelper.getCurveName(publicKey._curve),
-					decryptor: intKey.getDecryptorData()
+					decryptor: intKey.getDecryptorData(),
+					type: "sign"
 				};
 
 				return data;
@@ -1170,12 +1173,12 @@ define(["step", "helper", "crypto/helper", "libs/sjcl", "crypto/sjclWorkerInclud
 
 				var i;
 				for (i = 0; i < newKeys.length; i += 1) {
-					data.addKeys[newKeys[i].getRealID()] = newKeys[i].getFullUploadData();
+					data.addKeys.push(newKeys[i].getFullUploadData());
 				}
 
 				for (i = 0; i < dirtyKeys.length; i += 1) {
 					if (!data.addKeys[dirtyKeys[i].getRealID()]) {
-						data.addKeyDecryptors[dirtyKeys[i].getRealID()] = dirtyKeys[i].getDecryptorData();
+						data.addKeyDecryptors.push(dirtyKeys[i].getDecryptorData());
 					}
 				}
 

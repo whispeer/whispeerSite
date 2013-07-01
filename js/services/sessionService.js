@@ -135,9 +135,10 @@ define(['step', 'helper'], function (step, h) {
 
 					var request = {
 						register: registerData,
-						addKeys: keyData.addKeys
+						keyData: keyData
 					};
 
+					debugger;
 					socketService.emit("data", request, this);
 				}), function () {
 					debugger;
