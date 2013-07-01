@@ -32,5 +32,8 @@
 			"text": "Gebe deine Nachricht ein!",
 			"send": "Senden"
 		}
+	},
+	"profile": {
+		
 	}
 }
