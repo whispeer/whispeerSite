@@ -173,13 +173,16 @@ define(['angular'], function (angular) {
 				updateText: function (elm, token) {
 					var values = token.split('|');
 					// construct the tag to insert into the element
-					var tag = localize.getLocalizedString(values[0]), index;
+					var tag = localize.getLocalizedString(values[0]), index, toSet;
 					// update the element only if data was returned
 					if ((tag !== null) && (tag !== undefined) && (tag !== '')) {
 						if (values.length > 2) {
 							for (index = 2; index < values.length; index += 1) {
-								var target = '{' + (index - 2) + '}';
-								tag = tag.replace(target, values[index]);
+								toSet = values[index].split("=");
+								if (toSet.length === 2) {
+									var target = '{' + toSet[0] + '}';
+									tag = tag.replace(target, toSet[1]);
+								}
 							}
 						}
 						// insert the text into the element

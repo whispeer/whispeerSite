@@ -14,9 +14,9 @@
 		<button id="loginformsubmit" class="btn" type="submit" data-ng-click="login(identifier, password)">{{'login.login'|i18n}}</button>
 	</div>
 </form>
-<form id="registerform" data-ng-show="!loginForm" data-ng-click="registerFormClick">
+<form id="registerform" data-ng-show="!loginForm" data-ng-click="registerFormClick()">
 	<div data-ng-repeat="attribute in profileAttributes" data-title="{{attribute.hoverText}}">
-		<input type="text" data-ng-class="{true: 'firstElement', false: ''}[$first]" placeholder="{{attribute.placeHolder}}" data-ng-model="attribute.value" data-ng-click="registerFormClick()">
+		<input type="text" placeholder="{{attribute.placeHolder}}" data-ng-model="attribute.value">
 		<span class="icon lock">
 			<img data-ng-src="{{{true: 'img/lock_closed.png', false: 'img/lock_open.png'}[attribute.encrypted]}}" alt="{{((attribute.encrypted) && ('Privat') || ('&Ouml;ffentlich'))}}" data-ng-click="attribute.encrypted=!attribute.encrypted"/>
 		</span>

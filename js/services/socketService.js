@@ -1,7 +1,7 @@
 /**
 * LoginService
 **/
-define(['angular', 'socket', 'step', 'helper'], function (angular, io, step, h) {
+define(['socket', 'step', 'helper'], function (io, step, h) {
 	"use strict";
 
 	var socket = io.connect('http://localhost:3000');

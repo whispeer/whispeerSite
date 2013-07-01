@@ -43,6 +43,20 @@ define(["step", "helper", "crypto/helper", "libs/sjcl", "crypto/sjclWorkerInclud
 		return id;
 	}
 
+	function correctKeyIdentifier(realid) {
+		var parts = realid.split(":");
+
+		if (parts.length !== 2) {
+			throw "This should not happen!";
+		}
+
+		if (parts[0].length === 0) {
+			return keyGenIdentifier + ":" + parts[1];
+		}
+
+		return realid;
+	}
+
 	/** encrypt a password
 	* @param pw password to encrypt
 	* @param text text to encrypt
@@ -218,17 +232,7 @@ define(["step", "helper", "crypto/helper", "libs/sjcl", "crypto/sjclWorkerInclud
 
 		/** getter for real id */
 		function getRealIDF() {
-			var parts = realid.split(":");
-
-			if (parts.length !== 2) {
-				throw "This should not happen!";
-			}
-
-			if (parts[0].length === 0) {
-				return keyGenIdentifier + ":" + parts[1];
-			}
-
-			return realid;
+			return correctKeyIdentifier(realid);
 		}
 		this.getRealID = getRealIDF;
 
@@ -402,14 +406,8 @@ define(["step", "helper", "crypto/helper", "libs/sjcl", "crypto/sjclWorkerInclud
 					}
 				}
 
-				parts = tempR.id.split(":");
-
-				if (parts.length !== 2) {
-					throw "This should not happen!";
-				}
-
-				if (parts[0].length === 0) {
-					tempR.id = keyGenIdentifier + ":" + parts[1];
+				if (tempR.id) {
+					tempR.id = correctKeyIdentifier(tempR.id);
 				}
 				result.push(tempR);
 			}
@@ -542,10 +540,17 @@ define(["step", "helper", "crypto/helper", "libs/sjcl", "crypto/sjclWorkerInclud
 				var result;
 
 				if (typeof ctext !== "object") {
+					if (h.isHex(ctext)) {
+						ctext = chelper.hex2bits(ctext);
+					}
+
 					ctext = {ct: ctext};
 				}
 
 				if (iv) {
+					if (h.isHex(iv)) {
+						iv = chelper.hex2bits(iv);
+					}
 					ctext.iv = iv;
 				}
 
@@ -992,6 +997,126 @@ define(["step", "helper", "crypto/helper", "libs/sjcl", "crypto/sjclWorkerInclud
 		}
 	};
 
+	/** hash an object. */
+	function object2Hash(obj, arr) {
+		var val, hashObj = {};
+		for (val in obj) {
+			if (obj.hasOwnProperty(val)) {
+				if (typeof obj[val] === "object") {
+					hashObj[val] = object2Hash(obj[val]);
+				} else if (typeof obj[val] === "function") {
+					throw "can not sign objects with functions";
+				} else {
+					hashObj[val] = obj[val].toString();
+				}
+			}
+		}
+
+		var sortation = Object.keys(hashObj).sort();
+		var json = JSON.stringify(hashObj, sortation);
+
+		if (!arr) {
+			return "hash:" + chelper.bits2hex(sjcl.hash.sha256.hash(json));
+		}
+
+		return sjcl.hash.sha256.hash(json);
+	}
+
+	/** decrypt an object attribute wise */
+	function internalObjDecrypt(iv, object, key, callback) {
+		var keys, result = {};
+
+		step(function decrObjI1() {
+			keys = Object.keys(object);
+
+			var i;
+			for (i = 0; i < keys.length; i += 1) {
+				if (keys[i] !== "iv" && keys[i] !== "key") {
+					var cur = object[keys[i]];
+					if (typeof cur === "object") {
+						internalObjDecrypt(iv, cur, key, this.parallel());
+					} else if (typeof cur === "string") {
+						key.decrypt(cur, this.parallel(), iv);
+					} else {
+						throw "Invalid data!";
+					}
+				} else {
+					this.parallel()(null, false);
+				}
+			}
+
+			if (keys.length === 0) {
+				this.ne([]);
+			}
+		}, h.sF(function decrObjI2(results) {
+			if (results.length !== keys.length) {
+				throw "bug!";
+			}
+
+			var i;
+			for (i = 0; i < keys.length; i += 1) {
+				if (keys[i] !== "iv" && keys[i] !== "key") {
+					if (results[i].substr(0, 6) === "data::") {
+						result[keys[i]] = results[i].substr(6);
+					} else if (typeof results[i] === "object") {
+						result[keys[i]] = results[i];
+					} else {
+						throw "unexpected data!";
+					}
+				}
+			}
+
+			this.ne(result);
+		}), callback);
+	}
+
+	/** encrypt an object attribute wise */
+	function internalObjEncrypt(iv, object, key, callback) {
+		var keys, result = {};
+
+		step(function encrObjI1() {
+			keys = Object.keys(object);
+
+			var i, text;
+			for (i = 0; i < keys.length; i += 1) {
+				if (keys[i] !== "iv" && keys[i] !== "key") {
+					var cur = object[keys[i]];
+					if (typeof cur === "object") {
+						internalObjEncrypt(iv, cur, key, this.parallel());
+					} else if (typeof cur === "string" || typeof cur === "number" || typeof cur === "boolean") {
+						text = "data::" + cur.toString();
+						key.encrypt(text, this.parallel(), iv);
+					} else {
+						throw "Invalid encrypt!";
+					}
+				} else {
+					this.parallel()(null, false);
+				}
+			}
+
+			if (keys.length === 0) {
+				this.ne([]);
+			}
+		}, h.sF(function encrObjI2(results) {
+			if (results.length !== keys.length) {
+				throw "bug!";
+			}
+
+			var i;
+			for (i = 0; i < keys.length; i += 1) {
+				if (keys[i] !== "iv" && keys[i] !== key) {
+					if (results[i].ct) {
+						result[keys[i]] = chelper.bits2hex(results[i].ct);
+					} else {
+						result[keys[i]] = results[i];
+					}
+				}
+			}
+
+			this.ne(result);
+		}), callback);
+	}
+
 	/** our interface */
 	keyStore = {
 		reset: function reset() {
@@ -1003,6 +1128,14 @@ define(["step", "helper", "crypto/helper", "libs/sjcl", "crypto/sjclWorkerInclud
 
 		setKeyGenIdentifier: function (identifier) {
 			keyGenIdentifier = identifier;
+		},
+
+		getKeyGenIdentifier: function () {
+			return keyGenIdentifier;
+		},
+
+		correctKeyIdentifier: function correctKeyIdentifierF(realid) {
+			return correctKeyIdentifier(realid);
 		},
 
 		hash: {
@@ -1159,6 +1292,50 @@ define(["step", "helper", "crypto/helper", "libs/sjcl", "crypto/sjclWorkerInclud
 				}), callback);
 			},
 
+			/** encrypt an object
+			* @param object Object to encrypt
+			* @param realKeyID key to encrypt with
+			* @param callback callback
+			*/
+			encryptObject: function (object, realKeyID, callback, iv) {
+				step(function objEncrypt1() {
+					if (object.iv && object.iv !== iv) {
+						throw "IV already set.";
+					}
+
+					if (!iv) {
+						iv = sjcl.random.randomWords(4, 0);
+					}
+
+					SymKey.get(realKeyID, this);
+				}, h.sF(function objEncrypt2(key) {
+					internalObjEncrypt(iv, object, key, this);
+				}), h.sF(function objEncrypt3(result) {
+					result.iv = chelper.bits2hex(iv);
+					result.key = realKeyID;
+
+					this.ne(result);
+				}), callback);
+			},
+
+			decryptObject: function (cobject, callback) {
+				step(function objDecrypt1() {
+					if (!cobject.iv) {
+						throw "no iv found";
+					}
+
+					if (!cobject.key) {
+						throw "no key found";
+					}
+
+					SymKey.get(cobject.key, this);
+				}, h.sF(function objDecrypt2(key) {
+					internalObjDecrypt(cobject.iv, cobject, key, this);
+				}), h.sF(function objDecrypt3(result) {
+					this.ne(result);
+				}), callback);
+			},
+
 			/** decrypt an encrypted text
 			* @param ctext text to decrypt
 			* @param realKeyID key to decrypt with
@@ -1286,6 +1463,13 @@ define(["step", "helper", "crypto/helper", "libs/sjcl", "crypto/sjclWorkerInclud
 				}), callback);
 			},
 
+			signObject: function signObjectF(object, realID, callback) {
+				step(function signO1() {
+					var hash = object2Hash(object, true);
+					keyStore.sign.signHash(hash, realID, this);
+				}, callback);
+			},
+
 			/** verify a given text
 			* @param signature given signature
 			* @param text given text
@@ -1294,6 +1478,13 @@ define(["step", "helper", "crypto/helper", "libs/sjcl", "crypto/sjclWorkerInclud
 			*/
 			verifyText: function (signature, text, realID, callback) {
 				keyStore.sign.verifyHash(signature, sjcl.hash.sha256.hash(text), realID, callback);
+			},
+
+			verifyObject: function signObjectF(signature, object, realID, callback) {
+				step(function signO1() {
+					var hash = object2Hash(object, true);
+					keyStore.sign.verifyHash(signature, hash, realID, this);
+				}, callback);
 			},
 
 			/** verify a given hash

@@ -64,7 +64,6 @@ function step() {
 		if (steps.length === 0) {
 			// Throw uncaught errors
 			if (typeof err !== "undefined") {
-				console.log(preErr.stack);
 				throw err;
 			}
 			return;
@@ -101,13 +100,9 @@ function step() {
 			if (err) {
 				isErr = "(E)";
 			}
-
-			if (preErr && typeof preErr.stack === "string") {
-				var trace = preErr.stack.split("\n")[2].replace(/^[^at]*at (.*).*/, "$1");
-			}
 			
 			var currentTime = new Date().getTime();
-			console.log(dString + l0(currentTime - start, 4) + ": Stepper " + isErr + " [" + l0(id, 5) + "] (" + l0(steps.length, 2) + "): " + name + " (" + (currentTime - previousTime) + ") " + trace);
+			console.log(dString + l0(currentTime - start, 4) + ": Stepper " + isErr + " [" + l0(id, 5) + "] (" + l0(steps.length, 2) + "): " + name + " (" + (currentTime - previousTime) + ") " + preErr.stack.split("\n")[2].replace(/^[^at]*at (.*).*/, "$1"));
 			previousTime = currentTime;
 
 			if (steps.length === 0) {
@@ -128,7 +123,6 @@ function step() {
 			lock = true;
 			result = fn.apply(next, arguments);
 		} catch (e) {
-			console.log(preErr.stack);
 			// Pass any exceptions on through the next callback
 			next(e);
 		}

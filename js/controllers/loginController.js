@@ -7,7 +7,7 @@ define(['step'], function (step) {
 
 	function loginController($scope, sessionService) {
 		sessionService.loggoutRequired();
-	
+
 		$scope.$parent.cssClass = "registerView";
 
 		$scope.password = "";
@@ -40,6 +40,7 @@ define(['step'], function (step) {
 
 		$scope.profileAttributes = [
 			{
+				topic: "basic",
 				name: "firstname",
 				placeHolder: "Vorname",
 				value: "",
@@ -47,6 +48,7 @@ define(['step'], function (step) {
 				hoverText: "Vorname!"
 			},
 			{
+				topic: "basic",
 				name: "lastname",
 				placeHolder: "Nachname",
 				value: "",
@@ -188,13 +190,7 @@ define(['step'], function (step) {
 			}, function (e, result) {
 				console.log(e);
 				if (e) {
-					if (e.userNotExisting) {
-						$scope.$apply(loginFailed);
-					}
-
-					if (e.invalidCredentials) {
-						$scope.$apply(loginFailed);
-					}
+					$scope.$apply(loginFailed);
 				} else {
 					$scope.$apply(loginSuccess);
 				}
@@ -202,7 +198,35 @@ define(['step'], function (step) {
 		};
 
 		$scope.register = function doRegisterC() {
-			sessionService.register(function () {
+			var profile = {
+				pub: {},
+				priv: {}
+			};
+
+			var i, cur;
+			for (i = 0; i < $scope.profileAttributes.length; i += 1) {
+				cur = $scope.profileAttributes[i];
+
+				if (cur.value !== "") {
+					if (cur.encrypted === true) {
+						if (!profile.priv[cur.topic]) {
+							profile.priv[cur.topic] = {};
+						}
+
+						profile.priv[cur.topic][cur.name] = cur.value;
+					} else {
+						if (!profile.pub[cur.topic]) {
+							profile.pub[cur.topic] = {};
+						}
+
+						profile.pub[cur.topic][cur.name] = cur.value;
+					}
+				}
+			}
+
+			sessionService.register($scope.nickname, $scope.mail, $scope.password, profile, function () {
+				console.log("register done!");
+				console.log(arguments);
 			});
 		};
 	}
