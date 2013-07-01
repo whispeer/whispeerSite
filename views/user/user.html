@@ -1,70 +1,70 @@
 <nav>
 	<heading>
-		<h3>Daniel Melchior</h3>
+		<h3>Vorname Nachname</h3>
 	</heading>
 	<menu type="list" class="unstyled">
-		<li><a href="#info">Info</a></li>
-		<li><a href="#wall">Pinnwand</a></li>
-		<li><a href="#friends">Freunde</a></li>
+		<li><a href="#info" data-i18n="profile.head.info">Info</a></li>
+		<li><a href="#wall" data-i18n="profile.head.wall">Pinnwand</a></li>
+		<li><a href="#friends" data-i18n="profile.head.friends">Freunde</a></li>
 	</menu>
 </nav>
 <div id="wrap">
 	<div id="scroller">
 		<section id="info">
 			<article id="generalInfo">
-				<header>
+				<header data-i18n="profile.section.general.title">
 					Allgemein
 				</header>
 				<img src="img/profil.png" alt="USERNAME" class="userimage">
 				<div class="info">
-					<p id="birthday"><i class="icon-gift"></i> Geboren am 5.5.2012</p>
-					<p id="residence"><i class="icon-home"></i> Wohnt in Whispeer Town, Whispeer-Bundesland, Whispeer-Staat</p>
-					<p id="relationship"><i class="icon-heart"></i> in einer Beziehung mit Whispeerina</p>
-					<p id="school"><i class="icon-book-open"></i> geht hier zur Schule: Whispeer-Gymnasium Enger</p>
-					<p id="job"><i class="icon-wrench"></i> arbeitet als Web-Developer bei whispeer</p>
-					<p id="sex"><i class="icon-toilet"></i> Geschlecht: männlich</p>
-					<p id="languages"><i class="icon-globe-1"></i> Spricht: Deutsch, Englisch</p>
+					<p id="birthday"><i class="icon-gift"></i><span data-i18n="profile.section.general.birthday|date=user.birthday">Geboren am 5.5.2012</span></p>
+					<p id="residence"><i class="icon-home"></i><span data-i18n="profile.section.general.location|town=user.town|state=user.state|country=user.country">Wohnt in Whispeer Town, Whispeer-Bundesland, Whispeer-Staat</span></p>
+					<p id="relationship"><i class="icon-heart"></i><span data-i18n="profile.section.general.relation|with=user.partner">in einer Beziehung mit Whispeerina</span></p>
+					<p id="school"><i class="icon-book-open"></i><span data-i18n="profile.section.general.education|school=user.school"> geht hier zur Schule: Whispeer-Gymnasium Enger</span></p>
+					<p id="job"><i class="icon-wrench"></i><span data-i18n="profile.section.general.job|job=user.job">arbeitet als Web-Developer bei whispeer</span></p>
+					<p id="sex"><i class="icon-toilet"></i><span data-i18n="profile.section.general.gender|gender=user.gender">Geschlecht: männlich</span></p>
+					<p id="languages"><i class="icon-globe-1"></i><span data-i18n="profile.section.general.languages|languages=user.languages">Spricht: Deutsch, Englisch</span></p>
 				</div>
 			</article>
 			<article>
-				<header>
+				<header data-i18n="profile.section.general.headers.education">
 					Ausbildung
 				</header>
 				<p></p>
 			</article>
 			<article>
-				<header>
+				<header data-i18n="profile.section.general.headers.locations">
 					Orte
 				</header>
 				<p></p>
 			</article>
 			<article>
-				<header>
+				<header data-i18n="profile.section.general.headers.famlily">
 					Familie
 				</header>
 				<p></p>
 			</article>
 			<article>
-				<header>
+				<header data-i18n="profile.section.general.headers.music">
 					Musik
 				</header>
 				<p></p>
 			</article>
 			<article>
-				<header>
+				<header data-i18n="profile.section.general.headers.quotes">
 					Zitate
 				</header>
 				<p></p>
 			</article>
 			<article>
-				<header>
+				<header data-i18n="profile.section.general.headers.contact">
 					Kontakt
 				</header>
 				<p></p>
 			</article>
 		</section>
 		<section id="wall">
-			<header>Pinnwand</header>
+			<header  data-i18n="profile.section.wall.title">Pinnwand</header>
 			<article id="post1">
 				<img class="userimg" src="img/profil.jpg" alt="User">
 				<div class="postContent">
@@ -72,39 +72,15 @@
 					<div class="postText">Circus Afro Circus Afro \m/ </div>
 				</div>
 				<div class="postInfo">
-						<p class="with">Mit Svenja Kenneweg</p>
-						<p class="awesome">Awesomenes: 20</p>
-						<p class="comments">10 Kommentare</p>
-						<a href="#" class="showComments">Kommentare anzeigen</a>
-				</div>
-			</article>
-			<article id="post2">
-				<img class="userimg" src="img/user.png" alt="User">
-				<div class="postContent">
-					<p class="author">Svenja Kenneweg zu Daniel Melchior</p>
-					<div class="postText">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. <a href="#">Weiterlesen &rarr;</a></div>
-				</div>
-				<div class="postInfo">
-						<p class="awesome">Awesomenes: 20</p>
-						<p class="comments">10 Kommentare</p>
-						<a href="#" class="showComments">Kommentare anzeigen</a>
-				</div>
-			</article>
-			<article id="post2">
-				<img class="userimg" src="img/user.png" alt="User">
-				<div class="postContent">
-					<p class="author">Svenja Kenneweg zu Daniel Melchior</p>
-					<div class="postText">I love you :)</div>
-				</div>
-				<div class="postInfo">
-						<p class="awesome">Awesomenes: 20</p>
-						<p class="comments">10 Kommentare</p>
-						<a href="#" class="showComments">Kommentare anzeigen</a>
+						<p class="with" data-i18n="wall.info.with|name=post.with">Mit Svenja Kenneweg</p>
+						<p class="awesome" data-i18n="wall.info.awesome|count=post.awesome">Awesomenes: 20</p>
+						<p class="comments" data-i18n="wall.info.comments|count=post.comments.count">10 Kommentare</p>
+						<a href="#" class="showComments" data-i18n="wall.info.showComments">Kommentare anzeigen</a>
 				</div>
 			</article>
 		</section>
 		<section id="friends">
-			<header>Freunde</header>
+			<header data-i18n="profile.section.friends.info">Freunde</header>
 			<ul id="friendsList" class="unstyled">
 				<li>
 					<div class="pushup">

@@ -638,9 +638,6 @@ body {
 
   *zoom: 1;
 }
-body nav {
-  display: none !important;
-}
 body #container {
   -webkit-box-sizing: border-box;
   /* Safari/Chrome, other WebKit */
@@ -676,9 +673,6 @@ body footer a:hover {
 }
 body:not(.registerView) {
   padding-top: 60px;
-}
-body:not(.registerView) nav {
-  display: inline !important;
 }
 body:not(.mainView, .registerView) #main {
   overflow-y: scroll;
