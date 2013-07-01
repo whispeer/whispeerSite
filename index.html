@@ -29,10 +29,10 @@
 	<script src="js/libs/modernizr.js"></script>
 	<script data-main="js/main" src="js/libs/require.js"></script>
 </head>
-<body data-ng-class="cssClass" data-ng-controller="ssn.rootController">
+<body data-ng-class="cssClass" data-ng-controller="ssn.rootController" class="registerView">
 	<!--[if lte IE 8]><p class=chromeframe>Your browser is <em>ancient!</em> <a href="http://browsehappy.com/">Upgrade to a different browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to experience this site.</p><![endif]-->
 	<noscript class="bubble">Hallo! Leider steht uns bei deinem Browser kein Javascript zur Verfügung!<br> Daher ist es nicht möglich whispeer zu nutzen, da wir unbedingt Javascript benötigen!<br> Vielen Dank für dein Verständnis!</noscript>
-	<nav id="topNav" data-ng-show="loggedin">
+	<nav id="topNav" data-ng-show="loggedin" style="display:none">
 		<div id="navInner">
 			<a href="#" id="brand"><span id="brandNormal">whis</span><span id="brandInverse">peer</span></a>
 			<div class="nav-collapse collapse">
@@ -61,12 +61,12 @@
 				<span class="badge">20</span>
 			</div>
 			<div class="navIcon" id="settings">
-				<img src="img/icons/settings.png" alt="Settings" class="icon">
+				<img src="img/icons/settings.png" alt="Settings" class="icon">	
 			</div>
 		</div>	
 	</nav>
 	<div id="container">
-		<aside id="sidebar-left" data-ng-show="loggedin">
+		<aside id="sidebar-left" data-ng-show="loggedin" style="display:none">
 			<div id="userpanel">
 				<a href="#view=profile" class="username">
 					<!--<img src="img/profil.jpg" alt="" class="userimg">-->
@@ -89,9 +89,15 @@
 				</nav>
 			</div>	
 		</aside>
-		<section id="main" data-ng-view></section>
 
-		<aside id="sidebar-right" data-ng-show="loggedin">
+		<section id="main" data-ng-view>
+			<div id="logo">
+				<img src="img/logo.png">
+			</div>
+		</section>
+		</section>
+
+		<aside id="sidebar-right" data-ng-show="loggedin" style="display:none">
 			<div id="magicbar">
 				<div class="magic" id="magic1">
 				</div>
