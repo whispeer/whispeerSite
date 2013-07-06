@@ -372,9 +372,9 @@ define(["step", "helper", "crypto/helper", "libs/sjcl", "crypto/sjclWorkerInclud
 				encryptPW(pw, internalSecret, this);
 			}, h.sF(function (data) {
 				var decryptorData = {
+					//Think, shortHash here? id: ?,
 					decryptorid: 0,
 					type: "pw",
-					//Think, shortHash here? id: ?,
 					ct: chelper.bits2hex(data.ct),
 					iv: chelper.bits2hex(data.iv),
 					salt: data.salt,
@@ -1154,7 +1154,7 @@ define(["step", "helper", "crypto/helper", "libs/sjcl", "crypto/sjclWorkerInclud
 		upload: {
 			getData: function () {
 				var data = {
-					addKeys: {},
+					addKeys: [],
 					addKeyDecryptors: {}
 				};
 				/*
@@ -1177,9 +1177,7 @@ define(["step", "helper", "crypto/helper", "libs/sjcl", "crypto/sjclWorkerInclud
 				}
 
 				for (i = 0; i < dirtyKeys.length; i += 1) {
-					if (!data.addKeys[dirtyKeys[i].getRealID()]) {
-						data.addKeyDecryptors.push(dirtyKeys[i].getDecryptorData());
-					}
+					data.addKeyDecryptors[dirtyKeys[i].getRealID()] = dirtyKeys[i].getDecryptorData();
 				}
 
 				return data;

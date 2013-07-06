@@ -5,13 +5,11 @@
 define(['step'], function (step) {
 	'use strict';
 
-	function messagesController($scope, sessionService) {
-		if (sessionService.loginRequired()) {
-			$scope.$parent.cssClass = "messagesView";
-		}
+	function messagesController($scope) {
+		$scope.$parent.cssClass = "messagesView";
 	}
 
-	messagesController.$inject = ['$scope', 'ssn.sessionService'];
+	messagesController.$inject = ['$scope'];
 
 	return messagesController;
 });

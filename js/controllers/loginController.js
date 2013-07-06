@@ -5,9 +5,7 @@
 define(['step'], function (step) {
 	'use strict';
 
-	function loginController($scope, sessionService) {
-		sessionService.loggoutRequired();
-
+	function loginController($scope, sessionHelper, sessionService) {
 		$scope.$parent.cssClass = "registerView";
 
 		$scope.password = "";
@@ -67,13 +65,13 @@ define(['step'], function (step) {
 		};
 
 		$scope.passwordStrength = function passwordStrengthC() {
-			return sessionService.passwordStrength($scope.password);
+			return sessionHelper.passwordStrength($scope.password);
 		};
 
 
 		$scope.registerFormClick = function formClickF() {
 			console.log("click!");
-			sessionService.startKeyGeneration();
+			sessionHelper.startKeyGeneration();
 		};
 
 		$scope.acceptIcon = function acceptIconC(value1, value2) {
@@ -85,7 +83,7 @@ define(['step'], function (step) {
 		};
 
 		$scope.startKeyGeneration = function startKeyGen1() {
-			sessionService.startKeyGeneration();
+			sessionHelper.startKeyGeneration();
 		};
 
 		$scope.mailChange = function mailChange() {
@@ -95,7 +93,7 @@ define(['step'], function (step) {
 				$scope.mailCheck = false;
 				$scope.mailCheckError = false;
 
-				sessionService.mailUsed(internalMail, this);
+				sessionHelper.mailUsed(internalMail, this);
 			}, function mailChecked(e, mailUsed) {
 				if (e) {
 					console.log(e);
@@ -138,7 +136,7 @@ define(['step'], function (step) {
 				$scope.nicknameCheck = false;
 				$scope.nicknameCheckError = false;
 
-				sessionService.nicknameUsed(internalNickname, this);
+				sessionHelper.nicknameUsed(internalNickname, this);
 			}, function nicknameChecked(e, nicknameUsed) {
 				if (e) {
 					console.log(e);
@@ -186,7 +184,7 @@ define(['step'], function (step) {
 
 		$scope.login = function loginCF(identifier, password) {
 			step(function () {
-				sessionService.login(identifier, password, this);
+				sessionHelper.login(identifier, password, this);
 			}, function (e, result) {
 				console.log(e);
 				if (e) {
@@ -224,14 +222,14 @@ define(['step'], function (step) {
 				}
 			}
 
-			sessionService.register($scope.nickname, $scope.mail, $scope.password, profile, function () {
+			sessionHelper.register($scope.nickname, $scope.mail, $scope.password, profile, function () {
 				console.log("register done!");
 				console.log(arguments);
 			});
 		};
 	}
 
-	loginController.$inject = ['$scope', 'ssn.sessionService'];
+	loginController.$inject = ['$scope', 'ssn.sessionHelper', 'ssn.sessionService'];
 
 	return loginController;
 });
