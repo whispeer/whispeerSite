@@ -35,7 +35,7 @@ function step() {
 	depth += 1;
 
 	function l0(number, count) {
-		number = number + "";
+		number = number.toString();
 
 		while (number.length < count) {
 			number = "0" + number;
@@ -137,6 +137,8 @@ function step() {
 			} else {
 				next.apply(null, results);
 			}
+
+			counter = 0;
 		} else if (typeof result !== "undefined") {
 			if (typeof process !== "undefined") {
 				process.nextTick(function () {
@@ -221,9 +223,10 @@ function step() {
 				results[i][index] = arguments[i];
 			}
 
-			if (!lock && pending === 0) {
+			if (!lock && pending === 0 && counter > 0) {
 				// When all parallel branches done, call the callback
 				next.apply(null, results);
+				counter = 0;
 			}
 		};
 		parallelFunction.getRealFunction = function () {
