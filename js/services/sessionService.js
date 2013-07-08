@@ -7,11 +7,11 @@
 define([], function () {
 	"use strict";
 
-	var service = function ($rootScope, $location, $route) {
+	var service = function ($rootScope, $location, $route, keyStore) {
 		var sid = "", loggedin = false, returnURL;
 
 		var noLoginRequired = ["ssn.loginController"];
-		var loggoutRequired = ["ssn.loginController"]
+		var loggoutRequired = ["ssn.loginController"];
 
 		function updateURL(c) {
 			if (loggedin) {
@@ -31,7 +31,7 @@ define([], function () {
 			}
 		}
 
-		$rootScope.$on("$routeChangeStart", function (scope, next, current) {
+		$rootScope.$on("$routeChangeStart", function (scope, next) {
 			updateURL(next.controller);
 		});
 
@@ -55,6 +55,10 @@ define([], function () {
 			},
 
 			logout: function () {
+				if (loggedin) {
+					keyStore.reset();
+				}
+
 				sid = "";
 				loggedin = false;
 
@@ -69,7 +73,7 @@ define([], function () {
 		return sessionService;
 	};
 
-	service.$inject = ['$rootScope', '$location', '$route'];
+	service.$inject = ['$rootScope', '$location', '$route', 'ssn.keyStoreService'];
 
 	return service;
 });

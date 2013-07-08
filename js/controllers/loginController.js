@@ -186,11 +186,10 @@ define(['step'], function (step) {
 			step(function () {
 				sessionHelper.login(identifier, password, this);
 			}, function (e, result) {
-				console.log(e);
 				if (e) {
-					$scope.$apply(loginFailed);
+					loginFailed();
 				} else {
-					$scope.$apply(loginSuccess);
+					loginSuccess();
 				}
 			});
 		};

@@ -1126,7 +1126,7 @@ define(["step", "helper", "crypto/helper", "libs/sjcl", "crypto/sjclWorkerInclud
 			symKeys = {};
 			cryptKeys = {};
 			signKeys = {};
-			passwords = {};
+			passwords = [];
 		},
 
 		setKeyGenIdentifier: function (identifier) {

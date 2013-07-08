@@ -102,6 +102,7 @@ define(['step', 'helper'], function (step, h) {
 
 					socketService.emit("data", request, this);
 				}), h.sF(function (result) {
+					sessionHelper.resetKey();
 					this.ne(result);
 				}), callback);
 			},
