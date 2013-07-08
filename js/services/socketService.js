@@ -6,7 +6,7 @@ define(['socket', 'step', 'helper'], function (io, step, h) {
 
 	var socket = io.connect('http://localhost:3000');
 
-	var service = function (sessionService) {
+	var service = function ($rootScope, sessionService) {
 		function updateLogin(data) {
 			if (data.logedin) {
 				sessionService.setSID(data.sid);
@@ -20,22 +20,28 @@ define(['socket', 'step', 'helper'], function (io, step, h) {
 				step(function () {
 					socket.on(channel, this.ne);
 				}, h.sF(function (data) {
-					updateLogin(data);
+					var that = this;
+					$rootScope.$apply(function () {
+						updateLogin(data);
 
-					this.ne(data);
+						that.ne(data);
+					});
 				}), callback);
 			},
 			emit: function (channel, data, callback) {
 				step(function doEmit() {
 					socket.emit(channel, data, this.ne);
 				}, h.sF(function emitResults(data) {
-					updateLogin(data);
+					var that = this;
+					$rootScope.$apply(function () {
+						updateLogin(data);
 
-					if (typeof callback === "function") {
-						this.ne(data);
-					} else {
-						console.log("unhandled response" + data);
-					}
+						if (typeof callback === "function") {
+							that.ne(data);
+						} else {
+							console.log("unhandled response" + data);
+						}
+					});
 				}), callback);
 			},
 			send: function (data) {
@@ -44,7 +50,7 @@ define(['socket', 'step', 'helper'], function (io, step, h) {
 		};
 	};
 
-	service.$inject = ['ssn.sessionService'];
+	service.$inject = ['$rootScope', 'ssn.sessionService'];
 
 	return service;
 });

@@ -36,8 +36,6 @@ define([], function () {
 		});
 
 		function loginChange() {
-			debugger;
-			console.log($route);
 			$rootScope.$broadcast('ssn.login');
 
 			updateURL($route.current.controller);
@@ -57,12 +55,10 @@ define([], function () {
 			},
 
 			logout: function () {
-				if (loggedin) {
-					sid = "";
-					loggedin = false;
+				sid = "";
+				loggedin = false;
 
-					loginChange();
-				}
+				loginChange();
 			},
 
 			isLoggedin: function () {

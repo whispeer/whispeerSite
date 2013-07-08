@@ -10,6 +10,14 @@ define(['step', 'helper'], function (step, h) {
 		var keyGenerationStarted = false, asym, sign, sym, keyGenListener = [], keyGenDone;
 
 		var sessionHelper = {
+			logout: function () {
+				step(function sendLogout() {
+					socketService.emit("logout", true);
+				}, function logoutResult(e, data) {
+					debugger;
+				});
+			},
+
 			login: function (name, password, callback) {
 				step(function loginStartup() {
 					socketService.emit("token", {

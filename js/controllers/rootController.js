@@ -5,7 +5,7 @@
 define(['step'], function (step) {
 	'use strict';
 
-	function sessionController($scope, sessionService, styleService) {
+	function sessionController($scope, sessionService, sessionHelper, styleService) {
 		$scope.loggedin = false;
 
 		$scope.$on('ssn.login', function () {
@@ -19,11 +19,11 @@ define(['step'], function (step) {
 		$scope.cssClass = "registerView";
 
 		$scope.logout = function () {
-			sessionService.logout();
+			sessionHelper.logout();
 		};
 	}
 
-	sessionController.$inject = ['$scope', 'ssn.sessionService'];
+	sessionController.$inject = ['$scope', 'ssn.sessionService', 'ssn.sessionHelper'];
 
 	return sessionController;
 });
