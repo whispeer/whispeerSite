@@ -114,7 +114,7 @@ define(["step", "helper", "crypto/helper", "libs/sjcl", "crypto/sjclWorkerInclud
 					var jsonData = sjcl.json.encode({
 						ct: chelper.bits2hex(ctext),
 						iv: chelper.bits2hex(iv),
-						salt: salt
+						salt: chelper.bits2hex(salt)
 					}), i, result;
 					for (i = 0; i < passwords.length; i += 1) {
 						try {
@@ -317,9 +317,8 @@ define(["step", "helper", "crypto/helper", "libs/sjcl", "crypto/sjclWorkerInclud
 		function addAsymDecryptorF(realid, tag, callback) {
 			step(function () {
 				var decryptorData = {
-					decryptorid: 0,
+					decryptorid: realid,
 					type: "asymKey",
-					id: realid,
 					ct: chelper.bits2hex(tag),
 					dirty: true
 				};
@@ -347,9 +346,8 @@ define(["step", "helper", "crypto/helper", "libs/sjcl", "crypto/sjclWorkerInclud
 				cryptor.encrypt("key::" + internalSecret, this);
 			}), h.sF(function addSymD4(data) {
 				var decryptorData = {
-					decryptorid: 0,
+					decryptorid: realid,
 					type: "symKey",
-					id: realid,
 					ct: chelper.bits2hex(data.ct),
 					iv: chelper.bits2hex(data.iv),
 					dirty: true
@@ -373,11 +371,10 @@ define(["step", "helper", "crypto/helper", "libs/sjcl", "crypto/sjclWorkerInclud
 			}, h.sF(function (data) {
 				var decryptorData = {
 					//Think, shortHash here? id: ?,
-					decryptorid: 0,
 					type: "pw",
 					ct: chelper.bits2hex(data.ct),
 					iv: chelper.bits2hex(data.iv),
-					salt: data.salt,
+					salt: chelper.bits2hex(data.salt),
 					dirty: true
 				};
 
@@ -406,8 +403,8 @@ define(["step", "helper", "crypto/helper", "libs/sjcl", "crypto/sjclWorkerInclud
 					}
 				}
 
-				if (tempR.id) {
-					tempR.id = correctKeyIdentifier(tempR.id);
+				if (tempR.decryptorid) {
+					tempR.decryptorid = correctKeyIdentifier(tempR.decryptorid);
 				}
 				result.push(tempR);
 			}
@@ -485,7 +482,6 @@ define(["step", "helper", "crypto/helper", "libs/sjcl", "crypto/sjclWorkerInclud
 		this.getFullUploadData = function () {
 			var data = {
 				realid: intKey.getRealID(),
-				decryptor: intKey.getDecryptorData(),
 				type: "sym"
 			};
 
@@ -701,7 +697,6 @@ define(["step", "helper", "crypto/helper", "libs/sjcl", "crypto/sjclWorkerInclud
 						y: chelper.bits2hex(p.y.toBits())
 					},
 					curve: chelper.getCurveName(publicKey._curve),
-					decryptor: intKey.getDecryptorData(),
 					type: "crypt"
 				};
 
@@ -889,7 +884,6 @@ define(["step", "helper", "crypto/helper", "libs/sjcl", "crypto/sjclWorkerInclud
 						y: chelper.bits2hex(p.y.toBits())
 					},
 					curve: chelper.getCurveName(publicKey._curve),
-					decryptor: intKey.getDecryptorData(),
 					type: "sign"
 				};
 
