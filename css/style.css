@@ -110,6 +110,8 @@ html {
   /* 1 */
 
   -webkit-text-size-adjust: 100%;
+  /* 2 */
+
   -ms-text-size-adjust: 100%;
   /* 2 */
 
@@ -650,7 +652,6 @@ body #container {
 
 }
 body #container #loading {
-  display: none;
   text-align: center;
 }
 body footer {
@@ -5497,8 +5498,4 @@ and (max-device-width : 767px) {
   .hidden-phone {
     display: none !important;
   }
-}
-nav,
-.sidebar {
-  display: none;
 }
