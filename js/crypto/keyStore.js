@@ -479,7 +479,7 @@ define(["step", "helper", "crypto/helper", "libs/sjcl", "crypto/sjclWorkerInclud
 			intKey = new Key(this, generateid(), [], {secret: sjcl.random.randomWords(8)});
 		}
 
-		this.getFullUploadData = function () {
+		this.getUploadData = function () {
 			var data = {
 				realid: intKey.getRealID(),
 				type: "sym"
@@ -689,7 +689,7 @@ define(["step", "helper", "crypto/helper", "libs/sjcl", "crypto/sjclWorkerInclud
 			this.addSymDecryptor = intKey.addSymDecryptor;
 			this.addPWDecryptor = intKey.addPWDecryptor;
 
-			this.getFullUploadData = function () {
+			this.getUploadData = function () {
 				var p = publicKey._point, data = {
 					realid: intKey.getRealID(),
 					point: {
@@ -876,7 +876,7 @@ define(["step", "helper", "crypto/helper", "libs/sjcl", "crypto/sjclWorkerInclud
 			this.addSymDecryptor = intKey.addSymDecryptor;
 			this.addPWDecryptor = intKey.addPWDecryptor;
 
-			this.getFullUploadData = function () {
+			this.getUploadData = function () {
 				var p = publicKey._point, data = {
 					realid: intKey.getRealID(),
 					point: {
@@ -1146,35 +1146,25 @@ define(["step", "helper", "crypto/helper", "libs/sjcl", "crypto/sjclWorkerInclud
 		},
 
 		upload: {
-			getData: function () {
-				var data = {
-					addKeys: [],
-					addKeyDecryptors: {}
-				};
-				/*
-				{
-					addKeys: {
-						realid1: key1,
-						realid2: key2,
-						...
-					},
-					addKeyDecryptor: {
-						realid1: decryptors1
-						realid2: decryptors2
-					}
-				}
-				*/
-
+			getKeys: function (keys) {
+				var addKeys = [];
 				var i;
 				for (i = 0; i < newKeys.length; i += 1) {
-					data.addKeys.push(newKeys[i].getFullUploadData());
+					if (keys.indexOf(newKeys[i].getRealID()) > -1) {
+						addKeys.push(newKeys[i].getUploadData());
+					}
 				}
+
+				return addKeys;
+			},
+			getDecryptors: function () {
+				var addKeyDecryptors = {};
 
 				for (i = 0; i < dirtyKeys.length; i += 1) {
-					data.addKeyDecryptors[dirtyKeys[i].getRealID()] = dirtyKeys[i].getDecryptorData();
+					addKeyDecryptors[dirtyKeys[i].getRealID()] = dirtyKeys[i].getDecryptorData();
 				}
 
-				return data;
+				return addKeyDecryptors;
 			},
 			uploaded: function (data) {
 				/*

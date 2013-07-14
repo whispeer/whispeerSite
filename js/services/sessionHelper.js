@@ -50,7 +50,7 @@ define(['step', 'helper'], function (step, h) {
 			},
 
 			register: function (nickname, mail, password, profile, callback) {
-				var sym, asym, sign, keyData;
+				var sym, asym, sign;
 				step(function register1() {
 					sessionHelper.startKeyGeneration(this);
 				}, h.sF(function register2(symK, asymK, signK) {
@@ -74,13 +74,16 @@ define(['step', 'helper'], function (step, h) {
 					keyStoreService.sym.pwEncryptKey(sym, password, this.parallel());
 					keyStoreService.sym.symEncryptKey(profileKey, sym, this.parallel());
 				}), h.sF(function register3(data) {
-					keyData = keyStoreService.upload.getData();
+					var decryptors = keyStoreService.upload.getDecryptors();
+					var keys = keyStoreService.upload.getKeys([sym, sign, asym]);
 
 					var registerData = {
 						password: keyStoreService.hash.hashPW(password),
 						mainKey: keyStoreService.correctKeyIdentifier(sym),
 						signKey: keyStoreService.correctKeyIdentifier(sign),
 						cryptKey: keyStoreService.correctKeyIdentifier(asym),
+						keys: keys,
+						decryptors: decryptors,
 						profile: {
 							pub: profile.pub,
 							priv: data[0]
@@ -95,12 +98,7 @@ define(['step', 'helper'], function (step, h) {
 						registerData.nickname = nickname;
 					}
 
-					var request = {
-						register: registerData,
-						keyData: keyData
-					};
-
-					socketService.emit("data", request, this);
+					socketService.emit("register", registerData, this);
 				}), h.sF(function (result) {
 					sessionHelper.resetKey();
 					this.ne(result);
