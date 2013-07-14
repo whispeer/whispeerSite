@@ -1146,6 +1146,14 @@ define(["step", "helper", "crypto/helper", "libs/sjcl", "crypto/sjclWorkerInclud
 		},
 
 		upload: {
+			getKey: function (keyid) {
+				var i;
+				for (i = 0; i < newKeys.length; i += 1) {
+					if (keyid === newKeys[i].getRealID()) {
+						return newKeys[i].getUploadData();
+					}
+				}				
+			},
 			getKeys: function (keys) {
 				var addKeys = [];
 				var i;
