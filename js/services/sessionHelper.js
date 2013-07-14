@@ -75,14 +75,12 @@ define(['step', 'helper'], function (step, h) {
 					keyStoreService.sym.symEncryptKey(profileKey, sym, this.parallel());
 				}), h.sF(function register3(data) {
 					var decryptors = keyStoreService.upload.getDecryptors();
-					var keys = keyStoreService.upload.getKeys([sym, sign, asym]);
 
 					var registerData = {
 						password: keyStoreService.hash.hashPW(password),
-						mainKey: keyStoreService.correctKeyIdentifier(sym),
-						signKey: keyStoreService.correctKeyIdentifier(sign),
-						cryptKey: keyStoreService.correctKeyIdentifier(asym),
-						keys: keys,
+						mainKey: keyStoreService.upload.getKey(sym),
+						signKey: keyStoreService.upload.getKey(sign),
+						cryptKey: keyStoreService.upload.getKey(asym),
 						decryptors: decryptors,
 						profile: {
 							pub: profile.pub,
