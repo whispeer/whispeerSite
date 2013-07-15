@@ -128,6 +128,8 @@ function step() {
 		}
 
 		if (counter > 0 && pending === 0) {
+			counter = 0;
+
 			if (typeof process !== "undefined") {
 				process.nextTick(function () {
 					// If parallel() was called, and all parallel branches executed
@@ -137,8 +139,6 @@ function step() {
 			} else {
 				next.apply(null, results);
 			}
-
-			counter = 0;
 		} else if (typeof result !== "undefined") {
 			if (typeof process !== "undefined") {
 				process.nextTick(function () {
@@ -224,9 +224,10 @@ function step() {
 			}
 
 			if (!lock && pending === 0 && counter > 0) {
+				counter = 0;
+
 				// When all parallel branches done, call the callback
 				next.apply(null, results);
-				counter = 0;
 			}
 		};
 		parallelFunction.getRealFunction = function () {
