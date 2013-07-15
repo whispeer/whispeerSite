@@ -76,6 +76,11 @@ define(['step', 'helper'], function (step, h) {
 				}), h.sF(function register3(data) {
 					var decryptors = keyStoreService.upload.getDecryptors();
 
+					sym = keyStoreService.correctKeyIdentifier(sym);
+					asym = keyStoreService.correctKeyIdentifier(asym);
+					sign = keyStoreService.correctKeyIdentifier(sign);
+
+
 					var registerData = {
 						password: keyStoreService.hash.hashPW(password),
 						mainKey: keyStoreService.upload.getKey(sym),
