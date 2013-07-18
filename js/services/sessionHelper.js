@@ -202,10 +202,10 @@ define(['step', 'helper'], function (step, h) {
 			},
 
 			passwordStrength: function (password) {
-				var strength = 0;
+				var strength = 1;
 
 				/*
-					>=7  +1
+					>=7  +1*1
 					>=10 +1
 					>=13 +1
 					>=16 +1
@@ -216,16 +216,16 @@ define(['step', 'helper'], function (step, h) {
 					Zahl +1
 				*/
 
+				if (password.length < 8) { return 0; } // Greater than 8 chars minimum!
+
 				// Adapted from http://www.codeproject.com/KB/scripting/passwordstrength.aspx
-				if (password.length >= 7) { strength += 1; } // Greater than 4 chars long
 				if (password.length >= 10) { strength += 1; } // Longer than 10 chars
-				if (password.length >= 13) { strength += 1; } // Longer than 15 chars
-				if (password.length >= 16) { strength += 1; } // Longer than 15 chars
+				if (password.length >= 13) { strength += 2; } // Longer than 13 chars
+				if (password.length >= 16) { strength += 2; } // Longer than 16 chars
 				if (password.length >= 20) { strength += 1; } // Longer than 20 chars
-				if ((password.match(/[a-z]/)) && (password.match(/[A-Z]/))) { strength += 2; } // Mix of upper and lower chars
+				if ((password.match(/[a-z]/)) && (password.match(/[A-Z]/))) { strength += 1; } // Mix of upper and lower chars
 				if (password.match(/\d+/)) { strength += 1; } // Contains a number
 				if (password.match(/[+,!,@,#,$,%,\^,&,*,?,_,~,\-]/)) { strength += 1; } // Contains a special chars
-				if (password.match(/[+,!,@,#,$,%,\^,&,*,?,_,~,\-]([\w\W]*)[+,!,@,#,$,%,\^,&,*,?,_,~,\-]/)) { strength += 1; } // Contains two special chars
 
 				return strength;
 			}
