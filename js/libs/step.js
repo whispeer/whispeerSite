@@ -102,7 +102,14 @@ function step() {
 			}
 			
 			var currentTime = new Date().getTime();
-			console.log(dString + l0(currentTime - start, 4) + ": Stepper " + isErr + " [" + l0(id, 5) + "] (" + l0(steps.length, 2) + "): " + name + " (" + (currentTime - previousTime) + ") " + preErr.stack.split("\n")[2].replace(/^[^at]*at (.*).*/, "$1"));
+
+			var stack = "";
+
+			if (preErr.stack) {
+				stack = preErr.stack.split("\n")[2].replace(/^[^at]*at (.*).*/, "$1")
+			}
+
+			console.log(dString + l0(currentTime - start, 4) + ": Stepper " + isErr + " [" + l0(id, 5) + "] (" + l0(steps.length, 2) + "): " + name + " (" + (currentTime - previousTime) + ") " + stack);
 			previousTime = currentTime;
 
 			if (steps.length === 0) {
@@ -113,7 +120,9 @@ function step() {
 		results = [];
 
 		if (typeof fn !== "function") {
-			console.log(preErr.stack);
+			if (preErr.stack) {
+				console.log(preErr.stack);
+			}
 			next(new Error("Not a callable Function!"));
 		}
 
