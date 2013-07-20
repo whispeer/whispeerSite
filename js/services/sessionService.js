@@ -28,7 +28,6 @@ define([], function () {
 		}
 
 		function loadOldLogin() {
-			debugger;
 			if (storage.get("loggedin") === "true") {
 				var sid = storage.get("sid");
 				setSID(sid);
