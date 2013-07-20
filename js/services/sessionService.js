@@ -7,13 +7,43 @@
 define([], function () {
 	"use strict";
 
-	var service = function ($rootScope, $location, $route, keyStore) {
-		var sid = "", loggedin = false, returnURL;
+	var service = function ($rootScope, $location, $route, keyStore, storage) {
+		var sid = "", loggedin = false, returnURL, loaded = false;
 
 		var noLoginRequired = ["ssn.loginController"];
 		var loggoutRequired = ["ssn.loginController"];
 
+		function setSID(newSID) {
+			if (newSID !== sid) {
+				sid = newSID;
+				loggedin = true;
+
+				storage.set("sid", newSID);
+				storage.set("loggedin", true);
+
+				return true;
+			}
+
+			return false;
+		}
+
+		function loadOldLogin() {
+			debugger;
+			if (storage.get("loggedin") === "true") {
+				var sid = storage.get("sid");
+				setSID(sid);
+
+				$rootScope.$broadcast('ssn.login');
+			}
+		}
+
 		function updateURL(c) {
+			if (!loaded) {
+				loadOldLogin();
+
+				loaded = true;
+			}
+
 			if (loggedin) {
 				if (loggoutRequired.indexOf(c) > -1) {
 					if (returnURL) {
@@ -43,9 +73,7 @@ define([], function () {
 
 		var sessionService = {
 			setSID: function (newSID) {
-				if (newSID !== sid) {
-					sid = newSID;
-					loggedin = true;
+				if (setSID(newSID)) {
 					loginChange();
 				}
 			},
@@ -56,6 +84,7 @@ define([], function () {
 
 			logout: function () {
 				if (loggedin) {
+					storage.clear();
 					keyStore.reset();
 				}
 
@@ -73,7 +102,7 @@ define([], function () {
 		return sessionService;
 	};
 
-	service.$inject = ['$rootScope', '$location', '$route', 'ssn.keyStoreService'];
+	service.$inject = ['$rootScope', '$location', '$route', 'ssn.keyStoreService', 'ssn.storageService'];
 
 	return service;
 });

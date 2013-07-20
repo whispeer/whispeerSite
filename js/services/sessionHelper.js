@@ -6,7 +6,7 @@
 define(['step', 'helper'], function (step, h) {
 	"use strict";
 
-	var service = function (socketService, keyStoreService, ProfileService, sessionService) {
+	var service = function (socketService, keyStoreService, ProfileService, sessionService, storageService) {
 		var keyGenerationStarted = false, asym, sign, sym, keyGenListener = [], keyGenDone;
 
 		var sessionHelper = {
@@ -234,7 +234,7 @@ define(['step', 'helper'], function (step, h) {
 		return sessionHelper;
 	};
 
-	service.$inject = ['ssn.socketService', 'ssn.keyStoreService', 'ssn.profileService', 'ssn.sessionService'];
+	service.$inject = ['ssn.socketService', 'ssn.keyStoreService', 'ssn.profileService', 'ssn.sessionService', 'ssn.storageService'];
 
 	return service;
 });

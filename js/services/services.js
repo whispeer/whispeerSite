@@ -8,8 +8,9 @@ define([
 	'services/keyStoreService',
 	'services/sessionService',
 	'services/sessionHelper',
-	'services/profileService'
-], function (angular, socketService, keyStoreService, sessionService, sessionHelper, profileService) {
+	'services/profileService',
+	'services/storageService'
+], function (angular, socketService, keyStoreService, sessionService, sessionHelper, profileService, storageService) {
 	"use strict";
 	var services = angular.module('ssn.services', []);
 	services.factory('ssn.socketService', socketService);
@@ -17,6 +18,7 @@ define([
 	services.factory('ssn.sessionService', sessionService);
 	services.factory('ssn.sessionHelper', sessionHelper);
 	services.factory('ssn.profileService', profileService);
+	services.factory('ssn.storageService', storageService);
 
 	return services;
 });
