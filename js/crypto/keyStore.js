@@ -30,7 +30,7 @@ define(["step", "helper", "crypto/helper", "libs/sjcl", "crypto/sjclWorkerInclud
 	};
 
 	//TODO: webworkers: 
-	var webWorker = Modernizr.webworkers;
+	//var webWorker = Modernizr.webworkers;
 
 	/** generate an id */
 	function generateid() {
@@ -167,9 +167,9 @@ define(["step", "helper", "crypto/helper", "libs/sjcl", "crypto/sjclWorkerInclud
 		}
 
 		/** identity past processor */
-		function pastProcessor(secret, callback) {
+		var pastProcessor = function pastProcessor(secret, callback) {
 			callback(null, secret);
-		}
+		};
 
 		optionals = optionals || {};
 
@@ -1033,7 +1033,11 @@ define(["step", "helper", "crypto/helper", "libs/sjcl", "crypto/sjclWorkerInclud
 					if (typeof cur === "object") {
 						internalObjDecrypt(iv, cur, key, this.parallel());
 					} else if (typeof cur === "string") {
-						key.decrypt(cur, this.parallel(), iv);
+						if (cur === "") {
+							this.parallel()("");
+						} else {
+							key.decrypt(cur, this.parallel(), iv);
+						}
 					} else {
 						throw "Invalid data!";
 					}
@@ -1057,7 +1061,7 @@ define(["step", "helper", "crypto/helper", "libs/sjcl", "crypto/sjclWorkerInclud
 						result[keys[i]] = results[i].substr(6);
 					} else if (typeof results[i] === "object") {
 						result[keys[i]] = results[i];
-					} else {
+					} else if (results[i] !== "") {
 						throw "unexpected data!";
 					}
 				}
@@ -1152,7 +1156,7 @@ define(["step", "helper", "crypto/helper", "libs/sjcl", "crypto/sjclWorkerInclud
 					if (keyid === newKeys[i].getRealID()) {
 						return newKeys[i].getUploadData();
 					}
-				}				
+				}
 			},
 			getKeys: function (keys) {
 				var addKeys = [];
@@ -1168,6 +1172,7 @@ define(["step", "helper", "crypto/helper", "libs/sjcl", "crypto/sjclWorkerInclud
 			getDecryptors: function () {
 				var addKeyDecryptors = {};
 
+				var i;
 				for (i = 0; i < dirtyKeys.length; i += 1) {
 					addKeyDecryptors[dirtyKeys[i].getRealID()] = dirtyKeys[i].getDecryptorData();
 				}
