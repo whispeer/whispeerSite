@@ -43,10 +43,17 @@
 					<div id="searchDrop">
 						<!--<ul class="unstyled" id="searchSuggestions" data-ng-repeat="results in searchResults | filter:mainSearch">-->
 						<ol class="unstyled" id="searchSuggestions">
-							<li>
+							<li data-ng-repeat="user in [
+								'Luisa Katharina Marschner',
+								'Daniel Melchior',
+								'Michelle Thenhausen',
+								'Jacqueline Thenhausen',
+								'Svenja Kenneweg',
+								'Anna Marie Marschner'
+							]">
 								<img src="img/profil.png">
 								<div class="info">
-									<span class="name">Luisa Katharina Marschner</span>
+									<span class="name">{{user}}</span>
 									<span class="friends">300 gemeinsame Freunde</span>
 									<span class="location">Enger</span>
 									<span class="age">16</span>
@@ -111,7 +118,7 @@
 		</section>
 		</section>
 
-		<aside id="sidebar-right" data-ng-show="loggedin">
+		<aside id="sidebar-right" data-ng-show="loggedin" style="display:none">
 			<div id="magicbar">
 				<div class="magic" id="magic1">
 				</div>
