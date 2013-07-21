@@ -678,14 +678,17 @@ body:not(.registerView) {
 body:not(.mainView, .registerView) #main {
   overflow-y: scroll;
 }
-[data-title]:hover:after,
-[data-title]:focus:after {
-  min-height: 50px;
-  width: 300px;
-  margin: -32px 0 0 -320px;
+[data-tooltip-title][data-tooltip-position="left"]:hover:before,
+[data-tooltip-title][data-tooltip-position="left"]:focus:before {
+  min-height: 35px;
+  width: 20%;
+  margin: 0px 0 0 0;
+  margin-left: -21%;
+  float: left;
   padding: 5px;
   display: block;
   position: absolute;
+  word-break: break-all;
   -webkit-box-sizing: border-box;
   /* Safari/Chrome, other WebKit */
 
@@ -695,7 +698,75 @@ body:not(.mainView, .registerView) #main {
   box-sizing: border-box;
   /* Opera/IE 8+ */
 
-  content: attr(data-title);
+  content: attr(data-tooltip-title);
+  background-color: #cccccc;
+  background: -webkit-gradient(linear, left top, left bottom, from(#cccccc), to(#dddddd));
+  background: -webkit-linear-gradient(top, #cccccc, #dddddd);
+  background: -moz-linear-gradient(top, #cccccc, #dddddd);
+  background: -ms-linear-gradient(top, #cccccc, #dddddd);
+  background: -o-linear-gradient(top, #cccccc, #dddddd);
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+}
+[data-tooltip-title][data-tooltip-position="right"]:hover:after,
+[data-tooltip-title][data-tooltip-position="right"]:focus:after {
+  min-height: 35px;
+  width: 20%;
+  margin: 0px 0 0 0;
+  margin-left: 24.6%;
+  float: left;
+  padding: 5px;
+  display: block;
+  position: absolute;
+  word-break: break-all;
+  -webkit-box-sizing: border-box;
+  /* Safari/Chrome, other WebKit */
+
+  -moz-box-sizing: border-box;
+  /* Firefox, other Gecko */
+
+  box-sizing: border-box;
+  /* Opera/IE 8+ */
+
+  content: attr(data-tooltip-title);
+  background-color: #cccccc;
+  background: -webkit-gradient(linear, left top, left bottom, from(#cccccc), to(#dddddd));
+  background: -webkit-linear-gradient(top, #cccccc, #dddddd);
+  background: -moz-linear-gradient(top, #cccccc, #dddddd);
+  background: -ms-linear-gradient(top, #cccccc, #dddddd);
+  background: -o-linear-gradient(top, #cccccc, #dddddd);
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+}
+[data-tooltip-title][data-tooltip-position="top"]:hover:after,
+[data-tooltip-title][data-tooltip-position="top"]:focus:after {
+  min-height: 35px;
+  width: 20%;
+  margin: 0px 0 0 0;
+  margin-left: 24.6%;
+  float: left;
+  padding: 5px;
+  display: block;
+  position: absolute;
+  word-break: break-all;
+  -webkit-box-sizing: border-box;
+  /* Safari/Chrome, other WebKit */
+
+  -moz-box-sizing: border-box;
+  /* Firefox, other Gecko */
+
+  box-sizing: border-box;
+  /* Opera/IE 8+ */
+
+  content: attr(data-tooltip-title);
   background-color: #cccccc;
   background: -webkit-gradient(linear, left top, left bottom, from(#cccccc), to(#dddddd));
   background: -webkit-linear-gradient(top, #cccccc, #dddddd);
@@ -765,45 +836,155 @@ body:not(.mainView, .registerView) #main {
 }
 #searchDrop {
   position: absolute;
-  background: #ffffff;
+  background: rgba(255, 255, 255, 0.95);
   border-radius: 5px;
   box-shadow: 0 0 8px #999999;
+  display: inline;
+  float: left;
+  width: 40.85714285714286%;
+  margin: 0 1% 0 1%;
+  margin-left: 1.125%;
+  display: block;
+  top: 50px;
+  padding: 0;
+}
+#searchSuggestions {
+  width: 100%;
+  margin: 0;
+  padding: 0 0 0 0;
+  max-height: 390px;
+  overflow-y: scroll;
+  -webkit-box-sizing: border-box;
+  /* Safari/Chrome, other WebKit */
+
+  -moz-box-sizing: border-box;
+  /* Firefox, other Gecko */
+
+  box-sizing: border-box;
+  /* Opera/IE 8+ */
+
 }
 #searchSuggestions li {
+  width: 100%;
+  float: left;
+  padding: 0;
+  margin: 0;
+  border-bottom: 1px solid #9a9a9a;
+  min-height: 20px;
+  height: auto;
+}
+#searchSuggestions li:first-child img {
+  -webkit-border-top-right-radius: 0;
+  -webkit-border-bottom-right-radius: 0;
+  -webkit-border-bottom-left-radius: 0;
+  -webkit-border-top-left-radius: 5px;
+  -moz-border-radius-topright: 0;
+  -moz-border-radius-bottomright: 0;
+  -moz-border-radius-bottomleft: 0;
+  -moz-border-radius-topleft: 5px;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+  border-top-left-radius: 5px;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+}
+#searchSuggestions li:last-child {
+  border: none;
+}
+#searchSuggestions li:last-child img {
+  -webkit-border-top-right-radius: 0;
+  -webkit-border-bottom-right-radius: 0;
+  -webkit-border-bottom-left-radius: 5px;
+  -webkit-border-top-left-radius: 0;
+  -moz-border-radius-topright: 0;
+  -moz-border-radius-bottomright: 0;
+  -moz-border-radius-bottomleft: 5px;
+  -moz-border-radius-topleft: 0;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 5px;
+  border-top-left-radius: 0;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+}
+#searchSuggestions li:only-child {
+  border: none;
+}
+#searchSuggestions li:only-child img {
+  -webkit-border-top-right-radius: 0;
+  -webkit-border-bottom-right-radius: 0;
+  -webkit-border-bottom-left-radius: 5px;
+  -webkit-border-top-left-radius: 5px;
+  -moz-border-radius-topright: 0;
+  -moz-border-radius-bottomright: 0;
+  -moz-border-radius-bottomleft: 5px;
+  -moz-border-radius-topleft: 5px;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 5px;
+  border-top-left-radius: 5px;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+}
+#searchSuggestions li img {
+  display: inline;
+  float: left;
+  width: 18.833333333333336%;
+  margin: 0 1% 0 1%;
+  margin-left: 0;
+}
+#searchSuggestions li .info {
+  display: inline;
+  float: left;
+  width: 43.833333333333336%;
+  margin: 0 1% 0 1%;
+  margin: 7px 0 0 3%;
+  font: 100 10px;
+  color: #555555;
+  padding: 0;
+}
+#searchSuggestions li .info .name {
+  font-size: 1.3em;
+  min-height: 10px;
+}
+#searchSuggestions li .info .friends {
   display: block;
+  width: 98%;
+  margin: 0 1% 0 1%;
+  *zoom: 1;
 }
-#searchSuggestions li a {
-  display: block;
-  color: #63b700;
-  text-shadow: 0 0 1px #559d00;
+#searchSuggestions li .info .friends:before,
+#searchSuggestions li .info .friends:after {
+  content: "";
+  display: table;
 }
-#searchSuggestions li a p.add-info {
-  display: block;
-  color: #999999;
+#searchSuggestions li .info .friends:after {
+  clear: both;
 }
-#searchSuggestions li a :hover {
-  color: #ffffff;
-  text-decoration: none;
+#searchSuggestions li .info .location,
+#searchSuggestions li .info.age {
+  display: inline;
+  float: left;
+  width: 23%;
+  margin: 0 1% 0 1%;
 }
-#searchSuggestions li a :hover p.add-info {
-  color: #eeeeee;
+#searchSuggestions li .actions {
+  display: inline;
+  float: left;
+  width: 31.333333333333336%;
+  margin: 0 1% 0 1%;
+  margin-top: 5px;
 }
-#searchSuggestions li :first-child {
-  border-radius: 5px 5px 0 0;
-  border-top: 0;
-}
-#searchSuggestions li :last-child {
-  border-radius: 0 0 5px 5px;
-  border-bottom: 0;
-}
-#searchSuggestions li :hover {
-  background: #559d00;
-  background-color: #559d00;
-  background: -webkit-gradient(linear, left top, left bottom, from(#559d00), to(#3a8100));
-  background: -webkit-linear-gradient(top, #559d00, #3a8100);
-  background: -moz-linear-gradient(top, #559d00, #3a8100);
-  background: -ms-linear-gradient(top, #559d00, #3a8100);
-  background: -o-linear-gradient(top, #559d00, #3a8100);
+#searchSuggestions li .actions a {
+  display: inline;
+  float: left;
+  width: 81.33333333333334%;
+  margin: 0 1% 0 1%;
+  margin-bottom: 5px;
 }
 .nav-icon-dropdown {
   position: absolute;
@@ -1750,7 +1931,7 @@ input[type="submit"].btn.btn-mini {
   position: fixed;
   bottom: 10px;
 }
-#wall {
+.mainView #wall {
   height: 100%;
   width: 100%;
   float: left;
@@ -1765,7 +1946,7 @@ input[type="submit"].btn.btn-mini {
   /* Opera/IE 8+ */
 
 }
-#wall header {
+.mainView #wall header {
   display: inline;
   float: left;
   width: 98%;
@@ -1784,7 +1965,7 @@ input[type="submit"].btn.btn-mini {
   -webkit-background-clip: padding-box;
   background-clip: padding-box;
 }
-#wall header #postIt {
+.mainView #wall header #postIt {
   display: inline;
   float: left;
   width: 64.66666666666667%;
@@ -1807,7 +1988,7 @@ input[type="submit"].btn.btn-mini {
   /* Opera/IE 8+ */
 
 }
-#wall header #postIt #receiver {
+.mainView #wall header #postIt #receiver {
   display: inline;
   float: left;
   width: 68.75%;
@@ -1830,7 +2011,7 @@ input[type="submit"].btn.btn-mini {
   background-clip: padding-box;
   height: 38px;
 }
-#wall header #postIt #shareText {
+.mainView #wall header #postIt #shareText {
   display: inline;
   float: left;
   width: 100%;
@@ -1855,7 +2036,7 @@ input[type="submit"].btn.btn-mini {
   -webkit-background-clip: padding-box;
   background-clip: padding-box;
 }
-#wall header #postIt button {
+.mainView #wall header #postIt button {
   display: inline-block;
   *display: inline;
   /* IE7 inline-block hack */
@@ -1918,28 +2099,28 @@ input[type="submit"].btn.btn-mini {
   -webkit-background-clip: padding-box;
   background-clip: padding-box;
 }
-#wall header #postIt button:hover,
-#wall header #postIt button:active,
-#wall header #postIt button.active,
-#wall header #postIt button.disabled,
-#wall header #postIt button[disabled] {
+.mainView #wall header #postIt button:hover,
+.mainView #wall header #postIt button:active,
+.mainView #wall header #postIt button.active,
+.mainView #wall header #postIt button.disabled,
+.mainView #wall header #postIt button[disabled] {
   color: #333333;
   background: #f2f2f2;
   *background: #e6e6e6;
 }
-#wall header #postIt button:active,
-#wall header #postIt button.active {
+.mainView #wall header #postIt button:active,
+.mainView #wall header #postIt button.active {
   background-color: #cccccc \9;
 }
-#wall header #postIt button:first-child {
+.mainView #wall header #postIt button:first-child {
   *margin-left: 0;
 }
-#wall header #postIt button:hover {
+.mainView #wall header #postIt button:hover {
   color: #333333;
   text-decoration: none;
 }
-#wall header #postIt button.active,
-#wall header #postIt button:active {
+.mainView #wall header #postIt button.active,
+.mainView #wall header #postIt button:active {
   background-color: #e6e6e6;
   background-color: #d9d9d9 \9;
   background-image: none;
@@ -1948,8 +2129,8 @@ input[type="submit"].btn.btn-mini {
   -moz-box-shadow: "inset 0 2px 4px rgba(0,0,0,.15), 0 1px 2px rgba(0,0,0,.05)";
   box-shadow: "inset 0 2px 4px rgba(0,0,0,.15), 0 1px 2px rgba(0,0,0,.05)";
 }
-#wall header #postIt button.disabled,
-#wall header #postIt button[disabled] {
+.mainView #wall header #postIt button.disabled,
+.mainView #wall header #postIt button[disabled] {
   cursor: default;
   background-color: #e6e6e6;
   background-image: none;
@@ -1960,7 +2141,7 @@ input[type="submit"].btn.btn-mini {
   -moz-box-shadow: none;
   box-shadow: none;
 }
-#wall header #postIt button[type="submit"] {
+.mainView #wall header #postIt button[type="submit"] {
   color: #ffffff;
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
   background-color: #559d00;
@@ -1976,27 +2157,27 @@ input[type="submit"].btn.btn-mini {
 
   filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
 }
-#wall header #postIt button[type="submit"]:hover,
-#wall header #postIt button[type="submit"]:active,
-#wall header #postIt button[type="submit"].active,
-#wall header #postIt button[type="submit"].disabled,
-#wall header #postIt button[type="submit"][disabled] {
+.mainView #wall header #postIt button[type="submit"]:hover,
+.mainView #wall header #postIt button[type="submit"]:active,
+.mainView #wall header #postIt button[type="submit"].active,
+.mainView #wall header #postIt button[type="submit"].disabled,
+.mainView #wall header #postIt button[type="submit"][disabled] {
   color: #ffffff;
   background: #459b00;
   *background: #3a8100;
 }
-#wall header #postIt button[type="submit"]:active,
-#wall header #postIt button[type="submit"].active {
+.mainView #wall header #postIt button[type="submit"]:active,
+.mainView #wall header #postIt button[type="submit"].active {
   background-color: #234e00 \9;
 }
-#wall header #filter {
+.mainView #wall header #filter {
   display: inline;
   float: left;
   width: 31.333333333333336%;
   margin: 0 1% 0 1%;
   height: 77px;
 }
-#wall header #filter .title {
+.mainView #wall header #filter .title {
   display: inline;
   float: left;
   width: 98%;
@@ -2019,7 +2200,7 @@ input[type="submit"].btn.btn-mini {
   font-size: 14px;
   line-height: 20px;
 }
-#wall header #filter #theFilter {
+.mainView #wall header #filter #theFilter {
   display: inline;
   float: left;
   width: 98%;
@@ -2029,14 +2210,14 @@ input[type="submit"].btn.btn-mini {
   padding: 5px;
   resize: none;
 }
-#wall .posts {
+.mainView #wall .posts {
   float: left;
   width: 100% !important;
   margin: 0 0 0 1%;
   overflow-y: scroll;
   height: 100%;
 }
-#wall .posts article {
+.mainView #wall .posts article {
   border-bottom: 1px solid #bbb;
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
@@ -2045,16 +2226,16 @@ input[type="submit"].btn.btn-mini {
   -webkit-background-clip: padding-box;
   background-clip: padding-box;
 }
-#wall .posts article .userimg {
+.mainView #wall .posts article .userimg {
   border-radius: 10px;
   vertical-align: middle;
   margin: 0 0 10px 0;
 }
-#wall .posts article .postContent {
+.mainView #wall .posts article .postContent {
   margin-top: -5px;
   margin-bottom: 10px;
 }
-#wall .posts article .postContent .postText {
+.mainView #wall .posts article .postContent .postText {
   padding-left: 10px;
   -webkit-box-sizing: border-box;
   /* Safari/Chrome, other WebKit */
@@ -2066,11 +2247,11 @@ input[type="submit"].btn.btn-mini {
   /* Opera/IE 8+ */
 
 }
-#wall .posts article .postInfo {
+.mainView #wall .posts article .postInfo {
   margin-top: -5px;
   margin-bottom: 10px;
 }
-#wall .posts article:last-child {
+.mainView #wall .posts article:last-child {
   border: none;
 }
 .profileView #main nav {
@@ -2982,7 +3163,6 @@ and (max-device-width : 767px) {
     float: left;
     width: 14.666666666666668%;
     margin: 0 1% 0 1%;
-    display: none;
   }
   body #container #sidebar-left {
     display: inline;
@@ -3061,59 +3241,12 @@ and (max-device-width : 767px) {
   #searchQuery {
     margin-top: 6px;
   }
-  #searchDrop {
-    position: absolute;
-    top: 45px;
-    margin-left: 5px;
-  }
-  #searchSuggestions {
-    padding: 0;
-    margin: 0;
-  }
-  #searchSuggestions li {
-    display: none;
-    width: 100%;
-    min-height: 40px;
-  }
-  #searchSuggestions li a {
-    padding-top: 13px;
-    padding-bottom: 13px;
-  }
-  #searchSuggestions li a p.add-info {
-    margin-left: 10px;
-  }
   #searchQuery {
     display: inline;
     float: left;
     width: 64.66666666666667%;
     margin: 0 1% 0 1%;
     margin-top: 7px;
-  }
-  #searchDrop {
-    display: inline;
-    float: left;
-    width: 64.66666666666667%;
-    margin: 0 1% 0 1%;
-  }
-  #searchSuggestions li {
-    display: block;
-    width: 64.66666666666667%;
-    margin: 0 1% 0 1%;
-    *zoom: 1;
-  }
-  #searchSuggestions li:before,
-  #searchSuggestions li:after {
-    content: "";
-    display: table;
-  }
-  #searchSuggestions li:after {
-    clear: both;
-  }
-  #searchSuggestions li a {
-    display: inline;
-    float: left;
-    width: 98%;
-    margin: 0 1% 0 1%;
   }
   #userpanel #menu #mainMenu {
     display: inline;
@@ -3814,7 +3947,6 @@ and (max-device-width : 767px) {
     float: left;
     width: 14.666666666666668%;
     margin: 0 1% 0 1%;
-    display: none;
   }
   body #container #sidebar-left {
     display: inline;
@@ -3895,59 +4027,12 @@ and (max-device-width : 767px) {
   #searchQuery {
     margin-top: 6px;
   }
-  #searchDrop {
-    position: absolute;
-    top: 45px;
-    margin-left: 5px;
-  }
-  #searchSuggestions {
-    padding: 0;
-    margin: 0;
-  }
-  #searchSuggestions li {
-    display: none;
-    width: 100%;
-    min-height: 40px;
-  }
-  #searchSuggestions li a {
-    padding-top: 13px;
-    padding-bottom: 13px;
-  }
-  #searchSuggestions li a p.add-info {
-    margin-left: 10px;
-  }
   #searchQuery {
     display: inline;
     float: left;
     width: 64.66666666666667%;
     margin: 0 1% 0 1%;
     margin-top: 7px;
-  }
-  #searchDrop {
-    display: inline;
-    float: left;
-    width: 64.66666666666667%;
-    margin: 0 1% 0 1%;
-  }
-  #searchSuggestions li {
-    display: block;
-    width: 64.66666666666667%;
-    margin: 0 1% 0 1%;
-    *zoom: 1;
-  }
-  #searchSuggestions li:before,
-  #searchSuggestions li:after {
-    content: "";
-    display: table;
-  }
-  #searchSuggestions li:after {
-    clear: both;
-  }
-  #searchSuggestions li a {
-    display: inline;
-    float: left;
-    width: 98%;
-    margin: 0 1% 0 1%;
   }
   #userpanel #menu #mainMenu {
     display: inline;
@@ -4653,7 +4738,6 @@ and (max-device-width : 767px) {
     float: left;
     width: 10.5%;
     margin: 0 1% 0 1%;
-    display: none;
   }
   body #container #sidebar-left {
     display: inline;
@@ -4733,59 +4817,12 @@ and (max-device-width : 767px) {
   #searchQuery {
     margin-top: 6px;
   }
-  #searchDrop {
-    position: absolute;
-    top: 45px;
-    margin-left: 5px;
-  }
-  #searchSuggestions {
-    padding: 0;
-    margin: 0;
-  }
-  #searchSuggestions li {
-    display: none;
-    width: 100%;
-    min-height: 40px;
-  }
-  #searchSuggestions li a {
-    padding-top: 13px;
-    padding-bottom: 13px;
-  }
-  #searchSuggestions li a p.add-info {
-    margin-left: 10px;
-  }
   #searchQuery {
     display: inline;
     float: left;
     width: 64.66666666666667%;
     margin: 0 1% 0 1%;
     margin-top: 7px;
-  }
-  #searchDrop {
-    display: inline;
-    float: left;
-    width: 64.66666666666667%;
-    margin: 0 1% 0 1%;
-  }
-  #searchSuggestions li {
-    display: block;
-    width: 64.66666666666667%;
-    margin: 0 1% 0 1%;
-    *zoom: 1;
-  }
-  #searchSuggestions li:before,
-  #searchSuggestions li:after {
-    content: "";
-    display: table;
-  }
-  #searchSuggestions li:after {
-    clear: both;
-  }
-  #searchSuggestions li a {
-    display: inline;
-    float: left;
-    width: 98%;
-    margin: 0 1% 0 1%;
   }
   #userpanel .userimg {
     width: 50%;

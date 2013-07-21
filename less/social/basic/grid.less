@@ -12,6 +12,7 @@
 
 @total-width: 100%;
 @columns: 12;
+@margin: 2%;
 @column-size: @total-width / @columns;
 
 .row(@x, @columns:@columns) {
@@ -21,7 +22,7 @@
 	.clear-fix;
 }
 
-.column(@x, @columns:@columns, @direction: left, @margin: 2%) {
+.column(@x, @columns:@columns, @direction: left, @margin:@margin) {
 	@column-size: @total-width / @columns;
 	display: inline;
 	float: @direction;
@@ -29,9 +30,9 @@
 	margin: 0 @margin/2 0 @margin/2;
 }
 
-.width(@x, @columns:@columns) {
+.width(@x, @columns:@columns, @margin:@margin) {
 	@column-size: @total-width / @columns;
-	width: (@column-size*@x) - 2% !important;
+	width: (@column-size*@x) - @margin !important;
 }
 
 .push(@x: 1, @columns:@columns) {

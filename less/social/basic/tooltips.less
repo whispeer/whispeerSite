@@ -1,17 +1,62 @@
-[data-title] {
-	&:hover, &:focus {
-		&:after {
-			min-height: 50px;
-			width: 300px;
-			margin: -32px 0 0 -320px;
-			padding: 5px;
-			
-			display: block;
-			position: absolute;
-			.box-fix;
-			content: attr(data-title);
-			.gradient(#ccc, #ddd);
-			.border-radius(5px);
+[data-tooltip-title] {
+	&[data-tooltip-position="left"] {
+		&:hover, &:focus {
+			&:before {
+				min-height: 35px;
+				width: 20%;
+				margin: 0px 0 0 0;
+				margin-left: -21%;
+				float: left;
+				padding: 5px;
+				
+				display: block;
+				position: absolute;
+				word-break: break-all;
+				.box-fix;
+				content: attr(data-tooltip-title);
+				.gradient(#ccc, #ddd);
+				.border-radius(5px);
+			}
+		}
+	}
+	&[data-tooltip-position="right"] {
+		&:hover, &:focus {
+			&:after {
+				min-height: 35px;
+				width: 20%;
+				margin: 0px 0 0 0;
+				margin-left: 24.6%;
+				float: left;
+				padding: 5px;
+				
+				display: block;
+				position: absolute;
+				word-break: break-all;
+				.box-fix;
+				content: attr(data-tooltip-title);
+				.gradient(#ccc, #ddd);
+				.border-radius(5px);
+			}
+		}
+	}
+	&[data-tooltip-position="top"] {
+		&:hover, &:focus {
+			&:after {
+				min-height: 35px;
+				width: 20%;
+				margin: 0px 0 0 0;
+				margin-left: 24.6%;
+				float: left;
+				padding: 5px;
+				
+				display: block;
+				position: absolute;
+				word-break: break-all;
+				.box-fix;
+				content: attr(data-tooltip-title);
+				.gradient(#ccc, #ddd);
+				.border-radius(5px);
+			}
 		}
 	}
 }

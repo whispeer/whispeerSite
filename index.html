@@ -41,8 +41,22 @@
 						<input type="text" id="searchQuery" placeholder="Suche" data-ng-model="mainSearch">
 					</form>
 					<div id="searchDrop">
-						<ul class="unstyled" id="searchSuggestions" data-ng-repeat="results in searchResults | filter:mainSearch">
-						</ul>
+						<!--<ul class="unstyled" id="searchSuggestions" data-ng-repeat="results in searchResults | filter:mainSearch">-->
+						<ol class="unstyled" id="searchSuggestions">
+							<li>
+								<img src="img/profil.png">
+								<div class="info">
+									<span class="name">Luisa Katharina Marschner</span>
+									<span class="friends">300 gemeinsame Freunde</span>
+									<span class="location">Enger</span>
+									<span class="age">16</span>
+								</div>
+								<div class="actions">
+									<a class="addFriend btn">Als Freund hinzufügen</a>
+									<a class="sendMessage btn">Nachricht senden</a>
+								</div>
+							</li>
+						</ol>
 					</div>
 				</div>
 			</div>
@@ -69,7 +83,7 @@
 		<aside id="sidebar-left" data-ng-show="loggedin" style="display:none">
 			<div id="userpanel">
 				<a href="#view=profile" class="username">
-					<!--<img src="img/profil.jpg" alt="" class="userimg">-->
+					<img src="img/profil.jpg" alt="" class="userimg">
 				</a>
 				<nav id="menu">
 					<ul class="left unstyled" id="mainMenu">

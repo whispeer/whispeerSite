@@ -48,41 +48,76 @@
 }
 #searchDrop {
 	position: absolute;
-	background: @white;
+	background: rgba(255,255,255, 0.95);
 	border-radius: 5px;
 	box-shadow: 0 0 8px @grayLight;
+	.column(3,7);
+	margin-left: 1.125%;
+	display: block;
+	top: 50px;
+	padding: 0;
 }
 
 #searchSuggestions {
+	width: 100%;
+	margin: 0;
+	padding: 0 0 0 0;
+	max-height: 390px;
+	overflow-y:scroll;
+	.box-fix;
 	li {
-		display: block;
-		a {
-			display: block;
-			color: lighten(@green, 5%);
-			text-shadow: 0 0 1px @green;
-			p.add-info {
-				display: block;
-				color: @grayLight;
+		width: 100%;
+		float: left;
+		padding: 0;
+		margin: 0;
+		border-bottom: 1px solid #9a9a9a;
+		min-height: 20px;
+		height: auto;
+		&:first-child {
+			img {
+				.border-radiuses(0, 0, 0, 5px);
 			}
-			:hover {
-				p.add-info {
-					color: @grayLighter;
-				}
-				color: @white;
-				text-decoration: none;
+		}
+		&:last-child {
+			border: none;
+			img {
+				.border-radiuses(0, 0, 5px, 0);
 			}
-		}	
-		:first-child{
-			border-radius: 5px 5px 0 0;
-			border-top: 0;
 		}
-		:last-child {
-			border-radius: 0 0 5px 5px;
-			border-bottom: 0;
+		&:only-child {
+			border: none;
+			img {
+				.border-radiuses(0, 0, 5px, 5px);	
+			}
 		}
-		:hover {
-			background: @green;
-			.gradient(@green, @green2);
+		img {
+			.column(2.5);
+			margin-left: 0;
+		}
+		.info {
+			.column(5.5);
+			margin: 7px 0 0 3%;
+			font: 100 10px;
+			color: @gray;
+			padding: 0;
+			.name {
+				font-size: 1.3em;
+				min-height: 10px;
+			}
+			.friends {
+				.row(12);
+			}
+			.location, &.age {
+				.column(3);
+			}
+		}
+		.actions {
+			.column(4);
+			margin-top: 5px;
+			a {
+				.column(10);
+				margin-bottom: 5px;
+			}
 		}	
 	}
 }

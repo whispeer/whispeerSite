@@ -15,13 +15,13 @@
 	</div>
 </form>
 <form id="registerform" data-ng-show="!loginForm" data-ng-click="registerFormClick()">
-	<div data-ng-repeat="attribute in profileAttributes" data-title="{{attribute.hoverText}}">
+	<div data-ng-repeat="attribute in profileAttributes" data-tooltip-title="{{attribute.hoverText}}" data-tooltip-position="left">
 		<input type="text" placeholder="{{attribute.placeHolder}}" data-ng-model="attribute.value">
 		<span class="icon lock">
 			<img data-ng-src="{{{true: 'img/lock_closed.png', false: 'img/lock_open.png'}[attribute.encrypted]}}" alt="{{((attribute.encrypted) && ('Privat') || ('&Ouml;ffentlich'))}}" data-ng-click="attribute.encrypted=!attribute.encrypted"/>
 		</span>
 	</div>
-	<div>
+	<div data-tooltip-title="{{attribute.hoverText}}" data-tooltip-position="right">
 		<input type="text" id="rnickname" placeholder="Benutzername" data-ng-model="nickname" data-ng-model-onblur data-ng-change="nicknameChange()">
 		<span class="icon fail" id="rnicknameIcon">
 			<img data-ng-src="{{acceptIconNicknameFree()}}" alt="Ok!">
