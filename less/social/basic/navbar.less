@@ -48,14 +48,16 @@
 }
 #searchDrop {
 	position: absolute;
-	background: rgba(255,255,255, 0.95);
-	border-radius: 5px;
+	background: rgba(255,255,255, 0.94);
+	.border-radius(5px);
 	box-shadow: 0 0 8px @grayLight;
 	.column(3,7);
 	margin-left: 1.125%;
 	display: block;
-	top: 50px;
+	top: 45px;
 	padding: 0;
+	display: none;
+	.box-shadow(0px 0px 5px 0px #b2b2b2);
 }
 
 #searchSuggestions {
@@ -64,6 +66,9 @@
 	padding: 0 0 0 0;
 	max-height: 390px;
 	overflow-y:scroll;
+	.box-shadow(inset 6px -1px 4px 2px #b2b2b2);
+	padding:0px 0px 0px 2px;
+	.border-radius(5px);
 	.box-fix;
 	li {
 		width: 100%;
@@ -92,8 +97,7 @@
 		}
 		img {
 			.column(2.5);
-			margin-left: 0;
-		}
+			margin-left: 0;		}
 		.info {
 			.column(5.5);
 			margin: 7px 0 0 3%;
@@ -117,6 +121,7 @@
 			a {
 				.column(10);
 				margin-bottom: 5px;
+				.buttonBackground(hsla(hue(lighten(@btnSuccessBackground,5%)), saturation(lighten(@btnSuccessBackground,5%)), lightness(lighten(@btnSuccessBackground,5%)), 0.7), hsla(hue(lighten(@btnSuccessBackgroundHighlight,5%)), saturation(lighten(@btnSuccessBackgroundHighlight,5%)), lightness(lighten(@btnSuccessBackgroundHighlight,5%)), 0.7));
 			}
 		}	
 	}

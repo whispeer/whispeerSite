@@ -836,8 +836,13 @@ body:not(.mainView, .registerView) #main {
 }
 #searchDrop {
   position: absolute;
-  background: rgba(255, 255, 255, 0.95);
+  background: rgba(255, 255, 255, 0.94);
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
   border-radius: 5px;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
   box-shadow: 0 0 8px #999999;
   display: inline;
   float: left;
@@ -845,8 +850,12 @@ body:not(.mainView, .registerView) #main {
   margin: 0 1% 0 1%;
   margin-left: 1.125%;
   display: block;
-  top: 50px;
+  top: 45px;
   padding: 0;
+  display: none;
+  -webkit-box-shadow: 0px 0px 5px 0px #b2b2b2;
+  -moz-box-shadow: 0px 0px 5px 0px #b2b2b2;
+  box-shadow: 0px 0px 5px 0px #b2b2b2;
 }
 #searchSuggestions {
   width: 100%;
@@ -854,6 +863,16 @@ body:not(.mainView, .registerView) #main {
   padding: 0 0 0 0;
   max-height: 390px;
   overflow-y: scroll;
+  -webkit-box-shadow: inset 6px -1px 4px 2px #b2b2b2;
+  -moz-box-shadow: inset 6px -1px 4px 2px #b2b2b2;
+  box-shadow: inset 6px -1px 4px 2px #b2b2b2;
+  padding: 0px 0px 0px 2px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
   -webkit-box-sizing: border-box;
   /* Safari/Chrome, other WebKit */
 
@@ -985,6 +1004,33 @@ body:not(.mainView, .registerView) #main {
   width: 81.33333333333334%;
   margin: 0 1% 0 1%;
   margin-bottom: 5px;
+  color: #ffffff;
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+  background-color: rgba(98, 184, 0, 0.7);
+  background: -webkit-gradient(linear, left top, left bottom, from(rgba(98, 184, 0, 0.7)), to(rgba(69, 153, 0, 0.7)));
+  background: -webkit-linear-gradient(top, rgba(98, 184, 0, 0.7), rgba(69, 153, 0, 0.7));
+  background: -moz-linear-gradient(top, rgba(98, 184, 0, 0.7), rgba(69, 153, 0, 0.7));
+  background: -ms-linear-gradient(top, rgba(98, 184, 0, 0.7), rgba(69, 153, 0, 0.7));
+  background: -o-linear-gradient(top, rgba(98, 184, 0, 0.7), rgba(69, 153, 0, 0.7));
+  border-color: rgba(69, 153, 0, 0.7) rgba(69, 153, 0, 0.7) rgba(34, 77, 0, 0.7);
+  border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+  *background-color: rgba(80, 179, 0, 0.7);
+  /* Darken IE7 buttons by default so they stand out more given they won't have borders */
+
+  filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
+}
+#searchSuggestions li .actions a:hover,
+#searchSuggestions li .actions a:active,
+#searchSuggestions li .actions a.active,
+#searchSuggestions li .actions a.disabled,
+#searchSuggestions li .actions a[disabled] {
+  color: #ffffff;
+  background: rgba(80, 179, 0, 0.7);
+  *background: rgba(69, 153, 0, 0.7);
+}
+#searchSuggestions li .actions a:active,
+#searchSuggestions li .actions a.active {
+  background-color: rgba(46, 102, 0, 0.7) \9;
 }
 .nav-icon-dropdown {
   position: absolute;
