@@ -70,7 +70,8 @@ define(['step', 'helper'], function (step, h) {
 				}), h.sF(function register21(profileKey) {
 					var privateProfile = new ProfileService(profile.priv);
 
-					privateProfile.encrypt(profileKey, this.parallel());
+					privateProfile.signAndEncrypt(sign, profileKey, this.parallel());
+					keyStoreService.sign.signObject(profile.pub, sign, this.parallel());
 					keyStoreService.sym.pwEncryptKey(sym, password, this.parallel());
 					keyStoreService.sym.symEncryptKey(profileKey, sym, this.parallel());
 				}), h.sF(function register3(data) {
@@ -79,6 +80,8 @@ define(['step', 'helper'], function (step, h) {
 					sym = keyStoreService.correctKeyIdentifier(sym);
 					asym = keyStoreService.correctKeyIdentifier(asym);
 					sign = keyStoreService.correctKeyIdentifier(sign);
+
+					profile.pub.signature = data[1];
 
 
 					var registerData = {

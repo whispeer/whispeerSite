@@ -1,7 +1,7 @@
 /**
 * ProfileService
 **/
-define(['crypto/keyStore', 'step', 'helper'], function (keyStore, step, h) {
+define(["crypto/keyStore", "step", "helper"], function (keyStore, step, h) {
 	"use strict";
 
 	var service = function () {
@@ -61,7 +61,8 @@ define(['crypto/keyStore', 'step', 'helper'], function (keyStore, step, h) {
 
 		//where should the key go? should it be next to the data?
 		var profileService = function (data) {
-			var dataEncrypted, dataDecrypted, decrypted;
+			var dataEncrypted, dataDecrypted, decrypted, signature;
+			var theProfile = this;
 
 			if (data.iv) {
 				dataEncrypted = data;
@@ -74,6 +75,26 @@ define(['crypto/keyStore', 'step', 'helper'], function (keyStore, step, h) {
 
 				checkValid(data, true);
 			}
+
+			this.sign = function signprofileF(key, callback) {
+				step(function () {
+					keyStore.sign.signObject(data, key, this);
+				}, h.sF(function (result) {
+					signature = result;
+					this.ne(result);
+				}), callback);
+			};
+
+			this.signAndEncrypt = function signAndEncryptF(signKey, cryptKey, cb) {
+				step(function () {
+					theProfile.encrypt(cryptKey, this.parallel());
+					theProfile.sign(signKey, this.parallel());
+				}, h.sF(function (data) {
+					data[0].signature = data[1];
+
+					this.ne(data[0]);
+				}), cb);
+			};
 
 			this.encrypt = function encryptProfileF(key, callback) {
 				step(function () {
