@@ -1,4 +1,3 @@
-
 if (importScripts) {
 	importScripts("../libs/require.js");
 }
@@ -7,6 +6,119 @@ require.wrap({baseUrl: "../"}, ["libs/sjcl", "crypto/helper.js"], function (err,
 	"use strict";
 	if (err) {
 		throw err;
+	}
+
+	function handleSym(data) {
+		var result;
+		var key = data.key;
+
+		var message = data.message;
+		var iv = data.iv;
+
+		key = chelper.hex2bits(key);
+		var encrypt = data.encrypt;
+
+		if (typeof message !== "string") {
+			message = JSON.stringify(message);
+		}
+
+		var func;
+
+		if (encrypt) {
+			func = sjcl.encrypt;
+		} else {
+			func = sjcl.decrypt;
+		}
+
+		if (iv === undefined) {
+			result = func(key, message);
+		} else {
+			result = func(key, message, {"iv": iv});
+		}
+
+		return result;
+	}
+
+	function privKey(exponent, curve) {
+		exponent = new sjcl.bn(exponent);
+		return new sjcl.ecc.ecdsa.secretKey(curve, exponent);
+	}
+
+	function sign(exponent, curve, toSign) {
+		var privateKey = privKey(exponent, curve);
+
+		toSign = chelper.hex2bits(toSign);
+
+		return privateKey.sign(toSign);
+	}
+
+	function unKem(exponent, curve, tag) {
+		var privateKey = privKey(exponent, curve);
+
+		tag = chelper.hex2bits(tag);
+
+		return privateKey.unkem(tag);
+	}
+
+	function publicKey(x, y, curve) {
+		x =	curve.field(x);
+		y = curve.field(y);
+		var point = new sjcl.ecc.point(curve, x, y);
+
+		return new sjcl.ecc.ecdsa.publicKey(curve, point);
+	}
+
+	function verify(x, y, curve, hash, signature) {
+		var pubKey = publicKey(x, y, curve);
+
+		hash = chelper.hex2bits(hash);
+		signature = chelper.hex2bits(signature);
+
+		return pubKey.verify(hash, signature);
+	}
+
+	function kem(x, y, curve) {
+		var pubKey = publicKey(x, y, curve);
+
+		var keyData = pubKey.kem();
+		return {
+			key: chelper.bits2hex(keyData.key),
+			tag: chelper.bits2hex(keyData.tag)
+		};
+	}
+
+	function handleAsym(data) {
+		var result;
+		var generate = data.generate;
+		if (generate) {
+			var crypt = data.crypt;
+			if (crypt) {
+				sjcl.ecc.elGamal.generateKeys(data.curve);
+			} else {
+				sjcl.ecc.elGamal.generateKeys(data.curve);
+			}
+		} else {
+			var action = data.action;
+			var curve = chelper.getCurve(data.curve);
+
+			if (action === "sign") {
+				return sign(data.exponent, curve, data.toSign);
+			}
+
+			if (action === "decrypt") {
+				return unKem(action, data.exponent, curve, data.tag);
+			}
+
+			if (action === "verify") {
+				return verify(data.x, data.y, curve, data.hash, data.signature);
+			}
+
+			if (action === "kem") {
+				return kem(data.x, data.y, curve);
+			}
+		}
+
+		return result;
 	}
 
 	self.onmessage = function (event) {
@@ -21,82 +133,9 @@ require.wrap({baseUrl: "../"}, ["libs/sjcl", "crypto/helper.js"], function (err,
 		var result;
 		try {
 			if (asym) {
-				var generate = event.data.generate;
-				if (generate) {
-					var crypt = event.data.crypt;
-					if (crypt) {
-						sjcl.ecc.elGamal.generateKeys(event.data.curve);
-					} else {
-						sjcl.ecc.elGamal.generateKeys(event.data.curve);
-					}
-				} else {
-					var action = event.data.action;
-					var curve = chelper.getCurve(event.data.curve);
-
-					var exponent, privateKey;
-					var x, y, point, publicKey;
-
-					if (action === "sign" || action === "decrypt") {
-						exponent = new sjcl.bn(event.data.exponent);
-					} else {
-						x =	curve.field(event.data.x);
-						y = curve.field(event.data.y);
-						point = new sjcl.ecc.point(curve, x, y);
-					}
-
-					if (action === "sign") {
-						privateKey = new sjcl.ecc.ecdsa.secretKey(curve, exponent);
-						var toSign = chelper.hex2bits(event.data.toSign);
-
-						result = privateKey.sign(toSign);
-					} else if (action === "verify") {
-						publicKey = new sjcl.ecc.ecdsa.publicKey(curve, point);
-
-						var hash = chelper.hex2bits(event.data.hash);
-						var signature = chelper.hex2bits(event.data.signature);
-
-						result = publicKey.verify(hash, signature);
-					} else if (action === "unkem") {
-						privateKey = new sjcl.ecc.elGamal.secretKey(curve, exponent);
-
-						var tag = chelper.hex2bits(event.data.tag);
-
-						result = privateKey.unkem(tag);
-					} else if (action === "kem") {
-						publicKey = new sjcl.ecc.elGamal.publicKey(curve, point);
-						var data = publicKey.kem();
-						result = {
-							key: chelper.bits2hex(data.key),
-							tag: chelper.bits2hex(data.tag)
-						};
-					}
-				}
+				result = handleAsym(event.data);
 			} else {
-				var key = event.data.key;
-
-				var message = event.data.message;
-				var iv = event.data.iv;
-
-				key = chelper.hex2bits(key);
-				var encrypt = event.data.encrypt;
-
-				if (typeof message !== "string") {
-					message = JSON.stringify(message);
-				}
-
-				if (encrypt) {
-					if (iv === undefined) {
-						result = sjcl.encrypt(key, message);
-					} else {
-						result = sjcl.encrypt(key, message, {"iv": iv});
-					}
-				} else {
-					if (iv === undefined) {
-						result = sjcl.decrypt(key, message);
-					} else {
-						result = sjcl.decrypt(key, message, {"iv": iv});
-					}
-				}
+				result = handleSym(event.data);
 			}
 		} catch (e) {
 			result = false;

@@ -29,6 +29,14 @@ define(["step", "helper", "crypto/helper", "libs/sjcl", "crypto/sjclWorkerInclud
 		pw: 3
 	};
 
+	function toPrivateKey(type, curve) {
+		return function (secret) {
+			var exponent = new sjcl.bn(secret);
+
+			return new type.secretKey(curve, exponent);
+		};
+	}
+
 	//TODO: webworkers: 
 	//var webWorker = Modernizr.webworkers;
 
@@ -167,19 +175,19 @@ define(["step", "helper", "crypto/helper", "libs/sjcl", "crypto/sjclWorkerInclud
 		}
 
 		/** identity past processor */
-		var pastProcessor = function pastProcessor(secret, callback) {
-			callback(null, secret);
+		var pastProcessor = function pastProcessor(secret) {
+			return secret;
 		};
 
 		optionals = optionals || {};
 
-		if (optionals.secret) {
-			internalSecret = optionals.secret;
-			decrypted = true;
-		}
-
 		if (typeof optionals.pastProcessor === "function") {
 			pastProcessor = optionals.pastProcessor;
+		}
+
+		if (optionals.secret) {
+			internalSecret = pastProcessor(optionals.secret);
+			decrypted = true;
 		}
 
 		/** is the key decrypted */
@@ -218,7 +226,7 @@ define(["step", "helper", "crypto/helper", "libs/sjcl", "crypto/sjclWorkerInclud
 
 					theKey.decryptKey(this.last);
 				} else {
-					pastProcessor(result, this);
+					this.ne(pastProcessor(result));
 				}
 			}, h.sF(function (pastProcessedSecret) {
 				internalSecret = pastProcessedSecret;
@@ -656,24 +664,12 @@ define(["step", "helper", "crypto/helper", "libs/sjcl", "crypto/sjclWorkerInclud
 
 			intKey = new Key(this, realid, keyData.decryptors, {
 				secret: keyData.exponent,
-				postProcessor: function cryptKeyPostProcessor(secret, callback) {
-					step(function () {
-						var exponent = new sjcl.bn(secret);
-
-						this.ne(new sjcl.ecc.elGamal.privateKey(curve, exponent));
-					}, callback);
-				}
+				pastProcessor: toPrivateKey(sjcl.ecc.elGamal, curve)
 			});
 		} else if (keyData.decryptors) {
 			isPrivateKey = true;
 			intKey = new Key(this, realid, keyData.decryptors, {
-				postProcessor: function cryptKeyPostProcessor(secret, callback) {
-					step(function () {
-						var exponent = new sjcl.bn(secret);
-
-						this.ne(new sjcl.ecc.elGamal.privateKey(curve, exponent));
-					}, callback);
-				}
+				pastProcessor: toPrivateKey(sjcl.ecc.elGamal, curve)
 			});
 		}
 
@@ -843,24 +839,12 @@ define(["step", "helper", "crypto/helper", "libs/sjcl", "crypto/sjclWorkerInclud
 
 			intKey = new Key(this, realid, keyData.decryptors, {
 				secret: keyData.exponent,
-				postProcessor: function cryptKeyPostProcessor(secret, callback) {
-					step(function () {
-						var exponent = new sjcl.bn(secret);
-
-						this.ne(new sjcl.ecc.elGamal.privateKey(curve, exponent));
-					}, callback);
-				}
+				pastProcessor: toPrivateKey(sjcl.ecc.ecdsa, curve)
 			});
 		} else if (keyData.decryptors) {
 			isPrivateKey = true;
 			intKey = new Key(this, realid, keyData.decryptors, {
-				postProcessor: function cryptKeyPostProcessor(secret, callback) {
-					step(function () {
-						var exponent = new sjcl.bn(secret);
-
-						this.ne(new sjcl.ecc.elGamal.privateKey(curve, exponent));
-					}, callback);
-				}
+				pastProcessor: toPrivateKey(sjcl.ecc.ecdsa, curve)
 			});
 		}
 
@@ -1457,7 +1441,7 @@ define(["step", "helper", "crypto/helper", "libs/sjcl", "crypto/sjclWorkerInclud
 				}, h.sF(function (key) {
 					key.sign(hash, this);
 				}), h.sF(function (signature) {
-					this.ne(signature);
+					this.ne(chelper.bits2hex(signature));
 				}), callback);
 			},
 
