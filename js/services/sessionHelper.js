@@ -3,18 +3,16 @@
 /**
 * SessionHelper
 **/
-define(['step', 'helper'], function (step, h) {
+define(["step", "helper"], function (step, h) {
 	"use strict";
 
-	var service = function (socketService, keyStoreService, ProfileService, sessionService, storageService) {
-		var keyGenerationStarted = false, asym, sign, sym, keyGenListener = [], keyGenDone;
+	var service = function (socketService, keyStoreService, ProfileService, sessionService) {
+		var keyGenerationStarted = false, asym, sign, sym, profile, keyGenListener = [], keyGenDone;
 
 		var sessionHelper = {
 			logout: function () {
 				step(function sendLogout() {
-					socketService.emit("logout", true);
-				}, function logoutResult(e, data) {
-					debugger;
+					socketService.emit("logout", true, this);
 				});
 			},
 
@@ -50,13 +48,14 @@ define(['step', 'helper'], function (step, h) {
 			},
 
 			register: function (nickname, mail, password, profile, callback) {
-				var sym, asym, sign;
+				var sym, asym, sign, profileKey;
 				step(function register1() {
 					sessionHelper.startKeyGeneration(this);
-				}, h.sF(function register2(symK, asymK, signK) {
+				}, h.sF(function register2(symK, asymK, signK, profileK) {
 					sym = symK;
 					asym = asymK;
 					sign = signK;
+					profileKey = profileK;
 
 					if (mail) {
 						keyStoreService.setKeyGenIdentifier(mail);
@@ -66,30 +65,25 @@ define(['step', 'helper'], function (step, h) {
 						throw "need either nick or mail";
 					}
 
-					keyStoreService.sym.generateKey(this);
-				}), h.sF(function register21(profileKey) {
 					var privateProfile = new ProfileService(profile.priv);
 
 					privateProfile.signAndEncrypt(sign, profileKey, this.parallel());
 					keyStoreService.sign.signObject(profile.pub, sign, this.parallel());
 					keyStoreService.sym.pwEncryptKey(sym, password, this.parallel());
-					keyStoreService.sym.symEncryptKey(profileKey, sym, this.parallel());
 				}), h.sF(function register3(data) {
-					var decryptors = keyStoreService.upload.getDecryptors();
-
 					sym = keyStoreService.correctKeyIdentifier(sym);
 					asym = keyStoreService.correctKeyIdentifier(asym);
 					sign = keyStoreService.correctKeyIdentifier(sign);
+					profileKey = keyStoreService.correctKeyIdentifier(profileKey);
 
 					profile.pub.signature = data[1];
-
 
 					var registerData = {
 						password: keyStoreService.hash.hashPW(password),
 						mainKey: keyStoreService.upload.getKey(sym),
 						signKey: keyStoreService.upload.getKey(sign),
 						cryptKey: keyStoreService.upload.getKey(asym),
-						decryptors: decryptors,
+						profileKey: keyStoreService.upload.getKey(profileKey),
 						profile: {
 							pub: profile.pub,
 							priv: data[0]
@@ -118,6 +112,7 @@ define(['step', 'helper'], function (step, h) {
 					asym = undefined;
 					sym = undefined;
 					sign = undefined;
+					profile = undefined;
 					keyGenListener = [];
 				}
 			},
@@ -127,7 +122,7 @@ define(['step', 'helper'], function (step, h) {
 				step(function keyGen1() {
 					if (typeof callback === "function") {
 						if (keyGenDone) {
-							callback(null, sym, asym, sign);
+							callback(null, sym, asym, sign, profile);
 							return;
 						}
 
@@ -139,14 +134,17 @@ define(['step', 'helper'], function (step, h) {
 						kAsym.generateKey(this.parallel());
 						kSign.generateKey(this.parallel());
 						kSym.generateKey(this.parallel());
+						kSym.generateKey(this.parallel());
 					}
 				}, h.sF(function keyGen2(keys) {
 					asym = keys[0];
 					sign = keys[1];
 					sym = keys[2];
+					profile = keys[3];
 
 					kAsym.symEncryptKey(asym, sym, this.parallel());
 					kSign.symEncryptKey(sign, sym, this.parallel());
+					kSym.symEncryptKey(profile, sym, this.parallel());
 				}), function keyGen3(e) {
 					if (!e) {
 						keyGenDone = true;
@@ -155,7 +153,7 @@ define(['step', 'helper'], function (step, h) {
 					var i;
 					for (i = 0; i < keyGenListener.length; i += 1) {
 						try {
-							keyGenListener[i](e, sym, asym, sign);
+							keyGenListener[i](e, sym, asym, sign, profile);
 						} catch (e2) {
 							console.log("Listener error!");
 							console.log(e2);
@@ -237,7 +235,7 @@ define(['step', 'helper'], function (step, h) {
 		return sessionHelper;
 	};
 
-	service.$inject = ['ssn.socketService', 'ssn.keyStoreService', 'ssn.profileService', 'ssn.sessionService', 'ssn.storageService'];
+	service.$inject = ["ssn.socketService", "ssn.keyStoreService", "ssn.profileService", "ssn.sessionService", "ssn.storageService"];
 
 	return service;
 });

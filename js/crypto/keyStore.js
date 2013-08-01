@@ -248,7 +248,7 @@ define(["step", "helper", "crypto/helper", "libs/sjcl", "crypto/sjclWorkerInclud
 		* copies array before returning
 		*/
 		function getDecryptorsF() {
-			var result, i, tempR, k;
+			var result = [], i, tempR, k;
 			for (i = 0; i < decryptors.length; i += 1) {
 				tempR = {};
 				for (k in decryptors[i]) {
@@ -490,7 +490,8 @@ define(["step", "helper", "crypto/helper", "libs/sjcl", "crypto/sjclWorkerInclud
 		this.getUploadData = function () {
 			var data = {
 				realid: intKey.getRealID(),
-				type: "sym"
+				type: "sym",
+				decryptors: this.getDecryptorData()
 			};
 
 			return data;
@@ -693,7 +694,8 @@ define(["step", "helper", "crypto/helper", "libs/sjcl", "crypto/sjclWorkerInclud
 						y: chelper.bits2hex(p.y.toBits())
 					},
 					curve: chelper.getCurveName(publicKey._curve),
-					type: "crypt"
+					type: "crypt",
+					decryptors: this.getDecryptorData()
 				};
 
 				return data;
@@ -868,7 +870,8 @@ define(["step", "helper", "crypto/helper", "libs/sjcl", "crypto/sjclWorkerInclud
 						y: chelper.bits2hex(p.y.toBits())
 					},
 					curve: chelper.getCurveName(publicKey._curve),
-					type: "sign"
+					type: "sign",
+					decryptors: this.getDecryptorData()
 				};
 
 				return data;
@@ -1138,6 +1141,7 @@ define(["step", "helper", "crypto/helper", "libs/sjcl", "crypto/sjclWorkerInclud
 				var i;
 				for (i = 0; i < newKeys.length; i += 1) {
 					if (keyid === newKeys[i].getRealID()) {
+
 						return newKeys[i].getUploadData();
 					}
 				}
@@ -1294,7 +1298,6 @@ define(["step", "helper", "crypto/helper", "libs/sjcl", "crypto/sjclWorkerInclud
 					internalObjEncrypt(iv, object, key, this);
 				}), h.sF(function objEncrypt3(result) {
 					result.iv = chelper.bits2hex(iv);
-					result.key = realKeyID;
 
 					this.ne(result);
 				}), callback);
