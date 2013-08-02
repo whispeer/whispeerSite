@@ -95,7 +95,7 @@ require.wrap({baseUrl: "../"}, ["libs/sjcl", "crypto/helper.js"], function (err,
 			if (crypt) {
 				sjcl.ecc.elGamal.generateKeys(data.curve);
 			} else {
-				sjcl.ecc.elGamal.generateKeys(data.curve);
+				sjcl.ecc.ecdsa.generateKeys(data.curve);
 			}
 		} else {
 			var action = data.action;
