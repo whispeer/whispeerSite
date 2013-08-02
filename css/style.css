@@ -852,7 +852,6 @@ body:not(.mainView, .registerView) #main {
   display: block;
   top: 45px;
   padding: 0;
-  display: none;
   -webkit-box-shadow: 0px 0px 5px 0px #b2b2b2;
   -moz-box-shadow: 0px 0px 5px 0px #b2b2b2;
   box-shadow: 0px 0px 5px 0px #b2b2b2;
