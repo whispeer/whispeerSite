@@ -1,10 +1,10 @@
 /**
 * SocketService
 **/
-define(['socket', 'step', 'helper'], function (io, step, h) {
+define(["socket", "step", "helper"], function (io, step, h) {
 	"use strict";
 
-	var socket = io.connect('http://localhost:3000');
+	var socket = io.connect("http://localhost:3000");
 
 	var service = function ($rootScope, sessionService) {
 		function updateLogin(data) {
@@ -16,6 +16,7 @@ define(['socket', 'step', 'helper'], function (io, step, h) {
 		}
 
 		return {
+			socket: socket,
 			listen: function (channel, callback) {
 				step(function () {
 					socket.on(channel, this.ne);
@@ -30,6 +31,10 @@ define(['socket', 'step', 'helper'], function (io, step, h) {
 			},
 			emit: function (channel, data, callback) {
 				step(function doEmit() {
+					data.sid = sessionService.getSID();
+
+					console.log("Sending: " + data);
+
 					socket.emit(channel, data, this.ne);
 				}, h.sF(function emitResults(data) {
 					var that = this;
@@ -50,7 +55,7 @@ define(['socket', 'step', 'helper'], function (io, step, h) {
 		};
 	};
 
-	service.$inject = ['$rootScope', 'ssn.sessionService'];
+	service.$inject = ["$rootScope", "ssn.sessionService"];
 
 	return service;
 });

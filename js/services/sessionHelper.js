@@ -12,7 +12,7 @@ define(["step", "helper"], function (step, h) {
 		var sessionHelper = {
 			logout: function () {
 				step(function sendLogout() {
-					socketService.emit("logout", true, this);
+					socketService.emit("logout", {logout: true}, this);
 				});
 			},
 
