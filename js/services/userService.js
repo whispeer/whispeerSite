@@ -29,7 +29,11 @@ define(["step", "helper"], function (step, h) {
 			};
 
 			this.getMail = function (cb) {
-				loadData(cb);
+				step(function () {
+					loadData(this);
+				}, h.sF(function () {
+					this.ne(data.mail);
+				}), cb);
 			};
 
 			this.getProfile = function (cb) {
