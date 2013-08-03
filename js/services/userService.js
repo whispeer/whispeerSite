@@ -4,7 +4,7 @@
 /**
 * SessionService
 **/
-define(["step"], function (step) {
+define(["step", "helper"], function (step, h) {
 	"use strict";
 
 	var service = function (socketService) {
@@ -33,7 +33,11 @@ define(["step"], function (step) {
 			};
 
 			this.getProfile = function (cb) {
-				loadData(cb);
+				step(function () {
+					loadData(this);
+				}, h.sF(function () {
+					this.ne(data.profile.pub);
+				}), cb);
 			};
 		};
 
