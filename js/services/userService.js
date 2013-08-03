@@ -13,14 +13,14 @@ define(["step"], function (step) {
 			function loadData(cb) {
 				step(function () {
 					if (data) {
-						this.last.ne(data);
+						this.last.ne();
 					} else {
 						socketService.emit("user.get", {identifier: identifier}, this);
 					}
 				}, h.sF(function (userData) {
 					data = userData;
 
-					this.last.ne(data);
+					this.last.ne();
 				}), cb);
 			}
 
