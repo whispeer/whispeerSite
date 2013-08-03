@@ -31,6 +31,10 @@ define(["step"], function (step) {
 			this.getMail = function (cb) {
 				loadData(cb);
 			};
+
+			this.getProfile = function (cb) {
+				loadData(cb);
+			};
 		};
 
 		return User;
