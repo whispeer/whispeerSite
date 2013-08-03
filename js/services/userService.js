@@ -20,12 +20,21 @@ define(["step", "helper"], function (step, h) {
 				}, h.sF(function (userData) {
 					data = userData;
 
+					//TODO
+					/*socketService.listen("user", {identifier: identifier}, function () {
+
+					});*/
+
 					this.last.ne();
 				}), cb);
 			}
 
 			this.getNickname = function (cb) {
-				loadData(cb);
+				step(function () {
+					loadData(this);
+				}, h.sF(function () {
+					this.ne(data.nickname);
+				}), cb);
 			};
 
 			this.getMail = function (cb) {
