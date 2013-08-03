@@ -1,13 +1,10 @@
-/* jshint undef: true, unused: true */
-
-
 /**
 * SessionService
 **/
 define([], function () {
 	"use strict";
 
-	var service = function ($rootScope, $location, $route, keyStore, storage) {
+	var service = function ($rootScope, $location, $route, storage) {
 		var sid = "", loggedin = false, returnURL, loaded = false;
 
 		var noLoginRequired = ["ssn.loginController"];
@@ -83,8 +80,7 @@ define([], function () {
 
 			logout: function () {
 				if (loggedin) {
-					storage.clear();
-					keyStore.reset();
+					$rootScope.$broadcast('ssn.reset');
 				}
 
 				sid = "";
@@ -101,7 +97,7 @@ define([], function () {
 		return sessionService;
 	};
 
-	service.$inject = ['$rootScope', '$location', '$route', 'ssn.keyStoreService', 'ssn.storageService'];
+	service.$inject = ['$rootScope', '$location', '$route', 'ssn.storageService'];
 
 	return service;
 });
