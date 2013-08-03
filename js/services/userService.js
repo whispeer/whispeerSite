@@ -18,6 +18,10 @@ define(["step"], function (step) {
 			this.getNickname = function (cb) {
 				loadData(cb);
 			};
+
+			this.getMail = function (cb) {
+				loadData(cb);
+			};
 		};
 
 		return User;
