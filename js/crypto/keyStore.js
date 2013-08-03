@@ -15,7 +15,7 @@
 **/
 define(["step", "helper", "crypto/helper", "libs/sjcl", "crypto/sjclWorkerInclude"], function (step, h, chelper, sjcl) {
 	"use strict";
-	var dirtyKeys = [], newKeys = [], symKeys = {}, cryptKeys = {}, signKeys = {}, passwords = [], keyGenIdentifier = "", Key, SymKey, CryptKey, SignKey, makeKey, keyStore;
+	var socket, dirtyKeys = [], newKeys = [], symKeys = {}, cryptKeys = {}, signKeys = {}, passwords = [], keyGenIdentifier = "", Key, SymKey, CryptKey, SignKey, makeKey, keyStore;
 
 	var MAXSPEED = 99999999999, SPEEDS = {
 		symKey: {
@@ -585,12 +585,10 @@ define(["step", "helper", "crypto/helper", "libs/sjcl", "crypto/sjclWorkerInclud
 	/** load a key and his keychain. remove loaded keys */
 	function getKey(realKeyID, callback) {
 		step(function getKeyF() {
-			h.get({
-				keychain: {
-					loaded: loadedKeys(),
-					realid: realKeyID
-				}
-			}, this);
+			socket.emit("getKeyChain", {
+				loaded: loadedKeys(),
+				realid: realKeyID
+			});
 		}, h.sF(function keyChain(data) {
 			var keys = data.keychain, i;
 			for (i = 0; i < keys.length; i += 1) {
@@ -1137,6 +1135,9 @@ define(["step", "helper", "crypto/helper", "libs/sjcl", "crypto/sjclWorkerInclud
 		},
 
 		upload: {
+			setSocket: function (theSocket) {
+				socket = theSocket;
+			},
 			getKey: function (keyid) {
 				var i;
 				for (i = 0; i < newKeys.length; i += 1) {
