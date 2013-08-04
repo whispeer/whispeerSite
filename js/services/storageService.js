@@ -10,8 +10,8 @@ define([], function () {
 
 	var available = true, polyfill = {};
 
-	var service = function () {
-		return {
+	var service = function ($rootScope) {
+		var storage = {
 			get: function getF(key) {
 				if (available) {
 					return localStorage.getItem(key);
@@ -41,9 +41,15 @@ define([], function () {
 				localStorage.clear();
 			}
 		};
+
+		$rootScope.$on("ssn.reset", function () {
+			storage.clear();
+		});
+
+		return storage;
 	};
 
-	service.$inject = [];
+	service.$inject = ["$rootScope"];
 
 	return service;
 });

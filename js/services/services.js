@@ -2,23 +2,23 @@
 * BaseService
 **/
 
-define([
-	"angular",
-	"services/socketService",
-	"services/keyStoreService",
-	"services/sessionService",
-	"services/sessionHelper",
-	"services/profileService",
-	"services/storageService"
-], function (angular, socketService, keyStoreService, sessionService, sessionHelper, profileService, storageService) {
+var services = ["socketService", "keyStoreService", "sessionService", "sessionHelper", "profileService", "storageService"];
+
+var includes = ["angular"];
+
+var i;
+for (i = 0; i < services.length; i += 1) {
+	includes.push("services/" + services[i]);
+}
+
+define(includes, function (angular) {
 	"use strict";
-	var services = angular.module("ssn.services", []);
-	services.factory("ssn.socketService", socketService);
-	services.factory("ssn.keyStoreService", keyStoreService);
-	services.factory("ssn.sessionService", sessionService);
-	services.factory("ssn.sessionHelper", sessionHelper);
-	services.factory("ssn.profileService", profileService);
-	services.factory("ssn.storageService", storageService);
+	var servicesProvider = angular.module("ssn.services", []);
+
+	var i;
+	for (i = 0; i < services.length; i += 1) {
+		servicesProvider.factory("ssn." + services[i], arguments[i+1]);
+	}
 
 	return services;
 });

@@ -12,13 +12,13 @@ define(["step", "helper"], function (step, h) {
 		var sessionHelper = {
 			logout: function () {
 				step(function sendLogout() {
-					socketService.emit("logout", {logout: true}, this);
+					socketService.emit("session.logout", {logout: true}, this);
 				});
 			},
 
 			login: function (name, password, callback) {
 				step(function loginStartup() {
-					socketService.emit("token", {
+					socketService.emit("session.token", {
 						identifier: name
 					}, this);
 				}, h.sF(function hashWithToken(data) {
@@ -28,7 +28,7 @@ define(["step", "helper"], function (step, h) {
 						var hash = keyStoreService.hash.hashPW(password);
 
 						hash = keyStoreService.hash.hash(hash + data.token);
-						socketService.emit("login", {
+						socketService.emit("session.login", {
 							identifier: name,
 							password: hash,
 							token: data.token
@@ -98,7 +98,7 @@ define(["step", "helper"], function (step, h) {
 						registerData.nickname = nickname;
 					}
 
-					socketService.emit("register", registerData, this);
+					socketService.emit("session.register", registerData, this);
 				}), h.sF(function (result) {
 					sessionHelper.resetKey();
 					this.ne(result);
