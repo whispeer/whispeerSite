@@ -63,17 +63,20 @@
 				overflow-y: scroll;
 				height: 100%;
 				.message {
-					.column(5,5);
+					.column(3,5);
 					height: auto;
 					margin-bottom: 5px;
+					&.me {
+						float: right;
+					}
 					.user {
 						.userimg {
-							.column(0.43,5);
+							.column(2,12);
 							padding: 0;
 						}
 					}
 					.messageText {
-						.column(4.5,5);
+						.column(10,12);
 						//padding: 10px 0px;
 						word-break: break-word;
 					}
