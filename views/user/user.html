@@ -1,6 +1,6 @@
 <nav>
 	<heading>
-		<h3>Vorname Nachname</h3>
+		<h3>{{user.name}}</h3>
 	</heading>
 	<menu type="list" class="unstyled">
 		<li><a href="#info" data-i18n="profile.head.info">Info</a></li>
@@ -17,13 +17,13 @@
 				</header>
 				<img src="img/profil.png" alt="USERNAME" class="userimage">
 				<div class="info">
-					<p id="birthday"><i class="icon-gift"></i><span data-i18n="profile.section.general.birthday|date=user.birthday">Geboren am 5.5.2012</span></p>
-					<p id="residence"><i class="icon-home"></i><span data-i18n="profile.section.general.location|town=user.town|state=user.state|country=user.country">Wohnt in Whispeer Town, Whispeer-Bundesland, Whispeer-Staat</span></p>
-					<p id="relationship"><i class="icon-heart"></i><span data-i18n="profile.section.general.relation|with=user.partner">in einer Beziehung mit Whispeerina</span></p>
-					<p id="school"><i class="icon-book-open"></i><span data-i18n="profile.section.general.education|school=user.school"> geht hier zur Schule: Whispeer-Gymnasium Enger</span></p>
-					<p id="job"><i class="icon-wrench"></i><span data-i18n="profile.section.general.job|job=user.job">arbeitet als Web-Developer bei whispeer</span></p>
-					<p id="sex"><i class="icon-toilet"></i><span data-i18n="profile.section.general.gender|gender=user.gender">Geschlecht: männlich</span></p>
-					<p id="languages"><i class="icon-globe-1"></i><span data-i18n="profile.section.general.languages|languages=user.languages">Spricht: Deutsch, Englisch</span></p>
+					<p id="birthday"><i class="icon-gift"></i><span data-i18n="profile.section.general.birthday|date={{user.data.birthday}}"></span></p>
+					<p id="residence"><i class="icon-home"></i><span data-i18n="profile.section.general.location|town={{user.data.town}}|state={{user.data.state}}|country={{user.data.country}}"></span></p>
+					<p id="relationship"><i class="icon-heart"></i><span data-i18n="profile.section.general.relation|partner={{user.data.partner}}"></span></p>
+					<p id="school"><i class="icon-book-open"></i><span data-i18n="profile.section.general.education"></span> <span data-ng-repeat="school in user.data.education">{{school}}</span></p>
+					<p id="job"><i class="icon-wrench"></i><span data-i18n="profile.section.general.job|job={{user.data.job}}|company={{user.data.company}}">arbeitet als Web-Developer bei whispeer</span></p>
+					<p id="sex" data-ng-switch data-on="user.data.gender"><i class="icon-toilet"></i><span data-i18n="profile.section.general.gender.text">Geschlecht</span>: <span data-i18n="profile.section.general.gender.male" data-ng-switch-when="m">männlich</span><span data-i18n="profile.section.general.gender.female" data-ng-switch-when="f">weiblich</span></p>
+					<p id="languages"><i class="icon-globe-1"></i><span data-i18n="profile.section.general.languages">Spricht:</span> <span data-ng-repeat="language in user.data.languages">{{language}}</span></p>
 				</div>
 			</article>
 			<article>
@@ -65,17 +65,17 @@
 		</section>
 		<section id="wall">
 			<header  data-i18n="profile.section.wall.title">Pinnwand</header>
-			<article id="post1">
-				<img class="userimg" src="img/profil.jpg" alt="User">
+			<article id="post1" data-ng-repeat="post in posts">
+				<img class="userimg" src="{{post.sender.image.image}}" alt="{{post.sender.image.alttext}}">
 				<div class="postContent">
-					<p class="author">Daniel Melchior:</p>
-					<div class="postText">Circus Afro Circus Afro \m/ </div>
+					<p class="author">{{post.sender.name}}:</p>
+					<div class="postText">{{post.content}}</div>
 				</div>
 				<div class="postInfo">
-						<p class="with" data-i18n="wall.info.with|name=post.with">Mit Svenja Kenneweg</p>
-						<p class="awesome" data-i18n="wall.info.awesome|count=post.awesome">Awesomenes: 20</p>
-						<p class="comments" data-i18n="wall.info.comments|count=post.comments.count">10 Kommentare</p>
-						<a href="#" class="showComments" data-i18n="wall.info.showComments">Kommentare anzeigen</a>
+						<p class="with" data-i18n="wall.info.with|name={{post.info.with}}"></p>
+						<p class="awesome" data-i18n="wall.info.awesome|count={{post.info.awesome}}"></p>
+						<p class="comments" data-i18n="wall.info.comments.count|count={{post.info.comments.count}}"></p>
+						<a href="#" class="showComments" data-i18n="wall.info.comments.showem"></a>
 				</div>
 			</article>
 		</section>

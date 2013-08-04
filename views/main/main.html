@@ -1,27 +1,27 @@
 <div id="wall">
 	<header>
 		<form class="form-inline" id="postIt">
-			<input type="text" data-i18n-attr="main.post.receiver|placeholder" id="receiver">
-			<button type="submit" data-i18n="main.post.send">Posten</button>
-			<input type="text" data-i18n-attr="main.post.text|placeholder" id="shareText">
+			<input type="text" data-i18n-attr="wall.postit.receiver|placeholder" id="receiver">
+			<button type="submit" data-i18n="wall.postit.send"></button>
+			<input type="text" data-i18n-attr="wall.postit.text|placeholder" id="shareText">
 		</form>
 		<div id="filter">
-			<div class="title" data-i18n="main.filter.title"></div>
-			<textarea data-i18n-attr="main.filter.placeholder|placeholder" id="theFilter"></textarea>
+			<div class="title" data-i18n="wall.filter.title"></div>
+			<textarea data-i18n-attr="wall.filter.placeholder|placeholder" id="theFilter"></textarea>
 		</div>
 	</header>
 	<div class="posts">
-		<article id="post1">
-			<img class="userimg" src="img/profil.jpg" alt="User">
+		<article id="post1" data-ng-repeat="post in posts">
+			<img class="userimg" src="{{post.sender.image.image}}" alt="{{post.sender.image.alttext}}">
 			<div class="postContent">
-				<p class="author">Daniel Melchior:</p>
-				<div class="postText">Circus Afro Circus Afro \m/ </div>
+				<p class="author">{{post.sender.name}}:</p>
+				<div class="postText">{{post.content}}</div>
 			</div>
 			<div class="postInfo">
-					<p class="with" data-i18n="wall.info.with|name=post.with">Mit Svenja Kenneweg</p>
-					<p class="awesome" data-i18n="wall.info.awesome|count=post.awesome">Awesomenes: 20</p>
-					<p class="comments" data-i18n="wall.info.comments|count=post.comments.count">10 Kommentare</p>
-					<a href="#" class="showComments" data-i18n="wall.info.showComments">Kommentare anzeigen</a>
+					<p class="with" data-i18n="wall.info.with|name={{post.info.with}}"></p>
+					<p class="awesome" data-i18n="wall.info.awesome|count={{post.info.awesome}}"></p>
+					<p class="comments" data-i18n="wall.info.comments.count|count={{post.info.comments.count}}"></p>
+					<a href="#" class="showComments" data-i18n="wall.info.comments.showem"></a>
 			</div>
 		</article>
 	</div>	

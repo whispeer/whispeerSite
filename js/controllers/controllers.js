@@ -2,7 +2,7 @@
 * Base Controller
 **/
 
-var controllers = ['login', 'root', 'user', 'main', 'friends', 'messages'];
+var controllers = ['login', 'root', 'user', 'main', 'friends', 'messages', 'settings', 'help'];
 
 var includes = ['angular'];
 

@@ -1,0 +1,61 @@
+.helpView {
+	#main {
+		padding-top: 30px;
+		height: 100%;
+		background-color: @btnBackgroundHighlight;
+		border: 1px solid @btnBorder;
+		border-bottom: 1px solid darken(@btnBorder, 10%);
+		.border-radius(5px);
+		.box-fix;
+		header {
+			height: 20px;
+			margin: -30px 0 0 0;
+			.gradient(darken(@btnBackground, 2%), @btnBackgroundHighlight);
+			border-bottom: 1px solid @btnBorder;
+			.border-radiuses(5px, 0px, 0px, 5px);
+			width: 100%;
+			padding: 5px 0 5px 0 !important;
+			#title {
+				float: left;
+				margin: 0 1%;
+			}
+		}
+		#helpWrap {
+			height: 100%;
+			overflow-y: scroll;
+			overflow-x: hidden;
+		}
+		section {
+			header {
+				background-color: @btnBackgroundHighlight;
+				border-top: 1px solid @btnBorder;
+				.border-radius(0px);
+				float: left;
+				width: 100%;
+				margin: 10px 0 10px 0;
+				padding: 5px 0px;
+				&:before, :after {
+					content: "";
+					margin-left: 5px;
+				}
+			}
+			&#general header {
+				border-top: none;
+				margin: 0 0 10px 0;
+			}
+			.qa {
+				.column(12);
+				.question {
+					font-size: 20px;
+					font-weight: bolder;
+				}
+				.answer {
+					margin-left: 10px;
+				}
+			}
+			button, input[type=submit] {
+				.btn;
+			}
+		}
+	}	
+}

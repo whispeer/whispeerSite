@@ -50,6 +50,13 @@
 					.userimage {
 						.border-radius(5px);
 					}
+					#school, #languages {
+						span[data-ng-repeat]:not(:last-child) {
+							&:after {
+								content: ", ";
+							}
+						}
+					}
 				}
 			}	
 		}

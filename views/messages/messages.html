@@ -6,15 +6,34 @@
 			<div class="right" data-i18n="messages.newMessage">Neue Nachricht</div>
 		</li>
 		<div id="topicListScroll">
+			<li data-ng-repeat="topic in topics" id="{{topic.id}}" class="topic">
+				<div class="left">
+					<img class="userimg" src="{{topic.partner.image}}" alt="Userimage">
+				</div>
+				<div class="username">
+					{{topic.partner.name}}
+				</div>
+				<div class="lastmessage">
+					{{topic.latestMessage}}
+				</div>
+				<div class="clear-fix"></div>
+			</li>
 		</div>
 	</ul>
 </div>
-<div id="topicWrap" class="peerChat">
+<div id="topicWrap topicID{{activeTopic.id}}" class="{{activeTopic.type}}">
 	<div id="messageTitle">	
-		<h2></h2>
+		<h2>{{activeTopic.partner.name}}</h2>
 	</div>
 	<div id="messageWrap">
 		<ul class="scroll-pane" id="messageList">
+			<li data-ng-repeat="message in activeTopic.messages" id="{{message.id}}" class="message other">
+				<div id="userid" class="user">
+					<img class="userimg" data-userID="sender{{message.sender.id}}" alt="Username" src="{{message.sender.image}}">
+					<span class="username" data-userID="sender{{message.sender.id}}">{{message.sender.name}}</span>
+				</div>
+				<div id="messageid" class="messageText">{{message.text}}</div>
+			</li>
 		</ul>	
 		<form id="inputWrap">
 			<textarea id="messageInput" type="text" data-i18n-attr="messages.sendMessage.text|placeholder"></textarea>

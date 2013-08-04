@@ -4,19 +4,24 @@
 		height: 100%;
 		background-color: @btnBackgroundHighlight;
 		border: 1px solid @btnBorder;
-		border-bottom: 1px solid #000;
-		border-bottom-color: darken(@btnBorder, 10%);
+		border-bottom: 1px solid darken(@btnBorder, 10%);
 		.border-radius(5px);
 		.box-fix;
 		header {
 			height: 20px;
-			margin-top: -30px;
+			margin: 0 0 0 0;
 			.gradient(darken(@btnBackground, 2%), @btnBackgroundHighlight);
 			border-bottom: 1px solid @btnBorder;
 			.border-radiuses(5px, 0px, 0px, 5px);
-			padding: 5px;
+			width: 100%;
+			padding: 5px 0 5px 0 !important;
+			#title {
+				float: left;
+				margin: 0 1%;
+			}
 			#links {
 				float: right;
+				margin: 0 1%;
 				 a {
 					 color: #666;
 				 }

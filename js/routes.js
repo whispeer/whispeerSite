@@ -15,6 +15,8 @@ define(['app'], function (app) {
 		addMain("main");
 		addMain("friends");
 		addMain("messages");
+		addMain("settings");
+		addMain("help");
 
 		$routeProvider.when('/user/:userid', {
 			templateUrl: 'views/user/user.html',

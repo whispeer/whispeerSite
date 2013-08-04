@@ -1,45 +1,10 @@
-<header>Freundesliste</header>
+<header data-i18n="friends.title"></header>
 <ol id="friendsList" class="unstyled">
-	<li>
+	<li data-ng-repeat="friend in friends" style="background-image: url({{friend.image}})">
 		<div class="pushup">
-			<p class="username">Whispeer W</p>
-			<p class="samefriends">300 gemeinsame Freunde</p>
-			<p class=""></p>
-		</div>
-	</li>
-	<li>
-		<div class="pushup">
-			<p class="username">Whispeer W</p>
-			<p class="samefriends">300 gemeinsame Freunde</p>
-			<p class=""></p>
-		</div>
-	</li>
-	<li>
-		<div class="pushup">
-			<p class="username">Whispeer W</p>
-			<p class="samefriends">300 gemeinsame Freunde</p>
-			<p class=""></p>
-		</div>
-	</li>
-	<li>
-		<div class="pushup">
-			<p class="username">Whispeer W</p>
-			<p class="samefriends">300 gemeinsame Freunde</p>
-			<p class=""></p>
-		</div>
-	</li>
-	<li>
-		<div class="pushup">
-			<p class="username">Whispeer W</p>
-			<p class="samefriends">300 gemeinsame Freunde</p>
-			<p class=""></p>
-		</div>
-	</li>
-	<li>
-		<div class="pushup">
-			<p class="username">Whispeer W</p>
-			<p class="samefriends">300 gemeinsame Freunde</p>
-			<p class=""></p>
+			<p class="username">{{friend.name}}</p>
+			<p class="mutualfriends" data-i18n="friends.mutualFriends|count={{friend.mutualFriends}}"></p>
+			<!--<p class="lists"> <span data-i18n="friends.info.lists"></span> <span data-ng-repeat="list in friend.lists">{{list}}</span></p> -->
 		</div>
 	</li>
 </ol>
