@@ -68,7 +68,6 @@ define(['step'], function (step) {
 			return sessionHelper.passwordStrength($scope.password);
 		};
 
-
 		$scope.registerFormClick = function formClickF() {
 			console.log("click!");
 			sessionHelper.startKeyGeneration();

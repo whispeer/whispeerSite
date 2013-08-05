@@ -75,6 +75,20 @@ define(['step'], function (step) {
 				}
 			}
 		];
+		$scope.friends = [
+			{
+				"name": "Willi Welle",
+				"mutualFriends":	"295",
+				"image":	"img/profil.jpg"
+				//"lists":	[''] // ID's of the Lists with this friend
+			},
+			{
+				"name": "William Welle",
+				"mutualFriends":	"495",
+				"image":	"img/profil.jpg"
+				//"lists":	[''] // ID's of the Lists with this friend
+			}
+		];
 	}
 
 	userController.$inject = ['$scope'];

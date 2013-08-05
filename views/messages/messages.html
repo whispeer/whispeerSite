@@ -3,12 +3,12 @@
 	<ul id="topicList">
 		<li class="topic" id="newmessage">
 			<div class="left"><i class="icon-plus-circle" id="plusBtn"></i></div>
-			<div class="right" data-i18n="messages.newMessage">Neue Nachricht</div>
+			<div class="right" data-i18n="messages.newMessage"></div>
 		</li>
 		<div id="topicListScroll">
 			<li data-ng-repeat="topic in topics" id="{{topic.id}}" class="topic">
 				<div class="left">
-					<img class="userimg" src="{{topic.partner.image}}" alt="Userimage">
+					<img class="userimg" data-ng-src="{{topic.partner.image}}" alt="Userimage">
 				</div>
 				<div class="username">
 					<strong>{{topic.partner.name}}</strong>
@@ -30,7 +30,7 @@
 		<ul class="scroll-pane" id="messageList">
 			<li data-ng-repeat="message in activeTopic.messages" data-messageID="{{message.id}}" class="message" data-ng-class="{me:message.sender.me, other:message.sender.other}">
 				<div id="userid" class="user">
-					<img class="userimg" data-userID="sender{{message.sender.id}}" alt="Username" src="{{message.sender.image}}">
+					<img class="userimg" data-userID="sender{{message.sender.id}}" alt="Username" data-ng-src="{{message.sender.image}}">
 					<span class="username" data-userID="sender{{message.sender.id}}">{{message.sender.name}}</span>
 				</div>
 				<div class="messageText">{{message.text}}</div>

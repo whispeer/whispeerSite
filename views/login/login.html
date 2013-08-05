@@ -11,48 +11,48 @@
 	</div>
 	<div class="error" id="errorLogin" data-ng-show="loginFailed">{{'login.loginFailed'|i18n}}</div>
 	<div>
-		<button id="loginformsubmit" class="btn" type="submit" data-ng-click="login(identifier, password)">{{'login.login'|i18n}}</button>
+		<button id="loginformsubmit" class="btn" type="submit" data-ng-click="login(identifier, password)">{{'login.link'|i18n}}</button>
 	</div>
 </form>
 <form id="registerform" data-ng-show="!loginForm" data-ng-click="registerFormClick()">
 	<div data-ng-repeat="attribute in profileAttributes" data-tooltip-title="{{attribute.hoverText}}" data-tooltip-position="left">
 		<input type="text" placeholder="{{attribute.placeHolder}}" data-ng-model="attribute.value">
 		<span class="icon lock">
-			<img data-ng-src="{{{true: 'img/lock_closed.png', false: 'img/lock_open.png'}[attribute.encrypted]}}" alt="{{((attribute.encrypted) && ('Privat') || ('&Ouml;ffentlich'))}}" data-ng-click="attribute.encrypted=!attribute.encrypted"/>
+			<img data-ng-src="{{{true: 'img/lock_closed.png', false: 'img/lock_open.png'}[attribute.encrypted]}}" alt="{{((attribute.encrypted) && ('Privat') || ('Öffentlich'))}}" data-ng-click="attribute.encrypted=!attribute.encrypted"/>
 		</span>
 	</div>
 	<div data-tooltip-title="{{attribute.hoverText}}" data-tooltip-position="right">
-		<input type="text" id="rnickname" placeholder="Benutzername" data-ng-model="nickname" data-ng-model-onblur data-ng-change="nicknameChange()">
+		<input type="text" id="rnickname" data-i18n-attr="login.username|placeholder" data-ng-model="nickname" data-ng-model-onblur data-ng-change="nicknameChange()">
 		<span class="icon fail" id="rnicknameIcon">
 			<img data-ng-src="{{acceptIconNicknameFree()}}" alt="Ok!">
 		</span>
 	</div>
 	<div>
-		<input type="text" id="rmail" placeholder="E-Mail Adresse" data-ng-model="mail" data-ng-model-onblur data-ng-change="mailChange()">
+		<input type="text" id="rmail" data-i18n-attr="login.register.email|placeholder" data-ng-model="mail" data-ng-model-onblur data-ng-change="mailChange()">
 		<span class="icon check" id="rmailIcon">
 			<img data-ng-src="{{acceptIconMailFree()}}" alt="Ok!">
 		</span>
 	</div>
 	<div>
-		<input type="text" id="rmail2" placeholder="E-Mail Adresse wiederholen" data-ng-model="mail2">
+		<input type="text" id="rmail2" data-i18n-attr="login.register.repeatEmail|placeholder" data-ng-model="mail2">
 		<span class="icon check" id="rmail2Icon">
 			<img data-ng-src="{{acceptIcon(mail, mail2)}}" alt="Ok!">
 		</span>
 	</div>
 	<div>
-		<input type="password" id="rpassword" placeholder="Passwort" data-ng-model="password">
+		<input type="password" id="rpassword" data-i18n-attr="login.password|placeholder" data-ng-model="password">
 		<span class="icon" id="rpasswordIcon" data-strength="{{passwordStrength()}}"></span>
 	</div>
-	<div class="success" id="successRegisterPassword" style="display:block">Passwortst&auml;rke: {{passwordStrength()}}</div>
+	<div class="success" id="successRegisterPassword" style="display:block"><span data-i18n="login.register.passwordstrength"></span><span>{{passwordStrength()}}</span></div>
 	<div>
-		<input type="password" id="rpassword2" placeholder="Passwort wiederholen" data-ng-model="password2">
+		<input type="password" id="rpassword2" data-i18n-attr="login.register.repeatPassword|placeholder" data-ng-model="password2">
 		<span class="icon check" id="rpassword2Icon">
 			<img data-ng-src="{{acceptIcon(password, password2)}}" alt="Ok!">
 		</span>
 	</div>
 	<div>
-		<button id="registerformsubmit" class="btn" type="submit"  data-ng-click="register()">Registrieren</button>
+		<button id="registerformsubmit" class="btn" type="submit"  data-ng-click="register()" data-i18n="login.register.link"></button>
 	</div>
 </form>
-<a href="#" id="callRegister" data-ng-show="loginForm" data-ng-click="showRegister()" data-eat-click>Registration</a>
-<a href="#" id="callLogin" data-ng-show="!loginForm"  data-ng-click="showLogin()" data-eat-click>Login</a>
+<a href="#" id="callRegister" data-ng-show="loginForm" data-ng-click="showRegister()" data-eat-click data-i18n="login.register.link"></a>
+<a href="#" id="callLogin" data-ng-show="!loginForm"  data-ng-click="showLogin()" data-eat-click data-i18n="login.link">Login</a>

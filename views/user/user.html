@@ -66,7 +66,7 @@
 		<section id="wall">
 			<header  data-i18n="profile.section.wall.title">Pinnwand</header>
 			<article id="post1" data-ng-repeat="post in posts">
-				<img class="userimg" src="{{post.sender.image.image}}" alt="{{post.sender.image.alttext}}">
+				<img class="userimg" data-ng-src="{{post.sender.image.image}}" alt="{post.sender.image.alttext}">
 				<div class="postContent">
 					<p class="author">{{post.sender.name}}:</p>
 					<div class="postText">{{post.content}}</div>
@@ -81,50 +81,15 @@
 		</section>
 		<section id="friends">
 			<header data-i18n="profile.section.friends.info">Freunde</header>
-			<ul id="friendsList" class="unstyled">
-				<li>
+			<ol id="friendsList" class="unstyled">
+				<li data-ng-repeat="friend in friends" style="background-image: url({{friend.image}})">
 					<div class="pushup">
-						<p class="username">Whispeer W</p>
-						<p class="samefriends">300 gemeinsame Freunde</p>
-						<p class=""></p>
+						<p class="username">{{friend.name}}</p>
+						<p class="mutualfriends" data-i18n="friends.mutualFriends|count={{friend.mutualFriends}}"></p>
+						<!--<p class="lists"> <span data-i18n="friends.info.lists"></span> <span data-ng-repeat="list in friend.lists">{{list}}</span></p> -->
 					</div>
 				</li>
-				<li>
-					<div class="pushup">
-						<p class="username">Whispeer W</p>
-						<p class="samefriends">300 gemeinsame Freunde</p>
-						<p class=""></p>
-					</div>
-				</li>
-				<li>
-					<div class="pushup">
-						<p class="username">Whispeer W</p>
-						<p class="samefriends">300 gemeinsame Freunde</p>
-						<p class=""></p>
-					</div>
-				</li>
-				<li>
-					<div class="pushup">
-						<p class="username">Whispeer W</p>
-						<p class="samefriends">300 gemeinsame Freunde</p>
-						<p class=""></p>
-					</div>
-				</li>
-				<li>
-					<div class="pushup">
-						<p class="username">Whispeer W</p>
-						<p class="samefriends">300 gemeinsame Freunde</p>
-						<p class=""></p>
-					</div>
-				</li>
-				<li>
-					<div class="pushup">
-						<p class="username">Whispeer W</p>
-						<p class="samefriends">300 gemeinsame Freunde</p>
-						<p class=""></p>
-					</div>
-				</li>
-			</ul>
+			</ol>
 		</section>
 	</div>
 </div>	

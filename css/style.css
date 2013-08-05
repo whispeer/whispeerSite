@@ -3110,7 +3110,7 @@ input[type="submit"].btn.btn-mini {
   background-clip: padding-box;
   float: left;
   width: 100%;
-  margin: 10px 0 10px 0;
+  margin: 0px 0 10px 0;
   padding: 5px 0px;
 }
 .helpView #main section header:before,
@@ -3120,7 +3120,11 @@ input[type="submit"].btn.btn-mini {
 }
 .helpView #main section#general header {
   border-top: none;
-  margin: 0 0 10px 0;
+  margin: -10px 0 0 0;
+}
+.helpView #main section ol {
+  margin-left: 0;
+  list-style: none;
 }
 .helpView #main section .qa {
   display: inline;
