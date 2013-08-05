@@ -2,14 +2,14 @@
 * friendsController
 **/
 
-define(['step'], function (step) {
-	'use strict';
+define([], function () {
+	"use strict";
 
-	function helpController($scope) {
-		$scope.$parent.cssClass = "helpView";
+	function helpController($scope, cssService) {
+		cssService.setClass("helpView");
 	}
 
-	helpController.$inject = ['$scope'];
+	helpController.$inject = ["$scope", "ssn.cssService"];
 
 	return helpController;
 });

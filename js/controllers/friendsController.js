@@ -2,28 +2,28 @@
 * friendsController
 **/
 
-define(['step'], function (step) {
-	'use strict';
+define([], function () {
+	"use strict";
 
-	function friendsController($scope) {
-		$scope.$parent.cssClass = "friendsView";
+	function friendsController($scope, cssService)  {
+		cssService.setClass("friendsView");
 		$scope.friends = [
 			{
 				"name": "Willi Welle",
 				"mutualFriends":	"295",
 				"image":	"img/profil.jpg"
-				//"lists":	[''] // ID's of the Lists with this friend
+				//"lists":	[""] // ID's of the Lists with this friend
 			},
 			{
 				"name": "William Welle",
 				"mutualFriends":	"495",
 				"image":	"img/profil.jpg"
-				//"lists":	[''] // ID's of the Lists with this friend
+				//"lists":	[""] // ID's of the Lists with this friend
 			}
 		];
 	}
 
-	friendsController.$inject = ['$scope'];
+	friendsController.$inject = ["$scope", "ssn.cssService"];
 
 	return friendsController;
 });

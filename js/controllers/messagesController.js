@@ -2,18 +2,18 @@
 * messagesController
 **/
 
-define(['step'], function (step) {
-	'use strict';
+define([], function () {
+	"use strict";
 
-	function messagesController($scope) {
-		$scope.$parent.cssClass = "messagesView";
+	function messagesController($scope, cssService) {
+		cssService.setClass("messagesView");
 		$scope.topics = [
 			{
 				"id": "1", // TopicID goes here
 				"type":	"peerChat", // Either peerChat or groupChat
 				"partner":	{
 					"id": "1", // User ID of conversation partner
-					"name": "Willi Welle", 
+					"name": "Willi Welle",
 					"image": "img/profil.jpg"
 				},
 				"latestMessage": {
@@ -36,7 +36,7 @@ define(['step'], function (step) {
 				"type":	"peerChat", // Either peerChat or groupChat
 				"partner":	{
 					"id": "1", // User ID of conversation partner
-					"name": "Luisa Katharina Marschner", 
+					"name": "Luisa Katharina Marschner",
 					"image": "img/profil.jpg"
 				},
 				"latestMessage": {
@@ -60,7 +60,7 @@ define(['step'], function (step) {
 				"type":	"peerChat", // Either peerChat or groupChat
 				"partner":	{
 					"id": "1", // User ID of conversation partner
-					"name": "Willi Welle", 
+					"name": "Willi Welle",
 					"image": "img/profil.jpg"
 				},
 				"latestMessage": {
@@ -84,7 +84,7 @@ define(['step'], function (step) {
 				"type":	"peerChat", // Either peerChat or groupChat
 				"partner":	{
 					"id": "1", // User ID of conversation partner
-					"name": "Willi Welle", 
+					"name": "Willi Welle",
 					"image": "img/profil.jpg"
 				},
 				"latestMessage": {
@@ -108,7 +108,7 @@ define(['step'], function (step) {
 				"type":	"peerChat", // Either peerChat or groupChat
 				"partner":	{
 					"id": "1", // User ID of conversation partner
-					"name": "Willi Welle", 
+					"name": "Willi Welle",
 					"image": "img/profil.jpg"
 				},
 				"latestMessage": {
@@ -132,7 +132,7 @@ define(['step'], function (step) {
 				"type":	"peerChat", // Either peerChat or groupChat
 				"partner":	{
 					"id": "1", // User ID of conversation partner
-					"name": "Willi Welle", 
+					"name": "Willi Welle",
 					"image": "img/profil.jpg"
 				},
 				"latestMessage": {
@@ -156,7 +156,7 @@ define(['step'], function (step) {
 				"type":	"peerChat", // Either peerChat or groupChat
 				"partner":	{
 					"id": "1", // User ID of conversation partner
-					"name": "Willi Welle", 
+					"name": "Willi Welle",
 					"image": "img/profil.jpg"
 				},
 				"latestMessage": {
@@ -181,7 +181,7 @@ define(['step'], function (step) {
 			"type": "peerChat", // Either peerChat or groupChat
 			"partner":	{
 				"id": "1", // User ID of conversation partner
-				"name": "Willi Welle", 
+				"name": "Willi Welle",
 				"image": "img/profil.jpg"
 			},
 			"latestMessage":	"Lorem Ipsum Dolor Sit Amet",
@@ -333,7 +333,7 @@ define(['step'], function (step) {
 		};
 	}
 
-	messagesController.$inject = ['$scope'];
+	messagesController.$inject = ["$scope", "ssn.cssService"];
 
 	return messagesController;
 });

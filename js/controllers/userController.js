@@ -2,11 +2,11 @@
 * userController
 **/
 
-define(['step'], function (step) {
-	'use strict';
+define([], function () {
+	"use strict";
 
-	function userController($scope) {
-		$scope.$parent.cssClass = "profileView";
+	function userController($scope, cssService) {
+		cssService.setClass("profileView");
 		$scope.user	= {
 			"name":	"Willi Welle",
 			"data": {
@@ -15,11 +15,11 @@ define(['step'], function (step) {
 				"state":	"NRW",
 				"country":	"Germany",
 				"partner":	"Gisela Welle",
-				"education":	['Wellenschule', 'Wellen-Grundschule'],
+				"education":	["Wellenschule", "Wellen-Grundschule"],
 				"job":	"Surf-Lehrer",
 				"company":	"Surfschool",
 				"gender":	"f",
-				"languages": ['Deutsch','Englisch']	
+				"languages": ["Deutsch","Englisch"]
 			}
 		};
 		$scope.posts = [
@@ -77,7 +77,7 @@ define(['step'], function (step) {
 		];
 	}
 
-	userController.$inject = ['$scope'];
+	userController.$inject = ["$scope", "ssn.cssService"];
 
 	return userController;
 });
