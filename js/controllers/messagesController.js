@@ -16,7 +16,10 @@ define(['step'], function (step) {
 					"name": "Willi Welle", 
 					"image": "img/profil.jpg"
 				},
-				"latestMessage":	"Lorem Ipsum Dolor Sit Amet",
+				"latestMessage": {
+					"text": "Lorem Ipsum Dolor Sit Amet",
+					"timestamp": "21:00"
+				},
 				"messages": [{
 					// each object is a message!
 					"id": "1",

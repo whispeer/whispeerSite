@@ -13,9 +13,10 @@
 				<div class="username">
 					<strong>{{topic.partner.name}}</strong>
 				</div>
-				<div class="lastmessage">
-					{{topic.latestMessage}}
+				<div class="lastMessage">
+					{{topic.latestMessage.text}}
 				</div>
+				<div class="time">{{topic.latestMessage.timestamp}}</div>
 				<div class="clear-fix"></div>
 			</li>
 		</div>
@@ -33,6 +34,7 @@
 					<span class="username" data-userID="sender{{message.sender.id}}">{{message.sender.name}}</span>
 				</div>
 				<div class="messageText">{{message.text}}</div>
+				<div class="time">21:00</div>
 			</li>
 		</ul>	
 		<form id="inputWrap">
