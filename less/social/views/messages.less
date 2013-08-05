@@ -33,13 +33,20 @@
 					font-size: 1em;
 				}
 				.lastMessage {
-					font-size: 0.8em;
+					font-size: 0.9em;
 				}
 				&:hover {
 					background-color: rgba(0,0,0,0.1);
 				}
 				&.active {
 					background-color: rgba(0,0,0,0.3);			
+				}
+				.time {
+					font-size: small;
+					color: #888;
+					float: right;
+					margin-right: 5px;
+					margin-top: -20px;
 				}
 			}
 		}
@@ -92,6 +99,12 @@
 							}
 						}
 					}
+					.time {
+						font-size: small;
+						color: #888;
+						float: right;
+						margin-right: 5px;
+					}
 				}
 			}		
 		}	
@@ -101,11 +114,16 @@
 				overflow-y: scroll;
 				.message {
 					.clear-fix;
+					margin-bottom: 5px;
+					.gradient(lighten(@grayLight,30%), lighten(@grayLight,24%));
+					border: 1px solid #b2b2b2;
+					.border-radius(4px);
 					.user {
+						margin-left: 0 !important;
+						padding: 0 !important;
 						.userimg {
-							.border-radius(5px);
+							.border-radiuses(0, 0,0,3px);
 						}
-						padding-left: 10px;
 					}
 					&.me {
 						color: lighten(@green, 5%);
@@ -114,6 +132,12 @@
 					&.other {
 						.border-radius(6px);
 						color: #4e4e4e;
+					}
+					.time {
+						font-size: small;
+						color: #888;
+						float: right;
+						margin-right: 5px;
 					}
 				}
 			}

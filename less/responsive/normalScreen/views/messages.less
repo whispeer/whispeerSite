@@ -33,7 +33,6 @@
 					.column(1.30,2);
 				}
 				.lastMessage {
-					font-size: 0.8em;
 					.row(2,2);
 				}
 				.left {
@@ -111,17 +110,22 @@
 					.column(5,5);
 					margin-bottom: 5px;
 					.user {
+						width: 100%;
+						margin: 0;
+						float: left;
+						border-bottom: 1px solid #ccc;
 						.userimg {
-							.column(0.6,5);
+							.column(1,12);
 							vertical-align: middle;
 							padding: 0;
+							margin: 0 !important;
 						}
 						.username {
-							.column(3,5);
+							.column(8,12);
 						}
 					}
 					.messageText {
-						.column(3,5);
+						.column(12);
 						word-break: break-word;
 					}
 				}

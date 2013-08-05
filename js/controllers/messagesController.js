@@ -16,7 +16,153 @@ define(['step'], function (step) {
 					"name": "Willi Welle", 
 					"image": "img/profil.jpg"
 				},
-				"latestMessage":	"Lorem Ipsum Dolor Sit Amet",
+				"latestMessage": {
+					"text": "Lorem Ipsum Dolor Sit Amet",
+					"timestamp": "21:00"
+				},
+				"messages": [{
+					// each object is a message!
+					"id": "1",
+					"sender": {
+						"id": "2", // User ID of Sender
+						"image": "img/profil.jpg",
+						"name": "Willi Welle"
+					},
+					"text": "Lorem Ipsum dolor sit amet",
+					"timestamp": ""
+				}] // All Messages of conversation (or the x latest - whatever)
+			},{
+				"id": "1", // TopicID goes here
+				"type":	"peerChat", // Either peerChat or groupChat
+				"partner":	{
+					"id": "1", // User ID of conversation partner
+					"name": "Luisa Katharina Marschner", 
+					"image": "img/profil.jpg"
+				},
+				"latestMessage": {
+					"text": "Lorem Ipsum Dolor Sit Amet",
+					"timestamp": "21:00"
+				},
+				"messages": [{
+					// each object is a message!
+					"id": "1",
+					"sender": {
+						"id": "2", // User ID of Sender
+						"image": "img/profil.jpg",
+						"name": "Willi Welle"
+					},
+					"text": "Lorem Ipsum dolor sit amet",
+					"timestamp": ""
+				}] // All Messages of conversation (or the x latest - whatever)
+			},
+			{
+				"id": "1", // TopicID goes here
+				"type":	"peerChat", // Either peerChat or groupChat
+				"partner":	{
+					"id": "1", // User ID of conversation partner
+					"name": "Willi Welle", 
+					"image": "img/profil.jpg"
+				},
+				"latestMessage": {
+					"text": "Lorem Ipsum Dolor Sit Amet",
+					"timestamp": "21:00"
+				},
+				"messages": [{
+					// each object is a message!
+					"id": "1",
+					"sender": {
+						"id": "2", // User ID of Sender
+						"image": "img/profil.jpg",
+						"name": "Willi Welle"
+					},
+					"text": "Lorem Ipsum dolor sit amet",
+					"timestamp": ""
+				}] // All Messages of conversation (or the x latest - whatever)
+			},
+			{
+				"id": "1", // TopicID goes here
+				"type":	"peerChat", // Either peerChat or groupChat
+				"partner":	{
+					"id": "1", // User ID of conversation partner
+					"name": "Willi Welle", 
+					"image": "img/profil.jpg"
+				},
+				"latestMessage": {
+					"text": "Lorem Ipsum Dolor Sit Amet",
+					"timestamp": "21:00"
+				},
+				"messages": [{
+					// each object is a message!
+					"id": "1",
+					"sender": {
+						"id": "2", // User ID of Sender
+						"image": "img/profil.jpg",
+						"name": "Willi Welle"
+					},
+					"text": "Lorem Ipsum dolor sit amet",
+					"timestamp": ""
+				}] // All Messages of conversation (or the x latest - whatever)
+			},
+			{
+				"id": "1", // TopicID goes here
+				"type":	"peerChat", // Either peerChat or groupChat
+				"partner":	{
+					"id": "1", // User ID of conversation partner
+					"name": "Willi Welle", 
+					"image": "img/profil.jpg"
+				},
+				"latestMessage": {
+					"text": "Lorem Ipsum Dolor Sit Amet",
+					"timestamp": "21:00"
+				},
+				"messages": [{
+					// each object is a message!
+					"id": "1",
+					"sender": {
+						"id": "2", // User ID of Sender
+						"image": "img/profil.jpg",
+						"name": "Willi Welle"
+					},
+					"text": "Lorem Ipsum dolor sit amet",
+					"timestamp": ""
+				}] // All Messages of conversation (or the x latest - whatever)
+			},
+			{
+				"id": "1", // TopicID goes here
+				"type":	"peerChat", // Either peerChat or groupChat
+				"partner":	{
+					"id": "1", // User ID of conversation partner
+					"name": "Willi Welle", 
+					"image": "img/profil.jpg"
+				},
+				"latestMessage": {
+					"text": "Lorem Ipsum Dolor Sit Amet",
+					"timestamp": "21:00"
+				},
+				"messages": [{
+					// each object is a message!
+					"id": "1",
+					"sender": {
+						"id": "2", // User ID of Sender
+						"image": "img/profil.jpg",
+						"name": "Willi Welle"
+					},
+					"text": "Lorem Ipsum dolor sit amet",
+					"timestamp": ""
+				}] // All Messages of conversation (or the x latest - whatever)
+			},
+			{
+				"id": "1", // TopicID goes here
+				"type":	"peerChat", // Either peerChat or groupChat
+				"partner":	{
+					"id": "1", // User ID of conversation partner
+					"name": "Willi Welle", 
+					"image": "img/profil.jpg"
+				},
+				"latestMessage": {
+					"text": "Lorem Ipsum Dolor Sit Amet",
+					"timestamp": "21:00"
+				},
 				"messages": [{
 					// each object is a message!
 					"id": "1",
