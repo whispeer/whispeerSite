@@ -1,24 +1,44 @@
 <header>
-	<span data-i18n="help.global.title" id="title">Hilfe</span>
+	<span data-i18n="help.headers.title" id="title">Hilfe</span>
 </header>
 <div id="helpWrap">
 	<section id="general">
-		<header>Allgemein</header>
-			<div class="qa" data-ng-repeat="question in [{'question': 'Lorem Ipsum dolor sit amet?', 'answer': 'Lorem ipsum dolor sit amet, dkq	üfgneqaNHPEWG!!'}]">
+		<header data-i18n="help.headers.general"></header>
+		<ol>
+			<li class="qa" data-ng-repeat="question in faq.general">
 				<p class="question">{{question.question}}</p>
 				<p class="answer">{{question.answer}}</p>
-			</div>
+			</li>
+		</ol>	
 	</section>
 	<section id="safety">
-		<header>Datensicherheit</header>
+		<header data-i18n="help.headers.safety"></header>
+		<ol>
+			<li class="qa" data-ng-repeat="question in faq.safety">
+				<p class="question">{{question.question}}</p>
+				<p class="answer">{{question.answer}}</p>
+			</li>
+		</ol>
 	</section>
 	<section id="privacy">
-		<header>Privatsphäre</header>
+		<header data-i18n="help.headers.privacy"></header>
+		<ol>
+			<li class="qa" data-ng-repeat="question in faq.privacy">
+				<p class="question">{{question.question}}</p>
+				<p class="answer">{{question.answer}}</p>
+			</li>
+		</ol>
 	</section>
-	<section id="notifications">
-		<header>Funktionsweise</header>
+	<section id="functionality">
+		<header data-i18n="help.headers.functionality"></header>
+		<ol>
+			<li class="qa" data-ng-repeat="question in faq.functionality">
+				<p class="question">{{question.question}}</p>
+				<p class="answer">{{question.answer}}</p>
+			</li>
+		</ol>
 	</section>
-	<section id="features">
-		<header>Stelle eine neue Frage</header>
+	<section id="newQuestion">
+		<header data-i18n="help.headers.newQuestion"></header>
 	</section>
 </div>

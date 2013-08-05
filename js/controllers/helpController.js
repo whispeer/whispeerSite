@@ -7,6 +7,24 @@ define([], function () {
 
 	function helpController($scope, cssService) {
 		cssService.setClass("helpView");
+		$scope.faq = {
+			"general": [
+				{
+					"question": "Test?",
+					"answer":	"Test!"
+				},
+				{
+					"question": "Test?",
+					"answer":	"Test!"
+				},{
+					"question": "Test?",
+					"answer":	"Test!"
+				}
+			],
+			"safety": [],
+			"privacy": [],
+			"functionality": []
+		};
 	}
 
 	helpController.$inject = ["$scope", "ssn.cssService"];

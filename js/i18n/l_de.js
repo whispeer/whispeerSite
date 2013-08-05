@@ -12,8 +12,15 @@
 	"login": {
 		"username": "Benutzername",
 		"password": "Passwort",
-		"login": "Einloggen",
-		"loginFailed": "Benutzername und Password stimmen nicht &uuml;berein!"
+		"link": "Einloggen",
+		"loginFailed": "Benutzername und Password stimmen nicht überein!",
+		"register": {
+			"link":	"Registrieren",
+			"repeatPassword":	"Password wiederholen",
+			"passwordstrength":	"Passwortstärke:",
+			"email":	"E-Mail Adresse",
+			"repeatEmail":	"E-Mail Adresse wiederholen"
+		}
 	},
 	"wall": {
 		"postit": {
@@ -66,5 +73,15 @@
 	"friends": {
 		"mutualFriends":	"{count} gemeinsame Freunde",
 		"title":			"Freundesliste"
+	},
+	"help": {
+		"headers": {
+			"title":	"Hilfe",
+			"general":	"Allgemein",
+			"safety":	"Sicherheit",
+			"privacy":	"Privatsphöre",
+			"functionality":	"Funktionsweise",
+			"newQuestion":	"Stelle eine neue Frage"
+		}
 	}
 }

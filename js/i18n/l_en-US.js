@@ -1,8 +1,8 @@
 {
 	"menu": {
-		"profil": "Profile",
-		"friends": "Friends",
-		"messages": "Messages",
+		"profil": "Profil",
+		"friends": "Freunde",
+		"messages": "Nachrichten",
 		"media": "Medien",
 		"groups": "Gruppen",
 		"settings": "Einstellungen",
@@ -10,27 +10,78 @@
 		"logout": "Logout"
 	},
 	"login": {
-		"username": "Username",
-		"password": "Password",
-		"login": "Login",
-		"loginFailed": "Username and Password do not match!"
+		"username": "Benutzername",
+		"password": "Passwort",
+		"link": "Einloggen",
+		"loginFailed": "Benutzername und Password stimmen nicht überein!",
+		"register": {
+			"link":	"Registrieren",
+			"repeatPassword":	"Password wiederholen",
+			"passwordstrength":	"Passwortstärke:",
+			"email":	"E-Mail Adresse",
+			"repeatEmail":	"E-Mail Adresse wiederholen"
+		}
 	},
-	"main": {
-		"post": {
-			"receiver": "Who may read this post?",
-			"text": "What do you want to tell them?",
-			"send": "Post"
+	"wall": {
+		"postit": {
+			"receiver": "Wer soll dienen Beitrag lesen können?",
+			"text": "Was möchtest du den Leuten mitteilen?",
+			"send": "Senden"
 		},
 		"filter": {
 			"title": "Filter",
-			"placeholder": "Whose posts do you want to see?"
+			"placeholder": "Wessen Posts möchtest du im News-Feed sehen?"
+		},
+		"info": {
+			"with": "Mit {name}",
+			"awesome":	"Awesomeness: {count}",
+			"comments":	{
+				"count":	"{count} Kommentare",
+				"showem":	"Kommentare anzeigen"
+			}	
+		},
+		"post": {
+			"sender": {
+				"name":	"{{sender}}:"
+			},
+			"content": "{{content}}"
+			
 		}
 	},
 	"messages": {
-		"newMessage": "New Message",
+		"newMessage": "Neue Nachricht",
 		"sendMessage": {
-			"text": "Enter your message here!",
-			"send": "Send"
+			"text": "Gebe deine Nachricht ein!",
+			"send": "Senden"
+		}
+	},
+	"profile": {
+		"section":	{
+			"general": {
+				"birthday":	"Geboren am {date}",
+				"location":	"Wohnt in {town}, {state}, {country}",
+				"relation":	"in einer Beziehung mit {partner}",
+				"education":	"schulische Ausbildung:",
+				"job":	"arbeitet als {job} bei {company}",
+				"gender":	{
+					"male":	"männlich",
+					"female":	"weiblich"
+				}
+			}
+		}
+	},
+	"friends": {
+		"mutualFriends":	"{count} gemeinsame Freunde",
+		"title":			"Freundesliste"
+	},
+	"help": {
+		"headers": {
+			"title":	"Hilfe",
+			"general":	"Allgemein",
+			"safety":	"Sicherheit",
+			"privacy":	"Privatsphöre",
+			"functionality":	"Funktionsweise",
+			"newQuestion":	"Stelle eine neue Frage"
 		}
 	}
 }
