@@ -2,11 +2,11 @@
 * mainController
 **/
 
-define(['step'], function (step) {
-	'use strict';
+define([], function () {
+	"use strict";
 
-	function mainController($scope) {
-		$scope.$parent.cssClass = "mainView";
+	function mainController($scope, cssService) {
+		cssService.setClass("mainView");
 		$scope.posts = [
 			{
 				"sender":	{
@@ -62,7 +62,7 @@ define(['step'], function (step) {
 		];
 	}
 
-	mainController.$inject = ['$scope'];
+	mainController.$inject = ["$scope", "ssn.cssService"];
 
 	return mainController;
 });

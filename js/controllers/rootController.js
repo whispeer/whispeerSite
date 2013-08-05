@@ -5,31 +5,37 @@
 define(["step", "helper"], function (step, h) {
 	"use strict";
 
-	function rootController($scope, sessionService, sessionHelper, userService) {
+	function rootController($scope, sessionService, sessionHelper, userService, cssService) {
 		$scope.loggedin = false;
 		$scope.username = "";
 
 		$scope.$on("ssn.login", function () {
 			$scope.loggedin = sessionService.isLoggedin();
+
 			step(function () {
 				if ($scope.loggedin) {
 					userService.getown(this);
 				}
 			}, h.sF(function (user) {
+				$scope.userid = user.getID();
 				user.getName(this);
 			}), h.sF(function (name) {
 				$scope.username = name;
 			}));
 		});
 
-		$scope.cssClass = "registerView";
+		cssService.addListener(function (newClass) {
+			$scope.cssClass = newClass;
+		});
+
+		$scope.cssClass = cssService.getClass();
 
 		$scope.logout = function () {
 			sessionHelper.logout();
 		};
 	}
 
-	rootController.$inject = ["$scope", "ssn.sessionService", "ssn.sessionHelper", "ssn.userService"];
+	rootController.$inject = ["$scope", "ssn.sessionService", "ssn.sessionHelper", "ssn.userService", "ssn.cssService"];
 
 	return rootController;
 });

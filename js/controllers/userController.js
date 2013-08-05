@@ -2,12 +2,29 @@
 * userController
 **/
 
-define(['step'], function (step) {
-	'use strict';
+define(["step", "helper"], function (step, h) {
+	"use strict";
 
-	function userController($scope) {
-		$scope.$parent.cssClass = "profileView";
-		$scope.user	= {
+	function userController($scope, $routeParams, cssService, userService) {
+		var identifier = $routeParams.identifier;
+		$scope.loading = true;
+
+		cssService.setClass("profileView");
+
+		$scope.user = {
+			data: {}
+		};
+
+		step(function () {
+			userService.get(identifier, this);
+		}, h.sF(function (user) {
+			user.getName(this);
+		}), h.sF(function (name) {
+			$scope.user.name = name;
+			$scope.loading = false;
+		}));
+
+		/*$scope.user	= {
 			"name":	"Willi Welle",
 			"data": {
 				"birthday":	"09.08.13",
@@ -15,13 +32,13 @@ define(['step'], function (step) {
 				"state":	"NRW",
 				"country":	"Germany",
 				"partner":	"Gisela Welle",
-				"education":	['Wellenschule', 'Wellen-Grundschule'],
+				"education":	["Wellenschule", "Wellen-Grundschule"],
 				"job":	"Surf-Lehrer",
 				"company":	"Surfschool",
 				"gender":	"f",
-				"languages": ['Deutsch','Englisch']	
+				"languages": ["Deutsch","Englisch"]
 			}
-		};
+		};*/
 		$scope.posts = [
 			{
 				"sender":	{
@@ -91,7 +108,7 @@ define(['step'], function (step) {
 		];
 	}
 
-	userController.$inject = ['$scope'];
+	userController.$inject = ["$scope", "$routeParams", "ssn.cssService", "ssn.userService"];
 
 	return userController;
 });

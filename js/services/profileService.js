@@ -61,7 +61,7 @@ define(["crypto/keyStore", "step", "helper"], function (keyStore, step, h) {
 
 		//where should the key go? should it be next to the data?
 		var profileService = function (data) {
-			var dataEncrypted, dataDecrypted, decrypted, signature;
+			var dataEncrypted, dataDecrypted, decrypted, signature, id;
 			var theProfile = this;
 
 			if (data.iv) {
@@ -74,6 +74,16 @@ define(["crypto/keyStore", "step", "helper"], function (keyStore, step, h) {
 				decrypted = true;
 
 				checkValid(data, true);
+			}
+
+			if (data.signature) {
+				signature = data.signature;
+				delete data.signature;
+			}
+
+			if (data.profileid) {
+				id = data.profileid;
+				delete data.profileid;
 			}
 
 			this.sign = function signprofileF(key, callback) {

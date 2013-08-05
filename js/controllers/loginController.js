@@ -2,11 +2,11 @@
 * loginController
 **/
 
-define(['step'], function (step) {
-	'use strict';
+define(["step"], function (step) {
+	"use strict";
 
-	function loginController($scope, sessionHelper, sessionService) {
-		$scope.$parent.cssClass = "registerView";
+	function loginController($scope, sessionHelper, sessionService, cssService) {
+		cssService.setClass("registerView");
 
 		$scope.password = "";
 		$scope.password2 = "";
@@ -27,8 +27,8 @@ define(['step'], function (step) {
 
 		$scope.safeApply = function (fn) {
 			var phase = this.$root.$$phase;
-			if (phase === '$apply' || phase === '$digest') {
-				if (fn && (typeof fn === 'function')) {
+			if (phase === "$apply" || phase === "$digest") {
+				if (fn && (typeof fn === "function")) {
 					fn();
 				}
 			} else {
@@ -75,10 +75,10 @@ define(['step'], function (step) {
 
 		$scope.acceptIcon = function acceptIconC(value1, value2) {
 			if (value1 === value2) {
-				return 'img/accept.png';
+				return "img/accept.png";
 			}
 
-			return 'img/fail.png';
+			return "img/fail.png";
 		};
 
 		$scope.startKeyGeneration = function startKeyGen1() {
@@ -114,18 +114,18 @@ define(['step'], function (step) {
 
 		$scope.acceptIconMailFree = function acceptIconMail() {
 			if ($scope.mailCheckLoading) {
-				return 'img/loading.gif';
+				return "img/loading.gif";
 			}
 
 			if ($scope.mailCheckError === true) {
-				return 'img/error.png';
+				return "img/error.png";
 			}
 
 			if ($scope.mailCheck) {
-				return 'img/accept.png';
+				return "img/accept.png";
 			}
 
-			return 'img/fail.png';
+			return "img/fail.png";
 		};
 
 		$scope.nicknameChange = function nicknameChange() {
@@ -157,18 +157,18 @@ define(['step'], function (step) {
 
 		$scope.acceptIconNicknameFree = function acceptIconNickname() {
 			if ($scope.nicknameCheckLoading) {
-				return 'img/loading.gif';
+				return "img/loading.gif";
 			}
 
 			if ($scope.nicknameCheckError === true) {
-				return 'img/error.png';
+				return "img/error.png";
 			}
 
 			if ($scope.nicknameCheck) {
-				return 'img/accept.png';
+				return "img/accept.png";
 			}
 
-			return 'img/fail.png';
+			return "img/fail.png";
 		};
 
 		function loginFailed() {
@@ -227,7 +227,7 @@ define(['step'], function (step) {
 		};
 	}
 
-	loginController.$inject = ['$scope', 'ssn.sessionHelper', 'ssn.sessionService'];
+	loginController.$inject = ["$scope", "ssn.sessionHelper", "ssn.sessionService", "ssn.cssService"];
 
 	return loginController;
 });
