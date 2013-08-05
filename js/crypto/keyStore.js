@@ -131,7 +131,6 @@ define(["step", "helper", "crypto/helper", "libs/sjcl", "crypto/sjclWorkerInclud
 				}), callback);
 			} else if (decryptortype === "pw") {
 				step(function () {
-					debugger;
 					var jsonData = chelper.Object2sjclPacket({
 						ct: ctext,
 						iv: iv,
@@ -540,9 +539,9 @@ define(["step", "helper", "crypto/helper", "libs/sjcl", "crypto/sjclWorkerInclud
 
 				var result;
 				if (iv) {
-					result = sjcl.encrypt(intKey.getSecret(), text, {"iv": iv});
+					result = sjcl.encrypt(chelper.hex2bits(intKey.getSecret()), text, {"iv": iv});
 				} else {
-					result = sjcl.encrypt(intKey.getSecret(), text);
+					result = sjcl.encrypt(chelper.hex2bits(intKey.getSecret()), text);
 				}
 
 				this.ne(chelper.sjclPacket2Object(result));
@@ -575,7 +574,7 @@ define(["step", "helper", "crypto/helper", "libs/sjcl", "crypto/sjclWorkerInclud
 					ctext.iv = iv;
 				}
 
-				result = sjcl.decrypt(intKey.getSecret(), sjcl.json.encode(ctext));
+				result = sjcl.decrypt(chelper.hex2bits(intKey.getSecret()), sjcl.json.encode(ctext));
 
 				this.ne(result);
 			}), callback);
@@ -603,7 +602,7 @@ define(["step", "helper", "crypto/helper", "libs/sjcl", "crypto/sjclWorkerInclud
 			socket.emit("getKeyChain", {
 				loaded: loadedKeys(),
 				realid: realKeyID
-			});
+			}, this);
 		}, h.sF(function keyChain(data) {
 			var keys = data.keychain, i;
 			for (i = 0; i < keys.length; i += 1) {
@@ -1059,10 +1058,10 @@ define(["step", "helper", "crypto/helper", "libs/sjcl", "crypto/sjclWorkerInclud
 			var i;
 			for (i = 0; i < keys.length; i += 1) {
 				if (keys[i] !== "iv" && keys[i] !== "key") {
-					if (results[i].substr(0, 6) === "data::") {
-						result[keys[i]] = results[i].substr(6);
-					} else if (typeof results[i] === "object") {
+					if (typeof results[i] === "object") {
 						result[keys[i]] = results[i];
+					} else if (results[i].substr(0, 6) === "data::") {
+						result[keys[i]] = results[i].substr(6);
 					} else if (results[i] !== "") {
 						throw "unexpected data!";
 					}

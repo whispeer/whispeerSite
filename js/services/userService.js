@@ -1,13 +1,7 @@
-/* jshint undef: true, unused: true */
-
-
-/**
-* SessionService
-**/
 define(["step", "helper"], function (step, h) {
 	"use strict";
 
-	var service = function ($rootScope, socketService, keyStoreService) {
+	var service = function ($rootScope, socketService, keyStoreService, ProfileService) {
 		var users = {};
 		var User = function (data) {
 			var theUser = this, mainKey, signKey, cryptKey;
@@ -22,6 +16,13 @@ define(["step", "helper"], function (step, h) {
 
 			if (data.cryptKey) {
 				cryptKey = keyStoreService.upload.addKey(data.cryptKey);
+			}
+
+			if (data.profile && data.profile.priv && data.profile.priv instanceof Array) {
+				var priv = data.profile.priv, i;
+				for (i = 0; i < priv.length; i += 1) {
+					priv[i] = new ProfileService(priv[i]);
+				}
 			}
 
 			this.getID = function () {
@@ -47,7 +48,6 @@ define(["step", "helper"], function (step, h) {
 			this.getName = function (cb) {
 				var firstname, lastname, nickname;
 				step(function () {
-					debugger;
 					var pub = theUser.getProfile().basic;
 
 					firstname = pub.firstname;
@@ -55,14 +55,33 @@ define(["step", "helper"], function (step, h) {
 
 					nickname = theUser.getNickname();
 
-					this.last.ne(firstname + " " + lastname);
-
 					var priv = theUser.getPrivateProfiles(), i;
-					for (i = 0; i < priv.length; i += 1) {
-						console.log(priv[i]);
-					}
-				}, h.sF(function () {
 
+					for (i = 0; i < priv.length; i += 1) {
+						priv[i].decrypt(this.parallel());
+					}
+				}, h.sF(function (results) {
+					var b;
+					for (i = 0; i < results.length; i += 1) {
+						b = results[i].basic;
+						if (b.lastname) {
+							lastname = b.lastname;
+						}
+
+						if (b.firstname) {
+							firstname = b.firstname;
+						}
+					}
+
+					if (firstname && lastname) {
+						this.ne(firstname + " " + lastname);
+					} else if (firstname || lastname) {
+						this.ne(firstname || lastname);
+					} else if (nickname) {
+						this.ne(nickname);
+					} else {
+						this.ne("");
+					}
 				}), cb);
 			};
 		};
@@ -129,7 +148,7 @@ define(["step", "helper"], function (step, h) {
 		return api;
 	};
 
-	service.$inject = ["$rootScope", "ssn.socketService", "ssn.keyStoreService"];
+	service.$inject = ["$rootScope", "ssn.socketService", "ssn.keyStoreService", "ssn.profileService"];
 
 	return service;
 });
