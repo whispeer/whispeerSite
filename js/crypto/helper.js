@@ -57,6 +57,18 @@ define(["libs/sjcl", "helper"], function (sjcl, h) {
 			return result;
 		},
 		Object2sjclPacket: function (data) {
+			if (typeof data.salt === "string") {
+				data.salt = helper.hex2bits(data.salt);
+			}
+
+			if (typeof data.iv === "string") {
+				data.iv = helper.hex2bits(data.iv);
+			}
+
+			if (typeof data.ct === "string") {
+				data.ct = helper.hex2bits(data.ct);
+			}
+
 			return sjcl.json.encode(data);
 		}
 	};

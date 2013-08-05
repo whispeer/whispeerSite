@@ -1,7 +1,3 @@
-/* jshint undef: true, unused: true */
-/* global localStorage */
-
-
 /**
 * StorageService
 **/

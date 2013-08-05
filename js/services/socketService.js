@@ -4,7 +4,7 @@
 define(["socket", "step", "helper"], function (io, step, h) {
 	"use strict";
 
-	var socket = io.connect("http://localhost:3000");
+	var socket = io.connect("http://127.0.0.1:3000");
 
 	var service = function ($rootScope, sessionService) {
 		function updateLogin(data) {
@@ -30,13 +30,17 @@ define(["socket", "step", "helper"], function (io, step, h) {
 				}), callback);
 			},
 			emit: function (channel, data, callback) {
+				var time;
 				step(function doEmit() {
 					data.sid = sessionService.getSID();
 
-					console.log("Sending: " + data);
+					console.log(data);
+					time = new Date().getTime();
 
 					socket.emit(channel, data, this.ne);
 				}, h.sF(function emitResults(data) {
+					console.log("request took: " + (new Date().getTime() - time));
+					console.log(data);
 					var that = this;
 					$rootScope.$apply(function () {
 						updateLogin(data);

@@ -41,6 +41,7 @@ define(["step", "helper"], function (step, h) {
 						sessionHelper.resetKey();
 						
 						sessionService.setSID(data.sid);
+						keyStoreService.addPassword(password);
 
 						this.last.ne();
 					}
@@ -235,7 +236,7 @@ define(["step", "helper"], function (step, h) {
 		return sessionHelper;
 	};
 
-	service.$inject = ["ssn.socketService", "ssn.keyStoreService", "ssn.profileService", "ssn.sessionService", "ssn.storageService"];
+	service.$inject = ["ssn.socketService", "ssn.keyStoreService", "ssn.profileService", "ssn.sessionService"];
 
 	return service;
 });
