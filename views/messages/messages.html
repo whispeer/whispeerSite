@@ -11,7 +11,7 @@
 					<img class="userimg" src="{{topic.partner.image}}" alt="Userimage">
 				</div>
 				<div class="username">
-					{{topic.partner.name}}
+					<strong>{{topic.partner.name}}</strong>
 				</div>
 				<div class="lastmessage">
 					{{topic.latestMessage}}
@@ -21,18 +21,18 @@
 		</div>
 	</ul>
 </div>
-<div id="topicWrap topicID{{activeTopic.id}}" class="{{activeTopic.type}}">
+<div id="topicWrap" data-topicID="{{activeTopic.id}}" class="{{activeTopic.type}}">
 	<div id="messageTitle">	
 		<h2>{{activeTopic.partner.name}}</h2>
 	</div>
 	<div id="messageWrap">
 		<ul class="scroll-pane" id="messageList">
-			<li data-ng-repeat="message in activeTopic.messages" id="{{message.id}}" class="message other">
+			<li data-ng-repeat="message in activeTopic.messages" data-messageID="{{message.id}}" class="message" data-ng-class="{me:message.sender.me, other:message.sender.other}">
 				<div id="userid" class="user">
 					<img class="userimg" data-userID="sender{{message.sender.id}}" alt="Username" src="{{message.sender.image}}">
 					<span class="username" data-userID="sender{{message.sender.id}}">{{message.sender.name}}</span>
 				</div>
-				<div id="messageid" class="messageText">{{message.text}}</div>
+				<div class="messageText">{{message.text}}</div>
 			</li>
 		</ul>	
 		<form id="inputWrap">
