@@ -1058,12 +1058,16 @@ define(["step", "helper", "crypto/helper", "libs/sjcl", "crypto/sjclWorkerInclud
 			var i;
 			for (i = 0; i < keys.length; i += 1) {
 				if (keys[i] !== "iv" && keys[i] !== "key") {
-					if (typeof results[i] === "object") {
-						result[keys[i]] = results[i];
-					} else if (results[i].substr(0, 6) === "data::") {
-						result[keys[i]] = results[i].substr(6);
-					} else if (results[i] !== "") {
-						throw "unexpected data!";
+					if (results[i]) {
+						if (typeof results[i] === "object") {
+							result[keys[i]] = results[i];
+						} else if (results[i].substr(0, 6) === "data::") {
+							result[keys[i]] = results[i].substr(6);
+						} else if (results[i] !== "") {
+							throw "unexpected data!";
+						}
+					} else {
+						result[keys[i]] = {};
 					}
 				}
 			}
