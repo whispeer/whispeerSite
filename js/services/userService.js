@@ -57,8 +57,12 @@ define(["step", "helper"], function (step, h) {
 
 					var priv = theUser.getPrivateProfiles(), i;
 
-					for (i = 0; i < priv.length; i += 1) {
-						priv[i].decrypt(this.parallel());
+					if (priv) {
+						for (i = 0; i < priv.length; i += 1) {
+							priv[i].decrypt(this.parallel());
+						}
+					} else {
+						this.ne([]);
 					}
 				}, h.sF(function (results) {
 					var b;

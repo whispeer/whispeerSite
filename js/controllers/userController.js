@@ -2,12 +2,29 @@
 * userController
 **/
 
-define([], function () {
+define(["step", "helper"], function (step, h) {
 	"use strict";
 
-	function userController($scope, cssService) {
+	function userController($scope, $routeParams, cssService, userService) {
+		var identifier = $routeParams.identifier;
+		$scope.loading = true;
+
 		cssService.setClass("profileView");
-		$scope.user	= {
+
+		$scope.user = {
+			data: {}
+		};
+
+		step(function () {
+			userService.get(identifier, this);
+		}, h.sF(function (user) {
+			user.getName(this);
+		}), h.sF(function (name) {
+			$scope.user.name = name;
+			$scope.loading = false;
+		}));
+
+		/*$scope.user	= {
 			"name":	"Willi Welle",
 			"data": {
 				"birthday":	"09.08.13",
@@ -21,7 +38,7 @@ define([], function () {
 				"gender":	"f",
 				"languages": ["Deutsch","Englisch"]
 			}
-		};
+		};*/
 		$scope.posts = [
 			{
 				"sender":	{
@@ -77,7 +94,7 @@ define([], function () {
 		];
 	}
 
-	userController.$inject = ["$scope", "ssn.cssService"];
+	userController.$inject = ["$scope", "$routeParams", "ssn.cssService", "ssn.userService"];
 
 	return userController;
 });

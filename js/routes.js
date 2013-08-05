@@ -1,13 +1,13 @@
-define(['app'], function (app) {
-	'use strict';
+define(["app"], function (app) {
+	"use strict";
 
-	return app.config(['$routeProvider', '$locationProvider', function ($routeProvider, $locationProvider) {
+	return app.config(["$routeProvider", "$locationProvider", function ($routeProvider, $locationProvider) {
 		$locationProvider.html5Mode(false);
 
 		function addMain(name) {
-			$routeProvider.when('/' + name, {
-				templateUrl: 'views/' + name + '/' + name + '.html',
-				controller: 'ssn.' + name + 'Controller'
+			$routeProvider.when("/" + name, {
+				templateUrl: "views/" + name + "/" + name + ".html",
+				controller: "ssn." + name + "Controller"
 			});
 		}
 		
@@ -18,16 +18,16 @@ define(['app'], function (app) {
 		addMain("settings");
 		addMain("help");
 
-		$routeProvider.when('/user/:userid', {
-			templateUrl: 'views/user/user.html',
-			controller: 'ssn.userController'
+		$routeProvider.when("/user/:identifier", {
+			templateUrl: "views/user/user.html",
+			controller: "ssn.userController"
 		});
-		$routeProvider.when('/:identifier', {
+		$routeProvider.when("/:identifier", {
 			redirectTo: function (params) {
-				return '/user/' + params.identifier;
+				return "/user/" + params.identifier;
 			}
 		});
-		$routeProvider.otherwise({redirectTo: '/login'});
+		$routeProvider.otherwise({redirectTo: "/login"});
 	}]);
 
 });
