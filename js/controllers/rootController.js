@@ -11,11 +11,13 @@ define(["step", "helper"], function (step, h) {
 
 		$scope.$on("ssn.login", function () {
 			$scope.loggedin = sessionService.isLoggedin();
+
 			step(function () {
 				if ($scope.loggedin) {
 					userService.getown(this);
 				}
 			}, h.sF(function (user) {
+				$scope.userid = user.getID();
 				user.getName(this);
 			}), h.sF(function (name) {
 				$scope.username = name;
