@@ -29,7 +29,7 @@ define([], function () {
 				var sid = storage.get("sid");
 				setSID(sid);
 
-				$rootScope.$broadcast('ssn.login');
+				$rootScope.$broadcast("ssn.login");
 			}
 		}
 
@@ -62,8 +62,7 @@ define([], function () {
 		});
 
 		function loginChange() {
-			$rootScope.$broadcast('ssn.login');
-
+			$rootScope.$broadcast("ssn.login");
 			updateURL($route.current.controller);
 		}
 
@@ -80,7 +79,7 @@ define([], function () {
 
 			logout: function () {
 				if (loggedin) {
-					$rootScope.$broadcast('ssn.reset');
+					$rootScope.$broadcast("ssn.reset");
 				}
 
 				sid = "";
@@ -97,7 +96,7 @@ define([], function () {
 		return sessionService;
 	};
 
-	service.$inject = ['$rootScope', '$location', '$route', 'ssn.storageService'];
+	service.$inject = ["$rootScope", "$location", "$route", "ssn.storageService"];
 
 	return service;
 });

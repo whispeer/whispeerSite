@@ -29,6 +29,18 @@ define(["step", "helper", "crypto/helper", "libs/sjcl", "crypto/sjclWorkerInclud
 		pw: 3
 	};
 
+	if (localStorage) {
+		var pws = localStorage.getItem("passwords");
+		try {
+			pws = JSON.parse(pws);
+			if (pws instanceof Array) {
+				passwords = pws;
+			}
+		} catch (e) {
+			console.log(e);
+		}
+	}
+
 	function toPrivateKey(type, curve) {
 		return function (secret) {
 			var exponent = new sjcl.bn(secret);
@@ -119,17 +131,20 @@ define(["step", "helper", "crypto/helper", "libs/sjcl", "crypto/sjclWorkerInclud
 				}), callback);
 			} else if (decryptortype === "pw") {
 				step(function () {
-					var jsonData = sjcl.json.encode({
-						ct: chelper.bits2hex(ctext),
-						iv: chelper.bits2hex(iv),
-						salt: chelper.bits2hex(salt)
+					debugger;
+					var jsonData = chelper.Object2sjclPacket({
+						ct: ctext,
+						iv: iv,
+						salt: salt
 					}), i, result;
 					for (i = 0; i < passwords.length; i += 1) {
 						try {
 							result = sjcl.decrypt(passwords[i], jsonData);
 							this.ne(result);
-							break;
-						} catch (e) {}
+							return;
+						} catch (e) {
+							debugger;
+						}
 					}
 
 					throw "no pw";
@@ -209,18 +224,21 @@ define(["step", "helper", "crypto/helper", "libs/sjcl", "crypto/sjclWorkerInclud
 
 				usedDecryptor = theKey.getFastestDecryptor();
 
-				if (!usedDecryptor) {
+				if (!usedDecryptor || !usedDecryptor.decryptor) {
 					this.last.ne(false);
 					return;
 				}
 
-				internalDecrypt(usedDecryptor.decryptorid, usedDecryptor.decryptortype, usedDecryptor.ct, this, usedDecryptor.iv, usedDecryptor.salt);
+				var d = usedDecryptor.decryptor;
+
+				internalDecrypt(d.decryptorid, d.type, d.ct, this, d.iv, d.salt);
 			}, function (err, result) {
 				if (err || result === false) {
 					var i;
 					for (i = 0; i < decryptors.length; i += 1) {
-						if (decryptors[i] === usedDecryptor) {
+						if (decryptors[i] === usedDecryptor.decryptor) {
 							decryptors.splice(i, 1);
+							break;
 						}
 					}
 
@@ -351,7 +369,7 @@ define(["step", "helper", "crypto/helper", "libs/sjcl", "crypto/sjclWorkerInclud
 				cryptor = theKey;
 				theKey.decryptKey(this);
 			}), h.sF(function addSymD3() {
-				cryptor.encrypt("key::" + internalSecret, this);
+				cryptor.encrypt("key::" + chelper.bits2hex(internalSecret), this);
 			}), h.sF(function addSymD4(data) {
 				var decryptorData = {
 					decryptorid: realid,
@@ -375,7 +393,7 @@ define(["step", "helper", "crypto/helper", "libs/sjcl", "crypto/sjclWorkerInclud
 		*/
 		function addPWDecryptorF(pw, callback) {
 			step(function () {
-				encryptPW(pw, internalSecret, this);
+				encryptPW(pw, "key::" + chelper.bits2hex(internalSecret), this);
 			}, h.sF(function (data) {
 				var decryptorData = {
 					//Think, shortHash here? id: ?,
@@ -517,9 +535,8 @@ define(["step", "helper", "crypto/helper", "libs/sjcl", "crypto/sjclWorkerInclud
 		*/
 		function encryptF(text, callback, iv) {
 			step(function symEncryptI1() {
-				if (!intKey.decrypted()) {
-					throw "not yet decrypted";
-				}
+				intKey.decryptKey(this);
+			}, h.sF(function symEncryptI2() {
 
 				var result;
 				if (iv) {
@@ -529,7 +546,7 @@ define(["step", "helper", "crypto/helper", "libs/sjcl", "crypto/sjclWorkerInclud
 				}
 
 				this.ne(chelper.sjclPacket2Object(result));
-			}, callback);
+			}), callback);
 		}
 
 		/** decrypt some text.
@@ -538,11 +555,9 @@ define(["step", "helper", "crypto/helper", "libs/sjcl", "crypto/sjclWorkerInclud
 		* @param optional iv initialization vector
 		*/
 		function decryptF(ctext, callback, iv) {
-			step(function () {
-				if (!intKey.decrypted()) {
-					throw "not yet decrypted";
-				}
-
+			step(function symDecryptI1() {
+				intKey.decryptKey(this);
+			}, h.sF(function symDecryptI2() {
 				var result;
 
 				if (typeof ctext !== "object") {
@@ -563,7 +578,7 @@ define(["step", "helper", "crypto/helper", "libs/sjcl", "crypto/sjclWorkerInclud
 				result = sjcl.decrypt(intKey.getSecret(), sjcl.json.encode(ctext));
 
 				this.ne(result);
-			}, callback);
+			}), callback);
 		}
 
 		this.encrypt = encryptF;
@@ -670,6 +685,8 @@ define(["step", "helper", "crypto/helper", "libs/sjcl", "crypto/sjclWorkerInclud
 			intKey = new Key(this, realid, keyData.decryptors, {
 				pastProcessor: toPrivateKey(sjcl.ecc.elGamal, curve)
 			});
+		} else {
+			intKey = new Key(this, realid, []);
 		}
 
 		this.getRealID = intKey.getRealID;
@@ -819,10 +836,6 @@ define(["step", "helper", "crypto/helper", "libs/sjcl", "crypto/sjclWorkerInclud
 			throw "invalid data";
 		}
 
-		if (!keyData.decryptors && !keyData.exponent) {
-			throw "invalid data";
-		}
-
 		curve = chelper.getCurve(keyData.curve);
 
 		x =	curve.field.fromBits(chelper.hex2bits(keyData.point.x));
@@ -846,7 +859,11 @@ define(["step", "helper", "crypto/helper", "libs/sjcl", "crypto/sjclWorkerInclud
 			intKey = new Key(this, realid, keyData.decryptors, {
 				pastProcessor: toPrivateKey(sjcl.ecc.ecdsa, curve)
 			});
+		} else {
+			intKey = new Key(this, realid, []);
 		}
+
+		this.getRealID = intKey.getRealID;
 
 		//add private key functions
 		if (isPrivateKey) {
@@ -968,11 +985,11 @@ define(["step", "helper", "crypto/helper", "libs/sjcl", "crypto/sjclWorkerInclud
 
 	/** make a key out of keyData. mainly checks type and calls appropriate function */
 	makeKey = function makeKeyF(key) {
-		if (key.type === "symKey") {
+		if (key.type === "sym") {
 			makeSymKey(key);
-		} else if (key.type === "cryptKey") {
+		} else if (key.type === "crypt") {
 			makeCryptKey(key);
-		} else if (key.type === "signKey") {
+		} else if (key.type === "sign") {
 			makeSignKey(key);
 		} else {
 			throw "unknown key type";
@@ -1124,6 +1141,14 @@ define(["step", "helper", "crypto/helper", "libs/sjcl", "crypto/sjclWorkerInclud
 			return correctKeyIdentifier(realid);
 		},
 
+		addPassword: function (pw) {
+			passwords.push(pw);
+
+			if (localStorage) {
+				localStorage.setItem("passwords", JSON.stringify(passwords));
+			}
+		},
+
 		hash: {
 			hash: function (text) {
 				return chelper.bits2hex(sjcl.hash.sha256.hash(text));
@@ -1135,6 +1160,13 @@ define(["step", "helper", "crypto/helper", "libs/sjcl", "crypto/sjclWorkerInclud
 		},
 
 		upload: {
+			addKey: function (keyData) {
+				if (h.isRealID(keyData.realid)) {
+					makeKey(keyData);
+				}
+
+				return keyData.realid;
+			},
 			setSocket: function (theSocket) {
 				socket = theSocket;
 			},
@@ -1497,7 +1529,6 @@ define(["step", "helper", "crypto/helper", "libs/sjcl", "crypto/sjclWorkerInclud
 			}
 		}
 	};
-
 
 	return keyStore;
 });

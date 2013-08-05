@@ -7,57 +7,129 @@
 define(["step", "helper"], function (step, h) {
 	"use strict";
 
-	var service = function (socketService) {
-		var User = function (identifier) {
-			var data;
-			function loadData(cb) {
-				step(function () {
-					if (data) {
-						this.last.ne();
-					} else {
-						socketService.emit("user.get", {identifier: identifier}, this);
-					}
-				}, h.sF(function (userData) {
-					data = userData;
+	var service = function ($rootScope, socketService, keyStoreService) {
+		var users = {};
+		var User = function (data) {
+			var theUser = this, mainKey, signKey, cryptKey;
 
-					//TODO
-					/*socketService.listen("user", {identifier: identifier}, function () {
-
-					});*/
-
-					this.last.ne();
-				}), cb);
+			if (data.mainKey) {
+				mainKey = keyStoreService.upload.addKey(data.mainKey);
 			}
 
-			this.getNickname = function (cb) {
-				step(function () {
-					loadData(this);
-				}, h.sF(function () {
-					this.ne(data.nickname);
-				}), cb);
+			if (data.signKey) {
+				signKey = keyStoreService.upload.addKey(data.signKey);
+			}
+
+			if (data.cryptKey) {
+				cryptKey = keyStoreService.upload.addKey(data.cryptKey);
+			}
+
+			this.getID = function () {
+				return data.id;
 			};
 
-			this.getMail = function (cb) {
-				step(function () {
-					loadData(this);
-				}, h.sF(function () {
-					this.ne(data.mail);
-				}), cb);
+			this.getNickname = function () {
+				return data.nickname;
 			};
 
-			this.getProfile = function (cb) {
+			this.getMail = function () {
+				return data.mail;
+			};
+
+			this.getProfile = function () {
+				return data.profile.pub;
+			};
+
+			this.getPrivateProfiles = function () {
+				return data.profile.priv;
+			};
+
+			this.getName = function (cb) {
+				var firstname, lastname, nickname;
 				step(function () {
-					loadData(this);
+					debugger;
+					var pub = theUser.getProfile().basic;
+
+					firstname = pub.firstname;
+					lastname = pub.lastname;
+
+					nickname = theUser.getNickname();
+
+					this.last.ne(firstname + " " + lastname);
+
+					var priv = theUser.getPrivateProfiles(), i;
+					for (i = 0; i < priv.length; i += 1) {
+						console.log(priv[i]);
+					}
 				}, h.sF(function () {
-					this.ne(data.profile.pub);
+
 				}), cb);
 			};
 		};
 
-		return User;
+		function makeUser(data) {
+			var theUser = new User(data);
+
+			var id = theUser.getID();
+			var mail = theUser.getMail();
+			var nickname = theUser.getNickname();
+
+			users[id] = theUser;
+
+			if (mail) {
+				users[mail] = theUser;
+			}
+
+			if (nickname) {
+				users[nickname] = theUser;
+			}
+
+			return theUser;
+		}
+
+		var api = {
+			reset: function resetF() {
+				users = {};
+			},
+
+			get: function getF(identifier, cb) {
+				step(function () {
+					if (users[identifier]) {
+						this.last.ne(users[identifier]);
+					} else {
+						socketService.emit("user.get", {identifier: identifier}, this);
+					}
+				}, h.sF(function (data) {
+					if (data.error === true) {
+						//TODO
+						throw "error";
+					}
+
+					this.ne(makeUser(data));
+				}), cb);
+			},
+
+			getown: function getownF(cb) {
+				step(function () {
+					socketService.emit("user.own", {}, this);
+				}, h.sF(function (data) {
+					if (users[data.id]) {
+						this.ne(users[data.id]);
+					} else {
+						this.ne(makeUser(data));
+					}
+				}), cb);
+			}
+		};
+
+		$rootScope.$on("ssn.reset", function () {
+			api.reset();
+		});
+
+		return api;
 	};
 
-	service.$inject = ["ssn.socketService"];
+	service.$inject = ["$rootScope", "ssn.socketService", "ssn.keyStoreService"];
 
 	return service;
 });
