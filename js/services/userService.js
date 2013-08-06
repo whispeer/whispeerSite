@@ -68,12 +68,14 @@ define(["step", "helper"], function (step, h) {
 					var b;
 					for (i = 0; i < results.length; i += 1) {
 						b = results[i].basic;
-						if (b.lastname) {
-							lastname = b.lastname;
-						}
+						if (b) {
+							if (b.lastname) {
+								lastname = b.lastname;
+							}
 
-						if (b.firstname) {
-							firstname = b.firstname;
+							if (b.firstname) {
+								firstname = b.firstname;
+							}
 						}
 					}
 

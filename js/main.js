@@ -1,5 +1,7 @@
 var WEB_SOCKET_SWF_LOCATION = "libs/WebSocketMain.swf"
 
+var startup = new Date().getTime();
+
 require.config({
 	paths: {
 		jquery: 'libs/jquery-1.9.1',

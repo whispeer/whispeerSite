@@ -11,6 +11,33 @@ var helper = {
 		}
 	},
 
+	validateObjects: function validateObjectsF(reference, data, noValueCheck) {
+		var key;
+		for (key in data) {
+			if (data.hasOwnProperty(key)) {
+				if (!reference[key]) {
+					return false;
+				}
+
+				if (!noValueCheck) {
+					if (typeof reference[key] === "object") {
+						if (!helper.validateObjects(reference[key], data[key])) {
+							return false;
+						}
+					} else if (typeof reference[key] === "function") {
+						if (!reference[key](data[key])) {
+							return false;
+						}
+					} else if (reference[key] !== true) {
+						return false;
+					}
+				}
+			}
+		}
+
+		return true;
+	},
+
 	/** decode entities
 	* @param str string to decode
 	* @author Nilos
@@ -21,21 +48,21 @@ var helper = {
 		var decodeHTMLEntities;
 		if (typeof document !== "undefined") {
 			// this prevents any overhead from creating the object each time
-			var element = document.createElement('div');
+			var element = document.createElement("div");
 
 			decodeHTMLEntities = function (str) {
-				if (str && typeof str === 'string') {
+				if (str && typeof str === "string") {
 					// strip script/html tags
-					str = str.replace(/</gmi, '&gt;');
-					str = str.replace(/>/gmi, '&lt;');
+					str = str.replace(/</gmi, "&gt;");
+					str = str.replace(/>/gmi, "&lt;");
 					element.innerHTML = str;
 
 					if (typeof element.textContent === "undefined") {
 						str = element.innerText;
-						element.innerText = '';
+						element.innerText = "";
 					} else {
 						str = element.textContent;
-						element.textContent = '';
+						element.textContent = "";
 					}
 				}
 
@@ -213,16 +240,16 @@ var helper = {
 };
 
 // Hook into commonJS module systems
-if (typeof module !== 'undefined' && module.hasOwnProperty("exports")) {
+if (typeof module !== "undefined" && module.hasOwnProperty("exports")) {
 	module.exports = helper;
 }
 
 if (typeof require === "function") {
-	step = require("step");	
+	step = require("step");
 }
 
-if (typeof define !== 'undefined') {
-	define(['step'], function (s) {
+if (typeof define !== "undefined") {
+	define(["step"], function (s) {
 		step = s;
 
 		return helper;

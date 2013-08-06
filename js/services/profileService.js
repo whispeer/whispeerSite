@@ -6,6 +6,10 @@ define(["crypto/keyStore", "step", "helper"], function (keyStore, step, h) {
 
 	var service = function () {
 		var validAttributes = {
+			iv: true,
+			key: true,
+			profileid: true,
+			signature: true,
 			basic: {
 				iv: false,
 				firstname: true,
@@ -21,41 +25,8 @@ define(["crypto/keyStore", "step", "helper"], function (keyStore, step, h) {
 		};
 
 		function checkValid(data, checkValues) {
-			var topic, attribute;
-			for (topic in data) {
-				if (data.hasOwnProperty(topic)) {
-					if (!validAttributes[topic]) {
-						throw "invalid profile data - invalid topic: " + topic;
-					}
-
-					for (attribute in data[topic]) {
-						if (data[topic].hasOwnProperty(attribute)) {
-							var cur = validAttributes[topic][attribute];
-							if (checkValues) {
-								if (typeof cur === "function") {
-									if (cur(data[topic][attribute]) === true) {
-										return true;
-									}
-								} else if (typeof cur === "boolean") {
-									if (cur === true) {
-										return true;
-									}
-								} else if (typeof cur === "object" && cur instanceof RegExp) {
-									if (cur.match(data[topic][attribute])) {
-										return true;
-									}
-								}
-							} else {
-								if (cur) {
-									return true;
-								}
-							}
-
-							console.log("invalid profile data - invalid attribute: " + attribute);
-							data[topic][attribute] = false;
-						}
-					}
-				}
+			if (!h.validateObjects(validAttributes, data, checkValues)) {
+				throw "not a valid profile";
 			}
 		}
 
