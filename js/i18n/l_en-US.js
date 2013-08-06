@@ -1,43 +1,43 @@
 {
 	"menu": {
-		"profil": "Profil",
-		"friends": "Freunde",
-		"messages": "Nachrichten",
-		"media": "Medien",
-		"groups": "Gruppen",
-		"settings": "Einstellungen",
-		"help": "Hilfe",
+		"profil": "Profile",
+		"friends": "Friends",
+		"messages": "Messages",
+		"media": "Media",
+		"groups": "Groups",
+		"settings": "Settings",
+		"help": "Help",
 		"logout": "Logout"
 	},
 	"login": {
-		"username": "Benutzername",
-		"password": "Passwort",
-		"link": "Einloggen",
-		"loginFailed": "Benutzername und Password stimmen nicht überein!",
+		"username": "Username",
+		"password": "Password",
+		"link": "Log In",
+		"loginFailed": "Username and Password don't match!!",
 		"register": {
-			"link":	"Registrieren",
-			"repeatPassword":	"Password wiederholen",
-			"passwordstrength":	"Passwortstärke:",
-			"email":	"E-Mail Adresse",
-			"repeatEmail":	"E-Mail Adresse wiederholen"
+			"link":	"Register",
+			"repeatPassword":	"Repeat Password",
+			"passwordstrength":	"Password-strength:",
+			"email":	"E-mail adress",
+			"repeatEmail":	"Repeat E-mail adress"
 		}
 	},
 	"wall": {
 		"postit": {
-			"receiver": "Wer soll dienen Beitrag lesen können?",
-			"text": "Was möchtest du den Leuten mitteilen?",
-			"send": "Senden"
+			"receiver": "Who is allowed to read this post?",
+			"text": "What do you want to share?",
+			"send": "Post"
 		},
 		"filter": {
 			"title": "Filter",
-			"placeholder": "Wessen Posts möchtest du im News-Feed sehen?"
+			"placeholder": "Whose posts do you want to see in the News-Feed?"
 		},
 		"info": {
-			"with": "Mit {name}",
+			"with": "with {name}",
 			"awesome":	"Awesomeness: {count}",
 			"comments":	{
-				"count":	"{count} Kommentare",
-				"showem":	"Kommentare anzeigen"
+				"count":	"{count} comments",
+				"showem":	"Show comments"
 			}	
 		},
 		"post": {
@@ -49,39 +49,39 @@
 		}
 	},
 	"messages": {
-		"newMessage": "Neue Nachricht",
+		"newMessage": "New message",
 		"sendMessage": {
-			"text": "Gebe deine Nachricht ein!",
-			"send": "Senden"
+			"text": "Type in your message!",
+			"send": "Send"
 		}
 	},
 	"profile": {
 		"section":	{
 			"general": {
-				"birthday":	"Geboren am {date}",
-				"location":	"Wohnt in {town}, {state}, {country}",
-				"relation":	"in einer Beziehung mit {partner}",
-				"education":	"schulische Ausbildung:",
-				"job":	"arbeitet als {job} bei {company}",
+				"birthday":	"Born on {date}",
+				"location":	"Lives in {town}, {state}, {country}",
+				"relation":	"In a relationship with {partner}",
+				"education":	"Education:",
+				"job":	"Is working as {job} at{company}",
 				"gender":	{
-					"male":	"männlich",
-					"female":	"weiblich"
+					"male":	"male",
+					"female":	"female"
 				}
 			}
 		}
 	},
 	"friends": {
-		"mutualFriends":	"{count} gemeinsame Freunde",
-		"title":			"Freundesliste"
+		"mutualFriends":	"{count} mutual friends",
+		"title":			"friends list"
 	},
 	"help": {
 		"headers": {
-			"title":	"Hilfe",
-			"general":	"Allgemein",
-			"safety":	"Sicherheit",
-			"privacy":	"Privatsphöre",
-			"functionality":	"Funktionsweise",
-			"newQuestion":	"Stelle eine neue Frage"
+			"title":	"Help",
+			"general":	"General",
+			"safety":	"Safety",
+			"privacy":	"Privacy",
+			"functionality":	"Functionality",
+			"newQuestion":	"Ask a question"
 		}
 	}
 }

@@ -51,7 +51,7 @@
 	"messages": {
 		"newMessage": "Neue Nachricht",
 		"sendMessage": {
-			"text": "Gebe deine Nachricht ein!",
+			"text": "Gib deine Nachricht ein!",
 			"send": "Senden"
 		}
 	},
@@ -79,9 +79,9 @@
 			"title":	"Hilfe",
 			"general":	"Allgemein",
 			"safety":	"Sicherheit",
-			"privacy":	"Privatsphöre",
+			"privacy":	"Privatsphäre",
 			"functionality":	"Funktionsweise",
-			"newQuestion":	"Stelle eine neue Frage"
+			"newQuestion":	"Stelle eine Frage"
 		}
 	}
 }
