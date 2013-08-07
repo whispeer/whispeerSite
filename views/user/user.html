@@ -12,8 +12,9 @@
 	<div id="scroller">
 		<section id="info">
 			<article id="generalInfo">
-				<header data-i18n="profile.section.general.title">
-					Allgemein
+				<header>
+					<span data-i18n="profile.section.general.title"></span>
+					<a href="" class="edit" data-i18n="profile.edit" data-ng-show="user.data.me"></a>
 				</header>
 				<img src="img/profil.png" alt="USERNAME" class="userimage">
 				<div class="info">
@@ -27,44 +28,50 @@
 				</div>
 			</article>
 			<article>
-				<header data-i18n="profile.section.general.headers.education">
-					Ausbildung
+				<header>
+					<span data-i18n="profile.section.general.headers.education"></span>
+					<a href="" class="edit" data-i18n="profile.edit" data-ng-show="user.data.me"></a>
 				</header>
 				<p></p>
 			</article>
 			<article>
-				<header data-i18n="profile.section.general.headers.locations">
-					Orte
+				<header>
+					<span data-i18n="profile.section.general.headers.location"></span>
+					<a href="" class="edit" data-i18n="profile.edit" data-ng-show="user.data.me"></a>
 				</header>
 				<p></p>
 			</article>
 			<article>
-				<header data-i18n="profile.section.general.headers.famlily">
-					Familie
+				<header>
+					<span data-i18n="profile.section.general.headers.family"></span>
+					<a href="" class="edit" data-i18n="profile.edit" data-ng-show="user.data.me"></a>
 				</header>
 				<p></p>
 			</article>
 			<article>
-				<header data-i18n="profile.section.general.headers.music">
-					Musik
+				<header>
+					<span data-i18n="profile.section.general.headers.music"></span>
+					<a href="" class="edit" data-i18n="profile.edit" data-ng-show="user.data.me"></a>
 				</header>
 				<p></p>
 			</article>
 			<article>
-				<header data-i18n="profile.section.general.headers.quotes">
-					Zitate
+				<header>
+					<span data-i18n="profile.section.general.headers.quotes"></span>
+					<a href="" class="edit" data-i18n="profile.edit" data-ng-show="user.data.me"></a>
 				</header>
 				<p></p>
 			</article>
 			<article>
-				<header data-i18n="profile.section.general.headers.contact">
-					Kontakt
+				<header>
+					<span data-i18n="profile.section.general.headers.contact"></span>
+					<a href="" class="edit" data-i18n="profile.edit" data-ng-show="user.data.me"></a>
 				</header>
 				<p></p>
 			</article>
 		</section>
 		<section id="wall">
-			<header  data-i18n="profile.section.wall.title">Pinnwand</header>
+			<header  data-i18n="profile.section.wall.title"></header>
 			<article id="post1" data-ng-repeat="post in posts">
 				<img class="userimg" data-ng-src="{{post.sender.image.image}}" alt="{post.sender.image.alttext}">
 				<div class="postContent">

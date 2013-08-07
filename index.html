@@ -63,7 +63,7 @@
 		</div>
 		<div id="navIcons">
 			<div class="navIcon" id="message">
-				<img src="img/icons/messages.png" alt="Nachrichten" class="icon">
+				<img src="img/icons/messages.png" alt="Nachrichten" class="icon" data-ng-click="loadWidget(messages)">
 				<span class="badge">999</span>
 			</div>
 			<div class="navIcon" id="friends">
@@ -91,7 +91,6 @@
 						<li><a href="#/user/{{userid}}" data-i18n="menu.profil"></a></li>
 						<li><a href="#/friends" data-i18n="menu.friends"></a></li>
 						<li><a href="#/messages" data-i18n="menu.messages"></a></li>
-						<li><a href="#/media" data-i18n="menu.media"></a></li>
 						<li><a href="#/groups" data-i18n="menu.groups"></a></li>
 						<li><a href="#/settings" data-i18n="menu.settings"></a></li>
 						<li><a href="#/help" data-i18n="menu.help"></a></li>
@@ -114,11 +113,56 @@
 
 		<aside id="sidebar-right" data-ng-show="loggedin" style="display:none">
 			<div id="magicbar">
-				<div class="magic" id="magic1">
+				<div data-ng-if="!showDefault" data-ng-include="views/magicbar/test.html" style="height: 100%;">bla</div>
+				<div data-ng-if="showDefault">
+					<div data-ng-repeat="widget in defaultConfig" data-ng-include="views/magicbar/{{widget.template}}" data-ng-style="height: {{widget.height}}"></div>
+				</div>	
+				<div id="magicfriends" class="magic magicOverlay" style="height: 100%;" data-ng-show="magicbar.showRequests">
+					<div class="header">
+						<h4>Anfragen</h4>
+						<div class="close">Close</div>
+					</div>
+					<div class="body">
+						<ul class="unstyled">
+							<li class="request">
+								<img src="img/user.png">
+								<p class="username">Lola Locki</p>
+								<p class="similar">20 gemeinsame Freunde</p>
+								<p class="action">
+									<button class="btn btn-success">Bestätigen</button>
+									<button class="btn btn-danger">Ablehnen</button>
+								</p>
+							</li>
+						</ul>
+					</div>
+				</div>			
+    
+				<div id="magicnews" class="magic magicOverlay" style="height: 100%;" data-ng-show="magicbar.showNews">
+					<div class="header">
+						<h4>Neuigkeiten</h4>
+						<div class="close">Close</div>
+					</div>
+					<div class="body">
+						<ul class="unstyled">
+							<li class="notification">
+								<img src="img/user.png">
+								<p class="info">
+									<span class="username"> Lola Locki </span> hat dein <a href="#">Foto</a> kommentiert: "süß!"
+								</p>
+							</li>
+						</ul>
+					</div>
 				</div>
-				<div class="magic" id="magic2">
+				<div id="magicsettings" class="magic magicOverlay" style="height: 100%;" data-ng-show="magicbar.showSettings">
+					<div class="header">
+						<h4>Einstellungen</h4>
+						<div class="close">Close</div>
+					</div>
+					<div class="body">
+						
+					</div>
 				</div>
-			</div>
+			</div>		
 		</aside>
 	</div>
 	<footer>

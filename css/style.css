@@ -2344,28 +2344,9 @@ input[type="submit"].btn.btn-mini {
   font-weight: 600;
   font-size: 1em;
 }
-.profileView #main #info article {
-  background-color: #e6e6e6;
-  border: 1px solid #bbbbbb;
-  border-bottom: 1px solid #000;
-  border-bottom-color: #a2a2a2;
-  -webkit-border-radius: 5px;
-  -moz-border-radius: 5px;
-  border-radius: 5px;
-  -moz-background-clip: padding;
-  -webkit-background-clip: padding-box;
-  background-clip: padding-box;
-  -webkit-box-sizing: border-box;
-  /* Safari/Chrome, other WebKit */
-
-  -moz-box-sizing: border-box;
-  /* Firefox, other Gecko */
-
-  box-sizing: border-box;
-  /* Opera/IE 8+ */
-
-}
-.profileView #main #info article header {
+.profileView #main #info header,
+.profileView #main #wall header,
+.profileView #main #friends header {
   background-color: #fafafa;
   background: -webkit-gradient(linear, left top, left bottom, from(#fafafa), to(#e6e6e6));
   background: -webkit-linear-gradient(top, #fafafa, #e6e6e6);
@@ -2388,6 +2369,38 @@ input[type="submit"].btn.btn-mini {
   -moz-background-clip: padding;
   -webkit-background-clip: padding-box;
   background-clip: padding-box;
+}
+.profileView #main #info header .edit,
+.profileView #main #wall header .edit,
+.profileView #main #friends header .edit {
+  float: right;
+  color: #b2b2b2;
+}
+.profileView #main #info header .edit:hover,
+.profileView #main #wall header .edit:hover,
+.profileView #main #friends header .edit:hover {
+  color: #cbcbcb;
+}
+.profileView #main #info article {
+  background-color: #e6e6e6;
+  border: 1px solid #bbbbbb;
+  border-bottom: 1px solid #000;
+  border-bottom-color: #a2a2a2;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  -webkit-box-sizing: border-box;
+  /* Safari/Chrome, other WebKit */
+
+  -moz-box-sizing: border-box;
+  /* Firefox, other Gecko */
+
+  box-sizing: border-box;
+  /* Opera/IE 8+ */
+
 }
 .profileView #main #info article#generalInfo {
   display: inline;
@@ -2610,10 +2623,11 @@ input[type="submit"].btn.btn-mini {
   background-clip: padding-box;
 }
 .messagesView #topicListWrap #topicList .topic .username {
-  font-size: 1em;
+  font-size: 0.9em!important;
 }
 .messagesView #topicListWrap #topicList .topic .lastMessage {
-  font-size: 0.9em;
+  font-size: 0.8em;
+  color: #555;
 }
 .messagesView #topicListWrap #topicList .topic:hover {
   background-color: rgba(0, 0, 0, 0.1);
