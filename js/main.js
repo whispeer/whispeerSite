@@ -8,9 +8,9 @@ require.config({
 		angular: "libs/angular",
 		socket: "libs/socket.io",
 		step: "libs/step",
-		helper: "asset/helper",
+		helper: "helper/helper",
 		amanda: "libs/amanda",
-		valid: "validations"
+		valid: "validation"
 	},
 	baseUrl: "js",
 	shim: {
