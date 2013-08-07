@@ -334,8 +334,6 @@ var profileJSON = {
 	}
 };
 
-var profileJSONCrypted = makeEncryptedValidator(profileJSON);
-
 if (typeof module !== "undefined" && module.exports) {
 	module.exports = profileJSON;
 } else if (typeof define !== "undefined") {
