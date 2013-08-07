@@ -29,16 +29,20 @@ define(["step", "helper", "crypto/helper", "libs/sjcl", "crypto/sjclWorkerInclud
 		pw: 3
 	};
 
-	if (localStorage) {
-		var pws = localStorage.getItem("passwords");
-		try {
-			pws = JSON.parse(pws);
-			if (pws instanceof Array) {
-				passwords = pws;
+	try {
+		if (localStorage) {
+			var pws = localStorage.getItem("passwords");
+			try {
+				pws = JSON.parse(pws);
+				if (pws instanceof Array) {
+					passwords = pws;
+				}
+			} catch (e) {
+				console.log(e);
 			}
-		} catch (e) {
-			console.log(e);
 		}
+	} catch (e) {
+		console.log(e);
 	}
 
 	function toPrivateKey(type, curve) {

@@ -25,13 +25,8 @@ define(["crypto/keyStore", "step", "helper", "amanda", "valid/profileV"], functi
 		};
 
 		function checkValid(data, checkValues) {
-			var options = {
-				singleError: false
-			};
-
-			amanda.validate(data, profileV, options, function (err) {
-				console.log("validated");
-				console.log(err);
+			amanda.validate(data, profileV, function () {
+				console.log(arguments);
 			});
 			if (!h.validateObjects(validAttributes, data, !checkValues)) {
 				throw "not a valid profile";
