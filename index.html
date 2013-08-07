@@ -61,7 +61,7 @@
 				</div>
 			</div>
 		</div>
-		<div id="navIcons">
+		<div id="navIcons" data-ng-controller="ssn.magicbar.mainController">
 			<div class="navIcon" id="message">
 				<img src="img/icons/messages.png" alt="Nachrichten" class="icon" data-ng-click="loadWidget(messages)">
 				<span class="badge">999</span>
@@ -112,9 +112,9 @@
 		</section>
 
 		<aside id="sidebar-right" data-ng-show="loggedin" style="display:none">
-			<div id="magicbar">
-				<div data-ng-if="!showDefault" data-ng-include="views/magicbar/test.html" style="height: 100%;">bla</div>
-				<div data-ng-if="showDefault">
+			<div id="magicbar" data-ng-controller="ssn.magicbar.mainController">
+				<div data-ng-if="!config.showDefault" data-ng-include="'views/magicbar/' + config.template + '.html'" style="height: 100%;">bla</div>
+				<div data-ng-if="config.showDefault">
 					<div data-ng-repeat="widget in defaultConfig" data-ng-include="views/magicbar/{{widget.template}}" data-ng-style="height: {{widget.height}}"></div>
 				</div>	
 				<div id="magicfriends" class="magic magicOverlay" style="height: 100%;" data-ng-show="magicbar.showRequests">
