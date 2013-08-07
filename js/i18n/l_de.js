@@ -56,8 +56,18 @@
 		}
 	},
 	"profile": {
+		"edit":	"Bearbeiten",
 		"section":	{
 			"general": {
+				"headers":	{
+					"title":	"Allgemein",
+					"education":	"Ausbildung",
+					"location":	"Orte",
+					"family":	"Familie",
+					"music":	"Musik",
+					"quotes":	"Zitate",
+					"contact":	"Kontakt"	
+				},
 				"birthday":	"Geboren am {date}",
 				"location":	"Wohnt in {town}, {state}, {country}",
 				"relation":	"in einer Beziehung mit {partner}",
@@ -67,6 +77,9 @@
 					"male":	"männlich",
 					"female":	"weiblich"
 				}
+			},
+			"wall": {
+				"title":	"Pinnwand"
 			}
 		}
 	},

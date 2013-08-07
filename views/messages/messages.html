@@ -11,10 +11,10 @@
 					<img class="userimg" data-ng-src="{{topic.partner.image}}" alt="Userimage">
 				</div>
 				<div class="username">
-					<strong>{{topic.partner.name}}</strong>
+					<strong>{{shortenName(topic.partner.name)}}</strong>
 				</div>
 				<div class="lastMessage">
-					{{topic.latestMessage.text}}
+					{{shortenMessage(topic.latestMessage.text)}}
 				</div>
 				<div class="time">{{topic.latestMessage.timestamp}}</div>
 				<div class="clear-fix"></div>
@@ -33,7 +33,7 @@
 					<img class="userimg" data-userID="sender{{message.sender.id}}" alt="Username" data-ng-src="{{message.sender.image}}">
 					<span class="username" data-userID="sender{{message.sender.id}}">{{message.sender.name}}</span>
 				</div>
-				<div class="messageText">{{message.text}}</div>
+				<div class="messageText {{message.type}}" data-ng-class="{{message.type}}">{{message.content}}<img data-ng-show="{{message.type != image}}" data-ng-src=""></div>
 				<div class="time">21:00</div>
 			</li>
 		</ul>	

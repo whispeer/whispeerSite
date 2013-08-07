@@ -32,6 +32,20 @@
 				}
 			}
 		}
+		#info, #wall, #friends {
+			header {
+				.gradient(darken(@btnBackground, 2%), @btnBackgroundHighlight);
+				border-bottom: 1px solid @btnBorder;
+				.border-radiuses(5px, 0px, 0px, 5px);
+				.edit {
+					float: right;
+					color: #b2b2b2;
+					&:hover {
+						color: lighten(#b2b2b2,10%);
+					}
+				}
+			}
+		}
 		#info {
 			article {
 				background-color: @btnBackgroundHighlight;
@@ -40,11 +54,6 @@
 				border-bottom-color: darken(@btnBorder, 10%);
 				.border-radius(5px);
 				.box-fix;
-				header {
-					.gradient(darken(@btnBackground, 2%), @btnBackgroundHighlight);
-					border-bottom: 1px solid @btnBorder;
-					.border-radiuses(5px, 0px, 0px, 5px);
-				}
 				&#generalInfo {
 					.column(8,8);
 					.userimage {

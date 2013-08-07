@@ -12,7 +12,9 @@ define(["step", "helper"], function (step, h) {
 		cssService.setClass("profileView");
 
 		$scope.user = {
-			data: {}
+			data: {
+				"me":	true
+			}
 		};
 
 		step(function () {
