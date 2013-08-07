@@ -1,15 +1,15 @@
 /**
 * ProfileService
 **/
-define(["crypto/keyStore", "step", "helper"], function (keyStore, step, h) {
+define(["crypto/keyStore", "step", "helper", "amanda", "valid/profileV"], function (keyStore, step, h, amanda, profileV) {
 	"use strict";
 
 	var service = function () {
 		var validAttributes = {
-			iv: true,
-			key: true,
-			profileid: true,
-			signature: true,
+			iv: h.isHex,
+			key: h.isRealID,
+			profileid: h.isInt,
+			signature: h.isHex,
 			basic: {
 				iv: false,
 				firstname: true,
@@ -25,7 +25,15 @@ define(["crypto/keyStore", "step", "helper"], function (keyStore, step, h) {
 		};
 
 		function checkValid(data, checkValues) {
-			if (!h.validateObjects(validAttributes, data, checkValues)) {
+			var options = {
+				singleError: false
+			};
+
+			amanda.validate(data, profileV, options, function (err) {
+				console.log("validated");
+				console.log(err);
+			});
+			if (!h.validateObjects(validAttributes, data, !checkValues)) {
 				throw "not a valid profile";
 			}
 		}
