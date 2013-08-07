@@ -40,7 +40,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 					} else {
 						sessionHelper.resetKey();
 						
-						sessionService.setSID(data.sid);
+						sessionService.setSID(data.sid, data.userid);
 						keyStoreService.addPassword(password);
 
 						this.last.ne();

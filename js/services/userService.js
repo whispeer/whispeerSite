@@ -99,6 +99,10 @@ define(["step", "whispeerHelper"], function (step, h) {
 			var mail = theUser.getMail();
 			var nickname = theUser.getNickname();
 
+			if (users[id]) {
+				return users[id];
+			}
+
 			users[id] = theUser;
 
 			if (mail) {

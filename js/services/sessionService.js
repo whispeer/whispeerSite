@@ -5,17 +5,19 @@ define([], function () {
 	"use strict";
 
 	var service = function ($rootScope, $location, $route, storage) {
-		var sid = "", loggedin = false, returnURL, loaded = false;
+		var sid = "", loggedin = false, userid, returnURL, loaded = false;
 
 		var noLoginRequired = ["ssn.loginController"];
 		var loggoutRequired = ["ssn.loginController"];
 
-		function setSID(newSID) {
+		function setSID(newSID, user) {
 			if (newSID !== sid) {
 				sid = newSID;
 				loggedin = true;
+				userid = user;
 
 				storage.set("sid", newSID);
+				storage.set("userid", newSID);
 				storage.set("loggedin", true);
 
 				return true;
@@ -27,7 +29,8 @@ define([], function () {
 		function loadOldLogin() {
 			if (storage.get("loggedin") === "true") {
 				var sid = storage.get("sid");
-				setSID(sid);
+				var userid = storage.get("userid");
+				setSID(sid, userid);
 
 				$rootScope.$broadcast("ssn.login");
 			}
@@ -67,14 +70,18 @@ define([], function () {
 		}
 
 		var sessionService = {
-			setSID: function (newSID) {
-				if (setSID(newSID)) {
+			setSID: function (newSID, userid) {
+				if (setSID(newSID, userid)) {
 					loginChange();
 				}
 			},
 
 			getSID: function () {
 				return sid;
+			},
+
+			getUserID: function () {
+				return userid;
 			},
 
 			logout: function () {

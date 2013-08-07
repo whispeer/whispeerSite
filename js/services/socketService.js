@@ -9,7 +9,7 @@ define(["socket", "step", "whispeerHelper"], function (io, step, h) {
 	var service = function ($rootScope, sessionService) {
 		function updateLogin(data) {
 			if (data.logedin) {
-				sessionService.setSID(data.sid);
+				sessionService.setSID(data.sid, data.id);
 			} else {
 				sessionService.logout();
 			}
