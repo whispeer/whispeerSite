@@ -1,7 +1,7 @@
 /**
 * ProfileService
 **/
-define(["crypto/keyStore", "step", "helper", "amanda", "valid/profileV"], function (keyStore, step, h, amanda, profileV) {
+define(["crypto/keyStore", "step", "whispeerHelper", "valid/validator"], function (keyStore, step, h, validator) {
 	"use strict";
 
 	var service = function () {
@@ -25,9 +25,6 @@ define(["crypto/keyStore", "step", "helper", "amanda", "valid/profileV"], functi
 		};
 
 		function checkValid(data, checkValues) {
-			amanda.validate(data, profileV, function () {
-				console.log(arguments);
-			});
 			if (!h.validateObjects(validAttributes, data, !checkValues)) {
 				throw "not a valid profile";
 			}

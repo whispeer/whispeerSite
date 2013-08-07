@@ -1,4 +1,4 @@
-define(["libs/sjcl", "helper"], function (sjcl, h) {
+define(["libs/sjcl", "whispeerHelper"], function (sjcl, h) {
 	"use strict";
 	var helper = {
 		getCurveName: function (curve) {

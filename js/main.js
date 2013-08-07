@@ -8,7 +8,7 @@ require.config({
 		angular: "libs/angular",
 		socket: "libs/socket.io",
 		step: "libs/step",
-		helper: "helper/helper",
+		whispeerHelper: "helper/helper",
 		amanda: "libs/amanda",
 		valid: "validation"
 	},

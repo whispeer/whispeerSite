@@ -1,4 +1,4 @@
-define(["step", "helper"], function (step, h) {
+define(["step", "whispeerHelper"], function (step, h) {
 	"use strict";
 
 	var service = function ($rootScope, socketService, keyStoreService, ProfileService) {

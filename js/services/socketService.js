@@ -1,7 +1,7 @@
 /**
 * SocketService
 **/
-define(["socket", "step", "helper"], function (io, step, h) {
+define(["socket", "step", "whispeerHelper"], function (io, step, h) {
 	"use strict";
 
 	var socket = io.connect("http://127.0.0.1:3000");

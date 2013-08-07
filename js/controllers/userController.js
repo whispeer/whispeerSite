@@ -2,7 +2,7 @@
 * userController
 **/
 
-define(["step", "helper"], function (step, h) {
+define(["step", "whispeerHelper"], function (step, h) {
 	"use strict";
 
 	function userController($scope, $routeParams, cssService, userService) {
