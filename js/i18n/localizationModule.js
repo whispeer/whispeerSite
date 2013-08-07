@@ -18,6 +18,22 @@ Enjoy!
 */
 
 define(["angular"], function (angular) {
+
+	var entityMap = {
+		"&": "&amp;",
+		"<": "&lt;",
+		">": "&gt;",
+		'"': "&quot;",
+		"'": "&#39;",
+		"/": "&#x2F;"
+	};
+
+	function escapeHtml(string) {
+		return String(string).replace(/[&<>"'\/]/g, function (s) {
+			return entityMap[s];
+		});
+	}
+
 	"use strict";
 	angular.module("localization", [])
 		// localization service responsible for retrieving resource files from the server and
@@ -133,18 +149,84 @@ define(["angular"], function (angular) {
 						var tag = localize.getLocalizedString(values[0]), toSet;
 						// update the element only if data was returned
 						if ((tag !== null) && (tag !== undefined) && (tag !== "")) {
+							var set = [], elements = [];
+
 							if (values.length > 1) {
 								for (index = 1; index < values.length; index += 1) {
 									toSet = values[index].split("=");
 
 									if (toSet.length === 2) {
-										var target = "{" + toSet[0] + "}";
-										tag = tag.replace(target, toSet[1]);
+										set.push({attr: "{" + toSet[0] + "}", val: toSet[1]});
 									}
 								}
 							}
-							// insert the text into the element
-							elm.text(tag);
+
+							var outerHTMLs = [];
+							var children = elm.children();
+							var k, child;
+
+							if (elm.data("outerHTMLs")) {
+								outerHTMLs = elm.data("outerHTMLs");
+							} else {
+								//get the html of all children
+								for (k = 0; k < children.length; k += 1) {
+									child = jQuery(children[k]);
+
+									outerHTMLs.push(jQuery(children[k]).clone().wrap("<p>").parent().html());
+								}
+
+								elm.data("outerHTMLs", outerHTMLs);
+							}
+
+							elm.html("");
+
+							//replace children html attributes.
+							var cur, i, html;
+							for (i = 0; i < set.length; i += 1) {
+								cur = set[i];
+
+								for (k = 0; k < outerHTMLs.length; k += 1) {
+									html = outerHTMLs[k];
+
+									if (html.indexOf(cur.attr) > -1) {
+										elements[i] = {
+											html: html.replace(cur.attr, escapeHtml(cur.val))
+										};
+										break;
+									}
+								}
+
+								if (!elements[i]) {
+									//replace attributes in tag that do not have a element.
+									tag = tag.replace(cur.attr, cur.val);
+								}
+							}
+
+							var tags = [tag];
+
+							for (i = 0; i < set.length; i += 1) {
+								if (elements[i]) {
+									cur = set[i];
+
+									for (k = 0; k < tags.length; k += 1) {
+										if (typeof tags[k] === "string" && tags[k].indexOf(cur.attr) > -1) {
+											var result = tags[k].split(cur.attr);
+											tags.splice(k, 1, result[0], elements[i], result[1]);
+										}
+									}
+								}
+							}
+
+							//set element html
+							for (i = 0; i < tags.length; i += 1) {
+								cur = tags[i];
+
+								if (typeof cur === "string") {
+									elm.append(document.createTextNode(cur));
+								} else {
+									elm.append(cur.html);
+								}
+							}
 						}
 					}
 				},
