@@ -34,6 +34,7 @@ define(["socket", "step", "whispeerHelper"], function (io, step, h) {
 				step(function doEmit() {
 					data.sid = sessionService.getSID();
 
+					console.log("requesting on " + channel);
 					console.log(data);
 					time = new Date().getTime();
 

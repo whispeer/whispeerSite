@@ -5,46 +5,35 @@ define(["crypto/keyStore", "step", "whispeerHelper", "valid/validator"], functio
 	"use strict";
 
 	var service = function () {
-		var validAttributes = {
-			iv: h.isHex,
-			key: h.isRealID,
-			profileid: h.isInt,
-			signature: h.isHex,
-			basic: {
-				iv: false,
-				firstname: true,
-				lastname: true,
-				birthday: function (val) {
-					if (isNaN(Date.parse(val))) {
-						return false;
-					}
-
-					return true;
-				}
-			}
-		};
-
 		function checkValid(data, checkValues) {
-			if (!h.validateObjects(validAttributes, data, !checkValues)) {
-				throw "not a valid profile";
+			if (checkValues) {
+				return validator.validate("profile", data);
+			} else {
+				return validator.validateEncrypted("profile", data);
 			}
 		}
 
 		//where should the key go? should it be next to the data?
 		var profileService = function (data) {
-			var dataEncrypted, dataDecrypted, decrypted, signature, id;
+			var dataEncrypted, dataDecrypted, decrypted, signature, id, err;
 			var theProfile = this;
 
 			if (data.iv) {
 				dataEncrypted = data;
 				decrypted = false;
 
-				checkValid(data, false);
+				err = checkValid(data, false);
+				if (err) {
+					throw err;
+				}
 			} else {
 				dataDecrypted = data;
 				decrypted = true;
 
-				checkValid(data, true);
+				err = checkValid(data, true);
+				if (err) {
+					throw err;
+				}
 			}
 
 			if (data.signature) {
@@ -92,7 +81,12 @@ define(["crypto/keyStore", "step", "whispeerHelper", "valid/validator"], functio
 				}, h.sF(function (result) {
 					dataDecrypted = result;
 					decrypted = true;
-					checkValid(data, true);
+					
+					err = checkValid(data, true);
+					if (err) {
+						throw err;
+					}
+
 					this.ne(result);
 				}), callback);
 			};
