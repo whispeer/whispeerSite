@@ -1,17 +1,17 @@
-<div id="magicmessage" class="magic magicOverlay" style="height: 100%;" data-ng-controller="magicbar.messagesController">
+<div id="magicmessage" class="magic magicOverlay" style="height: 100%;" data-ng-controller="ssn.magicbar.messagesController">
 	<div class="header">
-		<h4>Nachrichten</h4>
-		<div class="close">Close</div>
+		<h4 data-i18n="magicbar.messages.title">Nachrichten</h4>
+		<div class="close" data-ng-click="loadDefault()" data-i18n="magicbar.close">Close</div>
 	</div>
 	<div class="body">
 		<ul class="unstyled">
-			<li class="message">
+			<li class="message" data-ng-class="unreadClass(topic)" data-ng-repeat="topic in topics">
 				<img src="img/user.png">
 				<p class="username">
-					Lola Locki
+					{{shortenName(topic.partner.name)}}
 				</p>
 				<p class="text">
-					Hey! Wie geht's dir? :)
+					{{shortenMessage(topic.latestMessage.text)}}
 				</p>
 			</li>
 		</ul>

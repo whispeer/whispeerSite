@@ -2,7 +2,7 @@
 <!--[if lt IE 7]> <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="de"> <![endif]-->
 <!--[if IE 7]>    <html class="no-js lt-ie9 lt-ie8" lang="de"> <![endif]-->
 <!--[if IE 8]>    <html class="no-js lt-ie9" lang="de"> <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="de"> <!--<![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="de" data-ng-csp> <!--<![endif]-->
 <head>
 	<meta charset="utf-8">
 	<!--[if IE]>    
@@ -61,21 +61,21 @@
 				</div>
 			</div>
 		</div>
-		<div id="navIcons">
+		<div id="navIcons" data-ng-controller="ssn.magicbar.mainController">
 			<div class="navIcon" id="message">
-				<img src="img/icons/messages.png" alt="Nachrichten" class="icon" data-ng-click="loadWidget(messages)">
+				<img src="img/icons/messages.png" alt="Nachrichten" class="icon" data-ng-click="loadWidget('messages')">
 				<span class="badge">999</span>
 			</div>
 			<div class="navIcon" id="friends">
-				<img src="img/icons/friends.png" alt="Freundschaftsanfragen" class="icon">
+				<img src="img/icons/friends.png" alt="Freundschaftsanfragen" class="icon" data-ng-click="loadWidget('friends')">
 				<span class="badge">80</span>
 			</div>
 			<div class="navIcon" id="news">
-				<img src="img/icons/news.png" alt="Neugikeiten" class="icon">
+				<img src="img/icons/newsfeed.png" alt="Neugikeiten" class="icon" data-ng-click="loadWidget('news')">
 				<span class="badge">20</span>
 			</div>
 			<div class="navIcon" id="settings">
-				<img src="img/icons/settings.png" alt="Settings" class="icon">	
+				<img src="img/icons/settings.png" alt="Settings" class="icon" data-ng-click="loadWidget('settings')">	
 			</div>
 		</div>	
 	</nav>
@@ -112,56 +112,11 @@
 		</section>
 
 		<aside id="sidebar-right" data-ng-show="loggedin" style="display:none">
-			<div id="magicbar">
-				<div data-ng-if="!showDefault" data-ng-include="views/magicbar/test.html" style="height: 100%;">bla</div>
-				<div data-ng-if="showDefault">
-					<div data-ng-repeat="widget in defaultConfig" data-ng-include="views/magicbar/{{widget.template}}" data-ng-style="height: {{widget.height}}"></div>
-				</div>	
-				<div id="magicfriends" class="magic magicOverlay" style="height: 100%;" data-ng-show="magicbar.showRequests">
-					<div class="header">
-						<h4>Anfragen</h4>
-						<div class="close">Close</div>
-					</div>
-					<div class="body">
-						<ul class="unstyled">
-							<li class="request">
-								<img src="img/user.png">
-								<p class="username">Lola Locki</p>
-								<p class="similar">20 gemeinsame Freunde</p>
-								<p class="action">
-									<button class="btn btn-success">Bestätigen</button>
-									<button class="btn btn-danger">Ablehnen</button>
-								</p>
-							</li>
-						</ul>
-					</div>
-				</div>			
-    
-				<div id="magicnews" class="magic magicOverlay" style="height: 100%;" data-ng-show="magicbar.showNews">
-					<div class="header">
-						<h4>Neuigkeiten</h4>
-						<div class="close">Close</div>
-					</div>
-					<div class="body">
-						<ul class="unstyled">
-							<li class="notification">
-								<img src="img/user.png">
-								<p class="info">
-									<span class="username"> Lola Locki </span> hat dein <a href="#">Foto</a> kommentiert: "süß!"
-								</p>
-							</li>
-						</ul>
-					</div>
-				</div>
-				<div id="magicsettings" class="magic magicOverlay" style="height: 100%;" data-ng-show="magicbar.showSettings">
-					<div class="header">
-						<h4>Einstellungen</h4>
-						<div class="close">Close</div>
-					</div>
-					<div class="body">
-						
-					</div>
-				</div>
+			<div id="magicbar" data-ng-controller="ssn.magicbar.mainController">
+				<div data-ng-if="!config.showDefault" data-ng-include="'views/magicbar/' + config.template + '.html'" style="height: 100%;">bla</div>
+				<div data-ng-if="config.showDefault">
+					<div data-ng-repeat="widget in defaultConfig" data-ng-include="'views/magicbar/' + widget.template + '.html'" data-ng-style="'height:' + widget.height + ';'"></div>
+				</div>							
 			</div>		
 		</aside>
 	</div>

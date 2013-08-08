@@ -5,7 +5,7 @@
 define([], function () {
 	"use strict";
 
-	function mainController($scope)  {
+	function mainController($scope, magicService)  {
 		$scope.defaultConfig = [
 			// Each widget in the magicbar that is displayed to the user per default, is specified as an object here
 			{
@@ -13,22 +13,21 @@ define([], function () {
 				"height":	"200px"
 			}
 		];
-		$scope.showDefault = "false";
-		$scope.bigTemplate = {};
+		
+		
 		$scope.loadWidget = function(name) {
 			// first of all, set showDefault to false
-			showDefault = "false";
-			bigTemplate = {
-				"template":	name
-			};
+			magicService.showDefault = false;
+			magicService.template = name;
 		}
 		$scope.loadDefault = function() {
-			showDefault = "true";
-			bigTemplate = {};
+			magicService.showDefault = true;
 		}
+		
+		$scope.config = magicService;
 	}
 
-	mainController.$inject = ["$scope"];
+	mainController.$inject = ["$scope", "ssn.magicbarService"];
 
 	return mainController;
 });

@@ -1634,7 +1634,12 @@ input[type="submit"].btn.btn-mini {
 #magicbar .magic .body ul li {
   width: 100%;
   float: left;
-  margin: 2.5px 0 2.5px 0;
+  margin: 0;
+  border: none;
+  border-bottom: 1px solid #dedede;
+}
+#magicbar .magic .body ul li.unread {
+  background: rgba(86, 177, 44, 0.37);
 }
 #magicbar .magic .body ul li:hover {
   background: rgba(0, 0, 0, 0.05);
@@ -1644,6 +1649,8 @@ input[type="submit"].btn.btn-mini {
   float: left;
   width: 23%;
   margin: 0 1% 0 1%;
+  margin: 0;
+  margin-right: 1%;
 }
 #magicbar .magic .body ul li.message .username {
   display: inline;
@@ -1658,12 +1665,14 @@ input[type="submit"].btn.btn-mini {
   margin: 0 1% 0 1%;
   margin-left: 4.166666666666667% !important;
   color: #777;
+  font-size: 0.9em;
 }
 #magicbar .magic .body ul li.request img {
   display: inline;
   float: left;
   width: 23%;
   margin: 0 1% 0 1%;
+  margin-left: 0;
 }
 #magicbar .magic .body ul li.request .username {
   display: inline;
@@ -1696,6 +1705,7 @@ input[type="submit"].btn.btn-mini {
   float: left;
   width: 23%;
   margin: 0 1% 0 1%;
+  margin-left: 0;
 }
 #magicbar .magic .body ul li.notification .username {
   float: left;
@@ -2633,7 +2643,8 @@ input[type="submit"].btn.btn-mini {
   background-color: rgba(0, 0, 0, 0.1);
 }
 .messagesView #topicListWrap #topicList .topic.active {
-  background-color: rgba(0, 0, 0, 0.3);
+  box-shadow: inset 0px 0px 2px 1px #7fd308;
+  background: rgba(128, 212, 9, 0.4);
 }
 .messagesView #topicListWrap #topicList .topic .time {
   font-size: small;

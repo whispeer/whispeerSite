@@ -96,5 +96,33 @@
 			"functionality":	"Funktionsweise",
 			"newQuestion":	"Stelle eine Frage"
 		}
+	},
+	"magicbar": {
+		"close": "Schließen",
+		"messages": {
+			"title": "Nachrichten"
+		},
+		"requests":{
+			"title": "Anfragen",
+			"mutuals": "{count} gemeinsame Freunde"
+		},
+		"news": {
+			"title": "Neuigkeiten",
+			"action": {
+				"comment": {
+					"photo": {
+						"you": {
+							"own": "{user} hat dein Foto kommentiert: \"{what}\"",
+							"commented": "{user} hat ein Foto von {owner} kommentiert, das du auch kommentiert hast: \"{what}\"",
+							"awesomed":	"{user} hat ein Foto von {owner} kommentiert, das du awesome findest: \"{what}\"",
+							"shared":	"{user} hat dein geteiltes Foto kommentiert: \"{what}\""
+						}	
+					}	
+				}	
+			}
+		},
+		"settings": {
+			"title": "Optionen"
+		}
 	}
 }
