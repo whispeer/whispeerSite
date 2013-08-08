@@ -14,56 +14,10 @@ define([], function () {
 					"image":	"img/profil.jpg"
 				},
 				"type": "comment",
+				"origin": "Gretel", // Username of the owner of e.g a shared image
 				"action": {
 					"target":	"photo",
-					"content":	":)"
-				}
-			},
-			{
-				"user": {
-					"id":	"1",
-					"name":	"Willi Welle",
-					"image":	"img/profil.jpg"
-				},
-				"type": "comment",
-				"action": {
-					"target":	"photo",
-					"content":	":)"
-				}
-			},
-			{
-				"user": {
-					"id":	"1",
-					"name":	"Willi Welle",
-					"image":	"img/profil.jpg"
-				},
-				"type": "comment",
-				"action": {
-					"target":	"photo",
-					"content":	":)"
-				}
-			},
-			{
-				"user": {
-					"id":	"1",
-					"name":	"Willi Welle",
-					"image":	"img/profil.jpg"
-				},
-				"type": "comment",
-				"action": {
-					"target":	"photo",
-					"content":	":)"
-				}
-			},
-			{
-				"user": {
-					"id":	"1",
-					"name":	"Willi Welle",
-					"image":	"img/profil.jpg"
-				},
-				"type": "comment",
-				"action": {
-					"target":	"photo",
+					"you":	"awesomed",
 					"content":	":)"
 				}
 			}

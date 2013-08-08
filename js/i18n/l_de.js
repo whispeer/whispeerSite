@@ -110,7 +110,14 @@
 			"title": "Neuigkeiten",
 			"action": {
 				"comment": {
-					"photo": "{user} hat dein Foto kommentiert \"{what}\""
+					"photo": {
+						"you": {
+							"own": "{user} hat dein Foto kommentiert: \"{what}\"",
+							"commented": "{user} hat ein Foto von {owner} kommentiert, das du auch kommentiert hast: \"{what}\"",
+							"awesomed":	"{user} hat ein Foto von {owner} kommentiert, das du awesome findest: \"{what}\"",
+							"shared":	"{user} hat dein geteiltes Foto kommentiert: \"{what}\""
+						}	
+					}	
 				}	
 			}
 		},

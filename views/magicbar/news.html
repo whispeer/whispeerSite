@@ -8,7 +8,10 @@
 			<li class="notification" data-ng-repeat="news in news">
 				<img data-ng-src="{{news.user.image}}">
 				<p class="info {{news.type}}">
-					<span data-i18n="magicbar.news.action.{{news.type}}.{{news.action.target}}|user={{news.user.name}}|what={{news.action.content}}"><span class="username">{{user}}></span></span>
+					<span data-i18n="magicbar.news.action.{{news.type}}.{{news.action.target}}.you.{{news.action.you}}|user={{news.user.name}}|what={{news.action.content}}|owner={{news.origin}}">
+						<span class="username">{user} </span>
+						<span class="username">{owner} </span>
+					</span>
 				</p>
 			</li>
 		</ul>
