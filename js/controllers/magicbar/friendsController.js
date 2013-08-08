@@ -18,11 +18,45 @@ define([], function () {
 				"id":	"1",
 				"user": {
 					"id": "1",
-					"name": "Willi Welle",
-					"mutuals":	"30",
+					"name": "Julian Frech",
+					"mutuals":	"23",
 					"image":	"img/profil.jpg"
 				}
-			}
+			},
+			{
+				"id":	"2",
+				"user": {
+					"id": "2",
+					"name": "Sarah Gruhn",
+					"mutuals":	"45",
+					"image":	"img/profil.jpg"
+				}
+			},
+			{
+				"id":	"3",
+				"user": {
+					"id": "3",
+					"name": "Oliver Westhoff",
+					"mutuals":	"45",
+					"image":	"img/profil.jpg"
+				}
+			},{
+				"id":	"4",
+				"user": {
+					"id": "4",
+					"name": "Kimberly Papke",
+					"mutuals":	"45",
+					"image":	"img/profil.jpg"
+				}
+			},{
+				"id":	"5",
+				"user": {
+					"id": "5",
+					"name": "Melanie",
+					"mutuals":	"45",
+					"image":	"img/profil.jpg"
+				}
+			},
 		];
 	}
 

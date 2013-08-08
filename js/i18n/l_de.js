@@ -106,6 +106,9 @@
 			"title": "Anfragen",
 			"mutuals": "{count} gemeinsame Freunde"
 		},
+		"settings": {
+			"title": "Optionen"
+		},
 		"news": {
 			"title": "Neuigkeiten",
 			"action": {
@@ -260,7 +263,7 @@
 				"share": {
 					"photo": {
 						"you": {
-							"own": "{user} hat dein Foto geteilt!"
+							"own": "{user} hat dein Foto geteilt!",
 							"commented": "{user} hat ein Foto von {owner} geteilt, das du kommentiert hast!",
 							"awesomed":	"{user} hat ein Foto von {owner} geteilt, das du awesome findest!",
 							"shared":	"{user} hat dein geteiltes Foto geteilt!"
@@ -278,7 +281,7 @@
 					},
 					"post": {
 						"you": {
-							"own": "{user} hat deinen Status geteilt!"
+							"own": "{user} hat deinen Status geteilt!",
 							"commented": "{user} hat einen Status von {owner} geteilt, den du kommentiert hast!",
 							"awesomed":	"{user} hat einen Status von {owner} geteilt, den du awesome findest!",
 							"shared":	"{user} hat deinen geteilten Status geteilt!"
@@ -296,7 +299,7 @@
 					},
 					"wallpost": {
 						"you": {
-							"own": "{user} hat deinen Pinnwandeintrag geteilt!"
+							"own": "{user} hat deinen Pinnwandeintrag geteilt!",
 							"commented": "{user} hat einen Pinnwandeintrag von {owner} geteilt, den du kommentiert hast!",
 							"awesomed":	"{user} hat einen Pinnwandeintrag von {owner} geteilt, den du awesome findest!",
 							"shared":	"{user} hat deinen geteilten Pinnwandeintrag geteilt!"
@@ -314,7 +317,7 @@
 					},
 					"link": {
 						"you": {
-							"own": "{user} hat deinen Link geteilt!"
+							"own": "{user} hat deinen Link geteilt!",
 							"commented": "{user} hat einen Link von {owner} geteilt, den du kommentiert hast!",
 							"awesomed":	"{user} hat einen Link von {owner} geteilt, den du awesome findest!",
 							"shared":	"{user} hat deinen geteilten Link geteilt!"
@@ -358,7 +361,7 @@
 					},
 					"comment": {
 						"you": {
-							"own": "{user} hat bei deinem Kommentar auf whatever geklickt.",
+							"own": "{user} hat bei deinem Kommentar auf whatever geklickt."
 						}
 					}
 				},
@@ -391,11 +394,7 @@
 						}
 					}
 				}
-				}
 			}
-		},
-		"settings": {
-			"title": "Optionen"
 		}
 	}
-}
+}	
