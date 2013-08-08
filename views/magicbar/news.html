@@ -1,0 +1,16 @@
+<div id="magicnews" class="magic magicOverlay" style="height: 100%;"  data-ng-controller="ssn.magicbar.newsController">
+	<div class="header">
+		<h4 data-i18n="magicbar.news.title"></h4>
+		<div class="close" data-ng-click="loadDefault()" data-i18n="magicbar.close">Close</div>
+	</div>
+	<div class="body">
+		<ul class="unstyled">
+			<li class="notification" data-ng-repeat="news in news">
+				<img data-ng-src="{{news.user.image}}">
+				<p class="info {{news.type}}">
+					<span data-i18n="magicbar.news.action.{{news.type}}.{{news.action.target}}|user={{news.user.name}}|what={{news.action.content}}"><span class="username">{{user}}></span></span>
+				</p>
+			</li>
+		</ul>
+	</div>
+</div>

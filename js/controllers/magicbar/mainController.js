@@ -15,7 +15,6 @@ define([], function () {
 		];
 		
 		
-		$scope.showDefault = "false";
 		$scope.loadWidget = function(name) {
 			// first of all, set showDefault to false
 			magicService.showDefault = false;
@@ -25,8 +24,7 @@ define([], function () {
 			magicService.showDefault = true;
 		}
 		
-		$scope.config = {};
-		angular.copy(magicService, $scope.config);
+		$scope.config = magicService;
 	}
 
 	mainController.$inject = ["$scope", "ssn.magicbarService"];

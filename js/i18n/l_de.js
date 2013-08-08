@@ -96,5 +96,26 @@
 			"functionality":	"Funktionsweise",
 			"newQuestion":	"Stelle eine Frage"
 		}
+	},
+	"magicbar": {
+		"close": "Schließen",
+		"messages": {
+			"title": "Nachrichten"
+		},
+		"requests":{
+			"title": "Anfragen",
+			"mutuals": "{count} gemeinsame Freunde"
+		},
+		"news": {
+			"title": "Neuigkeiten",
+			"action": {
+				"comment": {
+					"photo": "{user} hat dein Foto kommentiert \"{what}\""
+				}	
+			}
+		},
+		"settings": {
+			"title": "Optionen"
+		}
 	}
 }
