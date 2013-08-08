@@ -25,8 +25,8 @@ define(["step", "whispeerHelper"], function (step, h) {
 			$scope.user.name = name;
 			$scope.loading = false;
 		}));
-
-		/*$scope.user	= {
+		$scope.editGeneral = false;
+		$scope.user	= {
 			"name":	"Willi Welle",
 			"data": {
 				"birthday":	"09.08.13",
@@ -37,10 +37,11 @@ define(["step", "whispeerHelper"], function (step, h) {
 				"education":	["Wellenschule", "Wellen-Grundschule"],
 				"job":	"Surf-Lehrer",
 				"company":	"Surfschool",
-				"gender":	"f",
-				"languages": ["Deutsch","Englisch"]
+				"gender":	"m",
+				"languages": ["Deutsch","Englisch"],
+				"me":	true
 			}
-		};*/
+		};
 		$scope.posts = [
 			{
 				"sender":	{

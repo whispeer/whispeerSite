@@ -13,17 +13,30 @@
 		<section id="info">
 			<article id="generalInfo">
 				<header>
-					<span data-i18n="profile.section.general.title"></span>
-					<a href="" class="edit" data-i18n="profile.edit" data-ng-show="user.data.me"></a>
+					<span data-i18n="profile.section.general.headers.title"></span>
+					<a href="" class="edit" data-i18n="profile.edit" data-ng-show="user.data.me" data-ng-click="editGeneral=!editGeneral"></a>
 				</header>
 				<img src="img/profil.png" alt="USERNAME" class="userimage">
 				<div class="info">
-					<p id="birthday"><i class="icon-gift"></i><span data-i18n="profile.section.general.birthday|date={{user.data.birthday}}"></span></p>
-					<p id="residence"><i class="icon-home"></i><span data-i18n="profile.section.general.location|town={{user.data.town}}|state={{user.data.state}}|country={{user.data.country}}"></span></p>
+					<p>{{editGeneral}}</p>
+					<p id="birthday"><i class="icon-gift"></i><span data-i18n="profile.section.general.birthday|date={{user.data.birthday}}"><span class="date">{date}</span></span></p>
+					<p id="residence">
+						<i class="icon-home"></i>
+						<span data-i18n="profile.section.general.location|town={{user.data.town}}|state={{user.data.state}}|country={{user.data.country}}">
+							<span class="town" data-ng-if="!editGeneral">Test</span>
+							<input type="text" value="Test" data-ng-if="editGeneral">
+							<span class="state" data-ng-if="!editGeneral">{state}</span>
+							<input type="text" value="{state}" data-ng-if="editGeneral">
+							<span class="country" data-ng-if="!editGeneral">{country}</span>
+							<input type="text" value="{country}" data-ng-if="editGeneral">
+							</span>
+							</span>	
+						</span>
+					</p>
 					<p id="relationship"><i class="icon-heart"></i><span data-i18n="profile.section.general.relation|partner={{user.data.partner}}"></span></p>
 					<p id="school"><i class="icon-book-open"></i><span data-i18n="profile.section.general.education"></span> <span data-ng-repeat="school in user.data.education">{{school}}</span></p>
 					<p id="job"><i class="icon-wrench"></i><span data-i18n="profile.section.general.job|job={{user.data.job}}|company={{user.data.company}}">arbeitet als Web-Developer bei whispeer</span></p>
-					<p id="sex" data-ng-switch data-on="user.data.gender"><i class="icon-toilet"></i><span data-i18n="profile.section.general.gender.text">Geschlecht</span>: <span data-i18n="profile.section.general.gender.male" data-ng-switch-when="m">männlich</span><span data-i18n="profile.section.general.gender.female" data-ng-switch-when="f">weiblich</span></p>
+					<p id="sex"><i class="icon-toilet"></i><span data-i18n="profile.section.general.gender.{{user.data.gender}}"></span></p>
 					<p id="languages"><i class="icon-globe-1"></i><span data-i18n="profile.section.general.languages">Spricht:</span> <span data-ng-repeat="language in user.data.languages">{{language}}</span></p>
 				</div>
 			</article>
