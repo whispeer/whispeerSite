@@ -248,18 +248,18 @@
 					},
 					"post": {
 						"you": {
-							"linked": "{user} hat einen Status gepostet, in dem du verlinkt bist!"
+							"linked": "{user} hat einen Status gepostet, in dem du verlinkt bist: \"{what}\""
 						}
 					},
 					"wallpost": { 
 						"you": {
-							"own": "{user} hat an deine Pinnwand geschrieben!",
-							"linked": "{user} hat einen Pinnwandeintrag geschrieben, auf dem du verlinkt bist!"							
+							"own": "{user} hat an deine Pinnwand geschrieben: \"{what}\"",
+							"linked": "{user} hat einen Pinnwandeintrag geschrieben, auf dem du verlinkt bist: \"{what}\""							
 						}
 					},
 					"comment": {
 						"you": {
-							"linked": "{user} hat einen Kommentar geschrieben, in dem du verlinkt bist!"
+							"linked": "{user} hat einen Kommentar geschrieben, in dem du verlinkt bist: \"{what}\""
 						}
 					}
 				}
