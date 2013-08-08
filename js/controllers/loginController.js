@@ -69,7 +69,6 @@ define(["step"], function (step) {
 		};
 
 		$scope.registerFormClick = function formClickF() {
-			console.log("click!");
 			sessionHelper.startKeyGeneration();
 		};
 

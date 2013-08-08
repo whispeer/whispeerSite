@@ -1,7 +1,7 @@
 /**
 * SocketService
 **/
-define(["socket", "step", "helper"], function (io, step, h) {
+define(["socket", "step", "whispeerHelper"], function (io, step, h) {
 	"use strict";
 
 	var socket = io.connect("http://127.0.0.1:3000");
@@ -9,7 +9,7 @@ define(["socket", "step", "helper"], function (io, step, h) {
 	var service = function ($rootScope, sessionService) {
 		function updateLogin(data) {
 			if (data.logedin) {
-				sessionService.setSID(data.sid);
+				sessionService.setSID(data.sid, data.id);
 			} else {
 				sessionService.logout();
 			}
@@ -34,6 +34,7 @@ define(["socket", "step", "helper"], function (io, step, h) {
 				step(function doEmit() {
 					data.sid = sessionService.getSID();
 
+					console.log("requesting on " + channel);
 					console.log(data);
 					time = new Date().getTime();
 

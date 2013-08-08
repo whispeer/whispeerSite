@@ -1,7 +1,12 @@
-define(["step", "helper"], function (step, h) {
+define(["step", "whispeerHelper"], function (step, h) {
 	"use strict";
 
 	var service = function ($rootScope, socketService, keyStoreService, ProfileService) {
+
+		var NotExistingUser = {
+
+		};
+
 		var users = {};
 		var User = function (data) {
 			var theUser = this, mainKey, signKey, cryptKey;
@@ -99,6 +104,10 @@ define(["step", "helper"], function (step, h) {
 			var mail = theUser.getMail();
 			var nickname = theUser.getNickname();
 
+			if (users[id]) {
+				return users[id];
+			}
+
 			users[id] = theUser;
 
 			if (mail) {
@@ -126,11 +135,44 @@ define(["step", "helper"], function (step, h) {
 					}
 				}, h.sF(function (data) {
 					if (data.error === true) {
-						//TODO
-						throw "error";
+						this.ne(NotExistingUser);
+					} else {
+						this.ne(makeUser(data));
+					}
+				}), cb);
+			},
+
+			getMultiple: function getMultipleF(identifiers, cb) {
+				var existing = [], toLoad = [];
+				step(function () {
+					var i, id;
+					for (i = 0; i < identifiers.length; i += 1) {
+						id = identifiers[i];
+						if (users[id]) {
+							existing.push(users[id]);
+						} else {
+							toLoad.push(id);
+						}
 					}
 
-					this.ne(makeUser(data));
+					if (toLoad.length > 0) {
+						socketService.emit("user.getMultiple", {identifiers: toLoad}, this);
+					} else {
+						this.ne([]);
+					}
+				}, h.sF(function (users) {
+					var i, result = [];
+					for (i = 0; i < users.length; i += 1) {
+						if (users[i].userNotExisting) {
+							result.push(NotExistingUser);
+						} else {
+							result.push(makeUser(users[i]));
+						}
+					}
+
+					result = result.concat(existing);
+
+					this.ne(result);
 				}), cb);
 			},
 
