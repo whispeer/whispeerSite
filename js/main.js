@@ -7,7 +7,7 @@ require.config({
 		jquery: "libs/jquery-1.9.1",
 		angular: "libs/angular",
 		socket: "libs/socket.io",
-		step: "libs/step",
+		step: "step/lib/step",
 		whispeerHelper: "helper/helper",
 		amanda: "libs/amanda",
 		valid: "validation"
