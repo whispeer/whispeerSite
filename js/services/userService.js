@@ -55,8 +55,10 @@ define(["step", "whispeerHelper"], function (step, h) {
 				step(function () {
 					var pub = theUser.getProfile().basic;
 
-					firstname = pub.firstname;
-					lastname = pub.lastname;
+					if (pub) {
+						firstname = pub.firstname;
+						lastname = pub.lastname;
+					}
 
 					nickname = theUser.getNickname();
 
