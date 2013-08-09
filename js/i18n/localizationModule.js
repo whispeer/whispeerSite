@@ -139,79 +139,43 @@ define(["angular"], function (angular) {
 		// usage <span data-i18n="TOKEN" ></span>
 		// or
 		// <span data-i18n="TOKEN|VALUE1|VALUE2" ></span>
-		.directive("i18n", ["localize", function (localize) {
+		.directive("i18n", ["localize", "$compile", function (localize, $compile) {
 			var i18nDirective = {
 				restrict: "EAC",
-				updateText: function (elm, token) {
+				updateText: function (scope, elm, token) {
 					var values = token.split("|"), index;
 					if (values.length >= 1) {
 						// construct the tag to insert into the element
 						var tag = localize.getLocalizedString(values[0]), toSet;
 						// update the element only if data was returned
 						if ((tag !== null) && (tag !== undefined) && (tag !== "")) {
-							var set = [], elements = [];
-
 							if (values.length > 1) {
 								for (index = 1; index < values.length; index += 1) {
 									toSet = values[index].split("=");
 
 									if (toSet.length === 2) {
-										set.push({attr: "{" + toSet[0] + "}", val: toSet[1]});
+										tag = tag.replace("{" + toSet[0] + "}", toSet[1]);
 									}
 								}
 							}
 
-							var outerHTMLs = [];
-							var children = elm.children();
-							var k, child;
+							var k;
 
-							if (elm.data("outerHTMLs")) {
-								outerHTMLs = elm.data("outerHTMLs");
-							} else {
-								//get the html of all children
-								for (k = 0; k < children.length; k += 1) {
-									child = jQuery(children[k]);
-
-									outerHTMLs.push(jQuery(children[k]).clone().wrap("<p>").parent().html());
-								}
-
-								elm.data("outerHTMLs", outerHTMLs);
-							}
+							var i18nElements = elm.data("i18nElements") || [];
 
 							elm.html("");
 
-							//replace children html attributes.
-							var cur, i, html;
-							for (i = 0; i < set.length; i += 1) {
-								cur = set[i];
-
-								for (k = 0; k < outerHTMLs.length; k += 1) {
-									html = outerHTMLs[k];
-
-									if (html.indexOf(cur.attr) > -1) {
-										elements[i] = {
-											html: html.replace(cur.attr, escapeHtml(cur.val))
-										};
-										break;
-									}
-								}
-
-								if (!elements[i]) {
-									//replace attributes in tag that do not have a element.
-									tag = tag.replace(cur.attr, cur.val);
-								}
-							}
-
+							//replace attributes in tag
+							var cur, i;
 							var tags = [tag];
 
-							for (i = 0; i < set.length; i += 1) {
-								if (elements[i]) {
-									cur = set[i];
-
+							var attr;
+							for (attr in i18nElements) {
+								if (i18nElements.hasOwnProperty(attr)) {
 									for (k = 0; k < tags.length; k += 1) {
-										if (typeof tags[k] === "string" && tags[k].indexOf(cur.attr) > -1) {
-											var result = tags[k].split(cur.attr);
-											tags.splice(k, 1, result[0], elements[i], result[1]);
+										if (typeof tags[k] === "string" && tags[k].indexOf("{" + attr + "}") > -1) {
+											var result = tags[k].split("{" + attr + "}");
+											tags.splice(k, 1, result[0], i18nElements[attr], result[1]);
 										}
 									}
 								}
@@ -224,22 +188,50 @@ define(["angular"], function (angular) {
 								if (typeof cur === "string") {
 									elm.append(document.createTextNode(cur));
 								} else {
-									elm.append(cur.html);
+									for (k = 0; k < cur.length; k += 1) {
+										elm.append(cur[k]);
+									}
 								}
 							}
+
+							$compile(elm.contents())(scope);
 						}
 					}
 				},
 
-				link: function (scope, elm, attrs) {
-					scope.$on("localizeResourcesUpdates", function () {
-						i18nDirective.updateText(elm, attrs.i18n);
-					});
+				compile: function (elm) {
+					var elements = {};
 
-					attrs.$observe("i18n", function () {
-						i18nDirective.updateText(elm, attrs.i18n);
-					});
-				}
+					var children = elm.children();
+					var k, child, attr;
+
+					//get the html of all children
+					for (k = 0; k < children.length; k += 1) {
+						child = jQuery(children[k]);
+
+						attr = child.attr("data-for");
+
+						if (!elements[attr]) {
+							elements[attr] = [];
+						}
+
+						elements[attr].push(child);
+					}
+
+					elm.data("i18nElements", elements);
+
+					elm.html("");
+
+					return function (scope, elm, attrs) {
+						scope.$on("localizeResourcesUpdates", function () {
+							i18nDirective.updateText(scope, elm, attrs.i18n);
+						});
+
+						attrs.$observe("i18n", function () {
+							i18nDirective.updateText(scope, elm, attrs.i18n);
+						});
+					};
+				},
 			};
 
 			return i18nDirective;

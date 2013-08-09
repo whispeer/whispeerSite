@@ -38,7 +38,7 @@
 			"comments":	{
 				"count":	"{count} Kommentare",
 				"showem":	"Kommentare anzeigen"
-			}	
+			}
 		},
 		"post": {
 			"sender": {
@@ -66,7 +66,7 @@
 					"family":	"Familie",
 					"music":	"Musik",
 					"quotes":	"Zitate",
-					"contact":	"Kontakt"	
+					"contact":	"Kontakt"
 				},
 				"birthday":	"Geboren am {date}",
 				"location":	"Wohnt in {town}, {state}, {country}",
@@ -120,7 +120,7 @@
 							"awesomed":	"{user} hat ein Foto von {owner} kommentiert, das du awesome findest: \"{what}\"",
 							"shared":	"{user} hat dein geteiltes Foto kommentiert: \"{what}\""
 						},
-						"his": { 
+						"his": {
 							"commented": "{user} hat sein eigenes Foto kommentiert, das du auch kommentiert hast: \"{what}\"",
 							"awesomed":	"{user} hat sein eigenes Foto kommentiert, das du awesome findest: \"{what}\"",
 							"linked": "{user} hat sein eigenes Foto kommentierst, auf dem du verlinkt bist!"
@@ -129,7 +129,7 @@
 							"commented": "{user} hat ihr eigenes Foto kommentiert, das du auch kommentiert hast: \"{what}\"",
 							"awesomed":	"{user} hat ihr eigenes Foto kommentiert, das du awesome findest: \"{what}\"",
 							"linked": "{user} hat ihr eigenes Foto kommentierst, auf dem du verlinkt bist!"
-						}					
+						}
 					},
 					"post": {
 						"you": {
@@ -169,7 +169,7 @@
 					},
 					"link": {
 						"you": {
-							"own": "{user} hat deinen Link kommentiert!"
+							"own": "{user} hat deinen Link kommentiert!",
 							"commented": "{user} hat einen Link von {owner} kommentiert, den du kommentiert hast!",
 							"awesomed":	"{user} hat einen Link von {owner} kommentiert, den du awesome findest!",
 							"shared":	"{user} hat deinen geteilten Link kommentiert!"
@@ -203,7 +203,7 @@
 							"commented": "{user} findet ihr eigenes Foto awesome, das du kommentiert hast!",
 							"awesomed":	"{user} findet ihr eigenes Foto awesome, das du auch awesome findest!",
 							"linked": "{user} findet ihr eigenes Foto awesome, auf dem du verlinkt bist!"
-						}						
+						}
 					},
 					"post": {
 						"you": {
@@ -246,7 +246,7 @@
 						"you": {
 							"own": "{user} findet deinen Kommentar awesome!",
 							"commented": "{user} findet einen Kommentar von {owner} awesome, den du kommentiert hast!",
-							"awesomed":	"{user} findet einen Kommentar von {owner} awesome, den du auch awesome findest!",
+							"awesomed":	"{user} findet einen Kommentar von {owner} awesome, den du auch awesome findest!"
 						},
 						"his": {
 							"commented": "{user} findet seinen eigenen Kommentar awesome, den du kommentiert hast!",
@@ -339,7 +339,7 @@
 						"you": {
 							"own": "{user} hat bei deinem Foto auf whatever geklickt.",
 							"shared":	"{user} hat bei deinem geteilten Foto auf whatever geklickt."
-						}	
+						}
 					},
 					"post": {
 						"you": {
@@ -370,11 +370,11 @@
 						"own": "{user} ist jetzt mit dir befreundet!"
 					}
 				},
-				"posted": {	
+				"posted": {
 					"photo": {
 						"you": {
 							"own": "{user} hat ein Foto an deine Pinnwand gepostet!",
-							"linked": "{user} hat ein Foto gepostet, auf dem du verlinkt bist!"							
+							"linked": "{user} hat ein Foto gepostet, auf dem du verlinkt bist!"
 						}
 					},
 					"post": {
@@ -382,10 +382,10 @@
 							"linked": "{user} hat einen Status gepostet, in dem du verlinkt bist: \"{what}\""
 						}
 					},
-					"wallpost": { 
+					"wallpost": {
 						"you": {
 							"own": "{user} hat an deine Pinnwand geschrieben: \"{what}\"",
-							"linked": "{user} hat einen Pinnwandeintrag geschrieben, auf dem du verlinkt bist: \"{what}\""							
+							"linked": "{user} hat einen Pinnwandeintrag geschrieben, auf dem du verlinkt bist: \"{what}\""
 						}
 					},
 					"comment": {
@@ -397,4 +397,4 @@
 			}
 		}
 	}
-}	
+}

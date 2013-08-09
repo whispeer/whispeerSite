@@ -22,15 +22,15 @@
 					<p id="birthday"><i class="icon-gift"></i><span data-i18n="profile.section.general.birthday|date={{user.data.birthday}}"><span class="date">{date}</span></span></p>
 					<p id="residence">
 						<i class="icon-home"></i>
-						<span data-i18n="profile.section.general.location|town={{user.data.town}}|state={{user.data.state}}|country={{user.data.country}}">
-							<span class="town" data-ng-if="!editGeneral">Test</span>
-							<input type="text" value="Test" data-ng-if="editGeneral">
-							<span class="state" data-ng-if="!editGeneral">{state}</span>
-							<input type="text" value="{state}" data-ng-if="editGeneral">
-							<span class="country" data-ng-if="!editGeneral">{country}</span>
-							<input type="text" value="{country}" data-ng-if="editGeneral">
-							</span>
-							</span>	
+						<span data-i18n="profile.section.general.location">
+							<span data-for="town" class="town" data-ng-if="!editGeneral">{{user.data.town}}</span>
+							<input data-for="town" type="text" data-ng-model="user.data.town" data-ng-if="editGeneral">
+
+							<span data-for="state" class="state" data-ng-if="!editGeneral">{{user.data.state}}</span>
+							<input data-for="state" type="text" data-ng-model="user.data.state" data-ng-if="editGeneral">
+
+							<span data-for="country" class="country" data-ng-if="!editGeneral">{{user.data.country}}</span>
+							<input data-for="country" type="text" data-ng-model="user.data.country" data-ng-if="editGeneral">	
 						</span>
 					</p>
 					<p id="relationship"><i class="icon-heart"></i><span data-i18n="profile.section.general.relation|partner={{user.data.partner}}"></span></p>
