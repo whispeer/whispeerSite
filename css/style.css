@@ -823,9 +823,11 @@ body:not(.mainView, .registerView) #main {
 #topNav #navIcons .navIcon .badge {
   background-color: #9d261d;
   color: #ffffff;
-  -webkit-border-radius: 50px;
-  -moz-border-radius: 50px;
-  border-radius: 50px;
+  width: 18px;
+  height: 18px;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  border-radius: 50%;
   -moz-background-clip: padding;
   -webkit-background-clip: padding-box;
   background-clip: padding-box;
@@ -1638,11 +1640,11 @@ input[type="submit"].btn.btn-mini {
   border: none;
   border-bottom: 1px solid #dedede;
 }
-#magicbar .magic .body ul li.unread {
-  background: rgba(86, 177, 44, 0.37);
-}
 #magicbar .magic .body ul li:hover {
   background: rgba(0, 0, 0, 0.05);
+}
+#magicbar .magic .body ul li.unread {
+  background: rgba(86, 177, 44, 0.37);
 }
 #magicbar .magic .body ul li.message img {
   display: inline;
@@ -1657,6 +1659,7 @@ input[type="submit"].btn.btn-mini {
   float: left;
   width: 73%;
   margin: 0 1% 0 1%;
+  font-weight: bold;
 }
 #magicbar .magic .body ul li.message .text {
   display: inline;
@@ -1679,6 +1682,8 @@ input[type="submit"].btn.btn-mini {
   float: left;
   width: 73%;
   margin: 0 1% 0 1%;
+  float: none;
+  font-weight: bold;
 }
 #magicbar .magic .body ul li.request .similar {
   display: inline;
@@ -1708,8 +1713,7 @@ input[type="submit"].btn.btn-mini {
   margin-left: 0;
 }
 #magicbar .magic .body ul li.notification .username {
-  float: left;
-  font-weight: 800;
+  font-weight: bold;
 }
 #magicbar .magic .body ul li.notification .info {
   display: inline;

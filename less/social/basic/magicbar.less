@@ -50,11 +50,11 @@
 					margin: 0;
 					border: none;
 					border-bottom: 1px solid #dedede;
-					&.unread {
-						background: rgba(86,177,44,0.37);
-					}
 					&:hover {
 						background: rgba(0,0,0,0.05);
+					}
+					&.unread {
+						background: rgba(86,177,44,0.37);
 					}
 					&.message {
 						img {
@@ -64,6 +64,7 @@
 						}
 						.username {
 							.column(9);
+							font-weight: bold;
 						}
 						.text {
 							.column(8.5);
@@ -79,6 +80,8 @@
 						}
 						.username {
 							.column(9);
+							float: none;
+							font-weight: bold;
 						}
 						.similar {
 							.column(9);
@@ -101,8 +104,7 @@
 							margin-left: 0;
 						}
 						.username {
-							float: left;
-							font-weight: 800;
+							font-weight: bold;
 						}
 						.info {
 							.column(9);

@@ -29,149 +29,135 @@ define([], function () {
 		$scope.topics = [
 			{
 				"id": "1", // TopicID goes here
-				"type":	"peerChat", // Either peerChat or groupChat
 				"unread": true,
 				"partner":	{
 					"id": "1", // User ID of conversation partner
-					"name": "Willi Welle",
+					"name": "Julia Krämer",
 					"image": "img/profil.jpg"
 				},
 				"latestMessage": {
-					"text": "Lorem Ipsum Dolor Sit Amet <pgnpgndaipbnqeog",
+					"text": "Montag schwimmen gehen?",
 					"timestamp": "21:00"
-				},
-				"messages": [{
-					// each object is a message!
-					"id": "1",
-					"sender": {
-						"id": "2", // User ID of Sender
-						"image": "img/profil.jpg",
-						"name": "Willi Welle",
-						"me":	true,
-						"other": false
-					},
-					"content": "Lorem Ipsum dolor sit amet",
-					"type":	"image",
-					"timestamp": ""
-				}] // All Messages of conversation (or the x latest - whatever)
+				}
 			},
 			{
-				"id": "1", // TopicID goes here
-				"type":	"peerChat", // Either peerChat or groupChat
+				"id": "2", // TopicID goes here
+				"unread": true,
 				"partner":	{
 					"id": "1", // User ID of conversation partner
-					"name": "Luisa Katharina Marschner",
+					"name": "Anton Müller",
 					"image": "img/profil.jpg"
 				},
 				"latestMessage": {
-					"text": "Lorem Ipsum Dolor Sit Amet",
+					"text": "Na, was geht bei dir so?",
 					"timestamp": "21:00"
-				},
-				"messages": [{
-					// each object is a message!
-					"id": "1",
-					"sender": {
-						"id": "2", // User ID of Sender
-						"image": "img/profil.jpg",
-						"name": "Willi Welle",
-						"me":	true,
-						"other": false
-					},
-					"content": "Lorem Ipsum dolor sit amet",
-					"type":	"image",
-					"timestamp": ""
-				}] // All Messages of conversation (or the x latest - whatever)
-			},{
-				"id": "1", // TopicID goes here
-				"type":	"peerChat", // Either peerChat or groupChat
+				}
+			},
+			{
+				"id": "3", // TopicID goes here
+				"unread": false,
 				"partner":	{
 					"id": "1", // User ID of conversation partner
-					"name": "Willi Welle",
+					"name": "Arno Nymus",
 					"image": "img/profil.jpg"
 				},
 				"latestMessage": {
-					"text": "Lorem Ipsum Dolor Sit Amet",
+					"text": "Bist du bei der nächsten Anti-Prism-Demo auch wieder am Start?",
 					"timestamp": "21:00"
-				},
-				"messages": [{
-					// each object is a message!
-					"id": "1",
-					"sender": {
-						"id": "2", // User ID of Sender
-						"image": "img/profil.jpg",
-						"name": "Willi Welle",
-						"me":	true,
-						"other": false
-					},
-					"content": "Lorem Ipsum dolor sit amet",
-					"type":	"image",
-					"timestamp": ""
-				}] // All Messages of conversation (or the x latest - whatever)
-			},{
-				"id": "1", // TopicID goes here
-				"type":	"peerChat", // Either peerChat or groupChat
+				}
+			},
+			{
+				"id": "4", // TopicID goes here
+				"unread": false,
 				"partner":	{
 					"id": "1", // User ID of conversation partner
-					"name": "Willi Welle",
+					"name": "Kevin Klein",
 					"image": "img/profil.jpg"
 				},
 				"latestMessage": {
-					"text": "Lorem Ipsum Dolor Sit Amet",
+					"text": "Ok, bis später dann!",
 					"timestamp": "21:00"
+				}
+			},
+			{
+				"id": "5", // TopicID goes here
+				"unread": false,
+				"partner":	{
+					"id": "1", // User ID of conversation partner
+					"name": "Anna Berger",
+					"image": "img/profil.jpg"
 				},
-				"messages": [{
-					// each object is a message!
-					"id": "1",
-					"sender": {
-						"id": "2", // User ID of Sender
-						"image": "img/profil.jpg",
-						"name": "Willi Welle",
-						"me":	true,
-						"other": false
-					},
-					"content": "Lorem Ipsum dolor sit amet",
-					"type":	"image",
-					"timestamp": ""
-				}] // All Messages of conversation (or the x latest - whatever)
+				"latestMessage": {
+					"text": "Hab dich auch lieb!",
+					"timestamp": "21:00"
+				}
+			},
+			{
+				"id": "7", // TopicID goes here
+				"unread": false,
+				"partner":	{
+					"id": "1", // User ID of conversation partner
+					"name": "Thomas Müller",
+					"image": "img/profil.jpg"
+				},
+				"latestMessage": {
+					"text": "Oh mein Gott! Ich kann die Welt beeinflussen :D",
+					"timestamp": "21:00"
+				}
+			},
+			{
+				"id": "6", // TopicID goes here
+				"unread": false,
+				"partner":	{
+					"id": "1", // User ID of conversation partner
+					"name": "Agathe Bauer",
+					"image": "img/profil.jpg"
+				},
+				"latestMessage": {
+					"text": "Es tut mir leid!",
+					"timestamp": "21:00"
+				}
+			},
+			{
+				"id": "8", // TopicID goes here
+				"unread": false,
+				"partner":	{
+					"id": "1", // User ID of conversation partner
+					"name": "Corinna Göhre",
+					"image": "img/profil.jpg"
+				},
+				"latestMessage": {
+					"text": "Oh mein Gott! Ich kann die Welt beeinflussen :D",
+					"timestamp": "21:00"
+				}
+			},
+			{
+				"id": "9", // TopicID goes here
+				"unread": false,
+				"partner":	{
+					"id": "1", // User ID of conversation partner
+					"name": "The Doctor",
+					"image": "img/profil.jpg"
+				},
+				"latestMessage": {
+					"text": "I know, I know... It's bigger on the inside...",
+					"timestamp": "21:00"
+				}
+			},
+			{
+				"id": "10", // TopicID goes here
+				"unread": false,
+				"partner":	{
+					"id": "1", // User ID of conversation partner
+					"name": "Nadine Gutzberg",
+					"image": "img/profil.jpg"
+				},
+				"latestMessage": {
+					"text": "Who're you going to call?",
+					"timestamp": "21:00"
+				}
 			}
 		];
-		$scope.activeTopic = {
-			"id": "1", // TopicID goes here
-			"type": "peerChat", // Either peerChat or groupChat
-			"partner":	{
-				"id": "1", // User ID of conversation partner
-				"name": "Willi Welle",
-				"image": "img/profil.jpg"
-			},
-			"latestMessage":	"Lorem Ipsum Dolor Sit Amet",
-			"messages": [{
-				// each object is a message!
-				"id": "1",
-				"sender": {
-					"id": "2", // User ID of Sender
-					"image": "img/profil.jpg",
-					"name": "Willi Welle",
-					"me":	true,
-					"other": false
-				},
-				"content": "img/test.jpg",
-				"type":	"image",
-				"timestamp": ""
-			},{
-				// each object is a message!
-				"id": "1",
-				"sender": {
-					"id": "2", // User ID of Sender
-					"image": "img/profil.jpg",
-					"name": "Willi Welle",
-					"me":	false,
-					"other": true
-				},
-				"content": "Lorem Ipsum dolor sit amet",
-				"type":	"text",
-				"timestamp": ""
-			}]
-		};
 	}
 
 	messagesController.$inject = ["$scope"];
