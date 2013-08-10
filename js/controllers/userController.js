@@ -34,11 +34,11 @@ define(["step", "whispeerHelper"], function (step, h) {
 				"state":	"NRW",
 				"country":	"Germany",
 				"partner":	"Gisela Welle",
-				"education":	["Wellenschule", "Wellen-Grundschule"],
+				"education":	[{"name": "Wellenschule"}, {"name": "Wellen-Grundschule"}],
 				"job":	"Surf-Lehrer",
 				"company":	"Surfschool",
 				"gender":	"m",
-				"languages": ["Deutsch","Englisch"],
+				"languages": [{"name": "Deutsch"},{"name": "Englisch"}],
 				"me":	true
 			}
 		};

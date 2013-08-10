@@ -33,11 +33,49 @@
 							<input data-for="country" type="text" data-ng-model="user.data.country" data-ng-if="editGeneral">	
 						</span>
 					</p>
-					<p id="relationship"><i class="icon-heart"></i><span data-i18n="profile.section.general.relation|partner={{user.data.partner}}"></span></p>
-					<p id="school"><i class="icon-book-open"></i><span data-i18n="profile.section.general.education"></span> <span data-ng-repeat="school in user.data.education">{{school}}</span></p>
-					<p id="job"><i class="icon-wrench"></i><span data-i18n="profile.section.general.job|job={{user.data.job}}|company={{user.data.company}}">arbeitet als Web-Developer bei whispeer</span></p>
-					<p id="sex"><i class="icon-toilet"></i><span data-i18n="profile.section.general.gender.{{user.data.gender}}"></span></p>
-					<p id="languages"><i class="icon-globe-1"></i><span data-i18n="profile.section.general.languages">Spricht:</span> <span data-ng-repeat="language in user.data.languages">{{language}}</span></p>
+					<p id="relationship">
+						<i class="icon-heart"></i>
+						<span data-i18n="profile.section.general.relation">
+							<span data-for="partner" class="partner" data-ng-if="!editGeneral">{{user.data.partner}}</span>
+							<input data-for="partner" type="text" data-ng-model="user.data.partner" data-ng-if="editGeneral">
+						</span>
+					</p>
+					<p id="school">
+						<i class="icon-book-open"></i>
+						<span data-i18n="profile.section.general.education">
+							<span data-ng-if="!editGeneral" data-for="school"><span data-ng-repeat="school in user.data.education">{{school.name}}</span></span>
+							<span data-ng-if="editGeneral" data-for="school">
+								<span data-ng-repeat="school in user.data.education">
+									<input type="text" data-ng-model="school.name">
+								</span>
+							</span>
+						</span>
+					</p>
+					<p id="job">
+						<i class="icon-wrench"></i>
+						<span data-i18n="profile.section.general.job">
+							<span data-ng-if="!editGeneral" data-for="job">{{user.data.job}}</span>
+							<input data-ng-if="editGeneral" data-for="job" data-ng-model="user.data.job">
+							
+							<span data-ng-if="!editGeneral" data-for="company">{{user.data.company}}</span>
+							<input data-ng-if="editGeneral" data-for="company" data-ng-model="user.data.company">
+						</span>
+					</p>
+					<p id="sex">
+						<i class="icon-toilet"></i>
+						<span data-i18n="profile.section.general.gender.default">
+							<span data-ng-if="!editGeneral" data-for="gender" data-i18n="profile.section.general.gender.{{user.data.gender}}"></span>
+							<select data-ng-if="editGeneral" type="dropdown" data-ng-model="user.data.gender" data-for="gender">
+								<option value="m" data-i18n="profile.section.general.gender.m"></option>
+								<option value="f" data-i18n="profile.section.general.gender.f"></option>
+							</select>
+						</span>
+					</p>
+					<p id="languages">
+						<i class="icon-globe-1"></i>
+						<span data-i18n="profile.section.general.languages"></span>
+						<span data-ng-repeat="language in user.data.languages">{{language}}</span>
+					</p>
 				</div>
 			</article>
 			<article>

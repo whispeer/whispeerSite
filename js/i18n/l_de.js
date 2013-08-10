@@ -71,11 +71,12 @@
 				"birthday":	"Geboren am {date}",
 				"location":	"Wohnt in {town}, {state}, {country}",
 				"relation":	"in einer Beziehung mit {partner}",
-				"education":	"schulische Ausbildung:",
+				"education":	"schulische Ausbildung: {school}",
 				"job":	"arbeitet als {job} bei {company}",
 				"gender":	{
-					"male":	"männlich",
-					"female":	"weiblich"
+					"default":	"{gender}",
+					"m":	"männlich",
+					"f":	"weiblich"
 				}
 			},
 			"wall": {
