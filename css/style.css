@@ -1644,7 +1644,11 @@ input[type="submit"].btn.btn-mini {
   background: rgba(0, 0, 0, 0.05);
 }
 #magicbar .magic .body ul li.unread {
-  background: rgba(86, 177, 44, 0.37);
+  background: #3a8100;
+  color: #f5f5f5 !important;
+}
+#magicbar .magic .body ul li.unread .text {
+  color: #ffffff !important;
 }
 #magicbar .magic .body ul li.message img {
   display: inline;

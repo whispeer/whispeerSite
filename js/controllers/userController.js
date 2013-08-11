@@ -26,14 +26,25 @@ define(["step", "whispeerHelper"], function (step, h) {
 			$scope.loading = false;
 		}));
 		$scope.editGeneral = false;
+		$scope.removeElement = function(index) {
+				
+		};
+		$scope.possibleStatus = ["single", "relationship", "engaged", "married", "divorced", "widowed", "complicated", "open", "inlove"];
 		$scope.user	= {
 			"name":	"Willi Welle",
 			"data": {
-				"birthday":	"09.08.13",
-				"town":	"Enger",
+				"birthday":	{
+					"day":	"09",
+					"month":	"08",
+					"year":	"2013"
+				},
+				"town":	"",
 				"state":	"NRW",
 				"country":	"Germany",
-				"partner":	"Gisela Welle",
+				"partner":	{
+					"type":	"relationship",
+					"name": "Gisela Welle"
+				},
 				"education":	[{"name": "Wellenschule"}, {"name": "Wellen-Grundschule"}],
 				"job":	"Surf-Lehrer",
 				"company":	"Surfschool",

@@ -17,7 +17,7 @@
 		"register": {
 			"link":	"Registrieren",
 			"repeatPassword":	"Password wiederholen",
-			"passwordstrength":	"Passwortstärke:",
+			"passwordstrength":	"Punkte für dein Passwort: ",
 			"email":	"E-Mail Adresse",
 			"repeatEmail":	"E-Mail Adresse wiederholen"
 		}
@@ -57,6 +57,11 @@
 	},
 	"profile": {
 		"edit":	"Bearbeiten",
+		"head":	{
+			"info":	"Info",
+			"wall":	"Pinnwand",
+			"friends":	"Freunde"	
+		},
 		"section":	{
 			"general": {
 				"headers":	{
@@ -68,19 +73,37 @@
 					"quotes":	"Zitate",
 					"contact":	"Kontakt"
 				},
-				"birthday":	"Geboren am {date}",
-				"location":	"Wohnt in {town}, {state}, {country}",
-				"relation":	"in einer Beziehung mit {partner}",
+				"birthday":	"Geboren am {day}.{month}.{year}",
+				"location":	"Wohnt in {town} {state} {country}",
+				"relation":	{
+					"default": "{relationType} mit {partner}",
+					"noPartner":	"{relationType}",
+					"status": {
+						"single":	"single",
+						"relationship":	"in einer Beziehung",
+						"engaged":	"verlobt",
+						"married":	"verheiratet",
+						"divorced":	"geschieden",
+						"widowed":	"verwitwet",
+						"complicated":	"kompliziert",
+						"open":	"in einer offenen Beziehung",
+						"inlove":	"verliebt"
+					}
+				},	
 				"education":	"schulische Ausbildung: {school}",
 				"job":	"arbeitet als {job} bei {company}",
 				"gender":	{
 					"default":	"{gender}",
 					"m":	"männlich",
 					"f":	"weiblich"
-				}
+				},
+				"languages":	"{language}"
 			},
 			"wall": {
 				"title":	"Pinnwand"
+			},
+			"friends": {
+				"info":	"Freunde"
 			}
 		}
 	},
@@ -105,7 +128,9 @@
 		},
 		"requests":{
 			"title": "Anfragen",
-			"mutuals": "{count} gemeinsame Freunde"
+			"mutuals": "{count} gemeinsame Freunde",
+			"accept":	"Annehmen",
+			"decline":	"Ablehnen"
 		},
 		"settings": {
 			"title": "Optionen"

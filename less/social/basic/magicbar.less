@@ -54,7 +54,11 @@
 						background: rgba(0,0,0,0.05);
 					}
 					&.unread {
-						background: rgba(86,177,44,0.37);
+						background: @green2;
+						color: lighten(@grayLight, 36%) !important;
+						.text {
+							color: @white !important;
+						}
 					}
 					&.message {
 						img {
