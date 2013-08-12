@@ -164,11 +164,7 @@
 			<header data-i18n="profile.section.friends.info"></header>
 			<ol id="friendsList" class="unstyled">
 				<li data-ng-repeat="friend in friends" style="background-image: url({{friend.image}})">
-					<div class="pushup">
-						<p class="username">{{friend.name}}</p>
-						<p class="mutualfriends" data-i18n="friends.mutualFriends|count={{friend.mutualFriends}}"></p>
-						<!--<p class="lists"> <span data-i18n="friends.info.lists"></span> <span data-ng-repeat="list in friend.lists">{{list}}</span></p> -->
-					</div>
+					<friend data-user="friend"></friend>
 				</li>
 			</ol>
 		</section>
