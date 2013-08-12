@@ -30,7 +30,8 @@ define(["step", "whispeerHelper"], function (step, h) {
 				
 		};
 		$scope.possibleStatus = ["single", "relationship", "engaged", "married", "divorced", "widowed", "complicated", "open", "inlove"];
-		$scope.user	= {
+		/*
+$scope.user	= {
 			"name":	"Willi Welle",
 			"data": {
 				"birthday":	{
@@ -53,6 +54,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 				"me":	true
 			}
 		};
+*/
 		$scope.posts = [
 			{
 				"sender":	{

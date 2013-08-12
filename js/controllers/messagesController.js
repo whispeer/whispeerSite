@@ -21,6 +21,7 @@ define([], function () {
 				return string;
 			}
 		};
+		$scope.newMessage = false;
 		$scope.topics = [
 			{
 				"id": "1", // TopicID goes here
