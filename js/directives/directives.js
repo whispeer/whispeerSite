@@ -14,12 +14,12 @@ for (i = 0; i < directives.length; i += 1) {
 define(includes, function (angular) {
 	"use strict";
 
-	var directives = angular.module("ssn.directives",[]);
+	var d = angular.module("ssn.directives",[]);
 
 	var i;
 	for (i = 0; i < directives.length; i += 1) {
-		directives.directive("ssn." + directives[i], arguments[i+1]);
+		d.directive(directives[i], arguments[i+1]);
 	}
 
-	return directives;
+	return d;
 });
