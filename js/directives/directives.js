@@ -1,16 +1,25 @@
 /**
 * BaseDirective
 **/
+
+var directives = ["eatClick", "onBlur", "friend", "strgEnter", "onfocus"];
+
+var includes = ["angular"];
+
+var i;
+for (i = 0; i < directives.length; i += 1) {
+	includes.push("directives/" + directives[i]);
+}
  
-define(["angular", "directives/eatClick", "directives/onBlur", "directives/friend", "directives/strgEnter", "directives/onfocus"], function (angular, eatClick, onBlur, friend, strgEnter, focus) {
+define(includes, function (angular) {
 	"use strict";
 
 	var directives = angular.module("ssn.directives",[]);
-	directives.directive("eatClick", eatClick);
-	directives.directive("ngModelOnblur", onBlur);
-	directives.directive("friend", friend);
-	directives.directive("enter", strgEnter);
-	directives.directive("onfocus", focus);
+
+	var i;
+	for (i = 0; i < directives.length; i += 1) {
+		directives.directive("ssn." + directives[i], arguments[i+1]);
+	}
 
 	return directives;
 });
