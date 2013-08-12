@@ -29,7 +29,7 @@
 		}
 	}
 	#circleListWrap {
-		.column(2,7);
+		.column(2.25,7);
 		height: 100%;
 		#circleList {
 			height: 100%;
@@ -72,7 +72,7 @@
 	}
 	#circleContainer {
 		height: 100%;
-		.column(5,7);
+		.column(4.75,7);
 		height: 100%;
 		padding: 0px 0px 51px 0px;
 		.box-fix;
@@ -106,5 +106,18 @@
 				}
 			}
 		}	
+		&.newCircle {
+			#titleInput, #friendInput {
+				.column(5,5);
+				margin-bottom: 5px;
+				height: 40px;
+			}
+			#friendInput {
+				height: 150px;
+			}
+			#sendmessage {
+				margin-left: 8px;
+			}
+		}
 	}	
 }

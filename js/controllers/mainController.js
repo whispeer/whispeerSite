@@ -19,11 +19,235 @@ define([], function () {
 				"content":	"Ein schöner Abend mit meinem Bärchen :)",
 				"info":	{
 					"with"	: "Marc Schneider-Zuckerfuß",
-					"awesome"	: "14",
-					"comments":	{
-						"count":	"4"
+					"awesome"	: "14"
+				},
+				"comments":	[
+					{
+						"user": {
+							"id":	"1",
+							"name":	"Test",
+							"image":"img/profil.jpg"
+						},
+						"content":	"Hallo Welt!",
+						"timestamp":	"21:00"
+					},{
+						"user": {
+							"id":	"1",
+							"name":	"Test",
+							"image":"img/profil.jpg"
+						},
+						"content":	"Hallo Welt!",
+						"timestamp":	"21:00"
+					},{
+						"user": {
+							"id":	"1",
+							"name":	"Test",
+							"image":"img/profil.jpg"
+						},
+						"content":	"Hallo Welt!",
+						"timestamp":	"21:00"
+					},{
+						"user": {
+							"id":	"1",
+							"name":	"Test",
+							"image":"img/profil.jpg"
+						},
+						"content":	"Hallo Welt!",
+						"timestamp":	"21:00"
+					},{
+						"user": {
+							"id":	"1",
+							"name":	"Test",
+							"image":"img/profil.jpg"
+						},
+						"content":	"Hallo Welt!",
+						"timestamp":	"21:00"
+					},{
+						"user": {
+							"id":	"1",
+							"name":	"Test",
+							"image":"img/profil.jpg"
+						},
+						"content":	"Hallo Welt!",
+						"timestamp":	"21:00"
+					},{
+						"user": {
+							"id":	"1",
+							"name":	"Test",
+							"image":"img/profil.jpg"
+						},
+						"content":	"Hallo Welt!",
+						"timestamp":	"21:00"
+					},{
+						"user": {
+							"id":	"1",
+							"name":	"Test",
+							"image":"img/profil.jpg"
+						},
+						"content":	"Hallo Welt!",
+						"timestamp":	"21:00"
+					},{
+						"user": {
+							"id":	"1",
+							"name":	"Test",
+							"image":"img/profil.jpg"
+						},
+						"content":	"Hallo Welt!",
+						"timestamp":	"21:00"
+					},{
+						"user": {
+							"id":	"1",
+							"name":	"Test",
+							"image":"img/profil.jpg"
+						},
+						"content":	"Hallo Welt!",
+						"timestamp":	"21:00"
+					},{
+						"user": {
+							"id":	"1",
+							"name":	"Test",
+							"image":"img/profil.jpg"
+						},
+						"content":	"Hallo Welt!",
+						"timestamp":	"21:00"
+					},{
+						"user": {
+							"id":	"1",
+							"name":	"Test",
+							"image":"img/profil.jpg"
+						},
+						"content":	"Hallo Welt!",
+						"timestamp":	"21:00"
+					},{
+						"user": {
+							"id":	"1",
+							"name":	"Test",
+							"image":"img/profil.jpg"
+						},
+						"content":	"Hallo Welt!",
+						"timestamp":	"21:00"
+					},{
+						"user": {
+							"id":	"1",
+							"name":	"Test",
+							"image":"img/profil.jpg"
+						},
+						"content":	"Hallo Welt!",
+						"timestamp":	"21:00"
+					},{
+						"user": {
+							"id":	"1",
+							"name":	"Test",
+							"image":"img/profil.jpg"
+						},
+						"content":	"Hallo Welt!",
+						"timestamp":	"21:00"
+					},{
+						"user": {
+							"id":	"1",
+							"name":	"Test",
+							"image":"img/profil.jpg"
+						},
+						"content":	"Hallo Welt!",
+						"timestamp":	"21:00"
+					},{
+						"user": {
+							"id":	"1",
+							"name":	"Test",
+							"image":"img/profil.jpg"
+						},
+						"content":	"Hallo Welt!",
+						"timestamp":	"21:00"
+					},{
+						"user": {
+							"id":	"1",
+							"name":	"Test",
+							"image":"img/profil.jpg"
+						},
+						"content":	"Hallo Welt!",
+						"timestamp":	"21:00"
+					},{
+						"user": {
+							"id":	"1",
+							"name":	"Test",
+							"image":"img/profil.jpg"
+						},
+						"content":	"Hallo Welt!",
+						"timestamp":	"21:00"
+					},{
+						"user": {
+							"id":	"1",
+							"name":	"Test",
+							"image":"img/profil.jpg"
+						},
+						"content":	"Hallo Welt!",
+						"timestamp":	"21:00"
+					},{
+						"user": {
+							"id":	"1",
+							"name":	"Test",
+							"image":"img/profil.jpg"
+						},
+						"content":	"Hallo Welt!",
+						"timestamp":	"21:00"
+					},{
+						"user": {
+							"id":	"1",
+							"name":	"Test",
+							"image":"img/profil.jpg"
+						},
+						"content":	"Hallo Welt!",
+						"timestamp":	"21:00"
+					},{
+						"user": {
+							"id":	"1",
+							"name":	"Test",
+							"image":"img/profil.jpg"
+						},
+						"content":	"Hallo Welt!",
+						"timestamp":	"21:00"
+					},{
+						"user": {
+							"id":	"1",
+							"name":	"Test",
+							"image":"img/profil.jpg"
+						},
+						"content":	"Hallo Welt!",
+						"timestamp":	"21:00"
+					},{
+						"user": {
+							"id":	"1",
+							"name":	"Test",
+							"image":"img/profil.jpg"
+						},
+						"content":	"Hallo Welt!",
+						"timestamp":	"21:00"
+					},{
+						"user": {
+							"id":	"1",
+							"name":	"Test",
+							"image":"img/profil.jpg"
+						},
+						"content":	"Hallo Welt!",
+						"timestamp":	"21:00"
+					},{
+						"user": {
+							"id":	"1",
+							"name":	"Test",
+							"image":"img/profil.jpg"
+						},
+						"content":	"Hallo Welt!",
+						"timestamp":	"21:00"
+					},{
+						"user": {
+							"id":	"1",
+							"name":	"Test",
+							"image":"img/profil.jpg"
+						},
+						"content":	"Hallo Welt!",
+						"timestamp":	"21:00"
 					}
-				}
+				]
 			},
 			{
 				"sender":	{

@@ -104,19 +104,7 @@
 		</section>
 		<section id="wall">
 			<header  data-i18n="profile.section.wall.title"></header>
-			<article id="post1" data-ng-repeat="post in posts">
-				<img class="userimg" data-ng-src="{{post.sender.image.image}}" alt="{post.sender.image.alttext}">
-				<div class="postContent">
-					<p class="author">{{post.sender.name}}:</p>
-					<div class="postText">{{post.content}}</div>
-				</div>
-				<div class="postInfo">
-						<p class="with" data-i18n="wall.info.with|name={{post.info.with}}"></p>
-						<p class="awesome" data-i18n="wall.info.awesome|count={{post.info.awesome}}"></p>
-						<p class="comments" data-i18n="wall.info.comments.count|count={{post.info.comments.count}}"></p>
-						<a href="#" class="showComments" data-i18n="wall.info.comments.showem"></a>
-				</div>
-			</article>
+			<post data-ng-repeat="post in posts" data-post="post" id="{{post.id}}"></post>
 		</section>
 		<section id="friends">
 			<header data-i18n="profile.section.friends.info"></header>
