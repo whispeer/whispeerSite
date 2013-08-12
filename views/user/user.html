@@ -18,69 +18,88 @@
 				</header>
 				<img src="img/profil.png" alt="USERNAME" class="userimage">
 				<div class="info">
-					<p>{{editGeneral}}</p>
-					<p id="birthday"><i class="icon-gift"></i><span data-i18n="profile.section.general.birthday|date={{user.data.birthday}}"><span class="date">{date}</span></span></p>
+					<p id="birthday" data-ng-if="user.data.birthday.isSet || editGeneral">
+						<i class="icon-gift"></i>
+						<span data-i18n="profile.section.general.birthday">
+							<span class="day" data-for="day" data-ng-if="!editGeneral">{{user.data.birthday.day}}</span>
+							<span class="month" data-for="month" data-ng-if="!editGeneral">{{user.data.birthday.month}}</span>
+							<span class="year" data-for="year" data-ng-if="!editGeneral">{{user.data.birthday.year}}</span>
+							<input class="day" data-for="day" data-ng-if="editGeneral" data-ng-model="user.data.birthday.day">
+							<input class="month" data-for="month" data-ng-if="editGeneral" data-ng-model="user.data.birthday.month">
+							<input class="year" data-for="year" data-ng-if="editGeneral" data-ng-model="user.data.birthday.year">
+						</span>
+					</p>
 					<p id="residence">
 						<i class="icon-home"></i>
 						<span data-i18n="profile.section.general.location">
-							<span data-for="town" class="town" data-ng-if="!editGeneral">{{user.data.town}}</span>
+							<span data-for="town" class="town" data-ng-if="!editGeneral && user.data.town != ''">{{user.data.town}}</span>
 							<input data-for="town" type="text" data-ng-model="user.data.town" data-ng-if="editGeneral">
 
-							<span data-for="state" class="state" data-ng-if="!editGeneral">{{user.data.state}}</span>
+							<span data-for="state" class="state" data-ng-if="!editGeneral && user.data.state != ''">{{user.data.state}}</span>
 							<input data-for="state" type="text" data-ng-model="user.data.state" data-ng-if="editGeneral">
 
-							<span data-for="country" class="country" data-ng-if="!editGeneral">{{user.data.country}}</span>
+							<span data-for="country" class="country" data-ng-if="!editGeneral && user.data.country != ''">{{user.data.country}}</span>
 							<input data-for="country" type="text" data-ng-model="user.data.country" data-ng-if="editGeneral">	
 						</span>
 					</p>
-					<p id="relationship"><i class="icon-heart"></i><span data-i18n="profile.section.general.relation|partner={{user.data.partner}}"></span></p>
-					<p id="school"><i class="icon-book-open"></i><span data-i18n="profile.section.general.education"></span> <span data-ng-repeat="school in user.data.education">{{school}}</span></p>
-					<p id="job"><i class="icon-wrench"></i><span data-i18n="profile.section.general.job|job={{user.data.job}}|company={{user.data.company}}">arbeitet als Web-Developer bei whispeer</span></p>
-					<p id="sex"><i class="icon-toilet"></i><span data-i18n="profile.section.general.gender.{{user.data.gender}}"></span></p>
-					<p id="languages"><i class="icon-globe-1"></i><span data-i18n="profile.section.general.languages">Spricht:</span> <span data-ng-repeat="language in user.data.languages">{{language}}</span></p>
+					<p id="relationship">
+						<i class="icon-heart"></i>
+						<span data-i18n="profile.section.general.relation.default">
+							<span data-for="relationType" class="relationType" data-ng-if="!editGeneral" data-i18n="profile.section.general.relation.status.{{user.data.partner.type}}"></span>
+							<span data-for="partner" class="partner" data-ng-if="!editGeneral">{{user.data.partner.name}}</span>
+							<select data-for="relationType" class="relationType" data-ng-if="editGeneral" data-ng-model="user.data.partner.type">
+								<option data-ng-repeat="type in possibleStatus" value="{{type}}">{{type}}</option>
+							</select>
+							<input data-for="partner" type="text" data-ng-model="user.data.partner.name" data-ng-if="editGeneral">
+						</span>
+					</p>
+					<p id="school">
+						<i class="icon-book-open"></i>
+						<span data-i18n="profile.section.general.education">
+							<span data-ng-if="!editGeneral" data-for="school"><span data-ng-repeat="school in user.data.education">{{school.name}}</span></span>
+							<span data-ng-if="editGeneral" data-for="school">
+								<span class="input-group" data-ng-repeat="school in user.data.education">
+									<input type="text" data-ng-model="school.name">
+									<button class="remove" data-ng-click="removeElement()"><i class="icon icon-cancel"></i></button>
+								</span>
+							</span>
+						</span>
+					</p>
+					<p id="job">
+						<i class="icon-wrench"></i>
+						<span data-i18n="profile.section.general.job">
+							<span data-ng-if="!editGeneral" data-for="job">{{user.data.job}}</span>
+							<input data-ng-if="editGeneral" data-for="job" data-ng-model="user.data.job">
+							
+							<span data-ng-if="!editGeneral" data-for="company">{{user.data.company}}</span>
+							<input data-ng-if="editGeneral" data-for="company" data-ng-model="user.data.company">
+						</span>
+					</p>
+					<p id="sex">
+						<i class="icon-toilet"></i>
+						<span data-i18n="profile.section.general.gender.default">
+							<span data-ng-if="!editGeneral" data-for="gender" data-i18n="profile.section.general.gender.{{user.data.gender}}"></span>
+							<select data-ng-if="editGeneral" type="dropdown" data-ng-model="user.data.gender" data-for="gender">
+								<option value="m" data-i18n="profile.section.general.gender.m"></option>
+								<option value="f" data-i18n="profile.section.general.gender.f"></option>
+							</select>
+						</span>
+					</p>
+					<p id="languages">
+						<i class="icon-globe-1"></i>
+						<span data-i18n="profile.section.general.languages">
+							<span data-ng-if="!editGeneral" data-for="language">
+								<span data-ng-repeat="language in user.data.languages">{{language.name}}</span>
+							</span>
+							<span data-ng-if="editGeneral" data-for="language">
+								<span class="input-group" data-ng-repeat="language in user.data.languages">
+									<input type="text" data-ng-model="language.name">
+									<button class="remove" data-ng-click="removeElement()"><i class="icon icon-cancel"></i></button>
+								</span>
+							</span>
+						</span>
+					</p>
 				</div>
-			</article>
-			<article>
-				<header>
-					<span data-i18n="profile.section.general.headers.education"></span>
-					<a href="" class="edit" data-i18n="profile.edit" data-ng-show="user.data.me"></a>
-				</header>
-				<p></p>
-			</article>
-			<article>
-				<header>
-					<span data-i18n="profile.section.general.headers.location"></span>
-					<a href="" class="edit" data-i18n="profile.edit" data-ng-show="user.data.me"></a>
-				</header>
-				<p></p>
-			</article>
-			<article>
-				<header>
-					<span data-i18n="profile.section.general.headers.family"></span>
-					<a href="" class="edit" data-i18n="profile.edit" data-ng-show="user.data.me"></a>
-				</header>
-				<p></p>
-			</article>
-			<article>
-				<header>
-					<span data-i18n="profile.section.general.headers.music"></span>
-					<a href="" class="edit" data-i18n="profile.edit" data-ng-show="user.data.me"></a>
-				</header>
-				<p></p>
-			</article>
-			<article>
-				<header>
-					<span data-i18n="profile.section.general.headers.quotes"></span>
-					<a href="" class="edit" data-i18n="profile.edit" data-ng-show="user.data.me"></a>
-				</header>
-				<p></p>
-			</article>
-			<article>
-				<header>
-					<span data-i18n="profile.section.general.headers.contact"></span>
-					<a href="" class="edit" data-i18n="profile.edit" data-ng-show="user.data.me"></a>
-				</header>
-				<p></p>
 			</article>
 		</section>
 		<section id="wall">
@@ -100,14 +119,10 @@
 			</article>
 		</section>
 		<section id="friends">
-			<header data-i18n="profile.section.friends.info">Freunde</header>
+			<header data-i18n="profile.section.friends.info"></header>
 			<ol id="friendsList" class="unstyled">
 				<li data-ng-repeat="friend in friends" style="background-image: url({{friend.image}})">
-					<div class="pushup">
-						<p class="username">{{friend.name}}</p>
-						<p class="mutualfriends" data-i18n="friends.mutualFriends|count={{friend.mutualFriends}}"></p>
-						<!--<p class="lists"> <span data-i18n="friends.info.lists"></span> <span data-ng-repeat="list in friend.lists">{{list}}</span></p> -->
-					</div>
+					<friend data-user="friend"></friend>
 				</li>
 			</ol>
 		</section>

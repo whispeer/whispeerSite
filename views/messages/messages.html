@@ -1,7 +1,7 @@
 <header>Nachrichten</header>
 <div id="topicListWrap">
 	<ul id="topicList">
-		<li class="topic" id="newmessage">
+		<li class="topic" id="newmessage" data-ng-click="topicLoaded = false">
 			<div class="left"><i class="icon-plus-circle" id="plusBtn"></i></div>
 			<div class="right" data-i18n="messages.newMessage"></div>
 		</li>
@@ -11,7 +11,7 @@
 					<img class="userimg" data-ng-src="{{topic.partner.image}}" alt="Userimage">
 				</div>
 				<div class="username">
-					<strong style='text-overflow: ellipsis; overflow: hidden; display: inline-block; width: 100%; white-space: nowrap;'>{{shortenName(topic.partner.name)}}</strong>
+					<strong>{{topic.partner.name}}</strong>
 				</div>
 				<div class="lastMessage">
 					{{shortenMessage(topic.latestMessage.text)}}
@@ -43,3 +43,15 @@
 		</form>
 	</div>
 </div>
+<div id="topicWrap" class="newMessage" data-ng-if="!topicLoaded">
+	<div id="messageTitle">	
+		<h2>Neue Nachricht</h2>
+	</div>
+	<div id="messageWrap">	
+		<form id="inputWrap">
+			<input type="text" placeholder="Wer soll die Nachricht empfangen?" id="recieverInput">
+			<textarea type="text" placeholder="Gebe deine Nachricht ein!" id="messageInput"></textarea>
+			<button class="btn btn-success" id="sendmessage" type="submit">Senden</button>		
+		</form>
+	</div>
+</div>	

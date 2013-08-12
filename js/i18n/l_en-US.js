@@ -4,7 +4,7 @@
 		"friends": "Friends",
 		"messages": "Messages",
 		"media": "Media",
-		"groups": "Groups",
+		"circles": "Circles",
 		"settings": "Settings",
 		"help": "Help",
 		"logout": "Logout"

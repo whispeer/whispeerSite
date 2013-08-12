@@ -811,10 +811,16 @@ body:not(.mainView, .registerView) #main {
 }
 #topNav #navInner #brand #brandNormal {
   height: 30px;
+  color: #fff;
+}
+#topNav #navInner #brand #brandNormal {
   background: -webkit-linear-gradient(#ffffff, #dddddd);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  color: #fff;
+}
+#topNav #navInner #brand _:-o-prefocus,
+#topNav #navInner #brand #brandNormal {
+  background: none;
 }
 #topNav #navInner #brand #brandInverse {
   color: #266300;
@@ -1644,7 +1650,11 @@ input[type="submit"].btn.btn-mini {
   background: rgba(0, 0, 0, 0.05);
 }
 #magicbar .magic .body ul li.unread {
-  background: rgba(86, 177, 44, 0.37);
+  background: #3a8100;
+  color: #f5f5f5 !important;
+}
+#magicbar .magic .body ul li.unread .text {
+  color: #ffffff !important;
 }
 #magicbar .magic .body ul li.message img {
   display: inline;
@@ -2347,6 +2357,10 @@ input[type="submit"].btn.btn-mini {
   color: #459b00;
   text-rendering: optimizeLegibility;
 }
+.profileView #main nav heading _:-o-prefocus,
+.profileView #main nav heading h3 {
+  background: none;
+}
 .profileView #main nav menu li {
   text-align: center;
 }
@@ -2357,6 +2371,10 @@ input[type="submit"].btn.btn-mini {
   color: #626262;
   font-weight: 600;
   font-size: 1em;
+}
+.profileView #main nav menu li _:-o-prefocus,
+.profileView #main nav menu li a {
+  background: none;
 }
 .profileView #main #info header,
 .profileView #main #wall header,
@@ -2995,6 +3013,212 @@ input[type="submit"].btn.btn-mini {
 }
 .friendsView #friendsList li:hover .pushup p,
 .profileView #friendsList li:hover .pushup p {
+  opacity: 1;
+}
+.circlesView #main {
+  background-color: #e6e6e6;
+  border: 1px solid #bbbbbb;
+  border-bottom: 1px solid #000;
+  border-bottom-color: #a2a2a2;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  -webkit-box-sizing: border-box;
+  /* Safari/Chrome, other WebKit */
+
+  -moz-box-sizing: border-box;
+  /* Firefox, other Gecko */
+
+  box-sizing: border-box;
+  /* Opera/IE 8+ */
+
+}
+.circlesView header {
+  background-color: #fafafa;
+  background: -webkit-gradient(linear, left top, left bottom, from(#fafafa), to(#e6e6e6));
+  background: -webkit-linear-gradient(top, #fafafa, #e6e6e6);
+  background: -moz-linear-gradient(top, #fafafa, #e6e6e6);
+  background: -ms-linear-gradient(top, #fafafa, #e6e6e6);
+  background: -o-linear-gradient(top, #fafafa, #e6e6e6);
+  border-bottom: 1px solid #bbbbbb;
+}
+.circlesView header nav a {
+  color: #888888;
+}
+.circlesView #circleListWrap {
+  margin-right: 3px;
+}
+.circlesView #circleListWrap #circleList {
+  margin-left: 0;
+  list-style: none;
+  -webkit-box-sizing: border-box;
+  /* Safari/Chrome, other WebKit */
+
+  -moz-box-sizing: border-box;
+  /* Firefox, other Gecko */
+
+  box-sizing: border-box;
+  /* Opera/IE 8+ */
+
+}
+.circlesView #circleListWrap #circleList #circleListScroll {
+  -webkit-box-sizing: border-box;
+  /* Safari/Chrome, other WebKit */
+
+  -moz-box-sizing: border-box;
+  /* Firefox, other Gecko */
+
+  box-sizing: border-box;
+  /* Opera/IE 8+ */
+
+}
+.circlesView #circleListWrap #circleList #newcircle {
+  border: none;
+  -webkit-border-radius: 2px;
+  -moz-border-radius: 2px;
+  border-radius: 2px;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+}
+.circlesView #circleListWrap #circleList .circle {
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  border: none;
+  border-bottom: 1px solid #aaa;
+  padding: 0;
+}
+.circlesView #circleListWrap #circleList .circle .left {
+  padding: 0;
+}
+.circlesView #circleListWrap #circleList .circle .left .userimg {
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  padding: 0;
+}
+.circlesView #circleListWrap #circleList .circle .listname strong {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  display: inline-block;
+  white-space: nowrap;
+}
+.circlesView #circleListWrap #circleList .circle .personCount {
+  font-size: 0.85em;
+  color: #555;
+}
+.circlesView #circleListWrap #circleList .circle:hover {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+.circlesView #circleListWrap #circleList .circle.active {
+  box-shadow: inset 0px 0px 2px 1px #7fd308;
+  background: rgba(128, 212, 9, 0.4);
+}
+.circlesView #circleListWrap #circleList .circle .time {
+  font-size: small;
+  color: #888;
+  float: right;
+  margin-right: 5px;
+  margin-top: -20px;
+}
+.circlesView #circleContainer #friendsList {
+  *zoom: 1;
+  text-align: center;
+}
+.circlesView #circleContainer #friendsList:before,
+.circlesView #circleContainer #friendsList:after {
+  content: "";
+  display: table;
+}
+.circlesView #circleContainer #friendsList:after {
+  clear: both;
+}
+.circlesView #circleContainer #friendsList li {
+  padding: 0;
+  margin-bottom: 15px !important;
+  -webkit-box-sizing: border-box;
+  /* Safari/Chrome, other WebKit */
+
+  -moz-box-sizing: border-box;
+  /* Firefox, other Gecko */
+
+  box-sizing: border-box;
+  /* Opera/IE 8+ */
+
+  background-image: url(../img/user.png);
+  background-repeat: no-repeat;
+  background-position: center center;
+  -webkit-background-size: auto 100%;
+  -moz-background-size: auto 100%;
+  -o-background-size: auto 100%;
+  background-size: auto 100%;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  border: 1px solid #e6e6e6;
+}
+.circlesView #circleContainer #friendsList li .username {
+  width: 100%;
+  text-align: center;
+}
+.circlesView #circleContainer #friendsList li .pushup {
+  opacity: 0;
+  background: rgba(0, 0, 0, 0.5);
+  height: 0;
+  width: 100%;
+  margin-top: 0px;
+  padding: 0;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  border-top: 1px solid #333;
+  color: #ffffff;
+  -webkit-box-sizing: border-box;
+  /* Safari/Chrome, other WebKit */
+
+  -moz-box-sizing: border-box;
+  /* Firefox, other Gecko */
+
+  box-sizing: border-box;
+  /* Opera/IE 8+ */
+
+  -webkit-transition: all 1s ease;
+  -moz-transition: all 1s ease;
+  -ms-transition: all 1s ease;
+  -o-transition: all 1s ease;
+}
+.circlesView #circleContainer #friendsList li .pushup p {
+  opacity: 0;
+  -webkit-transition: opacity 0.2s ease-in-out 0.5s;
+  -moz-transition: opacity 0.2s ease-in-out 0.5s;
+  -ms-transition: opacity 0.2s ease-in-out 0.5s;
+  -o-transition: opacity 0.2s ease-in-out 0.5s;
+}
+.circlesView #circleContainer #friendsList li:hover .pushup {
+  opacity: 1;
+  height: 80px;
+  -webkit-transition: all 1s ease;
+  -moz-transition: all 1s ease;
+  -ms-transition: all 1s ease;
+  -o-transition: all 1s ease;
+}
+.circlesView #circleContainer #friendsList li:hover .pushup p {
   opacity: 1;
 }
 .mediaView #main {
@@ -3967,6 +4191,143 @@ and (max-device-width : 767px) {
   .messagesView #topicWrap.newMessage #sendmessage {
     margin-left: 8px;
   }
+  .circlesView #main {
+    padding-top: 30px;
+    padding-bottom: 10px;
+    height: 100%;
+  }
+  .circlesView header {
+    height: 20px;
+    margin-top: -30px;
+    padding: 5px;
+  }
+  .circlesView header .title {
+    display: inline;
+    float: left;
+    width: 12.285714285714286%;
+    margin: 0 1% 0 1%;
+  }
+  .circlesView header nav {
+    display: inline;
+    float: left;
+    width: 83.71428571428572%;
+    margin: 0 1% 0 1%;
+  }
+  .circlesView header nav a {
+    display: inline;
+    float: left;
+    width: 31.333333333333336%;
+    margin: 0 1% 0 1%;
+    text-align: center;
+  }
+  .circlesView header nav a:first-child {
+    text-align: left;
+  }
+  .circlesView header nav a:last-child {
+    text-align: right;
+  }
+  .circlesView #circleListWrap {
+    display: inline;
+    float: left;
+    width: 37.285714285714285%;
+    margin: 0 1% 0 1%;
+    height: 100%;
+  }
+  .circlesView #circleListWrap #circleList {
+    height: 100%;
+    padding-top: 15px;
+    padding-bottom: 6px;
+  }
+  .circlesView #circleListWrap #circleList #circleListScroll {
+    height: 100%;
+    overflow-y: scroll;
+  }
+  .circlesView #circleListWrap #circleList .circle {
+    margin-bottom: 5px;
+    padding: 0;
+  }
+  .circlesView #circleListWrap #circleList .circle .left {
+    display: inline;
+    float: left;
+    width: 28%;
+    margin: 0 1% 0 1%;
+    margin-left: 0;
+  }
+  .circlesView #circleListWrap #circleList .circle .left .userimg {
+    width: 100%;
+    margin: 0 0 -4px 0px;
+    padding: 0;
+  }
+  .circlesView #circleListWrap #circleList .circle .listname {
+    font-size: 1em;
+    display: inline;
+    float: left;
+    width: 68%;
+    margin: 0 1% 0 1%;
+  }
+  .circlesView #circleListWrap #circleList .circle .listname strong {
+    width: 100%;
+  }
+  .circlesView #circleListWrap #circleList .circle .personCount {
+    display: inline;
+    float: left;
+    width: 68%;
+    margin: 0 1% 0 1%;
+    margin-top: 0px;
+    font-size: 0.8em;
+  }
+  .circlesView #circleListWrap #circleList .circle#newcircle {
+    height: 20px;
+    margin-top: -10px;
+  }
+  .circlesView #circleContainer {
+    display: inline;
+    float: left;
+    width: 58.714285714285715%;
+    margin: 0 1% 0 1%;
+    height: 100%;
+    padding: 0px 0px 91px 0px;
+    -webkit-box-sizing: border-box;
+    /* Safari/Chrome, other WebKit */
+  
+    -moz-box-sizing: border-box;
+    /* Firefox, other Gecko */
+  
+    box-sizing: border-box;
+    /* Opera/IE 8+ */
+  
+  }
+  .circlesView #circleContainer #circleWrap {
+    height: 100%;
+  }
+  .circlesView #circleContainer #circleTitle {
+    padding-left: 10px;
+  }
+  .circlesView #circleContainer #friendsList {
+    overflow-y: scroll;
+    height: 100%;
+  }
+  .circlesView #circleContainer #friendsList li {
+    display: inline;
+    float: left;
+    width: 31.333333333333336%;
+    margin: 0 1% 0 1%;
+    height: 250px;
+    padding: 0;
+    margin-bottom: 15px;
+  }
+  .circlesView #circleContainer #friendsList li .username {
+    width: 100%;
+  }
+  .circlesView #circleContainer #friendsList li .pushup {
+    height: 0;
+    width: 100%;
+    margin-top: 0px;
+    padding: 0;
+  }
+  .circlesView #circleContainer #friendsList li:hover .pushup {
+    height: 80px;
+  }
   .shareForm {
     display: inline;
     float: left;
@@ -4277,6 +4638,9 @@ and (max-device-width : 767px) {
     margin-top: -5px;
     margin-bottom: 10px;
   }
+}
+@media only screen and (max-width: 1159px) and (-webkit-min-device-pixel-ratio: 0) {
+  
 }
 /* Normal Screens ---------- */
 @media only screen and (min-width: 1160px) and (max-width: 1823px) {
@@ -4762,6 +5126,143 @@ and (max-device-width : 767px) {
   .messagesView #topicWrap.newMessage #sendmessage {
     margin-left: 8px;
   }
+  .circlesView #main {
+    padding-top: 30px;
+    padding-bottom: 10px;
+    height: 100%;
+  }
+  .circlesView header {
+    height: 20px;
+    margin-top: -30px;
+    padding: 5px;
+  }
+  .circlesView header .title {
+    display: inline;
+    float: left;
+    width: 26.571428571428573%;
+    margin: 0 1% 0 1%;
+  }
+  .circlesView header nav {
+    display: inline;
+    float: left;
+    width: 69.42857142857143%;
+    margin: 0 1% 0 1%;
+  }
+  .circlesView header nav a {
+    display: inline;
+    float: left;
+    width: 31.333333333333336%;
+    margin: 0 1% 0 1%;
+    text-align: center;
+  }
+  .circlesView header nav a:first-child {
+    text-align: left;
+  }
+  .circlesView header nav a:last-child {
+    text-align: right;
+  }
+  .circlesView #circleListWrap {
+    display: inline;
+    float: left;
+    width: 26.571428571428573%;
+    margin: 0 1% 0 1%;
+    height: 100%;
+  }
+  .circlesView #circleListWrap #circleList {
+    height: 100%;
+    padding-top: 15px;
+    padding-bottom: 6px;
+  }
+  .circlesView #circleListWrap #circleList #circleListScroll {
+    height: 100%;
+    overflow-y: scroll;
+  }
+  .circlesView #circleListWrap #circleList .circle {
+    margin-bottom: 5px;
+    padding: 0;
+  }
+  .circlesView #circleListWrap #circleList .circle .left {
+    display: inline;
+    float: left;
+    width: 28%;
+    margin: 0 1% 0 1%;
+    margin-left: 0;
+  }
+  .circlesView #circleListWrap #circleList .circle .left .userimg {
+    width: 100%;
+    margin: 0 0 -4px 0px;
+    padding: 0;
+  }
+  .circlesView #circleListWrap #circleList .circle .listname {
+    font-size: 1em;
+    display: inline;
+    float: left;
+    width: 68%;
+    margin: 0 1% 0 1%;
+  }
+  .circlesView #circleListWrap #circleList .circle .listname strong {
+    width: 100%;
+  }
+  .circlesView #circleListWrap #circleList .circle .personCount {
+    display: inline;
+    float: left;
+    width: 68%;
+    margin: 0 1% 0 1%;
+    margin-top: 0px;
+    font-size: 0.8em;
+  }
+  .circlesView #circleListWrap #circleList .circle#newcircle {
+    height: 20px;
+    margin-top: -10px;
+  }
+  .circlesView #circleContainer {
+    display: inline;
+    float: left;
+    width: 69.42857142857143%;
+    margin: 0 1% 0 1%;
+    height: 100%;
+    padding: 0px 0px 51px 0px;
+    -webkit-box-sizing: border-box;
+    /* Safari/Chrome, other WebKit */
+  
+    -moz-box-sizing: border-box;
+    /* Firefox, other Gecko */
+  
+    box-sizing: border-box;
+    /* Opera/IE 8+ */
+  
+  }
+  .circlesView #circleContainer #circleWrap {
+    height: 100%;
+  }
+  .circlesView #circleContainer #circleTitle {
+    padding-left: 10px;
+  }
+  .circlesView #circleContainer #friendsList {
+    overflow-y: scroll;
+    height: 100%;
+  }
+  .circlesView #circleContainer #friendsList li {
+    display: inline;
+    float: left;
+    width: 31.333333333333336%;
+    margin: 0 1% 0 1%;
+    height: 250px;
+    padding: 0;
+    margin-bottom: 15px;
+  }
+  .circlesView #circleContainer #friendsList li .username {
+    width: 100%;
+  }
+  .circlesView #circleContainer #friendsList li .pushup {
+    height: 0;
+    width: 100%;
+    margin-top: 0px;
+    padding: 0;
+  }
+  .circlesView #circleContainer #friendsList li:hover .pushup {
+    height: 80px;
+  }
   .shareForm {
     display: inline;
     float: left;
@@ -5078,6 +5579,9 @@ and (max-device-width : 767px) {
     margin-bottom: 10px;
   }
 }
+@media only screen and (min-width: 1160px) and (max-width: 1823px) and (-webkit-min-device-pixel-ratio: 0) {
+  
+}
 /* Large screens ----------- */
 @media only screen and (min-width: 1824px) {
   body {
@@ -5337,7 +5841,7 @@ and (max-device-width : 767px) {
   .messagesView #topicListWrap {
     display: inline;
     float: left;
-    width: 15.857142857142858%;
+    width: 26.571428571428573%;
     margin: 0 1% 0 1%;
     height: 100%;
   }
@@ -5363,15 +5867,25 @@ and (max-device-width : 767px) {
     font-size: 1em;
     display: inline;
     float: left;
-    width: 63%;
+    width: 68%;
     margin: 0 1% 0 1%;
+    text-overflow: ellipsis !important;
+    max-height: 40px !important;
+    max-width: 70% !important;
+    overflow: hidden;
+    display: inline-block !important;
+    white-space: nowrap;
   }
   .messagesView #topicListWrap #topicList .topic .lastMessage {
     font-size: 0.8em;
     display: block;
-    width: 98%;
+    width: 68%;
     margin: 0 1% 0 1%;
     *zoom: 1;
+    max-width: 70% !important;
+    overflow: hidden;
+    display: inline-block !important;
+    white-space: nowrap;
   }
   .messagesView #topicListWrap #topicList .topic .lastMessage:before,
   .messagesView #topicListWrap #topicList .topic .lastMessage:after {
@@ -5384,7 +5898,7 @@ and (max-device-width : 767px) {
   .messagesView #topicListWrap #topicList .topic .left {
     display: inline;
     float: left;
-    width: 33%;
+    width: 28%;
     margin: 0 1% 0 1%;
   }
   .messagesView #topicListWrap #topicList .topic#newmessage {
@@ -5397,7 +5911,7 @@ and (max-device-width : 767px) {
   .messagesView #topicWrap.peerChat {
     display: inline;
     float: left;
-    width: 80.14285714285715%;
+    width: 69.42857142857143%;
     margin: 0 1% 0 1%;
     height: 100%;
     padding: 0px 0px 120px 0px;
@@ -5556,6 +6070,141 @@ and (max-device-width : 767px) {
   }
   .messagesView #topicWrap.newMessage #sendmessage {
     margin-left: 8px;
+  }
+  .circlesView #main {
+    padding-top: 30px;
+    padding-bottom: 10px;
+    height: 100%;
+  }
+  .circlesView header {
+    height: 20px;
+    margin-top: -30px;
+    padding: 5px;
+  }
+  .circlesView header .title {
+    display: inline;
+    float: left;
+    width: 26.571428571428573%;
+    margin: 0 1% 0 1%;
+  }
+  .circlesView header nav {
+    display: inline;
+    float: left;
+    width: 69.42857142857143%;
+    margin: 0 1% 0 1%;
+  }
+  .circlesView header nav a {
+    display: inline;
+    float: left;
+    width: 31.333333333333336%;
+    margin: 0 1% 0 1%;
+    text-align: center;
+  }
+  .circlesView header nav a:first-child {
+    text-align: left;
+  }
+  .circlesView header nav a:last-child {
+    text-align: right;
+  }
+  .circlesView #circleListWrap {
+    display: inline;
+    float: left;
+    width: 26.571428571428573%;
+    margin: 0 1% 0 1%;
+    height: 100%;
+  }
+  .circlesView #circleListWrap #circleList {
+    height: 100%;
+    padding-top: 15px;
+    padding-bottom: 6px;
+  }
+  .circlesView #circleListWrap #circleList #circleListScroll {
+    height: 100%;
+    overflow-y: scroll;
+  }
+  .circlesView #circleListWrap #circleList .circle {
+    margin-bottom: 5px;
+    padding: 0;
+  }
+  .circlesView #circleListWrap #circleList .circle .userimg {
+    width: 100%;
+    margin: 0 0 -4px -2px;
+    padding: 0;
+  }
+  .circlesView #circleListWrap #circleList .circle .listname {
+    font-size: 1em;
+    display: inline;
+    float: left;
+    width: 68%;
+    margin: 0 1% 0 1%;
+  }
+  .circlesView #circleListWrap #circleList .circle .listname strong {
+    width: 100%;
+  }
+  .circlesView #circleListWrap #circleList .circle .personCount {
+    display: inline;
+    float: left;
+    width: 68%;
+    margin: 0 1% 0 1%;
+    margin-top: 10px;
+  }
+  .circlesView #circleListWrap #circleList .circle .left {
+    display: inline;
+    float: left;
+    width: 28%;
+    margin: 0 1% 0 1%;
+  }
+  .circlesView #circleListWrap #circleList .circle#newcircle {
+    height: 20px;
+    margin-top: -10px;
+  }
+  .circlesView #circleContainer {
+    display: inline;
+    float: left;
+    width: 69.42857142857143%;
+    margin: 0 1% 0 1%;
+    height: 100%;
+    padding: 0px 0px 51px 0px;
+    -webkit-box-sizing: border-box;
+    /* Safari/Chrome, other WebKit */
+  
+    -moz-box-sizing: border-box;
+    /* Firefox, other Gecko */
+  
+    box-sizing: border-box;
+    /* Opera/IE 8+ */
+  
+  }
+  .circlesView #circleContainer #circleWrap {
+    height: 100%;
+  }
+  .circlesView #circleContainer #circleTitle {
+    padding-left: 10px;
+  }
+  .circlesView #circleContainer #friendsList {
+    overflow-y: scroll;
+    height: 100%;
+  }
+  .circlesView #circleContainer #friendsList li {
+    display: inline;
+    float: left;
+    width: 23%;
+    margin: 0 1% 0 1%;
+    height: 250px;
+    padding: 0;
+    margin-bottom: 15px;
+  }
+  .circlesView #circleContainer #friendsList li .username {
+    width: 100%;
+  }
+  .circlesView #circleContainer #friendsList li .pushup {
+    height: 0;
+    width: 100%;
+    margin-top: 0px;
+    padding: 0;
+  }
+  .circlesView #circleContainer #friendsList li:hover .pushup {
+    height: 80px;
   }
   .shareForm {
     display: inline;
@@ -5871,6 +6520,9 @@ and (max-device-width : 767px) {
     margin-top: -5px;
     margin-bottom: 10px;
   }
+}
+@media only screen and (min-width: 1824px) and (-webkit-min-device-pixel-ratio: 0) {
+  
 }
 /* Utilities --------------- */
 .hidden {

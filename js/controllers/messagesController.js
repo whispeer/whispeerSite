@@ -29,8 +29,8 @@ define(["step", "whispeerHelper"], function (step, h) {
 		$scope.topicLoaded = false;
 
 		$scope.shortenMessage = function (string) {
-			if(string.length > 27) {
-				return string.substr(0, 27) + "...";
+			if(string.length > 100) {
+				return string.substr(0, 97) + "...";
 			} else {
 				return string;
 			}
@@ -65,17 +65,18 @@ define(["step", "whispeerHelper"], function (step, h) {
 
 		$scope.topics = messageService.data.latestTopics.data;
 
+		$scope.newMessage = false;
 		$scope.topics2 = [
 			{
 				"id": "1", // TopicID goes here
 				"type":	"peerChat", // Either peerChat or groupChat
 				"partner":	{
 					"id": "1", // User ID of conversation partner
-					"name": "Willi Welle",
+					"name": "Willi Welle, Willi Welle, Willi Welle, Willi Welle, Willi Welle, Willi Welle, Willi Welle, Willi Welle, Willi Welle, Willi Welle",
 					"image": "img/profil.jpg"
 				},
 				"latestMessage": {
-					"text": "Lorem Ipsum Dolor Sit Amet <pgnpgndaipbnqeog",
+					"text": "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magn",
 					"timestamp": "21:00"
 				},
 				"messages": [{

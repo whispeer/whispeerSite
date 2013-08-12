@@ -1,0 +1,41 @@
+<header>
+	<span class="title" role="title" data-i18n="circles.header.title"></span>
+	<nav>
+		<a href="#" data-i18n="circles.header.sendMessage"></a>
+		<a href="#" data-i18n="circles.header.addPeople"></a>
+		<a href="#" data-i18n="circles.header.createGroup"></a>
+	</nav>
+</header>
+<div id="circleListWrap">
+	<ul id="circleList">
+		<li class="circle" id="newcircle">
+			<div class="left"><i class="icon-plus-circle" id="plusBtn"></i></div>
+			<div class="right" data-i18n="circles.newCircle"></div>
+		</li>
+		<div id="circleListScroll">
+			<li data-ng-repeat="circle in circles" id="{{circle.id}}" class="circle">
+				<div class="left">
+					<img class="userimg" data-ng-src="{{circle.image}}" alt="Userimage">
+				</div>
+				<div class="listname">
+					<strong>{{circle.name}}</strong>
+				</div>
+				<div class="personCount" data-i18n="circles.personCount|count={{circle.persons.length}}">
+				</div>
+				<div class="clear-fix"></div>
+			</li>
+		</div>
+	</ul>
+</div>
+<div id="circleContainer" data-circleID="{{thisCircle.id}}">
+	<div id="circleTitle">	
+		<h2 data-i18n="circles.personsInCircle|name={{shortenString(thisCircle.name, 28)}}"></h2>
+	</div>
+	<div id="circleWrap">
+		<ol id="friendsList" class="unstyled">
+			<li data-ng-repeat="friend in thisCircle.persons" style="background-image: url({{friend.image}})">
+				<friend data-user="friend"></friend>
+			</li>	
+		</ol>
+	</div>
+</div>

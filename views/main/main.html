@@ -18,7 +18,7 @@
 				<div class="postText">{{post.content}}</div>
 			</div>
 			<div class="postInfo">
-					<p class="with" data-i18n="wall.info.with|name={{post.info.with}}"></p>
+					<p class="with" data-ng-if="post.info.with != ''" data-i18n="wall.info.with|name={{post.info.with}}"></p>
 					<p class="awesome" data-i18n="wall.info.awesome|count={{post.info.awesome}}"></p>
 					<p class="comments" data-i18n="wall.info.comments.count|count={{post.info.comments.count}}"></p>
 					<a href="#" class="showComments" data-i18n="wall.info.comments.showem"></a>
