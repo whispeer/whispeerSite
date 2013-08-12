@@ -124,14 +124,14 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/sjclWork
 						throw "not a key!";
 					}
 				}), callback);
-			} else if (decryptortype === "asymKey") {
+			} else if (decryptortype === "cryptKey") {
 				step(function () {
 					CryptKey.get(decryptorid, this);
 				}, h.sF(function (theKey) {
 					cryptor = theKey;
 					theKey.decryptKey(this);
 				}), h.sF(function () {
-					cryptor.unkem(ctext, this);
+					cryptor.unkem(chelper.hex2bits(ctext), this);
 				}), callback);
 			} else if (decryptortype === "pw") {
 				step(function () {
@@ -143,11 +143,12 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/sjclWork
 					for (i = 0; i < passwords.length; i += 1) {
 						try {
 							result = sjcl.decrypt(passwords[i], jsonData);
-							this.ne(result);
-							return;
 						} catch (e) {
 							debugger;
 						}
+
+						this.ne(result);
+						return;
 					}
 
 					throw "no pw";
@@ -173,7 +174,7 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/sjclWork
 			return symKeys[decryptorData.id];
 		}
 
-		if (decryptorData.type === "asymKey") {
+		if (decryptorData.type === "cryptKey") {
 			return cryptKeys[decryptorData.id];
 		}
 
@@ -186,7 +187,7 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/sjclWork
 	* @param optional secret unencrypted secret if we already have it
 	*/
 	Key = function keyConstructor(superKey, realid, decryptors, optionals) {
-		var theKey = this, decrypted = false, dirtyDecryptors = [], internalSecret;
+		var theKey = this, decrypted = false, dirtyDecryptors = [], internalSecret, preSecret;
 
 		if (!decryptors) {
 			decryptors = [];
@@ -204,6 +205,7 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/sjclWork
 		}
 
 		if (optionals.secret) {
+			preSecret = optionals.secret;
 			internalSecret = pastProcessor(optionals.secret);
 			decrypted = true;
 		}
@@ -228,8 +230,7 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/sjclWork
 				usedDecryptor = theKey.getFastestDecryptor();
 
 				if (!usedDecryptor || !usedDecryptor.decryptor) {
-					this.last.ne(false);
-					return;
+					throw "Could not Decrypt key!";
 				}
 
 				var d = usedDecryptor.decryptor;
@@ -245,11 +246,17 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/sjclWork
 						}
 					}
 
-					theKey.decryptKey(this.last);
+					if (decryptors.length === 0) {
+						debugger;
+						throw "Could finally not decrypt key!";
+					} else {
+						theKey.decryptKey(this.last);
+					}
 				} else {
 					this.ne(pastProcessor(result));
 				}
 			}, h.sF(function (pastProcessedSecret) {
+				preSecret = internalSecret;
 				internalSecret = pastProcessedSecret;
 				decrypted = true;
 				this.ne(true);
@@ -347,7 +354,7 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/sjclWork
 			step(function () {
 				var decryptorData = {
 					decryptorid: realid,
-					type: "asymKey",
+					type: "cryptKey",
 					ct: chelper.bits2hex(tag),
 					dirty: true
 				};
@@ -372,7 +379,7 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/sjclWork
 				cryptor = theKey;
 				theKey.decryptKey(this);
 			}), h.sF(function addSymD3() {
-				cryptor.encrypt("key::" + chelper.bits2hex(internalSecret), this);
+				cryptor.encrypt("key::" + chelper.bits2hex(preSecret), this);
 			}), h.sF(function addSymD4(data) {
 				var decryptorData = {
 					decryptorid: realid,
@@ -386,7 +393,7 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/sjclWork
 				dirtyKeys.push(superKey);
 				dirtyDecryptors.push(decryptorData);
 
-				this.ne();
+				this.ne(realid);
 			}), callback);
 		}
 
@@ -396,7 +403,7 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/sjclWork
 		*/
 		function addPWDecryptorF(pw, callback) {
 			step(function () {
-				encryptPW(pw, "key::" + chelper.bits2hex(internalSecret), this);
+				encryptPW(pw, "key::" + chelper.bits2hex(preSecret), this);
 			}, h.sF(function (data) {
 				var decryptorData = {
 					//Think, shortHash here? id: ?,
@@ -569,6 +576,14 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/sjclWork
 					}
 
 					ctext = {ct: ctext};
+				} else {
+					if (h.isHex(ctext.iv)) {
+						ctext.iv = chelper.hex2bits(ctext.iv);
+					}
+
+					if (h.isHex(ctext.ct)) {
+						ctext.ct = chelper.hex2bits(ctext.ct);
+					}
 				}
 
 				if (iv) {
@@ -732,6 +747,7 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/sjclWork
 			}, h.sF(function (keyData) {
 				resultKey = new SymKey(keyData.key);
 				symKeys[resultKey.getRealID()] = resultKey;
+				newKeys.push(resultKey);
 				resultKey.addAsymDecryptor(realid, keyData.tag, this);
 			}), h.sF(function () {
 				this.ne(resultKey.getRealID());
@@ -999,23 +1015,41 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/sjclWork
 		}
 	};
 
+	function objInternalHash(val) {
+		if (typeof val === "object") {
+			return object2Hash(val);
+		} else if (typeof val === "function") {
+			throw "can not sign objects with functions";
+		} else {
+			return val.toString();
+		}
+	}
+
 	/** hash an object. */
 	function object2Hash(obj, arr) {
-		var val, hashObj = {};
-		for (val in obj) {
-			if (obj.hasOwnProperty(val)) {
-				if (typeof obj[val] === "object") {
-					hashObj[val] = object2Hash(obj[val]);
-				} else if (typeof obj[val] === "function") {
-					throw "can not sign objects with functions";
-				} else {
-					hashObj[val] = obj[val].toString();
+		var val, hashObj;
+
+		if (obj instanceof Array) {
+			hashObj = [];
+			var i;
+			for (i = 0; i < obj.length; i += 1) {
+				hashObj.push(objInternalHash(obj[i]));
+			}
+
+			hashObj.sort();
+		} else {
+			hashObj = {};
+			for (val in obj) {
+				if (obj.hasOwnProperty(val)) {
+					hashObj[val] = objInternalHash(obj[val]);
 				}
 			}
+
 		}
 
 		var sortation = Object.keys(hashObj).sort();
 		var json = JSON.stringify(hashObj, sortation);
+
 
 		if (!arr) {
 			return "hash:" + chelper.bits2hex(sjcl.hash.sha256.hash(json));
@@ -1163,7 +1197,11 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/sjclWork
 
 			hashPW: function (pw) {
 				return chelper.bits2hex(sjcl.hash.sha256.hash(pw)).substr(0, 10);
-			}
+			},
+
+			hashObject: function (obj) {
+				return chelper.bits2hex(object2Hash(obj, true));
+			},
 		},
 
 		upload: {
@@ -1240,6 +1278,16 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/sjclWork
 				}
 
 				newKeys = remainedKeys;
+			}
+		},
+
+		random: {
+			hex: function (length) {
+				var res = chelper.bits2hex(sjcl.random.randomWords(Math.ceil(length/8)));
+				return res.substr(0, length);
+			},
+			words: function (number) {
+				return sjcl.random.randomWords(number);
 			}
 		},
 

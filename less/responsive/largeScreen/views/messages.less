@@ -10,7 +10,7 @@
 		padding: 5px;
 	}
 	#topicListWrap {
-		.column(1.25,7);
+		.column(2,7);
 		height: 100%;
 		#topicList {
 			height: 100%;
@@ -30,14 +30,24 @@
 				}
 				.username {
 					font-size: 1em;
-					.column(1.30,2);
+					.column(1.4,2);
+					text-overflow: ellipsis !important;
+					max-height: 40px !important;
+					max-width: 100%/2*1.4 !important;
+					overflow: hidden;
+					display: inline-block !important;
+					white-space: nowrap;
 				}
 				.lastMessage {
 					font-size: 0.8em;
-					.row(2,2);
+					.row(1.4,2);
+					max-width: 100%/2*1.4 !important;
+					overflow: hidden;
+					display: inline-block !important;
+					white-space: nowrap;
 				}
 				.left {
-					.column(0.70,2);
+					.column(0.6,2);
 				}
 				&#newmessage {
 					height: 20px;
@@ -49,7 +59,7 @@
 	#topicWrap {
 		height: 100%;
 		&.peerChat {
-			.column(5.75,7);
+			.column(5,7);
 			height: 100%;
 			padding: 0px 0px 120px 0px;
 			.box-fix;

@@ -9,7 +9,7 @@ define(["angular", "crypto/keyStore"], function (angular, keyStore) {
 
 		$rootScope.$on("ssn.reset", function () {
 			keyStore.reset();
-		})
+		});
 
 		return keyStore;
 	};

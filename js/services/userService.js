@@ -1,13 +1,17 @@
 define(["step", "whispeerHelper"], function (step, h) {
 	"use strict";
 
-	var service = function ($rootScope, socketService, keyStoreService, ProfileService) {
+	var service = function ($rootScope, socketService, sessionService, keyStoreService, ProfileService) {
 
 		var NotExistingUser = {
-
+			getName: function (cb) {
+				cb("Not Existing User");
+			}
 		};
 
 		var users = {};
+		var loading = {};
+
 		var User = function (data) {
 			var theUser = this, mainKey, signKey, cryptKey;
 
@@ -30,8 +34,28 @@ define(["step", "whispeerHelper"], function (step, h) {
 				}
 			}
 
+			this.isOwn = function () {
+				return theUser.getID() === sessionService.getUserID();
+			};
+
+			this.getNickOrMail = function () {
+				return data.nickname || data.mail;
+			};
+
+			this.getMainKey = function () {
+				return mainKey;
+			};
+
+			this.getSignKey = function () {
+				return signKey;
+			};
+
+			this.getCryptKey = function () {
+				return cryptKey;
+			};
+
 			this.getID = function () {
-				return data.id;
+				return parseInt(data.id, 10);
 			};
 
 			this.getNickname = function () {
@@ -50,9 +74,15 @@ define(["step", "whispeerHelper"], function (step, h) {
 				return data.profile.priv;
 			};
 
+			this.getImage = function (cb) {
+				step(function () {
+					this.ne("img/profil.jpg");
+				}, cb);
+			};
+
 			this.getName = function (cb) {
 				var firstname, lastname, nickname;
-				step(function () {
+				step(function getN1() {
 					var pub = theUser.getProfile().basic;
 
 					if (pub) {
@@ -71,7 +101,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 					} else {
 						this.ne([]);
 					}
-				}, h.sF(function (results) {
+				}, h.sF(function getN2(results) {
 					var b;
 					for (i = 0; i < results.length; i += 1) {
 						b = results[i].basic;
@@ -100,6 +130,10 @@ define(["step", "whispeerHelper"], function (step, h) {
 		};
 
 		function makeUser(data) {
+			if (data.error === true) {
+				return NotExistingUser;
+			}
+
 			var theUser = new User(data);
 
 			var id = theUser.getID();
@@ -126,6 +160,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 		var api = {
 			reset: function resetF() {
 				users = {};
+				loading = {};
 			},
 
 			get: function getF(identifier, cb) {
@@ -160,15 +195,18 @@ define(["step", "whispeerHelper"], function (step, h) {
 					if (toLoad.length > 0) {
 						socketService.emit("user.getMultiple", {identifiers: toLoad}, this);
 					} else {
-						this.ne([]);
+						this.ne();
 					}
-				}, h.sF(function (users) {
-					var i, result = [];
-					for (i = 0; i < users.length; i += 1) {
-						if (users[i].userNotExisting) {
-							result.push(NotExistingUser);
-						} else {
-							result.push(makeUser(users[i]));
+				}, h.sF(function (data) {
+					var result = [];
+					if (data && data.users) {
+						var i, users = data.users;
+						for (i = 0; i < users.length; i += 1) {
+							if (users[i].userNotExisting) {
+								result.push(NotExistingUser);
+							} else {
+								result.push(makeUser(users[i]));
+							}
 						}
 					}
 
@@ -178,18 +216,49 @@ define(["step", "whispeerHelper"], function (step, h) {
 				}), cb);
 			},
 
-			getown: function getownF(cb) {
-				step(function () {
-					socketService.emit("user.own", {}, this);
-				}, h.sF(function (data) {
-					if (users[data.id]) {
-						this.ne(users[data.id]);
-					} else {
-						this.ne(makeUser(data));
-					}
-				}), cb);
+			addFromData: function addFromData(data) {
+				return makeUser(data);
+			},
+
+			getown: function getownF() {
+				return users[sessionService.getUserID()];
 			}
 		};
+
+		$rootScope.$on("ssn.login", function () {
+			if (sessionService.isLoggedin()) {
+				step(function () {
+					socketService.emit("data", {
+						"user": {
+							"get": {
+								identifier: sessionService.getUserID()
+							}
+						},
+						"messages": {
+							"getUnreadCount": {}
+						}
+					}, this);
+				}, function (e, data) {
+					if (!e) {
+						var user = api.addFromData(data.user.get);
+
+						if (user === NotExistingUser) {
+							sessionService.logout();
+
+							return;
+						}
+
+						var identifier = user.getNickOrMail();
+
+						keyStoreService.setKeyGenIdentifier(identifier);
+
+						$rootScope.$broadcast("ssn.ownLoaded", data);
+					} else {
+						console.error(e);
+					}
+				});
+			}
+		});
 
 		$rootScope.$on("ssn.reset", function () {
 			api.reset();
@@ -198,7 +267,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 		return api;
 	};
 
-	service.$inject = ["$rootScope", "ssn.socketService", "ssn.keyStoreService", "ssn.profileService"];
+	service.$inject = ["$rootScope", "ssn.socketService", "ssn.sessionService", "ssn.keyStoreService", "ssn.profileService"];
 
 	return service;
 });

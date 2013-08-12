@@ -11,7 +11,7 @@
 	<!--[if lt IE 9]>
 		<script src="http://ie7-js.googlecode.com/svn/version/2.1(beta4)/IE9.js"></script>
 	<![endif]-->
-	<title>WhisPeer</title>
+	<title>whispeer</title>
 	<meta name="description" content="" />
 	<meta name="author" content="" />
 	<meta name="viewport" content="width=device-width" />
@@ -38,18 +38,18 @@
 			<div class="nav-collapse collapse">
 				<div id="searchBar">
 					<form class="form-search form-navbar" id="nav-searchForm">
-						<input type="text" id="searchQuery" placeholder="Suche" data-ng-model="mainSearch">
+						<input type="text" id="searchQuery" placeholder="Suche" data-ng-model="query" data-onfocus="console.log('Test!')">
 					</form>
-					<div id="searchDrop">
+					<div id="searchDrop" data-ng-show="searchFocus">
 						<!--<ul class="unstyled" id="searchSuggestions" data-ng-repeat="results in searchResults | filter:mainSearch">-->
 						<ol class="unstyled" id="searchSuggestions">
-							<li data-ng-repeat="user in ['Luisa Katharina Marschner','Daniel Melchior','Michelle Thenhausen','Jacqueline Thenhausen','Svenja Kenneweg','Anna Marie Marschner']">
-								<img src="img/profil.png">
+							<li data-ng-repeat="user in searchUsers | filter:query">
+								<img data-ng-src="{{user.image}}">
 								<div class="info">
-									<span class="name">{{user}}</span>
-									<span class="friends">300 gemeinsame Freunde</span>
-									<span class="location">Enger</span>
-									<span class="age">16</span>
+									<span class="name">{{user.name}}</span>
+									<span class="friends">{{user.mutuals}} gemeinsame Freunde</span>
+									<span class="location">{{user.location}}</span>
+									<span class="age">{{user.age}}</span>
 								</div>
 								<div class="actions">
 									<a class="addFriend btn">Als Freund hinzufügen</a>
@@ -64,7 +64,7 @@
 		<div id="navIcons" data-ng-controller="ssn.magicbar.mainController">
 			<div class="navIcon" id="message">
 				<img src="img/icons/messages.png" alt="Nachrichten" class="icon" data-ng-click="loadWidget('messages')">
-				<span class="badge">2</span>
+				<span class="badge" data-ng-if="messages.unread!=0">{{messages.unread}}</span>
 			</div>
 			<div class="navIcon" id="friends">
 				<img src="img/icons/friends.png" alt="Freundschaftsanfragen" class="icon" data-ng-click="loadWidget('friends')">
@@ -91,7 +91,7 @@
 						<li><a href="#/user/{{userid}}" data-i18n="menu.profil"></a></li>
 						<li><a href="#/friends" data-i18n="menu.friends"></a></li>
 						<li><a href="#/messages" data-i18n="menu.messages"></a></li>
-						<li><a href="#/groups" data-i18n="menu.groups"></a></li>
+						<li><a href="#/circles" data-i18n="menu.circles"></a></li>
 						<li><a href="#/settings" data-i18n="menu.settings"></a></li>
 						<li><a href="#/help" data-i18n="menu.help"></a></li>
 						<li><a href="#" data-ng-click="logout()" data-eat-click data-i18n="menu.logout"></a></li>

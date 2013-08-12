@@ -5,36 +5,36 @@
 	<section id="general">
 		<header data-i18n="help.headers.general"></header>
 		<ol>
-			<li class="qa" data-ng-repeat="question in faq.general">
-				<p class="question">{{question.question}}</p>
-				<p class="answer">{{question.answer}}</p>
+			<li class="qa" data-ng-repeat="shortcut in faq.general">
+				<p class="question" data-i18n="help.faq.{{shortcut}}.question"></p>
+				<p class="answer" data-i18n="help.faq.{{shortcut}}.answer"></p>
 			</li>
 		</ol>	
 	</section>
 	<section id="safety">
 		<header data-i18n="help.headers.safety"></header>
 		<ol>
-			<li class="qa" data-ng-repeat="question in faq.safety">
-				<p class="question">{{question.question}}</p>
-				<p class="answer">{{question.answer}}</p>
+			<li class="qa" data-ng-repeat="shortcut in faq.safety">
+				<p class="question" data-i18n="help.faq.{{shortcut}}.question"></p>
+				<p class="answer" data-i18n="help.faq.{{shortcut}}.answer"></p>
 			</li>
 		</ol>
 	</section>
 	<section id="privacy">
 		<header data-i18n="help.headers.privacy"></header>
 		<ol>
-			<li class="qa" data-ng-repeat="question in faq.privacy">
-				<p class="question">{{question.question}}</p>
-				<p class="answer">{{question.answer}}</p>
+			<li class="qa" data-ng-repeat="shortcut in faq.privacy">
+				<p class="question" data-i18n="help.faq.{{shortcut}}.question"></p>
+				<p class="answer" data-i18n="help.faq.{{shortcut}}.answer"></p>
 			</li>
 		</ol>
 	</section>
 	<section id="functionality">
 		<header data-i18n="help.headers.functionality"></header>
 		<ol>
-			<li class="qa" data-ng-repeat="question in faq.functionality">
-				<p class="question">{{question.question}}</p>
-				<p class="answer">{{question.answer}}</p>
+			<li class="qa" data-ng-repeat="shortcut in faq.functionality">
+				<p class="question" data-i18n="help.faq.{{shortcut}}.question"></p>
+				<p class="answer" data-i18n="help.faq.{{shortcut}}.answer"></p>
 			</li>
 		</ol>
 	</section>

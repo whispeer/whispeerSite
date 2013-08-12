@@ -15,7 +15,10 @@
 					color: lighten(@green2, 5%);
 					//text-shadow: 1px 1px 1px @green2;
 					text-rendering: optimizeLegibility;
-				}	
+				}
+				_:-o-prefocus, h3 {
+					background: none;
+				}
 			}
 			menu {
 				li {
@@ -28,6 +31,9 @@
 						//text-shadow: 1px 1px 1px #000000;
 						font-weight: 600;
 						font-size: 1em;
+					}
+					_:-o-prefocus, a {
+						background: none;
 					}
 				}
 			}

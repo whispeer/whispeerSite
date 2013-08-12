@@ -1,0 +1,123 @@
+.circlesView {
+	#main {
+		padding-top: 30px;
+		padding-bottom: 10px;
+		height: 100%;
+	}
+	header {
+		height: 20px;
+		margin-top: -30px;
+		padding: 5px;
+		.title {
+			.column(2,7);
+		}
+		nav {
+			.column(5,7);
+			@media (-webkit-min-device-pixel-ratio:0) {
+				//margin-top: -20px !important;
+			}	
+			a {
+				.column(1,3);
+				text-align: center;
+				&:first-child {
+					text-align: left;
+				}
+				&:last-child {
+					text-align: right;
+				}
+			}
+		}
+	}
+	#circleListWrap {
+		.column(2.25,7);
+		height: 100%;
+		#circleList {
+			height: 100%;
+			padding-top: 15px;
+			padding-bottom: 6px;
+			#circleListScroll {
+				height: 100%;
+				overflow-y: scroll;
+			}
+			.circle {
+				margin-bottom: 5px;
+				padding: 0;
+				.left {
+					.column(0.60,2);
+					margin-left: 0;
+					.userimg {
+						width: 100%;
+						margin: 0 0 -4px 0px;
+						padding: 0;
+					}
+				}
+				.listname {
+					font-size: 1em;
+					.column(1.40,2);
+					strong {
+						width: 100%;
+					}	
+				}
+				.personCount {
+					.column(1.40,2);
+					margin-top: 0px;
+					font-size: 0.8em;
+				}
+				&#newcircle {
+					height: 20px;
+					margin-top: -10px;
+				}
+			}
+		}
+	}
+	#circleContainer {
+		height: 100%;
+		.column(4.75,7);
+		height: 100%;
+		padding: 0px 0px 51px 0px;
+		.box-fix;
+		#circleWrap {
+			height: 100%;
+		}
+		#circleTitle {
+			padding-left: 10px;
+		}
+		#friendsList {
+			overflow-y: scroll;
+			height: 100%;
+			li {
+				.column(1,3);
+				height: 250px;
+				padding: 0;
+				margin-bottom: 15px;
+				.username {
+					width: 100%;
+				}
+				.pushup {
+					height: 0;
+					width: 100%;
+					margin-top: 0px;
+					padding: 0;
+				}
+				&:hover {
+					.pushup {
+						height: 80px;
+					}
+				}
+			}
+		}	
+		&.newCircle {
+			#titleInput, #friendInput {
+				.column(5,5);
+				margin-bottom: 5px;
+				height: 40px;
+			}
+			#friendInput {
+				height: 150px;
+			}
+			#sendmessage {
+				margin-left: 8px;
+			}
+		}
+	}	
+}

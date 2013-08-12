@@ -62,6 +62,20 @@ define([], function () {
 					"you":	"commented",
 					"content":	"hihi :D"
 				}
+			},
+			{
+				"user": {
+					"id":	"1",
+					"name":	"Kevin Klein",
+					"image":	"img/profil.jpg"
+				},
+				"type": "comment",
+				"origin": "Kevin Klein", // Username of the owner of e.g a shared image
+				"action": {
+					"target":	"post",
+					"you":	"commented",
+					"content":	"hihi :D"
+				}
 			}
 		];
 	}

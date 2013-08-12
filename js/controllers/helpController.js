@@ -8,19 +8,7 @@ define([], function () {
 	function helpController($scope, cssService) {
 		cssService.setClass("helpView");
 		$scope.faq = {
-			"general": [
-				{
-					"question": "Test?",
-					"answer":	"Test!"
-				},
-				{
-					"question": "Test?",
-					"answer":	"Test!"
-				},{
-					"question": "Test?",
-					"answer":	"Test!"
-				}
-			],
+			"general": ["kuerzel"],
 			"safety": [],
 			"privacy": [],
 			"functionality": []

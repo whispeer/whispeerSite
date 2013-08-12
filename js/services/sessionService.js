@@ -5,10 +5,10 @@ define([], function () {
 	"use strict";
 
 	var service = function ($rootScope, $location, $route, storage) {
-		var sid = "", loggedin = false, userid, returnURL, loaded = false;
+		var sid = "", loggedin = false, ownLoaded = false, userid, returnURL, loaded = false;
 
 		var noLoginRequired = ["ssn.loginController"];
-		var loggoutRequired = ["ssn.loginController"];
+		var loggoutRequired = ["ssn.loginController", "ssn.loadingController"];
 
 		function setSID(newSID, user) {
 			if (newSID !== sid) {
@@ -17,7 +17,7 @@ define([], function () {
 				userid = user;
 
 				storage.set("sid", newSID);
-				storage.set("userid", newSID);
+				storage.set("userid", userid);
 				storage.set("loggedin", true);
 
 				return true;
@@ -36,7 +36,7 @@ define([], function () {
 			}
 		}
 
-		function updateURL(c) {
+		function updateURL(c, logout) {
 			if (!loaded) {
 				loadOldLogin();
 
@@ -44,17 +44,26 @@ define([], function () {
 			}
 
 			if (loggedin) {
-				if (loggoutRequired.indexOf(c) > -1) {
-					if (returnURL) {
-						$location.path(returnURL);
-						returnURL = undefined;
-					} else {
-						$location.path("/main");
+				if (ownLoaded) {
+					if (loggoutRequired.indexOf(c) > -1) {
+						if (returnURL && returnURL !== "/loading") {
+							$location.path(returnURL);
+							returnURL = undefined;
+						} else {
+							$location.path("/main");
+						}
 					}
+				} else {
+					if (!returnURL) {
+						returnURL = $location.path();
+					}
+					$location.path("/loading");
 				}
 			} else {
 				if (noLoginRequired.indexOf(c) === -1) {
-					returnURL = $location.path();
+					if (!logout) {
+						returnURL = $location.path();
+					}
 					$location.path("/login");
 				}
 			}
@@ -64,9 +73,14 @@ define([], function () {
 			updateURL(next.controller);
 		});
 
-		function loginChange() {
-			$rootScope.$broadcast("ssn.login");
+		$rootScope.$on("ssn.ownLoaded", function () {
+			ownLoaded = true;
 			updateURL($route.current.controller);
+		});
+
+		function loginChange(logout) {
+			$rootScope.$broadcast("ssn.login");
+			updateURL($route.current.controller, logout);
 		}
 
 		var sessionService = {
@@ -81,7 +95,7 @@ define([], function () {
 			},
 
 			getUserID: function () {
-				return userid;
+				return parseInt(userid, 10);
 			},
 
 			logout: function () {
@@ -89,10 +103,14 @@ define([], function () {
 					$rootScope.$broadcast("ssn.reset");
 				}
 
+				$location.search("");
+
+				userid = 0;
 				sid = "";
 				loggedin = false;
+				ownLoaded = false;
 
-				loginChange();
+				loginChange(true);
 			},
 
 			isLoggedin: function () {

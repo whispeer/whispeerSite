@@ -11,15 +11,16 @@ define(["step", "whispeerHelper"], function (step, h) {
 
 		$scope.$on("ssn.login", function () {
 			$scope.loggedin = sessionService.isLoggedin();
+		});
 
+		$scope.$on("ssn.ownLoaded", function () {
 			step(function () {
 				if ($scope.loggedin) {
-					userService.getown(this);
+					var user = userService.getown();
+					$scope.userid = user.getID();
+					user.getName(this);
 				}
-			}, h.sF(function (user) {
-				$scope.userid = user.getID();
-				user.getName(this);
-			}), h.sF(function (name) {
+			}, h.sF(function (name) {
 				$scope.username = name;
 			}));
 		});
@@ -33,6 +34,48 @@ define(["step", "whispeerHelper"], function (step, h) {
 		$scope.logout = function () {
 			sessionHelper.logout();
 		};
+		
+		$scope.searchUsers = [
+		{
+			"name":	"Luisa Katharina Marschner",
+			"mutuals":	"20",
+			"location":	"Enger",
+			"age":	"16",
+			"image":	"img/profil.jpg"
+		},{
+			"name":	"Daniel Melchior",
+			"mutuals":	"450",
+			"location":	"Enger",
+			"age":	"16",
+			"image":	"img/profil.jpg"
+		},{
+			"name":	"Michelle Thenhausen",
+			"mutuals":	"13",
+			"location":	"Spenge",
+			"age":	"19",
+			"image":	"img/profil.jpg"
+		},
+		{
+			"name":	"Jacqueline Thenhausen",
+			"mutuals":	"20",
+			"location":	"Spenge",
+			"age":	"23",
+			"image":	"img/profil.jpg"
+		},
+		{
+			"name":	"Svenja Kenneweg",
+			"mutuals":	"220",
+			"location":	"Enger",
+			"age":	"16",
+			"image":	"img/profil.jpg"
+		},{
+			"name":	"Anna Marie Marschner",
+			"mutuals":	"20",
+			"location":	"Enger",
+			"age":	"24",
+			"image":	"img/profil.jpg"
+		}
+		];
 	}
 
 	rootController.$inject = ["$scope", "ssn.sessionService", "ssn.sessionHelper", "ssn.userService", "ssn.cssService"];

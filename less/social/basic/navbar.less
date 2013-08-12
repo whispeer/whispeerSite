@@ -14,10 +14,16 @@
 			text-decoration: none;
 			#brandNormal {
 				height: 30px;
+				color: #fff;
+			}			
+			#brandNormal {
 				background: -webkit-linear-gradient(#fff, #ddd);
 				-webkit-background-clip: text;
 				-webkit-text-fill-color: transparent;
-				color: #fff;
+						
+			}
+			_:-o-prefocus, #brandNormal {
+				background: none;
 			}
 			#brandInverse {
 				color: #266300;
@@ -47,6 +53,7 @@
 
 #searchQuery {
 	.border-radius(20px);
+	width: 100%;
 }
 #searchDrop {
 	position: absolute;
@@ -58,7 +65,6 @@
 	display: block;
 	top: 45px;
 	padding: 0;
-	display: none;
 	.box-shadow(0px 0px 5px 0px #b2b2b2);
 }
 

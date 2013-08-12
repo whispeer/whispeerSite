@@ -11,11 +11,37 @@ define(["step", "whispeerHelper"], function (step, h) {
 
 		cssService.setClass("profileView");
 
-		$scope.user = {
-			data: {
-				"me":	true
+		$scope.user	= {
+			"name":	"Not loaded",
+			"data": {
+				"me": true,
+				"birthday":	{
+					"day":	"09",
+					"month":	"08",
+					"year":	"2013"
+				},
+				"town":	"",
+				"state":	"NRW",
+				"country":	"Germany",
+				"partner":	{
+					"type":	"relationship",
+					"name": "Gisela Welle"
+				},
+				"education":	[{"name": "Wellenschule"}, {"name": "Wellen-Grundschule"}],
+				"job":	"Surf-Lehrer",
+				"company":	"Surfschool",
+				"gender":	"m",
+				"languages": [{"name": "Deutsch"},{"name": "Englisch"}],
 			}
 		};
+
+		$scope.removeElement = function(index) {
+				
+		};
+
+		$scope.possibleStatus = ["single", "relationship", "engaged", "married", "divorced", "widowed", "complicated", "open", "inlove"];
+
+		$scope.editGeneral = false;
 
 		step(function () {
 			userService.get(identifier, this);
@@ -25,23 +51,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 			$scope.user.name = name;
 			$scope.loading = false;
 		}));
-		$scope.editGeneral = false;
-		$scope.user	= {
-			"name":	"Willi Welle",
-			"data": {
-				"birthday":	"09.08.13",
-				"town":	"Enger",
-				"state":	"NRW",
-				"country":	"Germany",
-				"partner":	"Gisela Welle",
-				"education":	["Wellenschule", "Wellen-Grundschule"],
-				"job":	"Surf-Lehrer",
-				"company":	"Surfschool",
-				"gender":	"m",
-				"languages": ["Deutsch","Englisch"],
-				"me":	true
-			}
-		};
+
 		$scope.posts = [
 			{
 				"sender":	{

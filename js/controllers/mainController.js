@@ -14,14 +14,14 @@ define([], function () {
 						"image":	"img/profil.jpg",
 						"alttext":	"Test"
 					},
-					"name":	"Daniel Melchior"
+					"name":	"Nathalie Schmidt"
 				},
-				"content":	"Lorem Ipsum Dolor Sit Amet!",
+				"content":	"Ein schöner Abend mit meinem Bärchen :)",
 				"info":	{
-					"with"	: "Svenja Kenneweg",
-					"awesome"	: "20",
+					"with"	: "Marc Schneider-Zuckerfuß",
+					"awesome"	: "14",
 					"comments":	{
-						"count":	"20"
+						"count":	"4"
 					}
 				}
 			},
@@ -31,14 +31,14 @@ define([], function () {
 						"image":	"img/profil.jpg",
 						"alttext":	"Test"
 					},
-					"name":	"Daniel Melchior"
+					"name":	"Mike König"
 				},
-				"content":	"Lorem Ipsum Dolor Sit Amet!",
+				"content":	"Endlich Urlaub!",
 				"info":	{
-					"with"	: "Svenja Kenneweg",
-					"awesome"	: "20",
+					"with"	: "",
+					"awesome"	: "50",
 					"comments":	{
-						"count":	"20"
+						"count":	"23"
 					}
 				}
 			},
@@ -48,14 +48,31 @@ define([], function () {
 						"image":	"img/profil.jpg",
 						"alttext":	"Test"
 					},
-					"name":	"Daniel Melchior"
+					"name":	"Fiona Schneider"
 				},
-				"content":	"Lorem Ipsum Dolor Sit Amet!",
+				"content":	"Shoppen mit der Besten :*",
 				"info":	{
-					"with"	: "Svenja Kenneweg",
-					"awesome"	: "20",
+					"with"	: "Jennifer Graf",
+					"awesome"	: "0",
 					"comments":	{
-						"count":	"20"
+						"count":	"261"
+					}
+				}
+			},
+			{
+				"sender":	{
+					"image":	{
+						"image":	"img/profil.jpg",
+						"alttext":	"Test"
+					},
+					"name":	"Nina Müller"
+				},
+				"content":	"Mädelsabend! Hab euch alle Lieb <3",
+				"info":	{
+					"with"	: "Fiona Hasenbrink, Mia von Schimmelhof, Alexandra Lehmann",
+					"awesome"	: "27",
+					"comments":	{
+						"count":	"3"
 					}
 				}
 			}
