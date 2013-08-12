@@ -505,6 +505,16 @@ define(["step", "whispeerHelper", "valid/validator"], function (step, h, validat
 			reset: function () {
 				messages = {};
 				topics = {};
+				topicArray = [];
+				messageService.data = {
+					latestTopics: {
+						count: 0,
+						loading: false,
+						loaded: false,
+						data: topicArray
+					},
+					unread: 0
+				}
 			},
 			loadMoreLatest: function (cb) {
 				var l = messageService.data.latestTopics;
@@ -577,6 +587,10 @@ define(["step", "whispeerHelper", "valid/validator"], function (step, h, validat
 
 		$rootScope.$on("ssn.ownLoaded", function (evt, data) {
 			messageService.data.unread = data.messages.getUnreadCount.unread;
+		});
+
+		$rootScope.$on("ssn.reset", function () {
+			messageService.reset();
 		});
 
 		return messageService;
