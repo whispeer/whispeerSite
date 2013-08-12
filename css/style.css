@@ -2271,6 +2271,7 @@ input[type="submit"].btn.btn-mini {
   -moz-background-clip: padding;
   -webkit-background-clip: padding-box;
   background-clip: padding-box;
+  height: auto !important;
 }
 .mainView #wall .posts article .userimg {
   border-radius: 10px;
@@ -2296,6 +2297,79 @@ input[type="submit"].btn.btn-mini {
 .mainView #wall .posts article .postInfo {
   margin-top: -5px;
   margin-bottom: 10px;
+}
+.mainView #wall .posts article ol.comments {
+  margin-left: 0;
+  list-style: none;
+  display: inline;
+  float: left;
+  width: 64.66666666666667%;
+  margin: 0 1% 0 1%;
+  margin-left: 1.0416666666666667% !important;
+  border: 1px solid #999999;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  margin-bottom: 5px;
+}
+.mainView #wall .posts article ol.comments li {
+  background-color: #eeeeee;
+  width: 100%;
+  *zoom: 1;
+  margin: 0;
+  border-bottom: 1px solid #999999;
+}
+.mainView #wall .posts article ol.comments li:before,
+.mainView #wall .posts article ol.comments li:after {
+  content: "";
+  display: table;
+}
+.mainView #wall .posts article ol.comments li:after {
+  clear: both;
+}
+.mainView #wall .posts article ol.comments li:last-child {
+  border: none;
+}
+.mainView #wall .posts article ol.comments li img {
+  display: inline;
+  float: left;
+  width: 6.333333333333334%;
+  margin: 0 1% 0 1%;
+  margin-left: 0;
+}
+.mainView #wall .posts article ol.comments li .text {
+  display: inline;
+  float: left;
+  width: 73%;
+  margin: 0 1% 0 1%;
+  margin-top: 5px;
+}
+.mainView #wall .posts article ol.comments li .timestamp {
+  display: inline;
+  float: left;
+  width: 14.666666666666668%;
+  margin: 0 1% 0 1%;
+  margin-top: 5px;
+}
+.mainView #wall .posts article ol.comments li.newComment {
+  background-color: #ffffff;
+}
+.mainView #wall .posts article ol.comments li.newComment input {
+  display: inline;
+  float: left;
+  width: 73%;
+  margin: 0 1% 0 1%;
+  margin-top: 8px;
+}
+.mainView #wall .posts article ol.comments li.newComment button {
+  display: inline;
+  float: left;
+  width: 14.666666666666668%;
+  margin: 0 1% 0 1%;
+  margin-top: 10px;
 }
 .mainView #wall .posts article:last-child {
   border: none;

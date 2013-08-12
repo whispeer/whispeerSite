@@ -2,7 +2,7 @@
 * BaseDirective
 **/
  
-define(["angular", "directives/eatClick", "directives/onBlur", "directives/friend", "directives/strgEnter", "directives/onfocus"], function (angular, eatClick, onBlur, friend, strgEnter, focus) {
+define(["angular", "directives/eatClick", "directives/onBlur", "directives/friend", "directives/strgEnter", "directives/onfocus", "directives/post", "directives/comment"], function (angular, eatClick, onBlur, friend, strgEnter, focus, post, comment) {
 	"use strict";
 
 	var directives = angular.module("ssn.directives",[]);
@@ -11,6 +11,8 @@ define(["angular", "directives/eatClick", "directives/onBlur", "directives/frien
 	directives.directive("friend", friend);
 	directives.directive("enter", strgEnter);
 	directives.directive("onfocus", focus);
+	directives.directive("post", post);
+	directives.directive("comment", comment);
 
 	return directives;
 });

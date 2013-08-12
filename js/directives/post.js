@@ -1,17 +1,17 @@
 define(function () {
 	'use strict';
 
-	function friendDirective() {
+	function postDirective() {
 		return {
 			transclude: true,
 			scope:	{
-				userData: "=user"
+				post: "=post"
 			},
 			restrict: 'E',
-			templateUrl: 'views/directives/friend.html',
+			templateUrl: 'views/directives/post.html',
 			replace: true
 		};			
 	}
 
-	return friendDirective;
+	return postDirective;
 });

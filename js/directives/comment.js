@@ -1,17 +1,17 @@
 define(function () {
 	'use strict';
 
-	function friendDirective() {
+	function commentDirective() {
 		return {
 			transclude: true,
 			scope:	{
-				userData: "=user"
+				comment: "=comment"
 			},
 			restrict: 'E',
-			templateUrl: 'views/directives/friend.html',
+			templateUrl: 'views/directives/comment.html',
 			replace: true
 		};			
 	}
 
-	return friendDirective;
+	return commentDirective;
 });
