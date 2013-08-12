@@ -4,7 +4,7 @@
 		"friends": "Freunde",
 		"messages": "Nachrichten",
 		"media": "Medien",
-		"groups": "Gruppen",
+		"circles": "Kreise",
 		"settings": "Einstellungen",
 		"help": "Hilfe",
 		"logout": "Logout"
@@ -120,6 +120,17 @@
 			"functionality":	"Funktionsweise",
 			"newQuestion":	"Stelle eine Frage"
 		}
+	},
+	"circles": {
+		"header": {
+			"title":	"Kreise",
+			"createGroup": "Als Gruppe kopieren",
+			"sendMessage": "Nachricht an Kreis",
+			"addPeople":	"Personen hinzufügen"
+		},
+		"newCircle":	"Neuen Kreis anlegen",
+		"personCount":	"Es befinden sich {count} Personen in diesem Kreis",
+		"personsInCircle":"Personen im Kreis \"{name}\""
 	},
 	"magicbar": {
 		"close": "Schließen",
