@@ -18,6 +18,10 @@ define(["crypto/keyStore", "step", "whispeerHelper", "valid/validator"], functio
 			var dataEncrypted, dataDecrypted, decrypted, signature, id, err;
 			var theProfile = this;
 
+			if (typeof data.key === "object") {
+				data.key = keyStore.upload.addKey(data.key);
+			}
+
 			if (data.iv) {
 				dataEncrypted = data;
 				decrypted = false;
