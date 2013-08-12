@@ -119,6 +119,12 @@
 			"privacy":	"Privatsphäre",
 			"functionality":	"Funktionsweise",
 			"newQuestion":	"Stelle eine Frage"
+		},
+		"faq": {
+			"kuerzel": {
+				"question": "Frage",
+				"answer":	"Antwort!"
+			}
 		}
 	},
 	"circles": {

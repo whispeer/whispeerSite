@@ -16,6 +16,7 @@ define([], function () {
 			}
 			return string;
 		}
+		$scope.showCircle = false;
 		$scope.circles = [
 			{
 				"id": "1",

@@ -27,7 +27,7 @@
 		</div>
 	</ul>
 </div>
-<div id="circleContainer" data-circleID="{{thisCircle.id}}">
+<div id="circleContainer" data-circleID="{{thisCircle.id}}" data-ng-if="showCircle">
 	<div id="circleTitle">	
 		<h2 data-i18n="circles.personsInCircle|name={{shortenString(thisCircle.name, 28)}}"></h2>
 	</div>
@@ -39,3 +39,15 @@
 		</ol>
 	</div>
 </div>
+<div id="circleContainer" class="newCircle" data-ng-if="!showCircle">
+	<div id="circleTitle">	
+		<h2>Neuer Kreis</h2>
+	</div>
+	<div id="circleWrap">	
+		<form id="inputWrap">
+			<input type="text" placeholder="Gebe einen Titel für den neuen Kreis ein!" id="titleInput">
+			<textarea type="text" placeholder="Gebe die Namen deiner Freunde ein, die du zum Kreis hinzufügen möchtest!" id="friendInput"></textarea>
+			<button class="btn btn-success btn-large" id="sendmessage" type="submit">Kreis erstellen!</button>		
+		</form>
+	</div>
+</div>	
