@@ -10,16 +10,6 @@
 
 */
 /* Initialize the Grid */
-/*
-┏┓┏┓┏┳┓╋╋╋╋╋╋╋╋╋╋╋╋╋╋╋╋╋┏━━━┓╋╋╋╋┏┓┏━━━┓╋╋╋╋╋╋┏┓
-┃┃┃┃┃┃┃╋╋╋╋╋╋╋╋╋╋╋╋╋╋╋╋╋┃┏━┓┃╋╋╋╋┃┃┃┏━┓┃╋╋╋╋╋┏┛┗┓
-┃┃┃┃┃┃┗━┳┳━━┳━━┳━━┳━━┳━┓┃┃╋┗╋━┳┳━┛┃┃┗━━┳┓╋┏┳━┻┓┏╋━━┳┓┏┓
-┃┗┛┗┛┃┏┓┣┫━━┫┏┓┃┃━┫┃━┫┏┛┃┃┏━┫┏╋┫┏┓┃┗━━┓┃┃╋┃┃━━┫┃┃┃━┫┗┛┃
-┗┓┏┓┏┫┃┃┃┣━━┃┗┛┃┃━┫┃━┫┃╋┃┗┻━┃┃┃┃┗┛┃┃┗━┛┃┗━┛┣━━┃┗┫┃━┫┃┃┃
-╋┗┛┗┛┗┛┗┻┻━━┫┏━┻━━┻━━┻┛╋┗━━━┻┛┗┻━━┛┗━━━┻━┓┏┻━━┻━┻━━┻┻┻┛
-╋╋╋╋╋╋╋╋╋╋╋╋┃┃╋╋╋╋╋╋╋╋╋╋╋╋╋╋╋╋╋╋╋╋╋╋╋╋╋┏━┛┃semantic and fluid
-╋╋╋╋╋╋╋╋╋╋╋╋┗┛╋╋╋╋╋╋╋╋╋╋╋╋╋╋╋╋╋╋╋╋╋╋╋╋╋┗━━┛Grid System "wrid"
-*/
 .box-fix {
   -webkit-box-sizing: border-box;
   /* Safari/Chrome, other WebKit */
@@ -1074,29 +1064,6 @@ body:not(.mainView, .registerView) #main {
   border-top: 1px solid #999;
   height: 25px;
   text-align: center;
-}
-.bubble {
-  background-color: #ffffff;
-  border: #666666 solid 1px;
-  -webkit-border-radius: 5px;
-  -moz-border-radius: 5px;
-  border-radius: 5px;
-  -moz-background-clip: padding;
-  -webkit-background-clip: padding-box;
-  background-clip: padding-box;
-  -webkit-box-shadow: 0 0 2px #666666;
-  -moz-box-shadow: 0 0 2px #666666;
-  box-shadow: 0 0 2px #666666;
-  padding: 10px;
-  -webkit-box-sizing: border-box;
-  /* Safari/Chrome, other WebKit */
-
-  -moz-box-sizing: border-box;
-  /* Firefox, other Gecko */
-
-  box-sizing: border-box;
-  /* Opera/IE 8+ */
-
 }
 .btn {
   display: inline-block;
