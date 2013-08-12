@@ -36,7 +36,7 @@ define([], function () {
 			}
 		}
 
-		function updateURL(c) {
+		function updateURL(c, logout) {
 			if (!loaded) {
 				loadOldLogin();
 
@@ -61,7 +61,9 @@ define([], function () {
 				}
 			} else {
 				if (noLoginRequired.indexOf(c) === -1) {
-					returnURL = $location.path();
+					if (!logout) {
+						returnURL = $location.path();
+					}
 					$location.path("/login");
 				}
 			}
@@ -76,9 +78,9 @@ define([], function () {
 			updateURL($route.current.controller);
 		});
 
-		function loginChange() {
+		function loginChange(logout) {
 			$rootScope.$broadcast("ssn.login");
-			updateURL($route.current.controller);
+			updateURL($route.current.controller, logout);
 		}
 
 		var sessionService = {
@@ -101,11 +103,14 @@ define([], function () {
 					$rootScope.$broadcast("ssn.reset");
 				}
 
+				$location.search("");
+
+				userid = 0;
 				sid = "";
 				loggedin = false;
 				ownLoaded = false;
 
-				loginChange();
+				loginChange(true);
 			},
 
 			isLoggedin: function () {

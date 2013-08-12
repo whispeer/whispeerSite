@@ -4,17 +4,22 @@ define(["app"], function (app) {
 	return app.config(["$routeProvider", "$locationProvider", function ($routeProvider, $locationProvider) {
 		$locationProvider.html5Mode(false);
 
-		function addMain(name) {
+		function addMain(name, reloadOnSearch) {
+			if (reloadOnSearch !== false) {
+				reloadOnSearch = true;
+			}
+
 			$routeProvider.when("/" + name, {
 				templateUrl: "views/" + name + "/" + name + ".html",
-				controller: "ssn." + name + "Controller"
+				controller: "ssn." + name + "Controller",
+				reloadOnSearch: reloadOnSearch
 			});
 		}
 		
 		addMain("login");
 		addMain("main");
 		addMain("friends");
-		addMain("messages");
+		addMain("messages", false);
 		addMain("circles");
 		addMain("settings");
 		addMain("help");
@@ -24,6 +29,7 @@ define(["app"], function (app) {
 			templateUrl: "views/user/user.html",
 			controller: "ssn.userController"
 		});
+
 		$routeProvider.when("/:identifier", {
 			redirectTo: function (params) {
 				return "/user/" + params.identifier;

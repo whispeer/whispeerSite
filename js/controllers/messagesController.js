@@ -5,18 +5,16 @@
 define(["step", "whispeerHelper"], function (step, h) {
 	"use strict";
 
-	function messagesController($scope, cssService, messageService) {
+	function messagesController($scope, $routeParams, $location, cssService, messageService) {
 		cssService.setClass("messagesView");
-		$scope.shortenName = function (name) {
-			return name;
-			if(name.length > 15) {
-				return name.substr(0, 15) + "..";
-			} else {
-				return name;
-			}
-		};
+
+		$scope.topicid = 0;
 
 		messageService.loadMoreLatest(function (e) {
+			if ($routeParams["topicid"]) {
+				$scope.loadActiveTopic($routeParams["topicid"]);
+			}
+
 			if (e) {
 				debugger;
 			}
@@ -29,6 +27,10 @@ define(["step", "whispeerHelper"], function (step, h) {
 		$scope.topicLoaded = false;
 
 		$scope.shortenMessage = function (string) {
+			if (!string) {
+				return "";
+			}
+
 			if(string.length > 100) {
 				return string.substr(0, 97) + "...";
 			} else {
@@ -36,18 +38,31 @@ define(["step", "whispeerHelper"], function (step, h) {
 			}
 		};
 
+		$scope.unloadTopic = function () {
+			$scope.topicLoaded = false;
+			$scope.topicid = 0;
+			$location.search({});
+		};
+
 		$scope.loadActiveTopic = function (id) {
 			var theTopic;
 			step(function () {
-				messageService.getTopic(id, this);
+				id = parseInt(id, 10);
+				if ($scope.topicid !== id || !$scope.topicLoaded) {
+					$scope.topicid = id;
+					messageService.getTopic(id, this);
+				}
 			}, h.sF(function (topic) {
 				theTopic = topic;
 				$scope.canSend = true;
+				$scope.newMessage = false;
 				theTopic.loadMoreMessages(this);
 			}), function (e) {
 				$scope.activeTopic = theTopic;
 
 				$scope.topicLoaded = true;
+
+				$location.search({topicid: id});
 
 				console.log(e);
 			});
@@ -213,7 +228,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 		};
 	}
 
-	messagesController.$inject = ["$scope", "ssn.cssService", "ssn.messageService"];
+	messagesController.$inject = ["$scope", "$routeParams", "$location", "ssn.cssService", "ssn.messageService"];
 
 	return messagesController;
 });

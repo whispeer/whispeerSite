@@ -259,6 +259,9 @@ define(["step", "whispeerHelper", "valid/validator"], function (step, h, validat
 					}
 
 					this.parallel()();
+				}), h.sF(function () {
+					console.log(new Date().getTime() - startup);
+					this.ne();
 				}), cb);
 				//load more messages and decrypt them.
 			};
@@ -514,7 +517,7 @@ define(["step", "whispeerHelper", "valid/validator"], function (step, h, validat
 						data: topicArray
 					},
 					unread: 0
-				}
+				};
 			},
 			loadMoreLatest: function (cb) {
 				var l = messageService.data.latestTopics;

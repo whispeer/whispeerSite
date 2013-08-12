@@ -1,7 +1,7 @@
 <header>Nachrichten</header>
 <div id="topicListWrap">
 	<ul id="topicList">
-		<li class="topic" id="newmessage" data-ng-click="topicLoaded = false">
+		<li class="topic" id="newmessage" data-ng-click="unloadTopic()">
 			<div class="left"><i class="icon-plus-circle" id="plusBtn"></i></div>
 			<div class="right" data-i18n="messages.newMessage"></div>
 		</li>
@@ -38,7 +38,7 @@
 			</li>
 		</ul>	
 		<form id="inputWrap">
-			<textarea id="messageInput" type="text" data-ng-model="activeTopic.newMessage" data-ng-disabled="!canSend" data-i18n-attr="messages.sendMessage.text|placeholder"></textarea>
+			<textarea id="messageInput" data-enter="sendMessage(activeTopic.newMessage)" type="text" data-ng-model="activeTopic.newMessage" data-ng-disabled="!canSend" data-i18n-attr="messages.sendMessage.text|placeholder"></textarea>
 			<button class="btn btn-success" id="sendmessage" data-ng-click="sendMessage(activeTopic.newMessage)" data-i18n="messages.sendMessage.send" type="submit"></button>		
 		</form>
 	</div>
