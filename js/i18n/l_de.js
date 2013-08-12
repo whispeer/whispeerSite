@@ -1,4 +1,5 @@
 {
+	"notimplemented":	"Noch nicht implementiert :(",
 	"menu": {
 		"profil": "Profil",
 		"friends": "Freunde",
@@ -127,7 +128,7 @@
 			},
 			"password": {
 				"question": "Wie erstelle ich ein sicheres Passwort?",
-				"answer":	"Wir haben uns ein  10-Punkte-System überlegt, das euch hilft, bessere und sichere Passörter zu finden. Mehr darüber lest ihr in dem Blogeintrag über das System: http://blog.whispeer.de/de/2013/08/update-wie-whispeer-dir-hilft-ein-sicheres-passwort-zu-finden/ und http://blog.whispeer.de/de/2013/07/wie-whispeer-dir-hilft-ein-sicheres-passwort-zu-finden/ "
+				"answer":	"Wir haben uns ein  10-Punkte-System überlegt, das euch hilft, bessere und sichere Passörter zu finden. Mehr darüber lest ihr in dem Blogeintrag über das System: <a href\"http://blog.whispeer.de/de/2013/08/update-wie-whispeer-dir-hilft-ein-sicheres-passwort-zu-finden/\">UPDATE: Wie whispeer dir hilft, ein sicheres Passwort zu finden</a> und <a href\"http://blog.whispeer.de/de/2013/07/wie-whispeer-dir-hilft-ein-sicheres-passwort-zu-finden/\">Wie whispeer dir hilft, ein sicheres Passwort zu finden</a>"
 			},
 			"profile": {
 				"question": "Wie kann ich mein Profil bearbeiten?",
