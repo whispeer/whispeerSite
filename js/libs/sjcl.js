@@ -1,7 +1,3 @@
-define(
-[],
-
-function () {
     "use strict";
     var sjcl = {
         cipher: {},
@@ -1946,5 +1942,9 @@ function () {
             return true
         }
     };
-    return sjcl;
-});
+
+if (typeof define === "function") {
+    define([], function () {
+        return sjcl;
+    });
+}

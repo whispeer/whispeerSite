@@ -46,12 +46,12 @@ define(["libs/sjcl", "whispeerHelper"], function (sjcl, h) {
 		sjclPacket2Object: function (data) {
 			var decoded = sjcl.json.decode(data);
 			var result = {
-				ct: decoded.ct,
-				iv: decoded.iv
+				ct: helper.bits2hex(decoded.ct),
+				iv: helper.bits2hex(decoded.iv)
 			};
 
 			if (decoded.salt) {
-				result.salt = decoded.salt;
+				result.salt = helper.bits2hex(decoded.salt);
 			}
 
 			return result;

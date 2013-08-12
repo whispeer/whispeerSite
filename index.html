@@ -64,7 +64,7 @@
 		<div id="navIcons" data-ng-controller="ssn.magicbar.mainController">
 			<div class="navIcon" id="message">
 				<img src="img/icons/messages.png" alt="Nachrichten" class="icon" data-ng-click="loadWidget('messages')">
-				<span class="badge">2</span>
+				<span class="badge">{{messages.unread}}</span>
 			</div>
 			<div class="navIcon" id="friends">
 				<img src="img/icons/friends.png" alt="Freundschaftsanfragen" class="icon" data-ng-click="loadWidget('friends')">

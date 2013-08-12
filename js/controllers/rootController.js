@@ -11,15 +11,16 @@ define(["step", "whispeerHelper"], function (step, h) {
 
 		$scope.$on("ssn.login", function () {
 			$scope.loggedin = sessionService.isLoggedin();
+		});
 
+		$scope.$on("ssn.ownLoaded", function () {
 			step(function () {
 				if ($scope.loggedin) {
-					userService.getown(this);
+					var user = userService.getown();
+					$scope.userid = user.getID();
+					user.getName(this);
 				}
-			}, h.sF(function (user) {
-				$scope.userid = user.getID();
-				user.getName(this);
-			}), h.sF(function (name) {
+			}, h.sF(function (name) {
 				$scope.username = name;
 			}));
 		});

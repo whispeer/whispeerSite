@@ -23,6 +23,9 @@ define([], function () {
 				}
 			},
 			getClass: function getClassF() {
+				if (theClass === "") {
+					return "registerView";
+				}
 				return theClass;
 			}
 		};

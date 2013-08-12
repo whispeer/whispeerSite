@@ -2,18 +2,32 @@
 * messagesController
 **/
 
-define([], function () {
+define(["step", "whispeerHelper"], function (step, h) {
 	"use strict";
 
-	function messagesController($scope, cssService) {
+	function messagesController($scope, cssService, messageService) {
 		cssService.setClass("messagesView");
 		$scope.shortenName = function (name) {
-			if(name.length > 17) {
-				return name.substr(0, 17) + "..";
+			return name;
+			if(name.length > 15) {
+				return name.substr(0, 15) + "..";
 			} else {
 				return name;
 			}
 		};
+
+		messageService.loadMoreLatest(function (e) {
+			if (e) {
+				debugger;
+			}
+		});
+
+		//messageService.sendNewTopic([1, 2], "Ein erstes Testthema!?");
+		//messageService.sendMessage(
+
+		$scope.canSend = false;
+		$scope.topicLoaded = false;
+
 		$scope.shortenMessage = function (string) {
 			if(string.length > 27) {
 				return string.substr(0, 27) + "...";
@@ -21,7 +35,37 @@ define([], function () {
 				return string;
 			}
 		};
-		$scope.topics = [
+
+		$scope.loadActiveTopic = function (id) {
+			var theTopic;
+			step(function () {
+				messageService.getTopic(id, this);
+			}, h.sF(function (topic) {
+				theTopic = topic;
+				$scope.canSend = true;
+				theTopic.loadMoreMessages(this);
+			}), function (e) {
+				$scope.activeTopic = theTopic;
+
+				$scope.topicLoaded = true;
+
+				console.log(e);
+			});
+		};
+
+		$scope.sendMessage = function () {
+			step(function () {
+				$scope.canSend = false;
+				messageService.sendMessage($scope.activeTopic.id, $scope.activeTopic.newMessage, this);
+			}, function () {
+				$scope.canSend = true;
+				$scope.activeTopic.newMessage = "";
+			});
+		};
+
+		$scope.topics = messageService.data.latestTopics.data;
+
+		$scope.topics2 = [
 			{
 				"id": "1", // TopicID goes here
 				"type":	"peerChat", // Either peerChat or groupChat
@@ -168,7 +212,7 @@ define([], function () {
 		};
 	}
 
-	messagesController.$inject = ["$scope", "ssn.cssService"];
+	messagesController.$inject = ["$scope", "ssn.cssService", "ssn.messageService"];
 
 	return messagesController;
 });

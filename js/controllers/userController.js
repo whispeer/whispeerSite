@@ -17,15 +17,6 @@ define(["step", "whispeerHelper"], function (step, h) {
 			}
 		};
 
-		step(function () {
-			userService.get(identifier, this);
-		}, h.sF(function (user) {
-			user.getName(this);
-		}), h.sF(function (name) {
-			$scope.user.name = name;
-			$scope.loading = false;
-		}));
-		$scope.editGeneral = false;
 		$scope.user	= {
 			"name":	"Willi Welle",
 			"data": {
@@ -42,6 +33,17 @@ define(["step", "whispeerHelper"], function (step, h) {
 				"me":	true
 			}
 		};
+
+		step(function () {
+			userService.get(identifier, this);
+		}, h.sF(function (user) {
+			user.getName(this);
+		}), h.sF(function (name) {
+			$scope.user.name = name;
+			$scope.loading = false;
+		}));
+
+		$scope.editGeneral = false;
 		$scope.posts = [
 			{
 				"sender":	{
