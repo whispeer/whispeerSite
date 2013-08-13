@@ -105,15 +105,22 @@
 					border: 1px solid @grayLight;
 					.border-radius(5px);
 					margin-bottom: 5px;
+					&:last-child {
+						border: none;
+						.border-radiuses(0, 5px, 5px, 0);
+					}
+					&:first-child {
+						.border-radiuses(5px, 0, 0, 5px);
+					}
+					&:only-child {
+						.border-radius(5px);
+					}
 					li {
 						background-color: @grayLighter;
 						width: 100%;
 						.clear-fix;
 						margin: 0;
 						border-bottom: 1px solid @grayLight;
-						&:last-child {
-							border: none;
-						}
 						img {
 							.column(1);
 							margin-left: 0;

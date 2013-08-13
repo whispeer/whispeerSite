@@ -187,6 +187,11 @@
 		"personCount":	"Es befinden sich {count} Personen in diesem Kreis",
 		"personsInCircle":"Personen im Kreis \"{name}\""
 	},
+	"settings": {
+		"header": {
+			"title":	"Einstellungen"
+		}	
+	},
 	"magicbar": {
 		"close": "Schließen",
 		"messages": {
