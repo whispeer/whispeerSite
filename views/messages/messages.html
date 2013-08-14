@@ -27,7 +27,10 @@
 		<h2>{{activeTopic.partner.name}}</h2>
 	</div>
 	<div id="messageWrap">
-		<ul class="scroll-pane" id="messageList">
+		<ul class="scroll-pane" id="messageList" data-scroll="activeTopic.messages.length" data-startBottom data-keepBottom data-scrolltop="loadMoreTop()">
+			<li>
+				Remaining: {{activeTopic.remaining}}
+			</li>
 			<li data-ng-repeat="message in activeTopic.messages" data-messageID="{{message.id}}" class="message" data-ng-class="{me:message.sender.me, other:message.sender.other}">
 				<div id="userid" class="user">
 					<img class="userimg" data-userID="sender{{message.sender.id}}" alt="Username" data-ng-src="{{message.sender.image}}">
@@ -38,7 +41,7 @@
 			</li>
 		</ul>	
 		<form id="inputWrap">
-			<textarea id="messageInput" data-enter="sendMessage(activeTopic.newMessage)" type="text" data-ng-model="activeTopic.newMessage" data-ng-disabled="!canSend" data-i18n-attr="messages.sendMessage.text|placeholder"></textarea>
+			<textarea id="messageInput" data-strg-enter="sendMessage(activeTopic.newMessage)" type="text" data-ng-model="activeTopic.newMessage" data-ng-disabled="!canSend" data-i18n-attr="messages.sendMessage.text|placeholder"></textarea>
 			<button class="btn btn-success" id="sendmessage" data-ng-click="sendMessage(activeTopic.newMessage)" data-i18n="messages.sendMessage.send" type="submit"></button>		
 		</form>
 	</div>

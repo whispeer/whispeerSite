@@ -22,6 +22,8 @@ define(["step", "whispeerHelper"], function (step, h) {
 				}
 			}, h.sF(function (name) {
 				$scope.username = name;
+
+				console.log("Own Name loaded:" + (new Date().getTime() - startup));
 			}));
 		});
 
