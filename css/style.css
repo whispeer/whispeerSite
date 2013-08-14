@@ -43,6 +43,33 @@
 .clear-fix:after {
   clear: both;
 }
+.headerClass {
+  height: 20px;
+  margin-top: -30px;
+  background-color: #fafafa;
+  background: -webkit-gradient(linear, left top, left bottom, from(#fafafa), to(#e6e6e6));
+  background: -webkit-linear-gradient(top, #fafafa, #e6e6e6);
+  background: -moz-linear-gradient(top, #fafafa, #e6e6e6);
+  background: -ms-linear-gradient(top, #fafafa, #e6e6e6);
+  background: -o-linear-gradient(top, #fafafa, #e6e6e6);
+  border-bottom: 1px solid #bbbbbb;
+  -webkit-border-top-right-radius: 5px;
+  -webkit-border-bottom-right-radius: 0px;
+  -webkit-border-bottom-left-radius: 0px;
+  -webkit-border-top-left-radius: 5px;
+  -moz-border-radius-topright: 5px;
+  -moz-border-radius-bottomright: 0px;
+  -moz-border-radius-bottomleft: 0px;
+  -moz-border-radius-topleft: 5px;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 0px;
+  border-bottom-left-radius: 0px;
+  border-top-left-radius: 5px;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  padding: 5px;
+}
 /* Social Style */
 /*! normalize.css v2.1.0 | MIT License | git.io/normalize */
 /* ==========================================================================
@@ -2747,6 +2774,8 @@ input[type="submit"].btn.btn-mini {
 
 }
 .messagesView header {
+  height: 20px;
+  margin-top: -30px;
   background-color: #fafafa;
   background: -webkit-gradient(linear, left top, left bottom, from(#fafafa), to(#e6e6e6));
   background: -webkit-linear-gradient(top, #fafafa, #e6e6e6);
@@ -2754,6 +2783,22 @@ input[type="submit"].btn.btn-mini {
   background: -ms-linear-gradient(top, #fafafa, #e6e6e6);
   background: -o-linear-gradient(top, #fafafa, #e6e6e6);
   border-bottom: 1px solid #bbbbbb;
+  -webkit-border-top-right-radius: 5px;
+  -webkit-border-bottom-right-radius: 0px;
+  -webkit-border-bottom-left-radius: 0px;
+  -webkit-border-top-left-radius: 5px;
+  -moz-border-radius-topright: 5px;
+  -moz-border-radius-bottomright: 0px;
+  -moz-border-radius-bottomleft: 0px;
+  -moz-border-radius-topleft: 5px;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 0px;
+  border-bottom-left-radius: 0px;
+  border-top-left-radius: 5px;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  padding: 5px;
 }
 .messagesView #topicListWrap {
   margin-right: 3px;
@@ -2828,6 +2873,106 @@ input[type="submit"].btn.btn-mini {
   float: right;
   margin-right: 5px;
   margin-top: -20px;
+}
+.messagesView #topicListWrap #topicList .topic.groupChat .left img,
+.messagesView #topicListWrap #topicList .topic.groupChat .left span,
+.messagesView #topicListWrap #topicList .topic.groupChat .left div {
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  border-radius: 0;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+}
+.messagesView #topicListWrap #topicList .topic.groupChat .left img:nth-child(1),
+.messagesView #topicListWrap #topicList .topic.groupChat .left span:nth-child(1),
+.messagesView #topicListWrap #topicList .topic.groupChat .left div:nth-child(1) {
+  -webkit-border-top-right-radius: 0;
+  -webkit-border-bottom-right-radius: 0;
+  -webkit-border-bottom-left-radius: 0;
+  -webkit-border-top-left-radius: 5px;
+  -moz-border-radius-topright: 0;
+  -moz-border-radius-bottomright: 0;
+  -moz-border-radius-bottomleft: 0;
+  -moz-border-radius-topleft: 5px;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+  border-top-left-radius: 5px;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+}
+.messagesView #topicListWrap #topicList .topic.groupChat .left img:nth-child(2),
+.messagesView #topicListWrap #topicList .topic.groupChat .left span:nth-child(2),
+.messagesView #topicListWrap #topicList .topic.groupChat .left div:nth-child(2) {
+  -webkit-border-top-right-radius: 5px;
+  -webkit-border-bottom-right-radius: 0;
+  -webkit-border-bottom-left-radius: 0;
+  -webkit-border-top-left-radius: 0;
+  -moz-border-radius-topright: 5px;
+  -moz-border-radius-bottomright: 0;
+  -moz-border-radius-bottomleft: 0;
+  -moz-border-radius-topleft: 0;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+  border-top-left-radius: 0;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+}
+.messagesView #topicListWrap #topicList .topic.groupChat .left img:nth-child(3),
+.messagesView #topicListWrap #topicList .topic.groupChat .left span:nth-child(3),
+.messagesView #topicListWrap #topicList .topic.groupChat .left div:nth-child(3) {
+  -webkit-border-top-right-radius: 0;
+  -webkit-border-bottom-right-radius: 0;
+  -webkit-border-bottom-left-radius: 5px;
+  -webkit-border-top-left-radius: 0;
+  -moz-border-radius-topright: 0;
+  -moz-border-radius-bottomright: 0;
+  -moz-border-radius-bottomleft: 5px;
+  -moz-border-radius-topleft: 0;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 5px;
+  border-top-left-radius: 0;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+}
+.messagesView #topicListWrap #topicList .topic.groupChat .left img:nth-child(4),
+.messagesView #topicListWrap #topicList .topic.groupChat .left span:nth-child(4),
+.messagesView #topicListWrap #topicList .topic.groupChat .left div:nth-child(4) {
+  -webkit-border-top-right-radius: 0;
+  -webkit-border-bottom-right-radius: 5px;
+  -webkit-border-bottom-left-radius: 0;
+  -webkit-border-top-left-radius: 0;
+  -moz-border-radius-topright: 0;
+  -moz-border-radius-bottomright: 5px;
+  -moz-border-radius-bottomleft: 0;
+  -moz-border-radius-topleft: 0;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 5px;
+  border-bottom-left-radius: 0;
+  border-top-left-radius: 0;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+}
+.messagesView #topicListWrap #topicList .topic.groupChat .left span,
+.messagesView #topicListWrap #topicList .topic.groupChat .left div {
+  background-color: rgba(0, 0, 0, 0.82);
+  color: #ffffff;
+  -webkit-box-sizing: border-box;
+  /* Safari/Chrome, other WebKit */
+
+  -moz-box-sizing: border-box;
+  /* Firefox, other Gecko */
+
+  box-sizing: border-box;
+  /* Opera/IE 8+ */
+
 }
 .messagesView #topicWrap.peerChat #messageList {
   margin-left: 0;
@@ -3035,7 +3180,6 @@ input[type="submit"].btn.btn-mini {
 .friendsView header {
   height: 20px;
   margin-top: -30px;
-  margin-bottom: 1%;
   background-color: #fafafa;
   background: -webkit-gradient(linear, left top, left bottom, from(#fafafa), to(#e6e6e6));
   background: -webkit-linear-gradient(top, #fafafa, #e6e6e6);
@@ -3193,6 +3337,8 @@ input[type="submit"].btn.btn-mini {
 
 }
 .circlesView header {
+  height: 20px;
+  margin-top: -30px;
   background-color: #fafafa;
   background: -webkit-gradient(linear, left top, left bottom, from(#fafafa), to(#e6e6e6));
   background: -webkit-linear-gradient(top, #fafafa, #e6e6e6);
@@ -3200,6 +3346,22 @@ input[type="submit"].btn.btn-mini {
   background: -ms-linear-gradient(top, #fafafa, #e6e6e6);
   background: -o-linear-gradient(top, #fafafa, #e6e6e6);
   border-bottom: 1px solid #bbbbbb;
+  -webkit-border-top-right-radius: 5px;
+  -webkit-border-bottom-right-radius: 0px;
+  -webkit-border-bottom-left-radius: 0px;
+  -webkit-border-top-left-radius: 5px;
+  -moz-border-radius-topright: 5px;
+  -moz-border-radius-bottomright: 0px;
+  -moz-border-radius-bottomleft: 0px;
+  -moz-border-radius-topleft: 5px;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 0px;
+  border-bottom-left-radius: 0px;
+  border-top-left-radius: 5px;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  padding: 5px;
 }
 .circlesView header nav a {
   color: #888888;
@@ -3473,7 +3635,7 @@ input[type="submit"].btn.btn-mini {
 }
 .helpView #main header {
   height: 20px;
-  margin: -30px 0 0 0;
+  margin-top: -30px;
   background-color: #fafafa;
   background: -webkit-gradient(linear, left top, left bottom, from(#fafafa), to(#e6e6e6));
   background: -webkit-linear-gradient(top, #fafafa, #e6e6e6);
@@ -3496,8 +3658,7 @@ input[type="submit"].btn.btn-mini {
   -moz-background-clip: padding;
   -webkit-background-clip: padding-box;
   background-clip: padding-box;
-  width: 100%;
-  padding: 5px 0 5px 0 !important;
+  padding: 5px;
 }
 .helpView #main header #title {
   float: left;
@@ -3672,7 +3833,7 @@ input[type="submit"].btn.btn-mini {
 }
 .settingsView #main header {
   height: 20px;
-  margin: 0 0 0 0;
+  margin-top: -30px;
   background-color: #fafafa;
   background: -webkit-gradient(linear, left top, left bottom, from(#fafafa), to(#e6e6e6));
   background: -webkit-linear-gradient(top, #fafafa, #e6e6e6);
@@ -3695,8 +3856,7 @@ input[type="submit"].btn.btn-mini {
   -moz-background-clip: padding;
   -webkit-background-clip: padding-box;
   background-clip: padding-box;
-  width: 100%;
-  padding: 5px 0 5px 0 !important;
+  padding: 5px;
 }
 .settingsView #main header #title {
   float: left;
@@ -4279,6 +4439,23 @@ and (max-device-width : 767px) {
   .messagesView #topicListWrap #topicList .topic#newmessage {
     height: 20px;
     margin-top: -10px;
+  }
+  .messagesView #topicListWrap #topicList .topic.groupChat .left {
+    height: 50px;
+  }
+  .messagesView #topicListWrap #topicList .topic.groupChat .left img,
+  .messagesView #topicListWrap #topicList .topic.groupChat .left span {
+    display: inline;
+    float: left;
+    width: 48%;
+    margin: 0 1% 0 1%;
+    margin: 0!important;
+    height: 50%;
+  }
+  .messagesView #topicListWrap #topicList .topic.groupChat .left span {
+    padding: 2px 0;
+    font-size: 0.7em;
+    text-align: center;
   }
   .messagesView #topicWrap {
     height: 100%;
@@ -5243,6 +5420,23 @@ and (max-device-width : 767px) {
     height: 20px;
     margin-top: -10px;
   }
+  .messagesView #topicListWrap #topicList .topic.groupChat .left {
+    height: 60px;
+  }
+  .messagesView #topicListWrap #topicList .topic.groupChat .left img,
+  .messagesView #topicListWrap #topicList .topic.groupChat .left span {
+    display: inline;
+    float: left;
+    width: 48%;
+    margin: 0 1% 0 1%;
+    margin: 0!important;
+    height: 50%;
+  }
+  .messagesView #topicListWrap #topicList .topic.groupChat .left span {
+    padding: 5px 0;
+    font-size: 0.78em;
+    text-align: center;
+  }
   .messagesView #topicWrap {
     height: 100%;
   }
@@ -6204,6 +6398,22 @@ and (max-device-width : 767px) {
   .messagesView #topicListWrap #topicList .topic#newmessage {
     height: 20px;
     margin-top: -10px;
+  }
+  .messagesView #topicListWrap #topicList .topic.groupChat .left {
+    height: 80px;
+  }
+  .messagesView #topicListWrap #topicList .topic.groupChat .left img,
+  .messagesView #topicListWrap #topicList .topic.groupChat .left span {
+    display: inline;
+    float: left;
+    width: 48%;
+    margin: 0 1% 0 1%;
+    margin: 0!important;
+    height: 40px;
+  }
+  .messagesView #topicListWrap #topicList .topic.groupChat .left span {
+    padding: 9px 0;
+    text-align: center;
   }
   .messagesView #topicWrap {
     height: 100%;
