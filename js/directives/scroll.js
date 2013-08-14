@@ -43,6 +43,18 @@ define([], function () {
 							}
 						});
 
+						if (elm[0].offsetHeight + elm.scrollTop() >= elm[0].scrollHeight) {
+							atBottom = true;
+						} else {
+							atBottom = false;
+						}
+
+						if (elm.scrollTop() === 0) {
+							atTop = true;
+						} else {
+							atTop = false;
+						}
+
 						elm.bind("scroll", function() {
 							if (elm[0].offsetHeight + elm.scrollTop() >= elm[0].scrollHeight) {
 								if (atBottom === false) {
