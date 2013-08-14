@@ -15,19 +15,14 @@ define(["socket", "step", "whispeerHelper"], function (io, step, h) {
 			}
 		}
 
-		return {
+		var socketS = {
 			socket: socket,
 			listen: function (channel, callback) {
-				step(function () {
-					socket.on(channel, this.ne);
-				}, h.sF(function (data) {
-					var that = this;
+				socket.on(channel, function (data) {
 					$rootScope.$apply(function () {
-						updateLogin(data);
-
-						that.ne(data);
+						callback(null, data);
 					});
-				}), callback);
+				});
 			},
 			emit: function (channel, data, callback) {
 				var time;
@@ -58,6 +53,7 @@ define(["socket", "step", "whispeerHelper"], function (io, step, h) {
 				socket.send(data);
 			}
 		};
+		return socketS;
 	};
 
 	service.$inject = ["$rootScope", "ssn.sessionService"];

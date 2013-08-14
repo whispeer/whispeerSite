@@ -21,7 +21,6 @@ define(["step", "whispeerHelper"], function (step, h) {
 		});
 
 		//messageService.sendNewTopic([1, 2], "Ein erstes Testthema!?");
-		//messageService.sendMessage(
 
 		$scope.canSend = false;
 		$scope.topicLoaded = false;

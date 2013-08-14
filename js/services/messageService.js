@@ -222,6 +222,7 @@ define(["step", "whispeerHelper", "valid/validator"], function (step, h, validat
 									"image": data[i*2+1]
 								};
 							} else {
+								theTopic.partner = [];
 								theTopic.partner.push({
 									"id": receiverObjects[i].getID(),
 									"name": data[i*2],
@@ -260,7 +261,7 @@ define(["step", "whispeerHelper", "valid/validator"], function (step, h, validat
 
 					this.parallel()();
 				}), h.sF(function () {
-					console.log(new Date().getTime() - startup);
+					console.log("Messages loaded: " + (new Date().getTime() - startup));
 					this.ne();
 				}), cb);
 				//load more messages and decrypt them.
@@ -466,7 +467,7 @@ define(["step", "whispeerHelper", "valid/validator"], function (step, h, validat
 					return (b.getTime() - a.getTime());
 				});
 
-				console.log(new Date().getTime() - startup);
+				console.log("Topic loaded:" + (new Date().getTime() - startup));
 
 				if (cb) {
 					this.ne();
@@ -494,13 +495,17 @@ define(["step", "whispeerHelper", "valid/validator"], function (step, h, validat
 			return m;
 		}
 
-		socket.listen("messages", function (data) {
-			if (data.topic) {
-				makeTopic(data);
-			}
+		socket.listen("message", function (e, data) {
+			if (!e) {
+				if (data.topic) {
+					makeTopic(data.topic);
+				}
 
-			if (data.message) {
-				makeMessage(data);
+				if (data.message) {
+					makeMessage(data.message);
+				}
+			} else {
+				console.error(e);
 			}
 		});
 
