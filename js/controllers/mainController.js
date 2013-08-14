@@ -11,7 +11,7 @@ define([], function () {
 			{
 				"sender":	{
 					"image":	{
-						"image":	"img/profil.jpg",
+						"image":	"img/profiles/2.jpg",
 						"alttext":	"Test"
 					},
 					"name":	"Nathalie Schmidt"

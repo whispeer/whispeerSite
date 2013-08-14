@@ -37,7 +37,7 @@
 			background-image: url(../img/user.png);
 			background-repeat: no-repeat;
 			background-position: center center;
-			.background-size(auto 100%);
+			.background-clip(content-box);
 			.border-radius(5px);
 			border: 1px solid @btnBackgroundHighlight;
 			.username {
@@ -45,9 +45,7 @@
 				text-align: center;
 			}
 			.pushup {
-				opacity: 0;
 				background: rgba(0,0,0,0.5);
-				height: 0;
 				width: 100%;
 				margin-top: 0px;
 				padding: 0;
@@ -56,9 +54,13 @@
 				color: @white;
 				.box-fix;
 				.transition(all 1s ease);
+				overflow: hidden;
 				p {
 					opacity: 0;
-					.transition(opacity 0.2s ease-in-out 0.5s);
+					.transition(opacity 0.4s ease-in-out 0.1s);
+					&.username {
+						opacity: 1;
+					}
 				}
 			}
 			&:hover {

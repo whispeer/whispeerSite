@@ -106,6 +106,47 @@
 					padding-top: 5px;
 					margin-bottom: 10px;
 				}
+				ol.comments {
+					.unstyled;
+					.column(8);
+					.push(0.125);
+					border: 1px solid @grayLight;
+					.border-radius(5px);
+					margin-bottom: 5px;
+					li {
+						background-color: @grayLighter;
+						width: 100%;
+						.clear-fix;
+						margin: 0;
+						border-bottom: 1px solid @grayLight;
+						&:last-child {
+							border: none;
+						}
+						img {
+							.column(1);
+							margin-left: 0;
+						}
+						.text {
+							.column(9);
+							margin-top: 5px;
+						}
+						.timestamp {
+							.column(2);
+							margin-top: 5px;
+						}
+						&.newComment {
+							background-color: @white;
+							input {
+								.column(9);
+								margin-top: 8px;
+							}
+							button {
+								.column(2);
+								margin-top: 10px;
+							}
+						}
+					}
+				}
 				&:last-child {
 					border:none;
 				}

@@ -54,23 +54,47 @@
 				.column(8,8);
 				margin-top: -5px;
 				margin-bottom: 10px;
+				span {
+					.column(3);
+				}
 			}
 			button, input[type=submit] {
 				.btn;
 			}
+			&#privacy {
+				.config {
+					height: 90px;
+					span {
+						.column(2);
+						height: 80px;
+					}
+					.labelClass {
+						.column(6);
+						label {
+							.column(4,6);
+						}
+						input {
+							.column(2,6);
+						}
+					}
+				}
+			}
 			.notimplemented {
 				background-color: @gray;
+				display: -moz-box;              /* Mozilla */
+				display: -webkit-box;           /* WebKit */
 				float: left;
 				width: 100%;
 				height: 150px;
 				margin-top: -10px;
 				margin-bottom: -10px;
-				span {
-					display: -webkit-box;
+				-moz-box-orient: vertical;      /* Mozilla */
+				-webkit-box-orient: vertical;   /* WebKit */
+        		span {
 					font-size: 1.5em;
 					margin: 0 auto;
 					margin-top: 30px;
-					display:-webkit-box;
+					display: -webkit-box;
 					-webkit-box-pack:center;
 					-webkit-box-align:center;
 					box-pack:center;
