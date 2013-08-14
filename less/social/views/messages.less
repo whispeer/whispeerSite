@@ -8,8 +8,7 @@
 		.box-fix;
 	}
 	header {
-		.gradient(darken(@btnBackground, 2%), @btnBackgroundHighlight);
-		border-bottom: 1px solid @btnBorder;
+		.headerClass;
 	}
 	#topicListWrap {
 		margin-right: 3px;
@@ -49,6 +48,30 @@
 					float: right;
 					margin-right: 5px;
 					margin-top: -20px;
+				}
+				&.groupChat {
+					.left {
+						img, span, div {
+							.border-radius(0);
+							&:nth-child(1) {
+								.border-radiuses(0,0,0,5px);
+							}
+							&:nth-child(2) {
+								.border-radiuses(5px,0,0,0);	
+							}
+							&:nth-child(3) {
+								.border-radiuses(0,0,5px,0);	
+							}
+							&:nth-child(4) {
+								.border-radiuses(0,5px,0,0);	
+							}
+						}
+						span, div {
+							background-color: rgba(0,0,0,0.82);
+							color: @white;
+							.box-fix;
+						}
+					}
 				}
 			}
 		}
