@@ -4154,10 +4154,11 @@ and (max-device-width : 767px) {
   .friendsView #friendsList li .username,
   .profileView #friendsList li .username {
     width: 100%;
+    text-overflow: ellipsis;
   }
   .friendsView #friendsList li .pushup,
   .profileView #friendsList li .pushup {
-    height: 0;
+    height: 50px;
     width: 100%;
     margin-top: 0px;
     padding: 0;
@@ -6072,7 +6073,7 @@ and (max-device-width : 767px) {
   }
   .friendsView #friendsList li .pushup,
   .profileView #friendsList li .pushup {
-    height: 0;
+    height: 50px;
     width: 100%;
     margin-top: 0px;
     padding: 0;
