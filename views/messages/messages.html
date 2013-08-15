@@ -8,28 +8,13 @@
 		<div id="topicListScroll">
 			<li data-ng-repeat="topic in topics" id="{{topic.id}}" class="topic {{topic.type}}" data-ng-click="loadActiveTopic(topic.id)">
 				<div class="left">
-					<img class="userimg" data-ng-src="{{topic.partner.image}}" alt="Userimage">
+					<a href="{{partner.url}}" data-ng-repeat="partner in topic.partnersDisplay">
+						<img class="userimg" data-ng-src="{{partner.image}}" alt="{{partner.name}}" title="{{partner.name}}">
+					</a>
+					<span data-ng-if="topic.remainingUser" title="{{topic.remainingUserTitle}}">+ {{topic.remainingUser}}</span>
 				</div>
 				<div class="username">
-					<strong>{{topic.partner.name}}</strong>
-				</div>
-				<div class="lastMessage">
-					{{shortenMessage(topic.latestMessage.text)}}
-				</div>
-				<div class="time">{{topic.latestMessage.timestamp|date:'HH:mm'}}</div>
-				<div class="clear-fix"></div>
-			</li>
-			<li id="{{topic.id}}" class="topic groupChat" data-ng-click="loadActiveTopic(topic.id)">
-				<div class="left">
-					<!-- when you display a groupChat, just place 3-4 images in here -->
-					<img class="userimg" src="img/profiles/4.jpg" alt="Userimage">
-					<img class="userimg" src="img/profiles/2.jpg" alt="Userimage">
-					<img class="userimg" src="img/profiles/1.jpg" alt="Userimage">
-					<!-- If you got more than 4 people in the chat, only add 3 images and add a span with a plus and the count of other people in the group here -->
-					<span>+ 10</span>
-				</div>
-				<div class="username">
-					<strong>{{topic.partner.name}}</strong>
+					<strong ng-repeat="partner in topic.partners">{{topic.partners.length>1?partner.shortname:partner.name}}{{$last?"":", "}}</strong>
 				</div>
 				<div class="lastMessage">
 					{{shortenMessage(topic.latestMessage.text)}}
@@ -42,7 +27,14 @@
 </div>
 <div id="topicWrap" data-topicID="{{activeTopic.id}}" class="{{activeTopic.type}}" data-ng-if="topicLoaded">
 	<div id="messageTitle">	
-		<h2>{{activeTopic.partner.name}}</h2>
+		<h2>
+			<span data-ng-repeat="partner in activeTopic.partners">
+				<a href="{{partner.url}}">
+					{{activeTopic.partners.length>2?partner.shortname:partner.name}}
+				</a>
+				{{$last?"":", "}}
+			</span>
+		</h2>
 	</div>
 	<div id="messageWrap">
 		<ul class="scroll-pane" id="messageList" data-scroll="activeTopic.messages.length" data-startBottom data-keepBottom data-scrolltop="loadMoreTop()">

@@ -58,6 +58,10 @@ define(["step", "whispeerHelper"], function (step, h) {
 				return parseInt(data.id, 10);
 			};
 
+			this.getUrl = function () {
+				return "#/user/" + this.getID();
+			};
+
 			this.getNickname = function () {
 				return data.nickname;
 			};
@@ -78,6 +82,46 @@ define(["step", "whispeerHelper"], function (step, h) {
 				step(function () {
 					this.ne("img/profil.jpg");
 				}, cb);
+			};
+
+			this.getShortName = function (cb) {
+				var firstname, lastname, nickname;
+				step(function getSN1() {
+					var pub = theUser.getProfile().basic;
+
+					if (pub) {
+						firstname = pub.firstname;
+						lastname = pub.lastname;
+					}
+
+					nickname = theUser.getNickname();
+
+					var priv = theUser.getPrivateProfiles(), i;
+
+					if (priv) {
+						for (i = 0; i < priv.length; i += 1) {
+							priv[i].decrypt(this.parallel());
+						}
+					} else {
+						this.ne([]);
+					}
+				}, h.sF(function getSN2(results) {
+					var b;
+					for (i = 0; i < results.length; i += 1) {
+						b = results[i].basic;
+						if (b) {
+							if (b.lastname) {
+								lastname = b.lastname;
+							}
+
+							if (b.firstname) {
+								firstname = b.firstname;
+							}
+						}
+					}
+
+					this.ne(firstname || lastname || nickname || "");
+				}), cb);
 			};
 
 			this.getName = function (cb) {

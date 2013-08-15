@@ -129,11 +129,11 @@ define(["step", "whispeerHelper", "valid/validator"], function (step, h, validat
 
 			this.messages = messages;
 
-			this.partner = {
-				"id": "0",
-				"name": "",
-				"image": "img/profil.jpg"
-			};
+			this.partners = [];
+			this.partnersDisplay = [];
+
+			this.remainingUser = "";
+			this.remainingUserTitle = "";
 
 			this.id = data.topicid;
 			this.type = (data.receiver.length === 2 ? "peerChat" : "groupChat");
@@ -208,29 +208,46 @@ define(["step", "whispeerHelper", "valid/validator"], function (step, h, validat
 					receiverObjects = receiverO;
 					var i;
 					for (i = 0; i < receiverObjects.length; i += 1) {
+						receiverObjects[i].getShortName(this.parallel());
 						receiverObjects[i].getName(this.parallel());
 						receiverObjects[i].getImage(this.parallel());
 					}
 				}), h.sF(function (data) {
-					var i;
+					var partners = theTopic.partners;
+					var i, userData, me;
 					for (i = 0; i < receiverObjects.length; i += 1) {
+						userData = {
+							"id": receiverObjects[i].getID(),
+							"url": receiverObjects[i].getUrl(),
+							"shortname": data[i*3],
+							"name": data[i*3+1],
+							"image": data[i*3+2]
+						};
+
 						if (!receiverObjects[i].isOwn()) {
-							if (receiverObjects.length === 2) {
-								theTopic.partner = {
-									"id": receiverObjects[i].getID(),
-									"name": data[i*2],
-									"image": data[i*2+1]
-								};
-							} else {
-								theTopic.partner = [];
-								theTopic.partner.push({
-									"id": receiverObjects[i].getID(),
-									"name": data[i*2],
-									"image": data[i*2+1]
-								});
-							}
+							partners.push(userData);
+						} else {
+							me = userData;
 						}
 					}
+
+					if (partners.length > 4) {
+						theTopic.partnersDisplay = partners.slice(0, 3);
+						theTopic.remainingUser = partners.length - 3;
+						for (i = 3; i < partners.length; i += 1) {
+							theTopic.remainingUserTitle += partners[i].name;
+							if (i < partners.length - 1) {
+								theTopic.remainingUserTitle += ", ";
+							}
+						}
+					} else {
+						theTopic.partnersDisplay = partners.slice(0, 4);
+						if (theTopic.partnersDisplay.length < 4 && theTopic.partnersDisplay.length > 1) {
+							theTopic.partnersDisplay.push(me);
+						}
+					}
+
+					//partners.push(me);
 
 					this.ne();
 				}), cb);
