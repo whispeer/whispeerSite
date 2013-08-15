@@ -2,7 +2,8 @@
 	<img class="userimg" ng-src="{{post.sender.image.image}}" alt="{{post.sender.image.alttext}}">
 	<div class="postContent">
 		<p class="author">{{post.sender.name}}:</p>
-		<div class="postText">{{post.content}}</div>
+		<div class="postText">{{post.content.text}}</div>
+		<div class="postImage" data-ng-if="post.content.image != ''"><img data-ng-src="{{post.content.image}}"></div>
 	</div>
 	<div class="postInfo">
 			<p class="with" data-ng-if="post.info.with != ''" data-i18n="wall.info.with|name={{post.info.with}}"></p>
@@ -13,6 +14,6 @@
 	<ol class="comments animated" data-ng-if="showComments">
 		<li class="newComment"><img src="img/profil.jpg"><input type="text" data-ng-model="comment" placeholder="Gebe deinen Kommentar ein!"><button class="btn btn-success">Senden</button></li>
 		<comment data-ng-repeat="comment in post.comments" data-comment="comment"></comment>
-		<li class="newComment" data-ng-if="post.comments.length >= 20"><img src="img/profil.jpg"><input type="text" data-ng-model="comment" placeholder="Gebe deinen Kommentar ein!"><button class="btn btn-success">Senden</button></li>
+		<li class="newComment" data-ng-if="post.comments.length >= 10"><img src="img/profil.jpg"><input type="text" data-ng-model="comment" placeholder="Gebe deinen Kommentar ein!"><button class="btn btn-success">Senden</button></li>
 	</ol>
 </article>

@@ -47,6 +47,9 @@
 			},
 			"content": "{{content}}"
 			
+		},
+		"comments": {
+			"time":	"Am {date} um {time}"
 		}
 	},
 	"messages": {

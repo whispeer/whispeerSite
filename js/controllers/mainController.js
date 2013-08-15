@@ -16,7 +16,10 @@ define([], function () {
 					},
 					"name":	"Nathalie Schmidt"
 				},
-				"content":	"Ein schöner Abend mit meinem Bärchen :)",
+				"content":	{
+					"text": "Ein schöner Abend mit meinem Bärchen :)",
+					"image":	"img/profiles/2.jpg"
+				},	
 				"info":	{
 					"with"	: "Marc Schneider-Zuckerfuß",
 					"awesome"	: "14"
@@ -28,8 +31,9 @@ define([], function () {
 							"name":	"Test",
 							"image":"img/profil.jpg"
 						},
-						"content":	"Hallo Welt!",
-						"timestamp":	"21:00"
+						"content":	"Hallo Welt! Lorem ipsum dolor sit amet, amet dolor felses dramatikum dolosgnweio+gbeqi0h#nfonho#GBÜnrg#psnRWNW#RPHFNB  hwr bäwrihns#pkb tnsfhpiwrntgfsnhwropngpn topngopn tpoqenhprwntpadnh'W PRt",
+						"timestamp":	"06:56",
+						"date":	"15.08.13"
 					},{
 						"user": {
 							"id":	"1",
@@ -37,7 +41,8 @@ define([], function () {
 							"image":"img/profil.jpg"
 						},
 						"content":	"Hallo Welt!",
-						"timestamp":	"21:00"
+						"timestamp":	"06:56",
+						"date":	"15.08.13"
 					},{
 						"user": {
 							"id":	"1",
@@ -45,7 +50,8 @@ define([], function () {
 							"image":"img/profil.jpg"
 						},
 						"content":	"Hallo Welt!",
-						"timestamp":	"21:00"
+						"timestamp":	"06:56",
+						"date":	"15.08.13"
 					},{
 						"user": {
 							"id":	"1",
@@ -53,7 +59,8 @@ define([], function () {
 							"image":"img/profil.jpg"
 						},
 						"content":	"Hallo Welt!",
-						"timestamp":	"21:00"
+						"timestamp":	"06:56",
+						"date":	"15.08.13"
 					},{
 						"user": {
 							"id":	"1",
@@ -61,7 +68,8 @@ define([], function () {
 							"image":"img/profil.jpg"
 						},
 						"content":	"Hallo Welt!",
-						"timestamp":	"21:00"
+						"timestamp":	"06:56",
+						"date":	"15.08.13"
 					},{
 						"user": {
 							"id":	"1",
@@ -69,7 +77,26 @@ define([], function () {
 							"image":"img/profil.jpg"
 						},
 						"content":	"Hallo Welt!",
-						"timestamp":	"21:00"
+						"timestamp":	"06:56",
+						"date":	"15.08.13"
+					},{
+						"user": {
+							"id":	"1",
+							"name":	"Test",
+							"image":"img/profil.jpg"
+						},
+						"content": "Hallo Welt!",
+						"timestamp":	"06:56",
+						"date":	"15.08.13"
+					},{
+						"user": {
+							"id":	"1",
+							"name":	"Test",
+							"image":"img/profil.jpg"
+						},
+						"content":"Hallo Welt!",
+						"timestamp":	"06:56",
+						"date":	"15.08.13"
 					},{
 						"user": {
 							"id":	"1",
@@ -77,7 +104,8 @@ define([], function () {
 							"image":"img/profil.jpg"
 						},
 						"content":	"Hallo Welt!",
-						"timestamp":	"21:00"
+						"timestamp":	"06:56",
+						"date":	"15.08.13"
 					},{
 						"user": {
 							"id":	"1",
@@ -85,167 +113,8 @@ define([], function () {
 							"image":"img/profil.jpg"
 						},
 						"content":	"Hallo Welt!",
-						"timestamp":	"21:00"
-					},{
-						"user": {
-							"id":	"1",
-							"name":	"Test",
-							"image":"img/profil.jpg"
-						},
-						"content":	"Hallo Welt!",
-						"timestamp":	"21:00"
-					},{
-						"user": {
-							"id":	"1",
-							"name":	"Test",
-							"image":"img/profil.jpg"
-						},
-						"content":	"Hallo Welt!",
-						"timestamp":	"21:00"
-					},{
-						"user": {
-							"id":	"1",
-							"name":	"Test",
-							"image":"img/profil.jpg"
-						},
-						"content":	"Hallo Welt!",
-						"timestamp":	"21:00"
-					},{
-						"user": {
-							"id":	"1",
-							"name":	"Test",
-							"image":"img/profil.jpg"
-						},
-						"content":	"Hallo Welt!",
-						"timestamp":	"21:00"
-					},{
-						"user": {
-							"id":	"1",
-							"name":	"Test",
-							"image":"img/profil.jpg"
-						},
-						"content":	"Hallo Welt!",
-						"timestamp":	"21:00"
-					},{
-						"user": {
-							"id":	"1",
-							"name":	"Test",
-							"image":"img/profil.jpg"
-						},
-						"content":	"Hallo Welt!",
-						"timestamp":	"21:00"
-					},{
-						"user": {
-							"id":	"1",
-							"name":	"Test",
-							"image":"img/profil.jpg"
-						},
-						"content":	"Hallo Welt!",
-						"timestamp":	"21:00"
-					},{
-						"user": {
-							"id":	"1",
-							"name":	"Test",
-							"image":"img/profil.jpg"
-						},
-						"content":	"Hallo Welt!",
-						"timestamp":	"21:00"
-					},{
-						"user": {
-							"id":	"1",
-							"name":	"Test",
-							"image":"img/profil.jpg"
-						},
-						"content":	"Hallo Welt!",
-						"timestamp":	"21:00"
-					},{
-						"user": {
-							"id":	"1",
-							"name":	"Test",
-							"image":"img/profil.jpg"
-						},
-						"content":	"Hallo Welt!",
-						"timestamp":	"21:00"
-					},{
-						"user": {
-							"id":	"1",
-							"name":	"Test",
-							"image":"img/profil.jpg"
-						},
-						"content":	"Hallo Welt!",
-						"timestamp":	"21:00"
-					},{
-						"user": {
-							"id":	"1",
-							"name":	"Test",
-							"image":"img/profil.jpg"
-						},
-						"content":	"Hallo Welt!",
-						"timestamp":	"21:00"
-					},{
-						"user": {
-							"id":	"1",
-							"name":	"Test",
-							"image":"img/profil.jpg"
-						},
-						"content":	"Hallo Welt!",
-						"timestamp":	"21:00"
-					},{
-						"user": {
-							"id":	"1",
-							"name":	"Test",
-							"image":"img/profil.jpg"
-						},
-						"content":	"Hallo Welt!",
-						"timestamp":	"21:00"
-					},{
-						"user": {
-							"id":	"1",
-							"name":	"Test",
-							"image":"img/profil.jpg"
-						},
-						"content":	"Hallo Welt!",
-						"timestamp":	"21:00"
-					},{
-						"user": {
-							"id":	"1",
-							"name":	"Test",
-							"image":"img/profil.jpg"
-						},
-						"content":	"Hallo Welt!",
-						"timestamp":	"21:00"
-					},{
-						"user": {
-							"id":	"1",
-							"name":	"Test",
-							"image":"img/profil.jpg"
-						},
-						"content":	"Hallo Welt!",
-						"timestamp":	"21:00"
-					},{
-						"user": {
-							"id":	"1",
-							"name":	"Test",
-							"image":"img/profil.jpg"
-						},
-						"content":	"Hallo Welt!",
-						"timestamp":	"21:00"
-					},{
-						"user": {
-							"id":	"1",
-							"name":	"Test",
-							"image":"img/profil.jpg"
-						},
-						"content":	"Hallo Welt!",
-						"timestamp":	"21:00"
-					},{
-						"user": {
-							"id":	"1",
-							"name":	"Test",
-							"image":"img/profil.jpg"
-						},
-						"content":	"Hallo Welt!",
-						"timestamp":	"21:00"
+						"timestamp":	"06:56",
+						"date":	"15.08.13"
 					}
 				]
 			},
@@ -257,7 +126,7 @@ define([], function () {
 					},
 					"name":	"Mike König"
 				},
-				"content":	"Endlich Urlaub!",
+				"content":	{"text": "Endlich Urlaub!"},
 				"info":	{
 					"with"	: "",
 					"awesome"	: "50",
@@ -274,7 +143,7 @@ define([], function () {
 					},
 					"name":	"Fiona Schneider"
 				},
-				"content":	"Shoppen mit der Besten :*",
+				"content":{"text":	"Shoppen mit der Besten :*"},
 				"info":	{
 					"with"	: "Jennifer Graf",
 					"awesome"	: "0",
@@ -291,7 +160,7 @@ define([], function () {
 					},
 					"name":	"Nina Müller"
 				},
-				"content":	"Mädelsabend! Hab euch alle Lieb <3",
+				"content":{"text":	"Mädelsabend! Hab euch alle Lieb <3"},
 				"info":	{
 					"with"	: "Fiona Hasenbrink, Mia von Schimmelhof, Alexandra Lehmann",
 					"awesome"	: "27",
