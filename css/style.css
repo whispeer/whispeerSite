@@ -2312,7 +2312,8 @@ input[type="submit"].btn.btn-mini {
   margin-top: -5px;
   margin-bottom: 10px;
 }
-.mainView #wall .posts article .postContent .postText {
+.mainView #wall .posts article .postContent .postText,
+.mainView #wall .posts article .postContent .postImage {
   padding-left: 10px;
   -webkit-box-sizing: border-box;
   /* Safari/Chrome, other WebKit */
@@ -5849,6 +5850,18 @@ and (max-device-width : 767px) {
     box-sizing: padding-box;
     /* Opera/IE 8+ */
   
+  }
+  .posts article .postContent .postImage img {
+    display: inline;
+    float: left;
+    width: 98%;
+    margin: 0 1% 0 1%;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    -moz-background-clip: padding;
+    -webkit-background-clip: padding-box;
+    background-clip: padding-box;
   }
   .posts article .postInfo {
     display: inline;
