@@ -843,6 +843,9 @@ body:not(.mainView, .registerView) #main {
   color: #266300;
   text-shadow: 0px 0px 2px #eeeeee;
 }
+#topNav #navIcons .navIcon {
+  cursor: pointer;
+}
 #topNav #navIcons .navIcon .badge {
   background-color: #9d261d;
   color: #ffffff;
