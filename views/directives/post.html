@@ -13,6 +13,6 @@
 	<ol class="comments animated" data-ng-if="showComments">
 		<li class="newComment"><img src="img/profil.jpg"><input type="text" data-ng-model="comment" placeholder="Gebe deinen Kommentar ein!"><button class="btn btn-success">Senden</button></li>
 		<comment data-ng-repeat="comment in post.comments" data-comment="comment"></comment>
-		<li class="newComment" data-ng-if="post.comments.length >= 20"><img src="img/profil.jpg"><input type="text" data-ng-model="comment" placeholder="Gebe deinen Kommentar ein!"><button class="btn btn-success">Senden</button></li>
+		<li class="newComment" data-ng-if="post.comments.length >= 10"><img src="img/profil.jpg"><input type="text" data-ng-model="comment" placeholder="Gebe deinen Kommentar ein!"><button class="btn btn-success">Senden</button></li>
 	</ol>
 </article>

@@ -48,7 +48,7 @@
 			"content": "{{content}}"
 			
 		},
-		"comment": {
+		"comments": {
 			"time":	"Am {date} um {time}"
 		}
 	},

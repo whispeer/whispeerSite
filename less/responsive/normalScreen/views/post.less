@@ -51,7 +51,7 @@
 			li {
 				width: 100%;
 				margin: 0;
-				height: 40px;
+				min-height: 40px;
 				&:last-child {
 					.border-radiuses(0, 5px, 5px, 0);
 					border-bottom: none !important;
@@ -66,22 +66,20 @@
 				img {
 					.column(1);
 					margin-left: 0;
-					height: 100%;
+					height: 40px;
 					width: auto !important;
 				}
 				.text {
-					.column(8);
+					.column(7.8);
 					padding: 3px;
 					.box-fix;
 				}
 				.timestamp {
-					.column(2);
+					.column(3);
 				}
 				&.newComment {
 					padding: 0;
-					height: 40px;
 					img {
-						height: 100%;
 						width: auto;
 					}
 					input {

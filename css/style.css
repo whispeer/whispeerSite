@@ -2355,6 +2355,12 @@ input[type="submit"].btn.btn-mini {
 .mainView #wall .posts article ol.comments li:after {
   clear: both;
 }
+.mainView #wall .posts article ol.comments li .text {
+  word-break: break-all;
+}
+.mainView #wall .posts article ol.comments li .timestamp {
+  font-size: 0.85em;
+}
 .mainView #wall .posts article ol.comments li.newComment {
   background-color: #ffffff;
 }
@@ -4827,7 +4833,7 @@ and (max-device-width : 767px) {
   .posts article ol.comments li {
     width: 100%;
     margin: 0;
-    height: 40px;
+    min-height: 40px;
   }
   .posts article ol.comments li img {
     display: inline;
@@ -4835,7 +4841,7 @@ and (max-device-width : 767px) {
     width: 6.333333333333334%;
     margin: 0 1% 0 1%;
     margin-left: 0;
-    height: 100%;
+    height: 40px;
     width: auto !important;
   }
   .posts article ol.comments li .text {
@@ -4865,7 +4871,6 @@ and (max-device-width : 767px) {
     height: 40px;
   }
   .posts article ol.comments li.newComment img {
-    height: 100%;
     width: auto;
   }
   .posts article ol.comments li.newComment input {
@@ -5895,7 +5900,7 @@ and (max-device-width : 767px) {
   .posts article ol.comments li {
     width: 100%;
     margin: 0;
-    height: 40px;
+    min-height: 40px;
   }
   .posts article ol.comments li:last-child {
     -webkit-border-top-right-radius: 0;
@@ -5947,13 +5952,13 @@ and (max-device-width : 767px) {
     width: 6.333333333333334%;
     margin: 0 1% 0 1%;
     margin-left: 0;
-    height: 100%;
+    height: 40px;
     width: auto !important;
   }
   .posts article ol.comments li .text {
     display: inline;
     float: left;
-    width: 64.66666666666667%;
+    width: 63%;
     margin: 0 1% 0 1%;
     padding: 3px;
     -webkit-box-sizing: border-box;
@@ -5969,15 +5974,13 @@ and (max-device-width : 767px) {
   .posts article ol.comments li .timestamp {
     display: inline;
     float: left;
-    width: 14.666666666666668%;
+    width: 23%;
     margin: 0 1% 0 1%;
   }
   .posts article ol.comments li.newComment {
     padding: 0;
-    height: 40px;
   }
   .posts article ol.comments li.newComment img {
-    height: 100%;
     width: auto;
   }
   .posts article ol.comments li.newComment input {
