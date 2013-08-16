@@ -8,6 +8,56 @@ define(["step"], function (step) {
 	function loginController($scope, sessionHelper, sessionService, cssService) {
 		cssService.setClass("registerView");
 
+		var imageData;
+
+		var originalCanvasE = document.createElement("canvas");
+		var doneCanvasE = document.createElement("canvas");
+
+		doneCanvasE.width = 170;
+		doneCanvasE.height = 170;
+
+		var originalCanvas = originalCanvasE.getContext("2d");
+		var doneCanvas = doneCanvasE.getContext("2d");
+
+		jQuery(document.body).append(doneCanvasE);
+		jQuery(document.body).append(originalCanvasE);
+
+		var MAXWIDTH = 1000;
+		var MAXHEIGHT = 1000;
+
+		$scope.imageChange = function (e) {
+			var file = e.target.files[0];
+			if (!file.type.match(/image.*/i)) {
+				$scope.validImage = false;
+				return;
+			}
+
+			$scope.validImage = true;
+
+			var url = URL.createObjectURL(file);
+			var image = new Image();
+			image.src = url;
+			image.addEventListener("load", function () {
+				var width = image.width;
+				var height = image.height;
+
+				var f = Math.max(width/MAXWIDTH, height/MAXHEIGHT);
+
+				width = width / f;
+				height = height / f;
+
+				originalCanvasE.width = width;
+				originalCanvasE.height = height;
+
+				originalCanvas.drawImage(image, 0, 0, width, height);
+
+				var get = Math.min(width, height);
+
+				doneCanvas.drawImage(originalCanvasE, 0, 0, get, get, 0, 0, 170, 170);
+				imageData = doneCanvasE.toDataURL();
+			});
+		};
+
 		$scope.password = "";
 		$scope.password2 = "";
 
@@ -53,6 +103,8 @@ define(["step"], function (step) {
 				encrypted: false
 			}
 		];
+
+		$scope.validImage = true;
 
 		//gui show stuff
 		$scope.loginForm = true;
@@ -183,7 +235,7 @@ define(["step"], function (step) {
 		$scope.login = function loginCF(identifier, password) {
 			step(function () {
 				sessionHelper.login(identifier, password, this);
-			}, function (e, result) {
+			}, function (e) {
 				if (e) {
 					loginFailed();
 				} else {
@@ -217,6 +269,10 @@ define(["step"], function (step) {
 						profile.pub[cur.topic][cur.name] = cur.value;
 					}
 				}
+			}
+
+			if (imageData) {
+				profile.pub.image = imageData;
 			}
 
 			sessionHelper.register($scope.nickname, $scope.mail, $scope.password, profile, function () {
