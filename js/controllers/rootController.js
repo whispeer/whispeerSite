@@ -7,7 +7,12 @@ define(["step", "whispeerHelper"], function (step, h) {
 
 	function rootController($scope, sessionService, sessionHelper, userService, cssService) {
 		$scope.loggedin = false;
-		$scope.username = "";
+
+		$scope.user = {};
+
+		$scope.user.name = "";
+		$scope.user.image = "img/profil.jpg";
+		$scope.user.id = "0";
 
 		$scope.$on("ssn.login", function () {
 			$scope.loggedin = sessionService.isLoggedin();
@@ -17,11 +22,15 @@ define(["step", "whispeerHelper"], function (step, h) {
 			step(function () {
 				if ($scope.loggedin) {
 					var user = userService.getown();
-					$scope.userid = user.getID();
-					user.getName(this);
+					$scope.user.id = user.getID();
+					this.parallel.unflatten();
+
+					user.getName(this.parallel());
+					user.getImage(this.parallel());
 				}
-			}, h.sF(function (name) {
-				$scope.username = name;
+			}, h.sF(function (name, image) {
+				$scope.user.name = name;
+				$scope.user.image = image;
 
 				console.log("Own Name loaded:" + (new Date().getTime() - startup));
 			}));

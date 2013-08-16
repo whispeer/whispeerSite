@@ -34,6 +34,66 @@ define(["step", "whispeerHelper"], function (step, h) {
 				}
 			}
 
+			function getProfileBranch(branch, cb) {
+				step(function () {
+					var priv = theUser.getPrivateProfiles(), i;
+
+					if (priv) {
+						for (i = 0; i < priv.length; i += 1) {
+							priv[i].decrypt(this.parallel());
+						}
+					} else {
+						this.ne([]);
+					}
+				}, h.sF(function (results) {
+					for (i = 0; i < results.length; i += 1) {
+						if (results[i] && results[i][branch]) {
+							this.last.ne(results[i][branch]);
+							return;
+						}
+					}
+
+					var pub = theUser.getProfile();
+
+					if (pub && pub[branch]) {
+						this.last.ne(pub[branch]);
+						return;
+					}
+
+					this.last.ne();
+				}), cb);
+			}
+
+			function getProfileAttribute(branch, attribute, cb) {
+				step(function () {
+					var priv = theUser.getPrivateProfiles(), i;
+
+					if (priv) {
+						for (i = 0; i < priv.length; i += 1) {
+							priv[i].decrypt(this.parallel());
+						}
+					} else {
+						this.ne([]);
+					}
+				}, h.sF(function (results) {
+					for (i = 0; i < results.length; i += 1) {
+						if (results[i] && results[i][branch] && results[i][branch][attribute]) {
+							this.last.ne(results[i][branch][attribute]);
+							return;
+						}
+					}
+
+					var pub = theUser.getProfile();
+
+					if (pub && pub[branch] && pub[branch][attribute]) {
+						this.last.ne(pub[branch][attribute]);
+						return;
+					}
+
+					this.last.ne();
+				}), cb);
+			}
+
 			this.isOwn = function () {
 				return theUser.getID() === sessionService.getUserID();
 			};
@@ -80,85 +140,37 @@ define(["step", "whispeerHelper"], function (step, h) {
 
 			this.getImage = function (cb) {
 				step(function () {
-					this.ne("img/profil.jpg");
-				}, cb);
+					getProfileBranch("image", this);
+				}, h.sF(function (image) {
+					if (image) {
+						this.ne(image);
+					} else {
+						this.ne("img/profil.jpg");
+					}
+				}), cb);
 			};
 
 			this.getShortName = function (cb) {
-				var firstname, lastname, nickname;
 				step(function getSN1() {
-					var pub = theUser.getProfile().basic;
+					this.parallel.unflatten();
 
-					if (pub) {
-						firstname = pub.firstname;
-						lastname = pub.lastname;
-					}
-
-					nickname = theUser.getNickname();
-
-					var priv = theUser.getPrivateProfiles(), i;
-
-					if (priv) {
-						for (i = 0; i < priv.length; i += 1) {
-							priv[i].decrypt(this.parallel());
-						}
-					} else {
-						this.ne([]);
-					}
-				}, h.sF(function getSN2(results) {
-					var b;
-					for (i = 0; i < results.length; i += 1) {
-						b = results[i].basic;
-						if (b) {
-							if (b.lastname) {
-								lastname = b.lastname;
-							}
-
-							if (b.firstname) {
-								firstname = b.firstname;
-							}
-						}
-					}
+					getProfileAttribute("basic", "firstname", this.parallel());
+					getProfileAttribute("basic", "lastname", this.parallel());
+				}, h.sF(function (firstname, lastname) {
+					var nickname = theUser.getNickname();
 
 					this.ne(firstname || lastname || nickname || "");
 				}), cb);
 			};
 
 			this.getName = function (cb) {
-				var firstname, lastname, nickname;
 				step(function getN1() {
-					var pub = theUser.getProfile().basic;
+					this.parallel.unflatten();
 
-					if (pub) {
-						firstname = pub.firstname;
-						lastname = pub.lastname;
-					}
-
-					nickname = theUser.getNickname();
-
-					var priv = theUser.getPrivateProfiles(), i;
-
-					if (priv) {
-						for (i = 0; i < priv.length; i += 1) {
-							priv[i].decrypt(this.parallel());
-						}
-					} else {
-						this.ne([]);
-					}
-				}, h.sF(function getN2(results) {
-					var b;
-					for (i = 0; i < results.length; i += 1) {
-						b = results[i].basic;
-						if (b) {
-							if (b.lastname) {
-								lastname = b.lastname;
-							}
-
-							if (b.firstname) {
-								firstname = b.firstname;
-							}
-						}
-					}
+					getProfileAttribute("basic", "firstname", this.parallel());
+					getProfileAttribute("basic", "lastname", this.parallel());
+				}, h.sF(function (firstname, lastname) {
+					var nickname = theUser.getNickname();
 
 					if (firstname && lastname) {
 						this.ne(firstname + " " + lastname);

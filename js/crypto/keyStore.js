@@ -1172,6 +1172,7 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/sjclWork
 
 		setKeyGenIdentifier: function (identifier) {
 			keyGenIdentifier = identifier;
+			//TODO: update all key identifiers for all keys.
 		},
 
 		getKeyGenIdentifier: function () {

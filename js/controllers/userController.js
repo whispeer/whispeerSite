@@ -14,6 +14,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 		$scope.user	= {
 			"name":	"Not loaded",
 			"data": {
+				"image": "img/profil.jpg",
 				"me": true,
 				"birthday":	{
 					"day":	"09",
@@ -46,9 +47,12 @@ define(["step", "whispeerHelper"], function (step, h) {
 		step(function () {
 			userService.get(identifier, this);
 		}, h.sF(function (user) {
-			user.getName(this);
-		}), h.sF(function (name) {
+			this.parallel.unflatten();
+			user.getName(this.parallel());
+			user.getImage(this.parallel());
+		}), h.sF(function (name, image) {
 			$scope.user.name = name;
+			$scope.user.image = image;
 			$scope.loading = false;
 		}));
 

@@ -58,10 +58,10 @@ define(["step", "whispeerHelper"], function (step, h) {
 					sign = signK;
 					profileKey = profileK;
 
-					if (mail) {
-						keyStoreService.setKeyGenIdentifier(mail);
-					} else if (nickname) {
+					if (nickname) {
 						keyStoreService.setKeyGenIdentifier(nickname);
+					} else if (mail) {
+						keyStoreService.setKeyGenIdentifier(mail);
 					} else {
 						throw "need either nick or mail";
 					}
@@ -102,6 +102,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 					socketService.emit("session.register", registerData, this);
 				}), h.sF(function (result) {
 					sessionHelper.resetKey();
+					keyStoreService.addPassword(password);
 					this.ne(result);
 				}), callback);
 			},
