@@ -8,9 +8,7 @@
 		<div id="topicListScroll">
 			<li data-ng-repeat="topic in topics" id="{{topic.id}}" class="topic {{topic.type}}" data-ng-click="loadActiveTopic(topic.id)">
 				<div class="left">
-					<a href="{{partner.url}}" data-ng-repeat="partner in topic.partnersDisplay">
-						<img class="userimg" data-ng-src="{{partner.image}}" alt="{{partner.name}}" title="{{partner.name}}">
-					</a>
+					<img class="userimg" data-ng-repeat="partner in topic.partnersDisplay" data-ng-src="{{partner.image}}" alt="{{partner.name}}" title="{{partner.name}}">
 					<span data-ng-if="topic.remainingUser" title="{{topic.remainingUserTitle}}">+ {{topic.remainingUser}}</span>
 				</div>
 				<div class="username">
@@ -37,14 +35,16 @@
 		</h2>
 	</div>
 	<div id="messageWrap">
-		<ul class="scroll-pane" id="messageList" data-scroll="activeTopic.messages.length" data-startBottom data-keepBottom data-scrolltop="loadMoreTop()">
+		<ul class="scroll-pane" id="messageList" data-scroll data-keepBottom data-ontop="loadMoreMessages()">
 			<li>
 				Remaining: {{activeTopic.remaining}}
 			</li>
 			<li data-ng-repeat="message in activeTopic.messages" data-messageID="{{message.id}}" class="message" data-ng-class="{me:message.sender.me, other:message.sender.other}">
 				<div id="userid" class="user">
-					<img class="userimg" data-userID="sender{{message.sender.id}}" alt="Username" data-ng-src="{{message.sender.image}}">
-					<span class="username" data-userID="sender{{message.sender.id}}">{{message.sender.name}}</span>
+					<a href="{{message.sender.url}}">
+						<img class="userimg" data-userID="sender{{message.sender.id}}" alt="Username" data-ng-src="{{message.sender.image}}">
+						<span class="username" data-userID="sender{{message.sender.id}}">{{message.sender.name}}</span>
+					</a>
 				</div>
 				<div class="messageText {{message.type}}" data-ng-class="{{message.type}}">{{message.text}}<img data-ng-show="{{message.type != image}}" data-ng-src=""></div>
 				<div class="time">{{message.timestamp|date:'HH:mm'}}</div>

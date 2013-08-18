@@ -80,12 +80,11 @@ define(["crypto/keyStore", "step", "whispeerHelper", "valid/validator"], functio
 			};
 
 			this.decrypt = function decryptProfileF(callback) {
+				if (decrypted) {
+					callback(null, dataDecrypted);
+					return;
+				}
 				step(function () {
-					if (decrypted) {
-						this.last.ne(dataDecrypted);
-						return;
-					}
-
 					if (decrypting) {
 						theProfile.bind("decrypted", callback);
 						return;

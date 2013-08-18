@@ -8,13 +8,15 @@ define(["step"], function (step) {
 	function loginController($scope, sessionHelper, sessionService, cssService) {
 		cssService.setClass("registerView");
 
+		var ENDSIZE = 200;
+
 		var imageData;
 
 		var originalCanvasE = document.createElement("canvas");
 		var doneCanvasE = document.createElement("canvas");
 
-		doneCanvasE.width = 170;
-		doneCanvasE.height = 170;
+		doneCanvasE.width = ENDSIZE;
+		doneCanvasE.height = ENDSIZE;
 
 		var originalCanvas = originalCanvasE.getContext("2d");
 		var doneCanvas = doneCanvasE.getContext("2d");
@@ -34,9 +36,9 @@ define(["step"], function (step) {
 
 			$scope.validImage = true;
 
-			var url = URL.createObjectURL(file);
+			var url;
+
 			var image = new Image();
-			image.src = url;
 			image.addEventListener("load", function () {
 				var width = image.width;
 				var height = image.height;
@@ -53,9 +55,25 @@ define(["step"], function (step) {
 
 				var get = Math.min(width, height);
 
-				doneCanvas.drawImage(originalCanvasE, 0, 0, get, get, 0, 0, 170, 170);
+				doneCanvas.drawImage(originalCanvasE, 0, 0, get, get, 0, 0, ENDSIZE, ENDSIZE);
 				imageData = doneCanvasE.toDataURL();
 			});
+
+			if (typeof URL !== "undefined") {
+				url = URL.createObjectURL(file);
+				image.src = url;
+			} else if (typeof webkitURL !== "undefined") {
+				url = webkitURL.createObjectURL(file);
+				image.src = url;
+			} else if (typeof FileReader !== "undefined") {
+				var reader = new FileReader();
+				reader.onload = function (e) {
+					image.src = e.target.result;
+				};
+				reader.readAsDataURL(file);
+			} else {
+				//da da dam ...
+			}
 		};
 
 		$scope.password = "";
@@ -74,17 +92,6 @@ define(["step"], function (step) {
 		$scope.mailCheck = false;
 		$scope.mailCheckError = false;
 		$scope.mailCheckLoading = false;
-
-		$scope.safeApply = function (fn) {
-			var phase = this.$root.$$phase;
-			if (phase === "$apply" || phase === "$digest") {
-				if (fn && (typeof fn === "function")) {
-					fn();
-				}
-			} else {
-				this.$apply(fn);
-			}
-		};
 
 		$scope.profileAttributes = [
 			{
@@ -149,17 +156,15 @@ define(["step"], function (step) {
 					console.log(e);
 				}
 
-				$scope.safeApply(function () {
-					$scope.mailCheckLoading = false;
+				$scope.mailCheckLoading = false;
 
-					if (mailUsed === false) {
-						$scope.mailCheck = true;
-					} else if (mailUsed === true) {
-						$scope.mailCheck = false;
-					} else {
-						$scope.mailCheckError = true;
-					}
-				});
+				if (mailUsed === false) {
+					$scope.mailCheck = true;
+				} else if (mailUsed === true) {
+					$scope.mailCheck = false;
+				} else {
+					$scope.mailCheckError = true;
+				}
 			});
 		};
 
@@ -192,17 +197,15 @@ define(["step"], function (step) {
 					console.log(e);
 				}
 
-				$scope.safeApply(function () {
-					$scope.nicknameCheckLoading = false;
+				$scope.nicknameCheckLoading = false;
 
-					if (nicknameUsed === false) {
-						$scope.nicknameCheck = true;
-					} else if (nicknameUsed === true) {
-						$scope.nicknameCheck = false;
-					} else {
-						$scope.nicknameCheckError = true;
-					}
-				});
+				if (nicknameUsed === false) {
+					$scope.nicknameCheck = true;
+				} else if (nicknameUsed === true) {
+					$scope.nicknameCheck = false;
+				} else {
+					$scope.nicknameCheckError = true;
+				}
 			});
 		};
 

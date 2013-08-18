@@ -20,10 +20,15 @@ define(["step", "whispeerHelper"], function (step, h) {
 			}
 		});
 
-		//messageService.sendNewTopic([1, 2], "Ein erstes Testthema!?");
-
 		$scope.canSend = false;
 		$scope.topicLoaded = false;
+
+		$scope.loadMoreMessages = function () {
+			$scope.loadingMessages = true;
+			$scope.activeTopic.loadMoreMessages(function () {
+				$scope.loadingMessages = false;
+			});
+		};
 
 		$scope.shortenMessage = function (string) {
 			if (!string) {
@@ -55,7 +60,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 				theTopic = topic;
 				$scope.canSend = true;
 				$scope.newMessage = false;
-				theTopic.loadMoreMessages(this);
+				theTopic.loadInitialMessages(this);
 			}), function (e) {
 				$scope.activeTopic = theTopic;
 

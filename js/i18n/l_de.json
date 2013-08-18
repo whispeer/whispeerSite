@@ -78,10 +78,24 @@
 					"contact":	"Kontakt"
 				},
 				"birthday":	"Geboren am {day}.{month}.{year}",
-				"location":	"Wohnt in {town} {state} {country}",
+				"location": {
+					"country": "Wohnt in {country}",
+					"state": "Wohnt in {state}",
+					"countrystate": "Wohnt in {state}, {country}",
+					"town": "Wohnt in {town}",
+					"countrytown": "Wohnt in {town}, {country}",
+					"statetown": "Wohnt in {town}, {state}",
+					"countrystatetown": "Wohnt in {town}, {state}, {country}"
+				},
 				"relation":	{
+					"pst": "seit {since} {relationType} mit {partner}",
+					"st": "seit {since} {relationType}",
+					"pt": "{relationType} mit {partner}",
+					"t": "{relationType}",
+
 					"default": "{relationType} mit {partner}",
-					"noPartner":	"{relationType}",
+					"noPartner": "{relationType}",
+
 					"status": {
 						"single":	"single",
 						"relationship":	"in einer Beziehung",

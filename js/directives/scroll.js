@@ -31,54 +31,54 @@ define([], function () {
 			compile: function () {
 				return {
 					post: function (scope, elm, attrs) {
-						if (typeof attrs.startbottom !== "undefined") {
-							scrollBottom(elm, 3);
+						var keepBottom = (typeof attrs.keepbottom !== "undefined");
+						var first = elm[0];
+
+						var scrollHeight = first.scrollHeight;
+
+						function isAtBottom() {
+							return first.offsetHeight + elm.scrollTop() >= first.scrollHeight;
 						}
 
-						scope.$watch(attrs.scroll, function () {
-							if (atBottom) {
-								if (typeof attrs.keepbottom !== "undefined") {
+						function isAtTop() {
+							return elm.scrollTop() === 0;
+						}
+
+						elm.bind("DOMSubtreeModified", function () {
+							var diff = first.scrollHeight - scrollHeight;
+							if (diff !== 0) {
+								if (atBottom && keepBottom) {
 									scrollBottom(elm, 4);
+								} else {
+									elm.scrollTop(elm.scrollTop() + diff);
 								}
+
+								scrollHeight = first.scrollHeight;
 							}
 						});
 
-						if (elm[0].offsetHeight + elm.scrollTop() >= elm[0].scrollHeight) {
-							atBottom = true;
-						} else {
-							atBottom = false;
-						}
-
-						if (elm.scrollTop() === 0) {
-							atTop = true;
-						} else {
-							atTop = false;
-						}
+						atBottom = isAtBottom();
+						atTop = isAtTop();
 
 						elm.bind("scroll", function() {
-							if (elm[0].offsetHeight + elm.scrollTop() >= elm[0].scrollHeight) {
+							if (isAtBottom()) {
 								if (atBottom === false) {
 									if (attrs.onbottom) {
 										scope.$eval(attrs.onbottom);
 									}
 								}
-
-								atBottom = true;
-							} else {
-								atBottom = false;
 							}
 
-							if (elm.scrollTop() === 0) {
-								if (atBottom === false) {
+							if (isAtTop()) {
+								if (atTop === false) {
 									if (attrs.ontop) {
 										scope.$eval(attrs.ontop);
 									}
 								}
-
-								atTop = true;
-							} else {
-								atTop = false;
 							}
+
+							atBottom = isAtBottom();
+							atTop = isAtTop();
 						});
 
 						/*	var id = scope.$parent[attrs["scrollToId"]];

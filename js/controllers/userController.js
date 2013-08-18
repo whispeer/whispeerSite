@@ -18,12 +18,14 @@ define(["step", "whispeerHelper"], function (step, h) {
 				"me": true,
 				"birthday":	{
 					"day":	"09",
-					"month":	"08",
+					"month": "08",
 					"year":	"2013"
 				},
-				"town":	"",
-				"state":	"NRW",
-				"country":	"Germany",
+				"location": {
+					"town":	"Wellendorf",
+					"state": "Wellenbundesland",
+					"country": "Wellenland"
+				},
 				"partner":	{
 					"type":	"relationship",
 					"name": "Gisela Welle"
@@ -32,12 +34,67 @@ define(["step", "whispeerHelper"], function (step, h) {
 				"job":	"Surf-Lehrer",
 				"company":	"Surfschool",
 				"gender":	"m",
-				"languages": [{"name": "Deutsch"},{"name": "Englisch"}],
+				"languages": [{"name": "Deutsch"}, {"name": "Englisch"}],
 			}
 		};
 
-		$scope.removeElement = function(index) {
-				
+		$scope.edit = function () {
+			$scope.editGeneral = !$scope.editGeneral;
+		};
+
+		$scope.set = function (val) {
+			if (typeof val === "undefined" || val === null) {
+				return false;
+			}
+
+			if (typeof val === "object" && val instanceof Array && val.length !== 0) {
+				return true;
+			}
+
+			if (typeof val === "string") {
+				return val !== "";
+			}
+
+			if (typeof val === "object") {
+				var attr;
+				for (attr in val) {
+					if (val.hasOwnProperty(attr)) {
+						if (typeof val[attr] !== "undefined" && val[attr] !== "") {
+							return true;
+						}
+					}
+				}
+
+				return false;
+			}
+		};
+
+		$scope.setE = function (val, ret) {
+			if ($scope.editGeneral || $scope.set(val)) {
+				return ret;
+			}
+
+			return "";
+		};
+
+		$scope.setEDeep = function (val) {
+			var keys = Object.keys(val), i, res = "";
+			keys.sort();
+			for (i = 0; i < keys.length; i += 1) {
+				res = res + $scope.setE(val[keys[i]], keys[i]);
+			}
+
+			return res;
+		};
+
+		$scope.removeElement = function(array, index) {
+			array.splice(index, 1);
+		};
+
+		$scope.addElement = function(array, element, maxLength) {
+			if (!maxLength || array.length <= maxLength) {
+				array.push(element);
+			}
 		};
 
 		$scope.possibleStatus = ["single", "relationship", "engaged", "married", "divorced", "widowed", "complicated", "open", "inlove"];

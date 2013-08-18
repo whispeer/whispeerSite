@@ -25,6 +25,7 @@ define(["step", "whispeerHelper", "valid/validator"], function (step, h, validat
 			this.sender = {
 				"id": meta.sender,
 				"name": "",
+				"url": "",
 				"image": "img/profil.jpg"
 			};
 
@@ -70,9 +71,11 @@ define(["step", "whispeerHelper", "valid/validator"], function (step, h, validat
 
 					sender.getName(this.parallel());
 					sender.getImage(this.parallel());
-				}), h.sF(function loadS2(ownUser, name, image) {
+					this.parallel()(null, sender.getUrl());
+				}), h.sF(function loadS2(ownUser, name, image, url) {
 					theMessage.sender = {
 						me: ownUser,
+						url: url,
 						other: !ownUser,
 						id: meta.sender,
 						name: name,
@@ -84,10 +87,11 @@ define(["step", "whispeerHelper", "valid/validator"], function (step, h, validat
 			};
 
 			this.loadFullData = function loadFullDataF(cb) {
-				step(function () {
-					theMessage.decrypt(this.parallel());
-					theMessage.loadSender(this.parallel());
-				}, h.sF(function () {
+				step(function l1() {
+					theMessage.decrypt(this);
+				}, h.sF(function l2() {
+					theMessage.loadSender(this);
+				}), h.sF(function l3() {
 					this.ne();
 				}), cb);
 			};
@@ -116,7 +120,7 @@ define(["step", "whispeerHelper", "valid/validator"], function (step, h, validat
 		};
 
 		var Topic = function (data) {
-			var messages = [], theTopic = this, receiverObjects;
+			var messages = [], theTopic = this, receiverObjects, loadInitial = true;
 
 			var err = validator.validate("topic", data);
 			if (err) {
@@ -126,6 +130,8 @@ define(["step", "whispeerHelper", "valid/validator"], function (step, h, validat
 			if (typeof data.key === "object") {
 				data.key = keyStore.upload.addKey(data.key);
 			}
+
+			this.remaining = 1;
 
 			this.messages = messages;
 
@@ -262,13 +268,30 @@ define(["step", "whispeerHelper", "valid/validator"], function (step, h, validat
 				}), cb);
 			};
 
-			this.loadMoreMessages = function loadMoreMessagesF(cb) {
+			this.loadInitialMessages = function loadInitialMessages(cb) {
+				if (loadInitial) {
+					theTopic.loadMoreMessages(cb, 9);
+					loadInitial = false;
+				} else {
+					cb();
+				}
+			};
+
+			this.loadMoreMessages = function loadMoreMessagesF(cb, max) {
+				var loadMore = new Date().getTime();
 				step(function () {
-					socket.emit("messages.getTopicMessages", {
-						topicid: theTopic.getID(),
-						afterMessage: theTopic.getOldestID()
-					}, this);
+					if (theTopic.remaining > 0) {
+						socket.emit("messages.getTopicMessages", {
+							topicid: theTopic.getID(),
+							afterMessage: theTopic.getOldestID(),
+							maximum: max
+						}, this);
+					} else {
+						this.last.ne();
+					}
 				}, h.sF(function (data) {
+					console.log("Message server took: " + (new Date().getTime() - loadMore));
+					theTopic.remaining = data.remaining;
 					if (data.messages) {
 						var i;
 						for (i = 0; i < data.messages.length; i += 1) {
@@ -278,7 +301,7 @@ define(["step", "whispeerHelper", "valid/validator"], function (step, h, validat
 
 					this.parallel()();
 				}), h.sF(function () {
-					console.log("Messages loaded: " + (new Date().getTime() - startup));
+					console.log("Message loading took: " + (new Date().getTime() - loadMore));
 					this.ne();
 				}), cb);
 				//load more messages and decrypt them.
