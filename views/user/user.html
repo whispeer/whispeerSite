@@ -60,9 +60,9 @@
 							<span data-ng-if="editGeneral" data-for="school">
 								<span class="input-group" data-ng-repeat="school in user.data.education">
 									<input type="text" data-ng-model="school.name">
-									<button class="remove" data-ng-click="removeElement(user.data.education, $index)"><i class="icon icon-cancel"></i></button>
+									<button class="remove btn btn-danger" data-ng-click="removeElement(user.data.education, $index)"><i class="icon icon-cancel-circle"></i></button>
 								</span>
-								<button class="add" data-ng-click="addElement(user.data.education, {name: ''}, 3)"><i class="icon icon-add"></i></button>
+								<button class="add btn btn-success" data-ng-click="addElement(user.data.education, {name: ''}, 3)"><i class="icon icon-plus-circle"></i></button>
 							</span>
 						</span>
 					</p>

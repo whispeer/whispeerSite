@@ -47,11 +47,11 @@
   height: 20px;
   margin-top: -30px;
   background-color: #fafafa;
-  background: -webkit-gradient(linear, left top, left bottom, from(#fafafa), to(#e6e6e6));
-  background: -webkit-linear-gradient(top, #fafafa, #e6e6e6);
-  background: -moz-linear-gradient(top, #fafafa, #e6e6e6);
-  background: -ms-linear-gradient(top, #fafafa, #e6e6e6);
-  background: -o-linear-gradient(top, #fafafa, #e6e6e6);
+  background: -webkit-gradient(linear, left top, left bottom, from(#fafafa), to(#ececec));
+  background: -webkit-linear-gradient(top, #fafafa, #ececec);
+  background: -moz-linear-gradient(top, #fafafa, #ececec);
+  background: -ms-linear-gradient(top, #fafafa, #ececec);
+  background: -o-linear-gradient(top, #fafafa, #ececec);
   border-bottom: 1px solid #bbbbbb;
   -webkit-border-top-right-radius: 5px;
   -webkit-border-bottom-right-radius: 0px;
@@ -652,6 +652,7 @@ html,
 body {
   height: 100%;
   width: 100%;
+  overflow: hidden;
 }
 body {
   background-color: #ffffff;
@@ -882,7 +883,11 @@ body:not(.mainView, .registerView) #main {
   -webkit-background-clip: padding-box;
   background-clip: padding-box;
   box-shadow: 0 0 8px #999999;
-  display: inline;
+  display: inline-block;
+  *display: inline;
+  /* IE7 inline-block hack */
+
+  *zoom: 1;
   float: left;
   width: 40.85714285714286%;
   margin: 0 1% 0 1%;
@@ -987,14 +992,22 @@ body:not(.mainView, .registerView) #main {
   background-clip: padding-box;
 }
 #searchSuggestions li img {
-  display: inline;
+  display: inline-block;
+  *display: inline;
+  /* IE7 inline-block hack */
+
+  *zoom: 1;
   float: left;
   width: 18.833333333333336%;
   margin: 0 1% 0 1%;
   margin-left: 0;
 }
 #searchSuggestions li .info {
-  display: inline;
+  display: inline-block;
+  *display: inline;
+  /* IE7 inline-block hack */
+
+  *zoom: 1;
   float: left;
   width: 43.833333333333336%;
   margin: 0 1% 0 1%;
@@ -1023,51 +1036,46 @@ body:not(.mainView, .registerView) #main {
 }
 #searchSuggestions li .info .location,
 #searchSuggestions li .info.age {
-  display: inline;
+  display: inline-block;
+  *display: inline;
+  /* IE7 inline-block hack */
+
+  *zoom: 1;
   float: left;
   width: 23%;
   margin: 0 1% 0 1%;
 }
 #searchSuggestions li .actions {
-  display: inline;
+  display: inline-block;
+  *display: inline;
+  /* IE7 inline-block hack */
+
+  *zoom: 1;
   float: left;
   width: 31.333333333333336%;
   margin: 0 1% 0 1%;
   margin-top: 5px;
 }
 #searchSuggestions li .actions a {
-  display: inline;
+  display: inline-block;
+  *display: inline;
+  /* IE7 inline-block hack */
+
+  *zoom: 1;
   float: left;
   width: 81.33333333333334%;
   margin: 0 1% 0 1%;
   margin-bottom: 5px;
+  background-color: rgba(98, 184, 0, 0.7);
   color: #ffffff;
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
-  background-color: rgba(98, 184, 0, 0.7);
-  background: -webkit-gradient(linear, left top, left bottom, from(rgba(98, 184, 0, 0.7)), to(rgba(69, 153, 0, 0.7)));
-  background: -webkit-linear-gradient(top, rgba(98, 184, 0, 0.7), rgba(69, 153, 0, 0.7));
-  background: -moz-linear-gradient(top, rgba(98, 184, 0, 0.7), rgba(69, 153, 0, 0.7));
-  background: -ms-linear-gradient(top, rgba(98, 184, 0, 0.7), rgba(69, 153, 0, 0.7));
-  background: -o-linear-gradient(top, rgba(98, 184, 0, 0.7), rgba(69, 153, 0, 0.7));
-  border-color: rgba(69, 153, 0, 0.7) rgba(69, 153, 0, 0.7) rgba(34, 77, 0, 0.7);
-  border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
-  *background-color: rgba(80, 179, 0, 0.7);
-  /* Darken IE7 buttons by default so they stand out more given they won't have borders */
-
-  filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
 }
 #searchSuggestions li .actions a:hover,
 #searchSuggestions li .actions a:active,
 #searchSuggestions li .actions a.active,
 #searchSuggestions li .actions a.disabled,
 #searchSuggestions li .actions a[disabled] {
-  color: #ffffff;
-  background: rgba(80, 179, 0, 0.7);
-  *background: rgba(69, 153, 0, 0.7);
-}
-#searchSuggestions li .actions a:active,
-#searchSuggestions li .actions a.active {
-  background-color: rgba(46, 102, 0, 0.7) \9;
+  background-color: rgba(69, 153, 0, 0.7);
 }
 .nav-icon-dropdown {
   position: absolute;
@@ -1101,367 +1109,157 @@ body:not(.mainView, .registerView) #main {
   /* IE7 inline-block hack */
 
   *zoom: 1;
-  padding: 4px 14px;
-  margin-bottom: 0;
-  font-size: 14px;
-  line-height: 20px;
-  *line-height: 20px;
-  text-align: center;
-  vertical-align: middle;
-  cursor: pointer;
-  color: #333333;
-  text-shadow: 0 1px 1px rgba(255, 255, 255, 0.75);
-  background-color: #ffffff;
-  background: -webkit-gradient(linear, left top, left bottom, from(#ffffff), to(#e6e6e6));
-  background: -webkit-linear-gradient(top, #ffffff, #e6e6e6);
-  background: -moz-linear-gradient(top, #ffffff, #e6e6e6);
-  background: -ms-linear-gradient(top, #ffffff, #e6e6e6);
-  background: -o-linear-gradient(top, #ffffff, #e6e6e6);
-  border-color: #e6e6e6 #e6e6e6 #bfbfbf;
-  border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
-  *background-color: #f2f2f2;
-  /* Darken IE7 buttons by default so they stand out more given they won't have borders */
+  padding: 4px 15px;
+  -webkit-box-sizing: border-box;
+  /* Safari/Chrome, other WebKit */
 
-  filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
-  border: 1px solid #bbbbbb;
-  *border: 0;
-  border-bottom-color: #a2a2a2;
+  -moz-box-sizing: border-box;
+  /* Firefox, other Gecko */
+
+  box-sizing: border-box;
+  /* Opera/IE 8+ */
+
   -webkit-border-radius: 4px;
   -moz-border-radius: 4px;
   border-radius: 4px;
   -moz-background-clip: padding;
   -webkit-background-clip: padding-box;
   background-clip: padding-box;
-  *margin-left: .3em;
-  -webkit-box-shadow: "inset 0 1px 0 rgba(255,255,255,.2), 0 1px 2px rgba(0,0,0,.05)";
-  -moz-box-shadow: "inset 0 1px 0 rgba(255,255,255,.2), 0 1px 2px rgba(0,0,0,.05)";
-  box-shadow: "inset 0 1px 0 rgba(255,255,255,.2), 0 1px 2px rgba(0,0,0,.05)";
+  border: 0;
+  background-color: #ffffff;
+  color: #333333;
+  text-shadow: 0 1px 1px rgba(255, 255, 255, 0.75);
+  border: 1px solid #bbbbbb;
+}
+.btn:hover {
+  background-color: #ececec;
 }
 .btn:hover,
 .btn:active,
 .btn.active,
 .btn.disabled,
 .btn[disabled] {
-  color: #333333;
-  background: #f2f2f2;
-  *background: #e6e6e6;
-}
-.btn:active,
-.btn.active {
-  background-color: #cccccc \9;
-}
-.btn:first-child {
-  *margin-left: 0;
-}
-.btn:hover {
-  color: #333333;
-  text-decoration: none;
-}
-.btn.active,
-.btn:active {
-  background-color: #e6e6e6;
-  background-color: #d9d9d9 \9;
-  background-image: none;
-  outline: 0;
-  -webkit-box-shadow: "inset 0 2px 4px rgba(0,0,0,.15), 0 1px 2px rgba(0,0,0,.05)";
-  -moz-box-shadow: "inset 0 2px 4px rgba(0,0,0,.15), 0 1px 2px rgba(0,0,0,.05)";
-  box-shadow: "inset 0 2px 4px rgba(0,0,0,.15), 0 1px 2px rgba(0,0,0,.05)";
-}
-.btn.disabled,
-.btn[disabled] {
-  cursor: default;
-  background-color: #e6e6e6;
-  background-image: none;
-  -webkit-opacity: 65;
-  -moz-opacity: 65;
-  opacity: 65;
-  -webkit-box-shadow: none;
-  -moz-box-shadow: none;
-  box-shadow: none;
-}
-.btn-large {
-  padding: 9px 14px;
-  font-size: 16px;
-  line-height: normal;
-  -webkit-border-radius: 5px;
-  -moz-border-radius: 5px;
-  border-radius: 5px;
-  -moz-background-clip: padding;
-  -webkit-background-clip: padding-box;
-  background-clip: padding-box;
-}
-.btn-large [class^="icon-"] {
-  margin-top: 2px;
-}
-.btn-small {
-  padding: 3px 9px;
-  font-size: 12px;
-  line-height: 18px;
-}
-.btn-small [class^="icon-"] {
-  margin-top: 0;
-}
-.btn-mini {
-  padding: 2px 6px;
-  font-size: 11px;
-  line-height: 17px;
-}
-.btn-block {
-  display: block;
-  width: 100%;
-  padding-left: 0;
-  padding-right: 0;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-}
-.btn-block + .btn-block {
-  margin-top: 5px;
-}
-input[type="submit"].btn-block,
-input[type="reset"].btn-block,
-input[type="button"].btn-block {
-  width: 100%;
-}
-.btn-primary.active,
-.btn-warning.active,
-.btn-danger.active,
-.btn-success.active,
-.btn-info.active,
-.btn-inverse.active {
-  color: rgba(255, 255, 255, 0.75);
-}
-.btn {
-  border-color: #c5c5c5;
-  border-color: rgba(0, 0, 0, 0.15) rgba(0, 0, 0, 0.15) rgba(0, 0, 0, 0.25);
+  background-color: #ececec;
 }
 .btn-primary {
+  background-color: #559d00;
   color: #ffffff;
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
-  background-color: #559d00;
-  background: -webkit-gradient(linear, left top, left bottom, from(#559d00), to(#219d00));
-  background: -webkit-linear-gradient(top, #559d00, #219d00);
-  background: -moz-linear-gradient(top, #559d00, #219d00);
-  background: -ms-linear-gradient(top, #559d00, #219d00);
-  background: -o-linear-gradient(top, #559d00, #219d00);
-  border-color: #219d00 #219d00 #115100;
-  border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
-  *background-color: #26b700;
-  /* Darken IE7 buttons by default so they stand out more given they won't have borders */
-
-  filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
 }
 .btn-primary:hover,
 .btn-primary:active,
 .btn-primary.active,
 .btn-primary.disabled,
 .btn-primary[disabled] {
-  color: #ffffff;
-  background: #26b700;
-  *background: #219d00;
-}
-.btn-primary:active,
-.btn-primary.active {
-  background-color: #166a00 \9;
-}
-.btn-warning {
-  color: #ffffff;
-  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
-  background-color: #f9cb5b;
-  background: -webkit-gradient(linear, left top, left bottom, from(#f9cb5b), to(#f7b311));
-  background: -webkit-linear-gradient(top, #f9cb5b, #f7b311);
-  background: -moz-linear-gradient(top, #f9cb5b, #f7b311);
-  background: -ms-linear-gradient(top, #f9cb5b, #f7b311);
-  background: -o-linear-gradient(top, #f9cb5b, #f7b311);
-  border-color: #f7b311 #f7b311 #b58206;
-  border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
-  *background-color: #f8bb2a;
-  /* Darken IE7 buttons by default so they stand out more given they won't have borders */
-
-  filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
-}
-.btn-warning:hover,
-.btn-warning:active,
-.btn-warning.active,
-.btn-warning.disabled,
-.btn-warning[disabled] {
-  color: #ffffff;
-  background: #f8bb2a;
-  *background: #f7b311;
-}
-.btn-warning:active,
-.btn-warning.active {
-  background-color: #ce9307 \9;
-}
-.btn-danger {
-  color: #ffffff;
-  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
-  background-color: #ee5f5b;
-  background: -webkit-gradient(linear, left top, left bottom, from(#ee5f5b), to(#bd362f));
-  background: -webkit-linear-gradient(top, #ee5f5b, #bd362f);
-  background: -moz-linear-gradient(top, #ee5f5b, #bd362f);
-  background: -ms-linear-gradient(top, #ee5f5b, #bd362f);
-  background: -o-linear-gradient(top, #ee5f5b, #bd362f);
-  border-color: #bd362f #bd362f #802420;
-  border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
-  *background-color: #ce3f38;
-  /* Darken IE7 buttons by default so they stand out more given they won't have borders */
-
-  filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
-}
-.btn-danger:hover,
-.btn-danger:active,
-.btn-danger.active,
-.btn-danger.disabled,
-.btn-danger[disabled] {
-  color: #ffffff;
-  background: #ce3f38;
-  *background: #bd362f;
-}
-.btn-danger:active,
-.btn-danger.active {
-  background-color: #942a25 \9;
+  background-color: #3a8100;
 }
 .btn-success {
+  background-color: #559d00;
   color: #ffffff;
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
-  background-color: #559d00;
-  background: -webkit-gradient(linear, left top, left bottom, from(#559d00), to(#3a8100));
-  background: -webkit-linear-gradient(top, #559d00, #3a8100);
-  background: -moz-linear-gradient(top, #559d00, #3a8100);
-  background: -ms-linear-gradient(top, #559d00, #3a8100);
-  background: -o-linear-gradient(top, #559d00, #3a8100);
-  border-color: #3a8100 #3a8100 #183500;
-  border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
-  *background-color: #459b00;
-  /* Darken IE7 buttons by default so they stand out more given they won't have borders */
-
-  filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
 }
 .btn-success:hover,
 .btn-success:active,
 .btn-success.active,
 .btn-success.disabled,
 .btn-success[disabled] {
-  color: #ffffff;
-  background: #459b00;
-  *background: #3a8100;
+  background-color: #3a8100;
 }
-.btn-success:active,
-.btn-success.active {
-  background-color: #234e00 \9;
-}
-.btn-info {
+.btn-green {
+  background-color: #559d00;
   color: #ffffff;
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
-  background-color: #5bc0de;
-  background: -webkit-gradient(linear, left top, left bottom, from(#5bc0de), to(#2f96b4));
-  background: -webkit-linear-gradient(top, #5bc0de, #2f96b4);
-  background: -moz-linear-gradient(top, #5bc0de, #2f96b4);
-  background: -ms-linear-gradient(top, #5bc0de, #2f96b4);
-  background: -o-linear-gradient(top, #5bc0de, #2f96b4);
-  border-color: #2f96b4 #2f96b4 #1f6377;
-  border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
-  *background-color: #34a7c8;
-  /* Darken IE7 buttons by default so they stand out more given they won't have borders */
-
-  filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
+}
+.btn-green:hover,
+.btn-green:active,
+.btn-green.active,
+.btn-green.disabled,
+.btn-green[disabled] {
+  background-color: #3a8100;
+}
+.btn-danger {
+  background-color: #d83a2e;
+  color: #ffffff;
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+}
+.btn-danger:hover,
+.btn-danger:active,
+.btn-danger.active,
+.btn-danger.disabled,
+.btn-danger[disabled] {
+  background-color: #bd2e23;
+}
+.btn-red {
+  background-color: #d83a2e;
+  color: #ffffff;
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+}
+.btn-red:hover,
+.btn-red:active,
+.btn-red.active,
+.btn-red.disabled,
+.btn-red[disabled] {
+  background-color: #bd2e23;
+}
+.btn-warning {
+  background-color: #f7b61b;
+  color: #ffffff;
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+}
+.btn-warning:hover,
+.btn-warning:active,
+.btn-warning.active,
+.btn-warning.disabled,
+.btn-warning[disabled] {
+  background-color: #e4a308;
+}
+.btn-orange {
+  background-color: #f7b61b;
+  color: #ffffff;
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+}
+.btn-orange:hover,
+.btn-orange:active,
+.btn-orange.active,
+.btn-orange.disabled,
+.btn-orange[disabled] {
+  background-color: #e4a308;
+}
+.btn-info {
+  background-color: #0bb4fb;
+  color: #ffffff;
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
 }
 .btn-info:hover,
 .btn-info:active,
 .btn-info.active,
 .btn-info.disabled,
 .btn-info[disabled] {
-  color: #ffffff;
-  background: #34a7c8;
-  *background: #2f96b4;
+  background-color: #049cdb;
 }
-.btn-info:active,
-.btn-info.active {
-  background-color: #24748c \9;
-}
-.btn-inverse {
+.btn-blue {
+  background-color: #0bb4fb;
   color: #ffffff;
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+}
+.btn-blue:hover,
+.btn-blue:active,
+.btn-blue.active,
+.btn-blue.disabled,
+.btn-blue[disabled] {
+  background-color: #049cdb;
+}
+.btn-inverse {
   background-color: #444444;
-  background: -webkit-gradient(linear, left top, left bottom, from(#444444), to(#222222));
-  background: -webkit-linear-gradient(top, #444444, #222222);
-  background: -moz-linear-gradient(top, #444444, #222222);
-  background: -ms-linear-gradient(top, #444444, #222222);
-  background: -o-linear-gradient(top, #444444, #222222);
-  border-color: #222222 #222222 #000000;
-  border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
-  *background-color: #2f2f2f;
-  /* Darken IE7 buttons by default so they stand out more given they won't have borders */
-
-  filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
+  color: #ffffff;
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
 }
 .btn-inverse:hover,
 .btn-inverse:active,
 .btn-inverse.active,
 .btn-inverse.disabled,
 .btn-inverse[disabled] {
-  color: #ffffff;
-  background: #2f2f2f;
-  *background: #222222;
-}
-.btn-inverse:active,
-.btn-inverse.active {
-  background-color: #080808 \9;
-}
-button.btn,
-input[type="submit"].btn {
-  *padding-top: 3px;
-  *padding-bottom: 3px;
-}
-button.btn::-moz-focus-inner,
-input[type="submit"].btn::-moz-focus-inner {
-  padding: 0;
-  border: 0;
-}
-button.btn.btn-large,
-input[type="submit"].btn.btn-large {
-  *padding-top: 7px;
-  *padding-bottom: 7px;
-}
-button.btn.btn-small,
-input[type="submit"].btn.btn-small {
-  *padding-top: 3px;
-  *padding-bottom: 3px;
-}
-button.btn.btn-mini,
-input[type="submit"].btn.btn-mini {
-  *padding-top: 1px;
-  *padding-bottom: 1px;
-}
-.btn-link,
-.btn-link:active,
-.btn-link[disabled] {
-  background-color: transparent;
-  background-image: none;
-  -webkit-box-shadow: none;
-  -moz-box-shadow: none;
-  box-shadow: none;
-}
-.btn-link {
-  border-color: transparent;
-  cursor: pointer;
-  color: #559d00;
-  -webkit-border-radius: 0;
-  -moz-border-radius: 0;
-  border-radius: 0;
-  -moz-background-clip: padding;
-  -webkit-background-clip: padding-box;
-  background-clip: padding-box;
-}
-.btn-link:hover {
-  color: #63b700;
-  text-decoration: underline;
-  background-color: transparent;
-}
-.btn-link[disabled]:hover {
-  color: #333333;
-  text-decoration: none;
+  background-color: #313131;
 }
 #userpanel {
   text-align: center;
@@ -1581,11 +1379,11 @@ input[type="submit"].btn.btn-mini {
   font-size: 14px;
   line-height: 20px;
   background-color: #ffffff;
-  background: -webkit-gradient(linear, left top, left bottom, from(#ffffff), to(#e6e6e6));
-  background: -webkit-linear-gradient(top, #ffffff, #e6e6e6);
-  background: -moz-linear-gradient(top, #ffffff, #e6e6e6);
-  background: -ms-linear-gradient(top, #ffffff, #e6e6e6);
-  background: -o-linear-gradient(top, #ffffff, #e6e6e6);
+  background: -webkit-gradient(linear, left top, left bottom, from(#ffffff), to(#ececec));
+  background: -webkit-linear-gradient(top, #ffffff, #ececec);
+  background: -moz-linear-gradient(top, #ffffff, #ececec);
+  background: -ms-linear-gradient(top, #ffffff, #ececec);
+  background: -o-linear-gradient(top, #ffffff, #ececec);
   border: 1px solid #bbbbbb;
   border-bottom: 1px solid #000;
   border-bottom-color: #a2a2a2;
@@ -1654,7 +1452,11 @@ input[type="submit"].btn.btn-mini {
   color: #ffffff !important;
 }
 #magicbar .magic .body ul li.message img {
-  display: inline;
+  display: inline-block;
+  *display: inline;
+  /* IE7 inline-block hack */
+
+  *zoom: 1;
   float: left;
   width: 23%;
   margin: 0 1% 0 1%;
@@ -1662,14 +1464,22 @@ input[type="submit"].btn.btn-mini {
   margin-right: 1%;
 }
 #magicbar .magic .body ul li.message .username {
-  display: inline;
+  display: inline-block;
+  *display: inline;
+  /* IE7 inline-block hack */
+
+  *zoom: 1;
   float: left;
   width: 73%;
   margin: 0 1% 0 1%;
   font-weight: bold;
 }
 #magicbar .magic .body ul li.message .text {
-  display: inline;
+  display: inline-block;
+  *display: inline;
+  /* IE7 inline-block hack */
+
+  *zoom: 1;
   float: left;
   width: 68.83333333333334%;
   margin: 0 1% 0 1%;
@@ -1678,14 +1488,22 @@ input[type="submit"].btn.btn-mini {
   font-size: 0.9em;
 }
 #magicbar .magic .body ul li.request img {
-  display: inline;
+  display: inline-block;
+  *display: inline;
+  /* IE7 inline-block hack */
+
+  *zoom: 1;
   float: left;
   width: 23%;
   margin: 0 1% 0 1%;
   margin-left: 0;
 }
 #magicbar .magic .body ul li.request .username {
-  display: inline;
+  display: inline-block;
+  *display: inline;
+  /* IE7 inline-block hack */
+
+  *zoom: 1;
   float: left;
   width: 73%;
   margin: 0 1% 0 1%;
@@ -1693,7 +1511,11 @@ input[type="submit"].btn.btn-mini {
   font-weight: bold;
 }
 #magicbar .magic .body ul li.request .similar {
-  display: inline;
+  display: inline-block;
+  *display: inline;
+  /* IE7 inline-block hack */
+
+  *zoom: 1;
   float: left;
   width: 73%;
   margin: 0 1% 0 1%;
@@ -1706,14 +1528,22 @@ input[type="submit"].btn.btn-mini {
   margin-left: 1%;
 }
 #magicbar .magic .body ul li.request .action button {
-  display: inline;
+  display: inline-block;
+  *display: inline;
+  /* IE7 inline-block hack */
+
+  *zoom: 1;
   float: left;
   width: 48%;
   margin: 0 1% 0 1%;
   padding: 2%;
 }
 #magicbar .magic .body ul li.notification img {
-  display: inline;
+  display: inline-block;
+  *display: inline;
+  /* IE7 inline-block hack */
+
+  *zoom: 1;
   float: left;
   width: 23%;
   margin: 0 1% 0 1%;
@@ -1723,7 +1553,11 @@ input[type="submit"].btn.btn-mini {
   font-weight: bold;
 }
 #magicbar .magic .body ul li.notification .info {
-  display: inline;
+  display: inline-block;
+  *display: inline;
+  /* IE7 inline-block hack */
+
+  *zoom: 1;
   float: left;
   width: 73%;
   margin: 0 1% 0 1%;
@@ -2023,7 +1857,11 @@ input[type="submit"].btn.btn-mini {
 
 }
 .mainView #wall header {
-  display: inline;
+  display: inline-block;
+  *display: inline;
+  /* IE7 inline-block hack */
+
+  *zoom: 1;
   float: left;
   width: 98%;
   margin: 0 1% 0 1%;
@@ -2042,7 +1880,11 @@ input[type="submit"].btn.btn-mini {
   background-clip: padding-box;
 }
 .mainView #wall header #postIt {
-  display: inline;
+  display: inline-block;
+  *display: inline;
+  /* IE7 inline-block hack */
+
+  *zoom: 1;
   float: left;
   width: 64.66666666666667%;
   margin: 0 1% 0 1%;
@@ -2065,7 +1907,11 @@ input[type="submit"].btn.btn-mini {
 
 }
 .mainView #wall header #postIt #receiver {
-  display: inline;
+  display: inline-block;
+  *display: inline;
+  /* IE7 inline-block hack */
+
+  *zoom: 1;
   float: left;
   width: 68.75%;
   margin: 0 0 0 0;
@@ -2088,7 +1934,11 @@ input[type="submit"].btn.btn-mini {
   height: 38px;
 }
 .mainView #wall header #postIt #shareText {
-  display: inline;
+  display: inline-block;
+  *display: inline;
+  /* IE7 inline-block hack */
+
+  *zoom: 1;
   float: left;
   width: 100%;
   margin: 0 0 0 0;
@@ -2113,47 +1963,32 @@ input[type="submit"].btn.btn-mini {
   background-clip: padding-box;
 }
 .mainView #wall header #postIt button {
+  /* IE7 inline-block hack */
+
+  padding: 4px 15px;
+  -webkit-box-sizing: border-box;
+  /* Safari/Chrome, other WebKit */
+
+  -moz-box-sizing: border-box;
+  /* Firefox, other Gecko */
+
+  box-sizing: border-box;
+  /* Opera/IE 8+ */
+
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+  border: 0;
+  background-color: #ffffff;
+  color: #333333;
+  text-shadow: 0 1px 1px rgba(255, 255, 255, 0.75);
+  border: 1px solid #bbbbbb;
+  border: none;
   display: inline-block;
   *display: inline;
   /* IE7 inline-block hack */
 
   *zoom: 1;
-  padding: 4px 14px;
-  margin-bottom: 0;
-  font-size: 14px;
-  line-height: 20px;
-  *line-height: 20px;
-  text-align: center;
-  vertical-align: middle;
-  cursor: pointer;
-  color: #333333;
-  text-shadow: 0 1px 1px rgba(255, 255, 255, 0.75);
-  background-color: #ffffff;
-  background: -webkit-gradient(linear, left top, left bottom, from(#ffffff), to(#e6e6e6));
-  background: -webkit-linear-gradient(top, #ffffff, #e6e6e6);
-  background: -moz-linear-gradient(top, #ffffff, #e6e6e6);
-  background: -ms-linear-gradient(top, #ffffff, #e6e6e6);
-  background: -o-linear-gradient(top, #ffffff, #e6e6e6);
-  border-color: #e6e6e6 #e6e6e6 #bfbfbf;
-  border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
-  *background-color: #f2f2f2;
-  /* Darken IE7 buttons by default so they stand out more given they won't have borders */
-
-  filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
-  border: 1px solid #bbbbbb;
-  *border: 0;
-  border-bottom-color: #a2a2a2;
-  -webkit-border-radius: 4px;
-  -moz-border-radius: 4px;
-  border-radius: 4px;
-  *margin-left: .3em;
-  -webkit-box-shadow: "inset 0 1px 0 rgba(255,255,255,.2), 0 1px 2px rgba(0,0,0,.05)";
-  -moz-box-shadow: "inset 0 1px 0 rgba(255,255,255,.2), 0 1px 2px rgba(0,0,0,.05)";
-  box-shadow: "inset 0 1px 0 rgba(255,255,255,.2), 0 1px 2px rgba(0,0,0,.05)";
-  border-color: #c5c5c5;
-  border-color: rgba(0, 0, 0, 0.15) rgba(0, 0, 0, 0.15) rgba(0, 0, 0, 0.25);
-  border: none;
-  display: inline;
   float: right;
   width: 31.25%;
   margin: 0 0 0 0;
@@ -2175,97 +2010,56 @@ input[type="submit"].btn.btn-mini {
   -webkit-background-clip: padding-box;
   background-clip: padding-box;
 }
+.mainView #wall header #postIt button:hover {
+  background-color: #ececec;
+}
 .mainView #wall header #postIt button:hover,
 .mainView #wall header #postIt button:active,
 .mainView #wall header #postIt button.active,
 .mainView #wall header #postIt button.disabled,
 .mainView #wall header #postIt button[disabled] {
-  color: #333333;
-  background: #f2f2f2;
-  *background: #e6e6e6;
-}
-.mainView #wall header #postIt button:active,
-.mainView #wall header #postIt button.active {
-  background-color: #cccccc \9;
-}
-.mainView #wall header #postIt button:first-child {
-  *margin-left: 0;
-}
-.mainView #wall header #postIt button:hover {
-  color: #333333;
-  text-decoration: none;
-}
-.mainView #wall header #postIt button.active,
-.mainView #wall header #postIt button:active {
-  background-color: #e6e6e6;
-  background-color: #d9d9d9 \9;
-  background-image: none;
-  outline: 0;
-  -webkit-box-shadow: "inset 0 2px 4px rgba(0,0,0,.15), 0 1px 2px rgba(0,0,0,.05)";
-  -moz-box-shadow: "inset 0 2px 4px rgba(0,0,0,.15), 0 1px 2px rgba(0,0,0,.05)";
-  box-shadow: "inset 0 2px 4px rgba(0,0,0,.15), 0 1px 2px rgba(0,0,0,.05)";
-}
-.mainView #wall header #postIt button.disabled,
-.mainView #wall header #postIt button[disabled] {
-  cursor: default;
-  background-color: #e6e6e6;
-  background-image: none;
-  -webkit-opacity: 65;
-  -moz-opacity: 65;
-  opacity: 65;
-  -webkit-box-shadow: none;
-  -moz-box-shadow: none;
-  box-shadow: none;
+  background-color: #ececec;
 }
 .mainView #wall header #postIt button[type="submit"] {
+  background-color: #559d00;
   color: #ffffff;
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
-  background-color: #559d00;
-  background: -webkit-gradient(linear, left top, left bottom, from(#559d00), to(#3a8100));
-  background: -webkit-linear-gradient(top, #559d00, #3a8100);
-  background: -moz-linear-gradient(top, #559d00, #3a8100);
-  background: -ms-linear-gradient(top, #559d00, #3a8100);
-  background: -o-linear-gradient(top, #559d00, #3a8100);
-  border-color: #3a8100 #3a8100 #183500;
-  border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
-  *background-color: #459b00;
-  /* Darken IE7 buttons by default so they stand out more given they won't have borders */
-
-  filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
 }
 .mainView #wall header #postIt button[type="submit"]:hover,
 .mainView #wall header #postIt button[type="submit"]:active,
 .mainView #wall header #postIt button[type="submit"].active,
 .mainView #wall header #postIt button[type="submit"].disabled,
 .mainView #wall header #postIt button[type="submit"][disabled] {
-  color: #ffffff;
-  background: #459b00;
-  *background: #3a8100;
-}
-.mainView #wall header #postIt button[type="submit"]:active,
-.mainView #wall header #postIt button[type="submit"].active {
-  background-color: #234e00 \9;
+  background-color: #3a8100;
 }
 .mainView #wall header #filter {
-  display: inline;
+  display: inline-block;
+  *display: inline;
+  /* IE7 inline-block hack */
+
+  *zoom: 1;
   float: left;
   width: 31.333333333333336%;
   margin: 0 1% 0 1%;
   height: 77px;
 }
 .mainView #wall header #filter .title {
-  display: inline;
+  display: inline-block;
+  *display: inline;
+  /* IE7 inline-block hack */
+
+  *zoom: 1;
   float: left;
   width: 98%;
   margin: 0 1% 0 1%;
   height: 20px;
   padding: 4px 0;
   background-color: #ffffff;
-  background: -webkit-gradient(linear, left top, left bottom, from(#ffffff), to(#e6e6e6));
-  background: -webkit-linear-gradient(top, #ffffff, #e6e6e6);
-  background: -moz-linear-gradient(top, #ffffff, #e6e6e6);
-  background: -ms-linear-gradient(top, #ffffff, #e6e6e6);
-  background: -o-linear-gradient(top, #ffffff, #e6e6e6);
+  background: -webkit-gradient(linear, left top, left bottom, from(#ffffff), to(#ececec));
+  background: -webkit-linear-gradient(top, #ffffff, #ececec);
+  background: -moz-linear-gradient(top, #ffffff, #ececec);
+  background: -ms-linear-gradient(top, #ffffff, #ececec);
+  background: -o-linear-gradient(top, #ffffff, #ececec);
   border: 1px solid #bbbbbb;
   -webkit-border-radius: 4px;
   -moz-border-radius: 4px;
@@ -2277,7 +2071,11 @@ input[type="submit"].btn.btn-mini {
   line-height: 20px;
 }
 .mainView #wall header #filter #theFilter {
-  display: inline;
+  display: inline-block;
+  *display: inline;
+  /* IE7 inline-block hack */
+
+  *zoom: 1;
   float: left;
   width: 98%;
   margin: 0 1% 0 1%;
@@ -2382,11 +2180,11 @@ input[type="submit"].btn.btn-mini {
   -webkit-background-clip: padding-box;
   background-clip: padding-box;
   background-color: #fafafa;
-  background: -webkit-gradient(linear, left top, left bottom, from(#fafafa), to(#e6e6e6));
-  background: -webkit-linear-gradient(top, #fafafa, #e6e6e6);
-  background: -moz-linear-gradient(top, #fafafa, #e6e6e6);
-  background: -ms-linear-gradient(top, #fafafa, #e6e6e6);
-  background: -o-linear-gradient(top, #fafafa, #e6e6e6);
+  background: -webkit-gradient(linear, left top, left bottom, from(#fafafa), to(#ececec));
+  background: -webkit-linear-gradient(top, #fafafa, #ececec);
+  background: -moz-linear-gradient(top, #fafafa, #ececec);
+  background: -ms-linear-gradient(top, #fafafa, #ececec);
+  background: -o-linear-gradient(top, #fafafa, #ececec);
   border: 1px solid #bbbbbb;
   border-bottom: 1px solid #000;
   border-bottom-color: #a2a2a2;
@@ -2421,11 +2219,11 @@ input[type="submit"].btn.btn-mini {
 .profileView #main #wall header,
 .profileView #main #friends header {
   background-color: #fafafa;
-  background: -webkit-gradient(linear, left top, left bottom, from(#fafafa), to(#e6e6e6));
-  background: -webkit-linear-gradient(top, #fafafa, #e6e6e6);
-  background: -moz-linear-gradient(top, #fafafa, #e6e6e6);
-  background: -ms-linear-gradient(top, #fafafa, #e6e6e6);
-  background: -o-linear-gradient(top, #fafafa, #e6e6e6);
+  background: -webkit-gradient(linear, left top, left bottom, from(#fafafa), to(#ececec));
+  background: -webkit-linear-gradient(top, #fafafa, #ececec);
+  background: -moz-linear-gradient(top, #fafafa, #ececec);
+  background: -ms-linear-gradient(top, #fafafa, #ececec);
+  background: -o-linear-gradient(top, #fafafa, #ececec);
   border-bottom: 1px solid #bbbbbb;
   -webkit-border-top-right-radius: 5px;
   -webkit-border-bottom-right-radius: 0px;
@@ -2455,7 +2253,7 @@ input[type="submit"].btn.btn-mini {
   color: #cbcbcb;
 }
 .profileView #main #info article {
-  background-color: #e6e6e6;
+  background-color: #ececec;
   border: 1px solid #bbbbbb;
   border-bottom: 1px solid #000;
   border-bottom-color: #a2a2a2;
@@ -2476,7 +2274,11 @@ input[type="submit"].btn.btn-mini {
 
 }
 .profileView #main #info article#generalInfo {
-  display: inline;
+  display: inline-block;
+  *display: inline;
+  /* IE7 inline-block hack */
+
+  *zoom: 1;
   float: left;
   width: 98%;
   margin: 0 1% 0 1%;
@@ -2494,7 +2296,7 @@ input[type="submit"].btn.btn-mini {
   content: ", ";
 }
 .profileView #main #wall {
-  background-color: #e6e6e6;
+  background-color: #ececec;
   border: 1px solid #bbbbbb;
   border-bottom: 1px solid #000;
   border-bottom-color: #a2a2a2;
@@ -2507,11 +2309,11 @@ input[type="submit"].btn.btn-mini {
 }
 .profileView #main #wall header {
   background-color: #fafafa;
-  background: -webkit-gradient(linear, left top, left bottom, from(#fafafa), to(#e6e6e6));
-  background: -webkit-linear-gradient(top, #fafafa, #e6e6e6);
-  background: -moz-linear-gradient(top, #fafafa, #e6e6e6);
-  background: -ms-linear-gradient(top, #fafafa, #e6e6e6);
-  background: -o-linear-gradient(top, #fafafa, #e6e6e6);
+  background: -webkit-gradient(linear, left top, left bottom, from(#fafafa), to(#ececec));
+  background: -webkit-linear-gradient(top, #fafafa, #ececec);
+  background: -moz-linear-gradient(top, #fafafa, #ececec);
+  background: -ms-linear-gradient(top, #fafafa, #ececec);
+  background: -o-linear-gradient(top, #fafafa, #ececec);
   border-bottom: 1px solid #bbbbbb;
   -webkit-border-top-right-radius: 5px;
   -webkit-border-bottom-right-radius: 0px;
@@ -2536,7 +2338,11 @@ input[type="submit"].btn.btn-mini {
   border-radius: 10px;
 }
 .profileView #main #wall article .postContent {
-  display: inline;
+  display: inline-block;
+  *display: inline;
+  /* IE7 inline-block hack */
+
+  *zoom: 1;
   float: left;
   width: 48%;
   margin: 0 1% 0 1%;
@@ -2557,7 +2363,11 @@ input[type="submit"].btn.btn-mini {
 
 }
 .profileView #main #wall article .postInfo {
-  display: inline;
+  display: inline-block;
+  *display: inline;
+  /* IE7 inline-block hack */
+
+  *zoom: 1;
   float: left;
   width: 23%;
   margin: 0 1% 0 1%;
@@ -2567,7 +2377,11 @@ input[type="submit"].btn.btn-mini {
 .profileView #main #wall article ol.comments {
   margin-left: 0;
   list-style: none;
-  display: inline;
+  display: inline-block;
+  *display: inline;
+  /* IE7 inline-block hack */
+
+  *zoom: 1;
   float: left;
   width: 64.66666666666667%;
   margin: 0 1% 0 1%;
@@ -2600,21 +2414,33 @@ input[type="submit"].btn.btn-mini {
   border: none;
 }
 .profileView #main #wall article ol.comments li img {
-  display: inline;
+  display: inline-block;
+  *display: inline;
+  /* IE7 inline-block hack */
+
+  *zoom: 1;
   float: left;
   width: 6.333333333333334%;
   margin: 0 1% 0 1%;
   margin-left: 0;
 }
 .profileView #main #wall article ol.comments li .text {
-  display: inline;
+  display: inline-block;
+  *display: inline;
+  /* IE7 inline-block hack */
+
+  *zoom: 1;
   float: left;
   width: 73%;
   margin: 0 1% 0 1%;
   margin-top: 5px;
 }
 .profileView #main #wall article ol.comments li .timestamp {
-  display: inline;
+  display: inline-block;
+  *display: inline;
+  /* IE7 inline-block hack */
+
+  *zoom: 1;
   float: left;
   width: 14.666666666666668%;
   margin: 0 1% 0 1%;
@@ -2624,14 +2450,22 @@ input[type="submit"].btn.btn-mini {
   background-color: #ffffff;
 }
 .profileView #main #wall article ol.comments li.newComment input {
-  display: inline;
+  display: inline-block;
+  *display: inline;
+  /* IE7 inline-block hack */
+
+  *zoom: 1;
   float: left;
   width: 73%;
   margin: 0 1% 0 1%;
   margin-top: 8px;
 }
 .profileView #main #wall article ol.comments li.newComment button {
-  display: inline;
+  display: inline-block;
+  *display: inline;
+  /* IE7 inline-block hack */
+
+  *zoom: 1;
   float: left;
   width: 14.666666666666668%;
   margin: 0 1% 0 1%;
@@ -2641,11 +2475,15 @@ input[type="submit"].btn.btn-mini {
   border: none;
 }
 .profileView #main #friends {
-  display: inline;
+  display: inline-block;
+  *display: inline;
+  /* IE7 inline-block hack */
+
+  *zoom: 1;
   float: left;
   width: 98%;
   margin: 0 1% 0 1%;
-  background-color: #e6e6e6;
+  background-color: #ececec;
   border: 1px solid #bbbbbb;
   border-bottom: 1px solid #000;
   border-bottom-color: #a2a2a2;
@@ -2660,11 +2498,11 @@ input[type="submit"].btn.btn-mini {
 }
 .profileView #main #friends header {
   background-color: #fafafa;
-  background: -webkit-gradient(linear, left top, left bottom, from(#fafafa), to(#e6e6e6));
-  background: -webkit-linear-gradient(top, #fafafa, #e6e6e6);
-  background: -moz-linear-gradient(top, #fafafa, #e6e6e6);
-  background: -ms-linear-gradient(top, #fafafa, #e6e6e6);
-  background: -o-linear-gradient(top, #fafafa, #e6e6e6);
+  background: -webkit-gradient(linear, left top, left bottom, from(#fafafa), to(#ececec));
+  background: -webkit-linear-gradient(top, #fafafa, #ececec);
+  background: -moz-linear-gradient(top, #fafafa, #ececec);
+  background: -ms-linear-gradient(top, #fafafa, #ececec);
+  background: -o-linear-gradient(top, #fafafa, #ececec);
   height: 20px;
   border-bottom: 1px solid #bbbbbb;
   -webkit-border-top-right-radius: 5px;
@@ -2686,7 +2524,7 @@ input[type="submit"].btn.btn-mini {
   margin-bottom: 1%;
 }
 .messagesView #main {
-  background-color: #e6e6e6;
+  background-color: #ececec;
   border: 1px solid #bbbbbb;
   border-bottom: 1px solid #000;
   border-bottom-color: #a2a2a2;
@@ -2710,11 +2548,11 @@ input[type="submit"].btn.btn-mini {
   height: 20px;
   margin-top: -30px;
   background-color: #fafafa;
-  background: -webkit-gradient(linear, left top, left bottom, from(#fafafa), to(#e6e6e6));
-  background: -webkit-linear-gradient(top, #fafafa, #e6e6e6);
-  background: -moz-linear-gradient(top, #fafafa, #e6e6e6);
-  background: -ms-linear-gradient(top, #fafafa, #e6e6e6);
-  background: -o-linear-gradient(top, #fafafa, #e6e6e6);
+  background: -webkit-gradient(linear, left top, left bottom, from(#fafafa), to(#ececec));
+  background: -webkit-linear-gradient(top, #fafafa, #ececec);
+  background: -moz-linear-gradient(top, #fafafa, #ececec);
+  background: -ms-linear-gradient(top, #fafafa, #ececec);
+  background: -o-linear-gradient(top, #fafafa, #ececec);
   border-bottom: 1px solid #bbbbbb;
   -webkit-border-top-right-radius: 5px;
   -webkit-border-bottom-right-radius: 0px;
@@ -3075,22 +2913,11 @@ input[type="submit"].btn.btn-mini {
   float: right;
   margin-right: 5px;
 }
-.messagesView #topicWrap.newMessage #sendmessage {
-  padding: 9px 14px;
-  font-size: 16px;
-  line-height: normal;
-  -webkit-border-radius: 5px;
-  -moz-border-radius: 5px;
-  border-radius: 5px;
-  -moz-background-clip: padding;
-  -webkit-background-clip: padding-box;
-  background-clip: padding-box;
-}
 .friendsView #main {
   padding-top: 30px;
   padding-bottom: 10px;
   height: 100%;
-  background-color: #e6e6e6;
+  background-color: #ececec;
   border: 1px solid #bbbbbb;
   border-bottom: 1px solid #000;
   border-bottom-color: #a2a2a2;
@@ -3114,11 +2941,11 @@ input[type="submit"].btn.btn-mini {
   height: 20px;
   margin-top: -30px;
   background-color: #fafafa;
-  background: -webkit-gradient(linear, left top, left bottom, from(#fafafa), to(#e6e6e6));
-  background: -webkit-linear-gradient(top, #fafafa, #e6e6e6);
-  background: -moz-linear-gradient(top, #fafafa, #e6e6e6);
-  background: -ms-linear-gradient(top, #fafafa, #e6e6e6);
-  background: -o-linear-gradient(top, #fafafa, #e6e6e6);
+  background: -webkit-gradient(linear, left top, left bottom, from(#fafafa), to(#ececec));
+  background: -webkit-linear-gradient(top, #fafafa, #ececec);
+  background: -moz-linear-gradient(top, #fafafa, #ececec);
+  background: -ms-linear-gradient(top, #fafafa, #ececec);
+  background: -o-linear-gradient(top, #fafafa, #ececec);
   border-bottom: 1px solid #bbbbbb;
   -webkit-border-top-right-radius: 5px;
   -webkit-border-bottom-right-radius: 0px;
@@ -3159,7 +2986,11 @@ input[type="submit"].btn.btn-mini {
 }
 .friendsView #friendsList li,
 .profileView #friendsList li {
-  display: inline;
+  display: inline-block;
+  *display: inline;
+  /* IE7 inline-block hack */
+
+  *zoom: 1;
   float: left;
   width: 31.333333333333336%;
   margin: 0 1% 0 1%;
@@ -3187,7 +3018,7 @@ input[type="submit"].btn.btn-mini {
   -moz-background-clip: padding;
   -webkit-background-clip: padding-box;
   background-clip: padding-box;
-  border: 1px solid #e6e6e6;
+  border: 1px solid #ececec;
 }
 .friendsView #friendsList li .username,
 .profileView #friendsList li .username {
@@ -3249,7 +3080,7 @@ input[type="submit"].btn.btn-mini {
   opacity: 1;
 }
 .circlesView #main {
-  background-color: #e6e6e6;
+  background-color: #ececec;
   border: 1px solid #bbbbbb;
   border-bottom: 1px solid #000;
   border-bottom-color: #a2a2a2;
@@ -3273,11 +3104,11 @@ input[type="submit"].btn.btn-mini {
   height: 20px;
   margin-top: -30px;
   background-color: #fafafa;
-  background: -webkit-gradient(linear, left top, left bottom, from(#fafafa), to(#e6e6e6));
-  background: -webkit-linear-gradient(top, #fafafa, #e6e6e6);
-  background: -moz-linear-gradient(top, #fafafa, #e6e6e6);
-  background: -ms-linear-gradient(top, #fafafa, #e6e6e6);
-  background: -o-linear-gradient(top, #fafafa, #e6e6e6);
+  background: -webkit-gradient(linear, left top, left bottom, from(#fafafa), to(#ececec));
+  background: -webkit-linear-gradient(top, #fafafa, #ececec);
+  background: -moz-linear-gradient(top, #fafafa, #ececec);
+  background: -ms-linear-gradient(top, #fafafa, #ececec);
+  background: -o-linear-gradient(top, #fafafa, #ececec);
   border-bottom: 1px solid #bbbbbb;
   -webkit-border-top-right-radius: 5px;
   -webkit-border-bottom-right-radius: 0px;
@@ -3419,7 +3250,7 @@ input[type="submit"].btn.btn-mini {
   -moz-background-clip: padding;
   -webkit-background-clip: padding-box;
   background-clip: padding-box;
-  border: 1px solid #e6e6e6;
+  border: 1px solid #ececec;
 }
 .circlesView #circleContainer #friendsList li .username {
   width: 100%;
@@ -3477,7 +3308,11 @@ input[type="submit"].btn.btn-mini {
   overflow-x: scroll;
 }
 .mediaView .album {
-  display: inline;
+  display: inline-block;
+  *display: inline;
+  /* IE7 inline-block hack */
+
+  *zoom: 1;
   float: left;
   width: 31.33333333333333%;
   margin: 0 1% 0 1%;
@@ -3498,7 +3333,10 @@ input[type="submit"].btn.btn-mini {
   background-clip: padding-box;
 }
 .mediaView .album .name {
-  display: inline;
+  *display: inline;
+  /* IE7 inline-block hack */
+
+  *zoom: 1;
   float: left;
   width: 98%;
   margin: 0 1% 0 1%;
@@ -3547,7 +3385,7 @@ input[type="submit"].btn.btn-mini {
 .helpView #main {
   padding-top: 30px;
   height: 100%;
-  background-color: #e6e6e6;
+  background-color: #ececec;
   border: 1px solid #bbbbbb;
   border-bottom: 1px solid #a2a2a2;
   -webkit-border-radius: 5px;
@@ -3570,11 +3408,11 @@ input[type="submit"].btn.btn-mini {
   height: 20px;
   margin-top: -30px;
   background-color: #fafafa;
-  background: -webkit-gradient(linear, left top, left bottom, from(#fafafa), to(#e6e6e6));
-  background: -webkit-linear-gradient(top, #fafafa, #e6e6e6);
-  background: -moz-linear-gradient(top, #fafafa, #e6e6e6);
-  background: -ms-linear-gradient(top, #fafafa, #e6e6e6);
-  background: -o-linear-gradient(top, #fafafa, #e6e6e6);
+  background: -webkit-gradient(linear, left top, left bottom, from(#fafafa), to(#ececec));
+  background: -webkit-linear-gradient(top, #fafafa, #ececec);
+  background: -moz-linear-gradient(top, #fafafa, #ececec);
+  background: -ms-linear-gradient(top, #fafafa, #ececec);
+  background: -o-linear-gradient(top, #fafafa, #ececec);
   border-bottom: 1px solid #bbbbbb;
   -webkit-border-top-right-radius: 5px;
   -webkit-border-bottom-right-radius: 0px;
@@ -3603,7 +3441,7 @@ input[type="submit"].btn.btn-mini {
   overflow-x: hidden;
 }
 .helpView #main section header {
-  background-color: #e6e6e6;
+  background-color: #ececec;
   border-top: 1px solid #bbbbbb;
   -webkit-border-radius: 0px;
   -moz-border-radius: 0px;
@@ -3630,7 +3468,11 @@ input[type="submit"].btn.btn-mini {
   list-style: none;
 }
 .helpView #main section .qa {
-  display: inline;
+  display: inline-block;
+  *display: inline;
+  /* IE7 inline-block hack */
+
+  *zoom: 1;
   float: left;
   width: 98%;
   margin: 0 1% 0 1%;
@@ -3649,43 +3491,31 @@ input[type="submit"].btn.btn-mini {
   /* IE7 inline-block hack */
 
   *zoom: 1;
-  padding: 4px 14px;
-  margin-bottom: 0;
-  font-size: 14px;
-  line-height: 20px;
-  *line-height: 20px;
-  text-align: center;
-  vertical-align: middle;
-  cursor: pointer;
-  color: #333333;
-  text-shadow: 0 1px 1px rgba(255, 255, 255, 0.75);
-  background-color: #ffffff;
-  background: -webkit-gradient(linear, left top, left bottom, from(#ffffff), to(#e6e6e6));
-  background: -webkit-linear-gradient(top, #ffffff, #e6e6e6);
-  background: -moz-linear-gradient(top, #ffffff, #e6e6e6);
-  background: -ms-linear-gradient(top, #ffffff, #e6e6e6);
-  background: -o-linear-gradient(top, #ffffff, #e6e6e6);
-  border-color: #e6e6e6 #e6e6e6 #bfbfbf;
-  border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
-  *background-color: #f2f2f2;
-  /* Darken IE7 buttons by default so they stand out more given they won't have borders */
+  padding: 4px 15px;
+  -webkit-box-sizing: border-box;
+  /* Safari/Chrome, other WebKit */
 
-  filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
-  border: 1px solid #bbbbbb;
-  *border: 0;
-  border-bottom-color: #a2a2a2;
+  -moz-box-sizing: border-box;
+  /* Firefox, other Gecko */
+
+  box-sizing: border-box;
+  /* Opera/IE 8+ */
+
   -webkit-border-radius: 4px;
   -moz-border-radius: 4px;
   border-radius: 4px;
   -moz-background-clip: padding;
   -webkit-background-clip: padding-box;
   background-clip: padding-box;
-  *margin-left: .3em;
-  -webkit-box-shadow: "inset 0 1px 0 rgba(255,255,255,.2), 0 1px 2px rgba(0,0,0,.05)";
-  -moz-box-shadow: "inset 0 1px 0 rgba(255,255,255,.2), 0 1px 2px rgba(0,0,0,.05)";
-  box-shadow: "inset 0 1px 0 rgba(255,255,255,.2), 0 1px 2px rgba(0,0,0,.05)";
-  border-color: #c5c5c5;
-  border-color: rgba(0, 0, 0, 0.15) rgba(0, 0, 0, 0.15) rgba(0, 0, 0, 0.25);
+  border: 0;
+  background-color: #ffffff;
+  color: #333333;
+  text-shadow: 0 1px 1px rgba(255, 255, 255, 0.75);
+  border: 1px solid #bbbbbb;
+}
+.helpView #main section button:hover,
+.helpView #main section input[type=submit]:hover {
+  background-color: #ececec;
 }
 .helpView #main section button:hover,
 .helpView #main section input[type=submit]:hover,
@@ -3697,55 +3527,12 @@ input[type="submit"].btn.btn-mini {
 .helpView #main section input[type=submit].disabled,
 .helpView #main section button[disabled],
 .helpView #main section input[type=submit][disabled] {
-  color: #333333;
-  background: #f2f2f2;
-  *background: #e6e6e6;
-}
-.helpView #main section button:active,
-.helpView #main section input[type=submit]:active,
-.helpView #main section button.active,
-.helpView #main section input[type=submit].active {
-  background-color: #cccccc \9;
-}
-.helpView #main section button:first-child,
-.helpView #main section input[type=submit]:first-child {
-  *margin-left: 0;
-}
-.helpView #main section button:hover,
-.helpView #main section input[type=submit]:hover {
-  color: #333333;
-  text-decoration: none;
-}
-.helpView #main section button.active,
-.helpView #main section input[type=submit].active,
-.helpView #main section button:active,
-.helpView #main section input[type=submit]:active {
-  background-color: #e6e6e6;
-  background-color: #d9d9d9 \9;
-  background-image: none;
-  outline: 0;
-  -webkit-box-shadow: "inset 0 2px 4px rgba(0,0,0,.15), 0 1px 2px rgba(0,0,0,.05)";
-  -moz-box-shadow: "inset 0 2px 4px rgba(0,0,0,.15), 0 1px 2px rgba(0,0,0,.05)";
-  box-shadow: "inset 0 2px 4px rgba(0,0,0,.15), 0 1px 2px rgba(0,0,0,.05)";
-}
-.helpView #main section button.disabled,
-.helpView #main section input[type=submit].disabled,
-.helpView #main section button[disabled],
-.helpView #main section input[type=submit][disabled] {
-  cursor: default;
-  background-color: #e6e6e6;
-  background-image: none;
-  -webkit-opacity: 65;
-  -moz-opacity: 65;
-  opacity: 65;
-  -webkit-box-shadow: none;
-  -moz-box-shadow: none;
-  box-shadow: none;
+  background-color: #ececec;
 }
 .settingsView #main {
   padding-top: 30px;
   height: 100%;
-  background-color: #e6e6e6;
+  background-color: #ececec;
   border: 1px solid #bbbbbb;
   border-bottom: 1px solid #a2a2a2;
   -webkit-border-radius: 5px;
@@ -3768,11 +3555,11 @@ input[type="submit"].btn.btn-mini {
   height: 20px;
   margin-top: -30px;
   background-color: #fafafa;
-  background: -webkit-gradient(linear, left top, left bottom, from(#fafafa), to(#e6e6e6));
-  background: -webkit-linear-gradient(top, #fafafa, #e6e6e6);
-  background: -moz-linear-gradient(top, #fafafa, #e6e6e6);
-  background: -ms-linear-gradient(top, #fafafa, #e6e6e6);
-  background: -o-linear-gradient(top, #fafafa, #e6e6e6);
+  background: -webkit-gradient(linear, left top, left bottom, from(#fafafa), to(#ececec));
+  background: -webkit-linear-gradient(top, #fafafa, #ececec);
+  background: -moz-linear-gradient(top, #fafafa, #ececec);
+  background: -ms-linear-gradient(top, #fafafa, #ececec);
+  background: -o-linear-gradient(top, #fafafa, #ececec);
   border-bottom: 1px solid #bbbbbb;
   -webkit-border-top-right-radius: 5px;
   -webkit-border-bottom-right-radius: 0px;
@@ -3808,7 +3595,7 @@ input[type="submit"].btn.btn-mini {
   overflow-x: hidden;
 }
 .settingsView #main section header {
-  background-color: #e6e6e6;
+  background-color: #ececec;
   border-top: 1px solid #bbbbbb;
   -webkit-border-radius: 0px;
   -moz-border-radius: 0px;
@@ -3831,7 +3618,11 @@ input[type="submit"].btn.btn-mini {
   margin: 0 0 10px 0;
 }
 .settingsView #main section .config {
-  display: inline;
+  display: inline-block;
+  *display: inline;
+  /* IE7 inline-block hack */
+
+  *zoom: 1;
   float: left;
   width: 98%;
   margin: 0 1% 0 1%;
@@ -3839,7 +3630,11 @@ input[type="submit"].btn.btn-mini {
   margin-bottom: 10px;
 }
 .settingsView #main section .config span {
-  display: inline;
+  display: inline-block;
+  *display: inline;
+  /* IE7 inline-block hack */
+
+  *zoom: 1;
   float: left;
   width: 23%;
   margin: 0 1% 0 1%;
@@ -3851,43 +3646,31 @@ input[type="submit"].btn.btn-mini {
   /* IE7 inline-block hack */
 
   *zoom: 1;
-  padding: 4px 14px;
-  margin-bottom: 0;
-  font-size: 14px;
-  line-height: 20px;
-  *line-height: 20px;
-  text-align: center;
-  vertical-align: middle;
-  cursor: pointer;
-  color: #333333;
-  text-shadow: 0 1px 1px rgba(255, 255, 255, 0.75);
-  background-color: #ffffff;
-  background: -webkit-gradient(linear, left top, left bottom, from(#ffffff), to(#e6e6e6));
-  background: -webkit-linear-gradient(top, #ffffff, #e6e6e6);
-  background: -moz-linear-gradient(top, #ffffff, #e6e6e6);
-  background: -ms-linear-gradient(top, #ffffff, #e6e6e6);
-  background: -o-linear-gradient(top, #ffffff, #e6e6e6);
-  border-color: #e6e6e6 #e6e6e6 #bfbfbf;
-  border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
-  *background-color: #f2f2f2;
-  /* Darken IE7 buttons by default so they stand out more given they won't have borders */
+  padding: 4px 15px;
+  -webkit-box-sizing: border-box;
+  /* Safari/Chrome, other WebKit */
 
-  filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
-  border: 1px solid #bbbbbb;
-  *border: 0;
-  border-bottom-color: #a2a2a2;
+  -moz-box-sizing: border-box;
+  /* Firefox, other Gecko */
+
+  box-sizing: border-box;
+  /* Opera/IE 8+ */
+
   -webkit-border-radius: 4px;
   -moz-border-radius: 4px;
   border-radius: 4px;
   -moz-background-clip: padding;
   -webkit-background-clip: padding-box;
   background-clip: padding-box;
-  *margin-left: .3em;
-  -webkit-box-shadow: "inset 0 1px 0 rgba(255,255,255,.2), 0 1px 2px rgba(0,0,0,.05)";
-  -moz-box-shadow: "inset 0 1px 0 rgba(255,255,255,.2), 0 1px 2px rgba(0,0,0,.05)";
-  box-shadow: "inset 0 1px 0 rgba(255,255,255,.2), 0 1px 2px rgba(0,0,0,.05)";
-  border-color: #c5c5c5;
-  border-color: rgba(0, 0, 0, 0.15) rgba(0, 0, 0, 0.15) rgba(0, 0, 0, 0.25);
+  border: 0;
+  background-color: #ffffff;
+  color: #333333;
+  text-shadow: 0 1px 1px rgba(255, 255, 255, 0.75);
+  border: 1px solid #bbbbbb;
+}
+.settingsView #main section button:hover,
+.settingsView #main section input[type=submit]:hover {
+  background-color: #ececec;
 }
 .settingsView #main section button:hover,
 .settingsView #main section input[type=submit]:hover,
@@ -3899,75 +3682,48 @@ input[type="submit"].btn.btn-mini {
 .settingsView #main section input[type=submit].disabled,
 .settingsView #main section button[disabled],
 .settingsView #main section input[type=submit][disabled] {
-  color: #333333;
-  background: #f2f2f2;
-  *background: #e6e6e6;
-}
-.settingsView #main section button:active,
-.settingsView #main section input[type=submit]:active,
-.settingsView #main section button.active,
-.settingsView #main section input[type=submit].active {
-  background-color: #cccccc \9;
-}
-.settingsView #main section button:first-child,
-.settingsView #main section input[type=submit]:first-child {
-  *margin-left: 0;
-}
-.settingsView #main section button:hover,
-.settingsView #main section input[type=submit]:hover {
-  color: #333333;
-  text-decoration: none;
-}
-.settingsView #main section button.active,
-.settingsView #main section input[type=submit].active,
-.settingsView #main section button:active,
-.settingsView #main section input[type=submit]:active {
-  background-color: #e6e6e6;
-  background-color: #d9d9d9 \9;
-  background-image: none;
-  outline: 0;
-  -webkit-box-shadow: "inset 0 2px 4px rgba(0,0,0,.15), 0 1px 2px rgba(0,0,0,.05)";
-  -moz-box-shadow: "inset 0 2px 4px rgba(0,0,0,.15), 0 1px 2px rgba(0,0,0,.05)";
-  box-shadow: "inset 0 2px 4px rgba(0,0,0,.15), 0 1px 2px rgba(0,0,0,.05)";
-}
-.settingsView #main section button.disabled,
-.settingsView #main section input[type=submit].disabled,
-.settingsView #main section button[disabled],
-.settingsView #main section input[type=submit][disabled] {
-  cursor: default;
-  background-color: #e6e6e6;
-  background-image: none;
-  -webkit-opacity: 65;
-  -moz-opacity: 65;
-  opacity: 65;
-  -webkit-box-shadow: none;
-  -moz-box-shadow: none;
-  box-shadow: none;
+  background-color: #ececec;
 }
 .settingsView #main section#privacy .config {
   height: 90px;
 }
 .settingsView #main section#privacy .config span {
-  display: inline;
+  display: inline-block;
+  *display: inline;
+  /* IE7 inline-block hack */
+
+  *zoom: 1;
   float: left;
   width: 14.666666666666668%;
   margin: 0 1% 0 1%;
   height: 80px;
 }
 .settingsView #main section#privacy .config .labelClass {
-  display: inline;
+  display: inline-block;
+  *display: inline;
+  /* IE7 inline-block hack */
+
+  *zoom: 1;
   float: left;
   width: 48%;
   margin: 0 1% 0 1%;
 }
 .settingsView #main section#privacy .config .labelClass label {
-  display: inline;
+  display: inline-block;
+  *display: inline;
+  /* IE7 inline-block hack */
+
+  *zoom: 1;
   float: left;
   width: 64.66666666666667%;
   margin: 0 1% 0 1%;
 }
 .settingsView #main section#privacy .config .labelClass input {
-  display: inline;
+  display: inline-block;
+  *display: inline;
+  /* IE7 inline-block hack */
+
+  *zoom: 1;
   float: left;
   width: 31.333333333333336%;
   margin: 0 1% 0 1%;
@@ -4063,25 +3819,41 @@ and (max-device-width : 767px) {
     height: 100%;
   }
   body #container #main {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 60.50000000000001%;
     margin: 0 1% 0 1%;
   }
   body #container #sidebar-right {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 14.666666666666668%;
     margin: 0 1% 0 1%;
   }
   body #container #sidebar-left {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 18.833333333333336%;
     margin: 0 1% 0 1%;
   }
   body #container #sidebar-left #userpanel {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 98%;
     margin: 0 1% 0 1%;
@@ -4112,27 +3884,43 @@ and (max-device-width : 767px) {
   #topNav #navInner #brand {
     font-size: 25px;
     line-height: 20px;
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 14.666666666666668%;
     margin: 0 1% 0 1%;
     margin-top: 12px;
   }
   #topNav #searchBar {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 64.66666666666667%;
     margin: 0 1% 0 1%;
   }
   #topNav #navIcons {
     height: 100%;
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: right;
     width: 14.666666666666668%;
     margin: 0 1% 0 1%;
   }
   #topNav #navIcons .navIcon {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 23%;
     margin: 0 1% 0 1%;
@@ -4149,25 +3937,41 @@ and (max-device-width : 767px) {
     font-size: 11px;
   }
   #searchSuggestions li img {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 29.250000000000004%;
     margin: 0 1% 0 1%;
   }
   #searchSuggestions li .info {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 66.75%;
     margin: 0 1% 0 1%;
   }
   #searchSuggestions li .actions {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 66.75%;
     margin: 0 1% 0 1%;
   }
   #searchSuggestions li .actions a {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 48%;
     margin: 0 1% 0 1%;
@@ -4182,31 +3986,51 @@ and (max-device-width : 767px) {
   
   }
   #userpanel #menu #mainMenu {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 48%;
     margin: 0 1% 0 1%;
   }
   #userpanel #menu #mainMenu li a {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 81.33333333333334%;
     margin: 0 1% 0 1%;
   }
   #userpanel #menu #mainMenu li a.current {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 81.33333333333334%;
     margin: 0 1% 0 1%;
   }
   #userpanel #menu #subMenu {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 48%;
     margin: 0 1% 0 1%;
   }
   #userpanel #menu #subMenu li a {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 98%;
     margin: 0 1% 0 1%;
@@ -4227,7 +4051,11 @@ and (max-device-width : 767px) {
   }
   .friendsView #friendsList li,
   .profileView #friendsList li {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 31.333333333333336%;
     margin: 0 1% 0 1%;
@@ -4289,19 +4117,31 @@ and (max-device-width : 767px) {
     clear: both;
   }
   #mediaWrap .droplet .comments {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 48%;
     margin: 0 1% 0 1%;
   }
   #mediaWrap .droplet .info {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 33.714285714285715%;
     margin: 0 1% 0 1%;
   }
   #mediaWrap .droplet .opinion {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 12.285714285714286%;
     margin: 0 1% 0 1%;
@@ -4317,7 +4157,11 @@ and (max-device-width : 767px) {
     padding: 5px;
   }
   .messagesView #topicListWrap {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 26.125%;
     margin: 0 1% 0 1%;
@@ -4343,7 +4187,11 @@ and (max-device-width : 767px) {
   }
   .messagesView #topicListWrap #topicList .topic .username {
     font-size: 1em;
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 63%;
     margin: 0 1% 0 1%;
@@ -4364,7 +4212,11 @@ and (max-device-width : 767px) {
     clear: both;
   }
   .messagesView #topicListWrap #topicList .topic .left {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 33%;
     margin: 0 1% 0 1%;
@@ -4379,7 +4231,11 @@ and (max-device-width : 767px) {
   }
   .messagesView #topicListWrap #topicList .topic.groupChat .left img,
   .messagesView #topicListWrap #topicList .topic.groupChat .left span {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 50%;
     margin: 0 0 0 0;
@@ -4395,7 +4251,11 @@ and (max-device-width : 767px) {
     height: 100%;
   }
   .messagesView #topicWrap.peerChat {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 69.875%;
     margin: 0 1% 0 1%;
@@ -4422,7 +4282,11 @@ and (max-device-width : 767px) {
     height: 100%;
   }
   .messagesView #topicWrap.peerChat #messageList .message {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 98%;
     margin: 0 1% 0 1%;
@@ -4430,35 +4294,55 @@ and (max-device-width : 767px) {
     margin-bottom: 5px;
   }
   .messagesView #topicWrap.peerChat #messageList .message .user .userimg {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 8%;
     margin: 0 1% 0 1%;
     padding: 0;
   }
   .messagesView #topicWrap.peerChat #messageList .message .messageText {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 88%;
     margin: 0 1% 0 1%;
     word-break: break-word;
   }
   .messagesView #topicWrap.peerChat #inputWrap #messageInput {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 73%;
     margin: 0 1% 0 1%;
     height: 45px;
   }
   .messagesView #topicWrap.peerChat #inputWrap button {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 23%;
     margin: 0 1% 0 1%;
     height: 45px;
   }
   .messagesView #topicWrap.groupChat {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 69.875%;
     margin: 0 1% 0 1%;
@@ -4485,14 +4369,22 @@ and (max-device-width : 767px) {
     height: 100%;
   }
   .messagesView #topicWrap.groupChat #messageList .message {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 98%;
     margin: 0 1% 0 1%;
     margin-bottom: 5px;
   }
   .messagesView #topicWrap.groupChat #messageList .message .user .userimg {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 10%;
     margin: 0 1% 0 1%;
@@ -4500,41 +4392,65 @@ and (max-device-width : 767px) {
     padding: 0;
   }
   .messagesView #topicWrap.groupChat #messageList .message .user .username {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 58%;
     margin: 0 1% 0 1%;
   }
   .messagesView #topicWrap.groupChat #messageList .message .messageText {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 58%;
     margin: 0 1% 0 1%;
     word-break: break-word;
   }
   .messagesView #topicWrap.groupChat #inputWrap #messageInput {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 73%;
     margin: 0 1% 0 1%;
     height: 45px;
   }
   .messagesView #topicWrap.groupChat #inputWrap button {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 23%;
     margin: 0 1% 0 1%;
     height: 45px;
   }
   .messagesView #topicWrap.newMessage {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 69.42857142857143%;
     margin: 0 1% 0 1%;
   }
   .messagesView #topicWrap.newMessage #recieverInput,
   .messagesView #topicWrap.newMessage #messageInput {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 98%;
     margin: 0 1% 0 1%;
@@ -4558,19 +4474,31 @@ and (max-device-width : 767px) {
     padding: 5px;
   }
   .circlesView header .title {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 12.285714285714286%;
     margin: 0 1% 0 1%;
   }
   .circlesView header nav {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 83.71428571428572%;
     margin: 0 1% 0 1%;
   }
   .circlesView header nav a {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 31.333333333333336%;
     margin: 0 1% 0 1%;
@@ -4583,7 +4511,11 @@ and (max-device-width : 767px) {
     text-align: right;
   }
   .circlesView #circleListWrap {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 37.285714285714285%;
     margin: 0 1% 0 1%;
@@ -4603,7 +4535,11 @@ and (max-device-width : 767px) {
     padding: 0;
   }
   .circlesView #circleListWrap #circleList .circle .left {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 28%;
     margin: 0 1% 0 1%;
@@ -4616,7 +4552,11 @@ and (max-device-width : 767px) {
   }
   .circlesView #circleListWrap #circleList .circle .listname {
     font-size: 1em;
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 68%;
     margin: 0 1% 0 1%;
@@ -4625,7 +4565,11 @@ and (max-device-width : 767px) {
     width: 100%;
   }
   .circlesView #circleListWrap #circleList .circle .personCount {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 68%;
     margin: 0 1% 0 1%;
@@ -4637,7 +4581,11 @@ and (max-device-width : 767px) {
     margin-top: -10px;
   }
   .circlesView #circleContainer {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 58.714285714285715%;
     margin: 0 1% 0 1%;
@@ -4664,7 +4612,11 @@ and (max-device-width : 767px) {
     height: 100%;
   }
   .circlesView #circleContainer #friendsList li {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 31.333333333333336%;
     margin: 0 1% 0 1%;
@@ -4686,7 +4638,11 @@ and (max-device-width : 767px) {
   }
   .circlesView #circleContainer.newCircle #titleInput,
   .circlesView #circleContainer.newCircle #friendInput {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 98%;
     margin: 0 1% 0 1%;
@@ -4700,13 +4656,21 @@ and (max-device-width : 767px) {
     margin-left: 8px;
   }
   .shareForm {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 98%;
     margin: 0 1% 0 1%;
   }
   .shareForm #shareText {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 73%;
     margin: 0 1% 0 1%;
@@ -4714,7 +4678,11 @@ and (max-device-width : 767px) {
     margin-left: 20px;
   }
   .posts article {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 98%;
     margin: 0 1% 0 1%;
@@ -4722,14 +4690,22 @@ and (max-device-width : 767px) {
   }
   .posts article .userimg {
     border-radius: 200px;
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 16.75%;
     margin: 0 1% 0 1%;
     margin: 10px 0px 10px 0px;
   }
   .posts article .postContent {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 79.25%;
     margin: 0 1% 0 1%;
@@ -4741,7 +4717,11 @@ and (max-device-width : 767px) {
     padding-left: 10px;
   }
   .posts article .postInfo {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 98%;
     margin: 0 1% 0 1%;
@@ -4750,34 +4730,54 @@ and (max-device-width : 767px) {
   }
   .posts article .postInfo .with {
     color: #666;
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 73%;
     margin: 0 1% 0 1%;
     margin-left: 18.75% !important;
   }
   .posts article .postInfo .awesome {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 35.5%;
     margin: 0 1% 0 1%;
     margin-left: 18.75% !important;
   }
   .posts article .postInfo p.comments {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 35.5%;
     margin: 0 1% 0 1%;
   }
   .posts article .postInfo .showComments {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 35.5%;
     margin: 0 1% 0 1%;
     margin-left: 56.25% !important;
   }
   .posts article ol.comments {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 64.66666666666667%;
     margin: 0 1% 0 1%;
@@ -4837,7 +4837,11 @@ and (max-device-width : 767px) {
     min-height: 40px;
   }
   .posts article ol.comments li img {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 6.333333333333334%;
     margin: 0 1% 0 1%;
@@ -4846,7 +4850,11 @@ and (max-device-width : 767px) {
     width: auto !important;
   }
   .posts article ol.comments li .text {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 64.66666666666667%;
     margin: 0 1% 0 1%;
@@ -4862,7 +4870,11 @@ and (max-device-width : 767px) {
   
   }
   .posts article ol.comments li .timestamp {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 14.666666666666668%;
     margin: 0 1% 0 1%;
@@ -4875,14 +4887,22 @@ and (max-device-width : 767px) {
     width: auto;
   }
   .posts article ol.comments li.newComment input {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 60.50000000000001%;
     margin: 0 1% 0 1%;
     margin-top: 2px !important;
   }
   .posts article ol.comments li.newComment button {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 23%;
     margin: 0 1% 0 1%;
@@ -4892,7 +4912,11 @@ and (max-device-width : 767px) {
     border: none;
   }
   .profileView #main nav {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 98%;
     margin: 0 1% 0 1%;
@@ -4900,7 +4924,11 @@ and (max-device-width : 767px) {
     margin-bottom: -50px;
   }
   .profileView #main nav heading {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 48%;
     margin: 0 1% 0 1%;
@@ -4911,7 +4939,11 @@ and (max-device-width : 767px) {
     margin: 0;
   }
   .profileView #main nav menu {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 48%;
     margin: 0 1% 0 1%;
@@ -4919,7 +4951,11 @@ and (max-device-width : 767px) {
     padding: 0;
   }
   .profileView #main nav menu li {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 31.333333333333336%;
     margin: 0 1% 0 1%;
@@ -4960,7 +4996,11 @@ and (max-device-width : 767px) {
     padding: 0;
   }
   .profileView #main #info article {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 31.333333333333336%;
     margin: 0 1% 0 1%;
@@ -4982,7 +5022,11 @@ and (max-device-width : 767px) {
     padding: 5px;
   }
   .profileView #main #info article#generalInfo {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 98%;
     margin: 0 1% 0 1%;
@@ -4991,7 +5035,11 @@ and (max-device-width : 767px) {
     padding: 0;
   }
   .profileView #main #info article#generalInfo .userimage {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 23%;
     margin: 0 1% 0 1%;
@@ -4999,7 +5047,11 @@ and (max-device-width : 767px) {
     margin-bottom: 1%;
   }
   .profileView #main #info article#generalInfo .info {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 73%;
     margin: 0 1% 0 1%;
@@ -5007,7 +5059,11 @@ and (max-device-width : 767px) {
     line-height: 10px;
   }
   .profileView #main #wall {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 98%;
     margin: 0 1% 0 1%;
@@ -5020,20 +5076,32 @@ and (max-device-width : 767px) {
     padding: 5px;
   }
   .profileView #main #wall article {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 98%;
     margin: 0 1% 0 1%;
   }
   .profileView #main #wall article .userimg {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 13.625%;
     margin: 0 1% 0 1%;
     margin: 10px 0px 10px 0px;
   }
   .profileView #main #wall article .postContent {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 48%;
     margin: 0 1% 0 1%;
@@ -5048,7 +5116,11 @@ and (max-device-width : 767px) {
     padding-left: 10px;
   }
   .profileView #main #wall article .postInfo {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 29.25%;
     margin: 0 1% 0 1%;
@@ -5061,7 +5133,11 @@ and (max-device-width : 767px) {
     margin: 0;
   }
   .profileView #main #friends {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 98%;
     margin: 0 1% 0 1%;
@@ -5075,7 +5151,11 @@ and (max-device-width : 767px) {
   }
   .registerView #main {
     text-align: center;
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 98%;
     margin: 0 1% 0 1%;
@@ -5114,7 +5194,11 @@ and (max-device-width : 767px) {
     margin: 0 0 10px 0;
   }
   .settingsView #main section .config {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 98%;
     margin: 0 1% 0 1%;
@@ -5156,25 +5240,41 @@ and (max-device-width : 767px) {
     height: 100%;
   }
   body #container #main {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 64.66666666666667%;
     margin: 0 1% 0 1%;
   }
   body #container #sidebar-right {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 14.666666666666668%;
     margin: 0 1% 0 1%;
   }
   body #container #sidebar-left {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 14.666666666666668%;
     margin: 0 1% 0 1%;
   }
   body #container #sidebar-left #userpanel {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 98%;
     margin: 0 1% 0 1%;
@@ -5207,27 +5307,43 @@ and (max-device-width : 767px) {
   #topNav #navInner #brand {
     font-size: 25px;
     line-height: 20px;
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 14.666666666666668%;
     margin: 0 1% 0 1%;
     margin-top: 12px;
   }
   #topNav #searchBar {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 64.66666666666667%;
     margin: 0 1% 0 1%;
   }
   #topNav #navIcons {
     height: 100%;
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: right;
     width: 14.666666666666668%;
     margin: 0 1% 0 1%;
   }
   #topNav #navIcons .navIcon {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 23%;
     margin: 0 1% 0 1%;
@@ -5244,25 +5360,41 @@ and (max-device-width : 767px) {
     font-size: 11px;
   }
   #searchSuggestions li img {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 29.250000000000004%;
     margin: 0 1% 0 1%;
   }
   #searchSuggestions li .info {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 66.75%;
     margin: 0 1% 0 1%;
   }
   #searchSuggestions li .actions {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 66.75%;
     margin: 0 1% 0 1%;
   }
   #searchSuggestions li .actions a {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 48%;
     margin: 0 1% 0 1%;
@@ -5277,31 +5409,51 @@ and (max-device-width : 767px) {
   
   }
   #userpanel #menu #mainMenu {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 48%;
     margin: 0 1% 0 1%;
   }
   #userpanel #menu #mainMenu li a {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 94.66666666666667%;
     margin: 0 1% 0 1%;
   }
   #userpanel #menu #mainMenu li a.current {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 94.66666666666667%;
     margin: 0 1% 0 1%;
   }
   #userpanel #menu #subMenu {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 48%;
     margin: 0 1% 0 1%;
   }
   #userpanel #menu #subMenu li a {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 98%;
     margin: 0 1% 0 1%;
@@ -5322,7 +5474,11 @@ and (max-device-width : 767px) {
   }
   .friendsView #friendsList li,
   .profileView #friendsList li {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 23%;
     margin: 0 1% 0 1%;
@@ -5383,19 +5539,31 @@ and (max-device-width : 767px) {
     clear: both;
   }
   #mediaWrap .droplet .comments {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 48%;
     margin: 0 1% 0 1%;
   }
   #mediaWrap .droplet .info {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 33.714285714285715%;
     margin: 0 1% 0 1%;
   }
   #mediaWrap .droplet .opinion {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 12.285714285714286%;
     margin: 0 1% 0 1%;
@@ -5411,7 +5579,11 @@ and (max-device-width : 767px) {
     padding: 5px;
   }
   .messagesView #topicListWrap {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 26.125%;
     margin: 0 1% 0 1%;
@@ -5437,7 +5609,11 @@ and (max-device-width : 767px) {
   }
   .messagesView #topicListWrap #topicList .topic .username {
     font-size: 1em;
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 63%;
     margin: 0 1% 0 1%;
@@ -5457,7 +5633,11 @@ and (max-device-width : 767px) {
     clear: both;
   }
   .messagesView #topicListWrap #topicList .topic .left {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 33%;
     margin: 0 1% 0 1%;
@@ -5471,7 +5651,11 @@ and (max-device-width : 767px) {
   }
   .messagesView #topicListWrap #topicList .topic.groupChat .left img,
   .messagesView #topicListWrap #topicList .topic.groupChat .left span {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 50%;
     margin: 0 0 0 0;
@@ -5487,7 +5671,11 @@ and (max-device-width : 767px) {
     height: 100%;
   }
   .messagesView #topicWrap.peerChat {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 69.875%;
     margin: 0 1% 0 1%;
@@ -5514,7 +5702,11 @@ and (max-device-width : 767px) {
     height: 100%;
   }
   .messagesView #topicWrap.peerChat #messageList .message {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 58%;
     margin: 0 1% 0 1%;
@@ -5525,35 +5717,55 @@ and (max-device-width : 767px) {
     float: right;
   }
   .messagesView #topicWrap.peerChat #messageList .message .user .userimg {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 14.666666666666668%;
     margin: 0 1% 0 1%;
     padding: 0;
   }
   .messagesView #topicWrap.peerChat #messageList .message .messageText {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 81.33333333333334%;
     margin: 0 1% 0 1%;
     word-break: break-word;
   }
   .messagesView #topicWrap.peerChat #inputWrap #messageInput {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 73%;
     margin: 0 1% 0 1%;
     height: 45px;
   }
   .messagesView #topicWrap.peerChat #inputWrap button {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 23%;
     margin: 0 1% 0 1%;
     height: 45px;
   }
   .messagesView #topicWrap.groupChat {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 69.875%;
     margin: 0 1% 0 1%;
@@ -5580,7 +5792,11 @@ and (max-device-width : 767px) {
     height: 100%;
   }
   .messagesView #topicWrap.groupChat #messageList .message {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 98%;
     margin: 0 1% 0 1%;
@@ -5593,7 +5809,11 @@ and (max-device-width : 767px) {
     border-bottom: 1px solid #ccc;
   }
   .messagesView #topicWrap.groupChat #messageList .message .user .userimg {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 6.333333333333334%;
     margin: 0 1% 0 1%;
@@ -5602,41 +5822,65 @@ and (max-device-width : 767px) {
     margin: 0 !important;
   }
   .messagesView #topicWrap.groupChat #messageList .message .user .username {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 64.66666666666667%;
     margin: 0 1% 0 1%;
   }
   .messagesView #topicWrap.groupChat #messageList .message .messageText {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 98%;
     margin: 0 1% 0 1%;
     word-break: break-word;
   }
   .messagesView #topicWrap.groupChat #inputWrap #messageInput {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 73%;
     margin: 0 1% 0 1%;
     height: 45px;
   }
   .messagesView #topicWrap.groupChat #inputWrap button {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 23%;
     margin: 0 1% 0 1%;
     height: 45px;
   }
   .messagesView #topicWrap.newMessage {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 69.42857142857143%;
     margin: 0 1% 0 1%;
   }
   .messagesView #topicWrap.newMessage #recieverInput,
   .messagesView #topicWrap.newMessage #messageInput {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 98%;
     margin: 0 1% 0 1%;
@@ -5660,19 +5904,31 @@ and (max-device-width : 767px) {
     padding: 5px;
   }
   .circlesView header .title {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 26.571428571428573%;
     margin: 0 1% 0 1%;
   }
   .circlesView header nav {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 69.42857142857143%;
     margin: 0 1% 0 1%;
   }
   .circlesView header nav a {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 31.333333333333336%;
     margin: 0 1% 0 1%;
@@ -5685,7 +5941,11 @@ and (max-device-width : 767px) {
     text-align: right;
   }
   .circlesView #circleListWrap {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 30.142857142857146%;
     margin: 0 1% 0 1%;
@@ -5705,7 +5965,11 @@ and (max-device-width : 767px) {
     padding: 0;
   }
   .circlesView #circleListWrap #circleList .circle .left {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 28%;
     margin: 0 1% 0 1%;
@@ -5718,7 +5982,11 @@ and (max-device-width : 767px) {
   }
   .circlesView #circleListWrap #circleList .circle .listname {
     font-size: 1em;
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 68%;
     margin: 0 1% 0 1%;
@@ -5727,7 +5995,11 @@ and (max-device-width : 767px) {
     width: 100%;
   }
   .circlesView #circleListWrap #circleList .circle .personCount {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 68%;
     margin: 0 1% 0 1%;
@@ -5739,7 +6011,11 @@ and (max-device-width : 767px) {
     margin-top: -10px;
   }
   .circlesView #circleContainer {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 65.85714285714286%;
     margin: 0 1% 0 1%;
@@ -5766,7 +6042,11 @@ and (max-device-width : 767px) {
     height: 100%;
   }
   .circlesView #circleContainer #friendsList li {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 31.333333333333336%;
     margin: 0 1% 0 1%;
@@ -5788,7 +6068,11 @@ and (max-device-width : 767px) {
   }
   .circlesView #circleContainer.newCircle #titleInput,
   .circlesView #circleContainer.newCircle #friendInput {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 98%;
     margin: 0 1% 0 1%;
@@ -5802,13 +6086,21 @@ and (max-device-width : 767px) {
     margin-left: 8px;
   }
   .shareForm {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 98%;
     margin: 0 1% 0 1%;
   }
   .shareForm #shareText {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 69.42857142857143%;
     margin: 0 1% 0 1%;
@@ -5816,7 +6108,11 @@ and (max-device-width : 767px) {
     margin-left: 20px;
   }
   .posts article {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 98%;
     margin: 0 1% 0 1%;
@@ -5824,14 +6120,22 @@ and (max-device-width : 767px) {
   }
   .posts article .userimg {
     border-radius: 200px;
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 12.285714285714286%;
     margin: 0 1% 0 1%;
     margin: 10px 0px 10px 0px;
   }
   .posts article .postContent {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 55.142857142857146%;
     margin: 0 1% 0 1%;
@@ -5852,7 +6156,11 @@ and (max-device-width : 767px) {
   
   }
   .posts article .postContent .postImage img {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 98%;
     margin: 0 1% 0 1%;
@@ -5864,7 +6172,11 @@ and (max-device-width : 767px) {
     background-clip: padding-box;
   }
   .posts article .postInfo {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 23%;
     margin: 0 1% 0 1%;
@@ -5873,31 +6185,51 @@ and (max-device-width : 767px) {
   }
   .posts article .postInfo .with {
     color: #666;
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 98%;
     margin: 0 1% 0 1%;
   }
   .posts article .postInfo .awesome {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 98%;
     margin: 0 1% 0 1%;
   }
   .posts article .postInfo p.comments {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 98%;
     margin: 0 1% 0 1%;
   }
   .posts article .postInfo .showComments {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 98%;
     margin: 0 1% 0 1%;
   }
   .posts article ol.comments {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 64.66666666666667%;
     margin: 0 1% 0 1%;
@@ -5960,7 +6292,11 @@ and (max-device-width : 767px) {
     background-clip: padding-box;
   }
   .posts article ol.comments li img {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 6.333333333333334%;
     margin: 0 1% 0 1%;
@@ -5969,7 +6305,11 @@ and (max-device-width : 767px) {
     width: auto !important;
   }
   .posts article ol.comments li .text {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 63%;
     margin: 0 1% 0 1%;
@@ -5985,7 +6325,11 @@ and (max-device-width : 767px) {
   
   }
   .posts article ol.comments li .timestamp {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 23%;
     margin: 0 1% 0 1%;
@@ -5997,14 +6341,22 @@ and (max-device-width : 767px) {
     width: auto;
   }
   .posts article ol.comments li.newComment input {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 68.00000000000001%;
     margin: 0 1% 0 1%;
     margin-top: 2px !important;
   }
   .posts article ol.comments li.newComment button {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 18.833333333333336%;
     margin: 0 1% 0 1%;
@@ -6014,7 +6366,11 @@ and (max-device-width : 767px) {
     border: none;
   }
   .profileView #main nav {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 98%;
     margin: 0 1% 0 1%;
@@ -6022,7 +6378,11 @@ and (max-device-width : 767px) {
     margin-bottom: -50px;
   }
   .profileView #main nav heading {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 48%;
     margin: 0 1% 0 1%;
@@ -6033,7 +6393,11 @@ and (max-device-width : 767px) {
     margin: 0;
   }
   .profileView #main nav menu {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 48%;
     margin: 0 1% 0 1%;
@@ -6041,7 +6405,11 @@ and (max-device-width : 767px) {
     padding: 0;
   }
   .profileView #main nav menu li {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 31.333333333333336%;
     margin: 0 1% 0 1%;
@@ -6082,7 +6450,11 @@ and (max-device-width : 767px) {
     padding: 0;
   }
   .profileView #main #info article {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 31.333333333333336%;
     margin: 0 1% 0 1%;
@@ -6104,7 +6476,11 @@ and (max-device-width : 767px) {
     padding: 5px;
   }
   .profileView #main #info article#generalInfo {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 98%;
     margin: 0 1% 0 1%;
@@ -6113,7 +6489,11 @@ and (max-device-width : 767px) {
     padding: 0;
   }
   .profileView #main #info article#generalInfo .userimage {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 23%;
     margin: 0 1% 0 1%;
@@ -6121,7 +6501,11 @@ and (max-device-width : 767px) {
     margin-bottom: 1%;
   }
   .profileView #main #info article#generalInfo .info {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 73%;
     margin: 0 1% 0 1%;
@@ -6129,7 +6513,11 @@ and (max-device-width : 767px) {
     line-height: 10px;
   }
   .profileView #main #wall {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 98%;
     margin: 0 1% 0 1%;
@@ -6142,13 +6530,21 @@ and (max-device-width : 767px) {
     padding: 5px;
   }
   .profileView #main #wall article {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 98%;
     margin: 0 1% 0 1%;
   }
   .profileView #main #wall article .userimg {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 13.625%;
     margin: 0 1% 0 1%;
@@ -6156,7 +6552,11 @@ and (max-device-width : 767px) {
     margin-bottom: 10px;
   }
   .profileView #main #wall article .postContent {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 54.25%;
     margin: 0 1% 0 1%;
@@ -6171,7 +6571,11 @@ and (max-device-width : 767px) {
     padding-left: 10px;
   }
   .profileView #main #wall article .postInfo {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 26.125%;
     margin: 0 1% 0 1%;
@@ -6184,7 +6588,11 @@ and (max-device-width : 767px) {
     margin: 0;
   }
   .profileView #main #friends {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 98%;
     margin: 0 1% 0 1%;
@@ -6198,7 +6606,11 @@ and (max-device-width : 767px) {
   }
   .registerView #main {
     text-align: center;
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 98%;
     margin: 0 1% 0 1%;
@@ -6235,7 +6647,11 @@ and (max-device-width : 767px) {
     margin: 0 0 10px 0;
   }
   .settingsView #main section .config {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 98%;
     margin: 0 1% 0 1%;
@@ -6277,25 +6693,41 @@ and (max-device-width : 767px) {
     height: 100%;
   }
   body #container #main {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 68.83333333333334%;
     margin: 0 1% 0 1%;
   }
   body #container #sidebar-right {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 10.5%;
     margin: 0 1% 0 1%;
   }
   body #container #sidebar-left {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 14.666666666666668%;
     margin: 0 1% 0 1%;
   }
   body #container #sidebar-left #userpanel {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 98%;
     margin: 0 1% 0 1%;
@@ -6327,27 +6759,43 @@ and (max-device-width : 767px) {
   #topNav #navInner #brand {
     font-size: 25px;
     line-height: 20px;
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 14.666666666666668%;
     margin: 0 1% 0 1%;
     margin-top: 12px;
   }
   #topNav #searchBar {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 64.66666666666667%;
     margin: 0 1% 0 1%;
   }
   #topNav #navIcons {
     height: 100%;
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: right;
     width: 10.5%;
     margin: 0 1% 0 1%;
   }
   #topNav #navIcons .navIcon {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 23%;
     margin: 0 1% 0 1%;
@@ -6380,31 +6828,51 @@ and (max-device-width : 767px) {
     margin: 0 10% 0 10%;
   }
   #userpanel #menu #mainMenu {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 48%;
     margin: 0 1% 0 1%;
   }
   #userpanel #menu #mainMenu li a {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 81.33333333333334%;
     margin: 0 1% 0 1%;
   }
   #userpanel #menu #mainMenu li a.current {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 81.33333333333334%;
     margin: 0 1% 0 1%;
   }
   #userpanel #menu #subMenu {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 48%;
     margin: 0 1% 0 1%;
   }
   #userpanel #menu #subMenu li a {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 98%;
     margin: 0 1% 0 1%;
@@ -6425,7 +6893,11 @@ and (max-device-width : 767px) {
   }
   .friendsView #friendsList li,
   .profileView #friendsList li {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 18%;
     margin: 0 1% 0 1%;
@@ -6477,19 +6949,31 @@ and (max-device-width : 767px) {
     clear: both;
   }
   #mediaWrap .droplet .comments {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 48%;
     margin: 0 1% 0 1%;
   }
   #mediaWrap .droplet .info {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 33.714285714285715%;
     margin: 0 1% 0 1%;
   }
   #mediaWrap .droplet .opinion {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 12.285714285714286%;
     margin: 0 1% 0 1%;
@@ -6505,7 +6989,11 @@ and (max-device-width : 767px) {
     padding: 5px;
   }
   .messagesView #topicListWrap {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 26.571428571428573%;
     margin: 0 1% 0 1%;
@@ -6531,7 +7019,11 @@ and (max-device-width : 767px) {
   }
   .messagesView #topicListWrap #topicList .topic .username {
     font-size: 1em;
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 68%;
     margin: 0 1% 0 1%;
@@ -6562,7 +7054,11 @@ and (max-device-width : 767px) {
     clear: both;
   }
   .messagesView #topicListWrap #topicList .topic .left {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 28%;
     margin: 0 1% 0 1%;
@@ -6576,7 +7072,11 @@ and (max-device-width : 767px) {
   }
   .messagesView #topicListWrap #topicList .topic.groupChat .left img,
   .messagesView #topicListWrap #topicList .topic.groupChat .left span {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 50%;
     margin: 0 0 0 0;
@@ -6591,7 +7091,11 @@ and (max-device-width : 767px) {
     height: 100%;
   }
   .messagesView #topicWrap.peerChat {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 69.42857142857143%;
     margin: 0 1% 0 1%;
@@ -6618,21 +7122,33 @@ and (max-device-width : 767px) {
     height: 100%;
   }
   .messagesView #topicWrap.peerChat #messageList .message {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 98%;
     margin: 0 1% 0 1%;
     margin-bottom: 5px;
   }
   .messagesView #topicWrap.peerChat #messageList .message .user .userimg {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 6.6%;
     margin: 0 1% 0 1%;
     padding-top: 0;
   }
   .messagesView #topicWrap.peerChat #messageList .message .messageText {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 88%;
     margin: 0 1% 0 1%;
@@ -6640,21 +7156,33 @@ and (max-device-width : 767px) {
     word-break: break-word;
   }
   .messagesView #topicWrap.peerChat #inputWrap #messageInput {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 73%;
     margin: 0 1% 0 1%;
     height: 45px;
   }
   .messagesView #topicWrap.peerChat #inputWrap button {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 23%;
     margin: 0 1% 0 1%;
     height: 45px;
   }
   .messagesView #topicWrap.groupChat {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 80.14285714285715%;
     margin: 0 1% 0 1%;
@@ -6681,7 +7209,11 @@ and (max-device-width : 767px) {
     height: 100%;
   }
   .messagesView #topicWrap.groupChat #messageList .message {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 98%;
     margin: 0 1% 0 1%;
@@ -6699,7 +7231,11 @@ and (max-device-width : 767px) {
     margin-bottom: 5px;
   }
   .messagesView #topicWrap.groupChat #messageList .message .user .userimg {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 10%;
     margin: 0 1% 0 1%;
@@ -6707,40 +7243,64 @@ and (max-device-width : 767px) {
     padding: 0;
   }
   .messagesView #topicWrap.groupChat #messageList .message .user .username {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 58%;
     margin: 0 1% 0 1%;
   }
   .messagesView #topicWrap.groupChat #messageList .message .messageText {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 58%;
     margin: 0 1% 0 1%;
   }
   .messagesView #topicWrap.groupChat #inputWrap #messageInput {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 73%;
     margin: 0 1% 0 1%;
     height: 45px;
   }
   .messagesView #topicWrap.groupChat #inputWrap button {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 23%;
     margin: 0 1% 0 1%;
     height: 45px;
   }
   .messagesView #topicWrap.newMessage {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 69.42857142857143%;
     margin: 0 1% 0 1%;
   }
   .messagesView #topicWrap.newMessage #recieverInput,
   .messagesView #topicWrap.newMessage #messageInput {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 98%;
     margin: 0 1% 0 1%;
@@ -6764,19 +7324,31 @@ and (max-device-width : 767px) {
     padding: 5px;
   }
   .circlesView header .title {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 26.571428571428573%;
     margin: 0 1% 0 1%;
   }
   .circlesView header nav {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 69.42857142857143%;
     margin: 0 1% 0 1%;
   }
   .circlesView header nav a {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 31.333333333333336%;
     margin: 0 1% 0 1%;
@@ -6789,7 +7361,11 @@ and (max-device-width : 767px) {
     text-align: right;
   }
   .circlesView #circleListWrap {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 26.571428571428573%;
     margin: 0 1% 0 1%;
@@ -6815,7 +7391,11 @@ and (max-device-width : 767px) {
   }
   .circlesView #circleListWrap #circleList .circle .listname {
     font-size: 1em;
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 68%;
     margin: 0 1% 0 1%;
@@ -6824,14 +7404,22 @@ and (max-device-width : 767px) {
     width: 100%;
   }
   .circlesView #circleListWrap #circleList .circle .personCount {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 68%;
     margin: 0 1% 0 1%;
     margin-top: 10px;
   }
   .circlesView #circleListWrap #circleList .circle .left {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 28%;
     margin: 0 1% 0 1%;
@@ -6841,7 +7429,11 @@ and (max-device-width : 767px) {
     margin-top: -10px;
   }
   .circlesView #circleContainer {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 69.42857142857143%;
     margin: 0 1% 0 1%;
@@ -6868,7 +7460,11 @@ and (max-device-width : 767px) {
     height: 100%;
   }
   .circlesView #circleContainer #friendsList li {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 23%;
     margin: 0 1% 0 1%;
@@ -6890,7 +7486,11 @@ and (max-device-width : 767px) {
   }
   .circlesView #circleContainer.newCircle #titleInput,
   .circlesView #circleContainer.newCircle #friendInput {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 98%;
     margin: 0 1% 0 1%;
@@ -6904,13 +7504,21 @@ and (max-device-width : 767px) {
     margin-left: 8px;
   }
   .shareForm {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 98%;
     margin: 0 1% 0 1%;
   }
   .shareForm #shareText {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 69.42857142857143%;
     margin: 0 1% 0 1%;
@@ -6918,7 +7526,11 @@ and (max-device-width : 767px) {
     margin-left: 20px;
   }
   .posts article {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 98%;
     margin: 0 1% 0 1%;
@@ -6926,14 +7538,22 @@ and (max-device-width : 767px) {
   }
   .posts article .userimg {
     border-radius: 200px;
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 10.5%;
     margin: 0 1% 0 1%;
     margin: 10px 0px 10px 0px;
   }
   .posts article .postContent {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 66.75%;
     margin: 0 1% 0 1%;
@@ -6954,7 +7574,11 @@ and (max-device-width : 767px) {
   
   }
   .posts article .postInfo {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 16.75%;
     margin: 0 1% 0 1%;
@@ -6963,31 +7587,51 @@ and (max-device-width : 767px) {
   }
   .posts article .postInfo .with {
     color: #666;
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 98%;
     margin: 0 1% 0 1%;
   }
   .posts article .postInfo .awesome {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 98%;
     margin: 0 1% 0 1%;
   }
   .posts article .postInfo p.comments {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 98%;
     margin: 0 1% 0 1%;
   }
   .posts article .postInfo .showComments {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 98%;
     margin: 0 1% 0 1%;
   }
   .posts article ol.comments {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 64.66666666666667%;
     margin: 0 1% 0 1%;
@@ -7046,31 +7690,51 @@ and (max-device-width : 767px) {
     margin: 0;
   }
   .posts article ol.comments li img {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 6.333333333333334%;
     margin: 0 1% 0 1%;
   }
   .posts article ol.comments li .text {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 73%;
     margin: 0 1% 0 1%;
   }
   .posts article ol.comments li .timestamp {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 14.666666666666668%;
     margin: 0 1% 0 1%;
   }
   .posts article ol.comments li.newComment input {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 73%;
     margin: 0 1% 0 1%;
   }
   .posts article ol.comments li.newComment button {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 14.666666666666668%;
     margin: 0 1% 0 1%;
@@ -7079,7 +7743,11 @@ and (max-device-width : 767px) {
     border: none;
   }
   .profileView #main nav {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 98%;
     margin: 0 1% 0 1%;
@@ -7087,7 +7755,11 @@ and (max-device-width : 767px) {
     margin-bottom: -50px;
   }
   .profileView #main nav heading {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 48%;
     margin: 0 1% 0 1%;
@@ -7098,7 +7770,11 @@ and (max-device-width : 767px) {
     margin: 0;
   }
   .profileView #main nav menu {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 48%;
     margin: 0 1% 0 1%;
@@ -7106,7 +7782,11 @@ and (max-device-width : 767px) {
     padding: 0;
   }
   .profileView #main nav menu li {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 31.333333333333336%;
     margin: 0 1% 0 1%;
@@ -7147,7 +7827,11 @@ and (max-device-width : 767px) {
     padding: 0;
   }
   .profileView #main #info article {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 31.333333333333336%;
     margin: 0 1% 0 1%;
@@ -7169,7 +7853,11 @@ and (max-device-width : 767px) {
     padding: 5px;
   }
   .profileView #main #info article#generalInfo {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 98%;
     margin: 0 1% 0 1%;
@@ -7178,7 +7866,11 @@ and (max-device-width : 767px) {
     padding: 0;
   }
   .profileView #main #info article#generalInfo .userimage {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 23%;
     margin: 0 1% 0 1%;
@@ -7186,7 +7878,11 @@ and (max-device-width : 767px) {
     margin-bottom: 1%;
   }
   .profileView #main #info article#generalInfo .info {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 73%;
     margin: 0 1% 0 1%;
@@ -7194,7 +7890,11 @@ and (max-device-width : 767px) {
     line-height: 10px;
   }
   .profileView #main #wall {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 98%;
     margin: 0 1% 0 1%;
@@ -7207,20 +7907,32 @@ and (max-device-width : 767px) {
     padding: 5px;
   }
   .profileView #main #wall article {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 98%;
     margin: 0 1% 0 1%;
   }
   .profileView #main #wall article .userimg {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 10.5%;
     margin: 0 1% 0 1%;
     margin: 10px 0px 10px 0px;
   }
   .profileView #main #wall article .postContent {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 54.25%;
     margin: 0 1% 0 1%;
@@ -7235,7 +7947,11 @@ and (max-device-width : 767px) {
     padding-left: 10px;
   }
   .profileView #main #wall article .postInfo {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 29.25%;
     margin: 0 1% 0 1%;
@@ -7248,7 +7964,11 @@ and (max-device-width : 767px) {
     margin: 0;
   }
   .profileView #main #friends {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 98%;
     margin: 0 1% 0 1%;
@@ -7262,7 +7982,11 @@ and (max-device-width : 767px) {
   }
   .registerView #main {
     text-align: center;
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 98%;
     margin: 0 1% 0 1%;
@@ -7299,7 +8023,11 @@ and (max-device-width : 767px) {
     margin: 0 0 10px 0;
   }
   .settingsView #main section .config {
-    display: inline;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
     float: left;
     width: 98%;
     margin: 0 1% 0 1%;
