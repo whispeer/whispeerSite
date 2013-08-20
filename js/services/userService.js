@@ -9,6 +9,8 @@ define(["step", "whispeerHelper"], function (step, h) {
 			}
 		};
 
+		var knownIDs = [];
+
 		var users = {};
 		var loading = {};
 
@@ -202,6 +204,8 @@ define(["step", "whispeerHelper"], function (step, h) {
 
 			users[id] = theUser;
 
+			knownIDs.push(id);
+
 			if (mail) {
 				users[mail] = theUser;
 			}
@@ -214,6 +218,28 @@ define(["step", "whispeerHelper"], function (step, h) {
 		}
 
 		var api = {
+			query: function queryF(query, cb) {
+				step(function () {
+					socketService.emit("user.search", {
+						text: query,
+						known: knownIDs
+					}, this);
+				}, h.sF(function (data) {
+					var result = [], user = data.results;
+
+					var i;
+					for (i = 0; i < user.length; i += 1) {
+						if (typeof user[i] === "object") {
+							result.push(makeUser(user[i]));
+						} else {
+							result.push(users[user[i]]);
+						}
+					}
+
+					this.ne(result);
+				}), cb);
+			},
+
 			reset: function resetF() {
 				users = {};
 				loading = {};

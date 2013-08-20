@@ -45,7 +45,43 @@ define(["step", "whispeerHelper"], function (step, h) {
 		$scope.logout = function () {
 			sessionHelper.logout();
 		};
+
+		$scope.searchFocus = false;
 		
+		$scope.query = "";
+
+		var timer = null;
+
+		$scope.queryChange = function () {
+			$scope.searchUsers = [];
+			if ($scope.query.length > 3) {
+				window.clearTimeout(timer);
+				timer = window.setTimeout(function () {
+					step(function () {
+						userService.query($scope.query, this);
+					}, h.sF(function (user) {
+						var i;
+						for (i = 0; i < user.length; i += 1) {
+							user[i].getName(this.parallel());
+							user[i].getImage(this.parallel());
+						}
+					}), h.sF(function (data) {
+						$scope.searchUsers = [];
+						var i;
+						for (i = 0; i < data.length; i += 2) {
+							$scope.searchUsers.push({
+								"name": data[i],
+								"mutuals": "0",
+								"location": "?",
+								"age": "?",
+								"image": data[i+1]
+							});
+						}
+					}));
+				}, 250);
+			}
+		};
+
 		$scope.searchUsers = [
 		{
 			"name":	"Luisa Katharina Marschner",

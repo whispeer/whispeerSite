@@ -1,20 +1,14 @@
-
 define(function () {
-	'use strict';
+	"use strict";
 	return function() {
 		return {
-			restrict: 'A',
-			require: 'ngModel',
-			link: function(scope, elm, attr, ngModelCtrl) {
-				if (attr.type === 'radio' || attr.type === 'checkbox') return;
-				
-				elm.unbind('input').unbind('keydown').unbind('change');
-				elm.bind('blur', function() {
+			link: function(scope, elm, attrs) {
+				elm.bind("blur", function() {
 					scope.$apply(function() {
-						ngModelCtrl.$setViewValue(elm.val());
-					});         
+						scope.$eval(attrs.onblur);
+					});
 				});
 			}
 		};
-	}
+	};
 });
