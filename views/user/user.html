@@ -22,11 +22,18 @@
 						<i class="icon-gift"></i>
 						<span data-i18n="profile.section.general.birthday">
 							<span class="day" data-for="day" data-ng-if="!editGeneral">{{user.data.birthday.day}}</span>
-							<span class="month" data-for="month" data-ng-if="!editGeneral">{{user.data.birthday.month}}</span>
+							<span class="month" data-for="month" data-ng-if="!editGeneral" data-i18n="date.month.{{user.data.birthday.month}}"></span>
 							<span class="year" data-for="year" data-ng-if="!editGeneral">{{user.data.birthday.year}}</span>
-							<input class="day" data-for="day" data-ng-if="editGeneral" data-ng-model="user.data.birthday.day">
-							<input class="month" data-for="month" data-ng-if="editGeneral" data-ng-model="user.data.birthday.month">
-							<input class="year" data-for="year" data-ng-if="editGeneral" data-ng-model="user.data.birthday.year">
+							<select class="day" data-for="day" data-ng-if="editGeneral" data-ng-model="user.data.birthday.day" data-ng-options="day for day in days">
+								<option value=""></option>
+							</select>
+							<select class="month" data-for="month" data-ng-if="editGeneral" data-ng-model="user.data.birthday.month">
+								<option value=""></option>
+								<option data-ng-repeat="month in months" data-i18n="date.month.{{month}}" value="{{$index+1}}" data-ng-selected="$index+1 == user.data.birthday.month"></option>
+							</select>
+							<select class="month" data-for="month" data-ng-if="editGeneral" data-ng-model="user.data.birthday.year" data-ng-options="year for year in years">
+								<option value=""></option>
+							</select>
 						</span>
 					</p>
 					<p id="residence" data-ng-show="set(user.data.location) || editGeneral">
