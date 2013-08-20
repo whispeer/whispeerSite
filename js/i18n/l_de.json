@@ -1,15 +1,15 @@
 {
 	"date": {
 		"month": {
-			"01": "Januar",
-			"02": "Februar",
-			"03": "März",
-			"04": "April",
-			"05": "Mai",
-			"06": "Juni",
-			"07": "Juli",
-			"08": "August",
-			"09": "September",
+			"1": "Januar",
+			"2": "Februar",
+			"3": "März",
+			"4": "April",
+			"5": "Mai",
+			"6": "Juni",
+			"7": "Juli",
+			"8": "August",
+			"9": "September",
 			"10": "Oktober",
 			"11": "November",
 			"12": "Dezember",
@@ -28,6 +28,7 @@
 		}
 	},
 	"notimplemented":	"Noch nicht implementiert :(",
+	"search": "Personen werden gesucht",
 	"menu": {
 		"profil": "Profil",
 		"friends": "Freunde",

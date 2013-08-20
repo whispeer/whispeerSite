@@ -27,7 +27,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 				"me": true,
 				"birthday":	{
 					"day":	"09",
-					"month": "08",
+					"month": "8",
 					"year":	"2013"
 				},
 				"location": {

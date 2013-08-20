@@ -242,6 +242,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 
 			reset: function resetF() {
 				users = {};
+				knownIDs = [];
 				loading = {};
 			},
 
