@@ -1,4 +1,4 @@
-var WEB_SOCKET_SWF_LOCATION = "libs/WebSocketMain.swf"
+var WEB_SOCKET_SWF_LOCATION = "libs/WebSocketMain.swf";
 
 var startup = new Date().getTime();
 

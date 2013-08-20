@@ -1,4 +1,32 @@
 {
+	"date": {
+		"month": {
+			"01": "Januar",
+			"02": "Februar",
+			"03": "März",
+			"04": "April",
+			"05": "Mai",
+			"06": "Juni",
+			"07": "Juli",
+			"08": "August",
+			"09": "September",
+			"10": "Oktober",
+			"11": "November",
+			"12": "Dezember",
+			"january": "Januar",
+			"feburary": "Februar",
+			"march": "März",
+			"april": "April",
+			"may": "Mai",
+			"june": "Juni",
+			"july": "Juli",
+			"august": "August",
+			"september": "September",
+			"october": "Oktober",
+			"november": "November",
+			"december": "Dezember"
+		}
+	},
 	"notimplemented":	"Noch nicht implementiert :(",
 	"menu": {
 		"profil": "Profil",
@@ -77,7 +105,7 @@
 					"quotes":	"Zitate",
 					"contact":	"Kontakt"
 				},
-				"birthday":	"Geboren am {day}.{month}.{year}",
+				"birthday":	"Geboren am {day}. {month} {year}",
 				"location": {
 					"country": "Wohnt in {country}",
 					"state": "Wohnt in {state}",
