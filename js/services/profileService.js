@@ -79,11 +79,42 @@ define(["crypto/keyStore", "step", "whispeerHelper", "valid/validator"], functio
 				}), callback);
 			};
 
+			this.setAttribute = function setAttributeF(attr, value, cb) {
+				step(function () {
+					if (!decrypted) {
+						theProfile.decrypt(this);
+					} else {
+						this.ne();
+					}
+				}, h.sF(function () {
+					h.deepSet(dataDecrypted, attr, value);
+					this.ne();
+				}), cb);
+			};
+
+			this.getAttribute = function getAttributeF(attrs, cb) {
+				if (decrypted) {
+					cb(null, h.deepGet(dataDecrypted, attrs));
+					return;
+				}
+
+				step(function () {
+					if (h.deepGet(dataEncrypted)) {
+						theProfile.decrypt(this);
+					} else {
+						this.last.ne();
+					}
+				}, h.sF(function () {
+					this.last.ne(h.deepGet(dataDecrypted, attrs));
+				}), cb);
+			};
+
 			this.decrypt = function decryptProfileF(callback) {
 				if (decrypted) {
 					callback(null, dataDecrypted);
 					return;
 				}
+
 				step(function () {
 					if (decrypting) {
 						theProfile.bind("decrypted", callback);

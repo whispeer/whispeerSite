@@ -60,10 +60,8 @@ define(["step", "whispeerHelper"], function (step, h) {
 
 					if (nickname) {
 						keyStoreService.setKeyGenIdentifier(nickname);
-					} else if (mail) {
-						keyStoreService.setKeyGenIdentifier(mail);
 					} else {
-						throw "need either nick or mail";
+						throw "need nickname";
 					}
 
 					var privateProfile = new ProfileService(profile.priv);

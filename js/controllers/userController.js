@@ -26,24 +26,26 @@ define(["step", "whispeerHelper"], function (step, h) {
 				"image": "img/profil.jpg",
 				"me": true,
 				"birthday":	{
-					"day":	"09",
-					"month": "8",
-					"year":	"2013"
+					"day":	"",
+					"month": "",
+					"year":	""
 				},
 				"location": {
-					"town":	"Wellendorf",
-					"state": "Wellenbundesland",
-					"country": "Wellenland"
+					"town":	"",
+					"state": "",
+					"country": ""
 				},
 				"partner":	{
-					"type":	"relationship",
-					"name": "Gisela Welle"
+					"type":	"",
+					"name": ""
 				},
-				"education":	[{"name": "Wellenschule"}, {"name": "Wellen-Grundschule"}],
-				"job":	"Surf-Lehrer",
-				"company":	"Surfschool",
-				"gender":	"m",
-				"languages": [{"name": "Deutsch"}, {"name": "Englisch"}],
+				"education": [],
+				"job": {
+					"what": "",
+					"where": ""
+				},
+				"gender": "",
+				"languages": []
 			}
 		};
 

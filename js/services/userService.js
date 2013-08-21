@@ -36,63 +36,28 @@ define(["step", "whispeerHelper"], function (step, h) {
 				}
 			}
 
-			function getProfileBranch(branch, cb) {
+			function getProfileAttribute(attrs, cb) {
 				step(function () {
 					var priv = theUser.getPrivateProfiles(), i;
 
 					if (priv) {
 						for (i = 0; i < priv.length; i += 1) {
-							priv[i].decrypt(this.parallel());
+							priv[i].getAttribute(attrs, this.parallel());
 						}
 					} else {
 						this.ne([]);
 					}
 				}, h.sF(function (results) {
 					for (i = 0; i < results.length; i += 1) {
-						if (results[i] && results[i][branch]) {
-							this.last.ne(results[i][branch]);
+						if (results[i]) {
+							this.last.ne(results[i]);
 							return;
 						}
 					}
 
 					var pub = theUser.getProfile();
 
-					if (pub && pub[branch]) {
-						this.last.ne(pub[branch]);
-						return;
-					}
-
-					this.last.ne();
-				}), cb);
-			}
-
-			function getProfileAttribute(branch, attribute, cb) {
-				step(function () {
-					var priv = theUser.getPrivateProfiles(), i;
-
-					if (priv) {
-						for (i = 0; i < priv.length; i += 1) {
-							priv[i].decrypt(this.parallel());
-						}
-					} else {
-						this.ne([]);
-					}
-				}, h.sF(function (results) {
-					for (i = 0; i < results.length; i += 1) {
-						if (results[i] && results[i][branch] && results[i][branch][attribute]) {
-							this.last.ne(results[i][branch][attribute]);
-							return;
-						}
-					}
-
-					var pub = theUser.getProfile();
-
-					if (pub && pub[branch] && pub[branch][attribute]) {
-						this.last.ne(pub[branch][attribute]);
-						return;
-					}
-
-					this.last.ne();
+					this.last.ne(h.deepGet(pub, attrs));
 				}), cb);
 			}
 
@@ -142,7 +107,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 
 			this.getImage = function (cb) {
 				step(function () {
-					getProfileBranch("image", this);
+					getProfileAttribute("image", this);
 				}, h.sF(function (image) {
 					if (image) {
 						this.ne(image);
@@ -156,8 +121,8 @@ define(["step", "whispeerHelper"], function (step, h) {
 				step(function getSN1() {
 					this.parallel.unflatten();
 
-					getProfileAttribute("basic", "firstname", this.parallel());
-					getProfileAttribute("basic", "lastname", this.parallel());
+					getProfileAttribute(["basic", "firstname"], this.parallel());
+					getProfileAttribute(["basic", "lastname"], this.parallel());
 				}, h.sF(function (firstname, lastname) {
 					var nickname = theUser.getNickname();
 
@@ -169,8 +134,8 @@ define(["step", "whispeerHelper"], function (step, h) {
 				step(function getN1() {
 					this.parallel.unflatten();
 
-					getProfileAttribute("basic", "firstname", this.parallel());
-					getProfileAttribute("basic", "lastname", this.parallel());
+					getProfileAttribute(["basic", "firstname"], this.parallel());
+					getProfileAttribute(["basic", "lastname"], this.parallel());
 				}, h.sF(function (firstname, lastname) {
 					var nickname = theUser.getNickname();
 

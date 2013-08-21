@@ -9,7 +9,7 @@
 	<div>
 		<input type="password" id="password" data-i18n-attr="login.password|placeholder" data-ng-model="password">
 	</div>
-	<div class="error" id="errorLogin" data-ng-show="loginFailed">{{'login.loginFailed'|i18n}}</div>
+	<div class="error" id="errorLogin" data-ng-show="loginFailed" data-i18n="login.loginFailed"></div>
 	<div>
 		<button id="loginformsubmit" class="btn" type="submit" data-ng-click="login(identifier, password)">{{'login.link'|i18n}}</button>
 	</div>
@@ -18,7 +18,7 @@
 	<div data-ng-repeat="attribute in profileAttributes" data-tooltip-title="{{attribute.hoverText}}" data-tooltip-position="left">
 		<input type="text" placeholder="{{attribute.placeHolder}}" data-ng-model="attribute.value">
 		<span class="icon lock">
-			<img data-ng-src="{{{true: 'img/lock_closed.png', false: 'img/lock_open.png'}[attribute.encrypted]}}" alt="{{((attribute.encrypted) && ('Privat') || ('Öffentlich'))}}" data-ng-click="attribute.encrypted=!attribute.encrypted"/>
+			<img data-ng-src="{{lock(attribute.encrypted)}}" alt="{{((attribute.encrypted) && ('Privat') || ('Öffentlich'))}}" data-ng-click="attribute.encrypted=!attribute.encrypted"/>
 		</span>
 	</div>
 	<div data-tooltip-title="{{attribute.hoverText}}" data-tooltip-position="right">
