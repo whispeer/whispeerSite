@@ -118,7 +118,7 @@ define(["crypto/keyStore", "step", "whispeerHelper", "valid/validator"], functio
 				}
 
 				step(function () {
-					if (h.deepGet(dataEncrypted)) {
+					if (h.deepGet(dataEncrypted, attrs)) {
 						theProfile.decrypt(this);
 					} else {
 						this.last.ne();
