@@ -15,7 +15,7 @@ define(["crypto/keyStore", "step", "whispeerHelper", "valid/validator"], functio
 
 		//where should the key go? should it be next to the data?
 		var profileService = function (data) {
-			var dataEncrypted, dataDecrypted, decrypted, signature, id, err, decrypting = false;
+			var dataEncrypted, dataDecrypted, decrypted, signature, id, err, decrypting = false, verified = false;
 			var theProfile = this;
 
 			if (typeof data.key === "object") {
@@ -49,6 +49,25 @@ define(["crypto/keyStore", "step", "whispeerHelper", "valid/validator"], functio
 				id = data.profileid;
 				delete data.profileid;
 			}
+
+			this.verify = function verifyProfileF(key, callback) {
+				if (verified) {
+					callback(null, verified);
+					return;
+				}
+
+				step(function () {
+					theProfile.decrypt(this);
+				}, h.sF(function () {
+					keyStore.sign.verifyObject(signature, dataDecrypted, key, this);
+				}), h.sF(function (valid) {
+					if (valid) {
+						verified = true;
+					} else {
+						h.setAll(dataDecrypted, "Security Breach!");
+					}
+				}), callback);
+			};
 
 			this.sign = function signprofileF(key, callback) {
 				step(function () {
