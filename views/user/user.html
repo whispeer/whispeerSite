@@ -49,7 +49,7 @@
 							<input data-for="country" type="text" data-ng-model="user.data.location.country" data-ng-if="editGeneral">	
 						</span>
 					</p>
-					<p id="relationship">
+					<p id="relationship" data-ng-show="set(user.data.partner) || editGeneral">
 						<i class="icon-heart"></i>
 						<span data-i18n="profile.section.general.relation.default">
 							<span data-for="relationType" class="relationType" data-ng-if="!editGeneral" data-i18n="profile.section.general.relation.status.{{user.data.partner.type}}"></span>
@@ -60,7 +60,7 @@
 							<input data-for="partner" type="text" data-ng-model="user.data.partner.name" data-ng-if="editGeneral">
 						</span>
 					</p>
-					<p id="school">
+					<p id="school" data-ng-show="set(user.data.education) || editGeneral">
 						<i class="icon-book-open"></i>
 						<span data-i18n="profile.section.general.education">
 							<span data-ng-if="!editGeneral" data-for="school"><span data-ng-repeat="school in user.data.education">{{school.name}}</span></span>
@@ -73,17 +73,17 @@
 							</span>
 						</span>
 					</p>
-					<p id="job">
+					<p id="job" data-ng-show="set(user.data.job) || editGeneral">
 						<i class="icon-wrench"></i>
 						<span data-i18n="profile.section.general.job">
-							<span data-ng-if="!editGeneral" data-for="job">{{user.data.job}}</span>
-							<input data-ng-if="editGeneral" data-for="job" data-ng-model="user.data.job">
+							<span data-ng-if="!editGeneral" data-for="job">{{user.data.job.what}}</span>
+							<input data-ng-if="editGeneral" data-for="job" data-ng-model="user.data.job.what">
 							
-							<span data-ng-if="!editGeneral" data-for="company">{{user.data.company}}</span>
-							<input data-ng-if="editGeneral" data-for="company" data-ng-model="user.data.company">
+							<span data-ng-if="!editGeneral" data-for="company">{{user.data.job.where}}</span>
+							<input data-ng-if="editGeneral" data-for="company" data-ng-model="user.data.job.where">
 						</span>
 					</p>
-					<p id="sex">
+					<p id="sex" data-ng-show="set(user.data.gender) || editGeneral">
 						<i class="icon-toilet"></i>
 						<span data-i18n="profile.section.general.gender.default">
 							<span data-ng-if="!editGeneral" data-for="gender" data-i18n="profile.section.general.gender.{{user.data.gender}}"></span>
@@ -93,7 +93,7 @@
 							</select>
 						</span>
 					</p>
-					<p id="languages">
+					<p id="languages" data-ng-show="set(user.data.languages) || editGeneral">
 						<i class="icon-globe-1"></i>
 						<span data-i18n="profile.section.general.languages">
 							<span data-ng-if="!editGeneral" data-for="language">
@@ -104,6 +104,7 @@
 									<input type="text" data-ng-model="language.name">
 									<button class="remove" data-ng-click="removeElement(user.data.languages, $index)"><i class="icon icon-cancel"></i></button>
 								</span>
+								<button class="add" data-ng-click="addElement(user.data.languages, {name:''})"><i class="icon icon-cancel"></i></button>
 							</span>
 						</span>
 					</p>

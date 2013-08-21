@@ -46,43 +46,66 @@ define(["step", "whispeerHelper"], function (step, h) {
 			sessionHelper.logout();
 		};
 
-		$scope.searchFocus = false;
-		
-		$scope.query = "";
+		$scope.search = {
+			focused: false,
+			clicked: false,
+			query: "",
+			searching: false
+		};
 
 		var timer = null;
 
-		$scope.queryChange = function () {
-			$scope.searchUsers = [];
-			if ($scope.query.length > 3) {
+		$scope.search.queryChange = function () {
+			if ($scope.search.query.length > 3) {
+				$scope.search.searching = true;
 				window.clearTimeout(timer);
 				timer = window.setTimeout(function () {
+					var theUsers;
 					step(function () {
-						userService.query($scope.query, this);
+						userService.query($scope.search.query, this);
 					}, h.sF(function (user) {
+						theUsers = user;
 						var i;
 						for (i = 0; i < user.length; i += 1) {
 							user[i].getName(this.parallel());
 							user[i].getImage(this.parallel());
 						}
 					}), h.sF(function (data) {
-						$scope.searchUsers = [];
+						$scope.search.users = [];
 						var i;
-						for (i = 0; i < data.length; i += 2) {
-							$scope.searchUsers.push({
-								"name": data[i],
+						for (i = 0; i < theUsers.length; i += 1) {
+							$scope.search.users.push({
+								"name": data[i*2],
 								"mutuals": "0",
 								"location": "?",
 								"age": "?",
-								"image": data[i+1]
+								"image": data[i*2+1],
+								"id": theUsers[i].getID()
 							});
 						}
+						$scope.search.searching = false;
 					}));
 				}, 250);
+			} else {
+				$scope.search.users = [];
 			}
 		};
 
-		$scope.searchUsers = [
+		$scope.search.show = function () {
+			return $scope.search.focused || $scope.search.clicked;
+		};
+
+		$scope.search.click = function (bool) {
+			console.log("Click:" + bool);
+			$scope.search.clicked = bool;
+		};
+
+		$scope.search.focus = function (bool) {
+			console.log("Focus:" + bool);
+			$scope.search.focused = bool;
+		};
+
+		$scope.search.users = [
 		{
 			"name":	"Luisa Katharina Marschner",
 			"mutuals":	"20",

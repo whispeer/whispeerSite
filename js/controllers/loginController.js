@@ -168,6 +168,22 @@ define(["step"], function (step) {
 			});
 		};
 
+		$scope.lock = function lockF(bool) {
+			if (bool) {
+				return "img/lock_closed.png";
+			} else {
+				return "img/lock_open.png";
+			}
+		};
+
+		$scope.red = function redF(bool) {
+			if (!bool) {
+				return "red";
+			} else {
+				return "";
+			}
+		};
+
 		$scope.acceptIconMailFree = function acceptIconMail() {
 			if ($scope.mailCheckLoading) {
 				return "img/loading.gif";
@@ -178,6 +194,10 @@ define(["step"], function (step) {
 			}
 
 			if ($scope.mailCheck) {
+				return "img/accept.png";
+			}
+
+			if ($scope.mail === "") {
 				return "img/accept.png";
 			}
 

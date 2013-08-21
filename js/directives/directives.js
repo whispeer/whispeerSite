@@ -2,7 +2,7 @@
 * BaseDirective
 **/
 
-var directives = ["eatClick", "blur", "onblur", "friend", "strgEnter", "onfocus", "comment", "post", "scroll", "file"];
+var directives = ["eatClick", "blur", "onblur", "friend", "strgEnter", "onfocus", "comment", "post", "scroll", "file", "stopEvent"];
 
 var includes = ["angular"];
 
