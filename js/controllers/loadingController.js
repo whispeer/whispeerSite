@@ -5,11 +5,11 @@
 define([], function () {
 	"use strict";
 
-	function loadingController() {
-
+	function loadingController(cssService) {
+		cssService.setClass("mainView");
 	}
 
-	loadingController.$inject = [];
+	loadingController.$inject = ["ssn.cssService"];
 
 	return loadingController;
 });
