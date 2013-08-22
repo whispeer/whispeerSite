@@ -48,10 +48,12 @@ define(["step", "whispeerHelper"], function (step, h) {
 						this.ne([]);
 					}
 				}, h.sF(function (results) {
-					for (i = 0; i < results.length; i += 1) {
-						if (results[i]) {
-							this.last.ne(results[i]);
-							return;
+					if (results) {
+						for (i = 0; i < results.length; i += 1) {
+							if (results[i]) {
+								this.last.ne(results[i]);
+								return;
+							}
 						}
 					}
 

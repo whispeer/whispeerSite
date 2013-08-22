@@ -19,7 +19,7 @@ define([], function () {
 				"content":	{
 					"text": "Ein schöner Abend mit meinem Bärchen :)",
 					"image":	"img/profiles/2.jpg"
-				},	
+				},
 				"info":	{
 					"with"	: "Marc Schneider-Zuckerfuß",
 					"awesome"	: "14"
