@@ -13,9 +13,11 @@
 	
 	keyid: identifier@timestamp
 **/
-define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/sjclWorkerInclude"], function (step, h, chelper, sjcl) {
+define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForReady", "crypto/sjclWorkerInclude"], function (step, h, chelper, sjcl, waitForReady) {
 	"use strict";
 	var socket, dirtyKeys = [], newKeys = [], symKeys = {}, cryptKeys = {}, signKeys = {}, passwords = [], keyGenIdentifier = "", Key, SymKey, CryptKey, SignKey, makeKey, keyStore;
+
+	sjcl.random.startCollectors();
 
 	var MAXSPEED = 99999999999, SPEEDS = {
 		symKey: {
@@ -819,9 +821,11 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/sjclWork
 	*/
 	function cryptKeyGenerate(curve, callback) {
 		step(function cryptGenI1() {
+			waitForReady(this);
+		}, h.sF(function () {
 			var curveO = chelper.getCurve(curve), key = sjcl.ecc.elGamal.generateKeys(curveO);
 			this.ne(key.pub, key.sec);
-		}, h.sF(function cryptGenI2(pub, sec) {
+		}), h.sF(function cryptGenI2(pub, sec) {
 			/*jslint nomen: true*/
 			var p = pub._point, data = {
 				point: {
@@ -977,9 +981,11 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/sjclWork
 	*/
 	function signKeyGenerate(curve, callback) {
 		step(function signGenI1() {
+			waitForReady(this);
+		}, h.sF(function () {
 			var curveO = chelper.getCurve(curve), key = sjcl.ecc.ecdsa.generateKeys(curveO);
 			this.ne(key.pub, key.sec);
-		}, h.sF(function signGenI2(pub, sec) {
+		}), h.sF(function signGenI2(pub, sec) {
 			/*jslint nomen: true*/
 			var p = pub._point, data = {
 				point: {
@@ -1283,12 +1289,20 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/sjclWork
 		},
 
 		random: {
-			hex: function (length) {
-				var res = chelper.bits2hex(sjcl.random.randomWords(Math.ceil(length/8)));
-				return res.substr(0, length);
+			hex: function (length, cb) {
+				step(function () {
+					waitForReady(this);
+				}, h.sF(function () {
+					var res = chelper.bits2hex(sjcl.random.randomWords(Math.ceil(length/8)));
+					this.ne(res.substr(0, length));
+				}), cb);
 			},
-			words: function (number) {
-				return sjcl.random.randomWords(number);
+			words: function (number, cb) {
+				step(function () {
+					waitForReady(this);
+				}, h.sF(function () {
+					this.ne(sjcl.random.randomWords(number));
+				}), cb);
 			}
 		},
 
@@ -1298,8 +1312,10 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/sjclWork
 			*/
 			generateKey: function generateKeyF(callback) {
 				step(function symGen1() {
+					waitForReady(this);
+				}, h.sF(function () {
 					SymKey.generate(this);
-				}, h.sF(function symGen2(key) {
+				}), h.sF(function symGen2(key) {
 					var r = key.getRealID();
 
 					this.ne(r);

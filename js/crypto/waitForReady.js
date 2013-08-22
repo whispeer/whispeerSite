@@ -1,4 +1,4 @@
-define(['libs/sjcl'], function (sjcl) {
+define(["libs/sjcl"], function (sjcl) {
 	"use strict";
 
 	/**
@@ -11,12 +11,19 @@ define(['libs/sjcl'], function (sjcl) {
 			return true;
 		}
 
+		waitForReady.waiting = true;
+
 		sjcl.random.addEventListener("seeded", function () {
+			waitForReady.waiting = false;
+			waitForReady.ready = true;
 			callback();
 		});
 
 		return false;
 	};
+
+	waitForReady.ready = false;
+	waitForReady.waiting = false;
 
 	return waitForReady;
 });
