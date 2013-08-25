@@ -327,9 +327,8 @@ define(["step", "whispeerHelper", "valid/validator"], function (step, h, validat
 				}
 			}, h.sF(function (rTopic) {
 				topic = rTopic;
-
-				var random = keyStore.random.hex(20);
-
+				keyStore.random.hex(128-(message.length%128), this);
+			}), h.sF(function (random) {
 				message = random + "::" + message;
 
 				var newest = topic.latestMessage;
@@ -468,8 +467,8 @@ define(["step", "whispeerHelper", "valid/validator"], function (step, h, validat
 
 				topicHash = keyStore.hash.hashObject(topicHashData);
 
-				var random = keyStore.random.hex(20);
-
+				keyStore.random.hex(128-(message.length%128), this);
+			}), h.sF(function (random) {
 				message = random + "::" + message;
 
 				var meta = {
