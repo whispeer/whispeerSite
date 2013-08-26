@@ -13,8 +13,9 @@
 	}
 	#main {
 		text-align: center;
-		overflow-y: hidden;
-		height: 100%;
+		@media (max-height: 327px) {
+			overflow-y: scroll;
+		}
 	}
 	#logo {
 		margin: 0 auto;

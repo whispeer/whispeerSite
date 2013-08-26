@@ -1579,8 +1579,11 @@ body:not(.mainView, .registerView) #main {
 }
 .registerView #main {
   text-align: center;
-  overflow-y: hidden;
-  height: 100%;
+}
+@media (max-height: 327px) {
+  .registerView #main {
+    overflow-y: scroll;
+  }
 }
 .registerView #logo {
   margin: 0 auto;
