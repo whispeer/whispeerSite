@@ -16,23 +16,26 @@
 					<span data-i18n="profile.section.general.headers.title"></span>
 					<a href="" class="edit" data-i18n="profile.edit" data-ng-show="user.data.me" data-ng-click="edit()"></a>
 				</header>
-				<img data-ng-src="{{user.image}}" alt="USERNAME" class="userimage">
+				<div class="userimage">
+					<img data-ng-src="{{user.image}}" alt="USERNAME">
+					<span class="editImage" data-ng-if="editGeneral" data-i18n="profile.section.general.changeImage"></span>
+				</div>
 				<div class="info">
 					<p id="birthday" data-ng-show="set(user.data.birthday) || editGeneral">
 						<i class="icon-gift"></i>
-						<span data-i18n="profile.section.general.birthday">
+						<span data-i18n="profile.section.general.birthday.text">
 							<span class="day" data-for="day" data-ng-if="!editGeneral">{{user.data.birthday.day}}</span>
 							<span class="month" data-for="month" data-ng-if="!editGeneral" data-i18n="date.month.{{user.data.birthday.month}}"></span>
 							<span class="year" data-for="year" data-ng-if="!editGeneral">{{user.data.birthday.year}}</span>
 							<select class="day" data-for="day" data-ng-if="editGeneral" data-ng-model="user.data.birthday.day" data-ng-options="day for day in days">
-								<option value=""></option>
+								<option value="" data-i18n="profile.section.general.birthday.day"></option>
 							</select>
 							<select class="month" data-for="month" data-ng-if="editGeneral" data-ng-model="user.data.birthday.month">
-								<option value=""></option>
+								<option value="" data-i18n="profile.section.general.birthday.month"></option>
 								<option data-ng-repeat="month in months" data-i18n="date.month.{{month}}" value="{{$index+1}}" data-ng-selected="$index+1 == user.data.birthday.month"></option>
 							</select>
-							<select class="month" data-for="month" data-ng-if="editGeneral" data-ng-model="user.data.birthday.year" data-ng-options="year for year in years">
-								<option value=""></option>
+							<select class="year" data-for="year" data-ng-if="editGeneral" data-ng-model="user.data.birthday.year" data-ng-options="year for year in years">
+								<option value="" data-i18n="profile.section.general.birthday.year"></option>
 							</select>
 						</span>
 					</p>
@@ -102,9 +105,9 @@
 							<span data-ng-if="editGeneral" data-for="language">
 								<span class="input-group" data-ng-repeat="language in user.data.languages">
 									<input type="text" data-ng-model="language.name">
-									<button class="remove" data-ng-click="removeElement(user.data.languages, $index)"><i class="icon icon-cancel"></i></button>
+									<button class="btn btn-red remove" data-ng-click="removeElement(user.data.languages, $index)"><i class="icon icon-cancel-circle"></i></button>
 								</span>
-								<button class="add" data-ng-click="addElement(user.data.languages, {name:''})"><i class="icon icon-cancel"></i></button>
+								<button class="btn btn-green add" data-ng-click="addElement(user.data.languages, {name:''})"><i class="icon icon-plus-circle"></i></button>
 							</span>
 						</span>
 					</p>

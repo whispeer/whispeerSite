@@ -1,4 +1,8 @@
 {
+	"general": {
+		"send":	"Absenden",
+		"cancel":	"Abbrechen"
+	},
 	"date": {
 		"month": {
 			"1": "Januar",
@@ -106,7 +110,13 @@
 					"quotes":	"Zitate",
 					"contact":	"Kontakt"
 				},
-				"birthday":	"Geboren am {day}. {month} {year}",
+				"changeImage": "Profilbild ändern",
+				"birthday": {
+					"text":	"Geboren am {day}.{month} {year}",
+					"day":	"Tag",
+					"month":	"Monat",
+					"year":	"Jahr"
+				},	
 				"location": {
 					"country": "Wohnt in {country}",
 					"state": "Wohnt in {state}",
@@ -167,6 +177,7 @@
 			"functionality":	"Funktionsweise",
 			"newQuestion":	"Stelle eine Frage"
 		},
+		"askQuestion":	"Stelle deine Frage!",
 		"faq": {
 			"register": {
 				"question": "Muss ich beim Registrieren meinen vollen Namen und meine E-Mail-Adresse angeben?",

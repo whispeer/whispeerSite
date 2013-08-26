@@ -423,6 +423,7 @@ input:not([type=submit]):not([type=file]) {
   padding: 9px;
   border: solid 1px #8c8c8c;
   outline: 0;
+  line-height: 20px;
   font: normal 13px/100% "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
   background: #ffffff;
   -webkit-border-radius: 5px;
@@ -2276,6 +2277,9 @@ body:not(.mainView, .registerView) #main {
   /* Opera/IE 8+ */
 
 }
+.profileView #main #info article input {
+  padding: 2px !important;
+}
 .profileView #main #info article#generalInfo {
   display: inline-block;
   *display: inline;
@@ -2286,13 +2290,57 @@ body:not(.mainView, .registerView) #main {
   width: 98%;
   margin: 0 1% 0 1%;
 }
-.profileView #main #info article#generalInfo .userimage {
+.profileView #main #info article#generalInfo .userimage img {
+  width: 100%;
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
   border-radius: 5px;
   -moz-background-clip: padding;
   -webkit-background-clip: padding-box;
   background-clip: padding-box;
+  float: left;
+}
+.profileView #main #info article#generalInfo .userimage .editImage {
+  width: 100%;
+  margin: 0;
+  margin-top: -30px;
+  background: rgba(0, 0, 0, 0.6);
+  float: left;
+  -webkit-border-top-right-radius: 0;
+  -webkit-border-bottom-right-radius: 5px;
+  -webkit-border-bottom-left-radius: 5px;
+  -webkit-border-top-left-radius: 0;
+  -moz-border-radius-topright: 0;
+  -moz-border-radius-bottomright: 5px;
+  -moz-border-radius-bottomleft: 5px;
+  -moz-border-radius-topleft: 0;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 5px;
+  border-bottom-left-radius: 5px;
+  border-top-left-radius: 0;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  padding: 5px;
+  -webkit-box-sizing: border-box;
+  /* Safari/Chrome, other WebKit */
+
+  -moz-box-sizing: border-box;
+  /* Firefox, other Gecko */
+
+  box-sizing: border-box;
+  /* Opera/IE 8+ */
+
+  color: #ffffff;
+  text-align: center;
+  opacity: 0;
+  -webkit-transition: all 0.3s ease;
+  -moz-transition: all 0.3s ease;
+  -ms-transition: all 0.3s ease;
+  -o-transition: all 0.3s ease;
+}
+.profileView #main #info article#generalInfo .userimage:hover .editImage {
+  opacity: 1;
 }
 .profileView #main #info article#generalInfo #school span[data-ng-repeat]:not(:last-child):after,
 .profileView #main #info article#generalInfo #languages span[data-ng-repeat]:not(:last-child):after {
@@ -3487,50 +3535,28 @@ body:not(.mainView, .registerView) #main {
 .helpView #main section .qa .answer {
   margin-left: 10px;
 }
-.helpView #main section button,
-.helpView #main section input[type=submit] {
+.helpView #main section#newQuestion input {
   display: inline-block;
   *display: inline;
   /* IE7 inline-block hack */
 
   *zoom: 1;
-  padding: 4px 15px;
-  -webkit-box-sizing: border-box;
-  /* Safari/Chrome, other WebKit */
-
-  -moz-box-sizing: border-box;
-  /* Firefox, other Gecko */
-
-  box-sizing: border-box;
-  /* Opera/IE 8+ */
-
-  -webkit-border-radius: 4px;
-  -moz-border-radius: 4px;
-  border-radius: 4px;
-  -moz-background-clip: padding;
-  -webkit-background-clip: padding-box;
-  background-clip: padding-box;
-  border: 0;
-  background-color: #ffffff;
-  color: #333333;
-  text-shadow: 0 1px 1px rgba(255, 255, 255, 0.75);
-  border: 1px solid #bbbbbb;
+  float: left;
+  width: 64.66666666666667%;
+  margin: 0 1% 0 1%;
+  margin-bottom: 10px;
 }
-.helpView #main section button:hover,
-.helpView #main section input[type=submit]:hover {
-  background-color: #ececec;
-}
-.helpView #main section button:hover,
-.helpView #main section input[type=submit]:hover,
-.helpView #main section button:active,
-.helpView #main section input[type=submit]:active,
-.helpView #main section button.active,
-.helpView #main section input[type=submit].active,
-.helpView #main section button.disabled,
-.helpView #main section input[type=submit].disabled,
-.helpView #main section button[disabled],
-.helpView #main section input[type=submit][disabled] {
-  background-color: #ececec;
+.helpView #main section#newQuestion button {
+  display: inline-block;
+  *display: inline;
+  /* IE7 inline-block hack */
+
+  *zoom: 1;
+  float: left;
+  width: 31.333333333333336%;
+  margin: 0 1% 0 1%;
+  line-height: 20px;
+  padding: 7px;
 }
 .settingsView #main {
   padding-top: 30px;
