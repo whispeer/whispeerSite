@@ -1783,7 +1783,6 @@ body:not(.mainView, .registerView) #main {
   height: 50px;
   padding: 5px;
   margin: 0 auto;
-  display: none;
 }
 .registerView #loginform .error,
 .registerView #registerform .error {
