@@ -62,7 +62,7 @@ define(["step"], function (step) {
 			if (typeof URL !== "undefined") {
 				url = URL.createObjectURL(file);
 				image.src = url;
-			} else if (typeof webkitURL !== "undefined") {
+			} else if (typeof webkitURL !== "undefined" && false) {
 				url = webkitURL.createObjectURL(file);
 				image.src = url;
 			} else if (typeof FileReader !== "undefined") {
