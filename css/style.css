@@ -4744,6 +4744,22 @@ and (max-device-width : 767px) {
   .posts article .postContent .postText {
     padding-left: 10px;
   }
+  .posts article .postContent .postImage img {
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
+    float: left;
+    width: 98%;
+    margin: 0 1% 0 1%;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    -moz-background-clip: padding;
+    -webkit-background-clip: padding-box;
+    background-clip: padding-box;
+  }
   .posts article .postInfo {
     display: inline-block;
     *display: inline;
@@ -7600,6 +7616,22 @@ and (max-device-width : 767px) {
     box-sizing: padding-box;
     /* Opera/IE 8+ */
   
+  }
+  .posts article .postContent .postImage img {
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
+    float: left;
+    width: 98%;
+    margin: 0 1% 0 1%;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    -moz-background-clip: padding;
+    -webkit-background-clip: padding-box;
+    background-clip: padding-box;
   }
   .posts article .postInfo {
     display: inline-block;
