@@ -12,17 +12,14 @@ define(["step"], function (step) {
 
 		var imageData;
 
-		var originalCanvasE = document.createElement("canvas");
 		var doneCanvasE = document.createElement("canvas");
 
 		doneCanvasE.width = ENDSIZE;
 		doneCanvasE.height = ENDSIZE;
 
-		var originalCanvas = originalCanvasE.getContext("2d");
 		var doneCanvas = doneCanvasE.getContext("2d");
 
 		jQuery(document.body).append(doneCanvasE);
-		jQuery(document.body).append(originalCanvasE);
 
 		var MAXWIDTH = 1000;
 		var MAXHEIGHT = 1000;
@@ -48,21 +45,16 @@ define(["step"], function (step) {
 				width = width / f;
 				height = height / f;
 
-				originalCanvasE.width = width;
-				originalCanvasE.height = height;
-
-				originalCanvas.drawImage(image, 0, 0, width, height);
-
 				var get = Math.min(width, height);
 
-				doneCanvas.drawImage(originalCanvasE, 0, 0, get, get, 0, 0, ENDSIZE, ENDSIZE);
+				doneCanvas.drawImage(image, 0, 0, get*f, get*f, 0, 0, ENDSIZE, ENDSIZE);
 				imageData = doneCanvasE.toDataURL();
 			});
 
 			if (typeof URL !== "undefined") {
 				url = URL.createObjectURL(file);
 				image.src = url;
-			} else if (typeof webkitURL !== "undefined" && false) {
+			} else if (typeof webkitURL !== "undefined") {
 				url = webkitURL.createObjectURL(file);
 				image.src = url;
 			} else if (typeof FileReader !== "undefined") {
