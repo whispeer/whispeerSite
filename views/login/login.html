@@ -1,7 +1,7 @@
 <div id="logo">
 	<img src="img/logo.png">
 </div>
-<form id="loginform" data-ng-if="loginForm">
+<form id="loginform" data-ng-if="loginForm == 'login'">
 <!--{{loginFailed}}-->
 	<div>
 		<input type="text" id="mail" data-i18n-attr="login.username|placeholder" data-ng-model="identifier">
@@ -14,8 +14,16 @@
 		<button id="loginformsubmit" class="btn" type="submit" data-ng-click="login(identifier, password)">{{'login.link'|i18n}}</button>
 	</div>
 </form>
-<form id="registerform" data-ng-if="!loginForm" data-ng-click="registerFormClick()" data-ng-include="'views/login/templates/step' + registrationStep + '.html'">
+<form id="registerform" data-ng-if="loginForm == 'register'" data-ng-click="registerFormClick()" data-ng-include="'views/login/templates/step' + registrationStep + '.html'">
 </form>
+<div id="moreInfo" data-ng-if="loginForm == 'moreInfo'">
+</div>
+<div id="toggles">
+	<button class="btn btn-info" id="callMoreInfo" data-ng-if="loginForm != 'moreInfo'" data-ng-click="showMoreInfo()" data-eat-click>Mehr Info</button>
+	<button class="btn btn-green" id="callLoginOnMore" data-ng-if="loginForm == 'moreInfo'"  data-ng-click="showLogin()" data-eat-click data-i18n="login.link"></button>
+	<button class="btn btn-green" id="callRegister" data-ng-if="loginForm != 'register'" data-ng-click="showRegister()" data-eat-click data-i18n="login.register.link"></button>
+	<button class="btn btn-green" id="callLogin" data-ng-if="loginForm == 'register'"  data-ng-click="showLogin()" data-eat-click data-i18n="login.link"></button>
+</div>
 Step: {{registrationStep}}
-<a href="#" id="callRegister" data-ng-show="loginForm" data-ng-click="showRegister()" data-eat-click data-i18n="login.register.link"></a>
-<a href="#" id="callLogin" data-ng-show="!loginForm"  data-ng-click="showLogin()" data-eat-click data-i18n="login.link">Login</a>
+FormType: {{loginForm}}
+<a href="#" id="callLogin" data-ng-show="!loginForm"  data-ng-click="showRegister()" data-eat-click data-i18n="login.link">Login</a>

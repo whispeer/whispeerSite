@@ -20,6 +20,25 @@
 	#logo {
 		margin: 0 auto;
 	}
+	#toggles {
+		width: 300px;
+		margin: 0 auto;
+		#callLogin, #callRegister, #callMoreInfo, #callLoginOnMore {
+			margin: 0 !important;
+			float: left;
+			height: 36px !important;
+			border: 1px solid #ddd;
+			&#callLogin, &#callRegister {
+				.border-radiuses(5px,5px,0,0);
+				width: 149px !important;
+				border-left: none;
+			}
+			&#callMoreInfo, &#callLoginOnMore {
+				.border-radiuses(0,0,5px,5px);
+				width: 151px !important;
+			}
+		}
+	}
 	#loginform, #registerform {
 		width: 300px;
 		margin: 0 auto;
