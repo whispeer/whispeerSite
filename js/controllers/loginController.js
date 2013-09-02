@@ -111,15 +111,22 @@ define(["step"], function (step) {
 		$scope.loginForm = "login";
 		$scope.showLogin = function showLoginForm() {
 			$scope.loginForm = "login";
+			$scope.registrationStep = '1';
 		};
 
 		$scope.showRegister = function showRegisterForm() {
 			$scope.loginForm = "register";
+			$scope.registrationStep = '1';
 		};
 		
 		$scope.showMoreInfo = function showMoreInfo() {
 			$scope.loginForm = "moreInfo";
+			$scope.registrationStep = '1';
 		};
+		
+		$scope.nextRegisterStep = function nextRegisterStep(toStep) {
+			$scope.registrationStep = toStep;
+		}
 
 		$scope.passwordStrength = function passwordStrengthC() {
 			return sessionHelper.passwordStrength($scope.password);

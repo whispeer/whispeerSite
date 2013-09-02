@@ -19,7 +19,7 @@
 <div id="moreInfo" data-ng-if="loginForm == 'moreInfo'">
 </div>
 <div id="toggles">
-	<button class="btn btn-info" id="callMoreInfo" data-ng-if="loginForm != 'moreInfo'" data-ng-click="showMoreInfo()" data-eat-click>Mehr Info</button>
+	<button class="btn btn-info" id="callMoreInfo" data-ng-if="loginForm != 'moreInfo'" data-ng-click="showMoreInfo()" data-eat-click data-i18n="login.moreInfo">Mehr Info</button>
 	<button class="btn btn-green" id="callLoginOnMore" data-ng-if="loginForm == 'moreInfo'"  data-ng-click="showLogin()" data-eat-click data-i18n="login.link"></button>
 	<button class="btn btn-green" id="callRegister" data-ng-if="loginForm != 'register'" data-ng-click="showRegister()" data-eat-click data-i18n="login.register.link"></button>
 	<button class="btn btn-green" id="callLogin" data-ng-if="loginForm == 'register'"  data-ng-click="showLogin()" data-eat-click data-i18n="login.link"></button>
