@@ -108,13 +108,17 @@ define(["step"], function (step) {
 		$scope.validImage = true;
 
 		//gui show stuff
-		$scope.loginForm = true;
+		$scope.loginForm = "login";
 		$scope.showLogin = function showLoginForm() {
-			$scope.loginForm = true;
+			$scope.loginForm = "login";
 		};
 
 		$scope.showRegister = function showRegisterForm() {
-			$scope.loginForm = false;
+			$scope.loginForm = "register";
+		};
+		
+		$scope.showMoreInfo = function showMoreInfo() {
+			$scope.loginForm = "moreInfo";
 		};
 
 		$scope.passwordStrength = function passwordStrengthC() {
