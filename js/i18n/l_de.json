@@ -51,7 +51,8 @@
 		"moreInfo":	"Mehr Info",
 		"register": {
 			"link":	"Registrieren",
-			"next": "Nächster Schritt",
+			"next": "Weiter",
+			"previous": "Zurück",
 			"repeatPassword":	"Password wiederholen",
 			"passwordstrength":	"Punkte für dein Passwort: ",
 			"email":	"E-Mail Adresse",

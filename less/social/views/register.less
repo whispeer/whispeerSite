@@ -175,6 +175,20 @@
 				.border-radiuses(0, 0, 5px, 5px);
 			}	
 		}
+		&:not([data-regStep="1"]) {
+			#registerFormPreviousStep, #registerFormNextStep, #registerFormSubmit {
+				float: left;
+				&#registerFormPreviousStep {
+					.border-radiuses(0,0,5px,5px);
+					width: 151px;
+					border-right: 1px solid #ccc;
+				}
+				&#registerFormNextStep, &#registerFormSubmit {
+					.border-radiuses(5px,5px,0,0);
+					width: 149px;
+				}
+			} 
+		}
 	}
 	a {
 		text-decoration: underline;

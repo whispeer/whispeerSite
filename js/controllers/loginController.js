@@ -119,7 +119,7 @@ define(["step"], function (step) {
 			$scope.registrationStep = '1';
 		};
 		
-		$scope.nextRegisterStep = function nextRegisterStep(toStep) {
+		$scope.goToRegisterStep = function goToRegisterStep(toStep) {
 			$scope.registrationStep = toStep;
 		}
 

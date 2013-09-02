@@ -1920,6 +1920,55 @@ body:not(.mainView, .registerView) #main {
   -webkit-background-clip: padding-box;
   background-clip: padding-box;
 }
+.registerView #registerform:not([data-regStep="1"]) #registerFormPreviousStep,
+.registerView #registerform:not([data-regStep="1"]) #registerFormNextStep,
+.registerView #registerform:not([data-regStep="1"]) #registerFormSubmit {
+  float: left;
+}
+.registerView #registerform:not([data-regStep="1"]) #registerFormPreviousStep#registerFormPreviousStep,
+.registerView #registerform:not([data-regStep="1"]) #registerFormNextStep#registerFormPreviousStep,
+.registerView #registerform:not([data-regStep="1"]) #registerFormSubmit#registerFormPreviousStep {
+  -webkit-border-top-right-radius: 0;
+  -webkit-border-bottom-right-radius: 0;
+  -webkit-border-bottom-left-radius: 5px;
+  -webkit-border-top-left-radius: 5px;
+  -moz-border-radius-topright: 0;
+  -moz-border-radius-bottomright: 0;
+  -moz-border-radius-bottomleft: 5px;
+  -moz-border-radius-topleft: 5px;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 5px;
+  border-top-left-radius: 5px;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  width: 151px;
+  border-right: 1px solid #ccc;
+}
+.registerView #registerform:not([data-regStep="1"]) #registerFormPreviousStep#registerFormNextStep,
+.registerView #registerform:not([data-regStep="1"]) #registerFormNextStep#registerFormNextStep,
+.registerView #registerform:not([data-regStep="1"]) #registerFormSubmit#registerFormNextStep,
+.registerView #registerform:not([data-regStep="1"]) #registerFormPreviousStep#registerFormSubmit,
+.registerView #registerform:not([data-regStep="1"]) #registerFormNextStep#registerFormSubmit,
+.registerView #registerform:not([data-regStep="1"]) #registerFormSubmit#registerFormSubmit {
+  -webkit-border-top-right-radius: 5px;
+  -webkit-border-bottom-right-radius: 5px;
+  -webkit-border-bottom-left-radius: 0;
+  -webkit-border-top-left-radius: 0;
+  -moz-border-radius-topright: 5px;
+  -moz-border-radius-bottomright: 5px;
+  -moz-border-radius-bottomleft: 0;
+  -moz-border-radius-topleft: 0;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+  border-bottom-left-radius: 0;
+  border-top-left-radius: 0;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  width: 149px;
+}
 .registerView a {
   text-decoration: underline;
   color: #e6e6e6;
