@@ -1,0 +1,15 @@
+<div>
+	<input type="text" id="rmail" data-i18n-attr="login.register.email|placeholder" data-ng-model="mail" data-ng-model-onblur data-ng-change="mailChange()">
+	<span class="icon check" id="rmailIcon">
+		<img data-ng-src="{{acceptIconMailFree()}}" alt="Ok!">
+	</span>
+</div>
+<div>
+	<input type="text" id="rmail2" data-i18n-attr="login.register.repeatEmail|placeholder" data-ng-model="mail2">
+	<span class="icon check" id="rmail2Icon">
+		<img data-ng-src="{{acceptIcon(mail, mail2)}}" alt="Ok!">
+	</span>
+</div>
+<div>
+	<button id="registerFormNextStep" class="btn" type="submit"  data-ng-click="nextRegisterStep('3')" data-i18n="login.register.next"></button>
+</div>

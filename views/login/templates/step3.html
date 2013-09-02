@@ -1,0 +1,9 @@
+<div data-ng-repeat="attribute in profileAttributes" data-tooltip-title="{{attribute.hoverText}}" data-tooltip-position="left">
+	<input type="text" placeholder="{{attribute.placeHolder}}" data-ng-model="attribute.value">
+	<span class="icon lock">
+		<img data-ng-src="{{lock(attribute.encrypted)}}" alt="{{((attribute.encrypted) && ('Privat') || ('Öffentlich'))}}" data-ng-click="attribute.encrypted=!attribute.encrypted"/>
+	</span>
+</div>
+<div>
+	<button id="registerFormNextStep" class="btn" type="submit"  data-ng-click="nextRegisterStep('4')" data-i18n="login.register.next"></button>
+</div>	
