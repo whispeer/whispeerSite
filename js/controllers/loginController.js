@@ -8,7 +8,7 @@ define(["step"], function (step) {
 	function loginController($scope, sessionHelper, sessionService, cssService) {
 		cssService.setClass("registerView");
 
-		var ENDSIZE = 200;
+		var ENDSIZE = 250;
 
 		var imageData;
 
@@ -20,9 +20,6 @@ define(["step"], function (step) {
 		var doneCanvas = doneCanvasE.getContext("2d");
 
 		jQuery(document.body).append(doneCanvasE);
-
-		var MAXWIDTH = 1000;
-		var MAXHEIGHT = 1000;
 
 		$scope.imageChange = function (e) {
 			var file = e.target.files[0];
@@ -40,14 +37,12 @@ define(["step"], function (step) {
 				var width = image.width;
 				var height = image.height;
 
-				var f = Math.max(width/MAXWIDTH, height/MAXHEIGHT);
-
-				width = width / f;
-				height = height / f;
+				width = width;
+				height = height;
 
 				var get = Math.min(width, height);
 
-				doneCanvas.drawImage(image, 0, 0, get*f, get*f, 0, 0, ENDSIZE, ENDSIZE);
+				doneCanvas.drawImage(image, 0, 0, get, get, 0, 0, ENDSIZE, ENDSIZE);
 				imageData = doneCanvasE.toDataURL();
 			});
 
