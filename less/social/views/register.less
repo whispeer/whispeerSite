@@ -13,8 +13,15 @@
 	}
 	#main {
 		text-align: center;
-		@media (max-height: 327px) {
+		@media (max-height: 575px) {
 			overflow-y: scroll;
+		}
+		@media (min-height: 576px) {
+			#moreInfo {
+				section {
+					max-height: 300px;
+				}
+			}
 		}
 	}
 	#logo {
@@ -39,7 +46,7 @@
 			}
 		}
 	}
-	#loginform, #registerform {
+	#loginForm, #registerForm {
 		width: 300px;
 		margin: 0 auto;
 		margin-bottom: 10px;
@@ -167,7 +174,7 @@
 			padding-right: 30px;
 		}
 	}
-	#registerform {
+	#registerForm {
 		div {
 			input {
 				width: 280px;
@@ -188,6 +195,20 @@
 					width: 149px;
 				}
 			} 
+		}
+	}
+	#moreInfo {
+		background-color: @white;
+		.border-radius(5px);
+		margin-bottom: 10px;
+		header {
+			.headerClass;
+			margin-top: 0;
+		}
+		section {
+			padding: 5px 10px;
+			text-align: justify;
+			overflow-y: scroll;
 		}
 	}
 	a {

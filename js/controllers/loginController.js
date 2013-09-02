@@ -8,7 +8,7 @@ define(["step"], function (step) {
 	function loginController($scope, sessionHelper, sessionService, cssService) {
 		cssService.setClass("registerView");
 		
-		$scope.registrationStep = "1";
+		$scope.registrationStep = 1;
 
 		var ENDSIZE = 250;
 
@@ -106,22 +106,26 @@ define(["step"], function (step) {
 		$scope.loginForm = "login";
 		$scope.showLogin = function showLoginForm() {
 			$scope.loginForm = "login";
-			$scope.registrationStep = '1';
+			$scope.registrationStep = 1;
 		};
 
 		$scope.showRegister = function showRegisterForm() {
 			$scope.loginForm = "register";
-			$scope.registrationStep = '1';
+			$scope.registrationStep = 1;
 		};
 		
 		$scope.showMoreInfo = function showMoreInfo() {
 			$scope.loginForm = "moreInfo";
-			$scope.registrationStep = '1';
+			$scope.registrationStep = 1;
 		};
 		
-		$scope.goToRegisterStep = function goToRegisterStep(toStep) {
-			$scope.registrationStep = toStep;
-		}
+		$scope.nextRegisterStep = function nextRegisterStep(toStep) {
+			$scope.registrationStep++;
+		};
+		
+		$scope.prevRegisterStep = function prevRegisterStep(toStep) {
+			$scope.registrationStep--;
+		};
 
 		$scope.passwordStrength = function passwordStrengthC() {
 			return sessionHelper.passwordStrength($scope.password);

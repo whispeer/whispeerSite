@@ -1,4 +1,4 @@
-<div class="title"><span>Registration</span></div>
+<div class="title"><span>Registration - Schritt {{registrationStep}}</span></div>
 <div data-tooltip-title="{{attribute.hoverText}}" data-tooltip-position="left">
 	<input type="text" id="rnickname" data-i18n-attr="login.username|placeholder" data-ng-model="nickname" data-ng-model-onblur data-ng-change="nicknameChange()">
 	<span class="icon fail" id="rnicknameIcon">
@@ -17,5 +17,5 @@
 </div>
 <div class="success" id="registerPasswordStrength" style="display:block"><span data-i18n="login.register.passwordstrength"></span><span>{{passwordStrength()}}</span></div>
 <div>
-	<button id="registerFormNextStep" class="btn" type="submit"  data-ng-click="goToRegisterStep('2')" data-i18n="login.register.next"></button>
+	<button id="registerFormNextStep" class="btn" type="submit"  data-ng-click="nextRegisterStep()" data-i18n="login.register.next"></button>
 </div>
