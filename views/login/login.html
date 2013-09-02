@@ -1,7 +1,7 @@
 <div id="logo">
 	<img src="img/logo.png">
 </div>
-<form id="loginform" data-ng-show="loginForm">
+<form id="loginform" data-ng-if="loginForm">
 <!--{{loginFailed}}-->
 	<div>
 		<input type="text" id="mail" data-i18n-attr="login.username|placeholder" data-ng-model="identifier">
@@ -14,7 +14,7 @@
 		<button id="loginformsubmit" class="btn" type="submit" data-ng-click="login(identifier, password)">{{'login.link'|i18n}}</button>
 	</div>
 </form>
-<form id="registerform" data-ng-show="!loginForm" data-ng-click="registerFormClick()">
+<form id="registerform" data-ng-if="!loginForm" data-ng-click="registerFormClick()">
 	<div data-ng-repeat="attribute in profileAttributes" data-tooltip-title="{{attribute.hoverText}}" data-tooltip-position="left">
 		<input type="text" placeholder="{{attribute.placeHolder}}" data-ng-model="attribute.value">
 		<span class="icon lock">
