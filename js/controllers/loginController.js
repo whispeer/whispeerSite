@@ -7,6 +7,8 @@ define(["step"], function (step) {
 
 	function loginController($scope, sessionHelper, sessionService, cssService) {
 		cssService.setClass("registerView");
+		
+		$scope.registrationStep = "1";
 
 		var ENDSIZE = 250;
 
