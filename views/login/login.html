@@ -14,7 +14,7 @@
 		<button id="loginformsubmit" class="btn" type="submit" data-ng-click="login(identifier, password)">{{'login.link'|i18n}}</button>
 	</div>
 </form>
-<form id="registerform" data-ng-if="!loginForm" data-ng-click="registerFormClick()">
+<form id="registerform" data-ng-if="!loginForm" data-ng-click="registerFormClick()" data-ng-controller="ssn.loginController">
 	<div data-ng-repeat="attribute in profileAttributes" data-tooltip-title="{{attribute.hoverText}}" data-tooltip-position="left">
 		<input type="text" placeholder="{{attribute.placeHolder}}" data-ng-model="attribute.value">
 		<span class="icon lock">
