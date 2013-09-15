@@ -8,7 +8,7 @@ define(function () {
 				userData: "=user"
 			},
 			restrict: 'E',
-			templateUrl: 'views/directives/friend.html',
+			templateUrl: '/views/directives/friend.html',
 			replace: true
 		};			
 	}

@@ -27,7 +27,7 @@ define(["step", "whispeerHelper", "valid/validator"], function (step, h, validat
 					"id": meta.sender,
 					"name": "",
 					"url": "",
-					"image": "img/profil.jpg"
+					"image": "/img/profil.jpg"
 				},
 
 				id: meta.messageid,
@@ -241,6 +241,9 @@ define(["step", "whispeerHelper", "valid/validator"], function (step, h, validat
 					messages.sort(function (a, b) {
 						return (a.getTime() - b.getTime());
 					});
+					dataMessages.sort(function (a, b) {
+						return (a.obj.getTime() - b.obj.getTime());
+					});
 
 					theTopic.data.latestMessage = messages[messages.length - 1];
 					m.unread = theTopic.messageUnread(m.getID());
@@ -352,7 +355,7 @@ define(["step", "whispeerHelper", "valid/validator"], function (step, h, validat
 					}
 				}, h.sF(function (data) {
 					console.log("Message server took: " + (new Date().getTime() - loadMore));
-					theTopic.remaining = data.remaining;
+					theTopic.data.remaining = data.remaining;
 					if (data.messages) {
 						var i;
 						for (i = 0; i < data.messages.length; i += 1) {
@@ -631,7 +634,7 @@ define(["step", "whispeerHelper", "valid/validator"], function (step, h, validat
 
 					var last;
 					if (topicArray.length > 0) {
-						last = topicArray[topicArray.length - 1].getID();
+						last = topicArray[topicArray.length - 1].obj.getID();
 					} else {
 						last = 0;
 					}

@@ -6,12 +6,12 @@
 	<div class="body">
 		<ul class="unstyled">
 			<li class="message" data-ng-class="unreadClass(topic)" data-ng-repeat="topic in topics">
-				<img src="img/user.png">
+				<img src="/img/user.png">
 				<p class="username">
 					{{shortenName(topic.partner.name)}}
 				</p>
 				<p class="text">
-					{{shortenMessage(topic.latestMessage.text)}}
+					{{shortenMessage(topic.latestMessage.data.text)}}
 				</p>
 			</li>
 		</ul>

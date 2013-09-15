@@ -11,7 +11,7 @@ define([], function () {
 				"user": {
 					"id":	"1",
 					"name":	"Julia Krämer",
-					"image":	"img/profil.jpg"
+					"image":	"/img/profil.jpg"
 				},
 				"type": "awesome",
 				"origin": "", // Username of the owner of e.g a shared image
@@ -25,7 +25,7 @@ define([], function () {
 				"user": {
 					"id":	"1",
 					"name":	"Anna Berger",
-					"image":	"img/profil.jpg"
+					"image":	"/img/profil.jpg"
 				},
 				"type": "share",
 				"origin": "Ben Brand", // Username of the owner of e.g a shared image
@@ -39,7 +39,7 @@ define([], function () {
 				"user": {
 					"id":	"1",
 					"name":	"Nadine Gutzberg",
-					"image":	"img/profil.jpg"
+					"image":	"/img/profil.jpg"
 				},
 				"type": "posted",
 				"origin": "Ben Brand", // Username of the owner of e.g a shared image
@@ -53,7 +53,7 @@ define([], function () {
 				"user": {
 					"id":	"1",
 					"name":	"Anna Berger",
-					"image":	"img/profil.jpg"
+					"image":	"/img/profil.jpg"
 				},
 				"type": "comment",
 				"origin": "Kevin Klein", // Username of the owner of e.g a shared image
@@ -67,7 +67,7 @@ define([], function () {
 				"user": {
 					"id":	"1",
 					"name":	"Kevin Klein",
-					"image":	"img/profil.jpg"
+					"image":	"/img/profil.jpg"
 				},
 				"type": "comment",
 				"origin": "Kevin Klein", // Username of the owner of e.g a shared image

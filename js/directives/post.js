@@ -8,7 +8,7 @@ define(function () {
 				post: "=post"
 			},
 			restrict: 'E',
-			templateUrl: 'views/directives/post.html',
+			templateUrl: '/views/directives/post.html',
 			replace: true
 		};			
 	}
