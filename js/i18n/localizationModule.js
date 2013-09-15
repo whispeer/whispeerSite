@@ -14,7 +14,7 @@ Enjoy!
 *
 * Written by Jim Lavin
 * http://codingsmackdown.tv
-*
+* Changes by Nils Kenneweg, http://whispeer.com
 */
 
 define(["angular"], function (angular) {

@@ -23,6 +23,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 				if ($scope.loggedin) {
 					var user = userService.getown();
 					$scope.user.id = user.getID();
+					$scope.user.url = user.getUrl();
 					this.parallel.unflatten();
 
 					user.getName(this.parallel());

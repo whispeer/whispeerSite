@@ -88,7 +88,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 			};
 
 			this.getUrl = function () {
-				return "#/user/" + this.getID();
+				return "#/user/" + this.getNickname();
 			};
 
 			this.getNickname = function () {

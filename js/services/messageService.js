@@ -16,17 +16,22 @@ define(["step", "whispeerHelper", "valid/validator"], function (step, h, validat
 			var meta = data.meta;
 			var content = data.content;
 
-			this.text = ""; //To-do localize
-			this.timestamp = meta.sendTime;
+			this.data = {
+				text: "",
+				timestamp: meta.sendTime,
 
-			this.loading = true;
-			this.loaded = false;
+				loading: true,
+				loaded: false,
 
-			this.sender = {
-				"id": meta.sender,
-				"name": "",
-				"url": "",
-				"image": "img/profil.jpg"
+				sender: {
+					"id": meta.sender,
+					"name": "",
+					"url": "",
+					"image": "img/profil.jpg"
+				},
+
+				id: meta.messageid,
+				obj: this
 			};
 
 			var decrypted = false;
@@ -73,7 +78,7 @@ define(["step", "whispeerHelper", "valid/validator"], function (step, h, validat
 					sender.getImage(this.parallel());
 					this.parallel()(null, sender.getUrl());
 				}), h.sF(function loadS2(ownUser, name, image, url) {
-					theMessage.sender = {
+					theMessage.data.sender = {
 						me: ownUser,
 						url: url,
 						other: !ownUser,
@@ -112,7 +117,7 @@ define(["step", "whispeerHelper", "valid/validator"], function (step, h, validat
 
 					var randomPart = text.indexOf("::");
 
-					theMessage.text = text.substr(randomPart + 2);
+					theMessage.data.text = text.substr(randomPart + 2);
 
 					this.ne(text);
 				}), cb);
@@ -120,7 +125,7 @@ define(["step", "whispeerHelper", "valid/validator"], function (step, h, validat
 		};
 
 		var Topic = function (data) {
-			var messages = [], theTopic = this, receiverObjects, loadInitial = true;
+			var messages = [], dataMessages = [], messagesByID = {}, theTopic = this, receiverObjects, loadInitial = true;
 
 			var err = validator.validate("topic", data);
 			if (err) {
@@ -131,24 +136,50 @@ define(["step", "whispeerHelper", "valid/validator"], function (step, h, validat
 				data.key = keyStore.upload.addKey(data.key);
 			}
 
-			this.remaining = 1;
+			var unread;
 
-			this.messages = messages;
+			function setUnread(newUnread) {
+				if (unread) {
+					if (newUnread.length === 0 && unread.length > 0) {
+						messageService.data.unread -= 1;
+					}
+				}
 
-			this.partners = [];
-			this.partnersDisplay = [];
+				unread = newUnread;
+				theTopic.data.unread = (unread.length > 0);
+				var i;
+				for (i = 0; i < messages.length; i += 1) {
+					messages[i].unread = (unread.indexOf(messages[i].getID()) > -1);
+				}
+			}
 
-			this.remainingUser = "";
-			this.remainingUserTitle = "";
+			this.data = {
+				remaining: 1,
 
-			this.id = data.topicid;
-			this.type = (data.receiver.length === 2 ? "peerChat" : "groupChat");
+				messages: dataMessages,
+
+				partners: [],
+				partnersDisplay: [],
+
+				remainingUser: "",
+				remainingUserTitle: "",
+
+				id: data.topicid,
+				type: (data.receiver.length === 2 ? "peerChat" : "groupChat"),
+				obj: this
+			};
+
+			setUnread(data.unread);
+
+			this.messageUnread = function messageUnreadF(mid) {
+				return unread.indexOf(mid) > -1;
+			};
 
 			this.getOldestID = function getOldestIDF() {
-				if (this.messages.length === 0) {
+				if (messages.length === 0) {
 					return 0;
 				} else {
-					return this.messages[0].getID();
+					return messages[0].getID();
 				}
 			};
 
@@ -168,6 +199,33 @@ define(["step", "whispeerHelper", "valid/validator"], function (step, h, validat
 				return data.key;
 			};
 
+			var timerRunning, messageTime;
+			this.markRead = function markMessagesRead(mid, cb) {
+				step(function () {
+					if (unread.indexOf(mid) > -1) {
+						var lMessageTime = messagesByID[mid].getTime();
+						if (timerRunning) {
+							if (lMessageTime > messageTime) {
+								messageTime = lMessageTime;
+							}
+						} else {
+							timerRunning = true;
+							messageTime = lMessageTime;
+							window.setTimeout(this, 100);
+						}
+					}
+				}, h.sF(function () {
+					timerRunning = false;
+					socket.emit("messages.markRead", {
+						topicid: theTopic.getID(),
+						beforeTime: messageTime
+					}, this);
+				}), h.sF(function (data) {
+					setUnread(data.unread);
+					this.ne();
+				}), cb);
+			};
+
 			this.addMessage = function addMessageF(m, cb) {
 				step(function () {
 					if (m.getTime() > data.time) {
@@ -178,11 +236,14 @@ define(["step", "whispeerHelper", "valid/validator"], function (step, h, validat
 				}, h.sF(function () {
 					//add to message list
 					messages.push(m);
+					dataMessages.push(m.data);
+					messagesByID[m.getID()] = m;
 					messages.sort(function (a, b) {
 						return (a.getTime() - b.getTime());
 					});
 
-					theTopic.latestMessage = messages[messages.length - 1];
+					theTopic.data.latestMessage = messages[messages.length - 1];
+					m.unread = theTopic.messageUnread(m.getID());
 
 					if (cb) {
 						this.ne();
@@ -219,7 +280,7 @@ define(["step", "whispeerHelper", "valid/validator"], function (step, h, validat
 						receiverObjects[i].getImage(this.parallel());
 					}
 				}), h.sF(function (data) {
-					var partners = theTopic.partners;
+					var partners = theTopic.data.partners;
 					var i, userData, me;
 					for (i = 0; i < receiverObjects.length; i += 1) {
 						userData = {
@@ -238,18 +299,18 @@ define(["step", "whispeerHelper", "valid/validator"], function (step, h, validat
 					}
 
 					if (partners.length > 4) {
-						theTopic.partnersDisplay = partners.slice(0, 3);
-						theTopic.remainingUser = partners.length - 3;
+						theTopic.data.partnersDisplay = partners.slice(0, 3);
+						theTopic.data.remainingUser = partners.length - 3;
 						for (i = 3; i < partners.length; i += 1) {
-							theTopic.remainingUserTitle += partners[i].name;
+							theTopic.data.remainingUserTitle += partners[i].name;
 							if (i < partners.length - 1) {
-								theTopic.remainingUserTitle += ", ";
+								theTopic.data.remainingUserTitle += ", ";
 							}
 						}
 					} else {
-						theTopic.partnersDisplay = partners.slice(0, 4);
-						if (theTopic.partnersDisplay.length < 4 && theTopic.partnersDisplay.length > 1) {
-							theTopic.partnersDisplay.push(me);
+						theTopic.data.partnersDisplay = partners.slice(0, 4);
+						if (theTopic.data.partnersDisplay.length < 4 && theTopic.data.partnersDisplay.length > 1) {
+							theTopic.data.partnersDisplay.push(me);
 						}
 					}
 
@@ -280,7 +341,7 @@ define(["step", "whispeerHelper", "valid/validator"], function (step, h, validat
 			this.loadMoreMessages = function loadMoreMessagesF(cb, max) {
 				var loadMore = new Date().getTime();
 				step(function () {
-					if (theTopic.remaining > 0) {
+					if (theTopic.data.remaining > 0) {
 						socket.emit("messages.getTopicMessages", {
 							topicid: theTopic.getID(),
 							afterMessage: theTopic.getOldestID(),
@@ -331,7 +392,7 @@ define(["step", "whispeerHelper", "valid/validator"], function (step, h, validat
 			}), h.sF(function (random) {
 				message = random + "::" + message;
 
-				var newest = topic.latestMessage;
+				var newest = topic.data.latestMessage;
 
 				var meta = {
 					createTime: new Date().getTime(),
@@ -501,9 +562,9 @@ define(["step", "whispeerHelper", "valid/validator"], function (step, h, validat
 				t.loadAllData(this);
 			}, h.sF(function () {
 				//add to topic list
-				topicArray.push(t);
+				topicArray.push(t.data);
 				topicArray.sort(function (a, b) {
-					return (b.getTime() - a.getTime());
+					return (b.obj.getTime() - a.obj.getTime());
 				});
 
 				console.log("Topic loaded:" + (new Date().getTime() - startup));
