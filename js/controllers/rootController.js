@@ -11,7 +11,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 		$scope.user = {};
 
 		$scope.user.name = "";
-		$scope.user.image = "img/profil.jpg";
+		$scope.user.image = "/img/profil.jpg";
 		$scope.user.id = "0";
 
 		$scope.$on("ssn.login", function () {
@@ -23,6 +23,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 				if ($scope.loggedin) {
 					var user = userService.getown();
 					$scope.user.id = user.getID();
+					$scope.user.url = user.getUrl();
 					this.parallel.unflatten();
 
 					user.getName(this.parallel());
@@ -79,6 +80,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 								"mutuals": "0",
 								"location": "?",
 								"age": "?",
+								"url": theUsers[i].getUrl(),
 								"image": data[i*2+1],
 								"id": theUsers[i].getID()
 							});
@@ -96,7 +98,6 @@ define(["step", "whispeerHelper"], function (step, h) {
 		};
 
 		$scope.search.click = function (bool) {
-			console.log("Click:" + bool);
 			$scope.search.clicked = bool;
 		};
 
@@ -111,39 +112,39 @@ define(["step", "whispeerHelper"], function (step, h) {
 			"mutuals":	"20",
 			"location":	"Enger",
 			"age":	"16",
-			"image":	"img/profil.jpg"
+			"image":	"/img/profil.jpg"
 		},{
 			"name":	"Daniel Melchior",
 			"mutuals":	"450",
 			"location":	"Enger",
 			"age":	"16",
-			"image":	"img/profil.jpg"
+			"image":	"/img/profil.jpg"
 		},{
 			"name":	"Michelle Thenhausen",
 			"mutuals":	"13",
 			"location":	"Spenge",
 			"age":	"19",
-			"image":	"img/profil.jpg"
+			"image":	"/img/profil.jpg"
 		},
 		{
 			"name":	"Jacqueline Thenhausen",
 			"mutuals":	"20",
 			"location":	"Spenge",
 			"age":	"23",
-			"image":	"img/profil.jpg"
+			"image":	"/img/profil.jpg"
 		},
 		{
 			"name":	"Svenja Kenneweg",
 			"mutuals":	"220",
 			"location":	"Enger",
 			"age":	"16",
-			"image":	"img/profil.jpg"
+			"image":	"/img/profil.jpg"
 		},{
 			"name":	"Anna Marie Marschner",
 			"mutuals":	"20",
 			"location":	"Enger",
 			"age":	"24",
-			"image":	"img/profil.jpg"
+			"image":	"/img/profil.jpg"
 		}
 		];
 	}

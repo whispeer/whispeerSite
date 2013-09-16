@@ -10,6 +10,8 @@ define([], function () {
 		var height = first.scrollHeight;
 		var okTimes = 0;
 
+		elm.scrollTop(first.scrollHeight);
+
 		var inter = window.setInterval(function () {
 			if (first.scrollHeight !== height) {
 				elm.scrollTop(first.scrollHeight);
@@ -36,24 +38,36 @@ define([], function () {
 
 						var scrollHeight = first.scrollHeight;
 
+						var PUFFER = 10;
+
 						function isAtBottom() {
-							return first.offsetHeight + elm.scrollTop() >= first.scrollHeight;
+							return first.offsetHeight + elm.scrollTop() >= (first.scrollHeight - PUFFER);
 						}
 
 						function isAtTop() {
-							return elm.scrollTop() === 0;
+							return (elm.scrollTop() <= PUFFER);
 						}
 
+						var runningTimer = false;
 						elm.bind("DOMSubtreeModified", function () {
-							var diff = first.scrollHeight - scrollHeight;
-							if (diff !== 0) {
-								if (atBottom && keepBottom) {
-									scrollBottom(elm, 4);
-								} else {
-									elm.scrollTop(elm.scrollTop() + diff);
-								}
+							if (!runningTimer) {
+								window.setTimeout(function () {
+									runningTimer = false;
+									var diff = first.scrollHeight - scrollHeight;
+									if (diff !== 0) {
+										if (atBottom && keepBottom) {
+											scrollBottom(elm, 4);
+										} else {
+											if (diff > 0) {
+												elm.scrollTop(elm.scrollTop() + diff);
+											}
+										}
 
-								scrollHeight = first.scrollHeight;
+										scrollHeight = first.scrollHeight;
+									}
+								}, 100);
+
+								runningTimer = true;
 							}
 						});
 
@@ -80,13 +94,6 @@ define([], function () {
 							atBottom = isAtBottom();
 							atTop = isAtTop();
 						});
-
-						/*	var id = scope.$parent[attrs["scrollToId"]];
-						if (id === scope.item.id) {
-							setTimeout(function () {
-								window.scrollTo(0, element[0].offsetTop - 100);
-							}, 20);
-						}*/
 					}
 				};
 			}

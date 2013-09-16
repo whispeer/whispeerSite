@@ -25,9 +25,19 @@ define(["step", "whispeerHelper"], function (step, h) {
 		$scope.canSend = false;
 		$scope.topicLoaded = false;
 
+		//messageService.sendNewTopic([1,2], "Hallo wie geht es euch so?");
+
+		$scope.markRead = function (messageid) {
+			$scope.activeTopic.obj.markRead(messageid, function (e) {
+				if (e) {
+					console.log(e);
+				}
+			});
+		};
+
 		$scope.loadMoreMessages = function () {
 			$scope.loadingMessages = true;
-			$scope.activeTopic.loadMoreMessages(function () {
+			$scope.activeTopic.obj.loadMoreMessages(function () {
 				$scope.loadingMessages = false;
 			});
 		};
@@ -64,7 +74,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 				$scope.newMessage = false;
 				theTopic.loadInitialMessages(this);
 			}), function (e) {
-				$scope.activeTopic = theTopic;
+				$scope.activeTopic = theTopic.data;
 
 				$scope.topicLoaded = true;
 
@@ -94,7 +104,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 				"partner":	{
 					"id": "1", // User ID of conversation partner
 					"name": "Willi Welle, Willi Welle, Willi Welle, Willi Welle, Willi Welle, Willi Welle, Willi Welle, Willi Welle, Willi Welle, Willi Welle",
-					"image": "img/profil.jpg"
+					"image": "/img/profil.jpg"
 				},
 				"latestMessage": {
 					"text": "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magn",
@@ -105,7 +115,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 					"id": "1",
 					"sender": {
 						"id": "2", // User ID of Sender
-						"image": "img/profil.jpg",
+						"image": "/img/profil.jpg",
 						"name": "Willi Welle",
 						"me":	true,
 						"other": false
@@ -121,7 +131,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 				"partner":	{
 					"id": "1", // User ID of conversation partner
 					"name": "Luisa Katharina Marschner",
-					"image": "img/profil.jpg"
+					"image": "/img/profil.jpg"
 				},
 				"latestMessage": {
 					"text": "Lorem Ipsum Dolor Sit Amet",
@@ -132,7 +142,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 					"id": "1",
 					"sender": {
 						"id": "2", // User ID of Sender
-						"image": "img/profil.jpg",
+						"image": "/img/profil.jpg",
 						"name": "Willi Welle",
 						"me":	true,
 						"other": false
@@ -147,7 +157,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 				"partner":	{
 					"id": "1", // User ID of conversation partner
 					"name": "Willi Welle",
-					"image": "img/profil.jpg"
+					"image": "/img/profil.jpg"
 				},
 				"latestMessage": {
 					"text": "Lorem Ipsum Dolor Sit Amet",
@@ -158,7 +168,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 					"id": "1",
 					"sender": {
 						"id": "2", // User ID of Sender
-						"image": "img/profil.jpg",
+						"image": "/img/profil.jpg",
 						"name": "Willi Welle",
 						"me":	true,
 						"other": false
@@ -173,7 +183,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 				"partner":	{
 					"id": "1", // User ID of conversation partner
 					"name": "Willi Welle",
-					"image": "img/profil.jpg"
+					"image": "/img/profil.jpg"
 				},
 				"latestMessage": {
 					"text": "Lorem Ipsum Dolor Sit Amet",
@@ -184,7 +194,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 					"id": "1",
 					"sender": {
 						"id": "2", // User ID of Sender
-						"image": "img/profil.jpg",
+						"image": "/img/profil.jpg",
 						"name": "Willi Welle",
 						"me":	true,
 						"other": false
@@ -201,7 +211,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 			"partner":	{
 				"id": "1", // User ID of conversation partner
 				"name": "Willi Welle",
-				"image": "img/profil.jpg"
+				"image": "/img/profil.jpg"
 			},
 			"latestMessage":	"Lorem Ipsum Dolor Sit Amet",
 			"messages": [{
@@ -209,7 +219,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 				"id": "1",
 				"sender": {
 					"id": "2", // User ID of Sender
-					"image": "img/profil.jpg",
+					"image": "/img/profil.jpg",
 					"name": "Willi Welle",
 					"me":	true,
 					"other": false
@@ -222,7 +232,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 				"id": "1",
 				"sender": {
 					"id": "2", // User ID of Sender
-					"image": "img/profil.jpg",
+					"image": "/img/profil.jpg",
 					"name": "Willi Welle",
 					"me":	false,
 					"other": true

@@ -2,7 +2,7 @@ define(["app"], function (app) {
 	"use strict";
 
 	return app.config(["$routeProvider", "$locationProvider", function ($routeProvider, $locationProvider) {
-		$locationProvider.html5Mode(false);
+		$locationProvider.html5Mode(true);
 
 		function addMain(name, reloadOnSearch) {
 			if (reloadOnSearch !== false) {
@@ -10,7 +10,7 @@ define(["app"], function (app) {
 			}
 
 			$routeProvider.when("/" + name, {
-				templateUrl: "views/" + name + "/" + name + ".html",
+				templateUrl: "/views/" + name + "/" + name + ".html",
 				controller: "ssn." + name + "Controller",
 				reloadOnSearch: reloadOnSearch
 			});
@@ -26,12 +26,16 @@ define(["app"], function (app) {
 		addMain("loading");
 
 		$routeProvider.when("/user/:identifier", {
-			templateUrl: "views/user/user.html",
+			templateUrl: "/views/user/user.html",
 			controller: "ssn.userController"
 		});
 
 		$routeProvider.when("/:identifier", {
 			redirectTo: function (params) {
+				if (params.identifier === "") {
+					return "/login";
+				}
+
 				return "/user/" + params.identifier;
 			}
 		});

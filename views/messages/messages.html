@@ -15,7 +15,7 @@
 					<strong ng-repeat="partner in topic.partners">{{topic.partners.length>1?partner.shortname:partner.name}}{{$last?"":", "}}</strong>
 				</div>
 				<div class="lastMessage">
-					{{shortenMessage(topic.latestMessage.text)}}
+					{{shortenMessage(topic.latestMessage.data.text)}}
 				</div>
 				<div class="time">{{topic.latestMessage.timestamp|date:'HH:mm'}}</div>
 				<div class="clear-fix"></div>
@@ -39,7 +39,7 @@
 			<li>
 				Remaining: {{activeTopic.remaining}}
 			</li>
-			<li data-ng-repeat="message in activeTopic.messages" data-messageID="{{message.id}}" class="message" data-ng-class="{me:message.sender.me, other:message.sender.other}">
+			<li data-ng-repeat="message in activeTopic.messages" data-inview="markRead(message.id)" data-inview-time="1500" data-messageID="{{message.id}}" class="message" data-ng-class="{me:message.sender.me, other:message.sender.other}">
 				<div id="userid" class="user">
 					<a href="{{message.sender.url}}">
 						<img class="userimg" data-userID="sender{{message.sender.id}}" alt="Username" data-ng-src="{{message.sender.image}}">

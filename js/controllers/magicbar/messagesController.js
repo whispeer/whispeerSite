@@ -33,7 +33,7 @@ define([], function () {
 				"partner":	{
 					"id": "1", // User ID of conversation partner
 					"name": "Julia Krämer",
-					"image": "img/profil.jpg"
+					"image": "/img/profil.jpg"
 				},
 				"latestMessage": {
 					"text": "Montag schwimmen gehen?",
@@ -46,7 +46,7 @@ define([], function () {
 				"partner":	{
 					"id": "1", // User ID of conversation partner
 					"name": "Anton Müller",
-					"image": "img/profil.jpg"
+					"image": "/img/profil.jpg"
 				},
 				"latestMessage": {
 					"text": "Na, was geht bei dir so?",
@@ -59,7 +59,7 @@ define([], function () {
 				"partner":	{
 					"id": "1", // User ID of conversation partner
 					"name": "Arno Nymus",
-					"image": "img/profil.jpg"
+					"image": "/img/profil.jpg"
 				},
 				"latestMessage": {
 					"text": "Bist du bei der nächsten Anti-Prism-Demo auch wieder am Start?",
@@ -72,7 +72,7 @@ define([], function () {
 				"partner":	{
 					"id": "1", // User ID of conversation partner
 					"name": "Kevin Klein",
-					"image": "img/profil.jpg"
+					"image": "/img/profil.jpg"
 				},
 				"latestMessage": {
 					"text": "Ok, bis später dann!",
@@ -85,7 +85,7 @@ define([], function () {
 				"partner":	{
 					"id": "1", // User ID of conversation partner
 					"name": "Anna Berger",
-					"image": "img/profil.jpg"
+					"image": "/img/profil.jpg"
 				},
 				"latestMessage": {
 					"text": "Hab dich auch lieb!",
@@ -98,7 +98,7 @@ define([], function () {
 				"partner":	{
 					"id": "1", // User ID of conversation partner
 					"name": "Thomas Müller",
-					"image": "img/profil.jpg"
+					"image": "/img/profil.jpg"
 				},
 				"latestMessage": {
 					"text": "Oh mein Gott! Ich kann die Welt beeinflussen :D",
@@ -111,7 +111,7 @@ define([], function () {
 				"partner":	{
 					"id": "1", // User ID of conversation partner
 					"name": "Agathe Bauer",
-					"image": "img/profil.jpg"
+					"image": "/img/profil.jpg"
 				},
 				"latestMessage": {
 					"text": "Es tut mir leid!",
@@ -124,7 +124,7 @@ define([], function () {
 				"partner":	{
 					"id": "1", // User ID of conversation partner
 					"name": "Corinna Göhre",
-					"image": "img/profil.jpg"
+					"image": "/img/profil.jpg"
 				},
 				"latestMessage": {
 					"text": "Oh mein Gott! Ich kann die Welt beeinflussen :D",
@@ -137,7 +137,7 @@ define([], function () {
 				"partner":	{
 					"id": "1", // User ID of conversation partner
 					"name": "The Doctor",
-					"image": "img/profil.jpg"
+					"image": "/img/profil.jpg"
 				},
 				"latestMessage": {
 					"text": "I know, I know... It's bigger on the inside...",
@@ -150,7 +150,7 @@ define([], function () {
 				"partner":	{
 					"id": "1", // User ID of conversation partner
 					"name": "Nadine Gutzberg",
-					"image": "img/profil.jpg"
+					"image": "/img/profil.jpg"
 				},
 				"latestMessage": {
 					"text": "Who're you going to call?",

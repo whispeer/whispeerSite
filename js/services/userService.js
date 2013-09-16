@@ -88,7 +88,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 			};
 
 			this.getUrl = function () {
-				return "#/user/" + this.getID();
+				return "/user/" + this.getNickname();
 			};
 
 			this.getNickname = function () {
@@ -114,7 +114,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 					if (image) {
 						this.ne(image);
 					} else {
-						this.ne("img/profil.jpg");
+						this.ne("/img/profil.jpg");
 					}
 				}), cb);
 			};
