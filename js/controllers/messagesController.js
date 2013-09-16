@@ -9,8 +9,6 @@ define(["step", "whispeerHelper"], function (step, h) {
 		cssService.setClass("messagesView");
 
 		$scope.topicid = 0;
-		
-		messageService.sendNewTopic([1,2], "Test?");
 
 		messageService.loadMoreLatest(function (e) {
 			if ($routeParams["topicid"]) {
