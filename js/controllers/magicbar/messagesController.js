@@ -25,7 +25,8 @@ define([], function () {
 				return "unread";
 			}
 			return "";
-		}
+		};
+
 		$scope.topics = [
 			{
 				"id": "1", // TopicID goes here

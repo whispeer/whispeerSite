@@ -184,6 +184,73 @@ define(["step", "whispeerHelper"], function (step, h) {
 			return theUser;
 		}
 
+		var loadListeners = {};
+
+		var toLoad = [];
+		var timer_started = false;
+		var THROTTLE = 20;
+
+		function callListener(listener, arg1) {
+			var i;
+			for (i = 0; i < listener.length; i += 1) {
+				try {
+					listener[i](arg1);
+				} catch (e) {
+					console.log(e);
+				}
+			}
+		}
+
+		function doLoad() {
+			var loading;
+			step(function () {
+				loading = toLoad;
+				toLoad = [];
+				timer_started = false;
+
+				socketService.emit("user.getMultiple", {identifiers: loading}, this);
+			}, h.sF(function (data) {
+				var result = [], i;
+				if (data && data.users) {
+					var users = data.users;
+					for (i = 0; i < users.length; i += 1) {
+						if (users[i].userNotExisting) {
+							result.push(NotExistingUser);
+						} else {
+							result.push(makeUser(users[i]));
+						}
+					}
+				}
+
+				for (i = 0; i < result.length; i += 1) {
+					var curIdentifier = loading[i];
+					var cur = loadListeners[curIdentifier];
+
+					callListener(cur, result[i]);
+					delete loadListeners[curIdentifier];
+				}
+			}));
+		}
+
+		function loadUser(identifier, cb) {
+			step(function () {
+				if (users[identifier]) {
+					this.last.ne(users[identifier]);
+				} else if (loadListeners[identifier]) {
+					loadListeners[identifier].push(this.ne);
+				} else {
+					loadListeners[identifier] = [this.ne];
+					toLoad.push(identifier);
+
+					if (!timer_started) {
+						timer_started = true;
+
+						window.setTimeout(doLoad, THROTTLE);
+					}
+				}
+			}, cb);
+		}
+
 		var api = {
 			query: function queryF(query, cb) {
 				step(function () {
@@ -215,55 +282,17 @@ define(["step", "whispeerHelper"], function (step, h) {
 
 			get: function getF(identifier, cb) {
 				step(function () {
-					if (users[identifier]) {
-						this.last.ne(users[identifier]);
-					} else {
-						socketService.emit("user.get", {identifier: identifier}, this);
-					}
-				}, h.sF(function (data) {
-					if (data.error === true) {
-						this.ne(NotExistingUser);
-					} else {
-						this.ne(makeUser(data));
-					}
-				}), cb);
+					loadUser(identifier, this);
+				}, cb);
 			},
 
 			getMultiple: function getMultipleF(identifiers, cb) {
-				var existing = [], toLoad = [];
 				step(function () {
-					var i, id;
+					var i;
 					for (i = 0; i < identifiers.length; i += 1) {
-						id = identifiers[i];
-						if (users[id]) {
-							existing.push(users[id]);
-						} else {
-							toLoad.push(id);
-						}
+						loadUser(identifiers[i], this.parallel());
 					}
-
-					if (toLoad.length > 0) {
-						socketService.emit("user.getMultiple", {identifiers: toLoad}, this);
-					} else {
-						this.ne();
-					}
-				}, h.sF(function (data) {
-					var result = [];
-					if (data && data.users) {
-						var i, users = data.users;
-						for (i = 0; i < users.length; i += 1) {
-							if (users[i].userNotExisting) {
-								result.push(NotExistingUser);
-							} else {
-								result.push(makeUser(users[i]));
-							}
-						}
-					}
-
-					result = result.concat(existing);
-
-					this.ne(result);
-				}), cb);
+				}, cb);
 			},
 
 			addFromData: function addFromData(data) {

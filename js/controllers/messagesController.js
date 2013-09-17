@@ -23,7 +23,21 @@ define(["step", "whispeerHelper"], function (step, h) {
 		$scope.canSend = false;
 		$scope.topicLoaded = false;
 
-		//messageService.sendNewTopic([1,2], "Hallo wie geht es euch so?");
+		$scope.new = {
+			text: "",
+			receiver: "",
+			send: function (receiver, text) {
+				var receiverIDs = receiver.split(",").map(function (e) {
+					return parseInt(e, 10);
+				});
+
+				messageService.sendNewTopic(receiverIDs, text, function (e, id) {
+					$scope.new.text = "";
+					$scope.new.receiver = "";
+					$scope.loadActiveTopic(id);
+				});
+			}
+		};
 
 		$scope.markRead = function (messageid) {
 			$scope.activeTopic.obj.markRead(messageid, function (e) {

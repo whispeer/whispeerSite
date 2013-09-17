@@ -136,6 +136,10 @@ define(["step", "whispeerHelper", "valid/validator"], function (step, h, validat
 				data.key = keyStore.upload.addKey(data.key);
 			}
 
+			if (typeof data.additionalKey === "object") {
+				keyStore.upload.addKey(data.additionalKey);
+			}
+
 			var unread;
 
 			function setUnread(newUnread) {
@@ -254,19 +258,6 @@ define(["step", "whispeerHelper", "valid/validator"], function (step, h, validat
 				}), cb);
 			};
 
-			this.decryptMessages = function decryptMessagesF(cb) {
-				step(function () {
-					var i;
-					for (i = 0; i < messages.length; i += 1) {
-						messages[i].loadFullData(this.parallel());
-					}
-
-					this.parallel()();
-				}, h.sF(function () {
-					this.ne();
-				}), cb);
-			};
-
 			this.loadReceiverNames = function loadRNF(cb) {
 				step(function () {
 					if (receiverObjects) {
@@ -325,10 +316,9 @@ define(["step", "whispeerHelper", "valid/validator"], function (step, h, validat
 
 			this.loadAllData = function loadAllDataF(cb) {
 				step(function () {
-					theTopic.loadNewest(this);
+					theTopic.loadReceiverNames(this);
 				}, h.sF(function () {
-					theTopic.decryptMessages(this.parallel());
-					theTopic.loadReceiverNames(this.parallel());
+					theTopic.loadNewest(this);
 				}), cb);
 			};
 
@@ -471,6 +461,15 @@ define(["step", "whispeerHelper", "valid/validator"], function (step, h, validat
 			}, cb);
 		};
 
+		function removeA(arr, what) {
+			var ax;
+			while ((ax= arr.indexOf(what)) !== -1) {
+				arr.splice(ax, 1);
+			}
+
+			return arr;
+		}
+
 		Topic.createData = function (receiver, message, cb) {
 			var receiverObjects, topicKey, result, topicHash;
 			step(function () {
@@ -483,9 +482,7 @@ define(["step", "whispeerHelper", "valid/validator"], function (step, h, validat
 					}
 				});
 
-				if (receiver.indexOf(sessionService.getUserID()) === -1) {
-					receiver.push(sessionService.getUserID());
-				}
+				removeA(receiver, sessionService.getUserID());
 
 				//get receiver objects
 				userService.getMultiple(receiver, this);
@@ -503,22 +500,39 @@ define(["step", "whispeerHelper", "valid/validator"], function (step, h, validat
 				//encrypt topic key for receiver
 				var i, crypt;
 				for (i = 0; i < receiverObjects.length; i += 1) {
-					if (!receiverObjects[i].isOwn()) {
-						crypt = receiverObjects[i].getCryptKey();
-						keyStore.sym.asymEncryptKey(topicKey, crypt, this.parallel());
-					}
+					crypt = receiverObjects[i].getCryptKey();
+					keyStore.sym.asymEncryptKey(topicKey, crypt, this.parallel());
 				}
 			}), h.sF(function (cryptKeys) {
 				var cryptKeysData = keyStore.upload.getKeys(cryptKeys);
 				var topicKeyData = keyStore.upload.getKey(topicKey);
+				var receiver = [];
+				var receiverIDs;
+
+				var i;
+				for (i = 0; i < receiverObjects.length; i += 1) {
+					var cur = receiverObjects[i];
+					receiver.push({
+						identifier: cur.getID(),
+						key: cryptKeysData[i]
+					});
+
+				}
+
+				receiver.push({
+					identifier: userService.getown().getID()
+				});
+
+				receiverIDs = receiver.map(function (e) {
+					return e.identifier;
+				});
 
 				//create data
 				result = {
 					topic: {
 						createTime: new Date().getTime(),
 						key: topicKeyData,
-						receiver: receiver,
-						cryptKeys: cryptKeysData
+						receiver: receiver
 					}
 				};
 
@@ -526,7 +540,7 @@ define(["step", "whispeerHelper", "valid/validator"], function (step, h, validat
 				var topicHashData = {
 					createTime: result.topic.createTime,
 					key: topicKey,
-					receiver: receiver
+					receiver: receiverIDs
 				};
 
 				topicHash = keyStore.hash.hashObject(topicHashData);
@@ -573,7 +587,7 @@ define(["step", "whispeerHelper", "valid/validator"], function (step, h, validat
 				console.log("Topic loaded:" + (new Date().getTime() - startup));
 
 				if (cb) {
-					this.ne();
+					this.ne(t.getID());
 				}
 			}), cb);
 
@@ -650,6 +664,8 @@ define(["step", "whispeerHelper", "valid/validator"], function (step, h, validat
 					for (i = 0; i < latest.topics.length; i += 1) {
 						makeTopic(latest.topics[i], this.parallel());
 					}
+				}), h.sF(function () {
+					this.ne();
 				}), cb);
 			},
 			getTopic: function (topicid, cb) {
@@ -661,7 +677,7 @@ define(["step", "whispeerHelper", "valid/validator"], function (step, h, validat
 					}
 				}, cb);
 			},
-			sendNewTopic: function (receiver, message) {
+			sendNewTopic: function (receiver, message, cb) {
 				step(function () {
 					Topic.createData(receiver, message, this);
 				}, h.sF(function (result) {
@@ -671,7 +687,7 @@ define(["step", "whispeerHelper", "valid/validator"], function (step, h, validat
 						//TO-DO: try resending!
 						debugger;
 					} else {
-						makeTopic(result.topic);
+						makeTopic(result.topic, cb);
 					}
 				});
 			},
