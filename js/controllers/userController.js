@@ -133,7 +133,9 @@ define(["step", "whispeerHelper"], function (step, h) {
 					},
 					"name":	"Daniel Melchior"
 				},
-				"content":	"Lorem Ipsum Dolor Sit Amet!",
+				"content":	{
+					"text": "Lorem Ipsum Dolor Sit Amet!",
+				},
 				"info":	{
 					"with"	: "Svenja Kenneweg",
 					"awesome"	: "20",
@@ -150,7 +152,9 @@ define(["step", "whispeerHelper"], function (step, h) {
 					},
 					"name":	"Daniel Melchior"
 				},
-				"content":	"Lorem Ipsum Dolor Sit Amet!",
+				"content":	{
+					"text": "Lorem Ipsum Dolor Sit Amet!",
+				},
 				"info":	{
 					"with"	: "Svenja Kenneweg",
 					"awesome"	: "20",
@@ -167,7 +171,9 @@ define(["step", "whispeerHelper"], function (step, h) {
 					},
 					"name":	"Daniel Melchior"
 				},
-				"content":	"Lorem Ipsum Dolor Sit Amet!",
+				"content":	{
+					"text": "Lorem Ipsum Dolor Sit Amet!",
+				},
 				"info":	{
 					"with"	: "Svenja Kenneweg",
 					"awesome"	: "20",
