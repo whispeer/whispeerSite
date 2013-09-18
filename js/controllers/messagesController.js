@@ -16,7 +16,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 			}
 
 			if (e) {
-				debugger;
+				console.log(e);
 			}
 		});
 
@@ -85,15 +85,13 @@ define(["step", "whispeerHelper"], function (step, h) {
 				$scope.canSend = true;
 				$scope.newMessage = false;
 				theTopic.loadInitialMessages(this);
-			}), function (e) {
+			}), h.sF(function () {
 				$scope.activeTopic = theTopic.data;
 
 				$scope.topicLoaded = true;
 
 				$location.search({topicid: id});
-
-				console.log(e);
-			});
+			}));
 		};
 
 		$scope.sendMessage = function () {

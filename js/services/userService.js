@@ -331,6 +331,42 @@ define(["step", "whispeerHelper"], function (step, h) {
 
 						keyStoreService.setKeyGenIdentifier(identifier);
 
+						var improve = [];
+						var improve_timer = false;
+
+						keyStoreService.addImprovementListener(function (rid) {
+							improve.push(rid);
+
+							if (!improve_timer) {
+								improve_timer = true;
+								window.setTimeout(function () {
+									step(function () {
+										var own = api.getown();
+										if (own.getNickOrMail() === identifier) {
+											var mainKey = own.getMainKey();
+
+											var i;
+											for (i = 0; i < improve.length; i += 1) {
+												keyStoreService.sym.symEncryptKey(improve[i], mainKey, this.parallel());
+											}
+										}
+									}, h.sF(function () {
+										var toUpload = keyStoreService.upload.getDecryptors();
+										console.log(toUpload);
+										socketService.emit("key.addFasterDecryptors", {
+											keys: toUpload
+										}, this);
+									}), h.sF(function (result) {
+										console.log(result);
+									}), function (e) {
+										if (e) {
+											console.log(e);
+										}
+									});
+								}, 5000);
+							}
+						});
+
 						$rootScope.$broadcast("ssn.ownLoaded", data);
 					} else {
 						console.error(e);

@@ -39,7 +39,7 @@ define([], function () {
 							}
 						}
 
-						window.setTimeout(check, parseInt(inviewTime, 10) + 500);
+						window.setTimeout(check, 500);
 
 						elm.parent().bind("scroll", check);
 					}
