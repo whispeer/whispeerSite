@@ -46,7 +46,7 @@
 						<span class="username" data-userID="sender{{message.sender.id}}">{{message.sender.name}}</span>
 					</a>
 				</div>
-				<div class="messageText {{message.type}}" data-ng-class="{{message.type}}">{{message.text}}<img data-ng-show="{{message.type != image}}" data-ng-src=""></div>
+				<div class="messageText {{message.type}}" data-ng-class="{{message.type}}" data-syntaxify>{{message.text}}<img data-ng-show="{{message.type != image}}" data-ng-src=""></div>
 				<div class="time">{{message.timestamp|date:'HH:mm'}}</div>
 			</li>
 		</ul>	
