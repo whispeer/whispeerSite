@@ -15,7 +15,7 @@
 **/
 define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForReady", "crypto/sjclWorkerInclude"], function (step, h, chelper, sjcl, waitForReady) {
 	"use strict";
-	var socket, dirtyKeys = [], newKeys = [], symKeys = {}, cryptKeys = {}, signKeys = {}, passwords = [], keyGenIdentifier = "", Key, SymKey, CryptKey, SignKey, makeKey, keyStore;
+	var socket, dirtyKeys = [], newKeys = [], symKeys = {}, cryptKeys = {}, signKeys = {}, passwords = [], improvementListener = [], keyGenIdentifier = "", Key, SymKey, CryptKey, SignKey, makeKey, keyStore;
 
 	sjcl.random.startCollectors();
 
@@ -24,7 +24,7 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 			loaded: 3,
 			unloaded: 50
 		},
-		asymKey: {
+		cryptKey: {
 			loaded: 100,
 			unloaded: 150
 		},
@@ -173,11 +173,11 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 	*/
 	function getDecryptor(decryptorData) {
 		if (decryptorData.type === "symKey") {
-			return symKeys[decryptorData.id];
+			return symKeys[decryptorData.decryptorid];
 		}
 
 		if (decryptorData.type === "cryptKey") {
-			return cryptKeys[decryptorData.id];
+			return cryptKeys[decryptorData.decryptorid];
 		}
 
 		return null;
@@ -256,6 +256,17 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 					}
 				} else {
 					this.ne(pastProcessor(result));
+
+					if (usedDecryptor.decryptor.type === "cryptKey") {
+						var j;
+						for (j = 0; j < improvementListener.length; j += 1) {
+							try {
+								improvementListener[j](theKey.getRealID());
+							} catch (e) {
+								console.log(e);
+							}
+						}
+					}
 				}
 			}, h.sF(function (pastProcessedSecret) {
 				preSecret = internalSecret;
@@ -314,7 +325,7 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 			var i, cur, key, decryptorIndex = 0, smallest = MAXSPEED, subKeyData, speed, curSpeeds;
 			for (i = 0; i < decryptors.length; i += 1) {
 				cur = decryptors[i];
-				curSpeeds = SPEEDS[cur.decryptortype];
+				curSpeeds = SPEEDS[cur.type];
 
 				if (!curSpeeds) {
 					speed = MAXSPEED;
@@ -326,7 +337,7 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 						if (key.decrypted()) {
 							speed = curSpeeds.loaded;
 						} else {
-							subKeyData = key.getFastestDecryptorSpeed(level + 1);
+							subKeyData = key.getFastestDecryptor(level + 1);
 							speed = curSpeeds.loaded + subKeyData.speed;
 						}
 					} else {
@@ -381,7 +392,8 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 				cryptor = theKey;
 				theKey.decryptKey(this);
 			}), h.sF(function addSymD3() {
-				cryptor.encrypt("key::" + chelper.bits2hex(preSecret), this);
+				var secret = preSecret || internalSecret;
+				cryptor.encrypt("key::" + chelper.bits2hex(secret), this);
 			}), h.sF(function addSymD4(data) {
 				var decryptorData = {
 					decryptorid: realid,
@@ -620,7 +632,7 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 	/** load a key and his keychain. remove loaded keys */
 	function getKey(realKeyID, callback) {
 		step(function getKeyF() {
-			socket.emit("getKeyChain", {
+			socket.emit("key.get", {
 				loaded: loadedKeys(),
 				realid: realKeyID
 			}, this);
@@ -714,6 +726,8 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 		if (isPrivateKey) {
 			this.decrypted = intKey.decrypted;
 			this.decryptKey = intKey.decryptKey;
+
+			this.getFastestDecryptor = intKey.getFastestDecryptor;
 
 			this.getDecryptorsF = intKey.getDecryptors;
 
@@ -1187,6 +1201,10 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 
 		correctKeyIdentifier: function correctKeyIdentifierF(realid) {
 			return correctKeyIdentifier(realid);
+		},
+
+		addImprovementListener: function (listener) {
+			improvementListener.push(listener);
 		},
 
 		addPassword: function (pw) {
