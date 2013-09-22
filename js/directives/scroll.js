@@ -1,6 +1,46 @@
 define([], function () {
 	"use strict";
 
+	// left: 37, up: 38, right: 39, down: 40,
+	// spacebar: 32, pageup: 33, pagedown: 34, end: 35, home: 36
+	var keys = [37, 38, 39, 40];
+
+	function preventDefault(e) {
+		e = e || window.event;
+		if (e.preventDefault) {
+			e.preventDefault();
+		}
+		e.returnValue = false;
+	}
+
+	function keydown(e) {
+		for (var i = keys.length; i--;) {
+		if (e.keyCode === keys[i]) {
+		preventDefault(e);
+		return;
+		}
+		}
+	}
+
+	function wheel(e) {
+		preventDefault(e);
+	}
+
+	function disableScroll(elm) {
+		if (elm.addEventListener) {
+			elm.addEventListener("DOMMouseScroll", wheel, false);
+		}
+		elm.onmousewheel = wheel;
+		elm.onkeydown = keydown;
+	}
+
+	function enableScroll(elm) {
+		if (elm.removeEventListener) {
+			elm.removeEventListener("DOMMouseScroll", wheel, false);
+		}
+		elm.onmousewheel = elm.onmousewheel = elm.onkeydown = null;
+	}
+
 	function scrollBottom(elm, times) {
 		if (!times) {
 			times = 4;
@@ -35,6 +75,16 @@ define([], function () {
 					post: function (scope, elm, attrs) {
 						var keepBottom = (typeof attrs.keepbottom !== "undefined");
 						var first = elm[0];
+
+						if (attrs.lockScrolling) {
+							scope.$watch(attrs.lockScrolling, function (newValue) {
+								if (newValue) {
+									disableScroll(elm);
+								} else {
+									enableScroll(elm);
+								}
+							});
+						}
 
 						var scrollHeight = first.scrollHeight;
 

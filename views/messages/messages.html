@@ -62,7 +62,8 @@
 	</div>
 	<div id="messageWrap">	
 		<form id="inputWrap">
-			<input type="text" placeholder="Wer soll die Nachricht empfangen?" id="recieverInput" data-ng-model="new.receiver">
+			<search size="small" focus="all" />
+			
 			<textarea type="text" placeholder="Gebe deine Nachricht ein!" id="messageInput" data-ng-model="new.text"></textarea>
 			<button class="btn btn-success" id="sendmessage" type="submit" data-ng-click="new.send(new.receiver, new.text)">Senden</button>
 		</form>

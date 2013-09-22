@@ -31,38 +31,14 @@
 	<script data-main="/js/main" src="/js/libs/require.js"></script>
 	<base href="/index.html" />
 </head>
-<body data-ng-class="cssClass" data-ng-click="search.click(false)" data-ng-controller="ssn.rootController" class="registerView">
+<body data-ng-class="cssClass" data-ng-controller="ssn.rootController" class="registerView">
 	<!--[if lte IE 8]><p class=chromeframe>Your browser is <em>ancient!</em> <a href="http://browsehappy.com/">Upgrade to a different browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to experience this site.</p><![endif]-->
 	<noscript>Hallo! Leider steht uns bei deinem Browser kein Javascript zur Verfügung!<br> Daher ist es nicht möglich whispeer zu nutzen, da wir unbedingt Javascript benötigen!<br> Vielen Dank für dein Verständnis!</noscript>
 	<nav id="topNav" data-ng-show="loggedin" data-ng-if="loggedin" style="display:none">
 		<div id="navInner">
 			<a href="/" id="brand"><span id="brandNormal">whis</span><span id="brandInverse">peer</span></a>
 			<div class="nav-collapse collapse">
-				<div id="searchBar" data-ng-click="search.click(true)" data-stop-event="click">
-					<form class="form-search form-navbar" id="nav-searchForm">
-						<input type="text" id="searchQuery" placeholder="Suche" data-ng-change="search.queryChange()" data-ng-model="search.query" data-onfocus="search.focus(true)" data-onblur="search.focus(false)">
-					</form>
-					<div id="searchDrop" data-ng-show="search.show()">
-						<!--<ul class="unstyled" id="searchSuggestions" data-ng-repeat="results in searchResults | filter:mainSearch">-->
-						<ol class="unstyled" id="searchSuggestions">
-							<li data-ng-repeat="user in search.users">
-								<img data-ng-src="{{user.image}}">
-								<div class="info">
-									<span class="name"><a href='{{user.url}}' data-ng-click="search.click(false)" data-stop-event="click">{{user.name}}</a></span>
-									<span class="friends">{{user.mutuals}} gemeinsame Freunde</span>
-									<span class="location">{{user.location}}</span>
-									<span class="age">{{user.age}}</span>
-								</div>
-								<div class="actions">
-									<a class="addFriend btn">Als Freund hinzufügen</a>
-									<a class="sendMessage btn">Nachricht senden</a>
-								</div>
-							</li>
-						</ol>
-						<span data-i18n="search.searching" data-ng-show="search.searching">
-						</span>
-					</div>
-				</div>
+				<search scope="friends" size="big"/>
 			</div>
 		</div>
 		<div id="navIcons" data-ng-controller="ssn.magicbar.mainController">
