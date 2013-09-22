@@ -825,17 +825,16 @@ body:not(.mainView, .registerView) #main {
   background: -o-linear-gradient(top, #3a8100, #419000);
 }
 #topNav .searchBar input {
-  margin: 7px 0px 0px 5px;
-  -webkit-border-radius: 20px;
-  -moz-border-radius: 20px;
-  border-radius: 20px;
+  margin: 7px 0 0 -1px;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  border-radius: 10px;
   -moz-background-clip: padding;
   -webkit-background-clip: padding-box;
   background-clip: padding-box;
 }
 #topNav .searchBar .searchDrop {
   top: 50px;
-  margin: 0 1% 0 1%;
 }
 #topNav #navInner #brand {
   font-weight: 700;
