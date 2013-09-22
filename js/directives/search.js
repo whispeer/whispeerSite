@@ -19,10 +19,15 @@ define(["step", "whispeerHelper"], function (step, h) {
 				scope.empty = false;
 				scope.current = 0;
 
+				scope.width = iElement.width();
+
+				iElement.find(".searchDrop").width(scope.width);
+
 				var timer = null;
 
 				scope.queryChange = function () {
 					scope.current = 0;
+					scope.focused = true;
 					if (scope.query.length > 3) {
 						scope.searching = true;
 						window.clearTimeout(timer);
@@ -70,10 +75,10 @@ define(["step", "whispeerHelper"], function (step, h) {
 				};
 
 				function addCurrent(val) {
-					setCurrent(scope.current + val);
+					scope.setCurrent(scope.current + val);
 				}
 
-				function setCurrent(val) {
+				scope.setCurrent = function (val) {
 					scope.current = val;
 
 					if (scope.current < 0) {
@@ -83,7 +88,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 					if (scope.current > scope.users.length - 1) {
 						scope.current = scope.users.length - 1;
 					}
-				}
+				};
 
 				function selectUser(index) {
 					$location.path(scope.users[index].url);
@@ -92,15 +97,13 @@ define(["step", "whispeerHelper"], function (step, h) {
 					scope.clicked = false;
 				}
 
-				var END = 35;
-				var HOME = 36;
 				var UP = [38, 33];
-				var DOWN = [40, 32, 34];
+				var DOWN = [40, 34];
 				var ENTER = [13];
 
 				// left: 37, up: 38, right: 39, down: 40,
 				// spacebar: 32, pageup: 33, pagedown: 34, end: 35, home: 36
-				var keys = UP.concat(DOWN).concat([END, HOME]);
+				var keys = UP.concat(DOWN);
 
 				scope.keydown = function (e) {
 					if (UP.indexOf(e.keyCode) > -1) {
@@ -109,10 +112,6 @@ define(["step", "whispeerHelper"], function (step, h) {
 
 					if (DOWN.indexOf(e.keyCode) > -1) {
 						addCurrent(1);
-					}
-
-					if (e.keyCode == HOME) {
-						setCurrent(0);
 					}
 
 					if (e.keyCode == ENTER) {

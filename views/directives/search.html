@@ -5,7 +5,7 @@
 	<div class="searchDrop" data-ng-show="show()">
 		<!--<ul class="unstyled" id="searchSuggestions" data-ng-repeat="results in searchResults | filter:mainSearch">-->
 		<ol class="unstyled searchSuggestions">
-			<li data-ng-repeat="user in users" data-ng-class="currentClass($index)">
+			<li data-ng-repeat="user in users" data-ng-class="currentClass($index)" data-ng-mouseover="setCurrent($index)">
 				<img data-ng-src="{{user.image}}">
 				<div class="info">
 					<span class="name"><a href='{{user.url}}' data-ng-click="click(false)" data-stop-event="click">{{user.name}}</a></span>
