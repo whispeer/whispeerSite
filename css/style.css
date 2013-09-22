@@ -833,6 +833,9 @@ body:not(.mainView, .registerView) #main {
   -webkit-background-clip: padding-box;
   background-clip: padding-box;
 }
+#topNav .searchBar .searchDrop {
+  top: 50px;
+}
 #topNav #navInner #brand {
   font-weight: 700;
   text-decoration: none;
@@ -907,7 +910,6 @@ body:not(.mainView, .registerView) #main {
   width: 100%;
 }
 .searchDrop {
-  position: absolute;
   background: rgba(255, 255, 255, 0.94);
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
@@ -926,8 +928,8 @@ body:not(.mainView, .registerView) #main {
   margin: 0 1% 0 1%;
   margin-left: 1.125%;
   display: block;
-  top: 45px;
   padding: 0;
+  position: absolute;
   -webkit-box-shadow: 0px 0px 5px 0px #b2b2b2;
   -moz-box-shadow: 0px 0px 5px 0px #b2b2b2;
   box-shadow: 0px 0px 5px 0px #b2b2b2;
@@ -1023,6 +1025,18 @@ body:not(.mainView, .registerView) #main {
   -moz-background-clip: padding;
   -webkit-background-clip: padding-box;
   background-clip: padding-box;
+}
+.searchSuggestions li:hover {
+  background-color: #559d00;
+}
+.searchSuggestions li:hover .info {
+  color: #eeeeee;
+}
+.searchSuggestions li:hover a {
+  color: #eeeeee;
+}
+.searchSuggestions li:hover a:hover {
+  color: #ffffff;
 }
 .searchSuggestions li img {
   display: inline-block;
