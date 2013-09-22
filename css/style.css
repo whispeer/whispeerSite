@@ -835,6 +835,7 @@ body:not(.mainView, .registerView) #main {
 }
 #topNav .searchBar .searchDrop {
   top: 50px;
+  margin: 0 1% 0 1%;
 }
 #topNav #navInner #brand {
   font-weight: 700;
