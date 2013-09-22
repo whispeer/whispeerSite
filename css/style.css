@@ -926,7 +926,7 @@ body:not(.mainView, .registerView) #main {
   float: left;
   width: 40.85714285714286%;
   margin: 0 1% 0 1%;
-  margin-left: 1.125%;
+  margin: 5px 0;
   display: block;
   padding: 0;
   position: absolute;
