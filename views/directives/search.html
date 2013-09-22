@@ -1,11 +1,11 @@
 <div class="searchBar" data-ng-click="click(true)" data-stop-event="click" data-ng-class="'search-'+size">
 	<form class="form-search">
-		<input type="text" class="searchQuery" placeholder="Suche" data-ng-change="queryChange()" data-ng-model="query" data-onfocus="focus(true)" data-onblur="focus(false)">
+		<input type="text" class="searchQuery" data-ng-keydown="keydown($event)" placeholder="Suche" data-ng-change="queryChange()" data-ng-model="query" data-onfocus="focus(true)" data-onblur="focus(false)">
 	</form>
 	<div class="searchDrop" data-ng-show="show()">
 		<!--<ul class="unstyled" id="searchSuggestions" data-ng-repeat="results in searchResults | filter:mainSearch">-->
 		<ol class="unstyled searchSuggestions">
-			<li data-ng-repeat="user in users">
+			<li data-ng-repeat="user in users" data-ng-class="currentClass($index)">
 				<img data-ng-src="{{user.image}}">
 				<div class="info">
 					<span class="name"><a href='{{user.url}}' data-ng-click="click(false)" data-stop-event="click">{{user.name}}</a></span>

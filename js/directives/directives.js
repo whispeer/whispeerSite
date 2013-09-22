@@ -21,7 +21,7 @@ define(includes, function (angular, search) {
 		d.directive(directives[i], arguments[i+2]);
 	}
 
-	d.directive("search", ["ssn.userService", search]);
+	d.directive("search", ["ssn.userService", "$location", "$timeout", search]);
 
 	return d;
 });

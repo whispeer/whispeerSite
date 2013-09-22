@@ -39,6 +39,8 @@ define(["step", "whispeerHelper"], function (step, h) {
 			}
 		};
 
+		$scope.scrollLock = false;
+
 		$scope.markRead = function (messageid) {
 			$scope.activeTopic.obj.markRead(messageid, function (e) {
 				if (e) {
@@ -48,9 +50,11 @@ define(["step", "whispeerHelper"], function (step, h) {
 		};
 
 		$scope.loadMoreMessages = function () {
+			$scope.scrollLock = true;
 			$scope.loadingMessages = true;
 			$scope.activeTopic.obj.loadMoreMessages(function () {
 				$scope.loadingMessages = false;
+				$scope.scrollLock = false;
 			});
 		};
 
