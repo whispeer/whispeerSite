@@ -1,10 +1,10 @@
-<div id="searchBar" data-ng-click="click(true)" data-stop-event="click" data-ng-class="'search-'+size">
-	<form class="form-search form-navbar" id="nav-searchForm">
-		<input type="text" id="searchQuery" placeholder="Suche" data-ng-change="queryChange()" data-ng-model="query" data-onfocus="focus(true)" data-onblur="focus(false)">
+<div class="searchBar" data-ng-click="click(true)" data-stop-event="click" data-ng-class="'search-'+size">
+	<form class="form-search">
+		<input type="text" class="searchQuery" placeholder="Suche" data-ng-change="queryChange()" data-ng-model="query" data-onfocus="focus(true)" data-onblur="focus(false)">
 	</form>
-	<div id="searchDrop" data-ng-show="show()">
+	<div class="searchDrop" data-ng-show="show()">
 		<!--<ul class="unstyled" id="searchSuggestions" data-ng-repeat="results in searchResults | filter:mainSearch">-->
-		<ol class="unstyled" id="searchSuggestions">
+		<ol class="unstyled searchSuggestions">
 			<li data-ng-repeat="user in users">
 				<img data-ng-src="{{user.image}}">
 				<div class="info">
