@@ -324,7 +324,7 @@ define(["step", "whispeerHelper", "valid/validator"], function (step, h, validat
 
 			this.loadInitialMessages = function loadInitialMessages(cb) {
 				if (loadInitial) {
-					theTopic.loadMoreMessages(cb, 9);
+					theTopic.loadMoreMessages(cb, 19);
 					loadInitial = false;
 				} else {
 					cb();
