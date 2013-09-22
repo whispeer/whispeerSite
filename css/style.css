@@ -1026,16 +1026,16 @@ body:not(.mainView, .registerView) #main {
   -webkit-background-clip: padding-box;
   background-clip: padding-box;
 }
-.searchSuggestions li:hover {
+.searchSuggestions li .active {
   background-color: #559d00;
 }
-.searchSuggestions li:hover .info {
+.searchSuggestions li .active .info {
   color: #eeeeee;
 }
-.searchSuggestions li:hover a {
+.searchSuggestions li .active a {
   color: #eeeeee;
 }
-.searchSuggestions li:hover a:hover {
+.searchSuggestions li .active a:hover {
   color: #ffffff;
 }
 .searchSuggestions li img {
