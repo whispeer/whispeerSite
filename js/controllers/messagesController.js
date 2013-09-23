@@ -25,13 +25,9 @@ define(["step", "whispeerHelper"], function (step, h) {
 
 		$scope.new = {
 			text: "",
-			receiver: "",
+			selectedUsers: [],
 			send: function (receiver, text) {
-				var receiverIDs = receiver.split(",").map(function (e) {
-					return parseInt(e, 10);
-				});
-
-				messageService.sendNewTopic(receiverIDs, text, function (e, id) {
+				messageService.sendNewTopic(receiver, text, function (e, id) {
 					$scope.new.text = "";
 					$scope.new.receiver = "";
 					$scope.loadActiveTopic(id);

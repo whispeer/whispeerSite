@@ -4,7 +4,9 @@ define(["step", "whispeerHelper"], function (step, h) {
 	function searchDirective(userService, $location) {
 		return {
 			transclude: false,
-			scope:	{},
+			scope:	{
+				selectedUsers: "="
+			},
 			restrict: "E",
 			templateUrl: "/views/directives/search.html",
 			replace: true,
@@ -101,6 +103,11 @@ define(["step", "whispeerHelper"], function (step, h) {
 
 						scope.query = "";
 						scope.users = [];
+						try {
+							scope.selectedUsers.push(user.id);
+						} catch (e) {
+							console.log(e);
+						}
 					} else {
 						$location.path(user.url);
 
