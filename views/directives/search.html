@@ -1,21 +1,29 @@
-<div class="searchBar" data-ng-click="click(true)" data-stop-event="click" data-ng-class="'search-'+size">
+<div class="searchBar {{'search-'+size}} {{'search-'+(multiple?'multiple':'single')}}" data-stop-event="click">
 	<form class="form-search">
-		<input type="text" class="searchQuery" data-ng-keydown="keydown($event)" placeholder="Suche" data-ng-change="queryChange()" data-ng-model="query" data-onfocus="focus(true)" data-onblur="focus(false)">
+		<div data-ng-click="click(true)">
+			<ul style="list-style: none; margin: 0; padding: 0; border: 1px solid #aaa; cursor: text; overflow: hidden;">
+				<li ng-repeat="(id, name) in selected" class="search-result" style="cursor: pointer; display: inline; border: 1px solid #2f6800; margin-left: 2px; margin-right: 2px;">
+					{{name}}
+				</li>
+				<li class="search-field" style="display: inline;">
+					<input style="width: 100px; outline: 0; border: 0; -webkit-box-shadow: none; box-shadow: none; background: transparent !important;" type="text" class="searchQuery" data-ng-keydown="keydown($event)" placeholder="Suche" data-ng-change="queryChange()" data-ng-model="query" data-onfocus="focus(true)" data-onblur="focus(false)">
+				</li>
+			</ul>
+		</div>
 	</form>
 	<div class="searchDrop" data-ng-show="show()">
-		<!--<ul class="unstyled" id="searchSuggestions" data-ng-repeat="results in searchResults | filter:mainSearch">-->
 		<ol class="unstyled searchSuggestions">
-			<li data-ng-repeat="user in users" data-ng-class="currentClass($index)" data-ng-mouseover="setCurrent($index)">
+			<li data-ng-repeat="user in users" data-ng-class="currentClass($index)" data-ng-mouseover="setCurrent($index)" data-ng-click="selectUser($index)">
 				<img data-ng-src="{{user.image}}">
 				<div class="info">
-					<span class="name"><a href='{{user.url}}' data-ng-click="click(false)" data-stop-event="click">{{user.name}}</a></span>
+					<span class="name">{{user.name}}</span>
 					<span class="friends" data-ng-show="bigSize">{{user.mutuals}} gemeinsame Freunde</span>
 					<span class="location" data-ng-show="bigSize">{{user.location}}</span>
 					<span class="age"  data-ng-show="bigSize">{{user.age}}</span>
 				</div>
 				<div class="actions" data-ng-show="bigSize">
-					<a class="addFriend btn">Als Freund hinzufügen</a>
-					<a class="sendMessage btn">Nachricht senden</a>
+					<a class="addFriend btn" data-stop-event="click">Als Freund hinzufügen</a>
+					<a class="sendMessage btn" data-stop-event="click">Nachricht senden</a>
 				</div>
 			</li>
 		</ol>

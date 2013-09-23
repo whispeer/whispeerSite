@@ -12,16 +12,20 @@ define(["step", "whispeerHelper"], function (step, h) {
 				scope.size = iAttrs["size"];
 				scope.bigSize = (iAttrs["size"] === "big");
 
+				scope.multiple = typeof iAttrs["multiple"] !== "undefined";
+
 				scope.focused = false;
 				scope.clicked = false;
 				scope.query = "";
 				scope.searching = false;
 				scope.empty = false;
 				scope.current = 0;
+				scope.selected = {};
 
 				scope.width = iElement.width();
 
 				iElement.find(".searchDrop").width(scope.width);
+				var input = iElement.find("input");
 
 				var timer = null;
 
@@ -90,12 +94,20 @@ define(["step", "whispeerHelper"], function (step, h) {
 					}
 				};
 
-				function selectUser(index) {
-					$location.path(scope.users[index].url);
+				scope.selectUser = function(index) {
+					var user = scope.users[index];
+					if (scope.multiple) {
+						scope.selected[user.id] = user.name;
 
-					scope.focused = false;
-					scope.clicked = false;
-				}
+						scope.query = "";
+						scope.users = [];
+					} else {
+						$location.path(user.url);
+
+						scope.click(false);
+						scope.focus(false);
+					}
+				};
 
 				var UP = [38, 33];
 				var DOWN = [40, 34];
@@ -115,7 +127,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 					}
 
 					if (e.keyCode == ENTER) {
-						selectUser(scope.current);
+						scope.selectUser(scope.current);
 					}
 
 					if (keys.indexOf(e.keyCode) > -1) {
@@ -135,6 +147,9 @@ define(["step", "whispeerHelper"], function (step, h) {
 
 				scope.click = function (bool) {
 					console.log("Click:" + bool);
+					if (bool) {
+						input.focus();
+					}
 					scope.clicked = bool;
 				};
 

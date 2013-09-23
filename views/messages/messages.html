@@ -6,7 +6,7 @@
 			<div class="right" data-i18n="messages.newMessage"></div>
 		</li>
 		<div id="topicListScroll">
-			<li data-ng-repeat="topic in topics" id="{{topic.id}}" class="topic {{topic.type}}" data-ng-click="loadActiveTopic(topic.id)">
+			<li data-ng-repeat="topic in topics" id="{{topic.id}}" class="topic {{topic.type}} {{topic.unread?'unread':''}}" data-ng-click="loadActiveTopic(topic.id)">
 				<div class="left">
 					<img class="userimg" data-ng-repeat="partner in topic.partnersDisplay" data-ng-src="{{partner.image}}" alt="{{partner.name}}" title="{{partner.name}}">
 					<span data-ng-if="topic.remainingUser" title="{{topic.remainingUserTitle}}">+ {{topic.remainingUser}}</span>
@@ -62,7 +62,7 @@
 	</div>
 	<div id="messageWrap">	
 		<form id="inputWrap">
-			<search size="small" focus="all" id="recieverInput" />
+			<search size="small" focus="all" id="recieverInput" data-multiple/>
 			
 			<textarea type="text" placeholder="Gebe deine Nachricht ein!" id="messageInput" data-ng-model="new.text"></textarea>
 			<button class="btn btn-success" id="sendmessage" type="submit" data-ng-click="new.send(new.receiver, new.text)">Senden</button>
