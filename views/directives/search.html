@@ -1,12 +1,12 @@
 <div class="searchBar {{'search-'+size}} {{'search-'+(multiple?'multiple':'single')}}" data-stop-event="click">
-	<form class="form-search">
+	<form class="formSearch">
 		<div data-ng-click="click(true)">
-			<ul style="list-style: none; margin: 0; padding: 0; border: 1px solid #aaa; cursor: text; overflow: hidden;">
-				<li ng-repeat="(id, name) in selected" class="search-result" style="cursor: pointer; display: inline; border: 1px solid #2f6800; margin-left: 2px; margin-right: 2px;">
+			<ul class="inputWrap">
+				<li ng-repeat="(id, name) in selected" class="searchResult">
 					{{name}}
 				</li>
-				<li class="search-field" style="display: inline;">
-					<input style="width: 100px; outline: 0; border: 0; -webkit-box-shadow: none; box-shadow: none; background: transparent !important;" type="text" class="searchQuery" data-ng-keydown="keydown($event)" placeholder="Suche" data-ng-change="queryChange()" data-ng-model="query" data-onfocus="focus(true)" data-onblur="focus(false)">
+				<li class="searchField" style="display: inline;">
+					<input type="text" class="searchQuery" data-ng-keydown="keydown($event)" placeholder="{{placeholder}}" data-ng-change="queryChange()" data-ng-model="query" data-onfocus="focus(true)" data-onblur="focus(false)">
 				</li>
 			</ul>
 		</div>

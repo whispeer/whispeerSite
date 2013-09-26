@@ -9,12 +9,24 @@
 	background: @green2;
 	.gradient(@green2, lighten(@green2,3%));
 	.searchBar {
-		input {
-			margin: 7px 0 0 -1px;
-			.border-radius(10px);
+		.formSearch {
+			width: 100%;
+			margin: 7px 0 0 0;
+			.inputWrap {
+				min-height: none;
+				height: 30px;
+				line-height: 30px;
+				li {
+					height: 30px;
+					&.searchField {
+						height: 30px;
+					}
+				}
+			}
 		}
 		.searchDrop {
 			top: 50px;
+			margin: 5px 0;
 		}
 	}
 	#navInner {

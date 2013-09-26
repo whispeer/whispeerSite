@@ -808,109 +808,107 @@ body:not(.mainView, .registerView) #main {
   -webkit-background-clip: padding-box;
   background-clip: padding-box;
 }
-#topNav {
+.searchBar .formSearch .inputWrap {
+  margin-left: 0;
+  list-style: none;
+  border: 1px solid #aaa;
+  cursor: text;
+  height: auto;
+  background: white;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  padding: 0;
+  max-width: 100%;
   display: block;
-  position: fixed;
-  z-index: 1030;
-  height: 50px;
-  top: 0;
-  border-bottom: 1px solid #2f6800;
-  box-shadow: 0px 0px 4px #2f6800;
-  background: #3a8100;
-  background-color: #3a8100;
-  background: -webkit-gradient(linear, left top, left bottom, from(#3a8100), to(#419000));
-  background: -webkit-linear-gradient(top, #3a8100, #419000);
-  background: -moz-linear-gradient(top, #3a8100, #419000);
-  background: -ms-linear-gradient(top, #3a8100, #419000);
-  background: -o-linear-gradient(top, #3a8100, #419000);
-}
-#topNav .searchBar input {
-  margin: 7px 0 0 -1px;
-  -webkit-border-radius: 10px;
-  -moz-border-radius: 10px;
-  border-radius: 10px;
-  -moz-background-clip: padding;
-  -webkit-background-clip: padding-box;
-  background-clip: padding-box;
-}
-#topNav .searchBar .searchDrop {
-  top: 50px;
-}
-#topNav #navInner #brand {
-  font-weight: 700;
-  text-decoration: none;
-}
-#topNav #navInner #brand #brandNormal {
-  height: 30px;
-  color: #fff;
-}
-#topNav #navInner #brand #brandNormal {
-  background: -webkit-linear-gradient(#ffffff, #dddddd);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-#topNav #navInner #brand _:-o-prefocus,
-#topNav #navInner #brand #brandNormal {
-  background: none;
-}
-#topNav #navInner #brand #brandInverse {
-  color: #266300;
-  text-shadow: 0px 0px 2px #eeeeee;
-}
-#topNav #navIcons .navIcon {
-  cursor: pointer;
-}
-#topNav #navIcons .navIcon .badge {
-  background-color: #9d261d;
-  color: #ffffff;
-  width: 18px;
-  height: 18px;
-  -webkit-border-radius: 50%;
-  -moz-border-radius: 50%;
-  border-radius: 50%;
-  -moz-background-clip: padding;
-  -webkit-background-clip: padding-box;
-  background-clip: padding-box;
-  position: absolute;
-  text-align: center;
-}
-.nav-icon-dropdown {
-  position: absolute;
-  border: 1px solid #999;
-  -webkit-border-radius: 3px;
-  -moz-border-radius: 3px;
-  border-radius: 3px;
-  -moz-background-clip: padding;
-  -webkit-background-clip: padding-box;
-  background-clip: padding-box;
-  -webkit-box-shadow: 0 0 5px #999999;
-  -moz-box-shadow: 0 0 5px #999999;
-  box-shadow: 0 0 5px #999999;
-  display: none;
-  margin-top: 50px;
-  background-color: #baff81;
-}
-.nav-icon-dropdown-header {
-  border-bottom: 1px solid #999;
-  height: 25px;
-  text-align: center;
-}
-.nav-icon-dropdown-footer {
-  border-top: 1px solid #999;
-  height: 25px;
-  text-align: center;
-}
-.searchQuery {
-  -webkit-border-radius: 20px;
-  -moz-border-radius: 20px;
-  border-radius: 20px;
-  -moz-background-clip: padding;
-  -webkit-background-clip: padding-box;
-  background-clip: padding-box;
   width: 100%;
+  word-break: break-all;
+  min-height: 39px;
 }
-.searchDrop {
-  background: rgba(255, 255, 255, 0.94);
+.searchBar .formSearch .inputWrap li {
+  display: inline !important;
+  line-height: 35px;
+  height: 35px;
+}
+.searchBar .formSearch .inputWrap li.searchResult {
+  cursor: pointer;
+  display: block;
+  float: left;
+  display: inline-block;
+  *display: inline;
+  /* IE7 inline-block hack */
+
+  *zoom: 1;
+  padding: 4px 15px;
+  -webkit-box-sizing: border-box;
+  /* Safari/Chrome, other WebKit */
+
+  -moz-box-sizing: border-box;
+  /* Firefox, other Gecko */
+
+  box-sizing: border-box;
+  /* Opera/IE 8+ */
+
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  border: 0;
+  background-color: #ffffff;
+  color: #333333;
+  text-shadow: 0 1px 1px rgba(255, 255, 255, 0.75);
+  border: 1px solid #bbbbbb;
+  background-color: #559d00;
+  color: #ffffff;
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+  margin: 2px;
+  max-width: 25%;
+  padding: 0 5px 0 5px;
+}
+.searchBar .formSearch .inputWrap li.searchResult:hover {
+  background-color: #ececec;
+}
+.searchBar .formSearch .inputWrap li.searchResult:hover,
+.searchBar .formSearch .inputWrap li.searchResult:active,
+.searchBar .formSearch .inputWrap li.searchResult.active,
+.searchBar .formSearch .inputWrap li.searchResult.disabled,
+.searchBar .formSearch .inputWrap li.searchResult[disabled] {
+  background-color: #ececec;
+}
+.searchBar .formSearch .inputWrap li.searchResult:hover,
+.searchBar .formSearch .inputWrap li.searchResult:active,
+.searchBar .formSearch .inputWrap li.searchResult.active,
+.searchBar .formSearch .inputWrap li.searchResult.disabled,
+.searchBar .formSearch .inputWrap li.searchResult[disabled] {
+  background-color: #3a8100;
+}
+.searchBar .formSearch .inputWrap li.searchField input {
+  width: 26%;
+  outline: 0;
+  border: 0;
+  padding: 0px 5px;
+  margin: 2px 0;
+  -webkit-box-sizing: border-box;
+  /* Safari/Chrome, other WebKit */
+
+  -moz-box-sizing: border-box;
+  /* Firefox, other Gecko */
+
+  box-sizing: border-box;
+  /* Opera/IE 8+ */
+
+  height: 35px;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+  background: transparent !important;
+}
+.searchBar .searchDrop {
+  background: #ffffff;
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
   border-radius: 5px;
@@ -926,7 +924,7 @@ body:not(.mainView, .registerView) #main {
   float: left;
   width: 40.85714285714286%;
   margin: 0 1% 0 1%;
-  margin: 5px 0;
+  margin: 0;
   display: block;
   padding: 0;
   position: absolute;
@@ -934,7 +932,7 @@ body:not(.mainView, .registerView) #main {
   -moz-box-shadow: 0px 0px 5px 0px #b2b2b2;
   box-shadow: 0px 0px 5px 0px #b2b2b2;
 }
-.searchSuggestions {
+.searchBar .searchDrop .searchSuggestions {
   width: 100%;
   margin: 0;
   padding: 0 0 0 0;
@@ -960,7 +958,7 @@ body:not(.mainView, .registerView) #main {
   /* Opera/IE 8+ */
 
 }
-.searchSuggestions li {
+.searchBar .searchDrop .searchSuggestions li {
   width: 100%;
   float: left;
   padding: 0;
@@ -969,7 +967,7 @@ body:not(.mainView, .registerView) #main {
   min-height: 20px;
   height: auto;
 }
-.searchSuggestions li:first-child img {
+.searchBar .searchDrop .searchSuggestions li:first-child img {
   -webkit-border-top-right-radius: 0;
   -webkit-border-bottom-right-radius: 0;
   -webkit-border-bottom-left-radius: 0;
@@ -986,10 +984,10 @@ body:not(.mainView, .registerView) #main {
   -webkit-background-clip: padding-box;
   background-clip: padding-box;
 }
-.searchSuggestions li:last-child {
+.searchBar .searchDrop .searchSuggestions li:last-child {
   border: none;
 }
-.searchSuggestions li:last-child img {
+.searchBar .searchDrop .searchSuggestions li:last-child img {
   -webkit-border-top-right-radius: 0;
   -webkit-border-bottom-right-radius: 0;
   -webkit-border-bottom-left-radius: 5px;
@@ -1006,10 +1004,10 @@ body:not(.mainView, .registerView) #main {
   -webkit-background-clip: padding-box;
   background-clip: padding-box;
 }
-.searchSuggestions li:only-child {
+.searchBar .searchDrop .searchSuggestions li:only-child {
   border: none;
 }
-.searchSuggestions li:only-child img {
+.searchBar .searchDrop .searchSuggestions li:only-child img {
   -webkit-border-top-right-radius: 0;
   -webkit-border-bottom-right-radius: 0;
   -webkit-border-bottom-left-radius: 5px;
@@ -1026,30 +1024,30 @@ body:not(.mainView, .registerView) #main {
   -webkit-background-clip: padding-box;
   background-clip: padding-box;
 }
-.searchSuggestions li.active {
+.searchBar .searchDrop .searchSuggestions li.active {
   background-color: #559d00;
 }
-.searchSuggestions li.active .info {
+.searchBar .searchDrop .searchSuggestions li.active .info {
   color: #eeeeee;
 }
-.searchSuggestions li.active a {
+.searchBar .searchDrop .searchSuggestions li.active a {
   color: #eeeeee;
 }
-.searchSuggestions li.active a:hover {
+.searchBar .searchDrop .searchSuggestions li.active a:hover {
   color: #ffffff;
 }
-.searchSuggestions li img {
+.searchBar .searchDrop .searchSuggestions li img {
   display: inline-block;
   *display: inline;
   /* IE7 inline-block hack */
 
   *zoom: 1;
   float: left;
-  width: 10.5%;
+  width: 8.833333333333334%;
   margin: 0 1% 0 1%;
   margin-left: 0;
 }
-.searchSuggestions li .info {
+.searchBar .searchDrop .searchSuggestions li .info {
   display: inline-block;
   *display: inline;
   /* IE7 inline-block hack */
@@ -1063,26 +1061,26 @@ body:not(.mainView, .registerView) #main {
   color: #555555;
   padding: 0;
 }
-.searchSuggestions li .info .name {
+.searchBar .searchDrop .searchSuggestions li .info .name {
   font-size: 1.3em;
   min-height: 10px;
 }
-.searchSuggestions li .info .friends {
+.searchBar .searchDrop .searchSuggestions li .info .friends {
   display: block;
   width: 98%;
   margin: 0 1% 0 1%;
   *zoom: 1;
 }
-.searchSuggestions li .info .friends:before,
-.searchSuggestions li .info .friends:after {
+.searchBar .searchDrop .searchSuggestions li .info .friends:before,
+.searchBar .searchDrop .searchSuggestions li .info .friends:after {
   content: "";
   display: table;
 }
-.searchSuggestions li .info .friends:after {
+.searchBar .searchDrop .searchSuggestions li .info .friends:after {
   clear: both;
 }
-.searchSuggestions li .info .location,
-.searchSuggestions li .info.age {
+.searchBar .searchDrop .searchSuggestions li .info .location,
+.searchBar .searchDrop .searchSuggestions li .info.age {
   display: inline-block;
   *display: inline;
   /* IE7 inline-block hack */
@@ -1092,7 +1090,7 @@ body:not(.mainView, .registerView) #main {
   width: 23%;
   margin: 0 1% 0 1%;
 }
-.searchSuggestions li .actions {
+.searchBar .searchDrop .searchSuggestions li .actions {
   display: inline-block;
   *display: inline;
   /* IE7 inline-block hack */
@@ -1103,7 +1101,7 @@ body:not(.mainView, .registerView) #main {
   margin: 0 1% 0 1%;
   margin-top: 5px;
 }
-.searchSuggestions li .actions a {
+.searchBar .searchDrop .searchSuggestions li .actions a {
   display: inline-block;
   *display: inline;
   /* IE7 inline-block hack */
@@ -1119,11 +1117,11 @@ body:not(.mainView, .registerView) #main {
   color: #ffffff;
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
 }
-.searchSuggestions li .actions a:hover,
-.searchSuggestions li .actions a:active,
-.searchSuggestions li .actions a.active,
-.searchSuggestions li .actions a.disabled,
-.searchSuggestions li .actions a[disabled] {
+.searchBar .searchDrop .searchSuggestions li .actions a:hover,
+.searchBar .searchDrop .searchSuggestions li .actions a:active,
+.searchBar .searchDrop .searchSuggestions li .actions a.active,
+.searchBar .searchDrop .searchSuggestions li .actions a.disabled,
+.searchBar .searchDrop .searchSuggestions li .actions a[disabled] {
   background-color: rgba(69, 153, 0, 0.7);
 }
 .btn {
@@ -1283,6 +1281,105 @@ body:not(.mainView, .registerView) #main {
 .btn-inverse.disabled,
 .btn-inverse[disabled] {
   background-color: #313131;
+}
+#topNav {
+  display: block;
+  position: fixed;
+  z-index: 1030;
+  height: 50px;
+  top: 0;
+  border-bottom: 1px solid #2f6800;
+  box-shadow: 0px 0px 4px #2f6800;
+  background: #3a8100;
+  background-color: #3a8100;
+  background: -webkit-gradient(linear, left top, left bottom, from(#3a8100), to(#419000));
+  background: -webkit-linear-gradient(top, #3a8100, #419000);
+  background: -moz-linear-gradient(top, #3a8100, #419000);
+  background: -ms-linear-gradient(top, #3a8100, #419000);
+  background: -o-linear-gradient(top, #3a8100, #419000);
+}
+#topNav .searchBar .formSearch {
+  width: 100%;
+  margin: 7px 0 0 0;
+}
+#topNav .searchBar .formSearch .inputWrap {
+  min-height: none;
+  height: 30px;
+  line-height: 30px;
+}
+#topNav .searchBar .formSearch .inputWrap li {
+  height: 30px;
+}
+#topNav .searchBar .formSearch .inputWrap li.searchField {
+  height: 30px;
+}
+#topNav .searchBar .searchDrop {
+  top: 50px;
+  margin: 5px 0;
+}
+#topNav #navInner #brand {
+  font-weight: 700;
+  text-decoration: none;
+}
+#topNav #navInner #brand #brandNormal {
+  height: 30px;
+  color: #fff;
+}
+#topNav #navInner #brand #brandNormal {
+  background: -webkit-linear-gradient(#ffffff, #dddddd);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+#topNav #navInner #brand _:-o-prefocus,
+#topNav #navInner #brand #brandNormal {
+  background: none;
+}
+#topNav #navInner #brand #brandInverse {
+  color: #266300;
+  text-shadow: 0px 0px 2px #eeeeee;
+}
+#topNav #navIcons .navIcon {
+  cursor: pointer;
+}
+#topNav #navIcons .navIcon .badge {
+  background-color: #9d261d;
+  color: #ffffff;
+  width: 18px;
+  height: 18px;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  border-radius: 50%;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  position: absolute;
+  text-align: center;
+}
+.nav-icon-dropdown {
+  position: absolute;
+  border: 1px solid #999;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  -webkit-box-shadow: 0 0 5px #999999;
+  -moz-box-shadow: 0 0 5px #999999;
+  box-shadow: 0 0 5px #999999;
+  display: none;
+  margin-top: 50px;
+  background-color: #baff81;
+}
+.nav-icon-dropdown-header {
+  border-bottom: 1px solid #999;
+  height: 25px;
+  text-align: center;
+}
+.nav-icon-dropdown-footer {
+  border-top: 1px solid #999;
+  height: 25px;
+  text-align: center;
 }
 #userpanel {
   text-align: center;
@@ -6844,8 +6941,8 @@ and (max-device-width : 767px) {
   
     *zoom: 1;
     float: left;
-    width: 64.66666666666667%;
-    margin: 0 1% 0 1%;
+    width: 69.03333333333335%;
+    margin: 0 0.9% 0 0.9%;
   }
   #topNav #navIcons {
     height: 100%;
@@ -7373,7 +7470,6 @@ and (max-device-width : 767px) {
     width: 98%;
     margin: 0 1% 0 1%;
     margin-bottom: 5px;
-    height: 40px;
   }
   .messagesView #topicWrap.newMessage #messageInput {
     height: 150px;

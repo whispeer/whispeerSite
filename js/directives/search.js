@@ -13,6 +13,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 			link: function postLink(scope, iElement, iAttrs) {
 				scope.size = iAttrs["size"];
 				scope.bigSize = (iAttrs["size"] === "big");
+				scope.placeholder = iAttrs["placeholder"];
 
 				scope.multiple = typeof iAttrs["multiple"] !== "undefined";
 
@@ -165,7 +166,9 @@ define(["step", "whispeerHelper"], function (step, h) {
 					scope.focused = bool;
 				};
 
-				scope.users = [
+				scope.users = [];
+				
+				scope.users2 = [
 					{
 						"name":	"Luisa Katharina Marschner",
 						"mutuals":	"20",
