@@ -821,22 +821,8 @@ body:not(.mainView, .registerView) #main {
   -moz-background-clip: padding;
   -webkit-background-clip: padding-box;
   background-clip: padding-box;
-  padding: 0;
-  max-width: 100%;
-  display: block;
-  width: 100%;
-  word-break: break-all;
-  min-height: 39px;
-}
-.searchBar .formSearch .inputWrap li {
-  display: inline !important;
-  line-height: 35px;
-  height: 35px;
 }
 .searchBar .formSearch .inputWrap li.searchResult {
-  cursor: pointer;
-  display: block;
-  float: left;
   display: inline-block;
   *display: inline;
   /* IE7 inline-block hack */
@@ -866,9 +852,6 @@ body:not(.mainView, .registerView) #main {
   background-color: #559d00;
   color: #ffffff;
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
-  margin: 2px;
-  max-width: 25%;
-  padding: 0 5px 0 5px;
 }
 .searchBar .formSearch .inputWrap li.searchResult:hover {
   background-color: #ececec;
@@ -888,11 +871,6 @@ body:not(.mainView, .registerView) #main {
   background-color: #3a8100;
 }
 .searchBar .formSearch .inputWrap li.searchField input {
-  width: 26%;
-  outline: 0;
-  border: 0;
-  padding: 0px 5px;
-  margin: 2px 0;
   -webkit-box-sizing: border-box;
   /* Safari/Chrome, other WebKit */
 
@@ -902,7 +880,6 @@ body:not(.mainView, .registerView) #main {
   box-sizing: border-box;
   /* Opera/IE 8+ */
 
-  height: 35px;
   -webkit-box-shadow: none;
   box-shadow: none;
   background: transparent !important;
@@ -916,32 +893,14 @@ body:not(.mainView, .registerView) #main {
   -webkit-background-clip: padding-box;
   background-clip: padding-box;
   box-shadow: 0 0 8px #999999;
-  display: inline-block;
-  *display: inline;
-  /* IE7 inline-block hack */
-
-  *zoom: 1;
-  float: left;
-  width: 40.85714285714286%;
-  margin: 0 1% 0 1%;
-  margin: 0;
-  display: block;
-  padding: 0;
-  position: absolute;
   -webkit-box-shadow: 0px 0px 5px 0px #b2b2b2;
   -moz-box-shadow: 0px 0px 5px 0px #b2b2b2;
   box-shadow: 0px 0px 5px 0px #b2b2b2;
 }
 .searchBar .searchDrop .searchSuggestions {
-  width: 100%;
-  margin: 0;
-  padding: 0 0 0 0;
-  max-height: 390px;
-  overflow-y: scroll;
   -webkit-box-shadow: inset 6px -1px 4px 2px #b2b2b2;
   -moz-box-shadow: inset 6px -1px 4px 2px #b2b2b2;
   box-shadow: inset 6px -1px 4px 2px #b2b2b2;
-  padding: 0px 0px 0px 2px;
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
   border-radius: 5px;
@@ -959,13 +918,7 @@ body:not(.mainView, .registerView) #main {
 
 }
 .searchBar .searchDrop .searchSuggestions li {
-  width: 100%;
-  float: left;
-  padding: 0;
-  margin: 0;
   border-bottom: 1px solid #9a9a9a;
-  min-height: 20px;
-  height: auto;
 }
 .searchBar .searchDrop .searchSuggestions li:first-child img {
   -webkit-border-top-right-radius: 0;
@@ -1036,83 +989,12 @@ body:not(.mainView, .registerView) #main {
 .searchBar .searchDrop .searchSuggestions li.active a:hover {
   color: #ffffff;
 }
-.searchBar .searchDrop .searchSuggestions li img {
-  display: inline-block;
-  *display: inline;
-  /* IE7 inline-block hack */
-
-  *zoom: 1;
-  float: left;
-  width: 8.833333333333334%;
-  margin: 0 1% 0 1%;
-  margin-left: 0;
-}
 .searchBar .searchDrop .searchSuggestions li .info {
-  display: inline-block;
-  *display: inline;
-  /* IE7 inline-block hack */
-
-  *zoom: 1;
-  float: left;
-  width: 52.16666666666667%;
-  margin: 0 1% 0 1%;
-  margin: 7px 0 0 3%;
   font: 100 10px;
   color: #555555;
-  padding: 0;
-}
-.searchBar .searchDrop .searchSuggestions li .info .name {
-  font-size: 1.3em;
-  min-height: 10px;
-}
-.searchBar .searchDrop .searchSuggestions li .info .friends {
-  display: block;
-  width: 98%;
-  margin: 0 1% 0 1%;
-  *zoom: 1;
-}
-.searchBar .searchDrop .searchSuggestions li .info .friends:before,
-.searchBar .searchDrop .searchSuggestions li .info .friends:after {
-  content: "";
-  display: table;
-}
-.searchBar .searchDrop .searchSuggestions li .info .friends:after {
-  clear: both;
-}
-.searchBar .searchDrop .searchSuggestions li .info .location,
-.searchBar .searchDrop .searchSuggestions li .info.age {
-  display: inline-block;
-  *display: inline;
-  /* IE7 inline-block hack */
-
-  *zoom: 1;
-  float: left;
-  width: 23%;
-  margin: 0 1% 0 1%;
-}
-.searchBar .searchDrop .searchSuggestions li .actions {
-  display: inline-block;
-  *display: inline;
-  /* IE7 inline-block hack */
-
-  *zoom: 1;
-  float: left;
-  width: 31.333333333333336%;
-  margin: 0 1% 0 1%;
-  margin-top: 5px;
 }
 .searchBar .searchDrop .searchSuggestions li .actions a {
-  display: inline-block;
-  *display: inline;
-  /* IE7 inline-block hack */
-
-  *zoom: 1;
-  float: left;
-  width: 98%;
-  margin: 0 1% 0 1%;
   cursor: pointer;
-  text-align: center;
-  margin-bottom: 5px;
   background-color: rgba(98, 184, 0, 0.7);
   color: #ffffff;
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
@@ -4026,6 +3908,145 @@ and (max-device-width : 767px) {
   body.registerView #main {
     margin-left: 20.833333333333336% !important;
   }
+  .searchBar .formSearch .inputWrap {
+    margin-left: 0;
+    list-style: none;
+    height: auto;
+    background: white;
+    padding: 0;
+    max-width: 100%;
+    display: block;
+    width: 100%;
+    word-break: break-all;
+    min-height: 39px;
+  }
+  .searchBar .formSearch .inputWrap li {
+    display: inline !important;
+    line-height: 35px;
+    height: 35px;
+  }
+  .searchBar .formSearch .inputWrap li.searchResult {
+    display: block;
+    float: left;
+    margin: 2px;
+    max-width: 45%;
+    padding: 0 5px 0 5px;
+  }
+  .searchBar .formSearch .inputWrap li.searchField input {
+    width: 53.5%;
+    outline: 0;
+    border: 0;
+    padding: 0px 5px;
+    margin: 2px 0;
+    height: 35px;
+  }
+  .searchBar .searchDrop {
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
+    float: left;
+    width: 40.85714285714286%;
+    margin: 0 1% 0 1%;
+    margin: 0;
+    display: block;
+    padding: 0;
+    position: absolute;
+  }
+  .searchBar .searchDrop .searchSuggestions {
+    width: 100%;
+    margin: 0;
+    padding: 0 0 0 0;
+    max-height: 390px;
+    overflow-y: scroll;
+    padding: 0px 0px 0px 2px;
+    -webkit-box-sizing: border-box;
+    /* Safari/Chrome, other WebKit */
+  
+    -moz-box-sizing: border-box;
+    /* Firefox, other Gecko */
+  
+    box-sizing: border-box;
+    /* Opera/IE 8+ */
+  
+  }
+  .searchBar .searchDrop .searchSuggestions li {
+    width: 100%;
+    float: left;
+    padding: 0;
+    margin: 0;
+    min-height: 20px;
+    height: auto;
+  }
+  .searchBar .searchDrop .searchSuggestions li img {
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
+    float: left;
+    width: 8.833333333333334%;
+    margin: 0 1% 0 1%;
+    margin-left: 0;
+  }
+  .searchBar .searchDrop .searchSuggestions li .info {
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
+    float: left;
+    width: 52.16666666666667%;
+    margin: 0 1% 0 1%;
+    margin: 7px 0 0 3%;
+    padding: 0;
+  }
+  .searchBar .searchDrop .searchSuggestions li .info .name {
+    font-size: 1.3em;
+    min-height: 10px;
+  }
+  .searchBar .searchDrop .searchSuggestions li .info .friends {
+    display: block;
+    width: 98%;
+    margin: 0 1% 0 1%;
+    *zoom: 1;
+  }
+  .searchBar .searchDrop .searchSuggestions li .info .friends:before,
+  .searchBar .searchDrop .searchSuggestions li .info .friends:after {
+    content: "";
+    display: table;
+  }
+  .searchBar .searchDrop .searchSuggestions li .info .friends:after {
+    clear: both;
+  }
+  .searchBar .searchDrop .searchSuggestions li .info .location,
+  .searchBar .searchDrop .searchSuggestions li .info.age {
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
+    float: left;
+    width: 23%;
+    margin: 0 1% 0 1%;
+  }
+  .searchBar .searchDrop .searchSuggestions li .actions {
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
+    float: left;
+    width: 31.333333333333336%;
+    margin: 0 1% 0 1%;
+    margin-top: 5px;
+  }
+  .searchBar .searchDrop .searchSuggestions li .actions a {
+    cursor: pointer;
+    text-align: center;
+    margin-bottom: 5px;
+  }
   #topNav {
     width: 100%;
     min-width: 1024px;
@@ -4604,7 +4625,6 @@ and (max-device-width : 767px) {
     width: 98%;
     margin: 0 1% 0 1%;
     margin-bottom: 5px;
-    height: 40px;
   }
   .messagesView #topicWrap.newMessage #messageInput {
     height: 150px;
@@ -5466,6 +5486,145 @@ and (max-device-width : 767px) {
   body.registerView #main {
     margin-left: 16.666666666666668% !important;
   }
+  .searchBar .formSearch .inputWrap {
+    margin-left: 0;
+    list-style: none;
+    height: auto;
+    background: white;
+    padding: 0;
+    max-width: 100%;
+    display: block;
+    width: 100%;
+    word-break: break-all;
+    min-height: 39px;
+  }
+  .searchBar .formSearch .inputWrap li {
+    display: inline !important;
+    line-height: 35px;
+    height: 35px;
+  }
+  .searchBar .formSearch .inputWrap li.searchResult {
+    display: block;
+    float: left;
+    margin: 2px;
+    max-width: 35%;
+    padding: 0 5px 0 5px;
+  }
+  .searchBar .formSearch .inputWrap li.searchField input {
+    width: 45%;
+    outline: 0;
+    border: 0;
+    padding: 0px 5px;
+    margin: 2px 0;
+    height: 35px;
+  }
+  .searchBar .searchDrop {
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
+    float: left;
+    width: 40.85714285714286%;
+    margin: 0 1% 0 1%;
+    margin: 0;
+    display: block;
+    padding: 0;
+    position: absolute;
+  }
+  .searchBar .searchDrop .searchSuggestions {
+    width: 100%;
+    margin: 0;
+    padding: 0 0 0 0;
+    max-height: 390px;
+    overflow-y: scroll;
+    padding: 0px 0px 0px 2px;
+    -webkit-box-sizing: border-box;
+    /* Safari/Chrome, other WebKit */
+  
+    -moz-box-sizing: border-box;
+    /* Firefox, other Gecko */
+  
+    box-sizing: border-box;
+    /* Opera/IE 8+ */
+  
+  }
+  .searchBar .searchDrop .searchSuggestions li {
+    width: 100%;
+    float: left;
+    padding: 0;
+    margin: 0;
+    min-height: 20px;
+    height: auto;
+  }
+  .searchBar .searchDrop .searchSuggestions li img {
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
+    float: left;
+    width: 8.833333333333334%;
+    margin: 0 1% 0 1%;
+    margin-left: 0;
+  }
+  .searchBar .searchDrop .searchSuggestions li .info {
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
+    float: left;
+    width: 52.16666666666667%;
+    margin: 0 1% 0 1%;
+    margin: 7px 0 0 3%;
+    padding: 0;
+  }
+  .searchBar .searchDrop .searchSuggestions li .info .name {
+    font-size: 1.3em;
+    min-height: 10px;
+  }
+  .searchBar .searchDrop .searchSuggestions li .info .friends {
+    display: block;
+    width: 98%;
+    margin: 0 1% 0 1%;
+    *zoom: 1;
+  }
+  .searchBar .searchDrop .searchSuggestions li .info .friends:before,
+  .searchBar .searchDrop .searchSuggestions li .info .friends:after {
+    content: "";
+    display: table;
+  }
+  .searchBar .searchDrop .searchSuggestions li .info .friends:after {
+    clear: both;
+  }
+  .searchBar .searchDrop .searchSuggestions li .info .location,
+  .searchBar .searchDrop .searchSuggestions li .info.age {
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
+    float: left;
+    width: 23%;
+    margin: 0 1% 0 1%;
+  }
+  .searchBar .searchDrop .searchSuggestions li .actions {
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
+    float: left;
+    width: 31.333333333333336%;
+    margin: 0 1% 0 1%;
+    margin-top: 5px;
+  }
+  .searchBar .searchDrop .searchSuggestions li .actions a {
+    cursor: pointer;
+    text-align: center;
+    margin-bottom: 5px;
+  }
   #topNav {
     width: 100%;
   }
@@ -6050,7 +6209,6 @@ and (max-device-width : 767px) {
     width: 98%;
     margin: 0 1% 0 1%;
     margin-bottom: 5px;
-    height: 40px;
   }
   .messagesView #topicWrap.newMessage #messageInput {
     height: 150px;
@@ -6917,6 +7075,145 @@ and (max-device-width : 767px) {
     margin-left: 16.666666666666668% !important;
     margin-right: 16.666666666666668% !important;
     width: 64.66666666666667% !important;
+  }
+  .searchBar .formSearch .inputWrap {
+    margin-left: 0;
+    list-style: none;
+    height: auto;
+    background: white;
+    padding: 0;
+    max-width: 100%;
+    display: block;
+    width: 100%;
+    word-break: break-all;
+    min-height: 39px;
+  }
+  .searchBar .formSearch .inputWrap li {
+    display: inline !important;
+    line-height: 35px;
+    height: 35px;
+  }
+  .searchBar .formSearch .inputWrap li.searchResult {
+    display: block;
+    float: left;
+    margin: 2px;
+    max-width: 25%;
+    padding: 0 5px 0 5px;
+  }
+  .searchBar .formSearch .inputWrap li.searchField input {
+    width: 26%;
+    outline: 0;
+    border: 0;
+    padding: 0px 5px;
+    margin: 2px 0;
+    height: 35px;
+  }
+  .searchBar .searchDrop {
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
+    float: left;
+    width: 40.85714285714286%;
+    margin: 0 1% 0 1%;
+    margin: 0;
+    display: block;
+    padding: 0;
+    position: absolute;
+  }
+  .searchBar .searchDrop .searchSuggestions {
+    width: 100%;
+    margin: 0;
+    padding: 0 0 0 0;
+    max-height: 390px;
+    overflow-y: scroll;
+    padding: 0px 0px 0px 2px;
+    -webkit-box-sizing: border-box;
+    /* Safari/Chrome, other WebKit */
+  
+    -moz-box-sizing: border-box;
+    /* Firefox, other Gecko */
+  
+    box-sizing: border-box;
+    /* Opera/IE 8+ */
+  
+  }
+  .searchBar .searchDrop .searchSuggestions li {
+    width: 100%;
+    float: left;
+    padding: 0;
+    margin: 0;
+    min-height: 20px;
+    height: auto;
+  }
+  .searchBar .searchDrop .searchSuggestions li img {
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
+    float: left;
+    width: 8.833333333333334%;
+    margin: 0 1% 0 1%;
+    margin-left: 0;
+  }
+  .searchBar .searchDrop .searchSuggestions li .info {
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
+    float: left;
+    width: 52.16666666666667%;
+    margin: 0 1% 0 1%;
+    margin: 7px 0 0 3%;
+    padding: 0;
+  }
+  .searchBar .searchDrop .searchSuggestions li .info .name {
+    font-size: 1.3em;
+    min-height: 10px;
+  }
+  .searchBar .searchDrop .searchSuggestions li .info .friends {
+    display: block;
+    width: 98%;
+    margin: 0 1% 0 1%;
+    *zoom: 1;
+  }
+  .searchBar .searchDrop .searchSuggestions li .info .friends:before,
+  .searchBar .searchDrop .searchSuggestions li .info .friends:after {
+    content: "";
+    display: table;
+  }
+  .searchBar .searchDrop .searchSuggestions li .info .friends:after {
+    clear: both;
+  }
+  .searchBar .searchDrop .searchSuggestions li .info .location,
+  .searchBar .searchDrop .searchSuggestions li .info.age {
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
+    float: left;
+    width: 23%;
+    margin: 0 1% 0 1%;
+  }
+  .searchBar .searchDrop .searchSuggestions li .actions {
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
+    float: left;
+    width: 31.333333333333336%;
+    margin: 0 1% 0 1%;
+    margin-top: 5px;
+  }
+  .searchBar .searchDrop .searchSuggestions li .actions a {
+    cursor: pointer;
+    text-align: center;
+    margin-bottom: 5px;
   }
   #topNav {
     width: 100%;
