@@ -2,8 +2,8 @@
 	<form class="formSearch">
 		<div data-ng-click="click(true)">
 			<ul class="inputWrap">
-				<li ng-repeat="(id, name) in selected" class="searchResult">
-					{{name}}
+				<li ng-repeat="user in selected" class="searchResult">
+					{{user.name}}
 				</li>
 				<li class="searchField" style="display: inline;">
 					<input type="text" class="searchQuery" data-ng-keydown="keydown($event)" placeholder="{{placeholder}}" data-ng-change="queryChange()" data-ng-model="query" data-onfocus="focus(true)" data-onblur="focus(false)">
