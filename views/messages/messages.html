@@ -15,7 +15,7 @@
 					<strong ng-repeat="partner in topic.partners">{{topic.partners.length>1?partner.shortname:partner.name}}{{$last?"":", "}}</strong>
 				</div>
 				<div class="lastMessage">
-					{{shortenMessage(topic.latestMessage.data.text)}}
+					{{topic.latestMessage.data.text}}
 				</div>
 				<div class="time">{{topic.latestMessage.timestamp|date:'HH:mm'}}</div>
 				<div class="clear-fix"></div>

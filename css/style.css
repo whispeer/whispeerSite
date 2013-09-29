@@ -2668,6 +2668,15 @@ body:not(.mainView, .registerView) #main {
   -webkit-background-clip: padding-box;
   background-clip: padding-box;
   border-bottom: 1px solid #aaa;
+  -webkit-box-sizing: border-box;
+  /* Safari/Chrome, other WebKit */
+
+  -moz-box-sizing: border-box;
+  /* Firefox, other Gecko */
+
+  box-sizing: border-box;
+  /* Opera/IE 8+ */
+
 }
 .messagesView #topicListWrap #topicList .topic .left .userimg {
   -webkit-border-radius: 5px;
@@ -4368,11 +4377,11 @@ and (max-device-width : 767px) {
     float: left;
     width: 33%;
     margin: 0 1% 0 1%;
-    margin: 0 2% 0 0;
+    margin: 0 2% -4px 0;
   }
   .messagesView #topicListWrap #topicList .topic .left .userimg {
     width: 100%;
-    margin: 0 0 -4px -2px;
+    margin: 0;
     padding: 0;
   }
   .messagesView #topicListWrap #topicList .topic .username {
@@ -4385,21 +4394,25 @@ and (max-device-width : 767px) {
     float: left;
     width: 63%;
     margin: 0 1% 0 1%;
+    text-overflow: ellipsis;
+    max-height: 40px;
+    max-width: 65%;
+    overflow: hidden;
+    white-space: nowrap;
   }
   .messagesView #topicListWrap #topicList .topic .lastMessage {
     font-size: 0.8em;
-    display: block;
-    width: 98%;
-    margin: 0 1% 0 1%;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
     *zoom: 1;
-  }
-  .messagesView #topicListWrap #topicList .topic .lastMessage:before,
-  .messagesView #topicListWrap #topicList .topic .lastMessage:after {
-    content: "";
-    display: table;
-  }
-  .messagesView #topicListWrap #topicList .topic .lastMessage:after {
-    clear: both;
+    float: left;
+    width: 63%;
+    margin: 0 1% 0 1%;
+    max-width: 65% !important;
+    overflow: hidden;
+    white-space: nowrap;
   }
   .messagesView #topicListWrap #topicList .topic#newmessage {
     height: 20px;
@@ -4408,6 +4421,7 @@ and (max-device-width : 767px) {
   }
   .messagesView #topicListWrap #topicList .topic.groupChat .left {
     height: 50px;
+    margin: 0 2% 0 0;
   }
   .messagesView #topicListWrap #topicList .topic.groupChat .left img,
   .messagesView #topicListWrap #topicList .topic.groupChat .left span {
@@ -5945,11 +5959,11 @@ and (max-device-width : 767px) {
     float: left;
     width: 33%;
     margin: 0 1% 0 1%;
-    margin: 0 2% 0 0;
+    margin: 0 2% -4px 0;
   }
   .messagesView #topicListWrap #topicList .topic .left .userimg {
     width: 100%;
-    margin: 0 0 -4px -2px;
+    margin: 0;
     padding: 0;
   }
   .messagesView #topicListWrap #topicList .topic .username {
@@ -5962,20 +5976,24 @@ and (max-device-width : 767px) {
     float: left;
     width: 63%;
     margin: 0 1% 0 1%;
+    text-overflow: ellipsis;
+    max-height: 40px;
+    max-width: 65%;
+    overflow: hidden;
+    white-space: nowrap;
   }
   .messagesView #topicListWrap #topicList .topic .lastMessage {
-    display: block;
-    width: 98%;
-    margin: 0 1% 0 1%;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
     *zoom: 1;
-  }
-  .messagesView #topicListWrap #topicList .topic .lastMessage:before,
-  .messagesView #topicListWrap #topicList .topic .lastMessage:after {
-    content: "";
-    display: table;
-  }
-  .messagesView #topicListWrap #topicList .topic .lastMessage:after {
-    clear: both;
+    float: left;
+    width: 63%;
+    margin: 0 1% 0 1%;
+    max-width: 65% !important;
+    overflow: hidden;
+    white-space: nowrap;
   }
   .messagesView #topicListWrap #topicList .topic#newmessage {
     height: 20px;
@@ -5983,6 +6001,7 @@ and (max-device-width : 767px) {
   }
   .messagesView #topicListWrap #topicList .topic.groupChat .left {
     height: 60px;
+    margin: 0 2% 0 0;
   }
   .messagesView #topicListWrap #topicList .topic.groupChat .left img,
   .messagesView #topicListWrap #topicList .topic.groupChat .left span {
@@ -7494,11 +7513,11 @@ and (max-device-width : 767px) {
     float: left;
     width: 28%;
     margin: 0 1% 0 1%;
-    margin: 0 2% 0 0;
+    margin: 0 2% -4px 0;
   }
   .messagesView #topicListWrap #topicList .topic .left .userimg {
     width: 100%;
-    margin: 0 0 -4px -2px;
+    margin: 0;
     padding: 0;
   }
   .messagesView #topicListWrap #topicList .topic .username {
@@ -7511,11 +7530,10 @@ and (max-device-width : 767px) {
     float: left;
     width: 68%;
     margin: 0 1% 0 1%;
-    text-overflow: ellipsis !important;
-    max-height: 40px !important;
-    max-width: 70% !important;
+    text-overflow: ellipsis;
+    max-height: 40px;
+    max-width: 70%;
     overflow: hidden;
-    display: inline-block !important;
     white-space: nowrap;
   }
   .messagesView #topicListWrap #topicList .topic .lastMessage {
@@ -7543,6 +7561,7 @@ and (max-device-width : 767px) {
   }
   .messagesView #topicListWrap #topicList .topic.groupChat .left {
     height: 80px;
+    margin: 0 2% 0 0;
   }
   .messagesView #topicListWrap #topicList .topic.groupChat .left img,
   .messagesView #topicListWrap #topicList .topic.groupChat .left span {

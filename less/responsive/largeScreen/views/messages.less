@@ -25,21 +25,20 @@
 				padding: 0;
 				.left {
 					.column(0.6,2);
-					margin: 0 2% 0 0;
+					margin: 0 2% -4px 0;
 					.userimg {
 						width: 100%;
-						margin: 0 0 -4px -2px;
+						margin: 0;
 						padding: 0;
 					}
 				}	
 				.username {
 					font-size: 1em;
 					.column(1.4,2);
-					text-overflow: ellipsis !important;
-					max-height: 40px !important;
-					max-width: 100%/2*1.4 !important;
+					text-overflow: ellipsis;
+					max-height: 40px;
+					max-width: 100%/2*1.4;
 					overflow: hidden;
-					display: inline-block !important;
 					white-space: nowrap;
 				}
 				.lastMessage {
@@ -57,6 +56,7 @@
 				&.groupChat {
 					.left {
 						height: 80px;
+						margin: 0 2% 0 0;
 						img, span {
 							.column(1,2,left,0);
 							margin:0!important;
