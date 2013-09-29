@@ -2669,7 +2669,7 @@ body:not(.mainView, .registerView) #main {
   background-clip: padding-box;
   border-bottom: 1px solid #aaa;
 }
-.messagesView #topicListWrap #topicList .topic .userimg {
+.messagesView #topicListWrap #topicList .topic .left .userimg {
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
   border-radius: 5px;
@@ -2697,6 +2697,15 @@ body:not(.mainView, .registerView) #main {
   float: right;
   margin-right: 5px;
   margin-top: -20px;
+}
+.messagesView #topicListWrap #topicList .topic.groupChat .left {
+  background-color: #b2b2b2;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
 }
 .messagesView #topicListWrap #topicList .topic.groupChat .left img,
 .messagesView #topicListWrap #topicList .topic.groupChat .left span,
@@ -2786,7 +2795,7 @@ body:not(.mainView, .registerView) #main {
 }
 .messagesView #topicListWrap #topicList .topic.groupChat .left span,
 .messagesView #topicListWrap #topicList .topic.groupChat .left div {
-  background-color: rgba(0, 0, 0, 0.82);
+  background-color: #343434;
   color: #ffffff;
   -webkit-box-sizing: border-box;
   /* Safari/Chrome, other WebKit */
@@ -4350,7 +4359,18 @@ and (max-device-width : 767px) {
     margin-bottom: 5px;
     padding: 0;
   }
-  .messagesView #topicListWrap #topicList .topic .userimg {
+  .messagesView #topicListWrap #topicList .topic .left {
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
+    float: left;
+    width: 33%;
+    margin: 0 1% 0 1%;
+    margin: 0 2% 0 0;
+  }
+  .messagesView #topicListWrap #topicList .topic .left .userimg {
     width: 100%;
     margin: 0 0 -4px -2px;
     padding: 0;
@@ -4380,16 +4400,6 @@ and (max-device-width : 767px) {
   }
   .messagesView #topicListWrap #topicList .topic .lastMessage:after {
     clear: both;
-  }
-  .messagesView #topicListWrap #topicList .topic .left {
-    display: inline-block;
-    *display: inline;
-    /* IE7 inline-block hack */
-  
-    *zoom: 1;
-    float: left;
-    width: 33%;
-    margin: 0 1% 0 1%;
   }
   .messagesView #topicListWrap #topicList .topic#newmessage {
     height: 20px;
@@ -5926,7 +5936,18 @@ and (max-device-width : 767px) {
     margin-bottom: 5px;
     padding: 0;
   }
-  .messagesView #topicListWrap #topicList .topic .userimg {
+  .messagesView #topicListWrap #topicList .topic .left {
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
+    float: left;
+    width: 33%;
+    margin: 0 1% 0 1%;
+    margin: 0 2% 0 0;
+  }
+  .messagesView #topicListWrap #topicList .topic .left .userimg {
     width: 100%;
     margin: 0 0 -4px -2px;
     padding: 0;
@@ -5955,16 +5976,6 @@ and (max-device-width : 767px) {
   }
   .messagesView #topicListWrap #topicList .topic .lastMessage:after {
     clear: both;
-  }
-  .messagesView #topicListWrap #topicList .topic .left {
-    display: inline-block;
-    *display: inline;
-    /* IE7 inline-block hack */
-  
-    *zoom: 1;
-    float: left;
-    width: 33%;
-    margin: 0 1% 0 1%;
   }
   .messagesView #topicListWrap #topicList .topic#newmessage {
     height: 20px;
@@ -7474,7 +7485,18 @@ and (max-device-width : 767px) {
     margin-bottom: 5px;
     padding: 0;
   }
-  .messagesView #topicListWrap #topicList .topic .userimg {
+  .messagesView #topicListWrap #topicList .topic .left {
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
+    float: left;
+    width: 28%;
+    margin: 0 1% 0 1%;
+    margin: 0 2% 0 0;
+  }
+  .messagesView #topicListWrap #topicList .topic .left .userimg {
     width: 100%;
     margin: 0 0 -4px -2px;
     padding: 0;
@@ -7514,16 +7536,6 @@ and (max-device-width : 767px) {
   }
   .messagesView #topicListWrap #topicList .topic .lastMessage:after {
     clear: both;
-  }
-  .messagesView #topicListWrap #topicList .topic .left {
-    display: inline-block;
-    *display: inline;
-    /* IE7 inline-block hack */
-  
-    *zoom: 1;
-    float: left;
-    width: 28%;
-    margin: 0 1% 0 1%;
   }
   .messagesView #topicListWrap #topicList .topic#newmessage {
     height: 20px;

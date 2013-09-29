@@ -25,9 +25,11 @@
 			.topic {
 				.border-radius(5px);
 				border-bottom: 1px solid #aaa;
-				.userimg {
-					.border-radius(5px);
-				}
+				.left {
+					.userimg {
+						.border-radius(5px);
+					}
+				}	
 				.username {
 					font-size: 0.9em!important;
 				}
@@ -51,6 +53,8 @@
 				}
 				&.groupChat {
 					.left {
+						background-color: #b2b2b2;
+						.border-radius(5px);
 						img, span, div {
 							.border-radius(0);
 							&:nth-child(1) {
@@ -66,8 +70,8 @@
 								.border-radiuses(0,5px,0,0);	
 							}
 						}
-						span, div {
-							background-color: rgba(0,0,0,0.82);
+						span, div {	
+							background-color: #343434;
 							color: @white;
 							.box-fix;
 						}
