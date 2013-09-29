@@ -23,7 +23,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 				scope.searching = false;
 				scope.empty = false;
 				scope.current = 0;
-				scope.selected = {};
+				scope.selected = [];
 
 				scope.width = iElement.width();
 
@@ -32,10 +32,12 @@ define(["step", "whispeerHelper"], function (step, h) {
 
 				var timer = null;
 
+				scope.markedSelection = -1;
+
 				scope.queryChange = function () {
 					scope.current = 0;
 					scope.focused = true;
-					if (scope.query.length > 3) {
+					if (scope.query.length >= 3) {
 						scope.searching = true;
 						window.clearTimeout(timer);
 						timer = window.setTimeout(function () {
@@ -100,14 +102,16 @@ define(["step", "whispeerHelper"], function (step, h) {
 				scope.selectUser = function(index) {
 					var user = scope.users[index];
 					if (scope.multiple) {
-						scope.selected[user.id] = user.name;
+						var id = parseInt(user.id, 10);
+						if (scope.selectedUsers.indexOf(id) === -1) {
+							scope.selected.push({
+								id: id,
+								name: user.name
+							});
 
-						scope.query = "";
-						scope.users = [];
-						try {
-							scope.selectedUsers.push(user.id);
-						} catch (e) {
-							console.log(e);
+							scope.query = "";
+							scope.users = [];
+							scope.selectedUsers.push(id);
 						}
 					} else {
 						$location.path(user.url);
@@ -120,10 +124,17 @@ define(["step", "whispeerHelper"], function (step, h) {
 				var UP = [38, 33];
 				var DOWN = [40, 34];
 				var ENTER = [13];
+				var BACKSPACE = 8;
 
 				// left: 37, up: 38, right: 39, down: 40,
 				// spacebar: 32, pageup: 33, pagedown: 34, end: 35, home: 36
 				var keys = UP.concat(DOWN);
+
+				scope.removeSelection = function (index) {
+					scope.selectedUsers.splice(index, 1);
+					scope.selected.splice(index, 1);
+					scope.markedSelection = -1;
+				};
 
 				scope.keydown = function (e) {
 					if (UP.indexOf(e.keyCode) > -1) {
@@ -132,6 +143,14 @@ define(["step", "whispeerHelper"], function (step, h) {
 
 					if (DOWN.indexOf(e.keyCode) > -1) {
 						addCurrent(1);
+					}
+
+					if (e.keyCode == BACKSPACE && scope.query.length === 0) {
+						if (scope.markedSelection !== -1) {
+							scope.removeSelection(scope.markedSelection);
+						} else {
+							scope.markedSelection = scope.selectedUsers.length - 1;
+						}
 					}
 
 					if (e.keyCode == ENTER) {
