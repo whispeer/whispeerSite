@@ -28,7 +28,7 @@
 				.box-fix;
 				.left {
 					.userimg {
-						.border-radius(5px);
+						.border-radiuses(0px, 0px, 5px, 5px);
 					}
 				}	
 				.username {
@@ -41,9 +41,18 @@
 				&:hover {
 					background-color: rgba(0,0,0,0.1);
 				}
+				&.unread {
+					background-color: rgba(128,212,9,0.55);
+					&:hover {
+						background-color: rgba(128,212,9,0.75);
+					}		
+				}
 				&.active {
-					box-shadow: inset 0px 0px 2px 1px #7fd308;
-					background: rgba(128,212,9,0.4);		
+					background-color: rgba(99,210,0,0.75);
+					box-shadow: inset 0px 0px 2px 1px #62a308;
+					&:hover {
+						background-color: rgba(99,210,0,0.95);
+					}
 				}
 				.time {
 					font-size: small;
@@ -62,13 +71,13 @@
 								.border-radiuses(0,0,0,5px);
 							}
 							&:nth-child(2) {
-								.border-radiuses(5px,0,0,0);	
+								.border-radius(0);	
 							}
 							&:nth-child(3) {
 								.border-radiuses(0,0,5px,0);	
 							}
 							&:nth-child(4) {
-								.border-radiuses(0,5px,0,0);	
+								.border-radius(0);	
 							}
 						}
 						span, div {	
