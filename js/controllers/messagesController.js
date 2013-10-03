@@ -23,6 +23,10 @@ define(["step", "whispeerHelper"], function (step, h) {
 		$scope.canSend = false;
 		$scope.topicLoaded = false;
 
+		$scope.isActiveTopic = function (topic) {
+			return ($scope.topicid === parseInt(topic.id, 10));
+		};
+
 		$scope.new = {
 			text: "",
 			selectedUsers: [],
