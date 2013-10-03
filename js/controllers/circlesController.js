@@ -41,44 +41,7 @@ define(["step"], function (step) {
 				"image": "/img/profil.jpg",
 				"persons": [
 				]
-			},{
-				"id": "1",
-				"name":	"Liste der geilsten Personen auf der Ganzen Welt, oh mein Gott bin ich hipster! xoxoxoxo dreieck!!",
-				"image": "/img/profil.jpg",
-				"persons": [
-				]
-			},{
-				"id": "1",
-				"name":	"Liste der geilsten Personen auf der Ganzen Welt, oh mein Gott bin ich hipster! xoxoxoxo dreieck!!",
-				"image": "/img/profil.jpg",
-				"persons": [
-				]
-			},{
-				"id": "1",
-				"name":	"Liste der geilsten Personen auf der Ganzen Welt, oh mein Gott bin ich hipster! xoxoxoxo dreieck!!",
-				"image": "/img/profil.jpg",
-				"persons": [
-				]
-			},{
-				"id": "1",
-				"name":	"Liste der geilsten Personen auf der Ganzen Welt, oh mein Gott bin ich hipster! xoxoxoxo dreieck!!",
-				"image": "/img/profil.jpg",
-				"persons": [
-				]
-			},{
-				"id": "1",
-				"name":	"Liste der geilsten Personen auf der Ganzen Welt, oh mein Gott bin ich hipster! xoxoxoxo dreieck!!",
-				"image": "/img/profil.jpg",
-				"persons": [
-				]
-			},{
-				"id": "1",
-				"name":	"Liste der geilsten Personen auf der Ganzen Welt, oh mein Gott bin ich hipster! xoxoxoxo dreieck!!",
-				"image": "/img/profil.jpg",
-				"persons": [
-				]
 			}
-
 		];
 		$scope.thisCircle = {
 			"id": "1",
@@ -90,67 +53,7 @@ define(["step"], function (step) {
 					"name":"Testy Test",
 					"samefriends":	"23",
 					"image":	"/img/profil.jpg"
-				},{
-					"id": "1",
-					"name":"Testy Test",
-					"samefriends":	"23",
-					"image":	"/img/profil.jpg"
-				},{
-					"id": "1",
-					"name":"Testy Test",
-					"samefriends":	"23",
-					"image":	"/img/profil.jpg"
-				},{
-					"id": "1",
-					"name":"Testy Test",
-					"samefriends":	"23",
-					"image":	"/img/profil.jpg"
-				},{
-					"id": "1",
-					"name":"Testy Test",
-					"samefriends":	"23",
-					"image":	"/img/profil.jpg"
-				},{
-					"id": "1",
-					"name":"Testy Test",
-					"samefriends":	"23",
-					"image":	"/img/profil.jpg"
-				},{
-					"id": "1",
-					"name":"Testy Test",
-					"samefriends":	"23",
-					"image":	"/img/profil.jpg"
-				},{
-					"id": "1",
-					"name":"Testy Test",
-					"samefriends":	"23",
-					"image":	"/img/profil.jpg"
-				},{
-					"id": "1",
-					"name":"Testy Test",
-					"samefriends":	"23",
-					"image":	"/img/profil.jpg"
-				},{
-					"id": "1",
-					"name":"Testy Test",
-					"samefriends":	"23",
-					"image":	"/img/profil.jpg"
-				},{
-					"id": "1",
-					"name":"Testy Test",
-					"samefriends":	"23",
-					"image":	"/img/profil.jpg"
-				},{
-					"id": "1",
-					"name":"Testy Test",
-					"samefriends":	"23",
-					"image":	"/img/profil.jpg"
-				},{
-					"id": "1",
-					"name":"Testy Test",
-					"samefriends":	"23",
-					"image":	"/img/profil.jpg"
-				}
+				}	
 			]
 		};
 	}

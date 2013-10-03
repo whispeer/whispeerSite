@@ -5,13 +5,16 @@
 	</div>
 	<div class="body">
 		<ul class="unstyled">
-			<li class="message" data-ng-class="unreadClass(topic)" data-ng-repeat="topic in topics">
-				<img src="/img/user.png">
+			<li class="message {{topic.type}} {{topic.unread?'unread':''}}" data-ng-repeat="topic in topics" data-ng-click="loadTopic(topic.id)">
+				<div class="left">
+					<img class="userimg" data-ng-repeat="partner in topic.partnersDisplay" data-ng-src="{{partner.image}}" alt="{{partner.name}}" title="{{partner.name}}">
+					<span data-ng-if="topic.remainingUser" title="{{topic.remainingUserTitle}}">+ {{topic.remainingUser}}</span>
+				</div>
 				<p class="username">
-					{{shortenName(topic.partner.name)}}
+					<strong ng-repeat="partner in topic.partners">{{topic.partners.length>1?partner.shortname:partner.name}}{{$last?"":", "}}</strong>
 				</p>
-				<p class="text">
-					{{shortenMessage(topic.latestMessage.text)}}
+				<p class="text" title="{{topic.latestMessage.data.text}}">
+					{{topic.latestMessage.data.text}}
 				</p>
 			</li>
 		</ul>

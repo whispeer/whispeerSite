@@ -1434,7 +1434,7 @@ body:not(.mainView, .registerView) #main {
 #magicbar .magic .body ul li.unread .text {
   color: #ffffff !important;
 }
-#magicbar .magic .body ul li.message img {
+#magicbar .magic .body ul li.message .left {
   display: inline-block;
   *display: inline;
   /* IE7 inline-block hack */
@@ -1444,6 +1444,130 @@ body:not(.mainView, .registerView) #main {
   width: 21%;
   margin: 0 2% 0 2%;
   margin: 2% 2%;
+}
+#magicbar .magic .body ul li.message .left img {
+  width: 100%;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+}
+#magicbar .magic .body ul li.message.groupChat .left {
+  background-color: #b2b2b2;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  height: 40px;
+}
+#magicbar .magic .body ul li.message.groupChat .left img,
+#magicbar .magic .body ul li.message.groupChat .left span {
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  border-radius: 0;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  display: inline-block;
+  *display: inline;
+  /* IE7 inline-block hack */
+
+  *zoom: 1;
+  float: left;
+  width: 50%;
+  margin: 0 0 0 0;
+  height: 50%;
+}
+#magicbar .magic .body ul li.message.groupChat .left img:nth-child(1),
+#magicbar .magic .body ul li.message.groupChat .left span:nth-child(1) {
+  -webkit-border-top-right-radius: 0;
+  -webkit-border-bottom-right-radius: 0;
+  -webkit-border-bottom-left-radius: 0;
+  -webkit-border-top-left-radius: 5px;
+  -moz-border-radius-topright: 0;
+  -moz-border-radius-bottomright: 0;
+  -moz-border-radius-bottomleft: 0;
+  -moz-border-radius-topleft: 5px;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+  border-top-left-radius: 5px;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+}
+#magicbar .magic .body ul li.message.groupChat .left img:nth-child(2),
+#magicbar .magic .body ul li.message.groupChat .left span:nth-child(2) {
+  -webkit-border-top-right-radius: 5px;
+  -webkit-border-bottom-right-radius: 0;
+  -webkit-border-bottom-left-radius: 0;
+  -webkit-border-top-left-radius: 0;
+  -moz-border-radius-topright: 5px;
+  -moz-border-radius-bottomright: 0;
+  -moz-border-radius-bottomleft: 0;
+  -moz-border-radius-topleft: 0;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+  border-top-left-radius: 0;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+}
+#magicbar .magic .body ul li.message.groupChat .left img:nth-child(3),
+#magicbar .magic .body ul li.message.groupChat .left span:nth-child(3) {
+  -webkit-border-top-right-radius: 0;
+  -webkit-border-bottom-right-radius: 0;
+  -webkit-border-bottom-left-radius: 5px;
+  -webkit-border-top-left-radius: 0;
+  -moz-border-radius-topright: 0;
+  -moz-border-radius-bottomright: 0;
+  -moz-border-radius-bottomleft: 5px;
+  -moz-border-radius-topleft: 0;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 5px;
+  border-top-left-radius: 0;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+}
+#magicbar .magic .body ul li.message.groupChat .left img:nth-child(4),
+#magicbar .magic .body ul li.message.groupChat .left span:nth-child(4) {
+  -webkit-border-top-right-radius: 0;
+  -webkit-border-bottom-right-radius: 5px;
+  -webkit-border-bottom-left-radius: 0;
+  -webkit-border-top-left-radius: 0;
+  -moz-border-radius-topright: 0;
+  -moz-border-radius-bottomright: 5px;
+  -moz-border-radius-bottomleft: 0;
+  -moz-border-radius-topleft: 0;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 5px;
+  border-bottom-left-radius: 0;
+  border-top-left-radius: 0;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+}
+#magicbar .magic .body ul li.message.groupChat .left span {
+  background-color: #343434;
+  color: #ffffff;
+  font-size: 10px;
+  text-align: center;
+  -webkit-box-sizing: border-box;
+  /* Safari/Chrome, other WebKit */
+
+  -moz-box-sizing: border-box;
+  /* Firefox, other Gecko */
+
+  box-sizing: border-box;
+  /* Opera/IE 8+ */
+
 }
 #magicbar .magic .body ul li.message .username {
   display: inline-block;
@@ -1455,6 +1579,9 @@ body:not(.mainView, .registerView) #main {
   width: 73%;
   margin: 0 1% 0 1%;
   font-weight: bold;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
 }
 #magicbar .magic .body ul li.message .text {
   display: inline-block;

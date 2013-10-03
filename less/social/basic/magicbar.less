@@ -61,13 +61,51 @@
 						}
 					}
 					&.message {
-						img {
+						.left {
 							.column(3,12,left,4%);
 							margin:2% 2%;
+							img {
+								width: 100%;
+								.border-radius(5px);
+							}
+						}
+						&.groupChat {
+							.left {
+								background-color: #b2b2b2;
+								.border-radius(5px);
+								height: 40px;
+								img, span {
+									.border-radius(0);
+									.column(1,2,left,0);
+									height: 50%;
+									&:nth-child(1) {
+										.border-radiuses(0,0,0,5px);
+									}
+									&:nth-child(2) {
+										.border-radiuses(5px,0,0,0);	
+									}
+									&:nth-child(3) {
+										.border-radiuses(0,0,5px,0);	
+									}
+									&:nth-child(4) {
+										.border-radiuses(0,5px,0,0);	
+									}
+								}
+								span {	
+									background-color: #343434;
+									color: @white;
+									font-size: 10px;
+									text-align: center;
+									.box-fix;
+								}
+							}
 						}
 						.username {
 							.column(9);
 							font-weight: bold;
+							white-space: nowrap;
+							text-overflow: ellipsis;
+							overflow: hidden;
 						}
 						.text {
 							.column(8.5);
