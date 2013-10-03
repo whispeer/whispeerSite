@@ -574,6 +574,7 @@ define(["step", "whispeerHelper", "valid/validator"], function (step, h, validat
 			var id = t.getID();
 
 			if (topics[id]) {
+				cb(t.getID());
 				return topics[id];
 			}
 

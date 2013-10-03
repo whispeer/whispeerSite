@@ -28,16 +28,14 @@ define([], function () {
 		};
 		$scope.loadTopic = function(id) {
 			$location.path("/messages").search({topicid: id});
-		}
-		messageService.loadMoreLatest(function (e) {
-			if ($routeParams["topicid"]) {
-				$scope.loadActiveTopic($routeParams["topicid"]);
-			}
+		};
 
+		messageService.loadMoreLatest(function (e) {
 			if (e) {
 				console.log(e);
 			}
 		});
+
 		$scope.topics = messageService.data.latestTopics.data;
 	}
 

@@ -10,6 +10,14 @@ define(["step", "whispeerHelper"], function (step, h) {
 
 		$scope.topicid = 0;
 
+		$scope.$watch(function(){ return $routeParams["topicid"]; }, function(){
+			if ($routeParams["topicid"]) {
+				$scope.loadActiveTopic($routeParams["topicid"]);
+			} else {
+				
+			}
+		});
+
 		messageService.loadMoreLatest(function (e) {
 			if ($routeParams["topicid"]) {
 				$scope.loadActiveTopic($routeParams["topicid"]);
