@@ -1,7 +1,7 @@
 <div id="logo">
 	<img src="img/logo.png">
 </div>
-<form id="loginForm" data-ng-if="loginForm == 'login'">
+<form id="loginForm" data-ng-if="loginForm == 'login'" data-ng-controller="ssn.loginController">
 <!--{{loginFailed}}-->
 	<div>
 		<input type="text" id="mail" data-i18n-attr="login.username|placeholder" data-ng-model="identifier">
@@ -14,7 +14,7 @@
 		<button id="loginformsubmit" class="btn" type="submit" data-ng-click="login(identifier, password)">{{'login.link'|i18n}}</button>
 	</div>
 </form>
-<form id="registerForm" data-ng-if="loginForm == 'register'" data-ng-click="registerFormClick()" data-ng-include="'views/login/templates/step' + registrationStep + '.html'" data-regStep="{{registrationStep}}">
+<form id="registerForm" data-ng-if="loginForm == 'register'" data-ng-click="registerFormClick()" data-ng-controller="ssn.registerController" data-ng-include="'views/register/templates/step' + registrationStep + '.html'" data-regStep="{{registrationStep}}">
 </form>
 <div id="moreInfo" data-ng-if="loginForm == 'moreInfo'">
 	<header>Mehr Informationen zu whispeer</header>

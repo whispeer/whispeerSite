@@ -7,8 +7,8 @@ define([], function () {
 	var service = function ($rootScope, $location, $route, storage) {
 		var sid = "", loggedin = false, ownLoaded = false, userid, returnURL, loaded = false;
 
-		var noLoginRequired = ["ssn.loginController"];
-		var loggoutRequired = ["ssn.loginController", "ssn.loadingController"];
+		var noLoginRequired = ["ssn.startController"];
+		var loggoutRequired = ["ssn.startController", "ssn.loadingController"];
 
 		function setSID(newSID, user) {
 			if (newSID !== sid) {
@@ -64,7 +64,7 @@ define([], function () {
 					if (!logout) {
 						returnURL = $location.path();
 					}
-					$location.path("/login");
+					$location.path("/start");
 				}
 			}
 		}

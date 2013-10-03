@@ -15,8 +15,8 @@ define(["app"], function (app) {
 				reloadOnSearch: reloadOnSearch
 			});
 		}
-		
-		addMain("login");
+
+		addMain("start");
 		addMain("main");
 		addMain("friends");
 		addMain("messages", false);
@@ -33,7 +33,7 @@ define(["app"], function (app) {
 		$routeProvider.when("/:identifier", {
 			redirectTo: function (params) {
 				if (params.identifier === "") {
-					return "/login";
+					return "/start";
 				}
 
 				return "/user/" + params.identifier;
