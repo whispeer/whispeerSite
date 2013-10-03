@@ -7739,6 +7739,7 @@ and (max-device-width : 767px) {
     max-width: 70% !important;
     overflow: hidden;
     white-space: nowrap;
+    float: left;
   }
   .messagesView #topicListWrap #topicList .topic .lastMessage:before,
   .messagesView #topicListWrap #topicList .topic .lastMessage:after {
