@@ -146,6 +146,8 @@ define(["step", "whispeerHelper", "valid/validator"], function (step, h, validat
 				if (unread) {
 					if (newUnread.length === 0 && unread.length > 0) {
 						messageService.data.unread -= 1;
+					} else if (newUnread.length > 0 && unread.length === 0) {
+						messageService.data.unread += 1;
 					}
 				}
 
@@ -230,7 +232,7 @@ define(["step", "whispeerHelper", "valid/validator"], function (step, h, validat
 				}), cb);
 			};
 
-			this.addMessage = function addMessageF(m, cb) {
+			this.addMessage = function addMessageF(m, addUnread, cb) {
 				step(function () {
 					if (m.getTime() > data.time) {
 						data.time = m.getTime();
@@ -250,6 +252,9 @@ define(["step", "whispeerHelper", "valid/validator"], function (step, h, validat
 					});
 
 					theTopic.data.latestMessage = messages[messages.length - 1];
+					if (addUnread && !theTopic.messageUnread(m.getID)) {
+						setUnread(unread.concat([m.getID()]));
+					}
 					m.unread = theTopic.messageUnread(m.getID());
 
 					if (cb) {
@@ -349,7 +354,7 @@ define(["step", "whispeerHelper", "valid/validator"], function (step, h, validat
 					if (data.messages) {
 						var i;
 						for (i = 0; i < data.messages.length; i += 1) {
-							makeMessage(data.messages[i], this.parallel());
+							makeMessage(data.messages[i], false, this.parallel());
 						}
 					}
 
@@ -364,7 +369,7 @@ define(["step", "whispeerHelper", "valid/validator"], function (step, h, validat
 			this.loadNewest = function loadNewestF(cb) {
 				step(function () {
 					if (data.newest) {
-						makeMessage(data.newest, this);
+						makeMessage(data.newest, false, this);
 					} else {
 						this.ne();
 					}
@@ -599,7 +604,7 @@ define(["step", "whispeerHelper", "valid/validator"], function (step, h, validat
 			return t;
 		}
 
-		function makeMessage(data, cb) {
+		function makeMessage(data, addUnread, cb) {
 			var m = new Message(data);
 
 			var id = m.getID();
@@ -611,7 +616,7 @@ define(["step", "whispeerHelper", "valid/validator"], function (step, h, validat
 			messages[id] = m;
 
 			if (topics[m.getTopicID()]) {
-				topics[m.getTopicID()].addMessage(m, cb);
+				topics[m.getTopicID()].addMessage(m, addUnread, cb);
 			}
 
 			return m;
@@ -620,11 +625,14 @@ define(["step", "whispeerHelper", "valid/validator"], function (step, h, validat
 		socket.listen("message", function (e, data) {
 			if (!e) {
 				if (data.topic) {
-					makeTopic(data.topic);
+					var t = makeTopic(data.topic);
+					if (t.data.unread) {
+						messageService.data.unread += 1;
+					}
 				}
 
 				if (data.message) {
-					makeMessage(data.message);
+					makeMessage(data.message, true);
 				}
 			} else {
 				console.error(e);
@@ -702,7 +710,7 @@ define(["step", "whispeerHelper", "valid/validator"], function (step, h, validat
 				}, h.sF(function (result) {
 					socket.emit("messages.send", result, this);
 				}), h.sF(function (result) {
-					makeMessage(result.message);
+					makeMessage(result.message, false);
 					this.ne();
 				}), cb);
 			},
