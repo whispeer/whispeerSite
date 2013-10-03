@@ -3,9 +3,9 @@
 		<h3>{{user.name}}</h3>
 	</heading>
 	<menu type="list" class="unstyled">
-		<li><a href="#info" data-i18n="profile.head.info">Info</a></li>
-		<li><a href="#wall" data-i18n="profile.head.wall">Pinnwand</a></li>
-		<li><a href="#friends" data-i18n="profile.head.friends">Freunde</a></li>
+		<li><a href="#info" data-i18n="profile.head.info"></a></li>
+		<li><a href="#wall" data-i18n="profile.head.wall"></a></li>
+		<li><a href="#friends" data-i18n="profile.head.friends"></a></li>
 	</menu>
 </nav>
 <div id="wrap">
@@ -111,6 +111,13 @@
 							</span>
 						</span>
 					</p>
+				</div>
+				<div class="actions">
+					<a href="" class="addFriend" ng-if="!user.added" data-i18n="profile.actions.addFriend|user={{user.name}}"></a>
+					<div class="addToCirlce" ng-if="user.added">
+						<search placeholder="profile.actions.addToCircle|placeholder|user={{user.name}}"></search>
+					</div>
+					<a href="" class="sendMessage" data-i18n="profile.actions.sendMessage|user={{user.name}}"></a>
 				</div>
 			</article>
 		</section>

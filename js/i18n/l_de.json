@@ -99,6 +99,11 @@
 			"wall":	"Pinnwand",
 			"friends":	"Freunde"	
 		},
+		"actions": {
+			"addFriend":	"{user} als Freund hinzufügen",
+			"addToCircle":	"In welche Kreise möchtest du {user} einfügen?",
+			"sendMessage": "{user} eine Nachricht senden"
+		},
 		"section":	{
 			"general": {
 				"headers":	{

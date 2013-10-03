@@ -22,6 +22,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 
 		$scope.user	= {
 			"name":	"Not loaded",
+			"added": false,
 			"data": {
 				"image": "/img/profil.jpg",
 				"me": true,

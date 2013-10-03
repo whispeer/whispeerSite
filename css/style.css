@@ -2463,6 +2463,107 @@ body:not(.mainView, .registerView) #main {
 .profileView #main #info article#generalInfo .userimage:hover .editImage {
   opacity: 1;
 }
+.profileView #main #info article#generalInfo .actions {
+  border: none;
+  border-top: 1px solid #ccc;
+  -webkit-box-sizing: border-box;
+  /* Safari/Chrome, other WebKit */
+
+  -moz-box-sizing: border-box;
+  /* Firefox, other Gecko */
+
+  box-sizing: border-box;
+  /* Opera/IE 8+ */
+
+}
+.profileView #main #info article#generalInfo .actions .addFriend {
+  display: inline-block;
+  *display: inline;
+  /* IE7 inline-block hack */
+
+  *zoom: 1;
+  padding: 4px 15px;
+  -webkit-box-sizing: border-box;
+  /* Safari/Chrome, other WebKit */
+
+  -moz-box-sizing: border-box;
+  /* Firefox, other Gecko */
+
+  box-sizing: border-box;
+  /* Opera/IE 8+ */
+
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  border: 0;
+  background-color: #ffffff;
+  color: #333333;
+  text-shadow: 0 1px 1px rgba(255, 255, 255, 0.75);
+  border: 1px solid #bbbbbb;
+  background-color: #559d00;
+  color: #ffffff;
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+  text-align: center;
+}
+.profileView #main #info article#generalInfo .actions .addFriend:hover {
+  background-color: #ececec;
+}
+.profileView #main #info article#generalInfo .actions .addFriend:hover,
+.profileView #main #info article#generalInfo .actions .addFriend:active,
+.profileView #main #info article#generalInfo .actions .addFriend.active,
+.profileView #main #info article#generalInfo .actions .addFriend.disabled,
+.profileView #main #info article#generalInfo .actions .addFriend[disabled] {
+  background-color: #ececec;
+}
+.profileView #main #info article#generalInfo .actions .addFriend:hover,
+.profileView #main #info article#generalInfo .actions .addFriend:active,
+.profileView #main #info article#generalInfo .actions .addFriend.active,
+.profileView #main #info article#generalInfo .actions .addFriend.disabled,
+.profileView #main #info article#generalInfo .actions .addFriend[disabled] {
+  background-color: #3a8100;
+}
+.profileView #main #info article#generalInfo .actions .sendMessage {
+  display: inline-block;
+  *display: inline;
+  /* IE7 inline-block hack */
+
+  *zoom: 1;
+  padding: 4px 15px;
+  -webkit-box-sizing: border-box;
+  /* Safari/Chrome, other WebKit */
+
+  -moz-box-sizing: border-box;
+  /* Firefox, other Gecko */
+
+  box-sizing: border-box;
+  /* Opera/IE 8+ */
+
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  border: 0;
+  background-color: #ffffff;
+  color: #333333;
+  text-shadow: 0 1px 1px rgba(255, 255, 255, 0.75);
+  border: 1px solid #bbbbbb;
+  text-align: center;
+}
+.profileView #main #info article#generalInfo .actions .sendMessage:hover {
+  background-color: #ececec;
+}
+.profileView #main #info article#generalInfo .actions .sendMessage:hover,
+.profileView #main #info article#generalInfo .actions .sendMessage:active,
+.profileView #main #info article#generalInfo .actions .sendMessage.active,
+.profileView #main #info article#generalInfo .actions .sendMessage.disabled,
+.profileView #main #info article#generalInfo .actions .sendMessage[disabled] {
+  background-color: #ececec;
+}
 .profileView #main #info article#generalInfo #school span[data-ng-repeat]:not(:last-child):after,
 .profileView #main #info article#generalInfo #languages span[data-ng-repeat]:not(:last-child):after {
   content: ", ";
@@ -8590,6 +8691,53 @@ and (max-device-width : 767px) {
     margin: 0 1% 0 1%;
     margin-top: -10px;
     line-height: 10px;
+  }
+  .profileView #main #info article#generalInfo .actions {
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
+    float: left;
+    width: 100%;
+    margin: 0 0 0 0;
+  }
+  .profileView #main #info article#generalInfo .actions .addFriend {
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
+    float: left;
+    width: 48%;
+    margin: 0 1% 0 1%;
+    margin: 10px 1% 10px 1%;
+    height: 40px;
+    padding: 8.5px;
+  }
+  .profileView #main #info article#generalInfo .actions .addToCirlce {
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
+    float: left;
+    width: 48%;
+    margin: 0 1% 0 1%;
+    margin: 10px 1% 10px 1%;
+  }
+  .profileView #main #info article#generalInfo .actions .sendMessage {
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
+    float: left;
+    width: 48%;
+    margin: 0 1% 0 1%;
+    margin: 10px 1% 10px 1%;
+    height: 40px;
+    padding: 8.5px;
   }
   .profileView #main #wall {
     display: inline-block;
