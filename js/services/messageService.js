@@ -169,7 +169,7 @@ define(["step", "whispeerHelper", "valid/validator"], function (step, h, validat
 				remainingUserTitle: "",
 
 				id: data.topicid,
-				type: (data.receiver.length === 2 ? "peerChat" : "groupChat"),
+				type: (data.receiver.length <= 2 ? "peerChat" : "groupChat"),
 				obj: this
 			};
 
@@ -285,7 +285,7 @@ define(["step", "whispeerHelper", "valid/validator"], function (step, h, validat
 							"image": data[i*3+2]
 						};
 
-						if (!receiverObjects[i].isOwn()) {
+						if (!receiverObjects[i].isOwn() || receiverObjects.length === 1) {
 							partners.push(userData);
 						} else {
 							me = userData;
@@ -502,6 +502,10 @@ define(["step", "whispeerHelper", "valid/validator"], function (step, h, validat
 				for (i = 0; i < receiverObjects.length; i += 1) {
 					crypt = receiverObjects[i].getCryptKey();
 					keyStore.sym.asymEncryptKey(topicKey, crypt, this.parallel());
+				}
+
+				if (receiverObjects.length === 0) {
+					this.ne([]);
 				}
 			}), h.sF(function (cryptKeys) {
 				var cryptKeysData = keyStore.upload.getKeys(cryptKeys);

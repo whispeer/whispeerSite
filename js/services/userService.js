@@ -292,6 +292,10 @@ define(["step", "whispeerHelper"], function (step, h) {
 					for (i = 0; i < identifiers.length; i += 1) {
 						loadUser(identifiers[i], this.parallel());
 					}
+
+					if (identifiers.length === 0) {
+						this.ne([]);
+					}
 				}, cb);
 			},
 

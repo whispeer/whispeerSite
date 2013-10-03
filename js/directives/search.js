@@ -173,7 +173,6 @@ define(["step", "whispeerHelper"], function (step, h) {
 				};
 
 				scope.click = function (bool) {
-					console.log("Click:" + bool);
 					if (bool) {
 						input.focus();
 					}
@@ -181,7 +180,6 @@ define(["step", "whispeerHelper"], function (step, h) {
 				};
 
 				scope.focus = function (bool) {
-					console.log("Focus:" + bool);
 					scope.focused = bool;
 				};
 
