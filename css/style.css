@@ -682,6 +682,10 @@ body #container {
 body #container #loading {
   text-align: center;
 }
+body textarea {
+  resize: none;
+  overflow: auto;
+}
 body footer {
   -webkit-box-sizing: border-box;
   /* Safari/Chrome, other WebKit */
