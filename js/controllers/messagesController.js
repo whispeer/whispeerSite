@@ -14,7 +14,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 			if ($routeParams["topicid"]) {
 				$scope.loadActiveTopic($routeParams["topicid"]);
 			} else {
-				
+				$scope.topicLoaded = false;
 			}
 		});
 
