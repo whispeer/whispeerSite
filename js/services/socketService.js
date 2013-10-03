@@ -19,6 +19,8 @@ define(["socket", "step", "whispeerHelper"], function (io, step, h) {
 			socket: socket,
 			listen: function (channel, callback) {
 				socket.on(channel, function (data) {
+					console.log("received data on " + channel);
+					console.log(data);
 					$rootScope.$apply(function () {
 						callback(null, data);
 					});

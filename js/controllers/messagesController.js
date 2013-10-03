@@ -14,7 +14,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 			if ($routeParams["topicid"]) {
 				$scope.loadActiveTopic($routeParams["topicid"]);
 			} else {
-				
+				$scope.topicLoaded = false;
 			}
 		});
 
@@ -41,7 +41,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 			send: function (receiver, text) {
 				messageService.sendNewTopic(receiver, text, function (e, id) {
 					$scope.new.text = "";
-					$scope.new.receiver = "";
+					$scope.new.selectedUsers = [];
 					$scope.loadActiveTopic(id);
 				});
 			}
