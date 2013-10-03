@@ -5,12 +5,39 @@
 		#brand {
 			font-size: 25px;
 			line-height: @baseLineHeight;
-			.column(2,12);
+			.column(2.5,12);
 			margin-top: 12px;
 		}
 	}
-	#searchBar {
-		.column(8,12);
+	.searchBar {
+		.column(7.5);
+		.formSearch {
+			width: 100%;
+			margin: 7px 0px;
+			.inputWrap {
+				min-height: 0px;
+				height: 35px;
+				line-height: 35px;
+				padding:0;
+				li {
+					height: 35px;
+					line-height: 35px;
+					padding:0;
+					&.searchField {
+						input {
+							padding:0px 10px;
+							margin:-1px 0;
+							height:35px;
+							line-height: 35px;
+						}
+					}
+				}
+			}
+		}
+		.searchDrop {
+			top: 50px;
+			margin: 5px 0;
+		}
 	}
 	#navIcons {
 		height: 100%;

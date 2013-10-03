@@ -23,7 +23,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 		$scope.user	= {
 			"name":	"Not loaded",
 			"data": {
-				"image": "img/profil.jpg",
+				"image": "/img/profil.jpg",
 				"me": true,
 				"birthday":	{
 					"day":	"",
@@ -128,12 +128,14 @@ define(["step", "whispeerHelper"], function (step, h) {
 			{
 				"sender":	{
 					"image":	{
-						"image":	"img/profil.jpg",
+						"image":	"/img/profil.jpg",
 						"alttext":	"Test"
 					},
 					"name":	"Daniel Melchior"
 				},
-				"content":	"Lorem Ipsum Dolor Sit Amet!",
+				"content":	{
+					"text": "Lorem Ipsum Dolor Sit Amet!",
+				},
 				"info":	{
 					"with"	: "Svenja Kenneweg",
 					"awesome"	: "20",
@@ -145,12 +147,14 @@ define(["step", "whispeerHelper"], function (step, h) {
 			{
 				"sender":	{
 					"image":	{
-						"image":	"img/profil.jpg",
+						"image":	"/img/profil.jpg",
 						"alttext":	"Test"
 					},
 					"name":	"Daniel Melchior"
 				},
-				"content":	"Lorem Ipsum Dolor Sit Amet!",
+				"content":	{
+					"text": "Lorem Ipsum Dolor Sit Amet!",
+				},
 				"info":	{
 					"with"	: "Svenja Kenneweg",
 					"awesome"	: "20",
@@ -162,12 +166,14 @@ define(["step", "whispeerHelper"], function (step, h) {
 			{
 				"sender":	{
 					"image":	{
-						"image":	"img/profil.jpg",
+						"image":	"/img/profil.jpg",
 						"alttext":	"Test"
 					},
 					"name":	"Daniel Melchior"
 				},
-				"content":	"Lorem Ipsum Dolor Sit Amet!",
+				"content":	{
+					"text": "Lorem Ipsum Dolor Sit Amet!",
+				},
 				"info":	{
 					"with"	: "Svenja Kenneweg",
 					"awesome"	: "20",
@@ -181,13 +187,13 @@ define(["step", "whispeerHelper"], function (step, h) {
 			{
 				"name": "Willi Welle",
 				"mutualFriends":	"295",
-				"image":	"img/profil.jpg"
+				"image":	"/img/profil.jpg"
 				//"lists":	[''] // ID's of the Lists with this friend
 			},
 			{
 				"name": "William Welle",
 				"mutualFriends":	"495",
-				"image":	"img/profil.jpg"
+				"image":	"/img/profil.jpg"
 				//"lists":	[''] // ID's of the Lists with this friend
 			}
 		];

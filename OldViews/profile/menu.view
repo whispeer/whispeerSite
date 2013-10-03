@@ -1,7 +1,0 @@
-<li><a subview="main" id="subMenuName">&nbsp;</a></li>
-<li><a subview="friendShip" id="subMenuFriendShip"></a></li>
-<li><a subview="infos">Informationen</a></li>
-<li><a subview="wall">Pinnwand</a></li>
-<li><a subview="friends">Freunde</a></li>
-<li><a subview="fotos">Fotos</a></li>
-<li><a subview="search">Durchsuchen</a></li>

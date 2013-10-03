@@ -15,88 +15,65 @@
 	<meta name="description" content="" />
 	<meta name="author" content="" />
 	<meta name="viewport" content="width=device-width" />
-	<link rel="shortcut icon" href="favicon.png" type="image/x-icon" />
+	<link rel="shortcut icon" href="/favicon.png" type="image/x-icon" />
 	<!-- iOS Web-App Stuff -->
-	<link rel="apple-touch-icon" href="img/socialize-icon-iphone.png" />
-	<link rel="apple-touch-icon" sizes="72x72" href="img/socialize-icon-ipad.png" />
-	<link rel="apple-touch-icon" sizes="114x114" href="img/socialize-icon-iphone4.png" />
-	<link rel="apple-touch-startup-image" href="img/socialize-splash.png">
+	<link rel="apple-touch-icon" href="/img/socialize-icon-iphone.png" />
+	<link rel="apple-touch-icon" sizes="72x72" href="/img/socialize-icon-ipad.png" />
+	<link rel="apple-touch-icon" sizes="114x114" href="/img/socialize-icon-iphone4.png" />
+	<link rel="apple-touch-startup-image" href="/img/socialize-splash.png">
 	<meta name="apple-mobile-web-app-capable" content="yes" />
 	
-	<link rel="stylesheet" href="css/style.css">
-	<link rel="stylesheet" href="css/fontello/fontello.css">
+	<link rel="stylesheet" href="/css/style.css">
+	<link rel="stylesheet" href="/css/fontello/fontello.css">
 	<!--[if IE 7]><link rel="stylesheet" href="css/fontello/fontello-ie7.css"><![endif]-->
-	<script src="js/libs/modernizr.js"></script>
+	<script src="/js/libs/modernizr.js"></script>
 	<!--<script src="js/libs/prefixfree.min.js"></script>-->
-	<script data-main="js/main" src="js/libs/require.js"></script>
+	<script data-main="/js/main" src="/js/libs/require.js"></script>
+	<base href="/index.html" />
 </head>
-<body data-ng-class="cssClass" data-ng-click="search.click(false)" data-ng-controller="ssn.rootController" class="registerView">
+<body data-ng-class="cssClass" data-ng-controller="ssn.rootController" class="registerView">
 	<!--[if lte IE 8]><p class=chromeframe>Your browser is <em>ancient!</em> <a href="http://browsehappy.com/">Upgrade to a different browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to experience this site.</p><![endif]-->
 	<noscript>Hallo! Leider steht uns bei deinem Browser kein Javascript zur Verfügung!<br> Daher ist es nicht möglich whispeer zu nutzen, da wir unbedingt Javascript benötigen!<br> Vielen Dank für dein Verständnis!</noscript>
 	<nav id="topNav" data-ng-show="loggedin" data-ng-if="loggedin" style="display:none">
 		<div id="navInner">
-			<a href="#" id="brand"><span id="brandNormal">whis</span><span id="brandInverse">peer</span></a>
+			<a href="/" id="brand"><span id="brandNormal">whis</span><span id="brandInverse">peer</span></a>
 			<div class="nav-collapse collapse">
-				<div id="searchBar" data-ng-click="search.click(true)" data-stop-event="click">
-					<form class="form-search form-navbar" id="nav-searchForm">
-						<input type="text" id="searchQuery" placeholder="Suche" data-ng-change="search.queryChange()" data-ng-model="search.query" data-onfocus="search.focus(true)" data-onblur="search.focus(false)">
-					</form>
-					<div id="searchDrop" data-ng-show="search.show()">
-						<!--<ul class="unstyled" id="searchSuggestions" data-ng-repeat="results in searchResults | filter:mainSearch">-->
-						<ol class="unstyled" id="searchSuggestions">
-							<li data-ng-repeat="user in search.users">
-								<img data-ng-src="{{user.image}}">
-								<div class="info">
-									<span class="name"><a href='#/user/{{user.id}}' data-ng-click="search.click(false)" data-stop-event="click">{{user.name}}</a></span>
-									<span class="friends">{{user.mutuals}} gemeinsame Freunde</span>
-									<span class="location">{{user.location}}</span>
-									<span class="age">{{user.age}}</span>
-								</div>
-								<div class="actions">
-									<a class="addFriend btn">Als Freund hinzufügen</a>
-									<a class="sendMessage btn">Nachricht senden</a>
-								</div>
-							</li>
-						</ol>
-						<span data-i18n="search.searching" data-ng-show="search.searching">
-						</span>
-					</div>
-				</div>
+				<search scope="friends" size="big" data-placeholder="Suchen ..."/>
 			</div>
 		</div>
 		<div id="navIcons" data-ng-controller="ssn.magicbar.mainController">
 			<div class="navIcon" id="message" data-ng-click="loadWidget('messages')">
-				<img src="img/icons/messages.png" alt="Nachrichten" class="icon">
+				<img src="/img/icons/messages.png" alt="Nachrichten" class="icon">
 				<span class="badge" data-ng-if="messages.unread!=0">{{messages.unread}}</span>
 			</div>
 			<div class="navIcon" id="friends" data-ng-click="loadWidget('friends')">
-				<img src="img/icons/friends.png" alt="Freundschaftsanfragen" class="icon">
+				<img src="/img/icons/friends.png" alt="Freundschaftsanfragen" class="icon">
 				<span class="badge">5</span>
 			</div>
 			<div class="navIcon" id="news" data-ng-click="loadWidget('news')">
-				<img src="img/icons/newsfeed.png" alt="Neugikeiten" class="icon">
+				<img src="/img/icons/newsfeed.png" alt="Neugikeiten" class="icon">
 				<span class="badge">3</span>
 			</div>
 			<div class="navIcon" id="settings" data-ng-click="loadWidget('settings')">
-				<img src="img/icons/settings.png" alt="Settings" class="icon">	
+				<img src="/img/icons/settings.png" alt="Settings" class="icon">	
 			</div>
 		</div>	
 	</nav>
 	<div id="container">
 		<aside id="sidebar-left" data-ng-show="loggedin" data-ng-if="loggedin" style="display:none">
 			<div id="userpanel">
-				<a href="#/user/{{user.id}}" class="username">
+				<a href="{{user.url}}" class="username">
 					<img data-ng-src="{{user.image}}" alt="" class="userimg">
 					 {{user.name}}
 				</a>
 				<nav id="menu">
 					<ul class="left unstyled" id="mainMenu">
-						<li><a href="#/user/{{user.id}}" data-i18n="menu.profil"></a></li>
-						<li><a href="#/friends" data-i18n="menu.friends"></a></li>
-						<li><a href="#/messages" data-i18n="menu.messages"></a></li>
-						<li><a href="#/circles" data-i18n="menu.circles"></a></li>
-						<li><a href="#/settings" data-i18n="menu.settings"></a></li>
-						<li><a href="#/help" data-i18n="menu.help"></a></li>
+						<li><a href="{{user.url}}" data-i18n="menu.profil"></a></li>
+						<li><a href="/friends" data-i18n="menu.friends"></a></li>
+						<li><a href="/messages" data-i18n="menu.messages"></a></li>
+						<li><a href="/circles" data-i18n="menu.circles"></a></li>
+						<li><a href="/settings" data-i18n="menu.settings"></a></li>
+						<li><a href="/help" data-i18n="menu.help"></a></li>
 						<li><a href="#" data-ng-click="logout()" data-eat-click data-i18n="menu.logout"></a></li>
 					</ul>
 					<ul class="right unstyled" id="subMenu">
@@ -109,16 +86,16 @@
 
 		<section id="main" data-ng-view>
 			<div id="logo">
-				<img src="img/logo.png">
+				<img src="/img/logo.png">
 			</div>
 		</section>
 		</section>
 
 		<aside id="sidebar-right" data-ng-show="loggedin" data-ng-if="loggedin" style="display:none">
 			<div id="magicbar" data-ng-controller="ssn.magicbar.mainController">
-				<div data-ng-if="!config.showDefault" data-ng-include="'views/magicbar/' + config.template + '.html'" style="height: 100%;"></div>
-				<div data-ng-if="config.showDefault" style="height: 100%;">
-					<div data-ng-repeat="widget in defaultConfig" data-ng-include="'views/magicbar/' + widget.template + '.html'" data-ng-style="'height:' + widget.height + ';'"></div>
+				<div data-ng-if="!config.showDefault" data-ng-include="'/views/magicbar/' + config.template + '.html'" style="height: 100%;">bla</div>
+				<div data-ng-if="config.showDefault">
+					<div data-ng-repeat="widget in defaultConfig" data-ng-include="'/views/magicbar/' + widget.template + '.html'" data-ng-style="'height:' + widget.height + ';'"></div>
 				</div>							
 			</div>		
 		</aside>

@@ -29,7 +29,7 @@ define([], function () {
 						"user": {
 							"id":	"1",
 							"name":	"Test",
-							"image":"img/profil.jpg"
+							"image":"/img/profil.jpg"
 						},
 						"content":	"Hallo Welt! Lorem ipsum dolor sit amet, amet dolor felses dramatikum dolosgnweio+gbeqi0h#nfonho#GBÜnrg#psnRWNW#RPHFNB  hwr bäwrihns#pkb tnsfhpiwrntgfsnhwropngpn topngopn tpoqenhprwntpadnh'W PRt",
 						"timestamp":	"06:56",
@@ -38,7 +38,7 @@ define([], function () {
 						"user": {
 							"id":	"1",
 							"name":	"Test",
-							"image":"img/profil.jpg"
+							"image":"/img/profil.jpg"
 						},
 						"content":	"Hallo Welt!",
 						"timestamp":	"06:56",
@@ -47,7 +47,7 @@ define([], function () {
 						"user": {
 							"id":	"1",
 							"name":	"Test",
-							"image":"img/profil.jpg"
+							"image":"/img/profil.jpg"
 						},
 						"content":	"Hallo Welt!",
 						"timestamp":	"06:56",
@@ -56,7 +56,7 @@ define([], function () {
 						"user": {
 							"id":	"1",
 							"name":	"Test",
-							"image":"img/profil.jpg"
+							"image":"/img/profil.jpg"
 						},
 						"content":	"Hallo Welt!",
 						"timestamp":	"06:56",
@@ -65,7 +65,7 @@ define([], function () {
 						"user": {
 							"id":	"1",
 							"name":	"Test",
-							"image":"img/profil.jpg"
+							"image":"/img/profil.jpg"
 						},
 						"content":	"Hallo Welt!",
 						"timestamp":	"06:56",
@@ -74,7 +74,7 @@ define([], function () {
 						"user": {
 							"id":	"1",
 							"name":	"Test",
-							"image":"img/profil.jpg"
+							"image":"/img/profil.jpg"
 						},
 						"content":	"Hallo Welt!",
 						"timestamp":	"06:56",
@@ -83,7 +83,7 @@ define([], function () {
 						"user": {
 							"id":	"1",
 							"name":	"Test",
-							"image":"img/profil.jpg"
+							"image":"/img/profil.jpg"
 						},
 						"content": "Hallo Welt!",
 						"timestamp":	"06:56",
@@ -92,7 +92,7 @@ define([], function () {
 						"user": {
 							"id":	"1",
 							"name":	"Test",
-							"image":"img/profil.jpg"
+							"image":"/img/profil.jpg"
 						},
 						"content":"Hallo Welt!",
 						"timestamp":	"06:56",
@@ -101,7 +101,7 @@ define([], function () {
 						"user": {
 							"id":	"1",
 							"name":	"Test",
-							"image":"img/profil.jpg"
+							"image":"/img/profil.jpg"
 						},
 						"content":	"Hallo Welt!",
 						"timestamp":	"06:56",
@@ -110,7 +110,7 @@ define([], function () {
 						"user": {
 							"id":	"1",
 							"name":	"Test",
-							"image":"img/profil.jpg"
+							"image":"/img/profil.jpg"
 						},
 						"content":	"Hallo Welt!",
 						"timestamp":	"06:56",
@@ -121,7 +121,7 @@ define([], function () {
 			{
 				"sender":	{
 					"image":	{
-						"image":	"img/profil.jpg",
+						"image":	"/img/profil.jpg",
 						"alttext":	"Test"
 					},
 					"name":	"Mike König"
@@ -138,7 +138,7 @@ define([], function () {
 			{
 				"sender":	{
 					"image":	{
-						"image":	"img/profil.jpg",
+						"image":	"/img/profil.jpg",
 						"alttext":	"Test"
 					},
 					"name":	"Fiona Schneider"
@@ -155,7 +155,7 @@ define([], function () {
 			{
 				"sender":	{
 					"image":	{
-						"image":	"img/profil.jpg",
+						"image":	"/img/profil.jpg",
 						"alttext":	"Test"
 					},
 					"name":	"Nina Müller"

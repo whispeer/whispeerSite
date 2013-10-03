@@ -16,17 +16,22 @@ define(["step", "whispeerHelper", "valid/validator"], function (step, h, validat
 			var meta = data.meta;
 			var content = data.content;
 
-			this.text = ""; //To-do localize
-			this.timestamp = meta.sendTime;
+			this.data = {
+				text: "",
+				timestamp: meta.sendTime,
 
-			this.loading = true;
-			this.loaded = false;
+				loading: true,
+				loaded: false,
 
-			this.sender = {
-				"id": meta.sender,
-				"name": "",
-				"url": "",
-				"image": "img/profil.jpg"
+				sender: {
+					"id": meta.sender,
+					"name": "",
+					"url": "",
+					"image": "/img/profil.jpg"
+				},
+
+				id: meta.messageid,
+				obj: this
 			};
 
 			var decrypted = false;
@@ -73,7 +78,7 @@ define(["step", "whispeerHelper", "valid/validator"], function (step, h, validat
 					sender.getImage(this.parallel());
 					this.parallel()(null, sender.getUrl());
 				}), h.sF(function loadS2(ownUser, name, image, url) {
-					theMessage.sender = {
+					theMessage.data.sender = {
 						me: ownUser,
 						url: url,
 						other: !ownUser,
@@ -112,7 +117,7 @@ define(["step", "whispeerHelper", "valid/validator"], function (step, h, validat
 
 					var randomPart = text.indexOf("::");
 
-					theMessage.text = text.substr(randomPart + 2);
+					theMessage.data.text = text.substr(randomPart + 2);
 
 					this.ne(text);
 				}), cb);
@@ -120,7 +125,7 @@ define(["step", "whispeerHelper", "valid/validator"], function (step, h, validat
 		};
 
 		var Topic = function (data) {
-			var messages = [], theTopic = this, receiverObjects, loadInitial = true;
+			var messages = [], dataMessages = [], messagesByID = {}, theTopic = this, receiverObjects, loadInitial = true;
 
 			var err = validator.validate("topic", data);
 			if (err) {
@@ -131,24 +136,54 @@ define(["step", "whispeerHelper", "valid/validator"], function (step, h, validat
 				data.key = keyStore.upload.addKey(data.key);
 			}
 
-			this.remaining = 1;
+			if (typeof data.additionalKey === "object") {
+				keyStore.upload.addKey(data.additionalKey);
+			}
 
-			this.messages = messages;
+			var unread;
 
-			this.partners = [];
-			this.partnersDisplay = [];
+			function setUnread(newUnread) {
+				if (unread) {
+					if (newUnread.length === 0 && unread.length > 0) {
+						messageService.data.unread -= 1;
+					}
+				}
 
-			this.remainingUser = "";
-			this.remainingUserTitle = "";
+				unread = newUnread;
+				theTopic.data.unread = (unread.length > 0);
+				var i;
+				for (i = 0; i < messages.length; i += 1) {
+					messages[i].unread = (unread.indexOf(messages[i].getID()) > -1);
+				}
+			}
 
-			this.id = data.topicid;
-			this.type = (data.receiver.length === 2 ? "peerChat" : "groupChat");
+			this.data = {
+				remaining: 1,
+
+				messages: dataMessages,
+
+				partners: [],
+				partnersDisplay: [],
+
+				remainingUser: "",
+				remainingUserTitle: "",
+
+				id: data.topicid,
+				type: (data.receiver.length <= 2 ? "peerChat" : "groupChat"),
+				obj: this
+			};
+
+			setUnread(data.unread);
+
+			this.messageUnread = function messageUnreadF(mid) {
+				return unread.indexOf(mid) > -1;
+			};
 
 			this.getOldestID = function getOldestIDF() {
-				if (this.messages.length === 0) {
+				if (messages.length === 0) {
 					return 0;
 				} else {
-					return this.messages[0].getID();
+					return messages[0].getID();
 				}
 			};
 
@@ -168,6 +203,33 @@ define(["step", "whispeerHelper", "valid/validator"], function (step, h, validat
 				return data.key;
 			};
 
+			var timerRunning, messageTime;
+			this.markRead = function markMessagesRead(mid, cb) {
+				step(function () {
+					if (unread.indexOf(mid) > -1) {
+						var lMessageTime = messagesByID[mid].getTime();
+						if (timerRunning) {
+							if (lMessageTime > messageTime) {
+								messageTime = lMessageTime;
+							}
+						} else {
+							timerRunning = true;
+							messageTime = lMessageTime;
+							window.setTimeout(this, 100);
+						}
+					}
+				}, h.sF(function () {
+					timerRunning = false;
+					socket.emit("messages.markRead", {
+						topicid: theTopic.getID(),
+						beforeTime: messageTime
+					}, this);
+				}), h.sF(function (data) {
+					setUnread(data.unread);
+					this.ne();
+				}), cb);
+			};
+
 			this.addMessage = function addMessageF(m, cb) {
 				step(function () {
 					if (m.getTime() > data.time) {
@@ -178,28 +240,21 @@ define(["step", "whispeerHelper", "valid/validator"], function (step, h, validat
 				}, h.sF(function () {
 					//add to message list
 					messages.push(m);
+					dataMessages.push(m.data);
+					messagesByID[m.getID()] = m;
 					messages.sort(function (a, b) {
 						return (a.getTime() - b.getTime());
 					});
+					dataMessages.sort(function (a, b) {
+						return (a.obj.getTime() - b.obj.getTime());
+					});
 
-					theTopic.latestMessage = messages[messages.length - 1];
+					theTopic.data.latestMessage = messages[messages.length - 1];
+					m.unread = theTopic.messageUnread(m.getID());
 
 					if (cb) {
 						this.ne();
 					}
-				}), cb);
-			};
-
-			this.decryptMessages = function decryptMessagesF(cb) {
-				step(function () {
-					var i;
-					for (i = 0; i < messages.length; i += 1) {
-						messages[i].loadFullData(this.parallel());
-					}
-
-					this.parallel()();
-				}, h.sF(function () {
-					this.ne();
 				}), cb);
 			};
 
@@ -219,7 +274,7 @@ define(["step", "whispeerHelper", "valid/validator"], function (step, h, validat
 						receiverObjects[i].getImage(this.parallel());
 					}
 				}), h.sF(function (data) {
-					var partners = theTopic.partners;
+					var partners = theTopic.data.partners;
 					var i, userData, me;
 					for (i = 0; i < receiverObjects.length; i += 1) {
 						userData = {
@@ -230,7 +285,7 @@ define(["step", "whispeerHelper", "valid/validator"], function (step, h, validat
 							"image": data[i*3+2]
 						};
 
-						if (!receiverObjects[i].isOwn()) {
+						if (!receiverObjects[i].isOwn() || receiverObjects.length === 1) {
 							partners.push(userData);
 						} else {
 							me = userData;
@@ -238,18 +293,18 @@ define(["step", "whispeerHelper", "valid/validator"], function (step, h, validat
 					}
 
 					if (partners.length > 4) {
-						theTopic.partnersDisplay = partners.slice(0, 3);
-						theTopic.remainingUser = partners.length - 3;
+						theTopic.data.partnersDisplay = partners.slice(0, 3);
+						theTopic.data.remainingUser = partners.length - 3;
 						for (i = 3; i < partners.length; i += 1) {
-							theTopic.remainingUserTitle += partners[i].name;
+							theTopic.data.remainingUserTitle += partners[i].name;
 							if (i < partners.length - 1) {
-								theTopic.remainingUserTitle += ", ";
+								theTopic.data.remainingUserTitle += ", ";
 							}
 						}
 					} else {
-						theTopic.partnersDisplay = partners.slice(0, 4);
-						if (theTopic.partnersDisplay.length < 4 && theTopic.partnersDisplay.length > 1) {
-							theTopic.partnersDisplay.push(me);
+						theTopic.data.partnersDisplay = partners.slice(0, 4);
+						if (theTopic.data.partnersDisplay.length < 4 && theTopic.data.partnersDisplay.length > 1) {
+							theTopic.data.partnersDisplay.push(me);
 						}
 					}
 
@@ -261,16 +316,15 @@ define(["step", "whispeerHelper", "valid/validator"], function (step, h, validat
 
 			this.loadAllData = function loadAllDataF(cb) {
 				step(function () {
-					theTopic.loadNewest(this);
+					theTopic.loadReceiverNames(this);
 				}, h.sF(function () {
-					theTopic.decryptMessages(this.parallel());
-					theTopic.loadReceiverNames(this.parallel());
+					theTopic.loadNewest(this);
 				}), cb);
 			};
 
 			this.loadInitialMessages = function loadInitialMessages(cb) {
 				if (loadInitial) {
-					theTopic.loadMoreMessages(cb, 9);
+					theTopic.loadMoreMessages(cb, 19);
 					loadInitial = false;
 				} else {
 					cb();
@@ -280,7 +334,7 @@ define(["step", "whispeerHelper", "valid/validator"], function (step, h, validat
 			this.loadMoreMessages = function loadMoreMessagesF(cb, max) {
 				var loadMore = new Date().getTime();
 				step(function () {
-					if (theTopic.remaining > 0) {
+					if (theTopic.data.remaining > 0) {
 						socket.emit("messages.getTopicMessages", {
 							topicid: theTopic.getID(),
 							afterMessage: theTopic.getOldestID(),
@@ -291,7 +345,7 @@ define(["step", "whispeerHelper", "valid/validator"], function (step, h, validat
 					}
 				}, h.sF(function (data) {
 					console.log("Message server took: " + (new Date().getTime() - loadMore));
-					theTopic.remaining = data.remaining;
+					theTopic.data.remaining = data.remaining;
 					if (data.messages) {
 						var i;
 						for (i = 0; i < data.messages.length; i += 1) {
@@ -331,7 +385,7 @@ define(["step", "whispeerHelper", "valid/validator"], function (step, h, validat
 			}), h.sF(function (random) {
 				message = random + "::" + message;
 
-				var newest = topic.latestMessage;
+				var newest = topic.data.latestMessage;
 
 				var meta = {
 					createTime: new Date().getTime(),
@@ -407,6 +461,15 @@ define(["step", "whispeerHelper", "valid/validator"], function (step, h, validat
 			}, cb);
 		};
 
+		function removeA(arr, what) {
+			var ax;
+			while ((ax= arr.indexOf(what)) !== -1) {
+				arr.splice(ax, 1);
+			}
+
+			return arr;
+		}
+
 		Topic.createData = function (receiver, message, cb) {
 			var receiverObjects, topicKey, result, topicHash;
 			step(function () {
@@ -419,9 +482,7 @@ define(["step", "whispeerHelper", "valid/validator"], function (step, h, validat
 					}
 				});
 
-				if (receiver.indexOf(sessionService.getUserID()) === -1) {
-					receiver.push(sessionService.getUserID());
-				}
+				removeA(receiver, sessionService.getUserID());
 
 				//get receiver objects
 				userService.getMultiple(receiver, this);
@@ -439,22 +500,43 @@ define(["step", "whispeerHelper", "valid/validator"], function (step, h, validat
 				//encrypt topic key for receiver
 				var i, crypt;
 				for (i = 0; i < receiverObjects.length; i += 1) {
-					if (!receiverObjects[i].isOwn()) {
-						crypt = receiverObjects[i].getCryptKey();
-						keyStore.sym.asymEncryptKey(topicKey, crypt, this.parallel());
-					}
+					crypt = receiverObjects[i].getCryptKey();
+					keyStore.sym.asymEncryptKey(topicKey, crypt, this.parallel());
+				}
+
+				if (receiverObjects.length === 0) {
+					this.ne([]);
 				}
 			}), h.sF(function (cryptKeys) {
 				var cryptKeysData = keyStore.upload.getKeys(cryptKeys);
 				var topicKeyData = keyStore.upload.getKey(topicKey);
+				var receiver = [];
+				var receiverIDs;
+
+				var i;
+				for (i = 0; i < receiverObjects.length; i += 1) {
+					var cur = receiverObjects[i];
+					receiver.push({
+						identifier: cur.getID(),
+						key: cryptKeysData[i]
+					});
+
+				}
+
+				receiver.push({
+					identifier: userService.getown().getID()
+				});
+
+				receiverIDs = receiver.map(function (e) {
+					return e.identifier;
+				});
 
 				//create data
 				result = {
 					topic: {
 						createTime: new Date().getTime(),
 						key: topicKeyData,
-						receiver: receiver,
-						cryptKeys: cryptKeysData
+						receiver: receiver
 					}
 				};
 
@@ -462,7 +544,7 @@ define(["step", "whispeerHelper", "valid/validator"], function (step, h, validat
 				var topicHashData = {
 					createTime: result.topic.createTime,
 					key: topicKey,
-					receiver: receiver
+					receiver: receiverIDs
 				};
 
 				topicHash = keyStore.hash.hashObject(topicHashData);
@@ -501,15 +583,15 @@ define(["step", "whispeerHelper", "valid/validator"], function (step, h, validat
 				t.loadAllData(this);
 			}, h.sF(function () {
 				//add to topic list
-				topicArray.push(t);
+				topicArray.push(t.data);
 				topicArray.sort(function (a, b) {
-					return (b.getTime() - a.getTime());
+					return (b.obj.getTime() - a.obj.getTime());
 				});
 
 				console.log("Topic loaded:" + (new Date().getTime() - startup));
 
 				if (cb) {
-					this.ne();
+					this.ne(t.getID());
 				}
 			}), cb);
 
@@ -570,7 +652,7 @@ define(["step", "whispeerHelper", "valid/validator"], function (step, h, validat
 
 					var last;
 					if (topicArray.length > 0) {
-						last = topicArray[topicArray.length - 1].getID();
+						last = topicArray[topicArray.length - 1].obj.getID();
 					} else {
 						last = 0;
 					}
@@ -586,6 +668,8 @@ define(["step", "whispeerHelper", "valid/validator"], function (step, h, validat
 					for (i = 0; i < latest.topics.length; i += 1) {
 						makeTopic(latest.topics[i], this.parallel());
 					}
+				}), h.sF(function () {
+					this.ne();
 				}), cb);
 			},
 			getTopic: function (topicid, cb) {
@@ -597,7 +681,7 @@ define(["step", "whispeerHelper", "valid/validator"], function (step, h, validat
 					}
 				}, cb);
 			},
-			sendNewTopic: function (receiver, message) {
+			sendNewTopic: function (receiver, message, cb) {
 				step(function () {
 					Topic.createData(receiver, message, this);
 				}, h.sF(function (result) {
@@ -607,7 +691,7 @@ define(["step", "whispeerHelper", "valid/validator"], function (step, h, validat
 						//TO-DO: try resending!
 						debugger;
 					} else {
-						makeTopic(result.topic);
+						makeTopic(result.topic, cb);
 					}
 				});
 			},

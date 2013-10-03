@@ -12,7 +12,7 @@ require.config({
 		amanda: "libs/amanda",
 		valid: "validation"
 	},
-	baseUrl: "js",
+	baseUrl: "/js",
 	shim: {
 		"angular" : {"exports" : "angular"},
 		"angularMocks": {deps:["angular"], "exports":"angular.mock"}
