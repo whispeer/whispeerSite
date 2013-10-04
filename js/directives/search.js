@@ -25,9 +25,11 @@ define(["step", "whispeerHelper"], function (step, h) {
 				scope.current = 0;
 				scope.selected = [];
 
-				scope.width = iElement.width();
+				window.setTimeout(function () {
+					scope.width = iElement.width();
 
-				iElement.find(".searchDrop").width(scope.width);
+					iElement.find(".searchDrop").width(scope.width);
+				}, 50);
 				var input = iElement.find("input");
 
 				var timer = null;
