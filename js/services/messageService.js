@@ -625,13 +625,16 @@ define(["step", "whispeerHelper", "valid/validator"], function (step, h, validat
 		socket.listen("message", function (e, data) {
 			if (!e) {
 				if (data.topic) {
-					var t = makeTopic(data.topic);
+					var t = makeTopic(data.topic, function () {
+						if (data.message) {
+							makeMessage(data.message, true);
+						}
+					});
+
 					if (t.data.unread) {
 						messageService.data.unread += 1;
 					}
-				}
-
-				if (data.message) {
+				} else if (data.message) {
 					makeMessage(data.message, true);
 				}
 			} else {
