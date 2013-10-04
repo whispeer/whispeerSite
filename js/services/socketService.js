@@ -1,10 +1,10 @@
 /**
 * SocketService
 **/
-define(["socket", "step", "whispeerHelper"], function (io, step, h) {
+define(["socket", "step", "whispeerHelper", "config"], function (io, step, h, config) {
 	"use strict";
 
-	var socket = io.connect("http://127.0.0.1:3000");
+	var socket = io.connect("http://" + config.ws + ":" + config.wsPort);
 
 	var service = function ($rootScope, sessionService) {
 		function updateLogin(data) {
