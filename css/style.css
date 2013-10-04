@@ -4654,7 +4654,6 @@ and (max-device-width : 767px) {
     font-size: 0.9em;
   }
   .messagesView #topicListWrap #topicList .topic.groupChat .left {
-    height: 50px;
     margin: 0 2% 0 0;
   }
   .messagesView #topicListWrap #topicList .topic.groupChat .left img,
@@ -4668,7 +4667,6 @@ and (max-device-width : 767px) {
     width: 50%;
     margin: 0 0 0 0;
     margin: 0!important;
-    height: 50%;
   }
   .messagesView #topicListWrap #topicList .topic.groupChat .left span {
     padding: 2px 0;
@@ -4814,10 +4812,10 @@ and (max-device-width : 767px) {
   
     *zoom: 1;
     float: left;
-    width: 10%;
-    margin: 0 1% 0 1%;
-    vertical-align: middle;
+    width: 11%;
+    margin: 0 0.5% 0 0.5%;
     padding: 0;
+    margin: 0 1% 0 0;
   }
   .messagesView #topicWrap.groupChat #messageList .message .user .username {
     display: inline-block;
@@ -6259,7 +6257,6 @@ and (max-device-width : 767px) {
     margin-top: -10px;
   }
   .messagesView #topicListWrap #topicList .topic.groupChat .left {
-    height: 60px;
     margin: 0 2% 0 0;
   }
   .messagesView #topicListWrap #topicList .topic.groupChat .left img,
@@ -6273,7 +6270,6 @@ and (max-device-width : 767px) {
     width: 50%;
     margin: 0 0 0 0;
     margin: 0!important;
-    height: 50%;
   }
   .messagesView #topicListWrap #topicList .topic.groupChat .left span {
     padding: 5px 0;
@@ -6415,12 +6411,6 @@ and (max-device-width : 767px) {
     margin: 0 1% 0 1%;
     margin-bottom: 5px;
   }
-  .messagesView #topicWrap.groupChat #messageList .message .user {
-    width: 100%;
-    margin: 0;
-    float: left;
-    border-bottom: 1px solid #ccc;
-  }
   .messagesView #topicWrap.groupChat #messageList .message .user .userimg {
     display: inline-block;
     *display: inline;
@@ -6428,11 +6418,10 @@ and (max-device-width : 767px) {
   
     *zoom: 1;
     float: left;
-    width: 6.333333333333334%;
+    width: 9.666666666666666%;
     margin: 0 1% 0 1%;
-    vertical-align: middle;
     padding: 0;
-    margin: 0 !important;
+    margin: 0 1.25% 0 0!important;
   }
   .messagesView #topicWrap.groupChat #messageList .message .user .username {
     display: inline-block;
@@ -6441,8 +6430,9 @@ and (max-device-width : 767px) {
   
     *zoom: 1;
     float: left;
-    width: 64.66666666666667%;
+    width: 86.33333333333334%;
     margin: 0 1% 0 1%;
+    margin-bottom: 0.5%;
   }
   .messagesView #topicWrap.groupChat #messageList .message .messageText {
     display: inline-block;
@@ -6451,7 +6441,7 @@ and (max-device-width : 767px) {
   
     *zoom: 1;
     float: left;
-    width: 98%;
+    width: 86.33333333333334%;
     margin: 0 1% 0 1%;
     word-break: break-word;
   }
@@ -7844,7 +7834,6 @@ and (max-device-width : 767px) {
     margin-top: -10px;
   }
   .messagesView #topicListWrap #topicList .topic.groupChat .left {
-    height: 80px;
     margin: 0 2% 0 0;
   }
   .messagesView #topicListWrap #topicList .topic.groupChat .left img,
@@ -7858,7 +7847,6 @@ and (max-device-width : 767px) {
     width: 50%;
     margin: 0 0 0 0;
     margin: 0!important;
-    height: 40px;
   }
   .messagesView #topicListWrap #topicList .topic.groupChat .left span {
     padding: 9px 0;
@@ -8021,7 +8009,6 @@ and (max-device-width : 767px) {
     float: left;
     width: 10%;
     margin: 0 1% 0 1%;
-    vertical-align: middle;
     padding: 0;
     margin: 0 2% 0 0;
   }
