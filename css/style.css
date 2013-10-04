@@ -3193,13 +3193,18 @@ body:not(.mainView, .registerView) #main {
   background-clip: padding-box;
 }
 .messagesView #topicWrap.groupChat #messageList .message.me {
-  color: #63b700;
   -webkit-border-radius: 6px;
   -moz-border-radius: 6px;
   border-radius: 6px;
   -moz-background-clip: padding;
   -webkit-background-clip: padding-box;
   background-clip: padding-box;
+  background-color: #a9e760;
+  background: -webkit-gradient(linear, left top, left bottom, from(#a9e760), to(#8fd457));
+  background: -webkit-linear-gradient(top, #a9e760, #8fd457);
+  background: -moz-linear-gradient(top, #a9e760, #8fd457);
+  background: -ms-linear-gradient(top, #a9e760, #8fd457);
+  background: -o-linear-gradient(top, #a9e760, #8fd457);
 }
 .messagesView #topicWrap.groupChat #messageList .message.other {
   -webkit-border-radius: 6px;
@@ -8018,7 +8023,7 @@ and (max-device-width : 767px) {
     width: 98%;
     margin: 0 1% 0 1%;
     word-break: break-word;
-    padding: 2px;
+    padding: 0;
     -webkit-box-sizing: border-box;
     /* Safari/Chrome, other WebKit */
   
@@ -8041,6 +8046,7 @@ and (max-device-width : 767px) {
     margin: 0 1% 0 1%;
     vertical-align: middle;
     padding: 0;
+    margin: 0 2% 0 0;
   }
   .messagesView #topicWrap.groupChat #messageList .message .user .username {
     display: inline-block;

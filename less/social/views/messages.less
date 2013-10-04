@@ -165,8 +165,9 @@
 						}
 					}
 					&.me {
-						color: lighten(@green, 5%);
+						//color: lighten(@green, 5%);
 						.border-radius(6px);
+						.gradient(desaturate((@gray+@green),12%), desaturate((@gray + @green2),2%));
 					}
 					&.other {
 						.border-radius(6px);
