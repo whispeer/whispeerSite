@@ -3062,12 +3062,13 @@ body:not(.mainView, .registerView) #main {
   background: -ms-linear-gradient(top, #e5e5e5, #d6d6d6);
   background: -o-linear-gradient(top, #e5e5e5, #d6d6d6);
   border: 1px solid #b2b2b2;
-  -webkit-border-radius: 4px;
-  -moz-border-radius: 4px;
-  border-radius: 4px;
+  -webkit-border-radius: 6px;
+  -moz-border-radius: 6px;
+  border-radius: 6px;
   -moz-background-clip: padding;
   -webkit-background-clip: padding-box;
   background-clip: padding-box;
+  overflow-x: hidden;
   *zoom: 1;
 }
 .messagesView #topicWrap.peerChat #messageList .message:before,
@@ -3078,9 +3079,6 @@ body:not(.mainView, .registerView) #main {
 .messagesView #topicWrap.peerChat #messageList .message:after {
   clear: both;
 }
-.messagesView #topicWrap.peerChat #messageList .message .user .userimg {
-  padding: 0 !important;
-}
 .messagesView #topicWrap.peerChat #messageList .message .user .username {
   display: none;
 }
@@ -3088,7 +3086,12 @@ body:not(.mainView, .registerView) #main {
   width: 100%;
 }
 .messagesView #topicWrap.peerChat #messageList .message.me {
-  color: #63b700;
+  background-color: #a9e760;
+  background: -webkit-gradient(linear, left top, left bottom, from(#a9e760), to(#8fd457));
+  background: -webkit-linear-gradient(top, #a9e760, #8fd457);
+  background: -moz-linear-gradient(top, #a9e760, #8fd457);
+  background: -ms-linear-gradient(top, #a9e760, #8fd457);
+  background: -o-linear-gradient(top, #a9e760, #8fd457);
 }
 .messagesView #topicWrap.peerChat #messageList .message.me .messageText {
   float: right;
@@ -3098,15 +3101,15 @@ body:not(.mainView, .registerView) #main {
   float: right;
   display: block;
   margin-right: 0 !important;
-  -webkit-border-top-right-radius: 3px;
+  -webkit-border-top-right-radius: 6px;
   -webkit-border-bottom-right-radius: 0;
   -webkit-border-bottom-left-radius: 0;
   -webkit-border-top-left-radius: 0;
-  -moz-border-radius-topright: 3px;
+  -moz-border-radius-topright: 6px;
   -moz-border-radius-bottomright: 0;
   -moz-border-radius-bottomleft: 0;
   -moz-border-radius-topleft: 0;
-  border-top-right-radius: 3px;
+  border-top-right-radius: 6px;
   border-bottom-right-radius: 0;
   border-bottom-left-radius: 0;
   border-top-left-radius: 0;
@@ -3119,21 +3122,6 @@ body:not(.mainView, .registerView) #main {
 }
 .messagesView #topicWrap.peerChat #messageList .message.other .user .userimg {
   margin-left: 0 !important;
-  -webkit-border-top-right-radius: 0;
-  -webkit-border-bottom-right-radius: 0;
-  -webkit-border-bottom-left-radius: 0;
-  -webkit-border-top-left-radius: 3px;
-  -moz-border-radius-topright: 0;
-  -moz-border-radius-bottomright: 0;
-  -moz-border-radius-bottomleft: 0;
-  -moz-border-radius-topleft: 3px;
-  border-top-right-radius: 0;
-  border-bottom-right-radius: 0;
-  border-bottom-left-radius: 0;
-  border-top-left-radius: 3px;
-  -moz-background-clip: padding;
-  -webkit-background-clip: padding-box;
-  background-clip: padding-box;
 }
 .messagesView #topicWrap.peerChat #messageList .message .time {
   font-size: small;
@@ -4756,7 +4744,7 @@ and (max-device-width : 767px) {
   
     *zoom: 1;
     float: left;
-    width: 8%;
+    width: 15.5%;
     margin: 0 1% 0 1%;
     padding: 0;
   }
@@ -4767,7 +4755,7 @@ and (max-device-width : 767px) {
   
     *zoom: 1;
     float: left;
-    width: 88%;
+    width: 80.5%;
     margin: 0 1% 0 1%;
     word-break: break-word;
   }
@@ -6349,7 +6337,7 @@ and (max-device-width : 767px) {
   
     *zoom: 1;
     float: left;
-    width: 58%;
+    width: 83%;
     margin: 0 1% 0 1%;
     height: auto;
     margin-bottom: 5px;
@@ -7933,9 +7921,10 @@ and (max-device-width : 767px) {
   
     *zoom: 1;
     float: left;
-    width: 98%;
+    width: 78%;
     margin: 0 1% 0 1%;
     margin-bottom: 5px;
+    min-height: 60px;
   }
   .messagesView #topicWrap.peerChat #messageList .message .user .userimg {
     display: inline-block;
@@ -7944,9 +7933,10 @@ and (max-device-width : 767px) {
   
     *zoom: 1;
     float: left;
-    width: 6.6%;
-    margin: 0 1% 0 1%;
-    padding-top: 0;
+    width: 10%;
+    margin: 0 0 0 0;
+    padding: 0;
+    margin: 0 !important;
   }
   .messagesView #topicWrap.peerChat #messageList .message .messageText {
     display: inline-block;
@@ -7959,6 +7949,9 @@ and (max-device-width : 767px) {
     margin: 0 1% 0 1%;
     padding: 10px 0px;
     word-break: break-word;
+  }
+  .messagesView #topicWrap.peerChat #messageList .message.me {
+    float: right;
   }
   .messagesView #topicWrap.peerChat #inputWrap #messageInput {
     display: inline-block;
