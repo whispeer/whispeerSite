@@ -25,11 +25,6 @@ define(["step", "whispeerHelper"], function (step, h) {
 				scope.current = 0;
 				scope.selected = [];
 
-				window.setTimeout(function () {
-					scope.width = iElement.width();
-
-					iElement.find(".searchDrop").width(scope.width);
-				}, 50);
 				var input = iElement.find("input");
 
 				var timer = null;
@@ -55,6 +50,9 @@ define(["step", "whispeerHelper"], function (step, h) {
 									user[i].getName(this.parallel());
 									user[i].getImage(this.parallel());
 								}
+
+								var width = iElement.width();
+								iElement.find(".searchDrop").width(width);
 							}), h.sF(function (data) {
 								scope.users = [];
 								var i;
