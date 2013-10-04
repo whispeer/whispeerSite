@@ -31,6 +31,8 @@ define(["step", "whispeerHelper"], function (step, h) {
 
 				scope.markedSelection = -1;
 
+				scope.selectedUsers = [];
+
 				scope.queryChange = function () {
 					scope.current = 0;
 					scope.focused = true;
