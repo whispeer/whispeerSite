@@ -11,6 +11,8 @@ for (i = 0; i < directives.length; i += 1) {
 	includes.push("directives/" + directives[i]);
 }
 
+console.log(JSON.stringify(includes));
+
 define(includes, function (angular, search) {
 	"use strict";
 
