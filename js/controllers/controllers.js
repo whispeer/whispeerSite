@@ -12,7 +12,7 @@
 		includes.push("controllers/" + controllers[i] + "Controller");
 	}
 
-	console.log(includes);
+	console.log(JSON.stringify(includes));
 	
 	define(includes, function (angular) {
 		var cons = angular.module("ssn.controllers", ["ssn.services"]);
