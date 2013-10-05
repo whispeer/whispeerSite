@@ -11,7 +11,9 @@
 	for (i = 0; i < controllers.length; i += 1) {
 		includes.push("controllers/magicbar/" + controllers[i] + "Controller");
 	}
-	
+
+	console.log(JSON.stringify(includes));
+
 	define(includes, function (angular) {
 		var cons = angular.module("ssn.magicbar.controllers", ["ssn.services"]);
 	
