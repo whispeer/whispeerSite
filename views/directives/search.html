@@ -18,8 +18,8 @@
 				<div class="info">
 					<span class="name">{{user.name}}</span>
 					<span class="friends" data-ng-show="bigSize">{{user.mutuals}} gemeinsame Freunde</span>
-					<span class="location" data-ng-show="bigSize">{{user.location}}</span>
-					<span class="age"  data-ng-show="bigSize">{{user.age}}</span>
+					<span class="location" data-ng-show="bigSize">aus {{user.location}}</span>
+					<span class="age"  data-ng-show="bigSize">Alter: {{user.age}}</span>
 				</div>
 				<div class="actions" data-ng-show="bigSize">
 					<a class="addFriend btn" data-stop-event="click">Als Freund hinzufügen</a>
