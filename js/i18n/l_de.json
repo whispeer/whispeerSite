@@ -53,7 +53,8 @@
 			"repeatPassword":	"Password wiederholen",
 			"passwordstrength":	"Punkte für dein Passwort: ",
 			"email":	"E-Mail Adresse",
-			"repeatEmail":	"E-Mail Adresse wiederholen"
+			"repeatEmail":	"E-Mail Adresse wiederholen",
+			"uploadImage":	"Profilbild hochladen!"
 		}
 	},
 	"wall": {

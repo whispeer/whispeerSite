@@ -1810,6 +1810,79 @@ body:not(.mainView, .registerView) #main {
 .registerView #registerform .icon#firstnamelock {
   margin-left: -34px;
 }
+.registerView #loginform #uploadButton,
+.registerView #registerform #uploadButton {
+  display: inline-block;
+  *display: inline;
+  /* IE7 inline-block hack */
+
+  *zoom: 1;
+  padding: 4px 15px;
+  -webkit-box-sizing: border-box;
+  /* Safari/Chrome, other WebKit */
+
+  -moz-box-sizing: border-box;
+  /* Firefox, other Gecko */
+
+  box-sizing: border-box;
+  /* Opera/IE 8+ */
+
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+  background-color: #ffffff;
+  color: #333333;
+  text-shadow: 0 1px 1px rgba(255, 255, 255, 0.75);
+  border: 1px solid #bbbbbb;
+  background-color: #559d00;
+  color: #ffffff;
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  border-radius: 0;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  border: 0;
+  cursor: pointer!important;
+}
+.registerView #loginform #uploadButton:hover,
+.registerView #registerform #uploadButton:hover {
+  background-color: #ececec;
+}
+.registerView #loginform #uploadButton:hover,
+.registerView #registerform #uploadButton:hover,
+.registerView #loginform #uploadButton:active,
+.registerView #registerform #uploadButton:active,
+.registerView #loginform #uploadButton.active,
+.registerView #registerform #uploadButton.active,
+.registerView #loginform #uploadButton.disabled,
+.registerView #registerform #uploadButton.disabled,
+.registerView #loginform #uploadButton[disabled],
+.registerView #registerform #uploadButton[disabled] {
+  background-color: #ececec;
+}
+.registerView #loginform #uploadButton:hover,
+.registerView #registerform #uploadButton:hover,
+.registerView #loginform #uploadButton:active,
+.registerView #registerform #uploadButton:active,
+.registerView #loginform #uploadButton.active,
+.registerView #registerform #uploadButton.active,
+.registerView #loginform #uploadButton.disabled,
+.registerView #registerform #uploadButton.disabled,
+.registerView #loginform #uploadButton[disabled],
+.registerView #registerform #uploadButton[disabled] {
+  background-color: #3a8100;
+}
+.registerView #loginform #files-upload,
+.registerView #registerform #files-upload {
+  position: absolute;
+  margin-top: -35px;
+  height: 35px;
+  width: 270px;
+  background: red;
+  opacity: 0;
+}
 .registerView #loginform #rpasswordIcon,
 .registerView #registerform #rpasswordIcon {
   background-image: url('../img/lock.png');
