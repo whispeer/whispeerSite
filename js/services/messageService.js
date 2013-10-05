@@ -254,6 +254,10 @@ define(["step", "whispeerHelper", "valid/validator"], function (step, h, validat
 					theTopic.data.latestMessage = messages[messages.length - 1];
 					if (addUnread && !theTopic.messageUnread(m.getID()) && !m.data.sender.me) {
 						setUnread(unread.concat([m.getID()]));
+
+						topicArray.sort(function (a, b) {
+							return (b.obj.getTime() - a.obj.getTime());
+						});
 					}
 					m.unread = theTopic.messageUnread(m.getID());
 
