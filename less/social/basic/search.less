@@ -8,10 +8,19 @@
 			background: white;
 			.border-radius(5px);
 			li {
-				
 				&.searchResult {
 					.btn;
 					.btn-green;
+					.remove {
+						float: right;
+						display: block;
+						width: 15px;
+						text-align: right;
+						color: #dedede;
+						&:hover {
+							color: #fff;
+						}
+					}
 				}
 				&.searchField {
 					input {

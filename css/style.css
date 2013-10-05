@@ -882,6 +882,16 @@ body:not(.mainView, .registerView) #main {
 .searchBar .formSearch .inputWrap li.searchResult[disabled] {
   background-color: #3a8100;
 }
+.searchBar .formSearch .inputWrap li.searchResult .remove {
+  float: right;
+  display: block;
+  width: 15px;
+  text-align: right;
+  color: #dedede;
+}
+.searchBar .formSearch .inputWrap li.searchResult .remove:hover {
+  color: #fff;
+}
 .searchBar .formSearch .inputWrap li.searchField input {
   -webkit-box-sizing: border-box;
   /* Safari/Chrome, other WebKit */
