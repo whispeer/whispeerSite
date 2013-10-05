@@ -11,6 +11,8 @@
 	for (i = 0; i < controllers.length; i += 1) {
 		includes.push("controllers/" + controllers[i] + "Controller");
 	}
+
+	console.log(includes);
 	
 	define(includes, function (angular) {
 		var cons = angular.module("ssn.controllers", ["ssn.services"]);

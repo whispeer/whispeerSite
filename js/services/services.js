@@ -11,6 +11,8 @@ for (i = 0; i < services.length; i += 1) {
 	includes.push("services/" + services[i]);
 }
 
+console.log(includes);
+
 define(includes, function (angular) {
 	"use strict";
 	var servicesProvider = angular.module("ssn.services", []);
