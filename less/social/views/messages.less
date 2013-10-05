@@ -99,12 +99,12 @@
 					margin-bottom: 5px;
 					.gradient(lighten(@grayLight,30%), lighten(@grayLight,24%));
 					border: 1px solid #b2b2b2;
-					.border-radius(4px);
+					.border-radius(6px);
+					overflow-x: hidden;
 					.clear-fix;
 					.user {
 						.userimg {
-							padding: 0 !important;
-							
+							//.border-radiuses(0,0,0,6px);
 						}
 						.username {
 							display: none;
@@ -114,7 +114,7 @@
 						width: 100%;
 					}
 					&.me {
-						color: lighten(@green, 5%);
+						.gradient(desaturate((@gray+@green),12%), desaturate((@gray + @green2),2%));
 						.messageText {
 							float: right;
 							word-break: break-word;
@@ -124,7 +124,7 @@
 								float: right;
 								display: block;
 								margin-right: 0 !important;
-								.border-radiuses(3px, 0, 0, 0);
+								.border-radiuses(6px,0,0,0);
 							}
 						}
 					}
@@ -134,7 +134,7 @@
 							//padding-left: 10px;
 							.userimg {
 								margin-left: 0 !important;
-								.border-radiuses(0, 0, 0, 3px);
+								//.border-radiuses(0, 0, 0,3px);
 							}
 						}
 					}
@@ -157,11 +157,12 @@
 					.gradient(lighten(@grayLight,30%), lighten(@grayLight,24%));
 					border: 1px solid #b2b2b2;
 					.border-radius(4px);
+					overflow-x: hidden;
 					.user {
 						margin-left: 0 !important;
 						padding: 0 !important;
 						.userimg {
-							.border-radiuses(0, 0,0,3px);
+							//.border-radiuses(0, 0,0,3px);
 						}
 					}
 					&.me {

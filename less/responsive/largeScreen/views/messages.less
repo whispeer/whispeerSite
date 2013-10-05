@@ -55,12 +55,12 @@
 				}
 				&.groupChat {
 					.left {
-						height: 80px;
+						//height: 90px;
 						margin: 0 2% 0 0;
 						img, span {
 							.column(1,2,left,0);
 							margin:0!important;
-							height: 40px;
+							//height: 45px;
 						}
 						span {
 							padding: 9px 0;
@@ -88,18 +88,23 @@
 				overflow-y: scroll;
 				height: 100%;
 				.message {
-					.column(5,5);
+					.column(4,5);
 					margin-bottom: 5px;
+					min-height: 60px;
 					.user {
 						.userimg {
-							.column(0.43,5);
-							padding-top: 0;
+							.column(0.5,5,left,0);
+							padding: 0;
+							margin: 0 !important;
 						}
 					}
 					.messageText {
 						.column(4.5,5);
 						padding: 10px 0px;
 						word-break: break-word;
+					}
+					&.me {
+						float: right;
 					}
 				}
 			}
@@ -137,7 +142,6 @@
 					.user {
 						.userimg {
 							.column(0.6,5);
-							vertical-align: middle;
 							padding: 0;
 							margin: 0 2% 0 0;
 						}
