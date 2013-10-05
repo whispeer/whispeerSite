@@ -4424,7 +4424,7 @@ and (max-device-width : 767px) {
   
     *zoom: 1;
     float: left;
-    width: 48%;
+    width: 98%;
     margin: 0 1% 0 1%;
   }
   #userpanel #menu #mainMenu li a {
@@ -4456,6 +4456,7 @@ and (max-device-width : 767px) {
     float: left;
     width: 48%;
     margin: 0 1% 0 1%;
+    display: none;
   }
   #userpanel #menu #subMenu li a {
     display: inline-block;
@@ -6030,7 +6031,7 @@ and (max-device-width : 767px) {
   
     *zoom: 1;
     float: left;
-    width: 48%;
+    width: 98%;
     margin: 0 1% 0 1%;
   }
   #userpanel #menu #mainMenu li a {
@@ -6040,7 +6041,7 @@ and (max-device-width : 767px) {
   
     *zoom: 1;
     float: left;
-    width: 94.66666666666667%;
+    width: 98%;
     margin: 0 1% 0 1%;
   }
   #userpanel #menu #mainMenu li a.current {
@@ -6050,7 +6051,7 @@ and (max-device-width : 767px) {
   
     *zoom: 1;
     float: left;
-    width: 94.66666666666667%;
+    width: 98%;
     margin: 0 1% 0 1%;
   }
   #userpanel #menu #subMenu {
@@ -6062,6 +6063,7 @@ and (max-device-width : 767px) {
     float: left;
     width: 48%;
     margin: 0 1% 0 1%;
+    display: none;
   }
   #userpanel #menu #subMenu li a {
     display: inline-block;
@@ -7610,8 +7612,8 @@ and (max-device-width : 767px) {
   
     *zoom: 1;
     float: left;
-    width: 48%;
-    margin: 0 1% 0 1%;
+    width: 80%;
+    margin: 0 10% 0 10%;
   }
   #userpanel #menu #mainMenu li a {
     display: inline-block;
@@ -7620,7 +7622,7 @@ and (max-device-width : 767px) {
   
     *zoom: 1;
     float: left;
-    width: 81.33333333333334%;
+    width: 98%;
     margin: 0 1% 0 1%;
   }
   #userpanel #menu #mainMenu li a.current {
@@ -7630,7 +7632,7 @@ and (max-device-width : 767px) {
   
     *zoom: 1;
     float: left;
-    width: 81.33333333333334%;
+    width: 98%;
     margin: 0 1% 0 1%;
   }
   #userpanel #menu #subMenu {
@@ -7642,6 +7644,7 @@ and (max-device-width : 767px) {
     float: left;
     width: 48%;
     margin: 0 1% 0 1%;
+    display: none;
   }
   #userpanel #menu #subMenu li a {
     display: inline-block;
