@@ -4103,7 +4103,7 @@ and (max-device-width : 767px) {
   
     *zoom: 1;
     float: left;
-    width: 14.666666666666668%;
+    width: 16.75%;
     margin: 0 1% 0 1%;
   }
   body #container #sidebar-left {
@@ -4113,7 +4113,7 @@ and (max-device-width : 767px) {
   
     *zoom: 1;
     float: left;
-    width: 18.833333333333336%;
+    width: 16.75%;
     margin: 0 1% 0 1%;
   }
   body #container #sidebar-left #userpanel {
@@ -4297,7 +4297,7 @@ and (max-device-width : 767px) {
   
     *zoom: 1;
     float: left;
-    width: 18.833333333333336%;
+    width: 16.75%;
     margin: 0 1% 0 1%;
     margin-top: 12px;
   }
@@ -4344,7 +4344,7 @@ and (max-device-width : 767px) {
   
     *zoom: 1;
     float: right;
-    width: 14.666666666666668%;
+    width: 16.75%;
     margin: 0 1% 0 1%;
   }
   #topNav #navIcons .navIcon {
@@ -4363,8 +4363,8 @@ and (max-device-width : 767px) {
   }
   #topNav #navIcons .navIcon .badge {
     padding: 1px 2px 1px 2px;
-    margin-left: 20px;
-    margin-top: -20px;
+    margin-left: -15px;
+    margin-top: 25px;
     position: absolute;
     font-size: 11px;
   }
@@ -7311,7 +7311,7 @@ and (max-device-width : 767px) {
   
     *zoom: 1;
     float: left;
-    width: 68.83333333333334%;
+    width: 70.5%;
     margin: 0 1% 0 1%;
   }
   body #container #sidebar-right {
@@ -7321,7 +7321,7 @@ and (max-device-width : 767px) {
   
     *zoom: 1;
     float: left;
-    width: 10.5%;
+    width: 11.75%;
     margin: 0 1% 0 1%;
   }
   body #container #sidebar-left {
@@ -7331,7 +7331,7 @@ and (max-device-width : 767px) {
   
     *zoom: 1;
     float: left;
-    width: 14.666666666666668%;
+    width: 11.75%;
     margin: 0 1% 0 1%;
   }
   body #container #sidebar-left #userpanel {
@@ -7516,7 +7516,7 @@ and (max-device-width : 767px) {
   
     *zoom: 1;
     float: left;
-    width: 14.666666666666668%;
+    width: 11.75%;
     margin: 0 1% 0 1%;
     margin-top: 12px;
   }
@@ -7527,7 +7527,7 @@ and (max-device-width : 767px) {
   
     *zoom: 1;
     float: left;
-    width: 69.03333333333335%;
+    width: 70.7%;
     margin: 0 0.9% 0 0.9%;
   }
   #topNav .searchBar .formSearch {
@@ -7563,7 +7563,7 @@ and (max-device-width : 767px) {
   
     *zoom: 1;
     float: right;
-    width: 10.5%;
+    width: 11.75%;
     margin: 0 1% 0 1%;
   }
   #topNav #navIcons .navIcon {
