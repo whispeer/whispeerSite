@@ -1810,8 +1810,8 @@ body:not(.mainView, .registerView) #main {
 .registerView #registerform .icon#firstnamelock {
   margin-left: -34px;
 }
-.registerView #loginform #uploadButton,
-.registerView #registerform #uploadButton {
+.registerView #loginform #uploadImage,
+.registerView #registerform #uploadImage {
   display: inline-block;
   *display: inline;
   /* IE7 inline-block hack */
@@ -1837,51 +1837,62 @@ body:not(.mainView, .registerView) #main {
   background-color: #559d00;
   color: #ffffff;
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+  border: 0;
   -webkit-border-radius: 0;
   -moz-border-radius: 0;
   border-radius: 0;
   -moz-background-clip: padding;
   -webkit-background-clip: padding-box;
   background-clip: padding-box;
-  border: 0;
-  cursor: pointer!important;
+  cursor: pointer;
 }
-.registerView #loginform #uploadButton:hover,
-.registerView #registerform #uploadButton:hover {
+.registerView #loginform #uploadImage:hover,
+.registerView #registerform #uploadImage:hover {
   background-color: #ececec;
 }
-.registerView #loginform #uploadButton:hover,
-.registerView #registerform #uploadButton:hover,
-.registerView #loginform #uploadButton:active,
-.registerView #registerform #uploadButton:active,
-.registerView #loginform #uploadButton.active,
-.registerView #registerform #uploadButton.active,
-.registerView #loginform #uploadButton.disabled,
-.registerView #registerform #uploadButton.disabled,
-.registerView #loginform #uploadButton[disabled],
-.registerView #registerform #uploadButton[disabled] {
+.registerView #loginform #uploadImage:hover,
+.registerView #registerform #uploadImage:hover,
+.registerView #loginform #uploadImage:active,
+.registerView #registerform #uploadImage:active,
+.registerView #loginform #uploadImage.active,
+.registerView #registerform #uploadImage.active,
+.registerView #loginform #uploadImage.disabled,
+.registerView #registerform #uploadImage.disabled,
+.registerView #loginform #uploadImage[disabled],
+.registerView #registerform #uploadImage[disabled] {
   background-color: #ececec;
 }
-.registerView #loginform #uploadButton:hover,
-.registerView #registerform #uploadButton:hover,
-.registerView #loginform #uploadButton:active,
-.registerView #registerform #uploadButton:active,
-.registerView #loginform #uploadButton.active,
-.registerView #registerform #uploadButton.active,
-.registerView #loginform #uploadButton.disabled,
-.registerView #registerform #uploadButton.disabled,
-.registerView #loginform #uploadButton[disabled],
-.registerView #registerform #uploadButton[disabled] {
+.registerView #loginform #uploadImage:hover,
+.registerView #registerform #uploadImage:hover,
+.registerView #loginform #uploadImage:active,
+.registerView #registerform #uploadImage:active,
+.registerView #loginform #uploadImage.active,
+.registerView #registerform #uploadImage.active,
+.registerView #loginform #uploadImage.disabled,
+.registerView #registerform #uploadImage.disabled,
+.registerView #loginform #uploadImage[disabled],
+.registerView #registerform #uploadImage[disabled] {
   background-color: #3a8100;
+}
+.registerView #loginform #uploadButton,
+.registerView #registerform #uploadButton {
+  display: inline-block;
+  margin: 2.5px 0;
 }
 .registerView #loginform #files-upload,
 .registerView #registerform #files-upload {
   position: absolute;
-  margin-top: -35px;
+  margin: -4px 0 0 -219px;
   height: 35px;
   width: 270px;
-  background: red;
   opacity: 0;
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  border-radius: 0;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  cursor: pointer;
 }
 .registerView #loginform #rpasswordIcon,
 .registerView #registerform #rpasswordIcon {
