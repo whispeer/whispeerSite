@@ -35,12 +35,11 @@ define(["step", "whispeerHelper"], function (step, h) {
 
 				console.log("Own Name loaded:" + (new Date().getTime() - startup));
 			}));
-		});
-
-		messageService.listenNewMessage(function(m) {
-			if (!m.isOwn()) {
-				document.getElementById("sound").play();
-            }
+			messageService.listenNewMessage(function(m) {
+				if (!m.isOwn()) {
+					document.getElementById("sound").play();
+	            }
+			});
 		});
 		
 		cssService.addListener(function (newClass) {
