@@ -5,7 +5,7 @@
 define(["step", "whispeerHelper"], function (step, h) {
 	"use strict";
 
-	function rootController($scope, sessionService, sessionHelper, userService, cssService) {
+	function rootController($scope, sessionService, sessionHelper, userService, cssService, messageService) {
 		$scope.loggedin = false;
 
 		$scope.user = {};
@@ -37,6 +37,10 @@ define(["step", "whispeerHelper"], function (step, h) {
 			}));
 		});
 
+		messageService.listenNewMessage(function() { 
+            document.getElementById("sound").play();
+		});
+		
 		cssService.addListener(function (newClass) {
 			$scope.cssClass = newClass;
 		});
@@ -48,7 +52,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 		};
 	}
 
-	rootController.$inject = ["$scope", "ssn.sessionService", "ssn.sessionHelper", "ssn.userService", "ssn.cssService"];
+	rootController.$inject = ["$scope", "ssn.sessionService", "ssn.sessionHelper", "ssn.userService", "ssn.cssService", "ssn.messageService"];
 
 	return rootController;
 });

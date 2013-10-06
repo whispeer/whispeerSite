@@ -115,6 +115,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 				$scope.activeTopic.newMessage = "";
 			});
 		};
+		
 
 		$scope.topics = messageService.data.latestTopics.data;
 
