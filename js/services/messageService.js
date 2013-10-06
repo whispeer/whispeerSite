@@ -8,6 +8,8 @@ define(["step", "whispeerHelper", "valid/validator"], function (step, h, validat
 		var messages = {};
 		var topics = {};
 
+		var listeners = [];
+
 		var topicArray = [];
 
 		var Message = function (data) {
@@ -628,12 +630,24 @@ define(["step", "whispeerHelper", "valid/validator"], function (step, h, validat
 			return m;
 		}
 
+		function callListener(message) {
+			var i;
+			for (i = 0; i < listeners.length; i += 1) {
+				try {
+					listeners[i](message);
+				} catch (e) {
+					console.log(e);
+				}
+			}
+		}
+
 		socket.listen("message", function (e, data) {
 			if (!e) {
 				if (data.topic) {
 					var t = makeTopic(data.topic, function () {
 						if (data.message) {
-							makeMessage(data.message, true);
+							var m = makeMessage(data.message, true);
+							callListener(m);
 						}
 					});
 
@@ -641,7 +655,8 @@ define(["step", "whispeerHelper", "valid/validator"], function (step, h, validat
 						messageService.data.unread += 1;
 					}
 				} else if (data.message) {
-					makeMessage(data.message, true);
+					var m = makeMessage(data.message, true);
+					callListener(m);
 				}
 			} else {
 				console.error(e);
@@ -649,10 +664,14 @@ define(["step", "whispeerHelper", "valid/validator"], function (step, h, validat
 		});
 
 		var messageService = {
+			listenNewMessage: function (func) {
+				listeners.push(func);
+			},
 			reset: function () {
 				messages = {};
 				topics = {};
 				topicArray = [];
+				listeners = [];
 				messageService.data = {
 					latestTopics: {
 						count: 0,
