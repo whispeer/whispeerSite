@@ -37,8 +37,10 @@ define(["step", "whispeerHelper"], function (step, h) {
 			}));
 		});
 
-		messageService.listenNewMessage(function() { 
-            document.getElementById("sound").play();
+		messageService.listenNewMessage(function(m) {
+			if (!m.isOwn()) {
+				document.getElementById("sound").play();
+            }
 		});
 		
 		cssService.addListener(function (newClass) {
