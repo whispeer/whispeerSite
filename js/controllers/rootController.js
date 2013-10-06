@@ -48,7 +48,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 		};
 	}
 
-	rootController.$inject = ["$scope", "ssn.sessionService", "ssn.sessionHelper", "ssn.userService", "ssn.cssService"];
+	rootController.$inject = ["$scope", "ssn.sessionService", "ssn.sessionHelper", "ssn.userService", "ssn.cssService", "ssn.friendsService"];
 
 	return rootController;
 });

@@ -48,7 +48,7 @@
 			</div>
 			<div class="navIcon" id="friends" data-ng-click="loadWidget('friends')">
 				<img src="/img/icons/friends.png" alt="Freundschaftsanfragen" class="icon">
-				<span class="badge">5</span>
+				<span class="badge" data-ng-if="friends.requestsCount!=0">{{friends.requestsCount}}</span>
 			</div>
 			<div class="navIcon" id="news" data-ng-click="loadWidget('news')">
 				<img src="/img/icons/newsfeed.png" alt="Neugikeiten" class="icon">
