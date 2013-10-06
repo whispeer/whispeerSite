@@ -17,6 +17,7 @@ define(["step", "whispeerHelper", "valid/validator"], function (step, h, validat
 
 			var meta = data.meta;
 			var content = data.content;
+			var ownMessage;
 
 			this.data = {
 				text: "",
@@ -68,6 +69,10 @@ define(["step", "whispeerHelper", "valid/validator"], function (step, h, validat
 				return meta.sendTime;
 			};
 
+			this.isOwn = function isOwnF() {
+				return ownMessage;
+			};
+
 			this.loadSender = function loadSenderF(cb) {
 				step(function () {
 					userService.get(meta.sender, this);
@@ -80,6 +85,7 @@ define(["step", "whispeerHelper", "valid/validator"], function (step, h, validat
 					sender.getImage(this.parallel());
 					this.parallel()(null, sender.getUrl());
 				}), h.sF(function loadS2(ownUser, name, image, url) {
+					ownMessage = ownUser;
 					theMessage.data.sender = {
 						me: ownUser,
 						url: url,
@@ -255,7 +261,7 @@ define(["step", "whispeerHelper", "valid/validator"], function (step, h, validat
 
 					theTopic.data.latestMessage = messages[messages.length - 1];
 					if (addUnread) {
-						if (!theTopic.messageUnread(m.getID()) && !m.data.sender.me) {
+						if (!theTopic.messageUnread(m.getID()) && !m.isOwn()) {
 							setUnread(unread.concat([m.getID()]));
 						}
 
