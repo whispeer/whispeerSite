@@ -7,7 +7,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 	"use strict";
 
 	var service = function (socketService, keyStoreService, ProfileService, sessionService) {
-		var keyGenerationStarted = false, asym, sign, sym, profile, keyGenListener = [], keyGenDone;
+		var keyGenerationStarted = false, keys = {}, keyGenListener = [], keyGenDone;
 
 		var sessionHelper = {
 			logout: function () {
@@ -49,14 +49,11 @@ define(["step", "whispeerHelper"], function (step, h) {
 			},
 
 			register: function (nickname, mail, password, profile, callback) {
-				var sym, asym, sign, profileKey;
+				var keys;
 				step(function register1() {
 					sessionHelper.startKeyGeneration(this);
-				}, h.sF(function register2(symK, asymK, signK, profileK) {
-					sym = symK;
-					asym = asymK;
-					sign = signK;
-					profileKey = profileK;
+				}, h.sF(function register2(theKeys) {
+					keys = theKeys;
 
 					if (nickname) {
 						keyStoreService.setKeyGenIdentifier(nickname);
@@ -66,23 +63,18 @@ define(["step", "whispeerHelper"], function (step, h) {
 
 					var privateProfile = new ProfileService(profile.priv);
 
-					privateProfile.signAndEncrypt(sign, profileKey, this.parallel());
-					keyStoreService.sign.signObject(profile.pub, sign, this.parallel());
-					keyStoreService.sym.pwEncryptKey(sym, password, this.parallel());
+					privateProfile.signAndEncrypt(keys.sign, keys.profile, this.parallel());
+					keyStoreService.sign.signObject(profile.pub, keys.sign, this.parallel());
+					keyStoreService.sym.pwEncryptKey(keys.main, password, this.parallel());
+					keyStoreService.sym.symEncryptKey(keys.friendsLevel2, keys.friends, this.parallel());
 				}), h.sF(function register3(data) {
-					sym = keyStoreService.correctKeyIdentifier(sym);
-					asym = keyStoreService.correctKeyIdentifier(asym);
-					sign = keyStoreService.correctKeyIdentifier(sign);
-					profileKey = keyStoreService.correctKeyIdentifier(profileKey);
+					keys = h.objectMap(keys, keyStoreService.correctKeyIdentifier);
 
 					profile.pub.signature = data[1];
 
 					var registerData = {
 						password: keyStoreService.hash.hashPW(password),
-						mainKey: keyStoreService.upload.getKey(sym),
-						signKey: keyStoreService.upload.getKey(sign),
-						cryptKey: keyStoreService.upload.getKey(asym),
-						profileKey: keyStoreService.upload.getKey(profileKey),
+						keys: h.objectMap(keys, keyStoreService.upload.getKey),
 						profile: {
 							pub: profile.pub,
 							priv: data[0]
@@ -109,20 +101,30 @@ define(["step", "whispeerHelper"], function (step, h) {
 				if (keyGenDone) {
 					keyGenerationStarted = false;
 					keyGenDone = false;
-					asym = undefined;
-					sym = undefined;
-					sign = undefined;
-					profile = undefined;
+					keys = {};
 					keyGenListener = [];
 				}
 			},
 
 			startKeyGeneration: function startKeyGen(callback) {
-				var kAsym = keyStoreService.asym, kSign = keyStoreService.sign, kSym = keyStoreService.sym;
+				var toGenKeys = [
+					["main", "sym"],
+					["sign", "sign"],
+					["crypt", "asym"],
+					["profile", "sym"],
+					["friends", "sym"],
+					["friendsLevel2", "sym"]
+				];
+
+				function getCorrectKeystore(index) {
+					return ks[toGenKeys[index][1]];
+				}
+
+				var ks = keyStoreService;
 				step(function keyGen1() {
 					if (typeof callback === "function") {
 						if (keyGenDone) {
-							callback(null, sym, asym, sign, profile);
+							callback(null, keys);
 							return;
 						}
 
@@ -130,35 +132,29 @@ define(["step", "whispeerHelper"], function (step, h) {
 					}
 
 					if (!keyGenerationStarted) {
-						keyGenerationStarted = true;
-						kAsym.generateKey(this.parallel());
-						kSign.generateKey(this.parallel());
-						kSym.generateKey(this.parallel());
-						kSym.generateKey(this.parallel());
+						this.ne();
 					}
-				}, h.sF(function keyGen2(keys) {
-					asym = keys[0];
-					sign = keys[1];
-					sym = keys[2];
-					profile = keys[3];
+				}, h.sF(function keyGenStart() {
+					keyGenerationStarted = true;
+					var i;
+					for (i = 0; i < toGenKeys.length; i += 1) {
+						getCorrectKeystore(i).generateKey(this.parallel());
+					}
+				}), h.sF(function keyGen2(resultKeys) {
+					var i;
+					for (i = 0; i < toGenKeys.length; i += 1) {
+						keys[toGenKeys[i][0]] = resultKeys[i];
 
-					kAsym.symEncryptKey(asym, sym, this.parallel());
-					kSign.symEncryptKey(sign, sym, this.parallel());
-					kSym.symEncryptKey(profile, sym, this.parallel());
+						if (i > 0) {
+							getCorrectKeystore(i).symEncryptKey(resultKeys[i], resultKeys[0], this.parallel());
+						}
+					}
 				}), function keyGen3(e) {
 					if (!e) {
 						keyGenDone = true;
 					}
 
-					var i;
-					for (i = 0; i < keyGenListener.length; i += 1) {
-						try {
-							keyGenListener[i](e, sym, asym, sign, profile);
-						} catch (e2) {
-							console.log("Listener error!");
-							console.log(e2);
-						}
-					}
+					h.callEach(keyGenListener, [e, keys]);
 				});
 			},
 
