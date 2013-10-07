@@ -30,7 +30,7 @@ define(["step", "whispeerHelper", "valid/validator"], function (step, h, validat
 					"id": meta.sender,
 					"name": "",
 					"url": "",
-					"image": "/assets/img/profil.jpg"
+					"image": "/assets/img/user.png"
 				},
 
 				id: meta.messageid,
