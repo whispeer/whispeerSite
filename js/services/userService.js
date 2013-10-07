@@ -15,18 +15,26 @@ define(["step", "whispeerHelper"], function (step, h) {
 		var loading = {};
 
 		var User = function (data) {
-			var theUser = this, mainKey, signKey, cryptKey;
+			var theUser = this, mainKey, signKey, cryptKey, friendKey, friendsLevel2Key;
 
-			if (data.mainKey) {
-				mainKey = keyStoreService.upload.addKey(data.mainKey);
+			if (data.keys.main) {
+				mainKey = keyStoreService.upload.addKey(data.keys.main);
 			}
 
-			if (data.signKey) {
-				signKey = keyStoreService.upload.addKey(data.signKey);
+			if (data.keys.sign) {
+				signKey = keyStoreService.upload.addKey(data.keys.sign);
 			}
 
-			if (data.cryptKey) {
-				cryptKey = keyStoreService.upload.addKey(data.cryptKey);
+			if (data.keys.crypt) {
+				cryptKey = keyStoreService.upload.addKey(data.keys.crypt);
+			}
+
+			if (data.keys.friends) {
+				friendKey = keyStoreService.upload.addKey(data.keys.friends);
+			}
+
+			if (data.keys.friendsLevel2Key) {
+				friendsLevel2Key = keyStoreService.upload.addKey(data.keys.friendsLevel2Key);
 			}
 
 			if (data.profile && data.profile.priv && data.profile.priv instanceof Array) {

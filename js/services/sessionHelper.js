@@ -36,7 +36,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 					}
 				}), h.sF(function loginResults(data) {
 					if (data.error) {
-						this.last.ne(data.errorData);
+						this.last(data.errorData);
 					} else {
 						sessionHelper.resetKey();
 						

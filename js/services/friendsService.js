@@ -27,11 +27,31 @@ define(["step", "whispeerHelper"], function (step, h) {
 			data.requestedCount = r.length;
 		}
 
+		function acceptFriendShip(uid) {
+			//get own friendsKey
+			//get others friendsLevel2Key
+			//get own friendsLevel2Key
+		}
+
+		function requestFriendShip(uid) {
+			//own user get friendsKey
+			//generate another intermediate key
+			//encr friendsKey w/ intermediate key
+			//encr intermediate key w/ users cryptKey
+			//sign: friendShip:uid:nickname
+		}
+
 		var friendsService = {
-			requestFriendShip: function (uid) {
-				step(function () {
-					
-				});
+			friendship: function (uid) {
+				if (friends.indexOf(uid) > -1 || requested.indexOf(uid) -1) {
+					return;
+				}
+
+				if (requests.indexOf(uid) > -1) {
+					acceptFriendShip(uid);
+				} else {
+					requestFriendShip(uid);
+				}
 			},
 			load: function (data) {
 				setFriends(data.friends);
