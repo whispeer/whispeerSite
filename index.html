@@ -17,18 +17,18 @@
 	<meta name="viewport" content="width=device-width" />
 	<link rel="shortcut icon" href="/favicon.png" type="image/x-icon" />
 	<!-- iOS Web-App Stuff -->
-	<link rel="apple-touch-icon" href="/img/socialize-icon-iphone.png" />
-	<link rel="apple-touch-icon" sizes="72x72" href="/img/socialize-icon-ipad.png" />
-	<link rel="apple-touch-icon" sizes="114x114" href="/img/socialize-icon-iphone4.png" />
-	<link rel="apple-touch-startup-image" href="/img/socialize-splash.png">
+	<link rel="apple-touch-icon" href="/assets/img/socialize-icon-iphone.png" />
+	<link rel="apple-touch-icon" sizes="72x72" href="/assets/img/socialize-icon-ipad.png" />
+	<link rel="apple-touch-icon" sizes="114x114" href="/assets/img/socialize-icon-iphone4.png" />
+	<link rel="apple-touch-startup-image" href="/assets/img/socialize-splash.png">
 	<meta name="apple-mobile-web-app-capable" content="yes" />
 	
-	<link rel="stylesheet" href="/css/style.css">
-	<link rel="stylesheet" href="/css/fontello/fontello.css">
+	<link rel="stylesheet" href="/assets/css/style.css">
+	<link rel="stylesheet" href="/assets/css/fontello/fontello.css">
 	<!--[if IE 7]><link rel="stylesheet" href="css/fontello/fontello-ie7.css"><![endif]-->
-	<script src="/js/libs/modernizr.js"></script>
+	<script src="/assets/js/libs/modernizr.js"></script>
 	<!--<script src="js/libs/prefixfree.min.js"></script>-->
-	<script data-main="/js/main" src="/js/libs/require.js"></script>
+	<script data-main="/assets/js/main" src="/assets/js/libs/require.js"></script>
 	<base href="/index.html" />
 </head>
 <body data-ng-class="cssClass" data-ng-controller="ssn.rootController" class="registerView">
@@ -43,7 +43,7 @@
 		</div>
 		<div id="navIcons" data-ng-controller="ssn.magicbar.mainController">
 			<div class="navIcon" id="message" data-ng-click="loadWidget('messages')">
-				<img src="/img/icons/messages.png" alt="Nachrichten" class="icon">
+				<img src="/assets/img/icons/messages.png" alt="Nachrichten" class="icon">
 				<span class="badge" data-ng-if="messages.unread!=0">{{messages.unread}}</span>
 			</div>
 			<div class="navIcon" id="friends" data-ng-click="loadWidget('friends')">
@@ -51,11 +51,11 @@
 				<span class="badge" data-ng-if="friends.requestsCount!=0">{{friends.requestsCount}}</span>
 			</div>
 			<div class="navIcon" id="news" data-ng-click="loadWidget('news')">
-				<img src="/img/icons/newsfeed.png" alt="Neugikeiten" class="icon">
+				<img src="/assets/img/icons/newsfeed.png" alt="Neugikeiten" class="icon">
 				<span class="badge">3</span>
 			</div>
 			<div class="navIcon" id="settings" data-ng-click="loadWidget('settings')">
-				<img src="/img/icons/settings.png" alt="Settings" class="icon">	
+				<img src="/assets/img/icons/settings.png" alt="Settings" class="icon">	
 			</div>
 		</div>	
 	</nav>
@@ -86,16 +86,16 @@
 
 		<section id="main" data-ng-view>
 			<div id="logo">
-				<img src="/img/logo.png">
+				<img src="/assets/img/logo.png">
 			</div>
 		</section>
 		</section>
 
 		<aside id="sidebar-right" data-ng-show="loggedin" data-ng-if="loggedin" style="display:none">
 			<div id="magicbar" data-ng-controller="ssn.magicbar.mainController">
-				<div data-ng-if="!config.showDefault" data-ng-include="'/views/magicbar/' + config.template + '.html'" style="height: 100%;">bla</div>
+				<div data-ng-if="!config.showDefault" data-ng-include="'/assets/views/magicbar/' + config.template + '.html'" style="height: 100%;">bla</div>
 				<div data-ng-if="config.showDefault">
-					<div data-ng-repeat="widget in defaultConfig" data-ng-include="'/views/magicbar/' + widget.template + '.html'" data-ng-style="'height:' + widget.height + ';'"></div>
+					<div data-ng-repeat="widget in defaultConfig" data-ng-include="'/assets/views/magicbar/' + widget.template + '.html'" data-ng-style="'height:' + widget.height + ';'"></div>
 				</div>							
 			</div>		
 		</aside>
@@ -103,5 +103,7 @@
 	<footer>
 	<div id="left">&copy; 2013 WhisPeer</div> <div id="right"><a href="">AGB</a> <a href="">Datenschutzbestimmungen</a> <a href="">Kontakt</a> <a href="">Impressum</a></div>
 	</footer>
+	<audio id="sound" src="img/newMessage4.mp3">
+	</audio>
 </body>
 </html>
