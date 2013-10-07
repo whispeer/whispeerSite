@@ -38,7 +38,7 @@ define(["step"], function (step) {
 			{
 				"id": "1",
 				"name":	"Liste der geilsten Personen auf der Ganzen Welt, oh mein Gott bin ich hipster! xoxoxoxo dreieck!!",
-				"image": "/img/profil.jpg",
+				"image": "/assets/img/profil.jpg",
 				"persons": [
 				]
 			}
@@ -46,13 +46,13 @@ define(["step"], function (step) {
 		$scope.thisCircle = {
 			"id": "1",
 			"name":	"Liste der geilsten Personen auf der Ganzen Welt, oh mein Gott bin ich hipster! xoxoxoxo dreieck!!",
-			"image": "/img/profil.jpg",
+			"image": "/assets/img/profil.jpg",
 			"persons": [
 				{
 					"id": "1",
 					"name":"Testy Test",
 					"samefriends":	"23",
-					"image":	"/img/profil.jpg"
+					"image":	"/assets/img/profil.jpg"
 				}	
 			]
 		};

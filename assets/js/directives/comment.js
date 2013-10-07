@@ -8,7 +8,7 @@ define(function () {
 				comment: "=comment"
 			},
 			restrict: 'E',
-			templateUrl: '/views/directives/comment.html',
+			templateUrl: '/assets/views/directives/comment.html',
 			replace: true
 		};			
 	}

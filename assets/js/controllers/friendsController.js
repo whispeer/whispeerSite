@@ -11,7 +11,7 @@ define([], function () {
 			{
 				"name": "Willi Welle",
 				"mutualFriends":	"295",
-				"image":	"/img/profil.jpg"
+				"image":	"/assets/img/profil.jpg"
 				//"lists":	[""] // ID's of the Lists with this friend
 			}
 		];

@@ -114,7 +114,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 					if (image) {
 						this.ne(image);
 					} else {
-						this.ne("/img/profil.jpg");
+						this.ne("/assets/img/profil.jpg");
 					}
 				}), cb);
 			};

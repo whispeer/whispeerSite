@@ -24,7 +24,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 			"name":	"Not loaded",
 			"added": false,
 			"data": {
-				"image": "/img/profil.jpg",
+				"image": "/assets/img/profil.jpg",
 				"me": true,
 				"birthday":	{
 					"day":	"",
@@ -129,7 +129,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 			{
 				"sender":	{
 					"image":	{
-						"image":	"/img/profil.jpg",
+						"image":	"/assets/img/profil.jpg",
 						"alttext":	"Test"
 					},
 					"name":	"Daniel Melchior"
@@ -148,7 +148,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 			{
 				"sender":	{
 					"image":	{
-						"image":	"/img/profil.jpg",
+						"image":	"/assets/img/profil.jpg",
 						"alttext":	"Test"
 					},
 					"name":	"Daniel Melchior"
@@ -167,7 +167,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 			{
 				"sender":	{
 					"image":	{
-						"image":	"/img/profil.jpg",
+						"image":	"/assets/img/profil.jpg",
 						"alttext":	"Test"
 					},
 					"name":	"Daniel Melchior"
@@ -188,13 +188,13 @@ define(["step", "whispeerHelper"], function (step, h) {
 			{
 				"name": "Willi Welle",
 				"mutualFriends":	"295",
-				"image":	"/img/profil.jpg"
+				"image":	"/assets/img/profil.jpg"
 				//"lists":	[''] // ID's of the Lists with this friend
 			},
 			{
 				"name": "William Welle",
 				"mutualFriends":	"495",
-				"image":	"/img/profil.jpg"
+				"image":	"/assets/img/profil.jpg"
 				//"lists":	[''] // ID's of the Lists with this friend
 			}
 		];

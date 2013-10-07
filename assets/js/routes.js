@@ -10,7 +10,7 @@ define(["app"], function (app) {
 			}
 
 			$routeProvider.when("/" + name, {
-				templateUrl: "/views/" + name + "/" + name + ".html",
+				templateUrl: "/assets/views/" + name + "/" + name + ".html",
 				controller: "ssn." + name + "Controller",
 				reloadOnSearch: reloadOnSearch
 			});
@@ -26,7 +26,7 @@ define(["app"], function (app) {
 		addMain("loading");
 
 		$routeProvider.when("/user/:identifier", {
-			templateUrl: "/views/user/user.html",
+			templateUrl: "/assets/views/user/user.html",
 			controller: "ssn.userController"
 		});
 
