@@ -475,19 +475,11 @@ define(["step", "whispeerHelper", "valid/validator"], function (step, h, validat
 				if (topics[topicid]) {
 					this.last.ne(topics[topicid]);
 				} else {
+					//TODO get topic from server!
 					throw "not implemented";
 				}
 			}, cb);
 		};
-
-		function removeA(arr, what) {
-			var ax;
-			while ((ax= arr.indexOf(what)) !== -1) {
-				arr.splice(ax, 1);
-			}
-
-			return arr;
-		}
 
 		Topic.createData = function (receiver, message, cb) {
 			var receiverObjects, topicKey, result, topicHash;
@@ -501,7 +493,7 @@ define(["step", "whispeerHelper", "valid/validator"], function (step, h, validat
 					}
 				});
 
-				removeA(receiver, sessionService.getUserID());
+				h.removeArray(receiver, sessionService.getUserID());
 
 				//get receiver objects
 				userService.getMultiple(receiver, this);
@@ -738,14 +730,24 @@ define(["step", "whispeerHelper", "valid/validator"], function (step, h, validat
 					}
 				});
 			},
-			sendMessage: function (topic, message, cb) {
+			sendMessage: function (topic, message, cb, count) {
+				if (!count) {
+					count = 0;
+				} else if (count > 5) {
+					cb(false);
+				}
+
 				step(function () {
 					Message.createData(topic, message, this);
 				}, h.sF(function (result) {
 					socket.emit("messages.send", result, this);
 				}), h.sF(function (result) {
-					makeMessage(result.message, false);
-					this.ne();
+					if (!result.success) {
+						messageService.sendMessage(topic, message, cb, count + 1);
+						return;
+					}
+
+					this.ne(true);
 				}), cb);
 			},
 			data: {
