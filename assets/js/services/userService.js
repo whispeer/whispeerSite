@@ -14,35 +14,54 @@ define(["step", "whispeerHelper"], function (step, h) {
 		var users = {};
 		var loading = {};
 
-		var User = function (data) {
-			var theUser = this, mainKey, signKey, cryptKey, friendKey, friendsLevel2Key;
+		var User = function (providedData) {
+			var theUser = this, mainKey, signKey, cryptKey, friendsKey, friendsLevel2Key;
+			var id, mail, nickname, publicProfile, privateProfiles = [];
 
-			if (data.keys.main) {
-				mainKey = keyStoreService.upload.addKey(data.keys.main);
-			}
+			function updateUser(userData) {
+				if (id && parseInt(userData.id, 10) !== parseInt(id, 10)) {
+					throw "user update invalid";
+				}
 
-			if (data.keys.sign) {
-				signKey = keyStoreService.upload.addKey(data.keys.sign);
-			}
+				id = parseInt(userData.id, 10);
+				mail = userData.mail;
+				nickname = userData.nickname;
 
-			if (data.keys.crypt) {
-				cryptKey = keyStoreService.upload.addKey(data.keys.crypt);
-			}
+				//do not overwrite keys.
+				if (!mainKey && userData.keys.main) {
+					mainKey = keyStoreService.upload.addKey(userData.keys.main);
+				}
 
-			if (data.keys.friends) {
-				friendKey = keyStoreService.upload.addKey(data.keys.friends);
-			}
+				if (!signKey && userData.keys.sign) {
+					signKey = keyStoreService.upload.addKey(userData.keys.sign);
+				}
 
-			if (data.keys.friendsLevel2Key) {
-				friendsLevel2Key = keyStoreService.upload.addKey(data.keys.friendsLevel2Key);
-			}
+				if (!cryptKey && userData.keys.crypt) {
+					cryptKey = keyStoreService.upload.addKey(userData.keys.crypt);
+				}
 
-			if (data.profile && data.profile.priv && data.profile.priv instanceof Array) {
-				var priv = data.profile.priv, i;
-				for (i = 0; i < priv.length; i += 1) {
-					priv[i] = new ProfileService(priv[i]);
+				if (!friendsKey && userData.keys.friends) {
+					friendsKey = keyStoreService.upload.addKey(userData.keys.friends);
+				}
+
+				if (!friendsLevel2Key && userData.keys.friendsLevel2) {
+					friendsLevel2Key = keyStoreService.upload.addKey(userData.keys.friendsLevel2);
+				}
+
+				publicProfile = userData.profile.pub;
+
+				privateProfiles = [];
+
+				//todo: update profiles. for now: overwrite
+				if (userData.profile && userData.profile.priv && userData.profile.priv instanceof Array) {
+					var priv = userData.profile.priv, i;
+					for (i = 0; i < priv.length; i += 1) {
+						privateProfiles.push(new ProfileService(priv[i]));
+					}
 				}
 			}
+
+			updateUser(providedData);
 
 			function getProfileAttribute(attrs, cb) {
 				step(function () {
@@ -56,6 +75,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 						this.ne([]);
 					}
 				}, h.sF(function (results) {
+					var i;
 					if (results) {
 						for (i = 0; i < results.length; i += 1) {
 							if (results[i]) {
@@ -76,7 +96,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 			};
 
 			this.getNickOrMail = function () {
-				return data.nickname || data.mail;
+				return nickname || mail;
 			};
 
 			this.getMainKey = function () {
@@ -91,8 +111,12 @@ define(["step", "whispeerHelper"], function (step, h) {
 				return cryptKey;
 			};
 
+			this.getFriendsKey = function () {
+				return friendsKey;
+			};
+
 			this.getID = function () {
-				return parseInt(data.id, 10);
+				return parseInt(id, 10);
 			};
 
 			this.getUrl = function () {
@@ -100,19 +124,19 @@ define(["step", "whispeerHelper"], function (step, h) {
 			};
 
 			this.getNickname = function () {
-				return data.nickname;
+				return nickname;
 			};
 
 			this.getMail = function () {
-				return data.mail;
+				return mail;
 			};
 
 			this.getProfile = function () {
-				return data.profile.pub;
+				return publicProfile;
 			};
 
 			this.getPrivateProfiles = function () {
-				return data.profile.priv;
+				return privateProfiles;
 			};
 
 			this.getImage = function (cb) {
@@ -162,7 +186,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 			};
 		};
 
-		function makeUser(data) {
+		function makeUser(data, overwriteExisting) {
 			if (data.error === true) {
 				return NotExistingUser;
 			}
@@ -173,13 +197,15 @@ define(["step", "whispeerHelper"], function (step, h) {
 			var mail = theUser.getMail();
 			var nickname = theUser.getNickname();
 
-			if (users[id]) {
+			if (users[id] && !overwriteExisting) {
 				return users[id];
 			}
 
-			users[id] = theUser;
+			if (!users[id]) {
+				knownIDs.push(id);
+			}
 
-			knownIDs.push(id);
+			users[id] = theUser;
 
 			if (mail) {
 				users[mail] = theUser;
@@ -337,7 +363,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 								}
 							}
 						}, h.sF(function () {
-							var toUpload = keyStoreService.upload.getDecryptors();
+							var toUpload = keyStoreService.upload.getDecryptors(improve);
 							console.log(toUpload);
 							socketService.emit("key.addFasterDecryptors", {
 								keys: toUpload
