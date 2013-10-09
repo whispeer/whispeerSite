@@ -709,11 +709,7 @@ define(["step", "whispeerHelper", "valid/validator"], function (step, h, validat
 			},
 			getTopic: function (topicid, cb) {
 				step(function () {
-					if (topics[topicid]) {
-						this.last.ne(topics[topicid]);
-					} else {
-						//TODO
-					}
+					Topic.get(topicid, this);
 				}, cb);
 			},
 			sendNewTopic: function (receiver, message, cb) {
