@@ -101,7 +101,7 @@
 			"friends":	"Freunde"	
 		},
 		"actions": {
-			"addFriend":	"{user} als Freund hinzufügen",
+			"addFriend":	"{user} zu deinen Freunden hinzufügen",
 			"addToCircle":	"In welche Kreise möchtest du {user} einfügen?",
 			"sendMessage": "{user} eine Nachricht senden"
 		},

@@ -42,7 +42,7 @@ define(["step", "whispeerHelper", "valid/validator"], function (step, h, validat
 				id: id,
 				userids: data.user,
 				name: "",
-				image: "/assets/img/profil.jpg",
+				image: "/assets/img/user.png",
 				persons: []
 			};
 		};

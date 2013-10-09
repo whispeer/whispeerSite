@@ -15,12 +15,12 @@
 	<meta name="description" content="" />
 	<meta name="author" content="" />
 	<meta name="viewport" content="width=device-width" />
-	<link rel="shortcut icon" href="/favicon.png" type="image/x-icon" />
+	<link rel="shortcut icon" href="/assets/img/favicon/favicon.png" type="image/x-icon" />
 	<!-- iOS Web-App Stuff -->
-	<link rel="apple-touch-icon" href="/assets/img/socialize-icon-iphone.png" />
-	<link rel="apple-touch-icon" sizes="72x72" href="/assets/img/socialize-icon-ipad.png" />
-	<link rel="apple-touch-icon" sizes="114x114" href="/assets/img/socialize-icon-iphone4.png" />
-	<link rel="apple-touch-startup-image" href="/assets/img/socialize-splash.png">
+	<link rel="apple-touch-icon" href="/assets/img/favicon/socialize-icon-iphone.png" />
+	<link rel="apple-touch-icon" sizes="72x72" href="/assets/img/favicon/socialize-icon-ipad.png" />
+	<link rel="apple-touch-icon" sizes="114x114" href="/assets/img/favicon/socialize-icon-iphone4.png" />
+	<link rel="apple-touch-startup-image" href="/assets/img/favicon/socialize-splash.png">
 	<meta name="apple-mobile-web-app-capable" content="yes" />
 	
 	<link rel="stylesheet" href="/assets/css/style.css">
@@ -103,7 +103,9 @@
 	<footer>
 	<div id="left">&copy; 2013 WhisPeer</div> <div id="right"><a href="">AGB</a> <a href="">Datenschutzbestimmungen</a> <a href="">Kontakt</a> <a href="">Impressum</a></div>
 	</footer>
-	<audio id="sound" src="img/newMessage4.mp3">
+	<audio id="sound" preload="auto">
+		<source src="assets/data/newMessage.wav" type="audio/wave">
+		<source src="assets/data/newMessage.ogg" type="audio/ogg">
 	</audio>
 </body>
 </html>

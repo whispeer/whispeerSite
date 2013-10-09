@@ -5419,8 +5419,8 @@ and (max-device-width : 767px) {
   
     *zoom: 1;
     float: left;
-    width: 98%;
-    margin: 0 1% 0 1%;
+    width: 100%;
+    margin: 0 0 0 0;
     height: 50px;
     margin-bottom: -50px;
   }
@@ -5529,8 +5529,8 @@ and (max-device-width : 767px) {
   
     *zoom: 1;
     float: left;
-    width: 98%;
-    margin: 0 1% 0 1%;
+    width: 100%;
+    margin: 0 0 0 0;
     height: auto;
     margin-bottom: 10px;
     padding: 0;
@@ -5559,6 +5559,62 @@ and (max-device-width : 767px) {
     margin-top: -10px;
     line-height: 10px;
   }
+  .profileView #main #info article#generalInfo .actions {
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
+    float: left;
+    width: 100%;
+    margin: 0 0 0 0;
+  }
+  .profileView #main #info article#generalInfo .actions .addFriend {
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
+    float: left;
+    width: 48%;
+    margin: 0 1% 0 1%;
+    margin: 10px 1% 10px 1%;
+    height: 60px;
+    display: table;
+  }
+  .profileView #main #info article#generalInfo .actions .addFriend span {
+    display: table-cell;
+    vertical-align: middle;
+  }
+  .profileView #main #info article#generalInfo .actions .addToCirlce {
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
+    float: left;
+    width: 48%;
+    margin: 0 1% 0 1%;
+    margin: 10px 1% 10px 1%;
+  }
+  .profileView #main #info article#generalInfo .actions .sendMessage {
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
+    float: left;
+    width: 48%;
+    margin: 0 1% 0 1%;
+    margin: 10px 1% 10px 1%;
+    height: 60px;
+    display: table;
+  }
+  .profileView #main #info article#generalInfo .actions .sendMessage span {
+    display: table-cell;
+    vertical-align: middle;
+    padding: 0 9px;
+  }
   .profileView #main #wall {
     display: inline-block;
     *display: inline;
@@ -5566,11 +5622,20 @@ and (max-device-width : 767px) {
   
     *zoom: 1;
     float: left;
-    width: 98%;
-    margin: 0 1% 0 1%;
+    width: 100%;
+    margin: 0 0 0 0;
     height: auto;
     padding: 0;
     margin-bottom: 1%;
+    -webkit-box-sizing: border-box;
+    /* Safari/Chrome, other WebKit */
+  
+    -moz-box-sizing: border-box;
+    /* Firefox, other Gecko */
+  
+    box-sizing: border-box;
+    /* Opera/IE 8+ */
+  
   }
   .profileView #main #wall header {
     height: 20px;
@@ -5640,10 +5705,19 @@ and (max-device-width : 767px) {
   
     *zoom: 1;
     float: left;
-    width: 98%;
-    margin: 0 1% 0 1%;
+    width: 100%;
+    margin: 0 0 0 0;
     height: auto;
     padding: 0;
+    -webkit-box-sizing: border-box;
+    /* Safari/Chrome, other WebKit */
+  
+    -moz-box-sizing: border-box;
+    /* Firefox, other Gecko */
+  
+    box-sizing: border-box;
+    /* Opera/IE 8+ */
+  
   }
   .profileView #main #friends header {
     height: 20px;
@@ -7035,8 +7109,8 @@ and (max-device-width : 767px) {
   
     *zoom: 1;
     float: left;
-    width: 98%;
-    margin: 0 1% 0 1%;
+    width: 100%;
+    margin: 0 0 0 0;
     height: 50px;
     margin-bottom: -50px;
   }
@@ -7145,8 +7219,8 @@ and (max-device-width : 767px) {
   
     *zoom: 1;
     float: left;
-    width: 98%;
-    margin: 0 1% 0 1%;
+    width: 100%;
+    margin: 0 0 0 0;
     height: auto;
     margin-bottom: 10px;
     padding: 0;
@@ -7175,6 +7249,53 @@ and (max-device-width : 767px) {
     margin-top: -10px;
     line-height: 10px;
   }
+  .profileView #main #info article#generalInfo .actions {
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
+    float: left;
+    width: 100%;
+    margin: 0 0 0 0;
+  }
+  .profileView #main #info article#generalInfo .actions .addFriend {
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
+    float: left;
+    width: 48%;
+    margin: 0 1% 0 1%;
+    margin: 10px 1% 10px 1%;
+    height: 40px;
+    padding: 8.5px;
+  }
+  .profileView #main #info article#generalInfo .actions .addToCirlce {
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
+    float: left;
+    width: 48%;
+    margin: 0 1% 0 1%;
+    margin: 10px 1% 10px 1%;
+  }
+  .profileView #main #info article#generalInfo .actions .sendMessage {
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
+    float: left;
+    width: 48%;
+    margin: 0 1% 0 1%;
+    margin: 10px 1% 10px 1%;
+    height: 40px;
+    padding: 8.5px;
+  }
   .profileView #main #wall {
     display: inline-block;
     *display: inline;
@@ -7182,11 +7303,20 @@ and (max-device-width : 767px) {
   
     *zoom: 1;
     float: left;
-    width: 98%;
-    margin: 0 1% 0 1%;
+    width: 100%;
+    margin: 0 0 0 0;
     height: auto;
     padding: 0;
     margin-bottom: 1%;
+    -webkit-box-sizing: border-box;
+    /* Safari/Chrome, other WebKit */
+  
+    -moz-box-sizing: border-box;
+    /* Firefox, other Gecko */
+  
+    box-sizing: border-box;
+    /* Opera/IE 8+ */
+  
   }
   .profileView #main #wall header {
     height: 20px;
@@ -7257,10 +7387,19 @@ and (max-device-width : 767px) {
   
     *zoom: 1;
     float: left;
-    width: 98%;
-    margin: 0 1% 0 1%;
+    width: 100%;
+    margin: 0 0 0 0;
     height: auto;
     padding: 0;
+    -webkit-box-sizing: border-box;
+    /* Safari/Chrome, other WebKit */
+  
+    -moz-box-sizing: border-box;
+    /* Firefox, other Gecko */
+  
+    box-sizing: border-box;
+    /* Opera/IE 8+ */
+  
   }
   .profileView #main #friends header {
     height: 20px;
@@ -7920,7 +8059,7 @@ and (max-device-width : 767px) {
     width: 69.42857142857143%;
     margin: 0 1% 0 1%;
     height: 100%;
-    padding: 0px 0px 120px 0px;
+    padding: 0px 0px 145px 0px;
     -webkit-box-sizing: border-box;
     /* Safari/Chrome, other WebKit */
   
@@ -7987,9 +8126,10 @@ and (max-device-width : 767px) {
   
     *zoom: 1;
     float: left;
-    width: 73%;
-    margin: 0 1% 0 1%;
-    height: 45px;
+    width: 74%;
+    margin: 0 0.5% 0 0.5%;
+    height: 70px;
+    margin: 0 1% 0 0;
   }
   .messagesView #topicWrap.peerChat #inputWrap button {
     display: inline-block;
@@ -8000,7 +8140,7 @@ and (max-device-width : 767px) {
     float: left;
     width: 23%;
     margin: 0 1% 0 1%;
-    height: 45px;
+    height: 70px;
   }
   .messagesView #topicWrap.groupChat {
     display: inline-block;
@@ -8012,7 +8152,7 @@ and (max-device-width : 767px) {
     width: 69.42857142857143%;
     margin: 0 1% 0 1%;
     height: 100%;
-    padding: 0px 0px 120px 0px;
+    padding: 0px 0px 145px 0px;
     -webkit-box-sizing: border-box;
     /* Safari/Chrome, other WebKit */
   
@@ -8062,7 +8202,7 @@ and (max-device-width : 767px) {
   
     *zoom: 1;
     float: left;
-    width: 10%;
+    width: 8%;
     margin: 0 1% 0 1%;
     padding: 0;
     margin: 0 2% 0 0;
@@ -8074,7 +8214,7 @@ and (max-device-width : 767px) {
   
     *zoom: 1;
     float: left;
-    width: 58%;
+    width: 88%;
     margin: 0 1% 0 1%;
   }
   .messagesView #topicWrap.groupChat #messageList .message .messageText {
@@ -8084,7 +8224,7 @@ and (max-device-width : 767px) {
   
     *zoom: 1;
     float: left;
-    width: 58%;
+    width: 88%;
     margin: 0 1% 0 1%;
   }
   .messagesView #topicWrap.groupChat #inputWrap #messageInput {
@@ -8094,9 +8234,10 @@ and (max-device-width : 767px) {
   
     *zoom: 1;
     float: left;
-    width: 73%;
-    margin: 0 1% 0 1%;
-    height: 45px;
+    width: 74%;
+    margin: 0 0.5% 0 0.5%;
+    height: 70px;
+    margin: 0 1% 0 0;
   }
   .messagesView #topicWrap.groupChat #inputWrap button {
     display: inline-block;
@@ -8107,7 +8248,7 @@ and (max-device-width : 767px) {
     float: left;
     width: 23%;
     margin: 0 1% 0 1%;
-    height: 45px;
+    height: 70px;
   }
   .messagesView #topicWrap.newMessage {
     display: inline-block;
@@ -8589,8 +8730,8 @@ and (max-device-width : 767px) {
   
     *zoom: 1;
     float: left;
-    width: 98%;
-    margin: 0 1% 0 1%;
+    width: 100%;
+    margin: 0 0 0 0;
     height: 50px;
     margin-bottom: -50px;
   }
@@ -8634,6 +8775,7 @@ and (max-device-width : 767px) {
   .profileView #main #wrap {
     width: 100%;
     height: 100%;
+    padding: 0;
     padding-top: 50px;
     -webkit-box-sizing: border-box;
     /* Safari/Chrome, other WebKit */
@@ -8649,7 +8791,9 @@ and (max-device-width : 767px) {
   .profileView #main #scroller {
     width: 100%;
     height: 100%;
+    padding: 0;
     overflow-y: scroll;
+    overflow-x: hidden;
     -webkit-box-sizing: border-box;
     /* Safari/Chrome, other WebKit */
   
@@ -8699,8 +8843,8 @@ and (max-device-width : 767px) {
   
     *zoom: 1;
     float: left;
-    width: 98%;
-    margin: 0 1% 0 1%;
+    width: 100%;
+    margin: 0 0 0 0;
     height: auto;
     margin-bottom: 10px;
     padding: 0;
@@ -8783,11 +8927,20 @@ and (max-device-width : 767px) {
   
     *zoom: 1;
     float: left;
-    width: 98%;
-    margin: 0 1% 0 1%;
+    width: 100%;
+    margin: 0 0 0 0;
     height: auto;
     padding: 0;
     margin-bottom: 1%;
+    -webkit-box-sizing: border-box;
+    /* Safari/Chrome, other WebKit */
+  
+    -moz-box-sizing: border-box;
+    /* Firefox, other Gecko */
+  
+    box-sizing: border-box;
+    /* Opera/IE 8+ */
+  
   }
   .profileView #main #wall header {
     height: 20px;
@@ -8857,10 +9010,19 @@ and (max-device-width : 767px) {
   
     *zoom: 1;
     float: left;
-    width: 98%;
-    margin: 0 1% 0 1%;
+    width: 100%;
+    margin: 0 0 0 0;
     height: auto;
     padding: 0;
+    -webkit-box-sizing: border-box;
+    /* Safari/Chrome, other WebKit */
+  
+    -moz-box-sizing: border-box;
+    /* Firefox, other Gecko */
+  
+    box-sizing: border-box;
+    /* Opera/IE 8+ */
+  
   }
   .profileView #main #friends header {
     height: 20px;

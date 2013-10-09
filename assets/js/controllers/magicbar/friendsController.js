@@ -20,7 +20,7 @@ define([], function () {
 					"id": "1",
 					"name": "Julian Frech",
 					"mutuals":	"23",
-					"image":	"/assets/img/profil.jpg"
+					"image":	"/assets/img/user.png"
 				}
 			},
 			{
@@ -29,7 +29,7 @@ define([], function () {
 					"id": "2",
 					"name": "Sarah Gruhn",
 					"mutuals":	"45",
-					"image":	"/assets/img/profil.jpg"
+					"image":	"/assets/img/user.png"
 				}
 			},
 			{
@@ -38,7 +38,7 @@ define([], function () {
 					"id": "3",
 					"name": "Oliver Westhoff",
 					"mutuals":	"45",
-					"image":	"/assets/img/profil.jpg"
+					"image":	"/assets/img/user.png"
 				}
 			},{
 				"id":	"4",
@@ -46,7 +46,7 @@ define([], function () {
 					"id": "4",
 					"name": "Kimberly Papke",
 					"mutuals":	"45",
-					"image":	"/assets/img/profil.jpg"
+					"image":	"/assets/img/user.png"
 				}
 			},{
 				"id":	"5",
@@ -54,7 +54,7 @@ define([], function () {
 					"id": "5",
 					"name": "Melanie",
 					"mutuals":	"45",
-					"image":	"/assets/img/profil.jpg"
+					"image":	"/assets/img/user.png"
 				}
 			},
 		];

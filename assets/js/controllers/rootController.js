@@ -11,7 +11,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 		$scope.user = {};
 
 		$scope.user.name = "";
-		$scope.user.image = "/assets/img/profil.jpg";
+		$scope.user.image = "/assets/img/user.png";
 		$scope.user.id = "0";
 
 		$scope.$on("ssn.login", function () {

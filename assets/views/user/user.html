@@ -113,11 +113,11 @@
 					</p>
 				</div>
 				<div class="actions">
-					<a href="" class="addFriend" ng-if="!user.added" data-i18n="profile.actions.addFriend|user={{user.name}}"></a>
+					<a href="" class="addFriend" ng-if="!user.added"><span data-i18n="profile.actions.addFriend|user={{user.name}}"></span></a>
 					<div class="addToCirlce" ng-if="user.added">
 						<search placeholder="profile.actions.addToCircle|placeholder|user={{user.name}}"></search>
 					</div>
-					<a href="" class="sendMessage" data-i18n="profile.actions.sendMessage|user={{user.name}}"></a>
+					<a href="" class="sendMessage"><span data-i18n="profile.actions.sendMessage|user={{user.name}}"></span></a>
 				</div>
 			</article>
 		</section>
