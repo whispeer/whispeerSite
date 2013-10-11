@@ -1,6 +1,6 @@
 <header>
 	<span class="title" role="title" data-i18n="circles.header.title"></span>
-	<nav>
+	<nav data-ng-if="activeCircle">
 		<a href="#" data-i18n="circles.header.sendMessage"></a>
 		<a href="#" data-i18n="circles.header.addPeople"></a>
 		<a href="#" data-i18n="circles.header.createGroup"></a>
@@ -29,7 +29,7 @@
 </div>
 <div id="circleContainer" data-circleID="{{thisCircle.id}}" data-ng-if="showCircle">
 	<div id="circleTitle">	
-		<h2 data-i18n="circles.personsInCircle|name={{shortenString(thisCircle.name, 28)}}"></h2>
+		<h2 data-i18n="circles.personsInCircle|name={{thisCircle.name}}" title="{{thisCircle.name}}"></h2>
 	</div>
 	<div id="circleWrap">
 		<ol id="friendsList" class="unstyled">

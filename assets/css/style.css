@@ -3552,6 +3552,11 @@ body:not(.mainView, .registerView) #main {
   margin-right: 5px;
   margin-top: -20px;
 }
+.circlesView #circleContainer #circleTitle h2 {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
 .circlesView #circleContainer #friendsList {
   *zoom: 1;
   text-align: center;
@@ -3623,6 +3628,7 @@ body:not(.mainView, .registerView) #main {
   -moz-transition: all 1s ease;
   -ms-transition: all 1s ease;
   -o-transition: all 1s ease;
+  overflow: hidden;
 }
 .circlesView #circleContainer #friendsList li .pushup p {
   opacity: 0;
