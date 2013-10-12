@@ -1,38 +1,4 @@
 {
-	"general": {
-		"send":	"Absenden",
-		"cancel":	"Abbrechen"
-	},
-	"date": {
-		"month": {
-			"1": "Januar",
-			"2": "Februar",
-			"3": "März",
-			"4": "April",
-			"5": "Mai",
-			"6": "Juni",
-			"7": "Juli",
-			"8": "August",
-			"9": "September",
-			"10": "Oktober",
-			"11": "November",
-			"12": "Dezember",
-			"january": "Januar",
-			"feburary": "Februar",
-			"march": "März",
-			"april": "April",
-			"may": "Mai",
-			"june": "Juni",
-			"july": "Juli",
-			"august": "August",
-			"september": "September",
-			"october": "Oktober",
-			"november": "November",
-			"december": "Dezember"
-		}
-	},
-	"notimplemented":	"Noch nicht implementiert :(",
-	"search": "Personen werden gesucht",
 	"menu": {
 		"profil": "Profil",
 		"friends": "Freunde",
@@ -53,8 +19,7 @@
 			"repeatPassword":	"Password wiederholen",
 			"passwordstrength":	"Punkte für dein Passwort: ",
 			"email":	"E-Mail Adresse",
-			"repeatEmail":	"E-Mail Adresse wiederholen",
-			"uploadImage":	"Profilbild hochladen!"
+			"repeatEmail":	"E-Mail Adresse wiederholen"
 		}
 	},
 	"wall": {
@@ -81,9 +46,6 @@
 			},
 			"content": "{{content}}"
 			
-		},
-		"comments": {
-			"time":	"Am {date} um {time}"
 		}
 	},
 	"messages": {
@@ -100,11 +62,6 @@
 			"wall":	"Pinnwand",
 			"friends":	"Freunde"	
 		},
-		"actions": {
-			"addFriend":	"{user} zu deinen Freunden hinzufügen",
-			"addToCircle":	"In welche Kreise möchtest du {user} einfügen?",
-			"sendMessage": "{user} eine Nachricht senden"
-		},
 		"section":	{
 			"general": {
 				"headers":	{
@@ -116,31 +73,11 @@
 					"quotes":	"Zitate",
 					"contact":	"Kontakt"
 				},
-				"changeImage": "Profilbild ändern",
-				"birthday": {
-					"text":	"Geboren am {day}.{month} {year}",
-					"day":	"Tag",
-					"month":	"Monat",
-					"year":	"Jahr"
-				},	
-				"location": {
-					"country": "Wohnt in {country}",
-					"state": "Wohnt in {state}",
-					"countrystate": "Wohnt in {state}, {country}",
-					"town": "Wohnt in {town}",
-					"countrytown": "Wohnt in {town}, {country}",
-					"statetown": "Wohnt in {town}, {state}",
-					"countrystatetown": "Wohnt in {town}, {state}, {country}"
-				},
+				"birthday":	"Geboren am {day}.{month}.{year}",
+				"location":	"Wohnt in {town} {state} {country}",
 				"relation":	{
-					"pst": "seit {since} {relationType} mit {partner}",
-					"st": "seit {since} {relationType}",
-					"pt": "{relationType} mit {partner}",
-					"t": "{relationType}",
-
 					"default": "{relationType} mit {partner}",
-					"noPartner": "{relationType}",
-
+					"noPartner":	"{relationType}",
 					"status": {
 						"single":	"single",
 						"relationship":	"in einer Beziehung",
@@ -183,7 +120,6 @@
 			"functionality":	"Funktionsweise",
 			"newQuestion":	"Stelle eine Frage"
 		},
-		"askQuestion":	"Stelle deine Frage!",
 		"faq": {
 			"register": {
 				"question": "Muss ich beim Registrieren meinen vollen Namen und meine E-Mail-Adresse angeben?",
@@ -191,7 +127,7 @@
 			},
 			"password": {
 				"question": "Wie erstelle ich ein sicheres Passwort?",
-				"answer":	"Wir haben uns ein  10-Punkte-System überlegt, das euch hilft, bessere und sichere Passörter zu finden. Mehr darüber lest ihr in dem Blogeintrag über das System: <a href\"http://blog.whispeer.de/de/2013/08/update-wie-whispeer-dir-hilft-ein-sicheres-passwort-zu-finden/\">UPDATE: Wie whispeer dir hilft, ein sicheres Passwort zu finden</a> und <a href\"http://blog.whispeer.de/de/2013/07/wie-whispeer-dir-hilft-ein-sicheres-passwort-zu-finden/\">Wie whispeer dir hilft, ein sicheres Passwort zu finden</a>"
+				"answer":	"Wir haben uns ein  10-Punkte-System überlegt, das euch hilft, bessere und sichere Passörter zu finden. Mehr darüber lest ihr in dem Blogeintrag über das System: http://blog.whispeer.de/de/2013/08/update-wie-whispeer-dir-hilft-ein-sicheres-passwort-zu-finden/ und http://blog.whispeer.de/de/2013/07/wie-whispeer-dir-hilft-ein-sicheres-passwort-zu-finden/ "
 			},
 			"profile": {
 				"question": "Wie kann ich mein Profil bearbeiten?",
@@ -249,11 +185,6 @@
 		"newCircle":	"Neuen Kreis anlegen",
 		"personCount":	"Es befinden sich {count} Personen in diesem Kreis",
 		"personsInCircle":"Personen im Kreis \"{name}\""
-	},
-	"settings": {
-		"header": {
-			"title":	"Einstellungen"
-		}	
 	},
 	"magicbar": {
 		"close": "Schließen",
@@ -400,8 +331,7 @@
 							"awesomed":	"{user} findet ihren eigenen Pinnwandeintrag awesome, den du auch awesome findest!",
 							"linked": "{user} findet ihren eigenen Pinnwandeintrag awesome, in dem du verlinkt bist!"
 						}
-					},
-						
+					},						
 					"comment": {
 						"you": {
 							"own": "{user} findet deinen Kommentar awesome!",
@@ -531,26 +461,39 @@
 					}
 				},
 				"posted": {
+					"wallpost": { 
+						"you": {
+							"own": {
+								"post": "{user} hat etwas an deine Pinnwand gepostet: \"{what}\"",
+								"photo": "{user} hat ein Foto an deine Pinnwand gepostet.",
+								"link": "{user} hat einen Link an deine Pinnwand gepostet: \"{what}\""
+							}
+						}
+					}
+				},
+				"tagged": {	
 					"photo": {
 						"you": {
-							"own": "{user} hat ein Foto an deine Pinnwand gepostet!",
-							"linked": "{user} hat ein Foto gepostet, auf dem du verlinkt bist!"
+							"own": "{user} hat dich in deinem Foto markiert.",
+							"else": "{user} hat dich in einem Foto von {owner} markiert."
+						},
+						"somebody": {
+							"own": "{user} hat {somebody} in deinem Foto markiert."							
 						}
 					},
 					"post": {
 						"you": {
-							"linked": "{user} hat einen Status gepostet, in dem du verlinkt bist: \"{what}\""
+							"tagged": "{user} hat dich in einem Status markiert: \"{what}\""
 						}
 					},
-					"wallpost": {
+					"wallpost": { 
 						"you": {
-							"own": "{user} hat an deine Pinnwand geschrieben: \"{what}\"",
-							"linked": "{user} hat einen Pinnwandeintrag geschrieben, auf dem du verlinkt bist: \"{what}\""
+							"tagged": "{user} hat dich in einem Pinnwandeintrag markiert: \"{what}\"",						
 						}
 					},
 					"comment": {
 						"you": {
-							"linked": "{user} hat einen Kommentar geschrieben, in dem du verlinkt bist: \"{what}\""
+							"tagged": "{user} hat dich in einem Kommentar markiert: \"{what}\""
 						}
 					}
 				}
