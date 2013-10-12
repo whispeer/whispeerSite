@@ -40,9 +40,7 @@
 		}
 		#info, #wall, #friends {
 			header {
-				.gradient(darken(@btnBackground, 2%), @btnBackgroundHighlight);
-				border-bottom: 1px solid @btnBorder;
-				.border-radiuses(5px, 0px, 0px, 5px);
+				margin: 0;
 				.edit {
 					float: right;
 					color: #b2b2b2;
@@ -208,6 +206,10 @@
 				.border-radiuses(5px, 0px, 0px, 5px);
 				padding: 5px;
 				margin-bottom: 1%;
+			}
+			#friendsList {
+				.clear-fix;
+				text-align: center;
 			}
 		}
 	}
