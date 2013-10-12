@@ -1,0 +1,46 @@
+.person {
+	padding: 0;
+	margin-bottom: 15px !important;
+	.box-fix;
+	background-image: url(../img/user.png);
+	background-repeat: no-repeat;
+	background-position: center center;
+	.background-size(cover);
+	.border-radius(5px);
+	border: 1px solid @btnBackgroundHighlight;
+	overflow: hidden;
+	display: block;
+	.username {
+		width: 100%;
+		text-align: center;
+	}
+	.pushup {
+		background: rgba(0,0,0,0.5);
+		width: 100%;
+		margin-top: 0px;
+		padding: 0;
+		.border-radiuses(5px,0,0,5px);
+		border-top: 1px solid #333;
+		color: @white;
+		.box-fix;
+		.transition(all 1s ease);
+		overflow: hidden;
+		p {
+			opacity: 0;
+			.transition(opacity 0.4s ease-in-out 0.1s);
+			&.username {
+				opacity: 1;
+			}
+		}
+	}
+	&:hover {
+		.pushup {
+			opacity: 1;
+			height: 80px;
+			.transition(all 1s ease);
+			p {
+				opacity: 1;
+			}
+		}
+	}
+}

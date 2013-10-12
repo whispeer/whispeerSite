@@ -43,7 +43,7 @@
 .clear-fix:after {
   clear: both;
 }
-.headerClass {
+.box header {
   height: 20px;
   margin-top: -30px;
   background-color: #fafafa;
@@ -68,7 +68,105 @@
   -moz-background-clip: padding;
   -webkit-background-clip: padding-box;
   background-clip: padding-box;
-  padding: 5px;
+  padding: 5px 0;
+}
+.box header .edit {
+  float: right;
+  color: #b2b2b2;
+}
+.box header .edit:hover {
+  color: #cbcbcb;
+}
+.person {
+  padding: 0;
+  margin-bottom: 15px !important;
+  -webkit-box-sizing: border-box;
+  /* Safari/Chrome, other WebKit */
+
+  -moz-box-sizing: border-box;
+  /* Firefox, other Gecko */
+
+  box-sizing: border-box;
+  /* Opera/IE 8+ */
+
+  background-image: url(../img/user.png);
+  background-repeat: no-repeat;
+  background-position: center center;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  border: 1px solid #ececec;
+  overflow: hidden;
+  display: block;
+}
+.person .username {
+  width: 100%;
+  text-align: center;
+}
+.person .pushup {
+  background: rgba(0, 0, 0, 0.5);
+  width: 100%;
+  margin-top: 0px;
+  padding: 0;
+  -webkit-border-top-right-radius: 5px;
+  -webkit-border-bottom-right-radius: 0;
+  -webkit-border-bottom-left-radius: 0;
+  -webkit-border-top-left-radius: 5px;
+  -moz-border-radius-topright: 5px;
+  -moz-border-radius-bottomright: 0;
+  -moz-border-radius-bottomleft: 0;
+  -moz-border-radius-topleft: 5px;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+  border-top-left-radius: 5px;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  border-top: 1px solid #333;
+  color: #ffffff;
+  -webkit-box-sizing: border-box;
+  /* Safari/Chrome, other WebKit */
+
+  -moz-box-sizing: border-box;
+  /* Firefox, other Gecko */
+
+  box-sizing: border-box;
+  /* Opera/IE 8+ */
+
+  -webkit-transition: all 1s ease;
+  -moz-transition: all 1s ease;
+  -ms-transition: all 1s ease;
+  -o-transition: all 1s ease;
+  overflow: hidden;
+}
+.person .pushup p {
+  opacity: 0;
+  -webkit-transition: opacity 0.4s ease-in-out 0.1s;
+  -moz-transition: opacity 0.4s ease-in-out 0.1s;
+  -ms-transition: opacity 0.4s ease-in-out 0.1s;
+  -o-transition: opacity 0.4s ease-in-out 0.1s;
+}
+.person .pushup p.username {
+  opacity: 1;
+}
+.person:hover .pushup {
+  opacity: 1;
+  height: 80px;
+  -webkit-transition: all 1s ease;
+  -moz-transition: all 1s ease;
+  -ms-transition: all 1s ease;
+  -o-transition: all 1s ease;
+}
+.person:hover .pushup p {
+  opacity: 1;
 }
 /* Social Style */
 /*! normalize.css v2.1.3 | MIT License | git.io/normalize */
@@ -2414,28 +2512,7 @@ body:not(.mainView, .registerView) #main {
 .profileView #main #info header,
 .profileView #main #wall header,
 .profileView #main #friends header {
-  background-color: #fafafa;
-  background: -webkit-gradient(linear, left top, left bottom, from(#fafafa), to(#ececec));
-  background: -webkit-linear-gradient(top, #fafafa, #ececec);
-  background: -moz-linear-gradient(top, #fafafa, #ececec);
-  background: -ms-linear-gradient(top, #fafafa, #ececec);
-  background: -o-linear-gradient(top, #fafafa, #ececec);
-  border-bottom: 1px solid #bbbbbb;
-  -webkit-border-top-right-radius: 5px;
-  -webkit-border-bottom-right-radius: 0px;
-  -webkit-border-bottom-left-radius: 0px;
-  -webkit-border-top-left-radius: 5px;
-  -moz-border-radius-topright: 5px;
-  -moz-border-radius-bottomright: 0px;
-  -moz-border-radius-bottomleft: 0px;
-  -moz-border-radius-topleft: 5px;
-  border-top-right-radius: 5px;
-  border-bottom-right-radius: 0px;
-  border-bottom-left-radius: 0px;
-  border-top-left-radius: 5px;
-  -moz-background-clip: padding;
-  -webkit-background-clip: padding-box;
-  background-clip: padding-box;
+  margin: 0;
 }
 .profileView #main #info header .edit,
 .profileView #main #wall header .edit,
@@ -2867,6 +2944,18 @@ body:not(.mainView, .registerView) #main {
   padding: 5px;
   margin-bottom: 1%;
 }
+.profileView #main #friends #friendsList {
+  *zoom: 1;
+  text-align: center;
+}
+.profileView #main #friends #friendsList:before,
+.profileView #main #friends #friendsList:after {
+  content: "";
+  display: table;
+}
+.profileView #main #friends #friendsList:after {
+  clear: both;
+}
 .messagesView #main {
   background-color: #ececec;
   border: 1px solid #bbbbbb;
@@ -2887,33 +2976,6 @@ body:not(.mainView, .registerView) #main {
   box-sizing: border-box;
   /* Opera/IE 8+ */
 
-}
-.messagesView header {
-  height: 20px;
-  margin-top: -30px;
-  background-color: #fafafa;
-  background: -webkit-gradient(linear, left top, left bottom, from(#fafafa), to(#ececec));
-  background: -webkit-linear-gradient(top, #fafafa, #ececec);
-  background: -moz-linear-gradient(top, #fafafa, #ececec);
-  background: -ms-linear-gradient(top, #fafafa, #ececec);
-  background: -o-linear-gradient(top, #fafafa, #ececec);
-  border-bottom: 1px solid #bbbbbb;
-  -webkit-border-top-right-radius: 5px;
-  -webkit-border-bottom-right-radius: 0px;
-  -webkit-border-bottom-left-radius: 0px;
-  -webkit-border-top-left-radius: 5px;
-  -moz-border-radius-topright: 5px;
-  -moz-border-radius-bottomright: 0px;
-  -moz-border-radius-bottomleft: 0px;
-  -moz-border-radius-topleft: 5px;
-  border-top-right-radius: 5px;
-  border-bottom-right-radius: 0px;
-  border-bottom-left-radius: 0px;
-  border-top-left-radius: 5px;
-  -moz-background-clip: padding;
-  -webkit-background-clip: padding-box;
-  background-clip: padding-box;
-  padding: 5px;
 }
 .messagesView #topicListWrap {
   margin-right: 3px;
@@ -3252,30 +3314,6 @@ body:not(.mainView, .registerView) #main {
   float: right;
   margin-right: 5px;
 }
-.friendsView #main {
-  padding-top: 30px;
-  padding-bottom: 10px;
-  height: 100%;
-  background-color: #ececec;
-  border: 1px solid #bbbbbb;
-  border-bottom: 1px solid #000;
-  border-bottom-color: #a2a2a2;
-  -webkit-border-radius: 5px;
-  -moz-border-radius: 5px;
-  border-radius: 5px;
-  -moz-background-clip: padding;
-  -webkit-background-clip: padding-box;
-  background-clip: padding-box;
-  -webkit-box-sizing: border-box;
-  /* Safari/Chrome, other WebKit */
-
-  -moz-box-sizing: border-box;
-  /* Firefox, other Gecko */
-
-  box-sizing: border-box;
-  /* Opera/IE 8+ */
-
-}
 .friendsView header {
   height: 20px;
   margin-top: -30px;
@@ -3301,30 +3339,56 @@ body:not(.mainView, .registerView) #main {
   -moz-background-clip: padding;
   -webkit-background-clip: padding-box;
   background-clip: padding-box;
-  padding: 5px;
+  padding: 5px 0;
+}
+.friendsView header .edit {
+  float: right;
+  color: #b2b2b2;
+}
+.friendsView header .edit:hover {
+  color: #cbcbcb;
+}
+.friendsView #main {
+  padding-top: 30px;
+  padding-bottom: 10px;
+  height: 100%;
+  background-color: #ececec;
+  border: 1px solid #bbbbbb;
+  border-bottom: 1px solid #000;
+  border-bottom-color: #a2a2a2;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  -webkit-box-sizing: border-box;
+  /* Safari/Chrome, other WebKit */
+
+  -moz-box-sizing: border-box;
+  /* Firefox, other Gecko */
+
+  box-sizing: border-box;
+  /* Opera/IE 8+ */
+
 }
 .friendsView #friendsList {
   height: 100%;
   overflow-y: scroll;
 }
-.friendsView #friendsList,
-.profileView #friendsList {
+.friendsView #friendsList {
   *zoom: 1;
   text-align: center;
 }
 .friendsView #friendsList:before,
-.profileView #friendsList:before,
-.friendsView #friendsList:after,
-.profileView #friendsList:after {
+.friendsView #friendsList:after {
   content: "";
   display: table;
 }
-.friendsView #friendsList:after,
-.profileView #friendsList:after {
+.friendsView #friendsList:after {
   clear: both;
 }
-.friendsView #friendsList li,
-.profileView #friendsList li {
+.friendsView #friendsList li {
   display: inline-block;
   *display: inline;
   /* IE7 inline-block hack */
@@ -3333,90 +3397,6 @@ body:not(.mainView, .registerView) #main {
   float: left;
   width: 31.333333333333336%;
   margin: 0 1% 0 1%;
-  height: 250px !important;
-  padding: 0;
-  margin-bottom: 15px !important;
-  -webkit-box-sizing: border-box;
-  /* Safari/Chrome, other WebKit */
-
-  -moz-box-sizing: border-box;
-  /* Firefox, other Gecko */
-
-  box-sizing: border-box;
-  /* Opera/IE 8+ */
-
-  background-image: url(../img/user.png);
-  background-repeat: no-repeat;
-  background-position: center center;
-  -webkit-background-clip: content-box;
-  -moz-background-clip: content-box;
-  background-clip: content-box;
-  -webkit-border-radius: 5px;
-  -moz-border-radius: 5px;
-  border-radius: 5px;
-  -moz-background-clip: padding;
-  -webkit-background-clip: padding-box;
-  background-clip: padding-box;
-  border: 1px solid #ececec;
-}
-.friendsView #friendsList li .username,
-.profileView #friendsList li .username {
-  width: 100%;
-  text-align: center;
-}
-.friendsView #friendsList li .pushup,
-.profileView #friendsList li .pushup {
-  background: rgba(0, 0, 0, 0.5);
-  width: 100%;
-  margin-top: 0px;
-  padding: 0;
-  -webkit-border-radius: 5px;
-  -moz-border-radius: 5px;
-  border-radius: 5px;
-  -moz-background-clip: padding;
-  -webkit-background-clip: padding-box;
-  background-clip: padding-box;
-  border-top: 1px solid #333;
-  color: #ffffff;
-  -webkit-box-sizing: border-box;
-  /* Safari/Chrome, other WebKit */
-
-  -moz-box-sizing: border-box;
-  /* Firefox, other Gecko */
-
-  box-sizing: border-box;
-  /* Opera/IE 8+ */
-
-  -webkit-transition: all 1s ease;
-  -moz-transition: all 1s ease;
-  -ms-transition: all 1s ease;
-  -o-transition: all 1s ease;
-  overflow: hidden;
-}
-.friendsView #friendsList li .pushup p,
-.profileView #friendsList li .pushup p {
-  opacity: 0;
-  -webkit-transition: opacity 0.4s ease-in-out 0.1s;
-  -moz-transition: opacity 0.4s ease-in-out 0.1s;
-  -ms-transition: opacity 0.4s ease-in-out 0.1s;
-  -o-transition: opacity 0.4s ease-in-out 0.1s;
-}
-.friendsView #friendsList li .pushup p.username,
-.profileView #friendsList li .pushup p.username {
-  opacity: 1;
-}
-.friendsView #friendsList li:hover .pushup,
-.profileView #friendsList li:hover .pushup {
-  opacity: 1;
-  height: 80px;
-  -webkit-transition: all 1s ease;
-  -moz-transition: all 1s ease;
-  -ms-transition: all 1s ease;
-  -o-transition: all 1s ease;
-}
-.friendsView #friendsList li:hover .pushup p,
-.profileView #friendsList li:hover .pushup p {
-  opacity: 1;
 }
 .circlesView #main {
   background-color: #ececec;
@@ -3438,33 +3418,6 @@ body:not(.mainView, .registerView) #main {
   box-sizing: border-box;
   /* Opera/IE 8+ */
 
-}
-.circlesView header {
-  height: 20px;
-  margin-top: -30px;
-  background-color: #fafafa;
-  background: -webkit-gradient(linear, left top, left bottom, from(#fafafa), to(#ececec));
-  background: -webkit-linear-gradient(top, #fafafa, #ececec);
-  background: -moz-linear-gradient(top, #fafafa, #ececec);
-  background: -ms-linear-gradient(top, #fafafa, #ececec);
-  background: -o-linear-gradient(top, #fafafa, #ececec);
-  border-bottom: 1px solid #bbbbbb;
-  -webkit-border-top-right-radius: 5px;
-  -webkit-border-bottom-right-radius: 0px;
-  -webkit-border-bottom-left-radius: 0px;
-  -webkit-border-top-left-radius: 5px;
-  -moz-border-radius-topright: 5px;
-  -moz-border-radius-bottomright: 0px;
-  -moz-border-radius-bottomleft: 0px;
-  -moz-border-radius-topleft: 5px;
-  border-top-right-radius: 5px;
-  border-bottom-right-radius: 0px;
-  border-bottom-left-radius: 0px;
-  border-top-left-radius: 5px;
-  -moz-background-clip: padding;
-  -webkit-background-clip: padding-box;
-  background-clip: padding-box;
-  padding: 5px;
 }
 .circlesView header nav a {
   color: #888888;
@@ -3568,85 +3521,6 @@ body:not(.mainView, .registerView) #main {
 }
 .circlesView #circleContainer #friendsList:after {
   clear: both;
-}
-.circlesView #circleContainer #friendsList li {
-  padding: 0;
-  margin-bottom: 15px !important;
-  -webkit-box-sizing: border-box;
-  /* Safari/Chrome, other WebKit */
-
-  -moz-box-sizing: border-box;
-  /* Firefox, other Gecko */
-
-  box-sizing: border-box;
-  /* Opera/IE 8+ */
-
-  background-image: url(../img/user.png);
-  background-repeat: no-repeat;
-  background-position: center center;
-  -webkit-background-size: auto 100%;
-  -moz-background-size: auto 100%;
-  -o-background-size: auto 100%;
-  background-size: auto 100%;
-  -webkit-border-radius: 5px;
-  -moz-border-radius: 5px;
-  border-radius: 5px;
-  -moz-background-clip: padding;
-  -webkit-background-clip: padding-box;
-  background-clip: padding-box;
-  border: 1px solid #ececec;
-}
-.circlesView #circleContainer #friendsList li .username {
-  width: 100%;
-  text-align: center;
-}
-.circlesView #circleContainer #friendsList li .pushup {
-  opacity: 0;
-  background: rgba(0, 0, 0, 0.5);
-  height: 0;
-  width: 100%;
-  margin-top: 0px;
-  padding: 0;
-  -webkit-border-radius: 5px;
-  -moz-border-radius: 5px;
-  border-radius: 5px;
-  -moz-background-clip: padding;
-  -webkit-background-clip: padding-box;
-  background-clip: padding-box;
-  border-top: 1px solid #333;
-  color: #ffffff;
-  -webkit-box-sizing: border-box;
-  /* Safari/Chrome, other WebKit */
-
-  -moz-box-sizing: border-box;
-  /* Firefox, other Gecko */
-
-  box-sizing: border-box;
-  /* Opera/IE 8+ */
-
-  -webkit-transition: all 1s ease;
-  -moz-transition: all 1s ease;
-  -ms-transition: all 1s ease;
-  -o-transition: all 1s ease;
-  overflow: hidden;
-}
-.circlesView #circleContainer #friendsList li .pushup p {
-  opacity: 0;
-  -webkit-transition: opacity 0.2s ease-in-out 0.5s;
-  -moz-transition: opacity 0.2s ease-in-out 0.5s;
-  -ms-transition: opacity 0.2s ease-in-out 0.5s;
-  -o-transition: opacity 0.2s ease-in-out 0.5s;
-}
-.circlesView #circleContainer #friendsList li:hover .pushup {
-  opacity: 1;
-  height: 80px;
-  -webkit-transition: all 1s ease;
-  -moz-transition: all 1s ease;
-  -ms-transition: all 1s ease;
-  -o-transition: all 1s ease;
-}
-.circlesView #circleContainer #friendsList li:hover .pushup p {
-  opacity: 1;
 }
 .mediaView #main {
   height: 100%;
@@ -3774,7 +3648,14 @@ body:not(.mainView, .registerView) #main {
   -moz-background-clip: padding;
   -webkit-background-clip: padding-box;
   background-clip: padding-box;
-  padding: 5px;
+  padding: 5px 0;
+}
+.helpView #main header .edit {
+  float: right;
+  color: #b2b2b2;
+}
+.helpView #main header .edit:hover {
+  color: #cbcbcb;
 }
 .helpView #main header #title {
   float: left;
@@ -3899,7 +3780,14 @@ body:not(.mainView, .registerView) #main {
   -moz-background-clip: padding;
   -webkit-background-clip: padding-box;
   background-clip: padding-box;
-  padding: 5px;
+  padding: 5px 0;
+}
+.settingsView #main header .edit {
+  float: right;
+  color: #b2b2b2;
+}
+.settingsView #main header .edit:hover {
+  color: #cbcbcb;
 }
 .settingsView #main header #title {
   float: left;
@@ -4199,6 +4087,24 @@ and (max-device-width : 767px) {
   }
   body.registerView #main {
     margin-left: 20.833333333333336% !important;
+  }
+  .person {
+    height: 250px;
+    padding: 0;
+    margin-bottom: 15px;
+  }
+  .person .username {
+    width: 100%;
+  }
+  .person .pushup {
+    height: 50px;
+    width: 99.4%;
+    margin-left: 0.6%;
+    margin-top: 0px;
+    padding: 0;
+  }
+  .person:hover .pushup {
+    height: 80px;
   }
   .searchBar .formSearch .inputWrap {
     margin-left: 0;
@@ -5524,10 +5430,6 @@ and (max-device-width : 767px) {
     /* Opera/IE 8+ */
   
   }
-  .profileView #main #info article header {
-    height: 20px;
-    padding: 5px;
-  }
   .profileView #main #info article#generalInfo {
     display: inline-block;
     *display: inline;
@@ -5643,10 +5545,6 @@ and (max-device-width : 767px) {
     /* Opera/IE 8+ */
   
   }
-  .profileView #main #wall header {
-    height: 20px;
-    padding: 5px;
-  }
   .profileView #main #wall article {
     display: inline-block;
     *display: inline;
@@ -5726,8 +5624,6 @@ and (max-device-width : 767px) {
   
   }
   .profileView #main #friends header {
-    height: 20px;
-    padding: 5px;
     margin-bottom: 1%;
   }
   .registerView #main {
@@ -5881,6 +5777,24 @@ and (max-device-width : 767px) {
   }
   body.registerView #main {
     margin-left: 16.666666666666668% !important;
+  }
+  .person {
+    height: 250px;
+    padding: 0;
+    margin-bottom: 15px;
+  }
+  .person .username {
+    width: 100%;
+  }
+  .person .pushup {
+    height: 50px;
+    width: 99.4%;
+    margin-left: 0.6%;
+    margin-top: 0px;
+    padding: 0;
+  }
+  .person:hover .pushup {
+    height: 80px;
   }
   .searchBar .formSearch .inputWrap {
     margin-left: 0;
@@ -7412,6 +7326,16 @@ and (max-device-width : 767px) {
     padding: 5px;
     margin-bottom: 1%;
   }
+  .profileView #main #friends .person {
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
+    float: left;
+    width: 48%;
+    margin: 0 1% 0 1%;
+  }
   .registerView #main {
     text-align: center;
     display: inline-block;
@@ -7560,6 +7484,24 @@ and (max-device-width : 767px) {
     margin-left: 16.666666666666668% !important;
     margin-right: 16.666666666666668% !important;
     width: 64.66666666666667% !important;
+  }
+  .person {
+    height: 250px;
+    padding: 0;
+    margin-bottom: 15px;
+  }
+  .person .username {
+    width: 100%;
+  }
+  .person .pushup {
+    height: 50px;
+    width: 99.4%;
+    margin-left: 0.6%;
+    margin-top: 0px;
+    padding: 0;
+  }
+  .person:hover .pushup {
+    height: 80px;
   }
   .searchBar .formSearch .inputWrap {
     margin-left: 0;
@@ -7857,8 +7799,7 @@ and (max-device-width : 767px) {
   .friendsView #friendsList {
     height: 100%;
   }
-  .friendsView #friendsList li,
-  .profileView #friendsList li {
+  .friendsView #friendsList li {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
@@ -7871,19 +7812,16 @@ and (max-device-width : 767px) {
     padding: 0;
     margin-bottom: 15px;
   }
-  .friendsView #friendsList li .username,
-  .profileView #friendsList li .username {
+  .friendsView #friendsList li .username {
     width: 100%;
   }
-  .friendsView #friendsList li .pushup,
-  .profileView #friendsList li .pushup {
+  .friendsView #friendsList li .pushup {
     height: 50px;
     width: 100%;
     margin-top: 0px;
     padding: 0;
   }
-  .friendsView #friendsList li:hover .pushup,
-  .profileView #friendsList li:hover .pushup {
+  .friendsView #friendsList li:hover .pushup {
     height: 80px;
   }
   #mediaWrap .mediaRow {
@@ -8426,10 +8364,6 @@ and (max-device-width : 767px) {
   .circlesView #circleContainer #circleTitle {
     padding-left: 10px;
   }
-  .circlesView #circleContainer #friendsList {
-    overflow-y: scroll;
-    height: 100%;
-  }
   .circlesView #circleContainer #friendsList li {
     display: inline-block;
     *display: inline;
@@ -8439,21 +8373,6 @@ and (max-device-width : 767px) {
     float: left;
     width: 23%;
     margin: 0 1% 0 1%;
-    height: 250px;
-    padding: 0;
-    margin-bottom: 15px;
-  }
-  .circlesView #circleContainer #friendsList li .username {
-    width: 100%;
-  }
-  .circlesView #circleContainer #friendsList li .pushup {
-    height: 0;
-    width: 100%;
-    margin-top: 0px;
-    padding: 0;
-  }
-  .circlesView #circleContainer #friendsList li:hover .pushup {
-    height: 80px;
   }
   .circlesView #circleContainer.newCircle #titleInput,
   .circlesView #circleContainer.newCircle #friendInput {
@@ -9034,6 +8953,26 @@ and (max-device-width : 767px) {
     height: 20px;
     padding: 5px;
     margin-bottom: 1%;
+  }
+  .profileView #main #friends #friendsList {
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
+    float: left;
+    width: 98%;
+    margin: 0 1% 0 1%;
+  }
+  .profileView #main #friends .person {
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+  
+    *zoom: 1;
+    float: left;
+    width: 23%;
+    margin: 0 1% 0 1%;
   }
   .registerView #main {
     text-align: center;

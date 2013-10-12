@@ -8,7 +8,6 @@
 		.box-fix;
 	}
 	header {
-		.headerClass;
 		nav {
 			a {
 				color: lighten(@gray,20%);
@@ -79,49 +78,6 @@
 		#friendsList {
 			.clear-fix;
 			text-align: center;
-			li {
-				padding: 0;
-				margin-bottom: 15px !important;
-				.box-fix;
-				background-image: url(../img/user.png);
-				background-repeat: no-repeat;
-				background-position: center center;
-				.background-size(auto 100%);
-				.border-radius(5px);
-				border: 1px solid @btnBackgroundHighlight;
-				.username {
-					width: 100%;
-					text-align: center;
-				}
-				.pushup {
-					opacity: 0;
-					background: rgba(0,0,0,0.5);
-					height: 0;
-					width: 100%;
-					margin-top: 0px;
-					padding: 0;
-					.border-radius(5px);
-					border-top: 1px solid #333;
-					color: @white;
-					.box-fix;
-					.transition(all 1s ease);
-					overflow: hidden;
-					p {
-						opacity: 0;
-						.transition(opacity 0.2s ease-in-out 0.5s);
-					}
-				}
-				&:hover {
-					.pushup {
-						opacity: 1;
-						height: 80px;
-						.transition(all 1s ease);
-						p {
-							opacity: 1;
-						}
-					}
-				}
-			}
 		}
 	}
 }
