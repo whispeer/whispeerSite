@@ -60,7 +60,7 @@
 		"head":	{
 			"info":	"Info",
 			"wall":	"Pinnwand",
-			"friends":	"Freunde"	
+			"friends":	"Freunde"
 		},
 		"section":	{
 			"general": {
@@ -89,7 +89,7 @@
 						"open":	"in einer offenen Beziehung",
 						"inlove":	"verliebt"
 					}
-				},	
+				},
 				"education":	"schulische Ausbildung: {school}",
 				"job":	"arbeitet als {job} bei {company}",
 				"gender":	{
@@ -331,7 +331,7 @@
 							"awesomed":	"{user} findet ihren eigenen Pinnwandeintrag awesome, den du auch awesome findest!",
 							"linked": "{user} findet ihren eigenen Pinnwandeintrag awesome, in dem du verlinkt bist!"
 						}
-					},						
+					},
 					"comment": {
 						"you": {
 							"own": "{user} findet deinen Kommentar awesome!",
@@ -461,7 +461,7 @@
 					}
 				},
 				"posted": {
-					"wallpost": { 
+					"wallpost": {
 						"you": {
 							"own": {
 								"post": "{user} hat etwas an deine Pinnwand gepostet: \"{what}\"",
@@ -471,14 +471,14 @@
 						}
 					}
 				},
-				"tagged": {	
+				"tagged": {
 					"photo": {
 						"you": {
 							"own": "{user} hat dich in deinem Foto markiert.",
 							"else": "{user} hat dich in einem Foto von {owner} markiert."
 						},
 						"somebody": {
-							"own": "{user} hat {somebody} in deinem Foto markiert."							
+							"own": "{user} hat {somebody} in deinem Foto markiert."
 						}
 					},
 					"post": {
@@ -486,9 +486,9 @@
 							"tagged": "{user} hat dich in einem Status markiert: \"{what}\""
 						}
 					},
-					"wallpost": { 
+					"wallpost": {
 						"you": {
-							"tagged": "{user} hat dich in einem Pinnwandeintrag markiert: \"{what}\"",						
+							"tagged": "{user} hat dich in einem Pinnwandeintrag markiert: \"{what}\""
 						}
 					},
 					"comment": {
