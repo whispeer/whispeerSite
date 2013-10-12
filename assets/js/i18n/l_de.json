@@ -1,4 +1,38 @@
 {
+	"general": {
+		"send":	"Absenden",
+		"cancel":	"Abbrechen"
+	},
+	"date": {
+		"month": {
+			"1": "Januar",
+			"2": "Februar",
+			"3": "März",
+			"4": "April",
+			"5": "Mai",
+			"6": "Juni",
+			"7": "Juli",
+			"8": "August",
+			"9": "September",
+			"10": "Oktober",
+			"11": "November",
+			"12": "Dezember",
+			"january": "Januar",
+			"feburary": "Februar",
+			"march": "März",
+			"april": "April",
+			"may": "Mai",
+			"june": "Juni",
+			"july": "Juli",
+			"august": "August",
+			"september": "September",
+			"october": "Oktober",
+			"november": "November",
+			"december": "Dezember"
+		}
+	},
+	"notimplemented": "Noch nicht implementiert :(",
+	"search": "Personen werden gesucht",
 	"menu": {
 		"profil": "Profil",
 		"friends": "Freunde",
@@ -19,7 +53,8 @@
 			"repeatPassword":	"Password wiederholen",
 			"passwordstrength":	"Punkte für dein Passwort: ",
 			"email":	"E-Mail Adresse",
-			"repeatEmail":	"E-Mail Adresse wiederholen"
+			"repeatEmail":	"E-Mail Adresse wiederholen",
+			"uploadImage":	"Profilbild hochladen!"
 		}
 	},
 	"wall": {
@@ -45,7 +80,9 @@
 				"name":	"{{sender}}:"
 			},
 			"content": "{{content}}"
-			
+		},
+		"comments": {
+			"time":	"Am {date} um {time}"
 		}
 	},
 	"messages": {
@@ -62,6 +99,11 @@
 			"wall":	"Pinnwand",
 			"friends":	"Freunde"
 		},
+		"actions": {
+			"addFriend":	"{user} als Freund hinzufügen",
+			"addToCircle":	"In welche Kreise möchtest du {user} einfügen?",
+			"sendMessage": "{user} eine Nachricht senden"
+		},
 		"section":	{
 			"general": {
 				"headers":	{
@@ -73,11 +115,31 @@
 					"quotes":	"Zitate",
 					"contact":	"Kontakt"
 				},
-				"birthday":	"Geboren am {day}.{month}.{year}",
-				"location":	"Wohnt in {town} {state} {country}",
+				"changeImage": "Profilbild ändern",
+				"birthday": {
+					"text":	"Geboren am {day}.{month} {year}",
+					"day":	"Tag",
+					"month":	"Monat",
+					"year":	"Jahr"
+				},	
+				"location": {
+					"country": "Wohnt in {country}",
+					"state": "Wohnt in {state}",
+					"countrystate": "Wohnt in {state}, {country}",
+					"town": "Wohnt in {town}",
+					"countrytown": "Wohnt in {town}, {country}",
+					"statetown": "Wohnt in {town}, {state}",
+					"countrystatetown": "Wohnt in {town}, {state}, {country}"
+				},
 				"relation":	{
+					"pst": "seit {since} {relationType} mit {partner}",
+					"st": "seit {since} {relationType}",
+					"pt": "{relationType} mit {partner}",
+					"t": "{relationType}",
+
 					"default": "{relationType} mit {partner}",
-					"noPartner":	"{relationType}",
+					"noPartner": "{relationType}",
+
 					"status": {
 						"single":	"single",
 						"relationship":	"in einer Beziehung",
@@ -120,6 +182,7 @@
 			"functionality":	"Funktionsweise",
 			"newQuestion":	"Stelle eine Frage"
 		},
+		"askQuestion": "Stelle deine Frage!",
 		"faq": {
 			"register": {
 				"question": "Muss ich beim Registrieren meinen vollen Namen und meine E-Mail-Adresse angeben?",
@@ -185,6 +248,11 @@
 		"newCircle":	"Neuen Kreis anlegen",
 		"personCount":	"Es befinden sich {count} Personen in diesem Kreis",
 		"personsInCircle":"Personen im Kreis \"{name}\""
+	},
+	"settings": {
+		"header": {
+			"title":	"Einstellungen"
+		}	
 	},
 	"magicbar": {
 		"close": "Schließen",
