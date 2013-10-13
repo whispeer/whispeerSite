@@ -28,28 +28,24 @@ define(["step", "whispeerHelper"], function (step, h) {
 		}
 
 		function createBasicData(otherUser, cb) {
-			var intermediateKey, friendsKey;
+			var friendsKey;
 			step(function () {
-				//generate another intermediate key
-				keyStore.sym.generateKey(this.parallel());
-			}, h.sF(function (newKey) {
-				intermediateKey = newKey;
-				var own = userService.ownUser();
+				this.parallel.unflatten();
+
+				var own = userService.getown();
 				//own user get friendsKey
 				friendsKey = own.getFriendsKey();
 				var crypt = otherUser.getCryptKey();
 
 				//sign: friendShip:uid:nickname
 				keyStore.sign.signText("friendship:" + otherUser.getID() + ":" + otherUser.getNickname(), own.getSignKey(), this.parallel());
-				//encr friendsKey w/ intermediate key
-				keyStore.sym.symEncryptKey(friendsKey, newKey, this);
 				//encr intermediate key w/ users cryptKey
-				keyStore.sym.asymEncryptKey(newKey, crypt, this.parallel());
-			}), h.sF(function (signature) {
+				keyStore.sym.asymEncryptKey(friendsKey, crypt, this.parallel());
+			}, h.sF(function (signature, cryptKey) {
 				var data = {
 					userid: otherUser.getID(),
 					signedRequest: signature,
-					key: keyStore.upload.getKey(intermediateKey)
+					key: keyStore.upload.getKey(cryptKey)
 				};
 
 				this.ne(data);
@@ -59,11 +55,11 @@ define(["step", "whispeerHelper"], function (step, h) {
 		function acceptFriendShip(uid) {
 			var otherLevel2Key, ownLevel2Key, friendsKey;
 			step(function () {
-				userService.get(uid, this.parallel());
+				userService.get(uid, this);
 			}, h.sF(function (otherUser) {
 				this.parallel.unflatten();
 
-				var own = userService.own();
+				var own = userService.getown();
 				createBasicData(otherUser, this.parallel());
 
 				otherLevel2Key = otherUser.getFriendsLevel2Key();
@@ -93,35 +89,37 @@ define(["step", "whispeerHelper"], function (step, h) {
 
 		function requestFriendShip(uid) {
 			step(function () {
-				userService.get(uid, this.parallel());
+				userService.get(uid, this);
 			}, h.sF(function (otherUser) {
 				createBasicData(otherUser, this);
 			}), h.sF(function (data) {
-				var friendsKey = userService.own().getFriendsKey();
+				var friendsKey = userService.getown().getFriendsKey();
 				data.decryptors = keyStore.upload.getDecryptors([friendsKey]);
 
 				socket.emit("friends.add", data, this);
 			}), h.sF(function (result) {
-				if (result.success) {
-					requested.push(uid);
-				} else {
-					//user requested friendShip and we did not get it when we started this...
-					acceptFriendShip(uid);
+				if (!result.error) {
+					if (result.success) {
+						requested.push(uid);
+					} else {
+						//user requested friendShip and we did not get it when we started this...
+						acceptFriendShip(uid);
+					}
 				}
 			}));
 		}
 
 		socket.listen("friendRequest", function (e, data) {
-
+			debugger;
 		});
 
 		socket.listen("friendAccept", function (e, data) {
-			
+			debugger;
 		});
 
 		var friendsService = {
 			friendship: function (uid) {
-				if (friends.indexOf(uid) > -1 || requested.indexOf(uid) -1) {
+				if (friends.indexOf(uid) > -1 || requested.indexOf(uid) > -1) {
 					return;
 				}
 

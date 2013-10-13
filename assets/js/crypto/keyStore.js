@@ -388,8 +388,8 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 			var cryptor;
 			step(function addSymD1() {
 				SymKey.get(realid, this);
-			}, h.sF(function addSymD2(theKey) {
-				cryptor = theKey;
+			}, h.sF(function addSymD2(cryptorKey) {
+				cryptor = cryptorKey;
 				theKey.decryptKey(this);
 			}), h.sF(function addSymD3() {
 				var secret = preSecret || internalSecret;

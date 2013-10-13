@@ -17,7 +17,7 @@ define([], function () {
 		];
 	}
 
-	friendsController.$inject = ["$scope", "ssn.cssService"];
+	friendsController.$inject = ["$scope", "ssn.cssService", "ssn.friendsService"];
 
 	return friendsController;
 });

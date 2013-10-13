@@ -67,7 +67,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 				step(function () {
 					var priv = theUser.getPrivateProfiles(), i;
 
-					if (priv) {
+					if (priv && priv.length > 0) {
 						for (i = 0; i < priv.length; i += 1) {
 							priv[i].getAttribute(attrs, this.parallel());
 						}
