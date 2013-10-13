@@ -31,7 +31,7 @@
 			"december": "Dezember"
 		}
 	},
-	"notimplemented":	"Noch nicht implementiert :(",
+	"notimplemented": "Noch nicht implementiert :(",
 	"search": "Personen werden gesucht",
 	"menu": {
 		"profil": "Profil",
@@ -80,7 +80,6 @@
 				"name":	"{{sender}}:"
 			},
 			"content": "{{content}}"
-			
 		},
 		"comments": {
 			"time":	"Am {date} um {time}"
@@ -98,10 +97,10 @@
 		"head":	{
 			"info":	"Info",
 			"wall":	"Pinnwand",
-			"friends":	"Freunde"	
+			"friends":	"Freunde"
 		},
 		"actions": {
-			"addFriend":	"{user} zu deinen Freunden hinzufügen",
+			"addFriend":	"{user} als Freund hinzufügen",
 			"addToCircle":	"In welche Kreise möchtest du {user} einfügen?",
 			"sendMessage": "{user} eine Nachricht senden"
 		},
@@ -152,7 +151,7 @@
 						"open":	"in einer offenen Beziehung",
 						"inlove":	"verliebt"
 					}
-				},	
+				},
 				"education":	"schulische Ausbildung: {school}",
 				"job":	"arbeitet als {job} bei {company}",
 				"gender":	{
@@ -183,7 +182,7 @@
 			"functionality":	"Funktionsweise",
 			"newQuestion":	"Stelle eine Frage"
 		},
-		"askQuestion":	"Stelle deine Frage!",
+		"askQuestion": "Stelle deine Frage!",
 		"faq": {
 			"register": {
 				"question": "Muss ich beim Registrieren meinen vollen Namen und meine E-Mail-Adresse angeben?",
@@ -191,7 +190,7 @@
 			},
 			"password": {
 				"question": "Wie erstelle ich ein sicheres Passwort?",
-				"answer":	"Wir haben uns ein  10-Punkte-System überlegt, das euch hilft, bessere und sichere Passörter zu finden. Mehr darüber lest ihr in dem Blogeintrag über das System: <a href\"http://blog.whispeer.de/de/2013/08/update-wie-whispeer-dir-hilft-ein-sicheres-passwort-zu-finden/\">UPDATE: Wie whispeer dir hilft, ein sicheres Passwort zu finden</a> und <a href\"http://blog.whispeer.de/de/2013/07/wie-whispeer-dir-hilft-ein-sicheres-passwort-zu-finden/\">Wie whispeer dir hilft, ein sicheres Passwort zu finden</a>"
+				"answer":	"Wir haben uns ein  10-Punkte-System überlegt, das euch hilft, bessere und sichere Passörter zu finden. Mehr darüber lest ihr in dem Blogeintrag über das System: http://blog.whispeer.de/de/2013/08/update-wie-whispeer-dir-hilft-ein-sicheres-passwort-zu-finden/ und http://blog.whispeer.de/de/2013/07/wie-whispeer-dir-hilft-ein-sicheres-passwort-zu-finden/ "
 			},
 			"profile": {
 				"question": "Wie kann ich mein Profil bearbeiten?",
@@ -401,7 +400,6 @@
 							"linked": "{user} findet ihren eigenen Pinnwandeintrag awesome, in dem du verlinkt bist!"
 						}
 					},
-						
 					"comment": {
 						"you": {
 							"own": "{user} findet deinen Kommentar awesome!",
@@ -531,26 +529,39 @@
 					}
 				},
 				"posted": {
+					"wallpost": {
+						"you": {
+							"own": {
+								"post": "{user} hat etwas an deine Pinnwand gepostet: \"{what}\"",
+								"photo": "{user} hat ein Foto an deine Pinnwand gepostet.",
+								"link": "{user} hat einen Link an deine Pinnwand gepostet: \"{what}\""
+							}
+						}
+					}
+				},
+				"tagged": {
 					"photo": {
 						"you": {
-							"own": "{user} hat ein Foto an deine Pinnwand gepostet!",
-							"linked": "{user} hat ein Foto gepostet, auf dem du verlinkt bist!"
+							"own": "{user} hat dich in deinem Foto markiert.",
+							"else": "{user} hat dich in einem Foto von {owner} markiert."
+						},
+						"somebody": {
+							"own": "{user} hat {somebody} in deinem Foto markiert."
 						}
 					},
 					"post": {
 						"you": {
-							"linked": "{user} hat einen Status gepostet, in dem du verlinkt bist: \"{what}\""
+							"tagged": "{user} hat dich in einem Status markiert: \"{what}\""
 						}
 					},
 					"wallpost": {
 						"you": {
-							"own": "{user} hat an deine Pinnwand geschrieben: \"{what}\"",
-							"linked": "{user} hat einen Pinnwandeintrag geschrieben, auf dem du verlinkt bist: \"{what}\""
+							"tagged": "{user} hat dich in einem Pinnwandeintrag markiert: \"{what}\""
 						}
 					},
 					"comment": {
 						"you": {
-							"linked": "{user} hat einen Kommentar geschrieben, in dem du verlinkt bist: \"{what}\""
+							"tagged": "{user} hat dich in einem Kommentar markiert: \"{what}\""
 						}
 					}
 				}
