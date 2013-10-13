@@ -739,7 +739,10 @@ define(["step", "whispeerHelper", "valid/validator"], function (step, h, validat
 					socket.emit("messages.send", result, this);
 				}), h.sF(function (result) {
 					if (!result.success) {
-						messageService.sendMessage(topic, message, cb, count + 1);
+						window.setTimeout(function () {
+							messageService.sendMessage(topic, message, cb, count + 1);
+						}, 50);
+
 						return;
 					}
 
