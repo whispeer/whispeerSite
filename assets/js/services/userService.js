@@ -115,6 +115,10 @@ define(["step", "whispeerHelper"], function (step, h) {
 				return friendsKey;
 			};
 
+			this.getFriendsLevel2Key = function () {
+				return friendsLevel2Key;
+			};
+
 			this.getID = function () {
 				return parseInt(id, 10);
 			};

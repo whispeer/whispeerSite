@@ -5,8 +5,10 @@
 define(["step", "whispeerHelper"], function (step, h) {
 	"use strict";
 
-	function userController($scope, $routeParams, cssService, userService) {
+	function userController($scope, $routeParams, cssService, userService, friendsService) {
 		var identifier = $routeParams.identifier;
+		var userObject;
+
 		$scope.loading = true;
 
 		cssService.setClass("profileView");
@@ -21,6 +23,11 @@ define(["step", "whispeerHelper"], function (step, h) {
 		}
 
 		$scope.user	= {
+			addFriend: function () {
+				if (!userObject.isOwn()) {
+					friendsService.friendship(userObject.getID());
+				}
+			},
 			"name":	"Not loaded",
 			"added": false,
 			"data": {
@@ -116,12 +123,15 @@ define(["step", "whispeerHelper"], function (step, h) {
 		step(function () {
 			userService.get(identifier, this);
 		}, h.sF(function (user) {
+			userObject = user;
 			this.parallel.unflatten();
 			user.getName(this.parallel());
 			user.getImage(this.parallel());
 		}), h.sF(function (name, image) {
 			$scope.user.name = name;
 			$scope.user.image = image;
+			$scope.user.data.me = userObject.isOwn();
+			//$scope.user.me = 
 			$scope.loading = false;
 		}));
 
@@ -200,7 +210,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 		];
 	}
 
-	userController.$inject = ["$scope", "$routeParams", "ssn.cssService", "ssn.userService"];
+	userController.$inject = ["$scope", "$routeParams", "ssn.cssService", "ssn.userService", "ssn.friendsService"];
 
 	return userController;
 });

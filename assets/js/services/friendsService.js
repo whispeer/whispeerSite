@@ -13,17 +13,17 @@ define(["step", "whispeerHelper"], function (step, h) {
 		};
 
 		function setFriends(f) {
-			friends = f;
+			friends = f.map(function (e) {return parseInt(e, 10);});
 			data.friendsCount = f.length;
 		}
 
 		function setRequests(r) {
-			requests = r;
+			requests = r.map(function (e) {return parseInt(e, 10);});
 			data.requestsCount = r.length;
 		}
 
 		function setRequested(r) {
-			requested = r;
+			requested = r.map(function (e) {return parseInt(e, 10);});
 			data.requestedCount = r.length;
 		}
 
@@ -75,7 +75,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 
 				socket.emit("friends.add", data, this);
 			}), h.sF(function (result) {
-				if (result.success) {
+				if (result.friendAdded) {
 					friends.push(uid);
 					h.removeArray(requests, uid);
 				} else {
@@ -99,7 +99,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 				socket.emit("friends.add", data, this);
 			}), h.sF(function (result) {
 				if (!result.error) {
-					if (result.success) {
+					if (result.friendAdded) {
 						requested.push(uid);
 					} else {
 						//user requested friendShip and we did not get it when we started this...
@@ -128,6 +128,15 @@ define(["step", "whispeerHelper"], function (step, h) {
 				} else {
 					requestFriendShip(uid);
 				}
+			},
+			getRequests: function () {
+				return requests.slice();
+			},
+			getFriends: function () {
+				return friends.slice();
+			},
+			getRequested: function () {
+				return requested.slice();
 			},
 			load: function (data) {
 				setFriends(data.friends);
