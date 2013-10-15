@@ -16,12 +16,18 @@ define(["step", "whispeerHelper"], function (step, h) {
 
 		var User = function (providedData) {
 			var theUser = this, mainKey, signKey, cryptKey, friendsKey, friendsLevel2Key;
-			var id, mail, nickname, publicProfile, privateProfiles = [];
+			var id, mail, nickname, publicProfile, privateProfiles = [], mutualFriends;
+
+			this.data = {};
+
+
 
 			function updateUser(userData) {
 				if (id && parseInt(userData.id, 10) !== parseInt(id, 10)) {
 					throw "user update invalid";
 				}
+
+				mutualFriends = userData.mutualFriends;
 
 				id = parseInt(userData.id, 10);
 				mail = userData.mail;
@@ -59,6 +65,14 @@ define(["step", "whispeerHelper"], function (step, h) {
 						privateProfiles.push(new ProfileService(priv[i]));
 					}
 				}
+
+				theUser.data.basic = {
+					id: id,
+					age: "?",
+					location: "?",
+					mutualFriends: mutualFriends,
+					url: "/user/" + nickname
+				};
 			}
 
 			updateUser(providedData);
@@ -90,6 +104,24 @@ define(["step", "whispeerHelper"], function (step, h) {
 					this.last.ne(h.deepGet(pub, attrs));
 				}), cb);
 			}
+
+			var basicDataLoaded = false;
+
+			this.loadBasicData = function (cb) {
+				step(function () {
+					if (!basicDataLoaded) {
+						this.parallel.unflatten();
+
+						theUser.getName(this.parallel());
+						theUser.getImage(this.parallel());
+					}
+				}, h.sF(function (name, image) {
+					theUser.data.basic.name = name;
+					theUser.data.basic.image = image;
+
+					this.ne();
+				}), cb);
+			};
 
 			this.isOwn = function () {
 				return theUser.getID() === sessionService.getUserID();

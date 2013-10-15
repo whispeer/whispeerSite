@@ -129,6 +129,21 @@ define(["step", "whispeerHelper"], function (step, h) {
 					requestFriendShip(uid);
 				}
 			},
+			getRequestStatus: function (uid) {
+				if (friends.indexOf(uid) > -1) {
+					return "friends";
+				}
+
+				if (requested.indexOf(uid) > -1) {
+					return "requested";
+				}
+
+				if (requests.indexOf("uid") > -1) {
+					return "accept";
+				}
+
+				return "request";
+			},
 			getRequests: function () {
 				return requests.slice();
 			},

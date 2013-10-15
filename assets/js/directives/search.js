@@ -49,25 +49,16 @@ define(["step", "whispeerHelper"], function (step, h) {
 								theUsers = user;
 								var i;
 								for (i = 0; i < user.length; i += 1) {
-									user[i].getName(this.parallel());
-									user[i].getImage(this.parallel());
+									user[i].loadBasicData(this.parallel());
 								}
 
 								var width = iElement.width();
 								iElement.find(".searchDrop").width(width);
-							}), h.sF(function (data) {
+							}), h.sF(function () {
 								scope.users = [];
 								var i;
 								for (i = 0; i < theUsers.length; i += 1) {
-									scope.users.push({
-										"name": data[i*2],
-										"mutuals": "0",
-										"location": "?",
-										"age": "?",
-										"url": theUsers[i].getUrl(),
-										"image": data[i*2+1],
-										"id": theUsers[i].getID()
-									});
+									scope.users.push(theUsers[i].data);
 								}
 								scope.searching = false;
 							}));
@@ -104,11 +95,11 @@ define(["step", "whispeerHelper"], function (step, h) {
 				scope.selectUser = function(index) {
 					var user = scope.users[index];
 					if (scope.multiple) {
-						var id = parseInt(user.id, 10);
+						var id = parseInt(user.basic.id, 10);
 						if (scope.selectedUsers.indexOf(id) === -1) {
 							scope.selected.push({
 								id: id,
-								name: user.name
+								name: user.basic.name
 							});
 
 							scope.query = "";
@@ -116,7 +107,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 							scope.selectedUsers.push(id);
 						}
 					} else {
-						$location.path(user.url);
+						$location.path(user.basic.url);
 
 						scope.click(false);
 						scope.focus(false);

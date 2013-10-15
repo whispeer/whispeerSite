@@ -113,7 +113,7 @@
 					</p>
 				</div>
 				<div class="actions">
-					<a href="" class="addFriend" ng-if="!user.added" data-ng-click="user.addFriend()"><span data-i18n="profile.actions.addFriend|user={{user.name}}"></span></a>
+					<a href="" class="addFriend" ng-if="!user.data.me && !user.added" data-ng-click="user.addFriend()"><span data-i18n="profile.actions.addFriend|user={{user.name}}"></span></a>
 					<div class="addToCirlce" ng-if="user.added">
 						<search placeholder="profile.actions.addToCircle|placeholder|user={{user.name}}"></search>
 					</div>
