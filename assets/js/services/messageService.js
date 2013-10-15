@@ -471,14 +471,24 @@ define(["step", "whispeerHelper", "valid/validator"], function (step, h, validat
 		};
 
 		Topic.get = function (topicid, cb) {
+			var theTopic;
 			step(function () {
 				if (topics[topicid]) {
 					this.last.ne(topics[topicid]);
 				} else {
-					//TODO get topic from server!
-					throw "not implemented";
+					socket.emit("messages.getTopics", {
+						topicid: topicid
+					}, this);
 				}
-			}, cb);
+			}, h.sF(function (data) {
+				if (!data.error) {
+					theTopic = makeTopic(data.topic, this);
+				} else {
+					this.last.ne(false);
+				}
+			}), h.sF(function () {
+				this.last.ne(theTopic);
+			}), cb);
 		};
 
 		Topic.createData = function (receiver, message, cb) {
