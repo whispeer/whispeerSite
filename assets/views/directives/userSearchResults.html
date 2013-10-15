@@ -1,0 +1,15 @@
+<ol class="unstyled searchSuggestions">
+	<li data-ng-repeat="user in results" data-ng-class="currentClass($index)" data-ng-mouseover="setCurrent($index)" data-ng-click="selectResult($index)">
+		<img data-ng-src="{{user.basic.image}}">
+		<div class="info">
+			<span class="name">{{user.basic.name}}</span>
+			<span class="friends">{{user.basic.mutualFriends.length}} gemeinsame Freunde</span>
+			<span class="location">aus {{user.basic.location}}</span>
+			<span class="age">Alter: {{user.basic.age}}</span>
+		</div>
+		<div class="actions">
+			<a class="addFriend btn" data-stop-event="click">Als Freund hinzufügen</a>
+			<a class="sendMessage btn" data-stop-event="click">Nachricht senden</a>
+		</div>
+	</li>
+</ol>
