@@ -1184,6 +1184,9 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 	/** our interface */
 	keyStore = {
 		reset: function reset() {
+			dirtyKeys = [];
+			newKeys = [];
+			keyGenIdentifier = "";
 			symKeys = {};
 			cryptKeys = {};
 			signKeys = {};
