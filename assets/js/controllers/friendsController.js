@@ -7,6 +7,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 
 	function friendsController($scope, cssService, friendsService, userService)  {
 		cssService.setClass("friendsView");
+		$scope.friends = [];
 
 		function loadFriendsUsers() {
 			step(function () {
@@ -18,15 +19,6 @@ define(["step", "whispeerHelper"], function (step, h) {
 		}
 
 		loadFriendsUsers();
-
-		$scope.friends = [
-			/*{
-				"name": "Willi Welle",
-				"mutualFriends":	"295",
-				"image":	"/assets/img/user.png"
-				//"lists":	[""] // ID's of the Lists with this friend
-			}*/
-		];
 	}
 
 	friendsController.$inject = ["$scope", "ssn.cssService", "ssn.friendsService", "ssn.userService"];

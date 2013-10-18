@@ -107,6 +107,8 @@ define(["step", "whispeerHelper"], function (step, h) {
 
 			var basicDataLoaded = false;
 
+			this.update = updateUser;
+
 			this.loadBasicData = function (cb) {
 				step(function () {
 					if (!basicDataLoaded) {
@@ -222,7 +224,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 			};
 		};
 
-		function makeUser(data, overwriteExisting) {
+		function makeUser(data) {
 			if (data.error === true) {
 				return NotExistingUser;
 			}
@@ -233,7 +235,8 @@ define(["step", "whispeerHelper"], function (step, h) {
 			var mail = theUser.getMail();
 			var nickname = theUser.getNickname();
 
-			if (users[id] && !overwriteExisting) {
+			if (users[id]) {
+				theUser.update(data);
 				return users[id];
 			}
 

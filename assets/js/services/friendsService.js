@@ -6,7 +6,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 
 	var service = function ($rootScope, socket, sessionService, userService, keyStore) {
 		var friends = [], requests = [], requested = [];
-		var data = {
+		var friendsData = {
 			requestsCount: 0,
 			friendsCount: 0,
 			requestedCount: 0
@@ -14,17 +14,17 @@ define(["step", "whispeerHelper"], function (step, h) {
 
 		function setFriends(f) {
 			friends = f.map(function (e) {return parseInt(e, 10);});
-			data.friendsCount = f.length;
+			friendsData.friendsCount = f.length;
 		}
 
 		function setRequests(r) {
 			requests = r.map(function (e) {return parseInt(e, 10);});
-			data.requestsCount = r.length;
+			friendsData.requestsCount = r.length;
 		}
 
 		function setRequested(r) {
 			requested = r.map(function (e) {return parseInt(e, 10);});
-			data.requestedCount = r.length;
+			friendsData.requestedCount = r.length;
 		}
 
 		function createBasicData(otherUser, cb) {
@@ -77,6 +77,8 @@ define(["step", "whispeerHelper"], function (step, h) {
 			}), h.sF(function (result) {
 				if (result.friendAdded) {
 					friends.push(uid);
+					friendsData.friendsCount += 1;
+					friendsData.requestsCount -= 1;
 					h.removeArray(requests, uid);
 				} else {
 					//oh noes!
@@ -109,12 +111,23 @@ define(["step", "whispeerHelper"], function (step, h) {
 			}));
 		}
 
-		socket.listen("friendRequest", function (e, data) {
-			debugger;
+		socket.listen("friendRequest", function (e, requestData) {
+			var uid = parseInt(requestData.uid, 10);
+			if (requests.indexOf(uid) === -1 && friends.indexOf(uid) === -1 && requested.indexOf(uid) === -1)  {
+				requests.push(uid);
+				friendsData.requestsCount += 1;
+				userService.addFromData(requestData.user, true);
+			}
 		});
 
-		socket.listen("friendAccept", function (e, data) {
-			debugger;
+		socket.listen("friendAccept", function (e, requestData) {
+			var uid = parseInt(requestData.uid, 10);
+			if (requests.indexOf(uid) === -1 && friends.indexOf(uid) === -1)  {
+				friends.push(uid);
+				friendsData.friendsCount += 1;
+				requestData.requestedCount -= 1;
+				userService.addFromData(requestData.user, true);
+			}
 		});
 
 		var friendsService = {
@@ -168,7 +181,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 				requests = [];
 				requested = [];
 			},
-			data: data
+			data: friendsData
 		};
 
 		$rootScope.$on("ssn.ownLoaded", function (evt, data) {

@@ -6,6 +6,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 	"use strict";
 
 	function requestsController($scope, friendsService, userService)  {
+		$scope.requests = [];
 		//friendsService.onEvent("friendRequest", loadRequestsUsers);
 		//friendsService.onEvent("requestAccept", loadRequestsUsers);
 
@@ -31,7 +32,6 @@ define(["step", "whispeerHelper"], function (step, h) {
 				return name;
 			}
 		};
-		$scope.requests = [];
 	}
 
 	requestsController.$inject = ["$scope", "ssn.friendsService", "ssn.userService"];

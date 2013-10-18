@@ -5,10 +5,11 @@
 define(["step", "whispeerHelper"], function (step, h) {
 	"use strict";
 
-	function rootController($scope, sessionService, sessionHelper, userService, cssService, messageService) {
+	function rootController($scope, sessionService, sessionHelper, userService, cssService, messageService, friendsService) {
 		$scope.loggedin = false;
 
 		$scope.user = {};
+		$scope.friends = friendsService.data;
 
 		$scope.user.name = "";
 		$scope.user.image = "/assets/img/user.png";
@@ -38,7 +39,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 			messageService.listenNewMessage(function(m) {
 				if (!m.isOwn()) {
 					document.getElementById("sound").play();
-	            }
+				}
 			});
 		});
 		

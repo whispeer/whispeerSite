@@ -35,7 +35,7 @@
 	"search": "Personen werden gesucht",
 	"menu": {
 		"profil": "Profil",
-		"friends": "Freunde",
+		"friends": "Freunde ({count})",
 		"messages": "Nachrichten",
 		"media": "Medien",
 		"circles": "Kreise",
@@ -263,7 +263,7 @@
 			"title": "Anfragen",
 			"mutuals": "{count} gemeinsame Freunde",
 			"accept":	"Annehmen",
-			"decline":	"Ablehnen"
+			"decline":	"Ignorieren"
 		},
 		"settings": {
 			"title": "Optionen"
