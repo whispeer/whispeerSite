@@ -6,11 +6,11 @@
 	<div class="body">
 		<ul class="unstyled">
 			<li class="request" data-ng-repeat="request in requests">
-				<img data-ng-src="{{request.user.image}}">
-				<p class="username">{{shortenName(request.user.name)}}</p>
-				<p class="similar" data-i18n="magicbar.requests.mutuals|count={{request.user.mutuals}}"></p>
+				<img data-ng-src="{{request.basic.image}}">
+				<p class="username">{{shortenName(request.basic.name)}}</p>
+				<p class="similar" data-i18n="magicbar.requests.mutuals|count={{request.basic.mutualFriends.length}}"></p>
 				<p class="action">
-					<button class="btn btn-success" data-i18n="magicbar.requests.accept">Bestätigen</button>
+					<button class="btn btn-success" data-i18n="magicbar.requests.accept" ng-click="acceptRequest(request)">Bestätigen</button>
 					<button class="btn btn-danger" data-i18n="magicbar.requests.decline">Ablehnen</button>
 				</p>
 			</li>

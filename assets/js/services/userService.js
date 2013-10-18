@@ -369,6 +369,35 @@ define(["step", "whispeerHelper"], function (step, h) {
 				}, cb);
 			},
 
+			getMultipleFormatted: function getMFF(identifiers, cb) {
+				var theUsers;
+				step(function () {
+					api.getMultiple(identifiers, this);
+				}, h.sF(function (user) {
+					theUsers = user;
+					var i;
+					for (i = 0; i < user.length; i += 1) {
+						user[i].loadBasicData(this.parallel());
+					}
+
+					if (user.length === 0) {
+						this.ne([]);
+					}
+				}), h.sF(function () {
+					var i, result = [];
+					for (i = 0; i < theUsers.length; i += 1) {
+						result.push({
+							user: theUsers[i],
+							basic: theUsers[i].data.basic,
+							id: theUsers[i].data.basic.id,
+							name: theUsers[i].data.basic.name
+						});
+					}
+
+					this.ne(result);
+				}), cb);
+			},
+
 			addFromData: function addFromData(data) {
 				return makeUser(data);
 			},
