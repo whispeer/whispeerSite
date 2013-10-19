@@ -15,8 +15,6 @@ define(["step"], function (step) {
 		$scope.loginFailed = false;
 		$scope.loginSuccess = false;
 
-// <<<<<<< HEAD:main/js/controllers/loginController.js
-// =======
 		$scope.mailCheck = false;
 		$scope.mailCheckError = false;
 		$scope.mailCheckLoading = false;
@@ -163,7 +161,6 @@ define(["step"], function (step) {
 			return "/assets/img/fail.png";
 		};
 
-// >>>>>>> cssClean:main/assets/js/controllers/loginController.js
 		function loginFailed() {
 			$scope.loginFailed = true;
 			$scope.loginSuccess = false;
