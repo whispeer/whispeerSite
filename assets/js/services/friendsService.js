@@ -1,7 +1,7 @@
 /**
 * friendsService
 **/
-define(["step", "whispeerHelper"], function (step, h) {
+define(["step", "whispeerHelper", "asset/observer"], function (step, h, Observer) {
 	"use strict";
 
 	var service = function ($rootScope, socket, sessionService, userService, keyStore) {
@@ -80,6 +80,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 					friendsData.friendsCount += 1;
 					friendsData.requestsCount -= 1;
 					h.removeArray(requests, uid);
+					friendsService.notify("newFriend", uid);
 				} else {
 					//oh noes!
 				}
@@ -103,6 +104,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 				if (!result.error) {
 					if (result.friendAdded) {
 						requested.push(uid);
+						friendsService.notify("newRequested", uid);
 					} else {
 						//user requested friendShip and we did not get it when we started this...
 						acceptFriendShip(uid);
@@ -117,6 +119,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 				requests.push(uid);
 				friendsData.requestsCount += 1;
 				userService.addFromData(requestData.user, true);
+				friendsService.notify("newRequest", uid);
 			}
 		});
 
@@ -127,6 +130,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 				friendsData.friendsCount += 1;
 				requestData.requestedCount -= 1;
 				userService.addFromData(requestData.user, true);
+				friendsService.notify("newFriend", uid);
 			}
 		});
 
@@ -195,6 +199,8 @@ define(["step", "whispeerHelper"], function (step, h) {
 			},
 			data: friendsData
 		};
+
+		Observer.call(friendsService);
 
 		$rootScope.$on("ssn.ownLoaded", function (evt, data) {
 			friendsService.load(data.friends.getAll);
