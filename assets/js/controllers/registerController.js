@@ -11,17 +11,26 @@ define(["step"], function (step) {
 		$scope.registrationStep = 1;
 		
 		var ENDSIZE = 250;
+		var LINEWIDTH = 4;
 
 		var imageData;
+		var doneCanvasE = document.createElement("canvas");
+
+		doneCanvasE.width = ENDSIZE;
+		doneCanvasE.height = ENDSIZE;
+
+		var doneCanvas = doneCanvasE.getContext("2d");
 
 		$scope.imageChange = function (e) {
-			var doneCanvasE = jQuery("#cropped");
-			var originalCanvasE = jQuery("#original");
+			var originalCanvasE = document.getElementById("original");
+			var originalCanvas = originalCanvasE.getContext("2d");
+			var canvasW = 600;
+			var canvasH = 300;
 
-			doneCanvasE.width = ENDSIZE;
-			doneCanvasE.height = ENDSIZE;
+			originalCanvasE.width = canvasW;
+			originalCanvasE.height = canvasH;
 
-			var doneCanvas = doneCanvasE.getContext("2d");
+			originalCanvas.clearRect (0, 0, canvasW, canvasH);
 
 			var file = e.target.files[0];
 			if (!file.type.match(/image.*/i)) {
@@ -38,12 +47,20 @@ define(["step"], function (step) {
 				var width = image.width;
 				var height = image.height;
 
-				width = width;
-				height = height;
-
 				var get = Math.min(width, height);
-
 				doneCanvas.drawImage(image, 0, 0, get, get, 0, 0, ENDSIZE, ENDSIZE);
+
+				var paintRatio = Math.min(canvasW / width, canvasH / height);
+				var paintWidth = paintRatio * width;
+				var paintHeight = paintRatio * height;
+
+				var paintLeft = (canvasW - paintWidth) / 2;
+				var paintTop = (canvasH - paintHeight) / 2;
+
+				originalCanvas.drawImage(image, 0, 0, width, height, paintLeft, paintTop, paintWidth, paintHeight);
+				originalCanvas.strokeStyle="#FF0000";
+				originalCanvas.lineWidth=LINEWIDTH;
+				//originalCanvas.strokeRect(paintLeft, paintTop+LINEWIDTH/2, get*paintRatio, get*paintRatio-LINEWIDTH);
 				imageData = doneCanvasE.toDataURL();
 			});
 
