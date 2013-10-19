@@ -1,0 +1,237 @@
+<header>
+	<span data-i18n="settings.header.title" id="title"></span>
+	<div id="links">
+		<a href="#general">Allgemein</a>
+		<a href="#safety">Sicherheit</a>
+		<a href="#privacy">Privatsphäre</a>
+		<a href="#notifications">Benachrichtigungen</a>
+		<a href="#features">Zusätzliche Funktionen</a>
+	</div>
+</header>
+<div id="settingsWrap">
+	<section id="general">
+		<header>Allgemein</header>
+		<div class="config" id="name">
+			<h5>Name ändern</h5>
+			<input type="text" id="firstname" placeholder="Vorname">
+			<input type="text" id="lastname" placeholder="Nachname">
+			<button type="submit"><i class="icon-ok-circle"></i></button>
+			<button type="reset"><i class="icon-cancel-circle"></i></button>
+		</div>
+		<div class="config" id="nickname">
+			<h5>Nickname ändern</h5>
+			<input type="text" id="newNickname" placeholder="Nickname">
+			<button type="submit"><i class="icon-ok-circle"></i></button>
+			<button type="reset"><i class="icon-cancel-circle"></i></button>
+		</div>
+		<div class="config" id="mail">
+			<h5>E-Mail Adresse ändern</h5>
+			<input type="text" id="email" placeholder="E-Mail Adresse">
+			<input type="text" id="email2" placeholder="E-Mail Adresse wiederholen">
+			<button type="submit"><i class="icon-ok-circle"></i></button>
+			<button type="reset"><i class="icon-cancel-circle"></i></button>
+		</div>
+		<div class="config" id="password">
+			<h5>Passwort ändern</h5>
+			<input type="password" id="newPassword" placeholder="Passwort">
+			<input type="password" id="newPassword2" placeholder="Passwort wiederholen">
+			<button type="submit"><i class="icon-ok-circle"></i></button>
+			<button type="reset"><i class="icon-cancel-circle"></i></button>
+		</div>
+	</section>
+	<section id="safety">
+		<header>Sicherheit - Welche deiner Profildaten sollen verschlüsselt werden?</header>
+		<h2>Name</h2>
+		<div class="config" id="firstNameEncryption">
+			<span>Vorname:</span>
+			<button type="submit"><i class="icon-ok-circle"></i></button>
+			<button type="submit"><i class="icon-cancel-circle"></i></button>
+		</div>
+		<div class="config" id="lastNameEncryption">
+			<span>Nachname:</span>
+			<button type="submit"><i class="icon-ok-circle"></i></button>
+			<button type="submit"><i class="icon-cancel-circle"></i></button>
+		</div>
+		<h2>Profil</h2>
+		<div class="config" id="locationEncryption">
+			<span>Wohnort:</span>
+			<button type="submit"><i class="icon-ok-circle"></i></button>
+			<button type="submit"><i class="icon-cancel-circle"></i></button>
+		</div>
+		<div class="config" id="birthdayEncryption">
+			<span>Geburtstag:</span>
+			<button type="submit"><i class="icon-ok-circle"></i></button>
+			<button type="submit"><i class="icon-cancel-circle"></i></button>
+		</div>
+		<div class="config" id="relationshipEncryption">
+			<span>Beziehungsstatus:</span>
+			<button type="submit"><i class="icon-ok-circle"></i></button>
+			<button type="submit"><i class="icon-cancel-circle"></i></button>
+		</div>
+		<div class="config" id="educationEncryption">
+			<span>Ausbildung:</span>
+			<button type="submit"><i class="icon-ok-circle"></i></button>
+			<button type="submit"><i class="icon-cancel-circle"></i></button>
+		</div>
+		<div class="config" id="workEncryption">
+			<span>Arbeit:</span>
+			<button type="submit"><i class="icon-ok-circle"></i></button>
+			<button type="submit"><i class="icon-cancel-circle"></i></button>
+		</div>
+		<div class="config" id="genderEncryption">
+			<span>Geschlecht:</span>
+			<button type="submit"><i class="icon-ok-circle"></i></button>
+			<button type="submit"><i class="icon-cancel-circle"></i></button>
+		</div>
+		<div class="config" id="languageEncryption">
+			<span>Sprachen:</span>
+			<button type="submit"><i class="icon-ok-circle"></i></button>
+			<button type="submit"><i class="icon-cancel-circle"></i></button>
+		</div>
+	</section>
+	<section id="privacy">
+		<header>Privatsphäre - Wer kann was von dir lesen?</header>
+		<h2>Profil</h2>
+		<div class="config" id="locationPrivacy">
+			<span>Wohnort:</span>
+				<div class="labelClass">
+					<label for="locationPrivacyCheckboxFriends">Freunde</label>
+					<input id="locationPrivacyCheckboxFriends" type="checkbox">
+				</div>
+				<div class="labelClass">
+					<label for="locationPrivacyCheckboxFriendsofFriends">Freunde von Freunden</label>
+					<input id="locationPrivacyCheckboxFriendsofFriends" type="checkbox">
+				</div>
+				<div class="labelClass">	
+					<label for="locationPrivacyCheckboxAll">Alle</label>
+					<input id="locationPrivacyCheckboxAll" type="checkbox">
+				</div>
+				<div class="labelClass">
+					<label for="locationPrivacyCheckboxNone">Niemand</label>
+					<input id="locationPrivacyCheckboxNone" type="checkbox">
+				</div>	
+		</div>
+		<div class="config" id="birthdayPrivacy">
+			<span>Geburtstag:</span>
+				<div class="labelClass">
+					<label for="birthdayPrivacyCheckboxFriends">Freunde</label>
+					<input id="birthdayPrivacyCheckboxFriends" type="checkbox">
+				</div>
+				<div class="labelClass">
+					<label for="birthdayPrivacyCheckboxFriendsofFriends">Freunde von Freunden</label>
+					<input id="birthdayPrivacyCheckboxFriendsofFriends" type="checkbox">
+				</div>
+				<div class="labelClass">	
+					<label for="birthdayPrivacyCheckboxAll">Alle</label>
+					<input id="birthdayPrivacyCheckboxAll" type="checkbox">
+				</div>
+				<div class="labelClass">
+					<label for="birthdayPrivacyCheckboxNone">Niemand</label>
+					<input id="birthdayPrivacyCheckboxNone" type="checkbox">
+				</div>	
+		</div>
+		<div class="config" id="relationshipPrivacy">
+			<span>Beziehungsstatus:</span>
+				<div class="labelClass">
+					<label for="relationshipPrivacyCheckboxFriends">Freunde</label>
+					<input id="relationshipPrivacyCheckboxFriends" type="checkbox">
+				</div>
+				<div class="labelClass">
+					<label for="relationshipPrivacyCheckboxFriendsofFriends">Freunde von Freunden</label>
+					<input id="relationshipPrivacyCheckboxFriendsofFriends" type="checkbox">
+				</div>
+				<div class="labelClass">	
+					<label for="relationshipPrivacyCheckboxAll">Alle</label>
+					<input id="relationshipPrivacyCheckboxAll" type="checkbox">
+				</div>
+				<div class="labelClass">
+					<label for="relationshipPrivacyCheckboxNone">Niemand</label>
+					<input id="relationshipPrivacyCheckboxNone" type="checkbox">
+				</div>	
+		</div>
+		<div class="config" id="educationPrivacy">
+			<span>Ausbildung:</span>
+				<div class="labelClass">
+					<label for="educationPrivacyCheckboxFriends">Freunde</label>
+					<input id="educationPrivacyCheckboxFriends" type="checkbox">
+				</div>
+				<div class="labelClass">
+					<label for="educationPrivacyCheckboxFriendsofFriends">Freunde von Freunden</label>
+					<input id="educationPrivacyCheckboxFriendsofFriends" type="checkbox">
+				</div>
+				<div class="labelClass">	
+					<label for="educationPrivacyCheckboxAll">Alle</label>
+					<input id="educationPrivacyCheckboxAll" type="checkbox">
+				</div>
+				<div class="labelClass">
+					<label for="educationPrivacyCheckboxNone">Niemand</label>
+					<input id="educationPrivacyCheckboxNone" type="checkbox">
+				</div>	
+		</div>
+		<div class="config" id="workPrivacy">
+			<span>Arbeit:</span>
+				<div class="labelClass">
+					<label for="workPrivacyCheckboxFriends">Freunde</label>
+					<input id="workPrivacyCheckboxFriends" type="checkbox">
+				</div>
+				<div class="labelClass">
+					<label for="workPrivacyCheckboxFriendsofFriends">Freunde von Freunden</label>
+					<input id="workPrivacyCheckboxFriendsofFriends" type="checkbox">
+				</div>
+				<div class="labelClass">	
+					<label for="workPrivacyCheckboxAll">Alle</label>
+					<input id="workPrivacyCheckboxAll" type="checkbox">
+				</div>
+				<div class="labelClass">
+					<label for="workPrivacyCheckboxNone">Niemand</label>
+					<input id="workPrivacyCheckboxNone" type="checkbox">
+				</div>	
+		</div>
+		<div class="config" id="genderPrivacy">
+			<span>Geschlecht:</span>
+				<div class="labelClass">
+					<label for="genderPrivacyCheckboxFriends">Freunde</label>
+					<input id="genderPrivacyCheckboxFriends" type="checkbox">
+				</div>
+				<div class="labelClass">
+					<label for="genderPrivacyCheckboxFriendsofFriends">Freunde von Freunden</label>
+					<input id="genderPrivacyCheckboxFriendsofFriends" type="checkbox">
+				</div>
+				<div class="labelClass">	
+					<label for="genderPrivacyCheckboxAll">Alle</label>
+					<input id="genderPrivacyCheckboxAll" type="checkbox">
+				</div>
+				<div class="labelClass">
+					<label for="genderPrivacyCheckboxNone">Niemand</label>
+					<input id="genderPrivacyCheckboxNone" type="checkbox">
+				</div>	
+		</div>
+		<div class="config" id="languagesPrivacy">
+			<span>Sprachen:</span>
+				<div class="labelClass">
+					<label for="languagesPrivacyCheckboxFriends">Freunde</label>
+					<input id="languagesPrivacyCheckboxFriends" type="checkbox">
+				</div>
+				<div class="labelClass">
+					<label for="languagesPrivacyCheckboxFriendsofFriends">Freunde von Freunden</label>
+					<input id="languagesPrivacyCheckboxFriendsofFriends" type="checkbox">
+				</div>
+				<div class="labelClass">	
+					<label for="languagesPrivacyCheckboxAll">Alle</label>
+					<input id="languagesPrivacyCheckboxAll" type="checkbox">
+				</div>
+				<div class="labelClass">
+					<label for="languagesPrivacyCheckboxNone">Niemand</label>
+					<input id="languagesPrivacyCheckboxNone" type="checkbox">
+				</div>	
+		</div>
+	</section>
+	<section id="notifications">
+		<header>Benachrichtigungen</header>
+		<div class="notimplemented"><span data-i18n="notimplemented"></span></div>
+	</section>
+	<section id="features">
+		<header>Zusätzliche Funktionen</header>
+		<div class="notimplemented"><span data-i18n="notimplemented"></span></div>
+	</section>
+</div>

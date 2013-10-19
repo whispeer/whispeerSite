@@ -1,7 +1,7 @@
 .profileView {
 	#main {
 		nav {
-			.column(8,8);
+			.column(8,8,left,0);
 			height: 50px;
 			margin-bottom: -50px;
 			heading {
@@ -32,12 +32,8 @@
 				margin-bottom: 10px;
 				height: 150px;
 				.box-fix;
-				header {
-					height: 20px;
-					padding: 5px;
-				}
 				&#generalInfo {
-					.column(8,8);
+					.column(8,8,left,0);
 					height: auto;
 					margin-bottom: 10px;
 					padding: 0;
@@ -51,18 +47,45 @@
 						margin-top: -10px;
 						line-height: 10px;
 					}
+					.actions {
+						.column(12,12,left,0);
+						.addFriend {
+							.column(1,2);
+							margin: 10px 1% 10px 1%;
+							height: 60px;
+							//padding: 9px;
+							display: table;
+							span {
+								display: table-cell;
+								vertical-align: middle;
+							}
+						}
+						.addToCirlce {
+							.column(1,2);
+							margin: 10px 1% 10px 1%;
+						}
+						.sendMessage {
+							.column(1,2);
+							margin: 10px 1% 10px 1%;
+							height: 60px;
+							//padding: 9px;
+							display: table;
+							span {
+								display: table-cell;
+								vertical-align: middle;
+								padding: 0 9px;
+							}
+						}
+					}
 				}
 			}	
 		}
 		#wall {
-			.column(8,8);
+			.column(8,8,left,0);
 			height: auto;
 			padding: 0;
 			margin-bottom: 1%;
-			header {
-				height: 20px;
-				padding: 5px;
-			}
+			.box-fix;
 			article {
 				.column(8,8);
 				.userimg{
@@ -94,12 +117,11 @@
 			}
 		}
 		#friends {
-			.column(8,8);
+			.column(8,8,left,0);
 			height: auto;
 			padding: 0;
+			.box-fix;
 			header {
-				height: 20px;
-				padding: 5px;
 				margin-bottom: 1%;
 			}
 		}

@@ -8,10 +8,19 @@
 			background: white;
 			.border-radius(5px);
 			li {
-				
 				&.searchResult {
 					.btn;
 					.btn-green;
+					.remove {
+						float: right;
+						display: block;
+						width: 15px;
+						text-align: right;
+						color: #dedede;
+						&:hover {
+							color: #fff;
+						}
+					}
 				}
 				&.searchField {
 					input {
@@ -30,21 +39,17 @@
 		box-shadow: 0 0 8px @grayLight;
 		.box-shadow(0px 0px 5px 0px #b2b2b2);
 		.searchSuggestions {
-			.box-shadow(inset 6px -1px 4px 2px #b2b2b2);
+			//.box-shadow(inset 6px -1px 4px 2px #b2b2b2);
 			.border-radius(5px);
+			overflow-x: hidden;
 			.box-fix;
 			li {
+				border: none;
 				border-bottom: 1px solid #9a9a9a;
 				&:first-child {
-					img {
-						.border-radiuses(0, 0, 0, 5px);
-					}
 				}
 				&:last-child {
 					border: none;
-					img {
-						.border-radiuses(0, 0, 5px, 0);
-					}
 				}
 				&:only-child {
 					border: none;

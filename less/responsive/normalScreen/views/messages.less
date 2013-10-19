@@ -53,12 +53,10 @@
 				}
 				&.groupChat {
 					.left {
-						height: 60px;
 						margin: 0 2% 0 0;
 						img, span {
 							.column(1,2,left,0);
 							margin:0!important;
-							height: 50%;
 						}
 						span {
 							padding: 5px 0;
@@ -87,7 +85,7 @@
 				overflow-y: scroll;
 				height: 100%;
 				.message {
-					.column(3,5);
+					.column(4.25,5);
 					height: auto;
 					margin-bottom: 5px;
 					&.me {
@@ -135,22 +133,18 @@
 					.column(5,5);
 					margin-bottom: 5px;
 					.user {
-						width: 100%;
-						margin: 0;
-						float: left;
-						border-bottom: 1px solid #ccc;
 						.userimg {
-							.column(1,12);
-							vertical-align: middle;
+							.column(1.4,12);
 							padding: 0;
-							margin: 0 !important;
+							margin: 0 1.25% 0 0!important;
 						}
 						.username {
-							.column(8,12);
+							.column(10.6,12);
+							margin-bottom: 0.5%;
 						}
 					}
 					.messageText {
-						.column(12);
+						.column(10.6);
 						word-break: break-word;
 					}
 				}

@@ -1,0 +1,22 @@
+<div id="magicmessage" class="magic magicOverlay" style="height: 100%;" data-ng-controller="ssn.magicbar.messagesController">
+	<div class="header">
+		<h4 data-i18n="magicbar.messages.title">Nachrichten</h4>
+		<div class="close" data-ng-click="loadDefault()" data-i18n="magicbar.close">Close</div>
+	</div>
+	<div class="body">
+		<ul class="unstyled">
+			<li class="message {{topic.type}} {{topic.unread?'unread':''}}" data-ng-repeat="topic in topics" data-ng-click="loadTopic(topic.id)">
+				<div class="left">
+					<img class="userimg" data-ng-repeat="partner in topic.partnersDisplay" data-ng-src="{{partner.image}}" alt="{{partner.name}}" title="{{partner.name}}">
+					<span data-ng-if="topic.remainingUser" title="{{topic.remainingUserTitle}}">+ {{topic.remainingUser}}</span>
+				</div>
+				<p class="username">
+					<strong ng-repeat="partner in topic.partners">{{topic.partners.length>1?partner.shortname:partner.name}}{{$last?"":", "}}</strong>
+				</p>
+				<p class="text" title="{{topic.latestMessage.data.text}}">
+					{{topic.latestMessage.data.text}}
+				</p>
+			</li>
+		</ul>
+	</div>
+</div>

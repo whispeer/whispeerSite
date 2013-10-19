@@ -1,0 +1,73 @@
+<div class="box">
+	<header>Nachrichten</header>
+	<div id="topicListWrap">
+		<ul id="topicList">
+			<li class="topic" id="newmessage" data-ng-click="unloadTopic()">
+				<div class="left"><i class="icon-plus-circle" id="plusBtn"></i></div>
+				<div class="right" data-i18n="messages.newMessage"></div>
+			</li>
+			<div id="topicListScroll">
+				<li data-ng-repeat="topic in topics" id="{{topic.id}}" class="topic {{topic.type}} {{topic.unread?'unread':''}} {{isActiveTopic(topic)?'active':''}}" data-ng-click="loadActiveTopic(topic.id)">
+					<div class="left">
+						<img class="userimg" data-ng-repeat="partner in topic.partnersDisplay" data-ng-src="{{partner.image}}" alt="{{partner.name}}" title="{{partner.name}}">
+						<span data-ng-if="topic.remainingUser" title="{{topic.remainingUserTitle}}">+ {{topic.remainingUser}}</span>
+					</div>
+					<div class="username">
+						<strong ng-repeat="partner in topic.partners">{{topic.partners.length>1?partner.shortname:partner.name}}{{$last?"":", "}}</strong>
+					</div>
+					<div class="lastMessage">
+						{{topic.latestMessage.data.text}}
+					</div>
+					<div class="time">{{topic.latestMessage.timestamp|date:'HH:mm'}}</div>
+					<div class="clear-fix"></div>
+				</li>
+			</div>
+		</ul>
+	</div>
+	<div id="topicWrap" data-topicID="{{activeTopic.id}}" class="{{activeTopic.type}}" data-ng-if="topicLoaded">
+		<div id="messageTitle">	
+			<h2>
+				<span data-ng-repeat="partner in activeTopic.partners">
+					<a href="{{partner.url}}">
+						{{activeTopic.partners.length>2?partner.shortname:partner.name}}
+					</a>
+					{{$last?"":", "}}
+				</span>
+			</h2>
+		</div>
+		<div id="messageWrap">
+			<ul class="scroll-pane" id="messageList" data-scroll data-keepBottom data.scrollLock="scrollLock" data-ontop="loadMoreMessages()">
+				<li>
+					Remaining: {{activeTopic.remaining}}
+				</li>
+				<li data-ng-repeat="message in activeTopic.messages" data-inview="markRead(message.id)" data-inview-time="1500" data-messageID="{{message.id}}" class="message" data-ng-class="{me:message.sender.me, other:message.sender.other}">
+					<div id="userid" class="user">
+						<a href="{{message.sender.url}}">
+							<img class="userimg" data-userID="sender{{message.sender.id}}" alt="Username" data-ng-src="{{message.sender.image}}">
+							<span class="username" data-userID="sender{{message.sender.id}}">{{message.sender.name}}</span>
+						</a>
+					</div>
+					<div class="messageText {{message.type}}" data-ng-class="{{message.type}}" data-syntaxify>{{message.text}}<img data-ng-show="{{message.type != image}}" data-ng-src=""></div>
+					<div class="time">{{message.timestamp|date:'HH:mm'}}</div>
+				</li>
+			</ul>	
+			<form id="inputWrap">
+				<textarea id="messageInput" data-strg-enter="sendMessage(activeTopic.newMessage)" type="text" data-ng-model="activeTopic.newMessage" data-ng-disabled="!canSend" data-i18n-attr="messages.sendMessage.text|placeholder"></textarea>
+				<button class="btn btn-success" id="sendmessage" data-ng-click="sendMessage(activeTopic.newMessage)" data-i18n="messages.sendMessage.send" type="submit"></button>		
+			</form>
+		</div>
+	</div>
+	<div id="topicWrap" class="newMessage" data-ng-if="!topicLoaded">
+		<div id="messageTitle">	
+			<h2>Neue Nachricht</h2>
+		</div>
+		<div id="messageWrap">	
+			<form id="inputWrap">
+				<search size="small" focus="all" id="recieverInput" data-multiple data-selected-users="new.selectedUsers" data-placeholder="Wer soll diese Nachricht empfangen?"/>
+				
+				<textarea type="text" placeholder="Gebe deine Nachricht ein!" id="messageInput" data-ng-model="new.text"></textarea>
+				<button class="btn btn-success" id="sendmessage" type="submit" data-ng-click="new.send(new.selectedUsers, new.text)">Senden</button>
+			</form>
+		</div>
+	</div>
+</div>	

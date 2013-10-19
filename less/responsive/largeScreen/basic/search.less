@@ -36,7 +36,7 @@
 		}
 	}
 	.searchDrop {
-		.column(3,7);
+		.column(3.5,7);
 		margin: 0;
 		display: block;
 		padding: 0;
@@ -44,10 +44,9 @@
 		.searchSuggestions {
 			width: 100%;
 			margin: 0;
-			padding: 0 0 0 0;
 			max-height: 390px;
 			overflow-y:scroll;
-			padding:0px 0px 0px 2px;
+			padding:0;
 			.box-fix;
 			li {
 				width: 100%;
@@ -56,8 +55,9 @@
 				margin: 0;
 				min-height: 20px;
 				height: auto;
+				overflow-x: hidden;
 				img {
-					.column(1.3);
+					.column(1.3,12,left,0);
 					margin-left: 0;
 				}
 				.info {
@@ -67,12 +67,15 @@
 					.name {
 						font-size: 1.3em;
 						min-height: 10px;
+						width: 100%;
+						float:left;
 					}
 					.friends {
-						.row(12);
+						width: 100%;
+						float: left;
 					}
 					.location, &.age {
-						.column(3);
+						.column(1,2,left,0);
 					}
 				}
 				.actions {

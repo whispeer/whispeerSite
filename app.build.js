@@ -9,7 +9,7 @@
 		amanda: "libs/amanda",
 		valid: "validation"
 	},
-	baseUrl: "js",
+	baseUrl: "assets/js",
 	shim: {
 		"angular" : {"exports" : "angular"},
 		"angularMocks": {deps:["angular"], "exports":"angular.mock"}

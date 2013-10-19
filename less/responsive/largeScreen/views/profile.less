@@ -1,7 +1,7 @@
 .profileView {
 	#main {
 		nav {
-			.column(8,8);
+			.column(8,8,left,0);
 			height: 50px;
 			margin-bottom: -50px;
 			heading {
@@ -21,8 +21,8 @@
 				}
 			}
 		}
-		#wrap { width: 100%; height: 100%; padding-top: 50px; .box-fix; margin: 0 auto; }
-		#scroller { width: 100%; height: 100%; overflow-y: scroll; .box-fix; margin:0 auto; margin-top: 10px; }
+		#wrap { width: 100%; height: 100%; padding: 0; padding-top: 50px; .box-fix; margin: 0 auto; }
+		#scroller { width: 100%; height: 100%; padding: 0; overflow-y: scroll; overflow-x: hidden; .box-fix; margin:0 auto; margin-top: 10px; }
 		#info {
 			width: 100%;
 			padding: 0;
@@ -37,7 +37,7 @@
 					padding: 5px;
 				}
 				&#generalInfo {
-					.column(8,8);
+					.column(8,8,left,0);
 					height: auto;
 					margin-bottom: 10px;
 					padding: 0;
@@ -51,14 +51,34 @@
 						margin-top: -10px;
 						line-height: 10px;
 					}
+					.actions {
+						.column(12,12,left,0);
+						.addFriend {
+							.column(1,2);
+							margin: 10px 1% 10px 1%;
+							height: 40px;
+							padding: 8.5px;
+						}
+						.addToCirlce {
+							.column(1,2);
+							margin: 10px 1% 10px 1%;
+						}
+						.sendMessage {
+							.column(1,2);
+							margin: 10px 1% 10px 1%;
+							height: 40px;
+							padding: 8.5px;
+						}
+					}
 				}
 			}	
 		}
 		#wall {
-			.column(8,8);
+			.column(8,8,left,0);
 			height: auto;
 			padding: 0;
 			margin-bottom: 1%;
+			.box-fix;
 			header {
 				height: 20px;
 				padding: 5px;
@@ -94,13 +114,20 @@
 			}
 		}
 		#friends {
-			.column(8,8);
+			.column(8,8,left,0);
 			height: auto;
 			padding: 0;
+			.box-fix;
 			header {
 				height: 20px;
 				padding: 5px;
 				margin-bottom: 1%;
+			}
+			#friendsList {
+				.column(12);
+			}
+			.person {
+				.column(1,4);
 			}
 		}
 	}

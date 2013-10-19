@@ -47,6 +47,7 @@
 					max-width: 100%/2*1.4 !important;
 					overflow: hidden;
 					white-space: nowrap;
+					float: left;
 				}
 				&#newmessage {
 					height: 20px;
@@ -54,12 +55,12 @@
 				}
 				&.groupChat {
 					.left {
-						height: 80px;
+						//height: 90px;
 						margin: 0 2% 0 0;
 						img, span {
 							.column(1,2,left,0);
 							margin:0!important;
-							height: 40px;
+							//height: 45px;
 						}
 						span {
 							padding: 9px 0;
@@ -75,7 +76,7 @@
 		&.peerChat {
 			.column(5,7);
 			height: 100%;
-			padding: 0px 0px 120px 0px;
+			padding: 0px 0px 145px 0px;
 			.box-fix;
 			#messageWrap {
 				height: 100%;
@@ -87,12 +88,14 @@
 				overflow-y: scroll;
 				height: 100%;
 				.message {
-					.column(5,5);
+					.column(4,5);
 					margin-bottom: 5px;
+					min-height: 60px;
 					.user {
 						.userimg {
-							.column(0.43,5);
-							padding-top: 0;
+							.column(0.5,5,left,0);
+							padding: 0;
+							margin: 0 !important;
 						}
 					}
 					.messageText {
@@ -100,23 +103,27 @@
 						padding: 10px 0px;
 						word-break: break-word;
 					}
+					&.me {
+						float: right;
+					}
 				}
 			}
 			#inputWrap {
 				#messageInput {
-					.column(3,4);
-					height: 45px;
+					.column(3,4,left,1%);
+					height: 70px;
+					margin: 0 1% 0 0;
 				}
 				button {
 					.column(1,4);
-					height: 45px;
+					height: 70px;
 				}
 			}		
 		}	
 		&.groupChat {
 			.column(5,7);
 			height: 100%;
-			padding: 0px 0px 120px 0px;
+			padding: 0px 0px 145px 0px;
 			.box-fix;
 			#messageWrap {
 				height: 100%;
@@ -130,32 +137,33 @@
 				.message {
 					.column(5,5);
 					word-break: break-word;
-					padding: 2px;
+					padding: 0;
 					.box-fix;
 					margin-bottom: 5px;
 					.user {
 						.userimg {
-							.column(0.6,5);
-							vertical-align: middle;
+							.column(0.5,5);
 							padding: 0;
+							margin: 0 2% 0 0;
 						}
 						.username {
-							.column(3,5);
+							.column(4.5,5);
 						}
 					}
 					.messageText {
-						.column(3,5);
+						.column(4.5,5);
 					}
 				}
 			}
 			#inputWrap {
 				#messageInput {
-					.column(3,4);
-					height: 45px;
+					.column(3,4,left,1%);
+					height: 70px;
+					margin: 0 1% 0 0;
 				}
 				button {
 					.column(1,4);
-					height: 45px;
+					height: 70px;
 				}
 			}
 		}

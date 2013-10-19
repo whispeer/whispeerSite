@@ -1,0 +1,55 @@
+<div class="box">
+	<header>
+		<span class="title" role="title" data-i18n="circles.header.title"></span>
+		<nav data-ng-if="activeCircle">
+			<a href="#" data-i18n="circles.header.sendMessage"></a>
+			<a href="#" data-i18n="circles.header.addPeople"></a>
+			<a href="#" data-i18n="circles.header.createGroup"></a>
+		</nav>
+	</header>
+	<div id="circleListWrap">
+		<ul id="circleList">
+			<li class="circle" id="newcircle">
+				<div class="left"><i class="icon-plus-circle" id="plusBtn"></i></div>
+				<div class="right" data-i18n="circles.newCircle" data-ng-click="showCircle=false"></div>
+			</li>
+			<div id="circleListScroll">
+				<li data-ng-repeat="circle in circles" id="{{circle.id}}" class="circle">
+					<div class="left">
+						<img class="userimg" data-ng-src="{{circle.image}}" alt="Userimage">
+					</div>
+					<div class="listname">
+						<strong>{{circle.name}}</strong>
+					</div>
+					<div class="personCount" data-i18n="circles.personCount|count={{circle.userids.length}}">
+					</div>
+					<div class="clear-fix"></div>
+				</li>
+			</div>
+		</ul>
+	</div>
+	<div id="circleContainer" data-circleID="{{thisCircle.id}}" data-ng-if="showCircle">
+		<div id="circleTitle">	
+			<h2 data-i18n="circles.personsInCircle|name={{thisCircle.name}}" title="{{thisCircle.name}}"></h2>
+		</div>
+		<div id="circleWrap">
+			<ol id="friendsList" class="unstyled">
+				<li class="person" data-ng-repeat="friend in thisCircle.persons" style="background-image: url({{friend.image}})">
+					<friend data-user="friend"></friend>
+				</li>	
+			</ol>
+		</div>
+	</div>
+	<div id="circleContainer" class="newCircle" data-ng-if="!showCircle">
+		<div id="circleTitle">	
+			<h2>Neuer Kreis</h2>
+		</div>
+		<div id="circleWrap">	
+			<form id="inputWrap">
+				<input type="text" placeholder="Gebe einen Titel für den neuen Kreis ein!" id="titleInput" data-ng-model="circleName">
+				<textarea type="text" placeholder="Gebe die Namen deiner Freunde ein, die du zum Kreis hinzufügen möchtest!" id="friendInput"></textarea>
+				<button class="btn btn-success btn-large" id="sendmessage" type="submit" data-ng-click="createNew(circleName)">Kreis erstellen!</button>		
+			</form>
+		</div>
+	</div>
+</div>		
