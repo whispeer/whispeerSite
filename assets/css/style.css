@@ -1823,6 +1823,7 @@ btn-send[disabled] {
 }
 .registerView {
   background-color: #3a8100;
+  padding: 0;
 }
 .registerView footer {
   color: #f2fbec;
@@ -1846,7 +1847,7 @@ btn-send[disabled] {
   }
 }
 .registerView #logo {
-  margin: 0 auto;
+  margin: 0px auto;
 }
 .registerView .error {
   border: 1px solid #5d0000;
@@ -1964,7 +1965,7 @@ btn-send[disabled] {
   margin: 0 0.5% 0 0.5%;
   margin: 0 1% 0 0;
   padding: 0;
-  height: 270px;
+  height: 450px;
   -webkit-border-radius: 8px;
   -moz-border-radius: 8px;
   border-radius: 8px;
@@ -2097,7 +2098,7 @@ btn-send[disabled] {
   -webkit-background-clip: padding-box;
   background-clip: padding-box;
   background: #ffffff;
-  height: 380px;
+  height: 450px;
 }
 .registerView section #registerForm div {
   width: 100%;
@@ -2196,21 +2197,18 @@ btn-send[disabled] {
 }
 .registerView section #registerForm div#canvasWrapper {
   width: 60%;
-  height: 250px;
+  height: 350px;
   display: block;
-  margin: 0 auto 5px auto;
+  margin: 5px auto 5px auto;
   float: none;
 }
-.registerView section #registerForm div#canvasWrapper canvas {
+.registerView section #registerForm div#canvasWrapper #original {
   max-width: 50%;
-  height: 250px;
+  width: 600px;
+  height: 300px;
   display: block;
-  float: left;
+  margin: 0 auto;
   background: red;
-}
-.registerView section #registerForm div#canvasWrapper #cropped {
-  float: right;
-  background: blue;
 }
 .registerView section #registerForm div.success {
   height: 45px;
@@ -2316,6 +2314,8 @@ btn-send[disabled] {
   background-clip: padding-box;
   width: 50%;
   border-right: 1px solid #ccc;
+  float: left;
+  margin-left: 1px;
 }
 .registerView section #registerForm:not([data-regStep="1"]) div.submitRow #registerFormPreviousStep#registerFormNextStep,
 .registerView section #registerForm:not([data-regStep="1"]) div.submitRow #registerFormNextStep#registerFormNextStep,
@@ -2339,7 +2339,9 @@ btn-send[disabled] {
   -webkit-background-clip: padding-box;
   background-clip: padding-box;
   width: 50%;
-  border-left: none;
+  border-left: 1px solid #ccc;
+  float: right;
+  margin-left: -1px;
 }
 .registerView a {
   text-decoration: underline;
