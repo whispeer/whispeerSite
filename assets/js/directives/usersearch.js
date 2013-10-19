@@ -6,7 +6,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 			transclude: false,
 			scope:	{},
 			restrict: "E",
-			templateUrl: "/assets/views/directives/search.html",
+			templateUrl: "/assets/views/directives/userSearch.html",
 			replace: true,
 			link: function postLink(scope, iElement, iAttrs) {
 				scope.multiple = typeof iAttrs["multiple"] !== "undefined";
