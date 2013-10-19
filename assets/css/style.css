@@ -2097,7 +2097,7 @@ btn-send[disabled] {
   -webkit-background-clip: padding-box;
   background-clip: padding-box;
   background: #ffffff;
-  height: 450px;
+  height: 350px;
 }
 .registerView section #registerForm .inputWrap {
   width: 100%;
@@ -2290,6 +2290,7 @@ btn-send[disabled] {
 }
 .registerView section #registerForm:not([data-regStep="1"]) {
   width: 100%;
+  height: 450px;
 }
 .registerView section #registerForm:not([data-regStep="1"]) .submitWrap {
   margin: 0 10% 0 10%;
