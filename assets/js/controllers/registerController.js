@@ -14,16 +14,15 @@ define(["step"], function (step) {
 
 		var imageData;
 
-		var doneCanvasE = document.createElement("canvas");
-
-		doneCanvasE.width = ENDSIZE;
-		doneCanvasE.height = ENDSIZE;
-
-		var doneCanvas = doneCanvasE.getContext("2d");
-
-		jQuery(document.body).append(doneCanvasE);
-
 		$scope.imageChange = function (e) {
+			var doneCanvasE = jQuery("#cropped");
+			var originalCanvasE = jQuery("#original");
+
+			doneCanvasE.width = ENDSIZE;
+			doneCanvasE.height = ENDSIZE;
+
+			var doneCanvas = doneCanvasE.getContext("2d");
+
 			var file = e.target.files[0];
 			if (!file.type.match(/image.*/i)) {
 				$scope.validImage = false;
