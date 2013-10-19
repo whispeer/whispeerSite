@@ -1,5 +1,10 @@
-<div>
-	<input id="files-upload" type="file" data-file="imageChange">
+<div class="uploadImageForm">
+	<span id="uploadButton" data-i18n="login.register.uploadImage"></span>
+	<input id="filesUpload" type="file" data-file="imageChange">
+</div>
+<div id="canvasWrapper">
+	<canvas id="original"></canvas>
+	<canvas id="cropped"></canvas>
 </div>
 <div class="submitRow">
 	<button id="registerFormPreviousStep" class="btn" type="submit"  data-ng-click="prevRegisterStep()" data-i18n="login.register.previous"></button>

@@ -1848,6 +1848,32 @@ btn-send[disabled] {
 .registerView #logo {
   margin: 0 auto;
 }
+.registerView .error {
+  border: 1px solid #5d0000;
+  background-color: #b40000;
+  -webkit-box-sizing: border-box;
+  /* Safari/Chrome, other WebKit */
+
+  -moz-box-sizing: border-box;
+  /* Firefox, other Gecko */
+
+  box-sizing: border-box;
+  /* Opera/IE 8+ */
+
+}
+.registerView .success {
+  border: 1px solid #488200;
+  background-color: #66b900;
+  -webkit-box-sizing: border-box;
+  /* Safari/Chrome, other WebKit */
+
+  -moz-box-sizing: border-box;
+  /* Firefox, other Gecko */
+
+  box-sizing: border-box;
+  /* Opera/IE 8+ */
+
+}
 .registerView header {
   width: 100%;
   margin: 0 0 2% 0;
@@ -1965,8 +1991,6 @@ btn-send[disabled] {
   display: block;
   width: 80%;
   margin: 0 auto 5px auto;
-  background-color: #d83a2e;
-  border: 2px solid #92231b;
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
   border-radius: 5px;
@@ -2073,7 +2097,7 @@ btn-send[disabled] {
   -webkit-background-clip: padding-box;
   background-clip: padding-box;
   background: #ffffff;
-  height: 270px;
+  height: 380px;
 }
 .registerView section #registerForm div {
   width: 100%;
@@ -2100,13 +2124,99 @@ btn-send[disabled] {
   height: 20px;
   margin: 9px 0 11px 0;
 }
+.registerView section #registerForm div.uploadImageForm {
+  display: inline-block;
+  *display: inline;
+  /* IE7 inline-block hack */
+
+  *zoom: 1;
+  padding: 4px 15px;
+  -webkit-box-sizing: border-box;
+  /* Safari/Chrome, other WebKit */
+
+  -moz-box-sizing: border-box;
+  /* Firefox, other Gecko */
+
+  box-sizing: border-box;
+  /* Opera/IE 8+ */
+
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  border: 0;
+  background-color: #ffffff;
+  color: #333333;
+  text-shadow: 0 1px 1px rgba(255, 255, 255, 0.75);
+  border: 1px solid #bbbbbb;
+  text-decoration: none !important;
+  background-color: #559d00;
+  color: #ffffff;
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+  cursor: pointer;
+  width: 60%;
+  margin: 0 20% 5px 20%;
+}
+.registerView section #registerForm div.uploadImageForm:hover {
+  background-color: #ececec;
+}
+.registerView section #registerForm div.uploadImageForm:hover,
+.registerView section #registerForm div.uploadImageForm:active,
+.registerView section #registerForm div.uploadImageForm.active,
+.registerView section #registerForm div.uploadImageForm.disabled,
+.registerView section #registerForm div.uploadImageForm[disabled] {
+  background-color: #ececec;
+}
+.registerView section #registerForm div.uploadImageForm:hover,
+.registerView section #registerForm div.uploadImageForm:active,
+.registerView section #registerForm div.uploadImageForm.active,
+.registerView section #registerForm div.uploadImageForm.disabled,
+.registerView section #registerForm div.uploadImageForm[disabled] {
+  background-color: #3a8100;
+}
+.registerView section #registerForm div.uploadImageForm #uploadButton {
+  display: inline-block;
+  margin: 4px 0;
+}
+.registerView section #registerForm div.uploadImageForm #filesUpload {
+  position: absolute;
+  margin: -4px 0 0 -219px;
+  height: 35px;
+  width: 270px;
+  opacity: 0;
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  border-radius: 0;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  cursor: pointer;
+}
+.registerView section #registerForm div#canvasWrapper {
+  width: 60%;
+  height: 250px;
+  display: block;
+  margin: 0 auto 5px auto;
+  float: none;
+}
+.registerView section #registerForm div#canvasWrapper canvas {
+  max-width: 50%;
+  height: 250px;
+  display: block;
+  float: left;
+  background: red;
+}
+.registerView section #registerForm div#canvasWrapper #cropped {
+  float: right;
+  background: blue;
+}
 .registerView section #registerForm div.success {
   height: 45px;
   display: block;
   width: 80%;
   margin: 0 10% 5px 10%;
-  background-color: #559d00;
-  border: 2px solid #3a8100;
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
   border-radius: 5px;
@@ -2174,6 +2284,9 @@ btn-send[disabled] {
 .registerView section #registerForm div button[disabled] {
   background-color: #3a8100;
 }
+.registerView section #registerForm:not([data-regStep="1"]) {
+  width: 100%;
+}
 .registerView section #registerForm:not([data-regStep="1"]) div.submitRow {
   width: 80%;
   margin: 0 10% 0 10%;
@@ -2203,7 +2316,6 @@ btn-send[disabled] {
   background-clip: padding-box;
   width: 50%;
   border-right: 1px solid #ccc;
-  margin-right: -1px;
 }
 .registerView section #registerForm:not([data-regStep="1"]) div.submitRow #registerFormPreviousStep#registerFormNextStep,
 .registerView section #registerForm:not([data-regStep="1"]) div.submitRow #registerFormNextStep#registerFormNextStep,
@@ -2227,6 +2339,7 @@ btn-send[disabled] {
   -webkit-background-clip: padding-box;
   background-clip: padding-box;
   width: 50%;
+  border-left: none;
 }
 .registerView a {
   text-decoration: underline;

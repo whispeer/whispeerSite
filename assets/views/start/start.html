@@ -1,7 +1,7 @@
 <div id="logo">
 	<img src="assets/img/logo.png">
 </div>
-<header data-ng-show="!info">
+<header data-ng-show="!info && registrationStep == 1">
 	<div id="topWrap">
 		<h3>Willkommen bei whispeer - dem sicheren sozialen Netzwerk!</h3>
 		<a href="" class="btn btn-info btn-small" data-ng-click="info = !info">Mehr Info</a>
@@ -14,7 +14,7 @@
 	</div>	
 </header>
 <section data-ng-if="!info">
-	<form id="loginForm">
+	<form id="loginForm" data-ng-if="registrationStep == 1">
 		<h4>Einloggen</h4>
 		<ng-include data-ng-controller="ssn.loginController" data-src="'assets/views/start/templates/login/login.html'"></ng-include>
 	</form>
