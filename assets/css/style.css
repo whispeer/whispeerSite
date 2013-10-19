@@ -86,7 +86,7 @@
   color: #cbcbcb;
 }
 .box section {
-  background-color: #ffffff;
+  background-color: #eeeeee;
   padding: 5px 0;
   -webkit-border-top-right-radius: 0;
   -webkit-border-bottom-right-radius: 5px;
@@ -103,6 +103,15 @@
   -moz-background-clip: padding;
   -webkit-background-clip: padding-box;
   background-clip: padding-box;
+  *zoom: 1;
+}
+.box section:before,
+.box section:after {
+  content: "";
+  display: table;
+}
+.box section:after {
+  clear: both;
 }
 .person {
   padding: 0;
@@ -786,7 +795,7 @@ html,
 body {
   height: 100%;
   width: 100%;
-  overflow-y: scroll;
+  overflow: hidden;
 }
 body {
   background-color: #ffffff;
@@ -2205,10 +2214,21 @@ btn-send[disabled] {
   float: none;
 }
 .registerView section #registerForm .inputWrap div#canvasWrapper #original {
-  width: 600px;
-  height: 300px;
   display: block;
-  background: #3a8100;
+}
+.registerView section #registerForm .inputWrap div#canvasWrapper #overlay {
+  position: absolute;
+  background: rgba(186, 186, 186, 0.49);
+  width: 100px;
+  height: 100px;
+  max-width: 600px;
+  min-width: 1px;
+  max-height: 300px;
+  border: 1px dashed #ccc;
+  top: 0;
+  left: 0;
+  resize: both;
+  overflow: auto;
 }
 .registerView section #registerForm .inputWrap div.success {
   height: 40px;
@@ -2349,6 +2369,12 @@ btn-send[disabled] {
   border-left: 1px solid #ccc;
   float: right;
   margin-left: -1px;
+}
+.registerView section #registerForm[data-regStep="2"] .inputWrap {
+  margin-top: 51.5px;
+}
+.registerView section #registerForm[data-regStep="2"] .submitWrap {
+  margin-top: 51.5px;
 }
 .registerView a {
   text-decoration: underline;
@@ -3583,7 +3609,7 @@ btn-send[disabled] {
   color: #cbcbcb;
 }
 .friendsView section {
-  background-color: #ffffff;
+  background-color: #eeeeee;
   padding: 5px 0;
   -webkit-border-top-right-radius: 0;
   -webkit-border-bottom-right-radius: 5px;
@@ -3600,6 +3626,15 @@ btn-send[disabled] {
   -moz-background-clip: padding;
   -webkit-background-clip: padding-box;
   background-clip: padding-box;
+  *zoom: 1;
+}
+.friendsView section:before,
+.friendsView section:after {
+  content: "";
+  display: table;
+}
+.friendsView section:after {
+  clear: both;
 }
 .friendsView #main {
   padding-top: 30px;
@@ -3911,7 +3946,7 @@ btn-send[disabled] {
   color: #cbcbcb;
 }
 .helpView #main section {
-  background-color: #ffffff;
+  background-color: #eeeeee;
   padding: 5px 0;
   -webkit-border-top-right-radius: 0;
   -webkit-border-bottom-right-radius: 5px;
@@ -3928,6 +3963,15 @@ btn-send[disabled] {
   -moz-background-clip: padding;
   -webkit-background-clip: padding-box;
   background-clip: padding-box;
+  *zoom: 1;
+}
+.helpView #main section:before,
+.helpView #main section:after {
+  content: "";
+  display: table;
+}
+.helpView #main section:after {
+  clear: both;
 }
 .helpView #main header #title {
   float: left;
@@ -4062,7 +4106,7 @@ btn-send[disabled] {
   color: #cbcbcb;
 }
 .settingsView #main section {
-  background-color: #ffffff;
+  background-color: #eeeeee;
   padding: 5px 0;
   -webkit-border-top-right-radius: 0;
   -webkit-border-bottom-right-radius: 5px;
@@ -4079,6 +4123,15 @@ btn-send[disabled] {
   -moz-background-clip: padding;
   -webkit-background-clip: padding-box;
   background-clip: padding-box;
+  *zoom: 1;
+}
+.settingsView #main section:before,
+.settingsView #main section:after {
+  content: "";
+  display: table;
+}
+.settingsView #main section:after {
+  clear: both;
 }
 .settingsView #main header #title {
   float: left;

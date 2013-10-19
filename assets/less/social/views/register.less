@@ -180,10 +180,24 @@
 						margin: 5px auto 10px auto;
 						float: none;
 						#original {
-							width: 600px;
-							height: 300px;
+							//width: 600px;
+							//height: 300px;
 							display: block;
-							background: @green2;
+							//background: @green2;
+						}
+						#overlay {
+							position: absolute;
+							background: rgba(186,186,186,0.49);
+							width: 100px;
+							height: 100px;
+							max-width: 600px;
+							min-width: 1px;
+							max-height: 300px;
+							border: 1px dashed #ccc;
+							top: 0;
+							left: 0;
+							resize: both;
+							overflow: auto;
 						}
 					}	
 					&.success {
@@ -232,6 +246,14 @@
 						}
 					} 
 				}	
+			}
+			&[data-regStep="2"] {
+				.inputWrap {
+					margin-top: 51.5px;
+				}
+				.submitWrap {
+					margin-top: 51.5px;
+				}
 			}
 		}
 	}	
