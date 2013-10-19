@@ -65,7 +65,7 @@
 	section {
 		padding: 0;
 		.row(12,12,0);
-		overflow: hidden;
+		//overflow: hidden;
 		height: 100%;
 		background: transparent;
 		&#info {
@@ -127,73 +127,80 @@
 			.border-radius(8px);
 			background: @white;
 			height: 450px;
-			div {
+			.inputWrap {
 				width: 100%;
-				height: 40px;
-				margin: 0 auto 5px auto;
-				float: left;
-				padding: 0;
-				input {
-					width: 80%;
-					float: left;
-					height: 40px;
-					margin: 0 0 0 10%;
-				}
-				.icon {
+				div {
+					width: 100%;
+					margin: 0 auto 5px auto;
 					height: 40px;
 					display: block;
-					width: 10%;
-					float: left;
-					text-align: center;
-					img {
-						width: 20px;
-						height: 20px;
-						margin: 9px 0 11px 0;
+					padding: 0;
+					input {
+						width: 80%;
+						float: left;
+						height: 40px;
+						margin: 0 0 0 10%;
 					}
-				}
-				&.uploadImageForm {
-					.btn;
-					.btn-green;
-					cursor: pointer;
-					width: 60%;
-					margin:0 20% 5px 20%;
-					#uploadButton {
-						display: inline-block;
-						margin: 4px 0;
+					.icon {
+						height: 40px;
+						display: block;
+						width: 10%;
+						float: left;
+						text-align: center;
+						img {
+							width: 20px;
+							height: 20px;
+							margin: 9px 0 11px 0;
+						}
 					}
-					#filesUpload {
-						position: absolute;
-						margin: -4px 0 0 -219px;
-						height: 35px;
-						width: 270px;
-						opacity: 0;
-						.border-radius(0);
+					&.uploadImageForm {
+						.btn;
+						.btn-green;
 						cursor: pointer;
+						width: 60%;
+						margin:0 20% 5px 20%;
+						#uploadButton {
+							display: inline-block;
+							margin: 4px 0;
+						}
+						#filesUpload {
+							position: absolute;
+							margin: -4px 0 0 -219px;
+							height: 35px;
+							width: 270px;
+							opacity: 0;
+							.border-radius(0);
+							cursor: pointer;
+						}
 					}
-				}
-				&#canvasWrapper {
-					width: 60%;
-					height: 350px;
-					display: block;
-					margin: 5px auto 5px auto;
-					float: none;
-					#original {
-						max-width: 50%;
+					&#canvasWrapper {
 						width: 600px;
 						height: 300px;
 						display: block;
-						margin: 0 auto;
-						background: red;
+						margin: 5px auto 10px auto;
+						float: none;
+						#original {
+							width: 600px;
+							height: 300px;
+							display: block;
+							background: @green2;
+						}
+					}	
+					&.success {
+						height: 40px;
+						display: block;
+						width: 80%;
+						margin: 0 10% 5px 10%;
+						.border-radius(5px);
+						.box-fix;
 					}
 				}	
-				&.success {
-					height: 45px;
-					display: block;
-					width: 80%;
-					margin: 0 10% 5px 10%;
-					.border-radius(5px);
-					.box-fix;
-				}
+			}	
+			.submitWrap {
+				display: inline-block;
+				vertical-align: bottom;
+				width: 100%;
+				float: right;
 				button {
 					.btn;
 					.btn-big;
@@ -203,9 +210,9 @@
 			}
 			&:not([data-regStep="1"]) {
 				width: 100%;
-				div.submitRow {
-					width: 80%;
+				.submitWrap {
 					margin: 0 10% 0 10%;
+					width: 80%;
 					#registerFormPreviousStep, #registerFormNextStep, #registerFormSubmit {
 						float: left;
 						&#registerFormPreviousStep {

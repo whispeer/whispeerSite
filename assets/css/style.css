@@ -786,7 +786,7 @@ html,
 body {
   height: 100%;
   width: 100%;
-  overflow-y: hidden;
+  overflow-y: scroll;
 }
 body {
   background-color: #ffffff;
@@ -1918,7 +1918,6 @@ btn-send[disabled] {
   width: 100%;
   margin: 0 0 0 0;
   *zoom: 1;
-  overflow: hidden;
   height: 100%;
   background: transparent;
 }
@@ -2100,32 +2099,35 @@ btn-send[disabled] {
   background: #ffffff;
   height: 450px;
 }
-.registerView section #registerForm div {
+.registerView section #registerForm .inputWrap {
   width: 100%;
-  height: 40px;
+}
+.registerView section #registerForm .inputWrap div {
+  width: 100%;
   margin: 0 auto 5px auto;
-  float: left;
+  height: 40px;
+  display: block;
   padding: 0;
 }
-.registerView section #registerForm div input {
+.registerView section #registerForm .inputWrap div input {
   width: 80%;
   float: left;
   height: 40px;
   margin: 0 0 0 10%;
 }
-.registerView section #registerForm div .icon {
+.registerView section #registerForm .inputWrap div .icon {
   height: 40px;
   display: block;
   width: 10%;
   float: left;
   text-align: center;
 }
-.registerView section #registerForm div .icon img {
+.registerView section #registerForm .inputWrap div .icon img {
   width: 20px;
   height: 20px;
   margin: 9px 0 11px 0;
 }
-.registerView section #registerForm div.uploadImageForm {
+.registerView section #registerForm .inputWrap div.uploadImageForm {
   display: inline-block;
   *display: inline;
   /* IE7 inline-block hack */
@@ -2160,28 +2162,28 @@ btn-send[disabled] {
   width: 60%;
   margin: 0 20% 5px 20%;
 }
-.registerView section #registerForm div.uploadImageForm:hover {
+.registerView section #registerForm .inputWrap div.uploadImageForm:hover {
   background-color: #ececec;
 }
-.registerView section #registerForm div.uploadImageForm:hover,
-.registerView section #registerForm div.uploadImageForm:active,
-.registerView section #registerForm div.uploadImageForm.active,
-.registerView section #registerForm div.uploadImageForm.disabled,
-.registerView section #registerForm div.uploadImageForm[disabled] {
+.registerView section #registerForm .inputWrap div.uploadImageForm:hover,
+.registerView section #registerForm .inputWrap div.uploadImageForm:active,
+.registerView section #registerForm .inputWrap div.uploadImageForm.active,
+.registerView section #registerForm .inputWrap div.uploadImageForm.disabled,
+.registerView section #registerForm .inputWrap div.uploadImageForm[disabled] {
   background-color: #ececec;
 }
-.registerView section #registerForm div.uploadImageForm:hover,
-.registerView section #registerForm div.uploadImageForm:active,
-.registerView section #registerForm div.uploadImageForm.active,
-.registerView section #registerForm div.uploadImageForm.disabled,
-.registerView section #registerForm div.uploadImageForm[disabled] {
+.registerView section #registerForm .inputWrap div.uploadImageForm:hover,
+.registerView section #registerForm .inputWrap div.uploadImageForm:active,
+.registerView section #registerForm .inputWrap div.uploadImageForm.active,
+.registerView section #registerForm .inputWrap div.uploadImageForm.disabled,
+.registerView section #registerForm .inputWrap div.uploadImageForm[disabled] {
   background-color: #3a8100;
 }
-.registerView section #registerForm div.uploadImageForm #uploadButton {
+.registerView section #registerForm .inputWrap div.uploadImageForm #uploadButton {
   display: inline-block;
   margin: 4px 0;
 }
-.registerView section #registerForm div.uploadImageForm #filesUpload {
+.registerView section #registerForm .inputWrap div.uploadImageForm #filesUpload {
   position: absolute;
   margin: -4px 0 0 -219px;
   height: 35px;
@@ -2195,23 +2197,21 @@ btn-send[disabled] {
   background-clip: padding-box;
   cursor: pointer;
 }
-.registerView section #registerForm div#canvasWrapper {
-  width: 60%;
-  height: 350px;
-  display: block;
-  margin: 5px auto 5px auto;
-  float: none;
-}
-.registerView section #registerForm div#canvasWrapper #original {
-  max-width: 50%;
+.registerView section #registerForm .inputWrap div#canvasWrapper {
   width: 600px;
   height: 300px;
   display: block;
-  margin: 0 auto;
-  background: red;
+  margin: 5px auto 10px auto;
+  float: none;
 }
-.registerView section #registerForm div.success {
-  height: 45px;
+.registerView section #registerForm .inputWrap div#canvasWrapper #original {
+  width: 600px;
+  height: 300px;
+  display: block;
+  background: #3a8100;
+}
+.registerView section #registerForm .inputWrap div.success {
+  height: 40px;
   display: block;
   width: 80%;
   margin: 0 10% 5px 10%;
@@ -2231,7 +2231,13 @@ btn-send[disabled] {
   /* Opera/IE 8+ */
 
 }
-.registerView section #registerForm div button {
+.registerView section #registerForm .submitWrap {
+  display: inline-block;
+  vertical-align: bottom;
+  width: 100%;
+  float: right;
+}
+.registerView section #registerForm .submitWrap button {
   display: inline-block;
   *display: inline;
   /* IE7 inline-block hack */
@@ -2265,38 +2271,38 @@ btn-send[disabled] {
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
   width: 80%;
 }
-.registerView section #registerForm div button:hover {
+.registerView section #registerForm .submitWrap button:hover {
   background-color: #ececec;
 }
-.registerView section #registerForm div button:hover,
-.registerView section #registerForm div button:active,
-.registerView section #registerForm div button.active,
-.registerView section #registerForm div button.disabled,
-.registerView section #registerForm div button[disabled] {
+.registerView section #registerForm .submitWrap button:hover,
+.registerView section #registerForm .submitWrap button:active,
+.registerView section #registerForm .submitWrap button.active,
+.registerView section #registerForm .submitWrap button.disabled,
+.registerView section #registerForm .submitWrap button[disabled] {
   background-color: #ececec;
 }
-.registerView section #registerForm div button:hover,
-.registerView section #registerForm div button:active,
-.registerView section #registerForm div button.active,
-.registerView section #registerForm div button.disabled,
-.registerView section #registerForm div button[disabled] {
+.registerView section #registerForm .submitWrap button:hover,
+.registerView section #registerForm .submitWrap button:active,
+.registerView section #registerForm .submitWrap button.active,
+.registerView section #registerForm .submitWrap button.disabled,
+.registerView section #registerForm .submitWrap button[disabled] {
   background-color: #3a8100;
 }
 .registerView section #registerForm:not([data-regStep="1"]) {
   width: 100%;
 }
-.registerView section #registerForm:not([data-regStep="1"]) div.submitRow {
-  width: 80%;
+.registerView section #registerForm:not([data-regStep="1"]) .submitWrap {
   margin: 0 10% 0 10%;
+  width: 80%;
 }
-.registerView section #registerForm:not([data-regStep="1"]) div.submitRow #registerFormPreviousStep,
-.registerView section #registerForm:not([data-regStep="1"]) div.submitRow #registerFormNextStep,
-.registerView section #registerForm:not([data-regStep="1"]) div.submitRow #registerFormSubmit {
+.registerView section #registerForm:not([data-regStep="1"]) .submitWrap #registerFormPreviousStep,
+.registerView section #registerForm:not([data-regStep="1"]) .submitWrap #registerFormNextStep,
+.registerView section #registerForm:not([data-regStep="1"]) .submitWrap #registerFormSubmit {
   float: left;
 }
-.registerView section #registerForm:not([data-regStep="1"]) div.submitRow #registerFormPreviousStep#registerFormPreviousStep,
-.registerView section #registerForm:not([data-regStep="1"]) div.submitRow #registerFormNextStep#registerFormPreviousStep,
-.registerView section #registerForm:not([data-regStep="1"]) div.submitRow #registerFormSubmit#registerFormPreviousStep {
+.registerView section #registerForm:not([data-regStep="1"]) .submitWrap #registerFormPreviousStep#registerFormPreviousStep,
+.registerView section #registerForm:not([data-regStep="1"]) .submitWrap #registerFormNextStep#registerFormPreviousStep,
+.registerView section #registerForm:not([data-regStep="1"]) .submitWrap #registerFormSubmit#registerFormPreviousStep {
   -webkit-border-top-right-radius: 0;
   -webkit-border-bottom-right-radius: 0;
   -webkit-border-bottom-left-radius: 5px;
@@ -2317,12 +2323,12 @@ btn-send[disabled] {
   float: left;
   margin-left: 1px;
 }
-.registerView section #registerForm:not([data-regStep="1"]) div.submitRow #registerFormPreviousStep#registerFormNextStep,
-.registerView section #registerForm:not([data-regStep="1"]) div.submitRow #registerFormNextStep#registerFormNextStep,
-.registerView section #registerForm:not([data-regStep="1"]) div.submitRow #registerFormSubmit#registerFormNextStep,
-.registerView section #registerForm:not([data-regStep="1"]) div.submitRow #registerFormPreviousStep#registerFormSubmit,
-.registerView section #registerForm:not([data-regStep="1"]) div.submitRow #registerFormNextStep#registerFormSubmit,
-.registerView section #registerForm:not([data-regStep="1"]) div.submitRow #registerFormSubmit#registerFormSubmit {
+.registerView section #registerForm:not([data-regStep="1"]) .submitWrap #registerFormPreviousStep#registerFormNextStep,
+.registerView section #registerForm:not([data-regStep="1"]) .submitWrap #registerFormNextStep#registerFormNextStep,
+.registerView section #registerForm:not([data-regStep="1"]) .submitWrap #registerFormSubmit#registerFormNextStep,
+.registerView section #registerForm:not([data-regStep="1"]) .submitWrap #registerFormPreviousStep#registerFormSubmit,
+.registerView section #registerForm:not([data-regStep="1"]) .submitWrap #registerFormNextStep#registerFormSubmit,
+.registerView section #registerForm:not([data-regStep="1"]) .submitWrap #registerFormSubmit#registerFormSubmit {
   -webkit-border-top-right-radius: 5px;
   -webkit-border-bottom-right-radius: 5px;
   -webkit-border-bottom-left-radius: 0;

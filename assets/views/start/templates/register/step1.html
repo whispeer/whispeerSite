@@ -1,20 +1,22 @@
-<div data-tooltip-title="{{attribute.hoverText}}" data-tooltip-position="left">
-	<input type="text" id="rnickname" data-i18n-attr="login.username|placeholder" data-ng-model="$parent.nickname" data-ng-model-onblur data-ng-change="nicknameChange()">
-	<span class="icon" id="rnicknameIcon">
-		<img data-ng-src="{{acceptIconNicknameFree()}}" alt="Ok!">
-	</span>
+<div class="inputWrap">
+	<div data-tooltip-title="{{attribute.hoverText}}" data-tooltip-position="left">
+		<input type="text" id="rnickname" data-i18n-attr="login.username|placeholder" data-ng-model="$parent.nickname" data-ng-model-onblur data-ng-change="nicknameChange()">
+		<span class="icon" id="rnicknameIcon">
+			<img data-ng-src="{{acceptIconNicknameFree()}}" alt="Ok!">
+		</span>
+	</div>
+	<div data-tooltip-position="right" data-tooltip-title="{{attribute.hoverText}}">
+		<input type="password" id="rpassword" data-i18n-attr="login.password|placeholder" data-ng-model="$parent.password">
+		<span class="icon" id="rpasswordIcon" data-strength="{{passwordStrength()}}"></span>
+	</div>
+	<div>
+		<input type="password" id="rpassword2" data-i18n-attr="login.register.repeatPassword|placeholder" data-ng-model="$parent.password2">
+		<span class="icon check" id="rpassword2Icon">
+			<img data-ng-src="{{acceptIcon(password, password2)}}" alt="Ok!">
+		</span>
+	</div>
+	<div class="success" id="registerPasswordStrength" style="display:block"><span data-i18n="login.register.passwordstrength"></span><span>{{passwordStrength()}}</span></div>
 </div>
-<div data-tooltip-position="right" data-tooltip-title="{{attribute.hoverText}}">
-	<input type="password" id="rpassword" data-i18n-attr="login.password|placeholder" data-ng-model="$parent.password">
-	<span class="icon" id="rpasswordIcon" data-strength="{{passwordStrength()}}"></span>
-</div>
-<div>
-	<input type="password" id="rpassword2" data-i18n-attr="login.register.repeatPassword|placeholder" data-ng-model="$parent.password2">
-	<span class="icon check" id="rpassword2Icon">
-		<img data-ng-src="{{acceptIcon(password, password2)}}" alt="Ok!">
-	</span>
-</div>
-<div class="success" id="registerPasswordStrength" style="display:block"><span data-i18n="login.register.passwordstrength"></span><span>{{passwordStrength()}}</span></div>
-<div class="submitRow">
+<div class="submitWrap">
 	<button id="registerFormNextStep" class="btn" type="submit"  data-ng-click="nextRegisterStep()" data-i18n="login.register.next"></button>
 </div>
