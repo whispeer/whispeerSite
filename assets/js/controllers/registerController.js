@@ -122,10 +122,10 @@ define(["step"], function (step) {
 
 		$scope.acceptIcon = function acceptIconC(value1, value2) {
 			if (value1 === value2) {
-				return "img/accept.png";
+				return "assets/img/accept.png";
 			}
 
-			return "img/fail.png";
+			return "assets/img/fail.png";
 		};
 
 		$scope.startKeyGeneration = function startKeyGen1() {
@@ -159,9 +159,9 @@ define(["step"], function (step) {
 
 		$scope.lock = function lockF(bool) {
 			if (bool) {
-				return "img/lock_closed.png";
+				return "assets/img/lock_closed.png";
 			} else {
-				return "img/lock_open.png";
+				return "assets/img/lock_open.png";
 			}
 		};
 
@@ -175,22 +175,22 @@ define(["step"], function (step) {
 
 		$scope.acceptIconMailFree = function acceptIconMail() {
 			if ($scope.mailCheckLoading) {
-				return "img/loading.gif";
+				return "assets/img/loading.gif";
 			}
 
 			if ($scope.mailCheckError === true) {
-				return "img/error.png";
+				return "assets/img/error.png";
 			}
 
 			if ($scope.mailCheck) {
-				return "img/accept.png";
+				return "assets/img/accept.png";
 			}
 
 			if ($scope.mail === "") {
-				return "img/accept.png";
+				return "assets/img/accept.png";
 			}
 
-			return "img/fail.png";
+			return "assets/img/fail.png";
 		};
 
 		$scope.nicknameChange = function nicknameChange() {
@@ -220,18 +220,18 @@ define(["step"], function (step) {
 
 		$scope.acceptIconNicknameFree = function acceptIconNickname() {
 			if ($scope.nicknameCheckLoading) {
-				return "img/loading.gif";
+				return "assets/img/loading.gif";
 			}
 
 			if ($scope.nicknameCheckError === true) {
-				return "img/error.png";
+				return "assets/img/error.png";
 			}
 
 			if ($scope.nicknameCheck) {
-				return "img/accept.png";
+				return "assets/img/accept.png";
 			}
 
-			return "img/fail.png";
+			return "assets/img/fail.png";
 		};
 
 		$scope.register = function doRegisterC() {

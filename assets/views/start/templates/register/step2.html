@@ -1,4 +1,3 @@
-<div class="title"><span>Registration - E-Mail Adresse</span></div>
 <div class="info">Hilf' uns mit dir in Kontakt zu bleiben!</div>
 <div>
 	<input type="email" id="rmail" data-i18n-attr="login.register.email|placeholder" data-ng-model="$parent.mail" data-ng-model-onblur data-ng-change="mailChange()">
@@ -12,7 +11,7 @@
 		<img data-ng-src="{{acceptIcon(mail, mail2)}}" alt="Ok!">
 	</span>
 </div>
-<div>
+<div class="submitRow">
 	<button id="registerFormPreviousStep" class="btn" type="submit"  data-ng-click="prevRegisterStep()" data-i18n="login.register.previous"></button>
 	<button id="registerFormNextStep" class="btn" type="submit"  data-ng-click="nextRegisterStep()" data-i18n="login.register.next"></button>
 </div>
