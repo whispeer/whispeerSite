@@ -44,6 +44,13 @@ define(["step", "whispeerHelper"], function () {
 				};
 
 				/** suchergebnisse laden */
+				var realResults = [];
+
+				function filterRealResults() {
+					return realResults.filter(function (val) {
+						return selectedIDs.indexOf(val.id) === -1;
+					});
+				}
 
 				scope.searching = false;
 				scope.empty = false;
@@ -55,7 +62,8 @@ define(["step", "whispeerHelper"], function () {
 
 				scope.$on("queryResults", function (event, results) {
 					scope.searching = false;
-					scope.results = results;
+					realResults = results;
+					scope.results = filterRealResults();
 					var width = iElement.width();
 					iElement.find(".searchDrop").width(width);
 				});
@@ -111,6 +119,7 @@ define(["step", "whispeerHelper"], function () {
 								name: name
 							});
 							selectedIDs.push(id);
+							scope.results = filterRealResults();
 
 							scope.$emit("elementSelected", result);
 							scope.$emit("selectionChange", scope.selectedElements);
@@ -133,6 +142,7 @@ define(["step", "whispeerHelper"], function () {
 					scope.selectedElements.splice(index, 1);
 					selectedIDs.splice(index, 1);
 					scope.markedForDeletion = -1;
+					scope.results = filterRealResults();
 				};
 
 				/** key stuff */

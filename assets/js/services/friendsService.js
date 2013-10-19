@@ -147,6 +147,18 @@ define(["step", "whispeerHelper"], function (step, h) {
 					acceptFriendShip(uid);
 				}
 			},
+			didIRequest: function (uid) {
+				return h.containsOr(uid, friends, requested);
+			},
+			didOtherRequest: function (uid) {
+				return h.containsOr(uid, requests);
+			},
+			areFriends: function (uid) {
+				return h.containsOr(uid, friends);
+			},
+			noRequests: function (uid) {
+				return !h.containsOr(uid, friends, requested, requests);
+			},
 			getRequestStatus: function (uid) {
 				if (friends.indexOf(uid) > -1) {
 					return "friends";
