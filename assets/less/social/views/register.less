@@ -1,0 +1,191 @@
+.registerView {
+	background-color: @green2;
+	// Tweak the standards a bit ;)
+	footer {
+		color: #f2fbec;
+		z-index: 1900;
+		//background: @blue;
+		height: 15px;
+	}
+	// content
+	#content {
+		height: 100%;
+	}
+	#main {
+		text-align: center;
+		@media (max-height: 575px) {
+			overflow-y: scroll;
+		}
+		@media (min-height: 576px) {
+			.box {
+				section {
+					max-height: 400px;
+				}
+			}
+		}
+	}
+	#logo {
+		margin: 0 auto;
+	}
+	header {
+		width: 100%;
+		margin: 0 0 2% 0;
+		padding: 5px 0 5px 0;
+		text-align: left;
+		.border-radius(10px);
+		background: @white;
+		.box-fix;
+		#topWrap {
+			display: block;
+			width: 85%;
+			margin:0 auto;
+			h3 {
+				line-height: 20px;
+				color: #333;
+				text-align: none;
+			}
+			a.btn {
+				margin: 0 auto 10px auto;
+				color: @white;
+				text-align: none;
+			}
+		}	
+	}
+	section {
+		padding: 0;
+		.row(12,12,0);
+		overflow: hidden;
+		height: 100%;
+		background: transparent;
+		&#info {
+			background: @white;
+			height: 270px;
+			overflow-y: scroll;
+			padding: 0px 10px 0px 10px;
+			.box-fix;
+			.border-radius(8px);
+			p {
+				text-align: left;
+			}
+		}
+		#loginForm {
+			.column(6,12,left,1%);
+			margin: 0 1% 0 0;
+			padding: 0;
+			height: 270px;
+			.border-radius(8px);
+			background: @white;
+			.box-fix;
+			input {
+				width: 80%;
+				height: 40px;
+				margin: 0 auto 5px auto;
+			}
+			#errorLogin {
+				display: block;
+				width: 80%;
+				margin: 0 auto 5px auto;
+				background-color: @btnRedBackground;
+				border: 2px solid darken(@btnRedBackgroundHighlight,10%);
+				.border-radius(5px);
+				.box-fix;
+			}
+			button {
+				.btn;
+				.btn-big;
+				.btn-green;
+				width: 80%;
+			}
+			.smallRow {
+				width: 80%;
+				margin: 0 auto;
+				button {
+					.column(6,12,left,1%);
+					.btn-small;
+					&:first-child {
+						margin: 5px 1% 5px 0;
+					}
+					&:last-child {
+						margin: 5px 0 5px 1%;
+						float: right;
+					}
+				}
+			}
+		}
+		#registerForm {
+			.column(6,12,right,1%);
+			margin: 0 0 0 1%;
+			.border-radius(8px);
+			background: @white;
+			height: 270px;
+			div {
+				width: 100%;
+				height: 40px;
+				margin: 0 auto 5px auto;
+				float: left;
+				padding: 0;
+				input {
+					width: 80%;
+					float: left;
+					height: 40px;
+					margin: 0 0 0 10%;
+				}
+				.icon {
+					height: 40px;
+					display: block;
+					width: 10%;
+					float: left;
+					text-align: center;
+					img {
+						width: 20px;
+						height: 20px;
+						margin: 9px 0 11px 0;
+					}
+				}
+				&.success {
+					height: 45px;
+					display: block;
+					width: 80%;
+					margin: 0 10% 5px 10%;
+					background-color: @green;
+					border: 2px solid @green2;
+					.border-radius(5px);
+					.box-fix;
+				}
+				button {
+					.btn;
+					.btn-big;
+					.btn-green;
+					width: 80%;
+				}
+			}
+			&:not([data-regStep="1"]) {
+				div.submitRow {
+					width: 80%;
+					margin: 0 10% 0 10%;
+					#registerFormPreviousStep, #registerFormNextStep, #registerFormSubmit {
+						float: left;
+						&#registerFormPreviousStep {
+							.border-radiuses(0,0,5px,5px);
+							width: 50%;
+							border-right: 1px solid #ccc;
+							margin-right: -1px;
+						}
+						&#registerFormNextStep, &#registerFormSubmit {
+							.border-radiuses(5px,5px,0,0);
+							width: 50%;
+						}
+					} 
+				}	
+			}
+		}
+	}	
+	a {
+		text-decoration: underline;
+		color: darken(@white, 10%);
+	}
+	footer {
+		position: fixed;
+		bottom: 10px;
+	}
+}

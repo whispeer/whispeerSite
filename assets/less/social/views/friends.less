@@ -1,0 +1,27 @@
+.friendsView {
+	.box;
+	#main {
+		padding-top: 30px;
+		padding-bottom: 10px;
+		height: 100%;
+		background-color: @btnBackgroundHighlight;
+		border: 1px solid @btnBorder;
+		border-bottom: 1px solid #000;
+		border-bottom-color: darken(@btnBorder, 10%);
+		.border-radius(5px);
+		.box-fix;
+	}
+	#friendsList {
+		height: 100%;
+		overflow-y: scroll;
+	}
+}
+.friendsView {
+	#friendsList {
+		.clear-fix;
+		text-align: center;
+		li {
+			.column(1,3);
+		}
+	}
+}

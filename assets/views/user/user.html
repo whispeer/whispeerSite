@@ -11,7 +11,7 @@
 <div id="wrap">
 	<div id="scroller">
 		<section id="info">
-			<article id="generalInfo">
+			<article class="box" id="generalInfo">
 				<header>
 					<span data-i18n="profile.section.general.headers.title"></span>
 					<a href="" class="edit" data-i18n="profile.edit" data-ng-show="user.data.me" data-ng-click="edit()"></a>
@@ -113,22 +113,22 @@
 					</p>
 				</div>
 				<div class="actions">
-					<a href="" class="addFriend" ng-if="!user.added" data-i18n="profile.actions.addFriend|user={{user.name}}"></a>
+					<a href="" class="addFriend" ng-if="!user.added"><span data-i18n="profile.actions.addFriend|user={{user.name}}"></span></a>
 					<div class="addToCirlce" ng-if="user.added">
 						<search placeholder="profile.actions.addToCircle|placeholder|user={{user.name}}"></search>
 					</div>
-					<a href="" class="sendMessage" data-i18n="profile.actions.sendMessage|user={{user.name}}"></a>
+					<a href="" class="sendMessage"><span data-i18n="profile.actions.sendMessage|user={{user.name}}"></span></a>
 				</div>
 			</article>
 		</section>
-		<section id="wall">
+		<section class="box" id="wall">
 			<header  data-i18n="profile.section.wall.title"></header>
 			<post data-ng-repeat="post in posts" data-post="post" id="{{post.id}}"></post>
 		</section>
-		<section id="friends">
+		<section class="box" id="friends">
 			<header data-i18n="profile.section.friends.info"></header>
 			<ol id="friendsList" class="unstyled">
-				<li data-ng-repeat="friend in friends" style="background-image: url({{friend.image}})">
+				<li class="person" data-ng-repeat="friend in friends" style="background-image: url({{friend.image}})">
 					<friend data-user="friend"></friend>
 				</li>
 			</ol>

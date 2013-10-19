@@ -1,0 +1,83 @@
+.circlesView {
+	#main {
+		background-color: @btnBackgroundHighlight;
+		border: 1px solid @btnBorder;
+		border-bottom: 1px solid #000;
+		border-bottom-color: darken(@btnBorder, 10%);
+		.border-radius(5px);
+		.box-fix;
+	}
+	header {
+		nav {
+			a {
+				color: lighten(@gray,20%);
+			}
+		}
+	}
+	#circleListWrap {
+		margin-right: 3px;
+		#circleList {
+			.unstyled;
+			.box-fix;
+			#circleListScroll {
+				.box-fix;
+			}
+			#newcircle {
+				border: none;
+				.border-radius(2px);
+			}
+			.circle {
+				.border-radius(5px);
+				border: none;
+				border-bottom: 1px solid #aaa;
+				padding: 0;
+				.left {
+					padding: 0;
+					.userimg {
+						.border-radius(5px);
+						padding: 0;
+					}
+				}
+				.listname {
+					strong {
+						text-overflow: ellipsis;
+						overflow: hidden;
+						display: inline-block;
+						white-space: nowrap;
+					}	
+				}
+				.personCount {
+					font-size: 0.85em;
+					color: #555;
+				}
+				&:hover {
+					background-color: rgba(0,0,0,0.1);
+				}
+				&.active {
+					box-shadow: inset 0px 0px 2px 1px #7fd308;
+					background: rgba(128,212,9,0.4);		
+				}
+				.time {
+					font-size: small;
+					color: #888;
+					float: right;
+					margin-right: 5px;
+					margin-top: -20px;
+				}
+			}
+		}
+	}
+	#circleContainer {
+		#circleTitle {
+			h2 {
+				white-space: nowrap;
+				text-overflow: ellipsis;
+				overflow: hidden;
+			}
+		}
+		#friendsList {
+			.clear-fix;
+			text-align: center;
+		}
+	}
+}

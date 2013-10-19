@@ -1,0 +1,216 @@
+.profileView {
+	#main {
+		nav {
+			.border-radius(20px);
+			.gradient(darken(@btnBackground, 2%), @btnBackgroundHighlight);
+			border: 1px solid @btnBorder;
+			border-bottom: 1px solid #000;
+			border-bottom-color: darken(@btnBorder, 10%);
+			heading {
+				h3 {
+					// Awesome features for webkit-browsers!
+					background: -webkit-linear-gradient(lighten(@green, 10%), @green2);
+					-webkit-background-clip: text;
+					-webkit-text-fill-color: transparent;
+					color: lighten(@green2, 5%);
+					//text-shadow: 1px 1px 1px @green2;
+					text-rendering: optimizeLegibility;
+				}
+				_:-o-prefocus, h3 {
+					background: none;
+				}
+			}
+			menu {
+				li {
+					text-align: center;
+					a {	
+						background: -webkit-linear-gradient(@grayLight, @gray);
+						-webkit-background-clip: text;
+						-webkit-text-fill-color: transparent;
+						color: lighten(@gray, 5%);
+						//text-shadow: 1px 1px 1px #000000;
+						font-weight: 600;
+						font-size: 1em;
+					}
+					_:-o-prefocus, a {
+						background: none;
+					}
+				}
+			}
+		}
+		#info, #wall, #friends {
+			header {
+				margin: 0;
+				.edit {
+					float: right;
+					color: #b2b2b2;
+					&:hover {
+						color: lighten(#b2b2b2,10%);
+					}
+				}
+			}
+		}
+		#info {
+			article {
+				background-color: @btnBackgroundHighlight;
+				border: 1px solid @btnBorder;
+				border-bottom: 1px solid #000;
+				border-bottom-color: darken(@btnBorder, 10%);
+				.border-radius(5px);
+				.box-fix;
+				input {
+					padding: 2px !important;
+				}
+				&#generalInfo {
+					.column(8,8);
+					.userimage {
+						img {
+							width: 100%;
+							.border-radius(5px);
+							float: left;
+						}
+						.editImage {
+							width: 100%;
+							margin: 0;
+							margin-top: -30px;
+							background: rgba(0,0,0,0.6);
+							float: left;
+							.border-radiuses(0,5px,5px,0);
+							padding: 5px;
+							.box-fix;
+							color: @white;
+							text-align: center;
+							opacity: 0;
+							.transition(all .3s ease);
+						}
+						&:hover {
+							.editImage {
+								opacity: 1;
+							}	
+						}
+					}
+					.actions {
+						border: none;
+						border-top:1px solid #ccc;
+						.box-fix;	
+						.addFriend {
+							.btn;
+							.btn-green;
+							text-align: center;
+						}
+						.sendMessage {
+							.btn;
+							text-align: center;
+						}
+					}
+					#school, #languages {
+						span[data-ng-repeat]:not(:last-child) {
+							&:after {
+								content: ", ";
+							}
+						}
+					}
+				}
+			}	
+		}
+		#wall {
+			background-color: @btnBackgroundHighlight;
+			border: 1px solid @btnBorder;
+			border-bottom: 1px solid #000;
+			border-bottom-color: darken(@btnBorder, 10%);
+			.border-radius(5px);
+			header {
+				.gradient(darken(@btnBackground, 2%), @btnBackgroundHighlight);
+				border-bottom: 1px solid @btnBorder;
+				.border-radiuses(5px, 0px, 0px, 5px);
+			}
+			article {
+				border-bottom: 1px solid #aaa;
+				.userimg{
+					border-radius: 10px;
+				}
+				.postContent {
+					.column(4,8);
+					padding-top: 5px;
+					margin-top: 10px;
+					margin-bottom: 10px;
+					.postText {
+						padding-left: 10px;
+						.box-fix;
+					}
+				}
+				.postInfo {
+					.column(2,8);
+					padding-top: 5px;
+					margin-bottom: 10px;
+				}
+				ol.comments {
+					.unstyled;
+					.column(8);
+					.push(0.125);
+					border: 1px solid @grayLight;
+					.border-radius(5px);
+					margin-bottom: 5px;
+					li {
+						background-color: @grayLighter;
+						width: 100%;
+						.clear-fix;
+						margin: 0;
+						border-bottom: 1px solid @grayLight;
+						&:last-child {
+							border: none;
+						}
+						img {
+							.column(1);
+							margin-left: 0;
+						}
+						.text {
+							.column(9);
+							margin-top: 5px;
+						}
+						.timestamp {
+							.column(2);
+							margin-top: 5px;
+						}
+						&.newComment {
+							background-color: @white;
+							input {
+								.column(9);
+								margin-top: 8px;
+							}
+							button {
+								.column(2);
+								margin-top: 10px;
+							}
+						}
+					}
+				}
+				&:last-child {
+					border:none;
+				}
+			}
+		}
+		#friends {
+			.column(8,8);
+			background-color: @btnBackgroundHighlight;
+			border: 1px solid @btnBorder;
+			border-bottom: 1px solid #000;
+			border-bottom-color: darken(@btnBorder, 10%);
+			.border-radius(5px);
+			height: auto;
+			padding: 0;
+			header {
+				.gradient(darken(@btnBackground, 2%), @btnBackgroundHighlight);
+				height: 20px;
+				border-bottom: 1px solid @btnBorder;
+				.border-radiuses(5px, 0px, 0px, 5px);
+				padding: 5px;
+				margin-bottom: 1%;
+			}
+			#friendsList {
+				.clear-fix;
+				text-align: center;
+			}
+		}
+	}
+}
