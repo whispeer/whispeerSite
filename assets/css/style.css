@@ -2227,7 +2227,6 @@ btn-send[disabled] {
   border: 1px dashed #ccc;
   top: 0;
   left: 0;
-  resize: both;
   overflow: auto;
 }
 .registerView section #registerForm .inputWrap div.success {
