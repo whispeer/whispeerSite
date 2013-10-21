@@ -2,7 +2,7 @@
 * loginController
 **/
 
-define(["step"], function (step) {
+define(["step", "asset/resizable"], function (step, Resizable) {
 	"use strict";
 
 	function registerController($scope, sessionHelper, sessionService, cssService) {
@@ -54,6 +54,20 @@ define(["step"], function (step) {
 
 				var paintLeft = (canvasW - paintWidth) / 2;
 				var paintTop = (canvasH - paintHeight) / 2;
+
+				var offset = jQuery(originalCanvasE).offset();
+
+				var top = offset.top + paintTop;
+				var left = offset.left + paintLeft;
+
+				Resizable(document.getElementById("overlay"), {
+					top: top,
+					left: left,
+					bottom: top + paintHeight,
+					right: left + paintWidth,
+					initSize: 50,
+					minSize: 50
+				});
 
 				originalCanvas.drawImage(image, 0, 0, width, height, paintLeft, paintTop, paintWidth, paintHeight);
 				originalCanvas.strokeStyle="#FF0000";
