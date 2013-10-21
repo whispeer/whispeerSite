@@ -12,8 +12,8 @@ define(["whispeerHelper"], function (h) {
 			height: element.height()
 		};
 
-		checkMovePosition();
 		initSize();
+		checkMovePosition();
 		setElementPosition(position);
 
 		var resizing = false;
