@@ -9,15 +9,7 @@ define(["step", "asset/resizable"], function (step, Resizable) {
 		cssService.setClass("registerView");
 		
 		var ENDSIZE = 250;
-		var LINEWIDTH = 4;
-
-		var imageData;
-		var doneCanvasE = document.createElement("canvas");
-
-		doneCanvasE.width = ENDSIZE;
-		doneCanvasE.height = ENDSIZE;
-
-		var doneCanvas = doneCanvasE.getContext("2d");
+		var image;
 
 		$scope.imageChange = function (e) {
 			var originalCanvasE = document.getElementById("original");
@@ -40,13 +32,10 @@ define(["step", "asset/resizable"], function (step, Resizable) {
 
 			var url;
 
-			var image = new Image();
+			image = new Image();
 			image.addEventListener("load", function () {
 				var width = image.width;
 				var height = image.height;
-
-				var get = Math.min(width, height);
-				doneCanvas.drawImage(image, 0, 0, get, get, 0, 0, ENDSIZE, ENDSIZE);
 
 				var paintRatio = Math.min(canvasW / width, canvasH / height);
 				var paintWidth = paintRatio * width;
@@ -70,10 +59,6 @@ define(["step", "asset/resizable"], function (step, Resizable) {
 				});
 
 				originalCanvas.drawImage(image, 0, 0, width, height, paintLeft, paintTop, paintWidth, paintHeight);
-				originalCanvas.strokeStyle="#FF0000";
-				originalCanvas.lineWidth=LINEWIDTH;
-				//originalCanvas.strokeRect(paintLeft, paintTop+LINEWIDTH/2, get*paintRatio, get*paintRatio-LINEWIDTH);
-				imageData = doneCanvasE.toDataURL();
 			});
 
 			if (typeof URL !== "undefined") {
@@ -257,11 +242,29 @@ define(["step", "asset/resizable"], function (step, Resizable) {
 			return "assets/img/fail.png";
 		};
 
+		function loadImageData() {
+			var doneCanvasE = document.createElement("canvas");
+
+			var width = image.width;
+			var height = image.height;
+
+			doneCanvasE.width = ENDSIZE;
+			doneCanvasE.height = ENDSIZE;
+
+			var doneCanvas = doneCanvasE.getContext("2d");
+
+			var get = Math.min(width, height);
+			doneCanvas.drawImage(image, 0, 0, get, get, 0, 0, ENDSIZE, ENDSIZE);
+			return doneCanvasE.toDataURL();
+		}
+
 		$scope.register = function doRegisterC() {
 			var profile = {
 				pub: {},
 				priv: {}
 			};
+
+			var imageData = loadImageData();
 
 			var i, cur;
 			for (i = 0; i < $scope.profileAttributes.length; i += 1) {
