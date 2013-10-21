@@ -3,13 +3,25 @@ define(["whispeerHelper"], function (h) {
 	var Resizable = function (boundary) {
 		var element = jQuery("<div class='resizable'></div>");
 		var body = jQuery(document.body);
-		body.append(element);
+
+		var ourElement = jQuery(boundary.element || body);
+
+		ourElement.append(element);
+
+		if (!boundary.top && !boundary.left && !boundary.right && !boundary.bottom) {
+			boundary.top = ourElement.offset().top;
+			boundary.left = ourElement.offset().left;
+			boundary.right = boundary.left + ourElement.width();
+			boundary.bottom = boundary.top + ourElement.height();
+		} else if (!boundary.top || !boundary.left || !boundary.right || !boundary.bottom) {
+			throw "Invalid boundaries!";
+		}
 
 		var position = {
-			top: element.position().top,
-			left: element.position().left,
-			width: element.width(),
-			height: element.height()
+			top: 0,
+			left: 0,
+			width: 0,
+			height: 0
 		};
 
 		initSize();

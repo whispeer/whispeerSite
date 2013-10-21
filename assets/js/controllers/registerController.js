@@ -50,6 +50,7 @@ define(["step", "asset/resizable"], function (step, Resizable) {
 				var left = offset.left + paintLeft;
 
 				resizable = new Resizable({
+					element: originalCanvasE.parentElement,
 					top: top,
 					left: left,
 					bottom: top + paintHeight,
