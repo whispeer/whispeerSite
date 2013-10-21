@@ -9,7 +9,7 @@ define(["step", "asset/resizable"], function (step, Resizable) {
 		cssService.setClass("registerView");
 		
 		var ENDSIZE = 250;
-		var image;
+		var image, paintRatio, resizable;
 
 		$scope.imageChange = function (e) {
 			var originalCanvasE = document.getElementById("original");
@@ -37,7 +37,7 @@ define(["step", "asset/resizable"], function (step, Resizable) {
 				var width = image.width;
 				var height = image.height;
 
-				var paintRatio = Math.min(canvasW / width, canvasH / height);
+				paintRatio = Math.min(canvasW / width, canvasH / height);
 				var paintWidth = paintRatio * width;
 				var paintHeight = paintRatio * height;
 
@@ -49,7 +49,7 @@ define(["step", "asset/resizable"], function (step, Resizable) {
 				var top = offset.top + paintTop;
 				var left = offset.left + paintLeft;
 
-				Resizable(document.getElementById("overlay"), {
+				resizable = new Resizable({
 					top: top,
 					left: left,
 					bottom: top + paintHeight,
@@ -245,16 +245,18 @@ define(["step", "asset/resizable"], function (step, Resizable) {
 		function loadImageData() {
 			var doneCanvasE = document.createElement("canvas");
 
-			var width = image.width;
-			var height = image.height;
-
 			doneCanvasE.width = ENDSIZE;
 			doneCanvasE.height = ENDSIZE;
 
 			var doneCanvas = doneCanvasE.getContext("2d");
 
-			var get = Math.min(width, height);
-			doneCanvas.drawImage(image, 0, 0, get, get, 0, 0, ENDSIZE, ENDSIZE);
+			var pos = resizable.getRelativePosition();
+			resizable.kill();
+
+			var ratio = (1/paintRatio);
+			var get =  ratio * pos.width;
+			doneCanvas.drawImage(image, ratio * pos.left, ratio * pos.top, get, get, 0, 0, ENDSIZE, ENDSIZE);
+
 			return doneCanvasE.toDataURL();
 		}
 

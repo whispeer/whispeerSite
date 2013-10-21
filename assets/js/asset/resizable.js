@@ -1,8 +1,9 @@
 define(["whispeerHelper"], function (h) {
 	"use strict";
-	var Resizable = function (element, boundary) {
-		element = jQuery(element);
+	var Resizable = function (boundary) {
+		var element = jQuery("<div class='resizable'></div>");
 		var body = jQuery(document.body);
+		body.append(element);
 
 		var position = {
 			top: element.position().top,
@@ -143,7 +144,7 @@ define(["whispeerHelper"], function (h) {
 			}
 		}
 
-		body.mousemove(function updatePosition(event) {
+		function updatePosition(event) {
 			if (resizing || moving) {
 				var diffX = event.pageX - startX;
 				var diffY = event.pageY - startY;
@@ -164,31 +165,55 @@ define(["whispeerHelper"], function (h) {
 
 				setElementPosition(position);
 			}
-		});
+		}
 
-		body.mousedown(function (event) {
-			oldPosition = h.copyObj(position);
-
-			if (inElement(event.pageX, event.pageY)) {
+		function mouseDown(event) {
+			var x = event.pageX, y = event.pageY;
+			if (inElement(x, y)) {
 				moving = true;
 			}
 
-			resizing = onBorder(event.pageX, event.pageY);
+			resizing = onBorder(x, y);
 
 			if (moving || resizing) {
+				oldPosition = h.copyObj(position);
 				setSelect("none");
 
-				startX = event.pageX;
-				startY = event.pageY;
+				startX = x;
+				startY = y;
 			} else {
 				setSelect("");
 			}
-		});
+		}
 
-		body.mouseup(function () {
+		function mouseUpFunction() {
 			resizing = false;
 			moving = false;
-		});
+		}
+
+		var rand = Math.floor(Math.random() * 1000000);
+
+		body.bind("mousemove." + rand, updatePosition);
+		body.bind("mousedown." + rand, mouseDown);
+		body.bind("mouseup." + rand, mouseUpFunction);
+
+		this.getPosition = function () {
+			return h.copyObj(position);
+		};
+
+		this.getRelativePosition = function () {
+			return {
+				top: position.top - boundary.top,
+				left: position.left - boundary.left,
+				height: position.height,
+				width: position.width
+			};
+		};
+
+		this.kill = function () {
+			element.remove();
+			body.unbind("." + rand);
+		};
 	};
 
 	return Resizable;
