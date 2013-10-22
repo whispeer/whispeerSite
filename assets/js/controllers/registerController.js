@@ -2,26 +2,61 @@
 * loginController
 **/
 
-define(["step", "asset/resizable"], function (step, Resizable) {
+define(["step", "asset/resizable", "asset/observer"], function (step, Resizable, Observer) {
 	"use strict";
 
 	function registerController($scope, sessionHelper, sessionService, cssService) {
+		var observer = new Observer();
 		cssService.setClass("registerView");
 		
 		var ENDSIZE = 250;
-		var image, paintRatio, resizable;
+		var image, paintRatio, resizable, CANVASWIDTH = 600, CANVASHEIGHT = 300, position;
+
+		function paintImageOnCanvas() {
+			if (image) {
+				var originalCanvasE = document.getElementById("original");
+				var originalCanvas = originalCanvasE.getContext("2d");
+
+				originalCanvasE.width = CANVASWIDTH;
+				originalCanvasE.height = CANVASHEIGHT;
+
+				originalCanvas.clearRect (0, 0, CANVASWIDTH, CANVASHEIGHT);
+
+				var width = image.width;
+				var height = image.height;
+
+				paintRatio = Math.min(CANVASWIDTH / width, CANVASHEIGHT / height);
+				var paintWidth = paintRatio * width;
+				var paintHeight = paintRatio * height;
+
+				var paintLeft = (CANVASWIDTH - paintWidth) / 2;
+				var paintTop = (CANVASHEIGHT - paintHeight) / 2;
+
+				var offset = jQuery(originalCanvasE).offset();
+
+				var top = offset.top + paintTop;
+				var left = offset.left + paintLeft;
+
+				resizable = new Resizable({
+					element: originalCanvasE.parentElement,
+					boundary: {
+						top: top,
+						left: left,
+						bottom: top + paintHeight,
+						right: left + paintWidth,
+					},
+					size: {
+						init: 50,
+						min: 50
+					},
+					position: position
+				});
+
+				originalCanvas.drawImage(image, 0, 0, width, height, paintLeft, paintTop, paintWidth, paintHeight);
+			}
+		}
 
 		$scope.imageChange = function (e) {
-			var originalCanvasE = document.getElementById("original");
-			var originalCanvas = originalCanvasE.getContext("2d");
-			var canvasW = 600;
-			var canvasH = 300;
-
-			originalCanvasE.width = canvasW;
-			originalCanvasE.height = canvasH;
-
-			originalCanvas.clearRect (0, 0, canvasW, canvasH);
-
 			var file = e.target.files[0];
 			if (!file.type.match(/image.*/i)) {
 				$scope.validImage = false;
@@ -33,34 +68,7 @@ define(["step", "asset/resizable"], function (step, Resizable) {
 			var url;
 
 			image = new Image();
-			image.addEventListener("load", function () {
-				var width = image.width;
-				var height = image.height;
-
-				paintRatio = Math.min(canvasW / width, canvasH / height);
-				var paintWidth = paintRatio * width;
-				var paintHeight = paintRatio * height;
-
-				var paintLeft = (canvasW - paintWidth) / 2;
-				var paintTop = (canvasH - paintHeight) / 2;
-
-				var offset = jQuery(originalCanvasE).offset();
-
-				var top = offset.top + paintTop;
-				var left = offset.left + paintLeft;
-
-				resizable = new Resizable({
-					element: originalCanvasE.parentElement,
-					top: top,
-					left: left,
-					bottom: top + paintHeight,
-					right: left + paintWidth,
-					initSize: 50,
-					minSize: 50
-				});
-
-				originalCanvas.drawImage(image, 0, 0, width, height, paintLeft, paintTop, paintWidth, paintHeight);
-			});
+			image.addEventListener("load", paintImageOnCanvas);
 
 			if (typeof URL !== "undefined") {
 				url = URL.createObjectURL(file);
@@ -78,6 +86,14 @@ define(["step", "asset/resizable"], function (step, Resizable) {
 				//da da dam ...
 			}
 		};
+
+		observer.listen(function () {
+			if (resizable) {
+				position = resizable.getPosition();
+				resizable.kill();
+			}
+		}, "stepLeave3");
+		observer.listen(paintImageOnCanvas, "stepLoaded3");
 
 		$scope.password = "";
 		$scope.password2 = "";
@@ -113,12 +129,30 @@ define(["step", "asset/resizable"], function (step, Resizable) {
 
 		$scope.validImage = true;
 		
+		function setStep(step) {
+			if (step > 0 && step < 4) {
+				var oldStep = $scope.registerState.step;
+				observer.notify(oldStep, "stepLeave");
+				observer.notify(oldStep, "stepLeave" + oldStep);
+
+				$scope.registerState.step = step;
+				observer.notify(step, "stepChanged");
+				observer.notify(step, "stepChanged" + step);
+
+			}
+		}
+
+		$scope.stepLoaded = function stepLoadedF() {
+			var step = $scope.registerState.step;
+			observer.notify(step, "stepLoaded" + step);
+		};
+
 		$scope.nextRegisterStep = function nextRegisterStep() {
-			$scope.registerState.step++;
+			setStep($scope.registerState.step+1);
 		};
 		
 		$scope.prevRegisterStep = function prevRegisterStep() {
-			$scope.registerState.step--;
+			setStep($scope.registerState.step-1);
 		};
 		
 		$scope.passwordStrength = function passwordStrengthC() {
@@ -298,6 +332,8 @@ define(["step", "asset/resizable"], function (step, Resizable) {
 				console.log("register done!");
 				console.log(arguments);
 			});
+
+			Observer.call(this);
 		};
 	}
 
