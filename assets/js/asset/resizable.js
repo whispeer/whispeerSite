@@ -1,6 +1,8 @@
 define(["whispeerHelper"], function (h) {
 	"use strict";
+	var theOptions;
 	var Resizable = function (options) {
+		theOptions = options;
 		var element = jQuery("<div class='resizable'></div>");
 		var body = jQuery(document.body);
 
@@ -18,6 +20,10 @@ define(["whispeerHelper"], function (h) {
 		} else if (!boundary.top || !boundary.left || !boundary.right || !boundary.bottom) {
 			throw "Invalid boundaries!";
 		}
+
+		options.size = options.size || {};
+		options.size.min = options.size.min || 50;
+		options.size.init = options.size.init || 50;
 
 		var defaultPosition = {
 			top: 0,
@@ -42,9 +48,9 @@ define(["whispeerHelper"], function (h) {
 		var oldPosition;
 
 		function initSize() {
-			if (boundary.initSize && !position.width) {
-				position.width = boundary.initSize;
-				position.height = boundary.initSize;
+			if (!position.width) {
+				position.width = options.size.init;
+				position.height = options.size.init;
 			}
 		}
 
@@ -144,7 +150,7 @@ define(["whispeerHelper"], function (h) {
 		}
 
 		function addElementPosition(left, top, size) {
-			if (oldPosition.width + size < boundary.minSize) {
+			if (oldPosition.width + size < options.size.min) {
 				return;
 			}
 
