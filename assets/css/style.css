@@ -624,6 +624,9 @@ textarea {
   -webkit-box-shadow: inset 1px #333333;
   -moz-box-shadow: inset 1px #333333;
   box-shadow: inset 1px #333333;
+  -webkit-box-shadow: inset 0px 0px 5px #cccccc;
+  -moz-box-shadow: inset 0px 0px 5px #cccccc;
+  box-shadow: inset 0px 0px 5px #cccccc;
   -webkit-box-sizing: border-box;
   /* Safari/Chrome, other WebKit */
 
@@ -638,6 +641,9 @@ textarea:focus {
   outline: 0;
   border: solid 1px #559d00;
   font: normal 13px/100% "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+  -webkit-box-shadow: inset 0px 0px 5px rgba(107, 199, 0, 0.75);
+  -moz-box-shadow: inset 0px 0px 5px rgba(107, 199, 0, 0.75);
+  box-shadow: inset 0px 0px 5px rgba(107, 199, 0, 0.75);
   -webkit-transition: border-color 0.3s linear;
   -moz-transition: border-color 0.3s linear;
   -ms-transition: border-color 0.3s linear;
