@@ -1997,6 +1997,7 @@ btn-send[disabled] {
   /* Opera/IE 8+ */
 
 }
+.registerView section #loginForm div,
 .registerView section #loginForm input {
   width: 80%;
   height: 40px;
