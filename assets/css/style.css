@@ -977,6 +977,9 @@ body:not(.mainView, .registerView) #main {
   margin-left: 0;
   list-style: none;
   border: 1px solid #aaa;
+  -webkit-box-shadow: inset 0px 0px 5px #cccccc;
+  -moz-box-shadow: inset 0px 0px 5px #cccccc;
+  box-shadow: inset 0px 0px 5px #cccccc;
   cursor: text;
   height: auto;
   background: white;
@@ -986,6 +989,29 @@ body:not(.mainView, .registerView) #main {
   -moz-background-clip: padding;
   -webkit-background-clip: padding-box;
   background-clip: padding-box;
+  -webkit-box-sizing: border-box;
+  /* Safari/Chrome, other WebKit */
+
+  -moz-box-sizing: border-box;
+  /* Firefox, other Gecko */
+
+  box-sizing: border-box;
+  /* Opera/IE 8+ */
+
+}
+.searchBar .formSearch .inputWrap:focus {
+  border: solid 1px #559d00;
+  -webkit-box-shadow: inset 0px 0px 5px rgba(107, 199, 0, 0.75);
+  -moz-box-shadow: inset 0px 0px 5px rgba(107, 199, 0, 0.75);
+  box-shadow: inset 0px 0px 5px rgba(107, 199, 0, 0.75);
+  -webkit-transition: border-color 0.3s linear;
+  -moz-transition: border-color 0.3s linear;
+  -ms-transition: border-color 0.3s linear;
+  -o-transition: border-color 0.3s linear;
+  -webkit-transition: box-shadow 0.3s linear;
+  -moz-transition: box-shadow 0.3s linear;
+  -ms-transition: box-shadow 0.3s linear;
+  -o-transition: box-shadow 0.3s linear;
 }
 .searchBar .formSearch .inputWrap li.searchResult {
   display: inline-block;

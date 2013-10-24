@@ -3,10 +3,18 @@
 		.inputWrap {
 			.unstyled;
 			border: 1px solid #aaa;
+			.box-shadow(inset 0px 0px 5px #ccc);
 			cursor: text;
 			height: auto;
 			background: white;
 			.border-radius(5px);
+			.box-fix;
+			&:focus {
+				border: solid 1px darken(#6bc600, 8%);
+				.box-shadow(inset 0px 0px 5px rgba(107,199,0,0.75));
+				.transition(border-color .3s linear);
+				.transition(box-shadow .3s linear);
+			}
 			li {
 				&.searchResult {
 					.btn;
