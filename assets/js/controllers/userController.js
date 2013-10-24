@@ -132,6 +132,11 @@ define(["step", "whispeerHelper"], function (step, h) {
 			$scope.user.image = image;
 			$scope.user.data.me = userObject.isOwn();
 			$scope.user.added = friendsService.didIRequest(userObject.getID());
+
+			friendsService.listen(function () {
+				$scope.user.added = friendsService.didIRequest(userObject.getID());
+			});
+
 			$scope.loading = false;
 		}));
 

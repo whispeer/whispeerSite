@@ -11,8 +11,6 @@ define(["step", "whispeerHelper"], function () {
 			templateUrl: "/assets/views/directives/basicSearch.html",
 			replace: true,
 			link: function postLink(scope, iElement, iAttrs) {
-				scope.placeholder = iAttrs["placeholder"];
-
 				scope.multiple = typeof iAttrs["multiple"] !== "undefined";
 
 				scope.query = "";
@@ -21,6 +19,16 @@ define(["step", "whispeerHelper"], function () {
 				/** open search element or not **/
 				var focused = false, clicked = false;
 				var input = iElement.find("input");
+
+				var attr, attrName;
+				for (attr in iAttrs) {
+					if (iAttrs.hasOwnProperty(attr)) {
+						if (attr.match(/^input/)) {
+							attrName = attr.replace(/^input/, "").replace(/([a-z])([A-Z])/g, "$1-$2");
+							input.attr("data-" + attrName, iAttrs[attr]);
+						}
+					}
+				}
 
 				jQuery(document.body).click(function () {
 					$timeout(function () {
