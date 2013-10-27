@@ -22,8 +22,13 @@ define(["step", "asset/resizableImage", "asset/observer"], function (step, Resiz
 		});
 
 		observer.listen(function () {
+			return $scope.nicknameCheck;
+		}, "stepLeave1");
+
+		observer.listen(function () {
 			resizableImage.removeResizable();
 		}, "stepLeave3");
+
 		observer.listen(function () {
 			resizableImage.repaint({
 				element: document.getElementById("original"),
@@ -66,16 +71,21 @@ define(["step", "asset/resizableImage", "asset/observer"], function (step, Resiz
 
 		$scope.validImage = true;
 		
+		function falseAnd(a, b) {
+			return a !== false && b !== false;
+		}
+
 		function setStep(step) {
 			if (step > 0 && step < 4) {
 				var oldStep = $scope.registerState.step;
-				observer.notify(oldStep, "stepLeave");
-				observer.notify(oldStep, "stepLeave" + oldStep);
+				var result1 = observer.notify(oldStep, "stepLeave", falseAnd);
+				var result2 = observer.notify(oldStep, "stepLeave" + oldStep, falseAnd);
 
-				$scope.registerState.step = step;
-				observer.notify(step, "stepChanged");
-				observer.notify(step, "stepChanged" + step);
-
+				if (result1 !== false && result2 !== false) {
+					$scope.registerState.step = step;
+					observer.notify(step, "stepChanged");
+					observer.notify(step, "stepChanged" + step);
+				}
 			}
 		}
 
