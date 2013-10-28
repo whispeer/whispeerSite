@@ -15,7 +15,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 		var loading = {};
 
 		var User = function (providedData) {
-			var theUser = this, mainKey, signKey, cryptKey, friendsKey, friendsLevel2Key;
+			var theUser = this, mainKey, signKey, cryptKey, friendShipKey, friendsKey, friendsLevel2Key;
 			var id, mail, nickname, publicProfile, privateProfiles = [], mutualFriends;
 
 			this.data = {};
@@ -44,6 +44,10 @@ define(["step", "whispeerHelper"], function (step, h) {
 
 				if (!cryptKey && userData.keys.crypt) {
 					cryptKey = keyStoreService.upload.addKey(userData.keys.crypt);
+				}
+
+				if (!friendShipKey && userData.keys.friendShip) {
+					friendShipKey = keyStoreService.upload.addKey(userData.keys.friendShip);
 				}
 
 				if (!friendsKey && userData.keys.friends) {
@@ -143,6 +147,10 @@ define(["step", "whispeerHelper"], function (step, h) {
 
 			this.getCryptKey = function () {
 				return cryptKey;
+			};
+
+			this.getFriendShipKey = function () {
+				return friendShipKey;
 			};
 
 			this.getFriendsKey = function () {

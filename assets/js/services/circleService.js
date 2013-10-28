@@ -1,7 +1,7 @@
 /**
 * MessageService
 **/
-define(["step", "whispeerHelper", "valid/validator"], function (step, h, validator) {
+define(["step", "whispeerHelper"], function (step, h) {
 	"use strict";
 
 	var service = function ($rootScope, socket, userService, keyStore) {
@@ -11,7 +11,13 @@ define(["step", "whispeerHelper", "valid/validator"], function (step, h, validat
 
 		var Circle = function (data) {
 			var id = data.id, user = data.user, name = data.name, decrypted = false, theCircle = this;
-			var decryptedName;
+			var decryptedName, key;
+
+			if (typeof data.key === "object") {
+				key = keyStore.upload.addKey(data.key);
+			} else {
+				key = data.key;
+			}
 
 			this.getID = function getIDF() {
 				return id;
@@ -19,6 +25,31 @@ define(["step", "whispeerHelper", "valid/validator"], function (step, h, validat
 
 			this.getUserIDs = function () {
 				return user;
+			};
+
+			this.addPerson = function (uid, cb) {
+				var theUser;
+				step(function () {
+					userService.get(uid, this);
+				}, h.sF(function (otherUser) {
+					theUser = otherUser;
+					var friendShipKey = otherUser.getFriendShipKey();
+					if (friendShipKey) {
+						keyStore.sym.symEncryptKey(key, friendShipKey, this);
+					}
+				}), h.sF(function () {
+					var data = {
+						decryptor: keyStore.upload.getDecryptors([key]),
+						userid: theUser.getID()
+					};
+
+					socket.emit("circles.addUser", {
+						add: data
+					});
+				}), h.sF(function () {
+					//TODO: add the user to the user array.
+					//TODO: think about how we want to handle user loading in here
+				}), cb);
 			};
 
 			this.decrypt = function (cb) {
