@@ -868,6 +868,9 @@ body footer a:hover {
 body:not(.registerView) {
   padding-top: 65px;
 }
+body:not(.registerView) footer {
+  background: rgba(255, 255, 255, 0.79);
+}
 body:not(.mainView, .registerView) #main {
   overflow-y: scroll;
 }
@@ -2058,12 +2061,12 @@ btn-send[disabled] {
 .registerView section #loginForm input {
   width: 80%;
   height: 40px;
-  margin: 0 auto 5px auto;
+  margin: 0 10% 5px 10%;
 }
 .registerView section #loginForm #errorLogin {
   display: block;
   width: 80%;
-  margin: 0 auto 5px auto;
+  margin: 0 10% 5px 10%;
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
   border-radius: 5px;
