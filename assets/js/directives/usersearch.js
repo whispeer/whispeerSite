@@ -11,6 +11,12 @@ define(["step", "whispeerHelper"], function (step, h) {
 			link: function postLink(scope, iElement, iAttrs) {
 				scope.multiple = typeof iAttrs["multiple"] !== "undefined";
 
+				if (iAttrs["size"] === "big") {
+					scope.resultTemplate = "/assets/views/directives/userSearchResults.html";
+				} else {
+					scope.resultTemplate = "/assets/views/directives/userSearchResultsSmall.html";
+				}
+
 				var timer = null;
 
 				function submitResults(results) {

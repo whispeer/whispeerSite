@@ -1,4 +1,19 @@
 {
+	"views": {
+		"circles": {
+			"searchFriends": "Gebe die Namen deiner Freunde ein, die du zum Kreis hinzufügen möchtest!",
+			"titleForNew": "Gebe einen Titel für den neuen Kreis ein!", 
+			"header": {
+				"title":	"Kreise",
+				"createGroup": "Als Gruppe kopieren",
+				"sendMessage": "Nachricht an Kreis",
+				"addPeople":	"Personen hinzufügen"
+			},
+			"newCircle":	"Neuen Kreis anlegen",
+			"personCount":	"Es befinden sich {count} Personen in diesem Kreis",
+			"personsInCircle":"Personen im Kreis \"{name}\""
+		}
+	},
 	"general": {
 		"send":	"Absenden",
 		"cancel":	"Abbrechen"
@@ -41,7 +56,8 @@
 		"circles": "Kreise",
 		"settings": "Einstellungen",
 		"help": "Hilfe",
-		"logout": "Logout"
+		"logout": "Logout",
+		"search": "Suchen..."
 	},
 	"login": {
 		"username": "Benutzername",
@@ -87,6 +103,7 @@
 	},
 	"messages": {
 		"newMessage": "Neue Nachricht",
+		"search": "Wer soll diese Nachricht empfangen?",
 		"sendMessage": {
 			"text": "Gib deine Nachricht ein!",
 			"send": "Senden"
@@ -237,17 +254,6 @@
 				"answer": "Unter den Einstellungen (Menü links) kannst du unter dem zweiten Thema 'Sicherheit' genau auswählen, welche deiner Daten verschlüsselt werden und welche öffentlich sind."
 			}
 		}
-	},
-	"circles": {
-		"header": {
-			"title":	"Kreise",
-			"createGroup": "Als Gruppe kopieren",
-			"sendMessage": "Nachricht an Kreis",
-			"addPeople":	"Personen hinzufügen"
-		},
-		"newCircle":	"Neuen Kreis anlegen",
-		"personCount":	"Es befinden sich {count} Personen in diesem Kreis",
-		"personsInCircle":"Personen im Kreis \"{name}\""
 	},
 	"settings": {
 		"header": {

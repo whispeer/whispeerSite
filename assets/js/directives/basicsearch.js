@@ -1,11 +1,11 @@
 define(["step", "whispeerHelper"], function () {
 	"use strict";
 
-	function searchDirective($timeout) {
+	function searchDirective($timeout, $compile) {
 		return {
 			transclude: false,
 			scope:	{
-				resultTemplate: "@"
+				resultTemplate: "&"
 			},
 			restrict: "E",
 			templateUrl: "/assets/views/directives/basicSearch.html",
@@ -29,6 +29,8 @@ define(["step", "whispeerHelper"], function () {
 						}
 					}
 				}
+
+				$compile(input)(scope);
 
 				jQuery(document.body).click(function () {
 					$timeout(function () {

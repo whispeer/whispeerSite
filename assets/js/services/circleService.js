@@ -1,7 +1,7 @@
 /**
 * MessageService
 **/
-define(["step", "whispeerHelper"], function (step, h) {
+define(["step", "whispeerHelper", "asset/observer"], function (step, h, Observer) {
 	"use strict";
 
 	var service = function ($rootScope, socket, userService, keyStore) {
@@ -33,22 +33,31 @@ define(["step", "whispeerHelper"], function (step, h) {
 					userService.get(uid, this);
 				}, h.sF(function (otherUser) {
 					theUser = otherUser;
-					var friendShipKey = otherUser.getFriendShipKey();
-					if (friendShipKey) {
-						keyStore.sym.symEncryptKey(key, friendShipKey, this);
+					uid = theUser.getID();
+					if (user.indexOf(uid) === -1) {
+						var friendShipKey = otherUser.getFriendShipKey();
+						if (friendShipKey) {
+							keyStore.sym.symEncryptKey(key, friendShipKey, this);
+						}
 					}
 				}), h.sF(function () {
 					var data = {
 						decryptor: keyStore.upload.getDecryptors([key]),
-						userid: theUser.getID()
+						circleid: id,
+						userid: uid
 					};
 
 					socket.emit("circles.addUser", {
 						add: data
 					});
-				}), h.sF(function () {
-					//TODO: add the user to the user array.
-					//TODO: think about how we want to handle user loading in here
+				}), h.sF(function (result) {
+					if (!result.error && result.added && user.indexOf(uid) === -1) {
+						user.push(uid);
+					}
+					
+					theCircle.notify(theUser.getID(), "userAdded");
+
+					this.ne();
 				}), cb);
 			};
 
@@ -76,6 +85,8 @@ define(["step", "whispeerHelper"], function (step, h) {
 				image: "/assets/img/user.png",
 				persons: []
 			};
+
+			Observer.call(this);
 		};
 
 		/*socket.listen("circle", function (e, data) {
