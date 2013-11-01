@@ -1876,7 +1876,25 @@ btn-send[disabled] {
   width: 100%;
 }
 .registerView {
-  background-color: #3a8100;
+  background: #3a8100;
+  background: -moz-radial-gradient(center, ellipse cover, #00b7ea 0%, #009ec3 100%);
+  /* FF3.6+ */
+
+  background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%, #559d00), color-stop(100%, #3a8100));
+  /* Chrome,Safari4+ */
+
+  background: -webkit-radial-gradient(center, ellipse cover, #559d00 0%, #3a8100 100%);
+  /* Chrome10+,Safari5.1+ */
+
+  background: -o-radial-gradient(center, ellipse cover, #00b7ea 0%, #009ec3 100%);
+  /* Opera 12+ */
+
+  background: -ms-radial-gradient(center, ellipse cover, #00b7ea 0%, #009ec3 100%);
+  /* IE10+ */
+
+  background: radial-gradient(ellipse at center, #559d00 0%, #3a8100 100%);
+  /* W3C */
+
   padding: 0;
 }
 .registerView footer {
