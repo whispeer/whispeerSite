@@ -333,6 +333,27 @@ define(["step", "whispeerHelper"], function (step, h) {
 		}
 
 		var api = {
+			queryFriends: function queryFriendsF(query, cb) {
+				step(function () {
+					socketService.emit("user.searchFriends", {
+						text: query,
+						known: knownIDs
+					}, this);
+				}, h.sF(function (data) {
+					var result = [], user = data.results;
+
+					var i;
+					for (i = 0; i < user.length; i += 1) {
+						if (typeof user[i] === "object") {
+							result.push(makeUser(user[i]));
+						} else {
+							result.push(users[user[i]]);
+						}
+					}
+
+					this.ne(result);
+				}), cb);
+			},
 			query: function queryF(query, cb) {
 				step(function () {
 					socketService.emit("user.search", {

@@ -13,9 +13,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 					scope.$broadcast("queryResults", results);
 				}
 
-				scope.$on("elementSelected", function (event, element) {
-					
-				});
+				scope.resultTemplate = "/assets/views/directives/circleSearchResults.html";
 
 				scope.$on("queryChange", function (event, query) {
 					step(function () {

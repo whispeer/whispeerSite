@@ -45,8 +45,8 @@
 	</div>
 	<div id="circleWrap">	
 		<form id="inputWrap">
-			<input type="text" data-i18n-attr="views.circles.titleForNew|placeholder="" id="titleInput" data-ng-model="circleName">
-			<usersearch type="text" data-input-i18n-attr="views.circles.searchFriends|placeholder" id="friendInput" />
+			<input type="text" data-i18n-attr="views.circles.titleForNew|placeholder" id="titleInput" data-ng-model="circleName">
+			<usersearch data-scope="friends" data-multiple type="text" data-input-i18n-attr="views.circles.searchFriends|placeholder" id="friendInput" />
 			<button class="btn btn-success btn-large" id="sendmessage" type="submit" data-ng-click="createNew(circleName)">Kreis erstellen!</button>		
 		</form>
 	</div>

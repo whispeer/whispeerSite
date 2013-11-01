@@ -26,7 +26,11 @@ define(["step", "whispeerHelper"], function (step, h) {
 				function queryResults(query) {
 					var theUsers;
 					step(function () {
-						userService.query(query, this);
+						if (iAttrs["scope"] === "friends") {
+							userService.queryFriends(query, this);
+						} else {
+							userService.query(query, this);
+						}
 					}, h.sF(function (user) {
 						scope.empty = (user.length === 0);
 

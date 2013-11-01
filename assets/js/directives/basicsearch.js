@@ -18,7 +18,7 @@ define(["step", "whispeerHelper"], function () {
 
 				/** open search element or not **/
 				var focused = false, clicked = false;
-				var input = iElement.find("input");
+				var input = jQuery('<input type="text" class="searchQuery"  data-ng-keydown="keydown($event)" data-ng-change="queryChange()" data-ng-model="query" data-onfocus="focus(true)" data-onblur="focus(false)">');
 
 				var attr, attrName;
 				for (attr in iAttrs) {
@@ -31,6 +31,8 @@ define(["step", "whispeerHelper"], function () {
 				}
 
 				$compile(input)(scope);
+				iElement.find(".searchField").append(input);
+
 
 				jQuery(document.body).click(function () {
 					$timeout(function () {
