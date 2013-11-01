@@ -1,0 +1,66 @@
+.helpView {
+	#main {
+		.box;
+		padding-top: 30px;
+		height: 100%;
+		background-color: @btnBackgroundHighlight;
+		border: 1px solid @btnBorder;
+		border-bottom: 1px solid darken(@btnBorder, 10%);
+		.border-radius(5px);
+		.box-fix;
+		header {
+			#title {
+				float: left;
+				margin: 0 1%;
+			}
+		}
+		#helpWrap {
+			height: 100%;
+			overflow-y: scroll;
+			overflow-x: hidden;
+		}
+		section {
+			header {
+				background-color: @btnBackgroundHighlight;
+				border-top: 1px solid @btnBorder;
+				.border-radius(0px);
+				float: left;
+				width: 100%;
+				margin: 0px 0 10px 0;
+				padding: 5px 0px;
+				&:before, :after {
+					content: "";
+					margin-left: 5px;
+				}
+			}
+			&#general header {
+				border-top: none;
+				margin: -10px 0 0 0;
+			}
+			ol {
+				.unstyled;
+			}
+			.qa {
+				.column(12);
+				.question {
+					font-size: 20px;
+					font-weight: bolder;
+				}
+				.answer {
+					margin-left: 10px;
+				}
+			}
+			&#newQuestion {
+				input {
+					.column(8);
+					margin-bottom: 10px;
+				}
+				button {
+					.column(4);
+					line-height: @baseLineHeight;
+					padding: 7px;
+				}
+			}
+		}
+	}	
+}

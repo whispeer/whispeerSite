@@ -16,16 +16,21 @@ define (["whispeerHelper"], function (h) {
 
         this._listeners[type] = h.removeArray(this._listeners[type], fn);
     }
-
-    function notifyF(data, type) {
+    function notifyF(data, type, returnF) {
         type = type || "any";
 
+        if (!returnF) {
+            returnF = function () {};
+        }
+
         var subscribers = this._listeners[type] || [];
-        h.callEach(subscribers, [data]);
+        var result = h.callEach(subscribers, [data], returnF);
 
         if (type !== "any") {
-            this.notify(data);
+            result = returnF(this.notify(data), result);
         }
+
+        return result;
     }
 
     var Observer = function () {

@@ -1,0 +1,24 @@
+<div class="inputWrap">
+	<div data-ng-repeat="attribute in profileAttributes" data-tooltip-title="{{attribute.hoverText}}" data-tooltip-position="left">
+		<input type="text" placeholder="{{attribute.placeHolder}}" data-ng-model="attribute.value">
+		<span class="icon lock">
+			<img data-ng-src="{{lock(attribute.encrypted)}}" alt="{{((attribute.encrypted) && ('Privat') || ('Öffentlich'))}}" data-ng-click="attribute.encrypted=!attribute.encrypted" />
+		</span>
+	</div>
+	<div>
+		<input type="email" id="rmail" data-i18n-attr="login.register.email|placeholder" data-ng-model="$parent.mail" data-ng-model-onblur data-ng-change="mailChange()">
+		<span class="icon check" id="rmailIcon">
+			<img data-ng-src="{{acceptIconMailFree()}}" alt="Ok!">
+		</span>
+	</div>
+	<div>
+		<input type="email" id="rmail2" data-i18n-attr="login.register.repeatEmail|placeholder" data-ng-model="$parent.mail2">
+		<span class="icon check" id="rmail2Icon">
+			<img data-ng-src="{{acceptIcon(mail, mail2)}}" alt="Ok!">
+		</span>
+	</div>
+</div>	
+<div class="submitWrap">
+	<button id="registerFormPreviousStep" class="btn" type="submit"  data-ng-click="prevRegisterStep()" data-i18n="login.register.previous"></button>
+	<button id="registerFormNextStep" class="btn" type="submit"  data-ng-click="nextRegisterStep()" data-i18n="login.register.next"></button>
+</div>

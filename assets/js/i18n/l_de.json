@@ -64,8 +64,11 @@
 		"password": "Passwort",
 		"link": "Einloggen",
 		"loginFailed": "Benutzername und Password stimmen nicht überein!",
+		"moreInfo":	"Mehr Info",
 		"register": {
 			"link":	"Registrieren",
+			"next": "Weiter",
+			"previous": "Zurück",
 			"repeatPassword":	"Password wiederholen",
 			"passwordstrength":	"Punkte für dein Passwort: ",
 			"email":	"E-Mail Adresse",

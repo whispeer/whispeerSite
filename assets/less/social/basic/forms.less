@@ -1,0 +1,38 @@
+input:not([type=submit]):not([type=file]) {
+	padding: 9px;  
+    border: solid 1px darken(#ffffff, 45%);  
+    outline: 0;  
+    line-height: @baseLineHeight;
+    font: normal 13px/100% @sansFontFamily;
+    background: #ffffff;
+    .border-radius(5px);
+    .box-shadow(inset 0px 0px 5px #ccc);
+    .box-fix;
+	&:focus {
+		outline: 0;
+		border: solid 1px darken(#6bc600, 8%);
+		font: normal 13px/100% @sansFontFamily;
+		.box-shadow(inset 0px 0px 5px rgba(107,199,0,0.75));
+		.transition(border-color .3s linear);
+		.transition(box-shadow .3s linear);
+	}
+}	
+textarea {
+	padding: 9px;  
+    border: solid 1px darken(#ffffff, 45%);  
+    outline: 0;  
+    font: normal 13px/100% @sansFontFamily;
+    background: #ffffff;
+    .border-radius(5px);
+    .box-shadow(inset 1px #333);
+    .box-shadow(inset 0px 0px 5px #ccc);
+    .box-fix;
+	&:focus {
+		outline: 0;
+		border: solid 1px darken(#6bc600, 8%);
+		font: normal 13px/100% @sansFontFamily;
+		.box-shadow(inset 0px 0px 5px rgba(107,199,0,0.75));
+		.transition(border-color .3s linear);
+		.transition(border-color .3s linear);
+	}
+}	
