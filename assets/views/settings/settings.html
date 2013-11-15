@@ -1,6 +1,6 @@
 <header>
-	<span data-i18n="settings.header.title" id="title"></span>
-	<div id="links">
+	<span data-i18n="settings.header.title" class="title"></span>
+	<div class="links">
 		<a href="#general">Allgemein</a>
 		<a href="#safety">Sicherheit</a>
 		<a href="#privacy">Privatsphäre</a>
@@ -10,7 +10,7 @@
 </header>
 <div id="settingsWrap">
 	<section id="general">
-		<header>Allgemein</header>
+		<header><span class="title">Allgemein</span></header>
 		<div class="config" id="name">
 			<h5>Name ändern</h5>
 			<input type="text" id="firstname" placeholder="Vorname">
@@ -40,7 +40,7 @@
 		</div>
 	</section>
 	<section id="safety">
-		<header>Sicherheit - Welche deiner Profildaten sollen verschlüsselt werden?</header>
+		<header><span class="title">Sicherheit - Welche deiner Profildaten sollen verschlüsselt werden?</span></header>
 		<h2>Name</h2>
 		<div class="config" id="firstNameEncryption">
 			<span>Vorname:</span>
@@ -90,7 +90,7 @@
 		</div>
 	</section>
 	<section id="privacy">
-		<header>Privatsphäre - Wer kann was von dir lesen?</header>
+		<header><span class="title">Privatsphäre - Wer kann was von dir lesen?</span></header>
 		<h2>Profil</h2>
 		<div class="config" id="locationPrivacy">
 			<span>Wohnort:</span>
@@ -227,11 +227,11 @@
 		</div>
 	</section>
 	<section id="notifications">
-		<header>Benachrichtigungen</header>
+		<header><span class="title">Benachrichtigungen</span></header>
 		<div class="notimplemented"><span data-i18n="notimplemented"></span></div>
 	</section>
 	<section id="features">
-		<header>Zusätzliche Funktionen</header>
+		<header><span class="title">Zusätzliche Funktionen</span></header>
 		<div class="notimplemented"><span data-i18n="notimplemented"></span></div>
 	</section>
 </div>

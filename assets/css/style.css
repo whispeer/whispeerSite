@@ -54,6 +54,7 @@
   background: -moz-linear-gradient(top, #fafafa, #ececec);
   background: -ms-linear-gradient(top, #fafafa, #ececec);
   background: -o-linear-gradient(top, #fafafa, #ececec);
+  border: none;
   border-bottom: 1px solid #bbbbbb;
   -webkit-border-top-right-radius: 5px;
   -webkit-border-bottom-right-radius: 0px;
@@ -78,6 +79,17 @@
 }
 .box header .edit:hover {
   color: #cbcbcb;
+}
+.box header .title {
+  float: left;
+  margin: 0 1%;
+}
+.box header .links {
+  float: right;
+  margin: 0 1%;
+}
+.box header .links a {
+  color: #666;
 }
 .box section {
   background-color: #eeeeee;
@@ -109,6 +121,21 @@
 }
 .box section header {
   margin-top: -5px !important;
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  border-radius: 0;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  border-top: 1px solid #bbbbbb;
+}
+.box section h1,
+.box section h2,
+.box section h3,
+.box section h4,
+.box section h5,
+.box section h6 {
+  margin-left: 0.5%;
 }
 .person {
   padding: 0;
@@ -3425,15 +3452,26 @@ btn-send[disabled] {
   float: right;
   margin-right: 5px;
 }
-.friendsView {
+.friendsView #main {
+  padding-top: 30px;
+  height: 100%;
+  background-color: #ececec;
+  border: 1px solid #bbbbbb;
+  border-bottom: 1px solid #a2a2a2;
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
   border-radius: 5px;
   -moz-background-clip: padding;
   -webkit-background-clip: padding-box;
   background-clip: padding-box;
+  -webkit-box-sizing: border-box;
+  /* Safari/Chrome, other WebKit */
+  -moz-box-sizing: border-box;
+  /* Firefox, other Gecko */
+  box-sizing: border-box;
+  /* Opera/IE 8+ */
 }
-.friendsView header {
+.friendsView #main header {
   height: 20px;
   margin-top: -30px;
   background-color: #fafafa;
@@ -3442,6 +3480,7 @@ btn-send[disabled] {
   background: -moz-linear-gradient(top, #fafafa, #ececec);
   background: -ms-linear-gradient(top, #fafafa, #ececec);
   background: -o-linear-gradient(top, #fafafa, #ececec);
+  border: none;
   border-bottom: 1px solid #bbbbbb;
   -webkit-border-top-right-radius: 5px;
   -webkit-border-bottom-right-radius: 0px;
@@ -3460,14 +3499,25 @@ btn-send[disabled] {
   background-clip: padding-box;
   padding: 5px 0;
 }
-.friendsView header .edit {
+.friendsView #main header .edit {
   float: right;
   color: #b2b2b2;
 }
-.friendsView header .edit:hover {
+.friendsView #main header .edit:hover {
   color: #cbcbcb;
 }
-.friendsView section {
+.friendsView #main header .title {
+  float: left;
+  margin: 0 1%;
+}
+.friendsView #main header .links {
+  float: right;
+  margin: 0 1%;
+}
+.friendsView #main header .links a {
+  color: #666;
+}
+.friendsView #main section {
   background-color: #eeeeee;
   padding: 5px 0;
   -webkit-border-top-right-radius: 0;
@@ -3487,37 +3537,31 @@ btn-send[disabled] {
   background-clip: padding-box;
   *zoom: 1;
 }
-.friendsView section:before,
-.friendsView section:after {
+.friendsView #main section:before,
+.friendsView #main section:after {
   content: "";
   display: table;
 }
-.friendsView section:after {
+.friendsView #main section:after {
   clear: both;
 }
-.friendsView section header {
+.friendsView #main section header {
   margin-top: -5px !important;
-}
-.friendsView #main {
-  padding-top: 30px;
-  padding-bottom: 10px;
-  height: 100%;
-  background-color: #ececec;
-  border: 1px solid #bbbbbb;
-  border-bottom: 1px solid #000;
-  border-bottom-color: #a2a2a2;
-  -webkit-border-radius: 5px;
-  -moz-border-radius: 5px;
-  border-radius: 5px;
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  border-radius: 0;
   -moz-background-clip: padding;
   -webkit-background-clip: padding-box;
   background-clip: padding-box;
-  -webkit-box-sizing: border-box;
-  /* Safari/Chrome, other WebKit */
-  -moz-box-sizing: border-box;
-  /* Firefox, other Gecko */
-  box-sizing: border-box;
-  /* Opera/IE 8+ */
+  border-top: 1px solid #bbbbbb;
+}
+.friendsView #main section h1,
+.friendsView #main section h2,
+.friendsView #main section h3,
+.friendsView #main section h4,
+.friendsView #main section h5,
+.friendsView #main section h6 {
+  margin-left: 0.5%;
 }
 .friendsView #friendsList {
   height: 100%;
@@ -3761,6 +3805,7 @@ btn-send[disabled] {
   background: -moz-linear-gradient(top, #fafafa, #ececec);
   background: -ms-linear-gradient(top, #fafafa, #ececec);
   background: -o-linear-gradient(top, #fafafa, #ececec);
+  border: none;
   border-bottom: 1px solid #bbbbbb;
   -webkit-border-top-right-radius: 5px;
   -webkit-border-bottom-right-radius: 0px;
@@ -3785,6 +3830,17 @@ btn-send[disabled] {
 }
 .helpView #main header .edit:hover {
   color: #cbcbcb;
+}
+.helpView #main header .title {
+  float: left;
+  margin: 0 1%;
+}
+.helpView #main header .links {
+  float: right;
+  margin: 0 1%;
+}
+.helpView #main header .links a {
+  color: #666;
 }
 .helpView #main section {
   background-color: #eeeeee;
@@ -3816,6 +3872,21 @@ btn-send[disabled] {
 }
 .helpView #main section header {
   margin-top: -5px !important;
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  border-radius: 0;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  border-top: 1px solid #bbbbbb;
+}
+.helpView #main section h1,
+.helpView #main section h2,
+.helpView #main section h3,
+.helpView #main section h4,
+.helpView #main section h5,
+.helpView #main section h6 {
+  margin-left: 0.5%;
 }
 .helpView #main header #title {
   float: left;
@@ -3918,6 +3989,7 @@ btn-send[disabled] {
   background: -moz-linear-gradient(top, #fafafa, #ececec);
   background: -ms-linear-gradient(top, #fafafa, #ececec);
   background: -o-linear-gradient(top, #fafafa, #ececec);
+  border: none;
   border-bottom: 1px solid #bbbbbb;
   -webkit-border-top-right-radius: 5px;
   -webkit-border-bottom-right-radius: 0px;
@@ -3942,6 +4014,17 @@ btn-send[disabled] {
 }
 .settingsView #main header .edit:hover {
   color: #cbcbcb;
+}
+.settingsView #main header .title {
+  float: left;
+  margin: 0 1%;
+}
+.settingsView #main header .links {
+  float: right;
+  margin: 0 1%;
+}
+.settingsView #main header .links a {
+  color: #666;
 }
 .settingsView #main section {
   background-color: #eeeeee;
@@ -3973,36 +4056,26 @@ btn-send[disabled] {
 }
 .settingsView #main section header {
   margin-top: -5px !important;
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  border-radius: 0;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  border-top: 1px solid #bbbbbb;
 }
-.settingsView #main header #title {
-  float: left;
-  margin: 0 1%;
-}
-.settingsView #main header #links {
-  float: right;
-  margin: 0 1%;
-}
-.settingsView #main header #links a {
-  color: #666;
+.settingsView #main section h1,
+.settingsView #main section h2,
+.settingsView #main section h3,
+.settingsView #main section h4,
+.settingsView #main section h5,
+.settingsView #main section h6 {
+  margin-left: 0.5%;
 }
 .settingsView #main #settingsWrap {
   height: 100%;
   overflow-y: scroll;
   overflow-x: hidden;
-}
-.settingsView #main section header {
-  background-color: #ececec;
-  border-top: 1px solid #bbbbbb;
-  -webkit-border-radius: 0px;
-  -moz-border-radius: 0px;
-  border-radius: 0px;
-  -moz-background-clip: padding;
-  -webkit-background-clip: padding-box;
-  background-clip: padding-box;
-  float: left;
-  width: 100%;
-  margin: 10px 0 10px 0;
-  padding: 5px 0px;
 }
 .settingsView #main section header:before,
 .settingsView #main section header :after {
