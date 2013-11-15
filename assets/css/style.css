@@ -13,24 +13,18 @@
 .box-fix {
   -webkit-box-sizing: border-box;
   /* Safari/Chrome, other WebKit */
-
   -moz-box-sizing: border-box;
   /* Firefox, other Gecko */
-
   box-sizing: border-box;
   /* Opera/IE 8+ */
-
 }
 .padding-fix {
   -webkit-box-sizing: padding-box;
   /* Safari/Chrome, other WebKit */
-
   -moz-box-sizing: padding-box;
   /* Firefox, other Gecko */
-
   box-sizing: padding-box;
   /* Opera/IE 8+ */
-
 }
 .clear-fix {
   *zoom: 1;
@@ -113,18 +107,18 @@
 .box section:after {
   clear: both;
 }
+.box section header {
+  margin-top: -5px !important;
+}
 .person {
   padding: 0;
   margin-bottom: 15px !important;
   -webkit-box-sizing: border-box;
   /* Safari/Chrome, other WebKit */
-
   -moz-box-sizing: border-box;
   /* Firefox, other Gecko */
-
   box-sizing: border-box;
   /* Opera/IE 8+ */
-
   background-image: url(../img/user.png);
   background-repeat: no-repeat;
   background-position: center center;
@@ -170,13 +164,10 @@
   color: #ffffff;
   -webkit-box-sizing: border-box;
   /* Safari/Chrome, other WebKit */
-
   -moz-box-sizing: border-box;
   /* Firefox, other Gecko */
-
   box-sizing: border-box;
   /* Opera/IE 8+ */
-
   -webkit-transition: all 1s ease;
   -moz-transition: all 1s ease;
   -ms-transition: all 1s ease;
@@ -267,13 +258,10 @@ template {
 html {
   font-family: sans-serif;
   /* 1 */
-
   -ms-text-size-adjust: 100%;
   /* 2 */
-
   -webkit-text-size-adjust: 100%;
   /* 2 */
-
 }
 /**
  * Remove default margin.
@@ -434,10 +422,8 @@ fieldset {
 legend {
   border: 0;
   /* 1 */
-
   padding: 0;
   /* 2 */
-
 }
 /**
  * 1. Correct font family not being inherited in all browsers.
@@ -450,13 +436,10 @@ select,
 textarea {
   font-family: inherit;
   /* 1 */
-
   font-size: 100%;
   /* 2 */
-
   margin: 0;
   /* 3 */
-
 }
 /**
  * Address Firefox 4+ setting `line-height` on `input` using `!important` in
@@ -489,10 +472,8 @@ input[type="reset"],
 input[type="submit"] {
   -webkit-appearance: button;
   /* 2 */
-
   cursor: pointer;
   /* 3 */
-
 }
 /**
  * Re-set default cursor for disabled elements.
@@ -509,10 +490,8 @@ input[type="checkbox"],
 input[type="radio"] {
   box-sizing: border-box;
   /* 1 */
-
   padding: 0;
   /* 2 */
-
 }
 /**
  * 1. Address `appearance` set to `searchfield` in Safari 5 and Chrome.
@@ -522,11 +501,9 @@ input[type="radio"] {
 input[type="search"] {
   -webkit-appearance: textfield;
   /* 1 */
-
   -moz-box-sizing: content-box;
   -webkit-box-sizing: content-box;
   /* 2 */
-
   box-sizing: content-box;
 }
 /**
@@ -552,10 +529,8 @@ input::-moz-focus-inner {
 textarea {
   overflow: auto;
   /* 1 */
-
   vertical-align: top;
   /* 2 */
-
 }
 /* ==========================================================================
    Tables
@@ -585,13 +560,10 @@ input:not([type=submit]):not([type=file]) {
   box-shadow: inset 0px 0px 5px #cccccc;
   -webkit-box-sizing: border-box;
   /* Safari/Chrome, other WebKit */
-
   -moz-box-sizing: border-box;
   /* Firefox, other Gecko */
-
   box-sizing: border-box;
   /* Opera/IE 8+ */
-
 }
 input:not([type=submit]):not([type=file]):focus {
   outline: 0;
@@ -629,13 +601,10 @@ textarea {
   box-shadow: inset 0px 0px 5px #cccccc;
   -webkit-box-sizing: border-box;
   /* Safari/Chrome, other WebKit */
-
   -moz-box-sizing: border-box;
   /* Firefox, other Gecko */
-
   box-sizing: border-box;
   /* Opera/IE 8+ */
-
 }
 textarea:focus {
   outline: 0;
@@ -820,25 +789,19 @@ body {
   background-color: #ffffff;
   -webkit-box-sizing: border-box;
   /* Safari/Chrome, other WebKit */
-
   -moz-box-sizing: border-box;
   /* Firefox, other Gecko */
-
   box-sizing: border-box;
   /* Opera/IE 8+ */
-
   *zoom: 1;
 }
 body #container {
   -webkit-box-sizing: border-box;
   /* Safari/Chrome, other WebKit */
-
   -moz-box-sizing: border-box;
   /* Firefox, other Gecko */
-
   box-sizing: border-box;
   /* Opera/IE 8+ */
-
 }
 body #container #loading {
   text-align: center;
@@ -850,13 +813,10 @@ body textarea {
 body footer {
   -webkit-box-sizing: border-box;
   /* Safari/Chrome, other WebKit */
-
   -moz-box-sizing: border-box;
   /* Firefox, other Gecko */
-
   box-sizing: border-box;
   /* Opera/IE 8+ */
-
   color: #3d9404;
 }
 body footer a {
@@ -887,13 +847,10 @@ body:not(.mainView, .registerView) #main {
   word-break: break-all;
   -webkit-box-sizing: border-box;
   /* Safari/Chrome, other WebKit */
-
   -moz-box-sizing: border-box;
   /* Firefox, other Gecko */
-
   box-sizing: border-box;
   /* Opera/IE 8+ */
-
   content: attr(data-tooltip-title);
   background-color: #cccccc;
   background: -webkit-gradient(linear, left top, left bottom, from(#cccccc), to(#dddddd));
@@ -921,13 +878,10 @@ body:not(.mainView, .registerView) #main {
   word-break: break-all;
   -webkit-box-sizing: border-box;
   /* Safari/Chrome, other WebKit */
-
   -moz-box-sizing: border-box;
   /* Firefox, other Gecko */
-
   box-sizing: border-box;
   /* Opera/IE 8+ */
-
   content: attr(data-tooltip-title);
   background-color: #cccccc;
   background: -webkit-gradient(linear, left top, left bottom, from(#cccccc), to(#dddddd));
@@ -955,13 +909,10 @@ body:not(.mainView, .registerView) #main {
   word-break: break-all;
   -webkit-box-sizing: border-box;
   /* Safari/Chrome, other WebKit */
-
   -moz-box-sizing: border-box;
   /* Firefox, other Gecko */
-
   box-sizing: border-box;
   /* Opera/IE 8+ */
-
   content: attr(data-tooltip-title);
   background-color: #cccccc;
   background: -webkit-gradient(linear, left top, left bottom, from(#cccccc), to(#dddddd));
@@ -994,13 +945,10 @@ body:not(.mainView, .registerView) #main {
   background-clip: padding-box;
   -webkit-box-sizing: border-box;
   /* Safari/Chrome, other WebKit */
-
   -moz-box-sizing: border-box;
   /* Firefox, other Gecko */
-
   box-sizing: border-box;
   /* Opera/IE 8+ */
-
 }
 .searchBar .formSearch .inputWrap:focus {
   border: solid 1px #559d00;
@@ -1020,18 +968,14 @@ body:not(.mainView, .registerView) #main {
   display: inline-block;
   *display: inline;
   /* IE7 inline-block hack */
-
   *zoom: 1;
   padding: 4px 15px;
   -webkit-box-sizing: border-box;
   /* Safari/Chrome, other WebKit */
-
   -moz-box-sizing: border-box;
   /* Firefox, other Gecko */
-
   box-sizing: border-box;
   /* Opera/IE 8+ */
-
   -webkit-border-radius: 4px;
   -moz-border-radius: 4px;
   border-radius: 4px;
@@ -1078,16 +1022,15 @@ body:not(.mainView, .registerView) #main {
 .searchBar .formSearch .inputWrap li.searchField input {
   -webkit-box-sizing: border-box;
   /* Safari/Chrome, other WebKit */
-
   -moz-box-sizing: border-box;
   /* Firefox, other Gecko */
-
   box-sizing: border-box;
   /* Opera/IE 8+ */
-
   -webkit-box-shadow: none;
   box-shadow: none;
   background: transparent !important;
+  line-height: 13px;
+  font-size: 13px;
 }
 .searchBar .searchDrop {
   background: #ffffff;
@@ -1112,13 +1055,10 @@ body:not(.mainView, .registerView) #main {
   overflow-x: hidden;
   -webkit-box-sizing: border-box;
   /* Safari/Chrome, other WebKit */
-
   -moz-box-sizing: border-box;
   /* Firefox, other Gecko */
-
   box-sizing: border-box;
   /* Opera/IE 8+ */
-
 }
 .searchBar .searchDrop .searchSuggestions li {
   border: none;
@@ -1180,18 +1120,14 @@ body:not(.mainView, .registerView) #main {
   display: inline-block;
   *display: inline;
   /* IE7 inline-block hack */
-
   *zoom: 1;
   padding: 4px 15px;
   -webkit-box-sizing: border-box;
   /* Safari/Chrome, other WebKit */
-
   -moz-box-sizing: border-box;
   /* Firefox, other Gecko */
-
   box-sizing: border-box;
   /* Opera/IE 8+ */
-
   -webkit-border-radius: 4px;
   -moz-border-radius: 4px;
   border-radius: 4px;
@@ -1488,7 +1424,6 @@ btn-send[disabled] {
 							margin: 0px 0px 0px 6%;
 						}
 */
-
 }
 #userpanel #menu #mainMenu li:first-child a {
   margin-top: 0;
@@ -1502,13 +1437,10 @@ btn-send[disabled] {
   background-clip: padding-box;
   -webkit-box-sizing: border-box;
   /* Safari/Chrome, other WebKit */
-
   -moz-box-sizing: border-box;
   /* Firefox, other Gecko */
-
   box-sizing: border-box;
   /* Opera/IE 8+ */
-
 }
 #userpanel #menu #subMenu li {
   text-align: left;
@@ -1541,13 +1473,10 @@ btn-send[disabled] {
   padding: 3px;
   -webkit-box-sizing: border-box;
   /* Safari/Chrome, other WebKit */
-
   -moz-box-sizing: border-box;
   /* Firefox, other Gecko */
-
   box-sizing: border-box;
   /* Opera/IE 8+ */
-
   font-size: 14px;
   line-height: 20px;
   background-color: #ffffff;
@@ -1593,13 +1522,10 @@ btn-send[disabled] {
   padding-top: 30px;
   -webkit-box-sizing: border-box;
   /* Safari/Chrome, other WebKit */
-
   -moz-box-sizing: border-box;
   /* Firefox, other Gecko */
-
   box-sizing: border-box;
   /* Opera/IE 8+ */
-
 }
 #magicbar .magic .body ul {
   width: 100%;
@@ -1613,13 +1539,10 @@ btn-send[disabled] {
   padding: 0;
   -webkit-box-sizing: border-box;
   /* Safari/Chrome, other WebKit */
-
   -moz-box-sizing: border-box;
   /* Firefox, other Gecko */
-
   box-sizing: border-box;
   /* Opera/IE 8+ */
-
   border: none;
   border-bottom: 1px solid #dedede;
 }
@@ -1636,7 +1559,6 @@ btn-send[disabled] {
   display: inline-block;
   *display: inline;
   /* IE7 inline-block hack */
-
   *zoom: 1;
   float: left;
   width: 21%;
@@ -1675,7 +1597,6 @@ btn-send[disabled] {
   display: inline-block;
   *display: inline;
   /* IE7 inline-block hack */
-
   *zoom: 1;
   float: left;
   width: 50%;
@@ -1761,19 +1682,15 @@ btn-send[disabled] {
   text-align: center;
   -webkit-box-sizing: border-box;
   /* Safari/Chrome, other WebKit */
-
   -moz-box-sizing: border-box;
   /* Firefox, other Gecko */
-
   box-sizing: border-box;
   /* Opera/IE 8+ */
-
 }
 #magicbar .magic .body ul li.message .username {
   display: inline-block;
   *display: inline;
   /* IE7 inline-block hack */
-
   *zoom: 1;
   float: left;
   width: 73%;
@@ -1787,7 +1704,6 @@ btn-send[disabled] {
   display: inline-block;
   *display: inline;
   /* IE7 inline-block hack */
-
   *zoom: 1;
   float: left;
   width: 68.83333333333334%;
@@ -1803,7 +1719,6 @@ btn-send[disabled] {
   display: inline-block;
   *display: inline;
   /* IE7 inline-block hack */
-
   *zoom: 1;
   float: left;
   width: 23%;
@@ -1814,7 +1729,6 @@ btn-send[disabled] {
   display: inline-block;
   *display: inline;
   /* IE7 inline-block hack */
-
   *zoom: 1;
   float: left;
   width: 73%;
@@ -1826,7 +1740,6 @@ btn-send[disabled] {
   display: inline-block;
   *display: inline;
   /* IE7 inline-block hack */
-
   *zoom: 1;
   float: left;
   width: 73%;
@@ -1843,7 +1756,6 @@ btn-send[disabled] {
   display: inline-block;
   *display: inline;
   /* IE7 inline-block hack */
-
   *zoom: 1;
   float: left;
   width: 48%;
@@ -1854,7 +1766,6 @@ btn-send[disabled] {
   display: inline-block;
   *display: inline;
   /* IE7 inline-block hack */
-
   *zoom: 1;
   float: left;
   width: 23%;
@@ -1868,7 +1779,6 @@ btn-send[disabled] {
   display: inline-block;
   *display: inline;
   /* IE7 inline-block hack */
-
   *zoom: 1;
   float: left;
   width: 73%;
@@ -1882,22 +1792,16 @@ btn-send[disabled] {
   background: #3a8100;
   background: -moz-radial-gradient(center, ellipse cover, #00b7ea 0%, #009ec3 100%);
   /* FF3.6+ */
-
   background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%, #559d00), color-stop(100%, #3a8100));
   /* Chrome,Safari4+ */
-
   background: -webkit-radial-gradient(center, ellipse cover, #559d00 0%, #3a8100 100%);
   /* Chrome10+,Safari5.1+ */
-
   background: -o-radial-gradient(center, ellipse cover, #00b7ea 0%, #009ec3 100%);
   /* Opera 12+ */
-
   background: -ms-radial-gradient(center, ellipse cover, #00b7ea 0%, #009ec3 100%);
   /* IE10+ */
-
   background: radial-gradient(ellipse at center, #559d00 0%, #3a8100 100%);
   /* W3C */
-
   padding: 0;
 }
 .registerView footer {
@@ -1929,26 +1833,20 @@ btn-send[disabled] {
   background-color: #b40000;
   -webkit-box-sizing: border-box;
   /* Safari/Chrome, other WebKit */
-
   -moz-box-sizing: border-box;
   /* Firefox, other Gecko */
-
   box-sizing: border-box;
   /* Opera/IE 8+ */
-
 }
 .registerView .success {
   border: 1px solid #488200;
   background-color: #66b900;
   -webkit-box-sizing: border-box;
   /* Safari/Chrome, other WebKit */
-
   -moz-box-sizing: border-box;
   /* Firefox, other Gecko */
-
   box-sizing: border-box;
   /* Opera/IE 8+ */
-
 }
 .registerView header {
   width: 100%;
@@ -1964,13 +1862,10 @@ btn-send[disabled] {
   background: #ffffff;
   -webkit-box-sizing: border-box;
   /* Safari/Chrome, other WebKit */
-
   -moz-box-sizing: border-box;
   /* Firefox, other Gecko */
-
   box-sizing: border-box;
   /* Opera/IE 8+ */
-
 }
 .registerView header #topWrap {
   display: block;
@@ -2011,13 +1906,10 @@ btn-send[disabled] {
   padding: 0px 10px 0px 10px;
   -webkit-box-sizing: border-box;
   /* Safari/Chrome, other WebKit */
-
   -moz-box-sizing: border-box;
   /* Firefox, other Gecko */
-
   box-sizing: border-box;
   /* Opera/IE 8+ */
-
   -webkit-border-radius: 8px;
   -moz-border-radius: 8px;
   border-radius: 8px;
@@ -2032,7 +1924,6 @@ btn-send[disabled] {
   display: inline-block;
   *display: inline;
   /* IE7 inline-block hack */
-
   *zoom: 1;
   float: left;
   width: 49%;
@@ -2049,13 +1940,10 @@ btn-send[disabled] {
   background: #ffffff;
   -webkit-box-sizing: border-box;
   /* Safari/Chrome, other WebKit */
-
   -moz-box-sizing: border-box;
   /* Firefox, other Gecko */
-
   box-sizing: border-box;
   /* Opera/IE 8+ */
-
 }
 .registerView section #loginForm div,
 .registerView section #loginForm input {
@@ -2075,30 +1963,23 @@ btn-send[disabled] {
   background-clip: padding-box;
   -webkit-box-sizing: border-box;
   /* Safari/Chrome, other WebKit */
-
   -moz-box-sizing: border-box;
   /* Firefox, other Gecko */
-
   box-sizing: border-box;
   /* Opera/IE 8+ */
-
 }
 .registerView section #loginForm button {
   display: inline-block;
   *display: inline;
   /* IE7 inline-block hack */
-
   *zoom: 1;
   padding: 4px 15px;
   -webkit-box-sizing: border-box;
   /* Safari/Chrome, other WebKit */
-
   -moz-box-sizing: border-box;
   /* Firefox, other Gecko */
-
   box-sizing: border-box;
   /* Opera/IE 8+ */
-
   -webkit-border-radius: 4px;
   -moz-border-radius: 4px;
   border-radius: 4px;
@@ -2142,7 +2023,6 @@ btn-send[disabled] {
   display: inline-block;
   *display: inline;
   /* IE7 inline-block hack */
-
   *zoom: 1;
   float: left;
   width: 49%;
@@ -2160,7 +2040,6 @@ btn-send[disabled] {
   display: inline-block;
   *display: inline;
   /* IE7 inline-block hack */
-
   *zoom: 1;
   float: right;
   width: 49%;
@@ -2207,18 +2086,14 @@ btn-send[disabled] {
   display: inline-block;
   *display: inline;
   /* IE7 inline-block hack */
-
   *zoom: 1;
   padding: 4px 15px;
   -webkit-box-sizing: border-box;
   /* Safari/Chrome, other WebKit */
-
   -moz-box-sizing: border-box;
   /* Firefox, other Gecko */
-
   box-sizing: border-box;
   /* Opera/IE 8+ */
-
   -webkit-border-radius: 4px;
   -moz-border-radius: 4px;
   border-radius: 4px;
@@ -2300,13 +2175,10 @@ btn-send[disabled] {
   background-clip: padding-box;
   -webkit-box-sizing: border-box;
   /* Safari/Chrome, other WebKit */
-
   -moz-box-sizing: border-box;
   /* Firefox, other Gecko */
-
   box-sizing: border-box;
   /* Opera/IE 8+ */
-
 }
 .registerView section #registerForm .submitWrap {
   display: inline-block;
@@ -2318,18 +2190,14 @@ btn-send[disabled] {
   display: inline-block;
   *display: inline;
   /* IE7 inline-block hack */
-
   *zoom: 1;
   padding: 4px 15px;
   -webkit-box-sizing: border-box;
   /* Safari/Chrome, other WebKit */
-
   -moz-box-sizing: border-box;
   /* Firefox, other Gecko */
-
   box-sizing: border-box;
   /* Opera/IE 8+ */
-
   -webkit-border-radius: 4px;
   -moz-border-radius: 4px;
   border-radius: 4px;
@@ -2448,19 +2316,15 @@ btn-send[disabled] {
   padding-top: 100px;
   -webkit-box-sizing: border-box;
   /* Safari/Chrome, other WebKit */
-
   -moz-box-sizing: border-box;
   /* Firefox, other Gecko */
-
   box-sizing: border-box;
   /* Opera/IE 8+ */
-
 }
 .mainView #wall header {
   display: inline-block;
   *display: inline;
   /* IE7 inline-block hack */
-
   *zoom: 1;
   float: left;
   width: 98%;
@@ -2483,7 +2347,6 @@ btn-send[disabled] {
   display: inline-block;
   *display: inline;
   /* IE7 inline-block hack */
-
   *zoom: 1;
   float: left;
   width: 64.66666666666667%;
@@ -2498,19 +2361,15 @@ btn-send[disabled] {
   background-clip: padding-box;
   -webkit-box-sizing: border-box;
   /* Safari/Chrome, other WebKit */
-
   -moz-box-sizing: border-box;
   /* Firefox, other Gecko */
-
   box-sizing: border-box;
   /* Opera/IE 8+ */
-
 }
 .mainView #wall header #postIt #receiver {
   display: inline-block;
   *display: inline;
   /* IE7 inline-block hack */
-
   *zoom: 1;
   float: left;
   width: 68.75%;
@@ -2537,7 +2396,6 @@ btn-send[disabled] {
   display: inline-block;
   *display: inline;
   /* IE7 inline-block hack */
-
   *zoom: 1;
   float: left;
   width: 100%;
@@ -2564,17 +2422,13 @@ btn-send[disabled] {
 }
 .mainView #wall header #postIt button {
   /* IE7 inline-block hack */
-
   padding: 4px 15px;
   -webkit-box-sizing: border-box;
   /* Safari/Chrome, other WebKit */
-
   -moz-box-sizing: border-box;
   /* Firefox, other Gecko */
-
   box-sizing: border-box;
   /* Opera/IE 8+ */
-
   -webkit-border-radius: 4px;
   -moz-border-radius: 4px;
   border-radius: 4px;
@@ -2588,7 +2442,6 @@ btn-send[disabled] {
   display: inline-block;
   *display: inline;
   /* IE7 inline-block hack */
-
   *zoom: 1;
   float: right;
   width: 31.25%;
@@ -2637,7 +2490,6 @@ btn-send[disabled] {
   display: inline-block;
   *display: inline;
   /* IE7 inline-block hack */
-
   *zoom: 1;
   float: left;
   width: 31.333333333333336%;
@@ -2648,7 +2500,6 @@ btn-send[disabled] {
   display: inline-block;
   *display: inline;
   /* IE7 inline-block hack */
-
   *zoom: 1;
   float: left;
   width: 98%;
@@ -2675,7 +2526,6 @@ btn-send[disabled] {
   display: inline-block;
   *display: inline;
   /* IE7 inline-block hack */
-
   *zoom: 1;
   float: left;
   width: 98%;
@@ -2716,13 +2566,10 @@ btn-send[disabled] {
   padding-left: 10px;
   -webkit-box-sizing: border-box;
   /* Safari/Chrome, other WebKit */
-
   -moz-box-sizing: border-box;
   /* Firefox, other Gecko */
-
   box-sizing: border-box;
   /* Opera/IE 8+ */
-
 }
 .mainView #wall .posts article .postInfo {
   margin-top: -5px;
@@ -2845,13 +2692,10 @@ btn-send[disabled] {
   background-clip: padding-box;
   -webkit-box-sizing: border-box;
   /* Safari/Chrome, other WebKit */
-
   -moz-box-sizing: border-box;
   /* Firefox, other Gecko */
-
   box-sizing: border-box;
   /* Opera/IE 8+ */
-
 }
 .profileView #main #info article input {
   padding: 2px !important;
@@ -2860,7 +2704,6 @@ btn-send[disabled] {
   display: inline-block;
   *display: inline;
   /* IE7 inline-block hack */
-
   *zoom: 1;
   float: left;
   width: 98%;
@@ -2900,13 +2743,10 @@ btn-send[disabled] {
   padding: 5px;
   -webkit-box-sizing: border-box;
   /* Safari/Chrome, other WebKit */
-
   -moz-box-sizing: border-box;
   /* Firefox, other Gecko */
-
   box-sizing: border-box;
   /* Opera/IE 8+ */
-
   color: #ffffff;
   text-align: center;
   opacity: 0;
@@ -2923,30 +2763,23 @@ btn-send[disabled] {
   border-top: 1px solid #ccc;
   -webkit-box-sizing: border-box;
   /* Safari/Chrome, other WebKit */
-
   -moz-box-sizing: border-box;
   /* Firefox, other Gecko */
-
   box-sizing: border-box;
   /* Opera/IE 8+ */
-
 }
 .profileView #main #info article#generalInfo .actions .addFriend {
   display: inline-block;
   *display: inline;
   /* IE7 inline-block hack */
-
   *zoom: 1;
   padding: 4px 15px;
   -webkit-box-sizing: border-box;
   /* Safari/Chrome, other WebKit */
-
   -moz-box-sizing: border-box;
   /* Firefox, other Gecko */
-
   box-sizing: border-box;
   /* Opera/IE 8+ */
-
   -webkit-border-radius: 4px;
   -moz-border-radius: 4px;
   border-radius: 4px;
@@ -2985,18 +2818,14 @@ btn-send[disabled] {
   display: inline-block;
   *display: inline;
   /* IE7 inline-block hack */
-
   *zoom: 1;
   padding: 4px 15px;
   -webkit-box-sizing: border-box;
   /* Safari/Chrome, other WebKit */
-
   -moz-box-sizing: border-box;
   /* Firefox, other Gecko */
-
   box-sizing: border-box;
   /* Opera/IE 8+ */
-
   -webkit-border-radius: 4px;
   -moz-border-radius: 4px;
   border-radius: 4px;
@@ -3071,7 +2900,6 @@ btn-send[disabled] {
   display: inline-block;
   *display: inline;
   /* IE7 inline-block hack */
-
   *zoom: 1;
   float: left;
   width: 48%;
@@ -3084,19 +2912,15 @@ btn-send[disabled] {
   padding-left: 10px;
   -webkit-box-sizing: border-box;
   /* Safari/Chrome, other WebKit */
-
   -moz-box-sizing: border-box;
   /* Firefox, other Gecko */
-
   box-sizing: border-box;
   /* Opera/IE 8+ */
-
 }
 .profileView #main #wall article .postInfo {
   display: inline-block;
   *display: inline;
   /* IE7 inline-block hack */
-
   *zoom: 1;
   float: left;
   width: 23%;
@@ -3110,7 +2934,6 @@ btn-send[disabled] {
   display: inline-block;
   *display: inline;
   /* IE7 inline-block hack */
-
   *zoom: 1;
   float: left;
   width: 64.66666666666667%;
@@ -3147,7 +2970,6 @@ btn-send[disabled] {
   display: inline-block;
   *display: inline;
   /* IE7 inline-block hack */
-
   *zoom: 1;
   float: left;
   width: 6.333333333333334%;
@@ -3158,7 +2980,6 @@ btn-send[disabled] {
   display: inline-block;
   *display: inline;
   /* IE7 inline-block hack */
-
   *zoom: 1;
   float: left;
   width: 73%;
@@ -3169,7 +2990,6 @@ btn-send[disabled] {
   display: inline-block;
   *display: inline;
   /* IE7 inline-block hack */
-
   *zoom: 1;
   float: left;
   width: 14.666666666666668%;
@@ -3183,7 +3003,6 @@ btn-send[disabled] {
   display: inline-block;
   *display: inline;
   /* IE7 inline-block hack */
-
   *zoom: 1;
   float: left;
   width: 73%;
@@ -3194,7 +3013,6 @@ btn-send[disabled] {
   display: inline-block;
   *display: inline;
   /* IE7 inline-block hack */
-
   *zoom: 1;
   float: left;
   width: 14.666666666666668%;
@@ -3208,7 +3026,6 @@ btn-send[disabled] {
   display: inline-block;
   *display: inline;
   /* IE7 inline-block hack */
-
   *zoom: 1;
   float: left;
   width: 98%;
@@ -3278,13 +3095,10 @@ btn-send[disabled] {
   background-clip: padding-box;
   -webkit-box-sizing: border-box;
   /* Safari/Chrome, other WebKit */
-
   -moz-box-sizing: border-box;
   /* Firefox, other Gecko */
-
   box-sizing: border-box;
   /* Opera/IE 8+ */
-
 }
 .messagesView #topicListWrap {
   margin-right: 3px;
@@ -3294,24 +3108,18 @@ btn-send[disabled] {
   list-style: none;
   -webkit-box-sizing: border-box;
   /* Safari/Chrome, other WebKit */
-
   -moz-box-sizing: border-box;
   /* Firefox, other Gecko */
-
   box-sizing: border-box;
   /* Opera/IE 8+ */
-
 }
 .messagesView #topicListWrap #topicList #topicListScroll {
   -webkit-box-sizing: border-box;
   /* Safari/Chrome, other WebKit */
-
   -moz-box-sizing: border-box;
   /* Firefox, other Gecko */
-
   box-sizing: border-box;
   /* Opera/IE 8+ */
-
 }
 .messagesView #topicListWrap #topicList #newmessage {
   border: none;
@@ -3332,13 +3140,10 @@ btn-send[disabled] {
   border-bottom: 1px solid #aaa;
   -webkit-box-sizing: border-box;
   /* Safari/Chrome, other WebKit */
-
   -moz-box-sizing: border-box;
   /* Firefox, other Gecko */
-
   box-sizing: border-box;
   /* Opera/IE 8+ */
-
 }
 .messagesView #topicListWrap #topicList .topic .left .userimg {
   -webkit-border-top-right-radius: 0px;
@@ -3470,13 +3275,10 @@ btn-send[disabled] {
   color: #ffffff;
   -webkit-box-sizing: border-box;
   /* Safari/Chrome, other WebKit */
-
   -moz-box-sizing: border-box;
   /* Firefox, other Gecko */
-
   box-sizing: border-box;
   /* Opera/IE 8+ */
-
 }
 .messagesView #topicWrap.peerChat #messageList {
   margin-left: 0;
@@ -3693,6 +3495,9 @@ btn-send[disabled] {
 .friendsView section:after {
   clear: both;
 }
+.friendsView section header {
+  margin-top: -5px !important;
+}
 .friendsView #main {
   padding-top: 30px;
   padding-bottom: 10px;
@@ -3709,13 +3514,10 @@ btn-send[disabled] {
   background-clip: padding-box;
   -webkit-box-sizing: border-box;
   /* Safari/Chrome, other WebKit */
-
   -moz-box-sizing: border-box;
   /* Firefox, other Gecko */
-
   box-sizing: border-box;
   /* Opera/IE 8+ */
-
 }
 .friendsView #friendsList {
   height: 100%;
@@ -3737,7 +3539,6 @@ btn-send[disabled] {
   display: inline-block;
   *display: inline;
   /* IE7 inline-block hack */
-
   *zoom: 1;
   float: left;
   width: 31.333333333333336%;
@@ -3756,13 +3557,10 @@ btn-send[disabled] {
   background-clip: padding-box;
   -webkit-box-sizing: border-box;
   /* Safari/Chrome, other WebKit */
-
   -moz-box-sizing: border-box;
   /* Firefox, other Gecko */
-
   box-sizing: border-box;
   /* Opera/IE 8+ */
-
 }
 .circlesView header nav a {
   color: #888888;
@@ -3775,24 +3573,18 @@ btn-send[disabled] {
   list-style: none;
   -webkit-box-sizing: border-box;
   /* Safari/Chrome, other WebKit */
-
   -moz-box-sizing: border-box;
   /* Firefox, other Gecko */
-
   box-sizing: border-box;
   /* Opera/IE 8+ */
-
 }
 .circlesView #circleListWrap #circleList #circleListScroll {
   -webkit-box-sizing: border-box;
   /* Safari/Chrome, other WebKit */
-
   -moz-box-sizing: border-box;
   /* Firefox, other Gecko */
-
   box-sizing: border-box;
   /* Opera/IE 8+ */
-
 }
 .circlesView #circleListWrap #circleList #newcircle {
   border: none;
@@ -3875,7 +3667,6 @@ btn-send[disabled] {
   display: inline-block;
   *display: inline;
   /* IE7 inline-block hack */
-
   *zoom: 1;
   float: left;
   width: 31.33333333333333%;
@@ -3899,7 +3690,6 @@ btn-send[disabled] {
 .mediaView .album .name {
   *display: inline;
   /* IE7 inline-block hack */
-
   *zoom: 1;
   float: left;
   width: 98%;
@@ -3934,13 +3724,10 @@ btn-send[disabled] {
   padding: 5px;
   -webkit-box-sizing: border-box;
   /* Safari/Chrome, other WebKit */
-
   -moz-box-sizing: border-box;
   /* Firefox, other Gecko */
-
   box-sizing: border-box;
   /* Opera/IE 8+ */
-
 }
 .mediaView #imageView #image img {
   max-height: 95%;
@@ -3960,13 +3747,10 @@ btn-send[disabled] {
   background-clip: padding-box;
   -webkit-box-sizing: border-box;
   /* Safari/Chrome, other WebKit */
-
   -moz-box-sizing: border-box;
   /* Firefox, other Gecko */
-
   box-sizing: border-box;
   /* Opera/IE 8+ */
-
 }
 .helpView #main header {
   height: 20px;
@@ -4030,6 +3814,9 @@ btn-send[disabled] {
 .helpView #main section:after {
   clear: both;
 }
+.helpView #main section header {
+  margin-top: -5px !important;
+}
 .helpView #main header #title {
   float: left;
   margin: 0 1%;
@@ -4070,7 +3857,6 @@ btn-send[disabled] {
   display: inline-block;
   *display: inline;
   /* IE7 inline-block hack */
-
   *zoom: 1;
   float: left;
   width: 98%;
@@ -4087,7 +3873,6 @@ btn-send[disabled] {
   display: inline-block;
   *display: inline;
   /* IE7 inline-block hack */
-
   *zoom: 1;
   float: left;
   width: 64.66666666666667%;
@@ -4098,7 +3883,6 @@ btn-send[disabled] {
   display: inline-block;
   *display: inline;
   /* IE7 inline-block hack */
-
   *zoom: 1;
   float: left;
   width: 31.333333333333336%;
@@ -4120,13 +3904,10 @@ btn-send[disabled] {
   background-clip: padding-box;
   -webkit-box-sizing: border-box;
   /* Safari/Chrome, other WebKit */
-
   -moz-box-sizing: border-box;
   /* Firefox, other Gecko */
-
   box-sizing: border-box;
   /* Opera/IE 8+ */
-
 }
 .settingsView #main header {
   height: 20px;
@@ -4190,6 +3971,9 @@ btn-send[disabled] {
 .settingsView #main section:after {
   clear: both;
 }
+.settingsView #main section header {
+  margin-top: -5px !important;
+}
 .settingsView #main header #title {
   float: left;
   margin: 0 1%;
@@ -4233,7 +4017,6 @@ btn-send[disabled] {
   display: inline-block;
   *display: inline;
   /* IE7 inline-block hack */
-
   *zoom: 1;
   float: left;
   width: 98%;
@@ -4245,7 +4028,6 @@ btn-send[disabled] {
   display: inline-block;
   *display: inline;
   /* IE7 inline-block hack */
-
   *zoom: 1;
   float: left;
   width: 23%;
@@ -4256,18 +4038,14 @@ btn-send[disabled] {
   display: inline-block;
   *display: inline;
   /* IE7 inline-block hack */
-
   *zoom: 1;
   padding: 4px 15px;
   -webkit-box-sizing: border-box;
   /* Safari/Chrome, other WebKit */
-
   -moz-box-sizing: border-box;
   /* Firefox, other Gecko */
-
   box-sizing: border-box;
   /* Opera/IE 8+ */
-
   -webkit-border-radius: 4px;
   -moz-border-radius: 4px;
   border-radius: 4px;
@@ -4304,7 +4082,6 @@ btn-send[disabled] {
   display: inline-block;
   *display: inline;
   /* IE7 inline-block hack */
-
   *zoom: 1;
   float: left;
   width: 14.666666666666668%;
@@ -4315,7 +4092,6 @@ btn-send[disabled] {
   display: inline-block;
   *display: inline;
   /* IE7 inline-block hack */
-
   *zoom: 1;
   float: left;
   width: 48%;
@@ -4325,7 +4101,6 @@ btn-send[disabled] {
   display: inline-block;
   *display: inline;
   /* IE7 inline-block hack */
-
   *zoom: 1;
   float: left;
   width: 64.66666666666667%;
@@ -4335,7 +4110,6 @@ btn-send[disabled] {
   display: inline-block;
   *display: inline;
   /* IE7 inline-block hack */
-
   *zoom: 1;
   float: left;
   width: 31.333333333333336%;
@@ -4345,10 +4119,8 @@ btn-send[disabled] {
   background-color: #555555;
   display: -moz-box;
   /* Mozilla */
-
   display: -webkit-box;
   /* WebKit */
-
   float: left;
   width: 100%;
   height: 150px;
@@ -4356,10 +4128,8 @@ btn-send[disabled] {
   margin-bottom: -10px;
   -moz-box-orient: vertical;
   /* Mozilla */
-
   -webkit-box-orient: vertical;
   /* WebKit */
-
 }
 .settingsView #main section .notimplemented span {
   font-size: 1.5em;
@@ -4435,7 +4205,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 60.50000000000001%;
@@ -4445,7 +4214,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 16.75%;
@@ -4455,7 +4223,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 16.75%;
@@ -4465,7 +4232,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 98%;
@@ -4544,7 +4310,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 40.85714285714286%;
@@ -4563,13 +4328,10 @@ and (max-device-width : 767px) {
     padding: 0px 0px 0px 2px;
     -webkit-box-sizing: border-box;
     /* Safari/Chrome, other WebKit */
-  
     -moz-box-sizing: border-box;
     /* Firefox, other Gecko */
-  
     box-sizing: border-box;
     /* Opera/IE 8+ */
-  
   }
   .searchBar .searchDrop .searchSuggestions li {
     width: 100%;
@@ -4583,7 +4345,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 8.833333333333334%;
@@ -4594,7 +4355,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 52.16666666666667%;
@@ -4625,7 +4385,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 23%;
@@ -4635,7 +4394,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 31.333333333333336%;
@@ -4657,7 +4415,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 16.75%;
@@ -4668,7 +4425,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 60.50000000000001%;
@@ -4704,7 +4460,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: right;
     width: 16.75%;
@@ -4714,7 +4469,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 23%;
@@ -4735,7 +4489,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 29.250000000000004%;
@@ -4745,7 +4498,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 66.75%;
@@ -4755,7 +4507,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 66.75%;
@@ -4765,26 +4516,21 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 48%;
     margin: 0 1% 0 1%;
     -webkit-box-sizing: border-box;
     /* Safari/Chrome, other WebKit */
-  
     -moz-box-sizing: border-box;
     /* Firefox, other Gecko */
-  
     box-sizing: border-box;
     /* Opera/IE 8+ */
-  
   }
   #userpanel #menu #mainMenu {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 98%;
@@ -4794,7 +4540,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 81.33333333333334%;
@@ -4804,7 +4549,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 81.33333333333334%;
@@ -4814,7 +4558,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 48%;
@@ -4825,7 +4568,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 98%;
@@ -4850,7 +4592,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 31.333333333333336%;
@@ -4859,13 +4600,10 @@ and (max-device-width : 767px) {
     padding: 0;
     -webkit-box-sizing: border-box;
     /* Safari/Chrome, other WebKit */
-  
     -moz-box-sizing: border-box;
     /* Firefox, other Gecko */
-  
     box-sizing: border-box;
     /* Opera/IE 8+ */
-  
     margin-bottom: 15px;
   }
   .friendsView #friendsList li .username,
@@ -4916,7 +4654,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 48%;
@@ -4926,7 +4663,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 33.714285714285715%;
@@ -4936,7 +4672,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 12.285714285714286%;
@@ -4956,7 +4691,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 26.125%;
@@ -4980,7 +4714,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 33%;
@@ -4997,7 +4730,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 63%;
@@ -5013,7 +4745,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 63%;
@@ -5035,7 +4766,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 50%;
@@ -5054,7 +4784,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 69.875%;
@@ -5063,13 +4792,10 @@ and (max-device-width : 767px) {
     padding: 0px 0px 120px 0px;
     -webkit-box-sizing: border-box;
     /* Safari/Chrome, other WebKit */
-  
     -moz-box-sizing: border-box;
     /* Firefox, other Gecko */
-  
     box-sizing: border-box;
     /* Opera/IE 8+ */
-  
   }
   .messagesView #topicWrap.peerChat #messageWrap {
     height: 100%;
@@ -5085,7 +4811,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 98%;
@@ -5097,7 +4822,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 15.5%;
@@ -5108,7 +4832,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 80.5%;
@@ -5119,7 +4842,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 73%;
@@ -5130,7 +4852,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 23%;
@@ -5141,7 +4862,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 69.875%;
@@ -5150,13 +4870,10 @@ and (max-device-width : 767px) {
     padding: 0px 0px 120px 0px;
     -webkit-box-sizing: border-box;
     /* Safari/Chrome, other WebKit */
-  
     -moz-box-sizing: border-box;
     /* Firefox, other Gecko */
-  
     box-sizing: border-box;
     /* Opera/IE 8+ */
-  
   }
   .messagesView #topicWrap.groupChat #messageWrap {
     height: 100%;
@@ -5172,7 +4889,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 98%;
@@ -5183,7 +4899,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 11%;
@@ -5195,7 +4910,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 58%;
@@ -5205,7 +4919,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 58%;
@@ -5216,7 +4929,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 73%;
@@ -5227,7 +4939,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 23%;
@@ -5238,7 +4949,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 69.42857142857143%;
@@ -5249,7 +4959,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 98%;
@@ -5276,7 +4985,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 12.285714285714286%;
@@ -5286,7 +4994,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 83.71428571428572%;
@@ -5296,7 +5003,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 31.333333333333336%;
@@ -5313,7 +5019,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 37.285714285714285%;
@@ -5337,7 +5042,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 28%;
@@ -5354,7 +5058,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 68%;
@@ -5367,7 +5070,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 68%;
@@ -5383,7 +5085,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 58.714285714285715%;
@@ -5392,13 +5093,10 @@ and (max-device-width : 767px) {
     padding: 0px 0px 91px 0px;
     -webkit-box-sizing: border-box;
     /* Safari/Chrome, other WebKit */
-  
     -moz-box-sizing: border-box;
     /* Firefox, other Gecko */
-  
     box-sizing: border-box;
     /* Opera/IE 8+ */
-  
   }
   .circlesView #circleContainer #circleWrap {
     height: 100%;
@@ -5414,7 +5112,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 31.333333333333336%;
@@ -5440,7 +5137,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 98%;
@@ -5458,7 +5154,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 98%;
@@ -5468,7 +5163,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 73%;
@@ -5480,7 +5174,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 98%;
@@ -5492,7 +5185,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 16.75%;
@@ -5503,7 +5195,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 79.25%;
@@ -5519,7 +5210,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 98%;
@@ -5535,7 +5225,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 98%;
@@ -5548,7 +5237,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 73%;
@@ -5559,7 +5247,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 35.5%;
@@ -5570,7 +5257,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 35.5%;
@@ -5580,7 +5266,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 35.5%;
@@ -5591,7 +5276,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 64.66666666666667%;
@@ -5655,7 +5339,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 6.333333333333334%;
@@ -5668,7 +5351,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 64.66666666666667%;
@@ -5676,19 +5358,15 @@ and (max-device-width : 767px) {
     padding: 3px;
     -webkit-box-sizing: border-box;
     /* Safari/Chrome, other WebKit */
-  
     -moz-box-sizing: border-box;
     /* Firefox, other Gecko */
-  
     box-sizing: border-box;
     /* Opera/IE 8+ */
-  
   }
   .posts article ol.comments li .timestamp {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 14.666666666666668%;
@@ -5705,7 +5383,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 60.50000000000001%;
@@ -5716,7 +5393,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 23%;
@@ -5730,7 +5406,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 100%;
@@ -5742,7 +5417,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 48%;
@@ -5757,7 +5431,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 48%;
@@ -5769,7 +5442,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 31.333333333333336%;
@@ -5781,13 +5453,10 @@ and (max-device-width : 767px) {
     padding-top: 50px;
     -webkit-box-sizing: border-box;
     /* Safari/Chrome, other WebKit */
-  
     -moz-box-sizing: border-box;
     /* Firefox, other Gecko */
-  
     box-sizing: border-box;
     /* Opera/IE 8+ */
-  
     margin: 0 auto;
   }
   .profileView #main #scroller {
@@ -5796,13 +5465,10 @@ and (max-device-width : 767px) {
     overflow-y: scroll;
     -webkit-box-sizing: border-box;
     /* Safari/Chrome, other WebKit */
-  
     -moz-box-sizing: border-box;
     /* Firefox, other Gecko */
-  
     box-sizing: border-box;
     /* Opera/IE 8+ */
-  
     margin: 0 auto;
     margin-top: 10px;
   }
@@ -5814,7 +5480,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 31.333333333333336%;
@@ -5824,19 +5489,15 @@ and (max-device-width : 767px) {
     height: 150px;
     -webkit-box-sizing: border-box;
     /* Safari/Chrome, other WebKit */
-  
     -moz-box-sizing: border-box;
     /* Firefox, other Gecko */
-  
     box-sizing: border-box;
     /* Opera/IE 8+ */
-  
   }
   .profileView #main #info article#generalInfo {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 100%;
@@ -5849,7 +5510,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 23%;
@@ -5861,7 +5521,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 73%;
@@ -5873,7 +5532,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 100%;
@@ -5883,7 +5541,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 48%;
@@ -5900,7 +5557,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 48%;
@@ -5911,7 +5567,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 48%;
@@ -5929,7 +5584,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 100%;
@@ -5939,19 +5593,15 @@ and (max-device-width : 767px) {
     margin-bottom: 1%;
     -webkit-box-sizing: border-box;
     /* Safari/Chrome, other WebKit */
-  
     -moz-box-sizing: border-box;
     /* Firefox, other Gecko */
-  
     box-sizing: border-box;
     /* Opera/IE 8+ */
-  
   }
   .profileView #main #wall article {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 98%;
@@ -5961,7 +5611,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 13.625%;
@@ -5972,7 +5621,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 48%;
@@ -5991,7 +5639,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 29.25%;
@@ -6008,7 +5655,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 100%;
@@ -6017,13 +5663,10 @@ and (max-device-width : 767px) {
     padding: 0;
     -webkit-box-sizing: border-box;
     /* Safari/Chrome, other WebKit */
-  
     -moz-box-sizing: border-box;
     /* Firefox, other Gecko */
-  
     box-sizing: border-box;
     /* Opera/IE 8+ */
-  
   }
   .profileView #main #friends header {
     margin-bottom: 1%;
@@ -6033,7 +5676,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 98%;
@@ -6076,7 +5718,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 98%;
@@ -6084,9 +5725,6 @@ and (max-device-width : 767px) {
     margin-top: -5px;
     margin-bottom: 10px;
   }
-}
-@media only screen and (max-width: 1159px) and (-webkit-min-device-pixel-ratio: 0) {
-  
 }
 /* Normal Screens ---------- */
 @media only screen and (min-width: 1160px) and (max-width: 1823px) {
@@ -6122,7 +5760,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 64.66666666666667%;
@@ -6132,7 +5769,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 14.666666666666668%;
@@ -6142,7 +5778,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 14.666666666666668%;
@@ -6152,7 +5787,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 98%;
@@ -6234,7 +5868,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 40.85714285714286%;
@@ -6253,13 +5886,10 @@ and (max-device-width : 767px) {
     padding: 0px 0px 0px 2px;
     -webkit-box-sizing: border-box;
     /* Safari/Chrome, other WebKit */
-  
     -moz-box-sizing: border-box;
     /* Firefox, other Gecko */
-  
     box-sizing: border-box;
     /* Opera/IE 8+ */
-  
   }
   .searchBar .searchDrop .searchSuggestions li {
     width: 100%;
@@ -6273,7 +5903,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 8.833333333333334%;
@@ -6284,7 +5913,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 52.16666666666667%;
@@ -6315,7 +5943,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 23%;
@@ -6325,7 +5952,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 31.333333333333336%;
@@ -6346,7 +5972,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 14.666666666666668%;
@@ -6357,7 +5982,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 64.66666666666667%;
@@ -6393,7 +6017,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: right;
     width: 14.666666666666668%;
@@ -6403,7 +6026,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 23%;
@@ -6424,7 +6046,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 29.250000000000004%;
@@ -6434,7 +6055,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 66.75%;
@@ -6444,7 +6064,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 66.75%;
@@ -6454,26 +6073,21 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 48%;
     margin: 0 1% 0 1%;
     -webkit-box-sizing: border-box;
     /* Safari/Chrome, other WebKit */
-  
     -moz-box-sizing: border-box;
     /* Firefox, other Gecko */
-  
     box-sizing: border-box;
     /* Opera/IE 8+ */
-  
   }
   #userpanel #menu #mainMenu {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 98%;
@@ -6483,7 +6097,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 98%;
@@ -6493,7 +6106,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 98%;
@@ -6503,7 +6115,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 48%;
@@ -6514,7 +6125,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 98%;
@@ -6539,7 +6149,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 23%;
@@ -6548,13 +6157,10 @@ and (max-device-width : 767px) {
     padding: 0;
     -webkit-box-sizing: border-box;
     /* Safari/Chrome, other WebKit */
-  
     -moz-box-sizing: border-box;
     /* Firefox, other Gecko */
-  
     box-sizing: border-box;
     /* Opera/IE 8+ */
-  
     margin-bottom: 15px;
   }
   .friendsView #friendsList li .username,
@@ -6604,7 +6210,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 48%;
@@ -6614,7 +6219,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 33.714285714285715%;
@@ -6624,7 +6228,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 12.285714285714286%;
@@ -6644,7 +6247,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 26.125%;
@@ -6668,7 +6270,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 33%;
@@ -6685,7 +6286,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 63%;
@@ -6700,7 +6300,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 63%;
@@ -6721,7 +6320,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 50%;
@@ -6740,7 +6338,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 69.875%;
@@ -6749,13 +6346,10 @@ and (max-device-width : 767px) {
     padding: 0px 0px 120px 0px;
     -webkit-box-sizing: border-box;
     /* Safari/Chrome, other WebKit */
-  
     -moz-box-sizing: border-box;
     /* Firefox, other Gecko */
-  
     box-sizing: border-box;
     /* Opera/IE 8+ */
-  
   }
   .messagesView #topicWrap.peerChat #messageWrap {
     height: 100%;
@@ -6771,7 +6365,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 83%;
@@ -6786,7 +6379,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 14.666666666666668%;
@@ -6797,7 +6389,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 81.33333333333334%;
@@ -6808,7 +6399,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 73%;
@@ -6819,7 +6409,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 23%;
@@ -6830,7 +6419,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 69.875%;
@@ -6839,13 +6427,10 @@ and (max-device-width : 767px) {
     padding: 0px 0px 120px 0px;
     -webkit-box-sizing: border-box;
     /* Safari/Chrome, other WebKit */
-  
     -moz-box-sizing: border-box;
     /* Firefox, other Gecko */
-  
     box-sizing: border-box;
     /* Opera/IE 8+ */
-  
   }
   .messagesView #topicWrap.groupChat #messageWrap {
     height: 100%;
@@ -6861,7 +6446,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 98%;
@@ -6872,7 +6456,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 9.666666666666666%;
@@ -6884,7 +6467,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 86.33333333333334%;
@@ -6895,7 +6477,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 86.33333333333334%;
@@ -6906,7 +6487,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 73%;
@@ -6917,7 +6497,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 23%;
@@ -6928,7 +6507,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 69.42857142857143%;
@@ -6939,7 +6517,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 98%;
@@ -6966,7 +6543,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 26.571428571428573%;
@@ -6976,7 +6552,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 69.42857142857143%;
@@ -6986,7 +6561,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 31.333333333333336%;
@@ -7003,7 +6577,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 30.142857142857146%;
@@ -7027,7 +6600,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 28%;
@@ -7044,7 +6616,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 68%;
@@ -7057,7 +6628,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 68%;
@@ -7073,7 +6643,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 65.85714285714286%;
@@ -7082,13 +6651,10 @@ and (max-device-width : 767px) {
     padding: 0px 0px 51px 0px;
     -webkit-box-sizing: border-box;
     /* Safari/Chrome, other WebKit */
-  
     -moz-box-sizing: border-box;
     /* Firefox, other Gecko */
-  
     box-sizing: border-box;
     /* Opera/IE 8+ */
-  
   }
   .circlesView #circleContainer #circleWrap {
     height: 100%;
@@ -7104,7 +6670,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 31.333333333333336%;
@@ -7130,7 +6695,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 98%;
@@ -7148,7 +6712,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 98%;
@@ -7158,7 +6721,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 69.42857142857143%;
@@ -7170,7 +6732,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 98%;
@@ -7182,7 +6743,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 12.285714285714286%;
@@ -7193,7 +6753,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 55.142857142857146%;
@@ -7206,19 +6765,15 @@ and (max-device-width : 767px) {
     padding-left: 10px;
     -webkit-box-sizing: padding-box;
     /* Safari/Chrome, other WebKit */
-  
     -moz-box-sizing: padding-box;
     /* Firefox, other Gecko */
-  
     box-sizing: padding-box;
     /* Opera/IE 8+ */
-  
   }
   .posts article .postContent .postImage img {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 98%;
@@ -7234,7 +6789,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 23%;
@@ -7247,7 +6801,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 98%;
@@ -7257,7 +6810,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 98%;
@@ -7267,7 +6819,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 98%;
@@ -7277,7 +6828,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 98%;
@@ -7287,7 +6837,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 64.66666666666667%;
@@ -7354,7 +6903,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 6.333333333333334%;
@@ -7367,7 +6915,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 63%;
@@ -7375,19 +6922,15 @@ and (max-device-width : 767px) {
     padding: 3px;
     -webkit-box-sizing: border-box;
     /* Safari/Chrome, other WebKit */
-  
     -moz-box-sizing: border-box;
     /* Firefox, other Gecko */
-  
     box-sizing: border-box;
     /* Opera/IE 8+ */
-  
   }
   .posts article ol.comments li .timestamp {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 23%;
@@ -7403,7 +6946,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 68.00000000000001%;
@@ -7414,7 +6956,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 18.833333333333336%;
@@ -7428,7 +6969,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 100%;
@@ -7440,7 +6980,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 48%;
@@ -7455,7 +6994,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 48%;
@@ -7467,7 +7005,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 31.333333333333336%;
@@ -7479,13 +7016,10 @@ and (max-device-width : 767px) {
     padding-top: 50px;
     -webkit-box-sizing: border-box;
     /* Safari/Chrome, other WebKit */
-  
     -moz-box-sizing: border-box;
     /* Firefox, other Gecko */
-  
     box-sizing: border-box;
     /* Opera/IE 8+ */
-  
     margin: 0 auto;
   }
   .profileView #main #scroller {
@@ -7494,13 +7028,10 @@ and (max-device-width : 767px) {
     overflow-y: scroll;
     -webkit-box-sizing: border-box;
     /* Safari/Chrome, other WebKit */
-  
     -moz-box-sizing: border-box;
     /* Firefox, other Gecko */
-  
     box-sizing: border-box;
     /* Opera/IE 8+ */
-  
     margin: 0 auto;
     margin-top: 10px;
   }
@@ -7512,7 +7043,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 31.333333333333336%;
@@ -7522,13 +7052,10 @@ and (max-device-width : 767px) {
     height: 150px;
     -webkit-box-sizing: border-box;
     /* Safari/Chrome, other WebKit */
-  
     -moz-box-sizing: border-box;
     /* Firefox, other Gecko */
-  
     box-sizing: border-box;
     /* Opera/IE 8+ */
-  
   }
   .profileView #main #info article header {
     height: 20px;
@@ -7538,7 +7065,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 100%;
@@ -7551,7 +7077,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 23%;
@@ -7563,7 +7088,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 73%;
@@ -7575,7 +7099,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 100%;
@@ -7585,7 +7108,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 48%;
@@ -7598,7 +7120,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 48%;
@@ -7609,7 +7130,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 48%;
@@ -7622,7 +7142,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 100%;
@@ -7632,13 +7151,10 @@ and (max-device-width : 767px) {
     margin-bottom: 1%;
     -webkit-box-sizing: border-box;
     /* Safari/Chrome, other WebKit */
-  
     -moz-box-sizing: border-box;
     /* Firefox, other Gecko */
-  
     box-sizing: border-box;
     /* Opera/IE 8+ */
-  
   }
   .profileView #main #wall header {
     height: 20px;
@@ -7648,7 +7164,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 98%;
@@ -7658,7 +7173,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 13.625%;
@@ -7670,7 +7184,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 54.25%;
@@ -7689,7 +7202,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 26.125%;
@@ -7706,7 +7218,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 100%;
@@ -7715,13 +7226,10 @@ and (max-device-width : 767px) {
     padding: 0;
     -webkit-box-sizing: border-box;
     /* Safari/Chrome, other WebKit */
-  
     -moz-box-sizing: border-box;
     /* Firefox, other Gecko */
-  
     box-sizing: border-box;
     /* Opera/IE 8+ */
-  
   }
   .profileView #main #friends header {
     height: 20px;
@@ -7732,7 +7240,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 48%;
@@ -7743,7 +7250,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 98%;
@@ -7784,7 +7290,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 98%;
@@ -7792,9 +7297,6 @@ and (max-device-width : 767px) {
     margin-top: -5px;
     margin-bottom: 10px;
   }
-}
-@media only screen and (min-width: 1160px) and (max-width: 1823px) and (-webkit-min-device-pixel-ratio: 0) {
-  
 }
 /* Large screens ----------- */
 @media only screen and (min-width: 1824px) {
@@ -7830,7 +7332,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 70.5%;
@@ -7840,7 +7341,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 11.75%;
@@ -7850,7 +7350,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 11.75%;
@@ -7860,7 +7359,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 98%;
@@ -7941,7 +7439,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 48%;
@@ -7959,13 +7456,10 @@ and (max-device-width : 767px) {
     padding: 0;
     -webkit-box-sizing: border-box;
     /* Safari/Chrome, other WebKit */
-  
     -moz-box-sizing: border-box;
     /* Firefox, other Gecko */
-  
     box-sizing: border-box;
     /* Opera/IE 8+ */
-  
   }
   .searchBar .searchDrop .searchSuggestions li {
     width: 100%;
@@ -7980,7 +7474,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 10.833333333333334%;
@@ -7991,7 +7484,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 52.16666666666667%;
@@ -8014,7 +7506,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 50%;
@@ -8024,7 +7515,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 31.333333333333336%;
@@ -8045,7 +7535,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 11.75%;
@@ -8056,7 +7545,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 70.7%;
@@ -8093,7 +7581,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: right;
     width: 11.75%;
@@ -8103,7 +7590,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 23%;
@@ -8140,7 +7626,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 80%;
@@ -8150,7 +7635,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 98%;
@@ -8160,7 +7644,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 98%;
@@ -8170,7 +7653,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 48%;
@@ -8181,7 +7663,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 98%;
@@ -8205,7 +7686,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 18%;
@@ -8258,7 +7738,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 48%;
@@ -8268,7 +7747,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 33.714285714285715%;
@@ -8278,7 +7756,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 12.285714285714286%;
@@ -8298,7 +7775,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 26.571428571428573%;
@@ -8322,7 +7798,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 28%;
@@ -8339,7 +7814,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 68%;
@@ -8381,7 +7855,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 50%;
@@ -8399,7 +7872,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 69.42857142857143%;
@@ -8408,13 +7880,10 @@ and (max-device-width : 767px) {
     padding: 0px 0px 145px 0px;
     -webkit-box-sizing: border-box;
     /* Safari/Chrome, other WebKit */
-  
     -moz-box-sizing: border-box;
     /* Firefox, other Gecko */
-  
     box-sizing: border-box;
     /* Opera/IE 8+ */
-  
   }
   .messagesView #topicWrap.peerChat #messageWrap {
     height: 100%;
@@ -8430,7 +7899,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 78%;
@@ -8442,7 +7910,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 10%;
@@ -8454,7 +7921,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 88%;
@@ -8469,7 +7935,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 74%;
@@ -8481,7 +7946,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 23%;
@@ -8492,7 +7956,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 69.42857142857143%;
@@ -8501,13 +7964,10 @@ and (max-device-width : 767px) {
     padding: 0px 0px 145px 0px;
     -webkit-box-sizing: border-box;
     /* Safari/Chrome, other WebKit */
-  
     -moz-box-sizing: border-box;
     /* Firefox, other Gecko */
-  
     box-sizing: border-box;
     /* Opera/IE 8+ */
-  
   }
   .messagesView #topicWrap.groupChat #messageWrap {
     height: 100%;
@@ -8523,7 +7983,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 98%;
@@ -8532,20 +7991,16 @@ and (max-device-width : 767px) {
     padding: 0;
     -webkit-box-sizing: border-box;
     /* Safari/Chrome, other WebKit */
-  
     -moz-box-sizing: border-box;
     /* Firefox, other Gecko */
-  
     box-sizing: border-box;
     /* Opera/IE 8+ */
-  
     margin-bottom: 5px;
   }
   .messagesView #topicWrap.groupChat #messageList .message .user .userimg {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 8%;
@@ -8557,7 +8012,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 88%;
@@ -8567,7 +8021,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 88%;
@@ -8577,7 +8030,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 74%;
@@ -8589,7 +8041,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 23%;
@@ -8600,7 +8051,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 69.42857142857143%;
@@ -8611,7 +8061,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 98%;
@@ -8638,7 +8087,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 26.571428571428573%;
@@ -8648,7 +8096,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 69.42857142857143%;
@@ -8658,7 +8105,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 31.333333333333336%;
@@ -8675,7 +8121,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 26.571428571428573%;
@@ -8705,7 +8150,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 68%;
@@ -8718,7 +8162,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 68%;
@@ -8729,7 +8172,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 28%;
@@ -8743,7 +8185,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 69.42857142857143%;
@@ -8752,13 +8193,10 @@ and (max-device-width : 767px) {
     padding: 0px 0px 51px 0px;
     -webkit-box-sizing: border-box;
     /* Safari/Chrome, other WebKit */
-  
     -moz-box-sizing: border-box;
     /* Firefox, other Gecko */
-  
     box-sizing: border-box;
     /* Opera/IE 8+ */
-  
   }
   .circlesView #circleContainer #circleWrap {
     height: 100%;
@@ -8770,7 +8208,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 23%;
@@ -8781,7 +8218,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 98%;
@@ -8799,7 +8235,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 98%;
@@ -8809,7 +8244,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 69.42857142857143%;
@@ -8821,7 +8255,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 98%;
@@ -8833,7 +8266,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 10.5%;
@@ -8844,7 +8276,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 66.75%;
@@ -8857,19 +8288,15 @@ and (max-device-width : 767px) {
     padding-left: 10px;
     -webkit-box-sizing: padding-box;
     /* Safari/Chrome, other WebKit */
-  
     -moz-box-sizing: padding-box;
     /* Firefox, other Gecko */
-  
     box-sizing: padding-box;
     /* Opera/IE 8+ */
-  
   }
   .posts article .postContent .postImage img {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 98%;
@@ -8885,7 +8312,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 16.75%;
@@ -8898,7 +8324,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 98%;
@@ -8908,7 +8333,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 98%;
@@ -8918,7 +8342,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 98%;
@@ -8928,7 +8351,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 98%;
@@ -8938,7 +8360,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 64.66666666666667%;
@@ -9001,7 +8422,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 6.333333333333334%;
@@ -9011,7 +8431,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 73%;
@@ -9021,7 +8440,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 14.666666666666668%;
@@ -9031,7 +8449,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 73%;
@@ -9041,7 +8458,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 14.666666666666668%;
@@ -9054,7 +8470,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 100%;
@@ -9066,7 +8481,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 48%;
@@ -9081,7 +8495,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 48%;
@@ -9093,7 +8506,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 31.333333333333336%;
@@ -9106,13 +8518,10 @@ and (max-device-width : 767px) {
     padding-top: 50px;
     -webkit-box-sizing: border-box;
     /* Safari/Chrome, other WebKit */
-  
     -moz-box-sizing: border-box;
     /* Firefox, other Gecko */
-  
     box-sizing: border-box;
     /* Opera/IE 8+ */
-  
     margin: 0 auto;
   }
   .profileView #main #scroller {
@@ -9123,13 +8532,10 @@ and (max-device-width : 767px) {
     overflow-x: hidden;
     -webkit-box-sizing: border-box;
     /* Safari/Chrome, other WebKit */
-  
     -moz-box-sizing: border-box;
     /* Firefox, other Gecko */
-  
     box-sizing: border-box;
     /* Opera/IE 8+ */
-  
     margin: 0 auto;
     margin-top: 10px;
   }
@@ -9141,7 +8547,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 31.333333333333336%;
@@ -9151,13 +8556,10 @@ and (max-device-width : 767px) {
     height: 150px;
     -webkit-box-sizing: border-box;
     /* Safari/Chrome, other WebKit */
-  
     -moz-box-sizing: border-box;
     /* Firefox, other Gecko */
-  
     box-sizing: border-box;
     /* Opera/IE 8+ */
-  
   }
   .profileView #main #info article header {
     height: 20px;
@@ -9167,7 +8569,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 100%;
@@ -9180,7 +8581,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 23%;
@@ -9192,7 +8592,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 73%;
@@ -9204,7 +8603,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 100%;
@@ -9214,7 +8612,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 48%;
@@ -9227,7 +8624,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 48%;
@@ -9238,7 +8634,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 48%;
@@ -9251,7 +8646,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 100%;
@@ -9261,13 +8655,10 @@ and (max-device-width : 767px) {
     margin-bottom: 1%;
     -webkit-box-sizing: border-box;
     /* Safari/Chrome, other WebKit */
-  
     -moz-box-sizing: border-box;
     /* Firefox, other Gecko */
-  
     box-sizing: border-box;
     /* Opera/IE 8+ */
-  
   }
   .profileView #main #wall header {
     height: 20px;
@@ -9277,7 +8668,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 98%;
@@ -9287,7 +8677,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 10.5%;
@@ -9298,7 +8687,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 54.25%;
@@ -9317,7 +8705,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 29.25%;
@@ -9334,7 +8721,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 100%;
@@ -9343,13 +8729,10 @@ and (max-device-width : 767px) {
     padding: 0;
     -webkit-box-sizing: border-box;
     /* Safari/Chrome, other WebKit */
-  
     -moz-box-sizing: border-box;
     /* Firefox, other Gecko */
-  
     box-sizing: border-box;
     /* Opera/IE 8+ */
-  
   }
   .profileView #main #friends header {
     height: 20px;
@@ -9360,7 +8743,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 98%;
@@ -9370,7 +8752,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 23%;
@@ -9381,7 +8762,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 98%;
@@ -9422,7 +8802,6 @@ and (max-device-width : 767px) {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
-  
     *zoom: 1;
     float: left;
     width: 98%;
@@ -9430,9 +8809,6 @@ and (max-device-width : 767px) {
     margin-top: -5px;
     margin-bottom: 10px;
   }
-}
-@media only screen and (min-width: 1824px) and (-webkit-min-device-pixel-ratio: 0) {
-  
 }
 /* Utilities --------------- */
 .hidden {
