@@ -53,7 +53,7 @@ define(["step", "whispeerHelper", "asset/observer"], function (step, h, Observer
 		}
 
 		function acceptFriendShip(uid) {
-			var otherLevel2Key, ownLevel2Key, friendsKey;
+			var otherLevel2Key, ownLevel2Key, friendsKey, otherFriendsKey;
 			step(function () {
 				userService.get(uid, this);
 			}, h.sF(function (otherUser) {
@@ -63,7 +63,7 @@ define(["step", "whispeerHelper", "asset/observer"], function (step, h, Observer
 				createBasicData(otherUser, this.parallel());
 
 				otherLevel2Key = otherUser.getFriendsLevel2Key();
-				var otherFriendsKey = otherUser.getFriendsKey();
+				otherFriendsKey = otherUser.getFriendsKey();
 
 				ownLevel2Key = own.getFriendsLevel2Key();
 				friendsKey = own.getFriendsKey();
@@ -71,7 +71,7 @@ define(["step", "whispeerHelper", "asset/observer"], function (step, h, Observer
 				keyStore.sym.symEncryptKey(otherLevel2Key, friendsKey, this.parallel());
 				keyStore.sym.symEncryptKey(ownLevel2Key, otherFriendsKey, this.parallel());
 			}), h.sF(function (data) {
-				data.decryptors = keyStore.upload.getDecryptors([friendsKey, otherLevel2Key, ownLevel2Key]);
+				data.decryptors = keyStore.upload.getDecryptors([friendsKey, otherLevel2Key, ownLevel2Key], [friendsKey, otherFriendsKey, data.key.realid]);
 
 				socket.emit("friends.add", data, this);
 			}), h.sF(function (result) {
@@ -97,7 +97,7 @@ define(["step", "whispeerHelper", "asset/observer"], function (step, h, Observer
 				createBasicData(otherUser, this);
 			}), h.sF(function (data) {
 				var friendsKey = userService.getown().getFriendsKey();
-				data.decryptors = keyStore.upload.getDecryptors([friendsKey]);
+				data.decryptors = keyStore.upload.getDecryptors([friendsKey], [data.key.realid]);
 
 				socket.emit("friends.add", data, this);
 			}), h.sF(function (result) {

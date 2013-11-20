@@ -1263,13 +1263,26 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 
 				return addKeys;
 			},
-			getDecryptors: function (allowed) {
+			getDecryptors: function (allowed, allowedEncryptors) {
 				var addKeyDecryptors = {};
 
-				var i;
+				var i, j, decryptors, encryptorFilter;
 				for (i = 0; i < dirtyKeys.length; i += 1) {
 					if (allowed.indexOf(dirtyKeys[i].getRealID()) !== -1) {
-						addKeyDecryptors[dirtyKeys[i].getRealID()] = dirtyKeys[i].getDecryptorData();
+						decryptors = dirtyKeys[i].getDecryptorData();
+						
+						if (allowedEncryptors) {
+							encryptorFilter = [];
+							for (j = 0; j < decryptors.length; j += 1) {
+								if (allowedEncryptors.indexOf(decryptors[j].decryptorid) !== -1) {
+									encryptorFilter.push(decryptors[j]);
+								}
+							}
+
+							decryptors = encryptorFilter;
+						}
+
+						addKeyDecryptors[dirtyKeys[i].getRealID()] = decryptors;
 					}
 				}
 

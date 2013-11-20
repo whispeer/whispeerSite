@@ -28,21 +28,28 @@ define(["step", "whispeerHelper", "asset/observer"], function (step, h, Observer
 			};
 
 			this.addPerson = function (uid, cb) {
-				var theUser;
+				var theUser, friendShipKey;
 				step(function () {
 					userService.get(uid, this);
 				}, h.sF(function (otherUser) {
 					theUser = otherUser;
 					uid = theUser.getID();
 					if (user.indexOf(uid) === -1) {
-						var friendShipKey = otherUser.getFriendShipKey();
+						friendShipKey = otherUser.getFriendShipKey();
 						if (friendShipKey) {
 							keyStore.sym.symEncryptKey(key, friendShipKey, this);
+						} else {
+							throw "no friendShipKey";
 						}
 					}
 				}), h.sF(function () {
+					var decryptors = keyStore.upload.getDecryptors([key], [friendShipKey]);
+
+					h.assert(decryptors[key].length === 1);
+					decryptors[key] = decryptors[key][0];
+
 					var data = {
-						decryptor: keyStore.upload.getDecryptors([key]),
+						decryptor: decryptors,
 						circleid: id,
 						userid: uid
 					};
@@ -121,7 +128,7 @@ define(["step", "whispeerHelper", "asset/observer"], function (step, h, Observer
 				circles: circleData
 			},
 			create: function (name, cb) {
-				var key;
+				var key, theCircle;
 				step(function () {
 					keyStore.sym.generateKey(this);
 				}, h.sF(function (symKey) {
@@ -143,13 +150,21 @@ define(["step", "whispeerHelper", "asset/observer"], function (step, h, Observer
 						}
 					}, this);
 				}), h.sF(function (data) {
-					makeCircle(data.result).decrypt(this);
+					theCircle = makeCircle(data.result);
+					theCircle.decrypt(this);
+				}), h.sF(function () {
+					this.ne(theCircle);
 				}), cb);
 			},
 			reset: function () {
 				circles = {};
 				circleArray = [];
 				circleData = [];
+
+				circleService.data.circles = circleData;
+
+				circleService.data.loading = false;
+				circleService.data.loaded = false;
 			},
 			loadAll: function (cb) {
 				step(function () {

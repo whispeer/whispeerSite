@@ -2,7 +2,7 @@
 * circlesController
 **/
 
-define(["step"], function (step) {
+define(["whispeerHelper"], function (h) {
 	"use strict";
 
 	function circlesController($scope, cssService, circleService) {
@@ -24,25 +24,24 @@ define(["step"], function (step) {
 			}
 		});
 
+		$scope.selectedUsers = [];
+
+		$scope.$on("selectionChange", function (event, newSelection) {
+			$scope.selectedUsers = newSelection;
+		});
+
 		$scope.createNew = function (name) {
-			circleService.create(name, function (e) {
-				if (e) {
-					debugger;
+			circleService.create(name, h.sF(function (theCircle) {
+				var i, ids = $scope.selectedUsers.map(h.qm("id"));
+
+				for (i = 0; i < ids.length; i += 1) {
+					theCircle.addPerson(ids[i], h.sF(h.nop));
 				}
-			});
+			}));
 		};
 
 		$scope.showCircle = true;
 		$scope.circles = circleService.data.circles;
-		[
-			{
-				"id": "1",
-				"name":	"Liste der geilsten Personen auf der Ganzen Welt, oh mein Gott bin ich hipster! xoxoxoxo dreieck!!",
-				"image": "/assets/img/user.png",
-				"persons": [
-				]
-			}
-		];
 		$scope.thisCircle = {
 			"id": "1",
 			"name":	"Liste der geilsten Personen auf der Ganzen Welt, oh mein Gott bin ich hipster! xoxoxoxo dreieck!!",
@@ -53,7 +52,7 @@ define(["step"], function (step) {
 					"name":"Testy Test",
 					"samefriends":	"23",
 					"image":	"/assets/img/user.png"
-				}	
+				}
 			]
 		};
 	}
