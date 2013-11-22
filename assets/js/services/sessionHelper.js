@@ -138,7 +138,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 					keyGenerationStarted = true;
 					var i;
 					for (i = 0; i < toGenKeys.length; i += 1) {
-						getCorrectKeystore(i).generateKey(this.parallel());
+						getCorrectKeystore(i).generateKey(this.parallel(), toGenKeys[i][0]);
 					}
 				}), h.sF(function keyGen2(resultKeys) {
 					var i;
