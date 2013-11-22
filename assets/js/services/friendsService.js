@@ -28,7 +28,7 @@ define(["step", "whispeerHelper", "asset/observer"], function (step, h, Observer
 		}
 
 		function createBasicData(otherUser, cb) {
-			var friendsKey;
+			var friendsKey, signature, friendshipKey;
 			step(function () {
 				this.parallel.unflatten();
 
@@ -41,11 +41,18 @@ define(["step", "whispeerHelper", "asset/observer"], function (step, h, Observer
 				keyStore.sign.signText("friendship:" + otherUser.getID() + ":" + otherUser.getNickname(), own.getSignKey(), this.parallel());
 				//encr intermediate key w/ users cryptKey
 				keyStore.sym.asymEncryptKey(friendsKey, crypt, this.parallel());
-			}, h.sF(function (signature, cryptKey) {
+			}, h.sF(function (sign, friendshipK) {
+				signature = sign;
+				friendshipKey = friendshipK;
+
+				var mainKey = userService.getown().getMainKey();
+
+				keyStore.sym.symEncryptKey(friendshipK, mainKey, this.parallel());
+			}), h.sF(function () {
 				var data = {
 					userid: otherUser.getID(),
 					signedRequest: signature,
-					key: keyStore.upload.getKey(cryptKey)
+					key: keyStore.upload.getKey(friendshipKey)
 				};
 
 				this.ne(data);

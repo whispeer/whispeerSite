@@ -127,8 +127,13 @@ define(["step", "whispeerHelper", "asset/observer"], function (step, h, Observer
 				loading: false,
 				circles: circleData
 			},
-			create: function (name, cb) {
-				var key, theCircle;
+			create: function (name, cb, users) {
+				//userService.getMultiple(users, this);
+				//user.slice().map(function (e) {e.getID();});
+				//users.map(function (e) {e.getFriendShipKey();});
+				//keyStore.sym.symEncryptKey(symKey, friendsKeys[i], this);
+
+				var key, theCircle, encrypted;
 				step(function () {
 					keyStore.sym.generateKey(this);
 				}, h.sF(function (symKey) {
@@ -139,13 +144,28 @@ define(["step", "whispeerHelper", "asset/observer"], function (step, h, Observer
 					this.parallel.unflatten();
 
 					keyStore.sym.encrypt(name, mainKey, this.parallel());
+					userService.getMultiple(users, this.parallel());
 					keyStore.sym.symEncryptKey(symKey, mainKey, this.parallel());
-				}), h.sF(function (encrypted) {
+				}), h.sF(function (encr, userObjects) {
+					encrypted = encr;
+					var i, friendShipKeys = userObjects.map(function (e) {e.getFriendShipKey();});
+					users = userObjects.map(function (e) {e.getID();});
+
+					for (i = 0; i < friendShipKeys.length; i += 1) {
+						if (friendShipKeys[i]) {
+							keyStore.sym.symEncryptKey(key, friendShipKeys[i], this.parallel());
+						}
+					}
+
+					this.parallel()();
+				}), h.sF(function () {
+
 					var keyData = keyStore.upload.getKey(key);
 
 					socket.emit("circles.add", {
 						circle: {
 							key: keyData,
+							user: users,
 							name: JSON.stringify(encrypted)
 						}
 					}, this);
