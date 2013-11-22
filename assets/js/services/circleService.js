@@ -128,44 +128,48 @@ define(["step", "whispeerHelper", "asset/observer"], function (step, h, Observer
 				circles: circleData
 			},
 			create: function (name, cb, users) {
-				//userService.getMultiple(users, this);
-				//user.slice().map(function (e) {e.getID();});
+				//user.map(function (e) {e.getID();});
 				//users.map(function (e) {e.getFriendShipKey();});
 				//keyStore.sym.symEncryptKey(symKey, friendsKeys[i], this);
 
-				var key, theCircle, encrypted;
+				var key, theCircle, userIDs = [];
 				step(function () {
-					keyStore.sym.generateKey(this);
+					keyStore.sym.generateKey(this, "CircleKey");
 				}, h.sF(function (symKey) {
 					key = symKey;
+
+					if (users) {
+						userService.getMultiple(users, this);
+					} else {
+						this.ne([]);
+					}
+				}), h.sF(function (userObjects) {
+					var i, friendKey;
+
+					for (i = 0; i < userObjects.length; i += 1) {
+						friendKey = userObjects[i].getFriendShipKey();
+						if (key) {
+							keyStore.sym.symEncryptKey(key, friendKey, this.parallel());
+							userIDs.push(userObjects[i].getID());
+						}
+					}
+
+					this.parallel()();
+				}), h.sF(function () {
 					var own = userService.getown();
 					var mainKey = own.getMainKey();
 
 					this.parallel.unflatten();
 
 					keyStore.sym.encrypt(name, mainKey, this.parallel());
-					userService.getMultiple(users, this.parallel());
-					keyStore.sym.symEncryptKey(symKey, mainKey, this.parallel());
-				}), h.sF(function (encr, userObjects) {
-					encrypted = encr;
-					var i, friendShipKeys = userObjects.map(function (e) {e.getFriendShipKey();});
-					users = userObjects.map(function (e) {e.getID();});
-
-					for (i = 0; i < friendShipKeys.length; i += 1) {
-						if (friendShipKeys[i]) {
-							keyStore.sym.symEncryptKey(key, friendShipKeys[i], this.parallel());
-						}
-					}
-
-					this.parallel()();
-				}), h.sF(function () {
-
+					keyStore.sym.symEncryptKey(key, mainKey, this.parallel());
+				}), h.sF(function (encrypted) {
 					var keyData = keyStore.upload.getKey(key);
 
 					socket.emit("circles.add", {
 						circle: {
 							key: keyData,
-							user: users,
+							user: userIDs,
 							name: JSON.stringify(encrypted)
 						}
 					}, this);
