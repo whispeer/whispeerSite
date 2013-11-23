@@ -27,42 +27,49 @@ define(["step", "whispeerHelper", "asset/observer"], function (step, h, Observer
 				return user;
 			};
 
-			this.addPerson = function (uid, cb) {
-				var theUser, friendShipKey;
+			this.addPersons = function (uids, cb) {
+				var friendShipKeys = [], userids = [];
 				step(function () {
-					userService.get(uid, this);
-				}, h.sF(function (otherUser) {
-					theUser = otherUser;
-					uid = theUser.getID();
-					if (user.indexOf(uid) === -1) {
-						friendShipKey = otherUser.getFriendShipKey();
-						if (friendShipKey) {
+					userService.getMultiple(uids, this);
+				}, h.sF(function (otherUsers) {
+					var i, u, friendShipKey;
+
+					for (i = 0; i < otherUsers.length; i += 1) {
+						u = otherUsers[i];
+						friendShipKey = u.getFriendShipKey();
+						if (friendShipKey && user.indexOf(u.getID()) === -1) {
 							keyStore.sym.symEncryptKey(key, friendShipKey, this);
+							userids.push(u.getID());
+							friendShipKeys.push(friendShipKey);
 						} else {
 							throw "no friendShipKey";
 						}
 					}
 				}), h.sF(function () {
-					var decryptors = keyStore.upload.getDecryptors([key], [friendShipKey]);
+					var decryptors = keyStore.upload.getDecryptors([key], friendShipKeys);
 
-					h.assert(decryptors[key].length === 1);
-					decryptors[key] = decryptors[key][0];
+					h.assert(decryptors[key].length === userids.length);
 
 					var data = {
-						decryptor: decryptors,
+						decryptors: decryptors,
 						circleid: id,
-						userid: uid
+						userids: userids
 					};
 
-					socket.emit("circles.addUser", {
+					socket.emit("circles.addUsers", {
 						add: data
 					});
 				}), h.sF(function (result) {
-					if (!result.error && result.added && user.indexOf(uid) === -1) {
-						user.push(uid);
+					var i;
+					if (!result.error && result.added) {
+						for (i = 0; i < userids.length; i += 1) {
+							if (user.indexOf(userids[i]) === -1) {
+								user.push(userids[i]);
+							}
+						}
 					}
 					
-					theCircle.notify(theUser.getID(), "userAdded");
+					theCircle.notify(userids, "usersAdded");
 
 					this.ne();
 				}), cb);
