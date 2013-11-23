@@ -11,10 +11,10 @@
 		<ul id="circleList">
 			<li class="circle" id="newcircle">
 				<div class="left"><i class="icon-plus-circle" id="plusBtn"></i></div>
-				<div class="right" data-i18n="views.circles.newCircle" data-ng-click="showCircle=false"></div>
+				<div class="right" data-i18n="views.circles.newCircle" data-ng-click="unloadCircle()"></div>
 			</li>
 			<div id="circleListScroll">
-				<li data-ng-repeat="circle in circles" id="{{circle.id}}" class="circle">
+				<li data-ng-repeat="circle in circles" id="{{circle.id}}" class="circle" data-ng-click="loadActiveCircle(circle.id)">
 					<div class="left">
 						<img class="userimg" data-ng-src="{{circle.image}}" alt="Userimage">
 					</div>
@@ -41,7 +41,7 @@
 		</div>
 	</div>
 	<div id="circleContainer" class="newCircle" data-ng-if="!showCircle">
-		<div id="circleTitle">	
+		<div id="circleTitle">
 			<h2>Neuer Kreis</h2>
 		</div>
 		<div id="circleWrap">	

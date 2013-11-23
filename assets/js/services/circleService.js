@@ -10,8 +10,8 @@ define(["step", "whispeerHelper", "asset/observer"], function (step, h, Observer
 		var circleData = [];
 
 		var Circle = function (data) {
-			var id = data.id, user = data.user, name = data.name, decrypted = false, theCircle = this;
-			var decryptedName, key;
+			var id = data.id, user = data.user, name = data.name, decrypted = false, theCircle = this, persons = [];
+			var decryptedName, key, usersLoaded = 0;
 
 			if (typeof data.key === "object") {
 				key = keyStore.upload.addKey(data.key);
@@ -92,12 +92,44 @@ define(["step", "whispeerHelper", "asset/observer"], function (step, h, Observer
 				}), cb);
 			};
 
+			this.loadPersons = function (cb, limit) {
+				var theUsers;
+				limit = limit || 20;
+				limit = Math.min(parseInt(limit, 10), 20);
+
+				if (usersLoaded < user.length) {
+					step(function () {
+						var end = Math.min(user.length, usersLoaded + limit);
+						var nextLoad = user.slice(usersLoaded, end);
+
+						usersLoaded = end;
+
+						userService.getMultiple(nextLoad, this);
+					}, h.sF(function (users) {
+						theUsers = users;
+						var i;
+						for (i = 0; i < user.length; i += 1) {
+							users[i].loadBasicData(this.parallel());
+						}
+					}), h.sF(function () {
+						var i;
+						for (i = 0; i < theUsers.length; i += 1) {
+							persons.push(theUsers[i].data.basic);
+						}
+
+						this.ne(persons);
+					}), cb);
+				} else {
+					cb(0);
+				}
+			};
+
 			this.data = {
 				id: id,
 				userids: data.user,
 				name: "",
 				image: "/assets/img/user.png",
-				persons: []
+				persons: persons
 			};
 
 			Observer.call(this);
@@ -133,6 +165,9 @@ define(["step", "whispeerHelper", "asset/observer"], function (step, h, Observer
 				loaded: false,
 				loading: false,
 				circles: circleData
+			},
+			get: function (id) {
+				return circles[id];
 			},
 			create: function (name, cb, users) {
 				//user.map(function (e) {e.getID();});

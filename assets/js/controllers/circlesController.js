@@ -6,6 +6,12 @@ define(["whispeerHelper"], function (h) {
 	"use strict";
 
 	function circlesController($scope, cssService, circleService) {
+		$scope.circleid = 0;
+		$scope.showCircle = false;
+		$scope.thisCircle = {};
+
+		$scope.circles = circleService.data.circles;
+
 		cssService.setClass("circlesView");
 		$scope.getLength = function(obj) {
 			return obj.length;
@@ -35,20 +41,20 @@ define(["whispeerHelper"], function (h) {
 			circleService.create(name, h.sF(h.nop), ids);
 		};
 
-		$scope.showCircle = true;
-		$scope.circles = circleService.data.circles;
-		$scope.thisCircle = {
-			"id": "1",
-			"name":	"Liste der geilsten Personen auf der Ganzen Welt, oh mein Gott bin ich hipster! xoxoxoxo dreieck!!",
-			"image": "/assets/img/user.png",
-			"persons": [
-				{
-					"id": "1",
-					"name":"Testy Test",
-					"samefriends":	"23",
-					"image":	"/assets/img/user.png"
-				}
-			]
+		$scope.unloadCircle = function () {
+			$scope.showCircle = false;
+			$scope.thisCircle = {};
+			$scope.circleid = 0;
+		};
+
+		$scope.loadActiveCircle = function (id) {
+			$scope.showCircle = true;
+			$scope.circleid = id;
+
+			circleService.get(id).loadPersons(function () {
+				console.log("loaded");
+			});
+			$scope.thisCircle = circleService.get(id).data;
 		};
 	}
 
