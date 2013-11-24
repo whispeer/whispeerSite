@@ -1,7 +1,7 @@
 define(["step", "whispeerHelper"], function (step, h) {
 	"use strict";
 
-	function circleSearchDirective(userService, $location, circleService) {
+	function circleSearchDirective(userService, $timeout, circleService) {
 		return {
 			transclude: false,
 			scope:	{},
@@ -20,6 +20,8 @@ define(["step", "whispeerHelper"], function (step, h) {
 					step(function () {
 						circleService.loadAll(this);
 					}, h.sF(function () {
+						$timeout(this);
+					}), h.sF(function () {
 						var circles = circleService.inWhichCircles(user);
 						scope.$broadcast("initialSelection", circles.map(function (e) {
 							return e.data;

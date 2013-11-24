@@ -9,8 +9,12 @@ define([], function () {
 		$scope.defaultConfig = [
 			// Each widget in the magicbar that is displayed to the user per default, is specified as an object here
 			{
-				"template":	"testWidget",
-				"height":	"200px"
+				"template":	"messages",
+				"height":	"50%"
+			},
+			{
+				"template":	"friends",
+				"height":	"50%"
 			}
 		];
 

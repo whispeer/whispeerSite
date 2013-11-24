@@ -147,6 +147,7 @@ define(["step", "whispeerHelper"], function () {
 							});
 							selectedIDs.push(id);
 							scope.results = filterRealResults();
+							scope.setCurrent(scope.current);
 
 							scope.$emit("elementSelected", result);
 							scope.$emit("selectionChange", scope.selectedElements);

@@ -24,7 +24,7 @@ define(includes, function (angular, userSearch, circleSearch) {
 	}
 
 	d.directive("usersearch", ["ssn.userService", "$location", userSearch]);
-	d.directive("circlesearch", ["ssn.userService", "$location", "ssn.circleService", circleSearch]);
+	d.directive("circlesearch", ["ssn.userService", "$timeout", "ssn.circleService", circleSearch]);
 
 	return d;
 });
