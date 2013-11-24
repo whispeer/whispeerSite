@@ -10,7 +10,7 @@ define(["step", "whispeerHelper", "asset/observer"], function (step, h, Observer
 		var circleData = [];
 
 		var Circle = function (data) {
-			var id = data.id, user = data.user, name = data.name, decrypted = false, theCircle = this, persons = [];
+			var id = data.id, user = data.user.map(h.parseDecimal), name = data.name, decrypted = false, theCircle = this, persons = [];
 			var decryptedName, key, usersLoaded = 0;
 
 			if (typeof data.key === "object") {
@@ -25,6 +25,41 @@ define(["step", "whispeerHelper", "asset/observer"], function (step, h, Observer
 
 			this.getUserIDs = function () {
 				return user;
+			};
+
+			this.hasUser = function (uid) {
+				return user.indexOf(h.parseDecimal(uid)) !== 1;
+			};
+
+			this.removePersons = function (uids, cb) {
+				var newUser, userIDs;
+				step(function () {
+					uids = uids.map(h.parseDecimal).filter(function (e) {
+						user.indexOf(e) > -1;
+					});
+
+					newUser = user.filter(function (e) {
+						return uids.indexOf(e) === -1;
+					});
+
+					generateUsersSpecificData(newUser, this);
+				}, h.sF(function (key, userids) {
+					userIDs = userids;
+					var mainKey = userService.getown().getMainKey();
+
+					keyStore.sym.symEncryptKey(key, mainKey, this);
+				}), h.sF(function (encrypted) {
+					var keyData = keyStore.upload.getKey(key);
+
+					socket.emit("circles.removeUsers", {
+						circle: {
+							key: keyData,
+							remove: uids,
+							user: userIDs,
+							name: JSON.stringify(encrypted)
+						}
+					}, this);
+				}), cb);
 			};
 
 			this.addPersons = function (uids, cb) {
@@ -95,7 +130,7 @@ define(["step", "whispeerHelper", "asset/observer"], function (step, h, Observer
 			this.loadPersons = function (cb, limit) {
 				var theUsers;
 				limit = limit || 20;
-				limit = Math.min(parseInt(limit, 10), 20);
+				limit = Math.min(h.parseDecimal(limit), 20);
 
 				if (usersLoaded < user.length) {
 					step(function () {
@@ -160,6 +195,35 @@ define(["step", "whispeerHelper", "asset/observer"], function (step, h, Observer
 			return circle;
 		}
 
+		function generateUsersSpecificData(users, cb) {
+			var key, userIDs = [];
+			step(function () {
+				keyStore.sym.generateKey(this, "CircleKey");
+			}, h.sF(function (symKey) {
+				if (users) {
+					key = symKey;
+					userService.getMultiple(users, this);
+				} else {
+					this.last.ne(symKey, []);
+				}
+			}), h.sF(function (userObjects) {
+				var i, friendKey;
+
+				for (i = 0; i < userObjects.length; i += 1) {
+					friendKey = userObjects[i].getFriendShipKey();
+					if (key) {
+						keyStore.sym.symEncryptKey(key, friendKey, this.parallel());
+						userIDs.push(userObjects[i].getID());
+					}
+				}
+
+				this.parallel()();
+			}), h.sF(function () {
+				this.ne(key, userIDs);
+			}), cb);
+
+		}
+
 		var circleService = {
 			data: {
 				loaded: false,
@@ -169,35 +233,27 @@ define(["step", "whispeerHelper", "asset/observer"], function (step, h, Observer
 			get: function (id) {
 				return circles[id];
 			},
+			inWhichCircles: function (uid) {
+				var i, result = [];
+				for (i = 0; i  < circleArray.length; i += 1) {
+					if (circleArray[i].hasUser(parseInt(uid, 10))) {
+						result.push(circleArray[i]);
+					}
+				}
+
+				return result;
+			},
+			remove: function (id, cb) {
+				//TODO
+			},
 			create: function (name, cb, users) {
-				//user.map(function (e) {e.getID();});
-				//users.map(function (e) {e.getFriendShipKey();});
-				//keyStore.sym.symEncryptKey(symKey, friendsKeys[i], this);
-
-				var key, theCircle, userIDs = [];
+				var key, theCircle, userIDs;
 				step(function () {
-					keyStore.sym.generateKey(this, "CircleKey");
-				}, h.sF(function (symKey) {
+					generateUsersSpecificData(users, this);
+				}, h.sF(function (symKey, users) {
 					key = symKey;
+					userIDs = users;
 
-					if (users) {
-						userService.getMultiple(users, this);
-					} else {
-						this.ne([]);
-					}
-				}), h.sF(function (userObjects) {
-					var i, friendKey;
-
-					for (i = 0; i < userObjects.length; i += 1) {
-						friendKey = userObjects[i].getFriendShipKey();
-						if (key) {
-							keyStore.sym.symEncryptKey(key, friendKey, this.parallel());
-							userIDs.push(userObjects[i].getID());
-						}
-					}
-
-					this.parallel()();
-				}), h.sF(function () {
 					var own = userService.getown();
 					var mainKey = own.getMainKey();
 
@@ -228,6 +284,9 @@ define(["step", "whispeerHelper", "asset/observer"], function (step, h, Observer
 				circleData = [];
 
 				circleService.data.circles = circleData;
+
+				loaded = false;
+				loading =  false;
 
 				circleService.data.loading = false;
 				circleService.data.loaded = false;

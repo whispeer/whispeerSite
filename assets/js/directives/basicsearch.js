@@ -72,6 +72,21 @@ define(["step", "whispeerHelper"], function () {
 					scope.$emit("queryChange", scope.query);
 				};
 
+				scope.$on("initialSelection", function (event, results) {
+					scope.selectedElements = results.map(function (e) {
+						return {
+							result: e,
+							id: e.id,
+							name: e.name
+						};
+					});
+					selectedIDs = results.map(function (e) {
+						return e.id;
+					});
+
+					scope.results = filterRealResults();
+				});
+
 				scope.$on("queryResults", function (event, results) {
 					scope.searching = false;
 					realResults = results;
