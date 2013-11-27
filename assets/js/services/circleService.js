@@ -28,7 +28,7 @@ define(["step", "whispeerHelper", "asset/observer"], function (step, h, Observer
 			};
 
 			this.hasUser = function (uid) {
-				return user.indexOf(h.parseDecimal(uid)) !== 1;
+				return user.indexOf(h.parseDecimal(uid)) !== -1;
 			};
 
 			this.removePersons = function (uids, cb) {
