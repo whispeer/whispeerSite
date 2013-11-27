@@ -5065,6 +5065,7 @@ and (max-device-width : 767px) {
     width: 50%;
     margin: 0 0 0 0;
     margin: 0!important;
+    height: 20px;
   }
   .messagesView #topicListWrap #topicList .topic.groupChat .left span {
     padding: 2px 0;
@@ -6622,9 +6623,10 @@ and (max-device-width : 767px) {
     width: 50%;
     margin: 0 0 0 0;
     margin: 0!important;
+    height: 40px;
   }
   .messagesView #topicListWrap #topicList .topic.groupChat .left span {
-    padding: 5px 0;
+    padding: 10px 0;
     font-size: 0.78em;
     text-align: center;
   }
@@ -7728,7 +7730,7 @@ and (max-device-width : 767px) {
     padding: 0 5px 0 5px;
   }
   .searchBar .formSearch .inputWrap li.searchField input {
-    width: 60%;
+    width: 26%;
     outline: 0;
     border: 0;
     padding: 0px 5px;
@@ -8160,9 +8162,10 @@ and (max-device-width : 767px) {
     width: 50%;
     margin: 0 0 0 0;
     margin: 0!important;
+    height: 50px;
   }
   .messagesView #topicListWrap #topicList .topic.groupChat .left span {
-    padding: 9px 0;
+    padding: 15px 0;
     text-align: center;
   }
   .messagesView #topicWrap {
