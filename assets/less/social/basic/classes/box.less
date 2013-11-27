@@ -1,5 +1,10 @@
 .box {
 	.border-radius(5px);
+	background-color: @btnBackgroundHighlight;
+	border: 1px solid @btnBorder;
+	border-bottom: 1px solid #000;
+	border-bottom-color: darken(@btnBorder, 10%);
+	.box-fix;
 	header {
 		height: 20px;
 		margin-top: -30px;
@@ -28,7 +33,6 @@
 		}
 	}
 	section {
-		background-color: @grayLighter;
 		padding: 5px 0;
 		.border-radiuses(0, 5px, 5px, 0);
 		.clear-fix;

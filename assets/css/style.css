@@ -44,6 +44,16 @@
   -moz-background-clip: padding;
   -webkit-background-clip: padding-box;
   background-clip: padding-box;
+  background-color: #ececec;
+  border: 1px solid #bbbbbb;
+  border-bottom: 1px solid #000;
+  border-bottom-color: #a2a2a2;
+  -webkit-box-sizing: border-box;
+  /* Safari/Chrome, other WebKit */
+  -moz-box-sizing: border-box;
+  /* Firefox, other Gecko */
+  box-sizing: border-box;
+  /* Opera/IE 8+ */
 }
 .box header {
   height: 20px;
@@ -92,7 +102,6 @@
   color: #666;
 }
 .box section {
-  background-color: #eeeeee;
   padding: 5px 0;
   -webkit-border-top-right-radius: 0;
   -webkit-border-bottom-right-radius: 5px;
@@ -3113,22 +3122,113 @@ btn-send[disabled] {
   clear: both;
 }
 .messagesView #main {
-  background-color: #ececec;
-  border: 1px solid #bbbbbb;
-  border-bottom: 1px solid #000;
-  border-bottom-color: #a2a2a2;
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
   border-radius: 5px;
   -moz-background-clip: padding;
   -webkit-background-clip: padding-box;
   background-clip: padding-box;
+  background-color: #ececec;
+  border: 1px solid #bbbbbb;
+  border-bottom: 1px solid #000;
+  border-bottom-color: #a2a2a2;
   -webkit-box-sizing: border-box;
   /* Safari/Chrome, other WebKit */
   -moz-box-sizing: border-box;
   /* Firefox, other Gecko */
   box-sizing: border-box;
   /* Opera/IE 8+ */
+}
+.messagesView #main header {
+  height: 20px;
+  margin-top: -30px;
+  background-color: #fafafa;
+  background: -webkit-gradient(linear, left top, left bottom, from(#fafafa), to(#ececec));
+  background: -webkit-linear-gradient(top, #fafafa, #ececec);
+  background: -moz-linear-gradient(top, #fafafa, #ececec);
+  background: -ms-linear-gradient(top, #fafafa, #ececec);
+  background: -o-linear-gradient(top, #fafafa, #ececec);
+  border: none;
+  border-bottom: 1px solid #bbbbbb;
+  -webkit-border-top-right-radius: 5px;
+  -webkit-border-bottom-right-radius: 0px;
+  -webkit-border-bottom-left-radius: 0px;
+  -webkit-border-top-left-radius: 5px;
+  -moz-border-radius-topright: 5px;
+  -moz-border-radius-bottomright: 0px;
+  -moz-border-radius-bottomleft: 0px;
+  -moz-border-radius-topleft: 5px;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 0px;
+  border-bottom-left-radius: 0px;
+  border-top-left-radius: 5px;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  padding: 5px 0;
+}
+.messagesView #main header .edit {
+  float: right;
+  color: #b2b2b2;
+}
+.messagesView #main header .edit:hover {
+  color: #cbcbcb;
+}
+.messagesView #main header .title {
+  float: left;
+  margin: 0 1%;
+}
+.messagesView #main header .links {
+  float: right;
+  margin: 0 1%;
+}
+.messagesView #main header .links a {
+  color: #666;
+}
+.messagesView #main section {
+  padding: 5px 0;
+  -webkit-border-top-right-radius: 0;
+  -webkit-border-bottom-right-radius: 5px;
+  -webkit-border-bottom-left-radius: 5px;
+  -webkit-border-top-left-radius: 0;
+  -moz-border-radius-topright: 0;
+  -moz-border-radius-bottomright: 5px;
+  -moz-border-radius-bottomleft: 5px;
+  -moz-border-radius-topleft: 0;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 5px;
+  border-bottom-left-radius: 5px;
+  border-top-left-radius: 0;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  *zoom: 1;
+}
+.messagesView #main section:before,
+.messagesView #main section:after {
+  content: "";
+  display: table;
+}
+.messagesView #main section:after {
+  clear: both;
+}
+.messagesView #main section header {
+  margin-top: -5px !important;
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  border-radius: 0;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  border-top: 1px solid #bbbbbb;
+}
+.messagesView #main section h1,
+.messagesView #main section h2,
+.messagesView #main section h3,
+.messagesView #main section h4,
+.messagesView #main section h5,
+.messagesView #main section h6 {
+  margin-left: 0.5%;
 }
 .messagesView #topicListWrap {
   margin-right: 3px;
@@ -3309,6 +3409,7 @@ btn-send[disabled] {
   /* Firefox, other Gecko */
   box-sizing: border-box;
   /* Opera/IE 8+ */
+  height: 100%;
 }
 .messagesView #topicWrap.peerChat #messageList {
   margin-left: 0;
@@ -3456,6 +3557,11 @@ btn-send[disabled] {
   margin-right: 5px;
 }
 .friendsView #main {
+  border-bottom: 1px solid #000;
+  border-bottom-color: #a2a2a2;
+  /* Safari/Chrome, other WebKit */
+  /* Firefox, other Gecko */
+  /* Opera/IE 8+ */
   padding-top: 30px;
   height: 100%;
   background-color: #ececec;
@@ -3521,7 +3627,6 @@ btn-send[disabled] {
   color: #666;
 }
 .friendsView #main section {
-  background-color: #eeeeee;
   padding: 5px 0;
   -webkit-border-top-right-radius: 0;
   -webkit-border-bottom-right-radius: 5px;
@@ -3781,6 +3886,11 @@ btn-send[disabled] {
   max-width: 95%;
 }
 .helpView #main {
+  border-bottom: 1px solid #000;
+  border-bottom-color: #a2a2a2;
+  /* Safari/Chrome, other WebKit */
+  /* Firefox, other Gecko */
+  /* Opera/IE 8+ */
   padding-top: 30px;
   height: 100%;
   background-color: #ececec;
@@ -3846,7 +3956,6 @@ btn-send[disabled] {
   color: #666;
 }
 .helpView #main section {
-  background-color: #eeeeee;
   padding: 5px 0;
   -webkit-border-top-right-radius: 0;
   -webkit-border-bottom-right-radius: 5px;
@@ -3965,6 +4074,11 @@ btn-send[disabled] {
   padding: 7px;
 }
 .settingsView #main {
+  border-bottom: 1px solid #000;
+  border-bottom-color: #a2a2a2;
+  /* Safari/Chrome, other WebKit */
+  /* Firefox, other Gecko */
+  /* Opera/IE 8+ */
   padding-top: 30px;
   height: 100%;
   background-color: #ececec;
@@ -4030,7 +4144,6 @@ btn-send[disabled] {
   color: #666;
 }
 .settingsView #main section {
-  background-color: #eeeeee;
   padding: 5px 0;
   -webkit-border-top-right-radius: 0;
   -webkit-border-bottom-right-radius: 5px;
