@@ -963,15 +963,21 @@ body:not(.mainView, .registerView) #main {
   -webkit-background-clip: padding-box;
   background-clip: padding-box;
 }
-.searchBar .formSearch .inputWrap {
+.searchBar .formSearch {
+  height: 100%;
+}
+.searchBar .formSearch div {
+  height: 100%;
+}
+.searchBar .formSearch div .inputWrap {
+  height: 100%;
   margin-left: 0;
   list-style: none;
-  border: 1px solid #aaa;
+  border: 1px solid #888;
   -webkit-box-shadow: inset 0px 0px 5px #cccccc;
   -moz-box-shadow: inset 0px 0px 5px #cccccc;
   box-shadow: inset 0px 0px 5px #cccccc;
   cursor: text;
-  height: auto;
   background: white;
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
@@ -979,6 +985,7 @@ body:not(.mainView, .registerView) #main {
   -moz-background-clip: padding;
   -webkit-background-clip: padding-box;
   background-clip: padding-box;
+  overflow: hidden;
   -webkit-box-sizing: border-box;
   /* Safari/Chrome, other WebKit */
   -moz-box-sizing: border-box;
@@ -986,7 +993,7 @@ body:not(.mainView, .registerView) #main {
   box-sizing: border-box;
   /* Opera/IE 8+ */
 }
-.searchBar .formSearch .inputWrap:focus {
+.searchBar .formSearch div .inputWrap:focus {
   border: solid 1px #559d00;
   -webkit-box-shadow: inset 0px 0px 5px rgba(107, 199, 0, 0.75);
   -moz-box-shadow: inset 0px 0px 5px rgba(107, 199, 0, 0.75);
@@ -1000,7 +1007,8 @@ body:not(.mainView, .registerView) #main {
   -ms-transition: box-shadow 0.3s linear;
   -o-transition: box-shadow 0.3s linear;
 }
-.searchBar .formSearch .inputWrap li.searchResult {
+.searchBar .formSearch div .inputWrap li.searchResult {
+  float: left;
   display: inline-block;
   *display: inline;
   /* IE7 inline-block hack */
@@ -1028,34 +1036,34 @@ body:not(.mainView, .registerView) #main {
   color: #ffffff;
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
 }
-.searchBar .formSearch .inputWrap li.searchResult:hover {
+.searchBar .formSearch div .inputWrap li.searchResult:hover {
   background-color: #ececec;
 }
-.searchBar .formSearch .inputWrap li.searchResult:hover,
-.searchBar .formSearch .inputWrap li.searchResult:active,
-.searchBar .formSearch .inputWrap li.searchResult.active,
-.searchBar .formSearch .inputWrap li.searchResult.disabled,
-.searchBar .formSearch .inputWrap li.searchResult[disabled] {
+.searchBar .formSearch div .inputWrap li.searchResult:hover,
+.searchBar .formSearch div .inputWrap li.searchResult:active,
+.searchBar .formSearch div .inputWrap li.searchResult.active,
+.searchBar .formSearch div .inputWrap li.searchResult.disabled,
+.searchBar .formSearch div .inputWrap li.searchResult[disabled] {
   background-color: #ececec;
 }
-.searchBar .formSearch .inputWrap li.searchResult:hover,
-.searchBar .formSearch .inputWrap li.searchResult:active,
-.searchBar .formSearch .inputWrap li.searchResult.active,
-.searchBar .formSearch .inputWrap li.searchResult.disabled,
-.searchBar .formSearch .inputWrap li.searchResult[disabled] {
+.searchBar .formSearch div .inputWrap li.searchResult:hover,
+.searchBar .formSearch div .inputWrap li.searchResult:active,
+.searchBar .formSearch div .inputWrap li.searchResult.active,
+.searchBar .formSearch div .inputWrap li.searchResult.disabled,
+.searchBar .formSearch div .inputWrap li.searchResult[disabled] {
   background-color: #3a8100;
 }
-.searchBar .formSearch .inputWrap li.searchResult .remove {
+.searchBar .formSearch div .inputWrap li.searchResult .remove {
   float: right;
   display: block;
   width: 15px;
   text-align: right;
   color: #dedede;
 }
-.searchBar .formSearch .inputWrap li.searchResult .remove:hover {
+.searchBar .formSearch div .inputWrap li.searchResult .remove:hover {
   color: #fff;
 }
-.searchBar .formSearch .inputWrap li.searchField input {
+.searchBar .formSearch div .inputWrap li.searchField input {
   -webkit-box-sizing: border-box;
   /* Safari/Chrome, other WebKit */
   -moz-box-sizing: border-box;
@@ -1064,6 +1072,12 @@ body:not(.mainView, .registerView) #main {
   /* Opera/IE 8+ */
   -webkit-box-shadow: none;
   box-shadow: none;
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  border-radius: 0;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
   background: transparent !important;
   line-height: 13px;
   font-size: 13px;
@@ -3697,22 +3711,113 @@ btn-send[disabled] {
   margin: 0 1% 0 1%;
 }
 .circlesView #main {
-  background-color: #ececec;
-  border: 1px solid #bbbbbb;
-  border-bottom: 1px solid #000;
-  border-bottom-color: #a2a2a2;
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
   border-radius: 5px;
   -moz-background-clip: padding;
   -webkit-background-clip: padding-box;
   background-clip: padding-box;
+  background-color: #ececec;
+  border: 1px solid #bbbbbb;
+  border-bottom: 1px solid #000;
+  border-bottom-color: #a2a2a2;
   -webkit-box-sizing: border-box;
   /* Safari/Chrome, other WebKit */
   -moz-box-sizing: border-box;
   /* Firefox, other Gecko */
   box-sizing: border-box;
   /* Opera/IE 8+ */
+}
+.circlesView #main header {
+  height: 20px;
+  margin-top: -30px;
+  background-color: #fafafa;
+  background: -webkit-gradient(linear, left top, left bottom, from(#fafafa), to(#ececec));
+  background: -webkit-linear-gradient(top, #fafafa, #ececec);
+  background: -moz-linear-gradient(top, #fafafa, #ececec);
+  background: -ms-linear-gradient(top, #fafafa, #ececec);
+  background: -o-linear-gradient(top, #fafafa, #ececec);
+  border: none;
+  border-bottom: 1px solid #bbbbbb;
+  -webkit-border-top-right-radius: 5px;
+  -webkit-border-bottom-right-radius: 0px;
+  -webkit-border-bottom-left-radius: 0px;
+  -webkit-border-top-left-radius: 5px;
+  -moz-border-radius-topright: 5px;
+  -moz-border-radius-bottomright: 0px;
+  -moz-border-radius-bottomleft: 0px;
+  -moz-border-radius-topleft: 5px;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 0px;
+  border-bottom-left-radius: 0px;
+  border-top-left-radius: 5px;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  padding: 5px 0;
+}
+.circlesView #main header .edit {
+  float: right;
+  color: #b2b2b2;
+}
+.circlesView #main header .edit:hover {
+  color: #cbcbcb;
+}
+.circlesView #main header .title {
+  float: left;
+  margin: 0 1%;
+}
+.circlesView #main header .links {
+  float: right;
+  margin: 0 1%;
+}
+.circlesView #main header .links a {
+  color: #666;
+}
+.circlesView #main section {
+  padding: 5px 0;
+  -webkit-border-top-right-radius: 0;
+  -webkit-border-bottom-right-radius: 5px;
+  -webkit-border-bottom-left-radius: 5px;
+  -webkit-border-top-left-radius: 0;
+  -moz-border-radius-topright: 0;
+  -moz-border-radius-bottomright: 5px;
+  -moz-border-radius-bottomleft: 5px;
+  -moz-border-radius-topleft: 0;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 5px;
+  border-bottom-left-radius: 5px;
+  border-top-left-radius: 0;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  *zoom: 1;
+}
+.circlesView #main section:before,
+.circlesView #main section:after {
+  content: "";
+  display: table;
+}
+.circlesView #main section:after {
+  clear: both;
+}
+.circlesView #main section header {
+  margin-top: -5px !important;
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  border-radius: 0;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  border-top: 1px solid #bbbbbb;
+}
+.circlesView #main section h1,
+.circlesView #main section h2,
+.circlesView #main section h3,
+.circlesView #main section h4,
+.circlesView #main section h5,
+.circlesView #main section h6 {
+  margin-left: 0.5%;
 }
 .circlesView header nav a {
   color: #888888;
@@ -5336,6 +5441,9 @@ and (max-device-width : 767px) {
   .circlesView #circleContainer.newCircle #friendInput {
     height: 150px;
   }
+  .circlesView #circleContainer.newCircle .searchBar .formSearch .inputWrap li.searchField input {
+    width: 100%;
+  }
   .circlesView #circleContainer.newCircle #sendmessage {
     margin-left: 8px;
   }
@@ -6894,6 +7002,9 @@ and (max-device-width : 767px) {
   .circlesView #circleContainer.newCircle #friendInput {
     height: 150px;
   }
+  .circlesView #circleContainer.newCircle .searchBar .formSearch .inputWrap li.searchField input {
+    width: 92%;
+  }
   .circlesView #circleContainer.newCircle #sendmessage {
     margin-left: 8px;
   }
@@ -7617,7 +7728,7 @@ and (max-device-width : 767px) {
     padding: 0 5px 0 5px;
   }
   .searchBar .formSearch .inputWrap li.searchField input {
-    width: 26%;
+    width: 60%;
     outline: 0;
     border: 0;
     padding: 0px 5px;
@@ -8417,7 +8528,10 @@ and (max-device-width : 767px) {
   .circlesView #circleContainer.newCircle #friendInput {
     height: 150px;
   }
-  .circlesView #circleContainer.newCircle #sendmessage {
+  .circlesView #circleContainer.newCircle .searchBar .formSearch .inputWrap li.searchField input {
+    width: 50%;
+  }
+  .circlesView #circleContainer.newCircle #savecircle {
     margin-left: 8px;
   }
   .shareForm {

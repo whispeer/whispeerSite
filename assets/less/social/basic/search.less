@@ -1,47 +1,54 @@
 .searchBar {
 	.formSearch {
-		.inputWrap {
-			.unstyled;
-			border: 1px solid #aaa;
-			.box-shadow(inset 0px 0px 5px #ccc);
-			cursor: text;
-			height: auto;
-			background: white;
-			.border-radius(5px);
-			.box-fix;
-			&:focus {
-				border: solid 1px darken(#6bc600, 8%);
-				.box-shadow(inset 0px 0px 5px rgba(107,199,0,0.75));
-				.transition(border-color .3s linear);
-				.transition(box-shadow .3s linear);
-			}
-			li {
-				&.searchResult {
-					.btn;
-					.btn-green;
-					.remove {
-						float: right;
-						display: block;
-						width: 15px;
-						text-align: right;
-						color: #dedede;
-						&:hover {
-							color: #fff;
+		height: 100%;
+		div {
+			height: 100%;
+			.inputWrap {
+				height: 100%;
+				.unstyled;
+				border: 1px solid #888;
+				.box-shadow(inset 0px 0px 5px #ccc);
+				cursor: text;
+				background: white;
+				.border-radius(5px);
+				overflow: hidden;
+				.box-fix;
+				&:focus {
+					border: solid 1px darken(#6bc600, 8%);
+					.box-shadow(inset 0px 0px 5px rgba(107,199,0,0.75));
+					.transition(border-color .3s linear);
+					.transition(box-shadow .3s linear);
+				}
+				li {
+					&.searchResult {
+						float: left;
+						.btn;
+						.btn-green;
+						.remove {
+							float: right;
+							display: block;
+							width: 15px;
+							text-align: right;
+							color: #dedede;
+							&:hover {
+								color: #fff;
+							}
 						}
 					}
-				}
-				&.searchField {
-					input {
-						.box-fix;
-						-webkit-box-shadow: none;
-						box-shadow: none;
-						background: transparent !important;
-						line-height: 13px;
-						font-size: 13px;
-					}	
+					&.searchField {
+						input {
+							.box-fix;
+							-webkit-box-shadow: none;
+							box-shadow: none;
+							.border-radius(0);
+							background: transparent !important;
+							line-height: 13px;
+							font-size: 13px;
+						}	
+					}
 				}
 			}
-		}
+		}	
 	}
 	.searchDrop {
 		background: rgba(255,255,255,1);
