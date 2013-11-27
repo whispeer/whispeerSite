@@ -28,11 +28,11 @@ define(["step", "whispeerHelper", "asset/observer"], function (step, h, Observer
 			};
 
 			this.hasUser = function (uid) {
-				return user.indexOf(h.parseDecimal(uid)) !== 1;
+				return user.indexOf(h.parseDecimal(uid)) !== -1;
 			};
 
 			this.removePersons = function (uids, cb) {
-				var newUser, userIDs;
+				var newUser, userIDs, newKey;
 				step(function () {
 					uids = uids.map(h.parseDecimal).filter(function (e) {
 						user.indexOf(e) > -1;
@@ -44,21 +44,30 @@ define(["step", "whispeerHelper", "asset/observer"], function (step, h, Observer
 
 					generateUsersSpecificData(newUser, this);
 				}, h.sF(function (key, userids) {
+					newKey = key;
 					userIDs = userids;
+
 					var mainKey = userService.getown().getMainKey();
 
-					keyStore.sym.symEncryptKey(key, mainKey, this);
-				}), h.sF(function (encrypted) {
-					var keyData = keyStore.upload.getKey(key);
-
+					keyStore.sym.symEncryptKey(newKey, mainKey, this.parallel());
+					keyStore.sym.symEncryptKey(key, newKey, this.parallel());
+				}), h.sF(function () {
 					socket.emit("circles.removeUsers", {
-						circle: {
-							key: keyData,
+						remove: {
+							oldKeyDecryptor: keyStore.upload.getDecryptors([key], [newKey]),
+							circleid: id,
+							key: keyStore.upload.getKey(newKey),
 							remove: uids,
-							user: userIDs,
-							name: JSON.stringify(encrypted)
+							user: userIDs
 						}
 					}, this);
+				}), h.sF(function (result) {
+					if (result.removed) {
+						key = newKey;
+						user = userIDs;
+					}
+
+					this.ne(result.removed);
 				}), cb);
 			};
 

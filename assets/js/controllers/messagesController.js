@@ -48,7 +48,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 					$scope.new.text = "";
 					$scope.new.selectedUsers = [];
 					$scope.loadActiveTopic(id);
-					$scope.broadCast("resetSearch");
+					$scope.$broadcast("resetSearch");
 				});
 			}
 		};
