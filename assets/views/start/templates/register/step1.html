@@ -15,7 +15,10 @@
 			<img data-ng-src="{{acceptIcon(password, password2)}}" alt="Ok!">
 		</span>
 	</div>
-	<div class="success" id="registerPasswordStrength" style="display:block"><span data-i18n="login.register.passwordstrength"></span><span>{{passwordStrength()}}</span></div>
+	<div class="success" id="registerPasswordStrength" style="display:block">
+		<span data-i18n="login.register.passwordstrength"></span>
+		<span>{{passwordStrength()}}</span>
+	</div>
 </div>
 <div class="submitWrap">
 	<button id="registerFormNextStep" class="btn" type="submit"  data-ng-click="nextRegisterStep()" data-i18n="login.register.next"></button>

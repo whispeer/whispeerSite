@@ -148,9 +148,16 @@
 						float: left;
 						text-align: center;
 						img {
-							width: 20px;
-							height: 20px;
-							margin: 9px 0 11px 0;
+							width: 16px;
+							height: 16px;
+							margin: 11px 0 13px 0;
+						}
+						&.lock {
+							img {
+								width: 20px;
+								height: 20px;
+								margin: 9px 0 11px 0;
+							}
 						}
 					}
 					&.uploadImageForm {
@@ -162,10 +169,9 @@
 						overflow: hidden;
 						#uploadButton {
 							display: inline-block;
-							display: none;
+							//display: none;
 							margin: 4px 0;
 							z-index: 1;
-							background: red;
 						}
 						#filesUpload {
 							//position: absolute;
