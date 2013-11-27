@@ -128,6 +128,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 			user.getName(this.parallel());
 			user.getImage(this.parallel());
 		}), h.sF(function (name, image) {
+			$scope.user.id = userObject.getID();
 			$scope.user.name = name;
 			$scope.user.image = image;
 			$scope.user.data.me = userObject.isOwn();

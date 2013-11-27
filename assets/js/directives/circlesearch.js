@@ -1,19 +1,33 @@
 define(["step", "whispeerHelper"], function (step, h) {
 	"use strict";
 
-	function circleSearchDirective(userService, $location, circleService) {
+	function circleSearchDirective(userService, $timeout, circleService) {
 		return {
 			transclude: false,
 			scope:	{},
 			restrict: "E",
 			templateUrl: "/assets/views/directives/circleSearch.html",
 			replace: true,
-			link: function postLink(scope) {
+			link: function postLink(scope, element, attrs) {
 				function submitResults(results) {
 					scope.$broadcast("queryResults", results);
 				}
 
 				scope.resultTemplate = "/assets/views/directives/circleSearchResults.html";
+
+				if (attrs["user"]) {
+					var user = h.parseDecimal(scope.$parent.$eval(attrs["user"]));
+					step(function () {
+						circleService.loadAll(this);
+					}, h.sF(function () {
+						$timeout(this);
+					}), h.sF(function () {
+						var circles = circleService.inWhichCircles(user);
+						scope.$broadcast("initialSelection", circles.map(function (e) {
+							return e.data;
+						}));
+					}));
+				}
 
 				scope.$on("queryChange", function (event, query) {
 					step(function () {

@@ -91,6 +91,7 @@ define(["step", "asset/resizableImage", "asset/observer"], function (step, Resiz
 
 		$scope.stepLoaded = function stepLoadedF() {
 			var step = $scope.registerState.step;
+			observer.notify(step, "stepLoaded");
 			observer.notify(step, "stepLoaded" + step);
 		};
 

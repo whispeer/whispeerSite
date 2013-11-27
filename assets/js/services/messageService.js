@@ -431,7 +431,7 @@ define(["step", "whispeerHelper", "valid/validator"], function (step, h, validat
 		Message.createRawData = function (topicKey, message, meta, cb) {
 			var mKey, mData, encryptedMessageData;
 			step(function () {
-				keyStore.sym.generateKey(this);
+				keyStore.sym.generateKey(this, "messageMain");
 			}, h.sF(function (key) {
 				mKey = key;
 
@@ -511,7 +511,7 @@ define(["step", "whispeerHelper", "valid/validator"], function (step, h, validat
 				receiverObjects = receiverO;
 
 				//generate topic key
-				keyStore.sym.generateKey(this);
+				keyStore.sym.generateKey(this, "topicMain");
 			}), h.sF(function (key) {
 				topicKey = key;
 

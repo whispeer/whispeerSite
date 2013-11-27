@@ -2,7 +2,7 @@
 * BaseDirective
 **/
 
-var directives = ["eatClick", "blur", "onblur", "friend", "strgEnter", "onfocus", "comment", "post", "scroll", "file", "stopEvent", "inview", "syntaxify", "basicsearch"];
+var directives = ["eatClick", "blur", "onblur", "friend", "strgEnter", "enter", "onfocus", "comment", "post", "scroll", "file", "stopEvent", "inview", "syntaxify", "basicsearch", "autofocus"];
 
 var includes = ["angular", "directives/usersearch", "directives/circlesearch"];
 
@@ -24,7 +24,7 @@ define(includes, function (angular, userSearch, circleSearch) {
 	}
 
 	d.directive("usersearch", ["ssn.userService", "$location", userSearch]);
-	d.directive("circlesearch", ["ssn.userService", "$location", "ssn.circleService", circleSearch]);
+	d.directive("circlesearch", ["ssn.userService", "$timeout", "ssn.circleService", circleSearch]);
 
 	return d;
 });

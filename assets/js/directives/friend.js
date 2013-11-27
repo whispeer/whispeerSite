@@ -10,7 +10,7 @@ define(function () {
 			restrict: 'E',
 			templateUrl: '/assets/views/directives/friend.html',
 			replace: true
-		};			
+		};
 	}
 
 	return friendDirective;

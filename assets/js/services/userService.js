@@ -1,7 +1,7 @@
 define(["step", "whispeerHelper"], function (step, h) {
 	"use strict";
 
-	var service = function ($rootScope, socketService, sessionService, keyStoreService, ProfileService) {
+	var service = function ($rootScope, $location, socketService, sessionService, keyStoreService, ProfileService) {
 
 		var NotExistingUser = {
 			getName: function (cb) {
@@ -19,8 +19,6 @@ define(["step", "whispeerHelper"], function (step, h) {
 			var id, mail, nickname, publicProfile, privateProfiles = [], mutualFriends;
 
 			this.data = {};
-
-
 
 			function updateUser(userData) {
 				if (id && parseInt(userData.id, 10) !== parseInt(id, 10)) {
@@ -163,6 +161,11 @@ define(["step", "whispeerHelper"], function (step, h) {
 
 			this.getID = function () {
 				return parseInt(id, 10);
+			};
+
+			this.visitProfile = function () {
+				var url = theUser.getUrl();
+				$location.path(url);
 			};
 
 			this.getUrl = function () {
@@ -527,7 +530,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 		return api;
 	};
 
-	service.$inject = ["$rootScope", "ssn.socketService", "ssn.sessionService", "ssn.keyStoreService", "ssn.profileService"];
+	service.$inject = ["$rootScope", "$location", "ssn.socketService", "ssn.sessionService", "ssn.keyStoreService", "ssn.profileService"];
 
 	return service;
 });

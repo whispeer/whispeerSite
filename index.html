@@ -93,9 +93,9 @@
 
 		<aside id="sidebar-right" data-ng-show="loggedin" data-ng-if="loggedin" style="display:none">
 			<div id="magicbar" data-ng-controller="ssn.magicbar.mainController">
-				<div data-ng-if="!config.showDefault" data-ng-include="'/assets/views/magicbar/' + config.template + '.html'" style="height: 100%;">bla</div>
-				<div data-ng-if="config.showDefault">
-					<div data-ng-repeat="widget in defaultConfig" data-ng-include="'/assets/views/magicbar/' + widget.template + '.html'" data-ng-style="'height:' + widget.height + ';'"></div>
+				<div data-ng-if="!config.showDefault" data-ng-include="'/assets/views/magicbar/' + config.template + '.html'" style="height: 100%;">Loading</div>
+				<div data-ng-if="config.showDefault" style="height: 100%;">
+					<div data-ng-repeat="widget in defaultConfig" data-ng-include="'/assets/views/magicbar/' + widget.template + '.html'" style="height:{{widget.height}};"></div>
 				</div>							
 			</div>		
 		</aside>
