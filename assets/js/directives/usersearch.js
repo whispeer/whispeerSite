@@ -1,7 +1,7 @@
 define(["step", "whispeerHelper"], function (step, h) {
 	"use strict";
 
-	function searchDirective(userService, $location) {
+	function searchDirective(userService, $location, $timeout) {
 		return {
 			transclude: false,
 			scope:	{},
@@ -15,6 +15,28 @@ define(["step", "whispeerHelper"], function (step, h) {
 					scope.resultTemplate = "/assets/views/directives/userSearchResults.html";
 				} else {
 					scope.resultTemplate = "/assets/views/directives/userSearchResultsSmall.html";
+				}
+
+				if (iAttrs["user"]) {
+					var theUser;
+					var user = h.parseDecimal(scope.$parent.$eval(iAttrs["user"]));
+					if (user > 0) {
+						step(function () {
+							$timeout(this);
+						}, h.sF(function () {
+							userService.get(user, this);
+						}), h.sF(function (user ) {
+							theUser = user;
+							theUser.loadBasicData(this);
+						}), h.sF(function () {
+							scope.$broadcast("initialSelection", [{
+								user: theUser,
+								basic: theUser.data.basic,
+								id: theUser.data.basic.id,
+								name: theUser.data.basic.name
+							}]);
+						}));
+					}
 				}
 
 				var timer = null;

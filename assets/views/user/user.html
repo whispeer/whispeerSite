@@ -117,7 +117,7 @@
 					<div class="addToCirlce" ng-if="user.added">
 						<circlesearch data-input-i18n-attr="profile.actions.addToCircle|placeholder|user={{user.name}}" data-user="user.id"></search>
 					</div>
-					<a href="" class="sendMessage"><span data-i18n="profile.actions.sendMessage|user={{user.name}}"></span></a>
+					<a href="/messages?userid={{user.id}}" class="sendMessage"><span data-i18n="profile.actions.sendMessage|user={{user.name}}"></span></a>
 				</div>
 			</article>
 		</section>

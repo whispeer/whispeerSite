@@ -10,6 +10,10 @@ define(["step", "whispeerHelper"], function (step, h) {
 
 		$scope.topicid = 0;
 
+		if ($routeParams["userid"]) {
+			$scope.userid = $routeParams["userid"];
+		}
+
 		$scope.$watch(function(){ return $routeParams["topicid"]; }, function(){
 			if ($routeParams["topicid"]) {
 				$scope.loadActiveTopic($routeParams["topicid"]);
