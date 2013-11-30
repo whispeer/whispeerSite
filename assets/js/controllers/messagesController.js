@@ -12,6 +12,13 @@ define(["step", "whispeerHelper"], function (step, h) {
 
 		if ($routeParams["userid"]) {
 			$scope.userid = $routeParams["userid"];
+			step(function () {
+				messageService.getUserTopic($scope.userid, this);
+			}, h.sF(function (topicid) {
+				if (topicid) {
+					$scope.loadActiveTopic(topicid);
+				}
+			}));
 		}
 
 		$scope.$watch(function(){ return $routeParams["topicid"]; }, function(){

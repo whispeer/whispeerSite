@@ -51,7 +51,7 @@
 			</li>
 		</ul>	
 		<form id="inputWrap">
-			<textarea id="messageInput" data-strg-enter="sendMessage(activeTopic.newMessage)" type="text" data-ng-model="activeTopic.newMessage" data-ng-disabled="!canSend" data-i18n-attr="messages.sendMessage.text|placeholder"></textarea>
+			<textarea autofocus id="messageInput" data-strg-enter="sendMessage(activeTopic.newMessage)" type="text" data-ng-model="activeTopic.newMessage" data-ng-disabled="!canSend" data-i18n-attr="messages.sendMessage.text|placeholder"></textarea>
 			<button class="btn btn-success" id="sendmessage" data-ng-click="sendMessage(activeTopic.newMessage)" data-i18n="messages.sendMessage.send" type="submit"></button>		
 		</form>
 	</div>
