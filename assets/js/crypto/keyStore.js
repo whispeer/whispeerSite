@@ -621,6 +621,21 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 
 		this.encrypt = encryptF;
 		this.decrypt = decryptF;
+
+		function encryptAndJsonifyF(text, callback, iv) {
+			step(function () {
+				encryptF(text, this, iv);
+			}, h.sF(function (encrypted) {
+				this.ne(JSON.stringify(encrypted));
+			}), callback);
+		}
+
+		function decryptJsonifiedF(ctext, callback, iv) {
+			decryptF(JSON.parse(ctext), callback, iv);
+		}
+
+		this.encryptAndJsonify = encryptAndJsonifyF;
+		this.decryptJsonified = decryptJsonifiedF;
 	};
 
 	/** make a symkey out of keydata */

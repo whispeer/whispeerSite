@@ -133,7 +133,7 @@ define(["step", "whispeerHelper", "valid/validator", "asset/observer"], function
 		};
 
 		var Topic = function (data) {
-			var messages = [], dataMessages = [], messagesByID = {}, theTopic = this, receiverObjects, loadInitial = true;
+			var messages = [], dataMessages = [], messagesByID = {}, theTopic = this, loadInitial = true;
 
 			var err = validator.validate("topic", data);
 			if (err) {
@@ -240,6 +240,19 @@ define(["step", "whispeerHelper", "valid/validator", "asset/observer"], function
 				}), cb);
 			};
 
+			function addMessageToList(m) {
+				//add to message list
+				messages.push(m);
+				dataMessages.push(m.data);
+				messagesByID[m.getID()] = m;
+				messages.sort(function (a, b) {
+					return (a.getTime() - b.getTime());
+				});
+				dataMessages.sort(function (a, b) {
+					return (a.obj.getTime() - b.obj.getTime());
+				});
+			}
+
 			this.addMessage = function addMessageF(m, addUnread, cb) {
 				step(function () {
 					if (m.getTime() > data.time) {
@@ -248,16 +261,7 @@ define(["step", "whispeerHelper", "valid/validator", "asset/observer"], function
 
 					m.loadFullData(this);
 				}, h.sF(function () {
-					//add to message list
-					messages.push(m);
-					dataMessages.push(m.data);
-					messagesByID[m.getID()] = m;
-					messages.sort(function (a, b) {
-						return (a.getTime() - b.getTime());
-					});
-					dataMessages.sort(function (a, b) {
-						return (a.obj.getTime() - b.obj.getTime());
-					});
+					addMessageToList(m);
 
 					theTopic.data.latestMessage = messages[messages.length - 1];
 					if (addUnread) {
@@ -279,35 +283,15 @@ define(["step", "whispeerHelper", "valid/validator", "asset/observer"], function
 
 			this.loadReceiverNames = function loadRNF(cb) {
 				step(function () {
-					if (receiverObjects) {
-						this.ne(receiverObjects);
-					} else {
-						userService.getMultiple(data.receiver, this);
-					}
-				}, h.sF(function (receiverO) {
-					receiverObjects = receiverO;
-					var i;
-					for (i = 0; i < receiverObjects.length; i += 1) {
-						receiverObjects[i].getShortName(this.parallel());
-						receiverObjects[i].getName(this.parallel());
-						receiverObjects[i].getImage(this.parallel());
-					}
-				}), h.sF(function (data) {
+					userService.getMultipleFormatted(data.receiver, this);
+				}, h.sF(function (receiverObjects) {
 					var partners = theTopic.data.partners;
-					var i, userData, me;
+					var i, me;
 					for (i = 0; i < receiverObjects.length; i += 1) {
-						userData = {
-							"id": receiverObjects[i].getID(),
-							"url": receiverObjects[i].getUrl(),
-							"shortname": data[i*3],
-							"name": data[i*3+1],
-							"image": data[i*3+2]
-						};
-
-						if (!receiverObjects[i].isOwn() || receiverObjects.length === 1) {
-							partners.push(userData);
+						if (!receiverObjects[i].user.isOwn() || receiverObjects.length === 1) {
+							partners.push(receiverObjects[i]);
 						} else {
-							me = userData;
+							me = receiverObjects[i];
 						}
 					}
 
@@ -326,8 +310,6 @@ define(["step", "whispeerHelper", "valid/validator", "asset/observer"], function
 							theTopic.data.partnersDisplay.push(me);
 						}
 					}
-
-					//partners.push(me);
 
 					this.ne();
 				}), cb);
@@ -617,11 +599,7 @@ define(["step", "whispeerHelper", "valid/validator", "asset/observer"], function
 				});
 
 				console.log("Topic loaded:" + (new Date().getTime() - startup));
-
-				if (cb) {
-					this.ne(t.getID());
-				}
-			}), cb);
+			}), cb || h.nop);
 
 			return t;
 		}
@@ -632,14 +610,19 @@ define(["step", "whispeerHelper", "valid/validator", "asset/observer"], function
 			var id = m.getID();
 
 			if (messages[id]) {
+				$timeout(function () {
+					cb();
+				});
 				return messages[id];
 			}
 
 			messages[id] = m;
 
-			if (topics[m.getTopicID()]) {
-				topics[m.getTopicID()].addMessage(m, addUnread, cb);
-			}
+			step(function () {
+				Topic.get(m.getTopicID(), this);
+			}, h.sF(function (theTopic) {
+				theTopic.addMessage(m, addUnread, this);
+			}), cb);
 
 			return m;
 		}
@@ -702,7 +685,7 @@ define(["step", "whispeerHelper", "valid/validator", "asset/observer"], function
 				var l = messageService.data.latestTopics;
 				messageService.listenOnce(cb, "loadingDone");
 
-				if (currentlyLoadingTopics) {
+				if (l.loading) {
 					return;
 				}
 
@@ -720,15 +703,13 @@ define(["step", "whispeerHelper", "valid/validator", "asset/observer"], function
 						afterTopic: last
 					}, this);
 
-					currentlyLoadingTopics = true;
 				}, h.sF(function (latest) {
-					currentlyLoadingTopics = false;
 					l.loaded = true;
 					l.loading = false;
 
 					var i;
 					for (i = 0; i < latest.topics.length; i += 1) {
-						makeTopic(latest.topics[i], this.parallel());
+						makeTopic(latest.topics[i]);
 					}
 
 					messageService.notify("", "loadingDone");

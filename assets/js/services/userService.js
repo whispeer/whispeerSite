@@ -116,10 +116,12 @@ define(["step", "whispeerHelper"], function (step, h) {
 					if (!basicDataLoaded) {
 						this.parallel.unflatten();
 
+						theUser.getShortName(this.parallel());
 						theUser.getName(this.parallel());
 						theUser.getImage(this.parallel());
 					}
-				}, h.sF(function (name, image) {
+				}, h.sF(function (shortname, name, image) {
+					theUser.data.basic.shortname = shortname;
 					theUser.data.basic.name = name;
 					theUser.data.basic.image = image;
 

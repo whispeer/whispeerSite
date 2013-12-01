@@ -7,11 +7,11 @@
 		<ul class="unstyled">
 			<li class="message {{topic.type}} {{topic.unread?'unread':''}}" data-ng-repeat="topic in topics" data-ng-click="loadTopic(topic.id)">
 				<div class="left">
-					<img class="userimg" data-ng-repeat="partner in topic.partnersDisplay" data-ng-src="{{partner.image}}" alt="{{partner.name}}" title="{{partner.name}}">
+					<img class="userimg" data-ng-repeat="partner in topic.partnersDisplay" data-ng-src="{{partner.basic.image}}" alt="{{partner.name}}" title="{{partner.name}}">
 					<span data-ng-if="topic.remainingUser" title="{{topic.remainingUserTitle}}">+ {{topic.remainingUser}}</span>
 				</div>
 				<p class="username">
-					<strong ng-repeat="partner in topic.partners">{{topic.partners.length>1?partner.shortname:partner.name}}{{$last?"":", "}}</strong>
+					<strong ng-repeat="partner in topic.partners">{{topic.partners.length>1?partner.basic.shortname:partner.basic.name}}{{$last?"":", "}}</strong>
 				</p>
 				<p class="text" title="{{topic.latestMessage.data.text}}">
 					{{topic.latestMessage.data.text}}
