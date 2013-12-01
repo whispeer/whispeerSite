@@ -1,7 +1,7 @@
 /**
 * ProfileService
 **/
-define(["crypto/keyStore", "step", "whispeerHelper", "valid/validator"], function (keyStore, step, h, validator) {
+define(["crypto/keyStore", "step", "whispeerHelper", "valid/validator", "asset/Observer"], function (keyStore, step, h, validator, Observer) {
 	"use strict";
 
 	var service = function () {
@@ -15,29 +15,41 @@ define(["crypto/keyStore", "step", "whispeerHelper", "valid/validator"], functio
 
 		//where should the key go? should it be next to the data?
 		var profileService = function (data) {
-			var dataEncrypted, dataDecrypted, decrypted, signature, id, err, decrypting = false, verified = false;
+			var dataEncrypted, dataDecrypted = {}, decrypted, signature, id, err, decrypting = false, verified = false;
 			var theProfile = this;
+
+			/*
+				-> reserved word hash
+				-> if property is not an object assume it is a hash
+				hashObject:
+				{
+					hash: "hash of whole object",
+					name: {
+						hash: "hash of name",
+						----possibility1----
+						firstname: {
+							hash: "hash of firstname"
+						}
+						----possibility2----
+						firstname: "hash of firstname"
+					}
+				}
+			*/
 
 			if (typeof data.key === "object") {
 				data.key = keyStore.upload.addKey(data.key);
-			}
 
-			if (data.iv) {
 				dataEncrypted = data;
 				decrypted = false;
-
-				err = checkValid(data, false);
-				if (err) {
-					throw err;
-				}
 			} else {
 				dataDecrypted = data;
 				decrypted = true;
+			}
 
-				err = checkValid(data, true);
-				if (err) {
-					throw err;
-				}
+			err = checkValid(data, decrypted);
+
+			if (err) {
+				throw err;
 			}
 
 			if (data.signature) {
@@ -50,9 +62,9 @@ define(["crypto/keyStore", "step", "whispeerHelper", "valid/validator"], functio
 				delete data.profileid;
 			}
 
-			this.verify = function verifyProfileF(key, callback) {
+			this.verify = function verifyProfileF(key, cb) {
 				if (verified) {
-					callback(null, verified);
+					cb(null, verified);
 					return;
 				}
 
@@ -66,47 +78,47 @@ define(["crypto/keyStore", "step", "whispeerHelper", "valid/validator"], functio
 					} else {
 						h.setAll(dataDecrypted, "Security Breach!");
 					}
-				}), callback);
+				}), cb);
 			};
 
-			this.sign = function signprofileF(key, callback) {
+			this.sign = function signprofileF(key, cb) {
 				step(function () {
 					keyStore.sign.signObject(data, key, this);
 				}, h.sF(function (result) {
 					signature = result;
 					this.ne(result);
-				}), callback);
+				}), cb);
 			};
 
 			this.signAndEncrypt = function signAndEncryptF(signKey, cryptKey, cb) {
 				step(function () {
+					this.parallel.unflatten();
+
 					theProfile.encrypt(cryptKey, this.parallel());
 					theProfile.sign(signKey, this.parallel());
-				}, h.sF(function (data) {
-					data[0].signature = data[1];
+				}, h.sF(function (encryptedProfile, signature) {
+					encryptedProfile.signature = signature;
 
-					this.ne(data[0]);
+					this.ne(encryptedProfile);
 				}), cb);
 			};
 
-			this.encrypt = function encryptProfileF(key, callback) {
+			this.encrypt = function encryptProfileF(key, cb) {
 				step(function () {
 					keyStore.sym.encryptObject(data, key, 1, this);
 				}, h.sF(function (result) {
 					dataEncrypted = result;
+					dataEncrypted.key = key;
+
 					this.ne(result);
-				}), callback);
+				}), cb);
 			};
 
-			this.setAttribute = function setAttributeF(attr, value, cb) {
+			this.setAttribute = function setAttributeF(attrs, value, cb) {
 				step(function () {
-					if (!decrypted) {
-						theProfile.decrypt(this);
-					} else {
-						this.ne();
-					}
+					theProfile.decrypt(this, attrs[0]);
 				}, h.sF(function () {
-					h.deepSet(dataDecrypted, attr, value);
+					h.deepSet(dataDecrypted, attrs, value);
 					this.ne();
 				}), cb);
 			};
@@ -118,32 +130,52 @@ define(["crypto/keyStore", "step", "whispeerHelper", "valid/validator"], functio
 				}
 
 				step(function () {
-					if (h.deepGet(dataEncrypted, attrs)) {
-						theProfile.decrypt(this);
-					} else {
-						this.last.ne();
-					}
+					theProfile.decrypt(this, attrs[0]);
 				}, h.sF(function () {
 					this.last.ne(h.deepGet(dataDecrypted, attrs));
 				}), cb);
 			};
 
-			this.decrypt = function decryptProfileF(callback) {
-				if (decrypted) {
-					callback(null, dataDecrypted);
-					return;
-				}
+			this._decryptBranch = function decryptBranch(cb, branch) {
+				step(function checkAlreadyDecrypted() {
+					if (decrypted[branch]) {
+						this.last.ne();
+					} else {
+						this.ne();
+					}
+				}, h.sF(function checkEmpty() {
+					if (dataEncrypted[branch]) {
+						keyStore.sym.decryptObject(dataEncrypted[branch], 0, this);
+					} else {
+						decrypted[branch] = true;
+						this.last.ne();
+					}
+				}), h.sF(function decryptedBranch(decrypted) {
+					dataDecrypted[branch] = decrypted;
+					decrypted[branch] = true;
 
+					delete dataEncrypted[branch];
+
+					this.last.ne();
+				}), function (e) {
+					theProfile.notify("", "decrypted");
+
+					decrypting = false;
+					cb(e);
+				});
+			};
+
+			this._decryptFull = function decryptFullF(cb) {
 				step(function () {
-					if (decrypting) {
-						theProfile.bind("decrypted", callback);
-						return;
+					keyStore.sym.decryptObject(data, 1, this);
+				}, h.sF(function (result) {
+					var attr;
+					for (attr in result) {
+						if (result.hasOwnProperty(attr)) {
+							dataDecrypted[attr] = result[attr];
+						}
 					}
 
-					decrypting = true;
-					keyStore.sym.decryptObject(data, this);
-				}, h.sF(function (result) {
-					dataDecrypted = result;
 					decrypted = true;
 					
 					err = checkValid(data, true);
@@ -151,11 +183,33 @@ define(["crypto/keyStore", "step", "whispeerHelper", "valid/validator"], functio
 						throw err;
 					}
 
-					jQuery(theProfile).trigger("decrypted", dataDecrypted);
+					theProfile.notify("", "decrypted");
 
 					this.ne(result);
-				}), callback);
+				}), cb);
 			};
+
+			this.decrypt = function decryptProfileF(cb, branch) {
+				if (decrypted === true) {
+					cb();
+					return;
+				}
+
+				if (decrypting) {
+					theProfile.listenOnce(function () {
+						theProfile.decrypt(cb, branch);
+					}, "decrypted");
+				} else {
+					decrypting = true;
+					if (branch) {
+						this.decryptBranch(cb, branch);
+					} else {
+						this.decryptFully(cb);
+					}
+				}
+			};
+
+			Observer.call(this);
 		};
 
 		return profileService;

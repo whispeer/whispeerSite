@@ -1076,48 +1076,88 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 		}
 	};
 
-	function objInternalHash(val) {
-		if (typeof val === "object") {
-			return object2Hash(val);
-		} else if (typeof val === "function") {
-			throw "can not sign objects with functions";
+	var objectHasher = function (data, keepDepth) {
+		this._data = data;
+		this._depth = keepDepth;
+		this._hashedObject = {};
+	};
+
+	objectHasher.prototype.sjclHash = function (data) {
+		return "hash::" + chelper.bits2hex(sjcl.hash.sha256.hash(data));
+	};
+
+	objectHasher.prototype.getHashObject = function () {
+		return this._hashedObject;
+	};
+
+	objectHasher.prototype._doHash = function (val, attr) {
+		var allowedTypes = ["number", "string", "boolean"];
+
+		var type = typeof val, result;
+		if (type === "object") {
+			var hasher = new objectHasher(val, this._depth-1);
+			result = hasher.hash();
+			if (this._depth > 0) {
+				this._hashedObject[attr] = hasher.getHashObject();
+			}
+		} else if (allowedTypes.indexOf(type) > -1) {
+			result = this.sjclHash("data::" + val.toString());
+		} else if (type === "function") {
+			throw "can not hash objects with functions";
 		} else {
-			return val.toString();
+			throw "can not hash objects with " + type;
 		}
-	}
 
-	/** hash an object. */
-	function object2Hash(obj, arr) {
-		var val, hashObj;
+		if (!this._hashedObject[attr]) {
+			this._hashedObject[attr] = result;
+		}
 
-		if (obj instanceof Array) {
-			hashObj = [];
-			var i;
-			for (i = 0; i < obj.length; i += 1) {
-				hashObj.push(objInternalHash(obj[i]));
+		return result;
+	};
+
+	objectHasher.prototype._hashArray = function () {
+		var i, result = [];
+		for (i = 0; i < this._data.length; i += 1) {
+			result.push(this._doHash(this._data[i]), i);
+		}
+
+		return this.sjclHash(JSON.stringify(result));
+	};
+
+	objectHasher.prototype._hashObject = function () {
+		var attr, hashObj = {};
+		for (attr in this._data) {
+			if (this._data.hasOwnProperty(attr)) {
+				hashObj[attr] = this._doHash(this._data[attr], attr);
 			}
-
-			hashObj.sort();
-		} else {
-			hashObj = {};
-			for (val in obj) {
-				if (obj.hasOwnProperty(val)) {
-					hashObj[val] = objInternalHash(obj[val]);
-				}
-			}
-
 		}
 
 		var sortation = Object.keys(hashObj).sort();
 		var json = JSON.stringify(hashObj, sortation);
 
+		return this.sjclHash(json);
+	};
 
-		if (!arr) {
-			return "hash:" + chelper.bits2hex(sjcl.hash.sha256.hash(json));
+	objectHasher.prototype.hash = function() {
+		if (typeof this._data !== "object") {
+			throw "this is not an object!";
 		}
 
-		return sjcl.hash.sha256.hash(json);
-	}
+		var result;
+		if (this._data instanceof Array) {
+			result = this._hashArray();
+		} else {
+			result = this._hashObject();
+		}
+
+		this._hashedObject.hash = result;
+		return result;
+	};
+
+	objectHasher.prototype.hashBits = function () {
+		var result = this.hash();
+		return chelper.hex2bits(result.substr(6));
+	};
 
 	var objectCryptor = function (key, depth, object) {
 		this._key = key;
@@ -1268,8 +1308,14 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 				return chelper.bits2hex(sjcl.hash.sha256.hash(pw)).substr(0, 10);
 			},
 
+			deepHashObject: function (obj) {
+				var hasher = new objectHasher(obj);
+				hasher.hash();
+				return hasher.getHashObject();
+			},
+
 			hashObject: function (obj) {
-				return chelper.bits2hex(object2Hash(obj, true));
+				return new objectHasher(obj).hashBits();
 			},
 		},
 
