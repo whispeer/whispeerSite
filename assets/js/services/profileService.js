@@ -91,7 +91,7 @@ define(["crypto/keyStore", "step", "whispeerHelper", "valid/validator"], functio
 
 			this.encrypt = function encryptProfileF(key, callback) {
 				step(function () {
-					keyStore.sym.encryptObject(data, key, this);
+					keyStore.sym.encryptObject(data, key, 1, this);
 				}, h.sF(function (result) {
 					dataEncrypted = result;
 					this.ne(result);
