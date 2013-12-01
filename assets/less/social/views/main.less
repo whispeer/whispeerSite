@@ -1,0 +1,141 @@
+.mainView {
+	#wall {
+		height: 100%;
+		width: 100%;
+		float: left;
+		padding-top: 100px;
+		.box-fix;
+		header {
+			.column(8,8);
+			padding-top: 10px;
+			margin-top: -100px;
+			text-align: center;
+			border-bottom: 1px solid #bbb;
+			height: 100px;
+			z-index: 1000;
+			box-shadow: 0 2px 4px -2px @green;
+			.border-radius(2px);
+			#postIt {
+				.column(8,12);
+				padding: 0;
+				border: 1px solid #aaa;
+				.border-radius(5px);
+				.box-fix;
+				#receiver {
+					.column(5.5,8,left,0);
+					border: none;
+					.border-radiuses(0,0,0,5px);
+					height: 38px;
+				}
+				#shareText {
+					.column(8,8,left,0);
+					height: 38px;
+					margin-top: -1px;
+					border: none;
+					border-top: 1px solid #aaa;
+					.border-radiuses(0, 5px, 5px, 0);
+				}
+				button {
+					.btn;
+					border: none;
+					.column(2.5,8,right,0);
+					height: 38px;
+					padding: 7px;
+					.border-radiuses(4px, 0, 0, 0);
+					&[type="submit"] {
+						.btn-success;
+					}
+				}
+			}	
+			#filter {
+				.column(4,12);
+				height: 77px;
+				//margin-top: -36px;
+				//background-color: green;
+				.title {
+					.column(12,12);
+					height: 20px;
+					padding: 4px 0;
+					.gradient(@btnBackground, @btnBackgroundHighlight);
+					border: 1px solid @btnBorder;
+					.border-radius(4px);
+					font-size: @baseFontSize;
+					line-height: @baseLineHeight;
+				}
+				#theFilter {
+					.column(12,12);
+					margin-top: 5px;
+					height: 42px;
+					padding: 5px;
+					resize: none;
+				}
+			}
+		}
+		.posts {
+			float: left;
+			width: 100% !important;
+			margin: 0 0 0 1%;
+			overflow-y: scroll;
+			height: 100%;
+			article {
+				border-bottom: 1px solid #bbb;
+				.border-radius(5px);
+				height: auto !important;
+				.userimg{
+					border-radius: 10px;
+					vertical-align: middle;
+					margin: 0 0 10px 0;
+				}
+				.postContent {
+					margin-top: -5px;
+					margin-bottom: 10px;
+					.postText, .postImage {
+						padding-left: 10px;
+						.box-fix;
+					}
+				}
+				.postInfo {
+					margin-top: -5px;
+					margin-bottom: 10px;
+				}
+				ol.comments {
+					.unstyled;
+					border: 1px solid @grayLight !important;
+					.border-radius(5px);
+					&:last-child {
+						border: none;
+					}
+					&:first-child {
+					}
+					&:only-child {
+					}
+					li {
+						background-color: @grayLighter;
+						.clear-fix;
+						border-bottom: 1px solid @grayLight;
+						img {
+						}
+						.text {
+							word-break: break-all;
+						}
+						.timestamp {
+							font-size: 0.85em;
+						}
+						&.newComment {
+							background-color: @white;
+							input {
+								margin-top: 8px;
+							}
+							button {
+								margin-top: 10px;
+							}
+						}
+					}
+				}	
+				&:last-child {
+					border:none;
+				}
+			}
+		}
+	}
+}
