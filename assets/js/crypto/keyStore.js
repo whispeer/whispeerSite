@@ -1119,108 +1119,108 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 		return sjcl.hash.sha256.hash(json);
 	}
 
-	/** decrypt an object attribute wise */
-	function internalObjDecrypt(iv, object, key, callback) {
-		var keys, result = {};
+	var objectCryptor = function (key, depth, object) {
+		this._key = key;
+		this._depth = depth;
+		this._object = object;
+	};
 
-		step(function decrObjI1() {
-			keys = Object.keys(object);
+	objectCryptor.prototype.encryptAttr = function (cur, cb) {
+		if (typeof cur === "object") {
+			new objectCryptor(this._key, this._depth-1, cur).encrypt(cb);
+		} else if (typeof cur === "string" || typeof cur === "number" || typeof cur === "boolean") {
+			var text = "data::" + cur.toString();
+			this._key.encryptAndJsonify(text, cb);
+		} else {
+			throw "Invalid encrypt!";
+		}
+	};
 
-			var i;
-			for (i = 0; i < keys.length; i += 1) {
-				if (keys[i] !== "iv" && keys[i] !== "key") {
-					var cur = object[keys[i]];
-					if (typeof cur === "object") {
-						internalObjDecrypt(iv, cur, key, this.parallel());
-					} else if (typeof cur === "string") {
-						if (cur === "") {
-							this.parallel()("");
-						} else {
-							key.decrypt(cur, this.parallel(), iv);
-						}
-					} else {
-						throw "Invalid data!";
-					}
-				} else {
-					this.parallel()(null, false);
+	objectCryptor.prototype.encryptObject = function (cb) {
+		var that = this;
+		step(function encryptAllAttributes() {
+			var attr;
+			for (attr in that._object) {
+				if (that._object.hasOwnProperty(attr) && attr !== "key") {
+					that.encryptAttr(that._object[attr], this.parallel());
+				}
+			}
+		}, h.sF(function (encrypted) {
+			var attr, resultObject = {}, count = 0;
+			for (attr in that._object) {
+				if (that._object.hasOwnProperty(attr) && attr !== "key") {
+					resultObject[attr] = encrypted[count];
+					count += 1;
 				}
 			}
 
-			if (keys.length === 0) {
-				this.ne([]);
-			}
-		}, h.sF(function decrObjI2(results) {
-			if (results.length !== keys.length) {
-				throw "bug!";
-			}
+			this.ne(resultObject);
+		}), cb);
+	};
 
-			var i;
-			for (i = 0; i < keys.length; i += 1) {
-				if (keys[i] !== "iv" && keys[i] !== "key") {
-					if (results[i]) {
-						if (typeof results[i] === "object") {
-							result[keys[i]] = results[i];
-						} else if (results[i].substr(0, 6) === "data::") {
-							result[keys[i]] = results[i].substr(6);
-						} else if (results[i] !== "") {
-							throw "unexpected data!";
-						}
-					} else {
-						result[keys[i]] = {};
-					}
+	objectCryptor.prototype.encryptJSON = function (cb) {
+		var text = "json::" + JSON.stringify(this._object);
+		this._key.encryptAndJsonify(text, cb);
+	};
+
+	objectCryptor.prototype.encrypt = function (cb) {
+		if (this._depth > 0) {
+			this.encryptObject(cb);
+		} else {
+			this.encryptJSON(cb);
+		}
+	};
+
+	objectCryptor.prototype.decryptCorrectObject = function (obj) {
+		if (typeof obj === "object") {
+			return obj;
+		} else if (typeof obj === "string") {
+			var prefix = obj.substr(0, 6);
+			var content = obj.substr(6);
+
+			if (prefix === "data::") {
+				return content;
+			} else if (prefix === "json::") {
+				return JSON.parse(content);
+			} else {
+				throw new AccessViolation();
+			}
+		}
+	};
+
+	objectCryptor.prototype.decryptAttr = function (cur, cb) {
+		if (typeof cur === "string") {
+			this._key.decryptJsonified(cur, cb);
+		} else {
+			new objectCryptor(this._key, this._depth-1, cur).decrypt(cb);
+		}
+	};
+
+	objectCryptor.prototype.decrypt = function (cb) {
+		if (this._depth === 0) {
+			throw "invalid!";
+		}
+
+		var that = this;
+		step(function () {
+			var attr;
+			for (attr in that._object) {
+				if (that._object.hasOwnProperty(attr) && attr !== "key") {
+					that.decryptAttr(that._object[attr], this.parallel());
+				}
+			}
+		}, h.sF(function (decrypted) {
+			var attr, count = 0, resultObject = {};
+			for (attr in that._object) {
+				if (that._object.hasOwnProperty(attr) && attr !== "key") {
+					resultObject[attr] = that.decryptCorrectObject(decrypted[count]);
+					count+=1;
 				}
 			}
 
-			this.ne(result);
-		}), callback);
-	}
-
-	/** encrypt an object attribute wise */
-	function internalObjEncrypt(iv, object, key, callback) {
-		var keys, result = {};
-
-		step(function encrObjI1() {
-			keys = Object.keys(object);
-
-			var i, text;
-			for (i = 0; i < keys.length; i += 1) {
-				if (keys[i] !== "iv" && keys[i] !== "key") {
-					var cur = object[keys[i]];
-					if (typeof cur === "object") {
-						internalObjEncrypt(iv, cur, key, this.parallel());
-					} else if (typeof cur === "string" || typeof cur === "number" || typeof cur === "boolean") {
-						text = "data::" + cur.toString();
-						key.encrypt(text, this.parallel(), iv);
-					} else {
-						throw "Invalid encrypt!";
-					}
-				} else {
-					this.parallel()(null, false);
-				}
-			}
-
-			if (keys.length === 0) {
-				this.ne([]);
-			}
-		}, h.sF(function encrObjI2(results) {
-			if (results.length !== keys.length) {
-				throw "bug!";
-			}
-
-			var i;
-			for (i = 0; i < keys.length; i += 1) {
-				if (keys[i] !== "iv" && keys[i] !== key) {
-					if (results[i].ct) {
-						result[keys[i]] = chelper.bits2hex(results[i].ct);
-					} else {
-						result[keys[i]] = results[i];
-					}
-				}
-			}
-
-			this.ne(result);
-		}), callback);
-	}
+			this.ne(resultObject);
+		}), cb);
+	};
 
 	/** our interface */
 	keyStore = {
@@ -1465,39 +1465,26 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 			* @param realKeyID key to encrypt with
 			* @param callback callback
 			*/
-			encryptObject: function (object, realKeyID, callback, iv) {
+			encryptObject: function (object, realKeyID, depth, callback) {
 				step(function objEncrypt1() {
-					if (object.iv && object.iv !== iv) {
+					if (object.iv) {
 						throw "IV already set.";
-					}
-
-					if (!iv) {
-						iv = sjcl.random.randomWords(4, 0);
 					}
 
 					SymKey.get(realKeyID, this);
 				}, h.sF(function objEncrypt2(key) {
-					internalObjEncrypt(iv, object, key, this);
-				}), h.sF(function objEncrypt3(result) {
-					result.iv = chelper.bits2hex(iv);
-
+					new objectCryptor(key, depth, object).encrypt(this);
+				}), h.sF(function (result) {
+					result.key = realKeyID;
 					this.ne(result);
 				}), callback);
 			},
 
-			decryptObject: function (cobject, callback) {
+			decryptObject: function (cobject, depth, callback) {
 				step(function objDecrypt1() {
-					if (!cobject.iv) {
-						throw "no iv found";
-					}
-
-					if (!cobject.key) {
-						throw "no key found";
-					}
-
 					SymKey.get(cobject.key, this);
 				}, h.sF(function objDecrypt2(key) {
-					internalObjDecrypt(cobject.iv, cobject, key, this);
+					new objectCryptor(key, depth, cobject).decrypt(this);
 				}), h.sF(function objDecrypt3(result) {
 					this.ne(result);
 				}), callback);
