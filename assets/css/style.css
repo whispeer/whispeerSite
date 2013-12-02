@@ -701,13 +701,6 @@ dd {
   clear: left;
   text-align: right;
 }
-@font-face {
-  font-family: 'ubuntulight';
-  src: url('font/ubuntu-l-webfont.eot');
-  src: url('font/ubuntu-l-webfont.eot?#iefix') format('embedded-opentype'), url('font/ubuntu-l-webfont.woff') format('woff'), url('font/ubuntu-l-webfont.ttf') format('truetype'), url('font/ubuntu-l-webfont.svg#ubuntulight') format('svg');
-  font-weight: normal;
-  font-style: normal;
-}
 body {
   font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
   font-weight: 300;
