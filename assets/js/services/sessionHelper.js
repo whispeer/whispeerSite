@@ -61,12 +61,13 @@ define(["step", "whispeerHelper"], function (step, h) {
 						throw "need nickname";
 					}
 
-					var privateProfile = new ProfileService(profile.priv);
+					var privateProfile = new ProfileService(profile.priv, true);
 
 					privateProfile.signAndEncrypt(keys.sign, keys.profile, this.parallel());
 					keyStoreService.sign.signObject(profile.pub, keys.sign, this.parallel());
 					keyStoreService.sym.pwEncryptKey(keys.main, password, this.parallel());
 					keyStoreService.sym.symEncryptKey(keys.friendsLevel2, keys.friends, this.parallel());
+					keyStoreService.sym.symEncryptKey(keys.profile, keys.friends, this.parallel());
 				}), h.sF(function register3(data) {
 					keys = h.objectMap(keys, keyStoreService.correctKeyIdentifier);
 
