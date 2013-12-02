@@ -1124,23 +1124,6 @@ body:not(.mainView, .registerView) #main {
 .searchBar .searchDrop .searchSuggestions li:only-child {
   border: none;
 }
-.searchBar .searchDrop .searchSuggestions li:only-child img {
-  -webkit-border-top-right-radius: 0;
-  -webkit-border-bottom-right-radius: 0;
-  -webkit-border-bottom-left-radius: 5px;
-  -webkit-border-top-left-radius: 5px;
-  -moz-border-radius-topright: 0;
-  -moz-border-radius-bottomright: 0;
-  -moz-border-radius-bottomleft: 5px;
-  -moz-border-radius-topleft: 5px;
-  border-top-right-radius: 0;
-  border-bottom-right-radius: 0;
-  border-bottom-left-radius: 5px;
-  border-top-left-radius: 5px;
-  -moz-background-clip: padding;
-  -webkit-background-clip: padding-box;
-  background-clip: padding-box;
-}
 .searchBar .searchDrop .searchSuggestions li.active {
   background-color: #559d00;
 }
@@ -2473,6 +2456,9 @@ btn-send[disabled] {
   max-width: none;
   padding: 0 5px 0 5px !important;
 }
+.mainView #wall header #postIt #receiver .searchDrop {
+  margin-top: 5px;
+}
 .mainView #wall header #postIt button {
   /* IE7 inline-block hack */
   padding: 4px 15px;
@@ -2594,10 +2580,37 @@ btn-send[disabled] {
   float: left;
   width: 98%;
   margin: 0 1% 0 1%;
-  margin-top: 5px;
+  margin: 0;
   height: 42px;
   padding: 5px;
   resize: none;
+}
+.mainView #wall header #filter #theFilter .inputWrap {
+  overflow-y: hidden;
+  overflow-x: scroll;
+  white-space: nowrap;
+  text-align: left;
+}
+.mainView #wall header #filter #theFilter .inputWrap li {
+  white-space: nowrap;
+}
+.mainView #wall header #filter #theFilter .inputWrap li.searchField {
+  height: 35px;
+  line-height: 35px;
+  float: none;
+  margin: 0;
+}
+.mainView #wall header #filter #theFilter .inputWrap li.searchField input {
+  width: 100%;
+  height: 35px;
+  line-height: 35px;
+}
+.mainView #wall header #filter #theFilter .inputWrap li.searchResult {
+  max-width: none;
+  padding: 0 5px 0 5px !important;
+}
+.mainView #wall header #filter #theFilter .searchDrop {
+  margin-top: 5px;
 }
 .mainView #wall .posts {
   float: left;
@@ -4627,7 +4640,6 @@ and (max-device-width : 767px) {
   .searchBar .searchDrop .searchSuggestions {
     width: 100%;
     margin: 0;
-    padding: 0 0 0 0;
     max-height: 390px;
     overflow-y: scroll;
     padding: 0;
@@ -5459,25 +5471,17 @@ and (max-device-width : 767px) {
   .circlesView #circleContainer.newCircle #sendmessage {
     margin-left: 8px;
   }
-  .shareForm {
-    display: inline-block;
-    *display: inline;
-    /* IE7 inline-block hack */
-    *zoom: 1;
-    float: left;
-    width: 98%;
-    margin: 0 1% 0 1%;
+  header #postIt #receiver .inputWrap li.searchField {
+    width: 85%;
   }
-  .shareForm #shareText {
-    display: inline-block;
-    *display: inline;
-    /* IE7 inline-block hack */
-    *zoom: 1;
-    float: left;
-    width: 73%;
-    margin: 0 1% 0 1%;
-    margin-bottom: 10px;
-    margin-left: 20px;
+  header #postIt #receiver .searchDrop {
+    width: 26.8% !important;
+  }
+  header #filter #theFilter .inputWrap li.searchField {
+    width: 161%;
+  }
+  header #filter #theFilter .searchDrop {
+    width: 18.4% !important;
   }
   .posts article {
     display: inline-block;
@@ -6189,7 +6193,6 @@ and (max-device-width : 767px) {
   .searchBar .searchDrop .searchSuggestions {
     width: 100%;
     margin: 0;
-    padding: 0 0 0 0;
     max-height: 390px;
     overflow-y: scroll;
     padding: 0;
@@ -7029,6 +7032,12 @@ and (max-device-width : 767px) {
   }
   header #postIt #receiver .searchDrop {
     width: 28.2% !important;
+  }
+  header #filter #theFilter .inputWrap li.searchField {
+    width: 120%;
+  }
+  header #filter #theFilter .searchDrop {
+    width: 19.4% !important;
   }
   .posts article {
     display: inline-block;
@@ -8539,6 +8548,12 @@ and (max-device-width : 767px) {
   }
   header #postIt #receiver .searchDrop {
     width: 30.7% !important;
+  }
+  header #filter #theFilter .inputWrap li.searchField {
+    width: 80%;
+  }
+  header #filter #theFilter .searchDrop {
+    width: 21.2% !important;
   }
   .posts article {
     display: inline-block;

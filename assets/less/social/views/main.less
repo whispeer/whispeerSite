@@ -53,6 +53,9 @@
 							}
 						}
 					}
+					.searchDrop {
+						margin-top: 5px;
+					}
 				}
 				button {
 					.btn;
@@ -92,10 +95,37 @@
 				}
 				#theFilter {
 					.column(12,12);
-					margin-top: 5px;
+					margin: 0;
 					height: 42px;
 					padding: 5px;
 					resize: none;
+					.inputWrap {
+						overflow-y: hidden;
+						overflow-x: scroll;
+						white-space: nowrap;
+						text-align: left;
+						li {
+							white-space: nowrap;
+							&.searchField {
+								height: 35px;
+								line-height: 35px;
+								float: none;
+								margin: 0;
+								input {
+									width: 100%;
+									height: 35px;
+									line-height: 35px;
+								}
+							}
+							&.searchResult {
+								max-width: none;
+								padding: 0 5px 0 5px !important;
+							}
+						}
+					}
+					.searchDrop {
+						margin-top: 5px;
+					}	
 				}
 			}
 		}
