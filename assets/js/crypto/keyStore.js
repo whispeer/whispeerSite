@@ -1076,10 +1076,32 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 		}
 	};
 
-	var objectHasher = function (data, keepDepth) {
+	var verifyAllAttributesAreHashes = function (data) {
+		var attr;
+		for (attr in data) {
+			if (data.hasOwnProperty(attr)) {
+				if (typeof data === "object") {
+					verifyAllAttributesAreHashes(data[attr]);
+				} else if (typeof data !== "string" || data.substr(0, 6) !== "hash") {
+					throw "invalid hashobject";
+				}
+			}
+		}
+	};
+
+	var objectHasher = function (data, keepDepth, verifyTree) {
 		this._data = data;
 		this._depth = keepDepth;
+		this._verifyTree = verifyTree;
 		this._hashedObject = {};
+	};
+
+	objectHasher.prototype.verifyHashStructure = function () {
+		this._verifyTree = true;
+
+		this.verifyAllAttributesAreHashes(this._data);
+
+		this.hash();
 	};
 
 	objectHasher.prototype.sjclHash = function (data) {
@@ -1090,20 +1112,36 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 		return this._hashedObject;
 	};
 
+	objectHasher.prototype._hashProperty = function (val) {
+		return (this._verifyTree ? val : this.sjclHash("data::" + val.toString()));
+	};
+
+	objectHasher.prototype._doHashNewObject = function (val, attr) {
+		var hasher = new objectHasher(val, this._depth-1, this._verifyTree);
+		var result = hasher.hash();
+		if (this._depth > 0) {
+			this._hashedObject[attr] = hasher.getHashObject();
+		}
+
+		return result;
+	};
+
 	objectHasher.prototype._doHash = function (val, attr) {
 		var allowedTypes = ["number", "string", "boolean"];
 
+		if (attr === "hash") {
+			if (!this._verifyTree) {
+				throw "object can not have hash attributes";
+			}
+
+			return;
+		}
+
 		var type = typeof val, result;
 		if (type === "object") {
-			var hasher = new objectHasher(val, this._depth-1);
-			result = hasher.hash();
-			if (this._depth > 0) {
-				this._hashedObject[attr] = hasher.getHashObject();
-			}
+			result = this._doHashNewObject(val, attr);
 		} else if (allowedTypes.indexOf(type) > -1) {
-			result = this.sjclHash("data::" + val.toString());
-		} else if (type === "function") {
-			throw "can not hash objects with functions";
+			result = this._hashProperty(val);
 		} else {
 			throw "can not hash objects with " + type;
 		}
@@ -1124,6 +1162,11 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 		return this.sjclHash(JSON.stringify(result));
 	};
 
+	objectHasher.prototype._jsonifyUnique = function (obj) {
+		var sortation = Object.keys(obj).sort();
+		return JSON.stringify(obj, sortation);
+	};
+
 	objectHasher.prototype._hashObject = function () {
 		var attr, hashObj = {};
 		for (attr in this._data) {
@@ -1132,10 +1175,15 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 			}
 		}
 
-		var sortation = Object.keys(hashObj).sort();
-		var json = JSON.stringify(hashObj, sortation);
+		return this.sjclHash(this._jsonifyUnique(hashObj));
+	};
 
-		return this.sjclHash(json);
+	objectHasher.prototype._hashData = function () {
+		if (this._data instanceof Array) {
+			return this._hashArray();
+		} else {
+			return this._hashObject();
+		}
 	};
 
 	objectHasher.prototype.hash = function() {
@@ -1143,11 +1191,10 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 			throw "this is not an object!";
 		}
 
-		var result;
-		if (this._data instanceof Array) {
-			result = this._hashArray();
-		} else {
-			result = this._hashObject();
+		var result = this._hashData();
+
+		if (this._verifyTree && result !== this._data.hash) {
+			throw "verifyTree failed";
 		}
 
 		this._hashedObject.hash = result;
@@ -1170,7 +1217,7 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 			new objectCryptor(this._key, this._depth-1, cur).encrypt(cb);
 		} else if (typeof cur === "string" || typeof cur === "number" || typeof cur === "boolean") {
 			var text = "data::" + cur.toString();
-			this._key.encryptAndJsonify(text, cb);
+			this._key.encrypt(text, cb);
 		} else {
 			throw "Invalid encrypt!";
 		}
@@ -1200,7 +1247,7 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 
 	objectCryptor.prototype.encryptJSON = function (cb) {
 		var text = "json::" + JSON.stringify(this._object);
-		this._key.encryptAndJsonify(text, cb);
+		this._key.encrypt(text, cb);
 	};
 
 	objectCryptor.prototype.encrypt = function (cb) {
@@ -1229,37 +1276,54 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 	};
 
 	objectCryptor.prototype.decryptAttr = function (cur, cb) {
-		if (typeof cur === "string") {
-			this._key.decryptJsonified(cur, cb);
+		if (cur.iv && cur.ct) {
+			this._key.decrypt(cur, cb);
 		} else {
 			new objectCryptor(this._key, this._depth-1, cur).decrypt(cb);
 		}
 	};
 
-	objectCryptor.prototype.decrypt = function (cb) {
-		if (this._depth === 0) {
-			throw "invalid!";
-		}
+	objectCryptor.prototype._decryptEndAttribute = function (cb) {
+		var that = this;
+		step(function () {
+			that._key.decrypt(that._object, this);
+		}, h.sF(function (result) {
+			this.ne(that.decryptCorrectObject(result));
+		}), cb);
+	};
 
+	objectCryptor.prototype._decryptPartialObjects = function (cb) {
 		var that = this;
 		step(function () {
 			var attr;
 			for (attr in that._object) {
 				if (that._object.hasOwnProperty(attr) && attr !== "key") {
-					that.decryptAttr(that._object[attr], this.parallel());
+					new objectCryptor(this._key, this._depth-1, this._object[attr]).decrypt(this.parallel());
 				}
 			}
 		}, h.sF(function (decrypted) {
 			var attr, count = 0, resultObject = {};
 			for (attr in that._object) {
 				if (that._object.hasOwnProperty(attr) && attr !== "key") {
-					resultObject[attr] = that.decryptCorrectObject(decrypted[count]);
+					resultObject[attr] = decrypted[count];
 					count+=1;
 				}
 			}
 
 			this.ne(resultObject);
 		}), cb);
+	};
+
+	objectCryptor.prototype.decrypt = function (cb) {
+		if (this._depth < 0) {
+			throw "invalid!";
+		}
+
+		if (this._object.iv && this._object.ct) {
+			this._decryptEndAttribute(cb);
+		} else {
+			this._decryptPartialObjects(cb);
+		}
 	};
 
 	/** our interface */
@@ -1521,7 +1585,6 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 				}, h.sF(function objEncrypt2(key) {
 					new objectCryptor(key, depth, object).encrypt(this);
 				}), h.sF(function (result) {
-					result.key = realKeyID;
 					this.ne(result);
 				}), callback);
 			},
@@ -1665,7 +1728,7 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 
 			signObject: function signObjectF(object, realID, callback) {
 				step(function signO1() {
-					var hash = object2Hash(object, true);
+					var hash = new objectHasher(object, 0).hashBits();
 					keyStore.sign.signHash(hash, realID, this);
 				}, callback);
 			},
@@ -1682,7 +1745,7 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 
 			verifyObject: function signObjectF(signature, object, realID, callback) {
 				step(function signO1() {
-					var hash = object2Hash(object, true);
+					var hash = new objectHasher(object, 0).hashBits();
 					keyStore.sign.verifyHash(signature, hash, realID, this);
 				}, callback);
 			},
