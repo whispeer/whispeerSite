@@ -11,7 +11,7 @@
 			word-break: break-all;
 			min-height: 39px;
 			li {
-				display: inline !important;
+				display: inline-block !important;
 				line-height: 35px;
 				height: 35px;
 				&.searchResult {
@@ -36,7 +36,7 @@
 		}
 	}
 	.searchDrop {
-		.column(3,7);
+		.column(2,7);
 		margin: 0;
 		display: block;
 		padding: 0;
@@ -47,7 +47,7 @@
 			padding: 0 0 0 0;
 			max-height: 390px;
 			overflow-y:scroll;
-			padding:0px 0px 0px 2px;
+			padding:0;
 			.box-fix;
 			li {
 				width: 100%;
@@ -57,11 +57,11 @@
 				min-height: 20px;
 				height: auto;
 				img {
-					.column(1.3);
+					.column(2);
 					margin-left: 0;
 				}
 				.info {
-					.column(6.5);
+					.column(6);
 					margin: 7px 0 0 3%;
 					padding: 0;
 					.name {
