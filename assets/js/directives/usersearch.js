@@ -29,12 +29,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 							theUser = user;
 							theUser.loadBasicData(this);
 						}), h.sF(function () {
-							scope.$broadcast("initialSelection", [{
-								user: theUser,
-								basic: theUser.data.basic,
-								id: theUser.data.basic.id,
-								name: theUser.data.name
-							}]);
+							scope.$broadcast("initialSelection", [theUser.data]);
 						}));
 					}
 				}
@@ -65,12 +60,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 						var users = [];
 						var i;
 						for (i = 0; i < theUsers.length; i += 1) {
-							users.push({
-								user: theUsers[i],
-								basic: theUsers[i].data.basic,
-								id: theUsers[i].data.basic.id,
-								name: theUsers[i].data.name
-							});
+							users.push(theUsers[i].data);
 						}
 
 						submitResults(users);

@@ -74,26 +74,23 @@ define(["step", "whispeerHelper", "valid/validator", "asset/observer"], function
 			};
 
 			this.loadSender = function loadSenderF(cb) {
+				var theSender;
 				step(function () {
 					userService.get(meta.sender, this);
 				}, h.sF(function loadS1(sender) {
 					this.parallel.unflatten();
+
+					theSender = sender;
+					sender.loadBasicData(this);
 
 					this.parallel()(null, sender.isOwn());
 
 					sender.getName(this.parallel());
 					sender.getImage(this.parallel());
 					this.parallel()(null, sender.getUrl());
-				}), h.sF(function loadS2(ownUser, name, image, url) {
-					ownMessage = ownUser;
-					theMessage.data.sender = {
-						me: ownUser,
-						url: url,
-						other: !ownUser,
-						id: meta.sender,
-						name: name,
-						image: image
-					};
+				}), h.sF(function loadS2() {
+					theMessage.data.sender = theSender.data;
+					ownMessage = theSender.isOwn();
 
 					this.ne();
 				}), cb);

@@ -29,10 +29,6 @@ define(["step", "whispeerHelper"], function (step, h) {
 					this.parallel.unflatten();
 
 					user.loadBasicData(this);
-					/*
-					user.getName(this.parallel());
-					user.getImage(this.parallel());
-					*/
 				}
 			}, h.sF(function () {
 				$scope.user = user.data;

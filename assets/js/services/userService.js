@@ -147,6 +147,9 @@ define(["step", "whispeerHelper"], function (step, h) {
 						theUser.getImage(this.parallel());
 					}
 				}, h.sF(function (shortname, name, image) {
+					theUser.data.me = theUser.isOwn();
+					theUser.data.other = !theUser.isOwn();
+
 					theUser.data.name = name;
 					theUser.data.basic.shortname = shortname;
 					theUser.data.basic.image = image;
@@ -449,12 +452,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 				}), h.sF(function () {
 					var i, result = [];
 					for (i = 0; i < theUsers.length; i += 1) {
-						result.push({
-							user: theUsers[i],
-							basic: theUsers[i].data.basic,
-							id: theUsers[i].data.basic.id,
-							name: theUsers[i].data.name
-						});
+						result.push(theUsers[i].data);
 					}
 
 					this.ne(result);
