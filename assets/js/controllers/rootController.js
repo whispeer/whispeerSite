@@ -20,19 +20,22 @@ define(["step", "whispeerHelper"], function (step, h) {
 		});
 
 		$scope.$on("ssn.ownLoaded", function () {
+			var user;
 			step(function () {
 				if ($scope.loggedin) {
-					var user = userService.getown();
+					user = userService.getown();
 					$scope.user.id = user.getID();
 					$scope.user.url = user.getUrl();
 					this.parallel.unflatten();
 
+					user.loadBasicData(this);
+					/*
 					user.getName(this.parallel());
 					user.getImage(this.parallel());
+					*/
 				}
-			}, h.sF(function (name, image) {
-				$scope.user.name = name;
-				$scope.user.image = image;
+			}, h.sF(function () {
+				$scope.user = user.data;
 
 				console.log("Own Name loaded:" + (new Date().getTime() - startup));
 			}));

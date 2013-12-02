@@ -147,6 +147,7 @@
 					"year":	"Jahr"
 				},	
 				"location": {
+					"": "Wohnt in {town}, {state}, {country}",
 					"country": "Wohnt in {country}",
 					"state": "Wohnt in {state}",
 					"countrystate": "Wohnt in {state}, {country}",
@@ -165,6 +166,7 @@
 					"noPartner": "{relationType}",
 
 					"status": {
+						"": "",
 						"single":	"single",
 						"relationship":	"in einer Beziehung",
 						"engaged":	"verlobt",
@@ -179,6 +181,7 @@
 				"education":	"schulische Ausbildung: {school}",
 				"job":	"arbeitet als {job} bei {company}",
 				"gender":	{
+					"": "",
 					"default":	"{gender}",
 					"m":	"männlich",
 					"f":	"weiblich"

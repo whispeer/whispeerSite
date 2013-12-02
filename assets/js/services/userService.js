@@ -68,12 +68,38 @@ define(["step", "whispeerHelper"], function (step, h) {
 					}
 				}
 
-				theUser.data.basic = {
+				theUser.data = {
+					user: theUser,
 					id: id,
-					age: "?",
-					location: "?",
-					mutualFriends: mutualFriends,
-					url: "/user/" + nickname
+					basic: {
+						age: "?",
+						location: "?",
+						mutualFriends: mutualFriends,
+						url: "/user/" + nickname
+					},
+					advanced: {
+						birthday:	{
+							day:	"",
+							month: "",
+							year:	""
+						},
+						location: {
+							town:	"",
+							state: "",
+							country: ""
+						},
+						partner:	{
+							type:	"",
+							name: ""
+						},
+						education: [],
+						job: {
+							what: "",
+							where: ""
+						},
+						gender: "",
+						languages: []
+					}
 				};
 			}
 
@@ -121,8 +147,8 @@ define(["step", "whispeerHelper"], function (step, h) {
 						theUser.getImage(this.parallel());
 					}
 				}, h.sF(function (shortname, name, image) {
+					theUser.data.name = name;
 					theUser.data.basic.shortname = shortname;
-					theUser.data.basic.name = name;
 					theUser.data.basic.image = image;
 
 					this.ne();
@@ -427,7 +453,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 							user: theUsers[i],
 							basic: theUsers[i].data.basic,
 							id: theUsers[i].data.basic.id,
-							name: theUsers[i].data.basic.name
+							name: theUsers[i].data.name
 						});
 					}
 

@@ -33,7 +33,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 								user: theUser,
 								basic: theUser.data.basic,
 								id: theUser.data.basic.id,
-								name: theUser.data.basic.name
+								name: theUser.data.name
 							}]);
 						}));
 					}
@@ -69,7 +69,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 								user: theUsers[i],
 								basic: theUsers[i].data.basic,
 								id: theUsers[i].data.basic.id,
-								name: theUsers[i].data.basic.name
+								name: theUsers[i].data.name
 							});
 						}
 

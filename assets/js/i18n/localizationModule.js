@@ -100,7 +100,7 @@ define(["angular"], function (angular) {
 
 					var i;
 					for (i = 0; i < attributes.length; i += 1) {
-						if (memory[attributes[i]]) {
+						if (memory[attributes[i]] || memory[attributes[i]] === "") {
 							memory = memory[attributes[i]];
 						} else {
 							break;

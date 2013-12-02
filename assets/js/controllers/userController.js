@@ -27,33 +27,6 @@ define(["step", "whispeerHelper"], function (step, h) {
 				if (!userObject.isOwn()) {
 					friendsService.friendship(userObject.getID());
 				}
-			},
-			"name":	"Not loaded",
-			"added": false,
-			"data": {
-				"image": "/assets/img/user.png",
-				"me": true,
-				"birthday":	{
-					"day":	"",
-					"month": "",
-					"year":	""
-				},
-				"location": {
-					"town":	"",
-					"state": "",
-					"country": ""
-				},
-				"partner":	{
-					"type":	"",
-					"name": ""
-				},
-				"education": [],
-				"job": {
-					"what": "",
-					"where": ""
-				},
-				"gender": "",
-				"languages": []
 			}
 		};
 
@@ -97,6 +70,10 @@ define(["step", "whispeerHelper"], function (step, h) {
 		};
 
 		$scope.setEDeep = function (val) {
+			if (!val) {
+				val = {};
+			}
+
 			var keys = Object.keys(val), i, res = "";
 			keys.sort();
 			for (i = 0; i < keys.length; i += 1) {
@@ -124,14 +101,13 @@ define(["step", "whispeerHelper"], function (step, h) {
 			userService.get(identifier, this);
 		}, h.sF(function (user) {
 			userObject = user;
-			this.parallel.unflatten();
-			user.getName(this.parallel());
-			user.getImage(this.parallel());
+
+			user.loadBasicData(this);
 		}), h.sF(function (name, image) {
-			$scope.user.id = userObject.getID();
-			$scope.user.name = name;
+			$scope.user = userObject.data;
+
 			$scope.user.image = image;
-			$scope.user.data.me = userObject.isOwn();
+			$scope.user.me = userObject.isOwn();
 			$scope.user.added = friendsService.didIRequest(userObject.getID());
 
 			friendsService.listen(function () {

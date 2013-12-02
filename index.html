@@ -62,13 +62,13 @@
 	<div id="container">
 		<aside id="sidebar-left" data-ng-show="loggedin" data-ng-if="loggedin" style="display:none">
 			<div id="userpanel">
-				<a href="{{user.url}}" class="username">
-					<img data-ng-src="{{user.image}}" alt="" class="userimg">
+				<a href="{{user.basic.url}}" class="username">
+					<img data-ng-src="{{user.basic.image}}" alt="" class="userimg">
 					 {{user.name}}
 				</a>
 				<nav id="menu">
 					<ul class="left unstyled" id="mainMenu">
-						<li><a href="{{user.url}}" data-i18n="menu.profil"></a></li>
+						<li><a href="{{user.basic.url}}" data-i18n="menu.profil"></a></li>
 						<li><a href="/friends" data-i18n="menu.friends|count={{friends.friendsCount}}"></a></li>
 						<li><a href="/messages" data-i18n="menu.messages"></a></li>
 						<li><a href="/circles" data-i18n="menu.circles"></a></li>
