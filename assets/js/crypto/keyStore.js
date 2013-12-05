@@ -1206,6 +1206,85 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 		return chelper.hex2bits(result.substr(6));
 	};
 
+	var objectPadder = function (obj, minLength) {
+		this._obj = obj;
+		this._minLength = minLength;
+	};
+
+	objectPadder.prototype._padObject = function (val, cb, unpad) {
+		var that = this;
+		step(function () {
+			var attr;
+			for (attr in val) {
+				var padder = new objectPadder(val[attr], that._minLength);
+				if (unpad) {
+					padder.unpad(this.parallel());
+				} else {
+					padder.pad(this.parallel());
+				}
+			}
+
+			this.parallel()();
+		}, h.sF(function (padded) {
+			var attr, count = 0, result = {};
+			for (attr in val) {
+				result[attr] = padded[count];
+				count += 1;
+			}
+
+			this.ne(result);
+		}), cb);
+	};
+
+	objectPadder.prototype._unpadString = function (val, cb) {
+		if (val.length%this._minLength !== 2) {
+			throw "invalid data";
+		}
+
+		var paddingIndex = val.indexOf("::");
+
+		if (paddingIndex === -1) {
+			throw "no padding seperator found";
+		}
+
+		cb(null, val.substr(paddingIndex + 2));
+	};
+
+	objectPadder.prototype._padString = function (val, cb, unpad) {
+		if (unpad) {
+			this._unpadString(val, cb);
+			return;
+		}
+
+		var that = this;
+
+		step(function () {
+			var length = that._minLength-(val.length%that._minLength) + that._minLength;
+			keyStore.random.hex(length, this);
+		}, h.sF(function (rand) {
+			this.ne(rand + "::" + val);
+		}), cb);
+	};
+
+	objectPadder.prototype._padAttribute = function (attr, cb, unpad) {
+		var type = typeof attr;
+		if (type === "object") {
+			this._padObject(attr, cb, unpad);
+		} else if (type === "string") {
+			this._padString(attr, cb, unpad);
+		} else {
+			throw "could not pad value of type " + type;
+		}
+	};
+
+	objectPadder.prototype.pad = function (cb) {
+		this._padAttribute(this._obj, cb);
+	};
+
+	objectPadder.prototype.unpad = function (cb) {
+		this._padAttribute(this._obj, cb, true);
+	};
+
 	var objectCryptor = function (key, depth, object) {
 		this._key = key;
 		this._depth = depth;
@@ -1232,6 +1311,8 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 					that.encryptAttr(that._object[attr], this.parallel());
 				}
 			}
+
+			this.parallel()();
 		}, h.sF(function (encrypted) {
 			var attr, resultObject = {}, count = 0;
 			for (attr in that._object) {
@@ -1301,6 +1382,7 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 					new objectCryptor(this._key, this._depth-1, this._object[attr]).decrypt(this.parallel());
 				}
 			}
+			this.parallel()();
 		}, h.sF(function (decrypted) {
 			var attr, count = 0, resultObject = {};
 			for (attr in that._object) {
@@ -1363,7 +1445,26 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 			}
 		},
 
+		format: {
+			unformat: function (str, start) {
+				if (str.indexOf(start + "::") !== 0) {
+					throw "format invalid";
+				}
+
+				return str.substr(start.length + 2);
+			}
+		},
+
 		hash: {
+			addPaddingToObject: function (obj, minLength, cb) {
+				minLength = minLength || 128;
+
+				new objectPadder(obj, minLength).pad(cb);
+			},
+			removePaddingFromObject: function (obj, padLength, cb) {
+				padLength = padLength || 128;
+				new objectPadder(obj, padLength).unpad(cb);
+			},
 			hash: function (text) {
 				return chelper.bits2hex(sjcl.hash.sha256.hash(text));
 			},
@@ -1380,6 +1481,10 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 
 			hashObject: function (obj) {
 				return new objectHasher(obj).hashBits();
+			},
+
+			hashObjectHex: function (obj) {
+				return new objectHasher(obj).hash();
 			},
 		},
 
