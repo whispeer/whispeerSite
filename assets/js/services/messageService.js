@@ -82,12 +82,6 @@ define(["step", "whispeerHelper", "valid/validator", "asset/observer"], function
 
 					theSender = sender;
 					sender.loadBasicData(this);
-
-					this.parallel()(null, sender.isOwn());
-
-					sender.getName(this.parallel());
-					sender.getImage(this.parallel());
-					this.parallel()(null, sender.getUrl());
 				}), h.sF(function loadS2() {
 					theMessage.data.sender = theSender.data;
 					ownMessage = theSender.isOwn();
