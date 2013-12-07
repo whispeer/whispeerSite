@@ -4351,8 +4351,40 @@ btn-send[disabled] {
   width: 23%;
   margin: 0 1% 0 1%;
 }
-.settingsView #main section button,
-.settingsView #main section input[type=submit] {
+.settingsView #main section .config input:not([type=submit]) {
+  display: inline-block;
+  *display: inline;
+  /* IE7 inline-block hack */
+  *zoom: 1;
+  float: left;
+  width: 14.666666666666668%;
+  margin: 0 1% 0 1%;
+}
+.settingsView #main section .config#nickname button {
+  margin-left: 16.666666666666668% !important;
+}
+.settingsView #main section#safety .config button {
+  display: inline-block;
+  *display: inline;
+  /* IE7 inline-block hack */
+  *zoom: 1;
+  float: left;
+  width: 6.333333333333334%;
+  margin: 0 1% 0 1%;
+  margin-top: -1px;
+  margin-bottom: 10px;
+  height: 40px;
+}
+.settingsView #main section#safety .config .whoMaySeeIt {
+  display: inline-block;
+  *display: inline;
+  /* IE7 inline-block hack */
+  *zoom: 1;
+  float: left;
+  width: 64.66666666666667%;
+  margin: 0 1% 0 1%;
+}
+.settingsView #main section button {
   display: inline-block;
   *display: inline;
   /* IE7 inline-block hack */
@@ -4376,62 +4408,53 @@ btn-send[disabled] {
   text-shadow: 0 1px 1px rgba(255, 255, 255, 0.75);
   border: 1px solid #bbbbbb;
   text-decoration: none !important;
+  height: 35px;
 }
-.settingsView #main section button:hover,
-.settingsView #main section input[type=submit]:hover {
+.settingsView #main section button:hover {
   background-color: #ececec;
 }
 .settingsView #main section button:hover,
-.settingsView #main section input[type=submit]:hover,
 .settingsView #main section button:active,
-.settingsView #main section input[type=submit]:active,
 .settingsView #main section button.active,
-.settingsView #main section input[type=submit].active,
 .settingsView #main section button.disabled,
-.settingsView #main section input[type=submit].disabled,
-.settingsView #main section button[disabled],
-.settingsView #main section input[type=submit][disabled] {
+.settingsView #main section button[disabled] {
   background-color: #ececec;
 }
-.settingsView #main section#privacy .config {
-  height: 90px;
+.settingsView #main section button[type=submit] {
+  background-color: #559d00;
+  color: #ffffff;
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
 }
-.settingsView #main section#privacy .config span {
-  display: inline-block;
-  *display: inline;
-  /* IE7 inline-block hack */
-  *zoom: 1;
-  float: left;
-  width: 14.666666666666668%;
-  margin: 0 1% 0 1%;
-  height: 80px;
+.settingsView #main section button[type=submit]:hover,
+.settingsView #main section button[type=submit]:active,
+.settingsView #main section button[type=submit].active,
+.settingsView #main section button[type=submit].disabled,
+.settingsView #main section button[type=submit][disabled] {
+  background-color: #3a8100;
 }
-.settingsView #main section#privacy .config .labelClass {
-  display: inline-block;
-  *display: inline;
-  /* IE7 inline-block hack */
-  *zoom: 1;
-  float: left;
-  width: 48%;
-  margin: 0 1% 0 1%;
+.settingsView #main section button[type=submit][data-encrypted="false"] {
+  background-color: #d83a2e;
+  color: #ffffff;
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
 }
-.settingsView #main section#privacy .config .labelClass label {
-  display: inline-block;
-  *display: inline;
-  /* IE7 inline-block hack */
-  *zoom: 1;
-  float: left;
-  width: 64.66666666666667%;
-  margin: 0 1% 0 1%;
+.settingsView #main section button[type=submit][data-encrypted="false"]:hover,
+.settingsView #main section button[type=submit][data-encrypted="false"]:active,
+.settingsView #main section button[type=submit][data-encrypted="false"].active,
+.settingsView #main section button[type=submit][data-encrypted="false"].disabled,
+.settingsView #main section button[type=submit][data-encrypted="false"][disabled] {
+  background-color: #bd2e23;
 }
-.settingsView #main section#privacy .config .labelClass input {
-  display: inline-block;
-  *display: inline;
-  /* IE7 inline-block hack */
-  *zoom: 1;
-  float: left;
-  width: 31.333333333333336%;
-  margin: 0 1% 0 1%;
+.settingsView #main section button[type=reset] {
+  background-color: #d83a2e;
+  color: #ffffff;
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+}
+.settingsView #main section button[type=reset]:hover,
+.settingsView #main section button[type=reset]:active,
+.settingsView #main section button[type=reset].active,
+.settingsView #main section button[type=reset].disabled,
+.settingsView #main section button[type=reset][disabled] {
+  background-color: #bd2e23;
 }
 .settingsView #main section .notimplemented {
   background-color: #555555;
