@@ -31,26 +31,40 @@
 				span {
 					.column(3);
 				}
+				input:not([type=submit]) {
+					.column(2);
+				}
+				&#nickname {
+					button {
+						.push(2);
+					}
+				}
 			}
-			button, input[type=submit] {
-				.btn;
-			}
-			&#privacy {
+			&#safety {
 				.config {
-					height: 90px;
-					span {
-						.column(2);
-						height: 80px;
+					button {
+						.column(1);
+						margin-top: -1px;
+						margin-bottom: 10px;
+						height: 40px;
 					}
-					.labelClass {
-						.column(6);
-						label {
-							.column(4,6);
-						}
-						input {
-							.column(2,6);
-						}
+					.whoMaySeeIt {
+						.column(8);
 					}
+				}
+			}
+			button {
+				.btn;
+				height: 35px;
+				//.column(0.75,12,none,0.25);
+				&[type=submit] {
+					.btn-success;
+					&[data-encrypted="false"] {
+						.btn-danger;
+					}
+				}
+				&[type=reset] {
+					.btn-danger;
 				}
 			}
 			.notimplemented {

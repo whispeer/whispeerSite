@@ -35,15 +35,18 @@
 							}
 						}
 					}
-					&.searchField {
+					&.searchField {	
+						float: left;
+						display: inline-block;
 						input {
 							.box-fix;
 							-webkit-box-shadow: none;
 							box-shadow: none;
 							.border-radius(0);
 							background: transparent !important;
-							line-height: 13px;
+							line-height: 20px !important;
 							font-size: 13px;
+							display: inline-block;
 						}	
 					}
 				}
@@ -70,9 +73,6 @@
 				}
 				&:only-child {
 					border: none;
-					img {
-						.border-radiuses(0, 0, 5px, 5px);	
-					}
 				}
 				&.active {
 					background-color: @green;
