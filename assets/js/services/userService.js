@@ -116,6 +116,12 @@ define(["step", "whispeerHelper"], function (step, h) {
 				birthday: [2, 3]
 			};
 
+			this.setFriendShipKey = function (key) {
+				if (!friendShipKey) {
+					friendShipKey = key;
+				}
+			};
+
 			function getAttributeVisibilitySettings(attrs) {
 				var i, cur = visibilitySettings;
 				for (i = 0; i < attrs.length; i += 1) {

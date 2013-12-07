@@ -22,11 +22,9 @@ define(["step", "whispeerHelper"], function (step, h) {
 			$scope.years.unshift(i.toString());
 		}
 
-		$scope.user	= {
-			addFriend: function () {
-				if (!userObject.isOwn()) {
-					friendsService.friendship(userObject.getID());
-				}
+		$scope.addFriend = function () {
+			if (!userObject.isOwn()) {
+				friendsService.friendship(userObject.getID());
 			}
 		};
 

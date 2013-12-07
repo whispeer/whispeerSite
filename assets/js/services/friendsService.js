@@ -28,7 +28,7 @@ define(["step", "whispeerHelper", "asset/observer"], function (step, h, Observer
 		}
 
 		function createBasicData(otherUser, cb) {
-			var friendsKey, signature, friendshipKey;
+			var friendsKey, signature, friendShipKey;
 			step(function () {
 				this.parallel.unflatten();
 
@@ -43,7 +43,7 @@ define(["step", "whispeerHelper", "asset/observer"], function (step, h, Observer
 				keyStore.sym.asymEncryptKey(friendsKey, crypt, this.parallel());
 			}, h.sF(function (sign, friendshipK) {
 				signature = sign;
-				friendshipKey = friendshipK;
+				friendShipKey = friendshipK;
 
 				var mainKey = userService.getown().getMainKey();
 
@@ -52,18 +52,19 @@ define(["step", "whispeerHelper", "asset/observer"], function (step, h, Observer
 				var data = {
 					userid: otherUser.getID(),
 					signedRequest: signature,
-					key: keyStore.upload.getKey(friendshipKey)
+					key: keyStore.upload.getKey(friendShipKey)
 				};
 
-				this.ne(data);
+				this.ne(data, friendShipKey);
 			}), cb);
 		}
 
 		function acceptFriendShip(uid) {
-			var otherLevel2Key, ownLevel2Key, friendsKey, otherFriendsKey;
+			var otherLevel2Key, ownLevel2Key, friendsKey, otherFriendsKey, friendShipKey, otherUser;
 			step(function () {
 				userService.get(uid, this);
-			}, h.sF(function (otherUser) {
+			}, h.sF(function (u) {
+				otherUser = u;
 				this.parallel.unflatten();
 
 				var own = userService.getown();
@@ -77,7 +78,8 @@ define(["step", "whispeerHelper", "asset/observer"], function (step, h, Observer
 
 				keyStore.sym.symEncryptKey(otherLevel2Key, friendsKey, this.parallel());
 				keyStore.sym.symEncryptKey(ownLevel2Key, otherFriendsKey, this.parallel());
-			}), h.sF(function (data) {
+			}), h.sF(function (data, fskey) {
+				friendShipKey = fskey;
 				data.decryptors = keyStore.upload.getDecryptors([friendsKey, otherLevel2Key, ownLevel2Key], [friendsKey, otherFriendsKey, data.key.realid]);
 
 				socket.emit("friends.add", data, this);
@@ -87,6 +89,9 @@ define(["step", "whispeerHelper", "asset/observer"], function (step, h, Observer
 					friendsData.friendsCount += 1;
 					friendsData.requestsCount -= 1;
 					h.removeArray(requests, uid);
+
+					otherUser.setFriendShipKey(friendShipKey);
+
 					friendsService.notify("newFriend", uid);
 				} else {
 					//oh noes!
@@ -98,11 +103,14 @@ define(["step", "whispeerHelper", "asset/observer"], function (step, h, Observer
 		}
 
 		function requestFriendShip(uid) {
+			var otherUser, friendShipKey;
 			step(function () {
 				userService.get(uid, this);
-			}, h.sF(function (otherUser) {
+			}, h.sF(function (u) {
+				otherUser = u;
 				createBasicData(otherUser, this);
-			}), h.sF(function (data) {
+			}), h.sF(function (data, fsKey) {
+				friendShipKey = fsKey;
 				var friendsKey = userService.getown().getFriendsKey();
 				data.decryptors = keyStore.upload.getDecryptors([friendsKey], [data.key.realid]);
 
@@ -110,6 +118,7 @@ define(["step", "whispeerHelper", "asset/observer"], function (step, h, Observer
 			}), h.sF(function (result) {
 				if (!result.error) {
 					if (result.friendAdded) {
+						otherUser.setFriendShipKey(friendShipKey);
 						requested.push(uid);
 						friendsService.notify("newRequested", uid);
 					} else {
