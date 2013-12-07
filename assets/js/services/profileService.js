@@ -9,9 +9,9 @@ define(["crypto/keyStore", "step", "whispeerHelper", "valid/validator", "asset/O
 		var profileService = function (data, isDecrypted) {
 			var encryptedProfile, paddedProfile = {}, decryptedProfile = {}, updatedProfile = {}, decrypted = {}, hashObject;
 
-			var decrypting = false, verified = false;
+			var decrypting = false, verified = false, key;
 
-			var id, signature;
+			var id, signature, changed = false;
 			var theProfile = this;
 
 			/*
@@ -75,15 +75,13 @@ define(["crypto/keyStore", "step", "whispeerHelper", "valid/validator", "asset/O
 
 				if (typeof data.profile.key === "object") {
 					data.profile.key = keyStore.upload.addKey(data.profile.key);
+					key = data.profile.key;
 				}
 				encryptedProfile = data.profile;
 				hashObject = data.hashObject;
 
 				checkEncryptedProfile();
 			}
-
-			signature = data.signature;
-			id = data.profileid;
 
 			this.verify = function verifyProfileF(key, cb) {
 				if (verified) {
@@ -128,6 +126,37 @@ define(["crypto/keyStore", "step", "whispeerHelper", "valid/validator", "asset/O
 				}), cb);
 			}
 
+			this.getID = function getIDF() {
+				return id;
+			};
+
+			this.getUpdatedData = function getUpdatedData(signKey, cb) {
+				//pad updated profile
+				//merge paddedProfile and updatedPaddedProfile
+				//sign/hash merge
+				//encrypt merge
+				step(function () {
+					theProfile.decrypt(this);
+				}, h.sF(function  () {
+					keyStore.hash.addPaddingToObject(updatedProfile, 128, this);
+				}), h.sF(function (paddedUpdatedProfile) {
+					paddedProfile = h.extend(paddedProfile, paddedUpdatedProfile, 5);
+					this.parallel.unflatten();
+
+					encryptProfile(key, this.parallel());
+					signProfile(signKey, this.parallel());
+				}), h.sF(function (encryptedProfile, signature) {
+					var result = {
+						id: id,
+						profile: encryptedProfile,
+						signature: signature,
+						hashObject: generateHashObject(),
+					};
+
+					this.ne(result);
+				}), cb);
+			};
+
 			this.signAndEncrypt = function signAndEncryptF(signKey, cryptKey, cb) {
 				step(function () {
 					padDecryptedProfile(this);
@@ -148,11 +177,16 @@ define(["crypto/keyStore", "step", "whispeerHelper", "valid/validator", "asset/O
 				}), cb);
 			};
 
+			this.changed = function () {
+				return changed;
+			};
+
 			this.setAttribute = function setAttributeF(attrs, value, cb) {
 				step(function () {
 					theProfile.decrypt(this, attrs[0]);
 				}, h.sF(function () {
-					h.deepSet(updatedProfile, attrs, value);
+					changed = changed || h.deepSetCreate(updatedProfile, attrs, value);
+
 					this.ne();
 				}), cb);
 			};
@@ -196,6 +230,9 @@ define(["crypto/keyStore", "step", "whispeerHelper", "valid/validator", "asset/O
 					unpadPaddedProfile(this);
 				}), h.sF(function () {
 					delete encryptedProfile[branch];
+					if (Object.keys(encryptedProfile).length === 1) {
+						decrypted = true;
+					}
 					checkDecryptedProfile();
 					this.last.ne();
 				}), function (e) {

@@ -16,7 +16,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 
 		var User = function (providedData) {
 			var theUser = this, mainKey, signKey, cryptKey, friendShipKey, friendsKey, friendsLevel2Key;
-			var id, mail, nickname, publicProfile, privateProfiles = [], mutualFriends;
+			var id, mail, nickname, publicProfile, privateProfiles = [], mutualFriends, publicProfileChanged = false, publicProfileSignature;
 
 			this.data = {};
 
@@ -55,6 +55,9 @@ define(["step", "whispeerHelper"], function (step, h) {
 				if (!friendsLevel2Key && userData.keys.friendsLevel2) {
 					friendsLevel2Key = keyStoreService.upload.addKey(userData.keys.friendsLevel2);
 				}
+
+				publicProfileSignature = userData.profile.pub.signature;
+				delete userData.profile.pub.signature;
 
 				publicProfile = userData.profile.pub;
 
@@ -105,17 +108,115 @@ define(["step", "whispeerHelper"], function (step, h) {
 
 			updateUser(providedData);
 
+			var visibilitySettings = {
+				basic: {
+					firstname: [1, 2],
+					lastname: []
+				},
+				birthday: [2, 3]
+			};
+
+			function getAttributeVisibilitySettings(attrs) {
+				var i, cur = visibilitySettings;
+				for (i = 0; i < attrs.length; i += 1) {
+					if (cur[attrs[i]]) {
+						cur = cur[attrs[i]];
+					} else if (cur instanceof Array) {
+						return cur;
+					} else {
+						return true;
+					}
+				}
+			}
+
+			function setPrivateProfile(attrs, val, visible, cb) {
+				var priv = theUser.getPrivateProfiles();
+				step(function () {
+					var i;
+					for (i = 0; i < priv.length; i += 1) {
+						if (visible.indexOf(priv[i].getID()) > -1) {
+							priv[i].setAttribute(attrs, val, this.parallel());
+						}
+					}
+				}, cb);
+			}
+
+			function setPublicProfile(attrs, val, cb) {
+				var pub = theUser.getProfile();
+				publicProfileChanged = publicProfileChanged || h.deepSetCreate(pub, attrs, val);
+				cb();
+			}
+
+			function uploadChangedProfile(cb) {
+				var data = {};
+				var priv = theUser.getPrivateProfiles();
+
+				step(function () {
+					var i;
+					for (i = 0; i < priv.length; i += 1) {
+						if (priv[i].changed()) {
+							priv[i].getUpdatedData(this.parallel());
+						}
+					}
+					//TODO sign public profile!
+					this.parallel()();
+				}, h.sF(function (profiles) {
+					if (profiles && profiles.length > 0) {
+						data.priv = profiles;
+					}
+
+					if (publicProfileChanged) {
+						data.pub = theUser.getProfile();
+						keyStoreService.sign.signObject(data.pub, signKey, this);
+					} else {
+						this.ne();
+					}
+				}), h.sF(function (signature) {
+					if (publicProfileChanged) {
+						data.pub.signature = signature;
+					}
+
+					socketService.emit("user.profileChange", data, this);
+				}), h.sF(function (result) {
+					if (!result.errors.pub) {
+						publicProfileChanged = false;
+					}
+
+					var i;
+					for (i = 0; i < priv.length; i += 1) {
+						if (result.allok || result.errors.priv.indexOf(priv[i].getID()) === -1) {
+							priv[i].updated();
+						} else {
+							//TODO
+						}
+					}
+					//TODO
+
+				}), cb);
+			}
+
+			function setProfileAttribute(attrs, val, cb) {
+				//set the attribute on every profile where it is set
+				var visible = getAttributeVisibilitySettings(attrs);
+				if (visible === true) {
+					setPublicProfile(attrs, val, cb);
+				} else {
+					setPrivateProfile(attrs, val, visible, cb);
+				}
+			}
+
+			this.uploadChangedProfile = uploadChangedProfile;
+			this.setProfileAttribute = setProfileAttribute;
+
 			function getProfileAttribute(attrs, cb) {
 				step(function () {
 					var priv = theUser.getPrivateProfiles(), i;
 
-					if (priv && priv.length > 0) {
-						for (i = 0; i < priv.length; i += 1) {
-							priv[i].getAttribute(attrs, this.parallel());
-						}
-					} else {
-						this.ne([]);
+					for (i = 0; i < priv.length; i += 1) {
+						priv[i].getAttribute(attrs, this.parallel());
 					}
+
+					this.parallel()();
 				}, h.sF(function (results) {
 					var i;
 					if (results) {
