@@ -48,7 +48,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 				}), callback);
 			},
 
-			register: function (nickname, mail, password, profile, callback) {
+			register: function (nickname, mail, password, profile, settings, callback) {
 				var keys;
 				step(function register1() {
 					sessionHelper.startKeyGeneration(this);
@@ -63,23 +63,28 @@ define(["step", "whispeerHelper"], function (step, h) {
 
 					var privateProfile = new ProfileService(profile.priv, true);
 
+					this.parallel.unflatten();
+
 					privateProfile.signAndEncrypt(keys.sign, keys.profile, this.parallel());
 					keyStoreService.sign.signObject(profile.pub, keys.sign, this.parallel());
+					keyStoreService.sym.encryptObject(settings, keys.main, 0, this.parallel());
+
 					keyStoreService.sym.pwEncryptKey(keys.main, password, this.parallel());
 					keyStoreService.sym.symEncryptKey(keys.friendsLevel2, keys.friends, this.parallel());
 					keyStoreService.sym.symEncryptKey(keys.profile, keys.friends, this.parallel());
-				}), h.sF(function register3(data) {
+				}), h.sF(function register3(privateProfile, publicProfileSignature, settings) {
 					keys = h.objectMap(keys, keyStoreService.correctKeyIdentifier);
 
-					profile.pub.signature = data[1];
+					profile.pub.signature = publicProfileSignature;
 
 					var registerData = {
 						password: keyStoreService.hash.hashPW(password),
 						keys: h.objectMap(keys, keyStoreService.upload.getKey),
 						profile: {
 							pub: profile.pub,
-							priv: data[0]
-						}
+							priv: privateProfile
+						},
+						settings: settings
 					};
 
 					if (mail) {

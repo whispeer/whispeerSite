@@ -40,49 +40,28 @@
 		<h2>Name</h2>
 		<div class="config" id="firstNameEncryption">
 			<span>Vorname:</span>
-			<button type="submit" data-ng-click="safety.name.first.encrypt=!safety.name.first.encrypt" data-encrypted="{{safety.name.first.encrypt}}"><i class="icon-lock" data-ng-if="safety.name.first.encrypt"></i><i class="icon-lock-open" data-ng-if="!safety.name.first.encrypt"></i></button>
+			<button type="submit" data-ng-click="safety.name.first.encrypt=!safety.name.first.encrypt" data-encrypted="{{safety.name.first.encrypt}}">
+				<i class="icon-lock" data-ng-if="safety.name.first.encrypt"></i>
+				<i class="icon-lock-open" data-ng-if="!safety.name.first.encrypt"></i>
+			</button>
 			<div data-ng-if="safety.name.first.encrypt"><filtersearch data-input-i18n-attr="" class="whoMaySeeIt"></filtersearch></div>
 		</div>
 		<div class="config" id="lastNameEncryption">
 			<span>Nachname:</span>
-			<button type="submit" data-ng-click="safety.name.last.encrypt=!safety.name.last.encrypt" data-encrypted="{{safety.name.last.encrypt}}"><i class="icon-lock" data-ng-if="safety.name.last.encrypt"></i><i class="icon-lock-open" data-ng-if="!safety.name.last.encrypt"></i></button>
+			<button type="submit" data-ng-click="safety.name.last.encrypt=!safety.name.last.encrypt" data-encrypted="{{safety.name.last.encrypt}}">
+				<i class="icon-lock" data-ng-if="safety.name.last.encrypt"></i>
+				<i class="icon-lock-open" data-ng-if="!safety.name.last.encrypt"></i>
+			</button>
 			<div data-ng-if="safety.name.last.encrypt"><filtersearch data-input-i18n-attr="" class="whoMaySeeIt"></filtersearch></div>
 		</div>
 		<h2>Profil</h2>
-		<div class="config" id="locationEncryption">
-			<span>Wohnort:</span>
-			<button type="submit" data-ng-click="safety.location.encrypt=!safety.location.encrypt" data-encrypted="{{safety.location.encrypt}}"><i class="icon-lock" data-ng-if="safety.location.encrypt"></i><i class="icon-lock-open" data-ng-if="!safety.location.encrypt"></i></button>
-			<div data-ng-if="safety.location.encrypt"><filtersearch data-input-i18n-attr="" class="whoMaySeeIt"></filtersearch></div>
-		</div>
-		<div class="config" id="birthdayEncryption">
-			<span>Geburtstag:</span>
-			<button type="submit" data-ng-click="safety.birthday.encrypt=!safety.birthday.encrypt" data-encrypted="{{safety.birthday.encrypt}}"><i class="icon-lock" data-ng-if="safety.birthday.encrypt"></i><i class="icon-lock-open" data-ng-if="!safety.birthday.encrypt"></i></button>
-			<div data-ng-if="safety.birthday.encrypt"><filtersearch data-input-i18n-attr="" class="whoMaySeeIt"></filtersearch></div>
-		</div>
-		<div class="config" id="relationshipEncryption">
-			<span>Beziehungsstatus:</span>
-			<button type="submit" data-ng-click="safety.relationship.encrypt=!safety.relationship.encrypt" data-encrypted="{{safety.relationship.encrypt}}"><i class="icon-lock" data-ng-if="safety.relationship.encrypt"></i><i class="icon-lock-open" data-ng-if="!safety.relationship.encrypt"></i></button>
-			<div data-ng-if="safety.relationship.encrypt"><filtersearch data-input-i18n-attr="" class="whoMaySeeIt"></filtersearch></div>
-		</div>
-		<div class="config" id="educationEncryption">
-			<span>Ausbildung:</span>
-			<button type="submit" data-ng-click="safety.education.encrypt=!safety.education.encrypt" data-encrypted="{{safety.education.encrypt}}"><i class="icon-lock" data-ng-if="safety.education.encrypt"></i><i class="icon-lock-open" data-ng-if="!safety.education.encrypt"></i></button>
-			<div data-ng-if="safety.education.encrypt"><filtersearch data-input-i18n-attr="" class="whoMaySeeIt"></filtersearch></div>
-		</div>
-		<div class="config" id="workEncryption">
-			<span>Arbeit:</span>
-			<button type="submit" data-ng-click="safety.work.encrypt=!safety.work.encrypt" data-encrypted="{{safety.work.encrypt}}"><i class="icon-lock" data-ng-if="safety.work.encrypt"></i><i class="icon-lock-open" data-ng-if="!safety.work.encrypt"></i></button>
-			<div data-ng-if="safety.work.encrypt"><filtersearch data-input-i18n-attr="" class="whoMaySeeIt"></filtersearch></div>
-		</div>
-		<div class="config" id="genderEncryption">
-			<span>Geschlecht:</span>
-			<button type="submit" data-ng-click="safety.gender.encrypt=!safety.gender.encrypt" data-encrypted="{{safety.gender.encrypt}}"><i class="icon-lock" data-ng-if="safety.gender.encrypt"></i><i class="icon-lock-open" data-ng-if="!safety.gender.encrypt"></i></button>
-			<div data-ng-if="safety.gender.encrypt"><filtersearch data-input-i18n-attr="" class="whoMaySeeIt"></filtersearch></div>
-		</div>
-		<div class="config" id="languageEncryption">
-			<span>Sprachen:</span>
-			<button type="submit" data-ng-click="safety.languages.encrypt=!safety.languages.encrypt" data-encrypted="{{safety.languages.encrypt}}"><i class="icon-lock" data-ng-if="safety.languages.encrypt"></i><i class="icon-lock-open" data-ng-if="!safety.languages.encrypt"></i></button>
-			<div data-ng-if="safety.languages.encrypt"><filtersearch data-input-i18n-attr="" class="whoMaySeeIt"></filtersearch></div>
+		<div class="config" ng-repeat="name in safetySorted" id="{{name}}Encryption">
+			<span data-i18n="settings.safety.attributes.{{name}}"></span>
+			<button type="submit" data-ng-click="safety[name].encrypt=!safety[name].encrypt" data-encrypted="{{safety[name].encrypt}}">
+				<i class="icon-lock" data-ng-if="safety[name].encrypt"></i>
+				<i class="icon-lock-open" data-ng-if="!safety[name].encrypt"></i>
+			</button>
+			<div data-ng-if="safety[name].encrypt"><filtersearch data-selected="safety[name].visibility" data-input-i18n-attr="" class="whoMaySeeIt"></filtersearch></div>
 		</div>
 	</section>
 <!--

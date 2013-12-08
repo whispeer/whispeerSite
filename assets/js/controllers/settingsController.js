@@ -7,6 +7,9 @@ define([], function () {
 
 	function settingsController($scope, cssService) {
 		cssService.setClass("settingsView");
+
+		$scope.safetySorted = ["location", "birthday", "relationship", "education", "work", "gender", "languages"];
+
 		$scope.safety = {
 			"name": {
 				first: {
@@ -14,37 +17,37 @@ define([], function () {
 					visibility: []
 				},
 				last: {
-					encrypt: true,
+					encrypt: false,
 					visibility: []
 				}
 			},
 			"location": {
 				encrypt: true,
-				visibility: []
+				visibility: ["always:allfriends"]
 			},
 			"birthday": {
 				encrypt: true,
-				visibility: []
+				visibility: ["always:allfriends"]
 			},
 			"relationship": {
 				encrypt: true,
-				visibility: []
+				visibility: ["always:allfriends"]
 			},
 			"education": {
 				encrypt: true,
-				visibility: []
+				visibility: ["always:allfriends"]
 			},
 			"work": {
 				encrypt: true,
-				visibility: []
+				visibility: ["always:allfriends"]
 			},
 			"gender": {
 				encrypt: true,
-				visibility: []
+				visibility: ["always:allfriends"]
 			},
 			"languages": {
 				encrypt: true,
-				visibility: []
+				visibility: ["always:allfriends"]
 			}
 		};
 	}

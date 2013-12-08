@@ -432,7 +432,7 @@ define(["step", "whispeerHelper", "valid/validator", "asset/observer"], function
 
 				this.parallel.unflatten();
 
-				meta.ownHash = keyStore.hash.hashObject(encryptedMessageData);
+				meta.ownHash = keyStore.hash.hashObjectHex(encryptedMessageData);
 
 				keyStore.sign.signObject(encryptedMessageData, userService.getown().getSignKey(), this.parallel());
 				keyStore.sign.signObject(unEncryptedMessageData, userService.getown().getSignKey(), this.parallel());
@@ -545,7 +545,7 @@ define(["step", "whispeerHelper", "valid/validator", "asset/observer"], function
 					receiver: receiverIDs
 				};
 
-				topicHash = keyStore.hash.hashObject(topicHashData);
+				topicHash = keyStore.hash.hashObjectHex(topicHashData);
 
 				keyStore.random.hex(128-(message.length%128), this);
 			}), h.sF(function (random) {
@@ -602,7 +602,9 @@ define(["step", "whispeerHelper", "valid/validator", "asset/observer"], function
 
 			if (messages[id]) {
 				$timeout(function () {
-					cb();
+					if (cb) {
+						cb();
+					}
 				});
 				return messages[id];
 			}

@@ -8,7 +8,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 			restrict: "E",
 			templateUrl: "/assets/views/directives/filterSearch.html",
 			replace: true,
-			link: function postLink(scope) {
+			link: function postLink(scope, iElement, iAttrs) {
 
 				//how do we sort stuff?
 				//first: alwaysAvailableFilter
@@ -23,13 +23,52 @@ define(["step", "whispeerHelper"], function (step, h) {
 
 				scope.resultTemplate = "/assets/views/directives/filterSearchResults.html";
 
-				/*step(function () {
-					circleService.loadAll(this);
-				}, h.sF(function () {
-					$timeout(this);
-				}), h.sF(function () {
-					scope.$broadcast("initialSelection", []);
-				}));*/
+				if (iAttrs["selected"]) {
+					var selected = scope.$parent.$eval(iAttrs["selected"]);
+					step(function () {
+						$timeout(this);
+					}, h.sF(function () {
+						var i;
+						for (i = 0; i < selected.length; i += 1) {
+							getElementById(selected[i], this.parallel());
+						}
+
+						this.parallel()();
+					}), h.sF(function (result) {
+						scope.$broadcast("initialSelection", result || []);
+					}));
+				}
+
+				function getCircle(id, cb) {
+					step(function () {
+						circleService.loadAll(this);
+					}, h.sF(function () {
+						var circle = circleService.get(id).data;
+						this.ne({
+							name: circle.name,
+							id: "circle:" + circle.id,
+							count: circle.userids.length
+						});
+					}), cb);
+				}
+
+				function getAlways(id, cb) {
+					cb(null, {
+						name: localize.getLocalizedString("directives." + id),
+						id: "always:" + id,
+						count: 0
+					});
+				}
+
+				function getElementById(id, cb) {
+					var part1 = id.substr(0, 7);
+					var part2 = id.substr(7);
+					if (part1 === "always:") {
+						getAlways(part2, cb);
+					} else if (part1 === "circle:") {
+						getCircle(part2, cb);
+					}
+				}
 
 				function matchesQuery(query, val) {
 					if (query === "") {

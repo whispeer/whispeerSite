@@ -226,6 +226,50 @@ define(["step", "asset/resizableImage", "asset/observer"], function (step, Resiz
 		};
 
 		$scope.register = function doRegisterC() {
+			var settings = {
+				privacy: {
+					basic: {
+						firstname: {
+							encrypt: false,
+							visibility: ["always.allfriends"]
+						},
+						lastname: {
+							encrypt: false,
+							visibility: ["always.allfriends"]
+						}
+					},
+					location: {
+						encrypt: true,
+						visibility: ["always.allfriends"]
+					},
+					birthday: {
+						encrypt: true,
+						visibility: ["always.allfriends"]
+					},
+					relationship: {
+						encrypt: true,
+						visibility: ["always.allfriends"]
+					},
+					education: {
+						encrypt: true,
+						visibility: ["always.allfriends"]
+					},
+					work: {
+						encrypt: true,
+						visibility: ["always.allfriends"]
+					},
+					gender: {
+						encrypt: true,
+						visibility: ["always.allfriends"]
+					},
+					languages: {
+						encrypt: true,
+						visibility: ["always.allfriends"]
+					}
+				},
+				sharePosts: ["always.allfriends"]
+			};
+
 			var profile = {
 				pub: {},
 				priv: {}
@@ -249,8 +293,10 @@ define(["step", "asset/resizableImage", "asset/observer"], function (step, Resiz
 							profile.pub[cur.topic] = {};
 						}
 
+
 						profile.pub[cur.topic][cur.name] = cur.value;
 					}
+					settings.privacy[cur.topic][cur.name].encrypt = cur.encrypted;
 				}
 			}
 
@@ -258,7 +304,7 @@ define(["step", "asset/resizableImage", "asset/observer"], function (step, Resiz
 				profile.pub.image = imageData;
 			}
 
-			sessionHelper.register($scope.nickname, $scope.mail, $scope.password, profile, function () {
+			sessionHelper.register($scope.nickname, $scope.mail, $scope.password, profile,  settings, function () {
 				console.log("register done!");
 				console.log(arguments);
 				resizableImage.removeResizable();

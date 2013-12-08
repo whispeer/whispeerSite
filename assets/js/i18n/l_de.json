@@ -266,6 +266,17 @@
 		}
 	},
 	"settings": {
+		"safety": {
+			"attributes": {
+				"location": "Wohnort",
+				"birthday": "Geburtstag",
+				"relationship": "Beziehungsstatus",
+				"education": "Ausbildung",
+				"work": "Arbeit",
+				"gender": "Geschlecht",
+				"languages": "Sprachen"
+			}
+		},
 		"header": {
 			"title":	"Einstellungen"
 		}	

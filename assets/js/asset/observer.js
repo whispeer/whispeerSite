@@ -33,7 +33,7 @@ define (["whispeerHelper"], function (h) {
             returnF = function () {};
         }
 
-        var subscribers = this._listeners[type] || [];
+        var subscribers = (this._listeners[type] || []).slice();
         var result = h.callEach(subscribers, [data], returnF);
 
         if (type !== "any") {
