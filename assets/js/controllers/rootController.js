@@ -24,10 +24,6 @@ define(["step", "whispeerHelper"], function (step, h) {
 			step(function () {
 				if ($scope.loggedin) {
 					user = userService.getown();
-					$scope.user.id = user.getID();
-					$scope.user.url = user.getUrl();
-					this.parallel.unflatten();
-
 					user.loadBasicData(this);
 				}
 			}, h.sF(function () {
