@@ -309,8 +309,12 @@ define(["step", "whispeerHelper", "asset/observer"], function (step, h, Observer
 						socket.emit("circles.getAll", {
 							fullKey: true
 						}, this);
-					} else {
+					} else if (loaded) {
 						this.last.ne();
+					} else {
+						circleService.listen(function () {
+							cb();
+						}, "loaded");
 					}
 				}, h.sF(function (data) {
 					var i, c;
@@ -325,14 +329,19 @@ define(["step", "whispeerHelper", "asset/observer"], function (step, h, Observer
 						//TO-DO handle error
 					}
 				}), h.sF(function () {
+					loading = false;
+					loaded = true;
+
 					circleService.data.loading = false;
 					circleService.data.loaded = true;
-					loaded = true;
+					circleService.notify("", "loaded");
 
 					this.ne();
 				}), cb);
 			}
 		};
+
+		Observer.call(circleService);
 
 		$rootScope.$on("ssn.reset", function () {
 			circleService.reset();

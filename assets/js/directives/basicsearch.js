@@ -17,7 +17,7 @@ define(["step", "whispeerHelper"], function () {
 				scope.results = [];
 
 				/** open search element or not **/
-				var focused = false, clicked = false;
+				var focused = false, clicked = false, initialized = false;
 				var input = jQuery('<input type="text" class="searchQuery"  data-ng-keydown="keydown($event)" data-ng-change="queryChange()" data-ng-model="query" data-onfocus="focus(true)" data-onblur="focus(false)">');
 
 				var attr, attrName;
@@ -33,6 +33,11 @@ define(["step", "whispeerHelper"], function () {
 				$compile(input)(scope);
 				iElement.find(".searchField").append(input);
 
+				function initialize() {
+					if (!initialized) {
+						scope.queryChange();
+					}
+				}
 
 				jQuery(document.body).click(function () {
 					$timeout(function () {
@@ -49,10 +54,12 @@ define(["step", "whispeerHelper"], function () {
 						input.focus();
 					}
 					clicked = bool;
+					initialize();
 				};
 
 				scope.focus = function (bool) {
 					focused = bool;
+					initialize();
 				};
 
 				/** suchergebnisse laden */
@@ -209,8 +216,6 @@ define(["step", "whispeerHelper"], function () {
 						e.preventDefault();
 					}
 				};
-
-				scope.queryChange();
 			}
 		};
 	}
