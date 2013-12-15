@@ -108,43 +108,31 @@ define(["step", "whispeerHelper"], function (step, h) {
 
 			updateUser(providedData);
 
-			var visibilitySettings = {
-				basic: {
-					firstname: [1, 2],
-					lastname: []
-				},
-				birthday: [2, 3]
-			};
-
 			this.setFriendShipKey = function (key) {
 				if (!friendShipKey) {
 					friendShipKey = key;
 				}
 			};
 
-			function getAttributeVisibilitySettings(attrs) {
-				var i, cur = visibilitySettings;
-				for (i = 0; i < attrs.length; i += 1) {
-					if (cur[attrs[i]]) {
-						cur = cur[attrs[i]];
-					} else if (cur instanceof Array) {
-						return cur;
-					} else {
-						return true;
-					}
-				}
-			}
-
 			function setPrivateProfile(attrs, val, visible, cb) {
 				var priv = theUser.getPrivateProfiles();
 				step(function () {
 					var i;
 					for (i = 0; i < priv.length; i += 1) {
-						if (visible.indexOf(priv[i].getID()) > -1) {
+						priv[i].getScope(this.parallel());
+					}
+				}, h.sF(function (scopes) {
+					if (scopes.length !== priv.length) {
+						throw "bug";
+					}
+
+					var i;
+					for (i = 0; i < priv.length; i += 1) {
+						if (visible.indexOf(scopes[i]) > -1) {
 							priv[i].setAttribute(attrs, val, this.parallel());
 						}
 					}
-				}, cb);
+				}), cb);
 			}
 
 			function setPublicProfile(attrs, val, cb) {
@@ -202,13 +190,15 @@ define(["step", "whispeerHelper"], function (step, h) {
 			}
 
 			function setProfileAttribute(attrs, val, cb) {
-				//set the attribute on every profile where it is set
-				var visible = getAttributeVisibilitySettings(attrs);
-				if (visible === true) {
-					setPublicProfile(attrs, val, cb);
-				} else {
-					setPrivateProfile(attrs, val, visible, cb);
-				}
+				step(function () {
+					settingsService.getPrivacyVisibility(attrs, this);
+				}, h.sF(function (visible) {
+					if (visible === false) {
+						setPublicProfile(attrs.split("."), val, this);
+					} else if (visible) {
+						setPrivateProfile(attrs.split("."), val, visible, this);
+					}
+				}), cb);
 			}
 
 			this.uploadChangedProfile = uploadChangedProfile;
@@ -613,47 +603,17 @@ define(["step", "whispeerHelper"], function (step, h) {
 			});
 		}
 
-		function loadOwnData() {
-			step(function () {
-				socketService.emit("data", {
-					"user": {
-						"get": {
-							identifier: sessionService.getUserID()
-						}
-					},
-					"friends": {
-						"getAll": {}
-					},
-					"messages": {
-						"getUnreadCount": {}
-					}
-				}, this);
-			}, function (e, data) {
-				if (!e) {
-					var user = api.addFromData(data.user.get);
-
-					if (user === NotExistingUser) {
-						sessionService.logout();
-
-						return;
-					}
-
-					var identifier = user.getNickOrMail();
-
-					keyStoreService.setKeyGenIdentifier(identifier);
-					improvementListener(identifier);
-
-					$rootScope.$broadcast("ssn.ownLoaded", data);
-				} else {
-					console.error(e);
-				}
-			});
-		}
-
 		$rootScope.$on("ssn.login", function () {
-			if (sessionService.isLoggedin()) {
-				loadOwnData();
-			}
+			initService.register("user.get", {identifier: sessionService.getUserID()}, function (data) {
+				var user = api.addFromData(data);
+
+				var identifier = user.getNickOrMail();
+
+				window.own = user;
+
+				keyStoreService.setKeyGenIdentifier(identifier);
+				improvementListener(identifier);
+			});
 		});
 
 		$rootScope.$on("ssn.reset", function () {

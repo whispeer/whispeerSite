@@ -191,6 +191,15 @@ define(["crypto/keyStore", "step", "whispeerHelper", "valid/validator", "asset/O
 				}), cb);
 			};
 
+			this.getScope = function (cb) {
+				var that = this;
+				step(function () {
+					that.getAttribute(["scope"], this);
+				}, h.sF(function (scope) {
+					this.ne(scope || "always:allfriends");
+				}), cb);
+			};
+
 			this.getAttribute = function getAttributeF(attrs, cb) {
 				if (decrypted === true) {
 					cb(null, h.deepGet(decryptedProfile, attrs));
@@ -220,12 +229,13 @@ define(["crypto/keyStore", "step", "whispeerHelper", "valid/validator", "asset/O
 						this.last.ne();
 					}
 				}), h.sF(function decryptedBranch(decryptedData) {
-					paddedProfile[branch] = decryptedData;
-					decrypted[branch] = true;
-
-					if (keyStore.hash.hashObjectHex(paddedProfile[branch]) !== hashObject[branch]) {
+					if (keyStore.hash.hashObjectOrValueHex(decryptedData) !== hashObject[branch]) {
+						debugger;
 						throw "security breach!";
 					}
+
+					paddedProfile[branch] = decryptedData;
+					decrypted[branch] = true;
 
 					unpadPaddedProfile(this);
 				}), h.sF(function () {
@@ -245,7 +255,7 @@ define(["crypto/keyStore", "step", "whispeerHelper", "valid/validator", "asset/O
 
 			function decryptFull(cb) {
 				step(function () {
-					keyStore.sym.decryptObject(data, 1, this);
+					keyStore.sym.decryptObject(encryptedProfile, 1, this);
 				}, h.sF(function (result) {
 					var attr;
 					for (attr in result) {
