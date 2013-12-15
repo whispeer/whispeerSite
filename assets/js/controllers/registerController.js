@@ -231,48 +231,50 @@ define(["step", "asset/resizableImage", "asset/observer"], function (step, Resiz
 					basic: {
 						firstname: {
 							encrypt: false,
-							visibility: ["always.allfriends"]
+							visibility: ["always:allfriends"]
 						},
 						lastname: {
 							encrypt: false,
-							visibility: ["always.allfriends"]
+							visibility: ["always:allfriends"]
 						}
 					},
 					location: {
 						encrypt: true,
-						visibility: ["always.allfriends"]
+						visibility: ["always:allfriends"]
 					},
 					birthday: {
 						encrypt: true,
-						visibility: ["always.allfriends"]
+						visibility: ["always:allfriends"]
 					},
 					relationship: {
 						encrypt: true,
-						visibility: ["always.allfriends"]
+						visibility: ["always:allfriends"]
 					},
 					education: {
 						encrypt: true,
-						visibility: ["always.allfriends"]
+						visibility: ["always:allfriends"]
 					},
 					work: {
 						encrypt: true,
-						visibility: ["always.allfriends"]
+						visibility: ["always:allfriends"]
 					},
 					gender: {
 						encrypt: true,
-						visibility: ["always.allfriends"]
+						visibility: ["always:allfriends"]
 					},
 					languages: {
 						encrypt: true,
-						visibility: ["always.allfriends"]
+						visibility: ["always:allfriends"]
 					}
 				},
-				sharePosts: ["always.allfriends"]
+				sharePosts: ["always:allfriends"]
 			};
 
 			var profile = {
 				pub: {},
-				priv: {}
+				priv: {
+					scope: "always:allfriends"
+				}
 			};
 
 			var imageData = resizableImage.getImageData(ENDSIZE);

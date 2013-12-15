@@ -1690,6 +1690,7 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 				}, h.sF(function objEncrypt2(key) {
 					new objectCryptor(key, depth, object).encrypt(this);
 				}), h.sF(function (result) {
+					result.key = correctKeyIdentifier(realKeyID);
 					this.ne(result);
 				}), callback);
 			},

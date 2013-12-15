@@ -1,7 +1,7 @@
 define(["step", "whispeerHelper"], function (step, h) {
 	"use strict";
 
-	var service = function ($rootScope, $location, socketService, sessionService, keyStoreService, ProfileService) {
+	var service = function ($rootScope, $location, socketService, sessionService, keyStoreService, ProfileService, initService, settingsService) {
 
 		var NotExistingUser = {
 			getName: function (cb) {
@@ -663,7 +663,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 		return api;
 	};
 
-	service.$inject = ["$rootScope", "$location", "ssn.socketService", "ssn.sessionService", "ssn.keyStoreService", "ssn.profileService"];
+	service.$inject = ["$rootScope", "$location", "ssn.socketService", "ssn.sessionService", "ssn.keyStoreService", "ssn.profileService", "ssn.initService", "ssn.settingsService"];
 
 	return service;
 });

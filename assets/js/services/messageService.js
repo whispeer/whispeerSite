@@ -4,7 +4,7 @@
 define(["step", "whispeerHelper", "valid/validator", "asset/observer"], function (step, h, validator, Observer) {
 	"use strict";
 
-	var service = function ($rootScope, $timeout, socket, sessionService, userService, keyStore) {
+	var service = function ($rootScope, $timeout, socket, sessionService, userService, keyStore, initService) {
 		var messages = {};
 		var topics = {};
 
@@ -828,8 +828,8 @@ define(["step", "whispeerHelper", "valid/validator", "asset/observer"], function
 
 		Observer.call(messageService);
 
-		$rootScope.$on("ssn.ownLoaded", function (evt, data) {
-			messageService.data.unread = data.messages.getUnreadCount.unread;
+		initService.register("messages.getUnreadCount", {}, function (data) {
+			messageService.data.unread = data.unread;
 		});
 
 		$rootScope.$on("ssn.reset", function () {
@@ -839,7 +839,7 @@ define(["step", "whispeerHelper", "valid/validator", "asset/observer"], function
 		return messageService;
 	};
 
-	service.$inject = ["$rootScope", "$timeout", "ssn.socketService", "ssn.sessionService", "ssn.userService", "ssn.keyStoreService"];
+	service.$inject = ["$rootScope", "$timeout", "ssn.socketService", "ssn.sessionService", "ssn.userService", "ssn.keyStoreService", "ssn.initService"];
 
 	return service;
 });

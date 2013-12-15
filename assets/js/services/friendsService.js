@@ -4,7 +4,7 @@
 define(["step", "whispeerHelper", "asset/observer"], function (step, h, Observer) {
 	"use strict";
 
-	var service = function ($rootScope, socket, sessionService, userService, keyStore) {
+	var service = function ($rootScope, socket, sessionService, userService, keyStore, initService) {
 		var friends = [], requests = [], requested = [];
 		var friendsData = {
 			requestsCount: 0,
@@ -218,8 +218,8 @@ define(["step", "whispeerHelper", "asset/observer"], function (step, h, Observer
 
 		Observer.call(friendsService);
 
-		$rootScope.$on("ssn.ownLoaded", function (evt, data) {
-			friendsService.load(data.friends.getAll);
+		initService.register("friends.getAll", {}, function (data) {
+			friendsService.load(data);
 		});
 
 		$rootScope.$on("ssn.reset", function () {
@@ -229,7 +229,7 @@ define(["step", "whispeerHelper", "asset/observer"], function (step, h, Observer
 		return friendsService;
 	};
 
-	service.$inject = ["$rootScope", "ssn.socketService", "ssn.sessionService", "ssn.userService", "ssn.keyStoreService"];
+	service.$inject = ["$rootScope", "ssn.socketService", "ssn.sessionService", "ssn.userService", "ssn.keyStoreService", "ssn.initService"];
 
 	return service;
 });
