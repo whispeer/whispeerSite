@@ -41,7 +41,7 @@
 					</p>
 					<p id="residence" data-ng-show="set(user.advanced.location) || editGeneral">
 						<i class="icon-home"></i>
-						<span data-i18n="profile.section.general.location.{{setEDeep(user.advanced.location)}}">
+						<span data-i18n="profile.section.general.location.{{getLocationVals(user.advanced.location)}}">
 							<span data-for="town" class="town" data-ng-if="!editGeneral">{{user.advanced.location.town}}</span>
 							<input data-for="town" type="text" data-ng-model="user.advanced.location.town" data-ng-if="editGeneral">
 
@@ -52,15 +52,15 @@
 							<input data-for="country" type="text" data-ng-model="user.advanced.location.country" data-ng-if="editGeneral">	
 						</span>
 					</p>
-					<p id="relationship" data-ng-show="set(user.advanced.partner) || editGeneral">
+					<p id="relationship" data-ng-show="set(user.advanced.relationship) || editGeneral">
 						<i class="icon-heart"></i>
 						<span data-i18n="profile.section.general.relation.default">
-							<span data-for="relationType" class="relationType" data-ng-if="!editGeneral" data-i18n="profile.section.general.relation.status.{{user.advanced.partner.type}}"></span>
-							<span data-for="partner" class="partner" data-ng-if="!editGeneral">{{user.advanced.partner.name}}</span>
-							<select data-for="relationType" class="relationType" data-ng-model="user.advanced.partner.type" data-ng-if="editGeneral">
-								<option data-ng-repeat="type in possibleStatus" data-i18n="profile.section.general.relation.status.{{type}}" value="{{type}}" data-ng-selected="type == user.advanced.partner.type"></option>
+							<span data-for="relationType" class="relationType" data-ng-if="!editGeneral" data-i18n="profile.section.general.relation.status.{{user.advanced.relationship.type}}"></span>
+							<span data-for="partner" class="partner" data-ng-if="!editGeneral">{{user.advanced.relationship.name}}</span>
+							<select data-for="relationType" class="relationType" data-ng-model="user.advanced.relationship.type" data-ng-if="editGeneral">
+								<option data-ng-repeat="type in possibleStatus" data-i18n="profile.section.general.relation.status.{{type}}" value="{{type}}" data-ng-selected="type == user.advanced.relationship.type"></option>
 							</select>
-							<input data-for="partner" type="text" data-ng-model="user.advanced.partner.name" data-ng-if="editGeneral">
+							<input data-for="partner" type="text" data-ng-model="user.advanced.relationship.name" data-ng-if="editGeneral">
 						</span>
 					</p>
 					<p id="school" data-ng-show="set(user.advanced.education) || editGeneral">
@@ -76,14 +76,14 @@
 							</span>
 						</span>
 					</p>
-					<p id="job" data-ng-show="set(user.advanced.job) || editGeneral">
+					<p id="work" data-ng-show="set(user.advanced.work) || editGeneral">
 						<i class="icon-wrench"></i>
-						<span data-i18n="profile.section.general.job">
-							<span data-ng-if="!editGeneral" data-for="job">{{user.advanced.job.what}}</span>
-							<input data-ng-if="editGeneral" data-for="job" data-ng-model="user.advanced.job.what">
+						<span data-i18n="profile.section.general.work">
+							<span data-ng-if="!editGeneral" data-for="what">{{user.advanced.work.what}}</span>
+							<input data-ng-if="editGeneral" data-for="what" data-ng-model="user.advanced.work.what">
 							
-							<span data-ng-if="!editGeneral" data-for="company">{{user.advanced.job.where}}</span>
-							<input data-ng-if="editGeneral" data-for="company" data-ng-model="user.advanced.job.where">
+							<span data-ng-if="!editGeneral" data-for="company">{{user.advanced.work.where}}</span>
+							<input data-ng-if="editGeneral" data-for="company" data-ng-model="user.advanced.work.where">
 						</span>
 					</p>
 					<p id="sex" data-ng-show="set(user.advanced.gender) || editGeneral">
@@ -111,7 +111,7 @@
 							</span>
 						</span>
 					</p>
-					<p id="save" data-ng-show="editGeneral"><button data-ng-click="" class="btn btn-green"><i class="icon-ok-circle"></i> Speichern</button></p>
+					<p id="save" data-ng-show="editGeneral"><button data-ng-click="saveUser()" class="btn btn-green"><i class="icon-ok-circle"></i> Speichern</button></p>
 				</div>
 				<div class="actions">
 					<a href="" class="addFriend" ng-if="!user.me && !user.added" data-ng-click="addFriend()"><span data-i18n="profile.actions.addFriend|user={{user.name}}"></span></a>

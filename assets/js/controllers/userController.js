@@ -32,6 +32,17 @@ define(["step", "whispeerHelper"], function (step, h) {
 			$scope.editGeneral = !$scope.editGeneral;
 		};
 
+		$scope.saveUser = function () {
+			if (userObject.isOwn()) {
+				var adv = $scope.user.advanced;
+				userObject.setAdvancedProfile(adv, function () {
+					userObject.uploadChangedProfile(function () {
+						debugger;
+					});
+				});
+			}
+		};
+
 		$scope.set = function (val) {
 			if (typeof val === "undefined" || val === null) {
 				return false;
@@ -59,26 +70,34 @@ define(["step", "whispeerHelper"], function (step, h) {
 			}
 		};
 
+		function editOrTrue(val) {
+			return $scope.editGeneral || $scope.set(val);
+		}
+
 		$scope.setE = function (val, ret) {
-			if ($scope.editGeneral || $scope.set(val)) {
+			if (editOrTrue($scope.set(val))) {
 				return ret;
 			}
 
 			return "";
 		};
 
-		$scope.setEDeep = function (val) {
-			if (!val) {
-				val = {};
-			}
+		function getVals(possible, val) {
+			var i, res = "";
+			val = val || {};
+			possible.sort();
 
-			var keys = Object.keys(val), i, res = "";
-			keys.sort();
-			for (i = 0; i < keys.length; i += 1) {
-				res = res + $scope.setE(val[keys[i]], keys[i]);
+			for (i = 0; i < possible.length; i += 1) {
+				if (editOrTrue(val[possible[i]])) {
+					res += possible[i];
+				}
 			}
 
 			return res;
+		}
+
+		$scope.getLocationVals = function (val) {
+			return getVals(["town", "state", "country"], val);
 		};
 
 		$scope.removeElement = function(array, index) {
@@ -100,12 +119,12 @@ define(["step", "whispeerHelper"], function (step, h) {
 		}, h.sF(function (user) {
 			userObject = user;
 
-			user.loadBasicData(this);
+			user.loadFullData(this);
 		}), h.sF(function (name, image) {
 			$scope.user = userObject.data;
 
-			$scope.user.image = image;
-			$scope.user.me = userObject.isOwn();
+			//$scope.user.image = image;
+			//$scope.user.me = userObject.isOwn();
 			$scope.user.added = friendsService.didIRequest(userObject.getID());
 
 			friendsService.listen(function () {

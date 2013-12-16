@@ -55,13 +55,8 @@ define(["crypto/keyStore", "step", "whispeerHelper", "valid/validator", "asset/O
 				}), cb);
 			}
 
-			function unpadPaddedProfile(cb) {
-				step(function () {
-					keyStore.hash.removePaddingFromObject(paddedProfile, 128, this);
-				}, h.sF(function (unpaddedProfileObject) {
-					decryptedProfile = unpaddedProfileObject;
-					this.ne();
-				}), cb);
+			function unpadPaddedProfile() {
+				decryptedProfile = keyStore.hash.removePaddingFromObject(paddedProfile, 128);
 			}
 
 			if (isDecrypted) {
@@ -147,7 +142,7 @@ define(["crypto/keyStore", "step", "whispeerHelper", "valid/validator", "asset/O
 					signProfile(signKey, this.parallel());
 				}), h.sF(function (encryptedProfile, signature) {
 					var result = {
-						id: id,
+						profileid: id,
 						profile: encryptedProfile,
 						signature: signature,
 						hashObject: generateHashObject(),
@@ -185,7 +180,9 @@ define(["crypto/keyStore", "step", "whispeerHelper", "valid/validator", "asset/O
 				step(function () {
 					theProfile.decrypt(this, attrs[0]);
 				}, h.sF(function () {
-					changed = changed || h.deepSetCreate(updatedProfile, attrs, value);
+					if (h.deepGet(decryptedProfile, attrs) !== value) {
+						changed = h.deepSetCreate(updatedProfile, attrs, value) || changed;
+					}
 
 					this.ne();
 				}), cb);
@@ -198,6 +195,10 @@ define(["crypto/keyStore", "step", "whispeerHelper", "valid/validator", "asset/O
 				}, h.sF(function (scope) {
 					this.ne(scope || "always:allfriends");
 				}), cb);
+			};
+
+			this.updated = function updatedF() {
+				changed = false;
 			};
 
 			this.getAttribute = function getAttributeF(attrs, cb) {
@@ -237,8 +238,8 @@ define(["crypto/keyStore", "step", "whispeerHelper", "valid/validator", "asset/O
 					paddedProfile[branch] = decryptedData;
 					decrypted[branch] = true;
 
-					unpadPaddedProfile(this);
-				}), h.sF(function () {
+					unpadPaddedProfile();
+
 					delete encryptedProfile[branch];
 					if (Object.keys(encryptedProfile).length === 1) {
 						decrypted = true;
@@ -267,8 +268,8 @@ define(["crypto/keyStore", "step", "whispeerHelper", "valid/validator", "asset/O
 					decrypted = true;
 					decrypting = false;
 					checkDecryptedProfile();
-					unpadPaddedProfile(this);
-				}), h.sF(function () {
+					unpadPaddedProfile();
+
 					theProfile.notify("", "decrypted");
 
 					this.ne();

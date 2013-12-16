@@ -1,6 +1,8 @@
 define(["step", "whispeerHelper"], function (step, h) {
 	"use strict";
 
+	var advancedBranches = ["location", "birthday", "relationship", "education", "work", "gender", "languages"];
+
 	var service = function ($rootScope, $location, socketService, sessionService, keyStoreService, ProfileService, initService, settingsService) {
 
 		var NotExistingUser = {
@@ -137,7 +139,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 
 			function setPublicProfile(attrs, val, cb) {
 				var pub = theUser.getProfile();
-				publicProfileChanged = publicProfileChanged || h.deepSetCreate(pub, attrs, val);
+				publicProfileChanged = h.deepSetCreate(pub, attrs, val) || publicProfileChanged;
 				cb();
 			}
 
@@ -149,7 +151,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 					var i;
 					for (i = 0; i < priv.length; i += 1) {
 						if (priv[i].changed()) {
-							priv[i].getUpdatedData(this.parallel());
+							priv[i].getUpdatedData(theUser.getSignKey(), this.parallel());
 						}
 					}
 					//TODO sign public profile!
@@ -233,6 +235,23 @@ define(["step", "whispeerHelper"], function (step, h) {
 			var basicDataLoaded = false;
 
 			this.update = updateUser;
+
+			this.loadFullData = function (cb) {
+				step(function () {
+					var i;
+					for (i = 0; i < advancedBranches.length; i += 1) {
+						getProfileAttribute([advancedBranches[i]], this.parallel());
+					}
+					theUser.loadBasicData(this.parallel());
+				}, h.sF(function (result) {
+					var i, a = theUser.data.advanced;
+					for (i = 0; i < advancedBranches.length; i += 1) {
+						a[advancedBranches[i]] = result[i];
+					}
+
+					this.ne();
+				}), cb);
+			};
 
 			this.loadBasicData = function (cb) {
 				step(function () {
@@ -360,6 +379,37 @@ define(["step", "whispeerHelper"], function (step, h) {
 						this.ne("");
 					}
 				}), cb);
+			};
+
+			function updateProperty(partial, str, cb) {
+				if (!partial) {
+					cb();
+				} else if (typeof partial === "object") {
+					updatePartial(partial, str, cb);
+				} else {
+					theUser.setProfileAttribute(str, partial, cb);
+				}
+			}
+
+			function updatePartial(partial, str, cb) {
+				step(function () {
+					var attr;
+
+					for (attr in partial) {
+						if (partial.hasOwnProperty(attr)) {
+							updateProperty(partial[attr], str + "." + attr, this.parallel());
+						}
+					}
+				}, cb);
+			}
+
+			this.setAdvancedProfile = function (adv, cb) {
+				step(function () {
+					var i;
+					for (i = 0; i < advancedBranches.length; i += 1) {
+						updateProperty(adv[advancedBranches[i]], advancedBranches[i], this.parallel());
+					}
+				}, cb);
 			};
 		};
 

@@ -179,7 +179,7 @@
 					}
 				},
 				"education":	"schulische Ausbildung: {school}",
-				"job":	"arbeitet als {job} bei {company}",
+				"work":	"arbeitet als {what} bei {company}",
 				"gender":	{
 					"": "",
 					"default":	"{gender}",
