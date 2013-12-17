@@ -1232,6 +1232,29 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 		}), cb);
 	};
 
+	objectPadder.prototype._padArray = function (val, cb) {
+		var that = this;
+		step(function () {
+			var i;
+			for (i = 0; i < val.length; i += 1) {
+				var padder = new objectPadder(val[i], that._minLength);
+				padder.pad(this.parallel());
+			}
+
+			this.parallel()();
+		}, h.sF(function (padded) {
+			var i, result = [];
+			if (padded) {
+				for (i = 0; i < padded.length; i += 1) {
+					result[i] = padded[i];
+				}
+			}
+
+			this.ne(result);
+		}), cb);
+		//this._data instanceof Array
+	};
+
 	objectPadder.prototype._padString = function (val, cb) {
 		var that = this;
 
@@ -1246,7 +1269,11 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 	objectPadder.prototype._padAttribute = function (attr, cb) {
 		var type = typeof attr;
 		if (type === "object") {
-			this._padObject(attr, cb);
+			if (attr instanceof Array) {
+				this._padArray(attr, cb);
+			} else {
+				this._padObject(attr, cb);
+			}
 		} else if (type === "string") {
 			this._padString(attr, cb);
 		} else {
@@ -1282,10 +1309,25 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 		return val.substr(paddingIndex + 2);
 	};
 
+	objectPadder.prototype._unpadArray = function (val) {
+		var result = [], i;
+		for (i = 0; i < val.length; i += 1) {
+			var padder = new objectPadder(val[i], this._minLength);
+			result[i] = padder.unpad();
+		}
+
+		return result;
+	};
+
 	objectPadder.prototype._unpadAttribute = function (attr) {
 		var type = typeof attr;
 		if (type === "object") {
-			return this._unpadObject(attr);
+			if (attr instanceof Array) {
+				return this._unpadArray(attr);
+				//TODO!
+			} else {
+				return this._unpadObject(attr);
+			}
 		} else if (type === "string") {
 			return this._unpadString(attr);
 		} else {
@@ -1379,9 +1421,6 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 	objectCryptor.prototype._decryptEndAttribute = function (cb) {
 		var that = this;
 		step(function () {
-			if (!that._key) {
-				debugger;
-			}
 			that._key.decrypt(that._object, this);
 		}, h.sF(function (result) {
 			this.ne(that.decryptCorrectObject(result));

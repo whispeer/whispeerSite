@@ -2,6 +2,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 	"use strict";
 
 	var advancedBranches = ["location", "birthday", "relationship", "education", "work", "gender", "languages"];
+	var advancedDefaults = [{}, {}, {}, [], {}, "", []];
 
 	var service = function ($rootScope, $location, socketService, sessionService, keyStoreService, ProfileService, initService, settingsService) {
 
@@ -246,7 +247,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 				}, h.sF(function (result) {
 					var i, a = theUser.data.advanced;
 					for (i = 0; i < advancedBranches.length; i += 1) {
-						a[advancedBranches[i]] = result[i];
+						a[advancedBranches[i]] = result[i] || advancedDefaults[i];
 					}
 
 					this.ne();
@@ -384,7 +385,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 			function updateProperty(partial, str, cb) {
 				if (!partial) {
 					cb();
-				} else if (typeof partial === "object") {
+				} else if (typeof partial === "object" && !partial instanceof Array) {
 					updatePartial(partial, str, cb);
 				} else {
 					theUser.setProfileAttribute(str, partial, cb);
