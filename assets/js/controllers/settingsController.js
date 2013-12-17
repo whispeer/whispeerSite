@@ -2,16 +2,26 @@
 * friendsController
 **/
 
-define([], function () {
+define(["whispeerHelper"], function (h) {
 	"use strict";
 
-	function settingsController($scope, cssService) {
+	function settingsController($scope, cssService, settingsService) {
 		cssService.setClass("settingsView");
 
 		$scope.safetySorted = ["location", "birthday", "relationship", "education", "work", "gender", "languages"];
 
+		step(function () {
+			settingsService.getBranch("privacy", this);
+		}, h.sF(function (branch) {
+			$scope.safety = branch;
+		}), function (e) {
+			debugger;
+		});
+
+
+		/*
 		$scope.safety = {
-			"name": {
+			"basic": {
 				first: {
 					encrypt: false,
 					visibility: []
@@ -50,9 +60,10 @@ define([], function () {
 				visibility: ["always:allfriends"]
 			}
 		};
+		*/
 	}
 
-	settingsController.$inject = ["$scope", "ssn.cssService"];
+	settingsController.$inject = ["$scope", "ssn.cssService", "ssn.settingsService"];
 
 	return settingsController;
 });
