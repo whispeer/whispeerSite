@@ -10,20 +10,22 @@
 
 */
 
-/* Initialize the Grid */
+// CSS-Reset
+@import "base/reset";
 
 // GRID
-@import "social/basic/grid";
+@import "base/grid";
 
 // Core Variables / Mixins
-@import "social/variables";
-@import "social/basic/mixins";
-@import "social/basic/classes";
+@import "base/variables";
+@import "base/mixins";
+@import "base/classes/classes";
 
-/* Social Style */
+// Base
+@import "base/base";
 
-@import "social";
+// Views
+@import "views/views";
 
-/* Do it responsive! */
-
-@import "responsive";
+// Responsive
+@import "responsive/responsive";
