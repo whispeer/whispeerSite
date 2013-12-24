@@ -5,71 +5,10 @@
 define(["step"], function (step) {
 	"use strict";
 
-	function loginController($scope, sessionHelper, sessionService, cssService) {
+	function loginController($scope, sessionHelper, cssService) {
 		cssService.setClass("registerView");
 
-		var ENDSIZE = 250;
-
-		var imageData;
-
-		var doneCanvasE = document.createElement("canvas");
-
-		doneCanvasE.width = ENDSIZE;
-		doneCanvasE.height = ENDSIZE;
-
-		var doneCanvas = doneCanvasE.getContext("2d");
-
-		jQuery(document.body).append(doneCanvasE);
-
-		$scope.imageChange = function (e) {
-			var file = e.target.files[0];
-			if (!file.type.match(/image.*/i)) {
-				$scope.validImage = false;
-				return;
-			}
-
-			$scope.validImage = true;
-
-			var url;
-
-			var image = new Image();
-			image.addEventListener("load", function () {
-				var width = image.width;
-				var height = image.height;
-
-				width = width;
-				height = height;
-
-				var get = Math.min(width, height);
-
-				doneCanvas.drawImage(image, 0, 0, get, get, 0, 0, ENDSIZE, ENDSIZE);
-				imageData = doneCanvasE.toDataURL();
-			});
-
-			if (typeof URL !== "undefined") {
-				url = URL.createObjectURL(file);
-				image.src = url;
-			} else if (typeof webkitURL !== "undefined") {
-				url = webkitURL.createObjectURL(file);
-				image.src = url;
-			} else if (typeof FileReader !== "undefined") {
-				var reader = new FileReader();
-				reader.onload = function (e) {
-					image.src = e.target.result;
-				};
-				reader.readAsDataURL(file);
-			} else {
-				//da da dam ...
-			}
-		};
-
 		$scope.password = "";
-		$scope.password2 = "";
-
-		$scope.mail = "";
-		$scope.mail2 = "";
-
-		$scope.nickname = "";
 
 		$scope.identifier = "";
 
@@ -99,16 +38,6 @@ define(["step"], function (step) {
 		];
 
 		$scope.validImage = true;
-
-		//gui show stuff
-		$scope.loginForm = true;
-		$scope.showLogin = function showLoginForm() {
-			$scope.loginForm = true;
-		};
-
-		$scope.showRegister = function showRegisterForm() {
-			$scope.loginForm = false;
-		};
 
 		$scope.passwordStrength = function passwordStrengthC() {
 			return sessionHelper.passwordStrength($scope.password);
@@ -253,46 +182,9 @@ define(["step"], function (step) {
 				}
 			});
 		};
-
-		$scope.register = function doRegisterC() {
-			var profile = {
-				pub: {},
-				priv: {}
-			};
-
-			var i, cur;
-			for (i = 0; i < $scope.profileAttributes.length; i += 1) {
-				cur = $scope.profileAttributes[i];
-
-				if (cur.value !== "") {
-					if (cur.encrypted === true) {
-						if (!profile.priv[cur.topic]) {
-							profile.priv[cur.topic] = {};
-						}
-
-						profile.priv[cur.topic][cur.name] = cur.value;
-					} else {
-						if (!profile.pub[cur.topic]) {
-							profile.pub[cur.topic] = {};
-						}
-
-						profile.pub[cur.topic][cur.name] = cur.value;
-					}
-				}
-			}
-
-			if (imageData) {
-				profile.pub.image = imageData;
-			}
-
-			sessionHelper.register($scope.nickname, $scope.mail, $scope.password, profile, function () {
-				console.log("register done!");
-				console.log(arguments);
-			});
-		};
 	}
 
-	loginController.$inject = ["$scope", "ssn.sessionHelper", "ssn.sessionService", "ssn.cssService"];
+	loginController.$inject = ["$scope", "ssn.sessionHelper", "ssn.cssService"];
 
 	return loginController;
 });

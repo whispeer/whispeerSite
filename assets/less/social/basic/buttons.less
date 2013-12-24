@@ -7,12 +7,22 @@
 	border: 0;
 	.buttonBackground(@btnBackground, @btnBackgroundHighlight, @grayDark, 0 1px 1px rgba(255,255,255,.75));
 	border: 1px solid @btnBorder;
+	text-decoration: none !important;
+}
+.btn-big {
+	padding: 10px 10px;
+}
+.btn-small {
+	padding: 2px 7px;
 }
 // Success and Primary are both green
 .btn-primary {
 	.btn-green;
 }
 .btn-success {
+	.btn-green;
+}
+btn-send {
 	.btn-green;
 }
 .btn-green {

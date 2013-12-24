@@ -13,10 +13,10 @@
 @margin: 2%;
 @column-size: @total-width / @columns;
 
-.row(@x, @columns:@columns) {
+.row(@x, @columns:@columns,@margin:@margin) {
 	display: block;
-	width: (@column-size*@x) - 2%;
-	margin: 0 1% 0 1%;
+	width: (@column-size*@x) - @margin;
+	margin: 0 (@margin/2) 0 (@margin/2);
 	.clear-fix;
 }
 
