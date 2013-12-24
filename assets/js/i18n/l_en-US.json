@@ -1,7 +1,7 @@
 {
 	"menu": {
 		"profil": "Profile",
-		"friends": "Friends",
+		"friends": "Friends ({count})",
 		"messages": "Messages",
 		"media": "Media",
 		"circles": "Circles",

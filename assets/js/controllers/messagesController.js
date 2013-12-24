@@ -10,6 +10,17 @@ define(["step", "whispeerHelper"], function (step, h) {
 
 		$scope.topicid = 0;
 
+		if ($routeParams["userid"]) {
+			$scope.userid = $routeParams["userid"];
+			step(function () {
+				messageService.getUserTopic($scope.userid, this);
+			}, h.sF(function (topicid) {
+				if (topicid) {
+					$scope.loadActiveTopic(topicid);
+				}
+			}));
+		}
+
 		$scope.$watch(function(){ return $routeParams["topicid"]; }, function(){
 			if ($routeParams["topicid"]) {
 				$scope.loadActiveTopic($routeParams["topicid"]);
@@ -35,14 +46,20 @@ define(["step", "whispeerHelper"], function (step, h) {
 			return ($scope.topicid === parseInt(topic.id, 10));
 		};
 
+		$scope.$on("selectionChange", function (event, newSelection) {
+			$scope.new.selectedUsers = newSelection;
+		});
+
 		$scope.new = {
 			text: "",
 			selectedUsers: [],
 			send: function (receiver, text) {
+				receiver = receiver.map(function (e) {return e.id;});
 				messageService.sendNewTopic(receiver, text, function (e, id) {
 					$scope.new.text = "";
 					$scope.new.selectedUsers = [];
 					$scope.loadActiveTopic(id);
+					$scope.$broadcast("resetSearch");
 				});
 			}
 		};

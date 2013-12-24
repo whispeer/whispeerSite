@@ -1,10 +1,10 @@
 /**
 * MessageService
 **/
-define(["step", "whispeerHelper", "valid/validator"], function (step, h, validator) {
+define(["step", "whispeerHelper", "valid/validator", "asset/observer"], function (step, h, validator, Observer) {
 	"use strict";
 
-	var service = function ($rootScope, socket, sessionService, userService, keyStore) {
+	var service = function ($rootScope, $timeout, socket, sessionService, userService, keyStore) {
 		var messages = {};
 		var topics = {};
 
@@ -133,7 +133,7 @@ define(["step", "whispeerHelper", "valid/validator"], function (step, h, validat
 		};
 
 		var Topic = function (data) {
-			var messages = [], dataMessages = [], messagesByID = {}, theTopic = this, receiverObjects, loadInitial = true;
+			var messages = [], dataMessages = [], messagesByID = {}, theTopic = this, loadInitial = true;
 
 			var err = validator.validate("topic", data);
 			if (err) {
@@ -240,6 +240,19 @@ define(["step", "whispeerHelper", "valid/validator"], function (step, h, validat
 				}), cb);
 			};
 
+			function addMessageToList(m) {
+				//add to message list
+				messages.push(m);
+				dataMessages.push(m.data);
+				messagesByID[m.getID()] = m;
+				messages.sort(function (a, b) {
+					return (a.getTime() - b.getTime());
+				});
+				dataMessages.sort(function (a, b) {
+					return (a.obj.getTime() - b.obj.getTime());
+				});
+			}
+
 			this.addMessage = function addMessageF(m, addUnread, cb) {
 				step(function () {
 					if (m.getTime() > data.time) {
@@ -248,16 +261,7 @@ define(["step", "whispeerHelper", "valid/validator"], function (step, h, validat
 
 					m.loadFullData(this);
 				}, h.sF(function () {
-					//add to message list
-					messages.push(m);
-					dataMessages.push(m.data);
-					messagesByID[m.getID()] = m;
-					messages.sort(function (a, b) {
-						return (a.getTime() - b.getTime());
-					});
-					dataMessages.sort(function (a, b) {
-						return (a.obj.getTime() - b.obj.getTime());
-					});
+					addMessageToList(m);
 
 					theTopic.data.latestMessage = messages[messages.length - 1];
 					if (addUnread) {
@@ -279,35 +283,15 @@ define(["step", "whispeerHelper", "valid/validator"], function (step, h, validat
 
 			this.loadReceiverNames = function loadRNF(cb) {
 				step(function () {
-					if (receiverObjects) {
-						this.ne(receiverObjects);
-					} else {
-						userService.getMultiple(data.receiver, this);
-					}
-				}, h.sF(function (receiverO) {
-					receiverObjects = receiverO;
-					var i;
-					for (i = 0; i < receiverObjects.length; i += 1) {
-						receiverObjects[i].getShortName(this.parallel());
-						receiverObjects[i].getName(this.parallel());
-						receiverObjects[i].getImage(this.parallel());
-					}
-				}), h.sF(function (data) {
+					userService.getMultipleFormatted(data.receiver, this);
+				}, h.sF(function (receiverObjects) {
 					var partners = theTopic.data.partners;
-					var i, userData, me;
+					var i, me;
 					for (i = 0; i < receiverObjects.length; i += 1) {
-						userData = {
-							"id": receiverObjects[i].getID(),
-							"url": receiverObjects[i].getUrl(),
-							"shortname": data[i*3],
-							"name": data[i*3+1],
-							"image": data[i*3+2]
-						};
-
-						if (!receiverObjects[i].isOwn() || receiverObjects.length === 1) {
-							partners.push(userData);
+						if (!receiverObjects[i].user.isOwn() || receiverObjects.length === 1) {
+							partners.push(receiverObjects[i]);
 						} else {
-							me = userData;
+							me = receiverObjects[i];
 						}
 					}
 
@@ -327,10 +311,12 @@ define(["step", "whispeerHelper", "valid/validator"], function (step, h, validat
 						}
 					}
 
-					//partners.push(me);
-
 					this.ne();
 				}), cb);
+			};
+
+			this.getReceiver = function () {
+				return data.receiver.slice();
 			};
 
 			this.loadAllData = function loadAllDataF(cb) {
@@ -431,7 +417,7 @@ define(["step", "whispeerHelper", "valid/validator"], function (step, h, validat
 		Message.createRawData = function (topicKey, message, meta, cb) {
 			var mKey, mData, encryptedMessageData;
 			step(function () {
-				keyStore.sym.generateKey(this);
+				keyStore.sym.generateKey(this, "messageMain");
 			}, h.sF(function (key) {
 				mKey = key;
 
@@ -471,14 +457,24 @@ define(["step", "whispeerHelper", "valid/validator"], function (step, h, validat
 		};
 
 		Topic.get = function (topicid, cb) {
+			var theTopic;
 			step(function () {
 				if (topics[topicid]) {
 					this.last.ne(topics[topicid]);
 				} else {
-					//TODO get topic from server!
-					throw "not implemented";
+					socket.emit("messages.getTopic", {
+						topicid: topicid
+					}, this);
 				}
-			}, cb);
+			}, h.sF(function (data) {
+				if (!data.error) {
+					theTopic = makeTopic(data.topic, this);
+				} else {
+					this.last.ne(false);
+				}
+			}), h.sF(function () {
+				this.last.ne(theTopic);
+			}), cb);
 		};
 
 		Topic.createData = function (receiver, message, cb) {
@@ -501,7 +497,7 @@ define(["step", "whispeerHelper", "valid/validator"], function (step, h, validat
 				receiverObjects = receiverO;
 
 				//generate topic key
-				keyStore.sym.generateKey(this);
+				keyStore.sym.generateKey(this, "topicMain");
 			}), h.sF(function (key) {
 				topicKey = key;
 
@@ -585,7 +581,9 @@ define(["step", "whispeerHelper", "valid/validator"], function (step, h, validat
 			var id = t.getID();
 
 			if (topics[id]) {
-				cb(null, t.getID());
+				$timeout(function () {
+					cb(null, t.getID());
+				});
 				return topics[id];
 			}
 
@@ -601,11 +599,7 @@ define(["step", "whispeerHelper", "valid/validator"], function (step, h, validat
 				});
 
 				console.log("Topic loaded:" + (new Date().getTime() - startup));
-
-				if (cb) {
-					this.ne(t.getID());
-				}
-			}), cb);
+			}), cb || h.nop);
 
 			return t;
 		}
@@ -616,14 +610,19 @@ define(["step", "whispeerHelper", "valid/validator"], function (step, h, validat
 			var id = m.getID();
 
 			if (messages[id]) {
+				$timeout(function () {
+					cb();
+				});
 				return messages[id];
 			}
 
 			messages[id] = m;
 
-			if (topics[m.getTopicID()]) {
-				topics[m.getTopicID()].addMessage(m, addUnread, cb);
-			}
+			step(function () {
+				Topic.get(m.getTopicID(), this);
+			}, h.sF(function (theTopic) {
+				theTopic.addMessage(m, addUnread, this);
+			}), cb);
 
 			return m;
 		}
@@ -661,6 +660,8 @@ define(["step", "whispeerHelper", "valid/validator"], function (step, h, validat
 			}
 		});
 
+		var currentlyLoadingTopics = false;
+
 		var messageService = {
 			listenNewMessage: function (func) {
 				listeners.push(func);
@@ -682,6 +683,12 @@ define(["step", "whispeerHelper", "valid/validator"], function (step, h, validat
 			},
 			loadMoreLatest: function (cb) {
 				var l = messageService.data.latestTopics;
+				messageService.listenOnce(cb, "loadingDone");
+
+				if (l.loading) {
+					return;
+				}
+
 				step(function () {
 					l.loading = true;
 
@@ -695,27 +702,80 @@ define(["step", "whispeerHelper", "valid/validator"], function (step, h, validat
 					socket.emit("messages.getTopics", {
 						afterTopic: last
 					}, this);
+
 				}, h.sF(function (latest) {
 					l.loaded = true;
 					l.loading = false;
 
 					var i;
 					for (i = 0; i < latest.topics.length; i += 1) {
-						makeTopic(latest.topics[i], this.parallel());
+						makeTopic(latest.topics[i]);
 					}
-				}), h.sF(function () {
-					this.ne();
-				}), cb);
+
+					messageService.notify("", "loadingDone");
+				}));
 			},
 			getTopic: function (topicid, cb) {
 				step(function () {
+					if (currentlyLoadingTopics) {
+						messageService.listenOnce(this, "loadingDone");
+					} else {
+						this.ne();
+					}
+				}, h.sF(function () {
 					Topic.get(topicid, this);
-				}, cb);
+				}), cb);
+			},
+			sendMessageToUserTopicIfExists: function(receiver, message, cb) {
+				var theTopic;
+				step(function () {
+					messageService.getUserTopic(receiver[0], this);
+				}, h.sF(function (topicid) {
+					if (topicid) {
+						Topic.get(topicid, this);
+					} else {
+						this.last.ne();
+					}
+				}), h.sF(function (topic) {
+					theTopic = topic;
+					var receiver = theTopic.getReceiver();
+					if (receiver.length === 2) {
+						receiver = receiver.map(h.parseDecimal);
+						if (receiver.indexOf(receiver[0]) > -1 && receiver.indexOf(sessionService.getUserID()) > -1) {
+							this.ne(theTopic);
+							return;
+						}
+					}
+
+					console.log("send to existing user topic failed");
+
+					this.last.ne();
+				}), h.sF(function () {
+					messageService.sendMessage(theTopic.getID(), message, this);
+				}), h.sF(function (success) {
+					if (success) {
+						this.ne(theTopic);
+					} else {
+						this.ne();
+					}
+				}), cb);
 			},
 			sendNewTopic: function (receiver, message, cb) {
 				step(function () {
-					Topic.createData(receiver, message, this);
-				}, h.sF(function (result) {
+					if (receiver.length === 1) {
+						messageService.sendMessageToUserTopicIfExists(receiver, message, this);
+					} else {
+						this.ne(false);
+					}
+				}, h.sF(function (topic) {
+					if (topic) {
+						if (typeof cb === "function") {
+							cb(null, topic.getID());
+						}
+					} else {
+						Topic.createData(receiver, message, this);
+					}
+				}), h.sF(function (result) {
 					socket.emit("messages.sendNewTopic", result, this);
 				}), function (e, result) {
 					if (e || result.error) {
@@ -749,6 +809,19 @@ define(["step", "whispeerHelper", "valid/validator"], function (step, h, validat
 					this.ne(true);
 				}), cb);
 			},
+			getUserTopic: function (uid, cb) {
+				step(function () {
+					socket.emit("messages.getUserTopic", {
+						userid: uid
+					}, this);
+				}, h.sF(function (data) {
+					if (data.topicid) {
+						this.ne(data.topicid);
+					} else {
+						this.ne(false);
+					}
+				}), cb);
+			},
 			data: {
 				latestTopics: {
 					count: 0,
@@ -759,6 +832,8 @@ define(["step", "whispeerHelper", "valid/validator"], function (step, h, validat
 				unread: 0
 			}
 		};
+
+		Observer.call(messageService);
 
 		$rootScope.$on("ssn.ownLoaded", function (evt, data) {
 			messageService.data.unread = data.messages.getUnreadCount.unread;
@@ -771,7 +846,7 @@ define(["step", "whispeerHelper", "valid/validator"], function (step, h, validat
 		return messageService;
 	};
 
-	service.$inject = ["$rootScope", "ssn.socketService", "ssn.sessionService", "ssn.userService", "ssn.keyStoreService"];
+	service.$inject = ["$rootScope", "$timeout", "ssn.socketService", "ssn.sessionService", "ssn.userService", "ssn.keyStoreService"];
 
 	return service;
 });

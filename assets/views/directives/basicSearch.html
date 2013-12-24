@@ -1,0 +1,15 @@
+<div class="searchBar {{'search-'+size}} {{'search-'+(multiple?'multiple':'single')}}" data-stop-event="click">
+	<form class="formSearch">
+		<div data-ng-click="click(true)">
+			<ul class="inputWrap">
+				<li data-ng-repeat="element in selectedElements" class="searchResult">
+					{{element.name}}<a href="" class="remove" data-ng-click="removeSelection($index)"><i class="icon icon-cancel-circle"></i></a>
+				</li>
+				<li class="searchField" style="display: inline;">
+				</li>
+			</ul>
+		</div>
+	</form>
+	<div class="searchDrop" data-ng-show="show()" ng-include="resultTemplate">
+	</div>
+</div>

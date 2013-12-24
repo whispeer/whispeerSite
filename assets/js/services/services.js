@@ -2,7 +2,7 @@
 * BaseService
 **/
 
-var services = ["socketService", "keyStoreService", "sessionService", "sessionHelper", "profileService", "storageService", "userService", "cssService", "magicbarService", "messageService", "circleService"];
+var services = ["socketService", "keyStoreService", "sessionService", "sessionHelper", "profileService", "storageService", "userService", "cssService", "magicbarService", "messageService", "circleService", "friendsService"];
 
 var includes = ["angular"];
 

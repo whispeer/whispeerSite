@@ -1,6 +1,6 @@
-<div class="inputWrap">
+<div class="inputWrap" data-enter="nextRegisterStep()">
 	<div data-ng-repeat="attribute in profileAttributes" data-tooltip-title="{{attribute.hoverText}}" data-tooltip-position="left">
-		<input type="text" placeholder="{{attribute.placeHolder}}" data-ng-model="attribute.value">
+		<input data-autofocus="{{$index==0}}" type="text" placeholder="{{attribute.placeHolder}}" data-ng-model="attribute.value">
 		<span class="icon lock">
 			<img data-ng-src="{{lock(attribute.encrypted)}}" alt="{{((attribute.encrypted) && ('Privat') || ('Öffentlich'))}}" data-ng-click="attribute.encrypted=!attribute.encrypted" />
 		</span>

@@ -386,6 +386,16 @@ table {
   -moz-background-clip: padding;
   -webkit-background-clip: padding-box;
   background-clip: padding-box;
+  background-color: #ececec;
+  border: 1px solid #bbbbbb;
+  border-bottom: 1px solid #000;
+  border-bottom-color: #a2a2a2;
+  -webkit-box-sizing: border-box;
+  /* Safari/Chrome, other WebKit */
+  -moz-box-sizing: border-box;
+  /* Firefox, other Gecko */
+  box-sizing: border-box;
+  /* Opera/IE 8+ */
 }
 .box header {
   height: 20px;
@@ -396,6 +406,7 @@ table {
   background: -moz-linear-gradient(top, #fafafa, #ececec);
   background: -ms-linear-gradient(top, #fafafa, #ececec);
   background: -o-linear-gradient(top, #fafafa, #ececec);
+  border: none;
   border-bottom: 1px solid #bbbbbb;
   -webkit-border-top-right-radius: 5px;
   -webkit-border-bottom-right-radius: 0px;
@@ -421,8 +432,18 @@ table {
 .box header .edit:hover {
   color: #cbcbcb;
 }
+.box header .title {
+  float: left;
+  margin: 0 1%;
+}
+.box header .links {
+  float: right;
+  margin: 0 1%;
+}
+.box header .links a {
+  color: #666;
+}
 .box section {
-  background-color: #eeeeee;
   padding: 5px 0;
   -webkit-border-top-right-radius: 0;
   -webkit-border-bottom-right-radius: 5px;
@@ -448,6 +469,24 @@ table {
 }
 .box section:after {
   clear: both;
+}
+.box section header {
+  margin-top: -5px !important;
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  border-radius: 0;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  border-top: 1px solid #bbbbbb;
+}
+.box section h1,
+.box section h2,
+.box section h3,
+.box section h4,
+.box section h5,
+.box section h6 {
+  margin-left: 0.5%;
 }
 .btn {
   display: inline-block;
@@ -622,13 +661,22 @@ btn-send[disabled] {
 .btn-inverse[disabled] {
   background-color: #313131;
 }
-.searchBar .formSearch .inputWrap {
+.searchBar .formSearch {
+  height: 100%;
+}
+.searchBar .formSearch div {
+  height: 100%;
+}
+.searchBar .formSearch div .inputWrap {
+  height: 100%;
   list-style-type: none;
   margin-left: 0;
   list-style: none;
-  border: 1px solid #aaa;
+  border: 1px solid #888;
+  -webkit-box-shadow: inset 0px 0px 5px #cccccc;
+  -moz-box-shadow: inset 0px 0px 5px #cccccc;
+  box-shadow: inset 0px 0px 5px #cccccc;
   cursor: text;
-  height: auto;
   background: white;
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
@@ -636,8 +684,30 @@ btn-send[disabled] {
   -moz-background-clip: padding;
   -webkit-background-clip: padding-box;
   background-clip: padding-box;
+  overflow: hidden;
+  -webkit-box-sizing: border-box;
+  /* Safari/Chrome, other WebKit */
+  -moz-box-sizing: border-box;
+  /* Firefox, other Gecko */
+  box-sizing: border-box;
+  /* Opera/IE 8+ */
 }
-.searchBar .formSearch .inputWrap li.searchResult {
+.searchBar .formSearch div .inputWrap:focus {
+  border: solid 1px #559d00;
+  -webkit-box-shadow: inset 0px 0px 5px rgba(107, 199, 0, 0.75);
+  -moz-box-shadow: inset 0px 0px 5px rgba(107, 199, 0, 0.75);
+  box-shadow: inset 0px 0px 5px rgba(107, 199, 0, 0.75);
+  -webkit-transition: border-color 0.3s linear;
+  -moz-transition: border-color 0.3s linear;
+  -ms-transition: border-color 0.3s linear;
+  -o-transition: border-color 0.3s linear;
+  -webkit-transition: box-shadow 0.3s linear;
+  -moz-transition: box-shadow 0.3s linear;
+  -ms-transition: box-shadow 0.3s linear;
+  -o-transition: box-shadow 0.3s linear;
+}
+.searchBar .formSearch div .inputWrap li.searchResult {
+  float: left;
   display: inline-block;
   *display: inline;
   /* IE7 inline-block hack */
@@ -665,34 +735,38 @@ btn-send[disabled] {
   color: #ffffff;
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
 }
-.searchBar .formSearch .inputWrap li.searchResult:hover {
+.searchBar .formSearch div .inputWrap li.searchResult:hover {
   background-color: #ececec;
 }
-.searchBar .formSearch .inputWrap li.searchResult:hover,
-.searchBar .formSearch .inputWrap li.searchResult:active,
-.searchBar .formSearch .inputWrap li.searchResult.active,
-.searchBar .formSearch .inputWrap li.searchResult.disabled,
-.searchBar .formSearch .inputWrap li.searchResult[disabled] {
+.searchBar .formSearch div .inputWrap li.searchResult:hover,
+.searchBar .formSearch div .inputWrap li.searchResult:active,
+.searchBar .formSearch div .inputWrap li.searchResult.active,
+.searchBar .formSearch div .inputWrap li.searchResult.disabled,
+.searchBar .formSearch div .inputWrap li.searchResult[disabled] {
   background-color: #ececec;
 }
-.searchBar .formSearch .inputWrap li.searchResult:hover,
-.searchBar .formSearch .inputWrap li.searchResult:active,
-.searchBar .formSearch .inputWrap li.searchResult.active,
-.searchBar .formSearch .inputWrap li.searchResult.disabled,
-.searchBar .formSearch .inputWrap li.searchResult[disabled] {
+.searchBar .formSearch div .inputWrap li.searchResult:hover,
+.searchBar .formSearch div .inputWrap li.searchResult:active,
+.searchBar .formSearch div .inputWrap li.searchResult.active,
+.searchBar .formSearch div .inputWrap li.searchResult.disabled,
+.searchBar .formSearch div .inputWrap li.searchResult[disabled] {
   background-color: #3a8100;
 }
-.searchBar .formSearch .inputWrap li.searchResult .remove {
+.searchBar .formSearch div .inputWrap li.searchResult .remove {
   float: right;
   display: block;
   width: 15px;
   text-align: right;
   color: #dedede;
 }
-.searchBar .formSearch .inputWrap li.searchResult .remove:hover {
+.searchBar .formSearch div .inputWrap li.searchResult .remove:hover {
   color: #fff;
 }
-.searchBar .formSearch .inputWrap li.searchField input {
+.searchBar .formSearch div .inputWrap li.searchField {
+  float: left;
+  display: inline-block;
+}
+.searchBar .formSearch div .inputWrap li.searchField input {
   -webkit-box-sizing: border-box;
   /* Safari/Chrome, other WebKit */
   -moz-box-sizing: border-box;
@@ -701,7 +775,16 @@ btn-send[disabled] {
   /* Opera/IE 8+ */
   -webkit-box-shadow: none;
   box-shadow: none;
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  border-radius: 0;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
   background: transparent !important;
+  line-height: 20px !important;
+  font-size: 13px;
+  display: inline-block;
 }
 .searchBar .searchDrop {
   background: #ffffff;
@@ -740,23 +823,6 @@ btn-send[disabled] {
 }
 .searchBar .searchDrop .searchSuggestions li:only-child {
   border: none;
-}
-.searchBar .searchDrop .searchSuggestions li:only-child img {
-  -webkit-border-top-right-radius: 0;
-  -webkit-border-bottom-right-radius: 0;
-  -webkit-border-bottom-left-radius: 5px;
-  -webkit-border-top-left-radius: 5px;
-  -moz-border-radius-topright: 0;
-  -moz-border-radius-bottomright: 0;
-  -moz-border-radius-bottomleft: 5px;
-  -moz-border-radius-topleft: 5px;
-  border-top-right-radius: 0;
-  border-bottom-right-radius: 0;
-  border-bottom-left-radius: 5px;
-  border-top-left-radius: 5px;
-  -moz-background-clip: padding;
-  -webkit-background-clip: padding-box;
-  background-clip: padding-box;
 }
 .searchBar .searchDrop .searchSuggestions li.active {
   background-color: #559d00;
@@ -927,15 +993,11 @@ body footer a:hover {
 body:not(.registerView) {
   padding-top: 65px;
 }
+body:not(.registerView) footer {
+  background: rgba(255, 255, 255, 0.79);
+}
 body:not(.mainView, .registerView) #main {
   overflow-y: scroll;
-}
-@font-face {
-  font-family: 'ubuntulight';
-  src: url('font/ubuntu-l-webfont.eot');
-  src: url('font/ubuntu-l-webfont.eot?#iefix') format('embedded-opentype'), url('font/ubuntu-l-webfont.woff') format('woff'), url('font/ubuntu-l-webfont.ttf') format('truetype'), url('font/ubuntu-l-webfont.svg#ubuntulight') format('svg');
-  font-weight: normal;
-  font-style: normal;
 }
 body {
   font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
@@ -988,7 +1050,7 @@ h4,
 h5,
 h6 {
   margin: 10px 0;
-  font-family: "ubuntulight", "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+  font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
   font-weight: bold;
   color: inherit;
   text-rendering: optimizelegibility;
@@ -1006,6 +1068,7 @@ h6 small {
 h1 {
   font-size: 35px;
   line-height: 40px;
+  font-weight: 900;
 }
 h1 small {
   font-size: 25;
@@ -1013,6 +1076,7 @@ h1 small {
 h2 {
   font-size: 28px;
   line-height: 40px;
+  font-weight: 800;
 }
 h2 small {
   font-size: 20;
@@ -1020,6 +1084,7 @@ h2 small {
 h3 {
   font-size: 23px;
   line-height: 40px;
+  font-weight: 600;
 }
 h3 small {
   font-size: 13;
@@ -1027,14 +1092,17 @@ h3 small {
 h4 {
   font-size: 18px;
   line-height: 20px;
+  font-weight: 500;
 }
 h5 {
   font-size: 14px;
   line-height: 20px;
+  font-weight: 400;
 }
 h6 {
   font-size: 10px;
   line-height: 20px;
+  font-weight: 300;
 }
 a {
   color: #559d00;
@@ -1080,6 +1148,12 @@ a:hover {
 #topNav #navInner #brand #brandInverse {
   color: #266300;
   text-shadow: 0px 0px 2px #eeeeee;
+}
+#topNav #navInner .searchBar .formSearch .inputWrap li {
+  line-height: 20px !important;
+}
+#topNav #navInner .searchBar .formSearch .inputWrap li.searchField input {
+  line-height: 20px;
 }
 #topNav #navIcons .navIcon {
   cursor: pointer;
@@ -1641,7 +1715,19 @@ dd {
   border: none;
 }
 .registerView {
-  background-color: #3a8100;
+  background: #3a8100;
+  background: -moz-radial-gradient(center, ellipse cover, #00b7ea 0%, #009ec3 100%);
+  /* FF3.6+ */
+  background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%, #559d00), color-stop(100%, #3a8100));
+  /* Chrome,Safari4+ */
+  background: -webkit-radial-gradient(center, ellipse cover, #559d00 0%, #3a8100 100%);
+  /* Chrome10+,Safari5.1+ */
+  background: -o-radial-gradient(center, ellipse cover, #00b7ea 0%, #009ec3 100%);
+  /* Opera 12+ */
+  background: -ms-radial-gradient(center, ellipse cover, #00b7ea 0%, #009ec3 100%);
+  /* IE10+ */
+  background: radial-gradient(ellipse at center, #559d00 0%, #3a8100 100%);
+  /* W3C */
   padding: 0;
 }
 .registerView footer {
@@ -1789,12 +1875,12 @@ dd {
 .registerView section #loginForm input {
   width: 80%;
   height: 40px;
-  margin: 0 auto 5px auto;
+  margin: 0 10% 5px 10%;
 }
 .registerView section #loginForm #errorLogin {
   display: block;
   width: 80%;
-  margin: 0 auto 5px auto;
+  margin: 0 10% 5px 10%;
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
   border-radius: 5px;
@@ -1918,6 +2004,11 @@ dd {
   text-align: center;
 }
 .registerView section #registerForm .inputWrap div .icon img {
+  width: 16px;
+  height: 16px;
+  margin: 11px 0 13px 0;
+}
+.registerView section #registerForm .inputWrap div .icon.lock img {
   width: 20px;
   height: 20px;
   margin: 9px 0 11px 0;
@@ -1973,10 +2064,8 @@ dd {
 }
 .registerView section #registerForm .inputWrap div.uploadImageForm #uploadButton {
   display: inline-block;
-  display: none;
   margin: 4px 0;
   z-index: 1;
-  background: red;
 }
 .registerView section #registerForm .inputWrap div.uploadImageForm #filesUpload {
   margin: -4px 0 0 -300px;
@@ -2199,6 +2288,7 @@ dd {
   -moz-background-clip: padding;
   -webkit-background-clip: padding-box;
   background-clip: padding-box;
+  overflow: hidden;
   -webkit-box-sizing: border-box;
   /* Safari/Chrome, other WebKit */
   -moz-box-sizing: border-box;
@@ -2215,50 +2305,42 @@ dd {
   width: 68.75%;
   margin: 0 0 0 0;
   border: none;
-  -webkit-border-top-right-radius: 0;
-  -webkit-border-bottom-right-radius: 0;
-  -webkit-border-bottom-left-radius: 0;
-  -webkit-border-top-left-radius: 5px;
-  -moz-border-radius-topright: 0;
-  -moz-border-radius-bottomright: 0;
-  -moz-border-radius-bottomleft: 0;
-  -moz-border-radius-topleft: 5px;
-  border-top-right-radius: 0;
-  border-bottom-right-radius: 0;
-  border-bottom-left-radius: 0;
-  border-top-left-radius: 5px;
-  -moz-background-clip: padding;
-  -webkit-background-clip: padding-box;
-  background-clip: padding-box;
   height: 38px;
 }
-.mainView #wall header #postIt #shareText {
-  display: inline-block;
-  *display: inline;
-  /* IE7 inline-block hack */
-  *zoom: 1;
-  float: left;
-  width: 100%;
-  margin: 0 0 0 0;
-  height: 38px;
-  margin-top: -1px;
+.mainView #wall header #postIt #receiver .inputWrap {
   border: none;
   border-top: 1px solid #aaa;
-  -webkit-border-top-right-radius: 0;
-  -webkit-border-bottom-right-radius: 5px;
-  -webkit-border-bottom-left-radius: 5px;
-  -webkit-border-top-left-radius: 0;
-  -moz-border-radius-topright: 0;
-  -moz-border-radius-bottomright: 5px;
-  -moz-border-radius-bottomleft: 5px;
-  -moz-border-radius-topleft: 0;
-  border-top-right-radius: 0;
-  border-bottom-right-radius: 5px;
-  border-bottom-left-radius: 5px;
-  border-top-left-radius: 0;
+  -webkit-border-radius: 0px;
+  -moz-border-radius: 0px;
+  border-radius: 0px;
   -moz-background-clip: padding;
   -webkit-background-clip: padding-box;
   background-clip: padding-box;
+  overflow-y: hidden;
+  overflow-x: scroll;
+  white-space: nowrap;
+  text-align: left;
+}
+.mainView #wall header #postIt #receiver .inputWrap li {
+  white-space: nowrap;
+}
+.mainView #wall header #postIt #receiver .inputWrap li.searchField {
+  height: 35px;
+  line-height: 35px;
+  float: none;
+  margin: 0;
+}
+.mainView #wall header #postIt #receiver .inputWrap li.searchField input {
+  width: 100%;
+  height: 35px;
+  line-height: 35px;
+}
+.mainView #wall header #postIt #receiver .inputWrap li.searchResult {
+  max-width: none;
+  padding: 0 5px 0 5px !important;
+}
+.mainView #wall header #postIt #receiver .searchDrop {
+  margin-top: 5px;
 }
 .mainView #wall header #postIt button {
   /* IE7 inline-block hack */
@@ -2279,6 +2361,7 @@ dd {
   border: 1px solid #bbbbbb;
   text-decoration: none !important;
   border: none;
+  border-top: 1px solid #aaa;
   display: inline-block;
   *display: inline;
   /* IE7 inline-block hack */
@@ -2288,18 +2371,9 @@ dd {
   margin: 0 0 0 0;
   height: 38px;
   padding: 7px;
-  -webkit-border-top-right-radius: 4px;
-  -webkit-border-bottom-right-radius: 0;
-  -webkit-border-bottom-left-radius: 0;
-  -webkit-border-top-left-radius: 0;
-  -moz-border-radius-topright: 4px;
-  -moz-border-radius-bottomright: 0;
-  -moz-border-radius-bottomleft: 0;
-  -moz-border-radius-topleft: 0;
-  border-top-right-radius: 4px;
-  border-bottom-right-radius: 0;
-  border-bottom-left-radius: 0;
-  border-top-left-radius: 0;
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  border-radius: 0;
   -moz-background-clip: padding;
   -webkit-background-clip: padding-box;
   background-clip: padding-box;
@@ -2325,6 +2399,25 @@ dd {
 .mainView #wall header #postIt button[type="submit"].disabled,
 .mainView #wall header #postIt button[type="submit"][disabled] {
   background-color: #3a8100;
+}
+.mainView #wall header #postIt #shareText {
+  display: inline-block;
+  *display: inline;
+  /* IE7 inline-block hack */
+  *zoom: 1;
+  float: left;
+  width: 100%;
+  margin: 0 0 0 0;
+  height: 38px;
+  margin-top: -1px;
+  border: none;
+  border-top: 1px solid #aaa;
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  border-radius: 0;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
 }
 .mainView #wall header #filter {
   display: inline-block;
@@ -2370,10 +2463,37 @@ dd {
   float: left;
   width: 98%;
   margin: 0 1% 0 1%;
-  margin-top: 5px;
+  margin: 0;
   height: 42px;
   padding: 5px;
   resize: none;
+}
+.mainView #wall header #filter #theFilter .inputWrap {
+  overflow-y: hidden;
+  overflow-x: scroll;
+  white-space: nowrap;
+  text-align: left;
+}
+.mainView #wall header #filter #theFilter .inputWrap li {
+  white-space: nowrap;
+}
+.mainView #wall header #filter #theFilter .inputWrap li.searchField {
+  height: 35px;
+  line-height: 35px;
+  float: none;
+  margin: 0;
+}
+.mainView #wall header #filter #theFilter .inputWrap li.searchField input {
+  width: 100%;
+  height: 35px;
+  line-height: 35px;
+}
+.mainView #wall header #filter #theFilter .inputWrap li.searchResult {
+  max-width: none;
+  padding: 0 5px 0 5px !important;
+}
+.mainView #wall header #filter #theFilter .searchDrop {
+  margin-top: 5px;
 }
 .mainView #wall .posts {
   float: left;
@@ -2925,22 +3045,113 @@ dd {
   clear: both;
 }
 .messagesView #main {
-  background-color: #ececec;
-  border: 1px solid #bbbbbb;
-  border-bottom: 1px solid #000;
-  border-bottom-color: #a2a2a2;
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
   border-radius: 5px;
   -moz-background-clip: padding;
   -webkit-background-clip: padding-box;
   background-clip: padding-box;
+  background-color: #ececec;
+  border: 1px solid #bbbbbb;
+  border-bottom: 1px solid #000;
+  border-bottom-color: #a2a2a2;
   -webkit-box-sizing: border-box;
   /* Safari/Chrome, other WebKit */
   -moz-box-sizing: border-box;
   /* Firefox, other Gecko */
   box-sizing: border-box;
   /* Opera/IE 8+ */
+}
+.messagesView #main header {
+  height: 20px;
+  margin-top: -30px;
+  background-color: #fafafa;
+  background: -webkit-gradient(linear, left top, left bottom, from(#fafafa), to(#ececec));
+  background: -webkit-linear-gradient(top, #fafafa, #ececec);
+  background: -moz-linear-gradient(top, #fafafa, #ececec);
+  background: -ms-linear-gradient(top, #fafafa, #ececec);
+  background: -o-linear-gradient(top, #fafafa, #ececec);
+  border: none;
+  border-bottom: 1px solid #bbbbbb;
+  -webkit-border-top-right-radius: 5px;
+  -webkit-border-bottom-right-radius: 0px;
+  -webkit-border-bottom-left-radius: 0px;
+  -webkit-border-top-left-radius: 5px;
+  -moz-border-radius-topright: 5px;
+  -moz-border-radius-bottomright: 0px;
+  -moz-border-radius-bottomleft: 0px;
+  -moz-border-radius-topleft: 5px;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 0px;
+  border-bottom-left-radius: 0px;
+  border-top-left-radius: 5px;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  padding: 5px 0;
+}
+.messagesView #main header .edit {
+  float: right;
+  color: #b2b2b2;
+}
+.messagesView #main header .edit:hover {
+  color: #cbcbcb;
+}
+.messagesView #main header .title {
+  float: left;
+  margin: 0 1%;
+}
+.messagesView #main header .links {
+  float: right;
+  margin: 0 1%;
+}
+.messagesView #main header .links a {
+  color: #666;
+}
+.messagesView #main section {
+  padding: 5px 0;
+  -webkit-border-top-right-radius: 0;
+  -webkit-border-bottom-right-radius: 5px;
+  -webkit-border-bottom-left-radius: 5px;
+  -webkit-border-top-left-radius: 0;
+  -moz-border-radius-topright: 0;
+  -moz-border-radius-bottomright: 5px;
+  -moz-border-radius-bottomleft: 5px;
+  -moz-border-radius-topleft: 0;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 5px;
+  border-bottom-left-radius: 5px;
+  border-top-left-radius: 0;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  *zoom: 1;
+}
+.messagesView #main section:before,
+.messagesView #main section:after {
+  content: "";
+  display: table;
+}
+.messagesView #main section:after {
+  clear: both;
+}
+.messagesView #main section header {
+  margin-top: -5px !important;
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  border-radius: 0;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  border-top: 1px solid #bbbbbb;
+}
+.messagesView #main section h1,
+.messagesView #main section h2,
+.messagesView #main section h3,
+.messagesView #main section h4,
+.messagesView #main section h5,
+.messagesView #main section h6 {
+  margin-left: 0.5%;
 }
 .messagesView #topicListWrap {
   margin-right: 3px;
@@ -3122,6 +3333,7 @@ dd {
   /* Firefox, other Gecko */
   box-sizing: border-box;
   /* Opera/IE 8+ */
+  height: 100%;
 }
 .messagesView #topicWrap.peerChat #messageList {
   list-style-type: none;
@@ -3270,15 +3482,31 @@ dd {
   float: right;
   margin-right: 5px;
 }
-.friendsView {
+.friendsView #main {
+  border-bottom: 1px solid #000;
+  border-bottom-color: #a2a2a2;
+  /* Safari/Chrome, other WebKit */
+  /* Firefox, other Gecko */
+  /* Opera/IE 8+ */
+  padding-top: 30px;
+  height: 100%;
+  background-color: #ececec;
+  border: 1px solid #bbbbbb;
+  border-bottom: 1px solid #a2a2a2;
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
   border-radius: 5px;
   -moz-background-clip: padding;
   -webkit-background-clip: padding-box;
   background-clip: padding-box;
+  -webkit-box-sizing: border-box;
+  /* Safari/Chrome, other WebKit */
+  -moz-box-sizing: border-box;
+  /* Firefox, other Gecko */
+  box-sizing: border-box;
+  /* Opera/IE 8+ */
 }
-.friendsView header {
+.friendsView #main header {
   height: 20px;
   margin-top: -30px;
   background-color: #fafafa;
@@ -3287,6 +3515,7 @@ dd {
   background: -moz-linear-gradient(top, #fafafa, #ececec);
   background: -ms-linear-gradient(top, #fafafa, #ececec);
   background: -o-linear-gradient(top, #fafafa, #ececec);
+  border: none;
   border-bottom: 1px solid #bbbbbb;
   -webkit-border-top-right-radius: 5px;
   -webkit-border-bottom-right-radius: 0px;
@@ -3305,15 +3534,25 @@ dd {
   background-clip: padding-box;
   padding: 5px 0;
 }
-.friendsView header .edit {
+.friendsView #main header .edit {
   float: right;
   color: #b2b2b2;
 }
-.friendsView header .edit:hover {
+.friendsView #main header .edit:hover {
   color: #cbcbcb;
 }
-.friendsView section {
-  background-color: #eeeeee;
+.friendsView #main header .title {
+  float: left;
+  margin: 0 1%;
+}
+.friendsView #main header .links {
+  float: right;
+  margin: 0 1%;
+}
+.friendsView #main header .links a {
+  color: #666;
+}
+.friendsView #main section {
   padding: 5px 0;
   -webkit-border-top-right-radius: 0;
   -webkit-border-bottom-right-radius: 5px;
@@ -3332,34 +3571,31 @@ dd {
   background-clip: padding-box;
   *zoom: 1;
 }
-.friendsView section:before,
-.friendsView section:after {
+.friendsView #main section:before,
+.friendsView #main section:after {
   content: "";
   display: table;
 }
-.friendsView section:after {
+.friendsView #main section:after {
   clear: both;
 }
-.friendsView #main {
-  padding-top: 30px;
-  padding-bottom: 10px;
-  height: 100%;
-  background-color: #ececec;
-  border: 1px solid #bbbbbb;
-  border-bottom: 1px solid #000;
-  border-bottom-color: #a2a2a2;
-  -webkit-border-radius: 5px;
-  -moz-border-radius: 5px;
-  border-radius: 5px;
+.friendsView #main section header {
+  margin-top: -5px !important;
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  border-radius: 0;
   -moz-background-clip: padding;
   -webkit-background-clip: padding-box;
   background-clip: padding-box;
-  -webkit-box-sizing: border-box;
-  /* Safari/Chrome, other WebKit */
-  -moz-box-sizing: border-box;
-  /* Firefox, other Gecko */
-  box-sizing: border-box;
-  /* Opera/IE 8+ */
+  border-top: 1px solid #bbbbbb;
+}
+.friendsView #main section h1,
+.friendsView #main section h2,
+.friendsView #main section h3,
+.friendsView #main section h4,
+.friendsView #main section h5,
+.friendsView #main section h6 {
+  margin-left: 0.5%;
 }
 .friendsView #friendsList {
   height: 100%;
@@ -3387,22 +3623,113 @@ dd {
   margin: 0 1% 0 1%;
 }
 .circlesView #main {
-  background-color: #ececec;
-  border: 1px solid #bbbbbb;
-  border-bottom: 1px solid #000;
-  border-bottom-color: #a2a2a2;
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
   border-radius: 5px;
   -moz-background-clip: padding;
   -webkit-background-clip: padding-box;
   background-clip: padding-box;
+  background-color: #ececec;
+  border: 1px solid #bbbbbb;
+  border-bottom: 1px solid #000;
+  border-bottom-color: #a2a2a2;
   -webkit-box-sizing: border-box;
   /* Safari/Chrome, other WebKit */
   -moz-box-sizing: border-box;
   /* Firefox, other Gecko */
   box-sizing: border-box;
   /* Opera/IE 8+ */
+}
+.circlesView #main header {
+  height: 20px;
+  margin-top: -30px;
+  background-color: #fafafa;
+  background: -webkit-gradient(linear, left top, left bottom, from(#fafafa), to(#ececec));
+  background: -webkit-linear-gradient(top, #fafafa, #ececec);
+  background: -moz-linear-gradient(top, #fafafa, #ececec);
+  background: -ms-linear-gradient(top, #fafafa, #ececec);
+  background: -o-linear-gradient(top, #fafafa, #ececec);
+  border: none;
+  border-bottom: 1px solid #bbbbbb;
+  -webkit-border-top-right-radius: 5px;
+  -webkit-border-bottom-right-radius: 0px;
+  -webkit-border-bottom-left-radius: 0px;
+  -webkit-border-top-left-radius: 5px;
+  -moz-border-radius-topright: 5px;
+  -moz-border-radius-bottomright: 0px;
+  -moz-border-radius-bottomleft: 0px;
+  -moz-border-radius-topleft: 5px;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 0px;
+  border-bottom-left-radius: 0px;
+  border-top-left-radius: 5px;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  padding: 5px 0;
+}
+.circlesView #main header .edit {
+  float: right;
+  color: #b2b2b2;
+}
+.circlesView #main header .edit:hover {
+  color: #cbcbcb;
+}
+.circlesView #main header .title {
+  float: left;
+  margin: 0 1%;
+}
+.circlesView #main header .links {
+  float: right;
+  margin: 0 1%;
+}
+.circlesView #main header .links a {
+  color: #666;
+}
+.circlesView #main section {
+  padding: 5px 0;
+  -webkit-border-top-right-radius: 0;
+  -webkit-border-bottom-right-radius: 5px;
+  -webkit-border-bottom-left-radius: 5px;
+  -webkit-border-top-left-radius: 0;
+  -moz-border-radius-topright: 0;
+  -moz-border-radius-bottomright: 5px;
+  -moz-border-radius-bottomleft: 5px;
+  -moz-border-radius-topleft: 0;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 5px;
+  border-bottom-left-radius: 5px;
+  border-top-left-radius: 0;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  *zoom: 1;
+}
+.circlesView #main section:before,
+.circlesView #main section:after {
+  content: "";
+  display: table;
+}
+.circlesView #main section:after {
+  clear: both;
+}
+.circlesView #main section header {
+  margin-top: -5px !important;
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  border-radius: 0;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  border-top: 1px solid #bbbbbb;
+}
+.circlesView #main section h1,
+.circlesView #main section h2,
+.circlesView #main section h3,
+.circlesView #main section h4,
+.circlesView #main section h5,
+.circlesView #main section h6 {
+  margin-left: 0.5%;
 }
 .circlesView header nav a {
   color: #888888;
@@ -3577,6 +3904,11 @@ dd {
   max-width: 95%;
 }
 .helpView #main {
+  border-bottom: 1px solid #000;
+  border-bottom-color: #a2a2a2;
+  /* Safari/Chrome, other WebKit */
+  /* Firefox, other Gecko */
+  /* Opera/IE 8+ */
   padding-top: 30px;
   height: 100%;
   background-color: #ececec;
@@ -3604,6 +3936,7 @@ dd {
   background: -moz-linear-gradient(top, #fafafa, #ececec);
   background: -ms-linear-gradient(top, #fafafa, #ececec);
   background: -o-linear-gradient(top, #fafafa, #ececec);
+  border: none;
   border-bottom: 1px solid #bbbbbb;
   -webkit-border-top-right-radius: 5px;
   -webkit-border-bottom-right-radius: 0px;
@@ -3629,8 +3962,18 @@ dd {
 .helpView #main header .edit:hover {
   color: #cbcbcb;
 }
+.helpView #main header .title {
+  float: left;
+  margin: 0 1%;
+}
+.helpView #main header .links {
+  float: right;
+  margin: 0 1%;
+}
+.helpView #main header .links a {
+  color: #666;
+}
 .helpView #main section {
-  background-color: #eeeeee;
   padding: 5px 0;
   -webkit-border-top-right-radius: 0;
   -webkit-border-bottom-right-radius: 5px;
@@ -3656,6 +3999,24 @@ dd {
 }
 .helpView #main section:after {
   clear: both;
+}
+.helpView #main section header {
+  margin-top: -5px !important;
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  border-radius: 0;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  border-top: 1px solid #bbbbbb;
+}
+.helpView #main section h1,
+.helpView #main section h2,
+.helpView #main section h3,
+.helpView #main section h4,
+.helpView #main section h5,
+.helpView #main section h6 {
+  margin-left: 0.5%;
 }
 .helpView #main header #title {
   float: left;
@@ -3732,6 +4093,11 @@ dd {
   padding: 7px;
 }
 .settingsView #main {
+  border-bottom: 1px solid #000;
+  border-bottom-color: #a2a2a2;
+  /* Safari/Chrome, other WebKit */
+  /* Firefox, other Gecko */
+  /* Opera/IE 8+ */
   padding-top: 30px;
   height: 100%;
   background-color: #ececec;
@@ -3759,6 +4125,7 @@ dd {
   background: -moz-linear-gradient(top, #fafafa, #ececec);
   background: -ms-linear-gradient(top, #fafafa, #ececec);
   background: -o-linear-gradient(top, #fafafa, #ececec);
+  border: none;
   border-bottom: 1px solid #bbbbbb;
   -webkit-border-top-right-radius: 5px;
   -webkit-border-bottom-right-radius: 0px;
@@ -3784,8 +4151,18 @@ dd {
 .settingsView #main header .edit:hover {
   color: #cbcbcb;
 }
+.settingsView #main header .title {
+  float: left;
+  margin: 0 1%;
+}
+.settingsView #main header .links {
+  float: right;
+  margin: 0 1%;
+}
+.settingsView #main header .links a {
+  color: #666;
+}
 .settingsView #main section {
-  background-color: #eeeeee;
   padding: 5px 0;
   -webkit-border-top-right-radius: 0;
   -webkit-border-bottom-right-radius: 5px;
@@ -3812,35 +4189,28 @@ dd {
 .settingsView #main section:after {
   clear: both;
 }
-.settingsView #main header #title {
-  float: left;
-  margin: 0 1%;
+.settingsView #main section header {
+  margin-top: -5px !important;
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  border-radius: 0;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  border-top: 1px solid #bbbbbb;
 }
-.settingsView #main header #links {
-  float: right;
-  margin: 0 1%;
-}
-.settingsView #main header #links a {
-  color: #666;
+.settingsView #main section h1,
+.settingsView #main section h2,
+.settingsView #main section h3,
+.settingsView #main section h4,
+.settingsView #main section h5,
+.settingsView #main section h6 {
+  margin-left: 0.5%;
 }
 .settingsView #main #settingsWrap {
   height: 100%;
   overflow-y: scroll;
   overflow-x: hidden;
-}
-.settingsView #main section header {
-  background-color: #ececec;
-  border-top: 1px solid #bbbbbb;
-  -webkit-border-radius: 0px;
-  -moz-border-radius: 0px;
-  border-radius: 0px;
-  -moz-background-clip: padding;
-  -webkit-background-clip: padding-box;
-  background-clip: padding-box;
-  float: left;
-  width: 100%;
-  margin: 10px 0 10px 0;
-  padding: 5px 0px;
 }
 .settingsView #main section header:before,
 .settingsView #main section header :after {
@@ -3871,8 +4241,40 @@ dd {
   width: 23%;
   margin: 0 1% 0 1%;
 }
-.settingsView #main section button,
-.settingsView #main section input[type=submit] {
+.settingsView #main section .config input:not([type=submit]) {
+  display: inline-block;
+  *display: inline;
+  /* IE7 inline-block hack */
+  *zoom: 1;
+  float: left;
+  width: 14.666666666666668%;
+  margin: 0 1% 0 1%;
+}
+.settingsView #main section .config#nickname button {
+  margin-left: 16.666666666666668% !important;
+}
+.settingsView #main section#safety .config button {
+  display: inline-block;
+  *display: inline;
+  /* IE7 inline-block hack */
+  *zoom: 1;
+  float: left;
+  width: 6.333333333333334%;
+  margin: 0 1% 0 1%;
+  margin-top: -1px;
+  margin-bottom: 10px;
+  height: 40px;
+}
+.settingsView #main section#safety .config .whoMaySeeIt {
+  display: inline-block;
+  *display: inline;
+  /* IE7 inline-block hack */
+  *zoom: 1;
+  float: left;
+  width: 64.66666666666667%;
+  margin: 0 1% 0 1%;
+}
+.settingsView #main section button {
   display: inline-block;
   *display: inline;
   /* IE7 inline-block hack */
@@ -3896,62 +4298,53 @@ dd {
   text-shadow: 0 1px 1px rgba(255, 255, 255, 0.75);
   border: 1px solid #bbbbbb;
   text-decoration: none !important;
+  height: 35px;
 }
-.settingsView #main section button:hover,
-.settingsView #main section input[type=submit]:hover {
+.settingsView #main section button:hover {
   background-color: #ececec;
 }
 .settingsView #main section button:hover,
-.settingsView #main section input[type=submit]:hover,
 .settingsView #main section button:active,
-.settingsView #main section input[type=submit]:active,
 .settingsView #main section button.active,
-.settingsView #main section input[type=submit].active,
 .settingsView #main section button.disabled,
-.settingsView #main section input[type=submit].disabled,
-.settingsView #main section button[disabled],
-.settingsView #main section input[type=submit][disabled] {
+.settingsView #main section button[disabled] {
   background-color: #ececec;
 }
-.settingsView #main section#privacy .config {
-  height: 90px;
+.settingsView #main section button[type=submit] {
+  background-color: #559d00;
+  color: #ffffff;
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
 }
-.settingsView #main section#privacy .config span {
-  display: inline-block;
-  *display: inline;
-  /* IE7 inline-block hack */
-  *zoom: 1;
-  float: left;
-  width: 14.666666666666668%;
-  margin: 0 1% 0 1%;
-  height: 80px;
+.settingsView #main section button[type=submit]:hover,
+.settingsView #main section button[type=submit]:active,
+.settingsView #main section button[type=submit].active,
+.settingsView #main section button[type=submit].disabled,
+.settingsView #main section button[type=submit][disabled] {
+  background-color: #3a8100;
 }
-.settingsView #main section#privacy .config .labelClass {
-  display: inline-block;
-  *display: inline;
-  /* IE7 inline-block hack */
-  *zoom: 1;
-  float: left;
-  width: 48%;
-  margin: 0 1% 0 1%;
+.settingsView #main section button[type=submit][data-encrypted="false"] {
+  background-color: #d83a2e;
+  color: #ffffff;
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
 }
-.settingsView #main section#privacy .config .labelClass label {
-  display: inline-block;
-  *display: inline;
-  /* IE7 inline-block hack */
-  *zoom: 1;
-  float: left;
-  width: 64.66666666666667%;
-  margin: 0 1% 0 1%;
+.settingsView #main section button[type=submit][data-encrypted="false"]:hover,
+.settingsView #main section button[type=submit][data-encrypted="false"]:active,
+.settingsView #main section button[type=submit][data-encrypted="false"].active,
+.settingsView #main section button[type=submit][data-encrypted="false"].disabled,
+.settingsView #main section button[type=submit][data-encrypted="false"][disabled] {
+  background-color: #bd2e23;
 }
-.settingsView #main section#privacy .config .labelClass input {
-  display: inline-block;
-  *display: inline;
-  /* IE7 inline-block hack */
-  *zoom: 1;
-  float: left;
-  width: 31.333333333333336%;
-  margin: 0 1% 0 1%;
+.settingsView #main section button[type=reset] {
+  background-color: #d83a2e;
+  color: #ffffff;
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+}
+.settingsView #main section button[type=reset]:hover,
+.settingsView #main section button[type=reset]:active,
+.settingsView #main section button[type=reset].active,
+.settingsView #main section button[type=reset].disabled,
+.settingsView #main section button[type=reset][disabled] {
+  background-color: #bd2e23;
 }
 .settingsView #main section .notimplemented {
   background-color: #555555;
@@ -4125,7 +4518,7 @@ and (max-device-width : 767px) {
     min-height: 39px;
   }
   .searchBar .formSearch .inputWrap li {
-    display: inline !important;
+    display: inline-block !important;
     line-height: 35px;
     height: 35px;
   }
@@ -4150,7 +4543,7 @@ and (max-device-width : 767px) {
     /* IE7 inline-block hack */
     *zoom: 1;
     float: left;
-    width: 40.85714285714286%;
+    width: 26.571428571428573%;
     margin: 0 1% 0 1%;
     margin: 0;
     display: block;
@@ -4160,10 +4553,9 @@ and (max-device-width : 767px) {
   .searchBar .searchDrop .searchSuggestions {
     width: 100%;
     margin: 0;
-    padding: 0 0 0 0;
     max-height: 390px;
     overflow-y: scroll;
-    padding: 0px 0px 0px 2px;
+    padding: 0;
     -webkit-box-sizing: border-box;
     /* Safari/Chrome, other WebKit */
     -moz-box-sizing: border-box;
@@ -4185,7 +4577,7 @@ and (max-device-width : 767px) {
     /* IE7 inline-block hack */
     *zoom: 1;
     float: left;
-    width: 8.833333333333334%;
+    width: 14.666666666666668%;
     margin: 0 1% 0 1%;
     margin-left: 0;
   }
@@ -4195,7 +4587,7 @@ and (max-device-width : 767px) {
     /* IE7 inline-block hack */
     *zoom: 1;
     float: left;
-    width: 52.16666666666667%;
+    width: 48%;
     margin: 0 1% 0 1%;
     margin: 7px 0 0 3%;
     padding: 0;
@@ -4609,6 +5001,7 @@ and (max-device-width : 767px) {
     width: 50%;
     margin: 0 0 0 0;
     margin: 0!important;
+    height: 20px;
   }
   .messagesView #topicListWrap #topicList .topic.groupChat .left span {
     padding: 2px 0;
@@ -4985,28 +5378,23 @@ and (max-device-width : 767px) {
   .circlesView #circleContainer.newCircle #friendInput {
     height: 150px;
   }
+  .circlesView #circleContainer.newCircle .searchBar .formSearch .inputWrap li.searchField input {
+    width: 100%;
+  }
   .circlesView #circleContainer.newCircle #sendmessage {
     margin-left: 8px;
   }
-  .shareForm {
-    display: inline-block;
-    *display: inline;
-    /* IE7 inline-block hack */
-    *zoom: 1;
-    float: left;
-    width: 98%;
-    margin: 0 1% 0 1%;
+  header #postIt #receiver .inputWrap li.searchField {
+    width: 85%;
   }
-  .shareForm #shareText {
-    display: inline-block;
-    *display: inline;
-    /* IE7 inline-block hack */
-    *zoom: 1;
-    float: left;
-    width: 73%;
-    margin: 0 1% 0 1%;
-    margin-bottom: 10px;
-    margin-left: 20px;
+  header #postIt #receiver .searchDrop {
+    width: 26.8% !important;
+  }
+  header #filter #theFilter .inputWrap li.searchField {
+    width: 161%;
+  }
+  header #filter #theFilter .searchDrop {
+    width: 18.4% !important;
   }
   .posts article {
     display: inline-block;
@@ -5684,7 +6072,7 @@ and (max-device-width : 767px) {
     min-height: 39px;
   }
   .searchBar .formSearch .inputWrap li {
-    display: inline !important;
+    display: inline-block !important;
     line-height: 35px;
     height: 35px;
   }
@@ -5719,10 +6107,9 @@ and (max-device-width : 767px) {
   .searchBar .searchDrop .searchSuggestions {
     width: 100%;
     margin: 0;
-    padding: 0 0 0 0;
     max-height: 390px;
     overflow-y: scroll;
-    padding: 0px 0px 0px 2px;
+    padding: 0;
     -webkit-box-sizing: border-box;
     /* Safari/Chrome, other WebKit */
     -moz-box-sizing: border-box;
@@ -5744,7 +6131,7 @@ and (max-device-width : 767px) {
     /* IE7 inline-block hack */
     *zoom: 1;
     float: left;
-    width: 8.833333333333334%;
+    width: 10.5%;
     margin: 0 1% 0 1%;
     margin-left: 0;
   }
@@ -5840,6 +6227,9 @@ and (max-device-width : 767px) {
     height: 35px;
     line-height: 35px;
     padding: 0;
+  }
+  #topNav .searchBar .formSearch .inputWrap li.searchField {
+    width: 20%;
   }
   #topNav .searchBar .formSearch .inputWrap li.searchField input {
     padding: 0px 10px;
@@ -6164,9 +6554,10 @@ and (max-device-width : 767px) {
     width: 50%;
     margin: 0 0 0 0;
     margin: 0!important;
+    height: 40px;
   }
   .messagesView #topicListWrap #topicList .topic.groupChat .left span {
-    padding: 5px 0;
+    padding: 10px 0;
     font-size: 0.78em;
     text-align: center;
   }
@@ -6544,28 +6935,23 @@ and (max-device-width : 767px) {
   .circlesView #circleContainer.newCircle #friendInput {
     height: 150px;
   }
+  .circlesView #circleContainer.newCircle .searchBar .formSearch .inputWrap li.searchField input {
+    width: 92%;
+  }
   .circlesView #circleContainer.newCircle #sendmessage {
     margin-left: 8px;
   }
-  .shareForm {
-    display: inline-block;
-    *display: inline;
-    /* IE7 inline-block hack */
-    *zoom: 1;
-    float: left;
-    width: 98%;
-    margin: 0 1% 0 1%;
+  header #postIt #receiver .inputWrap li.searchField {
+    width: 70%;
   }
-  .shareForm #shareText {
-    display: inline-block;
-    *display: inline;
-    /* IE7 inline-block hack */
-    *zoom: 1;
-    float: left;
-    width: 69.42857142857143%;
-    margin: 0 1% 0 1%;
-    margin-bottom: 10px;
-    margin-left: 20px;
+  header #postIt #receiver .searchDrop {
+    width: 28.2% !important;
+  }
+  header #filter #theFilter .inputWrap li.searchField {
+    width: 120%;
+  }
+  header #filter #theFilter .searchDrop {
+    width: 19.4% !important;
   }
   .posts article {
     display: inline-block;
@@ -6610,13 +6996,7 @@ and (max-device-width : 767px) {
     /* Opera/IE 8+ */
   }
   .posts article .postContent .postImage img {
-    display: inline-block;
-    *display: inline;
-    /* IE7 inline-block hack */
-    *zoom: 1;
-    float: left;
-    width: 98%;
-    margin: 0 1% 0 1%;
+    max-width: 98%;
     -webkit-border-radius: 5px;
     -moz-border-radius: 5px;
     border-radius: 5px;
@@ -7256,7 +7636,7 @@ and (max-device-width : 767px) {
     min-height: 39px;
   }
   .searchBar .formSearch .inputWrap li {
-    display: inline !important;
+    display: inline-block !important;
     line-height: 35px;
     height: 35px;
   }
@@ -7404,6 +7784,9 @@ and (max-device-width : 767px) {
     height: 35px;
     line-height: 35px;
     padding: 0;
+  }
+  #topNav .searchBar .formSearch .inputWrap li.searchField {
+    width: 20%;
   }
   #topNav .searchBar .formSearch .inputWrap li.searchField input {
     padding: 0px 10px;
@@ -7700,9 +8083,10 @@ and (max-device-width : 767px) {
     width: 50%;
     margin: 0 0 0 0;
     margin: 0!important;
+    height: 50px;
   }
   .messagesView #topicListWrap #topicList .topic.groupChat .left span {
-    padding: 9px 0;
+    padding: 15px 0;
     text-align: center;
   }
   .messagesView #topicWrap {
@@ -8068,28 +8452,23 @@ and (max-device-width : 767px) {
   .circlesView #circleContainer.newCircle #friendInput {
     height: 150px;
   }
-  .circlesView #circleContainer.newCircle #sendmessage {
+  .circlesView #circleContainer.newCircle .searchBar .formSearch .inputWrap li.searchField input {
+    width: 50%;
+  }
+  .circlesView #circleContainer.newCircle #savecircle {
     margin-left: 8px;
   }
-  .shareForm {
-    display: inline-block;
-    *display: inline;
-    /* IE7 inline-block hack */
-    *zoom: 1;
-    float: left;
-    width: 98%;
-    margin: 0 1% 0 1%;
+  header #postIt #receiver .inputWrap li.searchField {
+    width: 40%;
   }
-  .shareForm #shareText {
-    display: inline-block;
-    *display: inline;
-    /* IE7 inline-block hack */
-    *zoom: 1;
-    float: left;
-    width: 69.42857142857143%;
-    margin: 0 1% 0 1%;
-    margin-bottom: 10px;
-    margin-left: 20px;
+  header #postIt #receiver .searchDrop {
+    width: 30.7% !important;
+  }
+  header #filter #theFilter .inputWrap li.searchField {
+    width: 80%;
+  }
+  header #filter #theFilter .searchDrop {
+    width: 21.2% !important;
   }
   .posts article {
     display: inline-block;
@@ -8134,13 +8513,7 @@ and (max-device-width : 767px) {
     /* Opera/IE 8+ */
   }
   .posts article .postContent .postImage img {
-    display: inline-block;
-    *display: inline;
-    /* IE7 inline-block hack */
-    *zoom: 1;
-    float: left;
-    width: 98%;
-    margin: 0 1% 0 1%;
+    max-width: 98%;
     -webkit-border-radius: 5px;
     -moz-border-radius: 5px;
     border-radius: 5px;
@@ -8469,6 +8842,11 @@ and (max-device-width : 767px) {
     width: 48%;
     margin: 0 1% 0 1%;
     margin: 10px 1% 10px 1%;
+  }
+  .profileView #main #info article#generalInfo .actions .addToCirlce button {
+    float: left;
+    margin-top: -30px;
+    margin-left: 45%;
   }
   .profileView #main #info article#generalInfo .actions .sendMessage {
     display: inline-block;

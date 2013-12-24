@@ -1,10 +1,10 @@
 define(function () {
 	"use strict";
-	return function() {
+	return function($timeout) {
 		return {
 			link: function(scope, elm, attrs) {
 				elm.bind("focus", function() {
-					scope.$apply(function() {
+					$timeout(function() {
 						scope.$eval(attrs.onfocus);
 					});
 				});

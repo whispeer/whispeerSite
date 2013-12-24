@@ -388,8 +388,8 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 			var cryptor;
 			step(function addSymD1() {
 				SymKey.get(realid, this);
-			}, h.sF(function addSymD2(theKey) {
-				cryptor = theKey;
+			}, h.sF(function addSymD2(cryptorKey) {
+				cryptor = cryptorKey;
 				theKey.decryptKey(this);
 			}), h.sF(function addSymD3() {
 				var secret = preSecret || internalSecret;
@@ -502,7 +502,6 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 
 			return false;
 		}
-
 		this.getSecret = getSecretF;
 	};
 
@@ -515,7 +514,7 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 	* implements all symmetric key functions.
 	*/
 	SymKey = function (keyData) {
-		var intKey;
+		var intKey, comment = "";
 
 		if (keyData) {
 			if (typeof keyData === "string") {
@@ -533,7 +532,8 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 			var data = {
 				realid: intKey.getRealID(),
 				type: "sym",
-				decryptors: this.getDecryptorData()
+				decryptors: this.getDecryptorData(),
+				comment: comment
 			};
 
 			return data;
@@ -551,6 +551,12 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 
 		this.decryptKey = intKey.decryptKey;
 		this.getFastestDecryptor = intKey.getFastestDecryptor;
+
+		this.setComment = function setCommentF(theComment) {
+			if (theComment) {
+				comment = theComment;
+			}
+		};
 
 		/** encrypt a text.
 		* @param text text to encrypt
@@ -615,6 +621,21 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 
 		this.encrypt = encryptF;
 		this.decrypt = decryptF;
+
+		function encryptAndJsonifyF(text, callback, iv) {
+			step(function () {
+				encryptF(text, this, iv);
+			}, h.sF(function (encrypted) {
+				this.ne(JSON.stringify(encrypted));
+			}), callback);
+		}
+
+		function decryptJsonifiedF(ctext, callback, iv) {
+			decryptF(JSON.parse(ctext), callback, iv);
+		}
+
+		this.encryptAndJsonify = encryptAndJsonifyF;
+		this.decryptJsonified = decryptJsonifiedF;
 	};
 
 	/** make a symkey out of keydata */
@@ -667,13 +688,15 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 	/** generates a symmetric key
 	* @param callback callback
 	*/
-	function symKeyGenerate(callback) {
+	function symKeyGenerate(callback, comment) {
 		step(function symGenI1() {
 			this.ne(new SymKey());
 		}, h.sF(function symGenI2(key) {
 			if (!symKeys[key.getRealID()]) {
 				symKeys[key.getRealID()] = key;
 				newKeys.push(key);
+
+				key.setComment(comment);
 
 				this.ne(symKeys[key.getRealID()]);
 			} else {
@@ -689,7 +712,7 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 	* @param keyData keys data.
 	*/
 	CryptKey = function (keyData) {
-		var publicKey, intKey, x, y, curve, point, realid, isPrivateKey = false;
+		var publicKey, intKey, x, y, curve, point, realid, isPrivateKey = false, comment = "";
 
 		if (!keyData || !keyData.point || !keyData.point.x || !keyData.point.y || !keyData.curve || !keyData.realid) {
 			throw "invalid data";
@@ -744,10 +767,17 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 					},
 					curve: chelper.getCurveName(publicKey._curve),
 					type: "crypt",
-					decryptors: this.getDecryptorData()
+					decryptors: this.getDecryptorData(),
+					comment: comment
 				};
 
 				return data;
+			};
+
+			this.setComment = function setCommentF(theComment) {
+				if (theComment) {
+					comment = theComment;
+				}
 			};
 
 			this.getDecryptorData = intKey.getDecryptorData;
@@ -833,7 +863,7 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 	* @param curve curve to use
 	* @param callback callback
 	*/
-	function cryptKeyGenerate(curve, callback) {
+	function cryptKeyGenerate(curve, callback, comment) {
 		step(function cryptGenI1() {
 			waitForReady(this);
 		}, h.sF(function () {
@@ -848,13 +878,15 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 				},
 				exponent: chelper.bits2hex(sec._exponent.toBits()),
 				realid: generateid(),
-				curve: chelper.getCurveName(pub._curve)
+				curve: chelper.getCurveName(pub._curve),
+				comment: comment
 			};
 			/*jslint nomen: false*/
 
 			var key = makeCryptKey(data);
-
 			newKeys.push(key);
+
+			key.setComment(comment);
 
 			this.ne(key);
 		}), callback);
@@ -867,7 +899,7 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 	* @param keyData sign key data
 	*/
 	SignKey = function (keyData) {
-		var publicKey, intKey, x, y, curve, point, realid, isPrivateKey = false;
+		var publicKey, intKey, x, y, curve, point, realid, isPrivateKey = false, comment = "";
 
 		if (!keyData || !keyData.point || !keyData.point.x || !keyData.point.y || !keyData.curve || !keyData.realid) {
 			throw "invalid data";
@@ -923,13 +955,20 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 					},
 					curve: chelper.getCurveName(publicKey._curve),
 					type: "sign",
-					decryptors: this.getDecryptorData()
+					decryptors: this.getDecryptorData(),
+					comment: comment
 				};
 
 				return data;
 			};
 
 			this.getDecryptorData = intKey.getDecryptorData;
+
+			this.setComment = function setCommentF(theComment) {
+				if (theComment) {
+					comment = theComment;
+				}
+			};
 		}
 
 		function signF(hash, callback) {
@@ -993,7 +1032,7 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 	* @param curve curve for the key
 	* @param callback callback
 	*/
-	function signKeyGenerate(curve, callback) {
+	function signKeyGenerate(curve, callback, comment) {
 		step(function signGenI1() {
 			waitForReady(this);
 		}, h.sF(function () {
@@ -1014,6 +1053,8 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 
 			var key = makeSignKey(data);
 			newKeys.push(key);
+
+			key.setComment(comment);
 
 			this.ne(key);
 		}), callback);
@@ -1184,6 +1225,9 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 	/** our interface */
 	keyStore = {
 		reset: function reset() {
+			dirtyKeys = [];
+			newKeys = [];
+			keyGenIdentifier = "";
 			symKeys = {};
 			cryptKeys = {};
 			signKeys = {};
@@ -1260,12 +1304,27 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 
 				return addKeys;
 			},
-			getDecryptors: function () {
+			getDecryptors: function (allowed, allowedEncryptors) {
 				var addKeyDecryptors = {};
 
-				var i;
+				var i, j, decryptors, encryptorFilter;
 				for (i = 0; i < dirtyKeys.length; i += 1) {
-					addKeyDecryptors[dirtyKeys[i].getRealID()] = dirtyKeys[i].getDecryptorData();
+					if (allowed.indexOf(dirtyKeys[i].getRealID()) !== -1) {
+						decryptors = dirtyKeys[i].getDecryptorData();
+						
+						if (allowedEncryptors) {
+							encryptorFilter = [];
+							for (j = 0; j < decryptors.length; j += 1) {
+								if (allowedEncryptors.indexOf(decryptors[j].decryptorid) !== -1) {
+									encryptorFilter.push(decryptors[j]);
+								}
+							}
+
+							decryptors = encryptorFilter;
+						}
+
+						addKeyDecryptors[dirtyKeys[i].getRealID()] = decryptors;
+					}
 				}
 
 				return addKeyDecryptors;
@@ -1328,11 +1387,11 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 			/** generate a key
 			* @param callback callback
 			*/
-			generateKey: function generateKeyF(callback) {
+			generateKey: function generateKeyF(callback, comment) {
 				step(function symGen1() {
 					waitForReady(this);
 				}, h.sF(function () {
-					SymKey.generate(this);
+					SymKey.generate(this, comment);
 				}), h.sF(function symGen2(key) {
 					var r = key.getRealID();
 
@@ -1468,9 +1527,9 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 			/** generate a key
 			* @param callback callback
 			*/
-			generateKey: function generateKeyF(callback) {
+			generateKey: function generateKeyF(callback, comment) {
 				step(function cryptGen1() {
-					CryptKey.generate("256", this);
+					CryptKey.generate("256", this, comment);
 				}, h.sF(function cryptGen2(key) {
 					var r = key.getRealID();
 
@@ -1509,9 +1568,9 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 			/** generate a key
 			* @param callback callback
 			*/
-			generateKey: function generateKeyF(callback) {
+			generateKey: function generateKeyF(callback, comment) {
 				step(function signGen1() {
-					SignKey.generate("256", this);
+					SignKey.generate("256", this, comment);
 				}, h.sF(function signGen2(key) {
 					var r = key.getRealID();
 

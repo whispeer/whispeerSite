@@ -9,9 +9,9 @@
 	</menu>
 </nav>
 <div id="wrap">
-	<div id="scroller">
+	<div id="scroller" class="box">
 		<section id="info">
-			<article class="box" id="generalInfo">
+			<article id="generalInfo">
 				<header>
 					<span data-i18n="profile.section.general.headers.title"></span>
 					<a href="" class="edit" data-i18n="profile.edit" data-ng-show="user.data.me" data-ng-click="edit()"></a>
@@ -111,21 +111,23 @@
 							</span>
 						</span>
 					</p>
+					<p id="save" data-ng-show="editGeneral"><button data-ng-click="" class="btn btn-green"><i class="icon-ok-circle"></i> Speichern</button></p>
 				</div>
 				<div class="actions">
-					<a href="" class="addFriend" ng-if="!user.added"><span data-i18n="profile.actions.addFriend|user={{user.name}}"></span></a>
+					<a href="" class="addFriend" ng-if="!user.data.me && !user.added" data-ng-click="user.addFriend()"><span data-i18n="profile.actions.addFriend|user={{user.name}}"></span></a>
 					<div class="addToCirlce" ng-if="user.added">
-						<search placeholder="profile.actions.addToCircle|placeholder|user={{user.name}}"></search>
+						<circlesearch data-input-i18n-attr="profile.actions.addToCircle|placeholder|user={{user.name}}" data-user="user.id"></circlesearch>
+						<button class="btn btn-green" id="circleSubmit"><i class="icon icon-ok-circle"></i></button>
 					</div>
-					<a href="" class="sendMessage"><span data-i18n="profile.actions.sendMessage|user={{user.name}}"></span></a>
+					<a href="/messages?userid={{user.id}}" class="sendMessage"><span data-i18n="profile.actions.sendMessage|user={{user.name}}"></span></a>
 				</div>
 			</article>
 		</section>
-		<section class="box" id="wall">
+		<section id="wall">
 			<header  data-i18n="profile.section.wall.title"></header>
 			<post data-ng-repeat="post in posts" data-post="post" id="{{post.id}}"></post>
 		</section>
-		<section class="box" id="friends">
+		<section id="friends">
 			<header data-i18n="profile.section.friends.info"></header>
 			<ol id="friendsList" class="unstyled">
 				<li class="person" data-ng-repeat="friend in friends" style="background-image: url({{friend.image}})">

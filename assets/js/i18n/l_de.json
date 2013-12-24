@@ -1,4 +1,23 @@
 {
+	"views": {
+		"circles": {
+			"searchFriends": "Gebe die Namen deiner Freunde ein, die du zum Kreis hinzufügen möchtest!",
+			"titleForNew": "Gebe einen Titel für den neuen Kreis ein!", 
+			"header": {
+				"title":	"Kreise",
+				"createGroup": "Als Gruppe kopieren",
+				"sendMessage": "Nachricht an Kreis",
+				"addPeople":	"Personen hinzufügen"
+			},
+			"newCircle":	"Neuen Kreis anlegen",
+			"personCount":	"Es befinden sich {count} Personen in diesem Kreis",
+			"personsInCircle":"Personen im Kreis \"{name}\""
+		}
+	},
+	"directives": {
+		"allfriends": "Alle Freunde",
+		"friendsofriends": "Freunde von Freunden"
+	},
 	"general": {
 		"send":	"Absenden",
 		"cancel":	"Abbrechen"
@@ -35,13 +54,14 @@
 	"search": "Personen werden gesucht",
 	"menu": {
 		"profil": "Profil",
-		"friends": "Freunde",
+		"friends": "Freunde ({count})",
 		"messages": "Nachrichten",
 		"media": "Medien",
 		"circles": "Kreise",
 		"settings": "Einstellungen",
 		"help": "Hilfe",
-		"logout": "Logout"
+		"logout": "Logout",
+		"search": "Suchen..."
 	},
 	"login": {
 		"username": "Benutzername",
@@ -90,6 +110,7 @@
 	},
 	"messages": {
 		"newMessage": "Neue Nachricht",
+		"search": "Wer soll diese Nachricht empfangen?",
 		"sendMessage": {
 			"text": "Gib deine Nachricht ein!",
 			"send": "Senden"
@@ -241,17 +262,6 @@
 			}
 		}
 	},
-	"circles": {
-		"header": {
-			"title":	"Kreise",
-			"createGroup": "Als Gruppe kopieren",
-			"sendMessage": "Nachricht an Kreis",
-			"addPeople":	"Personen hinzufügen"
-		},
-		"newCircle":	"Neuen Kreis anlegen",
-		"personCount":	"Es befinden sich {count} Personen in diesem Kreis",
-		"personsInCircle":"Personen im Kreis \"{name}\""
-	},
 	"settings": {
 		"header": {
 			"title":	"Einstellungen"
@@ -266,7 +276,7 @@
 			"title": "Anfragen",
 			"mutuals": "{count} gemeinsame Freunde",
 			"accept":	"Annehmen",
-			"decline":	"Ablehnen"
+			"decline":	"Ignorieren"
 		},
 		"settings": {
 			"title": "Optionen"

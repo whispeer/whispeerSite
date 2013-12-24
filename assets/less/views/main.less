@@ -20,12 +20,54 @@
 				padding: 0;
 				border: 1px solid #aaa;
 				.border-radius(5px);
+				overflow: hidden;
 				.box-fix;
 				#receiver {
 					.column(5.5,8,left,0);
 					border: none;
-					.border-radiuses(0,0,0,5px);
 					height: 38px;
+					.inputWrap {
+						border: none;
+						border-top: 1px solid #aaa;
+						.border-radius(0px);
+						overflow-y: hidden;
+						overflow-x: scroll;
+						white-space: nowrap;
+						text-align: left;
+						li {
+							white-space: nowrap;
+							&.searchField {
+								height: 35px;
+								line-height: 35px;
+								float: none;
+								margin: 0;
+								input {
+									width: 100%;
+									height: 35px;
+									line-height: 35px;
+								}
+							}
+							&.searchResult {
+								max-width: none;
+								padding: 0 5px 0 5px !important;
+							}
+						}
+					}
+					.searchDrop {
+						margin-top: 5px;
+					}
+				}
+				button {
+					.btn;
+					border: none;
+					border-top: 1px solid #aaa;
+					.column(2.5,8,right,0);
+					height: 38px;
+					padding: 7px;
+					.border-radius(0);
+					&[type="submit"] {
+						.btn-success;
+					}
 				}
 				#shareText {
 					.column(8,8,left,0);
@@ -33,18 +75,7 @@
 					margin-top: -1px;
 					border: none;
 					border-top: 1px solid #aaa;
-					.border-radiuses(0, 5px, 5px, 0);
-				}
-				button {
-					.btn;
-					border: none;
-					.column(2.5,8,right,0);
-					height: 38px;
-					padding: 7px;
-					.border-radiuses(4px, 0, 0, 0);
-					&[type="submit"] {
-						.btn-success;
-					}
+					.border-radius(0);
 				}
 			}	
 			#filter {
@@ -64,10 +95,37 @@
 				}
 				#theFilter {
 					.column(12,12);
-					margin-top: 5px;
+					margin: 0;
 					height: 42px;
 					padding: 5px;
 					resize: none;
+					.inputWrap {
+						overflow-y: hidden;
+						overflow-x: scroll;
+						white-space: nowrap;
+						text-align: left;
+						li {
+							white-space: nowrap;
+							&.searchField {
+								height: 35px;
+								line-height: 35px;
+								float: none;
+								margin: 0;
+								input {
+									width: 100%;
+									height: 35px;
+									line-height: 35px;
+								}
+							}
+							&.searchResult {
+								max-width: none;
+								padding: 0 5px 0 5px !important;
+							}
+						}
+					}
+					.searchDrop {
+						margin-top: 5px;
+					}	
 				}
 			}
 		}
