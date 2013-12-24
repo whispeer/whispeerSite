@@ -1,11 +1,11 @@
 <div class="inputWrap" data-enter="nextRegisterStep()">
-	<div data-tooltip-title="{{attribute.hoverText}}" data-tooltip-position="left">
+	<div class="hint--top" data-hint="{{attribute.hoverText}}">
 		<input type="text" id="rnickname" data-i18n-attr="login.username|placeholder" data-ng-model="$parent.nickname" data-ng-model-onblur data-ng-change="nicknameChange()">
 		<span class="icon" id="rnicknameIcon">
 			<img data-ng-src="{{acceptIconNicknameFree()}}" alt="Ok!">
 		</span>
 	</div>
-	<div data-tooltip-position="right" data-tooltip-title="{{attribute.hoverText}}">
+	<div class="hint--top" data-hint="{{attribute.hoverText}}">
 		<input type="password" id="rpassword" data-i18n-attr="login.password|placeholder" data-ng-model="$parent.password">
 		<span class="icon" id="rpasswordIcon" data-strength="{{passwordStrength()}}"></span>
 	</div>
