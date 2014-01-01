@@ -49,6 +49,11 @@ define(["step", "whispeerHelper"], function () {
 					return (focused || clicked) && scope.results.length > 0;
 				};
 
+				scope.hide = function () {
+					focused = false;
+					clicked = false;
+				};
+
 				scope.click = function (bool) {
 					if (bool) {
 						input.focus();

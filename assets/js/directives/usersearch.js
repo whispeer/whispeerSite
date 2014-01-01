@@ -17,6 +17,15 @@ define(["step", "whispeerHelper"], function (step, h) {
 					scope.resultTemplate = "/assets/views/directives/userSearchResultsSmall.html";
 				}
 
+				scope.addFriend = function () {
+					debugger;
+				};
+
+				scope.sendMessage = function (data) {
+					$location.path("/messages").search("userid=" + data.id);
+					scope.hide();
+				};
+
 				if (iAttrs["user"]) {
 					var theUser;
 					var user = h.parseDecimal(scope.$parent.$eval(iAttrs["user"]));
