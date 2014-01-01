@@ -2577,13 +2577,23 @@ dd {
   padding-top: 10px;
   margin-top: -100px;
   text-align: center;
-  border-bottom: 1px solid #bbb;
   height: 100px;
   z-index: 1000;
+  -webkit-box-shadow: 0 2px 4px -2px #559d00;
+  -moz-box-shadow: 0 2px 4px -2px #559d00;
   box-shadow: 0 2px 4px -2px #559d00;
-  -webkit-border-radius: 2px;
-  -moz-border-radius: 2px;
-  border-radius: 2px;
+  -webkit-border-top-right-radius: 2px;
+  -webkit-border-bottom-right-radius: 0;
+  -webkit-border-bottom-left-radius: 0;
+  -webkit-border-top-left-radius: 2px;
+  -moz-border-radius-topright: 2px;
+  -moz-border-radius-bottomright: 0;
+  -moz-border-radius-bottomleft: 0;
+  -moz-border-radius-topleft: 2px;
+  border-top-right-radius: 2px;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+  border-top-left-radius: 2px;
   -moz-background-clip: padding;
   -webkit-background-clip: padding-box;
   background-clip: padding-box;
@@ -4565,6 +4575,7 @@ dd {
   height: 100%;
   overflow-y: scroll;
   overflow-x: hidden;
+  position: relative;
 }
 .settingsView #main section header:before,
 .settingsView #main section header :after {
