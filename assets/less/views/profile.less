@@ -1,11 +1,28 @@
 .profileView {
+	.box {
+		border-top: none !important;
+		.border-radiuses(0,5px,5px,0);
+		article,section {
+			border: none !important;
+		}
+		header {
+			.border-radius(~"0 !important");
+			.box-sizing(~"content-box !important");
+		}
+		section {
+			header {
+				margin-top: -1px !important;
+			}
+		}
+	}
 	#main {
 		nav {
-			.border-radius(20px);
+			.border-radiuses(10px,0,0,10px);
 			.gradient(darken(@btnBackground, 2%), @btnBackgroundHighlight);
 			border: 1px solid @btnBorder;
 			border-bottom: 1px solid #000;
 			border-bottom-color: darken(@btnBorder, 10%);
+			.box-fix;
 			heading {
 				h3 {
 					// Awesome features for webkit-browsers!
@@ -53,10 +70,6 @@
 		#info {
 			article {
 				background-color: @btnBackgroundHighlight;
-				border: 1px solid @btnBorder;
-				border-bottom: 1px solid #000;
-				border-bottom-color: darken(@btnBorder, 10%);
-				.border-radius(5px);
 				.box-fix;
 				input {
 					padding: 2px !important;
