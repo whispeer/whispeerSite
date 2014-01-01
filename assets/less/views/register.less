@@ -159,6 +159,64 @@
 								margin: 9px 0 11px 0;
 							}
 						}
+						&#rpasswordIcon {
+							// TODO: nicer colors, color transisitons
+							background-repeat: no-repeat;
+							background-position: center center;
+							background-color: #ff0000;
+							.background-size(10px);
+							.border-radius(50px);
+							background-position: center center;
+							width: 20px;
+							height: 20px;
+							float: left;
+							margin: 10px 0 0 9.6px;
+							.box-fix;
+							&[data-strength="0"] {
+								background-color: #ff0000;
+								background-image: url('../img/lock_open.png');
+							}
+							&[data-strength="1"] {
+								background-color: #ff4d00;
+								background-image: url('../img/lock_open.png');
+							}
+							&[data-strength="2"] {
+								background-color: #ff7700;
+								background-image: url('../img/lock_open.png');
+							}
+							&[data-strength="3"] {
+								background-color: #ffa200;
+								background-image: url('../img/lock_open.png');
+							}
+							&[data-strength="4"] {
+								background-color: #ffc400;
+								background-image: url('../img/lock_closed.png');
+							}
+							&[data-strength="5"] {
+								background-color: #ffff00;
+								background-image: url('../img/lock_closed.png');
+							}
+							&[data-strength="6"] {
+								background-color: #cdff00;
+								background-image: url('../img/lock_closed.png');
+							}
+							&[data-strength="7"] {
+								background-color: #afff00;
+								background-image: url('../img/lock_closed.png');
+							}
+							&[data-strength="8"] {
+								background-color: #80ff00;
+								background-image: url('../img/lock_closed.png');
+							}
+							&[data-strength="9"] {
+								background-color: #62ff00;
+								background-image: url('../img/lock_closed.png');
+							}
+							&[data-strength="10"] {
+								background-color: #11ff00;
+								background-image: url('../img/lock_closed.png');
+							}
+						}
 					}
 					&.uploadImageForm {
 						.btn;
