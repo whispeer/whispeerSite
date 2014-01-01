@@ -2820,12 +2820,6 @@ dd {
 }
 .mainView #wall .posts article {
   border-bottom: 1px solid #bbb;
-  -webkit-border-radius: 5px;
-  -moz-border-radius: 5px;
-  border-radius: 5px;
-  -moz-background-clip: padding;
-  -webkit-background-clip: padding-box;
-  background-clip: padding-box;
   height: auto !important;
 }
 .mainView #wall .posts article .userimg {
@@ -3210,7 +3204,7 @@ dd {
   background-clip: padding-box;
 }
 .profileView #main #wall article {
-  border-bottom: 1px solid #aaa;
+  border-bottom: 1px solid #aaa !important;
 }
 .profileView #main #wall article .userimg {
   border-radius: 10px;
@@ -3340,7 +3334,7 @@ dd {
   margin-top: 10px;
 }
 .profileView #main #wall article:last-child {
-  border: none;
+  border: none !important;
 }
 .profileView #main #friends {
   display: inline-block;
@@ -7761,8 +7755,8 @@ and (max-device-width : 767px) {
     /* IE7 inline-block hack */
     *zoom: 1;
     float: left;
-    width: 98%;
-    margin: 0 1% 0 1%;
+    width: 100%;
+    margin: 0 0 0 0;
   }
   .profileView #main #wall article .userimg {
     display: inline-block;
