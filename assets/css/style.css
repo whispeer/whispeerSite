@@ -2257,13 +2257,41 @@ body.loading:after {
   margin: 0 auto 5px auto;
   height: 40px;
   display: block;
+  float: left;
   padding: 0;
 }
-.registerView section #registerForm .inputWrap div input {
+.registerView section #registerForm .inputWrap div input,
+.registerView section #registerForm .inputWrap div select,
+.registerView section #registerForm .inputWrap div label {
   width: 80%;
   float: left;
   height: 40px;
   margin: 0 0 0 10%;
+  text-align: left;
+}
+.registerView section #registerForm .inputWrap div select {
+  height: 10px;
+  margin-top: 10px;
+}
+.registerView section #registerForm .inputWrap div#birthday {
+  width: 80%;
+  margin: 0 10% 5px 10%;
+}
+.registerView section #registerForm .inputWrap div#birthday label {
+  width: 15%;
+  margin: 10px 0 0;
+}
+.registerView section #registerForm .inputWrap div#birthday select {
+  margin: 10px 1% 0 1%;
+}
+.registerView section #registerForm .inputWrap div#birthday select.day {
+  width: 10%;
+}
+.registerView section #registerForm .inputWrap div#birthday select.month {
+  width: 30%;
+}
+.registerView section #registerForm .inputWrap div#birthday select.year {
+  width: 20%;
 }
 .registerView section #registerForm .inputWrap div .icon {
   height: 40px;
@@ -2352,7 +2380,13 @@ body.loading:after {
   background-image: url('../img/lock_closed.png');
 }
 .registerView section #registerForm .inputWrap div.uploadImageForm {
-  display: inline-block;
+  cursor: pointer;
+  width: 60%;
+  margin: 0 20% 5px 20%;
+  overflow: hidden;
+  position: relative;
+}
+.registerView section #registerForm .inputWrap div.uploadImageForm #uploadButton {
   *display: inline;
   /* IE7 inline-block hack */
   *zoom: 1;
@@ -2379,36 +2413,34 @@ body.loading:after {
   color: #ffffff;
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
   cursor: pointer;
-  width: 60%;
+  width: 100%;
   margin: 0 20% 5px 20%;
-  overflow: hidden;
-}
-.registerView section #registerForm .inputWrap div.uploadImageForm:hover {
-  background-color: #ececec;
-}
-.registerView section #registerForm .inputWrap div.uploadImageForm:hover,
-.registerView section #registerForm .inputWrap div.uploadImageForm:active,
-.registerView section #registerForm .inputWrap div.uploadImageForm.active,
-.registerView section #registerForm .inputWrap div.uploadImageForm.disabled,
-.registerView section #registerForm .inputWrap div.uploadImageForm[disabled] {
-  background-color: #ececec;
-}
-.registerView section #registerForm .inputWrap div.uploadImageForm:hover,
-.registerView section #registerForm .inputWrap div.uploadImageForm:active,
-.registerView section #registerForm .inputWrap div.uploadImageForm.active,
-.registerView section #registerForm .inputWrap div.uploadImageForm.disabled,
-.registerView section #registerForm .inputWrap div.uploadImageForm[disabled] {
-  background-color: #3a8100;
-}
-.registerView section #registerForm .inputWrap div.uploadImageForm #uploadButton {
   display: inline-block;
   margin: 4px 0;
-  z-index: 1;
+  z-index: 10000 !important;
+}
+.registerView section #registerForm .inputWrap div.uploadImageForm #uploadButton:hover {
+  background-color: #ececec;
+}
+.registerView section #registerForm .inputWrap div.uploadImageForm #uploadButton:hover,
+.registerView section #registerForm .inputWrap div.uploadImageForm #uploadButton:active,
+.registerView section #registerForm .inputWrap div.uploadImageForm #uploadButton.active,
+.registerView section #registerForm .inputWrap div.uploadImageForm #uploadButton.disabled,
+.registerView section #registerForm .inputWrap div.uploadImageForm #uploadButton[disabled] {
+  background-color: #ececec;
+}
+.registerView section #registerForm .inputWrap div.uploadImageForm #uploadButton:hover,
+.registerView section #registerForm .inputWrap div.uploadImageForm #uploadButton:active,
+.registerView section #registerForm .inputWrap div.uploadImageForm #uploadButton.active,
+.registerView section #registerForm .inputWrap div.uploadImageForm #uploadButton.disabled,
+.registerView section #registerForm .inputWrap div.uploadImageForm #uploadButton[disabled] {
+  background-color: #3a8100;
 }
 .registerView section #registerForm .inputWrap div.uploadImageForm #filesUpload {
-  margin: -4px 0 0 -300px;
-  height: 40px;
-  width: 4000px;
+  position: absolute;
+  margin: -34px 0 0 -250px;
+  height: 30px;
+  width: 100%;
   opacity: 0;
   -webkit-border-radius: 0;
   -moz-border-radius: 0;
@@ -2417,7 +2449,9 @@ body.loading:after {
   -webkit-background-clip: padding-box;
   background-clip: padding-box;
   cursor: pointer;
-  z-index: 9999;
+  display: inline-block;
+  z-index: 10001 !important;
+  background-color: red;
 }
 .registerView section #registerForm .inputWrap div#canvasWrapper {
   width: 600px;
@@ -2451,7 +2485,7 @@ body.loading:after {
   display: inline-block;
   vertical-align: bottom;
   width: 100%;
-  float: right;
+  float: left;
 }
 .registerView section #registerForm .submitWrap button {
   display: inline-block;
@@ -2563,10 +2597,13 @@ body.loading:after {
   margin-left: -1px;
 }
 .registerView section #registerForm[data-regStep="2"] .inputWrap {
-  margin-top: 51.5px;
+  margin-top: 10px;
 }
 .registerView section #registerForm[data-regStep="2"] .submitWrap {
-  margin-top: 51.5px;
+  margin-top: 13px;
+}
+.registerView section #registerForm[data-regStep="3"] .submitWrap {
+  margin-top: -27px;
 }
 .registerView a {
   text-decoration: underline;

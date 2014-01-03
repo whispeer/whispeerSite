@@ -134,12 +134,38 @@
 					margin: 0 auto 5px auto;
 					height: 40px;
 					display: block;
+					float: left;
 					padding: 0;
-					input {
+					input, select, label {
 						width: 80%;
 						float: left;
 						height: 40px;
 						margin: 0 0 0 10%;
+						text-align: left;
+					}
+					select {
+						height: 10px;
+						margin-top: 10px;
+					}
+					&#birthday {
+						width: 80%;
+						margin: 0 10% 5px 10%;
+						label {
+							width: 15%;
+							margin: 10px 0 0;
+						}
+						select {
+							margin: 10px 1% 0 1%;
+							&.day {
+								width: 10%;
+							}
+							&.month {
+								width: 30%;
+							}
+							&.year {
+								width: 20%;
+							}
+						}
 					}
 					.icon {
 						height: 40px;
@@ -219,28 +245,33 @@
 						}
 					}
 					&.uploadImageForm {
-						.btn;
-						.btn-green;
 						cursor: pointer;
 						width: 60%;
 						margin:0 20% 5px 20%;
 						overflow: hidden;
+						position: relative;
 						#uploadButton {
+							.btn;
+							.btn-green;
+							cursor: pointer;
+							width: 100%;
+							margin:0 20% 5px 20%;
 							display: inline-block;
 							//display: none;
 							margin: 4px 0;
-							z-index: 1;
+							z-index: 10000 !important;
 						}
 						#filesUpload {
-							//position: absolute;
-							margin: -4px 0 0 -300px;
-							height: 40px;
-							width: 4000px;
+							position: absolute;
+							margin: -34px 0 0 -250px;
+							height: 30px;
+							width: 100%;
 							opacity: 0;
 							.border-radius(0);
 							cursor: pointer;
-							//display: block;
-							z-index: 9999;
+							display: inline-block;
+							z-index: 10001 !important;
+							background-color: red;
 						}
 					}
 					&#canvasWrapper {
@@ -270,7 +301,7 @@
 				display: inline-block;
 				vertical-align: bottom;
 				width: 100%;
-				float: right;
+				float: left;
 				button {
 					.btn;
 					.btn-big;
@@ -305,10 +336,15 @@
 			}
 			&[data-regStep="2"] {
 				.inputWrap {
-					margin-top: 51.5px;
+					margin-top: 10px;
 				}
 				.submitWrap {
-					margin-top: 51.5px;
+					margin-top: 13px;
+				}
+			}
+			&[data-regStep="3"] {
+				.submitWrap {
+					margin-top: -27px;
 				}
 			}
 		}

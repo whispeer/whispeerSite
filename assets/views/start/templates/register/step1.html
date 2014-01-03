@@ -1,16 +1,23 @@
+<h4>Neues Konto erstellen</h4>
 <div class="inputWrap" data-enter="nextRegisterStep()">
 	<div class="hint--top" data-hint="{{attribute.hoverText}}">
-		<input type="text" id="rnickname" data-i18n-attr="login.username|placeholder" data-ng-model="$parent.nickname" data-ng-model-onblur data-ng-change="nicknameChange()">
+		<input type="text" id="rnickname" data-i18n-attr="login.username|placeholder" data-ng-model="$parent.nickname" data-ng-model-onblur data-ng-change="nicknameChange()" required>
 		<span class="icon" id="rnicknameIcon">
 			<img data-ng-src="{{acceptIconNicknameFree()}}" alt="Ok!">
 		</span>
 	</div>
+	<div>
+		<input type="email" id="rmail" data-i18n-attr="login.register.email|placeholder" data-ng-model="$parent.mail" data-ng-model-onblur data-ng-change="mailChange()">
+		<span class="icon check" id="rmailIcon">
+			<img data-ng-src="{{acceptIconMailFree()}}" alt="Ok!">
+		</span>
+	</div>
 	<div class="hint--top" data-hint="{{attribute.hoverText}}">
-		<input type="password" id="rpassword" data-i18n-attr="login.password|placeholder" data-ng-model="$parent.password">
+		<input type="password" id="rpassword" data-i18n-attr="login.password|placeholder" data-ng-model="$parent.password" required>
 		<span class="icon" id="rpasswordIcon" data-strength="{{passwordStrength()}}"></span>
 	</div>
 	<div>
-		<input type="password" id="rpassword2" data-i18n-attr="login.register.repeatPassword|placeholder" data-ng-model="$parent.password2">
+		<input type="password" id="rpassword2" data-i18n-attr="login.register.repeatPassword|placeholder" data-ng-model="$parent.password2" required>
 		<span class="icon check" id="rpassword2Icon">
 			<img data-ng-src="{{acceptIcon(password, password2)}}" alt="Ok!">
 		</span>

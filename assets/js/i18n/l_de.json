@@ -77,6 +77,8 @@
 			"passwordstrength":	"Punkte für dein Passwort: ",
 			"email":	"E-Mail Adresse",
 			"repeatEmail":	"E-Mail Adresse wiederholen",
+			"country":	"Land",
+			"location":	"Wohnort",
 			"uploadImage":	"Profilbild hochladen!"
 		}
 	},

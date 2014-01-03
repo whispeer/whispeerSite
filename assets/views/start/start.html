@@ -19,7 +19,6 @@
 		<ng-include data-ng-controller="ssn.loginController" data-src="'assets/views/start/templates/login/login.html'"></ng-include>
 	</form>
 	<form id="registerForm" data-regStep="{{registerState.step}}" data-ng-controller="ssn.registerController">
-		<h4>Neues Konto erstellen</h4>
 		<ng-include data-ng-click="registerFormClick()" data-onload="stepLoaded()" data-src="'assets/views/start/templates/register/step' + registerState.step + '.html'"></ng-include>
 	</form>
 </section>
