@@ -25,6 +25,11 @@ define(["app"], function (app) {
 		addMain("help");
 		addMain("loading");
 
+		$routeProvider.when("/logout", {
+			templateUrl: "/assets/views/loading/loading.html",
+			controller: "ssn.logoutController"
+		});
+
 		$routeProvider.when("/user/:identifier", {
 			templateUrl: "/assets/views/user/user.html",
 			controller: "ssn.userController"

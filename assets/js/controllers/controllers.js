@@ -3,7 +3,7 @@
 **/
 (function() {
 	"use strict";
-	var controllers = ["login", "root" ,"user", "main", "friends", "messages", "circles", "settings", "help", "loading", "register", "start"];
+	var controllers = ["logout", "login", "root" ,"user", "main", "friends", "messages", "circles", "settings", "help", "loading", "register", "start"];
 	
 	var includes = ["angular"];
 	
