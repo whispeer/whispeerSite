@@ -2600,11 +2600,17 @@ body.loading:after {
 .registerView section #registerForm[data-regStep="2"] .inputWrap {
   margin-top: 10px;
 }
+.registerView section #registerForm[data-regStep="2"] .inputWrap .introText {
+  min-height: 70px !important;
+  width: 80%;
+  margin: 0 10% -10px;
+  float: left;
+}
 .registerView section #registerForm[data-regStep="2"] .submitWrap {
-  margin-top: 13px;
+  margin-top: 5px;
 }
 .registerView section #registerForm[data-regStep="3"] .submitWrap {
-  margin-top: -27px;
+  margin-top: -25px;
 }
 .registerView section #loginForm,
 .registerView section #registerForm {
@@ -6327,7 +6333,6 @@ and (max-device-width : 767px) {
     margin-bottom: 1%;
   }
   .registerView #main {
-    text-align: center;
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
@@ -6335,6 +6340,12 @@ and (max-device-width : 767px) {
     float: left;
     width: 98%;
     margin: 0 1% 0 1%;
+  }
+  .registerView #main #registerForm[data-regStep="2"] .inputWrap .introText {
+    margin-bottom: 0px !important;
+  }
+  .registerView #main #registerForm[data-regStep="3"] .submitWrap {
+    margin-top: -10px;
   }
   .settingsView #main {
     padding-top: 52px;
@@ -7910,7 +7921,6 @@ and (max-device-width : 767px) {
     margin: 0 1% 0 1%;
   }
   .registerView #main {
-    text-align: center;
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
@@ -7918,6 +7928,9 @@ and (max-device-width : 767px) {
     float: left;
     width: 98%;
     margin: 0 1% 0 1%;
+  }
+  .registerView #main #registerForm[data-regStep="2"] .inputWrap .introText {
+    margin-bottom: -15px !important;
   }
   .settingsView #main {
     padding-top: 30px;

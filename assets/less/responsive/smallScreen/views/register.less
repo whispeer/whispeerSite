@@ -1,8 +1,20 @@
-//Don't touch any of the *.less or *.css files, or you will die an awful death.
 .registerView {
 	// content
 	#main {
-		text-align: center;
 		.column(12);
+		#registerForm {
+			&[data-regStep="2"] {
+				.inputWrap {
+					.introText {
+						margin-bottom: 0px !important;
+					}
+				}
+			}
+			&[data-regStep="3"] {
+				.submitWrap {
+					margin-top: -10px;
+				}
+			}
+		}		
 	}
 }
