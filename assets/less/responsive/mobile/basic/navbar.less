@@ -1,0 +1,80 @@
+#topNav {
+	width: 100%;
+	#navInner {
+		#brand {
+			font-size: 25px;
+			line-height: @baseLineHeight;
+			.column(2,12);
+			margin-top: 12px;
+		}
+	}
+	.searchBar {
+		.column(8);
+		.formSearch {
+			width: 100%;
+			margin: 7px 0px;
+			.inputWrap {
+				min-height: 0px;
+				height: 35px;
+				line-height: 35px;
+				padding:0;
+				li {
+					height: 35px;
+					line-height: 35px;
+					padding:0;
+					&.searchField {
+						width: 20%;
+						input {
+							padding:0px 10px;
+							margin:-1px 0;
+							height:35px;
+							line-height: 35px;
+						}
+					}
+				}
+			}
+		}
+		.searchDrop {
+			top: 50px;
+			margin: 5px 0;
+		}
+	}
+	#navIcons {
+		height: 100%;
+		.column(2,12, right);
+		.navIcon {
+			.column(1,4);
+			.icon {
+				margin-top: 7px;
+				width: 35px;
+			}
+			.badge {
+				padding: 1px 2px 1px 2px;
+				margin-left: -13px;
+				margin-top: 25px;
+				position: absolute;
+				font-size: 11px;
+			}
+		}
+	}
+}
+
+// Searchbar
+
+#searchSuggestions {
+	li {
+		img {
+			.column(3.75);
+		}	
+		.info {
+			.column(8.25);
+		}
+		.actions {
+			.column(8.25);
+			a {
+				.column(6);
+				.box-fix;
+			}
+		}	
+	}
+}

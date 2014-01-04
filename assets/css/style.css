@@ -4808,15 +4808,2242 @@ body.loading:after {
   box-align: center;
   color: #eeeeee;
 }
-/*
-/* Smartphones (portrait and landscape)
-@media only screen 
-and (min-device-width : 319px) 
-and (max-device-width : 767px) {
-	@import "mobile/index";
+@media only screen and (min-device-width: 319px) and (max-device-width: 767px) {
+  body {
+    margin: 0 auto;
+    padding: 50px 0 0;
+    min-width: none !important;
+    width: 100% !important;
+    zoom: 1 !important;
+  }
+  body noscript {
+    display: block;
+    width: 98%;
+    margin: 0 1% 0 1%;
+    *zoom: 1;
+    margin-top: 10px;
+  }
+  body noscript:before,
+  body noscript:after {
+    content: "";
+    display: table;
+  }
+  body noscript:after {
+    clear: both;
+  }
+  body #container {
+    height: 100%;
+    padding-bottom: 30px;
+  }
+  body #container #main,
+  body #container #sidebar-left,
+  body #container #sidebar-right {
+    height: 100%;
+  }
+  body #container #main {
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+    *zoom: 1;
+    float: left;
+    width: 98%;
+    margin: 0 1% 0 1%;
+  }
+  body #container #sidebar-right {
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+    *zoom: 1;
+    float: left;
+    width: 98%;
+    margin: 0 1% 0 1%;
+    display: none;
+  }
+  body #container #sidebar-left {
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+    *zoom: 1;
+    float: left;
+    width: 98%;
+    margin: 0 1% 0 1%;
+    display: none;
+  }
+  body #container #sidebar-left #userpanel {
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+    *zoom: 1;
+    float: left;
+    width: 98%;
+    margin: 0 1% 0 1%;
+    margin-bottom: 10px;
+  }
+  body footer {
+    float: left;
+    width: 100%;
+    margin: -25px 0 0;
+    padding: 5px 5px 0px 5px;
+  }
+  body footer #left {
+    width: 25%;
+    float: left;
+    text-align: left;
+  }
+  body footer #right {
+    width: 75%;
+    float: left;
+    text-align: right;
+  }
+  body:not(.registerView) {
+    padding-top: 70px;
+  }
+  .person {
+    height: 250px;
+    padding: 0;
+    margin-bottom: 15px;
+  }
+  .person .username {
+    width: 100%;
+  }
+  .person .pushup {
+    height: 50px;
+    width: 99.4%;
+    margin-left: 0.6%;
+    margin-top: 0px;
+    padding: 0;
+  }
+  .person:hover .pushup {
+    height: 80px;
+  }
+  .searchBar .formSearch .inputWrap {
+    list-style-type: none;
+    margin-left: 0;
+    list-style: none;
+    height: auto;
+    background: white;
+    padding: 0;
+    max-width: 100%;
+    display: block;
+    width: 100%;
+    word-break: break-all;
+    min-height: 39px;
+  }
+  .searchBar .formSearch .inputWrap li {
+    display: inline-block !important;
+    line-height: 35px;
+    height: 35px;
+  }
+  .searchBar .formSearch .inputWrap li.searchResult {
+    display: block;
+    float: left;
+    margin: 2px;
+    max-width: 35%;
+    padding: 0 5px 0 5px;
+  }
+  .searchBar .formSearch .inputWrap li.searchField input {
+    width: 45%;
+    outline: 0;
+    border: 0;
+    padding: 0px 5px;
+    margin: 2px 0;
+    height: 35px;
+  }
+  .searchBar .searchDrop {
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+    *zoom: 1;
+    float: left;
+    width: 40.85714285714286%;
+    margin: 0 1% 0 1%;
+    margin: 0;
+    display: block;
+    padding: 0;
+    position: absolute;
+  }
+  .searchBar .searchDrop .searchSuggestions {
+    width: 100%;
+    margin: 0;
+    max-height: 390px;
+    overflow-y: scroll;
+    padding: 0;
+    -webkit-box-sizing: border-box;
+    /* Safari/Chrome, other WebKit */
+    -moz-box-sizing: border-box;
+    /* Firefox, other Gecko */
+    box-sizing: border-box;
+    /* Opera/IE 8+ */
+  }
+  .searchBar .searchDrop .searchSuggestions li {
+    width: 100%;
+    float: left;
+    padding: 0;
+    margin: 0;
+    min-height: 20px;
+    height: auto;
+  }
+  .searchBar .searchDrop .searchSuggestions li img {
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+    *zoom: 1;
+    float: left;
+    width: 10.5%;
+    margin: 0 1% 0 1%;
+    margin-left: 0;
+  }
+  .searchBar .searchDrop .searchSuggestions li .info {
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+    *zoom: 1;
+    float: left;
+    width: 52.16666666666667%;
+    margin: 0 1% 0 1%;
+    margin: 7px 0 0 3%;
+    padding: 0;
+  }
+  .searchBar .searchDrop .searchSuggestions li .info .name {
+    font-size: 1.3em;
+    min-height: 10px;
+  }
+  .searchBar .searchDrop .searchSuggestions li .info .friends {
+    display: block;
+    width: 98%;
+    margin: 0 1% 0 1%;
+    *zoom: 1;
+  }
+  .searchBar .searchDrop .searchSuggestions li .info .friends:before,
+  .searchBar .searchDrop .searchSuggestions li .info .friends:after {
+    content: "";
+    display: table;
+  }
+  .searchBar .searchDrop .searchSuggestions li .info .friends:after {
+    clear: both;
+  }
+  .searchBar .searchDrop .searchSuggestions li .info .location,
+  .searchBar .searchDrop .searchSuggestions li .info.age {
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+    *zoom: 1;
+    float: left;
+    width: 23%;
+    margin: 0 1% 0 1%;
+  }
+  .searchBar .searchDrop .searchSuggestions li .actions {
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+    *zoom: 1;
+    float: left;
+    width: 31.333333333333336%;
+    margin: 0 1% 0 1%;
+    margin-top: 5px;
+  }
+  .searchBar .searchDrop .searchSuggestions li .actions a {
+    cursor: pointer;
+    text-align: center;
+    margin-bottom: 5px;
+  }
+  #topNav {
+    width: 100%;
+  }
+  #topNav #navInner #brand {
+    font-size: 25px;
+    line-height: 20px;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+    *zoom: 1;
+    float: left;
+    width: 14.666666666666668%;
+    margin: 0 1% 0 1%;
+    margin-top: 12px;
+  }
+  #topNav .searchBar {
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+    *zoom: 1;
+    float: left;
+    width: 64.66666666666667%;
+    margin: 0 1% 0 1%;
+  }
+  #topNav .searchBar .formSearch {
+    width: 100%;
+    margin: 7px 0px;
+  }
+  #topNav .searchBar .formSearch .inputWrap {
+    min-height: 0px;
+    height: 35px;
+    line-height: 35px;
+    padding: 0;
+  }
+  #topNav .searchBar .formSearch .inputWrap li {
+    height: 35px;
+    line-height: 35px;
+    padding: 0;
+  }
+  #topNav .searchBar .formSearch .inputWrap li.searchField {
+    width: 20%;
+  }
+  #topNav .searchBar .formSearch .inputWrap li.searchField input {
+    padding: 0px 10px;
+    margin: -1px 0;
+    height: 35px;
+    line-height: 35px;
+  }
+  #topNav .searchBar .searchDrop {
+    top: 50px;
+    margin: 5px 0;
+  }
+  #topNav #navIcons {
+    height: 100%;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+    *zoom: 1;
+    float: right;
+    width: 14.666666666666668%;
+    margin: 0 1% 0 1%;
+  }
+  #topNav #navIcons .navIcon {
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+    *zoom: 1;
+    float: left;
+    width: 23%;
+    margin: 0 1% 0 1%;
+  }
+  #topNav #navIcons .navIcon .icon {
+    margin-top: 7px;
+    width: 35px;
+  }
+  #topNav #navIcons .navIcon .badge {
+    padding: 1px 2px 1px 2px;
+    margin-left: -13px;
+    margin-top: 25px;
+    position: absolute;
+    font-size: 11px;
+  }
+  #searchSuggestions li img {
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+    *zoom: 1;
+    float: left;
+    width: 29.250000000000004%;
+    margin: 0 1% 0 1%;
+  }
+  #searchSuggestions li .info {
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+    *zoom: 1;
+    float: left;
+    width: 66.75%;
+    margin: 0 1% 0 1%;
+  }
+  #searchSuggestions li .actions {
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+    *zoom: 1;
+    float: left;
+    width: 66.75%;
+    margin: 0 1% 0 1%;
+  }
+  #searchSuggestions li .actions a {
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+    *zoom: 1;
+    float: left;
+    width: 48%;
+    margin: 0 1% 0 1%;
+    -webkit-box-sizing: border-box;
+    /* Safari/Chrome, other WebKit */
+    -moz-box-sizing: border-box;
+    /* Firefox, other Gecko */
+    box-sizing: border-box;
+    /* Opera/IE 8+ */
+  }
+  #userpanel #menu #mainMenu {
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+    *zoom: 1;
+    float: left;
+    width: 98%;
+    margin: 0 1% 0 1%;
+  }
+  #userpanel #menu #mainMenu li a {
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+    *zoom: 1;
+    float: left;
+    width: 98%;
+    margin: 0 1% 0 1%;
+  }
+  #userpanel #menu #mainMenu li a.current {
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+    *zoom: 1;
+    float: left;
+    width: 98%;
+    margin: 0 1% 0 1%;
+  }
+  #userpanel #menu #subMenu {
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+    *zoom: 1;
+    float: left;
+    width: 48%;
+    margin: 0 1% 0 1%;
+    display: none;
+  }
+  #userpanel #menu #subMenu li a {
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+    *zoom: 1;
+    float: left;
+    width: 98%;
+    margin: 0 1% 0 1%;
+  }
+  .friendsView #main {
+    padding-top: 30px;
+    padding-bottom: 10px;
+    height: 100%;
+  }
+  .friendsView header {
+    height: 20px;
+    margin-top: -30px;
+    margin-bottom: 1%;
+    padding: 5px;
+  }
+  .friendsView #friendsList {
+    height: 100%;
+  }
+  .friendsView #friendsList li,
+  .profileView #friendsList li {
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+    *zoom: 1;
+    float: left;
+    width: 23%;
+    margin: 0 1% 0 1%;
+    height: 250px;
+    padding: 0;
+    -webkit-box-sizing: border-box;
+    /* Safari/Chrome, other WebKit */
+    -moz-box-sizing: border-box;
+    /* Firefox, other Gecko */
+    box-sizing: border-box;
+    /* Opera/IE 8+ */
+    margin-bottom: 15px;
+  }
+  .friendsView #friendsList li .username,
+  .profileView #friendsList li .username {
+    width: 100%;
+  }
+  .friendsView #friendsList li .pushup,
+  .profileView #friendsList li .pushup {
+    height: 50px;
+    width: 100%;
+    margin-top: 0px;
+    padding: 0;
+  }
+  .friendsView #friendsList li:hover .pushup,
+  .profileView #friendsList li:hover .pushup {
+    height: 80px;
+  }
+  #mediaWrap .mediaRow {
+    display: block;
+    width: 56.333333333333336%;
+    margin: 0 1% 0 1%;
+    *zoom: 1;
+  }
+  #mediaWrap .mediaRow:before,
+  #mediaWrap .mediaRow:after {
+    content: "";
+    display: table;
+  }
+  #mediaWrap .mediaRow:after {
+    clear: both;
+  }
+  #mediaWrap .droplet {
+    display: block;
+    width: 56.333333333333336%;
+    margin: 0 1% 0 1%;
+    *zoom: 1;
+  }
+  #mediaWrap .droplet:before,
+  #mediaWrap .droplet:after {
+    content: "";
+    display: table;
+  }
+  #mediaWrap .droplet:after {
+    clear: both;
+  }
+  #mediaWrap .droplet .comments {
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+    *zoom: 1;
+    float: left;
+    width: 48%;
+    margin: 0 1% 0 1%;
+  }
+  #mediaWrap .droplet .info {
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+    *zoom: 1;
+    float: left;
+    width: 33.714285714285715%;
+    margin: 0 1% 0 1%;
+  }
+  #mediaWrap .droplet .opinion {
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+    *zoom: 1;
+    float: left;
+    width: 12.285714285714286%;
+    margin: 0 1% 0 1%;
+  }
+  .messagesView #main {
+    padding-top: 30px;
+    padding-bottom: 10px;
+    height: 100%;
+  }
+  .messagesView header {
+    height: 20px;
+    margin-top: -30px;
+    padding: 5px;
+  }
+  .messagesView #topicListWrap {
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+    *zoom: 1;
+    float: left;
+    width: 26.125%;
+    margin: 0 1% 0 1%;
+    height: 100%;
+  }
+  .messagesView #topicListWrap #topicList {
+    height: 100%;
+    padding-top: 15px;
+    padding-bottom: 6px;
+  }
+  .messagesView #topicListWrap #topicList #topicListScroll {
+    height: 100%;
+    overflow-y: scroll;
+  }
+  .messagesView #topicListWrap #topicList .topic {
+    margin-bottom: 5px;
+    padding: 0;
+  }
+  .messagesView #topicListWrap #topicList .topic .left {
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+    *zoom: 1;
+    float: left;
+    width: 33%;
+    margin: 0 1% 0 1%;
+    margin: 0 2% -4px 0;
+  }
+  .messagesView #topicListWrap #topicList .topic .left .userimg {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+  }
+  .messagesView #topicListWrap #topicList .topic .username {
+    font-size: 1em;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+    *zoom: 1;
+    float: left;
+    width: 63%;
+    margin: 0 1% 0 1%;
+    text-overflow: ellipsis;
+    max-height: 40px;
+    max-width: 65%;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+  .messagesView #topicListWrap #topicList .topic .lastMessage {
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+    *zoom: 1;
+    float: left;
+    width: 63%;
+    margin: 0 1% 0 1%;
+    max-width: 65% !important;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+  .messagesView #topicListWrap #topicList .topic#newmessage {
+    height: 20px;
+    margin-top: -10px;
+  }
+  .messagesView #topicListWrap #topicList .topic.groupChat .left {
+    margin: 0 2% 0 0;
+  }
+  .messagesView #topicListWrap #topicList .topic.groupChat .left img,
+  .messagesView #topicListWrap #topicList .topic.groupChat .left span {
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+    *zoom: 1;
+    float: left;
+    width: 50%;
+    margin: 0 0 0 0;
+    margin: 0!important;
+    height: 40px;
+  }
+  .messagesView #topicListWrap #topicList .topic.groupChat .left span {
+    padding: 10px 0;
+    font-size: 0.78em;
+    text-align: center;
+  }
+  .messagesView #topicWrap {
+    height: 100%;
+  }
+  .messagesView #topicWrap.peerChat {
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+    *zoom: 1;
+    float: left;
+    width: 69.875%;
+    margin: 0 1% 0 1%;
+    height: 100%;
+    padding: 0px 0px 120px 0px;
+    -webkit-box-sizing: border-box;
+    /* Safari/Chrome, other WebKit */
+    -moz-box-sizing: border-box;
+    /* Firefox, other Gecko */
+    box-sizing: border-box;
+    /* Opera/IE 8+ */
+  }
+  .messagesView #topicWrap.peerChat #messageWrap {
+    height: 100%;
+  }
+  .messagesView #topicWrap.peerChat #messageTitle {
+    padding-left: 10px;
+  }
+  .messagesView #topicWrap.peerChat #messageList {
+    overflow-y: scroll;
+    height: 100%;
+  }
+  .messagesView #topicWrap.peerChat #messageList .message {
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+    *zoom: 1;
+    float: left;
+    width: 83%;
+    margin: 0 1% 0 1%;
+    height: auto;
+    margin-bottom: 5px;
+  }
+  .messagesView #topicWrap.peerChat #messageList .message.me {
+    float: right;
+  }
+  .messagesView #topicWrap.peerChat #messageList .message .user .userimg {
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+    *zoom: 1;
+    float: left;
+    width: 14.666666666666668%;
+    margin: 0 1% 0 1%;
+    padding: 0;
+  }
+  .messagesView #topicWrap.peerChat #messageList .message .messageText {
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+    *zoom: 1;
+    float: left;
+    width: 81.33333333333334%;
+    margin: 0 1% 0 1%;
+    word-break: break-word;
+  }
+  .messagesView #topicWrap.peerChat #inputWrap #messageInput {
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+    *zoom: 1;
+    float: left;
+    width: 73%;
+    margin: 0 1% 0 1%;
+    height: 45px;
+  }
+  .messagesView #topicWrap.peerChat #inputWrap button {
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+    *zoom: 1;
+    float: left;
+    width: 23%;
+    margin: 0 1% 0 1%;
+    height: 45px;
+  }
+  .messagesView #topicWrap.groupChat {
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+    *zoom: 1;
+    float: left;
+    width: 69.875%;
+    margin: 0 1% 0 1%;
+    height: 100%;
+    padding: 0px 0px 120px 0px;
+    -webkit-box-sizing: border-box;
+    /* Safari/Chrome, other WebKit */
+    -moz-box-sizing: border-box;
+    /* Firefox, other Gecko */
+    box-sizing: border-box;
+    /* Opera/IE 8+ */
+  }
+  .messagesView #topicWrap.groupChat #messageWrap {
+    height: 100%;
+  }
+  .messagesView #topicWrap.groupChat #messageTitle {
+    padding-left: 10px;
+  }
+  .messagesView #topicWrap.groupChat #messageList {
+    overflow-y: scroll;
+    height: 100%;
+  }
+  .messagesView #topicWrap.groupChat #messageList .message {
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+    *zoom: 1;
+    float: left;
+    width: 98%;
+    margin: 0 1% 0 1%;
+    margin-bottom: 5px;
+  }
+  .messagesView #topicWrap.groupChat #messageList .message .user .userimg {
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+    *zoom: 1;
+    float: left;
+    width: 9.666666666666666%;
+    margin: 0 1% 0 1%;
+    padding: 0;
+    margin: 0 1.25% 0 0!important;
+  }
+  .messagesView #topicWrap.groupChat #messageList .message .user .username {
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+    *zoom: 1;
+    float: left;
+    width: 86.33333333333334%;
+    margin: 0 1% 0 1%;
+    margin-bottom: 0.5%;
+  }
+  .messagesView #topicWrap.groupChat #messageList .message .messageText {
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+    *zoom: 1;
+    float: left;
+    width: 86.33333333333334%;
+    margin: 0 1% 0 1%;
+    word-break: break-word;
+  }
+  .messagesView #topicWrap.groupChat #inputWrap #messageInput {
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+    *zoom: 1;
+    float: left;
+    width: 73%;
+    margin: 0 1% 0 1%;
+    height: 45px;
+  }
+  .messagesView #topicWrap.groupChat #inputWrap button {
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+    *zoom: 1;
+    float: left;
+    width: 23%;
+    margin: 0 1% 0 1%;
+    height: 45px;
+  }
+  .messagesView #topicWrap.newMessage {
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+    *zoom: 1;
+    float: left;
+    width: 69.42857142857143%;
+    margin: 0 1% 0 1%;
+  }
+  .messagesView #topicWrap.newMessage #recieverInput,
+  .messagesView #topicWrap.newMessage #messageInput {
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+    *zoom: 1;
+    float: left;
+    width: 98%;
+    margin: 0 1% 0 1%;
+    margin-bottom: 5px;
+  }
+  .messagesView #topicWrap.newMessage #recieverInput .formSearch .inputWrap li.searchField,
+  .messagesView #topicWrap.newMessage #messageInput .formSearch .inputWrap li.searchField {
+    width: 40%;
+  }
+  .messagesView #topicWrap.newMessage #recieverInput .formSearch .inputWrap li.searchField input,
+  .messagesView #topicWrap.newMessage #messageInput .formSearch .inputWrap li.searchField input {
+    width: 100%;
+  }
+  .messagesView #topicWrap.newMessage #messageInput {
+    height: 150px;
+  }
+  .messagesView #topicWrap.newMessage #sendmessage {
+    margin-left: 8px;
+  }
+  .circlesView #main {
+    padding-top: 30px;
+    padding-bottom: 10px;
+    height: 100%;
+  }
+  .circlesView header {
+    height: 20px;
+    margin-top: -30px;
+    padding: 5px;
+  }
+  .circlesView header .title {
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+    *zoom: 1;
+    float: left;
+    width: 26.571428571428573%;
+    margin: 0 1% 0 1%;
+  }
+  .circlesView header nav {
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+    *zoom: 1;
+    float: left;
+    width: 69.42857142857143%;
+    margin: 0 1% 0 1%;
+  }
+  .circlesView header nav a {
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+    *zoom: 1;
+    float: left;
+    width: 31.333333333333336%;
+    margin: 0 1% 0 1%;
+    text-align: center;
+  }
+  .circlesView header nav a:first-child {
+    text-align: left;
+  }
+  .circlesView header nav a:last-child {
+    text-align: right;
+  }
+  .circlesView #circleListWrap {
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+    *zoom: 1;
+    float: left;
+    width: 30.142857142857146%;
+    margin: 0 1% 0 1%;
+    height: 100%;
+  }
+  .circlesView #circleListWrap #circleList {
+    height: 100%;
+    padding-top: 15px;
+    padding-bottom: 6px;
+  }
+  .circlesView #circleListWrap #circleList #circleListScroll {
+    height: 100%;
+    overflow-y: scroll;
+  }
+  .circlesView #circleListWrap #circleList .circle {
+    margin-bottom: 5px;
+    padding: 0;
+  }
+  .circlesView #circleListWrap #circleList .circle .left {
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+    *zoom: 1;
+    float: left;
+    width: 28%;
+    margin: 0 1% 0 1%;
+    margin-left: 0;
+  }
+  .circlesView #circleListWrap #circleList .circle .left .userimg {
+    width: 100%;
+    margin: 0 0 -4px 0px;
+    padding: 0;
+  }
+  .circlesView #circleListWrap #circleList .circle .listname {
+    font-size: 1em;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+    *zoom: 1;
+    float: left;
+    width: 68%;
+    margin: 0 1% 0 1%;
+  }
+  .circlesView #circleListWrap #circleList .circle .listname strong {
+    width: 100%;
+  }
+  .circlesView #circleListWrap #circleList .circle .personCount {
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+    *zoom: 1;
+    float: left;
+    width: 68%;
+    margin: 0 1% 0 1%;
+    margin-top: 0px;
+    font-size: 0.8em;
+  }
+  .circlesView #circleListWrap #circleList .circle#newcircle {
+    height: 20px;
+    margin-top: -10px;
+  }
+  .circlesView #circleContainer {
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+    *zoom: 1;
+    float: left;
+    width: 65.85714285714286%;
+    margin: 0 1% 0 1%;
+    height: 100%;
+    padding: 0px 0px 51px 0px;
+    -webkit-box-sizing: border-box;
+    /* Safari/Chrome, other WebKit */
+    -moz-box-sizing: border-box;
+    /* Firefox, other Gecko */
+    box-sizing: border-box;
+    /* Opera/IE 8+ */
+  }
+  .circlesView #circleContainer #circleWrap {
+    height: 100%;
+  }
+  .circlesView #circleContainer #circleTitle {
+    padding-left: 10px;
+  }
+  .circlesView #circleContainer #friendsList {
+    overflow-y: scroll;
+    height: 100%;
+  }
+  .circlesView #circleContainer #friendsList li {
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+    *zoom: 1;
+    float: left;
+    width: 31.333333333333336%;
+    margin: 0 1% 0 1%;
+    height: 250px;
+    padding: 0;
+    margin-bottom: 15px;
+  }
+  .circlesView #circleContainer #friendsList li .username {
+    width: 100%;
+  }
+  .circlesView #circleContainer #friendsList li .pushup {
+    height: 0;
+    width: 100%;
+    margin-top: 0px;
+    padding: 0;
+  }
+  .circlesView #circleContainer #friendsList li:hover .pushup {
+    height: 80px;
+  }
+  .circlesView #circleContainer.newCircle #titleInput,
+  .circlesView #circleContainer.newCircle #friendInput {
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+    *zoom: 1;
+    float: left;
+    width: 98%;
+    margin: 0 1% 0 1%;
+    margin-bottom: 5px;
+    height: 40px;
+  }
+  .circlesView #circleContainer.newCircle #friendInput {
+    height: 150px;
+  }
+  .circlesView #circleContainer.newCircle #friendInput .formSearch .inputWrap {
+    width: 100%;
+  }
+  .circlesView #circleContainer.newCircle #friendInput .formSearch .inputWrap li.searchField {
+    width: 85%;
+  }
+  .circlesView #circleContainer.newCircle #friendInput .formSearch .inputWrap li.searchField input {
+    width: 100%;
+  }
+  .circlesView #circleContainer.newCircle .searchBar .formSearch .inputWrap li.searchField input {
+    width: 92%;
+  }
+  .circlesView #circleContainer.newCircle #sendmessage {
+    margin-left: 8px;
+  }
+  header #postIt #receiver .inputWrap li.searchField {
+    width: 70%;
+  }
+  header #postIt #receiver .searchDrop {
+    width: 28.2% !important;
+  }
+  header #filter #theFilter .inputWrap li.searchField {
+    width: 120%;
+  }
+  header #filter #theFilter .searchDrop {
+    width: 19.4% !important;
+  }
+  .posts article {
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+    *zoom: 1;
+    float: left;
+    width: 98%;
+    margin: 0 1% 0 1%;
+    margin: 10px 0 0 0;
+  }
+  .posts article .userimg {
+    border-radius: 200px;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+    *zoom: 1;
+    float: left;
+    width: 12.285714285714286%;
+    margin: 0 1% 0 1%;
+    margin: 10px 0px 10px 0px;
+  }
+  .posts article .postContent {
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+    *zoom: 1;
+    float: left;
+    width: 55.142857142857146%;
+    margin: 0 1% 0 1%;
+    padding-top: 5px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
+  .posts article .postContent .postText {
+    padding-left: 10px;
+    -webkit-box-sizing: padding-box;
+    /* Safari/Chrome, other WebKit */
+    -moz-box-sizing: padding-box;
+    /* Firefox, other Gecko */
+    box-sizing: padding-box;
+    /* Opera/IE 8+ */
+  }
+  .posts article .postContent .postImage img {
+    max-width: 98%;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    -moz-background-clip: padding;
+    -webkit-background-clip: padding-box;
+    background-clip: padding-box;
+  }
+  .posts article .postInfo {
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+    *zoom: 1;
+    float: left;
+    width: 23%;
+    margin: 0 1% 0 1%;
+    padding-top: 20px;
+    margin-bottom: 10px;
+  }
+  .posts article .postInfo .with {
+    color: #666;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+    *zoom: 1;
+    float: left;
+    width: 98%;
+    margin: 0 1% 0 1%;
+  }
+  .posts article .postInfo .awesome {
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+    *zoom: 1;
+    float: left;
+    width: 98%;
+    margin: 0 1% 0 1%;
+  }
+  .posts article .postInfo p.comments {
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+    *zoom: 1;
+    float: left;
+    width: 98%;
+    margin: 0 1% 0 1%;
+  }
+  .posts article .postInfo .showComments {
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+    *zoom: 1;
+    float: left;
+    width: 98%;
+    margin: 0 1% 0 1%;
+  }
+  .posts article ol.comments {
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+    *zoom: 1;
+    float: left;
+    width: 64.66666666666667%;
+    margin: 0 1% 0 1%;
+    margin-left: 1.0416666666666667% !important;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    -moz-background-clip: padding;
+    -webkit-background-clip: padding-box;
+    background-clip: padding-box;
+    margin-bottom: 5px;
+  }
+  .posts article ol.comments li {
+    width: 100%;
+    margin: 0;
+    min-height: 40px;
+  }
+  .posts article ol.comments li:last-child {
+    -webkit-border-top-right-radius: 0;
+    -webkit-border-bottom-right-radius: 5px;
+    -webkit-border-bottom-left-radius: 5px;
+    -webkit-border-top-left-radius: 0;
+    -moz-border-radius-topright: 0;
+    -moz-border-radius-bottomright: 5px;
+    -moz-border-radius-bottomleft: 5px;
+    -moz-border-radius-topleft: 0;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 5px;
+    border-bottom-left-radius: 5px;
+    border-top-left-radius: 0;
+    -moz-background-clip: padding;
+    -webkit-background-clip: padding-box;
+    background-clip: padding-box;
+    border-bottom: none !important;
+  }
+  .posts article ol.comments li:first-child {
+    -webkit-border-top-right-radius: 5px;
+    -webkit-border-bottom-right-radius: 0;
+    -webkit-border-bottom-left-radius: 0;
+    -webkit-border-top-left-radius: 5px;
+    -moz-border-radius-topright: 5px;
+    -moz-border-radius-bottomright: 0;
+    -moz-border-radius-bottomleft: 0;
+    -moz-border-radius-topleft: 5px;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+    border-top-left-radius: 5px;
+    -moz-background-clip: padding;
+    -webkit-background-clip: padding-box;
+    background-clip: padding-box;
+    border-top: none;
+  }
+  .posts article ol.comments li:only-child {
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    -moz-background-clip: padding;
+    -webkit-background-clip: padding-box;
+    background-clip: padding-box;
+  }
+  .posts article ol.comments li img {
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+    *zoom: 1;
+    float: left;
+    width: 6.333333333333334%;
+    margin: 0 1% 0 1%;
+    margin-left: 0;
+    height: 40px;
+    width: auto !important;
+  }
+  .posts article ol.comments li .text {
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+    *zoom: 1;
+    float: left;
+    width: 63%;
+    margin: 0 1% 0 1%;
+    padding: 3px;
+    -webkit-box-sizing: border-box;
+    /* Safari/Chrome, other WebKit */
+    -moz-box-sizing: border-box;
+    /* Firefox, other Gecko */
+    box-sizing: border-box;
+    /* Opera/IE 8+ */
+  }
+  .posts article ol.comments li .timestamp {
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+    *zoom: 1;
+    float: left;
+    width: 23%;
+    margin: 0 1% 0 1%;
+  }
+  .posts article ol.comments li.newComment {
+    padding: 0;
+  }
+  .posts article ol.comments li.newComment img {
+    width: auto;
+  }
+  .posts article ol.comments li.newComment input {
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+    *zoom: 1;
+    float: left;
+    width: 68.00000000000001%;
+    margin: 0 1% 0 1%;
+    margin-top: 2px !important;
+  }
+  .posts article ol.comments li.newComment button {
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+    *zoom: 1;
+    float: left;
+    width: 18.833333333333336%;
+    margin: 0 1% 0 1%;
+    margin-top: 5px !important;
+  }
+  .posts article:last-child {
+    border: none;
+  }
+  .profileView #main nav {
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+    *zoom: 1;
+    float: left;
+    width: 100%;
+    margin: 0 0 0 0;
+    height: 50px;
+    margin-bottom: -50px;
+  }
+  .profileView #main nav heading {
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+    *zoom: 1;
+    float: left;
+    width: 48%;
+    margin: 0 1% 0 1%;
+  }
+  .profileView #main nav heading h3 {
+    width: 100%;
+    padding: 3px;
+    margin: 0;
+  }
+  .profileView #main nav menu {
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+    *zoom: 1;
+    float: left;
+    width: 48%;
+    margin: 0 1% 0 1%;
+    margin: 13px 0 10px 0;
+    padding: 0;
+  }
+  .profileView #main nav menu li {
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+    *zoom: 1;
+    float: left;
+    width: 31.333333333333336%;
+    margin: 0 1% 0 1%;
+  }
+  .profileView #main #wrap {
+    width: 100%;
+    height: 100%;
+    padding-top: 50px;
+    -webkit-box-sizing: border-box;
+    /* Safari/Chrome, other WebKit */
+    -moz-box-sizing: border-box;
+    /* Firefox, other Gecko */
+    box-sizing: border-box;
+    /* Opera/IE 8+ */
+    margin: 0 auto;
+  }
+  .profileView #main #scroller {
+    width: 100%;
+    height: 100%;
+    overflow-y: scroll;
+    -webkit-box-sizing: border-box;
+    /* Safari/Chrome, other WebKit */
+    -moz-box-sizing: border-box;
+    /* Firefox, other Gecko */
+    box-sizing: border-box;
+    /* Opera/IE 8+ */
+    margin: 0 auto;
+  }
+  .profileView #main #info {
+    width: 100%;
+    padding: 0;
+  }
+  .profileView #main #info article {
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+    *zoom: 1;
+    float: left;
+    width: 31.333333333333336%;
+    margin: 0 1% 0 1%;
+    padding: 0;
+    margin-bottom: 10px;
+    height: 150px;
+    -webkit-box-sizing: border-box;
+    /* Safari/Chrome, other WebKit */
+    -moz-box-sizing: border-box;
+    /* Firefox, other Gecko */
+    box-sizing: border-box;
+    /* Opera/IE 8+ */
+  }
+  .profileView #main #info article header {
+    height: 20px;
+    padding: 5px;
+  }
+  .profileView #main #info article#generalInfo {
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+    *zoom: 1;
+    float: left;
+    width: 100%;
+    margin: 0 0 0 0;
+    height: auto;
+    margin-bottom: 10px;
+    padding: 0;
+  }
+  .profileView #main #info article#generalInfo .userimage {
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+    *zoom: 1;
+    float: left;
+    width: 23%;
+    margin: 0 1% 0 1%;
+    margin-top: 1%;
+    margin-bottom: 1%;
+  }
+  .profileView #main #info article#generalInfo .info {
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+    *zoom: 1;
+    float: left;
+    width: 73%;
+    margin: 0 1% 0 1%;
+    margin-top: -10px;
+    line-height: 10px;
+  }
+  .profileView #main #info article#generalInfo .actions {
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+    *zoom: 1;
+    float: left;
+    width: 100%;
+    margin: 0 0 0 0;
+  }
+  .profileView #main #info article#generalInfo .actions .addFriend {
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+    *zoom: 1;
+    float: left;
+    width: 48%;
+    margin: 0 1% 0 1%;
+    margin: 10px 1% 10px 1%;
+    height: 40px;
+    padding: 8.5px;
+  }
+  .profileView #main #info article#generalInfo .actions .addToCirlce {
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+    *zoom: 1;
+    float: left;
+    width: 48%;
+    margin: 0 1% 0 1%;
+    margin: 10px 1% 10px 1%;
+  }
+  .profileView #main #info article#generalInfo .actions .sendMessage {
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+    *zoom: 1;
+    float: left;
+    width: 48%;
+    margin: 0 1% 0 1%;
+    margin: 10px 1% 10px 1%;
+    height: 40px;
+    padding: 8.5px;
+  }
+  .profileView #main #wall {
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+    *zoom: 1;
+    float: left;
+    width: 100%;
+    margin: 0 0 0 0;
+    height: auto;
+    padding: 0;
+    margin-bottom: 1%;
+    -webkit-box-sizing: border-box;
+    /* Safari/Chrome, other WebKit */
+    -moz-box-sizing: border-box;
+    /* Firefox, other Gecko */
+    box-sizing: border-box;
+    /* Opera/IE 8+ */
+  }
+  .profileView #main #wall header {
+    height: 20px;
+    padding: 5px;
+  }
+  .profileView #main #wall article {
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+    *zoom: 1;
+    float: left;
+    width: 100%;
+    margin: 0 0 0 0;
+  }
+  .profileView #main #wall article .userimg {
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+    *zoom: 1;
+    float: left;
+    width: 13.625%;
+    margin: 0 1% 0 1%;
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
+  .profileView #main #wall article .postContent {
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+    *zoom: 1;
+    float: left;
+    width: 54.25%;
+    margin: 0 1% 0 1%;
+    padding-top: 5px;
+    margin-top: 0;
+    margin-bottom: 10px;
+  }
+  .profileView #main #wall article .postContent .author {
+    margin-bottom: 5px;
+  }
+  .profileView #main #wall article .postContent .postText {
+    padding-left: 10px;
+  }
+  .profileView #main #wall article .postInfo {
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+    *zoom: 1;
+    float: left;
+    width: 26.125%;
+    margin: 0 1% 0 1%;
+    padding-top: 5px;
+    margin-top: 15px;
+    margin-bottom: 10px;
+  }
+  .profileView #main #wall article .postInfo p {
+    padding: 0;
+    margin: 0;
+  }
+  .profileView #main #friends {
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+    *zoom: 1;
+    float: left;
+    width: 100%;
+    margin: 0 0 0 0;
+    height: auto;
+    padding: 0;
+    -webkit-box-sizing: border-box;
+    /* Safari/Chrome, other WebKit */
+    -moz-box-sizing: border-box;
+    /* Firefox, other Gecko */
+    box-sizing: border-box;
+    /* Opera/IE 8+ */
+  }
+  .profileView #main #friends header {
+    height: 20px;
+    padding: 5px;
+    margin-bottom: 1%;
+  }
+  .profileView #main #friends .person {
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+    *zoom: 1;
+    float: left;
+    width: 31.333333333333336%;
+    margin: 0 1% 0 1%;
+  }
+  .registerView {
+    background: #3a8100;
+    background: -moz-radial-gradient(center, ellipse cover, #00b7ea 0%, #009ec3 100%);
+    /* FF3.6+ */
+    background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%, #559d00), color-stop(100%, #3a8100));
+    /* Chrome,Safari4+ */
+    background: -webkit-radial-gradient(center, ellipse cover, #559d00 0%, #3a8100 100%);
+    /* Chrome10+,Safari5.1+ */
+    background: -o-radial-gradient(center, ellipse cover, #00b7ea 0%, #009ec3 100%);
+    /* Opera 12+ */
+    background: -ms-radial-gradient(center, ellipse cover, #00b7ea 0%, #009ec3 100%);
+    /* IE10+ */
+    background: radial-gradient(ellipse at center, #559d00 0%, #3a8100 100%);
+    /* W3C */
+    padding: 0;
+    overflow-x: hidden;
+    overflow-y: visible;
+  }
+  .registerView footer {
+    color: #f2fbec;
+    z-index: 1900;
+    height: 15px;
+  }
+  .registerView #content {
+    height: 100%;
+  }
+  .registerView #main {
+    text-align: center;
+    max-height: auto !important;
+    height: auto !important;
+    overflow: visible !important;
+  }
+  .registerView #logo #logo {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+  }
+  .registerView #logo #logo img {
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+    *zoom: 1;
+    float: left;
+    width: 98%;
+    margin: 0 1% 0 1%;
+  }
+  .registerView .error {
+    border: 1px solid #5d0000;
+    background-color: #b40000;
+    -webkit-box-sizing: border-box;
+    /* Safari/Chrome, other WebKit */
+    -moz-box-sizing: border-box;
+    /* Firefox, other Gecko */
+    box-sizing: border-box;
+    /* Opera/IE 8+ */
+  }
+  .registerView .success {
+    border: 1px solid #488200;
+    background-color: #66b900;
+    -webkit-box-sizing: border-box;
+    /* Safari/Chrome, other WebKit */
+    -moz-box-sizing: border-box;
+    /* Firefox, other Gecko */
+    box-sizing: border-box;
+    /* Opera/IE 8+ */
+  }
+  .registerView header {
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+    *zoom: 1;
+    float: left;
+    width: 98%;
+    margin: 0 1% 0 1%;
+    margin-bottom: 2%;
+    padding: 5px 0 5px 0;
+    text-align: center;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+    -moz-background-clip: padding;
+    -webkit-background-clip: padding-box;
+    background-clip: padding-box;
+    background: #ffffff;
+    box-shadow: 0px 0px 3px #fff;
+    -webkit-box-sizing: border-box;
+    /* Safari/Chrome, other WebKit */
+    -moz-box-sizing: border-box;
+    /* Firefox, other Gecko */
+    box-sizing: border-box;
+    /* Opera/IE 8+ */
+  }
+  .registerView header #topWrap {
+    display: block;
+    width: 85%;
+    margin: 0 auto;
+  }
+  .registerView header #topWrap h3 {
+    line-height: 20px;
+    color: #333;
+    text-align: none;
+  }
+  .registerView header #topWrap a.btn {
+    margin: 0 auto 10px auto;
+    color: #ffffff;
+    text-align: none;
+  }
+  .registerView section {
+    padding: 0;
+    display: block;
+    margin: 0 0 0 0;
+    *zoom: 1;
+    width: 100%;
+    margin-bottom: 30px;
+    height: 100%;
+    background: transparent;
+  }
+  .registerView section:before,
+  .registerView section:after {
+    content: "";
+    display: table;
+  }
+  .registerView section:after {
+    clear: both;
+  }
+  .registerView section#info {
+    background: #ffffff;
+    height: 270px;
+    overflow-y: scroll;
+    padding: 0px 10px 0px 10px;
+    -webkit-box-sizing: border-box;
+    /* Safari/Chrome, other WebKit */
+    -moz-box-sizing: border-box;
+    /* Firefox, other Gecko */
+    box-sizing: border-box;
+    /* Opera/IE 8+ */
+    -webkit-border-radius: 8px;
+    -moz-border-radius: 8px;
+    border-radius: 8px;
+    -moz-background-clip: padding;
+    -webkit-background-clip: padding-box;
+    background-clip: padding-box;
+  }
+  .registerView section#info p {
+    text-align: left;
+  }
+  .registerView section #loginForm {
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+    *zoom: 1;
+    float: left;
+    width: 98%;
+    margin: 0 1% 0 1%;
+    margin-bottom: 2%;
+    padding: 0 0 10px 0;
+    height: auto !important;
+    -webkit-border-radius: 8px;
+    -moz-border-radius: 8px;
+    border-radius: 8px;
+    -moz-background-clip: padding;
+    -webkit-background-clip: padding-box;
+    background-clip: padding-box;
+    background: #ffffff;
+    -webkit-box-sizing: border-box;
+    /* Safari/Chrome, other WebKit */
+    -moz-box-sizing: border-box;
+    /* Firefox, other Gecko */
+    box-sizing: border-box;
+    /* Opera/IE 8+ */
+  }
+  .registerView section #loginForm div,
+  .registerView section #loginForm input {
+    width: 80%;
+    height: 40px;
+    margin: 0 10% 5px 10%;
+  }
+  .registerView section #loginForm #errorLogin {
+    display: block;
+    width: 80%;
+    margin: 0 10% 5px 10%;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    -moz-background-clip: padding;
+    -webkit-background-clip: padding-box;
+    background-clip: padding-box;
+    -webkit-box-sizing: border-box;
+    /* Safari/Chrome, other WebKit */
+    -moz-box-sizing: border-box;
+    /* Firefox, other Gecko */
+    box-sizing: border-box;
+    /* Opera/IE 8+ */
+  }
+  .registerView section #loginForm button {
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+    *zoom: 1;
+    padding: 4px 15px;
+    -webkit-box-sizing: border-box;
+    /* Safari/Chrome, other WebKit */
+    -moz-box-sizing: border-box;
+    /* Firefox, other Gecko */
+    box-sizing: border-box;
+    /* Opera/IE 8+ */
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+    -moz-background-clip: padding;
+    -webkit-background-clip: padding-box;
+    background-clip: padding-box;
+    border: 0;
+    background-color: #ffffff;
+    color: #333333;
+    text-shadow: 0 1px 1px rgba(255, 255, 255, 0.75);
+    border: 1px solid #bbbbbb;
+    text-decoration: none !important;
+    padding: 10px 10px;
+    background-color: #559d00;
+    color: #ffffff;
+    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+    width: 80%;
+  }
+  .registerView section #loginForm button:hover {
+    background-color: #ececec;
+  }
+  .registerView section #loginForm button:hover,
+  .registerView section #loginForm button:active,
+  .registerView section #loginForm button.active,
+  .registerView section #loginForm button.disabled,
+  .registerView section #loginForm button[disabled] {
+    background-color: #ececec;
+  }
+  .registerView section #loginForm button:hover,
+  .registerView section #loginForm button:active,
+  .registerView section #loginForm button.active,
+  .registerView section #loginForm button.disabled,
+  .registerView section #loginForm button[disabled] {
+    background-color: #3a8100;
+  }
+  .registerView section #loginForm .smallRow {
+    width: 80%;
+    margin: 0 auto;
+  }
+  .registerView section #loginForm .smallRow button {
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+    *zoom: 1;
+    float: left;
+    width: 49%;
+    margin: 0 0.5% 0 0.5%;
+    padding: 2px 7px;
+  }
+  .registerView section #loginForm .smallRow button:first-child {
+    margin: 5px 1% 5px 0;
+  }
+  .registerView section #loginForm .smallRow button:last-child {
+    margin: 5px 0 5px 1%;
+    float: right;
+  }
+  .registerView section #registerForm {
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+    *zoom: 1;
+    float: left;
+    width: 98%;
+    margin: 0 1% 0 1%;
+    margin-bottom: 2%;
+    padding: 0 0 10px 0;
+    -webkit-border-radius: 8px;
+    -moz-border-radius: 8px;
+    border-radius: 8px;
+    -moz-background-clip: padding;
+    -webkit-background-clip: padding-box;
+    background-clip: padding-box;
+    background: #ffffff;
+    height: auto !important;
+  }
+  .registerView section #registerForm .inputWrap {
+    width: 100%;
+  }
+  .registerView section #registerForm .inputWrap div {
+    width: 100%;
+    margin: 0 auto 5px auto;
+    height: 40px;
+    display: block;
+    float: left;
+    padding: 0;
+  }
+  .registerView section #registerForm .inputWrap div input,
+  .registerView section #registerForm .inputWrap div select,
+  .registerView section #registerForm .inputWrap div label {
+    width: 80%;
+    float: left;
+    height: 40px;
+    margin: 0 0 0 10%;
+    text-align: left;
+  }
+  .registerView section #registerForm .inputWrap div select {
+    height: auto;
+    margin-top: 10px;
+  }
+  .registerView section #registerForm .inputWrap div#birthday {
+    width: 80%;
+    margin: 0 10% 5px 10%;
+    height: 80px;
+  }
+  .registerView section #registerForm .inputWrap div#birthday label {
+    width: 100%;
+    margin: 5px 0 0;
+  }
+  .registerView section #registerForm .inputWrap div#birthday select {
+    margin: 0 1% 5px 1%;
+  }
+  .registerView section #registerForm .inputWrap div#birthday select.day {
+    width: 19%;
+  }
+  .registerView section #registerForm .inputWrap div#birthday select.month {
+    width: 38%;
+  }
+  .registerView section #registerForm .inputWrap div#birthday select.year {
+    width: 39%;
+  }
+  .registerView section #registerForm .inputWrap div#birthday select:first-child {
+    margin-left: 0;
+  }
+  .registerView section #registerForm .inputWrap div#birthday select:last-child {
+    margin-right: 0;
+  }
+  .registerView section #registerForm .inputWrap div .icon {
+    height: 40px;
+    display: block;
+    width: 10%;
+    float: left;
+    text-align: center;
+  }
+  .registerView section #registerForm .inputWrap div .icon img {
+    width: 16px;
+    height: 16px;
+    margin: 11px 0 13px 0;
+  }
+  .registerView section #registerForm .inputWrap div .icon.lock img {
+    width: 20px;
+    height: 20px;
+    margin: 9px 0 11px 0;
+  }
+  .registerView section #registerForm .inputWrap div .icon #rpasswordIcon {
+    background-repeat: no-repeat;
+    background-color: #ff0000;
+    -webkit-background-size: 10px;
+    -moz-background-size: 10px;
+    -o-background-size: 10px;
+    background-size: 10px;
+    -webkit-border-radius: 50px;
+    -moz-border-radius: 50px;
+    border-radius: 50px;
+    -moz-background-clip: padding;
+    -webkit-background-clip: padding-box;
+    background-clip: padding-box;
+    background-position: center center;
+    width: 20px;
+    height: 20px;
+    margin: 10px 0 0 -4px;
+    display: inline-block;
+    -webkit-box-sizing: border-box;
+    /* Safari/Chrome, other WebKit */
+    -moz-box-sizing: border-box;
+    /* Firefox, other Gecko */
+    box-sizing: border-box;
+    /* Opera/IE 8+ */
+  }
+  .registerView section #registerForm .inputWrap div .icon #rpasswordIcon[data-strength="0"] {
+    background-color: #ff0000;
+    background-image: url('../img/lock_open.png');
+  }
+  .registerView section #registerForm .inputWrap div .icon #rpasswordIcon[data-strength="1"] {
+    background-color: #ff4d00;
+    background-image: url('../img/lock_open.png');
+  }
+  .registerView section #registerForm .inputWrap div .icon #rpasswordIcon[data-strength="2"] {
+    background-color: #ff7700;
+    background-image: url('../img/lock_open.png');
+  }
+  .registerView section #registerForm .inputWrap div .icon #rpasswordIcon[data-strength="3"] {
+    background-color: #ffa200;
+    background-image: url('../img/lock_open.png');
+  }
+  .registerView section #registerForm .inputWrap div .icon #rpasswordIcon[data-strength="4"] {
+    background-color: #ffc400;
+    background-image: url('../img/lock_closed.png');
+  }
+  .registerView section #registerForm .inputWrap div .icon #rpasswordIcon[data-strength="5"] {
+    background-color: #ffff00;
+    background-image: url('../img/lock_closed.png');
+  }
+  .registerView section #registerForm .inputWrap div .icon #rpasswordIcon[data-strength="6"] {
+    background-color: #cdff00;
+    background-image: url('../img/lock_closed.png');
+  }
+  .registerView section #registerForm .inputWrap div .icon #rpasswordIcon[data-strength="7"] {
+    background-color: #afff00;
+    background-image: url('../img/lock_closed.png');
+  }
+  .registerView section #registerForm .inputWrap div .icon #rpasswordIcon[data-strength="8"] {
+    background-color: #80ff00;
+    background-image: url('../img/lock_closed.png');
+  }
+  .registerView section #registerForm .inputWrap div .icon #rpasswordIcon[data-strength="9"] {
+    background-color: #62ff00;
+    background-image: url('../img/lock_closed.png');
+  }
+  .registerView section #registerForm .inputWrap div .icon #rpasswordIcon[data-strength="10"] {
+    background-color: #11ff00;
+    background-image: url('../img/lock_closed.png');
+  }
+  .registerView section #registerForm .inputWrap div.uploadImageForm {
+    cursor: pointer;
+    width: 60%;
+    margin: 0 20% 5px 20%;
+    overflow: hidden;
+    position: relative;
+  }
+  .registerView section #registerForm .inputWrap div.uploadImageForm #uploadButton {
+    *display: inline;
+    /* IE7 inline-block hack */
+    *zoom: 1;
+    padding: 4px 15px;
+    -webkit-box-sizing: border-box;
+    /* Safari/Chrome, other WebKit */
+    -moz-box-sizing: border-box;
+    /* Firefox, other Gecko */
+    box-sizing: border-box;
+    /* Opera/IE 8+ */
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+    -moz-background-clip: padding;
+    -webkit-background-clip: padding-box;
+    background-clip: padding-box;
+    border: 0;
+    background-color: #ffffff;
+    color: #333333;
+    text-shadow: 0 1px 1px rgba(255, 255, 255, 0.75);
+    border: 1px solid #bbbbbb;
+    text-decoration: none !important;
+    background-color: #559d00;
+    color: #ffffff;
+    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+    cursor: pointer;
+    width: 100%;
+    margin: 0 20% 5px 20%;
+    display: inline-block;
+    display: none;
+    margin: 4px 0;
+    z-index: 10000 !important;
+  }
+  .registerView section #registerForm .inputWrap div.uploadImageForm #uploadButton:hover {
+    background-color: #ececec;
+  }
+  .registerView section #registerForm .inputWrap div.uploadImageForm #uploadButton:hover,
+  .registerView section #registerForm .inputWrap div.uploadImageForm #uploadButton:active,
+  .registerView section #registerForm .inputWrap div.uploadImageForm #uploadButton.active,
+  .registerView section #registerForm .inputWrap div.uploadImageForm #uploadButton.disabled,
+  .registerView section #registerForm .inputWrap div.uploadImageForm #uploadButton[disabled] {
+    background-color: #ececec;
+  }
+  .registerView section #registerForm .inputWrap div.uploadImageForm #uploadButton:hover,
+  .registerView section #registerForm .inputWrap div.uploadImageForm #uploadButton:active,
+  .registerView section #registerForm .inputWrap div.uploadImageForm #uploadButton.active,
+  .registerView section #registerForm .inputWrap div.uploadImageForm #uploadButton.disabled,
+  .registerView section #registerForm .inputWrap div.uploadImageForm #uploadButton[disabled] {
+    background-color: #3a8100;
+  }
+  .registerView section #registerForm .inputWrap div.uploadImageForm #filesUpload {
+    position: relative;
+    height: 30px;
+    width: 100%;
+    -webkit-border-radius: 0;
+    -moz-border-radius: 0;
+    border-radius: 0;
+    -moz-background-clip: padding;
+    -webkit-background-clip: padding-box;
+    background-clip: padding-box;
+    cursor: pointer;
+    display: inline-block;
+    z-index: 10001 !important;
+  }
+  .registerView section #registerForm .inputWrap div#canvasWrapper {
+    width: 300px;
+    height: 300px;
+    display: block;
+    margin: 5px auto 10px auto;
+    float: none;
+  }
+  .registerView section #registerForm .inputWrap div#canvasWrapper #original {
+    width: 300px;
+    display: block;
+  }
+  .registerView section #registerForm .inputWrap div.success {
+    height: 40px;
+    display: block;
+    width: 80%;
+    margin: 0 10% 5px 10%;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    -moz-background-clip: padding;
+    -webkit-background-clip: padding-box;
+    background-clip: padding-box;
+    -webkit-box-sizing: border-box;
+    /* Safari/Chrome, other WebKit */
+    -moz-box-sizing: border-box;
+    /* Firefox, other Gecko */
+    box-sizing: border-box;
+    /* Opera/IE 8+ */
+  }
+  .registerView section #registerForm .submitWrap {
+    display: inline-block;
+    vertical-align: bottom;
+    width: 100%;
+    float: left;
+  }
+  .registerView section #registerForm .submitWrap button {
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+    *zoom: 1;
+    padding: 4px 15px;
+    -webkit-box-sizing: border-box;
+    /* Safari/Chrome, other WebKit */
+    -moz-box-sizing: border-box;
+    /* Firefox, other Gecko */
+    box-sizing: border-box;
+    /* Opera/IE 8+ */
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+    -moz-background-clip: padding;
+    -webkit-background-clip: padding-box;
+    background-clip: padding-box;
+    border: 0;
+    background-color: #ffffff;
+    color: #333333;
+    text-shadow: 0 1px 1px rgba(255, 255, 255, 0.75);
+    border: 1px solid #bbbbbb;
+    text-decoration: none !important;
+    padding: 10px 10px;
+    background-color: #559d00;
+    color: #ffffff;
+    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+    width: 80%;
+  }
+  .registerView section #registerForm .submitWrap button:hover {
+    background-color: #ececec;
+  }
+  .registerView section #registerForm .submitWrap button:hover,
+  .registerView section #registerForm .submitWrap button:active,
+  .registerView section #registerForm .submitWrap button.active,
+  .registerView section #registerForm .submitWrap button.disabled,
+  .registerView section #registerForm .submitWrap button[disabled] {
+    background-color: #ececec;
+  }
+  .registerView section #registerForm .submitWrap button:hover,
+  .registerView section #registerForm .submitWrap button:active,
+  .registerView section #registerForm .submitWrap button.active,
+  .registerView section #registerForm .submitWrap button.disabled,
+  .registerView section #registerForm .submitWrap button[disabled] {
+    background-color: #3a8100;
+  }
+  .registerView section #registerForm:not([data-regStep="1"]) {
+    width: 100%;
+    height: 450px;
+  }
+  .registerView section #registerForm:not([data-regStep="1"]) .submitWrap {
+    margin: 0 10% 0 10%;
+    width: 80%;
+  }
+  .registerView section #registerForm:not([data-regStep="1"]) .submitWrap #registerFormPreviousStep,
+  .registerView section #registerForm:not([data-regStep="1"]) .submitWrap #registerFormNextStep,
+  .registerView section #registerForm:not([data-regStep="1"]) .submitWrap #registerFormSubmit {
+    float: left;
+  }
+  .registerView section #registerForm:not([data-regStep="1"]) .submitWrap #registerFormPreviousStep#registerFormPreviousStep,
+  .registerView section #registerForm:not([data-regStep="1"]) .submitWrap #registerFormNextStep#registerFormPreviousStep,
+  .registerView section #registerForm:not([data-regStep="1"]) .submitWrap #registerFormSubmit#registerFormPreviousStep {
+    -webkit-border-top-right-radius: 0;
+    -webkit-border-bottom-right-radius: 0;
+    -webkit-border-bottom-left-radius: 5px;
+    -webkit-border-top-left-radius: 5px;
+    -moz-border-radius-topright: 0;
+    -moz-border-radius-bottomright: 0;
+    -moz-border-radius-bottomleft: 5px;
+    -moz-border-radius-topleft: 5px;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 5px;
+    border-top-left-radius: 5px;
+    -moz-background-clip: padding;
+    -webkit-background-clip: padding-box;
+    background-clip: padding-box;
+    width: 50%;
+    border-right: 1px solid #ccc;
+    float: left;
+    margin-left: 1px;
+  }
+  .registerView section #registerForm:not([data-regStep="1"]) .submitWrap #registerFormPreviousStep#registerFormNextStep,
+  .registerView section #registerForm:not([data-regStep="1"]) .submitWrap #registerFormNextStep#registerFormNextStep,
+  .registerView section #registerForm:not([data-regStep="1"]) .submitWrap #registerFormSubmit#registerFormNextStep,
+  .registerView section #registerForm:not([data-regStep="1"]) .submitWrap #registerFormPreviousStep#registerFormSubmit,
+  .registerView section #registerForm:not([data-regStep="1"]) .submitWrap #registerFormNextStep#registerFormSubmit,
+  .registerView section #registerForm:not([data-regStep="1"]) .submitWrap #registerFormSubmit#registerFormSubmit {
+    -webkit-border-top-right-radius: 5px;
+    -webkit-border-bottom-right-radius: 5px;
+    -webkit-border-bottom-left-radius: 0;
+    -webkit-border-top-left-radius: 0;
+    -moz-border-radius-topright: 5px;
+    -moz-border-radius-bottomright: 5px;
+    -moz-border-radius-bottomleft: 0;
+    -moz-border-radius-topleft: 0;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+    border-bottom-left-radius: 0;
+    border-top-left-radius: 0;
+    -moz-background-clip: padding;
+    -webkit-background-clip: padding-box;
+    background-clip: padding-box;
+    width: 50%;
+    border-left: 1px solid #ccc;
+    float: right;
+    margin-left: -1px;
+  }
+  .registerView section #registerForm[data-regStep="2"] .inputWrap {
+    margin-top: 10px;
+  }
+  .registerView section #registerForm[data-regStep="2"] .inputWrap .introText {
+    min-height: 70px !important;
+    height: 100%;
+    width: 80%;
+    margin: 0 10% 0;
+    float: left;
+  }
+  .registerView section #registerForm[data-regStep="2"] .submitWrap {
+    margin-top: 5px;
+  }
+  .registerView section #registerForm[data-regStep="3"] .submitWrap {
+    margin-top: -25px;
+  }
+  .registerView section #loginForm,
+  .registerView section #registerForm {
+    box-shadow: 0px 0px 3px #fff;
+  }
+  .registerView a {
+    text-decoration: underline;
+    color: #e6e6e6;
+  }
+  .registerView footer {
+    position: relative;
+    bottom: 10px;
+    height: 50px;
+  }
+  .settingsView #main {
+    padding-top: 30px;
+    height: 100%;
+  }
+  .settingsView #main header {
+    height: 20px;
+    margin-top: -30px;
+    padding: 5px;
+  }
+  .settingsView #main header #links {
+    float: right;
+  }
+  .settingsView #main #settingsWrap {
+    height: 100%;
+    overflow-y: scroll;
+    overflow-x: hidden;
+  }
+  .settingsView #main section header {
+    float: left;
+    width: 100%;
+    margin: 10px 0 10px 0;
+    padding: 5px 0px;
+  }
+  .settingsView #main section header:before,
+  .settingsView #main section header :after {
+    content: "";
+    margin-left: 5px;
+  }
+  .settingsView #main section#general header {
+    margin: 0 0 10px 0;
+  }
+  .settingsView #main section .config {
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+    *zoom: 1;
+    float: left;
+    width: 98%;
+    margin: 0 1% 0 1%;
+    margin-top: -5px;
+    margin-bottom: 10px;
+  }
 }
-
-
 /* Tablets
 	
 	// Tablets (landscape) -----------
@@ -4836,7 +7063,7 @@ and (max-device-width : 767px) {
 	}
 */
 /* Small Screens ----------- */
-@media only screen and (max-width: 1159px) {
+@media only screen and (min-width: 768px) and (max-width: 1159px) {
   body {
     margin: 0 auto;
     padding: 50px 0 0;
