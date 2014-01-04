@@ -45,6 +45,7 @@
 		text-align: left;
 		.border-radius(10px);
 		background: @white;
+		box-shadow: 0px 0px 3px #fff;
 		.box-fix;
 		#topWrap {
 			display: block;
@@ -185,7 +186,7 @@
 								margin: 9px 0 11px 0;
 							}
 						}
-						&#rpasswordIcon {
+						#rpasswordIcon {
 							// TODO: nicer colors, color transisitons
 							background-repeat: no-repeat;
 							background-position: center center;
@@ -195,8 +196,9 @@
 							background-position: center center;
 							width: 20px;
 							height: 20px;
-							float: left;
-							margin: 10px 0 0 9.6px;
+							//float: left;
+							margin: 10px 0 0 -4px;
+							display: inline-block;
 							.box-fix;
 							&[data-strength="0"] {
 								background-color: #ff0000;
@@ -347,6 +349,9 @@
 					margin-top: -27px;
 				}
 			}
+		}
+		#loginForm, #registerForm {
+			box-shadow: 0px 0px 3px #fff;
 		}
 	}	
 	a {

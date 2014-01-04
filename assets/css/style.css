@@ -2055,6 +2055,7 @@ body.loading:after {
   -webkit-background-clip: padding-box;
   background-clip: padding-box;
   background: #ffffff;
+  box-shadow: 0px 0px 3px #fff;
   -webkit-box-sizing: border-box;
   /* Safari/Chrome, other WebKit */
   -moz-box-sizing: border-box;
@@ -2310,7 +2311,7 @@ body.loading:after {
   height: 20px;
   margin: 9px 0 11px 0;
 }
-.registerView section #registerForm .inputWrap div .icon#rpasswordIcon {
+.registerView section #registerForm .inputWrap div .icon #rpasswordIcon {
   background-repeat: no-repeat;
   background-color: #ff0000;
   -webkit-background-size: 10px;
@@ -2326,8 +2327,8 @@ body.loading:after {
   background-position: center center;
   width: 20px;
   height: 20px;
-  float: left;
-  margin: 10px 0 0 9.6px;
+  margin: 10px 0 0 -4px;
+  display: inline-block;
   -webkit-box-sizing: border-box;
   /* Safari/Chrome, other WebKit */
   -moz-box-sizing: border-box;
@@ -2335,47 +2336,47 @@ body.loading:after {
   box-sizing: border-box;
   /* Opera/IE 8+ */
 }
-.registerView section #registerForm .inputWrap div .icon#rpasswordIcon[data-strength="0"] {
+.registerView section #registerForm .inputWrap div .icon #rpasswordIcon[data-strength="0"] {
   background-color: #ff0000;
   background-image: url('../img/lock_open.png');
 }
-.registerView section #registerForm .inputWrap div .icon#rpasswordIcon[data-strength="1"] {
+.registerView section #registerForm .inputWrap div .icon #rpasswordIcon[data-strength="1"] {
   background-color: #ff4d00;
   background-image: url('../img/lock_open.png');
 }
-.registerView section #registerForm .inputWrap div .icon#rpasswordIcon[data-strength="2"] {
+.registerView section #registerForm .inputWrap div .icon #rpasswordIcon[data-strength="2"] {
   background-color: #ff7700;
   background-image: url('../img/lock_open.png');
 }
-.registerView section #registerForm .inputWrap div .icon#rpasswordIcon[data-strength="3"] {
+.registerView section #registerForm .inputWrap div .icon #rpasswordIcon[data-strength="3"] {
   background-color: #ffa200;
   background-image: url('../img/lock_open.png');
 }
-.registerView section #registerForm .inputWrap div .icon#rpasswordIcon[data-strength="4"] {
+.registerView section #registerForm .inputWrap div .icon #rpasswordIcon[data-strength="4"] {
   background-color: #ffc400;
   background-image: url('../img/lock_closed.png');
 }
-.registerView section #registerForm .inputWrap div .icon#rpasswordIcon[data-strength="5"] {
+.registerView section #registerForm .inputWrap div .icon #rpasswordIcon[data-strength="5"] {
   background-color: #ffff00;
   background-image: url('../img/lock_closed.png');
 }
-.registerView section #registerForm .inputWrap div .icon#rpasswordIcon[data-strength="6"] {
+.registerView section #registerForm .inputWrap div .icon #rpasswordIcon[data-strength="6"] {
   background-color: #cdff00;
   background-image: url('../img/lock_closed.png');
 }
-.registerView section #registerForm .inputWrap div .icon#rpasswordIcon[data-strength="7"] {
+.registerView section #registerForm .inputWrap div .icon #rpasswordIcon[data-strength="7"] {
   background-color: #afff00;
   background-image: url('../img/lock_closed.png');
 }
-.registerView section #registerForm .inputWrap div .icon#rpasswordIcon[data-strength="8"] {
+.registerView section #registerForm .inputWrap div .icon #rpasswordIcon[data-strength="8"] {
   background-color: #80ff00;
   background-image: url('../img/lock_closed.png');
 }
-.registerView section #registerForm .inputWrap div .icon#rpasswordIcon[data-strength="9"] {
+.registerView section #registerForm .inputWrap div .icon #rpasswordIcon[data-strength="9"] {
   background-color: #62ff00;
   background-image: url('../img/lock_closed.png');
 }
-.registerView section #registerForm .inputWrap div .icon#rpasswordIcon[data-strength="10"] {
+.registerView section #registerForm .inputWrap div .icon #rpasswordIcon[data-strength="10"] {
   background-color: #11ff00;
   background-image: url('../img/lock_closed.png');
 }
@@ -2604,6 +2605,10 @@ body.loading:after {
 }
 .registerView section #registerForm[data-regStep="3"] .submitWrap {
   margin-top: -27px;
+}
+.registerView section #loginForm,
+.registerView section #registerForm {
+  box-shadow: 0px 0px 3px #fff;
 }
 .registerView a {
   text-decoration: underline;
