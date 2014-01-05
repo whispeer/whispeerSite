@@ -4814,7 +4814,7 @@ body.loading:after {
     padding: 50px 0 0;
     min-width: none !important;
     width: 100% !important;
-    zoom: 1 !important;
+    zoom: 0 !important;
   }
   body noscript {
     display: block;
@@ -4846,8 +4846,11 @@ body.loading:after {
     /* IE7 inline-block hack */
     *zoom: 1;
     float: left;
-    width: 98%;
+    width: 85.5%;
     margin: 0 1% 0 1%;
+  }
+  body #container #main.small {
+    width: 73% !important;
   }
   body #container #sidebar-right {
     display: inline-block;
@@ -4855,29 +4858,27 @@ body.loading:after {
     /* IE7 inline-block hack */
     *zoom: 1;
     float: left;
-    width: 98%;
+    width: 10.5%;
     margin: 0 1% 0 1%;
-    display: none;
+    margin-top: 10px;
   }
-  body #container #sidebar-left {
-    display: inline-block;
-    *display: inline;
-    /* IE7 inline-block hack */
-    *zoom: 1;
-    float: left;
-    width: 98%;
-    margin: 0 1% 0 1%;
-    display: none;
+  body #container #sidebar-right.big {
+    width: 23% !important;
   }
-  body #container #sidebar-left #userpanel {
-    display: inline-block;
-    *display: inline;
-    /* IE7 inline-block hack */
-    *zoom: 1;
-    float: left;
-    width: 98%;
-    margin: 0 1% 0 1%;
-    margin-bottom: 10px;
+  body #container #sidebar-right .mobileMenu {
+    list-style-type: none;
+    margin-left: 0;
+    list-style: none;
+    width: 100%;
+  }
+  body #container #sidebar-right .mobileMenu img {
+    width: 100%;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    -moz-background-clip: padding;
+    -webkit-background-clip: padding-box;
+    background-clip: padding-box;
   }
   body footer {
     float: left;
@@ -4896,7 +4897,7 @@ body.loading:after {
     text-align: right;
   }
   body:not(.registerView) {
-    padding-top: 70px;
+    padding-top: 50px;
   }
   .person {
     height: 250px;
@@ -5050,6 +5051,10 @@ body.loading:after {
   #topNav {
     width: 100%;
   }
+  #topNav #navInner {
+    text-align: center;
+    width: 100%;
+  }
   #topNav #navInner #brand {
     font-size: 25px;
     line-height: 20px;
@@ -5058,7 +5063,7 @@ body.loading:after {
     /* IE7 inline-block hack */
     *zoom: 1;
     float: left;
-    width: 14.666666666666668%;
+    width: 98%;
     margin: 0 1% 0 1%;
     margin-top: 12px;
   }
@@ -5070,6 +5075,7 @@ body.loading:after {
     float: left;
     width: 64.66666666666667%;
     margin: 0 1% 0 1%;
+    display: none;
   }
   #topNav .searchBar .formSearch {
     width: 100%;
@@ -5108,6 +5114,7 @@ body.loading:after {
     float: right;
     width: 14.666666666666668%;
     margin: 0 1% 0 1%;
+    display: none;
   }
   #topNav #navIcons .navIcon {
     display: inline-block;
@@ -5816,17 +5823,76 @@ body.loading:after {
   .circlesView #circleContainer.newCircle #sendmessage {
     margin-left: 8px;
   }
+  #main {
+    overflow-y: scroll;
+    overflow-x: hidden;
+  }
+  header {
+    height: auto !important;
+    padding-bottom: 5px;
+    margin-bottom: 0;
+  }
+  header button {
+    width: 100% !important;
+    margin-bottom: 5px;
+  }
+  header #postIt {
+    width: 100% !important;
+    margin: 0 !important;
+    margin-bottom: 2% !important;
+    height: auto !important;
+  }
+  header #postIt #receiver {
+    width: 100% !important;
+  }
   header #postIt #receiver .inputWrap li.searchField {
-    width: 70%;
+    width: 80%;
   }
   header #postIt #receiver .searchDrop {
     width: 28.2% !important;
   }
-  header #filter #theFilter .inputWrap li.searchField {
+  header #postIt button {
+    width: 100% !important;
+  }
+  header #filter {
+    width: 100% !important;
+    margin: 0 !important;
+    height: auto !important;
+  }
+  header #filter .title {
+    width: 100% !important;
+    height: 30px !important;
+    margin: 0 !important;
+    -webkit-box-sizing: border-box;
+    /* Safari/Chrome, other WebKit */
+    -moz-box-sizing: border-box;
+    /* Firefox, other Gecko */
+    box-sizing: border-box;
+    /* Opera/IE 8+ */
+  }
+  header #filter .title span {
+    margin-top: 0;
+    display: block;
+  }
+  header #filter div {
+    height: auto !important;
+    margin: 0 !important;
+  }
+  header #filter div #theFilter {
+    width: 100%!important;
+    padding: 0 !important;
+    margin-top: 5px !important;
+  }
+  header #filter div #theFilter .inputWrap li.searchField {
     width: 120%;
   }
-  header #filter #theFilter .searchDrop {
+  header #filter div #theFilter .searchDrop {
     width: 19.4% !important;
+  }
+  .posts {
+    margin-top: 0px !important;
+    padding: 0 !important;
+    overflow: visible !important;
   }
   .posts article {
     display: inline-block;
@@ -5836,7 +5902,7 @@ body.loading:after {
     float: left;
     width: 98%;
     margin: 0 1% 0 1%;
-    margin: 10px 0 0 0;
+    margin: 0 !important;
   }
   .posts article .userimg {
     border-radius: 200px;
@@ -5847,7 +5913,7 @@ body.loading:after {
     float: left;
     width: 12.285714285714286%;
     margin: 0 1% 0 1%;
-    margin: 10px 0px 10px 0px;
+    margin: 5px 0px 5px 0px !important;
   }
   .posts article .postContent {
     display: inline-block;
@@ -5855,11 +5921,12 @@ body.loading:after {
     /* IE7 inline-block hack */
     *zoom: 1;
     float: left;
-    width: 55.142857142857146%;
+    width: 83.71428571428572%;
     margin: 0 1% 0 1%;
-    padding-top: 5px;
-    margin-top: 10px;
-    margin-bottom: 10px;
+    padding-top: 0px !important;
+    margin-top: -10px !important;
+    margin-bottom: 5px !important;
+    border-bottom: 1px dashed #ccc;
   }
   .posts article .postContent .postText {
     padding-left: 10px;
@@ -5885,9 +5952,9 @@ body.loading:after {
     /* IE7 inline-block hack */
     *zoom: 1;
     float: left;
-    width: 23%;
+    width: 98%;
     margin: 0 1% 0 1%;
-    padding-top: 20px;
+    padding-top: 0px !important;
     margin-bottom: 10px;
   }
   .posts article .postInfo .with {

@@ -7,7 +7,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 
 	function rootController($scope, sessionService, sessionHelper, userService, cssService, messageService, friendsService) {
 		$scope.loggedin = false;
-
+		$scope.mobile = true;
 		$scope.user = {};
 		$scope.friends = friendsService.data;
 
@@ -42,6 +42,12 @@ define(["step", "whispeerHelper"], function (step, h) {
 				}
 			});
 		});
+
+		$scope.sidebarClicked = false;
+
+		$scope.sidebarClick = function() {
+			$scope.sidebarClicked = !$scope.sidebarClicked;
+		};
 		
 		cssService.addListener(function (newClass) {
 			$scope.cssClass = newClass;

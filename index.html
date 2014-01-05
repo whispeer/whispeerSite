@@ -14,7 +14,7 @@
 	<title>whispeer</title>
 	<meta name="description" content="" />
 	<meta name="author" content="" />
-	<meta name="viewport" content="width=device-width" />
+	<meta name="viewport" content="target-densitydpi=device-dpi, initial-scale=1.0, user-scalable=no" />
 	<link rel="shortcut icon" href="/assets/img/favicon/favicon.png" type="image/x-icon" />
 	<!-- iOS Web-App Stuff -->
 	<link rel="apple-touch-icon" href="/assets/img/favicon/socialize-icon-iphone.png" />
@@ -60,7 +60,7 @@
 		</div>	
 	</nav>
 	<div id="container">
-		<aside id="sidebar-left" data-ng-show="loggedin" data-ng-if="loggedin" style="display:none">
+		<aside id="sidebar-left"data-ng-if="loggedin && !mobile">
 			<div id="userpanel">
 				<a href="{{user.url}}" class="username">
 					<img data-ng-src="{{user.image}}" alt="" class="userimg">
@@ -83,22 +83,31 @@
 				</nav>
 			</div>	
 		</aside>
-
-		<section id="main" data-ng-view>
+		<section id="main" data-ng-view data-ng-class="{sidebarClicked: small}">
 			<div id="logo">
 				<img src="/assets/img/logo.png">
 			</div>
 		</section>
-		</section>
 
-		<aside id="sidebar-right" data-ng-show="loggedin" data-ng-if="loggedin" style="display:none">
+		<aside id="sidebar-right" data-ng-if="loggedin && !mobile">
 			<div id="magicbar" data-ng-controller="ssn.magicbar.mainController">
 				<div data-ng-if="!config.showDefault" data-ng-include="'/assets/views/magicbar/' + config.template + '.html'" style="height: 100%;">Loading</div>
-				<div data-ng-if="config.showDefault" style="height: 100%;">
+				<div data-ng-if="config.showDefault">
 					<div data-ng-repeat="widget in defaultConfig" data-ng-include="'/assets/views/magicbar/' + widget.template + '.html'" style="height:{{widget.height}};"></div>
-				</div>							
-			</div>		
+				</div>
+			</div>
 		</aside>
+		<aside id="sidebar-right" data-ng-if="loggedin && mobile" data-ng-click="sidebarClick()" data-ng-class="{sidebarClicked: big}">
+			<ul class="mobileMenu">
+				<li><a href="{{user.url}}"><img src="assets/img/user.png" alt="User"></a></li>
+				<li><a href="/friends"><img src="assets/img/icons/friends.png" alt="Freunde"></a></li>
+				<li><a href="/messages"><img src="assets/img/icons/messages.png" alt="Nachrichten"></a></li>
+				<li><a href="/circles">Kreise</a></li>
+				<li><a href="/settings"><img src="assets/img/icons/settings.png"></a></li>
+				<li><a href="/help">Hilfe</a></li>
+				<li><a href="#" data-ng-click="logout()" data-eat-click>Logout</a></li>				
+			</ul>
+		</aside>								
 	</div>
 	<footer>
 	<div id="left">&copy; 2013 WhisPeer</div> <div id="right"><a href="">AGB</a> <a href="">Datenschutzbestimmungen</a> <a href="">Kontakt</a> <a href="">Impressum</a></div>

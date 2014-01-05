@@ -7,6 +7,14 @@ define([], function () {
 
 	function mainController($scope, cssService) {
 		cssService.setClass("mainView");
+		$scope.postActive = false;
+		$scope.filterActive = false;
+		$scope.togglePost = function() {
+			$scope.postActive = !$scope.postActive;
+		}
+		$scope.toggleFilter = function() {
+			$scope.filterActive = !$scope.filterActive;
+		}
 		$scope.posts = [
 			{
 				"sender":	{

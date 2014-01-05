@@ -3,7 +3,7 @@ body {
 	padding: @navbarHeight 0 0;
 	min-width: none !important;
 	width: 100% !important;
-	zoom: 1 !important;
+	zoom: 0 !important;
 	noscript {
 		.row(12);
 		margin-top: 10px;
@@ -16,18 +16,24 @@ body {
 			height: 100%;
 		}
 		#main {
-			.column(12);
+			.column(10.5);
+			&.small {
+				.width(9);
+			}
 		}
 		#sidebar-right {
-			.column(12);
-			display: none;
-		}
-		#sidebar-left {
-			.column(12);
-			display: none;
-			#userpanel {
-				.column(2,2);
-				margin-bottom: 10px;
+			.column(1.5);
+			&.big {
+				.width(3);
+			}
+			margin-top: 10px;
+			.mobileMenu {
+				.unstyled;
+				width: 100%;
+				img {
+					width: 100%;
+					.border-radius(5px);
+				}
 			}
 		}
 	}
@@ -49,6 +55,6 @@ body {
 		}
 	}
 	&:not(.registerView) {
-		padding-top: 70px;
+		padding-top: 50px;
 	}
 }

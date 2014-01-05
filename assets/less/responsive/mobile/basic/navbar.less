@@ -1,15 +1,18 @@
 #topNav {
 	width: 100%;
 	#navInner {
+		text-align: center;
+		width: 100%;
 		#brand {
 			font-size: 25px;
 			line-height: @baseLineHeight;
-			.column(2,12);
+			.column(12,12);
 			margin-top: 12px;
 		}
 	}
 	.searchBar {
 		.column(8);
+		display: none;
 		.formSearch {
 			width: 100%;
 			margin: 7px 0px;
@@ -42,6 +45,7 @@
 	#navIcons {
 		height: 100%;
 		.column(2,12, right);
+		display: none;
 		.navIcon {
 			.column(1,4);
 			.icon {
