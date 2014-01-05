@@ -42,13 +42,13 @@ define(["whispeerHelper"], function (h) {
 		};
 
 		$scope.unloadCircle = function () {
-			$scope.showCircle = false;
+			$scope.circleLoaded = false;
 			$scope.thisCircle = {};
 			$scope.circleid = 0;
 		};
 
 		$scope.loadActiveCircle = function (id) {
-			$scope.showCircle = true;
+			$scope.circleLoaded = true;
 			$scope.circleid = id;
 
 			circleService.get(id).loadPersons(function () {
@@ -56,6 +56,16 @@ define(["whispeerHelper"], function (h) {
 			});
 			$scope.thisCircle = circleService.get(id).data;
 		};
+
+		$scope.showCirlce = false;
+
+		$scope.showCircleDo = function() {
+			$scope.showCircle = true;
+		}
+
+		$scope.showCircleUnDo = function() {
+			$scope.showCircle = false;
+		}
 	}
 
 	circlesController.$inject = ["$scope", "ssn.cssService", "ssn.circleService"];

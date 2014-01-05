@@ -1,12 +1,11 @@
 // Responsive Styles
 // --------------------------- 
 
-/*
-/* Smartphones (portrait and landscape)
+// Smartphones (portrait and landscape)
 @media only screen 
 and (min-device-width : 319px) 
 and (max-device-width : 767px) {
-	@import "responsive/mobile/index";
+	@import "mobile/index";
 }
 
 
@@ -17,7 +16,7 @@ and (max-device-width : 767px) {
 	and (min-width : 768px) 
 	and (max-width : 1023px) 
 	and (orientation : landscape) {
-		@import "responsive/tablet/landscape/index";
+		@import "tablet/landscape/index";
 	}
 	
 	// Tablets (portrait) -----------
@@ -25,28 +24,29 @@ and (max-device-width : 767px) {
 	and (min-width : 768px) 
 	and (max-width : 1023px) 
 	and (orientation : portrait) {
-		@import "responsive/tablet/portrait/index";
+		@import "tablet/portrait/index";
 	}
 */
 
 /* Small Screens ----------- */
 @media only screen
+and (min-width: 768px)
 and (max-width: 1159px) {
-	@import "responsive/smallScreen/index";
+	@import "smallScreen/index";
 }
 
 /* Normal Screens ---------- */
 @media only screen 
 and (min-width: 1160px)
 and (max-width: 1823px) {
-	@import "responsive/normalScreen/index";
+	@import "normalScreen/index";
 }
 
 /* Large screens ----------- */
 @media only screen 
 and (min-width : 1824px) {
-	@import "responsive/largeScreen/index";
+	@import "largeScreen/index";
 }
 
 /* Utilities --------------- */
-@import "responsive/utilities.less";
+@import "utilities.less";

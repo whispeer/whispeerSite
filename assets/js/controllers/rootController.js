@@ -7,7 +7,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 
 	function rootController($scope, sessionService, sessionHelper, userService, cssService, messageService, friendsService) {
 		$scope.loggedin = false;
-
+		$scope.mobile = true;
 		$scope.user = {};
 		$scope.friends = friendsService.data;
 
@@ -37,7 +37,26 @@ define(["step", "whispeerHelper"], function (step, h) {
 				}
 			});
 		});
+
+		$scope.sidebarActive = false;
+		$scope.searchActive = false;
+
+		$scope.toggleSidebar = function() {
+			$scope.sidebarActive = !$scope.sidebarActive;
+			$scope.searchActive = false;
+		};
+
+		$scope.mobileActivateView = function() {
+			$scope.sidebarActive = false;
+			$scope.searchActive = false;
+			$scope.cssClass = cssService.getClass();
+		};
 		
+		$scope.toggleSearch = function() {
+			$scope.searchActive = !$scope.searchActive;
+			$scope.sidebarActive = false;
+		};
+
 		cssService.addListener(function (newClass) {
 			$scope.cssClass = newClass;
 		});

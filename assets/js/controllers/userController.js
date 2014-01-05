@@ -205,6 +205,36 @@ define(["step", "whispeerHelper"], function (step, h) {
 				"mutualFriends":	"495",
 				"image":	"/assets/img/user.png"
 				//"lists":	[''] // ID's of the Lists with this friend
+			},
+			{
+				"name": "William Welle",
+				"mutualFriends":	"495",
+				"image":	"/assets/img/user.png"
+				//"lists":	[''] // ID's of the Lists with this friend
+			},
+			{
+				"name": "William Welle",
+				"mutualFriends":	"495",
+				"image":	"/assets/img/user.png"
+				//"lists":	[''] // ID's of the Lists with this friend
+			},
+			{
+				"name": "William Welle",
+				"mutualFriends":	"495",
+				"image":	"/assets/img/user.png"
+				//"lists":	[''] // ID's of the Lists with this friend
+			},
+			{
+				"name": "William Welle",
+				"mutualFriends":	"495",
+				"image":	"/assets/img/user.png"
+				//"lists":	[''] // ID's of the Lists with this friend
+			},
+			{
+				"name": "William Welle",
+				"mutualFriends":	"495",
+				"image":	"/assets/img/user.png"
+				//"lists":	[''] // ID's of the Lists with this friend
 			}
 		];
 	}

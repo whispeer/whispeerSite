@@ -152,7 +152,7 @@
 							"commented": "{user} hat ihren eigenen Pinnwandeintrag kommentiert, den du auch kommentiert hast: \"{what}\"",
 							"awesomed":	"{user} hat ihren eigenen Pinnwandeintrag kommentiert, den du awesome findest: \"{what}\"",
 							"linked": "{user} hat ihren eigenen Pinnwandeintrag kommentierst, in dem du verlinkt bist!"
-						},
+						}
 					},
 					"link": {
 						"you": {
@@ -231,7 +231,7 @@
 					"comment": {
 						"you": {
 							"own": "{user} thinks your comment is awesome!",
-							"commented": "{user} thinks a comment of {owner} is awesome, that you commented!",
+							"commented": "{user} thinks a comment of {owner} is awesome, that you commented!"
 						},
 						"his": {
 							"commented": "{user} findet seinen eigenen Kommentar awesome, den du kommentiert hast!",
@@ -248,7 +248,7 @@
 				"share": {
 					"photo": {
 						"you": {
-							"own": "{user} shared your photo!"
+							"own": "{user} shared your photo!",
 							"commented": "{user} shared a photo of {owner}, that you commented!",
 							"awesomed":	"{user} shared a photo of {owner}, that you think is awesome!",
 							"shared":	"{user} shared a photo that you have shared!"
@@ -266,7 +266,7 @@
 					},
 					"post": {
 						"you": {
-							"own": "{user} shared your post!"
+							"own": "{user} shared your post!",
 							"commented": "{user} shared a post of {owner}, that you commented!",
 							"awesomed":	"{user} shared a post of {owner}, that you think is awesome!",
 							"shared":	"{user} shared a post that you have shared!"
@@ -284,7 +284,7 @@
 					},
 					"wallpost": {
 						"you": {
-							"own": "{user} shared your wallpost!"
+							"own": "{user} shared your wallpost!",
 							"commented": "{user} shared a wallpost of {owner}, that you commented!",
 							"awesomed":	"{user} shared a wallpost of {owner}, that you think is awesome!",
 							"shared":	"{user} shared a wallpost that you have shared!"
@@ -302,7 +302,7 @@
 					},
 					"link": {
 						"you": {
-							"own": "{user} shared your link!"
+							"own": "{user} shared your link!",
 							"commented": "{user} shared a link of {owner}, that you commented!",
 							"awesomed":	"{user} shared a link of {owner}, that you think is awesome!",
 							"shared":	"{user} shared a link that you have shared!"
@@ -383,7 +383,7 @@
 					},
 					"wallpost": { 
 						"you": {
-							"tagged": "{user} tagged you in a wallpost: \"{what}\"",						
+							"tagged": "{user} tagged you in a wallpost: \"{what}\""						
 						}
 					},
 					"comment": {
@@ -391,7 +391,6 @@
 							"tagged": "{user} tagged you in a comment: \"{what}\""
 						}
 					}
-				}
 				}
 			}
 		},

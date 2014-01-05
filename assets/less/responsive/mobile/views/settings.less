@@ -1,0 +1,77 @@
+.settingsView {
+	#main {
+		padding-top: 20px;
+		margin-top: 5px !important;
+		height: 100%;
+		overflow: hidden;
+		header {
+			height: 20px !important;
+			margin-top: -20px;
+			padding: 5px;
+			.links {
+				float: right;
+				display: none !important;
+			}
+		}
+		#settingsWrap {
+			height: 100%;
+			overflow-y: scroll;
+			overflow-x: hidden;
+		}
+		section {
+			header {
+				float: left;
+				width: 100%;
+				margin: 10px 0 10px 0;
+				padding: 5px 0px;
+				&:before, :after {
+					content: "";
+					margin-left: 5px;
+				}
+			}
+			&#general header {
+				margin: 0 0 10px 0;
+			}
+			.config {
+				.column(8,8);
+				margin-top: 0px;
+				margin-bottom: 10px;
+				span {
+					.column(12);
+				}
+				input:not([type=submit]) {
+					.column(12);
+					margin-bottom: 5px;
+				}
+				.button {
+					.column(12);
+					margin: 0 2% 0 0 !important;
+				}
+				&#nickname {
+					button {
+						margin-left: 1% !important;
+					}
+				}
+			}
+			&#safety {
+				header {
+					height: 40px !important;
+					.title {
+						margin-top: -20px !important;
+					}
+				}
+				.config {
+					button {
+						.column(12);
+						margin-top: 10px;
+						margin-bottom: 10px;
+						height: 40px;
+					}
+					.whoMaySeeIt {
+						.column(12);
+					}
+				}
+			}
+		}
+	}	
+}

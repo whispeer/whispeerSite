@@ -14,7 +14,7 @@
 	<title>whispeer</title>
 	<meta name="description" content="" />
 	<meta name="author" content="" />
-	<meta name="viewport" content="width=device-width" />
+	<meta name="viewport" content="target-densitydpi=device-dpi, initial-scale=1.0, user-scalable=no" />
 	<link rel="shortcut icon" href="/assets/img/favicon/favicon.png" type="image/x-icon" />
 	<!-- iOS Web-App Stuff -->
 	<link rel="apple-touch-icon" href="/assets/img/favicon/socialize-icon-iphone.png" />
@@ -36,7 +36,9 @@
 	<noscript>Hallo! Leider steht uns bei deinem Browser kein Javascript zur Verfügung!<br> Daher ist es nicht möglich whispeer zu nutzen, da wir unbedingt Javascript benötigen!<br> Vielen Dank für dein Verständnis!</noscript>
 	<nav id="topNav" data-ng-show="loggedin" data-ng-if="loggedin" style="display:none">
 		<div id="navInner">
-			<a href="/" id="brand"><span id="brandNormal">whis</span><span id="brandInverse">peer</span></a>
+			<button id="toggleSearch" data-ng-click="toggleSearch()" data-ng-if="mobile"><i class="icon icon-search"></i></button>
+			<a href="/" id="brand" data-ng-click="mobileActivateView()"><span id="brandNormal">whis</span><span id="brandInverse">peer</span></a>
+			<button id="toggleSidebar" data-ng-click="toggleSidebar()" data-ng-if="mobile"><i class="icon icon-home"></i></button>
 			<div class="nav-collapse collapse">
 				<usersearch size="big" data-input-i18n-attr="menu.search|placeholder"/>
 			</div>
@@ -60,7 +62,7 @@
 		</div>	
 	</nav>
 	<div id="container">
-		<aside id="sidebar-left" data-ng-show="loggedin" data-ng-if="loggedin" style="display:none">
+		<aside id="sidebar-left"data-ng-if="loggedin && !mobile">
 			<div id="userpanel">
 				<a href="{{user.basic.url}}" class="username">
 					<img data-ng-src="{{user.basic.image}}" alt="" class="userimg">
@@ -83,22 +85,68 @@
 				</nav>
 			</div>	
 		</aside>
-
-		<section id="main" data-ng-view>
+		<section id="main" data-ng-view data-ng-show="!sidebarActive && !searchActive || !mobile">
 			<div id="logo">
 				<img src="/assets/img/logo.png">
 			</div>
 		</section>
+		<section id="mobileSearch" data-ng-if="searchActive && !sidebarActive">
+			<usersearch size="big" data-input-i18n-attr="menu.search|placeholder"/>
 		</section>
 
-		<aside id="sidebar-right" data-ng-show="loggedin" data-ng-if="loggedin" style="display:none">
+		<aside id="sidebar-right" data-ng-if="loggedin && !mobile">
 			<div id="magicbar" data-ng-controller="ssn.magicbar.mainController">
 				<div data-ng-if="!config.showDefault" data-ng-include="'/assets/views/magicbar/' + config.template + '.html'" style="height: 100%;">Loading</div>
-				<div data-ng-if="config.showDefault" style="height: 100%;">
+				<div data-ng-if="config.showDefault">
 					<div data-ng-repeat="widget in defaultConfig" data-ng-include="'/assets/views/magicbar/' + widget.template + '.html'" style="height:{{widget.height}};"></div>
-				</div>							
-			</div>		
+				</div>
+			</div>
 		</aside>
+		<aside id="sidebar-right" data-ng-if="loggedin && mobile" data-ng-show="sidebarActive && !searchActive">
+			<ul class="mobileMenu">
+				<a href="{{user.url}}" data-ng-click="toggleSidebar()">
+					<li>
+						<img src="assets/img/user.png" alt="User">
+						<span data-i18n="menu.profil"></span>
+					</li>
+				</a>
+				<a href="/friends"  data-ng-click="toggleSidebar()">
+					<li>
+						<img src="assets/img/icons/friends.png" alt="Freunde">
+						<span data-i18n="menu.friends|count={{friends.friendsCount}}"></span>
+					</li>
+				</a>
+				<a href="/messages"  data-ng-click="toggleSidebar()">
+					<li>
+						<img src="assets/img/icons/messages.png" alt="Nachrichten">
+						<span data-i18n="menu.messages"></span>
+					</li>	
+				</a>
+				<a href="/circles"  data-ng-click="toggleSidebar()">
+					<li>
+						<img src="" alt="">
+						<span data-i18n="menu.circles"></span>
+					</li>
+				</a>
+				<a href="/settings"  data-ng-click="toggleSidebar()">
+					<li>
+						<img src="assets/img/icons/settings.png">
+						<span data-i18n="menu.settings"></span>
+					</li>
+				</a>
+				<a href="/help"  data-ng-click="toggleSidebar()">
+					<li>
+						<img src="">
+						<span data-i18n="menu.help"></span>
+					</li>
+				</a>
+				<a href="#" data-ng-click="logout()" data-eat-click>
+					<li data-ng-click="toggleSidebar()">
+						<span data-i18n="menu.logout"></span>
+					</li>
+				</a>				
+			</ul>
+		</aside>								
 	</div>
 	<footer>
 	<div id="left">&copy; 2013 WhisPeer</div> <div id="right"><a href="">AGB</a> <a href="">Datenschutzbestimmungen</a> <a href="">Kontakt</a> <a href="">Impressum</a></div>

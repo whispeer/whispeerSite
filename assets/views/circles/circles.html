@@ -1,54 +1,111 @@
-
-<header>
-	<span class="title" role="title" data-i18n="views.circles.header.title"></span>
-	<nav data-ng-if="activeCircle">
-		<a href="#" data-i18n="views.circles.header.sendMessage"></a>
-		<a href="#" data-i18n="views.circles.header.addPeople"></a>
-		<a href="#" data-i18n="views.circles.header.createGroup"></a>
-	</nav>
-</header>
-<div id="circleListWrap">
-	<ul id="circleList">
-		<li class="circle" id="newcircle">
-			<div class="left"><i class="icon-plus-circle" id="plusBtn"></i></div>
-			<div class="right" data-i18n="views.circles.newCircle" data-ng-click="unloadCircle()"></div>
-		</li>
-		<div id="circleListScroll">
-			<li data-ng-repeat="circle in circles" id="{{circle.id}}" class="circle" data-ng-click="loadActiveCircle(circle.id)">
-				<div class="left">
-					<img class="userimg" data-ng-src="{{circle.image}}" alt="Userimage">
-				</div>
-				<div class="listname">
-					<strong>{{circle.name}}</strong>
-				</div>
-				<div class="personCount" data-i18n="views.circles.personCount|count={{circle.userids.length}}">
-				</div>
-				<div class="clear-fix"></div>
+<div data-ng-if="!mobile">
+	<header>
+		<span class="title" role="title"><span data-i18n="views.circles.header.title"></span>&nbsp;<span data-ng-if="circleLoaded">anzeigen: {{thisCircle.name}}</span></span>
+		<nav data-ng-if="activeCircle">
+			<a href="#" data-i18n="views.circles.header.sendMessage"></a>
+			<a href="#" data-i18n="views.circles.header.addPeople"></a>
+			<a href="#" data-i18n="views.circles.header.createGroup"></a>
+		</nav>
+	</header>
+	<div id="circleListWrap">
+		<ul id="circleList">
+			<li class="circle" id="newcircle">
+				<div class="left"><i class="icon-plus-circle" id="plusBtn"></i></div>
+				<div class="right" data-i18n="views.circles.newCircle" data-ng-click="unloadCircle()"></div>
 			</li>
+			<div id="circleListScroll">
+				<li data-ng-repeat="circle in circles" id="{{circle.id}}" class="circle" data-ng-click="loadActiveCircle(circle.id)">
+					<div class="left">
+						<img class="userimg" data-ng-src="{{circle.image}}" alt="Userimage">
+					</div>
+					<div class="listname">
+						<strong>{{circle.name}}</strong>
+					</div>
+					<div class="personCount" data-i18n="views.circles.personCount|count={{circle.userids.length}}">
+					</div>
+					<div class="clear-fix"></div>
+				</li>
+			</div>
+		</ul>
+	</div>
+	<div id="circleContainer" data-circleID="{{thisCircle.id}}" data-ng-if="showCircle">
+		<div id="circleTitle">
+			<h2 data-i18n="views.circles.personsInCircle|name={{thisCircle.name}}" title="{{thisCircle.name}}"></h2>
 		</div>
-	</ul>
+		<div id="circleWrap">
+			<ol id="friendsList" class="unstyled">
+				<li class="person" data-ng-repeat="friend in thisCircle.persons" style="background-image: url({{friend.image}})">
+					<friend data-user="friend"></friend>
+				</li>	
+			</ol>
+		</div>
+	</div>
+	<div id="circleContainer" class="newCircle" data-ng-if="!showCircle">
+		<div id="circleTitle">
+			<h2>Neuer Kreis</h2>
+		</div>
+		<div id="circleWrap">	
+			<form id="inputWrap">
+				<input type="text" data-i18n-attr="views.circles.titleForNew|placeholder" id="titleInput" data-ng-model="circleName">
+				<usersearch data-scope="friends" data-multiple type="text" data-input-i18n-attr="views.circles.searchFriends|placeholder" id="friendInput" />
+				<button class="btn btn-success btn-large" id="savecircle" type="submit" data-ng-click="createNew(circleName)">Kreis erstellen!</button>		
+			</form>
+		</div>
+	</div>
 </div>
-<div id="circleContainer" data-circleID="{{thisCircle.id}}" data-ng-if="showCircle">
-	<div id="circleTitle">
-		<h2 data-i18n="views.circles.personsInCircle|name={{thisCircle.name}}" title="{{thisCircle.name}}"></h2>
+<div data-ng-if="mobile">
+	<header>
+		<span class="title" role="title"><span data-i18n="views.circles.header.title"></span>&nbsp;<span data-ng-if="circleLoaded && showCircle">anzeigen: {{thisCircle.name}}</span></span>
+		<nav data-ng-if="activeCircle">
+			<a href="#" data-i18n="views.circles.header.sendMessage"></a>
+			<a href="#" data-i18n="views.circles.header.addPeople"></a>
+			<a href="#" data-i18n="views.circles.header.createGroup"></a>
+		</nav>
+		<button data-ng-if="showCircle" data-ng-click="showCircleUnDo()"><i class="icon icon-menu"></i></button>
+	</header>
+	<div id="circleListWrap" data-ng-if="!showCircle">
+		<ul id="circleList">
+			<li class="circle" id="newcircle"  data-ng-click="unloadCircle(); showCircleDo()">
+				<div class="left"><i class="icon-plus-circle" id="plusBtn"></i></div>
+				<div class="right" data-i18n="views.circles.newCircle"></div>
+			</li>
+			<div id="circleListScroll">
+				<li data-ng-repeat="circle in circles" id="{{circle.id}}" class="circle" data-ng-click="loadActiveCircle(circle.id); showCircleDo()">
+					<div class="left">
+						<img class="userimg" data-ng-src="{{circle.image}}" alt="Userimage">
+					</div>
+					<div class="listname">
+						<strong>{{circle.name}}</strong>
+					</div>
+					<div class="personCount" data-i18n="views.circles.personCount|count={{circle.userids.length}}">
+					</div>
+					<div class="clear-fix"></div>
+				</li>
+			</div>
+		</ul>
 	</div>
-	<div id="circleWrap">
-		<ol id="friendsList" class="unstyled">
-			<li class="person" data-ng-repeat="friend in thisCircle.persons" style="background-image: url({{friend.image}})">
-				<friend data-user="friend"></friend>
-			</li>	
-		</ol>
+	<div id="circleContainer" data-circleID="{{thisCircle.id}}" data-ng-if="circleLoaded && showCircle">
+		<div id="circleTitle">
+			<h4 data-i18n="views.circles.personsInCircle|name={{thisCircle.name}}" title="{{thisCircle.name}}"></h4>
+		</div>
+		<div id="circleWrap">
+			<ol id="friendsList" class="unstyled">
+				<li class="person" data-ng-repeat="friend in thisCircle.persons" style="background-image: url({{friend.image}})">
+					<friend data-user="friend"></friend>
+				</li>	
+			</ol>
+		</div>
+	</div>
+	<div id="circleContainer" class="newCircle" data-ng-if="!circleLoaded && showCircle">
+		<div id="circleTitle">
+			<h4>Neuer Kreis</h4>
+		</div>
+		<div id="circleWrap">	
+			<form id="inputWrap">
+				<input type="text" data-i18n-attr="views.circles.titleForNew|placeholder" id="titleInput" data-ng-model="circleName">
+				<usersearch data-scope="friends" data-multiple type="text" data-input-i18n-attr="views.circles.searchFriends|placeholder" id="friendInput" />
+				<button class="btn btn-success btn-large" id="savecircle" type="submit" data-ng-click="createNew(circleName); showCircleUnDo()">Kreis erstellen!</button>		
+			</form>
+		</div>
 	</div>
 </div>
-<div id="circleContainer" class="newCircle" data-ng-if="!showCircle">
-	<div id="circleTitle">
-		<h2>Neuer Kreis</h2>
-	</div>
-	<div id="circleWrap">	
-		<form id="inputWrap">
-			<input type="text" data-i18n-attr="views.circles.titleForNew|placeholder" id="titleInput" data-ng-model="circleName">
-			<usersearch data-scope="friends" data-multiple type="text" data-input-i18n-attr="views.circles.searchFriends|placeholder" id="friendInput" />
-			<button class="btn btn-success btn-large" id="savecircle" type="submit" data-ng-click="createNew(circleName)">Kreis erstellen!</button>		
-		</form>
-	</div>
-</div>		

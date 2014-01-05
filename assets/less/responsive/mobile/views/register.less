@@ -1,6 +1,8 @@
 .registerView {
 	.radial(@green2,@green);
 	padding: 0;
+	overflow-x: hidden;
+	overflow-y: visible;
 	// Tweak the standards a bit ;)
 	footer {
 		color: #f2fbec;
@@ -14,19 +16,19 @@
 	}
 	#main {
 		text-align: center;
-		@media (max-height: 575px) {
-			overflow-y: scroll;
-		}
-		@media (min-height: 576px) {
-			.box {
-				section {
-					max-height: 400px;
-				}
-			}
-		}
+		max-height: auto !important;
+		height: auto !important;
+		overflow: visible !important;
 	}
 	#logo {
-		margin: 0px auto;
+		#logo {
+			width: 100%;
+			margin: 0;
+			padding: 0;
+			img {
+				.column(12);
+			}
+		}
 	}
 	.error {
 		border: 1px solid #5d0000;
@@ -39,12 +41,13 @@
 		.box-fix;
 	}
 	header {
-		width: 100%;
-		margin: 0 0 2% 0;
+		.column(12);
+		margin-bottom: 2%;
 		padding: 5px 0 5px 0;
-		text-align: left;
+		text-align: center;
 		.border-radius(10px);
 		background: @white;
+		box-shadow: 0px 0px 3px #fff;
 		.box-fix;
 		#topWrap {
 			display: block;
@@ -65,6 +68,8 @@
 	section {
 		padding: 0;
 		.row(12,12,0);
+		width: 100%;
+		margin-bottom: 30px; 
 		//overflow: hidden;
 		height: 100%;
 		background: transparent;
@@ -80,10 +85,10 @@
 			}
 		}
 		#loginForm {
-			.column(6,12,left,1%);
-			margin: 0 1% 0 0;
-			padding: 0;
-			height: 350px;
+			.column(12);
+			margin-bottom: 2%;
+			padding: 0 0 10px 0;
+			height: auto !important;
 			.border-radius(8px);
 			background: @white;
 			.box-fix;
@@ -122,11 +127,12 @@
 			}
 		}
 		#registerForm {
-			.column(6,12,right,1%);
-			margin: 0 0 0 1%;
+			.column(12);
+			margin-bottom: 2%;
+			padding: 0 0 10px 0;
 			.border-radius(8px);
 			background: @white;
-			height: 350px;
+			height: auto !important;
 			.inputWrap {
 				width: 100%;
 				div {
@@ -134,12 +140,45 @@
 					margin: 0 auto 5px auto;
 					height: 40px;
 					display: block;
+					float: left;
 					padding: 0;
-					input {
+					input, select, label {
 						width: 80%;
 						float: left;
 						height: 40px;
 						margin: 0 0 0 10%;
+						text-align: left;
+					}
+					select {
+						height: auto;
+						margin-top: 10px;
+					}
+					&#birthday {
+						width: 80%;
+						margin: 0 10% 5px 10%;
+						height: 80px;
+						label {
+							width: 100%;
+							margin: 5px 0 0;
+						}
+						select {
+							margin: 0 1% 5px 1%;
+							&.day {
+								width: 19%;
+							}
+							&.month {
+								width: 38%;
+							}
+							&.year {
+								width: 39%;
+							}
+							&:first-child {
+								margin-left: 0;
+							}
+							&:last-child {
+								margin-right: 0;
+							}
+						}
 					}
 					.icon {
 						height: 40px;
@@ -159,40 +198,103 @@
 								margin: 9px 0 11px 0;
 							}
 						}
+						#rpasswordIcon {
+							// TODO: nicer colors, color transisitons
+							background-repeat: no-repeat;
+							background-position: center center;
+							background-color: #ff0000;
+							.background-size(10px);
+							.border-radius(50px);
+							background-position: center center;
+							width: 20px;
+							height: 20px;
+							//float: left;
+							margin: 10px 0 0 -4px;
+							display: inline-block;
+							.box-fix;
+							&[data-strength="0"] {
+								background-color: #ff0000;
+								background-image: url('../img/lock_open.png');
+							}
+							&[data-strength="1"] {
+								background-color: #ff4d00;
+								background-image: url('../img/lock_open.png');
+							}
+							&[data-strength="2"] {
+								background-color: #ff7700;
+								background-image: url('../img/lock_open.png');
+							}
+							&[data-strength="3"] {
+								background-color: #ffa200;
+								background-image: url('../img/lock_open.png');
+							}
+							&[data-strength="4"] {
+								background-color: #ffc400;
+								background-image: url('../img/lock_closed.png');
+							}
+							&[data-strength="5"] {
+								background-color: #ffff00;
+								background-image: url('../img/lock_closed.png');
+							}
+							&[data-strength="6"] {
+								background-color: #cdff00;
+								background-image: url('../img/lock_closed.png');
+							}
+							&[data-strength="7"] {
+								background-color: #afff00;
+								background-image: url('../img/lock_closed.png');
+							}
+							&[data-strength="8"] {
+								background-color: #80ff00;
+								background-image: url('../img/lock_closed.png');
+							}
+							&[data-strength="9"] {
+								background-color: #62ff00;
+								background-image: url('../img/lock_closed.png');
+							}
+							&[data-strength="10"] {
+								background-color: #11ff00;
+								background-image: url('../img/lock_closed.png');
+							}
+						}
 					}
 					&.uploadImageForm {
-						.btn;
-						.btn-green;
 						cursor: pointer;
 						width: 60%;
 						margin:0 20% 5px 20%;
 						overflow: hidden;
+						position: relative;
 						#uploadButton {
+							.btn;
+							.btn-green;
+							cursor: pointer;
+							width: 100%;
+							margin:0 20% 5px 20%;
 							display: inline-block;
-							//display: none;
+							display: none;
 							margin: 4px 0;
-							z-index: 1;
+							z-index: 10000 !important;
 						}
 						#filesUpload {
-							//position: absolute;
-							margin: -4px 0 0 -300px;
-							height: 40px;
-							width: 4000px;
-							opacity: 0;
+							position: relative;
+							//margin: -34px 0 0 -250px;
+							height: 30px;
+							width: 100%;
+							//opacity: 0;
 							.border-radius(0);
 							cursor: pointer;
-							//display: block;
-							z-index: 9999;
+							display: inline-block;
+							z-index: 10001 !important;
 						}
 					}
 					&#canvasWrapper {
-						width: 600px;
+						width: 300px;
 						height: 300px;
 						display: block;
 						margin: 5px auto 10px auto;
 						float: none;
 						#original {
-							//width: 600px;
+							width: 300px;
 							//height: 300px;
 							display: block;
 							//background: @green2;
@@ -212,7 +314,7 @@
 				display: inline-block;
 				vertical-align: bottom;
 				width: 100%;
-				float: right;
+				float: left;
 				button {
 					.btn;
 					.btn-big;
@@ -247,12 +349,27 @@
 			}
 			&[data-regStep="2"] {
 				.inputWrap {
-					margin-top: 51.5px;
+					margin-top: 10px;
+					.introText {
+						min-height: 70px !important;
+						height: 100%;
+						width: 80%;
+						margin: 0 10% 0;
+						float: left;
+					}
 				}
 				.submitWrap {
-					margin-top: 51.5px;
+					margin-top: 5px;
 				}
 			}
+			&[data-regStep="3"] {
+				.submitWrap {
+					margin-top: -25px;
+				}
+			}
+		}
+		#loginForm, #registerForm {
+			box-shadow: 0px 0px 3px #fff;
 		}
 	}	
 	a {
@@ -260,7 +377,8 @@
 		color: darken(@white, 10%);
 	}
 	footer {
-		position: fixed;
+		position: relative;
 		bottom: 10px;
+		height: 50px;
 	}
 }
