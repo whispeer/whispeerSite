@@ -58,7 +58,7 @@ define(["step", "whispeerHelper", "valid/validator", "asset/observer"], function
 			};
 
 			this.getID = function getIDF() {
-				return meta.messageid;
+				return h.parseDecimal(meta.messageid);
 			};
 
 			this.getTopicID = function getTopicIDF() {
@@ -193,7 +193,7 @@ define(["step", "whispeerHelper", "valid/validator", "asset/observer"], function
 			};
 
 			this.getID = function getIDF() {
-				return data.topicid;
+				return h.parseDecimal(data.topicid);
 			};
 
 			this.getTime = function getTimeF() {
@@ -386,7 +386,7 @@ define(["step", "whispeerHelper", "valid/validator", "asset/observer"], function
 				var meta = {
 					createTime: new Date().getTime(),
 					topicHash: newest.getTopicHash(),
-					previousMessage: newest.getID(),
+					previousMessage: h.parseDecimal(newest.getID()),
 					previousMessageHash: newest.getHash()
 				};
 
@@ -590,6 +590,7 @@ define(["step", "whispeerHelper", "valid/validator", "asset/observer"], function
 				});
 
 				console.log("Topic loaded:" + (new Date().getTime() - startup));
+				this.ne(t.getID());
 			}), cb || h.nop);
 
 			return t;
@@ -600,12 +601,10 @@ define(["step", "whispeerHelper", "valid/validator", "asset/observer"], function
 
 			var id = m.getID();
 
+			cb = cb || h.nop;
+
 			if (messages[id]) {
-				$timeout(function () {
-					if (cb) {
-						cb();
-					}
-				});
+				$timeout(cb);
 				return messages[id];
 			}
 
@@ -731,10 +730,16 @@ define(["step", "whispeerHelper", "valid/validator", "asset/observer"], function
 					}
 				}), h.sF(function (topic) {
 					theTopic = topic;
-					var receiver = theTopic.getReceiver();
-					if (receiver.length === 2) {
-						receiver = receiver.map(h.parseDecimal);
-						if (receiver.indexOf(receiver[0]) > -1 && receiver.indexOf(sessionService.getUserID()) > -1) {
+					var otherReceiver = theTopic.getReceiver();
+					otherReceiver = otherReceiver.map(h.parseDecimal);
+
+					if (otherReceiver.length === 2) {
+						if (otherReceiver.indexOf(receiver[0]) > -1 && otherReceiver.indexOf(sessionService.getUserID()) > -1) {
+							this.ne(theTopic);
+							return;
+						}
+					} else if (otherReceiver.length === 1) {
+						if (receiver[0] === otherReceiver[0]) {
 							this.ne(theTopic);
 							return;
 						}
@@ -744,12 +749,12 @@ define(["step", "whispeerHelper", "valid/validator", "asset/observer"], function
 
 					this.last.ne();
 				}), h.sF(function () {
-					messageService.sendMessage(theTopic.getID(), message, this);
+					messageService.sendMessage(theTopic, message, this);
 				}), h.sF(function (success) {
 					if (success) {
 						this.ne(theTopic);
 					} else {
-						this.ne();
+						this("message send failed");
 					}
 				}), cb);
 			},
@@ -762,31 +767,24 @@ define(["step", "whispeerHelper", "valid/validator", "asset/observer"], function
 					}
 				}, h.sF(function (topic) {
 					if (topic) {
-						if (typeof cb === "function") {
-							cb(null, topic.getID());
-						}
+						this.last.ne(topic.getID());
 					} else {
 						Topic.createData(receiver, message, this);
 					}
 				}), h.sF(function (result) {
 					socket.emit("messages.sendNewTopic", result, this);
-				}), function (e, result) {
-					if (e || result.error) {
-						//TO-DO: try resending!
-						debugger;
-					} else {
-						makeTopic(result.topic, cb);
-					}
-				});
+				}), h.sF(function (result) {
+					makeTopic(result.topic, cb);
+				}), cb || h.nop);
 			},
 			sendMessage: function (topic, message, cb, count) {
-				if (!count) {
-					count = 0;
-				} else if (count > 5) {
-					cb(false);
-				}
-
 				step(function () {
+					if (!count) {
+						count = 0;
+					} else if (count > 5) {
+						this.last.ne(false);
+						return;
+					}
 					Message.createData(topic, message, this);
 				}, h.sF(function (result) {
 					socket.emit("messages.send", result, this);

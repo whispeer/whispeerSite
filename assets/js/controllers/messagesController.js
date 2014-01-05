@@ -58,10 +58,15 @@ define(["step", "whispeerHelper"], function (step, h) {
 			send: function (receiver, text) {
 				receiver = receiver.map(function (e) {return e.id;});
 				messageService.sendNewTopic(receiver, text, function (e, id) {
-					$scope.new.text = "";
-					$scope.new.selectedUsers = [];
-					$scope.loadActiveTopic(id);
-					$scope.$broadcast("resetSearch");
+					if (!e) {
+						$scope.new.text = "";
+						$scope.new.selectedUsers = [];
+						$scope.loadActiveTopic(id);
+						$scope.$broadcast("resetSearch");
+					} else {
+						//TODO!!
+						debugger;
+					}
 				});
 			}
 		};
