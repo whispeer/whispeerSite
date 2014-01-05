@@ -16,23 +16,49 @@ body {
 			height: 100%;
 		}
 		#main {
-			.column(10.5);
-			&.small {
-				.width(9);
+			.column(12);
+			&.hidden {
+				display: none !important;
+				.column(0);
 			}
 		}
 		#sidebar-right {
-			.column(1.5);
-			&.big {
-				.width(3);
-			}
-			margin-top: 10px;
+			.column(12);
+			overflow: scroll;
+			padding-top: 10px;
 			.mobileMenu {
 				.unstyled;
 				width: 100%;
-				img {
+				a {
 					width: 100%;
-					.border-radius(5px);
+					float: left;
+					height: auto;
+					overflow: hidden;
+					&:first-child {
+						.border-radiuses(5px,0,0,5px);
+					}
+					&:last-child {
+						.border-radiuses(0,5px,5px,0);
+					}
+					li {
+						.btn;
+						.btn-green;
+						border: none;
+						.border-radius(0);
+						float: left;
+						width: 100%;
+						height: auto;
+						border-bottom: 1px solid #ddd;
+						padding: 1% 0;
+						span {
+							color: #fff;
+							.column(10);
+						}
+					}
+					img {
+						.column(2);
+						.border-radius(5px);
+					}
 				}
 			}
 		}

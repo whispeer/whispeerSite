@@ -36,7 +36,8 @@
 	<noscript>Hallo! Leider steht uns bei deinem Browser kein Javascript zur Verfügung!<br> Daher ist es nicht möglich whispeer zu nutzen, da wir unbedingt Javascript benötigen!<br> Vielen Dank für dein Verständnis!</noscript>
 	<nav id="topNav" data-ng-show="loggedin" data-ng-if="loggedin" style="display:none">
 		<div id="navInner">
-			<a href="/" id="brand"><span id="brandNormal">whis</span><span id="brandInverse">peer</span></a>
+			<a href="/" id="brand" data-ng-click="disableSidebar()"><span id="brandNormal">whis</span><span id="brandInverse">peer</span></a>
+			<button id="toggleSidebar" data-ng-click="toggleSidebar()">S</button>
 			<div class="nav-collapse collapse">
 				<usersearch size="big" data-input-i18n-attr="menu.search|placeholder"/>
 			</div>
@@ -83,7 +84,7 @@
 				</nav>
 			</div>	
 		</aside>
-		<section id="main" data-ng-view data-ng-class="{sidebarClicked: small}">
+		<section id="main" data-ng-view data-ng-show="!sidebarActive || !mobile">
 			<div id="logo">
 				<img src="/assets/img/logo.png">
 			</div>
@@ -97,15 +98,49 @@
 				</div>
 			</div>
 		</aside>
-		<aside id="sidebar-right" data-ng-if="loggedin && mobile" data-ng-click="sidebarClick()" data-ng-class="{sidebarClicked: big}">
+		<aside id="sidebar-right" data-ng-if="loggedin && mobile" data-ng-show="sidebarActive">
 			<ul class="mobileMenu">
-				<li><a href="{{user.url}}"><img src="assets/img/user.png" alt="User"></a></li>
-				<li><a href="/friends"><img src="assets/img/icons/friends.png" alt="Freunde"></a></li>
-				<li><a href="/messages"><img src="assets/img/icons/messages.png" alt="Nachrichten"></a></li>
-				<li><a href="/circles">Kreise</a></li>
-				<li><a href="/settings"><img src="assets/img/icons/settings.png"></a></li>
-				<li><a href="/help">Hilfe</a></li>
-				<li><a href="#" data-ng-click="logout()" data-eat-click>Logout</a></li>				
+				<a href="{{user.url}}" data-ng-click="toggleSidebar()">
+					<li>
+						<img src="assets/img/user.png" alt="User">
+						<span data-i18n="menu.profil"></span>
+					</li>
+				</a>
+				<a href="/friends"  data-ng-click="toggleSidebar()">
+					<li>
+						<img src="assets/img/icons/friends.png" alt="Freunde">
+						<span data-i18n="menu.friends|count={{friends.friendsCount}}"></span>
+					</li>
+				</a>
+				<a href="/messages"  data-ng-click="toggleSidebar()">
+					<li>
+						<img src="assets/img/icons/messages.png" alt="Nachrichten">
+						<span data-i18n="menu.messages"></span>
+					</li>	
+				</a>
+				<a href="/circles"  data-ng-click="toggleSidebar()">
+					<li>
+						<img src="" alt="">
+						<span data-i18n="menu.circles"></span>
+					</li>
+				</a>
+				<a href="/settings"  data-ng-click="toggleSidebar()">
+					<li>
+						<img src="assets/img/icons/settings.png">
+						<span data-i18n="menu.settings"></span>
+					</li>
+				</a>
+				<a href="/help"  data-ng-click="toggleSidebar()">
+					<li>
+						<img src="">
+						<span data-i18n="menu.help"></span>
+					</li>
+				</a>
+				<a href="#" data-ng-click="logout()" data-eat-click>
+					<li data-ng-click="toggleSidebar()">
+						<span data-i18n="menu.logout"></span>
+					</li>
+				</a>				
 			</ul>
 		</aside>								
 	</div>

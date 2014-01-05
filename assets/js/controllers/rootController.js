@@ -43,11 +43,14 @@ define(["step", "whispeerHelper"], function (step, h) {
 			});
 		});
 
-		$scope.sidebarClicked = false;
+		$scope.sidebarActive = false;
 
-		$scope.sidebarClick = function() {
-			$scope.sidebarClicked = !$scope.sidebarClicked;
+		$scope.toggleSidebar = function() {
+			$scope.sidebarActive = !$scope.sidebarActive;
 		};
+		$scope.disableSidebar = function() {
+			$scope.sidebarActive = false;
+		}
 		
 		cssService.addListener(function (newClass) {
 			$scope.cssClass = newClass;
