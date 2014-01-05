@@ -132,6 +132,16 @@ define(["step", "whispeerHelper"], function (step, h) {
 				$scope.activeTopic.newMessage = "";
 			});
 		};
+
+		$scope.showMessage = false;
+
+		$scope.showMessageDo = function() {
+			$scope.showMessage = true;
+		}
+
+		$scope.showMessageUnDo = function() {
+			$scope.showMessage = false;
+		}
 		
 
 		$scope.topics = messageService.data.latestTopics.data;

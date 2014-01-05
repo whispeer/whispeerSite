@@ -4859,6 +4859,26 @@ body.loading:after {
     width: -2%;
     margin: 0 1% 0 1%;
   }
+  body #container #mobileSearch {
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+    *zoom: 1;
+    float: left;
+    width: 98%;
+    margin: 0 1% 0 1%;
+  }
+  body #container #mobileSearch .searchBar {
+    margin-top: 10px !important;
+  }
+  body #container #mobileSearch .searchBar .addFriend,
+  body #container #mobileSearch .searchBar .sendMessage {
+    padding: 5px 2px !important;
+  }
+  body #container #mobileSearch .searchBar .searchDrop {
+    height: 230px !important;
+    overflow: scroll;
+  }
   body #container #sidebar-right {
     display: inline-block;
     *display: inline;
@@ -5015,7 +5035,7 @@ body.loading:after {
     padding-top: 50px;
   }
   .person {
-    height: 250px;
+    height: 100px !important;
     padding: 0;
     margin-bottom: 15px;
   }
@@ -5023,14 +5043,17 @@ body.loading:after {
     width: 100%;
   }
   .person .pushup {
-    height: 50px;
+    height: 100px !important;
     width: 99.4%;
     margin-left: 0.6%;
     margin-top: 0px;
     padding: 0;
   }
+  .person .pushup p {
+    opactiy: 1 !important;
+  }
   .person:hover .pushup {
-    height: 80px;
+    height: 100px !important;
   }
   .searchBar .formSearch .inputWrap {
     list-style-type: none;
@@ -5052,6 +5075,9 @@ body.loading:after {
   }
   .searchBar .formSearch .inputWrap li.searchResult {
     display: block;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
     float: left;
     margin: 2px;
     max-width: 35%;
@@ -5178,12 +5204,15 @@ body.loading:after {
     /* IE7 inline-block hack */
     *zoom: 1;
     float: left;
-    width: 98%;
+    width: 64.66666666666667%;
     margin: 0 1% 0 1%;
     margin-top: 12px;
   }
-  #topNav #navInner #toggleSidebar {
-    float: right;
+  #topNav #navInner #toggleSearch {
+    /* IE7 inline-block hack */
+    float: left;
+    width: 14.666666666666668%;
+    margin: 0 1% 0 1%;
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
@@ -5210,7 +5239,62 @@ body.loading:after {
     background-color: #559d00;
     color: #ffffff;
     text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
-    margin: -22.5px 3% 0 0;
+    text-align: center;
+    margin-top: 10px;
+  }
+  #topNav #navInner #toggleSearch:hover {
+    background-color: #ececec;
+  }
+  #topNav #navInner #toggleSearch:hover,
+  #topNav #navInner #toggleSearch:active,
+  #topNav #navInner #toggleSearch.active,
+  #topNav #navInner #toggleSearch.disabled,
+  #topNav #navInner #toggleSearch[disabled] {
+    background-color: #ececec;
+  }
+  #topNav #navInner #toggleSearch:hover,
+  #topNav #navInner #toggleSearch:active,
+  #topNav #navInner #toggleSearch.active,
+  #topNav #navInner #toggleSearch.disabled,
+  #topNav #navInner #toggleSearch[disabled] {
+    background-color: #3a8100;
+  }
+  #topNav #navInner #toggleSearch i {
+    margin-left: -4px;
+  }
+  #topNav #navInner #toggleSidebar {
+    /* IE7 inline-block hack */
+    float: right;
+    width: 13.666666666666668%;
+    margin: 0 1.5% 0 1.5%;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+    *zoom: 1;
+    padding: 4px 15px;
+    -webkit-box-sizing: border-box;
+    /* Safari/Chrome, other WebKit */
+    -moz-box-sizing: border-box;
+    /* Firefox, other Gecko */
+    box-sizing: border-box;
+    /* Opera/IE 8+ */
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+    -moz-background-clip: padding;
+    -webkit-background-clip: padding-box;
+    background-clip: padding-box;
+    border: 0;
+    background-color: #ffffff;
+    color: #333333;
+    text-shadow: 0 1px 1px rgba(255, 255, 255, 0.75);
+    border: 1px solid #bbbbbb;
+    text-decoration: none !important;
+    background-color: #559d00;
+    color: #ffffff;
+    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+    margin: 10px 3% 0 0 !important;
+    text-align: center;
   }
   #topNav #navInner #toggleSidebar:hover {
     background-color: #ececec;
@@ -5228,6 +5312,9 @@ body.loading:after {
   #topNav #navInner #toggleSidebar.disabled,
   #topNav #navInner #toggleSidebar[disabled] {
     background-color: #3a8100;
+  }
+  #topNav #navInner #toggleSidebar i {
+    margin-left: -5px;
   }
   #topNav .searchBar {
     display: inline-block;
@@ -5389,11 +5476,12 @@ body.loading:after {
   .friendsView #main {
     padding-top: 30px;
     padding-bottom: 10px;
-    height: 100%;
+    height: calc(95%);
+    margin-top: 5px !important;
   }
   .friendsView header {
-    height: 20px;
-    margin-top: -30px;
+    height: 20px !important;
+    margin-top: 0px;
     margin-bottom: 1%;
     padding: 5px;
   }
@@ -5407,7 +5495,7 @@ body.loading:after {
     /* IE7 inline-block hack */
     *zoom: 1;
     float: left;
-    width: 23%;
+    width: 48%;
     margin: 0 1% 0 1%;
     height: 250px;
     padding: 0;
@@ -5433,6 +5521,13 @@ body.loading:after {
   .friendsView #friendsList li:hover .pushup,
   .profileView #friendsList li:hover .pushup {
     height: 80px;
+  }
+  .helpView #main {
+    height: 100%;
+    margin-top: 5px !important;
+  }
+  .helpView #main header {
+    height: 20px !important;
   }
   #mediaWrap .mediaRow {
     display: block;
@@ -5493,11 +5588,67 @@ body.loading:after {
     padding-top: 30px;
     padding-bottom: 10px;
     height: 100%;
+    margin-top: 5px !important;
+    overflow: hidden !important;
   }
   .messagesView header {
-    height: 20px;
-    margin-top: -30px;
+    height: 20px !important;
+    margin-top: 0px;
     padding: 5px;
+  }
+  .messagesView header .title {
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+    *zoom: 1;
+    float: left;
+    width: 83.71428571428572%;
+    margin: 0 1% 0 1%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .messagesView header button {
+    /* IE7 inline-block hack */
+    float: right;
+    width: 12.285714285714286%;
+    margin: 0 1% 0 1%;
+    width: 12.285714285714286% !important;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+    *zoom: 1;
+    padding: 4px 15px;
+    -webkit-box-sizing: border-box;
+    /* Safari/Chrome, other WebKit */
+    -moz-box-sizing: border-box;
+    /* Firefox, other Gecko */
+    box-sizing: border-box;
+    /* Opera/IE 8+ */
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+    -moz-background-clip: padding;
+    -webkit-background-clip: padding-box;
+    background-clip: padding-box;
+    border: 0;
+    background-color: #ffffff;
+    color: #333333;
+    text-shadow: 0 1px 1px rgba(255, 255, 255, 0.75);
+    border: 1px solid #bbbbbb;
+    text-decoration: none !important;
+    padding: 2px 7px;
+    margin-top: -3.5px !important;
+  }
+  .messagesView header button:hover {
+    background-color: #ececec;
+  }
+  .messagesView header button:hover,
+  .messagesView header button:active,
+  .messagesView header button.active,
+  .messagesView header button.disabled,
+  .messagesView header button[disabled] {
+    background-color: #ececec;
   }
   .messagesView #topicListWrap {
     display: inline-block;
@@ -5505,7 +5656,7 @@ body.loading:after {
     /* IE7 inline-block hack */
     *zoom: 1;
     float: left;
-    width: 26.125%;
+    width: 98%;
     margin: 0 1% 0 1%;
     height: 100%;
   }
@@ -5515,8 +5666,9 @@ body.loading:after {
     padding-bottom: 6px;
   }
   .messagesView #topicListWrap #topicList #topicListScroll {
-    height: 100%;
-    overflow-y: scroll;
+    height: 230px !important;
+    float: left;
+    overflow-y: scroll !important;
   }
   .messagesView #topicListWrap #topicList .topic {
     margin-bottom: 5px;
@@ -5528,7 +5680,7 @@ body.loading:after {
     /* IE7 inline-block hack */
     *zoom: 1;
     float: left;
-    width: 33%;
+    width: 16.75%;
     margin: 0 1% 0 1%;
     margin: 0 2% -4px 0;
   }
@@ -5544,7 +5696,7 @@ body.loading:after {
     /* IE7 inline-block hack */
     *zoom: 1;
     float: left;
-    width: 63%;
+    width: 98%;
     margin: 0 1% 0 1%;
     text-overflow: ellipsis;
     max-height: 40px;
@@ -5558,11 +5710,12 @@ body.loading:after {
     /* IE7 inline-block hack */
     *zoom: 1;
     float: left;
-    width: 63%;
+    width: 98%;
     margin: 0 1% 0 1%;
     max-width: 65% !important;
     overflow: hidden;
     white-space: nowrap;
+    text-overflow: ellipsis;
   }
   .messagesView #topicListWrap #topicList .topic#newmessage {
     height: 20px;
@@ -5597,7 +5750,7 @@ body.loading:after {
     /* IE7 inline-block hack */
     *zoom: 1;
     float: left;
-    width: 69.875%;
+    width: 98%;
     margin: 0 1% 0 1%;
     height: 100%;
     padding: 0px 0px 120px 0px;
@@ -5615,8 +5768,8 @@ body.loading:after {
     padding-left: 10px;
   }
   .messagesView #topicWrap.peerChat #messageList {
-    overflow-y: scroll;
-    height: 100%;
+    overflow-y: scroll !important;
+    height: 150px;
   }
   .messagesView #topicWrap.peerChat #messageList .message {
     display: inline-block;
@@ -5652,6 +5805,12 @@ body.loading:after {
     margin: 0 1% 0 1%;
     word-break: break-word;
   }
+  .messagesView #topicWrap.peerChat #messageList .message .time {
+    margin-top: -5px;
+  }
+  .messagesView #topicWrap.peerChat #inputWrap {
+    height: 50px;
+  }
   .messagesView #topicWrap.peerChat #inputWrap #messageInput {
     display: inline-block;
     *display: inline;
@@ -5671,6 +5830,7 @@ body.loading:after {
     width: 23%;
     margin: 0 1% 0 1%;
     height: 45px;
+    padding: 0;
   }
   .messagesView #topicWrap.groupChat {
     display: inline-block;
@@ -5678,7 +5838,7 @@ body.loading:after {
     /* IE7 inline-block hack */
     *zoom: 1;
     float: left;
-    width: 69.875%;
+    width: 98%;
     margin: 0 1% 0 1%;
     height: 100%;
     padding: 0px 0px 120px 0px;
@@ -5766,7 +5926,7 @@ body.loading:after {
     /* IE7 inline-block hack */
     *zoom: 1;
     float: left;
-    width: 69.42857142857143%;
+    width: 98%;
     margin: 0 1% 0 1%;
   }
   .messagesView #topicWrap.newMessage #recieverInput,
@@ -5778,7 +5938,7 @@ body.loading:after {
     float: left;
     width: 98%;
     margin: 0 1% 0 1%;
-    margin-bottom: 5px;
+    margin-bottom: 0px;
   }
   .messagesView #topicWrap.newMessage #recieverInput .formSearch .inputWrap li.searchField,
   .messagesView #topicWrap.newMessage #messageInput .formSearch .inputWrap li.searchField {
@@ -5789,18 +5949,21 @@ body.loading:after {
     width: 100%;
   }
   .messagesView #topicWrap.newMessage #messageInput {
-    height: 150px;
+    height: 100px;
+    margin-bottom: 5px;
   }
   .messagesView #topicWrap.newMessage #sendmessage {
-    margin-left: 8px;
+    margin-left: 1% !important;
   }
   .circlesView #main {
     padding-top: 30px;
     padding-bottom: 10px;
     height: 100%;
+    margin-top: 5px !important;
+    overflow: hidden !important;
   }
   .circlesView header {
-    height: 20px;
+    height: 20px !important;
     margin-top: -30px;
     padding: 5px;
   }
@@ -5810,8 +5973,50 @@ body.loading:after {
     /* IE7 inline-block hack */
     *zoom: 1;
     float: left;
-    width: 26.571428571428573%;
+    width: 83.71428571428572%;
     margin: 0 1% 0 1%;
+  }
+  .circlesView header button {
+    /* IE7 inline-block hack */
+    float: left;
+    width: 12.285714285714286%;
+    margin: 0 1% 0 1%;
+    width: 12.285714285714286% !important;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+    *zoom: 1;
+    padding: 4px 15px;
+    -webkit-box-sizing: border-box;
+    /* Safari/Chrome, other WebKit */
+    -moz-box-sizing: border-box;
+    /* Firefox, other Gecko */
+    box-sizing: border-box;
+    /* Opera/IE 8+ */
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+    -moz-background-clip: padding;
+    -webkit-background-clip: padding-box;
+    background-clip: padding-box;
+    border: 0;
+    background-color: #ffffff;
+    color: #333333;
+    text-shadow: 0 1px 1px rgba(255, 255, 255, 0.75);
+    border: 1px solid #bbbbbb;
+    text-decoration: none !important;
+    padding: 2px 7px;
+    margin-top: -3.5px !important;
+  }
+  .circlesView header button:hover {
+    background-color: #ececec;
+  }
+  .circlesView header button:hover,
+  .circlesView header button:active,
+  .circlesView header button.active,
+  .circlesView header button.disabled,
+  .circlesView header button[disabled] {
+    background-color: #ececec;
   }
   .circlesView header nav {
     display: inline-block;
@@ -5819,8 +6024,9 @@ body.loading:after {
     /* IE7 inline-block hack */
     *zoom: 1;
     float: left;
-    width: 69.42857142857143%;
+    width: 98%;
     margin: 0 1% 0 1%;
+    display: none;
   }
   .circlesView header nav a {
     display: inline-block;
@@ -5844,7 +6050,7 @@ body.loading:after {
     /* IE7 inline-block hack */
     *zoom: 1;
     float: left;
-    width: 30.142857142857146%;
+    width: 98%;
     margin: 0 1% 0 1%;
     height: 100%;
   }
@@ -5852,10 +6058,12 @@ body.loading:after {
     height: 100%;
     padding-top: 15px;
     padding-bottom: 6px;
+    overflow: hidden;
   }
   .circlesView #circleListWrap #circleList #circleListScroll {
-    height: 100%;
-    overflow-y: scroll;
+    height: 230px !important;
+    float: left;
+    overflow-y: scroll !important;
   }
   .circlesView #circleListWrap #circleList .circle {
     margin-bottom: 5px;
@@ -5910,7 +6118,7 @@ body.loading:after {
     /* IE7 inline-block hack */
     *zoom: 1;
     float: left;
-    width: 65.85714285714286%;
+    width: 98%;
     margin: 0 1% 0 1%;
     height: 100%;
     padding: 0px 0px 51px 0px;
@@ -5928,7 +6136,7 @@ body.loading:after {
     padding-left: 10px;
   }
   .circlesView #circleContainer #friendsList {
-    overflow-y: scroll;
+    overflow-y: scroll !important;
     height: 100%;
   }
   .circlesView #circleContainer #friendsList li {
@@ -5955,6 +6163,9 @@ body.loading:after {
   .circlesView #circleContainer #friendsList li:hover .pushup {
     height: 80px;
   }
+  .circlesView #circleContainer.newCircle {
+    overflow-y: scroll !important;
+  }
   .circlesView #circleContainer.newCircle #titleInput,
   .circlesView #circleContainer.newCircle #friendInput {
     display: inline-block;
@@ -5968,13 +6179,13 @@ body.loading:after {
     height: 40px;
   }
   .circlesView #circleContainer.newCircle #friendInput {
-    height: 150px;
+    height: 100px;
   }
   .circlesView #circleContainer.newCircle #friendInput .formSearch .inputWrap {
     width: 100%;
   }
   .circlesView #circleContainer.newCircle #friendInput .formSearch .inputWrap li.searchField {
-    width: 85%;
+    width: 100%;
   }
   .circlesView #circleContainer.newCircle #friendInput .formSearch .inputWrap li.searchField input {
     width: 100%;
@@ -5982,8 +6193,8 @@ body.loading:after {
   .circlesView #circleContainer.newCircle .searchBar .formSearch .inputWrap li.searchField input {
     width: 92%;
   }
-  .circlesView #circleContainer.newCircle #sendmessage {
-    margin-left: 8px;
+  .circlesView #circleContainer.newCircle #savecircle {
+    margin-left: 1% !important;
   }
   #main {
     overflow-y: scroll;
@@ -6288,6 +6499,15 @@ body.loading:after {
   .posts article:last-child {
     border: none;
   }
+  .profileView #main {
+    padding-top: 10px;
+    -webkit-box-sizing: border-box;
+    /* Safari/Chrome, other WebKit */
+    -moz-box-sizing: border-box;
+    /* Firefox, other Gecko */
+    box-sizing: border-box;
+    /* Opera/IE 8+ */
+  }
   .profileView #main nav {
     display: inline-block;
     *display: inline;
@@ -6296,8 +6516,8 @@ body.loading:after {
     float: left;
     width: 100%;
     margin: 0 0 0 0;
-    height: 50px;
-    margin-bottom: -50px;
+    height: 75px;
+    margin-bottom: -75px;
   }
   .profileView #main nav heading {
     display: inline-block;
@@ -6305,8 +6525,9 @@ body.loading:after {
     /* IE7 inline-block hack */
     *zoom: 1;
     float: left;
-    width: 48%;
+    width: 98%;
     margin: 0 1% 0 1%;
+    text-align: center;
   }
   .profileView #main nav heading h3 {
     width: 100%;
@@ -6319,9 +6540,9 @@ body.loading:after {
     /* IE7 inline-block hack */
     *zoom: 1;
     float: left;
-    width: 48%;
+    width: 98%;
     margin: 0 1% 0 1%;
-    margin: 13px 0 10px 0;
+    margin: 5px 0 10px 0;
     padding: 0;
   }
   .profileView #main nav menu li {
@@ -6336,7 +6557,7 @@ body.loading:after {
   .profileView #main #wrap {
     width: 100%;
     height: 100%;
-    padding-top: 50px;
+    padding-top: 75px;
     -webkit-box-sizing: border-box;
     /* Safari/Chrome, other WebKit */
     -moz-box-sizing: border-box;
@@ -6444,9 +6665,9 @@ body.loading:after {
     /* IE7 inline-block hack */
     *zoom: 1;
     float: left;
-    width: 48%;
+    width: 98%;
     margin: 0 1% 0 1%;
-    margin: 10px 1% 10px 1%;
+    margin: 10px 1% 0px 1%;
   }
   .profileView #main #info article#generalInfo .actions .sendMessage {
     display: inline-block;
@@ -6454,9 +6675,9 @@ body.loading:after {
     /* IE7 inline-block hack */
     *zoom: 1;
     float: left;
-    width: 48%;
+    width: 98%;
     margin: 0 1% 0 1%;
-    margin: 10px 1% 10px 1%;
+    margin: 10px 1% 0px 1%;
     height: 40px;
     padding: 8.5px;
   }
@@ -6497,7 +6718,7 @@ body.loading:after {
     /* IE7 inline-block hack */
     *zoom: 1;
     float: left;
-    width: 13.625%;
+    width: 16.75%;
     margin: 0 1% 0 1%;
     margin-top: 10px;
     margin-bottom: 10px;
@@ -6508,11 +6729,13 @@ body.loading:after {
     /* IE7 inline-block hack */
     *zoom: 1;
     float: left;
-    width: 54.25%;
+    width: 79.25%;
     margin: 0 1% 0 1%;
     padding-top: 5px;
     margin-top: 0;
-    margin-bottom: 10px;
+    margin-bottom: 0px;
+    min-height: none;
+    height: auto;
   }
   .profileView #main #wall article .postContent .author {
     margin-bottom: 5px;
@@ -6526,15 +6749,26 @@ body.loading:after {
     /* IE7 inline-block hack */
     *zoom: 1;
     float: left;
-    width: 26.125%;
+    width: 77.16666666666667%;
     margin: 0 1% 0 1%;
+    margin-left: 20.833333333333336% !important;
     padding-top: 5px;
-    margin-top: 15px;
+    margin-top: 0px;
     margin-bottom: 10px;
   }
   .profileView #main #wall article .postInfo p {
     padding: 0;
     margin: 0;
+  }
+  .profileView #main #wall article .postInfo .awesome,
+  .profileView #main #wall article .postInfo .comments {
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+    *zoom: 1;
+    float: left;
+    width: 48%;
+    margin: 0 1% 0 1%;
   }
   .profileView #main #friends {
     display: inline-block;
@@ -6564,7 +6798,7 @@ body.loading:after {
     /* IE7 inline-block hack */
     *zoom: 1;
     float: left;
-    width: 31.333333333333336%;
+    width: 48%;
     margin: 0 1% 0 1%;
   }
   .registerView {
@@ -7231,16 +7465,19 @@ body.loading:after {
     height: 50px;
   }
   .settingsView #main {
-    padding-top: 30px;
+    padding-top: 20px;
+    margin-top: 5px !important;
     height: 100%;
+    overflow: hidden;
   }
   .settingsView #main header {
-    height: 20px;
-    margin-top: -30px;
+    height: 20px !important;
+    margin-top: -20px;
     padding: 5px;
   }
-  .settingsView #main header #links {
+  .settingsView #main header .links {
     float: right;
+    display: none !important;
   }
   .settingsView #main #settingsWrap {
     height: 100%;
@@ -7269,8 +7506,67 @@ body.loading:after {
     float: left;
     width: 98%;
     margin: 0 1% 0 1%;
-    margin-top: -5px;
+    margin-top: 0px;
     margin-bottom: 10px;
+  }
+  .settingsView #main section .config span {
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+    *zoom: 1;
+    float: left;
+    width: 98%;
+    margin: 0 1% 0 1%;
+  }
+  .settingsView #main section .config input:not([type=submit]) {
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+    *zoom: 1;
+    float: left;
+    width: 98%;
+    margin: 0 1% 0 1%;
+    margin-bottom: 5px;
+  }
+  .settingsView #main section .config .button {
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+    *zoom: 1;
+    float: left;
+    width: 98%;
+    margin: 0 1% 0 1%;
+    margin: 0 2% 0 0 !important;
+  }
+  .settingsView #main section .config#nickname button {
+    margin-left: 1% !important;
+  }
+  .settingsView #main section#safety header {
+    height: 40px !important;
+  }
+  .settingsView #main section#safety header .title {
+    margin-top: -20px !important;
+  }
+  .settingsView #main section#safety .config button {
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+    *zoom: 1;
+    float: left;
+    width: 98%;
+    margin: 0 1% 0 1%;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    height: 40px;
+  }
+  .settingsView #main section#safety .config .whoMaySeeIt {
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+    *zoom: 1;
+    float: left;
+    width: 98%;
+    margin: 0 1% 0 1%;
   }
 }
 /* Tablets

@@ -6,14 +6,28 @@
 		#brand {
 			font-size: 25px;
 			line-height: @baseLineHeight;
-			.column(12,12);
+			.column(8);
 			margin-top: 12px;
 		}
-		#toggleSidebar {
-			float: right;
+		#toggleSearch {
+			.column(2);
 			.btn;
 			.btn-green;
-			margin: -22.5px 3% 0 0;
+			text-align: center;
+			margin-top: 10px;
+			i {
+				margin-left: -4px;
+			}
+		}
+		#toggleSidebar {
+			.column(2,12,right,3%);
+			.btn;
+			.btn-green;
+			margin: 10px 3% 0 0 !important;
+			text-align: center;
+			i {
+				margin-left: -5px;
+			}
 		}
 	}
 	.searchBar {

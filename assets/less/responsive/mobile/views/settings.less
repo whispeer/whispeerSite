@@ -1,13 +1,16 @@
 .settingsView {
 	#main {
-		padding-top: 30px;
+		padding-top: 20px;
+		margin-top: 5px !important;
 		height: 100%;
+		overflow: hidden;
 		header {
-			height: 20px;
-			margin-top: -30px;
+			height: 20px !important;
+			margin-top: -20px;
 			padding: 5px;
-			#links {
+			.links {
 				float: right;
+				display: none !important;
 			}
 		}
 		#settingsWrap {
@@ -31,8 +34,43 @@
 			}
 			.config {
 				.column(8,8);
-				margin-top: -5px;
+				margin-top: 0px;
 				margin-bottom: 10px;
+				span {
+					.column(12);
+				}
+				input:not([type=submit]) {
+					.column(12);
+					margin-bottom: 5px;
+				}
+				.button {
+					.column(12);
+					margin: 0 2% 0 0 !important;
+				}
+				&#nickname {
+					button {
+						margin-left: 1% !important;
+					}
+				}
+			}
+			&#safety {
+				header {
+					height: 40px !important;
+					.title {
+						margin-top: -20px !important;
+					}
+				}
+				.config {
+					button {
+						.column(12);
+						margin-top: 10px;
+						margin-bottom: 10px;
+						height: 40px;
+					}
+					.whoMaySeeIt {
+						.column(12);
+					}
+				}
 			}
 		}
 	}	

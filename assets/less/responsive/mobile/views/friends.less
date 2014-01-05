@@ -2,11 +2,12 @@
 	#main {
 		padding-top: 30px;
 		padding-bottom: 10px;
-		height: 100%;
+		height: calc(100% - 5px);
+		margin-top: 5px !important;
 	}
 	header {
-		height: 20px;
-		margin-top: -30px;
+		height: 20px !important;
+		margin-top: 0px;
 		margin-bottom: 1%;
 		padding: 5px;
 	}
@@ -17,7 +18,7 @@
 .friendsView, .profileView {
 	#friendsList {
 		li {
-			.column(1,4);
+			.column(1,2);
 			height: 250px;
 			padding: 0;
 			.box-fix;

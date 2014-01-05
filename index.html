@@ -36,8 +36,9 @@
 	<noscript>Hallo! Leider steht uns bei deinem Browser kein Javascript zur Verfügung!<br> Daher ist es nicht möglich whispeer zu nutzen, da wir unbedingt Javascript benötigen!<br> Vielen Dank für dein Verständnis!</noscript>
 	<nav id="topNav" data-ng-show="loggedin" data-ng-if="loggedin" style="display:none">
 		<div id="navInner">
-			<a href="/" id="brand" data-ng-click="disableSidebar()"><span id="brandNormal">whis</span><span id="brandInverse">peer</span></a>
-			<button id="toggleSidebar" data-ng-click="toggleSidebar()">S</button>
+			<button id="toggleSearch" data-ng-click="toggleSearch()" data-ng-if="mobile"><i class="icon icon-search"></i></button>
+			<a href="/" id="brand" data-ng-click="mobileActivateView()"><span id="brandNormal">whis</span><span id="brandInverse">peer</span></a>
+			<button id="toggleSidebar" data-ng-click="toggleSidebar()" data-ng-if="mobile"><i class="icon icon-home"></i></button>
 			<div class="nav-collapse collapse">
 				<usersearch size="big" data-input-i18n-attr="menu.search|placeholder"/>
 			</div>
@@ -84,10 +85,13 @@
 				</nav>
 			</div>	
 		</aside>
-		<section id="main" data-ng-view data-ng-show="!sidebarActive || !mobile">
+		<section id="main" data-ng-view data-ng-show="!sidebarActive && !searchActive || !mobile">
 			<div id="logo">
 				<img src="/assets/img/logo.png">
 			</div>
+		</section>
+		<section id="mobileSearch" data-ng-if="searchActive && !sidebarActive">
+			<usersearch size="big" data-input-i18n-attr="menu.search|placeholder"/>
 		</section>
 
 		<aside id="sidebar-right" data-ng-if="loggedin && !mobile">
@@ -98,7 +102,7 @@
 				</div>
 			</div>
 		</aside>
-		<aside id="sidebar-right" data-ng-if="loggedin && mobile" data-ng-show="sidebarActive">
+		<aside id="sidebar-right" data-ng-if="loggedin && mobile" data-ng-show="sidebarActive && !searchActive">
 			<ul class="mobileMenu">
 				<a href="{{user.url}}" data-ng-click="toggleSidebar()">
 					<li>
