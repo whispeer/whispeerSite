@@ -41,6 +41,11 @@ define(["step", "whispeerHelper"], function (step, h) {
 		$scope.sidebarActive = false;
 		$scope.searchActive = false;
 
+		$scope.$on("elementSelected", function () {
+			$scope.searchActive = false;
+			$scope.sidebarActive = false;
+		});
+
 		$scope.toggleSidebar = function() {
 			$scope.sidebarActive = !$scope.sidebarActive;
 			$scope.searchActive = false;
