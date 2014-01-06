@@ -826,6 +826,7 @@ btn-send[disabled] {
 }
 .searchBar .searchDrop .searchSuggestions li.active {
   background-color: #559d00;
+  color: #ffffff;
 }
 .searchBar .searchDrop .searchSuggestions li.active .info {
   color: #eeeeee;
@@ -852,6 +853,9 @@ btn-send[disabled] {
 .searchBar .searchDrop .searchSuggestions li .actions a.disabled,
 .searchBar .searchDrop .searchSuggestions li .actions a[disabled] {
   background-color: rgba(69, 153, 0, 0.7);
+}
+.searchBar.filterSearch .searchDrop li {
+  padding: 5px !important;
 }
 .person {
   padding: 0;
