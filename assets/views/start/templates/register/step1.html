@@ -22,7 +22,7 @@
 			<img data-ng-src="{{acceptIcon(password, password2)}}" alt="Ok!">
 		</span>
 	</div>
-	<div class="success" id="registerPasswordStrength" style="display:block">
+	<div id="registerPasswordStrength" data-strength="{{passwordStrength()}}">
 		<span data-i18n="login.register.passwordstrength"></span>
 		<span>{{passwordStrength()}}</span>
 	</div>
