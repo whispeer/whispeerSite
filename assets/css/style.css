@@ -826,6 +826,7 @@ btn-send[disabled] {
 }
 .searchBar .searchDrop .searchSuggestions li.active {
   background-color: #559d00;
+  color: #ffffff;
 }
 .searchBar .searchDrop .searchSuggestions li.active .info {
   color: #eeeeee;
@@ -852,6 +853,9 @@ btn-send[disabled] {
 .searchBar .searchDrop .searchSuggestions li .actions a.disabled,
 .searchBar .searchDrop .searchSuggestions li .actions a[disabled] {
   background-color: rgba(69, 153, 0, 0.7);
+}
+.searchBar.filterSearch .searchDrop li {
+  padding: 5px !important;
 }
 .person {
   padding: 0;
@@ -2033,15 +2037,60 @@ body.loading:after {
   box-sizing: border-box;
   /* Opera/IE 8+ */
 }
-.registerView .success {
-  border: 1px solid #488200;
-  background-color: #66b900;
+.registerView #registerPasswordStrength {
+  transition: background-color 0.15s ease, border-color 0.15s ease;
+  border: 1px solid #990000;
+  background-color: #ff0000;
   -webkit-box-sizing: border-box;
   /* Safari/Chrome, other WebKit */
   -moz-box-sizing: border-box;
   /* Firefox, other Gecko */
   box-sizing: border-box;
   /* Opera/IE 8+ */
+}
+.registerView #registerPasswordStrength[data-strength="0"] {
+  background-color: #ff0000;
+  border-color: #990000;
+}
+.registerView #registerPasswordStrength[data-strength="1"] {
+  background-color: #ff4d00;
+  border-color: #992e00;
+}
+.registerView #registerPasswordStrength[data-strength="2"] {
+  background-color: #ff7700;
+  border-color: #994700;
+}
+.registerView #registerPasswordStrength[data-strength="3"] {
+  background-color: #ffa200;
+  border-color: #996100;
+}
+.registerView #registerPasswordStrength[data-strength="4"] {
+  background-color: #ffc400;
+  border-color: #997600;
+}
+.registerView #registerPasswordStrength[data-strength="5"] {
+  background-color: #ffff00;
+  border-color: #999900;
+}
+.registerView #registerPasswordStrength[data-strength="6"] {
+  background-color: #cdff00;
+  border-color: #7b9900;
+}
+.registerView #registerPasswordStrength[data-strength="7"] {
+  background-color: #afff00;
+  border-color: #658a00;
+}
+.registerView #registerPasswordStrength[data-strength="8"] {
+  background-color: #80ff00;
+  border-color: #4d9900;
+}
+.registerView #registerPasswordStrength[data-strength="9"] {
+  background-color: #62ff00;
+  border-color: #3b9900;
+}
+.registerView #registerPasswordStrength[data-strength="10"] {
+  background-color: #11ff00;
+  border-color: #0a9900;
 }
 .registerView header {
   width: 100%;
@@ -2464,11 +2513,12 @@ body.loading:after {
 .registerView section #registerForm .inputWrap div#canvasWrapper #original {
   display: block;
 }
-.registerView section #registerForm .inputWrap div.success {
+.registerView section #registerForm .inputWrap div#registerPasswordStrength {
   height: 40px;
   display: block;
   width: 80%;
   margin: 0 10% 5px 10%;
+  padding: 9px 0 0 0;
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
   border-radius: 5px;
@@ -2833,7 +2883,7 @@ body.loading:after {
   float: left;
   width: 98%;
   margin: 0 1% 0 1%;
-  height: 20px;
+  height: 30px !important;
   padding: 4px 0;
   background-color: #ffffff;
   background: -webkit-gradient(linear, left top, left bottom, from(#ffffff), to(#ececec));
@@ -2859,7 +2909,7 @@ body.loading:after {
   float: left;
   width: 98%;
   margin: 0 1% 0 1%;
-  margin: 0;
+  margin-left: -1%;
   height: 42px;
   padding: 5px;
   resize: none;

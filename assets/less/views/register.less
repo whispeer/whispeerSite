@@ -33,10 +33,56 @@
 		background-color: #b40000;
 		.box-fix;
 	}
-	.success {
-		border: 1px solid #488200;
-		background-color: #66b900;
+	#registerPasswordStrength {
+		transition: background-color 0.15s ease,
+					border-color 0.15s ease;
+		border: 1px solid darken(#ff0000, 20%);
+		background-color: #ff0000;
 		.box-fix;
+		&[data-strength="0"] {
+			background-color: #ff0000;
+			border-color: darken(#ff0000, 20%);
+		}
+		&[data-strength="1"] {
+			background-color: #ff4d00;
+			border-color: darken(#ff4d00, 20%);
+		}
+		&[data-strength="2"] {
+			background-color: #ff7700;
+			border-color: darken(#ff7700, 20%);
+		}
+		&[data-strength="3"] {
+			background-color: #ffa200;
+			border-color: darken(#ffa200, 20%);
+		}
+		&[data-strength="4"] {
+			background-color: #ffc400;
+			border-color: darken(#ffc400, 20%);
+		}
+		&[data-strength="5"] {
+			background-color: #ffff00;
+			border-color: darken(#ffff00, 20%);
+		}
+		&[data-strength="6"] {
+			background-color: #cdff00;
+			border-color: darken(#cdff00, 20%);
+		}
+		&[data-strength="7"] {
+			background-color: #afff00;
+			border-color: darken(#aff000, 20%);
+		}
+		&[data-strength="8"] {
+			background-color: #80ff00;
+			border-color: darken(#80ff00, 20%);
+		}
+		&[data-strength="9"] {
+			background-color: #62ff00;
+			border-color: darken(#62ff00, 20%);
+		}
+		&[data-strength="10"] {
+			background-color: #11ff00;
+			border-color: darken(#11ff00, 20%);
+		}
 	}
 	header {
 		width: 100%;
@@ -289,11 +335,12 @@
 							//background: @green2;
 						}
 					}	
-					&.success {
+					&#registerPasswordStrength {
 						height: 40px;
 						display: block;
 						width: 80%;
 						margin: 0 10% 5px 10%;
+						padding: 9px 0 0 0;
 						.border-radius(5px);
 						.box-fix;
 					}
