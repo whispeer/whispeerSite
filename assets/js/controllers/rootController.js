@@ -7,7 +7,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 
 	function rootController($scope, sessionService, sessionHelper, userService, cssService, messageService, friendsService) {
 		$scope.loggedin = false;
-		$scope.mobile = true;
+		$scope.mobile = false;
 		$scope.user = {};
 		$scope.friends = friendsService.data;
 

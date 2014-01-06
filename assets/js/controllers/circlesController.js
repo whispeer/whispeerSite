@@ -61,11 +61,11 @@ define(["whispeerHelper"], function (h) {
 
 		$scope.showCircleDo = function() {
 			$scope.showCircle = true;
-		}
+		};
 
 		$scope.showCircleUnDo = function() {
 			$scope.showCircle = false;
-		}
+		};
 	}
 
 	circlesController.$inject = ["$scope", "ssn.cssService", "ssn.circleService"];

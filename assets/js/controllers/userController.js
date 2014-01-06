@@ -35,9 +35,10 @@ define(["step", "whispeerHelper"], function (step, h) {
 		$scope.saveUser = function () {
 			if (userObject.isOwn()) {
 				var adv = $scope.user.advanced;
+				//TODO: something goes wrong here when doing it the 2nd time!
 				userObject.setAdvancedProfile(adv, function () {
 					userObject.uploadChangedProfile(function () {
-						debugger;
+						$scope.edit();
 					});
 				});
 			}

@@ -173,7 +173,11 @@ define(["step", "whispeerHelper"], function (step, h) {
 						data.pub.signature = signature;
 					}
 
-					socketService.emit("user.profileChange", data, this);
+					if (data.priv || data.pub) {
+						socketService.emit("user.profileChange", data, this);
+					} else {
+						this.last.ne(true);
+					}
 				}), h.sF(function (result) {
 					if (!result.errors.pub) {
 						publicProfileChanged = false;
@@ -183,7 +187,9 @@ define(["step", "whispeerHelper"], function (step, h) {
 					for (i = 0; i < priv.length; i += 1) {
 						if (result.allok || result.errors.priv.indexOf(priv[i].getID()) === -1) {
 							priv[i].updated();
+							this.ne(true);
 						} else {
+							this.ne(false);
 							//TODO
 						}
 					}
