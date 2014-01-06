@@ -2883,7 +2883,7 @@ body.loading:after {
   float: left;
   width: 98%;
   margin: 0 1% 0 1%;
-  height: 20px;
+  height: 30px !important;
   padding: 4px 0;
   background-color: #ffffff;
   background: -webkit-gradient(linear, left top, left bottom, from(#ffffff), to(#ececec));
@@ -2909,7 +2909,7 @@ body.loading:after {
   float: left;
   width: 98%;
   margin: 0 1% 0 1%;
-  margin: 0;
+  margin-left: -1%;
   height: 42px;
   padding: 5px;
   resize: none;
