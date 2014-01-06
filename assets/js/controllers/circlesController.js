@@ -42,12 +42,14 @@ define(["whispeerHelper"], function (h) {
 		};
 
 		$scope.unloadCircle = function () {
+			$scope.showCircle = false;
 			$scope.circleLoaded = false;
 			$scope.thisCircle = {};
 			$scope.circleid = 0;
 		};
 
 		$scope.loadActiveCircle = function (id) {
+			$scope.showCircle = true;
 			$scope.circleLoaded = true;
 			$scope.circleid = id;
 
