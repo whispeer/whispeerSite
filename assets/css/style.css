@@ -6706,7 +6706,8 @@ body.loading:after {
     width: 48%;
     margin: 0 1% 0 1%;
     margin: 10px 1% 10px 1%;
-    height: 40px;
+    min-height: 40px;
+    height: auto;
     padding: 8.5px;
   }
   .profileView #main #info article#generalInfo .actions .addToCirlce {
@@ -6718,6 +6719,7 @@ body.loading:after {
     width: 98%;
     margin: 0 1% 0 1%;
     margin: 10px 1% 0px 1%;
+    min-height: 40px;
   }
   .profileView #main #info article#generalInfo .actions .sendMessage {
     display: inline-block;
@@ -6728,7 +6730,8 @@ body.loading:after {
     width: 98%;
     margin: 0 1% 0 1%;
     margin: 10px 1% 0px 1%;
-    height: 40px;
+    min-height: 40px;
+    height: auto;
     padding: 8.5px;
   }
   .profileView #main #wall {
