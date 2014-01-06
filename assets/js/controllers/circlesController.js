@@ -7,7 +7,8 @@ define(["whispeerHelper"], function (h) {
 
 	function circlesController($scope, cssService, circleService) {
 		$scope.circleid = 0;
-		$scope.showCircle = false;
+		$scope.showCircle = !$scope.mobile;
+
 		$scope.thisCircle = {};
 
 		$scope.circles = circleService.data.circles;
@@ -39,10 +40,13 @@ define(["whispeerHelper"], function (h) {
 		$scope.createNew = function (name) {
 			var ids = $scope.selectedUsers.map(h.qm("id"));
 			circleService.create(name, h.sF(h.nop), ids);
+
+			$scope.showCircle = !$scope.mobile;
 		};
 
 		$scope.unloadCircle = function () {
-			$scope.showCircle = false;
+			$scope.showCircle = true;
+
 			$scope.circleLoaded = false;
 			$scope.thisCircle = {};
 			$scope.circleid = 0;
@@ -57,16 +61,6 @@ define(["whispeerHelper"], function (h) {
 				console.log("loaded");
 			});
 			$scope.thisCircle = circleService.get(id).data;
-		};
-
-		$scope.showCirlce = false;
-
-		$scope.showCircleDo = function() {
-			$scope.showCircle = true;
-		};
-
-		$scope.showCircleUnDo = function() {
-			$scope.showCircle = false;
 		};
 	}
 

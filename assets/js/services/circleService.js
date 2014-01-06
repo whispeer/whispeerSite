@@ -158,7 +158,7 @@ define(["step", "whispeerHelper", "asset/observer"], function (step, h, Observer
 					}), h.sF(function () {
 						var i;
 						for (i = 0; i < theUsers.length; i += 1) {
-							persons.push(theUsers[i].data.basic);
+							persons.push(theUsers[i].data);
 						}
 
 						this.ne(persons);
