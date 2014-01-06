@@ -4858,7 +4858,7 @@ body.loading:after {
   box-align: center;
   color: #eeeeee;
 }
-@media only screen and (min-device-width: 319px) and (max-device-width: 767px) {
+@media only screen and (min-width: 319px) and (max-width: 767px) {
   body {
     margin: 0 auto;
     padding: 50px 0 0;
