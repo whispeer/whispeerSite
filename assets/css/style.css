@@ -672,7 +672,6 @@ btn-send[disabled] {
   list-style-type: none;
   margin-left: 0;
   list-style: none;
-  border: 1px solid #888;
   -webkit-box-shadow: inset 0px 0px 5px #cccccc;
   -moz-box-shadow: inset 0px 0px 5px #cccccc;
   box-shadow: inset 0px 0px 5px #cccccc;
@@ -856,6 +855,15 @@ btn-send[disabled] {
 }
 .searchBar.filterSearch .searchDrop li {
   padding: 5px !important;
+}
+.searchBar.hideScroll .formSearch {
+  border: 1px solid #888;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
 }
 .person {
   padding: 0;
@@ -2764,6 +2772,7 @@ body.loading:after {
   background-clip: padding-box;
   overflow-y: hidden;
   overflow-x: scroll;
+  height: 50px;
   white-space: nowrap;
   text-align: left;
 }
@@ -2914,11 +2923,15 @@ body.loading:after {
   padding: 5px;
   resize: none;
 }
+.mainView #wall header #filter #theFilter .formSearch {
+  overflow: hidden !important;
+}
 .mainView #wall header #filter #theFilter .inputWrap {
   overflow-y: hidden;
   overflow-x: scroll;
   white-space: nowrap;
   text-align: left;
+  height: 60px;
 }
 .mainView #wall header #filter #theFilter .inputWrap li {
   white-space: nowrap;
