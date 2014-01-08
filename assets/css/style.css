@@ -3556,7 +3556,7 @@ body.loading:after {
   /* Firefox, other Gecko */
   box-sizing: border-box;
   /* Opera/IE 8+ */
-  overflow-y: scroll !important;
+  overflow-y: hidden !important;
 }
 .messagesView #main header {
   height: 20px;
