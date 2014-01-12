@@ -1,6 +1,6 @@
 body {	
 	margin: 0 auto;
-	padding: @navbarHeight 0 0;
+	padding: 0 !important;
 	min-width: none !important;
 	width: 100% !important;
 	zoom: 0 !important;
@@ -11,6 +11,7 @@ body {
 	
 	#container {
 		height: 100%;
+		padding-top: 70px;
 		padding-bottom: 30px;
 		#main, #sidebar-left, #sidebar-right {
 			height: 100%;
@@ -39,6 +40,8 @@ body {
 			.column(12);
 			overflow: scroll;
 			padding-top: 10px;
+			padding-bottom: 5px;
+			.box-fix;
 			.mobileMenu {
 				.unstyled;
 				width: 100%;

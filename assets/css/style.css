@@ -4877,7 +4877,7 @@ body.loading:after {
 @media only screen and (min-width: 319px) and (max-width: 767px) {
   body {
     margin: 0 auto;
-    padding: 50px 0 0;
+    padding: 0 !important;
     min-width: none !important;
     width: 100% !important;
     zoom: 0 !important;
@@ -4899,6 +4899,7 @@ body.loading:after {
   }
   body #container {
     height: 100%;
+    padding-top: 70px;
     padding-bottom: 30px;
   }
   body #container #main,
@@ -4955,6 +4956,13 @@ body.loading:after {
     margin: 0 1% 0 1%;
     overflow: scroll;
     padding-top: 10px;
+    padding-bottom: 5px;
+    -webkit-box-sizing: border-box;
+    /* Safari/Chrome, other WebKit */
+    -moz-box-sizing: border-box;
+    /* Firefox, other Gecko */
+    box-sizing: border-box;
+    /* Opera/IE 8+ */
   }
   body #container #sidebar-right .mobileMenu {
     list-style-type: none;
@@ -5257,6 +5265,9 @@ body.loading:after {
   }
   #topNav {
     width: 100%;
+    position: relative !important;
+    height: 50px !important;
+    margin-bottom: -70px;
   }
   #topNav #navInner {
     text-align: center;
