@@ -103,9 +103,10 @@ define(["step", "whispeerHelper"], function (step, h) {
 			}
 		};
 
-		$scope.unloadTopic = function () {
+		$scope.unloadTopic = function (bool) {
+			bool = (typeof bool === "undefined") ? true : bool;
 			$scope.topicLoaded = false;
-			$scope.showMessage = true; // show newMessage
+			$scope.showMessage = bool; // show newMessage
 			$scope.topicid = 0;
 			$location.search({});
 		};

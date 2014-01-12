@@ -91,50 +91,62 @@
 		&.peerChat {
 			.column(12);
 			height: 100%;
-			padding: 0px 0px 120px 0px;
+			padding: 0;
 			.box-fix;
 			#messageWrap {
 				height: 100%;
-			}
-			#messageTitle {
-				padding-left: 10px;
-			}
-			#messageList {
-				overflow-y: scroll !important;
-				height: 150px;
-				.message {
-					.column(4.25,5);
-					height: auto;
-					margin-bottom: 5px;
-					&.me {
-						float: right;
-					}
-					.user {
-						.userimg {
-							.column(2,12);
-							padding: 0;
+				position: relative;
+				padding-bottom: 50px;
+				.box-fix;
+				#messageList {
+					.column(12,12,left,0);
+					position: relative !important;
+					overflow-y: scroll !important;
+					height: 100%;
+					margin-bottom: 7.5px;
+					.message {
+						.column(4.25,5);
+						height: auto;
+						margin-bottom: 5px;
+						&:last-child {
+							margin-bottom: 0 !important;
+						}
+						&:first-child {
+							margin-top: 5px;
+						}
+						&.me {
+							float: right;
+						}
+						.user {
+							.userimg {
+								.column(2,12);
+								padding: 0;
+							}
+						}
+						.messageText {
+							.column(10,12);
+							word-break: break-word;
+						}
+						.time {
+							margin-top: -5px;
 						}
 					}
-					.messageText {
-						.column(10,12);
-						word-break: break-word;
+				}
+				#inputWrap {
+					.column(12,12,left,0);
+					height: 50px;
+					margin-bottom: -50px;
+					position: relative;
+					#messageInput {
+						.column(3,4);
+						height: 45px;
 					}
-					.time {
-						margin-top: -5px;
+					button {
+						.column(1,4);
+						height: 45px;
+						padding: 0;
 					}
-				}
-			}
-			#inputWrap {
-				height: 50px;
-				#messageInput {
-					.column(3,4);
-					height: 45px;
-				}
-				button {
-					.column(1,4);
-					height: 45px;
-					padding: 0;
-				}
+				}	
 			}		
 		}	
 		&.groupChat {
@@ -186,12 +198,13 @@
 			.column(7,7);
 			#recieverInput, #messageInput {
 				.column(5,5);
+				margin-top: 5px;
 				margin-bottom: 0px;
 				.formSearch {
 					.inputWrap {
 						li {
 							&.searchField {
-								width: 40%;
+								width: 80%;
 								input {
 									width: 100%;
 								}

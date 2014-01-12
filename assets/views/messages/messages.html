@@ -1,7 +1,8 @@
 <header>
 	<span class="title">
-		Nachrichten
-		<span data-ng-if="topicLoaded && showMessage"> - Chat mit 
+		<span data-ng-if="!topicLoaded && !showMessage">Nachrichten</span>
+		<span data-ng-if="!topicLoaded && showMessage">Neue Nachricht</span>
+		<span data-ng-if="topicLoaded && showMessage">Chat mit 
 			<span data-ng-repeat="partner in activeTopic.partners">
 				<a href="{{partner.basic.url}}">
 					{{activeTopic.partners.length>2?partner.basic.shortname:partner.name}}
@@ -9,8 +10,8 @@
 				{{$last?"":", "}}
 			</span>
 		</span>
-		<button data-ng-click="showMessageUnDo()" data-ng-if="mobile && showMessage"><i class="icon icon-menu"></i></button>
 	</span>
+	<button data-ng-click="unloadTopic(false)" data-ng-if="mobile && showMessage"><i class="icon icon-menu"></i></button>
 </header>
 <div id="topicListWrap" data-ng-if="!mobile || !showMessage">
 	<ul id="topicList">
@@ -37,7 +38,7 @@
 	</ul>
 </div>
 <div id="topicWrap" data-topicID="{{activeTopic.id}}" class="{{activeTopic.type}}" data-ng-if="topicLoaded && showMessage">
-	<div id="messageTitle">	
+	<div id="messageTitle" data-ng-if="!mobile">	
 		<h2>
 			<span data-ng-repeat="partner in activeTopic.partners">
 				<a href="{{partner.basic.url}}">
@@ -49,9 +50,11 @@
 	</div>
 	<div id="messageWrap">
 		<ul class="scroll-pane" id="messageList" data-scroll data-keepBottom data.scrollLock="scrollLock" data-ontop="loadMoreMessages()">
+<!--
 			<li>
 				Remaining: {{activeTopic.remaining}}
 			</li>
+-->
 			<li data-ng-repeat="message in activeTopic.messages" data-inview="markRead(message.id)" data-inview-time="1000" data-messageID="{{message.id}}" class="message" data-ng-class="{me:message.sender.me, other:message.sender.other}">
 				<div id="userid" class="user">
 					<a href="{{message.sender.basic.url}}">
@@ -71,7 +74,7 @@
 </div>
 <div id="topicWrap" class="newMessage" data-ng-if="!topicLoaded && showMessage">
 	<div id="messageTitle">	
-		<h2>Neue Nachricht</h2>
+		<h2 data-ng-if="!mobile">Neue Nachricht</h2>
 	</div>
 	<div id="messageWrap">	
 		<form id="inputWrap">

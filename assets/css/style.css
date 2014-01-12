@@ -3978,6 +3978,9 @@ body.loading:after {
   float: right;
   margin-right: 5px;
 }
+.messagesView #topicWrap.newMessage #recieverInput .inputWrap {
+  border: 1px solid #8c8c8c !important;
+}
 .friendsView #main {
   border-bottom: 1px solid #000;
   border-bottom-color: #a2a2a2;
@@ -5817,7 +5820,7 @@ body.loading:after {
     width: 98%;
     margin: 0 1% 0 1%;
     height: 100%;
-    padding: 0px 0px 120px 0px;
+    padding: 0;
     -webkit-box-sizing: border-box;
     /* Safari/Chrome, other WebKit */
     -moz-box-sizing: border-box;
@@ -5827,15 +5830,29 @@ body.loading:after {
   }
   .messagesView #topicWrap.peerChat #messageWrap {
     height: 100%;
+    position: relative;
+    padding-bottom: 50px;
+    -webkit-box-sizing: border-box;
+    /* Safari/Chrome, other WebKit */
+    -moz-box-sizing: border-box;
+    /* Firefox, other Gecko */
+    box-sizing: border-box;
+    /* Opera/IE 8+ */
   }
-  .messagesView #topicWrap.peerChat #messageTitle {
-    padding-left: 10px;
-  }
-  .messagesView #topicWrap.peerChat #messageList {
+  .messagesView #topicWrap.peerChat #messageWrap #messageList {
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+    *zoom: 1;
+    float: left;
+    width: 100%;
+    margin: 0 0 0 0;
+    position: relative !important;
     overflow-y: scroll !important;
-    height: 150px;
+    height: 100%;
+    margin-bottom: 7.5px;
   }
-  .messagesView #topicWrap.peerChat #messageList .message {
+  .messagesView #topicWrap.peerChat #messageWrap #messageList .message {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
@@ -5846,10 +5863,16 @@ body.loading:after {
     height: auto;
     margin-bottom: 5px;
   }
-  .messagesView #topicWrap.peerChat #messageList .message.me {
+  .messagesView #topicWrap.peerChat #messageWrap #messageList .message:last-child {
+    margin-bottom: 0 !important;
+  }
+  .messagesView #topicWrap.peerChat #messageWrap #messageList .message:first-child {
+    margin-top: 5px;
+  }
+  .messagesView #topicWrap.peerChat #messageWrap #messageList .message.me {
     float: right;
   }
-  .messagesView #topicWrap.peerChat #messageList .message .user .userimg {
+  .messagesView #topicWrap.peerChat #messageWrap #messageList .message .user .userimg {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
@@ -5859,7 +5882,7 @@ body.loading:after {
     margin: 0 1% 0 1%;
     padding: 0;
   }
-  .messagesView #topicWrap.peerChat #messageList .message .messageText {
+  .messagesView #topicWrap.peerChat #messageWrap #messageList .message .messageText {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
@@ -5869,13 +5892,22 @@ body.loading:after {
     margin: 0 1% 0 1%;
     word-break: break-word;
   }
-  .messagesView #topicWrap.peerChat #messageList .message .time {
+  .messagesView #topicWrap.peerChat #messageWrap #messageList .message .time {
     margin-top: -5px;
   }
-  .messagesView #topicWrap.peerChat #inputWrap {
+  .messagesView #topicWrap.peerChat #messageWrap #inputWrap {
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+    *zoom: 1;
+    float: left;
+    width: 100%;
+    margin: 0 0 0 0;
     height: 50px;
+    margin-bottom: -50px;
+    position: relative;
   }
-  .messagesView #topicWrap.peerChat #inputWrap #messageInput {
+  .messagesView #topicWrap.peerChat #messageWrap #inputWrap #messageInput {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
@@ -5885,7 +5917,7 @@ body.loading:after {
     margin: 0 1% 0 1%;
     height: 45px;
   }
-  .messagesView #topicWrap.peerChat #inputWrap button {
+  .messagesView #topicWrap.peerChat #messageWrap #inputWrap button {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
@@ -6002,11 +6034,12 @@ body.loading:after {
     float: left;
     width: 98%;
     margin: 0 1% 0 1%;
+    margin-top: 5px;
     margin-bottom: 0px;
   }
   .messagesView #topicWrap.newMessage #recieverInput .formSearch .inputWrap li.searchField,
   .messagesView #topicWrap.newMessage #messageInput .formSearch .inputWrap li.searchField {
-    width: 40%;
+    width: 80%;
   }
   .messagesView #topicWrap.newMessage #recieverInput .formSearch .inputWrap li.searchField input,
   .messagesView #topicWrap.newMessage #messageInput .formSearch .inputWrap li.searchField input {
