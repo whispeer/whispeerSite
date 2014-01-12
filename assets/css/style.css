@@ -6710,19 +6710,6 @@ body.loading:after {
     width: 100%;
     margin: 0 0 0 0;
   }
-  .profileView #main #info article#generalInfo .actions .addFriend {
-    display: inline-block;
-    *display: inline;
-    /* IE7 inline-block hack */
-    *zoom: 1;
-    float: left;
-    width: 48%;
-    margin: 0 1% 0 1%;
-    margin: 10px 1% 10px 1%;
-    min-height: 40px;
-    height: auto;
-    padding: 8.5px;
-  }
   .profileView #main #info article#generalInfo .actions .addToCirlce {
     display: inline-block;
     *display: inline;
@@ -6731,10 +6718,11 @@ body.loading:after {
     float: left;
     width: 98%;
     margin: 0 1% 0 1%;
-    margin: 10px 1% 0px 1%;
+    margin: 10px 1% 0 1%;
     min-height: 40px;
   }
-  .profileView #main #info article#generalInfo .actions .sendMessage {
+  .profileView #main #info article#generalInfo .actions .sendMessage,
+  .profileView #main #info article#generalInfo .actions .addFriend {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
@@ -6742,7 +6730,7 @@ body.loading:after {
     float: left;
     width: 98%;
     margin: 0 1% 0 1%;
-    margin: 10px 1% 0px 1%;
+    margin: 10px 1% 0 1%;
     min-height: 40px;
     height: auto;
     padding: 8.5px;
