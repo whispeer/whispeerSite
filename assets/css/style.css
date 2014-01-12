@@ -5274,8 +5274,9 @@ body.loading:after {
   #topNav #navInner #toggleSearch {
     /* IE7 inline-block hack */
     float: left;
-    width: 14.666666666666668%;
-    margin: 0 1% 0 1%;
+    width: 13.666666666666668%;
+    margin: 0 1.5% 0 1.5%;
+    margin: 10px 0 0 3% !important;
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
@@ -5323,7 +5324,7 @@ body.loading:after {
     background-color: #3a8100;
   }
   #topNav #navInner #toggleSearch i {
-    margin-left: -4px;
+    margin-left: -5px;
   }
   #topNav #navInner #toggleSidebar {
     /* IE7 inline-block hack */
