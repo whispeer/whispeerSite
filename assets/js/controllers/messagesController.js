@@ -9,6 +9,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 		cssService.setClass("messagesView");
 
 		$scope.topicid = 0;
+		$scope.showMessage = !$scope.mobile;
 
 		$scope.$watch(function () { return $routeParams["userid"]; }, function () {
 			if ($routeParams["userid"]) {
@@ -104,6 +105,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 
 		$scope.unloadTopic = function () {
 			$scope.topicLoaded = false;
+			$scope.showMessage = true; // show newMessage
 			$scope.topicid = 0;
 			$location.search({});
 		};
@@ -125,6 +127,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 				$scope.activeTopic = theTopic.data;
 
 				$scope.topicLoaded = true;
+				$scope.showMessage = true;
 
 				$location.search({topicid: id});
 			}));
@@ -139,16 +142,6 @@ define(["step", "whispeerHelper"], function (step, h) {
 				$scope.activeTopic.newMessage = "";
 			});
 		};
-
-		$scope.showMessage = false;
-
-		$scope.showMessageDo = function() {
-			$scope.showMessage = true;
-		}
-
-		$scope.showMessageUnDo = function() {
-			$scope.showMessage = false;
-		}
 		
 
 		$scope.topics = messageService.data.latestTopics.data;
