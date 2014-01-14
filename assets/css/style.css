@@ -2992,38 +2992,61 @@ body.loading:after {
   list-style-type: none;
   margin-left: 0;
   list-style: none;
-  border: 1px solid #999999 !important;
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
   border-radius: 5px;
   -moz-background-clip: padding;
   -webkit-background-clip: padding-box;
   background-clip: padding-box;
-}
-.mainView #wall .posts article ol.comments:last-child {
-  border: none;
+  overflow: hidden;
+  padding: 5px;
+  -webkit-box-sizing: border-box;
+  /* Safari/Chrome, other WebKit */
+  -moz-box-sizing: border-box;
+  /* Firefox, other Gecko */
+  box-sizing: border-box;
+  /* Opera/IE 8+ */
 }
 .mainView #wall .posts article ol.comments li {
-  background-color: #eeeeee;
-  *zoom: 1;
-  border-bottom: 1px solid #999999;
+  margin-bottom: 5px;
+  background-color: #e5e5e5;
+  background: -webkit-gradient(linear, left top, left bottom, from(#e5e5e5), to(#d6d6d6));
+  background: -webkit-linear-gradient(top, #e5e5e5, #d6d6d6);
+  background: -moz-linear-gradient(top, #e5e5e5, #d6d6d6);
+  background: -ms-linear-gradient(top, #e5e5e5, #d6d6d6);
+  background: -o-linear-gradient(top, #e5e5e5, #d6d6d6);
+  border: 1px solid #b2b2b2;
+  -webkit-border-radius: 6px;
+  -moz-border-radius: 6px;
+  border-radius: 6px;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  overflow-x: hidden;
 }
-.mainView #wall .posts article ol.comments li:before,
-.mainView #wall .posts article ol.comments li:after {
-  content: "";
-  display: table;
+.mainView #wall .posts article ol.comments li.header {
+  text-align: center;
+  -webkit-box-sizing: border-box;
+  /* Safari/Chrome, other WebKit */
+  -moz-box-sizing: border-box;
+  /* Firefox, other Gecko */
+  box-sizing: border-box;
+  /* Opera/IE 8+ */
 }
-.mainView #wall .posts article ol.comments li:after {
-  clear: both;
+.mainView #wall .posts article ol.comments li.me {
+  background-color: #a9e760;
+  background: -webkit-gradient(linear, left top, left bottom, from(#a9e760), to(#8fd457));
+  background: -webkit-linear-gradient(top, #a9e760, #8fd457);
+  background: -moz-linear-gradient(top, #a9e760, #8fd457);
+  background: -ms-linear-gradient(top, #a9e760, #8fd457);
+  background: -o-linear-gradient(top, #a9e760, #8fd457);
+  color: #000;
 }
 .mainView #wall .posts article ol.comments li .text {
   word-break: break-all;
 }
-.mainView #wall .posts article ol.comments li .timestamp {
+.mainView #wall .posts article ol.comments li aside {
   font-size: 0.85em;
-}
-.mainView #wall .posts article ol.comments li.newComment {
-  background-color: #ffffff;
 }
 .mainView #wall .posts article ol.comments li.newComment input {
   margin-top: 8px;
@@ -10366,9 +10389,8 @@ body.loading:after {
     /* IE7 inline-block hack */
     *zoom: 1;
     float: left;
-    width: 64.66666666666667%;
+    width: 98%;
     margin: 0 1% 0 1%;
-    margin-left: 1.0416666666666667% !important;
     -webkit-border-radius: 5px;
     -moz-border-radius: 5px;
     border-radius: 5px;
@@ -10382,50 +10404,6 @@ body.loading:after {
     margin: 0;
     min-height: 40px;
   }
-  .posts article ol.comments li:last-child {
-    -webkit-border-top-right-radius: 0;
-    -webkit-border-bottom-right-radius: 5px;
-    -webkit-border-bottom-left-radius: 5px;
-    -webkit-border-top-left-radius: 0;
-    -moz-border-radius-topright: 0;
-    -moz-border-radius-bottomright: 5px;
-    -moz-border-radius-bottomleft: 5px;
-    -moz-border-radius-topleft: 0;
-    border-top-right-radius: 0;
-    border-bottom-right-radius: 5px;
-    border-bottom-left-radius: 5px;
-    border-top-left-radius: 0;
-    -moz-background-clip: padding;
-    -webkit-background-clip: padding-box;
-    background-clip: padding-box;
-    border-bottom: none !important;
-  }
-  .posts article ol.comments li:first-child {
-    -webkit-border-top-right-radius: 5px;
-    -webkit-border-bottom-right-radius: 0;
-    -webkit-border-bottom-left-radius: 0;
-    -webkit-border-top-left-radius: 5px;
-    -moz-border-radius-topright: 5px;
-    -moz-border-radius-bottomright: 0;
-    -moz-border-radius-bottomleft: 0;
-    -moz-border-radius-topleft: 5px;
-    border-top-right-radius: 5px;
-    border-bottom-right-radius: 0;
-    border-bottom-left-radius: 0;
-    border-top-left-radius: 5px;
-    -moz-background-clip: padding;
-    -webkit-background-clip: padding-box;
-    background-clip: padding-box;
-    border-top: none;
-  }
-  .posts article ol.comments li:only-child {
-    -webkit-border-radius: 5px;
-    -moz-border-radius: 5px;
-    border-radius: 5px;
-    -moz-background-clip: padding;
-    -webkit-background-clip: padding-box;
-    background-clip: padding-box;
-  }
   .posts article ol.comments li img {
     display: inline-block;
     *display: inline;
@@ -10434,9 +10412,9 @@ body.loading:after {
     float: left;
     width: 6.333333333333334%;
     margin: 0 1% 0 1%;
+    display: block;
     margin-left: 0;
-    height: 40px;
-    width: auto !important;
+    margin-right: 2%;
   }
   .posts article ol.comments li .text {
     display: inline-block;
@@ -10444,7 +10422,7 @@ body.loading:after {
     /* IE7 inline-block hack */
     *zoom: 1;
     float: left;
-    width: 63%;
+    width: 64.66666666666667%;
     margin: 0 1% 0 1%;
     padding: 3px;
     -webkit-box-sizing: border-box;
@@ -10454,20 +10432,39 @@ body.loading:after {
     box-sizing: border-box;
     /* Opera/IE 8+ */
   }
-  .posts article ol.comments li .timestamp {
+  .posts article ol.comments li aside {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
     *zoom: 1;
     float: left;
-    width: 23%;
+    width: 18.833333333333336%;
     margin: 0 1% 0 1%;
+  }
+  .posts article ol.comments li.header {
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+    *zoom: 1;
+    float: left;
+    width: 48%;
+    margin: 0 1% 0 1%;
+    margin: 0 25%;
+    padding: 8px 0;
   }
   .posts article ol.comments li.newComment {
     padding: 0;
   }
   .posts article ol.comments li.newComment img {
-    width: auto;
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+    *zoom: 1;
+    float: left;
+    width: 6.333333333333334%;
+    margin: 0 1% 0 1%;
+    margin-left: 0;
+    margin-right: 2%;
   }
   .posts article ol.comments li.newComment input {
     display: inline-block;
@@ -10475,9 +10472,9 @@ body.loading:after {
     /* IE7 inline-block hack */
     *zoom: 1;
     float: left;
-    width: 68.00000000000001%;
+    width: 64.66666666666667%;
     margin: 0 1% 0 1%;
-    margin-top: 2px !important;
+    margin-top: 6.5px !important;
   }
   .posts article ol.comments li.newComment button {
     display: inline-block;
@@ -10487,7 +10484,9 @@ body.loading:after {
     float: left;
     width: 18.833333333333336%;
     margin: 0 1% 0 1%;
-    margin-top: 5px !important;
+    margin-top: 9.5px !important;
+    margin-left: 2%;
+    margin-right: 0;
   }
   .posts article:last-child {
     border: none;

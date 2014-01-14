@@ -161,29 +161,35 @@
 				}
 				ol.comments {
 					.unstyled;
-					border: 1px solid @grayLight !important;
+					//border: 1px solid @grayLight !important;
 					.border-radius(5px);
-					&:last-child {
-						border: none;
-					}
-					&:first-child {
-					}
-					&:only-child {
-					}
+					//background-color: @grayLighter;
+					overflow: hidden;
+					padding: 5px;
+					.box-fix;
 					li {
-						background-color: @grayLighter;
-						.clear-fix;
-						border-bottom: 1px solid @grayLight;
+						margin-bottom: 5px;
+						.gradient(lighten(@grayLight,30%), lighten(@grayLight,24%));
+						border: 1px solid #b2b2b2;
+						.border-radius(6px);
+						overflow-x: hidden;
+						&.header {
+							text-align: center;
+							.box-fix;
+						}
+						&.me {
+							.gradient(desaturate((@gray+@green),12%), desaturate((@gray + @green2),2%));
+							color: #000;
+						}
 						img {
 						}
 						.text {
 							word-break: break-all;
 						}
-						.timestamp {
+						aside {
 							font-size: 0.85em;
 						}
 						&.newComment {
-							background-color: @white;
 							input {
 								margin-top: 8px;
 							}

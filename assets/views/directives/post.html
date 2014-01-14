@@ -1,5 +1,5 @@
 <article>
-	<img class="userimg" ng-src="{{post.sender.image.image}}" alt="{{post.sender.image.alttext}}">
+	<img class="userimg" data-ng-src="{{post.sender.image.image}}" alt="{{post.sender.image.alttext}}">
 	<div class="postContent">
 		<p class="author">{{post.sender.name}}:</p>
 		<div class="postText">{{post.content.text}}</div>
@@ -9,11 +9,13 @@
 			<p class="with" data-ng-if="post.info.with != ''" data-i18n="wall.info.with|name={{post.info.with}}"></p>
 			<p class="awesome" data-i18n="wall.info.awesome|count={{post.info.awesome}}"></p>
 			<p class="comments" data-i18n="wall.info.comments.count|count={{post.info.comments.count}}"></p>
-			<a href="" class="showComments" data-i18n="wall.info.comments.showem" data-ng-click="showComments=!showComments" data-ng-init="showComments=false"></a>
+			<a href="" class="showComments" data-ng-show="!showComments" data-i18n="wall.info.comments.showem" data-ng-click="showComments=!showComments" data-ng-init="showComments=false"></a>
+			<a href="" class="showComments" data-ng-show="showComments" data-i18n="wall.info.comments.hideem" data-ng-click="showComments=!showComments"></a>
 	</div>
-	<ol class="comments animated" data-ng-if="showComments">
+	<ol class="comments" data-ng-if="showComments">
+		<li class="header"><span>Kommentare</span></li>
 		<li class="newComment"><img src="/assets/img/user.png"><input type="text" data-ng-model="comment" placeholder="Gebe deinen Kommentar ein!"><button class="btn btn-success">Senden</button></li>
 		<comment data-ng-repeat="comment in post.comments" data-comment="comment"></comment>
-		<li class="newComment" data-ng-if="post.comments.length >= 10"><img src="/assets/img/user.png"><input type="text" data-ng-model="comment" placeholder="Gebe deinen Kommentar ein!"><button class="btn btn-success">Senden</button></li>
+		<li class="newComment" data-ng-if="post.comments.length >= 10"><img src="/assets/img/user.pn"><input type="text" data-ng-model="comment" placeholder="Gebe deinen Kommentar ein!"><button class="btn btn-success">Senden</button></li>
 	</ol>
 </article>

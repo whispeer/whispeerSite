@@ -97,7 +97,8 @@
 			"awesome":	"Awesomeness: {count}",
 			"comments":	{
 				"count":	"{count} Kommentare",
-				"showem":	"Kommentare anzeigen"
+				"showem":	"Kommentare anzeigen",
+				"hideem":	"Kommentare verbergen"
 			}
 		},
 		"post": {

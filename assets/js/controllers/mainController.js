@@ -37,7 +37,8 @@ define([], function () {
 						"user": {
 							"id":	"1",
 							"name":	"Test",
-							"image":"/assets/img/user.png"
+							"image":"/assets/img/user.png",
+							"me": true
 						},
 						"content":	"Hallo Welt! Lorem ipsum dolor sit amet, amet dolor felses dramatikum dolosgnweio+gbeqi0h#nfonho#GBÜnrg#psnRWNW#RPHFNB  hwr bäwrihns#pkb tnsfhpiwrntgfsnhwropngpn topngopn tpoqenhprwntpadnh'W PRt",
 						"timestamp":	"06:56",
@@ -46,7 +47,8 @@ define([], function () {
 						"user": {
 							"id":	"1",
 							"name":	"Test",
-							"image":"/assets/img/user.png"
+							"image":"/assets/img/user.png",
+							"me": false
 						},
 						"content":	"Hallo Welt!",
 						"timestamp":	"06:56",
@@ -55,7 +57,8 @@ define([], function () {
 						"user": {
 							"id":	"1",
 							"name":	"Test",
-							"image":"/assets/img/user.png"
+							"image":"/assets/img/user.png",
+							"me": true
 						},
 						"content":	"Hallo Welt!",
 						"timestamp":	"06:56",
@@ -64,67 +67,13 @@ define([], function () {
 						"user": {
 							"id":	"1",
 							"name":	"Test",
-							"image":"/assets/img/user.png"
+							"image":"/assets/img/user.png",
+							"me": false
 						},
 						"content":	"Hallo Welt!",
 						"timestamp":	"06:56",
 						"date":	"15.08.13"
-					},{
-						"user": {
-							"id":	"1",
-							"name":	"Test",
-							"image":"/assets/img/user.png"
-						},
-						"content":	"Hallo Welt!",
-						"timestamp":	"06:56",
-						"date":	"15.08.13"
-					},{
-						"user": {
-							"id":	"1",
-							"name":	"Test",
-							"image":"/assets/img/user.png"
-						},
-						"content":	"Hallo Welt!",
-						"timestamp":	"06:56",
-						"date":	"15.08.13"
-					},{
-						"user": {
-							"id":	"1",
-							"name":	"Test",
-							"image":"/assets/img/user.png"
-						},
-						"content": "Hallo Welt!",
-						"timestamp":	"06:56",
-						"date":	"15.08.13"
-					},{
-						"user": {
-							"id":	"1",
-							"name":	"Test",
-							"image":"/assets/img/user.png"
-						},
-						"content":"Hallo Welt!",
-						"timestamp":	"06:56",
-						"date":	"15.08.13"
-					},{
-						"user": {
-							"id":	"1",
-							"name":	"Test",
-							"image":"/assets/img/user.png"
-						},
-						"content":	"Hallo Welt!",
-						"timestamp":	"06:56",
-						"date":	"15.08.13"
-					},{
-						"user": {
-							"id":	"1",
-							"name":	"Test",
-							"image":"/assets/img/user.png"
-						},
-						"content":	"Hallo Welt!",
-						"timestamp":	"06:56",
-						"date":	"15.08.13"
-					}
-				]
+					}				]
 			},
 			{
 				"sender":	{
