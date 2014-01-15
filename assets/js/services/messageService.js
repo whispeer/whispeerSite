@@ -567,6 +567,8 @@ define(["step", "whispeerHelper", "valid/validator", "asset/observer"], function
 		};
 
 		function makeTopic(data, cb) {
+			cb = cb || h.nop;
+
 			var t = new Topic(data);
 
 			var id = t.getID();
@@ -591,7 +593,7 @@ define(["step", "whispeerHelper", "valid/validator", "asset/observer"], function
 
 				console.log("Topic loaded:" + (new Date().getTime() - startup));
 				this.ne(t.getID());
-			}), cb || h.nop);
+			}), cb);
 
 			return t;
 		}
