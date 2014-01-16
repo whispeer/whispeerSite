@@ -1562,11 +1562,19 @@ dd {
 #magicbar {
   height: 100%;
 }
-#magicbar .magic {
+#magicbar .magicWrap {
+  margin-top: 10px;
+  float: left;
+  min-width: 100%;
+  max-width: 100%;
+}
+#magicbar .magicWrap:first-child {
+  margin-top: 0;
+}
+#magicbar .magicWrap .magic {
   min-width: 100%;
   max-width: 100%;
   float: left;
-  margin-top: 10px;
   padding: 3px;
   -webkit-box-sizing: border-box;
   /* Safari/Chrome, other WebKit */
@@ -1592,28 +1600,25 @@ dd {
   -webkit-background-clip: padding-box;
   background-clip: padding-box;
 }
-#magicbar .magic:first-child {
-  margin-top: 0;
-}
-#magicbar .magic .header {
+#magicbar .magicWrap .magic .header {
   float: left;
   width: 100%;
   height: 30px;
   border-bottom: 1px solid #999999;
   margin-bottom: -30px;
 }
-#magicbar .magic .header h4 {
+#magicbar .magicWrap .magic .header h4 {
   float: left;
   width: 60%;
   padding: 3px 0px 3px 3px;
   margin: 0;
 }
-#magicbar .magic .header .close {
+#magicbar .magicWrap .magic .header .close {
   float: right;
   padding: 3px 3px 3px 0px;
   cursor: pointer;
 }
-#magicbar .magic .body {
+#magicbar .magicWrap .magic .body {
   height: 100%;
   width: 100%;
   padding-top: 30px;
@@ -1624,12 +1629,12 @@ dd {
   box-sizing: border-box;
   /* Opera/IE 8+ */
 }
-#magicbar .magic .body ul {
+#magicbar .magicWrap .magic .body ul {
   width: 100%;
   height: 100%;
   overflow-y: scroll;
 }
-#magicbar .magic .body ul li {
+#magicbar .magicWrap .magic .body ul li {
   width: 100%;
   float: left;
   margin: 0;
@@ -1643,16 +1648,16 @@ dd {
   border: none;
   border-bottom: 1px solid #dedede;
 }
-#magicbar .magic .body ul li:hover {
+#magicbar .magicWrap .magic .body ul li:hover {
   background: rgba(0, 0, 0, 0.05);
 }
-#magicbar .magic .body ul li.unread {
+#magicbar .magicWrap .magic .body ul li.unread {
   background-color: rgba(128, 212, 9, 0.55);
 }
-#magicbar .magic .body ul li.unread:hover {
+#magicbar .magicWrap .magic .body ul li.unread:hover {
   background-color: rgba(128, 212, 9, 0.75);
 }
-#magicbar .magic .body ul li.message .left {
+#magicbar .magicWrap .magic .body ul li.message .left {
   display: inline-block;
   *display: inline;
   /* IE7 inline-block hack */
@@ -1664,7 +1669,7 @@ dd {
   padding: 0;
   height: 40px;
 }
-#magicbar .magic .body ul li.message .left img {
+#magicbar .magicWrap .magic .body ul li.message .left img {
   width: 100%;
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
@@ -1674,7 +1679,7 @@ dd {
   background-clip: padding-box;
   height: 100%;
 }
-#magicbar .magic .body ul li.message.groupChat .left {
+#magicbar .magicWrap .magic .body ul li.message.groupChat .left {
   background-color: #b2b2b2;
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
@@ -1683,8 +1688,8 @@ dd {
   -webkit-background-clip: padding-box;
   background-clip: padding-box;
 }
-#magicbar .magic .body ul li.message.groupChat .left img,
-#magicbar .magic .body ul li.message.groupChat .left span {
+#magicbar .magicWrap .magic .body ul li.message.groupChat .left img,
+#magicbar .magicWrap .magic .body ul li.message.groupChat .left span {
   -webkit-border-radius: 0;
   -moz-border-radius: 0;
   border-radius: 0;
@@ -1700,8 +1705,8 @@ dd {
   margin: 0 0 0 0;
   height: 50%;
 }
-#magicbar .magic .body ul li.message.groupChat .left img:nth-child(1),
-#magicbar .magic .body ul li.message.groupChat .left span:nth-child(1) {
+#magicbar .magicWrap .magic .body ul li.message.groupChat .left img:nth-child(1),
+#magicbar .magicWrap .magic .body ul li.message.groupChat .left span:nth-child(1) {
   -webkit-border-top-right-radius: 0;
   -webkit-border-bottom-right-radius: 0;
   -webkit-border-bottom-left-radius: 0;
@@ -1718,8 +1723,8 @@ dd {
   -webkit-background-clip: padding-box;
   background-clip: padding-box;
 }
-#magicbar .magic .body ul li.message.groupChat .left img:nth-child(2),
-#magicbar .magic .body ul li.message.groupChat .left span:nth-child(2) {
+#magicbar .magicWrap .magic .body ul li.message.groupChat .left img:nth-child(2),
+#magicbar .magicWrap .magic .body ul li.message.groupChat .left span:nth-child(2) {
   -webkit-border-top-right-radius: 5px;
   -webkit-border-bottom-right-radius: 0;
   -webkit-border-bottom-left-radius: 0;
@@ -1736,8 +1741,8 @@ dd {
   -webkit-background-clip: padding-box;
   background-clip: padding-box;
 }
-#magicbar .magic .body ul li.message.groupChat .left img:nth-child(3),
-#magicbar .magic .body ul li.message.groupChat .left span:nth-child(3) {
+#magicbar .magicWrap .magic .body ul li.message.groupChat .left img:nth-child(3),
+#magicbar .magicWrap .magic .body ul li.message.groupChat .left span:nth-child(3) {
   -webkit-border-top-right-radius: 0;
   -webkit-border-bottom-right-radius: 0;
   -webkit-border-bottom-left-radius: 5px;
@@ -1754,8 +1759,8 @@ dd {
   -webkit-background-clip: padding-box;
   background-clip: padding-box;
 }
-#magicbar .magic .body ul li.message.groupChat .left img:nth-child(4),
-#magicbar .magic .body ul li.message.groupChat .left span:nth-child(4) {
+#magicbar .magicWrap .magic .body ul li.message.groupChat .left img:nth-child(4),
+#magicbar .magicWrap .magic .body ul li.message.groupChat .left span:nth-child(4) {
   -webkit-border-top-right-radius: 0;
   -webkit-border-bottom-right-radius: 5px;
   -webkit-border-bottom-left-radius: 0;
@@ -1772,7 +1777,7 @@ dd {
   -webkit-background-clip: padding-box;
   background-clip: padding-box;
 }
-#magicbar .magic .body ul li.message.groupChat .left span {
+#magicbar .magicWrap .magic .body ul li.message.groupChat .left span {
   background-color: #343434;
   color: #ffffff;
   font-size: 10px;
@@ -1784,7 +1789,7 @@ dd {
   box-sizing: border-box;
   /* Opera/IE 8+ */
 }
-#magicbar .magic .body ul li.message .username {
+#magicbar .magicWrap .magic .body ul li.message .username {
   display: inline-block;
   *display: inline;
   /* IE7 inline-block hack */
@@ -1797,7 +1802,7 @@ dd {
   text-overflow: ellipsis;
   overflow: hidden;
 }
-#magicbar .magic .body ul li.message .text {
+#magicbar .magicWrap .magic .body ul li.message .text {
   display: inline-block;
   *display: inline;
   /* IE7 inline-block hack */
@@ -1812,7 +1817,7 @@ dd {
   overflow: hidden;
   text-overflow: ellipsis;
 }
-#magicbar .magic .body ul li.request img {
+#magicbar .magicWrap .magic .body ul li.request img {
   display: inline-block;
   *display: inline;
   /* IE7 inline-block hack */
@@ -1822,7 +1827,7 @@ dd {
   margin: 0 1% 0 1%;
   margin-left: 0;
 }
-#magicbar .magic .body ul li.request .username {
+#magicbar .magicWrap .magic .body ul li.request .username {
   display: inline-block;
   *display: inline;
   /* IE7 inline-block hack */
@@ -1833,7 +1838,7 @@ dd {
   float: none;
   font-weight: bold;
 }
-#magicbar .magic .body ul li.request .similar {
+#magicbar .magicWrap .magic .body ul li.request .similar {
   display: inline-block;
   *display: inline;
   /* IE7 inline-block hack */
@@ -1844,12 +1849,12 @@ dd {
   color: #777;
   font-size: 0.9em;
 }
-#magicbar .magic .body ul li.request .action {
+#magicbar .magicWrap .magic .body ul li.request .action {
   width: 99%;
   float: left;
   margin-left: 1%;
 }
-#magicbar .magic .body ul li.request .action button {
+#magicbar .magicWrap .magic .body ul li.request .action button {
   display: inline-block;
   *display: inline;
   /* IE7 inline-block hack */
@@ -1859,7 +1864,7 @@ dd {
   margin: 0 1% 0 1%;
   padding: 2%;
 }
-#magicbar .magic .body ul li.notification img {
+#magicbar .magicWrap .magic .body ul li.notification img {
   display: inline-block;
   *display: inline;
   /* IE7 inline-block hack */
@@ -1869,10 +1874,10 @@ dd {
   margin: 0 1% 0 1%;
   margin-left: 0;
 }
-#magicbar .magic .body ul li.notification .username {
+#magicbar .magicWrap .magic .body ul li.notification .username {
   font-weight: bold;
 }
-#magicbar .magic .body ul li.notification .info {
+#magicbar .magicWrap .magic .body ul li.notification .info {
   display: inline-block;
   *display: inline;
   /* IE7 inline-block hack */
@@ -1881,7 +1886,7 @@ dd {
   width: 73%;
   margin: 0 1% 0 1%;
 }
-#magicbar .magicOverlay {
+#magicbar .magicWrap .magicOverlay {
   padding: 0;
   width: 100%;
 }
