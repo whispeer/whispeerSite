@@ -23,12 +23,15 @@
 						float: left;
 						.btn;
 						.btn-green;
+						padding-top: 0px;
+						max-width: none;
 						.remove {
 							float: right;
 							display: block;
 							width: 15px;
 							text-align: right;
 							color: #dedede;
+							z-index: 100;
 							&:hover {
 								color: #fff;
 							}
@@ -57,6 +60,7 @@
 		.border-radius(5px);
 		box-shadow: 0 0 8px @grayLight;
 		.box-shadow(0px 0px 5px 0px #b2b2b2);
+		z-index: 10000;
 		.searchSuggestions {
 			//.box-shadow(inset 6px -1px 4px 2px #b2b2b2);
 			.border-radius(5px);
@@ -94,6 +98,7 @@
 					a {
 						cursor: pointer;
 						.buttonBackground(hsla(hue(lighten(@btnGreenBackground,5%)), saturation(lighten(@btnGreenBackground,5%)), lightness(lighten(@btnGreenBackground,5%)), 0.7), hsla(hue(lighten(@btnGreenBackgroundHighlight,5%)), saturation(lighten(@btnGreenBackgroundHighlight,5%)), lightness(lighten(@btnGreenBackgroundHighlight,5%)), 0.7));
+						width: 100%;
 					}
 				}	
 			}

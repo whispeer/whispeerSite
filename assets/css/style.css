@@ -733,6 +733,8 @@ btn-send[disabled] {
   background-color: #559d00;
   color: #ffffff;
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+  padding-top: 0px;
+  max-width: none;
 }
 .searchBar .formSearch div .inputWrap li.searchResult:hover {
   background-color: #ececec;
@@ -757,6 +759,7 @@ btn-send[disabled] {
   width: 15px;
   text-align: right;
   color: #dedede;
+  z-index: 100;
 }
 .searchBar .formSearch div .inputWrap li.searchResult .remove:hover {
   color: #fff;
@@ -797,6 +800,7 @@ btn-send[disabled] {
   -webkit-box-shadow: 0px 0px 5px 0px #b2b2b2;
   -moz-box-shadow: 0px 0px 5px 0px #b2b2b2;
   box-shadow: 0px 0px 5px 0px #b2b2b2;
+  z-index: 10000;
 }
 .searchBar .searchDrop .searchSuggestions {
   -webkit-border-radius: 5px;
@@ -845,6 +849,7 @@ btn-send[disabled] {
   background-color: rgba(98, 184, 0, 0.7);
   color: #ffffff;
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+  width: 100%;
 }
 .searchBar .searchDrop .searchSuggestions li .actions a:hover,
 .searchBar .searchDrop .searchSuggestions li .actions a:active,
