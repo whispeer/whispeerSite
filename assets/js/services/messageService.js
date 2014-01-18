@@ -637,8 +637,11 @@ define(["step", "whispeerHelper", "valid/validator", "asset/observer"], function
 				if (data.topic) {
 					var t = makeTopic(data.topic, function () {
 						if (data.message) {
-							var m = makeMessage(data.message, true);
-							callListener(m);
+							var m = makeMessage(data.message, true, function () {
+								$timeout(function () {
+									callListener(m);
+								});
+							});
 						}
 					});
 
@@ -646,8 +649,11 @@ define(["step", "whispeerHelper", "valid/validator", "asset/observer"], function
 						messageService.data.unread += 1;
 					}
 				} else if (data.message) {
-					var m = makeMessage(data.message, true);
-					callListener(m);
+					var m = makeMessage(data.message, true, function () {
+						$timeout(function () {
+							callListener(m);
+						});
+					});
 				}
 			} else {
 				console.error(e);

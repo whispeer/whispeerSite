@@ -1,8 +1,14 @@
 define(["app"], function (app) {
 	"use strict";
 
-	return app.config(["$routeProvider", "$locationProvider", function ($routeProvider, $locationProvider) {
+	return app.config(["$routeProvider", "$provide", "$locationProvider", function ($routeProvider, $provide, $locationProvider) {
 		$locationProvider.html5Mode(true);
+		$locationProvider.hashPrefix("!");
+
+		/*$provide.decorator("$sniffer", function($delegate) {
+			$delegate.history = false;
+			return $delegate;
+		});*/
 
 		function addMain(name, reloadOnSearch) {
 			if (reloadOnSearch !== false) {
