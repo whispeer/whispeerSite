@@ -1,13 +1,13 @@
 define(function () {
 	"use strict";
-	function scrollTo() {
+	function scrollTo($location, $anchorScroll) {
 		return {
 			restrict: "A",
-			require: "$scope, $location, $anchorScroll",
-			link: function(hash) {
-				debugger;
-				$location.hash(hash);
-				$anchorScroll();
+			link: function(scope, iElement, iAttrs) {
+				iElement.click(function () {
+					$location.hash(iAttrs["scrollToID"]);
+					$anchorScroll();
+				});
 			}
 		};
 	}
