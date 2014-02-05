@@ -8515,6 +8515,14 @@ body.loading:after {
     margin: 0 1% 0 1%;
     margin-bottom: 5px;
   }
+  .messagesView #topicWrap.newMessage #recieverInput .formSearch .inputWrap li.searchField,
+  .messagesView #topicWrap.newMessage #messageInput .formSearch .inputWrap li.searchField {
+    width: 55%;
+  }
+  .messagesView #topicWrap.newMessage #recieverInput .formSearch .inputWrap li.searchField input,
+  .messagesView #topicWrap.newMessage #messageInput .formSearch .inputWrap li.searchField input {
+    width: 100%;
+  }
   .messagesView #topicWrap.newMessage #messageInput {
     height: 150px;
   }
@@ -11663,6 +11671,14 @@ body.loading:after {
     width: 98%;
     margin: 0 1% 0 1%;
     margin-bottom: 5px;
+  }
+  .messagesView #topicWrap.newMessage #recieverInput .formSearch .inputWrap li.searchField,
+  .messagesView #topicWrap.newMessage #messageInput .formSearch .inputWrap li.searchField {
+    width: 25%;
+  }
+  .messagesView #topicWrap.newMessage #recieverInput .formSearch .inputWrap li.searchField input,
+  .messagesView #topicWrap.newMessage #messageInput .formSearch .inputWrap li.searchField input {
+    width: 100%;
   }
   .messagesView #topicWrap.newMessage #messageInput {
     height: 150px;
