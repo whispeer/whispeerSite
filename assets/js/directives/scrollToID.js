@@ -5,7 +5,7 @@ define(function () {
 			restrict: "A",
 			link: function(scope, iElement, iAttrs) {
 				iElement.click(function () {
-					$location.hash(iAttrs["scrollToID"]);
+					$location.hash(iAttrs["scrolltoid"]);
 					$anchorScroll();
 				});
 			}

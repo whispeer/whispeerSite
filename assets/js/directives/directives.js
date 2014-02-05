@@ -26,7 +26,7 @@ define(includes, function (angular, userSearch, circleSearch, filterSearch, scro
 	d.directive("usersearch", ["ssn.userService", "$location", "$timeout", userSearch]);
 	d.directive("circlesearch", ["ssn.userService", "$timeout", "ssn.circleService", circleSearch]);
 	d.directive("filtersearch", ["ssn.userService", "$timeout", "ssn.circleService", "localize", filterSearch]);
-	d.directive("scrollToID", ["$location", "$anchorScroll", scrollToID]);
+	d.directive("scrolltoid", ["$location", "$anchorScroll", scrollToID]);
 
 	return d;
 });
