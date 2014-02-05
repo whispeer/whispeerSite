@@ -20,7 +20,7 @@ define(includes, function (angular, userSearch, circleSearch, filterSearch, scro
 
 	var i;
 	for (i = 0; i < directives.length; i += 1) {
-		d.directive(directives[i], arguments[i+4]);
+		d.directive(directives[i], arguments[i+5]);
 	}
 
 	d.directive("usersearch", ["ssn.userService", "$location", "$timeout", userSearch]);
