@@ -9023,7 +9023,7 @@ body.loading:after {
     box-sizing: border-box;
     /* Opera/IE 8+ */
     margin: 0 auto;
-    margin-top: 10px;
+    margin-top: 0;
   }
   .profileView #main #info {
     width: 100%;
@@ -12139,7 +12139,7 @@ body.loading:after {
     box-sizing: border-box;
     /* Opera/IE 8+ */
     margin: 0 auto;
-    margin-top: 10px;
+    margin-top: 0;
   }
   .profileView #main #info {
     width: 100%;
