@@ -305,6 +305,10 @@ define(["step", "whispeerHelper"], function (step, h) {
 				return friendShipKey;
 			};
 
+			this.getContactKey = function () {
+				return friendsKey || cryptKey;
+			};
+
 			this.getFriendsKey = function () {
 				return friendsKey;
 			};

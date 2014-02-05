@@ -31,6 +31,10 @@ define(["step", "whispeerHelper", "asset/observer"], function (step, h, Observer
 				return user.indexOf(h.parseDecimal(uid)) !== -1;
 			};
 
+			this.getKey = function () {
+				return key;
+			};
+
 			this.removePersons = function (uids, cb) {
 				var newUser, userIDs, newKey;
 				step(function () {
