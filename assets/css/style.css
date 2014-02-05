@@ -4648,6 +4648,7 @@ body.loading:after {
   /* Firefox, other Gecko */
   box-sizing: border-box;
   /* Opera/IE 8+ */
+  overflow: hidden;
 }
 .settingsView #main header {
   height: 20px;
