@@ -1,12 +1,15 @@
 define(function () {
 	"use strict";
-	function scrollTo($location, $anchorScroll) {
+	function scrollTo() {
 		return {
 			restrict: "A",
 			link: function(scope, iElement, iAttrs) {
 				iElement.click(function () {
-					$location.hash(iAttrs["scrolltoid"]);
-					$anchorScroll();
+					var elm, hash = iAttrs["scrolltoid"];
+
+					if ((elm = document.getElementById(hash))) {
+						elm.scrollIntoView();
+					}
 				});
 			}
 		};
