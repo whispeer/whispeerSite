@@ -23,8 +23,8 @@ define(["step", "whispeerHelper"], function (step, h) {
 
 				scope.resultTemplate = "/assets/views/directives/filterSearchResults.html";
 
-				if (iAttrs["selected"]) {
-					var selected = scope.$parent.$eval(iAttrs["selected"]);
+				function loadInitialSelection(attribute) {
+					var selected = scope.$parent.$eval(attribute);
 					step(function () {
 						$timeout(this);
 					}, h.sF(function () {
@@ -37,6 +37,14 @@ define(["step", "whispeerHelper"], function (step, h) {
 					}), h.sF(function (result) {
 						scope.$broadcast("initialSelection", result || []);
 					}));
+				}
+
+				if (iAttrs["selected"]) {
+					scope.$on("reloadInitialSelection", function () {
+						loadInitialSelection(iAttrs["selected"]);
+					});
+
+					loadInitialSelection(iAttrs["selected"]);
 				}
 
 				function getCircle(id, cb) {

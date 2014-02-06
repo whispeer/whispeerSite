@@ -191,6 +191,7 @@ define(["crypto/keyStore", "step", "whispeerHelper", "valid/validator", "asset/O
 			this.getScope = function (cb) {
 				var that = this;
 				step(function () {
+					//TODO: move scope to meta!
 					that.getAttribute(["scope"], this);
 				}, h.sF(function (scope) {
 					this.ne(scope || "always:allfriends");

@@ -63,6 +63,8 @@
 			</button>
 			<div data-ng-if="safety[name].encrypt"><filtersearch data-selected="safety[name].visibility" data-input-i18n-attr="" class="whoMaySeeIt"></filtersearch></div>
 		</div>
+		<button type="submit" data-ng-click="saveSafety()"><i class="icon-ok-circle"></i> Speichern</button>
+		<button type="submit" data-ng-click="resetSafety()"><i class="icon-ok-circle"></i> Reset</button>
 	</section>
 <!--
 	<section id="notifications">

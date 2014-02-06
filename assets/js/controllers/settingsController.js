@@ -2,7 +2,7 @@
 * friendsController
 **/
 
-define(["whispeerHelper"], function (h) {
+define(["whispeerHelper", "step"], function (h, step) {
 	"use strict";
 
 	function settingsController($scope, cssService, settingsService) {
@@ -13,54 +13,82 @@ define(["whispeerHelper"], function (h) {
 		step(function () {
 			settingsService.getBranch("privacy", this);
 		}, h.sF(function (branch) {
-			$scope.safety = branch;
+			$scope.safety = h.deepCopyObj(branch, 4);
 		}), function (e) {
-			debugger;
+			console.log(e);
+			//TODO: general error log.
 		});
 
-
-		/*
-		$scope.safety = {
-			"basic": {
-				first: {
-					encrypt: false,
-					visibility: []
-				},
-				last: {
-					encrypt: false,
-					visibility: []
+		function getAllProfileTypes(privacySettings) {
+			var i, profileTypes = [];
+			for (i = 0; i < $scope.safetySorted.length; i += 1) {
+				var cur = privacySettings[$scope.safetySorted[i]];
+				if (cur.encrypt) {
+					profileTypes = profileTypes.concat(cur.visibility);
 				}
-			},
-			"location": {
-				encrypt: true,
-				visibility: ["always:allfriends"]
-			},
-			"birthday": {
-				encrypt: true,
-				visibility: ["always:allfriends"]
-			},
-			"relationship": {
-				encrypt: true,
-				visibility: ["always:allfriends"]
-			},
-			"education": {
-				encrypt: true,
-				visibility: ["always:allfriends"]
-			},
-			"work": {
-				encrypt: true,
-				visibility: ["always:allfriends"]
-			},
-			"gender": {
-				encrypt: true,
-				visibility: ["always:allfriends"]
-			},
-			"languages": {
-				encrypt: true,
-				visibility: ["always:allfriends"]
 			}
+
+			if (privacySettings.basic.firstname.encrypt) {
+				profileTypes = profileTypes.concat(privacySettings.basic.firstname.visibility);
+			}
+
+			if (privacySettings.basic.lastname.encrypt) {
+				profileTypes = profileTypes.concat(privacySettings.basic.lastname.visibility);
+			}
+
+			return h.arrayUnique(profileTypes);
+		}
+
+		$scope.saveSafety = function () {
+			step(function () {
+				settingsService.getBranch("privacy", this);
+			}, h.sF(function (branch) {
+				var typesOld = getAllProfileTypes(branch);
+				var typesNew = getAllProfileTypes($scope.safety);
+
+				var profilesToAdd = h.arraySubtract(typesNew, typesOld);
+				var profilesToRemove = h.arraySubtract(typesOld, typesNew);
+			}), h.sF(function () {
+				//refactor profiles:
+				//one general profile (master profile)
+				//one for every circle and general
+				//on update: general profile update -> other profiles update depending on settings
+				//own user: only load general profile
+			}));
 		};
-		*/
+
+		$scope.resetSafety = function () {
+			step(function () {
+				settingsService.getBranch("privacy", this);
+			}, h.sF(function (branch) {
+				$scope.safety = h.deepCopyObj(branch, 4);
+				$scope.$broadcast("reloadInitialSelection");
+			}), function (e) {
+				console.log(e);
+				//TODO: general error log.
+			});
+		};
+
+		$scope.saveName = function () {
+
+		};
+
+		$scope.checkNickName = function () {
+
+		};
+
+		$scope.changeNickName = function () {
+
+		};
+
+		$scope.saveMail = function () {
+
+		};
+
+		$scope.savePassword = function () {
+			//The easy version at first!
+			//TODO: improve for more reliability against server.
+		};
 	}
 
 	settingsController.$inject = ["$scope", "ssn.cssService", "ssn.settingsService"];
