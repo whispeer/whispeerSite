@@ -47,19 +47,19 @@
 			</div>
 		</div>
 		<div id="navIcons" data-ng-controller="ssn.magicbar.mainController">
-			<div class="navIcon" id="message" data-ng-click="loadWidget('messages')">
+			<div class="navIcon" id="messageicon" data-ng-click="loadWidget('messages')">
 				<img src="/assets/img/icons/messages.png" alt="Nachrichten" class="icon">
 				<span class="badge" data-ng-if="messages.unread!=0">{{messages.unread}}</span>
 			</div>
-			<div class="navIcon" id="friends" data-ng-click="loadWidget('friends')">
+			<div class="navIcon" id="friendsicon" data-ng-click="loadWidget('friends')">
 				<img src="/assets/img/icons/friends.png" alt="Freundschaftsanfragen" class="icon">
 				<span class="badge" data-ng-if="friends.requestsCount!=0">{{friends.requestsCount}}</span>
 			</div>
-			<div class="navIcon" id="news" data-ng-click="loadWidget('news')">
+			<div class="navIcon" id="newsicon" data-ng-click="loadWidget('news')">
 				<img src="/assets/img/icons/newsfeed.png" alt="Neugikeiten" class="icon">
 				<span class="badge">3</span>
 			</div>
-			<div class="navIcon" id="settings" data-ng-click="loadWidget('settings')">
+			<div class="navIcon" id="settingsicon" data-ng-click="loadWidget('settings')">
 				<img src="/assets/img/icons/settings.png" alt="Settings" class="icon">	
 			</div>
 		</div>	
