@@ -1,44 +1,23 @@
-define(["step", "whispeerHelper"], function (step, h) {
+define(["step", "whispeerHelper", "asset/encryptedMetaData"], function (step, h, EncryptedMetaData) {
 	"use strict";
 
-	var service = function ($rootScope, initService, keyStoreService) {
-		var encryptedSettings, decryptedSettings, decrypted = false;
+	var service = function ($rootScope, initService) {
+		var settings;
 
 		initService.register("settings.getSettings", {}, function (data) {
-			encryptedSettings = data.settings;
+			settings = new EncryptedMetaData(data.settings);
 		});
 
 		$rootScope.$on("reset", function () {
-			encryptedSettings = {};
-			decryptedSettings = {};
-			decrypted = false;
+			settings.reset();
 		});
 
 		var api = {
 			decrypt: function (cb) {
-				step(function () {
-					if (decrypted) {
-						this.last.ne();
-					} else {
-						keyStoreService.sym.decryptObject(encryptedSettings, 0, this);
-					}
-				}, h.sF(function (decryptedObj) {
-					if (decryptedObj) {
-						decryptedSettings = decryptedObj;
-						decrypted = true;
-					} else {
-						throw "could not decrypt settings";
-					}
-
-					this.ne();
-				}), cb);
+				settings.decrypt(cb);
 			},
 			getBranch: function (branch, cb) {
-				step(function () {
-					api.decrypt(this);
-				}, h.sF(function () {
-					this.ne(decryptedSettings[branch]);
-				}), cb);
+				settings.getBranch(branch, cb);
 			},
 			getPrivacyAttribute: function (attr, cb) {
 				step(function () {
@@ -78,12 +57,10 @@ define(["step", "whispeerHelper"], function (step, h) {
 			}
 		};
 
-		window.dada = api;
-
 		return api;
 	};
 
-	service.$inject = ["$rootScope", "ssn.initService", "ssn.keyStoreService"];
+	service.$inject = ["$rootScope", "ssn.initService"];
 
 	return service;
 });
