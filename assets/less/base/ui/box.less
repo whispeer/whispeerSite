@@ -1,3 +1,19 @@
+// Box
+//
+// The Box builds the foundation for most of the views.
+//
+// Markup:
+// <div class="box">
+// 	<header><span class="title">Title</span><span class="links"><a href="#">Link #1</a><a href="#">Link #2</a><a href="#">Link #3</a></span></header>
+// 	<section>
+//		<header><span class="title">First Section Header</span></header>
+//		<p>Lorem Ipsum</p>
+//		<header><span class="title">Second Section Header</span></header>
+//		<p>Dolor sit amet</p>
+//	</section>	
+// </div>
+//
+// Styleguide 2.1
 .box {
 	.border-radius(5px);
 	background-color: @btnBackgroundHighlight;
@@ -7,7 +23,7 @@
 	.box-fix;
 	header {
 		height: 20px;
-		margin-top: -30px;
+		//margin-top: -30px;
 		.gradient(darken(@btnBackground, 2%), @btnBackgroundHighlight);
 		border: none;
 		border-bottom: 1px solid @btnBorder;
@@ -40,6 +56,9 @@
 			margin-top: -5px !important;
 			.border-radius(0);
 			border-top: 1px solid @btnBorder;
+			&:first-child {
+				border-top: none;
+			}
 		}
 		h1,h2,h3,h4,h5,h6 {
 			margin-left: 0.5%;
