@@ -3,9 +3,9 @@
 		<h3>{{user.name}}</h3>
 	</heading>
 	<menu type="list" class="unstyled">
-		<li><a href="#info" data-i18n="profile.head.info"></a></li>
-		<li><a href="#wall" data-i18n="profile.head.wall"></a></li>
-		<li><a href="#friends" data-i18n="profile.head.friends"></a></li>
+		<li><a scrolltoid="info" data-i18n="profile.head.info"></a></li>
+		<li><a scrolltoid="wall" data-i18n="profile.head.wall"></a></li>
+		<li><a scrolltoid="friends" data-i18n="profile.head.friends"></a></li>
 	</menu>
 </nav>
 <div id="wrap">
@@ -116,7 +116,7 @@
 				<div class="actions">
 					<a href="" class="addFriend" ng-if="!user.me && !user.added" data-ng-click="addFriend()"><span data-i18n="profile.actions.addFriend|user={{user.name}}"></span></a>
 					<div class="addToCirlce" ng-if="user.added">
-						<circlesearch data-input-i18n-attr="profile.actions.addToCircle|placeholder|user={{user.name}}" data-user="user.id"></circlesearch>
+						<circlesearch id="selectCircle" data-input-i18n-attr="profile.actions.addToCircle|placeholder|user={{user.name}}" data-user="user.id"></circlesearch>
 						<button class="btn btn-green" id="circleSubmit"><i class="icon icon-ok-circle"></i></button>
 					</div>
 					<a href="/messages?userid={{user.id}}" class="sendMessage"><span data-i18n="profile.actions.sendMessage|user={{user.name}}"></span></a>
