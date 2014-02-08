@@ -4,13 +4,17 @@ define(["step", "whispeerHelper"], function () {
 	function searchDirective($timeout, $compile) {
 		return {
 			transclude: false,
+			/* we want access to the result template given */
 			scope:	{
 				resultTemplate: "&"
 			},
+			/* this is an element */
 			restrict: "E",
 			templateUrl: "/assets/views/directives/basicSearch.html",
+			/* replace given element */
 			replace: true,
 			link: function postLink(scope, iElement, iAttrs) {
+				/* attribute to define if we want multiple results or one */
 				scope.multiple = typeof iAttrs["multiple"] !== "undefined";
 
 				scope.query = "";
@@ -18,8 +22,11 @@ define(["step", "whispeerHelper"], function () {
 
 				/** open search element or not **/
 				var focused = false, clicked = false, initialized = false;
+
+				/* we need to build the input on our own to be able to add custom attributes */
 				var input = jQuery('<input type="text" class="searchQuery"  data-ng-keydown="keydown($event)" data-ng-change="queryChange()" data-ng-model="query" data-onfocus="focus(true)" data-onblur="focus(false)">');
 
+				/* add attributes on outer element starting with input- to the inner input */
 				var attr, attrName;
 				for (attr in iAttrs) {
 					if (iAttrs.hasOwnProperty(attr)) {
@@ -30,6 +37,7 @@ define(["step", "whispeerHelper"], function () {
 					}
 				}
 
+				/* compile & append input */
 				$compile(input)(scope);
 				iElement.find(".searchField").append(input);
 
@@ -39,6 +47,7 @@ define(["step", "whispeerHelper"], function () {
 					}
 				}
 
+				/* close on body click */
 				jQuery(document.body).click(function () {
 					$timeout(function () {
 						scope.click(false);

@@ -463,6 +463,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 		var timer_started = false;
 		var THROTTLE = 20;
 
+		/** calls all listeners waiting for users */
 		function callListener(listener, arg1) {
 			var i;
 			for (i = 0; i < listener.length; i += 1) {
@@ -474,6 +475,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 			}
 		}
 
+		/** loads all the users in the batch */
 		function doLoad() {
 			var loading;
 			step(function () {
@@ -525,6 +527,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 		}
 
 		var api = {
+			/** search your friends */
 			queryFriends: function queryFriendsF(query, cb) {
 				step(function () {
 					socketService.emit("user.searchFriends", {
@@ -546,6 +549,11 @@ define(["step", "whispeerHelper"], function (step, h) {
 					this.ne(result);
 				}), cb);
 			},
+
+			/** search for a user
+			* @param query query string to search for
+			* @param cb user objects
+			*/
 			query: function queryF(query, cb) {
 				step(function () {
 					socketService.emit("user.search", {
@@ -574,12 +582,22 @@ define(["step", "whispeerHelper"], function (step, h) {
 				loading = {};
 			},
 
+			/** load a user
+			* @param identifier identifier of the user (id, nickname or mail)
+			* @param cb called with results
+			* this function is asynchronous and returns immediatly. requests are also batched.
+			*/
 			get: function getF(identifier, cb) {
 				step(function () {
 					loadUser(identifier, this);
 				}, cb);
 			},
 
+			/** load a user
+			* @param identifiers identifier array of the users (id, nickname or mail)
+			* @param cb called with results
+			* this function is asynchronous and returns immediatly. requests are also batched.
+			*/
 			getMultiple: function getMultipleF(identifiers, cb) {
 				step(function () {
 					var i;
@@ -593,6 +611,10 @@ define(["step", "whispeerHelper"], function (step, h) {
 				}, cb);
 			},
 
+			/** gets multiple users and loads their basic data.
+			* @param identifiers identifier of users to load
+			* @param cb called with users data.
+			*/
 			getMultipleFormatted: function getMFF(identifiers, cb) {
 				var theUsers;
 				step(function () {
@@ -621,6 +643,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 				return makeUser(data);
 			},
 
+			/** get own user. synchronous */
 			getown: function getownF() {
 				return users[sessionService.getUserID()];
 			}

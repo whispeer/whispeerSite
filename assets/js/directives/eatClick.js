@@ -1,4 +1,7 @@
-
+/**
+directive to eat clicks.
+stops event default, mainly necessary for links
+**/
 define(function () {
 	'use strict';
 
