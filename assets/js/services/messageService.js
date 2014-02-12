@@ -1,8 +1,21 @@
 /**
 * MessageService
 **/
-define(["step", "whispeerHelper", "valid/validator", "asset/observer"], function (step, h, validator, Observer) {
+define(["step", "whispeerHelper", "valid/validator", "asset/observer", "asset/sortedSet"], function (step, h, validator, Observer, sortedSet) {
 	"use strict";
+
+	function sortGetTime(a, b) {
+		return (a.getTime() - b.getTime());
+	}
+
+	function sortObjGetTime(a, b) {
+		return (a.obj.getTime() - b.obj.getTime());
+	}
+
+	function sortObjGetTimeInv(a, b) {
+		return (b.obj.getTime() - a.obj.getTime());
+	}
+
 
 	var service = function ($rootScope, $timeout, socket, sessionService, userService, keyStore, initService) {
 		var messages = {};
@@ -10,7 +23,7 @@ define(["step", "whispeerHelper", "valid/validator", "asset/observer"], function
 
 		var listeners = [];
 
-		var topicArray = [];
+		var topicArray = sortedSet(sortObjGetTimeInv);
 
 		var Message = function (data) {
 			var theMessage = this;
@@ -124,11 +137,12 @@ define(["step", "whispeerHelper", "valid/validator", "asset/observer"], function
 		};
 
 		var Topic = function (data) {
-			var messages = [], dataMessages = [], messagesByID = {}, theTopic = this, loadInitial = true;
+			var messages = sortedSet(sortGetTime), dataMessages = sortedSet(sortObjGetTime), messagesByID = {}, theTopic = this, loadInitial = true;
 
 			var err = validator.validate("topic", data);
 			if (err) {
-				throw err;
+				console.log("Topic Data Invalid! Fix this!");
+				//throw err;
 			}
 
 			if (typeof data.key === "object") {
@@ -236,12 +250,6 @@ define(["step", "whispeerHelper", "valid/validator", "asset/observer"], function
 				messages.push(m);
 				dataMessages.push(m.data);
 				messagesByID[m.getID()] = m;
-				messages.sort(function (a, b) {
-					return (a.getTime() - b.getTime());
-				});
-				dataMessages.sort(function (a, b) {
-					return (a.obj.getTime() - b.obj.getTime());
-				});
 			}
 
 			this.addMessage = function addMessageF(m, addUnread, cb) {
@@ -259,10 +267,6 @@ define(["step", "whispeerHelper", "valid/validator", "asset/observer"], function
 						if (!theTopic.messageUnread(m.getID()) && !m.isOwn()) {
 							setUnread(unread.concat([m.getID()]));
 						}
-
-						topicArray.sort(function (a, b) {
-							return (b.obj.getTime() - a.obj.getTime());
-						});
 					}
 					m.unread = theTopic.messageUnread(m.getID());
 
@@ -587,9 +591,6 @@ define(["step", "whispeerHelper", "valid/validator", "asset/observer"], function
 			}, h.sF(function () {
 				//add to topic list
 				topicArray.push(t.data);
-				topicArray.sort(function (a, b) {
-					return (b.obj.getTime() - a.obj.getTime());
-				});
 
 				console.log("Topic loaded:" + (new Date().getTime() - startup));
 				this.ne(t.getID());
@@ -669,7 +670,7 @@ define(["step", "whispeerHelper", "valid/validator", "asset/observer"], function
 			reset: function () {
 				messages = {};
 				topics = {};
-				topicArray = [];
+				topicArray = sortedSet(sortObjGetTimeInv);
 				listeners = [];
 				messageService.data = {
 					latestTopics: {
