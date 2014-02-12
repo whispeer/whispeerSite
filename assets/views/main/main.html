@@ -2,9 +2,9 @@
 	<header>
 		<button class="btn btn-green activatePost" data-ng-if="!postActive && mobile" data-ng-click="togglePost()">Einen Post verfassen!</button>
 		<form data-ng-if="postActive || !mobile" class="form-inline" id="postIt">
-			<input type="text" data-i18n-attr="wall.postit.text|placeholder" id="shareText">
+			<input type="text" data-ng-model="newPost.text" data-i18n-attr="wall.postit.text|placeholder" id="shareText">
 			<filtersearch data-input-i18n-attr="wall.postit.receiver|placeholder" id="receiver" />
-			<button type="submit" data-i18n="wall.postit.send" data-ng-click="togglePost()"></button>
+			<button type="submit" data-i18n="wall.postit.send" data-ng-click="sendPost()"></button>
 		</form>
 		<div id="filter">
 			<button class="title" data-i18n="wall.filter.title" data-ng-click="toggleFilter()"></button>

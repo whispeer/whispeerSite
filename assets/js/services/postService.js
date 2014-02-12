@@ -10,10 +10,43 @@ define(["step", "whispeerHelper", "valid/validator", "asset/observer"], function
 		var TimelineByFilter = {};
 
 		var Post = function (data) {
-			var id = data.id;
+			var thePost = this, id = data.id;
+			var meta = data.meta, content = data.content;
+			var text, decrypted = false;
 
 			this.getID = function () {
 				return id;
+			};
+
+			this.getText = function (cb) {
+				step(function () {
+					thePost.decrypt(this);
+				}, h.sF(function (success) {
+					if (!success) {
+						throw "could not decrypt post";
+					}
+
+					this.ne(text);
+				}), cb);
+			};
+
+			this.decrypt = function (cb) {
+				step(function () {
+					keyStore.sym.decrypt(content, meta.key, this);
+				}, h.sF(function (content) {
+					if (content) {
+						if (keyStore.hash.hash(content) !== meta.contentHash) {
+							throw "invalid content hash!";
+						}
+
+						text = keyStore.hash.removePaddingFromObject(content);
+						decrypted = true;
+
+						this.ne(true);
+					} else {
+						this.ne(false);
+					}
+				}), cb);
 			};
 		};
 
@@ -134,9 +167,23 @@ define(["step", "whispeerHelper", "valid/validator", "asset/observer"], function
 		}
 
 		var postService = {
-			getTimelinePosts: function (start, filter) {
-				var posts;
-				TimelineByFilter[filter].push(posts);
+			getTimelinePosts: function (start, filter, cb) {
+				//var posts;
+				step(function () {
+					socket.emit("posts.getTimeline", {
+						start: start,
+						filter: filter
+					}, this);
+				}, h.sF(function (results) {
+					var posts = results.posts || [], thePost, i;
+					for (i = 0; i < posts.length; i += 1) {
+						thePost = makePost(posts[i]);
+						thePost.getText(this.parallel());
+					}
+				}), h.sF(function (texts) {
+					debugger;
+				}), cb);
+				//TimelineByFilter[filter].push(posts);
 			},
 			getWallPosts: function (start, userid) {
 				var posts;
@@ -179,27 +226,39 @@ define(["step", "whispeerHelper", "valid/validator", "asset/observer"], function
 				step(function () {
 					this.parallel.unflatten();
 
-					keyStore.random.hex(128-(content.length%128), this.parallel());
+					keyStore.hash.addPaddingToObject(content, 128, this.parallel());
 					keyStore.sym.generateKey(this.parallel(), "post key");
-				}, h.sF(function (random, keyid) {
+					filterToKeys(visibleSelection, this.parallel());
+
+				}, h.sF(function (paddedContent, keyid, keys) {
+					var i;
 					postKey = keyid;
-					content = random + "::" + content;
+					content = paddedContent;
 
 					data.meta.contentHash = keyStore.hash.hash(content);
 					data.meta.time = new Date().getTime();
 					data.meta.walluser = wallUserID;
 	
-					keyStore.sym.encrypt(content, keyid, this);
-				}), h.sF(function (encryptedContent) {
-					data.content = encryptedContent;
+					this.parallel.unflatten();
 
-					filterToKeys(visibleSelection, this);
-				}), h.sF(function (keys) {
-					var i;
+					keyStore.sym.encrypt(content, keyid, this.parallel());
+
+					keyStore.sign.signObject(data.meta, userService.getown().getSignKey(), this.parallel());
+
 					for (i = 0; i < keys.length; i += 1) {
 						keyStore.sym.symEncryptKey(postKey, keys[i], this.parallel());
 					}
-				}));
+				}), h.sF(function (encryptedContent, signature) {
+					data.content = encryptedContent;
+					data.meta.key = keyStore.upload.getKey(postKey);
+					data.meta.signature = signature;
+
+					socket.emit("posts.createPost", {
+						postData: data
+					}, this);
+				}), h.sF(function (result) {
+					this.ne(makePost(result.createdPost));
+				}), cb);
 				
 				//hash content
 				

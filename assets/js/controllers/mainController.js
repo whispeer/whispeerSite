@@ -5,16 +5,41 @@
 define([], function () {
 	"use strict";
 
-	function mainController($scope, cssService) {
+	function mainController($scope, cssService, postService) {
 		cssService.setClass("mainView");
+
+		$scope.$on("selectionChange", function (event, newSelection) {
+			$scope.newPost.readers = newSelection.map(function (e) {
+				return e.id;
+			});
+		});
+
 		$scope.postActive = false;
 		$scope.filterActive = false;
-		$scope.togglePost = function() {
+		$scope.newPost = {
+			text: "",
+			readers: []
+		};
+
+		$scope.sendPost = function() {
 			$scope.postActive = !$scope.postActive;
-		}
+		};
+		$scope.sendPost = function () {
+			postService.getTimelinePosts(0, ["always:allfriends"], function () {
+				debugger;
+			});
+
+			/*postService.createPost($scope.newPost.text, $scope.newPost.readers, 0, function (err, post) {
+				post.getText(function (err, text) {
+					debugger;
+				});
+			});*/
+
+			$scope.postActive = false;
+		};
 		$scope.toggleFilter = function() {
 			$scope.filterActive = !$scope.filterActive;
-		}
+		};
 		$scope.posts = [
 			{
 				"sender":	{
@@ -129,7 +154,7 @@ define([], function () {
 		];
 	}
 
-	mainController.$inject = ["$scope", "ssn.cssService"];
+	mainController.$inject = ["$scope", "ssn.cssService", "ssn.postService"];
 
 	return mainController;
 });
