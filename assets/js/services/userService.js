@@ -693,8 +693,6 @@ define(["step", "whispeerHelper"], function (step, h) {
 
 				var identifier = user.getNickOrMail();
 
-				window.own = user;
-
 				keyStoreService.setKeyGenIdentifier(identifier);
 				improvementListener(identifier);
 			});

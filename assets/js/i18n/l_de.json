@@ -16,7 +16,7 @@
 	},
 	"directives": {
 		"allfriends": "Alle Freunde",
-		"friendsofriends": "Freunde von Freunden"
+		"friendsoffriends": "Freunde von Freunden"
 	},
 	"general": {
 		"send":	"Absenden",

@@ -40,7 +40,7 @@ define(["crypto/keyStore", "step", "whispeerHelper", "valid/validator", "asset/O
 			}
 
 			function checkEncryptedProfile() {
-				var err = validator.validateEncrypted("profile", encryptedProfile, 1);
+				var err = validator.validate("profileEncrypted", encryptedProfile, 1);
 				if (err) {
 					throw err;
 				}

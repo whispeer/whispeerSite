@@ -19,7 +19,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 					scope.$broadcast("queryResults", results);
 				}
 
-				var alwaysAvailableFilter = ["allfriends", "friendsofriends"];
+				var alwaysAvailableFilter = ["allfriends", "friendsoffriends"];
 
 				scope.resultTemplate = "/assets/views/directives/filterSearchResults.html";
 
