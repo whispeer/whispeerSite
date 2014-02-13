@@ -10,12 +10,52 @@ define(["step", "whispeerHelper", "valid/validator", "asset/observer"], function
 		var TimelineByFilter = {};
 
 		var Post = function (data) {
+			this.data = {
+				loaded: false,
+				id: data.id
+			};
+
 			var thePost = this, id = data.id;
 			var meta = data.meta, content = data.content;
 			var text, decrypted = false;
 
 			this.getID = function () {
 				return id;
+			};
+
+			this.loadData = function (cb) {
+				step(function () {
+					this.parallel.unflatten();
+					thePost.getSender(this.parallel());
+					thePost.getText(this.parallel());
+				}, h.sF(function (sender, text) {
+					var d = thePost.data;
+
+					d.loaded = true;
+					d.content = {
+						text: text
+					};
+					d.sender = sender;
+					d.info = {
+						with: ""
+					};
+					d.comments = [];
+
+					this.ne();
+				}), cb);
+			};
+
+			this.getSender = function (cb) {
+				var theUser;
+				step(function () {
+					userService.get(data.meta.sender, this);
+				}, h.sF(function (user) {
+					theUser = user;
+
+					theUser.loadBasicData(this);
+				}), h.sF(function () {
+					this.ne(theUser.data);
+				}), cb);
 			};
 
 			this.getText = function (cb) {
@@ -51,6 +91,8 @@ define(["step", "whispeerHelper", "valid/validator", "asset/observer"], function
 		};
 
 		function makePost(data) {
+			//TODO: check if validation really goes through
+
 			validator.validate("post", data);
 			if (postsById[data.id]) {
 				return postsById[data.id];
@@ -168,20 +210,23 @@ define(["step", "whispeerHelper", "valid/validator", "asset/observer"], function
 
 		var postService = {
 			getTimelinePosts: function (start, filter, cb) {
-				//var posts;
+				var result = [];
 				step(function () {
 					socket.emit("posts.getTimeline", {
 						start: start,
 						filter: filter
 					}, this);
 				}, h.sF(function (results) {
-					var posts = results.posts || [], thePost, i;
+					var thePost, i, posts = results.posts || [];
 					for (i = 0; i < posts.length; i += 1) {
 						thePost = makePost(posts[i]);
-						thePost.getText(this.parallel());
+						thePost.loadData(this.parallel());
+						result.push(thePost.data);
 					}
-				}), h.sF(function (texts) {
-					debugger;
+
+					TimelineByFilter[JSON.stringify(filter)] = result;
+				}), h.sF(function () {
+					this.ne(result);
 				}), cb);
 				//TimelineByFilter[filter].push(posts);
 			},
@@ -257,7 +302,9 @@ define(["step", "whispeerHelper", "valid/validator", "asset/observer"], function
 						postData: data
 					}, this);
 				}), h.sF(function (result) {
-					this.ne(makePost(result.createdPost));
+					var newPost = makePost(result.createdPost);
+					TimelineByFilter['["always:allfriends"]'].unshift(newPost.data);
+					newPost.loadData(this);
 				}), cb);
 				
 				//hash content

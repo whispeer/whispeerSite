@@ -25,21 +25,24 @@ define([], function () {
 			$scope.postActive = !$scope.postActive;
 		};
 		$scope.sendPost = function () {
-			postService.getTimelinePosts(0, ["always:allfriends"], function () {
-				debugger;
-			});
-
-			/*postService.createPost($scope.newPost.text, $scope.newPost.readers, 0, function (err, post) {
-				post.getText(function (err, text) {
+			postService.createPost($scope.newPost.text, $scope.newPost.readers, 0, function (err, post) {
+				if (err) {
 					debugger;
-				});
-			});*/
+				}
+
+				console.log(post);
+			});
 
 			$scope.postActive = false;
 		};
 		$scope.toggleFilter = function() {
 			$scope.filterActive = !$scope.filterActive;
 		};
+
+		postService.getTimelinePosts(0, ["always:allfriends"], function (err, posts) {
+			$scope.posts = posts;
+		});
+
 		$scope.posts = [
 			{
 				"sender":	{
