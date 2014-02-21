@@ -4,7 +4,8 @@ define([
 	'controllers/magicbarControllers',
 	'services/services',
 	'directives/directives',
-	'i18n/localizationModule'
+	'i18n/localizationModule',
+	'emptyInclude'
 ], function (angular) {
 	'use strict';
 
