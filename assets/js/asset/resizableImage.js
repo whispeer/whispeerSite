@@ -1,4 +1,4 @@
-define(["asset/Image", "asset/Resizable"], function (MyImage, Resizable) {
+define(["asset/Image", "asset/resizable"], function (MyImage, Resizable) {
 	"use strict";
 	var ResizableImage = function (initSize, minSize) {
 		this._initSize = initSize;
