@@ -8,26 +8,39 @@ define([], function () {
 	function mainController($scope, cssService, postService) {
 		cssService.setClass("mainView");
 
-		$scope.$on("selectionChange", function (event, newSelection) {
+		$scope.postActive = false;
+		$scope.filterActive = false;
+		$scope.newPost = {
+			text: "",
+			readers: ["always:allfriends"]
+		};
+
+		$scope.filterSelection = ["always:allfriends"];
+
+		$scope.$on("selectionChange:postReaders", function (event, newSelection) {
 			$scope.newPost.readers = newSelection.map(function (e) {
 				return e.id;
 			});
 		});
 
-		$scope.postActive = false;
-		$scope.filterActive = false;
-		$scope.newPost = {
-			text: "",
-			readers: []
-		};
+		$scope.$on("selectionChange:timelineFilter", function (event, newSelection) {
+			$scope.filterSelection = newSelection.map(function (e) {
+				return e.id;
+			});
+			reloadTimeline();
+		});
+
 
 		$scope.sendPost = function() {
 			$scope.postActive = !$scope.postActive;
 		};
+
 		$scope.sendPost = function () {
 			postService.createPost($scope.newPost.text, $scope.newPost.readers, 0, function (err, post) {
 				if (err) {
 					debugger;
+				} else {
+					$scope.newPost.text = "";
 				}
 
 				console.log(post);
@@ -39,9 +52,13 @@ define([], function () {
 			$scope.filterActive = !$scope.filterActive;
 		};
 
-		postService.getTimelinePosts(0, ["always:allfriends"], function (err, posts) {
-			$scope.posts = posts;
-		});
+		function reloadTimeline() {
+			postService.getTimelinePosts(0, $scope.filterSelection, function (err, posts) {
+				$scope.posts = posts;
+			});
+		}
+
+		reloadTimeline();
 
 		$scope.posts = [
 			{

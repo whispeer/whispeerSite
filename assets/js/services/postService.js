@@ -178,8 +178,27 @@ define(["step", "whispeerHelper", "valid/validator", "asset/observer"], function
 					//we do not encrypt it anyhow .... this needs to be checked in before!
 					throw "should never be here";
 				default:
+					debugger;
 					throw new InvalidFilter("unknown always value");
 			}
+		}
+
+		function circleFiltersToUser(filter, cb) {
+			if (filter.length === 0) {
+				cb(null, []);
+				return;
+			}
+
+			step(function () {
+				circleService.loadAll(this);
+			}, h.sF(function () {
+				var i, user = [];
+				for (i = 0; i < filter.length; i += 1) {
+					user = user.concat(circleService.get(filter[i]).getUserIDs());
+				}
+
+				this.ne(h.arrayUnique(user));
+			}), cb);
 		}
 
 		function circleFilterToKeys(filter, cb) {
@@ -210,13 +229,26 @@ define(["step", "whispeerHelper", "valid/validator", "asset/observer"], function
 
 		var postService = {
 			getTimelinePosts: function (afterID, filter, cb) {
-				var result = [];
+				var result = [], finalFilter = [];
 				step(function () {
+					var i, circles = [];
+					for (i = 0; i < filter.length; i += 1) {
+						if (filter[i].split(":")[0] === "circle") {
+							circles.push(filter[i].split(":")[1]);
+						} else {
+							finalFilter.push(filter[i]);
+						}
+					}
+
+					circleFiltersToUser(circles, this);
+				}, h.sF(function (users) {
+					finalFilter = finalFilter.concat(users.map(function (e) {return "user:" + e;}));
+
 					socket.emit("posts.getTimeline", {
 						afterID: afterID,
-						filter: filter
+						filter: finalFilter
 					}, this);
-				}, h.sF(function (results) {
+				}), h.sF(function (results) {
 					var thePost, i, posts = results.posts || [];
 					for (i = 0; i < posts.length; i += 1) {
 						thePost = makePost(posts[i]);

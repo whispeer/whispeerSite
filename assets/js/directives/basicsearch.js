@@ -151,6 +151,7 @@ define(["step", "whispeerHelper"], function () {
 
 				/** suchergebnisse auswählen und hinzufügen */
 
+				var internalid = iAttrs["internalid"];
 				var selectedIDs = [];
 				scope.selectedElements = [];
 
@@ -170,6 +171,11 @@ define(["step", "whispeerHelper"], function () {
 							scope.results = filterRealResults();
 							scope.setCurrent(scope.current);
 
+							if (internalid) {
+								scope.$emit("elementSelected:" + internalid, result);
+								scope.$emit("selectionChange:" + internalid, scope.selectedElements);
+							}
+
 							scope.$emit("elementSelected", result);
 							scope.$emit("selectionChange", scope.selectedElements);
 						}
@@ -177,6 +183,9 @@ define(["step", "whispeerHelper"], function () {
 						scope.query = "";
 						scope.queryChange();
 					} else {
+						if (internalid) {
+							scope.$emit("elementSelected:" + internalid, result);
+						}
 						scope.$emit("elementSelected", result);
 
 						scope.click(false);
