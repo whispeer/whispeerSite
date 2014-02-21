@@ -5,7 +5,7 @@
 define(["step", "whispeerHelper"], function (step, h) {
 	"use strict";
 
-	function userController($scope, $routeParams, cssService, userService, friendsService) {
+	function userController($scope, $routeParams, cssService, userService, friendsService, postService) {
 		var identifier = $routeParams.identifier;
 		var userObject;
 
@@ -119,6 +119,10 @@ define(["step", "whispeerHelper"], function (step, h) {
 			userService.get(identifier, this);
 		}, h.sF(function (user) {
 			userObject = user;
+
+			postService.getWallPosts(0, userObject.getID(), function (err, posts) {
+				$scope.posts = posts;
+			});
 
 			user.loadFullData(this);
 		}), h.sF(function (name, image) {
@@ -240,7 +244,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 		];
 	}
 
-	userController.$inject = ["$scope", "$routeParams", "ssn.cssService", "ssn.userService", "ssn.friendsService"];
+	userController.$inject = ["$scope", "$routeParams", "ssn.cssService", "ssn.userService", "ssn.friendsService", "ssn.postService"];
 
 	return userController;
 });

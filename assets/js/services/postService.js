@@ -209,11 +209,11 @@ define(["step", "whispeerHelper", "valid/validator", "asset/observer"], function
 		}
 
 		var postService = {
-			getTimelinePosts: function (start, filter, cb) {
+			getTimelinePosts: function (afterID, filter, cb) {
 				var result = [];
 				step(function () {
 					socket.emit("posts.getTimeline", {
-						start: start,
+						afterID: afterID,
 						filter: filter
 					}, this);
 				}, h.sF(function (results) {
@@ -228,11 +228,26 @@ define(["step", "whispeerHelper", "valid/validator", "asset/observer"], function
 				}), h.sF(function () {
 					this.ne(result);
 				}), cb);
-				//TimelineByFilter[filter].push(posts);
 			},
-			getWallPosts: function (start, userid) {
-				var posts;
-				postsByUserWall[userid].push(posts);
+			getWallPosts: function (afterID, userid, cb) {
+				var result = [];
+				step(function () {
+					socket.emit("posts.getWall", {
+						afterID: afterID,
+						userid: userid
+					}, this);
+				}, h.sF(function (results) {
+					var thePost, i, posts = results.posts || [];
+					for (i = 0; i < posts.length; i += 1) {
+						thePost = makePost(posts[i]);
+						thePost.loadData(this.parallel());
+						result.push(thePost.data);
+					}
+
+					postsByUserWall[userid] = result;
+
+					this.ne(result);
+				}), cb);
 			},
 			getPostByID: function (postid, cb) {
 				step(function () {

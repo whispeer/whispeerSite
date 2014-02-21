@@ -1558,6 +1558,9 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 
 				return keyData.realid;
 			},
+			getKeyAccessCount: function (keyrealid) {
+				
+			},
 			setSocket: function (theSocket) {
 				socket = theSocket;
 			},
