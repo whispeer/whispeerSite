@@ -231,10 +231,11 @@ define(["step", "whispeerHelper", "valid/validator", "asset/observer"], function
 			getTimelinePosts: function (afterID, filter, cb) {
 				var result = [], finalFilter = [];
 				step(function () {
-					var i, circles = [];
+					var i, circles = [], split;
 					for (i = 0; i < filter.length; i += 1) {
-						if (filter[i].split(":")[0] === "circle") {
-							circles.push(filter[i].split(":")[1]);
+						split = filter[i].split(":");
+						if (split[0] === "circle") {
+							circles.push(split[1]);
 						} else {
 							finalFilter.push(filter[i]);
 						}
