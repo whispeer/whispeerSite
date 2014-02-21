@@ -9,8 +9,7 @@ requirejs.config({
 		socket: "libs/socket.io",
 		step: "step/lib/step",
 		whispeerHelper: "helper/helper",
-		amanda: "libs/amanda",
-		valid: "validation"
+		amanda: "libs/amanda"
 	},
 	baseUrl: "/assets/js",
 	shim: {

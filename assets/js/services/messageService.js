@@ -1,7 +1,7 @@
 /**
 * MessageService
 **/
-define(["step", "whispeerHelper", "valid/validator", "asset/observer", "asset/sortedSet"], function (step, h, validator, Observer, sortedSet) {
+define(["step", "whispeerHelper", "validation/validator", "asset/observer", "asset/sortedSet"], function (step, h, validator, Observer, sortedSet) {
 	"use strict";
 
 	function sortGetTime(a, b) {

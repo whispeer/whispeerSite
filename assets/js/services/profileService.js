@@ -1,7 +1,7 @@
 /**
 * ProfileService
 **/
-define(["crypto/keyStore", "step", "whispeerHelper", "valid/validator", "asset/observer"], function (keyStore, step, h, validator, Observer) {
+define(["crypto/keyStore", "step", "whispeerHelper", "validation/validator", "asset/observer"], function (keyStore, step, h, validator, Observer) {
 	"use strict";
 
 	var service = function () {

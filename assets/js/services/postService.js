@@ -1,7 +1,7 @@
 /**
 * postService
 **/
-define(["step", "whispeerHelper", "valid/validator", "asset/observer"], function (step, h, validator, Observer) {
+define(["step", "whispeerHelper", "validation/validator", "asset/observer"], function (step, h, validator, Observer) {
 	"use strict";
 
 	var service = function ($rootScope, socket, keyStore, userService, circleService) {
