@@ -1,3 +1,16 @@
+// Person
+//
+// Displays the userimage and the name of a specific person
+//
+// Markup:
+// <div class="person" style="width: 25%; background-image: url(img/user.png);">
+//	<div class="pushup">
+//		<p class="username">Person</p>
+//		<p class="mutualfriends">5 mutual Friends</p>
+//	</div>
+// </div>
+//
+// Styleguide 2.7
 .person {
 	padding: 0;
 	margin-bottom: 15px !important;
@@ -8,7 +21,7 @@
 	.background-size(cover);
 	.border-radius(5px);
 	border: 1px solid @btnBackgroundHighlight;
-	overflow: hidden;
+	overflow: hidden !important;
 	display: block;
 	.username {
 		width: 100%;
@@ -16,15 +29,17 @@
 	}
 	.pushup {
 		background: rgba(0,0,0,0.5);
-		width: 100%;
+		width: 100% !important;
+		margin: 0 !important;
 		margin-top: 0px;
 		padding: 0;
-		.border-radiuses(5px,0,0,5px);
-		border-top: 1px solid #333;
+		.border-radius(0);
+		//border-top: 1px solid #333;
 		color: @white;
 		.box-fix;
 		.transition(all 1s ease);
 		overflow: hidden;
+		text-align: center;
 		p {
 			opacity: 0;
 			.transition(opacity 0.4s ease-in-out 0.1s);

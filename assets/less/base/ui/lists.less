@@ -1,5 +1,26 @@
-//Don't touch any of the *.less or *.css files, or you will die an awful death.
+// Lists
+//
+// Lists are used to list up things and to structure data.
+//
+// Styleguide 2.3.
+
 // Unordered and Ordered lists
+//
+// Markup:
+//	<ul class="{$modifiers}">
+//		<li>List Element #1</li>
+//		<li>List Element #2</li>
+//		<li>List Element #3</li>
+//	</ul>
+//	<ol class="{$modifiers}">
+//		<li>List Element #1</li>
+//		<li>List Element #2</li>
+//		<li>List Element #3</li>
+//	</ol>
+//
+// .unstyled			- Resets the List so that no bullet-points or margin/padding to them is shown.
+//
+// Styleguide 2.3.1
 ul, ol {
   padding: 0;
   margin: 0 0 @baseLineHeight / 2 25px;
@@ -19,6 +40,19 @@ li {
 }
 
 // Description Lists
+// 
+// In definition lists you can define the meaning of a word / explain a word.
+//
+// Markup:
+//	<dl class="{$modifiers}">
+//		<dt>Word to be explained</dt>
+//		<dd>Explanation for the word</dd>
+//	</dl>
+//
+// .dl--horizontal			- Displays word and definiton in one line
+//
+// Styleguide 2.3.2
+
 dl {
   margin-bottom: @baseLineHeight;
 }
@@ -33,7 +67,7 @@ dd {
   margin-left: @baseLineHeight / 2;
 }
 // Horizontal layout (like forms)
-.dl-horizontal {
+.dl--horizontal {
   .clear-fix; // Ensure dl clears floats if empty dd elements present
   dt {
     float: left;
@@ -41,5 +75,7 @@ dd {
     text-align: right;
   }
   dd {
+  	display: inline-block;
+  	margin-left: 1%;
   }
 }

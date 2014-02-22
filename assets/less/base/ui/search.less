@@ -1,3 +1,9 @@
+// Search
+//
+// Creates a Search Form - TODO!
+//
+//
+// Styleguide 2.8
 .searchBar {
 	.formSearch {
 		height: 100%;
@@ -22,7 +28,7 @@
 					&.searchResult {
 						float: left;
 						.btn;
-						.btn-green;
+						.btn--green;
 						padding-top: 0px;
 						max-width: none;
 						.remove {
@@ -40,11 +46,12 @@
 					&.searchField {	
 						float: left;
 						display: inline-block;
+						box-shadow: none;
 						input {
 							.box-fix;
-							-webkit-box-shadow: none;
-							box-shadow: none;
+							.box-shadow(~"none !important");
 							.border-radius(0);
+							border: none !important;
 							background: transparent !important;
 							line-height: 20px !important;
 							font-size: 13px;
