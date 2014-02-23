@@ -1,6 +1,6 @@
 <div id="wall">
 	<header>
-		<button class="btn btn-green activatePost" data-ng-if="!postActive && mobile" data-ng-click="togglePost()">Einen Post verfassen!</button>
+		<button class="btn btn--primary activatePost" data-ng-if="!postActive && mobile" data-ng-click="togglePost()">Einen Post verfassen!</button>
 		<form data-ng-if="postActive || !mobile" class="form-inline" id="postIt">
 			<input type="text" data-i18n-attr="wall.postit.text|placeholder" id="shareText">
 			<filtersearch data-input-i18n-attr="wall.postit.receiver|placeholder" id="receiver" />

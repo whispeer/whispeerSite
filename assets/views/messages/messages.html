@@ -68,7 +68,7 @@
 		</ul>	
 		<form id="inputWrap">
 			<textarea autofocus id="messageInput" data-strg-enter="sendMessage(activeTopic.newMessage)" type="text" data-ng-model="activeTopic.newMessage" data-ng-disabled="!canSend" data-i18n-attr="messages.sendMessage.text|placeholder"></textarea>
-			<button class="btn btn-success" id="sendmessage" data-ng-click="sendMessage(activeTopic.newMessage)" data-i18n="messages.sendMessage.send" type="submit"></button>		
+			<button class="btn btn--primary" id="sendmessage" data-ng-click="sendMessage(activeTopic.newMessage)" data-i18n="messages.sendMessage.send" type="submit"></button>		
 		</form>
 	</div>
 </div>
@@ -81,7 +81,7 @@
 			<usersearch data-user="userid" size="small" focus="all" id="recieverInput" data-multiple data-selected-users="new.selectedUsers" data-input-i18n-attr="messages.search|placeholder"/>
 			
 			<textarea type="text" placeholder="Gebe deine Nachricht ein!" id="messageInput" data-ng-model="new.text"></textarea>
-			<button class="btn btn-success" id="sendmessage" type="submit" data-ng-click="new.send(new.selectedUsers, new.text)">Senden</button>
+			<button class="btn btn--primary" id="sendmessage" type="submit" data-ng-click="new.send(new.selectedUsers, new.text)">Senden</button>
 		</form>
 	</div>
 </div>

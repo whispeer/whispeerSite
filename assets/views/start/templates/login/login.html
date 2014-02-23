@@ -2,7 +2,7 @@
 <input autofocus type="text" id="mail" data-i18n-attr="login.username|placeholder" data-ng-model="identifier">
 <input type="password" id="password" data-i18n-attr="login.password|placeholder" data-ng-model="password">
 <div class="error" data-ng-if="loginFailed" id="errorLogin" data-i18n="login.loginFailed"></div>
-<button id="loginformsubmit" class="btn btn-send" type="submit" data-ng-click="login(identifier, password)">{{'login.link'|i18n}}</button>
+<button id="loginformsubmit" class="btn btn--primary" type="submit" data-ng-click="login(identifier, password)">{{'login.link'|i18n}}</button>
 <!--
 <div class="smallRow">
 	<button id="forgotLogin" class="btn btn-send">Benutzername vergessen</button>

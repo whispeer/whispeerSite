@@ -10,8 +10,8 @@
 				<p class="username">{{shortenName(request.name)}}</p>
 				<p class="similar" data-i18n="magicbar.requests.mutuals|count={{request.basic.mutualFriends.length}}"></p>
 				<p class="action">
-					<button class="btn btn-success" data-i18n="magicbar.requests.accept" ng-click="acceptRequest(request)"></button>
-					<button class="btn btn-danger" data-i18n="magicbar.requests.decline"></button>
+					<button class="btn btn--primary" data-i18n="magicbar.requests.accept" ng-click="acceptRequest(request)"></button>
+					<button class="btn btn--danger" data-i18n="magicbar.requests.decline"></button>
 				</p>
 			</li>
 			<li class="request error" data-ng-if="!request">
