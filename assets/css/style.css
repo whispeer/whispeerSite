@@ -5171,7 +5171,7 @@ body.loading:after {
     width: 45%;
     outline: 0;
     border: 0;
-    padding: 0px 5px;
+    padding: 0px 9px;
     margin: 2px 0;
     height: 35px;
   }
@@ -7822,7 +7822,7 @@ body.loading:after {
     width: 53.5%;
     outline: 0;
     border: 0;
-    padding: 0px 5px;
+    padding: 0px 9px;
     margin: 2px 0;
     height: 35px;
   }
@@ -9388,7 +9388,7 @@ body.loading:after {
     width: 45%;
     outline: 0;
     border: 0;
-    padding: 0px 5px;
+    padding: 0px 9px;
     margin: 2px 0;
     height: 35px;
   }
@@ -11000,7 +11000,7 @@ body.loading:after {
     width: 26%;
     outline: 0;
     border: 0;
-    padding: 0px 5px;
+    padding: 0px 9px;
     margin: 2px 0;
     height: 35px;
   }
