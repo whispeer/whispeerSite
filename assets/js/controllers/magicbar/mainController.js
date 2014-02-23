@@ -10,11 +10,13 @@ define([], function () {
 			// Each widget in the magicbar that is displayed to the user per default, is specified as an object here
 			{
 				"template":	"messages",
-				"height":	"50%"
+				"height":	"50%",
+				"controllerName":	"messagesController"
 			},
 			{
 				"template":	"friends",
-				"height":	"50%"
+				"height":	"50%",
+				"controllerName":	"messagesController"
 			}
 		];
 

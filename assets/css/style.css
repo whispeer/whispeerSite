@@ -495,6 +495,7 @@ body {
   font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
   font-weight: 300;
   line-height: 20px;
+  font-size: 1em;
 }
 small {
   font-size: 85%;
@@ -993,19 +994,12 @@ dd {
 #magicbar {
   height: 100%;
 }
-.magicWrap {
+.magic {
   margin-top: 10px;
   float: left;
-  width: 100%;
-}
-.magicWrap:first-child {
-  margin-top: 0;
-}
-.magicWrap .magic {
   min-width: 100%;
   max-width: 100%;
-  float: left;
-  padding: 0;
+  padding: 3px;
   -webkit-box-sizing: border-box;
   /* Safari/Chrome, other WebKit */
   -moz-box-sizing: border-box;
@@ -1023,7 +1017,6 @@ dd {
   border: 1px solid #bbbbbb;
   border-bottom: 1px solid #000;
   border-bottom-color: #a2a2a2;
-  overflow: hidden;
   -webkit-border-radius: 4px;
   -moz-border-radius: 4px;
   border-radius: 4px;
@@ -1031,25 +1024,32 @@ dd {
   -webkit-background-clip: padding-box;
   background-clip: padding-box;
 }
-.magicWrap .magic .header {
+.magic:first-child {
+  margin-top: 0;
+}
+.magic .max {
+  width: 100%;
+  height: 100%;
+}
+.magic .header {
   float: left;
   width: 100%;
   height: 30px;
   border-bottom: 1px solid #999999;
-  margin: 0 0 -30px 0;
+  margin-bottom: -30px;
 }
-.magicWrap .magic .header h4 {
+.magic .header h4 {
   float: left;
   width: 60%;
   padding: 3px 0px 3px 3px;
   margin: 0;
 }
-.magicWrap .magic .header .close {
+.magic .header .close {
   float: right;
   padding: 3px 3px 3px 0px;
   cursor: pointer;
 }
-.magicWrap .magic .body {
+.magic .body {
   height: 100%;
   width: 100%;
   padding-top: 30px;
@@ -1060,15 +1060,12 @@ dd {
   box-sizing: border-box;
   /* Opera/IE 8+ */
 }
-.magicWrap .magic .body ul {
+.magic .body ul {
   width: 100%;
   height: 100%;
   overflow-y: scroll;
-  margin: 0;
-  padding: 0;
-  border: none;
 }
-.magicWrap .magic .body ul li {
+.magic .body ul li {
   width: 100%;
   float: left;
   margin: 0;
@@ -1082,22 +1079,16 @@ dd {
   border: none;
   border-bottom: 1px solid #dedede;
 }
-.magicWrap .magic .body ul li:hover {
+.magic .body ul li:hover {
   background: rgba(0, 0, 0, 0.05);
 }
-.magicWrap .magic .body ul li.unread {
+.magic .body ul li.unread {
+  background-color: rgba(128, 212, 9, 0.55);
+}
+.magic .body ul li.unread:hover {
   background-color: rgba(128, 212, 9, 0.75);
 }
-.magicWrap .magic .body ul li.unread:hover {
-  background-color: rgba(128, 212, 9, 0.95);
-}
-.magicWrap .magic .body ul li:last-child {
-  border: none;
-}
-.magicWrap .magic .body ul li:only-child {
-  border: none;
-}
-.magicWrap .magic .body ul li.message .left {
+.magic .body ul li.message .left {
   display: inline-block;
   *display: inline;
   /* IE7 inline-block hack */
@@ -1109,7 +1100,7 @@ dd {
   padding: 0;
   height: 40px;
 }
-.magicWrap .magic .body ul li.message .left img {
+.magic .body ul li.message .left img {
   width: 100%;
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
@@ -1119,7 +1110,7 @@ dd {
   background-clip: padding-box;
   height: 100%;
 }
-.magicWrap .magic .body ul li.message.groupChat .left {
+.magic .body ul li.message.groupChat .left {
   background-color: #b2b2b2;
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
@@ -1128,8 +1119,8 @@ dd {
   -webkit-background-clip: padding-box;
   background-clip: padding-box;
 }
-.magicWrap .magic .body ul li.message.groupChat .left img,
-.magicWrap .magic .body ul li.message.groupChat .left span {
+.magic .body ul li.message.groupChat .left img,
+.magic .body ul li.message.groupChat .left span {
   -webkit-border-radius: 0;
   -moz-border-radius: 0;
   border-radius: 0;
@@ -1145,8 +1136,8 @@ dd {
   margin: 0 0 0 0;
   height: 50%;
 }
-.magicWrap .magic .body ul li.message.groupChat .left img:nth-child(1),
-.magicWrap .magic .body ul li.message.groupChat .left span:nth-child(1) {
+.magic .body ul li.message.groupChat .left img:nth-child(1),
+.magic .body ul li.message.groupChat .left span:nth-child(1) {
   -webkit-border-top-right-radius: 0;
   -webkit-border-bottom-right-radius: 0;
   -webkit-border-bottom-left-radius: 0;
@@ -1163,8 +1154,8 @@ dd {
   -webkit-background-clip: padding-box;
   background-clip: padding-box;
 }
-.magicWrap .magic .body ul li.message.groupChat .left img:nth-child(2),
-.magicWrap .magic .body ul li.message.groupChat .left span:nth-child(2) {
+.magic .body ul li.message.groupChat .left img:nth-child(2),
+.magic .body ul li.message.groupChat .left span:nth-child(2) {
   -webkit-border-top-right-radius: 5px;
   -webkit-border-bottom-right-radius: 0;
   -webkit-border-bottom-left-radius: 0;
@@ -1181,8 +1172,8 @@ dd {
   -webkit-background-clip: padding-box;
   background-clip: padding-box;
 }
-.magicWrap .magic .body ul li.message.groupChat .left img:nth-child(3),
-.magicWrap .magic .body ul li.message.groupChat .left span:nth-child(3) {
+.magic .body ul li.message.groupChat .left img:nth-child(3),
+.magic .body ul li.message.groupChat .left span:nth-child(3) {
   -webkit-border-top-right-radius: 0;
   -webkit-border-bottom-right-radius: 0;
   -webkit-border-bottom-left-radius: 5px;
@@ -1199,8 +1190,8 @@ dd {
   -webkit-background-clip: padding-box;
   background-clip: padding-box;
 }
-.magicWrap .magic .body ul li.message.groupChat .left img:nth-child(4),
-.magicWrap .magic .body ul li.message.groupChat .left span:nth-child(4) {
+.magic .body ul li.message.groupChat .left img:nth-child(4),
+.magic .body ul li.message.groupChat .left span:nth-child(4) {
   -webkit-border-top-right-radius: 0;
   -webkit-border-bottom-right-radius: 5px;
   -webkit-border-bottom-left-radius: 0;
@@ -1217,7 +1208,7 @@ dd {
   -webkit-background-clip: padding-box;
   background-clip: padding-box;
 }
-.magicWrap .magic .body ul li.message.groupChat .left span {
+.magic .body ul li.message.groupChat .left span {
   background-color: #343434;
   color: #ffffff;
   font-size: 10px;
@@ -1229,7 +1220,7 @@ dd {
   box-sizing: border-box;
   /* Opera/IE 8+ */
 }
-.magicWrap .magic .body ul li.message .username {
+.magic .body ul li.message .username {
   display: inline-block;
   *display: inline;
   /* IE7 inline-block hack */
@@ -1242,7 +1233,7 @@ dd {
   text-overflow: ellipsis;
   overflow: hidden;
 }
-.magicWrap .magic .body ul li.message .text {
+.magic .body ul li.message .text {
   display: inline-block;
   *display: inline;
   /* IE7 inline-block hack */
@@ -1257,7 +1248,10 @@ dd {
   overflow: hidden;
   text-overflow: ellipsis;
 }
-.magicWrap .magic .body ul li.request img {
+.magic .body ul li.message:last-child {
+  border: none;
+}
+.magic .body ul li.request img {
   display: inline-block;
   *display: inline;
   /* IE7 inline-block hack */
@@ -1267,7 +1261,7 @@ dd {
   margin: 0 1% 0 1%;
   margin-left: 0;
 }
-.magicWrap .magic .body ul li.request .username {
+.magic .body ul li.request .username {
   display: inline-block;
   *display: inline;
   /* IE7 inline-block hack */
@@ -1278,7 +1272,7 @@ dd {
   float: none;
   font-weight: bold;
 }
-.magicWrap .magic .body ul li.request .similar {
+.magic .body ul li.request .similar {
   display: inline-block;
   *display: inline;
   /* IE7 inline-block hack */
@@ -1289,12 +1283,12 @@ dd {
   color: #777;
   font-size: 0.9em;
 }
-.magicWrap .magic .body ul li.request .action {
+.magic .body ul li.request .action {
   width: 99%;
   float: left;
   margin-left: 1%;
 }
-.magicWrap .magic .body ul li.request .action button {
+.magic .body ul li.request .action button {
   display: inline-block;
   *display: inline;
   /* IE7 inline-block hack */
@@ -1304,7 +1298,7 @@ dd {
   margin: 0 1% 0 1%;
   padding: 2%;
 }
-.magicWrap .magic .body ul li.notification img {
+.magic .body ul li.notification img {
   display: inline-block;
   *display: inline;
   /* IE7 inline-block hack */
@@ -1314,10 +1308,10 @@ dd {
   margin: 0 1% 0 1%;
   margin-left: 0;
 }
-.magicWrap .magic .body ul li.notification .username {
+.magic .body ul li.notification .username {
   font-weight: bold;
 }
-.magicWrap .magic .body ul li.notification .info {
+.magic .body ul li.notification .info {
   display: inline-block;
   *display: inline;
   /* IE7 inline-block hack */
@@ -1326,7 +1320,20 @@ dd {
   width: 73%;
   margin: 0 1% 0 1%;
 }
-.magicWrap .magicOverlay {
+.magic .body ul li.error {
+  background-color: #999999;
+  padding: 10px;
+  -webkit-box-sizing: border-box;
+  /* Safari/Chrome, other WebKit */
+  -moz-box-sizing: border-box;
+  /* Firefox, other Gecko */
+  box-sizing: border-box;
+  /* Opera/IE 8+ */
+}
+.magic .body ul li.error span {
+  color: #fff;
+}
+.magicOverlay {
   padding: 0;
   width: 100%;
 }
