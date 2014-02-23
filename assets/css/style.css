@@ -698,16 +698,20 @@ a:hover {
 }
 .box section header {
   margin-top: -5px !important;
-  -webkit-border-radius: 0;
-  -moz-border-radius: 0;
-  border-radius: 0;
+  background-color: #ececec;
+  border-top: 1px solid #bbbbbb;
+  -webkit-border-radius: 0px;
+  -moz-border-radius: 0px;
+  border-radius: 0px;
   -moz-background-clip: padding;
   -webkit-background-clip: padding-box;
   background-clip: padding-box;
-  border-top: 1px solid #bbbbbb;
+  padding: 5px 0px;
 }
-.box section header:first-child {
-  border-top: none;
+.box section header:before,
+.box section header :after {
+  content: "";
+  margin-left: 5px;
 }
 .box section h1,
 .box section h2,
@@ -3639,16 +3643,20 @@ body.loading:after {
 }
 .messagesView #main section header {
   margin-top: -5px !important;
-  -webkit-border-radius: 0;
-  -moz-border-radius: 0;
-  border-radius: 0;
+  background-color: #ececec;
+  border-top: 1px solid #bbbbbb;
+  -webkit-border-radius: 0px;
+  -moz-border-radius: 0px;
+  border-radius: 0px;
   -moz-background-clip: padding;
   -webkit-background-clip: padding-box;
   background-clip: padding-box;
-  border-top: 1px solid #bbbbbb;
+  padding: 5px 0px;
 }
-.messagesView #main section header:first-child {
-  border-top: none;
+.messagesView #main section header:before,
+.messagesView #main section header :after {
+  content: "";
+  margin-left: 5px;
 }
 .messagesView #main section h1,
 .messagesView #main section h2,
@@ -4088,16 +4096,20 @@ body.loading:after {
 }
 .friendsView #main section header {
   margin-top: -5px !important;
-  -webkit-border-radius: 0;
-  -moz-border-radius: 0;
-  border-radius: 0;
+  background-color: #ececec;
+  border-top: 1px solid #bbbbbb;
+  -webkit-border-radius: 0px;
+  -moz-border-radius: 0px;
+  border-radius: 0px;
   -moz-background-clip: padding;
   -webkit-background-clip: padding-box;
   background-clip: padding-box;
-  border-top: 1px solid #bbbbbb;
+  padding: 5px 0px;
 }
-.friendsView #main section header:first-child {
-  border-top: none;
+.friendsView #main section header:before,
+.friendsView #main section header :after {
+  content: "";
+  margin-left: 5px;
 }
 .friendsView #main section h1,
 .friendsView #main section h2,
@@ -4225,16 +4237,20 @@ body.loading:after {
 }
 .circlesView #main section header {
   margin-top: -5px !important;
-  -webkit-border-radius: 0;
-  -moz-border-radius: 0;
-  border-radius: 0;
+  background-color: #ececec;
+  border-top: 1px solid #bbbbbb;
+  -webkit-border-radius: 0px;
+  -moz-border-radius: 0px;
+  border-radius: 0px;
   -moz-background-clip: padding;
   -webkit-background-clip: padding-box;
   background-clip: padding-box;
-  border-top: 1px solid #bbbbbb;
+  padding: 5px 0px;
 }
-.circlesView #main section header:first-child {
-  border-top: none;
+.circlesView #main section header:before,
+.circlesView #main section header :after {
+  content: "";
+  margin-left: 5px;
 }
 .circlesView #main section h1,
 .circlesView #main section h2,
@@ -4513,16 +4529,20 @@ body.loading:after {
 }
 .helpView #main section header {
   margin-top: -5px !important;
-  -webkit-border-radius: 0;
-  -moz-border-radius: 0;
-  border-radius: 0;
+  background-color: #ececec;
+  border-top: 1px solid #bbbbbb;
+  -webkit-border-radius: 0px;
+  -moz-border-radius: 0px;
+  border-radius: 0px;
   -moz-background-clip: padding;
   -webkit-background-clip: padding-box;
   background-clip: padding-box;
-  border-top: 1px solid #bbbbbb;
+  padding: 5px 0px;
 }
-.helpView #main section header:first-child {
-  border-top: none;
+.helpView #main section header:before,
+.helpView #main section header :after {
+  content: "";
+  margin-left: 5px;
 }
 .helpView #main section h1,
 .helpView #main section h2,
@@ -4531,6 +4551,9 @@ body.loading:after {
 .helpView #main section h5,
 .helpView #main section h6 {
   margin-left: 0.5%;
+}
+.helpView #main header {
+  margin-top: -30px;
 }
 .helpView #main header #title {
   float: left;
@@ -4704,16 +4727,20 @@ body.loading:after {
 }
 .settingsView #main section header {
   margin-top: -5px !important;
-  -webkit-border-radius: 0;
-  -moz-border-radius: 0;
-  border-radius: 0;
+  background-color: #ececec;
+  border-top: 1px solid #bbbbbb;
+  -webkit-border-radius: 0px;
+  -moz-border-radius: 0px;
+  border-radius: 0px;
   -moz-background-clip: padding;
   -webkit-background-clip: padding-box;
   background-clip: padding-box;
-  border-top: 1px solid #bbbbbb;
+  padding: 5px 0px;
 }
-.settingsView #main section header:first-child {
-  border-top: none;
+.settingsView #main section header:before,
+.settingsView #main section header :after {
+  content: "";
+  margin-left: 5px;
 }
 .settingsView #main section h1,
 .settingsView #main section h2,
