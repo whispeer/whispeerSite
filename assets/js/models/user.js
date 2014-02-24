@@ -416,6 +416,12 @@ define(["step", "whispeerHelper"], function (step, h) {
 					}
 				}, cb);
 			};
+
+			this.addAsFriend = function () {
+				if (!this.isOwn()) {
+					friendsService.friendship(this.getID());
+				}
+			};
 		};
 	}
 

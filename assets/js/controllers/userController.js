@@ -5,7 +5,7 @@
 define(["step", "whispeerHelper"], function (step, h) {
 	"use strict";
 
-	function userController($scope, $routeParams, cssService, userService, friendsService, postService) {
+	function userController($scope, $routeParams, cssService, userService, postService) {
 		var identifier = $routeParams.identifier;
 		var userObject;
 
@@ -23,9 +23,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 		}
 
 		$scope.addFriend = function () {
-			if (!userObject.isOwn()) {
-				friendsService.friendship(userObject.getID());
-			}
+			userObject.addAsFriend();
 		};
 
 		$scope.edit = function () {
@@ -236,7 +234,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 		];
 	}
 
-	userController.$inject = ["$scope", "$routeParams", "ssn.cssService", "ssn.userService", "ssn.friendsService", "ssn.postService"];
+	userController.$inject = ["$scope", "$routeParams", "ssn.cssService", "ssn.userService", "ssn.postService"];
 
 	return userController;
 });
