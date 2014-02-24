@@ -4,7 +4,7 @@
 		<div class="close" data-ng-click="loadDefault()"><i class="icon icon-cancel-circle"></i></div>
 	</div>
 	<div class="body">
-		<ul class="unstyled" data-ng-if="request">
+		<ul class="unstyled" data-ng-if="requests.length > 0">
 			<li class="request" data-ng-repeat="request in requests">
 				<img data-ng-src="{{request.basic.image}}">
 				<p class="username">{{shortenName(request.name)}}</p>
@@ -14,11 +14,11 @@
 					<button class="btn btn--danger" data-i18n="magicbar.requests.decline"></button>
 				</p>
 			</li>
-			<li class="request error" data-ng-if="!request">
+			<li class="request error" data-ng-if="requests.length == 0">
 				<span>Keine Nachrichten vorhanden!</span>
 			</li>
 		</ul>
-		<ul class="unstyled" data-ng-if="!request">
+		<ul class="unstyled" data-ng-if="requests.length == 0">
 			<li class="request error">
 				<span>Keine Nachrichten vorhanden!</span>
 			</li>

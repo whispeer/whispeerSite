@@ -8,8 +8,11 @@
 			<span class="age">Alter: {{user.basic.age}}</span>
 		</div>
 		<div class="actions">
-			<a class="addFriend btn" ng-click="addFriend(user)" data-stop-event="click">Als Freund hinzufügen</a>
 			<a class="sendMessage btn" ng-click="sendMessage(user)" data-stop-event="click">Nachricht senden</a>
+			<a class="addFriend btn" data-ng-if="!user.me && !user.added" ng-click="addFriend(user)" data-stop-event="click">Als Freund hinzufügen</a>
+			<div class="addToCirlce" ng-if="user.added">
+				<circlesearch id="selectCircle" data-input-i18n-attr="profile.actions.addToCircle|placeholder|user={{user.name}}" data-user="user.id"></circlesearch>
+			</div>
 		</div>
 	</li>
 </ol>

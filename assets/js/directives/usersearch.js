@@ -1,7 +1,7 @@
 define(["step", "whispeerHelper"], function (step, h) {
 	"use strict";
 
-	function searchDirective(userService, $location, $timeout) {
+	function searchDirective(userService, friendsService, $location, $timeout) {
 		return {
 			transclude: false,
 			scope:	{},
@@ -17,8 +17,8 @@ define(["step", "whispeerHelper"], function (step, h) {
 					scope.resultTemplate = "/assets/views/directives/userSearchResultsSmall.html";
 				}
 
-				scope.addFriend = function () {
-					debugger;
+				scope.addFriend = function (user) {
+					friendsService.friendship(user.id);
 				};
 
 				scope.sendMessage = function (data) {
@@ -66,10 +66,16 @@ define(["step", "whispeerHelper"], function (step, h) {
 							user[i].loadBasicData(this.parallel());
 						}
 					}), h.sF(function () {
-						var users = [];
-						var i;
+						var users = [], i, user;
 						for (i = 0; i < theUsers.length; i += 1) {
-							users.push(theUsers[i].data);
+							user = theUsers[i];
+							user.data.added = friendsService.didIRequest(user.getID());
+
+							friendsService.listen(function () {
+								user.data.added = friendsService.didIRequest(user.getID());
+							});
+
+							users.push(user.data);
 						}
 
 						submitResults(users);

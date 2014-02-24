@@ -19,6 +19,10 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer"], fun
 			var meta = data.meta, content = data.content;
 			var text, decrypted = false;
 
+			if (typeof meta.key === "object") {
+				meta.key = keyStore.upload.addKey(meta.key);
+			}
+
 			this.getID = function () {
 				return id;
 			};
