@@ -44,7 +44,7 @@ define(["step", "whispeerHelper"], function () {
 
 				function initialize() {
 					if (!initialized) {
-						scope.queryChange();
+						scope.queryChange(true);
 					}
 				}
 
@@ -56,7 +56,7 @@ define(["step", "whispeerHelper"], function () {
 				});
 
 				scope.show = function () {
-					return (focused || clicked) && scope.results.length > 0;
+					return (focused || clicked);
 				};
 
 				scope.hide = function () {
@@ -89,8 +89,8 @@ define(["step", "whispeerHelper"], function () {
 				scope.searching = false;
 				scope.empty = false;
 
-				scope.queryChange = function queryChange() {
-					if (scope.oldQuery !== scope.query) {
+				scope.queryChange = function queryChange(noDiffNecessary) {
+					if (noDiffNecessary || scope.oldQuery !== scope.query) {
 						scope.oldQuery = scope.query;
 						scope.searching = true;
 						scope.$emit("queryChange", scope.query);
@@ -122,7 +122,7 @@ define(["step", "whispeerHelper"], function () {
 
 				scope.$on("resetSearch", function () {
 					scope.query = "";
-					scope.queryChange();
+					scope.queryChange(true);
 					scope.selectedElements = [];
 				});
 
@@ -191,7 +191,7 @@ define(["step", "whispeerHelper"], function () {
 						}
 
 						scope.query = "";
-						scope.queryChange();
+						scope.queryChange(true);
 					} else {
 						scope.click(false);
 						scope.focus(false);
