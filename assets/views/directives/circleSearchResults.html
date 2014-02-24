@@ -1,4 +1,6 @@
 <ol class="unstyled searchSuggestions">
+	<li data-ng-if="!results">Lade!</li>
+	<li data-ng-if="results.length == 0">Keine Kreise verfügbar!</li>
 	<li data-ng-repeat="circle in results" data-ng-class="currentClass($index)" data-ng-mouseover="setCurrent($index)" data-ng-click="selectResult($index)">
 		{{circle.name}} ({{circle.userids.length}})
 	</li>

@@ -37,7 +37,7 @@ define(["socket", "step", "whispeerHelper", "config"], function (io, step, h, co
 
 					socket.emit(channel, data, this.ne);
 				}, h.sF(function emitResults(data) {
-					console.log("request took: " + (new Date().getTime() - time));
+					console.info("request on " + channel + " took: " + (new Date().getTime() - time));
 					console.log(data);
 					var that = this;
 					$rootScope.$apply(function () {
