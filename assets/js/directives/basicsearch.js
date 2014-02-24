@@ -44,6 +44,7 @@ define(["step", "whispeerHelper"], function () {
 
 				function initialize() {
 					if (!initialized) {
+						initialized = true;
 						scope.queryChange(true);
 					}
 				}
@@ -91,6 +92,7 @@ define(["step", "whispeerHelper"], function () {
 
 				scope.queryChange = function queryChange(noDiffNecessary) {
 					if (noDiffNecessary || scope.oldQuery !== scope.query) {
+						scope.click(true);
 						scope.oldQuery = scope.query;
 						scope.searching = true;
 						scope.$emit("queryChange", scope.query);
