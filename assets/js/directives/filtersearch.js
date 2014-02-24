@@ -4,11 +4,12 @@ define(["step", "whispeerHelper"], function (step, h) {
 	function filterSearchDirective(userService, $timeout, circleService, localize) {
 		return {
 			transclude: false,
-			scope:	{},
+			scope:	false,
 			restrict: "E",
 			templateUrl: "/assets/views/directives/filterSearch.html",
 			replace: true,
 			link: function postLink(scope, iElement, iAttrs) {
+				scope.multiple = true;
 
 				//how do we sort stuff?
 				//first: alwaysAvailableFilter

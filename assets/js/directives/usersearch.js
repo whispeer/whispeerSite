@@ -4,7 +4,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 	function searchDirective(userService, friendsService, $location, $timeout) {
 		return {
 			transclude: false,
-			scope:	{},
+			scope:	false,
 			restrict: "E",
 			templateUrl: "/assets/views/directives/userSearch.html",
 			replace: true,

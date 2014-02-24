@@ -50,7 +50,7 @@ define(["app"], function (app) {
 				return "/user/" + params.identifier;
 			}
 		});
-		$routeProvider.otherwise({redirectTo: "/login"});
+		$routeProvider.otherwise({redirectTo: "/start"});
 	}]);
 
 });

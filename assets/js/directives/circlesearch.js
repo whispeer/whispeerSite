@@ -4,11 +4,12 @@ define(["step", "whispeerHelper"], function (step, h) {
 	function circleSearchDirective(userService, $timeout, circleService) {
 		return {
 			transclude: false,
-			scope:	{},
+			scope:	false,
 			restrict: "E",
 			templateUrl: "/assets/views/directives/circleSearch.html",
 			replace: true,
 			link: function postLink(scope, element, attrs) {
+				scope.multiple = true;
 				function submitResults(results) {
 					scope.$broadcast("queryResults", results);
 				}
