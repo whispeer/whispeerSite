@@ -1,13 +1,13 @@
 define([
-	'angular',
-	'controllers/controllers',
-	'controllers/magicbarControllers',
-	'services/services',
-	'directives/directives',
-	'i18n/localizationModule',
-	'emptyInclude'
+	"angular",
+	"controllers/controllers",
+	"controllers/magicbarControllers",
+	"services/services",
+	"directives/directives",
+	"i18n/localizationModule",
+	"emptyInclude"
 ], function (angular) {
-	'use strict';
+	"use strict";
 
-	return angular.module('ssn', ['ssn.controllers', 'ssn.magicbar.controllers', 'ssn.services', 'ssn.directives', 'localization']);
+	return angular.module("ssn", ["ssn.controllers", "ssn.magicbar.controllers", "ssn.services", "ssn.directives", "localization"]);
 });
