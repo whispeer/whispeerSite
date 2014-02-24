@@ -4,7 +4,7 @@
 define(["step", "whispeerHelper", "asset/observer"], function (step, h, Observer) {
 	"use strict";
 
-	var service = function ($rootScope, socket, sessionService, userService, keyStore, initService) {
+	var service = function ($rootScope, $injector, socket, sessionService, keyStore, initService) {
 		var friends = [], requests = [], requested = [];
 		var friendsData = {
 			requestsCount: 0,
@@ -13,22 +13,22 @@ define(["step", "whispeerHelper", "asset/observer"], function (step, h, Observer
 		};
 
 		function setFriends(f) {
-			friends = f.map(function (e) {return parseInt(e, 10);});
+			friends = f.map(function (e) {return h.parseDecimal(e);});
 			friendsData.friendsCount = f.length;
 		}
 
 		function setRequests(r) {
-			requests = r.map(function (e) {return parseInt(e, 10);});
+			requests = r.map(function (e) {return h.parseDecimal(e);});
 			friendsData.requestsCount = r.length;
 		}
 
 		function setRequested(r) {
-			requested = r.map(function (e) {return parseInt(e, 10);});
+			requested = r.map(function (e) {return h.parseDecimal(e);});
 			friendsData.requestedCount = r.length;
 		}
 
 		function createBasicData(otherUser, cb) {
-			var friendsKey, signature, friendShipKey;
+			var friendsKey, signature, friendShipKey, userService = $injector.get("ssn.userService");
 			step(function () {
 				this.parallel.unflatten();
 
@@ -60,7 +60,7 @@ define(["step", "whispeerHelper", "asset/observer"], function (step, h, Observer
 		}
 
 		function acceptFriendShip(uid) {
-			var otherLevel2Key, ownLevel2Key, friendsKey, otherFriendsKey, friendShipKey, otherUser;
+			var otherLevel2Key, ownLevel2Key, friendsKey, otherFriendsKey, friendShipKey, otherUser, userService = $injector.get("ssn.userService");
 			step(function () {
 				userService.get(uid, this);
 			}, h.sF(function (u) {
@@ -103,7 +103,7 @@ define(["step", "whispeerHelper", "asset/observer"], function (step, h, Observer
 		}
 
 		function requestFriendShip(uid) {
-			var otherUser, friendShipKey;
+			var otherUser, friendShipKey, userService = $injector.get("ssn.userService");
 			step(function () {
 				userService.get(uid, this);
 			}, h.sF(function (u) {
@@ -130,7 +130,7 @@ define(["step", "whispeerHelper", "asset/observer"], function (step, h, Observer
 		}
 
 		socket.listen("friendRequest", function (e, requestData) {
-			var uid = parseInt(requestData.uid, 10);
+			var uid = parseInt(requestData.uid, 10), userService = $injector.get("ssn.userService");
 			if (requests.indexOf(uid) === -1 && friends.indexOf(uid) === -1 && requested.indexOf(uid) === -1)  {
 				requests.push(uid);
 				friendsData.requestsCount += 1;
@@ -140,7 +140,7 @@ define(["step", "whispeerHelper", "asset/observer"], function (step, h, Observer
 		});
 
 		socket.listen("friendAccept", function (e, requestData) {
-			var uid = parseInt(requestData.uid, 10);
+			var uid = parseInt(requestData.uid, 10), userService = $injector.get("ssn.userService");
 			if (requests.indexOf(uid) === -1 && friends.indexOf(uid) === -1)  {
 				friends.push(uid);
 				friendsData.friendsCount += 1;
@@ -229,7 +229,7 @@ define(["step", "whispeerHelper", "asset/observer"], function (step, h, Observer
 		return friendsService;
 	};
 
-	service.$inject = ["$rootScope", "ssn.socketService", "ssn.sessionService", "ssn.userService", "ssn.keyStoreService", "ssn.initService"];
+	service.$inject = ["$rootScope", "$injector", "ssn.socketService", "ssn.sessionService", "ssn.keyStoreService", "ssn.initService"];
 
 	return service;
 });
