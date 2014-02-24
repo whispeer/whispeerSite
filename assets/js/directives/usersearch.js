@@ -66,17 +66,9 @@ define(["step", "whispeerHelper"], function (step, h) {
 							user[i].loadBasicData(this.parallel());
 						}
 					}), h.sF(function () {
-						var users = [], i, user;
-						for (i = 0; i < theUsers.length; i += 1) {
-							user = theUsers[i];
-							user.data.added = friendsService.didIRequest(user.getID());
-
-							friendsService.listen(function () {
-								user.data.added = friendsService.didIRequest(user.getID());
-							});
-
-							users.push(user.data);
-						}
+						var users = theUsers.map(function (e) {
+							return e.data;
+						});
 
 						submitResults(users);
 					}));

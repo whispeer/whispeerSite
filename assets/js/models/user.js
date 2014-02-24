@@ -4,7 +4,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 	var advancedBranches = ["location", "birthday", "relationship", "education", "work", "gender", "languages"];
 	var advancedDefaults = [{}, {}, {}, [], {}, "", []];
 
-	function userModel($location, keyStoreService, ProfileService, sessionService, settingsService, socketService) {
+	function userModel($location, keyStoreService, ProfileService, sessionService, settingsService, socketService, friendsService) {
 		return function User (providedData) {
 			var theUser = this, mainKey, signKey, cryptKey, friendShipKey, friendsKey, friendsLevel2Key;
 			var id, mail, nickname, publicProfile, privateProfiles = [], mutualFriends, publicProfileChanged = false, publicProfileSignature;
@@ -265,6 +265,12 @@ define(["step", "whispeerHelper"], function (step, h) {
 					theUser.data.basic.shortname = shortname;
 					theUser.data.basic.image = image;
 
+					theUser.data.added = friendsService.didIRequest(theUser.getID());
+
+					friendsService.listen(function () {
+						theUser.data.added = friendsService.didIRequest(theUser.getID());
+					});
+
 					this.ne();
 				}), cb);
 			};
@@ -413,7 +419,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 		};
 	}
 
-	userModel.$inject = ["$location",  "ssn.keyStoreService", "ssn.profileService", "ssn.sessionService", "ssn.settingsService", "ssn.socketService"];
+	userModel.$inject = ["$location",  "ssn.keyStoreService", "ssn.profileService", "ssn.sessionService", "ssn.settingsService", "ssn.socketService", "ssn.friendsService"];
 
 	return userModel;
 });

@@ -127,11 +127,6 @@ define(["step", "whispeerHelper"], function (step, h) {
 			user.loadFullData(this);
 		}), h.sF(function () {
 			$scope.user = userObject.data;
-			$scope.user.added = friendsService.didIRequest(userObject.getID());
-
-			friendsService.listen(function () {
-				$scope.user.added = friendsService.didIRequest(userObject.getID());
-			});
 
 			$scope.loading = false;
 		}));
