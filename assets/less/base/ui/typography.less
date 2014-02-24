@@ -1,0 +1,209 @@
+//
+// Typography
+// --------------------------------------------------
+
+// Body Text
+//
+// Plain text display
+//
+// Markup:
+// <span>Lorem Ipsum</span>
+//
+// Styleguide 1.1
+// ----------------------------
+body {
+	font-family: @baseFontFamily;
+	font-weight: 300;
+	line-height: @baseLineHeight;
+	font-size: @baseFontSize;
+}
+// ----------------------------
+
+// MISC
+
+// ----------------------------
+
+// Small
+//
+// Small text used for annotations
+//
+// Markup:
+// <small>Lorem Ipsum</small>
+//
+// Styleguide 1.2
+
+// ----------------------------
+small {
+	font-size: 85%;
+	color: #9e9e9e;
+}
+// ----------------------------
+
+// Strong / B
+//
+// Bigger text to sort of highlight it.
+// Note: <strong> is preffered to <b> due to semantic reasons!
+//
+// Markup:
+// <strong>Lorem Ipsum</strong>
+// <b>Lorem Ipsum</b>
+//
+// Styleguide 1.3
+
+// ----------------------------
+strong, b {
+	font-weight: 600;
+	font-family: "ubuntulight", @baseFontFamily;
+}
+// ----------------------------
+
+// EM / I
+//
+// Emphasize text ("italic-style")
+// Note: <em> is preffered to <i> due to semantic reasons!
+//
+// Markup:
+// <em>Lorem Ipsum</em>
+// <i>Lorem Ipsum</i>
+//
+// Styleguide 1.4
+
+// ----------------------------
+em, i {
+	font-style: italic;
+	font-weight: 200;
+}
+// ----------------------------
+
+// ----------------------------
+
+// P
+//
+// A text paragraph to structure text
+//
+// Markup:
+// <p>Lorem Ipsum Dolor Sit Amet</p>
+// <p>Lorem Ipsum Dolor Sit Amet 2</p>
+//
+// Styleguide 1.5
+
+// ----------------------------
+p {
+	line-height: @baseLineHeight;
+}
+// ----------------------------
+
+// Cite
+//
+// This element wraps the source of a Blockquote
+// Note: Only for use inside of a Blockquote element!
+//
+// Markup:
+// <blockquote cite="#">
+//	<p>Intelligent Quote</p>
+//	<footer>
+// 		<cite><a href="#">A profound source</a></cite>
+//	</footer>
+// </blockquote>
+//
+// Styleguide 1.6
+
+// ----------------------------
+cite {
+	font-style: normal;
+}
+// ----------------------------
+
+// Special Text
+//
+// If you want to highlight important parts of your text you can use these classes to do so
+//
+// Markup:
+// <span class="{$modifier}">Lorem Ipsum</span>
+// <p class="{$modifier}">Lorem Ipsum</p>
+//
+// .textWarning				- Indicates a warning that is put out
+// .textError				- Indicates an error that occured
+// .textInfo				- Indicates information which might be useful
+// .textSuccess				- Indicates that e.g. the operation has worked
+//
+// Styleguide 1.7
+
+// ---------------------------
+.textWarning {
+	color: @textWarning;
+	.text-shadow(1px 1px 1px darken(@textWarning, 50%));
+	font-size: 20px;
+}
+
+.textError {
+	color: @textError;
+	.text-shadow(1px 1px 1px darken(@textError, 50%));
+	font-size: 20px;
+}
+
+.textInfo {
+	color: @textInfo;
+	.text-shadow(1px 1px 1px darken(@textInfo, 50%));
+	font-size: 20px;	
+}
+
+.textSuccess {
+	color: @textSuccess;
+	.text-shadow(1px 1px 1px darken(@textSuccess, 50%));
+	font-size: 20px;	
+}
+// ---------------------------
+
+// Headings
+//
+// These elements declare headings for the content.
+//
+// Markup:
+// <h1>Heading 1</h1>
+// <h2>Heading 2</h2>
+// <h3>Heading 3</h3>
+// <h4>Heading 4</h4>
+// <h5>Heading 5</h5>
+// <h6>Heading 6</h6>
+//
+// Styleguide 1.8
+
+// ---------------------------
+h1, h2, h3, h4, h5, h6 {
+	margin: (@baseLineHeight / 2) 0;
+	font-family: @headingsFontFamily;
+	font-weight: @headingsFontWeight;
+	color: @headingsColor;
+	text-rendering: optimizelegibility;
+	small {
+		font-size: normal;
+		font-family: @altFontFamily;
+		color: @headingsSmallColor;
+	}
+}
+h1 {font-size: 35px; line-height: 40px; font-weight: 900; small {font-size: 25;}}
+h2 {font-size: 28px; line-height: 40px; font-weight: 800; small {font-size: 20;}}
+h3 {font-size: 23px; line-height: 40px; font-weight: 600; small {font-size: 13;}}
+h4 {font-size: 18px; line-height: 20px; font-weight: 500;}
+h5 {font-size: 14px; line-height: 20px; font-weight: 400;}
+h6 {font-size: 10px; line-height: 20px; font-weight: 300;}
+// ---------------------------
+
+// Hyperlinks
+//
+// These elements link to another point of the site.
+//
+// Markup:
+// <a href="#">This is a link</a>
+//
+// Styleguide 1.8
+a {
+	color: @linkColor;
+	text-decoration: none;
+	font-weight: 300;
+}
+
+a:hover {
+	color: @linkColorHover;
+}

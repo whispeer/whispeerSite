@@ -1,0 +1,69 @@
+// Buttons
+//
+// Default style for buttons
+//
+// Markup:
+// <a href="#" class="btn {$modifiers}">Hyperlink-Button</a>
+// <button class="btn {$modifiers}">Button Element</button>
+// <input type="button" class="btn {$modifiers}"  value="Input with type Button"/>
+//
+// .btn--big					- This button will be bigger due to a larger padding applied
+// .btn--small					- This button will be smaller due to a smaller padding applied
+// .btn--primary				- This button indicates that it is the primary feature / clickable thing of the form
+// .btn--danger					- This button indicates that it might do something harmfull, like deleting items etc
+// .btn--warning				- This button indicates that it might do something unwanted. Still the operation executed should be less harmfull than the danger button
+// .btn--info					- This button indicates that further information will be shown when clicked
+// :hover						- Buttons get highlighted when hovered
+// :disabled					- This button indicated that it is disabled and therefore not usable
+//
+// Styleguide 2.4
+
+.btn {
+	display: inline-block;
+	padding: 4px 15px;
+	.box-fix;
+	.border-radius(4px);
+	border: 0;
+	.buttonBackground(@btnBackground, @btnBackgroundHighlight, @grayDark, 0 1px 1px rgba(255,255,255,.75));
+	border: 1px solid @btnBorder;
+	text-decoration: none !important;
+}
+.btn--big {
+	padding: 10px 10px;
+}
+.btn--small {
+	padding: 2px 7px;
+}
+// Success and Primary are both green
+.btn--primary {
+	.btn--green;
+}
+.btn--danger {
+	.btn--red;
+}
+// Warning appears are orange
+.btn--warning {
+	.btn--orange;
+}
+// Info appears as a neutral blue
+.btn--info {
+	.btn--blue;
+}
+
+// Button Color Classes
+.btn--green {
+	.buttonBackground(@btnGreenBackground, @btnGreenBackgroundHighlight);
+}
+.btn--red {
+	.buttonBackground(@btnRedBackground, @btnRedBackgroundHighlight);
+}
+.btn--orange {
+	.buttonBackground(@btnOrangeBackground, @btnOrangeBackgroundHighlight);
+}
+.btn--blue {
+	.buttonBackground(@btnBlueBackground, @btnBlueBackgroundHighlight);
+}
+// Inverse appears as dark gray
+.btn--inverse {
+	.buttonBackground(@btnInverseBackground, @btnInverseBackgroundHighlight);
+}

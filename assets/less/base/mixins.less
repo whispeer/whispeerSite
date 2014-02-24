@@ -256,7 +256,7 @@
 }
 .buttonBackground(@startColor, @endColor, @textColor: #fff, @textShadow: 0 -1px 0 rgba(0,0,0,.25)) {
 	background-color: @startColor;
-	color: @textColor;
+	color: @textColor !important;
 	text-shadow: @textShadow;
 	&:hover, &:active, &.active, &.disabled, &[disabled] {
 		background-color: @endColor;

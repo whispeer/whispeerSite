@@ -47,19 +47,19 @@
 			</div>
 		</div>
 		<div id="navIcons" data-ng-controller="ssn.magicbar.mainController">
-			<div class="navIcon" id="message" data-ng-click="loadWidget('messages')">
+			<div class="navIcon" id="messageicon" data-ng-click="loadWidget('messages')">
 				<img src="/assets/img/icons/messages.png" alt="Nachrichten" class="icon">
 				<span class="badge" data-ng-if="messages.unread!=0">{{messages.unread}}</span>
 			</div>
-			<div class="navIcon" id="friends" data-ng-click="loadWidget('friends')">
+			<div class="navIcon" id="friendsicon" data-ng-click="loadWidget('friends')">
 				<img src="/assets/img/icons/friends.png" alt="Freundschaftsanfragen" class="icon">
 				<span class="badge" data-ng-if="friends.requestsCount!=0">{{friends.requestsCount}}</span>
 			</div>
-			<div class="navIcon" id="news" data-ng-click="loadWidget('news')">
+			<div class="navIcon" id="newsicon" data-ng-click="loadWidget('news')">
 				<img src="/assets/img/icons/newsfeed.png" alt="Neugikeiten" class="icon">
 				<span class="badge">3</span>
 			</div>
-			<div class="navIcon" id="settings" data-ng-click="loadWidget('settings')">
+			<div class="navIcon" id="settingsicon" data-ng-click="loadWidget('settings')">
 				<img src="/assets/img/icons/settings.png" alt="Settings" class="icon">	
 			</div>
 		</div>	
@@ -99,9 +99,10 @@
 
 		<aside id="sidebar-right" data-ng-if="loggedin && !mobile">
 			<div id="magicbar" data-ng-controller="ssn.magicbar.mainController">
-				<div class="magicWrap" data-ng-if="!config.showDefault" data-ng-include="'/assets/views/magicbar/' + config.template + '.html'" style="height: 100%;">Loading</div>
+				<div class="magic magicOverlay" data-ng-if="!config.showDefault" data-ng-include="'/assets/views/magicbar/' + config.template + '.html'">Loading</div>
 				<div data-ng-if="config.showDefault">
-					<div class="magicWrap" data-ng-repeat="widget in defaultConfig" data-ng-include="'/assets/views/magicbar/' + widget.template + '.html'" style="height:{{widget.height}};"></div>
+					<!-- Todo: load controllerName from object (ng-controller has to be parsed after variable to achieve this!) -->
+					<div class="magic magicAddon" data-ng-repeat="widget in defaultConfig"><ng-include data-src="'/assets/views/magicbar/' + widget.template + '.html'"></ng-include></div>
 				</div>
 			</div>
 		</aside>
