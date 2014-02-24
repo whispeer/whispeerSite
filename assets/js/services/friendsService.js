@@ -65,7 +65,6 @@ define(["step", "whispeerHelper", "asset/observer"], function (step, h, Observer
 				userService.get(uid, this);
 			}, h.sF(function (u) {
 				otherUser = u;
-				this.parallel.unflatten();
 
 				var own = userService.getown();
 				createBasicData(otherUser, this.parallel());
