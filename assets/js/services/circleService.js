@@ -4,7 +4,7 @@
 define(["step", "whispeerHelper", "asset/observer"], function (step, h, Observer) {
 	"use strict";
 
-	var service = function ($rootScope, socket, userService, keyStore) {
+	var service = function ($rootScope, socket, userService, sessionService, keyStore) {
 		var circles = {};
 		var circleArray = [];
 		var circleData = [];
@@ -306,7 +306,7 @@ define(["step", "whispeerHelper", "asset/observer"], function (step, h, Observer
 			},
 			loadAll: function (cb) {
 				step(function () {
-					if (!loaded && !loading) {
+					if (sessionService.isLoggedin() && !loaded && !loading) {
 						loading = true;
 						circleService.data.loading = false;
 
@@ -354,7 +354,7 @@ define(["step", "whispeerHelper", "asset/observer"], function (step, h, Observer
 		return circleService;
 	};
 
-	service.$inject = ["$rootScope", "ssn.socketService", "ssn.userService", "ssn.keyStoreService"];
+	service.$inject = ["$rootScope", "ssn.socketService", "ssn.userService", "ssn.sessionService", "ssn.keyStoreService"];
 
 	return service;
 });

@@ -563,12 +563,14 @@ define(["step", "whispeerHelper"], function (step, h) {
 				}, h.sF(function (data) {
 					var result = [], user = data.results;
 
-					var i;
-					for (i = 0; i < user.length; i += 1) {
-						if (typeof user[i] === "object") {
-							result.push(makeUser(user[i]));
-						} else {
-							result.push(users[user[i]]);
+					if (user) {
+						var i;
+						for (i = 0; i < user.length; i += 1) {
+							if (typeof user[i] === "object") {
+								result.push(makeUser(user[i]));
+							} else {
+								result.push(users[user[i]]);
+							}
 						}
 					}
 
@@ -676,6 +678,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 								keys: toUpload
 							}, this);
 						}), h.sF(function (result) {
+							improve_timer = false;
 							console.log(result);
 						}), function (e) {
 							if (e) {
@@ -687,15 +690,16 @@ define(["step", "whispeerHelper"], function (step, h) {
 			});
 		}
 
-		$rootScope.$on("ssn.login", function () {
-			initService.register("user.get", {identifier: sessionService.getUserID()}, function (data) {
-				var user = api.addFromData(data);
+		initService.register("user.get", function () {
+			return {identifier: sessionService.getUserID()};
+		}, function (data) {
+			var user = api.addFromData(data);
 
-				var identifier = user.getNickOrMail();
+			var identifier = user.getNickOrMail();
 
-				keyStoreService.setKeyGenIdentifier(identifier);
-				improvementListener(identifier);
-			});
+			keyStoreService.setKeyGenIdentifier(identifier);
+			console.log("improvementlistener add");
+			improvementListener(identifier);
 		});
 
 		$rootScope.$on("ssn.reset", function () {

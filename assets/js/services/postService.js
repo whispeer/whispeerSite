@@ -299,6 +299,11 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer"], fun
 					}
 				}), cb);
 			},
+			reset: function () {
+				postsById = {};
+				postsByUserWall = {};
+				TimelineByFilter = {};
+			},
 			createPost: function (content, visibleSelection, wallUserID, cb) {
 				/*
 						meta: {

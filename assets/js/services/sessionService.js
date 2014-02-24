@@ -20,6 +20,8 @@ define([], function () {
 				storage.set("userid", userid);
 				storage.set("loggedin", true);
 
+				loginChange();
+
 				return true;
 			}
 
@@ -31,8 +33,6 @@ define([], function () {
 				var sid = storage.get("sid");
 				var userid = storage.get("userid");
 				setSID(sid, userid);
-
-				$rootScope.$broadcast("ssn.login");
 			}
 		}
 
@@ -79,15 +79,16 @@ define([], function () {
 		});
 
 		function loginChange(logout) {
+			console.log("loginChange");
 			$rootScope.$broadcast("ssn.login");
-			updateURL($route.current.controller, logout);
+			if ($route.current) {
+				updateURL($route.current.controller, logout);
+			}
 		}
 
 		var sessionService = {
 			setSID: function (newSID, userid) {
-				if (setSID(newSID, userid)) {
-					loginChange();
-				}
+				setSID(newSID, userid);
 			},
 
 			getSID: function () {

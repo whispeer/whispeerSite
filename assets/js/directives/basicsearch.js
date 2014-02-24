@@ -18,6 +18,7 @@ define(["step", "whispeerHelper"], function () {
 				scope.multiple = typeof iAttrs["multiple"] !== "undefined";
 
 				scope.query = "";
+				scope.oldQuery = "";
 				scope.results = [];
 
 				/** open search element or not **/
@@ -89,8 +90,11 @@ define(["step", "whispeerHelper"], function () {
 				scope.empty = false;
 
 				scope.queryChange = function queryChange() {
-					scope.searching = true;
-					scope.$emit("queryChange", scope.query);
+					if (scope.oldQuery !== scope.query) {
+						scope.oldQuery = scope.query;
+						scope.searching = true;
+						scope.$emit("queryChange", scope.query);
+					}
 				};
 
 				scope.$on("initialSelection", function (event, results) {
@@ -155,6 +159,20 @@ define(["step", "whispeerHelper"], function () {
 				var selectedIDs = [];
 				scope.selectedElements = [];
 
+				function selectionUpdated(selection) {
+					if (scope.multiple) {
+						scope.$emit("selectionChange", scope.selectedElements);
+						scope.$emit("selectionChange:" + internalid, scope.selectedElements);
+
+						scope.results = filterRealResults();
+					}
+
+					if (selection) {
+						scope.$emit("elementSelected", selection);
+						scope.$emit("elementSelected:" + internalid, selection);
+					}
+				}
+
 				scope.selectResult = function(index) {
 					var result = scope.results[index];
 					if (scope.multiple) {
@@ -168,29 +186,18 @@ define(["step", "whispeerHelper"], function () {
 								name: name
 							});
 							selectedIDs.push(id);
-							scope.results = filterRealResults();
+
 							scope.setCurrent(scope.current);
-
-							if (internalid) {
-								scope.$emit("elementSelected:" + internalid, result);
-								scope.$emit("selectionChange:" + internalid, scope.selectedElements);
-							}
-
-							scope.$emit("elementSelected", result);
-							scope.$emit("selectionChange", scope.selectedElements);
 						}
 
 						scope.query = "";
 						scope.queryChange();
 					} else {
-						if (internalid) {
-							scope.$emit("elementSelected:" + internalid, result);
-						}
-						scope.$emit("elementSelected", result);
-
 						scope.click(false);
 						scope.focus(false);
 					}
+
+					selectionUpdated(result);
 				};
 
 				scope.markedForDeletion = -1;
@@ -200,7 +207,8 @@ define(["step", "whispeerHelper"], function () {
 					scope.selectedElements.splice(index, 1);
 					selectedIDs.splice(index, 1);
 					scope.markedForDeletion = -1;
-					scope.results = filterRealResults();
+
+					selectionUpdated();
 				};
 
 				/** key stuff */
