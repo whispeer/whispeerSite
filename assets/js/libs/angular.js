@@ -6016,7 +6016,7 @@ function $CompileProvider($provide, $$sanitizeUriProvider) {
         }
 
         if (directive.templateUrl) {
-          assertNoDuplicate('template', templateDirective, directive, $compileNode);
+          //assertNoDuplicate('template', templateDirective, directive, $compileNode);
           templateDirective = directive;
 
           if (directive.replace) {
