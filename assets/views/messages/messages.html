@@ -78,10 +78,10 @@
 	</div>
 	<div id="messageWrap">	
 		<form id="inputWrap">
-			<usersearch data-user="userid" size="small" focus="all" id="recieverInput" data-multiple data-selected-users="new.selectedUsers" data-input-i18n-attr="messages.search|placeholder"/>
+			<usersearch res="new" data-user="userid" size="small" focus="all" id="recieverInput" data-multiple data-selected-users="new.selectedUsers" data-input-i18n-attr="messages.search|placeholder"/>
 			
 			<textarea type="text" placeholder="Gebe deine Nachricht ein!" id="messageInput" data-ng-model="new.text"></textarea>
-			<button class="btn btn--primary" id="sendmessage" type="submit" data-ng-click="new.send(new.selectedUsers, new.text)">Senden</button>
+			<button class="btn btn--primary" id="sendmessage" type="submit" data-ng-click="new.send(new.selectedElements, new.text)">Senden</button>
 		</form>
 	</div>
 </div>

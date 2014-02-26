@@ -49,19 +49,16 @@ define(["step", "whispeerHelper"], function (step, h) {
 			return ($scope.topicid === parseInt(topic.id, 10));
 		};
 
-		$scope.$on("selectionChange", function (event, newSelection) {
-			$scope.new.selectedUsers = newSelection;
-		});
-
 		$scope.new = {
 			text: "",
-			selectedUsers: [],
+			selectedElements: [],
 			send: function (receiver, text) {
 				receiver = receiver.map(function (e) {return e.id;});
+
 				messageService.sendNewTopic(receiver, text, function (e, id) {
 					if (!e) {
 						$scope.new.text = "";
-						$scope.new.selectedUsers = [];
+						$scope.new.selectedElements = [];
 						$scope.loadActiveTopic(id);
 						$scope.$broadcast("resetSearch");
 					} else {

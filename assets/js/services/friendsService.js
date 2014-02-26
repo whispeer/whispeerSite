@@ -151,6 +151,19 @@ define(["step", "whispeerHelper", "asset/observer"], function (step, h, Observer
 		});
 
 		var friendsService = {
+			getUserFriends: function (uid, cb) {
+				step(function () {
+					socket.emit("friends.getUser", {
+						userid: uid
+					}, this);
+				}, h.sF(function (result) {
+					if (!result.error) {
+						this.ne(result.friends);
+					} else {
+						throw "server returned an error!";
+					}
+				}), cb);
+			},
 			friendship: function (uid) {
 				if (friends.indexOf(uid) > -1 || requested.indexOf(uid) > -1) {
 					return;

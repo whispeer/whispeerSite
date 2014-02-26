@@ -247,6 +247,10 @@ define(["step", "whispeerHelper"], function (step, h) {
 				}), cb);
 			};
 
+			this.getFriends = function (cb) {
+				friendsService.getUserFriends(this.getID(), cb);
+			};
+
 			this.loadBasicData = function (cb) {
 				step(function () {
 					if (!basicDataLoaded) {

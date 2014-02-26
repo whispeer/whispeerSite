@@ -3,7 +3,9 @@ define(["step", "whispeerHelper"], function () {
 
 	function searchDirective($timeout, $compile) {
 		return {
-			scope: {},
+			scope: {
+				"res": "="
+			},
 			/* this is an element */
 			restrict: "E",
 			templateUrl: "/assets/views/directives/basicSearch.html",
@@ -177,6 +179,10 @@ define(["step", "whispeerHelper"], function () {
 
 				function selectionUpdated(selection) {
 					if (multiple) {
+						if (scope.res) {
+							scope.res.selectedElements = scope.selectedElements;
+						}
+
 						scope.$emit("selectionChange", scope.selectedElements);
 						scope.$emit("selectionChange:" + internalid, scope.selectedElements);
 

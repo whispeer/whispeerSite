@@ -5,11 +5,12 @@
 define(["step", "whispeerHelper"], function (step, h) {
 	"use strict";
 
-	function userController($scope, $routeParams, cssService, userService, postService) {
+	function userController($scope, $routeParams, cssService, userService, postService, circleService) {
 		var identifier = $routeParams.identifier;
 		var userObject;
 
 		$scope.loading = true;
+		$scope.loadingFriends = true;
 
 		cssService.setClass("profileView");
 
@@ -127,114 +128,26 @@ define(["step", "whispeerHelper"], function (step, h) {
 			$scope.user = userObject.data;
 
 			$scope.loading = false;
+			userObject.getFriends(this);
+		}), h.sF(function (friends) {
+			userService.getMultiple(friends, this);
+		}), h.sF(function (friends) {
+			var i;
+			$scope.friends = [];
+
+			for (i = 0; i < friends.length; i += 1) {
+				$scope.friends.push(friends[i].data);
+				friends[i].loadBasicData(this.parallel());
+			}
+		}), h.sF(function () {
+			$scope.loadingFriends = false;
 		}));
 
-		$scope.posts = [
-			{
-				"sender":	{
-					"image":	{
-						"image":	"/assets/img/user.png",
-						"alttext":	"Test"
-					},
-					"name":	"Daniel Melchior"
-				},
-				"content":	{
-					"text": "Lorem Ipsum Dolor Sit Amet!",
-				},
-				"info":	{
-					"with"	: "Svenja Kenneweg",
-					"awesome"	: "20",
-					"comments":	{
-						"count":	"20"
-					}
-				}
-			},
-			{
-				"sender":	{
-					"image":	{
-						"image":	"/assets/img/user.png",
-						"alttext":	"Test"
-					},
-					"name":	"Daniel Melchior"
-				},
-				"content":	{
-					"text": "Lorem Ipsum Dolor Sit Amet!",
-				},
-				"info":	{
-					"with"	: "Svenja Kenneweg",
-					"awesome"	: "20",
-					"comments":	{
-						"count":	"20"
-					}
-				}
-			},
-			{
-				"sender":	{
-					"image":	{
-						"image":	"/assets/img/user.png",
-						"alttext":	"Test"
-					},
-					"name":	"Daniel Melchior"
-				},
-				"content":	{
-					"text": "Lorem Ipsum Dolor Sit Amet!",
-				},
-				"info":	{
-					"with"	: "Svenja Kenneweg",
-					"awesome"	: "20",
-					"comments":	{
-						"count":	"20"
-					}
-				}
-			}
-		];
-		$scope.friends = [
-			{
-				"name": "Willi Welle",
-				"mutualFriends":	"295",
-				"image":	"/assets/img/user.png"
-				//"lists":	[''] // ID's of the Lists with this friend
-			},
-			{
-				"name": "William Welle",
-				"mutualFriends":	"495",
-				"image":	"/assets/img/user.png"
-				//"lists":	[''] // ID's of the Lists with this friend
-			},
-			{
-				"name": "William Welle",
-				"mutualFriends":	"495",
-				"image":	"/assets/img/user.png"
-				//"lists":	[''] // ID's of the Lists with this friend
-			},
-			{
-				"name": "William Welle",
-				"mutualFriends":	"495",
-				"image":	"/assets/img/user.png"
-				//"lists":	[''] // ID's of the Lists with this friend
-			},
-			{
-				"name": "William Welle",
-				"mutualFriends":	"495",
-				"image":	"/assets/img/user.png"
-				//"lists":	[''] // ID's of the Lists with this friend
-			},
-			{
-				"name": "William Welle",
-				"mutualFriends":	"495",
-				"image":	"/assets/img/user.png"
-				//"lists":	[''] // ID's of the Lists with this friend
-			},
-			{
-				"name": "William Welle",
-				"mutualFriends":	"495",
-				"image":	"/assets/img/user.png"
-				//"lists":	[''] // ID's of the Lists with this friend
-			}
-		];
+		$scope.posts = [];
+		$scope.friends = [];
 	}
 
-	userController.$inject = ["$scope", "$routeParams", "ssn.cssService", "ssn.userService", "ssn.postService"];
+	userController.$inject = ["$scope", "$routeParams", "ssn.cssService", "ssn.userService", "ssn.postService", "ssn.circleService"];
 
 	return userController;
 });
