@@ -3,22 +3,20 @@ define(["step", "whispeerHelper"], function () {
 
 	function searchDirective($timeout, $compile) {
 		return {
-			transclude: false,
-			/* we want access to the result template given */
-			scope:	{
-				resultTemplate: "&"
-			},
+			scope: {},
 			/* this is an element */
 			restrict: "E",
 			templateUrl: "/assets/views/directives/basicSearch.html",
 			/* replace given element */
 			replace: true,
+			transclude: true,
 			link: function postLink(scope, iElement, iAttrs) {
-				/* attribute to define if we want multiple results or one */
-				scope.multiple = typeof iAttrs["multiple"] !== "undefined";
+				var multiple = iAttrs["multiple"] !== undefined;
+				scope.big = iAttrs["size"] === "big";
 
+				var oldQuery = "", internallyClicked = false;
+				/* attribute to define if we want multiple results or one */
 				scope.query = "";
-				scope.oldQuery = "";
 				scope.results = [];
 
 				/** open search element or not **/
@@ -52,21 +50,30 @@ define(["step", "whispeerHelper"], function () {
 				/* close on body click */
 				jQuery(document.body).click(function () {
 					$timeout(function () {
-						scope.click(false);
+						if (!internallyClicked) {
+							scope.click(false);
+						}
+
+						internallyClicked = false;
 					});
 				});
+
+				scope.notifyParent = function (eventName, attr) {
+					scope.$emit(eventName, attr);
+				};
 
 				scope.show = function () {
 					return (focused || clicked);
 				};
 
 				scope.hide = function () {
-					focused = false;
-					clicked = false;
+					scope.focus(false);
+					scope.click(false);
 				};
 
 				scope.click = function (bool) {
 					if (bool) {
+						internallyClicked = true;
 						input.focus();
 					}
 					clicked = bool;
@@ -91,13 +98,20 @@ define(["step", "whispeerHelper"], function () {
 				scope.empty = false;
 
 				scope.queryChange = function queryChange(noDiffNecessary) {
-					if (noDiffNecessary || scope.oldQuery !== scope.query) {
-						scope.click(true);
-						scope.oldQuery = scope.query;
+					if (noDiffNecessary || oldQuery !== scope.query) {
+						oldQuery = scope.query;
 						scope.searching = true;
 						scope.$emit("queryChange", scope.query);
 					}
+
+					if (oldQuery !== scope.query) {
+						scope.click(true);
+					}
 				};
+
+				scope.$on("hide", function () {
+					scope.hide();
+				});
 
 				scope.$on("initialSelection", function (event, results) {
 					scope.selectedElements = results.map(function (e) {
@@ -111,7 +125,7 @@ define(["step", "whispeerHelper"], function () {
 						return e.id;
 					});
 
-					scope.results = filterRealResults();
+					selectionUpdated();
 				});
 
 				scope.$on("queryResults", function (event, results) {
@@ -162,7 +176,7 @@ define(["step", "whispeerHelper"], function () {
 				scope.selectedElements = [];
 
 				function selectionUpdated(selection) {
-					if (scope.multiple) {
+					if (multiple) {
 						scope.$emit("selectionChange", scope.selectedElements);
 						scope.$emit("selectionChange:" + internalid, scope.selectedElements);
 
@@ -177,7 +191,7 @@ define(["step", "whispeerHelper"], function () {
 
 				scope.selectResult = function(index) {
 					var result = scope.results[index];
-					if (scope.multiple) {
+					if (multiple) {
 						var name = result.name;
 						var id = result.id;
 

@@ -9,8 +9,6 @@ define(["step", "whispeerHelper"], function (step, h) {
 			templateUrl: "/assets/views/directives/filterSearch.html",
 			replace: true,
 			link: function postLink(scope, iElement, iAttrs) {
-				scope.multiple = true;
-
 				//how do we sort stuff?
 				//first: alwaysAvailableFilter
 				//second: circles
@@ -21,8 +19,6 @@ define(["step", "whispeerHelper"], function (step, h) {
 				}
 
 				var alwaysAvailableFilter = ["allfriends", "friendsoffriends"];
-
-				scope.resultTemplate = "/assets/views/directives/filterSearchResults.html";
 
 				function loadInitialSelection(attribute) {
 					var selected = scope.$parent.$eval(attribute);

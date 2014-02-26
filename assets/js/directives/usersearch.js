@@ -9,22 +9,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 			templateUrl: "/assets/views/directives/userSearch.html",
 			replace: true,
 			link: function postLink(scope, iElement, iAttrs) {
-				scope.multiple = typeof iAttrs["multiple"] !== "undefined";
-
-				if (iAttrs["size"] === "big") {
-					scope.resultTemplate = "/assets/views/directives/userSearchResults.html";
-				} else {
-					scope.resultTemplate = "/assets/views/directives/userSearchResultsSmall.html";
-				}
-
-				scope.addFriend = function (user) {
-					friendsService.friendship(user.id);
-				};
-
-				scope.sendMessage = function (data) {
-					$location.path("/messages").search("userid=" + data.id);
-					scope.hide();
-				};
+				var multiple = typeof iAttrs["multiple"] !== "undefined";
 
 				if (iAttrs["user"]) {
 					var theUser;
@@ -58,7 +43,9 @@ define(["step", "whispeerHelper"], function (step, h) {
 							userService.query(query, this);
 						}
 					}, h.sF(function (user) {
-						scope.empty = (user.length === 0);
+						if (user.length === 0) {
+							this.ne([]);
+						}
 
 						theUsers = user;
 						var i;
@@ -74,10 +61,21 @@ define(["step", "whispeerHelper"], function (step, h) {
 					}));
 				}
 
+				scope.$on("addFriend", function (event, user) {
+					friendsService.friendship(user.id);
+				});
+
+				scope.$on("sendMessage", function (event, data) {
+					$location.path("/messages").search("userid=" + data.id);
+					scope.$broadcast("hide");
+				});
+
 				scope.$on("elementSelected", function (event, element) {
-					if (!scope.multiple) {
+					if (!multiple) {
 						$location.path(element.user.getUrl());
 					}
+
+					event.stopPropagation();
 				});
 
 				scope.$on("queryChange", function (event, query) {
@@ -89,6 +87,8 @@ define(["step", "whispeerHelper"], function (step, h) {
 					} else {
 						submitResults([]);
 					}
+
+					event.stopPropagation();
 				});
 			}
 		};

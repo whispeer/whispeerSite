@@ -9,12 +9,9 @@ define(["step", "whispeerHelper"], function (step, h) {
 			templateUrl: "/assets/views/directives/circleSearch.html",
 			replace: true,
 			link: function postLink(scope, element, attrs) {
-				scope.multiple = true;
 				function submitResults(results) {
 					scope.$broadcast("queryResults", results);
 				}
-
-				scope.resultTemplate = "/assets/views/directives/circleSearchResults.html";
 
 				if (attrs["user"]) {
 					var user = h.parseDecimal(scope.$parent.$eval(attrs["user"]));

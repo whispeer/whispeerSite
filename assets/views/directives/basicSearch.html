@@ -1,4 +1,4 @@
-<div class="searchBar {{'search-'+size}} {{'search-'+(multiple?'multiple':'single')}}" data-stop-event="click">
+<div class="searchBar {{'search-'+(multiple?'multiple':'single')}}">
 	<form class="formSearch">
 		<div data-ng-click="click(true)">
 			<ul class="inputWrap">
@@ -10,6 +10,6 @@
 			</ul>
 		</div>
 	</form>
-	<div class="searchDrop" data-ng-if="show()" ng-include="resultTemplate()">
+	<div class="searchDrop" data-ng-if="show()" ng-transclude>
 	</div>
 </div>
