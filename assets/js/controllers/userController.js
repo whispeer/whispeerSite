@@ -110,6 +110,37 @@ define(["step", "whispeerHelper"], function (step, h) {
 			}
 		};
 
+		$scope.circles = {
+			selectedElements: []
+		};
+
+		$scope.safeCircles = function () {
+			step(function () {
+				var oldCircles = circleService.inWhichCircles($scope.user.id).map(function (e) {
+					return h.parseDecimal(e.getID());
+				});
+				var newCircles = $scope.circles.selectedElements.map(function (e) {
+					return h.parseDecimal(e.id);
+				});
+
+				var toAdd = h.arraySubtract(newCircles, oldCircles);
+				var toRemove = h.arraySubtract(oldCircles, newCircles);
+
+				var i;
+				for (i = 0; i < toAdd.length; i += 1) {
+					circleService.get(toAdd[i]).addPersons([$scope.user.id], this.parallel());
+				}
+
+				for (i = 0; i < toRemove.length; i += 1) {
+					circleService.get(toRemove[i]).removePersons([$scope.user.id], this.parallel());
+				}
+			}, h.sF(function (results) {
+				debugger;
+			}), function (e) {
+				debugger;
+			});
+		};
+
 		$scope.possibleStatus = ["single", "relationship", "engaged", "married", "divorced", "widowed", "complicated", "open", "inlove"];
 
 		$scope.editGeneral = false;

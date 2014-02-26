@@ -39,7 +39,7 @@ define(["step", "whispeerHelper", "asset/observer"], function (step, h, Observer
 				var newUser, userIDs, newKey;
 				step(function () {
 					uids = uids.map(h.parseDecimal).filter(function (e) {
-						user.indexOf(e) > -1;
+						return user.indexOf(e) > -1;
 					});
 
 					newUser = user.filter(function (e) {
@@ -47,8 +47,8 @@ define(["step", "whispeerHelper", "asset/observer"], function (step, h, Observer
 					});
 
 					generateUsersSpecificData(newUser, this);
-				}, h.sF(function (key, userids) {
-					newKey = key;
+				}, h.sF(function (localNewKey, userids) {
+					newKey = localNewKey;
 					userIDs = userids;
 
 					var mainKey = userService.getown().getMainKey();
@@ -86,7 +86,7 @@ define(["step", "whispeerHelper", "asset/observer"], function (step, h, Observer
 						u = otherUsers[i];
 						friendShipKey = u.getFriendShipKey();
 						if (friendShipKey && user.indexOf(u.getID()) === -1) {
-							keyStore.sym.symEncryptKey(key, friendShipKey, this);
+							keyStore.sym.symEncryptKey(key, friendShipKey, this.parallel());
 							userids.push(u.getID());
 							friendShipKeys.push(friendShipKey);
 						} else {
