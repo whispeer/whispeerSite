@@ -2,7 +2,6 @@ define(["step", "whispeerHelper"], function (step, h) {
 	"use strict";
 
 	var advancedBranches = ["location", "birthday", "relationship", "education", "work", "gender", "languages"];
-	var advancedDefaults = [{}, {}, {}, [], {}, "", []];
 
 	function userModel($location, keyStoreService, ProfileService, sessionService, settingsService, socketService, friendsService) {
 		return function User (providedData) {
@@ -239,9 +238,9 @@ define(["step", "whispeerHelper"], function (step, h) {
 					}
 					theUser.loadBasicData(this.parallel());
 				}, h.sF(function (result) {
-					var i, a = theUser.data.advanced;
+					var i, a = theUser.data.advanced, defaults = [{}, {}, {}, [], {}, "", []];
 					for (i = 0; i < advancedBranches.length; i += 1) {
-						a[advancedBranches[i]] = result[i] || advancedDefaults[i];
+						a[advancedBranches[i]] = result[i] || defaults[i];
 					}
 
 					this.ne();
