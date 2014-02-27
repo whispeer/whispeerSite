@@ -3,7 +3,7 @@
 var fs = require("fs");
 var basePath = "./assets/js/";
 
-var rewriteFiles = ["directives/basicDirectives", "controllers/controllers", "services/services", "controllers/magicbarControllers", "validation/validator"];
+var rewriteFiles = ["directives/basicDirectives", "controllers/controllers", "services/services", "controllers/magicbarControllers", "validation/validator", "models/models"];
 
 var includes;
 
