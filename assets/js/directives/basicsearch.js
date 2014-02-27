@@ -273,5 +273,7 @@ define(["step", "whispeerHelper"], function () {
 		};
 	}
 
+	searchDirective.$inject = ["$timeout", "$compile"];
+
 	return searchDirective;
 });
