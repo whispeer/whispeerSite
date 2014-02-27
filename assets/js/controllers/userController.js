@@ -10,6 +10,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 		var userObject;
 
 		$scope.loading = true;
+		$scope.notExisting = false;
 		$scope.loadingFriends = true;
 
 		cssService.setClass("profileView");

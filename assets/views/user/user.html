@@ -1,4 +1,4 @@
-<nav>
+<nav data-ng-if="!loading">
 	<heading>
 		<h3>{{user.name}}</h3>
 	</heading>
@@ -8,7 +8,7 @@
 		<li><a scrolltoid="friends" data-i18n="profile.head.friends"></a></li>
 	</menu>
 </nav>
-<div id="wrap">
+<div id="wrap" data-ng-if="!loading">
 	<div id="scroller" class="box">
 		<section id="info">
 			<article id="generalInfo">
