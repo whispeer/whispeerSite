@@ -3999,6 +3999,7 @@ body.loading:after {
 }
 .messagesView #topicWrap.newMessage #sendmessage {
   padding: 10px 10px;
+  margin-left: 3px !important;
 }
 .friendsView #main {
   border-bottom: 1px solid #000;
@@ -4358,6 +4359,9 @@ body.loading:after {
 }
 .circlesView #circleContainer #friendsList:after {
   clear: both;
+}
+.circlesView #circleContainer.newCircle #circleWrap #inputWrap #savecircle {
+  margin-left: 2px;
 }
 .mediaView #main {
   height: 100%;
