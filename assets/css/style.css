@@ -1533,6 +1533,7 @@ dd {
   -webkit-background-clip: padding-box;
   background-clip: padding-box;
   overflow: hidden;
+  border: 1px solid #8c8c8c;
   -webkit-box-sizing: border-box;
   /* Safari/Chrome, other WebKit */
   -moz-box-sizing: border-box;
@@ -2926,6 +2927,7 @@ body.loading:after {
   white-space: nowrap;
   text-align: left;
   height: 60px;
+  border: none;
 }
 .mainView #wall header #filter #theFilter .inputWrap li {
   white-space: nowrap;
