@@ -8720,6 +8720,9 @@ body.loading:after {
   header #postIt #receiver .searchDrop {
     width: 26.8% !important;
   }
+  header #filter #theFilter {
+    margin-left: -2.5% !important;
+  }
   header #filter #theFilter .inputWrap li.searchField {
     width: 161%;
   }
