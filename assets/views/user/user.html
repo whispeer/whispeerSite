@@ -70,9 +70,9 @@
 							<span data-ng-if="editGeneral" data-for="school">
 								<span class="input-group" data-ng-repeat="school in user.advanced.education">
 									<input type="text" data-ng-model="school.name">
-									<button class="remove btn btn-danger" data-ng-click="removeElement(user.advanced.education, $index)"><i class="icon icon-cancel-circle"></i></button>
+									<button class="remove btn btn--danger" data-ng-click="removeElement(user.advanced.education, $index)"><i class="icon icon-cancel-circle"></i></button>
 								</span>
-								<button class="add btn btn-success" data-ng-click="addElement(user.advanced.education, {name: ''}, 3)"><i class="icon icon-plus-circle"></i></button>
+								<button class="add btn btn--primary" data-ng-click="addElement(user.advanced.education, {name: ''}, 3)"><i class="icon icon-plus-circle"></i></button>
 							</span>
 						</span>
 					</p>
@@ -105,19 +105,19 @@
 							<span data-ng-if="editGeneral" data-for="language">
 								<span class="input-group" data-ng-repeat="language in user.advanced.languages">
 									<input type="text" data-ng-model="language.name">
-									<button class="btn btn-red remove" data-ng-click="removeElement(user.advanced.languages, $index)"><i class="icon icon-cancel-circle"></i></button>
+									<button class="btn btn--error remove" data-ng-click="removeElement(user.advanced.languages, $index)"><i class="icon icon-cancel-circle"></i></button>
 								</span>
-								<button class="btn btn-green add" data-ng-click="addElement(user.advanced.languages, {name:''})"><i class="icon icon-plus-circle"></i></button>
+								<button class="btn btn--primary add" data-ng-click="addElement(user.advanced.languages, {name:''})"><i class="icon icon-plus-circle"></i></button>
 							</span>
 						</span>
 					</p>
-					<p id="save" data-ng-show="editGeneral"><button data-ng-click="saveUser()" class="btn btn-green"><i class="icon-ok-circle"></i> Speichern</button></p>
+					<p id="save" data-ng-show="editGeneral"><button data-ng-click="saveUser()" class="btn btn--primary"><i class="icon-ok-circle"></i> Speichern</button></p>
 				</div>
 				<div class="actions">
 					<a href="" class="addFriend" ng-if="!user.me && !user.added" data-ng-click="addFriend()"><span data-i18n="profile.actions.addFriend|user={{user.name}}"></span></a>
 					<div class="addToCirlce" ng-if="user.added">
 						<circlesearch id="selectCircle" data-input-i18n-attr="profile.actions.addToCircle|placeholder|user={{user.name}}" data-user="user.id"></circlesearch>
-						<button class="btn btn-green" id="circleSubmit"><i class="icon icon-ok-circle"></i></button>
+						<button class="btn btn--primary" id="circleSubmit"><i class="icon icon-ok-circle"></i></button>
 					</div>
 					<a href="/messages?userid={{user.id}}" class="sendMessage"><span data-i18n="profile.actions.sendMessage|user={{user.name}}"></span></a>
 				</div>

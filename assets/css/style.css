@@ -9113,6 +9113,63 @@ body.loading:after {
     margin: 0 1% 0 1%;
     margin: 10px 1% 10px 1%;
   }
+  .profileView #main #info article#generalInfo .actions .addToCirlce #selectCircle {
+    padding-right: 2%;
+    height: 40px;
+    -webkit-box-sizing: border-box;
+    /* Safari/Chrome, other WebKit */
+    -moz-box-sizing: border-box;
+    /* Firefox, other Gecko */
+    box-sizing: border-box;
+    /* Opera/IE 8+ */
+  }
+  .profileView #main #info article#generalInfo .actions .addToCirlce #selectCircle .inputWrap {
+    border: 1px solid #bbb;
+    -webkit-box-sizing: border-box;
+    /* Safari/Chrome, other WebKit */
+    -moz-box-sizing: border-box;
+    /* Firefox, other Gecko */
+    box-sizing: border-box;
+    /* Opera/IE 8+ */
+  }
+  .profileView #main #info article#generalInfo .actions .addToCirlce #selectCircle .inputWrap li.searchField {
+    width: 85%;
+    height: 100%;
+  }
+  .profileView #main #info article#generalInfo .actions .addToCirlce #selectCircle .inputWrap li.searchField input {
+    width: 100%;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+  .profileView #main #info article#generalInfo .actions .addToCirlce #circleSubmit {
+    width: 10% !important;
+    display: block;
+    height: 38px;
+    float: left;
+    margin: -39px 0 0 89%;
+    padding: 0px !important;
+    text-align: center;
+    border: none;
+    border-right: 1px solid #bbb;
+    -webkit-border-top-right-radius: 5px;
+    -webkit-border-bottom-right-radius: 5px;
+    -webkit-border-bottom-left-radius: 0;
+    -webkit-border-top-left-radius: 0;
+    -moz-border-radius-topright: 5px;
+    -moz-border-radius-bottomright: 5px;
+    -moz-border-radius-bottomleft: 0;
+    -moz-border-radius-topleft: 0;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+    border-bottom-left-radius: 0;
+    border-top-left-radius: 0;
+    -moz-background-clip: padding;
+    -webkit-background-clip: padding-box;
+    background-clip: padding-box;
+  }
+  .profileView #main #info article#generalInfo .actions .addToCirlce #circleSubmit i {
+    display: inline;
+  }
   .profileView #main #info article#generalInfo .actions .sendMessage {
     display: inline-block;
     *display: inline;
@@ -10696,7 +10753,7 @@ body.loading:after {
     display: block;
     height: 38px;
     float: left;
-    margin: -39px 0 0 88%;
+    margin: -39px 0 0 89%;
     padding: 0px !important;
     text-align: center;
     border: none;
@@ -12227,10 +12284,60 @@ body.loading:after {
     margin: 0 1% 0 1%;
     margin: 10px 1% 10px 1%;
   }
-  .profileView #main #info article#generalInfo .actions .addToCirlce button {
+  .profileView #main #info article#generalInfo .actions .addToCirlce #selectCircle {
+    padding-right: 2%;
+    height: 40px;
+    -webkit-box-sizing: border-box;
+    /* Safari/Chrome, other WebKit */
+    -moz-box-sizing: border-box;
+    /* Firefox, other Gecko */
+    box-sizing: border-box;
+    /* Opera/IE 8+ */
+  }
+  .profileView #main #info article#generalInfo .actions .addToCirlce #selectCircle .inputWrap {
+    border: 1px solid #bbb;
+    -webkit-box-sizing: border-box;
+    /* Safari/Chrome, other WebKit */
+    -moz-box-sizing: border-box;
+    /* Firefox, other Gecko */
+    box-sizing: border-box;
+    /* Opera/IE 8+ */
+  }
+  .profileView #main #info article#generalInfo .actions .addToCirlce #selectCircle .inputWrap li.searchField {
+    width: 65%;
+    height: 100%;
+  }
+  .profileView #main #info article#generalInfo .actions .addToCirlce #selectCircle .inputWrap li.searchField input {
+    width: 100%;
+  }
+  .profileView #main #info article#generalInfo .actions .addToCirlce #circleSubmit {
+    width: 10% !important;
+    display: block;
+    height: 38px;
     float: left;
-    margin-top: -30px;
-    margin-left: 45%;
+    margin: -39px 0 0 89%;
+    padding: 0px !important;
+    text-align: center;
+    border: none;
+    border-right: 1px solid #bbb;
+    -webkit-border-top-right-radius: 5px;
+    -webkit-border-bottom-right-radius: 5px;
+    -webkit-border-bottom-left-radius: 0;
+    -webkit-border-top-left-radius: 0;
+    -moz-border-radius-topright: 5px;
+    -moz-border-radius-bottomright: 5px;
+    -moz-border-radius-bottomleft: 0;
+    -moz-border-radius-topleft: 0;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+    border-bottom-left-radius: 0;
+    border-top-left-radius: 0;
+    -moz-background-clip: padding;
+    -webkit-background-clip: padding-box;
+    background-clip: padding-box;
+  }
+  .profileView #main #info article#generalInfo .actions .addToCirlce #circleSubmit i {
+    display: inline;
   }
   .profileView #main #info article#generalInfo .actions .sendMessage {
     display: inline-block;
