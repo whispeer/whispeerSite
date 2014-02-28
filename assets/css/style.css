@@ -9304,7 +9304,7 @@ body.loading:after {
     height: 100%;
   }
   .settingsView #main header {
-    height: 40px;
+    height: 20px;
     margin-top: -52px;
     padding: 5px;
   }
@@ -9332,16 +9332,35 @@ body.loading:after {
   .settingsView #main section#general header {
     margin: 0 0 10px 0;
   }
-  .settingsView #main section .config {
+  .settingsView #main section .config span {
+    width: 23% !important;
+  }
+  .settingsView #main section .config input:not([type=submit]) {
+    width: 31.333333333333336% !important;
+  }
+  .settingsView #main section .config#nickname button {
+    margin-left: 33.333333333333336% !important;
+  }
+  .settingsView #main section#safety .config button {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
     *zoom: 1;
     float: left;
-    width: 98%;
+    width: 10.5%;
     margin: 0 1% 0 1%;
-    margin-top: -5px;
+    margin-top: -1px;
     margin-bottom: 10px;
+    height: 40px;
+  }
+  .settingsView #main section#safety .config .whoMaySeeIt {
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+    *zoom: 1;
+    float: left;
+    width: 60.50000000000001%;
+    margin: 0 1% 0 1%;
   }
 }
 /* Normal Screens ---------- */
