@@ -996,7 +996,8 @@ dd {
   background-color: #313131;
 }
 #magicbar {
-  height: 100%;
+  height: 100% !important;
+  min-height: 100% !important;
 }
 .magic {
   margin-top: 10px;
@@ -1032,8 +1033,8 @@ dd {
   margin-top: 0;
 }
 .magic .max {
-  width: 100%;
-  height: 100%;
+  width: 100% !important;
+  height: 100% !important;
 }
 .magic .header {
   float: left;
