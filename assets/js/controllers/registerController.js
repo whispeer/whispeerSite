@@ -22,7 +22,7 @@ define(["step", "asset/resizableImage", "asset/observer"], function (step, Resiz
 		});
 
 		observer.listen(function () {
-			return $scope.nicknameCheck;
+			return $scope.nicknameCheck && $scope.password == $scope.password2;
 		}, "stepLeave1");
 
 		observer.listen(function () {
@@ -44,6 +44,9 @@ define(["step", "asset/resizableImage", "asset/observer"], function (step, Resiz
 		$scope.mail2 = "";
 
 		$scope.nickname = "";
+		$scope.nicknameCheckLoading = false;
+		$scope.nicknameCheck = false;
+		$scope.nicknameCheckError = false;
 
 		$scope.identifier = "";
 

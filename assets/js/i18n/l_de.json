@@ -290,6 +290,7 @@
 			"title": "Nachrichten"
 		},
 		"requests":{
+			"none": "Keine Anfragen vorhanden!",
 			"title": "Anfragen",
 			"mutuals": "{count} gemeinsame Freunde",
 			"accept":	"Annehmen",

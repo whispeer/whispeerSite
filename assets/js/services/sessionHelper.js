@@ -205,6 +205,8 @@ define(["step", "whispeerHelper"], function (step, h) {
 			},
 
 			passwordStrength: function (password) {
+				if (!password) { return 0; }
+
 				var strength = 1;
 
 				/*
