@@ -78,7 +78,17 @@ define(["step", "asset/resizableImage", "asset/observer"], function (step, Resiz
 			return a !== false && b !== false;
 		}
 
-		function setStep(step) {
+		window.addEventListener("popstate", function (event) {
+			if (event.state && event.state.oldStep && event.state.step) {
+				$scope.$apply(function () {
+					setStep(event.state.step, true);
+				});
+			}
+		});
+
+		window.history.pushState({oldStep: -1, step: 1}, "step changed");
+
+		function setStep(step, popStateChange) {
 			if (step > 0 && step < 4) {
 				var oldStep = $scope.registerState.step;
 				var result1 = observer.notify(oldStep, "stepLeave", falseAnd);
@@ -86,6 +96,11 @@ define(["step", "asset/resizableImage", "asset/observer"], function (step, Resiz
 
 				if (result1 !== false && result2 !== false) {
 					$scope.registerState.step = step;
+					
+					if (!popStateChange) {
+						window.history.pushState({oldStep: oldStep, step: step}, "step changed");
+					}
+
 					observer.notify(step, "stepChanged");
 					observer.notify(step, "stepChanged" + step);
 				}
