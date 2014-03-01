@@ -26,10 +26,10 @@
 			heading {
 				h3 {
 					// Awesome features for webkit-browsers!
-					background: -webkit-linear-gradient(lighten(@green, 10%), @green2);
+					background: -webkit-linear-gradient(@primaryLighter, @primary);
 					-webkit-background-clip: text;
 					-webkit-text-fill-color: transparent;
-					color: lighten(@green2, 5%);
+					color: lighten(@primary, 5%);
 					//text-shadow: 1px 1px 1px @green2;
 					text-rendering: optimizeLegibility;
 				}
@@ -140,6 +140,31 @@
 				border-bottom: 1px solid @btnBorder;
 				.border-radiuses(5px, 0px, 0px, 5px);
 			}
+			#postIt {
+				.column(12);
+				margin-top: 1%;
+				padding: 0;
+				border: 1px solid #aaa;
+				.border-radius(5px);
+				overflow: hidden;
+				.box-fix;
+				#shareText {
+					.column(5.5,8,left,0);
+					border: none;
+					height: 38px;
+				}
+				button {
+					.btn;
+					border: none;
+					.column(2.5,8,right,0);
+					height: 38px;
+					padding: 7px;
+					.border-radius(0);
+					&[type="submit"] {
+						.btn--primary;
+					}
+				}
+			}
 			article {
 				border-bottom: 1px solid #aaa !important;
 				.userimg{
@@ -203,6 +228,9 @@
 				}
 				&:last-child {
 					border:none !important;
+				}
+				&:first-child {
+					border-top: 1px solid #000 !important;
 				}
 			}
 		}
