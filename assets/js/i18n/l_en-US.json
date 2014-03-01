@@ -13,7 +13,7 @@
 		"username": "Username",
 		"password": "Password",
 		"link": "Log In",
-		"loginFailed": "Username and Password don't match!!",
+		"loginFailed": "Username and Password don't match!",
 		"register": {
 			"link":	"Register",
 			"repeatPassword":	"Repeat Password",
@@ -108,32 +108,32 @@
 							"shared":	"{user} commented your shared photo: \"{what}\""
 						},
 						"his": {
-							"commented": "{user} hat sein eigenes Foto kommentiert, das du auch kommentiert hast: \"{what}\"",
-							"awesomed":	"{user} hat sein eigenes Foto kommentiert, das du awesome findest: \"{what}\"",
-							"linked": "{user} hat sein eigenes Foto kommentierst, auf dem du verlinkt bist!"
+							"commented": "{user} commented his photo, that you also commented: \"{what}\"",
+							"awesomed":	"{user} commented his photo, that you think is awesome: \"{what}\"",
+							"linked": "{user} commented his photo, in which you are tagged!"
 						},
 						"her": {
-							"commented": "{user} hat ihr eigenes Foto kommentiert, das du auch kommentiert hast: \"{what}\"",
-							"awesomed":	"{user} hat ihr eigenes Foto kommentiert, das du awesome findest: \"{what}\"",
-							"linked": "{user} hat ihr eigenes Foto kommentierst, auf dem du verlinkt bist!"
+							"commented": "{user} commented her photo, that you also commented: \"{what}\"",
+							"awesomed":	"{user} commented her photo, that you think is awesome: \"{what}\"",
+							"linked": "{user} commented her photo, in which you are tagged!"
 						}
 					},
 					"post": {
 						"you": {
 							"own": "{user} commented your post: \"{what}\"",
 							"commented": "{user} commented a post of {owner}, that you also commented: \"{what}\"",
-							"awesomed":	"{user} commented a post of {owner}, that you think ist awesome: \"{what}\"",
+							"awesomed":	"{user} commented a post of {owner}, that you think is awesome: \"{what}\"",
 							"shared":	"{user} commented your shared post: \"{what}\""
 						},
 						"his": {
-							"commented": "{user} hat seinen eigenen Status kommentiert, den du auch kommentiert hast: \"{what}\"",
-							"awesomed":	"{user} hat seinen eigenen Status kommentiert, den du awesome findest: \"{what}\"",
-							"linked": "{user} hat seinen eigenen Status kommentierst, in dem du verlinkt bist!"
+							"commented": "{user} commented his post, that you also commented: \"{what}\"",
+							"awesomed":	"{user} commented his post, that you think is awesome: \"{what}\"",
+							"linked": "{user} commented his post, in which you are tagged!"
 						},
 						"her": {
-							"commented": "{user} hat ihren eigenen Status kommentiert, den du auch kommentiert hast: \"{what}\"",
-							"awesomed":	"{user} hat ihren eigenen Status kommentiert, den du awesome findest: \"{what}\"",
-							"linked": "{user} hat ihren eigenen Status kommentierst, in dem du verlinkt bist!"
+							"commented": "{user} commented her post, that you also commented: \"{what}\"",
+							"awesomed":	"{user} commented her post, that you think is awesome: \"{what}\"",
+							"linked": "{user} commented her post, in which you are tagged: \"{what}\""
 						}
 					},
 					"wallpost": {
@@ -144,32 +144,32 @@
 							"shared":	"{user} commented your shared wallpost: \"{what}\""
 						},
 						"his": {
-							"commented": "{user} hat seinen eigenen Pinnwandeintrag kommentiert, den du auch kommentiert hast: \"{what}\"",
-							"awesomed":	"{user} hat seinen eigenen Pinnwandeintrag kommentiert, den du awesome findest: \"{what}\"",
-							"linked": "{user} hat seinen eigenen Pinnwandeintrag kommentierst, in dem du verlinkt bist!"
+							"commented": "{user} commented his wallpost, that you also commented: \"{what}\"",
+							"awesomed":	"{user} commented his wallpost, that you think is awesome: \"{what}\"",
+							"linked": "{user} commented his wallpost, in which you are tagged: \"{what}\""
 						},
 						"her": {
-							"commented": "{user} hat ihren eigenen Pinnwandeintrag kommentiert, den du auch kommentiert hast: \"{what}\"",
-							"awesomed":	"{user} hat ihren eigenen Pinnwandeintrag kommentiert, den du awesome findest: \"{what}\"",
-							"linked": "{user} hat ihren eigenen Pinnwandeintrag kommentierst, in dem du verlinkt bist!"
+							"commented": "{user} commented her wallpost, that you also commented: \"{what}\"",
+							"awesomed":	"{user} commented her wallpost, that you think is awesome: \"{what}\"",
+							"linked": "{user} commented her wallpost, in which you are tagged: \"{what}\""
 						}
 					},
 					"link": {
 						"you": {
-							"own": "{user} hat deinen Link kommentiert!",
-							"commented": "{user} hat einen Link von {owner} kommentiert, den du kommentiert hast!",
-							"awesomed":	"{user} hat einen Link von {owner} kommentiert, den du awesome findest!",
-							"shared":	"{user} hat deinen geteilten Link kommentiert!"
+							"own": "{user} commented your link!",
+							"commented": "{user} commented a link of {owner}, that you also commented: \"{what}\"",
+							"awesomed":	"{user} commented a link of {owner}, that you think is awesome: \"{what}\"",
+							"shared":	"{user} commented a link you shared: \"{what}\""
 						},
 						"his": {
-							"commented": "{user} hat seinen eigenen Link kommentiert, den du auch kommentiert hast: \"{what}\"",
-							"awesomed":	"{user} hat seinen eigenen Link kommentiert, den du awesome findest: \"{what}\"",
-							"linked": "{user} hat seinen eigenen Link kommentierst, in dem du verlinkt bist!"
+							"commented": "{user} commented his link, that you also commented: \"{what}\"",
+							"awesomed":	"{user} commented his link, that you think is awesome: \"{what}\"",
+							"linked": "{user} commented his link, in which you are tagged: \"{what}\""
 						},
 						"her": {
-							"commented": "{user} hat ihren eigenen Link kommentiert, den du auch kommentiert hast: \"{what}\"",
-							"awesomed":	"{user} hat ihren eigenen Link kommentiert, den du awesome findest: \"{what}\"",
-							"linked": "{user} hat ihren eigenen Link kommentierst, in dem du verlinkt bist!"
+							"commented": "{user} commented her link, that you also commented: \"{what}\"",
+							"awesomed":	"{user} commented her link, that you think is awesome: \"{what}\"",
+							"linked": "{user} commented her link, in which you are tagged: \"{what}\""
 						}
 					}				
 				},
@@ -177,71 +177,72 @@
 					"photo": {
 						"you": {
 							"own": "{user} thinks your photo is awesome!",
-							"commented": "{user} thinks a photo of {owner} is awesome, that you commented!",
+							"commented": "{user} thinks a photo of {owner}, that you commented, is awesome!",
 							"awesomed":	"{user} thinks a photo of {owner} is awesome, that you also think is awesome!",
-							"shared":	"{user} thinks your shared photo is awseome!"
+							"shared":	"{user} thinks your shared photo is awesome!"
 						},
 						"his": {
-							"commented": "{user} findet sein eigenes Foto awesome, das du kommentiert hast!",
-							"awesomed":	"{user} findet sein eigenes Foto awesome, das du auch awesome findest!",
-							"linked": "{user} findet sein eigenes Foto awesome, auf dem du verlinkt bist!"
+							"commented": "{user} thinks his photo, that you commented, is awesome!",
+							"awesomed":	"{user} thinks his photo is awesome, that you also think is awesome!",
+							"linked": "{user} thinks his photo, in which you are tagged, is awesome!"
 						},
 						"her": {
-							"commented": "{user} findet ihr eigenes Foto awesome, das du kommentiert hast!",
-							"awesomed":	"{user} findet ihr eigenes Foto awesome, das du auch awesome findest!",
-							"linked": "{user} findet ihr eigenes Foto awesome, auf dem du verlinkt bist!"
+							"commented": "{user} thinks her photo, that you commented, is awesome!",
+							"awesomed":	"{user} thinks her photo is awesome, that you also think is awesome!",
+							"linked": "{user} thinks her photo, in which you are tagged, is awesome!"
 						}
 					},
 					"post": {
 						"you": {
-							"own": "{user} thinks your post is awesome!",
-							"commented": "{user} thinks a post of {owner} is awesome, that you commented!",
-							"awesomed":	"{user} thinks a post of {owner} is awesome, that you also think is awesome!",
-							"shared":	"{user} thinks your shared post is awseome!"
+							"own": "{user} thinks your post is awesome: \"{what}\"",
+							"commented": "{user} thinks a post of {owner}, that you commented, is awesome: \"{what}\"",
+							"awesomed":	"{user} thinks a post of {owner} is awesome, that you also think is awesome: \"{what}\"",
+							"shared":	"{user} thinks your shared post is awesome: \"{what}\""
 						},
 						"his": {
-							"commented": "{user} findet seinen eigenen Status awesome, den du kommentiert hast!",
-							"awesomed":	"{user} findet seinen eigenen Status awesome, den du auch awesome findest!",
-							"linked": "{user} findet seinen eigenen Status awesome, in dem du verlinkt bist!"
+							"commented": "{user} thinks his post, that you commented, is awesome: \"{what}\"",
+							"awesomed":	"{user} thinks his post is awesome, that you also think is awesome: \"{what}\"",
+							"linked": "{user} thinks his post, in which you are tagged, is awesome: \"{what}\""
 						},
 						"her": {
-							"commented": "{user} findet ihren eigenen Status awesome, den du kommentiert hast!",
-							"awesomed":	"{user} findet ihren eigenen Status awesome, den du auch awesome findest!",
-							"linked": "{user} findet ihren eigenen Status awesome, in dem du verlinkt bist!"
+							"commented": "{user} thinks her post, that you commented, is awesome: \"{what}\"",
+							"awesomed":	"{user} thinks her post is awesome, that you also think is awesome: \"{what}\"",
+							"linked": "{user} thinks her post, in which you are tagged, is awesome: \"{what}\""
 						}
 					},
 					"wallpost": {
 						"you": {
-							"own": "{user} thinks your wallpost is awesome!",
-							"commented": "{user} thinks a wallpost of {owner} is awesome, that you commented!",
-							"awesomed":	"{user} thinks a wallpost of {owner} is awesome, that you also think is awesome!",
-							"shared":	"{user} thinks your shared wallpost is awseome!"
+							"own": "{user} thinks your wallpost is awesome: \"{what}\"",
+							"commented": "{user} thinks a wallpost of {owner} is awesome, that you commented: \"{what}\"",
+							"awesomed":	"{user} thinks a wallpost of {owner} is awesome, that you also think is awesome: \"{what}\"",
+							"shared":	"{user} thinks your shared wallpost is awesome: \"{what}\""
 						},
 						"his": {
-							"commented": "{user} findet seinen eigenen Pinnwandeintrag awesome, den du kommentiert hast!",
-							"awesomed":	"{user} findet seinen eigenen Pinnwandeintrag awesome, den du auch awesome findest!",
-							"linked": "{user} findet seinen eigenen Pinnwandeintrag awesome, in dem du verlinkt bist!"
+							"commented": "{user} thinks his wallpost, that you commented, is awesome: \"{what}\"",
+							"awesomed":	"{user} thinks his wallpost is awesome, that you also think is awesome: \"{what}\"",
+							"linked": "{user} thinks his wallpost, in which you are tagged, is awesome: \"{what}\""
 						},
 						"her": {
-							"commented": "{user} findet ihren eigenen Pinnwandeintrag awesome, den du kommentiert hast!",
-							"awesomed":	"{user} findet ihren eigenen Pinnwandeintrag awesome, den du auch awesome findest!",
-							"linked": "{user} findet ihren eigenen Pinnwandeintrag awesome, in dem du verlinkt bist!"
+							"commented": "{user} thinks her wallpost, that you commented, is awesome: \"{what}\"",
+							"awesomed":	"{user} thinks her wallpost is awesome, that you also think is awesome: \"{what}\"",
+							"linked": "{user} thinks her wallpost, in which you are tagged, is awesome: \"{what}\""
 						}
 					},						
 					"comment": {
 						"you": {
-							"own": "{user} thinks your comment is awesome!",
-							"commented": "{user} thinks a comment of {owner} is awesome, that you commented!"
+							"own": "{user} thinks your comment is awesome: \"{what}\"",
+							"commented": "{user} thinks a comment of {owner} is awesome, that you commented: \"{what}\"",
+							"awesomed": "{user} thinks a comment of {owner} is awesome, that you also think is awesome: \"{what}\""
 						},
 						"his": {
-							"commented": "{user} findet seinen eigenen Kommentar awesome, den du kommentiert hast!",
-							"awesomed":	"{user} findet seinen eigenen Kommentar awesome, den du auch awesome findest!",
-							"linked": "{user} findet seinen eigenen Kommentar awesome, in dem du verlinkt bist!"
+							"commented": "{user} thinks his comment, that you commented, is awesome: \"{what}\"",
+							"awesomed":	"{user} thinks his comment is awesome, that you also think is awesome: \"{what}\"",
+							"linked": "{user} thinks his comment, in which you are tagged, is awesome: \"{what}\""
 						},
 						"her": {
-							"commented": "{user} findet ihren eigenen Kommentar awesome, den du kommentiert hast!",
-							"awesomed":	"{user} findet ihren eigenen Kommentar awesome, den du auch awesome findest!",
-							"linked": "{user} findet ihren eigenen Kommentar awesome, in dem du verlinkt bist!"
+							"commented": "{user} thinks her comment, that you commented, is awesome: \"{what}\"",
+							"awesomed":	"{user} thinks her comment is awesome, that you also think is awesome: \"{what}\"",
+							"linked": "{user} thinks her comment, in which you are tagged, is awesome: \"{what}\""
 						}
 					}
 				},
@@ -254,50 +255,50 @@
 							"shared":	"{user} shared a photo that you have shared!"
 						},
 						"his": {
-							"commented": "{user} hat sein eigenes Foto geteilt, das du kommentiert hast!",
-							"awesomed":	"{user} hat sein eigenes Foto geteilt, das du awesome findest!",
-							"linked": "{user} hat sein eigenes Foto geteilt, auf dem du verlinkt bist!"
+							"commented": "{user} shared his photo, that you commented!",
+							"awesomed":	"{user} shared his photo, that you think is awesome!",
+							"linked": "{user} shared his photo, in which you are tagged!"
 						},
 						"her": {
-							"commented": "{user} hat ihr eigenes Foto geteilt, das du kommentiert hast!",
-							"awesomed":	"{user} hat ihr eigenes Foto geteilt, das du awesome findest!",
-							"linked": "{user} hat ihr eigenes Foto geteilt, auf dem du verlinkt bist!"
+							"commented": "{user} shared her photo, that you commented!",
+							"awesomed":	"{user} shared her photo, that you think is awesome!",
+							"linked": "{user} shared her photo, in which you are tagged!"
 						}
 					},
 					"post": {
 						"you": {
-							"own": "{user} shared your post!",
-							"commented": "{user} shared a post of {owner}, that you commented!",
-							"awesomed":	"{user} shared a post of {owner}, that you think is awesome!",
-							"shared":	"{user} shared a post that you have shared!"
+							"own": "{user} shared your post: \"{what}\"",
+							"commented": "{user} shared a post of {owner}, that you commented: \"{what}\"",
+							"awesomed":	"{user} shared a post of {owner}, that you think is awesome: \"{what}\"",
+							"shared":	"{user} shared a post that you have shared: \"{what}\""
 						},
 						"his": {
-							"commented": "{user} hat seinen eigenen Status geteilt, den du kommentiert hast!",
-							"awesomed":	"{user} hat seinen eigenen Status geteilt, den du awesome findest!",
-							"linked": "{user} hat seinen eigenen Status geteilt, in dem du verlinkt bist!"
+							"commented": "{user} shared his post, that you commented: \"{what}\"",
+							"awesomed":	"{user} shared his post, that you think is awesome: \"{what}\"",
+							"linked": "{user} shared his post, in which you are tagged: \"{what}\""
 						},
 						"her": {
-							"commented": "{user} hat ihren eigenen Status geteilt, den du kommentiert hast!",
-							"awesomed":	"{user} hat ihren eigenen Status geteilt, den du awesome findest!",
-							"linked": "{user} hat ihren eigenen Status geteilt, in dem du verlinkt bist!"
+							"commented": "{user} shared her post, that you commented: \"{what}\"",
+							"awesomed":	"{user} shared her post, that you think is awesome: \"{what}\"",
+							"linked": "{user} shared her post, in which you are tagged: \"{what}\""
 						}
 					},
 					"wallpost": {
 						"you": {
-							"own": "{user} shared your wallpost!",
-							"commented": "{user} shared a wallpost of {owner}, that you commented!",
-							"awesomed":	"{user} shared a wallpost of {owner}, that you think is awesome!",
-							"shared":	"{user} shared a wallpost that you have shared!"
+							"own": "{user} shared your wallpost: \"{what}\",
+							"commented": "{user} shared a wallpost of {owner}, that you commented: \"{what}\"",
+							"awesomed":	"{user} shared a wallpost of {owner}, that you think is awesome: \"{what}\"",
+							"shared":	"{user} shared a wallpost that you have shared: \"{what}\""
 						},
 						"his": {
-							"commented": "{user} hat seinen eigenen Pinnwandeintrag geteilt, den du kommentiert hast!",
-							"awesomed":	"{user} hat seinen eigenen Pinnwandeintrag geteilt, den du awesome findest!",
-							"linked": "{user} hat seinen eigenen Pinnwandeintrag geteilt, in dem du verlinkt bist!"
+							"commented": "{user} shared his wallpost, that you commented: \"{what}\"",
+							"awesomed":	"{user} shared his wallpost, that you think is awesome: \"{what}\"",
+							"linked": "{user} shared his wallpost, in which you are tagged: \"{what}\""
 						},
 						"her": {
-							"commented": "{user} hat ihren eigenen Pinnwandeintrag geteilt, den du kommentiert hast!",
-							"awesomed":	"{user} hat ihren eigenen Pinnwandeintrag geteilt, den du awesome findest!",
-							"linked": "{user} hat ihren eigenen Pinnwandeintrag geteilt, in dem du verlinkt bist!"
+							"commented": "{user} shared her wallpost, that you commented: \"{what}\"",
+							"awesomed":	"{user} shared her wallpost, that you think is awesome: \"{what}\"",
+							"linked": "{user} shared her wallpost, in which you are tagged: \"{what}\""
 						}
 					},
 					"link": {
@@ -323,30 +324,35 @@
 					"photo": {
 						"you": {
 							"own": "{user} whatevered your photo.",
-							"shared":	"{user} whatevered your shared photo."
+							"shared":	"{user} whatevered your shared photo.",
+							"tagged": "{user} hat bei einem Foto, auf dem du verlinkt bist, auf whatever geklickt."
 						}	
 					},
 					"post": {
 						"you": {
 							"own": "{user} whatevered your post",
-							"shared":	"{user} whatevered your shared post."
+							"shared":	"{user} whatevered your shared post.",
+							"tagged": "{user} hat bei einem Foto, auf dem du verlinkt bist, auf whatever geklickt."
 						}
 					},
 					"wallpost": {
 						"you": {
 							"own": "{user} whatevered your wallpost.",
-							"shared":	"{user} whatevered your shared wallpost."
+							"shared":	"{user} whatevered your shared wallpost.",
+							"tagged": "{user} hat bei einem Foto, auf dem du verlinkt bist, auf whatever geklickt."
 						}
 					},
 					"link": {
 						"you": {
 							"own": "{user} whatevered your link.",
-							"shared":	"{user} whatevered your shared link."
+							"shared":	"{user} whatevered your shared link.",
+							"tagged": "{user} hat bei einem Foto, auf dem du verlinkt bist, auf whatever geklickt."
 						}
 					},
 					"comment": {
 						"you": {
-							"own": "{user} whatevered your comment."
+							"own": "{user} whatevered your comment.",
+							"tagged": "{user} hat bei einem Foto, auf dem du verlinkt bist, auf whatever geklickt."
 						}
 					}
 				},
@@ -395,7 +401,7 @@
 			}
 		},
 		"settings": {
-			"title": "Optionen"
+			"title": "Settings"
 		}
 	}
 }
