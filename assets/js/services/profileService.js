@@ -233,7 +233,7 @@ define(["crypto/keyStore", "step", "whispeerHelper", "validation/validator", "as
 				}), h.sF(function decryptedBranch(decryptedData) {
 					if (keyStore.hash.hashObjectOrValueHex(decryptedData) !== hashObject[branch]) {
 						debugger;
-						throw "security breach!";
+						throw new Error("security breach!");
 					}
 
 					paddedProfile[branch] = decryptedData;

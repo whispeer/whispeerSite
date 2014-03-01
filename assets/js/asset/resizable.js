@@ -18,7 +18,7 @@ define(["whispeerHelper"], function (h) {
 			boundary.right = boundary.left + ourElement.width();
 			boundary.bottom = boundary.top + ourElement.height();
 		} else if (!boundary.top || !boundary.left || !boundary.right || !boundary.bottom) {
-			throw "Invalid boundaries!";
+			throw new Error("Invalid boundaries!");
 		}
 
 		options.size = options.size || {};

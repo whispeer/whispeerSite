@@ -67,7 +67,7 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer"], fun
 					thePost.decrypt(this);
 				}, h.sF(function (success) {
 					if (!success) {
-						throw "could not decrypt post";
+						throw new Error("could not decrypt post");
 					}
 
 					this.ne(text);
@@ -80,7 +80,7 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer"], fun
 				}, h.sF(function (content) {
 					if (content) {
 						if (keyStore.hash.hash(content) !== meta.contentHash) {
-							throw "invalid content hash!";
+							throw new Error("invalid content hash!");
 						}
 
 						text = keyStore.hash.removePaddingFromObject(content);
@@ -180,7 +180,7 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer"], fun
 					return [userService.getown().getFriendsLevel2Key()];
 				case "everyone":
 					//we do not encrypt it anyhow .... this needs to be checked in before!
-					throw "should never be here";
+					throw new Error("should never be here");
 				default:
 					debugger;
 					throw new InvalidFilter("unknown always value");
@@ -299,7 +299,7 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer"], fun
 					if (data.post) {
 						this.ne(makePost(data.post));
 					} else {
-						throw "error! no post data! maybe post does not exist?";
+						throw new Error("error! no post data! maybe post does not exist?");
 					}
 				}), cb);
 			},

@@ -12,7 +12,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 
 			function updateUser(userData) {
 				if (id && parseInt(userData.id, 10) !== parseInt(id, 10)) {
-					throw "user update invalid";
+					throw new Error("user update invalid");
 				}
 
 				mutualFriends = userData.mutualFriends;
@@ -113,7 +113,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 					}
 				}, h.sF(function (scopes) {
 					if (scopes.length !== priv.length) {
-						throw "bug";
+						throw new Error("bug");
 					}
 
 					var i;

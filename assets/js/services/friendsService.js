@@ -160,7 +160,7 @@ define(["step", "whispeerHelper", "asset/observer"], function (step, h, Observer
 					if (!result.error) {
 						this.ne(result.friends);
 					} else {
-						throw "server returned an error!";
+						throw new Error("server returned an error!");
 					}
 				}), cb);
 			},

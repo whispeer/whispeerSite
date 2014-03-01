@@ -33,7 +33,7 @@ define(["step", "whispeerHelper", "asset/encryptedMetaData"], function (step, h,
 						}
 					}
 
-					throw "could not find attribute settings";
+					throw new Error("could not find attribute settings");
 					//this.ne(h.deepGet(b, attr.split(".")));
 				}), cb);
 			},

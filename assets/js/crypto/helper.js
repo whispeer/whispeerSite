@@ -11,7 +11,7 @@ define(["libs/sjcl", "whispeerHelper"], function (sjcl, h) {
 				}
 			}
 
-			throw "curve not existing";
+			throw new Error("curve not existing");
 		},
 		getCurve: function (curveName) {
 			if (typeof curveName !== "string" || curveName.substr(0, 1) !== "c") {
@@ -22,7 +22,7 @@ define(["libs/sjcl", "whispeerHelper"], function (sjcl, h) {
 				return sjcl.ecc.curves[curveName];
 			}
 
-			throw "invalidCurve";
+			throw new Error("invalidCurve");
 		},
 		hex2bits: function (t) {
 			if (t instanceof Array) {

@@ -58,7 +58,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 					if (nickname) {
 						keyStoreService.setKeyGenIdentifier(nickname);
 					} else {
-						throw "need nickname";
+						throw new Error("need nickname");
 					}
 
 					var privateProfile = new ProfileService(profile.priv, true);

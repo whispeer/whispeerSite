@@ -90,7 +90,7 @@ define(["step", "whispeerHelper", "asset/observer"], function (step, h, Observer
 							userids.push(u.getID());
 							friendShipKeys.push(friendShipKey);
 						} else {
-							throw "no friendShipKey";
+							throw new Error("no friendShipKey");
 						}
 					}
 				}), h.sF(function () {

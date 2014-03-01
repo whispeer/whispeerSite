@@ -25,7 +25,7 @@ define (["whispeerHelper", "step", "crypto/keyStore"], function (h, step, keySto
                     decryptedMetaData = decryptedObj;
                     decrypted = true;
                 } else {
-                    throw "could not decrypt";
+                    throw new Error("could not decrypt");
                 }
 
                 this.ne();
