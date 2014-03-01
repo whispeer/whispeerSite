@@ -13,6 +13,7 @@ define(["step", "whispeerHelper"], function () {
 			replace: true,
 			transclude: true,
 			link: function postLink(scope, iElement, iAttrs) {
+				scope.resultAttribute = iAttrs["resultattribute"] || "selectedElements";
 				var multiple = iAttrs["multiple"] !== undefined;
 				scope.big = iAttrs["size"] === "big";
 
@@ -180,7 +181,7 @@ define(["step", "whispeerHelper"], function () {
 				function selectionUpdated(selection) {
 					if (multiple) {
 						if (scope.res) {
-							scope.res.selectedElements = scope.selectedElements;
+							scope.res[scope.resultAttribute] = scope.selectedElements;
 						}
 
 						scope.$emit("selectionChange", scope.selectedElements);
