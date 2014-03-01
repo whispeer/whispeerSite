@@ -12,7 +12,7 @@
 			text-align: center;
 			height: 100px;
 			z-index: 1000;
-			.box-shadow(0 2px 4px -2px @green);
+			.box-shadow(0 2px 4px -2px @primaryLighter);
 			.border-radiuses(2px,0,0,2px);
 			#postIt {
 				.column(8,12);
@@ -179,7 +179,7 @@
 							.box-fix;
 						}
 						&.me {
-							.gradient(desaturate((@gray+@green),12%), desaturate((@gray + @green2),2%));
+							.gradient(@primaryLighter, @primary);
 							color: #000;
 						}
 						img {

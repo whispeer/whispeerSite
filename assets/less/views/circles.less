@@ -74,6 +74,22 @@
 		#friendsList {
 			.clear-fix;
 			text-align: center;
+			li.add {
+				background: none;
+				border: 1px solid #ccc;
+				span {
+					font-size: 100px;
+					line-height: 40px;
+					display: inline-block;
+					margin-top: 50%;
+				}
+				&:hover {
+					border: 1px solid @primary;
+					span {
+						text-shadow: 0px 0px 2px #ddd;
+					}
+				}
+			}
 		}
 		&.newCircle {
 			#circleWrap {
