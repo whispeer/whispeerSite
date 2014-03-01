@@ -313,12 +313,12 @@
 						"his": {
 							"commented": "{user} hat sein eigenes Foto kommentiert, das du auch kommentiert hast: \"{what}\"",
 							"awesomed":	"{user} hat sein eigenes Foto kommentiert, das du awesome findest: \"{what}\"",
-							"linked": "{user} hat sein eigenes Foto kommentierst, auf dem du verlinkt bist!"
+							"linked": "{user} hat sein eigenes Foto kommentierst, auf dem du verlinkt bist: \"{what}\""
 						},
 						"her": {
 							"commented": "{user} hat ihr eigenes Foto kommentiert, das du auch kommentiert hast: \"{what}\"",
 							"awesomed":	"{user} hat ihr eigenes Foto kommentiert, das du awesome findest: \"{what}\"",
-							"linked": "{user} hat ihr eigenes Foto kommentierst, auf dem du verlinkt bist!"
+							"linked": "{user} hat ihr eigenes Foto kommentierst, auf dem du verlinkt bist: \"{what}\""
 						}
 					},
 					"post": {
@@ -331,12 +331,12 @@
 						"his": {
 							"commented": "{user} hat seinen eigenen Status kommentiert, den du auch kommentiert hast: \"{what}\"",
 							"awesomed":	"{user} hat seinen eigenen Status kommentiert, den du awesome findest: \"{what}\"",
-							"linked": "{user} hat seinen eigenen Status kommentierst, in dem du verlinkt bist!"
+							"tagged": "{user} hat seinen eigenen Status kommentierst, in dem du verlinkt bist!"
 						},
 						"her": {
 							"commented": "{user} hat ihren eigenen Status kommentiert, den du auch kommentiert hast: \"{what}\"",
 							"awesomed":	"{user} hat ihren eigenen Status kommentiert, den du awesome findest: \"{what}\"",
-							"linked": "{user} hat ihren eigenen Status kommentierst, in dem du verlinkt bist!"
+							"tagged": "{user} hat ihren eigenen Status kommentierst, in dem du verlinkt bist: \"{what}\""
 						}
 					},
 					"wallpost": {
@@ -349,30 +349,30 @@
 						"his": {
 							"commented": "{user} hat seinen eigenen Pinnwandeintrag kommentiert, den du auch kommentiert hast: \"{what}\"",
 							"awesomed":	"{user} hat seinen eigenen Pinnwandeintrag kommentiert, den du awesome findest: \"{what}\"",
-							"linked": "{user} hat seinen eigenen Pinnwandeintrag kommentierst, in dem du verlinkt bist!"
+							"tagged": "{user} hat seinen eigenen Pinnwandeintrag kommentierst, in dem du verlinkt bist!"
 						},
 						"her": {
 							"commented": "{user} hat ihren eigenen Pinnwandeintrag kommentiert, den du auch kommentiert hast: \"{what}\"",
 							"awesomed":	"{user} hat ihren eigenen Pinnwandeintrag kommentiert, den du awesome findest: \"{what}\"",
-							"linked": "{user} hat ihren eigenen Pinnwandeintrag kommentierst, in dem du verlinkt bist!"
+							"tagged": "{user} hat ihren eigenen Pinnwandeintrag kommentierst, in dem du verlinkt bist: \"{what}\""
 						}
 					},
 					"link": {
 						"you": {
 							"own": "{user} hat deinen Link kommentiert!",
-							"commented": "{user} hat einen Link von {owner} kommentiert, den du kommentiert hast!",
-							"awesomed":	"{user} hat einen Link von {owner} kommentiert, den du awesome findest!",
-							"shared":	"{user} hat deinen geteilten Link kommentiert!"
+							"commented": "{user} hat einen Link von {owner} kommentiert, den du kommentiert hast: \"{what}\"",
+							"awesomed":	"{user} hat einen Link von {owner} kommentiert, den du awesome findest: \"{what}\"",
+							"shared":	"{user} hat deinen geteilten Link kommentiert: \"{what}\""
 						},
 						"his": {
 							"commented": "{user} hat seinen eigenen Link kommentiert, den du auch kommentiert hast: \"{what}\"",
 							"awesomed":	"{user} hat seinen eigenen Link kommentiert, den du awesome findest: \"{what}\"",
-							"linked": "{user} hat seinen eigenen Link kommentierst, in dem du verlinkt bist!"
+							"tagged": "{user} hat seinen eigenen Link kommentierst, in dem du verlinkt bist: \"{what}\""
 						},
 						"her": {
 							"commented": "{user} hat ihren eigenen Link kommentiert, den du auch kommentiert hast: \"{what}\"",
 							"awesomed":	"{user} hat ihren eigenen Link kommentiert, den du awesome findest: \"{what}\"",
-							"linked": "{user} hat ihren eigenen Link kommentierst, in dem du verlinkt bist!"
+							"tagged": "{user} hat ihren eigenen Link kommentierst, in dem du verlinkt bist: \"{what}\""
 						}
 					}
 				},
@@ -387,12 +387,12 @@
 						"his": {
 							"commented": "{user} findet sein eigenes Foto awesome, das du kommentiert hast!",
 							"awesomed":	"{user} findet sein eigenes Foto awesome, das du auch awesome findest!",
-							"linked": "{user} findet sein eigenes Foto awesome, auf dem du verlinkt bist!"
+							"tagged": "{user} findet sein eigenes Foto awesome, auf dem du verlinkt bist!"
 						},
 						"her": {
 							"commented": "{user} findet ihr eigenes Foto awesome, das du kommentiert hast!",
 							"awesomed":	"{user} findet ihr eigenes Foto awesome, das du auch awesome findest!",
-							"linked": "{user} findet ihr eigenes Foto awesome, auf dem du verlinkt bist!"
+							"tagged": "{user} findet ihr eigenes Foto awesome, auf dem du verlinkt bist!"
 						}
 					},
 					"post": {
@@ -405,12 +405,12 @@
 						"his": {
 							"commented": "{user} findet seinen eigenen Status awesome, den du kommentiert hast!",
 							"awesomed":	"{user} findet seinen eigenen Status awesome, den du auch awesome findest!",
-							"linked": "{user} findet seinen eigenen Status awesome, in dem du verlinkt bist!"
+							"tagged": "{user} findet seinen eigenen Status awesome, in dem du verlinkt bist!"
 						},
 						"her": {
 							"commented": "{user} findet ihren eigenen Status awesome, den du kommentiert hast!",
 							"awesomed":	"{user} findet ihren eigenen Status awesome, den du auch awesome findest!",
-							"linked": "{user} findet ihren eigenen Status awesome, in dem du verlinkt bist!"
+							"tagged": "{user} findet ihren eigenen Status awesome, in dem du verlinkt bist!"
 						}
 					},
 					"wallpost": {
@@ -423,12 +423,12 @@
 						"his": {
 							"commented": "{user} findet seinen eigenen Pinnwandeintrag awesome, den du kommentiert hast!",
 							"awesomed":	"{user} findet seinen eigenen Pinnwandeintrag awesome, den du auch awesome findest!",
-							"linked": "{user} findet seinen eigenen Pinnwandeintrag awesome, in dem du verlinkt bist!"
+							"tagged": "{user} findet seinen eigenen Pinnwandeintrag awesome, in dem du verlinkt bist!"
 						},
 						"her": {
 							"commented": "{user} findet ihren eigenen Pinnwandeintrag awesome, den du kommentiert hast!",
 							"awesomed":	"{user} findet ihren eigenen Pinnwandeintrag awesome, den du auch awesome findest!",
-							"linked": "{user} findet ihren eigenen Pinnwandeintrag awesome, in dem du verlinkt bist!"
+							"tagged": "{user} findet ihren eigenen Pinnwandeintrag awesome, in dem du verlinkt bist!"
 						}
 					},
 					"comment": {
@@ -440,12 +440,12 @@
 						"his": {
 							"commented": "{user} findet seinen eigenen Kommentar awesome, den du kommentiert hast!",
 							"awesomed":	"{user} findet seinen eigenen Kommentar awesome, den du auch awesome findest!",
-							"linked": "{user} findet seinen eigenen Kommentar awesome, in dem du verlinkt bist!"
+							"tagged": "{user} findet seinen eigenen Kommentar awesome, in dem du verlinkt bist!"
 						},
 						"her": {
 							"commented": "{user} findet ihren eigenen Kommentar awesome, den du kommentiert hast!",
 							"awesomed":	"{user} findet ihren eigenen Kommentar awesome, den du auch awesome findest!",
-							"linked": "{user} findet ihren eigenen Kommentar awesome, in dem du verlinkt bist!"
+							"tagged": "{user} findet ihren eigenen Kommentar awesome, in dem du verlinkt bist!"
 						}
 					}
 				},
@@ -460,12 +460,12 @@
 						"his": {
 							"commented": "{user} hat sein eigenes Foto geteilt, das du kommentiert hast!",
 							"awesomed":	"{user} hat sein eigenes Foto geteilt, das du awesome findest!",
-							"linked": "{user} hat sein eigenes Foto geteilt, auf dem du verlinkt bist!"
+							"tagged": "{user} hat sein eigenes Foto geteilt, auf dem du verlinkt bist!"
 						},
 						"her": {
 							"commented": "{user} hat ihr eigenes Foto geteilt, das du kommentiert hast!",
 							"awesomed":	"{user} hat ihr eigenes Foto geteilt, das du awesome findest!",
-							"linked": "{user} hat ihr eigenes Foto geteilt, auf dem du verlinkt bist!"
+							"tagged": "{user} hat ihr eigenes Foto geteilt, auf dem du verlinkt bist!"
 						}
 					},
 					"post": {
@@ -478,12 +478,12 @@
 						"his": {
 							"commented": "{user} hat seinen eigenen Status geteilt, den du kommentiert hast!",
 							"awesomed":	"{user} hat seinen eigenen Status geteilt, den du awesome findest!",
-							"linked": "{user} hat seinen eigenen Status geteilt, in dem du verlinkt bist!"
+							"tagged": "{user} hat seinen eigenen Status geteilt, in dem du verlinkt bist!"
 						},
 						"her": {
 							"commented": "{user} hat ihren eigenen Status geteilt, den du kommentiert hast!",
 							"awesomed":	"{user} hat ihren eigenen Status geteilt, den du awesome findest!",
-							"linked": "{user} hat ihren eigenen Status geteilt, in dem du verlinkt bist!"
+							"tagged": "{user} hat ihren eigenen Status geteilt, in dem du verlinkt bist!"
 						}
 					},
 					"wallpost": {
@@ -496,12 +496,12 @@
 						"his": {
 							"commented": "{user} hat seinen eigenen Pinnwandeintrag geteilt, den du kommentiert hast!",
 							"awesomed":	"{user} hat seinen eigenen Pinnwandeintrag geteilt, den du awesome findest!",
-							"linked": "{user} hat seinen eigenen Pinnwandeintrag geteilt, in dem du verlinkt bist!"
+							"tagged": "{user} hat seinen eigenen Pinnwandeintrag geteilt, in dem du verlinkt bist!"
 						},
 						"her": {
 							"commented": "{user} hat ihren eigenen Pinnwandeintrag geteilt, den du kommentiert hast!",
 							"awesomed":	"{user} hat ihren eigenen Pinnwandeintrag geteilt, den du awesome findest!",
-							"linked": "{user} hat ihren eigenen Pinnwandeintrag geteilt, in dem du verlinkt bist!"
+							"tagged": "{user} hat ihren eigenen Pinnwandeintrag geteilt, in dem du verlinkt bist!"
 						}
 					},
 					"link": {
@@ -514,12 +514,12 @@
 						"his": {
 							"commented": "{user} hat seinen eigenen Link geteilt, den du kommentiert hast!",
 							"awesomed":	"{user} hat seinen eigenen Link geteilt, den du awesome findest!",
-							"linked": "{user} hat seinen eigenen Link geteilt, in dem du verlinkt bist!"
+							"tagged": "{user} hat seinen eigenen Link geteilt, in dem du verlinkt bist!"
 						},
 						"her": {
 							"commented": "{user} hat ihren eigenen Link geteilt, den du kommentiert hast!",
 							"awesomed":	"{user} hat ihren eigenen Link geteilt, den du awesome findest!",
-							"linked": "{user} hat ihren eigenen Link geteilt, in dem du verlinkt bist!"
+							"tagged": "{user} hat ihren eigenen Link geteilt, in dem du verlinkt bist!"
 						}
 					}
 				},
@@ -527,30 +527,35 @@
 					"photo": {
 						"you": {
 							"own": "{user} hat bei deinem Foto auf whatever geklickt.",
-							"shared":	"{user} hat bei deinem geteilten Foto auf whatever geklickt."
+							"shared":	"{user} hat bei deinem geteilten Foto auf whatever geklickt.",
+							"tagged": "{user} hat bei einem Foto, auf dem du verlinkt bist, auf whatever geklickt."
 						}
 					},
 					"post": {
 						"you": {
 							"own": "{user} hat bei deinem Status auf whatever geklickt.",
-							"shared":	"{user} hat bei deinem geteilten Status auf whatever geklickt."
+							"shared":	"{user} hat bei deinem geteilten Status auf whatever geklickt.",
+							"tagged": "{user} hat bei einem Status, auf dem du verlinkt bist, auf whatever geklickt."
 						}
 					},
 					"wallpost": {
 						"you": {
 							"own": "{user} hat bei deinem Pinnwandeintrag auf whatever geklickt.",
-							"shared":	"{user} hat bei deinem geteilten Pinnwandeintrag auf whatever geklickt."
+							"shared":	"{user} hat bei deinem geteilten Pinnwandeintrag auf whatever geklickt.",
+							"tagged": "{user} hat bei einem Pinnwandeintrag, auf dem du verlinkt bist, auf whatever geklickt."
 						}
 					},
 					"link": {
 						"you": {
 							"own": "{user} hat bei deinem Link auf whatever geklickt.",
-							"shared":	"{user} hat bei deinem geteilten Link auf whatever geklickt."
+							"shared":	"{user} hat bei deinem geteilten Link auf whatever geklickt.",
+							"tagged": "{user} hat bei einem Link, auf dem du verlinkt bist, auf whatever geklickt."
 						}
 					},
 					"comment": {
 						"you": {
-							"own": "{user} hat bei deinem Kommentar auf whatever geklickt."
+							"own": "{user} hat bei deinem Kommentar auf whatever geklickt.",
+							"tagged": "{user} hat bei einem Foto, auf dem du verlinkt bist, auf whatever geklickt."
 						}
 					}
 				},
