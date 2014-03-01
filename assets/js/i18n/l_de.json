@@ -192,7 +192,8 @@
 				"languages":	"{language}"
 			},
 			"wall": {
-				"title":	"Pinnwand"
+				"title":	"Pinnwand",
+				"postIt":	"Schreibe etwas an die Pinnwand von {user}"
 			},
 			"friends": {
 				"info":	"Freunde"

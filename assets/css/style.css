@@ -3375,6 +3375,99 @@ body.loading:after {
   -webkit-background-clip: padding-box;
   background-clip: padding-box;
 }
+.profileView #main #wall #postIt {
+  display: inline-block;
+  *display: inline;
+  /* IE7 inline-block hack */
+  *zoom: 1;
+  float: left;
+  width: 98%;
+  margin: 0 1% 0 1%;
+  margin-top: 1%;
+  padding: 0;
+  border: 1px solid #aaa;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  overflow: hidden;
+  -webkit-box-sizing: border-box;
+  /* Safari/Chrome, other WebKit */
+  -moz-box-sizing: border-box;
+  /* Firefox, other Gecko */
+  box-sizing: border-box;
+  /* Opera/IE 8+ */
+}
+.profileView #main #wall #postIt #shareText {
+  display: inline-block;
+  *display: inline;
+  /* IE7 inline-block hack */
+  *zoom: 1;
+  float: left;
+  width: 68.75%;
+  margin: 0 0 0 0;
+  border: none;
+  height: 38px;
+}
+.profileView #main #wall #postIt button {
+  padding: 4px 15px;
+  -webkit-box-sizing: border-box;
+  /* Safari/Chrome, other WebKit */
+  -moz-box-sizing: border-box;
+  /* Firefox, other Gecko */
+  box-sizing: border-box;
+  /* Opera/IE 8+ */
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+  border: 0;
+  color: #333333;
+  background-color: #ffffff;
+  color: #333333 !important;
+  text-shadow: 0 1px 1px rgba(255, 255, 255, 0.75);
+  border: 1px solid #bbbbbb;
+  text-decoration: none !important;
+  border: none;
+  display: inline-block;
+  *display: inline;
+  /* IE7 inline-block hack */
+  *zoom: 1;
+  float: right;
+  width: 31.25%;
+  margin: 0 0 0 0;
+  height: 38px;
+  padding: 7px;
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  border-radius: 0;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+}
+.profileView #main #wall #postIt button:hover {
+  background-color: #ececec;
+}
+.profileView #main #wall #postIt button:hover,
+.profileView #main #wall #postIt button:active,
+.profileView #main #wall #postIt button.active,
+.profileView #main #wall #postIt button.disabled,
+.profileView #main #wall #postIt button[disabled] {
+  background-color: #ececec;
+}
+.profileView #main #wall #postIt button[type="submit"] {
+  background-color: #3a8100;
+  color: #ffffff !important;
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+}
+.profileView #main #wall #postIt button[type="submit"]:hover,
+.profileView #main #wall #postIt button[type="submit"]:active,
+.profileView #main #wall #postIt button[type="submit"].active,
+.profileView #main #wall #postIt button[type="submit"].disabled,
+.profileView #main #wall #postIt button[type="submit"][disabled] {
+  background-color: #3b7b06;
+}
 .profileView #main #wall article {
   border-bottom: 1px solid #aaa !important;
 }
@@ -3506,6 +3599,9 @@ body.loading:after {
 }
 .profileView #main #wall article:last-child {
   border: none !important;
+}
+.profileView #main #wall article:first-child {
+  border-top: 1px solid #000 !important;
 }
 .profileView #main #friends {
   display: inline-block;

@@ -14,7 +14,7 @@
 			<article id="generalInfo">
 				<header>
 					<span data-i18n="profile.section.general.headers.title"></span>
-					<a href="" class="edit" data-i18n="profile.edit" data-ng-show="user.me" data-ng-click="edit()"></a>
+					<a href="" class="edit" data-i18n="profile.edit" data-ng-if="user.me" data-ng-click="edit()"></a>
 				</header>
 				<div class="userimage">
 					<img data-ng-src="{{user.basic.image}}" alt="USERNAME">
@@ -125,6 +125,11 @@
 		</section>
 		<section id="wall">
 			<header  data-i18n="profile.section.wall.title"></header>
+			<form data-ng-if="postActive || !mobile" class="form-inline" id="postIt">
+				<input type="text" data-i18n-attr="wall.postit.text|placeholder" id="shareText" data-ng-if="user.me">
+				<input type="text" data-i18n-attr="profile.section.wall.postIt|placeholder|user={{user.name}}" id="shareText" data-ng-if="!user.me">
+				<button type="submit" data-i18n="wall.postit.send" data-ng-click="togglePost()"></button>
+			</form>
 			<post data-ng-repeat="post in posts" data-post="post" id="{{post.id}}"></post>
 		</section>
 		<section id="friends">
