@@ -4592,8 +4592,25 @@ body.loading:after {
 .circlesView #circleContainer #friendsList li.add:hover span {
   text-shadow: 0px 0px 2px #ddd;
 }
-.circlesView #circleContainer.newCircle #circleWrap #inputWrap #savecircle {
-  margin-left: 2px;
+.circlesView #circleContainer.newCircle #circleTitle h2 {
+  display: inline-block;
+  *display: inline;
+  /* IE7 inline-block hack */
+  *zoom: 1;
+  float: left;
+  width: 98%;
+  margin: 0 1% 0 1%;
+  margin-left: -1%;
+}
+.circlesView #circleContainer.newCircle #circleName {
+  margin-bottom: 14px !important;
+}
+.circlesView #circleContainer.newCircle #friendInput .inputWrap {
+  border: 1px solid #8c8c8c !important;
+}
+.circlesView #circleContainer.newCircle #savecircle {
+  padding: 10px 10px;
+  margin-left: 1% !important;
 }
 .mediaView #main {
   height: 100%;
