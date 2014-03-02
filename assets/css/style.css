@@ -10135,7 +10135,7 @@ body.loading:after {
     float: left;
     width: 33%;
     margin: 0 1% 0 1%;
-    margin: 0 2% -4px 0;
+    margin: 0 2% -6px 0;
   }
   .messagesView #topicListWrap #topicList .topic .left .userimg {
     width: 100%;
