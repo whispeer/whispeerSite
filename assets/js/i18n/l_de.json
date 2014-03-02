@@ -1,8 +1,8 @@
 {
 	"views": {
 		"circles": {
-			"searchFriends": "Gebe die Namen deiner Freunde ein, die du zum Kreis hinzufügen möchtest!",
-			"titleForNew": "Gebe einen Titel für den neuen Kreis ein!", 
+			"searchFriends": "Gib die Namen deiner Freunde ein, die du zum Kreis hinzufügen möchtest!",
+			"titleForNew": "Gib einen Titel für den neuen Kreis ein!", 
 			"header": {
 				"title":	"Kreise",
 				"createGroup": "Als Gruppe kopieren",
@@ -37,7 +37,7 @@
 			"11": "November",
 			"12": "Dezember",
 			"january": "Januar",
-			"feburary": "Februar",
+			"february": "Februar",
 			"march": "März",
 			"april": "April",
 			"may": "Mai",
@@ -128,7 +128,7 @@
 		},
 		"actions": {
 			"addFriend":	"{user} als Freund hinzufügen",
-			"addToCircle":	"In welche Kreise möchtest du {user} einfügen?",
+			"addToCircle":	"Zu welchen Kreisen möchtest du {user} hinzufügen?",
 			"sendMessage": "{user} eine Nachricht senden"
 		},
 		"section":	{

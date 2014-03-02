@@ -1,4 +1,57 @@
 {
+	"views": {
+		"circles": {
+			"searchFriends": "Type in the names of your friends you want to add to this circle!",
+			"titleForNew": "Type in the title of this circle!", 
+			"header": {
+				"title":	"Circles",
+				"createGroup": "Copy as group",
+				"sendMessage": "Message to circle",
+				"addPeople":	"Add persons"
+			},
+			"newCircle":	"Create a new circle",
+			"personCount":	"There are {count} people in this circle",
+			"personsInCircle":"People in circle \"{name}\""
+		}
+	},
+	"directives": {
+		"allfriends": "All Friends",
+		"friendsoffriends": "Friends of Friends"
+	},
+	"general": {
+		"send":	"Send",
+		"cancel":	"Cancel"
+	},
+	"date": {
+		"month": {
+			"1": "January",
+			"2": "February",
+			"3": "March",
+			"4": "April",
+			"5": "May",
+			"6": "June",
+			"7": "July",
+			"8": "August",
+			"9": "September",
+			"10": "October",
+			"11": "November",
+			"12": "December",
+			"january": "January",
+			"february": "February",
+			"march": "March",
+			"april": "April",
+			"may": "May",
+			"june": "June",
+			"july": "July",
+			"august": "August",
+			"september": "September",
+			"october": "October",
+			"november": "November",
+			"december": "December"
+		}
+	},
+	"notimplemented": "Not implemented yet :(",
+	"search": "People are being searched",
 	"menu": {
 		"profil": "Profile",
 		"friends": "Friends ({count})",
@@ -7,7 +60,8 @@
 		"circles": "Circles",
 		"settings": "Settings",
 		"help": "Help",
-		"logout": "Logout"
+		"logout": "Logout",
+		"search": "Search..."
 	},
 	"login": {
 		"username": "Username",
@@ -16,10 +70,15 @@
 		"loginFailed": "Username and Password don't match!",
 		"register": {
 			"link":	"Register",
+			"next": "Next",
+			"previous": "Previous",
 			"repeatPassword":	"Repeat Password",
-			"passwordstrength":	"Password-strength:",
-			"email":	"E-mail adress",
-			"repeatEmail":	"Repeat E-mail adress"
+			"passwordstrength":	"Password strength: ",
+			"email":	"E-Mail address",
+			"repeatEmail":	"Repeat E-Mail address",
+			"country":	"State",
+			"location":	"City",
+			"uploadImage":	"Upload Profile Picture"
 		}
 	},
 	"wall": {
@@ -37,7 +96,8 @@
 			"awesome":	"Awesomeness: {count}",
 			"comments":	{
 				"count":	"{count} comments",
-				"showem":	"Show comments"
+				"showem":	"Show comments",
+				"hideem":	"Hide comments"
 			}	
 		},
 		"post": {
@@ -49,27 +109,90 @@
 		}
 	},
 	"messages": {
-		"newMessage": "New message",
+		"newMessage": "New Message",
+		"search": "Who should receive this message?",
 		"sendMessage": {
 			"text": "Type in your message!",
 			"send": "Send"
 		}
 	},
 	"profile": {
+		"edit":	"Edit profile",
+		"head":	{
+			"info":	"Info",
+			"wall":	"Wall",
+			"friends":	"Friends"
+		},
+		"actions": {
+			"addFriend":	"Add {user} as friend",
+			"addToCircle":	"To which circles do you want to add {user}?",
+			"sendMessage": "Send {user} a message"
+		},
 		"section":	{
 			"general": {
-				"birthday":	"Born on {date}",
-				"location":	"Lives in {town}, {state}, {country}",
-				"relation":	"In a relationship with {partner}",
-				"education":	"Education:",
-				"job":	"Is working as {job} at{company}",
+				"headers":	{
+					"title":	"General",
+					"education":	"Education",
+					"location":	"City",
+					"family":	"Family",
+					"music":	"Music",
+					"quotes":	"Quotes",
+					"contact":	"Contact"
+				},
+				"changeImage": "Change Profile Picture",
+				"birthday": {
+					"text":	"born {day}.{month} {year}",
+					"day":	"Day",
+					"month":	"Month",
+					"year":	"Year"
+				},	
+				"location": {
+					"": "Lives in {town}, {state}, {country}",
+					"country": "Lives in {country}",
+					"state": "Lives in {state}",
+					"countrystate": "Lives in {state}, {country}",
+					"town": "Lives in {town}",
+					"countrytown": "Lives in {town}, {country}",
+					"statetown": "Lives in {town}, {state}",
+					"countrystatetown": "Lives in {town}, {state}, {country}"
+				},
+				"relation":	{
+					"pst": "since {since} {relationType} with {partner}",
+					"st": "since {since} {relationType}",
+					"pt": "{relationType} with {partner}",
+					"t": "{relationType}",
+
+					"default": "{relationType} with {partner}",
+					"noPartner": "{relationType}",
+
+					"status": {
+						"": "",
+						"single":	"single",
+						"relationship":	"in a relationship",
+						"engaged":	"engaged",
+						"married":	"married",
+						"divorced":	"divorced",
+						"widowed":	"widowed",
+						"complicated":	"complicated",
+						"open":	"in an open relationship",
+						"inlove":	"in love"
+					}
+				},
+				"education":	"Education: {school}",
+				"work":	"working as {what} at {company}",
 				"gender":	{
-					"male":	"male",
-					"female":	"female"
-				}
+					"": "",
+					"default":	"{gender}",
+					"m":	"male",
+					"f":	"female"
+				},
+				"languages":	"{language}"
 			},
 			"wall": {
 				"title":	"Wall"
+			},
+			"friends": {
+				"info":	"Friends"
 			}
 		}
 	},
@@ -85,7 +208,78 @@
 			"privacy":	"Privacy",
 			"functionality":	"Functionality",
 			"newQuestion":	"Ask a question"
+		},
+		"askQuestion": "Ask your question!",
+		"faq": {
+			"register": {
+				"question": "Do I have to give my full name and E-Mail address when I register??",
+				"answer":	"No. If you want to register, you can do this with a nickname only. You can, though, give you E-Mail address. You can, of course, choose if you want to give your full name or maybe only a part. But you can encrypt your name, so that later, only your friends on whispeer can see your full name."
+			},
+			"password": {
+				"question": "How do i create a secure password??",
+				"answer":	"Wir haben uns ein  10-Punkte-System überlegt, das euch hilft, bessere und sichere Passörter zu finden. Mehr darüber lest ihr in dem Blogeintrag über das System: http://blog.whispeer.de/de/2013/08/update-wie-whispeer-dir-hilft-ein-sicheres-passwort-zu-finden/ und http://blog.whispeer.de/de/2013/07/wie-whispeer-dir-hilft-ein-sicheres-passwort-zu-finden/ "
+			},
+			"profile": {
+				"question": "Wie kann ich mein Profil bearbeiten?",
+				"answer":	"Wenn du auf deinem eigenen Profil bist, steht links oben bei deinen Informationen 'Bearbeiten'. Klicke darauf, um deine Angaben in deinem Profil ändern. Wenn du fertig bist mit deinen Änderungen, klicke auf den 'Übernehmen'-Button. Deine Änderungen an deinem Profil werden dann übernommen."
+			},
+			"search": {
+				"question": "Wie funktioniert die Suche?",
+				"answer":	"Im Moment kannst du nach Vornamen, Nachnamen und Nicknamen suchen. Du tippst also einen Namen in die Suche ein und bekommst dann User, die auf deine Suchanfrage passen, vorgeschlagen."
+			},
+			"messages": {
+				"question": "Wie wähle ich aus, wer meine Nachrichten erhält? Kann ich auch Nachrichten an mehrere Personen verschicken?",
+				"answer":	"Durch einen Klick auf 'Nachrichten' im Menü oder auf 'Neue Nachricht' über der Übersicht deiner Nachrichten kommst du auf die Seite, auf der du eine neue Nachricht verschicken kannst. Dort gibst du in das obere Feld alle Personen ein, die diese Nachricht erhalten sollen. Du kannst auch den Namen eines Kreises eingeben, dann bekommt jede Person des Kreises eine einzelne Nachricht von dir (als ob du sie einzeln angeschrieben hättest). In das untere Feld schreibst du dann deine Nachricht und über den 'Senden'-Button verschickst du diese."
+			},
+			"filter": {
+				"question": "Wie benutze ich den Filter?",
+				"answer":	"Tippe einfach den Namen eines Freundes oder eines Kreises in das Eingabefeld. In deinem Newsfeed siehst du dann alles, was mit dieser Person/den Personen aus dem Kreis zu tun hat, also z.B. ihre Statusmeldungen, Pinnwandeinträge und Kommentare."
+			},
+			"circle": {
+				"question": "Wie erstelle ich einen neuen Kreis?",
+				"answer":	"Klicke rechts im Menü auf 'Kreise'. Es erscheinen zwei Eingabefelder. In das obere trägst du den Namen ein, den dein neuer Kreis haben soll. In das untere tippst du die Namen deiner Freunde, die in diesem Kreis sein sollen. Wenn du alle Namen eingetragen hast und dein Kreis einen Titel hat, klickst du auf 'Kreis erstellen' und dein neuer Kreis ist fertig!"
+			},
+			"post": {
+				"question": "Wie kann ich auswählen, wer meine Statusmeldungen sieht?",
+				"answer":	"Wenn du einen Post schreibst, hast du zwei Eingabefelder. In das obere Eingabefeld schreibst du die Namen von den Personen und/oder Kreisen, die diesen Post sehen sollen. In das untere Feld schreibst du deinen Post. Wenn du alle Personen ausgewählt hast, und deinen Post geschrieben hast, klicke auf den Button 'Senden', um den Post für diese Personen zu veröffentlichen."
+			},
+			"magicbar": {
+				"question": "Was ist die MagicBar und wie benutze ich sie?",
+				"answer":	"Die MagicBar ist eines der einzigartigen Features von whispeer. Sie erscheint, wenn du rechts oben auf eines der vier verschiedenen Icons klickst. Die MagicBar dient dazu, dir einen besseren Überblick zu geben. Außerdem zeigt sie dir deine letzten und deine neuen Nachrichten, Frendschaftsanfragen und Benachrichtigungen an. Freundschaftsanfragen kannst du direkt in der MagicBar bestätigen oder ablehnen. Durch einen Klick auf eine Nachricht kommst du direkt zu der Konversation. Wenn du mehr über die MagicBar erfahren möchtest, liest du am besten unseren Blogeintrag darüber: http://blog.whispeer.de/2013/08/die-whispeer-oberflaeche-3-die-magicbar/ "
+			},
+			"report": {
+				"question": "Wie kann ich jemanden melden?",
+				"answer":	"Momentan musst du uns eine Mail mit dem Namen der Person, bzw. ihrem Nicknamen oder ihrer E-Mail senden. Die Adresse ist support@whispeer.de . Es wird jedoch so bald wie möglich einen Melden-Button geben."
+			},
+			"account": {
+				"question": "Wo kann ich meine Konto-Daten (Passwort, Nickname, E-Mail-Adresse) ändern?",
+				"answer":	"Deine Konto-Daten kannst du ändern, wenn du im Menü links auf 'Einstellungen' klickst. Du wirst dann auf die Einstellungs-Seite weitergeleitet, und unter dem ersten Thema 'Allgemein' kannst du deine Angaben ändern."
+			},
+			"privacy": {
+				"question": "Wo kann ich meine Privatsphäre-Einstellungen ändern?",
+				"answer":	"Ähnlich wie bei deinen Konto-Daten klickst gehst du zunächst einmal auf die Einstellungs-Seite durch einen Klick auf 'Einstellungen' im Menü links. Deine Privatsphäre-Einstellungen kannst du unter dem drittn Thema 'Privatsphäre' ändern."
+			},
+			"safety": {
+				"question": "Wo kann ich auswählen, welche meiner Daten verschlüsselt werden?",
+				"answer": "Unter den Einstellungen (Menü links) kannst du unter dem zweiten Thema 'Sicherheit' genau auswählen, welche deiner Daten verschlüsselt werden und welche öffentlich sind."
+			}
 		}
+	},
+	"settings": {
+		"safety": {
+			"attributes": {
+				"location": "City",
+				"birthday": "Birthday",
+				"relationship": "Relationship status",
+				"education": "Education",
+				"work": "Work",
+				"gender": "Gender",
+				"languages": "Languages"
+			}
+		},
+		"header": {
+			"title":	"Settings"
+	},
 	},
 	"magicbar": {
 		"close": "Close",
@@ -93,8 +287,14 @@
 			"title": "Messages"
 		},
 		"requests":{
+			"none": "No requests!",
 			"title": "Requests",
-			"mutuals": "{count} mutual friends"
+			"mutuals": "{count} mutual friends",
+			"accept":	"Accept",
+			"decline":	"Ignore"
+		},
+		"settings": {
+			"title": "Settings"
 		},
 		"news": {
 			"title": "News",
@@ -110,12 +310,12 @@
 						"his": {
 							"commented": "{user} commented his photo, that you also commented: \"{what}\"",
 							"awesomed":	"{user} commented his photo, that you think is awesome: \"{what}\"",
-							"linked": "{user} commented his photo, in which you are tagged!"
+							"tagged": "{user} commented his photo, in which you are tagged!"
 						},
 						"her": {
 							"commented": "{user} commented her photo, that you also commented: \"{what}\"",
 							"awesomed":	"{user} commented her photo, that you think is awesome: \"{what}\"",
-							"linked": "{user} commented her photo, in which you are tagged!"
+							"tagged": "{user} commented her photo, in which you are tagged!"
 						}
 					},
 					"post": {
@@ -123,17 +323,17 @@
 							"own": "{user} commented your post: \"{what}\"",
 							"commented": "{user} commented a post of {owner}, that you also commented: \"{what}\"",
 							"awesomed":	"{user} commented a post of {owner}, that you think is awesome: \"{what}\"",
-							"shared":	"{user} commented your shared post: \"{what}\""
+							"tagged":	"{user} commented your shared post: \"{what}\""
 						},
 						"his": {
 							"commented": "{user} commented his post, that you also commented: \"{what}\"",
 							"awesomed":	"{user} commented his post, that you think is awesome: \"{what}\"",
-							"linked": "{user} commented his post, in which you are tagged!"
+							"tagged": "{user} commented his post, in which you are tagged!"
 						},
 						"her": {
 							"commented": "{user} commented her post, that you also commented: \"{what}\"",
 							"awesomed":	"{user} commented her post, that you think is awesome: \"{what}\"",
-							"linked": "{user} commented her post, in which you are tagged: \"{what}\""
+							"tagged": "{user} commented her post, in which you are tagged: \"{what}\""
 						}
 					},
 					"wallpost": {
@@ -146,12 +346,12 @@
 						"his": {
 							"commented": "{user} commented his wallpost, that you also commented: \"{what}\"",
 							"awesomed":	"{user} commented his wallpost, that you think is awesome: \"{what}\"",
-							"linked": "{user} commented his wallpost, in which you are tagged: \"{what}\""
+							"tagged": "{user} commented his wallpost, in which you are tagged: \"{what}\""
 						},
 						"her": {
 							"commented": "{user} commented her wallpost, that you also commented: \"{what}\"",
 							"awesomed":	"{user} commented her wallpost, that you think is awesome: \"{what}\"",
-							"linked": "{user} commented her wallpost, in which you are tagged: \"{what}\""
+							"tagged": "{user} commented her wallpost, in which you are tagged: \"{what}\""
 						}
 					},
 					"link": {
@@ -164,12 +364,12 @@
 						"his": {
 							"commented": "{user} commented his link, that you also commented: \"{what}\"",
 							"awesomed":	"{user} commented his link, that you think is awesome: \"{what}\"",
-							"linked": "{user} commented his link, in which you are tagged: \"{what}\""
+							"tagged": "{user} commented his link, in which you are tagged: \"{what}\""
 						},
 						"her": {
 							"commented": "{user} commented her link, that you also commented: \"{what}\"",
 							"awesomed":	"{user} commented her link, that you think is awesome: \"{what}\"",
-							"linked": "{user} commented her link, in which you are tagged: \"{what}\""
+							"tagged": "{user} commented her link, in which you are tagged: \"{what}\""
 						}
 					}				
 				},
@@ -184,12 +384,12 @@
 						"his": {
 							"commented": "{user} thinks his photo, that you commented, is awesome!",
 							"awesomed":	"{user} thinks his photo is awesome, that you also think is awesome!",
-							"linked": "{user} thinks his photo, in which you are tagged, is awesome!"
+							"tagged": "{user} thinks his photo, in which you are tagged, is awesome!"
 						},
 						"her": {
 							"commented": "{user} thinks her photo, that you commented, is awesome!",
 							"awesomed":	"{user} thinks her photo is awesome, that you also think is awesome!",
-							"linked": "{user} thinks her photo, in which you are tagged, is awesome!"
+							"tagged": "{user} thinks her photo, in which you are tagged, is awesome!"
 						}
 					},
 					"post": {
@@ -202,12 +402,12 @@
 						"his": {
 							"commented": "{user} thinks his post, that you commented, is awesome: \"{what}\"",
 							"awesomed":	"{user} thinks his post is awesome, that you also think is awesome: \"{what}\"",
-							"linked": "{user} thinks his post, in which you are tagged, is awesome: \"{what}\""
+							"tagged": "{user} thinks his post, in which you are tagged, is awesome: \"{what}\""
 						},
 						"her": {
 							"commented": "{user} thinks her post, that you commented, is awesome: \"{what}\"",
 							"awesomed":	"{user} thinks her post is awesome, that you also think is awesome: \"{what}\"",
-							"linked": "{user} thinks her post, in which you are tagged, is awesome: \"{what}\""
+							"tagged": "{user} thinks her post, in which you are tagged, is awesome: \"{what}\""
 						}
 					},
 					"wallpost": {
@@ -220,12 +420,12 @@
 						"his": {
 							"commented": "{user} thinks his wallpost, that you commented, is awesome: \"{what}\"",
 							"awesomed":	"{user} thinks his wallpost is awesome, that you also think is awesome: \"{what}\"",
-							"linked": "{user} thinks his wallpost, in which you are tagged, is awesome: \"{what}\""
+							"tagged": "{user} thinks his wallpost, in which you are tagged, is awesome: \"{what}\""
 						},
 						"her": {
 							"commented": "{user} thinks her wallpost, that you commented, is awesome: \"{what}\"",
 							"awesomed":	"{user} thinks her wallpost is awesome, that you also think is awesome: \"{what}\"",
-							"linked": "{user} thinks her wallpost, in which you are tagged, is awesome: \"{what}\""
+							"tagged": "{user} thinks her wallpost, in which you are tagged, is awesome: \"{what}\""
 						}
 					},						
 					"comment": {
@@ -237,12 +437,12 @@
 						"his": {
 							"commented": "{user} thinks his comment, that you commented, is awesome: \"{what}\"",
 							"awesomed":	"{user} thinks his comment is awesome, that you also think is awesome: \"{what}\"",
-							"linked": "{user} thinks his comment, in which you are tagged, is awesome: \"{what}\""
+							"tagged": "{user} thinks his comment, in which you are tagged, is awesome: \"{what}\""
 						},
 						"her": {
 							"commented": "{user} thinks her comment, that you commented, is awesome: \"{what}\"",
 							"awesomed":	"{user} thinks her comment is awesome, that you also think is awesome: \"{what}\"",
-							"linked": "{user} thinks her comment, in which you are tagged, is awesome: \"{what}\""
+							"tagged": "{user} thinks her comment, in which you are tagged, is awesome: \"{what}\""
 						}
 					}
 				},
@@ -257,12 +457,12 @@
 						"his": {
 							"commented": "{user} shared his photo, that you commented!",
 							"awesomed":	"{user} shared his photo, that you think is awesome!",
-							"linked": "{user} shared his photo, in which you are tagged!"
+							"tagged": "{user} shared his photo, in which you are tagged!"
 						},
 						"her": {
 							"commented": "{user} shared her photo, that you commented!",
 							"awesomed":	"{user} shared her photo, that you think is awesome!",
-							"linked": "{user} shared her photo, in which you are tagged!"
+							"tagged": "{user} shared her photo, in which you are tagged!"
 						}
 					},
 					"post": {
@@ -275,17 +475,17 @@
 						"his": {
 							"commented": "{user} shared his post, that you commented: \"{what}\"",
 							"awesomed":	"{user} shared his post, that you think is awesome: \"{what}\"",
-							"linked": "{user} shared his post, in which you are tagged: \"{what}\""
+							"tagged": "{user} shared his post, in which you are tagged: \"{what}\""
 						},
 						"her": {
 							"commented": "{user} shared her post, that you commented: \"{what}\"",
 							"awesomed":	"{user} shared her post, that you think is awesome: \"{what}\"",
-							"linked": "{user} shared her post, in which you are tagged: \"{what}\""
+							"tagged": "{user} shared her post, in which you are tagged: \"{what}\""
 						}
 					},
 					"wallpost": {
 						"you": {
-							"own": "{user} shared your wallpost: \"{what}\",
+							"own": "{user} shared your wallpost: \"{what}\"",
 							"commented": "{user} shared a wallpost of {owner}, that you commented: \"{what}\"",
 							"awesomed":	"{user} shared a wallpost of {owner}, that you think is awesome: \"{what}\"",
 							"shared":	"{user} shared a wallpost that you have shared: \"{what}\""
@@ -293,30 +493,30 @@
 						"his": {
 							"commented": "{user} shared his wallpost, that you commented: \"{what}\"",
 							"awesomed":	"{user} shared his wallpost, that you think is awesome: \"{what}\"",
-							"linked": "{user} shared his wallpost, in which you are tagged: \"{what}\""
+							"tagged": "{user} shared his wallpost, in which you are tagged: \"{what}\""
 						},
 						"her": {
 							"commented": "{user} shared her wallpost, that you commented: \"{what}\"",
 							"awesomed":	"{user} shared her wallpost, that you think is awesome: \"{what}\"",
-							"linked": "{user} shared her wallpost, in which you are tagged: \"{what}\""
+							"tagged": "{user} shared her wallpost, in which you are tagged: \"{what}\""
 						}
 					},
 					"link": {
 						"you": {
-							"own": "{user} shared your link!",
-							"commented": "{user} shared a link of {owner}, that you commented!",
-							"awesomed":	"{user} shared a link of {owner}, that you think is awesome!",
-							"shared":	"{user} shared a link that you have shared!"
+							"own": "{user} shared your link: \"{what}\"",
+							"commented": "{user} shared a link of {owner}, that you commented: \"{what}\"",
+							"awesomed":	"{user} shared a link of {owner}, that you think is awesome: \"{what}\"",
+							"shared":	"{user} shared a link that you have shared: \"{what}\""
 						},
 						"his": {
-							"commented": "{user} hat seinen eigenen Link geteilt, den du kommentiert hast!",
-							"awesomed":	"{user} hat seinen eigenen Link geteilt, den du awesome findest!",
-							"linked": "{user} hat seinen eigenen Link geteilt, in dem du verlinkt bist!"
+							"commented": "{user} shared his link, that you commented: \"{what}\"",
+							"awesomed":	"{user} shared his link, that you think is awesome: \"{what}\"",
+							"tagged": "{user} shared his link, in which you are tagged: \"{what}\""
 						},
 						"her": {
-							"commented": "{user} hat ihren eigenen Link geteilt, den du kommentiert hast!",
-							"awesomed":	"{user} hat ihren eigenen Link geteilt, den du awesome findest!",
-							"linked": "{user} hat ihren eigenen Link geteilt, in dem du verlinkt bist!"
+							"commented": "{user} shared her link, that you commented: \"{what}\"",
+							"awesomed":	"{user} shared her link, that you think is awesome: \"{what}\"",
+							"tagged": "{user} shared her link, in which you are tagged: \"{what}\""
 						}
 					}
 				},
@@ -325,34 +525,34 @@
 						"you": {
 							"own": "{user} whatevered your photo.",
 							"shared":	"{user} whatevered your shared photo.",
-							"tagged": "{user} hat bei einem Foto, auf dem du verlinkt bist, auf whatever geklickt."
+							"tagged": "{user} whatevered a photo, in which you are tagged."
 						}	
 					},
 					"post": {
 						"you": {
-							"own": "{user} whatevered your post",
-							"shared":	"{user} whatevered your shared post.",
-							"tagged": "{user} hat bei einem Foto, auf dem du verlinkt bist, auf whatever geklickt."
+							"own": "{user} whatevered your post: \"{what}\"",
+							"shared":	"{user} whatevered your shared post: \"{what}\"",
+							"tagged": "{user} whatevered a post, in which you are tagged: \"{what}\""
 						}
 					},
 					"wallpost": {
 						"you": {
-							"own": "{user} whatevered your wallpost.",
-							"shared":	"{user} whatevered your shared wallpost.",
-							"tagged": "{user} hat bei einem Foto, auf dem du verlinkt bist, auf whatever geklickt."
+							"own": "{user} whatevered your wallpost: \"{what}\"",
+							"shared":	"{user} whatevered your shared wallpost: \"{what}\"",
+							"tagged": "{user} whatevered a wallpost, in which you are tagged: \"{what}\""
 						}
 					},
 					"link": {
 						"you": {
-							"own": "{user} whatevered your link.",
-							"shared":	"{user} whatevered your shared link.",
-							"tagged": "{user} hat bei einem Foto, auf dem du verlinkt bist, auf whatever geklickt."
+							"own": "{user} whatevered your link: \"{what}\"",
+							"shared":	"{user} whatevered your shared link: \"{what}\"",
+							"tagged": "{user} whatevered a link, in which you are tagged: \"{what}\""
 						}
 					},
 					"comment": {
 						"you": {
-							"own": "{user} whatevered your comment.",
-							"tagged": "{user} hat bei einem Foto, auf dem du verlinkt bist, auf whatever geklickt."
+							"own": "{user} whatevered your comment: \"{what}\"",
+							"tagged": "{user} whatevered a comment, in which you are tagged: \"{what}\""
 						}
 					}
 				},
@@ -375,11 +575,11 @@
 				"tagged": {	
 					"photo": {
 						"you": {
-							"own": "{user} tagged you in a photo you own.",
+							"own": "{user} tagged you in your photo.",
 							"else": "{user} tagged you in a photo of {owner}."
 						},
 						"somebody": {
-							"own": "{user} tagged {somebody} in a photo you own."							
+							"own": "{user} tagged {somebody} in your photo."							
 						}
 					},
 					"post": {
@@ -400,8 +600,5 @@
 				}
 			}
 		},
-		"settings": {
-			"title": "Settings"
-		}
 	}
 }
