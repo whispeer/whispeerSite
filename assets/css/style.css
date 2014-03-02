@@ -4198,12 +4198,24 @@ body.loading:after {
   float: right;
   margin-right: 5px;
 }
+.messagesView #topicWrap.newMessage #messageTitle h2 {
+  display: inline-block;
+  *display: inline;
+  /* IE7 inline-block hack */
+  *zoom: 1;
+  float: left;
+  width: 98%;
+  margin: 0 1% 0 1%;
+}
 .messagesView #topicWrap.newMessage #recieverInput .inputWrap {
   border: 1px solid #8c8c8c !important;
 }
+.messagesView #topicWrap.newMessage #messageInput {
+  margin-bottom: 14px !important;
+}
 .messagesView #topicWrap.newMessage #sendmessage {
   padding: 10px 10px;
-  margin-left: 3px !important;
+  margin-left: 1% !important;
 }
 .friendsView #main {
   border-bottom: 1px solid #000;
