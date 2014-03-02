@@ -9890,6 +9890,77 @@ body.loading:after {
     top: 50px;
     margin: 5px 0;
   }
+  #topNav .searchBar .searchDrop .actions a.btn {
+    -webkit-box-sizing: border-box;
+    /* Safari/Chrome, other WebKit */
+    -moz-box-sizing: border-box;
+    /* Firefox, other Gecko */
+    box-sizing: border-box;
+    /* Opera/IE 8+ */
+  }
+  #topNav .searchBar .searchDrop .actions .addToCircle {
+    float: left;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+  }
+  #topNav .searchBar .searchDrop .actions .addToCircle #selectCircle {
+    padding-right: 2%;
+    height: 40px;
+    width: 100%;
+    margin: 0;
+    -webkit-box-sizing: border-box;
+    /* Safari/Chrome, other WebKit */
+    -moz-box-sizing: border-box;
+    /* Firefox, other Gecko */
+    box-sizing: border-box;
+    /* Opera/IE 8+ */
+  }
+  #topNav .searchBar .searchDrop .actions .addToCircle #selectCircle .inputWrap {
+    border: 1px solid #ccc;
+    -webkit-box-sizing: border-box;
+    /* Safari/Chrome, other WebKit */
+    -moz-box-sizing: border-box;
+    /* Firefox, other Gecko */
+    box-sizing: border-box;
+    /* Opera/IE 8+ */
+  }
+  #topNav .searchBar .searchDrop .actions .addToCircle #selectCircle .inputWrap li.searchField {
+    width: 65%;
+    height: 100%;
+  }
+  #topNav .searchBar .searchDrop .actions .addToCircle #selectCircle .inputWrap li.searchField input {
+    width: 100%;
+  }
+  #topNav .searchBar .searchDrop .actions .addToCircle #circleSubmit {
+    width: 10% !important;
+    display: block;
+    height: 35px;
+    float: left;
+    margin: -33px 0 0 91%;
+    padding: 0px !important;
+    text-align: center;
+    border: 1px solid #ccc;
+    border-left: none;
+    -webkit-border-top-right-radius: 5px;
+    -webkit-border-bottom-right-radius: 5px;
+    -webkit-border-bottom-left-radius: 0;
+    -webkit-border-top-left-radius: 0;
+    -moz-border-radius-topright: 5px;
+    -moz-border-radius-bottomright: 5px;
+    -moz-border-radius-bottomleft: 0;
+    -moz-border-radius-topleft: 0;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+    border-bottom-left-radius: 0;
+    border-top-left-radius: 0;
+    -moz-background-clip: padding;
+    -webkit-background-clip: padding-box;
+    background-clip: padding-box;
+  }
+  #topNav .searchBar .searchDrop .actions .addToCircle #circleSubmit i {
+    display: inline;
+  }
   #topNav #navIcons {
     height: 100%;
     display: inline-block;
