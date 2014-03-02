@@ -10374,8 +10374,20 @@ body.loading:after {
     width: 69.42857142857143%;
     margin: 0 1% 0 1%;
   }
-  .messagesView #topicWrap.newMessage #recieverInput,
+  .messagesView #topicWrap.newMessage #messageTitle h2 {
+    margin-bottom: 5px;
+  }
   .messagesView #topicWrap.newMessage #messageInput {
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+    *zoom: 1;
+    float: left;
+    width: 98%;
+    margin: 0 1% 0 1%;
+    margin-bottom: 14px;
+  }
+  .messagesView #topicWrap.newMessage #recieverInput {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
@@ -10385,12 +10397,10 @@ body.loading:after {
     margin: 0 1% 0 1%;
     margin-bottom: 5px;
   }
-  .messagesView #topicWrap.newMessage #recieverInput .formSearch .inputWrap li.searchField,
-  .messagesView #topicWrap.newMessage #messageInput .formSearch .inputWrap li.searchField {
+  .messagesView #topicWrap.newMessage #recieverInput .formSearch .inputWrap li.searchField {
     width: 40%;
   }
-  .messagesView #topicWrap.newMessage #recieverInput .formSearch .inputWrap li.searchField input,
-  .messagesView #topicWrap.newMessage #messageInput .formSearch .inputWrap li.searchField input {
+  .messagesView #topicWrap.newMessage #recieverInput .formSearch .inputWrap li.searchField input {
     width: 100%;
   }
   .messagesView #topicWrap.newMessage #messageInput {
