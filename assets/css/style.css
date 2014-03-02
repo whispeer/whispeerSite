@@ -1252,6 +1252,12 @@ dd {
   text-overflow: ellipsis;
   overflow: hidden;
 }
+.magic .body ul li.message .username a {
+  color: #000;
+}
+.magic .body ul li.message .username a:hover {
+  text-decoration: underline;
+}
 .magic .body ul li.message .text {
   display: inline-block;
   *display: inline;
@@ -1478,6 +1484,12 @@ dd {
 .person .username {
   width: 100%;
   text-align: center;
+}
+.person .username a {
+  color: #fff;
+}
+.person .username a:hover {
+  text-decoration: underline;
 }
 .person .pushup {
   background: rgba(0, 0, 0, 0.5);
