@@ -115,7 +115,7 @@
 				</div>
 				<div class="actions">
 					<a href="" class="addFriend" ng-if="!user.me && !user.added" data-ng-click="addFriend()"><span data-i18n="profile.actions.addFriend|user={{user.name}}"></span></a>
-					<div class="addToCirlce" ng-if="user.added">
+					<div class="addToCircle" ng-if="user.added">
 						<circlesearch res="circles" id="selectCircle" data-input-i18n-attr="profile.actions.addToCircle|placeholder|user={{user.name}}" data-user="user.id"></circlesearch>
 						<button class="btn btn--primary" data-ng-click="safeCircles()" id="circleSubmit"><i class="icon icon-ok-circle"></i></button>
 					</div>
