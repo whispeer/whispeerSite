@@ -130,7 +130,7 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer"], fun
 		}
 
 		function filterToKeys(filter, cb) {
-			var alwaysFilter = [], userFilter = [], circleFilter = [];
+			var alwaysFilter = [], userFriendsFilter = [], userFilter = [], circleFilter = [];
 
 			if (!filter) {
 				filter = ["always:allfriends"];
@@ -140,6 +140,9 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer"], fun
 			for (i = 0; i < filter.length; i += 1) {
 				map = filter[i].split(":");
 				switch(map[0]) {
+					case "friends":
+						userFriendsFilter.push(map[1]);
+						break;
 					case "always":
 						alwaysFilter.push(map[1]);
 						break;
@@ -158,9 +161,10 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer"], fun
 				this.parallel.unflatten();
 				circleFilterToKeys(circleFilter, this.parallel());
 				userFilterToKeys(userFilter, this.parallel());
-			}, h.sF(function (circleKeys, userKeys) {
+				userFriendsFilterToKeys(userFriendsFilter, this.parallel());
+			}, h.sF(function (circleKeys, userKeys, userFriendsKeys) {
 				var alwaysKeys = alwaysFilterToKeys(alwaysFilter);
-				var keys = alwaysKeys.concat(circleKeys).concat(userKeys);
+				var keys = alwaysKeys.concat(circleKeys).concat(userKeys).concat(userFriendsKeys);
 
 				this.ne(keys);
 			}), cb);
@@ -225,6 +229,19 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer"], fun
 				var i, keys = [];
 				for (i = 0; i < users.length; i += 1) {
 					keys.push(users[i].getContactKey());
+				}
+
+				this.ne(keys);
+			}), cb);
+		}
+
+		function userFriendsFilterToKeys(user, cb) {
+			step(function () {
+				userService.getMultiple(user, this);
+			}, h.sF(function (users) {
+				var i, keys = [];
+				for (i = 0; i < users.length; i += 1) {
+					keys.push(users[i].getFriendsKey());
 				}
 
 				this.ne(keys);
@@ -331,7 +348,6 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer"], fun
 					keyStore.hash.addPaddingToObject(content, 128, this.parallel());
 					keyStore.sym.generateKey(this.parallel(), "post key");
 					filterToKeys(visibleSelection, this.parallel());
-
 				}, h.sF(function (paddedContent, keyid, keys) {
 					var i;
 					postKey = keyid;

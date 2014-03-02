@@ -142,6 +142,23 @@ define(["step", "whispeerHelper"], function (step, h) {
 			});
 		};
 
+		$scope.newPost = {
+			text: ""
+		};
+
+		$scope.sendPost = function () {
+			var visibleSelection = ["always:allfriends"], wallUserID = 0;
+
+			if (!$scope.user.me) {
+				wallUserID = $scope.user.id;
+				visibleSelection.push("friends:" + $scope.user.id);
+			}
+
+			postService.createPost($scope.newPost.text, visibleSelection, wallUserID, function () {
+
+			});
+		};
+
 		$scope.possibleStatus = ["single", "relationship", "engaged", "married", "divorced", "widowed", "complicated", "open", "inlove"];
 
 		$scope.editGeneral = false;

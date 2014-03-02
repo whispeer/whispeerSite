@@ -269,9 +269,11 @@ define(["step", "whispeerHelper"], function (step, h) {
 					theUser.data.basic.image = image;
 
 					theUser.data.added = friendsService.didIRequest(theUser.getID());
+					theUser.data.isMyFriend = friendsService.areFriends(theUser.getID());
 
 					friendsService.listen(function () {
 						theUser.data.added = friendsService.didIRequest(theUser.getID());
+						theUser.data.isMyFriend = friendsService.areFriends(theUser.getID());
 					});
 
 					this.ne();
