@@ -279,7 +279,7 @@
 		},
 		"header": {
 			"title":	"Settings"
-	},
+		}
 	},
 	"magicbar": {
 		"close": "Close",
@@ -599,6 +599,6 @@
 					}
 				}
 			}
-		},
+		}
 	}
 }
