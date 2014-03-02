@@ -48,13 +48,18 @@ define(["whispeerHelper", "step"], function (h, step) {
 
 				var profilesToAdd = h.arraySubtract(typesNew, typesOld);
 				var profilesToRemove = h.arraySubtract(typesOld, typesNew);
+
+				settingsService.updateBranch("privacy", $scope.safety, this);
 			}), h.sF(function () {
+				settingsService.uploadChangedData(this);
 				//refactor profiles:
 				//one general profile (master profile)
 				//one for every circle and general
 				//on update: general profile update -> other profiles update depending on settings
 				//own user: only load general profile
-			}));
+			}), function () {
+				debugger;
+			});
 		};
 
 		$scope.resetSafety = function () {

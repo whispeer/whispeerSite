@@ -1,7 +1,7 @@
 define(["step", "whispeerHelper", "asset/encryptedMetaData"], function (step, h, EncryptedMetaData) {
 	"use strict";
 
-	var service = function ($rootScope, initService) {
+	var service = function ($rootScope, $injector, initService) {
 		var settings;
 
 		initService.register("settings.getSettings", {}, function (data) {
@@ -19,13 +19,39 @@ define(["step", "whispeerHelper", "asset/encryptedMetaData"], function (step, h,
 			getBranch: function (branch, cb) {
 				settings.getBranch(branch, cb);
 			},
+			updateAttribute: function (attrs, value, cb) {
+				settings.setAttribute(attrs, value, cb);
+			},
+			updatePrivacyAttribute: function (attrs, value, cb) {
+				api.updateAttribute(attrs.unshift("privacy"), value, cb);
+			},
+			updateBranch: function (branchName, value, cb) {
+				settings.setAttribute([branchName], value, cb);
+			},
+			uploadChangedData: function (cb) {
+				step(function () {
+					var userService = $injector.get("ssn.userService");
+					if (settings.isChanged) {
+						settings.getUploadData(userService.getown().getMainKey(), this);
+					} else {
+						this.last.ne(true);
+					}
+				}, h.sF(function (newEncryptedSettings) {
+					var socketService = $injector.get("ssn.socketService");
+					socketService.emit("settings.setSettings", {
+						settings: newEncryptedSettings
+					}, this);
+				}), h.sF(function (result) {
+					this.ne(result.success);
+				}), cb);
+			},
 			getPrivacyAttribute: function (attr, cb) {
 				step(function () {
 					api.getBranch("privacy", this);
 				}, h.sF(function (b) {
 					var i, attrs = attr.split("."), cur = b;
 					for (i = 0; i < attrs.length; i += 1) {
-						if (cur[attrs[i]].encrypt) {
+						if (typeof cur[attrs[i]].encrypt !== "undefined") {
 							this.ne(cur[attrs[i]]);
 							return;
 						} else if (cur[attrs[i]]) {
@@ -34,7 +60,6 @@ define(["step", "whispeerHelper", "asset/encryptedMetaData"], function (step, h,
 					}
 
 					throw new Error("could not find attribute settings");
-					//this.ne(h.deepGet(b, attr.split(".")));
 				}), cb);
 			},
 			getPrivacyEncryptionStatus: function (attr, cb) {
@@ -60,7 +85,7 @@ define(["step", "whispeerHelper", "asset/encryptedMetaData"], function (step, h,
 		return api;
 	};
 
-	service.$inject = ["$rootScope", "ssn.initService"];
+	service.$inject = ["$rootScope", "$injector", "ssn.initService"];
 
 	return service;
 });

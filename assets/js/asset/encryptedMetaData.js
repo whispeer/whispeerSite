@@ -3,8 +3,16 @@ define (["whispeerHelper", "step", "crypto/keyStore"], function (h, step, keySto
 
     /* jshint validthis: true */
 
-    var encryptedMeta = function (data) {
-        var encryptedMetaData = data, decryptedMetaData, decrypted = false, changed = false;
+    var encryptedMeta = function (data, isDecrypted) {
+        var encryptedMetaData, decryptedMetaData, updatedMetaData = {}, decrypted = false, changed = false, that = this;
+
+        if (isDecrypted) {
+            decryptedMetaData = data;
+            decrypted = true;
+            changed = true;
+        } else {
+            encryptedMetaData = data;
+        }
 
         this.reset = function () {
             encryptedMetaData = {};
@@ -41,11 +49,41 @@ define (["whispeerHelper", "step", "crypto/keyStore"], function (h, step, keySto
             }), cb);
         };
 
-        this.setAttribute = function () {};
-        this.getUploadData = function () {
+        this.setAttribute = function (attrs, value, cb) {
+            step(function () {
+                that.decrypt(this);
+            }, h.sF(function () {
+                if (h.deepGet(decryptedMetaData, attrs) !== value) {
+                    changed = h.deepSetCreate(updatedMetaData, attrs, value) || changed;
+                }
+
+                this.ne();
+            }), cb);
+        };
+
+        this.isChanged = function () {
+            return changed;
+        };
+
+        this.getUploadData = function (key, cb) {
             if (changed) {
+                //pad updated profile
+                //merge paddedProfile and updatedPaddedProfile
+                //sign/hash merge
+                //encrypt merge
+                step(function () {
+                    that.decrypt(this);
+                }, h.sF(function  () {
+                    decryptedMetaData = h.extend(decryptedMetaData, updatedMetaData, 5);
+
+                    keyStore.sym.encryptObject(decryptedMetaData, key, 0, this);
+                }), h.sF(function (newEncryptedMetaData) {
+                    this.ne(newEncryptedMetaData);
+                }), cb);
                 //encryptObject(decryptedMetaData)
                 //changed=false
+            } else {
+                this.ne(false);
             }
         };
     };

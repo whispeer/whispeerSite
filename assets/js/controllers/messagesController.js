@@ -53,8 +53,6 @@ define(["step", "whispeerHelper"], function (step, h) {
 			text: "",
 			selectedElements: [],
 			send: function (receiver, text) {
-				receiver = receiver.map(function (e) {return e.id;});
-
 				messageService.sendNewTopic(receiver, text, function (e, id) {
 					if (!e) {
 						$scope.new.text = "";
