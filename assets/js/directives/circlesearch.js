@@ -27,7 +27,12 @@ define(["step", "whispeerHelper"], function (step, h) {
 					}));
 				}
 
+				scope.$on("elementSelected", function (e) {
+					e.stopPropagation();
+				});
+
 				scope.$on("queryChange", function (event, query) {
+					event.stopPropagation();
 					step(function () {
 						circleService.loadAll(this);
 					}, h.sF(function () {

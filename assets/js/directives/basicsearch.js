@@ -74,7 +74,12 @@ define(["step", "whispeerHelper"], function () {
 					scope.click(false);
 				};
 
-				scope.click = function (bool) {
+				scope.click = function (bool, $event) {
+					if ($event) {
+						$event.stopPropagation();
+						$event.preventDefault();
+					}
+
 					if (bool) {
 						internallyClicked = true;
 						input.focus();
