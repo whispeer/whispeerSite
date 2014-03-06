@@ -1,7 +1,7 @@
 define([], function () {
 	"use strict";
 
-	return function ($timeout) {
+	var syntaxify =  function ($timeout) {
 		return {
 			restrict: "A",
 			link: function (scope, elm) {
@@ -22,4 +22,8 @@ define([], function () {
 			}
 		};
 	};
+
+	syntaxify.$inject = ["$timeout"];
+
+	return syntaxify;
 });
