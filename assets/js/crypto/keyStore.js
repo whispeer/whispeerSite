@@ -783,6 +783,11 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 			this.getDecryptorData = intKey.getDecryptorData;
 		}
 
+		function getFingerPrint() {
+			//should we add the type and curve here too?
+			return sjcl.hash.sha256.hash(publicKey._point.toBits());
+		}
+
 		/** create a key 
 		* param callback callback
 		*/
@@ -820,6 +825,7 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 			}), callback);
 		}
 
+		this.getFingerPrint = getFingerPrint;
 		this.kem = kemF;
 
 		if (isPrivateKey) {
@@ -971,6 +977,12 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 			};
 		}
 
+		function getFingerPrint() {
+			//should we add the type and curve here too?
+			//as the curve is fixed for now it should not be a problem
+			return sjcl.hash.sha256.hash(publicKey._point.toBits());
+		}
+
 		function signF(hash, callback) {
 			step(function () {
 				intKey.decryptKey(this);
@@ -993,6 +1005,7 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 			this.sign = signF;
 		}
 
+		this.getFingerPrint = getFingerPrint;
 		this.verify = verifyF;
 	};
 

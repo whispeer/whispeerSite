@@ -30,8 +30,7 @@ define([], function () {
 			reloadTimeline();
 		});
 
-
-		$scope.sendPost = function() {
+		$scope.togglePost = function() {
 			$scope.postActive = !$scope.postActive;
 		};
 
