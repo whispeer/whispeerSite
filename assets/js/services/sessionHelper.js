@@ -61,11 +61,14 @@ define(["step", "whispeerHelper"], function (step, h) {
 						throw new Error("need nickname");
 					}
 
-					var privateProfile = new ProfileService(profile.priv, true);
+					var privateProfile = new ProfileService({
+						profile: profile.priv,
+						metaData: profile.metaData
+					}, true);
 
 					this.parallel.unflatten();
 
-					privateProfile.signAndEncrypt(keys.sign, keys.profile, this.parallel());
+					privateProfile.signAndEncrypt(keys.sign, keys.profile, keys.main, this.parallel());
 					keyStoreService.sign.signObject(profile.pub, keys.sign, this.parallel());
 					keyStoreService.sym.encryptObject(settings, keys.main, 0, this.parallel());
 

@@ -63,7 +63,7 @@ define(["crypto/keyStore", "step", "whispeerHelper", "asset/encryptedMetaData", 
 
 			if (isDecrypted) {
 				decrypted = true;
-				decryptedProfile = data;
+				decryptedProfile = data.profile;
 
 				checkDecryptedProfile();
 			} else {
@@ -154,7 +154,7 @@ define(["crypto/keyStore", "step", "whispeerHelper", "asset/encryptedMetaData", 
 				}), cb);
 			};
 
-			this.signAndEncrypt = function signAndEncryptF(signKey, cryptKey, cb) {
+			this.signAndEncrypt = function signAndEncryptF(signKey, cryptKey, mainKey, cb) {
 				step(function () {
 					padDecryptedProfile(this);
 				}, h.sF(function () {
@@ -162,12 +162,13 @@ define(["crypto/keyStore", "step", "whispeerHelper", "asset/encryptedMetaData", 
 
 					encryptProfile(cryptKey, this.parallel());
 					signProfile(signKey, this.parallel());
-				}), h.sF(function (encryptedProfile, signature) {
+					metaData.getUploadData(mainKey, this.parallel());
+				}), h.sF(function (encryptedProfile, signature, metaData) {
 					var result = {
 						profile: encryptedProfile,
 						signature: signature,
 						hashObject: generateHashObject(),
-						key: cryptKey
+						metaData: metaData
 					};
 
 					this.ne(result);

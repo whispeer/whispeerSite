@@ -290,7 +290,8 @@ define(["step", "asset/resizableImage", "asset/observer"], function (step, Resiz
 
 			var profile = {
 				pub: {},
-				priv: {
+				priv: {},
+				metaData: {
 					scope: "always:allfriends"
 				}
 			};
