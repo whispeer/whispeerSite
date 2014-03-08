@@ -104,9 +104,26 @@
 				}
 				.actions {
 					a {
-						cursor: pointer;
-						.buttonBackground(hsla(hue(lighten(@btnGreenBackground,5%)), saturation(lighten(@btnGreenBackground,5%)), lightness(lighten(@btnGreenBackground,5%)), 0.7), hsla(hue(lighten(@btnGreenBackgroundHighlight,5%)), saturation(lighten(@btnGreenBackgroundHighlight,5%)), lightness(lighten(@btnGreenBackgroundHighlight,5%)), 0.7));
-						width: 100%;
+						&:not(.remove) {
+							cursor: pointer;
+							.buttonBackground(hsla(hue(lighten(@btnGreenBackground,5%)), saturation(lighten(@btnGreenBackground,5%)), lightness(lighten(@btnGreenBackground,5%)), 0.7), hsla(hue(lighten(@btnGreenBackgroundHighlight,5%)), saturation(lighten(@btnGreenBackgroundHighlight,5%)), lightness(lighten(@btnGreenBackgroundHighlight,5%)), 0.7));
+							width: 100%;
+						}
+						&.btn {
+							.box-fix;
+						}
+					}
+					.addToCircle {
+						.selectCircle {
+							.inputWrap {
+								li {
+									&.searchResult {
+										height: 30px !important;
+										padding: 4px 5px !important;
+									}
+								}
+							}
+						}
 					}
 				}	
 			}

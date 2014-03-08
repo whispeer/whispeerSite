@@ -13,13 +13,14 @@
 		</span>
 	</div>
 	<div class="hint--top" data-hint="{{attribute.hoverText}}">
-		<input type="password" id="rpassword" data-i18n-attr="login.password|placeholder" data-ng-model="$parent.password" required>
-		<span class="icon"><span id="rpasswordIcon" data-strength="{{passwordStrength()}}"></span></span>
+		<input type="password" id="rpassword" data-i18n-attr="login.password|placeholder" data-ng-model="$parent.password" data-strength="{{passwordStrength()}}" required>
+		<span class="icon"><span id="rpasswordIcon" data-strength="{{passwordStrength()}}">
+		</span></span>
 	</div>
 	<div>
-		<input type="password" id="rpassword2" data-i18n-attr="login.register.repeatPassword|placeholder" data-ng-model="$parent.password2" required>
+		<input type="password" id="rpassword2" data-i18n-attr="login.register.repeatPassword|placeholder" data-ng-model="$parent.password2" data-strength="{{passwordStrength()}}" required>
 		<span class="icon check" id="rpassword2Icon">
-			<img data-ng-src="{{acceptIcon(password, password2)}}" alt="Ok!">
+			<img data-ng-src="{{acceptIcon(password, password2)}}" alt="Password correct?">
 		</span>
 	</div>
 	<div id="registerPasswordStrength" data-strength="{{passwordStrength()}}">
