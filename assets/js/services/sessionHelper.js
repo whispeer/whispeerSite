@@ -66,16 +66,24 @@ define(["step", "whispeerHelper"], function (step, h) {
 						metaData: profile.metaData
 					}, true);
 
+					var privateProfileMe = new ProfileService({
+						profile: profile.priv,
+						metaData: {
+							scope: "me"
+						}
+					}, true);
+
 					this.parallel.unflatten();
 
 					privateProfile.signAndEncrypt(keys.sign, keys.profile, keys.main, this.parallel());
+					privateProfileMe.signAndEncrypt(keys.sign, keys.main, keys.main, this.parallel());
 					keyStoreService.sign.signObject(profile.pub, keys.sign, this.parallel());
 					keyStoreService.sym.encryptObject(settings, keys.main, 0, this.parallel());
 
 					keyStoreService.sym.pwEncryptKey(keys.main, password, this.parallel());
 					keyStoreService.sym.symEncryptKey(keys.friendsLevel2, keys.friends, this.parallel());
 					keyStoreService.sym.symEncryptKey(keys.profile, keys.friends, this.parallel());
-				}), h.sF(function register3(privateProfile, publicProfileSignature, settings) {
+				}), h.sF(function register3(privateProfile, privateProfileMe, publicProfileSignature, settings) {
 					keys = h.objectMap(keys, keyStoreService.correctKeyIdentifier);
 
 					profile.pub.signature = publicProfileSignature;
@@ -85,7 +93,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 						keys: h.objectMap(keys, keyStoreService.upload.getKey),
 						profile: {
 							pub: profile.pub,
-							priv: privateProfile
+							priv: [privateProfile, privateProfileMe]
 						},
 						settings: settings
 					};
