@@ -118,7 +118,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 
 					var i;
 					for (i = 0; i < priv.length; i += 1) {
-						if (visible.indexOf(scopes[i]) > -1) {
+						if (visible.indexOf(scopes[i]) > -1 || scopes[i] === "me") {
 							priv[i].setAttribute(attrs, val, this.parallel());
 						}
 					}
