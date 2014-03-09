@@ -120,9 +120,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 				var oldCircles = circleService.inWhichCircles($scope.user.id).map(function (e) {
 					return h.parseDecimal(e.getID());
 				});
-				var newCircles = $scope.circles.selectedElements.map(function (e) {
-					return h.parseDecimal(e.id);
-				});
+				var newCircles = $scope.circles.selectedElements.map(h.parseDecimal);
 
 				var toAdd = h.arraySubtract(newCircles, oldCircles);
 				var toRemove = h.arraySubtract(oldCircles, newCircles);
