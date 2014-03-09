@@ -30,15 +30,22 @@ define(["step", "whispeerHelper"], function (step, h) {
 						})(navigator.userAgent||navigator.vendor||window.opera);
 */
 
-		$scope.user = {};
-		$scope.friends = friendsService.data;
+		var nullUser = {
+			name: "",
+			basic: {
+				image: "/assets/img/user.png"
+			},
+			id: 0
+		};
 
-		$scope.user.name = "";
-		$scope.user.image = "/assets/img/user.png";
-		$scope.user.id = "0";
+		$scope.user = nullUser;
+		$scope.friends = friendsService.data;
 
 		$scope.$on("ssn.login", function () {
 			$scope.loggedin = sessionService.isLoggedin();
+			if (!$scope.loggedin) {
+				$scope.user = nullUser;
+			}
 		});
 
 		$scope.$on("ssn.ownLoaded", function () {
