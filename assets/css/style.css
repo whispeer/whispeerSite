@@ -1643,10 +1643,17 @@ dd {
 .searchBar .formSearch div .inputWrap li.searchResult[disabled] {
   background-color: #3b7b06;
 }
+.searchBar .formSearch div .inputWrap li.searchResult .nameTag {
+  float: left;
+  display: block;
+  width: 80%;
+  margin-right: 2%;
+}
 .searchBar .formSearch div .inputWrap li.searchResult .remove {
-  float: right;
+  float: left;
   display: block;
   width: 15px;
+  max-width: 20%;
   text-align: right;
   color: #dedede;
   z-index: 100;
