@@ -499,6 +499,10 @@ body:not(.mainView, .registerView) #main {
 #topNav #navInner .searchBar .searchDrop .addToCircle .circleSubmit {
   z-index: 1000 !important;
 }
+#topNav #navInner .searchBar .searchDrop .addToCircle .searchDrop {
+  margin-top: 35px;
+  width: 31.2%;
+}
 #topNav #navIcons .navIcon {
   cursor: pointer;
 }
@@ -10022,7 +10026,8 @@ body.loading:after {
     height: 100%;
   }
   #topNav .searchBar .searchDrop .actions .addToCircle .selectCircle .inputWrap li.searchField input {
-    width: 100%;
+    width: 90%;
+    display: block;
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
@@ -12409,14 +12414,8 @@ body.loading:after {
   .circlesView #circleContainer.newCircle #friendInput {
     height: 150px;
   }
-  .circlesView #circleContainer.newCircle .searchBar .formSearch .inputWrap li.searchField {
-    width: 52%;
-  }
   .circlesView #circleContainer.newCircle .searchBar .formSearch .inputWrap li.searchField input {
-    width: 100%;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    overflow: hidden;
+    width: 50%;
   }
   .circlesView #circleContainer.newCircle #savecircle {
     margin-left: 8px;
