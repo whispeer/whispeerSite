@@ -413,6 +413,63 @@ define(["step", "whispeerHelper"], function (step, h) {
 				}, cb);
 			}
 
+			this.createProfiles = function (scopes, cb) {
+				//check if we already got a profile for the given scope.
+				var priv = theUser.getPrivateProfiles(), oldScopes;
+				step(function () {
+					var i;
+					for (i = 0; i < priv.length; i += 1) {
+						priv[i].getScope(this.parallel());
+					}
+				}, h.sF(function (theOldScopes) {
+					oldScopes = theOldScopes;
+
+					priv[oldScopes.indexOf("me")].getAttribute([], this);
+				}), h.sF(function (myProfile) {
+
+					var i, profiles = [];
+					if (oldScopes.length !== priv.length) {
+						throw new Error("bug");
+					}
+
+
+
+					for (i = 0; i < scopes.length; i += 1) {
+						if (oldScopes.indexOf(scopes[i]) === -1) {
+							profiles.push(new ProfileService({
+								profile: applicableParts(myProfile),
+								metaData: {
+									scope: scopes[i]
+								}
+							}, true));
+						}
+					}
+				}), cb);
+			};
+
+			this.deleteProfiles = function (scopes, cb) {
+				//find the profiles matching a scope.
+				var priv = theUser.getPrivateProfiles();
+				step(function () {
+					var i;
+					for (i = 0; i < priv.length; i += 1) {
+						priv[i].getScope(this.parallel());
+					}
+				}, h.sF(function (oldScopes) {
+					if (oldScopes.length !== priv.length) {
+						throw new Error("bug");
+					}
+
+					var toDelete = scopes.map(function (e) {
+						if (oldScopes.indexOf(e) === -1) {
+							throw new Error("scope not found!");
+						}
+
+						return priv[oldScopes.indexOf(e)];
+					});
+				}), cb);
+			};
+
 			this.setAdvancedProfile = function (adv, cb) {
 				step(function () {
 					var i;
