@@ -3,6 +3,26 @@ define(["step", "whispeerHelper"], function (step, h) {
 
 	var advancedBranches = ["location", "birthday", "relationship", "education", "work", "gender", "languages"];
 
+	function applicableParts(scope, privacy, profile) {
+		var i, attr, result = {};
+
+		if (privacy === undefined || profile === undefined) {
+			throw new Error("dafuq");
+		}
+
+		for (attr in privacy) {
+			if (typeof privacy[attr].encrypt !== "undefined") {
+				if (privacy[attr].encrypt && privacy[attr].visibility.indexOf(scope) > -1) {
+					result[attr] = profile[attr];
+				}
+			} else {
+				result[attr] = applicableParts(scope, privacy[attr], profile[attr]);
+			}
+		}
+
+		return result;
+	}
+
 	function userModel($location, keyStoreService, ProfileService, sessionService, settingsService, socketService, friendsService) {
 		return function User (providedData) {
 			var theUser = this, mainKey, signKey, cryptKey, friendShipKey, friendsKey, friendsLevel2Key;
@@ -424,26 +444,32 @@ define(["step", "whispeerHelper"], function (step, h) {
 				}, h.sF(function (theOldScopes) {
 					oldScopes = theOldScopes;
 
-					priv[oldScopes.indexOf("me")].getAttribute([], this);
-				}), h.sF(function (myProfile) {
+					this.parallel.unflatten();
 
-					var i, profiles = [];
+					priv[oldScopes.indexOf("me")].getAttribute([], this.parallel());
+					settingsService.getBranch("privacy", this.parallel());
+				}), h.sF(function (myProfile, privacySettings) {
+
+					var i, profile;
 					if (oldScopes.length !== priv.length) {
 						throw new Error("bug");
 					}
 
-
-
 					for (i = 0; i < scopes.length; i += 1) {
 						if (oldScopes.indexOf(scopes[i]) === -1) {
-							profiles.push(new ProfileService({
-								profile: applicableParts(myProfile),
+							profile = new ProfileService({
+								profile: applicableParts(scopes[i], privacySettings, myProfile),
 								metaData: {
 									scope: scopes[i]
 								}
-							}, true));
+							}, true);
+							profile.signAndEncrypt(theUser.getSignKey(), cryptKey, theUser.getMainKey(), this.parallel());
 						}
 					}
+				}), h.sF(function (profiles) {
+					socketService.emit("user.createPrivateProfiles", {
+						privateProfiles: profiles
+					}, this);
 				}), cb);
 			};
 
@@ -467,6 +493,10 @@ define(["step", "whispeerHelper"], function (step, h) {
 
 						return priv[oldScopes.indexOf(e)];
 					});
+
+					socketService.emit("user.deletePrivateProfiles", {
+						profilesToDelete: toDelete
+					}, this);
 				}), cb);
 			};
 
