@@ -109,7 +109,7 @@
 		</aside>
 		<aside id="sidebar-right" data-ng-if="loggedin && mobile" data-ng-show="sidebarActive && !searchActive">
 			<ul class="mobileMenu">
-				<a href="{{user.url}}" data-ng-click="toggleSidebar()">
+				<a href="{{user.basic.url}}" data-ng-click="toggleSidebar()">
 					<li>
 						<img data-ng-src="{{user.basic.image}}" alt="User">
 						<span data-i18n="menu.profil"></span>

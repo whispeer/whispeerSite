@@ -1,9 +1,9 @@
 <div class="searchBar {{'search-'+(multiple?'multiple':'single')}}">
 	<form class="formSearch">
-		<div data-ng-click="click(true)">
+		<div data-ng-click="click(true, $event)">
 			<ul class="inputWrap">
 				<li data-ng-repeat="element in selectedElements" class="searchResult">
-					{{element.name}}<a href="" class="remove" data-ng-click="removeSelection($index)"><i class="icon icon-cancel-circle"></i></a>
+					<span class="nameTag">{{element.name}}</span> <a href="" class="remove" data-ng-click="removeSelection($index)"><i class="icon icon-cancel-circle"></i></a>
 				</li>
 				<li class="searchField" style="display: inline;">
 				</li>

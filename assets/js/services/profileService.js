@@ -1,13 +1,15 @@
 /**
 * ProfileService
 **/
-define(["crypto/keyStore", "step", "whispeerHelper", "validation/validator", "asset/observer"], function (keyStore, step, h, validator, Observer) {
+define(["crypto/keyStore", "step", "whispeerHelper", "asset/encryptedMetaData", "validation/validator", "asset/observer"], function (keyStore, step, h, EncryptedMetaData, validator, Observer) {
 	"use strict";
 
 	var service = function () {
 		//where should the key go? should it be next to the data?
 		var profileService = function (data, isDecrypted) {
 			var encryptedProfile, paddedProfile = {}, decryptedProfile = {}, updatedProfile = {}, decrypted = {}, hashObject;
+
+			var metaData = new EncryptedMetaData(data.metaData, isDecrypted);
 
 			var decrypting = false, verified = false, key;
 
@@ -61,7 +63,7 @@ define(["crypto/keyStore", "step", "whispeerHelper", "validation/validator", "as
 
 			if (isDecrypted) {
 				decrypted = true;
-				decryptedProfile = data;
+				decryptedProfile = data.profile;
 
 				checkDecryptedProfile();
 			} else {
@@ -152,7 +154,7 @@ define(["crypto/keyStore", "step", "whispeerHelper", "validation/validator", "as
 				}), cb);
 			};
 
-			this.signAndEncrypt = function signAndEncryptF(signKey, cryptKey, cb) {
+			this.signAndEncrypt = function signAndEncryptF(signKey, cryptKey, mainKey, cb) {
 				step(function () {
 					padDecryptedProfile(this);
 				}, h.sF(function () {
@@ -160,12 +162,13 @@ define(["crypto/keyStore", "step", "whispeerHelper", "validation/validator", "as
 
 					encryptProfile(cryptKey, this.parallel());
 					signProfile(signKey, this.parallel());
-				}), h.sF(function (encryptedProfile, signature) {
+					metaData.getUploadData(mainKey, this.parallel());
+				}), h.sF(function (encryptedProfile, signature, metaData) {
 					var result = {
 						profile: encryptedProfile,
 						signature: signature,
 						hashObject: generateHashObject(),
-						key: cryptKey
+						metaData: metaData
 					};
 
 					this.ne(result);
@@ -189,10 +192,9 @@ define(["crypto/keyStore", "step", "whispeerHelper", "validation/validator", "as
 			};
 
 			this.getScope = function (cb) {
-				var that = this;
 				step(function () {
 					//TODO: move scope to meta!
-					that.getAttribute(["scope"], this);
+					metaData.getBranch("scope", this);
 				}, h.sF(function (scope) {
 					this.ne(scope || "always:allfriends");
 				}), cb);

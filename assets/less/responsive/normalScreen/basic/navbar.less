@@ -37,6 +37,58 @@
 		.searchDrop {
 			top: 50px;
 			margin: 5px 0;
+			.actions {
+				.addToCircle {
+					float: left;
+					width: 100%;
+					margin: 0;
+					padding: 0;
+					.selectCircle {
+						padding-right: 2%;
+						height: 40px;
+						width: 100%;
+						margin:0;
+						.box-fix;
+						.inputWrap {
+							border: 1px solid #ccc;
+							.box-fix;
+							li {
+								overflow-y: hidden;
+								overflow-x: scroll;
+								&.searchField {
+									width: 100%;
+									height: 100%;
+									input {
+										width: 90%;
+										display: block;
+										text-overflow: ellipsis;
+										white-space: nowrap;
+										overflow: hidden;
+									}
+								}
+								&.searchResult {
+									width: 35%;
+								}
+							}
+						}
+					}
+					.circleSubmit {
+						width: 10% !important;
+						display: block;
+						height: 35px;
+						float: left;
+						margin: -33px 0 0 90%;
+						padding: 0px !important;
+						text-align: center;
+						border: 1px solid #ccc;
+						border-left: none;
+						.border-radiuses(5px, 5px, 0,0);
+						i {
+							display: inline;
+						}
+					}
+				}
+			}
 		}
 	}
 	#navIcons {

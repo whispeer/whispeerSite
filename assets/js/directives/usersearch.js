@@ -72,6 +72,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 
 				scope.$on("elementSelected", function (event, element) {
 					if (!multiple) {
+						scope.$parent.searchActive = false;
 						$location.path(element.user.getUrl());
 					}
 

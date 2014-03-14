@@ -1,33 +1,29 @@
 define([], function () {
 	"use strict";
 
-	return function () {
-
+	var syntaxify =  function ($timeout) {
 		return {
-			compile: function () {
-				return {
-					post: function (scope, elm) {
-						var run = false;
-						elm.bind("DOMSubtreeModified", function () {
-							if (!run) {
-								run = true;
-								var text = elm.text();
-								var parts = text.split(/\r\n|\n\r|\r|\n/);
-								var br;
+			restrict: "A",
+			link: function (scope, elm) {
+				$timeout(function () {
+					var text = elm.text();
+					var parts = text.split(/\r\n|\n\r|\r|\n/);
+					var br;
 
-								elm.html("");
+					elm.html("");
 
-								var i;
-								for (i = 0; i < parts.length; i += 1) {
-									br = jQuery("<br>");
-									elm.append(document.createTextNode(parts[i]));
-									elm.append(br);
-								}
-							}
-						});
+					var i;
+					for (i = 0; i < parts.length; i += 1) {
+						br = jQuery("<br>");
+						elm.append(document.createTextNode(parts[i]));
+						elm.append(br);
 					}
-				};
+				});
 			}
 		};
 	};
+
+	syntaxify.$inject = ["$timeout"];
+
+	return syntaxify;
 });
