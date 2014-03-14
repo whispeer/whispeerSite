@@ -1,9 +1,9 @@
-<h4>Weitere Informationen</h4>
+<h4 data-i18n="login.register.more"></h4>
 <div class="inputWrap" data-enter="nextRegisterStep()">
-	<div class="introText">Bitte teile uns dein Geschlecht, deinen Namen, dein Geburtsdatum und deinen Wohnort mit. Dies ermöglicht deinen Freunden bei whispeer, dich zu finden. Selbstverständlich zwingen wir dich nicht dazu, diese Angaben zu machen!</div>
+	<div class="introText" data-i18n="login.register.intro"></div>
 	<div>
 		<select id="gender" type="dropdown">
-			<option value="n">Keine Angabe zum Geschlecht</option>
+			<option value="n" data-i18n="profile.section.general.gender.n"></option>
 			<option value="m" data-i18n="profile.section.general.gender.m"></option>
 			<option value="f" data-i18n="profile.section.general.gender.f"></option>
 		</select>
@@ -15,7 +15,7 @@
 		</span>
 	</div>
 	<div id="birthday">
-		<label>Geburtstag</label>
+		<label data-i18n="profile.section.general.birthday.info"></label>
 		<select class="day" data-for="day" data-ng-model="user.data.birthday.day" data-ng-options="day for day in days">
 			<option value="" data-i18n="profile.section.general.birthday.day"></option>
 		</select>
