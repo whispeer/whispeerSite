@@ -106,7 +106,7 @@ define(["step", "whispeerHelper", "asset/observer"], function (step, h, Observer
 
 					socket.emit("circles.addUsers", {
 						add: data
-					});
+					}, this);
 				}), h.sF(function (result) {
 					var i;
 					if (!result.error && result.added) {

@@ -23,7 +23,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 		return result;
 	}
 
-	function userModel($location, keyStoreService, ProfileService, sessionService, settingsService, socketService, friendsService) {
+	function userModel($injector, $location, keyStoreService, ProfileService, sessionService, settingsService, socketService, friendsService) {
 		return function User (providedData) {
 			var theUser = this, mainKey, signKey, cryptKey, friendShipKey, friendsKey, friendsLevel2Key;
 			var id, mail, nickname, publicProfile, privateProfiles = [], mutualFriends, publicProfileChanged = false, publicProfileSignature;
@@ -433,7 +433,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 				}, cb);
 			}
 
-			this.createProfiles = function (scopes, cb) {
+			this.createProfiles = function (scopes, cb, privacySettings) {
 				//check if we already got a profile for the given scope.
 				var priv = theUser.getPrivateProfiles(), oldScopes;
 				step(function () {
@@ -446,10 +446,15 @@ define(["step", "whispeerHelper"], function (step, h) {
 
 					this.parallel.unflatten();
 
-					priv[oldScopes.indexOf("me")].getAttribute([], this.parallel());
-					settingsService.getBranch("privacy", this.parallel());
-				}), h.sF(function (myProfile, privacySettings) {
-
+					priv[oldScopes.indexOf("me")].getFull(this.parallel());
+					if (!privacySettings) {
+						settingsService.getBranch("privacy", this.parallel());
+					} else {
+						this.parallel()(null, privacySettings);
+					}
+					$injector.get("ssn.filterKeyService").filterToKeys(scopes, this.parallel());
+				}), h.sF(function (myProfile, privacySettings, keys) {
+					debugger;
 					var i, profile;
 					if (oldScopes.length !== priv.length) {
 						throw new Error("bug");
@@ -463,7 +468,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 									scope: scopes[i]
 								}
 							}, true);
-							profile.signAndEncrypt(theUser.getSignKey(), cryptKey, theUser.getMainKey(), this.parallel());
+							profile.signAndEncrypt(theUser.getSignKey(), keys[i], theUser.getMainKey(), this.parallel());
 						}
 					}
 				}), h.sF(function (profiles) {
@@ -517,7 +522,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 		};
 	}
 
-	userModel.$inject = ["$location",  "ssn.keyStoreService", "ssn.profileService", "ssn.sessionService", "ssn.settingsService", "ssn.socketService", "ssn.friendsService"];
+	userModel.$inject = ["$injector", "$location",  "ssn.keyStoreService", "ssn.profileService", "ssn.sessionService", "ssn.settingsService", "ssn.socketService", "ssn.friendsService"];
 
 	return userModel;
 });

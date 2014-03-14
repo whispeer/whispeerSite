@@ -5,7 +5,7 @@
 define(["whispeerHelper", "step"], function (h, step) {
 	"use strict";
 
-	function settingsController($scope, cssService, settingsService) {
+	function settingsController($scope, cssService, settingsService, userService) {
 		cssService.setClass("settingsView");
 
 		$scope.safetySorted = ["location", "birthday", "relationship", "education", "work", "gender", "languages"];
@@ -49,6 +49,9 @@ define(["whispeerHelper", "step"], function (h, step) {
 				var profilesToAdd = h.arraySubtract(typesNew, typesOld);
 				var profilesToRemove = h.arraySubtract(typesOld, typesNew);
 
+				userService.getown().createProfiles(profilesToAdd, this.parallel(), $scope.safety);
+				userService.getown().deleteProfiles(profilesToRemove, this.parallel());
+			}), h.sF(function () {
 				settingsService.updateBranch("privacy", $scope.safety, this);
 			}), h.sF(function () {
 				settingsService.uploadChangedData(this);
@@ -96,7 +99,7 @@ define(["whispeerHelper", "step"], function (h, step) {
 		};
 	}
 
-	settingsController.$inject = ["$scope", "ssn.cssService", "ssn.settingsService"];
+	settingsController.$inject = ["$scope", "ssn.cssService", "ssn.settingsService", "ssn.userService"];
 
 	return settingsController;
 });

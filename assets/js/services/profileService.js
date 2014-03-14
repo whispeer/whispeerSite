@@ -204,6 +204,19 @@ define(["crypto/keyStore", "step", "whispeerHelper", "asset/encryptedMetaData", 
 				changed = false;
 			};
 
+			this.getFull = function getFullF(cb) {
+				if (decrypted === true) {
+					cb(null, decryptedProfile);
+					return;
+				}
+
+				step(function () {
+					theProfile.decrypt(this);
+				}, h.sF(function () {
+					this.last.ne(decryptedProfile);
+				}), cb);
+			};
+
 			this.getAttribute = function getAttributeF(attrs, cb) {
 				if (decrypted === true) {
 					cb(null, h.deepGet(decryptedProfile, attrs));
@@ -264,7 +277,7 @@ define(["crypto/keyStore", "step", "whispeerHelper", "asset/encryptedMetaData", 
 					var attr;
 					for (attr in result) {
 						if (result.hasOwnProperty(attr)) {
-							decryptedProfile[attr] = result[attr];
+							paddedProfile[attr] = result[attr];
 						}
 					}
 
