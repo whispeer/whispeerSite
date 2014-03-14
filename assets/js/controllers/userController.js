@@ -5,7 +5,7 @@
 define(["step", "whispeerHelper"], function (step, h) {
 	"use strict";
 
-	function userController($scope, $routeParams, cssService, userService, postService, circleService) {
+	function userController($scope, $routeParams, $timeout, cssService, userService, postService, circleService) {
 		var identifier = $routeParams.identifier;
 		var userObject;
 
@@ -111,12 +111,48 @@ define(["step", "whispeerHelper"], function (step, h) {
 			}
 		};
 
-		$scope.circles = {
-			selectedElements: []
+		$scope.userState = {
+			saving: false,
+			success: true,
+			failure: false
 		};
 
-		$scope.safeCircles = function () {
+		$scope.circles = {
+			selectedElements: [],
+			saving: false,
+			success: true,
+			failure: false
+		};
+
+		function setGeneralState(state, obj) {
+			obj.saving = false;
+			obj.success = false;
+			obj.failure = false;
+
+
+			switch(state) {
+				case "saving":
+					obj.saving = true;
+					break;
+				case "success":
+					obj.success = true;
+					break;
+				case "failure":
+				default:
+					obj.failure = true;
+					break;
+			}			
+		}
+
+		function setCircleState(state) {
+			setGeneralState(state, obj);
+		}
+
+		$scope.saveCircles = function () {
 			step(function () {
+				setCircleState("saving");
+				$timeout(this, 200);
+			}, h.sF(function () {
 				var oldCircles = circleService.inWhichCircles($scope.user.id).map(function (e) {
 					return h.parseDecimal(e.getID());
 				});
@@ -133,10 +169,10 @@ define(["step", "whispeerHelper"], function (step, h) {
 				for (i = 0; i < toRemove.length; i += 1) {
 					circleService.get(toRemove[i]).removePersons([$scope.user.id], this.parallel());
 				}
-			}, h.sF(function (results) {
-				debugger;
+			}), h.sF(function (results) {
+				setCircleState("success");
 			}), function (e) {
-				debugger;
+				setCircleState("failure");
 			});
 		};
 
@@ -194,7 +230,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 		$scope.friends = [];
 	}
 
-	userController.$inject = ["$scope", "$routeParams", "ssn.cssService", "ssn.userService", "ssn.postService", "ssn.circleService"];
+	userController.$inject = ["$scope", "$routeParams", "$timeout", "ssn.cssService", "ssn.userService", "ssn.postService", "ssn.circleService"];
 
 	return userController;
 });
