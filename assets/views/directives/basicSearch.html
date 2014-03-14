@@ -1,4 +1,4 @@
-<div class="searchBar {{'search-'+(multiple?'multiple':'single')}}">
+<div class="searchBar" data-ng-class="{'search-multiple': multiple, 'search-single': !multiple}">
 	<form class="formSearch">
 		<div data-ng-click="click(true, $event)">
 			<ul class="inputWrap">
