@@ -14,7 +14,7 @@ define(["step", "whispeerHelper"], function () {
 			transclude: true,
 			link: function postLink(scope, iElement, iAttrs) {
 				scope.resultAttribute = iAttrs["resAttr"] || "selectedElements";
-				var multiple = iAttrs["multiple"] !== undefined;
+				scope.multiple = iAttrs["multiple"] !== undefined;
 				scope.big = iAttrs["size"] === "big";
 
 				var oldQuery = "", internallyClicked = false;
@@ -187,7 +187,7 @@ define(["step", "whispeerHelper"], function () {
 				scope.selectedElements = [];
 
 				function selectionUpdated(selection) {
-					if (multiple) {
+					if (scope.multiple) {
 						if (scope.res) {
 							scope.res[scope.resultAttribute] = scope.selectedElements.map(function (e) {
 								return e.id;
@@ -208,7 +208,7 @@ define(["step", "whispeerHelper"], function () {
 
 				scope.selectResult = function(index) {
 					var result = scope.results[index];
-					if (multiple) {
+					if (scope.multiple) {
 						var name = result.name;
 						var id = result.id;
 
