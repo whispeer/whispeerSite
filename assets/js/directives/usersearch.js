@@ -61,6 +61,10 @@ define(["step", "whispeerHelper"], function (step, h) {
 					}));
 				}
 
+				scope.saveCircles = function () {
+
+				};
+
 				scope.$on("addFriend", function (event, user) {
 					friendsService.friendship(user.id);
 				});

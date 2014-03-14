@@ -54,7 +54,7 @@ define(["step", "whispeerHelper"], function () {
 				jQuery(document.body).click(function () {
 					$timeout(function () {
 						if (!internallyClicked) {
-							scope.click(false);
+							scope.hide();
 						}
 
 						internallyClicked = false;
@@ -64,6 +64,8 @@ define(["step", "whispeerHelper"], function () {
 				scope.notifyParent = function (eventName, attr) {
 					scope.$emit(eventName, attr);
 				};
+
+				scope.width = iElement.width();
 
 				scope.show = function () {
 					return (focused || clicked);
@@ -83,6 +85,9 @@ define(["step", "whispeerHelper"], function () {
 					if (bool) {
 						internallyClicked = true;
 						input.focus();
+						$timeout(function () {
+							internallyClicked = false;
+						});
 					}
 					clicked = bool;
 					initialize();
@@ -140,8 +145,6 @@ define(["step", "whispeerHelper"], function () {
 					scope.searching = false;
 					realResults = results;
 					scope.results = filterRealResults();
-					var width = iElement.width();
-					iElement.find(".searchDrop").width(width);
 				});
 
 				scope.$on("resetSearch", function () {
