@@ -188,7 +188,7 @@
 					"": "",
 					"default":	"{gender}",
 					"m":	"male",
-					"f":	"female",
+					"f":	"female"
 					"n":	"No gender selected"
 				},
 				"languages":	"{language}"
