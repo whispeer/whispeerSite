@@ -4,13 +4,12 @@ define (["whispeerHelper"], function (h) {
     /* jshint validthis: true */
 
     function listenOnceF(fn, type) {
-        var that = this;
+    	type = type || "any";
 
-        var listenOnce = function (data) {
-            that.unlisten(listenOnce, type);
-            fn(data);
-        };
-        this.listen(listenOnce, type);
+        if (typeof this._listenersOnce[type] === "undefined") {
+            this._listenersOnce[type] = [];
+        }
+        this._listenersOnce[type].push(fn);
     }
 
     function listenF(fn, type) {
@@ -33,7 +32,13 @@ define (["whispeerHelper"], function (h) {
             returnF = function () {};
         }
 
-        var subscribers = (this._listeners[type] || []).slice();
+        var listeners = this._listeners[type] || [];
+        var listenersOnce = this._listenersOnce[type] || [];
+
+        var subscribers = (listeners).concat(listenersOnce);
+
+        this._listenersOnce[type] = [];
+
         var result = h.callEach(subscribers, [data], returnF);
 
         if (type !== "any") {
@@ -44,13 +49,12 @@ define (["whispeerHelper"], function (h) {
     }
 
     var Observer = function () {
-        this._listeners = {
-            any: [] // event type: this._listeners
-        };
+        this._listeners = {};
+        this._listenersOnce = {};
 
         this.listenOnce = listenOnceF;
         this.listen = listenF;
-        this.unlisten = unListenF;
+        //this.unlisten = unListenF;
         this.notify = notifyF;
     };
 
