@@ -1,17 +1,14 @@
-
-
-<div class="searchBar {{'search-'+(multiple?'multiple':'single')}}">
-	<form class="formSearch">
-		<div data-ng-click="click(true, $event)">
-			<ul class="inputWrap">
-				<li data-ng-repeat="element in selectedElements" class="searchResult">
-					<span class="nameTag">{{element.name}}</span> <a href="" class="remove" data-ng-click="removeSelection($index)"><i class="icon icon-cancel-circle"></i></a>
-				</li>
-				<li class="searchField" style="display: inline;">
-				</li>
-			</ul>
-		</div>
+<div class="searchBar" data-ng-class="{'search-multiple': multiple, 'search-single': !multiple}">
+	<form class="formSearch" data-ng-click="click(true, $event)">
+		<ul class="inputWrap">
+			<li data-ng-repeat="element in selectedElements" class="searchResult">
+				<span class="nameTag">{{element.name}}</span>
+				<a href="" class="remove" data-ng-click="removeSelection($index)"><i class="icon icon-cancel-circle"></i></a>
+			</li>
+			<li class="searchField">
+			</li>
+		</ul>
 	</form>
-	<div class="searchDrop" style="width:{{width}}px" data-ng-if="show()" ng-transclude>
+	<div class="searchDrop" style="width: {{width}}px" data-ng-if="show()" ng-transclude>
 	</div>
 </div>

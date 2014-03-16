@@ -24,34 +24,13 @@
 				#receiver {
 					.column(5.5,8,left,0);
 					border: none;
-					height: 38px;
+					.formSearch {
+						.border-radius(0px);
+					}
 					.inputWrap {
 						border: none;
 						border-top: 1px solid #aaa;
 						.border-radius(0px);
-						overflow-y: hidden;
-						overflow-x: scroll;
-						height: 50px;
-						white-space: nowrap;
-						text-align: left;
-						li {
-							white-space: nowrap;
-							&.searchField {
-								height: 35px;
-								line-height: 35px;
-								float: none;
-								margin: 0;
-								input {
-									width: 100%;
-									height: 35px;
-									line-height: 35px;
-								}
-							}
-							&.searchResult {
-								max-width: none;
-								padding: 0 5px 0 5px !important;
-							}
-						}
 					}
 					.searchDrop {
 						margin-top: 5px;
@@ -95,39 +74,17 @@
 				}
 				#theFilter {
 					.column(12,12);
-					margin-left: -1%;
-					height: 42px;
-					padding: 5px;
-					resize: none;
+					margin-top: 8px;
+					height: 38px;
+					padding:0;
 					.formSearch {
-						overflow: hidden !important;
-					}
-					.inputWrap {
-						overflow-y: hidden;
-						overflow-x: scroll;
-						white-space: nowrap;
-						text-align: left;
-						height: 60px;
-						border: none;
-						li {
-							white-space: nowrap;
-							&.searchField {
-								height: 35px;
-								line-height: 35px;
-								float: none;
-								margin: 0;
-								input {
-									width: 100%;
-									height: 35px;
-									line-height: 35px;
-								}
-							}
-							&.searchResult {
-								max-width: none;
-								padding: 0 5px 0 5px !important;
-							}
+						height: 38px !important;
+						.inputWrap {
+							border: none;
+							padding-top: 1px;
+							.border-radius(0px);
 						}
-					}
+					}	
 					.searchDrop {
 						margin-top: 5px;
 					}	

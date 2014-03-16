@@ -5,70 +5,111 @@
 //
 // Styleguide 2.8
 .searchBar {
+	height: 38px !important;
 	.formSearch {
 		height: 100%;
-		div {
+		.border-radius(5px);
+		.inputWrap {
 			height: 100%;
-			.inputWrap {
-				height: 100%;
-				.unstyled;
-				.box-shadow(inset 0px 0px 5px #ccc);
-				cursor: text;
-				background: white;
-				.border-radius(5px);
-				overflow: hidden;
-				border: 1px solid #8c8c8c;
-				.box-fix;
-				&:focus {
-					border: solid 1px darken(#6bc600, 8%);
-					.box-shadow(inset 0px 0px 5px rgba(107,199,0,0.75));
-					.transition(border-color .3s linear);
-					.transition(box-shadow .3s linear);
-				}
-				li {
-					&.searchResult {
-						float: left;
-						.btn;
-						.btn--green;
-						padding-top: 0px;
-						max-width: none;
-						.nameTag {
-							float: left;
-							display: block;
-							width: 80%;
-							margin-right: 2%;
-						}
-						.remove {
-							float: left;
-							display: block;
-							width: 15px;
-							max-width: 20%;
-							text-align: right;
-							color: #dedede;
-							z-index: 100;
-							&:hover {
-								color: #fff;
-							}
-						}
-					}
-					&.searchField {	
-						float: left;
+			.unstyled;
+			.box-shadow(inset 0px 0px 5px #ccc);
+			cursor: text;
+			background: white;
+			.border-radius(5px);
+			overflow-y: hidden;
+			overflow-x: scroll;
+			border: 1px solid #8c8c8c;
+			.box-fix;
+			&:focus {
+				border: solid 1px darken(#6bc600, 8%);
+				.box-shadow(inset 0px 0px 5px rgba(107,199,0,0.75));
+				.transition(border-color .3s linear);
+				.transition(box-shadow .3s linear);
+			}
+			li {
+				float: left;
+				margin:0;
+				height: 35px;
+				&.searchField {
+					display: inline-block;
+					margin-top: 1px;
+					input, input:focus {
 						display: inline-block;
-						box-shadow: none;
-						input {
-							.box-fix;
-							.box-shadow(~"none !important");
-							.border-radius(0);
-							border: none !important;
-							background: transparent !important;
-							line-height: 20px !important;
-							font-size: 13px;
-							display: inline-block;
-						}	
+						outline: none;
+						border: none;
+						height: 35px;
+						.box-shadow(none);
+					}	
+				}
+				&.searchResult {
+					.btn;
+					.btn--green;
+					display: inline-block;
+					margin: 1.5px 1% 1px 1% !important;
+					.nameTag {
+						display: inline-block;
+						float: left;
+						margin-top: 2.5px;
+					}
+					.remove {
+						float: right;
+						display: inline-block;
+						color: white;
+						margin-top: 2px;
 					}
 				}
 			}
-		}	
+		}
+	}
+	&.search-single {
+		.formSearch {
+			.inputWrap {
+				li {
+					&.searchField {
+						width: 100%;
+						input {
+							width: 100%;
+							background-color: red;	
+						}
+					}
+					&.searchResult {
+						// avoid errors
+						display: hidden;
+						visibility: hidden;
+						width: 0;
+						height: 0;
+						margin: 0;
+					}
+				}
+			}
+		}
+	}
+	&.search-multiple {
+		.formSearch {
+			overflow: hidden;
+			.inputWrap {
+				text-align: left;
+				white-space: nowrap;
+				height: 50px;
+				overflow-y: hidden;
+				overflow-x: scroll;
+				li {
+					white-space: nowrap;
+					&.searchField {
+						float: none;
+						width: auto;
+						input {
+							width: 100%;
+							background-color: red;	
+						}
+					}
+					&.searchResult {
+						width: auto;
+						margin: -2px 1%;
+					}
+				}
+			}
+		}
 	}
 	.searchDrop {
 		background: rgba(255,255,255,1);

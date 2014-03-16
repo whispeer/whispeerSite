@@ -488,14 +488,6 @@ body:not(.mainView, .registerView) #main {
 #topNav #navInner .searchBar .formSearch .inputWrap li.searchField input {
   line-height: 20px;
 }
-#topNav #navInner .searchBar .formSearch .inputWrap li.searchResult .nameTag {
-  display: inline-block;
-  float: left;
-  max-width: 80%;
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-}
 #topNav #navInner .searchBar .searchDrop .addToCircle .circleSubmit {
   z-index: 1000 !important;
 }
@@ -1553,13 +1545,19 @@ dd {
 .person:hover .pushup p {
   opacity: 1;
 }
+.searchBar {
+  height: 38px !important;
+}
 .searchBar .formSearch {
   height: 100%;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
 }
-.searchBar .formSearch div {
-  height: 100%;
-}
-.searchBar .formSearch div .inputWrap {
+.searchBar .formSearch .inputWrap {
   height: 100%;
   margin-left: 0;
   list-style: none;
@@ -1574,7 +1572,8 @@ dd {
   -moz-background-clip: padding;
   -webkit-background-clip: padding-box;
   background-clip: padding-box;
-  overflow: hidden;
+  overflow-y: hidden;
+  overflow-x: scroll;
   border: 1px solid #8c8c8c;
   -webkit-box-sizing: border-box;
   /* Safari/Chrome, other WebKit */
@@ -1583,7 +1582,7 @@ dd {
   box-sizing: border-box;
   /* Opera/IE 8+ */
 }
-.searchBar .formSearch div .inputWrap:focus {
+.searchBar .formSearch .inputWrap:focus {
   border: solid 1px #559d00;
   -webkit-box-shadow: inset 0px 0px 5px rgba(107, 199, 0, 0.75);
   -moz-box-shadow: inset 0px 0px 5px rgba(107, 199, 0, 0.75);
@@ -1597,9 +1596,26 @@ dd {
   -ms-transition: box-shadow 0.3s linear;
   -o-transition: box-shadow 0.3s linear;
 }
-.searchBar .formSearch div .inputWrap li.searchResult {
+.searchBar .formSearch .inputWrap li {
   float: left;
+  margin: 0;
+  height: 35px;
+}
+.searchBar .formSearch .inputWrap li.searchField {
   display: inline-block;
+  margin-top: 1px;
+}
+.searchBar .formSearch .inputWrap li.searchField input,
+.searchBar .formSearch .inputWrap li.searchField input:focus {
+  display: inline-block;
+  outline: none;
+  border: none;
+  height: 35px;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+}
+.searchBar .formSearch .inputWrap li.searchResult {
   padding: 4px 15px;
   -webkit-box-sizing: border-box;
   /* Safari/Chrome, other WebKit */
@@ -1623,70 +1639,75 @@ dd {
   background-color: #3a8100;
   color: #ffffff !important;
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
-  padding-top: 0px;
-  max-width: none;
+  display: inline-block;
+  margin: 1.5px 1% 1px 1% !important;
 }
-.searchBar .formSearch div .inputWrap li.searchResult:hover {
+.searchBar .formSearch .inputWrap li.searchResult:hover {
   background-color: #ececec;
 }
-.searchBar .formSearch div .inputWrap li.searchResult:hover,
-.searchBar .formSearch div .inputWrap li.searchResult:active,
-.searchBar .formSearch div .inputWrap li.searchResult.active,
-.searchBar .formSearch div .inputWrap li.searchResult.disabled,
-.searchBar .formSearch div .inputWrap li.searchResult[disabled] {
+.searchBar .formSearch .inputWrap li.searchResult:hover,
+.searchBar .formSearch .inputWrap li.searchResult:active,
+.searchBar .formSearch .inputWrap li.searchResult.active,
+.searchBar .formSearch .inputWrap li.searchResult.disabled,
+.searchBar .formSearch .inputWrap li.searchResult[disabled] {
   background-color: #ececec;
 }
-.searchBar .formSearch div .inputWrap li.searchResult:hover,
-.searchBar .formSearch div .inputWrap li.searchResult:active,
-.searchBar .formSearch div .inputWrap li.searchResult.active,
-.searchBar .formSearch div .inputWrap li.searchResult.disabled,
-.searchBar .formSearch div .inputWrap li.searchResult[disabled] {
+.searchBar .formSearch .inputWrap li.searchResult:hover,
+.searchBar .formSearch .inputWrap li.searchResult:active,
+.searchBar .formSearch .inputWrap li.searchResult.active,
+.searchBar .formSearch .inputWrap li.searchResult.disabled,
+.searchBar .formSearch .inputWrap li.searchResult[disabled] {
   background-color: #3b7b06;
 }
-.searchBar .formSearch div .inputWrap li.searchResult .nameTag {
-  float: left;
-  display: block;
-  width: 80%;
-  margin-right: 2%;
-}
-.searchBar .formSearch div .inputWrap li.searchResult .remove {
-  float: left;
-  display: block;
-  width: 15px;
-  max-width: 20%;
-  text-align: right;
-  color: #dedede;
-  z-index: 100;
-}
-.searchBar .formSearch div .inputWrap li.searchResult .remove:hover {
-  color: #fff;
-}
-.searchBar .formSearch div .inputWrap li.searchField {
-  float: left;
+.searchBar .formSearch .inputWrap li.searchResult .nameTag {
   display: inline-block;
-  box-shadow: none;
+  float: left;
+  margin-top: 2.5px;
 }
-.searchBar .formSearch div .inputWrap li.searchField input {
-  -webkit-box-sizing: border-box;
-  /* Safari/Chrome, other WebKit */
-  -moz-box-sizing: border-box;
-  /* Firefox, other Gecko */
-  box-sizing: border-box;
-  /* Opera/IE 8+ */
-  -webkit-box-shadow: none !important;
-  -moz-box-shadow: none !important;
-  box-shadow: none !important;
-  -webkit-border-radius: 0;
-  -moz-border-radius: 0;
-  border-radius: 0;
-  -moz-background-clip: padding;
-  -webkit-background-clip: padding-box;
-  background-clip: padding-box;
-  border: none !important;
-  background: transparent !important;
-  line-height: 20px !important;
-  font-size: 13px;
+.searchBar .formSearch .inputWrap li.searchResult .remove {
+  float: right;
   display: inline-block;
+  color: white;
+  margin-top: 2px;
+}
+.searchBar.search-single .formSearch .inputWrap li.searchField {
+  width: 100%;
+}
+.searchBar.search-single .formSearch .inputWrap li.searchField input {
+  width: 100%;
+  background-color: red;
+}
+.searchBar.search-single .formSearch .inputWrap li.searchResult {
+  display: hidden;
+  visibility: hidden;
+  width: 0;
+  height: 0;
+  margin: 0;
+}
+.searchBar.search-multiple .formSearch {
+  overflow: hidden;
+}
+.searchBar.search-multiple .formSearch .inputWrap {
+  text-align: left;
+  white-space: nowrap;
+  height: 50px;
+  overflow-y: hidden;
+  overflow-x: scroll;
+}
+.searchBar.search-multiple .formSearch .inputWrap li {
+  white-space: nowrap;
+}
+.searchBar.search-multiple .formSearch .inputWrap li.searchField {
+  float: none;
+  width: auto;
+}
+.searchBar.search-multiple .formSearch .inputWrap li.searchField input {
+  width: 100%;
+  background-color: red;
+}
+.searchBar.search-multiple .formSearch .inputWrap li.searchResult {
+  width: auto;
+  margin: -2px 1%;
 }
 .searchBar .searchDrop {
   background: #ffffff;
@@ -2896,7 +2917,14 @@ body.loading:after {
   width: 68.75%;
   margin: 0 0 0 0;
   border: none;
-  height: 38px;
+}
+.mainView #wall header #postIt #receiver .formSearch {
+  -webkit-border-radius: 0px;
+  -moz-border-radius: 0px;
+  border-radius: 0px;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
 }
 .mainView #wall header #postIt #receiver .inputWrap {
   border: none;
@@ -2907,29 +2935,6 @@ body.loading:after {
   -moz-background-clip: padding;
   -webkit-background-clip: padding-box;
   background-clip: padding-box;
-  overflow-y: hidden;
-  overflow-x: scroll;
-  height: 50px;
-  white-space: nowrap;
-  text-align: left;
-}
-.mainView #wall header #postIt #receiver .inputWrap li {
-  white-space: nowrap;
-}
-.mainView #wall header #postIt #receiver .inputWrap li.searchField {
-  height: 35px;
-  line-height: 35px;
-  float: none;
-  margin: 0;
-}
-.mainView #wall header #postIt #receiver .inputWrap li.searchField input {
-  width: 100%;
-  height: 35px;
-  line-height: 35px;
-}
-.mainView #wall header #postIt #receiver .inputWrap li.searchResult {
-  max-width: none;
-  padding: 0 5px 0 5px !important;
 }
 .mainView #wall header #postIt #receiver .searchDrop {
   margin-top: 5px;
@@ -3055,39 +3060,22 @@ body.loading:after {
   float: left;
   width: 98%;
   margin: 0 1% 0 1%;
-  margin-left: -1%;
-  height: 42px;
-  padding: 5px;
-  resize: none;
+  margin-top: 8px;
+  height: 38px;
+  padding: 0;
 }
 .mainView #wall header #filter #theFilter .formSearch {
-  overflow: hidden !important;
+  height: 38px !important;
 }
-.mainView #wall header #filter #theFilter .inputWrap {
-  overflow-y: hidden;
-  overflow-x: scroll;
-  white-space: nowrap;
-  text-align: left;
-  height: 60px;
+.mainView #wall header #filter #theFilter .formSearch .inputWrap {
   border: none;
-}
-.mainView #wall header #filter #theFilter .inputWrap li {
-  white-space: nowrap;
-}
-.mainView #wall header #filter #theFilter .inputWrap li.searchField {
-  height: 35px;
-  line-height: 35px;
-  float: none;
-  margin: 0;
-}
-.mainView #wall header #filter #theFilter .inputWrap li.searchField input {
-  width: 100%;
-  height: 35px;
-  line-height: 35px;
-}
-.mainView #wall header #filter #theFilter .inputWrap li.searchResult {
-  max-width: none;
-  padding: 0 5px 0 5px !important;
+  padding-top: 1px;
+  -webkit-border-radius: 0px;
+  -moz-border-radius: 0px;
+  border-radius: 0px;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
 }
 .mainView #wall header #filter #theFilter .searchDrop {
   margin-top: 5px;
@@ -11511,129 +11499,6 @@ body.loading:after {
   .person:hover .pushup {
     height: 80px;
   }
-  .searchBar .formSearch .inputWrap {
-    margin-left: 0;
-    list-style: none;
-    height: auto;
-    background: white;
-    padding: 0;
-    max-width: 100%;
-    display: block;
-    width: 100%;
-    word-break: break-all;
-    min-height: 39px;
-  }
-  .searchBar .formSearch .inputWrap li {
-    display: inline-block !important;
-    line-height: 35px;
-    height: 35px;
-  }
-  .searchBar .formSearch .inputWrap li.searchResult {
-    display: block;
-    float: left;
-    margin: 2px;
-    max-width: 25%;
-    padding: 0 5px 0 5px;
-  }
-  .searchBar .formSearch .inputWrap li.searchField input {
-    width: 26%;
-    outline: 0;
-    border: 0;
-    padding: 0px 9px;
-    margin: 2px 0;
-    height: 35px;
-  }
-  .searchBar .searchDrop {
-    display: inline-block;
-    *display: inline;
-    /* IE7 inline-block hack */
-    *zoom: 1;
-    float: left;
-    width: 48%;
-    margin: 0 1% 0 1%;
-    margin: 0;
-    display: block;
-    padding: 0;
-    position: absolute;
-  }
-  .searchBar .searchDrop .searchSuggestions {
-    width: 100%;
-    margin: 0;
-    max-height: 390px;
-    overflow-y: scroll;
-    padding: 0;
-    -webkit-box-sizing: border-box;
-    /* Safari/Chrome, other WebKit */
-    -moz-box-sizing: border-box;
-    /* Firefox, other Gecko */
-    box-sizing: border-box;
-    /* Opera/IE 8+ */
-  }
-  .searchBar .searchDrop .searchSuggestions li {
-    width: 100%;
-    float: left;
-    padding: 0;
-    margin: 0;
-    min-height: 20px;
-    height: auto;
-    overflow-x: hidden;
-  }
-  .searchBar .searchDrop .searchSuggestions li img {
-    display: inline-block;
-    *display: inline;
-    /* IE7 inline-block hack */
-    *zoom: 1;
-    float: left;
-    width: 10.833333333333334%;
-    margin: 0 0 0 0;
-    margin-left: 0;
-  }
-  .searchBar .searchDrop .searchSuggestions li .info {
-    display: inline-block;
-    *display: inline;
-    /* IE7 inline-block hack */
-    *zoom: 1;
-    float: left;
-    width: 52.16666666666667%;
-    margin: 0 1% 0 1%;
-    margin: 7px 0 0 3%;
-    padding: 0;
-  }
-  .searchBar .searchDrop .searchSuggestions li .info .name {
-    font-size: 1.3em;
-    min-height: 10px;
-    width: 100%;
-    float: left;
-  }
-  .searchBar .searchDrop .searchSuggestions li .info .friends {
-    width: 100%;
-    float: left;
-  }
-  .searchBar .searchDrop .searchSuggestions li .info .location,
-  .searchBar .searchDrop .searchSuggestions li .info.age {
-    display: inline-block;
-    *display: inline;
-    /* IE7 inline-block hack */
-    *zoom: 1;
-    float: left;
-    width: 50%;
-    margin: 0 0 0 0;
-  }
-  .searchBar .searchDrop .searchSuggestions li .actions {
-    display: inline-block;
-    *display: inline;
-    /* IE7 inline-block hack */
-    *zoom: 1;
-    float: left;
-    width: 31.333333333333336%;
-    margin: 0 1% 0 1%;
-    margin-top: 5px;
-  }
-  .searchBar .searchDrop .searchSuggestions li .actions a {
-    cursor: pointer;
-    text-align: center;
-    margin-bottom: 5px;
-  }
   #topNav {
     width: 100%;
   }
@@ -11673,14 +11538,10 @@ body.loading:after {
     line-height: 35px;
     padding: 0;
   }
-  #topNav .searchBar .formSearch .inputWrap li.searchField {
-    width: 50%;
-  }
   #topNav .searchBar .formSearch .inputWrap li.searchField input {
     padding: 0px 10px;
     margin: -1px 0;
     height: 35px;
-    line-height: 35px;
   }
   #topNav .searchBar .searchDrop {
     top: 45px;
