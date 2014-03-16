@@ -145,7 +145,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 		}
 
 		function setCircleState(state) {
-			setGeneralState(state, obj);
+			setGeneralState(state, $scope.circles);
 		}
 
 		$scope.saveCircles = function () {
