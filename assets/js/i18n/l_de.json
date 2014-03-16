@@ -18,9 +18,8 @@
 		"welcome": "Willkommen bei whispeer - dem sicheren sozialen Netzwerk!",
 		"more": "Mehr Info",
 		"moreInfo": "Mehr Informationen zu whispeer",
-		"regnow": "Jetzt anmelden!",
-		"moreInfo": "Lorem ipsum dolor sit amit bla bla bla bla bla bla bla"
-		},
+		"regnow": "Jetzt anmelden!"
+	},
 	"directives": {
 		"allfriends": "Alle Freunde",
 		"friendsoffriends": "Freunde von Freunden"
@@ -90,7 +89,6 @@
 			"more": "Weitere Informationen",
 			"intro": "Bitte teile uns dein Geschlecht, deinen Namen, dein Geburtsdatum und deinen Wohnort mit. Dies ermöglicht deinen Freunden bei whispeer, dich zu finden. Selbstverständlich zwingen wir dich nicht dazu, diese Angaben zu machen!",
 			"newaccount": "Neues Konto erstellen"
-		}
 		}
 	},
 	"wall": {
