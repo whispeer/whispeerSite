@@ -5,7 +5,7 @@ define(["step", "whispeerHelper", "asset/observer"], function (step, h, Observer
 	"use strict";
 
 	var service = function ($rootScope, $injector, socket, sessionService, keyStore, initService) {
-		var friends = [], requests = [], requested = [];
+		var friends = [], requests = [], requested = [], onlineFriends = {};
 		var friendsData = {
 			requestsCount: 0,
 			friendsCount: 0,
@@ -150,6 +150,13 @@ define(["step", "whispeerHelper", "asset/observer"], function (step, h, Observer
 			}
 		});
 
+		socket.listen("friendOnlineChange", function (e, requestData) {
+			var uid = requestData.uid;
+			var status = requestData.status;
+
+			onlineFriends[uid] = status;
+		});
+
 		var friendsService = {
 			getUserFriends: function (uid, cb) {
 				step(function () {
@@ -221,6 +228,9 @@ define(["step", "whispeerHelper", "asset/observer"], function (step, h, Observer
 				setRequests(data.requests);
 				setRequested(data.requested);
 			},
+			setOnline: function (online) {
+				onlineFriends = online;
+			},
 			reset: function () {
 				friends = [];
 				requests = [];
@@ -233,6 +243,10 @@ define(["step", "whispeerHelper", "asset/observer"], function (step, h, Observer
 
 		initService.register("friends.getAll", {}, function (data) {
 			friendsService.load(data);
+		});
+
+		initService.register("friends.getOnline", {}, function (data) {
+			friendsService.setOnline(data.online);
 		});
 
 		$rootScope.$on("ssn.reset", function () {
