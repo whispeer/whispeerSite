@@ -385,6 +385,14 @@ table {
   box-sizing: padding-box;
   /* Opera/IE 8+ */
 }
+.normal-box {
+  -webkit-box-sizing: content-box;
+  /* Safari/Chrome, other WebKit */
+  -moz-box-sizing: content-box;
+  /* Firefox, other Gecko */
+  box-sizing: content-box;
+  /* Opera/IE 8+ */
+}
 .clear-fix {
   *zoom: 1;
 }
@@ -1640,7 +1648,7 @@ dd {
   color: #ffffff !important;
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
   display: inline-block;
-  margin: 1.5px 1% 1px 1% !important;
+  margin: 1px 1% 1px 1% !important;
 }
 .searchBar .formSearch .inputWrap li.searchResult:hover {
   background-color: #ececec;
@@ -1662,20 +1670,19 @@ dd {
 .searchBar .formSearch .inputWrap li.searchResult .nameTag {
   display: inline-block;
   float: left;
-  margin-top: 2.5px;
+  margin-top: -1px;
 }
 .searchBar .formSearch .inputWrap li.searchResult .remove {
   float: right;
   display: inline-block;
   color: white;
-  margin-top: 2px;
+  margin-top: -1px;
 }
 .searchBar.search-single .formSearch .inputWrap li.searchField {
   width: 100%;
 }
 .searchBar.search-single .formSearch .inputWrap li.searchField input {
   width: 100%;
-  background-color: red;
 }
 .searchBar.search-single .formSearch .inputWrap li.searchResult {
   display: hidden;
@@ -1690,7 +1697,7 @@ dd {
 .searchBar.search-multiple .formSearch .inputWrap {
   text-align: left;
   white-space: nowrap;
-  height: 50px;
+  height: 55px;
   overflow-y: hidden;
   overflow-x: scroll;
 }
@@ -1703,7 +1710,6 @@ dd {
 }
 .searchBar.search-multiple .formSearch .inputWrap li.searchField input {
   width: 100%;
-  background-color: red;
 }
 .searchBar.search-multiple .formSearch .inputWrap li.searchResult {
   width: auto;
@@ -1722,6 +1728,8 @@ dd {
   -moz-box-shadow: 0px 0px 5px 0px #b2b2b2;
   box-shadow: 0px 0px 5px 0px #b2b2b2;
   z-index: 10000;
+  display: block;
+  overflow-x: hidden;
 }
 .searchBar .searchDrop .searchSuggestions {
   -webkit-border-radius: 5px;
@@ -1731,11 +1739,12 @@ dd {
   -webkit-background-clip: padding-box;
   background-clip: padding-box;
   overflow-x: hidden;
-  -webkit-box-sizing: border-box;
+  padding-right: 15px !important;
+  -webkit-box-sizing: content-box;
   /* Safari/Chrome, other WebKit */
-  -moz-box-sizing: border-box;
+  -moz-box-sizing: content-box;
   /* Firefox, other Gecko */
-  box-sizing: border-box;
+  box-sizing: content-box;
   /* Opera/IE 8+ */
 }
 .searchBar .searchDrop .searchSuggestions li {
@@ -3061,15 +3070,14 @@ body.loading:after {
   width: 98%;
   margin: 0 1% 0 1%;
   margin-top: 8px;
-  height: 38px;
+  height: 37px;
   padding: 0;
 }
 .mainView #wall header #filter #theFilter .formSearch {
-  height: 38px !important;
+  height: 37px !important;
 }
 .mainView #wall header #filter #theFilter .formSearch .inputWrap {
   border: none;
-  padding-top: 1px;
   -webkit-border-radius: 0px;
   -moz-border-radius: 0px;
   border-radius: 0px;
@@ -9849,7 +9857,7 @@ body.loading:after {
     position: absolute;
   }
   .searchBar .searchDrop .searchSuggestions {
-    width: 100%;
+    width: 120%;
     margin: 0;
     max-height: 390px;
     overflow-y: scroll;
@@ -11499,6 +11507,130 @@ body.loading:after {
   .person:hover .pushup {
     height: 80px;
   }
+  .searchBar .formSearch .inputWrap {
+    margin-left: 0;
+    list-style: none;
+    height: auto;
+    background: white;
+    padding: 0;
+    max-width: 100%;
+    display: block;
+    width: 100%;
+    word-break: break-all;
+    min-height: 39px;
+  }
+  .searchBar .formSearch .inputWrap li {
+    display: inline-block !important;
+    line-height: 35px;
+    height: 35px;
+  }
+  .searchBar .formSearch .inputWrap li.searchResult {
+    display: block;
+    float: left;
+    margin: 2px;
+    max-width: 35%;
+    padding: 0 5px 0 5px;
+  }
+  .searchBar .formSearch .inputWrap li.searchField input {
+    width: 45%;
+    outline: 0;
+    border: 0;
+    padding: 0px 9px;
+    margin: 2px 0;
+    height: 35px;
+  }
+  .searchBar .searchDrop {
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+    *zoom: 1;
+    float: left;
+    width: 40.85714285714286%;
+    margin: 0 1% 0 1%;
+    margin: 0;
+    display: block;
+    padding: 0;
+    position: absolute;
+  }
+  .searchBar .searchDrop .searchSuggestions {
+    width: 100%;
+    margin: 0;
+    max-height: 390px;
+    overflow-y: scroll;
+    padding: 0;
+  }
+  .searchBar .searchDrop .searchSuggestions li {
+    width: 102%;
+    float: left;
+    padding: 0;
+    margin: 0;
+    min-height: 20px;
+    height: auto;
+  }
+  .searchBar .searchDrop .searchSuggestions li img {
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+    *zoom: 1;
+    float: left;
+    width: 10.5%;
+    margin: 0 1% 0 1%;
+    margin-left: 0;
+  }
+  .searchBar .searchDrop .searchSuggestions li .info {
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+    *zoom: 1;
+    float: left;
+    width: 52.16666666666667%;
+    margin: 0 1% 0 1%;
+    margin: 7px 0 0 3%;
+    padding: 0;
+  }
+  .searchBar .searchDrop .searchSuggestions li .info .name {
+    font-size: 1.3em;
+    min-height: 10px;
+  }
+  .searchBar .searchDrop .searchSuggestions li .info .friends {
+    display: block;
+    width: 98%;
+    margin: 0 1% 0 1%;
+    *zoom: 1;
+  }
+  .searchBar .searchDrop .searchSuggestions li .info .friends:before,
+  .searchBar .searchDrop .searchSuggestions li .info .friends:after {
+    content: "";
+    display: table;
+  }
+  .searchBar .searchDrop .searchSuggestions li .info .friends:after {
+    clear: both;
+  }
+  .searchBar .searchDrop .searchSuggestions li .info .location,
+  .searchBar .searchDrop .searchSuggestions li .info.age {
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+    *zoom: 1;
+    float: left;
+    width: 23%;
+    margin: 0 1% 0 1%;
+  }
+  .searchBar .searchDrop .searchSuggestions li .actions {
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+    *zoom: 1;
+    float: left;
+    width: 29.666666666666668%;
+    margin: 0 1% 0 1%;
+    margin-top: 5px;
+  }
+  .searchBar .searchDrop .searchSuggestions li .actions a {
+    cursor: pointer;
+    text-align: center;
+    margin-bottom: 5px;
+  }
   #topNav {
     width: 100%;
   }
@@ -11529,9 +11661,9 @@ body.loading:after {
   }
   #topNav .searchBar .formSearch .inputWrap {
     min-height: 0px;
-    height: 35px;
     line-height: 35px;
     padding: 0;
+    overflow-x: hidden !important;
   }
   #topNav .searchBar .formSearch .inputWrap li {
     height: 35px;
@@ -11555,8 +11687,6 @@ body.loading:after {
     padding: 0;
   }
   #topNav .searchBar .searchDrop .actions .addToCircle .selectCircle {
-    padding-right: 2%;
-    height: 40px;
     width: 100%;
     margin: 0;
     -webkit-box-sizing: border-box;
@@ -11568,6 +11698,7 @@ body.loading:after {
   }
   #topNav .searchBar .searchDrop .actions .addToCircle .selectCircle .inputWrap {
     border: 1px solid #ccc;
+    padding-right: 8%;
     -webkit-box-sizing: border-box;
     /* Safari/Chrome, other WebKit */
     -moz-box-sizing: border-box;
@@ -11576,8 +11707,7 @@ body.loading:after {
     /* Opera/IE 8+ */
   }
   #topNav .searchBar .searchDrop .actions .addToCircle .selectCircle .inputWrap li {
-    overflow-y: hidden;
-    overflow-x: scroll;
+    overflow: hidden;
   }
   #topNav .searchBar .searchDrop .actions .addToCircle .selectCircle .inputWrap li.searchField {
     width: 100%;
@@ -11592,12 +11722,18 @@ body.loading:after {
   #topNav .searchBar .searchDrop .actions .addToCircle .selectCircle .inputWrap li.searchResult {
     width: 30%;
   }
+  #topNav .searchBar .searchDrop .actions .addToCircle .selectCircle .searchDrop {
+    margin-top: 45px !important;
+  }
+  #topNav .searchBar .searchDrop .actions .addToCircle .selectCircle .searchDrop li {
+    width: 104%;
+  }
   #topNav .searchBar .searchDrop .actions .addToCircle .circleSubmit {
-    width: 10% !important;
+    width: 9% !important;
     display: block;
-    height: 35px;
+    height: 38px;
     float: left;
-    margin: -33px 0 0 90%;
+    margin: -31px 0 0 91%;
     padding: 0px !important;
     text-align: center;
     border: 1px solid #ccc;
