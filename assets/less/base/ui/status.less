@@ -1,0 +1,15 @@
+.status {
+	width: 8px;
+	height: 8px;
+	.border-radius(500px);
+	display: inline-block;
+	&[data-status="0"] {
+		background-color: @red;
+	}
+	&[data-status="1"] {
+		background-color: @orange;
+	}
+	&[data-status="2"] {
+		background-color: @green;
+	}
+}

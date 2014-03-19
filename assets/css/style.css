@@ -1024,6 +1024,26 @@ dd {
 .btn--inverse[disabled] {
   background-color: #313131;
 }
+.status {
+  width: 8px;
+  height: 8px;
+  -webkit-border-radius: 500px;
+  -moz-border-radius: 500px;
+  border-radius: 500px;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  display: inline-block;
+}
+.status[data-status="0"] {
+  background-color: #9d261d;
+}
+.status[data-status="1"] {
+  background-color: #f7b311;
+}
+.status[data-status="2"] {
+  background-color: #54ab0c;
+}
 #magicbar {
   height: 100% !important;
   min-height: 100% !important;
@@ -1531,6 +1551,11 @@ dd {
   -o-transition: all 1s ease;
   overflow: hidden;
   text-align: center;
+}
+.person .pushup .status {
+  display: inline-block;
+  float: right;
+  margin: -27px 5% 0 0;
 }
 .person .pushup p {
   opacity: 0;
