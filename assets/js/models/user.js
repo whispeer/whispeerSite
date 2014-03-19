@@ -284,6 +284,8 @@ define(["step", "whispeerHelper"], function (step, h) {
 					theUser.data.me = theUser.isOwn();
 					theUser.data.other = !theUser.isOwn();
 
+					theUser.data.online = friendsService.onlineStatus(theUser.getID());
+
 					theUser.data.name = name;
 					theUser.data.basic.shortname = shortname;
 					theUser.data.basic.image = image;

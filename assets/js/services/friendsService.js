@@ -228,6 +228,9 @@ define(["step", "whispeerHelper", "asset/observer"], function (step, h, Observer
 				setRequests(data.requests);
 				setRequested(data.requested);
 			},
+			onlineStatus: function (uid) {
+				return onlineFriends[uid];
+			},
 			setOnline: function (online) {
 				onlineFriends = online;
 			},
