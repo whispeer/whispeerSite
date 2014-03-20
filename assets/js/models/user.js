@@ -456,7 +456,6 @@ define(["step", "whispeerHelper"], function (step, h) {
 					}
 					$injector.get("ssn.filterKeyService").filterToKeys(scopes, this.parallel());
 				}), h.sF(function (myProfile, privacySettings, keys) {
-					debugger;
 					var i, profile;
 					if (oldScopes.length !== priv.length) {
 						throw new Error("bug");
@@ -473,7 +472,11 @@ define(["step", "whispeerHelper"], function (step, h) {
 							profile.signAndEncrypt(theUser.getSignKey(), keys[i], theUser.getMainKey(), this.parallel());
 						}
 					}
+
+					this.parallel()();
 				}), h.sF(function (profiles) {
+					profiles = profiles || [];
+
 					socketService.emit("user.createPrivateProfiles", {
 						privateProfiles: profiles
 					}, this);
