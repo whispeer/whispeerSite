@@ -6,9 +6,19 @@
 // Styleguide 2.8
 .searchBar {
 	height: 38px !important;
+	overflow: hidden;
 	.formSearch {
 		height: 100%;
+		.box-fix;
 		.border-radius(5px);
+		overflow: hidden;
+		border: 1px solid #8c8c8c;
+		&:focus {
+			border: solid 1px darken(#6bc600, 8%);
+			.box-shadow(inset 0px 0px 5px rgba(107,199,0,0.75));
+			.transition(border-color .3s linear);
+			.transition(box-shadow .3s linear);
+		}
 		.inputWrap {
 			height: 100%;
 			.unstyled;
@@ -18,34 +28,31 @@
 			.border-radius(5px);
 			overflow-y: hidden;
 			overflow-x: scroll;
-			border: 1px solid #8c8c8c;
+			border: none !important;
 			.box-fix;
-			&:focus {
-				border: solid 1px darken(#6bc600, 8%);
-				.box-shadow(inset 0px 0px 5px rgba(107,199,0,0.75));
-				.transition(border-color .3s linear);
-				.transition(box-shadow .3s linear);
-			}
 			li {
 				float: left;
 				margin:0;
 				height: 35px;
 				&.searchField {
 					display: inline-block;
-					margin-top: 1px;
 					input, input:focus {
 						display: inline-block;
 						outline: none;
 						border: none;
 						height: 35px;
 						.box-shadow(none);
+						background: transparent;
 					}	
 				}
 				&.searchResult {
 					.btn;
 					.btn--green;
 					display: inline-block;
-					margin: 1px 1% 1px 1% !important;
+					margin: 1px 0.5% 1px 0 !important;
+					&:last-of-type, &:only-of-type {
+						margin-right: 0 !important;
+					}
 					.nameTag {
 						display: inline-block;
 						float: left;

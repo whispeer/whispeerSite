@@ -1580,15 +1580,38 @@ dd {
 }
 .searchBar {
   height: 38px !important;
+  overflow: hidden;
 }
 .searchBar .formSearch {
   height: 100%;
+  -webkit-box-sizing: border-box;
+  /* Safari/Chrome, other WebKit */
+  -moz-box-sizing: border-box;
+  /* Firefox, other Gecko */
+  box-sizing: border-box;
+  /* Opera/IE 8+ */
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
   border-radius: 5px;
   -moz-background-clip: padding;
   -webkit-background-clip: padding-box;
   background-clip: padding-box;
+  overflow: hidden;
+  border: 1px solid #8c8c8c;
+}
+.searchBar .formSearch:focus {
+  border: solid 1px #559d00;
+  -webkit-box-shadow: inset 0px 0px 5px rgba(107, 199, 0, 0.75);
+  -moz-box-shadow: inset 0px 0px 5px rgba(107, 199, 0, 0.75);
+  box-shadow: inset 0px 0px 5px rgba(107, 199, 0, 0.75);
+  -webkit-transition: border-color 0.3s linear;
+  -moz-transition: border-color 0.3s linear;
+  -ms-transition: border-color 0.3s linear;
+  -o-transition: border-color 0.3s linear;
+  -webkit-transition: box-shadow 0.3s linear;
+  -moz-transition: box-shadow 0.3s linear;
+  -ms-transition: box-shadow 0.3s linear;
+  -o-transition: box-shadow 0.3s linear;
 }
 .searchBar .formSearch .inputWrap {
   height: 100%;
@@ -1607,27 +1630,13 @@ dd {
   background-clip: padding-box;
   overflow-y: hidden;
   overflow-x: scroll;
-  border: 1px solid #8c8c8c;
+  border: none !important;
   -webkit-box-sizing: border-box;
   /* Safari/Chrome, other WebKit */
   -moz-box-sizing: border-box;
   /* Firefox, other Gecko */
   box-sizing: border-box;
   /* Opera/IE 8+ */
-}
-.searchBar .formSearch .inputWrap:focus {
-  border: solid 1px #559d00;
-  -webkit-box-shadow: inset 0px 0px 5px rgba(107, 199, 0, 0.75);
-  -moz-box-shadow: inset 0px 0px 5px rgba(107, 199, 0, 0.75);
-  box-shadow: inset 0px 0px 5px rgba(107, 199, 0, 0.75);
-  -webkit-transition: border-color 0.3s linear;
-  -moz-transition: border-color 0.3s linear;
-  -ms-transition: border-color 0.3s linear;
-  -o-transition: border-color 0.3s linear;
-  -webkit-transition: box-shadow 0.3s linear;
-  -moz-transition: box-shadow 0.3s linear;
-  -ms-transition: box-shadow 0.3s linear;
-  -o-transition: box-shadow 0.3s linear;
 }
 .searchBar .formSearch .inputWrap li {
   float: left;
@@ -1636,7 +1645,6 @@ dd {
 }
 .searchBar .formSearch .inputWrap li.searchField {
   display: inline-block;
-  margin-top: 1px;
 }
 .searchBar .formSearch .inputWrap li.searchField input,
 .searchBar .formSearch .inputWrap li.searchField input:focus {
@@ -1647,6 +1655,7 @@ dd {
   -webkit-box-shadow: none;
   -moz-box-shadow: none;
   box-shadow: none;
+  background: transparent;
 }
 .searchBar .formSearch .inputWrap li.searchResult {
   padding: 4px 15px;
@@ -1673,7 +1682,7 @@ dd {
   color: #ffffff !important;
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
   display: inline-block;
-  margin: 1px 1% 1px 1% !important;
+  margin: 1px 0.5% 1px 0 !important;
 }
 .searchBar .formSearch .inputWrap li.searchResult:hover {
   background-color: #ececec;
@@ -1691,6 +1700,10 @@ dd {
 .searchBar .formSearch .inputWrap li.searchResult.disabled,
 .searchBar .formSearch .inputWrap li.searchResult[disabled] {
   background-color: #3b7b06;
+}
+.searchBar .formSearch .inputWrap li.searchResult:last-of-type,
+.searchBar .formSearch .inputWrap li.searchResult:only-of-type {
+  margin-right: 0 !important;
 }
 .searchBar .formSearch .inputWrap li.searchResult .nameTag {
   display: inline-block;
@@ -2959,10 +2972,10 @@ body.loading:after {
   -moz-background-clip: padding;
   -webkit-background-clip: padding-box;
   background-clip: padding-box;
-}
-.mainView #wall header #postIt #receiver .inputWrap {
   border: none;
   border-top: 1px solid #aaa;
+}
+.mainView #wall header #postIt #receiver .inputWrap {
   -webkit-border-radius: 0px;
   -moz-border-radius: 0px;
   border-radius: 0px;
@@ -3058,7 +3071,7 @@ body.loading:after {
   float: left;
   width: 31.33333333%;
   margin: 0 1% 0 1%;
-  height: 77px;
+  height: 80px;
 }
 .mainView #wall header #filter .title {
   display: inline-block;
@@ -3094,12 +3107,12 @@ body.loading:after {
   float: left;
   width: 98%;
   margin: 0 1% 0 1%;
-  margin-top: 8px;
-  height: 37px;
+  margin-top: 9px;
+  height: 40px !important;
   padding: 0;
 }
 .mainView #wall header #filter #theFilter .formSearch {
-  height: 37px !important;
+  height: 39px !important;
 }
 .mainView #wall header #filter #theFilter .formSearch .inputWrap {
   border: none;
@@ -4265,9 +4278,6 @@ body.loading:after {
   width: 98%;
   margin: 0 1% 0 1%;
 }
-.messagesView #topicWrap.newMessage #recieverInput .inputWrap {
-  border: 1px solid #8c8c8c !important;
-}
 .messagesView #topicWrap.newMessage #messageInput {
   margin-bottom: 14px !important;
 }
@@ -4662,9 +4672,6 @@ body.loading:after {
 }
 .circlesView #circleContainer.newCircle #circleName {
   margin-bottom: 14px !important;
-}
-.circlesView #circleContainer.newCircle #friendInput .inputWrap {
-  border: 1px solid #8c8c8c !important;
 }
 .circlesView #circleContainer.newCircle #savecircle {
   padding: 10px 10px;
@@ -11539,7 +11546,6 @@ body.loading:after {
     margin-left: 0;
     list-style: none;
     height: auto;
-    background: white;
     padding: 0;
     max-width: 100%;
     display: block;
@@ -11556,7 +11562,6 @@ body.loading:after {
     display: block;
     float: left;
     margin: 2px;
-    max-width: 35%;
     padding: 0 5px 0 5px;
   }
   .searchBar .formSearch .inputWrap li.searchField input {
@@ -11564,7 +11569,6 @@ body.loading:after {
     outline: 0;
     border: 0;
     padding: 0px 9px;
-    margin: 2px 0;
     height: 35px;
   }
   .searchBar .searchDrop {
@@ -11682,26 +11686,22 @@ body.loading:after {
     float: left;
     width: 70.7%;
     margin: 0 0.9% 0 0.9%;
+    margin-top: 6px;
   }
   #topNav .searchBar .formSearch {
     width: 100%;
-    margin: 7px 0px;
   }
   #topNav .searchBar .formSearch .inputWrap {
-    min-height: 0px;
     line-height: 35px;
     padding: 0;
     overflow-x: hidden !important;
   }
   #topNav .searchBar .formSearch .inputWrap li {
-    height: 35px;
     line-height: 35px;
     padding: 0;
   }
   #topNav .searchBar .formSearch .inputWrap li.searchField input {
     padding: 0px 10px;
-    margin: -1px 0;
-    height: 35px;
   }
   #topNav .searchBar .searchDrop {
     top: 45px;
@@ -12446,7 +12446,7 @@ body.loading:after {
   .circlesView #circleContainer.newCircle #friendInput {
     height: 150px;
   }
-  .circlesView #circleContainer.newCircle .searchBar .formSearch .inputWrap li.searchField input {
+  .circlesView #circleContainer.newCircle .searchBar .formSearch .inputWrap li.searchField {
     width: 50%;
   }
   .circlesView #circleContainer.newCircle #savecircle {
