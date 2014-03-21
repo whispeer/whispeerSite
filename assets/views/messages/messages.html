@@ -7,6 +7,7 @@
 				<a href="{{partner.basic.url}}">
 					{{activeTopic.partners.length>2?partner.basic.shortname:partner.name}}
 				</a>
+				<span class="status" data-status="0"></span>
 				{{$last?"":", "}}
 			</span>
 		</span>
@@ -27,6 +28,7 @@
 				</div>
 				<div class="username">
 					<strong ng-repeat="partner in topic.partners">{{topic.partners.length>1?partner.basic.shortname:partner.name}}{{$last?"":", "}}</strong>
+					<span class="status" data-status="2"></span>
 				</div>
 				<div class="lastMessage">
 					{{topic.latestMessage.data.text}}

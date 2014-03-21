@@ -24,34 +24,13 @@
 				#receiver {
 					.column(5.5,8,left,0);
 					border: none;
-					height: 38px;
-					.inputWrap {
+					.formSearch {
+						.border-radius(0px);
 						border: none;
 						border-top: 1px solid #aaa;
+					}
+					.inputWrap {
 						.border-radius(0px);
-						overflow-y: hidden;
-						overflow-x: scroll;
-						height: 50px;
-						white-space: nowrap;
-						text-align: left;
-						li {
-							white-space: nowrap;
-							&.searchField {
-								height: 35px;
-								line-height: 35px;
-								float: none;
-								margin: 0;
-								input {
-									width: 100%;
-									height: 35px;
-									line-height: 35px;
-								}
-							}
-							&.searchResult {
-								max-width: none;
-								padding: 0 5px 0 5px !important;
-							}
-						}
 					}
 					.searchDrop {
 						margin-top: 5px;
@@ -80,9 +59,7 @@
 			}	
 			#filter {
 				.column(4,12);
-				height: 77px;
-				//margin-top: -36px;
-				//background-color: green;
+				height: 80px;
 				.title {
 					.column(12,12);
 					height: 30px !important;
@@ -95,39 +72,16 @@
 				}
 				#theFilter {
 					.column(12,12);
-					margin-left: -1%;
-					height: 42px;
-					padding: 5px;
-					resize: none;
+					margin-top: 9px;
+					height: 40px !important;
+					padding:0;
 					.formSearch {
-						overflow: hidden !important;
-					}
-					.inputWrap {
-						overflow-y: hidden;
-						overflow-x: scroll;
-						white-space: nowrap;
-						text-align: left;
-						height: 60px;
-						border: none;
-						li {
-							white-space: nowrap;
-							&.searchField {
-								height: 35px;
-								line-height: 35px;
-								float: none;
-								margin: 0;
-								input {
-									width: 100%;
-									height: 35px;
-									line-height: 35px;
-								}
-							}
-							&.searchResult {
-								max-width: none;
-								padding: 0 5px 0 5px !important;
-							}
+						height: 39px !important;
+						.inputWrap {
+							border: none;
+							.border-radius(0px);
 						}
-					}
+					}	
 					.searchDrop {
 						margin-top: 5px;
 					}	

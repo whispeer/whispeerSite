@@ -6,6 +6,7 @@
 // <div class="person" style="width: 25%; background-image: url(img/user.png);">
 //	<div class="pushup">
 //		<p class="username">Person</p>
+//		<span class="status" data-status=""></span>
 //		<p class="mutualfriends">5 mutual Friends</p>
 //	</div>
 // </div>
@@ -46,6 +47,11 @@
 		.transition(all 1s ease);
 		overflow: hidden;
 		text-align: center;
+		.status {
+			display: inline-block;
+			float: right;
+			margin: -27px 5% 0 0;
+		}
 		p {
 			opacity: 0;
 			.transition(opacity 0.4s ease-in-out 0.1s);
