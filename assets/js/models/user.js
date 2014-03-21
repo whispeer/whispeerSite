@@ -16,7 +16,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 					result[attr] = profile[attr];
 				}
 			} else {
-				result[attr] = applicableParts(scope, privacy[attr], profile[attr]);
+				//result[attr] = applicableParts(scope, privacy[attr], profile[attr]);
 			}
 		}
 
@@ -507,7 +507,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 							throw new Error("scope not found!");
 						}
 
-						return priv[oldScopes.indexOf(e)];
+						return priv[oldScopes.indexOf(e)].getID();
 					});
 
 					socketService.emit("user.deletePrivateProfiles", {
