@@ -15,8 +15,8 @@ define(["step", "whispeerHelper"], function (step, h) {
 				if (privacy[attr].encrypt && privacy[attr].visibility.indexOf(scope) > -1) {
 					result[attr] = profile[attr];
 				}
-			} else {
-				//result[attr] = applicableParts(scope, privacy[attr], profile[attr]);
+			} else if (profile[attr]) {
+				result[attr] = applicableParts(scope, privacy[attr], profile[attr]);
 			}
 		}
 
