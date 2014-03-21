@@ -11,7 +11,10 @@
 					<span data-ng-if="topic.remainingUser" title="{{topic.remainingUserTitle}}">+ {{topic.remainingUser}}</span>
 				</div>
 				<p class="username">
-					<a ng-repeat="partner in topic.partners" href='{{partner.basic.url}}'><strong>{{topic.partners.length>1?partner.basic.shortname:partner.name}}{{$last?"":", "}}</strong><span class="status" data-status="2"></span></a>
+					<a ng-repeat="partner in topic.partners" href='{{partner.basic.url}}'>
+						<span class="status" data-status="{{partner.online}}"></span>
+						<strong>{{topic.partners.length>1?partner.basic.shortname:partner.name}}{{$last?"":", "}}</strong>
+					</a>
 				</p>
 				<p class="text" title="{{topic.latestMessage.data.text}}">
 					{{topic.latestMessage.data.text}}

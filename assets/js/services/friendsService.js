@@ -92,7 +92,7 @@ define(["step", "whispeerHelper", "asset/observer"], function (step, h, Observer
 
 					otherUser.setFriendShipKey(friendShipKey);
 
-					friendsService.notify("newFriend", uid);
+					friendsService.notify(uid, "newFriend");
 				} else {
 					//oh noes!
 				}
@@ -120,7 +120,7 @@ define(["step", "whispeerHelper", "asset/observer"], function (step, h, Observer
 					if (result.friendAdded) {
 						otherUser.setFriendShipKey(friendShipKey);
 						requested.push(uid);
-						friendsService.notify("newRequested", uid);
+						friendsService.notify(uid, "newRequested");
 					} else {
 						//user requested friendShip and we did not get it when we started this...
 						acceptFriendShip(uid);
@@ -135,7 +135,7 @@ define(["step", "whispeerHelper", "asset/observer"], function (step, h, Observer
 				requests.push(uid);
 				friendsData.requestsCount += 1;
 				userService.addFromData(requestData.user, true);
-				friendsService.notify("newRequest", uid);
+				friendsService.notify(uid, "newRequest");
 			}
 		});
 
@@ -146,7 +146,7 @@ define(["step", "whispeerHelper", "asset/observer"], function (step, h, Observer
 				friendsData.friendsCount += 1;
 				requestData.requestedCount -= 1;
 				userService.addFromData(requestData.user, true);
-				friendsService.notify("newFriend", uid);
+				friendsService.notify(uid, "newFriend");
 			}
 		});
 
@@ -155,6 +155,7 @@ define(["step", "whispeerHelper", "asset/observer"], function (step, h, Observer
 			var status = requestData.status;
 
 			onlineFriends[uid] = status;
+			friendsService.notify(status, "online:" + uid);
 		});
 
 		var friendsService = {

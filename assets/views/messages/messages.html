@@ -4,10 +4,10 @@
 		<span data-ng-if="!topicLoaded && showMessage">Neue Nachricht</span>
 		<span data-ng-if="topicLoaded && showMessage">Chat mit 
 			<span data-ng-repeat="partner in activeTopic.partners">
+				<span class="status" data-status="{{partner.online}}"></span>
 				<a href="{{partner.basic.url}}">
 					{{activeTopic.partners.length>2?partner.basic.shortname:partner.name}}
 				</a>
-				<span class="status" data-status="0"></span>
 				{{$last?"":", "}}
 			</span>
 		</span>
@@ -28,7 +28,7 @@
 				</div>
 				<div class="username">
 					<strong ng-repeat="partner in topic.partners">{{topic.partners.length>1?partner.basic.shortname:partner.name}}{{$last?"":", "}}</strong>
-					<span class="status" data-status="2"></span>
+					<span class="status" data-status="{{topic.partners[0].online}}"></span>
 				</div>
 				<div class="lastMessage">
 					{{topic.latestMessage.data.text}}
