@@ -117,13 +117,12 @@
 		}
 	}
 	.searchDrop {
-		background: rgba(255,255,255,1);
+		background: @white;
 		.border-radius(5px);
 		box-shadow: 0 0 8px @grayLight;
 		.box-shadow(0px 0px 5px 0px #b2b2b2);
 		z-index: 10000;
 		display: block;
-		overflow-x: hidden;
 		.searchSuggestions {
 			//.box-shadow(inset 6px -1px 4px 2px #b2b2b2);
 			.border-radius(5px);
@@ -134,6 +133,7 @@
 			li {
 				border: none;
 				border-bottom: 1px solid #9a9a9a;
+				position: relative;
 				&:first-child {
 				}
 				&:last-child {
@@ -178,8 +178,21 @@
 										height: 30px !important;
 										padding: 4px 5px !important;
 									}
+									&.searchField {
+										input {
+											z-index: 1000;
+											position: relative;
+										}
+									}
 								}
 							}
+						}
+						.searchDrop {
+							z-index: 10001;
+						}
+						.circleSubmit {
+							z-index: 1001;
+							position: relative;
 						}
 					}
 				}	
