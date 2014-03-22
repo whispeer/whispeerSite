@@ -258,31 +258,31 @@ define(["step", "asset/resizableImage", "asset/observer"], function (step, Resiz
 					},
 					location: {
 						encrypt: true,
-						visibility: ["always:allfriends"]
+						visibility: []
 					},
 					birthday: {
 						encrypt: true,
-						visibility: ["always:allfriends"]
+						visibility: []
 					},
 					relationship: {
 						encrypt: true,
-						visibility: ["always:allfriends"]
+						visibility: []
 					},
 					education: {
 						encrypt: true,
-						visibility: ["always:allfriends"]
+						visibility: []
 					},
 					work: {
 						encrypt: true,
-						visibility: ["always:allfriends"]
+						visibility: []
 					},
 					gender: {
 						encrypt: true,
-						visibility: ["always:allfriends"]
+						visibility: []
 					},
 					languages: {
 						encrypt: true,
-						visibility: ["always:allfriends"]
+						visibility: []
 					}
 				},
 				sharePosts: ["always:allfriends"]
