@@ -1,8 +1,8 @@
 <basicsearch multiple="true">
 	<ol class="unstyled searchSuggestions">
-		<li data-ng-if="!results">Lade!</li>
-		<li data-ng-if="results.length == 0">Keine Kreise verfügbar!</li>
-		<li data-ng-repeat="circle in results" data-ng-class="currentClass($index)" data-ng-mouseover="setCurrent($index)" data-ng-click="selectResult($index)">
+		<li class="noResults" data-ng-if="!results" style="width: {{width + 15}}px">Lade!</li>
+		<li class="noResults" data-ng-if="results.length == 0" style="width: {{width + 15}}px">Keine Kreise verfügbar!</li>
+		<li style="width: {{width + 15}}px" data-ng-repeat="circle in results" data-ng-class="currentClass($index)" data-ng-mouseover="setCurrent($index)" data-ng-click="selectResult($index)">
 			{{circle.name}} ({{circle.userids.length}})
 		</li>
 	</ol>

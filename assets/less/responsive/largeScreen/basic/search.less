@@ -38,6 +38,7 @@
 		display: block;
 		padding: 0;
 		position: absolute;
+		overflow-x: hidden;
 		.searchSuggestions {
 			width: 100%;
 			margin: 0;
@@ -45,7 +46,6 @@
 			overflow-y:scroll;
 			padding:0;
 			li {
-				width: 102%;
 				float: left;
 				padding: 0;
 				margin: 0;
@@ -56,7 +56,7 @@
 					margin-left: 0;
 				}
 				.info {
-					.column(6.5);
+					.column(3,12,left,3);
 					margin: 7px 0 0 3%;
 					padding: 0;
 					.name {
@@ -71,7 +71,8 @@
 					}
 				}
 				.actions {
-					.column(3.8);
+					.column(4);
+					.push(3.5);
 					margin-top: 5px;
 					a {
 						cursor: pointer;
