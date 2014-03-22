@@ -77,8 +77,12 @@
 						}
 						.searchDrop {
 							margin-top: 45px !important;
+							position: absolute;
 							li {
-								width: 104%;
+								padding: 5px;
+								&:not(.active) {
+									color: #666;
+								}	
 							}
 						}
 					}
