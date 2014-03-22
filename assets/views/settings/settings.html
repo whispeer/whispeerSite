@@ -1,5 +1,6 @@
 <header>
 	<span data-i18n="settings.header.title" class="title"></span>
+<!--
 	<div class="links">
 		<a href="#general">Allgemein</a>
 		<a href="#safety">Sicherheit</a>
@@ -7,6 +8,7 @@
 		<a href="#notifications">Benachrichtigungen</a>
 		<a href="#features">Zusätzliche Funktionen</a>
 	</div>
+-->
 </header>
 <div id="settingsWrap">
 	<section id="general">
@@ -15,24 +17,24 @@
 			<h5>Name ändern</h5>
 			<input type="text" id="firstname" placeholder="Vorname">
 			<input type="text" id="lastname" placeholder="Nachname">
-			<button type="submit"><i class="icon-ok-circle"></i> Speichern</button>
+			<button type="submit"><i class="icon-ok-circle"></i> <span>Speichern</span></button>
 		</div>
 		<div class="config" id="nickname">
 			<h5>Nickname ändern</h5>
 			<input type="text" id="newNickname" placeholder="Nickname">
-			<button type="submit"><i class="icon-ok-circle"></i> Speichern</button>
+			<button type="submit"><i class="icon-ok-circle"></i> <span>Speichern</span></button>
 		</div>
 		<div class="config" id="mail">
 			<h5>E-Mail Adresse ändern</h5>
 			<input type="text" id="email" placeholder="E-Mail Adresse">
 			<input type="text" id="email2" placeholder="E-Mail Adresse wiederholen">
-			<button type="submit"><i class="icon-ok-circle"></i> Speichern</button>
+			<button type="submit"><i class="icon-ok-circle"></i> <span>Speichern</span></button>
 		</div>
 		<div class="config" id="password">
 			<h5>Passwort ändern</h5>
 			<input type="password" id="newPassword" placeholder="Passwort">
 			<input type="password" id="newPassword2" placeholder="Passwort wiederholen">
-			<button type="submit"><i class="icon-ok-circle"></i> Speichern</button>
+			<button type="submit"><i class="icon-ok-circle"></i> <span>Speichern</span></button>
 		</div>
 	</section>
 	<section id="safety">
@@ -63,8 +65,8 @@
 			</button>
 			<div data-ng-if="safety[name].encrypt"><filtersearch data-res="safety[name]" data-res-attr="visibility" data-selected="safety[name].visibility" data-input-i18n-attr="" class="whoMaySeeIt"></filtersearch></div>
 		</div>
-		<button type="submit" data-ng-click="saveSafety()"><i class="icon-ok-circle"></i> Speichern</button>
-		<button type="submit" data-ng-click="resetSafety()"><i class="icon-ok-circle"></i> Reset</button>
+		<button type="submit" data-ng-click="saveSafety()"><i class="icon-ok-circle"></i> <span>Speichern</span></button>
+		<button type="submit" data-ng-click="resetSafety()"><i class="icon-ok-circle"></i> <span>Reset</span></button>
 	</section>
 <!--
 	<section id="notifications">
