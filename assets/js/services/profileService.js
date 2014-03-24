@@ -179,6 +179,31 @@ define(["crypto/keyStore", "step", "whispeerHelper", "asset/encryptedMetaData", 
 				return changed;
 			};
 
+			this.setFullProfile = function setFullProfileF(data, cb) {
+				step(function () {
+					theProfile.decrypt(this);
+				}, h.sF(function () {
+					h.objectEach(decryptedProfile, function (key) {
+						if (!data.hasOwnProperty(key)) {
+							changed = true;
+
+							delete encryptedProfile[key];
+							delete paddedProfile[key];
+						}
+					});
+
+					h.objectEach(data, function (key, value) {
+						if (!h.deepEqual(value, decryptedProfile[key])) {
+							changed = true;
+
+							updatedProfile[key] = value;
+						}
+					});
+
+					this.ne(changed);
+				}), cb);
+			};
+
 			this.setAttribute = function setAttributeF(attrs, value, cb) {
 				step(function () {
 					theProfile.decrypt(this, attrs[0]);

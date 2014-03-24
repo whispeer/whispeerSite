@@ -19,38 +19,11 @@ define(["whispeerHelper", "step"], function (h, step) {
 			//TODO: general error log.
 		});
 
-		function getAllProfileTypes(privacySettings) {
-			var i, profileTypes = [];
-			for (i = 0; i < $scope.safetySorted.length; i += 1) {
-				var cur = privacySettings[$scope.safetySorted[i]];
-				if (cur.encrypt) {
-					profileTypes = profileTypes.concat(cur.visibility);
-				}
-			}
-
-			if (privacySettings.basic.firstname.encrypt) {
-				profileTypes = profileTypes.concat(privacySettings.basic.firstname.visibility);
-			}
-
-			if (privacySettings.basic.lastname.encrypt) {
-				profileTypes = profileTypes.concat(privacySettings.basic.lastname.visibility);
-			}
-
-			return h.arrayUnique(profileTypes);
-		}
-
 		$scope.saveSafety = function () {
 			step(function () {
 				settingsService.getBranch("privacy", this);
 			}, h.sF(function (branch) {
-				var typesOld = getAllProfileTypes(branch);
-				var typesNew = getAllProfileTypes($scope.safety);
-
-				var profilesToAdd = h.arraySubtract(typesNew, typesOld);
-				var profilesToRemove = h.arraySubtract(typesOld, typesNew);
-
-				userService.getown().createProfiles(profilesToAdd, this.parallel(), $scope.safety);
-				userService.getown().deleteProfiles(profilesToRemove, this.parallel());
+				userService.getown().rebuildProfilesForSettings($scope.safety, branch, this);
 			}), h.sF(function () {
 				settingsService.updateBranch("privacy", $scope.safety, this);
 			}), h.sF(function () {
