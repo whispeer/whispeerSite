@@ -2,7 +2,7 @@
 <div class="inputWrap" data-enter="nextRegisterStep()">
 	<div class="introText" data-i18n="login.register.intro"></div>
 	<div>
-		<select id="gender" type="dropdown">
+		<select id="gender" type="dropdown" data-ng-model="user.gender">
 			<option value="n" data-i18n="profile.section.general.gender.n"></option>
 			<option value="m" data-i18n="profile.section.general.gender.m"></option>
 			<option value="f" data-i18n="profile.section.general.gender.f"></option>
@@ -16,22 +16,22 @@
 	</div>
 	<div id="birthday">
 		<label data-i18n="profile.section.general.birthday.info"></label>
-		<select class="day" data-for="day" data-ng-model="user.data.birthday.day" data-ng-options="day for day in days">
+		<select class="day" data-for="day" data-ng-model="user.birthday.day" data-ng-options="day for day in days">
 			<option value="" data-i18n="profile.section.general.birthday.day"></option>
 		</select>
-		<select class="month" data-for="month" data-ng-model="user.data.birthday.month">
+		<select class="month" data-for="month" data-ng-model="user.birthday.month">
 			<option value="" data-i18n="profile.section.general.birthday.month"></option>
-			<option data-ng-repeat="month in months" data-i18n="date.month.{{month}}" value="{{$index+1}}" data-ng-selected="$index+1 == user.data.birthday.month"></option>
+			<option data-ng-repeat="month in months" data-i18n="date.month.{{month}}" value="{{$index+1}}" data-ng-selected="$index+1 == user.birthday.month"></option>
 		</select>
-		<select class="year" data-for="year" data-ng-model="user.data.birthday.year" data-ng-options="year for year in years">
+		<select class="year" data-for="year" data-ng-model="user.birthday.year" data-ng-options="year for year in years">
 			<option value="" data-i18n="profile.section.general.birthday.year"></option>
 		</select>
 	</div>
 	<div>
-		<input type="text" id="rcountry" data-i18n-attr="login.register.country|placeholder" data-ng-model="$parent.location" data-ng-model-onblur>
+		<input type="text" id="rcountry" data-i18n-attr="login.register.country|placeholder" data-ng-model="user.location.country" data-ng-model-onblur>
 	</div>
 	<div>
-		<input type="text" id="rlocation" data-i18n-attr="login.register.location|placeholder" data-ng-model="$parent.location" data-ng-model-onblur>
+		<input type="text" id="rlocation" data-i18n-attr="login.register.location|placeholder" data-ng-model="user.location.town" data-ng-model-onblur>
 	</div>
 </div>	
 <div class="submitWrap">
