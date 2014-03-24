@@ -22,7 +22,7 @@ define(["step", "asset/resizableImage", "asset/observer"], function (step, Resiz
 		});
 
 		observer.listen(function () {
-			return $scope.nicknameCheck && $scope.password == $scope.password2;
+			return $scope.acceptIconMailFree() && $scope.nicknameCheck && $scope.password == $scope.password2 && $scope.passwordStrength() > 0;
 		}, "stepLeave1");
 
 		observer.listen(function () {
