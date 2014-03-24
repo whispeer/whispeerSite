@@ -2544,7 +2544,6 @@ body.loading:after {
   text-align: left;
 }
 .registerView section #registerForm .inputWrap div select {
-  height: 10px;
   margin-top: 10px;
 }
 .registerView section #registerForm .inputWrap div#birthday {
