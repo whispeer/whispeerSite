@@ -23,6 +23,26 @@ define(["step", "whispeerHelper"], function (step, h) {
 		return result;
 	}
 
+	function applicablePublicParts(privacy, profile) {
+		var result = {};
+
+		if (privacy === undefined || profile === undefined) {
+			throw new Error("dafuq");
+		}
+
+		h.objectEach(function (key, value) {
+			if (typeof value.encrypt !== "undefined") {
+				if (!value.encrypt) {
+					result[key] = profile[key];
+				}
+			} else if (profile[key]) {
+				result[key] = applicablePublicParts(value, profile[key]);
+			}
+		});
+
+		return result;
+	}
+
 	function getAllProfileTypes(privacySettings) {
 		var i, profileTypes = [];
 		for (i = 0; i < advancedBranches.length; i += 1) {
@@ -168,7 +188,8 @@ define(["step", "whispeerHelper"], function (step, h) {
 			function setPublicProfile(attrs, val, cb) {
 				var pub = theUser.getProfile();
 				publicProfileChanged = h.deepSetCreate(pub, attrs, val) || publicProfileChanged;
-				cb();
+
+				setPrivateProfile(attrs.split("."), val, [], cb);
 			}
 
 			function getChangedPrivateProfiles(cb) {
@@ -311,6 +332,9 @@ define(["step", "whispeerHelper"], function (step, h) {
 					for (i = 0; i < profiles.length; i += 1) {
 						profiles[i].setFullProfile(applicableParts(scopes[i], privacySettings, myProfile), this.parallel());
 					}
+
+					//TODO: update public profile!!
+					applicablePublicParts(privacySettings, myProfile);
 				}), h.sF(function () {
 					getChangedPrivateProfiles(this);
 				}), cb);
