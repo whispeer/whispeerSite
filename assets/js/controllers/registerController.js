@@ -22,7 +22,7 @@ define(["step", "asset/resizableImage", "asset/observer"], function (step, Resiz
 		});
 
 		observer.listen(function () {
-			return $scope.nicknameCheck && $scope.password == $scope.password2;
+			return $scope.acceptIconMailFree() && $scope.nicknameCheck && $scope.password == $scope.password2 && $scope.passwordStrength() > 0;
 		}, "stepLeave1");
 
 		observer.listen(function () {
@@ -258,31 +258,31 @@ define(["step", "asset/resizableImage", "asset/observer"], function (step, Resiz
 					},
 					location: {
 						encrypt: true,
-						visibility: ["always:allfriends"]
+						visibility: []
 					},
 					birthday: {
 						encrypt: true,
-						visibility: ["always:allfriends"]
+						visibility: []
 					},
 					relationship: {
 						encrypt: true,
-						visibility: ["always:allfriends"]
+						visibility: []
 					},
 					education: {
 						encrypt: true,
-						visibility: ["always:allfriends"]
+						visibility: []
 					},
 					work: {
 						encrypt: true,
-						visibility: ["always:allfriends"]
+						visibility: []
 					},
 					gender: {
 						encrypt: true,
-						visibility: ["always:allfriends"]
+						visibility: []
 					},
 					languages: {
 						encrypt: true,
-						visibility: ["always:allfriends"]
+						visibility: []
 					}
 				},
 				sharePosts: ["always:allfriends"]

@@ -279,6 +279,8 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer"], fun
 					}
 
 					TimelineByFilter[JSON.stringify(filter)] = result;
+
+					this.parallel()();
 				}), h.sF(function () {
 					this.ne(result);
 				}), cb);

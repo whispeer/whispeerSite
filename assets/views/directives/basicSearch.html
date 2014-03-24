@@ -3,7 +3,7 @@
 		<ul class="inputWrap">
 			<li data-ng-repeat="element in selectedElements" class="searchResult">
 				<span class="nameTag">{{element.name}}</span>
-				<a href="" class="remove" data-ng-click="removeSelection($index)"><i class="icon icon-cancel-circle"></i></a>
+				<a href="" class="remove" data-ng-click="removeSelection($index, $event)"><i class="icon icon-cancel-circle"></i></a>
 			</li>
 			<li class="searchField">
 			</li>

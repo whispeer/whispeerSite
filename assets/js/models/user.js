@@ -4,7 +4,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 	var advancedBranches = ["location", "birthday", "relationship", "education", "work", "gender", "languages"];
 
 	function applicableParts(scope, privacy, profile) {
-		var i, attr, result = {};
+		var attr, result = {};
 
 		if (privacy === undefined || profile === undefined) {
 			throw new Error("dafuq");
@@ -21,6 +21,48 @@ define(["step", "whispeerHelper"], function (step, h) {
 		}
 
 		return result;
+	}
+
+	function applicablePublicParts(privacy, profile) {
+		var result = {};
+
+		if (privacy === undefined || profile === undefined) {
+			throw new Error("dafuq");
+		}
+
+		h.objectEach(privacy, function (key, value) {
+			if (profile[key]) {
+				if (typeof value.encrypt !== "undefined") {
+					if (!value.encrypt) {
+						result[key] = profile[key];
+					}
+				} else {
+					result[key] = applicablePublicParts(value, profile[key]);
+				}
+			}
+		});
+
+		return result;
+	}
+
+	function getAllProfileTypes(privacySettings) {
+		var i, profileTypes = [];
+		for (i = 0; i < advancedBranches.length; i += 1) {
+			var cur = privacySettings[advancedBranches[i]];
+			if (cur.encrypt) {
+				profileTypes = profileTypes.concat(cur.visibility);
+			}
+		}
+
+		if (privacySettings.basic.firstname.encrypt) {
+			profileTypes = profileTypes.concat(privacySettings.basic.firstname.visibility);
+		}
+
+		if (privacySettings.basic.lastname.encrypt) {
+			profileTypes = profileTypes.concat(privacySettings.basic.lastname.visibility);
+		}
+
+		return h.arrayUnique(profileTypes);
 	}
 
 	function userModel($injector, $location, keyStoreService, ProfileService, sessionService, settingsService, socketService, friendsService) {
@@ -148,13 +190,12 @@ define(["step", "whispeerHelper"], function (step, h) {
 			function setPublicProfile(attrs, val, cb) {
 				var pub = theUser.getProfile();
 				publicProfileChanged = h.deepSetCreate(pub, attrs, val) || publicProfileChanged;
-				cb();
+
+				setPrivateProfile(attrs, val, [], cb);
 			}
 
-			function uploadChangedProfile(cb) {
-				var data = {};
+			function getChangedPrivateProfiles(cb) {
 				var priv = theUser.getPrivateProfiles();
-
 				step(function () {
 					var i;
 					for (i = 0; i < priv.length; i += 1) {
@@ -162,22 +203,43 @@ define(["step", "whispeerHelper"], function (step, h) {
 							priv[i].getUpdatedData(theUser.getSignKey(), this.parallel());
 						}
 					}
-					//TODO sign public profile!
+
 					this.parallel()();
-				}, h.sF(function (profiles) {
+				}, cb);
+			}
+
+			function getChangedPublicProfile(cb) {
+				var publicProfile;
+				step(function () {
+					if (publicProfileChanged) {
+						publicProfile = theUser.getProfile();
+						keyStoreService.sign.signObject(publicProfile, signKey, this);
+					} else {
+						this.last.ne();
+					}
+				}, h.sF(function (signature) {
+					publicProfile.signature = signature;
+
+					this.ne(publicProfile);
+				}), cb);
+			}
+
+			function uploadChangedProfile(cb) {
+				var data = {};
+				var priv = theUser.getPrivateProfiles();
+
+				step(function () {
+					this.parallel.unflatten();
+
+					getChangedPrivateProfiles(this.parallel());
+					getChangedPublicProfile(this.parallel());
+				}, h.sF(function (profiles, publicProfile) {
 					if (profiles && profiles.length > 0) {
 						data.priv = profiles;
 					}
 
-					if (publicProfileChanged) {
-						data.pub = theUser.getProfile();
-						keyStoreService.sign.signObject(data.pub, signKey, this);
-					} else {
-						this.ne();
-					}
-				}), h.sF(function (signature) {
-					if (publicProfileChanged) {
-						data.pub.signature = signature;
+					if (publicProfile) {
+						data.pub = publicProfile;
 					}
 
 					if (data.priv || data.pub) {
@@ -219,6 +281,101 @@ define(["step", "whispeerHelper"], function (step, h) {
 
 			this.uploadChangedProfile = uploadChangedProfile;
 			this.setProfileAttribute = setProfileAttribute;
+
+			this.rebuildProfilesForSettings = function (newSettings, oldSettings, cb) {
+				step(function () {
+					var typesOld = getAllProfileTypes(oldSettings);
+					var typesNew = getAllProfileTypes(newSettings);
+
+					var profilesToAdd = h.arraySubtract(typesNew, typesOld);
+					var profilesToRemove = h.arraySubtract(typesOld, typesNew);
+					var profilesWithPossibleChanges = h.arraySubtract(typesNew, profilesToAdd);
+
+					this.parallel.unflatten();
+
+					theUser.updateProfilesFromMe(profilesWithPossibleChanges, newSettings, this.parallel());
+					theUser.createProfileObjects(profilesToAdd, newSettings, this.parallel());
+					theUser.getProfilesToDelete(profilesToRemove, this.parallel());
+				}, h.sF(function (profilesToChange, profilesToCreate, profilesToDelete) {
+					socketService.emit("user", {
+						deletePrivateProfiles: {
+							profilesToDelete: profilesToDelete
+						},
+						createPrivateProfiles: {
+							privateProfiles: profilesToCreate
+						},
+						profileChange: profilesToChange
+					}, this);
+				}), cb);
+			};
+
+			this.getProfilesByScopes = function (scopes, cb) {
+				var priv = theUser.getPrivateProfiles();
+				step(function () {
+					var i;
+					for (i = 0; i < priv.length; i += 1) {
+						priv[i].getScope(this.parallel());
+					}
+				}, h.sF(function (oldScopes) {
+					if (oldScopes.length !== priv.length) {
+						throw new Error("bug");
+					}
+
+					var profiles = scopes.map(function (e) {
+						if (oldScopes.indexOf(e) === -1) {
+							throw new Error("scope not found!");
+						}
+
+						return priv[oldScopes.indexOf(e)];
+					});
+
+					this.ne(profiles);
+				}), cb);
+			};
+
+			function updateFullPublicProfile(newPublicProfile) {
+				var pub = theUser.getProfile();
+
+				if (!h.deepEqual(pub, newPublicProfile)) {
+					publicProfileChanged = true;
+					publicProfile = newPublicProfile;
+				}
+
+				return publicProfileChanged;
+			}
+
+			this.updateProfilesFromMe = function(scopes, privacySettings, cb) {
+				step(function () {
+					this.parallel.unflatten();
+
+					theUser.getProfilesByScopes(scopes, this.parallel());
+					theUser.getMyProfileData(this.parallel());
+				}, h.sF(function (profiles, myProfile) {
+					var i;
+					for (i = 0; i < profiles.length; i += 1) {
+						profiles[i].setFullProfile(applicableParts(scopes[i], privacySettings, myProfile), this.parallel());
+					}
+
+					updateFullPublicProfile(applicablePublicParts(privacySettings, myProfile));
+				}), h.sF(function () {
+					this.parallel.unflatten();
+
+					getChangedPrivateProfiles(this.parallel());
+					getChangedPublicProfile(this.parallel());
+				}), h.sF(function (profiles, publicProfile) {
+					var data = {};
+
+					if (profiles && profiles.length > 0) {
+						data.priv = profiles;
+					}
+
+					if (publicProfile) {
+						data.pub = publicProfile;
+					}
+
+					this.ne(data);
+				}), cb);
+			};
 
 			function getProfileAttribute(attrs, cb) {
 				step(function () {
@@ -441,31 +598,49 @@ define(["step", "whispeerHelper"], function (step, h) {
 				}, cb);
 			}
 
-			this.createProfiles = function (scopes, cb, privacySettings) {
-				//check if we already got a profile for the given scope.
-				var priv = theUser.getPrivateProfiles(), oldScopes;
+			this.getMyProfileData = function (cb) {
+				step(function () {
+					theUser.getProfilesByScopes(["me"], this);
+				}, h.sF(function (myProfile) {
+					myProfile = myProfile[0];
+
+					myProfile.getFull(this);
+				}), cb);
+			};
+
+			this.getScopes = function (cb) {
+				var priv = theUser.getPrivateProfiles();
+
 				step(function () {
 					var i;
 					for (i = 0; i < priv.length; i += 1) {
 						priv[i].getScope(this.parallel());
 					}
-				}, h.sF(function (theOldScopes) {
-					oldScopes = theOldScopes;
+				}, h.sF(function (scopes) {
+					if (scopes.length !== priv.length) {
+						throw new Error("bug");
+					}
 
+					this.ne(scopes);
+				}), cb);
+			};
+
+			this.createProfileObjects = function (scopes, privacySettings, cb) {
+				//check if we already got a profile for the given scope.
+				step(function () {
 					this.parallel.unflatten();
 
-					priv[oldScopes.indexOf("me")].getFull(this.parallel());
+					theUser.getScopes(this.parallel());
+					theUser.getMyProfileData(this.parallel());
+					$injector.get("ssn.filterKeyService").filterToKeys(scopes, this.parallel());
+
 					if (!privacySettings) {
 						settingsService.getBranch("privacy", this.parallel());
 					} else {
 						this.parallel()(null, privacySettings);
 					}
-					$injector.get("ssn.filterKeyService").filterToKeys(scopes, this.parallel());
-				}), h.sF(function (myProfile, privacySettings, keys) {
+				}, h.sF(function (oldScopes, myProfile, keys, privacySettings) {
 					var i, profile;
-					if (oldScopes.length !== priv.length) {
-						throw new Error("bug");
-					}
 
 					for (i = 0; i < scopes.length; i += 1) {
 						if (oldScopes.indexOf(scopes[i]) === -1) {
@@ -480,16 +655,25 @@ define(["step", "whispeerHelper"], function (step, h) {
 					}
 
 					this.parallel()();
-				}), h.sF(function (profiles) {
-					profiles = profiles || [];
+				}), h.sF(function (encryptedProfilesData) {
+					encryptedProfilesData = encryptedProfilesData || [];
 
+					this.ne(encryptedProfilesData);
+				}), cb);
+			};
+
+			this.createProfiles = function (scopes, cb, privacySettings) {
+				//check if we already got a profile for the given scope.
+				step(function () {
+					theUser.createProfileObjects(scopes, this, privacySettings);
+				}, h.sF(function (profiles) {
 					socketService.emit("user.createPrivateProfiles", {
 						privateProfiles: profiles
 					}, this);
 				}), cb);
 			};
 
-			this.deleteProfiles = function (scopes, cb) {
+			this.getProfilesToDelete = function (scopes, cb) {
 				//find the profiles matching a scope.
 				var priv = theUser.getPrivateProfiles();
 				step(function () {
@@ -510,6 +694,15 @@ define(["step", "whispeerHelper"], function (step, h) {
 						return priv[oldScopes.indexOf(e)].getID();
 					});
 
+					this.ne(toDelete);
+				}), cb);
+			};
+
+			this.deleteProfiles = function (scopes, cb) {
+				//find the profiles matching a scope.
+				step(function () {
+					theUser.getProfilesToDelete(scopes, this);
+				}, h.sF(function (toDelete) {
 					socketService.emit("user.deletePrivateProfiles", {
 						profilesToDelete: toDelete
 					}, this);

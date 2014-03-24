@@ -1290,7 +1290,7 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 		} else if (type === "string") {
 			this._padString(attr, cb);
 		} else {
-			throw "could not pad value of type " + type;
+			throw new Error("could not pad value of type " + type);
 		}
 	};
 
@@ -1344,7 +1344,7 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 		} else if (type === "string") {
 			return this._unpadString(attr);
 		} else {
-			throw "could not pad value of type " + type;
+			throw new Error("could not pad value of type " + type);
 		}
 	};
 

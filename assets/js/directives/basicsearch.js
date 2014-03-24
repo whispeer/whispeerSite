@@ -235,7 +235,12 @@ define(["step", "whispeerHelper"], function () {
 
 				scope.markedForDeletion = -1;
 
-				scope.removeSelection = function (index) {
+				scope.removeSelection = function (index, $event) {
+					if ($event) {
+						$event.stopPropagation();
+						$event.preventDefault();
+					}
+
 					scope.$emit("elementRemoved", scope.selectedElements[index]);
 					scope.selectedElements.splice(index, 1);
 					selectedIDs.splice(index, 1);
