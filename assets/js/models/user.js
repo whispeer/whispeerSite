@@ -30,13 +30,15 @@ define(["step", "whispeerHelper"], function (step, h) {
 			throw new Error("dafuq");
 		}
 
-		h.objectEach(function (key, value) {
-			if (typeof value.encrypt !== "undefined") {
-				if (!value.encrypt) {
-					result[key] = profile[key];
+		h.objectEach(privacy, function (key, value) {
+			if (profile[key]) {
+				if (typeof value.encrypt !== "undefined") {
+					if (!value.encrypt) {
+						result[key] = profile[key];
+					}
+				} else {
+					result[key] = applicablePublicParts(value, profile[key]);
 				}
-			} else if (profile[key]) {
-				result[key] = applicablePublicParts(value, profile[key]);
 			}
 		});
 
@@ -189,7 +191,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 				var pub = theUser.getProfile();
 				publicProfileChanged = h.deepSetCreate(pub, attrs, val) || publicProfileChanged;
 
-				setPrivateProfile(attrs.split("."), val, [], cb);
+				setPrivateProfile(attrs, val, [], cb);
 			}
 
 			function getChangedPrivateProfiles(cb) {
@@ -206,6 +208,22 @@ define(["step", "whispeerHelper"], function (step, h) {
 				}, cb);
 			}
 
+			function getChangedPublicProfile(cb) {
+				var publicProfile;
+				step(function () {
+					if (publicProfileChanged) {
+						publicProfile = theUser.getProfile();
+						keyStoreService.sign.signObject(publicProfile, signKey, this);
+					} else {
+						this.last.ne();
+					}
+				}, h.sF(function (signature) {
+					publicProfile.signature = signature;
+
+					this.ne(publicProfile);
+				}), cb);
+			}
+
 			function uploadChangedProfile(cb) {
 				var data = {};
 				var priv = theUser.getPrivateProfiles();
@@ -214,18 +232,14 @@ define(["step", "whispeerHelper"], function (step, h) {
 					this.parallel.unflatten();
 
 					getChangedPrivateProfiles(this.parallel());
-
-					if (publicProfileChanged) {
-						data.pub = theUser.getProfile();
-						keyStoreService.sign.signObject(data.pub, signKey, this.parallel());
-					}
-				}, h.sF(function (profiles, signature) {
+					getChangedPublicProfile(this.parallel());
+				}, h.sF(function (profiles, publicProfile) {
 					if (profiles && profiles.length > 0) {
 						data.priv = profiles;
 					}
 
-					if (publicProfileChanged) {
-						data.pub.signature = signature;
+					if (publicProfile) {
+						data.pub = publicProfile;
 					}
 
 					if (data.priv || data.pub) {
@@ -290,9 +304,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 						createPrivateProfiles: {
 							privateProfiles: profilesToCreate
 						},
-						profileChange: {
-							priv: profilesToChange
-						}
+						profileChange: profilesToChange
 					}, this);
 				}), cb);
 			};
@@ -321,6 +333,17 @@ define(["step", "whispeerHelper"], function (step, h) {
 				}), cb);
 			};
 
+			function updateFullPublicProfile(newPublicProfile) {
+				var pub = theUser.getProfile();
+
+				if (!h.deepEqual(pub, newPublicProfile)) {
+					publicProfileChanged = true;
+					publicProfile = newPublicProfile;
+				}
+
+				return publicProfileChanged;
+			}
+
 			this.updateProfilesFromMe = function(scopes, privacySettings, cb) {
 				step(function () {
 					this.parallel.unflatten();
@@ -333,10 +356,24 @@ define(["step", "whispeerHelper"], function (step, h) {
 						profiles[i].setFullProfile(applicableParts(scopes[i], privacySettings, myProfile), this.parallel());
 					}
 
-					//TODO: update public profile!!
-					applicablePublicParts(privacySettings, myProfile);
+					updateFullPublicProfile(applicablePublicParts(privacySettings, myProfile));
 				}), h.sF(function () {
-					getChangedPrivateProfiles(this);
+					this.parallel.unflatten();
+
+					getChangedPrivateProfiles(this.parallel());
+					getChangedPublicProfile(this.parallel());
+				}), h.sF(function (profiles, publicProfile) {
+					var data = {};
+
+					if (profiles && profiles.length > 0) {
+						data.priv = profiles;
+					}
+
+					if (publicProfile) {
+						data.pub = publicProfile;
+					}
+
+					this.ne(data);
 				}), cb);
 			};
 
