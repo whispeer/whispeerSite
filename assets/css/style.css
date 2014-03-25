@@ -1722,6 +1722,7 @@ dd {
 }
 .searchBar .formSearch .inputWrap li.searchField {
   display: inline-block;
+  position: relative;
 }
 .searchBar .formSearch .inputWrap li.searchField input,
 .searchBar .formSearch .inputWrap li.searchField input:focus {
@@ -1733,6 +1734,7 @@ dd {
   -moz-box-shadow: none;
   box-shadow: none;
   background: transparent;
+  position: relative;
 }
 .searchBar .formSearch .inputWrap li.searchResult {
   padding: 4px 15px;
@@ -4543,6 +4545,7 @@ body.loading:after {
   /* Firefox, other Gecko */
   box-sizing: border-box;
   /* Opera/IE 8+ */
+  overflow-y: scroll !important;
 }
 .circlesView #main header {
   height: 20px;
@@ -4643,7 +4646,6 @@ body.loading:after {
 }
 .circlesView header nav a {
   color: #888888;
-  cursor: pointer;
 }
 .circlesView #circleListWrap {
   margin-right: 3px;
@@ -4727,51 +4729,32 @@ body.loading:after {
   text-overflow: ellipsis;
   overflow: hidden;
 }
-.circlesView #circleContainer #circleTitle .editTitle h2 {
-  overflow: auto;
-  float: left;
-}
-.circlesView #circleContainer #circleTitle .editTitle input {
-  display: inline-block;
-  *display: inline;
-  /* IE7 inline-block hack */
-  *zoom: 1;
-  float: left;
-  width: 31.33333333%;
-  margin: 0 1% 0 1%;
-  margin-top: 13px;
-}
-.circlesView #circleContainer #circleWrap {
-  width: 100%;
-  height: 100%;
-  overflow-y: scroll;
-}
-.circlesView #circleContainer #circleWrap #friendsList {
+.circlesView #circleContainer #friendsList {
   *zoom: 1;
   text-align: center;
 }
-.circlesView #circleContainer #circleWrap #friendsList:before,
-.circlesView #circleContainer #circleWrap #friendsList:after {
+.circlesView #circleContainer #friendsList:before,
+.circlesView #circleContainer #friendsList:after {
   content: "";
   display: table;
 }
-.circlesView #circleContainer #circleWrap #friendsList:after {
+.circlesView #circleContainer #friendsList:after {
   clear: both;
 }
-.circlesView #circleContainer #circleWrap #friendsList li.add {
+.circlesView #circleContainer #friendsList li.add {
   background: none;
   border: 1px solid #ccc;
 }
-.circlesView #circleContainer #circleWrap #friendsList li.add span {
+.circlesView #circleContainer #friendsList li.add span {
   font-size: 100px;
   line-height: 40px;
   display: inline-block;
   margin-top: 50%;
 }
-.circlesView #circleContainer #circleWrap #friendsList li.add:hover {
+.circlesView #circleContainer #friendsList li.add:hover {
   border: 1px solid #3a8100;
 }
-.circlesView #circleContainer #circleWrap #friendsList li.add:hover span {
+.circlesView #circleContainer #friendsList li.add:hover span {
   text-shadow: 0px 0px 2px #ddd;
 }
 .circlesView #circleContainer.newCircle #circleTitle h2 {
@@ -9028,11 +9011,6 @@ body.loading:after {
   .circlesView header nav a:last-child {
     text-align: right;
   }
-  .circlesView header nav a:only-child {
-    text-align: right;
-    float: right;
-    margin-left: 66.66666667% !important;
-  }
   .circlesView #circleListWrap {
     display: inline-block;
     *display: inline;
@@ -9612,7 +9590,7 @@ body.loading:after {
     display: block;
     height: 38px;
     float: left;
-    margin: -39px 0 0 89%;
+    margin: -38px 0 0 89%;
     padding: 0px !important;
     text-align: center;
     border: none;
@@ -10724,11 +10702,6 @@ body.loading:after {
   .circlesView header nav a:last-child {
     text-align: right;
   }
-  .circlesView header nav a:only-child {
-    text-align: right;
-    float: right;
-    margin-left: 66.66666667% !important;
-  }
   .circlesView #circleListWrap {
     display: inline-block;
     *display: inline;
@@ -11286,7 +11259,7 @@ body.loading:after {
     display: block;
     height: 38px;
     float: left;
-    margin: -39px 0 0 89%;
+    margin: -38px 0 0 89%;
     padding: 0px !important;
     text-align: center;
     border: none;
@@ -12365,10 +12338,9 @@ body.loading:after {
     *display: inline;
     /* IE7 inline-block hack */
     *zoom: 1;
-    float: right;
-    width: 26.57142857%;
+    float: left;
+    width: 69.42857143%;
     margin: 0 1% 0 1%;
-    margin-right: 0;
   }
   .circlesView header nav a {
     display: inline-block;
@@ -12376,21 +12348,15 @@ body.loading:after {
     /* IE7 inline-block hack */
     *zoom: 1;
     float: left;
-    width: 40%;
-    margin: 0 5% 0 5%;
-    text-align: right;
-  }
-  .circlesView header nav a:only-child {
-    text-align: right;
-    float: right;
-    margin-left: 50% !important;
-  }
-  .circlesView header nav a.btn {
-    height: 30px;
-    margin-top: -5px;
+    width: 31.33333333%;
+    margin: 0 1% 0 1%;
     text-align: center;
-    margin-right: none;
-    float: right;
+  }
+  .circlesView header nav a:first-child {
+    text-align: left;
+  }
+  .circlesView header nav a:last-child {
+    text-align: right;
   }
   .circlesView #circleListWrap {
     display: inline-block;
@@ -12925,7 +12891,7 @@ body.loading:after {
     display: block;
     height: 38px;
     float: left;
-    margin: -39px 0 0 89%;
+    margin: -38px 0 0 89%;
     padding: 0px !important;
     text-align: center;
     border: none;
