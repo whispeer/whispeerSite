@@ -369,6 +369,11 @@
 							z-index: 10001 !important;
 							background-color: red;
 						}
+						@-moz-document url-prefix() {
+							.registerView section #registerForm .inputWrap div.uploadImageForm #filesUpload {
+								margin: 4px 0 0 -750px !important;
+							}
+						}
 					}
 					&#canvasWrapper {
 						width: 600px;
