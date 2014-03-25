@@ -4,7 +4,12 @@
 define(["socket", "step", "whispeerHelper", "config"], function (io, step, h, config) {
 	"use strict";
 
-	var socket = io.connect("http://" + config.ws + ":" + config.wsPort);
+	var socket;
+	if (config.https) {
+		socket = io.connect("https://" + config.ws + ":" + config.wsPort);
+	} else {
+		socket = io.connect("http://" + config.ws + ":" + config.wsPort);
+	}
 
 	var service = function ($rootScope, sessionService) {
 		function updateLogin(data) {
