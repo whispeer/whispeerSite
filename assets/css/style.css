@@ -1726,6 +1726,7 @@ dd {
 }
 .searchBar .formSearch .inputWrap li.searchField {
   display: inline-block;
+  position: relative;
 }
 .searchBar .formSearch .inputWrap li.searchField input,
 .searchBar .formSearch .inputWrap li.searchField input:focus {
@@ -1737,6 +1738,7 @@ dd {
   -moz-box-shadow: none;
   box-shadow: none;
   background: transparent;
+  position: relative;
 }
 .searchBar .formSearch .inputWrap li.searchResult {
   padding: 4px 15px;
@@ -9677,7 +9679,7 @@ body.loading:after {
     display: block;
     height: 38px;
     float: left;
-    margin: -39px 0 0 89%;
+    margin: -38px 0 0 89%;
     padding: 0px !important;
     text-align: center;
     border: none;
@@ -11348,7 +11350,7 @@ body.loading:after {
     display: block;
     height: 38px;
     float: left;
-    margin: -39px 0 0 89%;
+    margin: -38px 0 0 89%;
     padding: 0px !important;
     text-align: center;
     border: none;
@@ -13017,7 +13019,7 @@ body.loading:after {
     display: block;
     height: 38px;
     float: left;
-    margin: -39px 0 0 89%;
+    margin: -38px 0 0 89%;
     padding: 0px !important;
     text-align: center;
     border: none;
