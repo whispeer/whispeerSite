@@ -2539,9 +2539,12 @@ body.loading:after {
 .registerView section #registerForm .inputWrap div label {
   width: 80%;
   float: left;
-  height: 40px;
   margin: 0 0 0 10%;
   text-align: left;
+}
+.registerView section #registerForm .inputWrap div input,
+.registerView section #registerForm .inputWrap div label {
+  height: 40px;
 }
 .registerView section #registerForm .inputWrap div select {
   margin-top: 10px;
