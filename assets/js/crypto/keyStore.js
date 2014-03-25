@@ -59,11 +59,11 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 	//var webWorker = Modernizr.webworkers;
 
 	/** generate an id */
-	function generateid() {
-		var id = keyGenIdentifier + ":" + chelper.bits2hex(sjcl.hash.sha256.hash(new Date().getTime()));
+	function generateid(base) {
+		var id = keyGenIdentifier + ":" + chelper.bits2hex(base);
 
 		if (symKeys[id] || cryptKeys[id] || signKeys[id]) {
-			return generateid();
+			throw new Error("key already existing with same content ... this should never happen!");
 		}
 
 		return id;
@@ -516,16 +516,19 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 	SymKey = function (keyData) {
 		var intKey, comment = "";
 
-		if (keyData) {
-			if (typeof keyData === "string") {
-				intKey = new Key(this, generateid(), [], {secret: chelper.hex2bits(keyData)});
-			} else if (keyData instanceof Array) {
-				intKey = new Key(this, generateid(), [], {secret: keyData});
-			} else {
-				intKey = new Key(this, keyData.realid, keyData.decryptors);
-			}
+		if (!keyData) {
+			keyData = sjcl.random.randomWords(8);
+		}
+
+		if (typeof keyData === "string") {
+			keyData = chelper.hex2bits(keyData)
+		} 
+
+		if (keyData instanceof Array) {
+			var fingerprint = sjcl.hash.sha256.hash(keyData); 
+			intKey = new Key(this, generateid(fingerprint), [], {secret: keyData});
 		} else {
-			intKey = new Key(this, generateid(), [], {secret: sjcl.random.randomWords(8)});
+			intKey = new Key(this, keyData.realid, keyData.decryptors);
 		}
 
 		this.getUploadData = function () {
@@ -783,9 +786,9 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 			this.getDecryptorData = intKey.getDecryptorData;
 		}
 
-		function getFingerPrint() {
+		function getFingerPrintF() {
 			//should we add the type and curve here too?
-			return sjcl.hash.sha256.hash(publicKey._point.toBits());
+			return fingerPrintPublicKey(publicKey);
 		}
 
 		/** create a key 
@@ -825,7 +828,7 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 			}), callback);
 		}
 
-		this.getFingerPrint = getFingerPrint;
+		this.getFingerPrint = getFingerPrintF;
 		this.kem = kemF;
 
 		if (isPrivateKey) {
@@ -865,6 +868,10 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 		}), callback);
 	}
 
+	function fingerPrintPublicKey(publicKey) {
+		return sjcl.hash.sha256.hash(publicKey._point.toBits());
+	}
+
 	/** generate a crypt key
 	* @param curve curve to use
 	* @param callback callback
@@ -883,7 +890,7 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 					y: chelper.bits2hex(p.y.toBits())
 				},
 				exponent: chelper.bits2hex(sec._exponent.toBits()),
-				realid: generateid(),
+				realid: generateid(fingerPrintPublicKey(pub)),
 				curve: chelper.getCurveName(pub._curve),
 				comment: comment
 			};
@@ -977,10 +984,10 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 			};
 		}
 
-		function getFingerPrint() {
+		function getFingerPrintF() {
 			//should we add the type and curve here too?
 			//as the curve is fixed for now it should not be a problem
-			return sjcl.hash.sha256.hash(publicKey._point.toBits());
+			return fingerPrintPublicKey(publicKey);
 		}
 
 		function signF(hash, callback) {
@@ -1005,7 +1012,7 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 			this.sign = signF;
 		}
 
-		this.getFingerPrint = getFingerPrint;
+		this.getFingerPrint = getFingerPrintF;
 		this.verify = verifyF;
 	};
 
@@ -1059,7 +1066,7 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 					y: chelper.bits2hex(p.y.toBits())
 				},
 				exponent: chelper.bits2hex(sec._exponent.toBits()),
-				realid: generateid(),
+				realid: generateid(fingerPrintPublicKey(pub)),
 				curve: chelper.getCurveName(pub._curve)
 			};
 			/*jslint nomen: false*/
