@@ -5198,7 +5198,7 @@ body.loading:after {
 .settingsView #main section .config#nickname button {
   margin-left: 16.66666667% !important;
 }
-.settingsView #main section#safety .config button {
+.settingsView #main section#safety .config.select button {
   display: inline-block;
   *display: inline;
   /* IE7 inline-block hack */
@@ -5210,7 +5210,16 @@ body.loading:after {
   margin-bottom: 10px;
   height: 40px;
 }
-.settingsView #main section#safety .config .whoMaySeeIt {
+.settingsView #main section#safety .config.select span {
+  display: inline-block;
+  *display: inline;
+  /* IE7 inline-block hack */
+  *zoom: 1;
+  float: left;
+  width: 25%;
+  margin: 0 0 0 0;
+}
+.settingsView #main section#safety .config.select .whoMaySeeIt {
   display: inline-block;
   *display: inline;
   /* IE7 inline-block hack */
@@ -5288,6 +5297,15 @@ body.loading:after {
 .settingsView #main section button[type=reset].disabled,
 .settingsView #main section button[type=reset][disabled] {
   background-color: #bd2e23;
+}
+.settingsView #main section button.settingsFormButton {
+  display: inline-block;
+  *display: inline;
+  /* IE7 inline-block hack */
+  *zoom: 1;
+  float: left;
+  width: 14.66666667%;
+  margin: 0 1% 0 1%;
 }
 .settingsView #main section .notimplemented {
   background-color: #555555;

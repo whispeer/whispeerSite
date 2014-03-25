@@ -40,7 +40,7 @@
 	<section id="safety">
 		<header><span class="title">Sicherheit - Welche deiner Profildaten sollen verschlüsselt werden?</span></header>
 		<h2>Name</h2>
-		<div class="config" id="firstNameEncryption">
+		<div class="config select" id="firstNameEncryption">
 			<span>Vorname:</span>
 			<button type="submit" data-ng-click="safety.basic.firstname.encrypt=!safety.basic.firstname.encrypt" data-encrypted="{{safety.basic.firstname.encrypt}}">
 				<i class="icon-lock" data-ng-if="safety.basic.firstname.encrypt"></i>
@@ -48,7 +48,7 @@
 			</button>
 			<div data-ng-if="safety.basic.firstname.encrypt"><filtersearch data-res="safety.basic.firstname" data-res-attr="visibility" data-selected="safety.basic.firstname.visibility" data-input-i18n-attr="" class="whoMaySeeIt"></filtersearch></div>
 		</div>
-		<div class="config" id="lastNameEncryption">
+		<div class="config select" id="lastNameEncryption">
 			<span>Nachname:</span>
 			<button type="submit" data-ng-click="safety.basic.lastname.encrypt=!safety.basic.lastname.encrypt" data-encrypted="{{safety.basic.lastname.encrypt}}">
 				<i class="icon-lock" data-ng-if="safety.basic.lastname.encrypt"></i>
@@ -57,7 +57,7 @@
 			<div data-ng-if="safety.basic.lastname.encrypt"><filtersearch data-res="safety.basic.lastname" data-res-attr="visibility" data-selected="safety.basic.lastname.visibility" data-input-i18n-attr="" class="whoMaySeeIt"></filtersearch></div>
 		</div>
 		<h2>Profil</h2>
-		<div class="config" ng-repeat="name in safetySorted" id="{{name}}Encryption">
+		<div class="config select" ng-repeat="name in safetySorted" id="{{name}}Encryption">
 			<span data-i18n="settings.safety.attributes.{{name}}"></span>
 			<button type="submit" data-ng-click="safety[name].encrypt=!safety[name].encrypt" data-encrypted="{{safety[name].encrypt}}">
 				<i class="icon-lock" data-ng-if="safety[name].encrypt"></i>
@@ -65,8 +65,8 @@
 			</button>
 			<div data-ng-if="safety[name].encrypt"><filtersearch data-res="safety[name]" data-res-attr="visibility" data-selected="safety[name].visibility" data-input-i18n-attr="" class="whoMaySeeIt"></filtersearch></div>
 		</div>
-		<button type="submit" data-ng-click="saveSafety()"><i class="icon-ok-circle"></i> <span>Speichern</span></button>
-		<button type="submit" data-ng-click="resetSafety()"><i class="icon-ok-circle"></i> <span>Reset</span></button>
+		<button class="settingsFormButton" type="submit" data-ng-click="saveSafety()"><i class="icon-ok-circle"></i> <span>Speichern</span></button>
+		<button class="settingsFormButton" type="submit" data-ng-click="resetSafety()"><i class="icon-cancel-circle"></i> <span>Zurücksetzen</span></button>
 	</section>
 <!--
 	<section id="notifications">

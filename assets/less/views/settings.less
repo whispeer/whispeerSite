@@ -40,12 +40,15 @@
 				}
 			}
 			&#safety {
-				.config {
+				.config.select {
 					button {
 						.column(1);
 						margin-top: -1px;
 						margin-bottom: 10px;
 						height: 40px;
+					}
+					span {
+						.column(3,12,left,0);
 					}
 					.whoMaySeeIt {
 						.column(8);
@@ -64,6 +67,9 @@
 				}
 				&[type=reset] {
 					.btn--danger;
+				}
+				&.settingsFormButton {
+					.column(2);
 				}
 			}
 			.notimplemented {
