@@ -1,10 +1,10 @@
 <div data-ng-if="!mobile || true">
 	<header>
 		<span class="title" role="title"><span data-i18n="views.circles.header.title"></span>&nbsp;<span data-ng-if="circleLoaded && showCircle">anzeigen: {{thisCircle.name}}</span></span>
-		<nav data-ng-if="activeCircle">
-			<a href="#" data-i18n="views.circles.header.sendMessage"></a>
-			<a href="#" data-i18n="views.circles.header.addPeople"></a>
-			<a href="#" data-i18n="views.circles.header.createGroup"></a>
+		<nav data-ng-if="circleLoaded && showCircle">
+			<a class="delete" data-ng-if="editing" data-ng-click="saveCircle()" data-i18n="views.circles.header.remove"></a>
+			<a data-ng-if="!editing" data-ng-click="editCircle()" data-i18n="views.circles.header.edit"></a>
+			<a class="save" data-ng-if="editing" data-ng-click="saveCircle()" data-i18n="views.circles.header.save"></a>
 		</nav>
 		<button data-ng-if="mobile && showCircle" data-ng-click="unloadCircle()"><i class="icon icon-menu"></i></button>
 	</header>
@@ -33,12 +33,14 @@
 
 	<div id="circleContainer" data-circleID="{{thisCircle.id}}" data-ng-if="circleLoaded && showCircle">
 		<div id="circleTitle">
-			<h2 data-i18n="views.circles.personsInCircle|name={{thisCircle.name}}" title="{{thisCircle.name}}"></h2>
+			<h2 data-ng-if="!editing" data-i18n="views.circles.personsInCircle|name={{thisCircle.name}}" title="{{thisCircle.name}}"></h2>
+			<div class="editTitle" data-ng-if="editing"><h2>Kreistitel:</h2><input data-ng-model="thisCircle.name"><button id="saveCircle" class="btn btn--primary btn--input"><i class="icon icon-ok-circle"></i><span>Diesen Kreis speichern</button></div>
 		</div>
 		<div id="circleWrap">
 			<ol id="friendsList" class="unstyled">
 				<li class="person" data-ng-repeat="friend in thisCircle.persons" style="background-image: url({{friend.basic.image}})">
 					<friend data-user="friend"></friend>
+					<div class="remove" data-ng-if="editing" data-ng-click="removeUser()"><i class="icon icon-cancel-circle icon-white"></i></div>
 				</li>	
 			</ol>
 		</div>

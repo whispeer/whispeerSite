@@ -993,6 +993,9 @@ dd {
 .btn--small {
   padding: 2px 7px;
 }
+.btn--input {
+  padding: 9px;
+}
 .btn--primary {
   background-color: #3a8100;
   color: #ffffff !important;
@@ -1111,9 +1114,6 @@ dd {
   -webkit-background-clip: padding-box;
   background-clip: padding-box;
   display: inline-block;
-}
-.status[data-status="0"] {
-  background-color: #9d261d;
 }
 .status[data-status="1"] {
   background-color: #f7b311;
@@ -1594,7 +1594,11 @@ dd {
   display: block;
 }
 .person .username {
-  width: 100%;
+  width: 80%;
+  display: inline-block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
   text-align: center;
 }
 .person .username a {
@@ -4645,6 +4649,18 @@ body.loading:after {
   color: #888888;
   cursor: pointer;
 }
+.circlesView header nav a.delete {
+  color: #9d261d;
+}
+.circlesView header nav a.delete:hover {
+  color: #b32b21;
+}
+.circlesView header nav a.save {
+  color: #3a8100;
+}
+.circlesView header nav a.save:hover {
+  color: #54ab0c;
+}
 .circlesView #circleListWrap {
   margin-right: 3px;
 }
@@ -4727,11 +4743,16 @@ body.loading:after {
   text-overflow: ellipsis;
   overflow: hidden;
 }
-.circlesView #circleContainer #circleTitle .editTitle h2 {
-  overflow: auto;
-  float: left;
-}
 .circlesView #circleContainer #circleTitle .editTitle input {
+  display: inline-block;
+  *display: inline;
+  /* IE7 inline-block hack */
+  *zoom: 1;
+  float: left;
+  width: 48%;
+  margin: 0 1% 0 1%;
+}
+.circlesView #circleContainer #circleTitle .editTitle button {
   display: inline-block;
   *display: inline;
   /* IE7 inline-block hack */
@@ -4739,7 +4760,15 @@ body.loading:after {
   float: left;
   width: 31.33333333%;
   margin: 0 1% 0 1%;
+}
+.circlesView #circleContainer #circleTitle .editTitle input,
+.circlesView #circleContainer #circleTitle .editTitle button {
   margin-top: 13px;
+}
+.circlesView #circleContainer #circleTitle .editTitle h2 {
+  float: left;
+  width: 14.66666667% !important;
+  overflow: auto;
 }
 .circlesView #circleContainer #circleWrap {
   width: 100%;
@@ -4757,6 +4786,36 @@ body.loading:after {
 }
 .circlesView #circleContainer #circleWrap #friendsList:after {
   clear: both;
+}
+.circlesView #circleContainer #circleWrap #friendsList li {
+  position: relative;
+}
+.circlesView #circleContainer #circleWrap #friendsList li .remove {
+  width: 0.7em;
+  height: 0.7em;
+  -webkit-border-radius: 100%;
+  -moz-border-radius: 100%;
+  border-radius: 100%;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  display: inline-block;
+  display: block;
+  position: absolute;
+  cursor: pointer;
+}
+.circlesView #circleContainer #circleWrap #friendsList li .remove[data-status="1"] {
+  background-color: #f7b311;
+}
+.circlesView #circleContainer #circleWrap #friendsList li .remove[data-status="2"] {
+  background-color: #54ab0c;
+}
+.circlesView #circleContainer #circleWrap #friendsList li .remove i {
+  display: block;
+  color: #f91919;
+}
+.circlesView #circleContainer #circleWrap #friendsList li .remove:hover i {
+  color: #ff3f3f;
 }
 .circlesView #circleContainer #circleWrap #friendsList li.add {
   background: none;
@@ -9000,7 +9059,7 @@ body.loading:after {
     /* IE7 inline-block hack */
     *zoom: 1;
     float: left;
-    width: 12.28571429%;
+    width: 55.14285714%;
     margin: 0 1% 0 1%;
   }
   .circlesView header nav {
@@ -9008,9 +9067,10 @@ body.loading:after {
     *display: inline;
     /* IE7 inline-block hack */
     *zoom: 1;
-    float: left;
-    width: 83.71428571%;
+    float: right;
+    width: 40.85714286%;
     margin: 0 1% 0 1%;
+    margin-right: 0;
   }
   .circlesView header nav a {
     display: inline-block;
@@ -9018,20 +9078,14 @@ body.loading:after {
     /* IE7 inline-block hack */
     *zoom: 1;
     float: left;
-    width: 31.33333333%;
-    margin: 0 1% 0 1%;
-    text-align: center;
-  }
-  .circlesView header nav a:first-child {
-    text-align: left;
-  }
-  .circlesView header nav a:last-child {
+    width: 40%;
+    margin: 0 5% 0 5%;
     text-align: right;
   }
   .circlesView header nav a:only-child {
     text-align: right;
     float: right;
-    margin-left: 66.66666667% !important;
+    margin-left: 50% !important;
   }
   .circlesView #circleListWrap {
     display: inline-block;
@@ -9039,7 +9093,7 @@ body.loading:after {
     /* IE7 inline-block hack */
     *zoom: 1;
     float: left;
-    width: 37.28571429%;
+    width: 33.71428571%;
     margin: 0 1% 0 1%;
     height: 100%;
   }
@@ -9056,19 +9110,9 @@ body.loading:after {
     margin-bottom: 5px;
     padding: 0;
   }
-  .circlesView #circleListWrap #circleList .circle .left {
-    display: inline-block;
-    *display: inline;
-    /* IE7 inline-block hack */
-    *zoom: 1;
-    float: left;
-    width: 28%;
-    margin: 0 1% 0 1%;
-    margin-left: 0;
-  }
-  .circlesView #circleListWrap #circleList .circle .left .userimg {
+  .circlesView #circleListWrap #circleList .circle .userimg {
     width: 100%;
-    margin: 0 0 -4px 0px;
+    margin: 0 0 -5px -2px;
     padding: 0;
   }
   .circlesView #circleListWrap #circleList .circle .listname {
@@ -9092,8 +9136,19 @@ body.loading:after {
     float: left;
     width: 68%;
     margin: 0 1% 0 1%;
-    margin-top: 0px;
-    font-size: 0.8em;
+    margin-top: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .circlesView #circleListWrap #circleList .circle .left {
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+    *zoom: 1;
+    float: left;
+    width: 28%;
+    margin: 0 1% 0 1%;
   }
   .circlesView #circleListWrap #circleList .circle#newcircle {
     height: 20px;
@@ -9105,10 +9160,10 @@ body.loading:after {
     /* IE7 inline-block hack */
     *zoom: 1;
     float: left;
-    width: 58.71428571%;
+    width: 62.28571429%;
     margin: 0 1% 0 1%;
     height: 100%;
-    padding: 0px 0px 91px 0px;
+    padding: 0px 0px 51px 0px;
     -webkit-box-sizing: border-box;
     /* Safari/Chrome, other WebKit */
     -moz-box-sizing: border-box;
@@ -9116,15 +9171,30 @@ body.loading:after {
     box-sizing: border-box;
     /* Opera/IE 8+ */
   }
+  .circlesView #circleContainer #circleTitle .editTitle input {
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+    *zoom: 1;
+    float: left;
+    width: 56.33333333%;
+    margin: 0 1% 0 1%;
+    margin-top: 13px;
+  }
+  .circlesView #circleContainer #circleTitle .editTitle button {
+    display: none;
+    visibility: hidden;
+  }
+  .circlesView #circleContainer #circleTitle .editTitle h2 {
+    float: left;
+    width: 39.66666667% !important;
+    overflow: auto;
+  }
   .circlesView #circleContainer #circleWrap {
     height: 100%;
   }
   .circlesView #circleContainer #circleTitle {
     padding-left: 10px;
-  }
-  .circlesView #circleContainer #friendsList {
-    overflow-y: scroll;
-    height: 100%;
   }
   .circlesView #circleContainer #friendsList li {
     display: inline-block;
@@ -9132,23 +9202,18 @@ body.loading:after {
     /* IE7 inline-block hack */
     *zoom: 1;
     float: left;
-    width: 31.33333333%;
+    width: 48%;
     margin: 0 1% 0 1%;
-    height: 250px;
-    padding: 0;
-    margin-bottom: 15px;
   }
-  .circlesView #circleContainer #friendsList li .username {
-    width: 100%;
+  .circlesView #circleContainer #friendsList li .remove {
+    width: 17px !important;
+    height: 14px !important;
+    top: 0;
+    right: 1.5%;
   }
-  .circlesView #circleContainer #friendsList li .pushup {
-    height: 0;
-    width: 100%;
-    margin-top: 0px;
-    padding: 0;
-  }
-  .circlesView #circleContainer #friendsList li:hover .pushup {
-    height: 80px;
+  .circlesView #circleContainer #friendsList li .remove i {
+    font-size: 16px;
+    margin-top: -1px !important;
   }
   .circlesView #circleContainer.newCircle #titleInput,
   .circlesView #circleContainer.newCircle #friendInput {
@@ -9165,10 +9230,10 @@ body.loading:after {
   .circlesView #circleContainer.newCircle #friendInput {
     height: 150px;
   }
-  .circlesView #circleContainer.newCircle .searchBar .formSearch .inputWrap li.searchField input {
-    width: 100%;
+  .circlesView #circleContainer.newCircle .searchBar .formSearch .inputWrap li.searchField {
+    width: 50%;
   }
-  .circlesView #circleContainer.newCircle #sendmessage {
+  .circlesView #circleContainer.newCircle #savecircle {
     margin-left: 8px;
   }
   header #postIt #receiver .inputWrap li.searchField {
@@ -10696,7 +10761,7 @@ body.loading:after {
     /* IE7 inline-block hack */
     *zoom: 1;
     float: left;
-    width: 26.57142857%;
+    width: 48%;
     margin: 0 1% 0 1%;
   }
   .circlesView header nav {
@@ -10704,9 +10769,10 @@ body.loading:after {
     *display: inline;
     /* IE7 inline-block hack */
     *zoom: 1;
-    float: left;
-    width: 69.42857143%;
+    float: right;
+    width: 48%;
     margin: 0 1% 0 1%;
+    margin-right: 0;
   }
   .circlesView header nav a {
     display: inline-block;
@@ -10714,20 +10780,14 @@ body.loading:after {
     /* IE7 inline-block hack */
     *zoom: 1;
     float: left;
-    width: 31.33333333%;
-    margin: 0 1% 0 1%;
-    text-align: center;
-  }
-  .circlesView header nav a:first-child {
-    text-align: left;
-  }
-  .circlesView header nav a:last-child {
+    width: 40%;
+    margin: 0 5% 0 5%;
     text-align: right;
   }
   .circlesView header nav a:only-child {
     text-align: right;
     float: right;
-    margin-left: 66.66666667% !important;
+    margin-left: 50% !important;
   }
   .circlesView #circleListWrap {
     display: inline-block;
@@ -10735,7 +10795,7 @@ body.loading:after {
     /* IE7 inline-block hack */
     *zoom: 1;
     float: left;
-    width: 30.14285714%;
+    width: 26.57142857%;
     margin: 0 1% 0 1%;
     height: 100%;
   }
@@ -10752,19 +10812,9 @@ body.loading:after {
     margin-bottom: 5px;
     padding: 0;
   }
-  .circlesView #circleListWrap #circleList .circle .left {
-    display: inline-block;
-    *display: inline;
-    /* IE7 inline-block hack */
-    *zoom: 1;
-    float: left;
-    width: 28%;
-    margin: 0 1% 0 1%;
-    margin-left: 0;
-  }
-  .circlesView #circleListWrap #circleList .circle .left .userimg {
+  .circlesView #circleListWrap #circleList .circle .userimg {
     width: 100%;
-    margin: 0 0 -4px 0px;
+    margin: 0 0 -5px -2px;
     padding: 0;
   }
   .circlesView #circleListWrap #circleList .circle .listname {
@@ -10788,8 +10838,19 @@ body.loading:after {
     float: left;
     width: 68%;
     margin: 0 1% 0 1%;
-    margin-top: 0px;
-    font-size: 0.8em;
+    margin-top: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .circlesView #circleListWrap #circleList .circle .left {
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+    *zoom: 1;
+    float: left;
+    width: 28%;
+    margin: 0 1% 0 1%;
   }
   .circlesView #circleListWrap #circleList .circle#newcircle {
     height: 20px;
@@ -10801,7 +10862,7 @@ body.loading:after {
     /* IE7 inline-block hack */
     *zoom: 1;
     float: left;
-    width: 65.85714286%;
+    width: 69.42857143%;
     margin: 0 1% 0 1%;
     height: 100%;
     padding: 0px 0px 51px 0px;
@@ -10812,15 +10873,30 @@ body.loading:after {
     box-sizing: border-box;
     /* Opera/IE 8+ */
   }
+  .circlesView #circleContainer #circleTitle .editTitle input {
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+    *zoom: 1;
+    float: left;
+    width: 64.66666667%;
+    margin: 0 1% 0 1%;
+    margin-top: 13px;
+  }
+  .circlesView #circleContainer #circleTitle .editTitle button {
+    display: none;
+    visibility: hidden;
+  }
+  .circlesView #circleContainer #circleTitle .editTitle h2 {
+    float: left;
+    width: 31.33333333% !important;
+    overflow: auto;
+  }
   .circlesView #circleContainer #circleWrap {
     height: 100%;
   }
   .circlesView #circleContainer #circleTitle {
     padding-left: 10px;
-  }
-  .circlesView #circleContainer #friendsList {
-    overflow-y: scroll;
-    height: 100%;
   }
   .circlesView #circleContainer #friendsList li {
     display: inline-block;
@@ -10830,21 +10906,16 @@ body.loading:after {
     float: left;
     width: 31.33333333%;
     margin: 0 1% 0 1%;
-    height: 250px;
-    padding: 0;
-    margin-bottom: 15px;
   }
-  .circlesView #circleContainer #friendsList li .username {
-    width: 100%;
+  .circlesView #circleContainer #friendsList li .remove {
+    width: 17px !important;
+    height: 14px !important;
+    top: 0;
+    right: 1.5%;
   }
-  .circlesView #circleContainer #friendsList li .pushup {
-    height: 0;
-    width: 100%;
-    margin-top: 0px;
-    padding: 0;
-  }
-  .circlesView #circleContainer #friendsList li:hover .pushup {
-    height: 80px;
+  .circlesView #circleContainer #friendsList li .remove i {
+    font-size: 16px;
+    margin-top: -1px !important;
   }
   .circlesView #circleContainer.newCircle #titleInput,
   .circlesView #circleContainer.newCircle #friendInput {
@@ -10861,19 +10932,10 @@ body.loading:after {
   .circlesView #circleContainer.newCircle #friendInput {
     height: 150px;
   }
-  .circlesView #circleContainer.newCircle #friendInput .formSearch .inputWrap {
-    width: 100%;
+  .circlesView #circleContainer.newCircle .searchBar .formSearch .inputWrap li.searchField {
+    width: 50%;
   }
-  .circlesView #circleContainer.newCircle #friendInput .formSearch .inputWrap li.searchField {
-    width: 85%;
-  }
-  .circlesView #circleContainer.newCircle #friendInput .formSearch .inputWrap li.searchField input {
-    width: 100%;
-  }
-  .circlesView #circleContainer.newCircle .searchBar .formSearch .inputWrap li.searchField input {
-    width: 92%;
-  }
-  .circlesView #circleContainer.newCircle #sendmessage {
+  .circlesView #circleContainer.newCircle #savecircle {
     margin-left: 8px;
   }
   header #postIt #receiver .inputWrap li.searchField {
@@ -12385,13 +12447,6 @@ body.loading:after {
     float: right;
     margin-left: 50% !important;
   }
-  .circlesView header nav a.btn {
-    height: 30px;
-    margin-top: -5px;
-    text-align: center;
-    margin-right: none;
-    float: right;
-  }
   .circlesView #circleListWrap {
     display: inline-block;
     *display: inline;
@@ -12473,6 +12528,33 @@ body.loading:after {
     box-sizing: border-box;
     /* Opera/IE 8+ */
   }
+  .circlesView #circleContainer #circleTitle .editTitle input {
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+    *zoom: 1;
+    float: left;
+    width: 48%;
+    margin: 0 1% 0 1%;
+  }
+  .circlesView #circleContainer #circleTitle .editTitle button {
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+    *zoom: 1;
+    float: left;
+    width: 31.33333333%;
+    margin: 0 1% 0 1%;
+  }
+  .circlesView #circleContainer #circleTitle .editTitle input,
+  .circlesView #circleContainer #circleTitle .editTitle button {
+    margin-top: 13px;
+  }
+  .circlesView #circleContainer #circleTitle .editTitle h2 {
+    float: left;
+    width: 14.66666667% !important;
+    overflow: auto;
+  }
   .circlesView #circleContainer #circleWrap {
     height: 100%;
   }
@@ -12487,6 +12569,16 @@ body.loading:after {
     float: left;
     width: 23%;
     margin: 0 1% 0 1%;
+  }
+  .circlesView #circleContainer #friendsList li .remove {
+    width: 22px !important;
+    height: 22px !important;
+    top: 1%;
+    right: 1%;
+  }
+  .circlesView #circleContainer #friendsList li .remove i {
+    font-size: 18px;
+    margin: 1px 0 0 0;
   }
   .circlesView #circleContainer.newCircle #titleInput,
   .circlesView #circleContainer.newCircle #friendInput {

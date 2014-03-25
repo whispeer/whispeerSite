@@ -8,6 +8,12 @@ define(["whispeerHelper"], function (h) {
 	function circlesController($scope, cssService, circleService) {
 		$scope.circleid = 0;
 		$scope.showCircle = !$scope.mobile;
+		
+		$scope.editing = false;
+		
+		$scope.editCircle = function () {
+			$scope.editing = true;
+		};
 
 		$scope.thisCircle = {};
 
@@ -19,6 +25,7 @@ define(["whispeerHelper"], function (h) {
 		};
 
 		$scope.shortenString = function(string, length) {
+			// may be deprecated!
 			if (string.length > length) {
 				return string.substr(0, length-3) + "...";
 			}

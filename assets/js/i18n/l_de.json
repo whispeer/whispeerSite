@@ -7,7 +7,9 @@
 				"title":	"Kreise",
 				"createGroup": "Als Gruppe kopieren",
 				"sendMessage": "Nachricht an Kreis",
-				"addPeople":	"Personen hinzufügen"
+				"edit":	"Kreis bearbeiten",
+				"save":	"Kreis speichern",
+				"remove":	"Kreis löschen"
 			},
 			"newCircle":	"Neuen Kreis anlegen",
 			"personCount":	"Es befinden sich {count} Personen in diesem Kreis",
