@@ -12474,7 +12474,7 @@ body.loading:after {
   }
   .circlesView #circleListWrap #circleList .circle .userimg {
     width: 100%;
-    margin: 0 0 -4px -2px;
+    margin: 0 0 -5px -4px;
     padding: 0;
   }
   .circlesView #circleListWrap #circleList .circle .listname {
