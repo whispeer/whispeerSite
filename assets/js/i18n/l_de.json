@@ -195,6 +195,7 @@
 				"work":	"arbeitet als {what} bei {company}",
 				"gender":	{
 					"": "",
+					"gender": "Geschlecht",
 					"default":	"{gender}",
 					"m":	"männlich",
 					"f":	"weiblich",
