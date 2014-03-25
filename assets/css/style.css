@@ -1867,6 +1867,7 @@ dd {
   border: none;
   border-bottom: 1px solid #9a9a9a;
   position: relative;
+  cursor: pointer;
 }
 .searchBar .searchDrop .searchSuggestions li:last-child {
   border: none;
@@ -5304,15 +5305,6 @@ body.loading:after {
 .settingsView #main section button[type=reset].disabled,
 .settingsView #main section button[type=reset][disabled] {
   background-color: #bd2e23;
-}
-.settingsView #main section button.settingsFormButton {
-  display: inline-block;
-  *display: inline;
-  /* IE7 inline-block hack */
-  *zoom: 1;
-  float: left;
-  width: 14.66666667%;
-  margin: 0 1% 0 1%;
 }
 .settingsView #main section .notimplemented {
   background-color: #555555;
@@ -9791,6 +9783,9 @@ body.loading:after {
     margin-bottom: 10px;
     height: 40px;
   }
+  .settingsView #main section#safety .config button i {
+    margin-left: -3px;
+  }
   .settingsView #main section#safety .config .whoMaySeeIt {
     display: inline-block;
     *display: inline;
@@ -9798,6 +9793,15 @@ body.loading:after {
     *zoom: 1;
     float: left;
     width: 60.5%;
+    margin: 0 1% 0 1%;
+  }
+  .settingsView #main section .settingsFormButton {
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+    *zoom: 1;
+    float: left;
+    width: 48%;
     margin: 0 1% 0 1%;
   }
 }
@@ -11456,6 +11460,15 @@ body.loading:after {
     margin-top: -5px;
     margin-bottom: 10px;
   }
+  .settingsView #main section .settingsFormButton {
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+    *zoom: 1;
+    float: left;
+    width: 31.33333333%;
+    margin: 0 1% 0 1%;
+  }
 }
 /* Large screens ----------- */
 @media only screen and (min-width: 1824px) {
@@ -13093,6 +13106,15 @@ body.loading:after {
     margin: 0 1% 0 1%;
     margin-top: -5px;
     margin-bottom: 10px;
+  }
+  .settingsView #main section .settingsFormButton {
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+    *zoom: 1;
+    float: left;
+    width: 14.66666667%;
+    margin: 0 1% 0 1%;
   }
 }
 /* Utilities --------------- */
