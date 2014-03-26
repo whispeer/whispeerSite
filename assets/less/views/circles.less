@@ -47,11 +47,14 @@
 					color: #555;
 				}
 				&:hover {
-					background-color: rgba(0,0,0,0.1);
+					background-color: @primaryLightest;
 				}
 				&.active {
-					box-shadow: inset 0px 0px 2px 1px #7fd308;
-					background: rgba(128,212,9,0.4);		
+					background-color: @primaryLighter;
+					box-shadow: inset 0px 0px 1px 1px #aaa;
+					&:hover {
+						background-color: @primaryLightest;
+					}		
 				}
 				.time {
 					font-size: small;

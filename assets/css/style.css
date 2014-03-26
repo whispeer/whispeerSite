@@ -1211,13 +1211,13 @@ dd {
   border-bottom: 1px solid #dedede;
 }
 .magic .body ul li:hover {
-  background: rgba(0, 0, 0, 0.05);
+  background-color: #59b40e;
 }
 .magic .body ul li.unread {
-  background-color: rgba(128, 212, 9, 0.55);
+  background-color: #54ab0c;
 }
 .magic .body ul li.unread:hover {
-  background-color: rgba(128, 212, 9, 0.75);
+  background-color: #59b40e;
 }
 .magic .body ul li.message .left {
   display: inline-block;
@@ -4720,11 +4720,14 @@ body.loading:after {
   color: #555;
 }
 .circlesView #circleListWrap #circleList .circle:hover {
-  background-color: rgba(0, 0, 0, 0.1);
+  background-color: #59b40e;
 }
 .circlesView #circleListWrap #circleList .circle.active {
-  box-shadow: inset 0px 0px 2px 1px #7fd308;
-  background: rgba(128, 212, 9, 0.4);
+  background-color: #54ab0c;
+  box-shadow: inset 0px 0px 1px 1px #aaa;
+}
+.circlesView #circleListWrap #circleList .circle.active:hover {
+  background-color: #59b40e;
 }
 .circlesView #circleListWrap #circleList .circle .time {
   font-size: small;
@@ -9046,7 +9049,7 @@ body.loading:after {
   }
   .circlesView #circleListWrap #circleList .circle .left .userimg {
     width: 100%;
-    margin: 0 0 -4px 0px;
+    margin: 0 0 -5px 0px;
     padding: 0;
   }
   .circlesView #circleListWrap #circleList .circle .listname {
@@ -10749,7 +10752,7 @@ body.loading:after {
   }
   .circlesView #circleListWrap #circleList .circle .left .userimg {
     width: 100%;
-    margin: 0 0 -4px 0px;
+    margin: 0 0 -5px 0px;
     padding: 0;
   }
   .circlesView #circleListWrap #circleList .circle .listname {
@@ -12404,7 +12407,7 @@ body.loading:after {
   }
   .circlesView #circleListWrap #circleList .circle .userimg {
     width: 100%;
-    margin: 0 0 -4px -2px;
+    margin: 0 0 -5px -3px;
     padding: 0;
   }
   .circlesView #circleListWrap #circleList .circle .listname {
