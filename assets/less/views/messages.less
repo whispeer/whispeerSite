@@ -110,11 +110,18 @@
 					.messageText {
 						width: 100%;
 					}
+					.time {
+						font-size: small;
+						color: #888;
+						float: right;
+						margin-right: 5px;
+					}
 					&.me {
 						.gradient(@primaryLighter, @primary);
 						.messageText {
 							float: right;
 							word-break: break-word;
+							color: #fff;
 						}
 						.user {
 							.userimg {
@@ -123,6 +130,9 @@
 								margin-right: 0 !important;
 								.border-radiuses(6px,0,0,0);
 							}
+						}
+						.time {
+							color: #eee;
 						}
 					}
 					&.other {
@@ -134,12 +144,6 @@
 								//.border-radiuses(0, 0, 0,3px);
 							}
 						}
-					}
-					.time {
-						font-size: small;
-						color: #888;
-						float: right;
-						margin-right: 5px;
 					}
 				}
 			}		
@@ -162,20 +166,24 @@
 							//.border-radiuses(0, 0,0,3px);
 						}
 					}
-					&.me {
-						//color: lighten(@green, 5%);
-						.border-radius(6px);
-						.gradient(@primaryLighter, @primary);
-					}
-					&.other {
-						.border-radius(6px);
-						color: #4e4e4e;
-					}
 					.time {
 						font-size: small;
 						color: #888;
 						float: right;
 						margin-right: 5px;
+					}
+					&.me {
+						//color: lighten(@green, 5%);
+						.border-radius(6px);
+						.gradient(@primaryLighter, @primary);
+						color: #fff;
+						.time {
+							color: #eee;
+						}
+					}
+					&.other {
+						.border-radius(6px);
+						color: #4e4e4e;
 					}
 				}
 			}

@@ -4259,6 +4259,12 @@ body.loading:after {
 .messagesView #topicWrap.peerChat #messageList .message .messageText {
   width: 100%;
 }
+.messagesView #topicWrap.peerChat #messageList .message .time {
+  font-size: small;
+  color: #888;
+  float: right;
+  margin-right: 5px;
+}
 .messagesView #topicWrap.peerChat #messageList .message.me {
   background-color: #54ab0c;
   background: -webkit-gradient(linear, left top, left bottom, from(#54ab0c), to(#3a8100));
@@ -4270,6 +4276,7 @@ body.loading:after {
 .messagesView #topicWrap.peerChat #messageList .message.me .messageText {
   float: right;
   word-break: break-word;
+  color: #fff;
 }
 .messagesView #topicWrap.peerChat #messageList .message.me .user .userimg {
   float: right;
@@ -4291,17 +4298,14 @@ body.loading:after {
   -webkit-background-clip: padding-box;
   background-clip: padding-box;
 }
+.messagesView #topicWrap.peerChat #messageList .message.me .time {
+  color: #eee;
+}
 .messagesView #topicWrap.peerChat #messageList .message.other {
   color: #4e4e4e;
 }
 .messagesView #topicWrap.peerChat #messageList .message.other .user .userimg {
   margin-left: 0 !important;
-}
-.messagesView #topicWrap.peerChat #messageList .message .time {
-  font-size: small;
-  color: #888;
-  float: right;
-  margin-right: 5px;
 }
 .messagesView #topicWrap.groupChat #messageList {
   margin-left: 0;
@@ -4338,6 +4342,12 @@ body.loading:after {
   margin-left: 0 !important;
   padding: 0 !important;
 }
+.messagesView #topicWrap.groupChat #messageList .message .time {
+  font-size: small;
+  color: #888;
+  float: right;
+  margin-right: 5px;
+}
 .messagesView #topicWrap.groupChat #messageList .message.me {
   -webkit-border-radius: 6px;
   -moz-border-radius: 6px;
@@ -4351,6 +4361,10 @@ body.loading:after {
   background: -moz-linear-gradient(top, #54ab0c, #3a8100);
   background: -ms-linear-gradient(top, #54ab0c, #3a8100);
   background: -o-linear-gradient(top, #54ab0c, #3a8100);
+  color: #fff;
+}
+.messagesView #topicWrap.groupChat #messageList .message.me .time {
+  color: #eee;
 }
 .messagesView #topicWrap.groupChat #messageList .message.other {
   -webkit-border-radius: 6px;
@@ -4360,12 +4374,6 @@ body.loading:after {
   -webkit-background-clip: padding-box;
   background-clip: padding-box;
   color: #4e4e4e;
-}
-.messagesView #topicWrap.groupChat #messageList .message .time {
-  font-size: small;
-  color: #888;
-  float: right;
-  margin-right: 5px;
 }
 .messagesView #topicWrap.newMessage #messageTitle h2 {
   display: inline-block;
@@ -8697,7 +8705,7 @@ body.loading:after {
     float: left;
     width: 33%;
     margin: 0 1% 0 1%;
-    margin: 0 2% -4px 0;
+    margin: 0 2% -5px 0;
   }
   .messagesView #topicListWrap #topicList .topic .left .userimg {
     width: 100%;
@@ -10388,7 +10396,7 @@ body.loading:after {
     float: left;
     width: 33%;
     margin: 0 1% 0 1%;
-    margin: 0 2% -6px 0;
+    margin: 0 2% -5px 0;
   }
   .messagesView #topicListWrap #topicList .topic .left .userimg {
     width: 100%;
@@ -12047,7 +12055,7 @@ body.loading:after {
     float: left;
     width: 28%;
     margin: 0 1% 0 1%;
-    margin: 0 2% -4px 0;
+    margin: 0 2% -5px 0;
   }
   .messagesView #topicListWrap #topicList .topic .left .userimg {
     width: 100%;
