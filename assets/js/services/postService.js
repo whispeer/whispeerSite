@@ -378,7 +378,20 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer"], fun
 					}, this);
 				}), h.sF(function (result) {
 					var newPost = makePost(result.createdPost);
-					TimelineByFilter['["always:allfriends"]'].unshift(newPost.data);
+
+					if (h.parseDecimal(wallUserID) === 0) {
+						wallUserID = userService.getown().getID();
+					}
+
+					if (postsByUserWall[wallUserID]) {
+						postsByUserWall[wallUserID].unshift(newPost.data);
+					}
+
+					var f = "[\"always:allfriends\"]";
+					if (TimelineByFilter[f]) {
+						TimelineByFilter[f].unshift(newPost.data);
+					}
+
 					newPost.loadData(this);
 				}), cb);
 				

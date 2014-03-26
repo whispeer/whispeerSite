@@ -188,8 +188,14 @@ define(["step", "whispeerHelper"], function (step, h) {
 				visibleSelection.push("friends:" + $scope.user.id);
 			}
 
-			postService.createPost($scope.newPost.text, visibleSelection, wallUserID, function () {
+			postService.createPost($scope.newPost.text, visibleSelection, wallUserID, function (err, post) {
+				if (err) {
+					debugger;
+				} else {
+					$scope.newPost.text = "";
+				}
 
+				console.log(post);
 			});
 		};
 
