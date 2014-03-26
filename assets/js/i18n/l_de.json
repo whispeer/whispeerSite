@@ -300,6 +300,7 @@
 	"magicbar": {
 		"close": "Schließen",
 		"messages": {
+			"none": "Keine Nachrichten vorhanden!",
 			"title": "Nachrichten"
 		},
 		"requests":{

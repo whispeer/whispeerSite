@@ -290,6 +290,7 @@
 	"magicbar": {
 		"close": "Close",
 		"messages": {
+			"none": "No messages!",
 			"title": "Messages"
 		},
 		"requests":{

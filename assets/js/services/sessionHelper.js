@@ -67,7 +67,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 					}, true);
 
 					var privateProfileMe = new ProfileService({
-						profile: h.objectJoin(profile.priv, profile.pub),
+						profile: h.objectJoin(h.objectJoin(profile.priv, profile.pub), profile.nobody),
 						metaData: {
 							scope: "me"
 						}
