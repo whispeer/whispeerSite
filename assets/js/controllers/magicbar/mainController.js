@@ -22,6 +22,9 @@ define([], function () {
 
 		$scope.messages = messageService.data;
 		$scope.friends = friendsService.data;
+		$scope.news = {
+			"count":	0
+		};
 		
 		$scope.loadWidget = function(name) {
 			// first of all, set showDefault to false

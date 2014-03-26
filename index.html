@@ -56,12 +56,12 @@
 			</div>
 			<div class="navIcon" id="newsicon" data-ng-click="loadWidget('news')">
 				<img src="/assets/img/icons/newsfeed.png" alt="Neugikeiten" class="icon">
-				<span class="badge">3</span>
+				<span class="badge" data-ng-if="news.count!=0">{{news.count}}</span>
 			</div>
 			<div class="navIcon" id="settingsicon" data-ng-click="loadWidget('settings')">
 				<img src="/assets/img/icons/settings.png" alt="Settings" class="icon">	
 			</div>
-		</div>	
+		</div>
 	</nav>
 	<div id="container" data-ng-cloak>
 		<aside id="sidebar-left" data-ng-if="loggedin && !mobile">

@@ -315,6 +315,7 @@
 		},
 		"news": {
 			"title": "Neuigkeiten",
+			"none": "Keine Neuigkeiten vorhanden!",
 			"action": {
 				"comment": {
 					"photo": {

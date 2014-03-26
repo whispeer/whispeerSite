@@ -305,6 +305,7 @@
 		},
 		"news": {
 			"title": "News",
+			"none": "No news!",
 			"action": {
 				"comment": {
 					"photo": {
