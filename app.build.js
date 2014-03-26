@@ -24,6 +24,7 @@
 	],
     dir: "../appdirectory-build",
     optimize: "uglify2",
+    preserveLicenseComments: false,
     generateSourceMaps: true,
     modules: [
         {
