@@ -194,15 +194,6 @@
 				.box-fix;
 				border: none;
 				border-bottom: 1px solid #dedede;
-				&:hover {
-					background-color: @primaryLightest;
-				}
-				&.unread {
-					background-color: @primaryLighter;
-					&:hover {
-						background-color: @primaryLightest;
-					}
-				}
 				&.message {
 					.left {
 						.column(3,12,left,4%);
@@ -314,6 +305,39 @@
 					.box-fix;
 					span {
 						color: #fff;
+					}
+				}
+				&:hover {
+					background-color: @primaryLightest;
+					.username {
+						color: #ececec;
+						a {
+							color: #ececec;
+						}
+						.status {
+							border: 1px solid #ececec;
+						}
+					}
+					.text {
+						color: #eee;
+					}
+				}
+				&.unread {
+					background-color: @primaryLighter;
+					.username {
+						color: #fff;
+						strong {
+							color: #fff;
+						}
+						.status {
+							border: 1px solid #ececec;
+						}
+					}
+					.text {
+						color: #eee;
+					}
+					&:hover {
+						background-color: @primaryLightest;
 					}
 				}
 			}

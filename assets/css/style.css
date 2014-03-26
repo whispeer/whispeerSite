@@ -1210,15 +1210,6 @@ dd {
   border: none;
   border-bottom: 1px solid #dedede;
 }
-.magic .body ul li:hover {
-  background-color: #59b40e;
-}
-.magic .body ul li.unread {
-  background-color: #54ab0c;
-}
-.magic .body ul li.unread:hover {
-  background-color: #59b40e;
-}
 .magic .body ul li.message .left {
   display: inline-block;
   *display: inline;
@@ -1469,6 +1460,39 @@ dd {
 }
 .magic .body ul li.error span {
   color: #fff;
+}
+.magic .body ul li:hover {
+  background-color: #59b40e;
+}
+.magic .body ul li:hover .username {
+  color: #ececec;
+}
+.magic .body ul li:hover .username a {
+  color: #ececec;
+}
+.magic .body ul li:hover .username .status {
+  border: 1px solid #ececec;
+}
+.magic .body ul li:hover .text {
+  color: #eee;
+}
+.magic .body ul li.unread {
+  background-color: #54ab0c;
+}
+.magic .body ul li.unread .username {
+  color: #fff;
+}
+.magic .body ul li.unread .username strong {
+  color: #fff;
+}
+.magic .body ul li.unread .username .status {
+  border: 1px solid #ececec;
+}
+.magic .body ul li.unread .text {
+  color: #eee;
+}
+.magic .body ul li.unread:hover {
+  background-color: #59b40e;
 }
 .magicOverlay {
   padding: 0;
@@ -4113,8 +4137,20 @@ body.loading:after {
 .messagesView #topicListWrap #topicList .topic:hover {
   background-color: #59b40e;
 }
+.messagesView #topicListWrap #topicList .topic:hover .username {
+  color: #ececec;
+}
+.messagesView #topicListWrap #topicList .topic:hover .lastMessage {
+  color: #eee;
+}
 .messagesView #topicListWrap #topicList .topic.unread {
   background-color: #54ab0c;
+}
+.messagesView #topicListWrap #topicList .topic.unread .username {
+  color: #ececec;
+}
+.messagesView #topicListWrap #topicList .topic.unread .lastMessage {
+  color: #eee;
 }
 .messagesView #topicListWrap #topicList .topic.unread:hover {
   background-color: #59b40e;
@@ -4122,6 +4158,12 @@ body.loading:after {
 .messagesView #topicListWrap #topicList .topic.active {
   background-color: #54ab0c;
   box-shadow: inset 0px 0px 1px 1px #aaa;
+}
+.messagesView #topicListWrap #topicList .topic.active .username {
+  color: #ececec;
+}
+.messagesView #topicListWrap #topicList .topic.active .lastMessage {
+  color: #eee;
 }
 .messagesView #topicListWrap #topicList .topic.active:hover {
   background-color: #59b40e;
@@ -4537,6 +4579,9 @@ body.loading:after {
   width: 31.33333333%;
   margin: 0 1% 0 1%;
 }
+.circlesView .maxHeight {
+  height: 100%;
+}
 .circlesView #main {
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
@@ -4722,9 +4767,21 @@ body.loading:after {
 .circlesView #circleListWrap #circleList .circle:hover {
   background-color: #59b40e;
 }
+.circlesView #circleListWrap #circleList .circle:hover .listname {
+  color: #ececec;
+}
+.circlesView #circleListWrap #circleList .circle:hover .personCount {
+  color: #eee;
+}
 .circlesView #circleListWrap #circleList .circle.active {
   background-color: #54ab0c;
   box-shadow: inset 0px 0px 1px 1px #aaa;
+}
+.circlesView #circleListWrap #circleList .circle.active .listname {
+  color: #ececec;
+}
+.circlesView #circleListWrap #circleList .circle.active .personCount {
+  color: #eee;
 }
 .circlesView #circleListWrap #circleList .circle.active:hover {
   background-color: #59b40e;

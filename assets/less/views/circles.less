@@ -1,4 +1,7 @@
 .circlesView {
+	.maxHeight {
+		height: 100%;
+	}
 	#main {
 		.box;
 		overflow-y: scroll !important;
@@ -48,10 +51,22 @@
 				}
 				&:hover {
 					background-color: @primaryLightest;
+					.listname {
+						color: #ececec;
+					}
+					.personCount {
+						color: #eee;
+					}
 				}
 				&.active {
 					background-color: @primaryLighter;
 					box-shadow: inset 0px 0px 1px 1px #aaa;
+					.listname {
+						color: #ececec;
+					}
+					.personCount {
+						color: #eee;
+					}
 					&:hover {
 						background-color: @primaryLightest;
 					}		
