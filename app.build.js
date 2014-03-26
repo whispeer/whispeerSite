@@ -23,6 +23,8 @@
 		"angular"
 	],
     dir: "../appdirectory-build",
+    optimize: "uglify2",
+    generateSourceMaps: true,
     modules: [
         {
             name: "main"
