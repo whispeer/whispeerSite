@@ -105,7 +105,7 @@
 							<span data-ng-if="editGeneral" data-for="language">
 								<span class="input-group" data-ng-repeat="language in user.advanced.languages">
 									<input type="text" data-ng-model="language.name">
-									<button class="btn btn--error remove" data-ng-click="removeElement(user.advanced.languages, $index)"><i class="icon icon-cancel-circle"></i></button>
+									<button class="btn btn--danger remove" data-ng-click="removeElement(user.advanced.languages, $index)"><i class="icon icon-cancel-circle"></i></button>
 								</span>
 								<button class="btn btn--primary add" data-ng-click="addElement(user.advanced.languages, {name:''})"><i class="icon icon-plus-circle"></i></button>
 							</span>
