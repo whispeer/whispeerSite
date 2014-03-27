@@ -164,6 +164,11 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer", "ass
 					}
 				}
 
+
+				if (messageService.data.unread == 0) {
+					document.title = "whispeer";
+				}
+
 				unread = newUnread.map(h.parseDecimal);
 				theTopic.data.unread = (unread.length > 0);
 				var i;

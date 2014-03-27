@@ -64,7 +64,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 				if (!m.isOwn()) {
 					document.getElementById("sound").play();
 
-					var title = "" + m.data.sender.basic.shortname + ": " + m.data.text;
+					var title = "Nachricht von " + m.data.sender.basic.shortname;
 					document.title = title;
 				}
 			});
