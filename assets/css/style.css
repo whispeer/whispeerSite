@@ -8174,7 +8174,7 @@ body.loading:after {
     margin: 0 1% 0 1%;
     margin-bottom: 5px;
   }
-  .settingsView #main section .config .button {
+  .settingsView #main section .config button {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
@@ -8182,7 +8182,6 @@ body.loading:after {
     float: left;
     width: 98%;
     margin: 0 1% 0 1%;
-    margin: 0 2% 0 0 !important;
   }
   .settingsView #main section .config#nickname button {
     margin-left: 1% !important;
@@ -8194,18 +8193,15 @@ body.loading:after {
     margin-top: -20px !important;
   }
   .settingsView #main section#safety .config button {
-    display: inline-block;
-    *display: inline;
-    /* IE7 inline-block hack */
-    *zoom: 1;
-    float: left;
-    width: 98%;
-    margin: 0 1% 0 1%;
+    width: 98% !important;
     margin-top: 10px;
     margin-bottom: 10px;
     height: 40px;
   }
   .settingsView #main section#safety .config .whoMaySeeIt {
+    width: 98% !important;
+  }
+  .settingsView #main section .settingsFormButton {
     display: inline-block;
     *display: inline;
     /* IE7 inline-block hack */
@@ -8213,6 +8209,10 @@ body.loading:after {
     float: left;
     width: 98%;
     margin: 0 1% 0 1%;
+    margin-bottom: 5px;
+  }
+  .settingsView #main section .settingsFormButton:last-child {
+    margin-bottom: 10px;
   }
 }
 /* Tablets
