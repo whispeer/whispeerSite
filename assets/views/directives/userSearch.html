@@ -12,8 +12,8 @@
 				<a class="sendMessage btn" data-ng-click="notifyParent('sendMessage', user)" data-stop-event="click">Nachricht senden</a>
 				<a class="addFriend btn" data-ng-if="!user.me && !user.added" data-ng-click="notifyParent('addFriend', user)" data-stop-event="click">Als Freund hinzufügen</a>
 				<div class="addToCircle" data-stop-event="click" ng-if="user.added">
-					<circlesearch class="selectCircle" data-input-i18n-attr="profile.actions.addToCircle|placeholder|user={{user.name}}" data-user="user.id"></circlesearch>
-					<button class="btn btn--primary circleSubmit" data-ng-click="saveCircles()"><i class="icon icon-ok-circle"></i></button>
+					<circlesearch res="circles" class="selectCircle" data-input-i18n-attr="profile.actions.addToCircle|placeholder|user={{user.name}}" data-user="user.id"></circlesearch>
+					<button class="btn btn--primary circleSubmit" data-ng-click="notifyParent('saveCircles', {circles: circles, user: user})"><i class="icon icon-ok-circle"></i></button>
 				</div>
 			</div>
 		</li>

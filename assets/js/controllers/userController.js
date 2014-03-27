@@ -124,28 +124,8 @@ define(["step", "whispeerHelper"], function (step, h) {
 			failure: false
 		};
 
-		function setGeneralState(state, obj) {
-			obj.saving = false;
-			obj.success = false;
-			obj.failure = false;
-
-
-			switch(state) {
-				case "saving":
-					obj.saving = true;
-					break;
-				case "success":
-					obj.success = true;
-					break;
-				case "failure":
-				default:
-					obj.failure = true;
-					break;
-			}			
-		}
-
 		function setCircleState(state) {
-			setGeneralState(state, $scope.circles);
+			h.setGeneralState(state, $scope.circles);
 		}
 
 		$scope.saveCircles = function () {

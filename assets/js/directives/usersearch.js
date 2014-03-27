@@ -1,7 +1,7 @@
 define(["step", "whispeerHelper"], function (step, h) {
 	"use strict";
 
-	function searchDirective(userService, friendsService, $location, $timeout) {
+	function searchDirective(circleService, userService, friendsService, $location, $timeout) {
 		return {
 			transclude: false,
 			scope:	false,
@@ -61,12 +61,50 @@ define(["step", "whispeerHelper"], function (step, h) {
 					}));
 				}
 
-				scope.saveCircles = function () {
+				scope.circles = {
+					saving: false,
+					success: true,
+					failure: false
+				};
 
+				function setCircleState(state) {
+					h.setGeneralState(state, scope.circles);
+				}
+
+				function saveCircles(user, selectedElements) {
+					step(function () {
+						setCircleState("saving");
+						$timeout(this, 200);
+					}, h.sF(function () {
+						var oldCircles = circleService.inWhichCircles(user.id).map(function (e) {
+							return h.parseDecimal(e.getID());
+						});
+						var newCircles = selectedElements.map(h.parseDecimal);
+
+						var toAdd = h.arraySubtract(newCircles, oldCircles);
+						var toRemove = h.arraySubtract(oldCircles, newCircles);
+
+						var i;
+						for (i = 0; i < toAdd.length; i += 1) {
+							circleService.get(toAdd[i]).addPersons([user.id], this.parallel());
+						}
+
+						for (i = 0; i < toRemove.length; i += 1) {
+							circleService.get(toRemove[i]).removePersons([user.id], this.parallel());
+						}
+					}), h.sF(function (results) {
+						setCircleState("success");
+					}), function (e) {
+						setCircleState("failure");
+					});
 				};
 
 				scope.$on("addFriend", function (event, user) {
 					friendsService.friendship(user.id);
+				});
+
+				scope.$on("saveCircles", function (event, data) {
+					saveCircles(data.user, data.circles.selectedElements);
 				});
 
 				scope.$on("sendMessage", function (event, data) {
