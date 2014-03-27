@@ -23,11 +23,14 @@ define(["whispeerHelper"], function (h) {
 
 		options.size = options.size || {};
 		options.size.min = options.size.min || 50;
-		options.size.init = options.size.init || 50;
+		options.size.init = options.size.init || Math.min(
+			boundary.right - boundary.left,
+			boundary.bottom - boundary.top
+		);
 
 		var defaultPosition = {
-			top: 0,
-			left: 0,
+			top: boundary.bottom - 1.5 * options.size.init,
+			left: boundary.right - 1.5 * options.size.init,
 			width: 0,
 			height: 0
 		};

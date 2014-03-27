@@ -16,7 +16,7 @@
 </form>
 <form id="registerform" data-ng-if="!loginForm" data-ng-click="registerFormClick()" data-ng-controller="ssn.loginController">
 	<div data-ng-repeat="attribute in profileAttributes" data-tooltip-title="{{attribute.hoverText}}" data-tooltip-position="left">
-		<input type="text" placeholder="{{attribute.placeHolder}}" data-ng-model="attribute.value">
+		<input name="{{attribute.name}}" type="text" placeholder="{{attribute.placeHolder}}" data-ng-model="attribute.value">
 		<span class="icon lock">
 			<img data-ng-src="{{lock(attribute.encrypted)}}" alt="{{((attribute.encrypted) && ('Privat') || ('Öffentlich'))}}" data-ng-click="attribute.encrypted=!attribute.encrypted"/>
 		</span>
