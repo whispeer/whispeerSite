@@ -4332,7 +4332,7 @@ body.loading:after {
 .messagesView #topicWrap.peerChat #messageList .message.me .messageText {
   float: right;
   word-break: break-word;
-  color: #fff;
+  color: #efefef;
 }
 .messagesView #topicWrap.peerChat #messageList .message.me .user .userimg {
   float: right;
@@ -4417,10 +4417,16 @@ body.loading:after {
   background: -moz-linear-gradient(top, #54ab0c, #3a8100);
   background: -ms-linear-gradient(top, #54ab0c, #3a8100);
   background: -o-linear-gradient(top, #54ab0c, #3a8100);
-  color: #fff;
+  color: #efefef;
 }
 .messagesView #topicWrap.groupChat #messageList .message.me .time {
   color: #eee;
+}
+.messagesView #topicWrap.groupChat #messageList .message.me .username {
+  color: #fff;
+}
+.messagesView #topicWrap.groupChat #messageList .message.me .username:hover {
+  text-decoration: underline;
 }
 .messagesView #topicWrap.groupChat #messageList .message.other {
   -webkit-border-radius: 6px;

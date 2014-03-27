@@ -139,7 +139,7 @@
 						.messageText {
 							float: right;
 							word-break: break-word;
-							color: #fff;
+							color: #efefef;
 						}
 						.user {
 							.userimg {
@@ -194,9 +194,15 @@
 						//color: lighten(@green, 5%);
 						.border-radius(6px);
 						.gradient(@primaryLighter, @primary);
-						color: #fff;
+						color: #efefef;
 						.time {
 							color: #eee;
+						}
+						.username {
+							color: #fff;
+							&:hover {
+								text-decoration: underline;
+							}
 						}
 					}
 					&.other {
