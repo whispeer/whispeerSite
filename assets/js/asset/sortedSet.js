@@ -7,6 +7,10 @@ define ([], function () {
         var arr = [];
         arr.push = function (e) {
             Array.prototype.push.call(this, e);
+            this.resort();
+        };
+
+        arr.resort = function () {
             this.sort(sortFunction);
         };
 

@@ -211,7 +211,7 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer", "ass
 			};
 
 			this.getTime = function getTimeF() {
-				return data.time;
+				return data.newestTime;
 			};
 
 			this.getKey = function getKeyF() {
@@ -255,9 +255,10 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer", "ass
 
 			this.addMessage = function addMessageF(m, addUnread, cb) {
 				step(function () {
-					if (m.getTime() > data.time) {
-						data.time = m.getTime();
+					if (m.getTime() > data.newestTime) {
+						data.newestTime = m.getTime();
 					}
+					topicArray.resort();
 
 					m.loadFullData(this);
 				}, h.sF(function () {
