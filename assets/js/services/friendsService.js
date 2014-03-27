@@ -92,6 +92,9 @@ define(["step", "whispeerHelper", "asset/observer"], function (step, h, Observer
 
 					otherUser.setFriendShipKey(friendShipKey);
 
+					onlineFriends[uid] = result.friendOnline;
+					friendsService.notify(result.friendOnline, "online:" + uid);
+
 					friendsService.notify(uid, "newFriend");
 				} else {
 					//oh noes!
@@ -145,8 +148,11 @@ define(["step", "whispeerHelper", "asset/observer"], function (step, h, Observer
 				friends.push(uid);
 				friendsData.friendsCount += 1;
 				requestData.requestedCount -= 1;
+
 				userService.addFromData(requestData.user, true);
 				friendsService.notify(uid, "newFriend");
+
+				onlineFriends[uid] = 2;
 			}
 		});
 
@@ -230,7 +236,11 @@ define(["step", "whispeerHelper", "asset/observer"], function (step, h, Observer
 				setRequested(data.requested);
 			},
 			onlineStatus: function (uid) {
-				return onlineFriends[uid];
+				if (friends.indexOf(uid) === -1) {
+					return -1;
+				}
+
+				return onlineFriends[uid] || 0;
 			},
 			setOnline: function (online) {
 				onlineFriends = online;
