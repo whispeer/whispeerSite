@@ -3,6 +3,10 @@
 	height: 0.7em;
 	.border-radius(100%);
 	display: inline-block;
+	&[data-status="-1"] {
+		display: none;
+		visibility: hidden;
+	}
 	&[data-status="0"] {
 		background-color: @red;
 	}

@@ -1117,6 +1117,10 @@ dd {
   background-clip: padding-box;
   display: inline-block;
 }
+.status[data-status="-1"] {
+  display: none;
+  visibility: hidden;
+}
 .status[data-status="0"] {
   background-color: #9d261d;
 }
