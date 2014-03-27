@@ -29,19 +29,21 @@
 		height: 100%;
 		#topicList {
 			height: 100%;
+			width: 100%;
 			padding-top: 15px;
 			padding-bottom: 6px;
 			#topicListScroll {
 				height: 230px !important;
 				float: left;
 				overflow-y: scroll !important;
+				width: 100%;
 			}
 			.topic {
 				margin-bottom: 5px;
 				padding: 0;
 				.left {
 					.column(1.5,8);
-					margin: 0 2% -4px 0;
+					margin: 0 2% -5px 0;
 					.userimg {
 						width: 100%;
 						margin: 0;
@@ -116,11 +118,18 @@
 						}
 						&.me {
 							float: right;
+							.user {
+								.userimg {
+									.border-radius(0);
+									float: left;
+								}
+							}
 						}
 						.user {
 							.userimg {
 								.column(2,12);
 								padding: 0;
+								margin: 0 2% 0 0;
 							}
 						}
 						.messageText {

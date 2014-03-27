@@ -775,6 +775,11 @@ a:hover {
 .box header .links a {
   color: #666;
 }
+@media only screen and (min-width: 319px) and (max-width: 767px) {
+  .box header {
+    margin-top: -30px;
+  }
+}
 .box section {
   padding: 5px 0;
   -webkit-border-top-right-radius: 0;
@@ -4010,6 +4015,11 @@ body.loading:after {
 .messagesView #main header .links a {
   color: #666;
 }
+@media only screen and (min-width: 319px) and (max-width: 767px) {
+  .messagesView #main header {
+    margin-top: -30px;
+  }
+}
 .messagesView #main section {
   padding: 5px 0;
   -webkit-border-top-right-radius: 0;
@@ -4502,6 +4512,11 @@ body.loading:after {
 .friendsView #main header .links a {
   color: #666;
 }
+@media only screen and (min-width: 319px) and (max-width: 767px) {
+  .friendsView #main header {
+    margin-top: -30px;
+  }
+}
 .friendsView #main section {
   padding: 5px 0;
   -webkit-border-top-right-radius: 0;
@@ -4645,6 +4660,11 @@ body.loading:after {
 }
 .circlesView #main header .links a {
   color: #666;
+}
+@media only screen and (min-width: 319px) and (max-width: 767px) {
+  .circlesView #main header {
+    margin-top: -30px;
+  }
 }
 .circlesView #main section {
   padding: 5px 0;
@@ -4986,6 +5006,11 @@ body.loading:after {
 .helpView #main header .links a {
   color: #666;
 }
+@media only screen and (min-width: 319px) and (max-width: 767px) {
+  .helpView #main header {
+    margin-top: -30px;
+  }
+}
 .helpView #main section {
   padding: 5px 0;
   -webkit-border-top-right-radius: 0;
@@ -5183,6 +5208,11 @@ body.loading:after {
 }
 .settingsView #main header .links a {
   color: #666;
+}
+@media only screen and (min-width: 319px) and (max-width: 767px) {
+  .settingsView #main header {
+    margin-top: -30px;
+  }
 }
 .settingsView #main section {
   padding: 5px 0;
@@ -5653,6 +5683,9 @@ body.loading:after {
   .person:hover .pushup {
     height: 100px !important;
   }
+  .searchBar .formSearch {
+    overflow-y: hidden;
+  }
   .searchBar .formSearch .inputWrap {
     margin-left: 0;
     list-style: none;
@@ -5664,6 +5697,7 @@ body.loading:after {
     width: 100%;
     word-break: break-all;
     min-height: 39px;
+    overflow-x: scroll !important;
   }
   .searchBar .formSearch .inputWrap li {
     display: inline-block !important;
@@ -5675,27 +5709,24 @@ body.loading:after {
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
-    float: left;
+    float: none;
     margin: 2px;
-    max-width: 35%;
     padding: 0 5px 0 5px;
   }
+  .searchBar .formSearch .inputWrap li.searchField {
+    float: none;
+    display: block;
+  }
   .searchBar .formSearch .inputWrap li.searchField input {
+    float: left;
     width: 45%;
     outline: 0;
     border: 0;
     padding: 0px 9px;
-    margin: 2px 0;
+    margin: 0;
     height: 35px;
   }
   .searchBar .searchDrop {
-    display: inline-block;
-    *display: inline;
-    /* IE7 inline-block hack */
-    *zoom: 1;
-    float: left;
-    width: 40.85714286%;
-    margin: 0 1% 0 1%;
     margin: 0;
     display: block;
     padding: 0;
@@ -5731,6 +5762,7 @@ body.loading:after {
     width: 10.5%;
     margin: 0 1% 0 1%;
     margin-left: 0;
+    margin-right: 2%;
   }
   .searchBar .searchDrop .searchSuggestions li .info {
     display: inline-block;
@@ -5738,9 +5770,9 @@ body.loading:after {
     /* IE7 inline-block hack */
     *zoom: 1;
     float: left;
-    width: 52.16666667%;
-    margin: 0 1% 0 1%;
-    margin: 7px 0 0 3%;
+    width: 53.16666667%;
+    margin: 0 0.5% 0 0.5%;
+    margin: 7px 0 0 1%;
     padding: 0;
   }
   .searchBar .searchDrop .searchSuggestions li .info .name {
@@ -5777,7 +5809,7 @@ body.loading:after {
     /* IE7 inline-block hack */
     *zoom: 1;
     float: left;
-    width: 31.33333333%;
+    width: 27.16666667%;
     margin: 0 1% 0 1%;
     margin-top: 5px;
   }
@@ -5785,6 +5817,10 @@ body.loading:after {
     cursor: pointer;
     text-align: center;
     margin-bottom: 5px;
+  }
+  .searchBar .searchDrop .searchSuggestions li .actions .addToCircle {
+    display: none !important;
+    visibility: hidden !important;
   }
   #topNav {
     width: 100%;
@@ -6263,6 +6299,7 @@ body.loading:after {
   }
   .messagesView #topicListWrap #topicList {
     height: 100%;
+    width: 100%;
     padding-top: 15px;
     padding-bottom: 6px;
   }
@@ -6270,6 +6307,7 @@ body.loading:after {
     height: 230px !important;
     float: left;
     overflow-y: scroll !important;
+    width: 100%;
   }
   .messagesView #topicListWrap #topicList .topic {
     margin-bottom: 5px;
@@ -6283,7 +6321,7 @@ body.loading:after {
     float: left;
     width: 16.75%;
     margin: 0 1% 0 1%;
-    margin: 0 2% -4px 0;
+    margin: 0 2% -5px 0;
   }
   .messagesView #topicListWrap #topicList .topic .left .userimg {
     width: 100%;
@@ -6406,6 +6444,15 @@ body.loading:after {
   .messagesView #topicWrap.peerChat #messageWrap #messageList .message.me {
     float: right;
   }
+  .messagesView #topicWrap.peerChat #messageWrap #messageList .message.me .user .userimg {
+    -webkit-border-radius: 0;
+    -moz-border-radius: 0;
+    border-radius: 0;
+    -moz-background-clip: padding;
+    -webkit-background-clip: padding-box;
+    background-clip: padding-box;
+    float: left;
+  }
   .messagesView #topicWrap.peerChat #messageWrap #messageList .message .user .userimg {
     display: inline-block;
     *display: inline;
@@ -6415,6 +6462,7 @@ body.loading:after {
     width: 14.66666667%;
     margin: 0 1% 0 1%;
     padding: 0;
+    margin: 0 2% 0 0;
   }
   .messagesView #topicWrap.peerChat #messageWrap #messageList .message .messageText {
     display: inline-block;
@@ -6706,13 +6754,13 @@ body.loading:after {
     /* IE7 inline-block hack */
     *zoom: 1;
     float: left;
-    width: 28%;
+    width: 23%;
     margin: 0 1% 0 1%;
     margin-left: 0;
   }
   .circlesView #circleListWrap #circleList .circle .left .userimg {
     width: 100%;
-    margin: 0 0 -4px 0px;
+    margin: 0 0 -5px 0px;
     padding: 0;
   }
   .circlesView #circleListWrap #circleList .circle .listname {
@@ -6852,9 +6900,6 @@ body.loading:after {
   header #postIt #receiver .inputWrap li.searchField {
     width: 80%;
   }
-  header #postIt #receiver .searchDrop {
-    width: 28.2% !important;
-  }
   header #postIt button {
     width: 100% !important;
   }
@@ -6889,9 +6934,6 @@ body.loading:after {
   }
   header #filter div #theFilter .inputWrap li.searchField {
     width: 120%;
-  }
-  header #filter div #theFilter .searchDrop {
-    width: 19.4% !important;
   }
   .posts {
     margin-top: 0px !important;
