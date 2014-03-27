@@ -2,7 +2,7 @@
 	"views": {
 		"circles": {
 			"searchFriends": "Gib die Namen deiner Freunde ein, die du zum Kreis hinzufügen möchtest!",
-			"titleForNew": "Gib einen Titel für den neuen Kreis ein!", 
+			"titleForNew": "Gib einen Titel für den neuen Kreis ein!",
 			"header": {
 				"title":	"Kreise",
 				"createGroup": "Als Gruppe kopieren",
@@ -153,12 +153,12 @@
 				},
 				"changeImage": "Profilbild ändern",
 				"birthday": {
-					"text":	"Geboren am {day}.{month} {year}",
+					"text":	"Geboren am {day}. {month} {year}",
 					"day":	"Tag",
 					"month":	"Monat",
 					"year":	"Jahr",
 					"info": "Geburtstag"
-				},	
+				},
 				"location": {
 					"": "Wohnt in {town}, {state}, {country}",
 					"country": "Wohnt in {country}",
@@ -295,7 +295,7 @@
 		},
 		"header": {
 			"title":	"Einstellungen"
-		}	
+		}
 	},
 	"magicbar": {
 		"close": "Schließen",
