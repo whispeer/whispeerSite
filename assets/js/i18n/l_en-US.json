@@ -2,7 +2,7 @@
 	"views": {
 		"circles": {
 			"searchFriends": "Type in the names of your friends you want to add to this circle!",
-			"titleForNew": "Type in the title of this circle!", 
+			"titleForNew": "Type in the title of this circle!",
 			"header": {
 				"title":	"Circles",
 				"createGroup": "Copy as group",
@@ -13,6 +13,12 @@
 			"personCount":	"There are {count} people in this circle",
 			"personsInCircle":"People in circle \"{name}\""
 		}
+	},
+	"start": {
+		"welcome": "Welcome to whispeer - the secure social network!",
+		"more": "More information",
+		"moreInfo": "More information about whispeer",
+		"regnow": "Sign up now!"
 	},
 	"directives": {
 		"allfriends": "All Friends",
@@ -101,14 +107,14 @@
 				"count":	"{count} comments",
 				"showem":	"Show comments",
 				"hideem":	"Hide comments"
-			}	
+			}
 		},
 		"post": {
 			"sender": {
 				"name":	"{{sender}}:"
 			},
 			"content": "{{content}}"
-			
+
 		}
 	},
 	"messages": {
@@ -144,12 +150,12 @@
 				},
 				"changeImage": "Change Profile Picture",
 				"birthday": {
-					"text":	"born {day}.{month} {year}",
+					"text":	"born {day}. {month} {year}",
 					"day":	"Day",
 					"month":	"Month",
 					"year":	"Year",
 					"info": "Birthday"
-				},	
+				},
 				"location": {
 					"": "Lives in {town}, {state}, {country}",
 					"country": "Lives in {country}",
@@ -379,7 +385,7 @@
 							"awesomed":	"{user} commented her link, that you think is awesome: \"{what}\"",
 							"tagged": "{user} commented her link, in which you are tagged: \"{what}\""
 						}
-					}				
+					}
 				},
 				"awesome": {
 					"photo": {
@@ -435,7 +441,7 @@
 							"awesomed":	"{user} thinks her wallpost is awesome, that you also think is awesome: \"{what}\"",
 							"tagged": "{user} thinks her wallpost, in which you are tagged, is awesome: \"{what}\""
 						}
-					},						
+					},
 					"comment": {
 						"you": {
 							"own": "{user} thinks your comment is awesome: \"{what}\"",
@@ -534,7 +540,7 @@
 							"own": "{user} whatevered your photo.",
 							"shared":	"{user} whatevered your shared photo.",
 							"tagged": "{user} whatevered a photo, in which you are tagged."
-						}	
+						}
 					},
 					"post": {
 						"you": {
@@ -569,8 +575,8 @@
 						"own": "{user} is now your friend!"
 					}
 				},
-				"posted": {	
-					"wallpost": { 
+				"posted": {
+					"wallpost": {
 						"you": {
 							"own": {
 								"post": "{user} posted something on your wall: \"{what}\"",
@@ -580,14 +586,14 @@
 						}
 					}
 				},
-				"tagged": {	
+				"tagged": {
 					"photo": {
 						"you": {
 							"own": "{user} tagged you in your photo.",
 							"else": "{user} tagged you in a photo of {owner}."
 						},
 						"somebody": {
-							"own": "{user} tagged {somebody} in your photo."							
+							"own": "{user} tagged {somebody} in your photo."
 						}
 					},
 					"post": {
@@ -595,9 +601,9 @@
 							"tagged": "{user} tagged you in a post: \"{what}\""
 						}
 					},
-					"wallpost": { 
+					"wallpost": {
 						"you": {
-							"tagged": "{user} tagged you in a wallpost: \"{what}\""						
+							"tagged": "{user} tagged you in a wallpost: \"{what}\""
 						}
 					},
 					"comment": {
