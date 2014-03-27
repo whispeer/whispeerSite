@@ -127,6 +127,12 @@ define(["step", "whispeerHelper"], function (step, h) {
 					$scope.showMessage = true;
 
 					$location.search({topicid: id});
+
+					var m = theTopic.data.messages;
+					theTopic.markRead(m[m.length - 1].id, function (e) {
+						console.error(e);
+					});
+
 				});
 			}));
 		};

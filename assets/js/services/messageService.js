@@ -164,7 +164,7 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer", "ass
 					}
 				}
 
-				unread = newUnread;
+				unread = newUnread.map(h.parseDecimal);
 				theTopic.data.unread = (unread.length > 0);
 				var i;
 				for (i = 0; i < messages.length; i += 1) {
@@ -220,6 +220,7 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer", "ass
 
 			var timerRunning, messageTime;
 			this.markRead = function markMessagesRead(mid, cb) {
+				mid = h.parseDecimal(mid);
 				step(function () {
 					if (unread.indexOf(mid) > -1) {
 						var lMessageTime = messagesByID[mid].getTime();
