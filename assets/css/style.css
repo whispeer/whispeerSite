@@ -5638,6 +5638,12 @@ body.loading:after {
     width: 81.33333333%;
     margin: 0 1% 0 1%;
   }
+  body #container #sidebar-right .mobileMenu a li span span {
+    width: 100%;
+    font-size: 1.2em;
+    text-align: left;
+    margin-top: 10px;
+  }
   body #container #sidebar-right .mobileMenu a img {
     display: inline-block;
     *display: inline;
