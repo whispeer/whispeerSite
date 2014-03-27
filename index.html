@@ -5,7 +5,7 @@
 <!--[if gt IE 8]><!--> <html class="no-js" lang="de" data-ng-csp> <!--<![endif]-->
 <head>
 	<meta charset="utf-8">
-	<!--[if IE]>    
+	<!--[if IE]>
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 	<![endif]-->
 	<!--[if lt IE 9]>
@@ -25,11 +25,12 @@
 	-->
 	<meta name="apple-mobile-web-app-capable" content="yes" />
 	<meta name="apple-mobile-web-app-status-bar-style" content="translucent" />
-	
+
 	<link rel="stylesheet" href="/assets/css/angular-csp.css">
 	<link rel="stylesheet" href="/assets/css/style.css">
 	<link rel="stylesheet" href="/assets/css/fontello/fontello.css">
 	<!--[if IE 7]><link rel="stylesheet" href="css/fontello/fontello-ie7.css"><![endif]-->
+	<!--<script src="js/libs/prefixfree.min.js"></script>-->
 	<script data-main="/assets/js/main" src="/assets/js/libs/require.js"></script>
 	<base href="/" />
 </head>
@@ -59,7 +60,7 @@
 				<span class="badge" data-ng-if="news.count!=0">{{news.count}}</span>
 			</div>
 			<div class="navIcon" id="settingsicon" data-ng-click="loadWidget('settings')">
-				<img src="/assets/img/icons/settings.png" alt="Settings" class="icon">	
+				<img src="/assets/img/icons/settings.png" alt="Settings" class="icon">
 			</div>
 		</div>
 	</nav>
@@ -85,7 +86,7 @@
 					<div class="clear-fix">
 					</div>
 				</nav>
-			</div>	
+			</div>
 		</aside>
 		<section id="main" data-ng-view data-ng-show="!sidebarActive && !searchActive || !mobile">
 			<div id="logo">
@@ -123,7 +124,7 @@
 					<li>
 						<img src="assets/img/icons/mobile/messages.png" alt="Nachrichten">
 						<span data-i18n="menu.messages"></span>
-					</li>	
+					</li>
 				</a>
 				<a href="/circles"  data-ng-click="toggleSidebar()">
 					<li>
@@ -148,9 +149,9 @@
 						<img src="assets/img/icons/mobile/logout.png">
 						<span data-i18n="menu.logout"></span>
 					</li>
-				</a>				
+				</a>
 			</ul>
-		</aside>								
+		</aside>
 	</div>
 	<footer>
 	<div id="left">&copy; 2014 whispeer</div> <div id="right"><a href="">AGB</a> <a href="">Datenschutzbestimmungen</a> <a href="">Kontakt</a> <a href="">Impressum</a></div>
