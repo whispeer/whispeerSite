@@ -50,15 +50,35 @@ define(["whispeerHelper", "step"], function (h, step) {
 			});
 		};
 
-		$scope.saveName = function () {
+		var names = userService.getown().data.names;
+		$scope.firstName = names.firstname;
+		$scope.lastName = names.lastname;
+		$scope.nickName = names.nickname;
+		$scope.mail = userService.getown().getMail();
 
+		$scope.saveName = function () {
+			var me = userService.getown()
+			step(function () {
+				me.setProfileAttribute("basic.firstname", $scope.firstName, this.parallel());
+				me.setProfileAttribute("basic.lastname", $scope.lastName, this.parallel());
+			}, h.sF(function () {
+				me.uploadChangedProfile(this);
+			}), function (e) {
+				if (e) {
+					console.error(e);
+				}
+			});
 		};
 
 		$scope.checkNickName = function () {
 
 		};
 
-		$scope.changeNickName = function () {
+		$scope.saveNickName = function () {
+
+		};
+
+		$scope.checkMail = function () {
 
 		};
 

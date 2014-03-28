@@ -437,7 +437,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 						theUser.getName(this.parallel());
 						theUser.getImage(this.parallel());
 					}
-				}, h.sF(function (shortname, name, image) {
+				}, h.sF(function (shortname, names, image) {
 					theUser.data.me = theUser.isOwn();
 					theUser.data.other = !theUser.isOwn();
 
@@ -447,7 +447,9 @@ define(["step", "whispeerHelper"], function (step, h) {
 						theUser.data.online = status;
 					}, "online:" + theUser.getID());
 
-					theUser.data.name = name;
+					theUser.data.name = names.name;
+					theUser.data.names = names;
+
 					theUser.data.basic.shortname = shortname;
 					theUser.data.basic.image = image;
 
@@ -562,15 +564,21 @@ define(["step", "whispeerHelper"], function (step, h) {
 				}, h.sF(function (firstname, lastname) {
 					var nickname = theUser.getNickname();
 
+					var name = "";
 					if (firstname && lastname) {
-						this.ne(firstname + " " + lastname);
+						name = firstname + " " + lastname;
 					} else if (firstname || lastname) {
-						this.ne(firstname || lastname);
+						name = firstname || lastname;
 					} else if (nickname) {
-						this.ne(nickname);
-					} else {
-						this.ne("");
+						name = nickname;
 					}
+
+					this.ne({
+						name: name,
+						firstname: firstname || "",
+						lastname: lastname || "",
+						nickname: nickname || ""
+					});
 				}), cb);
 			};
 
