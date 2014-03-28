@@ -75,6 +75,14 @@
 		"link": "Log In",
 		"loginFailed": "Username and Password don't match!",
 		"register": {
+			"errors": {
+				"nickInvalid": "Invalid Nickname",
+				"nickUsed": "This nickname is already in use",
+				"mailInvalid": "Invalid Mail",
+				"mailUsed": "This Mail is already in use",
+				"passwordWeak": "Password to weak",
+				"passwordNoMatch": "Passwords do not match"
+			},
 			"link":	"Register",
 			"next": "Next",
 			"previous": "Previous",

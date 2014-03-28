@@ -76,6 +76,15 @@
 		"loginFailed": "Benutzername und Password stimmen nicht überein!",
 		"moreInfo":	"Mehr Info",
 		"register": {
+			"errors": {
+				"nickInvalid": "Invalider Nickname",
+				"nickUsed": "Dieser Nickname ist schon vergeben",
+				"mailInvalid": "Invalide E-mail",
+				"mailUsed": "Diese E-Mail ist schon vergeben",
+				"passwordWeak": "Passwort zu schwach",
+				"passwordNoMatch": "Passwort stimmen nicht überein"
+			},
+
 			"link":	"Registrieren",
 			"next": "Weiter",
 			"previous": "Zurück",

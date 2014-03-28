@@ -2,7 +2,7 @@
 * loginController
 **/
 
-define(["step", "asset/resizableImage", "asset/observer"], function (step, ResizableImage, Observer) {
+define(["step", "whispeerHelper", "asset/resizableImage", "asset/observer"], function (step, h, ResizableImage, Observer) {
 	"use strict";
 
 	function registerController($scope, sessionHelper, sessionService, cssService) {
@@ -22,8 +22,16 @@ define(["step", "asset/resizableImage", "asset/observer"], function (step, Resiz
 		});
 
 		observer.listen(function () {
-			return $scope.acceptIconMailFree() && $scope.nicknameCheck && $scope.password == $scope.password2 && $scope.passwordStrength() > 0;
+			$scope.registerError = true;
+			return $scope.mailCheck &&
+					$scope.nicknameCheck &&
+					!$scope.noPasswordMatch() &&
+					!$scope.passwordToWeak();
 		}, "stepLeave1");
+
+		observer.listen(function () {
+			$scope.registerError = false;
+		}, "stepLoaded2");
 
 		observer.listen(function () {
 			resizableImage.removeResizable();
@@ -50,7 +58,7 @@ define(["step", "asset/resizableImage", "asset/observer"], function (step, Resiz
 
 		$scope.identifier = "";
 
-		$scope.mailCheck = false;
+		$scope.mailCheck = true;
 		$scope.mailCheckError = false;
 		$scope.mailCheckLoading = false;
 
@@ -152,8 +160,17 @@ define(["step", "asset/resizableImage", "asset/observer"], function (step, Resiz
 		};
 
 		$scope.mailChange = function mailChange() {
+			if ($scope.mail === "") {
+				$scope.mailCheckLoading = false;
+				$scope.mailCheck = true;
+				$scope.mailCheckError = false;
+
+				return;
+			}
+
 			step(function doMailCheck() {
 				var internalMail = $scope.mail;
+
 				$scope.mailCheckLoading = true;
 				$scope.mailCheck = false;
 				$scope.mailCheckError = false;
@@ -205,10 +222,6 @@ define(["step", "asset/resizableImage", "asset/observer"], function (step, Resiz
 				return "assets/img/accept.png";
 			}
 
-			if ($scope.mail === "") {
-				return "assets/img/accept.png";
-			}
-
 			return "assets/img/fail.png";
 		};
 
@@ -235,6 +248,32 @@ define(["step", "asset/resizableImage", "asset/observer"], function (step, Resiz
 					$scope.nicknameCheckError = true;
 				}
 			});
+		};
+
+		$scope.showHint = false;
+
+		$scope.nicknameInvalid = function () {
+			return $scope.nickname === "" || !h.isNickname($scope.nickname);
+		};
+
+		$scope.nicknameUsed = function () {
+			return !$scope.nicknameInvalid() && !$scope.nicknameCheck && !$scope.nicknameCheckLoading;
+		};
+
+		$scope.mailInvalid = function () {
+			return $scope.mail != "" && !h.isMail($scope.mail);
+		};
+
+		$scope.mailUsed = function () {
+			return !$scope.mailInvalid() && !$scope.mailCheck && !$scope.mailCheckLoading;
+		};
+
+		$scope.passwordToWeak = function () {
+			return $scope.passwordStrength() < 1;
+		};
+
+		$scope.noPasswordMatch = function () {
+			return $scope.password != $scope.password2;
 		};
 
 		$scope.acceptIconNicknameFree = function acceptIconNickname() {
