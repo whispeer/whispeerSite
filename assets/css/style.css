@@ -1409,6 +1409,12 @@ dd {
   float: none;
   font-weight: bold;
 }
+.magic .body ul li.request .username a {
+  color: #000;
+}
+.magic .body ul li.request .username a:hover {
+  text-decoration: underline;
+}
 .magic .body ul li.request .similar {
   display: inline-block;
   *display: inline;

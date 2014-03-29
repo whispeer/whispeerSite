@@ -7,7 +7,7 @@
 		<ul class="unstyled" data-ng-if="requests.length > 0">
 			<li class="request" data-ng-repeat="request in requests">
 				<img data-ng-src="{{request.basic.image}}">
-				<p class="username">{{shortenName(request.name)}}</p>
+				<p class="username"><a href='{{request.basic.url}}'><strong>{{request.name}}</strong></a></p>
 				<p class="similar" data-i18n="magicbar.requests.mutuals|count={{request.basic.mutualFriends.length}}"></p>
 				<p class="action">
 					<button class="btn btn--primary" data-i18n="magicbar.requests.accept" ng-click="acceptRequest(request)"></button>
