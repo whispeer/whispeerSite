@@ -2861,6 +2861,7 @@ body.loading:after {
   display: block;
   margin: 5px auto 10px auto;
   float: none;
+  clear: both;
 }
 .registerView section #registerForm .inputWrap div#canvasWrapper #original {
   display: block;
