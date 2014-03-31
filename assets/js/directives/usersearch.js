@@ -47,7 +47,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 							this.ne([]);
 						}
 
-						theUsers = user;
+						theUsers = user || [];
 						var i;
 						for (i = 0; i < user.length; i += 1) {
 							user[i].loadBasicData(this.parallel());
