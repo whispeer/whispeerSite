@@ -41,6 +41,8 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer"], fun
 						text: text
 					};
 
+					d.isWallPost = !!walluser;
+
 					if (walluser) {
 						d.walluser = walluser;
 					}
