@@ -37,6 +37,7 @@
 <body data-ng-class="cssClass" data-ng-controller="ssn.rootController" class="registerView">
 	<!--[if lte IE 8]><p class=chromeframe>Your browser is <em>ancient!</em> <a href="http://browsehappy.com/">Upgrade to a different browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to experience this site.</p><![endif]-->
 	<noscript>Hallo! Leider steht uns bei deinem Browser kein Javascript zur Verfügung!<br> Daher ist es nicht möglich whispeer zu nutzen, da wir unbedingt Javascript benötigen!<br> Vielen Dank für dein Verständnis!</noscript>
+	<!-- !Top Bar -->
 	<nav id="topNav" data-ng-if="loggedin" data-ng-cloak>
 		<div id="navInner">
 			<button id="toggleSearch" data-ng-click="toggleSearch()" data-ng-if="mobile"><i class="icon icon-search"></i></button>
@@ -64,7 +65,10 @@
 			</div>
 		</div>
 	</nav>
+	<!-- end !Top Bar-->
+	<!-- !Main Container -->
 	<div id="container" data-ng-cloak>
+		<!-- !Userpanel -->
 		<aside id="sidebar-left" data-ng-if="loggedin && !mobile">
 			<div id="userpanel">
 				<a href="{{user.basic.url}}" class="username">
@@ -88,15 +92,20 @@
 				</nav>
 			</div>
 		</aside>
+		<!-- end !Userpanel -->
+		<!-- !Loaded View -->
 		<section id="main" data-ng-view data-ng-show="!sidebarActive && !searchActive || !mobile">
 			<div id="logo">
 				<img src="/assets/img/logo.png">
 			</div>
 		</section>
+		<!-- end !Loaded View -->
+		<!-- !Mobile Search -->
 		<section id="mobileSearch" data-ng-if="searchActive && !sidebarActive">
 			<usersearch size="big" data-input-i18n-attr="menu.search|placeholder"/>
 		</section>
-
+		<!-- end !Mobile Search -->
+		<!-- !Magic Bar -->
 		<aside id="sidebar-right" data-ng-if="loggedin && !mobile">
 			<div id="magicbar" data-ng-controller="ssn.magicbar.mainController">
 				<div class="magic magicOverlay" data-ng-if="!config.showDefault" data-ng-include="'/assets/views/magicbar/' + config.template + '.html'">Loading</div>
@@ -106,6 +115,8 @@
 				</div>
 			</div>
 		</aside>
+		<!-- end !Magic Bar -->
+		<!-- !Mobile Menu -->
 		<aside id="sidebar-right" data-ng-if="loggedin && mobile" data-ng-show="sidebarActive && !searchActive">
 			<ul class="mobileMenu">
 				<a href="{{user.basic.url}}" data-ng-click="toggleSidebar()">
@@ -152,13 +163,19 @@
 				</a>
 			</ul>
 		</aside>
+		<!-- end !Mobile Menu -->
 	</div>
+	<!-- end !Main Container -->
+	<!-- !footer -->
 	<footer>
 	<div id="left">&copy; 2014 whispeer</div> <div id="right"><a href="">AGB</a> <a href="">Datenschutzbestimmungen</a> <a href="">Kontakt</a> <a href="">Impressum</a></div>
 	</footer>
+	<!-- end !footer -->
+	<!-- !messageSound -->
 	<audio id="sound" preload="auto">
 		<source src="assets/data/newMessage.wav" type="audio/wave">
 		<source src="assets/data/newMessage.ogg" type="audio/ogg">
 	</audio>
+	<!-- end !messageSound -->
 </body>
 </html>
