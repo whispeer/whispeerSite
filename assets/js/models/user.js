@@ -357,6 +357,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 					}
 
 					updateFullPublicProfile(applicablePublicParts(privacySettings, myProfile));
+					this.parallel()();
 				}), h.sF(function () {
 					this.parallel.unflatten();
 
