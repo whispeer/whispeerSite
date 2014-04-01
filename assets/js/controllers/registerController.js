@@ -305,6 +305,10 @@ define(["step", "whispeerHelper", "asset/resizableImage", "asset/observer"], fun
 							visibility: ["always:allfriends"]
 						}
 					},
+					image: {
+						encrypt: false,
+						visibility: []
+					},
 					location: {
 						encrypt: true,
 						visibility: []
@@ -375,9 +379,10 @@ define(["step", "whispeerHelper", "asset/resizableImage", "asset/observer"], fun
 				profile.pub.image = imageData;
 			}
 
+			console.time("register");
 			sessionHelper.register($scope.nickname, $scope.mail, $scope.password, profile,  settings, function () {
+				console.timeEnd("register");
 				console.log("register done!");
-				console.log(arguments);
 				resizableImage.removeResizable();
 			});
 

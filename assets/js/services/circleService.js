@@ -174,7 +174,7 @@ define(["step", "whispeerHelper", "asset/observer"], function (step, h, Observer
 
 			this.data = {
 				id: id,
-				userids: data.user,
+				userids: user,
 				name: "",
 				image: "/assets/img/user.png",
 				persons: persons

@@ -653,6 +653,24 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 		}
 	}
 
+	function loadKeys(identifier, cb) {
+		step(function getKeyF() {
+			socket.emit("key.getMultiple", {
+				loaded: loadedKeys(),
+				realid: realKeyID
+			}, this);
+		}, h.sF(function () {
+			data.keys.map(function (e) {
+				makeKey(e);
+			})
+
+			this.ne([]);
+		}), cb);
+	}
+
+	var THROTTLE = 20;
+	var delay = h.delayMultiple(THROTTLE, loadKeys);
+
 	/** load a key and his keychain. remove loaded keys */
 	function getKey(realKeyID, callback) {
 		step(function getKeyF() {

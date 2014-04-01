@@ -1,4 +1,6 @@
-<div class="pushup">
-	<p class="username"><a href='{{userData.basic.url}}'>{{userData.name}}</a></p><span class="status" data-status="{{userData.online}}"></span>
-	<p class="mutualfriends" data-i18n="friends.mutualFriends|count={{userData.basic.mutualFriends.length}}"></p>
-</div>
+<li class="person" style="background-image: url({{userData.basic.image}})" data-ng-click="userData.user.visitProfile()">
+	<div class="pushup">
+		<p class="username"><a href='{{userData.basic.url}}'>{{userData.name}}</a></p><span class="status" data-status="{{userData.online}}"></span>
+		<p class="mutualfriends" data-i18n="friends.mutualFriends|count={{userData.basic.mutualFriends.length}}"></p>
+	</div>
+</li>
