@@ -3845,6 +3845,32 @@ body.loading:after {
   box-sizing: border-box;
   /* Opera/IE 8+ */
 }
+.profileView #main #wall article .postContent .author.wallPost {
+  width: 100%;
+  float: left;
+  display: block;
+}
+.profileView #main #wall article .postContent .author.wallPost .poster {
+  float: left;
+}
+.profileView #main #wall article .postContent .author.wallPost .walluserWrap {
+  float: left;
+  max-width: none;
+  width: auto;
+  display: block;
+}
+.profileView #main #wall article .postContent .author.wallPost .walluserWrap .arrow {
+  float: left;
+  margin: 6px 5px;
+  display: block;
+}
+.profileView #main #wall article .postContent .author.wallPost .walluserWrap .walluser {
+  float: left;
+  width: 100%;
+  display: block;
+  position: relative;
+  margin: -20px 15px;
+}
 .profileView #main #wall article .postInfo {
   display: inline-block;
   *display: inline;
