@@ -6,7 +6,8 @@
 				"Version added to footer",
 				"Create circles directly from search",
 				"Friends directive links to itself",
-				"Version number added to footer"
+				"Version number added to footer",
+				"Profile Images: Use blob urls if possible"
 			]
 		}
 	}

@@ -536,7 +536,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 					getProfileAttribute("image", this);
 				}, h.sF(function (image) {
 					if (image) {
-						if (URL) {
+						if (typeof URL !== "undefined") {
 							var img = h.dataURItoBlob(image);
 							var url = URL.createObjectURL(img);
 							this.ne(url);
