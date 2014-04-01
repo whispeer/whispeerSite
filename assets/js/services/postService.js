@@ -32,13 +32,19 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer"], fun
 					this.parallel.unflatten();
 					thePost.getSender(this.parallel());
 					thePost.getText(this.parallel());
-				}, h.sF(function (sender, text) {
+					thePost.getWallUser(this.parallel());
+				}, h.sF(function (sender, text, walluser) {
 					var d = thePost.data;
 
 					d.loaded = true;
 					d.content = {
 						text: text
 					};
+
+					if (walluser) {
+						d.walluser = walluser;
+					}
+
 					d.sender = sender;
 					d.info = {
 						with: ""
@@ -47,6 +53,23 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer"], fun
 
 					this.ne();
 				}), cb);
+			};
+
+			this.getWallUser = function (cb) {
+					var theUser;
+					step(function () {
+						if (data.meta.walluser) {
+							userService.get(data.meta.walluser, this);
+						} else {
+							this.last();
+						}
+					}, h.sF(function (user) {
+						theUser = user;
+
+						theUser.loadBasicData(this);
+					}), h.sF(function () {
+						this.ne(theUser.data);
+					}), cb);
 			};
 
 			this.getSender = function (cb) {

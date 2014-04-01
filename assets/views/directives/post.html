@@ -1,7 +1,10 @@
 <article>
 	<img class="userimg" data-ng-src="{{post.sender.basic.image}}">
 	<div class="postContent">
-		<p class="author"><a href='{{post.sender.basic.url}}'>{{post.sender.name}}</a>:</p>
+		<p class="author"><a href='{{post.sender.basic.url}}'>{{post.sender.name}}</a>
+			<span data-ng-if="post.walluser"> ->
+				<a href='{{post.walluser.basic.url}}'>{{post.walluser.name}}</a>
+			</span>:</p>
 		<div class="postText">{{post.content.text}}</div>
 		<div class="postImage" data-ng-if="post.content.image != ''"><img data-ng-src="{{post.content.image}}"></div>
 	</div>
