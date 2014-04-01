@@ -1,3 +1,1 @@
-node build.js
-
-r.js -o app.build.js
+lessc assets/less/style.less assets/css/style.css

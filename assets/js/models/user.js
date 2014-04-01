@@ -536,7 +536,13 @@ define(["step", "whispeerHelper"], function (step, h) {
 					getProfileAttribute("image", this);
 				}, h.sF(function (image) {
 					if (image) {
-						this.ne(image);
+						if (URL) {
+							var img = h.dataURItoBlob(image);
+							var url = URL.createObjectURL(img);
+							this.ne(url);
+						} else {
+							this.ne(image);
+						}
 					} else {
 						this.ne("/assets/img/user.png");
 					}
