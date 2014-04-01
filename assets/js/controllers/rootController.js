@@ -6,7 +6,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 	"use strict";
 
 	function rootController($scope, $timeout, sessionService, sessionHelper, userService, cssService, messageService, friendsService) {
-		$scope.version = "0.1-20140331";
+		$scope.version = "0.1.1-20140401";
 		$scope.loggedin = false;
 
 		function updateMobile() {
