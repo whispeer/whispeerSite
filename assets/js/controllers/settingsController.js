@@ -8,7 +8,7 @@ define(["whispeerHelper", "step"], function (h, step) {
 	function settingsController($scope, cssService, settingsService, userService) {
 		cssService.setClass("settingsView");
 
-		$scope.safetySorted = ["location", "birthday", "relationship", "education", "work", "gender", "languages"];
+		$scope.safetySorted = ["birthday", "location", "relationship", "education", "work", "gender", "languages"];
 
 		step(function () {
 			settingsService.getBranch("privacy", this);

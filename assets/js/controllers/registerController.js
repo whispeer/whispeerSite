@@ -305,6 +305,10 @@ define(["step", "whispeerHelper", "asset/resizableImage", "asset/observer"], fun
 							visibility: ["always:allfriends"]
 						}
 					},
+					image: {
+						encrypt: false,
+						visibility: []
+					},
 					location: {
 						encrypt: true,
 						visibility: []
