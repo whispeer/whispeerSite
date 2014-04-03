@@ -30,6 +30,7 @@ define(["app"], function (app) {
 		addMain("settings");
 		addMain("help");
 		addMain("loading");
+		addMain("version");
 
 		$routeProvider.when("/logout", {
 			templateUrl: "/assets/views/pages/loading.html",
