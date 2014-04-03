@@ -8,6 +8,10 @@
 				"Friends directive links to itself",
 				"Version number added to footer",
 				"Profile Images: Use blob urls if possible"
+			],
+			"2": [
+				"Profile Image Migration added",
+				"Bugfix: After adding a friend you can now directly add him to a circle!"
 			]
 		}
 	}
