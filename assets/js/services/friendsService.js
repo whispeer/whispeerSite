@@ -79,7 +79,7 @@ define(["step", "whispeerHelper", "asset/observer"], function (step, h, Observer
 				keyStore.sym.symEncryptKey(ownLevel2Key, otherFriendsKey, this.parallel());
 			}), h.sF(function (data, fskey) {
 				data = data[0];
-				friendShipKey = fskey;
+				friendShipKey = fskey[0];
 				data.decryptors = keyStore.upload.getDecryptors([friendsKey, otherLevel2Key, ownLevel2Key], [friendsKey, otherFriendsKey, data.key.realid]);
 
 				socket.emit("friends.add", data, this);

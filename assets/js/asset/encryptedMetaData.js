@@ -83,7 +83,7 @@ define (["whispeerHelper", "step", "crypto/keyStore"], function (h, step, keySto
                 //encryptObject(decryptedMetaData)
                 //changed=false
             } else {
-                this.ne(false);
+                cb(null, false);
             }
         };
     };
