@@ -5,8 +5,30 @@
 define(["step", "whispeerHelper"], function (step, h) {
 	"use strict";
 
-	function rootController($scope, $timeout, sessionService, sessionHelper, userService, cssService, messageService, friendsService) {
-		$scope.version = "0.1.1-20140401";
+	function getVersionString(data) {
+		if (typeof data === "object" && !(data instanceof Array)) {
+			var keys = Object.keys(data);
+			keys.sort();
+
+			var newest = keys[keys.length - 1];
+
+			return newest + "." + getVersionString(data[newest]);
+		} else {
+			return "";
+		}
+	}
+
+	function rootController($scope, $timeout, $http, sessionService, sessionHelper, userService, cssService, messageService, friendsService) {
+		var buildDate = "20140403";
+
+		$http({ method: "GET", url: "changelog.json", cache: false }).success(function (data) {
+			var version = getVersionString(data);
+			version = version.substr(0, version.length - 1);
+			
+			$scope.version = version + "-" + buildDate;
+		});
+
+		$scope.version = "";
 		$scope.loggedin = false;
 
 		function updateMobile() {
@@ -20,13 +42,6 @@ define(["step", "whispeerHelper"], function (step, h) {
 
 		jQuery(window).resize(updateMobile);
 		updateMobile();
-
-
-/*
-						(function(a){
-							return MOBILEREGEX1.test(a) || MOBILEREGEX2.test(a.substr(0,4));
-						})(navigator.userAgent||navigator.vendor||window.opera);
-*/
 
 		var nullUser = {
 			name: "",
@@ -103,7 +118,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 		};
 	}
 
-	rootController.$inject = ["$scope", "$timeout", "ssn.sessionService", "ssn.sessionHelper", "ssn.userService", "ssn.cssService", "ssn.messageService", "ssn.friendsService"];
+	rootController.$inject = ["$scope", "$timeout", "$http", "ssn.sessionService", "ssn.sessionHelper", "ssn.userService", "ssn.cssService", "ssn.messageService", "ssn.friendsService"];
 
 	return rootController;
 });
