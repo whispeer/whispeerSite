@@ -12,7 +12,8 @@
 				"Profile Image Migration added",
 				"Bugfix: After adding a friend you can now directly add him to a circle!",
 				"Improve key loading. Load multiple keys at once.",
-				"Version Page added"
+				"Version Page added",
+				"Bugfixes: Name Length stops register"
 			]
 		}
 	}
