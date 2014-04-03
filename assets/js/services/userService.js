@@ -51,11 +51,10 @@ define(["step", "whispeerHelper"], function (step, h) {
 
 		/** loads all the users in the batch */
 		function doLoad(identifier, cb) {
-			var loading;
 			step(function () {
 				socketService.emit("user.getMultiple", {identifiers: identifier}, this);
 			}, h.sF(function (data) {
-				var result = [], i;
+				var result = [];
 				if (data && data.users) {
 					result = data.users.map(function (e) {
 						if (e.userNotExisting) {

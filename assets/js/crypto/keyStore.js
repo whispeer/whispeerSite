@@ -653,18 +653,18 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 		}
 	}
 
-	function loadKeys(identifier, cb) {
+	function loadKeys(identifiers, cb) {
 		step(function getKeyF() {
 			socket.emit("key.getMultiple", {
 				loaded: loadedKeys(),
-				realid: realKeyID
+				realids: identifiers
 			}, this);
-		}, h.sF(function () {
+		}, h.sF(function (data) {
 			data.keys.map(function (e) {
 				makeKey(e);
-			})
+			});
 
-			this.ne([]);
+			this.ne(identifiers);
 		}), cb);
 	}
 
@@ -674,19 +674,8 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 	/** load a key and his keychain. remove loaded keys */
 	function getKey(realKeyID, callback) {
 		step(function getKeyF() {
-			socket.emit("key.get", {
-				loaded: loadedKeys(),
-				realid: realKeyID
-			}, this);
-		}, h.sF(function keyChain(data) {
-			var keys = data.keychain, i;
-			for (i = 0; i < keys.length; i += 1) {
-				h.isRealID(keys[i].realid);
-				makeKey(keys[i]);
-			}
-
-			this.ne();
-		}), callback);
+			delay(realKeyID, this);
+		}, callback);
 	}
 
 	/** load  a symkey and its keychain */
