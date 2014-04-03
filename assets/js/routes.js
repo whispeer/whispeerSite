@@ -16,7 +16,7 @@ define(["app"], function (app) {
 			}
 
 			$routeProvider.when("/" + name, {
-				templateUrl: "/assets/views/" + name + "/" + name + ".html",
+				templateUrl: "/assets/views/pages/" + name + ".html",
 				controller: "ssn." + name + "Controller",
 				reloadOnSearch: reloadOnSearch
 			});
@@ -32,12 +32,12 @@ define(["app"], function (app) {
 		addMain("loading");
 
 		$routeProvider.when("/logout", {
-			templateUrl: "/assets/views/loading/loading.html",
+			templateUrl: "/assets/views/pages/loading.html",
 			controller: "ssn.logoutController"
 		});
 
 		$routeProvider.when("/user/:identifier", {
-			templateUrl: "/assets/views/user/user.html",
+			templateUrl: "/assets/views/pages/user.html",
 			controller: "ssn.userController"
 		});
 
