@@ -554,6 +554,10 @@ define(["step", "whispeerHelper"], function (step, h) {
 							var img = h.dataURItoBlob(image);
 							var url = URL.createObjectURL(img);
 							this.ne(url);
+						} else if (typeof webkitURL !== "undefined") {
+							var img = h.dataURItoBlob(image);
+							var url = webkitURL.createObjectURL(img);
+							this.ne(url);
 						} else {
 							this.ne(image);
 						}

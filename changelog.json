@@ -7,7 +7,8 @@
 				"Improve key loading. Load multiple keys at once.",
 				"Version Page added",
 				"Bugfix: Name Length stops register",
-				"Bugfix: Relationship and Work now removes unnecessary words"
+				"Bugfix: Relationship and Work now removes unnecessary words",
+				"URLs in messages are automatically linked!"
 			],
 			"1": [
 				"Away status is broadcasted automatically",
