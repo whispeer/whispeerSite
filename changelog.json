@@ -1,19 +1,20 @@
 {
 	"0": {
 		"1": {
+			"2": [
+				"Profile Image Migration added",
+				"Bugfix: After adding a friend you can now directly add him to a circle!",
+				"Improve key loading. Load multiple keys at once.",
+				"Version Page added",
+				"Bugfix: Name Length stops register",
+				"Bugfix: Relationship and Work now removes unnecessary words"
+			],
 			"1": [
 				"Away status is broadcasted automatically",
 				"Version added to footer",
 				"Create circles directly from search",
 				"Friends directive links to itself",
 				"Profile Images: Use blob urls if possible"
-			],
-			"2": [
-				"Profile Image Migration added",
-				"Bugfix: After adding a friend you can now directly add him to a circle!",
-				"Improve key loading. Load multiple keys at once.",
-				"Version Page added",
-				"Bugfixes: Name Length stops register"
 			]
 		}
 	}
