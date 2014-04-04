@@ -54,13 +54,15 @@
 					</p>
 					<p id="relationship" data-ng-show="set(user.advanced.relationship) || editGeneral">
 						<i class="icon-heart"></i>
-						<span data-i18n="profile.section.general.relation.default">
+						<span data-i18n="profile.section.general.relation.{{getRelationVals(user.advanced.relationship)}}">
 							<span data-for="relationType" class="relationType" data-ng-if="!editGeneral" data-i18n="profile.section.general.relation.status.{{user.advanced.relationship.type}}"></span>
-							<span data-for="partner" class="partner" data-ng-if="!editGeneral">{{user.advanced.relationship.name}}</span>
 							<select data-for="relationType" class="relationType" data-ng-model="user.advanced.relationship.type" data-ng-if="editGeneral">
+								<option></option>
 								<option data-ng-repeat="type in possibleStatus" data-i18n="profile.section.general.relation.status.{{type}}" value="{{type}}" data-ng-selected="type == user.advanced.relationship.type"></option>
 							</select>
-							<input data-for="partner" type="text" data-ng-model="user.advanced.relationship.name" data-ng-if="editGeneral">
+
+							<span data-for="name" class="partner" data-ng-if="!editGeneral">{{user.advanced.relationship.name}}</span>
+							<input data-for="name" type="text" data-ng-model="user.advanced.relationship.name" data-ng-if="editGeneral">
 						</span>
 					</p>
 					<p id="school" data-ng-show="set(user.advanced.education) || editGeneral">
@@ -78,12 +80,12 @@
 					</p>
 					<p id="work" data-ng-show="set(user.advanced.work) || editGeneral">
 						<i class="icon-wrench"></i>
-						<span data-i18n="profile.section.general.work">
+						<span data-i18n="profile.section.general.work.{{getWorkVals(user.advanced.work)}}">
 							<span data-ng-if="!editGeneral" data-for="what">{{user.advanced.work.what}}</span>
 							<input data-ng-if="editGeneral" data-for="what" data-ng-model="user.advanced.work.what">
 							
-							<span data-ng-if="!editGeneral" data-for="company">{{user.advanced.work.where}}</span>
-							<input data-ng-if="editGeneral" data-for="company" data-ng-model="user.advanced.work.where">
+							<span data-ng-if="!editGeneral" data-for="where">{{user.advanced.work.where}}</span>
+							<input data-ng-if="editGeneral" data-for="where" data-ng-model="user.advanced.work.where">
 						</span>
 					</p>
 					<p id="sex" data-ng-show="set(user.advanced.gender) || editGeneral">
