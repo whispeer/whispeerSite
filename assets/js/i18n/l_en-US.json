@@ -175,10 +175,12 @@
 					"countrystatetown": "Lives in {town}, {state}, {country}"
 				},
 				"relation":	{
-					"pst": "since {since} {relationType} with {partner}",
-					"st": "since {since} {relationType}",
-					"pt": "{relationType} with {partner}",
-					"t": "{relationType}",
+					"": "",
+					"namesincetype": "since {since} {relationType} with {name}",
+					"sincetype": "since {since} {relationType}",
+					"nametype": "{relationType} with {name}",
+					"name": "with {name}",
+					"type": "{relationType}",
 
 					"default": "{relationType} with {partner}",
 					"noPartner": "{relationType}",
@@ -197,7 +199,11 @@
 					}
 				},
 				"education":	"Education: {school}",
-				"work":	"working as {what} at {company}",
+				"work":	{
+					"whatwhere": "working as {what} at {company}",
+					"what": "working as {what}",
+					"where": "working at {company}"
+				},
 				"gender":	{
 					"": "",
 					"gender": "Gender",

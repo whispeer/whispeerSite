@@ -67,7 +67,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 
 	function userModel($injector, $location, keyStoreService, ProfileService, sessionService, settingsService, socketService, friendsService) {
 		return function User (providedData) {
-			var theUser = this, mainKey, signKey, cryptKey, friendShipKey, friendsKey, friendsLevel2Key;
+			var theUser = this, mainKey, signKey, cryptKey, friendShipKey, friendsKey, friendsLevel2Key, migrationState;
 			var id, mail, nickname, publicProfile, privateProfiles = [], mutualFriends, publicProfileChanged = false, publicProfileSignature;
 
 			this.data = {};
@@ -82,6 +82,8 @@ define(["step", "whispeerHelper"], function (step, h) {
 				id = parseInt(userData.id, 10);
 				mail = userData.mail;
 				nickname = userData.nickname;
+
+				migrationState = userData.migrationState || 0;
 
 				//do not overwrite keys.
 				if (!mainKey && userData.keys.main) {
@@ -466,6 +468,18 @@ define(["step", "whispeerHelper"], function (step, h) {
 				}), cb);
 			};
 
+			this.setMigrationState = function (migrationState, cb) {
+				step(function () {
+					socketService.emit("user.setMigrationState", {
+						migrationState: migrationState
+					}, this);
+				}, cb);
+			};
+
+			this.getMigrationState = function (cb) {
+				cb(null, migrationState);
+			};
+
 			this.isOwn = function () {
 				return theUser.getID() === sessionService.getUserID();
 			};
@@ -539,6 +553,10 @@ define(["step", "whispeerHelper"], function (step, h) {
 						if (typeof URL !== "undefined") {
 							var img = h.dataURItoBlob(image);
 							var url = URL.createObjectURL(img);
+							this.ne(url);
+						} else if (typeof webkitURL !== "undefined") {
+							var img = h.dataURItoBlob(image);
+							var url = webkitURL.createObjectURL(img);
 							this.ne(url);
 						} else {
 							this.ne(image);

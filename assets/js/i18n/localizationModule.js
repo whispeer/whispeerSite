@@ -182,7 +182,7 @@ define(["angular"], function (angular) {
 								elm.append(document.createTextNode(cur));
 							} else {
 								for (k = 0; k < cur.length; k += 1) {
-									elm.append(cur[k]);
+									elm.append(cur[k].clone());
 								}
 							}
 						}

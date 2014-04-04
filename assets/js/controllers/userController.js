@@ -101,6 +101,14 @@ define(["step", "whispeerHelper"], function (step, h) {
 			return getVals(["town", "state", "country"], val);
 		};
 
+		$scope.getRelationVals = function (val) {
+			return getVals(["name", "type"], val);
+		};
+
+		$scope.getWorkVals = function (val) {
+			return getVals(["what", "where"], val);
+		};
+
 		$scope.removeElement = function(array, index) {
 			array.splice(index, 1);
 		};

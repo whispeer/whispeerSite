@@ -1,7 +1,7 @@
 define(["step", "whispeerHelper"], function (step, h) {
 	"use strict";
 
-	var service = function ($timeout, $rootScope, socketService, sessionService) {
+	var service = function ($timeout, $rootScope, socketService, sessionService, migrationService) {
 		var callbacks = [];
 
 		function createData() {
@@ -34,6 +34,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 				}
 
 				$rootScope.$broadcast("ssn.ownLoaded");
+				migrationService();
 			}), function (e) {
 				console.error(e);
 			});
@@ -60,7 +61,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 		};
 	};
 
-	service.$inject = ["$timeout", "$rootScope", "ssn.socketService", "ssn.sessionService"];
+	service.$inject = ["$timeout", "$rootScope", "ssn.socketService", "ssn.sessionService", "ssn.migrationService"];
 
 	return service;
 });

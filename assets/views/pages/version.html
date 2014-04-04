@@ -1,0 +1,8 @@
+<div data-ng-repeat="version in versions">
+	<h2>{{version.key}}</h2>
+	<ul>
+		<li data-ng-repeat="change in version.value">
+			{{change}}
+		</li>
+	</ul>
+</div>
