@@ -19,7 +19,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 			}, h.sF(function (state) {
 				migrationState = state || 0;
 				if (migrationState < migrations.length) {
-					require(["migrations/" + migrations[migrationState]], this.ne, this);
+					require(["migrations/" + h.pad("" + (migrationState + 1), 5) + "-" + migrations[migrationState]], this.ne, this);
 				}
 			}), h.sF(function (migration) {
 				migration($injector, this);
