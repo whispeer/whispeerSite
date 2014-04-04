@@ -200,9 +200,9 @@
 				},
 				"education":	"Education: {school}",
 				"work":	{
-					"whatwhere": "working as {what} at {company}",
+					"whatwhere": "working as {what} at {where}",
 					"what": "working as {what}",
-					"where": "working at {company}"
+					"where": "working at {where}"
 				},
 				"gender":	{
 					"": "",
