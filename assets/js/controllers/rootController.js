@@ -19,7 +19,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 	}
 
 	function rootController($scope, $timeout, $http, sessionService, sessionHelper, userService, cssService, messageService, friendsService) {
-		var buildDate = "20140403";
+		var buildDate = "20140404";
 
 		$http({ method: "GET", url: "changelog.json", cache: false }).success(function (data) {
 			var version = getVersionString(data);
