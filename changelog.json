@@ -1,6 +1,10 @@
 {
 	"0": {
 		"1": {
+			"3": [
+				"New Layout for messages",
+				"smaller Bugfixes"
+			],
 			"2": [
 				"Profile Image Migration added",
 				"Bugfix: After adding a friend you can now directly add him to a circle!",

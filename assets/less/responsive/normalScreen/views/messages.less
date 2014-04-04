@@ -10,15 +10,19 @@
 		padding: 5px;
 	}
 	#topicListWrap {
-		.column(2.25,8);
+		.column(2.25,8,left,1);
+		margin-right: 0;
+		margin-left: 1%;
 		height: 100%;
 		#topicList {
 			height: 100%;
 			padding-top: 15px;
-			padding-bottom: 6px;
+			padding-bottom: 11px;
 			#topicListScroll {
 				height: 100%;
 				overflow-y: scroll;
+				width: 100%;
+				padding-right: 3.6%;
 			}
 			.topic {
 				margin-bottom: 5px;
@@ -48,7 +52,7 @@
 					white-space: nowrap;
 				}
 				&#newmessage {
-					height: 20px;
+					height: 25px;
 					margin-top: -10px;
 				}
 				&.groupChat {
@@ -57,7 +61,7 @@
 						img, span {
 							.column(1,2,left,0);
 							margin:0!important;
-							height: 40px;
+							height: auto;
 						}
 						span {
 							padding: 10px 0;
@@ -71,115 +75,73 @@
 	}
 	#topicWrap {
 		height: 100%;
-		&.peerChat {
-			.column(5.75,8);
+		.column(5.75,8);
+		height: 100%;
+		padding: 30px 0px 80px 0px;
+		.box-fix;
+		#messageWrap {
 			height: 100%;
-			padding: 0px 0px 120px 0px;
-			.box-fix;
-			#messageWrap {
-				height: 100%;
-			}
-			#messageTitle {
-				padding-left: 10px;
-			}
-			#messageList {
-				overflow-y: scroll;
-				height: 100%;
-				.message {
-					.column(4.25,5);
-					height: auto;
-					margin-bottom: 5px;
-					&.me {
+		}
+		#messageList {
+			overflow-y: scroll;
+			height: 100%;
+			.message {
+				.column(12);
+				margin-bottom: 5px !important;
+				.userimg {
+					.column(0.5,5,left,0);
+					margin-top: 1%;
+					img {
+						width: 100%;
+					}
+				}
+				.messageContent {
+					.column(4.5,5);
+					word-break: break-word;
+					padding: 0.5% 1.5% 0 1.5%;
+					.box-fix;
+					.messageText {
+						width: 97%;
+						margin: 0 1% 0 2%;
+						padding: 10px 0px;
+					}
+					.time {
+						margin-top: 5px;
+					}
+				}
+				&.me {
+					.userimg {
 						float: right;
 					}
-					.user {
-						.userimg {
-							.column(2,12);
-							padding: 0;
-						}
-					}
-					.messageText {
-						.column(10,12);
-						//padding: 10px 0px;
-						word-break: break-word;
-					}
-				}
+				}	
 			}
-			#inputWrap {
-				#messageInput {
-					.column(3,4);
-					height: 45px;
-				}
-				button {
-					.column(1,4);
-					height: 45px;
-				}
-			}		
-		}	
-		&.groupChat {
-			.column(5.75,8);
-			height: 100%;
-			padding: 0px 0px 120px 0px;
-			.box-fix;
-			#messageWrap {
-				height: 100%;
+		}
+		#inputWrap {
+			#messageInput {
+				.column(3,4,left,1%);
+				height: 70px;
+				margin: 0 1% 0 0;
 			}
-			#messageTitle {
-				padding-left: 10px;
-			}
-			#messageList {
-				overflow-y: scroll;
-				height: 100%;
-				.message {
-					.column(5,5);
-					margin-bottom: 5px;
-					.user {
-						.userimg {
-							.column(1.4,12);
-							padding: 0;
-							margin: 0 1.25% 0 0!important;
-						}
-						.username {
-							.column(10.6,12);
-							margin-bottom: 0.5%;
-						}
-					}
-					.messageText {
-						.column(10.6);
-						word-break: break-word;
-					}
-				}
-			}
-			#inputWrap {
-				#messageInput {
-					.column(3,4);
-					height: 45px;
-				}
-				button {
-					.column(1,4);
-					height: 45px;
-				}
+			button {
+				.column(1,4);
+				height: 70px;
 			}
 		}
 		&.newMessage {
-			.column(5,7);
-			#messageTitle {
-				h2 {
-					margin-bottom: 5px;
-				}
-			}
 			#messageInput {
-				.column(5,5);
-				margin-bottom: 14px;
+				.column(12);
+				margin-bottom: 5px;
 			}
 			#recieverInput {
-				.column(5,5);
+				.column(12,12,left,1);
+				margin-left: 0;
+				margin-right: 1%;
 				margin-bottom: 5px;
 				.formSearch {
 					.inputWrap {
 						li {
 							&.searchField {
-								width: 40%;
+								width: 25%;
 								input {
 									width: 100%;
 								}
