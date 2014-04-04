@@ -8,7 +8,8 @@
 				"Version Page added",
 				"Bugfix: Name Length stops register",
 				"Bugfix: Relationship and Work now removes unnecessary words",
-				"URLs in messages are automatically linked!"
+				"URLs in messages are automatically linked!",
+				"Improve iOS touch icons"
 			],
 			"1": [
 				"Away status is broadcasted automatically",
