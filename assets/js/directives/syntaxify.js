@@ -6,19 +6,19 @@ define([], function () {
 		/                                   # Start at the beginning of the text
 		(?:ftp|http|https):\/\/              # Look for ftp, http, or https
 		(?:                                  # Username:password combinations (optional)
-		  [\w\.\-\+]+                        # A username
-		  :{0,1}                             # an optional colon to separate the username and password
-		  [\w\.\-\+]*@                       # A password
+			[\w\.\-\+]+                        # A username
+			:{0,1}                             # an optional colon to separate the username and password
+			[\w\.\-\+]*@                       # A password
 		)?
 		(?:[a-z0-9\-\.]+)                    # The domain limiting it to just allowed characters
 		(?::[0-9]+)?                         # Server port number
 		(?:                                  # The path (optional)
-		  \/(?:[\w#!:\.\?\+=&%@!\-\/\(\)]+)|  # or a forward slash followed by a full path
-		  \?(?:[\w#!:\.\?\+=&%@!\-\/\(\)]+)  # or a question mark followed by key value pairs
+			\/(?:[\w#!:\.\?\+=&%@!\-\/\(\)]+)|  # or a forward slash followed by a full path
+			\?(?:[\w#!:\.\?\+=&%@!\-\/\(\)]+)  # or a question mark followed by key value pairs
 		)?/
 		*/
 
-		var urlRegex = /((?:http|https):\/\/(?:[\w\.\-\+]+:{0,1}[\w\.\-\+]*@)?(?:[a-z0-9\-\.]+)(?::[0-9]+)?(?:\/(?:[\w#!:\.\?\+=&%@!\-\/\(\)]+)|\?(?:[\w#!:\.\?\+=&%@!\-\/\(\)]+))?)(?!http)/
+		var urlRegex = /((?:http|https):\/\/(?:[\w\.\-\+]+:{0,1}[\w\.\-\+]*@)?(?:[a-z0-9\-\.]+)(?::[0-9]+)?(?:\/(?:[\w#!:\.\?\+=&%@!\-\/\(\)]+)|\?(?:[\w#!:\.\?\+=&%@!\-\/\(\)]+))?)(?!http)/;
 
 		var urls = text.split(urlRegex);
 
@@ -28,16 +28,16 @@ define([], function () {
 			if (urls[i+1]) {
 				elm.append(a.clone().attr("href", urls[i+1]).text(urls[i+1]));
 			}
-		}		
+		}
 	}
 
 	function newlines(elm, text, remainingTextCallback) {
 		var parts = text.split(/\r\n|\n\r|\r|\n/);
 
-		var i, br = jQuery("<br>");;
+		var i, br = jQuery("<br>");
 		for (i = 0; i < parts.length; i += 1) {
 			elm.append(remainingTextCallback(parts[i]));
-			if (i > 0) {
+			if (i !== parts.length - 1) {
 				elm.append(br.clone());
 			}
 		}

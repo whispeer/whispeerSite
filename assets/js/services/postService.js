@@ -12,7 +12,12 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer"], fun
 		var Post = function (data) {
 			this.data = {
 				loaded: false,
-				id: data.id
+				id: data.id,
+				info: {
+					with: ""
+				},
+				isWallPost: false,
+				comments: []
 			};
 
 			var thePost = this, id = data.id;
@@ -31,27 +36,25 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer"], fun
 				step(function () {
 					this.parallel.unflatten();
 					thePost.getSender(this.parallel());
-					thePost.getText(this.parallel());
 					thePost.getWallUser(this.parallel());
-				}, h.sF(function (sender, text, walluser) {
+				}, h.sF(function (sender, walluser) {
+					var d = thePost.data;
+
+					if (walluser) {
+						d.isWallPost = true;
+						d.walluser = walluser;
+					}
+
+					d.sender = sender;
+
+					thePost.getText(this);
+				}), h.sF(function (text) {
 					var d = thePost.data;
 
 					d.loaded = true;
 					d.content = {
 						text: text
 					};
-
-					d.isWallPost = !!walluser;
-
-					if (walluser) {
-						d.walluser = walluser;
-					}
-
-					d.sender = sender;
-					d.info = {
-						with: ""
-					};
-					d.comments = [];
 
 					this.ne();
 				}), cb);
