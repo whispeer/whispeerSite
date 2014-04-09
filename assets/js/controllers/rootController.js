@@ -73,14 +73,6 @@ define(["step", "whispeerHelper"], function (step, h) {
 
 				console.log("Own Name loaded:" + (new Date().getTime() - startup));
 			}));
-			messageService.listenNewMessage(function(m) {
-				if (!m.isOwn()) {
-					document.getElementById("sound").play();
-
-					var title = "Nachricht von " + m.data.sender.basic.shortname;
-					document.title = title;
-				}
-			});
 		});
 
 		$scope.sidebarActive = false;
