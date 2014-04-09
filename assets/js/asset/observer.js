@@ -4,7 +4,7 @@ define (["whispeerHelper"], function (h) {
     /* jshint validthis: true */
 
     function listenOnceF(fn, type) {
-    	type = type || "any";
+        type = type || "any";
 
         if (typeof this._listenersOnce[type] === "undefined") {
             this._listenersOnce[type] = [];
@@ -20,11 +20,6 @@ define (["whispeerHelper"], function (h) {
         this._listeners[type].push(fn);
     }
 
-    function unListenF(fn, type) {
-        type = type || "any";
-
-        this._listeners[type] = h.removeArray(this._listeners[type], fn);
-    }
     function notifyF(data, type, returnF) {
         type = type || "any";
 

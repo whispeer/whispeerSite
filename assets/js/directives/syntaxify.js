@@ -1,3 +1,4 @@
+/* Warning! This code manipulates the DOM, do only change with extra care as you might create Cross-Site-Scripting holes */
 define([], function () {
 	"use strict";
 

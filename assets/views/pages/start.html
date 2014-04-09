@@ -13,7 +13,8 @@
 		<a href="" class="btn btn--primary btn--small" data-ng-click="info = !info" data-i18n="start.regnow"></a>
 	</div>	
 </header>
-<section data-ng-if="!info">
+<!-- use ng-show to keep register/login information which would otherwise be gone -->
+<section data-ng-show="!info">
 	<form id="loginForm" data-ng-if="registerState.step == 1" autocomplete="off">
 		<h4 data-i18n="login.link"></h4>
 		<ng-include data-ng-controller="ssn.loginController" data-src="'assets/views/start/login/login.html'"></ng-include>

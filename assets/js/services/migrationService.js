@@ -14,27 +14,30 @@ define(["step", "whispeerHelper"], function (step, h) {
 	var service = function ($injector) {
 		var doMigration = function () {
 			var ownUser = $injector.get("ssn.userService").getown(), migrationState;
-			step(function () {
-				ownUser.getMigrationState(this);
-			}, h.sF(function (state) {
-				migrationState = state || 0;
-				if (migrationState < migrations.length) {
-					require(["migrations/" + h.pad("" + (migrationState + 1), 5) + "-" + migrations[migrationState]], this.ne, this);
-				}
-			}), h.sF(function (migration) {
-				migration($injector, this);
-			}), h.sF(function (success) {
-				if (!success) {
-					//AUTSCH!
-				} else {
-					ownUser.setMigrationState(migrationState + 1, this);
-				}
-			}), function (e) {
-				if (e) {
-					console.error(e);
-					//TODO: error handling!
-				}
-			});
+
+			if (ownUser) {
+				step(function () {
+					ownUser.getMigrationState(this);
+				}, h.sF(function (state) {
+					migrationState = state || 0;
+					if (migrationState < migrations.length) {
+						require(["migrations/" + h.pad("" + (migrationState + 1), 5) + "-" + migrations[migrationState]], this.ne, this);
+					}
+				}), h.sF(function (migration) {
+					migration($injector, this);
+				}), h.sF(function (success) {
+					if (!success) {
+						//AUTSCH!
+					} else {
+						ownUser.setMigrationState(migrationState + 1, this);
+					}
+				}), function (e) {
+					if (e) {
+						console.error(e);
+						//TODO: error handling!
+					}
+				});
+			}
 		};
 
 		return doMigration;
