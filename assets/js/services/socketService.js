@@ -47,7 +47,7 @@ define(["socket", "step", "whispeerHelper", "config"], function (io, step, h, co
 					if (data.error) {
 						console.error(data);
 					} else {
-						console.log(data);
+						console.info(data);
 					}
 
 					var that = this;

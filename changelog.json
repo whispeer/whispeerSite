@@ -4,7 +4,10 @@
 			"3": [
 				"New Layout for messages",
 				"smaller Bugfixes",
-				"Tablets use the smartphone version until the tablet responsive is done"
+				"Tablets use the smartphone version until the tablet responsive is done",
+				"Sound and document title management service added.",
+				"Messages are only read if window is active",
+				"Key Loading improved"
 			],
 			"2": [
 				"Profile Image Migration added",

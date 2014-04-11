@@ -86,28 +86,32 @@ define(["step", "whispeerHelper"], function (step, h) {
 				migrationState = userData.migrationState || 0;
 
 				//do not overwrite keys.
-				if (!mainKey && userData.keys.main) {
-					mainKey = keyStoreService.upload.addKey(userData.keys.main);
+				if (!mainKey && userData.keys.mainKey) {
+					mainKey = keyStoreService.upload.addKey(userData.keys.mainKey);
 				}
 
-				if (!signKey && userData.keys.sign) {
-					signKey = keyStoreService.upload.addKey(userData.keys.sign);
+				if (!signKey && userData.keys.signKey) {
+					signKey = keyStoreService.upload.addKey(userData.keys.signKey);
 				}
 
-				if (!cryptKey && userData.keys.crypt) {
-					cryptKey = keyStoreService.upload.addKey(userData.keys.crypt);
+				if (!cryptKey && userData.keys.cryptKey) {
+					cryptKey = keyStoreService.upload.addKey(userData.keys.cryptKey);
 				}
 
-				if (!friendShipKey && userData.keys.friendShip) {
-					friendShipKey = keyStoreService.upload.addKey(userData.keys.friendShip);
+				if (!friendShipKey && userData.keys.friendShipKey) {
+					friendShipKey = keyStoreService.upload.addKey(userData.keys.friendShipKey);
 				}
 
-				if (!friendsKey && userData.keys.friends) {
-					friendsKey = keyStoreService.upload.addKey(userData.keys.friends);
+				if (userData.keys.reverseFriendShipKey) {
+					keyStoreService.upload.addKey(userData.keys.reverseFriendShipKey);
 				}
 
-				if (!friendsLevel2Key && userData.keys.friendsLevel2) {
-					friendsLevel2Key = keyStoreService.upload.addKey(userData.keys.friendsLevel2);
+				if (!friendsKey && userData.keys.friendsKey) {
+					friendsKey = keyStoreService.upload.addKey(userData.keys.friendsKey);
+				}
+
+				if (!friendsLevel2Key && userData.keys.friendsLevel2Key) {
+					friendsLevel2Key = keyStoreService.upload.addKey(userData.keys.friendsLevel2Key);
 				}
 
 				publicProfileSignature = userData.profile.pub.signature;

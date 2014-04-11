@@ -95,11 +95,6 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 		}, callback);
 	}
 
-	/** which keys are already loaded. (only decryption keys) */
-	function loadedKeys() {
-		return Object.keys(symKeys).concat(Object.keys(cryptKeys));
-	}
-
 	/** our internal decryption function.
 	* @param decryptorid id of decryptor
 	* @param decryptortype decryptor type
@@ -655,10 +650,22 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 
 	function loadKeys(identifiers, cb) {
 		step(function getKeyF() {
-			socket.emit("key.getMultiple", {
-				loaded: loadedKeys(),
-				realids: identifiers
-			}, this);
+			var toLoadIdentifiers = [];
+
+			identifiers.map(function (e) {
+				if (!symKeys[e] && !cryptKeys[e] && !signKeys[e]) {
+					toLoadIdentifiers.push(e);
+				}
+			});
+
+			if (toLoadIdentifiers.length > 0) {
+				socket.emit("key.getMultiple", {
+					loaded: [],
+					realids: identifiers
+				}, this);
+			} else {
+				this.last.ne(identifiers);
+			}
 		}, h.sF(function (data) {
 			data.keys.map(function (e) {
 				makeKey(e);
