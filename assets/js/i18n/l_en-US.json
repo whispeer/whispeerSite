@@ -1,4 +1,10 @@
 {
+	"window": {
+		"title": {
+			"newmessage": "{data}: New Message",
+			"basic": "whispeer"
+		}
+	},
 	"views": {
 		"circles": {
 			"searchFriends": "Type in the names of your friends you want to add to this circle!",
