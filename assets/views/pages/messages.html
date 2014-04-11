@@ -16,8 +16,10 @@
 <div id="topicListWrap" data-ng-if="!mobile || !showMessage">
 	<ul id="topicList">
 		<li class="topic" id="newmessage" data-ng-click="unloadTopic()">
-			<div class="left"><i class="icon-plus-circle" id="plusBtn"></i></div>
-			<div class="right" data-i18n="messages.newMessage"></div>
+			<div class="btn btn--small">
+				<div class="left"><i class="icon-plus-circle" id="plusBtn"></i></div>
+				<div class="right" data-i18n="messages.newMessage"></div>
+			</div>	
 		</li>
 		<div id="topicListScroll">
 			<li data-ng-repeat="topic in topics" id="{{topic.id}}" class="topic {{topic.type}} {{topic.unread?'unread':''}} {{isActiveTopic(topic)?'active':''}}" data-ng-click="loadActiveTopic(topic.id)">
@@ -39,15 +41,6 @@
 	</ul>
 </div>
 <div id="topicWrap" data-topicID="{{activeTopic.id}}" class="{{activeTopic.type}}" data-ng-if="topicLoaded && showMessage">
-	<div id="messageTitle" data-ng-if="!mobile">
-		<h2>
-			<span data-ng-repeat="partner in activeTopic.partners">
-				<a href="{{partner.basic.url}}">
-					{{activeTopic.partners.length>2?partner.basic.shortname:partner.name}}
-				</a>{{$last?"":", "}}
-			</span>
-		</h2>
-	</div>
 	<div id="messageWrap">
 		<ul class="scroll-pane" id="messageList" data-scroll data-keepBottom data.scrollLock="scrollLock" data-ontop="loadMoreMessages()">
 <!--
@@ -56,14 +49,16 @@
 			</li>
 -->
 			<li data-ng-cloak data-ng-repeat="message in activeTopic.messages" data-inview="markRead(message.id)" data-inview-time="1000" data-messageID="{{message.id}}" class="message" data-ng-class="{me:message.sender.me, other:message.sender.other}">
-				<div id="userid" class="user">
+				<div class="userimg">
 					<a href="{{message.sender.basic.url}}">
-						<img class="userimg" data-userID="sender{{message.sender.id}}" alt="Username" data-ng-src="{{message.sender.basic.image}}">
-						<span class="username" data-userID="sender{{message.sender.id}}">{{message.sender.name}}</span>
+						<img data-userID="sender{{message.sender.id}}" alt="Username" data-ng-src="{{message.sender.basic.image}}">
 					</a>
 				</div>
-				<div class="messageText {{message.type}}" data-ng-class="{{message.type}}" data-syntaxify>{{message.text}}<img data-ng-show="{{message.type != image}}" data-ng-src=""></div>
-				<div class="time">{{message.timestamp|date:'HH:mm'}}</div>
+				<div class="messageContent">
+					<a href="{{message.sender.basic.url}}" class="username" data-userID="sender{{message.sender.id}}">{{message.sender.name}}</a>
+					<div class="messageText {{message.type}}" data-ng-class="{{message.type}}" data-syntaxify>{{message.text}}<img data-ng-if="message.type != 'image'" data-ng-src=""></div>
+					<div class="time">{{message.timestamp|date:'HH:mm'}}</div>
+				</div>	
 			</li>
 		</ul>
 		<form id="inputWrap">

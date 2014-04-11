@@ -106,12 +106,17 @@ define(["step", "whispeerHelper"], function (step, h) {
 			$location.search({});
 		};
 
+		$scope.$on("$destroy", function () {
+			messageService.setActiveTopic(0);
+		});
+
 		$scope.loadActiveTopic = function (id) {
 			var theTopic;
 			step(function () {
 				id = parseInt(id, 10);
 				if ($scope.topicid !== id || !$scope.topicLoaded) {
 					$scope.topicid = id;
+					messageService.setActiveTopic(id);
 					messageService.getTopic(id, this);
 				}
 			}, h.sF(function (topic) {
@@ -129,10 +134,13 @@ define(["step", "whispeerHelper"], function (step, h) {
 					$location.search({topicid: id});
 
 					var m = theTopic.data.messages;
-					theTopic.markRead(m[m.length - 1].id, function (e) {
-						console.error(e);
-					});
-
+					if (m.length > 0) {
+						theTopic.markRead(m[m.length - 1].id, function (e) {
+							if (e) {
+								console.error(e);
+							}
+						});
+					}
 				});
 			}));
 		};

@@ -17,7 +17,7 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer", "ass
 	}
 
 
-	var service = function ($rootScope, $timeout, socket, sessionService, userService, keyStore, initService) {
+	var service = function ($rootScope, $timeout, socket, sessionService, userService, keyStore, initService, windowService) {
 		var messages = {};
 		var topics = {};
 
@@ -165,8 +165,8 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer", "ass
 				}
 
 
-				if (messageService.data.unread == 0) {
-					document.title = "whispeer";
+				if (messageService.data.unread === 0) {
+					windowService.removeAdvancedTitle("newmessage");
 				}
 
 				unread = newUnread.map(h.parseDecimal);
@@ -225,6 +225,13 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer", "ass
 
 			var timerRunning, messageTime;
 			this.markRead = function markMessagesRead(mid, cb) {
+				if (!windowService.isVisible) {
+					windowService.listenOnce(function () {
+						theTopic.markRead(mid, cb);
+					}, "visible");
+					return;
+				}
+
 				mid = h.parseDecimal(mid);
 				step(function () {
 					if (unread.indexOf(mid) > -1) {
@@ -670,7 +677,15 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer", "ass
 
 		var currentlyLoadingTopics = false;
 
+		var activeTopic = 0;
+
 		var messageService = {
+			isActiveTopic: function (topicid) {
+				return activeTopic === h.parseDecimal(topicid);
+			},
+			setActiveTopic: function (topicid) {
+				activeTopic = h.parseDecimal(topicid);
+			},
 			listenNewMessage: function (func) {
 				listeners.push(func);
 			},
@@ -844,6 +859,16 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer", "ass
 
 		initService.register("messages.getUnreadCount", {}, function (data) {
 			messageService.data.unread = data.unread;
+
+			messageService.listenNewMessage(function(m) {
+				if (!m.isOwn()) {
+					if (!messageService.isActiveTopic(m.getTopicID()) || !windowService.isVisible) {
+						windowService.playMessageSound();
+					}
+
+					windowService.setAdvancedTitle("newmessage", m.data.sender.basic.shortname);
+				}
+			});
 		});
 
 		$rootScope.$on("ssn.reset", function () {
@@ -853,7 +878,7 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer", "ass
 		return messageService;
 	};
 
-	service.$inject = ["$rootScope", "$timeout", "ssn.socketService", "ssn.sessionService", "ssn.userService", "ssn.keyStoreService", "ssn.initService"];
+	service.$inject = ["$rootScope", "$timeout", "ssn.socketService", "ssn.sessionService", "ssn.userService", "ssn.keyStoreService", "ssn.initService", "ssn.windowService"];
 
 	return service;
 });
