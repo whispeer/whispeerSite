@@ -1,4 +1,5 @@
 .registerView {
+	overflow: scroll;
 	.radial(@primary,@primaryLighter);
 	padding: 0;
 	// Tweak the standards a bit ;)
@@ -12,10 +13,13 @@
 	#content {
 		height: 100%;
 	}
+	#container {
+		height: auto;
+	}
 	#main {
 		text-align: center;
 		@media (max-height: 575px) {
-			overflow-y: scroll;
+			padding-bottom: 50px;
 		}
 		@media (min-height: 576px) {
 			.box {
