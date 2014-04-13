@@ -20,6 +20,8 @@ define(["socket", "step", "whispeerHelper", "config"], function (io, step, h, co
 			}
 		}
 
+		var lastRequestTime = 0;
+
 		var socketS = {
 			socket: socket,
 			listen: function (channel, callback) {
@@ -50,6 +52,10 @@ define(["socket", "step", "whispeerHelper", "config"], function (io, step, h, co
 						console.info(data);
 					}
 
+					lastRequestTime = data.serverTime;
+
+					console.debug(h.parseDecimal(data.serverTime) - new Date().getTime());
+
 					var that = this;
 					$rootScope.$apply(function () {
 						updateLogin(data);
@@ -61,6 +67,9 @@ define(["socket", "step", "whispeerHelper", "config"], function (io, step, h, co
 						}
 					});
 				}), callback);
+			},
+			lastRequestTime: function () {
+				return lastRequestTime;
 			},
 			send: function (data) {
 				socket.send(data);
