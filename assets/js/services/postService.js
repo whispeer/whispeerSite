@@ -276,6 +276,38 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer"], fun
 			}), cb);
 		}
 
+		function registerNewPosts(filter) {
+			var filterObject = TimelineByFilter[JSON.stringify(filter)];
+
+			function loadNewPosts() {
+				step(function () {
+					socket.emit("posts.getNewestTimeline", {
+						filter: filter,
+						beforeID: filterObject.result[0].id,
+						lastRequestTime: filterObject.requested
+					}, this);
+				}, h.sF(function (data) {
+					if (data.posts) {
+						var posts = data.posts;
+						var newPosts = data.posts.map(function (thePost) {
+							thePost = makePost(thePost);
+							thePost.loadData(this.parallel());
+
+							return thePost.data;
+						}, this);
+
+						filterObject.requested = socket.lastRequestTime();
+
+						newPosts.reverse().map(function (e) {
+							filterObject.result.unshift(e);
+						});
+					}
+				}));			
+			}
+
+			window.setInterval(loadNewPosts, 10*1000);
+		}
+
 		var postService = {
 			getTimelinePosts: function (afterID, filter, cb) {
 				var result = [], finalFilter = [];
@@ -306,7 +338,12 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer"], fun
 						result.push(thePost.data);
 					}
 
-					TimelineByFilter[JSON.stringify(filter)] = result;
+					TimelineByFilter[JSON.stringify(finalFilter)] = {
+						result: result,
+						requested: socket.lastRequestTime()
+					}
+
+					registerNewPosts(finalFilter);
 
 					this.parallel()();
 				}), h.sF(function () {
@@ -417,7 +454,7 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer"], fun
 
 					var f = "[\"always:allfriends\"]";
 					if (TimelineByFilter[f]) {
-						TimelineByFilter[f].unshift(newPost.data);
+						TimelineByFilter[f].result.unshift(newPost.data);
 					}
 
 					newPost.loadData(this);
