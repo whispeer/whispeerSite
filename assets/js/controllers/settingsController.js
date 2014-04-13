@@ -5,7 +5,7 @@
 define(["whispeerHelper", "step"], function (h, step) {
 	"use strict";
 
-	function settingsController($scope, cssService, settingsService, userService) {
+	function settingsController($scope, errorService, cssService, settingsService, userService) {
 		cssService.setClass("settingsView");
 
 		$scope.safetySorted = ["birthday", "location", "relationship", "education", "work", "gender", "languages"];
@@ -14,10 +14,7 @@ define(["whispeerHelper", "step"], function (h, step) {
 			settingsService.getBranch("privacy", this);
 		}, h.sF(function (branch) {
 			$scope.safety = h.deepCopyObj(branch, 4);
-		}), function (e) {
-			console.log(e);
-			//TODO: general error log.
-		});
+		}), errorService.criticalError);
 
 		$scope.saveSafety = function () {
 			step(function () {
@@ -44,10 +41,7 @@ define(["whispeerHelper", "step"], function (h, step) {
 			}, h.sF(function (branch) {
 				$scope.safety = h.deepCopyObj(branch, 4);
 				$scope.$broadcast("reloadInitialSelection");
-			}), function (e) {
-				console.log(e);
-				//TODO: general error log.
-			});
+			}), errorService.criticalError);
 		};
 
 		var names = userService.getown().data.names;
@@ -63,11 +57,7 @@ define(["whispeerHelper", "step"], function (h, step) {
 				me.setProfileAttribute("basic.lastname", $scope.lastName, this.parallel());
 			}, h.sF(function () {
 				me.uploadChangedProfile(this);
-			}), function (e) {
-				if (e) {
-					console.error(e);
-				}
-			});
+			}), errorService.criticalError);
 		};
 
 		$scope.checkNickName = function () {
@@ -92,7 +82,7 @@ define(["whispeerHelper", "step"], function (h, step) {
 		};
 	}
 
-	settingsController.$inject = ["$scope", "ssn.cssService", "ssn.settingsService", "ssn.userService"];
+	settingsController.$inject = ["$scope", "ssn.errorService", "ssn.cssService", "ssn.settingsService", "ssn.userService"];
 
 	return settingsController;
 });

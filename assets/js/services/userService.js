@@ -1,7 +1,7 @@
 define(["step", "whispeerHelper"], function (step, h) {
 	"use strict";
 
-	var service = function ($rootScope, User, initService, socketService, keyStoreService, sessionService) {
+	var service = function ($rootScope, User, errorService, initService, socketService, keyStoreService, sessionService) {
 
 		var NotExistingUser = {
 			getName: function (cb) {
@@ -235,11 +235,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 						}), h.sF(function (result) {
 							improve_timer = false;
 							console.log(result);
-						}), function (e) {
-							if (e) {
-								console.log(e);
-							}
-						});
+						}), errorService.criticalError);
 					}, 5000);
 				}
 			});
@@ -263,7 +259,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 		return api;
 	};
 
-	service.$inject = ["$rootScope", "ssn.models.user", "ssn.initService", "ssn.socketService", "ssn.keyStoreService", "ssn.sessionService"];
+	service.$inject = ["$rootScope", "ssn.models.user", "ssn.errorService", "ssn.initService", "ssn.socketService", "ssn.keyStoreService", "ssn.sessionService"];
 
 	return service;
 });

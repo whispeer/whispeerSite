@@ -183,14 +183,6 @@ define(["step", "whispeerHelper", "asset/observer"], function (step, h, Observer
 			Observer.call(this);
 		};
 
-		/*socket.listen("circle", function (e, data) {
-			if (!e) {
-
-			} else {
-				console.error(e);
-			}
-		});*/
-
 		var loaded = false, loading = false;
 
 		function makeCircle(data) {

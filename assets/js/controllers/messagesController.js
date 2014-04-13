@@ -5,7 +5,7 @@
 define(["step", "whispeerHelper"], function (step, h) {
 	"use strict";
 
-	function messagesController($scope, $routeParams, $location, $timeout, cssService, messageService) {
+	function messagesController($scope, $routeParams, $location, $timeout, errorService, cssService, messageService) {
 		cssService.setClass("messagesView");
 
 		$scope.topicid = 0;
@@ -37,9 +37,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 				$scope.loadActiveTopic($routeParams["topicid"]);
 			}
 
-			if (e) {
-				console.log(e);
-			}
+			errorService.criticalError(e);
 		});
 
 		$scope.canSend = false;
@@ -70,11 +68,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 		$scope.scrollLock = false;
 
 		$scope.markRead = function (messageid) {
-			$scope.activeTopic.obj.markRead(messageid, function (e) {
-				if (e) {
-					console.log(e);
-				}
-			});
+			$scope.activeTopic.obj.markRead(messageid, errorService.criticalError);
 		};
 
 		$scope.loadMoreMessages = function () {
@@ -135,11 +129,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 
 					var m = theTopic.data.messages;
 					if (m.length > 0) {
-						theTopic.markRead(m[m.length - 1].id, function (e) {
-							if (e) {
-								console.error(e);
-							}
-						});
+						theTopic.markRead(m[m.length - 1].id, errorService.criticalError);
 					}
 				});
 			}));
@@ -162,7 +152,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 		
 	}
 
-	messagesController.$inject = ["$scope", "$routeParams", "$location", "$timeout", "ssn.cssService", "ssn.messageService"];
+	messagesController.$inject = ["$scope", "$routeParams", "$location", "$timeout", "ssn.errorService", "ssn.cssService", "ssn.messageService"];
 
 	return messagesController;
 });

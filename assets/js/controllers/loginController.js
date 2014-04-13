@@ -5,7 +5,7 @@
 define(["step"], function (step) {
 	"use strict";
 
-	function loginController($scope, sessionHelper, cssService) {
+	function loginController($scope, errorService, sessionHelper, cssService) {
 		cssService.setClass("registerView");
 
 		$scope.password = "";
@@ -69,7 +69,7 @@ define(["step"], function (step) {
 				sessionHelper.mailUsed(internalMail, this);
 			}, function mailChecked(e, mailUsed) {
 				if (e) {
-					console.log(e);
+					errorService.criticalError(e);
 				}
 
 				$scope.mailCheckLoading = false;
@@ -129,9 +129,7 @@ define(["step"], function (step) {
 
 				sessionHelper.nicknameUsed(internalNickname, this);
 			}, function nicknameChecked(e, nicknameUsed) {
-				if (e) {
-					console.log(e);
-				}
+				errorService.criticalError(e)
 
 				$scope.nicknameCheckLoading = false;
 
@@ -184,7 +182,7 @@ define(["step"], function (step) {
 		};
 	}
 
-	loginController.$inject = ["$scope", "ssn.sessionHelper", "ssn.cssService"];
+	loginController.$inject = ["$scope", "ssn.errorService", "ssn.sessionHelper", "ssn.cssService"];
 
 	return loginController;
 });

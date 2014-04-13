@@ -3,7 +3,7 @@ define([], function () {
 
 	var listener = [], theClass = "registerView";
 
-	var service = function () {
+	var service = function (errorService) {
 		var res = {
 			addListener: function addListenerF(func) {
 				if (typeof func === "function") {
@@ -18,7 +18,7 @@ define([], function () {
 					try {
 						listener[i](theClass);
 					} catch (e) {
-						console.log(e);
+						errorService.criticalError(e);
 					}
 				}
 			},
@@ -33,7 +33,7 @@ define([], function () {
 		return res;
 	};
 
-	service.$inject = [];
+	service.$inject = ["ssn.errorService"];
 
 	return service;
 });

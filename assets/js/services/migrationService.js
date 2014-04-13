@@ -11,7 +11,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 
 	var migrations = ["profileImageMigration"];
 
-	var service = function ($injector) {
+	var service = function ($injector, errorService) {
 		var doMigration = function () {
 			var ownUser = $injector.get("ssn.userService").getown(), migrationState;
 
@@ -31,19 +31,14 @@ define(["step", "whispeerHelper"], function (step, h) {
 					} else {
 						ownUser.setMigrationState(migrationState + 1, this);
 					}
-				}), function (e) {
-					if (e) {
-						console.error(e);
-						//TODO: error handling!
-					}
-				});
+				}), errorService.criticalError);
 			}
 		};
 
 		return doMigration;
 	};
 
-	service.$inject = ["$injector"];
+	service.$inject = ["$injector", "ssn.errorService"];
 
 	return service;
 });

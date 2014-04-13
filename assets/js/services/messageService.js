@@ -17,7 +17,7 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer", "ass
 	}
 
 
-	var service = function ($rootScope, $timeout, socket, sessionService, userService, keyStore, initService, windowService) {
+	var service = function ($rootScope, $timeout, errorService, socket, sessionService, userService, keyStore, initService, windowService) {
 		var messages = {};
 		var topics = {};
 
@@ -642,7 +642,7 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer", "ass
 				try {
 					listeners[i](message);
 				} catch (e) {
-					console.log(e);
+					errorService.criticalError(e);
 				}
 			}
 		}
@@ -671,7 +671,7 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer", "ass
 					});
 				}
 			} else {
-				console.error(e);
+				errorService.criticalError(e);
 			}
 		});
 
@@ -878,7 +878,7 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer", "ass
 		return messageService;
 	};
 
-	service.$inject = ["$rootScope", "$timeout", "ssn.socketService", "ssn.sessionService", "ssn.userService", "ssn.keyStoreService", "ssn.initService", "ssn.windowService"];
+	service.$inject = ["$rootScope", "$timeout", "ssn.errorService", "ssn.socketService", "ssn.sessionService", "ssn.userService", "ssn.keyStoreService", "ssn.initService", "ssn.windowService"];
 
 	return service;
 });

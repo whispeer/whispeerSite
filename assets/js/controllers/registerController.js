@@ -5,7 +5,7 @@
 define(["step", "whispeerHelper", "asset/resizableImage", "asset/observer"], function (step, h, ResizableImage, Observer) {
 	"use strict";
 
-	function registerController($scope, sessionHelper, sessionService, cssService) {
+	function registerController($scope, errorService, sessionHelper, sessionService, cssService) {
 		var resizableImage = new ResizableImage();
 		var observer = new Observer();
 		cssService.setClass("registerView");
@@ -177,9 +177,7 @@ define(["step", "whispeerHelper", "asset/resizableImage", "asset/observer"], fun
 
 				sessionHelper.mailUsed(internalMail, this);
 			}, function mailChecked(e, mailUsed) {
-				if (e) {
-					console.log(e);
-				}
+				errorService.criticalError(e);
 
 				$scope.mailCheckLoading = false;
 
@@ -234,9 +232,7 @@ define(["step", "whispeerHelper", "asset/resizableImage", "asset/observer"], fun
 
 				sessionHelper.nicknameUsed(internalNickname, this);
 			}, function nicknameChecked(e, nicknameUsed) {
-				if (e) {
-					console.log(e);
-				}
+				errorService.criticalError(e);
 
 				$scope.nicknameCheckLoading = false;
 
@@ -390,7 +386,7 @@ define(["step", "whispeerHelper", "asset/resizableImage", "asset/observer"], fun
 		};
 	}
 
-	registerController.$inject = ["$scope", "ssn.sessionHelper", "ssn.sessionService", "ssn.cssService"];
+	registerController.$inject = ["$scope", "ssn.errorService", "ssn.sessionHelper", "ssn.sessionService", "ssn.cssService"];
 
 	return registerController;
 });
