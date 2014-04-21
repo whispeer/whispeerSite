@@ -2,16 +2,20 @@
 * userController
 **/
 
-define(["step", "whispeerHelper"], function (step, h) {
+define(["step", "whispeerHelper", "asset/resizableImage"], function (step, h, ResizableImage) {
 	"use strict";
 
 	function userController($scope, $routeParams, $timeout, cssService, userService, postService, circleService) {
 		var identifier = $routeParams.identifier;
 		var userObject;
 
+		var resizableImage = new ResizableImage();
+
 		$scope.loading = true;
 		$scope.notExisting = false;
 		$scope.loadingFriends = true;
+
+		$scope.changeImage = false;
 
 		cssService.setClass("profileView");
 
@@ -30,6 +34,33 @@ define(["step", "whispeerHelper"], function (step, h) {
 
 		$scope.edit = function () {
 			$scope.editGeneral = !$scope.editGeneral;
+
+			resizableImage.removeResizable();
+			$scope.changeImage = false;
+		};
+
+		var ENDSIZE = 250;
+		var CANVASWIDTH = 600, CANVASHEIGHT = 300;
+
+		$scope.imageChange = resizableImage.callBackForFileLoad(function () {
+			resizableImage.paintImageOnCanvasWithResizer({
+				element: document.getElementById("original"),
+				width: CANVASWIDTH,
+				height: CANVASHEIGHT
+			});
+		});
+
+		$scope.doChangeImage = function () {
+			resizableImage.removeResizable();
+			$scope.changeImage = !$scope.changeImage;
+
+			resizableImage.loadImage($scope.user.basic.image, function () {
+				resizableImage.paintImageOnCanvasWithResizer({
+					element: document.getElementById("original"),
+					width: CANVASWIDTH,
+					height: CANVASHEIGHT
+				});
+			});
 		};
 
 		$scope.saveUser = function () {

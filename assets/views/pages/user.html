@@ -17,8 +17,9 @@
 					<a href="" class="edit" data-i18n="profile.edit" data-ng-if="user.me" data-ng-click="edit()"></a>
 				</header>
 				<div class="userimage">
-					<img data-ng-src="{{user.basic.image}}" alt="USERNAME">
-					<span class="editImage" data-ng-if="editGeneral" data-i18n="profile.section.general.changeImage"></span>
+					<img data-ng-src="{{user.basic.image}}" alt="USERNAME" data-ng-if="!changeImage">
+					<span class="editImage" data-ng-if="editGeneral && !changeImage" data-i18n="profile.section.general.changeImage" data-ng-click="doChangeImage()"></span>
+					<canvas data-ng-if="changeImage" id="original"></canvas>
 				</div>
 				<div class="info">
 					<p id="birthday" data-ng-show="set(user.advanced.birthday) || editGeneral">
