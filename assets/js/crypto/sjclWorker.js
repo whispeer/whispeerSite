@@ -2,7 +2,38 @@ if (importScripts) {
 	importScripts("../libs/require.js");
 }
 
-require.wrap({baseUrl: "../"}, ["libs/sjcl", "crypto/helper.js"], function (err, sjcl, chelper) {
+requirejs.config({
+	paths: {
+		jquery: "libs/jquery-1.9.1",
+		angular: "libs/angular",
+		angularRoute: "libs/angular-route",
+		socket: "libs/socket.io",
+		step: "step/lib/step",
+		whispeerHelper: "helper/helper",
+		amanda: "libs/amanda"
+	},
+	baseUrl: "/assets/js",
+    shim: {
+        "angular": {
+            deps: ["jquery"],
+            exports: "angular"
+        },
+        "angularRoute":{
+            deps:["angular"]
+        }
+
+    },
+    /*
+	shim: {
+		"angular" : {"exports" : "angular"},
+		"angularMocks": {deps:["angular"], "exports":"angular.mock"}
+	},*/
+	priority: [
+		"angular"
+	]
+});
+
+require.wrap(["libs/sjcl", "crypto/helper"], function (err, sjcl, chelper) {
 	"use strict";
 	if (err) {
 		throw err;
@@ -25,7 +56,7 @@ require.wrap({baseUrl: "../"}, ["libs/sjcl", "crypto/helper.js"], function (err,
 		var func;
 
 		if (encrypt) {
-			func = sjcl.encrypt;
+			//func = sjcl.encrypt;
 		} else {
 			func = sjcl.decrypt;
 		}
@@ -91,19 +122,19 @@ require.wrap({baseUrl: "../"}, ["libs/sjcl", "crypto/helper.js"], function (err,
 		var result;
 		var generate = data.generate;
 		if (generate) {
-			var crypt = data.crypt;
+			/*var crypt = data.crypt;
 			if (crypt) {
 				sjcl.ecc.elGamal.generateKeys(data.curve);
 			} else {
 				sjcl.ecc.ecdsa.generateKeys(data.curve);
-			}
+			}*/
 		} else {
 			var action = data.action;
 			var curve = chelper.getCurve(data.curve);
 
-			if (action === "sign") {
+			/*if (action === "sign") {
 				return sign(data.exponent, curve, data.toSign);
-			}
+			}*/
 
 			if (action === "decrypt") {
 				return unKem(action, data.exponent, curve, data.tag);
@@ -113,20 +144,20 @@ require.wrap({baseUrl: "../"}, ["libs/sjcl", "crypto/helper.js"], function (err,
 				return verify(data.x, data.y, curve, data.hash, data.signature);
 			}
 
-			if (action === "kem") {
+			/*if (action === "kem") {
 				return kem(data.x, data.y, curve);
-			}
+			}*/
 		}
 
 		return result;
 	}
 
 	self.onmessage = function (event) {
-		if (event.data.randomNumber) {
+		/*if (event.data.randomNumber) {
 			sjcl.random.addEntropy(event.data.randomNumber, event.data.entropy, "adding entropy");
 			self.postMessage("entropy");
 			return;
-		}
+		}*/
 
 		var asym = event.data.asym;
 

@@ -1,7 +1,7 @@
 /**
 * SocketService
 **/
-define(["socket", "step", "whispeerHelper", "config"], function (io, step, h, config) {
+define(["socket", "step", "whispeerHelper", "config", "crypto/generalWorkerInclude"], function (io, step, h, config, generalWorkerInclude) {
 	"use strict";
 
 	var socket;
@@ -12,6 +12,10 @@ define(["socket", "step", "whispeerHelper", "config"], function (io, step, h, co
 	}
 
 	var service = function ($rootScope, sessionService) {
+		generalWorkerInclude.setBeforeCallBack(function (evt, cb) {
+			$rootScope.$apply(cb);
+		});
+
 		function updateLogin(data) {
 			if (data.logedin) {
 				sessionService.setSID(data.sid, data.userid);

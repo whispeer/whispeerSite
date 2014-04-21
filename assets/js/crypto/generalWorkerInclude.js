@@ -1,6 +1,11 @@
 define(['asset/logger', 'whispeerHelper', 'step'], function (logger, h, step) {
 	"use strict";
-	var workerManager = function (path, numberOfWorkers, setupMethod) {
+
+	var beforeCallback = function (evt, cb) {
+		cb();
+	};
+
+	var WorkerManager = function (path, numberOfWorkers, setupMethod) {
 		var workerWaitQueue = [];
 		var workerWaitQueueImportant = [];
 		var workerList = [];
@@ -30,12 +35,8 @@ define(['asset/logger', 'whispeerHelper', 'step'], function (logger, h, step) {
 				newWorker.removeEventListener('error', fListener);
 				newWorker.removeEventListener('message', mListener);
 				if (event.data === "ready") {
-					if (typeof setupMethod === "object") {
-						if (typeof setupMethod.setup === "function") {
-							setupMethod.setup(newWorker, this);
-						} else {
-							this();
-						}
+					if (typeof setupMethod === "object" && typeof setupMethod.setup === "function") {
+						setupMethod.setup(newWorker, this);
 					} else {
 						this();
 					}
@@ -114,43 +115,47 @@ define(['asset/logger', 'whispeerHelper', 'step'], function (logger, h, step) {
 			};
 
 			theWorker.onerror = function (event) {
-				logger.log(event);
+				beforeCallback(event, function () {
+					logger.log(event);
 
-				if (typeof listener === "function") {
-					listener(new Error(event.message + " (" + event.filename + ":" + event.lineno + ")"));
-				}
+					if (typeof listener === "function") {
+						listener(new Error(event.message + " (" + event.filename + ":" + event.lineno + ")"));
+					}
 
-				that.exit();
+					that.exit();
+				});
 			};
 
 			theWorker.onmessage = function (event) {
-				if (event.data.type === "log") {
-					logger.log(event.data);
-					return;
-				}
-
-				if (event.data.type === "needData") {
-					setupMethod.needData(event, theWorker);
-					return;
-				}
-
-				var saveListener = listener;
-
-				that.busy = false;
-				listener = undefined;
-				if (!setup) {
-					signalFree(workerid);
-				}
-
-				if (typeof saveListener === "function") {
-					var diff = (new Date().getTime() - time);
-					if (diff > 10) {
-						logger.log("job finished after:" + diff);
-					} else {
-						logger.log("short job finished after:" + diff);
+				beforeCallback(event, function () {
+					if (event.data.type === "log") {
+						logger.log(event.data);
+						return;
 					}
-					saveListener(null, event.data);
-				}
+
+					if (event.data.type === "needData") {
+						setupMethod.needData(event, theWorker);
+						return;
+					}
+
+					var saveListener = listener;
+
+					that.busy = false;
+					listener = undefined;
+					if (!setup) {
+						signalFree(workerid);
+					}
+
+					if (typeof saveListener === "function") {
+						/*var diff = (new Date().getTime() - time);
+						if (diff > 10) {
+							logger.log("job finished after:" + diff);
+						} else {
+							logger.log("short job finished after:" + diff);
+						}*/
+						saveListener(null, event.data);
+					}
+				});
 			};
 		};
 
@@ -178,5 +183,9 @@ define(['asset/logger', 'whispeerHelper', 'step'], function (logger, h, step) {
 		};
 	};
 
-	return workerManager;
+	WorkerManager.setBeforeCallBack = function (cb) {
+		beforeCallback = cb;
+	};
+
+	return WorkerManager;
 });
