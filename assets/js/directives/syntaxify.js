@@ -59,13 +59,22 @@ define([], function () {
 	var syntaxify =  function ($timeout) {
 		return {
 			restrict: "A",
-			link: function (scope, elm) {
-				$timeout(function () {
-					var text = elm.text();
-					elm.html("");
+			link: function (scope, elm, attrs) {
+				if (attrs.syntaxify) {
+					scope.$watch(attrs.syntaxify, function (text) {
+						if (text) {
+							elm.html("");
+							callSyntaxifier(0, elm, text);
+						}
+					});
+				} else {
+					$timeout(function () {
+						var text = elm.text();
+						elm.html("");
 
-					callSyntaxifier(0, elm, text);
-				});
+						callSyntaxifier(0, elm, text);
+					});
+				}
 			}
 		};
 	};

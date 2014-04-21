@@ -7,7 +7,7 @@ define([], function () {
 	var service = function ($rootScope, $location, $route, storage) {
 		var sid = "", loggedin = false, ownLoaded = false, userid, returnURL, loaded = false;
 
-		var noLoginRequired = ["ssn.startController"];
+		var noLoginRequired = ["ssn.startController", "ssn.versionController"];
 		var loggoutRequired = ["ssn.startController", "ssn.loadingController"];
 
 		function setSID(newSID, user) {

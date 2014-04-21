@@ -54,7 +54,7 @@ define(["socket", "step", "whispeerHelper", "config"], function (io, step, h, co
 
 					lastRequestTime = data.serverTime;
 
-					console.debug(h.parseDecimal(data.serverTime) - new Date().getTime());
+					//console.debug(h.parseDecimal(data.serverTime) - new Date().getTime());
 
 					var that = this;
 					$rootScope.$apply(function () {
@@ -75,6 +75,11 @@ define(["socket", "step", "whispeerHelper", "config"], function (io, step, h, co
 				socket.send(data);
 			}
 		};
+
+		socket.on("reconnect", function () {
+			socketS.emit("ping", {}, function () {});
+		});
+
 		return socketS;
 	};
 
