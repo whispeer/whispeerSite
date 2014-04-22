@@ -101,6 +101,43 @@
 								opacity: 1;
 							}	
 						}
+						&.editing {
+							text-align: center;
+							.uploadImageForm {
+								cursor: pointer;
+								width: 60%;
+								margin:0 20% 5px 20%;
+								overflow: hidden;
+								position: relative;
+								#uploadButton {
+									.btn;
+									cursor: pointer;
+									width: 100%;
+									margin:0 20% 5px 20%;
+									display: inline-block;
+									//display: none;
+									margin: 4px 0;
+									z-index: 10000 !important;
+								}
+								#filesUpload {
+									position: absolute;
+									margin: -34px 0 0 -250px;
+									height: 30px;
+									width: 100%;
+									opacity: 0;
+									.border-radius(0);
+									cursor: pointer;
+									display: inline-block;
+									z-index: 10001 !important;
+									background-color: red;
+								}
+								@-moz-document url-prefix() {
+									.profileView #main #info #generalInfo .userimage.editing div.uploadImageForm #filesUpload {
+										margin: 4px 0 0 -750px !important;
+									}
+								}
+							}
+						}
 					}
 					.actions {
 						border: none;

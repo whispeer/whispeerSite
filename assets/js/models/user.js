@@ -262,14 +262,16 @@ define(["step", "whispeerHelper"], function (step, h) {
 					for (i = 0; i < priv.length; i += 1) {
 						if (result.allok || result.errors.priv.indexOf(priv[i].getID()) === -1) {
 							priv[i].updated();
-							this.ne(true);
-						} else {
-							this.ne(false);
-							//TODO
 						}
 					}
-					//TODO
 
+					basicDataLoaded = false;
+					theUser.loadBasicData(function () {
+
+					});
+					//reload basic profile data!
+
+					this.ne(result.allok);
 				}), cb);
 			}
 
@@ -410,8 +412,6 @@ define(["step", "whispeerHelper"], function (step, h) {
 				}), cb);
 			}
 
-			var basicDataLoaded = false;
-
 			this.update = updateUser;
 
 			this.loadFullData = function (cb) {
@@ -435,6 +435,8 @@ define(["step", "whispeerHelper"], function (step, h) {
 				friendsService.getUserFriends(this.getID(), cb);
 			};
 
+			var basicDataLoaded = false;
+
 			this.loadBasicData = function (cb) {
 				step(function () {
 					if (!basicDataLoaded) {
@@ -443,8 +445,12 @@ define(["step", "whispeerHelper"], function (step, h) {
 						theUser.getShortName(this.parallel());
 						theUser.getName(this.parallel());
 						theUser.getImage(this.parallel());
+					} else {
+						this.last.ne();
 					}
 				}, h.sF(function (shortname, names, image) {
+					basicDataLoaded = true;
+
 					theUser.data.me = theUser.isOwn();
 					theUser.data.other = !theUser.isOwn();
 
