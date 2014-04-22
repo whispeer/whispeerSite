@@ -1,4 +1,4 @@
-define(["libs/sjcl", "crypto/minimalHelper"], function (sjcl, chelper) {
+define(["libs/sjcl", "cryptoWorker/minimalHelper"], function (sjcl, chelper) {
 	"use strict";
 
 	function transformSymData(data) {
