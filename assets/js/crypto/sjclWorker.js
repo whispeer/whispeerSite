@@ -3,75 +3,79 @@ if (importScripts) {
 }
 
 requirejs.config({
-	paths: {
-		jquery: "libs/jquery-1.9.1",
-		angular: "libs/angular",
-		angularRoute: "libs/angular-route",
-		socket: "libs/socket.io",
-		step: "step/lib/step",
-		whispeerHelper: "helper/helper",
-		amanda: "libs/amanda"
-	},
-	baseUrl: "/assets/js",
-    shim: {
-        "angular": {
-            deps: ["jquery"],
-            exports: "angular"
-        },
-        "angularRoute":{
-            deps:["angular"]
-        }
-
-    },
-    /*
-	shim: {
-		"angular" : {"exports" : "angular"},
-		"angularMocks": {deps:["angular"], "exports":"angular.mock"}
-	},*/
-	priority: [
-		"angular"
-	]
+	baseUrl: "/assets/js"
 });
 
-require.wrap(["libs/sjcl", "crypto/helper"], function (err, sjcl, chelper) {
+require(["libs/sjcl"], function (sjcl) {
 	"use strict";
-	if (err) {
-		throw err;
+
+	var chelper = {
+		getCurve: function (curveName) {
+			if (typeof curveName !== "string" || curveName.substr(0, 1) !== "c") {
+				curveName = "c" + curveName;
+			}
+
+			if (sjcl.ecc.curves[curveName]) {
+				return sjcl.ecc.curves[curveName];
+			}
+
+			throw new Error("invalidCurve");
+		},
+		isHex: function (data) {
+			return (data && typeof data === "string" && !!data.match(/^[A-Fa-f0-9]*$/));
+		},
+		hex2bits: function (t) {
+			if (t instanceof Array) {
+				return t;
+			}
+
+			if (chelper.isHex(t)) {
+				return sjcl.codec.hex.toBits(t);
+			}
+
+			//TODO
+			throw new InvalidHexError();
+		},
+		bits2hex: function (t) {
+			if (typeof t === "string") {
+				return t;
+			}
+
+			return sjcl.codec.hex.fromBits(t);
+		}
+	};
+
+	function transformSymData(data) {
+		if (!data.key || !data.message) {
+			throw new Error("need message and key!");
+		}
+
+		data.key = chelper.hex2bits(data.key);
+
+		if (typeof data.message !== "string") {
+			data.message = sjcl.json.encode(data.message);
+		}
 	}
 
 	function handleSym(data) {
-		var result;
-		var key = data.key;
-
-		var message = data.message;
-		var iv = data.iv;
-
-		key = chelper.hex2bits(key);
-		var encrypt = data.encrypt;
-
-		if (typeof message !== "string") {
-			message = JSON.stringify(message);
-		}
+		transformSymData(data);
 
 		var func;
 
-		if (encrypt) {
-			//func = sjcl.encrypt;
+		if (data.encrypt) {
+			func = sjcl.encrypt;
 		} else {
 			func = sjcl.decrypt;
 		}
 
-		if (iv === undefined) {
-			result = func(key, message);
+		if (data.iv === undefined) {
+			return func(data.key, data.message);
 		} else {
-			result = func(key, message, {"iv": iv});
+			return func(data.key, data.message, {"iv": data.iv});
 		}
-
-		return result;
 	}
 
 	function privKey(exponent, curve) {
-		exponent = new sjcl.bn(exponent);
 		return new sjcl.ecc.ecdsa.secretKey(curve, exponent);
 	}
 
@@ -91,16 +95,12 @@ require.wrap(["libs/sjcl", "crypto/helper"], function (err, sjcl, chelper) {
 		return privateKey.unkem(tag);
 	}
 
-	function publicKey(x, y, curve) {
-		x =	curve.field(x);
-		y = curve.field(y);
-		var point = new sjcl.ecc.point(curve, x, y);
-
+	function publicKey(point, curve) {
 		return new sjcl.ecc.ecdsa.publicKey(curve, point);
 	}
 
-	function verify(x, y, curve, hash, signature) {
-		var pubKey = publicKey(x, y, curve);
+	function verify(point, curve, hash, signature) {
+		var pubKey = publicKey(point, curve);
 
 		hash = chelper.hex2bits(hash);
 		signature = chelper.hex2bits(signature);
@@ -108,8 +108,8 @@ require.wrap(["libs/sjcl", "crypto/helper"], function (err, sjcl, chelper) {
 		return pubKey.verify(hash, signature);
 	}
 
-	function kem(x, y, curve) {
-		var pubKey = publicKey(x, y, curve);
+	function kem(point, curve) {
+		var pubKey = publicKey(point, curve);
 
 		var keyData = pubKey.kem();
 		return {
@@ -118,46 +118,56 @@ require.wrap(["libs/sjcl", "crypto/helper"], function (err, sjcl, chelper) {
 		};
 	}
 
-	function handleAsym(data) {
-		var result;
-		var generate = data.generate;
-		if (generate) {
-			/*var crypt = data.crypt;
-			if (crypt) {
-				sjcl.ecc.elGamal.generateKeys(data.curve);
-			} else {
-				sjcl.ecc.ecdsa.generateKeys(data.curve);
-			}*/
-		} else {
-			var action = data.action;
-			var curve = chelper.getCurve(data.curve);
-
-			/*if (action === "sign") {
-				return sign(data.exponent, curve, data.toSign);
-			}*/
-
-			if (action === "decrypt") {
-				return unKem(action, data.exponent, curve, data.tag);
-			}
-
-			if (action === "verify") {
-				return verify(data.x, data.y, curve, data.hash, data.signature);
-			}
-
-			/*if (action === "kem") {
-				return kem(data.x, data.y, curve);
-			}*/
+	function transformAsymData(data) {
+		if (data.curve) {
+			data.curve = chelper.getCurve(data.curve);
 		}
 
-		return result;
+		if (data.exponent) {
+			data.exponent = new sjcl.bn(data.exponent);
+		}
+
+		if (data.point) {
+			var x =	data.curve.field(data.point.x);
+			var y = data.curve.field(data.point.y);
+			data.point = new sjcl.ecc.point(data.curve, x, y);
+		}
+	}
+
+	function handleAsym(data) {
+		transformAsymData(data);
+
+		var curve = data.curve;
+
+		if (data.generate) {
+			var crypt = data.crypt;
+			if (crypt) {
+				sjcl.ecc.elGamal.generateKeys(curve);
+			} else {
+				sjcl.ecc.ecdsa.generateKeys(curve);
+			}
+		} else {
+			var action = data.action;
+
+			switch(action) {
+				case "sign":
+					return sign(data.exponent, curve, data.toSign);
+				case "decrypt":
+					return unKem(action, data.exponent, curve, data.tag);
+				case "verify":
+					return verify(data.point, curve, data.hash, data.signature);
+				case "kem":
+					return kem(data.point, curve);
+			}
+		}
 	}
 
 	self.onmessage = function (event) {
-		/*if (event.data.randomNumber) {
+		if (event.data.randomNumber) {
 			sjcl.random.addEntropy(event.data.randomNumber, event.data.entropy, "adding entropy");
 			self.postMessage("entropy");
 			return;
-		}*/
+		}
 
 		var asym = event.data.asym;
 

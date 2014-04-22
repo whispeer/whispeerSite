@@ -1,4 +1,4 @@
-define(['asset/logger', 'whispeerHelper', 'step'], function (logger, h, step) {
+define([], function () {
 	"use strict";
 
 	var beforeCallback = function (evt, cb) {
@@ -7,7 +7,6 @@ define(['asset/logger', 'whispeerHelper', 'step'], function (logger, h, step) {
 
 	var WorkerManager = function (path, numberOfWorkers, setupMethod) {
 		var workerWaitQueue = [];
-		var workerWaitQueueImportant = [];
 		var workerList = [];
 		var workersById = {};
 		var idCount = 0;
@@ -15,62 +14,50 @@ define(['asset/logger', 'whispeerHelper', 'step'], function (logger, h, step) {
 		var MyWorker;
 
 		var createWorker = function (callback) {
-			var fListener, mListener, newWorker;
-			step(function () {
-				idCount += 1;
-				newWorker = new MyWorker(idCount);
-				newWorker.busy = true;
+			var newWorker;
 
-				workersById[idCount] = newWorker;
-				workerList.push(newWorker);
-
-				fListener = this;
-				mListener = function (event) {
-					fListener(null, event);
-				};
-
-				newWorker.addEventListener('error', mListener);
-				newWorker.addEventListener('message', mListener);
-			}, h.sF(function (event) {
-				newWorker.removeEventListener('error', fListener);
-				newWorker.removeEventListener('message', mListener);
-				if (event.data === "ready") {
-					if (typeof setupMethod === "object" && typeof setupMethod.setup === "function") {
-						setupMethod.setup(newWorker, this);
-					} else {
-						this();
-					}
-				}
-			}), h.sF(function () {
+			function finalizeWorker() {
 				newWorker.busy = false;
 				newWorker.setupDone();
-				this(null, newWorker);
-			}), callback);
+				callback(null, newWorker);
+			}
+			
+			function setupWorker(event) {
+				newWorker.removeEventListener("error", callback);
+				newWorker.removeEventListener("message", setupWorker);
+				if (event.data === "ready") {
+					if (typeof setupMethod === "object" && typeof setupMethod.setup === "function") {
+						setupMethod.setup(newWorker, finalizeWorker);
+					} else {
+						finalizeWorker();
+					}
+				} else {
+					throw new Error("did not get ready as first event");
+				}
+			}
+
+			newWorker = new MyWorker(++idCount);
+
+			workersById[idCount] = newWorker;
+			workerList.push(newWorker);
+
+			newWorker.addEventListener("error", callback);
+			newWorker.addEventListener("message", setupWorker);
 		};
 
 		var exit = function (workerid) {
-			var i, worker;
-			for (i = 0; i < workerList.length; i += 1) {
-				worker = workerList[i];
-				if (worker.getId() === workerid) {
-					workerList.slice(i, 1);
-				}
+			var worker = workersById[workerid];
 
-				delete workersById[workerid];
-			}
+			workerList.slice(workerList.indexOf(worker), 1);
+			delete workersById[workerid];
 		};
 
 		var signalFree = function (workerid) {
 			var worker = workersById[workerid];
 			if (typeof worker !== "undefined" && worker.busy === false) {
-				var waiter = workerWaitQueueImportant.shift();
+				var waiter = workerWaitQueue.shift();
 				if (typeof waiter === "function") {
 					waiter(null, worker);
-				} else {
-					waiter = workerWaitQueue.shift();
-					if (typeof waiter === "function") {
-						waiter(null, worker);
-					}
 				}
 			}
 		};
@@ -78,12 +65,11 @@ define(['asset/logger', 'whispeerHelper', 'step'], function (logger, h, step) {
 		MyWorker = function (workerid) {
 			var that = this;
 			var setup = true;
-			var time;
 
 			var theWorker = new Worker(path);
 
-			this.busy = false;
-			var listener;
+			this.busy = true;
+			var listener = function () {};
 
 			this.setupDone = function () {
 				setup = false;
@@ -99,8 +85,8 @@ define(['asset/logger', 'whispeerHelper', 'step'], function (logger, h, step) {
 
 			this.postMessage = function (message, theListener) {
 				that.busy = true;
-				time = new Date().getTime();
 				listener = theListener;
+				console.time("workerJob" + workerid);
 
 				theWorker.postMessage(message);
 			};
@@ -116,11 +102,7 @@ define(['asset/logger', 'whispeerHelper', 'step'], function (logger, h, step) {
 
 			theWorker.onerror = function (event) {
 				beforeCallback(event, function () {
-					logger.log(event);
-
-					if (typeof listener === "function") {
-						listener(new Error(event.message + " (" + event.filename + ":" + event.lineno + ")"));
-					}
+					listener(event);
 
 					that.exit();
 				});
@@ -128,58 +110,37 @@ define(['asset/logger', 'whispeerHelper', 'step'], function (logger, h, step) {
 
 			theWorker.onmessage = function (event) {
 				beforeCallback(event, function () {
-					if (event.data.type === "log") {
-						logger.log(event.data);
-						return;
-					}
-
-					if (event.data.type === "needData") {
-						setupMethod.needData(event, theWorker);
-						return;
-					}
-
+					console.timeEnd("workerJob" + workerid);
+					console.debug(event);
 					var saveListener = listener;
 
 					that.busy = false;
-					listener = undefined;
+					listener = function () {};
+
 					if (!setup) {
 						signalFree(workerid);
 					}
 
-					if (typeof saveListener === "function") {
-						/*var diff = (new Date().getTime() - time);
-						if (diff > 10) {
-							logger.log("job finished after:" + diff);
-						} else {
-							logger.log("short job finished after:" + diff);
-						}*/
-						saveListener(null, event.data);
-					}
+					saveListener(null, event.data);
 				});
 			};
 		};
 
-		this.getFreeWorker = function (cb, important) {
-			step(function checkForFree() {
-				var i;
-				for (i = 0; i < workerList.length; i += 1) {
-					if (workerList[i].busy === false) {
-						this.last(null, workerList[i]);
-						return;
-					}
-				}
-
-				if (workerList.length < numberOfWorkers) {
-					createWorker(this);
+		this.getFreeWorker = function (cb) {
+			var i;
+			for (i = 0; i < workerList.length; i += 1) {
+				if (workerList[i].busy === false) {
+					cb(null, workerList[i]);
 					return;
 				}
+			}
 
-				if (important) {
-					workerWaitQueueImportant.push(this);
-				} else {
-					workerWaitQueue.push(this);
-				}
-			}, cb);
+			if (workerList.length < numberOfWorkers) {
+				createWorker(cb);
+				return;
+			}
+
+			workerWaitQueue.push(cb);
 		};
 	};
 

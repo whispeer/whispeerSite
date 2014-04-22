@@ -1,37 +1,52 @@
-define(['step', 'crypto/generalWorkerInclude', 'crypto/helper', 'libs/sjcl', 'crypto/waitForReady'], function (step, WorkerManager, chelper, sjcl, waitForReady) {
+define(['step', 'crypto/generalWorkerInclude', 'crypto/helper', 'libs/sjcl', 'crypto/waitForReady'], function (step, WorkerManager, chelper, sjcl) {
 	"use strict";
+
+	var useWorkers = !!window.Worker;
+
+	function getEntropy() {
+		try {
+			var ab;
+
+			// get cryptographically strong entropy depending on runtime environment
+			if (window && Uint32Array) {
+				ab = new Uint32Array(32);
+				if (window.crypto && window.crypto.getRandomValues) {
+					window.crypto.getRandomValues(ab);
+				} else if (window.msCrypto && window.msCrypto.getRandomValues) {
+					window.msCrypto.getRandomValues(ab);
+				} else {
+					return false;
+				}
+
+				// get cryptographically strong entropy in Webkit
+				return ab;
+			}
+		} catch (e) {
+			if (typeof window !== "undefined" && window.console) {
+				console.log("There was an error collecting entropy from the browser:");
+				console.log(e);
+				//we do not want the library to fail due to randomness not being maintained.
+			}
+		}
+
+		return false;
+	}
 
 	var addEntropy = {
 		setup: function (theWorker, callback) {
-			step(function waitReady() {
-			/*
-				waitForReady(this);
-			}, h.sF(function ready() {
-				theWorker.postMessage({randomNumber: sjcl.codec.hex.fromBits(sjcl.random.randomWords(16)), entropy: 1024}, this);
-			*/
-				this();
+			step(function loadEntropy() {
+				var entropy = getEntropy();
+
+				if (entropy) {
+					theWorker.postMessage({randomNumber: entropy, entropy: 1024}, this);
+				} else {
+					useWorkers = false;
+				}
 			}, callback);
-		},
-		needData: function (event, worker) {
-			/*if (event.data.needed === "entropy") {
-				waitForReady(function () {
-					var toSend = {};
-					toSend.randomNumber = chelper.bits2hex(sjcl.random.randomWords(16));
-					toSend.entropy = 1024;
-					worker.postMessage(toSend);
-				});
-			} else if (event.data.done === "entropy") {
-				console.log("entropy done!");
-			}*/
 		}
 	};
 
-	var workers;
-	if (window.location.href.indexOf("/tests") > -1) {
-		workers = new WorkerManager('../crypto/sjclWorker.js', 2, addEntropy);
-	} else {
-		workers = new WorkerManager('assets/js/crypto/sjclWorker.js', 2, addEntropy);
-	}
+	var workers = new WorkerManager("assets/js/crypto/sjclWorker.js", 2, addEntropy);
 
 	var sjclWorker = {
 		asym: {
