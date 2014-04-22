@@ -8,7 +8,7 @@ define(["whispeerHelper"], function (h) {
 
 		var boundary = options.boundary || {};
 
-		var ourElement = jQuery(boundary.element || body);
+		var ourElement = jQuery(options.element || body);
 
 		ourElement.append(element);
 

@@ -16,6 +16,7 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer"], fun
 				info: {
 					with: ""
 				},
+				time: data.meta.time,
 				isWallPost: false,
 				comments: []
 			};
