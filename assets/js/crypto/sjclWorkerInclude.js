@@ -1,7 +1,7 @@
-define(['step', 'crypto/generalWorkerInclude', 'crypto/helper', 'libs/sjcl', 'crypto/waitForReady'], function (step, WorkerManager, chelper, sjcl) {
+define(["step", "crypto/generalWorkerInclude", "crypto/minimalHelper"], function (step, WorkerManager, chelper) {
 	"use strict";
 
-	var useWorkers = !!window.Worker;
+	var entropyAvailable = true;
 
 	function getEntropy() {
 		try {
@@ -21,32 +21,24 @@ define(['step', 'crypto/generalWorkerInclude', 'crypto/helper', 'libs/sjcl', 'cr
 				// get cryptographically strong entropy in Webkit
 				return ab;
 			}
-		} catch (e) {
-			if (typeof window !== "undefined" && window.console) {
-				console.log("There was an error collecting entropy from the browser:");
-				console.log(e);
-				//we do not want the library to fail due to randomness not being maintained.
-			}
-		}
+		} catch (e) {}
 
 		return false;
 	}
 
 	var addEntropy = {
 		setup: function (theWorker, callback) {
-			step(function loadEntropy() {
-				var entropy = getEntropy();
+			var entropy = getEntropy();
 
-				if (entropy) {
-					theWorker.postMessage({randomNumber: entropy, entropy: 1024}, this);
-				} else {
-					useWorkers = false;
-				}
-			}, callback);
+			if (entropy) {
+				theWorker.postMessage({randomNumber: entropy, entropy: 1024}, callback);
+			} else {
+				entropyAvailable = false;
+			}
 		}
 	};
 
-	var workers = new WorkerManager("assets/js/crypto/sjclWorker.js", 2, addEntropy);
+	var workers = new WorkerManager("crypto/sjclWorker", 2, addEntropy);
 
 	var sjclWorker = {
 		asym: {
@@ -99,9 +91,9 @@ define(['step', 'crypto/generalWorkerInclude', 'crypto/helper', 'libs/sjcl', 'cr
 					worker.postMessage(data, this);
 				}, callback);
 			},
-			kem: function (publicKey, callback, important) {
+			kem: function (publicKey, callback) {
 				step(function getFree() {
-					workers.getFreeWorker(this, !!important);
+					workers.getFreeWorker(this);
 				}, function (err, worker) {
 					if (err) {
 						throw err;
@@ -126,10 +118,8 @@ define(['step', 'crypto/generalWorkerInclude', 'crypto/helper', 'libs/sjcl', 'cr
 					this(null, result);
 				}, callback);
 			},*/
-			unkem: function (privateKey, tag, callback, important) {
-				step(function getFree() {
-					workers.getFreeWorker(this, !!important);
-				}, function (err, worker) {
+			unkem: function (privateKey, tag, callback) {
+				workers.getFreeWorker(function (err, worker) {
 					if (err) {
 						throw err;
 					}
@@ -144,18 +134,12 @@ define(['step', 'crypto/generalWorkerInclude', 'crypto/helper', 'libs/sjcl', 'cr
 						tag: chelper.bits2hex(tag)
 					};
 
-					worker.postMessage(data, this);
-				}, function (err, result) {
-					if (err) {
-						throw err;
-					}
-
-					this(null, result);
-				}, callback);
+					worker.postMessage(data, callback);
+				});
 			},
-			/*sign: function (privateKey, toSign, callback, important) {
+			/*sign: function (privateKey, toSign, callback) {
 				step(function getFree() {
-					workers.getFreeWorker(this, !!important);
+					workers.getFreeWorker(this);
 				}, function (err, worker) {
 					if (err) {
 						throw err;
@@ -180,10 +164,8 @@ define(['step', 'crypto/generalWorkerInclude', 'crypto/helper', 'libs/sjcl', 'cr
 					this(null, result);
 				}, callback);
 			},*/
-			verify: function (publicKey, signature, hash, callback, important) {
-				step(function getFree() {
-					workers.getFreeWorker(this, !!important);
-				}, function (err, worker) {
+			verify: function (publicKey, signature, hash, callback) {
+				workers.getFreeWorker(function (err, worker) {
 					if (err) {
 						throw err;
 					}
@@ -201,20 +183,14 @@ define(['step', 'crypto/generalWorkerInclude', 'crypto/helper', 'libs/sjcl', 'cr
 						hash: chelper.bits2hex(hash)
 					};
 
-					worker.postMessage(data, this);
-				}, function (err, result) {
-					if (err) {
-						throw err;
-					}
-
-					this(null, result);
-				}, callback);
+					worker.postMessage(data, callback);
+				});
 			}
 		},
 		sym: {
-			/*encrypt: function (key, message, iv, callback, important) {
+			/*encrypt: function (key, message, iv, callback) {
 				step(function getFree() {
-					workers.getFreeWorker(this, !!important);
+					workers.getFreeWorker(this);
 				}, function (err, worker) {
 					if (err) {
 						throw err;
@@ -238,24 +214,22 @@ define(['step', 'crypto/generalWorkerInclude', 'crypto/helper', 'libs/sjcl', 'cr
 					this(null, result);
 				}, callback);
 			},*/
-			decrypt: function (key, message, callback, important) {
-				step(function getFree() {
-					workers.getFreeWorker(this, !!important);
-				}, function (err, worker) {
+			decrypt: function (key, message, callback) {
+				workers.getFreeWorker(function (err, worker) {
 					if (err) {
 						throw err;
 					}
 
 					var data = {
-						'key': key,
-						'message': message,
+						"key": key,
+						"message": message,
 
-						'asym': false,
-						'encrypt': false
+						"asym": false,
+						"encrypt": false
 					};
 
-					worker.postMessage(data, this);
-				}, callback);
+					worker.postMessage(data, callback);
+				});
 			}
 		}
 	};

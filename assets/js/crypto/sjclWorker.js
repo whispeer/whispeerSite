@@ -1,49 +1,5 @@
-if (importScripts) {
-	importScripts("../libs/require.js");
-}
-
-requirejs.config({
-	baseUrl: "/assets/js"
-});
-
-require(["libs/sjcl"], function (sjcl) {
+define(["libs/sjcl", "crypto/minimalHelper"], function (sjcl, chelper) {
 	"use strict";
-
-	var chelper = {
-		getCurve: function (curveName) {
-			if (typeof curveName !== "string" || curveName.substr(0, 1) !== "c") {
-				curveName = "c" + curveName;
-			}
-
-			if (sjcl.ecc.curves[curveName]) {
-				return sjcl.ecc.curves[curveName];
-			}
-
-			throw new Error("invalidCurve");
-		},
-		isHex: function (data) {
-			return (data && typeof data === "string" && !!data.match(/^[A-Fa-f0-9]*$/));
-		},
-		hex2bits: function (t) {
-			if (t instanceof Array) {
-				return t;
-			}
-
-			if (chelper.isHex(t)) {
-				return sjcl.codec.hex.toBits(t);
-			}
-
-			//TODO
-			throw new InvalidHexError();
-		},
-		bits2hex: function (t) {
-			if (typeof t === "string") {
-				return t;
-			}
-
-			return sjcl.codec.hex.fromBits(t);
-		}
-	};
 
 	function transformSymData(data) {
 		if (!data.key || !data.message) {
@@ -162,11 +118,10 @@ require(["libs/sjcl"], function (sjcl) {
 		}
 	}
 
-	self.onmessage = function (event) {
+	return function (event) {
 		if (event.data.randomNumber) {
 			sjcl.random.addEntropy(event.data.randomNumber, event.data.entropy, "adding entropy");
-			self.postMessage("entropy");
-			return;
+			return "entropy";
 		}
 
 		var asym = event.data.asym;
@@ -182,8 +137,6 @@ require(["libs/sjcl"], function (sjcl) {
 			result = false;
 		}
 
-		self.postMessage(result);
+		return result;
 	};
-
-	self.postMessage("ready");
 });

@@ -1,17 +1,17 @@
 define([], function () {
 	"use strict";
 
+	var useWorkers = false && !!window.Worker;
+
 	var beforeCallback = function (evt, cb) {
 		cb();
 	};
 
 	var WorkerManager = function (path, numberOfWorkers, setupMethod) {
-		var workerWaitQueue = [];
-		var workerList = [];
-		var workersById = {};
+		var workerWaitQueue = [], workerList = [], workersById = {};
 		var idCount = 0;
 
-		var MyWorker;
+		var MyWorker, WorkerPolyFill;
 
 		var createWorker = function (callback) {
 			var newWorker;
@@ -21,10 +21,13 @@ define([], function () {
 				newWorker.setupDone();
 				callback(null, newWorker);
 			}
-			
+
 			function setupWorker(event) {
-				newWorker.removeEventListener("error", callback);
-				newWorker.removeEventListener("message", setupWorker);
+				if (newWorker.removeEventListener) {
+					newWorker.removeEventListener("error", callback);
+					newWorker.removeEventListener("message", setupWorker);
+				}
+
 				if (event.data === "ready") {
 					if (typeof setupMethod === "object" && typeof setupMethod.setup === "function") {
 						setupMethod.setup(newWorker, finalizeWorker);
@@ -36,13 +39,24 @@ define([], function () {
 				}
 			}
 
-			newWorker = new MyWorker(++idCount);
+			if (useWorkers) {
+				newWorker = new MyWorker(++idCount);
 
-			workersById[idCount] = newWorker;
-			workerList.push(newWorker);
+				workersById[idCount] = newWorker;
+				workerList.push(newWorker);
 
-			newWorker.addEventListener("error", callback);
-			newWorker.addEventListener("message", setupWorker);
+				newWorker.addEventListener("error", callback);
+				newWorker.addEventListener("message", setupWorker);
+
+				newWorker.postMessage({
+					loadScript: path
+				});
+			} else {
+				newWorker = new WorkerPolyFill(++idCount, setupWorker);
+
+				workersById[idCount] = newWorker;
+				workerList.push(newWorker);
+			}
 		};
 
 		var exit = function (workerid) {
@@ -62,11 +76,79 @@ define([], function () {
 			}
 		};
 
+		WorkerPolyFill = function (workerid, setupCallback) {
+			var theHandler;
+
+			var that = this;
+			var setup = true;
+
+			this.busy = true;
+			var listener = function () {};
+
+			require([path], function (handler) {
+				theHandler = handler;
+
+				setupCallback({
+					data: "ready"
+				});
+			});
+
+			this.setupDone = function () {
+				setup = false;
+			};
+
+			this.postMessage = function (message, theListener) {
+				that.busy = true;
+				if (theListener) {
+					listener = theListener;
+				}
+
+				try {
+					var result = theHandler({
+						data: message
+					});
+
+					if (result) {
+						window.setTimeout(function () {
+							beforeCallback({data: result}, function () {
+								var saveListener = listener;
+
+								that.busy = false;
+								listener = function () {};
+
+								if (!setup) {
+									signalFree(workerid);
+								}
+
+								saveListener(null, result);
+							});
+						});
+					}
+				} catch (e) {
+					window.setTimeout(function () {
+						beforeCallback(e, function () {
+							listener(e);
+
+							that.exit();
+						});
+					});
+				}
+			};
+
+			this.getId = function () {
+				return workerid;
+			};
+
+			this.exit = function () {
+				exit(workerid);
+			};
+		};
+
 		MyWorker = function (workerid) {
 			var that = this;
 			var setup = true;
 
-			var theWorker = new Worker(path);
+			var theWorker = new Worker("assets/js/crypto/generalWorker.js");
 
 			this.busy = true;
 			var listener = function () {};
@@ -85,8 +167,10 @@ define([], function () {
 
 			this.postMessage = function (message, theListener) {
 				that.busy = true;
-				listener = theListener;
-				console.time("workerJob" + workerid);
+				if (theListener) {
+					listener = theListener;
+					console.time("workerJob" + workerid);
+				}
 
 				theWorker.postMessage(message);
 			};
@@ -110,8 +194,8 @@ define([], function () {
 
 			theWorker.onmessage = function (event) {
 				beforeCallback(event, function () {
-					console.timeEnd("workerJob" + workerid);
-					console.debug(event);
+					/*console.timeEnd("workerJob" + workerid);
+					console.debug(event.data);*/
 					var saveListener = listener;
 
 					that.busy = false;
