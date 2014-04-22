@@ -1,7 +1,7 @@
 /**
 * SocketService
 **/
-define(["socket", "step", "whispeerHelper", "config", "crypto/generalWorkerInclude"], function (io, step, h, config, generalWorkerInclude) {
+define(["socket", "step", "whispeerHelper", "config", "cryptoWorker/generalWorkerInclude"], function (io, step, h, config, generalWorkerInclude) {
 	"use strict";
 
 	var socket;

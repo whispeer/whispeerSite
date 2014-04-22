@@ -13,7 +13,7 @@
 	
 	keyid: identifier@timestamp
 **/
-define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForReady", "crypto/sjclWorkerInclude"], function (step, h, chelper, sjcl, waitForReady, sjclWorkerInclude) {
+define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForReady", "cryptoWorker/sjclWorkerInclude"], function (step, h, chelper, sjcl, waitForReady, sjclWorkerInclude) {
 	"use strict";
 	var socket, dirtyKeys = [], newKeys = [], symKeys = {}, cryptKeys = {}, signKeys = {}, passwords = [], improvementListener = [], keyGenIdentifier = "", Key, SymKey, CryptKey, SignKey, makeKey, keyStore;
 
