@@ -65,12 +65,25 @@ define(["step", "whispeerHelper", "asset/resizableImage"], function (step, h, Re
 
 		$scope.saveUser = function () {
 			if (userObject.isOwn()) {
-				var adv = $scope.user.advanced;
 				//TODO: something goes wrong here when doing it the 2nd time!
-				userObject.setAdvancedProfile(adv, function () {
-					userObject.uploadChangedProfile(function () {
-						$scope.edit();
-					});
+
+				step(function () {
+					if ($scope.changeImage) {
+						var imageData = resizableImage.getImageData(ENDSIZE);
+
+						userObject.setProfileAttribute("image", imageData, this);
+					} else {
+						this.ne();
+					}
+				}, h.sF(function () {
+					var adv = $scope.user.advanced;
+					userObject.setAdvancedProfile(adv, this);
+				}), h.sF(function () {
+					userObject.uploadChangedProfile(this);
+				}), h.sF(function () {
+					$scope.edit();
+				}), function (e) {
+
 				});
 			}
 		};
