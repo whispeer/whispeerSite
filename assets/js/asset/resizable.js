@@ -8,7 +8,7 @@ define(["whispeerHelper"], function (h) {
 
 		var boundary = options.boundary || {};
 
-		var ourElement = jQuery(boundary.element || body);
+		var ourElement = jQuery(options.element || body);
 
 		ourElement.append(element);
 
@@ -60,8 +60,8 @@ define(["whispeerHelper"], function (h) {
 		function setElementPosition(position) {
 			element.css("top", position.top);
 			element.css("left", position.left);
-			element.css("height", position.height);
-			element.css("width", position.width);
+			element.css("height", position.height - 2);
+			element.css("width", position.width - 2);
 		}
 
 		function setSelect(val) {

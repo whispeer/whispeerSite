@@ -16,6 +16,7 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer"], fun
 				info: {
 					with: ""
 				},
+				time: data.meta.time,
 				isWallPost: false,
 				comments: []
 			};
@@ -281,9 +282,14 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer"], fun
 
 			function loadNewPosts() {
 				step(function () {
+					var beforeID = 0;
+					if (filterObject.result.length > 0) {
+						beforeID = filterObject.result[0].id;
+					}
+
 					socket.emit("posts.getNewestTimeline", {
 						filter: filter,
-						beforeID: filterObject.result[0].id,
+						beforeID: beforeID,
 						lastRequestTime: filterObject.requested
 					}, this);
 				}, h.sF(function (data) {
@@ -305,7 +311,7 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer"], fun
 				}));			
 			}
 
-			window.setInterval(loadNewPosts, 10*1000);
+			window.setInterval(loadNewPosts, 5*60*1000);
 		}
 
 		var postService = {

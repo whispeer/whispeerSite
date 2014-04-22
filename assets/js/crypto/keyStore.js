@@ -13,7 +13,7 @@
 	
 	keyid: identifier@timestamp
 **/
-define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForReady", "crypto/sjclWorkerInclude"], function (step, h, chelper, sjcl, waitForReady) {
+define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForReady", "cryptoWorker/sjclWorkerInclude"], function (step, h, chelper, sjcl, waitForReady, sjclWorkerInclude) {
 	"use strict";
 	var socket, dirtyKeys = [], newKeys = [], symKeys = {}, cryptKeys = {}, signKeys = {}, passwords = [], improvementListener = [], keyGenIdentifier = "", Key, SymKey, CryptKey, SignKey, makeKey, keyStore;
 
@@ -611,9 +611,7 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 					ctext.iv = iv;
 				}
 
-				result = sjcl.decrypt(chelper.hex2bits(intKey.getSecret()), sjcl.json.encode(ctext));
-
-				this.ne(result);
+				sjclWorkerInclude.sym.decrypt(intKey.getSecret(), sjcl.json.encode(ctext), this);
 			}), callback);
 		}
 
@@ -1018,7 +1016,8 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 
 		function verifyF(signature, hash, callback) {
 			step(function () {
-				this.ne(publicKey.verify(hash, signature));
+				sjclWorkerInclude.asym.verify(publicKey, signature, hash, this);
+				//this.ne(publicKey.verify(hash, signature));
 			}, callback);
 		}
 

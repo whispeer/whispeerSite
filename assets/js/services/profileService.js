@@ -226,6 +226,7 @@ define(["crypto/keyStore", "step", "whispeerHelper", "asset/encryptedMetaData", 
 			};
 
 			this.updated = function updatedF() {
+				unpadPaddedProfile();
 				changed = false;
 			};
 
