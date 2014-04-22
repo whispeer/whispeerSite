@@ -29,10 +29,12 @@ define([], function () {
 		}
 
 		function loadOldLogin() {
-			if (storage.get("loggedin") === "true") {
+			if (storage.get("loggedin") === "true" && storage.get("passwords")) {
 				var sid = storage.get("sid");
 				var userid = storage.get("userid");
 				setSID(sid, userid);
+			} else {
+				storage.clear();
 			}
 		}
 
@@ -79,7 +81,6 @@ define([], function () {
 		});
 
 		function loginChange(logout) {
-			console.log("loginChange");
 			$rootScope.$broadcast("ssn.login");
 			if ($route.current) {
 				updateURL($route.current.controller, logout);
@@ -110,6 +111,7 @@ define([], function () {
 				sid = "";
 				loggedin = false;
 				ownLoaded = false;
+				storage.clear();
 
 				loginChange(true);
 			},
