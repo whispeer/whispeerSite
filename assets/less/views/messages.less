@@ -15,6 +15,7 @@
 				.border-radius(5px);
 				border-bottom: 1px solid #aaa;
 				.box-fix;
+				cursor: pointer;
 				.left {
 					.userimg {
 						.border-radiuses(0px, 0px, 5px, 5px);
@@ -30,12 +31,22 @@
 					font-size: 0.8em;
 					color: #555;
 				}
+				.time {
+					font-size: 80%;
+					color: #888;
+					float: right;
+					margin-right: 5px;
+					margin-top: 10px;
+				}
 				&:hover {
 					background-color: @primaryLightest;
 					.username {
 						color: #ececec;
 					}
 					.lastMessage {
+						color: #eee;
+					}
+					.time {
 						color: #eee;
 					}
 				}
@@ -45,6 +56,9 @@
 						color: #ececec;
 					}
 					.lastMessage {
+						color: #eee;
+					}
+					.time {
 						color: #eee;
 					}
 					&:hover {
@@ -59,6 +73,9 @@
 					.lastMessage {
 						color: #eee;
 					}
+					.time {
+						color: #eee;
+					}
 					&:hover {
 						background-color: @primaryLightest;
 					}
@@ -70,13 +87,6 @@
 					.btn {
 						width: 100%;
 					}
-				}
-				.time {
-					font-size: small;
-					color: #888;
-					float: right;
-					margin-right: 5px;
-					margin-top: -20px;
 				}
 				&.groupChat {
 					.left {
@@ -119,7 +129,7 @@
 					word-wrap: break-word;
 					.clear-fix;
 					.time {
-						font-size: small;
+						font-size: 80%;
 						color: #888;
 						float: right;
 						margin-right: 5px;
