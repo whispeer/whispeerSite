@@ -4,7 +4,8 @@ define(["whispeerHelper"], function (h) {
 	var Resizable = function (options) {
 		theOptions = options;
 
-		var wrapper = jQuery("<div class='resizableWrapper'></div>");
+		var wrapper = jQuery(".resizableWrapper");
+		
 		var element = jQuery("<div class='resizable'></div>");
 
 		var body = jQuery(document.body);
@@ -14,7 +15,6 @@ define(["whispeerHelper"], function (h) {
 		var ourElement = jQuery(options.element || body);
 
 		wrapper.append(element);
-		ourElement.append(wrapper);
 
 		if (!boundary.top && !boundary.left && !boundary.right && !boundary.bottom) {
 			boundary.top = ourElement.offset().top;
