@@ -16,6 +16,11 @@ define(["step", "whispeerHelper"], function () {
 				scope.circles = {
 					selectedElements: []
 				};
+				
+				scope.showSelectedElements = false;
+				scope.toggleShowSelectedElements = function () {
+					scope.showSelectedElements = !scope.showSelectedElements;
+				}
 
 				scope.resultAttribute = iAttrs["resAttr"] || "selectedElements";
 				scope.multiple = iAttrs["multiple"] !== undefined;
