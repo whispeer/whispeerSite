@@ -1,7 +1,7 @@
 /**
 * SocketService
 **/
-define(["socket", "step", "whispeerHelper", "config", "cryptoWorker/generalWorkerInclude"], function (io, step, h, config, generalWorkerInclude) {
+define(["jquery", "socket", "socketStream", "step", "whispeerHelper", "config", "cryptoWorker/generalWorkerInclude"], function ($, io, iostream, step, h, config, generalWorkerInclude) {
 	"use strict";
 
 	var socket;
@@ -23,6 +23,21 @@ define(["socket", "step", "whispeerHelper", "config", "cryptoWorker/generalWorke
 				sessionService.logout();
 			}
 		}
+
+		window.setTimeout(function () {
+			$('#file').change(function(e) {
+				var file = e.target.files[0];
+
+				socketS.emit("upgradeStream", {}, function () {
+					debugger;
+					var stream = iostream.createStream();
+
+					// upload a file to the server.
+					iostream(socket).emit('pushBlob', stream, {size: file.size});
+					iostream.createBlobReadStream(file).pipe(stream);
+				});
+			});
+		}, 500);
 
 		var lastRequestTime = 0;
 
