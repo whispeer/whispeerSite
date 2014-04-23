@@ -19,18 +19,17 @@
 				padding: 0;
 				border: 1px solid #aaa;
 				.border-radius(5px);
-				//overflow: hidden;
 				.box-fix;
 				#receiver {
 					.column(5.5,8,left,0);
 					border: none;
 					.formSearch {
-						.border-radius(0px);
+						.border-radiuses(0,0,5px,0);
 						border: none;
 						border-top: 1px solid #aaa;
 					}
 					.inputWrap {
-						.border-radius(0px);
+						.border-radiuses(0,0,5px,0);
 					}
 					.searchDrop {
 						margin-top: 5px;
@@ -43,7 +42,7 @@
 					.column(2.5,8,right,0);
 					height: 38px;
 					padding: 7px;
-					.border-radius(0);
+					.border-radiuses(0,4px,0,0);
 					&[type="submit"] {
 						.btn--primary;
 					}
@@ -54,7 +53,7 @@
 					margin-top: -1px;
 					border: none;
 					border-top: 1px solid #aaa;
-					.border-radius(0);
+					.border-radiuses(5px,0,0,5px);
 				}
 			}	
 			#filter {
