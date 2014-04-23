@@ -3,14 +3,18 @@ define(["whispeerHelper"], function (h) {
 	var theOptions;
 	var Resizable = function (options) {
 		theOptions = options;
+
+		var wrapper = jQuery("<div class='resizableWrapper'></div>");
 		var element = jQuery("<div class='resizable'></div>");
+
 		var body = jQuery(document.body);
 
 		var boundary = options.boundary || {};
 
 		var ourElement = jQuery(options.element || body);
 
-		ourElement.append(element);
+		wrapper.append(element);
+		ourElement.append(wrapper);
 
 		if (!boundary.top && !boundary.left && !boundary.right && !boundary.bottom) {
 			boundary.top = ourElement.offset().top;
@@ -58,8 +62,8 @@ define(["whispeerHelper"], function (h) {
 		}
 
 		function setElementPosition(position) {
-			element.css("top", position.top);
-			element.css("left", position.left);
+			element.css("top", position.top + options.offset.top);
+			element.css("left", position.left + options.offset.left);
 			element.css("height", position.height - 2);
 			element.css("width", position.width - 2);
 		}
