@@ -38,7 +38,8 @@ requirejs( [
 	"jquery",
 	"angular",
 	"app",
-	"routes"
+	"routes",
+	"libs/canvas-toBlob"
 ], function($, angular, app, routes) {
 	"use strict";
 	$(document).ready(function () {
