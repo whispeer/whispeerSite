@@ -89,10 +89,15 @@
 				</nav>
 			</div>
 			<div class="notificationWrap">
-				<div class="notification"  data-ng-if="lostConnection">
-					<div class="close"><i class="icon icon-cancel-circle"></i></div>
+				<div class="notification" data-ng-if="lostConnection">
 					<span data-i18n="general.disconnected"></span>
 				</div>
+				<!--
+<div class="notification" data-ng-repeat="notification in notifications">
+					<div class="close"><i class="icon icon-cancel-circle"></i></div>
+					<span></span>
+				</div>
+-->
 			</div>
 		</aside>
 		<!-- end !Userpanel -->
