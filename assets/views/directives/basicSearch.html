@@ -4,12 +4,10 @@
 			<li class="selected" data-ng-if="multiple" data-ng-click="toggleShowSelectedElements()">
 				<span class="count">{{selectedElements.length}}</span>
 			</li>
-			<!-- For nils
-<li data-ng-repeat="element in selectedElements" class="searchResult">
+			<li data-ng-repeat="element in previewedSelectedElements" class="searchResult">
 				<span class="nameTag">{{element.name}}</span>
 				<a href="" class="remove" data-ng-click="removeSelection($index, $event)"><i class="icon icon-cancel-circle"></i></a>
 			</li>
--->
 			<li class="searchField">
 			</li>
 		</ul>
@@ -18,13 +16,16 @@
 	</div>
 	<div class="dropdown selectDrop" data-ng-if="showSelectedElements" style="width: {{width}}px">
 		<div class="dropdown-header">
-			<span class="title">Ausgewählte Kreise</span>
+			<span class="title">Ausgewählte Kreise ({{selectedElements.length}})</span>
 			<div class="close" data-ng-click="toggleShowSelectedElements()"><i class="icon icon-cancel-circle"></i></div>
 		</div>
 		<ul class="unstyled dropdown-container">
 			<li data-ng-repeat="element in selectedElements" class="searchResult">
 				<a href="" class="remove" data-ng-click="removeSelection($index, $event)"><i class="icon icon-cancel-circle"></i></a>
 				<span class="nameTag">{{element.name}}</span>
+			</li>
+			<li data-ng-if="selectedElements.length == 0" class="searchResult noSelectedItems">
+				<span class="nameTag">Keine Kreise ausgewählt!</span>
 			</li>
 		</ul>	
 	</div>
