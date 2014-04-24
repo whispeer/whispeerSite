@@ -346,43 +346,43 @@ define(["step", "whispeerHelper", "asset/resizableImage", "asset/observer"], fun
 				}
 			};
 
-			var imageData = resizableImage.getImageData(ENDSIZE);
+			resizableImage.getImageBlob(ENDSIZE, function (imageBlob) {
+				var imageData = resizableImage.getImageData(ENDSIZE);
 
-			var i, cur;
-			for (i = 0; i < $scope.profileAttributes.length; i += 1) {
-				cur = $scope.profileAttributes[i];
+				var i, cur;
+				for (i = 0; i < $scope.profileAttributes.length; i += 1) {
+					cur = $scope.profileAttributes[i];
 
-				if (cur.value !== "") {
-					if (cur.encrypted === true) {
-						if (!profile.priv[cur.topic]) {
-							profile.priv[cur.topic] = {};
+					if (cur.value !== "") {
+						if (cur.encrypted === true) {
+							if (!profile.priv[cur.topic]) {
+								profile.priv[cur.topic] = {};
+							}
+
+							profile.priv[cur.topic][cur.name] = cur.value;
+						} else {
+							if (!profile.pub[cur.topic]) {
+								profile.pub[cur.topic] = {};
+							}
+
+
+							profile.pub[cur.topic][cur.name] = cur.value;
 						}
-
-						profile.priv[cur.topic][cur.name] = cur.value;
-					} else {
-						if (!profile.pub[cur.topic]) {
-							profile.pub[cur.topic] = {};
-						}
-
-
-						profile.pub[cur.topic][cur.name] = cur.value;
+						settings.privacy[cur.topic][cur.name].encrypt = cur.encrypted;
 					}
-					settings.privacy[cur.topic][cur.name].encrypt = cur.encrypted;
 				}
-			}
 
-			if (imageData) {
-				profile.pub.image = imageData;
-			}
+				if (imageData) {
+					profile.pub.image = imageData;
+				}
 
-			console.time("register");
-			sessionHelper.register($scope.nickname, $scope.mail, $scope.password, profile,  settings, function () {
-				console.timeEnd("register");
-				console.log("register done!");
-				resizableImage.removeResizable();
+				console.time("register");
+				sessionHelper.register($scope.nickname, $scope.mail, $scope.password, profile, imageBlob, settings, function () {
+					console.timeEnd("register");
+					console.log("register done!");
+					resizableImage.removeResizable();
+				});
 			});
-
-			Observer.call(this);
 		};
 	}
 

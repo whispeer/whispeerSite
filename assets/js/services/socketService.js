@@ -24,25 +24,26 @@ define(["jquery", "socket", "socketStream", "step", "whispeerHelper", "config", 
 			}
 		}
 
-		window.setTimeout(function () {
-			$('#file').change(function(e) {
-				var file = e.target.files[0];
-
-				socketS.emit("upgradeStream", {}, function () {
-					debugger;
-					var stream = iostream.createStream();
-
-					// upload a file to the server.
-					iostream(socket).emit('pushBlob', stream, {size: file.size});
-					iostream.createBlobReadStream(file).pipe(stream);
-				});
-			});
-		}, 500);
-
 		var lastRequestTime = 0;
 
 		var socketS = {
 			socket: socket,
+			uploadBlob: function (blob, cb) {
+				step(function () {
+					socketS.emit("blob.upgradeStream", {}, this);
+				}, h.sF(function () {
+					var stream = iostream.createStream();
+					iostream(socket).emit("pushBlob", stream, {
+						blobid: "5"
+					});
+
+					var blobStream = iostream.createBlobReadStream(blob);
+
+					blobStream.on("end", this);
+
+					blobStream.pipe(stream);
+				}), cb);
+			},
 			listen: function (channel, callback) {
 				socket.on(channel, function (data) {
 					console.log("received data on " + channel);

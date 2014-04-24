@@ -3,7 +3,7 @@
 /**
 * SessionHelper
 **/
-define(["step", "whispeerHelper"], function (step, h) {
+define(["step", "whispeerHelper", "socketStream"], function (step, h, iostream) {
 	"use strict";
 
 	var service = function (socketService, keyStoreService, ProfileService, sessionService) {
@@ -48,7 +48,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 				}), callback);
 			},
 
-			register: function (nickname, mail, password, profile, settings, callback) {
+			register: function (nickname, mail, password, profile, imageBlob, settings, callback) {
 				var keys;
 				step(function register1() {
 					sessionHelper.startKeyGeneration(this);
@@ -83,6 +83,8 @@ define(["step", "whispeerHelper"], function (step, h) {
 					keyStoreService.sym.pwEncryptKey(keys.main, password, this.parallel());
 					keyStoreService.sym.symEncryptKey(keys.friendsLevel2, keys.friends, this.parallel());
 					keyStoreService.sym.symEncryptKey(keys.profile, keys.friends, this.parallel());
+
+					socketService.uploadBlob(imageBlob, this.parallel());
 				}), h.sF(function register3(privateProfile, privateProfileMe, publicProfileSignature, settings) {
 					keys = h.objectMap(keys, keyStoreService.correctKeyIdentifier);
 
