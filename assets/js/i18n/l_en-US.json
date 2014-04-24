@@ -32,7 +32,8 @@
 	},
 	"general": {
 		"send":	"Send",
-		"cancel":	"Cancel"
+		"cancel":	"Cancel",
+		"disconnected":	"You've lost your connection to whispeer's Servers"
 	},
 	"date": {
 		"month": {

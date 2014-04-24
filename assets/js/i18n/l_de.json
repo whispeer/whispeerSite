@@ -32,7 +32,8 @@
 	},
 	"general": {
 		"send":	"Absenden",
-		"cancel":	"Abbrechen"
+		"cancel":	"Abbrechen",
+		"disconnected":	"Du hast deine Verbindung zu den whispeer-Servern verloren."
 	},
 	"date": {
 		"month": {
