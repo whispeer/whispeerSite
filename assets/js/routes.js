@@ -37,6 +37,11 @@ define(["app"], function (app) {
 			controller: "ssn.logoutController"
 		});
 
+		$routeProvider.when("/verifyMail/:challenge", {
+			templateUrl: "/assets/views/pages/mail.html",
+			controller: "ssn.mailController"
+		});
+
 		$routeProvider.when("/user/:identifier", {
 			templateUrl: "/assets/views/pages/user.html",
 			controller: "ssn.userController"

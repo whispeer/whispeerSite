@@ -103,6 +103,8 @@ define(["step", "whispeerHelper"], function (step, h) {
 			$scope.cssClass = newClass;
 		});
 
+		jQuery(document.body).removeClass("loading");
+
 		$scope.cssClass = cssService.getClass();
 
 		$scope.logout = function () {
