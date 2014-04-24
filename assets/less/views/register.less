@@ -12,10 +12,13 @@
 	#content {
 		height: 100%;
 	}
+	#container {
+		height: auto;
+	}
 	#main {
 		text-align: center;
 		@media (max-height: 575px) {
-			overflow-y: scroll;
+			padding-bottom: 50px;
 		}
 		@media (min-height: 576px) {
 			.box {
@@ -381,11 +384,30 @@
 						display: block;
 						margin: 5px auto 10px auto;
 						float: none;
+						clear: both;
 						#original {
 							//width: 600px;
 							//height: 300px;
 							display: block;
 							//background: @green2;
+						}
+						.resizableWrapper {
+							height: 300px;
+							width: 600px;
+							margin-left: auto;
+							margin-right: auto;
+							display: block;
+							//background-color: red;
+							position: relative;
+							margin-top: -300px;
+							top: 0px;
+							left: 0px;
+							position: relative;
+							.resizable {
+								position: relative;
+								top:0;
+								left:0;
+							}
 						}
 					}	
 					&#registerPasswordStrength {

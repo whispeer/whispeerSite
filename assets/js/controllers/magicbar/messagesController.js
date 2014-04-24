@@ -5,7 +5,7 @@
 define([], function () {
 	"use strict";
 
-	function messagesController($scope, $location, messageService)  {
+	function messagesController($scope, $location, errorService, messageService)  {
 		$scope.shortenName = function (name) {
 			if(name.length > 17) {
 				return name.substr(0, 17) + "..";
@@ -30,16 +30,12 @@ define([], function () {
 			$location.path("/messages").search({topicid: id});
 		};
 
-		messageService.loadMoreLatest(function (e) {
-			if (e) {
-				console.log(e);
-			}
-		});
+		messageService.loadMoreLatest(errorService.criticalError);
 
 		$scope.topics = messageService.data.latestTopics.data;
 	}
 
-	messagesController.$inject = ["$scope", "$location", "ssn.messageService"];
+	messagesController.$inject = ["$scope", "$location", "ssn.errorService", "ssn.messageService"];
 
 	return messagesController;
 });

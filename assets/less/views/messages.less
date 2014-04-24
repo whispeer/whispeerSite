@@ -11,14 +11,11 @@
 			#topicListScroll {
 				.box-fix;
 			}
-			#newmessage {
-				border: none;
-				.border-radius(2px);
-			}
 			.topic {
 				.border-radius(5px);
 				border-bottom: 1px solid #aaa;
 				.box-fix;
+				cursor: pointer;
 				.left {
 					.userimg {
 						.border-radiuses(0px, 0px, 5px, 5px);
@@ -34,28 +31,62 @@
 					font-size: 0.8em;
 					color: #555;
 				}
+				.time {
+					font-size: 80%;
+					color: #888;
+					float: right;
+					margin-right: 5px;
+					margin-top: 10px;
+				}
 				&:hover {
 					background-color: @primaryLightest;
+					.username {
+						color: #ececec;
+					}
+					.lastMessage {
+						color: #eee;
+					}
+					.time {
+						color: #eee;
+					}
 				}
 				&.unread {
 					background-color: @primaryLighter;
+					.username {
+						color: #ececec;
+					}
+					.lastMessage {
+						color: #eee;
+					}
+					.time {
+						color: #eee;
+					}
 					&:hover {
 						background-color: @primaryLightest;
 					}		
 				}
 				&.active {
 					background-color: @primaryLighter;
-					box-shadow: inset 0px 0px 1px 1px #aaa;
+					.username {
+						color: #ececec;
+					}
+					.lastMessage {
+						color: #eee;
+					}
+					.time {
+						color: #eee;
+					}
 					&:hover {
 						background-color: @primaryLightest;
 					}
 				}
-				.time {
-					font-size: small;
-					color: #888;
-					float: right;
-					margin-right: 5px;
-					margin-top: -20px;
+				&#newmessage {
+					border: none;
+					.border-radius(2px);
+					background: transparent;
+					.btn {
+						width: 100%;
+					}
 				}
 				&.groupChat {
 					.left {
@@ -88,17 +119,57 @@
 		}
 	}
 	#topicWrap {
+		#messageList {
+			.message {
+				.messageContent {
+					background: darken(@grayLighter,10%);
+					border: 1px solid #b2b2b2;
+					.border-radius(6px);
+					overflow: hidden;
+					word-wrap: break-word;
+					.clear-fix;
+					.time {
+						font-size: 80%;
+						color: #888;
+						float: right;
+						margin-right: 5px;
+						margin-top: -5px;
+					}
+					a {
+						&:hover {
+							text-decoration: underline;
+						}
+					}
+				}	
+				.userimg {
+					img {
+						.border-radius(100%);
+					}
+				}
+				&.me {
+					.messageContent {
+						background: darken(@green,5%);
+						a {
+							color: #efefef;
+							&:hover {
+								color: @white;
+							}
+						}
+						.messageText {
+							color: #efefef;
+						}
+						.time {
+							color: #eee;
+						}
+					}
+				}
+			}
+		}
 		&.peerChat {
 			#messageList {
 				.unstyled;
 				overflow-y: scroll;
 				.message {
-					margin-bottom: 5px;
-					.gradient(lighten(@grayLight,30%), lighten(@grayLight,24%));
-					border: 1px solid #b2b2b2;
-					.border-radius(6px);
-					overflow-x: hidden;
-					.clear-fix;
 					.user {
 						.userimg {
 							//.border-radiuses(0,0,0,6px);
@@ -107,78 +178,30 @@
 							display: none;
 						}
 					}
-					.messageText {
-						width: 100%;
-					}
 					&.me {
-						.gradient(@primaryLighter, @primary);
 						.messageText {
 							float: right;
 							word-break: break-word;
+							color: #efefef;
 						}
 						.user {
 							.userimg {
 								float: right;
 								display: block;
 								margin-right: 0 !important;
-								.border-radiuses(6px,0,0,0);
 							}
 						}
 					}
 					&.other {
 						color: #4e4e4e;
 						.user {
-							//padding-left: 10px;
 							.userimg {
 								margin-left: 0 !important;
-								//.border-radiuses(0, 0, 0,3px);
 							}
 						}
 					}
-					.time {
-						font-size: small;
-						color: #888;
-						float: right;
-						margin-right: 5px;
-					}
 				}
 			}		
-		}	
-		&.groupChat {
-			#messageList {
-				.unstyled;
-				overflow-y: scroll;
-				.message {
-					.clear-fix;
-					margin-bottom: 5px;
-					.gradient(lighten(@grayLight,30%), lighten(@grayLight,24%));
-					border: 1px solid #b2b2b2;
-					.border-radius(4px);
-					overflow-x: hidden;
-					.user {
-						margin-left: 0 !important;
-						padding: 0 !important;
-						.userimg {
-							//.border-radiuses(0, 0,0,3px);
-						}
-					}
-					&.me {
-						//color: lighten(@green, 5%);
-						.border-radius(6px);
-						.gradient(@primaryLighter, @primary);
-					}
-					&.other {
-						.border-radius(6px);
-						color: #4e4e4e;
-					}
-					.time {
-						font-size: small;
-						color: #888;
-						float: right;
-						margin-right: 5px;
-					}
-				}
-			}
 		}
 		&.newMessage {
 			#messageTitle {

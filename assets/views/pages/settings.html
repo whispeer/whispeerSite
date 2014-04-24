@@ -15,26 +15,25 @@
 		<header><span class="title">Allgemein</span></header>
 		<div class="config" id="name">
 			<h5>Name ändern</h5>
-			<input type="text" id="firstname" placeholder="Vorname">
-			<input type="text" id="lastname" placeholder="Nachname">
-			<button type="submit"><i class="icon-ok-circle"></i> <span>Speichern</span></button>
+			<input type="text" id="firstname" data-ng-model="firstName" placeholder="Vorname">
+			<input type="text" id="lastname" data-ng-model="lastName" placeholder="Nachname">
+			<button type="submit" data-ng-click="saveName()"><i class="icon-ok-circle"></i> <span>Speichern</span></button>
 		</div>
 		<div class="config" id="nickname">
 			<h5>Nickname ändern</h5>
-			<input type="text" id="newNickname" placeholder="Nickname">
-			<button type="submit"><i class="icon-ok-circle"></i> <span>Speichern</span></button>
+			<input type="text" id="newNickname" data-ng-model="nickName" placeholder="Nickname">
+			<button type="submit" data-ng-click="saveNickName()"><i class="icon-ok-circle"></i> <span>Speichern</span></button>
 		</div>
 		<div class="config" id="mail">
 			<h5>E-Mail Adresse ändern</h5>
-			<input type="text" id="email" placeholder="E-Mail Adresse">
-			<input type="text" id="email2" placeholder="E-Mail Adresse wiederholen">
-			<button type="submit"><i class="icon-ok-circle"></i> <span>Speichern</span></button>
+			<input type="text" id="email" data-ng-model="mail" placeholder="E-Mail Adresse">
+			<button type="submit" data-ng-click="saveMail()"><i class="icon-ok-circle"></i> <span>Speichern</span></button>
 		</div>
 		<div class="config" id="password">
 			<h5>Passwort ändern</h5>
 			<input type="password" id="newPassword" placeholder="Passwort">
 			<input type="password" id="newPassword2" placeholder="Passwort wiederholen">
-			<button type="submit"><i class="icon-ok-circle"></i> <span>Speichern</span></button>
+			<button type="submit" data-ng-click="savePassword()"><i class="icon-ok-circle"></i> <span>Speichern</span></button>
 		</div>
 	</section>
 	<section id="safety">

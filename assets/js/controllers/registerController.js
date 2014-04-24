@@ -2,10 +2,10 @@
 * loginController
 **/
 
-define(["step", "asset/resizableImage", "asset/observer"], function (step, ResizableImage, Observer) {
+define(["step", "whispeerHelper", "asset/resizableImage", "asset/observer"], function (step, h, ResizableImage, Observer) {
 	"use strict";
 
-	function registerController($scope, sessionHelper, sessionService, cssService) {
+	function registerController($scope, errorService, sessionHelper, sessionService, cssService) {
 		var resizableImage = new ResizableImage();
 		var observer = new Observer();
 		cssService.setClass("registerView");
@@ -22,8 +22,16 @@ define(["step", "asset/resizableImage", "asset/observer"], function (step, Resiz
 		});
 
 		observer.listen(function () {
-			return $scope.acceptIconMailFree() && $scope.nicknameCheck && $scope.password == $scope.password2 && $scope.passwordStrength() > 0;
+			$scope.registerError = true;
+			return $scope.mailCheck &&
+					$scope.nicknameCheck &&
+					!$scope.noPasswordMatch() &&
+					!$scope.passwordToWeak();
 		}, "stepLeave1");
+
+		observer.listen(function () {
+			$scope.registerError = false;
+		}, "stepLoaded2");
 
 		observer.listen(function () {
 			resizableImage.removeResizable();
@@ -50,7 +58,7 @@ define(["step", "asset/resizableImage", "asset/observer"], function (step, Resiz
 
 		$scope.identifier = "";
 
-		$scope.mailCheck = false;
+		$scope.mailCheck = true;
 		$scope.mailCheckError = false;
 		$scope.mailCheckLoading = false;
 
@@ -152,17 +160,24 @@ define(["step", "asset/resizableImage", "asset/observer"], function (step, Resiz
 		};
 
 		$scope.mailChange = function mailChange() {
+			if ($scope.mail === "") {
+				$scope.mailCheckLoading = false;
+				$scope.mailCheck = true;
+				$scope.mailCheckError = false;
+
+				return;
+			}
+
 			step(function doMailCheck() {
 				var internalMail = $scope.mail;
+
 				$scope.mailCheckLoading = true;
 				$scope.mailCheck = false;
 				$scope.mailCheckError = false;
 
 				sessionHelper.mailUsed(internalMail, this);
 			}, function mailChecked(e, mailUsed) {
-				if (e) {
-					console.log(e);
-				}
+				errorService.criticalError(e);
 
 				$scope.mailCheckLoading = false;
 
@@ -205,10 +220,6 @@ define(["step", "asset/resizableImage", "asset/observer"], function (step, Resiz
 				return "assets/img/accept.png";
 			}
 
-			if ($scope.mail === "") {
-				return "assets/img/accept.png";
-			}
-
 			return "assets/img/fail.png";
 		};
 
@@ -221,9 +232,7 @@ define(["step", "asset/resizableImage", "asset/observer"], function (step, Resiz
 
 				sessionHelper.nicknameUsed(internalNickname, this);
 			}, function nicknameChecked(e, nicknameUsed) {
-				if (e) {
-					console.log(e);
-				}
+				errorService.criticalError(e);
 
 				$scope.nicknameCheckLoading = false;
 
@@ -235,6 +244,32 @@ define(["step", "asset/resizableImage", "asset/observer"], function (step, Resiz
 					$scope.nicknameCheckError = true;
 				}
 			});
+		};
+
+		$scope.showHint = false;
+
+		$scope.nicknameInvalid = function () {
+			return $scope.nickname === "" || !h.isNickname($scope.nickname);
+		};
+
+		$scope.nicknameUsed = function () {
+			return !$scope.nicknameInvalid() && !$scope.nicknameCheck && !$scope.nicknameCheckLoading;
+		};
+
+		$scope.mailInvalid = function () {
+			return $scope.mail != "" && !h.isMail($scope.mail);
+		};
+
+		$scope.mailUsed = function () {
+			return !$scope.mailInvalid() && !$scope.mailCheck && !$scope.mailCheckLoading;
+		};
+
+		$scope.passwordToWeak = function () {
+			return $scope.passwordStrength() < 1;
+		};
+
+		$scope.noPasswordMatch = function () {
+			return $scope.password != $scope.password2;
 		};
 
 		$scope.acceptIconNicknameFree = function acceptIconNickname() {
@@ -265,6 +300,10 @@ define(["step", "asset/resizableImage", "asset/observer"], function (step, Resiz
 							encrypt: false,
 							visibility: ["always:allfriends"]
 						}
+					},
+					image: {
+						encrypt: false,
+						visibility: []
 					},
 					location: {
 						encrypt: true,
@@ -300,7 +339,8 @@ define(["step", "asset/resizableImage", "asset/observer"], function (step, Resiz
 
 			var profile = {
 				pub: {},
-				priv: $scope.user,
+				priv: {},
+				nobody: $scope.user,
 				metaData: {
 					scope: "always:allfriends"
 				}
@@ -335,9 +375,10 @@ define(["step", "asset/resizableImage", "asset/observer"], function (step, Resiz
 				profile.pub.image = imageData;
 			}
 
+			console.time("register");
 			sessionHelper.register($scope.nickname, $scope.mail, $scope.password, profile,  settings, function () {
+				console.timeEnd("register");
 				console.log("register done!");
-				console.log(arguments);
 				resizableImage.removeResizable();
 			});
 
@@ -345,7 +386,7 @@ define(["step", "asset/resizableImage", "asset/observer"], function (step, Resiz
 		};
 	}
 
-	registerController.$inject = ["$scope", "ssn.sessionHelper", "ssn.sessionService", "ssn.cssService"];
+	registerController.$inject = ["$scope", "ssn.errorService", "ssn.sessionHelper", "ssn.sessionService", "ssn.cssService"];
 
 	return registerController;
 });

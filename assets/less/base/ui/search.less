@@ -50,7 +50,7 @@
 				&.searchResult {
 					.btn;
 					.btn--green;
-					display: inline-block;
+					display: inline-block !important;
 					margin: 1px 0.5% 1px 0 !important;
 					&:last-of-type, &:only-of-type {
 						margin-right: 0 !important;
@@ -65,54 +65,6 @@
 						display: inline-block;
 						color: white;
 						margin-top: -1px;
-					}
-				}
-			}
-		}
-	}
-	&.search-single {
-		.formSearch {
-			.inputWrap {
-				li {
-					&.searchField {
-						width: 100%;
-						input {
-							width: 100%;
-						}
-					}
-					&.searchResult {
-						// avoid errors
-						display: hidden;
-						visibility: hidden;
-						width: 0;
-						height: 0;
-						margin: 0;
-					}
-				}
-			}
-		}
-	}
-	&.search-multiple {
-		.formSearch {
-			overflow: hidden;
-			.inputWrap {
-				text-align: left;
-				white-space: nowrap;
-				height: 55px;
-				overflow-y: hidden;
-				overflow-x: scroll;
-				li {
-					white-space: nowrap;
-					&.searchField {
-						float: none;
-						width: auto;
-						input {
-							width: 100%;
-						}
-					}
-					&.searchResult {
-						width: auto;
-						margin: -2px 1%;
 					}
 				}
 			}
@@ -200,12 +152,60 @@
 					}
 				}	
 			}
-		}	
+		}
 	}
-	&.filterSearch {
+	&.search-single {
+		.formSearch {
+			.inputWrap {
+				li {
+					&.searchField {
+						width: 100%;
+						input {
+							width: 100%;
+						}
+					}
+					&.searchResult {
+						// avoid errors
+						display: hidden;
+						visibility: hidden;
+						width: 0;
+						height: 0;
+						margin: 0;
+					}
+				}
+			}
+		}
+	}		
+	&.search-multiple {
+		.formSearch {
+			overflow: hidden;
+			.inputWrap {
+				text-align: left;
+				white-space: nowrap;
+				height: 55px;
+				overflow-y: hidden;
+				overflow-x: scroll;
+				li {
+					white-space: nowrap;
+					&.searchField {
+						float: none;
+						width: auto;
+						input {
+							width: 100%;
+						}
+					}
+					&.searchResult {
+						width: auto;
+						margin: -2px 1%;
+					}
+				}
+			}
+		}
 		.searchDrop {
 			li {
-				padding: 5px !important;
+				padding: 5px 25px 5px 5px !important;
+				word-break: break-word;
+				.box-fix;
 			}	
 		}
 	}

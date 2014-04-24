@@ -6,7 +6,9 @@ define([], function () {
 	"use strict";
 
 	function newsController($scope)  {
-		$scope.news = [
+		/*
+		// Dummy array for Nils!
+$scope.news = [
 			{
 				"user": {
 					"id":	"1",
@@ -78,6 +80,8 @@ define([], function () {
 				}
 			}
 		];
+*/
+		$scope.news = [];
 	}
 
 	newsController.$inject = ["$scope"];

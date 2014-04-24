@@ -1,0 +1,36 @@
+{
+	"0": {
+		"1": {
+			"4": [
+				"Posts are regularly fetched from server",
+				"Mail System started",
+				"Bugfix: Add as Friend works again"
+			],
+			"3": [
+				"New Layout for messages",
+				"smaller Bugfixes",
+				"Tablets use the smartphone version until the tablet responsive is done",
+				"Sound and document title management service added.",
+				"Messages are only read if window is active",
+				"Key Loading improved"
+			],
+			"2": [
+				"Profile Image Migration added",
+				"Bugfix: After adding a friend you can now directly add him to a circle!",
+				"Improve key loading. Load multiple keys at once.",
+				"Version Page added",
+				"Bugfix: Name Length stops register",
+				"Bugfix: Relationship and Work now removes unnecessary words",
+				"URLs in messages are automatically linked!",
+				"Improve iOS touch icons"
+			],
+			"1": [
+				"Away status is broadcasted automatically",
+				"Version added to footer",
+				"Create circles directly from search",
+				"Friends directive links to itself",
+				"Profile Images: Use blob urls if possible"
+			]
+		}
+	}
+}

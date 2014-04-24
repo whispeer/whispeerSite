@@ -1,8 +1,16 @@
 .circlesView {
+	.maxHeight {
+		height: 100%;
+	}
 	#main {
 		.box;
 	}
 	header {
+		.title {
+			overflow: hidden;
+			white-space: nowrap;
+			text-overflow: ellipsis;
+		}
 		nav {
 			a {
 				color: lighten(@gray,20%);
@@ -59,11 +67,25 @@
 					color: #555;
 				}
 				&:hover {
-					background-color: rgba(0,0,0,0.1);
+					background-color: @primaryLightest;
+					.listname {
+						color: #ececec;
+					}
+					.personCount {
+						color: #eee;
+					}
 				}
 				&.active {
-					box-shadow: inset 0px 0px 2px 1px #7fd308;
-					background: rgba(128,212,9,0.4);		
+					background-color: @primaryLighter;
+					.listname {
+						color: #ececec;
+					}
+					.personCount {
+						color: #eee;
+					}
+					&:hover {
+						background-color: @primaryLightest;
+					}		
 				}
 				.time {
 					font-size: small;

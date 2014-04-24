@@ -10,18 +10,21 @@ define([], function () {
 			// Each widget in the magicbar that is displayed to the user per default, is specified as an object here
 			{
 				"template":	"messages",
-				"height":	"50%",
 				"controllerName":	"messagesController"
 			},
 			{
 				"template":	"friends",
-				"height":	"50%",
 				"controllerName":	"messagesController"
 			}
 		];
 
 		$scope.messages = messageService.data;
 		$scope.friends = friendsService.data;
+		$scope.news = {
+			"count":	0
+		};
+		
+		$scope.widgetHeight = 100 / $scope.defaultConfig.length - 5;
 		
 		$scope.loadWidget = function(name) {
 			// first of all, set showDefault to false

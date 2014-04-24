@@ -48,6 +48,7 @@
 						//text-shadow: 1px 1px 1px #000000;
 						font-weight: 600;
 						font-size: 1em;
+						cursor: pointer;
 					}
 					_:-o-prefocus, a {
 						background: none;
@@ -95,11 +96,67 @@
 							text-align: center;
 							opacity: 0;
 							.transition(all .3s ease);
+							cursor: pointer;
 						}
 						&:hover {
 							.editImage {
 								opacity: 1;
 							}	
+						}
+						&.editing {
+							text-align: center;
+							.resizableWrapper {
+								height: 300px;
+								width: 600px;
+								margin-left: auto;
+								margin-right: auto;
+								display: block;
+								//background-color: red;
+								position: relative;
+								margin-top: -300px;
+								top: 0px;
+								left: 0px;
+								.resizable {
+									position: relative;
+									top:0;
+									left:0;
+									margin-top: -305px;
+								}
+							}	
+							.uploadImageForm {
+								cursor: pointer;
+								width: 60%;
+								margin:0 20% 5px 20%;
+								overflow: hidden;
+								position: relative;
+								#uploadButton {
+									.btn;
+									cursor: pointer;
+									width: 100%;
+									margin:0 20% 5px 20%;
+									display: inline-block;
+									//display: none;
+									margin: 4px 0;
+									z-index: 10000 !important;
+								}
+								#filesUpload {
+									position: absolute;
+									margin: -34px 0 0 -250px;
+									height: 30px;
+									width: 100%;
+									opacity: 0;
+									.border-radius(0);
+									cursor: pointer;
+									display: inline-block;
+									z-index: 10001 !important;
+									background-color: red;
+								}
+								@-moz-document url-prefix() {
+									.profileView #main #info #generalInfo .userimage.editing div.uploadImageForm #filesUpload {
+										margin: 4px 0 0 -750px !important;
+									}
+								}
+							}
 						}
 					}
 					.actions {
@@ -152,6 +209,7 @@
 					.column(5.5,8,left,0);
 					border: none;
 					height: 38px;
+					.border-radius(0);
 				}
 				button {
 					.btn;
@@ -178,6 +236,32 @@
 					.postText {
 						padding-left: 10px;
 						.box-fix;
+					}
+					.author {
+						width: 100%;
+						float: left;
+						display: block;
+						.poster {
+							float: left;
+						}
+						.walluserWrap {
+							float: left;
+							max-width: none;
+							width: auto;
+							display: block;
+							.arrow {
+								float: left;
+								margin: 6px 5px;
+								display: block;
+							}
+							.walluser {
+								float: left;
+								width: 100%;
+								display: block;
+								position: relative;
+								margin: -20px 15px;
+							}
+						}
 					}
 				}
 				.postInfo {

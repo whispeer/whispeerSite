@@ -1,21 +1,16 @@
 <article>
 	<img class="userimg" data-ng-src="{{post.sender.basic.image}}">
 	<div class="postContent">
-		<p class="author"><a href='{{post.sender.basic.url}}'>{{post.sender.name}}</a>:</p>
-		<div class="postText">{{post.content.text}}</div>
+		<div class="author" data-ng-class="{wallPost: post.isWallPost}">
+			<a href='{{post.sender.basic.url}}' class="poster">{{post.sender.name}}</a>
+			<div data-ng-if="post.walluser" class="walluserWrap">
+				<div class="arrow arrow-right"></div>
+				<a href='{{post.walluser.basic.url}}' class="walluser">{{post.walluser.name}}</a>
+			</div>
+		</div>
+		<div class="postText" data-syntaxify="post.content.text"></div>
 		<div class="postImage" data-ng-if="post.content.image != ''"><img data-ng-src="{{post.content.image}}"></div>
 	</div>
 	<div class="postInfo">
-			<p class="with" data-ng-if="post.info.with != ''" data-i18n="wall.info.with|name={{post.info.with}}"></p>
-			<p class="awesome" data-i18n="wall.info.awesome|count={{post.info.awesome}}"></p>
-			<p class="comments" data-i18n="wall.info.comments.count|count={{post.comments.length}}"></p>
-			<a href="" class="showComments" data-ng-show="!showComments" data-i18n="wall.info.comments.showem" data-ng-click="showComments=!showComments" data-ng-init="showComments=false"></a>
-			<a href="" class="showComments" data-ng-show="showComments" data-i18n="wall.info.comments.hideem" data-ng-click="showComments=!showComments"></a>
 	</div>
-	<ol class="comments" data-ng-if="showComments">
-		<li class="header"><span>Kommentare</span></li>
-		<li class="newComment"><img src="/assets/img/user.png"><input type="text" data-ng-model="comment" placeholder="Gebe deinen Kommentar ein!"><button class="btn btn-success">Senden</button></li>
-		<comment data-ng-repeat="comment in post.comments" data-comment="comment"></comment>
-		<li class="newComment" data-ng-if="post.comments.length >= 10"><img src="/assets/img/user.png"><input type="text" data-ng-model="comment" placeholder="Gebe deinen Kommentar ein!"><button class="btn btn-success">Senden</button></li>
-	</ol>
 </article>

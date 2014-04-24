@@ -20,16 +20,9 @@ define(["whispeerHelper"], function (h) {
 		$scope.circles = circleService.data.circles;
 
 		cssService.setClass("circlesView");
+		
 		$scope.getLength = function(obj) {
 			return obj.length;
-		};
-
-		$scope.shortenString = function(string, length) {
-			// may be deprecated!
-			if (string.length > length) {
-				return string.substr(0, length-3) + "...";
-			}
-			return string;
 		};
 
 		circleService.loadAll(function (e) {

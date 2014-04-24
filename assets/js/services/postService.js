@@ -12,7 +12,13 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer"], fun
 		var Post = function (data) {
 			this.data = {
 				loaded: false,
-				id: data.id
+				id: data.id,
+				info: {
+					with: ""
+				},
+				time: data.meta.time,
+				isWallPost: false,
+				comments: []
 			};
 
 			var thePost = this, id = data.id;
@@ -31,22 +37,45 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer"], fun
 				step(function () {
 					this.parallel.unflatten();
 					thePost.getSender(this.parallel());
-					thePost.getText(this.parallel());
-				}, h.sF(function (sender, text) {
+					thePost.getWallUser(this.parallel());
+				}, h.sF(function (sender, walluser) {
+					var d = thePost.data;
+
+					if (walluser) {
+						d.isWallPost = true;
+						d.walluser = walluser;
+					}
+
+					d.sender = sender;
+
+					thePost.getText(this);
+				}), h.sF(function (text) {
 					var d = thePost.data;
 
 					d.loaded = true;
 					d.content = {
 						text: text
 					};
-					d.sender = sender;
-					d.info = {
-						with: ""
-					};
-					d.comments = [];
 
 					this.ne();
 				}), cb);
+			};
+
+			this.getWallUser = function (cb) {
+					var theUser;
+					step(function () {
+						if (data.meta.walluser) {
+							userService.get(data.meta.walluser, this);
+						} else {
+							this.last();
+						}
+					}, h.sF(function (user) {
+						theUser = user;
+
+						theUser.loadBasicData(this);
+					}), h.sF(function () {
+						this.ne(theUser.data);
+					}), cb);
 			};
 
 			this.getSender = function (cb) {
@@ -248,6 +277,43 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer"], fun
 			}), cb);
 		}
 
+		function registerNewPosts(filter) {
+			var filterObject = TimelineByFilter[JSON.stringify(filter)];
+
+			function loadNewPosts() {
+				step(function () {
+					var beforeID = 0;
+					if (filterObject.result.length > 0) {
+						beforeID = filterObject.result[0].id;
+					}
+
+					socket.emit("posts.getNewestTimeline", {
+						filter: filter,
+						beforeID: beforeID,
+						lastRequestTime: filterObject.requested
+					}, this);
+				}, h.sF(function (data) {
+					if (data.posts) {
+						var posts = data.posts;
+						var newPosts = data.posts.map(function (thePost) {
+							thePost = makePost(thePost);
+							thePost.loadData(this.parallel());
+
+							return thePost.data;
+						}, this);
+
+						filterObject.requested = socket.lastRequestTime();
+
+						newPosts.reverse().map(function (e) {
+							filterObject.result.unshift(e);
+						});
+					}
+				}));			
+			}
+
+			window.setInterval(loadNewPosts, 5*60*1000);
+		}
+
 		var postService = {
 			getTimelinePosts: function (afterID, filter, cb) {
 				var result = [], finalFilter = [];
@@ -278,7 +344,12 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer"], fun
 						result.push(thePost.data);
 					}
 
-					TimelineByFilter[JSON.stringify(filter)] = result;
+					TimelineByFilter[JSON.stringify(finalFilter)] = {
+						result: result,
+						requested: socket.lastRequestTime()
+					}
+
+					registerNewPosts(finalFilter);
 
 					this.parallel()();
 				}), h.sF(function () {
@@ -378,7 +449,20 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer"], fun
 					}, this);
 				}), h.sF(function (result) {
 					var newPost = makePost(result.createdPost);
-					TimelineByFilter['["always:allfriends"]'].unshift(newPost.data);
+
+					if (h.parseDecimal(wallUserID) === 0) {
+						wallUserID = userService.getown().getID();
+					}
+
+					if (postsByUserWall[wallUserID]) {
+						postsByUserWall[wallUserID].unshift(newPost.data);
+					}
+
+					var f = "[\"always:allfriends\"]";
+					if (TimelineByFilter[f]) {
+						TimelineByFilter[f].result.unshift(newPost.data);
+					}
+
 					newPost.loadData(this);
 				}), cb);
 				

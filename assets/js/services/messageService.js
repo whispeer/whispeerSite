@@ -17,7 +17,7 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer", "ass
 	}
 
 
-	var service = function ($rootScope, $timeout, socket, sessionService, userService, keyStore, initService) {
+	var service = function ($rootScope, $timeout, errorService, socket, sessionService, userService, keyStore, initService, windowService) {
 		var messages = {};
 		var topics = {};
 
@@ -164,7 +164,12 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer", "ass
 					}
 				}
 
-				unread = newUnread;
+
+				if (messageService.data.unread === 0) {
+					windowService.removeAdvancedTitle("newmessage");
+				}
+
+				unread = newUnread.map(h.parseDecimal);
 				theTopic.data.unread = (unread.length > 0);
 				var i;
 				for (i = 0; i < messages.length; i += 1) {
@@ -211,7 +216,7 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer", "ass
 			};
 
 			this.getTime = function getTimeF() {
-				return data.time;
+				return data.newestTime;
 			};
 
 			this.getKey = function getKeyF() {
@@ -220,6 +225,14 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer", "ass
 
 			var timerRunning, messageTime;
 			this.markRead = function markMessagesRead(mid, cb) {
+				if (!windowService.isVisible) {
+					windowService.listenOnce(function () {
+						theTopic.markRead(mid, cb);
+					}, "visible");
+					return;
+				}
+
+				mid = h.parseDecimal(mid);
 				step(function () {
 					if (unread.indexOf(mid) > -1) {
 						var lMessageTime = messagesByID[mid].getTime();
@@ -254,9 +267,10 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer", "ass
 
 			this.addMessage = function addMessageF(m, addUnread, cb) {
 				step(function () {
-					if (m.getTime() > data.time) {
-						data.time = m.getTime();
+					if (m.getTime() > data.newestTime) {
+						data.newestTime = m.getTime();
 					}
+					topicArray.resort();
 
 					m.loadFullData(this);
 				}, h.sF(function () {
@@ -628,7 +642,7 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer", "ass
 				try {
 					listeners[i](message);
 				} catch (e) {
-					console.log(e);
+					errorService.criticalError(e);
 				}
 			}
 		}
@@ -657,13 +671,21 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer", "ass
 					});
 				}
 			} else {
-				console.error(e);
+				errorService.criticalError(e);
 			}
 		});
 
 		var currentlyLoadingTopics = false;
 
+		var activeTopic = 0;
+
 		var messageService = {
+			isActiveTopic: function (topicid) {
+				return activeTopic === h.parseDecimal(topicid);
+			},
+			setActiveTopic: function (topicid) {
+				activeTopic = h.parseDecimal(topicid);
+			},
 			listenNewMessage: function (func) {
 				listeners.push(func);
 			},
@@ -837,6 +859,16 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer", "ass
 
 		initService.register("messages.getUnreadCount", {}, function (data) {
 			messageService.data.unread = data.unread;
+
+			messageService.listenNewMessage(function(m) {
+				if (!m.isOwn()) {
+					if (!messageService.isActiveTopic(m.getTopicID()) || !windowService.isVisible) {
+						windowService.playMessageSound();
+					}
+
+					windowService.setAdvancedTitle("newmessage", m.data.sender.basic.shortname);
+				}
+			});
 		});
 
 		$rootScope.$on("ssn.reset", function () {
@@ -846,7 +878,7 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer", "ass
 		return messageService;
 	};
 
-	service.$inject = ["$rootScope", "$timeout", "ssn.socketService", "ssn.sessionService", "ssn.userService", "ssn.keyStoreService", "ssn.initService"];
+	service.$inject = ["$rootScope", "$timeout", "ssn.errorService", "ssn.socketService", "ssn.sessionService", "ssn.userService", "ssn.keyStoreService", "ssn.initService", "ssn.windowService"];
 
 	return service;
 });

@@ -1,4 +1,4 @@
-<div data-ng-if="!mobile || true">
+<div data-ng-if="!mobile || true" class="maxHeight">
 	<header>
 		<span class="title" role="title"><span data-i18n="views.circles.header.title"></span>&nbsp;<span data-ng-if="circleLoaded && showCircle">anzeigen: {{thisCircle.name}}</span></span>
 		<nav data-ng-if="circleLoaded && showCircle">
@@ -38,10 +38,10 @@
 		</div>
 		<div id="circleWrap">
 			<ol id="friendsList" class="unstyled">
-				<li class="person" data-ng-repeat="friend in thisCircle.persons" style="background-image: url({{friend.basic.image}})">
+				<li data-ng-repeat="friend in thisCircle.persons">
 					<friend data-user="friend"></friend>
 					<div class="remove" data-ng-if="editing" data-ng-click="removeUser()"><i class="icon icon-cancel-circle icon-white"></i></div>
-				</li>	
+				</li>
 			</ol>
 		</div>
 	</div>

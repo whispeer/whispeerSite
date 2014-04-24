@@ -3,7 +3,7 @@ define(function () {
 
 	function friendDirective() {
 		return {
-			transclude: true,
+			transclude: false,
 			scope:	{
 				userData: "=user"
 			},

@@ -67,7 +67,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 
 	function userModel($injector, $location, keyStoreService, ProfileService, sessionService, settingsService, socketService, friendsService) {
 		return function User (providedData) {
-			var theUser = this, mainKey, signKey, cryptKey, friendShipKey, friendsKey, friendsLevel2Key;
+			var theUser = this, mainKey, signKey, cryptKey, friendShipKey, friendsKey, friendsLevel2Key, migrationState;
 			var id, mail, nickname, publicProfile, privateProfiles = [], mutualFriends, publicProfileChanged = false, publicProfileSignature;
 
 			this.data = {};
@@ -83,29 +83,35 @@ define(["step", "whispeerHelper"], function (step, h) {
 				mail = userData.mail;
 				nickname = userData.nickname;
 
+				migrationState = userData.migrationState || 0;
+
 				//do not overwrite keys.
-				if (!mainKey && userData.keys.main) {
-					mainKey = keyStoreService.upload.addKey(userData.keys.main);
+				if (!mainKey && userData.keys.mainKey) {
+					mainKey = keyStoreService.upload.addKey(userData.keys.mainKey);
 				}
 
-				if (!signKey && userData.keys.sign) {
-					signKey = keyStoreService.upload.addKey(userData.keys.sign);
+				if (!signKey && userData.keys.signKey) {
+					signKey = keyStoreService.upload.addKey(userData.keys.signKey);
 				}
 
-				if (!cryptKey && userData.keys.crypt) {
-					cryptKey = keyStoreService.upload.addKey(userData.keys.crypt);
+				if (!cryptKey && userData.keys.cryptKey) {
+					cryptKey = keyStoreService.upload.addKey(userData.keys.cryptKey);
 				}
 
-				if (!friendShipKey && userData.keys.friendShip) {
-					friendShipKey = keyStoreService.upload.addKey(userData.keys.friendShip);
+				if (!friendShipKey && userData.keys.friendShipKey) {
+					friendShipKey = keyStoreService.upload.addKey(userData.keys.friendShipKey);
 				}
 
-				if (!friendsKey && userData.keys.friends) {
-					friendsKey = keyStoreService.upload.addKey(userData.keys.friends);
+				if (userData.keys.reverseFriendShipKey) {
+					keyStoreService.upload.addKey(userData.keys.reverseFriendShipKey);
 				}
 
-				if (!friendsLevel2Key && userData.keys.friendsLevel2) {
-					friendsLevel2Key = keyStoreService.upload.addKey(userData.keys.friendsLevel2);
+				if (!friendsKey && userData.keys.friendsKey) {
+					friendsKey = keyStoreService.upload.addKey(userData.keys.friendsKey);
+				}
+
+				if (!friendsLevel2Key && userData.keys.friendsLevel2Key) {
+					friendsLevel2Key = keyStoreService.upload.addKey(userData.keys.friendsLevel2Key);
 				}
 
 				publicProfileSignature = userData.profile.pub.signature;
@@ -256,14 +262,16 @@ define(["step", "whispeerHelper"], function (step, h) {
 					for (i = 0; i < priv.length; i += 1) {
 						if (result.allok || result.errors.priv.indexOf(priv[i].getID()) === -1) {
 							priv[i].updated();
-							this.ne(true);
-						} else {
-							this.ne(false);
-							//TODO
 						}
 					}
-					//TODO
 
+					basicDataLoaded = false;
+					theUser.loadBasicData(function () {
+
+					});
+					//reload basic profile data!
+
+					this.ne(result.allok);
 				}), cb);
 			}
 
@@ -357,6 +365,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 					}
 
 					updateFullPublicProfile(applicablePublicParts(privacySettings, myProfile));
+					this.parallel()();
 				}), h.sF(function () {
 					this.parallel.unflatten();
 
@@ -403,8 +412,6 @@ define(["step", "whispeerHelper"], function (step, h) {
 				}), cb);
 			}
 
-			var basicDataLoaded = false;
-
 			this.update = updateUser;
 
 			this.loadFullData = function (cb) {
@@ -428,6 +435,8 @@ define(["step", "whispeerHelper"], function (step, h) {
 				friendsService.getUserFriends(this.getID(), cb);
 			};
 
+			var basicDataLoaded = false;
+
 			this.loadBasicData = function (cb) {
 				step(function () {
 					if (!basicDataLoaded) {
@@ -436,20 +445,24 @@ define(["step", "whispeerHelper"], function (step, h) {
 						theUser.getShortName(this.parallel());
 						theUser.getName(this.parallel());
 						theUser.getImage(this.parallel());
+					} else {
+						this.last.ne();
 					}
-				}, h.sF(function (shortname, name, image) {
+				}, h.sF(function (shortname, names, image) {
+					basicDataLoaded = true;
+
 					theUser.data.me = theUser.isOwn();
 					theUser.data.other = !theUser.isOwn();
 
-					if (!theUser.isOwn()) {
-						theUser.data.online = friendsService.onlineStatus(theUser.getID()) || 0;
+					theUser.data.online = friendsService.onlineStatus(theUser.getID()) || 0;
 
-						friendsService.listen(function (status) {
-							theUser.data.online = status;
-						}, "online:" + theUser.getID());
-					}
+					friendsService.listen(function (status) {
+						theUser.data.online = status;
+					}, "online:" + theUser.getID());
 
-					theUser.data.name = name;
+					theUser.data.name = names.name;
+					theUser.data.names = names;
+
 					theUser.data.basic.shortname = shortname;
 					theUser.data.basic.image = image;
 
@@ -463,6 +476,18 @@ define(["step", "whispeerHelper"], function (step, h) {
 
 					this.ne();
 				}), cb);
+			};
+
+			this.setMigrationState = function (migrationState, cb) {
+				step(function () {
+					socketService.emit("user.setMigrationState", {
+						migrationState: migrationState
+					}, this);
+				}, cb);
+			};
+
+			this.getMigrationState = function (cb) {
+				cb(null, migrationState);
 			};
 
 			this.isOwn = function () {
@@ -535,7 +560,17 @@ define(["step", "whispeerHelper"], function (step, h) {
 					getProfileAttribute("image", this);
 				}, h.sF(function (image) {
 					if (image) {
-						this.ne(image);
+						if (typeof URL !== "undefined") {
+							var img = h.dataURItoBlob(image);
+							var url = URL.createObjectURL(img);
+							this.ne(url);
+						} else if (typeof webkitURL !== "undefined") {
+							var img = h.dataURItoBlob(image);
+							var url = webkitURL.createObjectURL(img);
+							this.ne(url);
+						} else {
+							this.ne(image);
+						}
 					} else {
 						this.ne("/assets/img/user.png");
 					}
@@ -564,15 +599,21 @@ define(["step", "whispeerHelper"], function (step, h) {
 				}, h.sF(function (firstname, lastname) {
 					var nickname = theUser.getNickname();
 
+					var name = "";
 					if (firstname && lastname) {
-						this.ne(firstname + " " + lastname);
+						name = firstname + " " + lastname;
 					} else if (firstname || lastname) {
-						this.ne(firstname || lastname);
+						name = firstname || lastname;
 					} else if (nickname) {
-						this.ne(nickname);
-					} else {
-						this.ne("");
+						name = nickname;
 					}
+
+					this.ne({
+						name: name,
+						firstname: firstname || "",
+						lastname: lastname || "",
+						nickname: nickname || ""
+					});
 				}), cb);
 			};
 

@@ -2,16 +2,20 @@
 * userController
 **/
 
-define(["step", "whispeerHelper"], function (step, h) {
+define(["step", "whispeerHelper", "asset/resizableImage"], function (step, h, ResizableImage) {
 	"use strict";
 
 	function userController($scope, $routeParams, $timeout, cssService, userService, postService, circleService) {
 		var identifier = $routeParams.identifier;
 		var userObject;
 
+		var resizableImage = new ResizableImage();
+
 		$scope.loading = true;
 		$scope.notExisting = false;
 		$scope.loadingFriends = true;
+
+		$scope.changeImage = false;
 
 		cssService.setClass("profileView");
 
@@ -30,16 +34,56 @@ define(["step", "whispeerHelper"], function (step, h) {
 
 		$scope.edit = function () {
 			$scope.editGeneral = !$scope.editGeneral;
+
+			resizableImage.removeResizable();
+			$scope.changeImage = false;
+		};
+
+		var ENDSIZE = 250;
+		var CANVASWIDTH = 600, CANVASHEIGHT = 300;
+
+		$scope.imageChange = resizableImage.callBackForFileLoad(function () {
+			resizableImage.paintImageOnCanvasWithResizer({
+				element: document.getElementById("original"),
+				width: CANVASWIDTH,
+				height: CANVASHEIGHT
+			});
+		});
+
+		$scope.doChangeImage = function () {
+			resizableImage.removeResizable();
+			$scope.changeImage = !$scope.changeImage;
+
+			resizableImage.loadImage($scope.user.basic.image, function () {
+				resizableImage.paintImageOnCanvasWithResizer({
+					element: document.getElementById("original"),
+					width: CANVASWIDTH,
+					height: CANVASHEIGHT
+				});
+			});
 		};
 
 		$scope.saveUser = function () {
 			if (userObject.isOwn()) {
-				var adv = $scope.user.advanced;
 				//TODO: something goes wrong here when doing it the 2nd time!
-				userObject.setAdvancedProfile(adv, function () {
-					userObject.uploadChangedProfile(function () {
-						$scope.edit();
-					});
+
+				step(function () {
+					if ($scope.changeImage) {
+						var imageData = resizableImage.getImageData(ENDSIZE);
+
+						userObject.setProfileAttribute("image", imageData, this);
+					} else {
+						this.ne();
+					}
+				}, h.sF(function () {
+					var adv = $scope.user.advanced;
+					userObject.setAdvancedProfile(adv, this);
+				}), h.sF(function () {
+					userObject.uploadChangedProfile(this);
+				}), h.sF(function () {
+					$scope.edit();
+				}), function (e) {
+
 				});
 			}
 		};
@@ -101,6 +145,14 @@ define(["step", "whispeerHelper"], function (step, h) {
 			return getVals(["town", "state", "country"], val);
 		};
 
+		$scope.getRelationVals = function (val) {
+			return getVals(["name", "type"], val);
+		};
+
+		$scope.getWorkVals = function (val) {
+			return getVals(["what", "where"], val);
+		};
+
 		$scope.removeElement = function(array, index) {
 			array.splice(index, 1);
 		};
@@ -124,28 +176,8 @@ define(["step", "whispeerHelper"], function (step, h) {
 			failure: false
 		};
 
-		function setGeneralState(state, obj) {
-			obj.saving = false;
-			obj.success = false;
-			obj.failure = false;
-
-
-			switch(state) {
-				case "saving":
-					obj.saving = true;
-					break;
-				case "success":
-					obj.success = true;
-					break;
-				case "failure":
-				default:
-					obj.failure = true;
-					break;
-			}			
-		}
-
 		function setCircleState(state) {
-			setGeneralState(state, $scope.circles);
+			h.setGeneralState(state, $scope.circles);
 		}
 
 		$scope.saveCircles = function () {
@@ -188,8 +220,14 @@ define(["step", "whispeerHelper"], function (step, h) {
 				visibleSelection.push("friends:" + $scope.user.id);
 			}
 
-			postService.createPost($scope.newPost.text, visibleSelection, wallUserID, function () {
+			postService.createPost($scope.newPost.text, visibleSelection, wallUserID, function (err, post) {
+				if (err) {
+					debugger;
+				} else {
+					$scope.newPost.text = "";
+				}
 
+				console.log(post);
 			});
 		};
 

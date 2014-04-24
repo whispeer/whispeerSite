@@ -1,8 +1,14 @@
 {
+	"window": {
+		"title": {
+			"newmessage": "{data}: New Message",
+			"basic": "whispeer"
+		}
+	},
 	"views": {
 		"circles": {
 			"searchFriends": "Type in the names of your friends you want to add to this circle!",
-			"titleForNew": "Type in the title of this circle!", 
+			"titleForNew": "Type in the title of this circle!",
 			"header": {
 				"title":	"Circles",
 				"createGroup": "Copy as group",
@@ -13,6 +19,12 @@
 			"personCount":	"There are {count} people in this circle",
 			"personsInCircle":"People in circle \"{name}\""
 		}
+	},
+	"start": {
+		"welcome": "Welcome to whispeer - the secure social network!",
+		"more": "More information",
+		"moreInfo": "More information about whispeer",
+		"regnow": "Sign up now!"
 	},
 	"directives": {
 		"allfriends": "All Friends",
@@ -69,6 +81,14 @@
 		"link": "Log In",
 		"loginFailed": "Username and Password don't match!",
 		"register": {
+			"errors": {
+				"nickInvalid": "Invalid Nickname",
+				"nickUsed": "This nickname is already in use",
+				"mailInvalid": "Invalid Mail",
+				"mailUsed": "This Mail is already in use",
+				"passwordWeak": "Password to weak",
+				"passwordNoMatch": "Passwords do not match"
+			},
 			"link":	"Register",
 			"next": "Next",
 			"previous": "Previous",
@@ -101,14 +121,14 @@
 				"count":	"{count} comments",
 				"showem":	"Show comments",
 				"hideem":	"Hide comments"
-			}	
+			}
 		},
 		"post": {
 			"sender": {
 				"name":	"{{sender}}:"
 			},
 			"content": "{{content}}"
-			
+
 		}
 	},
 	"messages": {
@@ -144,12 +164,12 @@
 				},
 				"changeImage": "Change Profile Picture",
 				"birthday": {
-					"text":	"born {day}.{month} {year}",
+					"text":	"born {day}. {month} {year}",
 					"day":	"Day",
 					"month":	"Month",
 					"year":	"Year",
 					"info": "Birthday"
-				},	
+				},
 				"location": {
 					"": "Lives in {town}, {state}, {country}",
 					"country": "Lives in {country}",
@@ -161,10 +181,12 @@
 					"countrystatetown": "Lives in {town}, {state}, {country}"
 				},
 				"relation":	{
-					"pst": "since {since} {relationType} with {partner}",
-					"st": "since {since} {relationType}",
-					"pt": "{relationType} with {partner}",
-					"t": "{relationType}",
+					"": "",
+					"namesincetype": "since {since} {relationType} with {name}",
+					"sincetype": "since {since} {relationType}",
+					"nametype": "{relationType} with {name}",
+					"name": "with {name}",
+					"type": "{relationType}",
 
 					"default": "{relationType} with {partner}",
 					"noPartner": "{relationType}",
@@ -183,7 +205,11 @@
 					}
 				},
 				"education":	"Education: {school}",
-				"work":	"working as {what} at {company}",
+				"work":	{
+					"whatwhere": "working as {what} at {where}",
+					"what": "working as {what}",
+					"where": "working at {where}"
+				},
 				"gender":	{
 					"": "",
 					"gender": "Gender",
@@ -290,6 +316,7 @@
 	"magicbar": {
 		"close": "Close",
 		"messages": {
+			"none": "No messages!",
 			"title": "Messages"
 		},
 		"requests":{
@@ -304,6 +331,7 @@
 		},
 		"news": {
 			"title": "News",
+			"none": "No news!",
 			"action": {
 				"comment": {
 					"photo": {
@@ -377,7 +405,7 @@
 							"awesomed":	"{user} commented her link, that you think is awesome: \"{what}\"",
 							"tagged": "{user} commented her link, in which you are tagged: \"{what}\""
 						}
-					}				
+					}
 				},
 				"awesome": {
 					"photo": {
@@ -433,7 +461,7 @@
 							"awesomed":	"{user} thinks her wallpost is awesome, that you also think is awesome: \"{what}\"",
 							"tagged": "{user} thinks her wallpost, in which you are tagged, is awesome: \"{what}\""
 						}
-					},						
+					},
 					"comment": {
 						"you": {
 							"own": "{user} thinks your comment is awesome: \"{what}\"",
@@ -532,7 +560,7 @@
 							"own": "{user} whatevered your photo.",
 							"shared":	"{user} whatevered your shared photo.",
 							"tagged": "{user} whatevered a photo, in which you are tagged."
-						}	
+						}
 					},
 					"post": {
 						"you": {
@@ -567,8 +595,8 @@
 						"own": "{user} is now your friend!"
 					}
 				},
-				"posted": {	
-					"wallpost": { 
+				"posted": {
+					"wallpost": {
 						"you": {
 							"own": {
 								"post": "{user} posted something on your wall: \"{what}\"",
@@ -578,14 +606,14 @@
 						}
 					}
 				},
-				"tagged": {	
+				"tagged": {
 					"photo": {
 						"you": {
 							"own": "{user} tagged you in your photo.",
 							"else": "{user} tagged you in a photo of {owner}."
 						},
 						"somebody": {
-							"own": "{user} tagged {somebody} in your photo."							
+							"own": "{user} tagged {somebody} in your photo."
 						}
 					},
 					"post": {
@@ -593,9 +621,9 @@
 							"tagged": "{user} tagged you in a post: \"{what}\""
 						}
 					},
-					"wallpost": { 
+					"wallpost": {
 						"you": {
-							"tagged": "{user} tagged you in a wallpost: \"{what}\""						
+							"tagged": "{user} tagged you in a wallpost: \"{what}\""
 						}
 					},
 					"comment": {

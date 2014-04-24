@@ -1,7 +1,7 @@
 /**
 * SocketService
 **/
-define(["socket", "step", "whispeerHelper", "config"], function (io, step, h, config) {
+define(["socket", "step", "whispeerHelper", "config", "cryptoWorker/generalWorkerInclude"], function (io, step, h, config, generalWorkerInclude) {
 	"use strict";
 
 	var socket;
@@ -12,6 +12,10 @@ define(["socket", "step", "whispeerHelper", "config"], function (io, step, h, co
 	}
 
 	var service = function ($rootScope, sessionService) {
+		generalWorkerInclude.setBeforeCallBack(function (evt, cb) {
+			$rootScope.$apply(cb);
+		});
+
 		function updateLogin(data) {
 			if (data.logedin) {
 				sessionService.setSID(data.sid, data.userid);
@@ -19,6 +23,8 @@ define(["socket", "step", "whispeerHelper", "config"], function (io, step, h, co
 				sessionService.logout();
 			}
 		}
+
+		var lastRequestTime = 0;
 
 		var socketS = {
 			socket: socket,
@@ -47,8 +53,12 @@ define(["socket", "step", "whispeerHelper", "config"], function (io, step, h, co
 					if (data.error) {
 						console.error(data);
 					} else {
-						console.log(data);
+						console.info(data);
 					}
+
+					lastRequestTime = data.serverTime;
+
+					//console.debug(h.parseDecimal(data.serverTime) - new Date().getTime());
 
 					var that = this;
 					$rootScope.$apply(function () {
@@ -62,10 +72,18 @@ define(["socket", "step", "whispeerHelper", "config"], function (io, step, h, co
 					});
 				}), callback);
 			},
+			lastRequestTime: function () {
+				return lastRequestTime;
+			},
 			send: function (data) {
 				socket.send(data);
 			}
 		};
+
+		socket.on("reconnect", function () {
+			socketS.emit("ping", {}, function () {});
+		});
+
 		return socketS;
 	};
 

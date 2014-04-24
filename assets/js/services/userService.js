@@ -1,7 +1,7 @@
 define(["step", "whispeerHelper"], function (step, h) {
 	"use strict";
 
-	var service = function ($rootScope, User, initService, socketService, keyStoreService, sessionService) {
+	var service = function ($rootScope, User, errorService, initService, socketService, keyStoreService, sessionService) {
 
 		var NotExistingUser = {
 			getName: function (cb) {
@@ -47,71 +47,36 @@ define(["step", "whispeerHelper"], function (step, h) {
 			return theUser;
 		}
 
-		var loadListeners = {};
-
-		var toLoad = [];
-		var timer_started = false;
 		var THROTTLE = 20;
 
-		/** calls all listeners waiting for users */
-		function callListener(listener, arg1) {
-			var i;
-			for (i = 0; i < listener.length; i += 1) {
-				try {
-					listener[i](arg1);
-				} catch (e) {
-					console.log(e);
-				}
-			}
-		}
-
 		/** loads all the users in the batch */
-		function doLoad() {
-			var loading;
+		function doLoad(identifier, cb) {
 			step(function () {
-				loading = toLoad;
-				toLoad = [];
-				timer_started = false;
-
-				socketService.emit("user.getMultiple", {identifiers: loading}, this);
+				socketService.emit("user.getMultiple", {identifiers: identifier}, this);
 			}, h.sF(function (data) {
-				var result = [], i;
+				var result = [];
 				if (data && data.users) {
-					var users = data.users;
-					for (i = 0; i < users.length; i += 1) {
-						if (users[i].userNotExisting) {
-							result.push(NotExistingUser);
+					result = data.users.map(function (e) {
+						if (e.userNotExisting) {
+							return NotExistingUser;
 						} else {
-							result.push(makeUser(users[i]));
+							return makeUser(e);
 						}
-					}
+					});
 				}
 
-				for (i = 0; i < result.length; i += 1) {
-					var curIdentifier = loading[i];
-					var cur = loadListeners[curIdentifier];
-
-					callListener(cur, result[i]);
-					delete loadListeners[curIdentifier];
-				}
-			}));
+				this.ne(result);
+			}), cb);
 		}
+
+		var delay = h.delayMultiple(THROTTLE, doLoad);
 
 		function loadUser(identifier, cb) {
 			step(function () {
 				if (users[identifier]) {
 					this.last.ne(users[identifier]);
-				} else if (loadListeners[identifier]) {
-					loadListeners[identifier].push(this.ne);
 				} else {
-					loadListeners[identifier] = [this.ne];
-					toLoad.push(identifier);
-
-					if (!timer_started) {
-						timer_started = true;
-
-						window.setTimeout(doLoad, THROTTLE);
-					}
+					delay(identifier, this);
 				}
 			}, cb);
 		}
@@ -270,11 +235,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 						}), h.sF(function (result) {
 							improve_timer = false;
 							console.log(result);
-						}), function (e) {
-							if (e) {
-								console.log(e);
-							}
-						});
+						}), errorService.criticalError);
 					}, 5000);
 				}
 			});
@@ -298,7 +259,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 		return api;
 	};
 
-	service.$inject = ["$rootScope", "ssn.models.user", "ssn.initService", "ssn.socketService", "ssn.keyStoreService", "ssn.sessionService"];
+	service.$inject = ["$rootScope", "ssn.models.user", "ssn.errorService", "ssn.initService", "ssn.socketService", "ssn.keyStoreService", "ssn.sessionService"];
 
 	return service;
 });

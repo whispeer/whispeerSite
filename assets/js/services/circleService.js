@@ -174,7 +174,7 @@ define(["step", "whispeerHelper", "asset/observer"], function (step, h, Observer
 
 			this.data = {
 				id: id,
-				userids: data.user,
+				userids: user,
 				name: "",
 				image: "/assets/img/user.png",
 				persons: persons
@@ -182,14 +182,6 @@ define(["step", "whispeerHelper", "asset/observer"], function (step, h, Observer
 
 			Observer.call(this);
 		};
-
-		/*socket.listen("circle", function (e, data) {
-			if (!e) {
-
-			} else {
-				console.error(e);
-			}
-		});*/
 
 		var loaded = false, loading = false;
 

@@ -13,7 +13,7 @@
 	
 	keyid: identifier@timestamp
 **/
-define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForReady", "crypto/sjclWorkerInclude"], function (step, h, chelper, sjcl, waitForReady) {
+define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForReady", "cryptoWorker/sjclWorkerInclude"], function (step, h, chelper, sjcl, waitForReady, sjclWorkerInclude) {
 	"use strict";
 	var socket, dirtyKeys = [], newKeys = [], symKeys = {}, cryptKeys = {}, signKeys = {}, passwords = [], improvementListener = [], keyGenIdentifier = "", Key, SymKey, CryptKey, SignKey, makeKey, keyStore;
 
@@ -93,11 +93,6 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 			var result = sjcl.encrypt(pw, text);
 			this.ne(chelper.sjclPacket2Object(result));
 		}, callback);
-	}
-
-	/** which keys are already loaded. (only decryption keys) */
-	function loadedKeys() {
-		return Object.keys(symKeys).concat(Object.keys(cryptKeys));
 	}
 
 	/** our internal decryption function.
@@ -616,9 +611,7 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 					ctext.iv = iv;
 				}
 
-				result = sjcl.decrypt(chelper.hex2bits(intKey.getSecret()), sjcl.json.encode(ctext));
-
-				this.ne(result);
+				sjclWorkerInclude.sym.decrypt(intKey.getSecret(), sjcl.json.encode(ctext), this);
 			}), callback);
 		}
 
@@ -653,22 +646,41 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 		}
 	}
 
+	function loadKeys(identifiers, cb) {
+		step(function getKeyF() {
+			var toLoadIdentifiers = [];
+
+			identifiers.map(function (e) {
+				if (!symKeys[e] && !cryptKeys[e] && !signKeys[e]) {
+					toLoadIdentifiers.push(e);
+				}
+			});
+
+			if (toLoadIdentifiers.length > 0) {
+				socket.emit("key.getMultiple", {
+					loaded: [],
+					realids: identifiers
+				}, this);
+			} else {
+				this.last.ne(identifiers);
+			}
+		}, h.sF(function (data) {
+			data.keys.map(function (e) {
+				makeKey(e);
+			});
+
+			this.ne(identifiers);
+		}), cb);
+	}
+
+	var THROTTLE = 20;
+	var delay = h.delayMultiple(THROTTLE, loadKeys);
+
 	/** load a key and his keychain. remove loaded keys */
 	function getKey(realKeyID, callback) {
 		step(function getKeyF() {
-			socket.emit("key.get", {
-				loaded: loadedKeys(),
-				realid: realKeyID
-			}, this);
-		}, h.sF(function keyChain(data) {
-			var keys = data.keychain, i;
-			for (i = 0; i < keys.length; i += 1) {
-				h.isRealID(keys[i].realid);
-				makeKey(keys[i]);
-			}
-
-			this.ne();
-		}), callback);
+			delay(realKeyID, this);
+		}, callback);
 	}
 
 	/** load  a symkey and its keychain */
@@ -1004,7 +1016,8 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 
 		function verifyF(signature, hash, callback) {
 			step(function () {
-				this.ne(publicKey.verify(hash, signature));
+				sjclWorkerInclude.asym.verify(publicKey, signature, hash, this);
+				//this.ne(publicKey.verify(hash, signature));
 			}, callback);
 		}
 

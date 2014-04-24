@@ -1,8 +1,14 @@
 {
+	"window": {
+		"title": {
+			"newmessage": "{data}: Neue Nachricht",
+			"basic": "whispeer"
+		}
+	},
 	"views": {
 		"circles": {
 			"searchFriends": "Gib die Namen deiner Freunde ein, die du zum Kreis hinzufügen möchtest!",
-			"titleForNew": "Gib einen Titel für den neuen Kreis ein!", 
+			"titleForNew": "Gib einen Titel für den neuen Kreis ein!",
 			"header": {
 				"title":	"Kreise",
 				"createGroup": "Als Gruppe kopieren",
@@ -78,6 +84,15 @@
 		"loginFailed": "Benutzername und Password stimmen nicht überein!",
 		"moreInfo":	"Mehr Info",
 		"register": {
+			"errors": {
+				"nickInvalid": "Invalider Nickname",
+				"nickUsed": "Dieser Nickname ist schon vergeben",
+				"mailInvalid": "Invalide E-mail",
+				"mailUsed": "Diese E-Mail ist schon vergeben",
+				"passwordWeak": "Passwort zu schwach",
+				"passwordNoMatch": "Passwort stimmen nicht überein"
+			},
+
 			"link":	"Registrieren",
 			"next": "Weiter",
 			"previous": "Zurück",
@@ -155,12 +170,12 @@
 				},
 				"changeImage": "Profilbild ändern",
 				"birthday": {
-					"text":	"Geboren am {day}.{month} {year}",
+					"text":	"Geboren am {day}. {month} {year}",
 					"day":	"Tag",
 					"month":	"Monat",
 					"year":	"Jahr",
 					"info": "Geburtstag"
-				},	
+				},
 				"location": {
 					"": "Wohnt in {town}, {state}, {country}",
 					"country": "Wohnt in {country}",
@@ -172,10 +187,12 @@
 					"countrystatetown": "Wohnt in {town}, {state}, {country}"
 				},
 				"relation":	{
-					"pst": "seit {since} {relationType} mit {partner}",
-					"st": "seit {since} {relationType}",
-					"pt": "{relationType} mit {partner}",
-					"t": "{relationType}",
+					"": "",
+					"namesincetype": "seit {since} {relationType} mit {name}",
+					"sincetype": "seit {since} {relationType}",
+					"nametype": "{relationType} mit {name}",
+					"name": "mit {name}",
+					"type": "{relationType}",
 
 					"default": "{relationType} mit {partner}",
 					"noPartner": "{relationType}",
@@ -194,7 +211,11 @@
 					}
 				},
 				"education":	"schulische Ausbildung: {school}",
-				"work":	"arbeitet als {what} bei {company}",
+				"work":	{
+					"whatwhere": "arbeitet als {what} bei {where}",
+					"what": "arbeitet als {what}",
+					"where": "arbeitet bei {where}"
+				},
 				"gender":	{
 					"": "",
 					"gender": "Geschlecht",
@@ -297,11 +318,12 @@
 		},
 		"header": {
 			"title":	"Einstellungen"
-		}	
+		}
 	},
 	"magicbar": {
 		"close": "Schließen",
 		"messages": {
+			"none": "Keine Nachrichten vorhanden!",
 			"title": "Nachrichten"
 		},
 		"requests":{
@@ -316,6 +338,7 @@
 		},
 		"news": {
 			"title": "Neuigkeiten",
+			"none": "Keine Neuigkeiten vorhanden!",
 			"action": {
 				"comment": {
 					"photo": {

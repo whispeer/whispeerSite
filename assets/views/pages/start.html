@@ -13,13 +13,14 @@
 		<a href="" class="btn btn--primary btn--small" data-ng-click="info = !info" data-i18n="start.regnow"></a>
 	</div>	
 </header>
-<section data-ng-if="!info">
+<!-- use ng-show to keep register/login information which would otherwise be gone -->
+<section data-ng-show="!info">
 	<form id="loginForm" data-ng-if="registerState.step == 1" autocomplete="off">
 		<h4 data-i18n="login.link"></h4>
-		<ng-include data-ng-controller="ssn.loginController" data-src="'assets/views/start/templates/login/login.html'"></ng-include>
+		<ng-include data-ng-controller="ssn.loginController" data-src="'assets/views/start/login/login.html'"></ng-include>
 	</form>
 	<form id="registerForm" data-regStep="{{registerState.step}}" data-ng-controller="ssn.registerController" autocomplete="off">
-		<ng-include data-ng-click="registerFormClick()" data-onload="stepLoaded()" data-src="'assets/views/start/templates/register/step' + registerState.step + '.html'"></ng-include>
+		<ng-include data-ng-click="registerFormClick()" data-onload="stepLoaded()" data-src="'assets/views/start/register/step' + registerState.step + '.html'"></ng-include>
 	</form>
 </section>
 <section id="info" data-ng-if="info" data-i18n="start.infoText">

@@ -13,6 +13,10 @@ define(["step", "whispeerHelper"], function () {
 			replace: true,
 			transclude: true,
 			link: function postLink(scope, iElement, iAttrs) {
+				scope.circles = {
+					selectedElements: []
+				};
+
 				scope.resultAttribute = iAttrs["resAttr"] || "selectedElements";
 				scope.multiple = iAttrs["multiple"] !== undefined;
 				scope.big = iAttrs["size"] === "big";

@@ -57,8 +57,6 @@ define([], function () {
 			});
 		}
 
-		reloadTimeline();
-
 		$scope.posts = [];
 	}
 
