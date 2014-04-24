@@ -65,6 +65,7 @@
 	"notimplemented": "Not implemented yet :(",
 	"search": "People are being searched",
 	"menu": {
+		"home":	"Newsfeed",
 		"profil": "Profile",
 		"friends": "Friends ({count})",
 		"messages": "Messages",

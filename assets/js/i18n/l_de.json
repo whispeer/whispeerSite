@@ -65,6 +65,7 @@
 	"notimplemented": "Noch nicht implementiert :(",
 	"search": "Personen werden gesucht",
 	"menu": {
+		"home":	"Neuigkeiten",
 		"profil": "Profil",
 		"friends": "Freunde ({count})",
 		"messages": "Nachrichten",
