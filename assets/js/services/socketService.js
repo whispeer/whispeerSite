@@ -28,13 +28,13 @@ define(["jquery", "socket", "socketStream", "step", "whispeerHelper", "config", 
 
 		var socketS = {
 			socket: socket,
-			uploadBlob: function (blob, cb) {
+			uploadBlob: function (blob, blobid, cb) {
 				step(function () {
 					socketS.emit("blob.upgradeStream", {}, this);
 				}, h.sF(function () {
 					var stream = iostream.createStream();
 					iostream(socket).emit("pushBlob", stream, {
-						blobid: "5"
+						blobid: blobid
 					});
 
 					var blobStream = iostream.createBlobReadStream(blob);

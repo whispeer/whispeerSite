@@ -6,7 +6,7 @@
 define(["step", "whispeerHelper", "socketStream"], function (step, h, iostream) {
 	"use strict";
 
-	var service = function (socketService, keyStoreService, ProfileService, sessionService) {
+	var service = function (socketService, keyStoreService, ProfileService, sessionService, blobService) {
 		var keyGenerationStarted = false, keys = {}, keyGenListener = [], keyGenDone;
 
 		var sessionHelper = {
@@ -51,9 +51,26 @@ define(["step", "whispeerHelper", "socketStream"], function (step, h, iostream) 
 			register: function (nickname, mail, password, profile, imageBlob, settings, callback) {
 				var keys;
 				step(function register1() {
-					sessionHelper.startKeyGeneration(this);
-				}, h.sF(function register2(theKeys) {
+					this.parallel.unflatten();
+
+					sessionHelper.startKeyGeneration(this.parallel());
+
+					if (imageBlob) {
+						imageBlob = blobService.createBlob(imageBlob);
+						imageBlob.preReserveID(this.parallel());
+						imageBlob.getHash(this.parallel());
+					}
+				}, h.sF(function register2(theKeys, blobid, imageHash) {
 					keys = theKeys;
+
+					if (imageBlob) {
+						profile.pub.image = {
+							blobid: blobid,
+							hash: imageHash
+						};
+					}
+
+					debugger;
 
 					if (nickname) {
 						keyStoreService.setKeyGenIdentifier(nickname);
@@ -83,8 +100,6 @@ define(["step", "whispeerHelper", "socketStream"], function (step, h, iostream) 
 					keyStoreService.sym.pwEncryptKey(keys.main, password, this.parallel());
 					keyStoreService.sym.symEncryptKey(keys.friendsLevel2, keys.friends, this.parallel());
 					keyStoreService.sym.symEncryptKey(keys.profile, keys.friends, this.parallel());
-
-					socketService.uploadBlob(imageBlob, this.parallel());
 				}), h.sF(function register3(privateProfile, privateProfileMe, publicProfileSignature, settings) {
 					keys = h.objectMap(keys, keyStoreService.correctKeyIdentifier);
 
@@ -112,6 +127,9 @@ define(["step", "whispeerHelper", "socketStream"], function (step, h, iostream) 
 				}), h.sF(function (result) {
 					sessionHelper.resetKey();
 					keyStoreService.addPassword(password);
+
+					//TODO: imageBlob.upload();
+
 					this.ne(result);
 				}), callback);
 			},
@@ -252,7 +270,7 @@ define(["step", "whispeerHelper", "socketStream"], function (step, h, iostream) 
 		return sessionHelper;
 	};
 
-	service.$inject = ["ssn.socketService", "ssn.keyStoreService", "ssn.profileService", "ssn.sessionService"];
+	service.$inject = ["ssn.socketService", "ssn.keyStoreService", "ssn.profileService", "ssn.sessionService", "ssn.blobService"];
 
 	return service;
 });

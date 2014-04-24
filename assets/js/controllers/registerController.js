@@ -288,6 +288,11 @@ define(["step", "whispeerHelper", "asset/resizableImage", "asset/observer"], fun
 			return "assets/img/fail.png";
 		};
 
+		var defaultSettings = {
+			encrypt: true,
+			visibility: []
+		};
+
 		$scope.register = function doRegisterC() {
 			var settings = {
 				privacy: {
@@ -305,34 +310,13 @@ define(["step", "whispeerHelper", "asset/resizableImage", "asset/observer"], fun
 						encrypt: false,
 						visibility: []
 					},
-					location: {
-						encrypt: true,
-						visibility: []
-					},
-					birthday: {
-						encrypt: true,
-						visibility: []
-					},
-					relationship: {
-						encrypt: true,
-						visibility: []
-					},
-					education: {
-						encrypt: true,
-						visibility: []
-					},
-					work: {
-						encrypt: true,
-						visibility: []
-					},
-					gender: {
-						encrypt: true,
-						visibility: []
-					},
-					languages: {
-						encrypt: true,
-						visibility: []
-					}
+					location: defaultSettings,
+					birthday: defaultSettings,
+					relationship: defaultSettings,
+					education: defaultSettings,
+					work: defaultSettings,
+					gender: defaultSettings,
+					languages: defaultSettings
 				},
 				sharePosts: ["always:allfriends"]
 			};
@@ -346,9 +330,9 @@ define(["step", "whispeerHelper", "asset/resizableImage", "asset/observer"], fun
 				}
 			};
 
-			resizableImage.getImageBlob(ENDSIZE, function (imageBlob) {
-				var imageData = resizableImage.getImageData(ENDSIZE);
-
+			step(function () {
+				resizableImage.getImageBlob(ENDSIZE, this.ne);
+			}, h.sF(function (imageBlob) {
 				var i, cur;
 				for (i = 0; i < $scope.profileAttributes.length; i += 1) {
 					cur = $scope.profileAttributes[i];
@@ -372,16 +356,13 @@ define(["step", "whispeerHelper", "asset/resizableImage", "asset/observer"], fun
 					}
 				}
 
-				if (imageData) {
-					profile.pub.image = imageData;
-				}
-
 				console.time("register");
-				sessionHelper.register($scope.nickname, $scope.mail, $scope.password, profile, imageBlob, settings, function () {
-					console.timeEnd("register");
-					console.log("register done!");
-					resizableImage.removeResizable();
-				});
+				sessionHelper.register($scope.nickname, $scope.mail, $scope.password, profile, imageBlob, settings, this);
+			}), function () {
+				debugger;
+				console.timeEnd("register");
+				console.log("register done!");
+				resizableImage.removeResizable();
 			});
 		};
 	}
