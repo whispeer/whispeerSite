@@ -18,7 +18,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 		}
 	}
 
-	function rootController($scope, $timeout, $http, sessionService, sessionHelper, userService, cssService, messageService, friendsService) {
+	function rootController($scope, $timeout, $http, socketService, sessionService, sessionHelper, userService, cssService, messageService, friendsService) {
 		var buildDate = "20140412";
 
 		$http({ method: "GET", url: "changelog.json?t=" + (new Date()).getTime(), cache: false }).success(function (data) {
@@ -83,6 +83,20 @@ define(["step", "whispeerHelper"], function (step, h) {
 			$scope.sidebarActive = false;
 		});
 
+		$scope.lostConnection = false;
+
+		socketService.on("disconnect", function () {
+			$scope.$apply(function () {
+				$scope.lostConnection = true;
+			});
+		});
+
+		socketService.on("reconnect", function () {
+			$scope.$apply(function () {
+				$scope.lostConnection = false;
+			});
+		});
+
 		$scope.toggleSidebar = function() {
 			$scope.sidebarActive = !$scope.sidebarActive;
 			$scope.searchActive = false;
@@ -110,7 +124,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 		};
 	}
 
-	rootController.$inject = ["$scope", "$timeout", "$http", "ssn.sessionService", "ssn.sessionHelper", "ssn.userService", "ssn.cssService", "ssn.messageService", "ssn.friendsService"];
+	rootController.$inject = ["$scope", "$timeout", "$http", "ssn.socketService", "ssn.sessionService", "ssn.sessionHelper", "ssn.userService", "ssn.cssService", "ssn.messageService", "ssn.friendsService"];
 
 	return rootController;
 });

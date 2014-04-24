@@ -2,9 +2,13 @@
 	"0": {
 		"1": {
 			"4": [
+				"Profile Image can now be changed",
+				"Decryption is now done in a  thread",
 				"Posts are regularly fetched from server",
 				"Mail System started",
-				"Bugfix: Add as Friend works again"
+				"Bugfix: Add as Friend works again",
+				"Mailer System Started",
+				"Date Format improved"
 			],
 			"3": [
 				"New Layout for messages",

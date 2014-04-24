@@ -28,6 +28,9 @@ define(["socket", "step", "whispeerHelper", "config", "cryptoWorker/generalWorke
 
 		var socketS = {
 			socket: socket,
+			on: function () {
+				socket.on.apply(socket, arguments);
+			},
 			listen: function (channel, callback) {
 				socket.on(channel, function (data) {
 					console.log("received data on " + channel);
