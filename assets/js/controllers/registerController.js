@@ -209,7 +209,7 @@ define(["step", "whispeerHelper", "asset/resizableImage", "asset/observer"], fun
 
 		$scope.acceptIconMailFree = function acceptIconMail() {
 			if ($scope.mailCheckLoading) {
-				return "assets/img/loading.gif";
+				return "assets/img/loader_green.gif";
 			}
 
 			if ($scope.mailCheckError === true) {
@@ -274,7 +274,7 @@ define(["step", "whispeerHelper", "asset/resizableImage", "asset/observer"], fun
 
 		$scope.acceptIconNicknameFree = function acceptIconNickname() {
 			if ($scope.nicknameCheckLoading) {
-				return "assets/img/loading.gif";
+				return "assets/img/loader_green.gif";
 			}
 
 			if ($scope.nicknameCheckError === true) {
