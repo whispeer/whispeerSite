@@ -37,20 +37,21 @@ define(["step", "whispeerHelper"], function (step, h) {
 				function queryResults(query) {
 					var theUsers;
 					step(function () {
-						if (iAttrs["scope"] === "friends") {
+						if (iAttrs.scope === "friends") {
 							userService.queryFriends(query, this);
 						} else {
 							userService.query(query, this);
 						}
 					}, h.sF(function (user) {
-						if (user.length === 0) {
+						theUsers = user || [];
+
+						if (theUser.length === 0) {
 							this.ne([]);
 						}
 
-						theUsers = user || [];
 						var i;
 						for (i = 0; i < user.length; i += 1) {
-							user[i].loadBasicData(this.parallel());
+							theUsers[i].loadBasicData(this.parallel());
 						}
 					}), h.sF(function () {
 						var users = theUsers.map(function (e) {
