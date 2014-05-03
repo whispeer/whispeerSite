@@ -171,6 +171,19 @@
 			</ul>
 		</aside>
 		<!-- end !Mobile Menu -->
+		<!-- !Mobile Notifications -->
+		<div class="notificationWrap" data-ng-if="loggedin && mobile">
+			<div class="notification" data-ng-if="lostConnection">
+				<span data-i18n="general.disconnected"></span>
+			</div>
+			<!--
+	<div class="notification" data-ng-repeat="notification in notifications">
+				<div class="close"><i class="icon icon-cancel-circle"></i></div>
+				<span></span>
+			</div>
+	-->
+		</div>
+		<!-- end !Mobile Notifications -->
 	</div>
 	<!-- end !Main Container -->
 	<!-- !footer -->
