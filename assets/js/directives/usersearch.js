@@ -9,11 +9,11 @@ define(["step", "whispeerHelper"], function (step, h) {
 			templateUrl: "/assets/views/directives/userSearch.html",
 			replace: true,
 			link: function postLink(scope, iElement, iAttrs) {
-				var multiple = typeof iAttrs["multiple"] !== "undefined";
+				var multiple = typeof iAttrs.multiple !== "undefined";
 
-				if (iAttrs["user"]) {
+				if (iAttrs.user) {
 					var theUser;
-					var user = h.parseDecimal(scope.$parent.$eval(iAttrs["user"]));
+					var user = h.parseDecimal(scope.$parent.$eval(iAttrs.user));
 					if (user > 0) {
 						step(function () {
 							$timeout(this);
@@ -45,7 +45,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 					}, h.sF(function (user) {
 						theUsers = user || [];
 
-						if (theUser.length === 0) {
+						if (theUsers.length === 0) {
 							this.ne([]);
 						}
 
@@ -98,7 +98,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 					}), function (e) {
 						setCircleState("failure");
 					});
-				};
+				}
 
 				scope.$on("addFriend", function (event, user) {
 					friendsService.friendship(user.id);
