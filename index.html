@@ -40,6 +40,7 @@
 			<button id="toggleSearch" data-ng-click="toggleSearch()" data-ng-if="mobile"><i class="icon icon-search"></i></button>
 			<a href="/start" id="brand" data-ng-click="mobileActivateView()"><span id="brandNormal">whis</span><span id="brandInverse">peer</span></a>
 			<button id="toggleSidebar" data-ng-click="toggleSidebar()" data-ng-if="mobile"><i class="icon icon-home"></i></button>
+			<span class="badge" id="mobileCounter" data-ng-controller="ssn.magicbar.mainController" data-ng-if="mobile && (messages.unread!=0 || friends.requestsCount!=0 || news.count!=0)">{{messages.unread + friends.requestsCount + news.count}}</span>
 			<div class="nav-collapse collapse">
 				<usersearch size="big" data-input-i18n-attr="menu.search|placeholder"/>
 			</div>
@@ -76,7 +77,7 @@
 					<ul class="left unstyled" id="mainMenu">
 						<li><a href="{{user.basic.url}}" data-i18n="menu.profil"></a></li>
 						<li><a href="/friends" data-i18n="menu.friends|count={{friends.friendsCount}}"></a></li>
-						<li><a href="/messages" data-i18n="menu.messages"></a></li>
+						<li><a href="/messages" data-ng-controller="ssn.magicbar.mainController" data-i18n="menu.messages|count={{messages.unread}}"></a></li>
 						<li><a href="/circles" data-i18n="menu.circles"></a></li>
 						<li><a href="/settings" data-i18n="menu.settings"></a></li>
 						<li><a href="/help" data-i18n="menu.help"></a></li>
@@ -141,7 +142,7 @@
 				<a href="/messages"  data-ng-click="toggleSidebar()">
 					<li>
 						<img src="assets/img/icons/mobile/messages.png" alt="Nachrichten">
-						<span data-i18n="menu.messages"></span>
+						<span data-ng-controller="ssn.magicbar.mainController" data-i18n="menu.messages|count={{messages.unread}}"></span>
 					</li>
 				</a>
 				<a href="/circles"  data-ng-click="toggleSidebar()">

@@ -68,7 +68,7 @@
 	"menu": {
 		"profil": "Profile",
 		"friends": "Friends ({count})",
-		"messages": "Messages",
+		"messages": "Messages ({count})",
 		"media": "Media",
 		"circles": "Circles",
 		"settings": "Settings",
