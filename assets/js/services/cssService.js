@@ -1,7 +1,7 @@
 define([], function () {
 	"use strict";
 
-	var listener = [], theClass = "registerView";
+	var listener = [], theClass = "loading";
 
 	var service = function (errorService) {
 		var res = {
@@ -24,7 +24,7 @@ define([], function () {
 			},
 			getClass: function getClassF() {
 				if (theClass === "") {
-					return "registerView";
+					return "loading";
 				}
 				return theClass;
 			}
