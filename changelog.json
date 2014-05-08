@@ -1,8 +1,9 @@
-{
+	{
 	"0": {
 		"1": {
 			"5": [
-				"Mail for new post and new message"
+				"Mail for new post and new message",
+				"User Language can now be saved"
 			],
 			"4": [
 				"Profile Image can now be changed",
