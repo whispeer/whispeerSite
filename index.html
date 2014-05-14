@@ -117,7 +117,7 @@
 		<!-- !Right Sidebar -->
 		<aside id="sidebar-right" data-ng-if="loggedin && !mobile">
 			<div id="magicbar" data-ng-controller="ssn.magicbar.mainController">
-				<div class="magic magicOverlay" data-ng-if="!config.showDefault" data-ng-include="'/assets/views/magicbar/' + config.template + '.html'">Loading</div>
+				<div class="magic magicOverlay" data-ng-if="!config.showDefault" data-ng-include="'/assets/views/magicbar/' + config.template + '.html'" data-i18n="start.loading"></div>
 				<div class="magicWrapper" data-ng-if="config.showDefault">
 					<div class="magic magicWidget" style="height: {{widgetHeight}}%" data-ng-repeat="widget in defaultConfig" data-ng-include="'/assets/views/magicbar/' + widget.template + '.html'"></div>
 				</div>
@@ -192,10 +192,10 @@
 		<div class="left">&copy; 2014 whispeer</div>
 		<div class="right">
 			<a href="/version">v{{version}}</a>&nbsp;
-			<a href="">AGB</a>&nbsp;
-			<a href="">Datenschutzbestimmungen</a>&nbsp;
-			<a href="mailto:support@whispeer.de">Kontakt</a>&nbsp;
-			<a href="http://blog.whispeer.de/de/impressum/">Impressum</a>
+			<a href="" data-i18n="window.title.terms"></a>&nbsp;
+			<a href="" data-i18n="window.title.data"></a>&nbsp;
+			<a href="mailto:support@whispeer.de" data-i18n="window.title.contact"></a>&nbsp;
+			<a href="http://blog.whispeer.de/de/impressum/" target="_blank" data-i18n="window.title.notice"></a>
 		</div>
 	</footer>
 	<!-- end !footer -->
