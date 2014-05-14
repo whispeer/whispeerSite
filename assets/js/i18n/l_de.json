@@ -6,6 +6,14 @@
 		}
 	},
 	"views": {
+		"mail": {
+			"verify": "E-Mail bestätigen",
+			"updateMe": "Ich möchte Updates per E-Mail erhalten",
+			"verifying": "E-Mail wird verifiziert.",
+			"verified": "Deine E-Mail Adresse wurde bestätigt.",
+			"backToLogin": "Zurück zum Login",
+			"failed": "Aktivierung fehlgeschlagen!\n Möglicherweise ist dein Aktivierungscode abgelaufen."
+		},
 		"circles": {
 			"searchFriends": "Gib die Namen deiner Freunde ein, die du zum Kreis hinzufügen möchtest!",
 			"titleForNew": "Gib einen Titel für den neuen Kreis ein!",
