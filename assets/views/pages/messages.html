@@ -1,8 +1,8 @@
 <header>
 	<span class="title">
-		<span data-ng-if="!topicLoaded && !showMessage">Nachrichten</span>
-		<span data-ng-if="!topicLoaded && showMessage">Neue Nachricht</span>
-		<span data-ng-if="topicLoaded && showMessage">Chat mit
+		<span data-ng-if="!topicLoaded && !showMessage" data-i18n="messages.title"></span>
+		<span data-ng-if="!topicLoaded && showMessage" data-i18n="messages.title"></span>
+		<span data-ng-if="topicLoaded && showMessage" data-i18n="messages.chat">
 			<span data-ng-repeat="partner in activeTopic.partners">
 				<span class="status" data-status="{{partner.online}}"></span>
 				<a href="{{partner.basic.url}}">
@@ -69,14 +69,14 @@
 </div>
 <div id="topicWrap" class="newMessage" data-ng-if="!topicLoaded && showMessage">
 	<div id="messageTitle">
-		<h2 data-ng-if="!mobile">Neue Nachricht</h2>
+		<h2 data-ng-if="!mobile" data-i18n="messages.newMessage"></h2>
 	</div>
 	<div id="messageWrap">
 		<form id="inputWrap">
 			<usersearch res="new" data-user="userid" size="small" focus="all" id="recieverInput" data-multiple data-selected-users="new.selectedUsers" data-input-i18n-attr="messages.search|placeholder"/>
 
-			<textarea type="text" placeholder="Gebe deine Nachricht ein!" id="messageInput" data-ng-model="new.text"></textarea>
-			<button class="btn btn--primary" id="sendmessage" type="submit" data-ng-click="new.send(new.selectedElements, new.text)">Senden</button>
+			<textarea type="text" data-i18n-attr="messages.sendMessage.text|placeholder" id="messageInput" data-ng-model="new.text"></textarea>
+			<button class="btn btn--primary" id="sendmessage" type="submit" data-ng-click="new.send(new.selectedElements, new.text)" data-i18n="messages.sendMessage.send"></button>
 		</form>
 	</div>
 </div>

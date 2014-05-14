@@ -44,7 +44,7 @@ define(["whispeerHelper", "step"], function (h, step) {
 			}), errorService.criticalError);
 		};
 
-		var names = userService.getown().data.names;
+		var names = userService.getown().data.names || {};
 		$scope.firstName = names.firstname;
 		$scope.lastName = names.lastname;
 		$scope.nickName = names.nickname;
