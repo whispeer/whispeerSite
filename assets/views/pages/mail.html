@@ -1,1 +1,9 @@
-<div>{{verified}}</div>
+<div data-ng-if="verifying.isInit()">
+	<input type="checkbox" data-ng-model="mails" ><span data-i18n="views.mail.updateMe"></span><br>
+	<input type="submit" data-ng-click="verify(mails)" data-i18n-attr="views.mail.verify|value">
+</div>
+<div data-ng-if="verifying.isPending()" data-i18n="views.mail.verifying"></div>
+<div data-ng-if="verifying.isSuccess()" data-i18n="views.mail.verified"></div>
+<div data-ng-if="verifying.isFailed()" data-syntaxify data-i18n="views.mail.failed"></div>
+
+<a href='/start' data-ng-if="!loggedin" data-i18n="views.mail.backToLogin"></a>
