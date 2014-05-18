@@ -51,13 +51,17 @@ define(["socket", "step", "whispeerHelper", "config", "cryptoWorker/generalWorke
 
 					socket.emit(channel, data, this.ne);
 				}, h.sF(function emitResults(data) {
-					console.info("request on " + channel + " took: " + (new Date().getTime() - time));
+					console.groupCollapsed("Request");
+					console.info("On " + channel);
+					console.info((new Date().getTime() - time));
 
 					if (data.error) {
 						console.error(data);
 					} else {
 						console.info(data);
 					}
+
+					console.groupEnd();
 
 					lastRequestTime = data.serverTime;
 
