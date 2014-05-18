@@ -5,7 +5,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 	"use strict";
 
 	var service = function (socketService, keyStore) {
-		var myBlob = function (blobData, blobID) {
+		var MyBlob = function (blobData, blobID) {
 			this._blobData = blobData;
 
 			if (blobID) {
@@ -16,15 +16,15 @@ define(["step", "whispeerHelper"], function (step, h) {
 			}
 		};
 
-		myBlob.prototype.encrypt = function () {
+		MyBlob.prototype.encrypt = function () {
 			//TODO
 		};
 
-		myBlob.prototype.decrypt = function () {
+		MyBlob.prototype.decrypt = function () {
 			//TODO
 		};
 
-		myBlob.prototype.upload = function (cb) {
+		MyBlob.prototype.upload = function (cb) {
 			var that = this;
 			step(function () {
 				if (that._uploaded) {
@@ -41,11 +41,11 @@ define(["step", "whispeerHelper"], function (step, h) {
 			}), cb);
 		};
 
-		myBlob.prototype.getBlobID = function () {
+		MyBlob.prototype.getBlobID = function () {
 			return this._blobID;
 		};
 
-		myBlob.prototype.reserveID = function (cb) {
+		MyBlob.prototype.reserveID = function (cb) {
 			var that = this;
 			step(function () {
 				if (that._preReserved) {
@@ -63,7 +63,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 			}), cb);
 		};
 
-		myBlob.prototype.preReserveID = function (cb) {
+		MyBlob.prototype.preReserveID = function (cb) {
 			var that = this;
 			step(function () {
 				socketService.emit("blob.preReserveID", {}, this);
@@ -77,25 +77,26 @@ define(["step", "whispeerHelper"], function (step, h) {
 			}), cb);
 		};
 
-		myBlob.prototype.toURL = function () {
+		MyBlob.prototype.toURL = function () {
 			if (typeof URL !== "undefined") {
 				this.ne(URL.createObjectURL(this._blobData));
 			} else if (typeof webkitURL !== "undefined") {
 				this.ne(webkitURL.createObjectURL(this._blobData));
 			} else {
-				this.ne(h.blobToDataURL(this._blobData));
+				this.ne(h.blobToDataURI(this._blobData));
 			}
 		};
 
-		myBlob.prototype.getHash = function (cb) {
+		MyBlob.prototype.getHash = function (cb) {
+			var that = this;
 			step(function () {
-				this.ne(keyStore.hash.hash(h.blobToDataURL(this._blobData)));
+				this.ne(keyStore.hash.hash(h.blobToDataURI(that._blobData)));
 			}, cb);
 		};
 
 		var api = {
 			createBlob: function (blob) {
-				return new myBlob(blob);
+				return new MyBlob(blob);
 			},
 			getBlob: function (blobID, cb) {
 				step(function () {
@@ -104,7 +105,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 					}, this);
 				}, h.sF(function (data) {
 					var blob = h.dataURItoBlob("data:image/png;base64," + data.blob);
-					this.ne(new myBlob(blob, blobID));
+					this.ne(new MyBlob(blob, blobID));
 				}), cb);
 			}
 		};
