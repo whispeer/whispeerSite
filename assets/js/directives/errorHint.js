@@ -1,6 +1,6 @@
  //class="hint--right hint--error hint--always" data-hint=""
 
- define(function () {
+ define(["jquery"], function (jQuery) {
 	"use strict";
 	var directive =  function(localize) {
 		return {
@@ -30,9 +30,11 @@
 
 					return false;
 				}, function (value) {
+					var lineBreak = jQuery("<div/>").html("&#xa;").text();
+
 					if (value) {
 						elm.addClass("hint--right hint--error hint--always")
-							.attr("data-hint", localize.getLocalizedString(attrs["errorHintT" + value]));
+							.attr("data-hint", localize.getLocalizedString(attrs["errorHintT" + value]).replace("[br]", lineBreak));
 					} else {
 						elm.removeClass("hint--right hint--error hint--always")
 							.removeAttr("data-hint");
