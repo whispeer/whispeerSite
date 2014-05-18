@@ -53,8 +53,7 @@ define(["socket", "step", "whispeerHelper", "config", "cryptoWorker/generalWorke
 
 					socket.emit(channel, data, this.ne);
 				}, h.sF(function emitResults(data) {
-					console.groupCollapsed("Request");
-					console.info("On " + channel);
+					console.groupCollapsed("Answer on " + channel);
 					console.info((new Date().getTime() - time));
 
 					if (data.error) {
