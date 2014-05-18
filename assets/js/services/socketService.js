@@ -45,8 +45,10 @@ define(["socket", "step", "whispeerHelper", "config", "cryptoWorker/generalWorke
 				step(function doEmit() {
 					data.sid = sessionService.getSID();
 
-					console.log("requesting on " + channel);
+					console.groupCollapsed("Request on " + channel);
 					console.log(data);
+					console.groupEnd();
+
 					time = new Date().getTime();
 
 					socket.emit(channel, data, this.ne);
