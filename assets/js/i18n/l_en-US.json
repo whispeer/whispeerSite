@@ -112,6 +112,10 @@
 			"passwordstrength":	"Password strength: ",
 			"email":	"E-Mail address",
 			"repeatEmail":	"Repeat E-Mail address",
+
+			"firstname": "Firstname",
+			"lastname": "Lastname",
+
 			"country":	"State",
 			"location":	"City",
 			"uploadImage":	"Upload Profile Picture",

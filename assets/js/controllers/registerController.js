@@ -62,23 +62,15 @@ define(["step", "whispeerHelper", "asset/resizableImage", "asset/observer"], fun
 		$scope.mailCheckError = false;
 		$scope.mailCheckLoading = false;
 
-		$scope.profileAttributes = [
-			{
-				topic: "basic",
-				name: "firstname",
-				placeHolder: "Vorname",
-				value: "",
-				encrypted: false,
-				hoverText: "Vorname!"
-			},
-			{
-				topic: "basic",
-				name: "lastname",
-				placeHolder: "Nachname",
-				value: "",
-				encrypted: false
-			}
-		];
+		$scope.firstname = {
+			value: "",
+			encrypted: false
+		};
+
+		$scope.lastname = {
+			value: "",
+			encrypted: false
+		};
 
 		$scope.days = ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31"];
 		$scope.months = ["january", "february", "march", "april", "may", "june", "july", "august", "september", "october", "november", "december"];
@@ -348,28 +340,25 @@ define(["step", "whispeerHelper", "asset/resizableImage", "asset/observer"], fun
 
 			var imageData = resizableImage.getImageData(ENDSIZE);
 
-			var i, cur;
-			for (i = 0; i < $scope.profileAttributes.length; i += 1) {
-				cur = $scope.profileAttributes[i];
+			function setAttribute(name, data) {
+				settings.privacy.basic[name].encrypt = data.encrypted;
 
-				if (cur.value !== "") {
-					if (cur.encrypted === true) {
-						if (!profile.priv[cur.topic]) {
-							profile.priv[cur.topic] = {};
-						}
 
-						profile.priv[cur.topic][cur.name] = cur.value;
+				if (data.value !== "") {
+					if (data.encrypted) {
+						profile.priv.basic = profile.priv.basic || {};
+
+						profile.priv.basic[name] = data.value;
 					} else {
-						if (!profile.pub[cur.topic]) {
-							profile.pub[cur.topic] = {};
-						}
+						profile.pub.basic = profile.pub.basic || {};
 
-
-						profile.pub[cur.topic][cur.name] = cur.value;
+						profile.pub.basic[name] = data.value;
 					}
-					settings.privacy[cur.topic][cur.name].encrypt = cur.encrypted;
 				}
 			}
+
+			setAttribute("firstname", $scope.firstname);
+			setAttribute("lastname", $scope.lastname);
 
 			if (imageData) {
 				profile.pub.image = imageData;
