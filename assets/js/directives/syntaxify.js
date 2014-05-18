@@ -33,7 +33,7 @@ define([], function () {
 	}
 
 	function newlines(elm, text, remainingTextCallback) {
-		var parts = text.split(/\r\n|\n\r|\r|\n/);
+		var parts = text.split(/\r\n|\n\r|\r|\n|\w*\[br\]\w*/);
 
 		var i, br = jQuery("<br>");
 		for (i = 0; i < parts.length; i += 1) {
