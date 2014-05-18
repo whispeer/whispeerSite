@@ -1,0 +1,25 @@
+.notificationWrap {
+	width: 100%;
+	position: absolute;
+	height: auto;
+	bottom: 0;
+	left: 0;
+	.notification {
+		width: 100%;
+		height: 75px;
+		background: @primaryDarker;
+		border: 1px solid #333;
+		padding: 3% 4%;
+		.box-fix;
+		.border-radius(10px);
+		color: #fff;
+		opacity: 0.95;
+		.close {
+			float: right;
+			cursor: pointer;
+		}
+		&:hover {
+			opacity: 1;
+		}
+	}
+}

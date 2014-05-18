@@ -15,6 +15,8 @@
 				.border-radius(5px);
 				border-bottom: 1px solid #aaa;
 				.box-fix;
+				cursor: pointer;
+				position: relative;
 				.left {
 					.userimg {
 						.border-radiuses(0px, 0px, 5px, 5px);
@@ -30,12 +32,30 @@
 					font-size: 0.8em;
 					color: #555;
 				}
+				.time {
+					font-size: 80%;
+					color: #888;
+					float: right;
+					overflow: hidden;
+					white-space: nowrap;
+					text-overflow: ellipsis;
+					line-height: 12px;
+					display: block;
+					margin-bottom: 0;
+					position: absolute;
+					bottom: 1%;
+					right: 1%;
+					text-align: right;
+				}
 				&:hover {
 					background-color: @primaryLightest;
 					.username {
 						color: #ececec;
 					}
 					.lastMessage {
+						color: #eee;
+					}
+					.time {
 						color: #eee;
 					}
 				}
@@ -45,6 +65,9 @@
 						color: #ececec;
 					}
 					.lastMessage {
+						color: #eee;
+					}
+					.time {
 						color: #eee;
 					}
 					&:hover {
@@ -59,6 +82,9 @@
 					.lastMessage {
 						color: #eee;
 					}
+					.time {
+						color: #eee;
+					}
 					&:hover {
 						background-color: @primaryLightest;
 					}
@@ -71,17 +97,10 @@
 						width: 100%;
 					}
 				}
-				.time {
-					font-size: small;
-					color: #888;
-					float: right;
-					margin-right: 5px;
-					margin-top: -20px;
-				}
 				&.groupChat {
 					.left {
 						background-color: #b2b2b2;
-						.border-radius(5px);
+						.border-radiuses(0,0,5px,5px);
 						img, span, div {
 							.border-radius(0);
 							&:nth-child(1) {
@@ -119,7 +138,7 @@
 					word-wrap: break-word;
 					.clear-fix;
 					.time {
-						font-size: small;
+						font-size: 80%;
 						color: #888;
 						float: right;
 						margin-right: 5px;
@@ -197,6 +216,13 @@
 			#messageTitle {
 				h2 {
 					.column(12);
+				}
+			}
+			.searchBar {
+				.searchDrop {
+					li {
+						padding: 0 25px 0 0 !important;
+					}
 				}
 			}
 			#messageInput {

@@ -8,8 +8,8 @@
 			link: function(scope, elm, attrs) {
 				var show = true;
 
-				if (attrs["errorHint"]) {
-					scope.$watch(attrs["errorHint"], function (value) {
+				if (attrs.errorHint) {
+					scope.$watch(attrs.errorHint, function (value) {
 						show = value;
 					});
 				}

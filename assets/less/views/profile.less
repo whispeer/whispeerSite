@@ -48,6 +48,7 @@
 						//text-shadow: 1px 1px 1px #000000;
 						font-weight: 600;
 						font-size: 1em;
+						cursor: pointer;
 					}
 					_:-o-prefocus, a {
 						background: none;
@@ -95,6 +96,7 @@
 							text-align: center;
 							opacity: 0;
 							.transition(all .3s ease);
+							cursor: pointer;
 						}
 						&:hover {
 							.editImage {
@@ -103,6 +105,24 @@
 						}
 						&.editing {
 							text-align: center;
+							.resizableWrapper {
+								height: 300px;
+								width: 600px;
+								margin-left: auto;
+								margin-right: auto;
+								display: block;
+								//background-color: red;
+								position: relative;
+								margin-top: -300px;
+								top: 0px;
+								left: 0px;
+								.resizable {
+									position: relative;
+									top:0;
+									left:0;
+									margin-top: -305px;
+								}
+							}	
 							.uploadImageForm {
 								cursor: pointer;
 								width: 60%;
@@ -149,7 +169,13 @@
 							text-align: center;
 						}
 						.addToCircle {
-							
+							.btn {
+								.spinner {
+									width: 20px;
+									height: 20px;
+									margin-top: 3px;
+								}
+							}
 						}
 						.sendMessage {
 							.btn;

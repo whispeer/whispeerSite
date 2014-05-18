@@ -21,4 +21,20 @@ body.loading {
 		margin: auto;
 		z-index: 10000000000001;
 	}
+	#container {
+		&:before {
+			content: url('../img/loader.gif');
+			position: absolute;
+			width: 128px;
+			height: 128px;
+			right: 0;
+			left: 0;
+			top: 0;
+			bottom: 0;
+			margin: auto;
+			z-index: 10000000000001;
+			padding-top: 115px;
+			.box-fix;
+		}
+	}
 }
