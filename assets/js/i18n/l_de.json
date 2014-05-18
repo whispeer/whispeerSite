@@ -135,6 +135,7 @@
 		}
 	},
 	"wall": {
+		"writePost": "Einen Post verfassen!",
 		"postit": {
 			"receiver": "Wer soll deinen Beitrag lesen können?",
 			"text": "Was möchtest du den Leuten mitteilen?",

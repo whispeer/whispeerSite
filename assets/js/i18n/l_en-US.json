@@ -125,6 +125,7 @@
 		}
 	},
 	"wall": {
+		"createPost": "Post something!",
 		"postit": {
 			"receiver": "Who is allowed to read this post?",
 			"text": "What do you want to share?",
