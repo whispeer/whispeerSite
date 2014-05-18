@@ -18,7 +18,7 @@
 	</div>
 
 	<div>
-		<input name="lastname" data-autofocus="true" type="text" data-i18n-attr="login.register.lastname|placeholder" data-ng-model="lastname.value">
+		<input name="lastname" type="text" data-i18n-attr="login.register.lastname|placeholder" data-ng-model="lastname.value">
 		<span class="icon lock">
 			<img data-ng-src="{{lock(lastname.encrypted)}}" alt="{{((lastname.encrypted) && ('Privat') || ('Öffentlich'))}}" data-ng-click="lastname.encrypted=!lastname.encrypted" />
 		</span>
