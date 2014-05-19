@@ -2,7 +2,8 @@
 	<span class="title">
 		<span data-ng-if="!topicLoaded && !showMessage" data-i18n="messages.title"></span>
 		<span data-ng-if="!topicLoaded && showMessage" data-i18n="messages.title"></span>
-		<span data-ng-if="topicLoaded && showMessage" data-i18n="messages.chat">
+		<span data-ng-if="topicLoaded && showMessage">
+			<span data-i18n="messages.chat"></span>
 			<span data-ng-repeat="partner in activeTopic.partners">
 				<span class="status" data-status="{{partner.online}}"></span>
 				<a href="{{partner.basic.url}}">
