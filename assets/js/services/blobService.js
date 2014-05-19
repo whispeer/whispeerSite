@@ -4,6 +4,8 @@
 define(["step", "whispeerHelper"], function (step, h) {
 	"use strict";
 
+	var knownBlobs = {};
+
 	var service = function (socketService, keyStore) {
 		var MyBlob = function (blobData, blobID) {
 			this._blobData = blobData;
@@ -58,6 +60,9 @@ define(["step", "whispeerHelper"], function (step, h) {
 			}, h.sF(function (data) {
 				if (data.blobid) {
 					that._blobID = data.blobid;
+
+					knownBlobs[that._blobID] = that;
+
 					this.ne(that._blobID);
 				}
 			}), cb);
@@ -100,12 +105,18 @@ define(["step", "whispeerHelper"], function (step, h) {
 			},
 			getBlob: function (blobID, cb) {
 				step(function () {
-					socketService.emit("blob.getBlob", {
-						blobid: blobID
-					}, this);
+					if (knownBlobs[blobID]) {
+						this.last.ne(knownBlobs[blobID]);
+					} else {
+						socketService.emit("blob.getBlob", {
+							blobid: blobID
+						}, this);
+					}
 				}, h.sF(function (data) {
 					var blob = h.dataURItoBlob("data:image/png;base64," + data.blob);
-					this.ne(new MyBlob(blob, blobID));
+					knownBlobs[blobID] = new MyBlob(blob, blobID);
+
+					this.ne(knownBlobs[blobID]);
 				}), cb);
 			}
 		};
