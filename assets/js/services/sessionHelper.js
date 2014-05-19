@@ -49,7 +49,7 @@ define(["step", "whispeerHelper", "socketStream"], function (step, h, iostream) 
 			},
 
 			register: function (nickname, mail, password, profile, imageBlob, settings, callback) {
-				var keys;
+				var keys, result;
 				step(function register1() {
 					this.parallel.unflatten();
 
@@ -64,13 +64,11 @@ define(["step", "whispeerHelper", "socketStream"], function (step, h, iostream) 
 					keys = theKeys;
 
 					if (imageBlob) {
-						profile.pub.image = {
+						profile.pub.imageBlob = {
 							blobid: blobid,
-							hash: imageHash
+							imageHash: imageHash
 						};
 					}
-
-					debugger;
 
 					if (nickname) {
 						keyStoreService.setKeyGenIdentifier(nickname);
@@ -124,12 +122,14 @@ define(["step", "whispeerHelper", "socketStream"], function (step, h, iostream) 
 					}
 
 					socketService.emit("session.register", registerData, this);
-				}), h.sF(function (result) {
+				}), h.sF(function (_result) {
+					result = _result;
+
 					sessionHelper.resetKey();
 					keyStoreService.addPassword(password);
 
-					//TODO: imageBlob.upload();
-
+					imageBlob.upload(this);
+				}), h.sF(function () {
 					this.ne(result);
 				}), callback);
 			},

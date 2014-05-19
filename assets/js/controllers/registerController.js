@@ -346,8 +346,6 @@ define(["step", "whispeerHelper", "asset/resizableImage", "asset/observer"], fun
 				console.time("register");
 				sessionHelper.register($scope.nickname, $scope.mail, $scope.password, profile, imageBlob, settings, this);
 			}), function () {
-				debugger;
-
 				console.timeEnd("register");
 				console.log("register done!");
 				resizableImage.removeResizable();

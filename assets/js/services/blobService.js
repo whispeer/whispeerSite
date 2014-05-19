@@ -28,12 +28,12 @@ define(["step", "whispeerHelper"], function (step, h) {
 			var that = this;
 			step(function () {
 				if (that._uploaded) {
-					this.last.ne(this._blobID);
+					this.last.ne(that._blobID);
 				} else {
 					that.reserveID(this);
 				}
 			}, h.sF(function (blobid) {
-				socketService.uploadBlob(that, blobid, this);
+				socketService.uploadBlob(that._blobData, blobid, this);
 			}), h.sF(function () {
 				that._uploaded = true;
 
@@ -79,11 +79,11 @@ define(["step", "whispeerHelper"], function (step, h) {
 
 		MyBlob.prototype.toURL = function () {
 			if (typeof URL !== "undefined") {
-				this.ne(URL.createObjectURL(this._blobData));
+				return URL.createObjectURL(this._blobData);
 			} else if (typeof webkitURL !== "undefined") {
-				this.ne(webkitURL.createObjectURL(this._blobData));
+				return webkitURL.createObjectURL(this._blobData);
 			} else {
-				this.ne(h.blobToDataURI(this._blobData));
+				return h.blobToDataURI(this._blobData);
 			}
 		};
 
