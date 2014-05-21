@@ -111,6 +111,19 @@
 				white-space: nowrap;
 				text-overflow: ellipsis;
 				overflow: hidden;
+				max-width: 95%;
+				width: auto;
+				display: inline-block;
+				float: left;
+			}
+			.editTitleButton {
+				margin-top: 17px;
+				margin-left: 1%;
+				float: left;
+				max-width: 4%;
+				text-align: center;
+				padding-left: 1%;
+				padding-right: 1%;
 			}
 			.editTitle {
 				input {
@@ -118,6 +131,8 @@
 				}
 				button {
 					.column(4);
+					height: 37px;
+					margin-top: 13px !important;
 				}
 				input, button {
 					margin-top: 13px;
@@ -138,21 +153,6 @@
 				text-align: center;
 				li {	
 					position: relative;
-					.remove {
-						.status;
-						display: block;
-						position: absolute;
-						cursor: pointer;
-						i {
-							display: block;
-							color: #f91919;
-						}
-						&:hover {
-							i {
-								color: #ff3f3f;
-							}
-						}
-					}
 					&.add {
 						background: none;
 						border: 1px solid #ccc;

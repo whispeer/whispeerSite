@@ -1,11 +1,6 @@
 <div data-ng-if="!mobile || true" class="maxHeight">
 	<header>
 		<span class="title" role="title"><span data-i18n="views.circles.header.title"></span>&nbsp;<span data-ng-if="circleLoaded && showCircle">anzeigen: {{thisCircle.name}}</span></span>
-		<nav data-ng-if="circleLoaded && showCircle">
-			<a class="delete" data-ng-if="editing" data-ng-click="saveCircle()" data-i18n="views.circles.header.remove"></a>
-			<a data-ng-if="!editing" data-ng-click="editCircle()" data-i18n="views.circles.header.edit"></a>
-			<a class="save" data-ng-if="editing" data-ng-click="saveCircle()" data-i18n="views.circles.header.save"></a>
-		</nav>
 		<button data-ng-if="mobile && showCircle" data-ng-click="unloadCircle()"><i class="icon icon-menu"></i></button>
 	</header>
 
@@ -35,14 +30,13 @@
 
 	<div id="circleContainer" data-circleID="{{thisCircle.id}}" data-ng-if="circleLoaded && showCircle">
 		<div id="circleTitle">
-			<h2 data-ng-if="!editing" data-i18n="views.circles.personsInCircle|name={{thisCircle.name}}" title="{{thisCircle.name}}"></h2>
-			<div class="editTitle" data-ng-if="editing"><h2>Kreistitel:</h2><input data-ng-model="thisCircle.name"><button id="saveCircle" class="btn btn--primary btn--input"><i class="icon icon-ok-circle"></i><span>Diesen Kreis speichern</button></div>
+			<h2 data-ng-if="!editingTitle.active"><span data-i18n="views.circles.personsInCircle|name={{thisCircle.name}}" title="{{thisCircle.name}}"></span></h2><button data-ng-if="!editingTitle.active" data-ng-click="editTitle()" class="btn editTitleButton"><i class="icon icon-pencil"></i></button>
+			<div class="editTitle" data-ng-if="editingTitle.active"><h2>Kreistitel:</h2><input data-ng-model="thisCircle.name"><savebutton data-ng-click="saveTitle()" data-success="editingTitle.success" data-failure="editingTitle.failure" data-operation="editingTitle.operation"></savebutton></div>
 		</div>
 		<div id="circleWrap">
 			<ol id="friendsList" class="unstyled">
 				<li data-ng-repeat="friend in thisCircle.persons">
 					<friend data-user="friend"></friend>
-					<div class="remove" data-ng-if="editing" data-ng-click="removeUser()"><i class="icon icon-cancel-circle icon-white"></i></div>
 				</li>
 			</ol>
 		</div>

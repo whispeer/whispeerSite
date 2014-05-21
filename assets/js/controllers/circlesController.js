@@ -9,11 +9,21 @@ define(["whispeerHelper"], function (h) {
 		$scope.circleid = 0;
 		$scope.showCircle = !$scope.mobile;
 		
-		$scope.editing = false;
+		$scope.editingTitle = {
+			"success":		true,
+			"failure":		false,
+			"operation":	false,
+			"active":		false
+		}
 		
-		$scope.editCircle = function () {
-			$scope.editing = true;
+		$scope.editTitle = function () {
+			$scope.editingTitle.active = true;
 		};
+		
+		$scope.saveTitle = function () {
+			$scope.editingTitle.success = true;
+			$scope.editingTitle.active = false;
+		}
 
 		$scope.thisCircle = {};
 
