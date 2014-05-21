@@ -15,8 +15,9 @@
 .icon-lock:before { content: '\e80d'; } /* '' */
 .icon-lock-open:before { content: '\e80e'; } /* '' */
 .icon-lock-open-alt:before { content: '\e80f'; } /* '' */
+.icon-thumbs-up-alt:before { content: '\e810'; } /* '' */
 .icon-search:before { content: '\e801'; } /* '' */
-.icon-thumbs-down-alt:before { content: '\e811'; } /* '' */
+.icon-pencil:before { content: '\e821'; } /* '' */
 .icon-comment:before { content: '\e812'; } /* '' */
 .icon-chat:before { content: '\e813'; } /* '' */
 .icon-attention:before { content: '\e814'; } /* '' */
@@ -31,4 +32,4 @@
 .icon-off:before { content: '\e819'; } /* '' */
 .icon-book:before { content: '\e81f'; } /* '' */
 .icon-gift:before { content: '\e81a'; } /* '' */
-.icon-thumbs-up-alt:before { content: '\e810'; } /* '' */
+.icon-thumbs-down-alt:before { content: '\e811'; } /* '' */
