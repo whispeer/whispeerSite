@@ -1,25 +1,28 @@
 define(["step", "whispeerHelper"], function (step, h) {
 	"use strict";
 
-	function dateFilter(localize) {
+	function dateFilter(localize, $interval) {
+		$interval(function () {}, 60*1000);
 		return function (input) {
 			if (input) {
 				var given = h.parseDecimal(input);
 				var date = new Date(given);
 
 				var time = date.toLocaleTimeString();
-				debugger;
+
+				var now = new Date();
+
 				if (new Date(date).setHours(0, 0, 0, 0) === new Date().setHours(0, 0, 0, 0)) {
-					if ((new Date().getHours() - new Date(date).getHours()) === 1) {
+					if ((now.getHours() - date.getHours()) === 1) {
 						return localize.getLocalizedString("date.time.oneHourAgo");
-					} else if ((new Date().getHours() - new Date(date).getHours()) > 1) {
-						return localize.getLocalizedString("date.time.hoursAgo").replace("{hours}", (new Date().getHours() - new Date(date).getHours()).toString());
-					} else if ((new Date().getHours() - new Date(date).getHours()) === 0) {
-						if ((new Date(date).getMinutes() < new Date().getMinutes())) {
-							if ((new Date().getMinutes() - new Date(date).getMinutes()) === 1) {
+					} else if ((now.getHours() - date.getHours()) > 1) {
+						return localize.getLocalizedString("date.time.hoursAgo").replace("{hours}", (now.getHours() - date.getHours()).toString());
+					} else if ((now.getHours() - date.getHours()) === 0) {
+						if ((date.getMinutes() < now.getMinutes())) {
+							if ((now.getMinutes() - date.getMinutes()) === 1) {
 								return localize.getLocalizedString("date.time.oneMinuteAgo");
 							} else {
-								return localize.getLocalizedString("date.time.minutesAgo").replace("{minutes}", (new Date().getMinutes() - new Date(date).getMinutes()).toString());
+								return localize.getLocalizedString("date.time.minutesAgo").replace("{minutes}", (now.getMinutes() - date.getMinutes()).toString());
 							}	
 						} else {
 							return localize.getLocalizedString("date.time.justNow");
@@ -27,7 +30,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 					}	
 				}
 
-				if (new Date(date).getFullYear() === new Date().getFullYear()) {
+				if (date.getFullYear() === new Date().getFullYear()) {
 
 				}
 
@@ -38,7 +41,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 		};
 	}
 
-	dateFilter.$inject = ["localize"];
+	dateFilter.$inject = ["localize", "$interval"];
 
 	return dateFilter;
 });
