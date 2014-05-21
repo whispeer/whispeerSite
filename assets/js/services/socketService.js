@@ -28,6 +28,9 @@ define(["socket", "step", "whispeerHelper", "config", "cryptoWorker/generalWorke
 
 		var socketS = {
 			socket: socket,
+			on: function () {
+				socket.on.apply(socket, arguments);
+			},
 			listen: function (channel, callback) {
 				socket.on(channel, function (data) {
 					console.log("received data on " + channel);
@@ -42,19 +45,24 @@ define(["socket", "step", "whispeerHelper", "config", "cryptoWorker/generalWorke
 				step(function doEmit() {
 					data.sid = sessionService.getSID();
 
-					console.log("requesting on " + channel);
+					console.groupCollapsed("Request on " + channel);
 					console.log(data);
+					console.groupEnd();
+
 					time = new Date().getTime();
 
 					socket.emit(channel, data, this.ne);
 				}, h.sF(function emitResults(data) {
-					console.info("request on " + channel + " took: " + (new Date().getTime() - time));
+					console.groupCollapsed("Answer on " + channel);
+					console.info((new Date().getTime() - time));
 
 					if (data.error) {
 						console.error(data);
 					} else {
 						console.info(data);
 					}
+
+					console.groupEnd();
 
 					lastRequestTime = data.serverTime;
 

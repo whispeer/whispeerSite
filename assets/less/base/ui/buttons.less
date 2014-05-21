@@ -14,18 +14,33 @@
 // .btn--danger					- This button indicates that it might do something harmfull, like deleting items etc
 // .btn--warning				- This button indicates that it might do something unwanted. Still the operation executed should be less harmfull than the danger button
 // .btn--info					- This button indicates that further information will be shown when clicked
+// .btn--inverse				- Inversed Default
 // :hover						- Buttons get highlighted when hovered
 // :disabled					- This button indicated that it is disabled and therefore not usable
 //
 // Styleguide 2.4
 
 .btn {
+	// fix bad behaviour for mobile browsers..
+	&:focus {
+		outline: 0;
+	}
+	&:-moz-focus-inner {
+		border: 0;
+	}
+	-webkit-tab-highlight-color: transparent;
+	-moz-user-select: none;
+	-webkit-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+	
+	// style
 	display: inline-block;
 	padding: 4px 15px;
 	.box-fix;
+	background-image: none;
 	.border-radius(4px);
-	border: 0;
-	.buttonBackground(@btnBackground, @btnBackgroundHighlight, @grayDark, 0 1px 1px rgba(255,255,255,.75));
+	.buttonBackground(@btnBackground, @btnBackgroundHover, @btnBackgroundFocus, @btnBackgroundActive, @grayDark, 0 1px 1px rgba(255,255,255,.75));
 	border: 1px solid @btnBorder;
 	text-decoration: none !important;
 }
@@ -56,18 +71,18 @@
 
 // Button Color Classes
 .btn--green {
-	.buttonBackground(@btnGreenBackground, @btnGreenBackgroundHighlight);
+	.buttonBackground(@btnGreenBackground, @btnGreenBackgroundHover, @btnGreenBackgroundFocus, @btnGreenBackgroundActive);
 }
 .btn--red {
-	.buttonBackground(@btnRedBackground, @btnRedBackgroundHighlight);
+	.buttonBackground(@btnRedBackground, @btnRedBackgroundHover, @btnRedBackgroundFocus, @btnRedBackgroundActive);
 }
 .btn--orange {
-	.buttonBackground(@btnOrangeBackground, @btnOrangeBackgroundHighlight);
+	.buttonBackground(@btnOrangeBackground, @btnOrangeBackgroundHover, @btnOrangeBackgroundFocus, @btnOrangeBackgroundActive);
 }
 .btn--blue {
-	.buttonBackground(@btnBlueBackground, @btnBlueBackgroundHighlight);
+	.buttonBackground(@btnBlueBackground, @btnBlueBackgroundHover, @btnBlueBackgroundFocus, @btnBlueBackgroundActive);
 }
 // Inverse appears as dark gray
 .btn--inverse {
-	.buttonBackground(@btnInverseBackground, @btnInverseBackgroundHighlight);
+	.buttonBackground(@btnInverseBackground, @btnInverseBackgroundHover, @btnInverseBackgroundFocus, @btnInverseBackgroundActive);
 }

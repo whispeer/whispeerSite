@@ -1,0 +1,65 @@
+Font license info
+
+
+## Fontelico
+
+   Copyright (C) 2012 by Fontello project
+
+   Author:    Crowdsourced, for Fontello project
+   License:   SIL (http://scripts.sil.org/OFL)
+   Homepage:  http://fontello.com
+
+
+## Maki
+
+   Copyright (C) Mapbox, LCC
+
+   Author:    Mapbox
+   License:   BSD (https://github.com/mapbox/maki/blob/gh-pages/LICENSE.txt)
+   Homepage:  http://mapbox.com/maki/
+
+
+## Font Awesome
+
+   Copyright (C) 2012 by Dave Gandy
+
+   Author:    Dave Gandy
+   License:   SIL ()
+   Homepage:  http://fortawesome.github.com/Font-Awesome/
+
+
+Fonts (by class name)	Pack
+
+.icon-gender			Maki
+.icon-gift				Font Awesome
+.icon-search			Font Awesome
+.icon-mail-alt			Font Awesome
+.icon-heart				Font Awesome
+.icon-star				Font Awesome
+.icon-user				Font Awesome
+.icon-users				Font Awesome
+.icon-ok-circled		Font Awesome
+.icon-cancel-circled	Font Awesome
+.icon-plus-circled		Font Awesome
+.icon-minus-circled		Font Awesome
+.icon-help-circled		Font Awesome
+.icon-home				Font Awesome
+.icon-lock				Font Awesome
+.icon-lock-open			Font Awesome
+.icon-spinner			Fontelico
+.icon-thumbs-up-alt		Font Awesome
+.icon-thumbs-down-alt	Font Awesome
+.icon-comment			Font Awesome
+.icon-chat				Font Awesome
+.icon-attention			Font Awesome
+.icon-trash				Font Awesome
+.icon-menu				Font Awesome
+.icon-cog-alt			Font Awesome
+.icon-login				Font Awesome
+.icon-logout			Font Awesome
+.icon-clock				Font Awesome
+.icon-globe				Font Awesome
+.icon-briefcase			Font Awesome
+.icon-off				Font Awesome
+.icon-book				Font Awesome
+.icon-lock-open-alt		Font Awesome

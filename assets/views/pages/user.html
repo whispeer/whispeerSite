@@ -95,7 +95,7 @@
 						</span>
 					</p>
 					<p id="sex" data-ng-show="set(user.advanced.gender) || editGeneral">
-						<i class="icon-toilet"></i>
+						<i class="icon-gender"></i>
 						<span data-i18n="profile.section.general.gender.default">
 							<span data-ng-if="!editGeneral" data-for="gender" data-i18n="profile.section.general.gender.{{user.advanced.gender}}"></span>
 							<select data-ng-if="editGeneral" type="dropdown" data-ng-model="user.advanced.gender" data-for="gender">
@@ -119,16 +119,13 @@
 							</span>
 						</span>
 					</p>
-					<p id="save" data-ng-show="editGeneral"><button data-ng-click="saveUser()" class="btn btn--primary"><i class="icon-ok-circle"></i> Speichern</button></p>
+					<p id="save" data-ng-show="editGeneral"><button data-ng-click="saveUser()" class="btn btn--primary" data-i18n="settings.changes.save"><i class="icon-ok-circle"></i></button></p>
 				</div>
 				<div class="actions">
 					<a href="" class="addFriend" ng-if="!user.me && !user.added" data-ng-click="addFriend()"><span data-i18n="profile.actions.addFriend|user={{user.name}}"></span></a>
 					<div class="addToCircle" ng-if="user.added">
 						<circlesearch res="circles" id="selectCircle" data-input-i18n-attr="profile.actions.addToCircle|placeholder|user={{user.name}}" data-user="user.id"></circlesearch>
-						<button data-ng-if="circles.success" class="btn btn--primary" data-ng-click="saveCircles()" id="circleSubmit"><i class="icon icon-ok-circle"></i></button>
-						<button data-ng-if="circles.saving" class="btn btn--primary btn--info" data-ng-click="saveCircles()" id="circleSubmit"><i class="icon icon-ok-circle"></i></button>
-						<button data-ng-if="circles.failure" class="btn btn--primary btn--danger" data-ng-click="saveCircles()" id="circleSubmit"><i class="icon icon-ok-circle"></i></button>
-
+						<button data-ng-class="{'btn--primary': circles.success, 'btn--info': circles.saving, 'btn--danger': circles.failure}" class="btn" data-ng-click="saveCircles()" id="circleSubmit"><i data-ng-if="circles.success" class="icon icon-ok-circle"></i><i data-ng-if="circles.failure" class="icon icon-cancel-circle"></i><img data-ng-if="circles.saving" class="spinner" src="assets/img/loader.gif"></button>
 					</div>
 					<a href="/messages?userid={{user.id}}" class="sendMessage"><span data-i18n="profile.actions.sendMessage|user={{user.name}}"></span></a>
 				</div>

@@ -1,10 +1,25 @@
-{
+	{
 	"0": {
 		"1": {
+			"6": [
+				"Hotfix: Messages are now marked as unread again"
+			],
+			"5": [
+				"Basic Mail verification",
+				"Mail for new post and new message",
+				"Profile Language can now be saved",
+				"Translations",
+				"Touch improvements",
+				"Shiny new spinner gifs",
+				"Bugfixes"
+			],
 			"4": [
+				"Profile Image can now be changed",
+				"Decryption is now done in a  thread",
 				"Posts are regularly fetched from server",
 				"Mail System started",
-				"Bugfix: Add as Friend works again"
+				"Bugfix: Add as Friend works again",
+				"Date Format improved"
 			],
 			"3": [
 				"New Layout for messages",

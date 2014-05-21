@@ -424,7 +424,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 				}, h.sF(function (result) {
 					var i, a = theUser.data.advanced, defaults = [{}, {}, {}, [], {}, "", []];
 					for (i = 0; i < advancedBranches.length; i += 1) {
-						a[advancedBranches[i]] = result[i] || defaults[i];
+						a[advancedBranches[i]] = h.deepCopyObj(result[i] || defaults[i], 3);
 					}
 
 					this.ne();
