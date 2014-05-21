@@ -35,7 +35,7 @@
 				<div class="lastMessage">
 					{{topic.latestMessage.data.text}}
 				</div>
-				<div class="time">{{topic.latestMessage.data.timestamp|smartdate}}</div>
+				<div class="time"><i class="icon icon-clock"></i> {{topic.latestMessage.data.timestamp|smartdate}}</div>
 				<div class="clear-fix"></div>
 			</li>
 		</div>
@@ -58,7 +58,7 @@
 				<div class="messageContent">
 					<a href="{{message.sender.basic.url}}" class="username" data-userID="sender{{message.sender.id}}">{{message.sender.name}}</a>
 					<div class="messageText {{message.type}}" data-ng-class="{{message.type}}" data-syntaxify="message.text"><img data-ng-if="message.type != 'image'" data-ng-src=""></div>
-					<div class="time">{{message.timestamp|smartdate}}</div>
+					<div class="time"><i class="icon icon-clock"></i> {{message.timestamp|smartdate}}</div>
 				</div>	
 			</li>
 		</ul>
