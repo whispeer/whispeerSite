@@ -4,7 +4,6 @@
 	}
 	#main {
 		.box;
-		overflow-y: scroll !important;
 	}
 	header {
 		.title {
@@ -25,10 +24,18 @@
 			.box-fix;
 			#circleListScroll {
 				.box-fix;
+				margin-top: 10px;
 			}
 			#newcircle {
 				border: none;
 				.border-radius(2px);
+				.btn {
+					width: 100%;
+					cursor: pointer;
+				}
+				&:hover {
+					background: none;
+				}
 			}
 			.circle {
 				.border-radius(5px);
