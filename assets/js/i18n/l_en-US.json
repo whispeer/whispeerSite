@@ -76,6 +76,13 @@
 			"october": "October",
 			"november": "November",
 			"december": "December"
+		},
+		"time": {
+			"justNow": 		"right now",
+			"oneMinuteAgo":	"one minute ago",
+			"minutesAgo":	"{minutes} minutes ago",
+			"oneHourAgo":	"one hour ago",
+			"hoursAgo":		"{hours} hours ago"
 		}
 	},
 	"notimplemented": "Not implemented yet :(",

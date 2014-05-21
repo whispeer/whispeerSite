@@ -84,7 +84,14 @@
 			"october": "Oktober",
 			"november": "November",
 			"december": "Dezember"
-		}
+		},
+		"time": {
+			"justNow": "gerade Eben",
+			"oneMinuteAgo":	"vor einer Minute",
+			"minutesAgo":	"vor {minutes} Minuten",
+			"oneHourAgo":	"vor einer Stunde",
+			"hoursAgo":		"vor {hours} Stunden"
+		}	
 	},
 	"notimplemented": "Noch nicht implementiert :(",
 	"search": "Personen werden gesucht",
