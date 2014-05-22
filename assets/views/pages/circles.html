@@ -13,8 +13,10 @@
 	<div id="circleListWrap" data-ng-if="!mobile || !showCircle">
 		<ul id="circleList">
 			<li class="circle" id="newcircle" data-ng-click="unloadCircle()">
-				<div class="left"><i class="icon-plus-circle" id="plusBtn"></i></div>
-				<div class="right" data-i18n="views.circles.newCircle"></div>
+				<div class="btn btn--small">
+					<div class="left"><i class="icon-plus-circle" id="plusBtn"></i></div>
+					<div class="right" data-i18n="views.circles.newCircle"></div>
+				</div>
 			</li>
 			<div id="circleListScroll">
 				<li data-ng-repeat="circle in circles" id="{{circle.id}}" class="circle" data-ng-click="loadActiveCircle(circle.id)">

@@ -84,7 +84,14 @@
 			"october": "Oktober",
 			"november": "November",
 			"december": "Dezember"
-		}
+		},
+		"time": {
+			"justNow": "gerade Eben",
+			"oneMinuteAgo":	"vor einer Minute",
+			"minutesAgo":	"vor {minutes} Minuten",
+			"oneHourAgo":	"vor einer Stunde",
+			"hoursAgo":		"vor {hours} Stunden"
+		}	
 	},
 	"notimplemented": "Noch nicht implementiert :(",
 	"search": "Personen werden gesucht",
@@ -135,6 +142,7 @@
 		}
 	},
 	"wall": {
+		"createPost": "Einen Post verfassen!",
 		"postit": {
 			"receiver": "Wer soll deinen Beitrag lesen können?",
 			"text": "Was möchtest du den Leuten mitteilen?",

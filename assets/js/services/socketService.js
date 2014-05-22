@@ -61,14 +61,15 @@ define(["jquery", "socket", "socketStream", "step", "whispeerHelper", "config", 
 				step(function doEmit() {
 					data.sid = sessionService.getSID();
 
-					console.log("requesting on " + channel);
+					console.groupCollapsed("Request on " + channel);
 					console.log(data);
+					console.groupEnd();
+
 					time = new Date().getTime();
 
 					socket.emit(channel, data, this.ne);
 				}, h.sF(function emitResults(data) {
-					console.groupCollapsed("Request");
-					console.info("On " + channel);
+					console.groupCollapsed("Answer on " + channel);
 					console.info((new Date().getTime() - time));
 
 					if (data.error) {

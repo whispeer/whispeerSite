@@ -2,7 +2,8 @@
 	<span class="title">
 		<span data-ng-if="!topicLoaded && !showMessage" data-i18n="messages.title"></span>
 		<span data-ng-if="!topicLoaded && showMessage" data-i18n="messages.title"></span>
-		<span data-ng-if="topicLoaded && showMessage" data-i18n="messages.chat">
+		<span data-ng-if="topicLoaded && showMessage">
+			<span data-i18n="messages.chat"></span>
 			<span data-ng-repeat="partner in activeTopic.partners">
 				<span class="status" data-status="{{partner.online}}"></span>
 				<a href="{{partner.basic.url}}">
@@ -34,7 +35,7 @@
 				<div class="lastMessage">
 					{{topic.latestMessage.data.text}}
 				</div>
-				<div class="time">{{topic.latestMessage.data.timestamp|smartdate}}</div>
+				<div class="time"><i class="icon icon-clock"></i> {{topic.latestMessage.data.timestamp|smartdate}}</div>
 				<div class="clear-fix"></div>
 			</li>
 		</div>
@@ -57,7 +58,7 @@
 				<div class="messageContent">
 					<a href="{{message.sender.basic.url}}" class="username" data-userID="sender{{message.sender.id}}">{{message.sender.name}}</a>
 					<div class="messageText {{message.type}}" data-ng-class="{{message.type}}" data-syntaxify="message.text"><img data-ng-if="message.type != 'image'" data-ng-src=""></div>
-					<div class="time">{{message.timestamp|smartdate}}</div>
+					<div class="time"><i class="icon icon-clock"></i> {{message.timestamp|smartdate}}</div>
 				</div>	
 			</li>
 		</ul>

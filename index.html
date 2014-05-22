@@ -37,7 +37,7 @@
 			<button id="toggleSearch" data-ng-click="toggleSearch()" data-ng-if="mobile"><i class="icon icon-search"></i></button>
 			<a href="/start" id="brand" data-ng-click="mobileActivateView()"><span id="brandNormal">whis</span><span id="brandInverse">peer</span></a>
 			<button id="toggleSidebar" data-ng-click="toggleSidebar()" data-ng-if="mobile"><i class="icon icon-home"></i></button>
-			<span class="badge" id="mobileCounter" data-ng-controller="ssn.magicbar.mainController" data-ng-if="mobile && (messages.unread!=0 || friends.requestsCount!=0 || news.count!=0)">{{messages.unread + friends.requestsCount + news.count}}</span>
+			<span class="badge" id="mobileCounter" data-ng-controller="ssn.magicbar.mainController" data-ng-if="mobile && (messages.unread + friends.requestsCount + news.count > 0)">{{messages.unread + friends.requestsCount + news.count}}</span>
 			<div class="nav-collapse collapse">
 				<usersearch size="big" data-input-i18n-attr="menu.search|placeholder"/>
 			</div>
@@ -132,37 +132,37 @@
 				</a>
 				<a href="/friends"  data-ng-click="toggleSidebar()">
 					<li>
-						<img src="assets/img/icons/mobile/friends.png" alt="Freunde">
+						<img data-ng-src="assets/img/icons/mobile/friends.png" alt="Freunde">
 						<span data-i18n="menu.friends|count={{friends.friendsCount}}"></span>
 					</li>
 				</a>
 				<a href="/messages"  data-ng-click="toggleSidebar()">
 					<li>
-						<img src="assets/img/icons/mobile/messages.png" alt="Nachrichten">
+						<img data-ng-src="assets/img/icons/mobile/messages.png" alt="Nachrichten">
 						<span data-ng-controller="ssn.magicbar.mainController" data-i18n="menu.messages|count={{messages.unread}}"></span>
 					</li>
 				</a>
 				<a href="/circles"  data-ng-click="toggleSidebar()">
 					<li>
-						<img src="assets/img/icons/mobile/circles.png" alt="">
+						<img data-ng-src="assets/img/icons/mobile/circles.png" alt="">
 						<span data-i18n="menu.circles"></span>
 					</li>
 				</a>
 				<a href="/settings"  data-ng-click="toggleSidebar()">
 					<li>
-						<img src="assets/img/icons/mobile/settings.png">
+						<img data-ng-src="assets/img/icons/mobile/settings.png">
 						<span data-i18n="menu.settings"></span>
 					</li>
 				</a>
 				<a href="/help"  data-ng-click="toggleSidebar()">
 					<li>
-						<img src="assets/img/icons/mobile/help.png">
+						<img data-ng-src="assets/img/icons/mobile/help.png">
 						<span data-i18n="menu.help"></span>
 					</li>
 				</a>
 				<a href="#" data-ng-click="logout()" data-eat-click>
 					<li data-ng-click="toggleSidebar()">
-						<img src="assets/img/icons/mobile/logout.png">
+						<img data-ng-src="assets/img/icons/mobile/logout.png">
 						<span data-i18n="menu.logout"></span>
 					</li>
 				</a>

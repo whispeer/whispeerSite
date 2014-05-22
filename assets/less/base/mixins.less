@@ -230,12 +230,18 @@
        -o-user-select: @select;
           user-select: @select;
 }
-.buttonBackground(@colorOne, @colorTwo, @tColor, @tShadow) {
-	background-color: @colorOne;
-	color: @tColor;
+.buttonBackground(@defaultColor, @hoverColor:darken(@defaultColor,5%), @focusColor:darken(@hoverColor,5%), @activeColor:@focusColor, @tColor:@white, @tShadow:0 -1px 0 rgba(0,0,0,.25)) {
+	background-color: @defaultColor;
+	color: @tColor !important;
 	text-shadow: @tShadow;
 	&:hover {
-		background-color: @colorTwo;
+		background-color: @hoverColor;
+	}
+	&:focus {
+		background-color: @focusColor;
+	}
+	&:active {
+		background-color: @activeColor;
 	}
 }
 .radial(@outerColor, @innerColor) {
@@ -258,12 +264,4 @@
   .gradient(@primaryColor, @secondaryColor);
   border-color: @secondaryColor @secondaryColor darken(@secondaryColor, 15%);
   border-color: rgba(0,0,0,.1) rgba(0,0,0,.1) fadein(rgba(0,0,0,.1), 15%);
-}
-.buttonBackground(@startColor, @endColor, @textColor: #fff, @textShadow: 0 -1px 0 rgba(0,0,0,.25)) {
-	background-color: @startColor;
-	color: @textColor !important;
-	text-shadow: @textShadow;
-	&:hover, &:active, &.active, &.disabled, &[disabled] {
-		background-color: @endColor;
-	}
 }
