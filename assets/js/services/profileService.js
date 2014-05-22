@@ -135,9 +135,13 @@ define(["crypto/keyStore", "step", "whispeerHelper", "asset/encryptedMetaData", 
 				step(function () {
 					theProfile.decrypt(this);
 				}, h.sF(function  () {
+					updatedProfile = h.extend(decryptedProfile, updatedProfile, 5, true);
+
 					keyStore.hash.addPaddingToObject(updatedProfile, 128, this);
 				}), h.sF(function (paddedUpdatedProfile) {
-					paddedProfile = h.extend(paddedProfile, paddedUpdatedProfile, 5);
+					paddedProfile = paddedUpdatedProfile;
+					decryptedProfile = updatedProfile;
+
 					this.parallel.unflatten();
 
 					encryptProfile(key, this.parallel());
@@ -201,23 +205,6 @@ define(["crypto/keyStore", "step", "whispeerHelper", "asset/encryptedMetaData", 
 					});
 
 					this.ne(changed);
-				}), cb);
-			};
-
-			this.deleteAttribute = function (attribute, cb) {
-				step(function () {
-					theProfile.decrypt(this, attribute);
-				}, h.sF(function () {
-					if (!paddedProfile.hasOwnProperty(attribute)) {
-						changed = true;
-
-						delete encryptedProfile[attribute];
-						delete paddedProfile[attribute];
-
-						this.ne(true);
-					} else {
-						this.ne(false);
-					}
 				}), cb);
 			};
 

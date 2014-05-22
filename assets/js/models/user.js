@@ -411,6 +411,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 					this.last.ne(h.deepGet(pub, attrs));
 				}), cb);
 			}
+			this.getProfileAttribute = getProfileAttribute;
 
 			this.update = updateUser;
 
@@ -559,10 +560,12 @@ define(["step", "whispeerHelper"], function (step, h) {
 				step(function () {
 					this.parallel.unflatten();
 
-					getProfileAttribute("image", this.parallel());
 					getProfileAttribute("imageBlob", this.parallel());
-				}, h.sF(function (image, imageBlob) {
-					if (image) {
+					getProfileAttribute("image", this.parallel());
+				}, h.sF(function (imageBlob, image) {
+					if (imageBlob) {
+						blobService.getBlob(imageBlob.blobid, this);
+					} else if (image) {
 						if (typeof URL !== "undefined") {
 							var img = h.dataURItoBlob(image);
 							var url = URL.createObjectURL(img);
@@ -574,8 +577,6 @@ define(["step", "whispeerHelper"], function (step, h) {
 						} else {
 							this.last.ne(image);
 						}
-					} else if (imageBlob) {
-						blobService.getBlob(imageBlob.blobid, this);
 					} else {
 						this.last.ne("/assets/img/user.png");
 					}
