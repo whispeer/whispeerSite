@@ -30,8 +30,13 @@
 
 	<div id="circleContainer" data-circleID="{{thisCircle.id}}" data-ng-if="circleLoaded && showCircle">
 		<div id="circleTitle">
-			<h2 data-ng-if="!editingTitle.active"><span data-i18n="views.circles.personsInCircle|name={{thisCircle.name}}" title="{{thisCircle.name}}"></span></h2><button data-ng-if="!editingTitle.active" data-ng-click="editTitle()" class="btn editTitleButton"><i class="icon icon-pencil"></i></button>
-			<div class="editTitle" data-ng-if="editingTitle.active"><h2>Kreistitel:</h2><input data-ng-model="thisCircle.name"><savebutton data-ng-click="saveTitle()" data-success="editingTitle.success" data-failure="editingTitle.failure" data-operation="editingTitle.operation"></savebutton></div>
+			<h2 data-ng-if="!editingTitle.active"><span data-i18n="views.circles.personsInCircle|name={{thisCircle.name}}" title="{{thisCircle.name}}"></span></h2>
+			<!-- <button data-ng-if="!editingTitle.active" data-ng-click="editTitle()" class="btn editTitleButton"><i class="icon icon-pencil"></i></button> 
+			<div class="editTitle" data-ng-if="editingTitle.active">
+				<h2>Kreistitel:</h2>
+				<input data-ng-model="thisCircle.name">
+				<savebutton data-ng-click="saveTitle()" data-success="editingTitle.success" data-failure="editingTitle.failure" data-operation="editingTitle.operation"></savebutton>
+			</div> --->
 		</div>
 		<div id="circleWrap">
 			<ol id="friendsList" class="unstyled">
