@@ -8,12 +8,32 @@ define(["whispeerHelper"], function (h) {
 	function circlesController($scope, cssService, circleService) {
 		$scope.circleid = 0;
 		$scope.showCircle = !$scope.mobile;
+		
+		$scope.editingTitle = {
+			"success":		true,
+			"failure":		false,
+			"operation":	false,
+			"active":		false
+		}
+		
+		$scope.editTitle = function () {
+			$scope.editingTitle.active = true;
+		};
+		
+		$scope.saveTitle = function () {
+			$scope.editingTitle.success = true;
+			$scope.editingTitle.active = false;
+		}
 
 		$scope.thisCircle = {};
 
 		$scope.circles = circleService.data.circles;
 
 		cssService.setClass("circlesView");
+		
+		$scope.getLength = function(obj) {
+			return obj.length;
+		};
 
 		circleService.loadAll(function (e) {
 			if (e) {

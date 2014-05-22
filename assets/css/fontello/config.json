@@ -50,31 +50,31 @@
     },
     {
       "uid": "43ab845088317bd348dee1d975700c48",
-      "css": "ok-circled",
+      "css": "ok-circle",
       "code": 59399,
       "src": "fontawesome"
     },
     {
       "uid": "0f4cae16f34ae243a6144c18a003f2d8",
-      "css": "cancel-circled",
+      "css": "cancel-circle",
       "code": 59400,
       "src": "fontawesome"
     },
     {
       "uid": "4ba33d2607902cf690dd45df09774cb0",
-      "css": "plus-circled",
+      "css": "plus-circle",
       "code": 59401,
       "src": "fontawesome"
     },
     {
       "uid": "eeadb020bb75d089b25d8424aabe19e0",
-      "css": "minus-circled",
+      "css": "minus-circle",
       "code": 59402,
       "src": "fontawesome"
     },
     {
       "uid": "17ebadd1e3f274ff0205601eef7b9cc4",
-      "css": "help-circled",
+      "css": "help-circle",
       "code": 59403,
       "src": "fontawesome"
     },
@@ -112,6 +112,12 @@
       "uid": "ddcd918b502642705838815d40aea9e3",
       "css": "thumbs-down-alt",
       "code": 59409,
+      "src": "fontawesome"
+    },
+    {
+      "uid": "d35a1d35efeb784d1dc9ac18b9b6c2b6",
+      "css": "pencil",
+      "code": 59425,
       "src": "fontawesome"
     },
     {

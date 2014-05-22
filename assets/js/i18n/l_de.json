@@ -25,7 +25,9 @@
 				"title":	"Kreise anzeigen",
 				"createGroup": "Als Gruppe kopieren",
 				"sendMessage": "Nachricht an Kreis",
-				"addPeople":	"Personen hinzufügen"
+				"edit":	"Kreis bearbeiten",
+				"save":	"Kreis speichern",
+				"remove":	"Kreis löschen"
 			},
 			"newCircle":	"Neuen Kreis anlegen",
 			"new": "Neuer Kreis",
