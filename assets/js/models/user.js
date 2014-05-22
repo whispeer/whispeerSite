@@ -438,6 +438,16 @@ define(["step", "whispeerHelper"], function (step, h) {
 
 			var basicDataLoaded = false;
 
+			this.loadImage = function () {
+				step(function () {
+					theUser.getImage(this);
+				}, h.sF(function (imageUrl) {
+					theUser.data.basic.image = imageUrl;
+				}), function (e) {
+
+				});
+			}
+
 			this.loadBasicData = function (cb) {
 				step(function () {
 					if (!basicDataLoaded) {
@@ -445,7 +455,6 @@ define(["step", "whispeerHelper"], function (step, h) {
 
 						theUser.getShortName(this.parallel());
 						theUser.getName(this.parallel());
-						theUser.getImage(this.parallel());
 					} else {
 						this.last.ne();
 					}
@@ -465,10 +474,11 @@ define(["step", "whispeerHelper"], function (step, h) {
 					theUser.data.names = names;
 
 					theUser.data.basic.shortname = shortname;
-					theUser.data.basic.image = image;
 
 					theUser.data.added = friendsService.didIRequest(theUser.getID());
 					theUser.data.isMyFriend = friendsService.areFriends(theUser.getID());
+
+					theUser.loadImage();
 
 					friendsService.listen(function () {
 						theUser.data.added = friendsService.didIRequest(theUser.getID());
