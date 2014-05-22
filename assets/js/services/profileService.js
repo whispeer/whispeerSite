@@ -204,6 +204,23 @@ define(["crypto/keyStore", "step", "whispeerHelper", "asset/encryptedMetaData", 
 				}), cb);
 			};
 
+			this.deleteAttribute = function (attribute, cb) {
+				step(function () {
+					theProfile.decrypt(this, attribute);
+				}, h.sF(function () {
+					if (!paddedProfile.hasOwnProperty(attribute)) {
+						changed = true;
+
+						delete encryptedProfile[attribute];
+						delete paddedProfile[attribute];
+
+						this.ne(true);
+					} else {
+						this.ne(false);
+					}
+				}), cb);
+			};
+
 			this.setAttribute = function setAttributeF(attrs, value, cb) {
 				step(function () {
 					theProfile.decrypt(this, attrs[0]);

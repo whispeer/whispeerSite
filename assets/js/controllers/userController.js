@@ -63,15 +63,28 @@ define(["step", "whispeerHelper", "asset/resizableImage"], function (step, h, Re
 			});
 		};
 
+		function setImage(cb) {
+			step(function () {
+				resizableImage.getImageBlob(ENDSIZE, this.ne);
+			}, h.sF(function (imageBlob) {
+				imageBlob = blobService.createBlob(imageBlob);
+				imageBlob.preReserveID(this.parallel());
+				imageBlob.getHash(this.parallel());
+			}), h.sF(function (blobid, hash) {
+				userObject.setProfileAttribute("imageBlob", {
+					blobid: blobid,
+					imageHash: hash
+				}, this);
+			}), cb);
+		}
+
 		$scope.saveUser = function () {
 			if (userObject.isOwn()) {
 				//TODO: something goes wrong here when doing it the 2nd time!
 
 				step(function () {
 					if ($scope.changeImage) {
-						var imageData = resizableImage.getImageData(ENDSIZE);
-
-						userObject.setProfileAttribute("image", imageData, this);
+						setImage(this);
 					} else {
 						this.ne();
 					}
