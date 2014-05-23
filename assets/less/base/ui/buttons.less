@@ -43,31 +43,47 @@
 	.buttonBackground(@btnBackground, @btnBackgroundHover, @btnBackgroundFocus, @btnBackgroundActive, @grayDark, 0 1px 1px rgba(255,255,255,.75));
 	border: 1px solid @btnBorder;
 	text-decoration: none !important;
-}
-.btn--big {
-	padding: 10px 10px;
-}
-.btn--small {
-	padding: 2px 7px;
-}
-.btn--input {
-	padding: 9px;
-}
-// Success and Primary are both green
-.btn--primary {
-	.btn--green;
-}
-.btn--danger {
-	.btn--red;
-}
-// Warning appears are orange
-.btn--warning {
-	.btn--orange;
-}
-// Info appears as a neutral blue
-.btn--info {
-	.btn--blue;
-}
+	&.btn--big {
+		padding: 10px 10px;
+	}
+	&.btn--small {
+		padding: 2px 7px;
+	}
+	&.btn--input {
+		padding: 9px;
+	}
+	// Success and Primary are both green
+	&.btn--primary {
+		.btn--green;
+	}
+	&.btn--danger {
+		.btn--red;
+	}
+	// Warning appears are orange
+	&.btn--warning {
+		.btn--orange;
+	}
+	// Info appears as a neutral blue
+	&.btn--info {
+		.btn--blue;
+	}
+	&.btn--saveButton {
+		&.success {
+			.btn--green;
+		}
+		&.operation {
+			.btn--inverse;
+			.spinner {
+				width: 20px;
+				height: 20px;
+				margin-top: 3px;
+			}
+		}
+		&.failure {
+			.btn--red;
+		}
+	}
+}	
 
 // Button Color Classes
 .btn--green {
