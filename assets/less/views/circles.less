@@ -1,12 +1,32 @@
 .circlesView {
+	.maxHeight {
+		height: 100%;
+	}
 	#main {
 		.box;
-		overflow-y: scroll !important;
 	}
 	header {
+		.title {
+			overflow: hidden;
+			white-space: nowrap;
+			text-overflow: ellipsis;
+		}
 		nav {
 			a {
 				color: lighten(@gray,20%);
+				cursor: pointer;
+				&.delete {
+					color: @red;
+					&:hover {
+						color: lighten(@red, 5%);
+					}
+				}
+				&.save {
+					color: @primary;
+					&:hover {
+						color: @primaryLighter;
+					}
+				}
 			}
 		}
 	}
@@ -17,10 +37,18 @@
 			.box-fix;
 			#circleListScroll {
 				.box-fix;
+				margin-top: 10px;
 			}
 			#newcircle {
 				border: none;
 				.border-radius(2px);
+				.btn {
+					width: 100%;
+					cursor: pointer;
+				}
+				&:hover {
+					background: none;
+				}
 			}
 			.circle {
 				.border-radius(5px);
@@ -30,7 +58,7 @@
 				.left {
 					padding: 0;
 					.userimg {
-						.border-radius(5px);
+						.border-radiuses(0,0,5px,5px);
 						padding: 0;
 					}
 				}
@@ -47,11 +75,25 @@
 					color: #555;
 				}
 				&:hover {
-					background-color: rgba(0,0,0,0.1);
+					background-color: @primaryLightest;
+					.listname {
+						color: #ececec;
+					}
+					.personCount {
+						color: #eee;
+					}
 				}
 				&.active {
-					box-shadow: inset 0px 0px 2px 1px #7fd308;
-					background: rgba(128,212,9,0.4);		
+					background-color: @primaryLighter;
+					.listname {
+						color: #ececec;
+					}
+					.personCount {
+						color: #eee;
+					}
+					&:hover {
+						background-color: @primaryLightest;
+					}		
 				}
 				.time {
 					font-size: small;
@@ -69,18 +111,81 @@
 				white-space: nowrap;
 				text-overflow: ellipsis;
 				overflow: hidden;
+				max-width: 95%;
+				width: auto;
+				display: inline-block;
+				float: left;
 			}
-		}
-		#friendsList {
-			.clear-fix;
-			text-align: center;
-		}
-		.newCircle {
-			#circleWrap {
-				#inputWrap {
-						
+			.editTitleButton {
+				margin-top: 17px;
+				margin-left: 1%;
+				float: left;
+				max-width: 4%;
+				text-align: center;
+				padding-left: 1%;
+				padding-right: 1%;
+			}
+			.editTitle {
+				input {
+					.column(6);
+				}
+				button {
+					.column(4);
+					height: 37px;
+					margin-top: 13px !important;
+				}
+				input, button {
+					margin-top: 13px;
+				}
+				h2 {
+					float: left;
+					.width(2);
+					overflow: auto;
 				}
 			}
 		}
+		#circleWrap {
+			width: 100%;
+			height: 100%;
+			overflow-y: scroll;
+			#friendsList {
+				.clear-fix;
+				text-align: center;
+				li {	
+					position: relative;
+					&.add {
+						background: none;
+						border: 1px solid #ccc;
+						span {
+							font-size: 100px;
+							line-height: 40px;
+							display: inline-block;
+							margin-top: 50%;
+						}
+						&:hover {
+							border: 1px solid @primary;
+							span {
+								text-shadow: 0px 0px 2px #ddd;
+							}
+						}
+					}	
+				}
+			}
+		}	
+		&.newCircle {
+			#circleTitle {
+				h2 {
+					.column(12);
+					margin-left: -1%;
+				}
+			}
+			#circleName {
+				margin-bottom: 14px !important;
+			}
+			#savecircle {
+				.btn--big;
+				margin-left: 1% !important;
+			}
+		}	
 	}
 }

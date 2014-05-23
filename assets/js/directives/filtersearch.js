@@ -4,12 +4,11 @@ define(["step", "whispeerHelper"], function (step, h) {
 	function filterSearchDirective(userService, $timeout, circleService, localize) {
 		return {
 			transclude: false,
-			scope:	{},
+			scope:	false,
 			restrict: "E",
 			templateUrl: "/assets/views/directives/filterSearch.html",
 			replace: true,
 			link: function postLink(scope, iElement, iAttrs) {
-
 				//how do we sort stuff?
 				//first: alwaysAvailableFilter
 				//second: circles
@@ -19,12 +18,10 @@ define(["step", "whispeerHelper"], function (step, h) {
 					scope.$broadcast("queryResults", results);
 				}
 
-				var alwaysAvailableFilter = ["allfriends", "friendsofriends"];
+				var alwaysAvailableFilter = ["allfriends", "friendsoffriends"];
 
-				scope.resultTemplate = "/assets/views/directives/filterSearchResults.html";
-
-				if (iAttrs["selected"]) {
-					var selected = scope.$parent.$eval(iAttrs["selected"]);
+				function loadInitialSelection(attribute) {
+					var selected = scope.$parent.$eval(attribute);
 					step(function () {
 						$timeout(this);
 					}, h.sF(function () {
@@ -37,6 +34,14 @@ define(["step", "whispeerHelper"], function (step, h) {
 					}), h.sF(function (result) {
 						scope.$broadcast("initialSelection", result || []);
 					}));
+				}
+
+				if (iAttrs["selected"]) {
+					scope.$on("reloadInitialSelection", function () {
+						loadInitialSelection(iAttrs["selected"]);
+					});
+
+					loadInitialSelection(iAttrs["selected"]);
 				}
 
 				function getCircle(id, cb) {

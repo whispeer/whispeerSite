@@ -1,13 +1,15 @@
 /**
 * ProfileService
 **/
-define(["crypto/keyStore", "step", "whispeerHelper", "valid/validator", "asset/Observer"], function (keyStore, step, h, validator, Observer) {
+define(["crypto/keyStore", "step", "whispeerHelper", "asset/encryptedMetaData", "validation/validator", "asset/observer"], function (keyStore, step, h, EncryptedMetaData, validator, Observer) {
 	"use strict";
 
 	var service = function () {
 		//where should the key go? should it be next to the data?
 		var profileService = function (data, isDecrypted) {
 			var encryptedProfile, paddedProfile = {}, decryptedProfile = {}, updatedProfile = {}, decrypted = {}, hashObject;
+
+			var metaData = new EncryptedMetaData(data.metaData, isDecrypted);
 
 			var decrypting = false, verified = false, key;
 
@@ -40,7 +42,7 @@ define(["crypto/keyStore", "step", "whispeerHelper", "valid/validator", "asset/O
 			}
 
 			function checkEncryptedProfile() {
-				var err = validator.validateEncrypted("profile", encryptedProfile, 1);
+				var err = validator.validate("profileEncrypted", encryptedProfile, 1);
 				if (err) {
 					throw err;
 				}
@@ -61,7 +63,7 @@ define(["crypto/keyStore", "step", "whispeerHelper", "valid/validator", "asset/O
 
 			if (isDecrypted) {
 				decrypted = true;
-				decryptedProfile = data;
+				decryptedProfile = data.profile;
 
 				checkDecryptedProfile();
 			} else {
@@ -152,7 +154,7 @@ define(["crypto/keyStore", "step", "whispeerHelper", "valid/validator", "asset/O
 				}), cb);
 			};
 
-			this.signAndEncrypt = function signAndEncryptF(signKey, cryptKey, cb) {
+			this.signAndEncrypt = function signAndEncryptF(signKey, cryptKey, mainKey, cb) {
 				step(function () {
 					padDecryptedProfile(this);
 				}, h.sF(function () {
@@ -160,12 +162,13 @@ define(["crypto/keyStore", "step", "whispeerHelper", "valid/validator", "asset/O
 
 					encryptProfile(cryptKey, this.parallel());
 					signProfile(signKey, this.parallel());
-				}), h.sF(function (encryptedProfile, signature) {
+					metaData.getUploadData(mainKey, this.parallel());
+				}), h.sF(function (encryptedProfile, signature, metaData) {
 					var result = {
 						profile: encryptedProfile,
 						signature: signature,
 						hashObject: generateHashObject(),
-						key: cryptKey
+						metaData: metaData
 					};
 
 					this.ne(result);
@@ -174,6 +177,31 @@ define(["crypto/keyStore", "step", "whispeerHelper", "valid/validator", "asset/O
 
 			this.changed = function () {
 				return changed;
+			};
+
+			this.setFullProfile = function setFullProfileF(data, cb) {
+				step(function () {
+					theProfile.decrypt(this);
+				}, h.sF(function () {
+					h.objectEach(decryptedProfile, function (key) {
+						if (!data.hasOwnProperty(key)) {
+							changed = true;
+
+							delete encryptedProfile[key];
+							delete paddedProfile[key];
+						}
+					});
+
+					h.objectEach(data, function (key, value) {
+						if (!h.deepEqual(value, decryptedProfile[key])) {
+							changed = true;
+
+							updatedProfile[key] = value;
+						}
+					});
+
+					this.ne(changed);
+				}), cb);
 			};
 
 			this.setAttribute = function setAttributeF(attrs, value, cb) {
@@ -189,16 +217,30 @@ define(["crypto/keyStore", "step", "whispeerHelper", "valid/validator", "asset/O
 			};
 
 			this.getScope = function (cb) {
-				var that = this;
 				step(function () {
-					that.getAttribute(["scope"], this);
+					//TODO: move scope to meta!
+					metaData.getBranch("scope", this);
 				}, h.sF(function (scope) {
 					this.ne(scope || "always:allfriends");
 				}), cb);
 			};
 
 			this.updated = function updatedF() {
+				unpadPaddedProfile();
 				changed = false;
+			};
+
+			this.getFull = function getFullF(cb) {
+				if (decrypted === true) {
+					cb(null, decryptedProfile);
+					return;
+				}
+
+				step(function () {
+					theProfile.decrypt(this);
+				}, h.sF(function () {
+					this.last.ne(decryptedProfile);
+				}), cb);
 			};
 
 			this.getAttribute = function getAttributeF(attrs, cb) {
@@ -232,7 +274,7 @@ define(["crypto/keyStore", "step", "whispeerHelper", "valid/validator", "asset/O
 				}), h.sF(function decryptedBranch(decryptedData) {
 					if (keyStore.hash.hashObjectOrValueHex(decryptedData) !== hashObject[branch]) {
 						debugger;
-						throw "security breach!";
+						throw new Error("security breach!");
 					}
 
 					paddedProfile[branch] = decryptedData;
@@ -261,7 +303,7 @@ define(["crypto/keyStore", "step", "whispeerHelper", "valid/validator", "asset/O
 					var attr;
 					for (attr in result) {
 						if (result.hasOwnProperty(attr)) {
-							decryptedProfile[attr] = result[attr];
+							paddedProfile[attr] = result[attr];
 						}
 					}
 

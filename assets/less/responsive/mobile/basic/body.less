@@ -58,7 +58,7 @@ body {
 					}
 					li {
 						.btn;
-						.btn-green;
+						.btn--green;
 						border: none;
 						.border-radius(0);
 						float: left;
@@ -69,6 +69,12 @@ body {
 						span {
 							color: #fff;
 							.column(10);
+							span {
+								width: 100%;
+								font-size: 1.2em;
+								text-align: left;
+								margin-top: 10px;
+							}
 						}
 					}
 					img {
@@ -80,17 +86,21 @@ body {
 		}
 	}
 	
+	.notificationWrap {
+		margin-bottom: 40px;
+	}
+	
 	footer {
 		float: left;
 		width: 100%;
 		margin: -25px 0 0;
 		padding: 5px 5px 0px 5px;
-		#left {
+		.left {
 			width: 25%;
 			float: left;
 			text-align: left;
 		}
-		#right {
+		.right {
 			width: 75%;
 			float: left;
 			text-align: right;

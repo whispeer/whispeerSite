@@ -3,11 +3,12 @@
 		.box;
 		padding-top: 30px;
 		height: 100%;
-		background-color: @btnBackgroundHighlight;
+		background-color: @btnBackgroundHover;
 		border: 1px solid @btnBorder;
 		border-bottom: 1px solid darken(@btnBorder, 10%);
 		.border-radius(5px);
 		.box-fix;
+		overflow: hidden;
 		#settingsWrap {
 			height: 100%;
 			overflow-y: scroll;
@@ -29,25 +30,25 @@
 				.column(8,8);
 				margin-top: -5px;
 				margin-bottom: 10px;
-				span {
-					.column(3);
-				}
 				input:not([type=submit]) {
 					.column(2);
 				}
-				&#nickname {
+				&#nickname, &#mail {
 					button {
 						.push(2);
 					}
 				}
 			}
 			&#safety {
-				.config {
+				.config.select {
 					button {
 						.column(1);
 						margin-top: -1px;
 						margin-bottom: 10px;
 						height: 40px;
+					}
+					span {
+						.column(3,12,left,0);
 					}
 					.whoMaySeeIt {
 						.column(8);
@@ -59,13 +60,13 @@
 				height: 35px;
 				//.column(0.75,12,none,0.25);
 				&[type=submit] {
-					.btn-success;
+					.btn--primary;
 					&[data-encrypted="false"] {
-						.btn-danger;
+						.btn--danger;
 					}
 				}
 				&[type=reset] {
-					.btn-danger;
+					.btn--danger;
 				}
 			}
 			.notimplemented {

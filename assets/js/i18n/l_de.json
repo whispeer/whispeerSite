@@ -1,26 +1,64 @@
 {
+	"window": {
+		"title": {
+			"newmessage": "{data}: Neue Nachricht",
+			"basic": "whispeer",
+			"terms": "AGB",
+			"data": "Datenschutzbestimmungen",
+			"contact": "Kontakt",
+			"notice": "Impressum"
+		}
+	},
 	"views": {
+		"mail": {
+			"verify": "E-Mail bestätigen",
+			"updateMe": "Ich möchte Updates per E-Mail erhalten",
+			"verifying": "E-Mail wird verifiziert.",
+			"verified": "Deine E-Mail Adresse wurde bestätigt.",
+			"backToLogin": "Zurück zum Login",
+			"failed": "Aktivierung fehlgeschlagen!\n Möglicherweise ist dein Aktivierungscode abgelaufen."
+		},
 		"circles": {
-			"searchFriends": "Gebe die Namen deiner Freunde ein, die du zum Kreis hinzufügen möchtest!",
-			"titleForNew": "Gebe einen Titel für den neuen Kreis ein!", 
+			"searchFriends": "Gib die Namen deiner Freunde ein, die du zum Kreis hinzufügen möchtest!",
+			"titleForNew": "Gib einen Titel für den neuen Kreis ein!",
 			"header": {
-				"title":	"Kreise",
+				"title":	"Kreise anzeigen",
 				"createGroup": "Als Gruppe kopieren",
 				"sendMessage": "Nachricht an Kreis",
-				"addPeople":	"Personen hinzufügen"
+				"edit":	"Kreis bearbeiten",
+				"save":	"Kreis speichern",
+				"remove":	"Kreis löschen"
 			},
 			"newCircle":	"Neuen Kreis anlegen",
+			"new": "Neuer Kreis",
+			"createCircle": "Kreis erstellen",
 			"personCount":	"Es befinden sich {count} Personen in diesem Kreis",
-			"personsInCircle":"Personen im Kreis \"{name}\""
+			"personsInCircle":"Personen im Kreis \"{name}\"",
+			"nocircle": "Keine Kreise gefunden"
 		}
+	},
+	"start": {
+		"welcome": "Willkommen bei whispeer - dem sicheren sozialen Netzwerk!",
+		"more": "Mehr Info",
+		"moreInfo": "Mehr Informationen zu whispeer",
+		"regnow": "Jetzt anmelden!",
+		"loading": "Laden..."
 	},
 	"directives": {
 		"allfriends": "Alle Freunde",
-		"friendsofriends": "Freunde von Freunden"
+		"friendsoffriends": "Freunde von Freunden"
+	},
+	"usersearch": {
+		"mutualFriends": "mutual friends",
+		"from": "aus",
+		"age": "Alter:",
+		"message": "Nachricht senden",
+		"add": "Als Freund hinzufügen"
 	},
 	"general": {
 		"send":	"Absenden",
-		"cancel":	"Abbrechen"
+		"cancel":	"Abbrechen",
+		"disconnected":	"Du hast deine Verbindung zu den whispeer-Servern verloren."
 	},
 	"date": {
 		"month": {
@@ -37,7 +75,7 @@
 			"11": "November",
 			"12": "Dezember",
 			"january": "Januar",
-			"feburary": "Februar",
+			"february": "Februar",
 			"march": "März",
 			"april": "April",
 			"may": "Mai",
@@ -48,14 +86,21 @@
 			"october": "Oktober",
 			"november": "November",
 			"december": "Dezember"
-		}
+		},
+		"time": {
+			"justNow": "gerade Eben",
+			"oneMinuteAgo":	"vor einer Minute",
+			"minutesAgo":	"vor {minutes} Minuten",
+			"oneHourAgo":	"vor einer Stunde",
+			"hoursAgo":		"vor {hours} Stunden"
+		}	
 	},
 	"notimplemented": "Noch nicht implementiert :(",
 	"search": "Personen werden gesucht",
 	"menu": {
 		"profil": "Profil",
 		"friends": "Freunde ({count})",
-		"messages": "Nachrichten",
+		"messages": "Nachrichten ({count})",
 		"media": "Medien",
 		"circles": "Kreise",
 		"settings": "Einstellungen",
@@ -70,6 +115,15 @@
 		"loginFailed": "Benutzername und Password stimmen nicht überein!",
 		"moreInfo":	"Mehr Info",
 		"register": {
+			"errors": {
+				"nickInvalid": "Invalider Username",
+				"nickUsed": "Dieser Username ist schon vergeben",
+				"mailInvalid": "Invalide E-Mail",
+				"mailUsed": "Diese E-Mail ist schon vergeben",
+				"passwordWeak": "Passwort zu schwach",
+				"passwordNoMatch": "Passwort stimmen nicht überein"
+			},
+
 			"link":	"Registrieren",
 			"next": "Weiter",
 			"previous": "Zurück",
@@ -77,12 +131,20 @@
 			"passwordstrength":	"Punkte für dein Passwort: ",
 			"email":	"E-Mail Adresse",
 			"repeatEmail":	"E-Mail Adresse wiederholen",
+
+			"firstname": "Vorname",
+			"lastname": "Nachname",
+
 			"country":	"Land",
 			"location":	"Wohnort",
-			"uploadImage":	"Profilbild hochladen!"
+			"uploadImage":	"Profilbild hochladen!",
+			"more": "Weitere Informationen",
+			"intro": "Bitte teile uns dein Geschlecht, deinen Namen, dein Geburtsdatum und deinen Wohnort mit. Dies ermöglicht deinen Freunden bei whispeer, dich zu finden. Selbstverständlich zwingen wir dich nicht dazu, diese Angaben zu machen!",
+			"newaccount": "Neues Konto erstellen"
 		}
 	},
 	"wall": {
+		"createPost": "Einen Post verfassen!",
 		"postit": {
 			"receiver": "Wer soll deinen Beitrag lesen können?",
 			"text": "Was möchtest du den Leuten mitteilen?",
@@ -97,7 +159,8 @@
 			"awesome":	"Awesomeness: {count}",
 			"comments":	{
 				"count":	"{count} Kommentare",
-				"showem":	"Kommentare anzeigen"
+				"showem":	"Kommentare anzeigen",
+				"hideem":	"Kommentare verbergen"
 			}
 		},
 		"post": {
@@ -111,6 +174,8 @@
 		}
 	},
 	"messages": {
+		"title": "Nachrichten",
+		"chat" :"Chat mit",
 		"newMessage": "Neue Nachricht",
 		"search": "Wer soll diese Nachricht empfangen?",
 		"sendMessage": {
@@ -127,7 +192,7 @@
 		},
 		"actions": {
 			"addFriend":	"{user} als Freund hinzufügen",
-			"addToCircle":	"In welche Kreise möchtest du {user} einfügen?",
+			"addToCircle":	"Zu welchen Kreisen möchtest du {user} hinzufügen?",
 			"sendMessage": "{user} eine Nachricht senden"
 		},
 		"section":	{
@@ -143,11 +208,12 @@
 				},
 				"changeImage": "Profilbild ändern",
 				"birthday": {
-					"text":	"Geboren am {day}.{month} {year}",
+					"text":	"Geboren am {day}. {month} {year}",
 					"day":	"Tag",
 					"month":	"Monat",
-					"year":	"Jahr"
-				},	
+					"year":	"Jahr",
+					"info": "Geburtstag"
+				},
 				"location": {
 					"": "Wohnt in {town}, {state}, {country}",
 					"country": "Wohnt in {country}",
@@ -159,10 +225,12 @@
 					"countrystatetown": "Wohnt in {town}, {state}, {country}"
 				},
 				"relation":	{
-					"pst": "seit {since} {relationType} mit {partner}",
-					"st": "seit {since} {relationType}",
-					"pt": "{relationType} mit {partner}",
-					"t": "{relationType}",
+					"": "",
+					"namesincetype": "seit {since} {relationType} mit {name}",
+					"sincetype": "seit {since} {relationType}",
+					"nametype": "{relationType} mit {name}",
+					"name": "mit {name}",
+					"type": "{relationType}",
 
 					"default": "{relationType} mit {partner}",
 					"noPartner": "{relationType}",
@@ -181,17 +249,24 @@
 					}
 				},
 				"education":	"schulische Ausbildung: {school}",
-				"work":	"arbeitet als {what} bei {company}",
+				"work":	{
+					"whatwhere": "arbeitet als {what} bei {where}",
+					"what": "arbeitet als {what}",
+					"where": "arbeitet bei {where}"
+				},
 				"gender":	{
 					"": "",
+					"gender": "Geschlecht",
 					"default":	"{gender}",
 					"m":	"männlich",
-					"f":	"weiblich"
+					"f":	"weiblich",
+					"n":	"Keine Angabe"
 				},
 				"languages":	"{language}"
 			},
 			"wall": {
-				"title":	"Pinnwand"
+				"title":	"Pinnwand",
+				"postIt":	"Schreibe etwas an die Pinnwand von {user}"
 			},
 			"friends": {
 				"info":	"Freunde"
@@ -215,7 +290,7 @@
 		"faq": {
 			"register": {
 				"question": "Muss ich beim Registrieren meinen vollen Namen und meine E-Mail-Adresse angeben?",
-				"answer":	"Nein. Wenn du dich registrieren möchtest, kannst du dies schon mit einem Nickname. Du kannst aber auch nur eine E-Mail-Adresse angeben. Natürlich kannst du dir aussuchen, ob du deinen vollen Namen angeben möchtest, oder vielleicht nur einen Teil davon. Allerdings kannst du deinen Namen auch verschlüsseln, sodass später nur deine Freunde auf whispeer deinen ganzen Namen sehen können."
+				"answer":	"Nein. Wenn du dich registrieren möchtest, kannst du dies schon mit einem Username. Du kannst aber auch nur eine E-Mail-Adresse angeben. Natürlich kannst du dir aussuchen, ob du deinen vollen Namen angeben möchtest, oder vielleicht nur einen Teil davon. Allerdings kannst du deinen Namen auch verschlüsseln, sodass später nur deine Freunde auf whispeer deinen ganzen Namen sehen können."
 			},
 			"password": {
 				"question": "Wie erstelle ich ein sicheres Passwort?",
@@ -223,11 +298,11 @@
 			},
 			"profile": {
 				"question": "Wie kann ich mein Profil bearbeiten?",
-				"answer":	"Wenn du auf deinem eigenen Profil bist, steht links oben bei deinen Informationen 'Bearbeiten'. Klicke darauf, um deine Angaben in deinem Profil ändern. Wenn du fertig bist mit deinen Änderungen, klicke auf den 'Übernehmen'-Button. Deine Änderungen an deinem Profil werden dann übernommen."
+				"answer":	"Wenn du auf deinem eigenen Profil bist, steht links oben bei deinen Informationen 'Bearbeiten'. Klicke darauf, um deine Angaben in deinem Profil ändern. Wenn du fertig bist mit deinen Änderungen, klicke auf den 'Speichern'-Button. Deine Änderungen an deinem Profil werden dann übernommen."
 			},
 			"search": {
 				"question": "Wie funktioniert die Suche?",
-				"answer":	"Im Moment kannst du nach Vornamen, Nachnamen und Nicknamen suchen. Du tippst also einen Namen in die Suche ein und bekommst dann User, die auf deine Suchanfrage passen, vorgeschlagen."
+				"answer":	"Im Moment kannst du nach Vornamen, Nachnamen und Usernamen suchen. Du tippst also einen Namen in die Suche ein und bekommst dann User, die auf deine Suchanfrage passen, vorgeschlagen."
 			},
 			"messages": {
 				"question": "Wie wähle ich aus, wer meine Nachrichten erhält? Kann ich auch Nachrichten an mehrere Personen verschicken?",
@@ -251,15 +326,15 @@
 			},
 			"report": {
 				"question": "Wie kann ich jemanden melden?",
-				"answer":	"Momentan musst du uns eine Mail mit dem Namen der Person, bzw. ihrem Nicknamen oder ihrer E-Mail senden. Die Adresse ist support@whispeer.de . Es wird jedoch so bald wie möglich einen Melden-Button geben."
+				"answer":	"Momentan musst du uns eine Mail mit dem Namen der Person, bzw. ihrem Usernamen oder ihrer E-Mail senden. Die Adresse ist support@whispeer.de . Es wird jedoch so bald wie möglich einen Melden-Button geben."
 			},
 			"account": {
-				"question": "Wo kann ich meine Konto-Daten (Passwort, Nickname, E-Mail-Adresse) ändern?",
+				"question": "Wo kann ich meine Konto-Daten (Passwort, Username, E-Mail-Adresse) ändern?",
 				"answer":	"Deine Konto-Daten kannst du ändern, wenn du im Menü links auf 'Einstellungen' klickst. Du wirst dann auf die Einstellungs-Seite weitergeleitet, und unter dem ersten Thema 'Allgemein' kannst du deine Angaben ändern."
 			},
 			"privacy": {
 				"question": "Wo kann ich meine Privatsphäre-Einstellungen ändern?",
-				"answer":	"Ähnlich wie bei deinen Konto-Daten klickst gehst du zunächst einmal auf die Einstellungs-Seite durch einen Klick auf 'Einstellungen' im Menü links. Deine Privatsphäre-Einstellungen kannst du unter dem drittn Thema 'Privatsphäre' ändern."
+				"answer":	"Ähnlich wie bei deinen Konto-Daten klickst gehst du zunächst einmal auf die Einstellungs-Seite durch einen Klick auf 'Einstellungen' im Menü links. Deine Privatsphäre-Einstellungen kannst du unter dem dritten Thema 'Privatsphäre' ändern."
 			},
 			"safety": {
 				"question": "Wo kann ich auswählen, welche meiner Daten verschlüsselt werden?",
@@ -269,6 +344,8 @@
 	},
 	"settings": {
 		"safety": {
+			"title": "Sicherheit - Welche deiner Profildaten sollen verschlüsselt werden?",
+			"reset": "Zurücksetzen",
 			"attributes": {
 				"location": "Wohnort",
 				"birthday": "Geburtstag",
@@ -276,19 +353,36 @@
 				"education": "Ausbildung",
 				"work": "Arbeit",
 				"gender": "Geschlecht",
-				"languages": "Sprachen"
+				"languages": "Sprachen",
+				"names": {
+					"header": "Name",
+					"firstname": "Vorname",
+					"lastname": "Nachname",
+					"username": "Username"
+				}
 			}
 		},
 		"header": {
 			"title":	"Einstellungen"
-		}	
+		},
+		"changes": {
+			"General": "Allgemein",
+			"changeName": "Namen ändern",
+			"changeUsername": "Usernamen ändern",
+			"changeMail": "E-Mail Adresse ändern",
+			"changePassword": "Passwort ändern",
+			"save": "Speichern",
+			"mail": "E-Mail Adresse"
+		}
 	},
 	"magicbar": {
 		"close": "Schließen",
 		"messages": {
+			"none": "Keine Nachrichten vorhanden!",
 			"title": "Nachrichten"
 		},
 		"requests":{
+			"none": "Keine Anfragen vorhanden!",
 			"title": "Anfragen",
 			"mutuals": "{count} gemeinsame Freunde",
 			"accept":	"Annehmen",
@@ -299,6 +393,7 @@
 		},
 		"news": {
 			"title": "Neuigkeiten",
+			"none": "Keine Neuigkeiten vorhanden!",
 			"action": {
 				"comment": {
 					"photo": {
@@ -311,12 +406,12 @@
 						"his": {
 							"commented": "{user} hat sein eigenes Foto kommentiert, das du auch kommentiert hast: \"{what}\"",
 							"awesomed":	"{user} hat sein eigenes Foto kommentiert, das du awesome findest: \"{what}\"",
-							"linked": "{user} hat sein eigenes Foto kommentierst, auf dem du verlinkt bist!"
+							"linked": "{user} hat sein eigenes Foto kommentierst, auf dem du verlinkt bist: \"{what}\""
 						},
 						"her": {
 							"commented": "{user} hat ihr eigenes Foto kommentiert, das du auch kommentiert hast: \"{what}\"",
 							"awesomed":	"{user} hat ihr eigenes Foto kommentiert, das du awesome findest: \"{what}\"",
-							"linked": "{user} hat ihr eigenes Foto kommentierst, auf dem du verlinkt bist!"
+							"linked": "{user} hat ihr eigenes Foto kommentierst, auf dem du verlinkt bist: \"{what}\""
 						}
 					},
 					"post": {
@@ -329,12 +424,12 @@
 						"his": {
 							"commented": "{user} hat seinen eigenen Status kommentiert, den du auch kommentiert hast: \"{what}\"",
 							"awesomed":	"{user} hat seinen eigenen Status kommentiert, den du awesome findest: \"{what}\"",
-							"linked": "{user} hat seinen eigenen Status kommentierst, in dem du verlinkt bist!"
+							"tagged": "{user} hat seinen eigenen Status kommentierst, in dem du verlinkt bist!"
 						},
 						"her": {
 							"commented": "{user} hat ihren eigenen Status kommentiert, den du auch kommentiert hast: \"{what}\"",
 							"awesomed":	"{user} hat ihren eigenen Status kommentiert, den du awesome findest: \"{what}\"",
-							"linked": "{user} hat ihren eigenen Status kommentierst, in dem du verlinkt bist!"
+							"tagged": "{user} hat ihren eigenen Status kommentierst, in dem du verlinkt bist: \"{what}\""
 						}
 					},
 					"wallpost": {
@@ -347,30 +442,30 @@
 						"his": {
 							"commented": "{user} hat seinen eigenen Pinnwandeintrag kommentiert, den du auch kommentiert hast: \"{what}\"",
 							"awesomed":	"{user} hat seinen eigenen Pinnwandeintrag kommentiert, den du awesome findest: \"{what}\"",
-							"linked": "{user} hat seinen eigenen Pinnwandeintrag kommentierst, in dem du verlinkt bist!"
+							"tagged": "{user} hat seinen eigenen Pinnwandeintrag kommentierst, in dem du verlinkt bist!"
 						},
 						"her": {
 							"commented": "{user} hat ihren eigenen Pinnwandeintrag kommentiert, den du auch kommentiert hast: \"{what}\"",
 							"awesomed":	"{user} hat ihren eigenen Pinnwandeintrag kommentiert, den du awesome findest: \"{what}\"",
-							"linked": "{user} hat ihren eigenen Pinnwandeintrag kommentierst, in dem du verlinkt bist!"
+							"tagged": "{user} hat ihren eigenen Pinnwandeintrag kommentierst, in dem du verlinkt bist: \"{what}\""
 						}
 					},
 					"link": {
 						"you": {
 							"own": "{user} hat deinen Link kommentiert!",
-							"commented": "{user} hat einen Link von {owner} kommentiert, den du kommentiert hast!",
-							"awesomed":	"{user} hat einen Link von {owner} kommentiert, den du awesome findest!",
-							"shared":	"{user} hat deinen geteilten Link kommentiert!"
+							"commented": "{user} hat einen Link von {owner} kommentiert, den du kommentiert hast: \"{what}\"",
+							"awesomed":	"{user} hat einen Link von {owner} kommentiert, den du awesome findest: \"{what}\"",
+							"shared":	"{user} hat deinen geteilten Link kommentiert: \"{what}\""
 						},
 						"his": {
 							"commented": "{user} hat seinen eigenen Link kommentiert, den du auch kommentiert hast: \"{what}\"",
 							"awesomed":	"{user} hat seinen eigenen Link kommentiert, den du awesome findest: \"{what}\"",
-							"linked": "{user} hat seinen eigenen Link kommentierst, in dem du verlinkt bist!"
+							"tagged": "{user} hat seinen eigenen Link kommentierst, in dem du verlinkt bist: \"{what}\""
 						},
 						"her": {
 							"commented": "{user} hat ihren eigenen Link kommentiert, den du auch kommentiert hast: \"{what}\"",
 							"awesomed":	"{user} hat ihren eigenen Link kommentiert, den du awesome findest: \"{what}\"",
-							"linked": "{user} hat ihren eigenen Link kommentierst, in dem du verlinkt bist!"
+							"tagged": "{user} hat ihren eigenen Link kommentierst, in dem du verlinkt bist: \"{what}\""
 						}
 					}
 				},
@@ -385,12 +480,12 @@
 						"his": {
 							"commented": "{user} findet sein eigenes Foto awesome, das du kommentiert hast!",
 							"awesomed":	"{user} findet sein eigenes Foto awesome, das du auch awesome findest!",
-							"linked": "{user} findet sein eigenes Foto awesome, auf dem du verlinkt bist!"
+							"tagged": "{user} findet sein eigenes Foto awesome, auf dem du verlinkt bist!"
 						},
 						"her": {
 							"commented": "{user} findet ihr eigenes Foto awesome, das du kommentiert hast!",
 							"awesomed":	"{user} findet ihr eigenes Foto awesome, das du auch awesome findest!",
-							"linked": "{user} findet ihr eigenes Foto awesome, auf dem du verlinkt bist!"
+							"tagged": "{user} findet ihr eigenes Foto awesome, auf dem du verlinkt bist!"
 						}
 					},
 					"post": {
@@ -403,12 +498,12 @@
 						"his": {
 							"commented": "{user} findet seinen eigenen Status awesome, den du kommentiert hast!",
 							"awesomed":	"{user} findet seinen eigenen Status awesome, den du auch awesome findest!",
-							"linked": "{user} findet seinen eigenen Status awesome, in dem du verlinkt bist!"
+							"tagged": "{user} findet seinen eigenen Status awesome, in dem du verlinkt bist!"
 						},
 						"her": {
 							"commented": "{user} findet ihren eigenen Status awesome, den du kommentiert hast!",
 							"awesomed":	"{user} findet ihren eigenen Status awesome, den du auch awesome findest!",
-							"linked": "{user} findet ihren eigenen Status awesome, in dem du verlinkt bist!"
+							"tagged": "{user} findet ihren eigenen Status awesome, in dem du verlinkt bist!"
 						}
 					},
 					"wallpost": {
@@ -421,12 +516,12 @@
 						"his": {
 							"commented": "{user} findet seinen eigenen Pinnwandeintrag awesome, den du kommentiert hast!",
 							"awesomed":	"{user} findet seinen eigenen Pinnwandeintrag awesome, den du auch awesome findest!",
-							"linked": "{user} findet seinen eigenen Pinnwandeintrag awesome, in dem du verlinkt bist!"
+							"tagged": "{user} findet seinen eigenen Pinnwandeintrag awesome, in dem du verlinkt bist!"
 						},
 						"her": {
 							"commented": "{user} findet ihren eigenen Pinnwandeintrag awesome, den du kommentiert hast!",
 							"awesomed":	"{user} findet ihren eigenen Pinnwandeintrag awesome, den du auch awesome findest!",
-							"linked": "{user} findet ihren eigenen Pinnwandeintrag awesome, in dem du verlinkt bist!"
+							"tagged": "{user} findet ihren eigenen Pinnwandeintrag awesome, in dem du verlinkt bist!"
 						}
 					},
 					"comment": {
@@ -438,12 +533,12 @@
 						"his": {
 							"commented": "{user} findet seinen eigenen Kommentar awesome, den du kommentiert hast!",
 							"awesomed":	"{user} findet seinen eigenen Kommentar awesome, den du auch awesome findest!",
-							"linked": "{user} findet seinen eigenen Kommentar awesome, in dem du verlinkt bist!"
+							"tagged": "{user} findet seinen eigenen Kommentar awesome, in dem du verlinkt bist!"
 						},
 						"her": {
 							"commented": "{user} findet ihren eigenen Kommentar awesome, den du kommentiert hast!",
 							"awesomed":	"{user} findet ihren eigenen Kommentar awesome, den du auch awesome findest!",
-							"linked": "{user} findet ihren eigenen Kommentar awesome, in dem du verlinkt bist!"
+							"tagged": "{user} findet ihren eigenen Kommentar awesome, in dem du verlinkt bist!"
 						}
 					}
 				},
@@ -458,12 +553,12 @@
 						"his": {
 							"commented": "{user} hat sein eigenes Foto geteilt, das du kommentiert hast!",
 							"awesomed":	"{user} hat sein eigenes Foto geteilt, das du awesome findest!",
-							"linked": "{user} hat sein eigenes Foto geteilt, auf dem du verlinkt bist!"
+							"tagged": "{user} hat sein eigenes Foto geteilt, auf dem du verlinkt bist!"
 						},
 						"her": {
 							"commented": "{user} hat ihr eigenes Foto geteilt, das du kommentiert hast!",
 							"awesomed":	"{user} hat ihr eigenes Foto geteilt, das du awesome findest!",
-							"linked": "{user} hat ihr eigenes Foto geteilt, auf dem du verlinkt bist!"
+							"tagged": "{user} hat ihr eigenes Foto geteilt, auf dem du verlinkt bist!"
 						}
 					},
 					"post": {
@@ -476,12 +571,12 @@
 						"his": {
 							"commented": "{user} hat seinen eigenen Status geteilt, den du kommentiert hast!",
 							"awesomed":	"{user} hat seinen eigenen Status geteilt, den du awesome findest!",
-							"linked": "{user} hat seinen eigenen Status geteilt, in dem du verlinkt bist!"
+							"tagged": "{user} hat seinen eigenen Status geteilt, in dem du verlinkt bist!"
 						},
 						"her": {
 							"commented": "{user} hat ihren eigenen Status geteilt, den du kommentiert hast!",
 							"awesomed":	"{user} hat ihren eigenen Status geteilt, den du awesome findest!",
-							"linked": "{user} hat ihren eigenen Status geteilt, in dem du verlinkt bist!"
+							"tagged": "{user} hat ihren eigenen Status geteilt, in dem du verlinkt bist!"
 						}
 					},
 					"wallpost": {
@@ -494,12 +589,12 @@
 						"his": {
 							"commented": "{user} hat seinen eigenen Pinnwandeintrag geteilt, den du kommentiert hast!",
 							"awesomed":	"{user} hat seinen eigenen Pinnwandeintrag geteilt, den du awesome findest!",
-							"linked": "{user} hat seinen eigenen Pinnwandeintrag geteilt, in dem du verlinkt bist!"
+							"tagged": "{user} hat seinen eigenen Pinnwandeintrag geteilt, in dem du verlinkt bist!"
 						},
 						"her": {
 							"commented": "{user} hat ihren eigenen Pinnwandeintrag geteilt, den du kommentiert hast!",
 							"awesomed":	"{user} hat ihren eigenen Pinnwandeintrag geteilt, den du awesome findest!",
-							"linked": "{user} hat ihren eigenen Pinnwandeintrag geteilt, in dem du verlinkt bist!"
+							"tagged": "{user} hat ihren eigenen Pinnwandeintrag geteilt, in dem du verlinkt bist!"
 						}
 					},
 					"link": {
@@ -512,12 +607,12 @@
 						"his": {
 							"commented": "{user} hat seinen eigenen Link geteilt, den du kommentiert hast!",
 							"awesomed":	"{user} hat seinen eigenen Link geteilt, den du awesome findest!",
-							"linked": "{user} hat seinen eigenen Link geteilt, in dem du verlinkt bist!"
+							"tagged": "{user} hat seinen eigenen Link geteilt, in dem du verlinkt bist!"
 						},
 						"her": {
 							"commented": "{user} hat ihren eigenen Link geteilt, den du kommentiert hast!",
 							"awesomed":	"{user} hat ihren eigenen Link geteilt, den du awesome findest!",
-							"linked": "{user} hat ihren eigenen Link geteilt, in dem du verlinkt bist!"
+							"tagged": "{user} hat ihren eigenen Link geteilt, in dem du verlinkt bist!"
 						}
 					}
 				},
@@ -525,30 +620,35 @@
 					"photo": {
 						"you": {
 							"own": "{user} hat bei deinem Foto auf whatever geklickt.",
-							"shared":	"{user} hat bei deinem geteilten Foto auf whatever geklickt."
+							"shared":	"{user} hat bei deinem geteilten Foto auf whatever geklickt.",
+							"tagged": "{user} hat bei einem Foto, auf dem du verlinkt bist, auf whatever geklickt."
 						}
 					},
 					"post": {
 						"you": {
 							"own": "{user} hat bei deinem Status auf whatever geklickt.",
-							"shared":	"{user} hat bei deinem geteilten Status auf whatever geklickt."
+							"shared":	"{user} hat bei deinem geteilten Status auf whatever geklickt.",
+							"tagged": "{user} hat bei einem Status, auf dem du verlinkt bist, auf whatever geklickt."
 						}
 					},
 					"wallpost": {
 						"you": {
 							"own": "{user} hat bei deinem Pinnwandeintrag auf whatever geklickt.",
-							"shared":	"{user} hat bei deinem geteilten Pinnwandeintrag auf whatever geklickt."
+							"shared":	"{user} hat bei deinem geteilten Pinnwandeintrag auf whatever geklickt.",
+							"tagged": "{user} hat bei einem Pinnwandeintrag, auf dem du verlinkt bist, auf whatever geklickt."
 						}
 					},
 					"link": {
 						"you": {
 							"own": "{user} hat bei deinem Link auf whatever geklickt.",
-							"shared":	"{user} hat bei deinem geteilten Link auf whatever geklickt."
+							"shared":	"{user} hat bei deinem geteilten Link auf whatever geklickt.",
+							"tagged": "{user} hat bei einem Link, auf dem du verlinkt bist, auf whatever geklickt."
 						}
 					},
 					"comment": {
 						"you": {
-							"own": "{user} hat bei deinem Kommentar auf whatever geklickt."
+							"own": "{user} hat bei deinem Kommentar auf whatever geklickt.",
+							"tagged": "{user} hat bei einem Foto, auf dem du verlinkt bist, auf whatever geklickt."
 						}
 					}
 				},

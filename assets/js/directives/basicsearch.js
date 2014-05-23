@@ -3,23 +3,36 @@ define(["step", "whispeerHelper"], function () {
 
 	function searchDirective($timeout, $compile) {
 		return {
-			transclude: false,
-			scope:	{
-				resultTemplate: "&"
+			scope: {
+				"res": "="
 			},
+			/* this is an element */
 			restrict: "E",
 			templateUrl: "/assets/views/directives/basicSearch.html",
+			/* replace given element */
 			replace: true,
+			transclude: true,
 			link: function postLink(scope, iElement, iAttrs) {
-				scope.multiple = typeof iAttrs["multiple"] !== "undefined";
+				scope.circles = {
+					selectedElements: []
+				};
 
+				scope.resultAttribute = iAttrs["resAttr"] || "selectedElements";
+				scope.multiple = iAttrs["multiple"] !== undefined;
+				scope.big = iAttrs["size"] === "big";
+
+				var oldQuery = "", internallyClicked = false;
+				/* attribute to define if we want multiple results or one */
 				scope.query = "";
 				scope.results = [];
 
 				/** open search element or not **/
 				var focused = false, clicked = false, initialized = false;
+
+				/* we need to build the input on our own to be able to add custom attributes */
 				var input = jQuery('<input type="text" class="searchQuery"  data-ng-keydown="keydown($event)" data-ng-change="queryChange()" data-ng-model="query" data-onfocus="focus(true)" data-onblur="focus(false)">');
 
+				/* add attributes on outer element starting with input- to the inner input */
 				var attr, attrName;
 				for (attr in iAttrs) {
 					if (iAttrs.hasOwnProperty(attr)) {
@@ -30,33 +43,55 @@ define(["step", "whispeerHelper"], function () {
 					}
 				}
 
+				/* compile & append input */
 				$compile(input)(scope);
 				iElement.find(".searchField").append(input);
 
 				function initialize() {
 					if (!initialized) {
-						scope.queryChange();
+						initialized = true;
+						scope.queryChange(true);
 					}
 				}
 
+				/* close on body click */
 				jQuery(document.body).click(function () {
 					$timeout(function () {
-						scope.click(false);
+						if (!internallyClicked) {
+							scope.hide();
+						}
+
+						internallyClicked = false;
 					});
 				});
 
+				scope.notifyParent = function (eventName, attr) {
+					scope.$emit(eventName, attr);
+				};
+
+				scope.width = iElement.width();
+
 				scope.show = function () {
-					return (focused || clicked) && scope.results.length > 0;
+					return (focused || clicked);
 				};
 
 				scope.hide = function () {
-					focused = false;
-					clicked = false;
+					scope.focus(false);
+					scope.click(false);
 				};
 
-				scope.click = function (bool) {
+				scope.click = function (bool, $event) {
+					if ($event) {
+						$event.stopPropagation();
+						$event.preventDefault();
+					}
+
 					if (bool) {
+						internallyClicked = true;
 						input.focus();
+						$timeout(function () {
+							internallyClicked = false;
+						});
 					}
 					clicked = bool;
 					initialize();
@@ -79,10 +114,21 @@ define(["step", "whispeerHelper"], function () {
 				scope.searching = false;
 				scope.empty = false;
 
-				scope.queryChange = function queryChange() {
-					scope.searching = true;
-					scope.$emit("queryChange", scope.query);
+				scope.queryChange = function queryChange(noDiffNecessary) {
+					if (noDiffNecessary || oldQuery !== scope.query) {
+						oldQuery = scope.query;
+						scope.searching = true;
+						scope.$emit("queryChange", scope.query);
+					}
+
+					if (oldQuery !== scope.query) {
+						scope.click(true);
+					}
 				};
+
+				scope.$on("hide", function () {
+					scope.hide();
+				});
 
 				scope.$on("initialSelection", function (event, results) {
 					scope.selectedElements = results.map(function (e) {
@@ -96,20 +142,18 @@ define(["step", "whispeerHelper"], function () {
 						return e.id;
 					});
 
-					scope.results = filterRealResults();
+					selectionUpdated();
 				});
 
 				scope.$on("queryResults", function (event, results) {
 					scope.searching = false;
 					realResults = results;
 					scope.results = filterRealResults();
-					var width = iElement.width();
-					iElement.find(".searchDrop").width(width);
 				});
 
 				scope.$on("resetSearch", function () {
 					scope.query = "";
-					scope.queryChange();
+					scope.queryChange(true);
 					scope.selectedElements = [];
 				});
 
@@ -142,8 +186,29 @@ define(["step", "whispeerHelper"], function () {
 
 				/** suchergebnisse auswählen und hinzufügen */
 
+				var internalid = iAttrs["internalid"];
 				var selectedIDs = [];
 				scope.selectedElements = [];
+
+				function selectionUpdated(selection) {
+					if (scope.multiple) {
+						if (scope.res) {
+							scope.res[scope.resultAttribute] = scope.selectedElements.map(function (e) {
+								return e.id;
+							});
+						}
+
+						scope.$emit("selectionChange", scope.selectedElements);
+						scope.$emit("selectionChange:" + internalid, scope.selectedElements);
+
+						scope.results = filterRealResults();
+					}
+
+					if (selection) {
+						scope.$emit("elementSelected", selection);
+						scope.$emit("elementSelected:" + internalid, selection);
+					}
+				}
 
 				scope.selectResult = function(index) {
 					var result = scope.results[index];
@@ -158,31 +223,34 @@ define(["step", "whispeerHelper"], function () {
 								name: name
 							});
 							selectedIDs.push(id);
-							scope.results = filterRealResults();
-							scope.setCurrent(scope.current);
 
-							scope.$emit("elementSelected", result);
-							scope.$emit("selectionChange", scope.selectedElements);
+							scope.setCurrent(scope.current);
 						}
 
 						scope.query = "";
-						scope.queryChange();
+						scope.queryChange(true);
 					} else {
-						scope.$emit("elementSelected", result);
-
 						scope.click(false);
 						scope.focus(false);
 					}
+
+					selectionUpdated(result);
 				};
 
 				scope.markedForDeletion = -1;
 
-				scope.removeSelection = function (index) {
+				scope.removeSelection = function (index, $event) {
+					if ($event) {
+						$event.stopPropagation();
+						$event.preventDefault();
+					}
+
 					scope.$emit("elementRemoved", scope.selectedElements[index]);
 					scope.selectedElements.splice(index, 1);
 					selectedIDs.splice(index, 1);
 					scope.markedForDeletion = -1;
-					scope.results = filterRealResults();
+
+					selectionUpdated();
 				};
 
 				/** key stuff */
@@ -224,6 +292,8 @@ define(["step", "whispeerHelper"], function () {
 			}
 		};
 	}
+
+	searchDirective.$inject = ["$timeout", "$compile"];
 
 	return searchDirective;
 });

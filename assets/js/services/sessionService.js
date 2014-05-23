@@ -7,7 +7,7 @@ define([], function () {
 	var service = function ($rootScope, $location, $route, storage) {
 		var sid = "", loggedin = false, ownLoaded = false, userid, returnURL, loaded = false;
 
-		var noLoginRequired = ["ssn.startController"];
+		var noLoginRequired = ["ssn.startController", "ssn.versionController", "ssn.mailController"];
 		var loggoutRequired = ["ssn.startController", "ssn.loadingController"];
 
 		function setSID(newSID, user) {
@@ -20,6 +20,8 @@ define([], function () {
 				storage.set("userid", userid);
 				storage.set("loggedin", true);
 
+				loginChange();
+
 				return true;
 			}
 
@@ -27,12 +29,12 @@ define([], function () {
 		}
 
 		function loadOldLogin() {
-			if (storage.get("loggedin") === "true") {
+			if (storage.get("loggedin") === "true" && storage.get("passwords")) {
 				var sid = storage.get("sid");
 				var userid = storage.get("userid");
 				setSID(sid, userid);
-
-				$rootScope.$broadcast("ssn.login");
+			} else {
+				storage.clear();
 			}
 		}
 
@@ -80,14 +82,14 @@ define([], function () {
 
 		function loginChange(logout) {
 			$rootScope.$broadcast("ssn.login");
-			updateURL($route.current.controller, logout);
+			if ($route.current) {
+				updateURL($route.current.controller, logout);
+			}
 		}
 
 		var sessionService = {
 			setSID: function (newSID, userid) {
-				if (setSID(newSID, userid)) {
-					loginChange();
-				}
+				setSID(newSID, userid);
 			},
 
 			getSID: function () {
@@ -109,6 +111,7 @@ define([], function () {
 				sid = "";
 				loggedin = false;
 				ownLoaded = false;
+				storage.clear();
 
 				loginChange(true);
 			},

@@ -36,18 +36,14 @@
 				.column(8,8);
 				margin-top: 0px;
 				margin-bottom: 10px;
-				span {
-					.column(12);
-				}
 				input:not([type=submit]) {
 					.column(12);
 					margin-bottom: 5px;
 				}
-				.button {
+				button {
 					.column(12);
-					margin: 0 2% 0 0 !important;
 				}
-				&#nickname {
+				&#nickname, &#mail {
 					button {
 						margin-left: 1% !important;
 					}
@@ -62,14 +58,21 @@
 				}
 				.config {
 					button {
-						.column(12);
+						.width(12);
 						margin-top: 10px;
 						margin-bottom: 10px;
 						height: 40px;
 					}
 					.whoMaySeeIt {
-						.column(12);
+						.width(12);
 					}
+				}
+			}
+			.settingsFormButton {
+				.column(12);
+				margin-bottom: 5px;
+				&:last-child {
+					margin-bottom: 10px;
 				}
 			}
 		}

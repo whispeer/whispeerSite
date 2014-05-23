@@ -1,34 +1,19 @@
 define(["step", "whispeerHelper"], function (step, h) {
 	"use strict";
 
-	function searchDirective(userService, $location, $timeout) {
+	function searchDirective(circleService, userService, friendsService, $location, $timeout) {
 		return {
 			transclude: false,
-			scope:	{},
+			scope:	false,
 			restrict: "E",
 			templateUrl: "/assets/views/directives/userSearch.html",
 			replace: true,
 			link: function postLink(scope, iElement, iAttrs) {
-				scope.multiple = typeof iAttrs["multiple"] !== "undefined";
+				var multiple = typeof iAttrs.multiple !== "undefined";
 
-				if (iAttrs["size"] === "big") {
-					scope.resultTemplate = "/assets/views/directives/userSearchResults.html";
-				} else {
-					scope.resultTemplate = "/assets/views/directives/userSearchResultsSmall.html";
-				}
-
-				scope.addFriend = function () {
-					debugger;
-				};
-
-				scope.sendMessage = function (data) {
-					$location.path("/messages").search("userid=" + data.id);
-					scope.hide();
-				};
-
-				if (iAttrs["user"]) {
+				if (iAttrs.user) {
 					var theUser;
-					var user = h.parseDecimal(scope.$parent.$eval(iAttrs["user"]));
+					var user = h.parseDecimal(scope.$parent.$eval(iAttrs.user));
 					if (user > 0) {
 						step(function () {
 							$timeout(this);
@@ -52,34 +37,89 @@ define(["step", "whispeerHelper"], function (step, h) {
 				function queryResults(query) {
 					var theUsers;
 					step(function () {
-						if (iAttrs["scope"] === "friends") {
+						if (iAttrs.scope === "friends") {
 							userService.queryFriends(query, this);
 						} else {
 							userService.query(query, this);
 						}
 					}, h.sF(function (user) {
-						scope.empty = (user.length === 0);
+						theUsers = user || [];
 
-						theUsers = user;
+						if (theUsers.length === 0) {
+							this.ne([]);
+						}
+
 						var i;
 						for (i = 0; i < user.length; i += 1) {
-							user[i].loadBasicData(this.parallel());
+							theUsers[i].loadBasicData(this.parallel());
 						}
 					}), h.sF(function () {
-						var users = [];
-						var i;
-						for (i = 0; i < theUsers.length; i += 1) {
-							users.push(theUsers[i].data);
-						}
+						var users = theUsers.map(function (e) {
+							return e.data;
+						});
 
 						submitResults(users);
 					}));
 				}
 
+				scope.circles = {
+					saving: false,
+					success: true,
+					failure: false
+				};
+
+				function setCircleState(state) {
+					h.setGeneralState(state, scope.circles);
+				}
+
+				function saveCircles(user, selectedElements) {
+					step(function () {
+						setCircleState("saving");
+						$timeout(this, 200);
+					}, h.sF(function () {
+						var oldCircles = circleService.inWhichCircles(user.id).map(function (e) {
+							return h.parseDecimal(e.getID());
+						});
+						var newCircles = selectedElements.map(h.parseDecimal);
+
+						var toAdd = h.arraySubtract(newCircles, oldCircles);
+						var toRemove = h.arraySubtract(oldCircles, newCircles);
+
+						var i;
+						for (i = 0; i < toAdd.length; i += 1) {
+							circleService.get(toAdd[i]).addPersons([user.id], this.parallel());
+						}
+
+						for (i = 0; i < toRemove.length; i += 1) {
+							circleService.get(toRemove[i]).removePersons([user.id], this.parallel());
+						}
+					}), h.sF(function (results) {
+						setCircleState("success");
+					}), function (e) {
+						setCircleState("failure");
+					});
+				}
+
+				scope.$on("addFriend", function (event, user) {
+					friendsService.friendship(user.id);
+				});
+
+				scope.$on("saveCircles", function (event, data) {
+					saveCircles(data.user, data.circles.selectedElements);
+				});
+
+				scope.$on("sendMessage", function (event, data) {
+					$location.path("/messages").search("userid=" + data.id);
+					scope.$broadcast("hide");
+				});
+
 				scope.$on("elementSelected", function (event, element) {
-					if (!scope.multiple) {
+					if (!multiple) {
+						scope.$parent.searchActive = false;
 						$location.path(element.user.getUrl());
 					}
+
+					event.stopPropagation();
 				});
 
 				scope.$on("queryChange", function (event, query) {
@@ -91,6 +131,8 @@ define(["step", "whispeerHelper"], function (step, h) {
 					} else {
 						submitResults([]);
 					}
+
+					event.stopPropagation();
 				});
 			}
 		};

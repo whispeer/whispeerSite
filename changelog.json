@@ -1,0 +1,51 @@
+	{
+	"0": {
+		"1": {
+			"6": [
+				"Hotfix: Messages are now marked as unread again"
+			],
+			"5": [
+				"Basic Mail verification",
+				"Mail for new post and new message",
+				"Profile Language can now be saved",
+				"Translations",
+				"Touch improvements",
+				"Shiny new spinner gifs",
+				"Bugfixes"
+			],
+			"4": [
+				"Profile Image can now be changed",
+				"Decryption is now done in a  thread",
+				"Posts are regularly fetched from server",
+				"Mail System started",
+				"Bugfix: Add as Friend works again",
+				"Date Format improved"
+			],
+			"3": [
+				"New Layout for messages",
+				"smaller Bugfixes",
+				"Tablets use the smartphone version until the tablet responsive is done",
+				"Sound and document title management service added.",
+				"Messages are only read if window is active",
+				"Key Loading improved"
+			],
+			"2": [
+				"Profile Image Migration added",
+				"Bugfix: After adding a friend you can now directly add him to a circle!",
+				"Improve key loading. Load multiple keys at once.",
+				"Version Page added",
+				"Bugfix: Name Length stops register",
+				"Bugfix: Relationship and Work now removes unnecessary words",
+				"URLs in messages are automatically linked!",
+				"Improve iOS touch icons"
+			],
+			"1": [
+				"Away status is broadcasted automatically",
+				"Version added to footer",
+				"Create circles directly from search",
+				"Friends directive links to itself",
+				"Profile Images: Use blob urls if possible"
+			]
+		}
+	}
+}

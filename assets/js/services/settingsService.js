@@ -1,43 +1,48 @@
-define(["step", "whispeerHelper"], function (step, h) {
+define(["step", "whispeerHelper", "asset/encryptedMetaData"], function (step, h, EncryptedMetaData) {
 	"use strict";
 
-	var service = function ($rootScope, initService, keyStoreService) {
-		var encryptedSettings, decryptedSettings, decrypted = false;
+	var service = function ($rootScope, $injector, initService) {
+		var settings;
 
 		initService.register("settings.getSettings", {}, function (data) {
-			encryptedSettings = data.settings;
+			settings = new EncryptedMetaData(data.settings);
 		});
 
 		$rootScope.$on("reset", function () {
-			encryptedSettings = {};
-			decryptedSettings = {};
-			decrypted = false;
+			settings.reset();
 		});
 
 		var api = {
 			decrypt: function (cb) {
-				step(function () {
-					if (decrypted) {
-						this.last.ne();
-					} else {
-						keyStoreService.sym.decryptObject(encryptedSettings, 0, this);
-					}
-				}, h.sF(function (decryptedObj) {
-					if (decryptedObj) {
-						decryptedSettings = decryptedObj;
-						decrypted = true;
-					} else {
-						throw "could not decrypt settings";
-					}
-
-					this.ne();
-				}), cb);
+				settings.decrypt(cb);
 			},
 			getBranch: function (branch, cb) {
+				settings.getBranch(branch, cb);
+			},
+			updateAttribute: function (attrs, value, cb) {
+				settings.setAttribute(attrs, value, cb);
+			},
+			updatePrivacyAttribute: function (attrs, value, cb) {
+				api.updateAttribute(attrs.unshift("privacy"), value, cb);
+			},
+			updateBranch: function (branchName, value, cb) {
+				settings.setAttribute([branchName], value, cb);
+			},
+			uploadChangedData: function (cb) {
 				step(function () {
-					api.decrypt(this);
-				}, h.sF(function () {
-					this.ne(decryptedSettings[branch]);
+					var userService = $injector.get("ssn.userService");
+					if (settings.isChanged) {
+						settings.getUploadData(userService.getown().getMainKey(), this);
+					} else {
+						this.last.ne(true);
+					}
+				}, h.sF(function (newEncryptedSettings) {
+					var socketService = $injector.get("ssn.socketService");
+					socketService.emit("settings.setSettings", {
+						settings: newEncryptedSettings
+					}, this);
+				}), h.sF(function (result) {
+					this.ne(result.success);
 				}), cb);
 			},
 			getPrivacyAttribute: function (attr, cb) {
@@ -46,7 +51,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 				}, h.sF(function (b) {
 					var i, attrs = attr.split("."), cur = b;
 					for (i = 0; i < attrs.length; i += 1) {
-						if (cur[attrs[i]].encrypt) {
+						if (typeof cur[attrs[i]].encrypt !== "undefined") {
 							this.ne(cur[attrs[i]]);
 							return;
 						} else if (cur[attrs[i]]) {
@@ -54,8 +59,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 						}
 					}
 
-					throw "could not find attribute settings";
-					//this.ne(h.deepGet(b, attr.split(".")));
+					throw new Error("could not find attribute settings");
 				}), cb);
 			},
 			getPrivacyEncryptionStatus: function (attr, cb) {
@@ -78,12 +82,10 @@ define(["step", "whispeerHelper"], function (step, h) {
 			}
 		};
 
-		window.dada = api;
-
 		return api;
 	};
 
-	service.$inject = ["$rootScope", "ssn.initService", "ssn.keyStoreService"];
+	service.$inject = ["$rootScope", "$injector", "ssn.initService"];
 
 	return service;
 });

@@ -1,22 +1,25 @@
 #topNav {
 	width: 100%;
-	position: relative !important;
+	position: static;
 	height: 50px !important;
 	margin-bottom: -70px;
 	#navInner {
 		text-align: center;
 		width: 100%;
 		#brand {
-			font-size: 25px;
+			font-size: 30px;
+			letter-spacing: -2px;
 			line-height: @baseLineHeight;
 			.column(8);
 			margin-top: 12px;
+			font-weight: bold;
+			text-shadow: none !important;
 		}
 		#toggleSearch {
 			.column(2,12,left,3%);
 			margin: 10px 0 0 3% !important;
 			.btn;
-			.btn-green;
+			.btn--green;
 			text-align: center;
 			margin-top: 10px;
 			i {
@@ -26,12 +29,16 @@
 		#toggleSidebar {
 			.column(2,12,right,3%);
 			.btn;
-			.btn-green;
+			.btn--green;
 			margin: 10px 3% 0 0 !important;
 			text-align: center;
 			i {
 				margin-left: -5px;
 			}
+		}
+		#mobileCounter {
+			top: 25px;
+			right: 2%;
 		}
 	}
 	.searchBar {

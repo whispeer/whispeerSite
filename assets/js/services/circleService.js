@@ -4,7 +4,7 @@
 define(["step", "whispeerHelper", "asset/observer"], function (step, h, Observer) {
 	"use strict";
 
-	var service = function ($rootScope, socket, userService, keyStore) {
+	var service = function ($rootScope, socket, userService, sessionService, keyStore) {
 		var circles = {};
 		var circleArray = [];
 		var circleData = [];
@@ -31,11 +31,15 @@ define(["step", "whispeerHelper", "asset/observer"], function (step, h, Observer
 				return user.indexOf(h.parseDecimal(uid)) !== -1;
 			};
 
+			this.getKey = function () {
+				return key;
+			};
+
 			this.removePersons = function (uids, cb) {
 				var newUser, userIDs, newKey;
 				step(function () {
 					uids = uids.map(h.parseDecimal).filter(function (e) {
-						user.indexOf(e) > -1;
+						return user.indexOf(e) > -1;
 					});
 
 					newUser = user.filter(function (e) {
@@ -43,8 +47,8 @@ define(["step", "whispeerHelper", "asset/observer"], function (step, h, Observer
 					});
 
 					generateUsersSpecificData(newUser, this);
-				}, h.sF(function (key, userids) {
-					newKey = key;
+				}, h.sF(function (localNewKey, userids) {
+					newKey = localNewKey;
 					userIDs = userids;
 
 					var mainKey = userService.getown().getMainKey();
@@ -82,11 +86,11 @@ define(["step", "whispeerHelper", "asset/observer"], function (step, h, Observer
 						u = otherUsers[i];
 						friendShipKey = u.getFriendShipKey();
 						if (friendShipKey && user.indexOf(u.getID()) === -1) {
-							keyStore.sym.symEncryptKey(key, friendShipKey, this);
+							keyStore.sym.symEncryptKey(key, friendShipKey, this.parallel());
 							userids.push(u.getID());
 							friendShipKeys.push(friendShipKey);
 						} else {
-							throw "no friendShipKey";
+							throw new Error("no friendShipKey");
 						}
 					}
 				}), h.sF(function () {
@@ -102,7 +106,7 @@ define(["step", "whispeerHelper", "asset/observer"], function (step, h, Observer
 
 					socket.emit("circles.addUsers", {
 						add: data
-					});
+					}, this);
 				}), h.sF(function (result) {
 					var i;
 					if (!result.error && result.added) {
@@ -170,22 +174,14 @@ define(["step", "whispeerHelper", "asset/observer"], function (step, h, Observer
 
 			this.data = {
 				id: id,
-				userids: data.user,
+				userids: user,
 				name: "",
-				image: "/assets/img/user.png",
+				image: "/assets/img/circle.png",
 				persons: persons
 			};
 
 			Observer.call(this);
 		};
-
-		/*socket.listen("circle", function (e, data) {
-			if (!e) {
-
-			} else {
-				console.error(e);
-			}
-		});*/
 
 		var loaded = false, loading = false;
 
@@ -302,7 +298,7 @@ define(["step", "whispeerHelper", "asset/observer"], function (step, h, Observer
 			},
 			loadAll: function (cb) {
 				step(function () {
-					if (!loaded && !loading) {
+					if (sessionService.isLoggedin() && !loaded && !loading) {
 						loading = true;
 						circleService.data.loading = false;
 
@@ -350,7 +346,7 @@ define(["step", "whispeerHelper", "asset/observer"], function (step, h, Observer
 		return circleService;
 	};
 
-	service.$inject = ["$rootScope", "ssn.socketService", "ssn.userService", "ssn.keyStoreService"];
+	service.$inject = ["$rootScope", "ssn.socketService", "ssn.userService", "ssn.sessionService", "ssn.keyStoreService"];
 
 	return service;
 });

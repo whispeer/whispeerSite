@@ -5,7 +5,7 @@
 define(["step", "whispeerHelper"], function (step, h) {
 	"use strict";
 
-	function messagesController($scope, $routeParams, $location, $timeout, cssService, messageService) {
+	function messagesController($scope, $routeParams, $location, $timeout, errorService, cssService, messageService) {
 		cssService.setClass("messagesView");
 
 		$scope.topicid = 0;
@@ -37,9 +37,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 				$scope.loadActiveTopic($routeParams["topicid"]);
 			}
 
-			if (e) {
-				console.log(e);
-			}
+			errorService.criticalError(e);
 		});
 
 		$scope.canSend = false;
@@ -49,19 +47,14 @@ define(["step", "whispeerHelper"], function (step, h) {
 			return ($scope.topicid === parseInt(topic.id, 10));
 		};
 
-		$scope.$on("selectionChange", function (event, newSelection) {
-			$scope.new.selectedUsers = newSelection;
-		});
-
 		$scope.new = {
 			text: "",
-			selectedUsers: [],
+			selectedElements: [],
 			send: function (receiver, text) {
-				receiver = receiver.map(function (e) {return e.id;});
 				messageService.sendNewTopic(receiver, text, function (e, id) {
 					if (!e) {
 						$scope.new.text = "";
-						$scope.new.selectedUsers = [];
+						$scope.new.selectedElements = [];
 						$scope.loadActiveTopic(id);
 						$scope.$broadcast("resetSearch");
 					} else {
@@ -75,11 +68,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 		$scope.scrollLock = false;
 
 		$scope.markRead = function (messageid) {
-			$scope.activeTopic.obj.markRead(messageid, function (e) {
-				if (e) {
-					console.log(e);
-				}
-			});
+			$scope.activeTopic.obj.markRead(messageid, errorService.criticalError);
 		};
 
 		$scope.loadMoreMessages = function () {
@@ -111,12 +100,17 @@ define(["step", "whispeerHelper"], function (step, h) {
 			$location.search({});
 		};
 
+		$scope.$on("$destroy", function () {
+			messageService.setActiveTopic(0);
+		});
+
 		$scope.loadActiveTopic = function (id) {
 			var theTopic;
 			step(function () {
 				id = parseInt(id, 10);
 				if ($scope.topicid !== id || !$scope.topicLoaded) {
 					$scope.topicid = id;
+					messageService.setActiveTopic(id);
 					messageService.getTopic(id, this);
 				}
 			}, h.sF(function (topic) {
@@ -132,6 +126,11 @@ define(["step", "whispeerHelper"], function (step, h) {
 					$scope.showMessage = true;
 
 					$location.search({topicid: id});
+
+					var m = theTopic.data.messages;
+					if (m.length > 0) {
+						theTopic.markRead(m[m.length - 1].id, errorService.criticalError);
+					}
 				});
 			}));
 		};
@@ -153,7 +152,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 		
 	}
 
-	messagesController.$inject = ["$scope", "$routeParams", "$location", "$timeout", "ssn.cssService", "ssn.messageService"];
+	messagesController.$inject = ["$scope", "$routeParams", "$location", "$timeout", "ssn.errorService", "ssn.cssService", "ssn.messageService"];
 
 	return messagesController;
 });

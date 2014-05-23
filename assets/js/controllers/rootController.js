@@ -5,18 +5,60 @@
 define(["step", "whispeerHelper"], function (step, h) {
 	"use strict";
 
-	function rootController($scope, sessionService, sessionHelper, userService, cssService, messageService, friendsService) {
-		$scope.loggedin = false;
-		$scope.mobile = false;
-		$scope.user = {};
-		$scope.friends = friendsService.data;
+	function getVersionString(data) {
+		if (typeof data === "object" && !(data instanceof Array)) {
+			var keys = Object.keys(data);
+			keys.sort();
 
-		$scope.user.name = "";
-		$scope.user.image = "/assets/img/user.png";
-		$scope.user.id = "0";
+			var newest = keys[keys.length - 1];
+
+			return newest + "." + getVersionString(data[newest]);
+		} else {
+			return "";
+		}
+	}
+
+	function rootController($scope, $timeout, $http, socketService, sessionService, sessionHelper, userService, cssService, messageService, friendsService) {
+		var buildDate = "20140518";
+
+		$http({ method: "GET", url: "changelog.json?t=" + (new Date()).getTime(), cache: false }).success(function (data) {
+			var version = getVersionString(data);
+			version = version.substr(0, version.length - 1);
+			
+			$scope.version = version + "-" + buildDate;
+		});
+
+		$scope.version = "";
+		$scope.loggedin = false;
+
+		function updateMobile() {
+			var old = $scope.mobile;
+			$scope.mobile = jQuery(window).width() <= 1023;
+
+			if ($scope.mobile !== old) {
+				$timeout(h.nop);
+			}
+		}
+
+		jQuery(window).resize(updateMobile);
+		updateMobile();
+
+		var nullUser = {
+			name: "",
+			basic: {
+				image: "/assets/img/user.png"
+			},
+			id: 0
+		};
+
+		$scope.user = nullUser;
+		$scope.friends = friendsService.data;
 
 		$scope.$on("ssn.login", function () {
 			$scope.loggedin = sessionService.isLoggedin();
+			if (!$scope.loggedin) {
+				$scope.user = nullUser;
+			}
 		});
 
 		$scope.$on("ssn.ownLoaded", function () {
@@ -31,11 +73,6 @@ define(["step", "whispeerHelper"], function (step, h) {
 
 				console.log("Own Name loaded:" + (new Date().getTime() - startup));
 			}));
-			messageService.listenNewMessage(function(m) {
-				if (!m.isOwn()) {
-					document.getElementById("sound").play();
-				}
-			});
 		});
 
 		$scope.sidebarActive = false;
@@ -44,6 +81,20 @@ define(["step", "whispeerHelper"], function (step, h) {
 		$scope.$on("elementSelected", function () {
 			$scope.searchActive = false;
 			$scope.sidebarActive = false;
+		});
+
+		$scope.lostConnection = false;
+
+		socketService.on("disconnect", function () {
+			$scope.$apply(function () {
+				$scope.lostConnection = true;
+			});
+		});
+
+		socketService.on("reconnect", function () {
+			$scope.$apply(function () {
+				$scope.lostConnection = false;
+			});
 		});
 
 		$scope.toggleSidebar = function() {
@@ -66,6 +117,8 @@ define(["step", "whispeerHelper"], function (step, h) {
 			$scope.cssClass = newClass;
 		});
 
+		jQuery(document.body).removeClass("loading");
+
 		$scope.cssClass = cssService.getClass();
 
 		$scope.logout = function () {
@@ -73,7 +126,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 		};
 	}
 
-	rootController.$inject = ["$scope", "ssn.sessionService", "ssn.sessionHelper", "ssn.userService", "ssn.cssService", "ssn.messageService", "ssn.friendsService"];
+	rootController.$inject = ["$scope", "$timeout", "$http", "ssn.socketService", "ssn.sessionService", "ssn.sessionHelper", "ssn.userService", "ssn.cssService", "ssn.messageService", "ssn.friendsService"];
 
 	return rootController;
 });

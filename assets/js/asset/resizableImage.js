@@ -1,4 +1,4 @@
-define(["asset/Image", "asset/Resizable"], function (MyImage, Resizable) {
+define(["asset/Image", "asset/resizable"], function (MyImage, Resizable) {
 	"use strict";
 	var ResizableImage = function (initSize, minSize) {
 		this._initSize = initSize;
@@ -28,6 +28,10 @@ define(["asset/Image", "asset/Resizable"], function (MyImage, Resizable) {
 			this._resizable = new Resizable({
 				element: canvas.element.parentElement,
 				boundary: boundary,
+				offset: {
+					top: (-1) * boundary.top,
+					left: (-1) * jQuery(canvas.element).offset().left
+				},
 				size: {
 					init: this._initSize,
 					min: this._minSize

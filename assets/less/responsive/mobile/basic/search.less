@@ -1,5 +1,6 @@
 .searchBar {
 	.formSearch {
+		overflow-y: hidden;
 		.inputWrap {
 			.unstyled;
 			height: auto;
@@ -10,6 +11,7 @@
 			width: 100%;
 			word-break: break-all;
 			min-height: 39px;
+			overflow-x: scroll !important;
 			li {
 				display: inline-block !important;
 				line-height: 35px;
@@ -19,19 +21,21 @@
 					overflow: hidden;
 					white-space: nowrap;
 					text-overflow: ellipsis;
-					float: left;
+					float: none;
 					margin: 2px;
-					max-width: 35%;
+					//max-width: 35%;
 					padding: 0 5px 0 5px;
 				}
 				&.searchField {
+					float: none;
+					display: block;
 					input {
-						//float: left;
+						float: left;
 						width: 45%;
 						outline: 0;
 						border: 0;
-						padding: 0px 5px;
-						margin: 2px 0;
+						padding: 0px 9px;
+						margin: 0;
 						height: 35px;
 					}	
 				}
@@ -39,7 +43,7 @@
 		}
 	}
 	.searchDrop {
-		.column(3,7);
+		//.column(3,7);
 		margin: 0;
 		display: block;
 		padding: 0;
@@ -61,10 +65,11 @@
 				img {
 					.column(1.5);
 					margin-left: 0;
+					margin-right: 2%;
 				}
 				.info {
-					.column(6.5);
-					margin: 7px 0 0 3%;
+					.column(6.5, 12, left, 1%);
+					margin: 7px 0 0 1%;
 					padding: 0;
 					.name {
 						font-size: 1.3em;
@@ -78,12 +83,16 @@
 					}
 				}
 				.actions {
-					.column(4);
+					.column(3.5);
 					margin-top: 5px;
 					a {
 						cursor: pointer;
 						text-align: center;
 						margin-bottom: 5px;
+					}
+					.addToCircle {
+						display: none !important;
+						visibility: hidden !important;
 					}
 				}	
 			}

@@ -19,19 +19,35 @@ Enjoy!
 
 define(["angular"], function (angular) {
 
-	var entityMap = {
-		"&": "&amp;",
-		"<": "&lt;",
-		">": "&gt;",
-		'"': "&quot;",
-		"'": "&#39;",
-		"/": "&#x2F;"
-	};
+	function insertValues(tag, values) {
+		var i, toSet;
+		if (values.length > 1) {
+			for (i = 1; i < values.length; i += 1) {
+				toSet = values[i].split("=");
 
-	function escapeHtml(string) {
-		return String(string).replace(/[&<>"'\/]/g, function (s) {
-			return entityMap[s];
-		});
+				if (toSet.length === 2) {
+					tag = tag.replace("{" + toSet[0] + "}", toSet[1]);
+				}
+			}
+		}
+
+		return tag;
+	}
+
+	function turnTagIntoElementArray(tag, i18nElements) {
+		var attr, k, tags = [tag];
+		for (attr in i18nElements) {
+			if (i18nElements.hasOwnProperty(attr)) {
+				for (k = 0; k < tags.length; k += 1) {
+					if (typeof tags[k] === "string" && tags[k].indexOf("{" + attr + "}") > -1) {
+						var result = tags[k].split("{" + attr + "}");
+						tags.splice(k, 1, result[0], i18nElements[attr], result[1]);
+					}
+				}
+			}
+		}
+
+		return tags;
 	}
 
 	"use strict";
@@ -108,7 +124,7 @@ define(["angular"], function (angular) {
 					}
 
 					if (typeof memory !== "string" && typeof memory !== "number" && typeof memory !== "boolean") {
-						console.log("Invalid Translation:" + value);
+						console.warn("Invalid Translation:" + value);
 						return "";
 					}
 
@@ -142,60 +158,36 @@ define(["angular"], function (angular) {
 		.directive("i18n", ["localize", "$compile", function (localize, $compile) {
 			var i18nDirective = {
 				restrict: "EAC",
-				updateText: function (scope, elm, token) {
-					var values = token.split("|"), index;
-					if (values.length >= 1) {
-						// construct the tag to insert into the element
-						var tag = localize.getLocalizedString(values[0]), toSet;
-						// update the element only if data was returned
-						if ((tag !== null) && (tag !== undefined) && (tag !== "")) {
-							if (values.length > 1) {
-								for (index = 1; index < values.length; index += 1) {
-									toSet = values[index].split("=");
+				updateText: function (scope, elm, token, i18nElements) {
+					var values = token.split("|"), k;
 
-									if (toSet.length === 2) {
-										tag = tag.replace("{" + toSet[0] + "}", toSet[1]);
-									}
+					i18nElements = i18nElements || [];
+
+					// construct the tag to insert into the element
+					var tag = localize.getLocalizedString(values[0]);
+					// update the element only if data was returned
+					if (tag && tag !== "") {
+						tag = insertValues(tag, values);
+
+						elm.html("");
+
+						var tags = turnTagIntoElementArray(tag, i18nElements);
+
+						var cur, i;
+						//set element html
+						for (i = 0; i < tags.length; i += 1) {
+							cur = tags[i];
+
+							if (typeof cur === "string") {
+								elm.append(document.createTextNode(cur));
+							} else {
+								for (k = 0; k < cur.length; k += 1) {
+									elm.append(cur[k].clone());
 								}
 							}
-
-							var k;
-
-							var i18nElements = elm.data("i18nElements") || [];
-
-							elm.html("");
-
-							//replace attributes in tag
-							var cur, i;
-							var tags = [tag];
-
-							var attr;
-							for (attr in i18nElements) {
-								if (i18nElements.hasOwnProperty(attr)) {
-									for (k = 0; k < tags.length; k += 1) {
-										if (typeof tags[k] === "string" && tags[k].indexOf("{" + attr + "}") > -1) {
-											var result = tags[k].split("{" + attr + "}");
-											tags.splice(k, 1, result[0], i18nElements[attr], result[1]);
-										}
-									}
-								}
-							}
-
-							//set element html
-							for (i = 0; i < tags.length; i += 1) {
-								cur = tags[i];
-
-								if (typeof cur === "string") {
-									elm.append(document.createTextNode(cur));
-								} else {
-									for (k = 0; k < cur.length; k += 1) {
-										elm.append(cur[k]);
-									}
-								}
-							}
-
-							$compile(elm.contents())(scope);
 						}
+
+						$compile(elm.contents())(scope);
 					}
 				},
 
@@ -211,24 +203,19 @@ define(["angular"], function (angular) {
 
 						attr = child.attr("data-for");
 
-						if (!elements[attr]) {
-							elements[attr] = [];
-						}
-
+						elements[attr] = elements[attr] || [];
 						elements[attr].push(child);
 					}
-
-					elm.data("i18nElements", elements);
 
 					elm.html("");
 
 					return function (scope, elm, attrs) {
 						scope.$on("localizeResourcesUpdates", function () {
-							i18nDirective.updateText(scope, elm, attrs.i18n);
+							i18nDirective.updateText(scope, elm, attrs.i18n, elements);
 						});
 
 						attrs.$observe("i18n", function () {
-							i18nDirective.updateText(scope, elm, attrs.i18n);
+							i18nDirective.updateText(scope, elm, attrs.i18n, elements);
 						});
 					};
 				},

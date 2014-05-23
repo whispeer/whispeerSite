@@ -13,7 +13,7 @@
 	
 	keyid: identifier@timestamp
 **/
-define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForReady", "crypto/sjclWorkerInclude"], function (step, h, chelper, sjcl, waitForReady) {
+define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForReady", "cryptoWorker/sjclWorkerInclude"], function (step, h, chelper, sjcl, waitForReady, sjclWorkerInclude) {
 	"use strict";
 	var socket, dirtyKeys = [], newKeys = [], symKeys = {}, cryptKeys = {}, signKeys = {}, passwords = [], improvementListener = [], keyGenIdentifier = "", Key, SymKey, CryptKey, SignKey, makeKey, keyStore;
 
@@ -59,11 +59,11 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 	//var webWorker = Modernizr.webworkers;
 
 	/** generate an id */
-	function generateid() {
-		var id = keyGenIdentifier + ":" + chelper.bits2hex(sjcl.hash.sha256.hash(new Date().getTime()));
+	function generateid(base) {
+		var id = keyGenIdentifier + ":" + chelper.bits2hex(base);
 
 		if (symKeys[id] || cryptKeys[id] || signKeys[id]) {
-			return generateid();
+			throw new Error("key already existing with same content ... this should never happen!");
 		}
 
 		return id;
@@ -73,7 +73,7 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 		var parts = realid.split(":");
 
 		if (parts.length !== 2) {
-			throw "This should not happen!";
+			throw new Error("This should not happen!");
 		}
 
 		if (parts[0].length === 0) {
@@ -93,11 +93,6 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 			var result = sjcl.encrypt(pw, text);
 			this.ne(chelper.sjclPacket2Object(result));
 		}, callback);
-	}
-
-	/** which keys are already loaded. (only decryption keys) */
-	function loadedKeys() {
-		return Object.keys(symKeys).concat(Object.keys(cryptKeys));
 	}
 
 	/** our internal decryption function.
@@ -123,7 +118,7 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 					if (text.substr(0, 5) === "key::") {
 						this.ne(text.substr(5));
 					} else {
-						throw "not a key!";
+						throw new Error("not a key!");
 					}
 				}), callback);
 			} else if (decryptortype === "cryptKey") {
@@ -153,16 +148,16 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 						return;
 					}
 
-					throw "no pw";
+					throw new Error("no pw");
 				}, h.sF(function (text) {
 					if (text.substr(0, 5) === "key::") {
 						this.ne(text.substr(5));
 					} else {
-						throw "not a key!";
+						throw new Error("not a key!");
 					}
 				}), callback);
 			} else {
-				throw "invalid decryptortype";
+				throw new Error("invalid decryptortype");
 			}
 		}, callback);
 	}
@@ -232,7 +227,7 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 				usedDecryptor = theKey.getFastestDecryptor();
 
 				if (!usedDecryptor || !usedDecryptor.decryptor) {
-					throw "Could not Decrypt key!";
+					throw new Error("Could not Decrypt key!");
 				}
 
 				var d = usedDecryptor.decryptor;
@@ -250,7 +245,7 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 
 					if (decryptors.length === 0) {
 						debugger;
-						throw "Could finally not decrypt key!";
+						throw new Error("Could finally not decrypt key!");
 					} else {
 						theKey.decryptKey(this.last);
 					}
@@ -516,16 +511,19 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 	SymKey = function (keyData) {
 		var intKey, comment = "";
 
-		if (keyData) {
-			if (typeof keyData === "string") {
-				intKey = new Key(this, generateid(), [], {secret: chelper.hex2bits(keyData)});
-			} else if (keyData instanceof Array) {
-				intKey = new Key(this, generateid(), [], {secret: keyData});
-			} else {
-				intKey = new Key(this, keyData.realid, keyData.decryptors);
-			}
+		if (!keyData) {
+			keyData = sjcl.random.randomWords(8);
+		}
+
+		if (typeof keyData === "string") {
+			keyData = chelper.hex2bits(keyData);
+		} 
+
+		if (keyData instanceof Array) {
+			var fingerprint = sjcl.hash.sha256.hash(keyData); 
+			intKey = new Key(this, generateid(fingerprint), [], {secret: keyData});
 		} else {
-			intKey = new Key(this, generateid(), [], {secret: sjcl.random.randomWords(8)});
+			intKey = new Key(this, keyData.realid, keyData.decryptors);
 		}
 
 		this.getUploadData = function () {
@@ -613,9 +611,7 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 					ctext.iv = iv;
 				}
 
-				result = sjcl.decrypt(chelper.hex2bits(intKey.getSecret()), sjcl.json.encode(ctext));
-
-				this.ne(result);
+				sjclWorkerInclude.sym.decrypt(intKey.getSecret(), sjcl.json.encode(ctext), this);
 			}), callback);
 		}
 
@@ -650,22 +646,41 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 		}
 	}
 
+	function loadKeys(identifiers, cb) {
+		step(function getKeyF() {
+			var toLoadIdentifiers = [];
+
+			identifiers.map(function (e) {
+				if (!symKeys[e] && !cryptKeys[e] && !signKeys[e]) {
+					toLoadIdentifiers.push(e);
+				}
+			});
+
+			if (toLoadIdentifiers.length > 0) {
+				socket.emit("key.getMultiple", {
+					loaded: [],
+					realids: identifiers
+				}, this);
+			} else {
+				this.last.ne(identifiers);
+			}
+		}, h.sF(function (data) {
+			data.keys.map(function (e) {
+				makeKey(e);
+			});
+
+			this.ne(identifiers);
+		}), cb);
+	}
+
+	var THROTTLE = 20;
+	var delay = h.delayMultiple(THROTTLE, loadKeys);
+
 	/** load a key and his keychain. remove loaded keys */
 	function getKey(realKeyID, callback) {
 		step(function getKeyF() {
-			socket.emit("key.get", {
-				loaded: loadedKeys(),
-				realid: realKeyID
-			}, this);
-		}, h.sF(function keyChain(data) {
-			var keys = data.keychain, i;
-			for (i = 0; i < keys.length; i += 1) {
-				h.isRealID(keys[i].realid);
-				makeKey(keys[i]);
-			}
-
-			this.ne();
-		}), callback);
+			delay(realKeyID, this);
+		}, callback);
 	}
 
 	/** load  a symkey and its keychain */
@@ -680,7 +695,7 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 			if (symKeys[realKeyID]) {
 				this.ne(symKeys[realKeyID]);
 			} else {
-				throw "keychain not found";
+				throw new Error("keychain not found");
 			}
 		}), callback);
 	}
@@ -715,7 +730,7 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 		var publicKey, intKey, x, y, curve, point, realid, isPrivateKey = false, comment = "";
 
 		if (!keyData || !keyData.point || !keyData.point.x || !keyData.point.y || !keyData.curve || !keyData.realid) {
-			throw "invalid data";
+			throw new Error("invalid data");
 		}
 
 		curve = chelper.getCurve(keyData.curve);
@@ -783,6 +798,11 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 			this.getDecryptorData = intKey.getDecryptorData;
 		}
 
+		function getFingerPrintF() {
+			//should we add the type and curve here too?
+			return fingerPrintPublicKey(publicKey);
+		}
+
 		/** create a key 
 		* param callback callback
 		*/
@@ -820,6 +840,7 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 			}), callback);
 		}
 
+		this.getFingerPrint = getFingerPrintF;
 		this.kem = kemF;
 
 		if (isPrivateKey) {
@@ -854,9 +875,13 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 			if (cryptKeys[realKeyID]) {
 				this.ne(cryptKeys[realKeyID]);
 			} else {
-				throw "keychain not found";
+				throw new Error("keychain not found");
 			}
 		}), callback);
+	}
+
+	function fingerPrintPublicKey(publicKey) {
+		return sjcl.hash.sha256.hash(publicKey._point.toBits());
 	}
 
 	/** generate a crypt key
@@ -877,7 +902,7 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 					y: chelper.bits2hex(p.y.toBits())
 				},
 				exponent: chelper.bits2hex(sec._exponent.toBits()),
-				realid: generateid(),
+				realid: generateid(fingerPrintPublicKey(pub)),
 				curve: chelper.getCurveName(pub._curve),
 				comment: comment
 			};
@@ -902,7 +927,7 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 		var publicKey, intKey, x, y, curve, point, realid, isPrivateKey = false, comment = "";
 
 		if (!keyData || !keyData.point || !keyData.point.x || !keyData.point.y || !keyData.curve || !keyData.realid) {
-			throw "invalid data";
+			throw new Error("invalid data");
 		}
 
 		curve = chelper.getCurve(keyData.curve);
@@ -971,6 +996,12 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 			};
 		}
 
+		function getFingerPrintF() {
+			//should we add the type and curve here too?
+			//as the curve is fixed for now it should not be a problem
+			return fingerPrintPublicKey(publicKey);
+		}
+
 		function signF(hash, callback) {
 			step(function () {
 				intKey.decryptKey(this);
@@ -985,7 +1016,8 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 
 		function verifyF(signature, hash, callback) {
 			step(function () {
-				this.ne(publicKey.verify(hash, signature));
+				sjclWorkerInclude.asym.verify(publicKey, signature, hash, this);
+				//this.ne(publicKey.verify(hash, signature));
 			}, callback);
 		}
 
@@ -993,6 +1025,7 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 			this.sign = signF;
 		}
 
+		this.getFingerPrint = getFingerPrintF;
 		this.verify = verifyF;
 	};
 
@@ -1023,7 +1056,7 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 			if (signKeys[realKeyID]) {
 				this.ne(signKeys[realKeyID]);
 			} else {
-				throw "keychain not found";
+				throw new Error("keychain not found");
 			}
 		}), callback);
 	}
@@ -1046,7 +1079,7 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 					y: chelper.bits2hex(p.y.toBits())
 				},
 				exponent: chelper.bits2hex(sec._exponent.toBits()),
-				realid: generateid(),
+				realid: generateid(fingerPrintPublicKey(pub)),
 				curve: chelper.getCurveName(pub._curve)
 			};
 			/*jslint nomen: false*/
@@ -1072,7 +1105,7 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 		} else if (key.type === "sign") {
 			makeSignKey(key);
 		} else {
-			throw "unknown key type";
+			throw new Error("unknown key type");
 		}
 	};
 
@@ -1083,7 +1116,7 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 				if (typeof data === "object") {
 					verifyAllAttributesAreHashes(data[attr]);
 				} else if (typeof data !== "string" || data.substr(0, 6) !== "hash") {
-					throw "invalid hashobject";
+					throw new Error("invalid hashobject");
 				}
 			}
 		}
@@ -1131,7 +1164,7 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 
 		if (attr === "hash") {
 			if (!this._verifyTree) {
-				throw "object can not have hash attributes";
+				throw new Error("object can not have hash attributes");
 			}
 
 			return;
@@ -1188,13 +1221,13 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 
 	objectHasher.prototype.hash = function() {
 		if (typeof this._data !== "object") {
-			throw "this is not an object!";
+			throw new Error("this is not an object!");
 		}
 
 		var result = this._hashData();
 
 		if (this._verifyTree && result !== this._data.hash) {
-			throw "verifyTree failed";
+			throw new Error("verifyTree failed");
 		}
 
 		this._hashedObject.hash = result;
@@ -1277,7 +1310,7 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 		} else if (type === "string") {
 			this._padString(attr, cb);
 		} else {
-			throw "could not pad value of type " + type;
+			throw new Error("could not pad value of type " + type);
 		}
 	};
 
@@ -1297,13 +1330,13 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 
 	objectPadder.prototype._unpadString = function (val) {
 		if (val.length%this._minLength !== 2) {
-			throw "invalid data";
+			throw new Error("invalid data");
 		}
 
 		var paddingIndex = val.indexOf("::");
 
 		if (paddingIndex === -1) {
-			throw "no padding seperator found";
+			throw new Error("no padding seperator found");
 		}
 
 		return val.substr(paddingIndex + 2);
@@ -1331,7 +1364,7 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 		} else if (type === "string") {
 			return this._unpadString(attr);
 		} else {
-			throw "could not pad value of type " + type;
+			throw new Error("could not pad value of type " + type);
 		}
 	};
 
@@ -1352,7 +1385,7 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 			var text = "data::" + cur.toString();
 			this._key.encrypt(text, cb);
 		} else {
-			throw "Invalid encrypt!";
+			throw new Error("Invalid encrypt!");
 		}
 	};
 
@@ -1452,7 +1485,7 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 
 	objectCryptor.prototype.decrypt = function (cb) {
 		if (this._depth < 0) {
-			throw "invalid!";
+			throw new Error("invalid!");
 		}
 
 		if (this._object.iv && this._object.ct) {
@@ -1502,7 +1535,7 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 		format: {
 			unformat: function (str, start) {
 				if (str.indexOf(start + "::") !== 0) {
-					throw "format invalid";
+					throw new Error("format invalid");
 				}
 
 				return str.substr(start.length + 2);
@@ -1557,6 +1590,9 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 				}
 
 				return keyData.realid;
+			},
+			getKeyAccessCount: function (keyrealid) {
+				
 			},
 			setSocket: function (theSocket) {
 				socket = theSocket;
@@ -1745,7 +1781,7 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 			encryptObject: function (object, realKeyID, depth, callback) {
 				step(function objEncrypt1() {
 					if (object.iv) {
-						throw "IV already set.";
+						throw new Error("IV already set.");
 					}
 
 					SymKey.get(realKeyID, this);

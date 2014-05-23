@@ -10,25 +10,18 @@
 	}
 	.searchBar {
 		.column(8.7,12,left,1.8%);
+		margin-top: 6px;
 		.formSearch {
 			width: 100%;
-			margin: 7px 0px;
 			.inputWrap {
-				min-height: 0px;
-				height: 35px;
 				line-height: 35px;
 				padding:0;
+				overflow-x: hidden !important;
 				li {
-					height: 35px;
-					line-height: 35px;
 					padding:0;
 					&.searchField {
-						width: 20%;
 						input {
 							padding:0px 10px;
-							margin:-1px 0;
-							height:35px;
-							line-height: 35px;
 						}
 					}
 				}
@@ -38,6 +31,64 @@
 			top: 45px;
 			width: 70.7%;
 			margin: 5px 0;
+			.actions {
+				.addToCircle {
+					float: left;
+					width: 100%;
+					margin: 0;
+					padding: 0;
+					.selectCircle {
+						width: 100%;
+						margin:0;
+						.box-fix;
+						.inputWrap {
+							border: 1px solid #ccc;
+							padding-right: 8%;
+							.box-fix;
+							li {
+								overflow: hidden;
+								&.searchField {
+									width: 100%;
+									height: 100%;
+									input {
+										width: 100%;
+										text-overflow: ellipsis;
+										white-space: nowrap;
+										overflow: hidden;
+									}
+								}
+								&.searchResult {
+									width: 30%;
+								}
+							}
+						}
+						.searchDrop {
+							margin: 0 0 0 -24%;
+							top: -40px;
+							width: 23% !important;
+							max-height: 130px;
+							li {
+								width: 104%;
+							}
+						}
+					}
+					.circleSubmit {
+						width: 9% !important;
+						display: block;
+						height: 38px;
+						float: left;
+						margin: -31px 0 0 91%;
+						padding: 0px !important;
+						text-align: center;
+						border: 1px solid #ccc;
+						border-left: none;
+						.border-radiuses(5px, 5px, 0,0);
+						i {
+							display: inline;
+						}
+					}
+				}
+			}
 		}
 	}
 	#navIcons {

@@ -68,51 +68,48 @@ header {
 			}
 		}
 		ol.comments {
-			.column(8);
-			.push(0.125);
+			.column(12);
 			.border-radius(5px);
 			margin-bottom: 5px;
 			li {
 				width: 100%;
 				margin: 0;
 				min-height: 40px;
-				&:last-child {
-					.border-radiuses(0, 5px, 5px, 0);
-					border-bottom: none !important;
-				}
-				&:first-child {
-					.border-radiuses(5px, 0, 0, 5px);
-					border-top: none;
-				}
-				&:only-child {
-					.border-radius(5px);
-				}
 				img {
 					.column(1);
+					display: block;
 					margin-left: 0;
-					height: 40px;
-					width: auto !important;
+					margin-right: 2%;
 				}
 				.text {
-					.column(7.8);
+					.column(8);
 					padding: 3px;
 					.box-fix;
 				}
-				.timestamp {
-					.column(3);
+				aside {
+					.column(2.5);
+				}
+				&.header {
+					.column(6);
+					margin: 0 25%;
+					padding: 8px 0;
 				}
 				&.newComment {
 					padding: 0;
 					img {
-						width: auto;
+						.column(1);
+						margin-left: 0;
+						margin-right: 2%;
 					}
 					input {
-						.column(8.4);
-						margin-top: 2px !important;
+						.column(8);
+						margin-top: 6.5px !important;
 					}
 					button {
 						.column(2.5);
-						margin-top: 5px !important;
+						margin-top: 9.5px !important;
+						margin-left: 2%;
+						margin-right: 0;
 					}
 				}
 			}

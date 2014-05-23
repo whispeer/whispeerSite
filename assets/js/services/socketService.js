@@ -1,12 +1,21 @@
 /**
 * SocketService
 **/
-define(["socket", "step", "whispeerHelper", "config"], function (io, step, h, config) {
+define(["socket", "step", "whispeerHelper", "config", "cryptoWorker/generalWorkerInclude"], function (io, step, h, config, generalWorkerInclude) {
 	"use strict";
 
-	var socket = io.connect("http://" + config.ws + ":" + config.wsPort);
+	var socket;
+	if (config.https) {
+		socket = io.connect("https://" + config.ws + ":" + config.wsPort);
+	} else {
+		socket = io.connect("http://" + config.ws + ":" + config.wsPort);
+	}
 
 	var service = function ($rootScope, sessionService) {
+		generalWorkerInclude.setBeforeCallBack(function (evt, cb) {
+			$rootScope.$apply(cb);
+		});
+
 		function updateLogin(data) {
 			if (data.logedin) {
 				sessionService.setSID(data.sid, data.userid);
@@ -15,8 +24,13 @@ define(["socket", "step", "whispeerHelper", "config"], function (io, step, h, co
 			}
 		}
 
+		var lastRequestTime = 0;
+
 		var socketS = {
 			socket: socket,
+			on: function () {
+				socket.on.apply(socket, arguments);
+			},
 			listen: function (channel, callback) {
 				socket.on(channel, function (data) {
 					console.log("received data on " + channel);
@@ -31,14 +45,29 @@ define(["socket", "step", "whispeerHelper", "config"], function (io, step, h, co
 				step(function doEmit() {
 					data.sid = sessionService.getSID();
 
-					console.log("requesting on " + channel);
+					console.groupCollapsed("Request on " + channel);
 					console.log(data);
+					console.groupEnd();
+
 					time = new Date().getTime();
 
 					socket.emit(channel, data, this.ne);
 				}, h.sF(function emitResults(data) {
-					console.log("request took: " + (new Date().getTime() - time));
-					console.log(data);
+					console.groupCollapsed("Answer on " + channel);
+					console.info((new Date().getTime() - time));
+
+					if (data.error) {
+						console.error(data);
+					} else {
+						console.info(data);
+					}
+
+					console.groupEnd();
+
+					lastRequestTime = data.serverTime;
+
+					//console.debug(h.parseDecimal(data.serverTime) - new Date().getTime());
+
 					var that = this;
 					$rootScope.$apply(function () {
 						updateLogin(data);
@@ -51,10 +80,18 @@ define(["socket", "step", "whispeerHelper", "config"], function (io, step, h, co
 					});
 				}), callback);
 			},
+			lastRequestTime: function () {
+				return lastRequestTime;
+			},
 			send: function (data) {
 				socket.send(data);
 			}
 		};
+
+		socket.on("reconnect", function () {
+			socketS.emit("ping", {}, function () {});
+		});
+
 		return socketS;
 	};
 

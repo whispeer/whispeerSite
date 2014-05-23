@@ -1,22 +1,30 @@
-<div id="magicmessage" class="magic magicOverlay" style="height: 100%;" data-ng-controller="ssn.magicbar.messagesController">
+<div class="magicAddon" data-ng-controller="ssn.magicbar.messagesController">
 	<div class="header">
-		<h4 data-i18n="magicbar.messages.title">Nachrichten</h4>
-		<div class="close" data-ng-click="loadDefault()" data-i18n="magicbar.close">Close</div>
+		<h4 data-i18n="magicbar.messages.title"></h4>
+		<div class="close" data-ng-click="loadDefault()"><i class="icon icon-cancel-circle"></i></div>
 	</div>
 	<div class="body">
-		<ul class="unstyled">
+		<ul class="unstyled" data-ng-if="topics.length > 0">
 			<li class="message {{topic.type}} {{topic.unread?'unread':''}}" data-ng-repeat="topic in topics" data-ng-click="loadTopic(topic.id)">
 				<div class="left">
 					<img class="userimg" data-ng-repeat="partner in topic.partnersDisplay" data-ng-src="{{partner.basic.image}}" alt="{{partner.name}}" title="{{partner.name}}">
 					<span data-ng-if="topic.remainingUser" title="{{topic.remainingUserTitle}}">+ {{topic.remainingUser}}</span>
 				</div>
 				<p class="username">
-					<strong ng-repeat="partner in topic.partners">{{topic.partners.length>1?partner.basic.shortname:partner.name}}{{$last?"":", "}}</strong>
+					<a ng-repeat="partner in topic.partners" href='{{partner.basic.url}}'>
+						<span class="status" data-status="{{partner.online}}"></span>
+						<strong>{{topic.partners.length>1?partner.basic.shortname:partner.name}}{{$last?"":", "}}</strong>
+					</a>
 				</p>
 				<p class="text" title="{{topic.latestMessage.data.text}}">
 					{{topic.latestMessage.data.text}}
 				</p>
 			</li>
 		</ul>
+		<ul class="unstyled" data-ng-if="topics.length == 0">
+			<li class="request error">
+				<span data-i18n="magicbar.messages.none"></span>
+			</li>
+		</ul>
 	</div>
-</div>
+</div>	

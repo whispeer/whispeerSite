@@ -19,7 +19,7 @@ define([], function () {
 
 								var parentHeight = parent.height();
 
-								if (top > 0 && top + height < parentHeight) {
+								if (top >= 0 && top + height < parentHeight) {
 									if (attrs.inview && !wasInView) {
 										wasInView = true;
 										timer = window.setTimeout(function () {

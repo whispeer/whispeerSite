@@ -1,6 +1,6 @@
 define(function () {
 	"use strict";
-	return function($timeout) {
+	var directive =  function($timeout) {
 		return {
 			link: function(scope, elm, attrs) {
 				elm.bind("focus", function() {
@@ -11,4 +11,8 @@ define(function () {
 			}
 		};
 	};
+
+	directive.$inject = ["$timeout"];
+
+	return directive;
 });

@@ -6,17 +6,28 @@ requirejs.config({
 	paths: {
 		jquery: "libs/jquery-1.9.1",
 		angular: "libs/angular",
+		angularRoute: "libs/angular-route",
 		socket: "libs/socket.io",
 		step: "step/lib/step",
 		whispeerHelper: "helper/helper",
-		amanda: "libs/amanda",
-		valid: "validation"
+		amanda: "libs/amanda"
 	},
 	baseUrl: "/assets/js",
+    shim: {
+        "angular": {
+            deps: ["jquery"],
+            exports: "angular"
+        },
+        "angularRoute":{
+            deps:["angular"]
+        }
+
+    },
+    /*
 	shim: {
 		"angular" : {"exports" : "angular"},
 		"angularMocks": {deps:["angular"], "exports":"angular.mock"}
-	},
+	},*/
 	priority: [
 		"angular"
 	]

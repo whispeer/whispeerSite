@@ -1,9 +1,9 @@
 define([], function () {
 	"use strict";
 
-	var listener = [], theClass = "registerView";
+	var listener = [], theClass = "loading";
 
-	var service = function () {
+	var service = function (errorService) {
 		var res = {
 			addListener: function addListenerF(func) {
 				if (typeof func === "function") {
@@ -18,13 +18,13 @@ define([], function () {
 					try {
 						listener[i](theClass);
 					} catch (e) {
-						console.log(e);
+						errorService.criticalError(e);
 					}
 				}
 			},
 			getClass: function getClassF() {
 				if (theClass === "") {
-					return "registerView";
+					return "loading";
 				}
 				return theClass;
 			}
@@ -33,7 +33,7 @@ define([], function () {
 		return res;
 	};
 
-	service.$inject = [];
+	service.$inject = ["ssn.errorService"];
 
 	return service;
 });

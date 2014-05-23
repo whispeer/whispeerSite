@@ -22,9 +22,6 @@ header {
 					width: 80%;
 				}
 			}
-			.searchDrop {
-				width: 28.2% !important;
-			}
 		}
 		button {
 			width: 100% !important;
@@ -56,9 +53,6 @@ header {
 						width: 120%;
 					}
 				}
-				.searchDrop {
-					width: 19.4% !important;
-				}
 			}	
 		}
 	}
@@ -78,9 +72,10 @@ header {
 		.postContent {
 			.column(6,7);
 			padding-top: 0px !important;
-			margin-top: -10px !important;
+			margin-top: 0px !important;
 			margin-bottom: 5px !important;
-			border-bottom: 1px dashed #ccc;
+			//border-bottom: 1px dashed #ccc;
+			position: relative;
 			.postText {
 				padding-left: 10px;
 				.padding-fix;
@@ -90,6 +85,10 @@ header {
 					max-width: 98%;
 					.border-radius(5px);	
 				}
+			}
+			.author {
+				float: left;
+				margin-top: 10px;
 			}
 		}
 		.postInfo {

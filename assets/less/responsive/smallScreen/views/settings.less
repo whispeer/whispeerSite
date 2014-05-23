@@ -3,7 +3,7 @@
 		padding-top: 52px;
 		height: 100%;
 		header {
-			height: 40px;
+			height: 20px;
 			margin-top: -52px;
 			padding: 5px;
 			#links {
@@ -32,9 +32,36 @@
 				margin: 0 0 10px 0;
 			}
 			.config {
-				.column(8,8);
-				margin-top: -5px;
-				margin-bottom: 10px;
+				span {
+					.width(3);
+				}
+				input:not([type=submit]) {
+					.width(4);
+				}
+				&#nickname {
+					button {
+						.push(4);
+					}
+				}
+			}
+			&#safety {
+				.config {
+					button {
+						.column(1.5);
+						margin-top: -1px;
+						margin-bottom: 10px;
+						height: 40px;
+						i {
+							margin-left: -3px;
+						}
+					}
+					.whoMaySeeIt {
+						.column(7.5);
+					}
+				}
+			}
+			.settingsFormButton {
+				.column(6);
 			}
 		}
 	}	

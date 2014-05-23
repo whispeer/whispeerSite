@@ -6,7 +6,7 @@ define([], function () {
 	"use strict";
 
 	function loadingController(cssService) {
-		cssService.setClass("mainView");
+		cssService.setClass("mainView loading");
 	}
 
 	loadingController.$inject = ["ssn.cssService"];

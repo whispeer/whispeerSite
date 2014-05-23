@@ -1,0 +1,100 @@
+// Userpanel
+//
+// Found at the left hand side of the whispeer interface the userpanel is the main navigation to switch the views.
+//
+// Markup:
+// <div id="userpanel" style="width: 25%;">
+//	<a href="{{user.basic.url}}" class="username">
+//		<img src="img/user.png" alt="" class="userimg">
+//		Username
+//	</a>
+//	<nav id="menu">
+//		<ul class="left unstyled" id="mainMenu">
+//			<li><a href="#">Profile</a></li>
+//			<li><a href="#">Friends</a></li>
+//			<li><a href="#">Messages</a></li>
+//			<li><a href="#">Circles</a></li>
+//			<li><a href="#">Settings</a></li>
+//			<li><a href="#">Help</a></li>
+//			<li><a href="#">Logout</a></li>
+//		</ul>
+//		<div class="clear-fix"></div>
+//	</nav>
+// </div>
+//
+// Styleguide 2.6
+
+#userpanel {
+	text-align: center;
+	display: block;
+	margin: 0;
+	.userimg {
+		float: none;
+		.border-radius(5px);
+		width: 100%;
+	}
+	#menu {
+		margin-top: 10px;
+		a {
+			font-size: 15px;
+		}
+		#mainMenu {
+			margin-left: -5px;
+			li {
+				a {
+					text-align: left;
+					padding: 5px 4px 5px 1px;
+					background-color: transparent;
+					height: @baseLineHeight;
+					position: relative;
+					//margin: 5px 0px 0px 2px;
+					&.current {
+						height: @baseLineHeight;
+						position: relative;
+						.border-radius(8px);
+						background-color: @primaryLighter;
+						color: #f5ffe9;
+						margin: 5px 0 0 -3px;
+						/*
+&:after {
+							content: '';
+							height: 0;
+							position: absolute;
+							width: 0;
+							border: 10px solid transparent;
+							border-left-color: #5a5a5a;
+							left: 100%;
+							margin: 0px 0px 0px 6%;
+						}
+*/
+					}
+				}
+				&:first-child {
+					a {
+						margin-top: 0;
+					}
+				}
+			}	
+		}
+		#subMenu {
+			//border-left: 2px solid #5a5a5a;
+			.border-radius(10px);
+			.box-fix;
+			li {
+				text-align: left;
+				a {
+					display: block;
+					padding: 5px 4px 5px 3px;
+					cursor: pointer;
+					margin: 0px;
+					&.current {
+						background-color: @primaryLighter;
+						.border-radius(8px);
+						color: #f5ffe9;
+						border: none;
+					}
+				}
+			}		
+		}
+	}
+}

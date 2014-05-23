@@ -1,18 +1,26 @@
-<div id="magicfriends" class="magic magicOverlay" style="height: 100%;" data-ng-controller="ssn.magicbar.friendsController">
+<div class="magicAddon" data-ng-controller="ssn.magicbar.friendsController">
 	<div class="header">
-		<h4 data-i18n="magicbar.requests.title">Anfragen</h4>
-		<div class="close" data-ng-click="loadDefault()" data-i18n="magicbar.close">Close</div>
+		<h4 data-i18n="magicbar.requests.title"></h4>
+		<div class="close" data-ng-click="loadDefault()"><i class="icon icon-cancel-circle"></i></div>
 	</div>
 	<div class="body">
-		<ul class="unstyled">
+		<ul class="unstyled" data-ng-if="requests.length > 0">
 			<li class="request" data-ng-repeat="request in requests">
 				<img data-ng-src="{{request.basic.image}}">
-				<p class="username">{{shortenName(request.name)}}</p>
+				<p class="username"><a href='{{request.basic.url}}'><strong>{{request.name}}</strong></a></p>
 				<p class="similar" data-i18n="magicbar.requests.mutuals|count={{request.basic.mutualFriends.length}}"></p>
 				<p class="action">
-					<button class="btn btn-success" data-i18n="magicbar.requests.accept" ng-click="acceptRequest(request)">Bestätigen</button>
-					<button class="btn btn-danger" data-i18n="magicbar.requests.decline">Ablehnen</button>
+					<button class="btn btn--primary" data-i18n="magicbar.requests.accept" ng-click="acceptRequest(request)"></button>
+					<button class="btn btn--danger" data-i18n="magicbar.requests.decline"></button>
 				</p>
+			</li>
+			<li class="request error" data-ng-if="requests.length == 0">
+				<span data-i18n="magicbar.requests.none"></span>
+			</li>
+		</ul>
+		<ul class="unstyled" data-ng-if="requests.length == 0">
+			<li class="request error">
+				<span data-i18n="magicbar.requests.none"></span>
 			</li>
 		</ul>
 	</div>

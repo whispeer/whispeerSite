@@ -45,6 +45,9 @@
 						.column(2,8);
 						margin-top: 1%;
 						margin-bottom: 1%;
+						&.editing {
+							.width(12);
+						}
 					}
 					.info {
 						.column(6,8);
@@ -59,9 +62,42 @@
 							height: 40px;
 							padding: 8.5px;
 						}
-						.addToCirlce {
+						.addToCircle {
 							.column(1,2);
 							margin: 10px 1% 10px 1%;
+							#selectCircle {
+								padding-right: 2%;
+								height: 40px;
+								.box-fix;
+								.inputWrap {
+									border: 1px solid #bbb;
+									.box-fix;
+									li {
+										&.searchField {
+											width: 65%;
+											height: 100%;
+											input {
+												width: 100%;
+											}
+										}
+									}
+								}
+							}
+							#circleSubmit {
+								width: 10% !important;
+								display: block;
+								height: 38px;
+								float:left;
+								margin: -38px 0 0 89%;
+								padding: 0px !important;
+								text-align: center;
+								border: none;
+								border-right: 1px solid #bbb;
+								.border-radiuses(5px, 5px, 0,0);
+								i {
+									display: inline;
+								}
+							}
 						}
 						.sendMessage {
 							.column(1,2);
@@ -124,7 +160,7 @@
 				padding: 5px;
 				margin-bottom: 1%;
 			}
-			.person {
+			li {
 				.column(1,3);
 			}
 		}

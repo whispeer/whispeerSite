@@ -3,12 +3,13 @@
 		.box;
 		padding-top: 30px;
 		height: 100%;
-		background-color: @btnBackgroundHighlight;
+		background-color: @btnBackgroundHover;
 		border: 1px solid @btnBorder;
 		border-bottom: 1px solid darken(@btnBorder, 10%);
 		.border-radius(5px);
 		.box-fix;
 		header {
+			margin-top: -30px;
 			#title {
 				float: left;
 				margin: 0 1%;
@@ -21,7 +22,7 @@
 		}
 		section {
 			header {
-				background-color: @btnBackgroundHighlight;
+				background-color: @btnBackgroundHover;
 				border-top: 1px solid @btnBorder;
 				.border-radius(0px);
 				float: left;

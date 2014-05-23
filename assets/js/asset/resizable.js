@@ -3,14 +3,18 @@ define(["whispeerHelper"], function (h) {
 	var theOptions;
 	var Resizable = function (options) {
 		theOptions = options;
+
+		var wrapper = jQuery(".resizableWrapper");
+		
 		var element = jQuery("<div class='resizable'></div>");
+
 		var body = jQuery(document.body);
 
 		var boundary = options.boundary || {};
 
-		var ourElement = jQuery(boundary.element || body);
+		var ourElement = jQuery(options.element || body);
 
-		ourElement.append(element);
+		wrapper.append(element);
 
 		if (!boundary.top && !boundary.left && !boundary.right && !boundary.bottom) {
 			boundary.top = ourElement.offset().top;
@@ -18,16 +22,19 @@ define(["whispeerHelper"], function (h) {
 			boundary.right = boundary.left + ourElement.width();
 			boundary.bottom = boundary.top + ourElement.height();
 		} else if (!boundary.top || !boundary.left || !boundary.right || !boundary.bottom) {
-			throw "Invalid boundaries!";
+			throw new Error("Invalid boundaries!");
 		}
 
 		options.size = options.size || {};
 		options.size.min = options.size.min || 50;
-		options.size.init = options.size.init || 50;
+		options.size.init = options.size.init || Math.min(
+			boundary.right - boundary.left,
+			boundary.bottom - boundary.top
+		);
 
 		var defaultPosition = {
-			top: 0,
-			left: 0,
+			top: boundary.bottom - 1.5 * options.size.init,
+			left: boundary.right - 1.5 * options.size.init,
 			width: 0,
 			height: 0
 		};
@@ -55,10 +62,10 @@ define(["whispeerHelper"], function (h) {
 		}
 
 		function setElementPosition(position) {
-			element.css("top", position.top);
-			element.css("left", position.left);
-			element.css("height", position.height);
-			element.css("width", position.width);
+			element.css("top", position.top + options.offset.top);
+			element.css("left", position.left + options.offset.left);
+			element.css("height", position.height - 2);
+			element.css("width", position.width - 2);
 		}
 
 		function setSelect(val) {
