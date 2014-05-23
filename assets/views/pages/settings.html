@@ -38,7 +38,7 @@
 	</section>
 	<section id="safety">
 		<header><span class="title" data-i18n="settings.safety.title"></span></header>
-		<h2 data-i18n="settings.safety.attributes.names.header"></h2>
+		<h4 data-i18n="settings.safety.attributes.names.header"></h4>
 		<div class="config select" id="firstNameEncryption">
 			<span data-i18n="settings.safety.attributes.names.firstname"></span>
 			<button type="submit" data-ng-click="safety.basic.firstname.encrypt=!safety.basic.firstname.encrypt" data-encrypted="{{safety.basic.firstname.encrypt}}">
@@ -55,7 +55,7 @@
 			</button>
 			<div data-ng-if="safety.basic.lastname.encrypt"><filtersearch data-res="safety.basic.lastname" data-res-attr="visibility" data-selected="safety.basic.lastname.visibility" data-input-i18n-attr="settings.safety.whomayseeit.lastname|placeholder" class="whoMaySeeIt"></filtersearch></div>
 		</div>
-		<h2 data-i18n="menu.profil"></h2>
+		<h4 data-i18n="menu.profil"></h4>
 		<div class="config select" data-ng-repeat="name in safetySorted" id="{{name}}Encryption">
 			<span data-i18n="settings.safety.attributes.{{name}}"></span>
 			<button type="submit" data-ng-click="safety[name].encrypt=!safety[name].encrypt" data-encrypted="{{safety[name].encrypt}}">
