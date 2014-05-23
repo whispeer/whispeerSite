@@ -360,6 +360,17 @@
 					"lastname": "Nachname",
 					"username": "Username"
 				}
+			},
+			"whomayseeit": {
+				"firstname":	"Wer darf deinen Vornamen sehen?",
+				"lastname":		"Wer darf deinen Nachnamen sehen?",
+				"birthday":		"Wer darf dein Geburtsdatum sehen?",
+				"location":		"Wer darf deinen Wohnort sehen?",
+				"relationship":	"Wer darf deinen Beziehungsstatus sehen?",
+				"education":	"Wer darf deine Ausbildung sehen?",
+				"work":			"Wer darf deine Arbeitsstelle sehen?",
+				"gender":		"Wer darf dein Geschlecht sehen?",
+				"languages":	"Wer darf sehen, welche Sprachen du sprichst?"
 			}
 		},
 		"header": {
