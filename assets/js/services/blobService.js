@@ -103,6 +103,21 @@ define(["step", "whispeerHelper"], function (step, h) {
 			}, cb);
 		};
 
+		var blobListener = {};
+
+		function loadBlob(blobID) {
+			step(function () {
+				socketService.emit("blob.getBlob", {
+					blobid: blobID
+				}, this);
+			}, h.sF(function (data) {
+				var blob = h.dataURItoBlob("data:image/png;base64," + data.blob);
+				knownBlobs[blobID] = new MyBlob(blob, blobID);
+
+				this.ne(knownBlobs[blobID]);				
+			}), step.multiplex(blobListener[blobID]));
+		}
+
 		var api = {
 			createBlob: function (blob) {
 				return new MyBlob(blob);
@@ -111,10 +126,11 @@ define(["step", "whispeerHelper"], function (step, h) {
 				step(function () {
 					if (knownBlobs[blobID]) {
 						this.last.ne(knownBlobs[blobID]);
+					} else if (blobListener[blobID]) {
+						blobListener[blobID].push(this.last);
 					} else {
-						socketService.emit("blob.getBlob", {
-							blobid: blobID
-						}, this);
+						blobListener[blobID] = [this.last];
+						loadBlob(blobID);
 					}
 				}, h.sF(function (data) {
 					var blob = h.dataURItoBlob("data:image/png;base64," + data.blob);
