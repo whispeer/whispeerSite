@@ -7,7 +7,7 @@ define(function () {
 			scope:	{
 				success:		"=success",
 				operation:		"=operation",
-				failure:		"=failure",
+				failure:		"=failure"
 			},
 			restrict: 'E',
 			templateUrl: '/assets/views/directives/saveButton.html',
