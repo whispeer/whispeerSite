@@ -65,7 +65,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 		return h.arrayUnique(profileTypes);
 	}
 
-	function userModel($injector, $location, keyStoreService, ProfileService, sessionService, settingsService, socketService, friendsService) {
+	function userModel($injector, $location, blobService, keyStoreService, ProfileService, sessionService, settingsService, socketService, friendsService) {
 		return function User (providedData) {
 			var theUser = this, mainKey, signKey, cryptKey, friendShipKey, friendsKey, friendsLevel2Key, migrationState;
 			var id, mail, nickname, publicProfile, privateProfiles = [], mutualFriends, publicProfileChanged = false, publicProfileSignature;
@@ -557,23 +557,30 @@ define(["step", "whispeerHelper"], function (step, h) {
 
 			this.getImage = function (cb) {
 				step(function () {
-					getProfileAttribute("image", this);
-				}, h.sF(function (image) {
+					this.parallel.unflatten();
+
+					getProfileAttribute("image", this.parallel());
+					getProfileAttribute("imageBlob", this.parallel());
+				}, h.sF(function (image, imageBlob) {
 					if (image) {
 						if (typeof URL !== "undefined") {
 							var img = h.dataURItoBlob(image);
 							var url = URL.createObjectURL(img);
-							this.ne(url);
+							this.last.ne(url);
 						} else if (typeof webkitURL !== "undefined") {
 							var img = h.dataURItoBlob(image);
 							var url = webkitURL.createObjectURL(img);
-							this.ne(url);
+							this.last.ne(url);
 						} else {
-							this.ne(image);
+							this.last.ne(image);
 						}
+					} else if (imageBlob) {
+						blobService.getBlob(imageBlob.blobid, this);
 					} else {
-						this.ne("/assets/img/user.png");
+						this.last.ne("/assets/img/user.png");
 					}
+				}), h.sF(function (blob) {
+					this.ne(blob.toURL());
 				}), cb);
 			};
 
@@ -767,7 +774,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 		};
 	}
 
-	userModel.$inject = ["$injector", "$location",  "ssn.keyStoreService", "ssn.profileService", "ssn.sessionService", "ssn.settingsService", "ssn.socketService", "ssn.friendsService"];
+	userModel.$inject = ["$injector", "$location", "ssn.blobService",  "ssn.keyStoreService", "ssn.profileService", "ssn.sessionService", "ssn.settingsService", "ssn.socketService", "ssn.friendsService"];
 
 	return userModel;
 });

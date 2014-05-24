@@ -86,7 +86,7 @@ define([], function () {
 		}
 	};
 
-	MyImage.prototype.getResizedImageData = function getResizedImageData(size, pos) {
+	MyImage.prototype.getResizedImage = function(size, pos) {
 		var doneCanvasE = document.createElement("canvas");
 
 		doneCanvasE.width = size;
@@ -95,7 +95,19 @@ define([], function () {
 		var doneCanvas = doneCanvasE.getContext("2d");
 		doneCanvas.drawImage(this._image, pos.left, pos.top, pos.width, pos.width, 0, 0, size, size);
 
+		return doneCanvasE;
+	};
+
+	MyImage.prototype.getResizedImageData = function getResizedImageData(size, pos) {
+		var doneCanvasE = this.getResizedImage(size, pos);
+
 		return doneCanvasE.toDataURL();
+	};
+
+	MyImage.prototype.getResizedImageBlob = function getResizedImageData(size, pos, cb) {
+		var doneCanvasE = this.getResizedImage(size, pos);
+
+		doneCanvasE.toBlob(cb);
 	};
 
 	return MyImage;

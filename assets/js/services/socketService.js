@@ -1,7 +1,7 @@
 /**
 * SocketService
 **/
-define(["socket", "step", "whispeerHelper", "config", "cryptoWorker/generalWorkerInclude"], function (io, step, h, config, generalWorkerInclude) {
+define(["jquery", "socket", "socketStream", "step", "whispeerHelper", "config", "cryptoWorker/generalWorkerInclude"], function ($, io, iostream, step, h, config, generalWorkerInclude) {
 	"use strict";
 
 	var socket;
@@ -28,6 +28,22 @@ define(["socket", "step", "whispeerHelper", "config", "cryptoWorker/generalWorke
 
 		var socketS = {
 			socket: socket,
+			uploadBlob: function (blob, blobid, cb) {
+				step(function () {
+					socketS.emit("blob.upgradeStream", {}, this);
+				}, h.sF(function () {
+					var stream = iostream.createStream();
+					iostream(socket).emit("pushBlob", stream, {
+						blobid: blobid
+					});
+
+					var blobStream = iostream.createBlobReadStream(blob);
+
+					blobStream.on("end", this);
+
+					blobStream.pipe(stream);
+				}), cb);
+			},
 			on: function () {
 				socket.on.apply(socket, arguments);
 			},
