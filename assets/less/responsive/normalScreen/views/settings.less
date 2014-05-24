@@ -33,6 +33,17 @@
 				.column(8,8);
 				margin-top: -5px;
 				margin-bottom: 10px;
+				span {
+					.width(3);
+				}
+				input:not([type=submit]) {
+					.width(5);
+				}
+				&#nickname, &#mail {
+					button {
+						.push(5);
+					}
+				}
 			}
 			&#safety {
 				.config {
