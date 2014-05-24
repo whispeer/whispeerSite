@@ -302,6 +302,10 @@ define(["step", "whispeerHelper", "asset/resizableImage", "asset/observer"], fun
 						encrypt: false,
 						visibility: []
 					},
+					imageBlob: {
+						encrypt: false,
+						visibility: []
+					},
 					location: defaultSettings,
 					birthday: defaultSettings,
 					relationship: defaultSettings,

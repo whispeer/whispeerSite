@@ -411,6 +411,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 					this.last.ne(h.deepGet(pub, attrs));
 				}), cb);
 			}
+			this.getProfileAttribute = getProfileAttribute;
 
 			this.update = updateUser;
 
@@ -437,6 +438,16 @@ define(["step", "whispeerHelper"], function (step, h) {
 
 			var basicDataLoaded = false;
 
+			this.loadImage = function () {
+				step(function () {
+					theUser.getImage(this);
+				}, h.sF(function (imageUrl) {
+					theUser.data.basic.image = imageUrl;
+				}), function (e) {
+
+				});
+			}
+
 			this.loadBasicData = function (cb) {
 				step(function () {
 					if (!basicDataLoaded) {
@@ -444,7 +455,6 @@ define(["step", "whispeerHelper"], function (step, h) {
 
 						theUser.getShortName(this.parallel());
 						theUser.getName(this.parallel());
-						theUser.getImage(this.parallel());
 					} else {
 						this.last.ne();
 					}
@@ -464,10 +474,11 @@ define(["step", "whispeerHelper"], function (step, h) {
 					theUser.data.names = names;
 
 					theUser.data.basic.shortname = shortname;
-					theUser.data.basic.image = image;
 
 					theUser.data.added = friendsService.didIRequest(theUser.getID());
 					theUser.data.isMyFriend = friendsService.areFriends(theUser.getID());
+
+					theUser.loadImage();
 
 					friendsService.listen(function () {
 						theUser.data.added = friendsService.didIRequest(theUser.getID());
@@ -559,10 +570,12 @@ define(["step", "whispeerHelper"], function (step, h) {
 				step(function () {
 					this.parallel.unflatten();
 
-					getProfileAttribute("image", this.parallel());
 					getProfileAttribute("imageBlob", this.parallel());
-				}, h.sF(function (image, imageBlob) {
-					if (image) {
+					getProfileAttribute("image", this.parallel());
+				}, h.sF(function (imageBlob, image) {
+					if (imageBlob) {
+						blobService.getBlob(imageBlob.blobid, this);
+					} else if (image) {
 						if (typeof URL !== "undefined") {
 							var img = h.dataURItoBlob(image);
 							var url = URL.createObjectURL(img);
@@ -574,8 +587,6 @@ define(["step", "whispeerHelper"], function (step, h) {
 						} else {
 							this.last.ne(image);
 						}
-					} else if (imageBlob) {
-						blobService.getBlob(imageBlob.blobid, this);
 					} else {
 						this.last.ne("/assets/img/user.png");
 					}

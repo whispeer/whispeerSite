@@ -83,12 +83,16 @@ define(["step", "whispeerHelper"], function (step, h) {
 		};
 
 		MyBlob.prototype.toURL = function () {
-			if (typeof URL !== "undefined") {
-				return URL.createObjectURL(this._blobData);
-			} else if (typeof webkitURL !== "undefined") {
-				return webkitURL.createObjectURL(this._blobData);
-			} else {
-				return h.blobToDataURI(this._blobData);
+			try {
+				if (typeof URL !== "undefined") {
+					return URL.createObjectURL(this._blobData);
+				} else if (typeof webkitURL !== "undefined") {
+					return webkitURL.createObjectURL(this._blobData);
+				} else {
+					return h.blobToDataURI(this._blobData);
+				}
+			} catch (e) {
+				return "";
 			}
 		};
 
