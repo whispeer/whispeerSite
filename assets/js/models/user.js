@@ -65,7 +65,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 		return h.arrayUnique(profileTypes);
 	}
 
-	function userModel($injector, $location, keyStoreService, ProfileService, sessionService, settingsService, socketService, friendsService) {
+	function userModel($injector, $location, blobService, keyStoreService, ProfileService, sessionService, settingsService, socketService, friendsService) {
 		return function User (providedData) {
 			var theUser = this, mainKey, signKey, cryptKey, friendShipKey, friendsKey, friendsLevel2Key, migrationState;
 			var id, mail, nickname, publicProfile, privateProfiles = [], mutualFriends, publicProfileChanged = false, publicProfileSignature;
@@ -411,6 +411,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 					this.last.ne(h.deepGet(pub, attrs));
 				}), cb);
 			}
+			this.getProfileAttribute = getProfileAttribute;
 
 			this.update = updateUser;
 
@@ -437,6 +438,16 @@ define(["step", "whispeerHelper"], function (step, h) {
 
 			var basicDataLoaded = false;
 
+			this.loadImage = function () {
+				step(function () {
+					theUser.getImage(this);
+				}, h.sF(function (imageUrl) {
+					theUser.data.basic.image = imageUrl;
+				}), function (e) {
+
+				});
+			}
+
 			this.loadBasicData = function (cb) {
 				step(function () {
 					if (!basicDataLoaded) {
@@ -444,7 +455,6 @@ define(["step", "whispeerHelper"], function (step, h) {
 
 						theUser.getShortName(this.parallel());
 						theUser.getName(this.parallel());
-						theUser.getImage(this.parallel());
 					} else {
 						this.last.ne();
 					}
@@ -464,10 +474,11 @@ define(["step", "whispeerHelper"], function (step, h) {
 					theUser.data.names = names;
 
 					theUser.data.basic.shortname = shortname;
-					theUser.data.basic.image = image;
 
 					theUser.data.added = friendsService.didIRequest(theUser.getID());
 					theUser.data.isMyFriend = friendsService.areFriends(theUser.getID());
+
+					theUser.loadImage();
 
 					friendsService.listen(function () {
 						theUser.data.added = friendsService.didIRequest(theUser.getID());
@@ -557,23 +568,30 @@ define(["step", "whispeerHelper"], function (step, h) {
 
 			this.getImage = function (cb) {
 				step(function () {
-					getProfileAttribute("image", this);
-				}, h.sF(function (image) {
-					if (image) {
+					this.parallel.unflatten();
+
+					getProfileAttribute("imageBlob", this.parallel());
+					getProfileAttribute("image", this.parallel());
+				}, h.sF(function (imageBlob, image) {
+					if (imageBlob) {
+						blobService.getBlob(imageBlob.blobid, this);
+					} else if (image) {
 						if (typeof URL !== "undefined") {
 							var img = h.dataURItoBlob(image);
 							var url = URL.createObjectURL(img);
-							this.ne(url);
+							this.last.ne(url);
 						} else if (typeof webkitURL !== "undefined") {
 							var img = h.dataURItoBlob(image);
 							var url = webkitURL.createObjectURL(img);
-							this.ne(url);
+							this.last.ne(url);
 						} else {
-							this.ne(image);
+							this.last.ne(image);
 						}
 					} else {
-						this.ne("/assets/img/user.png");
+						this.last.ne("/assets/img/user.png");
 					}
+				}), h.sF(function (blob) {
+					this.ne(blob.toURL());
 				}), cb);
 			};
 
@@ -767,7 +785,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 		};
 	}
 
-	userModel.$inject = ["$injector", "$location",  "ssn.keyStoreService", "ssn.profileService", "ssn.sessionService", "ssn.settingsService", "ssn.socketService", "ssn.friendsService"];
+	userModel.$inject = ["$injector", "$location", "ssn.blobService",  "ssn.keyStoreService", "ssn.profileService", "ssn.sessionService", "ssn.settingsService", "ssn.socketService", "ssn.friendsService"];
 
 	return userModel;
 });

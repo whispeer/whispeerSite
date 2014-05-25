@@ -64,7 +64,7 @@ define(["asset/Image", "asset/resizable"], function (MyImage, Resizable) {
 		}
 	};
 
-	ResizableImage.prototype.getImageData = function (size) {
+	ResizableImage.prototype.getPos = function () {
 		if (this._image && this._resizable) {
 			var pos = this._resizable.getRelativePosition();
 			var ratio = (1 / this._paintProperties.ratio);
@@ -73,7 +73,19 @@ define(["asset/Image", "asset/resizable"], function (MyImage, Resizable) {
 			pos.top = pos.top * ratio;
 			pos.left = pos.left * ratio;
 
-			return this.getResizedImageData(size, pos);
+			return pos;
+		}
+	};
+
+	ResizableImage.prototype.getImageData = function (size) {
+		if (this._image && this._resizable) {
+			return this.getResizedImageData(size, this.getPos());
+		}
+	};
+
+	ResizableImage.prototype.getImageBlob = function (size, cb) {
+		if (this._image && this._resizable) {
+			return this.getResizedImageBlob(size, this.getPos(), cb);
 		}
 	};
 

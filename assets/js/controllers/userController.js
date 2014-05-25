@@ -5,7 +5,7 @@
 define(["step", "whispeerHelper", "asset/resizableImage"], function (step, h, ResizableImage) {
 	"use strict";
 
-	function userController($scope, $routeParams, $timeout, cssService, userService, postService, circleService) {
+	function userController($scope, $routeParams, $timeout, cssService, userService, postService, circleService, blobService) {
 		var identifier = $routeParams.identifier;
 		var userObject;
 
@@ -63,15 +63,33 @@ define(["step", "whispeerHelper", "asset/resizableImage"], function (step, h, Re
 			});
 		};
 
+		function setImage(cb) {
+			step(function () {
+				resizableImage.getImageBlob(ENDSIZE, this.ne);
+			}, h.sF(function (imageBlob) {
+				imageBlob = blobService.createBlob(imageBlob);
+
+				this.parallel.unflatten();
+
+				imageBlob.upload(this.parallel());
+				imageBlob.getHash(this.parallel());
+			}), h.sF(function (blobid, hash) {
+				userObject.setProfileAttribute("imageBlob", {
+					blobid: blobid,
+					imageHash: hash
+				}, this.parallel());
+
+				userObject.setProfileAttribute("image", "", this.parallel());
+			}), cb);
+		}
+
 		$scope.saveUser = function () {
 			if (userObject.isOwn()) {
 				//TODO: something goes wrong here when doing it the 2nd time!
 
 				step(function () {
 					if ($scope.changeImage) {
-						var imageData = resizableImage.getImageData(ENDSIZE);
-
-						userObject.setProfileAttribute("image", imageData, this);
+						setImage(this);
 					} else {
 						this.ne();
 					}
@@ -268,7 +286,7 @@ define(["step", "whispeerHelper", "asset/resizableImage"], function (step, h, Re
 		$scope.friends = [];
 	}
 
-	userController.$inject = ["$scope", "$routeParams", "$timeout", "ssn.cssService", "ssn.userService", "ssn.postService", "ssn.circleService"];
+	userController.$inject = ["$scope", "$routeParams", "$timeout", "ssn.cssService", "ssn.userService", "ssn.postService", "ssn.circleService", "ssn.blobService"];
 
 	return userController;
 });

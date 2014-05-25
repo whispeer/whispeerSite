@@ -5,6 +5,7 @@
 		angular: "libs/angular",
 		angularRoute: "libs/angular-route",
 		socket: "libs/socket.io",
+        socketStream: "libs/socket.io-stream",
 		step: "step/lib/step",
 		whispeerHelper: "helper/helper",
 		amanda: "libs/amanda"
