@@ -18,7 +18,7 @@ define(["app"], function (app) {
 			}
 
 			$routeProvider.when("/" + name, {
-				templateUrl: "/assets/views/pages/" + name + ".html",
+				templateUrl: "assets/views/pages/" + name + ".html",
 				controller: "ssn." + name + "Controller",
 				reloadOnSearch: reloadOnSearch
 			});
@@ -35,17 +35,17 @@ define(["app"], function (app) {
 		addMain("version");
 
 		$routeProvider.when("/logout", {
-			templateUrl: "/assets/views/pages/loading.html",
+			templateUrl: "assets/views/pages/loading.html",
 			controller: "ssn.logoutController"
 		});
 
 		$routeProvider.when("/verifyMail/:challenge", {
-			templateUrl: "/assets/views/pages/mail.html",
+			templateUrl: "assets/views/pages/mail.html",
 			controller: "ssn.mailController"
 		});
 
 		$routeProvider.when("/user/:identifier", {
-			templateUrl: "/assets/views/pages/user.html",
+			templateUrl: "assets/views/pages/user.html",
 			controller: "ssn.userController"
 		});
 

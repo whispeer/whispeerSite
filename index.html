@@ -4,6 +4,8 @@
 <!--[if IE 8]>    <html class="no-js lt-ie9" lang="de"> <![endif]-->
 <!--[if gt IE 8]><!--> <html class="no-js" lang="de" data-ng-csp> <!--<![endif]-->
 <head>
+	<!--<base href="file:///home/nilos/software/ssn/main/" />-->
+	<base href="/" />
 	<meta charset="utf-8">
 	<!--[if IE]>
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
@@ -12,21 +14,20 @@
 	<meta name="description" content="" />
 	<meta name="author" content="" />
 	<meta name="viewport" content="target-densitydpi=device-dpi, initial-scale=1.0, user-scalable=no" />
-	<link rel="shortcut icon" href="/assets/img/favicons/favicon.png" type="image/x-icon" />
+	<link rel="shortcut icon" href="assets/img/favicons/favicon.png" type="image/x-icon" />
 
 	<!-- iOS Web-App Stuff -->
-	<link rel="apple-touch-icon" href="/assets/img/favicons/touch-icon-iphone.png" />
-	<link rel="apple-touch-icon" href="/assets/img/favicons/touch-icon-ipad.png" sizes="76x76" />
-	<link rel="apple-touch-icon" href="/assets/img/favicons/touch-icon-iphone-retina.png" sizes="120x120" />
-	<link rel="apple-touch-icon" href="/assets/img/favicons/touch-icon-ipad-retina.png" sizes="152x152" />
+	<link rel="apple-touch-icon" href="assets/img/favicons/touch-icon-iphone.png" />
+	<link rel="apple-touch-icon" href="assets/img/favicons/touch-icon-ipad.png" sizes="76x76" />
+	<link rel="apple-touch-icon" href="assets/img/favicons/touch-icon-iphone-retina.png" sizes="120x120" />
+	<link rel="apple-touch-icon" href="assets/img/favicons/touch-icon-ipad-retina.png" sizes="152x152" />
 
-	<link rel="stylesheet" href="/assets/css/angular-csp.css">
-	<link rel="stylesheet" href="/assets/css/fontello/fontello.css">
+	<link rel="stylesheet" href="assets/css/angular-csp.css">
+	<link rel="stylesheet" href="assets/css/fontello/fontello.css">
 	<!--[if IE 7]><link rel="stylesheet" href="css/fontello/fontello-ie7.css"><![endif]-->
-	<link rel="stylesheet" href="/assets/css/style.css">
+	<link rel="stylesheet" href="assets/css/style.css">
 
-	<script data-main="/assets/js/main" src="/assets/js/libs/require.js"></script>
-	<base href="/index.html" />
+	<script data-main="assets/js/main" src="assets/js/libs/require.js"></script>
 </head>
 <body data-ng-class="cssClass" data-ng-controller="ssn.rootController" class="loading">
 	<!--[if lte IE 8]><p class=chromeframe>Your browser is <em>ancient!</em> <a href="http://browsehappy.com/">Upgrade to a different browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to experience this site.</p><![endif]-->
@@ -44,19 +45,19 @@
 		</div>
 		<div id="navIcons" data-ng-controller="ssn.magicbar.mainController">
 			<div class="navIcon" id="messageicon" data-ng-click="loadWidget('messages')">
-				<img src="/assets/img/icons/messages.png" alt="Nachrichten" class="icon">
+				<img src="assets/img/icons/messages.png" alt="Nachrichten" class="icon">
 				<span class="badge" data-ng-if="messages.unread!=0">{{messages.unread}}</span>
 			</div>
 			<div class="navIcon" id="friendsicon" data-ng-click="loadWidget('friends')">
-				<img src="/assets/img/icons/friends.png" alt="Freundschaftsanfragen" class="icon">
+				<img src="assets/img/icons/friends.png" alt="Freundschaftsanfragen" class="icon">
 				<span class="badge" data-ng-if="friends.requestsCount!=0">{{friends.requestsCount}}</span>
 			</div>
 			<div class="navIcon" id="newsicon" data-ng-click="loadWidget('news')">
-				<img src="/assets/img/icons/newsfeed.png" alt="Neugikeiten" class="icon">
+				<img src="assets/img/icons/newsfeed.png" alt="Neugikeiten" class="icon">
 				<span class="badge" data-ng-if="news.count!=0">{{news.count}}</span>
 			</div>
 			<div class="navIcon" id="settingsicon" data-ng-click="loadWidget('settings')">
-				<img src="/assets/img/icons/settings.png" alt="Settings" class="icon">
+				<img src="assets/img/icons/settings.png" alt="Settings" class="icon">
 			</div>
 		</div>
 	</nav>
@@ -102,7 +103,7 @@
 		<!-- !Loaded View -->
 		<section id="main" data-ng-view data-ng-show="!sidebarActive && !searchActive || !mobile">
 			<div id="logo">
-				<img src="/assets/img/logo.png">
+				<img src="assets/img/logo.png">
 			</div>
 		</section>
 		<!-- end !Loaded View -->
@@ -114,9 +115,9 @@
 		<!-- !Right Sidebar -->
 		<aside id="sidebar-right" data-ng-if="loggedin && !mobile">
 			<div id="magicbar" data-ng-controller="ssn.magicbar.mainController">
-				<div class="magic magicOverlay" data-ng-if="!config.showDefault" data-ng-include="'/assets/views/magicbar/' + config.template + '.html'"></div>
+				<div class="magic magicOverlay" data-ng-if="!config.showDefault" data-ng-include="'assets/views/magicbar/' + config.template + '.html'"></div>
 				<div class="magicWrapper" data-ng-if="config.showDefault">
-					<div class="magic magicWidget" style="height: {{widgetHeight}}%" data-ng-repeat="widget in defaultConfig" data-ng-include="'/assets/views/magicbar/' + widget.template + '.html'"></div>
+					<div class="magic magicWidget" style="height: {{widgetHeight}}%" data-ng-repeat="widget in defaultConfig" data-ng-include="'assets/views/magicbar/' + widget.template + '.html'"></div>
 				</div>
 			</div>
 		</aside>

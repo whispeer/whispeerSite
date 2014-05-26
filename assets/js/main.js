@@ -13,7 +13,7 @@ requirejs.config({
 		whispeerHelper: "helper/helper",
 		amanda: "libs/amanda"
 	},
-	baseUrl: "/assets/js",
+	baseUrl: "assets/js",
     shim: {
         "angular": {
             deps: ["jquery"],

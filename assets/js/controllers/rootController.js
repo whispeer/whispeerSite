@@ -46,7 +46,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 		var nullUser = {
 			name: "",
 			basic: {
-				image: "/assets/img/user.png"
+				image: "assets/img/user.png"
 			},
 			id: 0
 		};
