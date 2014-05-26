@@ -43,7 +43,7 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer", "ass
 					"id": meta.sender,
 					"name": "",
 					"url": "",
-					"image": "/assets/img/user.png"
+					"image": "assets/img/user.png"
 				},
 
 				id: meta.messageid,

@@ -588,7 +588,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 							this.last.ne(image);
 						}
 					} else {
-						this.last.ne("/assets/img/user.png");
+						this.last.ne("assets/img/user.png");
 					}
 				}), h.sF(function (blob) {
 					this.ne(blob.toURL());

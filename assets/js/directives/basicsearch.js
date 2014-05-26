@@ -8,7 +8,7 @@ define(["step", "whispeerHelper"], function () {
 			},
 			/* this is an element */
 			restrict: "E",
-			templateUrl: "/assets/views/directives/basicSearch.html",
+			templateUrl: "assets/views/directives/basicSearch.html",
 			/* replace given element */
 			replace: true,
 			transclude: true,

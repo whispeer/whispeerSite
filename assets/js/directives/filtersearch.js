@@ -6,7 +6,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 			transclude: false,
 			scope:	false,
 			restrict: "E",
-			templateUrl: "/assets/views/directives/filterSearch.html",
+			templateUrl: "assets/views/directives/filterSearch.html",
 			replace: true,
 			link: function postLink(scope, iElement, iAttrs) {
 				//how do we sort stuff?

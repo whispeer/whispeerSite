@@ -6,7 +6,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 			transclude: false,
 			scope:	false,
 			restrict: "E",
-			templateUrl: "/assets/views/directives/circleSearch.html",
+			templateUrl: "assets/views/directives/circleSearch.html",
 			replace: true,
 			link: function postLink(scope, element, attrs) {
 				var user;

@@ -176,7 +176,7 @@ define(["step", "whispeerHelper", "asset/observer"], function (step, h, Observer
 				id: id,
 				userids: user,
 				name: "",
-				image: "/assets/img/circle.png",
+				image: "assets/img/circle.png",
 				persons: persons
 			};
 

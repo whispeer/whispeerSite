@@ -10,7 +10,7 @@ define(function () {
 				failure:		"=failure"
 			},
 			restrict: 'E',
-			templateUrl: '/assets/views/directives/saveButton.html',
+			templateUrl: 'assets/views/directives/saveButton.html',
 			replace: true,
 			link: function (scope, iElement, iAttrs) {
 				if (iAttrs["defaulticon"] === undefined) {
