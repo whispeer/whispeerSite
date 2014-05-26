@@ -280,6 +280,11 @@ define(["step", "whispeerHelper", "asset/resizableImage", "asset/observer"], fun
 			return "assets/img/fail.png";
 		};
 
+		var defaultSettings = {
+			encrypt: true,
+			visibility: []
+		};
+
 		$scope.register = function doRegisterC() {
 			var settings = {
 				privacy: {
@@ -297,34 +302,17 @@ define(["step", "whispeerHelper", "asset/resizableImage", "asset/observer"], fun
 						encrypt: false,
 						visibility: []
 					},
-					location: {
-						encrypt: true,
+					imageBlob: {
+						encrypt: false,
 						visibility: []
 					},
-					birthday: {
-						encrypt: true,
-						visibility: []
-					},
-					relationship: {
-						encrypt: true,
-						visibility: []
-					},
-					education: {
-						encrypt: true,
-						visibility: []
-					},
-					work: {
-						encrypt: true,
-						visibility: []
-					},
-					gender: {
-						encrypt: true,
-						visibility: []
-					},
-					languages: {
-						encrypt: true,
-						visibility: []
-					}
+					location: defaultSettings,
+					birthday: defaultSettings,
+					relationship: defaultSettings,
+					education: defaultSettings,
+					work: defaultSettings,
+					gender: defaultSettings,
+					languages: defaultSettings
 				},
 				sharePosts: ["always:allfriends"]
 			};
@@ -338,40 +326,34 @@ define(["step", "whispeerHelper", "asset/resizableImage", "asset/observer"], fun
 				}
 			};
 
-			var imageData = resizableImage.getImageData(ENDSIZE);
+			step(function () {
+				resizableImage.getImageBlob(ENDSIZE, this.ne);
+			}, h.sF(function (imageBlob) {
+				function setAttribute(name, data) {
+					settings.privacy.basic[name].encrypt = data.encrypted;
 
-			function setAttribute(name, data) {
-				settings.privacy.basic[name].encrypt = data.encrypted;
 
-
-				if (data.value !== "") {
-					if (data.encrypted) {
-						profile.priv.basic = profile.priv.basic || {};
-
-						profile.priv.basic[name] = data.value;
-					} else {
-						profile.pub.basic = profile.pub.basic || {};
-
-						profile.pub.basic[name] = data.value;
+					if (data.value !== "") {
+						if (data.encrypted) {
+							profile.priv.basic = profile.priv.basic || {};
+							profile.priv.basic[name] = data.value;
+						} else {
+							profile.pub.basic = profile.pub.basic || {};
+							profile.pub.basic[name] = data.value;
+						}
 					}
 				}
-			}
 
-			setAttribute("firstname", $scope.firstname);
-			setAttribute("lastname", $scope.lastname);
+				setAttribute("firstname", $scope.firstname);
+				setAttribute("lastname", $scope.lastname);
 
-			if (imageData) {
-				profile.pub.image = imageData;
-			}
-
-			console.time("register");
-			sessionHelper.register($scope.nickname, $scope.mail, $scope.password, profile,  settings, function () {
+				console.time("register");
+				sessionHelper.register($scope.nickname, $scope.mail, $scope.password, profile, imageBlob, settings, this);
+			}), function () {
 				console.timeEnd("register");
 				console.log("register done!");
 				resizableImage.removeResizable();
 			});
-
-			Observer.call(this);
 		};
 	}
 

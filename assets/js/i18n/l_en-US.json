@@ -332,11 +332,12 @@
 			"title": "Security - What parts of your profile do you want to encrypt?",
 			"reset": "Reset",
 			"attributes": {
-				"location": "City","birthday": "Birthday",
+				"location": "City",
+				"birthday": "Birthday",
 				"relationship": "Relationship status",
 				"education": "Education",
 				
-				"work": "Work",
+				"work": "Job",
 				"gender": "Gender",
 				"languages": "Languages",
 				"names": {
@@ -345,6 +346,17 @@
 					"lastname": "Last name",
 					"username": "Username"
 				}
+			},
+			"whomayseeit": {
+				"firstname":	"Who may see your first name?",
+				"lastname":		"Who may see your last name?",
+				"birthday":		"Who may see your date of birth?",
+				"location":		"Who may see which City you live in?",
+				"relationship":	"Who may see your relationsship status?",
+				"education":	"Who may see your level of education?",
+				"work":			"Who may see your Job?",
+				"gender":		"Who may see your gender?",
+				"languages":	"Who may see which languages you are speaking?"
 			}
 		},
 		"header": {

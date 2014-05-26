@@ -135,9 +135,13 @@ define(["crypto/keyStore", "step", "whispeerHelper", "asset/encryptedMetaData", 
 				step(function () {
 					theProfile.decrypt(this);
 				}, h.sF(function  () {
+					updatedProfile = h.extend(decryptedProfile, updatedProfile, 5, true);
+
 					keyStore.hash.addPaddingToObject(updatedProfile, 128, this);
 				}), h.sF(function (paddedUpdatedProfile) {
-					paddedProfile = h.extend(paddedProfile, paddedUpdatedProfile, 5);
+					paddedProfile = paddedUpdatedProfile;
+					decryptedProfile = updatedProfile;
+
 					this.parallel.unflatten();
 
 					encryptProfile(key, this.parallel());

@@ -3,7 +3,7 @@
 		<li data-ng-repeat="user in results" style="width: {{width + 15}}px" data-ng-class="currentClass($index)" data-ng-mouseover="setCurrent($index)" data-ng-click="selectResult($index)">
 			<img data-ng-src="{{user.basic.image}}">
 			<div class="info">
-				<span class="name">{{user.name}}</span>
+				<span class="name">{{user.name}}<small class="nickname">&nbsp;- {{user.names.nickname}}</small></span>
 				<span class="friends" data-ng-if="big">{{user.basic.mutualFriends.length}} <span data-i18n="usersearch.mutualFriends"></span></span>
 				<span class="location" data-ng-if="big"><span data-i18n="usersearch.from"></span> {{user.basic.location}}</span>
 				<span class="age" data-ng-if="big"><span data-i18n="usersearch.age"></span> {{user.basic.age}}</span>

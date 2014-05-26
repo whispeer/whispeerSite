@@ -33,6 +33,45 @@
 				.column(8,8);
 				margin-top: -5px;
 				margin-bottom: 10px;
+				span {
+					.width(3);
+				}
+				input:not([type=submit]) {
+					.width(5);
+				}
+				&#nickname, &#mail {
+					button {
+						.push(5);
+					}
+				}
+			}
+			&#safety {
+				.config {
+					button {
+						.column(1.5);
+						margin-top: -1px;
+						margin-bottom: 10px;
+						height: 40px;
+						padding-left: 0;
+						padding-right: 0;
+						text-align: center;
+						i {
+							margin-left: -3px;
+							text-align: center;
+						}
+					}
+					.whoMaySeeIt {
+						.column(8);
+						li {
+							&.searchField {
+								width: 80%;
+								input {
+									width: 100% !important;
+								}
+							}	
+						}
+					}
+				}
 			}
 			.settingsFormButton {
 				.column(4);

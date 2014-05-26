@@ -162,6 +162,7 @@
 					.actions {
 						border: none;
 						border-top:1px solid #ccc;
+						position: relative;
 						.box-fix;	
 						.addFriend {
 							.btn;
@@ -169,11 +170,18 @@
 							text-align: center;
 						}
 						.addToCircle {
-							.btn {
-								.spinner {
-									width: 20px;
-									height: 20px;
-									margin-top: 3px;
+							#selectCircle {
+								.formSearch {
+									.border-radiuses(0,0,5px,5px);
+									ul {
+										.border-radiuses(0,0,5px,5px);
+										li {
+											//.border-radiuses(0,0,5px,5px);
+											input {
+												.border-radiuses(0,0,5px,5px);
+											}
+										}	
+									}
 								}
 							}
 						}

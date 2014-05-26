@@ -1,6 +1,19 @@
 	{
 	"0": {
 		"1": {
+			"8": [
+				"Bring back missing profile icons",
+				"Bugfixes"
+			],
+			"7": [
+				"Show nickname in header search bar",
+				"Show time for posts",
+				"Nicer time formatting",
+				"Bugfixes",
+				"Create circle in circle search, if no results were found",
+				"Buttons now give feedback to the user about what they are doing",
+				"UI improvements"
+			],
 			"6": [
 				"Hotfix: Messages are now marked as unread again"
 			],
