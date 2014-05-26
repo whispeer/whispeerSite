@@ -36,6 +36,6 @@ define([
 	"use strict";
 
 	return angular.module("ssn", ["ssn.controllers", "ssn.models", "ssn.magicbar.controllers", "ssn.services", "ssn.directives", "ssn.filter", "localization", "ngRoute"], function ($compileProvider) {
-		$compileProvider.imgSrcSanitizationWhitelist(/^\s*(https?|ftp|file|blob):|data:image\//);
+		$compileProvider.imgSrcSanitizationWhitelist(/^\s*(https?|ftp|file|blob|app):|data:image\//);
 	});
 });
