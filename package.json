@@ -1,5 +1,5 @@
 {
 	"name": "Whispeer",
-	"main": "app://whispeer/index.html",
+	"main": "app://whispeer/index.html#!/main",
 	"nodejs": false
 }

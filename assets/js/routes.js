@@ -2,13 +2,15 @@ define(["app"], function (app) {
 	"use strict";
 
 	return app.config(["$routeProvider", "$provide", "$locationProvider", function ($routeProvider, $provide, $locationProvider) {
+		if (window.location.href.indexOf("app://") === 0) {
+			$provide.decorator('$sniffer', function($delegate) {
+				$delegate.history = false;
+				return $delegate;
+			});
+		}
+
 		$locationProvider.html5Mode(true);
 		$locationProvider.hashPrefix("!");
-
-		/*$provide.decorator("$sniffer", function($delegate) {
-			$delegate.history = false;
-			return $delegate;
-		});*/
 
 		function addMain(name, reloadOnSearch) {
 			if (reloadOnSearch !== false) {
