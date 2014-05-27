@@ -136,7 +136,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 						age: "?",
 						location: "?",
 						mutualFriends: mutualFriends,
-						url: "/user/" + nickname
+						url: "#/user/" + nickname
 					},
 					advanced: {
 						birthday:	{
@@ -547,7 +547,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 			};
 
 			this.getUrl = function () {
-				return "/user/" + this.getNickname();
+				return "#/user/" + this.getNickname();
 			};
 
 			this.getNickname = function () {
