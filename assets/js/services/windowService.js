@@ -48,7 +48,7 @@ define(["asset/observer"], function (Observer) {
 					if (type === 'message') {
 						if (Notification.permission === 'granted') {
 							var n = new Notification(
-								"Neue Nachricht von " + obj.sender.name,
+								localize.getLocalizedString("notification.newmessage").replace("{user}", obj.sender.name),
 								{
 									'body': obj.text,
 									'tag':	obj.timestamp
