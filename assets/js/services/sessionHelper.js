@@ -77,12 +77,16 @@ define(["step", "whispeerHelper", "socketStream"], function (step, h, iostream) 
 					}
 
 					var privateProfile = new ProfileService({
-						profile: profile.priv,
+						profile: {
+							content: profile.priv
+						},
 						metaData: profile.metaData
 					}, true);
 
 					var privateProfileMe = new ProfileService({
-						profile: h.objectJoin(h.objectJoin(profile.priv, profile.pub), profile.nobody),
+						profile: {
+							content: h.objectJoin(h.objectJoin(profile.priv, profile.pub), profile.nobody)
+						},
 						metaData: {
 							scope: "me"
 						}

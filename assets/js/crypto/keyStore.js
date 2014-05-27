@@ -1818,9 +1818,9 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 				}), callback);
 			},
 
-			decryptObject: function (cobject, depth, callback) {
+			decryptObject: function (cobject, depth, callback, key) {
 				step(function objDecrypt1() {
-					SymKey.get(cobject.key, this);
+					SymKey.get(key || cobject.key, this);
 				}, h.sF(function objDecrypt2(key) {
 					new ObjectCryptor(key, depth, cobject).decrypt(this);
 				}), h.sF(function objDecrypt3(result) {
