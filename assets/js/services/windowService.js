@@ -50,8 +50,9 @@ define(["asset/observer"], function (Observer) {
 							var n = new Notification(
 								localize.getLocalizedString("notification.newmessage").replace("{user}", obj.sender.name),
 								{
-									'body': obj.text,
-									'tag':	obj.timestamp
+									'body': obj.sender.names.firstname + ': ' + obj.text,
+									'tag':	obj.timestamp,
+									'icon':	'assets/img/favicons/touch-icon-ipad-retina.png'
 								}
 							);
 							n.onclick = function () {
