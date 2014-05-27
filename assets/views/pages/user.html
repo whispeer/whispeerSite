@@ -72,7 +72,7 @@
 						</span>
 					</p>
 					<p id="school" data-ng-show="set(user.advanced.education) || editGeneral">
-						<i class="icon-book-open"></i>
+						<i class="icon-book"></i>
 						<span data-i18n="profile.section.general.education">
 							<span data-ng-if="!editGeneral" data-for="school"><span data-ng-repeat="school in user.advanced.education">{{school.name}}</span></span>
 							<span data-ng-if="editGeneral" data-for="school">
@@ -85,7 +85,7 @@
 						</span>
 					</p>
 					<p id="work" data-ng-show="set(user.advanced.work) || editGeneral">
-						<i class="icon-wrench"></i>
+						<i class="icon-briefcase"></i>
 						<span data-i18n="profile.section.general.work.{{getWorkVals(user.advanced.work)}}">
 							<span data-ng-if="!editGeneral" data-for="what">{{user.advanced.work.what}}</span>
 							<input data-ng-if="editGeneral" data-for="what" data-ng-model="user.advanced.work.what">
@@ -105,7 +105,7 @@
 						</span>
 					</p>
 					<p id="languages" data-ng-show="set(user.advanced.languages) || editGeneral">
-						<i class="icon-globe-1"></i>
+						<i class="icon-globe"></i>
 						<span data-i18n="profile.section.general.languages">
 							<span data-ng-if="!editGeneral" data-for="language">
 								<span data-ng-repeat="language in user.advanced.languages">{{language.name}}</span>

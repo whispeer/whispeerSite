@@ -60,6 +60,9 @@
 		"cancel":	"Abbrechen",
 		"disconnected":	"Du hast deine Verbindung zu den whispeer-Servern verloren."
 	},
+	"notification": {
+		"newmessage":	"Neue Nachricht von {user}"
+	},
 	"date": {
 		"month": {
 			"1": "Januar",

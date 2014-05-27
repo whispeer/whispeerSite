@@ -50,6 +50,9 @@
 		"cancel":	"Cancel",
 		"disconnected":	"You've lost your connection to whispeer's Servers"
 	},
+	"notification": {
+		"newmessage":	"New Message from {user}"
+	},
 	"date": {
 		"month": {
 			"1": "January",
