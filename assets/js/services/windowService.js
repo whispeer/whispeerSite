@@ -1,7 +1,7 @@
 define(["asset/observer"], function (Observer) {
 	"use strict";
 
-	function service(localize, $location) {
+	function service(localize, $location, $rootScope) {
 		var advancedTitle = {}, count = 0, topicInternalCount = 0;
 
 		function cycleTitle() {
@@ -55,7 +55,10 @@ define(["asset/observer"], function (Observer) {
 								}
 							);
 							n.onclick = function () {
-								$location.path("/messages").search({topicid: obj.obj.getTopicID()});
+								$rootScope.$apply(function () {
+									$location.path("/messages").search({topicid: obj.obj.getTopicID()});
+								});
+
 								this.close();
 							};
 						}
@@ -119,7 +122,7 @@ define(["asset/observer"], function (Observer) {
 		return api;
 	}
 
-	service.$inject = ["localize", "$location"];
+	service.$inject = ["localize", "$location", "$rootScope"];
 
 	return service;
 });
