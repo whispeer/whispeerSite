@@ -1,7 +1,7 @@
 define(["asset/observer"], function (Observer) {
 	"use strict";
 
-	function service(localize) {
+	function service(localize, $location) {
 		var advancedTitle = {}, count = 0, topicInternalCount = 0;
 
 		function cycleTitle() {
@@ -42,10 +42,34 @@ define(["asset/observer"], function (Observer) {
 			},
 			playMessageSound: function () {
 				document.getElementById("sound").play();
+			},
+			sendLocalNotification: function(type, obj) {
+				if (window.Notification) {
+					if (type === 'message') {
+						if (Notification.permission === 'granted') {
+							var n = new Notification(
+								"Neue Nachricht von " + obj.sender.name,
+								{
+									'body': obj.text,
+									'tag':	obj.timestamp
+								}
+							);
+							n.onclick = function () {
+								$location.path("/messages").search({topicid: obj.obj.getTopicID()});
+								this.close();
+							};
+						}
+					}
+				}		
 			}
 		};
 
 		Observer.call(api);
+		
+		// get Permissions for Notifications
+		if (window.Notification && Notification.permission === 'default') {
+			window.Notification.requestPermission();
+		}
 
 		var hidden = "hidden";
 
@@ -95,7 +119,7 @@ define(["asset/observer"], function (Observer) {
 		return api;
 	}
 
-	service.$inject = ["localize"];
+	service.$inject = ["localize", "$location"];
 
 	return service;
 });
