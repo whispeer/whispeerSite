@@ -25,14 +25,28 @@ body {
 		}
 		#mobileSearch {
 			.column(12);
+			height: 100%;
 			.searchBar {
 				margin-top: 10px !important;
+				position: relative;
+				height: 100% !important;
 				.addFriend, .sendMessage {
 					padding: 5px 2px !important;
 				}
+				.formSearch {
+					height: 38px;
+				}
 				.searchDrop {
-					height: 230px !important;
-					overflow: scroll;
+					margin-top: 5px;
+					height: 100% !important;
+					overflow: hidden;
+					position: relative;
+					padding-bottom: 55px !important;
+					.box-fix;
+					.searchSuggestions {
+						height: 100% !important;
+						max-height: none !important;
+					}
 				}
 			}
 		}
