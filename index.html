@@ -34,7 +34,7 @@
 	<!-- !Top Bar -->
 	<nav id="topNav" data-ng-if="loggedin" data-ng-cloak>
 		<div id="navInner">
-			<button class="toggle" id="toggleSidebar" data-ng-click="toggleSidebar()" data-ng-if="mobile"><i class="icon icon-home"></i></button>
+			<button class="toggle" id="toggleSidebar" data-ng-click="toggleSidebar()" data-ng-if="mobile"><i class="icon icon-menu"></i></button>
 			<a href="/start" id="brand" data-ng-click="mobileActivateView()"><span id="brandNormal">whis</span><span id="brandInverse">peer</span></a>
 			<button class="toggle" id="toggleSearch" data-ng-click="toggleSearch()" data-ng-if="mobile"><i class="icon icon-search"></i></button>
 			<span class="badge" id="mobileCounter" data-ng-controller="ssn.magicbar.mainController" data-ng-if="mobile && (messages.unread + friends.requestsCount + news.count > 0)">{{messages.unread + friends.requestsCount + news.count}}</span>
