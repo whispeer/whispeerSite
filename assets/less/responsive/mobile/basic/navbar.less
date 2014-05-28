@@ -15,26 +15,31 @@
 			font-weight: bold;
 			text-shadow: none !important;
 		}
-		#toggleSearch {
+		.toggle {
 			.column(2,12,left,3%);
-			margin: 10px 0 0 3% !important;
-			.btn;
-			.btn--green;
+			display: block;
+			border: none;
+			outline: none;
+			height: 50px;
 			text-align: center;
-			margin-top: 10px;
+			padding: 0;
+			margin:0 !important;
 			i {
-				margin-left: -5px;
+				font-size: 2em;
+				color: #fff;
 			}
-		}
-		#toggleSidebar {
-			.column(2,12,right,3%);
-			.btn;
-			.btn--green;
-			margin: 10px 3% 0 0 !important;
-			text-align: center;
-			i {
-				margin-left: -5px;
+			&:hover, &:focus, &.active {
+				background: rgba(255,255,255,0.15);
 			}
+			&#toggleSidebar {
+				border-right: 1px solid @white;
+				margin-right: 3% !important;
+			}
+			&#toggleSearch {
+				float: right;
+				border-left: 1px solid @white;
+				margin-left: 3% !important;
+			} 
 		}
 		#mobileCounter {
 			top: 25px;
