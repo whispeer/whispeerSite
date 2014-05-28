@@ -1,0 +1,115 @@
+#topNav {
+	width: 100%;
+	position: static;
+	height: 50px !important;
+	margin-bottom: -70px;
+	#navInner {
+		text-align: center;
+		width: 100%;
+		#brand {
+			font-size: 30px;
+			letter-spacing: -2px;
+			line-height: @baseLineHeight;
+			.column(8);
+			margin-top: 12px;
+			font-weight: bold;
+			text-shadow: none !important;
+		}
+		#toggleSearch {
+			.column(2,12,left,3%);
+			margin: 10px 0 0 3% !important;
+			.btn;
+			.btn--green;
+			text-align: center;
+			margin-top: 10px;
+			i {
+				margin-left: -5px;
+			}
+		}
+		#toggleSidebar {
+			.column(2,12,right,3%);
+			.btn;
+			.btn--green;
+			margin: 10px 3% 0 0 !important;
+			text-align: center;
+			i {
+				margin-left: -5px;
+			}
+		}
+		#mobileCounter {
+			top: 25px;
+			right: 2%;
+		}
+	}
+	.searchBar {
+		.column(8);
+		display: none;
+		.formSearch {
+			width: 100%;
+			margin: 7px 0px;
+			.inputWrap {
+				min-height: 0px;
+				height: 35px;
+				line-height: 35px;
+				padding:0;
+				li {
+					height: 35px;
+					line-height: 35px;
+					padding:0;
+					&.searchField {
+						width: 20%;
+						input {
+							padding:0px 10px;
+							margin:-1px 0;
+							height:35px;
+							line-height: 35px;
+						}
+					}
+				}
+			}
+		}
+		.searchDrop {
+			top: 50px;
+			margin: 5px 0;
+		}
+	}
+	#navIcons {
+		height: 100%;
+		.column(2,12, right);
+		display: none;
+		.navIcon {
+			.column(1,4);
+			.icon {
+				margin-top: 7px;
+				width: 35px;
+			}
+			.badge {
+				padding: 1px 2px 1px 2px;
+				margin-left: -13px;
+				margin-top: 25px;
+				position: absolute;
+				font-size: 11px;
+			}
+		}
+	}
+}
+
+// Searchbar
+
+#searchSuggestions {
+	li {
+		img {
+			.column(3.75);
+		}	
+		.info {
+			.column(8.25);
+		}
+		.actions {
+			.column(8.25);
+			a {
+				.column(6);
+				.box-fix;
+			}
+		}	
+	}
+}

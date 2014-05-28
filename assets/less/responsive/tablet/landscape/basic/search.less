@@ -1,0 +1,85 @@
+.searchBar {
+	.formSearch {
+		.inputWrap {
+			.unstyled;
+			height: auto;
+			padding: 0;
+			max-width: 100%;
+			display: block;
+			width: 100%;
+			word-break: break-all;
+			min-height: 39px;
+			li {
+				display: inline-block !important;
+				line-height: 35px;
+				height: 35px;
+				&.searchResult {
+					display: block;
+					float: left;
+					margin: 2px;
+					padding: 0 5px 0 5px;
+				}
+				&.searchField {
+					input {
+						//float: left;
+						width: 45%;
+						outline: 0;
+						border: 0;
+						padding: 0px 9px;
+						height: 35px;
+					}	
+				}
+			}
+		}
+	}
+	.searchDrop {
+		.column(3,7);
+		margin: 0;
+		display: block;
+		padding: 0;
+		position: absolute;
+		.searchSuggestions {
+			width: 100%;
+			margin: 0;
+			max-height: 390px;
+			overflow-y:scroll;
+			padding:0;
+			li {
+				float: left;
+				padding: 0;
+				margin: 0;
+				min-height: 20px;
+				height: auto;
+				position: static !important;
+				img {
+					.column(2);
+					margin-left: 0;
+				}
+				.info {
+					.column(5.5);
+					margin: 7px 0 0 2%;
+					padding: 0;
+					.name {
+						font-size: 1.3em;
+						min-height: 10px;
+					}
+					.friends {
+						.row(12);
+					}
+					.location, &.age {
+						.column(3);
+					}
+				}
+				.actions {
+					.column(4.25);
+					margin-top: 5px;
+					a {
+						cursor: pointer;
+						text-align: center;
+						margin-bottom: 5px;
+					}
+				}	
+			}
+		}
+	}	
+}
