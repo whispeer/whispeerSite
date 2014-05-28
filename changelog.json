@@ -3,7 +3,10 @@
 		"1": {
 			"8": [
 				"Bring back missing profile icons",
-				"Bugfixes"
+				"Bugfixes",
+				"Optimized mobile user interface",
+				"Uploading and Changing the profile picture from a mobile device (iPhone and iPad were tested)",
+				"Tablets in portait mode are now supported"
 			],
 			"7": [
 				"Show nickname in header search bar",
