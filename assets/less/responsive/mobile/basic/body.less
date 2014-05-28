@@ -10,9 +10,9 @@ body {
 	}
 	
 	#container {
-		height: 100%;
-		padding-top: 70px;
-		padding-bottom: 30px;
+		height: 100% !important;
+		padding-top: 50px;
+		padding-bottom: 0 !important;
 		#main, #sidebar-left, #sidebar-right {
 			height: 100%;
 		}
@@ -68,17 +68,17 @@ body {
 						padding: 1% 0;
 						span {
 							color: #fff;
-							.column(10);
+							.column(10.5);
 							span {
 								width: 100%;
 								font-size: 1.2em;
 								text-align: left;
-								margin-top: 10px;
+								margin-top: 4px;
 							}
 						}
 					}
 					img {
-						.column(2);
+						.column(1.5);
 						.border-radius(5px);
 					}
 				}
@@ -90,22 +90,6 @@ body {
 		margin-bottom: 40px;
 	}
 	
-	footer {
-		float: left;
-		width: 100%;
-		margin: -25px 0 0;
-		padding: 5px 5px 0px 5px;
-		.left {
-			width: 25%;
-			float: left;
-			text-align: left;
-		}
-		.right {
-			width: 75%;
-			float: left;
-			text-align: right;
-		}
-	}
 	&:not(.registerView) {
 		padding-top: 50px;
 	}
