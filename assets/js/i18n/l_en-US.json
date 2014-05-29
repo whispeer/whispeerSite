@@ -99,7 +99,8 @@
 		"settings": "Settings",
 		"help": "Help",
 		"logout": "Logout",
-		"search": "Search..."
+		"search": "Search...",
+		"legal":	"Legal"
 	},
 	"login": {
 		"username": "Username",

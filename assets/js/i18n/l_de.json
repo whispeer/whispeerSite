@@ -109,7 +109,8 @@
 		"settings": "Einstellungen",
 		"help": "Hilfe",
 		"logout": "Logout",
-		"search": "Suchen..."
+		"search": "Suchen...",
+		"legal":	"Rechtliches"
 	},
 	"login": {
 		"username": "Benutzername",
