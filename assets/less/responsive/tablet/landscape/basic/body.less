@@ -60,16 +60,11 @@ body {
 				.unstyled;
 				width: 100%;
 				a {
-					width: 100%;
-					float: left;
-					height: auto;
+					.column(1,4);
+					height: 175px;
 					overflow: hidden;
-					&:first-child {
-						.border-radiuses(5px,0,0,5px);
-					}
-					&:last-child {
-						.border-radiuses(0,5px,5px,0);
-					}
+					margin-bottom: 2%;
+					.border-radius(25px);
 					li {
 						.btn;
 						.btn--green;
@@ -77,22 +72,24 @@ body {
 						.border-radius(0);
 						float: left;
 						width: 100%;
-						height: auto;
+						height: 100%;
 						border-bottom: 1px solid #ddd;
-						padding: 1% 0;
+						padding: 40px 25px;
+						text-align: center;
 						span {
 							color: #fff;
-							.column(10.5);
+							.column(12);
 							span {
 								width: 100%;
 								font-size: 1.2em;
-								text-align: left;
+								text-align: center;
 								margin-top: 4px;
 							}
 						}
 					}
 					img {
-						.column(1.5);
+						.column(5);
+						.push(3.5);
 						.border-radius(5px);
 					}
 				}
