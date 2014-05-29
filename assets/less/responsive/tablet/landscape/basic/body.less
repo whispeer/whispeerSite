@@ -1,51 +1,110 @@
-body {
+body {	
 	margin: 0 auto;
-	padding: @navbarHeight 0 0;
-	min-width: 1024px;
-	
+	padding: 0 !important;
+	min-width: none !important;
+	width: 100% !important;
+	zoom: 0 !important;
 	noscript {
 		.row(12);
 		margin-top: 10px;
 	}
 	
 	#container {
-		height: 100%;
-		padding-bottom: 30px;
+		height: 100% !important;
+		padding-top: 50px;
+		padding-bottom: 10px !important;
 		#main, #sidebar-left, #sidebar-right {
 			height: 100%;
 		}
 		#main {
-			.column(7.5);
+			.column(12);
+			&.hidden {
+				display: none !important;
+				.column(0);
+			}
+		}
+		#mobileSearch {
+			.column(12);
+			height: 100%;
+			.searchBar {
+				margin-top: 10px !important;
+				position: relative;
+				height: 100% !important;
+				.addFriend, .sendMessage {
+					padding: 5px 2px !important;
+				}
+				.formSearch {
+					height: 38px;
+				}
+				.searchDrop {
+					margin-top: 5px;
+					height: 100% !important;
+					overflow: hidden;
+					position: relative;
+					padding-bottom: 50px !important;
+					.box-fix;
+					.searchSuggestions {
+						height: 100% !important;
+						max-height: none !important;
+					}
+				}
+			}
 		}
 		#sidebar-right {
-			.column(2.25);
-		}
-		#sidebar-left {
-			.column(2.25);
-			#userpanel {
-				.column(2,2);
-				margin-bottom: 10px;
+			.column(12);
+			overflow: scroll;
+			padding-top: 10px;
+			padding-bottom: 5px;
+			.box-fix;
+			.mobileMenu {
+				.unstyled;
+				width: 100%;
+				a {
+					width: 100%;
+					float: left;
+					height: auto;
+					overflow: hidden;
+					&:first-child {
+						.border-radiuses(5px,0,0,5px);
+					}
+					&:last-child {
+						.border-radiuses(0,5px,5px,0);
+					}
+					li {
+						.btn;
+						.btn--green;
+						border: none;
+						.border-radius(0);
+						float: left;
+						width: 100%;
+						height: auto;
+						border-bottom: 1px solid #ddd;
+						padding: 1% 0;
+						span {
+							color: #fff;
+							.column(10.5);
+							span {
+								width: 100%;
+								font-size: 1.2em;
+								text-align: left;
+								margin-top: 4px;
+							}
+						}
+					}
+					img {
+						.column(1.5);
+						.border-radius(5px);
+					}
+				}
 			}
 		}
 	}
 	
-	footer {
-		float: left;
-		width: 100%;
-		margin: -25px 0 0;
-		padding: 5px 5px 0px 5px;
-		.left, .right {
-			width: 50%;
-			float: left;
-			text-align: left;
-		}
-		.right {
-			text-align: right;
-		}
+	.notificationWrap {
+		margin-bottom: 40px;
 	}
-	&.registerView {
-		#main {
-			.push(2.5);
-		}
-	}	
+	
+	&:not(.registerView) {
+		padding-top: 50px;
+	}
 }

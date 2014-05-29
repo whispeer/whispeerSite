@@ -1,18 +1,20 @@
 .settingsView {
 	#main {
-		padding-top: 52px;
+		padding-top: 20px;
+		margin-top: 5px !important;
 		height: 100%;
+		overflow: hidden;
 		header {
-			height: 20px;
-			margin-top: -52px;
+			height: 20px !important;
+			margin-top: -20px;
 			padding: 5px;
-			#links {
+			.links {
 				float: right;
+				display: none !important;
 			}
 		}
 		#settingsWrap {
 			height: 100%;
-			width: 100%;
 			overflow-y: scroll;
 			overflow-x: hidden;
 		}
@@ -20,7 +22,6 @@
 			header {
 				float: left;
 				width: 100%;
-				height: 20px;
 				margin: 10px 0 10px 0;
 				padding: 5px 0px;
 				&:before, :after {
@@ -32,49 +33,52 @@
 				margin: 0 0 10px 0;
 			}
 			.config {
-				span {
-					.width(3);
-				}
+				.column(8,8);
+				margin-top: 0px;
+				margin-bottom: 10px;
 				input:not([type=submit]) {
-					.width(4);
+					.column(12);
+					margin-bottom: 5px;
+				}
+				button {
+					.column(12);
 				}
 				&#nickname, &#mail {
 					button {
-						.push(4);
+						margin-left: 1% !important;
 					}
 				}
 			}
 			&#safety {
+				header {
+					height: 20px !important;
+					.title {
+						margin-top: 0px !important;
+					}
+				}
 				.config {
-					button {
-						.column(1.5);
-						margin-top: -1px;
-						margin-bottom: 10px;
-						height: 40px;
-						text-align: center;
-						padding-left: 0;
-						padding-right: 0;
-						i {
-							margin-left: -3px;
-							display: inline-block;
-							text-align: center;
+					span {
+						span {
+							width: 100% !important;
 						}
 					}
+					button {
+						.width(12);
+						margin-top: 10px;
+						margin-bottom: 10px;
+						height: 40px;
+					}
 					.whoMaySeeIt {
-						.column(8);
-						li {
-							&.searchField {
-								width: 100%;
-								input {
-									width: 100% !important;
-								}
-							}	
-						}
+						.width(12);
 					}
 				}
 			}
 			.settingsFormButton {
 				.column(6);
+				margin-bottom: 5px;
+				&:last-child {
+					margin-bottom: 10px;
+				}
 			}
 		}
 	}	
