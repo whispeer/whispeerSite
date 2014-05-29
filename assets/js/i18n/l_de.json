@@ -91,11 +91,11 @@
 			"december": "Dezember"
 		},
 		"time": {
-			"justNow": "gerade Eben",
+			"justNow": "gerade eben",
 			"oneMinuteAgo":	"vor einer Minute",
 			"minutesAgo":	"vor {minutes} Minuten",
-			"oneHourAgo":	"vor einer Stunde",
-			"hoursAgo":		"vor {hours} Stunden"
+			"oneHourAgo":	"vor einer Stunde und {minutes} Minuten",
+			"hoursAgo":		"vor {hours} Stunden und {minutes} Minuten"
 		}	
 	},
 	"notimplemented": "Noch nicht implementiert :(",

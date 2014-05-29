@@ -84,8 +84,8 @@
 			"justNow": 		"right now",
 			"oneMinuteAgo":	"one minute ago",
 			"minutesAgo":	"{minutes} minutes ago",
-			"oneHourAgo":	"one hour ago",
-			"hoursAgo":		"{hours} hours ago"
+			"oneHourAgo":	"one hour and {minutes} minutes ago",
+			"hoursAgo":		"{hours} hours and {minutes} minutes ago"
 		}
 	},
 	"notimplemented": "Not implemented yet :(",
