@@ -6,7 +6,9 @@
 				"Bugfixes",
 				"Optimized mobile user interface",
 				"Uploading and Changing the profile picture from a mobile device (iPhone and iPad were tested)",
-				"Tablets in portait and landscape mode are now supported"
+				"Tablets in portait and landscape mode are now supported",
+				"Own messages are not unread any more",
+				"Time format changed to also include minutes in hour format"
 			],
 			"7": [
 				"Show nickname in header search bar",
