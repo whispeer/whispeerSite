@@ -133,7 +133,7 @@
 		</section>
 		<section id="wall">
 			<header  data-i18n="profile.section.wall.title"></header>
-			<form data-ng-if="(user.isMyFriend || user.me) && (postActive || !mobile)" class="form-inline" id="postIt">
+			<form data-ng-if="(user.isMyFriend || user.me)" class="form-inline" id="postIt">
 				<input type="text" data-ng-model="newPost.text" data-i18n-attr="wall.postit.text|placeholder" id="shareText" data-ng-if="user.me">
 				<input type="text" data-ng-model="newPost.text" data-i18n-attr="profile.section.wall.postIt|placeholder|user={{user.name}}" id="shareText" data-ng-if="!user.me">
 				<button type="submit" data-i18n="wall.postit.send" data-ng-click="sendPost()"></button>
