@@ -193,7 +193,9 @@
 			.inputWrap {
 				text-align: left;
 				white-space: nowrap;
-				height: 55px;
+				@media screen and (min-width: 1025px) {
+					height: 55px;
+				}
 				overflow-y: hidden;
 				overflow-x: scroll;
 				li {
