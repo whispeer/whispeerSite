@@ -72,6 +72,7 @@
 				</a>
 				<nav id="menu">
 					<ul class="left unstyled" id="mainMenu">
+						<li><a href="/main" data-i18n="menu.newsfeed"></a></li>
 						<li><a href="{{user.basic.url}}" data-i18n="menu.profil"></a></li>
 						<li><a href="/friends" data-i18n="menu.friends|count={{friends.friendsCount}}"></a></li>
 						<li><a href="/messages" data-ng-controller="ssn.magicbar.mainController" data-i18n="menu.messages|count={{messages.unread}}"></a></li>
@@ -124,6 +125,12 @@
 		<!-- !Mobile Menu -->
 		<aside id="sidebar-right" data-ng-if="loggedin && mobile" data-ng-show="sidebarActive && !searchActive">
 			<ul class="mobileMenu">
+				<a href="/main"  data-ng-click="toggleSidebar()">
+					<li>
+						<i class="icon icon-home"></i>
+						<span data-i18n="menu.newsfeed"></span>
+					</li>
+				</a>
 				<a href="{{user.basic.url}}" data-ng-click="toggleSidebar()">
 					<li>
 						<img data-ng-src="{{user.basic.image}}" alt="User">
