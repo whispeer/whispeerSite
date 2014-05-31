@@ -63,6 +63,9 @@
 	"notification": {
 		"newmessage":	"Neue Nachricht von {user}"
 	},
+	"version": {
+		"heading":		"Versions-Historie"
+	},
 	"date": {
 		"month": {
 			"1": "Januar",

@@ -53,6 +53,9 @@
 	"notification": {
 		"newmessage":	"New Message from {user}"
 	},
+	"version":	{
+		"heading":	"Version-History"
+	}	
 	"date": {
 		"month": {
 			"1": "January",
