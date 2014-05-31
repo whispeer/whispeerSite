@@ -60,6 +60,7 @@ define(["whispeerHelper", "step", "crypto/keyStore"], function (h, step, keyStor
 				that._updatedMeta._hashObject = hashObject;
 			}
 			that._updatedMeta._signature = signature;
+			that._updatedMeta._key = cryptedData.key;
 
 			this.ne({
 				content: cryptedData,
