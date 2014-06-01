@@ -1,7 +1,7 @@
 /**
 * ProfileService
 **/
-define(["crypto/keyStore", "step", "whispeerHelper", "crypto/encryptedData", "validation/validator", "asset/observer", "asset/securedDataWithMetaData"], function (keyStore, step, h, EncryptedData, validator, Observer, SecuredData) {
+define(["step", "whispeerHelper", "crypto/encryptedData", "validation/validator", "asset/observer", "asset/securedDataWithMetaData"], function (step, h, EncryptedData, validator, Observer, SecuredData) {
 	"use strict";
 
 	var service = function () {
@@ -74,6 +74,10 @@ define(["crypto/keyStore", "step", "whispeerHelper", "crypto/encryptedData", "va
 				return securedData.isChanged() || metaData.isChanged();
 			};
 
+			this.verify = function (signKey, cb) {
+				securedData.verify(signKey, cb);
+			};
+
 			this.setFullProfile = function setFullProfileF(data, cb) {
 				step(function () {
 					securedData.decrypt(this);
@@ -119,7 +123,7 @@ define(["crypto/keyStore", "step", "whispeerHelper", "crypto/encryptedData", "va
 			};
 
 			this.decrypt = function decryptProfileF(cb, branch) {
-				theProfile.decrypt(cb, branch);
+				securedData.decrypt(cb, branch);
 			};
 
 			Observer.call(this);

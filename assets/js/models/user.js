@@ -386,6 +386,18 @@ define(["step", "whispeerHelper"], function (step, h) {
 				}), cb);
 			};
 
+			this.verifyProfiles = function(cb) {
+				step(function () {
+					console.time("verifyUserProfiles" + id);
+					theUser.getPrivateProfiles().forEach(function (privateProfile) {
+						privateProfile.verify(signKey, this.parallel());
+					}, this);
+				}, h.sF(function () {
+					console.timeEnd("verifyUserProfiles" + id);
+					this.ne();
+				}), cb);
+			};
+
 			function getProfileAttribute(attrs, cb) {
 				step(function () {
 					var priv = theUser.getPrivateProfiles(), i;
@@ -446,7 +458,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 				}), function (e) {
 
 				});
-			}
+			};
 
 			this.loadBasicData = function (cb) {
 				step(function () {
