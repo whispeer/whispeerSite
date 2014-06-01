@@ -1,7 +1,14 @@
 /**
 * MessageService
 **/
-define(["step", "whispeerHelper", "validation/validator", "asset/observer", "asset/sortedSet"], function (step, h, validator, Observer, sortedSet) {
+define([
+		"step",
+		"whispeerHelper",
+		"validation/validator",
+		"asset/observer",
+		"asset/sortedSet",
+		"asset/securedDataWithMetaData"
+	], function (step, h, validator, Observer, sortedSet, SecuredData) {
 	"use strict";
 
 	function sortGetTime(a, b) {
@@ -16,7 +23,6 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer", "ass
 		return (b.obj.getTime() - a.obj.getTime());
 	}
 
-
 	var service = function ($rootScope, $timeout, errorService, socket, sessionService, userService, keyStore, initService, windowService) {
 		var messages = {};
 		var topics = {};
@@ -26,60 +32,71 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer", "ass
 		var topicArray = sortedSet(sortObjGetTimeInv);
 
 		var Message = function (data) {
-			var theMessage = this;
-
-			var meta = data.meta;
-			var content = data.content;
-			var ownMessage;
-
-			this.data = {
-				text: "",
-				timestamp: meta.sendTime,
-
-				loading: true,
-				loaded: false,
-
-				sender: {
-					"id": meta.sender,
-					"name": "",
-					"url": "",
-					"image": "assets/img/user.png"
-				},
-
-				id: meta.messageid,
-				obj: this
-			};
-
-			var decrypted = false;
-			var decryptedText;
+			var theMessage = this, verifiable = true;
 
 			var err = validator.validate("message", data);
 			if (err) {
 				throw err;
 			}
 
-			if (typeof content.key === "object") {
-				content.key = keyStore.upload.addKey(content.key);
+			if (!data.meta._version) {
+				//old version
+				if (typeof data.content.key === "object") {
+					data.content.key = keyStore.upload.addKey(data.content.key);
+				}
+
+				data.meta._key = data.content.key;
+				verifiable = false;
+				data.meta._version = 0;
+
+				data.content.ct = data.content.text;
 			}
 
+			var messageid = h.parseDecimal(data.meta.messageid || data.messageid);
+
+			var securedData = new SecuredData(data.content, data.meta);
+
+			console.log(data.meta);
+			console.log(data.content);
+
+			var ownMessage;
+
+			this.data = {
+				text: "",
+				timestamp: securedData.metaAttr("sendTime"),
+
+				loading: true,
+				loaded: false,
+
+				sender: {
+					"id": securedData.metaAttr("sender"),
+					"name": "",
+					"url": "",
+					"image": "assets/img/user.png"
+				},
+
+				id: messageid,
+				obj: this
+			};
+
 			this.getHash = function getHashF() {
-				return meta.ownHash;
+				return securedData.metaAttr("ownHash");
 			};
 
 			this.getTopicHash = function getHashF() {
-				return meta.topicHash;
+				return securedData.metaAttr("topicHash");
 			};
 
 			this.getID = function getIDF() {
-				return h.parseDecimal(meta.messageid);
+				return messageid;
 			};
 
 			this.getTopicID = function getTopicIDF() {
-				return meta.topicid;
+				return securedData.metaAttr("topicid");
 			};
 
 			this.getTime = function getTimeF() {
-				return meta.sendTime;
+				return securedData.metaAttr("sendTime");
 			};
 
 			this.isOwn = function isOwnF() {
@@ -89,7 +106,7 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer", "ass
 			this.loadSender = function loadSenderF(cb) {
 				var theSender;
 				step(function () {
-					userService.get(meta.sender, this);
+					userService.get(securedData.metaAttr("sender"), this);
 				}, h.sF(function loadS1(sender) {
 					this.parallel.unflatten();
 
@@ -115,6 +132,12 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer", "ass
 
 			this.decrypt = function decryptF(cb) {
 				step(function () {
+					securedData.decrypt(this);
+				}, h.sF(function () {
+					theMessage.data.text = securedData.contentGet();
+					this.ne(securedData.contentGet());
+				}), cb);
+				/*
 					if (decrypted) {
 						this.last.ne();
 					} else {
@@ -132,7 +155,7 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer", "ass
 					theMessage.data.text = text.substr(randomPart + 2);
 
 					this.ne(text);
-				}), cb);
+				}), cb);*/
 			};
 		};
 
@@ -395,9 +418,6 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer", "ass
 				}
 			}, h.sF(function (rTopic) {
 				topic = rTopic;
-				keyStore.random.hex(128-(message.length%128), this);
-			}), h.sF(function (random) {
-				message = random + "::" + message;
 
 				var newest = topic.data.latestMessage;
 
@@ -424,44 +444,18 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer", "ass
 		};
 
 		Message.createRawData = function (topicKey, message, meta, cb) {
-			var mKey, mData, encryptedMessageData;
 			step(function () {
 				keyStore.sym.generateKey(this, "messageMain");
 			}, h.sF(function (key) {
-				mKey = key;
-
 				this.parallel.unflatten();
 
-				keyStore.sym.encrypt(message, key, this.parallel());
-				keyStore.sym.symEncryptKey(key, topicKey, this.parallel());
+				var secureMessageData = new SecuredData(message, meta, {}, true);
+
+				secureMessageData.signAndEncrypt(userService.getown().getSignKey(), key, this.parallel());
+				keyStore.sym.symEncryptKey(key, key, this.parallel());
 			}), h.sF(function (encr) {
-				var unEncryptedMessageData = {
-					meta: meta,
-					content: message
-				};
-
-				encryptedMessageData = {
-					meta: meta,
-					content: {
-						iv: encr.iv,
-						text: encr.ct
-					}
-				};
-
-				this.parallel.unflatten();
-
-				meta.ownHash = keyStore.hash.hashObjectHex(encryptedMessageData);
-
-				keyStore.sign.signObject(encryptedMessageData, userService.getown().getSignKey(), this.parallel());
-				keyStore.sign.signObject(unEncryptedMessageData, userService.getown().getSignKey(), this.parallel());
-			}), h.sF(function (encrSignature, unEncrSignature) {
-				mData = encryptedMessageData;
-				mData.meta.signature = unEncrSignature;
-				mData.meta.encrSignature = encrSignature;
-
-				mData.content.key = keyStore.upload.getKey(mKey);
-
-				this.ne(mData);
+				debugger;
+				this.ne(encr);
 			}), cb);
 		};
 
