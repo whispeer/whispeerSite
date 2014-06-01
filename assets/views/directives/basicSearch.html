@@ -1,5 +1,5 @@
 <div class="searchBar" data-ng-class="{'search-multiple': multiple, 'search-single': !multiple}">
-	<form class="formSearch" data-ng-click="click(true, $event)">
+	<form class="formSearch">
 		<ul class="inputWrap">
 			<li class="selected" data-ng-if="multiple" data-ng-click="toggleShowSelectedElements()">
 				<span class="count">{{selectedElements.length}}</span>
@@ -8,7 +8,7 @@
 				<span class="nameTag">{{element.name}}</span>
 				<a href="" class="remove" data-ng-click="removeSelection($index, $event)"><i class="icon icon-cancel-circle"></i></a>
 			</li>
-			<li class="searchField">
+			<li class="searchField" data-ng-click="click(true, $event)">
 			</li>
 		</ul>
 	</form>
