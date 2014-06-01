@@ -31,10 +31,16 @@ define(["app"], function (app) {
 		addMain("help");
 		addMain("loading");
 		addMain("version");
+		addMain("legal");
 
 		$routeProvider.when("/logout", {
 			templateUrl: "/assets/views/pages/loading.html",
 			controller: "ssn.logoutController"
+		});
+
+		$routeProvider.when("/verifyMail/:challenge", {
+			templateUrl: "/assets/views/pages/mail.html",
+			controller: "ssn.mailController"
 		});
 
 		$routeProvider.when("/user/:identifier", {

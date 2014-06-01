@@ -1,8 +1,11 @@
 <basicsearch multiple="true">
 	<ol class="unstyled searchSuggestions">
-		<li class="noResults" data-ng-if="!results">Lade!</li>
-		<li class="noResults" data-ng-if="results.length == 0">Keine Kreise gefunden!<button data-ng-if="query.length > 0" data-ng-click="notifyParent('createCircle', query)">Kreis erstellen</button></li>
-		<li data-ng-repeat="circle in results" data-ng-class="currentClass($index)" data-ng-mouseover="setCurrent($index)" data-ng-click="selectResult($index)">
+		<li class="noResults" data-ng-if="!results" style="width: {{width + 15}}px" data-i18n="start.loading"></li>
+		<li class="noResults" data-ng-if="results.length == 0" style="width: {{width + 15}}px">
+			<span data-i18n="views.circles.nocircle"></span>
+			<button class="btn btn--primary" data-ng-if="query.length > 0" data-ng-click="notifyParent('createCircle', query)" data-i18n="views.circles.createCircle"></button>
+		</li>
+		<li style="width: {{width + 15}}px" data-ng-repeat="circle in results" data-ng-class="currentClass($index)" data-ng-mouseover="setCurrent($index)" data-ng-click="selectResult($index)">
 			{{circle.name}} ({{circle.userids.length}})
 		</li>
 	</ol>

@@ -2,37 +2,69 @@
 	"window": {
 		"title": {
 			"newmessage": "{data}: Neue Nachricht",
-			"basic": "whispeer"
+			"basic": "whispeer",
+			"terms": "AGB",
+			"data": "Datenschutzbestimmungen",
+			"contact": "Kontakt",
+			"notice": "Impressum"
 		}
 	},
 	"views": {
+		"mail": {
+			"verify": "E-Mail bestätigen",
+			"updateMe": "Ich möchte Updates per E-Mail erhalten",
+			"verifying": "E-Mail wird verifiziert.",
+			"verified": "Deine E-Mail Adresse wurde bestätigt.",
+			"backToLogin": "Zurück zum Login",
+			"failed": "Aktivierung fehlgeschlagen!\n Möglicherweise ist dein Aktivierungscode abgelaufen."
+		},
 		"circles": {
 			"searchFriends": "Gib die Namen deiner Freunde ein, die du zum Kreis hinzufügen möchtest!",
 			"titleForNew": "Gib einen Titel für den neuen Kreis ein!",
 			"header": {
-				"title":	"Kreise",
+				"title":	"Kreise anzeigen",
 				"createGroup": "Als Gruppe kopieren",
 				"sendMessage": "Nachricht an Kreis",
-				"addPeople":	"Personen hinzufügen"
+				"edit":	"Kreis bearbeiten",
+				"save":	"Kreis speichern",
+				"remove":	"Kreis löschen"
 			},
 			"newCircle":	"Neuen Kreis anlegen",
+			"new": "Neuer Kreis",
+			"createCircle": "Kreis erstellen",
 			"personCount":	"Es befinden sich {count} Personen in diesem Kreis",
-			"personsInCircle":"Personen im Kreis \"{name}\""
+			"personsInCircle":"Personen im Kreis \"{name}\"",
+			"nocircle": "Keine Kreise gefunden"
 		}
 	},
 	"start": {
 		"welcome": "Willkommen bei whispeer - dem sicheren sozialen Netzwerk!",
 		"more": "Mehr Info",
 		"moreInfo": "Mehr Informationen zu whispeer",
-		"regnow": "Jetzt anmelden!"
+		"regnow": "Jetzt anmelden!",
+		"loading": "Laden..."
 	},
 	"directives": {
 		"allfriends": "Alle Freunde",
 		"friendsoffriends": "Freunde von Freunden"
 	},
+	"usersearch": {
+		"mutualFriends": "mutual friends",
+		"from": "aus",
+		"age": "Alter:",
+		"message": "Nachricht senden",
+		"add": "Als Freund hinzufügen"
+	},
 	"general": {
 		"send":	"Absenden",
-		"cancel":	"Abbrechen"
+		"cancel":	"Abbrechen",
+		"disconnected":	"Du hast deine Verbindung zu den whispeer-Servern verloren."
+	},
+	"notification": {
+		"newmessage":	"Neue Nachricht von {user}"
+	},
+	"version": {
+		"heading":		"Versions-Historie"
 	},
 	"date": {
 		"month": {
@@ -60,21 +92,29 @@
 			"october": "Oktober",
 			"november": "November",
 			"december": "Dezember"
-		}
+		},
+		"time": {
+			"justNow": "gerade eben",
+			"oneMinuteAgo":	"vor einer Minute",
+			"minutesAgo":	"vor {minutes} Minuten",
+			"oneHourAgo":	"vor einer Stunde und {minutes} Minuten",
+			"hoursAgo":		"vor {hours} Stunden und {minutes} Minuten"
+		}	
 	},
 	"notimplemented": "Noch nicht implementiert :(",
 	"search": "Personen werden gesucht",
 	"menu": {
-		"home":	"Neuigkeiten",
+		"newsfeed":	"Neuigkeiten",
 		"profil": "Profil",
 		"friends": "Freunde ({count})",
-		"messages": "Nachrichten",
+		"messages": "Nachrichten ({count})",
 		"media": "Medien",
 		"circles": "Kreise",
 		"settings": "Einstellungen",
 		"help": "Hilfe",
 		"logout": "Logout",
-		"search": "Suchen..."
+		"search": "Suchen...",
+		"legal":	"Rechtliches"
 	},
 	"login": {
 		"username": "Benutzername",
@@ -84,9 +124,9 @@
 		"moreInfo":	"Mehr Info",
 		"register": {
 			"errors": {
-				"nickInvalid": "Invalider Nickname",
-				"nickUsed": "Dieser Nickname ist schon vergeben",
-				"mailInvalid": "Invalide E-mail",
+				"nickInvalid": "Invalider Username",
+				"nickUsed": "Dieser Username ist schon vergeben",
+				"mailInvalid": "Invalide E-Mail",
 				"mailUsed": "Diese E-Mail ist schon vergeben",
 				"passwordWeak": "Passwort zu schwach",
 				"passwordNoMatch": "Passwort stimmen nicht überein"
@@ -99,6 +139,10 @@
 			"passwordstrength":	"Punkte für dein Passwort: ",
 			"email":	"E-Mail Adresse",
 			"repeatEmail":	"E-Mail Adresse wiederholen",
+
+			"firstname": "Vorname",
+			"lastname": "Nachname",
+
 			"country":	"Land",
 			"location":	"Wohnort",
 			"uploadImage":	"Profilbild hochladen!",
@@ -108,6 +152,7 @@
 		}
 	},
 	"wall": {
+		"createPost": "Einen Post verfassen!",
 		"postit": {
 			"receiver": "Wer soll deinen Beitrag lesen können?",
 			"text": "Was möchtest du den Leuten mitteilen?",
@@ -137,6 +182,8 @@
 		}
 	},
 	"messages": {
+		"title": "Nachrichten",
+		"chat" :"Chat mit",
 		"newMessage": "Neue Nachricht",
 		"search": "Wer soll diese Nachricht empfangen?",
 		"sendMessage": {
@@ -251,7 +298,7 @@
 		"faq": {
 			"register": {
 				"question": "Muss ich beim Registrieren meinen vollen Namen und meine E-Mail-Adresse angeben?",
-				"answer":	"Nein. Wenn du dich registrieren möchtest, kannst du dies schon mit einem Nickname. Du kannst aber auch nur eine E-Mail-Adresse angeben. Natürlich kannst du dir aussuchen, ob du deinen vollen Namen angeben möchtest, oder vielleicht nur einen Teil davon. Allerdings kannst du deinen Namen auch verschlüsseln, sodass später nur deine Freunde auf whispeer deinen ganzen Namen sehen können."
+				"answer":	"Nein. Wenn du dich registrieren möchtest, kannst du dies schon mit einem Username. Du kannst aber auch nur eine E-Mail-Adresse angeben. Natürlich kannst du dir aussuchen, ob du deinen vollen Namen angeben möchtest, oder vielleicht nur einen Teil davon. Allerdings kannst du deinen Namen auch verschlüsseln, sodass später nur deine Freunde auf whispeer deinen ganzen Namen sehen können."
 			},
 			"password": {
 				"question": "Wie erstelle ich ein sicheres Passwort?",
@@ -259,11 +306,11 @@
 			},
 			"profile": {
 				"question": "Wie kann ich mein Profil bearbeiten?",
-				"answer":	"Wenn du auf deinem eigenen Profil bist, steht links oben bei deinen Informationen 'Bearbeiten'. Klicke darauf, um deine Angaben in deinem Profil ändern. Wenn du fertig bist mit deinen Änderungen, klicke auf den 'Übernehmen'-Button. Deine Änderungen an deinem Profil werden dann übernommen."
+				"answer":	"Wenn du auf deinem eigenen Profil bist, steht links oben bei deinen Informationen 'Bearbeiten'. Klicke darauf, um deine Angaben in deinem Profil ändern. Wenn du fertig bist mit deinen Änderungen, klicke auf den 'Speichern'-Button. Deine Änderungen an deinem Profil werden dann übernommen."
 			},
 			"search": {
 				"question": "Wie funktioniert die Suche?",
-				"answer":	"Im Moment kannst du nach Vornamen, Nachnamen und Nicknamen suchen. Du tippst also einen Namen in die Suche ein und bekommst dann User, die auf deine Suchanfrage passen, vorgeschlagen."
+				"answer":	"Im Moment kannst du nach Vornamen, Nachnamen und Usernamen suchen. Du tippst also einen Namen in die Suche ein und bekommst dann User, die auf deine Suchanfrage passen, vorgeschlagen."
 			},
 			"messages": {
 				"question": "Wie wähle ich aus, wer meine Nachrichten erhält? Kann ich auch Nachrichten an mehrere Personen verschicken?",
@@ -287,15 +334,15 @@
 			},
 			"report": {
 				"question": "Wie kann ich jemanden melden?",
-				"answer":	"Momentan musst du uns eine Mail mit dem Namen der Person, bzw. ihrem Nicknamen oder ihrer E-Mail senden. Die Adresse ist support@whispeer.de . Es wird jedoch so bald wie möglich einen Melden-Button geben."
+				"answer":	"Momentan musst du uns eine Mail mit dem Namen der Person, bzw. ihrem Usernamen oder ihrer E-Mail senden. Die Adresse ist support@whispeer.de . Es wird jedoch so bald wie möglich einen Melden-Button geben."
 			},
 			"account": {
-				"question": "Wo kann ich meine Konto-Daten (Passwort, Nickname, E-Mail-Adresse) ändern?",
+				"question": "Wo kann ich meine Konto-Daten (Passwort, Username, E-Mail-Adresse) ändern?",
 				"answer":	"Deine Konto-Daten kannst du ändern, wenn du im Menü links auf 'Einstellungen' klickst. Du wirst dann auf die Einstellungs-Seite weitergeleitet, und unter dem ersten Thema 'Allgemein' kannst du deine Angaben ändern."
 			},
 			"privacy": {
 				"question": "Wo kann ich meine Privatsphäre-Einstellungen ändern?",
-				"answer":	"Ähnlich wie bei deinen Konto-Daten klickst gehst du zunächst einmal auf die Einstellungs-Seite durch einen Klick auf 'Einstellungen' im Menü links. Deine Privatsphäre-Einstellungen kannst du unter dem drittn Thema 'Privatsphäre' ändern."
+				"answer":	"Ähnlich wie bei deinen Konto-Daten klickst gehst du zunächst einmal auf die Einstellungs-Seite durch einen Klick auf 'Einstellungen' im Menü links. Deine Privatsphäre-Einstellungen kannst du unter dem dritten Thema 'Privatsphäre' ändern."
 			},
 			"safety": {
 				"question": "Wo kann ich auswählen, welche meiner Daten verschlüsselt werden?",
@@ -305,6 +352,8 @@
 	},
 	"settings": {
 		"safety": {
+			"title": "Sicherheit - Welche deiner Profildaten sollen verschlüsselt werden?",
+			"reset": "Zurücksetzen",
 			"attributes": {
 				"location": "Wohnort",
 				"birthday": "Geburtstag",
@@ -312,11 +361,37 @@
 				"education": "Ausbildung",
 				"work": "Arbeit",
 				"gender": "Geschlecht",
-				"languages": "Sprachen"
+				"languages": "Sprachen",
+				"names": {
+					"header": "Name",
+					"firstname": "Vorname",
+					"lastname": "Nachname",
+					"username": "Username"
+				}
+			},
+			"whomayseeit": {
+				"firstname":	"Wer darf deinen Vornamen sehen?",
+				"lastname":		"Wer darf deinen Nachnamen sehen?",
+				"birthday":		"Wer darf dein Geburtsdatum sehen?",
+				"location":		"Wer darf deinen Wohnort sehen?",
+				"relationship":	"Wer darf deinen Beziehungsstatus sehen?",
+				"education":	"Wer darf deine Ausbildung sehen?",
+				"work":			"Wer darf deine Arbeitsstelle sehen?",
+				"gender":		"Wer darf dein Geschlecht sehen?",
+				"languages":	"Wer darf sehen, welche Sprachen du sprichst?"
 			}
 		},
 		"header": {
 			"title":	"Einstellungen"
+		},
+		"changes": {
+			"General": "Allgemein",
+			"changeName": "Namen ändern",
+			"changeUsername": "Usernamen ändern",
+			"changeMail": "E-Mail Adresse ändern",
+			"changePassword": "Passwort ändern",
+			"save": "Speichern",
+			"mail": "E-Mail Adresse"
 		}
 	},
 	"magicbar": {

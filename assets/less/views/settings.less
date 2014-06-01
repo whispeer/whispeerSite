@@ -3,7 +3,7 @@
 		.box;
 		padding-top: 30px;
 		height: 100%;
-		background-color: @btnBackgroundHighlight;
+		background-color: @btnBackgroundHover;
 		border: 1px solid @btnBorder;
 		border-bottom: 1px solid darken(@btnBorder, 10%);
 		.border-radius(5px);
@@ -33,7 +33,7 @@
 				input:not([type=submit]) {
 					.column(2);
 				}
-				&#nickname {
+				&#nickname, &#mail {
 					button {
 						.push(2);
 					}
@@ -49,9 +49,6 @@
 					}
 					span {
 						.column(3,12,left,0);
-					}
-					.whoMaySeeIt {
-						.column(8);
 					}
 				}
 			}

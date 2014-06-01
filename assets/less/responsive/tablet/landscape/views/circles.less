@@ -1,0 +1,168 @@
+.circlesView {
+	#main {
+		padding-top: 30px;
+		padding-bottom: 1px;
+		height: 100%;
+		margin-top: 5px !important;
+		overflow: hidden !important;
+	}
+	header {
+		height: 20px !important;
+		margin-top: -30px;
+		padding: 5px;
+		.title {
+			.column(6,7);
+		}
+		button {
+			.column(1,7,right);
+			.width(1,7);
+			padding: 2px 7px;
+			margin-top: -5px !important;
+			margin-right: 0 !important;
+			outline: none;
+			border: none;
+			border-left: 1px solid #bbb;
+			height: 30px;
+			background: transparent;
+		}
+		nav {
+			.column(7,7);
+			display: none;
+			@media (-webkit-min-device-pixel-ratio:0) {
+				//margin-top: -20px !important;
+			}	
+			a {
+				.column(1,3);
+				text-align: center;
+				&:first-child {
+					text-align: left;
+				}
+				&:last-child {
+					text-align: right;
+				}
+			}
+		}
+	}
+	#circleListWrap {
+		.column(7,7);
+		height: 100%;
+		#circleList {
+			height: 100%;
+			padding-top: 20px;
+			padding-bottom: 17px;
+			overflow: hidden;
+			#circleListScroll {
+				height: 100% !important;
+				width: 100%;
+				float: left;
+				overflow-y: scroll !important;
+				-webkit-overflow-scrolling: touch;
+			}
+			.circle {
+				margin-bottom: 5px;
+				padding: 0;
+				.left {
+					.column(0.30,2);
+					margin-left: 0;
+					.userimg {
+						width: 100%;
+						margin: 0 0 -5px 0px;
+						padding: 0;
+					}
+				}
+				.listname {
+					font-size: 1em;
+					.column(1.70,2);
+					strong {
+						width: 100%;
+					}	
+				}
+				.personCount {
+					.column(1.70,2);
+					margin-top: 0px;
+					font-size: 0.8em;
+				}
+				&#newcircle {
+					height: 20px;
+					margin-top: -15px;
+				}
+			}
+		}
+	}
+	#circleContainer {
+		height: 100%;
+		.column(7,7);
+		height: 100%;
+		padding: 0px 0px 51px 0px;
+		.box-fix;
+		#circleWrap {
+			height: 100%;
+		}
+		#circleTitle {
+			padding-left: 10px;
+		}
+		#friendsList {
+			overflow-y: scroll !important;
+			-webkit-overflow-scrolling: touch;
+			height: 100%;
+			li {
+				.column(1,3);
+				height: 250px;
+				padding: 0;
+				margin-bottom: 15px;
+				.username {
+					width: 100%;
+				}
+				.pushup {
+					height: 0;
+					width: 100%;
+					margin-top: 0px;
+					padding: 0;
+				}
+				&:hover {
+					.pushup {
+						height: 80px;
+					}
+				}
+			}
+		}	
+		&.newCircle {
+			overflow-y: scroll !important;
+			#titleInput, #friendInput {
+				.column(5,5);
+				margin-bottom: 5px;
+				height: 40px;
+			}
+			#friendInput {
+				height: 100px;
+				.formSearch {
+					.inputWrap {
+						width: 100%;
+						li {
+							&.searchField {
+								width: 100%;
+								input {
+									width: 100%;
+								}
+							}
+						}
+					}
+				}
+			}
+			.searchBar {
+				.formSearch {
+					.inputWrap {
+						li.searchField {
+							input {
+								width: 92%;
+							}
+						}
+					}
+				}
+			}
+			#savecircle {
+				margin-left: 1% !important;
+			}
+		}
+	}	
+}

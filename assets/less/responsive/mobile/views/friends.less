@@ -2,27 +2,34 @@
 	#main {
 		padding-top: 30px;
 		padding-bottom: 10px;
-		height: calc(100% - 5px);
+		//height: calc(100% - 5px);
+		height: 100%;
 		margin-top: 5px !important;
+		overflow: hidden;
 	}
 	header {
 		height: 20px !important;
 		margin-top: 0px;
 		margin-bottom: 1%;
-		padding: 5px;
+		padding: 5px !important;
+		.title {
+			margin-top: 2px !important;
+			display: inline-block;
+		}
 	}
 	#friendsList {
 		height: 100%;
 	}
 }
-.friendsView, .profileView {
+.friendsView {
 	#friendsList {
+		-webkit-overflow-scrolling: touch;
 		li {
 			.column(1,2);
-			height: 250px;
+			height: 100px;
 			padding: 0;
 			.box-fix;
-			margin-bottom: 15px;
+			margin-bottom: 2%;
 			.username {
 				width: 100%;
 			}

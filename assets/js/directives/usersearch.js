@@ -9,11 +9,11 @@ define(["step", "whispeerHelper"], function (step, h) {
 			templateUrl: "/assets/views/directives/userSearch.html",
 			replace: true,
 			link: function postLink(scope, iElement, iAttrs) {
-				var multiple = typeof iAttrs["multiple"] !== "undefined";
+				var multiple = typeof iAttrs.multiple !== "undefined";
 
-				if (iAttrs["user"]) {
+				if (iAttrs.user) {
 					var theUser;
-					var user = h.parseDecimal(scope.$parent.$eval(iAttrs["user"]));
+					var user = h.parseDecimal(scope.$parent.$eval(iAttrs.user));
 					if (user > 0) {
 						step(function () {
 							$timeout(this);
@@ -37,20 +37,21 @@ define(["step", "whispeerHelper"], function (step, h) {
 				function queryResults(query) {
 					var theUsers;
 					step(function () {
-						if (iAttrs["scope"] === "friends") {
+						if (iAttrs.scope === "friends") {
 							userService.queryFriends(query, this);
 						} else {
 							userService.query(query, this);
 						}
 					}, h.sF(function (user) {
-						if (user.length === 0) {
+						theUsers = user || [];
+
+						if (theUsers.length === 0) {
 							this.ne([]);
 						}
 
-						theUsers = user || [];
 						var i;
 						for (i = 0; i < user.length; i += 1) {
-							user[i].loadBasicData(this.parallel());
+							theUsers[i].loadBasicData(this.parallel());
 						}
 					}), h.sF(function () {
 						var users = theUsers.map(function (e) {
@@ -97,7 +98,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 					}), function (e) {
 						setCircleState("failure");
 					});
-				};
+				}
 
 				scope.$on("addFriend", function (event, user) {
 					friendsService.friendship(user.id);

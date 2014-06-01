@@ -25,7 +25,7 @@
 			}
 		}
 		#wrap {width: 100%; height: 100%; padding-top: 75px; .box-fix; margin: 0 auto; }
-		#scroller {width: 100%; height: 100%; overflow-y: scroll; .box-fix; margin:0 auto;}
+		#scroller {width: 100%; height: 100%; overflow-y: scroll; .box-fix; margin:0 auto; -webkit-overflow-scrolling: touch;}
 		#info {
 			width: 100%;
 			padding: 0;
@@ -48,6 +48,27 @@
 						.column(2,8);
 						margin-top: 1%;
 						margin-bottom: 1%;
+						&.editing {
+							width: 98% !important;
+							#original {
+								width: 100%;
+							}
+							.uploadImageForm {
+								#filesUpload {
+									position: relative !important;
+									margin: -34px 0 0 0;
+									float: left;
+								}
+							}
+						}
+						&.bigger {
+							width: 48% !important;
+							margin-top: 5px;
+							margin-left: 26%;
+							.editImage {
+								opacity: 1;
+							}
+						}
 					}
 					.info {
 						.column(6,8);
@@ -56,10 +77,45 @@
 					}
 					.actions {
 						.column(12,12,left,0);
-						.addToCirlce {
+						.addToCircle {
 							.column(2,2);
 							margin: 10px 1% 0 1%;
 							min-height: 40px;
+							#selectCircle {
+								padding: 0;
+								height: 40px;
+								width: 90%;
+								display: inline-block;
+								.box-fix;
+								.inputWrap {
+									border: 1px solid #bbb;
+									.box-fix;
+									li {
+										&.searchField {
+											width: 100%;
+											height: 100%;
+											input {
+												width: 100%;
+											}
+										}
+									}
+								}
+							}
+							#circleSubmit {
+								width: 10% !important;
+								display: block;
+								height: 38px;
+								float:left;
+								margin: -43px 0 0 90%;
+								padding: 0px !important;
+								text-align: center;
+								border: none;
+								border-right: 1px solid #bbb;
+								.border-radiuses(5px, 5px, 0,0);
+								i {
+									display: inline;
+								}
+							}
 						}
 						.sendMessage, .addFriend {
 							.column(2,2);
@@ -129,8 +185,14 @@
 				padding: 5px;
 				margin-bottom: 1%;
 			}
-			.person {
-				.column(1,2);
+			#friendsList {
+				li {
+					position: relative;
+					.column(1,2);
+					.person {
+						width: 100%;
+					}
+				}
 			}
 		}
 	}

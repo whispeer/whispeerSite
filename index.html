@@ -8,9 +8,6 @@
 	<!--[if IE]>
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 	<![endif]-->
-	<!--[if lt IE 9]>
-		<script src="http://ie7-js.googlecode.com/svn/version/2.1(beta4)/IE9.js"></script>
-	<![endif]-->
 	<title>whispeer</title>
 	<meta name="description" content="" />
 	<meta name="author" content="" />
@@ -24,22 +21,23 @@
 	<link rel="apple-touch-icon" href="/assets/img/favicons/touch-icon-ipad-retina.png" sizes="152x152" />
 
 	<link rel="stylesheet" href="/assets/css/angular-csp.css">
-	<link rel="stylesheet" href="/assets/css/style.css">
 	<link rel="stylesheet" href="/assets/css/fontello/fontello.css">
 	<!--[if IE 7]><link rel="stylesheet" href="css/fontello/fontello-ie7.css"><![endif]-->
-	<!--<script src="js/libs/prefixfree.min.js"></script>-->
+	<link rel="stylesheet" href="/assets/css/style.css">
+
 	<script data-main="/assets/js/main" src="/assets/js/libs/require.js"></script>
 	<base href="/" />
 </head>
-<body data-ng-class="cssClass" data-ng-controller="ssn.rootController" class="registerView">
+<body data-ng-class="cssClass" data-ng-controller="ssn.rootController" class="loading">
 	<!--[if lte IE 8]><p class=chromeframe>Your browser is <em>ancient!</em> <a href="http://browsehappy.com/">Upgrade to a different browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to experience this site.</p><![endif]-->
 	<noscript>Hallo! Leider steht uns bei deinem Browser kein Javascript zur Verfügung!<br> Daher ist es nicht möglich whispeer zu nutzen, da wir unbedingt Javascript benötigen!<br> Vielen Dank für dein Verständnis!</noscript>
 	<!-- !Top Bar -->
 	<nav id="topNav" data-ng-if="loggedin" data-ng-cloak>
 		<div id="navInner">
-			<button id="toggleSearch" data-ng-click="toggleSearch()" data-ng-if="mobile"><i class="icon icon-search"></i></button>
+			<button class="toggle" id="toggleSidebar" data-ng-click="toggleSidebar()" data-ng-if="mobile"><i class="icon icon-menu"></i></button>
 			<a href="/start" id="brand" data-ng-click="mobileActivateView()"><span id="brandNormal">whis</span><span id="brandInverse">peer</span></a>
-			<button id="toggleSidebar" data-ng-click="toggleSidebar()" data-ng-if="mobile"><i class="icon icon-home"></i></button>
+			<button class="toggle" id="toggleSearch" data-ng-click="toggleSearch()" data-ng-if="mobile"><i class="icon icon-search"></i></button>
+			<span class="badge" id="mobileCounter" data-ng-controller="ssn.magicbar.mainController" data-ng-if="mobile && (messages.unread + friends.requestsCount + news.count > 0)">{{messages.unread + friends.requestsCount + news.count}}</span>
 			<div class="nav-collapse collapse">
 				<usersearch size="big" data-input-i18n-attr="menu.search|placeholder"/>
 			</div>
@@ -65,7 +63,7 @@
 	<!-- end !Top Bar-->
 	<!-- !Main Container -->
 	<div id="container" data-ng-cloak>
-		<!-- !Userpanel -->
+		<!-- !Left Sidebar -->
 		<aside id="sidebar-left" data-ng-if="loggedin && !mobile">
 			<div id="userpanel">
 				<a href="{{user.basic.url}}" class="username">
@@ -74,10 +72,10 @@
 				</a>
 				<nav id="menu">
 					<ul class="left unstyled" id="mainMenu">
-						<li><a href="/main" data-i18n="menu.home"></a></li>
+						<li><a href="/main" data-i18n="menu.newsfeed"></a></li>
 						<li><a href="{{user.basic.url}}" data-i18n="menu.profil"></a></li>
 						<li><a href="/friends" data-i18n="menu.friends|count={{friends.friendsCount}}"></a></li>
-						<li><a href="/messages" data-i18n="menu.messages"></a></li>
+						<li><a href="/messages" data-ng-controller="ssn.magicbar.mainController" data-i18n="menu.messages|count={{messages.unread}}"></a></li>
 						<li><a href="/circles" data-i18n="menu.circles"></a></li>
 						<li><a href="/settings" data-i18n="menu.settings"></a></li>
 						<li><a href="/help" data-i18n="menu.help"></a></li>
@@ -88,6 +86,17 @@
 					<div class="clear-fix">
 					</div>
 				</nav>
+			</div>
+			<div class="notificationWrap">
+				<div class="notification" data-ng-if="lostConnection">
+					<span data-i18n="general.disconnected"></span>
+				</div>
+				<!--
+				<div class="notification" data-ng-repeat="notification in notifications">
+					<div class="close"><i class="icon icon-cancel-circle"></i></div>
+					<span></span>
+				</div>
+				-->
 			</div>
 		</aside>
 		<!-- end !Userpanel -->
@@ -103,19 +112,25 @@
 			<usersearch size="big" data-input-i18n-attr="menu.search|placeholder"/>
 		</section>
 		<!-- end !Mobile Search -->
-		<!-- !Magic Bar -->
+		<!-- !Right Sidebar -->
 		<aside id="sidebar-right" data-ng-if="loggedin && !mobile">
 			<div id="magicbar" data-ng-controller="ssn.magicbar.mainController">
-				<div class="magic magicOverlay" data-ng-if="!config.showDefault" data-ng-include="'/assets/views/magicbar/' + config.template + '.html'">Loading</div>
+				<div class="magic magicOverlay" data-ng-if="!config.showDefault" data-ng-include="'/assets/views/magicbar/' + config.template + '.html'"></div>
 				<div class="magicWrapper" data-ng-if="config.showDefault">
 					<div class="magic magicWidget" style="height: {{widgetHeight}}%" data-ng-repeat="widget in defaultConfig" data-ng-include="'/assets/views/magicbar/' + widget.template + '.html'"></div>
 				</div>
 			</div>
 		</aside>
-		<!-- end !Magic Bar -->
+		<!-- end !Rigth Sidebar -->
 		<!-- !Mobile Menu -->
 		<aside id="sidebar-right" data-ng-if="loggedin && mobile" data-ng-show="sidebarActive && !searchActive">
 			<ul class="mobileMenu">
+				<a href="/main"  data-ng-click="toggleSidebar()">
+					<li>
+						<i class="icon icon-home"></i>
+						<span data-i18n="menu.newsfeed"></span>
+					</li>
+				</a>
 				<a href="{{user.basic.url}}" data-ng-click="toggleSidebar()">
 					<li>
 						<img data-ng-src="{{user.basic.image}}" alt="User">
@@ -124,48 +139,74 @@
 				</a>
 				<a href="/friends"  data-ng-click="toggleSidebar()">
 					<li>
-						<img src="assets/img/icons/mobile/friends.png" alt="Freunde">
+						<img data-ng-src="assets/img/icons/mobile/friends.png" alt="Freunde">
 						<span data-i18n="menu.friends|count={{friends.friendsCount}}"></span>
 					</li>
 				</a>
 				<a href="/messages"  data-ng-click="toggleSidebar()">
 					<li>
-						<img src="assets/img/icons/mobile/messages.png" alt="Nachrichten">
-						<span data-i18n="menu.messages"></span>
+						<img data-ng-src="assets/img/icons/mobile/messages.png" alt="Nachrichten">
+						<span data-ng-controller="ssn.magicbar.mainController" data-i18n="menu.messages|count={{messages.unread}}"></span>
 					</li>
 				</a>
 				<a href="/circles"  data-ng-click="toggleSidebar()">
 					<li>
-						<img src="assets/img/icons/mobile/circles.png" alt="">
+						<img data-ng-src="assets/img/icons/mobile/circles.png" alt="">
 						<span data-i18n="menu.circles"></span>
 					</li>
 				</a>
 				<a href="/settings"  data-ng-click="toggleSidebar()">
 					<li>
-						<img src="assets/img/icons/mobile/settings.png">
+						<img data-ng-src="assets/img/icons/mobile/settings.png">
 						<span data-i18n="menu.settings"></span>
 					</li>
 				</a>
 				<a href="/help"  data-ng-click="toggleSidebar()">
 					<li>
-						<img src="assets/img/icons/mobile/help.png">
+						<img data-ng-src="assets/img/icons/mobile/help.png">
 						<span data-i18n="menu.help"></span>
+					</li>
+				</a>
+				<a href="/legal" data-ng-click="toggleSidebar()">
+					<li>
+						<i class="icon icon-book"></i>
+						<span data-i18n="menu.legal"></span>
 					</li>
 				</a>
 				<a href="#" data-ng-click="logout()" data-eat-click>
 					<li data-ng-click="toggleSidebar()">
-						<img src="assets/img/icons/mobile/logout.png">
+						<img data-ng-src="assets/img/icons/mobile/logout.png">
 						<span data-i18n="menu.logout"></span>
 					</li>
 				</a>
 			</ul>
 		</aside>
 		<!-- end !Mobile Menu -->
+		<!-- !Mobile Notifications -->
+		<div class="notificationWrap" data-ng-if="loggedin && mobile">
+			<div class="notification" data-ng-if="lostConnection">
+				<span data-i18n="general.disconnected"></span>
+			</div>
+			<!--
+	<div class="notification" data-ng-repeat="notification in notifications">
+				<div class="close"><i class="icon icon-cancel-circle"></i></div>
+				<span></span>
+			</div>
+	-->
+		</div>
+		<!-- end !Mobile Notifications -->
 	</div>
 	<!-- end !Main Container -->
 	<!-- !footer -->
-	<footer>
-	<div id="left">&copy; 2014 whispeer</div> <div id="right"><a href="/version">v{{version}}</a> <a href="">AGB</a> <a href="">Datenschutzbestimmungen</a> <a href="mailto:support@whispeer.de">Kontakt</a> <a href="http://blog.whispeer.de/de/impressum/">Impressum</a></div>
+	<footer data-ng-if="!mobile">
+		<div class="left">&copy; 2014 whispeer</div>
+		<div class="right">
+			<a href="/version">v{{version}}</a>&nbsp;
+			<a href="" data-i18n="window.title.terms"></a>&nbsp;
+			<a href="" data-i18n="window.title.data"></a>&nbsp;
+			<a href="mailto:support@whispeer.de" data-i18n="window.title.contact"></a>&nbsp;
+			<a href="http://blog.whispeer.de/de/impressum/" target="_blank" data-i18n="window.title.notice"></a>
+		</div>
 	</footer>
 	<!-- end !footer -->
 	<!-- !messageSound -->

@@ -49,7 +49,12 @@
 						overflow: hidden;
 						white-space: nowrap;
 						text-overflow: ellipsis;
-					}	
+					}
+					input {
+						overflow: hidden;
+						white-space: nowrap;
+						text-overflow: ellipsis;
+					}
 				}
 				&.searchResult {
 					.btn;
@@ -92,6 +97,8 @@
 	.selectDrop {
 		position: relative;
 		width: 100% !important;
+		padding-bottom: 1px;
+		.box-fix;
 		ul {
 			padding: 0;
 			margin: 0;
@@ -192,12 +199,15 @@
 				.info {
 					font: 100 10px;
 					color: @gray;
+					.nickname {
+						color: @grayDark;
+					}
 				}
 				.actions {
 					a {
 						&:not(.remove) {
 							cursor: pointer;
-							.buttonBackground(hsla(hue(lighten(@btnGreenBackground,5%)), saturation(lighten(@btnGreenBackground,5%)), lightness(lighten(@btnGreenBackground,5%)), 0.7), hsla(hue(lighten(@btnGreenBackgroundHighlight,5%)), saturation(lighten(@btnGreenBackgroundHighlight,5%)), lightness(lighten(@btnGreenBackgroundHighlight,5%)), 0.7));
+							.btn--green;
 							width: 100%;
 						}
 						&.btn {
@@ -227,6 +237,30 @@
 						.circleSubmit {
 							z-index: 1001;
 							position: relative;
+						}
+					}
+				}
+				&:first-child {
+				}
+				&:last-child {
+					border: none;
+				}
+				&:only-child {
+					border: none;
+				}
+				&.active {
+					background-color: @primary;
+					color: @white;
+					.info {
+						color: @white;
+						.nickname {
+							color: @grayLighter;
+						}
+					}
+					a {
+						color: @grayLighter;
+						&:hover {
+							color: @white;
 						}
 					}
 				}	
@@ -261,7 +295,9 @@
 			.inputWrap {
 				text-align: left;
 				white-space: nowrap;
-				height: 55px;
+				@media screen and (min-width: 1025px) {
+					height: 55px;
+				}
 				overflow-y: hidden;
 				overflow-x: scroll;
 				li {

@@ -1,7 +1,7 @@
 /**
 * SocketService
 **/
-define(["socket", "step", "whispeerHelper", "config", "cryptoWorker/generalWorkerInclude"], function (io, step, h, config, generalWorkerInclude) {
+define(["jquery", "socket", "socketStream", "step", "whispeerHelper", "config", "cryptoWorker/generalWorkerInclude"], function ($, io, iostream, step, h, config, generalWorkerInclude) {
 	"use strict";
 
 	var socket;
@@ -28,6 +28,25 @@ define(["socket", "step", "whispeerHelper", "config", "cryptoWorker/generalWorke
 
 		var socketS = {
 			socket: socket,
+			uploadBlob: function (blob, blobid, cb) {
+				step(function () {
+					socketS.emit("blob.upgradeStream", {}, this);
+				}, h.sF(function () {
+					var stream = iostream.createStream();
+					iostream(socket).emit("pushBlob", stream, {
+						blobid: blobid
+					});
+
+					var blobStream = iostream.createBlobReadStream(blob);
+
+					blobStream.on("end", this);
+
+					blobStream.pipe(stream);
+				}), cb);
+			},
+			on: function () {
+				socket.on.apply(socket, arguments);
+			},
 			listen: function (channel, callback) {
 				socket.on(channel, function (data) {
 					console.log("received data on " + channel);
@@ -42,19 +61,24 @@ define(["socket", "step", "whispeerHelper", "config", "cryptoWorker/generalWorke
 				step(function doEmit() {
 					data.sid = sessionService.getSID();
 
-					console.log("requesting on " + channel);
+					console.groupCollapsed("Request on " + channel);
 					console.log(data);
+					console.groupEnd();
+
 					time = new Date().getTime();
 
 					socket.emit(channel, data, this.ne);
 				}, h.sF(function emitResults(data) {
-					console.info("request on " + channel + " took: " + (new Date().getTime() - time));
+					console.groupCollapsed("Answer on " + channel);
+					console.info((new Date().getTime() - time));
 
 					if (data.error) {
 						console.error(data);
 					} else {
 						console.info(data);
 					}
+
+					console.groupEnd();
 
 					lastRequestTime = data.serverTime;
 

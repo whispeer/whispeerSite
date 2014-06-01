@@ -3,10 +3,10 @@
 /**
 * SessionHelper
 **/
-define(["step", "whispeerHelper"], function (step, h) {
+define(["step", "whispeerHelper", "socketStream"], function (step, h, iostream) {
 	"use strict";
 
-	var service = function (socketService, keyStoreService, ProfileService, sessionService) {
+	var service = function (socketService, keyStoreService, ProfileService, sessionService, blobService) {
 		var keyGenerationStarted = false, keys = {}, keyGenListener = [], keyGenDone;
 
 		var sessionHelper = {
@@ -48,12 +48,27 @@ define(["step", "whispeerHelper"], function (step, h) {
 				}), callback);
 			},
 
-			register: function (nickname, mail, password, profile, settings, callback) {
-				var keys;
+			register: function (nickname, mail, password, profile, imageBlob, settings, callback) {
+				var keys, result;
 				step(function register1() {
-					sessionHelper.startKeyGeneration(this);
-				}, h.sF(function register2(theKeys) {
+					this.parallel.unflatten();
+
+					sessionHelper.startKeyGeneration(this.parallel());
+
+					if (imageBlob) {
+						imageBlob = blobService.createBlob(imageBlob);
+						imageBlob.preReserveID(this.parallel());
+						imageBlob.getHash(this.parallel());
+					}
+				}, h.sF(function register2(theKeys, blobid, imageHash) {
 					keys = theKeys;
+
+					if (imageBlob) {
+						profile.pub.imageBlob = {
+							blobid: blobid,
+							imageHash: imageHash
+						};
+					}
 
 					if (nickname) {
 						keyStoreService.setKeyGenIdentifier(nickname);
@@ -107,9 +122,18 @@ define(["step", "whispeerHelper"], function (step, h) {
 					}
 
 					socketService.emit("session.register", registerData, this);
-				}), h.sF(function (result) {
+				}), h.sF(function (_result) {
+					result = _result;
+
 					sessionHelper.resetKey();
 					keyStoreService.addPassword(password);
+
+					if (imageBlob) {
+						imageBlob.upload(this);
+					} else {
+						this.ne();
+					}
+				}), h.sF(function () {
 					this.ne(result);
 				}), callback);
 			},
@@ -250,7 +274,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 		return sessionHelper;
 	};
 
-	service.$inject = ["ssn.socketService", "ssn.keyStoreService", "ssn.profileService", "ssn.sessionService"];
+	service.$inject = ["ssn.socketService", "ssn.keyStoreService", "ssn.profileService", "ssn.sessionService", "ssn.blobService"];
 
 	return service;
 });

@@ -9,12 +9,21 @@
 			<option value="f" data-i18n="profile.section.general.gender.f"></option>
 		</select>
 	</div>
-	<div data-ng-repeat="attribute in profileAttributes" data-tooltip-title="{{attribute.hoverText}}" data-tooltip-position="left">
-    <input name="{{attribute.name}}" data-autofocus="{{$index==0}}" type="text" placeholder="{{attribute.placeHolder}}" data-ng-model="attribute.value">
+
+	<div>
+		<input name="firstname" data-autofocus="true" type="text" data-i18n-attr="login.register.firstname|placeholder" data-ng-model="firstname.value">
 		<span class="icon lock">
-			<img data-ng-src="{{lock(attribute.encrypted)}}" alt="{{((attribute.encrypted) && ('Privat') || ('Öffentlich'))}}" data-ng-click="attribute.encrypted=!attribute.encrypted" />
+			<img data-ng-src="{{lock(firstname.encrypted)}}" alt="{{((firstname.encrypted) && ('Privat') || ('Öffentlich'))}}" data-ng-click="firstname.encrypted=!firstname.encrypted" />
 		</span>
 	</div>
+
+	<div>
+		<input name="lastname" type="text" data-i18n-attr="login.register.lastname|placeholder" data-ng-model="lastname.value">
+		<span class="icon lock">
+			<img data-ng-src="{{lock(lastname.encrypted)}}" alt="{{((lastname.encrypted) && ('Privat') || ('Öffentlich'))}}" data-ng-click="lastname.encrypted=!lastname.encrypted" />
+		</span>
+	</div>
+
 	<div id="birthday">
 		<label data-i18n="profile.section.general.birthday.info"></label>
 		<select name="birthday-day" class="day" data-for="day" data-ng-model="user.birthday.day" data-ng-options="day for day in days">

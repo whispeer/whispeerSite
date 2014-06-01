@@ -18,7 +18,7 @@
 	#main {
 		nav {
 			.border-radiuses(10px,0,0,10px);
-			.gradient(darken(@btnBackground, 2%), @btnBackgroundHighlight);
+			.gradient(darken(@btnBackground, 2%), @btnBackgroundHover);
 			border: 1px solid @btnBorder;
 			border-bottom: 1px solid #000;
 			border-bottom-color: darken(@btnBorder, 10%);
@@ -70,7 +70,7 @@
 		}
 		#info {
 			article {
-				background-color: @btnBackgroundHighlight;
+				background-color: @btnBackgroundHover;
 				.box-fix;
 				input {
 					padding: 2px !important;
@@ -162,6 +162,7 @@
 					.actions {
 						border: none;
 						border-top:1px solid #ccc;
+						position: relative;
 						.box-fix;	
 						.addFriend {
 							.btn;
@@ -180,6 +181,20 @@
 							}
 							#circleSubmit {
 								.border-radiuses(5px, 5px, 0,0);
+							}	
+							#selectCircle {
+								.formSearch {
+									.border-radiuses(0,0,5px,5px);
+									ul {
+										.border-radiuses(0,0,5px,5px);
+										li {
+											//.border-radiuses(0,0,5px,5px);
+											input {
+												.border-radiuses(0,0,5px,5px);
+											}
+										}	
+									}
+								}
 							}
 						}
 						.sendMessage {
@@ -198,13 +213,13 @@
 			}	
 		}
 		#wall {
-			background-color: @btnBackgroundHighlight;
+			background-color: @btnBackgroundHover;
 			border: 1px solid @btnBorder;
 			border-bottom: 1px solid #000;
 			border-bottom-color: darken(@btnBorder, 10%);
 			.border-radius(5px);
 			header {
-				.gradient(darken(@btnBackground, 2%), @btnBackgroundHighlight);
+				.gradient(darken(@btnBackground, 2%), @btnBackgroundHover);
 				border-bottom: 1px solid @btnBorder;
 				.border-radiuses(5px, 0px, 0px, 5px);
 			}
@@ -279,6 +294,7 @@
 					.column(2,8);
 					padding-top: 5px;
 					margin-bottom: 10px;
+					text-align: right;
 				}
 				ol.comments {
 					.unstyled;
@@ -331,7 +347,7 @@
 		}
 		#friends {
 			.column(8,8);
-			background-color: @btnBackgroundHighlight;
+			background-color: @btnBackgroundHover;
 			border: 1px solid @btnBorder;
 			border-bottom: 1px solid #000;
 			border-bottom-color: darken(@btnBorder, 10%);
@@ -339,7 +355,7 @@
 			height: auto;
 			padding: 0;
 			header {
-				.gradient(darken(@btnBackground, 2%), @btnBackgroundHighlight);
+				.gradient(darken(@btnBackground, 2%), @btnBackgroundHover);
 				height: 20px;
 				border-bottom: 1px solid @btnBorder;
 				.border-radiuses(5px, 0px, 0px, 5px);

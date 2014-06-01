@@ -516,7 +516,7 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 		}
 
 		if (typeof keyData === "string") {
-			keyData = chelper.hex2bits(keyData)
+			keyData = chelper.hex2bits(keyData);
 		} 
 
 		if (keyData instanceof Array) {

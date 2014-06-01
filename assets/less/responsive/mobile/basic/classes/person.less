@@ -6,18 +6,27 @@
 		width: 100%;
 	}
 	.pushup {
-		height: 100px !important;
+		height: 45px !important;
 		width: 99.4%;
 		margin-left: 0.6%;
 		margin-top: 0px;
 		padding: 0;
 		p {
-			opactiy: 1 !important;
+			opacity: 1 !important;
+			padding-top: 0px;
+			&.username {
+				margin-top: 5px;
+			}
+			&.mutualfriends {
+				margin-top: -15px;
+				float: left;
+				width: 100%;
+				display: inline-block;
+				text-align: center;
+			}
 		}
-	}
-	&:hover {
-		.pushup {
-			height: 100px !important;
+		.status {
+			margin-top: -28px;
 		}
 	}
 }

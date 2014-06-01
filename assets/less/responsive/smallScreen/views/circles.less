@@ -9,27 +9,24 @@
 		margin-top: -30px;
 		padding: 5px;
 		.title {
-			.column(1,7);
+			.column(4,7);
 		}
 		nav {
-			.column(6,7);
-			@media (-webkit-min-device-pixel-ratio:0) {
-				//margin-top: -20px !important;
-			}	
+			.column(3,7,right);
+			margin-right: 0;
 			a {
-				.column(1,3);
-				text-align: center;
-				&:first-child {
-					text-align: left;
-				}
-				&:last-child {
+				.column(6,12,left,10%);
+				text-align: right;
+				&:only-child {
 					text-align: right;
+					float: right;
+					.push(1,2);
 				}
 			}
 		}
 	}
 	#circleListWrap {
-		.column(2.75,7);
+		.column(2.5,7);
 		height: 100%;
 		#circleList {
 			height: 100%;
@@ -56,12 +53,14 @@
 					.column(1.40,2);
 					strong {
 						width: 100%;
-					}	
+					}
 				}
 				.personCount {
-					.column(1.40,2);
-					margin-top: 0px;
-					font-size: 0.8em;
+					.column(1.4,2);
+					margin-top: 0;
+					overflow: hidden;
+					text-overflow: ellipsis;
+					white-space: nowrap;
 				}
 				&#newcircle {
 					height: 20px;
@@ -72,10 +71,27 @@
 	}
 	#circleContainer {
 		height: 100%;
-		.column(4.25,7);
+		.column(4.5,7);
 		height: 100%;
-		padding: 0px 0px 91px 0px;
+		padding: 0px 0px 51px 0px;
 		.box-fix;
+		#circleTitle {
+			.editTitle {
+				input {
+					.column(7);
+					margin-top: 13px;
+				}
+				button {
+					display: none;
+					visibility: hidden;
+				}
+				h2 {
+					float: left;
+					.width(5);
+					overflow: auto;
+				}
+			}
+		}
 		#circleWrap {
 			height: 100%;
 		}
@@ -83,18 +99,25 @@
 			padding-left: 10px;
 		}
 		#friendsList {
-			overflow-y: scroll;
-			height: 100%;
 			li {
-				.column(1,3);
+				.column(1,2);
 				height: 250px;
 				padding: 0;
 				margin-bottom: 15px;
+				.remove {
+					width: 17px !important;
+					height: 14px !important;
+					top: 0;
+					right: 1.5%;
+					i {
+						font-size: 16px;
+						margin-top: -1px !important;
+					}
+				}
 				.username {
 					width: 100%;
 				}
 				.pushup {
-					height: 0;
 					width: 100%;
 					margin-top: 0px;
 					padding: 0;
@@ -119,14 +142,12 @@
 				.formSearch {
 					.inputWrap {
 						li.searchField {
-							input {
-								width: 100%;
-							}
+							width: 50%;
 						}
 					}
 				}
-			}
-			#sendmessage {
+			}			
+			#savecircle {
 				margin-left: 8px;
 			}
 		}

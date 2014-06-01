@@ -10,9 +10,9 @@ body {
 	}
 	
 	#container {
-		height: 100%;
-		padding-top: 70px;
-		padding-bottom: 30px;
+		height: 100% !important;
+		padding-top: 50px;
+		padding-bottom: 10px !important;
 		#main, #sidebar-left, #sidebar-right {
 			height: 100%;
 		}
@@ -25,14 +25,28 @@ body {
 		}
 		#mobileSearch {
 			.column(12);
+			height: 100%;
 			.searchBar {
 				margin-top: 10px !important;
+				position: relative;
+				height: 100% !important;
 				.addFriend, .sendMessage {
 					padding: 5px 2px !important;
 				}
+				.formSearch {
+					height: 38px;
+				}
 				.searchDrop {
-					height: 230px !important;
-					overflow: scroll;
+					margin-top: 5px;
+					height: 100% !important;
+					overflow: hidden;
+					position: relative;
+					padding-bottom: 55px !important;
+					.box-fix;
+					.searchSuggestions {
+						height: 100% !important;
+						max-height: none !important;
+					}
 				}
 			}
 		}
@@ -46,16 +60,11 @@ body {
 				.unstyled;
 				width: 100%;
 				a {
-					width: 100%;
-					float: left;
-					height: auto;
+					.column(1,2);
+					height: 125px;
 					overflow: hidden;
-					&:first-child {
-						.border-radiuses(5px,0,0,5px);
-					}
-					&:last-child {
-						.border-radiuses(0,5px,5px,0);
-					}
+					margin-bottom: 2%;
+					.border-radius(25px);
 					li {
 						.btn;
 						.btn--green;
@@ -63,45 +72,44 @@ body {
 						.border-radius(0);
 						float: left;
 						width: 100%;
-						height: auto;
+						height: 100%;
 						border-bottom: 1px solid #ddd;
-						padding: 1% 0;
+						padding: 30px 25px;
+						text-align: center;
 						span {
 							color: #fff;
-							.column(10);
+							.column(12);
 							span {
 								width: 100%;
 								font-size: 1.2em;
-								text-align: left;
-								margin-top: 10px;
+								text-align: center;
+								margin-top: 0px;
 							}
 						}
 					}
 					img {
-						.column(2);
+						.column(5);
+						margin: 0 auto !important;
+						float: none;
 						.border-radius(5px);
+						max-width: 50px;
+					}
+					i {
+						font-size: (175 + (100/12)*5%);
+						color: #000;
+						margin-top: 5px;
+						margin-bottom: 8px;
+						display: inline-block;
 					}
 				}
 			}
 		}
 	}
 	
-	footer {
-		float: left;
-		width: 100%;
-		margin: -25px 0 0;
-		padding: 5px 5px 0px 5px;
-		#left {
-			width: 25%;
-			float: left;
-			text-align: left;
-		}
-		#right {
-			width: 75%;
-			float: left;
-			text-align: right;
-		}
+	.notificationWrap {
+		margin-bottom: 40px;
 	}
+	
 	&:not(.registerView) {
 		padding-top: 50px;
 	}

@@ -51,10 +51,11 @@ define(["step", "whispeerHelper", "asset/encryptedMetaData"], function (step, h,
 				}, h.sF(function (b) {
 					var i, attrs = attr.split("."), cur = b;
 					for (i = 0; i < attrs.length; i += 1) {
-						if (typeof cur[attrs[i]].encrypt !== "undefined") {
-							this.ne(cur[attrs[i]]);
-							return;
-						} else if (cur[attrs[i]]) {
+						if (cur[attrs[i]]) {
+							if (typeof cur[attrs[i]].encrypt !== "undefined") {
+								this.ne(cur[attrs[i]]);
+								return;
+							}
 							cur = cur[attrs[i]];
 						}
 					}

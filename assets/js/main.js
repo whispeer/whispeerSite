@@ -8,6 +8,7 @@ requirejs.config({
 		angular: "libs/angular",
 		angularRoute: "libs/angular-route",
 		socket: "libs/socket.io",
+		socketStream: "libs/socket.io-stream",
 		step: "step/lib/step",
 		whispeerHelper: "helper/helper",
 		amanda: "libs/amanda"
@@ -37,7 +38,8 @@ requirejs( [
 	"jquery",
 	"angular",
 	"app",
-	"routes"
+	"routes",
+	"libs/canvas-toBlob"
 ], function($, angular, app, routes) {
 	"use strict";
 	$(document).ready(function () {

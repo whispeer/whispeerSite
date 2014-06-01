@@ -1,20 +1,16 @@
-
 <div data-ng-if="!mobile || true" class="maxHeight">
 	<header>
 		<span class="title" role="title"><span data-i18n="views.circles.header.title"></span>&nbsp;<span data-ng-if="circleLoaded && showCircle">anzeigen: {{thisCircle.name}}</span></span>
-		<nav data-ng-if="activeCircle">
-			<a href="#" data-i18n="views.circles.header.sendMessage"></a>
-			<a href="#" data-i18n="views.circles.header.addPeople"></a>
-			<a href="#" data-i18n="views.circles.header.createGroup"></a>
-		</nav>
 		<button data-ng-if="mobile && showCircle" data-ng-click="unloadCircle()"><i class="icon icon-menu"></i></button>
 	</header>
 
 	<div id="circleListWrap" data-ng-if="!mobile || !showCircle">
 		<ul id="circleList">
 			<li class="circle" id="newcircle" data-ng-click="unloadCircle()">
-				<div class="left"><i class="icon-plus-circle" id="plusBtn"></i></div>
-				<div class="right" data-i18n="views.circles.newCircle"></div>
+				<div class="btn btn--small">
+					<div class="left"><i class="icon-plus-circle" id="plusBtn"></i></div>
+					<div class="right" data-i18n="views.circles.newCircle"></div>
+				</div>
 			</li>
 			<div id="circleListScroll">
 				<li data-ng-repeat="circle in circles" id="{{circle.id}}" class="circle" data-ng-click="loadActiveCircle(circle.id)">
@@ -34,24 +30,32 @@
 
 	<div id="circleContainer" data-circleID="{{thisCircle.id}}" data-ng-if="circleLoaded && showCircle">
 		<div id="circleTitle">
-			<h2 data-i18n="views.circles.personsInCircle|name={{thisCircle.name}}" title="{{thisCircle.name}}"></h2>
+			<h2 data-ng-if="!editingTitle.active"><span data-i18n="views.circles.personsInCircle|name={{thisCircle.name}}" title="{{thisCircle.name}}"></span></h2>
+			<!-- <button data-ng-if="!editingTitle.active" data-ng-click="editTitle()" class="btn editTitleButton"><i class="icon icon-pencil"></i></button> 
+			<div class="editTitle" data-ng-if="editingTitle.active">
+				<h2>Kreistitel:</h2>
+				<input data-ng-model="thisCircle.name">
+				<savebutton data-ng-click="saveTitle()" data-success="editingTitle.success" data-failure="editingTitle.failure" data-operation="editingTitle.operation"></savebutton>
+			</div> --->
 		</div>
 		<div id="circleWrap">
 			<ol id="friendsList" class="unstyled">
-				<friend data-ng-repeat="friend in thisCircle.persons" data-user="friend"></friend>
+				<li data-ng-repeat="friend in thisCircle.persons">
+					<friend data-user="friend"></friend>
+				</li>
 			</ol>
 		</div>
 	</div>
 
 	<div id="circleContainer" class="newCircle" data-ng-if="!circleLoaded && showCircle">
 		<div id="circleTitle">
-			<h2>Neuer Kreis</h2>
+			<h2 data-i18n="views.circles.new"></h2>
 		</div>
 		<div id="circleWrap">	
 			<form id="inputWrap">
 				<input type="text" data-i18n-attr="views.circles.titleForNew|placeholder" id="titleInput" data-ng-model="circleName">
 				<usersearch data-scope="friends" data-multiple type="text" data-input-i18n-attr="views.circles.searchFriends|placeholder" id="friendInput" />
-				<button class="btn btn--primary btn--big" id="savecircle" type="submit" data-ng-click="createNew(circleName)">Kreis erstellen!</button>		
+				<button class="btn btn--primary btn--big" id="savecircle" type="submit" data-ng-click="createNew(circleName)" data-i18n="views.circles.createCircle"></button>		
 			</form>
 		</div>
 	</div>

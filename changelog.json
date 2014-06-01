@@ -1,10 +1,45 @@
-{
+	{
 	"0": {
 		"1": {
+			"8": [
+				"Bring back missing profile icons",
+				"Bugfixes",
+				"Optimized mobile user interface",
+				"New mobile menu with more touch-friendly links",
+				"Uploading and Changing the profile picture from a mobile device (iPhone and iPad were tested)",
+				"Tablets in portait and landscape mode are now supported",
+				"Own messages are not unread any more",
+				"Time format changed to also include minutes in hour format",
+				"Multi-line postings"
+			],
+			"7": [
+				"Show nickname in header search bar",
+				"Show time for posts",
+				"Nicer time formatting",
+				"Bugfixes",
+				"Create circle in circle search, if no results were found",
+				"Buttons now give feedback to the user about what they are doing",
+				"UI improvements"
+			],
+			"6": [
+				"Hotfix: Messages are now marked as unread again"
+			],
+			"5": [
+				"Basic Mail verification",
+				"Mail for new post and new message",
+				"Profile Language can now be saved",
+				"Translations",
+				"Touch improvements",
+				"Shiny new spinner gifs",
+				"Bugfixes"
+			],
 			"4": [
+				"Profile Image can now be changed",
+				"Decryption is now done in a  thread",
 				"Posts are regularly fetched from server",
 				"Mail System started",
-				"Bugfix: Add as Friend works again"
+				"Bugfix: Add as Friend works again",
+				"Date Format improved"
 			],
 			"3": [
 				"New Layout for messages",

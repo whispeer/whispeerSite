@@ -2,7 +2,11 @@
 	"window": {
 		"title": {
 			"newmessage": "{data}: New Message",
-			"basic": "whispeer"
+			"basic": "whispeer",
+			"terms": "Terms and conditions",
+			"data": "Data protection regulations",
+			"contact": "Contact",
+			"notice": "Site notice"
 		}
 	},
 	"views": {
@@ -10,30 +14,48 @@
 			"searchFriends": "Type in the names of your friends you want to add to this circle!",
 			"titleForNew": "Type in the title of this circle!",
 			"header": {
-				"title":	"Circles",
+				"title":	"Show circles",
 				"createGroup": "Copy as group",
 				"sendMessage": "Message to circle",
 				"addPeople":	"Add persons"
 			},
 			"newCircle":	"Create a new circle",
+			"new": "New circle",
+			"createCircle": "Create circle",
 			"personCount":	"There are {count} people in this circle",
-			"personsInCircle":"People in circle \"{name}\""
+			"personsInCircle":"People in circle \"{name}\"",
+			"nocircle": "No circles found"
 		}
 	},
 	"start": {
 		"welcome": "Welcome to whispeer - the secure social network!",
 		"more": "More information",
 		"moreInfo": "More information about whispeer",
-		"regnow": "Sign up now!"
+		"regnow": "Sign up now!",
+		"loading": "Loading..."
 	},
 	"directives": {
 		"allfriends": "All Friends",
 		"friendsoffriends": "Friends of Friends"
 	},
+	"usersearch": {
+		"mutualFriends": "mutual friends",
+		"from": "from",
+		"age": "Age:",
+		"message": "Send a message",
+		"add": "Add as friend"
+	},
 	"general": {
 		"send":	"Send",
-		"cancel":	"Cancel"
+		"cancel":	"Cancel",
+		"disconnected":	"You've lost your connection to whispeer's Servers"
 	},
+	"notification": {
+		"newmessage":	"New Message from {user}"
+	},
+	"version":	{
+		"heading":	"Version-History"
+	}	
 	"date": {
 		"month": {
 			"1": "January",
@@ -60,21 +82,29 @@
 			"october": "October",
 			"november": "November",
 			"december": "December"
+		},
+		"time": {
+			"justNow": 		"right now",
+			"oneMinuteAgo":	"one minute ago",
+			"minutesAgo":	"{minutes} minutes ago",
+			"oneHourAgo":	"one hour and {minutes} minutes ago",
+			"hoursAgo":		"{hours} hours and {minutes} minutes ago"
 		}
 	},
 	"notimplemented": "Not implemented yet :(",
 	"search": "People are being searched",
 	"menu": {
-		"home":	"Newsfeed",
+		"newsfeed":	"Newsfeed",
 		"profil": "Profile",
 		"friends": "Friends ({count})",
-		"messages": "Messages",
+		"messages": "Messages ({count})",
 		"media": "Media",
 		"circles": "Circles",
 		"settings": "Settings",
 		"help": "Help",
 		"logout": "Logout",
-		"search": "Search..."
+		"search": "Search...",
+		"legal":	"Legal"
 	},
 	"login": {
 		"username": "Username",
@@ -83,8 +113,8 @@
 		"loginFailed": "Username and Password don't match!",
 		"register": {
 			"errors": {
-				"nickInvalid": "Invalid Nickname",
-				"nickUsed": "This nickname is already in use",
+				"nickInvalid": "Invalid username",
+				"nickUsed": "This username is already in use",
 				"mailInvalid": "Invalid Mail",
 				"mailUsed": "This Mail is already in use",
 				"passwordWeak": "Password to weak",
@@ -97,6 +127,10 @@
 			"passwordstrength":	"Password strength: ",
 			"email":	"E-Mail address",
 			"repeatEmail":	"Repeat E-Mail address",
+
+			"firstname": "Firstname",
+			"lastname": "Lastname",
+
 			"country":	"State",
 			"location":	"City",
 			"uploadImage":	"Upload Profile Picture",
@@ -106,6 +140,7 @@
 		}
 	},
 	"wall": {
+		"createPost": "Post something!",
 		"postit": {
 			"receiver": "Who is allowed to read this post?",
 			"text": "What do you want to share?",
@@ -133,7 +168,9 @@
 		}
 	},
 	"messages": {
-		"newMessage": "New Message",
+		"title": "Messages",
+		"chat" :"Chat with",
+		"newMessage": "New message",
 		"search": "Who should receive this message?",
 		"sendMessage": {
 			"text": "Type in your message!",
@@ -231,7 +268,7 @@
 	},
 	"friends": {
 		"mutualFriends":	"{count} mutual friends",
-		"title":			"friends list"
+		"title":			"Friends list"
 	},
 	"help": {
 		"headers": {
@@ -245,73 +282,102 @@
 		"askQuestion": "Ask your question!",
 		"faq": {
 			"register": {
-				"question": "Do I have to give my full name and E-Mail address when I register??",
-				"answer":	"No. If you want to register, you can do this with a nickname only. You can, though, give you E-Mail address. You can, of course, choose if you want to give your full name or maybe only a part. But you can encrypt your name, so that later, only your friends on whispeer can see your full name."
+				"question": "Do I have to give my full name and E-Mail address when I register?",
+				"answer":	"No. If you want to register, you can do this with a Username only. You can, though, give you E-Mail address. You can, of course, choose if you want to give your full name or maybe only a part. But you can encrypt your name, so that later, only your friends on whispeer can see your full name."
 			},
 			"password": {
-				"question": "How do i create a secure password??",
-				"answer":	"Wir haben uns ein  10-Punkte-System überlegt, das euch hilft, bessere und sichere Passörter zu finden. Mehr darüber lest ihr in dem Blogeintrag über das System: http://blog.whispeer.de/de/2013/08/update-wie-whispeer-dir-hilft-ein-sicheres-passwort-zu-finden/ und http://blog.whispeer.de/de/2013/07/wie-whispeer-dir-hilft-ein-sicheres-passwort-zu-finden/ "
+				"question": "How do I create a secure password??",
+				"answer":	"We created a 10-point system that helps you finding more secure passwords. You can read more about this on our Blog: http://blog.whispeer.de/de/2013/08/update-wie-whispeer-dir-hilft-ein-sicheres-passwort-zu-finden/ und http://blog.whispeer.de/de/2013/07/wie-whispeer-dir-hilft-ein-sicheres-passwort-zu-finden/ "
 			},
 			"profile": {
-				"question": "Wie kann ich mein Profil bearbeiten?",
-				"answer":	"Wenn du auf deinem eigenen Profil bist, steht links oben bei deinen Informationen 'Bearbeiten'. Klicke darauf, um deine Angaben in deinem Profil ändern. Wenn du fertig bist mit deinen Änderungen, klicke auf den 'Übernehmen'-Button. Deine Änderungen an deinem Profil werden dann übernommen."
+				"question": "How can I edit my profile?",
+				"answer":	"At the top left corner of your own profile page (near the word \"friends\") you can click on \"Edit profile\". Now you can edit your profile. To save your changes, just click \"Save\"."
 			},
 			"search": {
-				"question": "Wie funktioniert die Suche?",
-				"answer":	"Im Moment kannst du nach Vornamen, Nachnamen und Nicknamen suchen. Du tippst also einen Namen in die Suche ein und bekommst dann User, die auf deine Suchanfrage passen, vorgeschlagen."
+				"question": "How does the search work?",
+				"answer":	"At the moment, you can search for first names, last names and usernames. Just type in the name of the person you want to find and the search will give you suggestions that match your search."
 			},
 			"messages": {
-				"question": "Wie wähle ich aus, wer meine Nachrichten erhält? Kann ich auch Nachrichten an mehrere Personen verschicken?",
-				"answer":	"Durch einen Klick auf 'Nachrichten' im Menü oder auf 'Neue Nachricht' über der Übersicht deiner Nachrichten kommst du auf die Seite, auf der du eine neue Nachricht verschicken kannst. Dort gibst du in das obere Feld alle Personen ein, die diese Nachricht erhalten sollen. Du kannst auch den Namen eines Kreises eingeben, dann bekommt jede Person des Kreises eine einzelne Nachricht von dir (als ob du sie einzeln angeschrieben hättest). In das untere Feld schreibst du dann deine Nachricht und über den 'Senden'-Button verschickst du diese."
+				"question": "How can I choose who receives my messages? Can I send a message to more than one person?",
+				"answer":	"If you click on \"Messages\" in the Menu or on the \"New message\"-Button above your message-list, you get to the page where you can send a new message. In the first area, type in all the people you want to receive this message. You can also type in the name of a circle you created, then every friend in this circle receives the message (as if you wrote to them once at a time). In the second area, type in your message and send it by clicking on the button \"Send\". "
 			},
 			"filter": {
-				"question": "Wie benutze ich den Filter?",
-				"answer":	"Tippe einfach den Namen eines Freundes oder eines Kreises in das Eingabefeld. In deinem Newsfeed siehst du dann alles, was mit dieser Person/den Personen aus dem Kreis zu tun hat, also z.B. ihre Statusmeldungen, Pinnwandeinträge und Kommentare."
+				"question": "How do I use the filter?",
+				"answer":	"Just type in the name of a friend or circle in the area. You then see everything from or connected to the people in the circle in your newsfeed, e.g. their posts, wallposts or comments."
 			},
 			"circle": {
-				"question": "Wie erstelle ich einen neuen Kreis?",
-				"answer":	"Klicke rechts im Menü auf 'Kreise'. Es erscheinen zwei Eingabefelder. In das obere trägst du den Namen ein, den dein neuer Kreis haben soll. In das untere tippst du die Namen deiner Freunde, die in diesem Kreis sein sollen. Wenn du alle Namen eingetragen hast und dein Kreis einen Titel hat, klickst du auf 'Kreis erstellen' und dein neuer Kreis ist fertig!"
+				"question": "How do I create a new circle?",
+				"answer":	"Click on \"Circles\" in the Menu on the left. You now should see two areas. In the first one, type in the name of your new circle. In the second one, type in the names of your friends you want to add to the circle. If you added all of your friends you want to be in the circle, click on \"Create circle\" and you're finished! Of yourse, you can later on just add more friends to existing circles!"
 			},
 			"post": {
-				"question": "Wie kann ich auswählen, wer meine Statusmeldungen sieht?",
-				"answer":	"Wenn du einen Post schreibst, hast du zwei Eingabefelder. In das obere Eingabefeld schreibst du die Namen von den Personen und/oder Kreisen, die diesen Post sehen sollen. In das untere Feld schreibst du deinen Post. Wenn du alle Personen ausgewählt hast, und deinen Post geschrieben hast, klicke auf den Button 'Senden', um den Post für diese Personen zu veröffentlichen."
+				"question": "How do I choose who can see my posts?",
+				"answer":	"When you write a post, you have to areas where you can type in text. In the first one, write the names of the people and/or circles who should see your post. In the second area, type in your post. When you typed in all the people and wrote a post, just click on \"Post\" to publish it for your chosen friends to read!"
 			},
 			"magicbar": {
-				"question": "Was ist die MagicBar und wie benutze ich sie?",
-				"answer":	"Die MagicBar ist eines der einzigartigen Features von whispeer. Sie erscheint, wenn du rechts oben auf eines der vier verschiedenen Icons klickst. Die MagicBar dient dazu, dir einen besseren Überblick zu geben. Außerdem zeigt sie dir deine letzten und deine neuen Nachrichten, Frendschaftsanfragen und Benachrichtigungen an. Freundschaftsanfragen kannst du direkt in der MagicBar bestätigen oder ablehnen. Durch einen Klick auf eine Nachricht kommst du direkt zu der Konversation. Wenn du mehr über die MagicBar erfahren möchtest, liest du am besten unseren Blogeintrag darüber: http://blog.whispeer.de/2013/08/die-whispeer-oberflaeche-3-die-magicbar/ "
+				"question": "What is the MagicBar and how do I use it?",
+				"answer":	"The MagicBar is one of the unique features of whispeer. It appears when you click on one of the Icons on the top right corner. The MagicBar gives you a better overview over the site. Furthermore, it shows you your latest messages and new unread messages, friends request and notifications. You can accept or decline friends request directly in the MagicBar. If you click on one of your messages, you will directly get to the conversation itself. If you want to know more about the MagicBar, visit our Blog at: http://blog.whispeer.de/2013/08/die-whispeer-oberflaeche-3-die-magicbar/ "
 			},
 			"report": {
-				"question": "Wie kann ich jemanden melden?",
-				"answer":	"Momentan musst du uns eine Mail mit dem Namen der Person, bzw. ihrem Nicknamen oder ihrer E-Mail senden. Die Adresse ist support@whispeer.de . Es wird jedoch so bald wie möglich einen Melden-Button geben."
+				"question": "How can I report someone?",
+				"answer":	"At the moment, please write us an e-mail with the username and/or e-mail adress you want to report. Our address is support@whispeer.de . We will implement a report-Button as soon as possible."
 			},
 			"account": {
-				"question": "Wo kann ich meine Konto-Daten (Passwort, Nickname, E-Mail-Adresse) ändern?",
-				"answer":	"Deine Konto-Daten kannst du ändern, wenn du im Menü links auf 'Einstellungen' klickst. Du wirst dann auf die Einstellungs-Seite weitergeleitet, und unter dem ersten Thema 'Allgemein' kannst du deine Angaben ändern."
+				"question": "Where can I change my User-Data (password, username, e-mail-adress)?",
+				"answer":	"In the menu on the left, please click on \"Settings\". You are now on the settings-page where you can change all your data in the first category called \"General\"."
 			},
 			"privacy": {
-				"question": "Wo kann ich meine Privatsphäre-Einstellungen ändern?",
-				"answer":	"Ähnlich wie bei deinen Konto-Daten klickst gehst du zunächst einmal auf die Einstellungs-Seite durch einen Klick auf 'Einstellungen' im Menü links. Deine Privatsphäre-Einstellungen kannst du unter dem drittn Thema 'Privatsphäre' ändern."
+				"question": "Where can I change my privacy-settings?",
+				"answer":	"Similar to the User-Data-settings, just click on \"Settings\" on the left menu. You can now change your privacy-settings in the third category which is called \"Privacy\"."
 			},
 			"safety": {
-				"question": "Wo kann ich auswählen, welche meiner Daten verschlüsselt werden?",
-				"answer": "Unter den Einstellungen (Menü links) kannst du unter dem zweiten Thema 'Sicherheit' genau auswählen, welche deiner Daten verschlüsselt werden und welche öffentlich sind."
+				"question": "Where can I choose which parts of my data are encrypted and which parts are public?",
+				"answer": "On the settings-page (menu on the left) in the second category called \"Security\", you can choose which parts exactly you want encrypted, which parts are public and which parts are only visible for certain people or circles."
 			}
 		}
 	},
 	"settings": {
 		"safety": {
+			"title": "Security - What parts of your profile do you want to encrypt?",
+			"reset": "Reset",
 			"attributes": {
 				"location": "City",
 				"birthday": "Birthday",
 				"relationship": "Relationship status",
 				"education": "Education",
-				"work": "Work",
+				
+				"work": "Job",
 				"gender": "Gender",
-				"languages": "Languages"
+				"languages": "Languages",
+				"names": {
+					"header": "Name",
+					"firstname": "First name",
+					"lastname": "Last name",
+					"username": "Username"
+				}
+			},
+			"whomayseeit": {
+				"firstname":	"Who may see your first name?",
+				"lastname":		"Who may see your last name?",
+				"birthday":		"Who may see your date of birth?",
+				"location":		"Who may see which City you live in?",
+				"relationship":	"Who may see your relationsship status?",
+				"education":	"Who may see your level of education?",
+				"work":			"Who may see your Job?",
+				"gender":		"Who may see your gender?",
+				"languages":	"Who may see which languages you are speaking?"
 			}
 		},
 		"header": {
 			"title":	"Settings"
+		},
+		"changes": {
+			"General": "General",
+			"changeName": "Change name",
+			"changeUsername": "Change username",
+			"changeMail": "Change e-mail adress",
+			"changePassword": "Change password",
+			"save": "Save",
+			"mail": "E-mail adress"
 		}
 	},
 	"magicbar": {

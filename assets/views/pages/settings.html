@@ -12,60 +12,60 @@
 </header>
 <div id="settingsWrap">
 	<section id="general">
-		<header><span class="title">Allgemein</span></header>
+		<header><span class="title" data-i18n="settings.changes.General"></span></header>
 		<div class="config" id="name">
-			<h5>Name ändern</h5>
-			<input type="text" id="firstname" data-ng-model="firstName" placeholder="Vorname">
-			<input type="text" id="lastname" data-ng-model="lastName" placeholder="Nachname">
-			<button type="submit" data-ng-click="saveName()"><i class="icon-ok-circle"></i> <span>Speichern</span></button>
+			<h5 data-i18n="settings.changes.changeName"></h5>
+			<input type="text" id="firstname" data-ng-model="firstName" data-i18n-attr="settings.safety.attributes.names.firstname|placeholder">
+			<input type="text" id="lastname" data-ng-model="lastName" data-i18n-attr="settings.safety.attributes.names.lastname|placeholder">
+			<button type="submit" data-ng-click="saveName()"><i class="icon-ok-circle"></i> <span data-i18n="settings.changes.save"></span></button>
 		</div>
 		<div class="config" id="nickname">
-			<h5>Nickname ändern</h5>
-			<input type="text" id="newNickname" data-ng-model="nickName" placeholder="Nickname">
-			<button type="submit" data-ng-click="saveNickName()"><i class="icon-ok-circle"></i> <span>Speichern</span></button>
+			<h5 data-i18n="settings.changes.changeUsername"></h5>
+			<input type="text" id="newNickname" data-ng-model="nickName" data-i18n-attr="settings.safety.attributes.names.username|placeholder">
+			<button type="submit" data-ng-click="saveNickName()"><i class="icon-ok-circle"></i> <span data-i18n="settings.changes.save"></span></button>
 		</div>
 		<div class="config" id="mail">
-			<h5>E-Mail Adresse ändern</h5>
-			<input type="text" id="email" data-ng-model="mail" placeholder="E-Mail Adresse">
-			<button type="submit" data-ng-click="saveMail()"><i class="icon-ok-circle"></i> <span>Speichern</span></button>
+			<h5 data-i18n="settings.changes.changeMail"></h5>
+			<input type="text" id="email" data-ng-model="mail" data-i18n-attr="settings.changes.mail|placeholder">
+			<button type="submit" data-ng-click="saveMail()"><i class="icon-ok-circle"></i> <span data-i18n="settings.changes.save"></span></button>
 		</div>
 		<div class="config" id="password">
-			<h5>Passwort ändern</h5>
-			<input type="password" id="newPassword" placeholder="Passwort">
-			<input type="password" id="newPassword2" placeholder="Passwort wiederholen">
-			<button type="submit" data-ng-click="savePassword()"><i class="icon-ok-circle"></i> <span>Speichern</span></button>
+			<h5 data-i18n="settings.changes.changePassword"></h5>
+			<input type="password" id="newPassword" data-i18n-attr="login.password|placeholder">
+			<input type="password" id="newPassword2" data-i18n-attr="login.register.repeatPassword|placeholder">
+			<button type="submit" data-ng-click="savePassword()"><i class="icon-ok-circle"></i> <span data-i18n="settings.changes.save"></span></button>
 		</div>
 	</section>
 	<section id="safety">
-		<header><span class="title">Sicherheit - Welche deiner Profildaten sollen verschlüsselt werden?</span></header>
-		<h2>Name</h2>
+		<header><span class="title" data-i18n="settings.safety.title"></span></header>
+		<h4 data-i18n="settings.safety.attributes.names.header"></h4>
 		<div class="config select" id="firstNameEncryption">
-			<span>Vorname:</span>
+			<span data-i18n="settings.safety.attributes.names.firstname"></span>
 			<button type="submit" data-ng-click="safety.basic.firstname.encrypt=!safety.basic.firstname.encrypt" data-encrypted="{{safety.basic.firstname.encrypt}}">
 				<i class="icon-lock" data-ng-if="safety.basic.firstname.encrypt"></i>
 				<i class="icon-lock-open" data-ng-if="!safety.basic.firstname.encrypt"></i>
 			</button>
-			<div data-ng-if="safety.basic.firstname.encrypt"><filtersearch data-res="safety.basic.firstname" data-res-attr="visibility" data-selected="safety.basic.firstname.visibility" data-input-i18n-attr="" class="whoMaySeeIt"></filtersearch></div>
+			<div data-ng-if="safety.basic.firstname.encrypt"><filtersearch data-res="safety.basic.firstname" data-res-attr="visibility" data-selected="safety.basic.firstname.visibility" data-input-i18n-attr="settings.safety.whomayseeit.firstname|placeholder" class="whoMaySeeIt"></filtersearch></div>
 		</div>
 		<div class="config select" id="lastNameEncryption">
-			<span>Nachname:</span>
+			<span data-i18n="settings.safety.attributes.names.lastname"></span>
 			<button type="submit" data-ng-click="safety.basic.lastname.encrypt=!safety.basic.lastname.encrypt" data-encrypted="{{safety.basic.lastname.encrypt}}">
 				<i class="icon-lock" data-ng-if="safety.basic.lastname.encrypt"></i>
 				<i class="icon-lock-open" data-ng-if="!safety.basic.lastname.encrypt"></i>
 			</button>
-			<div data-ng-if="safety.basic.lastname.encrypt"><filtersearch data-res="safety.basic.lastname" data-res-attr="visibility" data-selected="safety.basic.lastname.visibility" data-input-i18n-attr="" class="whoMaySeeIt"></filtersearch></div>
+			<div data-ng-if="safety.basic.lastname.encrypt"><filtersearch data-res="safety.basic.lastname" data-res-attr="visibility" data-selected="safety.basic.lastname.visibility" data-input-i18n-attr="settings.safety.whomayseeit.lastname|placeholder" class="whoMaySeeIt"></filtersearch></div>
 		</div>
-		<h2>Profil</h2>
-		<div class="config select" ng-repeat="name in safetySorted" id="{{name}}Encryption">
+		<h4 data-i18n="menu.profil"></h4>
+		<div class="config select" data-ng-repeat="name in safetySorted" id="{{name}}Encryption">
 			<span data-i18n="settings.safety.attributes.{{name}}"></span>
 			<button type="submit" data-ng-click="safety[name].encrypt=!safety[name].encrypt" data-encrypted="{{safety[name].encrypt}}">
 				<i class="icon-lock" data-ng-if="safety[name].encrypt"></i>
 				<i class="icon-lock-open" data-ng-if="!safety[name].encrypt"></i>
 			</button>
-			<div data-ng-if="safety[name].encrypt"><filtersearch data-res="safety[name]" data-res-attr="visibility" data-selected="safety[name].visibility" data-input-i18n-attr="" class="whoMaySeeIt"></filtersearch></div>
+			<div data-ng-if="safety[name].encrypt"><filtersearch data-res="safety[name]" data-res-attr="visibility" data-selected="safety[name].visibility" data-input-i18n-attr="settings.safety.whomayseeit.{{name}}|placeholder" class="whoMaySeeIt"></filtersearch></div>
 		</div>
-		<button class="settingsFormButton" type="submit" data-ng-click="saveSafety()"><i class="icon-ok-circle"></i> <span>Speichern</span></button>
-		<button class="settingsFormButton" type="submit" data-ng-click="resetSafety()"><i class="icon-cancel-circle"></i> <span>Zurücksetzen</span></button>
+		<button class="settingsFormButton" type="submit" data-ng-click="saveSafety()"><i class="icon-ok-circle"></i> <span data-i18n="settings.changes.save"></span></button>
+		<button class="settingsFormButton" type="submit" data-ng-click="resetSafety()"><i class="icon-cancel-circle"></i> <span data-i18n="settings.safety.reset"></span></button>
 	</section>
 <!--
 	<section id="notifications">

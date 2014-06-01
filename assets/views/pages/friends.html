@@ -1,6 +1,8 @@
 <header><span class="title" role="title" data-i18n="friends.title"></span></header>
 <section>
 	<ol id="friendsList" class="unstyled">
-		<friend data-user="friend" data-ng-repeat="friend in friends"></friend>
+		<li data-ng-repeat="friend in friends">
+			<friend data-user="friend"></friend>
+		</li>	
 	</ol>
 </section>

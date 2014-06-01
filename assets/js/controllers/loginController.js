@@ -102,7 +102,7 @@ define(["step"], function (step) {
 
 		$scope.acceptIconMailFree = function acceptIconMail() {
 			if ($scope.mailCheckLoading) {
-				return "/assets/img/loading.gif";
+				return "/assets/img/loader_green.gif";
 			}
 
 			if ($scope.mailCheckError === true) {
@@ -145,7 +145,7 @@ define(["step"], function (step) {
 
 		$scope.acceptIconNicknameFree = function acceptIconNickname() {
 			if ($scope.nicknameCheckLoading) {
-				return "/assets/img/loading.gif";
+				return "/assets/img/loader_green.gif";
 			}
 
 			if ($scope.nicknameCheckError === true) {

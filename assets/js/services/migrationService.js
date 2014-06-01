@@ -9,7 +9,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 
 	//after success: update users migration state
 
-	var migrations = ["profileImageMigration"];
+	var migrations = ["profileImageMigration", "imageBlobMigration"];
 
 	var service = function ($injector, errorService) {
 		var doMigration = function () {
@@ -19,7 +19,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 				step(function () {
 					ownUser.getMigrationState(this);
 				}, h.sF(function (state) {
-					migrationState = state || 0;
+					migrationState = h.parseDecimal(state) || 0;
 					if (migrationState < migrations.length) {
 						require(["migrations/" + h.pad("" + (migrationState + 1), 5) + "-" + migrations[migrationState]], this.ne, this);
 					}
