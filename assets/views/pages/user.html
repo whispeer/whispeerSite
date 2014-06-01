@@ -134,8 +134,8 @@
 		<section id="wall">
 			<header  data-i18n="profile.section.wall.title"></header>
 			<form data-ng-if="(user.isMyFriend || user.me)" class="form-inline" id="postIt">
-				<input type="text" data-ng-model="newPost.text" data-i18n-attr="wall.postit.text|placeholder" id="shareText" data-ng-if="user.me">
-				<input type="text" data-ng-model="newPost.text" data-i18n-attr="profile.section.wall.postIt|placeholder|user={{user.name}}" id="shareText" data-ng-if="!user.me">
+				<textarea data-ng-model="newPost.text" data-i18n-attr="wall.postit.text|placeholder" id="shareText" data-ng-if="user.me"></textarea>
+				<textarea data-ng-model="newPost.text" data-i18n-attr="profile.section.wall.postIt|placeholder|user={{user.name}}" id="shareText" data-ng-if="!user.me"></textarea>
 				<button type="submit" data-i18n="wall.postit.send" data-ng-click="sendPost()"></button>
 			</form>
 			<post data-ng-repeat="post in posts" data-post="post" id="{{post.id}}"></post>
