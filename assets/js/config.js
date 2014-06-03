@@ -1,4 +1,4 @@
-var useServer = true;
+var useServer = false;
 
 var config = {
 	https: false,
