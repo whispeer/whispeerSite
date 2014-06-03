@@ -1891,6 +1891,14 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 				}, h.sF(function (key) {
 					key.addPWDecryptor(password, this);
 				}), callback);
+			},
+
+			fingerPrintKey: function (realID, cb) {
+				step(function () {
+					CryptKey.get(realID, this);
+				}, h.sF(function (key) {
+					this.ne(key.getFingerPrint());
+				}), cb);
 			}
 		},
 
@@ -2005,6 +2013,14 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 						this.ne(correct);
 					}
 				}, callback);
+			},
+
+			fingerPrintKey: function (realID, cb) {
+				step(function () {
+					CryptKey.get(realID, this);
+				}, h.sF(function (key) {
+					this.ne(key.getFingerPrint());
+				}), cb);
 			}
 		}
 	};
