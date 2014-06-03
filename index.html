@@ -37,7 +37,7 @@
 	<nav id="topNav" data-ng-if="loggedin" data-ng-cloak>
 		<div id="navInner">
 			<button class="toggle" id="toggleSidebar" data-ng-click="toggleSidebar()" data-ng-if="mobile"><i class="icon icon-menu"></i></button>
-			<a href="/start" id="brand" data-ng-click="mobileActivateView()"><span id="brandNormal">whis</span><span id="brandInverse">peer</span></a>
+			<a href="start" id="brand" data-ng-click="mobileActivateView()"><span id="brandNormal">whis</span><span id="brandInverse">peer</span></a>
 			<button class="toggle" id="toggleSearch" data-ng-click="toggleSearch()" data-ng-if="mobile"><i class="icon icon-search"></i></button>
 			<span class="badge" id="mobileCounter" data-ng-controller="ssn.magicbar.mainController" data-ng-if="mobile && (messages.unread + friends.requestsCount + news.count > 0)">{{messages.unread + friends.requestsCount + news.count}}</span>
 			<div class="nav-collapse collapse">
@@ -74,7 +74,7 @@
 				</a>
 				<nav id="menu">
 					<ul class="left unstyled" id="mainMenu">
-						<li><a href="/main" data-i18n="menu.newsfeed"></a></li>
+						<li><a href="main" data-i18n="menu.newsfeed"></a></li>
 						<li><a href="{{user.basic.url}}" data-i18n="menu.profil"></a></li>
 						<li><a href="friends" data-i18n="menu.friends|count={{friends.friendsCount}}"></a></li>
 						<li><a href="messages" data-ng-controller="ssn.magicbar.mainController" data-i18n="menu.messages|count={{messages.unread}}"></a></li>
@@ -127,7 +127,7 @@
 		<!-- !Mobile Menu -->
 		<aside id="sidebar-right" data-ng-if="loggedin && mobile" data-ng-show="sidebarActive && !searchActive">
 			<ul class="mobileMenu">
-				<a href="/main"  data-ng-click="toggleSidebar()">
+				<a href="main"  data-ng-click="toggleSidebar()">
 					<li>
 						<i class="icon icon-home"></i>
 						<span data-i18n="menu.newsfeed"></span>
@@ -169,7 +169,7 @@
 						<span data-i18n="menu.help"></span>
 					</li>
 				</a>
-				<a href="/legal" data-ng-click="toggleSidebar()">
+				<a href="legal" data-ng-click="toggleSidebar()">
 					<li>
 						<i class="icon icon-book"></i>
 						<span data-i18n="menu.legal"></span>
