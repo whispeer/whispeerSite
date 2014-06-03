@@ -44,15 +44,16 @@ define(["asset/observer"], function (Observer) {
 				document.getElementById("sound").play();
 			},
 			sendLocalNotification: function(type, obj) {
+				debugger;
 				if (window.Notification) {
 					if (type === 'message') {
 						if (Notification.permission === 'granted') {
 							var n = new Notification(
 								localize.getLocalizedString("notification.newmessage").replace("{user}", obj.sender.name),
 								{
-									'body': obj.sender.names.firstname + ': ' + obj.text,
+									'body': obj.sender.basic.shortname + ': ' + obj.text,
 									'tag':	obj.timestamp,
-									'icon':	'assets/img/favicons/touch-icon-ipad-retina.png'
+									'icon':	obj.sender.basic.image
 								}
 							);
 							n.onclick = function () {
