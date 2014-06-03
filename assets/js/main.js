@@ -2,6 +2,12 @@ var WEB_SOCKET_SWF_LOCATION = "libs/WebSocketMain.swf";
 
 var startup = new Date().getTime();
 
+if (window.location.href.indexOf("file:///") === 0) {
+	var base = window.location.href.replace("file://", "");
+	base = base.replace(/\#\!(.*)/g, "");
+	document.getElementsByTagName("base")[0].setAttribute("href", base);
+}
+
 requirejs.config({
 	paths: {
 		jquery: "libs/jquery-1.9.1",
