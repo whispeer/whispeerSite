@@ -280,6 +280,10 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 		}
 		this.getRealID = getRealIDF;
 
+		this.getRealidFingerPrint = function () {
+			return realid.split(":")[1];
+		};
+
 		/** getter for decryptors array
 		* copies array before returning
 		*/
@@ -520,10 +524,17 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 		} 
 
 		if (keyData instanceof Array) {
-			var fingerprint = sjcl.hash.sha256.hash(keyData); 
-			intKey = new Key(this, generateid(fingerprint), [], {secret: keyData});
+			intKey = new Key(this, generateid(fingerPrintSymKey(keyData)), [], {secret: keyData});
 		} else {
-			intKey = new Key(this, keyData.realid, keyData.decryptors);
+			intKey = new Key(this, keyData.realid, keyData.decryptors, {
+				pastProcessor: function (secret) {
+					var fp = fingerPrintSymKey(sjcl.codec.hex.toBits(secret));
+					if (fp !== intKey.getRealidFingerPrint()) {
+						throw new Error("Fingerprint and Key id do not match");
+					}
+					return secret;
+				}
+			});
 		}
 
 		this.getUploadData = function () {
@@ -759,6 +770,10 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 			intKey = new Key(this, realid, []);
 		}
 
+		if (fingerPrintPublicKey(publicKey) !== intKey.getRealidFingerPrint()) {
+			throw new Error("Fingerprint and Key id do not match");
+		}
+
 		this.getRealID = intKey.getRealID;
 
 		if (isPrivateKey) {
@@ -799,7 +814,6 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 		}
 
 		function getFingerPrintF() {
-			//should we add the type and curve here too?
 			return fingerPrintPublicKey(publicKey);
 		}
 
@@ -880,8 +894,22 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 		}), callback);
 	}
 
+	function fingerPrintData(data) {
+		return sjcl.codec.hex.fromBits(sjcl.hash.sha256.hash(data));
+	}
+
 	function fingerPrintPublicKey(publicKey) {
-		return sjcl.hash.sha256.hash(publicKey._point.toBits());
+		//should we add the type and curve here too?
+		//as the curve is fixed for now it should not be a problem
+		return fingerPrintData(publicKey._point.toBits());
+	}
+
+	function fingerPrintSymKey(keyData) {
+		if (keyData instanceof Array) {
+			return fingerPrintData(keyData);
+		} else {
+			throw new Error("invalid key data");
+		}
 	}
 
 	/** generate a crypt key
@@ -957,6 +985,10 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 			intKey = new Key(this, realid, []);
 		}
 
+		if (fingerPrintPublicKey(publicKey) !== intKey.getRealidFingerPrint()) {
+			throw new Error("Fingerprint and Key id do not match");
+		}
+
 		this.getRealID = intKey.getRealID;
 
 		//add private key functions
@@ -997,8 +1029,6 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 		}
 
 		function getFingerPrintF() {
-			//should we add the type and curve here too?
-			//as the curve is fixed for now it should not be a problem
 			return fingerPrintPublicKey(publicKey);
 		}
 
