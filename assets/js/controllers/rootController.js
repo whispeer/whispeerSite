@@ -33,7 +33,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 
 		function updateMobile() {
 			var old = $scope.mobile;
-			$scope.mobile = jQuery(window).width() <= 1023;
+			$scope.mobile = jQuery(window).width() <= 1024;
 
 			if ($scope.mobile !== old) {
 				$timeout(h.nop);

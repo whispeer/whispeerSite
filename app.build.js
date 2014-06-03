@@ -24,9 +24,9 @@
 		"angular"
 	],
     dir: "../appdirectory-build",
-    optimize: "uglify2",
-    preserveLicenseComments: false,
-    generateSourceMaps: true,
+    optimize: "none",
+    preserveLicenseComments: true,
+    generateSourceMaps: false,
     modules: [
         {
             name: "main"

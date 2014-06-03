@@ -128,7 +128,11 @@ define(["step", "whispeerHelper", "socketStream"], function (step, h, iostream) 
 					sessionHelper.resetKey();
 					keyStoreService.addPassword(password);
 
-					imageBlob.upload(this);
+					if (imageBlob) {
+						imageBlob.upload(this);
+					} else {
+						this.ne();
+					}
 				}), h.sF(function () {
 					this.ne(result);
 				}), callback);

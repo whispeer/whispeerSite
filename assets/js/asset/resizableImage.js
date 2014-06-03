@@ -86,6 +86,8 @@ define(["asset/Image", "asset/resizable"], function (MyImage, Resizable) {
 	ResizableImage.prototype.getImageBlob = function (size, cb) {
 		if (this._image && this._resizable) {
 			return this.getResizedImageBlob(size, this.getPos(), cb);
+		} else {
+			cb();
 		}
 	};
 

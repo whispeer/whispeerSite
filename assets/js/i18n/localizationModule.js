@@ -104,7 +104,7 @@ define(["angular"], function (angular) {
 				},
 
 				// checks the dictionary for a localized resource string
-				getLocalizedString: function (value) {
+				getLocalizedString: function (value, replacements) {
 					if (!resourceFileLoaded) {
 						return "";
 					}
@@ -126,6 +126,15 @@ define(["angular"], function (angular) {
 					if (typeof memory !== "string" && typeof memory !== "number" && typeof memory !== "boolean") {
 						console.warn("Invalid Translation:" + value);
 						return "";
+					}
+
+					if (replacements) {
+						var element;
+						for (element in replacements) {
+							if (replacements.hasOwnProperty(element)) {
+								memory = memory.replace("{" + element + "}", replacements[element]);
+							}
+						}
 					}
 
 					return memory;

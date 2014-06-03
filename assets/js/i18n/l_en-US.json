@@ -50,6 +50,12 @@
 		"cancel":	"Cancel",
 		"disconnected":	"You've lost your connection to whispeer's Servers"
 	},
+	"notification": {
+		"newmessage":	"New Message from {user}"
+	},
+	"version":	{
+		"heading":	"Version-History"
+	},
 	"date": {
 		"month": {
 			"1": "January",
@@ -81,13 +87,14 @@
 			"justNow": 		"right now",
 			"oneMinuteAgo":	"one minute ago",
 			"minutesAgo":	"{minutes} minutes ago",
-			"oneHourAgo":	"one hour ago",
-			"hoursAgo":		"{hours} hours ago"
+			"oneHourAgo":	"one hour and {minutes} minutes ago",
+			"hoursAgo":		"{hours} hours and {minutes} minutes ago"
 		}
 	},
 	"notimplemented": "Not implemented yet :(",
 	"search": "People are being searched",
 	"menu": {
+		"newsfeed":	"Newsfeed",
 		"profil": "Profile",
 		"friends": "Friends ({count})",
 		"messages": "Messages ({count})",
@@ -96,7 +103,8 @@
 		"settings": "Settings",
 		"help": "Help",
 		"logout": "Logout",
-		"search": "Search..."
+		"search": "Search...",
+		"legal":	"Legal"
 	},
 	"login": {
 		"username": "Username",

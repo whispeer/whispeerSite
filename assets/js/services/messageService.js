@@ -864,6 +864,7 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer", "ass
 				if (!m.isOwn()) {
 					if (!messageService.isActiveTopic(m.getTopicID()) || !windowService.isVisible) {
 						windowService.playMessageSound();
+						windowService.sendLocalNotification('message', m.data);
 					}
 
 					windowService.setAdvancedTitle("newmessage", m.data.sender.basic.shortname);

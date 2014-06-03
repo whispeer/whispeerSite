@@ -1,7 +1,7 @@
 .circlesView {
 	#main {
 		padding-top: 30px;
-		padding-bottom: 10px;
+		padding-bottom: 1px;
 		height: 100%;
 		margin-top: 5px !important;
 		overflow: hidden !important;
@@ -14,11 +14,16 @@
 			.column(6,7);
 		}
 		button {
-			.column(1,7);
+			.column(1,7,right);
 			.width(1,7);
-			.btn;
 			padding: 2px 7px;
-			margin-top: -3.5px !important;
+			margin-top: -5px !important;
+			margin-right: 0 !important;
+			outline: none;
+			border: none;
+			border-left: 1px solid #bbb;
+			height: 30px;
+			background: transparent;
 		}
 		nav {
 			.column(7,7);
@@ -44,12 +49,13 @@
 		#circleList {
 			height: 100%;
 			padding-top: 15px;
-			padding-bottom: 6px;
+			padding-bottom: 21px;
 			overflow: hidden;
 			#circleListScroll {
-				height: 230px !important;
+				height: 100% !important;
 				float: left;
 				overflow-y: scroll !important;
+				-webkit-overflow-scrolling: touch;
 			}
 			.circle {
 				margin-bottom: 5px;
@@ -96,6 +102,7 @@
 		}
 		#friendsList {
 			overflow-y: scroll !important;
+			-webkit-overflow-scrolling: touch;
 			height: 100%;
 			li {
 				.column(1,3);

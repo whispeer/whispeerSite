@@ -25,7 +25,7 @@
 			}
 		}
 		#wrap {width: 100%; height: 100%; padding-top: 75px; .box-fix; margin: 0 auto; }
-		#scroller {width: 100%; height: 100%; overflow-y: scroll; .box-fix; margin:0 auto;}
+		#scroller {width: 100%; height: 100%; overflow-y: scroll; .box-fix; margin:0 auto; -webkit-overflow-scrolling: touch;}
 		#info {
 			width: 100%;
 			padding: 0;
@@ -48,6 +48,27 @@
 						.column(2,8);
 						margin-top: 1%;
 						margin-bottom: 1%;
+						&.editing {
+							width: 98% !important;
+							#original {
+								width: 100%;
+							}
+							.uploadImageForm {
+								#filesUpload {
+									position: relative !important;
+									margin: -34px 0 0 0;
+									float: left;
+								}
+							}
+						}
+						&.bigger {
+							width: 48% !important;
+							margin-top: 5px;
+							margin-left: 26%;
+							.editImage {
+								opacity: 1;
+							}
+						}
 					}
 					.info {
 						.column(6,8);
@@ -164,8 +185,14 @@
 				padding: 5px;
 				margin-bottom: 1%;
 			}
-			.person {
-				.column(1,2);
+			#friendsList {
+				li {
+					position: relative;
+					.column(1,2);
+					.person {
+						width: 100%;
+					}
+				}
 			}
 		}
 	}
