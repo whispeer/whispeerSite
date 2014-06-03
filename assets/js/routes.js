@@ -2,9 +2,14 @@ define(["app"], function (app) {
 	"use strict";
 
 	return app.config(["$routeProvider", "$provide", "$locationProvider", function ($routeProvider, $provide, $locationProvider) {
-		if (window.location.href.indexOf("file:///") !== 0) {
-			$locationProvider.html5Mode(true);
-			$locationProvider.hashPrefix("!");
+		$locationProvider.html5Mode(true);
+		$locationProvider.hashPrefix("!");
+
+		if (window.location.href.indexOf("file:///") === 0) {
+			$provide.decorator('$sniffer', function($delegate) {
+				$delegate.history = false;
+				return $delegate;
+			});
 		}
 
 		function addMain(name, reloadOnSearch) {
