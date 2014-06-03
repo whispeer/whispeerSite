@@ -1525,7 +1525,7 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 		},
 
 		addPassword: function (pw) {
-			passwords.push(pw);
+			passwords = [pw];
 
 			if (localStorage) {
 				localStorage.setItem("passwords", JSON.stringify(passwords));
