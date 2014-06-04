@@ -385,7 +385,20 @@
 			"title":	"Einstellungen"
 		},
 		"changes": {
-			"General": "Allgemein",
+			"general": {
+				"title": "Allgemein",
+				"sendMethod": {
+					"title":		"Wie möchtest du Nachrichten absenden?",
+					"enter":		"Enter",
+					"ctrlEnter":	"STRG Enter"
+				},
+				"notificationSounds": {
+					"title":		"Benachrichtigungstöne",
+					"on":			"An",
+					"off":			"Aus"	
+				}
+			},	
+			"account":	"Benutzerkonto",
 			"changeName": "Namen ändern",
 			"changeUsername": "Usernamen ändern",
 			"changeMail": "E-Mail Adresse ändern",

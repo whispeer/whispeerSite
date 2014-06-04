@@ -371,7 +371,20 @@
 			"title":	"Settings"
 		},
 		"changes": {
-			"General": "General",
+			"general": {
+				"title": "General",
+				"sendMethod": {
+					"title":		"Select a shortcut to send your messages",
+					"enter":		"Enter",
+					"ctrlEnter":	"CTRL Enter"
+				},
+				"notificationSounds": {
+					"title":		"Notification sounds",
+					"on":			"On",
+					"off":			"Off"	
+				}
+			},
+			"account":	"Account",
 			"changeName": "Change name",
 			"changeUsername": "Change username",
 			"changeMail": "Change e-mail adress",

@@ -30,8 +30,18 @@
 					margin-left: 5px;
 				}
 			}
-			&#general header {
-				margin: 0 0 10px 0;
+			&#general {
+				header {
+					margin: 0 0 10px 0;
+				}
+				label {
+					&.btn {
+						.column(12);
+					}
+					input {
+						width: auto !important;
+					}
+				}
 			}
 			.config {
 				.column(8,8);

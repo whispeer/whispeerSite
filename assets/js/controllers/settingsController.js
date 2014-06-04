@@ -16,6 +16,10 @@ define(["whispeerHelper", "step"], function (h, step) {
 			$scope.safety = h.deepCopyObj(branch, 4);
 		}), errorService.criticalError);
 
+		$scope.sendShortcut = 'enter';
+		
+		$scope.notificationSound = 'on';
+
 		$scope.saveSafety = function () {
 			step(function () {
 				settingsService.getBranch("privacy", this);
