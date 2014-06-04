@@ -76,7 +76,7 @@
 		<form id="inputWrap">
 			<usersearch res="new" data-user="userid" size="small" focus="all" id="recieverInput" data-multiple data-selected-users="new.selectedUsers" data-input-i18n-attr="messages.search|placeholder"/>
 
-			<textarea type="text" data-i18n-attr="messages.sendMessage.text|placeholder" id="messageInput" data-ng-model="new.text"></textarea>
+			<textarea data-strg-enter="new.send(new.selectedElements, new.text)" type="text" data-i18n-attr="messages.sendMessage.text|placeholder" id="messageInput" data-ng-model="new.text"></textarea>
 			<button class="btn btn--primary" id="sendmessage" type="submit" data-ng-click="new.send(new.selectedElements, new.text)" data-i18n="messages.sendMessage.send"></button>
 		</form>
 	</div>

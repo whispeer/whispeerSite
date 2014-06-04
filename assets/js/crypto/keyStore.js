@@ -523,7 +523,7 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 		} else {
 			intKey = new Key(this, keyData.realid, keyData.decryptors, {
 				pastProcessor: function (secret) {
-					var fp = fingerPrintSymKey(sjcl.codec.hex.toBits(secret));
+					var fp = fingerPrintSymKey(chelper.hex2bits(secret));
 					if (fp !== intKey.getRealidFingerPrint()) {
 						throw new Error("Fingerprint and Key id do not match");
 					}
