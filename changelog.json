@@ -1,6 +1,10 @@
 	{
 	"0": {
 		"1": {
+			"9": [
+				"Multi-line postings",
+				"Security: Check key fingerprints"
+			],
 			"8": [
 				"Bring back missing profile icons",
 				"Bugfixes",
@@ -9,8 +13,7 @@
 				"Uploading and Changing the profile picture from a mobile device (iPhone and iPad were tested)",
 				"Tablets in portait and landscape mode are now supported",
 				"Own messages are not unread any more",
-				"Time format changed to also include minutes in hour format",
-				"Multi-line postings"
+				"Time format changed to also include minutes in hour format"
 			],
 			"7": [
 				"Show nickname in header search bar",
