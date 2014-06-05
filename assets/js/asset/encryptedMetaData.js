@@ -1,37 +1,92 @@
+
 define (["whispeerHelper", "step", "crypto/keyStore"], function (h, step, keyStore) {
     "use strict";
 
     /* jshint validthis: true */
 
-    var encryptedMeta = function (data, isDecrypted) {
-        var encryptedMetaData, decryptedMetaData, updatedMetaData = {}, decrypted = false, changed = false, that = this;
+    var encryptedDataObject = function (data, options, isDecrypted) {
+        var encryptedData, decryptedData, updatedData = {};
+        var decryptedStatus = {}, changed = false, that = this;
+
+        options = options || {};
+        var encryptionDepth = options.encryptionDepth || 0;
 
         if (isDecrypted) {
-            decryptedMetaData = data;
-            decrypted = true;
+            decryptedData = data;
+            decryptedStatus = true;
             changed = true;
         } else {
-            encryptedMetaData = data;
+            encryptedData = data;
+        }
+
+        function breakPartial(partial) {
+            if (typeof partial === "string") {
+                return partial.split(".");
+            } else if (typeof partial === "object") {
+                return partial;
+            }
+
+            return [];
         }
 
         this.reset = function () {
-            encryptedMetaData = {};
-            decryptedMetaData = {};
-            decrypted = false;
+            encryptedData = {};
+            decryptedData = {};
+            decryptedStatus = {};
             changed = false;
         };
 
-        this.decrypt = function (cb) {
+        function aggregateDecryptionStatus(givenEncryptedData, givenDecryptedStatus) {
+            var aggregate = true;
+
+            if (givenDecryptedStatus === true) {
+                return true;
+            }
+
+            h.objectEach(givenEncryptedData, function (key, value) {
+                if (givenDecryptedStatus[key]) {
+                    if (typeof value === "object") {
+                        givenDecryptedStatus[key] = aggregateDecryptionStatus(value, givenDecryptedStatus[key]);
+                    }
+
+                    if (givenDecryptedStatus[key] !== true) {
+                        aggregate = false;
+                    }
+                } else {
+                    aggregate = false;
+                }
+            });
+
+            if (aggregate) {
+                return true;
+            }
+
+            return givenDecryptedStatus;
+        }
+
+        function reducePartialLength(partial) {
+            return partial.slice(0, encryptionDepth);
+        }
+
+        this.decrypt = function (cb, partial) {
+            var reducedPartial = reducePartialLength(breakPartial(partial));
+
+            var toDecrypt = h.object.deepGet(encryptedData, reducedPartial);
+
             step(function () {
-                if (decrypted) {
+                var partialDecryptionStatus = h.object.deepGet(decryptedStatus, reducedPartial);
+
+                if (partialDecryptionStatus.value === true || toDecrypt.depth !== encryptionDepth) {
                     this.last.ne();
                 } else {
-                    keyStore.sym.decryptObject(encryptedMetaData, 0, this);
+                    keyStore.sym.decryptObject(toDecrypt.value, encryptionDepth-toDecrypt.depth, this);
                 }
             }, h.sF(function (decryptedObj) {
                 if (decryptedObj) {
-                    decryptedMetaData = decryptedObj;
-                    decrypted = true;
+                    decryptedData = h.object.deepSet(decryptedData, reducedPartial, decryptedObj);
+
+                    decryptedStatus = h.object.deepSet(decryptedStatus, reducedPartial, true);
+                    decryptedStatus = aggregateDecryptionStatus(encryptedData, decryptedStatus);
                 } else {
                     throw new Error("could not decrypt");
                 }
@@ -43,18 +98,27 @@ define (["whispeerHelper", "step", "crypto/keyStore"], function (h, step, keySto
         this.getBranch = function (attr, cb) {
             var that = this;
             step(function () {
-                that.decrypt(this);
+                that.decrypt(this, attr);
             }, h.sF(function () {
-                this.ne(decryptedMetaData[attr]);
+                this.ne(decryptedData[attr]);
             }), cb);
         };
 
-        this.setAttribute = function (attrs, value, cb) {
+        this.setAttribute = function (partial, value, cb) {
+            partial = breakPartial(partial);
+            var reducedPartial = reducePartialLength(partial);
+
             step(function () {
-                that.decrypt(this);
+                that.decrypt(this, partial);
             }, h.sF(function () {
-                if (h.deepGet(decryptedMetaData, attrs) !== value) {
-                    changed = h.deepSetCreate(updatedMetaData, attrs, value) || changed;
+                if (!h.object.deepHas(updatedData, reducedPartial)) {
+                    updatedData = h.object.deepSet(updatedData, reducedPartial, h.object.deepGet(decryptedData, reducedPartial));
+                }
+
+                if (h.object.deepGet(updatedData, partial) !== value) {
+                    changed = true;
+
+                    h.object.deepSet(updatedData, partial, value);
                 }
 
                 this.ne();
@@ -74,13 +138,11 @@ define (["whispeerHelper", "step", "crypto/keyStore"], function (h, step, keySto
                 step(function () {
                     that.decrypt(this);
                 }, h.sF(function  () {
-                    decryptedMetaData = h.extend(decryptedMetaData, updatedMetaData, 5);
-
-                    keyStore.sym.encryptObject(decryptedMetaData, key, 0, this);
-                }), h.sF(function (newEncryptedMetaData) {
-                    this.ne(newEncryptedMetaData);
+                    keyStore.sym.encryptObject(updatedData, key, encryptionDepth, this);
+                }), h.sF(function (newEncryptedData) {
+                    this.ne(h.extend(encryptedData, newEncryptedData, encryptionDepth+1));
                 }), cb);
-                //encryptObject(decryptedMetaData)
+                //encryptObject(decryptedData)
                 //changed=false
             } else {
                 cb(null, false);
@@ -88,5 +150,5 @@ define (["whispeerHelper", "step", "crypto/keyStore"], function (h, step, keySto
         };
     };
 
-    return encryptedMeta;
+    return encryptedDataObject;
 });
