@@ -13,13 +13,14 @@ define(["whispeerHelper", "step", "crypto/keyStore"], function (h, step, keyStor
 		this._decrypted = isDecrypted;
 
 		this._meta = meta || {};
+		this._hasContent = true;
 
-		if (isDecrypted || typeof content === "undefined") {
-			this._content = content || {};
-		} else if(typeof content !== "undefined") {
-			this._encryptedContent = content;
+		if (typeof content === "undefined") {
+			this._hasContent = false;
+		} else if (isDecrypted) {
+			this._content = content;
 		} else {
-			throw new Error("no content given");
+			this._encryptedContent = content;
 		}
 
 		this._updatedMeta = this._meta;
@@ -31,6 +32,22 @@ define(["whispeerHelper", "step", "crypto/keyStore"], function (h, step, keyStor
 			throw new Error("content hash/key should not be provided by outside world");
 		}
 	};
+
+	SecuredDataWithMetaData.prototype.sign = function (signKey, cb) {
+		var that = this;
+
+		step(function () {
+			that._updatedMeta._version = 1;
+
+			keyStore.sign.signObject(that._updatedMeta, signKey, this);
+		}, h.sF(function (signature) {
+			that._updatedMeta._signature = signature;
+
+			this.ne(h.deepCopyObj(that._updatedMeta));
+		}), cb);
+
+	};
+
 	/** sign and encrypt this object.
 		pads and then encrypts our content.
 		adds contentHash, key id and version to metaData and signs meta data.
@@ -39,6 +56,10 @@ define(["whispeerHelper", "step", "crypto/keyStore"], function (h, step, keyStor
 		@param cb callback(cryptedData, metaData),
 	*/
 	SecuredDataWithMetaData.prototype.signAndEncrypt = function (signKey, cryptKey, cb) {
+		if (!that._hasContent) {
+			throw new Error("can only sign and not encrypt");
+		}
+
 		var that = this, hashObject;
 		step(function () {
 			//add padding!
@@ -46,7 +67,6 @@ define(["whispeerHelper", "step", "crypto/keyStore"], function (h, step, keyStor
 		}, h.sF(function (paddedContent) {
 			that._updatedMeta._contentHash = keyStore.hash.hashObjectOrValueHex(paddedContent);
 			that._updatedMeta._key = keyStore.correctKeyIdentifier(cryptKey);
-			that._updatedMeta._version = 1;
 
 			if (typeof paddedContent === "object") {
 				hashObject = keyStore.hash.deepHashObject(paddedContent);
@@ -54,12 +74,11 @@ define(["whispeerHelper", "step", "crypto/keyStore"], function (h, step, keyStor
 
 			this.parallel.unflatten();
 			keyStore.sym.encryptObject(paddedContent, cryptKey, that._encryptDepth, this.parallel());
-			keyStore.sign.signObject(that._updatedMeta, signKey, this.parallel());
-		}), h.sF(function (cryptedData, signature) {
+			that.sign(signKey, this.parallel());
+		}), h.sF(function (cryptedData) {
 			if (hashObject) {
 				that._updatedMeta._hashObject = hashObject;
 			}
-			that._updatedMeta._signature = signature;
 
 			this.ne({
 				content: cryptedData,
@@ -82,8 +101,10 @@ define(["whispeerHelper", "step", "crypto/keyStore"], function (h, step, keyStor
 		step(function () {
 			that.decrypt(this);
 		}, h.sF(function () {
-			if (keyStore.hash.hashObjectOrValueHex(that._paddedContent) !== that._meta._contentHash) {
-				throw new SecurityError("content hash did not match");
+			if (that._hasContent) {
+				if (keyStore.hash.hashObjectOrValueHex(that._paddedContent) !== that._meta._contentHash) {
+					throw new SecurityError("content hash did not match");
+				}
 			}
 
 			var metaCopy = h.deepCopyObj(that._meta);
@@ -94,7 +115,7 @@ define(["whispeerHelper", "step", "crypto/keyStore"], function (h, step, keyStor
 			keyStore.sign.verifyObject(that._meta._signature, metaCopy, signKey, this);
 		}), h.sF(function (correctSignature) {
 			if (!correctSignature) {
-				throw new SecurityError("content hash did not match");
+				throw new SecurityError("signature did not match");
 			}
 
 			this.ne();
@@ -103,6 +124,12 @@ define(["whispeerHelper", "step", "crypto/keyStore"], function (h, step, keyStor
 
 	SecuredDataWithMetaData.prototype.decrypt = function (cb) {
 		var that = this;
+
+		if (!this._hasContent) {
+			cb();
+			return;
+		}
+
 		step(function () {
 			if (that._decrypted) {
 				this.last.ne();
@@ -144,7 +171,7 @@ define(["whispeerHelper", "step", "crypto/keyStore"], function (h, step, keyStor
 		@param newContent new value for this objects content
 	*/
 	SecuredDataWithMetaData.prototype.contentSet = function (newContent) {
-		this._changed = true;
+		this._hasContent = this._changed = true;
 		this._updatedContent = newContent;
 	};
 

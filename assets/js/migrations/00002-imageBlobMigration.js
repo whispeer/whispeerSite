@@ -38,7 +38,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 				myBlob.upload(this.parallel());
 				myBlob.getHash(this.parallel());
 			} else {
-				this.last.ne();
+				this.last.ne(true);
 			}
 		}), h.sF(function (blobid, hash) {
 			if (blobid) {

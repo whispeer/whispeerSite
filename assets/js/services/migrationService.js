@@ -9,7 +9,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 
 	//after success: update users migration state
 
-	var migrations = ["profileImageMigration", "imageBlobMigration"];
+	var migrations = ["profileImageMigration", "imageBlobMigration", "trustManagerMigration"];
 
 	var service = function ($injector, errorService) {
 		var doMigration = function () {
