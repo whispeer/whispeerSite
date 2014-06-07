@@ -1,11 +1,11 @@
-define(["step", "whispeerHelper", "asset/encryptedMetaData"], function (step, h, EncryptedMetaData) {
+define(["step", "whispeerHelper", "crypto/encryptedData"], function (step, h, EncryptedData) {
 	"use strict";
 
 	var service = function ($rootScope, $injector, initService) {
 		var settings;
 
 		initService.register("settings.getSettings", {}, function (data) {
-			settings = new EncryptedMetaData(data.settings);
+			settings = new EncryptedData(data.settings);
 		});
 
 		$rootScope.$on("reset", function () {
