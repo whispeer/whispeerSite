@@ -7,3 +7,6 @@
 [submodule "assets/js/validation"]
 	path = assets/js/validation
 	url = ssh://git@whispeer.de:4351/whispeerValidations
+[submodule "assets/js/cryptoWorker"]
+	path = assets/js/cryptoWorker
+	url = https://github.com/Nilos/sjcl-worker.git
