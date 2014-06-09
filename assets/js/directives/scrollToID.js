@@ -5,7 +5,7 @@ define(function () {
 			restrict: "A",
 			link: function(scope, iElement, iAttrs) {
 				iElement.click(function () {
-					var elm, hash = iAttrs["scrolltoid"];
+					var elm, hash = iAttrs.scrolltoid;
 
 					if ((elm = document.getElementById(hash))) {
 						elm.scrollIntoView();

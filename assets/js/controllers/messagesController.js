@@ -11,9 +11,9 @@ define(["step", "whispeerHelper"], function (step, h) {
 		$scope.topicid = 0;
 		$scope.showMessage = !$scope.mobile;
 
-		$scope.$watch(function () { return $routeParams["userid"]; }, function () {
-			if ($routeParams["userid"]) {
-				$scope.userid = $routeParams["userid"];
+		$scope.$watch(function () { return $routeParams.userid; }, function () {
+			if ($routeParams.userid) {
+				$scope.userid = $routeParams.userid;
 				step(function () {
 					messageService.getUserTopic($scope.userid, this);
 				}, h.sF(function (topicid) {
@@ -24,17 +24,17 @@ define(["step", "whispeerHelper"], function (step, h) {
 			}
 		});
 
-		$scope.$watch(function(){ return $routeParams["topicid"]; }, function(){
-			if ($routeParams["topicid"]) {
-				$scope.loadActiveTopic($routeParams["topicid"]);
+		$scope.$watch(function(){ return $routeParams.topicid; }, function(){
+			if ($routeParams.topicid) {
+				$scope.loadActiveTopic($routeParams.topicid);
 			} else {
 				$scope.topicLoaded = false;
 			}
 		});
 
 		messageService.loadMoreLatest(function (e) {
-			if ($routeParams["topicid"]) {
-				$scope.loadActiveTopic($routeParams["topicid"]);
+			if ($routeParams.topicid) {
+				$scope.loadActiveTopic($routeParams.topicid);
 			}
 
 			errorService.criticalError(e);
@@ -58,8 +58,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 						$scope.loadActiveTopic(id);
 						$scope.$broadcast("resetSearch");
 					} else {
-						//TODO!!
-						debugger;
+						errorService.criticalError(e);
 					}
 				});
 			}

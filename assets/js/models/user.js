@@ -446,7 +446,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 				}), function (e) {
 
 				});
-			}
+			};
 
 			this.loadBasicData = function (cb) {
 				step(function () {
@@ -573,16 +573,17 @@ define(["step", "whispeerHelper"], function (step, h) {
 					getProfileAttribute("imageBlob", this.parallel());
 					getProfileAttribute("image", this.parallel());
 				}, h.sF(function (imageBlob, image) {
+					var img, url;
 					if (imageBlob) {
 						blobService.getBlob(imageBlob.blobid, this);
 					} else if (image) {
 						if (typeof URL !== "undefined") {
-							var img = h.dataURItoBlob(image);
-							var url = URL.createObjectURL(img);
+							img = h.dataURItoBlob(image);
+							url = URL.createObjectURL(img);
 							this.last.ne(url);
 						} else if (typeof webkitURL !== "undefined") {
-							var img = h.dataURItoBlob(image);
-							var url = webkitURL.createObjectURL(img);
+							img = h.dataURItoBlob(image);
+							url = webkitURL.createObjectURL(img);
 							this.last.ne(url);
 						} else {
 							this.last.ne(image);

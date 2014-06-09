@@ -13,7 +13,7 @@
 	
 	keyid: identifier@timestamp
 **/
-define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForReady", "cryptoWorker/sjclWorkerInclude"], function (step, h, chelper, sjcl, waitForReady, sjclWorkerInclude) {
+define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForReady", "cryptoWorker/sjclWorkerInclude", "asset/errors"], function (step, h, chelper, sjcl, waitForReady, sjclWorkerInclude, errors) {
 	"use strict";
 	var socket, dirtyKeys = [], newKeys = [], symKeys = {}, cryptKeys = {}, signKeys = {}, passwords = [], improvementListener = [], keyGenIdentifier = "", Key, SymKey, CryptKey, SignKey, makeKey, keyStore;
 
@@ -1463,7 +1463,7 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 			} else if (prefix === "json::") {
 				return JSON.parse(content);
 			} else {
-				throw new AccessViolation();
+				throw new errors.AccessViolation();
 			}
 		}
 	};
@@ -1842,7 +1842,7 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 					if (text.substr(0, 6) === "data::") {
 						this.ne(text.substr(6));
 					} else {
-						throw new AccessViolation();
+						throw new errors.AccessViolation();
 					}
 				}), callback);
 			}

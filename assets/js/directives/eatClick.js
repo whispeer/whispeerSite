@@ -7,10 +7,10 @@ define(function () {
 
 	function eatClickDirective() {
 		return function(scope, element, attrs) {
-			$(element).click(function(event) {
+			jQuery(element).click(function(event) {
 				event.preventDefault();
 			});
-		}
+		};
 	}
 
 	return eatClickDirective;

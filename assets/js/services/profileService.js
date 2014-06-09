@@ -277,7 +277,6 @@ define(["crypto/keyStore", "step", "whispeerHelper", "crypto/encryptedData", "va
 					}
 				}), h.sF(function decryptedBranch(decryptedData) {
 					if (keyStore.hash.hashObjectOrValueHex(decryptedData) !== hashObject[branch]) {
-						debugger;
 						throw new Error("security breach!");
 					}
 

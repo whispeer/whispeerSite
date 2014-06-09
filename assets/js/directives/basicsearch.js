@@ -17,9 +17,9 @@ define(["step", "whispeerHelper"], function () {
 					selectedElements: []
 				};
 
-				scope.resultAttribute = iAttrs["resAttr"] || "selectedElements";
-				scope.multiple = iAttrs["multiple"] !== undefined;
-				scope.big = iAttrs["size"] === "big";
+				scope.resultAttribute = iAttrs.resAttr || "selectedElements";
+				scope.multiple = iAttrs.multiple !== undefined;
+				scope.big = iAttrs.size === "big";
 
 				var oldQuery = "", internallyClicked = false;
 				/* attribute to define if we want multiple results or one */
@@ -186,7 +186,7 @@ define(["step", "whispeerHelper"], function () {
 
 				/** suchergebnisse auswählen und hinzufügen */
 
-				var internalid = iAttrs["internalid"];
+				var internalid = iAttrs.internalid;
 				var selectedIDs = [];
 				scope.selectedElements = [];
 

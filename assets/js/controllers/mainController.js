@@ -5,7 +5,7 @@
 define([], function () {
 	"use strict";
 
-	function mainController($scope, cssService, postService) {
+	function mainController($scope, cssService, postService, errorService) {
 		cssService.setClass("mainView");
 
 		$scope.postActive = false;
@@ -37,12 +37,10 @@ define([], function () {
 		$scope.sendPost = function () {
 			postService.createPost($scope.newPost.text, $scope.newPost.readers, 0, function (err, post) {
 				if (err) {
-					debugger;
+					errorService.criticalError(err);
 				} else {
 					$scope.newPost.text = "";
 				}
-
-				console.log(post);
 			});
 
 			$scope.postActive = false;
@@ -60,7 +58,7 @@ define([], function () {
 		$scope.posts = [];
 	}
 
-	mainController.$inject = ["$scope", "ssn.cssService", "ssn.postService"];
+	mainController.$inject = ["$scope", "ssn.cssService", "ssn.postService", "ssn.errorService"];
 
 	return mainController;
 });

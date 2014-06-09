@@ -1,4 +1,4 @@
-define(["whispeerHelper", "step", "crypto/keyStore"], function (h, step, keyStore) {
+define(["whispeerHelper", "step", "crypto/keyStore", "asset/errors"], function (h, step, keyStore, errors) {
 	"use strict";
 	/** crypted content with metadata
 		@param content the content to handle either encrypted or decrypted
@@ -103,7 +103,7 @@ define(["whispeerHelper", "step", "crypto/keyStore"], function (h, step, keyStor
 		}, h.sF(function () {
 			if (that._hasContent) {
 				if (keyStore.hash.hashObjectOrValueHex(that._paddedContent) !== that._meta._contentHash) {
-					throw new SecurityError("content hash did not match");
+					throw new errors.SecurityError("content hash did not match");
 				}
 			}
 
@@ -115,7 +115,7 @@ define(["whispeerHelper", "step", "crypto/keyStore"], function (h, step, keyStor
 			keyStore.sign.verifyObject(that._meta._signature, metaCopy, signKey, this);
 		}), h.sF(function (correctSignature) {
 			if (!correctSignature) {
-				throw new SecurityError("signature did not match");
+				throw new errors.SecurityError("content hash did not match");
 			}
 
 			this.ne();

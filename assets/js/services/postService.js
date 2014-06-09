@@ -1,7 +1,7 @@
 /**
 * postService
 **/
-define(["step", "whispeerHelper", "validation/validator", "asset/observer"], function (step, h, validator, Observer) {
+define(["step", "whispeerHelper", "validation/validator", "asset/observer", "asset/errors"], function (step, h, validator, Observer, errors) {
 	"use strict";
 
 	var service = function ($rootScope, socket, keyStore, userService, circleService) {
@@ -182,7 +182,7 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer"], fun
 						userFilter.push(map[1]);
 						break;
 					default:
-						throw new InvalidFilter("unknown group");
+						throw new errors.InvalidFilter("unknown group");
 				}
 			}
 
@@ -215,8 +215,7 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer"], fun
 					//we do not encrypt it anyhow .... this needs to be checked in before!
 					throw new Error("should never be here");
 				default:
-					debugger;
-					throw new InvalidFilter("unknown always value");
+					throw new errors.InvalidFilter("unknown always value");
 			}
 		}
 
@@ -347,7 +346,7 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer"], fun
 					TimelineByFilter[JSON.stringify(finalFilter)] = {
 						result: result,
 						requested: socket.lastRequestTime()
-					}
+					};
 
 					registerNewPosts(finalFilter);
 
