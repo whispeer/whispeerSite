@@ -18,6 +18,9 @@ function pushAddress(details){
 	}
 }
 
+cspConfig["default-src"].push("https://beta.whispeer.de:3001");
+cspConfig["default-src"].push("wss://beta.whispeer.de:3001");
+
 for (var dev in ifaces) {
 	ifaces[dev].forEach(pushAddress);
 }
@@ -38,12 +41,19 @@ var fileServer  = new static.Server(".", {
 	}
 });
 
+var angular = ["user", "messages", "circles", "main", "friends", "login", "loading", "help"];
+
 require('http').createServer(function (request, response) {
 	request.addListener('end', function () {
 		fileServer.serve(request, response, function (e, res) {
 			if (e && (e.status === 404)) {
-				console.log(request.url);
-				fileServer.serveFile('/index.html', 200, {}, request, response);
+				var dir = request.url.split(/\/|\?/)[1];
+
+				if (angular.indexOf(dir) === -1) {
+					console.error("File not found: " + request.url);
+				} else {
+					fileServer.serveFile('/index.html', 200, {}, request, response);
+				}
 			}
 		});
 	}).resume();
