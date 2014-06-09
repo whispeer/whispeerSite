@@ -1,7 +1,8 @@
 {
 	"globals": {
 		"define": true,
-		"console": true
+		"console": true,
+		"require": true
 	},
 	"undef": true,
 	"browser": true

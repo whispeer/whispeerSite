@@ -1,5 +1,6 @@
 {
 	"name": "Whispeer",
+	"version": "0.1.8",
 	"main": "app://beta.whispeer.de/index.html#!/main",
 	"nodejs": false,
 	"toolbar": true,
@@ -11,5 +12,8 @@
 		"height": 999999,
 		"width": 999999,
 		"fullscreen": false
+	},
+	"devDependencies": {
+		"node-static": "0.7.x"
 	}
 }
