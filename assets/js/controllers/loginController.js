@@ -129,7 +129,7 @@ define(["step"], function (step) {
 
 				sessionHelper.nicknameUsed(internalNickname, this);
 			}, function nicknameChecked(e, nicknameUsed) {
-				errorService.criticalError(e)
+				errorService.criticalError(e);
 
 				$scope.nicknameCheckLoading = false;
 

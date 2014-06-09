@@ -79,7 +79,6 @@ define(["whispeerHelper", "step"], function (h, step) {
 					//we do not encrypt it anyhow .... this needs to be checked in before!
 					throw new Error("should never be here");
 				default:
-					debugger;
 					throw new InvalidFilter("unknown always value");
 			}
 		}

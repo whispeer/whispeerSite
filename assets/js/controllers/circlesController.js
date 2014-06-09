@@ -14,7 +14,7 @@ define(["whispeerHelper"], function (h) {
 			"failure":		false,
 			"operation":	false,
 			"active":		false
-		}
+		};
 		
 		$scope.editTitle = function () {
 			$scope.editingTitle.active = true;
@@ -23,7 +23,7 @@ define(["whispeerHelper"], function (h) {
 		$scope.saveTitle = function () {
 			$scope.editingTitle.success = true;
 			$scope.editingTitle.active = false;
-		}
+		};
 
 		$scope.thisCircle = {};
 

@@ -7,7 +7,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 		step(function () {
 			settingsService.getBranch("privacy", this);
 		}, h.sF(function (privacySettings) {
-			if (privacySettings["image"]) {
+			if (privacySettings.image) {
 				this.last.ne(true);
 			} else {
 				//set image privacy settings to public

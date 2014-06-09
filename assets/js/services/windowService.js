@@ -44,11 +44,10 @@ define(["asset/observer"], function (Observer) {
 				document.getElementById("sound").play();
 			},
 			sendLocalNotification: function(type, obj) {
-				debugger;
 				if (window.Notification) {
 					if (type === 'message') {
-						if (Notification.permission === 'granted') {
-							var n = new Notification(
+						if (window.Notification.permission === 'granted') {
+							var n = new window.Notification(
 								localize.getLocalizedString("notification.newmessage").replace("{user}", obj.sender.name),
 								{
 									'body': obj.sender.basic.shortname + ': ' + obj.text,
@@ -72,7 +71,7 @@ define(["asset/observer"], function (Observer) {
 		Observer.call(api);
 		
 		// get Permissions for Notifications
-		if (window.Notification && Notification.permission === 'default') {
+		if (window.Notification && window.Notification.permission === 'default') {
 			window.Notification.requestPermission();
 		}
 
@@ -117,7 +116,7 @@ define(["asset/observer"], function (Observer) {
 			if (evt.type in evtMap) {
 				setVisible(evtMap[evt.type]);
 			} else {
-				setVisible(this[hidden] ? h : v)
+				setVisible(this[hidden] ? h : v);
 			}
 		}
 
