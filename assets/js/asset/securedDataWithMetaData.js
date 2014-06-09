@@ -163,6 +163,9 @@ define(["whispeerHelper", "step", "crypto/keyStore", "asset/errors"], function (
 	SecuredDataWithMetaData.prototype.metaGet = function () {
 		return h.deepCopyObj(this._meta);
 	};
+	SecuredDataWithMetaData.prototype.metaHasAttr = function (attr) {
+		return this._meta.hasOwnProperty(attr);
+	};
 	SecuredDataWithMetaData.prototype.metaAttr = function (attr) {
 		return h.deepCopyObj(this._meta[attr]);
 	};

@@ -1,12 +1,7 @@
-define (["whispeerHelper", "step", "asset/securedDataWithMetaData"], function (h, step, SecuredData) {
+define (["whispeerHelper", "step", "asset/securedDataWithMetaData", "asset/Enum"], function (h, step, SecuredData, Enum) {
 	var database;
 
-	var UNTRUSTED = 0;
-	var TIMETRUSTED = 1;
-	var WHISPEERVERIFIED = 2;
-	var NETWORKVERIFIED = 3;
-	var VERIFIED = 4;
-	var OWN = 5;
+	var trustStates = new Enum("UNTRUSTED", "TIMETRUSTED", "WHISPEERVERIFIED", "NETWORKVERIFIED", "VERIFIED", "OWN");
 
 	function keyPairToDataSet(user, trustLevel) {
 		return {
@@ -14,30 +9,48 @@ define (["whispeerHelper", "step", "asset/securedDataWithMetaData"], function (h
 			key: user.getSignKey(),
 			userid: user.getID(),
 			nickname: user.getNickname(),
-			trust: trustLevel || UNTRUSTED
+			trust: trustLevel || trustStates.UNTRUSTED
 		};
 	}
 
 	var trustManager = {
+		trustStates: trustStates,
 		createDatabase: function (me) {
 			var data = {};
-			data[me.getSignKey()] = keyPairToDataSet(me, OWN);
+			data[me.getSignKey()] = keyPairToDataSet(me, trustStates.OWN);
 			database = new SecuredData(undefined, data);
 		},
 		loadDatabase: function (data, ownKey, cb) {
 			var givenDatabase = new SecuredData(undefined, data);
 			step(function () {
 				givenDatabase.verify(ownKey, this);
-			}, cb);
+			}, h.sF(function () {
+				database = givenDatabase;
+				this.ne();
+			}), cb);
 		},
 		reset: function () {
 			database = undefined;
 		},
-		getKeyData: function (keyid) {
-			return database.metaAttr(keyid);
+		hasKeyData: function (keyid) {
+			return database.metaHasAttr(keyid);
 		},
-		setKeyTrustLevel: function (keyid, trustLevel) {
+		getKeyData: function (keyid) {
+			if (database.metaHasAttr(keyid)) {
+				return database.metaAttr(keyid);
+			} else {
+				return false;
+			}
+		},
+		setKeyTrustLevel: function (user, trustLevel) {
+			var signKey = user.getSignKey();
+			if (database.metaHasAttr(signKey)) {
+				database.metaAdd([signKey, "trust"], trustLevel);
+			} else {
+				database.metaAdd([signKey], keyPairToDataSet(user, trustLevel));
+			}
 
+			return database.isChanged();
 		},
 		getUpdatedVersion: function (signKey, cb) {
 			step(function () {
