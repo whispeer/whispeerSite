@@ -1,6 +1,6 @@
 define([], function () {
 	function extendError(parentErrorClass) {
-		if (parentErrorClass instanceof Error) {
+		if (parentErrorClass.prototype instanceof Error || parentErrorClass === Error) {
 			var F = function(){};
 			var CustomError = function() {
 				var _this = (this===window) ? new F() : this, // correct if not called with "new" 
@@ -22,15 +22,24 @@ define([], function () {
 		}
 	}
 
+	var InvalidDataError = extendError(Error);
+	var InvalidHexError = extendError(InvalidDataError);
+	var InvalidFilter = extendError(InvalidDataError);
+
 	var SecurityError = extendError(Error);
-	var InvalidHexError = extendError(Error);
-	var InvalidFilter = extendError(Error);
 	var AccessViolation = extendError(SecurityError);
+	var DecryptionError = extendError(SecurityError);
+	var ValidationError = extendError(SecurityError);
+
 
 	return {
 		SecurityError: SecurityError,
+		AccessViolation: AccessViolation,
+		DecryptionError: DecryptionError,
+		ValidationError: ValidationError,
+
+		InvalidDataError: InvalidDataError,
 		InvalidHexError: InvalidHexError,
-		InvalidFilter: InvalidFilter,
-		AccessViolation: AccessViolation
+		InvalidFilter: InvalidFilter
 	};
 });
