@@ -6,7 +6,8 @@
 		"webkitURL": true,
 		"URL": true,
 		"requirejs": true,
-		"jQuery": true
+		"jQuery": true,
+		"startup": true
 	},
 	"undef": true,
 	"browser": true

@@ -116,7 +116,7 @@ define(["asset/observer"], function (Observer) {
 			if (evt.type in evtMap) {
 				setVisible(evtMap[evt.type]);
 			} else {
-				setVisible(this[hidden] ? h : v);
+				setVisible(evt.currentTarget[hidden] ? h : v);
 			}
 		}
 

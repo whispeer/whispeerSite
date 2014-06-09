@@ -5,7 +5,7 @@
 define(["whispeerHelper"], function (h) {
 	"use strict";
 
-	function circlesController($scope, cssService, circleService) {
+	function circlesController($scope, cssService, circleService, errorService) {
 		$scope.circleid = 0;
 		$scope.showCircle = !$scope.mobile;
 		
@@ -35,11 +35,7 @@ define(["whispeerHelper"], function (h) {
 			return obj.length;
 		};
 
-		circleService.loadAll(function (e) {
-			if (e) {
-				debugger;
-			}
-		});
+		circleService.loadAll(errorService.criticalError);
 
 		$scope.selectedUsers = [];
 
@@ -74,7 +70,7 @@ define(["whispeerHelper"], function (h) {
 		};
 	}
 
-	circlesController.$inject = ["$scope", "ssn.cssService", "ssn.circleService"];
+	circlesController.$inject = ["$scope", "ssn.cssService", "ssn.circleService", "ssn.errorService"];
 
 	return circlesController;
 });

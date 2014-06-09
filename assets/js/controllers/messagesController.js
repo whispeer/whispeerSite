@@ -58,8 +58,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 						$scope.loadActiveTopic(id);
 						$scope.$broadcast("resetSearch");
 					} else {
-						//TODO!!
-						debugger;
+						errorService.criticalError(e);
 					}
 				});
 			}

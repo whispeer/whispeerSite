@@ -249,7 +249,7 @@ define(["step", "whispeerHelper", "asset/resizableImage", "asset/observer"], fun
 		};
 
 		$scope.mailInvalid = function () {
-			return $scope.mail != "" && !h.isMail($scope.mail);
+			return $scope.mail !== "" && !h.isMail($scope.mail);
 		};
 
 		$scope.mailUsed = function () {

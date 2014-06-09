@@ -23,6 +23,8 @@
     SOFTWARE.
 */
 
+/* global module */
+
 (function (global) {
     function copyOwnFrom(target, source) {
         Object.getOwnPropertyNames(source).forEach(function(propName) {

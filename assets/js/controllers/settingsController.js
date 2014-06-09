@@ -34,9 +34,7 @@ define(["whispeerHelper", "step"], function (h, step) {
 				//one for every circle and general
 				//on update: general profile update -> other profiles update depending on settings
 				//own user: only load general profile
-			}), function () {
-				debugger;
-			});
+			}), errorService.criticalError);
 		};
 
 		$scope.resetSafety = function () {
@@ -55,7 +53,7 @@ define(["whispeerHelper", "step"], function (h, step) {
 		$scope.mail = userService.getown().getMail();
 
 		$scope.saveName = function () {
-			var me = userService.getown()
+			var me = userService.getown();
 			step(function () {
 				me.setProfileAttribute("basic.firstname", $scope.firstName, this.parallel());
 				me.setProfileAttribute("basic.lastname", $scope.lastName, this.parallel());
