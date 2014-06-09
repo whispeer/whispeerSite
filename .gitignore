@@ -9,3 +9,4 @@ assets/less/codekit-config.json
 assets/less/styleguide.md
 codekit-config.json
 tmp/*
+node_modules/*
