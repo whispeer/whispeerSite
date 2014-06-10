@@ -1,6 +1,6 @@
 define([], function () {
 	function extendError(parentErrorClass) {
-		if (parentErrorClass instanceof Error) {
+		if (parentErrorClass.prototype instanceof Error || parentErrorClass === Error) {
 			var F = function(){};
 			var CustomError = function() {
 				var _this = (this===window) ? new F() : this, // correct if not called with "new" 
