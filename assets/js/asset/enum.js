@@ -69,6 +69,20 @@
         }
         Object.freeze(this);
     };
+    Enum.prototype.toString = function (symbol) {
+        if (this.contains(symbol)) {
+            return symbol.toString();
+        } else {
+            throw new Error("symbol not part of this enum");
+        }
+    };
+    Enum.prototype.fromString = function (name) {
+        if (name.substr(0, 1) === "|" && name.substr(-1, 1) === "|") {
+            return this[name.substring(1, name.length - 1)];
+        } else {
+            return null;
+        }
+    };
     Enum.prototype.symbols = function() {
         return this._symbols;
     };
