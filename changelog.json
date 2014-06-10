@@ -3,7 +3,10 @@
 		"1": {
 			"9": [
 				"Multi-line postings",
-				"Security: Check key fingerprints"
+				"Security: Check key fingerprints",
+				"Display user icon in notification",
+				"Setting for sound and message send",
+				"Topic List Redesign"
 			],
 			"8": [
 				"Bring back missing profile icons",
