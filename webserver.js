@@ -41,7 +41,7 @@ var fileServer  = new static.Server(".", {
 	}
 });
 
-var angular = ["user", "messages", "circles", "main", "friends", "login", "loading", "help"];
+var angular = ["user", "messages", "circles", "main", "friends", "login", "loading", "help", "settings"];
 
 require('http').createServer(function (request, response) {
 	request.addListener('end', function () {
@@ -51,6 +51,7 @@ require('http').createServer(function (request, response) {
 
 				if (angular.indexOf(dir) === -1) {
 					console.error("File not found: " + request.url);
+					fileServer.serveFile('/index.html', 404, {}, request, response);
 				} else {
 					fileServer.serveFile('/index.html', 200, {}, request, response);
 				}
