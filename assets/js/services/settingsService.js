@@ -4,8 +4,10 @@ define(["step", "whispeerHelper", "crypto/encryptedData"], function (step, h, En
 	var service = function ($rootScope, $injector, initService) {
 		var settings;
 
-		initService.register("settings.getSettings", {}, function (data) {
+		initService.register("settings.getSettings", {}, function (data, cb) {
 			settings = new EncryptedData(data.settings);
+
+			cb();
 		});
 
 		$rootScope.$on("reset", function () {

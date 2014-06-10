@@ -243,13 +243,15 @@ define(["step", "whispeerHelper"], function (step, h) {
 
 		initService.register("user.get", function () {
 			return {identifier: sessionService.getUserID()};
-		}, function (data) {
+		}, function (data, cb) {
 			var user = api.addFromData(data);
 
 			var identifier = user.getNickOrMail();
 
 			keyStoreService.setKeyGenIdentifier(identifier);
 			improvementListener(identifier);
+
+			cb();
 		});
 
 		$rootScope.$on("ssn.reset", function () {

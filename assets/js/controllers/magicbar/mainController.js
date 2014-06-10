@@ -26,6 +26,10 @@ define([], function () {
 		
 		$scope.widgetHeight = 100 / $scope.defaultConfig.length - 5;
 		
+		$scope.$on("ssn.ownLoaded", function () {
+			magicService.ready = true;
+		});
+
 		$scope.loadWidget = function(name) {
 			// first of all, set showDefault to false
 			magicService.showDefault = false;
