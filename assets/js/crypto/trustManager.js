@@ -99,10 +99,10 @@ define (["whispeerHelper", "step", "asset/securedDataWithMetaData", "asset/enum"
 			var keyData = database.metaAttr(keyid);
 
 			if (keyData) {
-				keyData.trust = unserializeTrust(keyData.trust);
+				return new keyTrustData(keyData);
 			}
 
-			return keyData;
+			return false;
 		},
 		addUser: function (user) {
 			var signKey = user.getSignKey();

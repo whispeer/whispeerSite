@@ -252,7 +252,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 			improvementListener(identifier);
 
 			cb();
-		});
+		}, true);
 
 		$rootScope.$on("ssn.reset", function () {
 			api.reset();

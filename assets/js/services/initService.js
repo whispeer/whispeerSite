@@ -5,16 +5,20 @@ define(["step", "whispeerHelper"], function (step, h) {
 		var callbacks = [], priorizedCallbacks = [];
 
 		function createData() {
-			var i, toGet = {};
-			for (i = 0; i < callbacks.length; i += 1) {
-				var data = callbacks[i].data;
+			var toGet = {};
+
+			function createDataFromCallback(cur) {
+				var data = cur.data;
 
 				if (typeof data === "function") {
 					data = data();
 				}
 
-				h.deepSetCreate(toGet, callbacks[i].domain, data);
+				h.deepSetCreate(toGet, cur.domain, data);				
 			}
+
+			priorizedCallbacks.forEach(createDataFromCallback);
+			callbacks.forEach(createDataFromCallback);
 
 			return toGet;
 		}
