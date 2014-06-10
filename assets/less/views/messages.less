@@ -12,16 +12,21 @@
 				.box-fix;
 			}
 			.topic {
-				.border-radius(5px);
-				border-bottom: 1px solid #aaa;
+				border-bottom: 1px solid #ddd;
 				.box-fix;
 				cursor: pointer;
 				position: relative;
+				transition: background-color 0.1s ease;
 				.left {
 					.userimg {
-						.border-radiuses(0px, 0px, 5px, 5px);
+						border: 1px solid #f2f2f2;
+						.box-fix;
+						.border-radius(100%);
 					}
 				}	
+				.username, .lastMessage, .time {
+					transition: color 0.1s ease;
+				}
 				.username {
 					font-size: 0.9em!important;
 					.status {
@@ -31,6 +36,9 @@
 				.lastMessage {
 					font-size: 0.8em;
 					color: #555;
+					overflow: hidden;
+					white-space: nowrap;
+					text-overflow: ellipsis;
 				}
 				.time {
 					font-size: 80%;
@@ -41,10 +49,10 @@
 					text-overflow: ellipsis;
 					line-height: 12px;
 					display: block;
-					margin-bottom: 0;
+					margin-bottom: 2%;
 					position: absolute;
 					bottom: 1%;
-					right: 1%;
+					right: 2%;
 					text-align: right;
 				}
 				&:hover {
@@ -91,30 +99,39 @@
 				}
 				&#newmessage {
 					border: none;
-					.border-radius(2px);
 					background: transparent;
 					.btn {
 						width: 100%;
+						border: none;
+						.border-radius(0);
+					}
+				}
+				&.groupChat, &.peerChat {
+					.left {
+						padding: 2%;
+						.box-fix;
+						.imgWrap {
+							width: 100%;
+							height: 100%;
+							display: block;
+							padding: 0;
+							margin: 0;
+							float: left;
+						}
 					}
 				}
 				&.groupChat {
 					.left {
-						background-color: #b2b2b2;
-						.border-radiuses(0,0,5px,5px);
+						background: transparent;
+						.imgWrap {
+							.border-radius(100%);
+							overflow: hidden;
+							border: 1px solid #f2f2f2;
+							background-color: #b2b2b2;
+						}
 						img, span, div {
 							.border-radius(0);
-							&:nth-child(1) {
-								.border-radiuses(0,0,0,5px);
-							}
-							&:nth-child(2) {
-								.border-radius(0);	
-							}
-							&:nth-child(3) {
-								.border-radiuses(0,0,5px,0);	
-							}
-							&:nth-child(4) {
-								.border-radius(0);	
-							}
+							border: none;
 						}
 						span, div {	
 							background-color: #343434;
@@ -129,6 +146,7 @@
 	}
 	#topicWrap {
 		#messageList {
+			.box-fix;
 			.message {
 				.messageContent {
 					background: darken(@grayLighter,10%);

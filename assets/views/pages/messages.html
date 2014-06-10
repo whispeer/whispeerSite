@@ -1,4 +1,5 @@
 <header>
+	<button	class="left" id="newmessage" data-ng-click="unloadTopic()"><i class="icon-plus-circle" id="plusBtn"></i><span data-i18n="messages.newMessage"></span></button>
 	<span class="title">
 		<span data-ng-if="!topicLoaded && !showMessage" data-i18n="messages.title"></span>
 		<span data-ng-if="!topicLoaded && showMessage" data-i18n="messages.title"></span>
@@ -16,21 +17,17 @@
 </header>
 <div id="topicListWrap" data-ng-if="!mobile || !showMessage">
 	<ul id="topicList">
-		<li class="topic" id="newmessage" data-ng-click="unloadTopic()">
-			<div class="btn btn--small">
-				<div class="left"><i class="icon-plus-circle" id="plusBtn"></i></div>
-				<div class="right" data-i18n="messages.newMessage"></div>
-			</div>	
-		</li>
 		<div id="topicListScroll">
 			<li data-ng-repeat="topic in topics" id="{{topic.id}}" class="topic {{topic.type}} {{topic.unread?'unread':''}} {{isActiveTopic(topic)?'active':''}}" data-ng-click="loadActiveTopic(topic.id)">
 				<div class="left">
-					<img class="userimg" data-ng-repeat="partner in topic.partnersDisplay" data-ng-src="{{partner.basic.image}}" alt="{{partner.name}}" title="{{partner.name}}">
-					<span data-ng-if="topic.remainingUser" title="{{topic.remainingUserTitle}}">+ {{topic.remainingUser}}</span>
+					<div class="imgWrap">
+						<img class="userimg" data-ng-repeat="partner in topic.partnersDisplay" data-ng-src="{{partner.basic.image}}" alt="{{partner.name}}" title="{{partner.name}}">
+						<span data-ng-if="topic.remainingUser" title="{{topic.remainingUserTitle}}">+ {{topic.remainingUser}}</span>
+					</div>	
 				</div>
 				<div class="username">
-					<strong ng-repeat="partner in topic.partners">{{topic.partners.length>1?partner.basic.shortname:partner.name}}{{$last?"":", "}}</strong>
 					<span class="status" data-status="{{topic.partners[0].online}}"></span>
+					<strong ng-repeat="partner in topic.partners">{{topic.partners.length>1?partner.basic.shortname:partner.name}}{{$last?"":", "}}</strong>
 				</div>
 				<div class="lastMessage">
 					{{topic.latestMessage.data.text}}
