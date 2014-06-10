@@ -23,7 +23,12 @@
 						.box-fix;
 						.border-radius(100%);
 					}
-				}	
+				}
+				.username, .lastMessage {
+					overflow: hidden;
+					white-space: nowrap;
+					text-overflow: ellipsis;
+				}
 				.username, .lastMessage, .time {
 					transition: color 0.1s ease;
 				}
@@ -36,9 +41,6 @@
 				.lastMessage {
 					font-size: 0.8em;
 					color: #555;
-					overflow: hidden;
-					white-space: nowrap;
-					text-overflow: ellipsis;
 				}
 				.time {
 					font-size: 80%;
