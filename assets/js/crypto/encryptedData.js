@@ -87,6 +87,10 @@ define (["whispeerHelper", "step", "crypto/keyStore"], function (h, step, keySto
 
                     decryptedStatus = h.object.deepSet(decryptedStatus, reducedPartial, true);
                     decryptedStatus = aggregateDecryptionStatus(encryptedData, decryptedStatus);
+
+                    if (encryptionDepth === 0) {
+                        updatedData = decryptedObj;
+                    }
                 } else {
                     throw new Error("could not decrypt");
                 }
