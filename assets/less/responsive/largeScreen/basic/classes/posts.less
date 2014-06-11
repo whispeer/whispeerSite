@@ -1,0 +1,85 @@
+.post {
+	.userimg {
+		.column(1,9);
+		img {
+			width: 100%;
+			margin: 0;
+		}
+	}
+	.postWrap {
+		.column(8,9);
+		margin-top: 10px;
+		.postContent {
+			.column(5.5,7);
+			padding-top: 5px;
+			margin-top: 10px;
+			margin-bottom: 10px;
+			.postText {
+				padding-left: 10px;
+				.padding-fix;
+			}
+			.postImage {
+				img {
+					max-width: 98%;
+					.border-radius(5px);	
+				}
+			}
+		}
+		.postInfo {
+			.column(1.5,7);
+			padding-top: 20px;
+			margin-bottom: 10px;
+			.with {
+				color: #666;
+				.column(2,2);
+			}
+			.awesome {
+				.column(2,2);
+			}
+			p.comments {
+				.column(2,2);
+			}
+			.showComments {
+				.column(2,2);
+			}
+		}
+	}	
+	ol.comments {
+		.column(8);
+		.push(0.125);
+		.border-radius(5px);
+		&:last-child {
+			.border-radiuses(0, 5px, 5px, 0);
+		}
+		&:first-child {
+			.border-radiuses(5px, 0, 0, 5px);
+		}
+		&:only-child {
+			.border-radius(5px);
+		}
+		li {
+			width: 100%;
+			margin: 0;
+			img {
+				.column(1);
+			}
+			.text {
+				.column(9);
+			}
+			.timestamp {
+				.column(2);
+			}
+			&.newComment {
+				input {
+					.column(9);
+				}
+				button {
+					.column(2);
+				}
+			}
+		}
+	}
+	&:last-child {
+		border:none;
+	}
+}

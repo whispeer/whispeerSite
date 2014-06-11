@@ -3,16 +3,15 @@
 		height: 100%;
 		width: 100%;
 		float: left;
-		padding-top: 100px;
+		padding-top: 80px;
 		.box-fix;
 		header {
 			.column(8,8);
 			padding-top: 10px;
-			margin-top: -100px;
+			margin-top: -85px;
 			text-align: center;
-			height: 100px;
+			height: 85px;
 			z-index: 1000;
-			.box-shadow(0 2px 4px -2px @primaryLighter);
 			.border-radiuses(2px,0,0,2px);
 			#postIt {
 				.column(8,12);
@@ -91,100 +90,9 @@
 		.posts {
 			float: left;
 			width: 100% !important;
-			margin: 0 0 0 1%;
+			margin: 0;
 			overflow-y: scroll;
 			height: 100%;
-			article {
-				border-bottom: 1px solid #bbb;
-				height: auto !important;
-				.userimg{
-					border-radius: 10px;
-					vertical-align: middle;
-					margin: 0 0 10px 0;
-				}
-				.postContent {
-					margin-top: -5px;
-					margin-bottom: 10px;
-					.postText, .postImage {
-						padding-left: 10px;
-						.box-fix;
-					}
-					.author {
-						width: 100%;
-						float: left;
-						display: block;
-						.poster {
-							float: left;
-						}
-						.walluserWrap {
-							float: left;
-							max-width: none;
-							width: auto;
-							display: block;
-							.arrow {
-								float: left;
-								margin: 6px 5px;
-								display: block;
-							}
-							.walluser {
-								float: left;
-								width: 100%;
-								display: block;
-								position: relative;
-								margin: -20px 15px;
-							}
-						}
-					}
-				}
-				.postInfo {
-					margin-top: -5px;
-					margin-bottom: 10px;
-					text-align: right;
-				}
-				ol.comments {
-					.unstyled;
-					//border: 1px solid @grayLight !important;
-					.border-radius(5px);
-					//background-color: @grayLighter;
-					overflow: hidden;
-					padding: 5px;
-					.box-fix;
-					li {
-						margin-bottom: 5px;
-						.gradient(lighten(@grayLight,30%), lighten(@grayLight,24%));
-						border: 1px solid #b2b2b2;
-						.border-radius(6px);
-						overflow-x: hidden;
-						&.header {
-							text-align: center;
-							.box-fix;
-						}
-						&.me {
-							.gradient(@primaryLighter, @primary);
-							color: #000;
-						}
-						img {
-						}
-						.text {
-							word-break: break-all;
-						}
-						aside {
-							font-size: 0.85em;
-						}
-						&.newComment {
-							input {
-								margin-top: 8px;
-							}
-							button {
-								margin-top: 10px;
-							}
-						}
-					}
-				}	
-				&:last-child {
-					border:none;
-				}
-			}
 		}
 	}
 }
