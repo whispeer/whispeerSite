@@ -1,0 +1,103 @@
+.post {
+	.userimg {
+		.column(1,8);
+		margin-top: 5px;
+		margin-bottom: 5px;
+		img {
+			width: 100%;
+		}
+	}
+	.postWrap {
+		.column(7,8);
+	}
+	.postContent {
+		.column(5,7);
+		padding-top: 0px !important;
+		margin-top: 0px !important;
+		margin-bottom: 5px !important;
+		position: relative;
+		.postText {
+			padding-left: 10px;
+			.padding-fix;
+		}
+		.postImage {
+			img {
+				max-width: 98%;
+				.border-radius(5px);	
+			}
+		}
+		.author {
+			float: left;
+			margin-top: 10px;
+		}
+	}
+	.postInfo {
+		.column(2,7);
+		padding-top: 0px !important;
+		margin-bottom: 10px;
+		text-align: left !important;
+		.with {
+			color: #666;
+			.column(2,2);
+		}
+		.awesome {
+			.column(2,2);
+		}
+		p.comments {
+			.column(2,2);
+		}
+		.showComments {
+			.column(2,2);
+		}
+	}
+	ol.comments {
+		.column(8);
+		.push(0.125);
+		.border-radius(5px);
+		margin-bottom: 5px;
+		li {
+			width: 100%;
+			margin: 0;
+			min-height: 40px;
+			&:last-child {
+				.border-radiuses(0, 5px, 5px, 0);
+				border-bottom: none !important;
+			}
+			&:first-child {
+				.border-radiuses(5px, 0, 0, 5px);
+				border-top: none;
+			}
+			&:only-child {
+				.border-radius(5px);
+			}
+			img {
+				.column(1);
+				margin-left: 0;
+				height: 40px;
+				width: auto !important;
+			}
+			.text {
+				.column(7.8);
+				padding: 3px;
+				.box-fix;
+			}
+			.timestamp {
+				.column(3);
+			}
+			&.newComment {
+				padding: 0;
+				img {
+					width: auto;
+				}
+				input {
+					.column(8.4);
+					margin-top: 2px !important;
+				}
+				button {
+					.column(2.5);
+					margin-top: 5px !important;
+				}
+			}
+		}
+	}
+}

@@ -1,7 +1,7 @@
-define(["asset/observer"], function (Observer) {
+define(["step", "whispeerHelper", "asset/observer"], function (step, h, Observer) {
 	"use strict";
 
-	function service(localize, $location, $rootScope) {
+	function service(localize, $location, $rootScope, settingsService, errorService) {
 		var advancedTitle = {}, count = 0, topicInternalCount = 0;
 
 		function cycleTitle() {
@@ -41,7 +41,13 @@ define(["asset/observer"], function (Observer) {
 				cycleTitle();
 			},
 			playMessageSound: function () {
-				document.getElementById("sound").play();
+				step(function () {
+					settingsService.getBranch("sound", this);
+				}, h.sF(function (sound) {
+					if (!sound || sound.active) {
+						document.getElementById("sound").play();
+					}
+				}), errorService.criticalError);
 			},
 			sendLocalNotification: function(type, obj) {
 				if (window.Notification) {
@@ -123,7 +129,7 @@ define(["asset/observer"], function (Observer) {
 		return api;
 	}
 
-	service.$inject = ["localize", "$location", "$rootScope"];
+	service.$inject = ["localize", "$location", "$rootScope", "ssn.settingsService", "ssn.errorService"];
 
 	return service;
 });

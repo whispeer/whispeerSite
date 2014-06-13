@@ -76,32 +76,26 @@
 					padding: 2px !important;
 				}
 				&#generalInfo {
-					.column(8,8);
 					.userimage {
 						img {
 							width: 100%;
-							.border-radius(5px);
+							.border-radius(100%);
 							float: left;
+							border: 1px solid #ccc;
+							.box-fix;
 						}
 						.editImage {
 							width: 100%;
 							margin: 0;
-							margin-top: -30px;
-							background: rgba(0,0,0,0.6);
+							margin-top: 5px;
+							.btn;
+							.btn--green;
 							float: left;
-							.border-radiuses(0,5px,5px,0);
 							padding: 5px;
 							.box-fix;
 							color: @white;
 							text-align: center;
-							opacity: 0;
-							.transition(all .3s ease);
 							cursor: pointer;
-						}
-						&:hover {
-							.editImage {
-								opacity: 1;
-							}	
 						}
 						&.editing {
 							text-align: center;
@@ -235,101 +229,6 @@
 					&[type="submit"] {
 						.btn--primary;
 					}
-				}
-			}
-			article {
-				border-bottom: 1px solid #aaa !important;
-				.userimg{
-					border-radius: 10px;
-				}
-				.postContent {
-					.column(4,8);
-					padding-top: 5px;
-					margin-top: 10px;
-					margin-bottom: 10px;
-					.postText {
-						padding-left: 10px;
-						.box-fix;
-					}
-					.author {
-						width: 100%;
-						float: left;
-						display: block;
-						.poster {
-							float: left;
-						}
-						.walluserWrap {
-							float: left;
-							max-width: none;
-							width: auto;
-							display: block;
-							.arrow {
-								float: left;
-								margin: 6px 5px;
-								display: block;
-							}
-							.walluser {
-								float: left;
-								width: 100%;
-								display: block;
-								position: relative;
-								margin: -20px 15px;
-							}
-						}
-					}
-				}
-				.postInfo {
-					.column(2,8);
-					padding-top: 5px;
-					margin-bottom: 10px;
-					text-align: right;
-				}
-				ol.comments {
-					.unstyled;
-					.column(8);
-					.push(0.125);
-					border: 1px solid @grayLight;
-					.border-radius(5px);
-					margin-bottom: 5px;
-					li {
-						background-color: @grayLighter;
-						width: 100%;
-						.clear-fix;
-						margin: 0;
-						border-bottom: 1px solid @grayLight;
-						&:last-child {
-							border: none;
-						}
-						img {
-							.column(1);
-							margin-left: 0;
-						}
-						.text {
-							.column(9);
-							margin-top: 5px;
-						}
-						.timestamp {
-							.column(2);
-							margin-top: 5px;
-						}
-						&.newComment {
-							background-color: @white;
-							input {
-								.column(9);
-								margin-top: 8px;
-							}
-							button {
-								.column(2);
-								margin-top: 10px;
-							}
-						}
-					}
-				}
-				&:last-child {
-					border:none !important;
-				}
-				&:first-child {
-					border-top: 1px solid #000 !important;
 				}
 			}
 		}

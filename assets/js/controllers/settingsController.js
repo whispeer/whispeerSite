@@ -11,14 +11,45 @@ define(["whispeerHelper", "step"], function (h, step) {
 		$scope.safetySorted = ["birthday", "location", "relationship", "education", "work", "gender", "languages"];
 
 		step(function () {
-			settingsService.getBranch("privacy", this);
-		}, h.sF(function (branch) {
-			$scope.safety = h.deepCopyObj(branch, 4);
+			this.parallel.unflatten();
+
+			settingsService.getBranch("privacy", this.parallel());
+			settingsService.getBranch("sound", this.parallel());
+			settingsService.getBranch("messages", this.parallel());
+		}, h.sF(function (privacy, sound, messages) {
+			$scope.safety = h.deepCopyObj(privacy, 4);
+
+			$scope.notificationSound = "on";
+			$scope.sendShortCut = "enter";
+
+			if (sound) {
+				$scope.notificationSound = (sound.active ? 'on' : 'off');
+			}
+			if (messages) {
+				$scope.sendShortCut = messages.sendShortCut || "enter";
+			}
 		}), errorService.criticalError);
 
-		$scope.sendShortcut = 'enter';
-		
-		$scope.notificationSound = 'on';
+		$scope.saveGeneral = function () {
+			step(function () {
+				this.parallel.unflatten();
+
+				settingsService.getBranch("sound", this.parallel());
+				settingsService.getBranch("messages", this.parallel());
+			}, h.sF(function (sound, messages) {
+				sound = sound || {};
+				messages = messages || {};
+
+				sound.active = ($scope.notificationSound === "on" ? true : false);
+				messages.sendShortCut = $scope.sendShortCut;
+
+				settingsService.updateBranch("sound", sound, this.parallel());
+				settingsService.updateBranch("messages", messages, this.parallel());
+			}), h.sF(function () {
+				settingsService.uploadChangedData(this);
+			}), errorService.criticalError);
+
+		};
 
 		$scope.saveSafety = function () {
 			step(function () {
@@ -29,11 +60,6 @@ define(["whispeerHelper", "step"], function (h, step) {
 				settingsService.updateBranch("privacy", $scope.safety, this);
 			}), h.sF(function () {
 				settingsService.uploadChangedData(this);
-				//refactor profiles:
-				//one general profile (master profile)
-				//one for every circle and general
-				//on update: general profile update -> other profiles update depending on settings
-				//own user: only load general profile
 			}), errorService.criticalError);
 		};
 

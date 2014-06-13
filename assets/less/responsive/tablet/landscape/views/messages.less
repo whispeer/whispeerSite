@@ -1,7 +1,7 @@
 .messagesView {
 	#main {
 		padding-top: 30px;
-		padding-bottom: 10px;
+		padding-bottom: 0;
 		height: 100%;
 		margin-top: 5px !important;
 		overflow: hidden !important;
@@ -11,32 +11,31 @@
 		margin-top: -30px;
 		padding: 5px;
 		.title {
-			.column(6,7);
+			display: none;
+			visibility: hidden;
+			&.chat, &.newMessage {
+				.column(6,7);
+				visibility: visible;
+			}
 			overflow: hidden;
 			text-overflow: ellipsis;
 			white-space: nowrap;
 		}
-		button {
+		#showTopics {
 			.column(1,7,right);
-			.width(1,7);
-			padding: 2px 7px;
-			margin-top: -5px !important;
-			margin-right: 0 !important;
-			outline: none;
-			border: none;
-			border-left: 1px solid #bbb;
-			height: 30px;
-			background: transparent;
+			text-align: center !important;
+		}
+		#newmessage {
+			.column(7,7,left,0);
+			border: none !important;
 		}
 	}
 	#topicListWrap {
-		.column(8,8);
+		.column(8,8,left,0);
 		height: 100%;
 		#topicList {
 			height: 100%;
 			width: 100%;
-			padding-top: 15px;
-			padding-bottom: 11px;
 			#topicListScroll {
 				float: left;
 				overflow-y: scroll !important;
@@ -45,10 +44,10 @@
 				height: 100%;
 			}
 			.topic {
-				margin-bottom: 5px;
+				margin-bottom: 0;
 				padding: 0;
 				.left {
-					.column(1.5,8);
+					.column(1.25,8);
 					margin: 0 2% -5px 0;
 					.userimg {
 						width: 100%;
@@ -98,7 +97,7 @@
 		height: 100%;
 		#messageWrap {
 			height: 100%;
-			padding-bottom: 50px;
+			padding-bottom: 55px;
 			.box-fix;
 		}
 		#messageList {
@@ -106,6 +105,7 @@
 			height: 100%;
 			position: relative;
 			-webkit-overflow-scrolling: touch;
+			margin-bottom: 5px;
 			.message {
 				.column(12);
 				margin-bottom: 5px !important;
@@ -159,10 +159,10 @@
 		}
 		&.newMessage {
 			.column(7,7);
-			#recieverInput, #messageInput {
-				.column(5,5);
+			#recieverInput {
+				.column(12);
 				margin-top: 5px;
-				margin-bottom: 0px;
+				margin-bottom: 5px;
 				.formSearch {
 					.inputWrap {
 						li {
@@ -177,6 +177,7 @@
 				}
 			}
 			#messageInput {
+				.column(12);
 				height: 100px;
 				margin-bottom: 5px;
 			}
