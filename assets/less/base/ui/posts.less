@@ -18,10 +18,14 @@
 	}
 	.postContent {
 		background: transparent;
-		word-break: break-all !important;
+		word-break: break-word !important;
 		.postText, .postImage {
 			padding-left: 10px;
 			.box-fix;
+			a {
+				word-break: break-all;
+				hyphens:	auto;
+			}
 		}
 		.postImage {
 			margin-top: 10px;
