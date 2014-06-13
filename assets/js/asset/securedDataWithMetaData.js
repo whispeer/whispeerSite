@@ -23,7 +23,8 @@ define(["whispeerHelper", "step", "crypto/keyStore", "asset/errors"], function (
 			this._encryptedContent = content;
 		}
 
-		this._updatedMeta = this._meta;
+		this._updatedMeta = h.deepCopyObj(this._meta);
+
 		this._updatedContent = this._content;
 	}
 
@@ -35,15 +36,19 @@ define(["whispeerHelper", "step", "crypto/keyStore", "asset/errors"], function (
 
 	SecuredDataWithMetaData.prototype.sign = function (signKey, cb) {
 		var that = this;
+		var toSign = h.deepCopyObj(that._updatedMeta);
 
 		step(function () {
-			that._updatedMeta._version = 1;
+			toSign._version = 1;
 
-			keyStore.sign.signObject(that._updatedMeta, signKey, this);
+			delete toSign._signature;
+			delete toSign._hashObject;
+			
+			keyStore.sign.signObject(toSign, signKey, this);
 		}, h.sF(function (signature) {
-			that._updatedMeta._signature = signature;
+			toSign._signature = signature;
 
-			this.ne(h.deepCopyObj(that._updatedMeta));
+			this.ne(toSign);
 		}), cb);
 
 	};
@@ -115,7 +120,7 @@ define(["whispeerHelper", "step", "crypto/keyStore", "asset/errors"], function (
 			keyStore.sign.verifyObject(that._meta._signature, metaCopy, signKey, this);
 		}), h.sF(function (correctSignature) {
 			if (!correctSignature) {
-				throw new errors.SecurityError("content hash did not match");
+				throw new errors.SecurityError("signature did not match");
 			}
 
 			this.ne();

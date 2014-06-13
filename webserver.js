@@ -41,7 +41,7 @@ var fileServer  = new static.Server(".", {
 	}
 });
 
-var angular = ["user", "messages", "circles", "main", "friends", "login", "loading", "help", "settings"];
+var angular = ["user", "messages", "circles", "main", "friends", "login", "loading", "help", "settings", "start"];
 
 require('http').createServer(function (request, response) {
 	request.addListener('end', function () {

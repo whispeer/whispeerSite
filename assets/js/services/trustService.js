@@ -2,6 +2,8 @@ define(["step", "whispeerHelper", "crypto/trustManager"], function (step, h, tru
 	"use strict";
 
 	var service = function ($rootScope, initService, userService, socketService, errorService) {
+		var THROTTLE = 20;
+
 		function uploadDatabase(cb) {
 			step(function () {
 				trustManager.getUpdatedVersion(userService.getown().getSignKey(), this);
@@ -17,6 +19,17 @@ define(["step", "whispeerHelper", "crypto/trustManager"], function (step, h, tru
 				}
 			}), cb);
 		}
+
+		var delay = h.aggregateOnce(THROTTLE, uploadDatabase);
+
+		function addNewUsers(user) {
+			if (trustManager.isLoaded() && !trustManager.hasKeyData(user.getSignKey())) {
+				trustManager.addUser(user);
+				delay();
+			}
+		}
+
+		userService.listen(addNewUsers, "loadedUser");
 
 		initService.register("trustManager.get", {}, function (data, cb) {
 			if (data.content) {

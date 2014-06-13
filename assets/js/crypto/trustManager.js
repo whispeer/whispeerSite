@@ -1,4 +1,4 @@
-define (["whispeerHelper", "step", "asset/securedDataWithMetaData", "asset/enum"], function (h, step, SecuredData, Enum) {
+define (["whispeerHelper", "step", "asset/securedDataWithMetaData", "asset/enum", "asset/errors"], function (h, step, SecuredData, Enum, errors) {
 	var database, loaded = false, trustManager;
 
 	var trustStates = new Enum("BROKEN", "UNTRUSTED", "TIMETRUSTED", "WHISPEERVERIFIED", "NETWORKVERIFIED", "VERIFIED", "OWN");
@@ -56,23 +56,51 @@ define (["whispeerHelper", "step", "asset/securedDataWithMetaData", "asset/enum"
 	}
 
 	function userToDataSet(user, trustLevel) {
-		return {
+		var content = {
 			added: new Date().getTime(),
 			key: user.getSignKey(),
 			userid: user.getID(),
-			nickname: user.getNickname(),
 			trust: serializeTrust(trustLevel || trustStates.UNTRUSTED)
 		};
+
+		if (user.getNickname()) {
+			content.nickname = user.getNickname();
+		}
+
+		return content;
 	}
 
+	var fakeKeyExistence = 0;
+
 	trustManager = {
+		allow: function (count) {
+			if (!loaded) {
+				fakeKeyExistence = count;
+			}
+		},
+		disallow: function () {
+			fakeKeyExistence = 0;
+		},
 		trustStates: trustStates,
 		isLoaded: function () {
 			return loaded;
 		},
 		createDatabase: function (me) {
 			var data = {};
-			data[me.getSignKey()] = userToDataSet(me, trustStates.OWN);
+
+			data.nicknames = {};
+			data.ids = {};
+
+			var signKey = me.getSignKey();
+
+			data[signKey] = userToDataSet(me, trustStates.OWN);
+			if (me.getNickname()) {
+				data.nicknames[me.getNickname()] = signKey;
+			}
+			data.ids[me.getID()] = signKey;
+
+			data.me = me.getSignKey();
+
 			database = new SecuredData(undefined, data);
 
 			loaded = true;
@@ -80,8 +108,14 @@ define (["whispeerHelper", "step", "asset/securedDataWithMetaData", "asset/enum"
 		loadDatabase: function (data, ownKey, cb) {
 			var givenDatabase = new SecuredData(undefined, data);
 			step(function () {
-				givenDatabase.verify(ownKey, this);
+				trustManager.allow(1);
+				if (data.me === ownKey) {
+					givenDatabase.verify(ownKey, this);
+				} else {
+					throw new errors.SecurityError("not my trust database");
+				}
 			}, h.sF(function () {
+				trustManager.disallow();
 				database = givenDatabase;
 				loaded = true;
 
@@ -93,6 +127,10 @@ define (["whispeerHelper", "step", "asset/securedDataWithMetaData", "asset/enum"
 			database = undefined;
 		},
 		hasKeyData: function (keyid) {
+			if (fakeKeyExistence > 0 && !loaded) {
+				fakeKeyExistence -= 1;
+				return true;
+			}
 			return database.metaHasAttr(keyid);
 		},
 		getKeyData: function (keyid) {
@@ -106,7 +144,26 @@ define (["whispeerHelper", "step", "asset/securedDataWithMetaData", "asset/enum"
 		},
 		addUser: function (user) {
 			var signKey = user.getSignKey();
+
+			var idKey = database.metaAttr(["ids", user.getID()]);
+			var nicknameKey = database.metaAttr(["nicknames", user.getNickname()]);
+
+			if (idKey && idKey !== signKey) {
+				throw new errors.SecurityError("we already have got a key for this users id");
+			}
+
+			if (nicknameKey && nicknameKey !== signKey) {
+				throw new errors.SecurityError("we already have got a key for this users nickname");
+			}
+
 			database.metaAdd([signKey], userToDataSet(user));
+
+			if (user.getNickname()) {
+				database.metaAdd(["nicknames", user.getNickname()], signKey);
+			}
+
+			database.metaAdd(["ids", user.getID()], signKey);
+
 		},
 		setKeyTrustLevel: function (signKey, trustLevel) {
 			if (trustLevel === trustStates.OWN) {
