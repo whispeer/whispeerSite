@@ -39,7 +39,9 @@
         if (props) {
             copyOwnFrom(this, props);
         }
-        Object.freeze(this);
+        if (Object.freeze) {
+            Object.freeze(this);
+        }
     }
     /** We don’t want the mutable Object.prototype in the prototype chain */
     Symbol.prototype = Object.create(null);
@@ -51,7 +53,9 @@
     Symbol.prototype.toString = function () {
         return "|"+this.name+"|";
     };
-    Object.freeze(Symbol.prototype);
+    if (Object.freeze) {
+        Object.freeze(Symbol.prototype);
+    }
 
     var Enum = function (obj) {
         if (arguments.length === 1 && obj !== null && typeof obj === "object") {
@@ -63,7 +67,9 @@
                 this[name] = new Symbol(name);
             }, this);
         }
-        Object.freeze(this);
+        if (Object.freeze) {
+            Object.freeze(this);
+        }
     };
     Enum.prototype.symbols = function() {
         return Object.keys(this).map(

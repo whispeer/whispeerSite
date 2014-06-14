@@ -14,7 +14,7 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer", "ass
 				loaded: false,
 				id: data.id,
 				info: {
-					with: ""
+					"with": ""
 				},
 				time: data.meta.time,
 				isWallPost: false,
