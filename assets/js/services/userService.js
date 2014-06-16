@@ -249,6 +249,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 			var identifier = user.getNickOrMail();
 
 			keyStoreService.setKeyGenIdentifier(identifier);
+			keyStoreService.sym.registerMainKey(user.getMainKey());
 			improvementListener(identifier);
 		});
 

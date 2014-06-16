@@ -13,6 +13,7 @@ define (["whispeerHelper", "step", "crypto/keyStore"], function (h, step, keySto
 
         if (isDecrypted) {
             decryptedData = data;
+            updatedData = data;
             decryptedStatus = true;
             changed = true;
         } else {

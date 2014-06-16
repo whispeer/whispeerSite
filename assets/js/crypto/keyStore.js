@@ -15,7 +15,7 @@
 **/
 define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForReady", "cryptoWorker/sjclWorkerInclude", "asset/errors"], function (step, h, chelper, sjcl, waitForReady, sjclWorkerInclude, errors) {
 	"use strict";
-	var socket, dirtyKeys = [], newKeys = [], symKeys = {}, cryptKeys = {}, signKeys = {}, passwords = [], improvementListener = [], keyGenIdentifier = "", Key, SymKey, CryptKey, SignKey, makeKey, keyStore;
+	var socket, dirtyKeys = [], newKeys = [], symKeys = {}, cryptKeys = {}, signKeys = {}, passwords = [], improvementListener = [], keyGenIdentifier = "", Key, SymKey, CryptKey, SignKey, makeKey, keyStore, mainKey;
 
 	sjcl.random.startCollectors();
 
@@ -1525,11 +1525,16 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 		reset: function reset() {
 			dirtyKeys = [];
 			newKeys = [];
+
 			keyGenIdentifier = "";
+
 			symKeys = {};
 			cryptKeys = {};
 			signKeys = {};
+
 			passwords = [];
+
+			mainKey = undefined;
 		},
 
 		setKeyGenIdentifier: function (identifier) {
@@ -1722,6 +1727,10 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 		},
 
 		sym: {
+			registerMainKey: function (_mainKey) {
+				mainKey = _mainKey;
+			},
+
 			/** generate a key
 			* @param callback callback
 			*/
@@ -1813,14 +1822,13 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 				}, h.sF(function objEncrypt2(key) {
 					new ObjectCryptor(key, depth, object).encrypt(this);
 				}), h.sF(function (result) {
-					result.key = correctKeyIdentifier(realKeyID);
 					this.ne(result);
 				}), callback);
 			},
 
 			decryptObject: function (cobject, depth, callback, key) {
 				step(function objDecrypt1() {
-					SymKey.get(key || cobject.key, this);
+					SymKey.get(key || mainKey, this);
 				}, h.sF(function objDecrypt2(key) {
 					new ObjectCryptor(key, depth, cobject).decrypt(this);
 				}), h.sF(function objDecrypt3(result) {

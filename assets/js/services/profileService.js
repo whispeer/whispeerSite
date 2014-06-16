@@ -11,7 +11,8 @@ define(["step", "whispeerHelper", "crypto/encryptedData", "validation/validator"
 				removeEmpty: true,
 				encryptDepth: 1
 			}, isDecrypted);
-			var metaData = new EncryptedData(data.privateData, isDecrypted);
+
+			var metaData = new EncryptedData(data.own, {}, isDecrypted);
 
 			var id, theProfile = this;
 
@@ -44,7 +45,7 @@ define(["step", "whispeerHelper", "crypto/encryptedData", "validation/validator"
 				//sign/hash merge
 				//encrypt merge
 				step(function () {
-					securedData.decrypt(this);
+					theProfile.decrypt(this);
 				}, h.sF(function  () {
 					securedData.signAndEncrypt(signKey, oldCryptKey, this);
 				}), h.sF(function (securedProfileData) {
@@ -80,7 +81,7 @@ define(["step", "whispeerHelper", "crypto/encryptedData", "validation/validator"
 
 			this.setFullProfile = function setFullProfileF(data, cb) {
 				step(function () {
-					securedData.decrypt(this);
+					theProfile.decrypt(this);
 				}, h.sF(function () {
 					securedData.contentSet(data);
 
@@ -90,7 +91,7 @@ define(["step", "whispeerHelper", "crypto/encryptedData", "validation/validator"
 
 			this.setAttribute = function setAttributeF(attrs, value, cb) {
 				step(function () {
-					securedData.decrypt(this, attrs[0]);
+					theProfile.decrypt(this, attrs[0]);
 				}, h.sF(function () {
 					securedData.contentAdd(attrs, value);
 
@@ -123,7 +124,13 @@ define(["step", "whispeerHelper", "crypto/encryptedData", "validation/validator"
 			};
 
 			this.decrypt = function decryptProfileF(cb, branch) {
-				securedData.decrypt(cb, branch);
+				step(function () {
+					securedData.decrypt(this, branch);	
+				}, h.sF(function () {
+					checkProfile();
+
+					this.ne();
+				}), cb);
 			};
 
 			Observer.call(this);
