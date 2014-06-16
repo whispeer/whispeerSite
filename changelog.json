@@ -1,12 +1,14 @@
 	{
 	"0": {
 		"1": {
+			"10": [
+				"Bugfix: Mobile: Show correct start page",
+				"Bugfix: Show own friends on own profile"
+			],
 			"9": [
-				"weekly changelog of 07.06.",
 				"Multi-line postings",
 				"Security: Check key fingerprints",
 				"Display user icon in notification",
-				"for weekly changelog of 14.06.",
 				"Setting for sound and message send",
 				"Messages: Topic List Redesign",
 				"Optimized user image sizes",
