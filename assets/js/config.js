@@ -1,3 +1,5 @@
+/* global module */
+
 var useServer = false;
 
 var config = {

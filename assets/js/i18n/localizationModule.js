@@ -18,7 +18,7 @@ Enjoy!
 */
 
 define(["angular"], function (angular) {
-
+	"use strict";
 	function insertValues(tag, values) {
 		var i, toSet;
 		if (values.length > 1) {
@@ -50,7 +50,6 @@ define(["angular"], function (angular) {
 		return tags;
 	}
 
-	"use strict";
 	angular.module("localization", [])
 		// localization service responsible for retrieving resource files from the server and
 		// managing the translation dictionary

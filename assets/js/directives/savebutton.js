@@ -13,10 +13,10 @@ define(function () {
 			templateUrl: 'assets/views/directives/saveButton.html',
 			replace: true,
 			link: function (scope, iElement, iAttrs) {
-				if (iAttrs["defaulticon"] === undefined) {
+				if (iAttrs.defaulticon === undefined) {
 					scope.defaulticon = "icon-ok-circle";
 				} else {
-					scope.defaulticon = iAttrs["defaulticon"];
+					scope.defaulticon = iAttrs.defaulticon;
 				}
 			}
 		};			

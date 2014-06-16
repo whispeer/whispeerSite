@@ -36,12 +36,12 @@ define(["step", "whispeerHelper"], function (step, h) {
 					}));
 				}
 
-				if (iAttrs["selected"]) {
+				if (iAttrs.selected) {
 					scope.$on("reloadInitialSelection", function () {
-						loadInitialSelection(iAttrs["selected"]);
+						loadInitialSelection(iAttrs.selected);
 					});
 
-					loadInitialSelection(iAttrs["selected"]);
+					loadInitialSelection(iAttrs.selected);
 				}
 
 				function getCircle(id, cb) {

@@ -15,13 +15,33 @@
 		<header><span class="title" data-i18n="settings.changes.general.title"></span></header>
 		<div class="config" id="sendMethod">
 			<h5 data-i18n="settings.changes.general.sendMethod.title"></h5>
-			<p><label for="sendMethodEnter" class="btn btn--primary btn--big"><input type="radio" data-ng-model="sendShortcut" name="sendMethod" value="enter" id="sendMethodEnter">&nbsp;<span data-i18n="settings.changes.general.sendMethod.enter"></span></label></p>
-			<p><label for="sendMethodCtrlEnter" class="btn btn--primary btn--big"><input type="radio" data-ng-model="sendShortcut" name="sendMethod" value="ctrlEnter" id="sendMethodCtrlEnter">&nbsp;<span data-i18n="settings.changes.general.sendMethod.ctrlEnter"></span></label></p>
+			<p>
+				<label for="sendMethodEnter" class="btn btn--primary btn--big">
+					<input type="radio" data-ng-change="saveGeneral()" data-ng-model="sendShortCut" name="sendMethod" value="enter" id="sendMethodEnter">
+					&nbsp;<span data-i18n="settings.changes.general.sendMethod.enter"></span>
+				</label>
+			</p>
+			<p>
+				<label for="sendMethodCtrlEnter" class="btn btn--primary btn--big">
+					<input type="radio" data-ng-change="saveGeneral()" data-ng-model="sendShortCut" name="sendMethod" value="ctrlEnter" id="sendMethodCtrlEnter">
+					&nbsp;<span data-i18n="settings.changes.general.sendMethod.ctrlEnter"></span>
+				</label>
+			</p>
 		</div>
 		<div class="config" id="sounds">
 			<h5 data-i18n="settings.changes.general.notificationSounds.title"></h5>
-			<p><label for="messageSoundOn" class="btn btn--primary btn--big"><input type="radio" data-ng-model="notificationSound" name="messageSound" value="on" id="messageSoundOn">&nbsp;<span data-i18n="settings.changes.general.notificationSounds.on"></span></label></p>
-			<p><label for="messageSoundOff" class="btn btn--primary btn--big"><input type="radio" data-ng-model="notificationSound" name="messageSound" value="off" id="messageSoundOff">&nbsp;<span data-i18n="settings.changes.general.notificationSounds.off"></span></label></p>
+			<p>
+				<label for="messageSoundOn" class="btn btn--primary btn--big">
+					<input type="radio" data-ng-change="saveGeneral()" data-ng-model="notificationSound" name="messageSound" value="on" id="messageSoundOn">
+					&nbsp;<span data-i18n="settings.changes.general.notificationSounds.on"></span>
+				</label>
+			</p>
+			<p>
+				<label for="messageSoundOff" class="btn btn--primary btn--big">
+					<input type="radio" data-ng-change="saveGeneral()" data-ng-model="notificationSound" name="messageSound" value="off" id="messageSoundOff">
+					&nbsp;<span data-i18n="settings.changes.general.notificationSounds.off"></span>
+				</label>
+			</p>
 		</div>
 	</section>
 	<section id="account">

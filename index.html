@@ -36,15 +36,21 @@
 	<!-- !Top Bar -->
 	<nav id="topNav" data-ng-if="loggedin" data-ng-cloak>
 		<div id="navInner">
-			<button class="toggle" id="toggleSidebar" data-ng-click="toggleSidebar()" data-ng-if="mobile"><i class="icon icon-menu"></i></button>
+			<button class="toggle" id="toggleSidebar" data-ng-click="toggleSidebar()" data-ng-if="mobile">
+				<i class="icon icon-menu"></i>
+				<span data-ng-controller="ssn.magicbar.mainController">
+					<span class="badge" id="mobileCounter" data-ng-if="(messages.unread + friends.requestsCount + news.count) > 0">
+						<span>{{messages.unread + friends.requestsCount + news.count}}</span>
+					</span>
+				</span>
+			</button>
 			<a href="start" id="brand" data-ng-click="mobileActivateView()"><span id="brandNormal">whis</span><span id="brandInverse">peer</span></a>
 			<button class="toggle" id="toggleSearch" data-ng-click="toggleSearch()" data-ng-if="mobile"><i class="icon icon-search"></i></button>
-			<span class="badge" id="mobileCounter" data-ng-controller="ssn.magicbar.mainController" data-ng-if="mobile && (messages.unread + friends.requestsCount + news.count > 0)">{{messages.unread + friends.requestsCount + news.count}}</span>
 			<div class="nav-collapse collapse">
 				<usersearch size="big" data-input-i18n-attr="menu.search|placeholder"/>
 			</div>
 		</div>
-		<div id="navIcons" data-ng-controller="ssn.magicbar.mainController">
+		<div id="navIcons" data-ng-if="!mobile" data-ng-controller="ssn.magicbar.mainController">
 			<div class="navIcon" id="messageicon" data-ng-click="loadWidget('messages')">
 				<img src="assets/img/icons/messages.png" alt="Nachrichten" class="icon">
 				<span class="badge" data-ng-if="messages.unread!=0">{{messages.unread}}</span>
@@ -135,7 +141,7 @@
 				</a>
 				<a href="{{user.basic.url}}" data-ng-click="toggleSidebar()">
 					<li>
-						<img data-ng-src="{{user.basic.image}}" alt="User">
+						<img data-ng-src="{{user.basic.image}}" class="userimg" alt="{{user.basic.name}}">
 						<span data-i18n="menu.profil"></span>
 					</li>
 				</a>

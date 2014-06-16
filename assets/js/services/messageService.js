@@ -852,7 +852,7 @@ define([
 		Observer.call(messageService);
 
 		initService.register("messages.getUnreadCount", {}, function (data) {
-			messageService.data.unread = data.unread;
+			messageService.data.unread = h.parseDecimal(data.unread) || 0;
 
 			messageService.listenNewMessage(function(m) {
 				if (!m.isOwn()) {

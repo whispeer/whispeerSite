@@ -1,7 +1,13 @@
 {
 	"globals": {
 		"define": true,
-		"console": true
+		"console": true,
+		"require": true,
+		"webkitURL": true,
+		"URL": true,
+		"requirejs": true,
+		"jQuery": true,
+		"startup": true
 	},
 	"undef": true,
 	"browser": true,

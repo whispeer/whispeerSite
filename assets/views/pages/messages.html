@@ -1,7 +1,8 @@
 <header>
-	<span class="title">
+	<button data-ng-if="!mobile || !showMessage" class="left" id="newmessage" data-ng-click="unloadTopic()"><i class="icon-plus-circle" id="plusBtn"></i><span data-i18n="messages.newMessage"></span></button>
+	<span class="title" data-ng-class="{chat: topicLoaded && showMessage, newMessage: !topicLoaded && showMessage}">
 		<span data-ng-if="!topicLoaded && !showMessage" data-i18n="messages.title"></span>
-		<span data-ng-if="!topicLoaded && showMessage" data-i18n="messages.title"></span>
+		<span data-ng-if="!topicLoaded && showMessage" data-i18n="messages.newMessage"></span>
 		<span data-ng-if="topicLoaded && showMessage">
 			<span data-i18n="messages.chat"></span>
 			<span data-ng-repeat="partner in activeTopic.partners">
@@ -12,25 +13,21 @@
 			</span>
 		</span>
 	</span>
-	<button data-ng-click="unloadTopic(false)" data-ng-if="mobile && showMessage"><i class="icon icon-menu"></i></button>
+	<button id="showTopics" class="right" data-ng-click="unloadTopic(false)" data-ng-if="mobile && showMessage"><i class="icon icon-menu"></i></button>
 </header>
 <div id="topicListWrap" data-ng-if="!mobile || !showMessage">
 	<ul id="topicList">
-		<li class="topic" id="newmessage" data-ng-click="unloadTopic()">
-			<div class="btn btn--small">
-				<div class="left"><i class="icon-plus-circle" id="plusBtn"></i></div>
-				<div class="right" data-i18n="messages.newMessage"></div>
-			</div>	
-		</li>
 		<div id="topicListScroll">
 			<li data-ng-repeat="topic in topics" id="{{topic.id}}" class="topic {{topic.type}} {{topic.unread?'unread':''}} {{isActiveTopic(topic)?'active':''}}" data-ng-click="loadActiveTopic(topic.id)">
 				<div class="left">
-					<img class="userimg" data-ng-repeat="partner in topic.partnersDisplay" data-ng-src="{{partner.basic.image}}" alt="{{partner.name}}" title="{{partner.name}}">
-					<span data-ng-if="topic.remainingUser" title="{{topic.remainingUserTitle}}">+ {{topic.remainingUser}}</span>
+					<div class="imgWrap">
+						<img class="userimg" data-ng-repeat="partner in topic.partnersDisplay" data-ng-src="{{partner.basic.image}}" alt="{{partner.name}}" title="{{partner.name}}">
+						<span data-ng-if="topic.remainingUser" title="{{topic.remainingUserTitle}}">+ {{topic.remainingUser}}</span>
+					</div>	
 				</div>
 				<div class="username">
-					<strong ng-repeat="partner in topic.partners">{{topic.partners.length>1?partner.basic.shortname:partner.name}}{{$last?"":", "}}</strong>
 					<span class="status" data-status="{{topic.partners[0].online}}"></span>
+					<strong ng-repeat="partner in topic.partners">{{topic.partners.length>1?partner.basic.shortname:partner.name}}{{$last?"":", "}}</strong>
 				</div>
 				<div class="lastMessage">
 					{{topic.latestMessage.data.text}}
@@ -63,7 +60,7 @@
 			</li>
 		</ul>
 		<form id="inputWrap">
-			<textarea autofocus id="messageInput" data-strg-enter="sendMessage(activeTopic.newMessage)" type="text" data-ng-model="activeTopic.newMessage" data-ng-disabled="!canSend" data-i18n-attr="messages.sendMessage.text|placeholder"></textarea>
+			<textarea autofocus id="messageInput" data-advancedsend="sendMessage(activeTopic.newMessage)" type="text" data-ng-model="activeTopic.newMessage" data-ng-disabled="!canSend" data-i18n-attr="messages.sendMessage.text|placeholder"></textarea>
 			<button class="btn btn--primary" id="sendmessage" data-ng-click="sendMessage(activeTopic.newMessage)" data-i18n="messages.sendMessage.send" type="submit"></button>
 		</form>
 	</div>
@@ -74,10 +71,10 @@
 	</div>
 	<div id="messageWrap">
 		<form id="inputWrap">
-			<usersearch res="new" data-user="userid" size="small" focus="all" id="recieverInput" data-multiple data-selected-users="new.selectedUsers" data-input-i18n-attr="messages.search|placeholder"/>
+			<usersearch res="create" data-user="userid" size="small" focus="all" id="recieverInput" data-multiple data-selected-users="create.selectedUsers" data-input-i18n-attr="messages.search|placeholder"/>
 
-			<textarea data-strg-enter="new.send(new.selectedElements, new.text)" type="text" data-i18n-attr="messages.sendMessage.text|placeholder" id="messageInput" data-ng-model="new.text"></textarea>
-			<button class="btn btn--primary" id="sendmessage" type="submit" data-ng-click="new.send(new.selectedElements, new.text)" data-i18n="messages.sendMessage.send"></button>
+			<textarea data-advancedsend="create.send(create.selectedElements, create.text)" type="text" data-i18n-attr="messages.sendMessage.text|placeholder" id="messageInput" data-ng-model="create.text"></textarea>
+			<button class="btn btn--primary" id="sendmessage" type="submit" data-ng-click="create.send(create.selectedElements, create.text)" data-i18n="messages.sendMessage.send"></button>
 		</form>
 	</div>
 </div>

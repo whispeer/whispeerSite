@@ -52,11 +52,11 @@ define(["app"], function (app) {
 
 		$routeProvider.when("/:identifier", {
 			redirectTo: function (params) {
-				if (params.identifier === "") {
-					return "/start";
+				if (params.identifier.match(/^(A-z0-9)+$/)) {
+					return "/user/" + params.identifier;
 				}
 
-				return "/user/" + params.identifier;
+				return "/start";
 			}
 		});
 		$routeProvider.otherwise({redirectTo: "/start"});

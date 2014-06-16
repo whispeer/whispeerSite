@@ -3,7 +3,7 @@
 /**
 * SessionHelper
 **/
-define(["step", "whispeerHelper", "socketStream"], function (step, h, iostream) {
+define(["step", "whispeerHelper"], function (step, h) {
 	"use strict";
 
 	var service = function (socketService, keyStoreService, ProfileService, sessionService, blobService) {

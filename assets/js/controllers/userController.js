@@ -5,7 +5,7 @@
 define(["step", "whispeerHelper", "asset/resizableImage"], function (step, h, ResizableImage) {
 	"use strict";
 
-	function userController($scope, $routeParams, $timeout, cssService, userService, postService, circleService, blobService) {
+	function userController($scope, $routeParams, $timeout, cssService, errorService, userService, postService, circleService, blobService) {
 		var identifier = $routeParams.identifier;
 		var userObject;
 
@@ -240,7 +240,7 @@ define(["step", "whispeerHelper", "asset/resizableImage"], function (step, h, Re
 
 			postService.createPost($scope.newPost.text, visibleSelection, wallUserID, function (err, post) {
 				if (err) {
-					debugger;
+					errorService.criticalError(err);
 				} else {
 					$scope.newPost.text = "";
 				}
@@ -286,7 +286,7 @@ define(["step", "whispeerHelper", "asset/resizableImage"], function (step, h, Re
 		$scope.friends = [];
 	}
 
-	userController.$inject = ["$scope", "$routeParams", "$timeout", "ssn.cssService", "ssn.userService", "ssn.postService", "ssn.circleService", "ssn.blobService"];
+	userController.$inject = ["$scope", "$routeParams", "$timeout", "ssn.cssService", "ssn.errorService", "ssn.userService", "ssn.postService", "ssn.circleService", "ssn.blobService"];
 
 	return userController;
 });
