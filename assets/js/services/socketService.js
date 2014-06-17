@@ -26,8 +26,21 @@ define(["jquery", "socket", "socketStream", "step", "whispeerHelper", "config", 
 
 		var lastRequestTime = 0;
 
+		window.setInterval(function () {
+			try {
+				if (!socket.socket.connected) {
+					socket.socket.connect();
+				}
+			} catch (e) {
+				console.error(e);
+			}
+		}, 10000);
+
 		var socketS = {
 			socket: socket,
+			isConnected: function () {
+				return socket.socket.connected;
+			},
 			uploadBlob: function (blob, blobid, cb) {
 				step(function () {
 					socketS.emit("blob.upgradeStream", {}, this);
@@ -46,6 +59,9 @@ define(["jquery", "socket", "socketStream", "step", "whispeerHelper", "config", 
 			},
 			on: function () {
 				socket.on.apply(socket, arguments);
+			},
+			once: function () {
+				socket.once.apply(socket, arguments);
 			},
 			listen: function (channel, callback) {
 				socket.on(channel, function (data) {
@@ -67,7 +83,11 @@ define(["jquery", "socket", "socketStream", "step", "whispeerHelper", "config", 
 
 					time = new Date().getTime();
 
-					socket.emit(channel, data, this.ne);
+					if (socket.socket.connected) {
+						socket.emit(channel, data, this.ne);
+					} else {
+						throw new Error("no connection");
+					}
 				}, h.sF(function emitResults(data) {
 					console.groupCollapsed("Answer on " + channel);
 					console.info((new Date().getTime() - time));
