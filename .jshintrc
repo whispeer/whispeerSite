@@ -27,7 +27,7 @@
 	"trailing": true,
 	//mabye?
 	"latedef": true,
-	"maxparams": 6,
-	"maxdepth": 2,
+	//"maxparams": 6,
+	//"maxdepth": 2,
 	"maxstatements": false
 }

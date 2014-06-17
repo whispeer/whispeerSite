@@ -56,9 +56,6 @@ define([
 
 			var securedData = new SecuredData(data.content, data.meta);
 
-			console.log(data.meta);
-			console.log(data.content);
-
 			var ownMessage;
 
 			this.data = {
@@ -452,9 +449,8 @@ define([
 				var secureMessageData = new SecuredData(message, meta, {}, true);
 
 				secureMessageData.signAndEncrypt(userService.getown().getSignKey(), key, this.parallel());
-				keyStore.sym.symEncryptKey(key, key, this.parallel());
+				keyStore.sym.symEncryptKey(key, topicKey, this.parallel());
 			}), h.sF(function (encr) {
-				debugger;
 				this.ne(encr);
 			}), cb);
 		};
@@ -488,7 +484,7 @@ define([
 					if (typeof val === "object") {
 						return val.getID();
 					} else {
-						return parseInt(val, 10);
+						return h.parseDecimal(val);
 					}
 				});
 
@@ -558,10 +554,6 @@ define([
 				};
 
 				topicHash = keyStore.hash.hashObjectHex(topicHashData);
-
-				keyStore.random.hex(128-(message.length%128), this);
-			}), h.sF(function (random) {
-				message = random + "::" + message;
 
 				var meta = {
 					createTime: new Date().getTime(),
