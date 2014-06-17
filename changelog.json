@@ -3,7 +3,9 @@
 		"1": {
 			"10": [
 				"Bugfix: Mobile: Show correct start page",
-				"Bugfix: Show own friends on own profile"
+				"Bugfix: Show own friends on own profile",
+				"Disallow empty messages/posts",
+				"Display correct access count for all friends and friends of friends in filter search"
 			],
 			"9": [
 				"Multi-line postings",
