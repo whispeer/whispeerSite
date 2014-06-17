@@ -261,7 +261,7 @@ define(["step", "whispeerHelper", "asset/resizableImage", "asset/observer"], fun
 		};
 
 		$scope.noPasswordMatch = function () {
-			return $scope.password != $scope.password2;
+			return $scope.password !== $scope.password2;
 		};
 
 		$scope.acceptIconNicknameFree = function acceptIconNickname() {

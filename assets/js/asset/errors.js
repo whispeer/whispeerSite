@@ -1,4 +1,5 @@
 define([], function () {
+	"use strict";
 	function extendError(parentErrorClass) {
 		if (parentErrorClass.prototype instanceof Error || parentErrorClass === Error) {
 			var F = function(){};

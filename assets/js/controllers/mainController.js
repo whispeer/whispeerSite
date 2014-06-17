@@ -39,7 +39,7 @@ define([], function () {
 				return;
 			}
 
-			postService.createPost($scope.newPost.text, $scope.newPost.readers, 0, function (err, post) {
+			postService.createPost($scope.newPost.text, $scope.newPost.readers, 0, function (err) {
 				if (err) {
 					errorService.criticalError(err);
 				} else {

@@ -41,10 +41,6 @@ define(["whispeerHelper"], function (h) {
 
 		var position = options.position || defaultPosition;
 
-		initSize();
-		checkMovePosition();
-		setElementPosition(position);
-
 		var resizing = false;
 		var moving = false;
 
@@ -219,6 +215,10 @@ define(["whispeerHelper"], function (h) {
 			resizing = false;
 			moving = false;
 		}
+
+		initSize();
+		checkMovePosition();
+		setElementPosition(position);
 
 		var rand = Math.floor(Math.random() * 1000000);
 

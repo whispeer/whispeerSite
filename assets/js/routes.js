@@ -6,7 +6,7 @@ define(["app"], function (app) {
 		$locationProvider.hashPrefix("!");
 
 		if (window.location.href.indexOf("file:///") === 0) {
-			$provide.decorator('$sniffer', function($delegate) {
+			$provide.decorator("$sniffer", function($delegate) {
 				$delegate.history = false;
 				return $delegate;
 			});

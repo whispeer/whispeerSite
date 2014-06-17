@@ -83,24 +83,6 @@ define(["whispeerHelper", "step", "asset/errors"], function (h, step, errors) {
 			}
 		}
 
-		function circleFiltersToUser(filter, cb) {
-			if (filter.length === 0) {
-				cb(null, []);
-				return;
-			}
-
-			step(function () {
-				circleService.loadAll(this);
-			}, h.sF(function () {
-				var i, user = [];
-				for (i = 0; i < filter.length; i += 1) {
-					user = user.concat(circleService.get(filter[i]).getUserIDs());
-				}
-
-				this.ne(h.arrayUnique(user));
-			}), cb);
-		}
-
 		function circleFilterToKeys(filter, cb) {
 			step(function () {
 				circleService.loadAll(this);

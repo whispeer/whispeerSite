@@ -2,6 +2,7 @@
 * BaseService
 **/
 (function () {
+	"use strict";
 	var models = ["user"];
 
 	var includes = ["angular"];
@@ -12,7 +13,6 @@
 	}
 
 	define(includes, function (angular) {
-		"use strict";
 		var modelsProvider = angular.module("ssn.models", []);
 
 		var i;

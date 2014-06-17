@@ -34,8 +34,6 @@ define([], function () {
 
 									wasInView = false;
 								}
-							} else {
-								//TODO remove listener
 							}
 						}
 

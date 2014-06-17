@@ -4,8 +4,7 @@
 	Make it safe to do console.log() always.
 */
 (function(con) {
-	'use strict';
-	var empty = {};
+	"use strict";
 	var dummy = function() {};
 
 	var methods =

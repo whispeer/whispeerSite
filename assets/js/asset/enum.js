@@ -26,6 +26,7 @@
 /* global module */
 
 (function (global) {
+    "use strict";
     function copyOwnFrom(target, source) {
         Object.getOwnPropertyNames(source).forEach(function(propName) {
             Object.defineProperty(target, propName,

@@ -273,7 +273,7 @@ define(["step", "whispeerHelper"], function () {
 						addCurrent(1);
 					}
 
-					if (e.keyCode == BACKSPACE && scope.query.length === 0) {
+					if (e.keyCode === BACKSPACE && scope.query.length === 0) {
 						if (scope.markedForDeletion !== -1) {
 							scope.removeSelection(scope.markedForDeletion);
 						} else {
@@ -281,7 +281,7 @@ define(["step", "whispeerHelper"], function () {
 						}
 					}
 
-					if (e.keyCode == ENTER) {
+					if (e.keyCode === ENTER) {
 						scope.selectResult(scope.current);
 					}
 

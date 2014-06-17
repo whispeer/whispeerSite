@@ -1,5 +1,5 @@
 define(function () {
-	'use strict';
+	"use strict";
 
 	function savebuttonDirective() {
 		return {
@@ -9,8 +9,8 @@ define(function () {
 				operation:		"=operation",
 				failure:		"=failure"
 			},
-			restrict: 'E',
-			templateUrl: 'assets/views/directives/saveButton.html',
+			restrict: "E",
+			templateUrl: "assets/views/directives/saveButton.html",
 			replace: true,
 			link: function (scope, iElement, iAttrs) {
 				if (iAttrs.defaulticon === undefined) {
