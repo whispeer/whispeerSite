@@ -532,6 +532,10 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 			});
 		}
 
+		this.getAccessCount = function () {
+			return keyData.accessCount;
+		};
+
 		this.getUploadData = function () {
 			var data = {
 				realid: intKey.getRealID(),
@@ -1621,7 +1625,12 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 				return keyData.realid;
 			},
 			getKeyAccessCount: function (keyrealid) {
-				
+				var key = symKeys[keyrealid];
+				if (key) {
+					return key.getAccessCount();
+				}
+
+				return -1;
 			},
 			setSocket: function (theSocket) {
 				socket = theSocket;
