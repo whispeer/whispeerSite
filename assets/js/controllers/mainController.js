@@ -35,6 +35,10 @@ define([], function () {
 		};
 
 		$scope.sendPost = function () {
+			if ($scope.newPost.text === "") {
+				return;
+			}
+
 			postService.createPost($scope.newPost.text, $scope.newPost.readers, 0, function (err, post) {
 				if (err) {
 					errorService.criticalError(err);

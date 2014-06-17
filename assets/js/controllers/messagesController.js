@@ -51,6 +51,10 @@ define(["step", "whispeerHelper"], function (step, h) {
 			text: "",
 			selectedElements: [],
 			send: function (receiver, text) {
+				if (text === "") {
+					return;
+				}
+
 				messageService.sendNewTopic(receiver, text, function (e, id) {
 					if (!e) {
 						$scope.create.text = "";
@@ -135,6 +139,10 @@ define(["step", "whispeerHelper"], function (step, h) {
 		};
 
 		$scope.sendMessage = function () {
+			if ($scope.activeTopic.newMessage === "") {
+				return;
+			}
+
 			step(function () {
 				$scope.canSend = false;
 				messageService.sendMessage($scope.activeTopic.id, $scope.activeTopic.newMessage, this);

@@ -233,6 +233,10 @@ define(["step", "whispeerHelper", "asset/resizableImage"], function (step, h, Re
 		$scope.sendPost = function () {
 			var visibleSelection = ["always:allfriends"], wallUserID = 0;
 
+			if ($scope.newPost.text === "") {
+				return;
+			}
+
 			if (!$scope.user.me) {
 				wallUserID = $scope.user.id;
 				visibleSelection.push("friends:" + $scope.user.id);
