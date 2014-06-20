@@ -1,6 +1,8 @@
 var WEB_SOCKET_SWF_LOCATION = "libs/WebSocketMain.swf";
-
 var startup = new Date().getTime();
+
+void(startup);
+void (WEB_SOCKET_SWF_LOCATION);
 
 if (window.location.href.indexOf("file:///") === 0) {
 	var base = window.location.href.replace("file://", "");
@@ -46,7 +48,7 @@ requirejs( [
 	"app",
 	"routes",
 	"libs/canvas-toBlob"
-], function($, angular, app, routes) {
+], function($, angular, app) {
 	"use strict";
 	$(document).ready(function () {
 		var $html = $("html");

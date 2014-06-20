@@ -65,7 +65,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 		return h.arrayUnique(profileTypes);
 	}
 
-	function userModel($injector, $location, blobService, keyStoreService, ProfileService, sessionService, settingsService, socketService, friendsService) {
+	function userModel($injector, $location, blobService, keyStoreService, ProfileService, sessionService, settingsService, socketService, friendsService, errorService) {
 		return function User (providedData) {
 			var theUser = this, mainKey, signKey, cryptKey, friendShipKey, friendsKey, friendsLevel2Key, migrationState;
 			var id, mail, nickname, publicProfile, privateProfiles = [], mutualFriends, publicProfileChanged = false, publicProfileSignature;
@@ -455,9 +455,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 					theUser.getImage(this);
 				}, h.sF(function (imageUrl) {
 					theUser.data.basic.image = imageUrl;
-				}), function (e) {
-
-				});
+				}), errorService.criticalError);
 			};
 
 			this.loadBasicData = function (cb) {
@@ -470,7 +468,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 					} else {
 						this.last.ne();
 					}
-				}, h.sF(function (shortname, names, image) {
+				}, h.sF(function (shortname, names) {
 					basicDataLoaded = true;
 
 					theUser.data.me = theUser.isOwn();
@@ -798,7 +796,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 		};
 	}
 
-	userModel.$inject = ["$injector", "$location", "ssn.blobService",  "ssn.keyStoreService", "ssn.profileService", "ssn.sessionService", "ssn.settingsService", "ssn.socketService", "ssn.friendsService"];
+	userModel.$inject = ["$injector", "$location", "ssn.blobService",  "ssn.keyStoreService", "ssn.profileService", "ssn.sessionService", "ssn.settingsService", "ssn.socketService", "ssn.friendsService", "ssn.errorService"];
 
 	return userModel;
 });

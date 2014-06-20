@@ -1,7 +1,7 @@
 define(["step", "whispeerHelper"], function (step, h) {
 	"use strict";
 
-	function searchDirective(circleService, userService, friendsService, $location, $timeout) {
+	function searchDirective(errorService, circleService, userService, friendsService, $location, $timeout) {
 		return {
 			transclude: false,
 			scope:	false,
@@ -93,10 +93,13 @@ define(["step", "whispeerHelper"], function (step, h) {
 						for (i = 0; i < toRemove.length; i += 1) {
 							circleService.get(toRemove[i]).removePersons([user.id], this.parallel());
 						}
-					}), h.sF(function (results) {
-						setCircleState("success");
 					}), function (e) {
-						setCircleState("failure");
+						if (e) {
+							setCircleState("failure");
+							errorService.criticalError(e);
+						} else {
+							setCircleState("success");
+						}
 					});
 				}
 

@@ -21,8 +21,14 @@ define(["step", "whispeerHelper"], function (step, h) {
 
 		function loadData() {
 			step(function () {
+				if (socketService.isConnected()) {
+					this();
+				} else {
+					socketService.once("connect", this.ne);
+				}
+			}, h.sF(function () {
 				socketService.emit("data", createData(), this);
-			}, h.sF(function (result) {
+			}), h.sF(function (result) {
 				var i, cur;
 				for (i = 0; i < callbacks.length; i += 1) {
 					cur = callbacks[i];

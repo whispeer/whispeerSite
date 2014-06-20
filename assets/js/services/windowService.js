@@ -51,14 +51,14 @@ define(["step", "whispeerHelper", "asset/observer"], function (step, h, Observer
 			},
 			sendLocalNotification: function(type, obj) {
 				if (window.Notification) {
-					if (type === 'message') {
-						if (window.Notification.permission === 'granted') {
+					if (type === "message") {
+						if (window.Notification.permission === "granted") {
 							var n = new window.Notification(
 								localize.getLocalizedString("notification.newmessage").replace("{user}", obj.sender.name),
 								{
-									'body': obj.sender.basic.shortname + ': ' + obj.text,
-									'tag':	obj.timestamp,
-									'icon':	obj.sender.basic.image
+									"body": obj.sender.basic.shortname + ": " + obj.text,
+									"tag":	obj.timestamp,
+									"icon":	obj.sender.basic.image
 								}
 							);
 							n.onclick = function () {
@@ -77,11 +77,25 @@ define(["step", "whispeerHelper", "asset/observer"], function (step, h, Observer
 		Observer.call(api);
 		
 		// get Permissions for Notifications
-		if (window.Notification && window.Notification.permission === 'default') {
+		if (window.Notification && window.Notification.permission === "default") {
 			window.Notification.requestPermission();
 		}
 
 		var hidden = "hidden";
+
+		function onchange(evt) {
+			var v = true, h = false,
+				evtMap = {
+					focus:v, focusin:v, pageshow:v, blur:h, focusout:h, pagehide:h
+				};
+
+			evt = evt || window.event;
+			if (evt.type in evtMap) {
+				setVisible(evtMap[evt.type]);
+			} else {
+				setVisible(evt.currentTarget[hidden] ? h : v);
+			}
+		}
 
 		// Standards:
 		if (hidden in document) {
@@ -110,20 +124,6 @@ define(["step", "whispeerHelper", "asset/observer"], function (step, h, Observer
 			}
 
 			api.isActive = visible;
-		}
-
-		function onchange(evt) {
-			var v = true, h = false,
-				evtMap = {
-					focus:v, focusin:v, pageshow:v, blur:h, focusout:h, pagehide:h
-				};
-
-			evt = evt || window.event;
-			if (evt.type in evtMap) {
-				setVisible(evtMap[evt.type]);
-			} else {
-				setVisible(evt.currentTarget[hidden] ? h : v);
-			}
 		}
 
 		return api;

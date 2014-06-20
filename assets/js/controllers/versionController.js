@@ -1,4 +1,4 @@
-define(["whispeerHelper", "step"], function (h, step) {
+define(["whispeerHelper"], function (h) {
 	"use strict";
 
 	function flattenObject(obj, concatString) {
