@@ -11,6 +11,8 @@ define([
 	], function (step, h, validator, Observer, sortedSet, SecuredData) {
 	"use strict";
 
+	var messageService;
+
 	function sortGetTime(a, b) {
 		return (a.getTime() - b.getTime());
 	}
@@ -23,138 +25,11 @@ define([
 		return (b.obj.getTime() - a.obj.getTime());
 	}
 
-	var service = function ($rootScope, $timeout, errorService, socket, sessionService, userService, keyStore, initService, windowService) {
+	var service = function ($rootScope, $timeout, errorService, socket, sessionService, userService, keyStore, initService, windowService, Message) {
 		var messages = {};
 		var topics = {};
 
-		var listeners = [];
-
 		var topicArray = sortedSet(sortObjGetTimeInv);
-
-		var Message = function (data) {
-			var theMessage = this, verifiable = true;
-
-			var err = validator.validate("message", data);
-			if (err) {
-				throw err;
-			}
-
-			if (!data.meta._version) {
-				//old version
-				if (typeof data.content.key === "object") {
-					data.content.key = keyStore.upload.addKey(data.content.key);
-				}
-
-				data.meta._key = data.content.key;
-				verifiable = false;
-				data.meta._version = 0;
-
-				data.content.ct = data.content.text;
-			}
-
-			var messageid = h.parseDecimal(data.meta.messageid || data.messageid);
-
-			var securedData = new SecuredData(data.content, data.meta);
-
-			var ownMessage;
-
-			this.data = {
-				text: "",
-				timestamp: securedData.metaAttr("sendTime"),
-
-				loading: true,
-				loaded: false,
-
-				sender: {
-					"id": securedData.metaAttr("sender"),
-					"name": "",
-					"url": "",
-					"image": "assets/img/user.png"
-				},
-
-				id: messageid,
-				obj: this
-			};
-
-			this.getHash = function getHashF() {
-				return securedData.metaAttr("ownHash");
-			};
-
-			this.getTopicHash = function getHashF() {
-				return securedData.metaAttr("topicHash");
-			};
-
-			this.getID = function getIDF() {
-				return messageid;
-			};
-
-			this.getTopicID = function getTopicIDF() {
-				return securedData.metaAttr("topicid");
-			};
-
-			this.getTime = function getTimeF() {
-				return securedData.metaAttr("sendTime");
-			};
-
-			this.isOwn = function isOwnF() {
-				return ownMessage;
-			};
-
-			this.loadSender = function loadSenderF(cb) {
-				var theSender;
-				step(function () {
-					userService.get(securedData.metaAttr("sender"), this);
-				}, h.sF(function loadS1(sender) {
-					this.parallel.unflatten();
-
-					theSender = sender;
-					sender.loadBasicData(this);
-				}), h.sF(function loadS2() {
-					theMessage.data.sender = theSender.data;
-					ownMessage = theSender.isOwn();
-
-					this.ne();
-				}), cb);
-			};
-
-			this.loadFullData = function loadFullDataF(cb) {
-				step(function l1() {
-					theMessage.decrypt(this);
-				}, h.sF(function l2() {
-					theMessage.loadSender(this);
-				}), h.sF(function l3() {
-					this.ne();
-				}), cb);
-			};
-
-			this.decrypt = function decryptF(cb) {
-				step(function () {
-					securedData.decrypt(this);
-				}, h.sF(function () {
-					theMessage.data.text = securedData.contentGet();
-					this.ne(securedData.contentGet());
-				}), cb);
-				/*
-					if (decrypted) {
-						this.last.ne();
-					} else {
-						keyStore.sym.decrypt({
-							ct: content.text,
-							iv: content.iv
-						}, content.key, this);
-					}
-				}, h.sF(function (text) {
-					decrypted = true;
-					decryptedText = text;
-
-					var randomPart = text.indexOf("::");
-
-					theMessage.data.text = text.substr(randomPart + 2);
-
-					this.ne(text);
-				}), cb);*/
-			};
-		};
 
 		var Topic = function (data) {
 			var messages = sortedSet(sortGetTime), dataMessages = sortedSet(sortObjGetTime), messagesByID = {}, theTopic = this, loadInitial = true;
@@ -622,14 +497,13 @@ define([
 			return m;
 		}
 
-		function callListener(message) {
-			var i;
-			for (i = 0; i < listeners.length; i += 1) {
-				try {
-					listeners[i](message);
-				} catch (e) {
-					errorService.criticalError(e);
-				}
+		function addSocketMessage(messageData) {
+			if (messageData) {
+				var message = makeMessage(messageData, true, function () {
+					$timeout(function () {
+						messageService.notify(message, "message");
+					});
+				});
 			}
 		}
 
@@ -637,24 +511,14 @@ define([
 			if (!e) {
 				if (data.topic) {
 					var t = makeTopic(data.topic, function () {
-						if (data.message) {
-							var m = makeMessage(data.message, true, function () {
-								$timeout(function () {
-									callListener(m);
-								});
-							});
-						}
+						addSocketMessage(data.message);
 					});
 
 					if (t.data.unread) {
 						messageService.data.unread += 1;
 					}
-				} else if (data.message) {
-					var m = makeMessage(data.message, true, function () {
-						$timeout(function () {
-							callListener(m);
-						});
-					});
+				} else {
+					addSocketMessage(data.message);
 				}
 			} else {
 				errorService.criticalError(e);
@@ -665,21 +529,17 @@ define([
 
 		var activeTopic = 0;
 
-		var messageService = {
+		messageService = {
 			isActiveTopic: function (topicid) {
 				return activeTopic === h.parseDecimal(topicid);
 			},
 			setActiveTopic: function (topicid) {
 				activeTopic = h.parseDecimal(topicid);
 			},
-			listenNewMessage: function (func) {
-				listeners.push(func);
-			},
 			reset: function () {
 				messages = {};
 				topics = {};
 				topicArray = sortedSet(sortObjGetTimeInv);
-				listeners = [];
 				messageService.data = {
 					latestTopics: {
 						count: 0,
@@ -846,11 +706,11 @@ define([
 		initService.register("messages.getUnreadCount", {}, function (data) {
 			messageService.data.unread = h.parseDecimal(data.unread) || 0;
 
-			messageService.listenNewMessage(function(m) {
+			messageService.listen("message", function(m) {
 				if (!m.isOwn()) {
 					if (!messageService.isActiveTopic(m.getTopicID()) || !windowService.isVisible) {
 						windowService.playMessageSound();
-						windowService.sendLocalNotification('message', m.data);
+						windowService.sendLocalNotification("message", m.data);
 					}
 
 					windowService.setAdvancedTitle("newmessage", m.data.sender.basic.shortname);
@@ -865,7 +725,7 @@ define([
 		return messageService;
 	};
 
-	service.$inject = ["$rootScope", "$timeout", "ssn.errorService", "ssn.socketService", "ssn.sessionService", "ssn.userService", "ssn.keyStoreService", "ssn.initService", "ssn.windowService"];
+	service.$inject = ["$rootScope", "$timeout", "ssn.errorService", "ssn.socketService", "ssn.sessionService", "ssn.userService", "ssn.keyStoreService", "ssn.initService", "ssn.windowService", "ssn.models.message"];
 
 	return service;
 });

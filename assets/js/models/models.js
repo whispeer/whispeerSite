@@ -2,7 +2,7 @@
 * BaseService
 **/
 (function () {
-	var models = ["user"];
+	var models = ["user", "message"];
 
 	var includes = ["angular"];
 
