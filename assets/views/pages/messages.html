@@ -1,5 +1,7 @@
 <header>
-	<button data-ng-if="!mobile || !showMessage" class="left" id="newmessage" data-ng-click="unloadTopic()"><i class="icon-plus-circle" id="plusBtn"></i><span data-i18n="messages.newMessage"></span></button>
+	<button data-ng-if="!mobile || !showMessage" class="left" id="newmessage" data-ng-click="unloadTopic()">
+		<i class="icon-plus-circle" id="plusBtn"></i><span data-i18n="messages.newMessage"></span>
+	</button>
 	<span class="title" data-ng-class="{chat: topicLoaded && showMessage, newMessage: !topicLoaded && showMessage}">
 		<span data-ng-if="!topicLoaded && !showMessage" data-i18n="messages.title"></span>
 		<span data-ng-if="!topicLoaded && showMessage" data-i18n="messages.newMessage"></span>
@@ -13,8 +15,11 @@
 			</span>
 		</span>
 	</span>
-	<button id="showTopics" class="right" data-ng-click="unloadTopic(false)" data-ng-if="mobile && showMessage"><i class="icon icon-menu"></i></button>
+	<button id="showTopics" class="right" data-ng-click="unloadTopic(false)" data-ng-if="mobile && showMessage">
+		<i class="icon icon-menu"></i>
+	</button>
 </header>
+
 <div id="topicListWrap" data-ng-if="!mobile || !showMessage">
 	<ul id="topicList">
 		<div id="topicListScroll">
@@ -23,7 +28,7 @@
 					<div class="imgWrap">
 						<img class="userimg" data-ng-repeat="partner in topic.partnersDisplay" data-ng-src="{{partner.basic.image}}" alt="{{partner.name}}" title="{{partner.name}}">
 						<span data-ng-if="topic.remainingUser" title="{{topic.remainingUserTitle}}">+ {{topic.remainingUser}}</span>
-					</div>	
+					</div>
 				</div>
 				<div class="username">
 					<span class="status" data-status="{{topic.partners[0].online}}"></span>
@@ -38,25 +43,24 @@
 		</div>
 	</ul>
 </div>
+
 <div id="topicWrap" data-topicID="{{activeTopic.id}}" class="{{activeTopic.type}}" data-ng-if="topicLoaded && showMessage">
 	<div id="messageWrap">
 		<ul class="scroll-pane" id="messageList" data-scroll data-keepBottom data.scrollLock="scrollLock" data-ontop="loadMoreMessages()">
-<!--
-			<li>
-				Remaining: {{activeTopic.remaining}}
-			</li>
--->
-			<li data-ng-cloak data-ng-repeat="message in activeTopic.messages" data-inview="markRead(message.id)" data-inview-time="1000" data-messageID="{{message.id}}" class="message" data-ng-class="{me:message.sender.me, other:message.sender.other}">
-				<div class="userimg">
-					<a href="{{message.sender.basic.url}}">
-						<img data-userID="sender{{message.sender.id}}" alt="Username" data-ng-src="{{message.sender.basic.image}}">
-					</a>
-				</div>
-				<div class="messageContent">
-					<a href="{{message.sender.basic.url}}" class="username" data-userID="sender{{message.sender.id}}">{{message.sender.name}}</a>
-					<div class="messageText {{message.type}}" data-ng-class="{{message.type}}" data-syntaxify="message.text"><img data-ng-if="message.type != 'image'" data-ng-src=""></div>
-					<div class="time"><i class="icon icon-clock"></i> {{message.timestamp|smartdate}}</div>
-				</div>	
+			<li data-ng-repeat="burst in messageBursts()">
+				<ul>
+					<li data-ng-cloak data-ng-repeat="message in burst" data-messageID="{{message.id}}" class="message" data-ng-class="{me:message.sender.me, other:message.sender.other}">
+						<div class="userimg">
+							<a href="{{message.sender.basic.url}}">
+								<img data-userID="sender{{message.sender.id}}" alt="Username" data-ng-src="{{message.sender.basic.image}}">
+							</a>
+						</div>
+						<div class="messageContent">
+							<div class="messageText {{message.type}}" data-ng-class="{{message.type}}" data-syntaxify="message.text"><img data-ng-if="message.type != 'image'" data-ng-src=""></div>
+							<div class="time"><i class="icon icon-clock"></i> {{message.timestamp|smartdate}}</div>
+						</div>
+					</li>
+				</ul>
 			</li>
 		</ul>
 		<form id="inputWrap">
@@ -65,6 +69,7 @@
 		</form>
 	</div>
 </div>
+
 <div id="topicWrap" class="newMessage" data-ng-if="!topicLoaded && showMessage">
 	<div id="messageTitle">
 		<h2 data-ng-if="!mobile" data-i18n="messages.newMessage"></h2>

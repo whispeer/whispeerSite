@@ -151,13 +151,32 @@ define(["step", "whispeerHelper"], function (step, h) {
 				$scope.activeTopic.newMessage = "";
 			});
 		};
-		
+
 
 		$scope.topics = messageService.data.latestTopics.data;
 
 		$scope.newMessage = false;
-		
+
+		$scope.messageBursts = function() {
+			var bursts = [];
+			var currentBurst;
+			var previousSender;
+			var messages = $scope.activeTopic.messages;
+
+			messages.forEach(function(message) {
+				if (previousSender !== message.sender.id) {
+					currentBurst = [];
+					bursts.push(currentBurst);
+					previousSender = message.sender.id;
+				}
+				currentBurst.push(message);
+			});
+
+			return bursts;
+		};
+
 	}
+
 
 	messagesController.$inject = ["$scope", "$routeParams", "$location", "$timeout", "ssn.errorService", "ssn.cssService", "ssn.messageService"];
 
