@@ -157,20 +157,30 @@ define(["step", "whispeerHelper"], function (step, h) {
 
 		$scope.newMessage = false;
 
+		var burstMessageCount = 0, bursts = [], burstTopic;
+
 		$scope.messageBursts = function() {
-			var bursts = [];
-			var currentBurst;
-			var previousSender;
-			var messages = $scope.activeTopic.messages;
+			var previousSender, messages = $scope.activeTopic.messages, currentBurst = [];
+
+			if (burstTopic === $scope.activeTopic.id && burstMessageCount === messages.length) {
+				return bursts;
+			}
+
+			bursts = [];
+
+			burstTopic = $scope.activeTopic.id;
+			burstMessageCount = messages.length;
 
 			messages.forEach(function(message) {
-				if (previousSender !== message.sender.id) {
-					currentBurst = [];
+				if (currentBurst.length > 0 && previousSender !== message.sender.id) {
 					bursts.push(currentBurst);
+					currentBurst = [];
 					previousSender = message.sender.id;
 				}
 				currentBurst.push(message);
 			});
+
+			bursts.push(currentBurst);
 
 			return bursts;
 		};
