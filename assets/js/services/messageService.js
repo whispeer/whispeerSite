@@ -281,55 +281,6 @@ define([
 			};
 		};
 
-		Message.createData = function (topic, message, cb) {
-			step(function () {
-				if (typeof topic !== "object") {
-					Topic.get(topic, this);
-				} else {
-					this.ne(topic);
-				}
-			}, h.sF(function (rTopic) {
-				topic = rTopic;
-
-				var newest = topic.data.latestMessage;
-
-				var meta = {
-					createTime: new Date().getTime(),
-					topicHash: newest.getTopicHash(),
-					previousMessage: h.parseDecimal(newest.getID()),
-					previousMessageHash: newest.getHash()
-				};
-
-				var topicKey = topic.getKey();
-
-				Message.createRawData(topicKey, message, meta, this);
-			}), h.sF(function (mData) {
-
-				mData.meta.topicid = topic.getID();
-
-				var result = {
-					message: mData
-				};
-
-				this.ne(result);
-			}), cb);
-		};
-
-		Message.createRawData = function (topicKey, message, meta, cb) {
-			step(function () {
-				keyStore.sym.generateKey(this, "messageMain");
-			}, h.sF(function (key) {
-				this.parallel.unflatten();
-
-				var secureMessageData = new SecuredData(message, meta, {}, true);
-
-				secureMessageData.signAndEncrypt(userService.getown().getSignKey(), key, this.parallel());
-				keyStore.sym.symEncryptKey(key, topicKey, this.parallel());
-			}), h.sF(function (encr) {
-				this.ne(encr);
-			}), cb);
-		};
-
 		Topic.get = function (topicid, cb) {
 			var theTopic;
 			step(function () {
@@ -352,7 +303,7 @@ define([
 		};
 
 		Topic.createData = function (receiver, message, cb) {
-			var receiverObjects, topicKey, result, topicHash;
+			var receiverObjects, topicKey, topicData, topicHash;
 			step(function () {
 				//load receiver
 				receiver = receiver.map(function (val) {
@@ -390,42 +341,28 @@ define([
 				}
 			}), h.sF(function (cryptKeys) {
 				var cryptKeysData = keyStore.upload.getKeys(cryptKeys);
-				var topicKeyData = keyStore.upload.getKey(topicKey);
-				var receiver = [];
-				var receiverIDs;
+				var receiverKeys = {}, receiverIDs = [];
 
-				var i;
-				for (i = 0; i < receiverObjects.length; i += 1) {
-					var cur = receiverObjects[i];
-					receiver.push({
-						identifier: cur.getID(),
-						key: cryptKeysData[i]
-					});
-
-				}
-
-				receiver.push({
-					identifier: userService.getown().getID()
+				receiverObjects.forEach(function (receiver, index) {
+					receiverIDs.push(receiver.getID());
+					receiverKeys[receiver.getID()] = cryptKeys[index];
 				});
 
-				receiverIDs = receiver.map(function (e) {
-					return e.identifier;
-				});
-
-				//create data
-				result = {
-					topic: {
-						createTime: new Date().getTime(),
-						key: topicKeyData,
-						receiver: receiver
-					}
-				};
+				receiverIDs.push(userService.getown().getID());
 
 				// topic hashable data.
 				var topicHashData = {
-					createTime: result.topic.createTime,
+					createTime: new Date().getTime(),
 					key: topicKey,
-					receiver: receiverIDs
+					receiver: receiverIDs,
+					creator: userService.getown().getID()
+				};
+
+				//create data
+				topicData = {
+					keys: cryptKeysData.concat([keyStore.upload.getKey(topicKey)]),
+					receiverKeys: receiverKeys,
+					topic: topicHashData
 				};
 
 				topicHash = keyStore.hash.hashObjectHex(topicHashData);
@@ -438,10 +375,11 @@ define([
 				};
 
 				Message.createRawData(topicKey, message, meta, this);
-			}), h.sF(function (mData) {
-				result.message = mData;
+			}), h.sF(function (mData, key) {
+				topicData.keys.push(keyStore.upload.getKey(key));
+				topicData.message = mData;
 
-				this.ne(result);
+				this.ne(topicData);
 			}), cb);
 		};
 
@@ -648,8 +586,8 @@ define([
 					} else {
 						Topic.createData(receiver, message, this);
 					}
-				}), h.sF(function (result) {
-					socket.emit("messages.sendNewTopic", result, this);
+				}), h.sF(function (topicData) {
+					socket.emit("messages.sendNewTopic", topicData, this);
 				}), h.sF(function (result) {
 					makeTopic(result.topic, cb);
 				}), cb || h.nop);
@@ -662,14 +600,22 @@ define([
 						this.last.ne(false);
 						return;
 					}
+
+					if (typeof topic !== "object") {
+						Topic.get(topic, this);
+					} else {
+						this.ne(topic);
+					}
+				}, h.sF(function (topic) {
 					Message.createData(topic, message, this);
-				}, h.sF(function (result) {
+				}), h.sF(function (result) {
 					socket.emit("messages.send", result, this);
 				}), h.sF(function (result) {
 					if (!result.success) {
+						//TODO: really improve this!
 						window.setTimeout(function () {
 							messageService.sendMessage(topic, message, cb, count + 1);
-						}, 50);
+						}, 200);
 
 						return;
 					}
@@ -706,7 +652,7 @@ define([
 		initService.register("messages.getUnreadCount", {}, function (data) {
 			messageService.data.unread = h.parseDecimal(data.unread) || 0;
 
-			messageService.listen("message", function(m) {
+			messageService.listen(function(m) {
 				if (!m.isOwn()) {
 					if (!messageService.isActiveTopic(m.getTopicID()) || !windowService.isVisible) {
 						windowService.playMessageSound();
@@ -715,7 +661,7 @@ define([
 
 					windowService.setAdvancedTitle("newmessage", m.data.sender.basic.shortname);
 				}
-			});
+			}, "message");
 		});
 
 		$rootScope.$on("ssn.reset", function () {
