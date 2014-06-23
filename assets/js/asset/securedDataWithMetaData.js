@@ -49,6 +49,9 @@ define(["whispeerHelper", "step", "crypto/keyStore", "asset/errors"], function (
 			//add padding!
 			keyStore.hash.addPaddingToObject(that._updatedContent, 128, this);
 		}, h.sF(function (paddedContent) {
+			delete that._updatedMeta._signature;
+			delete that._updatedMeta._hashObject;
+
 			that._updatedMeta._contentHash = keyStore.hash.hashObjectOrValueHex(paddedContent);
 			that._updatedMeta._key = keyStore.correctKeyIdentifier(cryptKey);
 			that._updatedMeta._version = 1;
@@ -107,6 +110,13 @@ define(["whispeerHelper", "step", "crypto/keyStore", "asset/errors"], function (
 		}), cb);
 	};
 
+	SecuredDataWithMetaData.prototype.updated = function () {
+		this._changed = false;
+
+		this._meta = this._updatedMeta;
+		this._content = this._updatedContent;
+	};
+
 	SecuredDataWithMetaData.prototype.decrypt = function (cb) {
 		var that = this;
 		step(function () {
@@ -118,6 +128,7 @@ define(["whispeerHelper", "step", "crypto/keyStore", "asset/errors"], function (
 		}, h.sF(function (decryptedData) {
 			that._paddedContent = decryptedData;
 			that._content = keyStore.hash.removePaddingFromObject(decryptedData, 128);
+			that._updatedContent = that._content;
 
 			this.ne(that._content);
 		}), cb);

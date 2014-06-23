@@ -47,7 +47,7 @@ define(["step", "whispeerHelper", "crypto/encryptedData", "validation/validator"
 				step(function () {
 					theProfile.decrypt(this);
 				}, h.sF(function  () {
-					securedData.signAndEncrypt(signKey, oldCryptKey, this);
+					securedData.signAndEncrypt(signKey, securedData.metaAttr("_key"), this);
 				}), h.sF(function (securedProfileData) {
 					var result = {
 						profileid: id,
@@ -69,6 +69,10 @@ define(["step", "whispeerHelper", "crypto/encryptedData", "validation/validator"
 						own: privateProfileData
 					});
 				}), cb);
+			};
+
+			this.updated = function () {
+				return securedData.updated();
 			};
 
 			this.changed = function () {
