@@ -31,6 +31,11 @@ define(["whispeerHelper", "step", "crypto/keyStore", "asset/errors"], function (
 			throw new Error("content hash/key should not be provided by outside world");
 		}
 	};
+
+	SecuredDataWithMetaData.prototype.getHash = function () {
+		return this._meta._ownHash;
+	};
+
 	/** sign and encrypt this object.
 		pads and then encrypts our content.
 		adds contentHash, key id and version to metaData and signs meta data.
@@ -47,6 +52,7 @@ define(["whispeerHelper", "step", "crypto/keyStore", "asset/errors"], function (
 			that._updatedMeta._contentHash = keyStore.hash.hashObjectOrValueHex(paddedContent);
 			that._updatedMeta._key = keyStore.correctKeyIdentifier(cryptKey);
 			that._updatedMeta._version = 1;
+			that._updatedMeta._ownHash = keyStore.hash.hashObjectOrValueHex(that._updatedMeta);
 
 			if (typeof paddedContent === "object") {
 				hashObject = keyStore.hash.deepHashObject(paddedContent);

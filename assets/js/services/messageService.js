@@ -6,9 +6,8 @@ define([
 		"whispeerHelper",
 		"validation/validator",
 		"asset/observer",
-		"asset/sortedSet",
-		"asset/securedDataWithMetaData"
-	], function (step, h, validator, Observer, sortedSet, SecuredData) {
+		"asset/sortedSet"
+	], function (step, h, validator, Observer, sortedSet) {
 	"use strict";
 
 	var messageService;

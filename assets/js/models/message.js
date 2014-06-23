@@ -51,7 +51,7 @@ define(["step",
 			};
 
 			this.getHash = function getHashF() {
-				return securedData.metaAttr("ownHash");
+				return securedData.getHash();
 			};
 
 			this.getTopicHash = function getHashF() {
