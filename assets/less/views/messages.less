@@ -1,12 +1,15 @@
 .messagesView {
 	#main {
-		.box;
-		overflow-y: hidden !important;
+		.box();
+		overflow: hidden;
 	}
 	#topicListWrap {
-		margin-right: 3px;
+		height: 100%;
+		overflow: scroll;
+		ul {
+			.unstyled();
+		}
 		#topicList {
-			.unstyled;
 			.box-fix;
 			#topicListScroll {
 				.box-fix;
@@ -19,13 +22,13 @@
 				transition: background-color 0.1s ease;
 				.left {
 					.userimg {
+						width: 80px;
 						border: 1px solid #f2f2f2;
 						.box-fix;
 						.border-radius(100%);
 					}
 				}
 				.username, .lastMessage {
-					overflow: hidden;
 					white-space: nowrap;
 					text-overflow: ellipsis;
 				}
@@ -46,7 +49,6 @@
 					font-size: 80%;
 					color: #888;
 					float: right;
-					overflow: hidden;
 					white-space: nowrap;
 					text-overflow: ellipsis;
 					line-height: 12px;
@@ -113,7 +115,7 @@
 						padding: 2%;
 						.box-fix;
 						.imgWrap {
-							width: 100%;
+							width: 100px;
 							height: 100%;
 							display: block;
 							padding: 0;
@@ -127,7 +129,6 @@
 						background: transparent;
 						.imgWrap {
 							.border-radius(100%);
-							overflow: hidden;
 							border: 1px solid #f2f2f2;
 							background-color: #b2b2b2;
 						}
@@ -147,6 +148,8 @@
 		}
 	}
 	#topicWrap {
+		height: 100%;
+		overflow: scroll;
 		#messageList {
 			.box-fix;
 			.message {
@@ -154,7 +157,6 @@
 					background: darken(@grayLighter,10%);
 					border: 1px solid #b2b2b2;
 					.border-radius(6px);
-					overflow: hidden;
 					word-wrap: break-word;
 					.clear-fix;
 					.time {
@@ -199,8 +201,6 @@
 		}
 		&.peerChat {
 			#messageList {
-				.unstyled;
-				overflow-y: scroll;
 				.message {
 					.user {
 						.userimg {
@@ -320,4 +320,3 @@
 		}
 	}
 }
-
