@@ -10,11 +10,11 @@
 					<div class="imgWrap">
 						<img class="userimg" data-ng-repeat="partner in topic.partnersDisplay" data-ng-src="{{partner.basic.image}}" alt="{{partner.name}}" title="{{partner.name}}">
 						<span data-ng-if="topic.remainingUser" title="{{topic.remainingUserTitle}}">+ {{topic.remainingUser}}</span>
-					</div>	
+					</div>
 				</div>
 				<p class="username">
 					<a ng-repeat="partner in topic.partners" href='{{partner.basic.url}}'>
-						<span class="status" data-status="{{partner.online}}"></span><strong>{{topic.partners.length>1?partner.basic.shortname:partner.name}}{{$last?"":","}}</strong>
+						<span class="status" data-status="{{partner.online}}"></span> <strong>{{topic.partners.length>1?partner.basic.shortname:partner.name}}{{$last?"":","}}</strong>
 					</a>
 				</p>
 				<p class="text" title="{{topic.latestMessage.data.text}}">
@@ -28,4 +28,4 @@
 			</li>
 		</ul>
 	</div>
-</div>	
+</div>
