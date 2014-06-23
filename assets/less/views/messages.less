@@ -258,3 +258,66 @@
 		}
 	}
 }
+
+
+.messagesView {
+	header {
+		#newmessage {
+			.column(2.5,8,left,0);
+		}
+	}
+	#topicListWrap {
+		.column(2.5,8,left,0);
+		#topicList {
+			.topic {
+				.left {
+					.column(0.70,2);
+				}
+				.username {
+					.column(1.3,2);
+				}
+				.lastMessage {
+					.column(1.3,2);
+				}
+				&.groupChat {
+					.left {
+						img, span {
+							.column(1,2,left,0);
+						}
+					}
+				}
+			}
+		}
+	}
+	#topicWrap {
+		.column(5.5,8,left,0);
+		#messageList {
+			.message {
+				.column(12);
+				.userimg {
+					.column(0.5,5,left,0);
+				}
+				.messageContent {
+					.column(4.5,5);
+				}
+			}
+		}
+		#inputWrap {
+			#messageInput {
+				.column(3,4);
+			}
+			button {
+				.column(1,4);
+			}
+		}
+		&.newMessage {
+			#messageInput {
+				.column(12);
+			}
+			#recieverInput {
+				.column(12);
+			}
+		}
+	}
+}
+
