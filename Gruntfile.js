@@ -1,7 +1,9 @@
 var grunt = require("grunt");
+
 grunt.loadNpmTasks("grunt-contrib-jshint");
 grunt.loadNpmTasks("grunt-contrib-less");
 grunt.loadNpmTasks("grunt-contrib-watch");
+grunt.loadNpmTasks("grunt-browser-sync");
 
 grunt.initConfig({
 	jshint: {
@@ -30,5 +32,17 @@ grunt.initConfig({
 				spawn: false
 			}
 		}
+	},
+	browserSync: {
+		dev: {
+			bsFiles: {
+				src: "assets/css/*.css"
+			},
+			options: {
+				watchTask: true
+			}
+		}
 	}
 });
+
+grunt.registerTask("default", ["browserSync", "watch"]);
