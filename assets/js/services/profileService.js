@@ -9,7 +9,7 @@ define(["crypto/keyStore", "step", "whispeerHelper", "crypto/encryptedData", "va
 		var profileService = function (data, isDecrypted) {
 			var encryptedProfile, paddedProfile = {}, decryptedProfile = {}, updatedProfile = {}, decrypted = {}, hashObject;
 
-			var metaData = new EncryptedData(data.metaData, isDecrypted);
+			var metaData = new EncryptedData(data.metaData, {}, isDecrypted);
 
 			var decrypting = false, verified = false, key;
 
@@ -225,7 +225,7 @@ define(["crypto/keyStore", "step", "whispeerHelper", "crypto/encryptedData", "va
 					//TODO: move scope to meta!
 					metaData.getBranch("scope", this);
 				}, h.sF(function (scope) {
-					this.ne(scope || "always:allfriends");
+					this.ne(scope);
 				}), cb);
 			};
 

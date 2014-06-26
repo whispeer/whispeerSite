@@ -70,6 +70,62 @@ define(["step", "whispeerHelper"], function (step, h) {
 			var theUser = this, mainKey, signKey, cryptKey, friendShipKey, friendsKey, friendsLevel2Key, migrationState;
 			var id, mail, nickname, publicProfile, privateProfiles = [], mutualFriends, publicProfileChanged = false, publicProfileSignature;
 
+			function findMeProfile(cb) {
+				step(function () {
+					privateProfiles.forEach(function (profile) {
+						profile.getScope(this);
+					}, this);
+				}, h.sF(function (scopes) {
+					var me;
+
+					scopes.forEach(function (scope, index) {
+						if (scope === "me") {
+							me = privateProfiles[index];
+						}
+					});
+
+					if (me) {
+						this.last.ne(me);
+					} else {
+						//we need to find the me profile by hand
+						//TODO: also TODO: how to re-add the metaData...
+						//most likely: delete, recreate....
+					}
+				}), cb);
+			}
+
+			function repairProfiles() {
+				step(function () {
+					//find main profile
+					findMeProfile(this);
+				}, h.sF(function (meProfile) {
+					//delete other profiles
+					var profilesToDelete = privateProfiles.filter(function (profile) {
+						return profile !== meProfile;
+					}).map(function (profile) {
+						return profile.getID();
+					});
+
+					socketService.emit("user", {
+						deletePrivateProfiles: {
+							profilesToDelete: profilesToDelete
+						}
+					}, this);
+				}), h.sF(function () {
+					//rebuildFromSettings
+					settingsService.getBranch("privacy", this);
+				}), h.sF(function (settings) {
+					var usedScopes = getAllProfileTypes(settings);
+					theUser.createProfileObjects(usedScopes, settings, this);
+				}), h.sF(function (profilesToCreate) {
+					socketService.emit("user", {
+						createPrivateProfiles: {
+							privateProfiles: profilesToCreate
+						}
+					}, this);
+				}), errorService.criticalError);
+			}
+
 			this.data = {};
 
 			function updateUser(userData) {
@@ -124,8 +180,19 @@ define(["step", "whispeerHelper"], function (step, h) {
 				//todo: update profiles. for now: overwrite
 				if (userData.profile && userData.profile.priv && userData.profile.priv instanceof Array) {
 					var priv = userData.profile.priv, i;
-					for (i = 0; i < priv.length; i += 1) {
+
+					var profilesBroken = false;
+
+					priv.forEach(function (profile) {
+						if (profile.metaData === false && theUser.isOwn()) {
+							profilesBroken = true;
+						}
+
 						privateProfiles.push(new ProfileService(priv[i]));
+					});
+
+					if (profilesBroken) {
+						repairProfiles();
 					}
 				}
 
