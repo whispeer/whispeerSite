@@ -149,8 +149,14 @@
 	}
 	#topicWrap {
 		height: 100%;
-		overflow: scroll;
+		overflow: hidden;
+		#messageWrap {
+			height: 100%;
+		}
 		#messageList {
+			height: 100%;
+			width: 100%;
+			overflow: scroll;
 			.box-fix;
 			.message {
 				.messageContent {
@@ -197,6 +203,9 @@
 				&:first-child {
 					margin-top: 5px;
 				}
+			}
+			#inputWrap {
+				display: block;
 			}
 		}
 		&.peerChat {
