@@ -8,6 +8,8 @@ define([], function () {
 	function mainController($scope, cssService, postService, errorService) {
 		cssService.setClass("mainView");
 
+		$scope.canSend = true;
+
 		$scope.postActive = false;
 		$scope.filterActive = false;
 		$scope.newPost = {
@@ -35,11 +37,13 @@ define([], function () {
 		};
 
 		$scope.sendPost = function () {
+			$scope.canSend = false;
 			if ($scope.newPost.text === "") {
 				return;
 			}
 
 			postService.createPost($scope.newPost.text, $scope.newPost.readers, 0, function (err) {
+				$scope.canSend = true;
 				if (err) {
 					errorService.criticalError(err);
 				} else {
