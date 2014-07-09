@@ -1,0 +1,26 @@
+<div class="box">
+	<header data-ng-controller="ssn.magicbar.mainController">
+		<span class="title"><span class="badge" data-ng-if="friends.requestsCount!=0">{{friends.requestsCount}}</span>&nbsp;<span>Freundschaftsanfragen</span></span>
+	</header>
+	<section data-ng-controller="ssn.magicbar.friendsController">
+		<ul class="unstyled" data-ng-if="requests.length > 0">
+			<li class="request" data-ng-repeat="request in requests">
+				<img data-ng-src="{{request.basic.image}}">
+				<p class="username"><a href='{{request.basic.url}}'><strong>{{request.name}}</strong></a></p>
+				<p class="similar" data-i18n="magicbar.requests.mutuals|count={{request.basic.mutualFriends.length}}"></p>
+				<p class="action">
+					<button class="btn btn--primary" data-i18n="magicbar.requests.accept" ng-click="acceptRequest(request)"></button>
+					<button class="btn btn--danger" data-i18n="magicbar.requests.decline"></button>
+				</p>
+			</li>
+			<li class="request error" data-ng-if="requests.length == 0">
+				<span data-i18n="magicbar.requests.none"></span>
+			</li>
+		</ul>
+		<ul class="unstyled" data-ng-if="requests.length == 0">
+			<li class="request error">
+				<span data-i18n="magicbar.requests.none"></span>
+			</li>
+		</ul>
+	</section>
+</div>
