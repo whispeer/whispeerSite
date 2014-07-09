@@ -1,5 +1,5 @@
 define(function () {
-	'use strict';
+	"use strict";
 
 	function postDirective() {
 		return {
@@ -7,8 +7,8 @@ define(function () {
 			scope:	{
 				post: "=post"
 			},
-			restrict: 'E',
-			templateUrl: 'assets/views/directives/post.html',
+			restrict: "E",
+			templateUrl: "assets/views/directives/post.html",
 			replace: true
 		};			
 	}

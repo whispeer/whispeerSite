@@ -1,5 +1,5 @@
 define(function () {
-	'use strict';
+	"use strict";
 
 	function commentDirective() {
 		return {
@@ -7,8 +7,8 @@ define(function () {
 			scope:	{
 				comment: "=comment"
 			},
-			restrict: 'E',
-			templateUrl: 'assets/views/directives/comment.html',
+			restrict: "E",
+			templateUrl: "assets/views/directives/comment.html",
 			replace: true
 		};			
 	}

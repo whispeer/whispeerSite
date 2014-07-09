@@ -5,11 +5,9 @@
 define([], function () {
 	"use strict";
 
-	function settingsController($scope)  {
-	
-	}
+	function settingsController()  {}
 
-	settingsController.$inject = ["$scope"];
+	settingsController.$inject = [];
 
 	return settingsController;
 });

@@ -1,14 +1,16 @@
 define([], function () {
-	function extendError(parentErrorClass) {
+	"use strict";
+	function extendError(parentErrorClass, name) {
 		if (parentErrorClass.prototype instanceof Error || parentErrorClass === Error) {
 			var F = function(){};
 			var CustomError = function() {
 				var _this = (this===window) ? new F() : this, // correct if not called with "new" 
 					tmp = parentErrorClass.prototype.constructor.apply(_this,arguments);
 
-				for (var i in tmp) {
-					if (tmp.hasOwnProperty(i)) _this[i] = tmp[i];
-				}
+				_this.stack = tmp.stack;
+				_this.message = tmp.message;
+				_this.name = name;
+
 				return _this;
 			};
 			var SubClass = function (){};
@@ -22,14 +24,14 @@ define([], function () {
 		}
 	}
 
-	var InvalidDataError = extendError(Error);
-	var InvalidHexError = extendError(InvalidDataError);
-	var InvalidFilter = extendError(InvalidDataError);
+	var InvalidDataError = extendError(Error, "InvalidDataError");
+	var InvalidHexError = extendError(InvalidDataError, "InvalidHexError");
+	var InvalidFilter = extendError(InvalidDataError, "InvalidFilter");
 
-	var SecurityError = extendError(Error);
-	var AccessViolation = extendError(SecurityError);
-	var DecryptionError = extendError(SecurityError);
-	var ValidationError = extendError(SecurityError);
+	var SecurityError = extendError(Error, "SecurityError");
+	var AccessViolation = extendError(SecurityError, "AccessViolation");
+	var DecryptionError = extendError(SecurityError, "DecryptionError");
+	var ValidationError = extendError(SecurityError, "ValidationError");
 
 
 	return {

@@ -6,7 +6,7 @@ define(["app"], function (app) {
 		$locationProvider.hashPrefix("!");
 
 		if (window.location.href.indexOf("file:///") === 0) {
-			$provide.decorator('$sniffer', function($delegate) {
+			$provide.decorator("$sniffer", function($delegate) {
 				$delegate.history = false;
 				return $delegate;
 			});
@@ -53,11 +53,11 @@ define(["app"], function (app) {
 
 		$routeProvider.when("/:identifier", {
 			redirectTo: function (params) {
-				if (params.identifier === "") {
-					return "/start";
+				if (params.identifier.match(/^(A-z0-9)+$/)) {
+					return "/user/" + params.identifier;
 				}
 
-				return "/user/" + params.identifier;
+				return "/start";
 			}
 		});
 		$routeProvider.otherwise({redirectTo: "/start"});

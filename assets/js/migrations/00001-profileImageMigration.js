@@ -1,4 +1,5 @@
 define(["step", "whispeerHelper"], function (step, h) {
+	"use strict";
 	return function ($injector, cb) {
 		var settingsService = $injector.get("ssn.settingsService");
 		var userService = $injector.get("ssn.userService");

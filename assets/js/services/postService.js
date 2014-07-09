@@ -293,7 +293,6 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer", "ass
 					}, this);
 				}, h.sF(function (data) {
 					if (data.posts) {
-						var posts = data.posts;
 						var newPosts = data.posts.map(function (thePost) {
 							thePost = makePost(thePost);
 							thePost.loadData(this.parallel());
