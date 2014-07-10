@@ -1,3 +1,5 @@
+@form-height: 70px;
+
 .messagesView {
 	#main {
 		.box();
@@ -150,6 +152,7 @@
 	#topicWrap {
 		height: 100%;
 		overflow: hidden;
+		padding-bottom: @form-height;
 		#messageWrap {
 			height: 100%;
 		}
@@ -157,92 +160,17 @@
 			height: 100%;
 			width: 100%;
 			overflow: scroll;
-			.box-fix;
-			.message {
-				.messageContent {
-					background: darken(@grayLighter,10%);
-					border: 1px solid #b2b2b2;
-					.border-radius(6px);
-					word-wrap: break-word;
-					.clear-fix;
-					.time {
-						font-size: 80%;
-						color: #888;
-						float: right;
-						margin-right: 5px;
-						margin-top: -5px;
-					}
-					a {
-						&:hover {
-							text-decoration: underline;
-						}
-					}
-				}
-				.userimg {
-					img {
-						.border-radius(100%);
-					}
-				}
-				&.me {
-					.messageContent {
-						background: darken(@green,5%);
-						a {
-							color: #efefef;
-							&:hover {
-								color: @white;
-							}
-						}
-						.messageText {
-							color: #efefef;
-						}
-						.time {
-							color: #eee;
-						}
-					}
-				}
-				&:first-child {
-					margin-top: 5px;
+			margin: 0;
+
+			.userimg {
+				display: inline-block;
+				img {
+					.border-radius(100%);
+					width: 72px;
+					height: 72px;
 				}
 			}
-			#inputWrap {
-				display: block;
-			}
-		}
-		&.peerChat {
-			#messageList {
-				.message {
-					.user {
-						.userimg {
-							//.border-radiuses(0,0,0,6px);
-						}
-						.username {
-							display: none;
-						}
-					}
-					&.me {
-						.messageText {
-							float: right;
-							word-break: break-word;
-							color: #efefef;
-						}
-						.user {
-							.userimg {
-								float: right;
-								display: block;
-								margin-right: 0 !important;
-							}
-						}
-					}
-					&.other {
-						color: #4e4e4e;
-						.user {
-							.userimg {
-								margin-left: 0 !important;
-							}
-						}
-					}
-				}
-			}
+
 		}
 		&.newMessage {
 			#messageTitle {
@@ -258,16 +186,30 @@
 				}
 			}
 			#messageInput {
+				.column(12);
 				margin-bottom: 14px !important;
+			}
+			#recieverInput {
+				.column(12);
 			}
 			#sendmessage {
 				padding: 10px 10px;
 				margin-left: 1% !important;
 			}
 		}
+		#inputWrap { // this is the form
+			display: block;
+			textarea {
+				height: @form-height;
+				.column(3,4);
+			}
+			button {
+				height: @form-height;
+				.column(1,4);
+			}
+		}
 	}
 }
-
 
 .messagesView {
 	header {
@@ -295,36 +237,6 @@
 						}
 					}
 				}
-			}
-		}
-	}
-	#topicWrap {
-		.column(5.5,8,left,0);
-		#messageList {
-			.message {
-				.column(12);
-				.userimg {
-					.column(0.5,5,left,0);
-				}
-				.messageContent {
-					.column(4.5,5);
-				}
-			}
-		}
-		#inputWrap {
-			#messageInput {
-				.column(3,4);
-			}
-			button {
-				.column(1,4);
-			}
-		}
-		&.newMessage {
-			#messageInput {
-				.column(12);
-			}
-			#recieverInput {
-				.column(12);
 			}
 		}
 	}
