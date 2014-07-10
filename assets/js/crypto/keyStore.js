@@ -532,6 +532,10 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 			});
 		}
 
+		this.getAccessCount = function () {
+			return keyData.accessCount;
+		};
+
 		this.getUploadData = function () {
 			var data = {
 				realid: intKey.getRealID(),
@@ -592,8 +596,6 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 			step(function symDecryptI1() {
 				intKey.decryptKey(this);
 			}, h.sF(function symDecryptI2() {
-				var result;
-
 				if (typeof ctext !== "object") {
 					if (h.isHex(ctext)) {
 						ctext = chelper.hex2bits(ctext);
@@ -1285,16 +1287,20 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 		step(function () {
 			var attr;
 			for (attr in val) {
-				var padder = new ObjectPadder(val[attr], that._minLength);
-				padder.pad(this.parallel());
+				if (val.hasOwnProperty(attr)) {
+					var padder = new ObjectPadder(val[attr], that._minLength);
+					padder.pad(this.parallel());
+				}
 			}
 
 			this.parallel()();
 		}, h.sF(function (padded) {
 			var attr, count = 0, result = {};
 			for (attr in val) {
-				result[attr] = padded[count];
-				count += 1;
+				if (val.hasOwnProperty(attr)) {
+					result[attr] = padded[count];
+					count += 1;
+				}
 			}
 
 			this.ne(result);
@@ -1357,8 +1363,10 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 	ObjectPadder.prototype._unpadObject = function (val) {
 		var attr, result = {};
 		for (attr in val) {
-			var padder = new ObjectPadder(val[attr], this._minLength);
-			result[attr] = padder.unpad();
+			if (val.hasOwnProperty(attr)) {
+				var padder = new ObjectPadder(val[attr], this._minLength);
+				result[attr] = padder.unpad();
+			}
 		}
 
 		return result;
@@ -1628,7 +1636,12 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 				return keyData.realid;
 			},
 			getKeyAccessCount: function (keyrealid) {
-				
+				var key = symKeys[keyrealid];
+				if (key) {
+					return key.getAccessCount();
+				}
+
+				return -1;
 			},
 			setSocket: function (theSocket) {
 				socket = theSocket;

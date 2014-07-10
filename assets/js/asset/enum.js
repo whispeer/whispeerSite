@@ -26,6 +26,7 @@
 /* global module */
 
 (function (global) {
+    "use strict";
     function copyOwnFrom(target, source) {
         Object.getOwnPropertyNames(source).forEach(function(propName) {
             Object.defineProperty(target, propName,
@@ -39,7 +40,9 @@
         if (props) {
             copyOwnFrom(this, props);
         }
-        Object.freeze(this);
+        if (Object.freeze) {
+            Object.freeze(this);
+        }
     }
     /** We don’t want the mutable Object.prototype in the prototype chain */
     Symbol.prototype = Object.create(null);
@@ -51,7 +54,9 @@
     Symbol.prototype.toString = function () {
         return "|"+this.name+"|";
     };
-    Object.freeze(Symbol.prototype);
+    if (Object.freeze) {
+        Object.freeze(Symbol.prototype);
+    }
 
     var Enum = function (obj) {
         this._symbols = [];
@@ -67,7 +72,9 @@
                 this._symbols.push(this[name]);
             }, this);
         }
-        Object.freeze(this);
+        if (Object.freeze) {
+            Object.freeze(this);
+        }
     };
     Enum.prototype.toString = function (symbol) {
         if (this.contains(symbol)) {

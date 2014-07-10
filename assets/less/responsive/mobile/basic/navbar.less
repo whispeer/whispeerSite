@@ -25,6 +25,8 @@
 			padding: 0;
 			margin:0 !important;
 			background: transparent;
+			position: relative;
+			.box-fix;
 			i {
 				font-size: 2em;
 				color: #fff;
@@ -43,8 +45,20 @@
 			} 
 		}
 		#mobileCounter {
-			top: 15px;
-			left: 15%;
+			padding: 1px 2px 1px 2px;
+			position: absolute;
+			font-size: 11px;
+			width: 16px;
+			height: 16px;
+			display: block;
+			top: 17px;
+			left: 50%;
+			right: 0;
+			margin-left: -10px;
+			span {
+				margin-top: 0px;
+				display: inline-block;
+			}
 		}
 	}
 	.searchBar {
@@ -78,13 +92,6 @@
 			top: 50px;
 			margin: 5px 0;
 		}
-	}
-	.badge {
-		padding: 1px 2px 1px 2px;
-		position: absolute;
-		font-size: 11px;
-		width: 20px;
-		height: 20px;
 	}
 }
 

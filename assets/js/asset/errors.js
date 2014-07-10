@@ -1,4 +1,5 @@
 define([], function () {
+	"use strict";
 	function extendError(parentErrorClass, name) {
 		if (parentErrorClass.prototype instanceof Error || parentErrorClass === Error) {
 			var F = function(){};
@@ -8,8 +9,9 @@ define([], function () {
 				var tmp = new parentErrorClass(message);
 				tmp.name = this.name = name || "Error";
 
-				this.stack = tmp.stack;
-				this.message = tmp.message;
+				_this.stack = tmp.stack;
+				_this.message = tmp.message;
+				_this.name = name;
 
 				return _this;
 			};

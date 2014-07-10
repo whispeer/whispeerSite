@@ -322,7 +322,7 @@ define(["step", "whispeerHelper", "asset/observer"], function (step, h, Observer
 
 						this.parallel()();
 					} else {
-						//TO-DO handle error
+						console.error("Could not load circles");
 					}
 				}), h.sF(function () {
 					loading = false;

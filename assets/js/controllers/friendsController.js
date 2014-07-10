@@ -9,8 +9,6 @@ define(["step", "whispeerHelper"], function (step, h) {
 		cssService.setClass("friendsView");
 		$scope.friends = [];
 
-		friendsService.listen(loadFriendsUsers);
-
 		function loadFriendsUsers() {
 			step(function () {
 				var friends = friendsService.getFriends();
@@ -20,6 +18,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 			}));
 		}
 
+		friendsService.listen(loadFriendsUsers);
 		loadFriendsUsers();
 	}
 

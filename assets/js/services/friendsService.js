@@ -97,6 +97,7 @@ define(["step", "whispeerHelper", "asset/observer"], function (step, h, Observer
 
 					friendsService.notify(uid, "newFriend");
 				} else {
+					console.error("friend adding failed!");
 					//oh noes!
 				}
 			}));

@@ -12,7 +12,6 @@
 	}
 
 	define(includes, function (angular) {
-		"use strict";
 		var servicesProvider = angular.module("ssn.services", []);
 
 		var i;

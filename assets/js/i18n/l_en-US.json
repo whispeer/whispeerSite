@@ -10,6 +10,14 @@
 		}
 	},
 	"views": {
+		"mail": {
+			"verify": "verify Mail",
+			"updateMe": "I would like to receive updates via mail",
+			"verifying": "Verifying.",
+			"verified": "Your mail was verified.",
+			"backToLogin": "Return to login",
+			"failed": "Verification failed!\n Maybe your verification code is outdated."
+		},
 		"circles": {
 			"searchFriends": "Type in the names of your friends you want to add to this circle!",
 			"titleForNew": "Type in the title of this circle!",

@@ -100,9 +100,7 @@ define(["step", "whispeerHelper", "asset/resizableImage"], function (step, h, Re
 					userObject.uploadChangedProfile(this);
 				}), h.sF(function () {
 					$scope.edit();
-				}), function (e) {
-
-				});
+				}), errorService.criticalError);
 			}
 		};
 
@@ -219,10 +217,13 @@ define(["step", "whispeerHelper", "asset/resizableImage"], function (step, h, Re
 				for (i = 0; i < toRemove.length; i += 1) {
 					circleService.get(toRemove[i]).removePersons([$scope.user.id], this.parallel());
 				}
-			}), h.sF(function (results) {
-				setCircleState("success");
 			}), function (e) {
-				setCircleState("failure");
+				if (e) {
+					setCircleState("failure");
+					errorService.criticalError(e);
+				} else {
+					setCircleState("success");	
+				}
 			});
 		};
 
@@ -232,6 +233,10 @@ define(["step", "whispeerHelper", "asset/resizableImage"], function (step, h, Re
 
 		$scope.sendPost = function () {
 			var visibleSelection = ["always:allfriends"], wallUserID = 0;
+
+			if ($scope.newPost.text === "") {
+				return;
+			}
 
 			if (!$scope.user.me) {
 				wallUserID = $scope.user.id;

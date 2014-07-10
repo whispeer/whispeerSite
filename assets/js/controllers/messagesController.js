@@ -47,14 +47,18 @@ define(["step", "whispeerHelper"], function (step, h) {
 			return ($scope.topicid === parseInt(topic.id, 10));
 		};
 
-		$scope.new = {
+		$scope.create = {
 			text: "",
 			selectedElements: [],
 			send: function (receiver, text) {
+				if (text === "") {
+					return;
+				}
+
 				messageService.sendNewTopic(receiver, text, function (e, id) {
 					if (!e) {
-						$scope.new.text = "";
-						$scope.new.selectedElements = [];
+						$scope.create.text = "";
+						$scope.create.selectedElements = [];
 						$scope.loadActiveTopic(id);
 						$scope.$broadcast("resetSearch");
 					} else {
@@ -135,8 +139,13 @@ define(["step", "whispeerHelper"], function (step, h) {
 		};
 
 		$scope.sendMessage = function () {
+			if ($scope.activeTopic.newMessage === "") {
+				return;
+			}
+
+			$scope.canSend = false;
+
 			step(function () {
-				$scope.canSend = false;
 				messageService.sendMessage($scope.activeTopic.id, $scope.activeTopic.newMessage, this);
 			}, function () {
 				$scope.canSend = true;

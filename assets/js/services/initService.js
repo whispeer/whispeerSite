@@ -14,7 +14,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 					data = data();
 				}
 
-				h.deepSetCreate(toGet, cur.domain, data);				
+				h.deepSetCreate(toGet, cur.domain, data);
 			}
 
 			priorizedCallbacks.forEach(createDataFromCallback);
@@ -26,8 +26,14 @@ define(["step", "whispeerHelper"], function (step, h) {
 		function loadData() {
 			var serverData;
 			step(function () {
+				if (socketService.isConnected()) {
+					this();
+				} else {
+					socketService.once("connect", this.ne);
+				}
+			}, h.sF(function () {
 				socketService.emit("data", createData(), this);
-			}, h.sF(function (result) {
+			}), h.sF(function (result) {
 				serverData = result;
 				priorizedCallbacks.forEach(function (cur) {
 					try {

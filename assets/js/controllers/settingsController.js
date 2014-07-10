@@ -23,7 +23,7 @@ define(["whispeerHelper", "step"], function (h, step) {
 			$scope.sendShortCut = "enter";
 
 			if (sound) {
-				$scope.notificationSound = (sound.active ? 'on' : 'off');
+				$scope.notificationSound = (sound.active ? "on" : "off");
 			}
 			if (messages) {
 				$scope.sendShortCut = messages.sendShortCut || "enter";
