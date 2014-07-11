@@ -1,13 +1,40 @@
+// Some adjustable heights:
 @form-height: 70px;
+@header-height: 30px;
+
+// big image size in topic list.
+@user-image-size: 96px;
+
+// This is some paddings that are used troughout.
+@default-padding: 6px;
+@extended-padding: 2 * @default-padding;
+
+// This is additional padding that compensates for the width and padding
+// of a status bubble.
+@status-compensation: 11px;
+
+// I have no idea where these 10px come from. I've seen such a thing
+// before, and it came from some 1% margin somewhere close in the DOM.
+// But in this case, I just couldn't find it.
+@weirdo-message-list-margin: 10px;
+
+// This really should be pulled from somewhere else.
+@message-preview-lineheight: 20px;
 
 .messagesView {
 	#main {
 		.box();
 		overflow: hidden;
 	}
+	ul {
+		margin: 0;
+	}
 	#topicListWrap {
 		height: 100%;
-		overflow: scroll;
+		overflow-y: scroll;
+		overflow-x: hidden;
+		box-sizing: border-box;
+		border-bottom: @header-height solid transparent;
 		ul {
 			.unstyled();
 		}
@@ -26,40 +53,38 @@
 					.userimg {
 						width: 80px;
 						border: 1px solid #f2f2f2;
-						.box-fix;
 						.border-radius(100%);
 					}
-				}
-				.username, .lastMessage {
-					white-space: nowrap;
-					text-overflow: ellipsis;
 				}
 				.username, .lastMessage, .time {
 					transition: color 0.1s ease;
 				}
 				.username {
 					font-size: 0.9em!important;
-					.status {
-						border: 1px solid #ececec;
-					}
+					padding-top: @default-padding;
+					padding-left: (3 * @default-padding + @user-image-size);
 				}
 				.lastMessage {
-					font-size: 0.8em;
 					color: #555;
+					font-size: 0.8em;
+					height: (3 * @message-preview-lineheight); // three lines of text.
+					overflow: hidden;
+					padding-left: (@default-padding + @status-compensation);
+					padding-right: @extended-padding;
 				}
 				.time {
 					font-size: 80%;
 					color: #888;
-					float: right;
 					white-space: nowrap;
-					text-overflow: ellipsis;
 					line-height: 12px;
-					display: block;
-					margin-bottom: 2%;
-					position: absolute;
-					bottom: 1%;
-					right: 2%;
 					text-align: right;
+					text-overflow: ellipsis;
+
+					float: right;
+					display: block;
+					position: absolute;
+					bottom: @default-padding;
+					right: @extended-padding;
 				}
 				&:hover {
 					background-color: @primaryLightest;
@@ -114,15 +139,17 @@
 				}
 				&.groupChat, &.peerChat {
 					.left {
-						padding: 2%;
-						.box-fix;
+						padding: 0;
+						margin: 0;
+						float: left;
 						.imgWrap {
-							width: 100px;
-							height: 100%;
-							display: block;
-							padding: 0;
-							margin: 0;
-							float: left;
+							padding: @default-padding;
+							img {
+								display: block;
+								box-sizing: content-box;
+								width: @user-image-size;
+								height: @user-image-size;
+							}
 						}
 					}
 				}
@@ -152,15 +179,21 @@
 	#topicWrap {
 		height: 100%;
 		overflow: hidden;
-		padding-bottom: @form-height;
+		position: relative;
 		#messageWrap {
 			height: 100%;
 		}
 		#messageList {
+			box-sizing: border-box;
+			border-bottom: (@form-height + @header-height - @weirdo-message-list-margin) solid transparent;
 			height: 100%;
 			width: 100%;
+			position: absolute;
 			overflow: scroll;
+			top: 0;
+			left: 0;
 			margin: 0;
+			padding: 0 0 (@weirdo-message-list-margin) 0;
 
 			.userimg {
 				display: inline-block;
@@ -199,6 +232,10 @@
 		}
 		#inputWrap { // this is the form
 			display: block;
+			position: absolute;
+			width: 100%;
+			bottom: @header-height;
+
 			textarea {
 				height: @form-height;
 				.column(3,4);
@@ -221,20 +258,11 @@
 		.column(2.5,8,left,0);
 		#topicList {
 			.topic {
-				.left {
-					.column(0.70,2);
-				}
-				.username {
-					.column(1.3,2);
-				}
-				.lastMessage {
-					.column(1.3,2);
-				}
 				&.groupChat {
 					.left {
-						img, span {
-							.column(1,2,left,0);
-						}
+						// img, span {
+						// 	.column(1,2,left,0);
+						// // }
 					}
 				}
 			}
