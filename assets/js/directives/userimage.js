@@ -5,8 +5,7 @@ define(function () {
 		return {
 			transclude: false,
 			scope:	{
-				userData: 	"=user",
-				trustlevel:	"=trustlevel"
+				userData: 	"=user"
 			},
 			restrict: "E",
 			templateUrl: "assets/views/directives/userimage.html",

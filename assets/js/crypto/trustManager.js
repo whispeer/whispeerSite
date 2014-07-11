@@ -11,7 +11,7 @@ define (["whispeerHelper", "step", "asset/securedDataWithMetaData", "asset/enum"
 		return trustStates.fromString(trustLevel);
 	}
 
-	function keyTrustData(data) {
+	function KeyTrustData(data) {
 		var trustSymbol = unserializeTrust(data.trust);
 
 		this.getAddedTime = function () {
@@ -137,7 +137,7 @@ define (["whispeerHelper", "step", "asset/securedDataWithMetaData", "asset/enum"
 			var keyData = database.metaAttr(keyid);
 
 			if (keyData) {
-				return new keyTrustData(keyData);
+				return new KeyTrustData(keyData);
 			}
 
 			return false;

@@ -12,7 +12,7 @@
 						<span data-ng-if="topic.remainingUser" title="{{topic.remainingUserTitle}}">+ {{topic.remainingUser}}</span>
 					</div>
 					<div class="imgWrap" data-ng-if="topic.type == 'peerChat'">
-						<userimage data-ng-repeat="partner in topic.partnersDisplay" data-user="partner" data-trustlevel="0">
+						<userimage data-ng-repeat="partner in topic.partnersDisplay" data-user="partner">
 					</div>
 				</div>
 				<p class="username">

@@ -1,4 +1,4 @@
-define(["step", "whispeerHelper"], function (step, h) {
+define(["step", "whispeerHelper", "crypto/trustManager"], function (step, h, trustManager) {
 	"use strict";
 
 	var advancedBranches = ["location", "birthday", "relationship", "education", "work", "gender", "languages"];
@@ -132,6 +132,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 				theUser.data = {
 					user: theUser,
 					id: id,
+					trustLevel: 0,
 					basic: {
 						age: "?",
 						location: "?",
@@ -450,6 +451,19 @@ define(["step", "whispeerHelper"], function (step, h) {
 				step(function () {
 					if (!basicDataLoaded) {
 						this.parallel.unflatten();
+
+						var trust = trustManager.getKeyData(theUser.getSignKey());
+
+						if (trust.isOwn()) {
+							theUser.data.trustLevel = -1;
+						} else if (trust.isVerified()) {
+							theUser.data.trustLevel = 2;
+						} else if (trust.isWhispeerVerified() || trust.isNetworkVerified()) {
+							theUser.data.trustLevel = 1;
+						} else {
+							theUser.data.trustLevel = 0;
+						}
+
 
 						theUser.getShortName(this.parallel());
 						theUser.getName(this.parallel());
