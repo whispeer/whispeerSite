@@ -114,7 +114,8 @@
 		"help": "Hilfe",
 		"logout": "Logout",
 		"search": "Suchen...",
-		"legal":	"Rechtliches"
+		"legal":	"Rechtliches",
+		"notifications":	"Mitteilungen"
 	},
 	"login": {
 		"username": "Benutzername",
@@ -396,6 +397,9 @@
 					"title":		"Benachrichtigungstöne",
 					"on":			"An",
 					"off":			"Aus"	
+				},
+				"fingerprints": {
+					"title":	"Dein Fingerprint"
 				}
 			},	
 			"account":	"Benutzerkonto",
