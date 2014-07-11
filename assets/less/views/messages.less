@@ -11,7 +11,7 @@
 
 // This is additional padding that compensates for the width and padding
 // of a status bubble.
-@status-compensation: 11px;
+@status-compensation: 13px;
 
 // I have no idea where these 10px come from. I've seen such a thing
 // before, and it came from some 1% margin somewhere close in the DOM.
@@ -62,29 +62,28 @@
 				.username {
 					font-size: 0.9em!important;
 					padding-top: @default-padding;
-					padding-left: (3 * @default-padding + @user-image-size);
+					padding-left: 0;
+
+					text-overflow: ellipsis;
+					white-space: nowrap;
+					overflow: hidden;
 				}
 				.lastMessage {
 					color: #555;
 					font-size: 0.8em;
 					height: (3 * @message-preview-lineheight); // three lines of text.
 					overflow: hidden;
-					padding-left: (@default-padding + @status-compensation);
+					padding-left: @status-compensation;
 					padding-right: @extended-padding;
 				}
 				.time {
 					font-size: 80%;
 					color: #888;
 					white-space: nowrap;
-					line-height: 12px;
 					text-align: right;
 					text-overflow: ellipsis;
-
-					float: right;
-					display: block;
-					position: absolute;
-					bottom: @default-padding;
-					right: @extended-padding;
+					overflow: hidden;
+					padding-right: @extended-padding;
 				}
 				&:hover {
 					background-color: @primaryLightest;
@@ -150,26 +149,6 @@
 								width: @user-image-size;
 								height: @user-image-size;
 							}
-						}
-					}
-				}
-				&.groupChat {
-					.left {
-						background: transparent;
-						.imgWrap {
-							.border-radius(100%);
-							border: 1px solid #f2f2f2;
-							background-color: #b2b2b2;
-						}
-						img, span, div {
-							.border-radius(0);
-							border: none;
-						}
-						span, div {
-							background-color: #343434;
-							color: @white;
-							.box-fix;
-							height: 100%;
 						}
 					}
 				}
