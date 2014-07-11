@@ -5,25 +5,46 @@ define(["whispeerHelper", "asset/enum"], function (h, Enum) {
 
 	var State = function () {
 		this._state = states.INIT;
+		this.data = {
+			init: true,
+			pending: false,
+			success: false,
+			failed: false
+		};
 	};	
+
+	State.prototype._turnOneDataTrue = function () {
+		states.symbols().forEach(function (symbol) {
+			var name = symbol.name.toLowerCase();
+			if (this._state === symbol) {
+				this.data[name] = true;
+			} else {
+				this.data[name] = false;
+			}
+		}, this);
+	};
 
 	State.prototype.success = function () {
 		if (this._state === states.PENDING) {
 			this._state = states.SUCCESS;
+			this._turnOneDataTrue();
 		}
 	};
 	State.prototype.failed = function () {
 		if (this._state === states.PENDING) {
 			this._state = states.FAILED;
+			this._turnOneDataTrue();
 		}
 	};
 	State.prototype.reset = function () {
 		this._state = states.INIT;
+		this._turnOneDataTrue();
 	};
 
 	State.prototype.pending = function () {
 		if (this._state === states.INIT) {
 			this._state = states.PENDING;
+			this._turnOneDataTrue();
 		}
 	};
 

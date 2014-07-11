@@ -2,7 +2,7 @@
 * userController
 **/
 
-define(["step", "whispeerHelper", "asset/resizableImage"], function (step, h, ResizableImage) {
+define(["step", "whispeerHelper", "asset/resizableImage", "asset/state"], function (step, h, ResizableImage, State) {
 	"use strict";
 
 	function userController($scope, $routeParams, $timeout, cssService, errorService, userService, postService, circleService, blobService) {
@@ -22,48 +22,24 @@ define(["step", "whispeerHelper", "asset/resizableImage"], function (step, h, Re
 			$scope.verifyNow = !$scope.verifyNow;
 		};
 
-		$scope.verifyingUser = {
-			"success":		true,
-			"failure":		false,
-			"operation":	false,
-			"active":		false
-		};
+		var verifyState = new State();
+		$scope.verifyingUser = verifyState.data;
 
 		$scope.verify = function (fingerPrint) {
-				$scope.verifyingUser = {
-					"success":		false,
-					"failure":		false,
-					"operation":	true,
-					"active":		false
-				};
-
+			verifyState.reset();
+			verifyState.pending();
 
 			var ok = userObject.verify(fingerPrint, function (e) {
 				if (e) {
-					$scope.verifyingUser = {
-						"success":		false,
-						"failure":		true,
-						"operation":	false,
-						"active":		false
-					};
+					verifyState.failed();
 					errorService.criticalError(e);
 				} else {
-					$scope.verifyingUser = {
-						"success":		true,
-						"failure":		false,
-						"operation":	false,
-						"active":		false
-					};
+					verifyState.success();
 				}
 			});
 
 			if (!ok) {
-				$scope.verifyingUser = {
-					"success":		false,
-					"failure":		true,
-					"operation":	false,
-					"active":		false
-				};
+				verifyState.failed();
 			}
 		};
 

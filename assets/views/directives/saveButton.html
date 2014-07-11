@@ -1,5 +1,5 @@
-<button data-ng-class="{'success': state.success, 'operation': state.operation, 'failure': state.failure}" class="btn btn--saveButton">
-	<i data-ng-if="state.success" class="icon {{defaulticon}}"></i>
-	<i data-ng-if="state.failure" class="icon icon-cancel-circle"></i>
-	<img data-ng-if="state.operation" class="spinner" src="assets/img/loader.gif">
+<button data-ng-class="{'success': state.success || state.init, 'operation': state.pending, 'failure': state.failed}" class="btn btn--saveButton">
+	<i data-ng-if="state.success || state.init" class="icon {{defaulticon}}"></i>
+	<i data-ng-if="state.failed" class="icon icon-cancel-circle"></i>
+	<img data-ng-if="state.pending" class="spinner" src="assets/img/loader.gif">
 </button>
