@@ -6,7 +6,10 @@
 				"Bugfix: Show own friends on own profile",
 				"Bugfix: Profile is changeable again, settings work again",
 				"Disallow empty messages/posts",
-				"Display correct access count for all friends and friends of friends in filter search"
+				"Display correct access count for all friends and friends of friends in filter search",
+				"Protect against re-sending a post",
+				"Translate Mail Verification Page",
+				"Re-Focus Send Field on Message Send"
 			],
 			"9": [
 				"Multi-line postings",
