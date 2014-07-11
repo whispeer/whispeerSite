@@ -4,6 +4,7 @@
 			"10": [
 				"Bugfix: Mobile: Show correct start page",
 				"Bugfix: Show own friends on own profile",
+				"Bugfix: Profile is changeable again, settings work again",
 				"Disallow empty messages/posts",
 				"Display correct access count for all friends and friends of friends in filter search"
 			],

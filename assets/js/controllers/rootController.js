@@ -7,8 +7,8 @@ define(["step", "whispeerHelper"], function (step, h) {
 
 	function getVersionString(data) {
 		if (typeof data === "object" && !(data instanceof Array)) {
-			var keys = Object.keys(data);
-			keys.sort();
+			var keys = Object.keys(data).map(h.parseDecimal);
+			keys.sort(function(a, b){return a-b;});
 
 			var newest = keys[keys.length - 1];
 
