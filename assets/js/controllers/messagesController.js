@@ -143,8 +143,9 @@ define(["step", "whispeerHelper"], function (step, h) {
 				return;
 			}
 
+			$scope.canSend = false;
+
 			step(function () {
-				$scope.canSend = false;
 				messageService.sendMessage($scope.activeTopic.id, $scope.activeTopic.newMessage, this);
 			}, function () {
 				$scope.canSend = true;

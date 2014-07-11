@@ -8,6 +8,8 @@ define([], function () {
 	function mainController($scope, cssService, postService, errorService) {
 		cssService.setClass("mainView");
 
+		$scope.canSend = true;
+
 		$scope.postActive = false;
 		$scope.filterActive = false;
 		$scope.newPost = {
@@ -39,15 +41,20 @@ define([], function () {
 				return;
 			}
 
-			postService.createPost($scope.newPost.text, $scope.newPost.readers, 0, function (err) {
-				if (err) {
-					errorService.criticalError(err);
-				} else {
-					$scope.newPost.text = "";
-				}
-			});
+			if ($scope.canSend) {
+				$scope.canSend = false;
 
-			$scope.postActive = false;
+				postService.createPost($scope.newPost.text, $scope.newPost.readers, 0, function (err) {
+					$scope.canSend = true;
+					if (err) {
+						errorService.criticalError(err);
+					} else {
+						$scope.newPost.text = "";
+					}
+				});
+
+				$scope.postActive = false;
+			}
 		};
 		$scope.toggleFilter = function() {
 			$scope.filterActive = !$scope.filterActive;
