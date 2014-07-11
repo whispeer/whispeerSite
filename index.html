@@ -135,10 +135,12 @@
 			<ul class="mobileMenu">
 				<a href="notificationCenter" class="full" data-ng-click="toggleSidebar()" data-ng-if="(messages.unread + friends.requestsCount + news.count) > 0">
 					<li>
-						<i class="icon icon-home"></i>
+						<i class="icon icon-comment"></i>
 						<span data-i18n="menu.notifications"></span>
-						<span data-ng-controller="ssn.magicbar.mainController">
-							({{messages.unread + friends.requestsCount + news.count}})
+						<span>
+							<span class="badge" data-ng-controller="ssn.magicbar.mainController">
+								{{messages.unread + friends.requestsCount + news.count}}
+							</span>
 						</span>
 					</li>
 				</a>
