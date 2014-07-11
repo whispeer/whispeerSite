@@ -90,7 +90,17 @@ define(["step", "whispeerHelper"], function (step, h) {
 						//we need to find the me profile by hand
 						//TODO: also TODO: how to re-add the metaData...
 						//most likely: delete, recreate....
+
+						privateProfiles.forEach(function (profile) {
+							profile.getFull(this.parallel());
+						}, this);
 					}
+				}), h.sF(function (profileData) {
+					var likelyMeProfile = {};
+
+					profileData.forEach(function (profile) {
+						console.log(profile);
+					});
 				}), cb);
 			}
 
