@@ -204,6 +204,10 @@
 			"addToCircle":	"Zu welchen Kreisen möchtest du {user} hinzufügen?",
 			"sendMessage": "{user} eine Nachricht senden"
 		},
+		"trustmanager" : {
+			"verifyTitle":	"Benutzer verifizieren",
+			"verifyInfo":	"Um den Benutzer zu verifizieren gebe bitte seinen Fingerprint hier ein. Diesen kann er unter \"Einstellungen\" -> \"Dein Fingerprint\" ablesen."
+		},
 		"section":	{
 			"general": {
 				"headers":	{

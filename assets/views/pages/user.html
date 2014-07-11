@@ -6,11 +6,11 @@
 			<i data-ng-if="user.trustLevel < 2" class="icon icon-plus-circle" data-ng-click="toggleVerify()"></i>
 			<div class="dropdown" id="verifyUser" data-ng-if="verifyNow">
 				<div class="dropdown-header">
-					<span class="title">Benutzer Verifizieren</span>
+					<span class="title" data-i18n="profile.trustmanager.verifyTitle"></span>
 					<span class="close"><i class="icon icon-cancel-circle" data-ng-click="toggleVerify()"></i></span>
 				</div>
 				<div class="dropdown-content">
-					Um den Benutzer zu verifizieren gebe bitte seinen Fingerprint hier ein. Diesen kann er unter "Einstellungen" -> "Dein Fingerprint" ablesen.
+					<span data-i18n="profile.trustmanager.verifyInfo"></span>
 					<input type="text" placeholder="Fingerprint" data-ng-model="givenPrint">
 					<savebutton data-state="verifyingUser" data-ng-click="verify(givenPrint)">
 				</div>
