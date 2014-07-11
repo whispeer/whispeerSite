@@ -11,6 +11,10 @@ define(["crypto/keyStore", "step", "whispeerHelper", "crypto/encryptedData", "va
 
 			var metaData = new EncryptedData(data.metaData, {}, isDecrypted);
 
+			if (data.metaData === false) {
+				metaData = false;	
+			}
+
 			var decrypting = false, verified = false, key;
 
 			var id, signature, changed = false;
@@ -50,6 +54,7 @@ define(["crypto/keyStore", "step", "whispeerHelper", "crypto/encryptedData", "va
 
 			function padDecryptedProfile(cb) {
 				step(function () {
+					decryptedProfile = h.extend({}, decryptedProfile, 5, true);
 					keyStore.hash.addPaddingToObject(decryptedProfile, 128, this);
 				}, h.sF(function (paddedProfileObject) {
 					paddedProfile = paddedProfileObject;
@@ -223,7 +228,11 @@ define(["crypto/keyStore", "step", "whispeerHelper", "crypto/encryptedData", "va
 			this.getScope = function (cb) {
 				step(function () {
 					//TODO: move scope to meta!
-					metaData.getBranch("scope", this);
+					if (metaData) {
+						metaData.getBranch("scope", this);
+					} else {
+						this.ne(false);
+					}
 				}, h.sF(function (scope) {
 					this.ne(scope);
 				}), cb);

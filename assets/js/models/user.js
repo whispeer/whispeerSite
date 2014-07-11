@@ -71,9 +71,10 @@ define(["step", "whispeerHelper"], function (step, h) {
 			var id, mail, nickname, publicProfile, privateProfiles = [], mutualFriends, publicProfileChanged = false, publicProfileSignature;
 
 			function findMeProfile(cb) {
+				var newMeProfile;
 				step(function () {
 					privateProfiles.forEach(function (profile) {
-						profile.getScope(this);
+						profile.getScope(this.parallel());
 					}, this);
 				}, h.sF(function (scopes) {
 					var me;
@@ -99,8 +100,28 @@ define(["step", "whispeerHelper"], function (step, h) {
 					var likelyMeProfile = {};
 
 					profileData.forEach(function (profile) {
-						console.log(profile);
+						if (Object.keys(profile).length > Object.keys(likelyMeProfile).length) {
+							likelyMeProfile = profile;
+						}
 					});
+
+					newMeProfile = new ProfileService({
+						profile: likelyMeProfile,
+						metaData: {
+							scope: "me"
+						}
+					}, true);
+					newMeProfile.signAndEncrypt(theUser.getSignKey(), theUser.getMainKey(), theUser.getMainKey(), this);
+				}), h.sF(function (encryptedNewMe) {
+					socketService.emit("user.createPrivateProfiles", {
+						privateProfiles: [encryptedNewMe]
+					}, this);
+				}), h.sF(function (data) {
+					if (!data.error) {
+						this.ne(newMeProfile);
+					} else {
+						console.error("create failed");
+					}
 				}), cb);
 			}
 
@@ -193,12 +214,14 @@ define(["step", "whispeerHelper"], function (step, h) {
 
 					var profilesBroken = false;
 
+					var isMe = (id === sessionService.getUserID());
+
 					priv.forEach(function (profile) {
-						if (profile.metaData === false && theUser.isOwn()) {
+						if (profile.metaData === false && isMe) {
 							profilesBroken = true;
 						}
 
-						privateProfiles.push(new ProfileService(priv[i]));
+						privateProfiles.push(new ProfileService(profile));
 					});
 
 					if (profilesBroken) {
