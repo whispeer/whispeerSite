@@ -16,6 +16,7 @@ define(["whispeerHelper", "step"], function (h, step) {
 			settingsService.getBranch("privacy", this.parallel());
 			settingsService.getBranch("sound", this.parallel());
 			settingsService.getBranch("messages", this.parallel());
+			userService.getown().loadBasicData(this.parallel());
 		}, h.sF(function (privacy, sound, messages) {
 			$scope.safety = h.deepCopyObj(privacy, 4);
 
@@ -28,6 +29,12 @@ define(["whispeerHelper", "step"], function (h, step) {
 			if (messages) {
 				$scope.sendShortCut = messages.sendShortCut || "enter";
 			}
+
+			var names = userService.getown().data.names || {};
+			$scope.firstName = names.firstname;
+			$scope.lastName = names.lastname;
+			$scope.nickName = names.nickname;
+			$scope.fingerprint = userService.getown().data.fingerprint;
 		}), errorService.criticalError);
 
 		$scope.saveGeneral = function () {
@@ -72,10 +79,6 @@ define(["whispeerHelper", "step"], function (h, step) {
 			}), errorService.criticalError);
 		};
 
-		var names = userService.getown().data.names || {};
-		$scope.firstName = names.firstname;
-		$scope.lastName = names.lastname;
-		$scope.nickName = names.nickname;
 		$scope.mail = userService.getown().getMail();
 
 		$scope.saveName = function () {

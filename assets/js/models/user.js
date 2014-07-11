@@ -133,6 +133,7 @@ define(["step", "whispeerHelper", "crypto/trustManager"], function (step, h, tru
 					user: theUser,
 					id: id,
 					trustLevel: 0,
+					fingerprint: signKey.split(":")[1],
 					basic: {
 						age: "?",
 						location: "?",
@@ -267,9 +268,7 @@ define(["step", "whispeerHelper", "crypto/trustManager"], function (step, h, tru
 					}
 
 					basicDataLoaded = false;
-					theUser.loadBasicData(function () {
-
-					});
+					theUser.loadBasicData(function () {});
 					//reload basic profile data!
 
 					this.ne(result.allok);
@@ -463,7 +462,6 @@ define(["step", "whispeerHelper", "crypto/trustManager"], function (step, h, tru
 						} else {
 							theUser.data.trustLevel = 0;
 						}
-
 
 						theUser.getShortName(this.parallel());
 						theUser.getName(this.parallel());

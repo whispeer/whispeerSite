@@ -14,10 +14,15 @@ define(["step", "whispeerHelper", "asset/resizableImage"], function (step, h, Re
 		$scope.loading = true;
 		$scope.notExisting = false;
 		$scope.loadingFriends = true;
+		$scope.verifyNow = false;
+
+		$scope.toggleVerify = function () {
+			$timeout(function () {
+				$scope.verifyNow = !$scope.verifyNow;
+			});
+		};
 
 		$scope.changeImage = false;
-		// for demo purposes
-		$scope.trustlevel = 3;
 
 		cssService.setClass("profileView");
 
