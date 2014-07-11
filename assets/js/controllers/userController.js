@@ -16,6 +16,8 @@ define(["step", "whispeerHelper", "asset/resizableImage"], function (step, h, Re
 		$scope.loadingFriends = true;
 
 		$scope.changeImage = false;
+		// for demo purposes
+		$scope.trustlevel = 3;
 
 		cssService.setClass("profileView");
 
@@ -33,7 +35,7 @@ define(["step", "whispeerHelper", "asset/resizableImage"], function (step, h, Re
 		};
 
 		$scope.edit = function () {
-			$scope.editGeneral = !$scope.editGeneral;
+			$scope.editGeneral = true;
 
 			resizableImage.removeResizable();
 			$scope.changeImage = false;

@@ -1,6 +1,21 @@
 <nav data-ng-if="!loading">
 	<heading>
 		<h3>{{user.name}}</h3>
+		<div class="trustlevel" data-trustlevel="{{trustlevel}}">
+			<span class="text">Trust-Level: {{trustlevel}}</span>&nbsp;
+			<i data-ng-if="trustlevel < 2" data-ng-click="" class="icon icon-plus-circle"></i>
+<div class="dropdown" id="verifyUser">
+				<div class="dropdown-header">
+					<span class="title">Benutzer Verifizieren</span>
+					<span class="close"><i class="icon icon-cancel-circle"></i></span>
+				</div>
+				<div class="dropdown-content">
+					Um den Benutzer zu verifizieren gebe bitte seinen Fingerprint hier ein. Diesen kann er unter "Einstellungen" -> "Dein Fingerprint" ablesen.
+					<input type="text" placeholder="Fingerprint">
+					<savebutton data-success="true">
+				</div>
+			</div>	
+		</div>
 	</heading>
 	<menu type="list" class="unstyled">
 		<li><a scrolltoid="info" data-i18n="profile.head.info"></a></li>
@@ -17,7 +32,8 @@
 					<a href="" class="edit" data-i18n="profile.edit" data-ng-if="user.me" data-ng-click="edit()"></a>
 				</header>
 				<div class="userimage" data-ng-class="{'editing':changeImage, 'bigger': mobile && editGeneral && !changeImage}">
-					<img data-ng-src="{{user.basic.image}}" alt="USERNAME" data-ng-if="!changeImage">
+					<img data-ng-src="{{user.basic.image}}" alt="{{user.name}}" data-ng-if="!changeImage && user.me">
+					<userimage data-user="user" data-trustlevel="2" data-ng-if="!changeImage && !user.me">
 					<span class="editImage" data-ng-if="editGeneral && !changeImage" data-i18n="profile.section.general.changeImage" data-ng-click="doChangeImage()"></span>
 					<div class="uploadImageForm" data-ng-if="editGeneral && changeImage">
 						<span id="uploadButton" data-i18n="login.register.uploadImage"></span>

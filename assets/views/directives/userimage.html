@@ -1,0 +1,4 @@
+<div class="userimageWrap hint--center hint--bottom hint--rounded" data-ng-class="{'hint--error': trustlevel == 0, 'hint--warning': trustlevel == 1, 'hint--success': trustlevel >= 2}" data-hint="Trust-Level: {{trustlevel}}">
+	<img class="picture" data-ng-src="{{userData.basic.image}}" alt="{{userData.name}}" />
+	<img class="untrusted" data-ng-if="trustlevel == 0" src="assets/img/fail.png" alt="User is not verified!" />
+</div>	
