@@ -51,6 +51,11 @@ define(["step", "whispeerHelper", "crypto/trustManager"], function (step, h, tru
 			getKey: function (keyid) {
 				return trustManager.getKeyData(keyid);
 			},
+			verifyUser: function (user, cb) {
+				var keyData = trustManager.getKeyData(user.getSignKey());
+				keyData.setTrust(trustManager.trustStates.VERIFIED);
+				uploadDatabase(cb);
+			},
 			addUser: function (user) {
 				return trustManager.addUser(user);
 			}

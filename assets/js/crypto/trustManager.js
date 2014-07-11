@@ -44,7 +44,7 @@ define (["whispeerHelper", "step", "asset/securedDataWithMetaData", "asset/enum"
 			return trustSymbol === trustStates.NETWORKVERIFIED;
 		};
 		this.isVerified = function () {
-			return trustSymbol === trustStates.VERIFIE;
+			return trustSymbol === trustStates.VERIFIED;
 		};
 		this.isOwn = function () {
 			return trustSymbol === trustStates.OWN;

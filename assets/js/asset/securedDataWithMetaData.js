@@ -12,7 +12,7 @@ define(["whispeerHelper", "step", "crypto/keyStore", "asset/errors"], function (
 
 		this._decrypted = isDecrypted;
 
-		this._meta = meta || {};
+		this._originalMeta = meta || {};
 		this._hasContent = true;
 
 		if (typeof content === "undefined") {
@@ -23,7 +23,7 @@ define(["whispeerHelper", "step", "crypto/keyStore", "asset/errors"], function (
 			this._encryptedContent = content;
 		}
 
-		this._updatedMeta = h.deepCopyObj(this._meta);
+		this._updatedMeta = h.deepCopyObj(meta);
 
 		this._updatedContent = this._content;
 	}
@@ -107,17 +107,17 @@ define(["whispeerHelper", "step", "crypto/keyStore", "asset/errors"], function (
 			that.decrypt(this);
 		}, h.sF(function () {
 			if (that._hasContent) {
-				if (keyStore.hash.hashObjectOrValueHex(that._paddedContent) !== that._meta._contentHash) {
+				if (keyStore.hash.hashObjectOrValueHex(that._paddedContent) !== that._originalMeta._contentHash) {
 					throw new errors.SecurityError("content hash did not match");
 				}
 			}
 
-			var metaCopy = h.deepCopyObj(that._meta);
+			var metaCopy = h.deepCopyObj(that._originalMeta);
 
 			delete metaCopy._signature;
 			delete metaCopy._hashObject;
 
-			keyStore.sign.verifyObject(that._meta._signature, metaCopy, signKey, this);
+			keyStore.sign.verifyObject(that._originalMeta._signature, metaCopy, signKey, this);
 		}), h.sF(function (correctSignature) {
 			if (!correctSignature) {
 				throw new errors.SecurityError("signature did not match");
@@ -139,7 +139,7 @@ define(["whispeerHelper", "step", "crypto/keyStore", "asset/errors"], function (
 			if (that._decrypted) {
 				this.last.ne();
 			} else {
-				keyStore.sym.decryptObject(that._encryptedContent, that._encryptDepth, this, that._meta._key);
+				keyStore.sym.decryptObject(that._encryptedContent, that._encryptDepth, this, that._originalMeta._key);
 			}
 		}, h.sF(function (decryptedData) {
 			that._paddedContent = decryptedData;
@@ -166,13 +166,13 @@ define(["whispeerHelper", "step", "crypto/keyStore", "asset/errors"], function (
 		return h.deepCopyObj(this._content);
 	};
 	SecuredDataWithMetaData.prototype.metaGet = function () {
-		return h.deepCopyObj(this._meta);
+		return h.deepCopyObj(this._updatedMeta);
 	};
 	SecuredDataWithMetaData.prototype.metaHasAttr = function (attr) {
-		return this._meta.hasOwnProperty(attr);
+		return this._updatedMeta.hasOwnProperty(attr);
 	};
 	SecuredDataWithMetaData.prototype.metaAttr = function (attr) {
-		return h.deepCopyObj(this._meta[attr]);
+		return h.deepCopyObj(this._updatedMeta[attr]);
 	};
 
 	/** sets the whole content to the given data

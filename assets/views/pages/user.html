@@ -1,18 +1,18 @@
 <nav data-ng-if="!loading">
 	<heading>
 		<h3>{{user.name}}</h3>
-		<div class="trustlevel" data-trustlevel="{{user.trustLevel}}" data-ng-if="!user.me" data-ng-click="toggleVerify()">
+		<div class="trustlevel" data-trustlevel="{{user.trustLevel}}" data-ng-if="!user.me">
 			<span class="text">Trust-Level: {{user.trustLevel}}</span>&nbsp;
-			<i data-ng-if="user.trustLevel < 2" class="icon icon-plus-circle"></i>
-			<div class="dropdown" id="verifyUser" data-ng-if="verifyNow" data-stop-event="click">
+			<i data-ng-if="user.trustLevel < 2" class="icon icon-plus-circle" data-ng-click="toggleVerify()"></i>
+			<div class="dropdown" id="verifyUser" data-ng-if="verifyNow">
 				<div class="dropdown-header">
 					<span class="title">Benutzer Verifizieren</span>
 					<span class="close"><i class="icon icon-cancel-circle" data-ng-click="toggleVerify()"></i></span>
 				</div>
 				<div class="dropdown-content">
 					Um den Benutzer zu verifizieren gebe bitte seinen Fingerprint hier ein. Diesen kann er unter "Einstellungen" -> "Dein Fingerprint" ablesen.
-					<input type="text" placeholder="Fingerprint">
-					<savebutton data-success="true">
+					<input type="text" placeholder="Fingerprint" data-ng-model="givenPrint">
+					<savebutton data-state="verifyingUser" data-ng-click="verify(givenPrint)">
 				</div>
 			</div>
 		</div>

@@ -16,10 +16,55 @@ define(["step", "whispeerHelper", "asset/resizableImage"], function (step, h, Re
 		$scope.loadingFriends = true;
 		$scope.verifyNow = false;
 
+		$scope.givenPrint = "";
+
 		$scope.toggleVerify = function () {
-			$timeout(function () {
-				$scope.verifyNow = !$scope.verifyNow;
+			$scope.verifyNow = !$scope.verifyNow;
+		};
+
+		$scope.verifyingUser = {
+			"success":		true,
+			"failure":		false,
+			"operation":	false,
+			"active":		false
+		};
+
+		$scope.verify = function (fingerPrint) {
+				$scope.verifyingUser = {
+					"success":		false,
+					"failure":		false,
+					"operation":	true,
+					"active":		false
+				};
+
+
+			var ok = userObject.verify(fingerPrint, function (e) {
+				if (e) {
+					$scope.verifyingUser = {
+						"success":		false,
+						"failure":		true,
+						"operation":	false,
+						"active":		false
+					};
+					errorService.criticalError(e);
+				} else {
+					$scope.verifyingUser = {
+						"success":		true,
+						"failure":		false,
+						"operation":	false,
+						"active":		false
+					};
+				}
 			});
+
+			if (!ok) {
+				$scope.verifyingUser = {
+					"success":		false,
+					"failure":		true,
+					"operation":	false,
+					"active":		false
+				};
+			}
 		};
 
 		$scope.changeImage = false;
