@@ -1,4 +1,4 @@
-<div class="userimageWrap hint--center hint--bottom hint--rounded" data-trustlevel="{{userData.trustLevel}}" data-ng-class="{'hint--error': userData.trustLevel == 0, 'hint--warning': userData.trustLevel == 1, 'hint--success': userData.trustLevel >= 2}" data-hint="Trust-Level: {{userData.trustLevel}}">
+<div class="userimageWrap hint--center hint--bottom hint--rounded" data-trustlevel="{{userData.trustLevel}}" data-ng-class="{'hint': userData.trustLevel >= 0,'hint--error': userData.trustLevel == 0, 'hint--warning': userData.trustLevel == 1, 'hint--success': userData.trustLevel >= 2}" data-hint="Trust-Level: {{userData.trustLevel}}">
 	<img class="picture" data-ng-src="{{userData.basic.image}}" alt="{{userData.name}}" />
-	<img class="untrusted" data-ng-if="userData.trustLevel == 0" src="assets/img/fail.png" alt="User is not verified!" />
+	<!-- <img class="untrusted" data-ng-if="userData.trustLevel == 0" src="assets/img/fail.png" alt="User is not verified!" /> -->
 </div>	
