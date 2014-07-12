@@ -4,7 +4,7 @@
 
 (function () {
 	"use strict";
-	var directives = ["eatClick", "blur", "onblur", "friend", "strgEnter", "enter", "onfocus", "comment", "post", "scroll", "file", "stopEvent", "inview", "syntaxify", "basicsearch", "autofocus", "errorHint", "savebutton", "advancedsend", "focusMe"];
+	var directives = ["eatClick", "blur", "onblur", "friend", "strgEnter", "enter", "onfocus", "comment", "post", "scroll", "file", "stopEvent", "inview", "syntaxify", "basicsearch", "autofocus", "errorHint", "savebutton", "advancedsend", "focusMe", "userimage"];
 
 	var includes = ["angular"];
 

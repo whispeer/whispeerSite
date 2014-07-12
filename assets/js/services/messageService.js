@@ -857,7 +857,7 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer", "ass
 
 		Observer.call(messageService);
 
-		initService.register("messages.getUnreadCount", {}, function (data) {
+		initService.register("messages.getUnreadCount", {}, function (data, cb) {
 			messageService.data.unread = h.parseDecimal(data.unread) || 0;
 
 			messageService.listenNewMessage(function(m) {
@@ -870,6 +870,8 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer", "ass
 					windowService.setAdvancedTitle("newmessage", m.data.sender.basic.shortname);
 				}
 			});
+
+			cb();
 		});
 
 		$rootScope.$on("ssn.reset", function () {

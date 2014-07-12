@@ -1,18 +1,14 @@
-define(["step", "whispeerHelper"], function (step, h) {
+define(["step", "whispeerHelper", "asset/observer"], function (step, h, Observer) {
 	"use strict";
 
 	var service = function ($rootScope, User, errorService, initService, socketService, keyStoreService, sessionService) {
+		var userService, knownIDs = [], users = {}, loading = {};
 
 		var NotExistingUser = {
 			getName: function (cb) {
 				cb("Not Existing User");
 			}
 		};
-
-		var knownIDs = [];
-
-		var users = {};
-		var loading = {};
 
 		function makeUser(data) {
 			if (data.error === true) {
@@ -43,6 +39,8 @@ define(["step", "whispeerHelper"], function (step, h) {
 			if (nickname) {
 				users[nickname] = theUser;
 			}
+
+			userService.notify(theUser, "loadedUser");
 
 			return theUser;
 		}
@@ -81,7 +79,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 			}, cb);
 		}
 
-		var api = {
+		userService = {
 			/** search your friends */
 			queryFriends: function queryFriendsF(query, cb) {
 				step(function () {
@@ -175,7 +173,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 			getMultipleFormatted: function getMFF(identifiers, cb) {
 				var theUsers;
 				step(function () {
-					api.getMultiple(identifiers, this);
+					userService.getMultiple(identifiers, this);
 				}, h.sF(function (user) {
 					theUsers = user;
 					var i;
@@ -217,7 +215,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 					improve_timer = true;
 					window.setTimeout(function () {
 						step(function () {
-							var own = api.getown();
+							var own = userService.getown();
 							if (own.getNickOrMail() === identifier) {
 								var mainKey = own.getMainKey();
 
@@ -241,22 +239,26 @@ define(["step", "whispeerHelper"], function (step, h) {
 			});
 		}
 
+		Observer.call(userService);
+
 		initService.register("user.get", function () {
 			return {identifier: sessionService.getUserID()};
-		}, function (data) {
-			var user = api.addFromData(data);
+		}, function (data, cb) {
+			var user = userService.addFromData(data);
 
 			var identifier = user.getNickOrMail();
 
 			keyStoreService.setKeyGenIdentifier(identifier);
 			improvementListener(identifier);
-		});
+
+			cb();
+		}, true);
 
 		$rootScope.$on("ssn.reset", function () {
-			api.reset();
+			userService.reset();
 		});
 
-		return api;
+		return userService;
 	};
 
 	service.$inject = ["$rootScope", "ssn.models.user", "ssn.errorService", "ssn.initService", "ssn.socketService", "ssn.keyStoreService", "ssn.sessionService"];

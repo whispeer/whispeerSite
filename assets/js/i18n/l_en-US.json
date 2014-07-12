@@ -198,6 +198,10 @@
 			"addToCircle":	"To which circles do you want to add {user}?",
 			"sendMessage": "Send {user} a message"
 		},
+		"trustmanager" : {
+			"verifyTitle":	"Verify this User",
+			"verifyInfo":	"To verify this user, please enter his fingerprint here. The user can get it through \"Settings\" -> \"Your Fingerprint\"."
+		},
 		"section":	{
 			"general": {
 				"headers":	{
@@ -391,6 +395,9 @@
 					"title":		"Notification sounds",
 					"on":			"On",
 					"off":			"Off"	
+				},
+				"fingerprints": {
+					"title":	"Your Fingerprint"
 				}
 			},
 			"account":	"Account",

@@ -256,12 +256,14 @@ define(["step", "whispeerHelper", "asset/observer"], function (step, h, Observer
 
 		Observer.call(friendsService);
 
-		initService.register("friends.getAll", {}, function (data) {
+		initService.register("friends.getAll", {}, function (data, cb) {
 			friendsService.load(data);
+			cb();
 		});
 
-		initService.register("friends.getOnline", {}, function (data) {
+		initService.register("friends.getOnline", {}, function (data, cb) {
 			friendsService.setOnline(data.online);
+			cb();
 		});
 
 		$rootScope.$on("ssn.reset", function () {

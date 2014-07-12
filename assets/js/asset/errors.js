@@ -3,9 +3,11 @@ define([], function () {
 	function extendError(parentErrorClass, name) {
 		if (parentErrorClass.prototype instanceof Error || parentErrorClass === Error) {
 			var F = function(){};
-			var CustomError = function() {
-				var _this = (this===window) ? new F() : this, // correct if not called with "new" 
-					tmp = parentErrorClass.prototype.constructor.apply(_this,arguments);
+			var CustomError = function(message) {
+				var _this = this;
+
+				var tmp = new parentErrorClass(message);
+				tmp.name = this.name = name || "Error";
 
 				_this.stack = tmp.stack;
 				_this.message = tmp.message;

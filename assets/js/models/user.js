@@ -232,6 +232,8 @@ define(["step", "whispeerHelper"], function (step, h) {
 				theUser.data = {
 					user: theUser,
 					id: id,
+					trustLevel: 0,
+					fingerprint: signKey.split(":")[1],
 					basic: {
 						age: "?",
 						location: "?",
@@ -366,9 +368,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 					}
 
 					basicDataLoaded = false;
-					theUser.loadBasicData(function () {
-
-					});
+					theUser.loadBasicData(function () {});
 					//reload basic profile data!
 
 					this.ne(result.allok);
@@ -389,6 +389,21 @@ define(["step", "whispeerHelper"], function (step, h) {
 
 			this.uploadChangedProfile = uploadChangedProfile;
 			this.setProfileAttribute = setProfileAttribute;
+
+			this.verify = function (fingerPrint, cb) {
+				if (fingerPrint !== theUser.getSignKey().split(":")[1]) {
+					return false;
+				}
+
+				step(function () {
+					$injector.get("ssn.trustService").verifyUser(theUser, this);
+				}, h.sF(function () {
+					theUser.data.trustLevel = 2;
+					this.ne();
+				}), cb);
+
+				return true;
+			};
 
 			this.rebuildProfilesForSettings = function (newSettings, oldSettings, cb) {
 				step(function () {
@@ -515,6 +530,28 @@ define(["step", "whispeerHelper"], function (step, h) {
 
 			this.update = updateUser;
 
+			this.getTrustLevel = function (cb) {
+				step(function () {
+					theUser.getTrustData(this);
+				}, h.sF(function (trust) {
+					if (trust.isOwn()) {
+						this.ne(-1);
+					} else if (trust.isVerified()) {
+						this.ne(2);
+					} else if (trust.isWhispeerVerified() || trust.isNetworkVerified()) {
+						this.ne(1);
+					} else {
+						this.ne(0);
+					}
+				}), cb);
+			};
+
+			this.getTrustData = function (cb) {
+				var trust = $injector.get("ssn.trustService").getKey(theUser.getSignKey());
+
+				cb(null, trust);
+			};
+
 			this.loadFullData = function (cb) {
 				step(function () {
 					var i;
@@ -553,14 +590,17 @@ define(["step", "whispeerHelper"], function (step, h) {
 
 						theUser.getShortName(this.parallel());
 						theUser.getName(this.parallel());
+						theUser.getTrustLevel(this.parallel());
 					} else {
 						this.last.ne();
 					}
-				}, h.sF(function (shortname, names) {
+				}, h.sF(function (shortname, names, trustLevel) {
 					basicDataLoaded = true;
 
 					theUser.data.me = theUser.isOwn();
 					theUser.data.other = !theUser.isOwn();
+
+					theUser.data.trustLevel = trustLevel;
 
 					theUser.data.online = friendsService.onlineStatus(theUser.getID()) || 0;
 

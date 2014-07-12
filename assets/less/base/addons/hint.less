@@ -34,7 +34,7 @@
   /**
    * tooltip body
    */ }
-  .hint:before, .hint:after, [data-hint]:before, [data-hint]:after {
+  .hint:before, .hint:after {
     position: absolute;
     -webkit-transform: translate3d(0, 0, 0);
     -moz-transform: translate3d(0, 0, 0);
@@ -49,20 +49,20 @@
     -webkit-transition-delay: 0ms;
     -moz-transition-delay: 0ms;
     transition-delay: 0ms; }
-  .hint:hover:before, .hint:hover:after, .hint:focus:before, .hint:focus:after, [data-hint]:hover:before, [data-hint]:hover:after, [data-hint]:focus:before, [data-hint]:focus:after {
+  .hint:hover:before, .hint:hover:after, .hint:focus:before, .hint:focus:after {
     visibility: visible;
     opacity: 1; }
-  .hint:hover:before, .hint:hover:after, [data-hint]:hover:before, [data-hint]:hover:after {
+  .hint:hover:before, .hint:hover:after {
     -webkit-transition-delay: 100ms;
     -moz-transition-delay: 100ms;
     transition-delay: 100ms; }
-  .hint:before, [data-hint]:before {
+  .hint:before {
     content: '';
     position: absolute;
     background: transparent;
     border: 6px solid transparent;
     z-index: 1000001; }
-  .hint:after, [data-hint]:after {
+  .hint:after {
     content: attr(data-hint);
     background: #383838;
     color: white;
