@@ -2,8 +2,14 @@
 @form-height: 70px;
 @header-height: 30px;
 
-// big image size in topic list.
+// big/small image size in topic list.
 @user-image-size: 96px;
+@user-image-size-small: 72px;
+@remaining-user-bubble-size: 28px;
+@remaining-user-bubble-border: 3px;
+@remaining-user-bubble-bg: white;
+@remaining-user-bubble-fg: green;
+@remaining-user-bubble-font: 15px;
 
 // This is some paddings that are used troughout.
 @default-padding: 6px;
@@ -148,6 +154,47 @@
 								box-sizing: content-box;
 								width: @user-image-size;
 								height: @user-image-size;
+							}
+						}
+					}
+				}
+				&.groupChat {
+					.left {
+						.imgWrap {
+							// group chats have smaller images, and compensate for equal
+							// height of the list element w/ some bottom padding.
+							padding-bottom: (@user-image-size - @user-image-size-small + @default-padding);
+							padding-right: (@user-image-size - @user-image-size-small + @default-padding);
+							img {
+								box-sizing: content-box;
+								width: @user-image-size-small;
+								height: @user-image-size-small;
+							}
+							img ~ img {
+								position: absolute;
+								top: (@default-padding + @user-image-size - @user-image-size-small);
+								left: (@default-padding + @user-image-size - @user-image-size-small);
+							}
+							span {
+								// the span is missing a class.
+								position: absolute;
+								box-sizing: content-box;
+								width: @remaining-user-bubble-size;
+								height: @remaining-user-bubble-size;
+								left: (@default-padding + @user-image-size - @remaining-user-bubble-size - @remaining-user-bubble-border);
+								top: (@default-padding + @user-image-size - @remaining-user-bubble-size - @remaining-user-bubble-border);
+								border: @remaining-user-bubble-border solid @remaining-user-bubble-fg;
+								border-radius: 100%;
+
+								line-height: @remaining-user-bubble-size;
+								text-align: center;
+
+								font-size: @remaining-user-bubble-font;
+								text-decoration: italic;
+								font-weight: bold;
+
+								color: @remaining-user-bubble-fg;
+								background: @remaining-user-bubble-bg;
 							}
 						}
 					}

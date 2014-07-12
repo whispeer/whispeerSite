@@ -304,22 +304,16 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer", "ass
 						}
 					}
 
+					theTopic.data.partnersDisplay = partners.slice(0, 2);
 					if (partners.length > 4) {
-						theTopic.data.partnersDisplay = partners.slice(0, 3);
-						theTopic.data.remainingUser = partners.length - 3;
-						for (i = 3; i < partners.length; i += 1) {
+						theTopic.data.remainingUser = partners.length - 2;
+						for (i = 2; i < partners.length; i += 1) {
 							theTopic.data.remainingUserTitle += partners[i].name;
 							if (i < partners.length - 1) {
 								theTopic.data.remainingUserTitle += ", ";
 							}
 						}
-					} else {
-						theTopic.data.partnersDisplay = partners.slice(0, 4);
-						if (theTopic.data.partnersDisplay.length < 4 && theTopic.data.partnersDisplay.length > 1) {
-							theTopic.data.partnersDisplay.push(me);
-						}
 					}
-
 					this.ne();
 				}), cb);
 			};
