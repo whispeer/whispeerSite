@@ -9,7 +9,10 @@
 				"Display correct access count for all friends and friends of friends in filter search",
 				"Protect against re-sending a post",
 				"Translate Mail Verification Page",
-				"Re-Focus Send Field on Message Send"
+				"Re-Focus Send Field on Message Send",
+				"Trust Manager added - Verify your friends",
+				"Accept friend request on mobile",
+				"Post design improved"
 			],
 			"9": [
 				"Multi-line postings",
@@ -19,7 +22,8 @@
 				"Messages: Topic List Redesign",
 				"Optimized user image sizes",
 				"User images are now rounded",
-				"Posts redesigned"
+				"Posts redesigned",
+				"Security: Add Trust Manager which saves all key<->user mappings"
 			],
 			"8": [
 				"Bring back missing profile icons",

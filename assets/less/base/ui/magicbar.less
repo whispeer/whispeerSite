@@ -220,8 +220,7 @@
 							.border-radius(100%);
 							height: 100%;
 							width: 100%;
-							overflow: hidden;
-							img{
+							img:not(.picture):not(.untrusted) {
 								width: 100%;
 								height: 100%;
 							}	
@@ -230,18 +229,22 @@
 					&.groupChat {
 						.left {
 							.border-radius(5px);
-							img, span {
-								.border-radius(0);
-								.column(1,2,left,0);
-								height: 50%;
-							}
-							span {	
-								background-color: #343434;
-								color: @white;
-								font-size: 10px;
-								text-align: center;
-								.box-fix;
-							}
+							.group {
+								.border-radius(100%);
+								overflow: hidden;
+								img, span {
+									.border-radius(0);
+									.column(1,2,left,0);
+									height: 50%;
+								}
+								span {	
+									background-color: #343434;
+									color: @white;
+									font-size: 10px;
+									text-align: center;
+									.box-fix;
+								}
+							}	
 						}
 					}
 					.username, .text {

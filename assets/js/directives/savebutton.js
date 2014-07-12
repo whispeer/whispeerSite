@@ -5,9 +5,7 @@ define(function () {
 		return {
 			transclude: true,
 			scope:	{
-				success:		"=success",
-				operation:		"=operation",
-				failure:		"=failure"
+				state:		"=state",
 			},
 			restrict: "E",
 			templateUrl: "assets/views/directives/saveButton.html",

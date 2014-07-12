@@ -1033,8 +1033,14 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 
 		function signF(hash, callback) {
 			step(function () {
+				require(["crypto/trustManager"], this.ne, this);
+			}, h.sF(function (trustManager) {
+				if (!trustManager.hasKeyData(intKey.getRealID())) {
+					console.log("key not in key database");
+					throw new errors.SecurityError("key not in key database");
+				}
 				intKey.decryptKey(this);
-			}, h.sF(function (decrypted) {
+			}), h.sF(function (decrypted) {
 				if (!decrypted) {
 					this.last("could not decrypt key");
 				}
@@ -1045,9 +1051,14 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 
 		function verifyF(signature, hash, callback) {
 			step(function () {
+				require(["crypto/trustManager"], this.ne, this);
+			}, h.sF(function (trustManager) {
+				if (!trustManager.hasKeyData(intKey.getRealID())) {
+					console.log("key not in key database");
+					throw new errors.SecurityError("key not in key database");
+				}
 				sjclWorkerInclude.asym.verify(publicKey, signature, hash, this);
-				//this.ne(publicKey.verify(hash, signature));
-			}, callback);
+			}), callback);
 		}
 
 		if (isPrivateKey) {

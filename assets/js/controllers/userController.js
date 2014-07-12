@@ -2,7 +2,7 @@
 * userController
 **/
 
-define(["step", "whispeerHelper", "asset/resizableImage"], function (step, h, ResizableImage) {
+define(["step", "whispeerHelper", "asset/resizableImage", "asset/state"], function (step, h, ResizableImage, State) {
 	"use strict";
 
 	function userController($scope, $routeParams, $timeout, cssService, errorService, userService, postService, circleService, blobService) {
@@ -14,6 +14,34 @@ define(["step", "whispeerHelper", "asset/resizableImage"], function (step, h, Re
 		$scope.loading = true;
 		$scope.notExisting = false;
 		$scope.loadingFriends = true;
+		$scope.verifyNow = false;
+
+		$scope.givenPrint = "";
+
+		$scope.toggleVerify = function () {
+			$scope.verifyNow = !$scope.verifyNow;
+		};
+
+		var verifyState = new State();
+		$scope.verifyingUser = verifyState.data;
+
+		$scope.verify = function (fingerPrint) {
+			verifyState.reset();
+			verifyState.pending();
+
+			var ok = userObject.verify(fingerPrint, function (e) {
+				if (e) {
+					verifyState.failed();
+					errorService.criticalError(e);
+				} else {
+					verifyState.success();
+				}
+			});
+
+			if (!ok) {
+				verifyState.failed();
+			}
+		};
 
 		$scope.changeImage = false;
 
@@ -33,7 +61,7 @@ define(["step", "whispeerHelper", "asset/resizableImage"], function (step, h, Re
 		};
 
 		$scope.edit = function () {
-			$scope.editGeneral = !$scope.editGeneral;
+			$scope.editGeneral = true;
 
 			resizableImage.removeResizable();
 			$scope.changeImage = false;
@@ -179,26 +207,17 @@ define(["step", "whispeerHelper", "asset/resizableImage"], function (step, h, Re
 			}
 		};
 
-		$scope.userState = {
-			saving: false,
-			success: true,
-			failure: false
-		};
+		var circleState = new State();
 
 		$scope.circles = {
 			selectedElements: [],
-			saving: false,
-			success: true,
-			failure: false
+			saving: circleState.data
 		};
-
-		function setCircleState(state) {
-			h.setGeneralState(state, $scope.circles);
-		}
 
 		$scope.saveCircles = function () {
 			step(function () {
-				setCircleState("saving");
+				circleState.reset();
+				circleState.pending();
 				$timeout(this, 200);
 			}, h.sF(function () {
 				var oldCircles = circleService.inWhichCircles($scope.user.id).map(function (e) {
@@ -219,10 +238,10 @@ define(["step", "whispeerHelper", "asset/resizableImage"], function (step, h, Re
 				}
 			}), function (e) {
 				if (e) {
-					setCircleState("failure");
+					circleState.failed();
 					errorService.criticalError(e);
 				} else {
-					setCircleState("success");	
+					circleState.success();
 				}
 			});
 		};
