@@ -234,7 +234,7 @@
 			}
 
 			// this is the burst container.
-			.userimg ~ ul {
+			.burst {
 				// angular creates and fills w/o moving stuff into display: none,
 				// so we need to add min size to prevent constant UI movement.
 				min-height: @message-image-size - 2 * @default-padding;
@@ -251,7 +251,7 @@
 				position: relative;
 			}
 
-			.userimg ~ ul:after, .userimg ~ ul:before {
+			.burst:after, .burst:before {
 				right: 100%;
 				top: @message-arrow-offset;
 				border: solid transparent;
@@ -262,13 +262,13 @@
 				pointer-events: none;
 			}
 
-			.userimg ~ ul:after {
+			.burst:after {
 				border-color: rgba(213, 213, 213, 0);
 				border-right-color: #d5d5d5;
 				border-width: @message-arrow-size;
 				margin-top: -1 * @message-arrow-size;
 			}
-			.userimg ~ ul:before {
+			.burst:before {
 				border-color: rgba(178, 178, 178, 0);
 				border-right-color: #b2b2b2;
 				border-width: 1px + @message-arrow-size;
@@ -278,9 +278,6 @@
 			> li {
 				float: left;
 				clear: both;
-				//width: 100%;
-				.message {
-				}
 			}
 
 		}
