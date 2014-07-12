@@ -10,7 +10,7 @@ define(["step", "whispeerHelper", "asset/resizableImage", "asset/observer"], fun
 		var observer = new Observer();
 		cssService.setClass("registerView");
 		
-		var ENDSIZE = 250;
+		var ENDSIZE = 256;
 		var CANVASWIDTH = 600, CANVASHEIGHT = 300;
 
 		$scope.imageChange = resizableImage.callBackForFileLoad(function () {

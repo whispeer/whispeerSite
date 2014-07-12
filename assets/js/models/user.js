@@ -70,6 +70,93 @@ define(["step", "whispeerHelper"], function (step, h) {
 			var theUser = this, mainKey, signKey, cryptKey, friendShipKey, friendsKey, friendsLevel2Key, migrationState;
 			var id, mail, nickname, publicProfile, privateProfiles = [], mutualFriends, publicProfileChanged = false, publicProfileSignature;
 
+			function findMeProfile(cb) {
+				var newMeProfile;
+				step(function () {
+					privateProfiles.forEach(function (profile) {
+						profile.getScope(this.parallel());
+					}, this);
+				}, h.sF(function (scopes) {
+					var me;
+
+					scopes.forEach(function (scope, index) {
+						if (scope === "me") {
+							me = privateProfiles[index];
+						}
+					});
+
+					if (me) {
+						this.last.ne(me);
+					} else {
+						//we need to find the me profile by hand
+						//TODO: also TODO: how to re-add the metaData...
+						//most likely: delete, recreate....
+
+						privateProfiles.forEach(function (profile) {
+							profile.getFull(this.parallel());
+						}, this);
+					}
+				}), h.sF(function (profileData) {
+					var likelyMeProfile = {};
+
+					profileData.forEach(function (profile) {
+						if (Object.keys(profile).length > Object.keys(likelyMeProfile).length) {
+							likelyMeProfile = profile;
+						}
+					});
+
+					newMeProfile = new ProfileService({
+						profile: likelyMeProfile,
+						metaData: {
+							scope: "me"
+						}
+					}, true);
+					newMeProfile.signAndEncrypt(theUser.getSignKey(), theUser.getMainKey(), theUser.getMainKey(), this);
+				}), h.sF(function (encryptedNewMe) {
+					socketService.emit("user.createPrivateProfiles", {
+						privateProfiles: [encryptedNewMe]
+					}, this);
+				}), h.sF(function (data) {
+					if (!data.error) {
+						this.ne(newMeProfile);
+					} else {
+						console.error("create failed");
+					}
+				}), cb);
+			}
+
+			function repairProfiles() {
+				step(function () {
+					//find main profile
+					findMeProfile(this);
+				}, h.sF(function (meProfile) {
+					//delete other profiles
+					var profilesToDelete = privateProfiles.filter(function (profile) {
+						return profile !== meProfile;
+					}).map(function (profile) {
+						return profile.getID();
+					});
+
+					socketService.emit("user", {
+						deletePrivateProfiles: {
+							profilesToDelete: profilesToDelete
+						}
+					}, this);
+				}), h.sF(function () {
+					//rebuildFromSettings
+					settingsService.getBranch("privacy", this);
+				}), h.sF(function (settings) {
+					var usedScopes = getAllProfileTypes(settings);
+					theUser.createProfileObjects(usedScopes, settings, this);
+				}), h.sF(function (profilesToCreate) {
+					socketService.emit("user", {
+						createPrivateProfiles: {
+							privateProfiles: profilesToCreate
+						}
+					}, this);
+				}), errorService.criticalError);
+			}
+
 			this.data = {};
 
 			function updateUser(userData) {
@@ -124,8 +211,21 @@ define(["step", "whispeerHelper"], function (step, h) {
 				//todo: update profiles. for now: overwrite
 				if (userData.profile && userData.profile.priv && userData.profile.priv instanceof Array) {
 					var priv = userData.profile.priv, i;
-					for (i = 0; i < priv.length; i += 1) {
-						privateProfiles.push(new ProfileService(priv[i]));
+
+					var profilesBroken = false;
+
+					var isMe = (id === sessionService.getUserID());
+
+					priv.forEach(function (profile) {
+						if (profile.metaData === false && isMe) {
+							profilesBroken = true;
+						}
+
+						privateProfiles.push(new ProfileService(profile));
+					});
+
+					if (profilesBroken) {
+						repairProfiles();
 					}
 				}
 

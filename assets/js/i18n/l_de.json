@@ -114,7 +114,8 @@
 		"help": "Hilfe",
 		"logout": "Logout",
 		"search": "Suchen...",
-		"legal":	"Rechtliches"
+		"legal":	"Rechtliches",
+		"notifications":	"Mitteilungen"
 	},
 	"login": {
 		"username": "Benutzername",

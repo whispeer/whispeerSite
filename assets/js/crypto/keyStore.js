@@ -686,9 +686,11 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 
 	/** load a key and his keychain. remove loaded keys */
 	function getKey(realKeyID, callback) {
-		step(function getKeyF() {
-			delay(realKeyID, this);
-		}, callback);
+		if (typeof realKeyID !== "string") {
+			throw new Error("not a valid key realid: " + realKeyID);
+		}
+
+		delay(realKeyID, callback);
 	}
 
 	/** load  a symkey and its keychain */

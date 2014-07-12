@@ -34,6 +34,7 @@ define(["app"], function (app) {
 		addMain("loading");
 		addMain("version");
 		addMain("legal");
+		addMain("notificationCenter");
 
 		$routeProvider.when("/logout", {
 			templateUrl: "assets/views/pages/loading.html",
