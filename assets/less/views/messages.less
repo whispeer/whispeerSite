@@ -34,8 +34,11 @@
 // This really should be pulled from somewhere else.
 @message-preview-lineheight: 20px;
 
+
+
 .messagesView {
 	ul {
+		margin: 0;
 		list-style-type: none;
 	}
 
@@ -43,18 +46,20 @@
 		.box();
 		overflow: hidden;
 	}
-	ul {
-		margin: 0;
+
+	#newmessage {
+		.column(5, 16, left, 0);
 	}
+
 	#topicListWrap {
+		.column(5, 16, left, 0);
+
 		height: 100%;
 		overflow-y: scroll;
 		overflow-x: hidden;
 		box-sizing: border-box;
 		border-bottom: @header-height solid transparent;
-		ul {
-			.unstyled();
-		}
+
 		#topicList {
 			.box-fix;
 			#topicListScroll {
@@ -216,6 +221,7 @@
 			}
 		}
 	}
+
 	#topicWrap {
 		height: 100%;
 		overflow: hidden;
@@ -302,32 +308,8 @@
 			}
 
 		}
-		&.newMessage {
-			#messageTitle {
-				h2 {
-					.column(12);
-				}
-			}
-			.searchBar {
-				.searchDrop {
-					li {
-						padding: 0 25px 0 0 !important;
-					}
-				}
-			}
-			#messageInput {
-				.column(12);
-				margin-bottom: 14px !important;
-			}
-			#recieverInput {
-				.column(12);
-			}
-			#sendmessage {
-				padding: 10px 10px;
-				margin-left: 1% !important;
-			}
-		}
-		#inputWrap { // this is the form
+
+		#inputWrap {
 			display: block;
 			position: absolute;
 			width: 100%;
@@ -340,28 +322,6 @@
 			button {
 				height: @form-height;
 				.column(1,4);
-			}
-		}
-	}
-}
-
-.messagesView {
-	header {
-		#newmessage {
-			.column(2.5,8,left,0);
-		}
-	}
-	#topicListWrap {
-		.column(2.5,8,left,0);
-		#topicList {
-			.topic {
-				&.groupChat {
-					.left {
-						// img, span {
-						// 	.column(1,2,left,0);
-						// // }
-					}
-				}
 			}
 		}
 	}
