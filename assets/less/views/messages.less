@@ -259,6 +259,10 @@
 
 			// this is the burst container.
 			.userimg ~ ul {
+				// angular creates and fills w/o moving stuff into display: none,
+				// so we need to add min size to prevent constant UI movement.
+				min-height: @message-image-size - 2 * @default-padding;
+				min-width: @message-image-size - 2 * @extended-padding;
 				margin-left: @message-image-size + 2 * @extended-padding;
 				margin-right: @extended-padding;
 				padding: @default-padding @extended-padding;
@@ -305,7 +309,7 @@
 
 		}
 
-		#inputWrap {
+		#inputWrap { // this is the form
 			display: block;
 			position: absolute;
 			width: 100%;
