@@ -9,7 +9,10 @@
 				"Display correct access count for all friends and friends of friends in filter search",
 				"Protect against re-sending a post",
 				"Translate Mail Verification Page",
-				"Re-Focus Send Field on Message Send"
+				"Re-Focus Send Field on Message Send",
+				"Trust Manager added - Verify your friends",
+				"Accept friend request on mobile",
+				"Post design improved"
 			],
 			"9": [
 				"Multi-line postings",
