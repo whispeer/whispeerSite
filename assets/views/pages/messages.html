@@ -50,13 +50,13 @@
 <div id="topicWrap" data-topicID="{{activeTopic.id}}" class="{{activeTopic.type}}" data-ng-if="topicLoaded && showMessage">
 	<div id="messageWrap">
 		<ul class="scroll-pane" id="messageList" data-scroll data-keepBottom data.scrollLock="scrollLock" data-ontop="loadMoreMessages()">
-			<li data-ng-repeat="burst in messageBursts()" data-ng-class="{me:burst[0].sender.me, other:burst[0].sender.other}">
+			<li class="burst" data-ng-repeat="burst in messageBursts()" data-ng-class="{me:burst[0].sender.me, other:burst[0].sender.other}">
 				<div class="userimg">
 					<a href="{{burst[0].sender.basic.url}}">
 						<userimage data-userID="sender{{burst[0].sender.id}}" data-user="burst[0].sender" data-trustlevel="0">
 					</a>
 				</div>
-				<ul class="burst">
+				<ul class="messages">
 					<li data-ng-cloak data-ng-repeat="message in burst" data-messageID="{{message.id}}" class="message">
 						<div class="messageContent">
 							<div class="messageText {{message.type}}" data-ng-class="{{message.type}}" data-syntaxify="message.text"><img data-ng-if="message.type != 'image'" data-ng-src=""></div>
