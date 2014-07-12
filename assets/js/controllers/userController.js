@@ -207,26 +207,17 @@ define(["step", "whispeerHelper", "asset/resizableImage", "asset/state"], functi
 			}
 		};
 
-		$scope.userState = {
-			saving: false,
-			success: true,
-			failure: false
-		};
+		var circleState = new State();
 
 		$scope.circles = {
 			selectedElements: [],
-			saving: false,
-			success: true,
-			failure: false
+			saving: circleState.data
 		};
-
-		function setCircleState(state) {
-			h.setGeneralState(state, $scope.circles);
-		}
 
 		$scope.saveCircles = function () {
 			step(function () {
-				setCircleState("saving");
+				circleState.reset();
+				circleState.pending();
 				$timeout(this, 200);
 			}, h.sF(function () {
 				var oldCircles = circleService.inWhichCircles($scope.user.id).map(function (e) {
@@ -247,10 +238,10 @@ define(["step", "whispeerHelper", "asset/resizableImage", "asset/state"], functi
 				}
 			}), function (e) {
 				if (e) {
-					setCircleState("failure");
+					circleState.failed();
 					errorService.criticalError(e);
 				} else {
-					setCircleState("success");	
+					circleState.success();
 				}
 			});
 		};
