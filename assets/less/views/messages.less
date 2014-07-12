@@ -224,6 +224,13 @@
 			height: 100%;
 		}
 		#messageList {
+
+			> li:first-child {
+				// additional margin at the top, this will be useful when we have a
+				// 'pull down to load more' feature.
+				margin-top: @extended-padding;
+			}
+
 			// this is for well-behaving w/ the form at the bottom.
 			box-sizing: border-box;
 			border-bottom: (@form-height + @header-height - @weirdo-message-list-margin) solid transparent;
