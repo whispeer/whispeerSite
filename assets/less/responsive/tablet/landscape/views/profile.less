@@ -10,9 +10,28 @@
 				.column(8,8);
 				text-align: center;
 				h3 {
-					width: 100%;
 					padding: 3px;
 					margin: 0;
+					width: 85%;
+					float: left;
+					.box-fix;
+					padding-left: 15%;
+				}
+				.trustlevel {
+					width: 15%;
+					font-size: 0.9em;
+					#verifyUser {
+						width: 250%;
+						margin-left: -220%;
+						&:before, &:after {
+							left: auto;
+							right: 13px;
+						}
+						&:after {
+							margin-left: 0;
+							margin-right: 1px;
+						}
+					}
 				}	
 			}
 			menu {
