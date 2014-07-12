@@ -27,6 +27,13 @@ input:not([type="submit"]):not([type="reset"]):not([type="button"]):not([type="f
 		.transition(border-color .3s linear);
 		.transition(box-shadow .3s linear);
 	}
+	&[disabled], &[readonly] {
+		border: solid 1px darken(#ffffff, 45%);
+		outline: 0;
+		.box-shadow(inset 0px 0px 5px #ccc);
+		color: darken(@white, 65%);
+		cursor: default;
+	}
 }	
 textarea {
 	padding: 9px;  
