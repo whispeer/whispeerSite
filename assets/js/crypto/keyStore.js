@@ -1032,9 +1032,17 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 		}
 
 		function signF(hash, callback) {
+			var trustManager;
 			step(function () {
 				require(["crypto/trustManager"], this.ne, this);
-			}, h.sF(function (trustManager) {
+			}, h.sF(function (tM) {
+				trustManager = tM;
+				if (!trustManager.isLoaded) {
+					trustManager.listen(this, "loaded");
+				} else {
+					this.ne();
+				}
+			}), h.sF(function () {
 				if (!trustManager.hasKeyData(intKey.getRealID())) {
 					console.log("key not in key database");
 					throw new errors.SecurityError("key not in key database");

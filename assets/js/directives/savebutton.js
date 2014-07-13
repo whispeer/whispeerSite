@@ -6,6 +6,7 @@ define(function () {
 			transclude: true,
 			scope:	{
 				state:		"=state",
+				translation:"@translation"
 			},
 			restrict: "E",
 			templateUrl: "assets/views/directives/saveButton.html",
@@ -17,7 +18,7 @@ define(function () {
 					scope.defaulticon = iAttrs.defaulticon;
 				}
 			}
-		};			
+		};
 	}
 
 	return savebuttonDirective;

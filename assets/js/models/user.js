@@ -210,7 +210,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 
 				//todo: update profiles. for now: overwrite
 				if (userData.profile && userData.profile.priv && userData.profile.priv instanceof Array) {
-					var priv = userData.profile.priv, i;
+					var priv = userData.profile.priv;
 
 					var profilesBroken = false;
 
@@ -407,7 +407,9 @@ define(["step", "whispeerHelper"], function (step, h) {
 
 			this.rebuildProfilesForSettings = function (newSettings, oldSettings, cb) {
 				step(function () {
-					var typesOld = getAllProfileTypes(oldSettings);
+					theUser.getScopes(this);
+				}, h.sF(function (scopes) {
+					var typesOld = h.removeArray(scopes, "me");
 					var typesNew = getAllProfileTypes(newSettings);
 
 					var profilesToAdd = h.arraySubtract(typesNew, typesOld);
@@ -419,7 +421,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 					theUser.updateProfilesFromMe(profilesWithPossibleChanges, newSettings, this.parallel());
 					theUser.createProfileObjects(profilesToAdd, newSettings, this.parallel());
 					theUser.getProfilesToDelete(profilesToRemove, this.parallel());
-				}, h.sF(function (profilesToChange, profilesToCreate, profilesToDelete) {
+				}), h.sF(function (profilesToChange, profilesToCreate, profilesToDelete) {
 					socketService.emit("user", {
 						deletePrivateProfiles: {
 							profilesToDelete: profilesToDelete

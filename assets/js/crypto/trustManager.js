@@ -1,4 +1,5 @@
-define (["whispeerHelper", "step", "asset/securedDataWithMetaData", "asset/enum", "asset/errors"], function (h, step, SecuredData, Enum, errors) {
+define (["whispeerHelper", "step", "asset/observer", "asset/securedDataWithMetaData", "asset/enum", "asset/errors"], function (h, step, Observer, SecuredData, Enum, errors) {
+	"use strict";
 	var database, loaded = false, trustManager;
 
 	var trustStates = new Enum("BROKEN", "UNTRUSTED", "TIMETRUSTED", "WHISPEERVERIFIED", "NETWORKVERIFIED", "VERIFIED", "OWN");
@@ -119,6 +120,8 @@ define (["whispeerHelper", "step", "asset/securedDataWithMetaData", "asset/enum"
 				database = givenDatabase;
 				loaded = true;
 
+				trustManager.notify("", "loaded");
+
 				this.ne();
 			}), cb);
 		},
@@ -185,7 +188,7 @@ define (["whispeerHelper", "step", "asset/securedDataWithMetaData", "asset/enum"
 		}
 	};
 
-	Object.freeze(trustManager);
+	Observer.call(trustManager);
 
 	return trustManager;
 });

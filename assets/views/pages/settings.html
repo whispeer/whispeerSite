@@ -101,7 +101,7 @@
 			</button>
 			<div data-ng-if="safety[name].encrypt"><filtersearch data-res="safety[name]" data-res-attr="visibility" data-selected="safety[name].visibility" data-input-i18n-attr="settings.safety.whomayseeit.{{name}}|placeholder" class="whoMaySeeIt"></filtersearch></div>
 		</div>
-		<button class="settingsFormButton" type="submit" data-ng-click="saveSafety()"><i class="icon-ok-circle"></i> <span data-i18n="settings.changes.save"></span></button>
+		<savebutton class="settingsFormButton" state="saveSafetyState" data-translation="settings.changes.save" data-ng-click="saveSafety()"></savebutton>
 		<button class="settingsFormButton" type="submit" data-ng-click="resetSafety()"><i class="icon-cancel-circle"></i> <span data-i18n="settings.safety.reset"></span></button>
 	</section>
 <!--
