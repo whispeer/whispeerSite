@@ -1587,6 +1587,10 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 		},
 
 		format: {
+			fingerPrint: function (keyID) {
+				var hex = keyID.split(":")[1];
+				return sjcl.codec.base32.fromBits(sjcl.codec.hex.toBits(hex));
+			},
 			unformat: function (str, start) {
 				if (str.indexOf(start + "::") !== 0) {
 					throw new errors.InvalidDataError("format invalid");

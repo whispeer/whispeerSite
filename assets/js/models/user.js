@@ -233,7 +233,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 					user: theUser,
 					id: id,
 					trustLevel: 0,
-					fingerprint: signKey.split(":")[1],
+					fingerprint: keyStoreService.format.fingerPrint(signKey),
 					basic: {
 						age: "?",
 						location: "?",
@@ -391,7 +391,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 			this.setProfileAttribute = setProfileAttribute;
 
 			this.verify = function (fingerPrint, cb) {
-				if (fingerPrint !== theUser.getSignKey().split(":")[1]) {
+				if (fingerPrint !== keyStoreService.format.fingerPrint(theUser.getSignKey())) {
 					return false;
 				}
 
