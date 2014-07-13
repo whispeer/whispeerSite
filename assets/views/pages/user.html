@@ -33,7 +33,7 @@
 				</header>
 				<div class="userimage" data-ng-class="{'editing':changeImage, 'bigger': mobile && editGeneral && !changeImage}">
 					<img data-ng-src="{{user.basic.image}}" alt="{{user.name}}" data-ng-if="!changeImage && user.me">
-					<userimage data-user="user" data-ng-if="!changeImage && !user.me">
+					<userimage data-user="user" data-ng-if="!changeImage && !user.me" />
 					<span class="editImage" data-ng-if="editGeneral && !changeImage" data-i18n="profile.section.general.changeImage" data-ng-click="doChangeImage()"></span>
 					<div class="uploadImageForm" data-ng-if="editGeneral && changeImage">
 						<span id="uploadButton" data-i18n="login.register.uploadImage"></span>
