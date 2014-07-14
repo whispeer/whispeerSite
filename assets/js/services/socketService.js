@@ -37,7 +37,6 @@ define(["jquery", "socket", "socketStream", "step", "whispeerHelper", "config", 
 		}, 10000);
 
 		var socketS = {
-			socket: socket,
 			isConnected: function () {
 				return socket.socket.connected;
 			},

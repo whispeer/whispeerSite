@@ -153,27 +153,26 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer", "ass
 				keyStore.upload.addKey(data.additionalKey);
 			}
 
-			var unread;
+			var unreadMessages;
 
 			function setUnread(newUnread) {
-				if (unread) {
-					if (newUnread.length === 0 && unread.length > 0) {
+				if (unreadMessages) {
+					if (newUnread.length === 0 && unreadMessages.length > 0) {
 						messageService.data.unread -= 1;
-					} else if (newUnread.length > 0 && unread.length === 0) {
+					} else if (newUnread.length > 0 && unreadMessages.length === 0) {
 						messageService.data.unread += 1;
 					}
 				}
-
 
 				if (messageService.data.unread === 0) {
 					windowService.removeAdvancedTitle("newmessage");
 				}
 
-				unread = newUnread.map(h.parseDecimal);
-				theTopic.data.unread = (unread.length > 0);
+				unreadMessages = newUnread.map(h.parseDecimal);
+				theTopic.data.unread = (unreadMessages.length > 0);
 				var i;
 				for (i = 0; i < messages.length; i += 1) {
-					messages[i].unread = (unread.indexOf(messages[i].getID()) > -1);
+					messages[i].unread = (unreadMessages.indexOf(messages[i].getID()) > -1);
 				}
 			}
 
@@ -196,7 +195,7 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer", "ass
 			setUnread(data.unread);
 
 			this.messageUnread = function messageUnreadF(mid) {
-				return unread.indexOf(mid) > -1;
+				return unreadMessages.indexOf(mid) > -1;
 			};
 
 			this.getOldestID = function getOldestIDF() {
@@ -234,7 +233,7 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer", "ass
 
 				mid = h.parseDecimal(mid);
 				step(function () {
-					if (unread.indexOf(mid) > -1) {
+					if (unreadMessages.indexOf(mid) > -1) {
 						var lMessageTime = messagesByID[mid].getTime();
 						if (timerRunning) {
 							if (lMessageTime > messageTime) {
@@ -279,7 +278,7 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer", "ass
 					theTopic.data.latestMessage = messages[messages.length - 1];
 					if (addUnread) {
 						if (!theTopic.messageUnread(m.getID()) && !m.isOwn()) {
-							setUnread(unread.concat([m.getID()]));
+							setUnread(unreadMessages.concat([m.getID()]));
 						}
 					}
 					m.unread = theTopic.messageUnread(m.getID());
@@ -817,7 +816,7 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer", "ass
 					if (!result.success) {
 						window.setTimeout(function () {
 							messageService.sendMessage(topic, message, cb, count + 1);
-						}, 50);
+						}, 200);
 
 						return;
 					}

@@ -12,7 +12,7 @@
 				<div class="dropdown-content">
 					<span data-i18n="profile.trustmanager.verifyInfo"></span>
 					<input type="text" placeholder="Fingerprint" data-ng-model="givenPrint">
-					<savebutton data-state="verifyingUser" data-ng-click="verify(givenPrint)">
+					<savebutton data-state="verifyingUser" data-ng-click="verify(givenPrint)"></savebutton>
 				</div>
 			</div>
 		</div>
@@ -33,7 +33,7 @@
 				</header>
 				<div class="userimage" data-ng-class="{'editing':changeImage, 'bigger': mobile && editGeneral && !changeImage}">
 					<img data-ng-src="{{user.basic.image}}" alt="{{user.name}}" data-ng-if="!changeImage && user.me">
-					<userimage data-user="user" data-ng-if="!changeImage && !user.me">
+					<userimage data-user="user" data-ng-if="!changeImage && !user.me" />
 					<span class="editImage" data-ng-if="editGeneral && !changeImage" data-i18n="profile.section.general.changeImage" data-ng-click="doChangeImage()"></span>
 					<div class="uploadImageForm" data-ng-if="editGeneral && changeImage">
 						<span id="uploadButton" data-i18n="login.register.uploadImage"></span>

@@ -2,11 +2,14 @@
 * friendsController
 **/
 
-define(["whispeerHelper", "step"], function (h, step) {
+define(["whispeerHelper", "step", "asset/state"], function (h, step, State) {
 	"use strict";
 
 	function settingsController($scope, errorService, cssService, settingsService, userService) {
 		cssService.setClass("settingsView");
+
+		var safetySaveState = new State();
+		$scope.saveSafetyState = safetySaveState.data;
 
 		$scope.safetySorted = ["birthday", "location", "relationship", "education", "work", "gender", "languages"];
 
@@ -59,6 +62,8 @@ define(["whispeerHelper", "step"], function (h, step) {
 		};
 
 		$scope.saveSafety = function () {
+			safetySaveState.reset();
+			safetySaveState.pending();
 			step(function () {
 				settingsService.getBranch("privacy", this);
 			}, h.sF(function (branch) {
@@ -67,7 +72,14 @@ define(["whispeerHelper", "step"], function (h, step) {
 				settingsService.updateBranch("privacy", $scope.safety, this);
 			}), h.sF(function () {
 				settingsService.uploadChangedData(this);
-			}), errorService.criticalError);
+			}), function (e) {
+				if (e) {
+					safetySaveState.failed();
+					errorService.criticalError(e);
+				} else {
+					safetySaveState.success();
+				}
+			});
 		};
 
 		$scope.resetSafety = function () {

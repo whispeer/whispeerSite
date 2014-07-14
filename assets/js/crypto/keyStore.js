@@ -1032,9 +1032,17 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 		}
 
 		function signF(hash, callback) {
+			var trustManager;
 			step(function () {
 				require(["crypto/trustManager"], this.ne, this);
-			}, h.sF(function (trustManager) {
+			}, h.sF(function (tM) {
+				trustManager = tM;
+				if (!trustManager.isLoaded) {
+					trustManager.listen(this, "loaded");
+				} else {
+					this.ne();
+				}
+			}), h.sF(function () {
 				if (!trustManager.hasKeyData(intKey.getRealID())) {
 					console.log("key not in key database");
 					throw new errors.SecurityError("key not in key database");
@@ -1579,6 +1587,10 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 		},
 
 		format: {
+			fingerPrint: function (keyID) {
+				var hex = keyID.split(":")[1];
+				return sjcl.codec.base32.fromBits(sjcl.codec.hex.toBits(hex));
+			},
 			unformat: function (str, start) {
 				if (str.indexOf(start + "::") !== 0) {
 					throw new errors.InvalidDataError("format invalid");
