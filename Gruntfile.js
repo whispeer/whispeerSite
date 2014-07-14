@@ -17,7 +17,10 @@ grunt.initConfig({
 	less: {
 		development: {
 			options: {
-				paths: ["assets/less"]
+				paths: ["assets/less"],
+				sourceMap: true,
+				sourceMapFilename: "assets/css/style.css.map",
+				sourceMapRootpath: "/"
 			},
 			files: {
 				"assets/css/style.css": "assets/less/style.less"
