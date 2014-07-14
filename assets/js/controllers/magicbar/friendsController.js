@@ -5,7 +5,7 @@
 define(["step", "whispeerHelper"], function (step, h) {
 	"use strict";
 
-	function requestsController($scope, friendsService, userService)  {
+	function requestsController($scope, friendsService, userService, errorService)  {
 		$scope.requests = [];
 		//friendsService.onEvent("friendRequest", loadRequestsUsers);
 		//friendsService.onEvent("requestAccept", loadRequestsUsers);
@@ -23,7 +23,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 		loadRequestsUsers();
 
 		$scope.acceptRequest = function (request) {
-			friendsService.acceptFriendShip(request.id);
+			friendsService.acceptFriendShip(request.id, errorService.criticalError);
 		};
 
 		$scope.shortenName = function (name) {
@@ -35,7 +35,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 		};
 	}
 
-	requestsController.$inject = ["$scope", "ssn.friendsService", "ssn.userService"];
+	requestsController.$inject = ["$scope", "ssn.friendsService", "ssn.userService", "ssn.errorService"];
 
 	return requestsController;
 });

@@ -19,17 +19,6 @@ define(["whispeerHelper", "step", "asset/state"], function (h, step, State) {
 
 		$scope.safetySorted = ["birthday", "location", "relationship", "education", "work", "gender", "languages"];
 
-		function failOnError(state) {
-			return function (e) {
-				if (e) {
-					state.failed();
-					errorService.criticalError(e);
-				} else {
-					state.success();
-				}
-			};
-		}
-
 		step(function () {
 			this.parallel.unflatten();
 
@@ -89,7 +78,7 @@ define(["whispeerHelper", "step", "asset/state"], function (h, step, State) {
 				settingsService.updateBranch("privacy", $scope.safety, this);
 			}), h.sF(function () {
 				settingsService.uploadChangedData(this);
-			}), failOnError(saveSafetyState));
+			}), errorService.failOnError(saveSafetyState));
 		};
 
 		$scope.resetSafety = function () {
@@ -102,7 +91,7 @@ define(["whispeerHelper", "step", "asset/state"], function (h, step, State) {
 				$scope.$broadcast("reloadInitialSelection");
 
 				this.ne();
-			}), failOnError(resetSafetyState));
+			}), errorService.failOnError(resetSafetyState));
 		};
 
 		$scope.mail = userService.getown().getMail();
@@ -117,7 +106,7 @@ define(["whispeerHelper", "step", "asset/state"], function (h, step, State) {
 				me.setProfileAttribute("basic.lastname", $scope.lastName, this.parallel());
 			}, h.sF(function () {
 				me.uploadChangedProfile(this);
-			}), failOnError(saveNameState));
+			}), errorService.failOnError(saveNameState));
 		};
 
 		$scope.checkNickName = function () {

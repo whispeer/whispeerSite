@@ -11,6 +11,13 @@ define(["step", "whispeerHelper", "asset/resizableImage", "asset/state"], functi
 
 		var resizableImage = new ResizableImage();
 
+		var saveUserState = new State();
+		$scope.saveUserState = saveUserState.data;
+
+		var addFriendState = new State();
+		$scope.addFriendState = addFriendState.data;
+		
+
 		$scope.loading = true;
 		$scope.notExisting = false;
 		$scope.loadingFriends = true;
@@ -57,7 +64,9 @@ define(["step", "whispeerHelper", "asset/resizableImage", "asset/state"], functi
 		}
 
 		$scope.addFriend = function () {
-			userObject.addAsFriend();
+			addFriendState.reset();
+			addFriendState.pending();
+			userObject.addAsFriend(errorService.failOnError(addFriendState));
 		};
 
 		$scope.edit = function () {
@@ -112,6 +121,9 @@ define(["step", "whispeerHelper", "asset/resizableImage", "asset/state"], functi
 		}
 
 		$scope.saveUser = function () {
+			saveUserState.reset();
+			saveUserState.pending();
+
 			if (userObject.isOwn()) {
 				//TODO: something goes wrong here when doing it the 2nd time!
 
@@ -128,7 +140,9 @@ define(["step", "whispeerHelper", "asset/resizableImage", "asset/state"], functi
 					userObject.uploadChangedProfile(this);
 				}), h.sF(function () {
 					$scope.edit();
-				}), errorService.criticalError);
+
+					this.ne();
+				}), errorService.failOnError(saveUserState));
 			}
 		};
 

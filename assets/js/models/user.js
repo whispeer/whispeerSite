@@ -918,9 +918,9 @@ define(["step", "whispeerHelper"], function (step, h) {
 				}, cb);
 			};
 
-			this.addAsFriend = function () {
+			this.addAsFriend = function (cb) {
 				if (!this.isOwn()) {
-					friendsService.friendship(this.getID());
+					friendsService.friendship(this.getID(), cb);
 				}
 			};
 		};
