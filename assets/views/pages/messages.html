@@ -64,7 +64,7 @@
 		</ul>
 		<form id="inputWrap">
 			<textarea focus-me="canSend" id="messageInput" data-advancedsend="sendMessage(activeTopic.newMessage)" type="text" data-ng-model="activeTopic.newMessage" data-ng-disabled="!canSend" data-i18n-attr="messages.sendMessage.text|placeholder"></textarea>
-			<button class="btn btn--primary" id="sendmessage" data-ng-click="sendMessage(activeTopic.newMessage)" data-i18n="messages.sendMessage.send" type="submit"></button>
+			<savebutton id="sendmessage" data-ng-click="sendMessage(activeTopic.newMessage)" data-translation="messages.sendMessage.send" data-state="sendMessageState" data-noiniticon></savebutton>
 		</form>
 	</div>
 </div>
@@ -77,7 +77,7 @@
 			<usersearch res="create" data-user="userid" size="small" focus="all" id="recieverInput" data-multiple data-selected-users="create.selectedUsers" data-input-i18n-attr="messages.search|placeholder"/>
 
 			<textarea data-advancedsend="create.send(create.selectedElements, create.text)" type="text" data-i18n-attr="messages.sendMessage.text|placeholder" id="messageInput" data-ng-model="create.text"></textarea>
-			<button class="btn btn--primary" id="sendmessage" type="submit" data-ng-click="create.send(create.selectedElements, create.text)" data-i18n="messages.sendMessage.send"></button>
+			<savebutton id="sendmessage" data-state="sendMessageState" data-ng-click="create.send(create.selectedElements, create.text)" data-translation="messages.sendMessage.send"></savebutton>
 		</form>
 	</div>
 </div>
