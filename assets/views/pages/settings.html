@@ -102,7 +102,7 @@
 			<div data-ng-if="safety[name].encrypt"><filtersearch data-res="safety[name]" data-res-attr="visibility" data-selected="safety[name].visibility" data-input-i18n-attr="settings.safety.whomayseeit.{{name}}|placeholder" class="whoMaySeeIt"></filtersearch></div>
 		</div>
 		<savebutton class="settingsFormButton" state="saveSafetyState" data-translation="settings.changes.save" data-ng-click="saveSafety()"></savebutton>
-		<savebutton class="settingsFormButton" state="resetSafetyState" data-translation="settings.safety.reset" data-ng-click="resetSafety()"></savebutton>
+		<savebutton class="settingsFormButton" initicon="icon-cancel-circle" successicon="icon-cancel-circle" state="resetSafetyState" data-translation="settings.safety.reset" data-ng-click="resetSafety()"></savebutton>
 	</section>
 <!--
 	<section id="notifications">
