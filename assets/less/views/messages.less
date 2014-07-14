@@ -3,8 +3,8 @@
 @header-height: 30px;
 
 // big/small image size in topic list.
-@user-image-size: 96px;
-@user-image-size-small: 72px;
+@user-image-size: 72px;
+@user-image-size-small: 48px;
 @remaining-user-bubble-size: 28px;
 @remaining-user-bubble-border: 3px;
 @remaining-user-bubble-bg: white;
@@ -16,6 +16,7 @@
 @message-arrow-size: 8px;
 @message-arrow-offset: @message-image-size / 2;
 @own-message-bg: #48930a;
+@own-message-fg: white;
 @foreign-message-bg: #d5d5d5;
 @foreign-message-bg2: #b2b2b2; //border
 
@@ -34,13 +35,17 @@
 
 // This really should be pulled from somewhere else.
 @message-preview-lineheight: 20px;
-
-
+@preview-lines: 2;
 
 .messagesView {
+
 	ul {
 		margin: 0;
 		list-style-type: none;
+	}
+
+	a {
+		word-wrap: break-word;
 	}
 
 	.time {
@@ -103,7 +108,7 @@
 				.lastMessage {
 					color: #555;
 					font-size: 0.8em;
-					height: (3 * @message-preview-lineheight); // three lines of text.
+					height: (@preview-lines * @message-preview-lineheight); // three lines of text.
 					overflow: hidden;
 					padding-left: @status-compensation;
 					padding-right: @extended-padding;
@@ -172,6 +177,7 @@
 								// the span with remaining users is missing a class.
 								// trust me, it's this one :-)
 								position: absolute;
+
 								box-sizing: content-box;
 								width: @remaining-user-bubble-size;
 								height: @remaining-user-bubble-size;
@@ -278,7 +284,7 @@
 				margin-top: -1 * @message-arrow-size;
 			}
 			.messages:before {
-				border-color: fade(#b2b2b2, 0%);
+				border-color: fade(@foreign-message-bg2, 0%);
 				border-width: 1px + @message-arrow-size;
 				margin-top: -1 * (1px + @message-arrow-size);
 			}
@@ -289,7 +295,7 @@
 					border-right-color: @foreign-message-bg;
 				}
 				.messages:before {
-					border-right-color: #b2b2b2;
+					border-right-color: @foreign-message-bg2;
 				}
 			}
 
@@ -305,7 +311,7 @@
 					margin-right: @message-image-size + 2 * @extended-padding;
 					margin-left: @extended-padding;
 					background-color: @own-message-bg;
-					color: white;
+					color: @own-message-fg;
 				}
 				.messages:after, .messages:before {
 					left: 100%;
@@ -314,9 +320,11 @@
 					border-color: fade(@own-message-bg, 0%);
 					border-left-color: @own-message-bg;
 				}
-
 				.messages:before {
-					border-left-color: #b2b2b2;
+					border-left-color: @foreign-message-bg2;
+				}
+				a {
+					color: @own-message-fg;
 				}
 			}
 
