@@ -241,24 +241,23 @@ define(["step", "whispeerHelper", "asset/resizableImage", "asset/state"], functi
 				for (i = 0; i < toRemove.length; i += 1) {
 					circleService.get(toRemove[i]).removePersons([$scope.user.id], this.parallel());
 				}
-			}), function (e) {
-				if (e) {
-					circleState.failed();
-					errorService.criticalError(e);
-				} else {
-					circleState.success();
-				}
-			});
+			}), errorService.failOnError(circleState));
 		};
 
 		$scope.newPost = {
 			text: ""
 		};
 
+		var sendPostState = new State();
+		$scope.sendPostState = sendPostState.data;
+
 		$scope.sendPost = function () {
+			sendPostState.pending();
+
 			var visibleSelection = ["always:allfriends"], wallUserID = 0;
 
 			if ($scope.newPost.text === "") {
+				sendPostState.failed();
 				return;
 			}
 
@@ -267,15 +266,13 @@ define(["step", "whispeerHelper", "asset/resizableImage", "asset/state"], functi
 				visibleSelection.push("friends:" + $scope.user.id);
 			}
 
-			postService.createPost($scope.newPost.text, visibleSelection, wallUserID, function (err, post) {
-				if (err) {
-					errorService.criticalError(err);
-				} else {
-					$scope.newPost.text = "";
-				}
+			step(function () {
+				postService.createPost($scope.newPost.text, visibleSelection, wallUserID, this);
+			}, h.sF(function (post) {
+				$scope.newPost.text = "";
 
 				console.log(post);
-			});
+			}), errorService.failOnError(sendPostState));
 		};
 
 		$scope.possibleStatus = ["single", "relationship", "engaged", "married", "divorced", "widowed", "complicated", "open", "inlove"];

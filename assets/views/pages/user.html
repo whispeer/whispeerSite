@@ -153,7 +153,7 @@
 			<form data-ng-if="(user.isMyFriend || user.me)" class="form-inline" id="postIt">
 				<textarea data-strg-enter="sendPost()" data-ng-model="newPost.text" data-i18n-attr="wall.postit.text|placeholder" id="shareText" data-ng-if="user.me"></textarea>
 				<textarea data-strg-enter="sendPost()" data-ng-model="newPost.text" data-i18n-attr="profile.section.wall.postIt|placeholder|user={{user.name}}" id="shareText" data-ng-if="!user.me"></textarea>
-				<button type="submit" data-i18n="wall.postit.send" data-ng-click="sendPost()"></button>
+				<savebutton data-state="sendPostState" data-translation="wall.postit.send" data-ng-click="sendPost()"></savebutton>
 			</form>
 			<post data-ng-repeat="post in posts" data-post="post" id="{{post.id}}"></post>
 		</section>
