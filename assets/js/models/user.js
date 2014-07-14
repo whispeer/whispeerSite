@@ -1,4 +1,4 @@
-define(["step", "whispeerHelper"], function (step, h) {
+define(["step", "whispeerHelper", "asset/state"], function (step, h, State) {
 	"use strict";
 
 	var advancedBranches = ["location", "birthday", "relationship", "education", "work", "gender", "languages"];
@@ -69,6 +69,8 @@ define(["step", "whispeerHelper"], function (step, h) {
 		return function User (providedData) {
 			var theUser = this, mainKey, signKey, cryptKey, friendShipKey, friendsKey, friendsLevel2Key, migrationState;
 			var id, mail, nickname, publicProfile, privateProfiles = [], mutualFriends, publicProfileChanged = false, publicProfileSignature;
+
+			var addFriendState = new State();
 
 			function findMeProfile(cb) {
 				var newMeProfile;
@@ -618,6 +620,8 @@ define(["step", "whispeerHelper"], function (step, h) {
 					theUser.data.added = friendsService.didIRequest(theUser.getID());
 					theUser.data.isMyFriend = friendsService.areFriends(theUser.getID());
 
+					theUser.data.addFriendState = addFriendState.data;
+
 					theUser.loadImage();
 
 					friendsService.listen(function () {
@@ -918,9 +922,21 @@ define(["step", "whispeerHelper"], function (step, h) {
 				}, cb);
 			};
 
-			this.addAsFriend = function (cb) {
+			this.acceptFriendShip = function () {
+				addFriendState.pending();
 				if (!this.isOwn()) {
-					friendsService.friendship(this.getID(), cb);
+					friendsService.acceptFriendShip(this.getID(), errorService.failOnError(addFriendState));
+				} else {
+					addFriendState.failed();
+				}
+			};
+
+			this.addAsFriend = function () {
+				addFriendState.pending();
+				if (!this.isOwn()) {
+					friendsService.friendship(this.getID(), errorService.failOnError(addFriendState));
+				} else {
+					addFriendState.failed();
 				}
 			};
 		};

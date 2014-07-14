@@ -14,10 +14,6 @@ define(["step", "whispeerHelper", "asset/resizableImage", "asset/state"], functi
 		var saveUserState = new State();
 		$scope.saveUserState = saveUserState.data;
 
-		var addFriendState = new State();
-		$scope.addFriendState = addFriendState.data;
-		
-
 		$scope.loading = true;
 		$scope.notExisting = false;
 		$scope.loadingFriends = true;
@@ -33,7 +29,6 @@ define(["step", "whispeerHelper", "asset/resizableImage", "asset/state"], functi
 		$scope.verifyingUser = verifyState.data;
 
 		$scope.verify = function (fingerPrint) {
-			verifyState.reset();
 			verifyState.pending();
 
 			var ok = userObject.verify(fingerPrint, function (e) {
@@ -64,9 +59,7 @@ define(["step", "whispeerHelper", "asset/resizableImage", "asset/state"], functi
 		}
 
 		$scope.addFriend = function () {
-			addFriendState.reset();
-			addFriendState.pending();
-			userObject.addAsFriend(errorService.failOnError(addFriendState));
+			userObject.addAsFriend();
 		};
 
 		$scope.edit = function () {
@@ -121,7 +114,6 @@ define(["step", "whispeerHelper", "asset/resizableImage", "asset/state"], functi
 		}
 
 		$scope.saveUser = function () {
-			saveUserState.reset();
 			saveUserState.pending();
 
 			if (userObject.isOwn()) {
@@ -230,7 +222,6 @@ define(["step", "whispeerHelper", "asset/resizableImage", "asset/state"], functi
 
 		$scope.saveCircles = function () {
 			step(function () {
-				circleState.reset();
 				circleState.pending();
 				$timeout(this, 200);
 			}, h.sF(function () {

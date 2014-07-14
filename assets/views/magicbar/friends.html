@@ -10,7 +10,7 @@
 				<p class="username"><a href='{{request.basic.url}}'><strong>{{request.name}}</strong></a></p>
 				<p class="similar" data-i18n="magicbar.requests.mutuals|count={{request.basic.mutualFriends.length}}"></p>
 				<p class="action">
-					<button class="btn btn--primary" data-i18n="magicbar.requests.accept" ng-click="acceptRequest(request)"></button>
+					<savebutton data-translation="magicbar.requests.accept" data-state="request.addFriendState" data-ng-click="acceptRequest(request)" noiniticon></savebutton>
 					<button class="btn btn--danger" data-i18n="magicbar.requests.decline"></button>
 				</p>
 			</li>

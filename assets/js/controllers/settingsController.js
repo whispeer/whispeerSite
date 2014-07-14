@@ -68,7 +68,6 @@ define(["whispeerHelper", "step", "asset/state"], function (h, step, State) {
 		};
 
 		$scope.saveSafety = function () {
-			saveSafetyState.reset();
 			saveSafetyState.pending();
 			step(function () {
 				settingsService.getBranch("privacy", this);
@@ -82,7 +81,6 @@ define(["whispeerHelper", "step", "asset/state"], function (h, step, State) {
 		};
 
 		$scope.resetSafety = function () {
-			resetSafetyState.reset();
 			resetSafetyState.pending();
 			step(function () {
 				settingsService.getBranch("privacy", this);
@@ -97,7 +95,6 @@ define(["whispeerHelper", "step", "asset/state"], function (h, step, State) {
 		$scope.mail = userService.getown().getMail();
 
 		$scope.saveName = function () {
-			saveNameState.reset();
 			saveNameState.pending();
 
 			var me = userService.getown();
