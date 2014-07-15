@@ -4,7 +4,7 @@
 
 // big/small image size in topic list.
 @user-image-size: 72px;
-@user-image-size-small: 48px;
+@user-image-size-small: 56px;
 @remaining-user-bubble-size: 28px;
 @remaining-user-bubble-border: 3px;
 @remaining-user-bubble-bg: white;
@@ -62,7 +62,8 @@
 
 	#main {
 		// main has to stay here, as there are mains on pages that have no
-		// .messagesView.
+		// .messagesView. .box() is also needed, for that grey box that is
+		// everywhere.
 		.box();
 		overflow: hidden;
 	}
@@ -92,16 +93,9 @@
 
 }
 
-#topicListScroll {
-	.box-fix;
-}
-
 #topicList {
-	.box-fix;
-
 	.topic {
 		border-bottom: 1px solid #ddd;
-		.box-fix;
 		cursor: pointer;
 		position: relative;
 		padding-right: @extended-padding;

@@ -34,8 +34,10 @@
 					</div>
 				</div>
 				<div class="username">
-					<span class="status" data-status="{{topic.partners[0].online}}"></span>
-					<strong ng-repeat="partner in topic.partners">{{topic.partners.length>1?partner.basic.shortname:partner.name}}{{$last?"":", "}}</strong>
+					<span ng-repeat="partner in topic.partners">
+						<span class="status" data-status="{{partner.online}}"></span>
+						<strong>{{topic.partners.length>1?partner.basic.shortname:partner.name}}{{$last?"":","}}</strong>
+					</span>
 				</div>
 				<div class="lastMessage">
 					{{topic.latestMessage.data.text}}
