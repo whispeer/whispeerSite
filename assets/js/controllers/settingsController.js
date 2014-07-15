@@ -8,8 +8,14 @@ define(["whispeerHelper", "step", "asset/state"], function (h, step, State) {
 	function settingsController($scope, errorService, cssService, settingsService, userService) {
 		cssService.setClass("settingsView");
 
-		var safetySaveState = new State();
-		$scope.saveSafetyState = safetySaveState.data;
+		var saveSafetyState = new State();
+		$scope.saveSafetyState = saveSafetyState.data;
+
+		var resetSafetyState = new State();
+		$scope.resetSafetyState = resetSafetyState.data;
+
+		var saveNameState = new State();
+		$scope.saveNameState = saveNameState.data;
 
 		$scope.safetySorted = ["birthday", "location", "relationship", "education", "work", "gender", "languages"];
 
@@ -62,8 +68,7 @@ define(["whispeerHelper", "step", "asset/state"], function (h, step, State) {
 		};
 
 		$scope.saveSafety = function () {
-			safetySaveState.reset();
-			safetySaveState.pending();
+			saveSafetyState.pending();
 			step(function () {
 				settingsService.getBranch("privacy", this);
 			}, h.sF(function (branch) {
@@ -72,35 +77,33 @@ define(["whispeerHelper", "step", "asset/state"], function (h, step, State) {
 				settingsService.updateBranch("privacy", $scope.safety, this);
 			}), h.sF(function () {
 				settingsService.uploadChangedData(this);
-			}), function (e) {
-				if (e) {
-					safetySaveState.failed();
-					errorService.criticalError(e);
-				} else {
-					safetySaveState.success();
-				}
-			});
+			}), errorService.failOnError(saveSafetyState));
 		};
 
 		$scope.resetSafety = function () {
+			resetSafetyState.pending();
 			step(function () {
 				settingsService.getBranch("privacy", this);
 			}, h.sF(function (branch) {
 				$scope.safety = h.deepCopyObj(branch, 4);
 				$scope.$broadcast("reloadInitialSelection");
-			}), errorService.criticalError);
+
+				this.ne();
+			}), errorService.failOnError(resetSafetyState));
 		};
 
 		$scope.mail = userService.getown().getMail();
 
 		$scope.saveName = function () {
+			saveNameState.pending();
+
 			var me = userService.getown();
 			step(function () {
 				me.setProfileAttribute("basic.firstname", $scope.firstName, this.parallel());
 				me.setProfileAttribute("basic.lastname", $scope.lastName, this.parallel());
 			}, h.sF(function () {
 				me.uploadChangedProfile(this);
-			}), errorService.criticalError);
+			}), errorService.failOnError(saveNameState));
 		};
 
 		$scope.checkNickName = function () {

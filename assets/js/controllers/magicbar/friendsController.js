@@ -23,7 +23,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 		loadRequestsUsers();
 
 		$scope.acceptRequest = function (request) {
-			friendsService.acceptFriendShip(request.id);
+			request.user.acceptFriendShip();
 		};
 
 		$scope.shortenName = function (name) {

@@ -1,6 +1,7 @@
 <button data-ng-class="{'success': state.success || state.init, 'operation': state.pending, 'failure': state.failed}" class="btn btn--saveButton">
-	<i data-ng-if="state.success || state.init" class="icon {{defaulticon}}"></i>
-	<i data-ng-if="state.failed" class="icon icon-cancel-circle"></i>
-	<img data-ng-if="state.pending" class="spinner" src="assets/img/loader.gif">
+	<i data-ng-if="state.success && successIcon" class="icon {{successIcon}}"></i>
+	<i data-ng-if="state.init && initIcon" class="icon {{initIcon}}"></i>
+	<i data-ng-if="state.failed && failureIcon" class="icon {{failureIcon}}"></i>
+	<i data-ng-if="state.pending" class="icon icon-spinner animate-spin"></i>
 	<span data-i18n="{{translation}}"></span>
 </button>

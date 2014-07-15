@@ -11,6 +11,9 @@ define(["step", "whispeerHelper", "asset/resizableImage", "asset/state"], functi
 
 		var resizableImage = new ResizableImage();
 
+		var saveUserState = new State();
+		$scope.saveUserState = saveUserState.data;
+
 		$scope.loading = true;
 		$scope.notExisting = false;
 		$scope.loadingFriends = true;
@@ -26,7 +29,6 @@ define(["step", "whispeerHelper", "asset/resizableImage", "asset/state"], functi
 		$scope.verifyingUser = verifyState.data;
 
 		$scope.verify = function (fingerPrint) {
-			verifyState.reset();
 			verifyState.pending();
 
 			var ok = userObject.verify(fingerPrint, function (e) {
@@ -112,6 +114,8 @@ define(["step", "whispeerHelper", "asset/resizableImage", "asset/state"], functi
 		}
 
 		$scope.saveUser = function () {
+			saveUserState.pending();
+
 			if (userObject.isOwn()) {
 				//TODO: something goes wrong here when doing it the 2nd time!
 
@@ -128,7 +132,9 @@ define(["step", "whispeerHelper", "asset/resizableImage", "asset/state"], functi
 					userObject.uploadChangedProfile(this);
 				}), h.sF(function () {
 					$scope.edit();
-				}), errorService.criticalError);
+
+					this.ne();
+				}), errorService.failOnError(saveUserState));
 			}
 		};
 
@@ -216,7 +222,6 @@ define(["step", "whispeerHelper", "asset/resizableImage", "asset/state"], functi
 
 		$scope.saveCircles = function () {
 			step(function () {
-				circleState.reset();
 				circleState.pending();
 				$timeout(this, 200);
 			}, h.sF(function () {
@@ -236,24 +241,23 @@ define(["step", "whispeerHelper", "asset/resizableImage", "asset/state"], functi
 				for (i = 0; i < toRemove.length; i += 1) {
 					circleService.get(toRemove[i]).removePersons([$scope.user.id], this.parallel());
 				}
-			}), function (e) {
-				if (e) {
-					circleState.failed();
-					errorService.criticalError(e);
-				} else {
-					circleState.success();
-				}
-			});
+			}), errorService.failOnError(circleState));
 		};
 
 		$scope.newPost = {
 			text: ""
 		};
 
+		var sendPostState = new State();
+		$scope.sendPostState = sendPostState.data;
+
 		$scope.sendPost = function () {
+			sendPostState.pending();
+
 			var visibleSelection = ["always:allfriends"], wallUserID = 0;
 
 			if ($scope.newPost.text === "") {
+				sendPostState.failed();
 				return;
 			}
 
@@ -262,15 +266,13 @@ define(["step", "whispeerHelper", "asset/resizableImage", "asset/state"], functi
 				visibleSelection.push("friends:" + $scope.user.id);
 			}
 
-			postService.createPost($scope.newPost.text, visibleSelection, wallUserID, function (err, post) {
-				if (err) {
-					errorService.criticalError(err);
-				} else {
-					$scope.newPost.text = "";
-				}
+			step(function () {
+				postService.createPost($scope.newPost.text, visibleSelection, wallUserID, this);
+			}, h.sF(function (post) {
+				$scope.newPost.text = "";
 
 				console.log(post);
-			});
+			}), errorService.failOnError(sendPostState));
 		};
 
 		$scope.possibleStatus = ["single", "relationship", "engaged", "married", "divorced", "widowed", "complicated", "open", "inlove"];
