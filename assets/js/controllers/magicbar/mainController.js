@@ -29,6 +29,10 @@ define([], function () {
 			$scope.loaded = true;
 		});
 
+		$rootScope.$on("ssn.reset", function () {
+			$scope.loaded = false;
+		});
+
 		$scope.widgetHeight = 100 / $scope.defaultConfig.length - 5;
 		
 		$scope.$on("ssn.ownLoaded", function () {
