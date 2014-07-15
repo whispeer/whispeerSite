@@ -95,7 +95,6 @@ define(["step", "whispeerHelper", "asset/state"], function (step, h, State) {
 
 				scope.$on("addFriend", function (event, user) {
 					user.user.addAsFriend();
-					//friendsService.friendship(user.id, errorService.criticalError);
 				});
 
 				scope.$on("saveCircles", function (event, data) {
