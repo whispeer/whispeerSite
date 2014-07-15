@@ -238,7 +238,8 @@ define(["step", "whispeerHelper"], function (step, h) {
 						age: "?",
 						location: "?",
 						mutualFriends: mutualFriends,
-						url: "user/" + nickname
+						url: "user/" + nickname,
+						image: "assets/img/user.png"
 					},
 					advanced: {
 						birthday:	{

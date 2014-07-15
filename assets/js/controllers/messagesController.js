@@ -181,7 +181,9 @@ define(["step", "whispeerHelper"], function (step, h) {
 				currentBurst.push(message);
 			});
 
-			bursts.push(currentBurst);
+			if (currentBurst.length > 0) {
+				bursts.push(currentBurst);
+			}
 
 			return bursts;
 		};

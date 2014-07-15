@@ -257,25 +257,46 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer", "ass
 				}), cb);
 			};
 
+			var messagesBuffer = [];
+			var delayMessageAdding = false;
+
 			function addMessageToList(m) {
-				//add to message list
-				messages.push(m);
-				dataMessages.push(m.data);
 				messagesByID[m.getID()] = m;
+
+				//add to message list
+				messagesBuffer.push(m);
+				
+				if (!delayMessageAdding) {
+					theTopic.runMessageAdding();
+				}
 			}
+
+			this.delayMessageAdding = function () {
+				delayMessageAdding = true;
+			};
+
+			this.runMessageAdding = function () {
+				delayMessageAdding = false;
+
+				messages.join(messagesBuffer);
+				dataMessages.join(messagesBuffer.map(function (e) {
+					return e.data;
+				}));
+
+				messagesBuffer = [];
+
+				theTopic.data.latestMessage = messages[messages.length - 1];
+			};
 
 			this.addMessage = function addMessageF(m, addUnread, cb) {
 				step(function () {
-					if (m.getTime() > data.newestTime) {
-						data.newestTime = m.getTime();
-					}
+					data.newestTime = Math.max(m.getTime(), data.newestTime);
 					topicArray.resort();
 
 					m.loadFullData(this);
 				}, h.sF(function () {
 					addMessageToList(m);
 
-					theTopic.data.latestMessage = messages[messages.length - 1];
 					if (addUnread) {
 						if (!theTopic.messageUnread(m.getID()) && !m.isOwn()) {
 							setUnread(unreadMessages.concat([m.getID()]));
@@ -351,6 +372,7 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer", "ass
 						this.last.ne();
 					}
 				}, h.sF(function (data) {
+					theTopic.delayMessageAdding();
 					console.log("Message server took: " + (new Date().getTime() - loadMore));
 					theTopic.data.remaining = data.remaining;
 					if (data.messages) {
@@ -362,6 +384,7 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer", "ass
 
 					this.parallel()();
 				}), h.sF(function () {
+					theTopic.runMessageAdding();
 					console.log("Message loading took: " + (new Date().getTime() - loadMore));
 					this.ne();
 				}), cb);
