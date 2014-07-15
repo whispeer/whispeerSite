@@ -731,9 +731,9 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer", "ass
 
 					var i;
 					for (i = 0; i < latest.topics.length; i += 1) {
-						makeTopic(latest.topics[i]);
+						makeTopic(latest.topics[i], this.parallel());
 					}
-
+				}), h.sF(function () {
 					messageService.notify("", "loadingDone");
 				}));
 			},
