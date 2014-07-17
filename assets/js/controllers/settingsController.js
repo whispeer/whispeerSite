@@ -17,6 +17,9 @@ define(["whispeerHelper", "step", "asset/state", "libs/qr"], function (h, step, 
 		var saveNameState = new State();
 		$scope.saveNameState = saveNameState.data;
 
+		var saveGeneralState = new State();
+		$scope.saveGeneralState = saveGeneralState.data;
+
 		$scope.safetySorted = ["birthday", "location", "relationship", "education", "work", "gender", "languages"];
 		$scope.languages = ["de", "en-US"];
 
@@ -33,7 +36,8 @@ define(["whispeerHelper", "step", "asset/state", "libs/qr"], function (h, step, 
 
 			$scope.notificationSound = "on";
 			$scope.sendShortCut = "enter";
-			$scope.uiLanguage = "en-US";
+
+			$scope.uiLanguage = localize.getLanguage();
 
 			if (sound) {
 				$scope.notificationSound = (sound.active ? "on" : "off");
@@ -41,8 +45,8 @@ define(["whispeerHelper", "step", "asset/state", "libs/qr"], function (h, step, 
 			if (messages) {
 				$scope.sendShortCut = messages.sendShortCut || "enter";
 			}
-			if (uiLanguage) {
-				$scope.uiLanguage = uiLanguage.data || "en-US";
+			if (uiLanguage && uiLanguage.data) {
+				$scope.uiLanguage = uiLanguage.data;
 			}
 
 			var names = userService.getown().data.names || {};
@@ -60,7 +64,8 @@ define(["whispeerHelper", "step", "asset/state", "libs/qr"], function (h, step, 
 		}), errorService.criticalError);
 
 		$scope.saveGeneral = function () {
-			console.log("calling save general!");
+			saveGeneralState.pending();
+
 			step(function () {
 				this.parallel.unflatten();
 
@@ -83,7 +88,7 @@ define(["whispeerHelper", "step", "asset/state", "libs/qr"], function (h, step, 
 				settingsService.updateBranch("uiLanguage", uiLanguage, this.parallel());
 			}), h.sF(function () {
 				settingsService.uploadChangedData(this);
-			}), errorService.criticalError);
+			}), errorService.failOnError(saveGeneralState));
 
 		};
 

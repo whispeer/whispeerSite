@@ -103,6 +103,10 @@ define(["angular"], function (angular) {
 			}
 
 			var localize = {
+				getLanguage: function () {
+					return language;
+				},
+
 				// allows setting of language on the fly
 				setLanguage: function (value) {
 					if (language !== value) {
