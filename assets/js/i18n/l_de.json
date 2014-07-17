@@ -250,7 +250,7 @@
 
 					"default": "{relationType} mit {partner}",
 					"noPartner": "{relationType}",
-
+					"placeholder":	"Partner",
 					"status": {
 						"": "",
 						"single":	"single",
@@ -264,11 +264,18 @@
 						"inlove":	"verliebt"
 					}
 				},
-				"education":	"schulische Ausbildung: {school}",
+				"education": {
+					"display":	"schulische Ausbildung: {school}",
+					"edit":		"Schule / Uni"
+				},
 				"work":	{
 					"whatwhere": "arbeitet als {what} bei {where}",
 					"what": "arbeitet als {what}",
-					"where": "arbeitet bei {where}"
+					"where": "arbeitet bei {where}",
+					"placeholders":	{
+						"what":	"Beruf",
+						"where":	"Arbeitgeber"
+					}
 				},
 				"gender":	{
 					"": "",
@@ -278,7 +285,10 @@
 					"f":	"weiblich",
 					"n":	"Keine Angabe"
 				},
-				"languages":	"{language}"
+				"languages": {
+					"display":	"{language}",
+					"edit":		"Sprache"
+				}	
 			},
 			"wall": {
 				"title":	"Pinnwand",

@@ -84,16 +84,16 @@
 							</select>
 
 							<span data-for="name" class="partner" data-ng-if="!editGeneral">{{user.advanced.relationship.name}}</span>
-							<input data-for="name" type="text" data-ng-model="user.advanced.relationship.name" data-ng-if="editGeneral">
+							<input data-for="name" type="text" data-i18n-attr="profile.section.general.relation.placeholder|placeholder" data-ng-model="user.advanced.relationship.name" data-ng-if="editGeneral">
 						</span>
 					</p>
 					<p id="school" data-ng-show="set(user.advanced.education) || editGeneral">
 						<i class="icon-book"></i>
-						<span data-i18n="profile.section.general.education">
+						<span data-i18n="profile.section.general.education.display">
 							<span data-ng-if="!editGeneral" data-for="school"><span data-ng-repeat="school in user.advanced.education">{{school.name}}</span></span>
 							<span data-ng-if="editGeneral" data-for="school">
 								<span class="input-group" data-ng-repeat="school in user.advanced.education">
-									<input type="text" data-ng-model="school.name">
+									<input type="text" data-i18n-attr="profile.section.general.education.edit|placeholder" data-ng-model="school.name">
 									<button class="remove btn btn--danger" data-ng-click="removeElement(user.advanced.education, $index)"><i class="icon icon-cancel-circle"></i></button>
 								</span>
 								<button class="add btn btn--primary" data-ng-click="addElement(user.advanced.education, {name: ''}, 3)"><i class="icon icon-plus-circle"></i></button>
@@ -104,10 +104,10 @@
 						<i class="icon-briefcase"></i>
 						<span data-i18n="profile.section.general.work.{{getWorkVals(user.advanced.work)}}">
 							<span data-ng-if="!editGeneral" data-for="what">{{user.advanced.work.what}}</span>
-							<input data-ng-if="editGeneral" data-for="what" data-ng-model="user.advanced.work.what">
+							<input data-ng-if="editGeneral" data-i18n-attr="profile.section.general.work.placeholders.what|placeholder" data-for="what" data-ng-model="user.advanced.work.what">
 							
 							<span data-ng-if="!editGeneral" data-for="where">{{user.advanced.work.where}}</span>
-							<input data-ng-if="editGeneral" data-for="where" data-ng-model="user.advanced.work.where">
+							<input data-ng-if="editGeneral" data-i18n-attr="profile.section.general.work.placeholders.where|placeholder" data-for="where" data-ng-model="user.advanced.work.where">
 						</span>
 					</p>
 					<p id="sex" data-ng-show="set(user.advanced.gender) || editGeneral">
@@ -122,13 +122,13 @@
 					</p>
 					<p id="languages" data-ng-show="set(user.advanced.languages) || editGeneral">
 						<i class="icon-globe"></i>
-						<span data-i18n="profile.section.general.languages">
+						<span data-i18n="profile.section.general.languages.display">
 							<span data-ng-if="!editGeneral" data-for="language">
 								<span data-ng-repeat="language in user.advanced.languages">{{language.name}}</span>
 							</span>
 							<span data-ng-if="editGeneral" data-for="language">
 								<span class="input-group" data-ng-repeat="language in user.advanced.languages">
-									<input type="text" data-ng-model="language.name">
+									<input type="text" data-i18n-attr="profile.section.general.languages.edit|placeholder" data-ng-model="language.name">
 									<button class="btn btn--danger remove" data-ng-click="removeElement(user.advanced.languages, $index)"><i class="icon icon-cancel-circle"></i></button>
 								</span>
 								<button class="btn btn--primary add" data-ng-click="addElement(user.advanced.languages, {name:''})"><i class="icon icon-plus-circle"></i></button>

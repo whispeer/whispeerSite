@@ -244,7 +244,7 @@
 
 					"default": "{relationType} with {partner}",
 					"noPartner": "{relationType}",
-
+					"placeholder":	"Partner",
 					"status": {
 						"": "",
 						"single":	"single",
@@ -258,11 +258,18 @@
 						"inlove":	"in love"
 					}
 				},
-				"education":	"Education: {school}",
+				"education": {
+					"display":	"Education: {school}",
+					"edit":		"School / University"
+				},
 				"work":	{
 					"whatwhere": "working as {what} at {where}",
 					"what": "working as {what}",
-					"where": "working at {where}"
+					"where": "working at {where}",
+					"placeholders": {
+						"what":		"Job",
+						"where":	"Company"
+					}
 				},
 				"gender":	{
 					"": "",
@@ -272,7 +279,10 @@
 					"f":	"female",
 					"n":	"No gender selected"
 				},
-				"languages":	"{language}"
+				"languages": {
+					"display":	"{language}",
+					"edit":		"Language"
+				}	
 			},
 			"wall": {
 				"title":	"Wall"
