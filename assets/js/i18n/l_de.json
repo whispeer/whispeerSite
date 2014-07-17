@@ -228,14 +228,14 @@
 					"info": "Geburtstag"
 				},
 				"location": {
-					"": "Wohnt in {town}, {state}, {country}",
+					"": "Wohnt in {town}, {country}",
 					"country": "Wohnt in {country}",
-					"state": "Wohnt in {state}",
-					"countrystate": "Wohnt in {state}, {country}",
 					"town": "Wohnt in {town}",
 					"countrytown": "Wohnt in {town}, {country}",
-					"statetown": "Wohnt in {town}, {state}",
-					"countrystatetown": "Wohnt in {town}, {state}, {country}"
+					"placeholders": {
+						"city":		"Stadt",
+						"country":	"Land"
+					}
 				},
 				"relation":	{
 					"": "",

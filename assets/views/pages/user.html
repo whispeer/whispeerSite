@@ -65,13 +65,12 @@
 						<i class="icon-home"></i>
 						<span data-i18n="profile.section.general.location.{{getLocationVals(user.advanced.location)}}">
 							<span data-for="town" class="town" data-ng-if="!editGeneral">{{user.advanced.location.town}}</span>
-							<input data-for="town" type="text" data-ng-model="user.advanced.location.town" data-ng-if="editGeneral">
-
-							<span data-for="state" class="state" data-ng-if="!editGeneral">{{user.advanced.location.state}}</span>
-							<input data-for="state" type="text" data-ng-model="user.advanced.location.state" data-ng-if="editGeneral">
-
+							<input data-for="town" type="text" data-i18n-attr="profile.section.general.location.placeholders.city|placeholder" data-ng-model="user.advanced.location.town" data-ng-if="editGeneral">
 							<span data-for="country" class="country" data-ng-if="!editGeneral">{{user.advanced.location.country}}</span>
-							<input data-for="country" type="text" data-ng-model="user.advanced.location.country" data-ng-if="editGeneral">	
+							<select class="country" data-for="country" type="text" data-ng-model="user.advanced.location.country" data-ng-if="editGeneral">
+								<option value="" data-i18n="profile.section.general.location.placeholders.country"></option>
+								<option data-ng-repeat="country in countries" value="{{country.code}}" data-ng-selected="{{country.code}} == user.advanced.location.country">{{country.name}}</option>
+							</select>	
 						</span>
 					</p>
 					<p id="relationship" data-ng-show="set(user.advanced.relationship) || editGeneral">

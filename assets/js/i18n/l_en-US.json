@@ -222,14 +222,14 @@
 					"info": "Birthday"
 				},
 				"location": {
-					"": "Lives in {town}, {state}, {country}",
+					"": "Lives in {town}, {country}",
 					"country": "Lives in {country}",
-					"state": "Lives in {state}",
-					"countrystate": "Lives in {state}, {country}",
 					"town": "Lives in {town}",
 					"countrytown": "Lives in {town}, {country}",
-					"statetown": "Lives in {town}, {state}",
-					"countrystatetown": "Lives in {town}, {state}, {country}"
+					"placeholders": {
+						"city":		"City",
+						"country":	"Country"
+					}
 				},
 				"relation":	{
 					"": "",
