@@ -187,7 +187,10 @@
 		}
 	},
 	"profile": {
-		"edit":	"Edit profile",
+		"edit": {
+			"false":	"Edit profile",
+			"true":		"Finish"
+		},	
 		"head":	{
 			"info":	"Info",
 			"wall":	"Wall",

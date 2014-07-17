@@ -64,7 +64,7 @@ define(["step", "whispeerHelper", "asset/resizableImage", "asset/state"], functi
 		};
 
 		$scope.edit = function () {
-			$scope.editGeneral = true;
+			$scope.editGeneral = !$scope.editGeneral;
 
 			resizableImage.removeResizable();
 			$scope.changeImage = false;

@@ -193,7 +193,10 @@
 		}
 	},
 	"profile": {
-		"edit":	"Bearbeiten",
+		"edit":	{
+			"false":	"Profil bearbeiten",
+			"true":		"Fertigstellen"
+		},	
 		"head":	{
 			"info":	"Info",
 			"wall":	"Pinnwand",
