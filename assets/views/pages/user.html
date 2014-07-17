@@ -139,9 +139,9 @@
 					<savebutton translation="settings.changes.save" data-state="saveUserState" data-ng-click="saveUser()"></savebutton>
 				</div>
 				<div class="actions">
-					<savebutton ng-if="!user.me && !user.added" class="addFriend" data-ng-click="addFriend()" data-state="user.addFriendState" data-noiniticon data-translation="profile.actions.addFriend|user={{user.name}}"></savebutton>
-					<div class="addToCircle" ng-if="user.added">
-						<circlesearch res="circles" id="selectCircle" data-input-i18n-attr="profile.actions.addToCircle|placeholder|user={{user.name}}" data-user="user.id"></circlesearch>
+					<savebutton data-ng-if="!user.me && !user.added" class="addFriend" data-ng-click="addFriend()" data-state="user.addFriendState" data-noiniticon data-translation="profile.actions.addFriend|user={{user.name}}"></savebutton>
+					<div class="addToCircle" data-ng-if="user.added">
+						<circlesearch data-res="circles" id="selectCircle" data-input-i18n-attr="profile.actions.addToCircle|placeholder|user={{user.name}}" data-user="user.id"></circlesearch>
 						<saveButton id="circleSubmit" data-ng-click="saveCircles()" data-state="circles.saving"></saveButton>
 					</div>
 					<a href="/messages?userid={{user.id}}" class="sendMessage"><span data-i18n="profile.actions.sendMessage|user={{user.name}}"></span></a>
