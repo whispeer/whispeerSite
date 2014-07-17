@@ -5,7 +5,7 @@
 define(["whispeerHelper", "step", "asset/state", "libs/qr"], function (h, step, State, qr) {
 	"use strict";
 
-	function settingsController($scope, errorService, cssService, settingsService, userService) {
+	function settingsController($scope, errorService, cssService, settingsService, userService, localize) {
 		cssService.setClass("settingsView");
 
 		var saveSafetyState = new State();
@@ -74,7 +74,9 @@ define(["whispeerHelper", "step", "asset/state", "libs/qr"], function (h, step, 
 
 				sound.active = ($scope.notificationSound === "on" ? true : false);
 				messages.sendShortCut = $scope.sendShortCut;
+
 				uiLanguage.data = $scope.uiLanguage;
+				localize.setLanguage($scope.uiLanguage);
 
 				settingsService.updateBranch("sound", sound, this.parallel());
 				settingsService.updateBranch("messages", messages, this.parallel());
@@ -146,7 +148,7 @@ define(["whispeerHelper", "step", "asset/state", "libs/qr"], function (h, step, 
 		};
 	}
 
-	settingsController.$inject = ["$scope", "ssn.errorService", "ssn.cssService", "ssn.settingsService", "ssn.userService"];
+	settingsController.$inject = ["$scope", "ssn.errorService", "ssn.cssService", "ssn.settingsService", "ssn.userService", "localize"];
 
 	return settingsController;
 });
