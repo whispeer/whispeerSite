@@ -18,6 +18,7 @@ define(["whispeerHelper", "step", "asset/state", "libs/qr"], function (h, step, 
 		$scope.saveNameState = saveNameState.data;
 
 		$scope.safetySorted = ["birthday", "location", "relationship", "education", "work", "gender", "languages"];
+		$scope.languages = ["de", "en-US"];
 
 		step(function () {
 			this.parallel.unflatten();
@@ -25,18 +26,23 @@ define(["whispeerHelper", "step", "asset/state", "libs/qr"], function (h, step, 
 			settingsService.getBranch("privacy", this.parallel());
 			settingsService.getBranch("sound", this.parallel());
 			settingsService.getBranch("messages", this.parallel());
+			settingsService.getBranch("uiLanguage", this.parallel());
 			userService.getown().loadBasicData(this.parallel());
-		}, h.sF(function (privacy, sound, messages) {
+		}, h.sF(function (privacy, sound, messages, uiLanguage) {
 			$scope.safety = h.deepCopyObj(privacy, 4);
 
 			$scope.notificationSound = "on";
 			$scope.sendShortCut = "enter";
+			$scope.uiLanguage = "en-US";
 
 			if (sound) {
 				$scope.notificationSound = (sound.active ? "on" : "off");
 			}
 			if (messages) {
 				$scope.sendShortCut = messages.sendShortCut || "enter";
+			}
+			if (uiLanguage) {
+				$scope.uiLanguage = uiLanguage.data || "en-US";
 			}
 
 			var names = userService.getown().data.names || {};
@@ -54,20 +60,25 @@ define(["whispeerHelper", "step", "asset/state", "libs/qr"], function (h, step, 
 		}), errorService.criticalError);
 
 		$scope.saveGeneral = function () {
+			console.log("calling save general!");
 			step(function () {
 				this.parallel.unflatten();
 
 				settingsService.getBranch("sound", this.parallel());
 				settingsService.getBranch("messages", this.parallel());
-			}, h.sF(function (sound, messages) {
+				settingsService.getBranch("uiLanguage", this.parallel());
+			}, h.sF(function (sound, messages, uiLanguage) {
 				sound = sound || {};
 				messages = messages || {};
+				uiLanguage = uiLanguage || {};
 
 				sound.active = ($scope.notificationSound === "on" ? true : false);
 				messages.sendShortCut = $scope.sendShortCut;
+				uiLanguage.data = $scope.uiLanguage;
 
 				settingsService.updateBranch("sound", sound, this.parallel());
 				settingsService.updateBranch("messages", messages, this.parallel());
+				settingsService.updateBranch("uiLanguage", uiLanguage, this.parallel());
 			}), h.sF(function () {
 				settingsService.uploadChangedData(this);
 			}), errorService.criticalError);

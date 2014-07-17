@@ -398,6 +398,13 @@
 				},
 				"fingerprints": {
 					"title":	"Your Fingerprint"
+				},
+				"uiLanguage": {
+					"title":	"Languages",
+					"langs": {
+						"de":		"German",
+						"en-US":	"English (american)"
+					}
 				}
 			},
 			"account":	"Account",

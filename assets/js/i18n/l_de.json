@@ -404,6 +404,13 @@
 				},
 				"fingerprints": {
 					"title":	"Dein Fingerprint"
+				},
+				"uiLanguage": {
+					"title":	"Sprache",
+					"langs": {
+						"de":		"Deutsch",
+						"en-US":	"Englisch (amerikanisch)"
+					}
 				}
 			},	
 			"account":	"Benutzerkonto",

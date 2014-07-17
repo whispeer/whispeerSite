@@ -18,6 +18,14 @@
 			<p><input readonly="readonly" id="yourFingerprint" type="text" data-ng-model="fingerprint"></p>
 			<img id="fingerPrintQR">
 		</div>
+		<div class="config" id="uiLanguage">
+			<h5 data-i18n="settings.changes.general.uiLanguage.title"></h5>
+			<p>
+				<select class="language" type="text" data-ng-model="uiLanguage" data-ng-change="saveGeneral()">
+					<option data-ng-repeat="lang in languages" value="{{lang}}" data-i18n="settings.changes.general.uiLanguage.langs.{{lang}}" data-ng-selected="{{lang}} == uiLanguage"></option>
+				</select>
+			</p>	
+		</div>
 		<div class="config" id="sendMethod">
 			<h5 data-i18n="settings.changes.general.sendMethod.title"></h5>
 			<p>
