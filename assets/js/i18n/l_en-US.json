@@ -400,7 +400,7 @@
 					"title":	"Your Fingerprint"
 				},
 				"uiLanguage": {
-					"title":	"Languages",
+					"title":	"User Interface Language",
 					"langs": {
 						"de":		"German",
 						"en-US":	"English (american)"
