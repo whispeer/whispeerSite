@@ -206,7 +206,14 @@
 		},
 		"trustmanager" : {
 			"verifyTitle":	"Benutzer verifizieren",
-			"verifyInfo":	"Um den Benutzer zu verifizieren gebe bitte seinen Fingerprint hier ein. Diesen kann er unter \"Einstellungen\" -> \"Dein Fingerprint\" ablesen."
+			"verifyInfo": {
+				"code":	"Hierzu benötigst du den Fingerprint von {user}. Diesen kann er in seinen Einstellungen unter \"Dein Fingerprint\" abrufen. Ihr solltet euch zum übermitteln des Codes am besten persönlich treffen, aber mindestens telefonisch Kontakt aufnehmen.",
+				"qr":	"Halte den QR-Code von {user} in deine Kamera, sodass er im unteren Fenster sichtbar ist. Sobald der Code erkannt wurde, wird {user} automatisch verifiziert."
+			},
+			"verifyUser":	"Verifiziere {user}",
+			"verifyWithCode":	"Fingerprint manuell eingeben",
+			"verifyWithQr":		"Fignerprint als QR-Code Scannen",
+			"chooseVerifyMethod":	"Wie möchtest du {user} verifizieren?"
 		},
 		"section":	{
 			"general": {
