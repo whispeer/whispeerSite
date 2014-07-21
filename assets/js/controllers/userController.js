@@ -2,7 +2,7 @@
 * userController
 **/
 
-define(["step", "whispeerHelper", "asset/resizableImage", "asset/state"], function (step, h, ResizableImage, State) {
+define(["step", "whispeerHelper", "asset/resizableImage", "asset/state", "libs/qrreader"], function (step, h, ResizableImage, State, qrreader) {
 	"use strict";
 
 	function userController($scope, $routeParams, $timeout, cssService, errorService, userService, postService, circleService, blobService) {
@@ -21,14 +21,80 @@ define(["step", "whispeerHelper", "asset/resizableImage", "asset/state"], functi
 		
 		$scope.verifyCode = false;
 		$scope.verifyQr = false;
+
+		$scope.codeRead = false;
 		
 		$scope.verifyWithCode = function () {
 			$scope.verifyCode = true;
 		};
 		
+		function read(a) {
+			$scope.codeRead = true;
+
+			jQuery("#qrresult").text(a);
+		}
+
+		var gCanvas, gCtx;
+
+		function captureToCanvas() {
+			if (!$scope.codeRead) {
+				try{
+					gCtx.drawImage(document.getElementById("qrCodeVideo"), 0, 0);
+					qrreader.decode();
+				} catch(e) {
+					jQuery("#qrresult").text(e);
+					console.log(e);
+					setTimeout(captureToCanvas, 500);
+				}
+			}
+		}
+
 		$scope.verifyWithQrCode = function () {
+			jQuery("#qrresult").text("scanning");
 			console.log("click!");
 			$scope.verifyQr = true;
+
+			var width = 800;
+			var height = 600;
+
+			var webkit=false;
+			var moz=false;
+
+			gCanvas = document.getElementById("qr-canvas");
+			gCanvas.style.width = width + "px";
+			gCanvas.style.height = height + "px";
+			gCanvas.width = width;
+			gCanvas.height = height;
+
+			gCtx = gCanvas.getContext("2d");
+			gCtx.clearRect(0, 0, width, height);
+
+			qrreader.callback = read;
+
+			step(function () {
+				if(navigator.getUserMedia) {
+					navigator.getUserMedia({video: true, audio: false}, this.ne, this);
+				} else if(navigator.webkitGetUserMedia) {
+					webkit=true;
+					navigator.webkitGetUserMedia({video: true, audio: false}, this.ne, this);
+				} else if(navigator.mozGetUserMedia) {
+					moz=true;
+					navigator.mozGetUserMedia({video: true, audio: false}, this.ne, this);
+				}
+			}, h.sF(function (stream) {
+				var v = document.getElementById("qrCodeVideo");
+
+				if(webkit) {
+					v.src = window.webkitURL.createObjectURL(stream);
+				} else if(moz) {
+					v.mozSrcObject = stream;
+					v.play();
+				} else {
+					v.src = stream;
+				}
+
+				setTimeout(captureToCanvas, 500);
+			}), errorService.criticalError);
 		};
 
 		$scope.givenPrint = "";
