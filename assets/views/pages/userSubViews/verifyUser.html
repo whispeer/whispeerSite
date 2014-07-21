@@ -20,9 +20,9 @@
 			<h3 data-i18n="profile.trustmanager.verifyUser|user={{user.names.firstname}}"></h3>
 			<span data-i18n="profile.trustmanager.verifyInfo.qr|user={{user.names.firstname}}"></span>
 			<div class="qrScanner">
+				{{qrCode}}
 				<savebutton data-ng-if="qr.read" data-state="verifyingUser"></savebutton>
 				<video data-ng-show="!qr.read" id="qrCodeVideo" autoplay width="100px"></video>
-				<canvas id="qr-canvas" data-ng-show="!qr.read"></canvas>
 			</div>
 		</div>
 	</article>
