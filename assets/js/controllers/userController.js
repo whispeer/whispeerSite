@@ -21,12 +21,15 @@ define(["step", "whispeerHelper", "asset/resizableImage", "asset/state", "libs/q
 		
 		$scope.verifyCode = false;
 
+		var verifyState = new State();
+		$scope.verifyingUser = verifyState.data;
+
 		$scope.qr = {
 			available: navigator.getUserMedia || navigator.mozGetUserMedia || navigator.webkitGetUserMedia,
 			view: false,
 			read: false,
 			reset: function () {
-				if (saveUserState.isFailed()) {
+				if (verifyState.isFailed()) {
 					$scope.qr.read = false;
 					initializeReader();
 				}
@@ -109,9 +112,6 @@ define(["step", "whispeerHelper", "asset/resizableImage", "asset/state", "libs/q
 		$scope.toggleVerify = function () {
 			$scope.verifyNow = !$scope.verifyNow;
 		};
-
-		var verifyState = new State();
-		$scope.verifyingUser = verifyState.data;
 
 		$scope.verify = function (fingerPrint) {
 			verifyState.pending();
