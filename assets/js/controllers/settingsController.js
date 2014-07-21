@@ -2,11 +2,20 @@
 * friendsController
 **/
 
-define(["whispeerHelper", "step"], function (h, step) {
+define(["whispeerHelper", "step", "asset/state", "libs/qr"], function (h, step, State, qr) {
 	"use strict";
 
 	function settingsController($scope, errorService, cssService, settingsService, userService) {
 		cssService.setClass("settingsView");
+
+		var saveSafetyState = new State();
+		$scope.saveSafetyState = saveSafetyState.data;
+
+		var resetSafetyState = new State();
+		$scope.resetSafetyState = resetSafetyState.data;
+
+		var saveNameState = new State();
+		$scope.saveNameState = saveNameState.data;
 
 		$scope.safetySorted = ["birthday", "location", "relationship", "education", "work", "gender", "languages"];
 
@@ -16,6 +25,7 @@ define(["whispeerHelper", "step"], function (h, step) {
 			settingsService.getBranch("privacy", this.parallel());
 			settingsService.getBranch("sound", this.parallel());
 			settingsService.getBranch("messages", this.parallel());
+			userService.getown().loadBasicData(this.parallel());
 		}, h.sF(function (privacy, sound, messages) {
 			$scope.safety = h.deepCopyObj(privacy, 4);
 
@@ -28,6 +38,18 @@ define(["whispeerHelper", "step"], function (h, step) {
 			if (messages) {
 				$scope.sendShortCut = messages.sendShortCut || "enter";
 			}
+
+			var names = userService.getown().data.names || {};
+			$scope.firstName = names.firstname;
+			$scope.lastName = names.lastname;
+			$scope.nickName = names.nickname;
+			$scope.fingerprint = userService.getown().data.fingerprint;
+
+			qr.image({
+				image: document.getElementById("fingerPrintQR"),
+				value: $scope.fingerprint,
+				level: "M"
+			});
 		}), errorService.criticalError);
 
 		$scope.saveGeneral = function () {
@@ -52,6 +74,7 @@ define(["whispeerHelper", "step"], function (h, step) {
 		};
 
 		$scope.saveSafety = function () {
+			saveSafetyState.pending();
 			step(function () {
 				settingsService.getBranch("privacy", this);
 			}, h.sF(function (branch) {
@@ -60,32 +83,33 @@ define(["whispeerHelper", "step"], function (h, step) {
 				settingsService.updateBranch("privacy", $scope.safety, this);
 			}), h.sF(function () {
 				settingsService.uploadChangedData(this);
-			}), errorService.criticalError);
+			}), errorService.failOnError(saveSafetyState));
 		};
 
 		$scope.resetSafety = function () {
+			resetSafetyState.pending();
 			step(function () {
 				settingsService.getBranch("privacy", this);
 			}, h.sF(function (branch) {
 				$scope.safety = h.deepCopyObj(branch, 4);
 				$scope.$broadcast("reloadInitialSelection");
-			}), errorService.criticalError);
+
+				this.ne();
+			}), errorService.failOnError(resetSafetyState));
 		};
 
-		var names = userService.getown().data.names || {};
-		$scope.firstName = names.firstname;
-		$scope.lastName = names.lastname;
-		$scope.nickName = names.nickname;
 		$scope.mail = userService.getown().getMail();
 
 		$scope.saveName = function () {
+			saveNameState.pending();
+
 			var me = userService.getown();
 			step(function () {
 				me.setProfileAttribute("basic.firstname", $scope.firstName, this.parallel());
 				me.setProfileAttribute("basic.lastname", $scope.lastName, this.parallel());
 			}, h.sF(function () {
 				me.uploadChangedProfile(this);
-			}), errorService.criticalError);
+			}), errorService.failOnError(saveNameState));
 		};
 
 		$scope.checkNickName = function () {

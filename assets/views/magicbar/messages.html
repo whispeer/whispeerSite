@@ -7,10 +7,13 @@
 		<ul class="unstyled" data-ng-if="topics.length > 0">
 			<li class="message {{topic.type}} {{topic.unread?'unread':''}}" data-ng-repeat="topic in topics" data-ng-click="loadTopic(topic.id)">
 				<div class="left">
-					<div class="imgWrap">
-						<img class="userimg" data-ng-repeat="partner in topic.partnersDisplay" data-ng-src="{{partner.basic.image}}" alt="{{partner.name}}" title="{{partner.name}}">
+					<div class="imgWrap group" data-ng-if="topic.type == 'groupChat'">
+						<img class="picture" data-ng-repeat="partner in topic.partnersDisplay" data-ng-src="{{partner.basic.image}}" alt="{{partner.name}}" title="{{partner.name}}">
 						<span data-ng-if="topic.remainingUser" title="{{topic.remainingUserTitle}}">+ {{topic.remainingUser}}</span>
-					</div>	
+					</div>
+					<div class="imgWrap" data-ng-if="topic.type == 'peerChat'">
+						<userimage data-ng-repeat="partner in topic.partnersDisplay" data-user="partner">
+					</div>
 				</div>
 				<p class="username">
 					<a ng-repeat="partner in topic.partners" href='{{partner.basic.url}}'>

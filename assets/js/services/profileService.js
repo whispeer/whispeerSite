@@ -14,6 +14,10 @@ define(["step", "whispeerHelper", "crypto/encryptedData", "validation/validator"
 
 			var metaData = new EncryptedData(data.own, {}, isDecrypted);
 
+			if (data.metaData === false) {
+				metaData = false;	
+			}
+
 			var id, theProfile = this;
 
 			function checkProfile() {
@@ -105,9 +109,13 @@ define(["step", "whispeerHelper", "crypto/encryptedData", "validation/validator"
 
 			this.getScope = function (cb) {
 				step(function () {
-					metaData.getBranch("scope", this);
+					if (metaData) {
+						metaData.getBranch("scope", this);
+					} else {
+						this.ne(false);
+					}
 				}, h.sF(function (scope) {
-					this.ne(scope || "always:allfriends");
+					this.ne(scope);
 				}), cb);
 			};
 

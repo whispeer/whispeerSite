@@ -59,7 +59,7 @@ define(["step", "whispeerHelper", "asset/observer"], function (step, h, Observer
 			}), cb);
 		}
 
-		function acceptFriendShip(uid) {
+		function acceptFriendShip(uid, cb) {
 			var otherLevel2Key, ownLevel2Key, friendsKey, otherFriendsKey, friendShipKey, otherUser, userService = $injector.get("ssn.userService");
 			step(function () {
 				userService.get(uid, this);
@@ -96,17 +96,18 @@ define(["step", "whispeerHelper", "asset/observer"], function (step, h, Observer
 					friendsService.notify(result.friendOnline, "online:" + uid);
 
 					friendsService.notify(uid, "newFriend");
+
+					this.ne();
 				} else {
-					console.error("friend adding failed!");
-					//oh noes!
+					throw new Error("friend adding failed!");
 				}
-			}));
+			}), cb);
 			//get own friendsKey
 			//get others friendsLevel2Key
 			//get own friendsLevel2Key
 		}
 
-		function requestFriendShip(uid) {
+		function requestFriendShip(uid, cb) {
 			var otherUser, friendShipKey, userService = $injector.get("ssn.userService");
 			step(function () {
 				userService.get(uid, this);
@@ -127,10 +128,12 @@ define(["step", "whispeerHelper", "asset/observer"], function (step, h, Observer
 						friendsService.notify(uid, "newRequested");
 					} else {
 						//user requested friendShip and we did not get it when we started this...
-						acceptFriendShip(uid);
+						acceptFriendShip(uid, cb);
 					}
+				} else {
+					throw new Error("Friends request failed");
 				}
-			}));
+			}), cb);
 		}
 
 		socket.listen("friendRequest", function (e, requestData) {
@@ -179,20 +182,20 @@ define(["step", "whispeerHelper", "asset/observer"], function (step, h, Observer
 					}
 				}), cb);
 			},
-			friendship: function (uid) {
+			friendship: function (uid, cb) {
 				if (friends.indexOf(uid) > -1 || requested.indexOf(uid) > -1) {
 					return;
 				}
 
 				if (requests.indexOf(uid) > -1) {
-					acceptFriendShip(uid);
+					acceptFriendShip(uid, cb);
 				} else {
-					requestFriendShip(uid);
+					requestFriendShip(uid, cb);
 				}
 			},
-			acceptFriendShip: function (uid) {
+			acceptFriendShip: function (uid, cb) {
 				if (requests.indexOf(uid) > -1 && friends.indexOf(uid) === -1 && requested.indexOf(uid) === -1) {
-					acceptFriendShip(uid);
+					acceptFriendShip(uid, cb);
 				}
 			},
 			didIRequest: function (uid) {
@@ -256,12 +259,14 @@ define(["step", "whispeerHelper", "asset/observer"], function (step, h, Observer
 
 		Observer.call(friendsService);
 
-		initService.register("friends.getAll", {}, function (data) {
+		initService.register("friends.getAll", {}, function (data, cb) {
 			friendsService.load(data);
+			cb();
 		});
 
-		initService.register("friends.getOnline", {}, function (data) {
+		initService.register("friends.getOnline", {}, function (data, cb) {
 			friendsService.setOnline(data.online);
+			cb();
 		});
 
 		$rootScope.$on("ssn.reset", function () {

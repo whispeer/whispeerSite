@@ -257,7 +257,7 @@ define(["step", "whispeerHelper"], function () {
 
 				var UP = [38, 33];
 				var DOWN = [40, 34];
-				var ENTER = [13];
+				var ENTER = 13;
 				var BACKSPACE = 8;
 
 				// left: 37, up: 38, right: 39, down: 40,

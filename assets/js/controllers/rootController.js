@@ -7,8 +7,8 @@ define(["step", "whispeerHelper"], function (step, h) {
 
 	function getVersionString(data) {
 		if (typeof data === "object" && !(data instanceof Array)) {
-			var keys = Object.keys(data);
-			keys.sort();
+			var keys = Object.keys(data).map(h.parseDecimal);
+			keys.sort(function(a, b){return a-b;});
 
 			var newest = keys[keys.length - 1];
 
@@ -18,7 +18,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 		}
 	}
 
-	function rootController($scope, $timeout, $http, socketService, sessionService, sessionHelper, userService, cssService, messageService, friendsService) {
+	function rootController($scope, $timeout, $http, socketService, sessionService, sessionHelper, userService, cssService, messageService, friendsService, trustService) {
 		var buildDate = "20140518";
 
 		$http({ method: "GET", url: "changelog.json?t=" + (new Date()).getTime(), cache: false }).success(function (data) {
@@ -126,7 +126,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 		};
 	}
 
-	rootController.$inject = ["$scope", "$timeout", "$http", "ssn.socketService", "ssn.sessionService", "ssn.sessionHelper", "ssn.userService", "ssn.cssService", "ssn.messageService", "ssn.friendsService"];
+	rootController.$inject = ["$scope", "$timeout", "$http", "ssn.socketService", "ssn.sessionService", "ssn.sessionHelper", "ssn.userService", "ssn.cssService", "ssn.messageService", "ssn.friendsService", "ssn.trustService"];
 
 	return rootController;
 });

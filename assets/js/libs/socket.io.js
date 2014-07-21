@@ -1670,12 +1670,16 @@ var io = ('undefined' === typeof module ? {} : module.exports);
     var transports = override || this.transports, match;
 
     for (var i = 0, transport; transport = transports[i]; i++) {
+      console.log("trying transport " + transport);
+      console.log(this.isXDomain());
       if (io.Transport[transport]
         && io.Transport[transport].check(this)
         && (!this.isXDomain() || io.Transport[transport].xdomainCheck(this))) {
         return new io.Transport[transport](this, this.sessionid);
       }
     }
+
+    console.log("Could not create transport");
 
     return null;
   };

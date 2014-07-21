@@ -1,4 +1,4 @@
-define(["step", "whispeerHelper"], function (step, h) {
+define(["step", "whispeerHelper", "asset/state"], function (step, h, State) {
 	"use strict";
 
 	var advancedBranches = ["location", "birthday", "relationship", "education", "work", "gender", "languages"];
@@ -70,6 +70,95 @@ define(["step", "whispeerHelper"], function (step, h) {
 			var theUser = this, mainKey, signKey, cryptKey, friendShipKey, friendsKey, friendsLevel2Key, migrationState;
 			var id, mail, nickname, publicProfile, privateProfiles = [], mutualFriends, publicProfileChanged = false, publicProfileSignature;
 
+			var addFriendState = new State();
+
+			function findMeProfile(cb) {
+				var newMeProfile;
+				step(function () {
+					privateProfiles.forEach(function (profile) {
+						profile.getScope(this.parallel());
+					}, this);
+				}, h.sF(function (scopes) {
+					var me;
+
+					scopes.forEach(function (scope, index) {
+						if (scope === "me") {
+							me = privateProfiles[index];
+						}
+					});
+
+					if (me) {
+						this.last.ne(me);
+					} else {
+						//we need to find the me profile by hand
+						//TODO: also TODO: how to re-add the metaData...
+						//most likely: delete, recreate....
+
+						privateProfiles.forEach(function (profile) {
+							profile.getFull(this.parallel());
+						}, this);
+					}
+				}), h.sF(function (profileData) {
+					var likelyMeProfile = {};
+
+					profileData.forEach(function (profile) {
+						if (Object.keys(profile).length > Object.keys(likelyMeProfile).length) {
+							likelyMeProfile = profile;
+						}
+					});
+
+					newMeProfile = new ProfileService({
+						profile: likelyMeProfile,
+						metaData: {
+							scope: "me"
+						}
+					}, true);
+					newMeProfile.signAndEncrypt(theUser.getSignKey(), theUser.getMainKey(), theUser.getMainKey(), this);
+				}), h.sF(function (encryptedNewMe) {
+					socketService.emit("user.createPrivateProfiles", {
+						privateProfiles: [encryptedNewMe]
+					}, this);
+				}), h.sF(function (data) {
+					if (!data.error) {
+						this.ne(newMeProfile);
+					} else {
+						console.error("create failed");
+					}
+				}), cb);
+			}
+
+			function repairProfiles() {
+				step(function () {
+					//find main profile
+					findMeProfile(this);
+				}, h.sF(function (meProfile) {
+					//delete other profiles
+					var profilesToDelete = privateProfiles.filter(function (profile) {
+						return profile !== meProfile;
+					}).map(function (profile) {
+						return profile.getID();
+					});
+
+					socketService.emit("user", {
+						deletePrivateProfiles: {
+							profilesToDelete: profilesToDelete
+						}
+					}, this);
+				}), h.sF(function () {
+					//rebuildFromSettings
+					settingsService.getBranch("privacy", this);
+				}), h.sF(function (settings) {
+					var usedScopes = getAllProfileTypes(settings);
+					theUser.createProfileObjects(usedScopes, settings, this);
+				}), h.sF(function (profilesToCreate) {
+					socketService.emit("user", {
+						createPrivateProfiles: {
+							privateProfiles: profilesToCreate
+						}
+					}, this);
+				}), errorService.criticalError);
+			}
+
 			this.data = {};
 
 			function updateUser(userData) {
@@ -123,15 +212,30 @@ define(["step", "whispeerHelper"], function (step, h) {
 
 				//todo: update profiles. for now: overwrite
 				if (userData.profile && userData.profile.priv && userData.profile.priv instanceof Array) {
-					var priv = userData.profile.priv, i;
-					for (i = 0; i < priv.length; i += 1) {
-						privateProfiles.push(new ProfileService(priv[i]));
+					var priv = userData.profile.priv;
+
+					var profilesBroken = false;
+
+					var isMe = (id === sessionService.getUserID());
+
+					priv.forEach(function (profile) {
+						if (profile.metaData === false && isMe) {
+							profilesBroken = true;
+						}
+
+						privateProfiles.push(new ProfileService(profile));
+					});
+
+					if (profilesBroken) {
+						repairProfiles();
 					}
 				}
 
 				theUser.data = {
 					user: theUser,
 					id: id,
+					trustLevel: 0,
+					fingerprint: keyStoreService.format.fingerPrint(signKey),
 					basic: {
 						age: "?",
 						location: "?",
@@ -266,9 +370,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 					}
 
 					basicDataLoaded = false;
-					theUser.loadBasicData(function () {
-
-					});
+					theUser.loadBasicData(function () {});
 					//reload basic profile data!
 
 					this.ne(result.allok);
@@ -290,9 +392,26 @@ define(["step", "whispeerHelper"], function (step, h) {
 			this.uploadChangedProfile = uploadChangedProfile;
 			this.setProfileAttribute = setProfileAttribute;
 
+			this.verify = function (fingerPrint, cb) {
+				if (fingerPrint !== keyStoreService.format.fingerPrint(theUser.getSignKey())) {
+					return false;
+				}
+
+				step(function () {
+					$injector.get("ssn.trustService").verifyUser(theUser, this);
+				}, h.sF(function () {
+					theUser.data.trustLevel = 2;
+					this.ne();
+				}), cb);
+
+				return true;
+			};
+
 			this.rebuildProfilesForSettings = function (newSettings, oldSettings, cb) {
 				step(function () {
-					var typesOld = getAllProfileTypes(oldSettings);
+					theUser.getScopes(this);
+				}, h.sF(function (scopes) {
+					var typesOld = h.removeArray(scopes, "me");
 					var typesNew = getAllProfileTypes(newSettings);
 
 					var profilesToAdd = h.arraySubtract(typesNew, typesOld);
@@ -304,7 +423,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 					theUser.updateProfilesFromMe(profilesWithPossibleChanges, newSettings, this.parallel());
 					theUser.createProfileObjects(profilesToAdd, newSettings, this.parallel());
 					theUser.getProfilesToDelete(profilesToRemove, this.parallel());
-				}, h.sF(function (profilesToChange, profilesToCreate, profilesToDelete) {
+				}), h.sF(function (profilesToChange, profilesToCreate, profilesToDelete) {
 					socketService.emit("user", {
 						deletePrivateProfiles: {
 							profilesToDelete: profilesToDelete
@@ -427,6 +546,28 @@ define(["step", "whispeerHelper"], function (step, h) {
 
 			this.update = updateUser;
 
+			this.getTrustLevel = function (cb) {
+				step(function () {
+					theUser.getTrustData(this);
+				}, h.sF(function (trust) {
+					if (trust.isOwn()) {
+						this.ne(-1);
+					} else if (trust.isVerified()) {
+						this.ne(2);
+					} else if (trust.isWhispeerVerified() || trust.isNetworkVerified()) {
+						this.ne(1);
+					} else {
+						this.ne(0);
+					}
+				}), cb);
+			};
+
+			this.getTrustData = function (cb) {
+				var trust = $injector.get("ssn.trustService").getKey(theUser.getSignKey());
+
+				cb(null, trust);
+			};
+
 			this.loadFullData = function (cb) {
 				step(function () {
 					var i;
@@ -465,14 +606,17 @@ define(["step", "whispeerHelper"], function (step, h) {
 
 						theUser.getShortName(this.parallel());
 						theUser.getName(this.parallel());
+						theUser.getTrustLevel(this.parallel());
 					} else {
 						this.last.ne();
 					}
-				}, h.sF(function (shortname, names) {
+				}, h.sF(function (shortname, names, trustLevel) {
 					basicDataLoaded = true;
 
 					theUser.data.me = theUser.isOwn();
 					theUser.data.other = !theUser.isOwn();
+
+					theUser.data.trustLevel = trustLevel;
 
 					theUser.data.online = friendsService.onlineStatus(theUser.getID()) || 0;
 
@@ -487,6 +631,8 @@ define(["step", "whispeerHelper"], function (step, h) {
 
 					theUser.data.added = friendsService.didIRequest(theUser.getID());
 					theUser.data.isMyFriend = friendsService.areFriends(theUser.getID());
+
+					theUser.data.addFriendState = addFriendState.data;
 
 					theUser.loadImage();
 
@@ -788,9 +934,21 @@ define(["step", "whispeerHelper"], function (step, h) {
 				}, cb);
 			};
 
-			this.addAsFriend = function () {
+			this.acceptFriendShip = function () {
+				addFriendState.pending();
 				if (!this.isOwn()) {
-					friendsService.friendship(this.getID());
+					friendsService.acceptFriendShip(this.getID(), errorService.failOnError(addFriendState));
+				} else {
+					addFriendState.failed();
+				}
+			};
+
+			this.addAsFriend = function () {
+				addFriendState.pending();
+				if (!this.isOwn()) {
+					friendsService.friendship(this.getID(), errorService.failOnError(addFriendState));
+				} else {
+					addFriendState.failed();
 				}
 			};
 		};

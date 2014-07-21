@@ -686,9 +686,11 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 
 	/** load a key and his keychain. remove loaded keys */
 	function getKey(realKeyID, callback) {
-		step(function getKeyF() {
-			delay(realKeyID, this);
-		}, callback);
+		if (typeof realKeyID !== "string") {
+			throw new Error("not a valid key realid: " + realKeyID);
+		}
+
+		delay(realKeyID, callback);
 	}
 
 	/** load  a symkey and its keychain */
@@ -1030,9 +1032,23 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 		}
 
 		function signF(hash, callback) {
+			var trustManager;
 			step(function () {
+				require(["crypto/trustManager"], this.ne, this);
+			}, h.sF(function (tM) {
+				trustManager = tM;
+				if (!trustManager.isLoaded) {
+					trustManager.listen(this, "loaded");
+				} else {
+					this.ne();
+				}
+			}), h.sF(function () {
+				if (!trustManager.hasKeyData(intKey.getRealID())) {
+					console.log("key not in key database");
+					throw new errors.SecurityError("key not in key database");
+				}
 				intKey.decryptKey(this);
-			}, h.sF(function (decrypted) {
+			}), h.sF(function (decrypted) {
 				if (!decrypted) {
 					this.last("could not decrypt key");
 				}
@@ -1043,9 +1059,14 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 
 		function verifyF(signature, hash, callback) {
 			step(function () {
+				require(["crypto/trustManager"], this.ne, this);
+			}, h.sF(function (trustManager) {
+				if (!trustManager.hasKeyData(intKey.getRealID())) {
+					console.log("key not in key database");
+					throw new errors.SecurityError("key not in key database");
+				}
 				sjclWorkerInclude.asym.verify(publicKey, signature, hash, this);
-				//this.ne(publicKey.verify(hash, signature));
-			}, callback);
+			}), callback);
 		}
 
 		if (isPrivateKey) {
@@ -1571,6 +1592,10 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 		},
 
 		format: {
+			fingerPrint: function (keyID) {
+				var hex = keyID.split(":")[1];
+				return sjcl.codec.base32.fromBits(sjcl.codec.hex.toBits(hex));
+			},
 			unformat: function (str, start) {
 				if (str.indexOf(start + "::") !== 0) {
 					throw new errors.InvalidDataError("format invalid");

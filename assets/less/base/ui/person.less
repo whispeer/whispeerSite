@@ -3,13 +3,16 @@
 // Displays the userimage and the name of a specific person
 //
 // Markup:
-// <div class="person" style="width: 25%; background-image: url(img/user.png);">
+// <div class="person {$modifiers}" style="width: 25%; background-image: url(img/user.png);">
 //	<div class="pushup">
 //		<p class="username">Person</p>
 //		<span class="status" data-status=""></span>
 //		<p class="mutualfriends">5 mutual Friends</p>
 //	</div>
 // </div>
+//
+// .pending						- This person has not confirmed the friendship request yet.
+// .requested					- This person sent a friendship request to you.
 //
 // Styleguide 2.7
 .person {
@@ -109,6 +112,18 @@
 				margin-top: 10px;
 			}
 		}
+		.requestPending {
+			display: none;
+			visibility: hidden;
+		}
+	}
+	.optionsBar {
+		display: none;
+		visibility: hidden;
+		.requestedYou {
+			display: none;
+			visibility: hidden;
+		}
 	}
 	&:hover {
 		.pushup {
@@ -117,6 +132,69 @@
 			.transition(all 1s ease);
 			p {
 				opacity: 1;
+			}
+		}
+	}
+	&.pending {
+		&:after {
+			width: 100%;
+			height: 100%;
+			position: absolute;
+			background-color: @grayLighter;
+			opacity: 0.6;
+			display: block;
+			content: ' ';
+			float: left;
+			z-index: 9999;
+		}
+		.pushup {
+			opacity: 1;
+			height: 80px !important;
+			.transition(none);
+			p {
+				opacity: 1;
+			}
+			.mutualfriends, .status {
+				display: none;
+				visibility: hidden;
+			}
+			.requestPending {
+				display: inline-block;
+				visibility: visible;
+			}
+		}
+	}
+	&.requested {
+		.pushup {
+			opacity: 1;
+			height: 80px !important;
+			p {
+				opacity: 1;
+			}
+		}
+		.optionsBar {
+			height: 35px;
+			padding-top: 0;
+			display: inline-block;
+			visibility: visible;
+			.requestedYou {
+				.column(12);
+				margin-top: 5px;
+				margin-left: 2.5%;
+			}
+			button {
+				.column(6);
+				margin-bottom: 5px;
+				padding: 3px;
+				span {
+					width: 100%;
+					text-align: center;
+					margin-top: 0px;
+				}
+			}
+			.sendMessage, .removeUser {
+				display: none;
+				visibility: hidden;
 			}
 		}
 	}
