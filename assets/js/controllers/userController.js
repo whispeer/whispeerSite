@@ -18,6 +18,18 @@ define(["step", "whispeerHelper", "asset/resizableImage", "asset/state"], functi
 		$scope.notExisting = false;
 		$scope.loadingFriends = true;
 		$scope.verifyNow = false;
+		
+		$scope.verifyCode = false;
+		$scope.verifyQr = false;
+		
+		$scope.verifyWithCode = function () {
+			$scope.verifyCode = true;
+		};
+		
+		$scope.verifyWithQrCode = function () {
+			console.log("click!");
+			$scope.verifyQr = true;
+		};
 
 		$scope.givenPrint = "";
 

@@ -46,9 +46,7 @@
 					text-align: center;
 					position: relative;
 					color: #fff;
-					.icon {
-						cursor: pointer;
-					}
+					cursor: pointer;
 					&[data-trustlevel="0"] {
 						background: @red;
 						.box-shadow(0px 0px 5px @red);
@@ -62,15 +60,6 @@
 					&[data-trustlevel="3"] {
 						background: @green;
 						.box-shadow(0px 0px 5px @primaryLightest);
-					}
-					#verifyUser {
-						input, button {
-							.column(12);
-							margin-bottom: 5px;
-						}
-						input {
-							margin-top: 2px;
-						}
 					}
 				}
 			}
@@ -289,6 +278,12 @@
 			#friendsList {
 				.clear-fix;
 				text-align: center;
+			}
+		}
+		#verifyUser {
+			padding-top: 0;
+			.qrScanner {
+				background-color: @red;
 			}
 		}
 	}
