@@ -16,10 +16,14 @@
 				<savebutton class="btn--input" data-state="verifyingUser" data-ng-click="verify(givenPrint)"></savebutton>
 			</div>	
 		</div>
-		<div class="verify" data-ng-if="verifyQr">
+		<div class="verify" data-ng-show="verifyQr">
 			<h3 data-i18n="profile.trustmanager.verifyUser|user={{user.names.firstname}}"></h3>
 			<span data-i18n="profile.trustmanager.verifyInfo.qr|user={{user.names.firstname}}"></span>
-			<div class="qrScanner"></div>
+			<div class="qrScanner">
+				<video data-ng-show="!codeRead" id="qrCodeVideo" autoplay width="400px"></video>
+
+				<canvas id="qr-canvas" style="display: none"></canvas>
+			</div>
 		</div>
 	</article>
 </section>
