@@ -213,7 +213,11 @@
 			"verifyUser":	"Verifiziere {user}",
 			"verifyWithCode":	"Fingerprint manuell eingeben",
 			"verifyWithQr":		"Fignerprint als QR-Code Scannen",
-			"chooseVerifyMethod":	"Wie möchtest du {user} verifizieren?"
+			"chooseVerifyMethod":	"Wie möchtest du {user} verifizieren?",
+			"qrSaveButton":	{
+				"fail":	"Der Fingerprint stimmt nicht! Bitte versuche es erneut!",
+				"pending":	"Der Fingerprint wird überprüft!"
+			}
 		},
 		"section":	{
 			"general": {
