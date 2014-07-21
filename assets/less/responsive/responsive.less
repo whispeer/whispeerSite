@@ -1,29 +1,32 @@
 // Responsive Styles
-// --------------------------- 
+// ---------------------------
 
 /* Smartphones (portrait and landscape) */
-@media only screen 
-and (min-width : 319px) 
+@media only screen
+and (min-width : 319px)
 and (max-width : 767px) {
 	@import "mobile/index";
+	#messages > .message-mixin(@form-height: 30px);
 }
 
 /* Tablets --------------------------- */
-	
+
 	// Tablets (landscape) -----------
-	@media only screen 
-	and (min-width : 768px) 
-	and (max-width : 1024px) 
+	@media only screen
+	and (min-width : 768px)
+	and (max-width : 1024px)
 	and (orientation : landscape) {
 		@import "tablet/landscape/index";
+		#messages > .message-mixin();
 	}
-	
+
 	// Tablets (portrait) -----------
-	@media only screen 
-	and (min-width : 768px) 
-	and (max-width : 1024px) 
+	@media only screen
+	and (min-width : 768px)
+	and (max-width : 1024px)
 	and (orientation : portrait) {
 		@import "tablet/portrait/index";
+		#messages > .message-mixin();
 	}
 
 /* Small Screens --------------------- */
@@ -31,19 +34,22 @@ and (max-width : 767px) {
 and (min-width: 1025px)
 and (max-width: 1159px) {
 	@import "smallScreen/index";
+	#messages > .message-mixin();
 }
 
 /* Normal Screens -------------------- */
-@media only screen 
+@media only screen
 and (min-width: 1160px)
 and (max-width: 1823px) {
 	@import "normalScreen/index";
+	#messages > .message-mixin();
 }
 
 /* Large screens --------------------- */
-@media only screen 
+@media only screen
 and (min-width : 1824px) {
 	@import "largeScreen/index";
+	#messages > .message-mixin();
 }
 
 /* Utilities ------------------------- */
