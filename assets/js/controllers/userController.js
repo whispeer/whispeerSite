@@ -22,6 +22,7 @@ define(["step", "whispeerHelper", "asset/resizableImage", "asset/state", "libs/q
 		$scope.verifyCode = false;
 
 		$scope.qr = {
+			available: navigator.getUserMedia || navigator.mozGetUserMedia || navigator.webkitGetUserMedia,
 			view: false,
 			read: false
 		};
