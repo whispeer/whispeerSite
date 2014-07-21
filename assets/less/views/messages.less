@@ -1,3 +1,4 @@
+
 #messages {
 
 	// Some adjustable heights:
@@ -35,7 +36,10 @@
 	@message-preview-lineheight: 20px;
 	@preview-lines: 2;
 
-	.message-mixin(@form-height: @form-height) {
+	@topic-list-columns: 5, 16, left, 0;
+
+	.message-mixin(@form-height: @form-height,
+								 @topic-list-columns: @topic-list-columns) {
 
 		.messagesView {
 
@@ -71,7 +75,7 @@
 		}
 
 		#newmessage {
-			.column(5, 16, left, 0);
+			.column-splat(@topic-list-columns);
 			&.topic {
 				border: none;
 				background: transparent;
@@ -84,7 +88,8 @@
 		}
 
 		#topicListWrap {
-			.column(5, 16, left, 0);
+
+			.column-splat(@topic-list-columns);
 
 			height: 100%;
 			overflow-y: scroll;

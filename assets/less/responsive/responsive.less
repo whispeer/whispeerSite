@@ -6,7 +6,10 @@
 and (min-width : 319px)
 and (max-width : 767px) {
 	@import "mobile/index";
-	#messages > .message-mixin(@form-height: 30px);
+	#messages > .message-mixin(
+		@form-height: 40px;
+		@topic-list-columns: 1, 1, left, 0
+	);
 }
 
 /* Tablets --------------------------- */
