@@ -1017,7 +1017,7 @@
       data = normalizeData(data);
 
       // Module size of the generated QR code (i.e. 1-10).
-      var size = data.size >= 1 && data.size <= 10 ? data.size : 4;
+      var size = data.size >= 1 && data.size <= 25 ? data.size : 4;
       // Actual size of the QR code symbol and is scaled to 25 pixels (e.g. 1 = 25px, 3 = 75px).
       size *= 25;
 
