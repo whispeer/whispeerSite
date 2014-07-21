@@ -30,13 +30,23 @@ define(["step", "whispeerHelper", "asset/resizableImage", "asset/state", "libs/q
 			$scope.verifyCode = true;
 		};
 		
-		var gCanvas, gCtx, theStream;
+		var theStream;
 
 		function captureToCanvas() {
 			if (!$scope.qr.read) {
-				try{
+				try {
+					var width = 800;
+					var height = 600;
+
+					var gCanvas = document.createElement("canvas");
+					gCanvas.width = width;
+					gCanvas.height = height;
+
+					var gCtx = gCanvas.getContext("2d");
+					gCtx.clearRect(0, 0, width, height);
+
 					gCtx.drawImage(document.getElementById("qrCodeVideo"), 0, 0);
-					var codeText = qrreader.decode();
+					var codeText = qrreader.decodeCanvas(gCanvas);
 
 					$scope.qr.read = true;
 					theStream.stop();
@@ -53,20 +63,8 @@ define(["step", "whispeerHelper", "asset/resizableImage", "asset/state", "libs/q
 		$scope.verifyWithQrCode = function () {
 			$scope.qr.view = true;
 
-			var width = 800;
-			var height = 600;
-
 			var webkit=false;
 			var moz=false;
-
-			gCanvas = document.getElementById("qr-canvas");
-			gCanvas.style.width = width + "px";
-			gCanvas.style.height = height + "px";
-			gCanvas.width = width;
-			gCanvas.height = height;
-
-			gCtx = gCanvas.getContext("2d");
-			gCtx.clearRect(0, 0, width, height);
 
 			step(function () {
 				if(navigator.getUserMedia) {

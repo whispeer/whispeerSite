@@ -21,8 +21,8 @@
 			<span data-i18n="profile.trustmanager.verifyInfo.qr|user={{user.names.firstname}}"></span>
 			<div class="qrScanner">
 				<video id="qrCodeVideo" autoplay width="100%"></video>
-				<canvas id="qr-canvas" data-ng-show="!qr.read"></canvas>
-				<savebutton data-state="verifyingUser" data-translation="profile.trustmanager.qrSaveButton"></savebutton>
+				{{qrCode}}
+				<savebutton data-ng-if="qr.read" data-state="verifyingUser" data-translation="profile.trustmanager.qrSaveButton"></savebutton>
 			</div>
 		</div>
 	</article>
