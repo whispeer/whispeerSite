@@ -2,7 +2,7 @@
 * friendsController
 **/
 
-define(["whispeerHelper", "step", "asset/state"], function (h, step, State) {
+define(["whispeerHelper", "step", "asset/state", "libs/qr"], function (h, step, State, qr) {
 	"use strict";
 
 	function settingsController($scope, errorService, cssService, settingsService, userService) {
@@ -44,6 +44,12 @@ define(["whispeerHelper", "step", "asset/state"], function (h, step, State) {
 			$scope.lastName = names.lastname;
 			$scope.nickName = names.nickname;
 			$scope.fingerprint = userService.getown().data.fingerprint;
+
+			qr.image({
+				image: document.getElementById("fingerPrintQR"),
+				value: $scope.fingerprint,
+				level: "M"
+			});
 		}), errorService.criticalError);
 
 		$scope.saveGeneral = function () {
