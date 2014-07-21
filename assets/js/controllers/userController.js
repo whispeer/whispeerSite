@@ -24,7 +24,13 @@ define(["step", "whispeerHelper", "asset/resizableImage", "asset/state", "libs/q
 		$scope.qr = {
 			available: navigator.getUserMedia || navigator.mozGetUserMedia || navigator.webkitGetUserMedia,
 			view: false,
-			read: false
+			read: false,
+			reset: function () {
+				if (saveUserState.isFailed()) {
+					$scope.qr.read = false;
+					initializeReader();
+				}
+			}
 		};
 		
 		$scope.verifyWithCode = function () {
@@ -61,9 +67,7 @@ define(["step", "whispeerHelper", "asset/resizableImage", "asset/state", "libs/q
 			}
 		}
 
-		$scope.verifyWithQrCode = function () {
-			$scope.qr.view = true;
-
+		function initializeReader() {
 			var webkit=false;
 			var moz=false;
 
@@ -92,6 +96,12 @@ define(["step", "whispeerHelper", "asset/resizableImage", "asset/state", "libs/q
 
 				$timeout(captureToCanvas, 500);
 			}), errorService.criticalError);
+		}
+
+		$scope.verifyWithQrCode = function () {
+			$scope.qr.view = true;
+
+			initializeReader();
 		};
 
 		$scope.givenPrint = "";

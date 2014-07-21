@@ -22,7 +22,7 @@
 			<div class="qrScanner">
 				<video id="qrCodeVideo" autoplay width="100%"></video>
 				{{qrCode}}
-				<savebutton data-state="verifyingUser" data-translation="profile.trustmanager.qrSaveButton"></savebutton>
+				<savebutton data-ng-click="qr.reset()" data-ng-if="qr.read" data-state="verifyingUser" data-translation="profile.trustmanager.qrSaveButton"></savebutton>
 			</div>
 		</div>
 	</article>
