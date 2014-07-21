@@ -7,6 +7,7 @@
 			<h3 data-i18n="profile.trustmanager.chooseVerifyMethod|user={{user.names.firstname}}"></h3>
 			<button class="btn btn--big btn--primary" data-ng-click="verifyWithCode()" data-i18n="profile.trustmanager.verifyWithCode"></button>
 			<button class="btn btn--big btn--primary" data-ng-if="qr.available" data-ng-click="verifyWithQrCode()" data-i18n="profile.trustmanager.verifyWithQr"></button>
+			<button class="btn btn--big btn--primary" data-ng-if="!qr.available" data-ng-click="verifyWithQrCode()" data-i18n="profile.trustmanager.verifyWithQr" disabled></button>
 		</div>
 		<div class="verify" data-ng-if="verifyCode">
 			<h3 data-i18n="profile.trustmanager.verifyUser|user={{user.names.firstname}}"></h3>
