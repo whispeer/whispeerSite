@@ -3,5 +3,8 @@
 	<i data-ng-if="state.init && initIcon" class="icon {{initIcon}}"></i>
 	<i data-ng-if="state.failed && failureIcon" class="icon {{failureIcon}}"></i>
 	<i data-ng-if="state.pending" class="icon icon-spinner animate-spin"></i>
-	<span data-i18n="{{translation}}"></span>
+	<span data-ng-if="state.success" data-i18n="{{translation}}.success"></span>
+	<span data-ng-if="state.init" data-i18n="{{translation}}.init"></span>
+	<span data-ng-if="state.failed" data-i18n="{{translation}}.fail"></span>
+	<span data-ng-if="state.pending" data-i18n="{{translation}}.pending"></span>
 </button>
