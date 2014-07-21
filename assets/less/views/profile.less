@@ -282,8 +282,25 @@
 		}
 		#verifyUser {
 			padding-top: 0;
+			#qr-canvas {
+				display: none;
+				visibility: hidden;
+			}
+			#qrCodeVideo {
+				width: 100%;
+				margin-right: -1px;
+			}
 			.qrScanner {
-				background-color: @red;
+				button {
+					&.failure, &.pending {
+						span {
+							.column(11);
+						}
+						i {
+							.column(1);
+						}
+					}	
+				}
 			}
 		}
 	}
