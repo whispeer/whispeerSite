@@ -20,39 +20,38 @@ define(["step", "whispeerHelper", "asset/resizableImage", "asset/state", "libs/q
 		$scope.verifyNow = false;
 		
 		$scope.verifyCode = false;
-		$scope.verifyQr = false;
 
-		$scope.codeRead = false;
+		$scope.qr = {
+			view: false,
+			read: false
+		};
 		
 		$scope.verifyWithCode = function () {
 			$scope.verifyCode = true;
 		};
 		
-		function read(a) {
-			$scope.codeRead = true;
-
-			jQuery("#qrresult").text(a);
-		}
-
-		var gCanvas, gCtx;
+		var gCanvas, gCtx, theStream;
 
 		function captureToCanvas() {
-			if (!$scope.codeRead) {
+			if (!$scope.qr.read) {
 				try{
 					gCtx.drawImage(document.getElementById("qrCodeVideo"), 0, 0);
-					qrreader.decode();
+					var codeText = qrreader.decode();
+
+					$scope.qr.read = true;
+					theStream.stop();
+					$scope.qrCode = codeText;
+
+					$scope.verify(codeText);
 				} catch(e) {
-					jQuery("#qrresult").text(e);
-					console.log(e);
-					setTimeout(captureToCanvas, 500);
+					$scope.qrCode = "error:" + e;
+					$timeout(captureToCanvas, 500);
 				}
 			}
 		}
 
 		$scope.verifyWithQrCode = function () {
-			jQuery("#qrresult").text("scanning");
-			console.log("click!");
-			$scope.verifyQr = true;
+			$scope.qr.view = true;
 
 			var width = 800;
 			var height = 600;
@@ -69,8 +68,6 @@ define(["step", "whispeerHelper", "asset/resizableImage", "asset/state", "libs/q
 			gCtx = gCanvas.getContext("2d");
 			gCtx.clearRect(0, 0, width, height);
 
-			qrreader.callback = read;
-
 			step(function () {
 				if(navigator.getUserMedia) {
 					navigator.getUserMedia({video: true, audio: false}, this.ne, this);
@@ -82,6 +79,7 @@ define(["step", "whispeerHelper", "asset/resizableImage", "asset/state", "libs/q
 					navigator.mozGetUserMedia({video: true, audio: false}, this.ne, this);
 				}
 			}, h.sF(function (stream) {
+				theStream = stream;
 				var v = document.getElementById("qrCodeVideo");
 
 				if(webkit) {
@@ -93,7 +91,7 @@ define(["step", "whispeerHelper", "asset/resizableImage", "asset/state", "libs/q
 					v.src = stream;
 				}
 
-				setTimeout(captureToCanvas, 500);
+				$timeout(captureToCanvas, 500);
 			}), errorService.criticalError);
 		};
 

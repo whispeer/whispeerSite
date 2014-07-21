@@ -2267,6 +2267,21 @@ define([], function () {
 
 	qrcode.callback = null;
 
+	qrcode.decodeCanvas = function (ele) {
+        var canvas_qr = ele;
+        var context = canvas_qr.getContext('2d');
+        qrcode.width = canvas_qr.width;
+        qrcode.height = canvas_qr.height;
+        qrcode.imagedata = context.getImageData(0, 0, qrcode.width, qrcode.height);
+        qrcode.result = qrcode.process(context);
+
+        if(qrcode.callback!=null) {
+            qrcode.callback(qrcode.result);
+        }
+
+        return qrcode.result;
+	};
+
 	qrcode.decode = function(src){
 	    
 	    if(arguments.length==0)
