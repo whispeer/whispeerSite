@@ -42,10 +42,8 @@ define(["whispeerHelper", "asset/enum"], function (h, Enum) {
 	};
 
 	State.prototype.pending = function () {
-		if (this._state === states.INIT) {
-			this._state = states.PENDING;
-			this._turnOneDataTrue();
-		}
+		this._state = states.PENDING;
+		this._turnOneDataTrue();
 	};
 
 	State.prototype.isPending = function () {

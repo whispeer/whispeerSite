@@ -2,7 +2,7 @@
 * messagesController
 **/
 
-define(["step", "whispeerHelper"], function (step, h) {
+define(["step", "whispeerHelper", "asset/state"], function (step, h, State) {
 	"use strict";
 
 	function messagesController($scope, $routeParams, $location, $timeout, errorService, cssService, messageService) {
@@ -51,7 +51,10 @@ define(["step", "whispeerHelper"], function (step, h) {
 			text: "",
 			selectedElements: [],
 			send: function (receiver, text) {
+				sendMessageState.pending();
+
 				if (text === "") {
+					sendMessageState.failed();
 					return;
 				}
 
@@ -61,10 +64,10 @@ define(["step", "whispeerHelper"], function (step, h) {
 						$scope.create.selectedElements = [];
 						$scope.loadActiveTopic(id);
 						$scope.$broadcast("resetSearch");
-					} else {
-						errorService.criticalError(e);
 					}
-				});
+
+					this.ne(e);
+				}, errorService.failOnError(sendMessageState));
 			}
 		};
 
@@ -113,6 +116,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 				id = parseInt(id, 10);
 				if ($scope.topicid !== id || !$scope.topicLoaded) {
 					$scope.topicid = id;
+					sendMessageState.reset();
 					messageService.setActiveTopic(id);
 					messageService.getTopic(id, this);
 				}
@@ -138,19 +142,33 @@ define(["step", "whispeerHelper"], function (step, h) {
 			}));
 		};
 
+		var sendMessageState = new State();
+		$scope.sendMessageState = sendMessageState.data;
+
 		$scope.sendMessage = function () {
-			if ($scope.activeTopic.newMessage === "") {
+			sendMessageState.pending();
+
+			var n = $scope.activeTopic.newMessage;
+			if (typeof n === "undefined" || n === "") {
+				sendMessageState.failed();
 				return;
 			}
 
 			$scope.canSend = false;
 
 			step(function () {
-				messageService.sendMessage($scope.activeTopic.id, $scope.activeTopic.newMessage, this);
-			}, function () {
+				messageService.sendMessage($scope.activeTopic.id, n, this);
+			}, function (e) {
 				$scope.canSend = true;
-				$scope.activeTopic.newMessage = "";
-			});
+				if (!e) {
+					$scope.activeTopic.newMessage = "";
+					$timeout(function () {
+						sendMessageState.reset();
+					}, 2000);
+				}
+
+				this(e);
+			}, errorService.failOnError(sendMessageState));
 		};
 
 

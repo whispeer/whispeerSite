@@ -15,7 +15,8 @@
 		<header><span class="title" data-i18n="settings.changes.general.title"></span></header>
 		<div class="config" id="fingerprint">
 			<h5 data-i18n="settings.changes.general.fingerprints.title"></h5>
-			<input readonly="readonly" id="yourFingerprint" type="text" data-ng-model="fingerprint">
+			<p><input readonly="readonly" id="yourFingerprint" type="text" data-ng-model="fingerprint"></p>
+			<img id="fingerPrintQR">
 		</div>
 		<div class="config" id="sendMethod">
 			<h5 data-i18n="settings.changes.general.sendMethod.title"></h5>
@@ -54,23 +55,23 @@
 			<h5 data-i18n="settings.changes.changeName"></h5>
 			<input type="text" id="firstname" data-ng-model="firstName" data-i18n-attr="settings.safety.attributes.names.firstname|placeholder">
 			<input type="text" id="lastname" data-ng-model="lastName" data-i18n-attr="settings.safety.attributes.names.lastname|placeholder">
-			<button type="submit" data-ng-click="saveName()"><i class="icon-ok-circle"></i> <span data-i18n="settings.changes.save"></span></button>
+			<savebutton state="saveNameState" data-translation="settings.changes.save" data-ng-click="saveName()"></savebutton>
 		</div>
 		<div class="config" id="nickname">
 			<h5 data-i18n="settings.changes.changeUsername"></h5>
-			<input type="text" id="newNickname" data-ng-model="nickName" data-i18n-attr="settings.safety.attributes.names.username|placeholder">
-			<button type="submit" data-ng-click="saveNickName()"><i class="icon-ok-circle"></i> <span data-i18n="settings.changes.save"></span></button>
+			<input disabled="disabled" type="text" id="newNickname" data-ng-model="nickName" data-i18n-attr="settings.safety.attributes.names.username|placeholder">
+			<button disabled="disabled" type="submit" data-ng-click="saveNickName()"><i class="icon-ok-circle"></i> <span data-i18n="settings.changes.save"></span></button>
 		</div>
 		<div class="config" id="mail">
 			<h5 data-i18n="settings.changes.changeMail"></h5>
-			<input type="text" id="email" data-ng-model="mail" data-i18n-attr="settings.changes.mail|placeholder">
-			<button type="submit" data-ng-click="saveMail()"><i class="icon-ok-circle"></i> <span data-i18n="settings.changes.save"></span></button>
+			<input disabled="disabled" type="text" id="email" data-ng-model="mail" data-i18n-attr="settings.changes.mail|placeholder">
+			<button disabled="disabled" type="submit" data-ng-click="saveMail()"><i class="icon-ok-circle"></i> <span data-i18n="settings.changes.save"></span></button>
 		</div>
 		<div class="config" id="password">
 			<h5 data-i18n="settings.changes.changePassword"></h5>
-			<input type="password" id="newPassword" data-i18n-attr="login.password|placeholder">
-			<input type="password" id="newPassword2" data-i18n-attr="login.register.repeatPassword|placeholder">
-			<button type="submit" data-ng-click="savePassword()"><i class="icon-ok-circle"></i> <span data-i18n="settings.changes.save"></span></button>
+			<input disabled="disabled" type="password" id="newPassword" data-i18n-attr="login.password|placeholder">
+			<input disabled="disabled" type="password" id="newPassword2" data-i18n-attr="login.register.repeatPassword|placeholder">
+			<button disabled="disabled" type="submit" data-ng-click="savePassword()"><i class="icon-ok-circle"></i> <span data-i18n="settings.changes.save"></span></button>
 		</div>
 	</section>
 	<section id="safety">
@@ -102,7 +103,7 @@
 			<div data-ng-if="safety[name].encrypt"><filtersearch data-res="safety[name]" data-res-attr="visibility" data-selected="safety[name].visibility" data-input-i18n-attr="settings.safety.whomayseeit.{{name}}|placeholder" class="whoMaySeeIt"></filtersearch></div>
 		</div>
 		<savebutton class="settingsFormButton" state="saveSafetyState" data-translation="settings.changes.save" data-ng-click="saveSafety()"></savebutton>
-		<button class="settingsFormButton" type="submit" data-ng-click="resetSafety()"><i class="icon-cancel-circle"></i> <span data-i18n="settings.safety.reset"></span></button>
+		<savebutton class="settingsFormButton" initicon="icon-cancel-circle" successicon="icon-cancel-circle" state="resetSafetyState" data-translation="settings.safety.reset" data-ng-click="resetSafety()"></savebutton>
 	</section>
 <!--
 	<section id="notifications">

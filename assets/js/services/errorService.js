@@ -7,6 +7,16 @@ define([], function () {
 				if (e) {
 					console.error(e);
 				}
+			},
+			failOnError: function (state) {
+				return function (e) {
+					if (e) {
+						state.failed();
+						api.criticalError(e);
+					} else {
+						state.success();
+					}
+				};
 			}
 		};
 
