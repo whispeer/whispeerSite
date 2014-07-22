@@ -1,10 +1,11 @@
 // Responsive Styles
 // ---------------------------
 
+@mobile: ~"only screen and (max-width : 767px)";
+@desktop: ~"only screen and (min-width: 768px)";
+
 /* Smartphones (portrait and landscape) */
-@media only screen
-and (min-width : 319px)
-and (max-width : 767px) {
+@media @mobile {
 	@import "mobile/index";
 	#messages > .message-mixin(
 		@form-height: 40px;
@@ -13,12 +14,7 @@ and (max-width : 767px) {
 }
 
 /* Normal Screens -------------------- */
-@media only screen
-and (min-width: 1160px)
-and (max-width: 1823px) {
+@media @desktop {
 	@import "normalScreen/index";
 	#messages > .message-mixin();
 }
-
-/* Utilities ------------------------- */
-@import "utilities.less";
