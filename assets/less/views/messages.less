@@ -72,6 +72,17 @@
 				overflow: hidden;
 				header {
 					overflow: hidden;
+					.title {
+						display: none;
+						visibility: hidden;
+						&.chat, &.newMessage {
+							.column(6,7);
+							visibility: visible;
+						}
+						overflow: hidden;
+						text-overflow: ellipsis;
+						white-space: nowrap;
+					}
 				}
 			}
 
