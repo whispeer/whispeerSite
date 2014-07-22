@@ -4,17 +4,10 @@
 @mobile: ~"only screen and (max-width : 767px)";
 @desktop: ~"only screen and (min-width: 768px)";
 
-/* Smartphones (portrait and landscape) */
 @media @mobile {
 	@import "mobile/index";
-	#messages > .message-mixin(
-		@form-height: 40px;
-		@topic-list-columns: 1, 1, left, 0
-	);
 }
 
-/* Normal Screens -------------------- */
 @media @desktop {
 	@import "normalScreen/index";
-	#messages > .message-mixin();
 }

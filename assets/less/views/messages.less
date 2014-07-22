@@ -36,10 +36,7 @@
 	@message-preview-lineheight: 20px;
 	@preview-lines: 2;
 
-	@topic-list-columns: 5, 16, left, 0;
-
-	.message-mixin(@form-height: @form-height,
-								 @topic-list-columns: @topic-list-columns) {
+	.message-mixin(@form-height: @form-height) {
 
 		.messagesView {
 
@@ -89,7 +86,8 @@
 		}
 
 		#newmessage {
-			.column-splat(@topic-list-columns);
+			@media @desktop { .column(5, 16, left, 0); }
+			@media @mobile { .column(1, 1, left, 0); }
 			&.topic {
 				border: none;
 				background: transparent;
@@ -103,7 +101,8 @@
 
 		#topicListWrap {
 
-			.column-splat(@topic-list-columns);
+			@media @desktop { .column(5, 16, left, 0); }
+			@media @mobile { .column(1, 1, left, 0); }
 
 			height: 100%;
 			overflow-y: scroll;
