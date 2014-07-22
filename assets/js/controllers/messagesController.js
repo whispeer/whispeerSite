@@ -2,7 +2,7 @@
 * messagesController
 **/
 
-define(["step", "whispeerHelper"], function (step, h) {
+define(["step", "whispeerHelper", "asset/state"], function (step, h, State) {
 	"use strict";
 
 	function messagesController($scope, $routeParams, $location, $timeout, errorService, cssService, messageService) {
@@ -11,9 +11,9 @@ define(["step", "whispeerHelper"], function (step, h) {
 		$scope.topicid = 0;
 		$scope.showMessage = !$scope.mobile;
 
-		$scope.$watch(function () { return $routeParams["userid"]; }, function () {
-			if ($routeParams["userid"]) {
-				$scope.userid = $routeParams["userid"];
+		$scope.$watch(function () { return $routeParams.userid; }, function () {
+			if ($routeParams.userid) {
+				$scope.userid = $routeParams.userid;
 				step(function () {
 					messageService.getUserTopic($scope.userid, this);
 				}, h.sF(function (topicid) {
@@ -24,17 +24,17 @@ define(["step", "whispeerHelper"], function (step, h) {
 			}
 		});
 
-		$scope.$watch(function(){ return $routeParams["topicid"]; }, function(){
-			if ($routeParams["topicid"]) {
-				$scope.loadActiveTopic($routeParams["topicid"]);
+		$scope.$watch(function(){ return $routeParams.topicid; }, function(){
+			if ($routeParams.topicid) {
+				$scope.loadActiveTopic($routeParams.topicid);
 			} else {
 				$scope.topicLoaded = false;
 			}
 		});
 
 		messageService.loadMoreLatest(function (e) {
-			if ($routeParams["topicid"]) {
-				$scope.loadActiveTopic($routeParams["topicid"]);
+			if ($routeParams.topicid) {
+				$scope.loadActiveTopic($routeParams.topicid);
 			}
 
 			errorService.criticalError(e);
@@ -47,21 +47,27 @@ define(["step", "whispeerHelper"], function (step, h) {
 			return ($scope.topicid === parseInt(topic.id, 10));
 		};
 
-		$scope.new = {
+		$scope.create = {
 			text: "",
 			selectedElements: [],
 			send: function (receiver, text) {
+				sendMessageState.pending();
+
+				if (text === "") {
+					sendMessageState.failed();
+					return;
+				}
+
 				messageService.sendNewTopic(receiver, text, function (e, id) {
 					if (!e) {
-						$scope.new.text = "";
-						$scope.new.selectedElements = [];
+						$scope.create.text = "";
+						$scope.create.selectedElements = [];
 						$scope.loadActiveTopic(id);
 						$scope.$broadcast("resetSearch");
-					} else {
-						//TODO!!
-						debugger;
 					}
-				});
+
+					this.ne(e);
+				}, errorService.failOnError(sendMessageState));
 			}
 		};
 
@@ -110,6 +116,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 				id = parseInt(id, 10);
 				if ($scope.topicid !== id || !$scope.topicLoaded) {
 					$scope.topicid = id;
+					sendMessageState.reset();
 					messageService.setActiveTopic(id);
 					messageService.getTopic(id, this);
 				}
@@ -135,14 +142,33 @@ define(["step", "whispeerHelper"], function (step, h) {
 			}));
 		};
 
+		var sendMessageState = new State();
+		$scope.sendMessageState = sendMessageState.data;
+
 		$scope.sendMessage = function () {
+			sendMessageState.pending();
+
+			var n = $scope.activeTopic.newMessage;
+			if (typeof n === "undefined" || n === "") {
+				sendMessageState.failed();
+				return;
+			}
+
+			$scope.canSend = false;
+
 			step(function () {
-				$scope.canSend = false;
-				messageService.sendMessage($scope.activeTopic.id, $scope.activeTopic.newMessage, this);
-			}, function () {
+				messageService.sendMessage($scope.activeTopic.id, n, this);
+			}, function (e) {
 				$scope.canSend = true;
-				$scope.activeTopic.newMessage = "";
-			});
+				if (!e) {
+					$scope.activeTopic.newMessage = "";
+					$timeout(function () {
+						sendMessageState.reset();
+					}, 2000);
+				}
+
+				this(e);
+			}, errorService.failOnError(sendMessageState));
 		};
 		
 

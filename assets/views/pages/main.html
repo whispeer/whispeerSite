@@ -2,9 +2,9 @@
 	<header>
 		<button class="btn btn--primary activatePost" data-ng-if="!postActive && mobile" data-ng-click="togglePost()" data-i18n="wall.createPost"></button>
 		<form data-ng-if="postActive || !mobile" class="form-inline" id="postIt">
-			<textarea data-ng-model="newPost.text" data-i18n-attr="wall.postit.text|placeholder" id="shareText"></textarea>
+			<textarea data-strg-enter="sendPost()" data-ng-model="newPost.text" data-i18n-attr="wall.postit.text|placeholder" id="shareText" data-ng-disabled="!canSend"></textarea>
 			<filtersearch data-internalid="postReaders" data-selected="newPost.readers" data-input-i18n-attr="wall.postit.receiver|placeholder" id="receiver" />
-			<button type="submit" data-i18n="wall.postit.send" data-ng-click="sendPost()"></button>
+			<savebutton data-translation="wall.postit.send" data-ng-click="sendPost()" data-state="sendPostState" data-noiniticon data-ng-disabled="!canSend"></savebutton>
 		</form>
 		<div id="filter">
 			<button class="title" data-i18n="wall.filter.title" data-ng-click="toggleFilter()"></button>

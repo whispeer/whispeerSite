@@ -65,6 +65,9 @@ body {
 					overflow: hidden;
 					margin-bottom: 2%;
 					.border-radius(25px);
+					&.full {
+						.width(12);
+					}
 					li {
 						.btn;
 						.btn--green;
@@ -84,13 +87,23 @@ body {
 								font-size: 1.2em;
 								text-align: center;
 								margin-top: 4px;
+								&.badge {
+									width: 18px;
+									height: 18px;
+									display: block;
+									margin: 0 auto;
+									float: none;
+									font-size: 0.8em;
+								}
 							}
 						}
 					}
 					img {
 						.column(5);
 						.push(3.5);
-						.border-radius(5px);
+						&.userimg {
+							.border-radius(100%);
+						}
 					}
 					i {
 						font-size: (400 + (100/12)*5%);

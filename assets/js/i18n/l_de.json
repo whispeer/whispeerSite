@@ -114,7 +114,8 @@
 		"help": "Hilfe",
 		"logout": "Logout",
 		"search": "Suchen...",
-		"legal":	"Rechtliches"
+		"legal":	"Rechtliches",
+		"notifications":	"Mitteilungen"
 	},
 	"login": {
 		"username": "Benutzername",
@@ -202,6 +203,10 @@
 			"addFriend":	"{user} als Freund hinzufügen",
 			"addToCircle":	"Zu welchen Kreisen möchtest du {user} hinzufügen?",
 			"sendMessage": "{user} eine Nachricht senden"
+		},
+		"trustmanager" : {
+			"verifyTitle":	"Benutzer verifizieren",
+			"verifyInfo":	"Um den Benutzer zu verifizieren gebe bitte seinen Fingerprint hier ein. Diesen kann er unter \"Einstellungen\" -> \"Dein Fingerprint\" ablesen."
 		},
 		"section":	{
 			"general": {
@@ -385,7 +390,23 @@
 			"title":	"Einstellungen"
 		},
 		"changes": {
-			"General": "Allgemein",
+			"general": {
+				"title": "Allgemein",
+				"sendMethod": {
+					"title":		"Wie möchtest du Nachrichten absenden?",
+					"enter":		"Enter",
+					"ctrlEnter":	"STRG Enter"
+				},
+				"notificationSounds": {
+					"title":		"Benachrichtigungstöne",
+					"on":			"An",
+					"off":			"Aus"	
+				},
+				"fingerprints": {
+					"title":	"Dein Fingerprint"
+				}
+			},	
+			"account":	"Benutzerkonto",
 			"changeName": "Namen ändern",
 			"changeUsername": "Usernamen ändern",
 			"changeMail": "E-Mail Adresse ändern",

@@ -1,4 +1,4 @@
-define(["libs/sjcl", "whispeerHelper"], function (sjcl, h) {
+define(["libs/sjcl", "whispeerHelper", "asset/errors"], function (sjcl, h, errors) {
 	"use strict";
 	var helper = {
 		getCurveName: function (curve) {
@@ -34,7 +34,7 @@ define(["libs/sjcl", "whispeerHelper"], function (sjcl, h) {
 			}
 
 			//TODO
-			throw new InvalidHexError();
+			throw new errors.InvalidHexError();
 		},
 		bits2hex: function (t) {
 			if (typeof t === "string") {

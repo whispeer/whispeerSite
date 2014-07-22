@@ -1,12 +1,12 @@
 define(["step", "whispeerHelper"], function (step, h) {
 	"use strict";
 
-	function filterSearchDirective(userService, $timeout, circleService, localize) {
+	function filterSearchDirective(keyStore, userService, $timeout, circleService, localize) {
 		return {
 			transclude: false,
 			scope:	false,
 			restrict: "E",
-			templateUrl: "/assets/views/directives/filterSearch.html",
+			templateUrl: "assets/views/directives/filterSearch.html",
 			replace: true,
 			link: function postLink(scope, iElement, iAttrs) {
 				//how do we sort stuff?
@@ -36,12 +36,12 @@ define(["step", "whispeerHelper"], function (step, h) {
 					}));
 				}
 
-				if (iAttrs["selected"]) {
+				if (iAttrs.selected) {
 					scope.$on("reloadInitialSelection", function () {
-						loadInitialSelection(iAttrs["selected"]);
+						loadInitialSelection(iAttrs.selected);
 					});
 
-					loadInitialSelection(iAttrs["selected"]);
+					loadInitialSelection(iAttrs.selected);
 				}
 
 				function getCircle(id, cb) {
@@ -57,11 +57,28 @@ define(["step", "whispeerHelper"], function (step, h) {
 					}), cb);
 				}
 
+				function getAlwaysCount(id) {
+					var key, me = userService.getown();
+
+					switch(id) {
+						case "allfriends":
+							key = me.getFriendsKey();
+							break;
+						case "friendsoffriends":
+							key = me.getFriendsLevel2Key();
+							break;
+						default:
+							return 0;
+					}
+
+					return keyStore.upload.getKeyAccessCount(key) - 1;
+				}
+
 				function getAlways(id, cb) {
 					cb(null, {
 						name: localize.getLocalizedString("directives." + id),
 						id: "always:" + id,
-						count: 0
+						count: getAlwaysCount(id)
 					});
 				}
 
@@ -113,7 +130,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 						return {
 							name: localize.getLocalizedString("directives." + e),
 							id: "always:" + e,
-							count: 0
+							count: getAlwaysCount(e)
 						};
 					});
 

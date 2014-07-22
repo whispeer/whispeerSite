@@ -8,7 +8,7 @@ define(["step", "whispeerHelper"], function () {
 			},
 			/* this is an element */
 			restrict: "E",
-			templateUrl: "/assets/views/directives/basicSearch.html",
+			templateUrl: "assets/views/directives/basicSearch.html",
 			/* replace given element */
 			replace: true,
 			transclude: true,
@@ -262,7 +262,7 @@ define(["step", "whispeerHelper"], function () {
 
 				var UP = [38, 33];
 				var DOWN = [40, 34];
-				var ENTER = [13];
+				var ENTER = 13;
 				var BACKSPACE = 8;
 
 				// left: 37, up: 38, right: 39, down: 40,
@@ -278,7 +278,7 @@ define(["step", "whispeerHelper"], function () {
 						addCurrent(1);
 					}
 
-					if (e.keyCode == BACKSPACE && scope.query.length === 0) {
+					if (e.keyCode === BACKSPACE && scope.query.length === 0) {
 						if (scope.markedForDeletion !== -1) {
 							scope.removeSelection(scope.markedForDeletion);
 						} else {
@@ -286,7 +286,7 @@ define(["step", "whispeerHelper"], function () {
 						}
 					}
 
-					if (e.keyCode == ENTER) {
+					if (e.keyCode === ENTER) {
 						scope.selectResult(scope.current);
 					}
 

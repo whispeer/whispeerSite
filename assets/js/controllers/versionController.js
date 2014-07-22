@@ -1,4 +1,4 @@
-define(["whispeerHelper", "step"], function (h, step) {
+define(["whispeerHelper"], function (h) {
 	"use strict";
 
 	function flattenObject(obj, concatString) {
@@ -34,7 +34,7 @@ define(["whispeerHelper", "step"], function (h, step) {
 
 		$scope.versions = [];
 
-		$http({ method: "GET", url: "changelog.json", cache: false }).success(function (data) {
+		$http({ method: "GET", url: "changelog.json?t=" + (new Date()).getTime(), cache: false }).success(function (data) {
 			if (typeof data === "object") {
 				var versionArray = flattenObject(data);
 

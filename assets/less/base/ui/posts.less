@@ -1,0 +1,113 @@
+.post {
+	border: none;
+	height: auto !important;
+	margin-top: 0px;
+	border-bottom: 1px solid #ccc;
+	.userimg {
+		img {
+			.border-radius(100%);
+			vertical-align: middle;
+			margin: 0;
+		}	
+	}
+	.postWrap {
+		//background: -webkit-linear-gradient(#fdfffc 0%, #f9fff3 100%);
+		.border-radius(10px);
+		//box-shadow: 0px 0px 3px 1px #ccc;
+		height: 100%;
+	}
+	.postContent {
+		background: transparent;
+		word-break: break-word !important;
+		.postText, .postImage {
+			padding-left: 10px;
+			.box-fix;
+			a {
+				word-break: break-all;
+				hyphens:	auto;
+			}
+		}
+		.postImage {
+			margin-top: 10px;
+		}
+		.author {
+			width: 100%;
+			float: left;
+			display: block;
+			.poster {
+				float: left;
+			}
+			.walluserWrap {
+				float: left;
+				max-width: none;
+				width: auto;
+				display: block;
+				.arrow {
+					float: left;
+					margin: 6px 5px;
+					display: block;
+				}
+				.walluser {
+					float: left;
+					width: 100%;
+					display: block;
+					position: relative;
+					margin: -20px 15px;
+				}
+			}
+		}
+	}
+	.postInfo {
+		margin-top: -5px;
+		margin-bottom: 10px;
+		text-align: right;
+		p {
+			margin: 0;
+			color: #aaa;
+			transition: color 0.3s ease;
+		}
+	}
+	ol.comments {
+		.unstyled;
+		//border: 1px solid @grayLight !important;
+		.border-radius(5px);
+		//background-color: @grayLighter;
+		overflow: hidden;
+		padding: 5px;
+		.box-fix;
+		li {
+			margin-bottom: 5px;
+			.gradient(lighten(@grayLight,30%), lighten(@grayLight,24%));
+			border: 1px solid #b2b2b2;
+			.border-radius(6px);
+			overflow-x: hidden;
+			&.header {
+				text-align: center;
+				.box-fix;
+			}
+			&.me {
+				.gradient(@primaryLighter, @primary);
+				color: #000;
+			}
+			img {
+			}
+			.text {
+				word-break: break-all;
+			}
+			aside {
+				font-size: 0.85em;
+			}
+			&.newComment {
+				input {
+					margin-top: 8px;
+				}
+				button {
+					margin-top: 10px;
+				}
+			}
+		}
+	}	
+	&:last-child {
+		border:none;
+	}
+}

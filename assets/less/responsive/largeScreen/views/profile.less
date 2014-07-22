@@ -7,9 +7,18 @@
 			heading {
 				.column(4,8);
 				h3 {
-					width: 100%;
 					padding: 3px;
 					margin: 0;
+					width: 80%;
+					float: left;
+					.box-fix;
+				}
+				.trustlevel {
+					width: 20%;
+					font-size: 0.9em;
+					#verifyUser {
+						width: 250%;
+					}
 				}	
 			}
 			menu {
@@ -38,11 +47,11 @@
 				}
 				&#generalInfo {
 					.column(8,8,left,0);
-					height: auto;
-					margin-bottom: 10px;
+					height: 100%;
+					margin-bottom: 0;
 					padding: 0;
 					.userimage {
-						.column(2,8);
+						.column(1,8);
 						margin-top: 1%;
 						margin-bottom: 1%;
 						&.editing {
@@ -50,20 +59,24 @@
 						}
 					}
 					.info {
-						.column(6,8);
-						margin-top: -10px;
+						.column(3.5,8);
+						margin-top: 0px;
+						margin-bottom: 0;
 						line-height: 10px;
+						//border-right: 1px solid #ccc;
 					}
 					.actions {
-						.column(12,12,left,0);
+						.column(3.5,8,left,0);
+						height: 100%;
+						border: none;
 						.addFriend {
-							.column(1,2);
+							.column(2,2);
 							margin: 10px 1% 10px 1%;
 							height: 40px;
 							padding: 8.5px;
 						}
 						.addToCircle {
-							.column(1,2);
+							.column(2,2);
 							margin: 10px 1% 10px 1%;
 							#selectCircle {
 								padding-right: 0;
@@ -102,7 +115,7 @@
 							}
 						}
 						.sendMessage {
-							.column(1,2);
+							.column(2,2);
 							margin: 10px 1% 10px 1%;
 							height: 40px;
 							padding: 8.5px;
@@ -121,34 +134,9 @@
 				height: 20px;
 				padding: 5px;
 			}
-			article {
+			.post {
 				.column(8,8);
-				.userimg{
-					.column(1,8);
-					margin: 10px 0px 10px 0px;
-				}
-				.postContent {
-					.column(4.5,8);
-					padding-top: 5px;
-					margin-top: 10px;
-					margin-bottom: 10px;
-					.author {
-						margin-bottom: 5px;
-					}
-					.postText {
-						padding-left: 10px;
-					}
-				}
-				.postInfo {
-					.column(2.5,8);
-					padding-top: 5px;
-					margin-top: 30px;
-					margin-bottom: 10px;
-					p {
-						padding: 0;
-						margin: 0;
-					}
-				}
+				margin-top: 20px;
 			}
 		}
 		#friends {

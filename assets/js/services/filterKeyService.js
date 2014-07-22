@@ -1,4 +1,4 @@
-define(["whispeerHelper", "step"], function (h, step) {
+define(["whispeerHelper", "step", "asset/errors"], function (h, step, errors) {
 	"use strict";
 
 	var service = function (userService, circleService) {
@@ -46,7 +46,7 @@ define(["whispeerHelper", "step"], function (h, step) {
 						userFilter.push(map[1]);
 						break;
 					default:
-						throw new InvalidFilter("unknown group");
+						throw new errors.InvalidFilter("unknown group");
 				}
 			}
 
@@ -79,27 +79,8 @@ define(["whispeerHelper", "step"], function (h, step) {
 					//we do not encrypt it anyhow .... this needs to be checked in before!
 					throw new Error("should never be here");
 				default:
-					debugger;
-					throw new InvalidFilter("unknown always value");
+					throw new errors.InvalidFilter("unknown always value");
 			}
-		}
-
-		function circleFiltersToUser(filter, cb) {
-			if (filter.length === 0) {
-				cb(null, []);
-				return;
-			}
-
-			step(function () {
-				circleService.loadAll(this);
-			}, h.sF(function () {
-				var i, user = [];
-				for (i = 0; i < filter.length; i += 1) {
-					user = user.concat(circleService.get(filter[i]).getUserIDs());
-				}
-
-				this.ne(h.arrayUnique(user));
-			}), cb);
 		}
 
 		function circleFilterToKeys(filter, cb) {

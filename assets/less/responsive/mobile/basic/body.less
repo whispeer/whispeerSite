@@ -55,6 +55,7 @@ body {
 			overflow: scroll;
 			padding-top: 10px;
 			padding-bottom: 5px;
+			-webkit-overflow-scrolling: touch;
 			.box-fix;
 			.mobileMenu {
 				.unstyled;
@@ -65,6 +66,9 @@ body {
 					overflow: hidden;
 					margin-bottom: 2%;
 					.border-radius(25px);
+					&.full {
+						.width(12);
+					}
 					li {
 						.btn;
 						.btn--green;
@@ -84,6 +88,14 @@ body {
 								font-size: 1.2em;
 								text-align: center;
 								margin-top: 0px;
+								&.badge {
+									width: 18px;
+									height: 18px;
+									display: block;
+									margin: 0 auto;
+									float: none;
+									font-size: 0.8em;
+								}
 							}
 						}
 					}
@@ -91,8 +103,10 @@ body {
 						.column(5);
 						margin: 0 auto !important;
 						float: none;
-						.border-radius(5px);
 						max-width: 50px;
+						&.userimg {
+							.border-radius(100%);
+						}
 					}
 					i {
 						font-size: (175 + (100/12)*5%);

@@ -1,4 +1,5 @@
 define(["step", "whispeerHelper"], function (step, h) {
+	"use strict";
 	return function ($injector, cb) {
 		var settingsService = $injector.get("ssn.settingsService");
 		var userService = $injector.get("ssn.userService");
@@ -7,7 +8,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 		step(function () {
 			settingsService.getBranch("privacy", this);
 		}, h.sF(function (privacySettings) {
-			if (privacySettings["image"]) {
+			if (privacySettings.image) {
 				this.last.ne(true);
 			} else {
 				//set image privacy settings to public

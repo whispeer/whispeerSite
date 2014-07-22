@@ -1,7 +1,7 @@
-define(["asset/observer"], function (Observer) {
+define(["step", "whispeerHelper", "asset/observer"], function (step, h, Observer) {
 	"use strict";
 
-	function service(localize, $location, $rootScope) {
+	function service(localize, $location, $rootScope, settingsService, errorService) {
 		var advancedTitle = {}, count = 0, topicInternalCount = 0;
 
 		function cycleTitle() {
@@ -41,18 +41,24 @@ define(["asset/observer"], function (Observer) {
 				cycleTitle();
 			},
 			playMessageSound: function () {
-				document.getElementById("sound").play();
+				step(function () {
+					settingsService.getBranch("sound", this);
+				}, h.sF(function (sound) {
+					if (!sound || sound.active) {
+						document.getElementById("sound").play();
+					}
+				}), errorService.criticalError);
 			},
 			sendLocalNotification: function(type, obj) {
 				if (window.Notification) {
-					if (type === 'message') {
-						if (Notification.permission === 'granted') {
-							var n = new Notification(
+					if (type === "message") {
+						if (window.Notification.permission === "granted") {
+							var n = new window.Notification(
 								localize.getLocalizedString("notification.newmessage").replace("{user}", obj.sender.name),
 								{
-									'body': obj.sender.names.firstname + ': ' + obj.text,
-									'tag':	obj.timestamp,
-									'icon':	'assets/img/favicons/touch-icon-ipad-retina.png'
+									"body": obj.sender.basic.shortname + ": " + obj.text,
+									"tag":	obj.timestamp,
+									"icon":	obj.sender.basic.image
 								}
 							);
 							n.onclick = function () {
@@ -71,11 +77,25 @@ define(["asset/observer"], function (Observer) {
 		Observer.call(api);
 		
 		// get Permissions for Notifications
-		if (window.Notification && Notification.permission === 'default') {
+		if (window.Notification && window.Notification.permission === "default") {
 			window.Notification.requestPermission();
 		}
 
 		var hidden = "hidden";
+
+		function onchange(evt) {
+			var v = true, h = false,
+				evtMap = {
+					focus:v, focusin:v, pageshow:v, blur:h, focusout:h, pagehide:h
+				};
+
+			evt = evt || window.event;
+			if (evt.type in evtMap) {
+				setVisible(evtMap[evt.type]);
+			} else {
+				setVisible(evt.currentTarget[hidden] ? h : v);
+			}
+		}
 
 		// Standards:
 		if (hidden in document) {
@@ -106,24 +126,10 @@ define(["asset/observer"], function (Observer) {
 			api.isActive = visible;
 		}
 
-		function onchange(evt) {
-			var v = true, h = false,
-				evtMap = {
-					focus:v, focusin:v, pageshow:v, blur:h, focusout:h, pagehide:h
-				};
-
-			evt = evt || window.event;
-			if (evt.type in evtMap) {
-				setVisible(evtMap[evt.type]);
-			} else {
-				setVisible(this[hidden] ? h : v)
-			}
-		}
-
 		return api;
 	}
 
-	service.$inject = ["localize", "$location", "$rootScope"];
+	service.$inject = ["localize", "$location", "$rootScope", "ssn.settingsService", "ssn.errorService"];
 
 	return service;
 });

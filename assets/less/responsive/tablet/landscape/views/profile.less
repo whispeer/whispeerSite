@@ -10,9 +10,28 @@
 				.column(8,8);
 				text-align: center;
 				h3 {
-					width: 100%;
 					padding: 3px;
 					margin: 0;
+					width: 85%;
+					float: left;
+					.box-fix;
+					padding-left: 15%;
+				}
+				.trustlevel {
+					width: 15%;
+					font-size: 0.9em;
+					#verifyUser {
+						width: 250%;
+						margin-left: -220%;
+						&:before, &:after {
+							left: auto;
+							right: 13px;
+						}
+						&:after {
+							margin-left: 0;
+							margin-right: 1px;
+						}
+					}
 				}	
 			}
 			menu {
@@ -46,7 +65,7 @@
 					padding: 0;
 					.userimage {
 						.column(2,8);
-						margin-top: 1%;
+						margin-top: 10px;
 						margin-bottom: 1%;
 						&.editing {
 							width: 98% !important;
@@ -72,7 +91,6 @@
 					}
 					.info {
 						.column(6,8);
-						margin-top: -10px;
 						line-height: 10px;
 					}
 					.actions {
@@ -140,37 +158,9 @@
 			}
 			article {
 				.column(8,8,left,0);
-				.userimg{
-					.column(1,7);
+				margin-top: 10px;
+				.postWrap {
 					margin-top: 10px;
-					margin-bottom: 10px;
-				}
-				.postContent {
-					.column(4,7);
-					padding-top: 5px;
-					margin-top: 0;
-					margin-bottom: 0px;
-					min-height: none;
-					height: auto;
-					.author {
-						margin-bottom: 5px;
-					}
-					.postText {
-						padding-left: 10px;
-					}
-				}
-				.postInfo {
-					.column(2,7);
-					padding-top: 5px;
-					margin-top: 0px;
-					margin-bottom: 10px;
-					p {
-						padding: 0;
-						margin: 0;
-					}
-					.awesome, .comments {
-						.column(6);
-					}
 				}
 			}
 		}

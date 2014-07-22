@@ -5,7 +5,6 @@
 		header {
 			height: 20px;
 			margin-top: -30px;
-			padding: 5px;
 			#links {
 				float: right;
 			}
@@ -26,9 +25,16 @@
 					margin-left: 5px;
 				}
 			}
-			&#general header {
-				margin: 0 0 10px 0;
-			}
+			&#general {
+				header {
+					margin: 0 0 10px 0;
+				}
+				label {
+					&.btn {
+						.column(4);
+					}
+				}
+			}	
 			.config {
 				.column(8,8);
 				margin-top: -5px;
@@ -42,6 +48,11 @@
 				&#nickname, &#mail {
 					button {
 						.push(5);
+					}
+				}
+				&#fingerprint {
+					input {
+						.column(12);
 					}
 				}
 			}

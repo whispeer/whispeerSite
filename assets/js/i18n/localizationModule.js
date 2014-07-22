@@ -18,7 +18,7 @@ Enjoy!
 */
 
 define(["angular"], function (angular) {
-
+	"use strict";
 	function insertValues(tag, values) {
 		var i, toSet;
 		if (values.length > 1) {
@@ -50,7 +50,6 @@ define(["angular"], function (angular) {
 		return tags;
 	}
 
-	"use strict";
 	angular.module("localization", [])
 		// localization service responsible for retrieving resource files from the server and
 		// managing the translation dictionary
@@ -70,7 +69,7 @@ define(["angular"], function (angular) {
 
 			function loadDefault() {
 				// the request failed set the url to the default resource file
-				var url = "/assets/js/i18n/l_en-US.json";
+				var url = "assets/js/i18n/l_en-US.json";
 				// request the default resource file
 				$http({ method: "GET", url: url, cache: false }).success(successCallback);
 			}
@@ -80,14 +79,14 @@ define(["angular"], function (angular) {
 				resourceFileLoaded = false;
 
 				// build the url to retrieve the localized resource file
-				var url = "/assets/js/i18n/l_" + language + ".json";
+				var url = "assets/js/i18n/l_" + language + ".json";
 				// request the resource file
 				$http({ method: "GET", url: url, cache: false }).success(successCallback).error(function () {
 					if (language.length === 2) {
 						loadDefault();
 					} else {
 						// the request failed set the url to a different url
-						var url = "/assets/js/i18n/l_" + language.substr(0, 2) + ".json";
+						var url = "assets/js/i18n/l_" + language.substr(0, 2) + ".json";
 
 						$http({ method: "GET", url: url, cache: false }).success(successCallback).error(loadDefault);
 					}

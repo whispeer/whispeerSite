@@ -7,7 +7,6 @@
 		header {
 			height: 20px !important;
 			margin-top: -20px;
-			padding: 5px;
 			.links {
 				float: right;
 				display: none !important;
@@ -30,8 +29,18 @@
 					margin-left: 5px;
 				}
 			}
-			&#general header {
-				margin: 0 0 10px 0;
+			&#general {
+				header {
+					margin: 0 0 10px 0;
+				}
+				label {
+					&.btn {
+						.column(12);
+					}
+					input {
+						width: auto !important;
+					}
+				}
 			}
 			.config {
 				.column(8,8);

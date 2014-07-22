@@ -6,7 +6,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 			transclude: false,
 			scope:	false,
 			restrict: "E",
-			templateUrl: "/assets/views/directives/circleSearch.html",
+			templateUrl: "assets/views/directives/circleSearch.html",
 			replace: true,
 			link: function postLink(scope, element, attrs) {
 				var user;
@@ -18,7 +18,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 							scope.$broadcast("initialSelection", circles.map(function (e) {
 								return e.data;
 							}));
-						}), [user])
+						}), [user]);
 					}
 				});
 
@@ -26,8 +26,8 @@ define(["step", "whispeerHelper"], function (step, h) {
 					scope.$broadcast("queryResults", results);
 				}
 
-				if (attrs["user"]) {
-					user = h.parseDecimal(scope.$parent.$eval(attrs["user"]));
+				if (attrs.user) {
+					user = h.parseDecimal(scope.$parent.$eval(attrs.user));
 					step(function () {
 						circleService.loadAll(this);
 					}, h.sF(function () {

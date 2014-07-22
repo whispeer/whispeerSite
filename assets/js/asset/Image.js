@@ -36,6 +36,7 @@ define([], function () {
 				reader.readAsDataURL(file);
 			} else {
 				//da da dam ...
+				console.log("could not load image from file...");
 			}
 		};
 	};

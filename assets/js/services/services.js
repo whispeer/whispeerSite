@@ -2,7 +2,7 @@
 * BaseService
 **/
 (function () {
-	var services = ["socketService", "keyStoreService", "sessionService", "sessionHelper", "profileService", "storageService", "userService", "cssService", "magicbarService", "messageService", "circleService", "friendsService", "initService", "settingsService", "postService", "filterKeyService", "migrationService", "windowService", "errorService", "blobService"];
+	var services = ["socketService", "keyStoreService", "sessionService", "sessionHelper", "profileService", "storageService", "userService", "cssService", "magicbarService", "messageService", "circleService", "friendsService", "initService", "settingsService", "postService", "filterKeyService", "migrationService", "windowService", "errorService", "blobService", "trustService"];
 
 	var includes = ["angular"];
 
@@ -12,7 +12,6 @@
 	}
 
 	define(includes, function (angular) {
-		"use strict";
 		var servicesProvider = angular.module("ssn.services", []);
 
 		var i;

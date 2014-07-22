@@ -25,6 +25,8 @@
 			padding: 0;
 			margin:0 !important;
 			background: transparent;
+			position: relative;
+			.box-fix;
 			i {
 				font-size: 2em;
 				color: #fff;
@@ -43,8 +45,20 @@
 			} 
 		}
 		#mobileCounter {
-			top: 25px;
-			right: 2%;
+			padding: 1px 2px 1px 2px;
+			position: absolute;
+			font-size: 11px;
+			width: 16px;
+			height: 16px;
+			display: block;
+			top: 17px;
+			left: 50%;
+			right: 0;
+			margin-left: -10px;
+			span {
+				margin-top: 0px;
+				display: inline-block;
+			}
 		}
 	}
 	.searchBar {
@@ -77,25 +91,6 @@
 		.searchDrop {
 			top: 50px;
 			margin: 5px 0;
-		}
-	}
-	#navIcons {
-		height: 100%;
-		.column(2,12, right);
-		display: none;
-		.navIcon {
-			.column(1,4);
-			.icon {
-				margin-top: 7px;
-				width: 35px;
-			}
-			.badge {
-				padding: 1px 2px 1px 2px;
-				margin-left: -13px;
-				margin-top: 25px;
-				position: absolute;
-				font-size: 11px;
-			}
 		}
 	}
 }

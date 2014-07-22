@@ -4,7 +4,7 @@
 define([], function () {
 	"use strict";
 
-	var available = true, polyfill = {};
+	var available = !!window.localStorage, polyfill = {};
 
 	var service = function ($rootScope) {
 		var storage = {
@@ -34,7 +34,9 @@ define([], function () {
 
 			clear: function clearF() {
 				polyfill = {};
-				localStorage.clear();
+				if (available) {
+					localStorage.clear();
+				}
 			}
 		};
 

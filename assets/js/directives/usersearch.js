@@ -1,12 +1,12 @@
-define(["step", "whispeerHelper"], function (step, h) {
+define(["step", "whispeerHelper", "asset/state"], function (step, h, State) {
 	"use strict";
 
-	function searchDirective(circleService, userService, friendsService, $location, $timeout) {
+	function searchDirective(errorService, circleService, userService, friendsService, $location, $timeout) {
 		return {
 			transclude: false,
 			scope:	false,
 			restrict: "E",
-			templateUrl: "/assets/views/directives/userSearch.html",
+			templateUrl: "assets/views/directives/userSearch.html",
 			replace: true,
 			link: function postLink(scope, iElement, iAttrs) {
 				var multiple = typeof iAttrs.multiple !== "undefined";
@@ -28,7 +28,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 					}
 				}
 
-				var timer = null;
+				var timer = null, circleStates = {};
 
 				function submitResults(results) {
 					scope.$broadcast("queryResults", results);
@@ -55,6 +55,11 @@ define(["step", "whispeerHelper"], function (step, h) {
 						}
 					}), h.sF(function () {
 						var users = theUsers.map(function (e) {
+							var circleState = new State();
+
+							circleStates[e.getID()] = circleState;
+							e.data.circleState = circleState.data;
+
 							return e.data;
 						});
 
@@ -62,19 +67,11 @@ define(["step", "whispeerHelper"], function (step, h) {
 					}));
 				}
 
-				scope.circles = {
-					saving: false,
-					success: true,
-					failure: false
-				};
-
-				function setCircleState(state) {
-					h.setGeneralState(state, scope.circles);
-				}
+				scope.circles = {};
 
 				function saveCircles(user, selectedElements) {
+					circleStates[user.id].pending();
 					step(function () {
-						setCircleState("saving");
 						$timeout(this, 200);
 					}, h.sF(function () {
 						var oldCircles = circleService.inWhichCircles(user.id).map(function (e) {
@@ -93,15 +90,11 @@ define(["step", "whispeerHelper"], function (step, h) {
 						for (i = 0; i < toRemove.length; i += 1) {
 							circleService.get(toRemove[i]).removePersons([user.id], this.parallel());
 						}
-					}), h.sF(function (results) {
-						setCircleState("success");
-					}), function (e) {
-						setCircleState("failure");
-					});
+					}), errorService.failOnError(circleStates[user.id]));
 				}
 
 				scope.$on("addFriend", function (event, user) {
-					friendsService.friendship(user.id);
+					user.user.addAsFriend();
 				});
 
 				scope.$on("saveCircles", function (event, data) {

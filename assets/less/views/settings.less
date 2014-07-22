@@ -22,10 +22,23 @@
 					margin-left: 5px;
 				}
 			}
-			&#general header {
-				border-top: none;
-				margin: 0 0 10px 0;
-			}
+			&#general {
+				header {
+					border-top: none;
+					margin: 0 0 10px 0;
+				}
+				p {
+					.column(12);
+					margin-bottom: 5px;
+					label {
+						width: 100%;
+						input {
+							display: inline-block;
+							margin-top: 2px;
+						}
+					}
+				}
+			}	
 			.config {
 				.column(8,8);
 				margin-top: -5px;

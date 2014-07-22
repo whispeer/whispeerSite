@@ -36,10 +36,10 @@
 
 .push(@x: 1, @columns:@columns) {
 	@column-size: @total-width / @columns;
-	margin-left: (@column-size*@x) !important;
+	margin-left: ((@column-size*@x)+1) !important;
 }
 
 .pull(@x: 1, @columns:@columns) {
 	@column-size: @total-width / @columns;
-	margin-right: (@column-size*@x) !important;
+	margin-right: ((@column-size*@x)+1) !important;;
 }

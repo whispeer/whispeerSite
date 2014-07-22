@@ -1,6 +1,30 @@
 	{
 	"0": {
 		"1": {
+			"10": [
+				"Bugfix: Mobile: Show correct start page",
+				"Bugfix: Show own friends on own profile",
+				"Bugfix: Profile is changeable again, settings work again",
+				"Disallow empty messages/posts",
+				"Display correct access count for all friends and friends of friends in filter search",
+				"Protect against re-sending a post",
+				"Translate Mail Verification Page",
+				"Re-Focus Send Field on Message Send",
+				"Trust Manager added - Verify your friends",
+				"Accept friend request on mobile",
+				"Post design improved"
+			],
+			"9": [
+				"Multi-line postings",
+				"Security: Check key fingerprints",
+				"Display user icon in notification",
+				"Setting for sound and message send",
+				"Messages: Topic List Redesign",
+				"Optimized user image sizes",
+				"User images are now rounded",
+				"Posts redesigned",
+				"Security: Add Trust Manager which saves all key<->user mappings"
+			],
 			"8": [
 				"Bring back missing profile icons",
 				"Bugfixes",
@@ -9,8 +33,7 @@
 				"Uploading and Changing the profile picture from a mobile device (iPhone and iPad were tested)",
 				"Tablets in portait and landscape mode are now supported",
 				"Own messages are not unread any more",
-				"Time format changed to also include minutes in hour format",
-				"Multi-line postings"
+				"Time format changed to also include minutes in hour format"
 			],
 			"7": [
 				"Show nickname in header search bar",

@@ -1,0 +1,41 @@
+.userimageWrap {
+	position: relative;
+	.border-radius(100%);
+	overflow: visible;
+	.picture {
+		width: 100%;
+		height: 100%;
+		.border-radius(100%);
+		.box-fix;
+	}
+	.untrusted {
+		width: 16px;
+		height: 16px;
+		position: absolute;
+		bottom: 5%;
+		right: 5%;
+	}
+	&[data-trustlevel="0"] {
+		.picture {
+			border: 3px solid @red;
+			.box-shadow(0px 0px 5px @red);
+		}
+	}
+	&[data-trustlevel="1"] {
+		.picture {
+			border: 3px solid @orange;
+		}
+	}
+	&[data-trustlevel="2"] {
+		.picture {
+			border: 3px solid @green;
+		}
+	}
+	&[data-trustlevel="3"] {
+		.picture {
+			border: 3px solid @green;
+			.box-shadow(0px 0px 5px @primaryLightest);
+		}
+	}
+	
+}

@@ -3,7 +3,8 @@ define([], function() {
 	var service = function() {
 		var magic = {
 			"template":	"messages",
-			"showDefault":	true
+			"showDefault":	true,
+			"ready": false
 		};
 		return magic;
 	};

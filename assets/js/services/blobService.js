@@ -10,6 +10,10 @@ define(["step", "whispeerHelper"], function (step, h) {
 		var MyBlob = function (blobData, blobID) {
 			this._blobData = blobData;
 
+			if (typeof blobData === "string") {
+				this._legacy = true;
+			}
+
 			if (blobID) {
 				this._blobID = blobID;
 				this._uploaded = true;
@@ -83,11 +87,15 @@ define(["step", "whispeerHelper"], function (step, h) {
 		};
 
 		MyBlob.prototype.toURL = function () {
+			if (this._legacy) {
+				return this._blobData;
+			}
+
 			try {
-				if (typeof URL !== "undefined") {
-					return URL.createObjectURL(this._blobData);
+				if (typeof window.URL !== "undefined") {
+					return window.URL.createObjectURL(this._blobData);
 				} else if (typeof webkitURL !== "undefined") {
-					return webkitURL.createObjectURL(this._blobData);
+					return window.webkitURL.createObjectURL(this._blobData);
 				} else {
 					return h.blobToDataURI(this._blobData);
 				}
@@ -99,7 +107,11 @@ define(["step", "whispeerHelper"], function (step, h) {
 		MyBlob.prototype.getHash = function (cb) {
 			var that = this;
 			step(function () {
-				this.ne(keyStore.hash.hash(h.blobToDataURI(that._blobData)));
+				if (that._legacy) {
+					this.ne(keyStore.hash.hash(that._blobData));
+				} else {
+					this.ne(keyStore.hash.hash(h.blobToDataURI(that._blobData)));
+				}
 			}, cb);
 		};
 
@@ -111,8 +123,13 @@ define(["step", "whispeerHelper"], function (step, h) {
 					blobid: blobID
 				}, this);
 			}, h.sF(function (data) {
-				var blob = h.dataURItoBlob("data:image/png;base64," + data.blob);
-				knownBlobs[blobID] = new MyBlob(blob, blobID);
+				var dataString = "data:image/png;base64," + data.blob;
+				var blob = h.dataURItoBlob(dataString);
+				if (blob) {
+					knownBlobs[blobID] = new MyBlob(blob, blobID);
+				} else {
+					knownBlobs[blobID] = new MyBlob(dataString, blobID);
+				}
 
 				this.ne(knownBlobs[blobID]);				
 			}), step.multiplex(blobListener[blobID]));

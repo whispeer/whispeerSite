@@ -206,47 +206,49 @@
 				.box-fix;
 				border: none;
 				border-bottom: 1px solid #dedede;
+				transition: background-color 0.1s ease;
+				cursor: pointer;
 				&.message {
 					.left {
 						.column(3,12,left,4%);
 						margin:2% 2% 2%;
 						padding: 0;
 						height: 40px;
-						img {
-							width: 100%;
-							.border-radius(5px);
+						background: transparent;
+						.imgWrap {
+							background-color: #b2b2b2;
+							.border-radius(100%);
 							height: 100%;
+							width: 100%;
+							img:not(.picture):not(.untrusted) {
+								width: 100%;
+								height: 100%;
+							}	
 						}
 					}
 					&.groupChat {
 						.left {
-							background-color: #b2b2b2;
 							.border-radius(5px);
-							img, span {
-								.border-radius(0);
-								.column(1,2,left,0);
-								height: 50%;
-								&:nth-child(1) {
-									.border-radiuses(0,0,0,5px);
+							.group {
+								.border-radius(100%);
+								overflow: hidden;
+								img, span {
+									.border-radius(0);
+									.column(1,2,left,0);
+									height: 50%;
 								}
-								&:nth-child(2) {
-									.border-radiuses(5px,0,0,0);	
+								span {	
+									background-color: #343434;
+									color: @white;
+									font-size: 10px;
+									text-align: center;
+									.box-fix;
 								}
-								&:nth-child(3) {
-									.border-radiuses(0,0,5px,0);	
-								}
-								&:nth-child(4) {
-									.border-radiuses(0,5px,0,0);	
-								}
-							}
-							span {	
-								background-color: #343434;
-								color: @white;
-								font-size: 10px;
-								text-align: center;
-								.box-fix;
-							}
+							}	
 						}
+					}
+					.username, .text {
+						transition: color 0.1s ease;
 					}
 					.username {
 						.column(9);
@@ -277,7 +279,9 @@
 				&.request {
 					img {
 						.column(3);
+						.border-radius(100%);
 						margin-left: 0;
+						margin-top: 5px;
 					}
 					.username {
 						.column(9);
@@ -294,6 +298,9 @@
 						.column(9);
 						color: #777;
 						font-size: 0.9em;
+					}
+					.username, .similar {
+						transition: color 0.1s ease;
 					}
 					.action {
 						width: 99%;

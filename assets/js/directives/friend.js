@@ -1,5 +1,5 @@
 define(function () {
-	'use strict';
+	"use strict";
 
 	function friendDirective() {
 		return {
@@ -7,8 +7,8 @@ define(function () {
 			scope:	{
 				userData: "=user"
 			},
-			restrict: 'E',
-			templateUrl: '/assets/views/directives/friend.html',
+			restrict: "E",
+			templateUrl: "assets/views/directives/friend.html",
 			replace: true
 		};
 	}

@@ -1,31 +1,29 @@
 .messagesView {
 	#main {
 		padding-top: 30px;
-		padding-bottom: 10px;
+		padding-bottom: 0px;
 		height: 100%;
 	}
 	header {
 		height: 20px;
 		margin-top: -30px;
 		padding: 5px;
+		#newmessage {
+			.column(2.5,8,left,0);
+		}
 	}
 	#topicListWrap {
-		.column(2.25,8,left,1);
-		margin-right: 0;
-		margin-left: 1%;
+		.column(2.5,8,left,0);
 		height: 100%;
 		#topicList {
 			height: 100%;
-			padding-top: 15px;
-			padding-bottom: 11px;
 			#topicListScroll {
 				height: 100%;
 				overflow-y: scroll;
 				width: 100%;
-				padding-right: 3.6%;
 			}
 			.topic {
-				margin-bottom: 5px;
+				margin-bottom: 0;
 				padding: 0;
 				.left {
 					.column(0.70,2);
@@ -54,10 +52,6 @@
 				.time {
 					width: 65%;
 				}
-				&#newmessage {
-					height: 25px;
-					margin-top: -10px;
-				}
 				&.groupChat {
 					.left {
 						margin: 0 2% 0 0;
@@ -78,9 +72,9 @@
 	}
 	#topicWrap {
 		height: 100%;
-		.column(5.75,8);
+		.column(5.5,8,left,0);
 		height: 100%;
-		padding: 30px 0px 80px 0px;
+		padding: 0 0 85px 0;
 		.box-fix;
 		#messageWrap {
 			height: 100%;
@@ -88,15 +82,14 @@
 		#messageList {
 			overflow-y: scroll;
 			height: 100%;
+			width: 100%;
+			margin: 0 0 5px 0;
 			.message {
 				.column(12);
 				margin-bottom: 5px !important;
 				.userimg {
 					.column(0.5,5,left,0);
 					margin-top: 1%;
-					img {
-						width: 100%;
-					}
 				}
 				.messageContent {
 					.column(4.5,5);
@@ -121,9 +114,8 @@
 		}
 		#inputWrap {
 			#messageInput {
-				.column(3,4,left,1%);
+				.column(3,4);
 				height: 70px;
-				margin: 0 1% 0 0;
 			}
 			button {
 				.column(1,4);
@@ -136,9 +128,7 @@
 				margin-bottom: 5px;
 			}
 			#recieverInput {
-				.column(12,12,left,1);
-				margin-left: 0;
-				margin-right: 1%;
+				.column(12);
 				margin-bottom: 5px;
 				.formSearch {
 					.inputWrap {

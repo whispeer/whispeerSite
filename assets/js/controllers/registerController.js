@@ -10,7 +10,7 @@ define(["step", "whispeerHelper", "asset/resizableImage", "asset/observer"], fun
 		var observer = new Observer();
 		cssService.setClass("registerView");
 		
-		var ENDSIZE = 250;
+		var ENDSIZE = 256;
 		var CANVASWIDTH = 600, CANVASHEIGHT = 300;
 
 		$scope.imageChange = resizableImage.callBackForFileLoad(function () {
@@ -249,7 +249,7 @@ define(["step", "whispeerHelper", "asset/resizableImage", "asset/observer"], fun
 		};
 
 		$scope.mailInvalid = function () {
-			return $scope.mail != "" && !h.isMail($scope.mail);
+			return $scope.mail !== "" && !h.isMail($scope.mail);
 		};
 
 		$scope.mailUsed = function () {
@@ -261,7 +261,7 @@ define(["step", "whispeerHelper", "asset/resizableImage", "asset/observer"], fun
 		};
 
 		$scope.noPasswordMatch = function () {
-			return $scope.password != $scope.password2;
+			return $scope.password !== $scope.password2;
 		};
 
 		$scope.acceptIconNicknameFree = function acceptIconNickname() {

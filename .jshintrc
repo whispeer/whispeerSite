@@ -1,8 +1,33 @@
 {
 	"globals": {
 		"define": true,
-		"console": true
+		"console": true,
+		"require": true,
+		"webkitURL": true,
+		"URL": true,
+		"requirejs": true,
+		"jQuery": true,
+		"startup": true
 	},
 	"undef": true,
-	"browser": true
+	"browser": true,
+	"bitwise": true,
+	"curly": true,
+	"eqeqeq": true,
+	"forin": true,
+	"freeze": true,
+	"immed": true,
+	"newcap": true,
+	"noarg": true,
+	"noempty": true,
+	"nonew": true,
+	"quotmark": "double",
+	"unused": true,
+	"strict": true,
+	"trailing": true,
+	//mabye?
+	"latedef": true,
+	//"maxparams": 6,
+	//"maxdepth": 2,
+	"maxstatements": false
 }

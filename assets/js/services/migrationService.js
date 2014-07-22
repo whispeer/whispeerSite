@@ -27,6 +27,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 					migration($injector, this);
 				}), h.sF(function (success) {
 					if (!success) {
+						console.error("Migration failed");
 						//AUTSCH!
 					} else {
 						ownUser.setMigrationState(migrationState + 1, this);

@@ -1,6 +1,14 @@
 var WEB_SOCKET_SWF_LOCATION = "libs/WebSocketMain.swf";
-
 var startup = new Date().getTime();
+
+void(startup);
+void (WEB_SOCKET_SWF_LOCATION);
+
+if (window.location.href.indexOf("file:///") === 0) {
+	var base = window.location.href.replace("file://", "");
+	base = base.replace(/\#\!(.*)/g, "");
+	document.getElementsByTagName("base")[0].setAttribute("href", base);
+}
 
 requirejs.config({
 	paths: {
@@ -13,7 +21,7 @@ requirejs.config({
 		whispeerHelper: "helper/helper",
 		amanda: "libs/amanda"
 	},
-	baseUrl: "/assets/js",
+	baseUrl: "assets/js",
     shim: {
         "angular": {
             deps: ["jquery"],
@@ -40,11 +48,11 @@ requirejs( [
 	"app",
 	"routes",
 	"libs/canvas-toBlob"
-], function($, angular, app, routes) {
+], function($, angular, app) {
 	"use strict";
 	$(document).ready(function () {
 		var $html = $("html");
-		angular.bootstrap($html, [app["name"]]);
+		angular.bootstrap($html, [app.name]);
 		// Because of RequireJS we need to bootstrap the app app manually
 		// and Angular Scenario runner won"t be able to communicate with our app
 		// unless we explicitely mark the container as app holder

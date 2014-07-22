@@ -23,7 +23,10 @@
     SOFTWARE.
 */
 
+/* global module */
+
 (function (global) {
+    "use strict";
     function copyOwnFrom(target, source) {
         Object.getOwnPropertyNames(source).forEach(function(propName) {
             Object.defineProperty(target, propName,
@@ -37,7 +40,9 @@
         if (props) {
             copyOwnFrom(this, props);
         }
-        Object.freeze(this);
+        if (Object.freeze) {
+            Object.freeze(this);
+        }
     }
     /** We don’t want the mutable Object.prototype in the prototype chain */
     Symbol.prototype = Object.create(null);
@@ -49,26 +54,47 @@
     Symbol.prototype.toString = function () {
         return "|"+this.name+"|";
     };
-    Object.freeze(Symbol.prototype);
+    if (Object.freeze) {
+        Object.freeze(Symbol.prototype);
+    }
 
     var Enum = function (obj) {
+        this._symbols = [];
+
         if (arguments.length === 1 && obj !== null && typeof obj === "object") {
             Object.keys(obj).forEach(function (name) {
                 this[name] = new Symbol(name, obj[name]);
+                this._symbols.push(this[name]);
             }, this);
         } else {
             Array.prototype.forEach.call(arguments, function (name) {
                 this[name] = new Symbol(name);
+                this._symbols.push(this[name]);
             }, this);
         }
-        Object.freeze(this);
+        if (Object.freeze) {
+            Object.freeze(this);
+        }
+    };
+    Enum.prototype.toString = function (symbol) {
+        if (this.contains(symbol)) {
+            return symbol.toString();
+        } else {
+            throw new Error("symbol not part of this enum");
+        }
+    };
+    Enum.prototype.fromString = function (name) {
+        if (name.substr(0, 1) === "|" && name.substr(-1, 1) === "|") {
+            return this[name.substring(1, name.length - 1)];
+        } else {
+            return null;
+        }
     };
     Enum.prototype.symbols = function() {
-        return Object.keys(this).map(
-            function(key) {
-                return this[key];
-            }, this
-        );
+        return this._symbols;
+    };
+    Enum.prototype.symbolPosition = function (symbol) {
+        return this._symbols.indexOf(symbol);
     };
     Enum.prototype.contains = function(sym) {
         if (! sym instanceof Symbol) {

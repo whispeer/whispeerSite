@@ -4,8 +4,7 @@
 	Make it safe to do console.log() always.
 */
 (function(con) {
-	'use strict';
-	var empty = {};
+	"use strict";
 	var dummy = function() {};
 
 	var methods =
@@ -36,6 +35,7 @@ define([
 	"use strict";
 
 	return angular.module("ssn", ["ssn.controllers", "ssn.models", "ssn.magicbar.controllers", "ssn.services", "ssn.directives", "ssn.filter", "localization", "ngRoute"], function ($compileProvider) {
-		$compileProvider.imgSrcSanitizationWhitelist(/^\s*(https?|ftp|file|blob):|data:image\//);
+		$compileProvider.imgSrcSanitizationWhitelist(/^\s*(https?|ftp|file|blob|app):|data:image\//);
+		$compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|ftp|mailto|tel|file|app):/);
 	});
 });

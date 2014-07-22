@@ -3,7 +3,7 @@
 /**
 * SessionHelper
 **/
-define(["step", "whispeerHelper", "socketStream"], function (step, h, iostream) {
+define(["step", "whispeerHelper", "crypto/trustManager"], function (step, h, trustManager) {
 	"use strict";
 
 	var service = function (socketService, keyStoreService, ProfileService, sessionService, blobService) {
@@ -88,6 +88,8 @@ define(["step", "whispeerHelper", "socketStream"], function (step, h, iostream) 
 						}
 					}, true);
 
+					trustManager.allow(3);
+
 					this.parallel.unflatten();
 
 					privateProfile.signAndEncrypt(keys.sign, keys.profile, keys.main, this.parallel());
@@ -100,6 +102,7 @@ define(["step", "whispeerHelper", "socketStream"], function (step, h, iostream) 
 					keyStoreService.sym.symEncryptKey(keys.profile, keys.friends, this.parallel());
 				}), h.sF(function register3(privateProfile, privateProfileMe, publicProfileSignature, settings) {
 					keys = h.objectMap(keys, keyStoreService.correctKeyIdentifier);
+					trustManager.disallow();
 
 					profile.pub.signature = publicProfileSignature;
 

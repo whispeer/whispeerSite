@@ -5,7 +5,6 @@
 		header {
 			height: 20px;
 			margin-top: -30px;
-			padding: 5px;
 			#links {
 				float: right;
 			}
@@ -20,19 +19,30 @@
 				float: left;
 				width: 100%;
 				margin: 10px 0 10px 0;
-				padding: 5px 0px;
 				&:before, :after {
 					content: "";
 					margin-left: 5px;
 				}
 			}
-			&#general header {
-				margin: 0 0 10px 0;
-			}
+			&#general {
+				header {
+					margin: 0 0 10px 0;
+				}
+				label {
+					&.btn {
+						.column(3);
+					}
+				}
+			}	
 			.config {
 				.column(8,8);
 				margin-top: -5px;
 				margin-bottom: 10px;
+				&#fingerprint {
+					input {
+						.column(12);
+					}
+				}
 			}
 			&#safety {
 				.config {

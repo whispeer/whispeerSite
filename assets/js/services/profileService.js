@@ -1,7 +1,7 @@
 /**
 * ProfileService
 **/
-define(["crypto/keyStore", "step", "whispeerHelper", "asset/encryptedMetaData", "validation/validator", "asset/observer"], function (keyStore, step, h, EncryptedMetaData, validator, Observer) {
+define(["crypto/keyStore", "step", "whispeerHelper", "crypto/encryptedData", "validation/validator", "asset/observer"], function (keyStore, step, h, EncryptedData, validator, Observer) {
 	"use strict";
 
 	var service = function () {
@@ -9,7 +9,11 @@ define(["crypto/keyStore", "step", "whispeerHelper", "asset/encryptedMetaData", 
 		var profileService = function (data, isDecrypted) {
 			var encryptedProfile, paddedProfile = {}, decryptedProfile = {}, updatedProfile = {}, decrypted = {}, hashObject;
 
-			var metaData = new EncryptedMetaData(data.metaData, isDecrypted);
+			var metaData = new EncryptedData(data.metaData, {}, isDecrypted);
+
+			if (data.metaData === false) {
+				metaData = false;	
+			}
 
 			var decrypting = false, verified = false, key;
 
@@ -50,6 +54,7 @@ define(["crypto/keyStore", "step", "whispeerHelper", "asset/encryptedMetaData", 
 
 			function padDecryptedProfile(cb) {
 				step(function () {
+					decryptedProfile = h.extend({}, decryptedProfile, 5, true);
 					keyStore.hash.addPaddingToObject(decryptedProfile, 128, this);
 				}, h.sF(function (paddedProfileObject) {
 					paddedProfile = paddedProfileObject;
@@ -223,9 +228,13 @@ define(["crypto/keyStore", "step", "whispeerHelper", "asset/encryptedMetaData", 
 			this.getScope = function (cb) {
 				step(function () {
 					//TODO: move scope to meta!
-					metaData.getBranch("scope", this);
+					if (metaData) {
+						metaData.getBranch("scope", this);
+					} else {
+						this.ne(false);
+					}
 				}, h.sF(function (scope) {
-					this.ne(scope || "always:allfriends");
+					this.ne(scope);
 				}), cb);
 			};
 
@@ -277,7 +286,6 @@ define(["crypto/keyStore", "step", "whispeerHelper", "asset/encryptedMetaData", 
 					}
 				}), h.sF(function decryptedBranch(decryptedData) {
 					if (keyStore.hash.hashObjectOrValueHex(decryptedData) !== hashObject[branch]) {
-						debugger;
 						throw new Error("security breach!");
 					}
 

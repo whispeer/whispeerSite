@@ -2,11 +2,16 @@
 * mainController
 **/
 
-define([], function () {
+define(["step", "whispeerHelper", "asset/state"], function (step, h, State) {
 	"use strict";
 
-	function mainController($scope, cssService, postService) {
+	function mainController($scope, cssService, postService, errorService) {
 		cssService.setClass("mainView");
+
+		$scope.canSend = true;
+
+		var sendPostState = new State();
+		$scope.sendPostState = sendPostState.data;
 
 		$scope.postActive = false;
 		$scope.filterActive = false;
@@ -35,17 +40,30 @@ define([], function () {
 		};
 
 		$scope.sendPost = function () {
-			postService.createPost($scope.newPost.text, $scope.newPost.readers, 0, function (err, post) {
-				if (err) {
-					debugger;
-				} else {
+			sendPostState.pending();
+
+			if ($scope.newPost.text === "") {
+				sendPostState.failed();
+				return;
+			}
+
+			step(function () {
+				if ($scope.canSend) {
+					$scope.canSend = false;
+
+					postService.createPost($scope.newPost.text, $scope.newPost.readers, 0, this);
+
+					$scope.postActive = false;
+				}
+			}, h.sF(function (e) {
+				$scope.canSend = true;
+
+				if (!e) {
 					$scope.newPost.text = "";
 				}
 
-				console.log(post);
-			});
-
-			$scope.postActive = false;
+				this(e);
+			}), errorService.failOnError(sendPostState));
 		};
 		$scope.toggleFilter = function() {
 			$scope.filterActive = !$scope.filterActive;
@@ -60,7 +78,7 @@ define([], function () {
 		$scope.posts = [];
 	}
 
-	mainController.$inject = ["$scope", "ssn.cssService", "ssn.postService"];
+	mainController.$inject = ["$scope", "ssn.cssService", "ssn.postService", "ssn.errorService"];
 
 	return mainController;
 });

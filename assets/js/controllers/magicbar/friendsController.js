@@ -10,8 +10,6 @@ define(["step", "whispeerHelper"], function (step, h) {
 		//friendsService.onEvent("friendRequest", loadRequestsUsers);
 		//friendsService.onEvent("requestAccept", loadRequestsUsers);
 
-		friendsService.listen(loadRequestsUsers);
-
 		function loadRequestsUsers() {
 			step(function () {
 				var requests = friendsService.getRequests();
@@ -21,10 +19,11 @@ define(["step", "whispeerHelper"], function (step, h) {
 			}));
 		}
 
+		friendsService.listen(loadRequestsUsers);
 		loadRequestsUsers();
 
 		$scope.acceptRequest = function (request) {
-			friendsService.acceptFriendShip(request.id);
+			request.user.acceptFriendShip();
 		};
 
 		$scope.shortenName = function (name) {
