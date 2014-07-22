@@ -80,9 +80,8 @@
 		<h2 data-ng-if="!mobile" data-i18n="messages.newMessage"></h2>
 	</div>
 	<div id="messageWrap">
+		<usersearch res="create" data-user="userid" size="small" focus="all" id="recieverInput" data-multiple data-selected-users="create.selectedUsers" data-input-i18n-attr="messages.search|placeholder" />
 		<form id="inputWrap">
-			<usersearch res="create" data-user="userid" size="small" focus="all" id="recieverInput" data-multiple data-selected-users="create.selectedUsers" data-input-i18n-attr="messages.search|placeholder"/>
-
 			<textarea data-advancedsend="create.send(create.selectedElements, create.text)" type="text" data-i18n-attr="messages.sendMessage.text|placeholder" id="messageInput" data-ng-model="create.text"></textarea>
 			<button class="btn btn--primary" id="sendmessage" type="submit" data-ng-click="create.send(create.selectedElements, create.text)" data-i18n="messages.sendMessage.send"></button>
 		</form>
