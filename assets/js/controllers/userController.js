@@ -284,10 +284,6 @@ define(["step", "whispeerHelper", "asset/resizableImage", "asset/state"], functi
 		}, h.sF(function (user) {
 			userObject = user;
 
-			userObject.verify(function () {
-				debugger;
-			});
-
 			postService.getWallPosts(0, userObject.getID(), function (err, posts) {
 				$scope.posts = posts;
 			});
