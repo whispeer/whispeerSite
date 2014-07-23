@@ -49,7 +49,7 @@ define(["whispeerHelper", "step", "asset/state", "libs/qr"], function (h, step, 
 				image: document.getElementById("fingerPrintQR"),
 				value: $scope.fingerprint,
 				size: 7,
-				level: "M"
+				level: "L"
 			});
 		}), errorService.criticalError);
 
