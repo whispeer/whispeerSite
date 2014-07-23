@@ -170,13 +170,44 @@ define(["step", "whispeerHelper", "asset/state"], function (step, h, State) {
 				this(e);
 			}, errorService.failOnError(sendMessageState));
 		};
-		
+
 
 		$scope.topics = messageService.data.latestTopics.data;
 
 		$scope.newMessage = false;
-		
+
+		var burstMessageCount = 0, bursts = [], burstTopic;
+
+		$scope.messageBursts = function() {
+			var previousSender, messages = $scope.activeTopic.messages, currentBurst = [];
+
+			if (burstTopic === $scope.activeTopic.id && burstMessageCount === messages.length) {
+				return bursts;
+			}
+
+			bursts = [];
+
+			burstTopic = $scope.activeTopic.id;
+			burstMessageCount = messages.length;
+
+			messages.forEach(function(message) {
+				if (currentBurst.length > 0 && previousSender !== message.sender.id) {
+					bursts.push(currentBurst);
+					currentBurst = [];
+					previousSender = message.sender.id;
+				}
+				currentBurst.push(message);
+			});
+
+			if (currentBurst.length > 0) {
+				bursts.push(currentBurst);
+			}
+
+			return bursts;
+		};
+
 	}
+
 
 	messagesController.$inject = ["$scope", "$routeParams", "$location", "$timeout", "ssn.errorService", "ssn.cssService", "ssn.messageService"];
 
