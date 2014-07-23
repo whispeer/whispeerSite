@@ -1,13 +1,16 @@
 // Responsive Styles
 // ---------------------------
 
-@mobile: ~"only screen and (max-width : 767px)";
-@desktop: ~"only screen and (min-width: 768px)";
+@screen: ~"only screen";
+@mobile: ~"(max-width : 767px)";
+@desktop: ~"(min-width: 768px)";
 
-@media @mobile {
-	@import "mobile/index";
-}
+@media @screen {
+	@media @mobile {
+		@import "mobile/index";
+	}
 
-@media @desktop {
-	@import "normalScreen/index";
+	@media @desktop {
+		@import "normalScreen/index";
+	}
 }
