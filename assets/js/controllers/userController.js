@@ -31,7 +31,7 @@ define(["step", "whispeerHelper", "asset/resizableImage", "asset/state"], functi
 		$scope.verify = function (fingerPrint) {
 			verifyState.pending();
 
-			var ok = userObject.verify(fingerPrint, function (e) {
+			var ok = userObject.verifyFingerPrint(fingerPrint, function (e) {
 				if (e) {
 					verifyState.failed();
 					errorService.criticalError(e);
@@ -283,6 +283,10 @@ define(["step", "whispeerHelper", "asset/resizableImage", "asset/state"], functi
 			userService.get(identifier, this);
 		}, h.sF(function (user) {
 			userObject = user;
+
+			userObject.verify(function () {
+				debugger;
+			});
 
 			postService.getWallPosts(0, userObject.getID(), function (err, posts) {
 				$scope.posts = posts;
