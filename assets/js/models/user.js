@@ -393,7 +393,21 @@ define(["step", "whispeerHelper", "asset/state"], function (step, h, State) {
 			this.uploadChangedProfile = uploadChangedProfile;
 			this.setProfileAttribute = setProfileAttribute;
 
-			this.verify = function (fingerPrint, cb) {
+			this.verify = function (cb) {
+				step(function () {
+					privateProfiles.forEach(function (priv) {
+						priv.verify(theUser.getSignKey(), this.parallel());
+					}, this);
+				}, h.sF(function (verified) {
+					var ok = verified.reduce(function (init, v) {
+						return init && v;
+					}, true);
+
+					this.ne(ok);
+				}), cb);
+			};
+
+			this.verifyFingerPrint = function (fingerPrint, cb) {
 				if (fingerPrint !== keyStoreService.format.fingerPrint(theUser.getSignKey())) {
 					return false;
 				}
