@@ -251,7 +251,7 @@
 			.burst {
 				float: left;
 				clear: both;
-				max-width: 100%;
+				width: 100%;
 				word-wrap: break-word;
 				&:first-child {
 					// additional margin at the top, this will be useful when we have a
@@ -280,7 +280,7 @@
 				min-height: @message-image-size - 2 * @default-padding;
 				min-width: @message-image-size - 2 * @extended-padding;
 				margin-left: @message-image-size + 2 * @extended-padding;
-				margin-right: @extended-padding;
+				margin-right: @message-image-size + 2 * @extended-padding;
 				padding: @default-padding @extended-padding;
 				margin-bottom: @extended-padding;
 				margin-top: 0;
@@ -331,8 +331,6 @@
 					float: right;
 				}
 				.messages {
-					margin-right: @message-image-size + 2 * @extended-padding;
-					margin-left: @extended-padding;
 					background-color: @own-message-bg;
 					color: @own-message-fg;
 				}
