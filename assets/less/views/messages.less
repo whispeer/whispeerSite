@@ -73,7 +73,8 @@
 						display: none;
 						visibility: hidden;
 						&.chat, &.newMessage {
-							.column(6,7);
+							@media @desktop { .column(11, 16); }
+							@media @mobile { .column(4, 5); }
 							visibility: visible;
 						}
 						overflow: hidden;
