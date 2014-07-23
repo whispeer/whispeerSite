@@ -19,6 +19,15 @@ Enjoy!
 
 define(["angular"], function (angular) {
 	"use strict";
+
+	function escapeRegExp(string) {
+		return string.replace(/([.*+?^=!:${}()|\[\]\/\\])/g, "\\$1");
+	}
+
+	function regExpFromString(string, mode) {
+		return new RegExp(escapeRegExp(string), mode);
+	}
+
 	function insertValues(tag, values) {
 		var i, toSet;
 		if (values.length > 1) {
@@ -26,7 +35,7 @@ define(["angular"], function (angular) {
 				toSet = values[i].split("=");
 
 				if (toSet.length === 2) {
-					tag = tag.replace("{" + toSet[0] + "}", toSet[1]);
+					tag = tag.replace(regExpFromString("{" + toSet[0] + "}", "g"), toSet[1]);
 				}
 			}
 		}
