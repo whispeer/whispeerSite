@@ -81,7 +81,7 @@ define(["step", "whispeerHelper", "crypto/trustManager"], function (step, h, tru
 							content: profile.priv
 						},
 						own: profile.metaData
-					}, true);
+					}, { isDecrypted: true });
 
 					var privateProfileMe = new ProfileService({
 						profile: {
@@ -90,7 +90,13 @@ define(["step", "whispeerHelper", "crypto/trustManager"], function (step, h, tru
 						own: {
 							scope: "me"
 						}
-					}, true);
+					}, { isDecrypted: true });
+
+					var publicProfile = new ProfileService({
+						profile: {
+							content: profile.pub
+						}
+					}, { isPublicProfile: true });
 
 					trustManager.allow(3);
 
@@ -98,23 +104,22 @@ define(["step", "whispeerHelper", "crypto/trustManager"], function (step, h, tru
 
 					privateProfile.signAndEncrypt(keys.sign, keys.profile, keys.main, this.parallel());
 					privateProfileMe.signAndEncrypt(keys.sign, keys.main, keys.main, this.parallel());
-					keyStoreService.sign.signObject(profile.pub, keys.sign, this.parallel());
+					publicProfile.sign(keys.sign, this.parallel());
+
 					keyStoreService.sym.encryptObject(settings, keys.main, 0, this.parallel());
 
 					keyStoreService.sym.pwEncryptKey(keys.main, password, this.parallel());
 					keyStoreService.sym.symEncryptKey(keys.friendsLevel2, keys.friends, this.parallel());
 					keyStoreService.sym.symEncryptKey(keys.profile, keys.friends, this.parallel());
-				}), h.sF(function register3(privateProfile, privateProfileMe, publicProfileSignature, settings) {
+				}), h.sF(function register3(privateProfile, privateProfileMe, publicProfile, settings) {
 					keys = h.objectMap(keys, keyStoreService.correctKeyIdentifier);
 					trustManager.disallow();
-
-					profile.pub.signature = publicProfileSignature;
 
 					var registerData = {
 						password: keyStoreService.hash.hashPW(password),
 						keys: h.objectMap(keys, keyStoreService.upload.getKey),
 						profile: {
-							pub: profile.pub,
+							pub: publicProfile,
 							priv: [privateProfile, privateProfileMe]
 						},
 						settings: settings

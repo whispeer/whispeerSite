@@ -6,16 +6,24 @@ define(["step", "whispeerHelper", "crypto/encryptedData", "validation/validator"
 
 	var service = function () {
 		//where should the key go? should it be next to the data?
-		var profileService = function (data, isDecrypted) {
+		var profileService = function (data, options) {
+			options = options || {};
+
+			var isPublicProfile = options.isPublicProfile === true;
+			var isDecrypted = options.isDecrypted || options.isPublicProfile;
+
 			var securedData = new SecuredData(data.profile.content, data.profile.meta, {
 				removeEmpty: true,
 				encryptDepth: 1
 			}, isDecrypted);
 
-			var metaData = new EncryptedData(data.own, {}, isDecrypted);
+			var metaData;
+			if (!isPublicProfile) {
+				metaData = new EncryptedData(data.own, {}, isDecrypted);
 
-			if (data.metaData === false) {
-				metaData = false;	
+				if (data.metaData === false) {
+					metaData = false;
+				}
 			}
 
 			var id, theProfile = this;
@@ -51,7 +59,11 @@ define(["step", "whispeerHelper", "crypto/encryptedData", "validation/validator"
 				step(function () {
 					theProfile.decrypt(this);
 				}, h.sF(function  () {
-					securedData.signAndEncrypt(signKey, securedData.metaAttr("_key"), this);
+					if (isPublicProfile) {
+						this.sign(signKey, this);
+					} else {
+						securedData.signAndEncrypt(signKey, securedData.metaAttr("_key"), this);
+					}
 				}), h.sF(function (securedProfileData) {
 					var result = {
 						profileid: id,
@@ -62,7 +74,28 @@ define(["step", "whispeerHelper", "crypto/encryptedData", "validation/validator"
 				}), cb);
 			};
 
+			this.sign = function sign(signKey, cb) {
+				if (!isPublicProfile) {
+					throw new Error("please encrypt private profiles!");
+				}
+
+				step(function () {
+					securedData.sign(signKey, this);
+				}, h.sF(function (signedMeta) {
+					var result = {
+						content: securedData.contentGet(),
+						meta: signedMeta
+					};
+
+					this.ne(result);
+				}), cb);
+			};
+
 			this.signAndEncrypt = function signAndEncryptF(signKey, cryptKey, mainKey, cb) {
+				if (isPublicProfile) {
+					throw new Error("no encrypt for public profiles!");
+				}
+
 				step(function () {
 					this.parallel.unflatten();
 					securedData.signAndEncrypt(signKey, cryptKey, this.parallel());
@@ -108,6 +141,10 @@ define(["step", "whispeerHelper", "crypto/encryptedData", "validation/validator"
 			};
 
 			this.getScope = function (cb) {
+				if (isPublicProfile) {
+					throw new Error("no scope for public profiles");
+				}
+
 				step(function () {
 					if (metaData) {
 						metaData.getBranch("scope", this);

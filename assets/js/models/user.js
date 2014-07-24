@@ -75,6 +75,7 @@ define(["step", "whispeerHelper", "asset/state"], function (step, h, State) {
 			function findMeProfile(cb) {
 				var newMeProfile;
 				step(function () {
+					publicProfile.verify(this.parallel());
 					privateProfiles.forEach(function (profile) {
 						profile.getScope(this.parallel());
 					}, this);
@@ -206,7 +207,7 @@ define(["step", "whispeerHelper", "asset/state"], function (step, h, State) {
 				publicProfileSignature = userData.profile.pub.signature;
 				delete userData.profile.pub.signature;
 
-				publicProfile = userData.profile.pub;
+				publicProfile = new ProfileService(userData.profile.pub, { isPublicProfile: true });
 
 				privateProfiles = [];
 
@@ -399,9 +400,7 @@ define(["step", "whispeerHelper", "asset/state"], function (step, h, State) {
 						priv.verify(theUser.getSignKey(), this.parallel());
 					}, this);
 				}, h.sF(function (verified) {
-					var ok = verified.reduce(function (init, v) {
-						return init && v;
-					}, true);
+					var ok = verified.reduce(h.and, true);
 
 					this.ne(ok);
 				}), cb);
@@ -622,11 +621,14 @@ define(["step", "whispeerHelper", "asset/state"], function (step, h, State) {
 						theUser.getShortName(this.parallel());
 						theUser.getName(this.parallel());
 						theUser.getTrustLevel(this.parallel());
+						theUser.verify(this.parallel());
 					} else {
 						this.last.ne();
 					}
-				}, h.sF(function (shortname, names, trustLevel) {
+				}, h.sF(function (shortname, names, trustLevel, signatureValid) {
 					basicDataLoaded = true;
+
+					theUser.data.signatureValid = signatureValid;
 
 					theUser.data.me = theUser.isOwn();
 					theUser.data.other = !theUser.isOwn();

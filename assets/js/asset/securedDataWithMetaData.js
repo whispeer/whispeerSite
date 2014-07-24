@@ -48,6 +48,13 @@ define(["whispeerHelper", "step", "crypto/keyStore", "asset/errors"], function (
 
 			delete toSign._signature;
 			delete toSign._hashObject;
+
+			if (that._paddedContent || that._updatedContent) {
+				var hashContent = that._paddedContent || that._updatedContent;
+
+				toSign._contentHash = keyStore.hash.hashObjectOrValueHex(hashContent);
+				toSign._ownHash = keyStore.hash.hashObjectOrValueHex(that._updatedMeta);
+			}
 			
 			keyStore.sign.signObject(toSign, signKey, this);
 		}, h.sF(function (signature) {
@@ -74,13 +81,9 @@ define(["whispeerHelper", "step", "crypto/keyStore", "asset/errors"], function (
 			//add padding!
 			keyStore.hash.addPaddingToObject(that._updatedContent, 128, this);
 		}, h.sF(function (paddedContent) {
-			delete that._updatedMeta._signature;
-			delete that._updatedMeta._hashObject;
+			that._paddedContent = paddedContent;
 
-			that._updatedMeta._contentHash = keyStore.hash.hashObjectOrValueHex(paddedContent);
 			that._updatedMeta._key = keyStore.correctKeyIdentifier(cryptKey);
-			that._updatedMeta._version = 1;
-			that._updatedMeta._ownHash = keyStore.hash.hashObjectOrValueHex(that._updatedMeta);
 
 			if (typeof paddedContent === "object") {
 				hashObject = keyStore.hash.deepHashObject(paddedContent);
@@ -89,14 +92,14 @@ define(["whispeerHelper", "step", "crypto/keyStore", "asset/errors"], function (
 			this.parallel.unflatten();
 			keyStore.sym.encryptObject(paddedContent, cryptKey, that._encryptDepth, this.parallel());
 			that.sign(signKey, this.parallel());
-		}), h.sF(function (cryptedData) {
+		}), h.sF(function (cryptedData, meta) {
 			if (hashObject) {
-				that._updatedMeta._hashObject = hashObject;
+				meta._hashObject = hashObject;
 			}
 
 			this.ne({
 				content: cryptedData,
-				meta: that._updatedMeta
+				meta: meta
 			});
 		}), cb);
 	};
@@ -116,7 +119,7 @@ define(["whispeerHelper", "step", "crypto/keyStore", "asset/errors"], function (
 			that.decrypt(this);
 		}, h.sF(function () {
 			if (that._hasContent) {
-				if (keyStore.hash.hashObjectOrValueHex(that._paddedContent) !== that._originalMeta._contentHash) {
+				if (keyStore.hash.hashObjectOrValueHex(that._paddedContent || that._content) !== that._originalMeta._contentHash) {
 					throw new errors.SecurityError("content hash did not match");
 				}
 			}
@@ -132,7 +135,7 @@ define(["whispeerHelper", "step", "crypto/keyStore", "asset/errors"], function (
 				throw new errors.SecurityError("signature did not match");
 			}
 
-			this.ne();
+			this.ne(true);
 		}), cb);
 	};
 
