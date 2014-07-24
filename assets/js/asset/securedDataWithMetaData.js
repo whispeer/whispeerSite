@@ -23,7 +23,7 @@ define(["whispeerHelper", "step", "crypto/keyStore", "asset/errors"], function (
 			this._encryptedContent = content;
 		}
 
-		this._updatedMeta = h.deepCopyObj(meta);
+		this._updatedMeta = h.deepCopyObj(this._originalMeta);
 
 		this._updatedContent = this._content;
 	}
@@ -65,11 +65,11 @@ define(["whispeerHelper", "step", "crypto/keyStore", "asset/errors"], function (
 		@param cb callback(cryptedData, metaData),
 	*/
 	SecuredDataWithMetaData.prototype.signAndEncrypt = function (signKey, cryptKey, cb) {
+		var that = this, hashObject;
 		if (!that._hasContent) {
 			throw new Error("can only sign and not encrypt");
 		}
 
-		var that = this, hashObject;
 		step(function () {
 			//add padding!
 			keyStore.hash.addPaddingToObject(that._updatedContent, 128, this);
