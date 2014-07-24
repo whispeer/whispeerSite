@@ -366,7 +366,7 @@
 				"education": "Ausbildung",
 				"work": "Arbeit",
 				"gender": "Geschlecht",
-				"languages": "Sprachen",
+				"languages": "Sprache",
 				"names": {
 					"header": "Name",
 					"firstname": "Vorname",
@@ -404,6 +404,13 @@
 				},
 				"fingerprints": {
 					"title":	"Dein Fingerprint"
+				},
+				"uiLanguage": {
+					"title":	"Sprache der Oberfläche",
+					"langs": {
+						"de":		"Deutsch",
+						"en-US":	"Englisch (US)"
+					}
 				}
 			},	
 			"account":	"Benutzerkonto",

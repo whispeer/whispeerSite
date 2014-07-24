@@ -11,6 +11,14 @@
 
 // Messages
 @import "messages";
+@media @mobile {
+	#messages > .message-mixin(
+		@form-height: 40px;
+	);
+}
+@media @desktop {
+	#messages > .message-mixin();
+}
 
 // Friends
 @import "friends";

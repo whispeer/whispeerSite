@@ -1,50 +1,16 @@
 // Responsive Styles
-// --------------------------- 
+// ---------------------------
 
-/* Smartphones (portrait and landscape) */
-@media only screen 
-and (min-width : 319px) 
-and (max-width : 767px) {
-	@import "mobile/index";
-}
+@screen: ~"only screen";
+@mobile: ~"(max-width : 767px)";
+@desktop: ~"(min-width: 768px)";
 
-/* Tablets --------------------------- */
-	
-	// Tablets (landscape) -----------
-	@media only screen 
-	and (min-width : 768px) 
-	and (max-width : 1024px) 
-	and (orientation : landscape) {
-		@import "tablet/landscape/index";
-	}
-	
-	// Tablets (portrait) -----------
-	@media only screen 
-	and (min-width : 768px) 
-	and (max-width : 1024px) 
-	and (orientation : portrait) {
-		@import "tablet/portrait/index";
+@media @screen {
+	@media @mobile {
+		@import "mobile/index";
 	}
 
-/* Small Screens --------------------- */
-@media only screen
-and (min-width: 1025px)
-and (max-width: 1159px) {
-	@import "smallScreen/index";
+	@media @desktop {
+		@import "normalScreen/index";
+	}
 }
-
-/* Normal Screens -------------------- */
-@media only screen 
-and (min-width: 1160px)
-and (max-width: 1823px) {
-	@import "normalScreen/index";
-}
-
-/* Large screens --------------------- */
-@media only screen 
-and (min-width : 1824px) {
-	@import "largeScreen/index";
-}
-
-/* Utilities ------------------------- */
-@import "utilities.less";

@@ -1058,14 +1058,26 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 		}
 
 		function verifyF(signature, hash, callback) {
+			var signatureCache;
 			step(function () {
-				require(["crypto/trustManager"], this.ne, this);
-			}, h.sF(function (trustManager) {
+				require(["crypto/trustManager", "crypto/signatureCache"], this.ne, this);
+			}, h.sF(function (trustManager, sC) {
+				signatureCache = sC;
 				if (!trustManager.hasKeyData(intKey.getRealID())) {
-					console.log("key not in key database");
 					throw new errors.SecurityError("key not in key database");
 				}
-				sjclWorkerInclude.asym.verify(publicKey, signature, hash, this);
+
+				if (signatureCache.isLoaded() && signatureCache.isSignatureInCache(signature, hash, realid)) {
+					this.last.ne(signatureCache.getSignatureStatus(signature, hash, realid));
+				} else {
+					sjclWorkerInclude.asym.verify(publicKey, signature, hash, this);
+				}
+			}), h.sF(function (valid) {
+				if (signatureCache.isLoaded()) {
+					signatureCache.addSignatureStatus(signature, hash, realid, valid);
+				}
+
+				this.ne(valid);
 			}), callback);
 		}
 

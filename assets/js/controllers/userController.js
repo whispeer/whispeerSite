@@ -31,7 +31,7 @@ define(["step", "whispeerHelper", "asset/resizableImage", "asset/state"], functi
 		$scope.verify = function (fingerPrint) {
 			verifyState.pending();
 
-			var ok = userObject.verify(fingerPrint, function (e) {
+			var ok = userObject.verifyFingerPrint(fingerPrint, function (e) {
 				if (e) {
 					verifyState.failed();
 					errorService.criticalError(e);
