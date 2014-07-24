@@ -13,7 +13,6 @@
 	@remaining-user-bubble-border: 3px;
 	@remaining-user-bubble-bg: white;
 	@remaining-user-bubble-fg: green;
-	@remaining-user-bubble-font: 15px;
 
 	// user image size in message list.
 	@message-image-size: 48px; //@user-image-size-small;
@@ -50,7 +49,6 @@
 			}
 
 			.time {
-				font-size: 80%;
 				color: #888;
 				white-space: nowrap;
 				text-align: right;
@@ -127,7 +125,6 @@
 					}
 				}
 				.username {
-					font-size: 0.9em!important;
 					padding-top: @default-padding;
 					padding-left: 0;
 					text-overflow: ellipsis;
@@ -136,7 +133,6 @@
 				}
 				.lastMessage {
 					color: #555;
-					font-size: 0.8em;
 					height: (@preview-lines * @message-preview-lineheight); // three lines of text.
 					overflow: hidden;
 					padding-left: @status-compensation;
@@ -206,16 +202,13 @@
 								border: @remaining-user-bubble-border solid @remaining-user-bubble-fg;
 								border-radius: 100%;
 
-								line-height: @remaining-user-bubble-size;
 								text-align: center;
 
 								color: @remaining-user-bubble-fg;
 								background: @remaining-user-bubble-bg;
 
 								// typography, this should probably be handled elsewhere.
-								font-size: @remaining-user-bubble-font;
 								text-decoration: italic;
-								font-weight: bold;
 							}
 						}
 					}
