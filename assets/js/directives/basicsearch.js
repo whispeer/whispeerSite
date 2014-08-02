@@ -101,7 +101,6 @@ define(["step", "whispeerHelper"], function () {
 				};
 
 				scope.click = function (bool, $event) {
-					debugger;
 					if ($event) {
 						$event.stopPropagation();
 						$event.preventDefault();
