@@ -18,8 +18,22 @@ define(["step", "whispeerHelper"], function () {
 				};
 				
 				scope.showSelectedElements = false;
-				scope.toggleShowSelectedElements = function () {
-					scope.showSelectedElements = !scope.showSelectedElements;
+				scope.toggleShowSelectedElements = function (bool, $event) {
+					if ($event) {
+						$event.stopPropagation();
+						$event.preventDefault();
+					}
+
+					if (bool) {
+						internallyClicked = true;
+						scope.showSelectedElements = !scope.showSelectedElements;
+						focused = false;
+						clicked = false;
+						$timeout(function () {
+							internallyClicked = false;
+						});
+					}
+					initialize();
 				};
 
 				scope.resultAttribute = iAttrs.resAttr || "selectedElements";
@@ -35,7 +49,7 @@ define(["step", "whispeerHelper"], function () {
 				var focused = false, clicked = false, initialized = false;
 
 				/* we need to build the input on our own to be able to add custom attributes */
-				var input = jQuery('<input type="text" class="searchQuery"  data-ng-keydown="keydown($event)" data-ng-change="queryChange()" data-ng-model="query" data-onfocus="focus(true)" data-onblur="focus(false)">');
+				var input = jQuery('<input type="text" class="searchQuery" data-ng-click="click(true, $event)"  data-ng-keydown="keydown($event)" data-ng-change="queryChange()" data-ng-model="query" data-onfocus="focus(true)" data-onblur="focus(false)">');
 
 				/* add attributes on outer element starting with input- to the inner input */
 				var attr, attrName;
@@ -83,9 +97,11 @@ define(["step", "whispeerHelper"], function () {
 				scope.hide = function () {
 					scope.focus(false);
 					scope.click(false);
+					scope.showSelectedElements = false;
 				};
 
 				scope.click = function (bool, $event) {
+					debugger;
 					if ($event) {
 						$event.stopPropagation();
 						$event.preventDefault();
@@ -104,6 +120,7 @@ define(["step", "whispeerHelper"], function () {
 
 				scope.focus = function (bool) {
 					focused = bool;
+					scope.showSelectedElements = false;
 					initialize();
 				};
 

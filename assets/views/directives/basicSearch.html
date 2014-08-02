@@ -1,20 +1,20 @@
 <div class="searchBar" data-ng-class="{'search-multiple': multiple, 'search-single': !multiple}">
 	<form class="formSearch">
 		<ul class="inputWrap">
-			<li class="selected" data-ng-if="multiple" data-ng-click="toggleShowSelectedElements()">
+			<li class="selected" data-ng-if="multiple" data-ng-click="toggleShowSelectedElements(true, $event)">
 				<span class="count">{{selectedElements.length}}</span>
 			</li>
 			<li data-ng-repeat="element in previewedSelectedElements" class="searchResult">
 				<span class="nameTag">{{element.name}}</span>
 				<a href="" class="remove" data-ng-click="removeSelection($index, $event)"><i class="icon icon-cancel-circle"></i></a>
 			</li>
-			<li class="searchField" data-ng-click="click(true, $event)">
+			<li class="searchField">
 			</li>
 		</ul>
 	</form>
-	<div class="dorpdown searchDrop" style="width: {{width}}px" data-ng-if="show()" ng-transclude>
+	<div class="dorpdown searchDrop" style="width: {{width}}px" data-ng-if="show() && !showSelectedElements" data-ng-click="click(true,$event)" ng-transclude>
 	</div>
-	<div class="dropdown selectDrop" data-ng-if="showSelectedElements" style="width: {{width}}px">
+	<div class="dropdown selectDrop" data-ng-if="showSelectedElements && !show()" style="width: {{width}}px">
 		<div class="dropdown-header">
 			<span class="title">Ausgewählte Kreise ({{selectedElements.length}})</span>
 			<div class="close" data-ng-click="toggleShowSelectedElements()"><i class="icon icon-cancel-circle"></i></div>
