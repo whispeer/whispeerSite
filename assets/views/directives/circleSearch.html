@@ -1,5 +1,9 @@
 <basicsearch multiple="true">
-	<ol class="unstyled searchSuggestions">
+	<div class="dropdown-header">
+		<span class="title">Kreise auswählen ({{query.length}})</span>
+		<div class="close" data-ng-click="hide()"><i class="icon icon-cancel-circle"></i></div>
+	</div>
+	<ol class="unstyled searchSuggestions dropdown-container">
 		<li class="noResults" data-ng-if="!results" style="width: {{width + 15}}px" data-i18n="start.loading"></li>
 		<li class="noResults" data-ng-if="results.length == 0" style="width: {{width + 15}}px">
 			<span data-i18n="views.circles.nocircle"></span>
