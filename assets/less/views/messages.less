@@ -1,260 +1,372 @@
-.messagesView {
-	#main {
-		.box;
-		overflow-y: hidden !important;
-	}
-	#topicListWrap {
-		margin-right: 3px;
-		#topicList {
-			.unstyled;
-			.box-fix;
-			#topicListScroll {
-				.box-fix;
+
+#messages {
+
+	// Some adjustable heights:
+	@form-height: 70px;
+	@form-margin: 5px;
+	@header-height: 30px;
+
+	// big/small image size in topic list.
+	@user-image-size: 72px;
+	@user-image-size-small: 56px;
+	@remaining-user-bubble-size: 28px;
+	@remaining-user-bubble-border: 3px;
+	@remaining-user-bubble-bg: white;
+	@remaining-user-bubble-fg: green;
+	@remaining-user-bubble-font: 15px;
+
+	// user image size in message list.
+	@message-image-size: 48px; //@user-image-size-small;
+	@message-arrow-size: 8px;
+	@message-arrow-offset: @message-image-size / 2;
+	@own-message-bg: #48930a;
+	@own-message-fg: white;
+	@foreign-message-bg: #d5d5d5;
+	@foreign-message-bg2: #b2b2b2; //border
+
+	// This is some paddings that are used troughout.
+	@default-padding: 6px;
+	@extended-padding: 2 * @default-padding;
+
+	// This is additional padding that compensates for the width and padding
+	// of a status bubble.
+	@status-compensation: 13px;
+
+	// This really should be pulled from somewhere else.
+	@message-preview-lineheight: 20px;
+	@preview-lines: 2;
+
+	.message-mixin(@form-height: @form-height) {
+
+		.messagesView {
+
+			ul {
+				margin: 0;
+				list-style-type: none;
 			}
+
+			a {
+				word-wrap: break-word;
+			}
+
+			.time {
+				font-size: 80%;
+				color: #888;
+				white-space: nowrap;
+				text-align: right;
+				text-overflow: ellipsis;
+				overflow: hidden;
+			}
+			.me .time {
+				color: #eee;
+			}
+
+			#main {
+				// main has to stay here, as there are mains on pages that have no
+				// .messagesView. .box() is also needed, for that grey box that is
+				// everywhere.
+				.box();
+				overflow: hidden;
+				header {
+					overflow: hidden;
+					.title {
+						display: none;
+						visibility: hidden;
+						&.chat, &.newMessage {
+							@media @desktop { .column(11, 16); }
+							@media @mobile { .column(4, 5); }
+							visibility: visible;
+						}
+						overflow: hidden;
+						text-overflow: ellipsis;
+						white-space: nowrap;
+					}
+				}
+			}
+
+		}
+
+		#newmessage {
+			@media @desktop { .column(5, 16, left, 0); }
+			@media @mobile { .column(1, 1, left, 0); }
+			&.topic {
+				border: none;
+				background: transparent;
+				.btn {
+					width: 100%;
+					border: none;
+					.border-radius(0);
+				}
+			}
+		}
+
+		#topicListWrap {
+
+			@media @desktop { .column(5, 16, left, 0); }
+			@media @mobile { .column(1, 1, left, 0); }
+
+			height: 100%;
+			overflow-y: scroll;
+			overflow-x: hidden;
+			box-sizing: border-box;
+			border-bottom: @header-height solid transparent;
+
+		}
+
+		#topicList {
 			.topic {
 				border-bottom: 1px solid #ddd;
-				.box-fix;
 				cursor: pointer;
 				position: relative;
-				transition: background-color 0.1s ease;
+				padding-right: @extended-padding;
 				.left {
 					.userimg {
+						width: 80px;
 						border: 1px solid #f2f2f2;
-						.box-fix;
 						.border-radius(100%);
 					}
 				}
-				.username, .lastMessage {
-					overflow: hidden;
-					white-space: nowrap;
-					text-overflow: ellipsis;
-				}
-				.username, .lastMessage, .time {
-					transition: color 0.1s ease;
-				}
 				.username {
 					font-size: 0.9em!important;
-					.status {
-						border: 1px solid #ececec;
-					}
+					padding-top: @default-padding;
+					padding-left: 0;
+					text-overflow: ellipsis;
+					white-space: nowrap;
+					overflow: hidden;
 				}
 				.lastMessage {
-					font-size: 0.8em;
 					color: #555;
-				}
-				.time {
-					font-size: 80%;
-					color: #888;
-					float: right;
+					font-size: 0.8em;
+					height: (@preview-lines * @message-preview-lineheight); // three lines of text.
 					overflow: hidden;
-					white-space: nowrap;
-					text-overflow: ellipsis;
-					line-height: 12px;
-					display: block;
-					margin-bottom: 2%;
-					position: absolute;
-					bottom: 1%;
-					right: 2%;
-					text-align: right;
+					padding-left: @status-compensation;
+					padding-right: @extended-padding;
 				}
-				&:hover {
-					background-color: @primaryLightest;
-					.username {
-						color: #ececec;
-					}
-					.lastMessage {
-						color: #eee;
-					}
-					.time {
-						color: #eee;
-					}
-				}
-				&.unread {
+				&:hover, &.unread, &.active {
 					background-color: @primaryLighter;
 					.username {
 						color: #ececec;
 					}
-					.lastMessage {
-						color: #eee;
-					}
 					.time {
 						color: #eee;
-					}
-					&:hover {
-						background-color: @primaryLightest;
-					}		
-				}
-				&.active {
-					background-color: @primaryLighter;
-					.username {
-						color: #ececec;
 					}
 					.lastMessage {
 						color: #eee;
 					}
-					.time {
-						color: #eee;
-					}
+				}
+				&.unread, &.active {
 					&:hover {
 						background-color: @primaryLightest;
-					}
-				}
-				&#newmessage {
-					border: none;
-					background: transparent;
-					.btn {
-						width: 100%;
-						border: none;
-						.border-radius(0);
 					}
 				}
 				&.groupChat, &.peerChat {
 					.left {
-						padding: 2%;
-						.box-fix;
+						padding: 0;
+						margin: 0;
+						float: left;
 						.imgWrap {
-							width: 100%;
-							height: 100%;
-							display: block;
-							padding: 0;
-							margin: 0;
-							float: left;
+							padding: @default-padding;
+							img {
+								display: block;
+								box-sizing: content-box;
+								width: @user-image-size;
+								height: @user-image-size;
+							}
 						}
 					}
 				}
 				&.groupChat {
 					.left {
-						background: transparent;
 						.imgWrap {
-							.border-radius(100%);
-							overflow: hidden;
-							border: 1px solid #f2f2f2;
-							background-color: #b2b2b2;
-						}
-						img, span, div {
-							.border-radius(0);
-							border: none;
-						}
-						span, div {	
-							background-color: #343434;
-							color: @white;
-							.box-fix;
-							height: 100%;
+							// group chats have smaller images, and compensate for equal
+							// height of the list element w/ some bottom padding.
+							padding-bottom: (@user-image-size - @user-image-size-small + @default-padding);
+							padding-right: (@user-image-size - @user-image-size-small + @default-padding);
+							img {
+								box-sizing: content-box;
+								width: @user-image-size-small;
+								height: @user-image-size-small;
+							}
+							img ~ img {
+								// offset the second image
+								position: absolute;
+								top: (@default-padding + @user-image-size - @user-image-size-small);
+								left: (@default-padding + @user-image-size - @user-image-size-small);
+							}
+							span {
+								// the span with remaining users is missing a class.
+								// trust me, it's this one :-)
+								position: absolute;
+
+								box-sizing: content-box;
+								width: @remaining-user-bubble-size;
+								height: @remaining-user-bubble-size;
+								left: (@default-padding + @user-image-size - @remaining-user-bubble-size - @remaining-user-bubble-border);
+								top: (@default-padding + @user-image-size - @remaining-user-bubble-size - @remaining-user-bubble-border);
+								border: @remaining-user-bubble-border solid @remaining-user-bubble-fg;
+								border-radius: 100%;
+
+								line-height: @remaining-user-bubble-size;
+								text-align: center;
+
+								color: @remaining-user-bubble-fg;
+								background: @remaining-user-bubble-bg;
+
+								// typography, this should probably be handled elsewhere.
+								font-size: @remaining-user-bubble-font;
+								text-decoration: italic;
+								font-weight: bold;
+							}
 						}
 					}
 				}
 			}
 		}
-	}
-	#topicWrap {
+
+		#topicWrap {
+			height: 100%;
+			overflow: hidden;
+			position: relative;
+		}
+
+		#messageWrap {
+			height: 100%;
+		}
+
 		#messageList {
-			.box-fix;
-			.message {
-				.messageContent {
-					background: darken(@grayLighter,10%);
-					border: 1px solid #b2b2b2;
-					.border-radius(6px);
-					overflow: hidden;
-					word-wrap: break-word;
-					.clear-fix;
-					.time {
-						font-size: 80%;
-						color: #888;
-						float: right;
-						margin-right: 5px;
-						margin-top: -5px;
-					}
-					a {
-						&:hover {
-							text-decoration: underline;
-						}
-					}
-				}	
-				.userimg {
-					img {
-						.border-radius(100%);
-					}
-				}
-				&.me {
-					.messageContent {
-						background: darken(@green,5%);
-						a {
-							color: #efefef;
-							&:hover {
-								color: @white;
-							}
-						}
-						.messageText {
-							color: #efefef;
-						}
-						.time {
-							color: #eee;
-						}
-					}
-				}
+
+			// this is for well-behaving w/ the form at the bottom.
+			box-sizing: border-box;
+			border-bottom: (@form-height + @header-height + 2 * @form-margin) solid transparent;
+			height: 100%;
+			width: 100%;
+			position: absolute;
+			overflow-x: hidden;
+			overflow-y: scroll;
+			top: 0;
+			left: 0;
+			margin: 0;
+			padding: 0;
+
+			.burst {
+				float: left;
+				clear: both;
+				min-width: 80%;
+				max-width: 100%;
+				word-wrap: break-word;
 				&:first-child {
-					margin-top: 5px;
+					// additional margin at the top, this will be useful when we have a
+					// 'pull down to load more' feature.
+					margin-top: @extended-padding;
 				}
+			}
+
+			.userimg {
+				display: inline-block;
+				float: left;
+				clear: both;
+				margin-left: @extended-padding;
+				margin-right: @extended-padding;
+				img {
+					.border-radius(100%);
+					width: @message-image-size;
+					height: @message-image-size;
+				}
+			}
+
+			// this is the messages container.
+			.messages {
+				// angular creates and fills w/o moving stuff into display: none,
+				// so we need to add min size to prevent constant UI movement.
+				min-height: @message-image-size - 2 * @default-padding;
+				min-width: @message-image-size - 2 * @extended-padding;
+				margin-left: @message-image-size + 2 * @extended-padding;
+				margin-right: @message-image-size + 2 * @extended-padding;
+				padding: @default-padding @extended-padding;
+				margin-bottom: @extended-padding;
+				margin-top: 0;
+				border-radius: @extended-padding;
+				background: @foreign-message-bg;
+				border: 1px solid @foreign-message-bg2;
+				position: relative;
+			}
+
+			.messages:after, .messages:before {
+				right: 100%;
+				top: @message-arrow-offset;
+				border: solid transparent;
+				content: " ";
+				height: 0;
+				width: 0;
+				position: absolute;
+				pointer-events: none;
+			}
+
+			.messages:after {
+				border-color: fade(@foreign-message-bg, 0%);
+				border-width: @message-arrow-size;
+				margin-top: -1 * @message-arrow-size;
+			}
+			.messages:before {
+				border-color: fade(@foreign-message-bg2, 0%);
+				border-width: 1px + @message-arrow-size;
+				margin-top: -1 * (1px + @message-arrow-size);
+			}
+
+			// messages from others
+			.other {
+				.messages:after {
+					border-right-color: @foreign-message-bg;
+				}
+				.messages:before {
+					border-right-color: @foreign-message-bg2;
+				}
+			}
+
+			// customizations for messages by me
+			.me {
+				&.burst {
+					float: right;
+				}
+				.userimg {
+					float: right;
+				}
+				.messages {
+					background-color: @own-message-bg;
+					color: @own-message-fg;
+				}
+				.messages:after, .messages:before {
+					left: 100%;
+				}
+				.messages:after {
+					border-color: fade(@own-message-bg, 0%);
+					border-left-color: @own-message-bg;
+				}
+				.messages:before {
+					border-left-color: @foreign-message-bg2;
+				}
+				a {
+					color: @own-message-fg;
+				}
+			}
+
+		}
+
+		#inputWrap { // this is the form
+			display: block;
+			position: absolute;
+			width: 100%;
+			bottom: @header-height;
+			margin-bottom: @form-margin;
+
+			textarea {
+				height: @form-height;
+				.column(3,4);
+			}
+			button {
+				height: @form-height;
+				.column(1,4);
 			}
 		}
-		&.peerChat {
-			#messageList {
-				.unstyled;
-				overflow-y: scroll;
-				.message {
-					.user {
-						.userimg {
-							//.border-radiuses(0,0,0,6px);
-						}
-						.username {
-							display: none;
-						}
-					}
-					&.me {
-						.messageText {
-							float: right;
-							word-break: break-word;
-							color: #efefef;
-						}
-						.user {
-							.userimg {
-								float: right;
-								display: block;
-								margin-right: 0 !important;
-							}
-						}
-					}
-					&.other {
-						color: #4e4e4e;
-						.user {
-							.userimg {
-								margin-left: 0 !important;
-							}
-						}
-					}
-				}
-			}		
-		}
-		&.newMessage {
-			#messageTitle {
-				h2 {
-					.column(12);
-				}
-			}
-			.searchBar {
-				.searchDrop {
-					li {
-						padding: 0 25px 0 0 !important;
-					}
-				}
-			}
-			#messageInput {
-				margin-bottom: 14px !important;
-			}
-			#sendmessage {
-				padding: 10px 10px;
-				margin-left: 1% !important;
-			}
-		}		
 	}
 }

@@ -1,13 +1,20 @@
 define(["step", "whispeerHelper", "crypto/encryptedData"], function (step, h, EncryptedData) {
 	"use strict";
 
-	var service = function ($rootScope, $injector, initService) {
+	var service = function ($rootScope, $injector, localize, initService) {
 		var settings;
 
 		initService.register("settings.getSettings", {}, function (data, cb) {
 			settings = new EncryptedData(data.settings);
+			step(function () {
+				settings.getBranch("uiLanguage", this);
+			}, h.sF(function (language) {
+				if (language && language.data) {
+					localize.setLanguage(language.data);
+				}
 
-			cb();
+				this.ne();
+			}), cb);
 		});
 
 		$rootScope.$on("reset", function () {
@@ -88,7 +95,7 @@ define(["step", "whispeerHelper", "crypto/encryptedData"], function (step, h, En
 		return api;
 	};
 
-	service.$inject = ["$rootScope", "$injector", "ssn.initService"];
+	service.$inject = ["$rootScope", "$injector", "localize", "ssn.initService"];
 
 	return service;
 });

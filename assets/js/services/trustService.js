@@ -1,8 +1,28 @@
-define(["step", "whispeerHelper", "crypto/trustManager"], function (step, h, trustManager) {
+define(["step", "whispeerHelper", "crypto/trustManager", "crypto/signatureCache"], function (step, h, trustManager, signatureCache) {
 	"use strict";
 
 	var service = function ($rootScope, initService, userService, socketService, errorService) {
 		var THROTTLE = 20;
+
+
+		function uploadSignatureCache() {
+			if (!signatureCache.isLoaded() || !signatureCache.isChanged()) {
+				return;
+			}
+
+			step(function () {
+				signatureCache.getUpdatedVersion(this);
+			}, h.sF(function (newTrustContent) {
+				socketService.emit("signatureCache.set", {
+					content: newTrustContent
+				}, this);
+			}), h.sF(function (result) {
+				if (!result.success) {
+					throw new Error(result.error);	
+				}
+			}), errorService.criticalError);
+		}
+		window.setInterval(uploadSignatureCache, 1000);
 
 		function uploadDatabase(cb) {
 			step(function () {
@@ -39,6 +59,15 @@ define(["step", "whispeerHelper", "crypto/trustManager"], function (step, h, tru
 				uploadDatabase(cb);
 			}
 		}, true);
+
+		initService.register("signatureCache.get", {}, function (data, cb) {
+			if (data.content) {
+				signatureCache.loadDatabase(data.content, userService.getown().getSignKey(), cb);
+			} else {
+				signatureCache.createDatabase(userService.getown().getSignKey());
+				cb();
+			}
+		});
 
 		$rootScope.$on("ssn.reset", function () {
 			trustManager.reset();

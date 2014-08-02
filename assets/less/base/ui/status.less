@@ -1,19 +1,23 @@
+@status-online:	 #33dd00;
+@status-offline: #9d261d;
+@status-away:    #f7b311;
+@status-unknown: #999999;
+
 .status {
-	width: 0.7em;
-	height: 0.7em;
+	width: 9px;
+	height: 9px;
 	.border-radius(100%);
 	display: inline-block;
 	&[data-status="-1"] {
-		display: none;
-		visibility: hidden;
+		background-color: @status-unknown;
 	}
 	&[data-status="0"] {
-		background-color: @red;
+		background-color: @status-offline;
 	}
 	&[data-status="1"] {
-		background-color: @orange;
+		background-color: @status-away;
 	}
 	&[data-status="2"] {
-		background-color: @green;
+		background-color: @status-online;
 	}
 }

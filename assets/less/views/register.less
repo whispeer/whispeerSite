@@ -17,16 +17,6 @@
 	}
 	#main {
 		text-align: center;
-		@media (max-height: 575px) {
-			padding-bottom: 50px;
-		}
-		@media (min-height: 576px) {
-			.box {
-				section {
-					max-height: 400px;
-				}
-			}
-		}
 	}
 	#logo {
 		margin: 0px auto;
@@ -110,7 +100,7 @@
 				color: @white;
 				text-align: none;
 			}
-		}	
+		}
 	}
 	section {
 		padding: 0;
@@ -409,7 +399,7 @@
 								left:0;
 							}
 						}
-					}	
+					}
 					&#registerPasswordStrength {
 						height: 40px;
 						display: block;
@@ -419,8 +409,8 @@
 						.border-radius(5px);
 						.box-fix;
 					}
-				}	
-			}	
+				}
+			}
 			.submitWrap {
 				display: inline-block;
 				vertical-align: bottom;
@@ -455,8 +445,8 @@
 							float: right;
 							margin-left:-1px;
 						}
-					} 
-				}	
+					}
+				}
 			}
 			&[data-regStep="2"] {
 				.inputWrap {
@@ -481,7 +471,7 @@
 		#loginForm, #registerForm {
 			box-shadow: 0px 0px 3px #fff;
 		}
-	}	
+	}
 	a {
 		text-decoration: underline;
 		color: darken(@white, 10%);
