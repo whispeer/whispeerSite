@@ -46,6 +46,7 @@
 							.box-fix;
 							li {
 								overflow: hidden;
+								height: 34px !important;
 								&.searchField {
 									width: 100%;
 									height: 100%;
@@ -56,19 +57,35 @@
 										overflow: hidden;
 									}
 								}
+								&.selected {
+									width: auto;
+									padding: 3px 15px;
+									span {
+										margin-top: 3px;
+										display: inline-block;
+									}
+								}
 								&.searchResult {
 									width: 30%;
 								}
 							}
 						}
 						.searchDrop {
-							.push(-3.5);
-							top: -40px;
-							.width(3.5);
-							max-height: 95px;
+							top: -118px;
+							left: -105%;
+							height: 100px !important;
+							overflow-x: hidden;
+							overflow-y: scroll;
 							li {
 								width: 104%;
 							}
+						}
+						.selectDrop {
+							top: -80px;
+							left: -105%;
+							height: 100px !important;
+							overflow-x: hidden;
+							overflow-y: scroll;
 						}
 					}
 					.circleSubmit {
@@ -98,13 +115,6 @@
 			.icon {
 				margin-top: 7px;
 				width: 35px;
-			}
-			.badge {
-				padding: 1px 2px 1px 2px;
-				margin-left: -13px;
-				margin-top: 25px;
-				position: absolute;
-				font-size: 11px;
 			}
 		}
 	}

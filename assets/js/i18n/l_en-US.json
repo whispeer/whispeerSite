@@ -360,7 +360,7 @@
 				
 				"work": "Job",
 				"gender": "Gender",
-				"languages": "Languages",
+				"languages": "Interface Language",
 				"names": {
 					"header": "Name",
 					"firstname": "First name",
@@ -398,6 +398,13 @@
 				},
 				"fingerprints": {
 					"title":	"Your Fingerprint"
+				},
+				"uiLanguage": {
+					"title":	"User Interface Language",
+					"langs": {
+						"de":		"German",
+						"en-US":	"English (US)"
+					}
 				}
 			},
 			"account":	"Account",
