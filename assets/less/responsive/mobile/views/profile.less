@@ -180,5 +180,42 @@
 				}
 			}
 		}
+		#verifyUser {
+			.chooseVerifyMethod, .verify {
+				.column(12);
+				text-align: center;
+				h3 {
+					.column(12);
+					margin-top: 11px;
+					margin-bottom: 10px;
+				}
+				span {
+					.column(12);
+				}
+				.inputWrap {
+					.column(12);
+					margin-top: 10px;
+				}
+				input {
+					.column(10);
+				}
+				button {
+					.column(6);
+					&.btn--saveButton {
+						.width(2);
+					}	
+				}
+				.qrScanner {
+					.column(10);
+					.push(1);
+					margin-top: 10px;
+					height: intrinsic;
+					padding: 0;
+					button {
+						.width(12);
+					}
+				}
+			}
+		}
 	}
 }
