@@ -86,11 +86,6 @@ define(["crypto/keyStore", "step", "whispeerHelper", "crypto/encryptedData", "va
 			}
 
 			this.verify = function verifyProfileF(key, cb) {
-				if (verified) {
-					cb(null, verified);
-					return;
-				}
-
 				step(function () {
 					theProfile.decrypt(this);
 				}, h.sF(function () {
@@ -101,6 +96,8 @@ define(["crypto/keyStore", "step", "whispeerHelper", "crypto/encryptedData", "va
 					} else {
 						h.setAll(decryptedProfile, "Security Breach!");
 					}
+
+					this.ne(valid);
 				}), cb);
 			};
 

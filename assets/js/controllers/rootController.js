@@ -24,7 +24,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 		$http({ method: "GET", url: "changelog.json?t=" + (new Date()).getTime(), cache: false }).success(function (data) {
 			var version = getVersionString(data);
 			version = version.substr(0, version.length - 1);
-			
+
 			$scope.version = version + "-" + buildDate;
 		});
 
@@ -33,7 +33,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 
 		function updateMobile() {
 			var old = $scope.mobile;
-			$scope.mobile = jQuery(window).width() <= 1024;
+			$scope.mobile = jQuery(window).width() < 768;
 
 			if ($scope.mobile !== old) {
 				$timeout(h.nop);
@@ -107,7 +107,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 			$scope.searchActive = false;
 			$scope.cssClass = cssService.getClass();
 		};
-		
+
 		$scope.toggleSearch = function() {
 			$scope.searchActive = !$scope.searchActive;
 			$scope.sidebarActive = false;
