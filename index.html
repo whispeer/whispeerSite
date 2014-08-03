@@ -111,7 +111,7 @@
 		<!-- !Mobile Menu -->
 		<aside id="sidebar-left" data-ng-if="loggedin && mobile" data-ng-class="{show: (sidebarActive && !searchActive)}">
 			<ul class="mobileMenu" data-ng-controller="ssn.magicbar.mainController">
-				<a href="notificationCenter" class="full" data-ng-click="toggleSidebar()" data-ng-if="(messages.unread + friends.requestsCount + news.count) > 0">
+				<a href="notificationCenter" class="full" data-ng-click="toggleSidebar()" data-ng-if="friends.requestsCount > 0">
 					<li>
 						<i class="icon icon-comment"></i>
 						<span>
