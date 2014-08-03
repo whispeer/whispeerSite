@@ -88,9 +88,6 @@ body {
 					overflow: hidden;
 					border-bottom: 1px solid @green;
 					border-top: 1px solid #bbb;
-					&.full {
-						.width(12);
-					}
 					li {
 						.btn;
 						.btn--green;
@@ -112,6 +109,36 @@ body {
 								font-size: 1.2em;
 								text-align: center;
 								margin-top: 0px;
+							}
+						}
+						
+					}
+					&.full {
+						li {
+							span {
+								display: inline-block;
+								text-align: left;
+								position: relative;
+								span {
+									float: right;
+									margin: 0;
+									padding: 0;
+									display: inline-block;
+									text-align: center;
+									&.badge {
+										width: 25px;
+										height: 25px;
+										padding-top: 2px;
+										padding-left: 1px;
+										.box-fix;
+										float: left;
+										margin: 0;
+										top: 0;
+										left: 0;
+										position: absolute;
+										font-size: 0.9em;
+									}
+								}
 							}
 						}
 					}

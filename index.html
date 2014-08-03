@@ -110,16 +110,16 @@
 		<!-- end !Userpanel -->
 		<!-- !Mobile Menu -->
 		<aside id="sidebar-left" data-ng-if="loggedin && mobile" data-ng-class="{show: (sidebarActive && !searchActive)}">
-			<ul class="mobileMenu">
+			<ul class="mobileMenu" data-ng-controller="ssn.magicbar.mainController">
 				<a href="notificationCenter" class="full" data-ng-click="toggleSidebar()" data-ng-if="(messages.unread + friends.requestsCount + news.count) > 0">
 					<li>
 						<i class="icon icon-comment"></i>
-						<span data-i18n="menu.notifications"></span>
 						<span>
-							<span class="badge" data-ng-controller="ssn.magicbar.mainController">
+							<span class="badge">
 								{{messages.unread + friends.requestsCount + news.count}}
 							</span>
-						</span>
+							<span data-i18n="menu.notifications"></span>
+						</span>	
 					</li>
 				</a>
 				<a href="main"  data-ng-click="toggleSidebar()">
