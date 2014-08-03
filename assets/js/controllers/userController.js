@@ -40,6 +40,11 @@ define(["step", "whispeerHelper", "asset/resizableImage", "asset/state", "libs/q
 			$scope.verifyCode = true;
 		};
 		
+		$scope.resetVerifcationMethod = function () {
+			$scope.verifyCode = false;
+			$scope.qr.view = false;
+		}
+		
 		var theStream;
 
 		function captureToCanvas() {
