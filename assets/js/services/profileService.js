@@ -52,6 +52,7 @@ define(["step", "whispeerHelper", "crypto/encryptedData", "validation/validator"
 			};
 
 			this.getUpdatedData = function getUpdatedData(signKey, cb) {
+				var that = this;
 				//pad updated profile
 				//merge paddedProfile and updatedPaddedProfile
 				//sign/hash merge
@@ -60,7 +61,7 @@ define(["step", "whispeerHelper", "crypto/encryptedData", "validation/validator"
 					theProfile.decrypt(this);
 				}, h.sF(function  () {
 					if (isPublicProfile) {
-						this.sign(signKey, this);
+						that.sign(signKey, this);
 					} else {
 						securedData.signAndEncrypt(signKey, securedData.metaAttr("_key"), this);
 					}

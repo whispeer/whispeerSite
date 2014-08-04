@@ -68,7 +68,7 @@ define(["step", "whispeerHelper", "asset/state"], function (step, h, State) {
 	function userModel($injector, $location, blobService, keyStoreService, ProfileService, sessionService, settingsService, socketService, friendsService, errorService) {
 		return function User (providedData) {
 			var theUser = this, mainKey, signKey, cryptKey, friendShipKey, friendsKey, friendsLevel2Key, migrationState;
-			var id, mail, nickname, publicProfile, privateProfiles = [], mutualFriends, publicProfileChanged = false, publicProfileSignature;
+			var id, mail, nickname, publicProfile, privateProfiles = [], mutualFriends;
 
 			var addFriendState = new State();
 
@@ -204,9 +204,6 @@ define(["step", "whispeerHelper", "asset/state"], function (step, h, State) {
 					friendsLevel2Key = keyStoreService.upload.addKey(userData.keys.friendsLevel2Key);
 				}
 
-				publicProfileSignature = userData.profile.pub.signature;
-				delete userData.profile.pub.signature;
-
 				publicProfile = new ProfileService(userData.profile.pub, { isPublicProfile: true });
 
 				privateProfiles = [];
@@ -299,13 +296,6 @@ define(["step", "whispeerHelper", "asset/state"], function (step, h, State) {
 				}), cb);
 			}
 
-			function setPublicProfile(attrs, val, cb) {
-				var pub = theUser.getProfile();
-				publicProfileChanged = h.deepSetCreate(pub, attrs, val) || publicProfileChanged;
-
-				setPrivateProfile(attrs, val, [], cb);
-			}
-
 			function getChangedPrivateProfiles(cb) {
 				var priv = theUser.getPrivateProfiles();
 				step(function () {
@@ -321,19 +311,7 @@ define(["step", "whispeerHelper", "asset/state"], function (step, h, State) {
 			}
 
 			function getChangedPublicProfile(cb) {
-				var publicProfile;
-				step(function () {
-					if (publicProfileChanged) {
-						publicProfile = theUser.getProfile();
-						keyStoreService.sign.signObject(publicProfile, signKey, this);
-					} else {
-						this.last.ne();
-					}
-				}, h.sF(function (signature) {
-					publicProfile.signature = signature;
-
-					this.ne(publicProfile);
-				}), cb);
+				publicProfile.getUpdatedData(signKey, cb);
 			}
 
 			function uploadChangedProfile(cb) {
@@ -361,7 +339,7 @@ define(["step", "whispeerHelper", "asset/state"], function (step, h, State) {
 					}
 				}), h.sF(function (result) {
 					if (!result.errors.pub) {
-						publicProfileChanged = false;
+						publicProfile.updated();
 					}
 
 					var i;
@@ -384,7 +362,7 @@ define(["step", "whispeerHelper", "asset/state"], function (step, h, State) {
 					settingsService.getPrivacyVisibility(attrs, this);
 				}, h.sF(function (visible) {
 					if (visible === false) {
-						setPublicProfile(attrs.split("."), val, this);
+						publicProfile.setAttribute(attrs.split("."), val, this);
 					} else if (visible) {
 						setPrivateProfile(attrs.split("."), val, visible, this);
 					}
@@ -474,17 +452,6 @@ define(["step", "whispeerHelper", "asset/state"], function (step, h, State) {
 				}), cb);
 			};
 
-			function updateFullPublicProfile(newPublicProfile) {
-				var pub = theUser.getProfile();
-
-				if (!h.deepEqual(pub, newPublicProfile)) {
-					publicProfileChanged = true;
-					publicProfile = newPublicProfile;
-				}
-
-				return publicProfileChanged;
-			}
-
 			this.updateProfilesFromMe = function(scopes, privacySettings, cb) {
 				step(function () {
 					this.parallel.unflatten();
@@ -497,8 +464,7 @@ define(["step", "whispeerHelper", "asset/state"], function (step, h, State) {
 						profiles[i].setFullProfile(applicableParts(scopes[i], privacySettings, myProfile), this.parallel());
 					}
 
-					updateFullPublicProfile(applicablePublicParts(privacySettings, myProfile));
-					this.parallel()();
+					publicProfile.setFullProfile(applicablePublicParts(privacySettings, myProfile), this.parallel());
 				}), h.sF(function () {
 					this.parallel.unflatten();
 

@@ -225,7 +225,7 @@ define(["whispeerHelper", "step", "crypto/keyStore", "asset/errors"], function (
 			throw new Error("our content is not an object");
 		}
 
-		this._changed = h.deepSetCreate(this._updatedMeta, attrs, value);
+		this._changed = h.deepSetCreate(this._updatedContent, attrs, value);
 	};
 
 	/** sets the whole metaData to the given data
