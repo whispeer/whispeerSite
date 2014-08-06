@@ -18,7 +18,7 @@ define(["step", "whispeerHelper", "asset/resizableImage", "asset/state", "libs/q
 		$scope.notExisting = false;
 		$scope.loadingFriends = true;
 		$scope.verifyNow = false;
-		
+
 		$scope.verifyCode = false;
 
 		var verifyState = new State();
@@ -35,16 +35,16 @@ define(["step", "whispeerHelper", "asset/resizableImage", "asset/state", "libs/q
 				}
 			}
 		};
-		
+
 		$scope.verifyWithCode = function () {
 			$scope.verifyCode = true;
 		};
-		
+
 		$scope.resetVerifcationMethod = function () {
 			$scope.verifyCode = false;
 			$scope.qr.view = false;
-		}
-		
+		};
+
 		var theStream;
 
 		function captureToCanvas() {
