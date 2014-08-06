@@ -1632,8 +1632,30 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 				password = pw;
 
 				if (localStorage) {
-					localStorage.setItem("passwords", JSON.stringify(passwords));
+					localStorage.setItem("password", password);
 				}
+			},
+
+			verifyWithPW: function (data, expectedResult) {
+				//decrypt data with pw
+				var result = sjcl.decrypt(password, chelper.Object2sjclPacket(data));
+				//unpad data
+				result = new ObjectPadder(JSON.parse(result), 128).unpad();
+
+				//check with expectedresult
+				if (!h.deepEqual(expectedResult, result)) {
+					throw new errors.SecurityError("verify with pw failed");
+				}
+			},
+
+			makePWVerifiable: function (data, pw, cb) {
+				step(function () {
+					//pad data
+					new ObjectPadder(data, 128).pad(this);
+				}, h.sF(function (paddedData) {
+					//encrypt with pw
+					encryptPW(pw, JSON.stringify(paddedData), this);
+				}), cb);
 			}
 		},
 
