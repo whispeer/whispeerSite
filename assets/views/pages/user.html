@@ -71,7 +71,7 @@
 							<select class="country" data-for="country" type="text" data-ng-model="user.advanced.location.country" data-ng-if="editGeneral">
 								<option value="" data-i18n="profile.section.general.location.placeholders.country"></option>
 								<option data-ng-repeat="country in countries" value="{{country.code}}" data-ng-selected="{{country.code}} == user.advanced.location.country">{{country.name}}</option>
-							</select>	
+							</select>
 						</span>
 					</p>
 					<p id="relationship" data-ng-show="set(user.advanced.relationship) || editGeneral">
@@ -105,7 +105,7 @@
 						<span data-i18n="profile.section.general.work.{{getWorkVals(user.advanced.work)}}">
 							<span data-ng-if="!editGeneral" data-for="what">{{user.advanced.work.what}}</span>
 							<input data-ng-if="editGeneral" data-i18n-attr="profile.section.general.work.placeholders.what|placeholder" data-for="what" data-ng-model="user.advanced.work.what">
-							
+
 							<span data-ng-if="!editGeneral" data-for="where">{{user.advanced.work.where}}</span>
 							<input data-ng-if="editGeneral" data-i18n-attr="profile.section.general.work.placeholders.where|placeholder" data-for="where" data-ng-model="user.advanced.work.where">
 						</span>
@@ -166,4 +166,4 @@
 			</ol>
 		</section>
 	</div>
-</div>	
+</div>
