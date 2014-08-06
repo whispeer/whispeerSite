@@ -4,20 +4,32 @@
 @small-font-size: 0.786em; // 11px / 14px
 @small-line-height: 1.426em; // 20px;
 
+@large-font-size: 1.786em;
+@large-line-height: 1.426em;
+
 body {
 	.normal-text();
 	font-family: ubuntulight, 'Helvetica Neue Light', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-	font-weight: 200;
 }
 
 .normal-text() {
 	font-size: @font-size;
 	line-height: @line-height;
+	font-weight: 200;
+}
+
+.bold-text() {
+	font-weight: 700;
 }
 
 .small-text() {
 	font-size:   @small-font-size;
 	line-height: @small-line-height;
+}
+
+.large-text() {
+	font-size:   @large-font-size;
+	line-height: @large-line-height;
 }
 
 small {
