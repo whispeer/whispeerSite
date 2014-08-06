@@ -49,10 +49,10 @@ define(["step", "whispeerHelper", "asset/observer"], function (step, h, Observer
 
 		/** loads all the users in the batch */
 		function doLoad(identifier, cb) {
+			var result = [];
 			step(function () {
 				socketService.emit("user.getMultiple", {identifiers: identifier}, this);
 			}, h.sF(function (data) {
-				var result = [];
 				if (data && data.users) {
 					result = data.users.map(function (e) {
 						if (e.userNotExisting) {
@@ -63,6 +63,12 @@ define(["step", "whispeerHelper", "asset/observer"], function (step, h, Observer
 					});
 				}
 
+				result.forEach(function (u) {
+					u.verifyKeys(this.parallel());
+				});
+
+				this.parallel()();
+			}), h.sF(function () {
 				this.ne(result);
 			}), cb);
 		}
@@ -194,10 +200,6 @@ define(["step", "whispeerHelper", "asset/observer"], function (step, h, Observer
 				}), cb);
 			},
 
-			addFromData: function addFromData(data) {
-				return makeUser(data);
-			},
-
 			/** get own user. synchronous */
 			getown: function getownF() {
 				return users[sessionService.getUserID()];
@@ -244,15 +246,17 @@ define(["step", "whispeerHelper", "asset/observer"], function (step, h, Observer
 		initService.register("user.get", function () {
 			return {identifier: sessionService.getUserID()};
 		}, function (data, cb) {
-			var user = userService.addFromData(data);
+			step(function () {
+				var user = makeUser(data);
 
-			var identifier = user.getNickOrMail();
+				var identifier = user.getNickOrMail();
 
-			keyStoreService.setKeyGenIdentifier(identifier);
-			keyStoreService.sym.registerMainKey(user.getMainKey());
-			improvementListener(identifier);
+				keyStoreService.setKeyGenIdentifier(identifier);
+				improvementListener(identifier);
 
-			cb();
+				user.verifyKeys(this);
+			}, cb);
+
 		}, true);
 
 		$rootScope.$on("ssn.reset", function () {

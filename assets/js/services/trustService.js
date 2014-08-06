@@ -53,7 +53,7 @@ define(["step", "whispeerHelper", "crypto/trustManager", "crypto/signatureCache"
 
 		initService.register("trustManager.get", {}, function (data, cb) {
 			if (data.content) {
-				trustManager.loadDatabase(data.content, userService.getown().getSignKey(), cb);
+				trustManager.loadDatabase(data.content, cb);
 			} else {
 				trustManager.createDatabase(userService.getown());
 				uploadDatabase(cb);

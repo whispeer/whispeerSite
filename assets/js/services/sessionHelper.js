@@ -3,7 +3,7 @@
 /**
 * SessionHelper
 **/
-define(["step", "whispeerHelper", "crypto/trustManager"], function (step, h, trustManager) {
+define(["step", "whispeerHelper", "crypto/trustManager", "asset/securedDataWithMetaData"], function (step, h, trustManager, SecuredData) {
 	"use strict";
 
 	var service = function (socketService, keyStoreService, ProfileService, sessionService, blobService) {
@@ -98,7 +98,13 @@ define(["step", "whispeerHelper", "crypto/trustManager"], function (step, h, tru
 						}
 					}, { isPublicProfile: true });
 
-					trustManager.allow(3);
+					var correctKeys = h.objectMap(keys, keyStoreService.correctKeyIdentifier);
+					delete correctKeys.main;
+					delete correctKeys.profile;
+
+					var signedKeys = SecuredData.load(undefined, correctKeys);
+
+					trustManager.allow(4);
 
 					this.parallel.unflatten();
 
@@ -107,17 +113,19 @@ define(["step", "whispeerHelper", "crypto/trustManager"], function (step, h, tru
 					publicProfile.sign(keys.sign, this.parallel());
 
 					keyStoreService.sym.encryptObject(settings, keys.main, 0, this.parallel());
+					signedKeys.sign(keys.sign, this.parallel());
 
 					keyStoreService.sym.pwEncryptKey(keys.main, password, this.parallel());
 					keyStoreService.sym.symEncryptKey(keys.friendsLevel2, keys.friends, this.parallel());
 					keyStoreService.sym.symEncryptKey(keys.profile, keys.friends, this.parallel());
-				}), h.sF(function register3(privateProfile, privateProfileMe, publicProfile, settings) {
+				}), h.sF(function register3(privateProfile, privateProfileMe, publicProfile, settings, signedKeys) {
 					keys = h.objectMap(keys, keyStoreService.correctKeyIdentifier);
 					trustManager.disallow();
 
 					var registerData = {
 						password: keyStoreService.hash.hashPW(password),
 						keys: h.objectMap(keys, keyStoreService.upload.getKey),
+						signedKeys: signedKeys,
 						profile: {
 							pub: {profile: publicProfile},
 							priv: [privateProfile, privateProfileMe]

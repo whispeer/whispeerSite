@@ -15,17 +15,20 @@
 **/
 define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForReady", "cryptoWorker/sjclWorkerInclude", "asset/errors"], function (step, h, chelper, sjcl, waitForReady, sjclWorkerInclude, errors) {
 	"use strict";
-	/** dirty and new keys to upload. socket for download use */
-	var socket, dirtyKeys = [], newKeys = [];
+	
+	var socket, improvementListener = [], makeKey, keyStore;
+	/** dirty and new keys to upload. */
+	var dirtyKeys = [], newKeys = [];
+
 	/** cache for keys */
 	var symKeys = {}, cryptKeys = {}, signKeys = {};
-	
-	/** our classes */
-	var Key, SymKey, CryptKey, SignKey;
-	var passwords = [], improvementListener = [], keyGenIdentifier = "", makeKey, keyStore, mainKey;
+	var passwords = [],  keyGenIdentifier = "";
 
 	/** identifier list of keys we can use for encryption. this is mainly a safeguard for coding bugs. */
 	var keysUsableForEncryption = [];
+
+	/** our classes */
+	var Key, SymKey, CryptKey, SignKey;
 
 	sjcl.random.startCollectors();
 
@@ -1605,8 +1608,7 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 			signKeys = {};
 
 			passwords = [];
-
-			mainKey = undefined;
+			keysUsableForEncryption = [];
 		},
 
 		setKeyGenIdentifier: function (identifier) {
@@ -1812,9 +1814,6 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 		},
 
 		sym: {
-			registerMainKey: function (_mainKey) {
-				mainKey = _mainKey;
-			},
 
 			/** generate a key
 			* @param callback callback
@@ -1913,7 +1912,7 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 
 			decryptObject: function (cobject, depth, callback, key) {
 				step(function objDecrypt1() {
-					SymKey.get(key || mainKey, this);
+					SymKey.get(key, this);
 				}, h.sF(function objDecrypt2(key) {
 					new ObjectCryptor(key, depth, cobject).decrypt(this);
 				}), h.sF(function objDecrypt3(result) {

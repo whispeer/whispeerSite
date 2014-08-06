@@ -71,7 +71,7 @@ define (["whispeerHelper", "step", "asset/observer", "asset/securedDataWithMetaD
 		return content;
 	}
 
-	var fakeKeyExistence = 0;
+	var fakeKeyExistence = 0, ownKey;
 
 	trustManager = {
 		allow: function (count) {
@@ -106,10 +106,12 @@ define (["whispeerHelper", "step", "asset/observer", "asset/securedDataWithMetaD
 
 			loaded = true;
 		},
-		loadDatabase: function (data, ownKey, cb) {
+		setOwnSignKey: function (_ownKey) {
+			ownKey = _ownKey;
+		},
+		loadDatabase: function (data, cb) {
 			var givenDatabase = SecuredData.load(undefined, data);
 			step(function () {
-				trustManager.allow(1);
 				if (data.me === ownKey) {
 					givenDatabase.verify(ownKey, this);
 				} else {
@@ -130,9 +132,15 @@ define (["whispeerHelper", "step", "asset/observer", "asset/securedDataWithMetaD
 			database = undefined;
 		},
 		hasKeyData: function (keyid) {
-			if (fakeKeyExistence > 0 && !loaded) {
-				fakeKeyExistence -= 1;
-				return true;
+			if (!loaded) {
+				if (keyid === ownKey) {
+					return true;
+				} else if (fakeKeyExistence > 0) {
+					fakeKeyExistence -= 1;
+					return true;
+				} else {
+					throw new Error("trust manager not yet loaded");
+				}
 			}
 			return database.metaHasAttr(keyid);
 		},
@@ -182,9 +190,7 @@ define (["whispeerHelper", "step", "asset/observer", "asset/securedDataWithMetaD
 			return false;
 		},
 		getUpdatedVersion: function (signKey, cb) {
-			step(function () {
-				database.sign(signKey, this);
-			}, cb);
+			database.sign(signKey, cb);
 		}
 	};
 

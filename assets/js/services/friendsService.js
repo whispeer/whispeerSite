@@ -137,23 +137,21 @@ define(["step", "whispeerHelper", "asset/observer"], function (step, h, Observer
 		}
 
 		socket.listen("friendRequest", function (e, requestData) {
-			var uid = parseInt(requestData.uid, 10), userService = $injector.get("ssn.userService");
+			var uid = parseInt(requestData.uid, 10);
 			if (requests.indexOf(uid) === -1 && friends.indexOf(uid) === -1 && requested.indexOf(uid) === -1)  {
 				requests.push(uid);
 				friendsData.requestsCount += 1;
-				userService.addFromData(requestData.user, true);
 				friendsService.notify(uid, "newRequest");
 			}
 		});
 
 		socket.listen("friendAccept", function (e, requestData) {
-			var uid = parseInt(requestData.uid, 10), userService = $injector.get("ssn.userService");
+			var uid = parseInt(requestData.uid, 10);
 			if (requests.indexOf(uid) === -1 && friends.indexOf(uid) === -1)  {
 				friends.push(uid);
 				friendsData.friendsCount += 1;
 				requestData.requestedCount -= 1;
 
-				userService.addFromData(requestData.user, true);
 				friendsService.notify(uid, "newFriend");
 
 				onlineFriends[uid] = 2;

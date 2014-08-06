@@ -1,4 +1,4 @@
-define(["step", "whispeerHelper", "asset/state"], function (step, h, State) {
+define(["step", "whispeerHelper", "asset/state", "asset/securedDataWithMetaData", "crypto/trustManager"], function (step, h, State, SecuredData, trustManager) {
 	"use strict";
 
 	var advancedBranches = ["location", "birthday", "relationship", "education", "work", "gender", "languages"];
@@ -67,7 +67,7 @@ define(["step", "whispeerHelper", "asset/state"], function (step, h, State) {
 
 	function userModel($injector, $location, blobService, keyStoreService, ProfileService, sessionService, settingsService, socketService, friendsService, errorService) {
 		return function User (providedData) {
-			var theUser = this, mainKey, signKey, cryptKey, friendShipKey, friendsKey, friendsLevel2Key, migrationState;
+			var theUser = this, mainKey, signKey, cryptKey, friendShipKey, friendsKey, friendsLevel2Key, migrationState, signedKeys;
 			var id, mail, nickname, publicProfile, privateProfiles = [], mutualFriends;
 
 			var addFriendState = new State();
@@ -175,34 +175,40 @@ define(["step", "whispeerHelper", "asset/state"], function (step, h, State) {
 
 				migrationState = userData.migrationState || 0;
 
+				signedKeys = SecuredData.load(undefined, userData.signedKeys);
+
+				userData.keys = h.objectMap(userData.keys, function (key) {
+					return keyStoreService.upload.addKey(key);
+				});
+
 				//do not overwrite keys.
 				if (!mainKey && userData.keys.mainKey) {
-					mainKey = keyStoreService.upload.addKey(userData.keys.mainKey);
+					mainKey = userData.keys.mainKey;
 				}
 
+				//all keys we get from the signedKeys object:
 				if (!signKey && userData.keys.signKey) {
-					signKey = keyStoreService.upload.addKey(userData.keys.signKey);
+					signKey = signedKeys.metaAttr("sign");
 				}
 
 				if (!cryptKey && userData.keys.cryptKey) {
-					cryptKey = keyStoreService.upload.addKey(userData.keys.cryptKey);
-				}
-
-				if (!friendShipKey && userData.keys.friendShipKey) {
-					friendShipKey = keyStoreService.upload.addKey(userData.keys.friendShipKey);
-				}
-
-				if (userData.keys.reverseFriendShipKey) {
-					keyStoreService.upload.addKey(userData.keys.reverseFriendShipKey);
+					cryptKey = signedKeys.metaAttr("crypt");
 				}
 
 				if (!friendsKey && userData.keys.friendsKey) {
-					friendsKey = keyStoreService.upload.addKey(userData.keys.friendsKey);
+					friendsKey = signedKeys.metaAttr("friends");
 				}
 
 				if (!friendsLevel2Key && userData.keys.friendsLevel2Key) {
-					friendsLevel2Key = keyStoreService.upload.addKey(userData.keys.friendsLevel2Key);
+					friendsLevel2Key = signedKeys.metaAttr("friendsLevel2");
 				}
+
+				//TODO: secure this key!
+				if (!friendShipKey && userData.keys.friendShipKey) {
+					friendShipKey = userData.keys.friendShipKey;
+				}
+
+
 
 				publicProfile = new ProfileService(userData.profile.pub, { isPublicProfile: true });
 
@@ -374,11 +380,33 @@ define(["step", "whispeerHelper", "asset/state"], function (step, h, State) {
 			this.uploadChangedProfile = uploadChangedProfile;
 			this.setProfileAttribute = setProfileAttribute;
 
+			this.verifyKeys = function (cb) {
+				var signKey = theUser.getSignKey();
+				trustManager.setOwnSignKey(signKey);
+				step(function () {
+					signedKeys.verify(signKey, this);
+				}, h.sF(function () {
+					var friends = signedKeys.metaAttr("friends");
+					var friendsLevel2 = signedKeys.metaAttr("friendsLevel2");
+					var crypt = signedKeys.metaAttr("crypt");
+
+					keyStoreService.addEncryptionIdentifier(friends);
+					keyStoreService.addEncryptionIdentifier(friendsLevel2);
+					keyStoreService.addEncryptionIdentifier(crypt);
+
+					this.ne();
+				}), cb);
+			};
+
 			this.verify = function (cb) {
 				step(function () {
+					var signKey = theUser.getSignKey();
 					privateProfiles.forEach(function (priv) {
-						priv.verify(theUser.getSignKey(), this.parallel());
+						priv.verify(signKey, this.parallel());
 					}, this);
+
+					theUser.verifyKeys(this.parallel());
+					publicProfile.verify(signKey, this.parallel());
 				}, h.sF(function (verified) {
 					var ok = verified.reduce(h.and, true);
 
