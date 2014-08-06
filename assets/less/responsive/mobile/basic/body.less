@@ -88,6 +88,12 @@ body {
 					overflow: hidden;
 					border-bottom: 1px solid @green;
 					border-top: 1px solid #bbb;
+					&:first-child {
+						border-top: none;
+					}
+					&:last-child {
+						border-bottom: none;
+					}
 					li {
 						.btn;
 						.btn--green;
