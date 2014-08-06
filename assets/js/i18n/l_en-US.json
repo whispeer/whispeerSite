@@ -190,7 +190,7 @@
 		"edit": {
 			"false":	"Edit profile",
 			"true":		"Finish"
-		},	
+		},
 		"head":	{
 			"info":	"Info",
 			"wall":	"Wall",
@@ -282,7 +282,7 @@
 				"languages": {
 					"display":	"{language}",
 					"edit":		"Language"
-				}	
+				}
 			},
 			"wall": {
 				"title":	"Wall"
@@ -370,7 +370,7 @@
 				"birthday": "Birthday",
 				"relationship": "Relationship status",
 				"education": "Education",
-				
+
 				"work": "Job",
 				"gender": "Gender",
 				"languages": "Languages",
@@ -407,7 +407,7 @@
 				"notificationSounds": {
 					"title":		"Notification sounds",
 					"on":			"On",
-					"off":			"Off"	
+					"off":			"Off"
 				},
 				"fingerprints": {
 					"title":	"Your Fingerprint"
