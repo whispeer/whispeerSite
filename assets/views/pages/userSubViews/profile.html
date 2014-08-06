@@ -44,7 +44,7 @@
 					<input data-for="state" type="text" data-ng-model="user.advanced.location.state" data-ng-if="editGeneral">
 
 					<span data-for="country" class="country" data-ng-if="!editGeneral">{{user.advanced.location.country}}</span>
-					<input data-for="country" type="text" data-ng-model="user.advanced.location.country" data-ng-if="editGeneral">	
+					<input data-for="country" type="text" data-ng-model="user.advanced.location.country" data-ng-if="editGeneral">
 				</span>
 			</p>
 			<p id="relationship" data-ng-show="set(user.advanced.relationship) || editGeneral">
@@ -78,7 +78,7 @@
 				<span data-i18n="profile.section.general.work.{{getWorkVals(user.advanced.work)}}">
 					<span data-ng-if="!editGeneral" data-for="what">{{user.advanced.work.what}}</span>
 					<input data-ng-if="editGeneral" data-for="what" data-ng-model="user.advanced.work.what">
-					
+
 					<span data-ng-if="!editGeneral" data-for="where">{{user.advanced.work.where}}</span>
 					<input data-ng-if="editGeneral" data-for="where" data-ng-model="user.advanced.work.where">
 				</span>
