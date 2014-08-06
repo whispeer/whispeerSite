@@ -1,0 +1,23 @@
+
+- Use SecuredData for:
+ - posts
+ - own keys
+ - topic data
+
+- Trust Manager: alert if given nickname/id gets a new key
+
+- Low: Trust Manager: make nickname changes possible somehow...
+
+Done:
+
+- Signature Cache
+- Trust Manager
+
+- SecuredData for:
+ - public and private profile
+ - messages
+
+ - SecuredData:
+  - differ between update and initial encrypt/sign
+
+- make encrypt in keystore only accept keys which have previously been "verified"
