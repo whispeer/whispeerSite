@@ -130,13 +130,13 @@
 				"mailInvalid": "Invalide E-Mail",
 				"mailUsed": "Diese E-Mail ist schon vergeben",
 				"passwordWeak": "Passwort zu schwach",
-				"passwordNoMatch": "Passwort stimmen nicht überein"
+				"passwordNoMatch": "Passwörter stimmen nicht überein"
 			},
 
 			"link":	"Registrieren",
 			"next": "Weiter",
 			"previous": "Zurück",
-			"repeatPassword":	"Password wiederholen",
+			"repeatPassword":	"Passwort wiederholen",
 			"passwordstrength":	"Punkte für dein Passwort: ",
 			"email":	"E-Mail Adresse",
 			"repeatEmail":	"E-Mail Adresse wiederholen",
@@ -146,14 +146,14 @@
 
 			"country":	"Land",
 			"location":	"Wohnort",
-			"uploadImage":	"Profilbild hochladen!",
+			"uploadImage":	"Profilbild hochladen",
 			"more": "Weitere Informationen",
 			"intro": "Bitte teile uns dein Geschlecht, deinen Namen, dein Geburtsdatum und deinen Wohnort mit. Dies ermöglicht deinen Freunden bei whispeer, dich zu finden. Selbstverständlich zwingen wir dich nicht dazu, diese Angaben zu machen!",
 			"newaccount": "Neues Konto erstellen"
 		}
 	},
 	"wall": {
-		"createPost": "Einen Post verfassen!",
+		"createPost": "Einen Post verfassen",
 		"postit": {
 			"receiver": "Wer soll deinen Beitrag lesen können?",
 			"text": "Was möchtest du den Leuten mitteilen?",
@@ -206,7 +206,7 @@
 		},
 		"trustmanager" : {
 			"verifyTitle":	"Benutzer verifizieren",
-			"verifyInfo":	"Um den Benutzer zu verifizieren gebe bitte seinen Fingerprint hier ein. Diesen kann er unter \"Einstellungen\" -> \"Dein Fingerprint\" ablesen."
+			"verifyInfo":	"Um den Benutzer zu verifizieren, gib bitte seinen Fingerprint hier ein. Diesen kann er unter \"Einstellungen\" -> \"Dein Fingerprint\" ablesen."
 		},
 		"section":	{
 			"general": {
