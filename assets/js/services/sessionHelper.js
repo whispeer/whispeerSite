@@ -41,7 +41,7 @@ define(["step", "whispeerHelper", "crypto/trustManager", "asset/securedDataWithM
 						sessionHelper.resetKey();
 						
 						sessionService.setSID(data.sid, data.userid);
-						keyStoreService.addPassword(password);
+						keyStoreService.security.addPassword(password);
 
 						this.last.ne();
 					}
@@ -146,7 +146,7 @@ define(["step", "whispeerHelper", "crypto/trustManager", "asset/securedDataWithM
 					result = _result;
 
 					sessionHelper.resetKey();
-					keyStoreService.addPassword(password);
+					keyStoreService.security.addPassword(password);
 
 					if (imageBlob) {
 						imageBlob.upload(this);

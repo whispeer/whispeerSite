@@ -106,7 +106,7 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 		return realid;
 	}
 
-	/** encrypt a password
+	/** encrypt with password
 	* @param pw password to encrypt
 	* @param text text to encrypt
 	* @param callback callback
@@ -1628,16 +1628,18 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 			improvementListener.push(listener);
 		},
 
-		addPassword: function (pw) {
-			passwords = [pw];
+		security: {
+			addEncryptionIdentifier: function (realid) {
+				makeKeyUsableForEncryption(realid);
+			},
 
-			if (localStorage) {
-				localStorage.setItem("passwords", JSON.stringify(passwords));
+			addPassword: function (pw) {
+				passwords = [pw];
+
+				if (localStorage) {
+					localStorage.setItem("passwords", JSON.stringify(passwords));
+				}
 			}
-		},
-
-		addEncryptionIdentifier: function (realid) {
-			makeKeyUsableForEncryption(realid);
 		},
 
 		format: {

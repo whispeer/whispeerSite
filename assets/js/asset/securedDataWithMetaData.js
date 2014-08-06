@@ -74,7 +74,7 @@ define(["whispeerHelper", "step", "crypto/keyStore", "asset/errors"], function (
 			that.verify(signKey, this);
 		}, h.sF(function () {
 			if (that._hasContent) {
-				keyStore.addEncryptionIdentifier(that._originalMeta._key);
+				keyStore.security.addEncryptionIdentifier(that._originalMeta._key);
 				that._signAndEncrypt(signKey, that._originalMeta._key, this);
 			} else {
 				that.sign(signKey, this);

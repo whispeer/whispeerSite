@@ -390,9 +390,9 @@ define(["step", "whispeerHelper", "asset/state", "asset/securedDataWithMetaData"
 					var friendsLevel2 = signedKeys.metaAttr("friendsLevel2");
 					var crypt = signedKeys.metaAttr("crypt");
 
-					keyStoreService.addEncryptionIdentifier(friends);
-					keyStoreService.addEncryptionIdentifier(friendsLevel2);
-					keyStoreService.addEncryptionIdentifier(crypt);
+					keyStoreService.security.addEncryptionIdentifier(friends);
+					keyStoreService.security.addEncryptionIdentifier(friendsLevel2);
+					keyStoreService.security.addEncryptionIdentifier(crypt);
 
 					this.ne();
 				}), cb);
