@@ -1,24 +1,15 @@
 .badge {
+	.small-text();
+	text-align: center;
+	background-color: @red;
+	color: @white;
+
+	display: inline-block;
 	position: absolute;
 	top:  24px;
 	left: 20px;
-
-	width:  18px;
-	height: 18px;
+	width:  @small-line-height;
+	height: @small-line-height;
 	.border-radius(50%);
-
-	background-color: @red;
-	color: @white;
-	display: inline-block;
-	text-align: center;
-
-	// whatever the reason this is not defined in typography.
-	@media @desktop {
-		font-size: 11px;
-	}
-	@media @mobile {
-		font-size: 0.8em;
-	}
-
 }
 

@@ -1,16 +1,27 @@
+@font-size: 14px;
+@line-height: 1.426em; // 20px / 14px;
+
+@small-font-size: 0.786em; // 11px / 14px
+@small-line-height: 1.426em; // 20px;
+
 body {
+	.normal-text();
 	font-family: ubuntulight, 'Helvetica Neue Light', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 	font-weight: 200;
-	line-height: 1.426em; // 20px / 14px;
-	font-size: 14px;
 }
 
-.small() {
-	font-size: 0.786em; // 11px / 14px
-	line-height: 1.426em; // 20px;
+.normal-text() {
+	font-size: @font-size;
+	line-height: @line-height;
+}
+
+.small-text() {
+	font-size:   @small-font-size;
+	line-height: @small-line-height;
 }
 
 small {
+	.small-text();
 	color: #9e9e9e;
 }
 

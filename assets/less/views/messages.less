@@ -33,7 +33,7 @@
 
 	// This really should be pulled from somewhere else.
 	@message-preview-lineheight: 20px;
-	@preview-lines: 2;
+	@preview-lines: 3;
 
 	.message-mixin(@form-height: @form-height) {
 
@@ -49,6 +49,7 @@
 			}
 
 			.time {
+				.small-text();
 				color: #888;
 				white-space: nowrap;
 				text-align: right;
@@ -132,8 +133,9 @@
 					overflow: hidden;
 				}
 				.lastMessage {
+					.small-text();
 					color: #555;
-					height: (@preview-lines * @message-preview-lineheight); // three lines of text.
+					height: (@preview-lines * @small-line-height); // three lines of text.
 					overflow: hidden;
 					padding-left: @status-compensation;
 					padding-right: @extended-padding;
