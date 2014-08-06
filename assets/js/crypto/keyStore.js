@@ -22,7 +22,7 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 
 	/** cache for keys */
 	var symKeys = {}, cryptKeys = {}, signKeys = {};
-	var passwords = [],  keyGenIdentifier = "";
+	var password = "",  keyGenIdentifier = "";
 
 	/** identifier list of keys we can use for encryption. this is mainly a safeguard for coding bugs. */
 	var keysUsableForEncryption = [];
@@ -46,14 +46,9 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 
 	try {
 		if (localStorage) {
-			var pws = localStorage.getItem("passwords");
-			try {
-				pws = JSON.parse(pws);
-				if (pws instanceof Array) {
-					passwords = pws;
-				}
-			} catch (e) {
-				console.log(e);
+			var pw = localStorage.getItem("password");
+			if (pw && typeof pw === "string") {
+				password = pw;
 			}
 		}
 	} catch (e) {
@@ -159,9 +154,9 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 						ct: ctext,
 						iv: iv,
 						salt: salt
-					}), i, result;
-					for (i = 0; i < passwords.length; i += 1) {
-						result = sjcl.decrypt(passwords[i], jsonData);
+					}), result;
+					if (password !== "") {
+						result = sjcl.decrypt(password, jsonData);
 
 						this.ne(result);
 						return;
@@ -1607,7 +1602,7 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 			cryptKeys = {};
 			signKeys = {};
 
-			passwords = [];
+			password = "";
 			keysUsableForEncryption = [];
 		},
 
@@ -1633,8 +1628,8 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 				makeKeyUsableForEncryption(realid);
 			},
 
-			addPassword: function (pw) {
-				passwords = [pw];
+			setPassword: function (pw) {
+				password = pw;
 
 				if (localStorage) {
 					localStorage.setItem("passwords", JSON.stringify(passwords));
