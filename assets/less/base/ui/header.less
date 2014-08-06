@@ -9,9 +9,19 @@
 	background: @primary;
 	#navInner {
 		#brand {
+			// this has to be prepended, because some of the .column values
+			// are once more overwritten in subsequent rules.
+			@media @desktop { .column(2, 12); }
+			@media @mobile { .column(8); }
+		}
+		#brand {
+			font-size: 25px;
+			font-weight: 700;
 			text-decoration: none;
-			.text-shadow(0px 0px 1px @white);
 			text-rendering: optimizeLegibility;
+			.text-shadow(0px 0px 1px @white);
+			margin-top: 14px;
+
 			#brandNormal {
 				height: 30px;
 				color: #fff;
