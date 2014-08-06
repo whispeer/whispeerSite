@@ -7,7 +7,7 @@
 	@header-height: 30px;
 
 	// big/small image size in topic list.
-	@user-image-size: 72px;
+	@user-image-size: 76px;
 	@user-image-size-small: 56px;
 	@remaining-user-bubble-size: 28px;
 	@remaining-user-bubble-border: 3px;
@@ -166,7 +166,7 @@
 							padding: @default-padding;
 							img {
 								display: block;
-								box-sizing: content-box;
+								box-sizing: border-box;
 								width: @user-image-size;
 								height: @user-image-size;
 							}
@@ -199,12 +199,15 @@
 								box-sizing: content-box;
 								width: @remaining-user-bubble-size;
 								height: @remaining-user-bubble-size;
+
 								left: (@default-padding + @user-image-size - @remaining-user-bubble-size - @remaining-user-bubble-border);
 								top: (@default-padding + @user-image-size - @remaining-user-bubble-size - @remaining-user-bubble-border);
 								border: @remaining-user-bubble-border solid @remaining-user-bubble-fg;
 								border-radius: 100%;
 
 								text-align: center;
+								line-height: @remaining-user-bubble-size;
+								.bold-text();
 
 								color: @remaining-user-bubble-fg;
 								background: @remaining-user-bubble-bg;
