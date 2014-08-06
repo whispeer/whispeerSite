@@ -6,8 +6,9 @@ define([
 		"whispeerHelper",
 		"validation/validator",
 		"asset/observer",
-		"asset/sortedSet"
-	], function (step, h, validator, Observer, sortedSet) {
+		"asset/sortedSet",
+		"asset/securedDataWithMetaData"
+	], function (step, h, validator, Observer, sortedSet, SecuredData) {
 	"use strict";
 
 	var messageService;
@@ -366,7 +367,7 @@ define([
 				receiverIDs.push(userService.getown().getID());
 
 				// topic hashable data.
-				var topicHashData = {
+				var topicMeta = {
 					createTime: new Date().getTime(),
 					key: topicKey,
 					receiver: receiverIDs,
@@ -376,22 +377,23 @@ define([
 				//create data
 				topicData = {
 					keys: cryptKeysData.concat([keyStore.upload.getKey(topicKey)]),
-					receiverKeys: receiverKeys,
-					topic: topicHashData
+					receiverKeys: receiverKeys
 				};
 
-				topicHash = keyStore.hash.hashObjectHex(topicHashData);
+				topicHash = keyStore.hash.hashObjectHex(topicMeta);
 
-				var meta = {
+				var messageMeta = {
 					createTime: new Date().getTime(),
 					topicHash: topicHash,
 					previousMessage: 0,
 					previousMessageHash: "0"
 				};
 
-				Message.createRawData(topicKey, message, meta, this);
-			}), h.sF(function (mData, key) {
-				topicData.keys.push(keyStore.upload.getKey(key));
+				this.parallel.unflatten();
+				SecuredData.create({}, topicMeta, {}, userService.getown().getSignKey(), topicKey, this.parallel());
+				Message.createRawData(topicKey, message, messageMeta, this.parallel());
+			}), h.sF(function (tData, mData) {
+				topicData.topic = tData;
 				topicData.message = mData;
 
 				this.ne(topicData);

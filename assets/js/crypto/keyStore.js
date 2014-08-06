@@ -15,7 +15,17 @@
 **/
 define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForReady", "cryptoWorker/sjclWorkerInclude", "asset/errors"], function (step, h, chelper, sjcl, waitForReady, sjclWorkerInclude, errors) {
 	"use strict";
-	var socket, dirtyKeys = [], newKeys = [], symKeys = {}, cryptKeys = {}, signKeys = {}, passwords = [], improvementListener = [], keyGenIdentifier = "", Key, SymKey, CryptKey, SignKey, makeKey, keyStore, mainKey;
+	/** dirty and new keys to upload. socket for download use */
+	var socket, dirtyKeys = [], newKeys = [];
+	/** cache for keys */
+	var symKeys = {}, cryptKeys = {}, signKeys = {};
+	
+	/** our classes */
+	var Key, SymKey, CryptKey, SignKey;
+	var passwords = [], improvementListener = [], keyGenIdentifier = "", makeKey, keyStore, mainKey;
+
+	/** identifier list of keys we can use for encryption. this is mainly a safeguard for coding bugs. */
+	var keysUsableForEncryption = [];
 
 	sjcl.random.startCollectors();
 
@@ -45,6 +55,16 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 		}
 	} catch (e) {
 		console.log(e);
+	}
+
+	function makeKeyUsableForEncryption(realid) {
+		var fp = realid.split(":")[1];
+		keysUsableForEncryption.push(fp);
+	}
+
+	function isKeyUsableForEncryption(realid) {
+		var fp = realid.split(":")[1];
+		return keysUsableForEncryption.indexOf(fp) > -1;
 	}
 
 	function toPrivateKey(type, curve) {
@@ -572,6 +592,10 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 		* @param optional iv initialization vector
 		*/
 		function encryptF(text, callback, iv) {
+			if (!isKeyUsableForEncryption(intKey.getRealID())) {
+				throw new errors.SecurityError("Key not usable for encryption: " + intKey.getRealID());
+			}
+
 			step(function symEncryptI1() {
 				intKey.decryptKey(this);
 			}, h.sF(function symEncryptI2() {
@@ -720,6 +744,7 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 			if (!symKeys[key.getRealID()]) {
 				symKeys[key.getRealID()] = key;
 				newKeys.push(key);
+				makeKeyUsableForEncryption(key.getRealID());
 
 				key.setComment(comment);
 
@@ -820,6 +845,10 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 		* param callback callback
 		*/
 		function kemF(callback) {
+			if (!isKeyUsableForEncryption(intKey.getRealID())) {
+				throw new errors.SecurityError("Key not usable for encryption: " + intKey.getRealID());
+			}
+
 			var resultKey;
 			step(function () {
 				this.ne(publicKey.kem());
@@ -939,6 +968,8 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 			newKeys.push(key);
 
 			key.setComment(comment);
+
+			makeKeyUsableForEncryption(key.getRealID());
 
 			this.ne(key);
 		}), callback);
@@ -1601,6 +1632,10 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 			if (localStorage) {
 				localStorage.setItem("passwords", JSON.stringify(passwords));
 			}
+		},
+
+		addEncryptionIdentifier: function (realid) {
+			makeKeyUsableForEncryption(realid);
 		},
 
 		format: {

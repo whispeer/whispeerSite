@@ -25,11 +25,11 @@ define (["whispeerHelper", "step", "asset/observer", "asset/errors", "crypto/key
 			signKey = ownKey;
 			data.me = ownKey;
 
-			database = new SecuredData(undefined, data);
+			database = new SecuredData.load(undefined, data);
 			loaded = true;
 		},
 		loadDatabase: function (data, ownKey, cb) {
-			var givenDatabase = new SecuredData(undefined, data);
+			var givenDatabase = new SecuredData.load(undefined, data);
 			step(function () {
 				if (data.me === ownKey) {
 					givenDatabase.verify(ownKey, this);

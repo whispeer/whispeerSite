@@ -315,7 +315,7 @@ define(["step", "whispeerHelper", "asset/state"], function (step, h, State) {
 			}
 
 			function uploadChangedProfile(cb) {
-				var data = {};
+				var data = {}, allok;
 				var priv = theUser.getPrivateProfiles();
 
 				step(function () {
@@ -349,11 +349,13 @@ define(["step", "whispeerHelper", "asset/state"], function (step, h, State) {
 						}
 					}
 
-					basicDataLoaded = false;
-					theUser.loadBasicData(function () {});
-					//reload basic profile data!
+					allok = result.allok;
 
-					this.ne(result.allok);
+					basicDataLoaded = false;
+					theUser.loadBasicData(this);
+				}), h.sF(function () {
+					//reload basic profile data!
+					this.ne(allok);
 				}), cb);
 			}
 
@@ -505,7 +507,7 @@ define(["step", "whispeerHelper", "asset/state"], function (step, h, State) {
 						priv[i].getAttribute(attrs, this.parallel());
 					}
 
-					this.parallel()();
+					theUser.getProfile().getAttribute(attrs, this.parallel());
 				}, h.sF(function (results) {
 					var i;
 					if (results) {
@@ -517,9 +519,7 @@ define(["step", "whispeerHelper", "asset/state"], function (step, h, State) {
 						}
 					}
 
-					var pub = theUser.getProfile();
-
-					this.last.ne(h.deepGet(pub, attrs));
+					this.last.ne();
 				}), cb);
 			}
 			this.getProfileAttribute = getProfileAttribute;

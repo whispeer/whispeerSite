@@ -5,17 +5,25 @@ define(["step", "whispeerHelper", "crypto/encryptedData", "validation/validator"
 	"use strict";
 
 	var service = function () {
-		//where should the key go? should it be next to the data?
 		var profileService = function (data, options) {
 			options = options || {};
 
 			var isPublicProfile = options.isPublicProfile === true;
-			var isDecrypted = options.isDecrypted || options.isPublicProfile;
+			var isDecrypted = options.isDecrypted || isPublicProfile;
 
-			var securedData = new SecuredData(data.profile.content, data.profile.meta, {
-				removeEmpty: true,
-				encryptDepth: 1
-			}, isDecrypted);
+			var securedData;
+
+			if (isDecrypted) {
+				securedData = SecuredData.createRaw(data.profile.content, data.profile.meta, {
+					removeEmpty: true,
+					encryptDepth: 1
+				});
+			} else {
+				securedData = SecuredData.load(data.profile.content, data.profile.meta, {
+					removeEmpty: true,
+					encryptDepth: 1
+				});
+			}
 
 			var metaData;
 			if (!isPublicProfile) {
@@ -63,7 +71,7 @@ define(["step", "whispeerHelper", "crypto/encryptedData", "validation/validator"
 					if (isPublicProfile) {
 						that.sign(signKey, this);
 					} else {
-						securedData.signAndEncrypt(signKey, securedData.metaAttr("_key"), this);
+						securedData.getUpdatedData(signKey, this);
 					}
 				}), h.sF(function (securedProfileData) {
 					var result = {
@@ -99,7 +107,7 @@ define(["step", "whispeerHelper", "crypto/encryptedData", "validation/validator"
 
 				step(function () {
 					this.parallel.unflatten();
-					securedData.signAndEncrypt(signKey, cryptKey, this.parallel());
+					securedData._signAndEncrypt(signKey, cryptKey, this.parallel());
 					metaData.getUploadData(mainKey, this.parallel());
 				}, h.sF(function (securedProfileData, privateProfileData) {
 					this.ne({
@@ -184,6 +192,13 @@ define(["step", "whispeerHelper", "crypto/encryptedData", "validation/validator"
 			};
 
 			Observer.call(this);
+		};
+
+		profileService.create = function (content, meta, scope, options) {
+			SecuredData.create(content, meta, {
+				removeEmpty: true,
+				encryptDepth: 1
+			});
 		};
 
 		return profileService;

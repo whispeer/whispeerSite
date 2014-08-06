@@ -94,7 +94,7 @@ define(["step", "whispeerHelper", "crypto/trustManager"], function (step, h, tru
 
 					var publicProfile = new ProfileService({
 						profile: {
-							content: profile.pub
+							content: profile.pub || {}
 						}
 					}, { isPublicProfile: true });
 
@@ -119,7 +119,7 @@ define(["step", "whispeerHelper", "crypto/trustManager"], function (step, h, tru
 						password: keyStoreService.hash.hashPW(password),
 						keys: h.objectMap(keys, keyStoreService.upload.getKey),
 						profile: {
-							pub: publicProfile,
+							pub: {profile: publicProfile},
 							priv: [privateProfile, privateProfileMe]
 						},
 						settings: settings

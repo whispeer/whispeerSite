@@ -102,12 +102,12 @@ define (["whispeerHelper", "step", "asset/observer", "asset/securedDataWithMetaD
 
 			data.me = me.getSignKey();
 
-			database = new SecuredData(undefined, data);
+			database = SecuredData.load(undefined, data);
 
 			loaded = true;
 		},
 		loadDatabase: function (data, ownKey, cb) {
-			var givenDatabase = new SecuredData(undefined, data);
+			var givenDatabase = SecuredData.load(undefined, data);
 			step(function () {
 				trustManager.allow(1);
 				if (data.me === ownKey) {

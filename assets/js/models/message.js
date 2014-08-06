@@ -125,11 +125,10 @@ define(["step",
 				var topicKey = topic.getKey();
 
 				Message.createRawData(topicKey, message, meta, this);
-			}, h.sF(function (mData, key) {
+			}, h.sF(function (mData) {
 				mData.meta.topicid = topic.getID();
 
 				var result = {
-					keys: [keyStore.upload.getKey(key)],
 					message: mData
 				};
 
@@ -138,20 +137,7 @@ define(["step",
 		};
 
 		Message.createRawData = function (topicKey, message, meta, cb) {
-			var key;
-			step(function () {
-				keyStore.sym.generateKey(this, "messageMain");
-			}, h.sF(function (_key) {
-				key = _key;
-				this.parallel.unflatten();
-
-				var secureMessageData = new SecuredData(message, meta, {}, true);
-
-				secureMessageData.signAndEncrypt(userService.getown().getSignKey(), key, this.parallel());
-				keyStore.sym.symEncryptKey(key, topicKey, this.parallel());
-			}), h.sF(function (encr) {
-				this.ne(encr, key);
-			}), cb);
+			SecuredData.create(message, meta, {}, userService.getown().getSignKey(), topicKey, cb);
 		};
 
 		return Message;

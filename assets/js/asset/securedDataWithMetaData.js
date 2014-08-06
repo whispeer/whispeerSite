@@ -26,6 +26,8 @@ define(["whispeerHelper", "step", "crypto/keyStore", "asset/errors"], function (
 		this._updatedMeta = h.deepCopyObj(this._originalMeta);
 
 		this._updatedContent = this._content;
+
+		this._isKeyVerified = false;
 	}
 
 	SecuredDataWithMetaData.prototype._blockDisallowedAttributes = function (data) {
@@ -36,7 +38,7 @@ define(["whispeerHelper", "step", "crypto/keyStore", "asset/errors"], function (
 
 
 	SecuredDataWithMetaData.prototype.getHash = function () {
-		return this._meta._ownHash;
+		return this._originalMeta._ownHash;
 	};
 
 	SecuredDataWithMetaData.prototype.sign = function (signKey, cb) {
@@ -48,12 +50,13 @@ define(["whispeerHelper", "step", "crypto/keyStore", "asset/errors"], function (
 
 			delete toSign._signature;
 			delete toSign._hashObject;
+			delete toSign._ownHash;
 
 			if (that._paddedContent || that._updatedContent) {
 				var hashContent = that._paddedContent || that._updatedContent;
 
 				toSign._contentHash = keyStore.hash.hashObjectOrValueHex(hashContent);
-				toSign._ownHash = keyStore.hash.hashObjectOrValueHex(that._updatedMeta);
+				toSign._ownHash = keyStore.hash.hashObjectOrValueHex(toSign);
 			}
 			
 			keyStore.sign.signObject(toSign, signKey, this);
@@ -64,17 +67,35 @@ define(["whispeerHelper", "step", "crypto/keyStore", "asset/errors"], function (
 		}), cb);
 	};
 
+	SecuredDataWithMetaData.prototype.getUpdatedData = function (signKey, cb) {
+		var that = this;
+
+		step(function () {
+			that.verify(signKey, this);
+		}, h.sF(function () {
+			if (that._hasContent) {
+				keyStore.addEncryptionIdentifier(that._originalMeta._key);
+				that._signAndEncrypt(signKey, that._originalMeta._key, this);
+			} else {
+				that.sign(signKey, this);
+			}
+		}), cb);
+	};
+
 	/** sign and encrypt this object.
 		pads and then encrypts our content.
 		adds contentHash, key id and version to metaData and signs meta data.
 		@param signKey key to use for signing
-		@param cryptKey key to use for encryption
 		@param cb callback(cryptedData, metaData),
 	*/
-	SecuredDataWithMetaData.prototype.signAndEncrypt = function (signKey, cryptKey, cb) {
+	SecuredDataWithMetaData.prototype._signAndEncrypt = function (signKey, cryptKey, cb) {
 		var that = this, hashObject;
 		if (!that._hasContent) {
 			throw new Error("can only sign and not encrypt");
+		}
+
+		if (that._originalMeta._key && (that._originalMeta._key !== cryptKey || !that._isKeyVerified)) {
+			throw new Error("can not re-encrypt an old object with new key!");
 		}
 
 		step(function () {
@@ -97,6 +118,8 @@ define(["whispeerHelper", "step", "crypto/keyStore", "asset/errors"], function (
 				meta._hashObject = hashObject;
 			}
 
+			that._updatedMeta = meta;
+
 			this.ne({
 				content: cryptedData,
 				meta: meta
@@ -116,24 +139,26 @@ define(["whispeerHelper", "step", "crypto/keyStore", "asset/errors"], function (
 		//check signature is correct
 		//question: store signature with meta data? -> YES!
 		step(function () {
-			that.decrypt(this);
-		}, h.sF(function () {
-			if (that._hasContent) {
-				if (keyStore.hash.hashObjectOrValueHex(that._paddedContent || that._content) !== that._originalMeta._contentHash) {
-					throw new errors.SecurityError("content hash did not match");
-				}
-			}
-
 			var metaCopy = h.deepCopyObj(that._originalMeta);
 
 			delete metaCopy._signature;
 			delete metaCopy._hashObject;
 
 			keyStore.sign.verifyObject(that._originalMeta._signature, metaCopy, signKey, this);
-		}), h.sF(function (correctSignature) {
+		}, h.sF(function (correctSignature) {
 			if (!correctSignature) {
 				throw new errors.SecurityError("signature did not match");
 			}
+
+			that.decrypt(this);
+		}), h.sF(function () {
+			if (that._hasContent) {
+				if (keyStore.hash.hashObjectOrValueHex(that._paddedContent || that._content) !== that._originalMeta._contentHash) {
+					throw new errors.SecurityError("content hash did not match");
+				}
+			}
+
+			that._isKeyVerified = true;
 
 			this.ne(true);
 		}), cb);
@@ -143,6 +168,7 @@ define(["whispeerHelper", "step", "crypto/keyStore", "asset/errors"], function (
 		this._changed = false;
 
 		this._meta = this._updatedMeta;
+		this._originalMeta = this._updatedMeta;
 		this._content = this._updatedContent;
 	};
 
@@ -161,6 +187,7 @@ define(["whispeerHelper", "step", "crypto/keyStore", "asset/errors"], function (
 				keyStore.sym.decryptObject(that._encryptedContent, that._encryptDepth, this, that._originalMeta._key);
 			}
 		}, h.sF(function (decryptedData) {
+			that._decrypted = true;
 			that._paddedContent = decryptedData;
 			that._content = keyStore.hash.removePaddingFromObject(decryptedData, 128);
 			that._updatedContent = that._content;
@@ -225,7 +252,7 @@ define(["whispeerHelper", "step", "crypto/keyStore", "asset/errors"], function (
 			throw new Error("our content is not an object");
 		}
 
-		this._changed = h.deepSetCreate(this._updatedContent, attrs, value);
+		this._changed = h.deepSetCreate(this._updatedContent, attrs, value) || this._changed;
 	};
 
 	/** sets the whole metaData to the given data
@@ -257,5 +284,24 @@ define(["whispeerHelper", "step", "crypto/keyStore", "asset/errors"], function (
 		this._changed = h.deepSetCreate(this._updatedMeta, attrs, value);
 	};
 
-	return SecuredDataWithMetaData;
+	var api = {
+		create: function (content, meta, options, signKey, cryptKey, cb) {
+			var secured = new SecuredDataWithMetaData(content, meta, options, true);
+			step(function () {
+				window.setTimeout(this, 0);
+			}, h.sF(function () {
+				secured._signAndEncrypt(signKey, cryptKey, this);
+			}), cb);
+
+			return secured;
+		},
+		load: function (content, meta, options) {
+			return new SecuredDataWithMetaData(content, meta, options);
+		},
+		createRaw: function (content, meta, options) {
+			return new SecuredDataWithMetaData(content, meta, options, true);
+		}
+	};
+
+	return api;
 });

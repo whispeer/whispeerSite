@@ -133,7 +133,7 @@ define(["step", "whispeerHelper", "asset/resizableImage", "asset/state"], functi
 				}), h.sF(function () {
 					$scope.edit();
 
-					this.ne();
+					$timeout(this);
 				}), errorService.failOnError(saveUserState));
 			}
 		};

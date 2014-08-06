@@ -5,7 +5,7 @@
 define(["whispeerHelper", "step", "asset/state", "libs/qr"], function (h, step, State, qr) {
 	"use strict";
 
-	function settingsController($scope, errorService, cssService, settingsService, userService, localize) {
+	function settingsController($scope, $timeout, errorService, cssService, settingsService, userService, localize) {
 		cssService.setClass("settingsView");
 
 		var saveSafetyState = new State();
@@ -128,6 +128,8 @@ define(["whispeerHelper", "step", "asset/state", "libs/qr"], function (h, step, 
 				me.setProfileAttribute("basic.lastname", $scope.lastName, this.parallel());
 			}, h.sF(function () {
 				me.uploadChangedProfile(this);
+			}), h.sF(function () {
+				$timeout(this);
 			}), errorService.failOnError(saveNameState));
 		};
 
@@ -153,7 +155,7 @@ define(["whispeerHelper", "step", "asset/state", "libs/qr"], function (h, step, 
 		};
 	}
 
-	settingsController.$inject = ["$scope", "ssn.errorService", "ssn.cssService", "ssn.settingsService", "ssn.userService", "localize"];
+	settingsController.$inject = ["$scope", "$timeout", "ssn.errorService", "ssn.cssService", "ssn.settingsService", "ssn.userService", "localize"];
 
 	return settingsController;
 });
