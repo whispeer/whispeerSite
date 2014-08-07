@@ -22,7 +22,7 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 
 	/** cache for keys */
 	var symKeys = {}, cryptKeys = {}, signKeys = {};
-	var password = "",  keyGenIdentifier = "";
+	var password = "",  keyGenIdentifier = "", mainKey;
 
 	/** identifier list of keys we can use for encryption. this is mainly a safeguard for coding bugs. */
 	var keysUsableForEncryption = [];
@@ -1602,6 +1602,8 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 			cryptKeys = {};
 			signKeys = {};
 
+			mainKey = undefined;
+
 			password = "";
 			keysUsableForEncryption = [];
 		},
@@ -1833,6 +1835,9 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 		},
 
 		sym: {
+			registerMainKey: function (_mainKey) {
+				mainKey = _mainKey;
+			},
 
 			/** generate a key
 			* @param callback callback
@@ -1931,7 +1936,7 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 
 			decryptObject: function (cobject, depth, callback, key) {
 				step(function objDecrypt1() {
-					SymKey.get(key, this);
+					SymKey.get(key || mainKey, this);
 				}, h.sF(function objDecrypt2(key) {
 					new ObjectCryptor(key, depth, cobject).decrypt(this);
 				}), h.sF(function objDecrypt3(result) {

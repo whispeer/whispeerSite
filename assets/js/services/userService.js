@@ -253,6 +253,7 @@ define(["step", "whispeerHelper", "asset/observer"], function (step, h, Observer
 
 				keyStoreService.setKeyGenIdentifier(identifier);
 				improvementListener(identifier);
+				keyStoreService.sym.registerMainKey(user.getMainKey());
 
 				user.verifyOwnKeys();
 				user.verifyKeys(this);
