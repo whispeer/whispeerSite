@@ -67,7 +67,7 @@ define(["step", "whispeerHelper", "asset/state", "asset/securedDataWithMetaData"
 
 	function userModel($injector, $location, blobService, keyStoreService, ProfileService, sessionService, settingsService, socketService, friendsService, errorService) {
 		return function User (providedData) {
-			var theUser = this, mainKey, signKey, cryptKey, friendShipKey, friendsKey, friendsLevel2Key, migrationState, signedKeys;
+			var theUser = this, mainKey, signKey, cryptKey, friendShipKey, friendsKey, friendsLevel2Key, migrationState, signedKeys, signedOwnKeys;
 			var id, mail, nickname, publicProfile, privateProfiles = [], mutualFriends;
 
 			var addFriendState = new State();
@@ -176,6 +176,7 @@ define(["step", "whispeerHelper", "asset/state", "asset/securedDataWithMetaData"
 				migrationState = userData.migrationState || 0;
 
 				signedKeys = SecuredData.load(undefined, userData.signedKeys);
+				signedOwnKeys = userData.signedOwnKeys;
 
 				userData.keys = h.objectMap(userData.keys, function (key) {
 					return keyStoreService.upload.addKey(key);
@@ -379,6 +380,13 @@ define(["step", "whispeerHelper", "asset/state", "asset/securedDataWithMetaData"
 
 			this.uploadChangedProfile = uploadChangedProfile;
 			this.setProfileAttribute = setProfileAttribute;
+
+			this.verifyOwnKeys = function () {
+				keyStoreService.security.verifyWithPW(signedOwnKeys, {
+					main: theUser.getMainKey(),
+					sign: theUser.getSignKey()
+				});
+			};
 
 			this.verifyKeys = function (cb) {
 				var signKey = theUser.getSignKey();

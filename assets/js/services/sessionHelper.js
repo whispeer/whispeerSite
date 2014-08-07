@@ -41,7 +41,7 @@ define(["step", "whispeerHelper", "crypto/trustManager", "asset/securedDataWithM
 						sessionHelper.resetKey();
 						
 						sessionService.setSID(data.sid, data.userid);
-						keyStoreService.security.addPassword(password);
+						keyStoreService.security.setPassword(password);
 
 						this.last.ne();
 					}
@@ -99,6 +99,7 @@ define(["step", "whispeerHelper", "crypto/trustManager", "asset/securedDataWithM
 					}, { isPublicProfile: true });
 
 					var correctKeys = h.objectMap(keys, keyStoreService.correctKeyIdentifier);
+					var ownKeys = {main: correctKeys.main, sign: correctKeys.sign};
 					delete correctKeys.main;
 					delete correctKeys.profile;
 
@@ -115,10 +116,12 @@ define(["step", "whispeerHelper", "crypto/trustManager", "asset/securedDataWithM
 					keyStoreService.sym.encryptObject(settings, keys.main, 0, this.parallel());
 					signedKeys.sign(keys.sign, this.parallel());
 
+					keyStoreService.security.makePWVerifiable(ownKeys, password, this.parallel());
+
 					keyStoreService.sym.pwEncryptKey(keys.main, password, this.parallel());
 					keyStoreService.sym.symEncryptKey(keys.friendsLevel2, keys.friends, this.parallel());
 					keyStoreService.sym.symEncryptKey(keys.profile, keys.friends, this.parallel());
-				}), h.sF(function register3(privateProfile, privateProfileMe, publicProfile, settings, signedKeys) {
+				}), h.sF(function register3(privateProfile, privateProfileMe, publicProfile, settings, signedKeys, signedOwnKeys) {
 					keys = h.objectMap(keys, keyStoreService.correctKeyIdentifier);
 					trustManager.disallow();
 
@@ -126,6 +129,7 @@ define(["step", "whispeerHelper", "crypto/trustManager", "asset/securedDataWithM
 						password: keyStoreService.hash.hashPW(password),
 						keys: h.objectMap(keys, keyStoreService.upload.getKey),
 						signedKeys: signedKeys,
+						signedOwnKeys: signedOwnKeys,
 						profile: {
 							pub: {profile: publicProfile},
 							priv: [privateProfile, privateProfileMe]
@@ -146,7 +150,7 @@ define(["step", "whispeerHelper", "crypto/trustManager", "asset/securedDataWithM
 					result = _result;
 
 					sessionHelper.resetKey();
-					keyStoreService.security.addPassword(password);
+					keyStoreService.security.setPassword(password);
 
 					if (imageBlob) {
 						imageBlob.upload(this);
