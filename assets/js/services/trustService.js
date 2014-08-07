@@ -26,7 +26,7 @@ define(["step", "whispeerHelper", "crypto/trustManager", "crypto/signatureCache"
 
 		function uploadDatabase(cb) {
 			step(function () {
-				trustManager.getUpdatedVersion(userService.getown().getSignKey(), this);
+				trustManager.getUpdatedVersion(this);
 			}, h.sF(function (newTrustContent) {
 				socketService.emit("trustManager.set", {
 					content: newTrustContent
@@ -52,6 +52,7 @@ define(["step", "whispeerHelper", "crypto/trustManager", "crypto/signatureCache"
 		userService.listen(addNewUsers, "loadedUser");
 
 		initService.register("trustManager.get", {}, function (data, cb) {
+			trustManager.setOwnSignKey(userService.getown().getSignKey());
 			if (data.content) {
 				trustManager.loadDatabase(data.content, cb);
 			} else {
