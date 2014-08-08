@@ -1,6 +1,6 @@
 - Use SecuredData for:
  - friendship
- - circles?
+ - circles
 
 - Trust Manager: alert if given nickname/id gets a new key
 - Low: Trust Manager: make nickname changes possible somehow...
