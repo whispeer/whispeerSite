@@ -393,7 +393,6 @@ define(["step", "whispeerHelper", "asset/state", "asset/securedDataWithMetaData"
 
 			this.verifyKeys = function (cb) {
 				var signKey = theUser.getSignKey();
-				trustManager.setOwnSignKey(signKey);
 				step(function () {
 					signedKeys.verify(signKey, this);
 				}, h.sF(function () {
@@ -595,6 +594,8 @@ define(["step", "whispeerHelper", "asset/state", "asset/securedDataWithMetaData"
 					}
 					theUser.loadBasicData(this.parallel());
 				}, h.sF(function (result) {
+					result = result || [];
+
 					var i, a = theUser.data.advanced, defaults = [{}, {}, {}, [], {}, "", []];
 					for (i = 0; i < advancedBranches.length; i += 1) {
 						a[advancedBranches[i]] = h.deepCopyObj(result[i] || defaults[i], 3);

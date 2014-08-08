@@ -268,10 +268,10 @@ define(["step", "whispeerHelper", "asset/resizableImage", "asset/state"], functi
 
 			step(function () {
 				postService.createPost($scope.newPost.text, visibleSelection, wallUserID, this);
-			}, h.sF(function (post) {
+			}, h.sF(function () {
 				$scope.newPost.text = "";
 
-				console.log(post);
+				this.ne();
 			}), errorService.failOnError(sendPostState));
 		};
 

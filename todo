@@ -1,9 +1,10 @@
 - Use SecuredData for:
- - posts
  - friendship
+ - circles?
+
+
 
 - Trust Manager: alert if given nickname/id gets a new key
-
 - Low: Trust Manager: make nickname changes possible somehow...
 
 Done:
@@ -18,6 +19,7 @@ Done:
  - messages
  - own keys
  - topic data
+ - posts
 
  - SecuredData:
   - differ between update and initial encrypt/sign

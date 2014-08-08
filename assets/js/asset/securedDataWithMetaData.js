@@ -196,7 +196,7 @@ define(["whispeerHelper", "step", "crypto/keyStore", "asset/errors"], function (
 
 		step(function () {
 			if (that._decrypted) {
-				this.last.ne();
+				this.last.ne(that._content);
 			} else {
 				keyStore.sym.decryptObject(that._encryptedContent, that._encryptDepth, this, that._originalMeta._key);
 			}

@@ -854,6 +854,7 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 				resultKey = new SymKey(keyData.key);
 				symKeys[resultKey.getRealID()] = resultKey;
 				newKeys.push(resultKey);
+				makeKeyUsableForEncryption(resultKey.getRealID());
 				resultKey.addAsymDecryptor(realid, keyData.tag, this);
 			}), h.sF(function () {
 				this.ne(resultKey.getRealID());

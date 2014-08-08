@@ -1,7 +1,7 @@
 /**
 * postService
 **/
-define(["step", "whispeerHelper", "validation/validator", "asset/observer", "asset/errors"], function (step, h, validator, Observer, errors) {
+define(["step", "whispeerHelper", "validation/validator", "asset/observer", "asset/errors", "asset/securedDataWithMetaData"], function (step, h, validator, Observer, errors, SecuredData) {
 	"use strict";
 
 	var service = function ($rootScope, socket, keyStore, userService, circleService) {
@@ -10,24 +10,19 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer", "ass
 		var TimelineByFilter = {};
 
 		var Post = function (data) {
+			var thePost = this, id = data.id;
+			var securedData = SecuredData.load(data.content, data.meta);
+
 			this.data = {
 				loaded: false,
 				id: data.id,
 				info: {
 					"with": ""
 				},
-				time: data.meta.time,
+				time: securedData.metaAttr("time"),
 				isWallPost: false,
 				comments: []
 			};
-
-			var thePost = this, id = data.id;
-			var meta = data.meta, content = data.content;
-			var text, decrypted = false;
-
-			if (typeof meta.key === "object") {
-				meta.key = keyStore.upload.addKey(meta.key);
-			}
 
 			this.getID = function () {
 				return id;
@@ -47,7 +42,8 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer", "ass
 					}
 
 					d.sender = sender;
-
+					securedData.verify(sender.user.getSignKey(), this);
+				}), h.sF(function () {
 					thePost.getText(this);
 				}), h.sF(function (text) {
 					var d = thePost.data;
@@ -64,8 +60,8 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer", "ass
 			this.getWallUser = function (cb) {
 					var theUser;
 					step(function () {
-						if (data.meta.walluser) {
-							userService.get(data.meta.walluser, this);
+						if (securedData.metaAttr("walluser")) {
+							userService.get(securedData.metaAttr("walluser"), this);
 						} else {
 							this.last();
 						}
@@ -81,7 +77,7 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer", "ass
 			this.getSender = function (cb) {
 				var theUser;
 				step(function () {
-					userService.get(data.meta.sender, this);
+					userService.get(securedData.metaAttr("sender"), this);
 				}, h.sF(function (user) {
 					theUser = user;
 
@@ -92,49 +88,22 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer", "ass
 			};
 
 			this.getText = function (cb) {
-				step(function () {
-					thePost.decrypt(this);
-				}, h.sF(function (success) {
-					if (!success) {
-						throw new Error("could not decrypt post");
-					}
-
-					this.ne(text);
-				}), cb);
-			};
-
-			this.decrypt = function (cb) {
-				step(function () {
-					keyStore.sym.decrypt(content, meta.key, this);
-				}, h.sF(function (content) {
-					if (content) {
-						if (keyStore.hash.hash(content) !== meta.contentHash) {
-							throw new Error("invalid content hash!");
-						}
-
-						text = keyStore.hash.removePaddingFromObject(content);
-						decrypted = true;
-
-						this.ne(true);
-					} else {
-						this.ne(false);
-					}
-				}), cb);
+				securedData.decrypt(cb);
 			};
 		};
 
 		function makePost(data) {
-			//TODO: check if validation really goes through
+			var err = validator.validate("post", data);
+			if (err) {
+				throw err;
+			}
 
-			validator.validate("post", data);
 			if (postsById[data.id]) {
 				return postsById[data.id];
 			}
 
 			var p = new Post(data);
-
 			postsById[p.getID()] = p;
-
 			return p;
 		}
 
@@ -402,50 +371,41 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer", "ass
 							contentHash,
 							time,
 							signature,
+							sender: ownid,
 							(key),
 							(walluser), //for a wallpost
 						}
 						content //padded!
 				*/
-				var postKey;
-
-				var data = {
-					meta: {}
-				};
+				var meta = {}, postKey;
 
 				step(function () {
 					this.parallel.unflatten();
 
-					keyStore.hash.addPaddingToObject(content, 128, this.parallel());
 					keyStore.sym.generateKey(this.parallel(), "post key");
 					filterToKeys(visibleSelection, this.parallel());
-				}, h.sF(function (paddedContent, keyid, keys) {
-					var i;
-					postKey = keyid;
-					content = paddedContent;
+				}, h.sF(function (key, keys) {
+					postKey = key;
 
-					data.meta.contentHash = keyStore.hash.hash(content);
-					data.meta.time = new Date().getTime();
-					data.meta.walluser = wallUserID;
+					meta.time = new Date().getTime();
+					meta.sender = userService.getown().getID();
+					meta.walluser = wallUserID;
 	
 					this.parallel.unflatten();
-
-					keyStore.sym.encrypt(content, keyid, this.parallel());
-
-					keyStore.sign.signObject(data.meta, userService.getown().getSignKey(), this.parallel());
-
-					for (i = 0; i < keys.length; i += 1) {
-						keyStore.sym.symEncryptKey(postKey, keys[i], this.parallel());
-					}
-				}), h.sF(function (encryptedContent, signature) {
-					data.content = encryptedContent;
-					data.meta.key = keyStore.upload.getKey(postKey);
-					data.meta.signature = signature;
-
+					SecuredData.create(content, meta, {}, userService.getown().getSignKey(), postKey, this.parallel());
+					keys.forEach(function (key) {
+						keyStore.sym.symEncryptKey(postKey, key, this.parallel());
+					}, this);
+				}), h.sF(function (data) {
+					data.meta._key = keyStore.upload.getKey(data.meta._key);
 					socket.emit("posts.createPost", {
 						postData: data
 					}, this);
 				}), h.sF(function (result) {
+					if (result.error) {
+						throw new Error("post creation failed on server");
+					}
+
 					var newPost = makePost(result.createdPost);
 
 					if (h.parseDecimal(wallUserID) === 0) {

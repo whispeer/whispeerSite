@@ -65,7 +65,7 @@ define(["step", "whispeerHelper", "asset/observer"], function (step, h, Observer
 
 				result.forEach(function (u) {
 					u.verifyKeys(this.parallel());
-				});
+				}, this);
 
 				this.parallel()();
 			}), h.sF(function () {
