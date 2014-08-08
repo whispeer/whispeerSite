@@ -164,16 +164,9 @@ define(["whispeerHelper", "step", "crypto/keyStore", "asset/errors"], function (
 				throw new errors.SecurityError("signature did not match");
 			}
 
-			that.decrypt(this);
-		}), h.sF(function () {
-			if (that._hasContent) {
-				if (keyStore.hash.hashObjectOrValueHex(that._paddedContent || that._content) !== that._originalMeta._contentHash) {
-					throw new errors.SecurityError("content hash did not match");
-				}
-			}
+			that._verifyContentHash();
 
 			that._isKeyVerified = true;
-
 			this.ne(true);
 		}), cb);
 	};
@@ -206,8 +199,19 @@ define(["whispeerHelper", "step", "crypto/keyStore", "asset/errors"], function (
 			that._content = keyStore.hash.removePaddingFromObject(decryptedData, 128);
 			that._updatedContent = that._content;
 
+			that._verifyContentHash();
+
 			this.ne(that._content);
 		}), cb);
+	};
+
+	SecuredDataWithMetaData.prototype._verifyContentHash = function() {
+		if (this._hasContent && this._decrypted) {
+			var hash = keyStore.hash.hashObjectOrValueHex(this._paddedContent || this._content);
+			if (hash !== this._originalMeta._contentHash) {
+				throw new errors.SecurityError("content hash did not match");
+			}
+		}
 	};
 
 	SecuredDataWithMetaData.prototype.isChanged = function () {

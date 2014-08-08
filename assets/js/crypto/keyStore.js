@@ -680,7 +680,7 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 		step(function getKeyF() {
 			var toLoadIdentifiers = [];
 
-			identifiers.map(function (e) {
+			identifiers.forEach(function (e) {
 				if (!symKeys[e] && !cryptKeys[e] && !signKeys[e]) {
 					toLoadIdentifiers.push(e);
 				}
@@ -694,11 +694,7 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 			} else {
 				this.last.ne(identifiers);
 			}
-		}, h.sF(function (data) {
-			data.keys.map(function (e) {
-				makeKey(e);
-			});
-
+		}, h.sF(function () {
 			this.ne(identifiers);
 		}), cb);
 	}
