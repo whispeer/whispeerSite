@@ -40,13 +40,9 @@ define([
 				//throw err;
 			}
 
-			if (typeof data.key === "object") {
-				data.key = keyStore.upload.addKey(data.key);
-			}
-
-			if (typeof data.additionalKey === "object") {
-				keyStore.upload.addKey(data.additionalKey);
-			}
+			var meta = SecuredData.load(undefined, data.meta, {
+				attributesNotVerified: ["newest", "topicid", "unread", "newestTime"]
+			});
 
 			var unreadMessages;
 
@@ -65,11 +61,13 @@ define([
 
 				unreadMessages = newUnread.map(h.parseDecimal);
 				theTopic.data.unread = (unreadMessages.length > 0);
-				var i;
-				for (i = 0; i < messages.length; i += 1) {
-					messages[i].unread = (unreadMessages.indexOf(messages[i].getID()) > -1);
-				}
+
+				messages.forEach(function (message) {
+					message.unread = unreadMessages.indexOf(message.getID()) > -1;
+				});
 			}
+
+			var receiver = meta.metaAttr("receiver");
 
 			this.data = {
 				remaining: 1,
@@ -83,7 +81,7 @@ define([
 				remainingUserTitle: "",
 
 				id: data.topicid,
-				type: (data.receiver.length <= 2 ? "peerChat" : "groupChat"),
+				type: (receiver.length <= 2 ? "peerChat" : "groupChat"),
 				obj: this
 			};
 
@@ -102,7 +100,7 @@ define([
 			};
 
 			this.getHash = function getHashF() {
-				return data.topicHash;
+				return meta.getHash();
 			};
 
 			this.getID = function getIDF() {
@@ -114,7 +112,7 @@ define([
 			};
 
 			this.getKey = function getKeyF() {
-				return data.key;
+				return meta.metaAttr("_key");
 			};
 
 			var timerRunning, messageTime;
@@ -205,9 +203,20 @@ define([
 				}), cb);
 			};
 
+			this.verify = function verify(cb) {
+				step(function () {
+					userService.get(meta.metaAttr("creator"), this);
+				}, h.sF(function (creator) {
+					meta.verify(creator.getSignKey(), this);
+				}), h.sF(function () {
+					keyStore.security.addEncryptionIdentifier(meta.metaAttr("_key"))
+					this.ne();
+				}), cb);
+			};
+
 			this.loadReceiverNames = function loadRNF(cb) {
 				step(function () {
-					userService.getMultipleFormatted(data.receiver, this);
+					userService.getMultipleFormatted(receiver, this);
 				}, h.sF(function (receiverObjects) {
 					var partners = theTopic.data.partners;
 					var i, me;
@@ -234,13 +243,15 @@ define([
 			};
 
 			this.getReceiver = function () {
-				return data.receiver.slice();
+				return receiver;
 			};
 
 			this.loadAllData = function loadAllDataF(cb) {
 				step(function () {
-					theTopic.loadReceiverNames(this);
+					theTopic.verify(this);
 				}, h.sF(function () {
+					theTopic.loadReceiverNames(this);
+				}), h.sF(function () {
 					theTopic.loadNewest(this);
 				}), cb);
 			};
@@ -369,7 +380,6 @@ define([
 				// topic hashable data.
 				var topicMeta = {
 					createTime: new Date().getTime(),
-					key: topicKey,
 					receiver: receiverIDs,
 					creator: userService.getown().getID()
 				};
@@ -393,7 +403,7 @@ define([
 				SecuredData.create({}, topicMeta, {}, userService.getown().getSignKey(), topicKey, this.parallel());
 				Message.createRawData(topicKey, message, messageMeta, this.parallel());
 			}), h.sF(function (tData, mData) {
-				topicData.topic = tData;
+				topicData.topic = tData.meta;
 				topicData.message = mData;
 
 				this.ne(topicData);

@@ -386,6 +386,9 @@ define(["step", "whispeerHelper", "asset/state", "asset/securedDataWithMetaData"
 					main: theUser.getMainKey(),
 					sign: theUser.getSignKey()
 				});
+
+				keyStoreService.security.addEncryptionIdentifier(theUser.getMainKey());
+				keyStoreService.security.addEncryptionIdentifier(theUser.getSignKey());
 			};
 
 			this.verifyKeys = function (cb) {

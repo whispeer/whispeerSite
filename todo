@@ -1,8 +1,5 @@
-- secure own signature key and main key (encrypt with pw is the only way now...)
-
 - Use SecuredData for:
  - posts
- - topic data
  - friendship
 
 - Trust Manager: alert if given nickname/id gets a new key
@@ -11,6 +8,8 @@
 
 Done:
 
+- secure own signature key and main key (encrypt with pw is the only way now...)
+
 - Signature Cache
 - Trust Manager
 
@@ -18,6 +17,7 @@ Done:
  - public and private profile
  - messages
  - own keys
+ - topic data
 
  - SecuredData:
   - differ between update and initial encrypt/sign

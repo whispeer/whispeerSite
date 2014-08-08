@@ -1,5 +1,8 @@
 define(["whispeerHelper", "step", "crypto/keyStore", "asset/errors"], function (h, step, keyStore, errors) {
 	"use strict";
+
+	var attributesNeverVerified = ["_signature", "_hashObject"];
+
 	/** crypted content with metadata
 		@param content the content to handle either encrypted or decrypted
 		@param meta metadata for the content
@@ -9,6 +12,12 @@ define(["whispeerHelper", "step", "crypto/keyStore", "asset/errors"], function (
 		options = options || {};
 		this._removeEmpty = options.removeEmpty;
 		this._encryptDepth = options.encryptDepth || 0;
+
+		this._attributesNotVerified = options.attributesNotVerified || [];
+		this._attributesNotVerified.filter(function (val) {
+			return val.match(/^A-z0-9$/);
+		});
+		this._attributesNotVerified = attributesNeverVerified.concat(this._attributesNotVerified);
 
 		this._decrypted = isDecrypted;
 
@@ -48,14 +57,18 @@ define(["whispeerHelper", "step", "crypto/keyStore", "asset/errors"], function (
 		step(function () {
 			toSign._version = 1;
 
-			delete toSign._signature;
-			delete toSign._hashObject;
-			delete toSign._ownHash;
+			//do not sign attributes which should not be verified
+			that._attributesNotVerified.forEach(function(attr) {
+				delete toSign[attr];
+			});
 
 			if (that._paddedContent || that._updatedContent) {
 				var hashContent = that._paddedContent || that._updatedContent;
 
 				toSign._contentHash = keyStore.hash.hashObjectOrValueHex(hashContent);
+
+				//create new ownHash
+				delete toSign._ownHash;
 				toSign._ownHash = keyStore.hash.hashObjectOrValueHex(toSign);
 			}
 			
@@ -141,8 +154,9 @@ define(["whispeerHelper", "step", "crypto/keyStore", "asset/errors"], function (
 		step(function () {
 			var metaCopy = h.deepCopyObj(that._originalMeta);
 
-			delete metaCopy._signature;
-			delete metaCopy._hashObject;
+			that._attributesNotVerified.forEach(function(attr) {
+				delete metaCopy[attr];
+			});
 
 			keyStore.sign.verifyObject(that._originalMeta._signature, metaCopy, signKey, this);
 		}, h.sF(function (correctSignature) {

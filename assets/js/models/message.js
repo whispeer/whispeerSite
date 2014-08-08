@@ -6,29 +6,19 @@ define(["step",
 	"use strict";
 	function messageModel(keyStore, userService) {
 		var Message = function (data) {
-			var theMessage = this, verifiable = true;
+			var theMessage = this;
 
 			var err = validator.validate("message", data);
 			if (err) {
 				throw err;
 			}
 
-			if (!data.meta._version) {
-				//old version
-				if (typeof data.content.key === "object") {
-					data.content.key = keyStore.upload.addKey(data.content.key);
-				}
-
-				data.meta._key = data.content.key;
-				verifiable = false;
-				data.meta._version = 0;
-
-				data.content.ct = data.content.text;
-			}
-
 			var messageid = h.parseDecimal(data.meta.messageid || data.messageid);
 
-			var securedData = new SecuredData(data.content, data.meta);
+			var metaCopy = h.deepCopyObj(data.meta);
+			var securedData = SecuredData.load(data.content, metaCopy, {
+				attributesNotVerified: ["sendTime", "sender", "topicid", "messageid"]
+			});
 
 			var ownMessage;
 
@@ -87,18 +77,23 @@ define(["step",
 					theMessage.data.sender = theSender.data;
 					ownMessage = theSender.isOwn();
 
-					this.ne();
+					this.ne(theSender);
 				}), cb);
 			};
 
 			this.loadFullData = function loadFullDataF(cb) {
 				step(function l1() {
-					theMessage.decrypt(this);
-				}, h.sF(function l2() {
 					theMessage.loadSender(this);
+				}, h.sF(function l2(sender) {
+					theMessage.decrypt(this.parallel());
+					theMessage.verify(sender.getSignKey(), this.parallel());
 				}), h.sF(function l3() {
 					this.ne();
 				}), cb);
+			};
+
+			this.verify = function (signKey, cb) {
+				securedData.verify(signKey, cb);
 			};
 
 			this.decrypt = function decryptF(cb) {
