@@ -4,8 +4,13 @@
 			<i class="icon-plus-circle" id="plusBtn"></i><span data-i18n="views.circles.newCircle"></span>
 		</button>
 		<span class="title" role="title" data-ng-if="showCircle" data-ng-class="{circleLoaded: circleLoaded}">
-			<span data-i18n="views.circles.header.title"></span>
-			<span data-ng-if="circleLoaded && showCircle">- {{thisCircle.name}}</span>
+			<span data-ng-if="circleLoaded">
+				<span data-i18n="views.circles.header.title.loaded"></span>
+				<span data-ng-if="circleLoaded && showCircle">{{thisCircle.name}}</span>
+			</span>
+			<span data-ng-if="!circleLoaded">
+				<span data-i18n="views.circles.header.title.create"></span>
+			</span>	
 		</span>
 		<button id="backToMenu" data-ng-if="mobile && showCircle" data-ng-click="unloadCircleMobile()"><i class="icon icon-menu"></i></button>
 		<button id="removeCircle" data-ng-if="circleLoaded" data-ng-click="removeCircle()"><i class="icon icon-trash"></i></button>
