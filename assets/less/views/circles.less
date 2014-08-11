@@ -12,7 +12,7 @@
 	header {
 		.title {
 			@media @desktop { .column(7,12); }
-			@media @mobile { .column(11,12); &.circleLoaded{ .column(10,12); } }
+			@media @mobile { .column(10.5,12); &.circleLoaded{ .column(9,12); } }
 			overflow: hidden;
 			white-space: nowrap;
 			text-overflow: ellipsis;
@@ -23,12 +23,12 @@
 		}
 		#removeCircle {
 			@media @desktop { .column(1,12,right,0); }
-			@media @mobile { .column(1,12,right,0); }
+			@media @mobile { .column(1.5,12,right,0); }
 			text-align: center !important;
 			border-left: 1px solid #ccc !important;
 		}
 		#backToMenu {
-			@media @mobile { .column(1,12,left,0); }
+			@media @mobile { .column(1.5,12,left,0); }
 			text-align: center !important;
 			border-left: 1px solid #ccc !important;
 		}
