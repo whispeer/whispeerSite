@@ -1,6 +1,7 @@
+- circle update server side!
+
 - Use SecuredData for:
  - friendship
- - circles
 
 - Trust Manager: alert if given nickname/id gets a new key
 - Low: Trust Manager: make nickname changes possible somehow...
@@ -18,6 +19,7 @@ Done:
  - own keys
  - topic data
  - posts
+ - circles
 
  - SecuredData:
   - differ between update and initial encrypt/sign

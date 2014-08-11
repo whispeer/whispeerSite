@@ -14,7 +14,7 @@ define(["step", "whispeerHelper", "asset/observer", "asset/securedDataWithMetaDa
 			var usersLoaded = 0;
 
 			var circleSec = SecuredData.load(data.content, data.meta);
-			var circleUsers = circleSec.metaAttr("user").map(h.parseDecimal);
+			var circleUsers = circleSec.metaAttr("users").map(h.parseDecimal);
 
 			this.getID = function getIDF() {
 				return id;
@@ -29,11 +29,11 @@ define(["step", "whispeerHelper", "asset/observer", "asset/securedDataWithMetaDa
 			};
 
 			this.getKey = function () {
-				return circleSec.metaAttr("key");
+				return circleSec.metaAttr("circleKey");
 			};
 
 			this.setUser = function (uids, cb) {
-				var newKey, oldKey, removing;
+				var newKey, oldKey = circleSec.metaAttr("circleKey"), removing = false;
 				step(function () {
 					uids = uids.map(h.parseDecimal);
 					removing = h.arraySubtract(circleUsers, uids).length > 0;
@@ -41,7 +41,7 @@ define(["step", "whispeerHelper", "asset/observer", "asset/securedDataWithMetaDa
 					if (removing) {
 						generateNewKey(this);
 					} else {
-						this.ne(circleSec.metaAttr("key"));
+						this.ne(oldKey);
 					}
 				}, h.sF(function (_newKey) {
 					newKey = _newKey;
@@ -58,7 +58,7 @@ define(["step", "whispeerHelper", "asset/observer", "asset/securedDataWithMetaDa
 
 					circleSec.metaSet({
 						users: uids,
-						key: newKey
+						circleKey: newKey
 					});
 
 					this.parallel.unflatten();
@@ -71,7 +71,7 @@ define(["step", "whispeerHelper", "asset/observer", "asset/securedDataWithMetaDa
 					};
 
 					if (removing) {
-						update.oldKeyDecryptor = keyStore.upload.getDecryptors([oldKey], [newKey]);
+						update.decryptors = keyStore.upload.getDecryptors([oldKey], [newKey]);
 						update.key = keyStore.upload.getKey(newKey);
 					}
 
@@ -103,10 +103,14 @@ define(["step", "whispeerHelper", "asset/observer", "asset/securedDataWithMetaDa
 				this.setUser(uids.concat(circleUsers), cb);
 			};
 
-			this.decrypt = function (cb) {
+			this.load = function (cb) {
 				step(function () {
-					circleSec.decrypt();
+					this.parallel.unflatten();
+
+					circleSec.decrypt(this.parallel());
+					circleSec.verify(userService.getown().getSignKey(), this.parallel());
 				}, h.sF(function (content) {
+					keyStore.security.addEncryptionIdentifier(circleSec.metaAttr("circleKey"));
 					theCircle.data.name = content.name;
 
 					this.ne();
@@ -171,7 +175,7 @@ define(["step", "whispeerHelper", "asset/observer", "asset/securedDataWithMetaDa
 				if (users && users.length > 0) {
 					userService.getMultiple(users, this);
 				} else {
-					this.last.ne(key, []);
+					this.last.ne([]);
 				}
 			}, h.sF(function (userObjects) {
 				userObjects.forEach(function (user) {
@@ -252,8 +256,8 @@ define(["step", "whispeerHelper", "asset/observer", "asset/securedDataWithMetaDa
 						}
 					}, this);
 				}), h.sF(function (data) {
-					theCircle = makeCircle(data.result);
-					theCircle.decrypt(this);
+					theCircle = makeCircle(data.created);
+					theCircle.load(this);
 				}), h.sF(function () {
 					this.ne(theCircle);
 				}), cb);
@@ -289,7 +293,7 @@ define(["step", "whispeerHelper", "asset/observer", "asset/securedDataWithMetaDa
 					if (data.circles) {
 						data.circles.forEach(function (circle) {
 							var c = makeCircle(circle);
-							c.decrypt(this.parallel());
+							c.load(this.parallel());
 						}, this);
 
 						this.parallel()();
