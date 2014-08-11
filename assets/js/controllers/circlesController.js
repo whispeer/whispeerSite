@@ -5,7 +5,7 @@
 define(["whispeerHelper"], function (h) {
 	"use strict";
 
-	function circlesController($scope, cssService, circleService, errorService) {
+	function circlesController($scope, cssService, circleService, errorService, localize) {
 		$scope.circleid = 0;
 		$scope.showCircle = !$scope.mobile;
 		
@@ -49,6 +49,14 @@ define(["whispeerHelper"], function (h) {
 
 			$scope.showCircle = !$scope.mobile;
 		};
+		
+		$scope.removeCircle = function () {
+			var response = confirm(localize.getLocalizedString("views.circles.removeCircle"));
+			if (response) {
+				$scope.unloadCircle();
+				console.log("Circle removed");
+			}
+		}
 
 		$scope.unloadCircle = function () {
 			$scope.showCircle = true;
@@ -70,7 +78,7 @@ define(["whispeerHelper"], function (h) {
 		};
 	}
 
-	circlesController.$inject = ["$scope", "ssn.cssService", "ssn.circleService", "ssn.errorService"];
+	circlesController.$inject = ["$scope", "ssn.cssService", "ssn.circleService", "ssn.errorService", "localize"];
 
 	return circlesController;
 });

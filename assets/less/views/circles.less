@@ -8,14 +8,19 @@
 	}
 	header {
 		.title {
-			@media @desktop { .column(5,7); }
+			@media @desktop { .column(7,12); }
 			overflow: hidden;
 			white-space: nowrap;
 			text-overflow: ellipsis;
 		}
-		button {
-			@media @mobile { .column(12,12,left,0); }
-			@media @desktop { .column(2,7,left,0); }
+		#newcircle {
+			@media @desktop { .column(4,12,left,0); }
+		}
+		#removeCircle {
+			@media @desktop { .column(1,12,left,0); }
+			text-align: center !important;
+			border-left: 1px solid #ccc !important;
+		}
 		}
 		nav {
 			a {
@@ -37,17 +42,11 @@
 		}
 	}
 	#circleListWrap {
-		@media @mobile {
-			.column(12);
-		}
-		@media @desktop {
-			.column(2,7,left,0);
-		}
+		@media @desktop { .column(4,12,left,0); border-right: 1px solid #ccc; }
 		height: calc(~"100% - 31px");
 		#circleList {
 			.unstyled;
 			.box-fix;
-			border-right: 1px solid #ccc;
 			height: 100%;
 			margin: 0;
 			#circleListScroll {
@@ -123,7 +122,7 @@
 		}
 	}
 	#circleContainer {
-		@media @desktop { .column(5,7,left,1); margin: 0 0 0 1%; }
+		@media @desktop { .column(8,12,left,1); margin: 0 0 0 1%; }
 		height: calc(~"100% - 31px");
 		padding-right: 1%;
 		.box-fix;

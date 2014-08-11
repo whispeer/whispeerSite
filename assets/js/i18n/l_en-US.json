@@ -27,6 +27,7 @@
 				"sendMessage": "Message to circle",
 				"addPeople":	"Add persons"
 			},
+			"removeCircle":	"Do you really want to remove this Circle?",
 			"newCircle":	"Create a new circle",
 			"new": "New circle",
 			"createCircle": "Create circle",

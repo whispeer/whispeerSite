@@ -29,6 +29,7 @@
 				"save":	"Kreis speichern",
 				"remove":	"Kreis löschen"
 			},
+			"removeCircle":	"Möchtest du diesen Kreis wirklich entfernen?",
 			"newCircle":	"Neuen Kreis anlegen",
 			"new": "Neuer Kreis",
 			"createCircle": "Kreis erstellen",

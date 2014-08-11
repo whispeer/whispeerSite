@@ -7,7 +7,7 @@
 			<span data-i18n="views.circles.header.title"></span>
 			<span data-ng-if="circleLoaded && showCircle">- {{thisCircle.name}}</span>
 		</span>
-		<button data-ng-if="mobile && showCircle" data-ng-click="unloadCircle()"><i class="icon icon-menu"></i></button>
+		<button id="removeCircle" data-ng-if="circleLoaded" data-ng-click="removeCircle()"><i class="icon icon-trash"></i></button>
 	</header>
 
 	<div id="circleListWrap" data-ng-if="!mobile || !showCircle">
