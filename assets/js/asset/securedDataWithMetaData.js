@@ -119,7 +119,7 @@ define(["whispeerHelper", "step", "crypto/keyStore", "asset/errors"], function (
 
 			that._updatedMeta._key = keyStore.correctKeyIdentifier(cryptKey);
 
-			if (typeof paddedContent === "object") {
+			if (typeof paddedContent === "object" && that._encryptDepth > 0) {
 				hashObject = keyStore.hash.deepHashObject(paddedContent);
 			}
 
@@ -235,6 +235,11 @@ define(["whispeerHelper", "step", "crypto/keyStore", "asset/errors"], function (
 	};
 	SecuredDataWithMetaData.prototype.metaHasAttr = function (attr) {
 		return this._updatedMeta.hasOwnProperty(attr);
+	};
+	SecuredDataWithMetaData.prototype.metaKeys = function () {
+		return Object.keys(this._updatedMeta).filter(function (key) {
+			return key[0] !== "_";
+		});
 	};
 	SecuredDataWithMetaData.prototype.metaAttr = function (attr) {
 		return h.deepCopyObj(this._updatedMeta[attr]);

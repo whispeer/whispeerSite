@@ -1058,11 +1058,12 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 		}
 
 		function signF(hash, callback) {
-			var trustManager;
+			var trustManager, signatureCache;
 			step(function () {
-				require(["crypto/trustManager"], this.ne, this);
-			}, h.sF(function (tM) {
+				require(["crypto/trustManager", "crypto/signatureCache"], this.ne, this);
+			}, h.sF(function (tM, _signatureCache) {
 				trustManager = tM;
+				signatureCache = _signatureCache;
 				if (!trustManager.isLoaded) {
 					trustManager.listen(this, "loaded");
 				} else {
@@ -1080,6 +1081,12 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 				}
 
 				this.ne(intKey.getSecret().sign(hash));
+			}), h.sF(function (signature) {
+				if (signatureCache.isLoaded()) {
+					signatureCache.addSignatureStatus(signature, hash, realid, true);
+				}
+
+				this.ne(signature);
 			}), callback);
 		}
 
