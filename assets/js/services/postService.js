@@ -12,6 +12,10 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer", "ass
 		var Post = function (data) {
 			var thePost = this, id = data.id;
 			var securedData = SecuredData.load(data.content, data.meta);
+			var comments = data.comments || [];
+			comments = comments.map(function (comment) {
+				return SecuredData.load(comment.content, comment.meta);
+			});
 
 			this.data = {
 				loaded: false,
@@ -21,6 +25,14 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer", "ass
 				},
 				time: securedData.metaAttr("time"),
 				isWallPost: false,
+				newComment: {
+					text: "",
+					create: function (text) {
+						thePost.addComment(text, function () {
+							debugger;
+						});
+					}
+				},
 				comments: []
 			};
 
@@ -33,6 +45,7 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer", "ass
 					this.parallel.unflatten();
 					thePost.getSender(this.parallel());
 					thePost.getWallUser(this.parallel());
+					loadComments(this.parallel());
 				}, h.sF(function (sender, walluser) {
 					var d = thePost.data;
 
@@ -42,8 +55,12 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer", "ass
 					}
 
 					d.sender = sender;
-					securedData.verify(sender.user.getSignKey(), this);
+					securedData.verify(sender.user.getSignKey(), this.parallel());
+					/*comments.forEach(function (comment) {
+						comment.verify(this.parallel());
+					}, this);*/
 				}), h.sF(function () {
+					keyStore.security.addEncryptionIdentifier(securedData.metaAttr("_key"));
 					thePost.getText(this);
 				}), h.sF(function (text) {
 					var d = thePost.data;
@@ -54,6 +71,48 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer", "ass
 					};
 
 					this.ne();
+				}), cb);
+			};
+
+			function loadComments(cb) {
+				step(function () {
+					if (comments.length === 0) {
+						this.last.ne();
+						return;
+					}
+
+					comments.forEach(function (comment) {
+						comment.decrypt(this.parallel());
+					}, this);
+				}, h.sF(function (comments) {
+					thePost.data.comments = comments;
+					this.ne();
+				}), cb);
+			}
+
+			this.addComment = function (comment, cb) {
+				step(function () {
+					var sequenceCounter = 0;
+					if (comments.length !== 0) {
+						sequenceCounter = comments[comments.length - 1].metaAttr("sequenceCounter");
+					}
+
+					SecuredData.create({
+						comment: comment
+					}, {
+						sequenceCounter: sequenceCounter || 0,
+						postID: id,
+						postHash: securedData.getHash(),
+						createTime: new Date().getTime()
+						//TODO: protect against resend attack on same post...
+					}, {}, userService.getown().getSignKey(), securedData.metaAttr("_key"), this);
+				}, h.sF(function (commentData) {
+					socket.emit("posts.comment.create", {
+						postID: id,
+						comment: commentData
+					}, this);
+				}), h.sF(function (result) {
+					//TODO: add comment!
 				}), cb);
 			};
 
