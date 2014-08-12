@@ -55,7 +55,6 @@ define(["step", "whispeerHelper", "crypto/trustManager", "crypto/signatureCache"
 		}, "ownEarly");
 
 		initService.register("trustManager.get", {}, function (data, cb) {
-			trustManager.setOwnSignKey(userService.getown().getSignKey());
 			if (data.content) {
 				trustManager.loadDatabase(data.content, cb);
 			} else {
