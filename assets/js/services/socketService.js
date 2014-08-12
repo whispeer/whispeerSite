@@ -95,6 +95,7 @@ define(["jquery", "socket", "socketStream", "step", "whispeerHelper", "config"],
 
 					if (data.error) {
 						console.error(data);
+						throw new Error("server returned an error!");
 					} else {
 						console.info(data);
 					}

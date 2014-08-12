@@ -1,57 +1,60 @@
 /**
 * friendsService
 **/
-define(["step", "whispeerHelper", "asset/observer"], function (step, h, Observer) {
+define(["step", "whispeerHelper", "asset/observer", "asset/securedDataWithMetaData"], function (step, h, Observer, SecuredData) {
 	"use strict";
 
+	/*
+		friendship:
+
+		SecuredData(undefined, {
+			friend: uid
+		})
+	*/
+
 	var service = function ($rootScope, $injector, socket, sessionService, keyStore, initService) {
-		var friends = [], requests = [], requested = [], onlineFriends = {};
+		var friends = [], requests = [], requested = [], signedList, onlineFriends = {};
 		var friendsData = {
 			requestsCount: 0,
 			friendsCount: 0,
 			requestedCount: 0
 		};
 
-		function setFriends(f) {
-			friends = f.map(function (e) {return h.parseDecimal(e);});
-			friendsData.friendsCount = f.length;
+		function updateCounters() {
+			friendsData.friendsCount = friends.length;
+			friendsData.requestsCount = requests.length;
+			friendsData.requestedCount = requested.length;
 		}
 
-		function setRequests(r) {
-			requests = r.map(function (e) {return h.parseDecimal(e);});
-			friendsData.requestsCount = r.length;
+		function userOnline(uid, status) {
+			onlineFriends[uid] = status;
+			friendsService.notify(status, "online:" + uid);
 		}
 
-		function setRequested(r) {
-			requested = r.map(function (e) {return h.parseDecimal(e);});
-			friendsData.requestedCount = r.length;
-		}
-
-		function createBasicData(otherUser, cb) {
-			var friendsKey, signature, friendShipKey, userService = $injector.get("ssn.userService");
+		function createBasicData(ownUser, otherUser, cb) {
+			var friendShipKey;
 			step(function () {
-				this.parallel.unflatten();
-
-				var own = userService.getown();
-				//own user get friendsKey
-				friendsKey = own.getFriendsKey();
-				var crypt = otherUser.getCryptKey();
-
-				//sign: friendShip:uid:nickname
-				keyStore.sign.signText("friendship:" + otherUser.getID() + ":" + otherUser.getNickname(), own.getSignKey(), this.parallel());
 				//encr intermediate key w/ users cryptKey
-				keyStore.sym.asymEncryptKey(friendsKey, crypt, this.parallel());
-			}, h.sF(function (sign, friendshipK) {
-				signature = sign;
-				friendShipKey = friendshipK;
+				keyStore.sym.asymEncryptKey(ownUser.getFriendsKey(), otherUser.getCryptKey(), this);
+			}, h.sF(function (_friendShipKey) {
+				friendShipKey = _friendShipKey;
+				var mainKey = ownUser.getMainKey();
 
-				var mainKey = userService.getown().getMainKey();
+				this.parallel.unflatten();
+				SecuredData.load(undefined, {
+					friend: otherUser.getID()
+				}, {}).sign(ownUser.getSignKey(), this.parallel());
 
-				keyStore.sym.symEncryptKey(friendshipK, mainKey, this.parallel());
-			}), h.sF(function () {
+				var listData = {};
+				listData[otherUser.getID()] = friendShipKey;
+				signedList.metaJoin(listData);
+				signedList.sign(ownUser.getSignKey(), this.parallel());
+
+				keyStore.sym.symEncryptKey(friendShipKey, mainKey, this.parallel());
+			}), h.sF(function (securedData, signedList) {
 				var data = {
-					userid: otherUser.getID(),
-					signedRequest: signature,
+					signedList: signedList,
+					meta: securedData,
 					key: keyStore.upload.getKey(friendShipKey)
 				};
 
@@ -61,39 +64,35 @@ define(["step", "whispeerHelper", "asset/observer"], function (step, h, Observer
 
 		function acceptFriendShip(uid, cb) {
 			var otherLevel2Key, ownLevel2Key, friendsKey, otherFriendsKey, friendShipKey, otherUser, userService = $injector.get("ssn.userService");
+			var own = userService.getown();
 			step(function () {
 				userService.get(uid, this);
-			}, h.sF(function (u) {
-				otherUser = u;
-
-				var own = userService.getown();
-				createBasicData(otherUser, this.parallel());
+			}, h.sF(function (_otherUser) {
+				otherUser = _otherUser;
 
 				otherLevel2Key = otherUser.getFriendsLevel2Key();
 				otherFriendsKey = otherUser.getFriendsKey();
-
 				ownLevel2Key = own.getFriendsLevel2Key();
 				friendsKey = own.getFriendsKey();
 
 				keyStore.sym.symEncryptKey(otherLevel2Key, friendsKey, this.parallel());
 				keyStore.sym.symEncryptKey(ownLevel2Key, otherFriendsKey, this.parallel());
-			}), h.sF(function (data, fskey) {
-				data = data[0];
-				friendShipKey = fskey[0];
-				data.decryptors = keyStore.upload.getDecryptors([friendsKey, otherLevel2Key, ownLevel2Key], [friendsKey, otherFriendsKey, data.key.realid]);
+			}), h.sF(function () {
+				createBasicData(own, otherUser, this);
+			}), h.sF(function (data, _friendShipKey) {
+				friendShipKey = _friendShipKey;
+				data.decryptors = keyStore.upload.getDecryptors([friendsKey, otherLevel2Key, ownLevel2Key], [friendsKey, otherFriendsKey, friendShipKey]);
 
 				socket.emit("friends.add", data, this);
 			}), h.sF(function (result) {
 				if (result.friendAdded) {
 					friends.push(uid);
-					friendsData.friendsCount += 1;
-					friendsData.requestsCount -= 1;
 					h.removeArray(requests, uid);
+					updateCounters();
 
 					otherUser.setFriendShipKey(friendShipKey);
 
-					onlineFriends[uid] = result.friendOnline;
-					friendsService.notify(result.friendOnline, "online:" + uid);
+					userOnline(uid, result.friendOnline);
 
 					friendsService.notify(uid, "newFriend");
 
@@ -113,48 +112,47 @@ define(["step", "whispeerHelper", "asset/observer"], function (step, h, Observer
 				userService.get(uid, this);
 			}, h.sF(function (u) {
 				otherUser = u;
-				createBasicData(otherUser, this);
-			}), h.sF(function (data, fsKey) {
-				friendShipKey = fsKey;
+				createBasicData(userService.getown(), otherUser, this);
+			}), h.sF(function (data, _friendShipKey) {
+				friendShipKey = _friendShipKey;
+
 				var friendsKey = userService.getown().getFriendsKey();
-				data.decryptors = keyStore.upload.getDecryptors([friendsKey], [data.key.realid]);
+				data.decryptors = keyStore.upload.getDecryptors([friendsKey], [friendShipKey]);
 
 				socket.emit("friends.add", data, this);
 			}), h.sF(function (result) {
-				if (!result.error) {
-					if (result.friendAdded) {
-						otherUser.setFriendShipKey(friendShipKey);
-						requested.push(uid);
-						friendsService.notify(uid, "newRequested");
-					} else {
-						//user requested friendShip and we did not get it when we started this...
-						acceptFriendShip(uid, cb);
-					}
+				if (result.friendAdded) {
+					otherUser.setFriendShipKey(friendShipKey);
+					requested.push(uid);
+					friendsService.notify(uid, "newRequested");
 				} else {
-					throw new Error("Friends request failed");
+					//user requested friendShip and we did not get it when we started this...
+					acceptFriendShip(uid, cb);
 				}
 			}), cb);
 		}
 
 		socket.listen("friendRequest", function (e, requestData) {
 			var uid = parseInt(requestData.uid, 10);
-			if (requests.indexOf(uid) === -1 && friends.indexOf(uid) === -1 && requested.indexOf(uid) === -1)  {
+			if (!h.containsOr(uid, requests, friends, requested))  {
 				requests.push(uid);
-				friendsData.requestsCount += 1;
+				updateCounters();
+
 				friendsService.notify(uid, "newRequest");
 			}
 		});
 
 		socket.listen("friendAccept", function (e, requestData) {
 			var uid = parseInt(requestData.uid, 10);
-			if (requests.indexOf(uid) === -1 && friends.indexOf(uid) === -1)  {
+			if (!h.containsOr(uid, requests, friends))  {
 				friends.push(uid);
-				friendsData.friendsCount += 1;
-				requestData.requestedCount -= 1;
+				h.removeArray(requested, uid);
+
+				updateCounters();
 
 				friendsService.notify(uid, "newFriend");
 
-				onlineFriends[uid] = 2;
+				userOnline(uid, 2);
 			}
 		});
 
@@ -162,8 +160,7 @@ define(["step", "whispeerHelper", "asset/observer"], function (step, h, Observer
 			var uid = requestData.uid;
 			var status = requestData.status;
 
-			onlineFriends[uid] = status;
-			friendsService.notify(status, "online:" + uid);
+			userOnline(uid, status);
 		});
 
 		var friendsService = {
@@ -173,15 +170,11 @@ define(["step", "whispeerHelper", "asset/observer"], function (step, h, Observer
 						userid: uid
 					}, this);
 				}, h.sF(function (result) {
-					if (!result.error) {
-						this.ne(result.friends);
-					} else {
-						throw new Error("server returned an error!");
-					}
+					this.ne(result.friends);
 				}), cb);
 			},
 			friendship: function (uid, cb) {
-				if (friends.indexOf(uid) > -1 || requested.indexOf(uid) > -1) {
+				if (h.containsOr(uid, friends, requested)) {
 					return;
 				}
 
@@ -192,7 +185,7 @@ define(["step", "whispeerHelper", "asset/observer"], function (step, h, Observer
 				}
 			},
 			acceptFriendShip: function (uid, cb) {
-				if (requests.indexOf(uid) > -1 && friends.indexOf(uid) === -1 && requested.indexOf(uid) === -1) {
+				if (requests.indexOf(uid) > -1 && !h.containsOr(uid, friends, requested)) {
 					acceptFriendShip(uid, cb);
 				}
 			},
@@ -232,10 +225,38 @@ define(["step", "whispeerHelper", "asset/observer"], function (step, h, Observer
 			getRequested: function () {
 				return requested.slice();
 			},
-			load: function (data) {
-				setFriends(data.friends);
-				setRequests(data.requests);
-				setRequested(data.requested);
+			getUserFriendShipKey: function (uid) {
+				return signedList.metaAttr(uid);
+			},
+			load: function (data, cb) {
+				var userService = $injector.get("ssn.userService");
+
+				friends = data.friends.map(h.parseDecimal);
+				requests = data.requests.map(h.parseDecimal);
+				requested = data.requested.map(h.parseDecimal);
+
+				updateCounters();
+
+				signedList = SecuredData.load(undefined, data.signedList || {});
+
+				var requestedOrFriends = signedList.metaKeys().map(h.parseDecimal);
+				if (!h.arrayEqual(requestedOrFriends, requested.concat(friends))) {
+					throw new Error("unmatching arrays");
+				}
+
+				step(function () {
+					if (!data.signedList) {
+						this.last.ne();
+					} else {
+						signedList.verify(userService.getown().getSignKey(), this);
+					}
+				}, h.sF(function () {
+					requestedOrFriends.forEach(function (uid) {
+						keyStore.security.addEncryptionIdentifier(signedList.metaAttr(uid));
+					});
+
+					this.ne();
+				}), cb);
 			},
 			onlineStatus: function (uid) {
 				if (friends.indexOf(uid) === -1) {
@@ -251,15 +272,15 @@ define(["step", "whispeerHelper", "asset/observer"], function (step, h, Observer
 				friends = [];
 				requests = [];
 				requested = [];
+				onlineFriends = [];
 			},
 			data: friendsData
 		};
 
 		Observer.call(friendsService);
 
-		initService.register("friends.getAll", {}, function (data, cb) {
-			friendsService.load(data);
-			cb();
+		initService.register("friends.all", {}, function (data, cb) {
+			friendsService.load(data, cb);
 		});
 
 		initService.register("friends.getOnline", {}, function (data, cb) {

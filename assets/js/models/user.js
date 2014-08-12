@@ -163,15 +163,17 @@ define(["step", "whispeerHelper", "asset/state", "asset/securedDataWithMetaData"
 			this.data = {};
 
 			function updateUser(userData) {
-				if (id && parseInt(userData.id, 10) !== parseInt(id, 10)) {
+				if (id && h.parseDecimal(userData.id) !== h.parseDecimal(id)) {
 					throw new Error("user update invalid");
 				}
 
 				mutualFriends = userData.mutualFriends;
 
-				id = parseInt(userData.id, 10);
+				id = h.parseDecimal(userData.id);
 				mail = userData.mail;
 				nickname = userData.nickname;
+
+				var isMe = (id === sessionService.getUserID());
 
 				migrationState = userData.migrationState || 0;
 
@@ -182,34 +184,22 @@ define(["step", "whispeerHelper", "asset/state", "asset/securedDataWithMetaData"
 					return keyStoreService.upload.addKey(key);
 				});
 
-				//do not overwrite keys.
-				if (!mainKey && userData.keys.mainKey) {
-					mainKey = userData.keys.mainKey;
+				if (!mainKey && userData.mainKey) {
+					mainKey = userData.mainKey;
 				}
 
 				//all keys we get from the signedKeys object:
-				if (!signKey && userData.keys.signKey) {
-					signKey = signedKeys.metaAttr("sign");
-				}
+				signKey = signedKeys.metaAttr("sign");
+				cryptKey = signedKeys.metaAttr("crypt");
 
-				if (!cryptKey && userData.keys.cryptKey) {
-					cryptKey = signedKeys.metaAttr("crypt");
-				}
-
-				if (!friendsKey && userData.keys.friendsKey) {
+				if (isMe || friendsService.didIRequest(id)) {
 					friendsKey = signedKeys.metaAttr("friends");
-				}
-
-				if (!friendsLevel2Key && userData.keys.friendsLevel2Key) {
 					friendsLevel2Key = signedKeys.metaAttr("friendsLevel2");
+
+					if (!isMe) {
+						friendShipKey = friendsService.getUserFriendShipKey(id);
+					}
 				}
-
-				//TODO: secure this key!
-				if (!friendShipKey && userData.keys.friendShipKey) {
-					friendShipKey = userData.keys.friendShipKey;
-				}
-
-
 
 				publicProfile = new ProfileService(userData.profile.pub, { isPublicProfile: true });
 
@@ -220,8 +210,6 @@ define(["step", "whispeerHelper", "asset/state", "asset/securedDataWithMetaData"
 					var priv = userData.profile.priv;
 
 					var profilesBroken = false;
-
-					var isMe = (id === sessionService.getUserID());
 
 					priv.forEach(function (profile) {
 						if (profile.metaData === false && isMe) {

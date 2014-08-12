@@ -1,9 +1,9 @@
-- circle update server side!
+- SecuredData:
+ - give everything a type!
 
 - Use SecuredData for:
  - friendship
 
-- Trust Manager: alert if given nickname/id gets a new key
 - Low: Trust Manager: make nickname changes possible somehow...
 
 Done:
@@ -12,6 +12,7 @@ Done:
 
 - Signature Cache
 - Trust Manager
+ - alert if given nickname/id gets a new key
 
 - SecuredData for:
  - public and private profile
