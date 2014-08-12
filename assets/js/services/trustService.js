@@ -50,6 +50,9 @@ define(["step", "whispeerHelper", "crypto/trustManager", "crypto/signatureCache"
 		}
 
 		userService.listen(addNewUsers, "loadedUser");
+		userService.listen(function () {
+			trustManager.setOwnSignKey(userService.getown().getSignKey());
+		}, "ownEarly");
 
 		initService.register("trustManager.get", {}, function (data, cb) {
 			trustManager.setOwnSignKey(userService.getown().getSignKey());
@@ -59,7 +62,7 @@ define(["step", "whispeerHelper", "crypto/trustManager", "crypto/signatureCache"
 				trustManager.createDatabase(userService.getown());
 				uploadDatabase(cb);
 			}
-		}, true);
+		});
 
 		initService.register("signatureCache.get", {}, function (data, cb) {
 			if (data.content) {
@@ -68,7 +71,7 @@ define(["step", "whispeerHelper", "crypto/trustManager", "crypto/signatureCache"
 				signatureCache.createDatabase(userService.getown().getSignKey());
 				cb();
 			}
-		});
+		}, true);
 
 		$rootScope.$on("ssn.reset", function () {
 			trustManager.reset();

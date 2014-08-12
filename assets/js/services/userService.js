@@ -1,4 +1,4 @@
-define(["step", "whispeerHelper", "asset/observer"], function (step, h, Observer) {
+define(["step", "whispeerHelper", "asset/observer", "crypto/signatureCache"], function (step, h, Observer, signatureCache) {
 	"use strict";
 
 	var service = function ($rootScope, User, errorService, initService, socketService, keyStoreService, sessionService) {
@@ -246,8 +246,9 @@ define(["step", "whispeerHelper", "asset/observer"], function (step, h, Observer
 		initService.register("user.get", function () {
 			return {identifier: sessionService.getUserID()};
 		}, function (data, cb) {
+			var user;
 			step(function () {
-				var user = makeUser(data);
+				user = makeUser(data);
 
 				var identifier = user.getNickOrMail();
 
@@ -256,8 +257,12 @@ define(["step", "whispeerHelper", "asset/observer"], function (step, h, Observer
 				keyStoreService.sym.registerMainKey(user.getMainKey());
 
 				user.verifyOwnKeys();
+				userService.notify(user, "ownEarly");
+
+				signatureCache.listen(this.ne, "loaded");
+			}, h.sF(function () {
 				user.verifyKeys(this);
-			}, cb);
+			}), cb);
 
 		}, true);
 

@@ -1103,6 +1103,7 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 				if (signatureCache.isLoaded() && signatureCache.isSignatureInCache(signature, hash, realid)) {
 					this.last.ne(signatureCache.getSignatureStatus(signature, hash, realid));
 				} else {
+					console.log("slow verify");
 					sjclWorkerInclude.asym.verify(publicKey, signature, hash, this);
 				}
 			}), h.sF(function (valid) {

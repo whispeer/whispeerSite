@@ -3,6 +3,8 @@
 
 - Low: Trust Manager: make nickname changes possible somehow...
 
+- Make it faster!
+
 Done:
 
 - secure own signature key and main key (encrypt with pw is the only way now...)

@@ -12,7 +12,7 @@ define (["whispeerHelper", "step", "asset/observer", "asset/errors", "crypto/key
 		return keyStore.hash.hashObjectOrValueHex(data);
 	}
 
-	var trustManager = {
+	var signatureCache = {
 		isLoaded: function () {
 			return loaded;
 		},
@@ -41,7 +41,7 @@ define (["whispeerHelper", "step", "asset/observer", "asset/errors", "crypto/key
 				database = givenDatabase;
 				loaded = true;
 
-				trustManager.notify("", "loaded");
+				signatureCache.notify("", "loaded");
 
 				this.ne();
 			}), cb);
@@ -98,7 +98,7 @@ define (["whispeerHelper", "step", "asset/observer", "asset/errors", "crypto/key
 		}
 	};
 
-	Observer.call(trustManager);
+	Observer.call(signatureCache);
 
-	return trustManager;
+	return signatureCache;
 });
