@@ -1,9 +1,6 @@
 - SecuredData:
  - give everything a type!
 
-- Use SecuredData for:
- - friendship
-
 - Low: Trust Manager: make nickname changes possible somehow...
 
 Done:
@@ -21,6 +18,7 @@ Done:
  - topic data
  - posts
  - circles
+ - friendship
 
  - SecuredData:
   - differ between update and initial encrypt/sign
