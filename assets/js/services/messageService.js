@@ -40,6 +40,8 @@ define([
 				//throw err;
 			}
 
+			data.meta.receiver.sort();
+
 			var meta = SecuredData.load(undefined, data.meta, {
 				attributesNotVerified: ["newest", "topicid", "unread", "newestTime"]
 			});
@@ -376,6 +378,7 @@ define([
 				});
 
 				receiverIDs.push(userService.getown().getID());
+				receiverIDs.sort();
 
 				// topic hashable data.
 				var topicMeta = {
