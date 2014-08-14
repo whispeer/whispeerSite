@@ -1057,7 +1057,7 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 			return fingerPrintPublicKey(publicKey);
 		}
 
-		function signF(hash, callback) {
+		function signF(hash, callback, noCache) {
 			var trustManager, signatureCache;
 			step(function () {
 				require(["crypto/trustManager", "crypto/signatureCache"], this.ne, this);
@@ -1082,7 +1082,7 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 
 				this.ne(intKey.getSecret().sign(hash));
 			}), h.sF(function (signature) {
-				if (signatureCache.isLoaded()) {
+				if (signatureCache.isLoaded() && !noCache) {
 					signatureCache.addSignatureStatus(signature, hash, realid, true);
 				}
 
@@ -2063,8 +2063,8 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 			* @param realID key id with which to sign
 			* @param callback callback
 			*/
-			signText: function (text, realID, callback) {
-				keyStore.sign.signHash(sjcl.hash.sha256.hash(text), realID, callback);
+			signText: function (text, realID, callback, noCache) {
+				keyStore.sign.signHash(sjcl.hash.sha256.hash(text), realID, callback, noCache);
 			},
 
 			/** sign a hash
@@ -2072,22 +2072,22 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 			* @param realID key id with which to sign
 			* @param callback callback
 			*/
-			signHash: function (hash, realID, callback) {
+			signHash: function (hash, realID, callback, noCache) {
 				step(function () {
 					hash = chelper.hex2bits(hash);
 
 					SignKey.get(realID, this);
 				}, h.sF(function (key) {
-					key.sign(hash, this);
+					key.sign(hash, this, noCache);
 				}), h.sF(function (signature) {
 					this.ne(chelper.bits2hex(signature));
 				}), callback);
 			},
 
-			signObject: function signObjectF(object, realID, callback) {
+			signObject: function signObjectF(object, realID, callback, noCache) {
 				step(function signO1() {
 					var hash = new ObjectHasher(object, 0).hashBits();
-					keyStore.sign.signHash(hash, realID, this);
+					keyStore.sign.signHash(hash, realID, this, noCache);
 				}, callback);
 			},
 
