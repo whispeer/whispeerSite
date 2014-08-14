@@ -27,6 +27,8 @@ define (["whispeerHelper", "step", "asset/observer", "asset/errors", "crypto/key
 
 			database = new SecuredData.load(undefined, data);
 			loaded = true;
+
+			signatureCache.notify("", "loaded");
 		},
 		loadDatabase: function (data, ownKey, cb) {
 			var givenDatabase = new SecuredData.load(undefined, data);
