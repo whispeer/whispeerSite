@@ -1,11 +1,16 @@
-- SecuredData:
- - give everything a type!
+- Fix:
+ - User Search
 
 - Low: Trust Manager: make nickname changes possible somehow...
 
 - Make it faster!
+ - Improve asym decrypt: only decrypt once. also:  improve listener!
 
 Done:
+
+- fix: 
+ - Accept FriendShip: OtherUserFriendsKey missing for some reason!
+ - Re-Login: Messages start loading before trust manager is ready
 
 - secure own signature key and main key (encrypt with pw is the only way now...)
 
@@ -22,7 +27,8 @@ Done:
  - circles
  - friendship
 
- - SecuredData:
-  - differ between update and initial encrypt/sign
+- SecuredData:
+ - differ between update and initial encrypt/sign
+ - give everything a type!
 
 - make encrypt in keystore only accept keys which have previously been "verified"

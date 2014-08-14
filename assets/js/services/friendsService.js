@@ -193,7 +193,7 @@ define(["step", "whispeerHelper", "asset/observer", "asset/securedDataWithMetaDa
 				return h.containsOr(uid, friends, requested);
 			},
 			didOtherRequest: function (uid) {
-				return h.containsOr(uid, requests);
+				return h.containsOr(uid, friends, requests);
 			},
 			areFriends: function (uid) {
 				return h.containsOr(uid, friends);

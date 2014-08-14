@@ -192,13 +192,13 @@ define(["step", "whispeerHelper", "asset/state", "asset/securedDataWithMetaData"
 				signKey = signedKeys.metaAttr("sign");
 				cryptKey = signedKeys.metaAttr("crypt");
 
-				if (isMe || friendsService.didIRequest(id)) {
+				if (isMe || friendsService.didOtherRequest(id)) {
 					friendsKey = signedKeys.metaAttr("friends");
 					friendsLevel2Key = signedKeys.metaAttr("friendsLevel2");
+				}
 
-					if (!isMe) {
-						friendShipKey = friendsService.getUserFriendShipKey(id);
-					}
+				if (!isMe && friendsService.didIRequest(id)) {
+					friendShipKey = friendsService.getUserFriendShipKey(id);
 				}
 
 				publicProfile = new ProfileService(userData.profile.pub, { isPublicProfile: true });
