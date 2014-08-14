@@ -43,6 +43,7 @@ define([
 			data.meta.receiver.sort();
 
 			var meta = SecuredData.load(undefined, data.meta, {
+				type: "topic",
 				attributesNotVerified: ["newest", "topicid", "unread", "newestTime"]
 			});
 
@@ -403,7 +404,7 @@ define([
 				};
 
 				this.parallel.unflatten();
-				SecuredData.create({}, topicMeta, {}, userService.getown().getSignKey(), topicKey, this.parallel());
+				SecuredData.create({}, topicMeta, { type: "topic" }, userService.getown().getSignKey(), topicKey, this.parallel());
 				Message.createRawData(topicKey, message, messageMeta, this.parallel());
 			}), h.sF(function (tData, mData) {
 				topicData.topic = tData.meta;

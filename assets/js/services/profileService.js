@@ -15,11 +15,13 @@ define(["step", "whispeerHelper", "crypto/encryptedData", "validation/validator"
 
 			if (isDecrypted) {
 				securedData = SecuredData.createRaw(data.profile.content, data.profile.meta, {
+					type: "profile",
 					removeEmpty: true,
 					encryptDepth: 1
 				});
 			} else {
 				securedData = SecuredData.load(data.profile.content, data.profile.meta, {
+					type: "profile",
 					removeEmpty: true,
 					encryptDepth: 1
 				});
@@ -192,13 +194,6 @@ define(["step", "whispeerHelper", "crypto/encryptedData", "validation/validator"
 			};
 
 			Observer.call(this);
-		};
-
-		profileService.create = function (content, meta, scope, options) {
-			SecuredData.create(content, meta, {
-				removeEmpty: true,
-				encryptDepth: 1
-			});
 		};
 
 		return profileService;

@@ -11,7 +11,7 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer", "ass
 
 		var Post = function (data) {
 			var thePost = this, id = data.id;
-			var securedData = SecuredData.load(data.content, data.meta);
+			var securedData = SecuredData.load(data.content, data.meta, { type: "post" });
 
 			this.data = {
 				loaded: false,
@@ -392,7 +392,7 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer", "ass
 					meta.walluser = wallUserID;
 	
 					this.parallel.unflatten();
-					SecuredData.create(content, meta, {}, userService.getown().getSignKey(), postKey, this.parallel());
+					SecuredData.create(content, meta, { type: "post" }, userService.getown().getSignKey(), postKey, this.parallel());
 					keys.forEach(function (key) {
 						keyStore.sym.symEncryptKey(postKey, key, this.parallel());
 					}, this);

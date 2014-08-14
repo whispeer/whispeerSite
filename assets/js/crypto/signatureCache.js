@@ -25,13 +25,13 @@ define (["whispeerHelper", "step", "asset/observer", "asset/errors", "crypto/key
 			signKey = ownKey;
 			data.me = ownKey;
 
-			database = new SecuredData.load(undefined, data);
+			database = new SecuredData.load(undefined, data, { type: "signatureCache" });
 			loaded = true;
 
 			signatureCache.notify("", "loaded");
 		},
 		loadDatabase: function (data, ownKey, cb) {
-			var givenDatabase = new SecuredData.load(undefined, data);
+			var givenDatabase = new SecuredData.load(undefined, data, { type: "signatureCache" });
 			step(function () {
 				if (data.me === ownKey) {
 					givenDatabase.verify(ownKey, this);
