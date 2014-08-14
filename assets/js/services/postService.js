@@ -29,7 +29,7 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer", "ass
 					text: "",
 					create: function (text) {
 						thePost.addComment(text, function () {
-							debugger;
+							thePost.data.newComment.text = "";
 						});
 					}
 				},
@@ -112,6 +112,11 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer", "ass
 						comment: commentData
 					}, this);
 				}), h.sF(function (result) {
+					if (result.created) {
+						thePost.data.comments.push({
+							comment: comment
+						});
+					}
 					//TODO: add comment!
 				}), cb);
 			};
