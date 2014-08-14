@@ -708,6 +708,8 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 			throw new Error("not a valid key realid: " + realKeyID);
 		}
 
+		console.info("loading key: " + realKeyID);
+
 		delay(realKeyID, callback);
 	}
 
@@ -872,6 +874,8 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 				if (!decrypted) {
 					this.last("not a private key");
 				}
+
+				console.info("slow decrypt");
 
 				this.ne(intKey.getSecret().unkem(tag));
 			}), callback);
@@ -1103,7 +1107,7 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 				if (signatureCache.isLoaded() && signatureCache.isSignatureInCache(signature, hash, realid)) {
 					this.last.ne(signatureCache.getSignatureStatus(signature, hash, realid));
 				} else {
-					console.log("slow verify");
+					console.info("slow verify");
 					sjclWorkerInclude.asym.verify(publicKey, signature, hash, this);
 				}
 			}), h.sF(function (valid) {
