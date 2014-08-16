@@ -198,7 +198,7 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 	* @param optional secret unencrypted secret if we already have it
 	*/
 	Key = function keyConstructor(superKey, realid, decryptors, optionals) {
-		var theKey = this, decrypted = false, dirtyDecryptors = [], internalSecret, preSecret;
+		var theKey = this, decrypted = new h.FullFiller(), dirtyDecryptors = [], internalSecret, preSecret;
 
 		if (!decryptors) {
 			decryptors = [];
@@ -218,26 +218,17 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 		if (optionals.secret) {
 			preSecret = optionals.secret;
 			internalSecret = pastProcessor(optionals.secret);
-			decrypted = true;
+			decrypted.success();
 		}
 
 		/** is the key decrypted */
 		function decryptedF() {
-			return decrypted;
+			return decrypted.isSuccess();
 		}
 
-		/** decrypt this key.
-		* @param callback called with true/false
-		* searches your whole keyspace for a decryptor and decrypts if possible
-		*/
-		function decryptKeyF(callback) {
+		function decryptKey(cb) {
 			var usedDecryptor;
 			step(function () {
-				if (decrypted) {
-					this.last.ne(true);
-					return;
-				}
-
 				usedDecryptor = theKey.getFastestDecryptor();
 
 				if (!usedDecryptor || !usedDecryptor.decryptor) {
@@ -249,39 +240,44 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 				internalDecrypt(d.decryptorid, d.type, d.ct, this, d.iv, d.salt);
 			}, function (err, result) {
 				if (err || result === false) {
-					var i;
-					for (i = 0; i < decryptors.length; i += 1) {
-						if (decryptors[i] === usedDecryptor.decryptor) {
-							decryptors.splice(i, 1);
-							break;
-						}
-					}
+					console.log("decryptor failed for key: " + realid);
+
+					decryptors = decryptors.filter(function (decryptor) {
+						return decryptor !== usedDecryptor;
+					});
 
 					if (decryptors.length === 0) {
 						throw new errors.DecryptionError("Could finally not decrypt key!");
-					} else {
-						theKey.decryptKey(this.last);
 					}
-				} else {
-					this.ne(pastProcessor(result));
 
-					if (usedDecryptor.decryptor.type === "cryptKey") {
-						var j;
-						for (j = 0; j < improvementListener.length; j += 1) {
-							try {
-								improvementListener[j](theKey.getRealID());
-							} catch (e) {
-								console.log(e);
-							}
-						}
-					}
+					theKey.decryptKey(cb);
+					return;
+				}
+
+				this.ne(pastProcessor(result));
+
+				if (usedDecryptor.decryptor.type === "cryptKey") {
+					h.callEach(improvementListener, [theKey.getRealID()]);
 				}
 			}, h.sF(function (pastProcessedSecret) {
 				preSecret = internalSecret;
 				internalSecret = pastProcessedSecret;
-				decrypted = true;
-				this.ne(true);
-			}), callback);
+				this.ne();
+			}), cb);
+		}
+
+		/** decrypt this key.
+		* @param callback called with true/false
+		* searches your whole keyspace for a decryptor and decrypts if possible
+		*/
+		function decryptKeyF(callback) {
+			
+			step(function () {
+				decrypted.await(callback);
+				decrypted.start(this);
+			}, h.sF(function () {
+				decryptKey(this);
+			}), decrypted.finish);
 		}
 		this.decrypted = decryptedF;
 		this.decryptKey = decryptKeyF;
@@ -508,7 +504,7 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 
 		/** get the secret of this key */
 		function getSecretF() {
-			if (decrypted) {
+			if (decrypted.isSuccess()) {
 				return internalSecret;
 			}
 
@@ -870,11 +866,7 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 				}
 
 				intKey.decryptKey(this);
-			}, h.sF(function (decrypted) {
-				if (!decrypted) {
-					this.last("not a private key");
-				}
-
+			}, h.sF(function () {
 				console.info("slow decrypt");
 
 				this.ne(intKey.getSecret().unkem(tag));
@@ -1080,10 +1072,6 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 				}
 				intKey.decryptKey(this);
 			}), h.sF(function (decrypted) {
-				if (!decrypted) {
-					this.last("could not decrypt key");
-				}
-
 				this.ne(intKey.getSecret().sign(hash));
 			}), h.sF(function (signature) {
 				if (signatureCache.isLoaded() && !noCache) {

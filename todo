@@ -4,13 +4,14 @@
 - Low: Trust Manager: make nickname changes possible somehow...
 
 - Make it faster!
- - Improve asym decrypt: only decrypt once. also:  improve listener!
 
 Done:
 
 - fix: 
  - Accept FriendShip: OtherUserFriendsKey missing for some reason!
  - Re-Login: Messages start loading before trust manager is ready
+
+- Improve asym decrypt: only decrypt once. also:  improve listener!
 
 - secure own signature key and main key (encrypt with pw is the only way now...)
 

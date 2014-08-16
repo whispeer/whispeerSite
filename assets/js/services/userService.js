@@ -208,35 +208,28 @@ define(["step", "whispeerHelper", "asset/observer", "crypto/signatureCache"], fu
 
 		function improvementListener(identifier) {
 			var improve = [];
-			var improve_timer = false;
 
 			keyStoreService.addImprovementListener(function (rid) {
 				improve.push(rid);
 
-				if (!improve_timer) {
-					improve_timer = true;
-					window.setTimeout(function () {
-						step(function () {
-							var own = userService.getown();
-							if (own.getNickOrMail() === identifier) {
-								var mainKey = own.getMainKey();
-
-								var i;
-								for (i = 0; i < improve.length; i += 1) {
-									keyStoreService.sym.symEncryptKey(improve[i], mainKey, this.parallel());
-								}
-							}
-						}, h.sF(function () {
-							var toUpload = keyStoreService.upload.getDecryptors(improve);
-							console.log(toUpload);
-							socketService.emit("key.addFasterDecryptors", {
-								keys: toUpload
+				if (improve.length === 1) {
+					step(function () {
+						window.setTimeout(this.ne, 5000);
+					}, h.sF(function () {
+						var own = userService.getown();
+						if (own.getNickOrMail() === identifier) {
+							improve.forEach(function (keyID) {
+								keyStoreService.sym.symEncryptKey(keyID, own.getMainKey(), this.parallel());
 							}, this);
-						}), h.sF(function (result) {
-							improve_timer = false;
-							console.log(result);
-						}), errorService.criticalError);
-					}, 5000);
+						}
+					}), h.sF(function () {
+						var toUpload = keyStoreService.upload.getDecryptors(improve);
+						socketService.emit("key.addFasterDecryptors", {
+							keys: toUpload
+						}, this);
+					}), h.sF(function () {
+						improve = [];
+					}), errorService.criticalError);
 				}
 			});
 		}
