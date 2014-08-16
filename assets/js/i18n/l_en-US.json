@@ -360,7 +360,7 @@
 				
 				"work": "Job",
 				"gender": "Gender",
-				"languages": "Interface Language",
+				"languages": "Language",
 				"names": {
 					"header": "Name",
 					"firstname": "First name",
