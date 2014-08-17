@@ -210,9 +210,10 @@
 				"code":	"Hierzu benötigst du den Fingerprint von {user}. Diesen kann er in seinen Einstellungen unter \"Dein Fingerprint\" abrufen. Ihr solltet euch zum übermitteln des Codes am besten persönlich treffen, aber mindestens telefonisch Kontakt aufnehmen.",
 				"qr":	"Halte den QR-Code von {user} in deine Kamera, sodass er im unteren Fenster sichtbar ist. Sobald der Code erkannt wurde, wird {user} automatisch verifiziert."
 			},
+			"nodevice": "Es konnte keine Kamera erkannt werden!",
 			"verifyUser":	"Verifiziere {user}",
 			"verifyWithCode":	"Fingerprint manuell eingeben",
-			"verifyWithQr":		"Fignerprint als QR-Code Scannen",
+			"verifyWithQr":		"Fingerprint als QR-Code Scannen",
 			"chooseVerifyMethod":	"Wie möchtest du {user} verifizieren?",
 			"qrSaveButton":	{
 				"fail":	"Der Fingerprint stimmt nicht! Bitte versuche es erneut!",

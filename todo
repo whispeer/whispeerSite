@@ -1,0 +1,7 @@
+- savebutton translations:
+ - fail if we set variables in our translation
+ - fail if we do not need some states translated differently
+- translations (english)
+- make fingerprint input easier (partition fingerprint and check each part individually!)
+- disable sending own fingerprint via message.
+

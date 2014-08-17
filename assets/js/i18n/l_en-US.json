@@ -200,7 +200,20 @@
 		},
 		"trustmanager" : {
 			"verifyTitle":	"Verify this User",
-			"verifyInfo":	"To verify this user, please enter his fingerprint here. The user can get it through \"Settings\" -> \"Your Fingerprint\"."
+			"TODO": "TRANSLATE!",
+			"verifyInfo": {
+				"code":	"Hierzu benötigst du den Fingerprint von {user}. Diesen kann er in seinen Einstellungen unter \"Dein Fingerprint\" abrufen. Ihr solltet euch zum übermitteln des Codes am besten persönlich treffen, aber mindestens telefonisch Kontakt aufnehmen.",
+				"qr":	"Halte den QR-Code von {user} in deine Kamera, sodass er im unteren Fenster sichtbar ist. Sobald der Code erkannt wurde, wird {user} automatisch verifiziert."
+			},
+			"nodevice": "No camera found!",
+			"verifyUser":	"Verifying {user}",
+			"verifyWithCode":	"Enter fingerprint manually",
+			"verifyWithQr":		"Scan fingerprint as QR-Code",
+			"chooseVerifyMethod":	"How would you like to verify {user}",
+			"qrSaveButton":	{
+				"fail":	"Fingerprint wrong! Please try again!",
+				"pending":	"Verifying fingerprint!"
+			}
 		},
 		"section":	{
 			"general": {

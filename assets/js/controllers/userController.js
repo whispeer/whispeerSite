@@ -25,7 +25,7 @@ define(["step", "whispeerHelper", "asset/resizableImage", "asset/state", "libs/q
 		$scope.verifyingUser = verifyState.data;
 
 		$scope.qr = {
-			available: navigator.getUserMedia || navigator.mozGetUserMedia || navigator.webkitGetUserMedia,
+			available: !!(navigator.getUserMedia || navigator.mozGetUserMedia || navigator.webkitGetUserMedia),
 			view: false,
 			read: false,
 			reset: function () {
@@ -90,6 +90,7 @@ define(["step", "whispeerHelper", "asset/resizableImage", "asset/state", "libs/q
 					navigator.mozGetUserMedia({video: true, audio: false}, this.ne, this);
 				}
 			}, h.sF(function (stream) {
+				$scope.qr.noDevice = false;
 				theStream = stream;
 				var v = document.getElementById("qrCodeVideo");
 
@@ -103,7 +104,15 @@ define(["step", "whispeerHelper", "asset/resizableImage", "asset/state", "libs/q
 				}
 
 				$timeout(captureToCanvas, 500);
-			}), errorService.criticalError);
+			}), function (e) {
+				if (e.name === "DevicesNotFoundError") {
+					$scope.qr.noDevice = true;
+
+					$timeout(initializeReader, 1000);
+				} else {
+					this(e);
+				}
+			}, errorService.criticalError);
 		}
 
 		$scope.verifyWithQrCode = function () {
