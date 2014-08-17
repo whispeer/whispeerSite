@@ -1,6 +1,6 @@
-<basicsearch>
+<basicsearch base="user">
 	<div class="dropdown-header">
-		<span class="title">Suchergebnisse ({{results.length}})</span>
+		<span class="title" data-i18n="search.user.select|count={{results.length}}"></span>
 		<div class="close" data-ng-click="hide()"><i class="icon icon-cancel-circle"></i></div>
 	</div>
 	<ol class="unstyled searchSuggestions">
@@ -8,14 +8,14 @@
 			<img data-ng-src="{{user.basic.image}}">
 			<div class="info">
 				<span class="name">{{user.name}}<small class="nickname">&nbsp;- {{user.names.nickname}}</small></span>
-				<span class="friends" data-ng-if="big">{{user.basic.mutualFriends.length}} <span data-i18n="usersearch.mutualFriends"></span></span>
-				<span class="location" data-ng-if="big"><span data-i18n="usersearch.from"></span> {{user.basic.location}}</span>
-				<span class="age" data-ng-if="big"><span data-i18n="usersearch.age"></span> {{user.basic.age}}</span>
+				<span class="friends" data-ng-if="big">{{user.basic.mutualFriends.length}} <span data-i18n="search.user.mutualFriends"></span></span>
+				<span class="location" data-ng-if="big"><span data-i18n="search.user.from"></span> {{user.basic.location}}</span>
+				<span class="age" data-ng-if="big"><span data-i18n="search.user.age"></span> {{user.basic.age}}</span>
 			</div>
 			<div class="actions" data-ng-if="big">
 
-				<a class="sendMessage btn" data-ng-click="notifyParent('sendMessage', user)" data-stop-event="click" data-i18n="usersearch.message"></a>
-				<savebutton class="addFriend" data-state="user.addFriendState" data-ng-if="!user.me && !user.added" data-ng-click="notifyParent('addFriend', user)" data-stop-event="click" data-translation="usersearch.add" data-noiniticon></savebutton>
+				<a class="sendMessage btn" data-ng-click="notifyParent('sendMessage', user)" data-stop-event="click" data-i18n="search.user.message"></a>
+				<savebutton class="addFriend" data-state="user.addFriendState" data-ng-if="!user.me && !user.added" data-ng-click="notifyParent('addFriend', user)" data-stop-event="click" data-translation="search.user.add" data-noiniticon></savebutton>
 
 				<div class="addToCircle" data-stop-event="click" ng-if="user.added">
 					<circlesearch res="circles" class="selectCircle" data-input-i18n-attr="profile.actions.addToCircle|placeholder|user={{user.name}}" data-user="user.id"></circlesearch>

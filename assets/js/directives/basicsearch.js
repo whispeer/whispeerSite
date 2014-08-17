@@ -4,7 +4,8 @@ define(["step", "whispeerHelper"], function () {
 	function searchDirective($timeout, $compile) {
 		return {
 			scope: {
-				"res": "="
+				"res": "=",
+				"base": "@"
 			},
 			/* this is an element */
 			restrict: "E",

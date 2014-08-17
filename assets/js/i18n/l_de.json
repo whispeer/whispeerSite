@@ -48,13 +48,6 @@
 		"allfriends": "Alle Freunde",
 		"friendsoffriends": "Freunde von Freunden"
 	},
-	"usersearch": {
-		"mutualFriends": "mutual friends",
-		"from": "aus",
-		"age": "Alter:",
-		"message": "Nachricht senden",
-		"add": "Als Freund hinzufügen"
-	},
 	"general": {
 		"send":	"Absenden",
 		"cancel":	"Abbrechen",
@@ -102,7 +95,28 @@
 		}	
 	},
 	"notimplemented": "Noch nicht implementiert :(",
-	"search": "Personen werden gesucht",
+	"search": {
+		"user": {
+			"selected": "Ausgewählte Nutzer ({count})",
+			"emptyselection": "Keine Nutzer ausgewählt!",
+			"select": "Nutzer auswählen ({count})",
+			"mutualFriends": "mutual friends",
+			"from": "aus",
+			"age": "Alter:",
+			"message": "Nachricht senden",
+			"add": "Als Freund hinzufügen"
+		},
+		"circle": {
+			"selected": "Ausgewählte Kreise ({count})",
+			"emptyselection": "Keine Kreise ausgewählt!",
+			"select": "Kreise auswählen ({count})"
+		},
+		"filter": {
+			"selected": "Ausgewählte Empfänger ({count})",
+			"emptyselection": "Keine Empfänger ausgewählt",
+			"select": "Empfänger auswählen ({count})"
+		}
+	},
 	"menu": {
 		"newsfeed":	"Neuigkeiten",
 		"profil": "Profil",
