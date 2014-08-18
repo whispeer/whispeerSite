@@ -1,8 +1,8 @@
 <li data-ng-class="{me:comment.sender.me}">
-	<span class="userimage"><img data-ng-src="{{comment.sender.basic.image}}"></span>
-	<span class="text">
-		{{comment.text}}
-	</span>
+	<div style="width: 8%">
+		<userimage data-user="comment.sender" />
+	</div>
+	<span class="text" data-syntaxify="comment.text"></span>
 	<aside>
 		<span class="timestamp">{{comment.time|smartdate}}</span>
 		<!-- <a class="showComments" data-i18n="wall.info.comments.showem" data-ng-click="showComments=!showComments" data-ng-init="showComments=false"></a> -->

@@ -14,7 +14,7 @@
 			<div>
 				<comment data-ng-repeat="comment in post.comments" comment="comment"></div>
 				<div>
-					<textarea data-strg-enter="post.newComment.create(post)" data-ng-model="post.newComment.text"></textarea>
+					<textarea data-strg-enter="post.newComment.create(post.newComment.text)" data-ng-model="post.newComment.text"></textarea>
 					<savebutton data-translation="wall.postit.send" data-ng-click="post.newComment.create(post.newComment.text)" data-state="sendPostState" data-noiniticon></savebutton>
 				</div>
 			</div>

@@ -4,7 +4,7 @@
 define(["step", "whispeerHelper", "validation/validator", "asset/observer", "asset/errors", "asset/securedDataWithMetaData"], function (step, h, validator, Observer, errors, SecuredData) {
 	"use strict";
 
-	var service = function ($rootScope, socket, keyStore, userService, circleService, Comment) {
+	var service = function ($rootScope, socket, keyStore, errorService, userService, circleService, Comment) {
 		var postsById = {};
 		var postsByUserWall = {};
 		var TimelineByFilter = {};
@@ -47,8 +47,17 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer", "ass
 				return comments;
 			};
 
-			function commentListener() {
-				//TODO
+			function commentListener(e, data) {
+				var comment;
+				step(function () {
+					comment = new Comment(data);
+
+					comment.load(thePost, this.parallel());
+				}, h.sF(function () {
+					comments.push(comment);
+					thePost.data.comments.push(comment.data);
+				}), errorService.criticalError);
+				
 			}
 
 			socket.listen("post." + id + ".comment.new", commentListener);
@@ -101,7 +110,7 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer", "ass
 				step(function () {
 					Comment.create(comment, thePost, this);
 				}, h.sF(function () {
-					//TODO: add comment / also notify others about this new comment ...
+					this.ne();
 				}), cb);
 			};
 
@@ -497,7 +506,7 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer", "ass
 		return postService;
 	};
 
-	service.$inject = ["$rootScope", "ssn.socketService", "ssn.keyStoreService", "ssn.userService", "ssn.circleService", "ssn.models.comment"];
+	service.$inject = ["$rootScope", "ssn.socketService", "ssn.keyStoreService", "ssn.errorService", "ssn.userService", "ssn.circleService", "ssn.models.comment"];
 
 	return service;
 });
