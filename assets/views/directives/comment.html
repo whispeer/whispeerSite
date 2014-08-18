@@ -4,7 +4,7 @@
 		{{comment.text}}
 	</span>
 	<aside>
-		<span class="timestamp" data-i18n="wall.comments.time|date={{comment.date}}|time={{comment.timestamp}}"></span>
+		<span class="timestamp">{{comment.time|smartdate}}</span>
 		<!-- <a class="showComments" data-i18n="wall.info.comments.showem" data-ng-click="showComments=!showComments" data-ng-init="showComments=false"></a> -->
 		isMe: {{comment.sender.me}}
 	</aside>

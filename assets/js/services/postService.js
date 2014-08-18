@@ -47,6 +47,12 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer", "ass
 				return comments;
 			};
 
+			function commentListener() {
+				debugger;
+			}
+
+			socket.listen("post." + id + ".comment.new", commentListener);
+
 			this.loadData = function (cb) {
 				step(function () {
 					this.parallel.unflatten();

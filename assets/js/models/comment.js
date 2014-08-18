@@ -12,7 +12,7 @@ define(["step",
 				loaded: false,
 				text: "",
 				sender: null,
-				time: 0
+				time: this._secured.metaAttr("createTime")
 			};
 		};
 
