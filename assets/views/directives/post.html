@@ -12,9 +12,7 @@
 			<div class="postText" data-syntaxify="post.content.text"></div>
 			<!--<div class="postImage" data-ng-if="post.content.image"><img data-ng-src="{{post.content.image}}"></div> -->
 			<div>
-				<div data-ng-repeat="comment in post.comments">
-					<div data-syntaxify="comment.comment"></div>
-				</div>
+				<comment data-ng-repeat="comment in post.comments" comment="comment"></div>
 				<div>
 					<textarea data-strg-enter="post.newComment.create(post)" data-ng-model="post.newComment.text"></textarea>
 					<savebutton data-translation="wall.postit.send" data-ng-click="post.newComment.create(post.newComment.text)" data-state="sendPostState" data-noiniticon></savebutton>

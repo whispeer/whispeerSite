@@ -4,7 +4,7 @@
 define(["step", "whispeerHelper", "validation/validator", "asset/observer", "asset/errors", "asset/securedDataWithMetaData"], function (step, h, validator, Observer, errors, SecuredData) {
 	"use strict";
 
-	var service = function ($rootScope, socket, keyStore, userService, circleService) {
+	var service = function ($rootScope, socket, keyStore, userService, circleService, Comment) {
 		var postsById = {};
 		var postsByUserWall = {};
 		var TimelineByFilter = {};
@@ -15,7 +15,7 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer", "ass
 			var securedData = SecuredData.load(data.content, data.meta, { type: "post" });
 			var comments = data.comments || [];
 			comments = comments.map(function (comment) {
-				return SecuredData.load(comment.content, comment.meta);
+				return new Comment(comment);
 			});
 
 			this.data = {
@@ -34,11 +34,17 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer", "ass
 						});
 					}
 				},
-				comments: []
+				comments: comments.map(function (comment) {
+					return comment.data;
+				})
 			};
 
 			this.getID = function () {
 				return id;
+			};
+
+			this.getComments = function () {
+				return comments;
 			};
 
 			this.loadData = function (cb) {
@@ -57,9 +63,6 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer", "ass
 
 					d.sender = sender;
 					securedData.verify(sender.user.getSignKey(), this.parallel());
-					/*comments.forEach(function (comment) {
-						comment.verify(this.parallel());
-					}, this);*/
 				}), h.sF(function () {
 					keyStore.security.addEncryptionIdentifier(securedData.metaAttr("_key"));
 					thePost.getText(this);
@@ -83,43 +86,26 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer", "ass
 					}
 
 					comments.forEach(function (comment) {
-						comment.decrypt(this.parallel());
+						comment.load(thePost, this.parallel());
 					}, this);
-				}, h.sF(function (comments) {
-					thePost.data.comments = comments;
-					this.ne();
-				}), cb);
+				}, cb);
 			}
 
 			this.addComment = function (comment, cb) {
 				step(function () {
-					var sequenceCounter = 0;
-					if (comments.length !== 0) {
-						sequenceCounter = comments[comments.length - 1].metaAttr("sequenceCounter");
-					}
-
-					SecuredData.create({
-						comment: comment
-					}, {
-						sequenceCounter: sequenceCounter || 0,
-						postID: id,
-						postHash: securedData.getHash(),
-						createTime: new Date().getTime()
-						//TODO: protect against resend attack on same post...
-					}, {}, userService.getown().getSignKey(), securedData.metaAttr("_key"), this);
-				}, h.sF(function (commentData) {
-					socket.emit("posts.comment.create", {
-						postID: id,
-						comment: commentData
-					}, this);
-				}), h.sF(function (result) {
-					if (result.created) {
-						thePost.data.comments.push({
-							comment: comment
-						});
-					}
-					//TODO: add comment!
+					Comment.create(comment, thePost, this);
+				}, h.sF(function () {
+					debugger;
+					//TODO: add comment / also notify others about this new comment ...
 				}), cb);
+			};
+
+			this.getHash = function () {
+				return securedData.getHash();
+			};
+
+			this.getKey = function () {
+				return securedData.metaAttr("_key");
 			};
 
 			this.getWallUser = function (cb) {
@@ -506,7 +492,7 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer", "ass
 		return postService;
 	};
 
-	service.$inject = ["$rootScope", "ssn.socketService", "ssn.keyStoreService", "ssn.userService", "ssn.circleService"];
+	service.$inject = ["$rootScope", "ssn.socketService", "ssn.keyStoreService", "ssn.userService", "ssn.circleService", "ssn.models.comment"];
 
 	return service;
 });
