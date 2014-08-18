@@ -1,6 +1,12 @@
 	{
 	"0": {
 		"1": {
+			"12": [
+				"Improved loading screen",
+				"Fix: messages are marked as read again",
+				"Fix: Translations fixed in multiple places",
+				"Fix: Fonts unified"
+			],
 			"11": [
 				"Change interface language",
 				"Signature Cache",
