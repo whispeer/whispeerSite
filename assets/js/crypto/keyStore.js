@@ -1071,7 +1071,7 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 					throw new errors.SecurityError("key not in key database");
 				}
 				intKey.decryptKey(this);
-			}), h.sF(function (decrypted) {
+			}), h.sF(function () {
 				this.ne(intKey.getSecret().sign(hash));
 			}), h.sF(function (signature) {
 				if (signatureCache.isLoaded() && !noCache) {

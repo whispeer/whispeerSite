@@ -18,7 +18,7 @@ define(["step", "whispeerHelper", "cryptoWorker/generalWorkerInclude"], function
 		}
 	}
 
-	function rootController($rootScope, $scope, $timeout, $http, socketService, sessionService, sessionHelper, userService, cssService, messageService, friendsService, trustService) {
+	function rootController($rootScope, $scope, $timeout, $http, socketService, sessionService, sessionHelper, userService, cssService, messageService, trustService, friendsService) {
 		var buildDate = "20140518";
 
 		generalWorkerInclude.setBeforeCallBack(function (evt, cb) {
@@ -130,7 +130,7 @@ define(["step", "whispeerHelper", "cryptoWorker/generalWorkerInclude"], function
 		};
 	}
 
-	rootController.$inject = ["$rootScope", "$scope", "$timeout", "$http", "ssn.socketService", "ssn.sessionService", "ssn.sessionHelper", "ssn.userService", "ssn.cssService", "ssn.messageService", "ssn.friendsService", "ssn.trustService"];
+	rootController.$inject = ["$rootScope", "$scope", "$timeout", "$http", "ssn.socketService", "ssn.sessionService", "ssn.sessionHelper", "ssn.userService", "ssn.cssService", "ssn.messageService", "ssn.trustService", "ssn.friendsService"];
 
 	return rootController;
 });
