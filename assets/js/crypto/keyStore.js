@@ -16,7 +16,7 @@
 define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForReady", "cryptoWorker/sjclWorkerInclude", "asset/errors"], function (step, h, chelper, sjcl, waitForReady, sjclWorkerInclude, errors) {
 	"use strict";
 	
-	var socket, improvementListener = [], makeKey, keyStore;
+	var socket, afterRequireCall, improvementListener = [], makeKey, keyStore;
 	/** dirty and new keys to upload. */
 	var dirtyKeys = [], newKeys = [];
 
@@ -1060,6 +1060,9 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 			}, h.sF(function (tM, _signatureCache) {
 				trustManager = tM;
 				signatureCache = _signatureCache;
+
+				afterRequireCall(this);
+			}), h.sF(function () {
 				if (!trustManager.isLoaded) {
 					trustManager.listen(this, "loaded");
 				} else {
@@ -1083,11 +1086,15 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 		}
 
 		function verifyF(signature, hash, callback) {
-			var signatureCache;
+			var signatureCache, trustManager;
 			step(function () {
 				require(["crypto/trustManager", "crypto/signatureCache"], this.ne, this);
-			}, h.sF(function (trustManager, sC) {
+			}, h.sF(function (tM, sC) {
 				signatureCache = sC;
+				trustManager = tM;
+
+				afterRequireCall(this);
+			}), h.sF(function () {
 				if (!trustManager.hasKeyData(intKey.getRealID())) {
 					throw new errors.SecurityError("key not in key database");
 				}
@@ -1603,6 +1610,10 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 
 			password = "";
 			keysUsableForEncryption = [];
+		},
+
+		setAfterRequireCall: function (cb) {
+			afterRequireCall = cb;
 		},
 
 		setKeyGenIdentifier: function (identifier) {
