@@ -48,7 +48,7 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer", "ass
 			};
 
 			function commentListener() {
-				debugger;
+				//TODO
 			}
 
 			socket.listen("post." + id + ".comment.new", commentListener);
@@ -101,7 +101,6 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer", "ass
 				step(function () {
 					Comment.create(comment, thePost, this);
 				}, h.sF(function () {
-					debugger;
 					//TODO: add comment / also notify others about this new comment ...
 				}), cb);
 			};
