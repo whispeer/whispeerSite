@@ -1,12 +1,12 @@
 <div class="searchBar" data-ng-class="{'search-multiple': multiple, 'search-single': !multiple}">
 	<form class="formSearch">
 		<ul class="inputWrap">
-			<li class="selected" data-ng-if="multiple" data-ng-click="toggleShowSelectedElements(true, $event)">
-				<span class="count">{{selectedElements.length}}</span>
-			</li>
-			<li data-ng-repeat="element in previewedSelectedElements" class="searchResult">
+			<li data-ng-repeat="element in selectedElements" class="searchResult" data-ng-if="$index<previewCount">
 				<span class="nameTag">{{element.name}}</span>
 				<a href="" class="remove" data-ng-click="removeSelection($index, $event)"><i class="icon icon-cancel-circle"></i></a>
+			</li>
+			<li class="selected" data-ng-if="multiple && hiddenCount > 0" data-ng-click="toggleShowSelectedElements(true, $event)">
+				<span class="count">+{{hiddenCount}}</span>
 			</li>
 			<li class="searchField">
 			</li>

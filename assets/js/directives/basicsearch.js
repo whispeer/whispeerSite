@@ -211,6 +211,39 @@ define(["step", "whispeerHelper"], function () {
 				var internalid = iAttrs.internalid;
 				var selectedIDs = [];
 				scope.selectedElements = [];
+				scope.previewCount = 0;
+				scope.hiddenCount = 0;
+
+				function decreasePreviewCount() {
+					var INPUTWIDTH = 100;
+
+					var element = iElement.find(".inputWrap");
+					var availableWidth = element.innerWidth();
+
+					var selectedWidth = 0;
+					element.find(".searchResult").each(function (i , e) {
+						e = jQuery(e);
+						//e.show();
+						selectedWidth += e.outerWidth();
+						//e.hide();
+					});
+					var plusWidth = 0;//element.find(".selected").outerWidth();
+
+					var currentWidth = selectedWidth + plusWidth + INPUTWIDTH;
+
+					if (currentWidth > availableWidth) {
+						scope.previewCount = Math.max(0, scope.previewCount - 1);
+						$timeout(decreasePreviewCount);
+					}
+
+					scope.hiddenCount = Math.max(0, scope.selectedElements.length - scope.previewCount);
+				}
+
+				function updatePreviewCount() {
+					scope.previewCount = scope.selectedElements.length;
+
+					$timeout(decreasePreviewCount);
+				}
 
 				function selectionUpdated(selection) {
 					if (scope.multiple) {
@@ -224,6 +257,8 @@ define(["step", "whispeerHelper"], function () {
 						scope.$emit("selectionChange:" + internalid, scope.selectedElements);
 
 						scope.results = filterRealResults();
+
+						updatePreviewCount();
 					}
 
 					if (selection) {
