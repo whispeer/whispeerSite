@@ -225,9 +225,6 @@ define(["step", "whispeerHelper", "asset/observer", "asset/securedDataWithMetaDa
 					return circle.hasUser(uid);
 				});
 			},
-			remove: function (id, cb) {
-				//TODO
-			},
 			create: function (name, cb, users) {
 				var key, theCircle, userIDs;
 				step(function () {

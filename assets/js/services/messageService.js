@@ -212,7 +212,7 @@ define([
 				}, h.sF(function (creator) {
 					meta.verify(creator.getSignKey(), this);
 				}), h.sF(function () {
-					keyStore.security.addEncryptionIdentifier(meta.metaAttr("_key"))
+					keyStore.security.addEncryptionIdentifier(meta.metaAttr("_key"));
 					this.ne();
 				}), cb);
 			};

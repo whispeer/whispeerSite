@@ -1,4 +1,4 @@
-define(["step", "whispeerHelper", "asset/state", "asset/securedDataWithMetaData", "crypto/trustManager"], function (step, h, State, SecuredData, trustManager) {
+define(["step", "whispeerHelper", "asset/state", "asset/securedDataWithMetaData"], function (step, h, State, SecuredData) {
 	"use strict";
 
 	var advancedBranches = ["location", "birthday", "relationship", "education", "work", "gender", "languages"];
