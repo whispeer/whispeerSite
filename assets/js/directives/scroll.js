@@ -76,8 +76,8 @@ define([], function () {
 						var keepBottom = (typeof attrs.keepbottom !== "undefined");
 						var first = elm[0];
 
-						if (attrs.lockScrolling) {
-							scope.$watch(attrs.lockScrolling, function (newValue) {
+						if (attrs.lockscrolling) {
+							scope.$watch(attrs.lockscrolling, function (newValue) {
 								if (newValue) {
 									disableScroll(elm);
 								} else {
@@ -126,6 +126,10 @@ define([], function () {
 
 						elm.bind("scroll", function() {
 							if (isAtBottom()) {
+								if (attrs.onbottomwithauto) {
+									scope.$eval(attrs.onbottom);
+								}
+
 								if (atBottom === false) {
 									if (attrs.onbottom) {
 										scope.$eval(attrs.onbottom);

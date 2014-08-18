@@ -118,6 +118,13 @@ define(["step", "whispeerHelper"], function (step, h) {
 		var blobListener = {};
 
 		function loadBlob(blobID) {
+			if (socketService.getLoadingCount() !== 0) {
+				window.setTimeout(function () {
+					loadBlob(blobID);
+				}, 100);
+				return;
+			}
+
 			step(function () {
 				socketService.emit("blob.getBlob", {
 					blobid: blobID

@@ -9,11 +9,20 @@
 	background: @primary;
 	#navInner {
 		#brand {
-			font-weight: 700;
+			// this has to be prepended, because some of the .column values
+			// are once more overwritten in subsequent rules.
+			@media @desktop { .column(2, 12); }
+			@media @mobile { .column(8); }
+		}
+		#brand {
+			.large-text();
+			.bold-text();
 			text-decoration: none;
-			.text-shadow(0px 0px 1px @white);
 			text-rendering: optimizeLegibility;
 			-webkit-font-smoothing: subpixel-antialiased;
+			.text-shadow(0px 0px 1px @white);
+			margin-top: 6px;
+
 			#brandNormal {
 				height: 30px;
 				color: #fff;
@@ -31,10 +40,8 @@
 			.formSearch {
 				.inputWrap {
 					li {
-						line-height: 20px !important;
 						&.searchField {
 							input {
-								line-height: 20px;
 							}
 						}
 					}

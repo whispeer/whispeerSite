@@ -10,7 +10,7 @@
 // The MagicWidgets allow the user to read messages, accept friend request and stay updated with other users interactions with them.
 //
 // Markup:
-// <div class="magicWrap" style="width: 20%;"> 
+// <div class="magicWrap" style="width: 20%;">
 //	<div class="magic">
 //		<div class="header">
 //			<h4>Header</h4>
@@ -29,7 +29,7 @@
 // Displays the users messages in the MagicBar
 //
 // Markup:
-// <div class="magicWrap" style="width: 20%;"> 
+// <div class="magicWrap" style="width: 20%;">
 //	<div class="magic">
 //		<div class="header">
 //			<h4>Messages</h4>
@@ -76,7 +76,7 @@
 // Displays the users friendship requests in the MagicBar
 //
 // Markup:
-// <div class="magicWrap" style="width: 20%;"> 
+// <div class="magicWrap" style="width: 20%;">
 //	<div class="magic">
 //		<div class="header">
 //			<h4>Messages</h4>
@@ -109,7 +109,7 @@
 // Displays interaction of other users with the user in the MagicBar. Only one possible message is shown - there are hundreds of others!
 //
 // Markup:
-// <div class="magicWrap" style="width: 20%;"> 
+// <div class="magicWrap" style="width: 20%;">
 //	<div class="magic">
 //		<div class="header">
 //			<h4>News</h4>
@@ -136,7 +136,7 @@
 
 #magicbar {
 	height: 100% !important;
-	min-height: 100% !important; 
+	min-height: 100% !important;
 }
 .magicWrapper {
 	float: left;
@@ -158,8 +158,6 @@
 	}
 	padding: 3px 0 0 0;
 	.box-fix;
-	font-size: @baseFontSize;
-	line-height: @baseLineHeight;
 	.gradient(@btnBackground, @btnBackgroundHover);
 	border: 1px solid @btnBorder;
 	.border-radius(4px);
@@ -223,7 +221,7 @@
 							img:not(.picture):not(.untrusted) {
 								width: 100%;
 								height: 100%;
-							}	
+							}
 						}
 					}
 					&.groupChat {
@@ -237,14 +235,13 @@
 									.column(1,2,left,0);
 									height: 50%;
 								}
-								span {	
+								span {
 									background-color: #343434;
 									color: @white;
-									font-size: 10px;
 									text-align: center;
 									.box-fix;
 								}
-							}	
+							}
 						}
 					}
 					.username, .text {
@@ -252,7 +249,6 @@
 					}
 					.username {
 						.column(9);
-						font-weight: bold;
 						white-space: nowrap;
 						text-overflow: ellipsis;
 						overflow: hidden;
@@ -267,7 +263,6 @@
 						.column(8.5);
 						.push(0.5);
 						color: #777;
-						font-size: 0.9em;
 						white-space: nowrap;
 						overflow: hidden;
 						text-overflow: ellipsis;
@@ -286,7 +281,6 @@
 					.username {
 						.column(9);
 						float: none;
-						font-weight: bold;
 						a {
 							color: #000;
 							&:hover {
@@ -297,7 +291,6 @@
 					.similar {
 						.column(9);
 						color: #777;
-						font-size: 0.9em;
 					}
 					.username, .similar {
 						transition: color 0.1s ease;
@@ -318,7 +311,6 @@
 						margin-left: 0;
 					}
 					.username {
-						font-weight: bold;
 					}
 					.info {
 						.column(9);
@@ -366,6 +358,6 @@
 					}
 				}
 			}
-		}	
+		}
 	}
 }
