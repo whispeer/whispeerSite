@@ -22,7 +22,7 @@ define(["step", "whispeerHelper", "crypto/trustManager", "crypto/signatureCache"
 				}
 			}), errorService.criticalError);
 		}
-		window.setInterval(uploadSignatureCache, 1000);
+		window.setInterval(uploadSignatureCache, 5000);
 
 		function uploadDatabase(cb) {
 			step(function () {
@@ -74,6 +74,7 @@ define(["step", "whispeerHelper", "crypto/trustManager", "crypto/signatureCache"
 
 		$rootScope.$on("ssn.reset", function () {
 			trustManager.reset();
+			signatureCache.reset();
 		});
 
 		return {

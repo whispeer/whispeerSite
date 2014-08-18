@@ -10,6 +10,14 @@ define(["whispeerHelper", "step", "crypto/keyStore", "asset/errors"], function (
 	*/
 	function SecuredDataWithMetaData(content, meta, options, isDecrypted) {
 		options = options || {};
+
+		//we need to somehow ensure that we have the correct object type.
+		if (typeof options.type !== "string") {
+			throw new Error("need a type for security!");
+		}
+
+		this._type = options.type;
+
 		this._removeEmpty = options.removeEmpty;
 		this._encryptDepth = options.encryptDepth || 0;
 
@@ -50,12 +58,13 @@ define(["whispeerHelper", "step", "crypto/keyStore", "asset/errors"], function (
 		return this._originalMeta._ownHash;
 	};
 
-	SecuredDataWithMetaData.prototype.sign = function (signKey, cb) {
+	SecuredDataWithMetaData.prototype.sign = function (signKey, cb, noCache) {
 		var that = this;
 		var toSign = h.deepCopyObj(that._updatedMeta);
 
 		step(function () {
 			toSign._version = 1;
+			toSign._type = that._type;
 
 			//do not sign attributes which should not be verified
 			that._attributesNotVerified.forEach(function(attr) {
@@ -72,7 +81,7 @@ define(["whispeerHelper", "step", "crypto/keyStore", "asset/errors"], function (
 				toSign._ownHash = keyStore.hash.hashObjectOrValueHex(toSign);
 			}
 			
-			keyStore.sign.signObject(toSign, signKey, this);
+			keyStore.sign.signObject(toSign, signKey, this, noCache);
 		}, h.sF(function (signature) {
 			toSign._signature = signature;
 
@@ -157,6 +166,10 @@ define(["whispeerHelper", "step", "crypto/keyStore", "asset/errors"], function (
 			that._attributesNotVerified.forEach(function(attr) {
 				delete metaCopy[attr];
 			});
+
+			if (metaCopy._type !== that._type) {
+				throw new errors.SecurityError("invalid object type. is: " + metaCopy._type + " should be: " + that._type);
+			}
 
 			keyStore.sign.verifyObject(that._originalMeta._signature, metaCopy, signKey, this);
 		}, h.sF(function (correctSignature) {

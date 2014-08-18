@@ -1,6 +1,6 @@
 define (["whispeerHelper", "step", "asset/observer", "asset/errors", "crypto/keyStore", "crypto/helper", "asset/securedDataWithMetaData"], function (h, step, Observer, errors, keyStore, chelper, SecuredData) {
 	"use strict";
-	var database, loaded = false, signKey, changed = false, signing = false;
+	var database, loaded = false, signKey, changed = false;
 
 	function dataSetToHash(signature, hash, key) {
 		var data = {
@@ -25,11 +25,13 @@ define (["whispeerHelper", "step", "asset/observer", "asset/errors", "crypto/key
 			signKey = ownKey;
 			data.me = ownKey;
 
-			database = new SecuredData.load(undefined, data);
+			database = new SecuredData.load(undefined, data, { type: "signatureCache" });
 			loaded = true;
+
+			signatureCache.notify("", "loaded");
 		},
 		loadDatabase: function (data, ownKey, cb) {
-			var givenDatabase = new SecuredData.load(undefined, data);
+			var givenDatabase = new SecuredData.load(undefined, data, { type: "signatureCache" });
 			step(function () {
 				if (data.me === ownKey) {
 					givenDatabase.verify(ownKey, this);
@@ -65,10 +67,6 @@ define (["whispeerHelper", "step", "asset/observer", "asset/errors", "crypto/key
 			}
 		},
 		addSignatureStatus: function (signature, hash, key, valid) {
-			if (signing) {
-				return;
-			}
-
 			changed = true;
 
 			if (typeof valid !== "boolean" || !h.isRealID(key) || !h.isSignature(chelper.bits2hex(signature))) {
@@ -88,13 +86,10 @@ define (["whispeerHelper", "step", "asset/observer", "asset/errors", "crypto/key
 		},
 		getUpdatedVersion: function (cb) {
 			changed = false;
-			signing = true;
+
 			step(function () {
-				database.sign(signKey, cb);
-			}, h.sF(function (result) {
-				signing = false;
-				this.ne(result);
-			}), cb);
+				database.sign(signKey, cb, true);
+			}, cb);
 		}
 	};
 

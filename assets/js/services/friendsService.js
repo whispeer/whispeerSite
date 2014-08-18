@@ -43,7 +43,7 @@ define(["step", "whispeerHelper", "asset/observer", "asset/securedDataWithMetaDa
 				this.parallel.unflatten();
 				SecuredData.load(undefined, {
 					friend: otherUser.getID()
-				}, {}).sign(ownUser.getSignKey(), this.parallel());
+				}, { type: "friendShip" }).sign(ownUser.getSignKey(), this.parallel());
 
 				var listData = {};
 				listData[otherUser.getID()] = friendShipKey;
@@ -193,7 +193,7 @@ define(["step", "whispeerHelper", "asset/observer", "asset/securedDataWithMetaDa
 				return h.containsOr(uid, friends, requested);
 			},
 			didOtherRequest: function (uid) {
-				return h.containsOr(uid, requests);
+				return h.containsOr(uid, friends, requests);
 			},
 			areFriends: function (uid) {
 				return h.containsOr(uid, friends);
@@ -237,7 +237,7 @@ define(["step", "whispeerHelper", "asset/observer", "asset/securedDataWithMetaDa
 
 				updateCounters();
 
-				signedList = SecuredData.load(undefined, data.signedList || {});
+				signedList = SecuredData.load(undefined, data.signedList || {}, { type: "signedFriendList" });
 
 				var requestedOrFriends = signedList.metaKeys().map(h.parseDecimal);
 				if (!h.arrayEqual(requestedOrFriends, requested.concat(friends))) {

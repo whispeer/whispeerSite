@@ -27,17 +27,15 @@ define([], function () {
 		$scope.loaded = false;
 		$rootScope.$on("ssn.ownLoaded", function () {
 			$scope.loaded = true;
+			magicService.ready = true;
 		});
 
 		$rootScope.$on("ssn.reset", function () {
 			$scope.loaded = false;
+			magicService.ready = false;
 		});
 
 		$scope.widgetHeight = 100 / $scope.defaultConfig.length - 5;
-		
-		$scope.$on("ssn.ownLoaded", function () {
-			magicService.ready = true;
-		});
 
 		$scope.loadWidget = function(name) {
 			// first of all, set showDefault to false

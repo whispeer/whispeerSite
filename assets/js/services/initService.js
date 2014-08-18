@@ -34,6 +34,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 			}, h.sF(function () {
 				socketService.emit("data", createData(), this);
 			}), h.sF(function (result) {
+				console.time("init");
 				serverData = result;
 				priorizedCallbacks.forEach(function (cur) {
 					try {
@@ -55,6 +56,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 
 				this.parallel()();
 			}), h.sF(function () {
+				console.timeEnd("init");
 				migrationService();
 				$rootScope.$broadcast("ssn.ownLoaded");
 			}), errorService.criticalError);

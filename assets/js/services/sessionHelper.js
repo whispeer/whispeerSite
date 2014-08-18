@@ -103,7 +103,7 @@ define(["step", "whispeerHelper", "crypto/trustManager", "asset/securedDataWithM
 					delete correctKeys.main;
 					delete correctKeys.profile;
 
-					var signedKeys = SecuredData.load(undefined, correctKeys);
+					var signedKeys = SecuredData.load(undefined, correctKeys, { type: "signedKeys" });
 
 					trustManager.allow(4);
 

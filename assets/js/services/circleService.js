@@ -13,7 +13,7 @@ define(["step", "whispeerHelper", "asset/observer", "asset/securedDataWithMetaDa
 			var id = data.id, theCircle = this, persons = [];
 			var usersLoaded = 0;
 
-			var circleSec = SecuredData.load(data.content, data.meta);
+			var circleSec = SecuredData.load(data.content, data.meta, { type: "circle" });
 			var circleUsers = circleSec.metaAttr("users").map(h.parseDecimal);
 
 			this.getID = function getIDF() {
@@ -244,7 +244,7 @@ define(["step", "whispeerHelper", "asset/observer", "asset/securedDataWithMetaDa
 					SecuredData.create({ name: name }, {
 						users: users,
 						circleKey: key
-					}, {}, own.getSignKey(), mainKey, this);
+					}, { type: "circle" }, own.getSignKey(), mainKey, this);
 				}), h.sF(function (data) {
 					var keyData = keyStore.upload.getKey(key);
 

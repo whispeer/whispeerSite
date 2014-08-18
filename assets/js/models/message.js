@@ -17,6 +17,7 @@ define(["step",
 
 			var metaCopy = h.deepCopyObj(data.meta);
 			var securedData = SecuredData.load(data.content, metaCopy, {
+				type: "message",
 				attributesNotVerified: ["sendTime", "sender", "topicid", "messageid"]
 			});
 
@@ -132,7 +133,7 @@ define(["step",
 		};
 
 		Message.createRawData = function (topicKey, message, meta, cb) {
-			SecuredData.create(message, meta, {}, userService.getown().getSignKey(), topicKey, cb);
+			SecuredData.create(message, meta, { type: "message" }, userService.getown().getSignKey(), topicKey, cb);
 		};
 
 		return Message;
