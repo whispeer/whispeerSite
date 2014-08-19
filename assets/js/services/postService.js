@@ -21,7 +21,11 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer", "ass
 				},
 				time: securedData.metaAttr("time"),
 				isWallPost: false,
-				comments: []
+				removable: false,
+				comments: [],
+				remove: function () {
+					thePost.remove(function () {});
+				}
 			};
 
 			this.getID = function () {
@@ -38,11 +42,16 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer", "ass
 
 					if (walluser) {
 						d.isWallPost = true;
-						d.walluser = walluser;
+						d.walluser = walluser.data;
 					}
 
-					d.sender = sender;
-					securedData.verify(sender.user.getSignKey(), this);
+					d.sender = sender.data;
+
+					if (sender.isOwn() || walluser.isOwn()) {
+						d.removable = true;
+					}
+
+					securedData.verify(sender.getSignKey(), this);
 				}), h.sF(function () {
 					thePost.getText(this);
 				}), h.sF(function (text) {
@@ -70,7 +79,7 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer", "ass
 
 						theUser.loadBasicData(this);
 					}), h.sF(function () {
-						this.ne(theUser.data);
+						this.ne(theUser);
 					}), cb);
 			};
 
@@ -83,7 +92,28 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer", "ass
 
 					theUser.loadBasicData(this);
 				}), h.sF(function () {
-					this.ne(theUser.data);
+					this.ne(theUser);
+				}), cb);
+			};
+
+			this.remove = function (cb) {
+				step(function () {
+					if (thePost.data.removable) {
+						socket.emit("posts.remove", {
+							postid: id
+						}, this);
+					}
+				}, h.sF(function () {
+					h.objectEach(postsByUserWall, function (key, val) {
+						h.removeArray(val.result, thePost.data);
+					});
+					h.objectEach(TimelineByFilter, function (key, val) {
+						h.removeArray(val.result, thePost.data);
+					});
+
+					delete postsById[id];
+
+					this.ne();
 				}), cb);
 			};
 

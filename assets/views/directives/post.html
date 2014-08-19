@@ -9,6 +9,7 @@
 					<a href='{{post.walluser.basic.url}}' class="walluser">{{post.walluser.name}}</a>
 				</div>
 			</div>
+			<button data-ng-if="post.removable" data-ng-click="post.remove()">del</button>
 			<div class="postText" data-syntaxify="post.content.text"></div>
 			<!--<div class="postImage" data-ng-if="post.content.image"><img data-ng-src="{{post.content.image}}"></div> -->
 		</div>	
