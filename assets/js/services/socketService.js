@@ -32,6 +32,8 @@ define(["jquery", "socket", "socketStream", "step", "whispeerHelper", "config"],
 			}
 		}, 10000);
 
+		var loading = 0;
+
 		var socketS = {
 			isConnected: function () {
 				return socket.socket.connected;
@@ -77,6 +79,7 @@ define(["jquery", "socket", "socketStream", "step", "whispeerHelper", "config"],
 					console.groupEnd();
 
 					time = new Date().getTime();
+					loading++;
 
 					if (socket.socket.connected) {
 						socket.emit(channel, data, this.ne);
@@ -102,9 +105,8 @@ define(["jquery", "socket", "socketStream", "step", "whispeerHelper", "config"],
 
 					console.groupEnd();
 
+					loading--;
 					lastRequestTime = data.serverTime;
-
-					//console.debug(h.parseDecimal(data.serverTime) - new Date().getTime());
 
 					var that = this;
 					$rootScope.$apply(function () {
@@ -118,6 +120,9 @@ define(["jquery", "socket", "socketStream", "step", "whispeerHelper", "config"],
 					});
 				}), callback);
 			},
+			getLoadingCount: function () {
+				return loading;
+			},
 			lastRequestTime: function () {
 				return lastRequestTime;
 			},
@@ -126,7 +131,13 @@ define(["jquery", "socket", "socketStream", "step", "whispeerHelper", "config"],
 			}
 		};
 
+		socket.on("disconnect", function () {
+			console.info("socket disconnected");
+			loading = 0;
+		});
+
 		socket.on("reconnect", function () {
+			console.info("socket reconnected");
 			socketS.emit("ping", {}, function () {});
 		});
 

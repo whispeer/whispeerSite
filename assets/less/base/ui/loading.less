@@ -10,16 +10,26 @@ body.loading {
 		left: 0;
 	}
 	&:after {
-		content: url('../img/logo.png');
+		content: ' ';
+		background: url('../img/logo.png') no-repeat;
+		background-position: center top;
+		background-size: 100% auto;
 		position: absolute;
-		width: 300px;
-		height: 113px;
-		right: 0;
+		margin: 0 auto;
+		width: 400px;
+		height: 273px;
 		left: 0;
+		right: 0;
 		top: 0;
 		bottom: 0;
 		margin: auto;
 		z-index: 10000000000001;
+		@media @mobile {
+			height: auto;
+			max-width: 60%;
+			right: 20%;
+			left: 20%;
+		}
 	}
 	#container {
 		&:before {
@@ -35,6 +45,9 @@ body.loading {
 			z-index: 10000000000001;
 			padding-top: 115px;
 			.box-fix;
+			@media @mobile {
+				margin: 30px auto;
+			}
 		}
 	}
 }
