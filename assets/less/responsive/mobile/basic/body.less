@@ -1,4 +1,4 @@
-@mobileNavOffset: 10;
+@mobileNavWidth: 20em;
 @transitionTime: .3s;
 
 body {
@@ -15,7 +15,7 @@ body {
 	#topNav {
 		.transition(@transitionTime ease);
 		&.push {
-			margin-right: -((100%/12)*@mobileNavOffset) !important;
+			margin-right: (-1 * @mobileNavWidth) !important;
 			float: right;
 			position: relative;
 		}
@@ -36,7 +36,7 @@ body {
 				.column(0);
 			}
 			&.push {
-				margin-right: -(((100%/12)*@mobileNavOffset) - 1);
+				margin-right: (-1 * @mobileNavWidth);
 			}
 		}
 		#mobileSearch {
@@ -67,8 +67,9 @@ body {
 			}
 		}
 		#sidebar-left {
-			.column(@mobileNavOffset,12,left,0);
-			margin-left: -(((100%/12)*@mobileNavOffset));
+			width: @mobileNavWidth;
+			float: left;
+			margin-left: (-1 * @mobileNavWidth);
 			overflow: scroll;
 			padding: 0;
 			-webkit-overflow-scrolling: touch;
