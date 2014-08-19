@@ -2,6 +2,7 @@
 * BaseService
 **/
 (function () {
+	"use strict";
 	var services = ["socketService", "keyStoreService", "sessionService", "sessionHelper", "profileService", "storageService", "userService", "cssService", "magicbarService", "messageService", "circleService", "friendsService", "initService", "settingsService", "postService", "filterKeyService", "migrationService", "windowService", "errorService", "blobService", "trustService"];
 
 	var includes = ["angular"];

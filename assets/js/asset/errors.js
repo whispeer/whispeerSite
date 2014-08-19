@@ -1,12 +1,12 @@
 define([], function () {
 	"use strict";
-	function extendError(parentErrorClass, name) {
-		if (parentErrorClass.prototype instanceof Error || parentErrorClass === Error) {
+	function extendError(ParentErrorClass, name) {
+		if (ParentErrorClass.prototype instanceof Error || ParentErrorClass === Error) {
 			var F = function(){};
 			var CustomError = function(message) {
 				var _this = this;
 
-				var tmp = new parentErrorClass(message);
+				var tmp = new ParentErrorClass(message);
 				tmp.name = this.name = name || "Error";
 
 				_this.stack = tmp.stack;
@@ -16,7 +16,7 @@ define([], function () {
 				return _this;
 			};
 			var SubClass = function (){};
-			SubClass.prototype = parentErrorClass.prototype;
+			SubClass.prototype = ParentErrorClass.prototype;
 			F.prototype = CustomError.prototype = new SubClass();
 			CustomError.prototype.constructor = CustomError;
 

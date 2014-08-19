@@ -118,36 +118,24 @@ define([
 				return meta.metaAttr("_key");
 			};
 
-			var timerRunning, messageTime;
-			this.markRead = function markMessagesRead(mid, cb) {
+			this.markRead = function markMessagesRead(cb) {
 				if (!windowService.isVisible) {
 					windowService.listenOnce(function () {
-						theTopic.markRead(mid, cb);
+						theTopic.markRead(cb);
 					}, "visible");
 					return;
 				}
 
-				mid = h.parseDecimal(mid);
 				step(function () {
-					if (unreadMessages.indexOf(mid) > -1) {
-						var lMessageTime = messagesByID[mid].getTime();
-						if (timerRunning) {
-							if (lMessageTime > messageTime) {
-								messageTime = lMessageTime;
-							}
-						} else {
-							timerRunning = true;
-							messageTime = lMessageTime;
-							window.setTimeout(this, 100);
-						}
+					if (messages.length > 0) {
+						var messageTime = messages[messages.length - 1].getTime();
+
+						socket.emit("messages.markRead", {
+							topicid: theTopic.getID(),
+							beforeTime: messageTime + 1
+						}, this);
 					}
-				}, h.sF(function () {
-					timerRunning = false;
-					socket.emit("messages.markRead", {
-						topicid: theTopic.getID(),
-						beforeTime: messageTime
-					}, this);
-				}), h.sF(function (data) {
+				}, h.sF(function (data) {
 					setUnread(data.unread);
 					this.ne();
 				}), cb);
