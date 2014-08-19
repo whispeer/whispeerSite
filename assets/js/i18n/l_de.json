@@ -115,7 +115,7 @@
 		"logout": "Logout",
 		"search": "Suchen...",
 		"legal":	"Rechtliches",
-		"notifications":	"Mitteilungen"
+		"notifications":	"Mitteilungen ({count})"
 	},
 	"login": {
 		"username": "Benutzername",

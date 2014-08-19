@@ -113,7 +113,7 @@
 		"logout": "Logout",
 		"search": "Search...",
 		"legal":	"Legal",
-		"notifications":	"Mitteilungen"
+		"notifications":	"Mitteilungen ({count})"
 	},
 	"login": {
 		"username": "Username",
