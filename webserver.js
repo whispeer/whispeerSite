@@ -47,7 +47,7 @@
 		}
 	});
 
-	var angular = ["user", "messages", "circles", "main", "friends", "login", "loading", "help", "settings", "start"];
+	var angular = ["user", "messages", "circles", "main", "friends", "login", "loading", "help", "settings", "start", "notificationCenter"];
 
 	require("http").createServer(function (request, response) {
 		request.addListener("end", function () {
