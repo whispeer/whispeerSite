@@ -45,7 +45,13 @@ define(["whispeerHelper"], function (h) {
 
 		$scope.createNew = function (name) {
 			var ids = $scope.selectedUsers.map(h.qm("id"));
-			circleService.create(name, h.sF(h.nop), ids);
+			circleService.create(name, function (e, circle) {
+				errorService.criticalError(e);
+
+				if (!e) {
+					$scope.loadActiveCircle(circle.getID());
+				}
+			}, ids);
 
 			$scope.showCircle = !$scope.mobile;
 		};
