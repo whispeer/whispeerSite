@@ -53,10 +53,15 @@ define(["whispeerHelper"], function (h) {
 		$scope.removeCircle = function () {
 			var response = confirm(localize.getLocalizedString("views.circles.removeCircle"));
 			if (response) {
-				$scope.unloadCircle();
-				console.log("Circle removed");
+				circleService.get($scope.circleid).remove(function (e) {
+					errorService.criticalError(e);
+
+					if (!e) {
+						$scope.unloadCircle();
+					}
+				});
 			}
-		}
+		};
 
 		$scope.unloadCircle = function () {
 			$scope.showCircle = true;
