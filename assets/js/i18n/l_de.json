@@ -99,7 +99,7 @@
 			"minutesAgo":	"vor {minutes} Minuten",
 			"oneHourAgo":	"vor einer Stunde und {minutes} Minuten",
 			"hoursAgo":		"vor {hours} Stunden und {minutes} Minuten"
-		}	
+		}
 	},
 	"notimplemented": "Noch nicht implementiert :(",
 	"search": "Personen werden gesucht",
@@ -400,7 +400,7 @@
 				"notificationSounds": {
 					"title":		"Benachrichtigungstöne",
 					"on":			"An",
-					"off":			"Aus"	
+					"off":			"Aus"
 				},
 				"fingerprints": {
 					"title":	"Dein Fingerprint"
@@ -412,7 +412,7 @@
 						"en-US":	"Englisch (US)"
 					}
 				}
-			},	
+			},
 			"account":	"Benutzerkonto",
 			"changeName": "Namen ändern",
 			"changeUsername": "Usernamen ändern",
