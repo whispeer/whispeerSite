@@ -45,21 +45,28 @@
 		cursor: pointer;
 	}
 
-	.comments {
+	.comments, .actions {
 		padding-left: @default-padding;
 		margin-left: @user-image-size;
+	}
 
+	.comments {
+
+		@media @mobile {
+			padding-left: @default-padding;
+			margin-left: @user-image-size - @user-image-size-small - @default-padding;
+		}
 
 		ul {
 			margin: 0;
 			padding: 0;
-
 			// this would be a sane global default.
 			list-style-type: none;
-
 			li {
-				padding-top: (@default-padding / 2);
-				padding-bottom: (@default-padding / 2);
+				padding-top: @default-padding;
+				&:last-of-type {
+					padding-bottom: @default-padding;
+				}
 			}
 		}
 
