@@ -30,6 +30,14 @@ define(["step", "whispeerHelper"], function (step, h) {
 			//TODO
 		};
 
+		MyBlob.prototype.getStringRepresentation = function (cb) {
+			if (this._legacy) {
+				cb(null, this._blobData);
+			} else {
+				h.blobToDataURI(this._blobData, cb);
+			}
+		};
+
 		MyBlob.prototype.upload = function (cb) {
 			var that = this;
 			step(function () {
@@ -86,33 +94,32 @@ define(["step", "whispeerHelper"], function (step, h) {
 			}), cb);
 		};
 
-		MyBlob.prototype.toURL = function () {
-			if (this._legacy) {
-				return this._blobData;
-			}
-
-			try {
-				if (typeof window.URL !== "undefined") {
-					return window.URL.createObjectURL(this._blobData);
-				} else if (typeof webkitURL !== "undefined") {
-					return window.webkitURL.createObjectURL(this._blobData);
-				} else {
-					return h.blobToDataURI(this._blobData);
+		MyBlob.prototype.toURL = function (cb) {
+			var that = this;
+			step(function () {
+				try {
+					if (that._legacy) {
+						this.ne(that._blobData);
+					} else if (typeof window.URL !== "undefined") {
+						this.ne(window.URL.createObjectURL(that._blobData));
+					} else if (typeof webkitURL !== "undefined") {
+						this.ne(window.webkitURL.createObjectURL(that._blobData));
+					} else {
+						h.blobToDataURI(that._blobData, this);
+					}
+				} catch (e) {
+					this.ne("");
 				}
-			} catch (e) {
-				return "";
-			}
+			}, cb);
 		};
 
 		MyBlob.prototype.getHash = function (cb) {
 			var that = this;
 			step(function () {
-				if (that._legacy) {
-					this.ne(keyStore.hash.hash(that._blobData));
-				} else {
-					this.ne(keyStore.hash.hash(h.blobToDataURI(that._blobData)));
-				}
-			}, cb);
+				that.getStringRepresentation(this);
+			}, h.sF(function (val) {
+				this.ne(keyStore.hash.hash(val));
+			}), cb);
 		};
 
 		var blobListener = {};

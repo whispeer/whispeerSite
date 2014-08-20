@@ -760,7 +760,7 @@ define(["step", "whispeerHelper", "asset/state", "asset/securedDataWithMetaData"
 						this.last.ne("assets/img/user.png");
 					}
 				}), h.sF(function (blob) {
-					this.ne(blob.toURL());
+					blob.toURL(this);
 				}), cb);
 			};
 
