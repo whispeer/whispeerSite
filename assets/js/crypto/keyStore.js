@@ -67,10 +67,21 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 
 	function toPrivateKey(type, curve) {
 		return function (secret) {
-			var exponent = new sjcl.bn(secret);
+			var exponent = new sjcl.bn(chelper.bits2hex(secret));
 
 			return new type.secretKey(curve, exponent);
 		};
+	}
+
+	function removeExpectedPrefix(bitArray, prefix) {
+		var len = prefix.length, part = sjcl.bitArray.bitSlice(bitArray, 0, 8*len);
+		prefix = sjcl.codec.utf8String.toBits(prefix);
+
+		if (sjcl.bitArray.equal(prefix, part)) {
+			return sjcl.bitArray.bitSlice(bitArray, 8*len);
+		} else {
+			throw new errors.DecryptionError("invalid prefix (should be: " + prefix + ")");
+		}
 	}
 
 	//TODO: webworkers: 
@@ -132,12 +143,8 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 					theKey.decryptKey(this);
 				}), h.sF(function () {
 					cryptor.decrypt(ctext, this, iv);
-				}), h.sF(function (text) {
-					if (text.substr(0, 5) === "key::") {
-						this.ne(text.substr(5));
-					} else {
-						throw new errors.DecryptionError("not a key!");
-					}
+				}), h.sF(function (decryptedData) {
+					this.ne(removeExpectedPrefix(decryptedData, "key::"));
 				}), callback);
 			} else if (decryptortype === "cryptKey") {
 				step(function () {
@@ -156,20 +163,14 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 						salt: salt
 					}), result;
 					if (password !== "") {
-						result = sjcl.decrypt(password, jsonData);
+						result = sjcl.decrypt(password, jsonData, { raw: 1 });
 
-						this.ne(result);
+						this.ne(removeExpectedPrefix(result, "key::"));
 						return;
 					}
 
 					throw new errors.DecryptionError("no pw");
-				}, h.sF(function (text) {
-					if (text.substr(0, 5) === "key::") {
-						this.ne(text.substr(5));
-					} else {
-						throw new errors.DecryptionError("not a key!");
-					}
-				}), callback);
+				}, callback);
 			} else {
 				throw new errors.InvalidDataError("invalid decryptortype");
 			}
@@ -401,7 +402,7 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 				theKey.decryptKey(this);
 			}), h.sF(function addSymD3() {
 				var secret = preSecret || internalSecret;
-				cryptor.encrypt("key::" + chelper.bits2hex(secret), this);
+				cryptor.encryptWithPrefix("key::", secret, this);
 			}), h.sF(function addSymD4(data) {
 				var decryptorData = {
 					decryptorid: realid,
@@ -425,7 +426,10 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 		*/
 		function addPWDecryptorF(pw, callback) {
 			step(function () {
-				encryptPW(pw, "key::" + chelper.bits2hex(preSecret), this);
+				var prefix = sjcl.codec.utf8String.toBits("key::");
+				var data = sjcl.bitArray.concat(prefix, preSecret);
+
+				this.ne(chelper.sjclPacket2Object(sjcl.encrypt(pw, data)));
 			}, h.sF(function (data) {
 				var decryptorData = {
 					//Think, shortHash here? id: ?,
@@ -537,7 +541,7 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 		} else {
 			intKey = new Key(this, keyData.realid, keyData.decryptors, {
 				pastProcessor: function (secret) {
-					var fp = fingerPrintSymKey(chelper.hex2bits(secret));
+					var fp = fingerPrintSymKey(secret);
 					if (fp !== intKey.getRealidFingerPrint()) {
 						throw new errors.ValidationError("Fingerprint and Key id do not match");
 					}
@@ -590,20 +594,42 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 				throw new errors.SecurityError("Key not usable for encryption: " + intKey.getRealID());
 			}
 
+			if (iv) {
+				throw new Error("found iv usage");
+			}
+
+			debugger;
+			throw new Error("bla");
+
 			step(function symEncryptI1() {
 				intKey.decryptKey(this);
 			}, h.sF(function symEncryptI2() {
-
-				var result;
-				if (iv) {
-					result = sjcl.encrypt(chelper.hex2bits(intKey.getSecret()), text, {"iv": iv});
-				} else {
-					result = sjcl.encrypt(chelper.hex2bits(intKey.getSecret()), text);
-				}
+				var result = sjcl.encrypt(chelper.hex2bits(intKey.getSecret()), text);
 
 				this.ne(chelper.sjclPacket2Object(result));
 			}), callback);
 		}
+
+		this.encryptWithPrefix = function (prefix, data, callback) {
+			if (!isKeyUsableForEncryption(intKey.getRealID())) {
+				throw new errors.SecurityError("Key not usable for encryption: " + intKey.getRealID());
+			}
+
+			step(function symEncryptI1() {
+				intKey.decryptKey(this);
+			}, h.sF(function symEncryptI2() {
+				if (typeof data === "string") {
+					data = sjcl.codec.utf8String.toBits(data);
+				}
+
+				prefix = sjcl.codec.utf8String.toBits(prefix);
+				data = sjcl.bitArray.concat(prefix, data);
+
+				var result = sjcl.encrypt(intKey.getSecret(), data);
+
+				this.ne(chelper.sjclPacket2Object(result));
+			}), callback);
+		};
 
 		/** decrypt some text.
 		* @param ctext text to decrypt
@@ -948,7 +974,7 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 					x: chelper.bits2hex(p.x.toBits()),
 					y: chelper.bits2hex(p.y.toBits())
 				},
-				exponent: chelper.bits2hex(sec._exponent.toBits()),
+				exponent: sec._exponent.toBits(),
 				realid: generateid(fingerPrintPublicKey(pub)),
 				curve: chelper.getCurveName(pub._curve),
 				comment: comment
@@ -1164,7 +1190,7 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 					x: chelper.bits2hex(p.x.toBits()),
 					y: chelper.bits2hex(p.y.toBits())
 				},
-				exponent: chelper.bits2hex(sec._exponent.toBits()),
+				exponent: sec._exponent.toBits(),
 				realid: generateid(fingerPrintPublicKey(pub)),
 				curve: chelper.getCurveName(pub._curve)
 			};
@@ -1506,8 +1532,7 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 	};
 
 	ObjectCryptor.prototype.encryptJSON = function (cb) {
-		var text = "json::" + JSON.stringify(this._object);
-		this._key.encrypt(text, cb);
+		this._key.encryptWithPrefix("json::", JSON.stringify(this._object), cb);
 	};
 
 	ObjectCryptor.prototype.encrypt = function (cb) {
@@ -1519,9 +1544,11 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 	};
 
 	ObjectCryptor.prototype.decryptCorrectObject = function (obj) {
-		if (typeof obj === "object") {
+		if (typeof obj === "object" && !(obj instanceof Array)) {
 			return obj;
-		} else if (typeof obj === "string") {
+		} else {
+			obj = sjcl.codec.utf8String.fromBits(obj);
+
 			var prefix = obj.substr(0, 6);
 			var content = obj.substr(6);
 

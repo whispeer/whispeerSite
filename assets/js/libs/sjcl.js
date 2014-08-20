@@ -2064,7 +2064,7 @@ sjcl.random = new sjcl.prng(6);
  /** @namespace JSON encapsulation */
  sjcl.json = {
   /** Default values for encryption */
-  defaults: { v:1, iter:1000, ks:128, ts:64, mode:"ccm", adata:"", cipher:"aes", raw:false },
+  defaults: { v:1, iter:1000, ks:128, ts:64, mode:"ccm", adata:"", cipher:"aes" },
 
   /** Simple encryption function.
    * @param {String|bitArray} password The password or key.
@@ -2189,7 +2189,7 @@ sjcl.random = new sjcl.prng(6);
     j._add(rp, p);
     rp.key = password;
 
-    if (params.raw) {
+    if (params.raw === 1) {
       return ct;
     } else {
       return sjcl.codec.utf8String.fromBits(ct);
