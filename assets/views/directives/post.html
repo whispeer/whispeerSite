@@ -13,8 +13,10 @@
 	</aside>
 	<p class="content" data-syntaxify="post.content.text"></p>
 	<aside class="actions">
-		<span class="date"><i class="icon icon-clock"></i> {{post.time|smartdate}}</span>
-		<span ng-click="show=!show" class="action"><i class="icon icon-comment"></i> Comments</span>
+	<span class="date"><i class="icon icon-clock"></i> {{post.time|smartdate}}</span>
+	<!-- this should be enabled once we're on the new code base
+	<span ng-click="show=!show" class="action"><i class="icon icon-comment"></i> Comments</span>
+	-->
 	</aside>
 	<aside class="comments" ng-show="show">
 		<ul>
