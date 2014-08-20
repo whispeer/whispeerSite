@@ -7,7 +7,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 	var knownBlobs = {};
 
 	var service = function (socketService, keyStore) {
-		var MyBlob = function (blobData, blobID) {
+		var MyBlob = function (blobData, blobID, options) {
 			this._blobData = blobData;
 
 			if (typeof blobData === "string") {
@@ -20,13 +20,28 @@ define(["step", "whispeerHelper"], function (step, h) {
 			} else {
 				this._uploaded = false;
 			}
+
+			this._decrypted = options.decrypted || !this._uploaded || false;
 		};
 
-		MyBlob.prototype.encrypt = function () {
+		MyBlob.prototype.encrypt = function (cb) {
+			var that = this;
+			step(function () {
+				if (that._uploaded) {
+					throw new Error("trying to encrypt an already encrypted blob. add a key decryptor instead");
+				}
+
+				this.parallel.unflatten();
+				keyStore.sym.generateKey(this.parallel(), "blob key");
+				that.getStringRepresentation(this.parallel());
+			}, h.sF(function (key, blobValue) {
+				var base64 = blobValue.split(",")[1];
+				var sjcl = sjcl.codec.base64.toBits(base64);
+			}), cb);
 			//TODO
 		};
 
-		MyBlob.prototype.decrypt = function () {
+		MyBlob.prototype.decrypt = function (key, cb) {
 			//TODO
 		};
 
@@ -124,7 +139,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 
 		var blobListener = {};
 
-		function loadBlob(blobID) {
+		function loadBlob(blobID, isPublic) {
 			if (socketService.getLoadingCount() !== 0) {
 				window.setTimeout(function () {
 					loadBlob(blobID);
@@ -140,9 +155,9 @@ define(["step", "whispeerHelper"], function (step, h) {
 				var dataString = "data:image/png;base64," + data.blob;
 				var blob = h.dataURItoBlob(dataString);
 				if (blob) {
-					knownBlobs[blobID] = new MyBlob(blob, blobID);
+					knownBlobs[blobID] = new MyBlob(blob, blobID, { decrypted: isPublic });
 				} else {
-					knownBlobs[blobID] = new MyBlob(dataString, blobID);
+					knownBlobs[blobID] = new MyBlob(dataString, blobID, { decrypted: isPublic });
 				}
 
 				this.ne(knownBlobs[blobID]);				
@@ -153,22 +168,17 @@ define(["step", "whispeerHelper"], function (step, h) {
 			createBlob: function (blob) {
 				return new MyBlob(blob);
 			},
-			getBlob: function (blobID, cb) {
+			getBlob: function (blobID, cb, isPublic) {
 				step(function () {
 					if (knownBlobs[blobID]) {
-						this.last.ne(knownBlobs[blobID]);
+						this.ne(knownBlobs[blobID]);
 					} else if (blobListener[blobID]) {
-						blobListener[blobID].push(this.last);
+						blobListener[blobID].push(this);
 					} else {
-						blobListener[blobID] = [this.last];
-						loadBlob(blobID);
+						blobListener[blobID] = [this];
+						loadBlob(blobID, isPublic);
 					}
-				}, h.sF(function (data) {
-					var blob = h.dataURItoBlob("data:image/png;base64," + data.blob);
-					knownBlobs[blobID] = new MyBlob(blob, blobID);
-
-					this.ne(knownBlobs[blobID]);
-				}), cb);
+				}, cb);
 			}
 		};
 

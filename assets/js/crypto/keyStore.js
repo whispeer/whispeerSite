@@ -1958,6 +1958,12 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 						throw new errors.DecryptionError();
 					}
 				}), callback);
+			},
+
+			encryptBinary: function (bin, realKeyID, callback) {
+			},
+
+			decryptBinary: function (bin, realKeyID, callback) {
 			}
 		},
 
