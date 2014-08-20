@@ -3,7 +3,7 @@
 
 - Fix:
  - User Search
- - Friends Notify
+ - Reset notifications on logout
 
 - Low: Trust Manager: make nickname changes possible somehow...
 
