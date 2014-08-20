@@ -235,7 +235,7 @@ define(["whispeerHelper", "step", "crypto/keyStore", "asset/errors"], function (
 	SecuredDataWithMetaData.prototype._verifyContentHash = function() {
 		if (this._hasContent && this._decrypted) {
 			var hash = keyStore.hash.hashObjectOrValueHex(this._paddedContent || this._content);
-			if (hash !== this._originalMeta._contentHash) {
+			if (hash !== this._originalMeta._contentHash && hash !== this._updatedMeta._contentHash) {
 				throw new errors.SecurityError("content hash did not match");
 			}
 		}
@@ -305,7 +305,8 @@ define(["whispeerHelper", "step", "crypto/keyStore", "asset/errors"], function (
 			throw new Error("our content is not an object");
 		}
 
-		this._changed = h.deepSetCreate(this._updatedContent, attrs, value) || this._changed;
+		h.deepSetCreate(this._updatedContent, attrs, value);
+		this._changed = true;
 	};
 
 	/** sets the whole metaData to the given data
