@@ -359,10 +359,11 @@ define(["step", "whispeerHelper", "asset/state", "asset/securedDataWithMetaData"
 					settingsService.getPrivacyVisibility(attrs, this);
 				}, h.sF(function (visible) {
 					if (visible === false) {
-						publicProfile.setAttribute(attrs.split("."), val, this);
-					} else if (visible) {
-						setPrivateProfile(attrs.split("."), val, visible, this);
+						publicProfile.setAttribute(attrs.split("."), val, this.parallel());
+						visible = [];
 					}
+
+					setPrivateProfile(attrs.split("."), val, visible, this.parallel());
 				}), cb);
 			}
 
@@ -938,10 +939,9 @@ define(["step", "whispeerHelper", "asset/state", "asset/securedDataWithMetaData"
 
 			this.setAdvancedProfile = function (adv, cb) {
 				step(function () {
-					var i;
-					for (i = 0; i < advancedBranches.length; i += 1) {
-						updateProperty(adv[advancedBranches[i]], advancedBranches[i], this.parallel());
-					}
+					advancedBranches.forEach(function (branch) {
+						updateProperty(adv[branch], branch, this.parallel());
+					}, this);
 				}, cb);
 			};
 
