@@ -1,5 +1,7 @@
 <article class="post">
-	<a href='{{post.sender.basic.url}}' class="userimg"><userimage data-user="post.sender"></a>
+	<a href='{{post.sender.basic.url}}' class="userimg">
+		<userimage data-user="post.sender"></userimage>
+	</a>
 	<div class="postWrap">
 		<div class="postContent">
 			<div class="author" data-ng-class="{wallPost: post.isWallPost}">
@@ -9,11 +11,19 @@
 					<a href='{{post.walluser.basic.url}}' class="walluser">{{post.walluser.name}}</a>
 				</div>
 			</div>
+			<div class="postInfo">
+				<p class="date"><i class="icon icon-clock"></i> {{post.time|smartdate}}</p>
+			</div>
 			<div class="postText" data-syntaxify="post.content.text"></div>
-			<!--<div class="postImage" data-ng-if="post.content.image"><img data-ng-src="{{post.content.image}}"></div> -->
-		</div>	
-		<div class="postInfo">
-			<p class="date"><i class="icon icon-clock"></i> {{post.time|smartdate}}</p>
+			<div>
+				<ol>
+					<comment data-ng-repeat="comment in post.comments" comment="comment"></comment>
+				</ol>
+				<div>
+					<textarea data-strg-enter="post.newComment.create(post.newComment.text)" data-ng-model="post.newComment.text"></textarea>
+					<savebutton data-translation="wall.postit.send" data-ng-click="post.newComment.create(post.newComment.text)" data-state="sendPostState" data-noiniticon></savebutton>
+				</div>
+			</div>
 		</div>
 	</div>
 </article>
