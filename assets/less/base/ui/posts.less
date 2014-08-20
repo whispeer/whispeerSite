@@ -1,3 +1,81 @@
+@user-image-size: 76px;
+@user-image-size-small: 32px;
+
+@default-padding: 12px;
+
 .post {
-	// background-color: red;
+	// background-color: blue;
+
+	display: inline-block;
+	float: left;
+	clear: both;
+
+	padding: @default-padding;
+
+	// this should really be dealt with once and for all in the userimage
+	// directive.
+	.userimg {
+		float: left;
+		display: inline-block;
+		vertical-align: top;
+		width:  @user-image-size;
+		height: @user-image-size;
+	}
+
+	.meta {
+		width: 100%;
+		span, strong {
+			padding-left: @default-padding;
+			white-space: nowrap;
+		}
+	}
+
+	.content {
+		max-width: 40em;
+		padding-left: @default-padding;
+		margin-top: 0;
+		margin-bottom: 0;
+		margin-left: @user-image-size;
+	}
+
+	.date, .action {
+		.detail-text();
+	}
+	.action {
+		cursor: pointer;
+	}
+
+	.comments {
+		padding-left: @default-padding;
+		margin-left: @user-image-size;
+
+
+		ul {
+			margin: 0;
+			padding: 0;
+
+			// this would be a sane global default.
+			list-style-type: none;
+
+			li {
+				padding-top: (@default-padding / 2);
+				padding-bottom: (@default-padding / 2);
+			}
+		}
+
+		.userimg {
+			width:  @user-image-size-small;
+			height: @user-image-size-small;
+		}
+
+		.content, .meta {
+			margin-left: @user-image-size-small;
+		}
+
+		textarea { width: 100% }
+		button {
+			margin-top: 6px;
+			float: right;
+		}
+	}
 }
