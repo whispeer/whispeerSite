@@ -638,31 +638,15 @@ define(["step", "whispeerHelper", "asset/state", "asset/securedDataWithMetaData"
 
 			this.getImage = function (cb) {
 				step(function () {
-					this.parallel.unflatten();
-
-					getProfileAttribute("imageBlob", this.parallel());
-					getProfileAttribute("image", this.parallel());
-				}, h.sF(function (imageBlob, image) {
-					var img, url;
+					getProfileAttribute("imageBlob", this);
+				}, h.sF(function (imageBlob) {
 					if (imageBlob) {
-						blobService.getBlob(imageBlob.blobid, this);
-					} else if (image) {
-						if (typeof URL !== "undefined") {
-							img = h.dataURItoBlob(image);
-							url = URL.createObjectURL(img);
-							this.last.ne(url);
-						} else if (typeof webkitURL !== "undefined") {
-							img = h.dataURItoBlob(image);
-							url = webkitURL.createObjectURL(img);
-							this.last.ne(url);
-						} else {
-							this.last.ne(image);
-						}
+						blobService.getBlob(imageBlob.blobid, this, true);
 					} else {
 						this.last.ne("assets/img/user.png");
 					}
 				}), h.sF(function (blob) {
-					this.ne(blob.toURL());
+					blob.toURL(this);
 				}), cb);
 			};
 
