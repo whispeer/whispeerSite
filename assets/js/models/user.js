@@ -735,15 +735,19 @@ define(["step", "whispeerHelper", "asset/state", "asset/securedDataWithMetaData"
 			};
 
 			this.getImage = function (cb) {
+				var blob;
 				step(function () {
 					getProfileAttribute("imageBlob", this);
 				}, h.sF(function (imageBlob) {
 					if (imageBlob) {
-						blobService.getBlob(imageBlob.blobid, this);
+						blobService.getBlob(imageBlob.blobid, this, true);
 					} else {
 						this.last.ne("assets/img/user.png");
 					}
-				}), h.sF(function (blob) {
+				}), h.sF(function (_blob) {
+					blob = _blob;
+					blob.decrypt(this);
+				}), h.sF(function () {
 					blob.toURL(this);
 				}), cb);
 			};

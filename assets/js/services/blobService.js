@@ -26,32 +26,78 @@ define(["step", "whispeerHelper"], function (step, h) {
 		};
 
 		MyBlob.prototype.encrypt = function (cb) {
-			var that = this;
+			var that = this, key;
 			step(function () {
-				if (that._uploaded) {
-					throw new Error("trying to encrypt an already encrypted blob. add a key decryptor instead");
+				if (that._uploaded || !that._decrypted) {
+					throw new Error("trying to encrypt an already encrypted or public blob. add a key decryptor if you want to give users access");
 				}
+
+				window.setTimeout(this, 5000);
+			}, h.sF(function () {
 
 				this.parallel.unflatten();
 				keyStore.sym.generateKey(this.parallel(), "blob key");
-				that.getStringRepresentation(this.parallel());
-			}, h.sF(function (key, blobValue) {
-				var base64 = blobValue.split(",")[1];
-				var sjcl = sjcl.codec.base64.toBits(base64);
+				that.getBase64Representation(this.parallel());
+			}), h.sF(function (_key, base64Blob) {
+				key = _key;
+
+				console.time("blobencrypt");
+				keyStore.sym.encryptBigBase64(base64Blob, key, this);
+			}), h.sF(function (encryptedData) {
+				that._decrypted = false;
+
+				encryptedData = "data:" + that._blobData.type + ";base64," + encryptedData;
+
+				if (that._legacy) {
+					that._blobData = encryptedData;
+				} else {
+					that._blobData = h.dataURItoBlob(encryptedData);
+				}
+				this.ne(key);
 			}), cb);
-			//TODO
 		};
 
 		MyBlob.prototype.decrypt = function (key, cb) {
-			//TODO
+			var that = this;
+			step(function () {
+				if (that._decrypted) {
+					this.last.ne();
+				}
+
+				that.getBase64Representation(this.parallel());
+			}, h.sF(function (encryptedData) {
+				console.time("blobdecrypt");
+				keyStore.sym.decryptBigBase64(encryptedData, key, this);
+			}), h.sF(function (decryptedData) {
+				console.timeEnd("blobdecrypt");
+
+				that._decrypted = true;
+
+				decryptedData = "data:" + that._blobData.type + ";base64," + decryptedData;
+
+				if (that._legacy) {
+					that._blobData = decryptedData;
+				} else {
+					that._blobData = h.dataURItoBlob(decryptedData);
+				}
+				this.ne();
+			}), cb);
+		};
+
+		MyBlob.prototype.getBase64Representation = function (cb) {
+			var that = this;
+			step(function () {
+				that.getStringRepresentation(this);
+			}, h.sF(function (blobValue) {
+				this.ne(blobValue.split(",")[1]);
+			}), cb);
 		};
 
 		MyBlob.prototype.getBinaryRepresentation = function (cb) {
 			var that = this;
 			step(function () {
-				that.getStringRepresentation(this);
-			}, h.sF(function (blobValue) {
-				var base64 = blobValue.split(",")[1];
+				that.getBase64Representation(this);
+			}, h.sF(function (base64) {
 				this.ne(keyStore.format.base64ToBits(base64));
 			}), cb);
 		};
@@ -143,8 +189,10 @@ define(["step", "whispeerHelper"], function (step, h) {
 			var that = this;
 			step(function () {
 				that.getStringRepresentation(this);
-			}, h.sF(function (val) {
-				this.ne(keyStore.hash.hash(val));
+			}, h.sF(function (blobValue) {
+				var base64 = blobValue.split(",")[1];
+
+				keyStore.hash.hashBigBase64CodedData(base64, this);
 			}), cb);
 		};
 

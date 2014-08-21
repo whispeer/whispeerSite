@@ -1718,13 +1718,14 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 				return chelper.bits2hex(sjcl.hash.sha256.hash(text));
 			},
 
-			hashBigBase64CodedData: function (text) {
+			hashBigBase64CodedData: function (text, cb) {
+				//TODO: move to worker
 				var i, h = new sjcl.hash.sha256(), PART = 4 * 50;
 				for (i = 0; i < text.length / PART; i+= 1) {
 					h.update(sjcl.codec.base64.toBits(text.substr(i*PART, PART)));
 				}
 
-				return chelper.bits2hex(h.finalize());
+				cb(null, chelper.bits2hex(h.finalize()));
 			},
 
 			hashPW: function (pw) {
@@ -1996,19 +1997,28 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 				}), callback);
 			},
 
-			encryptBinary: function (bin, realKeyID, callback) {
+			encryptBigBase64: function (bin, realKeyID, callback) {
 				step(function symEncrypt1() {
 					SymKey.get(realKeyID, this);
 				}, h.sF(function symEncrypt2(key) {
 					key.encryptWithPrefix("bin::", bin, this);
+				}), h.sF(function (result) {
+					this.ne(sjcl.codec.base64.fromBits(sjcl.codec.hex.toBits(result.iv + result.ct)));
 				}), callback);
 			},
 
-			decryptBinary: function (bin, realKeyID, callback) {
+			decryptBigBase64: function (bin, realKeyID, callback) {
 				step(function () {
 					SymKey.get(realKeyID, this);
 				}, h.sF(function (key) {
-					key.decrypt(bin, this);
+					bin = sjcl.codec.base64.toBits(bin);
+
+					var decr = {
+						iv: sjcl.bitArray.bitSlice(bin, 0, 32*4),
+						ct: sjcl.bitArray.bitSlice(bin, 32*4)
+					};
+
+					key.decrypt(decr, this);
 				}), h.sF(function (decryptedData) {
 					this.ne(removeExpectedPrefix(decryptedData, "bin::"));
 				}), callback);
