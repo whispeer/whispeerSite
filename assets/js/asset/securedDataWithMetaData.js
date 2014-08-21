@@ -41,8 +41,7 @@ define(["whispeerHelper", "step", "crypto/keyStore", "asset/errors"], function (
 		}
 
 		this._updatedMeta = h.deepCopyObj(this._originalMeta);
-
-		this._updatedContent = this._content;
+		this._updatedContent = h.deepCopyObj(this._content);
 
 		this._isKeyVerified = false;
 	}
@@ -210,7 +209,7 @@ define(["whispeerHelper", "step", "crypto/keyStore", "asset/errors"], function (
 			that._decrypted = true;
 			that._paddedContent = decryptedData;
 			that._content = keyStore.hash.removePaddingFromObject(decryptedData, 128);
-			that._updatedContent = that._content;
+			that._updatedContent = h.deepCopyObj(that._content);
 
 			that._verifyContentHash();
 
@@ -242,6 +241,9 @@ define(["whispeerHelper", "step", "crypto/keyStore", "asset/errors"], function (
 
 	SecuredDataWithMetaData.prototype.contentGet = function () {
 		return h.deepCopyObj(this._content);
+	};
+	SecuredDataWithMetaData.prototype.updatedContentGet = function () {
+		return h.deepCopyObj(this._updatedContent);
 	};
 	SecuredDataWithMetaData.prototype.metaGet = function () {
 		return h.deepCopyObj(this._updatedMeta);

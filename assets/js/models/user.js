@@ -72,94 +72,6 @@ define(["step", "whispeerHelper", "asset/state", "asset/securedDataWithMetaData"
 
 			var addFriendState = new State();
 
-			function findMeProfile(cb) {
-				var newMeProfile;
-				step(function () {
-					publicProfile.verify(this.parallel());
-					privateProfiles.forEach(function (profile) {
-						profile.getScope(this.parallel());
-					}, this);
-				}, h.sF(function (scopes) {
-					var me;
-
-					scopes.forEach(function (scope, index) {
-						if (scope === "me") {
-							me = privateProfiles[index];
-						}
-					});
-
-					if (me) {
-						this.last.ne(me);
-					} else {
-						//we need to find the me profile by hand
-						//TODO: also TODO: how to re-add the metaData...
-						//most likely: delete, recreate....
-
-						privateProfiles.forEach(function (profile) {
-							profile.getFull(this.parallel());
-						}, this);
-					}
-				}), h.sF(function (profileData) {
-					var likelyMeProfile = {};
-
-					profileData.forEach(function (profile) {
-						if (Object.keys(profile).length > Object.keys(likelyMeProfile).length) {
-							likelyMeProfile = profile;
-						}
-					});
-
-					newMeProfile = new ProfileService({
-						profile: likelyMeProfile,
-						metaData: {
-							scope: "me"
-						}
-					}, true);
-					newMeProfile.signAndEncrypt(theUser.getSignKey(), theUser.getMainKey(), theUser.getMainKey(), this);
-				}), h.sF(function (encryptedNewMe) {
-					socketService.emit("user.createPrivateProfiles", {
-						privateProfiles: [encryptedNewMe]
-					}, this);
-				}), h.sF(function (data) {
-					if (!data.error) {
-						this.ne(newMeProfile);
-					} else {
-						console.error("create failed");
-					}
-				}), cb);
-			}
-
-			function repairProfiles() {
-				step(function () {
-					//find main profile
-					findMeProfile(this);
-				}, h.sF(function (meProfile) {
-					//delete other profiles
-					var profilesToDelete = privateProfiles.filter(function (profile) {
-						return profile !== meProfile;
-					}).map(function (profile) {
-						return profile.getID();
-					});
-
-					socketService.emit("user", {
-						deletePrivateProfiles: {
-							profilesToDelete: profilesToDelete
-						}
-					}, this);
-				}), h.sF(function () {
-					//rebuildFromSettings
-					settingsService.getBranch("privacy", this);
-				}), h.sF(function (settings) {
-					var usedScopes = getAllProfileTypes(settings);
-					theUser.createProfileObjects(usedScopes, settings, this);
-				}), h.sF(function (profilesToCreate) {
-					socketService.emit("user", {
-						createPrivateProfiles: {
-							privateProfiles: profilesToCreate
-						}
-					}, this);
-				}), errorService.criticalError);
-			}
-
 			this.data = {};
 
 			function updateUser(userData) {
@@ -209,19 +121,9 @@ define(["step", "whispeerHelper", "asset/state", "asset/securedDataWithMetaData"
 				if (userData.profile && userData.profile.priv && userData.profile.priv instanceof Array) {
 					var priv = userData.profile.priv;
 
-					var profilesBroken = false;
-
 					priv.forEach(function (profile) {
-						if (profile.metaData === false && isMe) {
-							profilesBroken = true;
-						}
-
 						privateProfiles.push(new ProfileService(profile));
 					});
-
-					if (profilesBroken) {
-						repairProfiles();
-					}
 				}
 
 				theUser.data = {
@@ -868,19 +770,24 @@ define(["step", "whispeerHelper", "asset/state", "asset/securedDataWithMetaData"
 						this.parallel()(null, privacySettings);
 					}
 				}, h.sF(function (oldScopes, myProfile, keys, privacySettings) {
-					var i, profile;
+					var data = h.joinArraysToObject({
+						scope: scopes,
+						key: keys
+					});
 
-					for (i = 0; i < scopes.length; i += 1) {
-						if (oldScopes.indexOf(scopes[i]) === -1) {
-							profile = new ProfileService({
-								profile: applicableParts(scopes[i], privacySettings, myProfile),
+					data.forEach(function (v) {
+						if (oldScopes.indexOf(v.scope) === -1) {
+							var profile = new ProfileService({
+								profile: {
+									content: applicableParts(v.scope, privacySettings, myProfile)
+								},
 								metaData: {
-									scope: scopes[i]
+									scope: v.scope
 								}
-							}, true);
-							profile.signAndEncrypt(theUser.getSignKey(), keys[i], theUser.getMainKey(), this.parallel());
+							}, { isDecrypted: true });
+							profile.signAndEncrypt(theUser.getSignKey(), v.key, theUser.getMainKey(), this.parallel());
 						}
-					}
+					}, this);
 
 					this.parallel()();
 				}), h.sF(function (encryptedProfilesData) {
