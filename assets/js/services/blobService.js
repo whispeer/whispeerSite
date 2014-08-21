@@ -219,7 +219,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 					knownBlobs[blobID] = new MyBlob(dataString, blobID, { decrypted: isPublic });
 				}
 
-				this.ne(knownBlobs[blobID]);				
+				this.ne(knownBlobs[blobID]);
 			}), step.multiplex(blobListener[blobID]));
 		}
 
