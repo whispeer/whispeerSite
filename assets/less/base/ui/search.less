@@ -99,7 +99,6 @@
 				position: relative;
 				cursor: pointer;
 				.info {
-					font: 100 10px;
 					color: @gray;
 					.nickname {
 						color: @grayDark;
@@ -165,7 +164,7 @@
 							color: @white;
 						}
 					}
-				}	
+				}
 			}
 		}
 	}
@@ -190,19 +189,19 @@
 				}
 			}
 		}
-	}		
+	}
 	&.search-multiple {
 		.formSearch {
 			overflow: hidden;
 			.inputWrap {
 				text-align: left;
 				white-space: nowrap;
-				@media screen and (min-width: 1025px) {
-					height: 55px;
-				}
 				overflow-y: hidden;
 				overflow-x: scroll;
 				li {
+					// TODO this is due to lack of better vertical centering.
+					// 35px is a magic value from search.
+					line-height: 35px;
 					white-space: nowrap;
 					&.searchField {
 						float: none;
@@ -223,7 +222,7 @@
 				padding: 5px 25px 5px 5px !important;
 				word-break: break-word;
 				.box-fix;
-			}	
+			}
 		}
 	}
 	&.hideScroll {
@@ -231,5 +230,5 @@
 			border: 1px solid #888;
 			.border-radius(5px);
 		}
-	}	
-}	
+	}
+}

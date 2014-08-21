@@ -1,6 +1,22 @@
 	{
 	"0": {
 		"1": {
+			"12": [
+				"Improved loading screen",
+				"Fix: messages are marked as read again",
+				"Fix: Translations fixed in multiple places",
+				"Fix: Fonts unified"
+			],
+			"11": [
+				"Change interface language",
+				"Signature Cache",
+				"Messages redesigned",
+				"Old Browser support improved",
+				"smaller fingerprint",
+				"added qr-code for fingerprint (no reader added yet)",
+				"Spinner on save click in many locations. Also displays error states",
+				"User Image update should be working now"
+			],
 			"10": [
 				"Bugfix: Mobile: Show correct start page",
 				"Bugfix: Show own friends on own profile",

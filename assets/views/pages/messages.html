@@ -1,5 +1,7 @@
 <header>
-	<button data-ng-if="!mobile || !showMessage" class="left" id="newmessage" data-ng-click="unloadTopic()"><i class="icon-plus-circle" id="plusBtn"></i><span data-i18n="messages.newMessage"></span></button>
+	<button data-ng-if="!mobile || !showMessage" class="left" id="newmessage" data-ng-click="unloadTopic()">
+		<i class="icon-plus-circle" id="plusBtn"></i><span data-i18n="messages.newMessage"></span>
+	</button>
 	<span class="title" data-ng-class="{chat: topicLoaded && showMessage, newMessage: !topicLoaded && showMessage}">
 		<span data-ng-if="!topicLoaded && !showMessage" data-i18n="messages.title"></span>
 		<span data-ng-if="!topicLoaded && showMessage" data-i18n="messages.newMessage"></span>
@@ -13,8 +15,11 @@
 			</span>
 		</span>
 	</span>
-	<button id="showTopics" class="right" data-ng-click="unloadTopic(false)" data-ng-if="mobile && showMessage"><i class="icon icon-menu"></i></button>
+	<button id="showTopics" class="right" data-ng-click="unloadTopic(false)" data-ng-if="mobile && showMessage">
+		<i class="icon icon-menu"></i>
+	</button>
 </header>
+
 <div id="topicListWrap" data-ng-if="!mobile || !showMessage">
 	<ul id="topicList">
 		<div id="topicListScroll">
@@ -22,15 +27,17 @@
 				<div class="left">
 					<div class="imgWrap" data-ng-if="topic.type == 'groupChat'">
 						<img class="userimg" data-ng-repeat="partner in topic.partnersDisplay" data-ng-src="{{partner.basic.image}}" alt="{{partner.name}}" title="{{partner.name}}">
-						<span data-ng-if="topic.remainingUser" title="{{topic.remainingUserTitle}}">+ {{topic.remainingUser}}</span>
+						<span data-ng-if="topic.remainingUser" title="{{topic.remainingUserTitle}}">+{{topic.remainingUser}}</span>
 					</div>
 					<div class="imgWrap" data-ng-if="topic.type == 'peerChat'">
 						<userimage data-ng-repeat="partner in topic.partnersDisplay" data-user="partner">
-					</div>	
+					</div>
 				</div>
 				<div class="username">
-					<span class="status" data-status="{{topic.partners[0].online}}"></span>
-					<strong ng-repeat="partner in topic.partners">{{topic.partners.length>1?partner.basic.shortname:partner.name}}{{$last?"":", "}}</strong>
+					<span ng-repeat="partner in topic.partners">
+						<span class="status" data-status="{{partner.online}}"></span>
+						<strong>{{topic.partners.length>1?partner.basic.shortname:partner.name}}{{$last?"":","}}</strong>
+					</span>
 				</div>
 				<div class="lastMessage">
 					{{topic.latestMessage.data.text}}
@@ -41,25 +48,24 @@
 		</div>
 	</ul>
 </div>
+
 <div id="topicWrap" data-topicID="{{activeTopic.id}}" class="{{activeTopic.type}}" data-ng-if="topicLoaded && showMessage">
 	<div id="messageWrap">
-		<ul class="scroll-pane" id="messageList" data-scroll data-keepBottom data.scrollLock="scrollLock" data-ontop="loadMoreMessages()">
-<!--
-			<li>
-				Remaining: {{activeTopic.remaining}}
-			</li>
--->
-			<li data-ng-cloak data-ng-repeat="message in activeTopic.messages" data-inview="markRead(message.id)" data-inview-time="1000" data-messageID="{{message.id}}" class="message" data-ng-class="{me:message.sender.me, other:message.sender.other}">
+		<ul class="scroll-pane" id="messageList" data-scroll data-keepBottom data-lockscrolling="scrollLock" data-ontop="loadMoreMessages()" data-onbottomwithauto="markRead()">
+			<li class="burst" data-ng-repeat="burst in messageBursts()" data-ng-class="{me:burst[0].sender.me, other:burst[0].sender.other}">
 				<div class="userimg">
-					<a href="{{message.sender.basic.url}}">
-						<userimage data-userID="sender{{message.sender.id}}" data-user="message.sender" data-trustlevel="0">
+					<a href="{{burst[0].sender.basic.url}}">
+						<userimage data-userID="sender{{burst[0].sender.id}}" data-user="burst[0].sender" data-trustlevel="0">
 					</a>
 				</div>
-				<div class="messageContent">
-					<a href="{{message.sender.basic.url}}" class="username" data-userID="sender{{message.sender.id}}">{{message.sender.name}}</a>
-					<div class="messageText {{message.type}}" data-ng-class="{{message.type}}" data-syntaxify="message.text"><img data-ng-if="message.type != 'image'" data-ng-src=""></div>
-					<div class="time"><i class="icon icon-clock"></i> {{message.timestamp|smartdate}}</div>
-				</div>	
+				<ul class="messages">
+					<li data-ng-cloak data-ng-repeat="message in burst" data-messageID="{{message.id}}" class="message">
+						<div class="messageContent">
+							<div class="messageText {{message.type}}" data-ng-class="{{message.type}}" data-syntaxify="message.text"><img data-ng-if="message.type != 'image'" data-ng-src=""></div>
+							<div class="time"><i class="icon icon-clock"></i> {{message.timestamp|smartdate}}</div>
+						</div>
+					</li>
+				</ul>
 			</li>
 		</ul>
 		<form id="inputWrap">
@@ -68,14 +74,14 @@
 		</form>
 	</div>
 </div>
+
 <div id="topicWrap" class="newMessage" data-ng-if="!topicLoaded && showMessage">
 	<div id="messageTitle">
 		<h2 data-ng-if="!mobile" data-i18n="messages.newMessage"></h2>
 	</div>
 	<div id="messageWrap">
+		<usersearch res="create" data-user="userid" size="small" focus="all" id="recieverInput" data-multiple data-selected-users="create.selectedUsers" data-input-i18n-attr="messages.search|placeholder" />
 		<form id="inputWrap">
-			<usersearch res="create" data-user="userid" size="small" focus="all" id="recieverInput" data-multiple data-selected-users="create.selectedUsers" data-input-i18n-attr="messages.search|placeholder"/>
-
 			<textarea data-advancedsend="create.send(create.selectedElements, create.text)" type="text" data-i18n-attr="messages.sendMessage.text|placeholder" id="messageInput" data-ng-model="create.text"></textarea>
 			<savebutton id="sendmessage" data-state="sendMessageState" data-ng-click="create.send(create.selectedElements, create.text)" data-translation="messages.sendMessage.send"></savebutton>
 		</form>

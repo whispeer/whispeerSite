@@ -38,7 +38,10 @@
 						}
 					}
 				}
-			}	
+				.settingsFormButton {
+					.column(4);
+				}
+			}
 			.config {
 				.column(8,8);
 				margin-top: -5px;
@@ -50,6 +53,10 @@
 					button {
 						.push(2);
 					}
+				}
+				select {
+					float: left;
+					margin: 0 1%;
 				}
 			}
 			&#safety {
@@ -91,7 +98,6 @@
 				-moz-box-orient: vertical;      /* Mozilla */
 				-webkit-box-orient: vertical;   /* WebKit */
         		span {
-					font-size: 1.5em;
 					margin: 0 auto;
 					margin-top: 30px;
 					display: -webkit-box;
@@ -100,8 +106,8 @@
 					box-pack:center;
 					box-align:center;
 					color: @grayLighter;
-				}	
+				}
 			}
 		}
-	}	
+	}
 }

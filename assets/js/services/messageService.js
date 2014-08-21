@@ -222,60 +222,69 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer", "ass
 				return data.key;
 			};
 
-			var timerRunning, messageTime;
-			this.markRead = function markMessagesRead(mid, cb) {
+			this.markRead = function markMessagesRead(cb) {
 				if (!windowService.isVisible) {
 					windowService.listenOnce(function () {
-						theTopic.markRead(mid, cb);
+						theTopic.markRead(cb);
 					}, "visible");
 					return;
 				}
 
-				mid = h.parseDecimal(mid);
 				step(function () {
-					if (unreadMessages.indexOf(mid) > -1) {
-						var lMessageTime = messagesByID[mid].getTime();
-						if (timerRunning) {
-							if (lMessageTime > messageTime) {
-								messageTime = lMessageTime;
-							}
-						} else {
-							timerRunning = true;
-							messageTime = lMessageTime;
-							window.setTimeout(this, 100);
-						}
+					if (messages.length > 0) {
+						var messageTime = messages[messages.length - 1].getTime();
+
+						socket.emit("messages.markRead", {
+							topicid: theTopic.getID(),
+							beforeTime: messageTime + 1
+						}, this);
 					}
-				}, h.sF(function () {
-					timerRunning = false;
-					socket.emit("messages.markRead", {
-						topicid: theTopic.getID(),
-						beforeTime: messageTime
-					}, this);
-				}), h.sF(function (data) {
+				}, h.sF(function (data) {
 					setUnread(data.unread);
 					this.ne();
 				}), cb);
 			};
 
+			var messagesBuffer = [];
+			var delayMessageAdding = false;
+
 			function addMessageToList(m) {
-				//add to message list
-				messages.push(m);
-				dataMessages.push(m.data);
 				messagesByID[m.getID()] = m;
+
+				//add to message list
+				messagesBuffer.push(m);
+				
+				if (!delayMessageAdding) {
+					theTopic.runMessageAdding();
+				}
 			}
+
+			this.delayMessageAdding = function () {
+				delayMessageAdding = true;
+			};
+
+			this.runMessageAdding = function () {
+				delayMessageAdding = false;
+
+				messages.join(messagesBuffer);
+				dataMessages.join(messagesBuffer.map(function (e) {
+					return e.data;
+				}));
+
+				messagesBuffer = [];
+
+				theTopic.data.latestMessage = messages[messages.length - 1];
+			};
 
 			this.addMessage = function addMessageF(m, addUnread, cb) {
 				step(function () {
-					if (m.getTime() > data.newestTime) {
-						data.newestTime = m.getTime();
-					}
+					data.newestTime = Math.max(m.getTime(), data.newestTime);
 					topicArray.resort();
 
 					m.loadFullData(this);
 				}, h.sF(function () {
 					addMessageToList(m);
 
-					theTopic.data.latestMessage = messages[messages.length - 1];
 					if (addUnread) {
 						if (!theTopic.messageUnread(m.getID()) && !m.isOwn()) {
 							setUnread(unreadMessages.concat([m.getID()]));
@@ -303,22 +312,16 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer", "ass
 						}
 					}
 
+					theTopic.data.partnersDisplay = partners.slice(0, 2);
 					if (partners.length > 4) {
-						theTopic.data.partnersDisplay = partners.slice(0, 3);
-						theTopic.data.remainingUser = partners.length - 3;
-						for (i = 3; i < partners.length; i += 1) {
+						theTopic.data.remainingUser = partners.length - 2;
+						for (i = 2; i < partners.length; i += 1) {
 							theTopic.data.remainingUserTitle += partners[i].name;
 							if (i < partners.length - 1) {
 								theTopic.data.remainingUserTitle += ", ";
 							}
 						}
-					} else {
-						theTopic.data.partnersDisplay = partners.slice(0, 4);
-						if (theTopic.data.partnersDisplay.length < 4 && theTopic.data.partnersDisplay.length > 1) {
-							theTopic.data.partnersDisplay.push(me);
-						}
 					}
-
 					this.ne();
 				}), cb);
 			};
@@ -357,6 +360,7 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer", "ass
 						this.last.ne();
 					}
 				}, h.sF(function (data) {
+					theTopic.delayMessageAdding();
 					console.log("Message server took: " + (new Date().getTime() - loadMore));
 					theTopic.data.remaining = data.remaining;
 					if (data.messages) {
@@ -368,6 +372,7 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer", "ass
 
 					this.parallel()();
 				}), h.sF(function () {
+					theTopic.runMessageAdding();
 					console.log("Message loading took: " + (new Date().getTime() - loadMore));
 					this.ne();
 				}), cb);

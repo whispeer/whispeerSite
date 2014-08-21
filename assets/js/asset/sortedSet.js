@@ -5,8 +5,13 @@ define ([], function () {
 
     var sortedSet = function (sortFunction) {
         var arr = [];
-        arr.push = function (e) {
-            Array.prototype.push.call(this, e);
+        arr.push = function () {
+            Array.prototype.push.apply(this, arguments);
+            this.resort();
+        };
+
+        arr.join = function (elements) {
+            Array.prototype.push.apply(this, elements);
             this.resort();
         };
 

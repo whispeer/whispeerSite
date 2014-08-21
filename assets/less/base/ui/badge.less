@@ -1,9 +1,15 @@
 .badge {
+	.small-text();
+	text-align: center;
 	background-color: @red;
 	color: @white;
-	width: 18px;
-	height: 18px;
-	.border-radius(50%);
-	text-align: center;
+
 	display: inline-block;
+	position: absolute;
+	top:  24px;
+	left: 20px;
+	width:  @small-line-height;
+	height: @small-line-height;
+	.border-radius(50%);
 }
+

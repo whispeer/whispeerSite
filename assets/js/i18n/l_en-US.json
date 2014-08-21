@@ -4,7 +4,7 @@
 			"newmessage": "{data}: New Message",
 			"basic": "whispeer",
 			"terms": "Terms and conditions",
-			"data": "Data protection regulations",
+			"data": "Privacy policy",
 			"contact": "Contact",
 			"notice": "Site notice"
 		}
@@ -56,7 +56,7 @@
 	"general": {
 		"send":	"Send",
 		"cancel":	"Cancel",
-		"disconnected":	"You've lost your connection to whispeer's Servers"
+		"disconnected":	"You've lost your connection to the whispeer server"
 	},
 	"notification": {
 		"newmessage":	"New Message from {user}"
@@ -124,8 +124,8 @@
 			"errors": {
 				"nickInvalid": "Invalid username",
 				"nickUsed": "This username is already in use",
-				"mailInvalid": "Invalid Mail",
-				"mailUsed": "This Mail is already in use",
+				"mailInvalid": "Invalid mail",
+				"mailUsed": "This mail is already in use",
 				"passwordWeak": "Password to weak",
 				"passwordNoMatch": "Passwords do not match"
 			},
@@ -312,8 +312,8 @@
 				"answer":	"No. If you want to register, you can do this with a Username only. You can, though, give you E-Mail address. You can, of course, choose if you want to give your full name or maybe only a part. But you can encrypt your name, so that later, only your friends on whispeer can see your full name."
 			},
 			"password": {
-				"question": "How do I create a secure password??",
-				"answer":	"We created a 10-point system that helps you finding more secure passwords. You can read more about this on our Blog: http://blog.whispeer.de/de/2013/08/update-wie-whispeer-dir-hilft-ein-sicheres-passwort-zu-finden/ und http://blog.whispeer.de/de/2013/07/wie-whispeer-dir-hilft-ein-sicheres-passwort-zu-finden/ "
+				"question": "How do I create a secure password?",
+				"answer":	"We created a 10-point system that helps you find more secure passwords. You can read more about this on our Blog: http://blog.whispeer.de/de/2013/08/update-wie-whispeer-dir-hilft-ein-sicheres-passwort-zu-finden/ and http://blog.whispeer.de/de/2013/07/wie-whispeer-dir-hilft-ein-sicheres-passwort-zu-finden/ Both posts are written in German. An English version is following."
 			},
 			"profile": {
 				"question": "How can I edit my profile?",
@@ -373,7 +373,7 @@
 
 				"work": "Job",
 				"gender": "Gender",
-				"languages": "Languages",
+				"languages": "Language",
 				"names": {
 					"header": "Name",
 					"firstname": "First name",
@@ -385,10 +385,10 @@
 				"firstname":	"Who may see your first name?",
 				"lastname":		"Who may see your last name?",
 				"birthday":		"Who may see your date of birth?",
-				"location":		"Who may see which City you live in?",
-				"relationship":	"Who may see your relationsship status?",
+				"location":		"Who may see which city you live in?",
+				"relationship":	"Who may see your relationship status?",
 				"education":	"Who may see your level of education?",
-				"work":			"Who may see your Job?",
+				"work":			"Who may see your job?",
 				"gender":		"Who may see your gender?",
 				"languages":	"Who may see which languages you are speaking?"
 			}
@@ -411,6 +411,13 @@
 				},
 				"fingerprints": {
 					"title":	"Your Fingerprint"
+				},
+				"uiLanguage": {
+					"title":	"User Interface Language",
+					"langs": {
+						"de":		"German",
+						"en-US":	"English (US)"
+					}
 				}
 			},
 			"account":	"Account",

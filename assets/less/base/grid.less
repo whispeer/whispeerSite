@@ -29,6 +29,18 @@
 	margin: 0 (@margin/2) 0 (@margin/2);
 }
 
+.column-splat(@splat) when (length(@splat) = 2) {
+	.column( extract(@splat, 1), extract(@splat, 2));
+}
+
+.column-splat(@splat) when (length(@splat) = 3) {
+	.column( extract(@splat, 1), extract(@splat, 2), extract(@splat, 3));
+}
+
+.column-splat(@splat) when (length(@splat) = 4) {
+	.column( extract(@splat, 1), extract(@splat, 2), extract(@splat, 3), extract(@splat, 4));
+}
+
 .width(@x, @columns:@columns, @margin:@margin) {
 	@column-size: @total-width / @columns;
 	width: (@column-size*@x) - @margin !important;
@@ -36,10 +48,10 @@
 
 .push(@x: 1, @columns:@columns) {
 	@column-size: @total-width / @columns;
-	margin-left: (@column-size*@x) !important;
+	margin-left: ((@column-size*@x)+1) !important;
 }
 
 .pull(@x: 1, @columns:@columns) {
 	@column-size: @total-width / @columns;
-	margin-right: (@column-size*@x) !important;
+	margin-right: ((@column-size*@x)+1) !important;;
 }
