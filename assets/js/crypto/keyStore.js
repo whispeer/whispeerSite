@@ -16,7 +16,7 @@
 define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForReady", "cryptoWorker/sjclWorkerInclude", "asset/errors"], function (step, h, chelper, sjcl, waitForReady, sjclWorkerInclude, errors) {
 	"use strict";
 	
-	var socket, improvementListener = [], makeKey, keyStore;
+	var socket, firstVerify = true, improvementListener = [], makeKey, keyStore;
 	/** dirty and new keys to upload. */
 	var dirtyKeys = [], newKeys = [];
 
@@ -272,7 +272,6 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 		* searches your whole keyspace for a decryptor and decrypts if possible
 		*/
 		function decryptKeyF(callback) {
-			
 			step(function () {
 				decrypted.await(callback);
 				decrypted.start(this);
@@ -1011,7 +1010,7 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 		y = curve.field.fromBits(chelper.hex2bits(keyData.point.y));
 		point = new sjcl.ecc.point(curve, x, y);
 
-		publicKey = new sjcl.ecc.elGamal.publicKey(curve, point);
+		publicKey = new sjcl.ecc.ecdsa.publicKey(curve, point);
 
 		realid = keyData.realid;
 
@@ -1122,9 +1121,17 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 					this.last.ne(signatureCache.getSignatureStatus(signature, hash, realid));
 				} else {
 					console.info("slow verify");
-					sjclWorkerInclude.asym.verify(publicKey, signature, hash, this);
+					console.time("verify");
+
+					if (firstVerify) {
+						firstVerify = false;
+						this.ne(publicKey.verify(hash, signature));
+					} else {
+						sjclWorkerInclude.asym.verify(publicKey, signature, hash, this);
+					}
 				}
 			}), h.sF(function (valid) {
+				console.timeEnd("verify");
 				if (signatureCache.isLoaded()) {
 					signatureCache.addSignatureStatus(signature, hash, realid, valid);
 				}
@@ -1629,6 +1636,7 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 
 			password = "";
 			keysUsableForEncryption = [];
+			firstVerify = true;
 		},
 
 		setKeyGenIdentifier: function (identifier) {

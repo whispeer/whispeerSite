@@ -94,7 +94,7 @@ define(["step", "whispeerHelper", "crypto/encryptedData", "validation/validator"
 					securedData.sign(signKey, this);
 				}, h.sF(function (signedMeta) {
 					var result = {
-						content: securedData.contentGet(),
+						content: securedData.updatedContentGet(),
 						meta: signedMeta
 					};
 
