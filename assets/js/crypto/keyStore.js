@@ -662,7 +662,13 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 					ctext.iv = iv;
 				}
 
-				sjclWorkerInclude.sym.decrypt(intKey.getSecret(), sjcl.json.encode(ctext), this);
+				if (ctext.ct.length < 500) {
+					this.ne(sjcl.decrypt(intKey.getSecret(), sjcl.json.encode(ctext), {raw: 1}));
+				} else {
+					sjclWorkerInclude.sym.decrypt(intKey.getSecret(), sjcl.json.encode(ctext), this);
+				}
+			}), h.sF(function (result) {
+				this.ne(result);
 			}), callback);
 		}
 
