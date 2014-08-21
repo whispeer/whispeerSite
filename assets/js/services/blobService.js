@@ -9,6 +9,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 	var service = function (socketService, keyStore) {
 		var MyBlob = function (blobData, blobID, options) {
 			this._blobData = blobData;
+			options = options || {};
 
 			if (typeof blobData === "string") {
 				this._legacy = true;
@@ -43,6 +44,16 @@ define(["step", "whispeerHelper"], function (step, h) {
 
 		MyBlob.prototype.decrypt = function (key, cb) {
 			//TODO
+		};
+
+		MyBlob.prototype.getBinaryRepresentation = function (cb) {
+			var that = this;
+			step(function () {
+				that.getStringRepresentation(this);
+			}, h.sF(function (blobValue) {
+				var base64 = blobValue.split(",")[1];
+				this.ne(keyStore.format.base64ToBits(base64));
+			}), cb);
 		};
 
 		MyBlob.prototype.getStringRepresentation = function (cb) {
