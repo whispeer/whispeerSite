@@ -127,6 +127,11 @@ define(["step", "whispeerHelper", "asset/resizableImage", "asset/state"], functi
 					}
 				}, h.sF(function () {
 					var adv = $scope.user.advanced;
+
+					if (adv.gender.gender !== "o") {
+						adv.gender.text = "";
+					}
+
 					userObject.setAdvancedProfile(adv, this);
 				}), h.sF(function () {
 					userObject.uploadChangedProfile(this);

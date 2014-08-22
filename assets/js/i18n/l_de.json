@@ -283,7 +283,9 @@
 					"default":	"{gender}",
 					"m":	"männlich",
 					"f":	"weiblich",
-					"n":	"Keine Angabe"
+					"none":	"Keine Angabe",
+					"other":"Individuell",
+					"otherInput": "Dein Geschlecht"
 				},
 				"languages": {
 					"display":	"{language}",

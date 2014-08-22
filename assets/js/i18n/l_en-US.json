@@ -277,7 +277,9 @@
 					"default":	"{gender}",
 					"m":	"male",
 					"f":	"female",
-					"n":	"No gender selected"
+					"none":	"No gender selected",
+					"other":"Custom",
+					"otherInput": "Your Gender"
 				},
 				"languages": {
 					"display":	"{language}",
