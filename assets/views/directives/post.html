@@ -10,7 +10,7 @@
 				</div>
 			</div>
 			<div class="postText" data-syntaxify="post.content.text"></div>
-			<!--<div class="postImage" data-ng-if="post.content.image"><img data-ng-src="{{post.content.image}}"></div> -->
+			<div class="postImage" data-ng-if="post.images[0]"><img data-ng-src="{{post.images[0].url}}"></div>
 		</div>	
 		<div class="postInfo">
 			<p class="date"><i class="icon icon-clock"></i> {{post.time|smartdate}}</p>
