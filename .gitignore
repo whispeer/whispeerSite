@@ -10,3 +10,4 @@ assets/less/codekit-config.json
 assets/less/styleguide.md
 tmp/*
 node_modules/*
+assets/vendor
