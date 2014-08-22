@@ -13,7 +13,7 @@
 		"width": 999999,
 		"fullscreen": false
 	},
-	"depencencies": {
+	"dependencies": {
 		"font-awesome": "4.1.0",
 		"grunt": "~0.4.5",
 		"grunt-browser-sync": "~1.1.0",
