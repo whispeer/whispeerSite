@@ -2015,6 +2015,10 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 				step(function symEncrypt1() {
 					SymKey.get(realKeyID, this);
 				}, h.sF(function symEncrypt2(key) {
+					if (typeof bin === "string") {
+						bin = sjcl.codec.base64.toBits(bin);
+					}
+
 					key.encryptWithPrefix("bin::", bin, this);
 				}), h.sF(function (result) {
 					this.ne(sjcl.codec.base64.fromBits(sjcl.codec.hex.toBits(result.iv + result.ct)));
@@ -2034,7 +2038,7 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 
 					key.decrypt(decr, this);
 				}), h.sF(function (decryptedData) {
-					this.ne(removeExpectedPrefix(decryptedData, "bin::"));
+					this.ne(sjcl.codec.base64.fromBits(removeExpectedPrefix(decryptedData, "bin::")));
 				}), callback);
 			}
 		},
