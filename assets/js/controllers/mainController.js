@@ -2,7 +2,7 @@
 * mainController
 **/
 
-define(["step", "whispeerHelper", "asset/state"], function (step, h, State) {
+define(["step", "whispeerHelper", "asset/state", "asset/Image"], function (step, h, State, MyImage) {
 	"use strict";
 
 	function mainController($scope, cssService, postService, errorService) {
@@ -17,7 +17,19 @@ define(["step", "whispeerHelper", "asset/state"], function (step, h, State) {
 		$scope.filterActive = false;
 		$scope.newPost = {
 			text: "",
-			readers: ["always:allfriends"]
+			readers: ["always:allfriends"],
+			images: [],
+			removeImage: function (index) {
+				$scope.newPost.images.splice(index, 1);
+			},
+			addImages: MyImage.callBackForMultipleFiles(function (e, newImages) {
+				newImages.forEach(function (newImage) {
+					$scope.newPost.images.push({
+						name: newImage._name,
+						data: newImage
+					});
+				});
+			})
 		};
 
 		$scope.filterSelection = ["always:allfriends"];
@@ -51,11 +63,13 @@ define(["step", "whispeerHelper", "asset/state"], function (step, h, State) {
 				if ($scope.canSend) {
 					$scope.canSend = false;
 
-					postService.createPost($scope.newPost.text, $scope.newPost.readers, 0, this);
+					var images = $scope.newPost.images.map(function (i) { return i.data; });
+
+					postService.createPost($scope.newPost.text, $scope.newPost.readers, 0, this, images);
 
 					$scope.postActive = false;
 				}
-			}, h.sF(function (e) {
+			}, function (e) {
 				$scope.canSend = true;
 
 				if (!e) {
@@ -63,7 +77,7 @@ define(["step", "whispeerHelper", "asset/state"], function (step, h, State) {
 				}
 
 				this(e);
-			}), errorService.failOnError(sendPostState));
+			}, errorService.failOnError(sendPostState));
 		};
 		$scope.toggleFilter = function() {
 			$scope.filterActive = !$scope.filterActive;

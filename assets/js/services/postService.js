@@ -4,7 +4,7 @@
 define(["step", "whispeerHelper", "validation/validator", "asset/observer", "asset/errors", "asset/securedDataWithMetaData"], function (step, h, validator, Observer, errors, SecuredData) {
 	"use strict";
 
-	var service = function ($rootScope, socket, keyStore, userService, circleService) {
+	var service = function ($rootScope, socket, errorService, keyStore, userService, circleService, blobService) {
 		var postsById = {};
 		var postsByUserWall = {};
 		var TimelineByFilter = {};
@@ -19,6 +19,7 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer", "ass
 				info: {
 					"with": ""
 				},
+				images: [],
 				time: securedData.metaAttr("time"),
 				isWallPost: false,
 				comments: []
@@ -28,12 +29,62 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer", "ass
 				return id;
 			};
 
+			this.uploadImage = function (blob, index) {
+				step(function () {
+					blob.toURL(this);
+				}, h.sF(function (url) {
+					thePost.data.images[index].url = url;
+					thePost.data.images[index].encrypting = true;
+					thePost.data.images[index].loading = false;
+
+					blob.encrypt(this);
+				}), h.sF(function (key) {
+					keyStore.sym.symEncryptKey(key, securedData.metaAttr("_key"), this);
+				}), h.sF(function () {
+					thePost.data.images[index].uploading = true;
+					thePost.data.images[index].percentage = 0;
+
+					blob.upload(this);
+				}), h.sF(function () {
+					thePost.data.images[index].uploading = false;
+					thePost.data.images[index].percentage = 100;
+				}), errorService.criticalError);
+			};
+
+			this.loadImage = function (image, index) {
+				var blob;
+				step(function () {
+					blobService.getBlob(image.original.id, this, false);
+				}, h.sF(function (_blob) {
+					blob = _blob;
+					if (blob.isUploaded()) {
+						blob.decrypt(this);
+					} else {
+						thePost.uploadImage(blob, index);
+					}
+				}), h.sF(function () {
+					blob.toURL(this);
+				}), h.sF(function (url) {
+					thePost.data.images[index].loading = false;
+					thePost.data.images[index].url = url;
+				}), errorService.criticalError);
+			};
+
+			this.loadImages = function () {
+				securedData.metaAttr("images").forEach(function (image, index) {
+					this.data.images.push({
+						loading: true
+					});
+					this.loadImage(image, index);
+				}, this);
+			};
+
 			this.loadData = function (cb) {
 				step(function () {
 					this.parallel.unflatten();
 					thePost.getSender(this.parallel());
 					thePost.getWallUser(this.parallel());
-				}, h.sF(function (sender, walluser) {
+				}, h.sF(function (sender, walluser, images) {
 					var d = thePost.data;
 
 					if (walluser) {
@@ -52,6 +103,10 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer", "ass
 					d.content = {
 						text: text
 					};
+
+					window.setTimeout(function () {
+						thePost.loadImages();
+					});
 
 					this.ne();
 				}), cb);
@@ -214,7 +269,7 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer", "ass
 				for (i = 0; i < filter.length; i += 1) {
 					keys.push(circleService.get(filter[i]).getKey());
 				}
-				
+
 				this.ne(keys);
 			}), cb);
 		}
@@ -275,7 +330,7 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer", "ass
 							filterObject.result.unshift(e);
 						});
 					}
-				}));			
+				}));
 			}
 
 			window.setInterval(loadNewPosts, 5*60*1000);
@@ -365,7 +420,7 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer", "ass
 				postsByUserWall = {};
 				TimelineByFilter = {};
 			},
-			createPost: function (content, visibleSelection, wallUserID, cb) {
+			createPost: function (content, visibleSelection, wallUserID, cb, images) {
 				/*
 						meta: {
 							contentHash,
@@ -377,20 +432,97 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer", "ass
 						}
 						content //padded!
 				*/
-				var meta = {}, postKey;
+				var meta = {}, postKey, imageData;
+
+				function blobToDataSet(blob, cb) {
+					step(function () {
+						this.parallel.unflatten();
+						blob.preReserveID(this.parallel());
+						blob.getHash(this.parallel());
+					}, h.sF(function (id, hash) {
+						this.ne({
+							blob: blob,
+							meta: {
+								imageHash: hash,
+								id: id
+							}
+						});
+					}), cb);
+				}
+
+				function canvasToBlob(canvas, cb) {
+					canvas.toBlob(function (blob) {
+						cb(null, blob);
+					});
+				}
+
+				function imageToBlobs(image, cb) {
+					var MINSIZEDIFFERENCE = 1000, original, preview;
+					step(function () {
+						var original = image.downSize();
+						var preview = image.downSize(600);
+
+						this.parallel.unflatten();
+						canvasToBlob(original, this.parallel());
+						canvasToBlob(preview, this.parallel());
+					}, h.sF(function (_original, _preview) {
+						original = blobService.createBlob(_original);
+						preview = blobService.createBlob(_preview);
+
+						this.parallel.unflatten();
+						blobToDataSet(original, this.parallel());
+
+						if (preview.size < original.size - MINSIZEDIFFERENCE) {
+							blobToDataSet(preview, this.parallel());
+						}
+					}), h.sF(function (original, preview) {
+						var result = { original: original };
+						if (preview) {
+							result.preview = preview;
+						}
+
+						this.ne(result);
+					}), cb);
+				}
+
+				function createImageData(images, cb) {
+					step(function () {
+						images.forEach(function (image) {
+							imageToBlobs(image, this.parallel());
+						}, this);
+					}, h.sF(function (blobs) {
+						this.ne(h.joinArraysToObject({
+							image: images,
+							blob: blobs
+						}));
+					}), cb);
+				}
 
 				step(function () {
 					this.parallel.unflatten();
 
 					keyStore.sym.generateKey(this.parallel(), "post key");
 					filterToKeys(visibleSelection, this.parallel());
-				}, h.sF(function (key, keys) {
+					//hash images, hash downsized images, get image server ids
+					createImageData(images, this.parallel());
+				}, h.sF(function (key, keys, _imageData) {
+					imageData = _imageData;
 					postKey = key;
 
 					meta.time = new Date().getTime();
 					meta.sender = userService.getown().getID();
 					meta.walluser = wallUserID;
-	
+					meta.images = imageData.map(function (image) {
+						var meta = {original: image.blob.original.meta};
+						if (image.blob.preview) {
+							meta.preview = image.blob.preview.meta;
+						}
+						return meta;
+					});
+
+
+					//create post
+					//upload images after that!
 					this.parallel.unflatten();
 					SecuredData.create(content, meta, { type: "post" }, userService.getown().getSignKey(), postKey, this.parallel());
 					keys.forEach(function (key) {
@@ -423,9 +555,9 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer", "ass
 
 					newPost.loadData(this);
 				}), cb);
-				
+
 				//hash content
-				
+
 				//getUser: walluser
 				//visibleSelection to keys
 				//encryptKey with visibleSelectionKeys
@@ -441,7 +573,7 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer", "ass
 		return postService;
 	};
 
-	service.$inject = ["$rootScope", "ssn.socketService", "ssn.keyStoreService", "ssn.userService", "ssn.circleService"];
+	service.$inject = ["$rootScope", "ssn.socketService", "ssn.errorService", "ssn.keyStoreService", "ssn.userService", "ssn.circleService", "ssn.blobService"];
 
 	return service;
 });
