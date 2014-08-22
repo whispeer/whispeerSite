@@ -7,8 +7,10 @@
 			<a href='{{post.sender.basic.url}}'>{{post.sender.name}}</a>
 		</strong>
 		<span data-ng-if="post.walluser">
-			<span class="arrow arrow-right"></span>
-			<a href='{{post.walluser.basic.url}}'>{{post.walluser.name}}</a>
+			<i class="fa fa-caret-right"></i>
+			<strong>
+				<a href='{{post.walluser.basic.url}}'>{{post.walluser.name}}</a>
+			</strong>
 		</span>
 	</aside>
 	<p class="content" data-syntaxify="post.content.text"></p>
