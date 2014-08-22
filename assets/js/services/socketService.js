@@ -96,6 +96,9 @@ define(["jquery", "socket", "socketStream", "step", "whispeerHelper", "config"],
 						});
 					}
 
+					loading--;
+					lastRequestTime = data.serverTime;
+
 					if (data.error) {
 						console.error(data);
 						throw new Error("server returned an error!");
@@ -104,9 +107,6 @@ define(["jquery", "socket", "socketStream", "step", "whispeerHelper", "config"],
 					}
 
 					console.groupEnd();
-
-					loading--;
-					lastRequestTime = data.serverTime;
 
 					var that = this;
 					$rootScope.$apply(function () {
