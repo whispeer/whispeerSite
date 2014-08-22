@@ -22,28 +22,31 @@ define(["step", "whispeerHelper"], function (step, h) {
 				this._uploaded = false;
 			}
 
-			this._decrypted = options.decrypted || !this._uploaded || false;
+			this._decrypted = !options.key;
+			this._key = options.key;
+		};
+
+		MyBlob.prototype.isUploaded = function () {
+			return this._uploaded;
 		};
 
 		MyBlob.prototype.encrypt = function (cb) {
-			var that = this, key;
+			var that = this;
 			step(function () {
 				if (that._uploaded || !that._decrypted) {
 					throw new Error("trying to encrypt an already encrypted or public blob. add a key decryptor if you want to give users access");
 				}
 
-				window.setTimeout(this, 5000);
-			}, h.sF(function () {
-
 				this.parallel.unflatten();
 				keyStore.sym.generateKey(this.parallel(), "blob key");
 				that.getBase64Representation(this.parallel());
-			}), h.sF(function (_key, base64Blob) {
-				key = _key;
+			}, h.sF(function (_key, base64Blob) {
+				that._key = _key;
 
 				console.time("blobencrypt");
-				keyStore.sym.encryptBigBase64(base64Blob, key, this);
+				keyStore.sym.encryptBigBase64(base64Blob, that._key, this);
 			}), h.sF(function (encryptedData) {
+				console.timeEnd("blobencrypt");
 				that._decrypted = false;
 
 				encryptedData = "data:" + that._blobData.type + ";base64," + encryptedData;
@@ -53,21 +56,22 @@ define(["step", "whispeerHelper"], function (step, h) {
 				} else {
 					that._blobData = h.dataURItoBlob(encryptedData);
 				}
-				this.ne(key);
+
+				this.ne(that._key);
 			}), cb);
 		};
 
-		MyBlob.prototype.decrypt = function (key, cb) {
+		MyBlob.prototype.decrypt = function (cb) {
 			var that = this;
 			step(function () {
 				if (that._decrypted) {
 					this.last.ne();
 				}
 
-				that.getBase64Representation(this.parallel());
+				that.getBase64Representation(this);
 			}, h.sF(function (encryptedData) {
 				console.time("blobdecrypt");
-				keyStore.sym.decryptBigBase64(encryptedData, key, this);
+				keyStore.sym.decryptBigBase64(encryptedData, that._key, this);
 			}), h.sF(function (decryptedData) {
 				console.timeEnd("blobdecrypt");
 
@@ -136,10 +140,13 @@ define(["step", "whispeerHelper"], function (step, h) {
 			step(function () {
 				if (that._preReserved) {
 					socketService.emit("blob.fullyReserveID", {
-						blobid: that._preReserved
+						blobid: that._preReserved,
+						key: keyStore.upload.getKey(that._key)
 					}, this);
 				} else {
-					socketService.emit("blob.reserveBlobID", {}, this);
+					socketService.emit("blob.reserveBlobID", {
+						key: keyStore.upload.getKey(that._key)
+					}, this);
 				}
 			}, h.sF(function (data) {
 				if (data.blobid) {
@@ -159,6 +166,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 			}, h.sF(function (data) {
 				if (data.blobid) {
 					that._preReserved = data.blobid;
+					knownBlobs[that._preReserved] = that;
 					this.ne(data.blobid);
 				} else {
 					throw new Error("got no blobid");
@@ -198,7 +206,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 
 		var blobListener = {};
 
-		function loadBlob(blobID, isPublic) {
+		function loadBlob(blobID) {
 			if (socketService.getLoadingCount() !== 0) {
 				window.setTimeout(function () {
 					loadBlob(blobID);
@@ -214,9 +222,9 @@ define(["step", "whispeerHelper"], function (step, h) {
 				var dataString = "data:image/png;base64," + data.blob;
 				var blob = h.dataURItoBlob(dataString);
 				if (blob) {
-					knownBlobs[blobID] = new MyBlob(blob, blobID, { decrypted: isPublic });
+					knownBlobs[blobID] = new MyBlob(blob, blobID, { key: data.key });
 				} else {
-					knownBlobs[blobID] = new MyBlob(dataString, blobID, { decrypted: isPublic });
+					knownBlobs[blobID] = new MyBlob(dataString, blobID, { key: data.key });
 				}
 
 				this.ne(knownBlobs[blobID]);
@@ -227,7 +235,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 			createBlob: function (blob) {
 				return new MyBlob(blob);
 			},
-			getBlob: function (blobID, cb, isPublic) {
+			getBlob: function (blobID, cb) {
 				step(function () {
 					if (knownBlobs[blobID]) {
 						this.ne(knownBlobs[blobID]);
@@ -235,7 +243,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 						blobListener[blobID].push(this);
 					} else {
 						blobListener[blobID] = [this];
-						loadBlob(blobID, isPublic);
+						loadBlob(blobID);
 					}
 				}, cb);
 			}
