@@ -191,7 +191,10 @@
 		}
 	},
 	"profile": {
-		"edit":	"Edit profile",
+		"edit": {
+			"false":	"Edit profile",
+			"true":		"Finish"
+		},
 		"head":	{
 			"info":	"Info",
 			"wall":	"Wall",
@@ -226,14 +229,14 @@
 					"info": "Birthday"
 				},
 				"location": {
-					"": "Lives in {town}, {state}, {country}",
+					"": "Lives in {town}, {country}",
 					"country": "Lives in {country}",
-					"state": "Lives in {state}",
-					"countrystate": "Lives in {state}, {country}",
 					"town": "Lives in {town}",
 					"countrytown": "Lives in {town}, {country}",
-					"statetown": "Lives in {town}, {state}",
-					"countrystatetown": "Lives in {town}, {state}, {country}"
+					"placeholders": {
+						"city":		"City",
+						"country":	"Country"
+					}
 				},
 				"relation":	{
 					"": "",
@@ -245,7 +248,7 @@
 
 					"default": "{relationType} with {partner}",
 					"noPartner": "{relationType}",
-
+					"placeholder":	"Partner",
 					"status": {
 						"": "",
 						"single":	"single",
@@ -259,11 +262,18 @@
 						"inlove":	"in love"
 					}
 				},
-				"education":	"Education: {school}",
+				"education": {
+					"display":	"Education: {school}",
+					"edit":		"School / University"
+				},
 				"work":	{
 					"whatwhere": "working as {what} at {where}",
 					"what": "working as {what}",
-					"where": "working at {where}"
+					"where": "working at {where}",
+					"placeholders": {
+						"what":		"Job",
+						"where":	"Company"
+					}
 				},
 				"gender":	{
 					"": "",
@@ -271,9 +281,14 @@
 					"default":	"{gender}",
 					"m":	"male",
 					"f":	"female",
-					"n":	"No gender selected"
+					"none":	"No gender selected",
+					"other":"Custom",
+					"otherInput": "Your Gender"
 				},
-				"languages":	"{language}"
+				"languages": {
+					"display":	"{language}",
+					"edit":		"Language"
+				}
 			},
 			"wall": {
 				"title":	"Wall"
@@ -361,7 +376,7 @@
 				"birthday": "Birthday",
 				"relationship": "Relationship status",
 				"education": "Education",
-				
+
 				"work": "Job",
 				"gender": "Gender",
 				"languages": "Language",
@@ -398,7 +413,7 @@
 				"notificationSounds": {
 					"title":		"Notification sounds",
 					"on":			"On",
-					"off":			"Off"	
+					"off":			"Off"
 				},
 				"fingerprints": {
 					"title":	"Your Fingerprint"

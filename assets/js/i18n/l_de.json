@@ -103,7 +103,7 @@
 			"minutesAgo":	"vor {minutes} Minuten",
 			"oneHourAgo":	"vor einer Stunde und {minutes} Minuten",
 			"hoursAgo":		"vor {hours} Stunden und {minutes} Minuten"
-		}	
+		}
 	},
 	"notimplemented": "Noch nicht implementiert :(",
 	"search": "Personen werden gesucht",
@@ -197,7 +197,10 @@
 		}
 	},
 	"profile": {
-		"edit":	"Bearbeiten",
+		"edit":	{
+			"false":	"Profil bearbeiten",
+			"true":		"Fertigstellen"
+		},
 		"head":	{
 			"info":	"Info",
 			"wall":	"Pinnwand",
@@ -232,14 +235,14 @@
 					"info": "Geburtstag"
 				},
 				"location": {
-					"": "Wohnt in {town}, {state}, {country}",
+					"": "Wohnt in {town}, {country}",
 					"country": "Wohnt in {country}",
-					"state": "Wohnt in {state}",
-					"countrystate": "Wohnt in {state}, {country}",
 					"town": "Wohnt in {town}",
 					"countrytown": "Wohnt in {town}, {country}",
-					"statetown": "Wohnt in {town}, {state}",
-					"countrystatetown": "Wohnt in {town}, {state}, {country}"
+					"placeholders": {
+						"city":		"Stadt",
+						"country":	"Land"
+					}
 				},
 				"relation":	{
 					"": "",
@@ -251,7 +254,7 @@
 
 					"default": "{relationType} mit {partner}",
 					"noPartner": "{relationType}",
-
+					"placeholder":	"Partner",
 					"status": {
 						"": "",
 						"single":	"single",
@@ -265,11 +268,18 @@
 						"inlove":	"verliebt"
 					}
 				},
-				"education":	"schulische Ausbildung: {school}",
+				"education": {
+					"display":	"schulische Ausbildung: {school}",
+					"edit":		"Schule / Uni"
+				},
 				"work":	{
 					"whatwhere": "arbeitet als {what} bei {where}",
 					"what": "arbeitet als {what}",
-					"where": "arbeitet bei {where}"
+					"where": "arbeitet bei {where}",
+					"placeholders":	{
+						"what":	"Beruf",
+						"where":	"Arbeitgeber"
+					}
 				},
 				"gender":	{
 					"": "",
@@ -277,9 +287,14 @@
 					"default":	"{gender}",
 					"m":	"männlich",
 					"f":	"weiblich",
-					"n":	"Keine Angabe"
+					"none":	"Keine Angabe",
+					"other":"Individuell",
+					"otherInput": "Dein Geschlecht"
 				},
-				"languages":	"{language}"
+				"languages": {
+					"display":	"{language}",
+					"edit":		"Sprache"
+				}
 			},
 			"wall": {
 				"title":	"Pinnwand",
@@ -404,7 +419,7 @@
 				"notificationSounds": {
 					"title":		"Benachrichtigungstöne",
 					"on":			"An",
-					"off":			"Aus"	
+					"off":			"Aus"
 				},
 				"fingerprints": {
 					"title":	"Dein Fingerprint"
@@ -416,7 +431,7 @@
 						"en-US":	"Englisch (US)"
 					}
 				}
-			},	
+			},
 			"account":	"Benutzerkonto",
 			"changeName": "Namen ändern",
 			"changeUsername": "Usernamen ändern",
