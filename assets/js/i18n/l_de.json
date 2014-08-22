@@ -22,13 +22,17 @@
 			"searchFriends": "Gib die Namen deiner Freunde ein, die du zum Kreis hinzufügen möchtest!",
 			"titleForNew": "Gib einen Titel für den neuen Kreis ein!",
 			"header": {
-				"title":	"Kreise anzeigen",
+				"title": {
+					"loaded": "Kreis anzeigen:",
+					"create": "Neuen Kreis erstellen"
+				},	
 				"createGroup": "Als Gruppe kopieren",
 				"sendMessage": "Nachricht an Kreis",
 				"edit":	"Kreis bearbeiten",
 				"save":	"Kreis speichern",
 				"remove":	"Kreis löschen"
 			},
+			"removeCircle":	"Möchtest du diesen Kreis wirklich entfernen?",
 			"newCircle":	"Neuen Kreis anlegen",
 			"new": "Neuer Kreis",
 			"createCircle": "Kreis erstellen",

@@ -35,6 +35,23 @@ define(["step", "whispeerHelper", "asset/observer"], function (step, h, Observer
 				return key;
 			};
 
+			this.remove = function (cb) {
+				step(function () {
+					socket.emit("circles.removeCircle", {
+						remove: {
+							circleid: id
+						}
+					}, this);
+				}, h.sF(function () {
+					var circle = circles[id];
+					delete circles[id];
+					h.removeArray(circleArray, circle);
+					h.removeArray(circleData, circle.data);
+
+					this.ne();
+				}), cb);
+			};
+
 			this.removePersons = function (uids, cb) {
 				var newUser, userIDs, newKey;
 				step(function () {
@@ -247,9 +264,6 @@ define(["step", "whispeerHelper", "asset/observer"], function (step, h, Observer
 				}
 
 				return result;
-			},
-			remove: function (id, cb) {
-				//TODO
 			},
 			create: function (name, cb, users) {
 				var key, theCircle, userIDs;
