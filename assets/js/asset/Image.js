@@ -41,6 +41,36 @@ define([], function () {
 		};
 	};
 
+	MyImage.prototype.downSizeImage = function (maxSize) {
+		if (this._image) {
+			var canvas = document.createElement("canvas");
+			var canvasContext = canvas.getContext("2d"), size;
+
+			if (this._image.width < maxSize && this._image.height < maxSize) {
+				canvas.width = this._image.width;
+				canvas.height = this._image.height;
+
+				size = {
+					width: this._image.width,
+					height: this._image.height
+				};
+			} else {
+				var paintRatio = Math.min(maxSize / this._image.width, maxSize / this._image.height);
+				size = {
+					width: paintRatio * this._image.width,
+					height: paintRatio * this._image.height
+				};
+			}
+
+			canvas.width = size.width;
+			canvas.height = size.height;
+
+			canvasContext.drawImage(this._image, 0, 0, this._image.width, this._image.height, 0, 0, size.width, size.height);
+
+			return canvas;
+		}
+	};
+
 	MyImage.prototype.paintImageOnCanvas = function paintImageOnCanvas(canvas, canvaswidth, canvasheight) {
 		if (this._image) {
 			var canvasContext = canvas.getContext("2d"), offset;
