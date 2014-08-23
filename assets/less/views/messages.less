@@ -121,6 +121,9 @@
 			overflow-x: hidden;
 			box-sizing: border-box;
 			border-bottom: @header-height solid transparent;
+			
+			// nice scrolling for iOS.
+			-webkit-overflow-scrolling: touch;
 
 		}
 
@@ -257,6 +260,9 @@
 			left: 0;
 			margin: 0;
 			padding: 0;
+			
+			// nice scrolling for iOS.
+			-webkit-overflow-scrolling: touch;
 
 			.burst {
 				float: left;
