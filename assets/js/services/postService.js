@@ -35,6 +35,7 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer", "ass
 					blob.toURL(this);
 				}, h.sF(function (url) {
 					thePost.data.images[index].url = url;
+					thePost.data.images[index].meta = blob.getMeta();
 					thePost.data.images[index].encrypting = true;
 					thePost.data.images[index].loading = false;
 
