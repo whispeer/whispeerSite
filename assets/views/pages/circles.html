@@ -1,27 +1,35 @@
 <div data-ng-if="!mobile || true" class="maxHeight">
 	<header>
-		<span class="title" role="title"><span data-i18n="views.circles.header.title"></span>&nbsp;<span data-ng-if="circleLoaded && showCircle">anzeigen: {{thisCircle.name}}</span></span>
-		<button data-ng-if="mobile && showCircle" data-ng-click="unloadCircle()"><i class="icon icon-menu"></i></button>
+		<button data-ng-if="!mobile || !showCircle" class="left" id="newcircle" data-ng-click="unloadCircle()">
+			<i class="icon-plus-circle" id="plusBtn"></i><span data-i18n="views.circles.newCircle"></span>
+		</button>
+		<span class="title" role="title" data-ng-if="showCircle" data-ng-class="{circleLoaded: circleLoaded}">
+			<span data-ng-if="circleLoaded">
+				<span data-i18n="views.circles.header.title.loaded"></span>
+				<span data-ng-if="circleLoaded && showCircle">{{thisCircle.name}}</span>
+			</span>
+			<span data-ng-if="!circleLoaded">
+				<span data-i18n="views.circles.header.title.create"></span>
+			</span>	
+		</span>
+		<button id="backToMenu" data-ng-if="mobile && showCircle" data-ng-click="unloadCircleMobile()"><i class="icon icon-menu"></i></button>
+		<button id="removeCircle" data-ng-if="circleLoaded" data-ng-click="removeCircle()"><i class="icon icon-trash"></i></button>
 	</header>
 
 	<div id="circleListWrap" data-ng-if="!mobile || !showCircle">
 		<ul id="circleList">
-			<li class="circle" id="newcircle" data-ng-click="unloadCircle()">
-				<div class="btn btn--small">
-					<div class="left"><i class="icon-plus-circle" id="plusBtn"></i></div>
-					<div class="right" data-i18n="views.circles.newCircle"></div>
-				</div>
-			</li>
 			<div id="circleListScroll">
 				<li data-ng-repeat="circle in circles" id="{{circle.id}}" class="circle" data-ng-click="loadActiveCircle(circle.id)">
-					<div class="left">
+					<div class="image">
 						<img class="userimg" data-ng-src="{{circle.image}}" alt="Userimage">
 					</div>
-					<div class="listname">
-						<strong>{{circle.name}}</strong>
-					</div>
-					<div class="personCount" data-i18n="views.circles.personCount|count={{circle.userids.length}}">
-					</div>
+					<div class="info">
+						<div class="listname">
+							<strong>{{circle.name}}</strong>
+						</div>
+						<div class="personCount" data-i18n="views.circles.personCount|count={{circle.userids.length}}">
+						</div>
+					</div>	
 					<div class="clear-fix"></div>
 				</li>
 			</div>
@@ -29,15 +37,6 @@
 	</div>
 
 	<div id="circleContainer" data-circleID="{{thisCircle.id}}" data-ng-if="circleLoaded && showCircle">
-		<div id="circleTitle">
-			<h2 data-ng-if="!editingTitle.active"><span data-i18n="views.circles.personsInCircle|name={{thisCircle.name}}" title="{{thisCircle.name}}"></span></h2>
-			<!-- <button data-ng-if="!editingTitle.active" data-ng-click="editTitle()" class="btn editTitleButton"><i class="icon icon-pencil"></i></button> 
-			<div class="editTitle" data-ng-if="editingTitle.active">
-				<h2>Kreistitel:</h2>
-				<input data-ng-model="thisCircle.name">
-				<savebutton data-ng-click="saveTitle()" data-success="editingTitle.success" data-failure="editingTitle.failure" data-operation="editingTitle.operation"></savebutton>
-			</div> --->
-		</div>
 		<div id="circleWrap">
 			<ol id="friendsList" class="unstyled">
 				<li data-ng-repeat="friend in thisCircle.persons">
@@ -48,9 +47,6 @@
 	</div>
 
 	<div id="circleContainer" class="newCircle" data-ng-if="!circleLoaded && showCircle">
-		<div id="circleTitle">
-			<h2 data-i18n="views.circles.new"></h2>
-		</div>
 		<div id="circleWrap">	
 			<form id="inputWrap">
 				<input type="text" data-i18n-attr="views.circles.titleForNew|placeholder" id="titleInput" data-ng-model="circleName">
