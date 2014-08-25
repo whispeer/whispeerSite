@@ -19,6 +19,7 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer", "ass
 				info: {
 					"with": ""
 				},
+				/* list of images with attributes: loaded, encrypting, decrypting, uploading, percent, url */
 				images: [],
 				time: securedData.metaAttr("time"),
 				isWallPost: false,
@@ -457,10 +458,20 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer", "ass
 				}
 
 				function imageToBlobs(image, cb) {
-					var MINSIZEDIFFERENCE = 1000, original, preview;
+					var MINSIZEDIFFERENCE = 1000, original, preview, originalMeta, previewMeta;
 					step(function () {
 						var original = image.downSize();
 						var preview = image.downSize(600);
+
+						originalMeta = {
+							width: original.width,
+							height: original.height
+						};
+
+						previewMeta = {
+							width: preview.width,
+							height: preview.height
+						};
 
 						this.parallel.unflatten();
 						canvasToBlob(original, this.parallel());
@@ -469,10 +480,13 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer", "ass
 						original = blobService.createBlob(_original);
 						preview = blobService.createBlob(_preview);
 
+						original.setMeta(originalMeta);
+						preview.setMeta(previewMeta);
+
 						this.parallel.unflatten();
 						blobToDataSet(original, this.parallel());
 
-						if (preview.size < original.size - MINSIZEDIFFERENCE) {
+						if (preview.getSize() < original.getSize() - MINSIZEDIFFERENCE) {
 							blobToDataSet(preview, this.parallel());
 						}
 					}), h.sF(function (original, preview) {

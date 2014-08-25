@@ -22,12 +22,27 @@ define(["step", "whispeerHelper"], function (step, h) {
 				this._uploaded = false;
 			}
 
-			this._decrypted = !options.key;
-			this._key = options.key;
+			this._meta = options.meta || {};
+			this._key = this._meta._key;
+			this._decrypted = !this._key;
 		};
 
 		MyBlob.prototype.isUploaded = function () {
 			return this._uploaded;
+		};
+
+		MyBlob.prototype.setMeta = function (meta) {
+			if (!this.isUploaded()) {
+				this._meta = meta;
+			}
+		};
+
+		MyBlob.prototype.getSize = function () {
+			return this._blobData.size;
+		};
+
+		MyBlob.prototype.getMeta = function () {
+			return this._meta;
 		};
 
 		MyBlob.prototype.encrypt = function (cb) {
@@ -138,14 +153,18 @@ define(["step", "whispeerHelper"], function (step, h) {
 		MyBlob.prototype.reserveID = function (cb) {
 			var that = this;
 			step(function () {
+				var meta = that._meta;
+				meta._key = keyStore.upload.getKey(that._key);
+
 				if (that._preReserved) {
 					socketService.emit("blob.fullyReserveID", {
 						blobid: that._preReserved,
-						key: keyStore.upload.getKey(that._key)
+						meta: meta
 					}, this);
 				} else {
 					socketService.emit("blob.reserveBlobID", {
-						key: keyStore.upload.getKey(that._key)
+						key: keyStore.upload.getKey(that._key),
+						meta: meta
 					}, this);
 				}
 			}, h.sF(function (data) {
@@ -222,9 +241,9 @@ define(["step", "whispeerHelper"], function (step, h) {
 				var dataString = "data:image/png;base64," + data.blob;
 				var blob = h.dataURItoBlob(dataString);
 				if (blob) {
-					knownBlobs[blobID] = new MyBlob(blob, blobID, { key: data.key });
+					knownBlobs[blobID] = new MyBlob(blob, blobID, { meta: data.meta });
 				} else {
-					knownBlobs[blobID] = new MyBlob(dataString, blobID, { key: data.key });
+					knownBlobs[blobID] = new MyBlob(dataString, blobID, { meta: data.meta });
 				}
 
 				this.ne(knownBlobs[blobID]);
