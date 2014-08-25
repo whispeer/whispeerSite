@@ -1,7 +1,7 @@
 /**
 * SocketService
 **/
-define(["jquery", "socket", "socketStream", "step", "whispeerHelper", "config"], function ($, io, iostream, step, h, config) {
+define(["jquery", "socket", "socketStream", "step", "whispeerHelper", "config", "asset/observer"], function ($, io, iostream, step, h, config, Observer) {
 	"use strict";
 
 	var socket;
@@ -33,15 +33,35 @@ define(["jquery", "socket", "socketStream", "step", "whispeerHelper", "config"],
 		}, 10000);
 
 		var loading = 0;
+		var upload = {
+			fullSize: 0,
+			uploaded: 0,
+			blobid: ""
+		};
+		var uploading = false;
+
+		var internalObserver = new Observer();
 
 		var socketS = {
+			uploadObserver: internalObserver,
 			isConnected: function () {
 				return socket.socket.connected;
 			},
+			getUploadStatus: function () {
+				return upload;
+			},
 			uploadBlob: function (blob, blobid, cb) {
 				step(function () {
+					if (uploading) {
+						internalObserver.listenOnce("uploadFinished", function () {
+							socketS.uploadBlob(blob, blobid, cb);
+						});
+						return;
+					}
+
 					socketS.emit("blob.upgradeStream", {}, this);
 				}, h.sF(function () {
+					internalObserver.notify(blobid, "uploadStart:" + blobid);
 					var stream = iostream.createStream();
 					iostream(socket).emit("pushBlob", stream, {
 						blobid: blobid
@@ -49,9 +69,28 @@ define(["jquery", "socket", "socketStream", "step", "whispeerHelper", "config"],
 
 					var blobStream = iostream.createBlobReadStream(blob);
 
+					upload = {
+						fullSize: blob.size,
+						uploaded: 0,
+						blobid: blobid,
+					};
+					uploading = true;
+
+					blobStream.on("data", function(chunk) {
+						$rootScope.$apply(function () {
+							upload.uploaded += chunk.length;
+							internalObserver.notify(blobid, "uploadProgress");
+							internalObserver.notify(blobid, "uploadProgress:" + blobid);
+						});
+					});
+
 					blobStream.on("end", this);
 
 					blobStream.pipe(stream);
+				}), h.sF(function () {
+					uploading = false;
+					internalObserver.notify(blobid, "uploadFinished:" + blobid);
+					this.ne();
 				}), cb);
 			},
 			on: function () {

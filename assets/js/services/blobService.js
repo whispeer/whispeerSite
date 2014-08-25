@@ -25,6 +25,13 @@ define(["step", "whispeerHelper"], function (step, h) {
 			this._meta = options.meta || {};
 			this._key = this._meta._key;
 			this._decrypted = !this._key;
+
+			this._uploadStatus = {
+				uploaded: this._uploaded,
+				uploading: false,
+				percentage: 0,
+				encrypting: false
+			};
 		};
 
 		MyBlob.prototype.isUploaded = function () {
@@ -43,6 +50,20 @@ define(["step", "whispeerHelper"], function (step, h) {
 
 		MyBlob.prototype.getMeta = function () {
 			return this._meta;
+		};
+
+		MyBlob.prototype.encryptAndUpload = function (key, cb) {
+			var that = this, blobKey;
+			step(function () {
+				that.encrypt(this);
+			}, h.sF(function (_blobKey) {
+				blobKey = _blobKey;
+				keyStore.sym.symEncryptKey(blobKey, key, this);
+			}), h.sF(function () {
+				that.upload(this);
+			}), h.sF(function () {
+				this.ne(blobKey);
+			}), cb);
 		};
 
 		MyBlob.prototype.encrypt = function (cb) {
@@ -85,10 +106,10 @@ define(["step", "whispeerHelper"], function (step, h) {
 
 				that.getBase64Representation(this);
 			}, h.sF(function (encryptedData) {
-				console.time("blobdecrypt");
+				console.time("blobdecrypt" + that._blobID);
 				keyStore.sym.decryptBigBase64(encryptedData, that._key, this);
 			}), h.sF(function (decryptedData) {
-				console.timeEnd("blobdecrypt");
+				console.timeEnd("blobdecrypt" + that._blobID);
 
 				that._decrypted = true;
 
@@ -129,6 +150,40 @@ define(["step", "whispeerHelper"], function (step, h) {
 			}
 		};
 
+		MyBlob.prototype.getUploadStatus = function () {
+			return this._uploadStatus;
+		};
+
+		MyBlob.prototype._registerListener = function (blobid) {
+			var that = this;
+			socketService.uploadObserver.listen(function () {
+				that._uploadStarted();
+			}, "uploadStart:" + blobid);
+
+			socketService.uploadObserver.listen(function () {
+				that._uploadProgress();
+			}, "uploadProgress:" + blobid);
+
+			socketService.uploadObserver.listen(function () {
+				that._uploadFinished();
+			}, "uploadFinished:" + blobid);
+		};
+
+		MyBlob.prototype._uploadStarted = function () {
+			this._uploadStatus.uploading = true;
+		};
+
+		MyBlob.prototype._uploadProgress = function () {
+			var u = socketService.getUploadStatus();
+			this._uploadStatus.percentage = u.uploaded / u.fullSize;
+		};
+
+		MyBlob.prototype._uploadFinished = function () {
+			this._uploadStatus.percentage = 1;
+			this._uploadStatus.uploading = false;
+			this._uploadStatus.uploaded = true;
+		};
+
 		MyBlob.prototype.upload = function (cb) {
 			var that = this;
 			step(function () {
@@ -138,6 +193,8 @@ define(["step", "whispeerHelper"], function (step, h) {
 					that.reserveID(this);
 				}
 			}, h.sF(function (blobid) {
+				that._registerListener(blobid);
+
 				socketService.uploadBlob(that._blobData, blobid, this);
 			}), h.sF(function () {
 				that._uploaded = true;
@@ -154,7 +211,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 			var that = this;
 			step(function () {
 				var meta = that._meta;
-				meta._key = keyStore.upload.getKey(that._key);
+				meta._key = that._key;
 
 				if (that._preReserved) {
 					socketService.emit("blob.fullyReserveID", {
@@ -163,7 +220,6 @@ define(["step", "whispeerHelper"], function (step, h) {
 					}, this);
 				} else {
 					socketService.emit("blob.reserveBlobID", {
-						key: keyStore.upload.getKey(that._key),
 						meta: meta
 					}, this);
 				}
@@ -250,7 +306,69 @@ define(["step", "whispeerHelper"], function (step, h) {
 			}), step.multiplex(blobListener[blobID]));
 		}
 
+
+		function blobToDataSet(blob, cb) {
+			step(function () {
+				this.parallel.unflatten();
+				blob.preReserveID(this.parallel());
+				blob.getHash(this.parallel());
+			}, h.sF(function (id, hash) {
+				this.ne({
+					blob: blob,
+					meta: {
+						imageHash: hash,
+						id: id
+					}
+				});
+			}), cb);
+		}
+
 		var api = {
+			prepareImage: function (image, cb) {
+				var MINSIZEDIFFERENCE = 1000;
+				var original, preview;
+				var originalSize, previewSize;
+				step(function () {
+					var original = image.downSize();
+					var preview = image.downSize(600);
+
+					originalSize = {
+						width: original.width,
+						height: original.height
+					};
+
+					previewSize = {
+						width: preview.width,
+						height: preview.height
+					};
+
+					this.parallel.unflatten();
+					h.canvasToBlob(original, this.parallel());
+					h.canvasToBlob(preview, this.parallel());
+				}, h.sF(function (_original, _preview) {
+					original = api.createBlob(_original);
+					preview = api.createBlob(_preview);
+
+					this.parallel.unflatten();
+					blobToDataSet(original, this.parallel());
+
+					if (preview.getSize() < original.getSize() - MINSIZEDIFFERENCE) {
+						blobToDataSet(preview, this.parallel());
+					}
+				}), h.sF(function (original, preview) {
+					original.meta.width = originalSize.width;
+					original.meta.height = originalSize.height;
+					preview.meta.width = previewSize.width;
+					preview.meta.height = previewSize.height;
+
+					var result = { original: original };
+					if (preview) {
+						result.preview = preview;
+					}
+
+					this.ne(result);
+				}), cb);
+			},
 			createBlob: function (blob) {
 				return new MyBlob(blob);
 			},

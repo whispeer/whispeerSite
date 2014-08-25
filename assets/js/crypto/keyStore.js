@@ -1301,7 +1301,7 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 		} else if (allowedTypes.indexOf(type) > -1) {
 			result = this._hashProperty(val);
 		} else {
-			throw "can not hash objects with " + type;
+			throw new Error("can not hash objects with " + type);
 		}
 
 		if (!this._hashedObject[attr]) {

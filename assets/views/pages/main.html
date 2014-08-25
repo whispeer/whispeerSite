@@ -11,7 +11,7 @@
 			<div data-ng-if="filterActive || !mobile"><filtersearch data-internalid="timelineFilter" data-selected="filterSelection" class="hideScroll" data-input-i18n-attr="wall.filter.placeholder|placeholder" id="theFilter" /></div>
 		</div>
 		<input id="filesUpload" type="file" data-file="newPost.addImages" width="300">
-		<div data-ng-repeat="image in newPost.images"><button data-ng-click='newPost.removeImage($index)'>x</button> {{image.name}}</div>
+		<div data-ng-repeat="image in newPost.images"><button data-ng-click='newPost.removeImage($index)'>x</button> {{image.name}} {{image.upload.percentage}}</div>
 	</header>
 	<div class="posts">
 		<post data-ng-repeat="post in posts" data-post="post" id="{{post.id}}"></post>

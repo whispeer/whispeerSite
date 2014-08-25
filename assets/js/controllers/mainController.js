@@ -5,7 +5,7 @@
 define(["step", "whispeerHelper", "asset/state", "asset/Image"], function (step, h, State, MyImage) {
 	"use strict";
 
-	function mainController($scope, cssService, postService, errorService) {
+	function mainController($scope, cssService, postService, blobService, errorService) {
 		cssService.setClass("mainView");
 
 		$scope.canSend = true;
@@ -26,7 +26,9 @@ define(["step", "whispeerHelper", "asset/state", "asset/Image"], function (step,
 				newImages.forEach(function (newImage) {
 					$scope.newPost.images.push({
 						name: newImage._name,
-						data: newImage
+						data: newImage,
+						uploading: false,
+						percentage: 0
 					});
 				});
 			})
@@ -64,16 +66,23 @@ define(["step", "whispeerHelper", "asset/state", "asset/Image"], function (step,
 					$scope.canSend = false;
 
 					var images = $scope.newPost.images.map(function (i) { return i.data; });
-
-					postService.createPost($scope.newPost.text, $scope.newPost.readers, 0, this, images);
-
-					$scope.postActive = false;
+					images.forEach(function (image) {
+						blobService.prepareImage(image, this.parallel());
+					}, this);
 				}
-			}, function (e) {
+			}, h.sF(function (blobs) {
+				blobs.forEach(function (blob, index) {
+					$scope.newPost.images[index].upload = blob.original.blob.getUploadStatus();
+				});
+
+				postService.createPost($scope.newPost.text, $scope.newPost.readers, 0, this, blobs);
+			}), function (e) {
 				$scope.canSend = true;
+				$scope.postActive = false;
 
 				if (!e) {
 					$scope.newPost.text = "";
+					$scope.newPost.images = [];
 				}
 
 				this(e);
@@ -92,7 +101,7 @@ define(["step", "whispeerHelper", "asset/state", "asset/Image"], function (step,
 		$scope.posts = [];
 	}
 
-	mainController.$inject = ["$scope", "ssn.cssService", "ssn.postService", "ssn.errorService"];
+	mainController.$inject = ["$scope", "ssn.cssService", "ssn.postService", "ssn.blobService", "ssn.errorService"];
 
 	return mainController;
 });

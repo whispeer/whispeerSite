@@ -30,29 +30,6 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer", "ass
 				return id;
 			};
 
-			this.uploadImage = function (blob, index) {
-				step(function () {
-					blob.toURL(this);
-				}, h.sF(function (url) {
-					thePost.data.images[index].url = url;
-					thePost.data.images[index].meta = blob.getMeta();
-					thePost.data.images[index].encrypting = true;
-					thePost.data.images[index].loading = false;
-
-					blob.encrypt(this);
-				}), h.sF(function (key) {
-					keyStore.sym.symEncryptKey(key, securedData.metaAttr("_key"), this);
-				}), h.sF(function () {
-					thePost.data.images[index].uploading = true;
-					thePost.data.images[index].percentage = 0;
-
-					blob.upload(this);
-				}), h.sF(function () {
-					thePost.data.images[index].uploading = false;
-					thePost.data.images[index].percentage = 100;
-				}), errorService.criticalError);
-			};
-
 			this.loadImage = function (image, index) {
 				var blob;
 				step(function () {
@@ -62,7 +39,7 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer", "ass
 					if (blob.isUploaded()) {
 						blob.decrypt(this);
 					} else {
-						thePost.uploadImage(blob, index);
+						throw new Error("should be uploaded already!");
 					}
 				}), h.sF(function () {
 					blob.toURL(this);
@@ -86,7 +63,7 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer", "ass
 					this.parallel.unflatten();
 					thePost.getSender(this.parallel());
 					thePost.getWallUser(this.parallel());
-				}, h.sF(function (sender, walluser, images) {
+				}, h.sF(function (sender, walluser) {
 					var d = thePost.data;
 
 					if (walluser) {
@@ -422,7 +399,7 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer", "ass
 				postsByUserWall = {};
 				TimelineByFilter = {};
 			},
-			createPost: function (content, visibleSelection, wallUserID, cb, images) {
+			createPost: function (content, visibleSelection, wallUserID, cb, blobs) {
 				/*
 						meta: {
 							contentHash,
@@ -434,107 +411,37 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer", "ass
 						}
 						content //padded!
 				*/
-				var meta = {}, postKey, imageData;
-
-				function blobToDataSet(blob, cb) {
-					step(function () {
-						this.parallel.unflatten();
-						blob.preReserveID(this.parallel());
-						blob.getHash(this.parallel());
-					}, h.sF(function (id, hash) {
-						this.ne({
-							blob: blob,
-							meta: {
-								imageHash: hash,
-								id: id
-							}
-						});
-					}), cb);
-				}
-
-				function canvasToBlob(canvas, cb) {
-					canvas.toBlob(function (blob) {
-						cb(null, blob);
-					});
-				}
-
-				function imageToBlobs(image, cb) {
-					var MINSIZEDIFFERENCE = 1000, original, preview, originalMeta, previewMeta;
-					step(function () {
-						var original = image.downSize();
-						var preview = image.downSize(600);
-
-						originalMeta = {
-							width: original.width,
-							height: original.height
-						};
-
-						previewMeta = {
-							width: preview.width,
-							height: preview.height
-						};
-
-						this.parallel.unflatten();
-						canvasToBlob(original, this.parallel());
-						canvasToBlob(preview, this.parallel());
-					}, h.sF(function (_original, _preview) {
-						original = blobService.createBlob(_original);
-						preview = blobService.createBlob(_preview);
-
-						original.setMeta(originalMeta);
-						preview.setMeta(previewMeta);
-
-						this.parallel.unflatten();
-						blobToDataSet(original, this.parallel());
-
-						if (preview.getSize() < original.getSize() - MINSIZEDIFFERENCE) {
-							blobToDataSet(preview, this.parallel());
-						}
-					}), h.sF(function (original, preview) {
-						var result = { original: original };
-						if (preview) {
-							result.preview = preview;
-						}
-
-						this.ne(result);
-					}), cb);
-				}
-
-				function createImageData(images, cb) {
-					step(function () {
-						images.forEach(function (image) {
-							imageToBlobs(image, this.parallel());
-						}, this);
-					}, h.sF(function (blobs) {
-						this.ne(h.joinArraysToObject({
-							image: images,
-							blob: blobs
-						}));
-					}), cb);
-				}
+				var meta = {}, postKey, blobKeys;
 
 				step(function () {
-					this.parallel.unflatten();
+					keyStore.sym.generateKey(this, "post key");
+				}, h.sF(function (_postKey) {
+					postKey = _postKey;
 
-					keyStore.sym.generateKey(this.parallel(), "post key");
-					filterToKeys(visibleSelection, this.parallel());
+					if (blobs.length === 0) {
+						this();
+						return;
+					}
+
+					blobs.forEach(function (blob) {
+						blob.original.blob.encryptAndUpload(postKey, this.parallel());
+					}, this);
+				}), h.sF(function (_blobKeys) {
+					blobKeys = _blobKeys;
+
+					filterToKeys(visibleSelection, this);
 					//hash images, hash downsized images, get image server ids
-					createImageData(images, this.parallel());
-				}, h.sF(function (key, keys, _imageData) {
-					imageData = _imageData;
-					postKey = key;
-
+				}), h.sF(function (keys) {
 					meta.time = new Date().getTime();
 					meta.sender = userService.getown().getID();
 					meta.walluser = wallUserID;
-					meta.images = imageData.map(function (image) {
-						var meta = {original: image.blob.original.meta};
-						if (image.blob.preview) {
-							meta.preview = image.blob.preview.meta;
+					meta.images = blobs.map(function (blob) {
+						var meta = {original: blob.original.meta};
+						if (blob.preview) {
+							meta.preview = blob.preview.meta;
 						}
 						return meta;
 					});
-
 
 					//create post
 					//upload images after that!
@@ -544,6 +451,7 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer", "ass
 						keyStore.sym.symEncryptKey(postKey, key, this.parallel());
 					}, this);
 				}), h.sF(function (data) {
+					data.imageKeys = blobKeys.map(keyStore.upload.getKey);
 					data.meta._key = keyStore.upload.getKey(data.meta._key);
 					socket.emit("posts.createPost", {
 						postData: data
