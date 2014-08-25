@@ -33,12 +33,7 @@ define(["jquery", "socket", "socketStream", "step", "whispeerHelper", "config", 
 		}, 10000);
 
 		var loading = 0;
-		var upload = {
-			fullSize: 0,
-			uploaded: 0,
-			blobid: ""
-		};
-		var uploading = false;
+		var upload = {};
 
 		var internalObserver = new Observer();
 
@@ -47,18 +42,11 @@ define(["jquery", "socket", "socketStream", "step", "whispeerHelper", "config", 
 			isConnected: function () {
 				return socket.socket.connected;
 			},
-			getUploadStatus: function () {
-				return upload;
+			getUploadStatus: function (blobid) {
+				return upload[blobid];
 			},
 			uploadBlob: function (blob, blobid, cb) {
 				step(function () {
-					if (uploading) {
-						internalObserver.listenOnce("uploadFinished", function () {
-							socketS.uploadBlob(blob, blobid, cb);
-						});
-						return;
-					}
-
 					socketS.emit("blob.upgradeStream", {}, this);
 				}, h.sF(function () {
 					internalObserver.notify(blobid, "uploadStart:" + blobid);
@@ -69,16 +57,15 @@ define(["jquery", "socket", "socketStream", "step", "whispeerHelper", "config", 
 
 					var blobStream = iostream.createBlobReadStream(blob);
 
-					upload = {
+					upload[blobid] = {
 						fullSize: blob.size,
 						uploaded: 0,
 						blobid: blobid,
 					};
-					uploading = true;
 
 					blobStream.on("data", function(chunk) {
 						$rootScope.$apply(function () {
-							upload.uploaded += chunk.length;
+							upload[blobid].uploaded += chunk.length;
 							internalObserver.notify(blobid, "uploadProgress");
 							internalObserver.notify(blobid, "uploadProgress:" + blobid);
 						});
@@ -88,7 +75,6 @@ define(["jquery", "socket", "socketStream", "step", "whispeerHelper", "config", 
 
 					blobStream.pipe(stream);
 				}), h.sF(function () {
-					uploading = false;
 					internalObserver.notify(blobid, "uploadFinished:" + blobid);
 					this.ne();
 				}), cb);

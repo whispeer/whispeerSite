@@ -33,19 +33,17 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer", "ass
 			this.loadImage = function (image, index) {
 				var blob;
 				step(function () {
-					blobService.getBlob(image.original.id, this, false);
+					blobService.getBlob(image.preview.id, this, false);
 				}, h.sF(function (_blob) {
 					blob = _blob;
-					if (blob.isUploaded()) {
-						blob.decrypt(this);
-					} else {
-						throw new Error("should be uploaded already!");
-					}
+					blob.decrypt(this);
 				}), h.sF(function () {
 					blob.toURL(this);
 				}), h.sF(function (url) {
 					thePost.data.images[index].loading = false;
 					thePost.data.images[index].url = url;
+					thePost.data.images[index].width = image.preview.width;
+					thePost.data.images[index].height = image.preview.height;
 				}), errorService.criticalError);
 			};
 
@@ -425,6 +423,7 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer", "ass
 
 					blobs.forEach(function (blob) {
 						blob.original.blob.encryptAndUpload(postKey, this.parallel());
+						blob.preview.blob.encryptAndUpload(postKey, this.parallel());
 					}, this);
 				}), h.sF(function (_blobKeys) {
 					blobKeys = _blobKeys;

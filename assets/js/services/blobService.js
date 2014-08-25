@@ -29,7 +29,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 			this._uploadStatus = {
 				uploaded: this._uploaded,
 				uploading: false,
-				percentage: 0,
+				percentage: -1,
 				encrypting: false
 			};
 		};
@@ -73,6 +73,8 @@ define(["step", "whispeerHelper"], function (step, h) {
 					throw new Error("trying to encrypt an already encrypted or public blob. add a key decryptor if you want to give users access");
 				}
 
+				that._uploadStatus.encrypting = true;
+
 				this.parallel.unflatten();
 				keyStore.sym.generateKey(this.parallel(), "blob key");
 				that.getBase64Representation(this.parallel());
@@ -92,6 +94,8 @@ define(["step", "whispeerHelper"], function (step, h) {
 				} else {
 					that._blobData = h.dataURItoBlob(encryptedData);
 				}
+
+				that._uploadStatus.encrypting = false;
 
 				this.ne(that._key);
 			}), cb);
@@ -160,8 +164,8 @@ define(["step", "whispeerHelper"], function (step, h) {
 				that._uploadStarted();
 			}, "uploadStart:" + blobid);
 
-			socketService.uploadObserver.listen(function () {
-				that._uploadProgress();
+			socketService.uploadObserver.listen(function (blobid) {
+				that._uploadProgress(blobid);
 			}, "uploadProgress:" + blobid);
 
 			socketService.uploadObserver.listen(function () {
@@ -171,10 +175,11 @@ define(["step", "whispeerHelper"], function (step, h) {
 
 		MyBlob.prototype._uploadStarted = function () {
 			this._uploadStatus.uploading = true;
+			this._uploadStatus.percentage = 0;
 		};
 
-		MyBlob.prototype._uploadProgress = function () {
-			var u = socketService.getUploadStatus();
+		MyBlob.prototype._uploadProgress = function (blobid) {
+			var u = socketService.getUploadStatus(blobid);
 			this._uploadStatus.percentage = u.uploaded / u.fullSize;
 		};
 
@@ -325,7 +330,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 
 		var api = {
 			prepareImage: function (image, cb) {
-				var MINSIZEDIFFERENCE = 1000;
+				//var MINSIZEDIFFERENCE = 1000;
 				var original, preview;
 				var originalSize, previewSize;
 				step(function () {
@@ -352,9 +357,9 @@ define(["step", "whispeerHelper"], function (step, h) {
 					this.parallel.unflatten();
 					blobToDataSet(original, this.parallel());
 
-					if (preview.getSize() < original.getSize() - MINSIZEDIFFERENCE) {
-						blobToDataSet(preview, this.parallel());
-					}
+					//if (preview.getSize() < original.getSize() - MINSIZEDIFFERENCE) {
+					blobToDataSet(preview, this.parallel());
+					//}
 				}), h.sF(function (original, preview) {
 					original.meta.width = originalSize.width;
 					original.meta.height = originalSize.height;

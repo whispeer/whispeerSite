@@ -10,8 +10,8 @@
 				</div>
 			</div>
 			<div class="postText" data-syntaxify="post.content.text"></div>
-			<div class="postImage" data-ng-if="post.images[0]">
-				<img data-ng-src="{{post.images[0].url}}">
+			<div class="postImage" data-ng-repeat="image in post.images">
+				<img data-ng-src="{{image.url}}">
 			</div>
 		</div>	
 		<div class="postInfo">
