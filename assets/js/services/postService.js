@@ -111,7 +111,6 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer", "ass
 			var currentFilter, currentFilterOrder = 0;
 			var filterOrder = {
 				allfriends: 1,
-				friendsoffriends: 2,
 				everyone: 3
 			};
 
@@ -178,8 +177,6 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer", "ass
 			switch (theFilter) {
 				case "allfriends":
 					return [userService.getown().getFriendsKey()];
-				case "friendsoffriends":
-					return [userService.getown().getFriendsLevel2Key()];
 				case "everyone":
 					//we do not encrypt it anyhow .... this needs to be checked in before!
 					throw new Error("should never be here");

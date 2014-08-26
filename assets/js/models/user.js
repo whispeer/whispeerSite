@@ -67,7 +67,7 @@ define(["step", "whispeerHelper", "asset/state", "asset/securedDataWithMetaData"
 
 	function userModel($injector, $location, blobService, keyStoreService, ProfileService, sessionService, settingsService, socketService, friendsService, errorService) {
 		return function User (providedData) {
-			var theUser = this, mainKey, signKey, cryptKey, friendShipKey, friendsKey, friendsLevel2Key, migrationState, signedKeys, signedOwnKeys;
+			var theUser = this, mainKey, signKey, cryptKey, friendShipKey, friendsKey, migrationState, signedKeys, signedOwnKeys;
 			var id, mail, nickname, publicProfile, privateProfiles = [], mutualFriends;
 
 			var addFriendState = new State();
@@ -106,7 +106,6 @@ define(["step", "whispeerHelper", "asset/state", "asset/securedDataWithMetaData"
 
 				if (isMe || friendsService.didOtherRequest(id)) {
 					friendsKey = signedKeys.metaAttr("friends");
-					friendsLevel2Key = signedKeys.metaAttr("friendsLevel2");
 				}
 
 				if (!isMe && friendsService.didIRequest(id)) {
@@ -288,11 +287,9 @@ define(["step", "whispeerHelper", "asset/state", "asset/securedDataWithMetaData"
 					signedKeys.verify(signKey, this);
 				}, h.sF(function () {
 					var friends = signedKeys.metaAttr("friends");
-					var friendsLevel2 = signedKeys.metaAttr("friendsLevel2");
 					var crypt = signedKeys.metaAttr("crypt");
 
 					keyStoreService.security.addEncryptionIdentifier(friends);
-					keyStoreService.security.addEncryptionIdentifier(friendsLevel2);
 					keyStoreService.security.addEncryptionIdentifier(crypt);
 
 					this.ne();
@@ -601,10 +598,6 @@ define(["step", "whispeerHelper", "asset/state", "asset/securedDataWithMetaData"
 
 			this.getFriendsKey = function () {
 				return friendsKey;
-			};
-
-			this.getFriendsLevel2Key = function () {
-				return friendsLevel2Key;
 			};
 
 			this.getID = function () {

@@ -45,8 +45,7 @@
 		"loading": "Laden..."
 	},
 	"directives": {
-		"allfriends": "Alle Freunde",
-		"friendsoffriends": "Freunde von Freunden"
+		"allfriends": "Alle Freunde"
 	},
 	"usersearch": {
 		"mutualFriends": "gemeinsame Freunde",

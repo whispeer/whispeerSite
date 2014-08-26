@@ -119,7 +119,6 @@ define(["step", "whispeerHelper", "crypto/trustManager", "asset/securedDataWithM
 					keyStoreService.security.makePWVerifiable(ownKeys, password, this.parallel());
 
 					keyStoreService.sym.pwEncryptKey(keys.main, password, this.parallel());
-					keyStoreService.sym.symEncryptKey(keys.friendsLevel2, keys.friends, this.parallel());
 					keyStoreService.sym.symEncryptKey(keys.profile, keys.friends, this.parallel());
 				}), h.sF(function register3(privateProfile, privateProfileMe, publicProfile, settings, signedKeys, signedOwnKeys) {
 					keys = h.objectMap(keys, keyStoreService.correctKeyIdentifier);
@@ -177,8 +176,7 @@ define(["step", "whispeerHelper", "crypto/trustManager", "asset/securedDataWithM
 					["sign", "sign"],
 					["crypt", "asym"],
 					["profile", "sym"],
-					["friends", "sym"],
-					["friendsLevel2", "sym"]
+					["friends", "sym"]
 				];
 
 				function getCorrectKeystore(index) {

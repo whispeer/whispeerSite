@@ -62,51 +62,7 @@ define(["step", "whispeerHelper", "asset/observer", "asset/securedDataWithMetaDa
 			}), cb);
 		}
 
-		function acceptFriendShip(uid, cb) {
-			var otherLevel2Key, ownLevel2Key, friendsKey, otherFriendsKey, friendShipKey, otherUser, userService = $injector.get("ssn.userService");
-			var own = userService.getown();
-			step(function () {
-				userService.get(uid, this);
-			}, h.sF(function (_otherUser) {
-				otherUser = _otherUser;
-
-				otherLevel2Key = otherUser.getFriendsLevel2Key();
-				otherFriendsKey = otherUser.getFriendsKey();
-				ownLevel2Key = own.getFriendsLevel2Key();
-				friendsKey = own.getFriendsKey();
-
-				keyStore.sym.symEncryptKey(otherLevel2Key, friendsKey, this.parallel());
-				keyStore.sym.symEncryptKey(ownLevel2Key, otherFriendsKey, this.parallel());
-			}), h.sF(function () {
-				createBasicData(own, otherUser, this);
-			}), h.sF(function (data, _friendShipKey) {
-				friendShipKey = _friendShipKey;
-				data.decryptors = keyStore.upload.getDecryptors([friendsKey, otherLevel2Key, ownLevel2Key], [friendsKey, otherFriendsKey, friendShipKey]);
-
-				socket.emit("friends.add", data, this);
-			}), h.sF(function (result) {
-				if (result.friendAdded) {
-					friends.push(uid);
-					h.removeArray(requests, uid);
-					updateCounters();
-
-					otherUser.setFriendShipKey(friendShipKey);
-
-					userOnline(uid, result.friendOnline);
-
-					friendsService.notify(uid, "newFriend");
-
-					this.ne();
-				} else {
-					throw new Error("friend adding failed!");
-				}
-			}), cb);
-			//get own friendsKey
-			//get others friendsLevel2Key
-			//get own friendsLevel2Key
-		}
-
-		function requestFriendShip(uid, cb) {
+		function addAsFriend(uid, cb) {
 			var otherUser, friendShipKey, userService = $injector.get("ssn.userService");
 			step(function () {
 				userService.get(uid, this);
@@ -121,19 +77,22 @@ define(["step", "whispeerHelper", "asset/observer", "asset/securedDataWithMetaDa
 
 				socket.emit("friends.add", data, this);
 			}), h.sF(function (result) {
-				if (result.friendAdded) {
+				if (result.success) {
 					otherUser.setFriendShipKey(friendShipKey);
-					requested.push(uid);
-					friendsService.notify(uid, "newRequested");
-				} else {
-					//user requested friendShip and we did not get it when we started this...
-					acceptFriendShip(uid, cb);
+
+					if (result.friends) {
+						friends.push(uid);
+						friendsService.notify(uid, "newFriend");
+					} else {
+						requested.push(uid);
+						friendsService.notify(uid, "newRequested");
+					}
 				}
 			}), cb);
 		}
 
 		socket.listen("friendRequest", function (e, requestData) {
-			var uid = parseInt(requestData.uid, 10);
+			var uid = h.parseDecimal(requestData.uid);
 			if (!h.containsOr(uid, requests, friends, requested))  {
 				requests.push(uid);
 				updateCounters();
@@ -143,7 +102,7 @@ define(["step", "whispeerHelper", "asset/observer", "asset/securedDataWithMetaDa
 		});
 
 		socket.listen("friendAccept", function (e, requestData) {
-			var uid = parseInt(requestData.uid, 10);
+			var uid = h.parseDecimal(requestData.uid);
 			if (!h.containsOr(uid, requests, friends))  {
 				friends.push(uid);
 				h.removeArray(requested, uid);
@@ -157,10 +116,7 @@ define(["step", "whispeerHelper", "asset/observer", "asset/securedDataWithMetaDa
 		});
 
 		socket.listen("friendOnlineChange", function (e, requestData) {
-			var uid = requestData.uid;
-			var status = requestData.status;
-
-			userOnline(uid, status);
+			userOnline(requestData.uid, requestData.status);
 		});
 
 		var friendsService = {
@@ -178,15 +134,11 @@ define(["step", "whispeerHelper", "asset/observer", "asset/securedDataWithMetaDa
 					return;
 				}
 
-				if (requests.indexOf(uid) > -1) {
-					acceptFriendShip(uid, cb);
-				} else {
-					requestFriendShip(uid, cb);
-				}
+				addAsFriend(uid, cb);
 			},
 			acceptFriendShip: function (uid, cb) {
 				if (requests.indexOf(uid) > -1 && !h.containsOr(uid, friends, requested)) {
-					acceptFriendShip(uid, cb);
+					addAsFriend(uid, cb);
 				}
 			},
 			didIRequest: function (uid) {
@@ -279,9 +231,7 @@ define(["step", "whispeerHelper", "asset/observer", "asset/securedDataWithMetaDa
 
 		Observer.call(friendsService);
 
-		initService.register("friends.all", {}, function (data, cb) {
-			friendsService.load(data, cb);
-		});
+		initService.register("friends.all", {}, friendsService.load);
 
 		initService.register("friends.getOnline", {}, function (data, cb) {
 			friendsService.setOnline(data.online);
