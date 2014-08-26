@@ -4,12 +4,11 @@
 @default-padding: 12px;
 
 .post {
-	// background-color: blue;
+	width: 92%; // magic, due to magic 92% further above in the DOM.
 
 	display: inline-block;
 	float: left;
 	clear: both;
-
 	padding: @default-padding;
 
 	// this should really be dealt with once and for all in the userimage
@@ -20,17 +19,12 @@
 		vertical-align: top;
 		width:  @user-image-size;
 		height: @user-image-size;
+		padding-right: @default-padding;
 	}
 
 	.meta {
 		width: 100%;
-		.fa {
-			color: @linkColor;
-		}
-		.userimg ~ strong {
-			padding-left: @default-padding;
-			white-space: nowrap;
-		}
+		.fa { color: @linkColor; }
 	}
 
 	.content {
@@ -39,6 +33,7 @@
 		margin-top: 0;
 		margin-bottom: 0;
 		margin-left: @user-image-size;
+		word-wrap: break-word;
 	}
 
 	.date, .action {
