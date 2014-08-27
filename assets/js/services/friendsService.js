@@ -163,6 +163,7 @@ define(["step", "whispeerHelper", "asset/observer", "asset/securedDataWithMetaDa
 					generateRemovalData(ownUser, otherUser, this);
 				}), h.sF(function (signedRemoval, signedList, signedKeys, newFriendsKey) {
 					socket.emit("friends.remove", {
+						uid: uid,
 						signedRemoval: signedRemoval,
 						signedList: signedList,
 						signedKeys: signedKeys,

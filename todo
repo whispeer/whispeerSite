@@ -1,8 +1,5 @@
 - add removed lists to initial data
 - on client side:
- - remove a friend
-  - rebuild profile for new friendsKey
-  - remove friend from all circles he is in
  - remove all friends in the unfriended list
 - on server side:
  - update friends key for user
