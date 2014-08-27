@@ -165,6 +165,36 @@ define(["step", "whispeerHelper", "asset/state", "asset/securedDataWithMetaData"
 
 			updateUser(providedData);
 
+			this.generateNewFriendsKey = function (cb) {
+				var newFriendsKey;
+				step(function () {
+					if (!theUser.isOwn()) {
+						throw new Error("not my own user");
+					}
+
+					//generate new key
+					keyStoreService.sym.generateKey(this.parallel(), "friends");
+				}, h.sF(function (_newFriendsKey) {
+					newFriendsKey = _newFriendsKey;
+
+					//encrypt with all friendShipKeys
+					var keys = friendsService.getAllFriendShipKeys();
+					keys.forEach(function (key) {
+						keyStoreService.sym.symEncryptKey(newFriendsKey, key, this.parallel());
+					});
+					keyStoreService.sym.symEncryptKey(newFriendsKey, mainKey, this.parallel());
+					//encrypt old friends key with new friends key
+					keyStoreService.sym.symEncryptKey(friendsKey, newFriendsKey, this.parallel());
+				}), h.sF(function () {
+					//update signedKeys
+					signedKeys.metaSetAttr("friendsKey", newFriendsKey);
+					signedKeys.sign(signKey, this);
+				}), h.sF(function (updatedSignedKeys) {
+					friendsKey = newFriendsKey;
+					this.ne(updatedSignedKeys, newFriendsKey);
+				}), cb);
+			};
+
 			this.setFriendShipKey = function (key) {
 				if (!friendShipKey) {
 					friendShipKey = key;

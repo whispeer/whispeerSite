@@ -180,6 +180,16 @@ define(["step", "whispeerHelper", "asset/observer", "asset/securedDataWithMetaDa
 			getUserFriendShipKey: function (uid) {
 				return signedList.metaAttr(uid);
 			},
+			getAllFriendShipKeys: function () {
+				var meta = signedList.metaGet(), keys = [];
+				h.objectEach(meta, function (key, value) {
+					if (h.isInt(key)) {
+						keys.push(value);
+					}
+				});
+
+				return keys;
+			},
 			load: function (data, cb) {
 				var userService = $injector.get("ssn.userService");
 

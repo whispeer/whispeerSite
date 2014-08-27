@@ -1770,6 +1770,9 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 		},
 
 		upload: {
+			preLoadMultiple: function (realids) {
+				//TODO
+			},
 			addKey: function (keyData) {
 				if (h.isRealID(keyData.realid)) {
 					makeKey(keyData);
