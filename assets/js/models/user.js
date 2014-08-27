@@ -357,6 +357,40 @@ define(["step", "whispeerHelper", "asset/state", "asset/securedDataWithMetaData"
 				return true;
 			};
 
+			this.rebuildProfilesByScope = function (scopes, cb) {
+				var priv = theUser.getPrivateProfiles(), profilesToDelete;
+				step(function () {
+					priv.forEach(function (profile) {
+						profile.getScope(this.parallel());
+					}, this);
+				}, h.sF(function (oldScopes) {
+					//remove old ones
+					if (oldScopes.length !== priv.length) {
+						throw new Error("bug");
+					}
+
+					profilesToDelete = scopes.map(function (e) {
+						return priv[oldScopes.indexOf(e)].getID();
+					});
+
+					priv = priv.filter(function (p, i) {
+						return scopes.indexOf(oldScopes[i]) === -1;
+					});
+
+					//create new ones
+					theUser.createProfileObjects(scopes, this);
+				}), h.sF(function (profilesToCreate) {
+					socketService.emit("user", {
+						deletePrivateProfiles: {
+							profilesToDelete: profilesToDelete
+						},
+						createPrivateProfiles: {
+							privateProfiles: profilesToCreate
+						}
+					}, this);
+				}), cb);
+			};
+
 			this.rebuildProfilesForSettings = function (newSettings, oldSettings, cb) {
 				step(function () {
 					theUser.getScopes(this);
@@ -371,7 +405,7 @@ define(["step", "whispeerHelper", "asset/state", "asset/securedDataWithMetaData"
 					this.parallel.unflatten();
 
 					theUser.updateProfilesFromMe(profilesWithPossibleChanges, newSettings, this.parallel());
-					theUser.createProfileObjects(profilesToAdd, newSettings, this.parallel());
+					theUser.createProfileObjects(profilesToAdd, this.parallel(), newSettings);
 					theUser.getProfilesToDelete(profilesToRemove, this.parallel());
 				}), h.sF(function (profilesToChange, profilesToCreate, profilesToDelete) {
 					socketService.emit("user", {
@@ -762,7 +796,7 @@ define(["step", "whispeerHelper", "asset/state", "asset/securedDataWithMetaData"
 				}), cb);
 			};
 
-			this.createProfileObjects = function (scopes, privacySettings, cb) {
+			this.createProfileObjects = function (scopes, cb, privacySettings) {
 				//check if we already got a profile for the given scope.
 				step(function () {
 					this.parallel.unflatten();
@@ -819,10 +853,9 @@ define(["step", "whispeerHelper", "asset/state", "asset/securedDataWithMetaData"
 				//find the profiles matching a scope.
 				var priv = theUser.getPrivateProfiles();
 				step(function () {
-					var i;
-					for (i = 0; i < priv.length; i += 1) {
-						priv[i].getScope(this.parallel());
-					}
+					priv.forEach(function (profile) {
+						profile.getScope(this.parallel());
+					}, this);
 				}, h.sF(function (oldScopes) {
 					if (oldScopes.length !== priv.length) {
 						throw new Error("bug");
