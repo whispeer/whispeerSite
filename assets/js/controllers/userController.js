@@ -62,6 +62,10 @@ define(["step", "whispeerHelper", "asset/resizableImage", "asset/state"], functi
 			userObject.addAsFriend();
 		};
 
+		$scope.removeFriend = function () {
+			userObject.removeAsFriend();
+		};
+
 		$scope.edit = function () {
 			$scope.editGeneral = !$scope.editGeneral;
 

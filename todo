@@ -1,3 +1,4 @@
 - add removed lists to initial data
 - on client side:
  - remove all friends in the unfriended list
+  - fix: unmatching arrays

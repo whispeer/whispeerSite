@@ -63,7 +63,7 @@ define(["step", "whispeerHelper", "asset/observer", "asset/securedDataWithMetaDa
 		}
 
 		function generateRemovalData(ownUser, otherUser, cb) {
-			var signedRemoval, signedList;
+			var signedRemoval, updatedSignedList;
 			step(function () {
 				this.parallel.unflatten();
 				SecuredData.load(undefined, {
@@ -74,11 +74,11 @@ define(["step", "whispeerHelper", "asset/observer", "asset/securedDataWithMetaDa
 				signedList.getUpdatedData(ownUser.getSignKey(), this.parallel());
 			}, h.sF(function (_signedRemoval, _signedList) {
 				signedRemoval = _signedRemoval;
-				signedList = _signedList;
+				updatedSignedList = _signedList;
 
 				ownUser.generateNewFriendsKey(this);
 			}), h.sF(function (signedKeys, newFriendsKey) {
-				this.ne(signedRemoval, signedList, signedKeys, newFriendsKey);
+				this.ne(signedRemoval, updatedSignedList, signedKeys, newFriendsKey);
 			}), cb);
 		}
 
@@ -107,6 +107,8 @@ define(["step", "whispeerHelper", "asset/observer", "asset/securedDataWithMetaDa
 						requested.push(uid);
 						friendsService.notify(uid, "newRequested");
 					}
+
+					this.ne();
 				}
 			}), cb);
 		}
@@ -255,8 +257,8 @@ define(["step", "whispeerHelper", "asset/observer", "asset/securedDataWithMetaDa
 				requests = data.requests.map(h.parseDecimal);
 				requested = data.requested.map(h.parseDecimal);
 				//TODO!
-				var ignored = data.ignored.map(h.parseDecimal);
-				var removed = data.removed.map(h.parseDecimal);
+				//var ignored = data.ignored.map(h.parseDecimal);
+				//var removed = data.removed.map(h.parseDecimal);
 
 				updateCounters();
 

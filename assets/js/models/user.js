@@ -173,7 +173,7 @@ define(["step", "whispeerHelper", "asset/state", "asset/securedDataWithMetaData"
 					}
 
 					//generate new key
-					keyStoreService.sym.generateKey(this.parallel(), "friends");
+					keyStoreService.sym.generateKey(this, "friends");
 				}, h.sF(function (_newFriendsKey) {
 					newFriendsKey = _newFriendsKey;
 
@@ -896,6 +896,14 @@ define(["step", "whispeerHelper", "asset/state", "asset/securedDataWithMetaData"
 				addFriendState.pending();
 				if (!this.isOwn()) {
 					friendsService.acceptFriendShip(this.getID(), errorService.failOnError(addFriendState));
+				} else {
+					addFriendState.failed();
+				}
+			};
+
+			this.removeAsFriend = function () {
+				if (!this.isOwn()) {
+					friendsService.removeFriend(this.getID(), errorService.criticalError);
 				} else {
 					addFriendState.failed();
 				}

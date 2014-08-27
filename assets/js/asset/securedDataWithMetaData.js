@@ -319,6 +319,14 @@ define(["whispeerHelper", "step", "crypto/keyStore", "asset/errors"], function (
 		this._updatedMeta = newMetaData;
 	};
 
+	SecuredDataWithMetaData.prototype.metaRemoveAttr = function (attr) {
+		if (attr[0] === "_") {
+			throw new Error("private attributes should not be provided by outside world");
+		}
+
+		delete this._updatedMeta[attr];
+	};
+
 	SecuredDataWithMetaData.prototype.metaSetAttr = function (attr, value) {
 		if (attr[0] === "_") {
 			throw new Error("private attributes should not be provided by outside world");
