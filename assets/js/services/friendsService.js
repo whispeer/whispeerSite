@@ -62,6 +62,26 @@ define(["step", "whispeerHelper", "asset/observer", "asset/securedDataWithMetaDa
 			}), cb);
 		}
 
+		function generateRemovalData(ownUser, otherUser, cb) {
+			var signedRemoval, signedList;
+			step(function () {
+				this.parallel.unflatten();
+				SecuredData.load(undefined, {
+					removedFriend: otherUser.getID()
+				}, { type: "removeFriend" }).sign(ownUser.getSignKey(), this.parallel());
+
+				signedList.metaRemoveAttr(otherUser.getID());
+				signedList.getUpdatedData(ownUser.getSignKey(), this.parallel());
+			}, h.sF(function (_signedRemoval, _signedList) {
+				signedRemoval = _signedRemoval;
+				signedList = _signedList;
+
+				ownUser.generateNewFriendsKey(this);
+			}), h.sF(function (signedKeys, newFriendsKey) {
+				this.ne(signedRemoval, signedList, signedKeys, newFriendsKey);
+			}), cb);
+		}
+
 		function addAsFriend(uid, cb) {
 			var otherUser, friendShipKey, userService = $injector.get("ssn.userService");
 			step(function () {
@@ -127,6 +147,34 @@ define(["step", "whispeerHelper", "asset/observer", "asset/securedDataWithMetaDa
 					}, this);
 				}, h.sF(function (result) {
 					this.ne(result.friends);
+				}), cb);
+			},
+			removeFriend: function (uid, cb) {
+				if (friends.indexOf(uid) === -1) {
+					return;
+				}
+
+				var otherUser, userService = $injector.get("ssn.userService"), ownUser = userService.getown();
+				step(function () {
+					userService.get(uid, this);
+				}, h.sF(function (u) {
+					otherUser = u;
+
+					generateRemovalData(ownUser, otherUser, this);
+				}), h.sF(function (signedRemoval, signedList, signedKeys, newFriendsKey) {
+					socket.emit("friends.remove", {
+						signedRemoval: signedRemoval,
+						signedList: signedList,
+						signedKeys: signedKeys,
+						newFriendsKey: keyStore.upload.getKey(newFriendsKey)
+					}, this);
+				}), h.sF(function (result) {
+					if (result.success) {
+						//remove user from circles
+						//update profile for new friendsKey
+					} else {
+						throw new Error("could not remove friends");
+					}
 				}), cb);
 			},
 			friendship: function (uid, cb) {
@@ -196,6 +244,9 @@ define(["step", "whispeerHelper", "asset/observer", "asset/securedDataWithMetaDa
 				friends = data.friends.map(h.parseDecimal);
 				requests = data.requests.map(h.parseDecimal);
 				requested = data.requested.map(h.parseDecimal);
+				//TODO!
+				var ignored = data.ignored.map(h.parseDecimal);
+				var removed = data.removed.map(h.parseDecimal);
 
 				updateCounters();
 

@@ -188,7 +188,7 @@ define(["step", "whispeerHelper", "asset/state", "asset/securedDataWithMetaData"
 				}), h.sF(function () {
 					//update signedKeys
 					signedKeys.metaSetAttr("friendsKey", newFriendsKey);
-					signedKeys.sign(signKey, this);
+					signedKeys.getUpdatedData(signKey, this);
 				}), h.sF(function (updatedSignedKeys) {
 					friendsKey = newFriendsKey;
 					this.ne(updatedSignedKeys, newFriendsKey);
