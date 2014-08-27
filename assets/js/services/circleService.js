@@ -4,7 +4,7 @@
 define(["step", "whispeerHelper", "asset/observer", "asset/securedDataWithMetaData"], function (step, h, Observer, SecuredData) {
 	"use strict";
 
-	var service = function ($rootScope, socket, userService, sessionService, keyStore) {
+	var service = function ($rootScope, socket, userService, friendsService, sessionService, keyStore) {
 		var circles = {};
 		var circleArray = [];
 		var circleData = [];
@@ -171,27 +171,24 @@ define(["step", "whispeerHelper", "asset/observer", "asset/securedDataWithMetaDa
 		}
 
 		function encryptKeyForUsers(key, users, cb) {
+			users = users.map(h.parseDecimal);
 			step(function () {
 				if (users && users.length > 0) {
-					userService.getMultiple(users, this);
+					this.ne();
 				} else {
 					this.last.ne([]);
 				}
-			}, h.sF(function (userObjects) {
-				userObjects.forEach(function (user) {
-					if (!user.getFriendShipKey()) {
-						throw new Error("no friend key for user: " + user.getID());
+			}, h.sF(function () {
+				users.forEach(function (user) {
+					if (!friendsService.getUserFriendShipKey(user)) {
+						throw new Error("no friend key for user: " + user);
 					}
 				});
 
-				userObjects.forEach(function (user) {
-					var friendKey = user.getFriendShipKey();
+				users.forEach(function (user) {
+					var friendKey = friendsService.getUserFriendShipKey(user);
 					keyStore.sym.symEncryptKey(key, friendKey, this.parallel());
 				}, this);
-
-				users = userObjects.map(function (user) {
-					return user.getID();
-				});
 			}), h.sF(function () {
 				this.ne(users);
 			}), cb);
@@ -319,7 +316,7 @@ define(["step", "whispeerHelper", "asset/observer", "asset/securedDataWithMetaDa
 		return circleService;
 	};
 
-	service.$inject = ["$rootScope", "ssn.socketService", "ssn.userService", "ssn.sessionService", "ssn.keyStoreService"];
+	service.$inject = ["$rootScope", "ssn.socketService", "ssn.userService", "ssn.friendsService", "ssn.sessionService", "ssn.keyStoreService"];
 
 	return service;
 });

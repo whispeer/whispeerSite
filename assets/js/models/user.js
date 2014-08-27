@@ -357,7 +357,7 @@ define(["step", "whispeerHelper", "asset/state", "asset/securedDataWithMetaData"
 				return true;
 			};
 
-			this.rebuildProfilesByScope = function (scopes, cb) {
+			this.rebuildProfilesByScopes = function (scopes, cb) {
 				var priv = theUser.getPrivateProfiles(), profilesToDelete;
 				step(function () {
 					priv.forEach(function (profile) {
