@@ -816,9 +816,8 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer", "ass
 				step(function () {
 					if (!count) {
 						count = 0;
-					} else if (count > 5) {
-						this.last.ne(false);
-						return;
+					} else if (count > 3) {
+						throw new Error("failed to send message");
 					}
 					Message.createData(topic, message, this);
 				}, h.sF(function (result) {
