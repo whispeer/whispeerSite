@@ -154,7 +154,7 @@ define(["step", "whispeerHelper", "asset/observer", "asset/securedDataWithMetaDa
 					return;
 				}
 
-				var otherUser, userService = $injector.get("ssn.userService"), ownUser = userService.getown();
+				var otherUser, userService = $injector.get("ssn.userService"), ownUser = userService.getown(), circles;
 				step(function () {
 					userService.get(uid, this);
 				}, h.sF(function (u) {
@@ -170,11 +170,20 @@ define(["step", "whispeerHelper", "asset/observer", "asset/securedDataWithMetaDa
 					}, this);
 				}), h.sF(function (result) {
 					if (result.success) {
-						//remove user from circles
-						//update profile for new friendsKey
+						//get all circles this user is in!
+						circles = $injector.get("ssn.circleService").inWhichCircles(uid);
+						circles.forEach(function (circle) {
+							circle.removePersons([uid], this.parallel());
+						}, this);
 					} else {
 						throw new Error("could not remove friends");
 					}
+				}), h.sF(function () {
+					//remove user from circles
+					var scopes = circles.map(function (c) { return "circle:" + c.getID(); });
+					scopes.push("always:allfriends");
+					userService.getOwn().rebuildProfilesByScopes(scopes, this);
+					//update profile for new friendsKey
 				}), cb);
 			},
 			friendship: function (uid, cb) {
