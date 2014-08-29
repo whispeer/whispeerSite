@@ -245,6 +245,7 @@ define(["step", "whispeerHelper", "asset/resizableImage", "asset/state"], functi
 				for (i = 0; i < toRemove.length; i += 1) {
 					circleService.get(toRemove[i]).removePersons([$scope.user.id], this.parallel());
 				}
+				this.parallel()();
 			}), errorService.failOnError(circleState));
 		};
 
