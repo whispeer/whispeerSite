@@ -145,7 +145,6 @@ define(["step", "whispeerHelper", "asset/observer", "asset/securedDataWithMetaDa
 		function removeUnfriendedPersons(cb) {
 			var userService = $injector.get("ssn.userService");
 			step(function () {
-				debugger;
 				userService.getMultiple(removed, this);
 			}, h.sF(function (removedFriends) {
 				//TODO: check for valid signed removal!
@@ -194,6 +193,13 @@ define(["step", "whispeerHelper", "asset/observer", "asset/securedDataWithMetaDa
 					}, this);
 				}), h.sF(function (result) {
 					if (result.success) {
+						h.removeArray(friends, uid);
+						h.removeArray(removed, uid);
+
+						updateCounters();
+						friendsService.notify(uid, "removeFriend");
+						userOnline(uid, -1);
+
 						circleService.loadAll(this);
 					} else {
 						throw new Error("could not remove friends");
