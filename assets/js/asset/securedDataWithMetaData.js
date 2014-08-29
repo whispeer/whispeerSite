@@ -28,6 +28,7 @@ define(["whispeerHelper", "step", "crypto/keyStore", "asset/errors"], function (
 		this._attributesNotVerified = attributesNeverVerified.concat(this._attributesNotVerified);
 
 		this._decrypted = isDecrypted;
+		this._decryptionFullFiller = new h.FullFiller();
 
 		this._originalMeta = meta || {};
 		this._hasContent = true;
@@ -41,8 +42,7 @@ define(["whispeerHelper", "step", "crypto/keyStore", "asset/errors"], function (
 		}
 
 		this._updatedMeta = h.deepCopyObj(this._originalMeta);
-
-		this._updatedContent = this._content;
+		this._updatedContent = h.deepCopyObj(this._content);
 
 		this._isKeyVerified = false;
 	}
@@ -193,6 +193,26 @@ define(["whispeerHelper", "step", "crypto/keyStore", "asset/errors"], function (
 		this._content = this._updatedContent;
 	};
 
+	SecuredDataWithMetaData.prototype._decrypt = function (cb) {
+		var that = this;
+
+		step(function () {
+			that._decryptionFullFiller.await(cb);
+			that._decryptionFullFiller.start(this);
+		}, h.sF(function () {
+			keyStore.sym.decryptObject(that._encryptedContent, that._encryptDepth, this, that._originalMeta._key);
+		}), h.sF(function (decryptedData) {
+			that._decrypted = true;
+			that._paddedContent = decryptedData;
+			that._content = keyStore.hash.removePaddingFromObject(decryptedData, 128);
+			that._updatedContent = h.deepCopyObj(that._content);
+
+			that._verifyContentHash();
+
+			this.ne();
+		}), this._decryptionFullFiller.finish);
+	};
+
 	SecuredDataWithMetaData.prototype.decrypt = function (cb) {
 		var that = this;
 
@@ -201,20 +221,14 @@ define(["whispeerHelper", "step", "crypto/keyStore", "asset/errors"], function (
 			return;
 		}
 
+		if (this._decrypted) {
+			cb(null, this._content);
+			return;
+		}
+
 		step(function () {
-			if (that._decrypted) {
-				this.last.ne(that._content);
-			} else {
-				keyStore.sym.decryptObject(that._encryptedContent, that._encryptDepth, this, that._originalMeta._key);
-			}
-		}, h.sF(function (decryptedData) {
-			that._decrypted = true;
-			that._paddedContent = decryptedData;
-			that._content = keyStore.hash.removePaddingFromObject(decryptedData, 128);
-			that._updatedContent = that._content;
-
-			that._verifyContentHash();
-
+			that._decrypt(this);
+		}, h.sF(function () {
 			this.ne(that._content);
 		}), cb);
 	};
@@ -243,6 +257,9 @@ define(["whispeerHelper", "step", "crypto/keyStore", "asset/errors"], function (
 
 	SecuredDataWithMetaData.prototype.contentGet = function () {
 		return h.deepCopyObj(this._content);
+	};
+	SecuredDataWithMetaData.prototype.updatedContentGet = function () {
+		return h.deepCopyObj(this._updatedContent);
 	};
 	SecuredDataWithMetaData.prototype.metaGet = function () {
 		return h.deepCopyObj(this._updatedMeta);
