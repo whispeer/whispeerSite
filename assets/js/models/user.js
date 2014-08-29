@@ -765,7 +765,7 @@ define(["step", "whispeerHelper", "asset/state", "asset/securedDataWithMetaData"
 								profile: {
 									content: applicableParts(v.scope, privacySettings, myProfile)
 								},
-								metaData: {
+								own: {
 									scope: v.scope
 								}
 							}, { isDecrypted: true });

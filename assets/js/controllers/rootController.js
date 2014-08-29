@@ -18,11 +18,17 @@ define(["step", "whispeerHelper", "cryptoWorker/generalWorkerInclude"], function
 		}
 	}
 
-	function rootController($rootScope, $scope, $timeout, $http, socketService, sessionService, sessionHelper, userService, cssService, messageService, trustService, friendsService) {
+	function rootController($rootScope, $scope, $timeout, $http, socketService, sessionService, sessionHelper, userService, cssService, messageService, trustService, friendsService, keyStore) {
 		var buildDate = "20140518";
 
 		generalWorkerInclude.setBeforeCallBack(function (evt, cb) {
 			$rootScope.$apply(cb);
+		});
+
+		keyStore.setAfterRequireCall(function (cb) {
+				$rootScope.$apply(function () {
+					cb();
+				});
 		});
 
 		$http({ method: "GET", url: "changelog.json?t=" + (new Date()).getTime(), cache: false }).success(function (data) {
@@ -130,7 +136,7 @@ define(["step", "whispeerHelper", "cryptoWorker/generalWorkerInclude"], function
 		};
 	}
 
-	rootController.$inject = ["$rootScope", "$scope", "$timeout", "$http", "ssn.socketService", "ssn.sessionService", "ssn.sessionHelper", "ssn.userService", "ssn.cssService", "ssn.messageService", "ssn.trustService", "ssn.friendsService"];
+	rootController.$inject = ["$rootScope", "$scope", "$timeout", "$http", "ssn.socketService", "ssn.sessionService", "ssn.sessionHelper", "ssn.userService", "ssn.cssService", "ssn.messageService", "ssn.trustService", "ssn.friendsService", "ssn.keyStoreService"];
 
 	return rootController;
 });
