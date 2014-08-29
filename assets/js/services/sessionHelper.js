@@ -80,7 +80,7 @@ define(["step", "whispeerHelper", "crypto/trustManager", "asset/securedDataWithM
 						profile: {
 							content: profile.priv
 						},
-						own: profile.metaData
+						own: profile.own
 					}, { isDecrypted: true });
 
 					var privateProfileMe = new ProfileService({

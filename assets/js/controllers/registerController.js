@@ -321,7 +321,7 @@ define(["step", "whispeerHelper", "asset/resizableImage", "asset/observer"], fun
 				pub: {},
 				priv: {},
 				nobody: $scope.user,
-				metaData: {
+				own: {
 					scope: "always:allfriends"
 				}
 			};
