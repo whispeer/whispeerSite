@@ -2,13 +2,18 @@
 @line-height: 1.426em; // 20px / 14px;
 
 @small-font-size: 0.786em; // 11px / 14px
-@small-line-height: 1.426em; // 20px;
+@small-line-height: 1.426em; // 20px
 
 @large-font-size: 1.786em;
 @large-line-height: 1.426em;
 
+@text-color: #000000;
+@detail-color: #888888;
+
+
 body, h1, h2, h3, h4, h5 {
 	.normal-text();
+	color: @text-color;
 }
 
 .normal-text() {
@@ -32,13 +37,18 @@ body, h1, h2, h3, h4, h5 {
 	line-height: @large-line-height;
 }
 
-small {
+.detail-text() {
 	.small-text();
-	color: #9e9e9e;
+	color: @detail-color;
 }
 
-// Hyperlinks
-// ---------------------
+.minimal-line-height() {
+	line-height: @small-line-height;
+}
+
+small {
+	.detail-text();
+}
 
 a {
 	color: @linkColor;
