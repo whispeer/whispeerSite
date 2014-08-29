@@ -33,7 +33,7 @@ define(["step", "whispeerHelper", "asset/observer", "asset/securedDataWithMetaDa
 			};
 
 			this.setUser = function (uids, cb) {
-				var newKey, oldKey = circleSec.metaAttr("circleKey"), removing = false;
+				var newKey, oldKey = circleSec.metaAttr("circleKey"), removing = false, friendKeys;
 				step(function () {
 					uids = uids.map(h.parseDecimal);
 					removing = h.arraySubtract(circleUsers, uids).length > 0;
@@ -53,9 +53,8 @@ define(["step", "whispeerHelper", "asset/observer", "asset/securedDataWithMetaDa
 					} else {
 						encryptKeyForUsers(newKey, h.arraySubtract(uids, circleUsers), this.parallel());
 					}
-				}), h.sF(function (users) {
-					uids = users;
-
+				}), h.sF(function (_friendKeys) {
+					friendKeys = _friendKeys;
 					circleSec.metaSet({
 						users: uids,
 						circleKey: newKey
@@ -73,6 +72,8 @@ define(["step", "whispeerHelper", "asset/observer", "asset/securedDataWithMetaDa
 					if (removing) {
 						update.decryptors = keyStore.upload.getDecryptors([oldKey], [newKey]);
 						update.key = keyStore.upload.getKey(newKey);
+					} else {
+						update.decryptors = keyStore.upload.getDecryptors([newKey], friendKeys);
 					}
 
 					socket.emit("circle.update", { update: update }, this);
@@ -172,6 +173,7 @@ define(["step", "whispeerHelper", "asset/observer", "asset/securedDataWithMetaDa
 
 		function encryptKeyForUsers(key, users, cb) {
 			users = users.map(h.parseDecimal);
+			var keys;
 			step(function () {
 				if (users && users.length > 0) {
 					this.ne();
@@ -185,12 +187,15 @@ define(["step", "whispeerHelper", "asset/observer", "asset/securedDataWithMetaDa
 					}
 				});
 
-				users.forEach(function (user) {
-					var friendKey = friendsService.getUserFriendShipKey(user);
+				keys = users.map(function (user) {
+					return friendsService.getUserFriendShipKey(user);
+				});
+
+				keys.forEach(function (friendKey) {
 					keyStore.sym.symEncryptKey(key, friendKey, this.parallel());
-				}, this);
+				});
 			}), h.sF(function () {
-				this.ne(users);
+				this.ne(keys);
 			}), cb);
 		}
 
@@ -223,15 +228,14 @@ define(["step", "whispeerHelper", "asset/observer", "asset/securedDataWithMetaDa
 				});
 			},
 			create: function (name, cb, users) {
-				var key, theCircle, userIDs;
+				var key, theCircle;
+				users = users.map(h.parseDecimal);
 				step(function () {
 					generateNewKey(this);
 				}, h.sF(function (symKey) {
 					key = symKey;
 					encryptKeyForUsers(key, users, this);
-				}), h.sF(function (users) {
-					userIDs = users;
-
+				}), h.sF(function () {
 					var own = userService.getown();
 					var mainKey = own.getMainKey();
 
