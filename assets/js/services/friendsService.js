@@ -13,7 +13,7 @@ define(["step", "whispeerHelper", "asset/observer", "asset/securedDataWithMetaDa
 	*/
 
 	var service = function ($rootScope, $injector, socket, sessionService, keyStore, initService) {
-		var friends = [], requests = [], requested = [], signedList, onlineFriends = {};
+		var friends = [], requests = [], requested = [], ignored = [], removed = [], signedList, onlineFriends = {};
 		var friendsData = {
 			requestsCount: 0,
 			friendsCount: 0,
@@ -67,6 +67,7 @@ define(["step", "whispeerHelper", "asset/observer", "asset/securedDataWithMetaDa
 			step(function () {
 				this.parallel.unflatten();
 				SecuredData.load(undefined, {
+					initial: removed.indexOf(ownUser.getID()) === -1,
 					removedFriend: otherUser.getID()
 				}, { type: "removeFriend" }).sign(ownUser.getSignKey(), this.parallel());
 
@@ -141,6 +142,24 @@ define(["step", "whispeerHelper", "asset/observer", "asset/securedDataWithMetaDa
 			userOnline(requestData.uid, requestData.status);
 		});
 
+		function removeUnfriendedPersons(cb) {
+			var userService = $injector.get("ssn.userService");
+			step(function () {
+				debugger;
+				userService.getMultiple(removed, this);
+			}, h.sF(function (removedFriends) {
+				//TODO: check for valid signed removal!
+				var toCall = removedFriends.map(function (friend) {
+					return function () {
+						friendsService.removeFriend(friend.getID(), this);
+					};
+				});
+				toCall.push(this);
+
+				step.apply(null, toCall);
+			}), cb);
+		}
+
 		var friendsService = {
 			getUserFriends: function (uid, cb) {
 				step(function () {
@@ -152,11 +171,13 @@ define(["step", "whispeerHelper", "asset/observer", "asset/securedDataWithMetaDa
 				}), cb);
 			},
 			removeFriend: function (uid, cb) {
-				if (friends.indexOf(uid) === -1) {
-					return;
+				if (friends.indexOf(uid) === -1 && removed.indexOf(uid) === -1) {
+					throw new Error("not a friend!");
 				}
 
-				var otherUser, userService = $injector.get("ssn.userService"), ownUser = userService.getown(), circles;
+				var userService = $injector.get("ssn.userService"), circleService = $injector.get("ssn.circleService");
+				var otherUser, ownUser = userService.getown(), circles;
+
 				step(function () {
 					userService.get(uid, this);
 				}, h.sF(function (u) {
@@ -173,20 +194,23 @@ define(["step", "whispeerHelper", "asset/observer", "asset/securedDataWithMetaDa
 					}, this);
 				}), h.sF(function (result) {
 					if (result.success) {
-						//get all circles this user is in!
-						circles = $injector.get("ssn.circleService").inWhichCircles(uid);
-						circles.forEach(function (circle) {
-							circle.removePersons([uid], this.parallel());
-						}, this);
+						circleService.loadAll(this);
 					} else {
 						throw new Error("could not remove friends");
 					}
 				}), h.sF(function () {
+					//get all circles this user is in!
+					circles = circleService.inWhichCircles(uid);
+					circles.forEach(function (circle) {
+						circle.removePersons([uid], this.parallel());
+					}, this);
+					this.parallel()();
+				}), h.sF(function () {
 					//remove user from circles
 					var scopes = circles.map(function (c) { return "circle:" + c.getID(); });
 					scopes.push("always:allfriends");
-					userService.getOwn().rebuildProfilesByScopes(scopes, this);
 					//update profile for new friendsKey
+					ownUser.rebuildProfilesByScopes(scopes, this);
 				}), cb);
 			},
 			friendship: function (uid, cb) {
@@ -256,16 +280,15 @@ define(["step", "whispeerHelper", "asset/observer", "asset/securedDataWithMetaDa
 				friends = data.friends.map(h.parseDecimal);
 				requests = data.requests.map(h.parseDecimal);
 				requested = data.requested.map(h.parseDecimal);
-				//TODO!
-				//var ignored = data.ignored.map(h.parseDecimal);
-				//var removed = data.removed.map(h.parseDecimal);
+				ignored = data.ignored.map(h.parseDecimal);
+				removed = data.removed.map(h.parseDecimal);
 
 				updateCounters();
 
 				signedList = SecuredData.load(undefined, data.signedList || {}, { type: "signedFriendList" });
 
 				var requestedOrFriends = signedList.metaKeys().map(h.parseDecimal);
-				if (!h.arrayEqual(requestedOrFriends, requested.concat(friends))) {
+				if (!h.arrayEqual(requestedOrFriends, requested.concat(friends).concat(removed))) {
 					throw new Error("unmatching arrays");
 				}
 
@@ -276,6 +299,13 @@ define(["step", "whispeerHelper", "asset/observer", "asset/securedDataWithMetaDa
 						signedList.verify(userService.getown().getSignKey(), this);
 					}
 				}, h.sF(function () {
+					if (removed.length > 0) {
+						removeUnfriendedPersons(this);
+					} else {
+						this.ne();
+					}
+				}), h.sF(function () {
+					var requestedOrFriends = signedList.metaKeys().map(h.parseDecimal);
 					requestedOrFriends.forEach(function (uid) {
 						keyStore.security.addEncryptionIdentifier(signedList.metaAttr(uid));
 					});
@@ -297,6 +327,8 @@ define(["step", "whispeerHelper", "asset/observer", "asset/securedDataWithMetaDa
 				friends = [];
 				requests = [];
 				requested = [];
+				ignored = [];
+				removed = [];
 				onlineFriends = [];
 			},
 			data: friendsData

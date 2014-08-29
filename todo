@@ -1,4 +1,8 @@
-- add removed lists to initial data
-- on client side:
- - remove all friends in the unfriended list
-  - fix: unmatching arrays
+fixes:
+- ui: display friend removal after button click
+- check the signed request (when adding and removing a friend)
+
+- re-adding a user to a circle (after removing him) does not work w/o reload
+- adding a user to an existing circle does not give him any access rights
+
+- long term: profile management sucks (profiles get lost, created profiles are not there immediatly)
