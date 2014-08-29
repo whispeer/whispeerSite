@@ -8,7 +8,7 @@ define(["step", "whispeerHelper", "asset/resizableImage", "asset/observer"], fun
 	function registerController($scope, errorService, sessionHelper, sessionService, cssService) {
 		var resizableImage = new ResizableImage();
 		var observer = new Observer();
-		cssService.setClass("registerView");
+		//cssService.setClass("registerView");
 		
 		var ENDSIZE = 256;
 		var CANVASWIDTH = 600, CANVASHEIGHT = 300;

@@ -1,6 +1,51 @@
 <div id="logo">
 	<img src="assets/img/logo.png">
 </div>
-<section id="register">
-	<ng-include data-ng-click="registerFormClick()" data-onload="stepLoaded()" data-src="'assets/views/start/register/step' + registerState.step + '.html'"></ng-include>
+<header>
+	<h1>Unser Auftrag: Der Schutz deiner Privatsphäre!</h1>
+	<p>whispeer ist ein soziales Netzwerk, dass sich auf die Sicherheit deiner Daten spezialisiert hat.</p>
+</header>
+<div id="landing">
+	<img src="assets/img/landing.png">
+</div>
+<section id="register" data-ng-controller="ssn.registerController">
+	<div data-ng-click="registerFormClick()" data-onload="stepLoaded()">
+		<h4 data-i18n="login.register.newaccount"></h4>
+		<div class="inputWrap" data-enter="nextRegisterStep()">
+			<div data-error-hint="registerError"
+				data-error-hint-f1="nicknameInvalid()" data-error-hint-t1="login.register.errors.nickInvalid" 
+				data-error-hint-f2="nicknameUsed()" data-error-hint-t2="login.register.errors.nickUsed">
+				<input type="text" id="rnickname" data-i18n-attr="login.username|placeholder" data-ng-model="$parent.nickname" data-ng-model-onblur data-ng-change="nicknameChange()" required>
+				<span class="icon" id="rnicknameIcon">
+					<img data-ng-src="{{acceptIconNicknameFree()}}" alt="Ok!">
+				</span>
+			</div>
+			<div data-error-hint="registerError"
+				data-error-hint-f1="mailInvalid()" data-error-hint-t1="login.register.errors.mailInvalid" 
+				data-error-hint-f2="mailUsed()" data-error-hint-t2="login.register.errors.mailUsed">
+				<input type="email" id="rmail" data-i18n-attr="login.register.email|placeholder" data-ng-model="$parent.mail" data-ng-model-onblur data-ng-change="mailChange()">
+				<span class="icon check" id="rmailIcon">
+					<img data-ng-src="{{acceptIconMailFree()}}" alt="Ok!">
+				</span>
+			</div>
+			<div data-error-hint="registerError"
+				data-error-hint-f1="passwordToWeak()" data-error-hint-t1="login.register.errors.passwordWeak">
+				<input type="password" id="rpassword" data-i18n-attr="login.password|placeholder" data-ng-model="$parent.password" data-strength="{{passwordStrength()}}" required>
+			</div>
+			<div data-error-hint="registerError"
+				data-error-hint-f1="noPasswordMatch()" data-error-hint-t1="login.register.errors.passwordNoMatch">
+				<input type="password" id="rpassword2" data-i18n-attr="login.register.repeatPassword|placeholder" data-ng-model="$parent.password2" data-strength="{{passwordStrength()}}" required>
+				<span class="icon check" id="rpassword2Icon">
+					<img data-ng-src="{{acceptIcon(password, password2)}}" alt="Password correct?">
+				</span>
+			</div>
+			<div id="registerPasswordStrength" data-strength="{{passwordStrength()}}">
+				<span data-i18n="login.register.passwordstrength"></span>
+				<span>{{passwordStrength()}}/10</span>
+			</div>
+		</div>
+		<div class="submitWrap">
+			<button id="registerFormNextStep" class="btn btn--big" type="submit"  data-ng-click="nextRegisterStep()" data-i18n="login.register.next"></button>
+		</div>
+	</div>
 </section>

@@ -1,0 +1,64 @@
+.startView {
+	background: @green;
+	#main {
+		.width(11);
+		.push(0.5);
+		.pull(0.5);
+		text-align: center;
+		#logo {
+			height: 120px;
+			img {
+				width: auto;
+				height: 100%;
+			}
+		}
+		header {
+			.column(8);
+			.push(2);
+			.pull(2);
+			padding: 5px 0;
+			h1, p {
+				color: #fff;
+			}
+			h1 {
+				// we have to define a size for h1 here because it is not properly set!
+				font-size: 20px;
+			}
+		}
+		header, section {
+			background: @primaryLightest;
+			border-radius: 5px;
+			.box-fix;
+		}
+		#landing {
+			.column(7.5);
+			img {
+				max-width: 100%;
+			}
+		}
+		#register {
+			.column(4);
+			margin-top: 40px;
+			h4 {
+				color: #fff;
+				font-size: 18px;
+			}
+			div {
+				width: 100%;
+				float: left;
+				margin-bottom: 5px;
+				input, button {
+					.column(10);
+					.push(1);
+				}
+				img {
+					float: left;
+					margin-top: 10px;
+					margin-left: -30px;
+					width: 16px;
+					height: 16px;
+				}
+			}
+		}
+	}
+}

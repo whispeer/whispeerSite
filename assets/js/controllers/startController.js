@@ -6,7 +6,7 @@ define([], function () {
 	"use strict";
 
 	function startController($scope, sessionHelper, cssService) {
-		cssService.setClass("registerView");
+		cssService.setClass("startView");
 		$scope.registerState = {
 			step: 1
 		};
