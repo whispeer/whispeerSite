@@ -369,6 +369,10 @@ define(["step", "whispeerHelper", "asset/state", "asset/securedDataWithMetaData"
 						throw new Error("bug");
 					}
 
+					scopes = scopes.filter(function (scope) {
+						return oldScopes.indexOf(scope) !== -1;
+					});
+
 					profilesToDelete = scopes.map(function (e) {
 						return priv[oldScopes.indexOf(e)].getID();
 					});

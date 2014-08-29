@@ -193,7 +193,7 @@ define(["step", "whispeerHelper", "asset/observer", "asset/securedDataWithMetaDa
 
 				keys.forEach(function (friendKey) {
 					keyStore.sym.symEncryptKey(key, friendKey, this.parallel());
-				});
+				}, this);
 			}), h.sF(function () {
 				this.ne(keys);
 			}), cb);
