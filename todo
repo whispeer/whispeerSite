@@ -1,3 +1,16 @@
+- Profile:
+ - Needs a big refactoring
+ - Not secure against swap attacks (switch own data to wrong profile)
+ - Really buggy (difficult to add new profiles for scopes/delete them)
+ - Sluggish code
+ - Idea:
+  - have one big securedData object with encrypted content:
+   - scope: {id: profileID, hash: hash}
+  - eliminates swap attacks and should decrease buggyness
+  - maybe also a back reference? (id: scope?)
+  - automatically disallows doubles, adding is easy
+  - disadvantage: needs to be updated when any profile is updated, data is not next to profile!
+
 - Verify:
  - add comments
 
