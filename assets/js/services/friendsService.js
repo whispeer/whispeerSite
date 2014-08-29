@@ -42,7 +42,7 @@ define(["step", "whispeerHelper", "asset/observer", "asset/securedDataWithMetaDa
 
 				this.parallel.unflatten();
 				SecuredData.load(undefined, {
-					friend: otherUser.getID()
+					user: otherUser.getID()
 				}, { type: "friendShip" }).sign(ownUser.getSignKey(), this.parallel());
 
 				var listData = {};
@@ -68,7 +68,7 @@ define(["step", "whispeerHelper", "asset/observer", "asset/securedDataWithMetaDa
 				this.parallel.unflatten();
 				SecuredData.load(undefined, {
 					initial: removed.indexOf(ownUser.getID()) === -1,
-					removedFriend: otherUser.getID()
+					user: otherUser.getID()
 				}, { type: "removeFriend" }).sign(ownUser.getSignKey(), this.parallel());
 
 				signedList.metaRemoveAttr(otherUser.getID());
@@ -142,15 +142,35 @@ define(["step", "whispeerHelper", "asset/observer", "asset/securedDataWithMetaDa
 			userOnline(requestData.uid, requestData.status);
 		});
 
+		function checkAndRemove(uid, cb) {
+			var userService = $injector.get("ssn.userService");
+			step(function () {
+				this.parallel.unflatten();
+
+				userService.get(uid, this.parallel());
+				socket.emit("friends.getSignedData", {
+					uid: uid
+				}, this.parallel());
+			}, h.sF(function (user, data) {
+				var signedData = data.signedData;
+				if (h.parseDecimal(signedData.user) !== userService.getown().getID() || signedData.initial === "false") {
+					throw new Error("invalid signed removal");
+				}
+
+				SecuredData.load(undefined, signedData, { type: "removeFriend" }).verify(user.getSignKey(), this);
+			}), h.sF(function () {
+				friendsService.removeFriend(uid, this);
+			}), cb);
+		}
+
 		function removeUnfriendedPersons(cb) {
 			var userService = $injector.get("ssn.userService");
 			step(function () {
 				userService.getMultiple(removed, this);
 			}, h.sF(function (removedFriends) {
-				//TODO: check for valid signed removal!
 				var toCall = removedFriends.map(function (friend) {
 					return function () {
-						friendsService.removeFriend(friend.getID(), this);
+						checkAndRemove(friend.getID(), this);
 					};
 				});
 				toCall.push(this);
