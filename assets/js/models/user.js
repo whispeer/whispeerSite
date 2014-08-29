@@ -373,8 +373,8 @@ define(["step", "whispeerHelper", "asset/state", "asset/securedDataWithMetaData"
 						return priv[oldScopes.indexOf(e)].getID();
 					});
 
-					priv = priv.filter(function (p, i) {
-						return scopes.indexOf(oldScopes[i]) === -1;
+					priv = priv.filter(function (p) {
+						return profilesToDelete.indexOf(p.getID()) === -1;
 					});
 
 					//create new ones
