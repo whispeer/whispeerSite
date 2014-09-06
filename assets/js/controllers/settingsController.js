@@ -95,13 +95,11 @@ define(["whispeerHelper", "step", "asset/state", "libs/qr"], function (h, step, 
 		$scope.saveSafety = function () {
 			saveSafetyState.pending();
 			step(function () {
-				settingsService.getBranch("privacy", this);
-			}, h.sF(function (branch) {
-				userService.getown().rebuildProfilesForSettings($scope.safety, branch, this);
-			}), h.sF(function () {
 				settingsService.updateBranch("privacy", $scope.safety, this);
-			}), h.sF(function () {
+			}, h.sF(function () {
 				settingsService.uploadChangedData(this);
+			}), h.sF(function () {
+				userService.getown().uploadChangedProfile(this);
 			}), errorService.failOnError(saveSafetyState));
 		};
 
@@ -124,8 +122,10 @@ define(["whispeerHelper", "step", "asset/state", "libs/qr"], function (h, step, 
 
 			var me = userService.getown();
 			step(function () {
-				me.setProfileAttribute("basic.firstname", $scope.firstName, this.parallel());
-				me.setProfileAttribute("basic.lastname", $scope.lastName, this.parallel());
+				me.setProfileAttribute("basic", {
+					firstname: $scope.firstName,
+					lastname: $scope.lastName
+				}, this.parallel());
 			}, h.sF(function () {
 				me.uploadChangedProfile(this);
 			}), h.sF(function () {
