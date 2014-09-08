@@ -6,7 +6,7 @@ define(["step"], function (step) {
 	"use strict";
 
 	function loginController($scope, errorService, sessionHelper, cssService) {
-		cssService.setClass("registerView");
+		//cssService.setClass("registerView");
 
 		$scope.password = "";
 
