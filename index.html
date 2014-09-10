@@ -67,7 +67,7 @@
 				<img src="assets/img/icons/settings.png" alt="Settings" class="icon">
 			</div>
 		</div>
-		<div id="login">
+		<div id="login" data-ng-if="!loggedin">
 			<ng-include data-ng-controller="ssn.loginController" data-src="'assets/views/start/login/login.html'"></ng-include>
 		</div>
 	</nav>
