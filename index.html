@@ -34,7 +34,7 @@
 	<!--[if lte IE 8]><p class=chromeframe>Your browser is <em>ancient!</em> <a href="http://browsehappy.com/">Upgrade to a different browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to experience this site.</p><![endif]-->
 	<noscript>Hallo! Leider steht uns bei deinem Browser kein Javascript zur Verfügung!<br> Daher ist es nicht möglich whispeer zu nutzen, da wir unbedingt Javascript benötigen!<br> Vielen Dank für dein Verständnis!</noscript>
 	<!-- !Top Bar -->
-	<nav id="topNav" data-ng-if="loggedin" data-ng-cloak data-ng-class="{push: (mobile && sidebarActive && !searchActive)}">
+	<nav id="topNav" data-ng-cloak data-ng-class="{push: (mobile && sidebarActive && !searchActive)}">
 		<div id="navInner">
 			<button class="toggle" id="toggleSidebar" data-ng-click="toggleSidebar()" data-ng-if="mobile">
 				<i class="icon icon-menu"></i>
@@ -46,11 +46,11 @@
 			</button>
 			<a href="start" id="brand" data-ng-click="mobileActivateView()"><span id="brandNormal">whis</span><span id="brandInverse">peer</span></a>
 			<button class="toggle" id="toggleSearch" data-ng-click="toggleSearch()" data-ng-if="mobile"><i class="icon icon-search"></i></button>
-			<div class="nav-collapse collapse">
+			<div class="nav-collapse collapse" data-ng-if="loggedin">
 				<usersearch size="big" data-input-i18n-attr="menu.search|placeholder"/>
 			</div>
 		</div>
-		<div id="navIcons" data-ng-if="!mobile" data-ng-controller="ssn.magicbar.mainController">
+		<div id="navIcons" data-ng-if="!mobile && loggedin" data-ng-controller="ssn.magicbar.mainController">
 			<div class="navIcon" id="messageicon" data-ng-click="loadWidget('messages')">
 				<img src="assets/img/icons/messages.png" alt="Nachrichten" class="icon">
 				<span class="badge" data-ng-if="messages.unread!=0">{{messages.unread}}</span>
@@ -66,6 +66,9 @@
 			<div class="navIcon" id="settingsicon" data-ng-click="loadWidget('settings')">
 				<img src="assets/img/icons/settings.png" alt="Settings" class="icon">
 			</div>
+		</div>
+		<div id="login">
+			<ng-include data-ng-controller="ssn.loginController" data-src="'assets/views/start/login/login.html'"></ng-include>
 		</div>
 	</nav>
 	<!-- end !Top Bar-->

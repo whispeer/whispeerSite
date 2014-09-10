@@ -1,5 +1,5 @@
 .startView {
-	background: @primary;
+	.radial(@green, @primary);
 	#main {
 		.width(11);
 		.push(0.5);
@@ -14,9 +14,8 @@
 		}
 		header {
 			padding: 5px 0;
-			float: left;
-			width: 100%;
-			margin: 0;
+			.column(7.5);
+			.pull(4.5);
 			h1, p {
 				color: #fff;
 			}
@@ -40,25 +39,22 @@
 		}
 		#landing {
 			float: left;
-			width: 100%;
-			margin: 0;
+			.column(7.5);
 			img {
 				max-width: 100%;
 			}
 		}
-		#leftWrap {
-			.column(7.5);
-		}
 		#rightWrap {
 			.column(4,12,right);
+			.pull(0.5);
 		}
-		#register, #login {
+		#register, {
 			width: 100%;
 			float: left;
-			margin-top: 10px;
+			margin-top: 40px;
 			h4 {
 				color: @primary;
-				font-size: 18px;
+				font-size: 20px;
 				margin: 10px 0;
 			}
 		}
@@ -80,28 +76,18 @@
 					width: 16px;
 					height: 16px;
 				}
+				&#registerPasswordStrength {
+					margin-top: 10px;
+					margin-bottom: 10px;
+				}
+				
+				&#registerAGB {
+					margin-bottom: 10px;
+				}
 			}
 			input:not([type="checkbox"]), button {
 				.column(10);
 				.push(1);
-			}
-		}
-		#login {
-			margin-top: 40px;
-			input {
-				.column(1,2);
-			}
-			#mail {
-				margin-left: 0.75%;
-			}
-			button {
-				.column(1,1);
-			}
-			input {
-				margin-bottom: 5px !important;
-			}
-			button {
-				margin-bottom: 10px;
 			}
 		}
 	}
