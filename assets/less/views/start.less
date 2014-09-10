@@ -1,57 +1,65 @@
 .startView {
-	background: @green;
+	background: @primary;
 	#main {
 		.width(11);
 		.push(0.5);
 		.pull(0.5);
-		text-align: center;
 		#logo {
 			height: 120px;
+			text-align: center;
 			img {
 				width: auto;
 				height: 100%;
 			}
 		}
 		header {
-			.column(8);
-			.push(2);
-			.pull(2);
 			padding: 5px 0;
+			float: left;
+			width: 100%;
+			margin: 0;
 			h1, p {
 				color: #fff;
 			}
 			h1 {
 				// we have to define a size for h1 here because it is not properly set!
+				font-size: 35px;
+			}
+			p {
 				font-size: 20px;
+				.column(8);
+				.pull(3);
 			}
 		}
-		header, section {
-			background: @primaryLightest;
-			border-radius: 5px;
+		section {
+			background: white;
+			border: 1px solid rgba(255,255,255,0.4);
+			//box-shadow: inset 0px 0px 5px @primaryLightest;
+			border-radius: 10px;
 			.box-fix;
+			text-align: center;
 		}
 		#landing {
-			.column(7.5);
+			float: left;
+			width: 100%;
+			margin: 0;
 			img {
 				max-width: 100%;
 			}
 		}
+		#leftWrap {
+			.column(7.5);
+		}
 		#rightWrap {
 			.column(4,12,right);
-			.pull(0.5);
-			margin-top: 40px;
 		}
 		#register, #login {
 			width: 100%;
 			float: left;
+			margin-top: 10px;
 			h4 {
-				color: #fff;
+				color: @primary;
 				font-size: 18px;
 				margin: 10px 0;
-			}
-			input:not([type="checkbox"]), button {
-				.column(10);
-				.push(1);
 			}
 		}
 		#register {
@@ -73,9 +81,22 @@
 					height: 16px;
 				}
 			}
+			input:not([type="checkbox"]), button {
+				.column(10);
+				.push(1);
+			}
 		}
 		#login {
-			margin-top: 10px;
+			margin-top: 40px;
+			input {
+				.column(1,2);
+			}
+			#mail {
+				margin-left: 0.75%;
+			}
+			button {
+				.column(1,1);
+			}
 			input {
 				margin-bottom: 5px !important;
 			}

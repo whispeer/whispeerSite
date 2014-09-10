@@ -1,14 +1,19 @@
 <div id="logo">
 	<img src="assets/img/logo.png">
 </div>
-<header>
-	<h1>Unser Auftrag: Der Schutz deiner Privatsphäre!</h1>
-	<p>whispeer ist ein soziales Netzwerk, dass sich auf die Sicherheit deiner Daten spezialisiert hat.</p>
-</header>
-<div id="landing">
-	<img src="assets/img/landing_white.png">
-</div>
+<sidebar id="leftWrap">
+	<header>
+		<h1>Unser Auftrag: Der Schutz deiner Privatsphäre!</h1>
+		<p>whispeer ist ein soziales Netzwerk, dass sich auf die Sicherheit deiner Daten spezialisiert hat.</p>
+	</header>
+	<div id="landing">
+		<img src="assets/img/landing_white.png">
+	</div>
+</sidebar>	
 <sidebar id="rightWrap">
+	<section id="login">
+		<ng-include data-ng-controller="ssn.loginController" data-src="'assets/views/start/login/login.html'"></ng-include>
+	</section>
 	<section id="register" data-ng-controller="ssn.registerController">
 		<div data-ng-click="registerFormClick()" data-onload="stepLoaded()">
 			<h4 data-i18n="login.register.newaccount"></h4>
@@ -43,11 +48,8 @@
 				</div>
 			</div>
 			<div class="submitWrap">
-				<button id="registerFormNextStep" class="btn btn--big" type="submit"  data-ng-click="nextRegisterStep()" data-i18n="login.register.link"></button>
+				<button id="registerFormNextStep" class="btn btn--big btn--danger" type="submit"  data-ng-click="nextRegisterStep()" data-i18n="login.register.link"></button>
 			</div>
 		</div>
-	</section>
-	<section id="login">
-		<ng-include data-ng-controller="ssn.loginController" data-src="'assets/views/start/login/login.html'"></ng-include>
 	</section>
 </section>	
