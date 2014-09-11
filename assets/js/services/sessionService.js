@@ -45,28 +45,31 @@ define([], function () {
 				loaded = true;
 			}
 
-			if (loggedin) {
-				if (ownLoaded) {
-					if (loggoutRequired.indexOf(c) > -1) {
-						if (returnURL && returnURL !== "/loading") {
-							$location.path(returnURL);
-							returnURL = undefined;
-						} else {
-							$location.path("/main");
-						}
-					}
+			//save return path if we are 
+			// - not logging out
+			// - not already fully loaded 
+			// - do not already have a return path
+			if (!ownLoaded && !logout && !returnURL) {
+				returnURL = $location.path();
+			}
+
+			//not logged in but on a page requiring logout --> landing
+			if (!loggedin && noLoginRequired.indexOf(c) === -1) {
+				$location.path("/start");
+				return;
+			}
+
+			//logged in but not yet loaded -> loading page
+			if (loggedin && !ownLoaded) {
+				$location.path("/loading");
+			}
+
+			if (loggedin && ownLoaded && loggoutRequired.indexOf(c) > -1) {
+				if (returnURL && returnURL !== "/loading") {
+					$location.path(returnURL);
+					returnURL = undefined;
 				} else {
-					if (!returnURL) {
-						returnURL = $location.path();
-					}
-					$location.path("/loading");
-				}
-			} else {
-				if (noLoginRequired.indexOf(c) === -1) {
-					if (!logout) {
-						returnURL = $location.path();
-					}
-					$location.path("/start");
+					$location.path("/main");
 				}
 			}
 		}
@@ -88,6 +91,10 @@ define([], function () {
 		}
 
 		var sessionService = {
+			setReturnURL: function (url) {
+				returnURL = url;
+			},
+
 			setSID: function (newSID, userid) {
 				setSID(newSID, userid);
 			},

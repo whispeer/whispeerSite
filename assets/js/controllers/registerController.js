@@ -5,7 +5,7 @@
 define(["step", "whispeerHelper"], function (step, h) {
 	"use strict";
 
-	function registerController($scope, errorService, sessionHelper) {
+	function registerController($scope, errorService, sessionHelper, sessionService) {
 		$scope.password = "";
 		$scope.password2 = "";
 
@@ -139,6 +139,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 
 			step(function () {
 				console.time("register");
+				sessionService.setReturnURL("/setup");
 				sessionHelper.register($scope.nickname, "", $scope.password, profile, undefined, settings, this);
 			}, function () {
 				console.timeEnd("register");
@@ -147,7 +148,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 		};
 	}
 
-	registerController.$inject = ["$scope", "ssn.errorService", "ssn.sessionHelper"];
+	registerController.$inject = ["$scope", "ssn.errorService", "ssn.sessionHelper", "ssn.sessionService"];
 
 	return registerController;
 });
