@@ -2,11 +2,14 @@
 * setupController
 **/
 
-define([], function () {
+define(["asset/state"], function (State) {
 	"use strict";
 
 	function setupController($scope, cssService) {
 		cssService.setClass("setupView");
+
+		var saveSetupState = new State();
+		$scope.saveSetupState = saveSetupState.data;
 
 		$scope.backup = function () {
 			//create backup key

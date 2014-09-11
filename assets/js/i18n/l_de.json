@@ -10,6 +10,9 @@
 		}
 	},
 	"views": {
+		"setup": {
+			"save": "Name und E-Mail speichern"
+		},
 		"mail": {
 			"verify": "E-Mail bestätigen",
 			"updateMe": "Ich möchte Updates per E-Mail erhalten",
