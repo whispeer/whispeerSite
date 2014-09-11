@@ -1,15 +1,19 @@
 <h1>Willkommen bei Whispeer!</h1>
 
-<div>
-	<i class="fa fa-2x fa-warning" style="float: left; margin-right: 5px; margin-top: 7px;"></i>
+<div class="backup">
+	<i class="fa fa-2x fa-warning warning"></i>
 	Wir haben keinen Zugriff auf deine Daten.<br>
 	Dein Account ist <strong>verloren</strong>, wenn du dein Passwort vergisst!<br><br>
-	<button class="btn btn--primary btn--big"><i class="fa fa-download"></i> Backup herunterladen</button>
-	<button class="btn btn--primary  btn--big"><i class="fa fa-print"></i> Backup ausdrucken</button>
+	<button class="btn btn--primary btn--big" data-ng-click="downloadBackup()">
+		<i class="fa fa-download"></i> Backup herunterladen
+	</button>
+	<button class="btn btn--primary  btn--big" data-ng-click="printBackup()">
+		<i class="fa fa-print"></i> Backup ausdrucken
+	</button>
 </div>
 
-<div>
-	<h2>Freiwillige Angaben:</h2>
+<div class="profile">
+	<h1>Freiwillige Angaben:</h1>
 	<div class="name">
 		<h3>Nenne uns deinen Vor- und Nachnamen damit Freunde dich einfacher finden:</h3>
 		<input name="firstname" placeholder="Vorname">
@@ -20,6 +24,7 @@
 		<h3>Nenne uns deine E-Mail damit wir dich bei Neuigkeiten benachrichtigen können:</h3>
 		<input name="mail" placeholder="E-Mail">
 	</div>
-</div>
 
-<savebutton data-state="saveSetupState" data-noiniticon data-translation="views.setup.save"></savebutton><button class="btn btn--danger">Abbrechen</button>
+	<savebutton data-state="saveSetupState" data-noiniticon data-translation="views.setup.save"></savebutton>
+	<button class="btn btn--danger">Abbrechen</button>
+</div>
