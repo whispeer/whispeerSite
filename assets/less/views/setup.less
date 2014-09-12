@@ -10,9 +10,11 @@
 	}
 	.backup {
 		background: @orange;
-		border: 1px solid darken(@orange, 20%);
+		/*
+border: 1px solid darken(@orange, 20%);
 		box-shadow: inset 0px 0px 2px darken(@orange, 20%);
 		border-radius: 5px;
+*/
 		padding: 5px;
 		.box-fix;
 		@media @desktop {
@@ -27,7 +29,8 @@
 		}
 	}
 	.profile {
-		.box();
+		background: @grayLighter;
+		padding: 5px;
 		@media @desktop {
 			.column(8);
 			.push(2);
@@ -35,7 +38,12 @@
 		}
 		@media @mobile {
 			.column(12);
-		}	
+		}
+		header {
+			.title {
+				.bold-text();
+			}
+		}
 		.name, .mail, .submit {
 			// same styling for desktop and mobile ahead!
 			.column(12);
