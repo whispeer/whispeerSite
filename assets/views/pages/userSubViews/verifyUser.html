@@ -5,22 +5,27 @@
 		</header>
 		<div data-ng-if="!verifyCode && !qr.view" class="chooseVerifyMethod">
 			<h3 data-i18n="profile.trustmanager.chooseVerifyMethod|user={{user.basic.shortname}}"></h3>
-			<button class="btn btn--big btn--primary" data-ng-click="verifyWithCode()" data-i18n="profile.trustmanager.verifyWithCode"></button>
-			<button class="btn btn--big btn--primary" data-ng-disabled="!qr.available" data-ng-click="verifyWithQrCode()" data-i18n="profile.trustmanager.verifyWithQr"></button>
+			<button class="btn btn--big btn--primary" data-ng-click="verifyWithCode()" data-i18n="profile.trustmanager.verifyWithCode|user={{user.basic.shortname}}"></button>
+			<button class="btn btn--big btn--primary" data-ng-disabled="!qr.available" data-ng-click="verifyWithQrCode()" data-i18n="profile.trustmanager.verifyWithQr|user={{user.basic.shortname}}"></button>
 		</div>
-		<button class="btn btn btn--primary back" data-ng-if="verifyCode || qr.view" data-i18n="login.register.previous" data-ng-click="resetVerifcationMethod()"></button>
+		<button class="btn btn btn--primary back" data-ng-if="qr.available && (verifyCode || qr.view)" data-i18n="profile.trustmanager.back" data-ng-click="resetVerifcationMethod()"></button>
 		<div class="verify" data-ng-if="verifyCode">
-			<h3 data-i18n="profile.trustmanager.verifyUser|user={{user.basic.shortname}}"></h3>
-			<span data-i18n="profile.trustmanager.verifyInfo.code|user={{user.basic.shortname}}"></span>
+			<span data-syntaxify data-i18n="profile.trustmanager.verifyInfo.code|user={{user.basic.shortname}}"></span>
 			<div class="inputWrap">
-				<input type="text" placeholder="Fingerprint" data-ng-model="givenPrint">
+				<span data-ng-repeat="part in fingerPrint">
+					<input maxlength="{{part.length}}" type="text" data-i18n-attr="profile.trustmanager.part{{$index+1}}|placeholder" data-ng-model="givenPrint[$index]">
+					<span class="icon valid" data-ng-if="givenPrint[$index].length === 13">
+						<img data-ng-src="assets/img/accept.png" alt="OK" data-ng-if="givenPrint[$index]===part">
+						<img data-ng-src="assets/img/fail.png" alt="NOT" data-ng-if="givenPrint[$index]!==part">
+					</span>
+				</span>
+
 				<savebutton class="btn--input" data-state="verifyingUser" data-ng-click="verify(givenPrint)"></savebutton>
 			</div>	
 		</div>
 		<div class="verify" data-ng-show="qr.view">
-			<h3 data-i18n="profile.trustmanager.verifyUser|user={{user.basic.shortname}}"></h3>
-			<span data-ng-if="qr.noDevice" data-i18n="profile.trustmanager.nodevice"></span>
-			<span data-i18n="profile.trustmanager.verifyInfo.qr|user={{user.basic.shortname}}"></span>
+			<h2 class="error" data-ng-if="qr.noDevice" data-i18n="profile.trustmanager.nodevice"></h2>
+			<span data-syntaxify data-i18n="profile.trustmanager.verifyInfo.qr|user={{user.basic.shortname}}"></span>
 			<div class="qrScanner">
 				<video id="qrCodeVideo" autoplay width="100%"></video>
 				{{qrCode}}

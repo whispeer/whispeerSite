@@ -19,8 +19,6 @@ define(["step", "whispeerHelper", "asset/resizableImage", "asset/state", "libs/q
 		$scope.loadingFriends = true;
 		$scope.verifyNow = false;
 
-		$scope.verifyCode = false;
-
 		var verifyState = new State();
 		$scope.verifyingUser = verifyState.data;
 
@@ -35,6 +33,8 @@ define(["step", "whispeerHelper", "asset/resizableImage", "asset/state", "libs/q
 				}
 			}
 		};
+
+		$scope.verifyCode = !$scope.qr.available;
 
 		$scope.verifyWithCode = function () {
 			$scope.verifyCode = true;
@@ -121,7 +121,7 @@ define(["step", "whispeerHelper", "asset/resizableImage", "asset/state", "libs/q
 			initializeReader();
 		};
 
-		$scope.givenPrint = "";
+		$scope.givenPrint = ["", "", "", ""];
 
 		$scope.toggleVerify = function () {
 			$scope.verifyNow = !$scope.verifyNow;
@@ -130,7 +130,7 @@ define(["step", "whispeerHelper", "asset/resizableImage", "asset/state", "libs/q
 		$scope.verify = function (fingerPrint) {
 			verifyState.pending();
 
-			var ok = userObject.verifyFingerPrint(fingerPrint, function (e) {
+			var ok = userObject.verifyFingerPrint(fingerPrint.join(""), function (e) {
 				if (e) {
 					verifyState.failed();
 					errorService.criticalError(e);
@@ -386,6 +386,9 @@ define(["step", "whispeerHelper", "asset/resizableImage", "asset/state", "libs/q
 			userService.get(identifier, this);
 		}, h.sF(function (user) {
 			userObject = user;
+
+			var fp = user.getFingerPrint();
+			$scope.fingerPrint = [fp.substr(0,13), fp.substr(13,13), fp.substr(26,13), fp.substr(39,13)];
 
 			postService.getWallPosts(0, userObject.getID(), function (err, posts) {
 				$scope.posts = posts;

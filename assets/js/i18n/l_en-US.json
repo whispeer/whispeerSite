@@ -206,17 +206,22 @@
 			"sendMessage": "Send {user} a message"
 		},
 		"trustmanager" : {
-			"verifyTitle":	"Verify this User",
+			"part1": "Part 1",
+			"part2": "Part 2",
+			"part3": "Part 3",
+			"part4": "Part 4",
+			"verifyTitle":	"User verification",
+			"back": "Back",
 			"TODO": "TRANSLATE!",
 			"verifyInfo": {
-				"code":	"Hierzu benötigst du den Fingerprint von {user}. Diesen kann er in seinen Einstellungen unter \"Dein Fingerprint\" abrufen. Ihr solltet euch zum übermitteln des Codes am besten persönlich treffen, aber mindestens telefonisch Kontakt aufnehmen.",
-				"qr":	"Halte den QR-Code von {user} in deine Kamera, sodass er im unteren Fenster sichtbar ist. Sobald der Code erkannt wurde, wird {user} automatisch verifiziert."
+				"code":	"Please input {user}'s fingerprint.[br] He can find his fingerprint on the settings page![br] Never use online communication to share the fingerprint as it is insecure! Best practice is to meet in person.",
+				"qr":	"Please scan {user}'s qr-code with your camera.[br] {user} will be automatically verified, as soon as our software detects the correct qr-code"
 			},
-			"nodevice": "No camera found!",
+			"nodevice": "We could not detect a camera!",
 			"verifyUser":	"Verifying {user}",
-			"verifyWithCode":	"Enter fingerprint manually",
-			"verifyWithQr":		"Scan fingerprint as QR-Code",
-			"chooseVerifyMethod":	"How would you like to verify {user}",
+			"verifyWithCode":	"Manual input",
+			"verifyWithQr":		"QR-Code",
+			"chooseVerifyMethod":	"Please verify {user}'s identity. Select a verification method:",
 			"qrSaveButton":	{
 				"fail":	"Fingerprint wrong! Please try again!",
 				"pending":	"Verifying fingerprint!"
