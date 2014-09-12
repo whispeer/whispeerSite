@@ -212,7 +212,6 @@
 			"part4": "Part 4",
 			"verifyTitle":	"User verification",
 			"back": "Back",
-			"TODO": "TRANSLATE!",
 			"verifyInfo": {
 				"code":	"Please input {user}'s fingerprint.[br] He can find his fingerprint on the settings page![br] Never use online communication to share the fingerprint as it is insecure! Best practice is to meet in person.",
 				"qr":	"Please scan {user}'s qr-code with your camera.[br] {user} will be automatically verified, as soon as our software detects the correct qr-code"
