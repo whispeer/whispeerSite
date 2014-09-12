@@ -37,18 +37,13 @@
 			.column(12);
 		}	
 		.name, .mail, .submit {
-			@media @desktop {
-				.column(8);
-				.push(2);
-				.pull(2);
-			}
-			@media @mobile {
-				.column(12);
-			}
+			// same styling for desktop and mobile ahead!
+			.column(12);
 			h3 {
 				// workaround with a float and .width() here to keep the original h3 margin!
 				float: left; 
 				.width(12);
+				text-align: left;
 			}
 		}
 		.name {
