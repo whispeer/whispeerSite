@@ -552,6 +552,21 @@ define(["step", "whispeerHelper", "asset/state"], function (step, h, State) {
 
 			this.update = updateUser;
 
+			this.createBackupKey = function (cb) {
+				var outerKey;
+				step(function () {
+					keyStoreService.sym.createBackupKey(mainKey, this);
+				}, h.sF(function (innerKey, _outerKey) {
+					outerKey = _outerKey;
+
+					socketService.emit("user.backupKey", {
+						innerKey: innerKey
+					}, this);
+				}), h.sF(function () {
+					this.ne(outerKey);
+				}), cb);
+			};
+
 			this.getTrustLevel = function (cb) {
 				step(function () {
 					theUser.getTrustData(this);

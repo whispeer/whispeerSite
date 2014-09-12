@@ -1787,6 +1787,28 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 				}), callback);
 			},
 
+			createBackupKey: function (realID, callback) {
+				/* two keys: key1 -> key2 -> main
+				* key2 is on the server
+				* key1 is downloaded/printed
+				* server never distributes key2 except when advised to do so (manually for now!)
+				*/
+				var backupKey, outerBackupKey;
+				step(function symGen1() {
+					waitForReady(this);
+				}, h.sF(function () {
+					SymKey.get(realID, this);
+				}), h.sF(function symGen2(toBackupKey) {
+					outerBackupKey = sjcl.random.randomWords(8);
+					backupKey = new SymKey(sjcl.random.randomWords(8));
+
+					toBackupKey.addSymDecryptor(backupKey, this.parallel());
+					backupKey.addSymDecryptor(new SymKey(outerBackupKey), this.parallel());
+				}), h.sF(function () {
+					this.ne(backupKey.getUploadData(), outerBackupKey);
+				}), callback);
+			},
+
 			/** encrypt key with sym key
 			* @param realID key to encrypt
 			* @param parentKeyID key to encrypt with
