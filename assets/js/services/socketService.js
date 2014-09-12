@@ -126,11 +126,11 @@ define(["jquery", "socket", "socketStream", "step", "whispeerHelper", "config", 
 
 					if (data.error) {
 						console.error(data);
+						console.groupEnd();
 						throw new Error("server returned an error!");
-					} else {
-						console.info(data);
 					}
 
+					console.info(data);
 					console.groupEnd();
 
 					var that = this;
