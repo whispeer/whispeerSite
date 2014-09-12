@@ -1,15 +1,36 @@
 .circlesView {
+	#container {
+		@media @mobile { padding-top: 55px; }
+	}
 	.maxHeight {
 		height: 100%;
 	}
 	#main {
 		.box;
+		overflow: hidden;
 	}
 	header {
 		.title {
+			@media @desktop { .column(7,12); }
+			@media @mobile { .column(10.5,12); &.circleLoaded{ .column(9,12); } }
 			overflow: hidden;
 			white-space: nowrap;
 			text-overflow: ellipsis;
+		}
+		#newcircle {
+			@media @mobile { .column(12,12,left,0); border: none !important; }
+			@media @desktop { .column(4,12,left,0); }
+		}
+		#removeCircle {
+			@media @desktop { .column(1,12,right,0); }
+			@media @mobile { .column(1.5,12,right,0); }
+			text-align: center !important;
+			border-left: 1px solid #ccc !important;
+		}
+		#backToMenu {
+			@media @mobile { .column(1.5,12,left,0); }
+			text-align: center !important;
+			border-left: 1px solid #ccc !important;
 		}
 		nav {
 			a {
@@ -31,48 +52,56 @@
 		}
 	}
 	#circleListWrap {
-		margin-right: 3px;
+		@media @mobile { .column(12,12,left,0); }
+		@media @desktop { .column(4,12,left,0); border-right: 1px solid #ccc; .box-fix;}
+		height: calc(~"100% - 31px");
 		#circleList {
 			.unstyled;
 			.box-fix;
+			height: 100%;
+			margin: 0;
 			#circleListScroll {
 				.box-fix;
-				margin-top: 10px;
-			}
-			#newcircle {
-				border: none;
-				.border-radius(2px);
-				.btn {
-					width: 100%;
-					cursor: pointer;
-				}
-				&:hover {
-					background: none;
-				}
+				margin-top: 0;
+				height: 100%;
+				overflow-y: scroll;
 			}
 			.circle {
-				.border-radius(5px);
+				width: 100%;
 				border: none;
 				border-bottom: 1px solid #aaa;
 				padding: 0;
-				.left {
-					padding: 0;
+				cursor: pointer;
+				transition: background 0.2s ease;
+				&:last-child {
+					border-bottom: none;
+				}
+				.image {
+					@media @mobile { .column(2); }
+					@media @desktop { .column(2,11); }
+					padding: 5px 0 0 0;
 					.userimg {
-						.border-radiuses(0,0,5px,5px);
+						border-radius: 100%;
 						padding: 0;
+						width: 100%;
 					}
 				}
-				.listname {
-					strong {
-						text-overflow: ellipsis;
-						overflow: hidden;
-						display: inline-block;
-						white-space: nowrap;
-					}	
-				}
-				.personCount {
-					font-size: 0.85em;
-					color: #555;
+				.info {
+					@media @mobile { .column(10); margin-top: 5px; }
+					@media @desktop { .column(9,11); }
+					.listname {
+						width: 100%;
+						strong {
+							width: 100%;
+							text-overflow: ellipsis;
+							overflow: hidden;
+							display: inline-block;
+							white-space: nowrap;
+						}
+					}
+					.personCount {
+						color: #555;
+					}
 				}
 				&:hover {
 					background-color: @primaryLightest;
@@ -93,10 +122,9 @@
 					}
 					&:hover {
 						background-color: @primaryLightest;
-					}		
+					}
 				}
 				.time {
-					font-size: small;
 					color: #888;
 					float: right;
 					margin-right: 5px;
@@ -106,6 +134,11 @@
 		}
 	}
 	#circleContainer {
+		@media @desktop { .column(8,12,left,1); margin: 0 0 0 1%; }
+		height: calc(~"100% - 31px");
+		padding-right: 1%;
+		.box-fix;
+		overflow-y: scroll;
 		#circleTitle {
 			h2 {
 				white-space: nowrap;
@@ -147,18 +180,29 @@
 		#circleWrap {
 			width: 100%;
 			height: 100%;
-			overflow-y: scroll;
 			#friendsList {
 				.clear-fix;
 				text-align: center;
-				li {	
+				height: 100%;
+				margin: 0;
+				&:before, &:after {
+					height: 1%;
 					position: relative;
+					width: 100%;
+					float: left;
+					background: transparent;
+				}
+				li {
+					position: relative;
+					@media @mobile { .column(1,2); }
+					@media @desktop { .column(1,3); }
+					.person {
+						margin: 1% !important;
+					}
 					&.add {
 						background: none;
 						border: 1px solid #ccc;
 						span {
-							font-size: 100px;
-							line-height: 40px;
 							display: inline-block;
 							margin-top: 50%;
 						}
@@ -168,10 +212,10 @@
 								text-shadow: 0px 0px 2px #ddd;
 							}
 						}
-					}	
+					}
 				}
 			}
-		}	
+		}
 		&.newCircle {
 			#circleTitle {
 				h2 {
@@ -179,13 +223,22 @@
 					margin-left: -1%;
 				}
 			}
-			#circleName {
-				margin-bottom: 14px !important;
-			}
-			#savecircle {
-				padding: 10px 10px;
-				margin-left: 1% !important;
-			}
-		}	
+			#inputWrap {
+				.column(12);
+				position: relative;
+				top: 0;
+				left: 0;
+				margin-top: 1%;
+				#titleInput, #friendInput {
+					.column(12);
+					margin-bottom: 1%;
+				}
+				#savecircle {
+					@media @mobile { .column(12); }
+					padding: 10px 10px;
+					margin-left: 1% !important;
+				}
+			}	
+		}
 	}
 }

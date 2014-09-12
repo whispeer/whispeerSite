@@ -1,8 +1,8 @@
 .mainView {
 	#wall {
+		overflow-y: scroll;
 		height: 100%;
 		width: 100%;
-		float: left;
 		padding-top: 80px;
 		.box-fix;
 		header {
@@ -55,7 +55,7 @@
 					border-top: 1px solid #aaa;
 					.border-radius(0);
 				}
-			}	
+			}
 			#filter {
 				.column(4,12);
 				height: 80px;
@@ -66,8 +66,6 @@
 					.gradient(@btnBackground, @btnBackgroundHover);
 					border: 1px solid @btnBorder;
 					.border-radius(4px);
-					font-size: @baseFontSize;
-					line-height: @baseLineHeight;
 				}
 				#theFilter {
 					.column(12,12);
@@ -80,19 +78,12 @@
 							border: none;
 							.border-radius(0px);
 						}
-					}	
+					}
 					.searchDrop {
 						margin-top: 5px;
-					}	
+					}
 				}
 			}
-		}
-		.posts {
-			float: left;
-			width: 100% !important;
-			margin: 0;
-			overflow-y: scroll;
-			height: 100%;
 		}
 	}
 }

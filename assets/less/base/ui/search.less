@@ -99,7 +99,6 @@
 				position: relative;
 				cursor: pointer;
 				.info {
-					font: 100 10px;
 					color: @gray;
 					.nickname {
 						color: @grayDark;
@@ -200,6 +199,9 @@
 				overflow-y: hidden;
 				overflow-x: scroll;
 				li {
+					// TODO this is due to lack of better vertical centering.
+					// 35px is a magic value from search.
+					line-height: 35px;
 					white-space: nowrap;
 					&.searchField {
 						float: none;

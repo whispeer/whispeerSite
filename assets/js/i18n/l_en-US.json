@@ -4,7 +4,7 @@
 			"newmessage": "{data}: New Message",
 			"basic": "whispeer",
 			"terms": "Terms and conditions",
-			"data": "Data protection regulations",
+			"data": "Privacy policy",
 			"contact": "Contact",
 			"notice": "Site notice"
 		}
@@ -22,11 +22,15 @@
 			"searchFriends": "Type in the names of your friends you want to add to this circle!",
 			"titleForNew": "Type in the title of this circle!",
 			"header": {
-				"title":	"Show circles",
+				"title":	{
+					"loaded": "Show Circle:",
+					"create": "Create new Circle"
+				},
 				"createGroup": "Copy as group",
 				"sendMessage": "Message to circle",
 				"addPeople":	"Add persons"
 			},
+			"removeCircle":	"Do you really want to remove this Circle?",
 			"newCircle":	"Create a new circle",
 			"new": "New circle",
 			"createCircle": "Create circle",
@@ -56,7 +60,7 @@
 	"general": {
 		"send":	"Send",
 		"cancel":	"Cancel",
-		"disconnected":	"You've lost your connection to whispeer's Servers"
+		"disconnected":	"You've lost your connection to the whispeer server"
 	},
 	"notification": {
 		"newmessage":	"New Message from {user}"
@@ -113,7 +117,7 @@
 		"logout": "Logout",
 		"search": "Search...",
 		"legal":	"Legal",
-		"notifications":	"Mitteilungen"
+		"notifications":	"Mitteilungen ({count})"
 	},
 	"login": {
 		"username": "Username",
@@ -124,8 +128,8 @@
 			"errors": {
 				"nickInvalid": "Invalid username",
 				"nickUsed": "This username is already in use",
-				"mailInvalid": "Invalid Mail",
-				"mailUsed": "This Mail is already in use",
+				"mailInvalid": "Invalid mail",
+				"mailUsed": "This mail is already in use",
 				"passwordWeak": "Password to weak",
 				"passwordNoMatch": "Passwords do not match"
 			},
@@ -187,7 +191,10 @@
 		}
 	},
 	"profile": {
-		"edit":	"Edit profile",
+		"edit": {
+			"false":	"Edit profile",
+			"true":		"Finish"
+		},
 		"head":	{
 			"info":	"Info",
 			"wall":	"Wall",
@@ -235,14 +242,14 @@
 					"info": "Birthday"
 				},
 				"location": {
-					"": "Lives in {town}, {state}, {country}",
+					"": "Lives in {town}, {country}",
 					"country": "Lives in {country}",
-					"state": "Lives in {state}",
-					"countrystate": "Lives in {state}, {country}",
 					"town": "Lives in {town}",
 					"countrytown": "Lives in {town}, {country}",
-					"statetown": "Lives in {town}, {state}",
-					"countrystatetown": "Lives in {town}, {state}, {country}"
+					"placeholders": {
+						"city":		"City",
+						"country":	"Country"
+					}
 				},
 				"relation":	{
 					"": "",
@@ -254,7 +261,7 @@
 
 					"default": "{relationType} with {partner}",
 					"noPartner": "{relationType}",
-
+					"placeholder":	"Partner",
 					"status": {
 						"": "",
 						"single":	"single",
@@ -268,11 +275,18 @@
 						"inlove":	"in love"
 					}
 				},
-				"education":	"Education: {school}",
+				"education": {
+					"display":	"Education: {school}",
+					"edit":		"School / University"
+				},
 				"work":	{
 					"whatwhere": "working as {what} at {where}",
 					"what": "working as {what}",
-					"where": "working at {where}"
+					"where": "working at {where}",
+					"placeholders": {
+						"what":		"Job",
+						"where":	"Company"
+					}
 				},
 				"gender":	{
 					"": "",
@@ -280,9 +294,14 @@
 					"default":	"{gender}",
 					"m":	"male",
 					"f":	"female",
-					"n":	"No gender selected"
+					"none":	"No gender selected",
+					"other":"Custom",
+					"otherInput": "Your Gender"
 				},
-				"languages":	"{language}"
+				"languages": {
+					"display":	"{language}",
+					"edit":		"Language"
+				}
 			},
 			"wall": {
 				"title":	"Wall"
@@ -312,8 +331,8 @@
 				"answer":	"No. If you want to register, you can do this with a Username only. You can, though, give you E-Mail address. You can, of course, choose if you want to give your full name or maybe only a part. But you can encrypt your name, so that later, only your friends on whispeer can see your full name."
 			},
 			"password": {
-				"question": "How do I create a secure password??",
-				"answer":	"We created a 10-point system that helps you finding more secure passwords. You can read more about this on our Blog: http://blog.whispeer.de/de/2013/08/update-wie-whispeer-dir-hilft-ein-sicheres-passwort-zu-finden/ und http://blog.whispeer.de/de/2013/07/wie-whispeer-dir-hilft-ein-sicheres-passwort-zu-finden/ "
+				"question": "How do I create a secure password?",
+				"answer":	"We created a 10-point system that helps you find more secure passwords. You can read more about this on our Blog: http://blog.whispeer.de/de/2013/08/update-wie-whispeer-dir-hilft-ein-sicheres-passwort-zu-finden/ and http://blog.whispeer.de/de/2013/07/wie-whispeer-dir-hilft-ein-sicheres-passwort-zu-finden/ Both posts are written in German. An English version is following."
 			},
 			"profile": {
 				"question": "How can I edit my profile?",
@@ -370,10 +389,10 @@
 				"birthday": "Birthday",
 				"relationship": "Relationship status",
 				"education": "Education",
-				
+
 				"work": "Job",
 				"gender": "Gender",
-				"languages": "Interface Language",
+				"languages": "Language",
 				"names": {
 					"header": "Name",
 					"firstname": "First name",
@@ -385,10 +404,10 @@
 				"firstname":	"Who may see your first name?",
 				"lastname":		"Who may see your last name?",
 				"birthday":		"Who may see your date of birth?",
-				"location":		"Who may see which City you live in?",
-				"relationship":	"Who may see your relationsship status?",
+				"location":		"Who may see which city you live in?",
+				"relationship":	"Who may see your relationship status?",
 				"education":	"Who may see your level of education?",
-				"work":			"Who may see your Job?",
+				"work":			"Who may see your job?",
 				"gender":		"Who may see your gender?",
 				"languages":	"Who may see which languages you are speaking?"
 			}
@@ -407,7 +426,7 @@
 				"notificationSounds": {
 					"title":		"Notification sounds",
 					"on":			"On",
-					"off":			"Off"	
+					"off":			"Off"
 				},
 				"fingerprints": {
 					"title":	"Your Fingerprint"

@@ -73,8 +73,8 @@ define(["step", "whispeerHelper", "asset/state"], function (step, h, State) {
 
 		$scope.scrollLock = false;
 
-		$scope.markRead = function (messageid) {
-			$scope.activeTopic.obj.markRead(messageid, errorService.criticalError);
+		$scope.markRead = function () {
+			$scope.activeTopic.obj.markRead(errorService.criticalError);
 		};
 
 		$scope.loadMoreMessages = function () {
@@ -136,7 +136,7 @@ define(["step", "whispeerHelper", "asset/state"], function (step, h, State) {
 
 					var m = theTopic.data.messages;
 					if (m.length > 0) {
-						theTopic.markRead(m[m.length - 1].id, errorService.criticalError);
+						theTopic.markRead(errorService.criticalError);
 					}
 				});
 			}));
@@ -162,6 +162,7 @@ define(["step", "whispeerHelper", "asset/state"], function (step, h, State) {
 				$scope.canSend = true;
 				if (!e) {
 					$scope.activeTopic.newMessage = "";
+					$scope.markRead(errorService.criticalError);
 					$timeout(function () {
 						sendMessageState.reset();
 					}, 2000);
