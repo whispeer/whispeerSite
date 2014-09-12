@@ -1,16 +1,90 @@
 .setupView {
+	text-align: center;
 	h1 {
-		.large-text()
+		.large-text();
 	}
 	h2 {
-		.bold-text()
+		.bold-text();
+	}
+	.backup {
+		background: @orange;
+		border: 1px solid darken(@orange, 20%);
+		box-shadow: inset 0px 0px 2px darken(@orange, 20%);
+		border-radius: 5px;
+		padding: 5px;
+		.box-fix;
+		@media @desktop {
+			.column(8);
+			.push(2);
+			.pull(2);
+			margin-bottom: 0.67em;
+		}
+		@media @mobile {
+			.column(12);
+			margin-bottom: 0.67em;
+		}
+	}
+	.profile {
+		.box();
+		@media @desktop {
+			.column(8);
+			.push(2);
+			.pull(2);
+		}
+		@media @mobile {
+			.column(12);
+		}	
+		.name, .mail, .submit {
+			@media @desktop {
+				.column(8);
+				.push(2);
+				.pull(2);
+			}
+			@media @mobile {
+				.column(12);
+			}
+			h3 {
+				// workaround with a float and .width() here to keep the original h3 margin!
+				float: left; 
+				.width(12);
+			}
+		}
+		.name {
+			input {
+				@media @desktop {
+					.column(6);
+				}
+				@media @mobile {
+					.column(12);
+					margin-bottom: 0.5em;
+				}
+			}
+		}
+		.mail {
+			input {
+				// same styling for desktop and mobile ahead!
+				.column(12);
+			}
+		}
+		.submit {
+			margin-top: 1em;
+			margin-bottom: 1em;
+			button {
+				@media @desktop {
+					.column(6);
+				}
+				@media @mobile {
+					.column(12);
+					&:first-child {
+						margin-bottom: 0.5em;
+					}
+				}
+			}
+		}
 	}
 	.warning {
 		float: left;
 		margin-right: 5px;
 		margin-top: 7px;
-	}
-	.mail {
-		margin-bottom: 1em;
 	}
 }

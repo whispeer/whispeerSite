@@ -2,18 +2,18 @@
 
 <div class="backup">
 	<i class="fa fa-2x fa-warning warning"></i>
-	Wir haben keinen Zugriff auf deine Daten.<br>
+	Wir haben <strong>keinen</strong> Zugriff auf deine Daten.<br>
 	Dein Account ist <strong>verloren</strong>, wenn du dein Passwort vergisst!<br><br>
 	<button class="btn btn--primary btn--big" data-ng-click="downloadBackup()">
-		<i class="fa fa-download"></i> Backup herunterladen
+		<i class="fa fa-download"></i> <span>Backup herunterladen</span>
 	</button>
-	<button class="btn btn--primary  btn--big" data-ng-click="printBackup()">
-		<i class="fa fa-print"></i> Backup ausdrucken
+	<button class="btn btn--primary btn--big" data-ng-click="printBackup()">
+		<i class="fa fa-print"></i> <span>Backup ausdrucken</span>
 	</button>
 </div>
 
 <div class="profile">
-	<h1>Freiwillige Angaben:</h1>
+	<header><span class="title">Freiwillige Angaben:</span></header>
 	<div class="name">
 		<h3>Nenne uns deinen Vor- und Nachnamen damit Freunde dich einfacher finden:</h3>
 		<input name="firstname" placeholder="Vorname">
@@ -24,7 +24,8 @@
 		<h3>Nenne uns deine E-Mail damit wir dich bei Neuigkeiten benachrichtigen können:</h3>
 		<input name="mail" placeholder="E-Mail">
 	</div>
-
-	<savebutton data-state="saveSetupState" data-noiniticon data-translation="views.setup.save"></savebutton>
-	<button class="btn btn--danger">Abbrechen</button>
+	<div class="submit">
+		<savebutton data-state="saveSetupState" data-noiniticon data-translation="views.setup.save" class="btn--big"></savebutton>
+		<button class="btn btn--danger btn--big">Abbrechen</button>
+	</div>
 </div>
