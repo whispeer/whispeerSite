@@ -185,6 +185,14 @@ define(["step", "whispeerHelper"], function (step, h) {
 			}, cb);
 		};
 
+		MyBlob.prototype.getStringRepresentation = function (cb) {
+			if (this._legacy) {
+				cb(null, this._blobData);
+			} else {
+				h.blobToDataURI(this._blobData, cb);
+			}
+		};
+
 		MyBlob.prototype.getHash = function (cb) {
 			var that = this;
 			step(function () {
@@ -219,8 +227,58 @@ define(["step", "whispeerHelper"], function (step, h) {
 					knownBlobs[blobID] = new MyBlob(dataString, blobID, { decrypted: isPublic });
 				}
 
+				addBlobToDB(knownBlobs[blobID]);
+
 				this.ne(knownBlobs[blobID]);
 			}), step.multiplex(blobListener[blobID]));
+		}
+
+		var db, request;
+		step(function () {
+			request = window.indexedDB.open("whispeer");
+			request.onerror = this;
+			request.onsuccess = this.ne;
+			request.onupgradeneeded = function (event) {
+				var db = event.target.result;
+				db.createObjectStore("blobs");
+			};
+		}, h.sF(function () {
+			db = request.result;
+			db.onerror = function (event) {
+				console.log(event);
+			};
+		}));
+
+		function loadBlobFromDB(blobID, err, success) {
+			if (db) {
+				db.transaction("blobs").objectStore("blobs").get(blobID).onsuccess = function(event) {
+					if (event.target.result) {
+						var blob = h.dataURItoBlob(event.target.result);
+						if (blob) {
+							knownBlobs[blobID] = new MyBlob(blob, blobID);
+						} else {
+							knownBlobs[blobID] = new MyBlob(event.target.result, blobID);
+						}
+
+						success(null, knownBlobs[blobID]);
+					} else {
+						err();
+					}
+				};
+			} else {
+				err();
+			}
+		}
+
+		function addBlobToDB(blob) {
+			if (db) {
+				blob.getStringRepresentation(function (err, blobString) {
+					if (!err) {
+						var store = db.transaction("blobs", "readwrite").objectStore("blobs");
+						store.add(blobString, blob.getBlobID());
+					}
+				});
+			}
 		}
 
 		var api = {
@@ -229,6 +287,8 @@ define(["step", "whispeerHelper"], function (step, h) {
 			},
 			getBlob: function (blobID, cb, isPublic) {
 				step(function () {
+					loadBlobFromDB(blobID, this, this.last);
+				}, h.sF(function () {
 					if (knownBlobs[blobID]) {
 						this.ne(knownBlobs[blobID]);
 					} else if (blobListener[blobID]) {
@@ -237,7 +297,12 @@ define(["step", "whispeerHelper"], function (step, h) {
 						blobListener[blobID] = [this];
 						loadBlob(blobID, isPublic);
 					}
-				}, cb);
+				}), h.sF(function (data) {
+					var blob = h.dataURItoBlob("data:image/png;base64," + data.blob);
+					knownBlobs[blobID] = new MyBlob(blob, blobID);
+
+					this.ne(knownBlobs[blobID]);
+				}), cb);
 			}
 		};
 
