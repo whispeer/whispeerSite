@@ -1,25 +1,23 @@
-@media print {
-	.setupView {
+.setupView {
+	.printCanvas {
+		display: none;
+	}
+
+	@media print {
 		div {
 			display: none
 		}
 		header {
 			display: none
 		}
+		.printCanvas {
+			display: inline-block;
+			position: fixed;
+			top: 0px;
+			left: 0px;
+		}
 	}
-	.printCanvas {
-		display: block;
-		position: fixed;
-		top: 0px;
-		left: 0px;
-	}
-}
 
-.printCanvas {
-	display: none;
-}
-
-.setupView {
 	#main {
 		text-align: center;
 	}
