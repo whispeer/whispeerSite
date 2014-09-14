@@ -39,7 +39,8 @@ define(["step", "whispeerHelper", "asset/state", "libs/qr"], function (step, h, 
 				ctx.fillText(keyData.substr(0, 26), 10, image.height + 50);
 				ctx.fillText(keyData.substr(26), 10, image.height + 75);
 
-				console.log(keyData);
+				ctx.fillText("whispeer-Passwort vergessen?", 10, image.height + 125);
+				ctx.fillText("https://beta.whispeer.de/recovery", 10, image.height + 150);
 
 				var a = document.createElement("a");
 				a.href = c.toDataURL();
