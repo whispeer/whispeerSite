@@ -11,7 +11,7 @@ define(["step", "whispeerHelper", "asset/state", "libs/qr"], function (step, h, 
 		var saveSetupState = new State();
 		$scope.saveSetupState = saveSetupState.data;
 
-		$scope.downloadBackup = function () {
+		function createBackup(cb) {
 			step(function () {
 				userService.getown().createBackupKey(this);
 			}, h.sF(function (keyData) {
@@ -42,14 +42,30 @@ define(["step", "whispeerHelper", "asset/state", "libs/qr"], function (step, h, 
 				ctx.fillText("whispeer-Passwort vergessen?", 10, image.height + 125);
 				ctx.fillText("https://beta.whispeer.de/recovery", 10, image.height + 150);
 
+				this.ne(c);
+			}), cb);
+		}
+
+		$scope.downloadBackup = function () {
+			step(function () {
+				createBackup(this);
+			}, h.sF(function (canvas) {
 				var a = document.createElement("a");
-				a.href = c.toDataURL();
+				a.href = canvas.toDataURL();
 				a.download = "whispeer-backup.png";
 				a.click();
 			}), errorService.criticalError);
-			//create backup key
-			//encrypt main key w/ backup key
-			//download backup key
+		};
+
+		$scope.printBackup = function () {
+			step(function () {
+				createBackup(this);
+			}, h.sF(function (canvas) {
+				canvas.className = "printCanvas";
+				document.body.appendChild(canvas);
+
+				window.print();
+			}), errorService.criticalError);
 		};
 	}
 
