@@ -10,6 +10,9 @@
 		}
 	},
 	"views": {
+		"setup": {
+			"save": "Save Mail and Name"
+		},
 		"mail": {
 			"verify": "verify Mail",
 			"updateMe": "I would like to receive updates via mail",

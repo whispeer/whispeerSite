@@ -381,7 +381,11 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 		function addSymDecryptorF(realid, callback) {
 			var cryptor;
 			step(function addSymD1() {
-				SymKey.get(realid, this);
+				if (realid instanceof SymKey) {
+					this.ne(realid);
+				} else {
+					SymKey.get(realid, this);
+				}
 			}, h.sF(function addSymD2(cryptorKey) {
 				cryptor = cryptorKey;
 				theKey.decryptKey(this);
@@ -390,7 +394,7 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 				cryptor.encrypt("key::" + chelper.bits2hex(secret), this);
 			}), h.sF(function addSymD4(data) {
 				var decryptorData = {
-					decryptorid: realid,
+					decryptorid: cryptor.getRealID(),
 					type: "symKey",
 					ct: chelper.bits2hex(data.ct),
 					iv: chelper.bits2hex(data.iv),
@@ -401,7 +405,7 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 				dirtyKeys.push(superKey);
 				dirtyDecryptors.push(decryptorData);
 
-				this.ne(realid);
+				this.ne(cryptor.getRealID());
 			}), callback);
 		}
 
@@ -1603,6 +1607,9 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 				var hex = keyID.split(":")[1];
 				return sjcl.codec.base32.fromBits(sjcl.codec.hex.toBits(hex));
 			},
+			base32: function (bits) {
+				return sjcl.codec.base32.fromBits(bits);
+			},
 			unformat: function (str, start) {
 				if (str.indexOf(start + "::") !== 0) {
 					throw new errors.InvalidDataError("format invalid");
@@ -1695,25 +1702,19 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 			getDecryptors: function (allowed, allowedEncryptors) {
 				var addKeyDecryptors = {};
 
-				var i, j, decryptors, encryptorFilter;
-				for (i = 0; i < dirtyKeys.length; i += 1) {
-					if (allowed.indexOf(dirtyKeys[i].getRealID()) !== -1) {
-						decryptors = dirtyKeys[i].getDecryptorData();
-						
-						if (allowedEncryptors) {
-							encryptorFilter = [];
-							for (j = 0; j < decryptors.length; j += 1) {
-								if (allowedEncryptors.indexOf(decryptors[j].decryptorid) !== -1) {
-									encryptorFilter.push(decryptors[j]);
-								}
-							}
+				dirtyKeys.filter(function (key) {
+					return allowed.indexOf(key.getRealID()) !== -1;
+				}).forEach(function (key) {
+					var decryptors = key.getDecryptorData();
 
-							decryptors = encryptorFilter;
-						}
-
-						addKeyDecryptors[dirtyKeys[i].getRealID()] = decryptors;
+					if (allowedEncryptors) {
+						decryptors = decryptors.filter(function (decryptor) {
+							return allowedEncryptors.indexOf(decryptor.decryptorid) !== -1;
+						});
 					}
-				}
+
+					addKeyDecryptors[key.getRealID()] = decryptors;
+				});
 
 				return addKeyDecryptors;
 			},
@@ -1793,19 +1794,25 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 				* key1 is downloaded/printed
 				* server never distributes key2 except when advised to do so (manually for now!)
 				*/
-				var backupKey, outerBackupKey;
+				var backupKey, outerBackupKey, toBackupKey;
 				step(function symGen1() {
 					waitForReady(this);
 				}, h.sF(function () {
 					SymKey.get(realID, this);
-				}), h.sF(function symGen2(toBackupKey) {
+				}), h.sF(function symGen2(_toBackupKey) {
+					toBackupKey = _toBackupKey;
 					outerBackupKey = sjcl.random.randomWords(8);
 					backupKey = new SymKey(sjcl.random.randomWords(8));
 
 					toBackupKey.addSymDecryptor(backupKey, this.parallel());
 					backupKey.addSymDecryptor(new SymKey(outerBackupKey), this.parallel());
 				}), h.sF(function () {
-					this.ne(backupKey.getUploadData(), outerBackupKey);
+					var decryptorsAdded = keyStore.upload.getDecryptors([toBackupKey.getRealID()], [backupKey.getRealID()]);
+					var backupKeyData = backupKey.getUploadData();
+
+					backupKeyData.decryptors[0].type = "backup";
+
+					this.ne(decryptorsAdded, backupKeyData, outerBackupKey);
 				}), callback);
 			},
 
