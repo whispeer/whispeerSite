@@ -33,10 +33,10 @@
 					var lineBreak = jQuery("<div/>").html("&#xa;").text();
 
 					if (value) {
-						elm.addClass("hint--right hint--error hint--always")
+						elm.addClass("hint hint--bottom hint--always")
 							.attr("data-hint", localize.getLocalizedString(attrs["errorHintT" + value]).replace("[br]", lineBreak));
 					} else {
-						elm.removeClass("hint--right hint--error hint--always")
+						elm.removeClass("hint hint--bottom hint--always")
 							.removeAttr("data-hint");
 					}
 				});

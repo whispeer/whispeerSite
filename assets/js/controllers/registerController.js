@@ -5,7 +5,7 @@
 define(["step", "whispeerHelper"], function (step, h) {
 	"use strict";
 
-	function registerController($scope, errorService, sessionHelper, sessionService) {
+	function registerController($scope, $timeout, errorService, sessionHelper, sessionService) {
 		$scope.password = "";
 		$scope.password2 = "";
 
@@ -14,8 +14,34 @@ define(["step", "whispeerHelper"], function (step, h) {
 		$scope.nicknameCheck = false;
 		$scope.nicknameCheckError = false;
 
+		$scope.nickNameError = true;
+		$scope.registerFailed = false;
+
+		$scope.agb = false;
+
 		$scope.passwordStrength = function passwordStrengthC() {
 			return sessionHelper.passwordStrength($scope.password);
+		};
+
+		var onlyError;
+		$scope.inputsUsed = function () {
+			$scope.registerFailed = false;
+			onlyError = false;
+		};
+
+		var timeout;
+
+		$scope.inputUsed = function (checkFunction) {
+			if (timeout) {
+				$timeout.cancel(timeout);
+			}
+
+			timeout = $timeout(function () {
+				if (!$scope.registerFailed) {
+					onlyError = checkFunction;
+					$scope.registerFailed = true;
+				}
+			}, 500);
 		};
 
 		$scope.registerFormClick = function formClickF() {
@@ -59,21 +85,76 @@ define(["step", "whispeerHelper"], function (step, h) {
 
 		$scope.showHint = false;
 
+		var errors = [];
+
+		function notPrevious(func) {
+			if (onlyError) {
+				return onlyError === func;
+			}
+
+			var filter = true, result = true;
+			errors.filter(function (val) {
+				if (val === func) {
+					filter = false;
+				}
+				return filter;
+			}).map(function (func) {
+				return func();
+			}).forEach(function (invalid) {
+				if (invalid) {
+					result = false;
+				}
+			});
+
+			return result;
+		}
+
+		$scope.empty = function (val) {
+			return val === "" || !h.isset(val);
+		};
+
+		$scope.nicknameEmpty = function () {
+			return $scope.empty($scope.nickname);
+		};
+
 		$scope.nicknameInvalid = function () {
-			return $scope.nickname === "" || !h.isNickname($scope.nickname);
+			return notPrevious($scope.nicknameInvalid) && !h.isNickname($scope.nickname);
 		};
 
 		$scope.nicknameUsed = function () {
-			return !$scope.nicknameInvalid() && !$scope.nicknameCheck && !$scope.nicknameCheckLoading;
+			return notPrevious($scope.nicknameUsed) && !$scope.nicknameCheck && !$scope.nicknameCheckLoading;
+		};
+
+		$scope.passwordEmpty = function () {
+			return notPrevious($scope.passwordEmpty) && $scope.empty($scope.password);
 		};
 
 		$scope.passwordToWeak = function () {
-			return $scope.passwordStrength() < 1;
+			return notPrevious($scope.passwordToWeak) && $scope.passwordStrength() < 1;
+		};
+
+		$scope.password2Empty = function () {
+			return notPrevious($scope.password2Empty) && $scope.empty($scope.password2);
 		};
 
 		$scope.noPasswordMatch = function () {
-			return $scope.password !== $scope.password2;
+			return notPrevious($scope.noPasswordMatch) &&  $scope.password !== $scope.password2;
 		};
+
+		$scope.isAgbError = function () {
+			return notPrevious($scope.isAgbError) && !$scope.agb;
+		};
+
+		errors = [
+			$scope.nicknameEmpty,
+			$scope.nicknameInvalid,
+			$scope.nicknameUsed,
+			$scope.passwordEmpty,
+			$scope.passwordToWeak,
+			$scope.password2Empty,
+			$scope.noPasswordMatch,
+			$scope.isAgbError
+		];
 
 		$scope.acceptIconNicknameFree = function acceptIconNickname() {
 			if ($scope.nicknameCheckLoading) {
@@ -97,6 +178,12 @@ define(["step", "whispeerHelper"], function (step, h) {
 		};
 
 		$scope.register = function doRegisterC() {
+			if ($scope.passwordStrength() === 0 || $scope.password !== $scope.password2 || !$scope.agb || !$scope.notEmpty($scope.nickname)) {
+				$scope.registerFailed = true;
+				onlyError = false;
+				return;
+			}
+
 			var settings = {
 				privacy: {
 					basic: {
@@ -148,7 +235,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 		};
 	}
 
-	registerController.$inject = ["$scope", "ssn.errorService", "ssn.sessionHelper", "ssn.sessionService"];
+	registerController.$inject = ["$scope", "$timeout", "ssn.errorService", "ssn.sessionHelper", "ssn.sessionService"];
 
 	return registerController;
 });

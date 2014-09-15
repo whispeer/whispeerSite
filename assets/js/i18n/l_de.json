@@ -125,19 +125,23 @@
 		"notifications":	"Mitteilungen ({count})"
 	},
 	"login": {
-		"username": "Benutzername",
+		"username": "Nutzername",
 		"password": "Passwort",
 		"link": "Einloggen",
-		"loginFailed": "Benutzername und Password stimmen nicht überein!",
+		"loginFailed": "Nutzername und Password stimmen nicht überein!",
 		"moreInfo":	"Mehr Info",
 		"register": {
 			"errors": {
-				"nickInvalid": "Invalider Username",
-				"nickUsed": "Dieser Username ist schon vergeben",
+				"nickEmpty": "Bitte gib einen Nutzernamen an",
+				"nickInvalid": "Der Nutzername darf nur Buchstaben und Zahlen beinhalten",
+				"nickUsed": "Dieser Nutzername ist schon vergeben",
 				"mailInvalid": "Invalide E-Mail",
 				"mailUsed": "Diese E-Mail ist schon vergeben",
+				"passwordEmpty": "Bitte gib ein Passwort ein",
 				"passwordWeak": "Passwort zu schwach",
-				"passwordNoMatch": "Passwörter stimmen nicht überein"
+				"password2Empty": "Bitte wiederhol dein Passwort",
+				"passwordNoMatch": "Passwörter stimmen nicht überein",
+				"agb": "Bitte akzeptiere die AGB!"
 			},
 
 			"link":	"Registrieren",

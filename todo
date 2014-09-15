@@ -1,3 +1,5 @@
 - translations
 - save/display mail (other branch?)
 - warning when user does not click on save key
+- register errors
+- login errors (-> redirect to login page)
