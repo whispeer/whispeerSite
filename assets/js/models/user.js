@@ -396,6 +396,23 @@ define(["step", "whispeerHelper", "asset/state"], function (step, h, State) {
 			this.uploadChangedProfile = uploadChangedProfile;
 			this.setProfileAttribute = setProfileAttribute;
 
+			this.setMail = function (newMail, cb) {
+				step(function () {
+					if (newMail !== mail) {
+						socketService.emit("user.mailChange", { mail: newMail }, this);
+					} else {
+						this.last.ne();
+					}
+				}, h.sF(function (data) {
+					if (data.error) {
+						throw new Error("mail not accepted");
+					} else {
+						mail = newMail;
+						this.ne();
+					}
+				}), cb);
+			};
+
 			this.verify = function (cb) {
 				step(function () {
 					privateProfiles.forEach(function (priv) {
