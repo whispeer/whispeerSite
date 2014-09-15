@@ -5,13 +5,49 @@
 define(["step", "whispeerHelper", "asset/state", "libs/qr"], function (step, h, State, qr) {
 	"use strict";
 
-	function setupController($scope, cssService, errorService, userService) {
+	function setupController($scope, $location, cssService, errorService, userService) {
 		cssService.setClass("setupView");
 
 		var saveSetupState = new State();
 		$scope.saveSetupState = saveSetupState.data;
 
+		$scope.backupClicked = false;
+		$scope.backupWarning = false;
+
+		$scope.firstName = "";
+		$scope.lastName = "";
+		$scope.mail = "";
+
+		step(function () {
+			var me = userService.getown();
+			$scope.mail = me.getMail();
+			me.getName(this);
+		}, h.sF(function (names) {
+			$scope.firstName = names.firstname;
+			$scope.lastName = names.lastname;
+		}), errorService.criticalError);
+
+		$scope.saveProfile = function () {
+			saveSetupState.pending();
+
+			var me = userService.getown();
+			step(function () {
+				me.setProfileAttribute("basic.firstname", $scope.firstName, this.parallel());
+				me.setProfileAttribute("basic.lastname", $scope.lastName, this.parallel());
+			}, h.sF(function () {
+				me.uploadChangedProfile(this);
+			}), h.sF(function () {
+				if ($scope.backupClicked) {
+					$location.path("/main");
+				} else {
+					$scope.backupWarning = true;
+				}
+				this.ne();
+			}), errorService.failOnError(saveSetupState));
+		};
+
 		function createBackup(cb) {
+			$scope.backupClicked = true;
 			step(function () {
 				userService.getown().createBackupKey(this);
 			}, h.sF(function (keyData) {
@@ -69,7 +105,7 @@ define(["step", "whispeerHelper", "asset/state", "libs/qr"], function (step, h, 
 		};
 	}
 
-	setupController.$inject = ["$scope", "ssn.cssService", "ssn.errorService", "ssn.userService"];
+	setupController.$inject = ["$scope", "$location", "ssn.cssService", "ssn.errorService", "ssn.userService"];
 
 	return setupController;
 });
