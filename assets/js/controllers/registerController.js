@@ -23,22 +23,22 @@ define(["step", "whispeerHelper"], function (step, h) {
 			return sessionHelper.passwordStrength($scope.password);
 		};
 
-		var onlyError;
+		var onlyErrors = false;
 		$scope.inputsUsed = function () {
 			$scope.registerFailed = false;
-			onlyError = false;
+			onlyErrors = false;
 		};
 
 		var timeout;
 
-		$scope.inputUsed = function (checkFunction) {
+		$scope.inputUsed = function (checkFunctions) {
 			if (timeout) {
 				$timeout.cancel(timeout);
 			}
 
 			timeout = $timeout(function () {
 				if (!$scope.registerFailed) {
-					onlyError = checkFunction;
+					onlyErrors = checkFunctions;
 					$scope.registerFailed = true;
 				}
 			}, 500);
@@ -88,12 +88,19 @@ define(["step", "whispeerHelper"], function (step, h) {
 		var errors = [];
 
 		function notPrevious(func) {
-			if (onlyError) {
-				return onlyError === func;
+			if (onlyErrors && onlyErrors.indexOf(func) === -1) {
+				console.log("removed:" + errors.indexOf(func));
+				return false;
 			}
 
 			var filter = true, result = true;
 			errors.filter(function (val) {
+				if (onlyErrors) {
+					return onlyErrors.indexOf(val) !== -1;
+				}
+
+				return true;
+			}).filter(function (val) {
 				if (val === func) {
 					filter = false;
 				}
@@ -114,15 +121,15 @@ define(["step", "whispeerHelper"], function (step, h) {
 		};
 
 		$scope.nicknameEmpty = function () {
-			return $scope.empty($scope.nickname);
+			return notPrevious($scope.nicknameEmpty) && $scope.empty($scope.nickname);
 		};
 
 		$scope.nicknameInvalid = function () {
-			return notPrevious($scope.nicknameInvalid) && !h.isNickname($scope.nickname);
+			return notPrevious($scope.nicknameInvalid) && !$scope.empty($scope.nickname) && !h.isNickname($scope.nickname);
 		};
 
 		$scope.nicknameUsed = function () {
-			return notPrevious($scope.nicknameUsed) && !$scope.nicknameCheck && !$scope.nicknameCheckLoading;
+			return notPrevious($scope.nicknameUsed) && !$scope.empty($scope.nickname) && !$scope.nicknameCheck && !$scope.nicknameCheckLoading;
 		};
 
 		$scope.passwordEmpty = function () {
@@ -180,7 +187,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 		$scope.register = function doRegisterC() {
 			if ($scope.passwordStrength() === 0 || $scope.password !== $scope.password2 || !$scope.agb || !$scope.notEmpty($scope.nickname)) {
 				$scope.registerFailed = true;
-				onlyError = false;
+				onlyErrors = false;
 				return;
 			}
 

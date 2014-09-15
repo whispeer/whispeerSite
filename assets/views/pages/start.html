@@ -15,7 +15,7 @@
 						data-error-hint-f1="nicknameEmpty()" data-error-hint-t1="login.register.errors.nickEmpty"
 						data-error-hint-f2="nicknameInvalid()" data-error-hint-t2="login.register.errors.nickInvalid" 
 						data-error-hint-f3="nicknameUsed()" data-error-hint-t3="login.register.errors.nickUsed">
-						<input data-ng-keydown="inputUsed(nicknameUsed)" type="text" id="rnickname" data-i18n-attr="login.username|placeholder" data-ng-model="nickname" data-ng-model-onblur data-ng-change="nicknameChange()">
+						<input type="text" id="rnickname" data-i18n-attr="login.username|placeholder" data-ng-model="nickname" data-ng-model-onblur data-ng-change="nicknameChange(); inputUsed([nicknameUsed,nicknameInvalid])">
 						<span class="icon" id="rnicknameIcon" data-ng-if="nickname">
 							<img data-ng-src="{{acceptIconNicknameFree()}}" alt="Ok!">
 						</span>
@@ -23,7 +23,7 @@
 					<div data-error-hint="registerFailed"
 						data-error-hint-f1="passwordEmpty()" data-error-hint-t1="login.register.errors.passwordEmpty"
 						data-error-hint-f2="passwordToWeak()" data-error-hint-t2="login.register.errors.passwordWeak">
-						<input data-ng-change="inputUsed(passwordToWeak)" type="password" id="rpassword" data-i18n-attr="login.password|placeholder" data-ng-model="password" data-strength="{{passwordStrength()}}">
+						<input data-ng-change="inputUsed([passwordToWeak])" type="password" id="rpassword" data-i18n-attr="login.password|placeholder" data-ng-model="password" data-strength="{{passwordStrength()}}">
 					</div>
 					<div data-error-hint="registerFailed"
 						data-error-hint-f1="password2Empty()" data-error-hint-t1="login.register.errors.password2Empty"
