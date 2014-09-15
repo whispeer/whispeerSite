@@ -3,7 +3,15 @@
 <div class="backup">
 	<header>
 		<h2>Sichere jetzt deinen Schlüssel</h2>
-		<div class="hint hint--bottom hint--info hint--rounded why" data-hint="Dummy!">Warum?</div>
+		<div data-ng-if="!backupWarning" class="hint hint--bottom hint--info hint--rounded why" data-hint="Dummy!">Warum?</div>
+		<div data-ng-if="backupWarning">
+			<p>
+				Hier sind deine Daten sicher aufgehoben - so sicher, dass dein Account <strong>verloren</strong> ist, wenn du dein Passwort vergisst!
+			</p>
+			<p>
+				Lade deshalb deinen Schlüssel herunter, mit dem du bei einem Passwortverlust wieder Zugriff auf deinen Account kriegst:
+			</p>
+		</div>
 	</header>	
 	<button class="btn btn--primary btn--big" data-ng-click="downloadBackup()">
 		<i class="fa fa-download"></i> <span>Schlüssel herunterladen</span>
@@ -11,6 +19,10 @@
 	<span class="full-line">oder</span>
 	<button class="btn btn--primary btn--big" data-ng-click="printBackup()">
 		<i class="fa fa-print"></i> <span>Schlüssel ausdrucken</span>
+	</button>
+
+	<button class="btn btn--primary btn--danger btn--big" data-ng-if="backupWarning">
+		<span>Schlüssel nicht sichern</span>
 	</button>
 </div>
 
