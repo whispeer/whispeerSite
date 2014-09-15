@@ -1,5 +1,42 @@
 .startView {
 	.radial(@green, @primary);
+
+	@pwStrengthWidth: 40px;
+	span[data-strength] {
+		float: left;
+		margin-top: 13px;
+		margin-left: (-1*@pwStrengthWidth)-15px;
+		width: @pwStrengthWidth;
+		height: 8px;
+		border: 1px solid gray;
+		border-radius: 4px;
+	}
+	span[data-strength]:after {
+		display: block;
+		content: '';
+		height: 8px;
+	}
+
+	span[data-strength="0"]:after { width: @pwStrengthWidth*(0/10); background-color: red; }
+	span[data-strength="1"]:after { width: @pwStrengthWidth*(1/10); background-color: red; }
+	span[data-strength="2"]:after { width: @pwStrengthWidth*(2/10); background-color: yellow; }
+	span[data-strength="3"]:after { width: @pwStrengthWidth*(3/10); background-color: yellow; }
+	span[data-strength="4"]:after { width: @pwStrengthWidth*(4/10); background-color: lightgreen; }
+	span[data-strength="5"]:after { width: @pwStrengthWidth*(5/10); background-color: lightgreen; }
+	span[data-strength="6"]:after { width: @pwStrengthWidth*(6/10); background-color: lightgreen; }
+	span[data-strength="7"]:after { width: @pwStrengthWidth*(7/10); background-color: green; }
+	span[data-strength="8"]:after { width: @pwStrengthWidth*(8/10); background-color: green; }
+	span[data-strength="9"]:after { width: @pwStrengthWidth*(9/10); background-color: green; }
+	span[data-strength="10"]:after { width: @pwStrengthWidth*(10/10); background-color: green; }
+
+	#rpassword {
+		padding-right: 55px;
+	}
+
+	#rnickname {
+		padding-right: 30px;
+	}
+
 	#main {
 		.width(11);
 		.push(0.5);

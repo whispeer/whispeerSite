@@ -23,13 +23,14 @@
 					<div data-error-hint="registerFailed"
 						data-error-hint-f1="passwordEmpty()" data-error-hint-t1="login.register.errors.passwordEmpty"
 						data-error-hint-f2="passwordToWeak()" data-error-hint-t2="login.register.errors.passwordWeak">
-						<input data-ng-change="inputUsed([passwordToWeak])" type="password" id="rpassword" data-i18n-attr="login.password|placeholder" data-ng-model="password" data-strength="{{passwordStrength()}}">
+						<input data-ng-change="inputUsed([passwordToWeak])" type="password" id="rpassword" data-i18n-attr="login.password|placeholder" data-ng-model="password">
+						<span data-strength="{{passwordStrength()}}"></span>
 					</div>
 					<div data-error-hint="registerFailed"
 						data-error-hint-f1="password2Empty()" data-error-hint-t1="login.register.errors.password2Empty"
 						data-error-hint-f2="noPasswordMatch()" data-error-hint-t2="login.register.errors.passwordNoMatch">
-						<input type="password" id="rpassword2" data-i18n-attr="login.register.repeatPassword|placeholder" data-ng-model="password2" data-strength="{{passwordStrength()}}">
-						<span class="icon check" id="rpassword2Icon" data-ng-if="notEmpty(password) && notEmpty(password2)">
+						<input type="password" id="rpassword2" data-i18n-attr="login.register.repeatPassword|placeholder" data-ng-model="password2">
+						<span class="icon check" id="rpassword2Icon" data-ng-if="!empty(password) && !empty(password2)">
 							<img data-ng-src="{{acceptIcon(password, password2)}}" alt="Password correct?">
 						</span>
 					</div>
