@@ -50,10 +50,10 @@ define(["step", "whispeerHelper"], function (step, h) {
 
 		$scope.acceptIcon = function acceptIconC(value1, value2) {
 			if (value1 === value2) {
-				return "assets/img/accept.png";
+				return "fa-check";
 			}
 
-			return "assets/img/fail.png";
+			return "fa-times";
 		};
 
 		$scope.startKeyGeneration = function startKeyGen1() {
@@ -164,18 +164,18 @@ define(["step", "whispeerHelper"], function (step, h) {
 
 		$scope.acceptIconNicknameFree = function acceptIconNickname() {
 			if ($scope.nicknameCheckLoading) {
-				return "assets/img/loader_green.gif";
+				return "fa-spinner";
 			}
 
 			if ($scope.nicknameCheckError === true) {
-				return "assets/img/error.png";
+				return "fa-warning";
 			}
 
 			if ($scope.nicknameCheck) {
-				return "assets/img/accept.png";
+				return "fa-check";
 			}
 
-			return "assets/img/fail.png";
+			return "fa-times";
 		};
 
 		var defaultSettings = {
