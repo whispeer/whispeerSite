@@ -129,6 +129,10 @@
 		"password": "Passwort",
 		"link": "Einloggen",
 		"loginFailed": "Nutzername und Password stimmen nicht überein!",
+		"unknownName": "Unbekannter Nutzername",
+		"wrongPassword": "Falsches Passwort",
+		"forgotPassword": "Passwort vergessen",
+		"forgotName": "Benutzername vergessen",
 		"moreInfo":	"Mehr Info",
 		"register": {
 			"errors": {

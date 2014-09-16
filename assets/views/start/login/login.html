@@ -1,13 +1,10 @@
-<!--{{loginFailed}}-->
 <form>
-	<input type="text" id="mail" data-i18n-attr="login.username|placeholder" data-ng-model="identifier">
-	<input type="password" id="password" data-i18n-attr="login.password|placeholder" data-ng-model="password">
-	<button id="loginformsubmit" class="btn btn--input btn--primary" type="submit" data-ng-click="login(identifier, password)">{{'login.link'|i18n}}</button>
-	<div class="error" data-ng-if="loginFailed" id="errorLogin" data-i18n="login.loginFailed"></div>
+	<input type="text" id="mail" data-i18n-attr="login.username|placeholder" data-ng-model="login.identifier">
+	<input type="password" id="password" data-i18n-attr="login.password|placeholder" data-ng-model="login.password">
+	<div class="errors" data-ng-if="!login.isHeaderForm">
+		<div class="error" data-ng-if="login.failure" id="errorLogin" data-i18n="login.loginFailed"></div>
+		<div class="error" data-ng-if="login.unknownName" id="errorLogin" data-i18n="login.unknownName"></div>
+		<div class="error" data-ng-if="login.wrongPassword" id="errorLogin" data-i18n="login.wrongPassword"></div>
+	</div>
+	<button id="loginformsubmit" class="btn btn--input btn--primary" type="submit" data-ng-click="login.login()" data-i18n="login.link"></button>
 </form>
-<!--
-<div class="smallRow">
-	<button id="forgotLogin" class="btn btn-send">Benutzername vergessen</button>
-	<button id="forgotPw" class="btn btn-send">Passwort vergessen</button>
-</div>
--->

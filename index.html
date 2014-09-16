@@ -67,8 +67,8 @@
 				<img src="assets/img/icons/settings.png" alt="Settings" class="icon">
 			</div>
 		</div>
-		<div id="login" data-ng-if="!loggedin">
-			<ng-include data-ng-controller="ssn.loginController" data-src="'assets/views/start/login/login.html'"></ng-include>
+		<div id="login" data-ng-if="!loggedin" data-ng-controller="ssn.loginController">
+			<ng-include data-src="'assets/views/start/login/login.html'" data-ng-if="login.isHeaderForm"></ng-include>
 		</div>
 	</nav>
 	<!-- end !Top Bar-->

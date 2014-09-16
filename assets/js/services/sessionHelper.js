@@ -23,7 +23,7 @@ define(["step", "whispeerHelper", "crypto/trustManager"], function (step, h, tru
 					}, this);
 				}, h.sF(function hashWithToken(data) {
 					if (data.error) {
-						this.last(data.errorData);
+						this.last({ unknownName: true });
 					} else {
 						var hash = keyStoreService.hash.hashPW(password);
 
@@ -36,7 +36,7 @@ define(["step", "whispeerHelper", "crypto/trustManager"], function (step, h, tru
 					}
 				}), h.sF(function loginResults(data) {
 					if (data.error) {
-						this.last(data.errorData);
+						this.last({ wrongPassword: true });
 					} else {
 						sessionHelper.resetKey();
 						

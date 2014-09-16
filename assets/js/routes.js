@@ -25,6 +25,7 @@ define(["app"], function (app) {
 		}
 
 		addMain("start");
+		addMain("login");
 		addMain("setup");
 		addMain("main");
 		addMain("friends");
