@@ -6,6 +6,9 @@
 	<div class="pw">
 		<input type="password" id="password" data-i18n-attr="login.password|placeholder" data-ng-model="login.password">
 	</div>
+	<div class="loginLoading" data-ng-if="login.loading">
+		<img src="assets/img/loader_green.gif" />
+	</div>
 	<div class="errors">
 		<div class="error" data-ng-if="login.failure" id="errorLogin" data-i18n="login.loginFailed"></div>
 		<div class="error" data-ng-if="login.unknownName" id="errorLogin" data-i18n="login.unknownName"></div>
@@ -13,7 +16,7 @@
 	</div>
 	<button id="loginformsubmit" class="btn btn--input btn--primary" type="submit" data-ng-click="login.login()" data-i18n="login.link"></button>
 </form>
-<div class="smallRow" data-ng-if="login.unknownName || login.wrongPassword">
+<div class="smallRow" data-ng-if="login.failedOnce">
 	<button class="btn btn-send" data-i18n="login.forgotName"></button>
 	<button class="btn btn-send" data-i18n="login.forgotPassword"></button>
 </div>

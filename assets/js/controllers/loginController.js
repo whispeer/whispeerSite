@@ -11,6 +11,21 @@ define([], function () {
 		}
 
 		$scope.login = loginDataService;
+		$scope.$watch(function () {
+			return loginDataService.unknownName;
+		}, function (val) {
+			if (val) {
+				jQuery("#mail").focus();
+			}
+		});
+
+		$scope.$watch(function () {
+			return loginDataService.wrongPassword;
+		}, function (val) {
+			if (val) {
+				jQuery("#password").focus();
+			}
+		});
 	}
 
 	loginController.$inject = ["$scope", "$location", "ssn.loginDataService", "ssn.cssService"];
