@@ -89,7 +89,6 @@ define(["step", "whispeerHelper"], function (step, h) {
 
 		function notPrevious(func) {
 			if (onlyErrors && onlyErrors.indexOf(func) === -1) {
-				console.log("removed:" + errors.indexOf(func));
 				return false;
 			}
 
