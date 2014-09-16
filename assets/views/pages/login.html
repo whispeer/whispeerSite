@@ -14,6 +14,7 @@
 	<button id="loginformsubmit" class="btn btn--input btn--primary" type="submit" data-ng-click="login.login()" data-i18n="login.link"></button>
 </form>
 <div class="smallRow">
-	<button id="forgotLogin" class="btn btn-send" data-i18n="login.forgotName"></button>
-	<button id="forgotPw" class="btn btn-send" data-i18n="login.forgotPassword"></button>
+	<button data-ng-if="login.unknownName" class="btn btn-send" data-i18n="login.forgotName"></button>
+	<button data-ng-if="login.wrongPassword" class="btn btn-send" data-i18n="login.forgotPassword"></button>
+	<button class="btn btn-send" data-i18n="login.register.link"></button>
 </div>
