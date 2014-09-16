@@ -5,7 +5,7 @@
 define(["step", "whispeerHelper"], function (step, h) {
 	"use strict";
 
-	function registerController($scope, $timeout, errorService, sessionHelper, sessionService) {
+	function registerController($scope, $timeout, $routeParams, errorService, sessionHelper, sessionService) {
 		$scope.password = "";
 		$scope.password2 = "";
 
@@ -22,6 +22,12 @@ define(["step", "whispeerHelper"], function (step, h) {
 		$scope.passwordStrength = function passwordStrengthC() {
 			return sessionHelper.passwordStrength($scope.password);
 		};
+
+		if ($routeParams.register) {
+			$timeout(function () {
+				jQuery("#rnickname").focus();
+			}, 50);
+		}
 
 		var onlyErrors = false;
 		$scope.inputsUsed = function () {
@@ -241,7 +247,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 		};
 	}
 
-	registerController.$inject = ["$scope", "$timeout", "ssn.errorService", "ssn.sessionHelper", "ssn.sessionService"];
+	registerController.$inject = ["$scope", "$timeout", "$routeParams", "ssn.errorService", "ssn.sessionHelper", "ssn.sessionService"];
 
 	return registerController;
 });
