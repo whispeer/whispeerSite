@@ -50,7 +50,6 @@ define(["step"], function (step) {
 		$rootScope.$watch(function () {
 			return $location.path() !== "/login";
 		}, function (val) {
-			console.log(val);
 			res.isHeaderForm = val;
 		});
 
