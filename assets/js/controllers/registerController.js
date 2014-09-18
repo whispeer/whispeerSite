@@ -320,10 +320,7 @@ define(["step", "whispeerHelper", "asset/resizableImage", "asset/observer"], fun
 			var profile = {
 				pub: {},
 				priv: {},
-				nobody: $scope.user,
-				own: {
-					scope: "always:allfriends"
-				}
+				nobody: $scope.user
 			};
 
 			step(function () {
