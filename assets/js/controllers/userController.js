@@ -122,6 +122,13 @@ define(["step", "whispeerHelper", "asset/resizableImage", "asset/state", "libs/q
 		};
 
 		$scope.givenPrint = ["", "", "", ""];
+		$scope.faEqual = function (val1, val2) {
+			if (val1 === val2) {
+				return "fa-check";
+			} else {
+				return "fa-times";
+			}
+		};
 
 		$scope.toggleVerify = function () {
 			$scope.verifyNow = !$scope.verifyNow;

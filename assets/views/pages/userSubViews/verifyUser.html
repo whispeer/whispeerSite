@@ -14,9 +14,7 @@
 			<div class="inputWrap">
 				<span data-ng-repeat="part in fingerPrint">
 					<input maxlength="{{part.length}}" type="text" data-i18n-attr="profile.trustmanager.part{{$index+1}}|placeholder" data-ng-model="givenPrint[$index]">
-					<span class="icon valid" data-ng-if="givenPrint[$index].length === 13">
-						<img data-ng-src="assets/img/accept.png" alt="OK" data-ng-if="givenPrint[$index]===part">
-						<img data-ng-src="assets/img/fail.png" alt="NOT" data-ng-if="givenPrint[$index]!==part">
+					<span class="fa icon valid" data-ng-class="faEqual(givenPrint[$index], part)" data-ng-if="givenPrint[$index].length === 13">
 					</span>
 				</span>
 
