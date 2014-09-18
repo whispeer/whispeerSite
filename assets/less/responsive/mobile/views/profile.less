@@ -180,43 +180,25 @@
 		}
 		#verifyUser {
 			.back {
-				.column(12);
-				margin-top: 5px;
-				.btn.btn--big;
+				width: 60%
 			}
-			.chooseVerifyMethod, .verify {
-				.column(12);
+			input {
+				margin-bottom: 5px;
+			}
+			.verify button {
+				width: 60%;
+				position: absolute;
+				left: 0px;
+				right: 0px;
+				margin: auto;
+			}
+			.chooseVerifyMethod {
 				text-align: center;
-				h3 {
-					.column(12);
-					margin-top: 11px;
-					margin-bottom: 10px;
-				}
-				span {
-					.column(12);
-				}
-				.inputWrap {
-					.column(12);
-					margin-top: 10px;
-				}
-				input {
-					.column(10);
-				}
 				button {
 					.column(6);
 					&.btn--saveButton {
 						.width(2);
 					}	
-				}
-				.qrScanner {
-					.column(10);
-					.push(1);
-					margin-top: 10px;
-					height: intrinsic;
-					padding: 0;
-					button {
-						.width(12);
-					}
 				}
 			}
 		}
