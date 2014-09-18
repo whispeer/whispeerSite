@@ -14,7 +14,7 @@
 	<p class="content" data-syntaxify="post.content.text"></p>
 	<aside class="actions">
 		<span class="date"><i class="icon icon-clock"></i> {{post.time|smartdate}}</span>
-		<span ng-click="show=!show" class="action"><i class="icon icon-comment"></i> <span data-i18n="wall.comments"></span></span>
+		<span ng-click="show=!show" class="action"><i class="icon icon-comment"></i> <span data-i18n="wall.comments"></span> ({{post.comments.length}})</span>
 	</aside>
 	<aside class="comments" ng-show="show">
 		<ul>

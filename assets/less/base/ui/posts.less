@@ -36,6 +36,8 @@
 		margin-top: 0;
 		margin-bottom: 0;
 		margin-left: @user-image-size;
+		overflow: hidden;
+		word-wrap: break-word;
 	}
 
 	.date, .action {
@@ -51,6 +53,7 @@
 	}
 
 	.comments {
+		width: 40em;
 
 		@media @mobile {
 			padding-left: @default-padding;
@@ -79,7 +82,7 @@
 			margin-left: @user-image-size-small;
 		}
 
-		textarea { width: 100% }
+		textarea { width: 100%; }
 		button {
 			margin-top: 6px;
 			float: right;
