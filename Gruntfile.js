@@ -54,6 +54,7 @@ grunt.initConfig({
 				src: "assets/css/*.css"
 			},
 			options: {
+				port: 3001,
 				watchTask: true
 			}
 		}
