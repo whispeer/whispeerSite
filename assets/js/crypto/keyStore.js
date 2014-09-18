@@ -1657,10 +1657,6 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 			afterRequireCall = cb;
 		},
 
-		setAfterRequireCall: function (cb) {
-			afterRequireCall = cb;
-		},
-
 		setKeyGenIdentifier: function (identifier) {
 			keyGenIdentifier = identifier;
 			//TODO: update all key identifiers for all keys.

@@ -1,7 +1,7 @@
 /**
 * postService
 **/
-define(["step", "whispeerHelper", "validation/validator", "asset/observer", "asset/errors", "asset/securedDataWithMetaData"], function (step, h, validator, Observer, errors, SecuredData) {
+define(["step", "whispeerHelper", "validation/validator", "asset/observer", "asset/errors", "asset/securedDataWithMetaData", "asset/state"], function (step, h, validator, Observer, errors, SecuredData, State) {
 	"use strict";
 
 	var service = function ($rootScope, socket, keyStore, errorService, userService, circleService, filterKeyService, Comment) {
@@ -18,6 +18,8 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer", "ass
 				return new Comment(comment);
 			});
 
+			var commentState = new State();
+
 			this.data = {
 				loaded: false,
 				id: data.id,
@@ -27,11 +29,21 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer", "ass
 				time: securedData.metaAttr("time"),
 				isWallPost: false,
 				newComment: {
+					state: commentState.data,
 					text: "",
 					create: function (text) {
-						thePost.addComment(text, function () {
+						if (text === "") {
+							commentState.fail();
+							return;
+						}
+
+						commentState.pending();
+						step(function () {
+							thePost.addComment(text, this);
+						}, h.sF(function () {
 							thePost.data.newComment.text = "";
-						});
+							this.ne();
+						}), errorService.failOnError(commentState));
 					}
 				},
 				comments: comments.map(function (comment) {

@@ -178,9 +178,8 @@
 			},
 			"content": "{{content}}"
 		},
-		"comments": {
-			"time":	"Am {date} um {time}"
-		}
+		"newComment": "Schreibe einen Kommentar!",
+		"comments": "Kommentare"
 	},
 	"messages": {
 		"title": "Nachrichten",
