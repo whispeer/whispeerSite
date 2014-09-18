@@ -284,29 +284,16 @@ define(["whispeerHelper", "step", "crypto/keyStore", "asset/errors"], function (
 		this._updatedContent = newContent;
 	};
 
-	/** joins content with the given object
-		@param addContentData data to add to the content object
-		@param removeEmpty remove empty options ("", {}, []) while joining
-	*/
-	SecuredDataWithMetaData.prototype.contentJoin = function (addContentData, removeEmpty) {
-		if (typeof this._updatedContent !== "object") {
-			throw new Error("our content is not an object");
-		}
-
-		this._changed = true;
-		this._updatedContent = h.extend(this._updatedContent, addContentData, 5, removeEmpty);
-	};
-
 	/** set a certain attribute in the content object
-		@param attrs [] list of which attribute to set
+		@param attr attribute to set
 		@param value value to set attribute to
 	*/
-	SecuredDataWithMetaData.prototype.contentAdd = function (attrs, value) {
+	SecuredDataWithMetaData.prototype.contentSetAttr = function (attr, value) {
 		if (typeof this._updatedContent !== "object") {
 			throw new Error("our content is not an object");
 		}
 
-		h.deepSetCreate(this._updatedContent, attrs, value);
+		this._updatedContent[attr] = value;
 		this._changed = true;
 	};
 
