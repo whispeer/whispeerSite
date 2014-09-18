@@ -123,10 +123,20 @@ define(["step", "whispeerHelper", "asset/resizableImage", "asset/state", "libs/q
 
 		$scope.givenPrint = ["", "", "", ""];
 		$scope.faEqual = function (val1, val2) {
+			if (val1.length !== val2.length) {
+				return "";
+			}
+
 			if (val1 === val2) {
 				return "fa-check";
 			} else {
 				return "fa-times";
+			}
+		};
+
+		$scope.nextInput = function (index) {
+			if ($scope.givenPrint[index] === $scope.fingerPrint[index] && index < $scope.fingerPrint.length - 1) {
+				jQuery(".verify input")[index+1].focus();
 			}
 		};
 
