@@ -15,9 +15,7 @@ body {
 	#topNav {
 		.transition(@transitionTime ease);
 		&.push {
-			margin-right: (-1 * @mobileNavWidth) !important;
-			float: right;
-			position: relative;
+			margin-left: @mobileNavWidth;
 		}
 	}
 
@@ -70,16 +68,17 @@ body {
 			width: @mobileNavWidth;
 			float: left;
 			margin-left: (-1 * @mobileNavWidth);
+			margin-top: -50px;
 			overflow: scroll;
 			z-index: 1040;
 			padding: 0;
 			-webkit-overflow-scrolling: touch;
 			.box-fix;
 			.transition(margin-left @transitionTime ease);
+			height: ~"calc(100% + 50px)";
+			background: @primary;
 			&.show {
-				margin: -50px 0 -50px 0;
-				height: ~"calc(100% + 50px)";
-				background: @primary;
+				margin-left: 0;
 			}
 			.mobileMenu {
 				.unstyled;
@@ -169,9 +168,5 @@ body {
 
 	.notificationWrap {
 		margin-bottom: 40px;
-	}
-
-	&:not(.registerView) {
-		padding-top: 50px;
 	}
 }
