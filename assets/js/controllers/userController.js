@@ -69,6 +69,7 @@ define(["step", "whispeerHelper", "asset/resizableImage", "asset/state", "libs/q
 
 					$scope.verify(codeText);
 				} catch(e) {
+					console.error(e);
 					$scope.qrCode = "error:" + e;
 					$timeout(captureToCanvas, 500);
 				}
@@ -147,19 +148,17 @@ define(["step", "whispeerHelper", "asset/resizableImage", "asset/state", "libs/q
 
 		$scope.verify = function (fingerPrint) {
 			verifyState.pending();
-
-			var ok = userObject.verifyFingerPrint(fingerPrint.join(""), function (e) {
-				if (e) {
-					verifyState.failed();
-					errorService.criticalError(e);
-				} else {
-					verifyState.success();
-				}
-			});
-
-			if (!ok) {
-				verifyState.failed();
+			if (typeof fingerPrint.join === "function") {
+				fingerPrint = fingerPrint.join("");
 			}
+
+			step(function () {
+				var ok = userObject.verifyFingerPrint(fingerPrint, this);	
+
+				if (!ok) {
+					this(new Error("wrong code"));
+				}
+			}, errorService.failOnError(verifyState));
 		};
 
 		$scope.changeImage = false;

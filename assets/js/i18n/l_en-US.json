@@ -222,7 +222,7 @@
 			"verifyWithQr":		"QR-Code",
 			"chooseVerifyMethod":	"Please verify {user}'s identity. Select a verification method:",
 			"qrSaveButton":	{
-				"fail":	"Fingerprint wrong! Please try again!",
+				"fail":	"Fingerprint wrong! Click to try again!",
 				"pending":	"Verifying fingerprint!"
 			}
 		},

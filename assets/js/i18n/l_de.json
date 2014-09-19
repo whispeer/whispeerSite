@@ -228,7 +228,7 @@
 			"verifyWithQr":		"QR-Code",
 			"chooseVerifyMethod":	"Verifiziere die Identität von {user}. Wähle eine Verifizierungsmethode:",
 			"qrSaveButton":	{
-				"fail":	"Der Fingerprint stimmt nicht! Bitte versuche es erneut!",
+				"fail":	"Der Fingerprint stimmt nicht! Klick hier um es erneut zu probieren!",
 				"pending":	"Der Fingerprint wird überprüft!"
 			}
 		},

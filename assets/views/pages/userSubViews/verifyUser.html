@@ -26,9 +26,8 @@
 				<div class="error" data-ng-if="qr.noDevice" data-i18n="profile.trustmanager.nodevice"></div>
 				<span data-syntaxify data-i18n="profile.trustmanager.verifyInfo.qr|user={{user.basic.shortname}}"></span>
 				<div class="qrScanner">
-					<video id="qrCodeVideo" autoplay width="100%"></video>
-					{{qrCode}}
 					<savebutton data-ng-click="qr.reset()" data-ng-if="qr.read" data-state="verifyingUser" data-translation="profile.trustmanager.qrSaveButton"></savebutton>
+					<video data-ng-if="!qr.read" id="qrCodeVideo" autoplay></video>
 				</div>
 			</div>
 		</div>
