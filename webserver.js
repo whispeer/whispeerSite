@@ -7,8 +7,8 @@
 	var WHISPEER_PORT = process.env.WHISPEER_PORT || 80;
 
 	var cspConfig = {
-		"default-src": ["'self'", "ws://localhost:3000" ,"localhost:3000"],
-		"script-src": ["'self'", "ws://localhost:3000", "localhost:3000"],
+		"default-src": ["'self'", "ws://localhost:3000" ,"localhost:3000", "ws://localhost:3001", "localhost:3001"],
+		"script-src": ["'self'", "ws://localhost:3000", "localhost:3000", "ws://localhost:3001", "localhost:3001"],
 		"style-src": ["'self'", "'unsafe-inline'"],
 		"object-src": ["'none'"],
 		"img-src": ["'self'", "blob:", "data:"]

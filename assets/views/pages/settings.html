@@ -73,8 +73,8 @@
 		</div>
 		<div class="config" id="mail">
 			<h5 data-i18n="settings.changes.changeMail"></h5>
-			<input disabled="disabled" type="text" id="email" data-ng-model="mail" data-i18n-attr="settings.changes.mail|placeholder">
-			<button disabled="disabled" type="submit" data-ng-click="saveMail()"><i class="icon-ok-circle"></i> <span data-i18n="settings.changes.save"></span></button>
+			<input type="text" id="email" data-ng-model="mail" data-i18n-attr="settings.changes.mail|placeholder">
+			<savebutton state="saveMailState" data-translation="settings.changes.save" data-ng-click="saveMail()"></savebutton>
 		</div>
 		<div class="config" id="password">
 			<h5 data-i18n="settings.changes.changePassword"></h5>
