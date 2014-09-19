@@ -135,7 +135,7 @@ define(["step", "whispeerHelper", "asset/resizableImage", "asset/state", "libs/q
 		};
 
 		$scope.nextInput = function (index) {
-			$scope.givenPrint[index] = $scope.givenPrint[index].toLowerCase();
+			$scope.givenPrint[index] = $scope.givenPrint[index].toLowerCase().replace(/[^a-z0-9]/g, "");
 			if ($scope.givenPrint[index] === $scope.fingerPrint[index] && index < $scope.fingerPrint.length - 1) {
 				jQuery(".verify input")[index+1].focus();
 			}
