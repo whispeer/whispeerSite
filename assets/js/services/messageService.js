@@ -615,9 +615,8 @@ define([
 				step(function () {
 					if (!count) {
 						count = 0;
-					} else if (count > 5) {
-						this.last.ne(false);
-						return;
+					} else if (count > 3) {
+						throw new Error("failed to send message");
 					}
 
 					if (typeof topic !== "object") {
