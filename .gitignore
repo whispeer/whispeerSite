@@ -3,10 +3,11 @@
 *complexity.txt
 *log.txt
 codekit-config.json
+*.codekit
 assets/css/style.css
 assets/css/style.css.map
 assets/less/codekit-config.json
 assets/less/styleguide.md
-codekit-config.json
 tmp/*
 node_modules/*
+assets/vendor

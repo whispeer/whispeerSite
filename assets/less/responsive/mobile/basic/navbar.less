@@ -1,8 +1,9 @@
+@topNavHeight: 50px;
 #topNav {
 	width: 100%;
 	position: static;
-	height: 50px !important;
-	margin-bottom: -50px;
+	height: @topNavHeight !important;
+	margin-bottom: -1 * @topNavHeight;
 	#navInner {
 		text-align: center;
 		width: 100%;
@@ -10,14 +11,14 @@
 			.icon {
 				.large-text();
 			}
-			.column(2,12,left,3%);
+			width: @topNavHeight;
 			display: block;
 			border: none;
 			outline: none;
-			height: 50px;
+			height: @topNavHeight;
 			text-align: center;
 			padding: 0;
-			margin:0 !important;
+			margin: 0 !important;
 			background: transparent;
 			position: relative;
 			.box-fix;
@@ -28,6 +29,7 @@
 				background: rgba(255,255,255,0.15);
 			}
 			&#toggleSidebar {
+				float: left;
 				border-right: 1px solid @white;
 				margin-right: 3% !important;
 			}
@@ -38,15 +40,6 @@
 			}
 		}
 		#mobileCounter {
-			padding: 1px 2px 1px 2px;
-			position: absolute;
-			width: 16px;
-			height: 16px;
-			display: block;
-			top: 17px;
-			left: 50%;
-			right: 0;
-			margin-left: -10px;
 			span {
 				margin-top: 0px;
 				display: inline-block;
@@ -78,7 +71,7 @@
 			}
 		}
 		.searchDrop {
-			top: 50px;
+			top: @topNavHeight;
 			margin: 5px 0;
 		}
 	}

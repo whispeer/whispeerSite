@@ -43,7 +43,7 @@ define(["step", "whispeerHelper", "cryptoWorker/generalWorkerInclude"], function
 
 		function updateMobile() {
 			var old = $scope.mobile;
-			$scope.mobile = jQuery(window).width() < 768;
+			$scope.mobile = jQuery(window).width() < 1025;
 
 			if ($scope.mobile !== old) {
 				$timeout(h.nop);

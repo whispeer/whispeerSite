@@ -4,6 +4,7 @@ grunt.loadNpmTasks("grunt-contrib-jshint");
 grunt.loadNpmTasks("grunt-contrib-less");
 grunt.loadNpmTasks("grunt-contrib-watch");
 grunt.loadNpmTasks("grunt-browser-sync");
+grunt.loadNpmTasks('grunt-contrib-copy');
 
 grunt.initConfig({
 	jshint: {
@@ -27,6 +28,17 @@ grunt.initConfig({
 			}
 		}
 	},
+	copy: {
+		vendor: {
+			files: [
+			  { expand: true,
+					cwd: "node_modules/font-awesome/",
+					src: ["css/**", "fonts/**"],
+					dest: "assets/vendor/",
+					filter: "isFile" }
+			]
+		}
+	},
 	watch: {
 		scripts: {
 			files: ["assets/less/**/*.less"],
@@ -42,6 +54,7 @@ grunt.initConfig({
 				src: "assets/css/*.css"
 			},
 			options: {
+				port: 3001,
 				watchTask: true
 			}
 		}
@@ -49,3 +62,6 @@ grunt.initConfig({
 });
 
 grunt.registerTask("default", ["browserSync", "watch"]);
+
+grunt.registerTask("build", ["copy", "less"]);
+
