@@ -17,6 +17,9 @@ define(["whispeerHelper", "step", "asset/state", "libs/qr"], function (h, step, 
 		var saveNameState = new State();
 		$scope.saveNameState = saveNameState.data;
 
+		var saveMailState = new State();
+		$scope.saveMailState = saveMailState.data;
+
 		var saveGeneralState = new State();
 		$scope.saveGeneralState = saveGeneralState.data;
 
@@ -144,7 +147,11 @@ define(["whispeerHelper", "step", "asset/state", "libs/qr"], function (h, step, 
 		};
 
 		$scope.saveMail = function () {
+			saveMailState.pending();
 
+			step(function () {
+				userService.getown().setMail($scope.mail, this);
+			}, errorService.failOnError(saveMailState));
 		};
 
 		$scope.savePassword = function () {

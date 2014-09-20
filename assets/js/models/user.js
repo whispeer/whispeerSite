@@ -263,7 +263,10 @@ define(["step", "whispeerHelper", "asset/state"], function (step, h, State) {
 							what: "",
 							where: ""
 						},
-						gender: "",
+						gender: {
+							gender: "none",
+							text: ""
+						},
 						languages: []
 					}
 				};
@@ -392,6 +395,23 @@ define(["step", "whispeerHelper", "asset/state"], function (step, h, State) {
 
 			this.uploadChangedProfile = uploadChangedProfile;
 			this.setProfileAttribute = setProfileAttribute;
+
+			this.setMail = function (newMail, cb) {
+				step(function () {
+					if (newMail !== mail) {
+						socketService.emit("user.mailChange", { mail: newMail }, this);
+					} else {
+						this.last.ne();
+					}
+				}, h.sF(function (data) {
+					if (data.error) {
+						throw new Error("mail not accepted");
+					} else {
+						mail = newMail;
+						this.ne();
+					}
+				}), cb);
+			};
 
 			this.verify = function (cb) {
 				step(function () {
@@ -573,14 +593,19 @@ define(["step", "whispeerHelper", "asset/state"], function (step, h, State) {
 
 			this.loadFullData = function (cb) {
 				step(function () {
-					var i;
-					for (i = 0; i < advancedBranches.length; i += 1) {
-						getProfileAttribute([advancedBranches[i]], this.parallel());
-					}
+					advancedBranches.forEach(function (branch) {
+						getProfileAttribute([branch], this.parallel());
+					}, this);
+
 					theUser.loadBasicData(this.parallel());
 				}, h.sF(function (result) {
-					var i, a = theUser.data.advanced, defaults = [{}, {}, {}, [], {}, "", []];
+					var i, a = theUser.data.advanced, defaults = [{}, {}, {}, [], {}, {}, []];
+
 					for (i = 0; i < advancedBranches.length; i += 1) {
+						if (advancedBranches[i] === "gender" && typeof result[i] === "string") {
+							result[i] = { gender: result[i] };
+						}
+
 						a[advancedBranches[i]] = h.deepCopyObj(result[i] || defaults[i], 3);
 					}
 
