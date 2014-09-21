@@ -11,7 +11,7 @@
 			</div>
 			<button class="btn btn--primary btn--big back" data-ng-if="qr.available && (verifyCode || qr.view)" data-i18n="profile.trustmanager.back" data-ng-click="resetVerifcationMethod()"></button>
 			<div class="verify" data-ng-if="verifyCode">
-				<span data-syntaxify data-i18n="profile.trustmanager.verifyInfo.code|user={{user.basic.shortname}}"></span>
+				<span class="introText" data-syntaxify data-i18n="profile.trustmanager.verifyInfo.code|user={{user.basic.shortname}}"></span>
 				<div class="inputWrap">
 					<span data-ng-repeat="part in fingerPrint">
 						<input maxlength="{{part.length}}" type="text" data-i18n-attr="profile.trustmanager.part{{$index+1}}|placeholder" data-ng-model="givenPrint[$index]" data-ng-change="nextInput($index)">
@@ -19,8 +19,8 @@
 						</span>
 						<span class="clearfix"></span>
 					</span>
+					<savebutton class="btn--input" data-state="verifyingUser" data-ng-click="verify(givenPrint)"></savebutton>
 				</div>
-				<savebutton class="btn--input" data-state="verifyingUser" data-ng-click="verify(givenPrint)"></savebutton>
 			</div>
 			<div class="verify" data-ng-show="qr.view">
 				<div class="error" data-ng-if="qr.noDevice" data-i18n="profile.trustmanager.nodevice"></div>
