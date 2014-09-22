@@ -1,4 +1,5 @@
 .mainView {
+	@header-line-height: 38px;
 	#wall {
 		overflow-y: scroll;
 		height: 100%;
@@ -10,58 +11,109 @@
 			padding-top: 10px;
 			margin-top: -85px;
 			text-align: center;
-			height: 85px;
 			z-index: 1000;
-			.border-radiuses(2px,0,0,2px);
+
 			#postIt {
 				.column(8,12);
 				padding: 0;
-				border: 1px solid #aaa;
 				.border-radius(5px);
 				overflow: hidden;
 				.box-fix;
-				#receiver {
-					.column(5.5,8,left,0);
-					border: none;
-					.formSearch {
-						.border-radius(0px);
-						border: none;
-						border-top: 1px solid #aaa;
-					}
-					.inputWrap {
-						.border-radius(0px);
-					}
-					.searchDrop {
-						margin-top: 5px;
-					}
+				.searchDrop {
+					margin-top: 5px;
 				}
-				button {
-					.btn;
-					border: none;
-					border-top: 1px solid #aaa;
-					.column(2.5,8,right,0);
-					height: 38px;
+				.btn {
 					padding: 7px;
-					.border-radius(0);
-					&[type="submit"] {
-						.btn--primary;
-					}
+					border: none;
+				}
+				.image {
+					width: @header-line-height;
+					height: @header-line-height;
+					text-align: center;
+				}
+				.image div {
+					height: @header-line-height;
+					width: @header-line-height;
+					position: relative;
+					top: -21px;
+					left: -6px;
+					opacity: 0;
+					overflow: hidden;
+				}
+				.image input {
+					height: 100%;
+					width: 100%;
+				}
+				.righty {
+					float:right;
+					margin-left: 5px;
+				}
+				.formButton {
+					width: 8em;
+					height: @header-line-height;
 				}
 				#shareText {
-					.column(8,8,left,0);
-					height: 38px;
-					margin-top: -1px;
-					border: none;
-					border-top: 1px solid #aaa;
-					.border-radius(0);
+					width: 100%;
+					margin-bottom: 5px;
+					height: @header-line-height * 2;
+				}
+				.images {
+					text-align: left;
+					max-height: @header-line-height * 3;
+					.remove {
+						padding: 0;
+						border-radius: 10px;
+						border: none;
+						position: absolute;
+						width: 20px;
+						height: 20px;
+						margin-left: 2px;
+						margin-top: 2px;
+						background-color: gray;
+						color: red;
+					}
+
+					.percentage {
+						height: 10px;
+						width: 80%;
+
+						position: relative;
+						top: -20px;
+						left: 0px;
+						right: 0px;
+						margin: auto;
+
+						background-color: white;
+
+						overflow: hidden;
+
+						border: 1px solid gray;
+						.border-radius(5px);
+						color: RED;
+					}
+					.bar {
+						background-color: red;
+						height: 10px;
+					}
+					img {
+						.border-radius(5px);
+						max-height: 100%;
+						max-width: 100%;
+					}
+					.imagePreview {
+						margin-top: 5px;
+						margin-right: 5px;
+						display: inline-block;
+						width: 30%;
+						max-height: 100%;
+					}
 				}
 			}
 			#filter {
 				.column(4,12);
-				height: 80px;
 				.title {
 					.column(12,12);
-					height: 30px !important;
+					height: @header-line-height - 5px;
 					padding: 4px 0;
 					.gradient(@btnBackground, @btnBackgroundHover);
 					border: 1px solid @btnBorder;
@@ -69,11 +121,10 @@
 				}
 				#theFilter {
 					.column(12,12);
-					margin-top: 9px;
-					height: 40px !important;
+					margin-top: 5px;
 					padding:0;
 					.formSearch {
-						height: 39px !important;
+						height: @header-line-height;
 						.inputWrap {
 							border: none;
 							.border-radius(0px);
