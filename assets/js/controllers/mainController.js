@@ -66,6 +66,12 @@ define(["step", "whispeerHelper", "asset/state", "asset/Image"], function (step,
 					$scope.canSend = false;
 
 					var images = $scope.newPost.images.map(function (i) { return i.data; });
+
+					if (images.length === 0) {
+						this.ne([]);
+						return;
+					}
+
 					images.forEach(function (image) {
 						blobService.prepareImage(image, this.parallel());
 					}, this);

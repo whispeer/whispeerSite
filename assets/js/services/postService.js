@@ -301,13 +301,12 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer", "ass
 						return;
 					}
 
-
 					blobs.forEach(function (blob) {
 						blob.original.blob.encryptAndUpload(postKey, this.parallel());
 						blob.preview.blob.encryptAndUpload(postKey, this.parallel());
 					}, this);
 				}), h.sF(function (_blobKeys) {
-					blobKeys = _blobKeys;
+					blobKeys = _blobKeys || [];
 
 					filterKeyService.filterToKeys(visibleSelection, this);
 					//hash images, hash downsized images, get image server ids
