@@ -28,6 +28,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 
 			this._uploadStatus = {
 				uploaded: this._uploaded,
+				acting: false,
 				uploading: false,
 				percentage: -1,
 				encrypting: false
@@ -74,6 +75,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 				}
 
 				that._uploadStatus.encrypting = true;
+				that._uploadStatus.acting = true;
 
 				this.parallel.unflatten();
 				keyStore.sym.generateKey(this.parallel(), "blob key");
@@ -175,6 +177,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 
 		MyBlob.prototype._uploadStarted = function () {
 			this._uploadStatus.uploading = true;
+			this._uploadStatus.acting = true;
 			this._uploadStatus.percentage = 0;
 		};
 

@@ -19,8 +19,7 @@
 				<div class="imagePreview" data-ng-repeat="image in newPost.images">
 					<button class="remove fa fa-times" data-ng-click='newPost.removeImage($index)'></button>
 					<img alt="{{image.name}}" data-ng-src="{{image.url}}">
-					<div class="percentage"><div class="bar" style="width:{{image.percentage*100}}%"></div></div>
-					<span style="position: absolute;">{{image.percentage}}</span>
+					<div class="percentage" data-ng-if="image.upload.acting"><div class="bar" style="width:{{image.upload.percentage*100}}%"></div></div>
 				</div>
 			</div>
 

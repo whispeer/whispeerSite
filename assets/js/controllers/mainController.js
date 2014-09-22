@@ -27,9 +27,7 @@ define(["step", "whispeerHelper", "asset/state", "asset/Image"], function (step,
 					$scope.newPost.images.push({
 						name: newImage._name,
 						data: newImage,
-						url: newImage._image.src,
-						uploading: false,
-						percentage: 0
+						url: newImage._image.src
 					});
 				});
 			})
