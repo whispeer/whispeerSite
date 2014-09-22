@@ -7,7 +7,7 @@
 				<savebutton class="formButton" data-translation="wall.postit.send" data-ng-click="sendPost()" data-state="sendPostState" data-noiniticon data-ng-disabled="!canSend"></savebutton>
 			</div>
 			<div class="righty">
-				<button class="image btn btn--primary fa fa-photo">
+				<button class="image btn btn--primary fa fa-photo fa-2x">
 					<div>
 						<input type="file" multiple data-file="newPost.addImages">
 					</div>
@@ -16,10 +16,21 @@
 			<filtersearch data-internalid="postReaders" data-selected="newPost.readers" data-input-i18n-attr="wall.postit.receiver|placeholder" id="receiver" />
 
 			<div class="images">
-				<div class="imagePreview" data-ng-repeat="image in newPost.images">
+				<div class="imagePreview" data-ng-repeat="image in newPost.images" data-ng-if="$index < 3">
 					<button class="remove fa fa-times" data-ng-click='newPost.removeImage($index)'></button>
 					<img alt="{{image.name}}" data-ng-src="{{image.url}}">
 					<div class="percentage" data-ng-if="image.upload.acting"><div class="bar" style="width:{{image.upload.percentage*100}}%"></div></div>
+				</div>
+				<div class="advancedHint" data-ng-if="newPost.images.length > 3">
+					+ {{newPost.images.length - 3}}
+					<div class="hintWrapper">
+						<div class="hintContent">
+							<div data-ng-repeat="image in newPost.images" data-ng-if="$index > 2">
+								<button class="remove fa fa-times" data-ng-click='newPost.removeImage($index)'></button>
+								{{image.name}}
+							</div>
+						</div>
+					</div>
 				</div>
 			</div>
 
