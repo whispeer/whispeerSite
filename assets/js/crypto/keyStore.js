@@ -1744,13 +1744,7 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 			},
 
 			hashBigBase64CodedData: function (text, cb) {
-				//TODO: move to worker
-				var i, h = new sjcl.hash.sha256(), PART = 4 * 50;
-				for (i = 0; i < text.length / PART; i+= 1) {
-					h.update(sjcl.codec.base64.toBits(text.substr(i*PART, PART)));
-				}
-
-				cb(null, chelper.bits2hex(h.finalize()));
+				sjclWorkerInclude.hash(text, cb);
 			},
 
 			hashPW: function (pw) {
