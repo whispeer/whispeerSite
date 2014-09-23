@@ -14,9 +14,11 @@
 		</span>
 	</aside>
 	<p class="content" data-syntaxify="post.content.text"></p>
-	<div class="postImage" data-ng-repeat="image in post.images">
-		<img data-ng-src="{{image.url}}">
-	</div>
+	<aside class="images">
+		<div class="postImage" data-ng-repeat="image in post.images" data-ng-if="$index < 6">
+			<img data-ng-src="{{image.url}}">
+		</div>
+	</aside>
 	<aside class="actions">
 	<span class="date"><i class="icon icon-clock"></i> {{post.time|smartdate}}</span>
 	<!-- this should be enabled once we're on the new code base
