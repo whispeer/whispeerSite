@@ -48,13 +48,39 @@
 		margin-left: @user-image-size;
 	}
 
+	.plusBubble {
+		.bold-text();
+
+		width: 30px;
+		height: 30px;
+
+		text-align: center;
+		line-height: 30px;
+
+		display: inline-block;
+		position: relative;
+		left: -30px;
+		top: -5px;
+		background: gray;
+
+		.border-radius(20px)
+	}
+
+	.images {
+		width: 36em;
+	}
+
+	.postImage:nth-of-type(2) {
+		clear: both;
+	}
+
 	.postImage:only-child {
-		max-height: 9em*2;
-		width: 16em*3;
+		height: 9em*2;
+		width: 16em*2;
 	}
 
 	.postImage {
-		max-height: 9em;
+		height: 9em;
 		width: 16em;
 		display: inline-block;
 		margin-right: 5px;

@@ -36,6 +36,7 @@ define(["jquery", "socket", "socketStream", "step", "whispeerHelper", "config", 
 		var upload = {};
 
 		var internalObserver = new Observer();
+		var uploadingCounter = 0, streamUpgraded = false;
 
 		var socketS = {
 			uploadObserver: internalObserver,
@@ -46,9 +47,23 @@ define(["jquery", "socket", "socketStream", "step", "whispeerHelper", "config", 
 				return upload[blobid];
 			},
 			uploadBlob: function (blob, blobid, cb) {
+				if (uploadingCounter > 3) {
+					internalObserver.listenOnce(function () {
+						socketS.uploadBlob(blob, blobid, cb);
+					}, "uploadFinished");
+					return;
+				}
+
+				uploadingCounter++;
 				step(function () {
-					socketS.emit("blob.upgradeStream", {}, this);
+					if (!streamUpgraded) {
+						socketS.emit("blob.upgradeStream", {}, this);
+					} else {
+						this.ne();
+					}
 				}, h.sF(function () {
+					streamUpgraded = true;
+
 					internalObserver.notify(blobid, "uploadStart:" + blobid);
 					var stream = iostream.createStream();
 					iostream(socket).emit("pushBlob", stream, {
@@ -74,10 +89,14 @@ define(["jquery", "socket", "socketStream", "step", "whispeerHelper", "config", 
 					blobStream.on("end", this);
 
 					blobStream.pipe(stream);
-				}), h.sF(function () {
+				}), function (e) {
+					uploadingCounter--;
+
+					internalObserver.notify(blobid, "uploadFinished");
 					internalObserver.notify(blobid, "uploadFinished:" + blobid);
-					this.ne();
-				}), cb);
+
+					this(e);
+				}, cb);
 			},
 			on: function () {
 				socket.on.apply(socket, arguments);
@@ -159,6 +178,8 @@ define(["jquery", "socket", "socketStream", "step", "whispeerHelper", "config", 
 		socket.on("disconnect", function () {
 			console.info("socket disconnected");
 			loading = 0;
+			streamUpgraded = false;
+			uploadingCounter = 0;
 		});
 
 		socket.on("reconnect", function () {

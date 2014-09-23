@@ -15,8 +15,11 @@
 	</aside>
 	<p class="content" data-syntaxify="post.content.text"></p>
 	<aside class="images">
-		<div class="postImage" data-ng-repeat="image in post.images" data-ng-if="$index < 6">
+		<div class="postImage" data-ng-repeat="image in post.images" data-ng-if="$index < 4">
 			<img data-ng-src="{{image.url}}">
+		</div>
+		<div class="plusBubble" data-ng-if="post.images.length > 4">
+			+ {{post.images.length - 4}}
 		</div>
 	</aside>
 	<aside class="actions">
