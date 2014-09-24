@@ -190,7 +190,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 		};
 
 		$scope.register = function doRegisterC() {
-			if ($scope.passwordStrength() === 0 || $scope.password !== $scope.password2 || !$scope.agb || !$scope.notEmpty($scope.nickname)) {
+			if ($scope.passwordStrength() === 0 || $scope.password !== $scope.password2 || !$scope.agb || $scope.empty($scope.nickname)) {
 				$scope.registerFailed = true;
 				onlyErrors = false;
 				return;
