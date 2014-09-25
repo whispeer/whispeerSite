@@ -119,7 +119,7 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 	*/
 	function encryptPW(pw, text, callback) {
 		step(function () {
-			var result = sjcl.encrypt(pw, text);
+			var result = sjcl.json._encrypt(pw, text);
 			this.ne(chelper.sjclPacket2Object(result));
 		}, callback);
 	}
@@ -428,7 +428,7 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 				var prefix = sjcl.codec.utf8String.toBits("key::");
 				var data = sjcl.bitArray.concat(prefix, preSecret);
 
-				this.ne(chelper.sjclPacket2Object(sjcl.encrypt(pw, data)));
+				this.ne(chelper.sjclPacket2Object(sjcl.json._encrypt(pw, data)));
 			}, h.sF(function (data) {
 				var decryptorData = {
 					//Think, shortHash here? id: ?,
@@ -588,28 +588,8 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 		* @param callback called with result
 		* @param optional iv initialization vector
 		*/
-		function encryptF(text, callback, iv) {
-			if (!isKeyUsableForEncryption(intKey.getRealID())) {
-				throw new errors.SecurityError("Key not usable for encryption: " + intKey.getRealID());
-			}
 
-			if (iv) {
-				throw new Error("found iv usage");
-			}
-
-			debugger;
-			throw new Error("bla");
-
-			step(function symEncryptI1() {
-				intKey.decryptKey(this);
-			}, h.sF(function symEncryptI2() {
-				var result = sjcl.encrypt(chelper.hex2bits(intKey.getSecret()), text);
-
-				this.ne(chelper.sjclPacket2Object(result));
-			}), callback);
-		}
-
-		this.encryptWithPrefix = function (prefix, data, callback) {
+		this.encryptWithPrefix = function (prefix, data, callback, decode) {
 			if (!isKeyUsableForEncryption(intKey.getRealID())) {
 				throw new errors.SecurityError("Key not usable for encryption: " + intKey.getRealID());
 			}
@@ -624,9 +604,13 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 				prefix = sjcl.codec.utf8String.toBits(prefix);
 				data = sjcl.bitArray.concat(prefix, data);
 
-				var result = sjcl.encrypt(intKey.getSecret(), data);
-
-				this.ne(chelper.sjclPacket2Object(result));
+				sjclWorkerInclude.sym.encrypt(intKey.getSecret(), data, this);
+			}), h.sF(function (result) {
+				if (decode) {
+					this.ne(result);
+				} else {
+					this.ne(chelper.sjclPacket2Object(result));
+				}
 			}), callback);
 		};
 
@@ -672,23 +656,7 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 			}), callback);
 		}
 
-		this.encrypt = encryptF;
 		this.decrypt = decryptF;
-
-		function encryptAndJsonifyF(text, callback, iv) {
-			step(function () {
-				encryptF(text, this, iv);
-			}, h.sF(function (encrypted) {
-				this.ne(JSON.stringify(encrypted));
-			}), callback);
-		}
-
-		function decryptJsonifiedF(ctext, callback, iv) {
-			decryptF(JSON.parse(ctext), callback, iv);
-		}
-
-		this.encryptAndJsonify = encryptAndJsonifyF;
-		this.decryptJsonified = decryptJsonifiedF;
 	};
 
 	/** make a symkey out of keydata */
@@ -2024,9 +1992,9 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 						bin = sjcl.codec.base64.toBits(bin);
 					}
 
-					key.encryptWithPrefix("bin::", bin, this);
+					key.encryptWithPrefix("bin::", bin, this, true);
 				}), h.sF(function (result) {
-					this.ne(sjcl.codec.base64.fromBits(sjcl.codec.hex.toBits(result.iv + result.ct)));
+					this.ne(sjcl.codec.base64.fromBits(result.iv.concat(result.ct)));
 				}), callback);
 			},
 
