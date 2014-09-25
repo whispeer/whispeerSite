@@ -49,7 +49,8 @@ define(["step", "whispeerHelper"], function (step, h) {
 				scope.modal = false;
 				scope.viewImage = function (index) {
 					scope.modal = true;
-					loadImage(scope.images[0].original);
+					scope.modalImage = scope.images[index].original;
+					loadImage(scope.images[index].original);
 				};
 			}
 		};

@@ -1,5 +1,5 @@
 <modal show="modal">
-	<img data-ng-src="{{images[0].original.url}}">
+	<img data-ng-src="{{modalImage.url}}">
 </modal>
 <aside class="images">
 	<div data-ng-click="viewImage($index)" data-image-gallery="images" class="postImage" data-ng-repeat="image in images" data-ng-if="$index < preview">
