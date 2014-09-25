@@ -14,14 +14,7 @@
 		</span>
 	</aside>
 	<p class="content" data-syntaxify="post.content.text"></p>
-	<aside class="images">
-		<div class="postImage" data-ng-repeat="image in post.images" data-ng-if="$index < 4">
-			<img data-ng-src="{{image.url}}">
-		</div>
-		<div class="plusBubble" data-ng-if="post.images.length > 4">
-			+ {{post.images.length - 4}}
-		</div>
-	</aside>
+	<gallery data-images="post.images" data-preview="4"></gallery>
 	<aside class="actions">
 	<span class="date"><i class="icon icon-clock"></i> {{post.time|smartdate}}</span>
 	<!-- this should be enabled once we're on the new code base

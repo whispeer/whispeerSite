@@ -30,32 +30,6 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer", "ass
 				return id;
 			};
 
-			this.loadImage = function (image, index) {
-				var blob;
-				step(function () {
-					blobService.getBlob(image.preview.id, this, false);
-				}, h.sF(function (_blob) {
-					blob = _blob;
-					blob.decrypt(this);
-				}), h.sF(function () {
-					blob.toURL(this);
-				}), h.sF(function (url) {
-					thePost.data.images[index].loading = false;
-					thePost.data.images[index].url = url;
-					thePost.data.images[index].width = image.preview.width;
-					thePost.data.images[index].height = image.preview.height;
-				}), errorService.criticalError);
-			};
-
-			this.loadImages = function () {
-				securedData.metaAttr("images").forEach(function (image, index) {
-					this.data.images.push({
-						loading: true
-					});
-					this.loadImage(image, index);
-				}, this);
-			};
-
 			this.loadData = function (cb) {
 				step(function () {
 					this.parallel.unflatten();
@@ -81,9 +55,7 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer", "ass
 						text: text
 					};
 
-					window.setTimeout(function () {
-						thePost.loadImages();
-					});
+					d.images = securedData.metaAttr("images");
 
 					this.ne();
 				}), cb);
