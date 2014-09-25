@@ -23,11 +23,13 @@ define(["step", "whispeerHelper", "asset/state", "asset/Image"], function (step,
 				$scope.newPost.images.splice(index, 1);
 			},
 			addImages: MyImage.callBackForMultipleFiles(function (e, newImages) {
-				newImages.forEach(function (newImage) {
-					$scope.newPost.images.push({
-						name: newImage._name,
-						data: newImage,
-						url: newImage._image.src
+				$scope.$apply(function () {
+					newImages.forEach(function (newImage) {
+						$scope.newPost.images.push({
+							name: newImage._name,
+							data: newImage,
+							url: newImage._image.src
+						});
 					});
 				});
 			})
