@@ -101,7 +101,7 @@ define(["step", "whispeerHelper", "cryptoWorker/generalWorkerInclude"], function
 			});
 		});
 
-		socketService.on("reconnect", function () {
+		socketService.on("connect", function () {
 			$scope.$apply(function () {
 				$scope.lostConnection = false;
 			});
