@@ -1,4 +1,7 @@
 .startView {
+	
+	overflow-y: scroll; // make the body scroll!
+	
 	.radial(@green, @primary);
 
 	@pwStrengthWidth: 40px;
@@ -36,100 +39,157 @@
 	#rnickname {
 		padding-right: 30px;
 	}
+	
+	#container {
+		height: auto;
+	}
 
 	#main {
 		.width(11);
 		.push(0.5);
 		.pull(0.5);
-		#logo {
-			height: 120px;
-			text-align: center;
-			img {
-				width: auto;
-				height: 100%;
-			}
-		}
-		header {
-			padding: 5px 0;
-			.column(7.5);
-			.push(0.25);
-			.pull(4.25);
-			h1, p {
-				color: #fff;
-			}
-			h1 {
-				// we have to define a size for h1 here because it is not properly set!
-				font-size: 35px;
-			}
-			p {
-				font-size: 20px;
-				.column(8);
-				.pull(3);
-			}
-		}
 		section {
-			background: white;
-			border: 1px solid rgba(255,255,255,0.4);
-			//box-shadow: inset 0px 0px 5px @primaryLightest;
-			border-radius: 10px;
-			.box-fix;
-			text-align: center;
-		}
-		#landing {
-			float: left;
-			.column(7.5);
-			.push(0.25);
-			img {
-				max-width: 100%;
-			}
-		}
-		#rightWrap {
-			.column(4,12,right);
-			.pull(0.25);
-		}
-		#register, {
-			width: 100%;
-			float: left;
-			margin-top: 40px;
-			h4 {
-				color: @primary;
-				font-size: 20px;
-				margin: 10px 0;
-			}
-		}
-		#register {
-			div {
-				width: 100%;
-				float: left;
-				margin-bottom: 5px;
-				button {
-					margin-bottom: 5px;
+			.column(12,12,left,0);
+			header {
+				padding: 5px 0;
+				.column(7.5);
+				.push(0.25);
+				.pull(4.25);
+				h1, p {
+					color: #fff;
 				}
-				label {
-					//color: #fff;
+				h1 {
+					// we have to define a size for h1 here because it is not properly set!
+					font-size: 35px;
 				}
-				.icon {
+				p {
+					font-size: 20px;
+					.column(8);
+					.pull(3);
+				}
+			}
+			section {
+				background: white;
+				border: 1px solid rgba(255,255,255,0.4);
+				//box-shadow: inset 0px 0px 5px @primaryLightest;
+				border-radius: 10px;
+				.box-fix;
+				text-align: center;
+			}
+			&#splash {
+				height: 100vh; // this is experimental
+				#landing {
 					float: left;
-					margin-top: 10px;
-					margin-left: -30px;
-					width: 16px;
-					height: 16px;
+					.column(7.5);
+					.push(0.25);
+					img {
+						max-width: 100%;
+					}
 				}
-				&#registerPasswordStrength {
-					margin-top: 10px;
-					margin-bottom: 10px;
+				#rightWrap {
+					.column(4,12,right);
+					.pull(0.25);
+				}
+				#register, {
+					width: 100%;
+					float: left;
+					margin-top: 40px;
+					h4 {
+						color: @primary;
+						font-size: 20px;
+						margin: 10px 0;
+					}
+				}
+				#register {
+					div {
+						width: 100%;
+						float: left;
+						margin-bottom: 5px;
+						button {
+							margin-bottom: 5px;
+						}
+						label {
+							//color: #fff;
+						}
+						.icon {
+							float: left;
+							margin-top: 10px;
+							margin-left: -30px;
+							width: 16px;
+							height: 16px;
+						}
+						&#registerPasswordStrength {
+							margin-top: 10px;
+							margin-bottom: 10px;
+						}
+						
+						&#registerAGB {
+							margin-bottom: 10px;
+						}
+					}
+					input:not([type="checkbox"]), button {
+						.column(10);
+						.push(1);
+					}
+				}
+			}
+			&#more {
+				min-height: 100vh;
+				
+				header {
+					width: 100%;
+					float: left;
+					padding-top: 50px; // ensures that the heading is visible and does not scroll under the navbar!
 				}
 				
-				&#registerAGB {
-					margin-bottom: 10px;
+				.left, .right {
+					@media @desktop {
+						.column(6);
+						margin-bottom: 25px;
+					}
+					@media @mobile {
+						.column(12);
+						margin-bottom: 10px;
+					}
 				}
-			}
-			input:not([type="checkbox"]), button {
-				.column(10);
-				.push(1);
-			}
+				
+				#facts {
+					list-style-type: none;
+					counter-reset: ol-counter;
+					margin-top: 10px;
+					li {
+						.column(12);
+						text-align: left;
+						padding: 0 10px;
+						&:before {
+							content: counter(ol-counter);
+							counter-increment: ol-counter;
+							.bold-text();
+							.large-text();
+							float: left;
+							margin-top: 0px;
+						}
+						.title {
+							display: inline-block;
+							width: ~"calc(100% - 1em)";
+							.large-text();
+							padding-left: 1.5em;
+							.box-fix;
+						}
+						.content {
+							display: inline-block;
+							width: ~"calc(100% - 10em)";
+							margin-left: 4em;
+							margin-right: 6em;
+							padding: 0.5em;
+							.box-fix;
+							border: 1px solid #ccc;
+						}
+					}
+				}
+			}	
 		}
-	}
+	}	
 	footer {
 		color: #fff;
 		a {
