@@ -154,6 +154,9 @@
 						.column(12);
 						margin-bottom: 10px;
 					}
+					h1 {
+						color: #000;
+					}
 				}
 				
 				.right {
@@ -169,45 +172,61 @@
 							width: 100%;
 							margin-bottom: 10px;
 						}
-						
-						h1 {
-							color: #000;
-						}
+					}
+				}
+				
+				.left {
+					background: transparent;
+					border: none;
+					section {
+						float: left;
+						width: 100%;
+						margin-bottom: 10px;
 					}
 				}
 				
 				#facts {
-					list-style-type: none;
-					counter-reset: ol-counter;
-					margin-top: 10px;
-					li {
-						.column(12);
+					ol {
+						list-style-type: none;
+						counter-reset: ol-counter;
+						margin-top: 10px;
+						li {
+							.column(12);
+							text-align: left;
+							padding: 0 10px;
+							&:before {
+								content: counter(ol-counter);
+								counter-increment: ol-counter;
+								.bold-text();
+								.large-text();
+								float: left;
+								margin-top: 0px;
+							}
+							.title {
+								display: inline-block;
+								width: ~"calc(100% - 1em)";
+								.large-text();
+								padding-left: 1.5em;
+								.box-fix;
+							}
+							.content {
+								display: inline-block;
+								width: ~"calc(100% - 10em)";
+								margin-left: 4em;
+								margin-right: 6em;
+								padding: 0.5em;
+								.box-fix;
+								border: 1px solid #ccc;
+							}
+						}
+					}	
+				}
+				
+				#registerHelp {
+					.content {
 						text-align: left;
-						padding: 0 10px;
-						&:before {
-							content: counter(ol-counter);
-							counter-increment: ol-counter;
-							.bold-text();
-							.large-text();
-							float: left;
-							margin-top: 0px;
-						}
-						.title {
-							display: inline-block;
-							width: ~"calc(100% - 1em)";
-							.large-text();
-							padding-left: 1.5em;
-							.box-fix;
-						}
-						.content {
-							display: inline-block;
-							width: ~"calc(100% - 10em)";
-							margin-left: 4em;
-							margin-right: 6em;
-							padding: 0.5em;
-							.box-fix;
-							border: 1px solid #ccc;
-						}
+						padding: 0 1em;
+						.box-fix;
 					}
 				}
 				
