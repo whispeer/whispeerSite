@@ -84,6 +84,38 @@
 					margin: 10px 0;
 				}
 			}
+			.register {
+				div {
+					width: 100%;
+					float: left;
+					margin-bottom: 5px;
+					button {
+						margin-bottom: 5px;
+					}
+					label {
+						//color: #fff;
+					}
+					.icon {
+						float: left;
+						margin-top: 10px;
+						margin-left: -30px;
+						width: 16px;
+						height: 16px;
+					}
+					&#registerPasswordStrength {
+						margin-top: 10px;
+						margin-bottom: 10px;
+					}
+					
+					&#registerAGB {
+						margin-bottom: 10px;
+					}
+				}
+				input:not([type="checkbox"]), button {
+					.column(10);
+					.push(1);
+				}
+			}
 			&#splash {
 				height: 100vh; // this is experimental
 				#landing {
@@ -98,42 +130,10 @@
 					.column(4,12,right);
 					.pull(0.25);
 				}
-				#register, {
+				.register, {
 					width: 100%;
 					float: left;
 					margin-top: 40px;
-				}
-				#register {
-					div {
-						width: 100%;
-						float: left;
-						margin-bottom: 5px;
-						button {
-							margin-bottom: 5px;
-						}
-						label {
-							//color: #fff;
-						}
-						.icon {
-							float: left;
-							margin-top: 10px;
-							margin-left: -30px;
-							width: 16px;
-							height: 16px;
-						}
-						&#registerPasswordStrength {
-							margin-top: 10px;
-							margin-bottom: 10px;
-						}
-						
-						&#registerAGB {
-							margin-bottom: 10px;
-						}
-					}
-					input:not([type="checkbox"]), button {
-						.column(10);
-						.push(1);
-					}
 				}
 			}
 			&#more {
