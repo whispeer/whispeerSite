@@ -3,7 +3,10 @@
 	overflow-y: scroll; // make the body scroll!
 	
 	.radial(@green, @primary);
-
+	
+	@shareIconCount: 4;
+	@shareIconWrapSize: 80%;
+	
 	@pwStrengthWidth: 40px;
 	span[data-strength] {
 		float: left;
@@ -75,6 +78,11 @@
 				border-radius: 10px;
 				.box-fix;
 				text-align: center;
+				h1 {
+					color: @primary;
+					.large-text();
+					margin: 10px 0;
+				}
 			}
 			&#splash {
 				height: 100vh; // this is experimental
@@ -94,11 +102,6 @@
 					width: 100%;
 					float: left;
 					margin-top: 40px;
-					h4 {
-						color: @primary;
-						font-size: 20px;
-						margin: 10px 0;
-					}
 				}
 				#register {
 					div {
@@ -153,6 +156,26 @@
 					}
 				}
 				
+				.right {
+					background: transparent;
+					border: none;
+					section {
+						@media @desktop {
+							.column(9,12,right);
+							margin-bottom: 10px;
+						}
+						
+						@media @mobile {
+							width: 100%;
+							margin-bottom: 10px;
+						}
+						
+						h1 {
+							color: #000;
+						}
+					}
+				}
+				
 				#facts {
 					list-style-type: none;
 					counter-reset: ol-counter;
@@ -186,6 +209,42 @@
 							border: 1px solid #ccc;
 						}
 					}
+				}
+				
+				#features {
+					ul {
+						.unstyled;
+						li {
+							.column(12);
+							text-align: left;
+							// these elements have to be floated do show the desired behaviour.
+							.icon {
+								float: left;
+								display: inline-block;
+								margin-top: 0;
+								width: 50px;
+							}
+							.content {
+								float: left;
+								display: inline-block;
+								width: ~"calc(100% - 50px)";
+								margin-top: 15px;
+								text-align: left;
+								// we really need a "medium" text-size!
+								font-size: 1.3em;
+							}
+						}
+					}
+				}
+				
+				#share {
+					#shareIconWrap {
+						width: @shareIconWrapSize;
+						margin: 0 auto;
+						.icon {
+							.column(1,@shareIconCount);
+						}
+					}	
 				}
 			}	
 		}
