@@ -90,23 +90,19 @@ define(["step", "whispeerHelper"], function (step, h) {
 
 				this.parallel.unflatten();
 				keyStore.sym.generateKey(this.parallel(), "blob key");
-				that.getBase64Representation(this.parallel());
-			}, h.sF(function (_key, base64Blob) {
+				
+				that.getArrayBuffer(this.parallel());
+			}, h.sF(function (_key, buf) {
 				that._key = _key;
 
-				console.time("blobencrypt");
-				keyStore.sym.encryptBigBase64(base64Blob, that._key, this);
+				console.time("blobencrypt" + (that._blobID || that._preReserved));
+				keyStore.sym.encryptArrayBuffer(buf, that._key, this);
 			}), h.sF(function (encryptedData) {
-				console.timeEnd("blobencrypt");
+				console.timeEnd("blobencrypt" + (that._blobID || that._preReserved));
+				console.log(encryptedData.byteLength);
 				that._decrypted = false;
 
-				encryptedData = "data:" + that._blobData.type + ";base64," + encryptedData;
-
-				if (that._legacy) {
-					that._blobData = encryptedData;
-				} else {
-					that._blobData = h.dataURItoBlob(encryptedData);
-				}
+				that._blobData = new Blob([encryptedData], {type: that._blobData.type});
 
 				that._uploadStatus.encrypting = false;
 
@@ -121,22 +117,16 @@ define(["step", "whispeerHelper"], function (step, h) {
 					this.last.ne();
 				}
 
-				that.getBase64Representation(this);
+				that.getArrayBuffer(this);
 			}, h.sF(function (encryptedData) {
 				console.time("blobdecrypt" + that._blobID);
-				keyStore.sym.decryptBigBase64(encryptedData, that._key, this);
+				keyStore.sym.decryptArrayBuffer(encryptedData, that._key, this);
 			}), h.sF(function (decryptedData) {
 				console.timeEnd("blobdecrypt" + that._blobID);
 
 				that._decrypted = true;
 
-				decryptedData = "data:" + that._blobData.type + ";base64," + decryptedData;
-
-				if (that._legacy) {
-					that._blobData = decryptedData;
-				} else {
-					that._blobData = h.dataURItoBlob(decryptedData);
-				}
+				that._blobData = new Blob([decryptedData], {type: that._blobData.type});
 				this.ne();
 			}), cb);
 		};
