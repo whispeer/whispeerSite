@@ -23,6 +23,17 @@
 		height: 8px;
 	}
 
+	.moreLink {
+		text-align: center;
+		bottom: 0;
+		display: inline-block;
+		width: 100%;
+	}
+
+	.moreLink a {
+		color: white;
+	}
+
 	span[data-strength="0"]:after { width: @pwStrengthWidth*(0/10); background-color: #ff0000; }
 	span[data-strength="1"]:after { width: @pwStrengthWidth*(1/10); background-color: #ff4d00; }
 	span[data-strength="2"]:after { width: @pwStrengthWidth*(2/10); background-color: #ff7700; }
@@ -118,7 +129,7 @@
 			}
 			&#splash {
 				height: 100vh; // this is experimental
-				#landing {
+				.left {
 					float: left;
 					.column(7.5);
 					.push(0.25);
@@ -133,7 +144,6 @@
 				.register, {
 					width: 100%;
 					float: left;
-					margin-top: 40px;
 				}
 			}
 			&#more {
