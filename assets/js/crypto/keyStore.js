@@ -665,9 +665,9 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 				}
 
 				if (ctext.ct.length < 500) {
-					this.ne(sjcl.decrypt(intKey.getSecret(), sjcl.json.encode(ctext), {raw: 1}));
+					this.ne(sjcl.json._decrypt(intKey.getSecret(), ctext, {raw: 1}));
 				} else {
-					sjclWorkerInclude.sym.decrypt(intKey.getSecret(), sjcl.json.encode(ctext), this);
+					sjclWorkerInclude.sym.decrypt(intKey.getSecret(), ctext, this);
 				}
 			}), h.sF(function (result) {
 				this.ne(result);
@@ -1999,6 +1999,36 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 					key.decrypt(ctext, this);
 				}), h.sF(function (decryptedData) {
 					this.ne(sjcl.codec.utf8String.fromBits(removeExpectedPrefix(decryptedData, "data::")));
+				}), callback);
+			},
+
+			encryptArrayBuffer: function (buf, realKeyID, callback) {
+				step(function symEncrypt1() {
+					SymKey.get(realKeyID, this);
+				}, h.sF(function symEncrypt2(key) {
+					key.encryptWithPrefix("buf::", buf, this, true);
+				}), h.sF(function (result) {
+					result.iv = sjcl.codec.arrayBuffer.fromBits(result.iv, false);
+					result.ct.tag = sjcl.codec.arrayBuffer.fromBits(result.ct.tag, false);
+					this.ne(h.concatBuffers(result.iv, result.ct.ciphertext_buffer, result.ct.tag));
+				}), callback);
+			},
+
+			decryptArrayBuffer: function (buf, realKeyID, callback) {
+				step(function () {
+					SymKey.get(realKeyID, this);
+				}, h.sF(function (key) {
+					var buf32 = new Uint32Array(buf);
+
+					var decr = {
+						iv: sjcl.codec.arrayBuffer.toBits(new Uint32Array(buf32.subarray(0, 4)).buffer),
+						ct: new Uint32Array(buf32.subarray(4, buf32.byteLength/4-2)).buffer,
+						tag: sjcl.codec.arrayBuffer.toBits(new Uint32Array(buf32.subarray(buf32.byteLength/4-2)).buffer)
+					};
+
+					key.decrypt(decr, this);
+				}), h.sF(function (decryptedData) {
+					this.ne(removeExpectedPrefix(decryptedData, "buf::"));
 				}), callback);
 			},
 
