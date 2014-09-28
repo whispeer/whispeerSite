@@ -53,6 +53,17 @@ define(["step", "whispeerHelper"], function (step, h) {
 			return this._meta;
 		};
 
+		MyBlob.prototype.getArrayBuffer = function (cb) {
+			var that = this;
+			step(function () {
+				var reader = new FileReader();
+				reader.addEventListener("loadend", this.ne);
+				reader.readAsArrayBuffer(that._blobData);
+			}, h.sF(function (event) {
+				this.ne(event.currentTarget.result);
+			}), cb);
+		};
+
 		MyBlob.prototype.encryptAndUpload = function (key, cb) {
 			var that = this, blobKey;
 			step(function () {

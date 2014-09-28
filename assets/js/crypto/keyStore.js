@@ -74,14 +74,23 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 	}
 
 	function removeExpectedPrefix(bitArray, prefix) {
-		var len = prefix.length, part = sjcl.bitArray.bitSlice(bitArray, 0, 8*len);
+		var len = prefix.length, part;
 		prefix = sjcl.codec.utf8String.toBits(prefix);
 
-		if (sjcl.bitArray.equal(prefix, part)) {
-			return sjcl.bitArray.bitSlice(bitArray, 8*len);
+		if (bitArray instanceof ArrayBuffer) {
+			var buf8 = new Uint8Array(bitArray);
+			part = sjcl.codec.arrayBuffer.toBits(new Uint8Array(buf8.subarray(0, len)).buffer);
+			if (sjcl.bitArray.equal(prefix, part)) {
+				return new Uint8Array(buf8.subarray(len)).buffer;
+			}
 		} else {
-			throw new errors.DecryptionError("invalid prefix (should be: " + prefix + ")");
+			part = sjcl.bitArray.bitSlice(bitArray, 0, 8*len);
+			if (sjcl.bitArray.equal(prefix, part)) {
+				return sjcl.bitArray.bitSlice(bitArray, 8*len);
+			}
 		}
+
+		throw new errors.DecryptionError("invalid prefix (should be: " + prefix + ")");
 	}
 
 	//TODO: webworkers: 
@@ -602,7 +611,16 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 				}
 
 				prefix = sjcl.codec.utf8String.toBits(prefix);
-				data = sjcl.bitArray.concat(prefix, data);
+
+				if (data instanceof ArrayBuffer) {
+					prefix = sjcl.codec.arrayBuffer.fromBits(prefix, false);
+					var l = prefix.byteLength + data.byteLength;
+					var p = 16;
+					var padding = new ArrayBuffer(p-l%p);
+					data = h.concatBuffers(prefix, data, padding);
+				} else {
+					data = sjcl.bitArray.concat(prefix, data);
+				}
 
 				sjclWorkerInclude.sym.encrypt(intKey.getSecret(), data, this);
 			}), h.sF(function (result) {
