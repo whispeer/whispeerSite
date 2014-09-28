@@ -1,4 +1,4 @@
-<div data-ng-click="registerFormClick()" data-onload="stepLoaded()">
+<div data-ng-click="registerFormClick()" data-ng-controller="ssn.registerController">
 	<form>
 		<h1 data-i18n="login.register.newaccount"></h1>
 		<div class="inputWrap" data-ng-click="inputsUsed()" data-ng-keydown="inputsUsed()">
@@ -32,7 +32,7 @@
 			</div>
 		</div>
 		<div class="submitWrap">
-			<button id="registerFormNextStep" class="btn btn--big btn--danger" type="submit"  data-ng-click="register()" data-i18n="login.register.link"></button>
+			<button class="btn btn--big btn--danger" type="submit"  data-ng-click="register()" data-i18n="login.register.link"></button>
 		</div>
 	</form>
 </div>
