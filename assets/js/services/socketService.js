@@ -24,8 +24,8 @@ define(["jquery", "socket", "socketStream", "step", "whispeerHelper", "config", 
 
 		window.setInterval(function () {
 			try {
-				if (!socket.socket.connected) {
-					socket.socket.connect();
+				if (!socket.connected) {
+					socket.connect();
 				}
 			} catch (e) {
 				console.error(e);
@@ -41,7 +41,7 @@ define(["jquery", "socket", "socketStream", "step", "whispeerHelper", "config", 
 		var socketS = {
 			uploadObserver: internalObserver,
 			isConnected: function () {
-				return socket.socket.connected;
+				return socket.connected;
 			},
 			getUploadStatus: function (blobid) {
 				return upload[blobid];
@@ -125,7 +125,7 @@ define(["jquery", "socket", "socketStream", "step", "whispeerHelper", "config", 
 					time = new Date().getTime();
 					loading++;
 
-					if (socket.socket.connected) {
+					if (socketS.isConnected()) {
 						socket.emit(channel, data, this.ne);
 					} else {
 						throw new Error("no connection");
@@ -182,8 +182,8 @@ define(["jquery", "socket", "socketStream", "step", "whispeerHelper", "config", 
 			uploadingCounter = 0;
 		});
 
-		socket.on("reconnect", function () {
-			console.info("socket reconnected");
+		socket.on("connect", function () {
+			console.info("socket connected");
 			socketS.emit("ping", {}, function () {});
 		});
 
