@@ -25,13 +25,17 @@
 
 	.moreLink {
 		text-align: center;
-		bottom: 0;
 		display: inline-block;
 		width: 100%;
-	}
-
-	.moreLink a {
-		color: white;
+		margin-top: 20px;
+		a {
+			color: @white;
+			.large-text();
+			padding: 10px;
+			border: 1px solid @white;
+			border-radius: 5px;
+			.box-fix;
+		}
 	}
 
 	span[data-strength="0"]:after { width: @pwStrengthWidth*(0/10); background-color: #ff0000; }
