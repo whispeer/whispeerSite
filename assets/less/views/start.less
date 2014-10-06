@@ -1,7 +1,19 @@
-.startView {	
+.startView {
 	overflow-y: auto; // make the body scroll!
 	height: auto;
 	
+	h1 {
+		.large-text();
+	}
+
+	body {
+		padding-top: 0;
+	}
+
+	#topNav {
+		position: relative;
+	}
+
 	.radial(@green, @primary);
 	
 	@shareIconCount: 4;
@@ -62,226 +74,196 @@
 		height: auto;
 	}
 
-	#main {
-		.width(11);
-		.push(0.5);
-		.pull(0.5);
-		section {
-			.column(12,12,left,0);
-			header {
-				padding: 5px 0;
-				.column(7.5);
-				.push(0.25);
-				.pull(4.25);
-				h1, p {
-					color: #fff;
-				}
-				h1 {
-					// we have to define a size for h1 here because it is not properly set!
-					font-size: 35px;
-				}
-				p {
-					font-size: 20px;
-					.column(8);
-					.pull(3);
-				}
-			}
-			section {
-				background: white;
-				border: 1px solid rgba(255,255,255,0.4);
-				//box-shadow: inset 0px 0px 5px @primaryLightest;
-				border-radius: 10px;
-				.box-fix;
-				text-align: center;
-				h1 {
-					color: @primary;
-					.large-text();
-					margin: 10px 0;
-				}
-			}
-			.register {
-				div {
-					width: 100%;
-					float: left;
-					margin-bottom: 5px;
-					button {
-						margin-bottom: 5px;
-					}
-					label {
-						//color: #fff;
-					}
-					.icon {
-						float: left;
-						margin-top: 10px;
-						margin-left: -30px;
-						width: 16px;
-						height: 16px;
-					}
-					&#registerPasswordStrength {
-						margin-top: 10px;
-						margin-bottom: 10px;
-					}
-					
-					&#registerAGB {
-						margin-bottom: 10px;
-					}
-				}
-				input:not([type="checkbox"]), button {
-					.column(10);
-					.push(1);
-				}
-			}
-			&#splash {
-				height: 100vh; // this is experimental
-				.left {
-					float: left;
-					.column(7.5);
-					.push(0.25);
-					img {
-						max-width: 100%;
-					}
-				}
-				#rightWrap {
-					.column(4,12,right);
-					.pull(0.25);
-				}
-				.register, {
-					width: 100%;
-					float: left;
-				}
-			}
-			&#more {
-				min-height: 100vh;
-				
-				header {
-					width: 100%;
-					float: left;
-					padding-top: 50px; // ensures that the heading is visible and does not scroll under the navbar!
-				}
-				
-				.left, .right {
-					@media @desktop {
-						.column(6);
-						margin-bottom: 25px;
-					}
-					@media @mobile {
-						.column(12);
-						margin-bottom: 10px;
-					}
-					h1 {
-						color: #000;
-					}
-				}
-				
-				.right {
-					background: transparent;
-					border: none;
-					section {
-						@media @desktop {
-							.column(9,12,right);
-							margin-bottom: 10px;
-						}
-						
-						@media @mobile {
-							width: 100%;
-							margin-bottom: 10px;
-						}
-					}
-				}
-				
-				.left {
-					background: transparent;
-					border: none;
-					section {
-						float: left;
-						width: 100%;
-						margin-bottom: 10px;
-					}
-				}
-				
-				#facts {
-					ol {
-						list-style-type: none;
-						counter-reset: ol-counter;
-						margin-top: 10px;
-						li {
-							.column(12);
-							text-align: left;
-							padding: 0 10px;
-							&:before {
-								content: counter(ol-counter);
-								counter-increment: ol-counter;
-								.bold-text();
-								.large-text();
-								float: left;
-								margin-top: 0px;
-							}
-							.title {
-								display: inline-block;
-								width: ~"calc(100% - 1em)";
-								.large-text();
-								padding-left: 1.5em;
-								.box-fix;
-							}
-							.content {
-								display: inline-block;
-								width: ~"calc(100% - 10em)";
-								margin-left: 4em;
-								margin-right: 6em;
-								padding: 0.5em;
-								.box-fix;
-								border: 1px solid #ccc;
-							}
-						}
-					}	
-				}
-				
-				#registerHelp {
-					.content {
-						text-align: left;
-						padding: 0 1em;
-						.box-fix;
-					}
-				}
-				
-				#features {
-					ul {
-						.unstyled;
-						li {
-							.column(12);
-							text-align: left;
-							// these elements have to be floated do show the desired behaviour.
-							.icon {
-								float: left;
-								display: inline-block;
-								margin-top: 0;
-								width: 50px;
-							}
-							.content {
-								float: left;
-								display: inline-block;
-								width: ~"calc(100% - 50px)";
-								margin-top: 15px;
-								text-align: left;
-								// we really need a "medium" text-size!
-								font-size: 1.3em;
-							}
-						}
-					}
-				}
-				
-				#share {
-					#shareIconWrap {
-						width: @shareIconWrapSize;
-						margin: 0 auto;
-						.icon {
-							.column(1,@shareIconCount);
-						}
-					}	
-				}
-			}	
+	.box {
+		color: #000;
+		background: white;
+		border: 1px solid rgba(255,255,255,0.4);
+		border-radius: 10px;
+		.box-fix;
+		text-align: center;
+		h1 {
+			color: @primary;
+			margin: 10px 0;
 		}
-	}	
+	}
+
+	.register {
+		button {
+			margin-bottom: 5px;
+		}
+		.icon {
+			float: left;
+			margin-top: 10px;
+			margin-left: -30px;
+			width: 16px;
+			height: 16px;
+		}
+		div {
+			width: 100%;
+			float: left;
+			margin-bottom: 5px;
+		}
+		input:not([type="checkbox"]), button {
+			.column(10);
+			.push(1);
+		}
+	}
+
+	#registerAGB {
+		margin-bottom: 10px;
+	}
+
+	#registerPasswordStrength {
+		margin-top: 10px;
+		margin-bottom: 10px;
+	}
+
+	.splash {
+		height: 100vh; // this is experimental
+		color: #fff;
+		padding-top: @navbarHeight;
+		box-sizing: border-box;
+
+		.left {
+			float: left;
+			.column(7.5);
+			.push(0.25);
+			img {
+				max-width: 100%;
+			}
+		}
+		#rightWrap {
+			.column(4,12,right);
+			.pull(0.25);
+		}
+		.register, {
+			width: 100%;
+			float: left;
+		}
+	}
+
+	li {
+		.column(12);
+		text-align: left;
+	}
+
+	.numberedDetailList {
+		list-style-type: none;
+		counter-reset: ol-counter;
+
+		margin-top: 10px;
+		li {
+			&:before {
+				content: counter(ol-counter);
+				counter-increment: ol-counter;
+				.large-text();
+				float: left;
+				margin-top: 0px;
+			}
+		}
+		.title {
+			display: inline-block;
+			width: ~"calc(100% - 1em)";
+			.large-text();
+			padding-left: 1.5em;
+			.box-fix;
+		}
+		.content {
+			display: inline-block;
+			margin-left: 2em;
+			padding: 0.5em;
+			padding-right: 8em;
+			.box-fix;
+		}
+	}
+	
+	#registerHelp {
+		.content {
+			padding: 0 1em;
+		}
+	}
+	
+	.iconList {
+		.unstyled;
+		// these elements have to be floated do show the desired behaviour.
+		.icon {
+			float: left;
+			margin-top: 0;
+			width: 50px;
+		}
+		.content {
+			float: left;
+			width: "100%";
+			padding-right: 50px;
+			margin-top: 15px;
+			// we really need a "medium" text-size!
+			font-size: 1.3em;
+		}
+	}
+
+	#shareIconWrap {
+		width: @shareIconWrapSize;
+		.icon {
+			.column(1,@shareIconCount);
+		}
+	}
+
+	.leftHalf, .rightHalf {
+		width: 50%;
+		margin-bottom: 25px;
+		border: none;
+	}
+
+	.leftHalf {
+		section {
+			padding: 0 20px;
+			box-sizing: border-box;
+		}
+	}
+
+	.rightHalf {
+		section {
+			float: right;
+		}
+	}
+
+	.column-9 {
+		.column(9);
+	}
+
+	#more {
+		min-height: 100vh;
+		background-color: white;
+		color: #000;
+		
+		header {
+			width: 100%;
+			float: left;
+		}
+	}
+
+	#main {
+		width: 100%;
+		margin: 0;
+
+		margin-top: -50px;
+	}
+
+	header {
+		padding: 5px 0;
+		.column(7.5);
+		.push(0.25);
+		p {
+			font-size: 20px;
+			.column(8);
+			.pull(3);
+		}
+	}
+
+	section {
+		.column(12,12,left,0);
+	}
+
 	footer {
 		color: #fff;
 		a {
