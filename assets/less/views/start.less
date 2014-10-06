@@ -34,11 +34,16 @@
 	}
 
 	.moreLink {
+		position: absolute;
+		bottom: 10px;
+		left: 0;
+		right: 0;
+
 		cursor: pointer;
 		text-align: center;
 		display: inline-block;
 		width: 100%;
-		margin-top: 20px;
+
 		a {
 			color: @white;
 			.large-text();
@@ -122,6 +127,7 @@
 		color: #fff;
 		padding-top: @navbarHeight;
 		box-sizing: border-box;
+		position: relative;
 
 		.radial(@green, @primary);
 
@@ -232,14 +238,16 @@
 		.column(9);
 	}
 
-	#more {
+	.centerBox {
 		float: none;
 		margin-left: auto;
 		margin-right: auto;
 		display: block;
 
-		max-width: 1024px;
+		max-width: 1150px;
+	}
 
+	#more {
 		min-height: 100vh;
 		background-color: white;
 		color: #000;
