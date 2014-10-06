@@ -1,5 +1,5 @@
 .startView {
-	overflow-y: auto; // make the body scroll!
+	overflow-y: auto; // make the html scroll!
 	height: auto;
 	
 	h1 {
@@ -16,7 +16,7 @@
 
 	.radial(@green, @primary);
 	
-	@shareIconCount: 4;
+	@shareIconCount: 3;
 	@shareIconWrapSize: 80%;
 	
 	@pwStrengthWidth: 40px;
@@ -44,7 +44,7 @@
 			color: @white;
 			.large-text();
 			padding: 10px;
-			border: 1px solid @white;
+			border: 0px;
 			border-radius: 5px;
 			.box-fix;
 		}
@@ -223,6 +223,7 @@
 
 	.rightHalf {
 		section {
+			margin-bottom: 10px;
 			float: right;
 		}
 	}
@@ -235,6 +236,7 @@
 		min-height: 100vh;
 		background-color: white;
 		color: #000;
+		padding-top: 20px;
 		
 		header {
 			width: 100%;
