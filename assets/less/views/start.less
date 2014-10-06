@@ -13,8 +13,6 @@
 	#topNav {
 		position: relative;
 	}
-
-	.radial(@green, @primary);
 	
 	@shareIconCount: 3;
 	@shareIconWrapSize: 80%;
@@ -36,6 +34,7 @@
 	}
 
 	.moreLink {
+		cursor: pointer;
 		text-align: center;
 		display: inline-block;
 		width: 100%;
@@ -124,6 +123,8 @@
 		padding-top: @navbarHeight;
 		box-sizing: border-box;
 
+		.radial(@green, @primary);
+
 		.left {
 			float: left;
 			.column(7.5);
@@ -194,7 +195,6 @@
 		.content {
 			float: left;
 			width: "100%";
-			padding-right: 50px;
 			margin-top: 15px;
 			// we really need a "medium" text-size!
 			font-size: 1.3em;
@@ -233,6 +233,13 @@
 	}
 
 	#more {
+		float: none;
+		margin-left: auto;
+		margin-right: auto;
+		display: block;
+
+		max-width: 1024px;
+
 		min-height: 100vh;
 		background-color: white;
 		color: #000;
