@@ -4,21 +4,23 @@ define(["step", "whispeerHelper", "asset/state", "asset/securedDataWithMetaData"
 	var advancedBranches = ["location", "birthday", "relationship", "education", "work", "gender", "languages"];
 
 	function applicableParts(scope, privacy, profile) {
-		var attr, result = {};
+		var result = {};
 
 		if (privacy === undefined || profile === undefined) {
 			throw new Error("dafuq");
 		}
 
-		for (attr in privacy) {
-			if (typeof privacy[attr].encrypt !== "undefined") {
-				if (privacy[attr].encrypt && privacy[attr].visibility.indexOf(scope) > -1) {
-					result[attr] = profile[attr];
+		h.objectEach(privacy, function (key, val) {
+			if (profile[key]) {
+				if (typeof val.encrypt !== "undefined") {
+					if (!val.encrypt || val.visibility.indexOf(scope) > -1) {
+						result[key] = profile[key];
+					}
+				} else {
+					result[key] = applicableParts(scope, val, profile[key]);
 				}
-			} else if (profile[attr]) {
-				result[attr] = applicableParts(scope, privacy[attr], profile[attr]);
 			}
-		}
+		});
 
 		return result;
 	}
@@ -46,13 +48,12 @@ define(["step", "whispeerHelper", "asset/state", "asset/securedDataWithMetaData"
 	}
 
 	function getAllProfileTypes(privacySettings) {
-		var i, profileTypes = [];
-		for (i = 0; i < advancedBranches.length; i += 1) {
-			var cur = privacySettings[advancedBranches[i]];
-			if (cur.encrypt) {
-				profileTypes = profileTypes.concat(cur.visibility);
+		var profileTypes = [];
+		advancedBranches.forEach(function (branch) {
+			if (privacySettings[branch].encrypt) {
+				profileTypes = profileTypes.concat(privacySettings[branch].visibility);
 			}
-		}
+		});
 
 		if (privacySettings.basic.firstname.encrypt) {
 			profileTypes = profileTypes.concat(privacySettings.basic.firstname.visibility);
@@ -68,7 +69,7 @@ define(["step", "whispeerHelper", "asset/state", "asset/securedDataWithMetaData"
 	function userModel($injector, $location, blobService, keyStoreService, ProfileService, sessionService, settingsService, socketService, friendsService, errorService) {
 		return function User (providedData) {
 			var theUser = this, mainKey, signKey, cryptKey, friendShipKey, friendsKey, migrationState, signedKeys, signedOwnKeys;
-			var id, mail, nickname, publicProfile, privateProfiles = [], mutualFriends;
+			var id, mail, nickname, publicProfile, privateProfiles = [], myProfile, mutualFriends;
 
 			var addFriendState = new State();
 
@@ -112,17 +113,20 @@ define(["step", "whispeerHelper", "asset/state", "asset/securedDataWithMetaData"
 					friendShipKey = friendsService.getUserFriendShipKey(id);
 				}
 
-				publicProfile = new ProfileService(userData.profile.pub, { isPublicProfile: true });
+				if (!isMe) {
+					publicProfile = new ProfileService(userData.profile.pub, { isPublicProfile: true });
 
-				privateProfiles = [];
+					privateProfiles = [];
 
-				//todo: update profiles. for now: overwrite
-				if (userData.profile && userData.profile.priv && userData.profile.priv instanceof Array) {
-					var priv = userData.profile.priv;
+					if (userData.profile.priv && userData.profile.priv instanceof Array) {
+						var priv = userData.profile.priv;
 
-					priv.forEach(function (profile) {
-						privateProfiles.push(new ProfileService(profile));
-					});
+						privateProfiles = priv.map(function (profile) {
+							return new ProfileService(profile);
+						});
+					}
+				} else {
+					myProfile = new ProfileService(userData.profile.me);
 				}
 
 				theUser.data = {
@@ -157,7 +161,10 @@ define(["step", "whispeerHelper", "asset/state", "asset/securedDataWithMetaData"
 							what: "",
 							where: ""
 						},
-						gender: "",
+						gender: {
+							gender: "none",
+							text: ""
+						},
 						languages: []
 					}
 				};
@@ -201,105 +208,147 @@ define(["step", "whispeerHelper", "asset/state", "asset/securedDataWithMetaData"
 				}
 			};
 
-			function setPrivateProfile(attrs, val, visible, cb) {
-				var priv = theUser.getPrivateProfiles();
+			/** profile management */
+
+			// there is mainly one profile: the "me" profile, containing all data.
+			// this profile is always updated when we edit the profile.
+			// every other profile is a smaller part of this profile and is generated
+			// after updating the "me" profile (or at other times - e.g. when settings change)
+
+			/* gets a given profile attribute to value
+			* @param attribute attribute to set
+			* @param cb
+			*/
+			function getProfileAttribute(attribute, cb) {
 				step(function () {
-					var i;
-					for (i = 0; i < priv.length; i += 1) {
-						priv[i].getScope(this.parallel());
+					if (myProfile) {
+						myProfile.getAttribute(attribute, this.last);
+					} else {
+						privateProfiles.forEach(function (profile) {
+							profile.getAttribute(attribute, this.parallel());
+						}, this);
+
+						publicProfile.getAttribute(attribute, this.parallel());
 					}
-				}, h.sF(function (scopes) {
-					if (scopes.length !== priv.length) {
-						throw new Error("bug");
+				}, h.sF(function (attributeValues) {
+					var values = attributeValues.filter(function (value) {
+						return typeof value !== "undefined" && value !== "";
+					});
+
+					if (values.length === 0) {
+						this.ne("");
+						return;
 					}
 
-					var i;
-					for (i = 0; i < priv.length; i += 1) {
-						if (visible.indexOf(scopes[i]) > -1 || scopes[i] === "me") {
-							priv[i].setAttribute(attrs, val, this.parallel());
+					values.sort(function (val1, val2) {
+						if (typeof val1 === "object" && typeof val2 === "object") {
+							return Object.keys(val2).length - Object.keys(val1).length;
 						}
-					}
+
+						return 0;
+					});
+
+					this.ne(values[0]);
 				}), cb);
 			}
 
-			function getChangedPrivateProfiles(cb) {
-				var priv = theUser.getPrivateProfiles();
+			/** uses the me profile to generate new profiles */
+			this.rebuildProfiles = function (cb) {
+				var scopes, privacySettings;
 				step(function () {
-					var i;
-					for (i = 0; i < priv.length; i += 1) {
-						if (priv[i].changed()) {
-							priv[i].getUpdatedData(theUser.getSignKey(), this.parallel());
-						}
+					if (!theUser.isOwn()) {
+						throw new Error("update on another user failed");
 					}
 
-					this.parallel()();
-				}, cb);
-			}
+					settingsService.getBranch("privacy", this);
+				}, h.sF(function (_privacySettings) {
+					privacySettings = _privacySettings;
+					scopes = getAllProfileTypes(privacySettings);
 
-			function getChangedPublicProfile(cb) {
-				publicProfile.getUpdatedData(signKey, cb);
-			}
+					this.parallel.unflatten();
+					$injector.get("ssn.filterKeyService").filterToKeys(scopes, this.parallel());
+					myProfile.getFull(this.parallel());
+				}), h.sF(function (keys, profile) {
+					var scopeData = h.joinArraysToObject({
+						name: scopes,
+						key: keys
+					});
 
-			function uploadChangedProfile(cb) {
-				var data = {}, allok;
-				var priv = theUser.getPrivateProfiles();
+					var pub = new ProfileService({ content: applicablePublicParts(privacySettings, profile) }, { isPublicProfile: true });
+					pub.sign(theUser.getSignKey(), this.parallel());
 
+					scopeData.forEach(function (scope) {
+						scope.profile = new ProfileService({
+							content: applicableParts(scope.name, privacySettings, profile)
+						}, { isDecrypted: true });
+					}, this);
+
+					scopeData.forEach(function (scope) {
+						scope.profile.signAndEncrypt(theUser.getSignKey(), scope.key, this.parallel());
+					}, this);
+				}), h.sF(function (profileData) {
+					var pub = profileData.shift();
+					this.ne({
+						pub: pub,
+						priv: profileData
+					});
+				}), cb);
+
+			};
+
+			this.setMail = function (newMail, cb) {
+				step(function () {
+					if (newMail !== mail) {
+						socketService.emit("user.mailChange", { mail: newMail }, this);
+					} else {
+						this.last.ne();
+					}
+				}, h.sF(function (data) {
+					if (data.error) {
+						throw new Error("mail not accepted");
+					} else {
+						mail = newMail;
+						this.ne();
+					}
+				}), cb);
+			};
+
+			/** uploads all profiles (also recreates them) */
+			this.uploadChangedProfile = function (cb) {
 				step(function () {
 					this.parallel.unflatten();
+					theUser.rebuildProfiles(this.parallel());
+					myProfile.getUpdatedData(theUser.getSignKey(), this.parallel());
+				}, h.sF(function (profileData, myProfile) {
+					profileData.me = myProfile;
 
-					getChangedPrivateProfiles(this.parallel());
-					getChangedPublicProfile(this.parallel());
-				}, h.sF(function (profiles, publicProfile) {
-					if (profiles && profiles.length > 0) {
-						data.priv = profiles;
-					}
-
-					if (publicProfile) {
-						data.pub = publicProfile;
-					}
-
-					if (data.priv || data.pub) {
-						socketService.emit("user.profileChange", data, this);
-					} else {
-						this.last.ne(true);
-					}
-				}), h.sF(function (result) {
-					if (!result.errors.pub) {
-						publicProfile.updated();
-					}
-
-					var i;
-					for (i = 0; i < priv.length; i += 1) {
-						if (result.allok || result.errors.priv.indexOf(priv[i].getID()) === -1) {
-							priv[i].updated();
-						}
-					}
-
-					allok = result.allok;
-
-					basicDataLoaded = false;
-					theUser.loadBasicData(this);
+					socketService.emit("user.profile.update", profileData, this);
 				}), h.sF(function () {
-					//reload basic profile data!
-					this.ne(allok);
+					myProfile.updated();
+					this.ne();
 				}), cb);
-			}
+			};
 
-			function setProfileAttribute(attrs, val, cb) {
+			/* sets a given profile attribute to value
+			* @param attribute attribute to set
+			* @param value value of the attribute
+			* @param cb
+			*/
+			this.setProfileAttribute = function (attribute, value, cb) {
+				myProfile.setAttribute(attribute, value, cb);
+			};
+
+			this.setAdvancedProfile = function (advancedProfile, cb) {
 				step(function () {
-					settingsService.getPrivacyVisibility(attrs, this);
-				}, h.sF(function (visible) {
-					if (visible === false) {
-						publicProfile.setAttribute(attrs.split("."), val, this.parallel());
-						visible = [];
-					}
+					advancedBranches.forEach(function (branch) {
+						myProfile.setAttribute(branch, advancedProfile[branch], this.parallel());
+					}, this);
+				}, cb);
+			};
 
-					setPrivateProfile(attrs.split("."), val, visible, this.parallel());
-				}), cb);
-			}
+			this.getProfileAttribute = getProfileAttribute;
 
-			this.uploadChangedProfile = uploadChangedProfile;
-			this.setProfileAttribute = setProfileAttribute;
+			/** end profile management */
 
 			this.verifyOwnKeys = function () {
 				keyStoreService.security.verifyWithPW(signedOwnKeys, {
@@ -329,12 +378,18 @@ define(["step", "whispeerHelper", "asset/state", "asset/securedDataWithMetaData"
 			this.verify = function (cb) {
 				step(function () {
 					var signKey = theUser.getSignKey();
-					privateProfiles.forEach(function (priv) {
-						priv.verify(signKey, this.parallel());
-					}, this);
 
 					theUser.verifyKeys(this.parallel());
-					publicProfile.verify(signKey, this.parallel());
+
+					if (theUser.isOwn()) {
+						myProfile.verify(signKey, this.parallel());
+					} else {
+						privateProfiles.forEach(function (priv) {
+							priv.verify(signKey, this.parallel());
+						}, this);
+
+						publicProfile.verify(signKey, this.parallel());
+					}
 				}, h.sF(function (verified) {
 					var ok = verified.reduce(h.and, true);
 
@@ -356,167 +411,6 @@ define(["step", "whispeerHelper", "asset/state", "asset/securedDataWithMetaData"
 
 				return true;
 			};
-
-			this.rebuildProfilesByScopes = function (scopes, cb) {
-				var priv = theUser.getPrivateProfiles(), profilesToDelete;
-				step(function () {
-					priv.forEach(function (profile) {
-						profile.getScope(this.parallel());
-					}, this);
-				}, h.sF(function (oldScopes) {
-					//remove old ones
-					if (oldScopes.length !== priv.length) {
-						throw new Error("bug");
-					}
-
-					scopes = scopes.filter(function (scope) {
-						return oldScopes.indexOf(scope) !== -1;
-					});
-
-					profilesToDelete = scopes.map(function (e) {
-						return priv[oldScopes.indexOf(e)].getID();
-					});
-
-					priv = priv.filter(function (p) {
-						return profilesToDelete.indexOf(p.getID()) === -1;
-					});
-
-					//create new ones
-					theUser.createProfileObjects(scopes, this);
-				}), h.sF(function (profilesToCreate) {
-					socketService.emit("user", {
-						deletePrivateProfiles: {
-							profilesToDelete: profilesToDelete
-						},
-						createPrivateProfiles: {
-							privateProfiles: profilesToCreate
-						}
-					}, this);
-				}), cb);
-			};
-
-			this.rebuildProfilesForSettings = function (newSettings, oldSettings, cb) {
-				step(function () {
-					theUser.getScopes(this);
-				}, h.sF(function (scopes) {
-					var typesOld = h.removeArray(scopes, "me");
-					var typesNew = getAllProfileTypes(newSettings);
-
-					var profilesToAdd = h.arraySubtract(typesNew, typesOld);
-					var profilesToRemove = h.arraySubtract(typesOld, typesNew);
-					var profilesWithPossibleChanges = h.arraySubtract(typesNew, profilesToAdd);
-
-					this.parallel.unflatten();
-
-					theUser.updateProfilesFromMe(profilesWithPossibleChanges, newSettings, this.parallel());
-					theUser.createProfileObjects(profilesToAdd, this.parallel(), newSettings);
-					theUser.getProfilesToDelete(profilesToRemove, this.parallel());
-				}), h.sF(function (profilesToChange, profilesToCreate, profilesToDelete) {
-					socketService.emit("user", {
-						deletePrivateProfiles: {
-							profilesToDelete: profilesToDelete
-						},
-						createPrivateProfiles: {
-							privateProfiles: profilesToCreate
-						},
-						profileChange: profilesToChange
-					}, this);
-				}), cb);
-			};
-
-			this.getProfilesByScopes = function (scopes, cb) {
-				var priv = theUser.getPrivateProfiles();
-				step(function () {
-					var i;
-					for (i = 0; i < priv.length; i += 1) {
-						priv[i].getScope(this.parallel());
-					}
-				}, h.sF(function (oldScopes) {
-					if (oldScopes.length !== priv.length) {
-						throw new Error("bug");
-					}
-
-					var profiles = scopes.map(function (e) {
-						if (oldScopes.indexOf(e) === -1) {
-							throw new Error("scope not found!");
-						}
-
-						return priv[oldScopes.indexOf(e)];
-					});
-
-					this.ne(profiles);
-				}), cb);
-			};
-
-			this.updateProfilesFromMe = function(scopes, privacySettings, cb) {
-				step(function () {
-					this.parallel.unflatten();
-
-					theUser.getProfilesByScopes(scopes, this.parallel());
-					theUser.getMyProfileData(this.parallel());
-				}, h.sF(function (profiles, myProfile) {
-					var i;
-					for (i = 0; i < profiles.length; i += 1) {
-						profiles[i].setFullProfile(applicableParts(scopes[i], privacySettings, myProfile), this.parallel());
-					}
-
-					publicProfile.setFullProfile(applicablePublicParts(privacySettings, myProfile), this.parallel());
-				}), h.sF(function () {
-					this.parallel.unflatten();
-
-					getChangedPrivateProfiles(this.parallel());
-					getChangedPublicProfile(this.parallel());
-				}), h.sF(function (profiles, publicProfile) {
-					var data = {};
-
-					if (profiles && profiles.length > 0) {
-						data.priv = profiles;
-					}
-
-					if (publicProfile) {
-						data.pub = publicProfile;
-					}
-
-					this.ne(data);
-				}), cb);
-			};
-
-			this.verifyProfiles = function(cb) {
-				step(function () {
-					console.time("verifyUserProfiles" + id);
-					theUser.getPrivateProfiles().forEach(function (privateProfile) {
-						privateProfile.verify(signKey, this.parallel());
-					}, this);
-				}, h.sF(function () {
-					console.timeEnd("verifyUserProfiles" + id);
-					this.ne();
-				}), cb);
-			};
-
-			function getProfileAttribute(attrs, cb) {
-				step(function () {
-					var priv = theUser.getPrivateProfiles(), i;
-
-					for (i = 0; i < priv.length; i += 1) {
-						priv[i].getAttribute(attrs, this.parallel());
-					}
-
-					theUser.getProfile().getAttribute(attrs, this.parallel());
-				}, h.sF(function (results) {
-					var i;
-					if (results) {
-						for (i = 0; i < results.length; i += 1) {
-							if (results[i]) {
-								this.last.ne(results[i]);
-								return;
-							}
-						}
-					}
-
-					this.last.ne();
-				}), cb);
-			}
-			this.getProfileAttribute = getProfileAttribute;
 
 			this.update = updateUser;
 
@@ -544,16 +438,19 @@ define(["step", "whispeerHelper", "asset/state", "asset/securedDataWithMetaData"
 
 			this.loadFullData = function (cb) {
 				step(function () {
-					var i;
-					for (i = 0; i < advancedBranches.length; i += 1) {
-						getProfileAttribute([advancedBranches[i]], this.parallel());
-					}
+					advancedBranches.forEach(function (branch) {
+						getProfileAttribute(branch, this.parallel());
+					}, this);
+
 					theUser.loadBasicData(this.parallel());
 				}, h.sF(function (result) {
-					result = result || [];
+					var i, a = theUser.data.advanced, defaults = [{}, {}, {}, [], {}, {}, []];
 
-					var i, a = theUser.data.advanced, defaults = [{}, {}, {}, [], {}, "", []];
 					for (i = 0; i < advancedBranches.length; i += 1) {
+						if (advancedBranches[i] === "gender" && typeof result[i] === "string") {
+							result[i] = { gender: result[i] };
+						}
+
 						a[advancedBranches[i]] = h.deepCopyObj(result[i] || defaults[i], 3);
 					}
 
@@ -689,14 +586,6 @@ define(["step", "whispeerHelper", "asset/state", "asset/securedDataWithMetaData"
 				return mail;
 			};
 
-			this.getProfile = function () {
-				return publicProfile;
-			};
-
-			this.getPrivateProfiles = function () {
-				return privateProfiles;
-			};
-
 			this.getImage = function (cb) {
 				step(function () {
 					getProfileAttribute("imageBlob", this);
@@ -713,14 +602,12 @@ define(["step", "whispeerHelper", "asset/state", "asset/securedDataWithMetaData"
 
 			this.getShortName = function (cb) {
 				step(function getSN1() {
-					this.parallel.unflatten();
-
-					getProfileAttribute(["basic", "firstname"], this.parallel());
-					getProfileAttribute(["basic", "lastname"], this.parallel());
-				}, h.sF(function (firstname, lastname) {
+					getProfileAttribute("basic", this);
+				}, h.sF(function (basic) {
+					basic = basic || {};
 					var nickname = theUser.getNickname();
 
-					this.ne(firstname || lastname || nickname || "");
+					this.ne(basic.firstname || basic.lastname || nickname || "");
 				}), cb);
 			};
 
@@ -728,172 +615,27 @@ define(["step", "whispeerHelper", "asset/state", "asset/securedDataWithMetaData"
 				step(function getN1() {
 					this.parallel.unflatten();
 
-					getProfileAttribute(["basic", "firstname"], this.parallel());
-					getProfileAttribute(["basic", "lastname"], this.parallel());
-				}, h.sF(function (firstname, lastname) {
+					getProfileAttribute("basic", this);
+				}, h.sF(function (basic) {
+					basic = basic || {};
 					var nickname = theUser.getNickname();
 
 					var name = "";
-					if (firstname && lastname) {
-						name = firstname + " " + lastname;
-					} else if (firstname || lastname) {
-						name = firstname || lastname;
+					if (basic.firstname && basic.lastname) {
+						name = basic.firstname + " " + basic.lastname;
+					} else if (basic.firstname || basic.lastname) {
+						name = basic.firstname || basic.lastname;
 					} else if (nickname) {
 						name = nickname;
 					}
 
 					this.ne({
 						name: name,
-						firstname: firstname || "",
-						lastname: lastname || "",
+						firstname: basic.firstname || "",
+						lastname: basic.lastname || "",
 						nickname: nickname || ""
 					});
 				}), cb);
-			};
-
-			function updateProperty(partial, str, cb) {
-				if (!partial) {
-					cb();
-				} else if (typeof partial === "object" && !partial instanceof Array) {
-					updatePartial(partial, str, cb);
-				} else {
-					theUser.setProfileAttribute(str, partial, cb);
-				}
-			}
-
-			function updatePartial(partial, str, cb) {
-				step(function () {
-					var attr;
-
-					for (attr in partial) {
-						if (partial.hasOwnProperty(attr)) {
-							updateProperty(partial[attr], str + "." + attr, this.parallel());
-						}
-					}
-				}, cb);
-			}
-
-			this.getMyProfileData = function (cb) {
-				step(function () {
-					theUser.getProfilesByScopes(["me"], this);
-				}, h.sF(function (myProfile) {
-					myProfile = myProfile[0];
-
-					myProfile.getFull(this);
-				}), cb);
-			};
-
-			this.getScopes = function (cb) {
-				var priv = theUser.getPrivateProfiles();
-
-				step(function () {
-					var i;
-					for (i = 0; i < priv.length; i += 1) {
-						priv[i].getScope(this.parallel());
-					}
-				}, h.sF(function (scopes) {
-					if (scopes.length !== priv.length) {
-						throw new Error("bug");
-					}
-
-					this.ne(scopes);
-				}), cb);
-			};
-
-			this.createProfileObjects = function (scopes, cb, privacySettings) {
-				//check if we already got a profile for the given scope.
-				step(function () {
-					this.parallel.unflatten();
-
-					theUser.getScopes(this.parallel());
-					theUser.getMyProfileData(this.parallel());
-					$injector.get("ssn.filterKeyService").filterToKeys(scopes, this.parallel());
-
-					if (!privacySettings) {
-						settingsService.getBranch("privacy", this.parallel());
-					} else {
-						this.parallel()(null, privacySettings);
-					}
-				}, h.sF(function (oldScopes, myProfile, keys, privacySettings) {
-					var data = h.joinArraysToObject({
-						scope: scopes,
-						key: keys
-					});
-
-					data.forEach(function (v) {
-						if (oldScopes.indexOf(v.scope) === -1) {
-							var profile = new ProfileService({
-								profile: {
-									content: applicableParts(v.scope, privacySettings, myProfile)
-								},
-								own: {
-									scope: v.scope
-								}
-							}, { isDecrypted: true });
-							profile.signAndEncrypt(theUser.getSignKey(), v.key, theUser.getMainKey(), this.parallel());
-						}
-					}, this);
-
-					this.parallel()();
-				}), h.sF(function (encryptedProfilesData) {
-					encryptedProfilesData = encryptedProfilesData || [];
-
-					this.ne(encryptedProfilesData);
-				}), cb);
-			};
-
-			this.createProfiles = function (scopes, cb, privacySettings) {
-				//check if we already got a profile for the given scope.
-				step(function () {
-					theUser.createProfileObjects(scopes, this, privacySettings);
-				}, h.sF(function (profiles) {
-					socketService.emit("user.createPrivateProfiles", {
-						privateProfiles: profiles
-					}, this);
-				}), cb);
-			};
-
-			this.getProfilesToDelete = function (scopes, cb) {
-				//find the profiles matching a scope.
-				var priv = theUser.getPrivateProfiles();
-				step(function () {
-					priv.forEach(function (profile) {
-						profile.getScope(this.parallel());
-					}, this);
-				}, h.sF(function (oldScopes) {
-					if (oldScopes.length !== priv.length) {
-						throw new Error("bug");
-					}
-
-					var toDelete = scopes.map(function (e) {
-						if (oldScopes.indexOf(e) === -1) {
-							throw new Error("scope not found!");
-						}
-
-						return priv[oldScopes.indexOf(e)].getID();
-					});
-
-					this.ne(toDelete);
-				}), cb);
-			};
-
-			this.deleteProfiles = function (scopes, cb) {
-				//find the profiles matching a scope.
-				step(function () {
-					theUser.getProfilesToDelete(scopes, this);
-				}, h.sF(function (toDelete) {
-					socketService.emit("user.deletePrivateProfiles", {
-						profilesToDelete: toDelete
-					}, this);
-				}), cb);
-			};
-
-			this.setAdvancedProfile = function (adv, cb) {
-				step(function () {
-					advancedBranches.forEach(function (branch) {
-						updateProperty(adv[branch], branch, this.parallel());
-					}, this);
-				}, cb);
 			};
 
 			this.acceptFriendShip = function () {

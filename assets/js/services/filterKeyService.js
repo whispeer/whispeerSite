@@ -21,57 +21,40 @@ define(["whispeerHelper", "step", "asset/errors"], function (h, step, errors) {
 			return currentFilter;
 		}
 
-		function filterToKeys(filter, cb) {
-			var alwaysFilter = [], userFriendsFilter = [], userFilter = [], circleFilter = [];
-
-			if (!filter) {
-				filter = ["always:allfriends"];
-			}
-
-			var i, map;
-			for (i = 0; i < filter.length; i += 1) {
-				map = filter[i].split(":");
-				switch(map[0]) {
-					case "friends":
-						userFriendsFilter.push(map[1]);
-						break;
-					case "always":
-						alwaysFilter.push(map[1]);
-						break;
-					case "circle":
-						circleFilter.push(map[1]);
-						break;
-					case "user":
-						userFilter.push(map[1]);
-						break;
-					default:
-						throw new errors.InvalidFilter("unknown group");
-				}
+		function filterToKeys(filters, cb) {
+			if (filters.length === 0) {
+				cb(null, []);
 			}
 
 			step(function () {
-				this.parallel.unflatten();
-				circleFilterToKeys(circleFilter, this.parallel());
-				userFilterToKeys(userFilter, this.parallel());
-				userFriendsFilterToKeys(userFriendsFilter, this.parallel());
-			}, h.sF(function (circleKeys, userKeys, userFriendsKeys) {
-				var alwaysKeys = alwaysFilterToKeys(alwaysFilter);
-				var keys = alwaysKeys.concat(circleKeys).concat(userKeys).concat(userFriendsKeys);
+				filters.forEach(function (filter) {
+					var map = filter.split(":");
 
-				this.ne(keys);
-			}), cb);
+					switch(map[0]) {
+						case "friends":
+							friendsFilterToKey(map[1], this.parallel());
+							break;
+						case "always":
+							alwaysFilterToKey(map[1], this.parallel());
+							break;
+						case "circle":
+							circleFilterToKey(map[1], this.parallel());
+							break;
+						case "user":
+							userFilterToKey(map[1], this.parallel());
+							break;
+						default:
+							throw new errors.InvalidFilter("unknown group");
+					}
+				}, this);
+			}, cb);
 		}
 
-		function alwaysFilterToKeys(filter) {
-			if (filter.length === 0) {
-				return [];
-			}
-
-			var theFilter = removeDoubleFilter(filter);
-
-			switch (theFilter) {
+		function alwaysFilterToKey(filter, cb) {
+			switch (filter) {
 				case "allfriends":
-					return [userService.getown().getFriendsKey()];
+					cb(null, userService.getown().getFriendsKey());
+					break;
 				case "everyone":
 					//we do not encrypt it anyhow .... this needs to be checked in before!
 					throw new Error("should never be here");
@@ -80,56 +63,33 @@ define(["whispeerHelper", "step", "asset/errors"], function (h, step, errors) {
 			}
 		}
 
-		function circleFilterToKeys(filter, cb) {
+		function circleFilterToKey(filter, cb) {
 			step(function () {
 				circleService.loadAll(this);
 			}, h.sF(function () {
-				var keys = [], i;
-				for (i = 0; i < filter.length; i += 1) {
-					keys.push(circleService.get(filter[i]).getKey());
-				}
-				
-				this.ne(keys);
+				this.ne(circleService.get(filter).getKey());
 			}), cb);
 		}
 
-		function userFilterToKeys(user, cb) {
+		function userFilterToKey(user, cb) {
 			step(function () {
-				userService.getMultiple(user, this);
-			}, h.sF(function (users) {
-				var i, keys = [];
-				for (i = 0; i < users.length; i += 1) {
-					keys.push(users[i].getContactKey());
-				}
-
-				this.ne(keys);
+				userService.get(user, this);
+			}, h.sF(function (user) {
+				this.ne(user.getContactKey());
 			}), cb);
 		}
 
-		function userFriendsFilterToKeys(user, cb) {
+		function friendsFilterToKey(user, cb) {
 			step(function () {
-				userService.getMultiple(user, this);
-			}, h.sF(function (users) {
-				var i, keys = [];
-				for (i = 0; i < users.length; i += 1) {
-					keys.push(users[i].getFriendsKey());
-				}
-
-				this.ne(keys);
+				userService.get(user, this);
+			}, h.sF(function (user) {
+				this.ne(user.getFriendsKey());
 			}), cb);
 		}
 
 		var res = {
 			filterToKeys: filterToKeys,
-
-			removeDoubleFilter: removeDoubleFilter,
-
-			circleFilterToKeys: circleFilterToKeys,
-
-			alwaysFilterToKeys: alwaysFilterToKeys,
-
-			userFilterToKeys: userFilterToKeys,
-			userFriendsFilterToKeys: userFriendsFilterToKeys
+			removeDoubleFilter: removeDoubleFilter
 		};
 
 		return res;

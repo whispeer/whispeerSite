@@ -77,25 +77,16 @@ define(["step", "whispeerHelper", "crypto/trustManager", "asset/securedDataWithM
 					}
 
 					var privateProfile = new ProfileService({
-						profile: {
-							content: profile.priv
-						},
-						own: profile.own
+						content: profile.priv
 					}, { isDecrypted: true });
 
 					var privateProfileMe = new ProfileService({
-						profile: {
-							content: h.objectJoin(h.objectJoin(profile.priv, profile.pub), profile.nobody)
-						},
-						own: {
-							scope: "me"
-						}
+						content: h.objectJoin(h.objectJoin(profile.priv, profile.pub), profile.nobody),
+						meta: { myProfile: true }
 					}, { isDecrypted: true });
 
 					var publicProfile = new ProfileService({
-						profile: {
-							content: profile.pub || {}
-						}
+						content: profile.pub || {}
 					}, { isPublicProfile: true });
 
 					var correctKeys = h.objectMap(keys, keyStoreService.correctKeyIdentifier);
@@ -109,8 +100,8 @@ define(["step", "whispeerHelper", "crypto/trustManager", "asset/securedDataWithM
 
 					this.parallel.unflatten();
 
-					privateProfile.signAndEncrypt(keys.sign, keys.profile, keys.main, this.parallel());
-					privateProfileMe.signAndEncrypt(keys.sign, keys.main, keys.main, this.parallel());
+					privateProfile.signAndEncrypt(keys.sign, keys.profile, this.parallel());
+					privateProfileMe.signAndEncrypt(keys.sign, keys.main, this.parallel());
 					publicProfile.sign(keys.sign, this.parallel());
 
 					keyStoreService.sym.encryptObject(settings, keys.main, 0, this.parallel());
@@ -130,8 +121,9 @@ define(["step", "whispeerHelper", "crypto/trustManager", "asset/securedDataWithM
 						signedKeys: signedKeys,
 						signedOwnKeys: signedOwnKeys,
 						profile: {
-							pub: {profile: publicProfile},
-							priv: [privateProfile, privateProfileMe]
+							pub: publicProfile,
+							priv: [privateProfile],
+							me: privateProfileMe
 						},
 						settings: settings
 					};

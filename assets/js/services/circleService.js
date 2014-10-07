@@ -32,8 +32,26 @@ define(["step", "whispeerHelper", "asset/observer", "asset/securedDataWithMetaDa
 				return circleSec.metaAttr("circleKey");
 			};
 
+			this.remove = function (cb) {
+				step(function () {
+					socket.emit("circles.removeCircle", {
+						remove: {
+							circleid: id
+						}
+					}, this);
+				}, h.sF(function () {
+					var circle = circles[id];
+					delete circles[id];
+					h.removeArray(circleArray, circle);
+					h.removeArray(circleData, circle.data);
+
+					this.ne();
+				}), cb);
+			};
+
 			this.setUser = function (uids, cb) {
 				var newKey, oldKey = circleSec.metaAttr("circleKey"), removing = false, friendKeys;
+
 				step(function () {
 					uids = uids.map(h.parseDecimal);
 					removing = h.arraySubtract(circleUsers, uids).length > 0;

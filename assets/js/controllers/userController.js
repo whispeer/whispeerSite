@@ -131,6 +131,11 @@ define(["step", "whispeerHelper", "asset/resizableImage", "asset/state"], functi
 					}
 				}, h.sF(function () {
 					var adv = $scope.user.advanced;
+
+					if (adv.gender.gender !== "o") {
+						adv.gender.text = "";
+					}
+
 					userObject.setAdvancedProfile(adv, this);
 				}), h.sF(function () {
 					userObject.uploadChangedProfile(this);
@@ -191,12 +196,11 @@ define(["step", "whispeerHelper", "asset/resizableImage", "asset/state"], functi
 					res += possible[i];
 				}
 			}
-
 			return res;
 		}
 
 		$scope.getLocationVals = function (val) {
-			return getVals(["town", "state", "country"], val);
+			return getVals(["town", "country"], val);
 		};
 
 		$scope.getRelationVals = function (val) {
