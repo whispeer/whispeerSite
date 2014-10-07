@@ -34,7 +34,7 @@ define(["step", "whispeerHelper", "asset/observer", "asset/securedDataWithMetaDa
 
 			this.remove = function (cb) {
 				step(function () {
-					socket.emit("circles.removeCircle", {
+					socket.emit("circles.delete", {
 						remove: {
 							circleid: id
 						}
@@ -97,6 +97,10 @@ define(["step", "whispeerHelper", "asset/observer", "asset/securedDataWithMetaDa
 					socket.emit("circle.update", { update: update }, this);
 				}), h.sF(function () {
 					//emit
+					circleUsers = uids;
+					persons = [];
+					theCircle.data.persons = persons;
+					theCircle.data.userids = circleUsers;
 
 					this.ne();
 				}), cb);

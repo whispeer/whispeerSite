@@ -103,6 +103,7 @@ define(["step", "whispeerHelper", "asset/observer", "asset/securedDataWithMetaDa
 
 					if (result.friends) {
 						friends.push(uid);
+						h.removeArray(requests, uid);
 						friendsService.notify(uid, "newFriend");
 					} else {
 						requested.push(uid);
