@@ -72,7 +72,7 @@ define(["step", "whispeerHelper", "asset/observer", "asset/securedDataWithMetaDa
 				}, { type: "removeFriend" }).sign(ownUser.getSignKey(), this.parallel());
 
 				signedList.metaRemoveAttr(otherUser.getID());
-				signedList.getUpdatedData(ownUser.getSignKey(), this.parallel());
+				signedList.sign(ownUser.getSignKey(), this.parallel());
 			}, h.sF(function (_signedRemoval, _signedList) {
 				signedRemoval = _signedRemoval;
 				updatedSignedList = _signedList;
@@ -236,7 +236,7 @@ define(["step", "whispeerHelper", "asset/observer", "asset/securedDataWithMetaDa
 					var scopes = circles.map(function (c) { return "circle:" + c.getID(); });
 					scopes.push("always:allfriends");
 					//update profile for new friendsKey
-					ownUser.rebuildProfilesByScopes(scopes, this);
+					ownUser.rebuildProfiles(this);
 				}), cb);
 			},
 			friendship: function (uid, cb) {
