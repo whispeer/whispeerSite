@@ -6,7 +6,6 @@ define(["whispeerHelper", "step", "asset/errors"], function (h, step, errors) {
 			var currentFilter, currentFilterOrder = 0;
 			var filterOrder = {
 				allfriends: 1,
-				friendsoffriends: 2,
 				everyone: 3
 			};
 
@@ -55,9 +54,6 @@ define(["whispeerHelper", "step", "asset/errors"], function (h, step, errors) {
 			switch (filter) {
 				case "allfriends":
 					cb(null, userService.getown().getFriendsKey());
-					break;
-				case "friendsoffriends":
-					cb(null, userService.getown().getFriendsLevel2Key());
 					break;
 				case "everyone":
 					//we do not encrypt it anyhow .... this needs to be checked in before!

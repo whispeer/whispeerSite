@@ -4,7 +4,7 @@
 define(["step", "whispeerHelper", "asset/observer", "asset/securedDataWithMetaData"], function (step, h, Observer, SecuredData) {
 	"use strict";
 
-	var service = function ($rootScope, socket, userService, sessionService, keyStore) {
+	var service = function ($rootScope, socket, userService, friendsService, sessionService, keyStore) {
 		var circles = {};
 		var circleArray = [];
 		var circleData = [];
@@ -32,8 +32,26 @@ define(["step", "whispeerHelper", "asset/observer", "asset/securedDataWithMetaDa
 				return circleSec.metaAttr("circleKey");
 			};
 
+			this.remove = function (cb) {
+				step(function () {
+					socket.emit("circles.removeCircle", {
+						remove: {
+							circleid: id
+						}
+					}, this);
+				}, h.sF(function () {
+					var circle = circles[id];
+					delete circles[id];
+					h.removeArray(circleArray, circle);
+					h.removeArray(circleData, circle.data);
+
+					this.ne();
+				}), cb);
+			};
+
 			this.setUser = function (uids, cb) {
-				var newKey, oldKey = circleSec.metaAttr("circleKey"), removing = false;
+				var newKey, oldKey = circleSec.metaAttr("circleKey"), removing = false, friendKeys;
+
 				step(function () {
 					uids = uids.map(h.parseDecimal);
 					removing = h.arraySubtract(circleUsers, uids).length > 0;
@@ -53,9 +71,8 @@ define(["step", "whispeerHelper", "asset/observer", "asset/securedDataWithMetaDa
 					} else {
 						encryptKeyForUsers(newKey, h.arraySubtract(uids, circleUsers), this.parallel());
 					}
-				}), h.sF(function (users) {
-					uids = users;
-
+				}), h.sF(function (_friendKeys) {
+					friendKeys = _friendKeys;
 					circleSec.metaSet({
 						users: uids,
 						circleKey: newKey
@@ -73,6 +90,8 @@ define(["step", "whispeerHelper", "asset/observer", "asset/securedDataWithMetaDa
 					if (removing) {
 						update.decryptors = keyStore.upload.getDecryptors([oldKey], [newKey]);
 						update.key = keyStore.upload.getKey(newKey);
+					} else {
+						update.decryptors = keyStore.upload.getDecryptors([newKey], friendKeys);
 					}
 
 					socket.emit("circle.update", { update: update }, this);
@@ -171,29 +190,30 @@ define(["step", "whispeerHelper", "asset/observer", "asset/securedDataWithMetaDa
 		}
 
 		function encryptKeyForUsers(key, users, cb) {
+			users = users.map(h.parseDecimal);
+			var keys;
 			step(function () {
 				if (users && users.length > 0) {
-					userService.getMultiple(users, this);
+					this.ne();
 				} else {
 					this.last.ne([]);
 				}
-			}, h.sF(function (userObjects) {
-				userObjects.forEach(function (user) {
-					if (!user.getFriendShipKey()) {
-						throw new Error("no friend key for user: " + user.getID());
+			}, h.sF(function () {
+				users.forEach(function (user) {
+					if (!friendsService.getUserFriendShipKey(user)) {
+						throw new Error("no friend key for user: " + user);
 					}
 				});
 
-				userObjects.forEach(function (user) {
-					var friendKey = user.getFriendShipKey();
+				keys = users.map(function (user) {
+					return friendsService.getUserFriendShipKey(user);
+				});
+
+				keys.forEach(function (friendKey) {
 					keyStore.sym.symEncryptKey(key, friendKey, this.parallel());
 				}, this);
-
-				users = userObjects.map(function (user) {
-					return user.getID();
-				});
 			}), h.sF(function () {
-				this.ne(users);
+				this.ne(keys);
 			}), cb);
 		}
 
@@ -226,15 +246,14 @@ define(["step", "whispeerHelper", "asset/observer", "asset/securedDataWithMetaDa
 				});
 			},
 			create: function (name, cb, users) {
-				var key, theCircle, userIDs;
+				var key, theCircle;
+				users = users.map(h.parseDecimal);
 				step(function () {
 					generateNewKey(this);
 				}, h.sF(function (symKey) {
 					key = symKey;
 					encryptKeyForUsers(key, users, this);
-				}), h.sF(function (users) {
-					userIDs = users;
-
+				}), h.sF(function () {
 					var own = userService.getown();
 					var mainKey = own.getMainKey();
 
@@ -319,7 +338,7 @@ define(["step", "whispeerHelper", "asset/observer", "asset/securedDataWithMetaDa
 		return circleService;
 	};
 
-	service.$inject = ["$rootScope", "ssn.socketService", "ssn.userService", "ssn.sessionService", "ssn.keyStoreService"];
+	service.$inject = ["$rootScope", "ssn.socketService", "ssn.userService", "ssn.friendsService", "ssn.sessionService", "ssn.keyStoreService"];
 
 	return service;
 });

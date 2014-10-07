@@ -22,10 +22,10 @@
 	<link rel="apple-touch-icon" href="assets/img/favicons/touch-icon-iphone-retina.png" sizes="120x120" />
 	<link rel="apple-touch-icon" href="assets/img/favicons/touch-icon-ipad-retina.png" sizes="152x152" />
 
-
 	<link rel="stylesheet" href="assets/css/angular-csp.css">
 	<link rel="stylesheet" href="assets/css/fontello/fontello.css">
 	<!--[if IE 7]><link rel="stylesheet" href="css/fontello/fontello-ie7.css"><![endif]-->
+	<link rel="stylesheet" href="assets/vendor/css/font-awesome.css">
 	<link rel="stylesheet" href="assets/css/style.css">
 
 	<script data-main="assets/js/main" src="assets/js/libs/require.js"></script>
@@ -34,7 +34,7 @@
 	<!--[if lte IE 8]><p class=chromeframe>Your browser is <em>ancient!</em> <a href="http://browsehappy.com/">Upgrade to a different browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to experience this site.</p><![endif]-->
 	<noscript>Hallo! Leider steht uns bei deinem Browser kein Javascript zur Verfügung!<br> Daher ist es nicht möglich whispeer zu nutzen, da wir unbedingt Javascript benötigen!<br> Vielen Dank für dein Verständnis!</noscript>
 	<!-- !Top Bar -->
-	<nav id="topNav" data-ng-if="loggedin" data-ng-cloak>
+	<nav id="topNav" data-ng-if="loggedin" data-ng-cloak data-ng-class="{push: (mobile && sidebarActive && !searchActive)}">
 		<div id="navInner">
 			<button class="toggle" id="toggleSidebar" data-ng-click="toggleSidebar()" data-ng-if="mobile">
 				<i class="icon icon-menu"></i>
@@ -44,8 +44,8 @@
 					</span>
 				</span>
 			</button>
-			<a href="start" id="brand" data-ng-click="mobileActivateView()"><span id="brandNormal">whis</span><span id="brandInverse">peer</span></a>
 			<button class="toggle" id="toggleSearch" data-ng-click="toggleSearch()" data-ng-if="mobile"><i class="icon icon-search"></i></button>
+			<a href="start" id="brand" data-ng-click="mobileActivateView()"><span id="brandNormal">whis</span><span id="brandInverse">peer</span></a>
 			<div class="nav-collapse collapse">
 				<usersearch size="big" data-input-i18n-attr="menu.search|placeholder"/>
 			</div>
@@ -108,39 +108,14 @@
 			</div>
 		</aside>
 		<!-- end !Userpanel -->
-		<!-- !Loaded View -->
-		<section id="main" data-ng-view data-ng-show="!sidebarActive && !searchActive || !mobile">
-			<div id="logo">
-				<img src="assets/img/logo.png">
-			</div>
-		</section>
-		<!-- end !Loaded View -->
-		<!-- !Mobile Search -->
-		<section id="mobileSearch" data-ng-if="searchActive && !sidebarActive">
-			<usersearch size="big" data-input-i18n-attr="menu.search|placeholder"/>
-		</section>
-		<!-- end !Mobile Search -->
-		<!-- !Right Sidebar -->
-		<aside id="sidebar-right" data-ng-if="loggedin && !mobile">
-			<div id="magicbar" data-ng-controller="ssn.magicbar.mainController">
-				<div class="magic magicOverlay" data-ng-if="!config.showDefault && config.ready" data-ng-include="'assets/views/magicbar/' + config.template + '.html'"></div>
-				<div class="magicWrapper" data-ng-if="config.showDefault && config.ready">
-					<div class="magic magicWidget" style="height: {{widgetHeight}}%" data-ng-repeat="widget in defaultConfig" data-ng-include="'assets/views/magicbar/' + widget.template + '.html'"></div>
-				</div>
-			</div>
-		</aside>
-		<!-- end !Rigth Sidebar -->
 		<!-- !Mobile Menu -->
-		<aside id="sidebar-right" data-ng-if="loggedin && mobile" data-ng-show="sidebarActive && !searchActive">
-			<ul class="mobileMenu">
-				<a href="notificationCenter" class="full" data-ng-click="toggleSidebar()" data-ng-if="(messages.unread + friends.requestsCount + news.count) > 0">
+		<aside id="sidebar-left" data-ng-if="loggedin && mobile" data-ng-class="{show: (sidebarActive && !searchActive)}">
+			<ul class="mobileMenu" data-ng-controller="ssn.magicbar.mainController">
+				<a href="notificationCenter" class="full" data-ng-click="toggleSidebar()" data-ng-if="friends.requestsCount > 0">
 					<li>
 						<i class="icon icon-comment"></i>
-						<span data-i18n="menu.notifications"></span>
 						<span>
-							<span class="badge" data-ng-controller="ssn.magicbar.mainController">
-								{{messages.unread + friends.requestsCount + news.count}}
-							</span>
+							<span data-i18n="menu.notifications|count={{messages.unread + friends.requestsCount + news.count}}"></span>
 						</span>
 					</li>
 				</a>
@@ -201,6 +176,28 @@
 			</ul>
 		</aside>
 		<!-- end !Mobile Menu -->
+		<!-- !Loaded View -->
+		<section id="main" data-ng-view data-ng-class="{push: (mobile && sidebarActive && !searchActive)}" data-ng-if="!searchActive">
+			<div id="logo">
+				<img src="assets/img/logo.png">
+			</div>
+		</section>
+		<!-- end !Loaded View -->
+		<!-- !Mobile Search -->
+		<section id="mobileSearch" data-ng-if="searchActive && !sidebarActive">
+			<usersearch size="big" data-input-i18n-attr="menu.search|placeholder"/>
+		</section>
+		<!-- end !Mobile Search -->
+		<!-- !Right Sidebar -->
+		<aside id="sidebar-right" data-ng-if="loggedin && !mobile">
+			<div id="magicbar" data-ng-controller="ssn.magicbar.mainController">
+				<div class="magic magicOverlay" data-ng-if="!config.showDefault && config.ready" data-ng-include="'assets/views/magicbar/' + config.template + '.html'"></div>
+				<div class="magicWrapper" data-ng-if="config.showDefault && config.ready">
+					<div class="magic magicWidget" style="height: {{widgetHeight}}%" data-ng-repeat="widget in defaultConfig" data-ng-include="'assets/views/magicbar/' + widget.template + '.html'"></div>
+				</div>
+			</div>
+		</aside>
+		<!-- end !Rigth Sidebar -->
 		<!-- !Mobile Notifications -->
 		<div class="notificationWrap" data-ng-if="loggedin && mobile">
 			<div class="notification" data-ng-if="lostConnection">

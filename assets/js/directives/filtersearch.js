@@ -18,7 +18,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 					scope.$broadcast("queryResults", results);
 				}
 
-				var alwaysAvailableFilter = ["allfriends", "friendsoffriends"];
+				var alwaysAvailableFilter = ["allfriends"];
 
 				function loadInitialSelection(attribute) {
 					var selected = scope.$parent.$eval(attribute);
@@ -63,9 +63,6 @@ define(["step", "whispeerHelper"], function (step, h) {
 					switch(id) {
 						case "allfriends":
 							key = me.getFriendsKey();
-							break;
-						case "friendsoffriends":
-							key = me.getFriendsLevel2Key();
 							break;
 						default:
 							return 0;
