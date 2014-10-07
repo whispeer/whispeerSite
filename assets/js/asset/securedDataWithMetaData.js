@@ -85,6 +85,7 @@ define(["whispeerHelper", "step", "crypto/keyStore", "asset/errors"], function (
 		}, h.sF(function (signature) {
 			toSign._signature = signature;
 
+			that._updatedMeta = toSign;
 			this.ne(toSign);
 		}), cb);
 	};

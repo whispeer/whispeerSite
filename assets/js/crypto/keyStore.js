@@ -17,6 +17,7 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 	"use strict";
 
 	var socket, firstVerify = true, afterRequireCall, improvementListener = [], makeKey, keyStore;
+
 	/** dirty and new keys to upload. */
 	var dirtyKeys = [], newKeys = [];
 

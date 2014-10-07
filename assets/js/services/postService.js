@@ -1,17 +1,24 @@
 /**
 * postService
 **/
-define(["step", "whispeerHelper", "validation/validator", "asset/observer", "asset/errors", "asset/securedDataWithMetaData"], function (step, h, validator, Observer, errors, SecuredData) {
+define(["step", "whispeerHelper", "validation/validator", "asset/observer", "asset/errors", "asset/securedDataWithMetaData", "asset/state"], function (step, h, validator, Observer, errors, SecuredData, State) {
 	"use strict";
 
-	var service = function ($rootScope, socket, keyStore, userService, circleService, filterKeyService) {
+	var service = function ($rootScope, socket, keyStore, errorService, userService, circleService, filterKeyService, Comment) {
 		var postsById = {};
 		var postsByUserWall = {};
 		var TimelineByFilter = {};
 
 		var Post = function (data) {
 			var thePost = this, id = data.id;
+
 			var securedData = SecuredData.load(data.content, data.meta, { type: "post" });
+			var comments = data.comments || [];
+			comments = comments.map(function (comment) {
+				return new Comment(comment);
+			});
+
+			var commentState = new State();
 
 			this.data = {
 				loaded: false,
@@ -21,18 +28,58 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer", "ass
 				},
 				time: securedData.metaAttr("time"),
 				isWallPost: false,
-				comments: []
+				newComment: {
+					state: commentState.data,
+					text: "",
+					create: function (text) {
+						if (text === "") {
+							commentState.fail();
+							return;
+						}
+
+						commentState.pending();
+						step(function () {
+							thePost.addComment(text, this);
+						}, h.sF(function () {
+							thePost.data.newComment.text = "";
+							this.ne();
+						}), errorService.failOnError(commentState));
+					}
+				},
+				comments: comments.map(function (comment) {
+					return comment.data;
+				})
 			};
 
 			this.getID = function () {
 				return id;
 			};
 
+			this.getComments = function () {
+				return comments;
+			};
+
+			function commentListener(e, data) {
+				var comment;
+				step(function () {
+					comment = new Comment(data);
+
+					comment.load(thePost, this.parallel());
+				}, h.sF(function () {
+					comments.push(comment);
+					thePost.data.comments.push(comment.data);
+				}), errorService.criticalError);
+				
+			}
+
+			socket.listen("post." + id + ".comment.new", commentListener);
+
 			this.loadData = function (cb) {
 				step(function () {
 					this.parallel.unflatten();
 					thePost.getSender(this.parallel());
 					thePost.getWallUser(this.parallel());
+					loadComments(this.parallel());
 				}, h.sF(function (sender, walluser) {
 					var d = thePost.data;
 
@@ -42,8 +89,9 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer", "ass
 					}
 
 					d.sender = sender;
-					securedData.verify(sender.user.getSignKey(), this);
+					securedData.verify(sender.user.getSignKey(), this.parallel());
 				}), h.sF(function () {
+					keyStore.security.addEncryptionIdentifier(securedData.metaAttr("_key"));
 					thePost.getText(this);
 				}), h.sF(function (text) {
 					var d = thePost.data;
@@ -55,6 +103,35 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer", "ass
 
 					this.ne();
 				}), cb);
+			};
+
+			function loadComments(cb) {
+				step(function () {
+					if (comments.length === 0) {
+						this.last.ne();
+						return;
+					}
+
+					comments.forEach(function (comment) {
+						comment.load(thePost, this.parallel());
+					}, this);
+				}, cb);
+			}
+
+			this.addComment = function (comment, cb) {
+				step(function () {
+					Comment.create(comment, thePost, this);
+				}, h.sF(function () {
+					this.ne();
+				}), cb);
+			};
+
+			this.getHash = function () {
+				return securedData.getHash();
+			};
+
+			this.getKey = function () {
+				return securedData.metaAttr("_key");
 			};
 
 			this.getWallUser = function (cb) {
@@ -321,7 +398,7 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer", "ass
 		return postService;
 	};
 
-	service.$inject = ["$rootScope", "ssn.socketService", "ssn.keyStoreService", "ssn.userService", "ssn.circleService", "ssn.filterKeyService"];
+	service.$inject = ["$rootScope", "ssn.socketService", "ssn.keyStoreService", "ssn.errorService", "ssn.userService", "ssn.circleService", "ssn.filterKeyService", "ssn.models.comment"];
 
 	return service;
 });
