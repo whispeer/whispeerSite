@@ -34,7 +34,7 @@ define(["step", "whispeerHelper", "asset/observer", "asset/securedDataWithMetaDa
 
 			this.remove = function (cb) {
 				step(function () {
-					socket.emit("circles.delete", {
+					socket.emit("circle.delete", {
 						remove: {
 							circleid: id
 						}
