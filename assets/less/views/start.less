@@ -64,11 +64,11 @@
 	}
 
 	#splash {
-		height: 100vh; // this is experimental
+		height: ~"calc(100vh - 48px)"; // vh is experimental. calc is there to compensate the height of the header-bar.
 		color: #fff;
 		padding-top: @navbarHeight;
 		box-sizing: border-box;
-		position: relative;	
+		position: relative;
 
 		.left {
 			float: left;
@@ -126,14 +126,14 @@
 		
 		.moreLink {
 			position: absolute;
-			bottom: 10px;
+			bottom: 0;
 			left: 0;
 	
 			cursor: pointer;
 			text-align: center;
 			display: inline-block;
 			width: 100%;
-			height: 100px; // the height needs to be specified, otherwise the link would be invisible.
+			height: 50px; // the height needs to be specified, otherwise the link would be invisible.
 			
 			z-index: 3;
 	
@@ -152,7 +152,6 @@
 		min-height: 100vh;
 		background-color: white;
 		color: #000;
-		padding-top: 20px;
 		
 		header {
 			width: 100%;
