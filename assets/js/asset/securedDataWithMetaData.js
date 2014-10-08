@@ -324,6 +324,28 @@ define(["whispeerHelper", "step", "crypto/keyStore", "asset/errors"], function (
 		this._changed = h.deepSetCreate(this._updated.meta, attrs, value);
 	};
 
+	SecuredDataWithMetaData.prototype.addParent = function (parentSecuredData) {
+		this._updated.meta.parent = parentSecuredData.getHash();
+	};
+
+	SecuredDataWithMetaData.prototype.checkParent = function (expectedParent) {
+		if (this._updated.meta.parent === expectedParent.getHash()) {
+			throw new errors.SecurityError("wrong parent. is: " + this._updated.meta.parent + " should be: " + expectedParent.getHash());
+		}
+	};
+
+	SecuredDataWithMetaData.prototype.setAfterRelationShip = function (afterSecuredData) {
+		//self.meta.sortCounter = afterSecuredData.getCounter() + 1
+	};
+
+	SecuredDataWithMetaData.prototype.isAfter = function (securedData) {
+		//self.meta.sortCounter > securedData.getCounter()
+	};
+
+	SecuredDataWithMetaData.prototype.isBefore = function (securedData) {
+		//self.meta.sortCounter < securedData.getCounter()
+	};
+
 	var api = {
 		create: function (content, meta, options, signKey, cryptKey, cb) {
 			var secured = new SecuredDataWithMetaData(content, meta, options, true);
