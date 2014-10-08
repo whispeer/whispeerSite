@@ -47,7 +47,7 @@ define(["step", "whispeerHelper", "asset/observer", "asset/securedDataWithMetaDa
 
 				var listData = {};
 				listData[otherUser.getID()] = friendShipKey;
-				signedList.metaJoin(listData);
+				signedList.metaSetAttr(otherUser.getID(), friendShipKey);
 				signedList.sign(ownUser.getSignKey(), this.parallel());
 
 				keyStore.sym.symEncryptKey(friendShipKey, mainKey, this.parallel());

@@ -75,10 +75,7 @@ define (["whispeerHelper", "step", "asset/observer", "asset/errors", "crypto/key
 
 			var sHash = dataSetToHash(signature, hash, key);
 
-			var newData = {};
-			newData[sHash] = valid;
-
-			database.metaJoin(newData);
+			database.metaSetAttr(sHash, valid);
 		},
 		reset: function () {
 			loaded = false;
