@@ -1,3 +1,8 @@
+@shareIconCount: 3;
+@shareIconWrapSize: 80%;
+
+@pwStrengthWidth: 40px;
+
 .startView {
 	overflow-y: auto; // make the html scroll!
 	height: auto;
@@ -14,122 +19,56 @@
 		position: relative;
 	}
 	
-	@shareIconCount: 3;
-	@shareIconWrapSize: 80%;
-	
-	@pwStrengthWidth: 40px;
-	span[data-strength] {
-		float: left;
-		margin-top: 13px;
-		margin-left: (-1*@pwStrengthWidth)-15px;
-		width: @pwStrengthWidth;
-		height: 8px;
-		border: 1px solid gray;
-		border-radius: 4px;
-	}
-	span[data-strength]:after {
-		display: block;
-		content: '';
-		height: 8px;
-	}
-
-	.moreLink {
-		position: absolute;
-		bottom: 10px;
-		left: 0;
-		right: 0;
-
-		cursor: pointer;
-		text-align: center;
-		display: inline-block;
-		width: 100%;
-
-		a {
-			color: @white;
-			.large-text();
-			padding: 10px;
-			border: 0px;
-			border-radius: 5px;
-			.box-fix;
-		}
-	}
-
-	span[data-strength="0"]:after { width: @pwStrengthWidth*(0/10); background-color: #ff0000; }
-	span[data-strength="1"]:after { width: @pwStrengthWidth*(1/10); background-color: #ff4d00; }
-	span[data-strength="2"]:after { width: @pwStrengthWidth*(2/10); background-color: #ff7700; }
-	span[data-strength="3"]:after { width: @pwStrengthWidth*(3/10); background-color: #ffa200; }
-	span[data-strength="4"]:after { width: @pwStrengthWidth*(4/10); background-color: #ffc400; }
-	span[data-strength="5"]:after { width: @pwStrengthWidth*(5/10); background-color: #80d000; }
-	span[data-strength="6"]:after { width: @pwStrengthWidth*(6/10); background-color: @primaryLightest; }
-	span[data-strength="7"]:after { width: @pwStrengthWidth*(7/10); background-color: @primaryLighter; }
-	span[data-strength="8"]:after { width: @pwStrengthWidth*(8/10); background-color: @primary; }
-	span[data-strength="9"]:after { width: @pwStrengthWidth*(9/10); background-color: @primaryDarker; }
-	span[data-strength="10"]:after { width: @pwStrengthWidth*(10/10); background-color: @primaryDarkest; }
-
-	#rpassword {
-		padding-right: 55px;
-	}
-
-	#rnickname {
-		padding-right: 30px;
-	}
-	
 	#container {
 		height: auto;
-	}
-
-	.box {
-		color: #000;
-		background: white;
-		border: 1px solid rgba(255,255,255,0.4);
-		border-radius: 10px;
-		.box-fix;
-		text-align: center;
-		h1 {
-			color: @primary;
-			margin: 10px 0;
-		}
-	}
-
-	.register {
-		button {
-			margin-bottom: 5px;
-		}
-		.icon {
-			float: left;
-			margin-top: 10px;
-			margin-left: -30px;
-			width: 16px;
-			height: 16px;
-		}
-		div {
+		&:before {
 			width: 100%;
-			float: left;
-			margin-bottom: 5px;
+			height: 100vh;
+			max-width: none;
+			position: absolute;
+			content: ' ';
+			left: 0;
+			top: 0;
+			z-index: 0;
+			.radial(@green, @primary);
 		}
-		input:not([type="checkbox"]), button {
-			.column(10);
-			.push(1);
+	}
+	
+	#main {
+		display: block;
+		float: none;
+		
+		width: 100%;
+		max-width: 1280px;
+		margin: -50px auto 0 auto;
+	}
+
+	header {
+		padding: 5px 0;
+		.column(7.5);
+		.push(0.25);
+		p {
+			font-size: 20px;
+			.column(8);
+			.pull(3);
 		}
 	}
-
-	#registerAGB {
-		margin-bottom: 10px;
+	
+	section {
+		.column(12,12,left,0);
+		z-index: 1;
+	}
+	
+	.column-9 {
+		.column(9);
 	}
 
-	#registerPasswordStrength {
-		margin-top: 10px;
-		margin-bottom: 10px;
-	}
-
-	.splash {
+	#splash {
 		height: 100vh; // this is experimental
 		color: #fff;
 		padding-top: @navbarHeight;
 		box-sizing: border-box;
-		position: relative;
-
-		.radial(@green, @primary);
+		position: relative;	
 
 		.left {
 			float: left;
@@ -139,79 +78,221 @@
 				max-width: 100%;
 			}
 		}
+		
 		#rightWrap {
 			.column(4,12,right);
 			.pull(0.25);
 		}
-		.register, {
+		
+		.register {
 			width: 100%;
 			float: left;
 		}
-	}
-
-	li {
-		.column(12);
-		text-align: left;
-	}
-
-	.numberedDetailList {
-		list-style-type: none;
-		counter-reset: ol-counter;
-
-		margin-top: 10px;
-		li {
-			&:before {
-				content: counter(ol-counter);
-				counter-increment: ol-counter;
-				.large-text();
-				float: left;
-				margin-top: 0px;
+		
+		.box { // there are no boxes in other sections.
+			color: #000;
+			background: white;
+			border: 1px solid rgba(255,255,255,0.4);
+			border-radius: 10px;
+			.box-fix;
+			text-align: center;
+			h1 {
+				color: @primary;
+				margin: 10px 0;
 			}
 		}
-		.title {
-			display: inline-block;
-			width: ~"calc(100% - 1em)";
-			.large-text();
-			padding-left: 1.5em;
-			.box-fix;
+		
+		.features {
+			border-left: 2px solid #8c8c8c;
+			.feature {
+				height: 100px;
+				width: 33%;
+				display: inline-block;
+				border-right: 2px solid #8c8c8c;
+				float: left;
+		
+				.content {
+					display: block;
+					padding-left: 5px;
+					padding-right: 5px;
+				}
+		
+				.title {
+					text-align: center;
+					.bold-text();
+				}
+			}
 		}
-		.content {
+		
+		.moreLink {
+			position: absolute;
+			bottom: 10px;
+			left: 0;
+	
+			cursor: pointer;
+			text-align: center;
 			display: inline-block;
-			margin-left: 2em;
-			padding: 0.5em;
-			padding-right: 8em;
-			.box-fix;
+			width: 100%;
+			height: 100px; // the height needs to be specified, otherwise the link would be invisible.
+			
+			z-index: 3;
+	
+			a {
+				color: @white;
+				.large-text();
+				padding: 10px;
+				border: 0px;
+				border-radius: 5px;
+				.box-fix;
+			}
 		}
 	}
 	
-	#registerHelp {
-		.content {
-			padding: 0 1em;
+	#more {
+		min-height: 100vh;
+		background-color: white;
+		color: #000;
+		padding-top: 20px;
+		
+		header {
+			width: 100%;
+			float: left;
 		}
-	}
+		
+		li.full {
+			.column(12);
+			text-align: left;
+		}
+		
+		.iconList {
+			.unstyled;
+			// these elements have to be floated do show the desired behaviour.
+			.icon {
+				float: left;
+				margin-top: 0;
+				width: 50px;
+			}
+			.content {
+				float: left;
+				width: "100%";
+				margin-top: 15px;
+				// we really need a "medium" text-size!
+				font-size: 1.3em;
+			}
+		}
+		
+		.numberedDetailList {
+			list-style-type: none;
+			counter-reset: ol-counter;
 	
-	.iconList {
-		.unstyled;
-		// these elements have to be floated do show the desired behaviour.
-		.icon {
-			float: left;
-			margin-top: 0;
-			width: 50px;
+			margin-top: 10px;
+			li {
+				&:before {
+					content: counter(ol-counter);
+					counter-increment: ol-counter;
+					.large-text();
+					float: left;
+					margin-top: 0px;
+				}
+			}
+			.title {
+				display: inline-block;
+				width: ~"calc(100% - 1em)";
+				.large-text();
+				padding-left: 1.5em;
+				.box-fix;
+			}
+			.content {
+				display: inline-block;
+				margin-left: 2em;
+				padding: 0.5em;
+				padding-right: 8em;
+				.box-fix;
+			}
 		}
-		.content {
-			float: left;
-			width: "100%";
-			margin-top: 15px;
-			// we really need a "medium" text-size!
-			font-size: 1.3em;
+		
+		#registerHelp {
+			.content {
+				padding: 0 1em;
+			}
+		}
+	
+		#shareIconWrap {
+			width: @shareIconWrapSize;
+			.icon {
+				.column(1,@shareIconCount);
+			}
 		}
 	}
 
-	#shareIconWrap {
-		width: @shareIconWrapSize;
-		.icon {
-			.column(1,@shareIconCount);
+	.register {
+		button {
+			margin-bottom: 5px;
 		}
+
+		.icon {
+			float: left;
+			margin-top: 10px;
+			margin-left: -30px;
+			width: 16px;
+			height: 16px;
+		}
+
+		div {
+			width: 100%;
+			float: left;
+			margin-bottom: 5px;
+		}
+
+		input:not([type="checkbox"]), button {
+			.column(10);
+			.push(1);
+		}
+		
+		#rpassword {
+			padding-right: 55px;
+		}
+	
+		#rnickname {
+			padding-right: 30px;
+		}
+
+		#registerAGB {
+			margin-bottom: 10px;
+		}
+
+		#registerPasswordStrength {
+			margin-top: 10px;
+			margin-bottom: 10px;
+		}
+		
+		span[data-strength] {
+			float: left;
+			margin-top: 13px;
+			margin-left: (-1*@pwStrengthWidth)-15px;
+			width: @pwStrengthWidth;
+			height: 8px;
+			border: 1px solid gray;
+			border-radius: 4px;
+		}
+		
+		span[data-strength]:after {
+			display: block;
+			content: '';
+			height: 8px;
+		}
+		
+		span[data-strength="0"]:after { width: @pwStrengthWidth*(0/10); background-color: #ff0000; }
+		span[data-strength="1"]:after { width: @pwStrengthWidth*(1/10); background-color: #ff4d00; }
+		span[data-strength="2"]:after { width: @pwStrengthWidth*(2/10); background-color: #ff7700; }
+		span[data-strength="3"]:after { width: @pwStrengthWidth*(3/10); background-color: #ffa200; }
+		span[data-strength="4"]:after { width: @pwStrengthWidth*(4/10); background-color: #ffc400; }
+		span[data-strength="5"]:after { width: @pwStrengthWidth*(5/10); background-color: #80d000; }
+		span[data-strength="6"]:after { width: @pwStrengthWidth*(6/10); background-color: @primaryLightest; }
+		span[data-strength="7"]:after { width: @pwStrengthWidth*(7/10); background-color: @primaryLighter; }
+		span[data-strength="8"]:after { width: @pwStrengthWidth*(8/10); background-color: @primary; }
+		span[data-strength="9"]:after { width: @pwStrengthWidth*(9/10); background-color: @primaryDarker; }
+		span[data-strength="10"]:after { width: @pwStrengthWidth*(10/10); background-color: @primaryDarkest; }
 	}
 
 	.leftHalf, .rightHalf {
@@ -231,76 +312,6 @@
 		section {
 			margin-bottom: 10px;
 			float: right;
-		}
-	}
-
-	.column-9 {
-		.column(9);
-	}
-
-	.centerBox {
-		float: none;
-		margin-left: auto;
-		margin-right: auto;
-		display: block;
-
-		max-width: 1150px;
-	}
-
-	#more {
-		min-height: 100vh;
-		background-color: white;
-		color: #000;
-		padding-top: 20px;
-		
-		header {
-			width: 100%;
-			float: left;
-		}
-	}
-
-	#main {
-		width: 100%;
-		margin: 0;
-
-		margin-top: -50px;
-	}
-
-	header {
-		padding: 5px 0;
-		.column(7.5);
-		.push(0.25);
-		p {
-			font-size: 20px;
-			.column(8);
-			.pull(3);
-		}
-	}
-
-	section {
-		.column(12,12,left,0);
-	}
-
-	.features {
-		border-left: 2px solid #8c8c8c;
-	}
-
-	.feature {
-		height: 100px;
-		width: 33%;
-		display: inline-block;
-		border-right: 2px solid #8c8c8c;
-		float: left;
-
-		.content {
-			display: block;
-			padding-left: 5px;
-			padding-right: 5px;
-		}
-
-		.title {
-			text-align: center;
-			.bold-text();
 		}
 	}
 
