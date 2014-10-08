@@ -325,25 +325,33 @@ define(["whispeerHelper", "step", "crypto/keyStore", "asset/errors"], function (
 	};
 
 	SecuredDataWithMetaData.prototype.addParent = function (parentSecuredData) {
-		this._updated.meta.parent = parentSecuredData.getHash();
+		this._updated.meta._parent = parentSecuredData.getHash();
 	};
 
 	SecuredDataWithMetaData.prototype.checkParent = function (expectedParent) {
-		if (this._updated.meta.parent === expectedParent.getHash()) {
-			throw new errors.SecurityError("wrong parent. is: " + this._updated.meta.parent + " should be: " + expectedParent.getHash());
+		if (this._updated.meta._parent === expectedParent.getHash()) {
+			throw new errors.SecurityError("wrong parent. is: " + this._updated.meta._parent + " should be: " + expectedParent.getHash());
 		}
 	};
 
+	SecuredDataWithMetaData.prototype.getRelationshipCounter = function () {
+		return this._updated.meta._sortCounter || 0;
+	};
+
 	SecuredDataWithMetaData.prototype.setAfterRelationShip = function (afterSecuredData) {
-		//self.meta.sortCounter = afterSecuredData.getCounter() + 1
+		this._updated.meta._sortCounter = afterSecuredData.getCounter() + 1;
 	};
 
-	SecuredDataWithMetaData.prototype.isAfter = function (securedData) {
-		//self.meta.sortCounter > securedData.getCounter()
+	SecuredDataWithMetaData.prototype.checkAfter = function (securedData) {
+		if (this.getCounter() < securedData.getCounter()) {
+			throw new errors.SecurityError("wrong ordering. " + this.getCounter() + " should be after " + securedData.getCounter());
+		}
 	};
 
-	SecuredDataWithMetaData.prototype.isBefore = function (securedData) {
-		//self.meta.sortCounter < securedData.getCounter()
+	SecuredDataWithMetaData.prototype.checkBefore = function (securedData) {
+		if (this.getCounter() > securedData.getCounter()) {
+			throw new errors.SecurityError("wrong ordering. " + this.getCounter() + " should be before " + securedData.getCounter());
+		}
 	};
 
 	var api = {
