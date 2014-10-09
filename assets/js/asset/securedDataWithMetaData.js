@@ -324,12 +324,12 @@ define(["whispeerHelper", "step", "crypto/keyStore", "asset/errors"], function (
 		this._changed = h.deepSetCreate(this._updated.meta, attrs, value);
 	};
 
-	SecuredDataWithMetaData.prototype.addParent = function (parentSecuredData) {
+	SecuredDataWithMetaData.prototype.setParent = function (parentSecuredData) {
 		this._updated.meta._parent = parentSecuredData.getHash();
 	};
 
 	SecuredDataWithMetaData.prototype.checkParent = function (expectedParent) {
-		if (this._updated.meta._parent === expectedParent.getHash()) {
+		if (this._updated.meta._parent !== expectedParent.getHash()) {
 			throw new errors.SecurityError("wrong parent. is: " + this._updated.meta._parent + " should be: " + expectedParent.getHash());
 		}
 	};
@@ -339,18 +339,18 @@ define(["whispeerHelper", "step", "crypto/keyStore", "asset/errors"], function (
 	};
 
 	SecuredDataWithMetaData.prototype.setAfterRelationShip = function (afterSecuredData) {
-		this._updated.meta._sortCounter = afterSecuredData.getCounter() + 1;
+		this._updated.meta._sortCounter = afterSecuredData.getRelationshipCounter() + 1;
 	};
 
 	SecuredDataWithMetaData.prototype.checkAfter = function (securedData) {
-		if (this.getCounter() < securedData.getCounter()) {
-			throw new errors.SecurityError("wrong ordering. " + this.getCounter() + " should be after " + securedData.getCounter());
+		if (this.getRelationshipCounter() < securedData.getRelationshipCounter()) {
+			throw new errors.SecurityError("wrong ordering. " + this.getRelationshipCounter() + " should be after " + securedData.getRelationshipCounter());
 		}
 	};
 
 	SecuredDataWithMetaData.prototype.checkBefore = function (securedData) {
-		if (this.getCounter() > securedData.getCounter()) {
-			throw new errors.SecurityError("wrong ordering. " + this.getCounter() + " should be before " + securedData.getCounter());
+		if (this.getRelationshipCounter() > securedData.getRelationshipCounter()) {
+			throw new errors.SecurityError("wrong ordering. " + this.getRelationshipCounter() + " should be before " + securedData.getRelationshipCounter());
 		}
 	};
 

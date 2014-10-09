@@ -34,10 +34,9 @@ define([
 		var Topic = function (data) {
 			var messages = sortedSet(sortGetTime), dataMessages = sortedSet(sortObjGetTime), messagesByID = {}, theTopic = this, loadInitial = true;
 
-			var err = validator.validate("topic", data);
+			var err = validator.validate("topic", data.meta);
 			if (err) {
-				console.log("Topic Data Invalid! Fix this!");
-				//throw err;
+				throw err;
 			}
 
 			data.meta.receiver.sort();
@@ -89,6 +88,10 @@ define([
 			};
 
 			setUnread(data.unread);
+
+			this.getSecuredData = function () {
+				return meta;
+			};
 
 			this.messageUnread = function messageUnreadF(mid) {
 				return unreadMessages.indexOf(mid) > -1;
@@ -177,6 +180,7 @@ define([
 					data.newestTime = Math.max(m.getTime(), data.newestTime);
 					topicArray.resort();
 
+					m.verifyParent(theTopic);
 					m.loadFullData(this);
 				}, h.sF(function () {
 					addMessageToList(m);
@@ -321,7 +325,7 @@ define([
 		};
 
 		Topic.createData = function (receiver, message, cb) {
-			var receiverObjects, topicKey, topicData, topicHash;
+			var receiverObjects, topicKey, topicData;
 			step(function () {
 				//load receiver
 				receiver = receiver.map(function (val) {
@@ -382,20 +386,22 @@ define([
 					receiverKeys: receiverKeys
 				};
 
-				topicHash = keyStore.hash.hashObjectHex(topicMeta);
+				this.parallel.unflatten();
+				SecuredData.create({}, topicMeta, { type: "topic" }, userService.getown().getSignKey(), topicKey, this);
+			}), h.sF(function (tData) {
+				topicData.topic = tData.meta;
+
+				var topic = new Topic({
+					meta: topicData.topic,
+					unread: []
+				});
 
 				var messageMeta = {
-					createTime: new Date().getTime(),
-					topicHash: topicHash,
-					previousMessage: 0,
-					previousMessageHash: "0"
+					createTime: new Date().getTime()
 				};
 
-				this.parallel.unflatten();
-				SecuredData.create({}, topicMeta, { type: "topic" }, userService.getown().getSignKey(), topicKey, this.parallel());
-				Message.createRawData(topicKey, message, messageMeta, this.parallel());
-			}), h.sF(function (tData, mData) {
-				topicData.topic = tData.meta;
+				Message.createRawData(topic, message, messageMeta, this);
+			}), h.sF(function (mData) {
 				topicData.message = mData;
 
 				this.ne(topicData);
