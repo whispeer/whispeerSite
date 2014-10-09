@@ -335,7 +335,7 @@ define(["whispeerHelper", "step", "crypto/keyStore", "asset/errors"], function (
 	};
 
 	SecuredDataWithMetaData.prototype.getRelationshipCounter = function () {
-		return this._updated.meta._sortCounter || 0;
+		return h.parseDecimal(this._updated.meta._sortCounter || 0);
 	};
 
 	SecuredDataWithMetaData.prototype.setAfterRelationShip = function (afterSecuredData) {

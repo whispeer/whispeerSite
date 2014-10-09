@@ -16,7 +16,11 @@ define(["step",
 			};
 		};
 
-		Comment.prototype.load = function (parentPost, cb) {
+		Comment.prototype.getSecured = function () {
+			return this._secured;
+		};
+
+		Comment.prototype.load = function (parentPost, previousComment, cb) {
 			var theComment = this;
 			step(function () {
 				this.parallel.unflatten();
@@ -26,6 +30,11 @@ define(["step",
 				theComment.data.sender = sender.data;
 				theComment.data.text = content.comment;
 
+				if (previousComment) {
+					theComment._secured.checkAfter(previousComment.getSecured());
+				}
+
+				theComment._secured.checkParent(parentPost.getSecured());
 				theComment._secured.verify(sender.getSignKey(), this);
 			}), h.sF(function () {
 				theComment.data.loaded = true;
@@ -48,21 +57,21 @@ define(["step",
 
 		Comment.create = function (text, parentPost, cb) {
 			step(function () {
-				var sequenceCounter = 0, comments = parentPost.getComments();
-				if (comments.length !== 0) {
-					sequenceCounter = comments[comments.length - 1]._secured.metaAttr("sequenceCounter");
-				}
+				var comments = parentPost.getComments();
 
-				SecuredData.create({
+				var s = SecuredData.create({
 					comment: text
 				}, {
-					sequenceCounter: sequenceCounter,
 					postID: parentPost.getID(),
-					postHash: parentPost.getHash(),
 					createTime: new Date().getTime(),
 					sender: userService.getown().getID()
-
 				}, { type: "comment" }, userService.getown().getSignKey(), parentPost.getKey(), this);
+
+				s.setParent(parentPost.getSecured());
+
+				if (comments.length !== 0) {
+					s.setAfterRelationShip(comments[comments.length - 1].getSecured());
+				}
 			}, h.sF(function (commentData) {
 				socket.emit("posts.comment.create", {
 					postID: parentPost.getID(),

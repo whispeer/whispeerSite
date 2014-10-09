@@ -64,7 +64,7 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer", "ass
 				step(function () {
 					comment = new Comment(data);
 
-					comment.load(thePost, this.parallel());
+					comment.load(thePost, comments[comments.length - 1], this.parallel());
 				}, h.sF(function () {
 					comments.push(comment);
 					thePost.data.comments.push(comment.data);
@@ -105,6 +105,10 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer", "ass
 				}), cb);
 			};
 
+			this.getSecured = function () {
+				return securedData;
+			};
+
 			function loadComments(cb) {
 				step(function () {
 					if (comments.length === 0) {
@@ -112,8 +116,8 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer", "ass
 						return;
 					}
 
-					comments.forEach(function (comment) {
-						comment.load(thePost, this.parallel());
+					comments.forEach(function (comment, i) {
+						comment.load(thePost, comments[i - 1], this.parallel());
 					}, this);
 				}, cb);
 			}
