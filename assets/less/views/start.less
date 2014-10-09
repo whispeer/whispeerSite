@@ -66,16 +66,23 @@
 	#splash {
 		height: ~"calc(100vh - 48px)"; // vh is experimental. calc is there to compensate the height of the header-bar.
 		color: #fff;
-		padding-top: @navbarHeight;
+		padding-top: 0;
 		box-sizing: border-box;
 		position: relative;
 
 		.left {
-			float: left;
+			// this is one possibility to crop the image. we could also consider using a background image.
 			.column(7.5);
 			.push(0.25);
+			height: 250px;
+			
+			overflow: hidden;
+			position: relative;
 			img {
 				max-width: 100%;
+				position: absolute;
+				top: -50px;
+				left: 0;
 			}
 		}
 		
@@ -87,6 +94,7 @@
 		.register {
 			width: 100%;
 			float: left;
+			margin-top: -70px;
 		}
 		
 		.box { // there are no boxes in other sections.
@@ -102,18 +110,19 @@
 		}
 		
 		.features {
-			border-left: 2px solid #8c8c8c;
+			.column(12);
+			margin-top: 10px;
 			.feature {
 				height: 100px;
 				width: 33%;
 				display: inline-block;
-				border-right: 2px solid #8c8c8c;
 				float: left;
 		
 				.content {
 					display: block;
 					padding-left: 5px;
 					padding-right: 5px;
+					text-align: center;
 				}
 		
 				.title {
