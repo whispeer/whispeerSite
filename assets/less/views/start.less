@@ -64,9 +64,10 @@
 	}
 
 	#splash {
-		height: ~"calc(100vh - 48px)"; // vh is experimental. calc is there to compensate the height of the header-bar.
+		height: 100vh; // vh is experimental. calc is there to compensate the height of the header-bar.
 		color: #fff;
 		padding-top: @navbarHeight;
+		margin-top: -@navbarHeight;
 		box-sizing: border-box;
 		position: relative;
 
