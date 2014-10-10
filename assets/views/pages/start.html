@@ -1,8 +1,9 @@
-<section class="register" data-ng-if="mobile">
+<section data-ng-if="mobile" class="register">
+	<ng-include src="'assets/views/pages/login.html'" ng-controller="ssn.loginController"></ng-include>
 	<ng-include src="'assets/views/start/register.html'"></ng-include>
 </section>
 
-<section id="splash" data-ng-if="!mobile">
+<section data-ng-if="!mobile" id="splash">
 		<header>
 			<h1>Deine Privatsphäre - unser Auftrag!</h1>
 			<p>whispeer ist ein soziales Netzwerk, dass sich auf die Sicherheit deiner Daten spezialisiert hat.</p>
@@ -44,7 +45,7 @@
 		</div>
 	</section>
 </section>
-<section id="more" data-ng-if="!mobile">
+<section data-ng-if="!mobile" id="more">
 	<section class="leftHalf">
 		<a name="more"></a>
 		<section>
