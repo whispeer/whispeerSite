@@ -1,4 +1,8 @@
-<section id="splash">
+<section class="register" data-ng-if="mobile">
+	<ng-include src="'assets/views/start/register.html'"></ng-include>
+</section>
+
+<section id="splash" data-ng-if="!mobile">
 		<header>
 			<h1>Deine Privatsphäre - unser Auftrag!</h1>
 			<p>whispeer ist ein soziales Netzwerk, dass sich auf die Sicherheit deiner Daten spezialisiert hat.</p>
@@ -40,7 +44,7 @@
 		</div>
 	</section>
 </section>
-<section id="more">
+<section id="more" data-ng-if="!mobile">
 	<section class="leftHalf">
 		<a name="more"></a>
 		<section>
