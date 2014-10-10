@@ -69,10 +69,13 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer", "ass
 					comments.push(comment);
 					thePost.data.comments.push(comment.data);
 				}), errorService.criticalError);
-				
 			}
 
 			socket.listen("post." + id + ".comment.new", commentListener);
+
+			$rootScope.$on("ssn.reset", function () {
+				socket.removeAllListener("post." + id + ".comment.new");
+			});
 
 			this.loadData = function (cb) {
 				step(function () {

@@ -60,6 +60,9 @@ define(["jquery", "socket", "socketStream", "step", "whispeerHelper", "config"],
 			once: function () {
 				socket.once.apply(socket, arguments);
 			},
+			removeAllListener: function (channel) {
+				socket.removeAllListeners(channel);
+			},
 			listen: function (channel, callback) {
 				socket.on(channel, function (data) {
 					console.log("received data on " + channel);
