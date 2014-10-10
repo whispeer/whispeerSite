@@ -33,7 +33,7 @@ define(["step"], function (step) {
 							res.failure = true;
 						}
 
-						if ($location.path() !== "/login") {
+						if ($location.path() !== "/login" && !$rootScope.$$childHead.mobile) {
 							$location.path("/login");
 						}
 					} else {
