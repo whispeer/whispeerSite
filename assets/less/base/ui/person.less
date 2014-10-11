@@ -19,37 +19,45 @@
 // Styleguide 2.7
 .person {
 	width: 100%;
-	margin-top: 5px;
+	padding: 6px 0;
+
+	display: inline-block;
+	box-sizing: border-box;
+
 	img {
-		.column(3);
-		max-width: 60px;
-		border-radius: 100%;
+		max-width: 80px;
+	}
+	.userimageWrap {
+		.column(4);
+		float: left;
+		margin-right: 1%;
 	}
 	.username, .similar, .action {
-		.column(9);
+		.column(8);
 	}
 	.similar {
 		.detail-text();
 		margin-top: 5px;
 	}
 	.action {
-		margin-top: 10px;
+		margin-top: 5px;
 		display: none;
 	}
 	&[data-type="request"] {
 		.friendRequest {
 			display: inline-block;
 			.btn {
-				.column(1,2);
+				width: 40%;
+				margin-right: 10px;
+				float: left;
 			}
 		}
 	}
 	&[data-type="friend"] {
 		.interact {
 			display: inline-block;
-			.btn {
-				.column(1,4);
-			}
+			color: @primary;
+			cursor: pointer;
 		}
 	}
 }

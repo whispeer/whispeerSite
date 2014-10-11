@@ -1,5 +1,5 @@
 <div class="person">
-	<img src="{{userData.basic.image}}" alt="{{userData.name}}">
+	<userimage data-user="userData"></userimage>
 	<p class="username"><a href='{{userData.basic.url}}'><strong>{{userData.name}}</strong></a></p>
 	<p class="similar" data-i18n="friends.mutualFriends|count={{userData.basic.mutualFriends.length}}"></p>
 	<p class="action friendRequest">
@@ -7,7 +7,7 @@
 		<button class="btn btn--danger" data-i18n="magicbar.requests.decline"></button>
 	</p>
 	<p class="action interact">
-		<button class="btn"><i class="fa fa-envelope fa-fw"></i></button>
-		<button class="btn"><i class="fa fa-times fa-fw"></i></button>
+		<a href="/messages?userid={{userData.id}}"><i class="fa fa-envelope fa-fw"></i></a>
+		<i class="fa fa-times fa-fw"></i>
 	</p>
 </div>
