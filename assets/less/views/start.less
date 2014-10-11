@@ -6,10 +6,6 @@
 .startView {
 	overflow-y: auto; // make the html scroll!
 	height: auto;
-	
-	h1 {
-		.large-text();
-	}
 
 	body {
 		padding-top: 0;
@@ -41,148 +37,36 @@
 			}
 		}
 	}
-	
+
 	#main {
-		display: block;
-		float: none;
-		
+		text-align: center;
 		width: 100%;
-		max-width: 1280px;
-		margin: -50px auto 0 auto;
 	}
 
-	header {
-		height: 25%;
-		padding: 5px 0;
-		.column(7.5);
-		.push(0.25);
-		p {
-			font-size: 20px;
-			.column(8);
-			.pull(3);
-		}
-	}
-	
 	section {
-		.column(12,12,left,0);
 		z-index: 1;
 	}
-	
+
 	.column-9 {
 		.column(9);
 	}
 
-	#splash {
-		height: ~"calc(100vh - 48px)"; // vh is experimental. calc is there to compensate the height of the header-bar.
-		color: #fff;
-		padding-top: 0;
-		box-sizing: border-box;
-		position: relative;
 
-		.left {
-			// this is one possibility to crop the image. we could also consider using a background image.
-			.column(7.5);
-			.push(0.25);
-
-			height: 35%;
-			min-height: 250px;
-
-			
-			overflow: hidden;
-			position: relative;
-			img {
-				max-width: 100%;
-				position: absolute;
-				top: -50px;
-				left: 0;
-			}
-		}
-		
-		#rightWrap {
-			.column(4,12,right);
-			.pull(0.25);
-		}
-		
-		.register {
-			width: 100%;
-			float: left;
-			margin-top: 20%;
-		}
-		
-		.box { // there are no boxes in other sections.
-			color: #000;
-			background: white;
-			border: 1px solid rgba(255,255,255,0.4);
-			border-radius: 10px;
-			.box-fix;
-			h1 {
-				color: @primary;
-				margin: 10px 0;
-			}
-		}
-		
-		.features {
-			.column(12);
-			margin-top: 30px;
-			.feature {
-				height: 100px;
-				width: 33%;
-				display: inline-block;
-				float: left;
-		
-				.content {
-					display: block;
-					padding-left: 5px;
-					padding-right: 5px;
-					text-align: center;
-				}
-		
-				.title {
-					text-align: center;
-					.bold-text();
-				}
-			}
-		}
-		
-		.moreLink {
-			position: absolute;
-			bottom: 0;
-			left: 0;
-	
-			cursor: pointer;
-			text-align: center;
-			display: inline-block;
-			width: 100%;
-			height: 50px; // the height needs to be specified, otherwise the link would be invisible.
-			
-			z-index: 3;
-	
-			a {
-				color: @white;
-				.large-text();
-				padding: 10px;
-				border: 0px;
-				border-radius: 5px;
-				.box-fix;
-			}
-		}
-	}
-	
 	#more {
 		min-height: 100vh;
 		background-color: white;
 		color: #000;
-		
+
 		header {
 			width: 100%;
 			float: left;
 		}
-		
+
 		li.full {
 			.column(12,12,left,0);
 			text-align: left;
 		}
-		
+
 		.iconList {
 			// these elements have to be floated do show the desired behaviour.
 			.icon {
@@ -195,19 +79,17 @@
 				width: "100%";
 				margin-top: 15px;
 				// we really need a "medium" text-size!
-				font-size: 1.3em;
 			}
 		}
-		
+
 		.numberedDetailList {
 			counter-reset: ol-counter;
-	
+
 			margin-top: 10px;
 			li {
 				&:before {
 					content: counter(ol-counter);
 					counter-increment: ol-counter;
-					.large-text();
 					float: left;
 					margin-top: 0px;
 				}
@@ -215,7 +97,6 @@
 			.title {
 				display: inline-block;
 				width: ~"calc(100% - 1em)";
-				.large-text();
 				padding-left: 1.5em;
 				.box-fix;
 			}
@@ -227,13 +108,13 @@
 				.box-fix;
 			}
 		}
-		
+
 		#registerHelp {
 			.content {
 				padding: 0 1em;
 			}
 		}
-	
+
 		#shareIconWrap {
 			float: left;
 			width: @shareIconWrapSize;
@@ -241,7 +122,7 @@
 				.column(1,@shareIconCount);
 			}
 		}
-		
+
 		.register {
 			h1 {
 				text-align: left;
@@ -290,11 +171,11 @@
 			.column(10);
 			.push(1);
 		}
-		
+
 		.password {
 			padding-right: 55px;
 		}
-	
+
 		.nickname {
 			padding-right: 30px;
 		}
@@ -307,7 +188,7 @@
 			margin-top: 10px;
 			margin-bottom: 10px;
 		}
-		
+
 		span[data-strength] {
 			float: left;
 			margin-top: 13px;
@@ -317,13 +198,13 @@
 			border: 1px solid gray;
 			border-radius: 4px;
 		}
-		
+
 		span[data-strength]:after {
 			display: block;
 			content: '';
 			height: 8px;
 		}
-		
+
 		span[data-strength="0"]:after { width: @pwStrengthWidth*(0/10); background-color: #ff0000; }
 		span[data-strength="1"]:after { width: @pwStrengthWidth*(1/10); background-color: #ff4d00; }
 		span[data-strength="2"]:after { width: @pwStrengthWidth*(2/10); background-color: #ff7700; }
@@ -366,6 +247,127 @@
 				color: #fff;
 				text-decoration: underline;
 			}
+		}
+	}
+}
+
+#splash {
+
+	font-size: 20px;
+	line-height: 28px;
+
+	display: inline-block;
+	height: ~"calc(100vh - 48px)"; // vh is experimental. calc is there to compensate the height of the header-bar.
+	color: #fff;
+	padding-top: 0;
+	box-sizing: border-box;
+	position: relative;
+
+	margin-left: auto;
+	margin-right: auto;
+
+	width: 1100px;
+
+
+	header {
+		text-align: left;
+		h1 {
+			font-weight: bold;
+			font-size: 2.4rem;
+		}
+	}
+
+	.left {
+		width: 650px;
+		min-height: 250px;
+
+		overflow: hidden;
+		// position: relative;
+		img {
+			max-width: 100%;
+			// position: absolute;
+			// top: -50px;
+			// left: 0;
+		}
+	}
+
+	#rightWrap {
+		width: 400px;
+		float: right;
+		// .column(4,12,right);
+		// .pull(0.25);
+	}
+
+	.register {
+		width: 100%;
+		float: left;
+		margin-top: 30px;
+	}
+
+	.box { // there are no boxes in other sections.
+		color: #000;
+		background: white;
+		border: 1px solid rgba(255,255,255,0.4);
+		border-radius: 10px;
+		.box-fix;
+		h1 {
+			color: @primary;
+			margin: 10px 0;
+		}
+	}
+
+	.features {
+		display: block;
+		text-align: center;
+		width: 100%;
+		clear: both;
+
+		.feature {
+			display: inline-block;
+			padding-left: 20px;
+			padding-right: 20px;
+			margin-left: 20px;
+			margin-right: 20px;
+			height: 150px;
+			width: 230px;
+			.title {
+				.fa {
+					font-size: 2.3rem;
+					padding-right: 5px;
+				}
+				padding-top: 30px;
+				font-weight: bold;
+				font-size: 1.5rem;
+			}
+			.content {
+				padding-top: 12px;
+			}
+		}
+
+		// no idea, but we need both of these:
+		vertical-align: top;
+		.feature { vertical-align: top; }
+	}
+
+	.moreLink {
+		position: absolute;
+		bottom: 0;
+		left: 0;
+
+		cursor: pointer;
+		text-align: center;
+		display: inline-block;
+		width: 100%;
+		height: 50px; // the height needs to be specified, otherwise the link would be invisible.
+
+		z-index: 3;
+
+		a {
+			color: @white;
+			padding: 10px;
+			border: 0px;
+			border-radius: 5px;
+			.box-fix;
 		}
 	}
 }
