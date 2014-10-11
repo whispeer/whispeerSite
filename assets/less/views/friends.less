@@ -2,14 +2,12 @@
 	#main {
 		.box;
 		height: 100%;
-		header {
-			border-bottom: none;
-		}
-		section {
-			header {
-				border-bottom: 1px solid @btnBorder;
-			}
-		}
+	}
+	#scroll {
+		overflow-y: scroll;
+		height: 100%;
+		padding: 0 !important; // remove the padding that is applied by .box
+		margin: -1px 0 0 0; // fix the double border between the two headers
 	}
 	#requestsList {
 		.column(12,12,left,0);
@@ -21,6 +19,6 @@
 		.column(12,12,left,0);
 		li {
 			.column(1,3);
-		}	
+		}
 	}
 }
