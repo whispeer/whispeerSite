@@ -1,8 +1,16 @@
 .friendsView {
 	#main {
-		.box;
+		@media @desktop {
+			.box;
+		}
+
+		.scroll {
+			overflow-y: scroll;
+			height: 100%;
+		}
+
 		height: 100%;
-		overflow-y: scroll;
+		overflow-y: hidden;
 
 		li {
 			@media @desktop {
@@ -19,7 +27,7 @@
 		}
 	}
 	.title {
-		//.large-text();
+		.large-text();
 	}
 	#requestsList {
 		display: inline-block;
