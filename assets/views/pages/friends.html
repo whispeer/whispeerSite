@@ -8,14 +8,8 @@
 		</span>
 	</header>
 	<ul class="unstyled" id="requestsList" data-ng-if="requests.length > 0">
-		<li class="request" data-ng-repeat="request in requests">
-			<img data-ng-src="{{request.basic.image}}">
-			<p class="username"><a href='{{request.basic.url}}'><strong>{{request.name}}</strong></a></p>
-			<p class="similar" data-i18n="magicbar.requests.mutuals|count={{request.basic.mutualFriends.length}}"></p>
-			<p class="action">
-				<button class="btn btn--primary" data-i18n="magicbar.requests.accept" ng-click="acceptRequest(request)"></button>
-				<button class="btn btn--danger" data-i18n="magicbar.requests.decline"></button>
-			</p>
+		<li class="request" data-ng-repeat="user in requests">
+			<friend data-user="user" data-type="request"></friend>
 		</li>
 		<li class="request error" data-ng-if="requests.length == 0">
 			<span data-i18n="magicbar.requests.none"></span>
@@ -31,7 +25,7 @@
 	<header><span class="title" role="title" data-i18n="friends.title"></span></header>
 	<ol id="friendsList" class="unstyled">
 		<li data-ng-repeat="friend in friends">
-			<friend data-user="friend"></friend>
+			<friend data-user="friend" data-type="friend"></friend>
 		</li>
 	</ol>
 </section>
