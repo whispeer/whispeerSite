@@ -6,7 +6,13 @@
 
 		.scroll {
 			overflow-y: scroll;
-			height: 100%;
+			.title {
+				.large-text();
+				padding-left: 5px;
+			}
+			section:first-child {
+				padding-top: 0;
+			}
 		}
 
 		height: 100%;
@@ -25,9 +31,6 @@
 			box-sizing: border-box;
 			padding: 0 5px;
 		}
-	}
-	.title {
-		.large-text();
 	}
 	#requestsList {
 		display: inline-block;
