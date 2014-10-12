@@ -27,6 +27,7 @@
     optimize: "none",
     preserveLicenseComments: true,
     generateSourceMaps: false,
+    fileExclusionRegExp: /^node_modules$/,
     modules: [
         {
             name: "main"
