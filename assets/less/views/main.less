@@ -6,7 +6,7 @@
 		padding-top: 80px;
 		.box-fix;
 		header {
-			.column(8,8);
+			.column(12,12,left,0);
 			padding-top: 10px;
 			margin-top: -85px;
 			text-align: center;
@@ -14,7 +14,8 @@
 			z-index: 1000;
 			.border-radiuses(2px,0,0,2px);
 			#postIt {
-				.column(8,12);
+				.column(8,12,left,1%);
+				margin: 0 1% 0 0;
 				padding: 0;
 				border: 1px solid #aaa;
 				.border-radius(5px);
@@ -57,7 +58,8 @@
 				}
 			}
 			#filter {
-				.column(4,12);
+				.column(4,12,left,1%);
+				margin: 0 0 0 1%;
 				height: 80px;
 				.title {
 					.column(12,12);
