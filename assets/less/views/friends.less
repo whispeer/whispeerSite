@@ -3,9 +3,17 @@
 		@media @desktop {
 			.box;
 		}
+		
+		height: 100%;
+		overflow-y: hidden;
+		
+		section {
+			.box-fix;
+		}
 
 		.scroll {
 			overflow-y: scroll;
+			height: ~"calc(100% - 30px)"; // fixes the scroll-bar. negative margin will place the scroll-bar into the header.
 			.title {
 				.large-text();
 				padding-left: 5px;
@@ -14,9 +22,6 @@
 				padding-top: 0;
 			}
 		}
-
-		height: 100%;
-		overflow-y: hidden;
 
 		li {
 			@media @desktop {
