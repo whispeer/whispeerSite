@@ -14,10 +14,12 @@ body {
 			height: 100%;
 		}
 		#main {
-			.column(8);
+			.column(9);
+			.push(0.325);
 		}
 		#sidebar-left {
 			.column(2);
+			.push(0.175);
 			#userpanel {
 				.column(2,2);
 				margin-bottom: 10px;
@@ -42,9 +44,7 @@ body {
 	&:not(.registerView) {
 		padding-top: 70px;
 	}
-	&.registerView {
-		#main {
-			.push(2);
-		}
+	&.registerView #container #main {
+		.push(1.5);
 	}
 }
