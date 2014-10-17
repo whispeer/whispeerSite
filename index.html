@@ -38,7 +38,7 @@
 		<div id="navInner">
 			<button class="toggle" id="toggleSidebar" data-ng-click="toggleSidebar()" data-ng-if="mobile">
 				<i class="icon icon-menu"></i>
-				<span data-ng-controller="ssn.magicbar.mainController">
+				<span>
 					<span class="badge" id="mobileCounter" data-ng-if="(messages.unread + friends.requestsCount + news.count) > 0">
 						<span>{{messages.unread + friends.requestsCount + news.count}}</span>
 					</span>
@@ -48,23 +48,6 @@
 			<a href="start" id="brand" data-ng-click="mobileActivateView()"><span id="brandNormal">whis</span><span id="brandInverse">peer</span></a>
 			<div class="nav-collapse collapse">
 				<usersearch size="big" data-input-i18n-attr="menu.search|placeholder"/>
-			</div>
-		</div>
-		<div id="navIcons" data-ng-if="!mobile" data-ng-controller="ssn.magicbar.mainController">
-			<div class="navIcon" id="messageicon" data-ng-click="loadWidget('messages')">
-				<img src="assets/img/icons/messages.png" alt="Nachrichten" class="icon">
-				<span class="badge" data-ng-if="messages.unread!=0">{{messages.unread}}</span>
-			</div>
-			<div class="navIcon" id="friendsicon" data-ng-click="loadWidget('friends')">
-				<img src="assets/img/icons/friends.png" alt="Freundschaftsanfragen" class="icon">
-				<span class="badge" data-ng-if="friends.requestsCount!=0">{{friends.requestsCount}}</span>
-			</div>
-			<div class="navIcon" id="newsicon" data-ng-click="loadWidget('news')">
-				<img src="assets/img/icons/newsfeed.png" alt="Neugikeiten" class="icon">
-				<span class="badge" data-ng-if="news.count!=0">{{news.count}}</span>
-			</div>
-			<div class="navIcon" id="settingsicon" data-ng-click="loadWidget('settings')">
-				<img src="assets/img/icons/settings.png" alt="Settings" class="icon">
 			</div>
 		</div>
 	</nav>
@@ -82,8 +65,8 @@
 					<ul class="left unstyled" id="mainMenu">
 						<li><a href="main" data-i18n="menu.newsfeed"></a></li>
 						<li><a href="{{user.basic.url}}" data-i18n="menu.profil"></a></li>
-						<li><a href="friends" data-i18n="menu.friends|count={{friends.friendsCount}}"></a></li>
-						<li><a href="messages" data-ng-controller="ssn.magicbar.mainController" data-i18n="menu.messages|count={{messages.unread}}"></a></li>
+						<li><a href="friends" data-i18n="menu.friends|count={{friends.friendsCount}}|requests={{friends.requestsCount}}"></a></li>
+						<li><a href="messages" data-i18n="menu.messages|count={{messages.unread}}"></a></li>
 						<li><a href="circles" data-i18n="menu.circles"></a></li>
 						<li><a href="settings" data-i18n="menu.settings"></a></li>
 						<li><a href="help" data-i18n="menu.help"></a></li>
@@ -110,15 +93,7 @@
 		<!-- end !Userpanel -->
 		<!-- !Mobile Menu -->
 		<aside id="sidebar-left" data-ng-if="loggedin && mobile" data-ng-class="{show: (sidebarActive && !searchActive)}">
-			<ul class="mobileMenu" data-ng-controller="ssn.magicbar.mainController">
-				<a href="notificationCenter" class="full" data-ng-click="toggleSidebar()" data-ng-if="friends.requestsCount > 0">
-					<li>
-						<i class="icon icon-comment"></i>
-						<span>
-							<span data-i18n="menu.notifications|count={{messages.unread + friends.requestsCount + news.count}}"></span>
-						</span>
-					</li>
-				</a>
+			<ul class="mobileMenu">
 				<a href="main"  data-ng-click="toggleSidebar()">
 					<li>
 						<i class="icon icon-home"></i>
@@ -134,13 +109,13 @@
 				<a href="friends"  data-ng-click="toggleSidebar()">
 					<li>
 						<img data-ng-src="assets/img/icons/mobile/friends.png" alt="Freunde">
-						<span data-i18n="menu.friends|count={{friends.friendsCount}}"></span>
+						<span data-i18n="menu.friends|count={{friends.friendsCount}}|requests={{friends.requestsCount}}"></span>
 					</li>
 				</a>
 				<a href="messages"  data-ng-click="toggleSidebar()">
 					<li>
 						<img data-ng-src="assets/img/icons/mobile/messages.png" alt="Nachrichten">
-						<span data-ng-controller="ssn.magicbar.mainController" data-i18n="menu.messages|count={{messages.unread}}"></span>
+						<span data-i18n="menu.messages|count={{messages.unread}}"></span>
 					</li>
 				</a>
 				<a href="circles"  data-ng-click="toggleSidebar()">
@@ -188,16 +163,6 @@
 			<usersearch size="big" data-input-i18n-attr="menu.search|placeholder"/>
 		</section>
 		<!-- end !Mobile Search -->
-		<!-- !Right Sidebar -->
-		<aside id="sidebar-right" data-ng-if="loggedin && !mobile">
-			<div id="magicbar" data-ng-controller="ssn.magicbar.mainController">
-				<div class="magic magicOverlay" data-ng-if="!config.showDefault && config.ready" data-ng-include="'assets/views/magicbar/' + config.template + '.html'"></div>
-				<div class="magicWrapper" data-ng-if="config.showDefault && config.ready">
-					<div class="magic magicWidget" style="height: {{widgetHeight}}%" data-ng-repeat="widget in defaultConfig" data-ng-include="'assets/views/magicbar/' + widget.template + '.html'"></div>
-				</div>
-			</div>
-		</aside>
-		<!-- end !Rigth Sidebar -->
 		<!-- !Mobile Notifications -->
 		<div class="notificationWrap" data-ng-if="loggedin && mobile">
 			<div class="notification" data-ng-if="lostConnection">

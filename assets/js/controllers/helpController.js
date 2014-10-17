@@ -11,7 +11,7 @@ define([], function () {
 			"general": ["register", "password", "search", "report", "account", ],
 			"safety": ["safety"],
 			"privacy": ["messages", "post", "privacy"],
-			"functionality": ["profile", "filter", "circle", "magicbar"]
+			"functionality": ["profile", "filter", "circle"]
 		};
 	}
 

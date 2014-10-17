@@ -110,7 +110,7 @@
 	"menu": {
 		"newsfeed":	"Newsfeed",
 		"profil": "Profil",
-		"friends": "Freunde ({count})",
+		"friends": "Freunde ({count}+{requests})",
 		"messages": "Nachrichten ({count})",
 		"media": "Medien",
 		"circles": "Kreise",
@@ -368,10 +368,6 @@
 			"post": {
 				"question": "Wie kann ich auswählen, wer meine Statusmeldungen sieht?",
 				"answer":	"Wenn du einen Post schreibst, hast du zwei Eingabefelder. In das obere Eingabefeld schreibst du die Namen von den Personen und/oder Kreisen, die diesen Post sehen sollen. In das untere Feld schreibst du deinen Post. Wenn du alle Personen ausgewählt hast, und deinen Post geschrieben hast, klicke auf den Button 'Senden', um den Post für diese Personen zu veröffentlichen."
-			},
-			"magicbar": {
-				"question": "Was ist die MagicBar und wie benutze ich sie?",
-				"answer":	"Die MagicBar ist eines der einzigartigen Features von whispeer. Sie erscheint, wenn du rechts oben auf eines der vier verschiedenen Icons klickst. Die MagicBar dient dazu, dir einen besseren Überblick zu geben. Außerdem zeigt sie dir deine letzten und deine neuen Nachrichten, Frendschaftsanfragen und Benachrichtigungen an. Freundschaftsanfragen kannst du direkt in der MagicBar bestätigen oder ablehnen. Durch einen Klick auf eine Nachricht kommst du direkt zu der Konversation. Wenn du mehr über die MagicBar erfahren möchtest, liest du am besten unseren Blogeintrag darüber: http://blog.whispeer.de/2013/08/die-whispeer-oberflaeche-3-die-magicbar/ "
 			},
 			"report": {
 				"question": "Wie kann ich jemanden melden?",
