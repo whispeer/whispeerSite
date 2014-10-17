@@ -110,7 +110,7 @@
 	"menu": {
 		"newsfeed":	"Newsfeed",
 		"profil": "Profil",
-		"friends": "Freunde ({count})",
+		"friends": "Freunde ({count}+{requests})",
 		"messages": "Nachrichten ({count})",
 		"media": "Medien",
 		"circles": "Kreise",

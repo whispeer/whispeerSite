@@ -65,7 +65,7 @@
 					<ul class="left unstyled" id="mainMenu">
 						<li><a href="main" data-i18n="menu.newsfeed"></a></li>
 						<li><a href="{{user.basic.url}}" data-i18n="menu.profil"></a></li>
-						<li><a href="friends" data-i18n="menu.friends|count={{friends.friendsCount}}"></a></li>
+						<li><a href="friends" data-i18n="menu.friends|count={{friends.friendsCount}}|requests={{friends.requestsCount}}"></a></li>
 						<li><a href="messages" data-i18n="menu.messages|count={{messages.unread}}"></a></li>
 						<li><a href="circles" data-i18n="menu.circles"></a></li>
 						<li><a href="settings" data-i18n="menu.settings"></a></li>
@@ -109,7 +109,7 @@
 				<a href="friends"  data-ng-click="toggleSidebar()">
 					<li>
 						<img data-ng-src="assets/img/icons/mobile/friends.png" alt="Freunde">
-						<span data-i18n="menu.friends|count={{friends.friendsCount}}"></span>
+						<span data-i18n="menu.friends|count={{friends.friendsCount}}|requests={{friends.requestsCount}}"></span>
 					</li>
 				</a>
 				<a href="messages"  data-ng-click="toggleSidebar()">
