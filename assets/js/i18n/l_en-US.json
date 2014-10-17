@@ -206,8 +206,25 @@
 			"sendMessage": "Send {user} a message"
 		},
 		"trustmanager" : {
-			"verifyTitle":	"Verify this User",
-			"verifyInfo":	"To verify this user, please enter his fingerprint here. The user can get it through \"Settings\" -> \"Your Fingerprint\"."
+			"part1": "Part 1",
+			"part2": "Part 2",
+			"part3": "Part 3",
+			"part4": "Part 4",
+			"verifyTitle":	"User verification",
+			"back": "Back",
+			"verifyInfo": {
+				"code":	"Please input {user}'s fingerprint.[br] He can find his fingerprint on the settings page![br] Never use online communication to share the fingerprint as it is insecure! Best practice is to meet in person.",
+				"qr":	"Please scan {user}'s qr-code with your camera.[br] {user} will be automatically verified, as soon as our software detects the correct qr-code"
+			},
+			"nodevice": "We could not detect a camera!",
+			"verifyUser":	"Verifying {user}",
+			"verifyWithCode":	"Manual input",
+			"verifyWithQr":		"QR-Code",
+			"chooseVerifyMethod":	"Please verify {user}'s identity. Select a verification method:",
+			"qrSaveButton":	{
+				"fail":	"Fingerprint wrong! Click to try again!",
+				"pending":	"Verifying fingerprint!"
+			}
 		},
 		"section":	{
 			"general": {

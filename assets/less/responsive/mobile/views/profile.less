@@ -43,7 +43,7 @@
 			}
 		}
 		#wrap {width: 100%; height: 100%; padding-top: 75px; .box-fix; margin: 0 auto; }
-		#scroller {width: 100%; height: 100%; overflow-y: scroll; .box-fix; margin:0 auto; -webkit-overflow-scrolling: touch;}
+		#scroller {width: 100%; height: 100%; overflow-y: scroll; overflow-x: hidden; .box-fix; margin:0 auto; -webkit-overflow-scrolling: touch;}
 		#info {
 			width: 100%;
 			padding: 0;
@@ -70,13 +70,6 @@
 							width: 98% !important;
 							#original {
 								width: 100%;
-							}
-							.uploadImageForm {
-								#filesUpload {
-									position: relative !important;
-									margin: -34px 0 0 0;
-									float: left;
-								}
 							}
 						}
 						&.bigger {
@@ -157,6 +150,7 @@
 			article {
 				.column(8,8,left,0);
 				margin-top: 10px;
+				box-sizing: border-box;
 			}
 		}
 		#friends {
@@ -176,6 +170,34 @@
 					.person {
 						width: 100%;
 					}
+				}
+			}
+		}
+		#verifyUser {
+			video {
+				max-height: 300px;
+				max-width: 100%;
+			}
+			.back {
+				width: 60%
+			}
+			input {
+				margin-bottom: 5px;
+			}
+			.verify button {
+				width: 60%;
+				position: absolute;
+				left: 0px;
+				right: 0px;
+				margin: auto;
+			}
+			.chooseVerifyMethod {
+				text-align: center;
+				button {
+					.column(6);
+					&.btn--saveButton {
+						.width(2);
+					}	
 				}
 			}
 		}

@@ -8,6 +8,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 	function friendsController($scope, cssService, friendsService, userService)  {
 		cssService.setClass("friendsView");
 		$scope.friends = [];
+		$scope.requests = [];
 
 		function loadFriendsUsers() {
 			step(function () {
@@ -18,8 +19,23 @@ define(["step", "whispeerHelper"], function (step, h) {
 			}));
 		}
 
+		function loadRequestsUsers() {
+			step(function () {
+				var requests = friendsService.getRequests();
+				userService.getMultipleFormatted(requests, this);
+			}, h.sF(function (result) {
+				$scope.requests = result;
+			}));
+		}
+
 		friendsService.listen(loadFriendsUsers);
+		friendsService.listen(loadRequestsUsers);
 		loadFriendsUsers();
+		loadRequestsUsers();		
+
+		$scope.acceptRequest = function (request) {
+			request.user.acceptFriendShip();
+		};
 	}
 
 	friendsController.$inject = ["$scope", "ssn.cssService", "ssn.friendsService", "ssn.userService"];

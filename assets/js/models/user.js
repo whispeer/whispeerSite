@@ -427,8 +427,12 @@ define(["step", "whispeerHelper", "asset/state"], function (step, h, State) {
 				}), cb);
 			};
 
+			this.getFingerPrint = function () {
+				return keyStoreService.format.fingerPrint(theUser.getSignKey());
+			};
+
 			this.verifyFingerPrint = function (fingerPrint, cb) {
-				if (fingerPrint !== keyStoreService.format.fingerPrint(theUser.getSignKey())) {
+				if (fingerPrint !== theUser.getFingerPrint()) {
 					return false;
 				}
 
