@@ -25,14 +25,6 @@ define(["step", "whispeerHelper"], function (step, h) {
 		$scope.acceptRequest = function (request) {
 			request.user.acceptFriendShip();
 		};
-
-		$scope.shortenName = function (name) {
-			if(name.length > 17) {
-				return name.substr(0, 17) + "..";
-			} else {
-				return name;
-			}
-		};
 	}
 
 	requestsController.$inject = ["$scope", "ssn.friendsService", "ssn.userService"];

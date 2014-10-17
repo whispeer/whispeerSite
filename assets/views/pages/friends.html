@@ -1,8 +1,8 @@
 <header><span class="title">Freunde</span></header>
 <section class="scroll">
-	<section data-ng-controller="ssn.magicbar.friendsController">
+	<section data-ng-if="requests.length > 0">
 		<span class="title" data-i18n="magicbar.requests.title"></span>
-		<ul class="unstyled" id="requestsList" data-ng-if="requests.length > 0">
+		<ul class="unstyled" id="requestsList">
 			<li class="request" data-ng-repeat="user in requests">
 				<friend data-user="user" data-type="request"></friend>
 			</li>
