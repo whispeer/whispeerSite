@@ -7,8 +7,8 @@
 	var WHISPEER_PORT = process.env.WHISPEER_PORT || 80;
 
 	var cspConfig = {
-		"default-src": ["'self'", "ws://localhost:3000" ,"localhost:3000", "ws://localhost:3001", "localhost:3001"],
-		"script-src": ["'self'", "ws://localhost:3000", "localhost:3000", "ws://localhost:3001", "localhost:3001"],
+		"default-src": ["'self'"],
+		"script-src": ["'self'"],
 		"style-src": ["'self'", "'unsafe-inline'"],
 		"object-src": ["'none'"],
 		"img-src": ["'self'", "blob:", "data:"]
@@ -20,9 +20,19 @@
 	function pushAddress(details){
 		if (details.family === "IPv4") {
 			cspConfig["default-src"].push("http://" + details.address + ":3000");
-			cspConfig["default-src"].push("ws://" + details.address + ":3000");
+			cspConfig["default-src"].push("ws://" + details.address + ":3000");		
+
+			cspConfig["default-src"].push("ws://" + details.address + ":3001");
+			cspConfig["default-src"].push("http://" + details.address + ":3001");
+
+			cspConfig["script-src"].push("http://" + details.address + ":3001");
 		}
 	}
+
+	pushAddress({
+		family: "IPv4",
+		address: "localhost"
+	});
 
 	cspConfig["default-src"].push("https://beta.whispeer.de:3001");
 	cspConfig["default-src"].push("wss://beta.whispeer.de:3001");

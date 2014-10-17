@@ -24,14 +24,15 @@
 			border-bottom-color: darken(@btnBorder, 10%);
 			.box-fix;
 			heading {
-				h3 {
-					// Awesome features for webkit-browsers!
-					background: -webkit-linear-gradient(@primaryLighter, @primary);
-					-webkit-background-clip: text;
-					-webkit-text-fill-color: transparent;
+				h1 {
+					// set a proper text-size
+					.large-text();
+					// set correct overflow
+					height: @line-height;
+					overflow: hidden;
+					white-space: nowrap;
+					text-overflow: ellipsis;
 					color: lighten(@primary, 5%);
-					//text-shadow: 1px 1px 1px @green2;
-					text-rendering: optimizeLegibility;
 				}
 				_:-o-prefocus, h3 {
 					background: none;

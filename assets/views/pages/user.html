@@ -1,6 +1,6 @@
 <nav data-ng-if="!loading">
 	<heading>
-		<h3>{{user.name}}</h3>
+		<h1>{{user.name}}</h1>
 		<div class="trustlevel" data-trustlevel="{{user.trustLevel}}" data-ng-if="!user.me" data-ng-click="toggleVerify()">
 			<span class="text">Trust-Level: {{user.trustLevel}}</span>&nbsp;
 			<i data-ng-if="user.trustLevel < 2" class="icon icon-plus-circle"></i>
