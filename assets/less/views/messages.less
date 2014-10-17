@@ -121,7 +121,8 @@
 			overflow-x: hidden;
 			box-sizing: border-box;
 			border-bottom: @header-height solid transparent;
-			
+			border-right: 1px solid #ccc;
+
 			// nice scrolling for iOS.
 			-webkit-overflow-scrolling: touch;
 
@@ -242,8 +243,19 @@
 			position: relative;
 		}
 
+		#topicWrap.newMessage {
+			padding: @default-padding @default-padding 0;
+			.box-fix;
+		}
+
+		.newMessage #messageTitle h2 {
+			margin-top: 0;
+		}
+
 		#messageWrap {
 			height: 100%;
+			// this makes absolute positioned elements adopt the padding.
+			position: relative;
 		}
 
 		#messageList {
@@ -382,6 +394,20 @@
 			button {
 				height: @form-height;
 				.column(1,4);
+			}
+		}
+		.newMessage #inputWrap {
+			// the * 2 is caused by the relative positioning of the parent which is
+			// needed for the padding to apply correctly -- but only for desktops.
+			@media @desktop { bottom: (@header-height * 2); }
+
+			textarea {
+				.width(3,4,1%);
+				margin: 0 1% 0 0;
+			}
+			button {
+				.width(1,4,1%);
+				margin: 0 0 0 1%;
 			}
 		}
 	}
