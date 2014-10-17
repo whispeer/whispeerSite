@@ -53,6 +53,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 
 		$scope.user = nullUser;
 		$scope.friends = friendsService.data;
+		$scope.messages = messageService.data;
 
 		$scope.$on("ssn.login", function () {
 			$scope.loggedin = sessionService.isLoggedin();
