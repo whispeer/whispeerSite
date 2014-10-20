@@ -34,6 +34,11 @@ define(["step", "whispeerHelper", "asset/observer", "asset/securedDataWithMetaDa
 
 			this.remove = function (cb) {
 				step(function () {
+					//TODO: setUser to empty
+					//TODO: remove from settings
+					//TODO: rebuild profiles
+					//then delete from server
+					throw new Error("not yet implemented");
 					socket.emit("circle.delete", {
 						remove: {
 							circleid: id
