@@ -102,7 +102,12 @@ define(["step", "whispeerHelper", "asset/observer", "asset/securedDataWithMetaDa
 					theCircle.data.persons = persons;
 					theCircle.data.userids = circleUsers;
 
-					this.ne();
+					if (removing) {
+						//rebuild profiles
+						userService.getown().uploadChangedProfile(this);
+					} else {
+						this.ne();
+					}
 				}), cb);
 			};
 
