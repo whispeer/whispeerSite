@@ -272,7 +272,7 @@
 			left: 0;
 			margin: 0;
 			padding: 0;
-			
+
 			// nice scrolling for iOS.
 			-webkit-overflow-scrolling: touch;
 
@@ -411,4 +411,14 @@
 			}
 		}
 	}
+}
+
+@media @mobile {
+	#messages > .message-mixin(
+		@form-height: 40px;
+	);
+}
+
+@media @desktop {
+	#messages > .message-mixin();
 }
