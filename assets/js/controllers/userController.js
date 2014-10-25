@@ -2,7 +2,7 @@
 * userController
 **/
 
-define(["step", "whispeerHelper", "asset/resizableImage", "asset/state"], function (step, h, ResizableImage, State) {
+define(["step", "whispeerHelper", "asset/resizableImage", "asset/state", "libs/qrreader"], function (step, h, ResizableImage, State, qrreader) {
 	"use strict";
 
 	function userController($scope, $routeParams, $timeout, cssService, errorService, userService, postService, circleService, blobService) {
@@ -19,30 +19,146 @@ define(["step", "whispeerHelper", "asset/resizableImage", "asset/state"], functi
 		$scope.loadingFriends = true;
 		$scope.verifyNow = false;
 
-		$scope.givenPrint = "";
+		var verifyState = new State();
+		$scope.verifyingUser = verifyState.data;
+
+		$scope.qr = {
+			available: !!(navigator.getUserMedia || navigator.mozGetUserMedia || navigator.webkitGetUserMedia),
+			view: false,
+			read: false,
+			reset: function () {
+				if (verifyState.isFailed()) {
+					$scope.qr.read = false;
+					initializeReader();
+				}
+			}
+		};
+
+		$scope.verifyCode = !$scope.qr.available;
+
+		$scope.verifyWithCode = function () {
+			$scope.verifyCode = true;
+		};
+
+		$scope.resetVerifcationMethod = function () {
+			$scope.verifyCode = false;
+			$scope.qr.view = false;
+		};
+
+		var theStream;
+
+		function captureToCanvas() {
+			if (!$scope.qr.read) {
+				try {
+					var width = 800;
+					var height = 600;
+
+					var gCanvas = document.createElement("canvas");
+					gCanvas.width = width;
+					gCanvas.height = height;
+
+					var gCtx = gCanvas.getContext("2d");
+					gCtx.clearRect(0, 0, width, height);
+
+					gCtx.drawImage(document.getElementById("qrCodeVideo"), 0, 0);
+					var codeText = qrreader.decodeCanvas(gCanvas);
+
+					$scope.qr.read = true;
+					theStream.stop();
+					$scope.qrCode = codeText;
+
+					$scope.verify(codeText);
+				} catch(e) {
+					console.error(e);
+					$scope.qrCode = "error:" + e;
+					$timeout(captureToCanvas, 500);
+				}
+			}
+		}
+
+		function initializeReader() {
+			var webkit=false;
+			var moz=false;
+
+			step(function () {
+				if(navigator.getUserMedia) {
+					navigator.getUserMedia({video: true, audio: false}, this.ne, this);
+				} else if(navigator.webkitGetUserMedia) {
+					webkit=true;
+					navigator.webkitGetUserMedia({video: true, audio: false}, this.ne, this);
+				} else if(navigator.mozGetUserMedia) {
+					moz=true;
+					navigator.mozGetUserMedia({video: true, audio: false}, this.ne, this);
+				}
+			}, h.sF(function (stream) {
+				$scope.qr.noDevice = false;
+				theStream = stream;
+				var v = document.getElementById("qrCodeVideo");
+
+				if(webkit) {
+					v.src = window.webkitURL.createObjectURL(stream);
+				} else if(moz) {
+					v.mozSrcObject = stream;
+					v.play();
+				} else {
+					v.src = stream;
+				}
+
+				$timeout(captureToCanvas, 500);
+			}), function (e) {
+				if (e.name === "DevicesNotFoundError") {
+					$scope.qr.noDevice = true;
+
+					$timeout(initializeReader, 1000);
+				} else {
+					this(e);
+				}
+			}, errorService.criticalError);
+		}
+
+		$scope.verifyWithQrCode = function () {
+			$scope.qr.view = true;
+
+			initializeReader();
+		};
+
+		$scope.givenPrint = ["", "", "", ""];
+		$scope.faEqual = function (val1, val2) {
+			if (val1.length !== val2.length) {
+				return "";
+			}
+
+			if (val1 === val2) {
+				return "fa-check";
+			} else {
+				return "fa-times";
+			}
+		};
+
+		$scope.nextInput = function (index) {
+			$scope.givenPrint[index] = $scope.givenPrint[index].toLowerCase().replace(/[^a-z0-9]/g, "");
+			if ($scope.givenPrint[index] === $scope.fingerPrint[index] && index < $scope.fingerPrint.length - 1) {
+				jQuery(".verify input")[index+1].focus();
+			}
+		};
 
 		$scope.toggleVerify = function () {
 			$scope.verifyNow = !$scope.verifyNow;
 		};
 
-		var verifyState = new State();
-		$scope.verifyingUser = verifyState.data;
-
 		$scope.verify = function (fingerPrint) {
 			verifyState.pending();
-
-			var ok = userObject.verifyFingerPrint(fingerPrint, function (e) {
-				if (e) {
-					verifyState.failed();
-					errorService.criticalError(e);
-				} else {
-					verifyState.success();
-				}
-			});
-
-			if (!ok) {
-				verifyState.failed();
+			if (typeof fingerPrint.join === "function") {
+				fingerPrint = fingerPrint.join("");
 			}
+
+			step(function () {
+				var ok = userObject.verifyFingerPrint(fingerPrint, this);	
+
+				if (!ok) {
+					this(new Error("wrong code"));
+				}
+			}, errorService.failOnError(verifyState));
 		};
 
 		$scope.changeImage = false;
@@ -292,6 +408,9 @@ define(["step", "whispeerHelper", "asset/resizableImage", "asset/state"], functi
 			userService.get(identifier, this);
 		}, h.sF(function (user) {
 			userObject = user;
+
+			var fp = user.getFingerPrint();
+			$scope.fingerPrint = [fp.substr(0,13), fp.substr(13,13), fp.substr(26,13), fp.substr(39,13)];
 
 			postService.getWallPosts(0, userObject.getID(), function (err, posts) {
 				$scope.posts = posts;

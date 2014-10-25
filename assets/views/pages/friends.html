@@ -1,8 +1,27 @@
-<header><span class="title" role="title" data-i18n="friends.title"></span></header>
-<section>
-	<ol id="friendsList" class="unstyled">
-		<li data-ng-repeat="friend in friends">
-			<friend data-user="friend"></friend>
-		</li>	
-	</ol>
+<header><span class="title">Freunde</span></header>
+<section class="scroll">
+	<section data-ng-if="requests.length > 0">
+		<span class="title" data-i18n="magicbar.requests.title"></span>
+		<ul class="unstyled" id="requestsList">
+			<li class="request" data-ng-repeat="user in requests">
+				<friend data-user="user" data-type="request"></friend>
+			</li>
+			<li class="request error" data-ng-if="requests.length == 0">
+				<span data-i18n="magicbar.requests.none"></span>
+			</li>
+		</ul>
+		<ul class="unstyled" data-ng-if="requests.length == 0">
+			<li class="request error">
+				<span data-i18n="magicbar.requests.none"></span>
+			</li>
+		</ul>
+	</section>
+	<section>
+		<span class="title" data-i18n="friends.title"></span>
+		<ol id="friendsList" class="unstyled">
+			<li data-ng-repeat="friend in friends">
+				<friend data-user="friend" data-type="friend"></friend>
+			</li>
+		</ol>
+	</section>
 </section>

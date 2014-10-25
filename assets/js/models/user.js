@@ -340,6 +340,16 @@ define(["step", "whispeerHelper", "asset/state", "asset/securedDataWithMetaData"
 				myProfile.setAttribute(attribute, value, cb);
 			};
 
+			this.getFingerPrint = function () {
+				return keyStoreService.format.fingerPrint(theUser.getSignKey());
+			};
+
+			this.verifyFingerPrint = function (fingerPrint, cb) {
+				if (fingerPrint !== theUser.getFingerPrint()) {
+					return false;
+				}
+
+
 			this.setAdvancedProfile = function (advancedProfile, cb) {
 				step(function () {
 					advancedBranches.forEach(function (branch) {

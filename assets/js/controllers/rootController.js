@@ -63,6 +63,7 @@ define(["step", "whispeerHelper", "cryptoWorker/generalWorkerInclude"], function
 
 		$scope.user = nullUser;
 		$scope.friends = friendsService.data;
+		$scope.messages = messageService.data;
 
 		$scope.$on("ssn.login", function () {
 			$scope.loggedin = sessionService.isLoggedin();

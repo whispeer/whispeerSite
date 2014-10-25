@@ -1,3 +1,0 @@
-fixes:
-- check the signed request (when adding and removing a friend)
-- re-adding a user to a circle (after removing him) does not work w/o reload
