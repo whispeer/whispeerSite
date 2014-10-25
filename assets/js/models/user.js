@@ -325,7 +325,9 @@ define(["step", "whispeerHelper", "asset/state", "asset/securedDataWithMetaData"
 					socketService.emit("user.profile.update", profileData, this);
 				}), h.sF(function () {
 					myProfile.updated();
-					this.ne();
+
+					basicDataLoaded = false;
+					theUser.loadFullData(this);
 				}), cb);
 			};
 
