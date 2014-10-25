@@ -4,7 +4,7 @@
 define(["step", "whispeerHelper", "asset/observer", "asset/securedDataWithMetaData"], function (step, h, Observer, SecuredData) {
 	"use strict";
 
-	var service = function ($rootScope, socket, userService, friendsService, sessionService, keyStore) {
+	var service = function ($rootScope, socket, userService, friendsService, sessionService, keyStore, settingsService) {
 		var circles = {};
 		var circleArray = [];
 		var circleData = [];
@@ -34,17 +34,16 @@ define(["step", "whispeerHelper", "asset/observer", "asset/securedDataWithMetaDa
 
 			this.remove = function (cb) {
 				step(function () {
-					//TODO: setUser to empty
-					//TODO: remove from settings
-					//TODO: rebuild profiles
+					//remove from settings
+					settingsService.privacy.removeCircle(id, this);
+				}, h.sF(function () {
 					//then delete from server
-					throw new Error("not yet implemented");
 					socket.emit("circle.delete", {
 						remove: {
 							circleid: id
 						}
 					}, this);
-				}, h.sF(function () {
+				}), h.sF(function () {
 					var circle = circles[id];
 					delete circles[id];
 					h.removeArray(circleArray, circle);
@@ -352,7 +351,7 @@ define(["step", "whispeerHelper", "asset/observer", "asset/securedDataWithMetaDa
 		return circleService;
 	};
 
-	service.$inject = ["$rootScope", "ssn.socketService", "ssn.userService", "ssn.friendsService", "ssn.sessionService", "ssn.keyStoreService"];
+	service.$inject = ["$rootScope", "ssn.socketService", "ssn.userService", "ssn.friendsService", "ssn.sessionService", "ssn.keyStoreService", "ssn.settingsService"];
 
 	return service;
 });
