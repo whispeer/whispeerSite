@@ -348,7 +348,7 @@ define(["step", "whispeerHelper", "asset/state", "asset/securedDataWithMetaData"
 				if (fingerPrint !== theUser.getFingerPrint()) {
 					return false;
 				}
-
+			};
 
 			this.setAdvancedProfile = function (advancedProfile, cb) {
 				step(function () {
