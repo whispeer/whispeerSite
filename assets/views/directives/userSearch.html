@@ -1,21 +1,21 @@
 <basicsearch>
-	<ol class="unstyled searchSuggestions">
-		<li data-ng-repeat="user in results" style="width: {{width}}px" data-ng-class="currentClass($index)" data-ng-mouseover="setCurrent($index)" data-ng-click="selectResult($index)">
-			<img data-ng-src="{{user.basic.image}}">
-			<div class="info">
-				<span class="name">{{user.name}}<small class="nickname">&nbsp;- {{user.names.nickname}}</small></span>
-				<span class="friends" data-ng-if="big">{{user.basic.mutualFriends.length}} <span data-i18n="usersearch.mutualFriends"></span></span>
-				<span class="location" data-ng-if="big"><span data-i18n="usersearch.from"></span> {{user.basic.location}}</span>
-				<span class="age" data-ng-if="big"><span data-i18n="usersearch.age"></span> {{user.basic.age}}</span>
+	<ol class="search-suggestions u-unstyled">
+		<li class="search-suggestions-user" data-ng-repeat="user in results" data-ng-class="currentClass($index)" data-ng-mouseover="setCurrent($index)" data-ng-click="selectResult($index)">
+			<userimage class="search-suggestions-userimage" data-user="user" />
+			<div class="search-suggestions-info">
+				<span class="search-suggestions-row search-suggestions-name">{{user.name}}<small class="search-suggestions-nickname">&nbsp;- {{user.names.nickname}}</small></span>
+				<span class="search-suggestions-row search-suggestions-friends" data-ng-if="big">{{user.basic.mutualFriends.length}} <span data-i18n="usersearch.mutualFriends"></span></span>
+				<span class="search-suggestions-row search-suggestions-location" data-ng-if="big"><span data-i18n="usersearch.from"></span> {{user.basic.location}}</span>
+				<span class="search-suggestions-row search-suggestions-age" data-ng-if="big"><span data-i18n="usersearch.age"></span> {{user.basic.age}}</span>
 			</div>
-			<div class="actions" data-ng-if="big">
+			<div class="search-suggestions-actions" data-ng-if="big">
 
-				<a class="sendMessage btn" data-ng-click="notifyParent('sendMessage', user)" data-stop-event="click" data-i18n="usersearch.message"></a>
-				<savebutton class="addFriend" data-state="user.addFriendState" data-ng-if="!user.me && !user.added" data-ng-click="notifyParent('addFriend', user)" data-stop-event="click" data-translation="usersearch.add" data-noiniticon></savebutton>
+				<a class="search-suggestions-row search-suggestions-message btn btn--primary" data-ng-click="notifyParent('sendMessage', user)" data-stop-event="click" data-i18n="usersearch.message"></a>
+				<savebutton class="search-suggestions-row search-suggestions-addFriend" data-state="user.addFriendState" data-ng-if="!user.me && !user.added" data-ng-click="notifyParent('addFriend', user)" data-stop-event="click" data-translation="usersearch.add" data-noiniticon></savebutton>
 
-				<div class="addToCircle" data-stop-event="click" ng-if="user.added">
-					<circlesearch res="circles" class="selectCircle" data-input-i18n-attr="profile.actions.addToCircle|placeholder|user={{user.name}}" data-user="user.id"></circlesearch>
-					<savebutton class="circleSubmit" data-ng-click="notifyParent('saveCircles', {circles: circles, user: user})" data-state="user.circleState"></savebutton>
+				<div class="search-suggestions-row search-suggestions-addCircle" data-stop-event="click" ng-if="user.added">
+					<circlesearch res="circles" class="search-suggestions-selectCircle" data-input-i18n-attr="profile.actions.addToCircle|placeholder|user={{user.name}}" data-user="user.id"></circlesearch>
+					<savebutton class="search-suggestions-circleSubmit" data-ng-click="notifyParent('saveCircles', {circles: circles, user: user})" data-state="user.circleState"></savebutton>
 				</div>
 			</div>
 		</li>

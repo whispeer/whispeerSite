@@ -1,14 +1,14 @@
-<div class="searchBar" data-ng-class="{'search-multiple': multiple, 'search-single': !multiple}">
-	<form class="formSearch" data-ng-click="click(true, $event)">
-		<ul class="inputWrap">
-			<li data-ng-repeat="element in selectedElements" class="searchResult">
-				<span class="nameTag">{{element.name}}</span>
-				<a href="" class="remove" data-ng-click="removeSelection($index, $event)"><i class="icon icon-cancel-circle"></i></a>
+<div class="search" data-ng-class="{'search--multiple': multiple, 'search--single': !multiple}">
+	<form class="search-form" data-ng-click="click(true, $event)">
+		<ul class="search-wrapper">
+			<li data-ng-repeat="element in selectedElements" class="search-result">
+				<span class="result-name">{{element.name}}</span>
+				<a href="" class="result-remove" data-ng-click="removeSelection($index, $event)"><i class="icon icon-cancel-circle"></i></a>
 			</li>
-			<li class="searchField">
+			<li class="search-input">
 			</li>
 		</ul>
 	</form>
-	<div class="searchDrop" style="width: {{width}}px" data-ng-if="show()" ng-transclude>
+	<div class="search-drop" data-ng-if="show()" ng-transclude>
 	</div>
 </div>

@@ -30,7 +30,7 @@ define(["step", "whispeerHelper"], function () {
 				var focused = false, clicked = false, initialized = false;
 
 				/* we need to build the input on our own to be able to add custom attributes */
-				var input = jQuery("<input type='text' class='searchQuery'  data-ng-keydown='keydown($event)' data-ng-change='queryChange()' data-ng-model='query' data-onfocus='focus(true)' data-onblur='focus(false)'>");
+				var input = jQuery("<input type='text' class='search-query input-custom'  data-ng-keydown='keydown($event)' data-ng-change='queryChange()' data-ng-model='query' data-onfocus='focus(true)' data-onblur='focus(false)'>");
 
 				/* add attributes on outer element starting with input- to the inner input */
 				var attr, attrName;
@@ -45,7 +45,7 @@ define(["step", "whispeerHelper"], function () {
 
 				/* compile & append input */
 				$compile(input)(scope);
-				iElement.find(".searchField").append(input);
+				iElement.find(".search-input").append(input);
 
 				function initialize() {
 					if (!initialized) {
