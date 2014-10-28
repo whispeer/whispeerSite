@@ -11,6 +11,23 @@
 	},
 	"views": {
 		"setup": {
+			"welcomeHeader": "Willkommen bei whispeer!",
+			"backup": {
+				"header": "Sichere jetzt deinen Schlüssel",
+				"why": "Warum?",
+				"downloadKey": "Schlüssel herunterladen",
+				"or": "oder",
+				"printKey": "Schlüssel ausdrucken",
+				"ignore": "Schlüssel nicht sichern"
+			},
+			"optionalData": {
+				"header": "Freiwillige Angaben:",
+				"nameExplanation": "Nenne uns deinen Vor- und Nachnamen damit Freunde dich einfacher finden:",
+				"mailExplanation": "Nenne uns deine E-Mail damit wir dich bei Neuigkeiten benachrichtigen können:",
+				"mail": "E-Mail",
+				"firstName": "Vorname",
+				"lastName": "Nachname"
+			},
 			"save": "Name und E-Mail speichern"
 		},
 		"mail": {
@@ -125,6 +142,7 @@
 		"notifications":	"Mitteilungen ({count})"
 	},
 	"login": {
+		"header": "Login",
 		"username": "Nutzername",
 		"password": "Passwort",
 		"link": "Einloggen",

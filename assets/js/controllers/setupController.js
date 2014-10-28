@@ -13,6 +13,7 @@ define(["step", "whispeerHelper", "asset/state", "libs/qr"], function (step, h, 
 
 		$scope.backupClicked = false;
 		$scope.backupWarning = false;
+		$scope.profileSaved = false;
 
 		$scope.firstName = "";
 		$scope.lastName = "";
@@ -40,7 +41,7 @@ define(["step", "whispeerHelper", "asset/state", "libs/qr"], function (step, h, 
 				if ($scope.backupClicked) {
 					$location.path("/main");
 				} else {
-					$scope.backupWarning = true;
+					$scope.profileSaved = true;
 				}
 				this.ne();
 			}), errorService.failOnError(saveSetupState));
