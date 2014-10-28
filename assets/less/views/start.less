@@ -41,6 +41,7 @@
 	#main {
 		text-align: center;
 		width: 100%;
+		min-height: 750px;
 	}
 
 	section {
@@ -140,10 +141,6 @@
 
 	.register {
 		text-align: center;
-		button {
-			margin-bottom: 5px;
-		}
-
 		.icon {
 			float: left;
 			margin-top: 10px;
@@ -159,12 +156,6 @@
 			&.fa-times {
 				color: @red;
 			}
-		}
-
-		div {
-			width: 100%;
-			float: left;
-			margin-bottom: 5px;
 		}
 
 		input:not([type="checkbox"]), button {
@@ -268,13 +259,13 @@
 
 	width: 1100px;
 
-
 	header {
 		text-align: left;
-		h1 {
-			font-weight: bold;
-			font-size: 2.4rem;
-		}
+	}
+
+	h1 {
+		font-weight: bold;
+		font-size: 2.4rem;
 	}
 
 	.left {
@@ -304,15 +295,31 @@
 		margin-top: 30px;
 	}
 
-	.box { // there are no boxes in other sections.
-		color: #000;
+	.box.register { // there are no boxes in other sections.
+
+		color: black;
 		background: white;
+
 		border: 1px solid rgba(255,255,255,0.4);
 		border-radius: 10px;
-		.box-fix;
+
+		font-size: 14px;
+		line-height: normal;
+
+		padding-top: 30px;
+		padding-bottom: 30px;
+		padding-left: 20px;
+		padding-right: 20px;
+
 		h1 {
+			font-size: 24px;
+			line-height: normal;
+			margin-bottom: 20px;
 			color: @primary;
-			margin: 10px 0;
+		}
+		button {
+			font-size: 24px;
+			line-height: normal;
 		}
 	}
 
@@ -328,7 +335,6 @@
 			padding-right: 20px;
 			margin-left: 20px;
 			margin-right: 20px;
-			height: 150px;
 			width: 230px;
 			.title {
 				.fa {
