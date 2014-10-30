@@ -25,7 +25,7 @@
 				"title": {
 					"loaded": "Kreis anzeigen:",
 					"create": "Neuen Kreis erstellen"
-				},	
+				},
 				"createGroup": "Als Gruppe kopieren",
 				"sendMessage": "Nachricht an Kreis",
 				"edit":	"Kreis bearbeiten",
@@ -106,9 +106,30 @@
 		}
 	},
 	"notimplemented": "Noch nicht implementiert :(",
-	"search": "Personen werden gesucht",
+	"search": {
+		"user": {
+			"selected": "Ausgewählte Nutzer ({count})",
+			"emptyselection": "Keine Nutzer ausgewählt!",
+			"select": "Nutzer auswählen ({count})",
+			"mutualFriends": "mutual friends",
+			"from": "aus",
+			"age": "Alter:",
+			"message": "Nachricht senden",
+			"add": "Als Freund hinzufügen"
+		},
+		"circle": {
+			"selected": "Ausgewählte Kreise ({count})",
+			"emptyselection": "Keine Kreise ausgewählt!",
+			"select": "Kreise auswählen ({count})"
+		},
+		"filter": {
+			"selected": "Ausgewählte Empfänger ({count})",
+			"emptyselection": "Keine Empfänger ausgewählt",
+			"select": "Empfänger auswählen ({count})"
+		}
+	},
 	"menu": {
-		"newsfeed":	"Newsfeed",
+		"newsfeed":	"Neuigkeiten",
 		"profil": "Profil",
 		"friends": "Freunde ({count}+{requests})",
 		"messages": "Nachrichten ({count})",

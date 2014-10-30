@@ -4,4 +4,6 @@
 - translations (english)
 - make fingerprint input easier (partition fingerprint and check each part individually!)
 - disable sending own fingerprint via message.
-
+- english translation.
+- stop flickering (we need to measure them ... maybe hide them?)
+- set maximum height of selected elements list (at the moment: grows over screen)

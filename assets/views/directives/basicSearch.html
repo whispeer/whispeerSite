@@ -1,14 +1,32 @@
 <div class="search" data-ng-class="{'search--multiple': multiple, 'search--single': !multiple}">
-	<form class="search-form" data-ng-click="click(true, $event)">
+	<form class="search-form">
 		<ul class="search-wrapper">
-			<li data-ng-repeat="element in selectedElements" class="search-result">
-				<span class="result-name">{{element.name}}</span>
-				<a href="" class="result-remove" data-ng-click="removeSelection($index, $event)"><i class="icon icon-cancel-circle"></i></a>
+			<li data-ng-repeat="element in selectedElements" class="search-result" data-ng-if="$index<previewCount">
+				<span class="search-result-name">{{element.name}}</span>
+				<a href="" class="search-result-remove" data-ng-click="removeSelection($index, $event)"><i class="fa fa-close"></i></a>
+			</li>
+			<li class="search-toggle-selected" data-ng-if="multiple && hiddenCount > 0" data-ng-click="toggleShowSelectedElements(true, $event)">
+				<span class="search-result-count">+{{hiddenCount}}</span>
 			</li>
 			<li class="search-input">
 			</li>
 		</ul>
 	</form>
-	<div class="search-drop" data-ng-if="show()" ng-transclude>
+	<div class="search-resultsDrop" data-ng-if="show()" ng-transclude>
+	</div>
+	<div class="dropdown search-selectedDrop" data-ng-if="showSelectedElements && !show()">
+		<div class="dropdown-header">
+			<span class="title" data-i18n="search.{{base}}.selected|count={{selectedElements.length}}"></span>
+			<div class="close" data-ng-click="toggleShowSelectedElements()"><i class="icon icon-cancel-circle"></i></div>
+		</div>
+		<ul class="dropdown-container u-unstyled">
+			<li data-ng-repeat="element in selectedElements" class="search-selectedDrop-result">
+				<a href="" class="search-selectedDrop-result-remove" data-ng-click="removeSelection($index, $event)"><i class="fa fa-close"></i></a>
+				<span class="search-selectedDrop-result-name">{{element.name}}</span>
+			</li>
+			<li data-ng-if="selectedElements.length == 0" class="search-selectedDrop-result">
+				<span class="search-selectedDrop-result-name" data-i18n="search.{{base}}.emptyselection"></span>
+			</li>
+		</ul>
 	</div>
 </div>

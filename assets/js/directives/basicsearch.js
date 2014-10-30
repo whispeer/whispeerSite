@@ -4,7 +4,8 @@ define(["step", "whispeerHelper"], function () {
 	function searchDirective($timeout, $compile) {
 		return {
 			scope: {
-				"res": "="
+				"res": "=",
+				"base": "@"
 			},
 			/* this is an element */
 			restrict: "E",
@@ -15,6 +16,25 @@ define(["step", "whispeerHelper"], function () {
 			link: function postLink(scope, iElement, iAttrs) {
 				scope.circles = {
 					selectedElements: []
+				};
+
+				scope.showSelectedElements = false;
+				scope.toggleShowSelectedElements = function (bool, $event) {
+					if ($event) {
+						$event.stopPropagation();
+						$event.preventDefault();
+					}
+
+					if (bool) {
+						internallyClicked = true;
+						scope.showSelectedElements = !scope.showSelectedElements;
+						focused = false;
+						clicked = false;
+						$timeout(function () {
+							internallyClicked = false;
+						});
+					}
+					initialize();
 				};
 
 				scope.resultAttribute = iAttrs.resAttr || "selectedElements";
@@ -30,7 +50,7 @@ define(["step", "whispeerHelper"], function () {
 				var focused = false, clicked = false, initialized = false;
 
 				/* we need to build the input on our own to be able to add custom attributes */
-				var input = jQuery("<input type='text' class='search-query input-custom'  data-ng-keydown='keydown($event)' data-ng-change='queryChange()' data-ng-model='query' data-onfocus='focus(true)' data-onblur='focus(false)'>");
+				var input = jQuery('<input type="text" class="search-query input-custom" data-ng-click="click(true, $event)"  data-ng-keydown="keydown($event)" data-ng-change="queryChange()" data-ng-model="query" data-onfocus="focus(true)" data-onblur="focus(false)">');
 
 				/* add attributes on outer element starting with input- to the inner input */
 				var attr, attrName;
@@ -78,6 +98,7 @@ define(["step", "whispeerHelper"], function () {
 				scope.hide = function () {
 					scope.focus(false);
 					scope.click(false);
+					scope.showSelectedElements = false;
 				};
 
 				scope.click = function (bool, $event) {
@@ -99,6 +120,7 @@ define(["step", "whispeerHelper"], function () {
 
 				scope.focus = function (bool) {
 					focused = bool;
+					scope.showSelectedElements = false;
 					initialize();
 				};
 
@@ -189,6 +211,39 @@ define(["step", "whispeerHelper"], function () {
 				var internalid = iAttrs.internalid;
 				var selectedIDs = [];
 				scope.selectedElements = [];
+				scope.previewCount = 0;
+				scope.hiddenCount = 0;
+
+				function decreasePreviewCount() {
+					var INPUTWIDTH = 100;
+
+					var element = iElement.find(".inputWrap");
+					var availableWidth = element.innerWidth();
+
+					var selectedWidth = 0;
+					element.find(".searchResult").each(function (i , e) {
+						e = jQuery(e);
+						//e.show();
+						selectedWidth += e.outerWidth();
+						//e.hide();
+					});
+					var plusWidth = 0;//element.find(".selected").outerWidth();
+
+					var currentWidth = selectedWidth + plusWidth + INPUTWIDTH;
+
+					if (currentWidth > availableWidth) {
+						scope.previewCount = Math.max(0, scope.previewCount - 1);
+						$timeout(decreasePreviewCount);
+					}
+
+					scope.hiddenCount = Math.max(0, scope.selectedElements.length - scope.previewCount);
+				}
+
+				function updatePreviewCount() {
+					scope.previewCount = scope.selectedElements.length;
+
+					$timeout(decreasePreviewCount);
+				}
 
 				function selectionUpdated(selection) {
 					if (scope.multiple) {
@@ -202,6 +257,8 @@ define(["step", "whispeerHelper"], function () {
 						scope.$emit("selectionChange:" + internalid, scope.selectedElements);
 
 						scope.results = filterRealResults();
+
+						updatePreviewCount();
 					}
 
 					if (selection) {
