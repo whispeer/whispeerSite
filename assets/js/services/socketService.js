@@ -93,6 +93,8 @@ define(["jquery", "socket", "socketStream", "step", "whispeerHelper", "config"],
 					console.groupCollapsed("Answer on " + channel);
 					console.info((new Date().getTime() - time));
 
+					loading--;
+
 					if (data.keys) {
 						data.keys.forEach(function (key) {
 							keyStore.upload.addKey(key);
@@ -108,7 +110,6 @@ define(["jquery", "socket", "socketStream", "step", "whispeerHelper", "config"],
 					console.info(data);
 					console.groupEnd();
 
-					loading--;
 					lastRequestTime = data.serverTime;
 
 					var that = this;
