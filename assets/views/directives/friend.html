@@ -2,12 +2,5 @@
 	<userimage data-user="userData"></userimage>
 	<p class="username"><a href='{{userData.basic.url}}'><strong>{{userData.name}}</strong></a></p>
 	<p class="similar" data-i18n="friends.mutualFriends|count={{userData.basic.mutualFriends.length}}"></p>
-	<p class="action friendRequest">
-		<button class="btn btn--primary btn--fixPadding" data-i18n="magicbar.requests.accept" ng-click="$parent.acceptRequest(userData)"></button>
-		<button class="btn btn--danger btn--fixPadding" data-i18n="magicbar.requests.decline"></button>
-	</p>
-	<p class="action interact">
-		<a href="/messages?userid={{userData.id}}"><i class="fa fa-2x fa-envelope fa-fw"></i></a>
-		<i class="fa fa-2x fa-times fa-fw"></i>
-	</p>
+	<p class="action" data-ng-transclude></p>
 </div>
