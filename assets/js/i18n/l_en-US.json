@@ -11,6 +11,23 @@
 	},
 	"views": {
 		"setup": {
+			"welcomeHeader": "Welcome to whispeer!",
+			"backup": {
+				"header": "Save your key now",
+				"why": "Why?",
+				"downloadKey": "Download key",
+				"or": "or",
+				"printKey": "Print key",
+				"ignore": "Don't save key"
+			},
+			"optionalData": {
+				"header": "Optional Data:",
+				"nameExplanation": "Tell us your first name and surname so your friends can find you easily:",
+				"mailExplanation": "Tell us your e-Mail so we can contact you if there is news:",
+				"mail": "E-Mail",
+				"firstName": "Name",
+				"lastName": "Surname"
+			},
 			"save": "Save Mail and Name"
 		},
 		"mail": {

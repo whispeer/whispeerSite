@@ -22,8 +22,8 @@
 			},
 			"optionalData": {
 				"header": "Freiwillige Angaben:",
-				"nameExplanation": "Nenne uns deinen Vor- und Nachnamen damit Freunde dich einfacher finden:",
-				"mailExplanation": "Nenne uns deine E-Mail damit wir dich bei Neuigkeiten benachrichtigen können:",
+				"nameExplanation": "Nenne uns deinen Vor- und Nachnamen. damit Freunde dich einfacher finden:",
+				"mailExplanation": "Nenne uns deine E-Mail, damit wir dich bei Neuigkeiten benachrichtigen können:",
 				"mail": "E-Mail",
 				"firstName": "Vorname",
 				"lastName": "Nachname"
@@ -146,7 +146,7 @@
 		"username": "Nutzername",
 		"password": "Passwort",
 		"link": "Einloggen",
-		"loginFailed": "Nutzername und Password stimmen nicht überein!",
+		"loginFailed": "Nutzername und Passwort stimmen nicht überein!",
 		"unknownName": "Unbekannter Nutzername",
 		"wrongPassword": "Falsches Passwort",
 		"forgotPassword": "Passwort vergessen",
@@ -161,7 +161,7 @@
 				"mailUsed": "Diese E-Mail ist schon vergeben",
 				"passwordEmpty": "Bitte gib ein Passwort ein",
 				"passwordWeak": "Passwort zu schwach",
-				"password2Empty": "Bitte wiederhol dein Passwort",
+				"password2Empty": "Bitte wiederhole dein Passwort",
 				"passwordNoMatch": "Passwörter stimmen nicht überein",
 				"agb": "Bitte akzeptiere die AGB!"
 			},
@@ -182,7 +182,7 @@
 			"location":	"Wohnort",
 			"uploadImage":	"Profilbild hochladen",
 			"more": "Weitere Informationen",
-			"intro": "Bitte teile uns dein Geschlecht, deinen Namen, dein Geburtsdatum und deinen Wohnort mit. Dies ermöglicht deinen Freunden bei whispeer, dich zu finden. Selbstverständlich zwingen wir dich nicht dazu, diese Angaben zu machen!",
+			"intro": "Teil uns dein Geschlecht, deinen Namen, dein Geburtsdatum und deinen Wohnort mit. Dies ermöglicht deinen Freunden bei whispeer, dich zu finden. Selbstverständlich zwingen wir dich nicht dazu, diese Angaben zu machen!",
 			"newaccount": "Komm' zu uns!"
 		}
 	},
