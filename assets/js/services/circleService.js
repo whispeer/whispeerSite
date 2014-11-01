@@ -11,7 +11,6 @@ define(["step", "whispeerHelper", "asset/observer", "asset/securedDataWithMetaDa
 
 		var Circle = function (data) {
 			var id = data.id, theCircle = this, persons = [];
-			var usersLoaded = 0;
 
 			var circleSec = SecuredData.load(data.content, data.meta, { type: "circle" });
 			var circleUsers = circleSec.metaAttr("users").map(h.parseDecimal);
@@ -102,7 +101,9 @@ define(["step", "whispeerHelper", "asset/observer", "asset/securedDataWithMetaDa
 				}), h.sF(function () {
 					//emit
 					circleUsers = uids;
-					persons = [];
+					persons = persons.filter(function (user) {
+						return uids.indexOf(user.id) > -1;
+					});
 					theCircle.data.persons = persons;
 					theCircle.data.userids = circleUsers;
 
@@ -112,6 +113,8 @@ define(["step", "whispeerHelper", "asset/observer", "asset/securedDataWithMetaDa
 					} else {
 						this.ne();
 					}
+				}), h.sF(function () {
+					theCircle.loadPersons(this);
 				}), cb);
 			};
 
@@ -153,14 +156,14 @@ define(["step", "whispeerHelper", "asset/observer", "asset/securedDataWithMetaDa
 				limit = limit || 20;
 				limit = Math.min(h.parseDecimal(limit), 20);
 
-				if (usersLoaded < circleUsers.length) {
+				if (persons.length < circleUsers.length) {
 					step(function () {
-						var end = Math.min(circleUsers.length, usersLoaded + limit);
-						var nextLoad = circleUsers.slice(usersLoaded, end);
+						var loadedIDs = persons.map(function (p) { return p.id; });
+						var loadableUsers = circleUsers.filter(function (user) {
+							return loadedIDs.indexOf(user) === -1
+						});
 
-						usersLoaded = end;
-
-						userService.getMultiple(nextLoad, this);
+						userService.getMultiple(loadableUsers.slice(0, limit), this);
 					}, h.sF(function (users) {
 						users.forEach(function (user) {
 							persons.push(user.data);
