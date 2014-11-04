@@ -200,7 +200,7 @@ define(["step", "whispeerHelper"], function () {
 
 				scope.currentClass = function (i) {
 					if (i === scope.current) {
-						return "active";
+						return "search-suggestions-active";
 					}
 
 					return "";

@@ -10,48 +10,74 @@
 	width: 100%;
 	height: 100%;
 	margin: 0;
+	position: relative;
 
 	overflow: hidden;
 
 	list-style-type: none;
 
-	background-color: @white;
-	border: 1px solid #8c8c8c;
-	border-radius: 5px;
+	// the search is supposed to look like a normal input
+	border: solid 1px @inputBorder;
+	border-radius: @inputBorderRadius;
+	.box-shadow(inset 0px 0px 4px @inputBorder);
+
+	background: @white;
 
 	.box-fix;
 }
-.search-input {
-	width: auto;
+.search-result {
 	height: 100%;
+
+	float: left;
+	position: relative;
+	display: inline-block;
+}
+.search-input {
+	height: 100%;
+
+	float: left;
+	position: relative;
+
+	white-space: nowrap;
 }
 .search-query {
-	width: auto;
 	height: 100%;
+
+	background-color: transparent;
 
 	border: none;
 }
-.search-drop {
+.search-resultsDrop {
 	position: absolute;
 	width: 100%;
-	top: 45px;
+	top: 50px;
+	left: 0;
 	z-index: @zIndex-dropdown;
+
+	overflow: hidden;
 
 	background-color: @white;
 	border: 1px solid #8c8c8c;
-	border-top: none;
-	border-radius: 5px;
+	border-radius: @inputBorderRadius;
 
 	.box-fix;
 }
 .search-suggestions {
+	position: relative;
 	width: 100%;
+	height: 100%;
+	max-height: 300px;
 	margin: 0;
+	padding: 0;
+	float: left; // this float prevents the drop to be 5px larger than it should be!
+
+	overflow-y: scroll;
+
+	display: inline-block;
 }
 .search-suggestions-user {
 	width: 100%;
 	height: 150px;
-	display: inline-block;
 	margin: 0;
 }
 .search-suggestions-userimage {
@@ -67,13 +93,32 @@
 .search-suggestions-name {
 	.large-text();
 }
-.search-suggestions-friends {
+.search-suggestions-name,
+.search-suggestions-nickname {
+	color: @gray;
 }
 .search-suggestions-actions {
 	.column(2,8);
-	margin-top: 9px;
+	margin-top: 4px;
+	text-align: center;
+}
+.search-action {
+	margin-top: 5px;
+}
+.search-suggestions-active {
+	background-color: @primary;
+	color: @white;
+}
+.search-suggestions-active .search-suggestions-nickname,
+.search-suggestions-active .search-suggestions-name {
+	color: @white;
 }
 
 .search--navbar .search-drop {
 	z-index: @zIndex-navSearchDrop;
+}
+
+.search--custom .search-wrapper {
+	border-radius: 0;
+	border: none;
 }
