@@ -33,24 +33,28 @@
 	-webkit-user-select: none;
 	-ms-user-select: none;
 	user-select: none;
-	
+
 	// style
 	display: inline-block;
-	padding: 4px 15px;
+	padding: 0 15px;
+	height: 40px;
+	// this has to be -2px to compensate the border while vertically centering the text
+	line-height: 38px;
 	.box-fix;
 	background-image: none;
 	.border-radius(4px);
 	.buttonBackground(@btnBackground, @btnBackgroundHover, @btnBackgroundFocus, @btnBackgroundActive, @grayDark, 0 1px 1px rgba(255,255,255,.75));
 	border: 1px solid @btnBorder;
 	text-decoration: none !important;
+	cursor: pointer;
 	&.btn--big {
-		padding: 10px 10px;
+		padding: 0 10px;
 	}
 	&.btn--small {
-		padding: 0px 7px;
+		padding: 0 7px;
 	}
 	&.btn--input {
-		padding: 9px;
+		padding: 0 9px;
 	}
 	// Success and Primary are both green
 	&.btn--primary {
