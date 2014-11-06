@@ -21,8 +21,8 @@
 		</div>
 		<ul class="dropdown-container u-unstyled">
 			<li data-ng-repeat="element in selectedElements" class="search-selectedDrop-result">
-				<a href="" class="search-selectedDrop-result-remove" data-ng-click="removeSelection($index, $event)"><i class="fa fa-close"></i></a>
 				<span class="search-selectedDrop-result-name">{{element.name}}</span>
+				<a href="" class="search-selectedDrop-result-remove" data-ng-click="removeSelection($index, $event)"><i class="icon icon-cancel-circle"></i></a>
 			</li>
 			<li data-ng-if="selectedElements.length == 0" class="search-selectedDrop-result">
 				<span class="search-selectedDrop-result-name" data-i18n="search.{{base}}.emptyselection"></span>
