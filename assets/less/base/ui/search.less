@@ -118,6 +118,45 @@
 .search-suggestion-active .search-suggestion-name {
 	color: @white;
 }
+.search-selectedDrop {
+	width: 100%;
+}
+.search-selectedDrop-result {
+	float: left;
+	width: 100%;
+	height: 40px;
+	line-height: 39px;
+
+	border: none;
+	border-bottom: 1px solid #ccc;
+}
+.search-selectedDrop-result:hover {
+	background: rgba(red(@grayLighter), green(@grayLighter), blue(@grayLighter), 0.4);
+}
+.search-selectedDrop-result:last-child {
+	border: none;
+}
+.search-selectedDrop-result-name {
+	float: left;
+	width: 90%;
+	margin-left: 1%;
+
+	text-align: left;
+
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+
+	cursor: default;
+}
+.search-selectedDrop-result-remove {
+	float: right;
+	margin-right: 1%;
+	color: @black;
+}
+.search-selectedDrop-result-remove:hover {
+	color: @grayDark;
+}
 
 .search--navbar .search-drop {
 	z-index: @zIndex-navSearchDrop;
