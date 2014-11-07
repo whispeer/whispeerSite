@@ -13,78 +13,58 @@
 			height: 85px;
 			z-index: 1000;
 			.border-radiuses(2px,0,0,2px);
-			#postIt {
-				.column(8,12,left,1%);
-				margin: 0 1% 0 0;
-				padding: 0;
-				border: 1px solid #aaa;
-				.border-radius(5px);
-				.box-fix;
-				#receiver {
-					.column(5.5,8,left,0);
-					border: none;
-					.formSearch {
-						.border-radiuses(0,0,5px,0);
-						border: none;
-						border-top: 1px solid #aaa;
-					}
-					.inputWrap {
-						.border-radiuses(0,0,5px,0);
-					}
-					.searchDrop {
-						margin-top: 5px;
-					}
-				}
-				button {
-					.btn;
-					border: none;
-					border-top: 1px solid #aaa;
-					.column(2.5,8,right,0);
-					height: 38px;
-					padding: 7px;
-					.border-radiuses(0,4px,0,0);
-					&[type="submit"] {
-						.btn--primary;
-					}
-				}
-				#shareText {
-					.column(8,8,left,0);
-					height: 38px;
-					margin-top: -1px;
-					border: none;
-					border-top: 1px solid #aaa;
-					.border-radiuses(5px,0,0,5px);
-				}
-			}
-			#filter {
-				.column(4,12,left,1%);
-				margin: 0 0 0 1%;
-				height: 80px;
-				button.title {
-					.column(12,12);
-					height: 30px !important;
-					padding: 4px 0;
-					.gradient(@btnBackground, @btnBackgroundHover);
-					border: 1px solid @btnBorder;
-					.border-radius(4px);
-				}
-				#theFilter {
-					.column(12,12);
-					margin-top: 9px;
-					height: 40px !important;
-					padding:0;
-					.formSearch {
-						height: 39px !important;
-						.inputWrap {
-							border: none;
-							.border-radius(0px);
-						}
-					}
-					.searchDrop {
-						margin-top: 5px;
-					}
-				}
-			}
 		}
+	}
+	#postForm {
+		.column(8,12,left,1%);
+		margin: 0 1% 0 0;
+		padding: 0;
+		border: 1px solid #aaa;
+		.border-radius(5px);
+		.box-fix;
+	}
+	#receiver {
+		.column(5.5,8,left,0);
+
+		border-top: 1px solid #aaa;
+		.box-fix;
+	}
+	#receiver .search-wrapper {
+		border-radius: 0 0 4px 0;
+	}
+	#sendPost {
+		.column(2.5,8,right,0);
+
+		border: none;
+		border-top: 1px solid #aaa;
+		border-radius: 0 0 4px 0; // this border has to be smaller for some reason.
+	}
+	#shareText {
+		.column(8,8,left,0);
+		height: 38px;
+		margin-top: -1px;
+		border: none;
+		border-top: 1px solid #aaa;
+		.border-radiuses(5px,0,0,5px);
+	}
+	#filter {
+		.column(4,12,left,1%);
+		margin: 0 0 0 1%;
+		height: 80px;
+	}
+	#filter-title {
+		.column(12,12);
+		height: 30px !important;
+		padding: 4px 0;
+		.gradient(@btnBackground, @btnBackgroundHover);
+		border: 1px solid @btnBorder;
+		.border-radius(4px);
+	}
+	#theFilter {
+		.column(12,12);
+		margin-top: 9px;
+	}
+	#theFilter .searchDrop {
+		margin-top: 5px;
 	}
 }
