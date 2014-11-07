@@ -23,7 +23,7 @@
 
 	background: @white;
 
-	.box-fix;
+	&:extend(.box-fix);
 }
 .search-result {
 	height: 100%;
@@ -60,11 +60,10 @@
 	border: 1px solid #8c8c8c;
 	border-radius: @inputBorderRadius;
 
-	.box-fix;
+	&:extend(.box-fix);
 }
 .search-suggestions {
 	// TODO: hide suggestions when there is no input!
-	position: relative;
 	width: 100%;
 	max-height: 300px;
 	margin: 0;
@@ -72,6 +71,7 @@
 	float: left; // this float prevents the drop to be 5px larger than it should be!
 
 	overflow-y: scroll;
+	overflow-x: hidden;
 
 	display: inline-block;
 }
@@ -79,6 +79,14 @@
 	cursor: pointer;
 	height: 40px;
 	line-height: 38px;
+
+	overflow: hidden;
+}
+.search-suggestion-circle {
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	padding: 0 1%;
+	&:extend(.box-fix);
 }
 .search-suggestion-user {
 	width: 100%;
@@ -87,7 +95,7 @@
 }
 .search-suggestion-userimage {
 	.column(1,8);
-	margin-top: 6px;
+	margin-top: 9px;
 }
 .search-suggestion-info {
 	.column(5,8);
@@ -110,6 +118,41 @@
 .search-action {
 	margin-top: 5px;
 }
+.search-action-selectCircle {
+	.column(10,12,left,0);
+	margin-left: 0;
+	margin-right: 0;
+	border-radius: 5px 5px 0 0;
+}
+.search-action-circleSubmit {
+	.column(2,12,right,0);
+	border-radius: 0 @inputBorderRadius @inputBorderRadius 0;
+	border-left: 0;
+}
+.search-action-selectCircle .search-wrapper {
+	border-radius: @inputBorderRadius 0 0 @inputBorderRadius;
+}
+.search-action-selectCircle .search-resultsDrop,
+.search-action-selectCircle .search-selectedDrop {
+	top: -112%;
+	left: -110%;
+	bottom: -112%;
+
+	margin-top: 0;
+
+	overflow: hidden;
+}
+.search-action-selectCircle .search-suggestions {
+	height: auto;
+	max-height: 100%;
+}
+.search-action-selectCircle .search-suggestion {
+	color: @black;
+}
+.search-action-selectCircle .search-suggestion-active {
+	color: @white;
+}
+
 .search-suggestion-active {
 	background-color: @primary;
 	color: @white;
@@ -157,6 +200,8 @@
 .search-selectedDrop-result-remove:hover {
 	color: @grayDark;
 }
+
+// I could not get around some ugly selectors here. sorry!
 
 .search--navbar .search-drop {
 	z-index: @zIndex-navSearchDrop;
