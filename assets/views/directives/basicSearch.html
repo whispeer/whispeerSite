@@ -17,12 +17,12 @@
 	<div class="dropdown search-selectedDrop" data-ng-if="showSelectedElements && !show()">
 		<div class="dropdown-header">
 			<span class="title" data-i18n="search.{{base}}.selected|count={{selectedElements.length}}"></span>
-			<div class="close" data-ng-click="toggleShowSelectedElements()"><i class="icon icon-cancel-circle"></i></div>
+			<div class="close" data-ng-click="toggleShowSelectedElements()"><i class="fa fa-times-circle"></i></div>
 		</div>
 		<ul class="dropdown-container u-unstyled">
 			<li data-ng-repeat="element in selectedElements" class="search-selectedDrop-result">
 				<span class="search-selectedDrop-result-name">{{element.name}}</span>
-				<a href="" class="search-selectedDrop-result-remove" data-ng-click="removeSelection($index, $event)"><i class="icon icon-cancel-circle"></i></a>
+				<a href="" class="search-selectedDrop-result-remove" data-ng-click="removeSelection($index, $event)"><i class="fa fa-minus-circle"></i></a>
 			</li>
 			<li data-ng-if="selectedElements.length == 0" class="search-selectedDrop-result">
 				<span class="search-selectedDrop-result-name" data-i18n="search.{{base}}.emptyselection"></span>
