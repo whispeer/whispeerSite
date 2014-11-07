@@ -108,10 +108,10 @@
 	"notimplemented": "Noch nicht implementiert :(",
 	"search": {
 		"user": {
-			"selected": "Ausgewählte Nutzer ({count})",
-			"emptyselection": "Keine Nutzer ausgewählt!",
-			"select": "Nutzer auswählen ({count})",
-			"mutualFriends": "mutual friends",
+			"selected": "Ausgewählte Personen ({count})",
+			"emptyselection": "Keine Personen ausgewählt!",
+			"select": "Person auswählen ({count})",
+			"mutualFriends": "gemeinsame Freunde",
 			"from": "aus",
 			"age": "Alter:",
 			"message": "Nachricht senden",
@@ -123,9 +123,9 @@
 			"select": "Kreise auswählen ({count})"
 		},
 		"filter": {
-			"selected": "Ausgewählte Empfänger ({count})",
-			"emptyselection": "Keine Empfänger ausgewählt",
-			"select": "Empfänger auswählen ({count})"
+			"selected": "Ausgewählte Kreise ({count})",
+			"emptyselection": "Kein Kreis ausgewählt",
+			"select": "Kreis auswählen ({count})"
 		}
 	},
 	"menu": {
