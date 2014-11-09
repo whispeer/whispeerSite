@@ -19,7 +19,7 @@
 			<span class="dropdown-header-title" data-i18n="search.{{base}}.selected|count={{selectedElements.length}}"></span>
 			<div class="dropdown-header-close" data-ng-click="toggleShowSelectedElements()"><i class="fa fa-fw fa-times-circle"></i></div>
 		</div>
-		<ul class="dropdown-container u-unstyled">
+		<ul class="dropdown-container search-selectedDrop-container u-unstyled">
 			<li data-ng-repeat="element in selectedElements" class="search-selectedDrop-result">
 				<span class="search-selectedDrop-result-name">{{element.name}}</span>
 				<a href="" class="search-selectedDrop-result-remove" data-ng-click="removeSelection($index, $event)"><i class="fa fa-fw fa-minus-circle"></i></a>

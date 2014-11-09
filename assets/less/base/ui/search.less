@@ -65,7 +65,7 @@
 .search-suggestions {
 	// TODO: hide suggestions when there is no input!
 	width: 100%;
-	max-height: 300px;
+	max-height: @searchDropdownHeight;
 	margin: 0;
 	padding: 0;
 	float: left; // this float prevents the drop to be 5px larger than it should be!
@@ -163,6 +163,10 @@
 }
 .search-selectedDrop {
 	width: 100%;
+	max-height: @searchDropdownHeight;
+}
+.search-selectedDrop-container {
+	max-height: @searchDropdownHeight - @dropdownHeaderHeight - 1px; // workaround for correct height
 }
 .search-selectedDrop-result {
 	float: left;
@@ -172,6 +176,7 @@
 
 	border: none;
 	border-bottom: 1px solid #ccc;
+	&:extend(.box-fix);
 }
 .search-selectedDrop-result:hover {
 	background: rgba(red(@grayLighter), green(@grayLighter), blue(@grayLighter), 0.4);
