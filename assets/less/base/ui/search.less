@@ -37,11 +37,13 @@
 
 	float: left;
 	position: relative;
+	display: inline-block;
 
 	white-space: nowrap;
 }
 .search-query {
 	height: 100%;
+	width: 100%;
 
 	background-color: transparent;
 
@@ -210,6 +212,9 @@
 
 .search--navbar .search-drop {
 	z-index: @zIndex-navSearchDrop;
+}
+.search--navbar .search-input {
+	width: 100%;
 }
 
 .search--custom .search-wrapper {
