@@ -1,13 +1,35 @@
+.loginForm {
+	#loginformsubmit {
+		margin-top: 5px;
+		margin-bottom: 5px;
+	}
+
+	.loginLoading,
+	.error {
+		height: 39px;
+		img {
+			height: 39px;
+		}
+	}
+
+	.error {
+		background-color: lighten(@red,5%);
+		text-shadow: 1px 1px 1px @red;
+		color: #fff;
+		border: 1px solid darken(@red,10%);
+		border-radius: 5px;
+		padding-bottom: 10px;
+		padding-top: 10px;
+		.box-fix;
+	}
+}
+
 .loginView {
 	#main {
-		@media @desktop {
-			.width(4);
-			.push(4);
-			.pull(4);
-		}
-		@media @mobile {
-			.width(12);
-		}
+		.width(4);
+		.push(4);
+		.pull(4);
+
 		text-align: center;
 	}
 	h1 {
@@ -24,36 +46,11 @@
 	.smallRow {
 		.column(12,12,left,0);
 		button {
-			@media @desktop {
-				.column(6);
-				margin-bottom: 5px;
-			}
-			@media @mobile {
-				.column(12);
-				margin-bottom: 5px;
-			}
-		}
-	}
-	.loginLoading {
-		.column(6);
-		height: 39px;
-		img {
-			height: 39px;
+			.column(6);
+			margin-bottom: 5px;
 		}
 	}
 	.error {
 		.column(12);
-		background-color: lighten(@red,5%);
-		text-shadow: 1px 1px 1px @red;
-		color: #fff;
-		border: 1px solid darken(@red,10%);
-		border-radius: 5px;
-		padding-bottom: 10px;
-		padding-top: 10px;
-		.box-fix;
-	}
-	#loginformsubmit {
-		margin-top: 5px;
-		margin-bottom: 5px;
 	}
 }

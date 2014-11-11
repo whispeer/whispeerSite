@@ -19,13 +19,27 @@
 		#container {
 			padding-top: 0px;
 		}
+
+		input[type="text"], input[type=""], input[type="password"] {
+			width: 100%;
+		}
+	}
+
+	.annotatedInputContainer,
+	.name, .pw,
+	.error, .loginLoading {
+		margin: 0px 29px 14px 29px;
 	}
 
 	#main {
 		text-align: center;
-		width: 100%;
+		width: 100% !important;
 		min-height: 750px;
-		margin: 0;
+		margin: 0 !important;
+
+		@media @mobile {
+			min-height: 100vh;
+		}
 		background-color: @primaryLighter;
 	}
 
@@ -72,12 +86,7 @@
 		#rightWrap {
 			width: 400px;
 			float: right;
-		}
-
-
-		.box.register { // there are no boxes in other sections.
-
-		}
+		}	
 
 		.features {
 			display: block;
@@ -141,8 +150,6 @@
 			}
 
 			input:not([type="submit"]):not([type="reset"]):not([type="button"]):not([type="file"]):not([type="radio"]):not([type="checkbox"]) {
-				padding: 14px;
-				margin-bottom: 14px;
 				width: 300px;
 			}
 
@@ -165,42 +172,22 @@
 		}
 
 		.icon {
-			position: absolute;
-			top: 16px;
-			right: 44px;
-			width: 16px;
-			height: 16px;
-
 			&.fa-check { color: @green; }
 			&.fa-warning { color: @orange; }
 			&.fa-times { color: @red; }
 		}
 
-		// .password {
-		// 	padding-right: 55px;
-		// }
+		@strengthInputWidth: 40px;
 
-		// .nickname {
-		// 	padding-right: 30px;
-		// }
-
-		// .registerAGB {
-		// 	margin-bottom: 10px;
-		// }
-
-		// .registerPasswordStrength {
-		// 	margin-top: 10px;
-		// 	margin-bottom: 10px;
-		// }
+		.strenghInput {
+			padding-right: @annotatedInputRight + @strengthInputWidth + 5px;
+		}
 
 		span[data-strength] {
-			position: absolute;
 			width: 40px;
 			height: 8px;
 			border: 1px solid gray;
 			border-radius: 4px;
-			right: 42px;
-			top: 18px;
 		}
 
 		span[data-strength]:after {

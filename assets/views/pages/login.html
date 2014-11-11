@@ -1,23 +1,25 @@
-<h1 data-i18n="login.header"></h1>
-<form>
-	<div class="name">
-		<input type="text" id="mail" data-i18n-attr="login.username|placeholder" data-ng-model="login.identifier">
+<div class="loginForm">
+	<h1 data-i18n="login.header"></h1>
+	<form>
+		<div class="name">
+			<input type="text" id="mail" data-i18n-attr="login.username|placeholder" data-ng-model="login.identifier">
+		</div>
+		<div class="pw">
+			<input type="password" id="password" data-i18n-attr="login.password|placeholder" data-ng-model="login.password">
+		</div>
+		<div class="loginLoading" data-ng-if="login.loading">
+			<img src="assets/img/loader_green.gif" />
+		</div>
+		<div class="errors">
+			<div class="error" data-ng-if="login.failure" id="errorLogin" data-i18n="login.loginFailed"></div>
+			<div class="error" data-ng-if="login.unknownName" id="errorLogin" data-i18n="login.unknownName"></div>
+			<div class="error" data-ng-if="login.wrongPassword" id="errorLogin" data-i18n="login.wrongPassword"></div>
+		</div>
+		<button id="loginformsubmit" class="btn btn--input btn--primary" type="submit" data-ng-click="login.login()" data-i18n="login.link"></button>
+	</form>
+	<div class="smallRow" data-ng-if="login.failedOnce && false">
+		<button class="btn btn-send" data-i18n="login.forgotName"></button>
+		<button class="btn btn-send" data-i18n="login.forgotPassword"></button>
 	</div>
-	<div class="pw">
-		<input type="password" id="password" data-i18n-attr="login.password|placeholder" data-ng-model="login.password">
-	</div>
-	<div class="loginLoading" data-ng-if="login.loading">
-		<img src="assets/img/loader_green.gif" />
-	</div>
-	<div class="errors">
-		<div class="error" data-ng-if="login.failure" id="errorLogin" data-i18n="login.loginFailed"></div>
-		<div class="error" data-ng-if="login.unknownName" id="errorLogin" data-i18n="login.unknownName"></div>
-		<div class="error" data-ng-if="login.wrongPassword" id="errorLogin" data-i18n="login.wrongPassword"></div>
-	</div>
-	<button id="loginformsubmit" class="btn btn--input btn--primary" type="submit" data-ng-click="login.login()" data-i18n="login.link"></button>
-</form>
-<div class="smallRow" data-ng-if="login.failedOnce and false">
-	<button class="btn btn-send" data-i18n="login.forgotName"></button>
-	<button class="btn btn-send" data-i18n="login.forgotPassword"></button>
+	<a href="/start?register" data-ng-if="!mobile" data-i18n="login.register.createAccount"></a>
 </div>
-<a href="/start?register" data-ng-if="!mobile" data-i18n="login.register.createAccount"></a>
