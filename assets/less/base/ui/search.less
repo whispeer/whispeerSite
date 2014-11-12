@@ -190,8 +190,8 @@
 }
 .search-selectedDrop-result-name {
 	float: left;
-	width: 90%;
-	margin-left: 1%;
+	width: ~"calc(98% - 20px)"; // compensate icon and margin
+	margin: 0 0 0 1%;
 
 	text-align: left;
 
@@ -202,9 +202,10 @@
 	cursor: default;
 }
 .search-selectedDrop-result-remove {
-	float: right;
-	margin-right: 1%;
+	float: left;
+	margin: 0 1% 0 0;
 	color: @black;
+	width: 20px;
 }
 .search-selectedDrop-result-remove:hover {
 	color: @grayDark;
