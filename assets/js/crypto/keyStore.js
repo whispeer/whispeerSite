@@ -1754,8 +1754,8 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 				cb(null, chelper.bits2hex(h.finalize()));
 			},
 
-			hashPW: function (pw) {
-				return chelper.bits2hex(sjcl.hash.sha256.hash(pw)).substr(0, 10);
+			hashPW: function (pw, salt) {
+				return chelper.bits2hex(sjcl.hash.sha256.hash(pw + salt));
 			},
 
 			deepHashObject: function (obj) {

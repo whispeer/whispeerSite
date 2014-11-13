@@ -25,7 +25,11 @@ define(["step", "whispeerHelper", "crypto/trustManager", "asset/securedDataWithM
 					if (data.error) {
 						this.last(data.errorData);
 					} else {
-						var hash = keyStoreService.hash.hashPW(password);
+						if (data.salt.length !== 16) {
+							throw new SecurityError("server wut?")
+						}
+
+						var hash = keyStoreService.hash.hashPW(password, data.salt);
 
 						hash = keyStoreService.hash.hash(hash + data.token);
 						socketService.emit("session.login", {
@@ -109,14 +113,19 @@ define(["step", "whispeerHelper", "crypto/trustManager", "asset/securedDataWithM
 
 					keyStoreService.security.makePWVerifiable(ownKeys, password, this.parallel());
 
+					keyStoreService.random.hex(16, this.parallel());
+
 					keyStoreService.sym.pwEncryptKey(keys.main, password, this.parallel());
 					keyStoreService.sym.symEncryptKey(keys.profile, keys.friends, this.parallel());
-				}), h.sF(function register3(privateProfile, privateProfileMe, publicProfile, settings, signedKeys, signedOwnKeys) {
+				}), h.sF(function register3(privateProfile, privateProfileMe, publicProfile, settings, signedKeys, signedOwnKeys, salt) {
 					keys = h.objectMap(keys, keyStoreService.correctKeyIdentifier);
 					trustManager.disallow();
 
 					var registerData = {
-						password: keyStoreService.hash.hashPW(password),
+						password: {
+							salt: salt,
+							hash: keyStoreService.hash.hashPW(password, salt),
+						},
 						keys: h.objectMap(keys, keyStoreService.upload.getKey),
 						signedKeys: signedKeys,
 						signedOwnKeys: signedOwnKeys,
