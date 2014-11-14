@@ -1,19 +1,22 @@
 .mainView {
+	overflow: visible;
+	body {
+		overflow: visible;
+	}
 	#wall {
-		overflow-y: scroll;
 		height: 100%;
 		width: 100%;
-		padding-top: 80px;
-		.box-fix;
-		header {
-			.column(12,12,left,0);
-			padding-top: 10px;
-			margin-top: -85px;
-			text-align: center;
-			height: 85px;
-			z-index: 1000;
-			.border-radiuses(2px,0,0,2px);
-		}
+		padding-top: 90px;
+		&:extend(.box-fix);
+	}
+	#wall-header {
+		.column(12,12,left,0);
+		padding-top: 10px;
+		margin-top: -85px;
+		text-align: center;
+		height: 85px;
+		z-index: 1000;
+		.border-radiuses(2px,0,0,2px);
 	}
 	#postForm {
 		.column(8,12,left,1%);
@@ -21,13 +24,13 @@
 		padding: 0;
 		border: 1px solid #aaa;
 		.border-radius(5px);
-		.box-fix;
+		&:extend(.box-fix);
 	}
 	#receiver {
 		.column(5.5,8,left,0);
 
 		border-top: 1px solid #aaa;
-		.box-fix;
+		&:extend(.box-fix);
 	}
 	#receiver .search-wrapper {
 		border-radius: 0 0 4px 0;

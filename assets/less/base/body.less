@@ -4,7 +4,8 @@ body {
 	.box-fix;
 	*zoom: 1;
 
-	&.registerVeiw {
+	&.registerVeiw,
+	&.mainView {
 		@media @desktop {
 			#main {
 				.push(2);
@@ -66,6 +67,9 @@ noscript {
 #sidebar-left {
 	@media @desktop {
 		.column(2);
+		position: fixed;
+		top: 65px;
+		left: 0;
 	}
 
 	@media @mobile {
@@ -102,6 +106,8 @@ textarea {
 }
 
 footer {
+	display: none;
+	visibility: hidden;
 	float: left;
 	width: 100%;
 	margin: -25px 0 0;
