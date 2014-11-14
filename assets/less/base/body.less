@@ -4,15 +4,6 @@ body {
 	.box-fix;
 	*zoom: 1;
 
-	&.registerVeiw,
-	&.mainView {
-		@media @desktop {
-			#main {
-				.push(2);
-			}
-		}
-	}
-
 	&:not(.registerView) {
 		padding-top: 50px;
 		footer {
@@ -48,6 +39,7 @@ noscript {
 #main {
 	@media @desktop {
 		.column(8);
+		.push(2);
 	}
 
 	@media @mobile {
