@@ -115,8 +115,9 @@ define(["step", "whispeerHelper"], function (step, h) {
 			$scope.sidebarActive = false;
 		};
 
-		cssService.addListener(function (newClass) {
+		cssService.addListener(function (newClass, isBox) {
 			$scope.cssClass = newClass;
+			$scope.isBox = isBox;
 		});
 
 		jQuery(document.body).removeClass("loading");
