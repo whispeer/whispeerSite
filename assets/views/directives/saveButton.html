@@ -1,4 +1,4 @@
-<button data-ng-class="{'success': state.success || state.init, 'operation': state.pending, 'failure': state.failed}" class="btn btn--saveButton">
+<button data-ng-class="{'btn-saveButton--success': state.success || state.init, 'btn-saveButton--operation': state.pending, 'btn-saveButton--failure': state.failed}" class="btn btn--saveButton">
 	<i data-ng-if="state.success && successIcon" class="fa fa-fw {{successIcon}}"></i>
 	<i data-ng-if="state.init && initIcon" class="fa fa-fw {{initIcon}}"></i>
 	<i data-ng-if="state.failed && failureIcon" class="fa fa-fw {{failureIcon}}"></i>

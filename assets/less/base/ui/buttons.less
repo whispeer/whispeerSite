@@ -34,79 +34,59 @@
 	-ms-user-select: none;
 	user-select: none;
 
-	// style
 	display: inline-block;
-	padding: 0 15px;
 	height: 40px;
-	// this has to be -2px to compensate the border while vertically centering the text
-	line-height: 38px;
-	.box-fix;
+	line-height: 38px; // this has to be -2px to compensate the border while vertically centering the text
+	padding: 0 15px;
+
 	background-image: none;
 	.border-radius(4px);
 	.buttonBackground(@btnBackground, @btnBackgroundHover, @btnBackgroundFocus, @btnBackgroundActive, @grayDark, 0 1px 1px rgba(255,255,255,.75));
 	border: 1px solid @btnBorder;
 	text-decoration: none !important;
 	cursor: pointer;
-	&.btn--big {
-		padding: 0 10px;
-	}
-	&.btn--small {
-		padding: 0 7px;
-	}
-	&.btn--input {
-		padding: 0 9px;
-	}
-	// Success and Primary are both green
-	&.btn--primary {
-		.btn--green;
-	}
-	&.btn--danger {
-		.btn--red;
-	}
-	// Warning appears are orange
-	&.btn--warning {
-		.btn--orange;
-	}
-	// Info appears as a neutral blue
-	&.btn--info {
-		.btn--blue;
-	}
-	&.btn--saveButton {
-		&.success {
-			.btn--green;
-		}
-		&.operation {
-			.btn--inverse;
-			.spinner {
-				width: 20px;
-				height: 20px;
-				margin-top: 3px;
-			}
-		}
-		&.failure {
-			.btn--red;
-		}
-	}
-	&.btn--fixPadding {
-		padding: 4px 0;
-		text-align: center;
-	}
-}
 
-// Button Color Classes
-.btn--green {
+	&:extend(.box-fix);
+}
+.btn--big {
+	padding: 0 10px;
+}
+.btn--small {
+	padding: 0 7px;
+}
+.btn--input {
+	padding: 0 9px;
+}
+.btn--primary {
 	.buttonBackground(@btnGreenBackground, @btnGreenBackgroundHover, @btnGreenBackgroundFocus, @btnGreenBackgroundActive);
 }
-.btn--red {
+.btn--danger {
 	.buttonBackground(@btnRedBackground, @btnRedBackgroundHover, @btnRedBackgroundFocus, @btnRedBackgroundActive);
 }
-.btn--orange {
+.btn--warning {
 	.buttonBackground(@btnOrangeBackground, @btnOrangeBackgroundHover, @btnOrangeBackgroundFocus, @btnOrangeBackgroundActive);
 }
-.btn--blue {
+.btn--info {
 	.buttonBackground(@btnBlueBackground, @btnBlueBackgroundHover, @btnBlueBackgroundFocus, @btnBlueBackgroundActive);
 }
-// Inverse appears as dark gray
 .btn--inverse {
 	.buttonBackground(@btnInverseBackground, @btnInverseBackgroundHover, @btnInverseBackgroundFocus, @btnInverseBackgroundActive);
+}
+&.btn--fixPadding {
+	padding: 4px 0;
+	text-align: center;
+}
+.btn-saveButton--success {
+	&:extend(.btn--primary);
+}
+.btn-saveButton--operation {
+	&:extend(.btn--inverse);
+	.spinner {
+		width: 20px;
+		height: 20px;
+		margin-top: 3px;
+	}
+}
+&.btn-saveButton--failure {
+	&:extend(.btn--red);
 }
