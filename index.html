@@ -33,22 +33,22 @@
 	<!--[if lte IE 8]><p class=chromeframe>Your browser is <em>ancient!</em> <a href="http://browsehappy.com/">Upgrade to a different browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to experience this site.</p><![endif]-->
 	<noscript>Hallo! Leider steht uns bei deinem Browser kein Javascript zur Verfügung!<br> Daher ist es nicht möglich whispeer zu nutzen, da wir unbedingt Javascript benötigen!<br> Vielen Dank für dein Verständnis!</noscript>
 	<!-- !Top Bar -->
-	<nav class="header" data-ng-if="loggedin" data-ng-cloak data-ng-class="{'nav-push': (mobile && sidebarActive && !searchActive)}">
+	<nav class="header" data-ng-if="loggedin" data-ng-cloak data-ng-class="{'header-push': (mobile && sidebarActive && !searchActive)}">
 		<div class="header-inner">
-			<button class="header-toggle nav-toggle-sidebar" data-ng-click="toggleSidebar()" data-ng-if="mobile">
-				<i class="fa fa-bars nav-toggle-icon"></i>
+			<button class="header-toggle header-toggle-sidebar" data-ng-click="toggleSidebar()" data-ng-if="mobile">
+				<i class="fa fa-bars header-toggle-icon"></i>
 				<span>
 					<span class="badge" id="mobileCounter" data-ng-if="(messages.unread + friends.requestsCount + news.count) > 0">
 						<span>{{messages.unread + friends.requestsCount + news.count}}</span>
 					</span>
 				</span>
 			</button>
-			<button class="header-toggle nav-toggle-search" data-ng-click="toggleSearch()" data-ng-if="mobile">
-				<i class="fa fa-search nav-toggle-icon"></i>
-			</button>
 			<a href="start" class="header-brand" data-ng-click="mobileActivateView()">
-				<span class="brand-normal">whis</span><span class="brand-inverse">peer</span>
+				<span class="header-brand--normal">whis</span><span class="header-brand--inverse">peer</span>
 			</a>
+			<button class="header-toggle header-toggle-search" data-ng-click="toggleSearch()" data-ng-if="mobile">
+				<i class="fa fa-search header-toggle-icon"></i>
+			</button>
 			<div class="header-collapse">
 				<usersearch class="search--navbar" size="big" data-input-i18n-attr="menu.search|placeholder"/>
 			</div>
