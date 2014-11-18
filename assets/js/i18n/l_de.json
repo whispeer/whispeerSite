@@ -10,6 +10,9 @@
 		}
 	},
 	"views": {
+		"invite": {
+			"invite": "Einladen"
+		},
 		"setup": {
 			"welcomeHeader": "Willkommen bei whispeer!",
 			"backup": {
@@ -166,6 +169,10 @@
 				"passwordNoMatch": "Passwörter stimmen nicht überein",
 				"agb": "Bitte akzeptiere die AGB!"
 			},
+
+			"enterinvitecode": "Einladungscode eingeben:",
+			"invitecode": "Einladungscode",
+			"requestinvite": "Einladungscode anfragen:",
 
 			"createAccount": "Account erstellen",
 			"link":	"Registrieren",

@@ -24,8 +24,14 @@ define(["app"], function (app) {
 			});
 		}
 
+		$routeProvider.when("/start/:inviteCode", {
+			templateUrl: "assets/views/pages/start.html",
+			controller: "ssn.startController",
+		});
+
 		addMain("start", false);
 		addMain("login");
+		addMain("invite");
 		addMain("setup");
 		addMain("main");
 		addMain("friends");

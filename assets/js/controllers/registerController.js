@@ -5,7 +5,21 @@
 define(["step", "whispeerHelper"], function (step, h) {
 	"use strict";
 
-	function registerController($scope, $timeout, $routeParams, errorService, sessionHelper, sessionService) {
+	function registerController($scope, $timeout, $routeParams, keyStore, errorService, sessionHelper, sessionService) {
+		$scope.invite = {
+			code: $routeParams.inviteCode,
+			valid: false
+		}
+
+		$scope.$watch(function () {
+			return $scope.invite.code;
+		}, function (value) {
+			var bits = keyStore.format.unBase32($scope.invite.code);
+			if (keyStore.format.verifyInviteCode(bits)) {
+				$scope.invite.valid = true;
+			}
+		});
+
 		$scope.password = "";
 		$scope.password2 = "";
 
@@ -247,7 +261,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 		};
 	}
 
-	registerController.$inject = ["$scope", "$timeout", "$routeParams", "ssn.errorService", "ssn.sessionHelper", "ssn.sessionService"];
+	registerController.$inject = ["$scope", "$timeout", "$routeParams", "ssn.keyStoreService", "ssn.errorService", "ssn.sessionHelper", "ssn.sessionService"];
 
 	return registerController;
 });

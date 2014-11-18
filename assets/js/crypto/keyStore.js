@@ -1613,6 +1613,9 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 			base32: function (bits) {
 				return sjcl.codec.base32.fromBits(bits);
 			},
+			unBase32: function (bits) {
+				return sjcl.codec.base32.toBits(bits);
+			},
 			unformat: function (str, start) {
 				if (str.indexOf(start + "::") !== 0) {
 					throw new errors.InvalidDataError("format invalid");
@@ -1645,7 +1648,7 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 					result.push(bits[i-1] ^ bits[i]);
 				}
 
-				if(result[result.length - 1] ^ INVITEBITS[result.length - 1] === 0) {
+				if((result[result.length - 1] ^ INVITEBITS[result.length - 1]) === 0) {
 					result[result.length - 1] = INVITEBITS[result.length - 1];
 				}
 
