@@ -93,7 +93,7 @@
 			}
 		}
 		.name {
-			input {
+			input[type="text"] {
 				@media @desktop {
 					.column(6);
 				}
@@ -101,6 +101,11 @@
 					.column(12);
 					margin-bottom: 0.5em;
 				}
+			}
+			div {
+				text-align: left;
+				.column(12);
+				margin-top: 5px;
 			}
 		}
 		.mail {
