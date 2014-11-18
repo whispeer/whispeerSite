@@ -14,10 +14,12 @@ define(["step", "whispeerHelper", "asset/state", "libs/qr"], function (step, h, 
 		$scope.backupClicked = false;
 		$scope.backupWarning = false;
 		$scope.profileSaved = false;
-
-		$scope.firstName = "";
-		$scope.lastName = "";
-		$scope.mail = "";
+		$scope.profile = {
+			privateName: false,
+			firstName: "",
+			lastName: "",
+			mail: ""
+		};
 
 		step(function () {
 			var me = userService.getown();
@@ -33,9 +35,15 @@ define(["step", "whispeerHelper", "asset/state", "libs/qr"], function (step, h, 
 
 			var me = userService.getown();
 			step(function () {
-				me.setProfileAttribute("basic.firstname", $scope.firstName, this.parallel());
-				me.setProfileAttribute("basic.lastname", $scope.lastName, this.parallel());
+				if ($scope.profile.privateName) {
+
+				} else {
+					this.ne();
+				}
 			}, h.sF(function () {
+				me.setProfileAttribute("basic.firstname", $scope.profile.firstName, this.parallel());
+				me.setProfileAttribute("basic.lastname", $scope.profile.lastName, this.parallel());
+			}), h.sF(function () {
 				me.uploadChangedProfile(this);
 			}), h.sF(function () {
 				if ($scope.backupClicked) {

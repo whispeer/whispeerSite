@@ -26,7 +26,8 @@
 				"mailExplanation": "Nenne uns deine E-Mail, damit wir dich bei Neuigkeiten benachrichtigen können:",
 				"mail": "E-Mail",
 				"firstName": "Vorname",
-				"lastName": "Nachname"
+				"lastName": "Nachname",
+				"privateName": "Mache meinen Namen privat! (Deine Freunde können dich dann schwieriger finden)"
 			},
 			"save": "Name und E-Mail speichern"
 		},
