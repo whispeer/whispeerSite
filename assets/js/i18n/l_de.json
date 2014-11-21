@@ -11,7 +11,18 @@
 	},
 	"views": {
 		"invite": {
-			"invite": "Einladen"
+			"invite": "Einladen",
+			"viaMail": "Einladung via E-Mail",
+			"viaMailExplanation": "Gib die E-Mails deiner Freunde ein um sie einzuladen:",
+			"mail": "E-Mail",
+			"invite": "Einladen!",
+			"viaLink": "Einladung via Link",
+			"viaLinkExplanation": "Generiere einen Einladungs-Link den du weitergeben kannst:",
+			"generateLink": "Einladungslink generieren",
+			"code": "Einladungscode:",
+			"link": "Einladungslink:",
+			"yourName": "Lass deine Freunde wissen, wer sie einlädt (freiwillig):",
+			"name": "Name"
 		},
 		"setup": {
 			"welcomeHeader": "Willkommen bei whispeer!",
