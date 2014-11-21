@@ -60,7 +60,7 @@ define(["step", "whispeerHelper", "crypto/trustManager"], function (step, h, tru
 				}), callback);
 			},
 
-			register: function (nickname, mail, password, profile, imageBlob, settings, callback) {
+			register: function (nickname, mail, inviteCode, password, profile, imageBlob, settings, callback) {
 				var keys, result;
 				step(function register1() {
 					this.parallel.unflatten();
@@ -119,6 +119,7 @@ define(["step", "whispeerHelper", "crypto/trustManager"], function (step, h, tru
 					profile.pub.signature = publicProfileSignature;
 
 					var registerData = {
+						inviteCode: inviteCode,
 						password: keyStoreService.hash.hashPW(password),
 						keys: h.objectMap(keys, keyStoreService.upload.getKey),
 						profile: {

@@ -261,7 +261,7 @@ define(["step", "whispeerHelper", "asset/state"], function (step, h, State) {
 			step(function () {
 				console.time("register");
 				sessionService.setReturnURL("/setup");
-				sessionHelper.register($scope.nickname, "", $scope.password, profile, undefined, settings, this);
+				sessionHelper.register($scope.nickname, "", $scope.invite.code, $scope.password, profile, undefined, settings, this);
 			}, function () {
 				console.timeEnd("register");
 				console.log("register done!");
