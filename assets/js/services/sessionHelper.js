@@ -10,6 +10,18 @@ define(["step", "whispeerHelper", "crypto/trustManager"], function (step, h, tru
 		var keyGenerationStarted = false, keys = {}, keyGenListener = [], keyGenDone;
 
 		var sessionHelper = {
+			checkInviteCode: function (code, cb) {
+				step(function () {
+					if (code.length !== 10) {
+						this.last.ne(false);
+					} else {
+						socketService.emit("invites.checkCode", { inviteCode: code }, this);
+					}
+				}, h.sF(function (result) {
+					this.ne(result.valid);
+				}), cb);
+			},
+
 			logout: function () {
 				step(function sendLogout() {
 					socketService.emit("session.logout", {logout: true}, this);

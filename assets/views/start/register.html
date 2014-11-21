@@ -1,5 +1,5 @@
 <div data-ng-click="registerFormClick()" data-ng-controller="ssn.registerController">
-	<form data-ng-if="invite.valid">
+	<form data-ng-if="invite.valid.success">
 		<h1 data-i18n="login.register.newaccount"></h1>
 		<div class="inputWrap" data-ng-click="inputsUsed()" data-ng-keydown="inputsUsed()">
 			<div class="annotatedInputContainer">
@@ -34,12 +34,12 @@
 			<button class="btn btn--big btn--danger" type="submit"  data-ng-click="register()" data-i18n="login.register.link"></button>
 		</div>
 	</form>
-	<form data-ng-if="!invite.valid">
+	<form data-ng-if="!invite.valid.success">
 		<h1 data-i18n="login.register.enterinvitecode"></h1>
 		<div class="inputWrap">
 			<div class="annotatedInputContainer">
 				<input type="text" class="inviteCode" data-i18n-attr="login.register.invitecode|placeholder" data-ng-model="invite.code">
-				<span class="fa icon" data-ng-class="{'fa-check': invite.valid, 'fa-times': !invite.valid}" data-ng-if="!empty(invite.code)"></span>
+				<span class="fa icon" data-ng-class="{'fa-check': invite.valid.success, 'fa-times': invite.valid.failed, 'fa-spinner': invite.valid.pending}" data-ng-if="!empty(invite.code)"></span>
 			</div>
 		</div>
 	</form>

@@ -1,15 +1,15 @@
 <div>
 	<div>
 		<form>
-			<h1>Einladung via E-Mail</h1>
-			Gib die E-Mail eines Freundes ein um ihn/sie einzuladen: <br>
+			<h1 data-i18n="views.invite.viaMail"></h1>
+			<div data-i18n="views.invite.viaMailExplanation"></div>
 			<div class="annotatedInputContainer" data-ng-repeat="mail in inviteMails track by $index">
-				<input type='text' placeholder='Mail' data-ng-model="inviteMails[$index]">
+				<input type='text' data-i18n-attr="views.invite.mail|placeholder" data-ng-model="inviteMails[$index]">
 				<span class="fa icon" data-ng-class="{'fa-times': !isMail(inviteMails[$index])}" data-ng-if="!empty(inviteMails[$index])"></span>
 			</div>
 
 			<div>
-				Lass deine Freunde wissen, wer sie einlädt (freiwillig): <input type='text' data-ng-model="name" placeholder='Name'>
+				<span data-i18n="views.invite.yourName"></span> <input type='text' data-ng-model="name" data-i18n-attr="views.invite.name|placeholder">
 			</div>
 
 			<savebutton data-translation="views.invite.invite" data-ng-click="inviteUsers(name, inviteMails)" data-state="inviteMailState" data-noiniticon></savebutton>
@@ -17,12 +17,12 @@
 	</div>
 
 	<div>
-		<h1>Einladung via Link</h1>
-		<div>Generiere einen Einladungs-Link den du weitergeben kannst:</div>
-		<div data-ng-if="!inviteCode"><button class="btn btn--primary" data-ng-click="generateInvite()">Einladungslink generieren</button></div>
+		<h1 data-i18n="views.invite.viaLink"></h1>
+		<div data-i18n="views.invite.viaLinkExplanation"></div>
+		<div><savebutton class="btn btn--primary" data-ng-click="generateInvite()" data-state="inviteGenerateState" data-noiniticon data-translation="views.invite.generateLink"></button></div>
 		<div data-ng-if="inviteCode">
-			<div>Einladungscode: <input type='text' data-ng-model="inviteCode" disabled>
-			<div>Einladungslink: <a href='{{domain}}/start/{{inviteCode}}'>{{domain}}/start/{{inviteCode}}</a></div>
+			<div><span data-i18n="views.invite.code"></span> <input type='text' data-ng-model="inviteCode" disabled></div>
+			<div><span data-i18n="views.invite.link"></span> <a href='{{domain}}/start/{{inviteCode}}'>{{domain}}/start/{{inviteCode}}</a></div>
 		</div>
 	</div>
 </div>

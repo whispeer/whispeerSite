@@ -17,9 +17,6 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 	"use strict";
 	var socket, dirtyKeys = [], newKeys = [], symKeys = {}, cryptKeys = {}, signKeys = {}, passwords = [], improvementListener = [], keyGenIdentifier = "", Key, SymKey, CryptKey, SignKey, makeKey, keyStore;
 
-	var INVITESTRING = "turing";
-	var INVITEBITS = sjcl.codec.utf8String.toBits(INVITESTRING)
-
 	sjcl.random.startCollectors();
 
 	var MAXSPEED = 99999999999, SPEEDS = {
@@ -1622,37 +1619,6 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 				}
 
 				return str.substr(start.length + 2);
-			},
-			createInviteCode: function (cb) {
-				step(function () {
-					keyStore.random.words(1, this);
-				}, h.sF(function (start) {
-					var i, prev = start[0], result = [];
-
-					var bits = INVITEBITS;
-
-					result.push(prev);
-
-					for (i = 0; i < bits.length; i += 1) {
-						prev = (prev ^ bits[i]);
-						result.push(prev);
-					}
-
-					this.ne(result);
-				}), cb)
-			},
-
-			verifyInviteCode: function (bits) {
-				var i, result = [];
-				for (i = 1; i < bits.length; i += 1) {
-					result.push(bits[i-1] ^ bits[i]);
-				}
-
-				if((result[result.length - 1] ^ INVITEBITS[result.length - 1]) === 0) {
-					result[result.length - 1] = INVITEBITS[result.length - 1];
-				}
-
-				return sjcl.bitArray.equal(result, INVITEBITS);
 			}
 		},
 

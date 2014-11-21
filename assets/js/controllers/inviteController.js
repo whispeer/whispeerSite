@@ -13,7 +13,10 @@ define(["step", "whispeerHelper", "asset/state"], function (step, h, State) {
 		var inviteMailState = new State();
 		$scope.inviteMailState = inviteMailState.data;
 
-		$scope.domain = $location.protocol() + "://" + $location.host();;
+		var inviteGenerateState = new State();
+		$scope.inviteGenerateState = inviteGenerateState.data;
+
+		$scope.domain = $location.protocol() + "://" + $location.host();
 
 		$scope.$watch(function () {
 			return $scope.inviteMails.filter(function (e) {
@@ -50,11 +53,11 @@ define(["step", "whispeerHelper", "asset/state"], function (step, h, State) {
 			inviteMailState.pending();
 
 			step(function () {
-				var mailsToSend = $scope.inviteMails.filter(function (e) {
+				var mailsToSend = mails.filter(function (e) {
 					return h.isMail(e);
 				});
 
-				socketService.emit("inviteUsers", {
+				socketService.emit("invites.byMail", {
 					mails: mailsToSend,
 					name: name
 				}, this);
@@ -64,13 +67,19 @@ define(["step", "whispeerHelper", "asset/state"], function (step, h, State) {
 				});
 
 				this.ne();
-			}), errorService.failOnError(inviteMailState))
+			}), errorService.failOnError(inviteMailState));
 		};
 
 		$scope.generateInvite = function () {
-			keyStore.format.createInviteCode(function (e, code) {
-				$scope.inviteCode = keyStore.format.base32(code);
-			});
+			inviteGenerateState.pending();
+
+			step(function () {
+				socketService.emit("invites.generateCode", {}, this);
+			}, h.sF(function (result) {
+				$scope.inviteCode = result.inviteCode;
+
+				this.ne();
+			}), errorService.failOnError(inviteGenerateState));
 		};
 	}
 

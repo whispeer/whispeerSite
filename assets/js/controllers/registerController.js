@@ -2,22 +2,30 @@
 * loginController
 **/
 
-define(["step", "whispeerHelper"], function (step, h) {
+define(["step", "whispeerHelper", "asset/state"], function (step, h, State) {
 	"use strict";
 
 	function registerController($scope, $timeout, $routeParams, keyStore, errorService, sessionHelper, sessionService) {
+		var inviteCodeState = new State();
+
 		$scope.invite = {
 			code: $routeParams.inviteCode,
-			valid: false
-		}
+			valid: inviteCodeState.data
+		};
 
 		$scope.$watch(function () {
 			return $scope.invite.code;
 		}, function (value) {
-			var bits = keyStore.format.unBase32($scope.invite.code);
-			if (keyStore.format.verifyInviteCode(bits)) {
-				$scope.invite.valid = true;
-			}
+			inviteCodeState.pending();
+			step(function () {
+				sessionHelper.checkInviteCode(value, this);
+			}, h.sF(function (valid) {
+				if (!valid) {
+					throw new Error("code not valid");
+				}
+
+				this.ne();
+			}), errorService.failOnError(inviteCodeState));
 		});
 
 		$scope.password = "";
