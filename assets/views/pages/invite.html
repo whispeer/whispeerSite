@@ -1,28 +1,34 @@
-<div>
-	<div>
-		<form>
-			<h1 data-i18n="views.invite.viaMail"></h1>
-			<div data-i18n="views.invite.viaMailExplanation"></div>
-			<div class="annotatedInputContainer" data-ng-repeat="mail in inviteMails track by $index">
-				<input type='text' data-i18n-attr="views.invite.mail|placeholder" data-ng-model="inviteMails[$index]">
-				<span class="fa icon" data-ng-class="{'fa-times': !isMail(inviteMails[$index])}" data-ng-if="!empty(inviteMails[$index])"></span>
-			</div>
+<section id="inviteMail">
+	<form>
+		<h1 data-i18n="views.invite.viaMail"></h1>
+		<p data-i18n="views.invite.viaMailExplanation"></p>
+		<ul class="emailList unstyled">
+			<li class="annotatedInputContainer" data-ng-repeat="mail in inviteMails track by $index">
+				<input type="text" data-i18n-attr="views.invite.mail|placeholder" data-ng-model="inviteMails[$index]">
+				<span class="fa fa-fw icon" data-ng-class="{'fa-times': !isMail(inviteMails[$index])}" data-ng-if="!empty(inviteMails[$index])"></span>
+			</li>
+		</ul>
 
-			<div>
-				<span data-i18n="views.invite.yourName"></span> <input type='text' data-ng-model="name" data-i18n-attr="views.invite.name|placeholder">
-			</div>
+		<p data-i18n="views.invite.yourName"></p>
 
-			<savebutton data-translation="views.invite.invite" data-ng-click="inviteUsers(name, inviteMails)" data-state="inviteMailState" data-noiniticon></savebutton>
-		</form>
-	</div>
+		<input id="invitedBy" type="text" data-ng-model="name" data-i18n-attr="views.invite.name|placeholder">
 
-	<div>
-		<h1 data-i18n="views.invite.viaLink"></h1>
-		<div data-i18n="views.invite.viaLinkExplanation"></div>
-		<div><savebutton class="btn btn--primary" data-ng-click="generateInvite()" data-state="inviteGenerateState" data-noiniticon data-translation="views.invite.generateLink"></button></div>
-		<div data-ng-if="inviteCode">
-			<div><span data-i18n="views.invite.code"></span> <input type='text' data-ng-model="inviteCode" disabled></div>
-			<div><span data-i18n="views.invite.link"></span> <a href='{{domain}}/start/{{inviteCode}}'>{{domain}}/start/{{inviteCode}}</a></div>
+		<savebutton class="sendInvite btn--big" data-translation="views.invite.invite" data-ng-click="inviteUsers(name, inviteMails)" data-state="inviteMailState" data-noiniticon></savebutton>
+	</form>
+</section>
+
+<section id="inviteLink">
+	<h1 data-i18n="views.invite.viaLink"></h1>
+	<p data-i18n="views.invite.viaLinkExplanation"></p>
+	<savebutton class="sendInvite btn--big" data-ng-click="generateInvite()" data-state="inviteGenerateState" data-noiniticon data-translation="views.invite.generateLink"></savebutton>
+	<div class="inviteDetails" data-ng-if="inviteCode">
+		<div>
+			<span data-i18n="views.invite.code"></span>
+			<input type="text" data-ng-model="inviteCode" disabled>
+		</div>
+		<div>
+			<span data-i18n="views.invite.link"></span>
+			<a href='{{domain}}/start/{{inviteCode}}'>{{domain}}/start/{{inviteCode}}</a>
 		</div>
 	</div>
-</div>
+</section>
