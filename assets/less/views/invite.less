@@ -1,4 +1,13 @@
 .inviteView {
+	#inviteMail,
+	#inviteLink {
+		@media @desktop {
+			.column(6);
+		}
+		@media @mobile {
+			.column(12,12,none,0);
+		}
+	}
 	h1 {
 		.large-text();
 	}
