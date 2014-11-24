@@ -43,15 +43,15 @@
 
 .width(@x, @columns:@columns, @margin:@margin) {
 	@column-size: @total-width / @columns;
-	width: (@column-size*@x) - @margin !important;
+	width: (@column-size*@x) - @margin;
 }
 
 .push(@x: 1, @columns:@columns) {
 	@column-size: @total-width / @columns;
-	margin-left: ((@column-size*@x)+1) !important;
+	margin-left: ((@column-size*@x)+1);
 }
 
 .pull(@x: 1, @columns:@columns) {
 	@column-size: @total-width / @columns;
-	margin-right: ((@column-size*@x)+1) !important;;
+	margin-right: ((@column-size*@x)+1);
 }
