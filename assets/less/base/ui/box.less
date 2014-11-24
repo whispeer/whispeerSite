@@ -25,12 +25,10 @@
 	&:extend(.box-fix);
 }
 .box-header {
-	height: 20px;
+	height: 30px;
 	.gradient(darken(@btnBackground, 2%), @btnBackgroundHover);
 	border: none;
 	border-bottom: 1px solid @btnBorder;
-	.border-radiuses(5px, 0px, 0px, 5px);
-	padding: 5px 0;
 	overflow: hidden;
 }
 .box-header-links {
@@ -39,13 +37,21 @@
 }
 .box-header-link {
 	color: #b2b2b2;
+	margin: 0 0.25em;
 	&:hover {
 		color: lighten(#b2b2b2,10%);
+	}
+	&:first-child {
+		margin-left: 0;
+	}
+	&:last-child {
+		margin-right: 0;
 	}
 }
 .box-header-title {
 	float: left;
 	margin: 0 1%;
+	line-height: 30px;
 }
 .box-header-button {
 	padding: 2px 7px;
@@ -71,23 +77,21 @@
 	float: left;
 	border-right: 1px solid #bbb;
 }
+.box-header--content {
+	margin-top: -6px;
+	border-top: 1px solid @btnBorder;
+	background: @btnBackgroundHover;
+	&:before, :after {
+		content: "";
+		margin-left: 5px;
+	}
+}
 .box-content {
 	padding: 5px 0;
 	.border-radiuses(0, 5px, 5px, 0);
 	&:extend(.clear-fix);
 	h1,h2,h3,h4,h5,h6 {
 		margin-left: 0.5%;
-	}
-}
-.box-content-header {
-	margin-top: -5px !important;
-	background-color: @btnBackgroundHover;
-	border-top: 1px solid @btnBorder;
-	.border-radius(0px);
-	padding: 5px 0px;
-	&:before, :after {
-		content: "";
-		margin-left: 5px;
 	}
 }
 .box-content--scroll {
