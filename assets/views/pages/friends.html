@@ -1,25 +1,27 @@
-<header><span class="title">Freunde</span></header>
-<section class="scroll">
-	<section data-ng-if="requests.length > 0">
-		<span class="title" data-i18n="magicbar.requests.title"></span>
+<header class="box-header" data-ng-if="!mobile">
+	<span class="box-header-title">Freunde</span>
+</header>
+<section data-ng-class="{'box-content box-content--scroll': !mobile}">
+	<section class="friendsView-section" data-ng-if="requests.length > 0">
+		<span class="friendsView-title" data-i18n="magicbar.requests.title"></span>
 		<ul class="unstyled" id="requestsList">
-			<li class="request" data-ng-repeat="user in requests">
+			<li class="friendsView-friend friendsView-request" data-ng-repeat="user in requests">
 				<friend data-user="user" data-type="request"></friend>
 			</li>
-			<li class="request error" data-ng-if="requests.length == 0">
+			<li class="friendsView-request error" data-ng-if="requests.length == 0">
 				<span data-i18n="magicbar.requests.none"></span>
 			</li>
 		</ul>
 		<ul class="unstyled" data-ng-if="requests.length == 0">
-			<li class="request error">
+			<li class="friendsView-request error">
 				<span data-i18n="magicbar.requests.none"></span>
 			</li>
 		</ul>
 	</section>
-	<section>
-		<span class="title" data-i18n="friends.title"></span>
-		<ol id="friendsList" class="unstyled">
-			<li data-ng-repeat="friend in friends">
+	<section class="friendsView-section">
+		<span class="friendsView-title" data-i18n="friends.title"></span>
+		<ol id="friendsView-friendsList" class="unstyled">
+			<li class="friendsView-friend" data-ng-repeat="friend in friends">
 				<friend data-user="friend" data-type="friend"></friend>
 			</li>
 		</ol>
