@@ -6,7 +6,7 @@ define(["whispeerHelper", "step", "asset/state", "libs/qr"], function (h, step, 
 	"use strict";
 
 	function settingsController($scope, errorService, cssService, settingsService, userService, localize) {
-		cssService.setClass("settingsView");
+		cssService.setClass("settingsView", true);
 
 		var saveSafetyState = new State();
 		$scope.saveSafetyState = saveSafetyState.data;
