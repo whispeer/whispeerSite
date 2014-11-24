@@ -57,10 +57,12 @@
 .btn--input {
 	padding: 0 9px;
 }
-.btn--primary {
+.btn--primary,
+.btn-saveButton--success {
 	.buttonBackground(@btnGreenBackground, @btnGreenBackgroundHover, @btnGreenBackgroundFocus, @btnGreenBackgroundActive);
 }
-.btn--danger {
+.btn--danger,
+.btn-saveButton--failure {
 	.buttonBackground(@btnRedBackground, @btnRedBackgroundHover, @btnRedBackgroundFocus, @btnRedBackgroundActive);
 }
 .btn--warning {
@@ -69,24 +71,23 @@
 .btn--info {
 	.buttonBackground(@btnBlueBackground, @btnBlueBackgroundHover, @btnBlueBackgroundFocus, @btnBlueBackgroundActive);
 }
-.btn--inverse {
+.btn--inverse,
+.btn-saveButton--operation {
 	.buttonBackground(@btnInverseBackground, @btnInverseBackgroundHover, @btnInverseBackgroundFocus, @btnInverseBackgroundActive);
 }
 &.btn--fixPadding {
 	padding: 4px 0;
 	text-align: center;
 }
-.btn-saveButton--success {
-	&:extend(.btn--primary);
-}
 .btn-saveButton--operation {
-	&:extend(.btn--inverse);
 	.spinner {
 		width: 20px;
 		height: 20px;
 		margin-top: 3px;
 	}
 }
-&.btn-saveButton--failure {
-	&:extend(.btn--red);
+.btn[disabled] { // disabled should overwrite all other styles so it goes down here
+	background: @btnBackgroundHover;
+	color: @grayLight !important; // this has to be important...
+	text-shadow: none;
 }
