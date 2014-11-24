@@ -6,7 +6,7 @@ define(["step", "whispeerHelper", "asset/state"], function (step, h, State) {
 	"use strict";
 
 	function mainController($scope, cssService, postService, errorService) {
-		cssService.setClass("mainView", true);
+		cssService.setClass("mainView");
 
 		$scope.canSend = true;
 
