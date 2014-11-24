@@ -1,21 +1,26 @@
 html, body {height: 100%; width: 100%; overflow: hidden;}
+
+html:not(.registerView) {
+	body {
+		padding-top: 50px;
+		.box-fix;
+	}
+	footer {
+		background: rgba(255,255,255,0.79);
+	}
+}
+
+html:not(.mainView):not(.registerView) {
+	#container {
+		padding: 10px 0;
+	}
+}
+
+
 body {
 	background-color: @white;
-	.box-fix;
+	&:extend(.box-fix);
 	*zoom: 1;
-
-	&:not(.registerView) {
-		padding-top: 50px;
-		footer {
-			background: rgba(255,255,255,0.79);
-		}
-	}
-
-	&:not(.mainView, .registerView) {
-		#main {
-			overflow-y: scroll;
-		}
-	}
 }
 
 noscript {
