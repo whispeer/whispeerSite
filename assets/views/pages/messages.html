@@ -1,8 +1,8 @@
-<header>
-	<button data-ng-if="!mobile || !showMessage" class="left" id="newmessage" data-ng-click="unloadTopic()">
+<header class="box-header">
+	<button data-ng-if="!mobile || !showMessage" class="box-header-button box-header-button--left" id="newmessage" data-ng-click="unloadTopic()">
 		<i class="icon-plus-circle" id="plusBtn"></i><span data-i18n="messages.newMessage"></span>
 	</button>
-	<span class="title" data-ng-class="{chat: topicLoaded && showMessage, newMessage: !topicLoaded && showMessage}">
+	<span class="box-header-title" data-ng-class="{'box-header-title--visible': showMessage}">
 		<span data-ng-if="!topicLoaded && !showMessage" data-i18n="messages.title"></span>
 		<span data-ng-if="!topicLoaded && showMessage" data-i18n="messages.newMessage"></span>
 		<span data-ng-if="topicLoaded && showMessage">
@@ -15,7 +15,7 @@
 			</span>
 		</span>
 	</span>
-	<button id="showTopics" class="right" data-ng-click="unloadTopic(false)" data-ng-if="mobile && showMessage">
+	<button id="showTopics" class="box-header-button box-header-button--right" data-ng-click="unloadTopic(false)" data-ng-if="mobile && showMessage">
 		<i class="icon icon-menu"></i>
 	</button>
 </header>

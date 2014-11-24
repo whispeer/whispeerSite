@@ -6,7 +6,7 @@ define(["step", "whispeerHelper", "asset/state"], function (step, h, State) {
 	"use strict";
 
 	function messagesController($scope, $routeParams, $location, $timeout, errorService, cssService, messageService) {
-		cssService.setClass("messagesView");
+		cssService.setClass("messagesView", true);
 
 		$scope.topicid = 0;
 		$scope.showMessage = !$scope.mobile;
