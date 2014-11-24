@@ -1,57 +1,14 @@
-.legalView {
-	#main {
-		.box;
-		padding-top: 30px;
-		height: 100%;
-		background-color: @btnBackgroundHover;
-		border: 1px solid @btnBorder;
-		border-bottom: 1px solid darken(@btnBorder, 10%);
-		.border-radius(5px);
-		.box-fix;
-		header {
-			margin-top: -30px;
-			#title {
-				float: left;
-				margin: 0 1%;
-			}
-		}
-		#helpWrap {
-			height: 100%;
-			overflow-y: scroll;
-			overflow-x: hidden;
-		}
-		section {
-			header {
-				background-color: @btnBackgroundHover;
-				border-top: 1px solid @btnBorder;
-				.border-radius(0px);
-				float: left;
-				width: 100%;
-				margin: 0px 0 10px 0;
-				padding: 5px 0px;
-				&:before, :after {
-					content: "";
-					margin-left: 5px;
-				}
-			}
-			&#general header {
-				border-top: none;
-				margin: -10px 0 0 0;
-			}
-			ul {
-				.unstyled;
-				li {
-					.column(1,4);
-					margin-bottom: 2%;
-					a {
-						width: 100%;
-						color: #fff;
-						min-height: 50px;
-						text-align: center;
-						padding: 13px 0;
-					}
-				}
-			}
-		}
-	}
+.legalView-menu {
+	margin: 0;
+}
+.legalView-menu-item {
+	.column(12);
+	margin-bottom: 2%;
+}
+.legalView-menu-item-link {
+	width: 100%;
+	color: #fff;
+	height: 50px;
+	line-height: 50px;
+	text-align: center;
 }
