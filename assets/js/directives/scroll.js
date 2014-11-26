@@ -127,7 +127,7 @@ define([], function () {
 						elm.bind("scroll", function() {
 							if (isAtBottom()) {
 								if (attrs.onbottomwithauto) {
-									scope.$eval(attrs.onbottom);
+									scope.$eval(attrs.onbottomwithauto);
 								}
 
 								if (atBottom === false) {
