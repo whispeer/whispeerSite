@@ -3,71 +3,93 @@
 	body {
 		overflow: visible;
 	}
-	#wall {
-		height: 100%;
-		width: 100%;
-		padding-top: 90px;
-		&:extend(.box-fix);
-	}
-	#wall-header {
-		.column(12,12,left,0);
-		padding-top: 10px;
-		margin-top: -85px;
-		text-align: center;
+}
+#newsfeedView-wall {
+	height: 100%;
+	width: 100%;
+	&:extend(.box-fix);
+}
+#newsfeedView-wall-header {
+	@media @desktop {
 		height: 85px;
-		z-index: 1000;
-		.border-radiuses(2px,0,0,2px);
 	}
-	#postForm {
+	.column(12,12,left,0);
+	padding-top: 10px;
+	text-align: center;
+	z-index: 1000;
+	.border-radiuses(2px,0,0,2px);
+}
+#newsfeedView-postForm {
+	@media @desktop {
 		.column(8,12,left,1%);
-		margin: 0 1% 0 0;
-		padding: 0;
-		border: 1px solid #aaa;
-		.border-radius(5px);
-		&:extend(.box-fix);
 	}
-	#receiver {
-		.column(5.5,8,left,0);
+	@media @mobile {
+		.column(12);
+	}
+	margin: 0 1% 0 0;
+	padding: 0;
+	border: 1px solid #aaa;
+	.border-radius(5px);
+	&:extend(.box-fix);
+}
+#newsfeedView-receivers {
+	.column(5.5,8,left,0);
 
-		border-top: 1px solid #aaa;
-		&:extend(.box-fix);
-	}
-	#receiver .search-wrapper {
-		border-radius: 0 0 4px 0;
-	}
-	#sendPost {
-		.column(2.5,8,right,0);
+	border-top: 1px solid #aaa;
+	&:extend(.box-fix);
+}
+#newsfeedView-receivers .search-wrapper {
+	border-radius: 0 0 4px 0;
+}
+#newsfeedView-sendPost {
+	.column(2.5,8,right,0);
 
-		border: none;
-		border-top: 1px solid #aaa;
-		border-radius: 0 0 4px 0; // this border has to be smaller for some reason.
-	}
-	#shareText {
-		.column(8,8,left,0);
-		height: 38px;
-		margin-top: -1px;
-		border: none;
-		border-top: 1px solid #aaa;
-		.border-radiuses(5px,0,0,5px);
-	}
-	#filter {
+	border: none;
+	border-top: 1px solid #aaa;
+	border-radius: 0 0 4px 0; // this border has to be smaller for some reason.
+}
+#newsfeedView-shareText {
+	.column(8,8,left,0);
+	height: 38px;
+	margin-top: -1px;
+	border: none;
+	border-top: 1px solid #aaa;
+	.border-radiuses(5px,0,0,5px);
+}
+#newsfeedView-filter {
+	@media @desktop {
 		.column(4,12,left,1%);
 		margin: 0 0 0 1%;
 		height: 80px;
 	}
-	#filter-title {
-		.column(12,12);
-		height: 30px !important;
-		padding: 4px 0;
-		.gradient(@btnBackground, @btnBackgroundHover);
-		border: 1px solid @btnBorder;
-		.border-radius(4px);
+	@media @mobile {
+		.column(12,12,left,0);
+		margin-top: 10px;
 	}
-	#theFilter {
-		.column(12,12);
-		margin-top: 9px;
+}
+#newsfeedView-activatePost {
+	.column(12);
+}
+#newsfeedView-filter-title {
+	.column(12);
+	@media @desktop {
+		height: 30px;
 	}
-	#theFilter .searchDrop {
-		margin-top: 5px;
+	@media @mobile {
+		height: 40px;
 	}
+	padding: 4px 0;
+	.gradient(@btnBackground, @btnBackgroundHover);
+	border: 1px solid @btnBorder;
+	.border-radius(4px);
+}
+#newsfeedView-theFilter {
+	.column(12,12);
+	margin-top: 9px;
+}
+#newsfeedView-theFilter .searchDrop {
+	margin-top: 5px;
+}
+#newsfeedView-posts {
+	.column(12,12,left,0);
 }

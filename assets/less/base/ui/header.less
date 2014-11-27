@@ -22,8 +22,14 @@
 	position: relative;
 }
 .header-collapse {
-	.column(8);
-	height: 50px;
+	@media @desktop {
+		.column(8);
+		height: 50px;
+	}
+	@media @mobile {
+		display: none;
+		visibility: hidden;
+	}
 }
 .header-brand {
 	@media @desktop {
