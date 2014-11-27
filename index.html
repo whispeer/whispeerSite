@@ -60,22 +60,20 @@
 		<!-- !Left Sidebar -->
 		<aside id="sidebar-left" data-ng-if="loggedin && !mobile">
 			<div id="userpanel">
-				<a href="{{user.basic.url}}" class="username">
-					<img data-ng-src="{{user.basic.image}}" alt="" class="userimg">
+				<a href="{{user.basic.url}}" id="userpanel-me">
+					<img data-ng-src="{{user.basic.image}}" alt="" id="userpanel-me-image">
 					 {{user.name}}
 				</a>
-				<nav id="menu">
-					<ul class="left unstyled" id="mainMenu">
-						<li><a href="main" data-i18n="menu.newsfeed"></a></li>
-						<li><a href="{{user.basic.url}}" data-i18n="menu.profil"></a></li>
-						<li><a href="friends" data-i18n="menu.friends|count={{friends.friendsCount}}|requests={{friends.requestsCount}}"></a></li>
-						<li><a href="messages" data-i18n="menu.messages|count={{messages.unread}}"></a></li>
-						<li><a href="circles" data-i18n="menu.circles"></a></li>
-						<li><a href="settings" data-i18n="menu.settings"></a></li>
-						<li><a href="help" data-i18n="menu.help"></a></li>
-						<li><a href="#" data-ng-click="logout()" data-eat-click data-i18n="menu.logout"></a></li>
-					</ul>
-					<ul class="right unstyled" id="subMenu">
+				<nav id="userpanel-menu">
+					<ul class="u-unstyled" id="userpanel-menu-list">
+						<li class="userpanel-menu-listItem"><a href="main" class="userpanel-menu-link" data-i18n="menu.newsfeed"></a></li>
+						<li class="userpanel-menu-listItem"><a href="{{user.basic.url}}" class="userpanel-menu-link" data-i18n="menu.profil"></a></li>
+						<li class="userpanel-menu-listItem"><a href="friends" class="userpanel-menu-link" data-i18n="menu.friends|count={{friends.friendsCount}}|requests={{friends.requestsCount}}"></a></li>
+						<li class="userpanel-menu-listItem"><a href="messages" class="userpanel-menu-link" data-i18n="menu.messages|count={{messages.unread}}"></a></li>
+						<li class="userpanel-menu-listItem"><a href="circles" class="userpanel-menu-link" data-i18n="menu.circles"></a></li>
+						<li class="userpanel-menu-listItem"><a href="settings" class="userpanel-menu-link" data-i18n="menu.settings"></a></li>
+						<li class="userpanel-menu-listItem"><a href="help" class="userpanel-menu-link" data-i18n="menu.help"></a></li>
+						<li class="userpanel-menu-listItem"><a href="#" class="userpanel-menu-link" data-ng-click="logout()" data-eat-click data-i18n="menu.logout"></a></li>
 					</ul>
 					<div class="clear-fix">
 					</div>
