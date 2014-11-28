@@ -34,6 +34,7 @@ define(["app"], function (app) {
 		addMain("loading");
 		addMain("version");
 		addMain("legal");
+		addMain("impressum");
 		addMain("notificationCenter");
 
 		$routeProvider.when("/logout", {
