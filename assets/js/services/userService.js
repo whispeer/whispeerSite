@@ -1,4 +1,4 @@
-define(["step", "whispeerHelper", "asset/observer"], function (step, h, Observer) {
+define(["step", "whispeerHelper", "asset/observer", "crypto/signatureCache"], function (step, h, Observer, signatureCache) {
 	"use strict";
 
 	var service = function ($rootScope, User, errorService, initService, socketService, keyStoreService, sessionService) {
@@ -49,10 +49,10 @@ define(["step", "whispeerHelper", "asset/observer"], function (step, h, Observer
 
 		/** loads all the users in the batch */
 		function doLoad(identifier, cb) {
+			var result = [];
 			step(function () {
 				socketService.emit("user.getMultiple", {identifiers: identifier}, this);
 			}, h.sF(function (data) {
-				var result = [];
 				if (data && data.users) {
 					result = data.users.map(function (e) {
 						if (e.userNotExisting) {
@@ -63,6 +63,12 @@ define(["step", "whispeerHelper", "asset/observer"], function (step, h, Observer
 					});
 				}
 
+				result.forEach(function (u) {
+					u.verifyKeys(this.parallel());
+				}, this);
+
+				this.parallel()();
+			}), h.sF(function () {
 				this.ne(result);
 			}), cb);
 		}
@@ -194,10 +200,6 @@ define(["step", "whispeerHelper", "asset/observer"], function (step, h, Observer
 				}), cb);
 			},
 
-			addFromData: function addFromData(data) {
-				return makeUser(data);
-			},
-
 			/** get own user. synchronous */
 			getown: function getownF() {
 				return users[sessionService.getUserID()];
@@ -206,35 +208,28 @@ define(["step", "whispeerHelper", "asset/observer"], function (step, h, Observer
 
 		function improvementListener(identifier) {
 			var improve = [];
-			var improve_timer = false;
 
 			keyStoreService.addImprovementListener(function (rid) {
 				improve.push(rid);
 
-				if (!improve_timer) {
-					improve_timer = true;
-					window.setTimeout(function () {
-						step(function () {
-							var own = userService.getown();
-							if (own.getNickOrMail() === identifier) {
-								var mainKey = own.getMainKey();
-
-								var i;
-								for (i = 0; i < improve.length; i += 1) {
-									keyStoreService.sym.symEncryptKey(improve[i], mainKey, this.parallel());
-								}
-							}
-						}, h.sF(function () {
-							var toUpload = keyStoreService.upload.getDecryptors(improve);
-							console.log(toUpload);
-							socketService.emit("key.addFasterDecryptors", {
-								keys: toUpload
+				if (improve.length === 1) {
+					step(function () {
+						window.setTimeout(this.ne, 5000);
+					}, h.sF(function () {
+						var own = userService.getown();
+						if (own && own.getNickOrMail() === identifier) {
+							improve.forEach(function (keyID) {
+								keyStoreService.sym.symEncryptKey(keyID, own.getMainKey(), this.parallel());
 							}, this);
-						}), h.sF(function (result) {
-							improve_timer = false;
-							console.log(result);
-						}), errorService.criticalError);
-					}, 5000);
+						}
+					}), h.sF(function () {
+						var toUpload = keyStoreService.upload.getDecryptors(improve);
+						socketService.emit("key.addFasterDecryptors", {
+							keys: toUpload
+						}, this);
+					}), h.sF(function () {
+						improve = [];
+					}), errorService.criticalError);
 				}
 			});
 		}
@@ -244,14 +239,24 @@ define(["step", "whispeerHelper", "asset/observer"], function (step, h, Observer
 		initService.register("user.get", function () {
 			return {identifier: sessionService.getUserID()};
 		}, function (data, cb) {
-			var user = userService.addFromData(data);
+			var user;
+			step(function () {
+				user = makeUser(data);
 
-			var identifier = user.getNickOrMail();
+				var identifier = user.getNickOrMail();
 
-			keyStoreService.setKeyGenIdentifier(identifier);
-			improvementListener(identifier);
+				keyStoreService.setKeyGenIdentifier(identifier);
+				improvementListener(identifier);
+				keyStoreService.sym.registerMainKey(user.getMainKey());
 
-			cb();
+				user.verifyOwnKeys();
+				userService.notify(user, "ownEarly");
+
+				signatureCache.listen(this.ne, "loaded");
+			}, h.sF(function () {
+				user.verifyKeys(this);
+			}), cb);
+
 		}, true);
 
 		$rootScope.$on("ssn.reset", function () {

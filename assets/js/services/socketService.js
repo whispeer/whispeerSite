@@ -1,7 +1,7 @@
 /**
 * SocketService
 **/
-define(["jquery", "socket", "socketStream", "step", "whispeerHelper", "config", "cryptoWorker/generalWorkerInclude"], function ($, io, iostream, step, h, config, generalWorkerInclude) {
+define(["jquery", "socket", "socketStream", "step", "whispeerHelper", "config"], function ($, io, iostream, step, h, config) {
 	"use strict";
 
 	var socket;
@@ -11,11 +11,7 @@ define(["jquery", "socket", "socketStream", "step", "whispeerHelper", "config", 
 		socket = io.connect("http://" + config.ws + ":" + config.wsPort);
 	}
 
-	var service = function ($rootScope, sessionService) {
-		generalWorkerInclude.setBeforeCallBack(function (evt, cb) {
-			$rootScope.$apply(cb);
-		});
-
+	var service = function ($rootScope, sessionService, keyStore) {
 		function updateLogin(data) {
 			if (data.logedin) {
 				sessionService.setSID(data.sid, data.userid);
@@ -64,6 +60,9 @@ define(["jquery", "socket", "socketStream", "step", "whispeerHelper", "config", 
 			once: function () {
 				socket.once.apply(socket, arguments);
 			},
+			removeAllListener: function (channel) {
+				socket.removeAllListeners(channel);
+			},
 			listen: function (channel, callback) {
 				socket.on(channel, function (data) {
 					console.log("received data on " + channel);
@@ -94,15 +93,23 @@ define(["jquery", "socket", "socketStream", "step", "whispeerHelper", "config", 
 					console.groupCollapsed("Answer on " + channel);
 					console.info((new Date().getTime() - time));
 
-					if (data.error) {
-						console.error(data);
-					} else {
-						console.info(data);
+					loading--;
+
+					if (data.keys) {
+						data.keys.forEach(function (key) {
+							keyStore.upload.addKey(key);
+						});
 					}
 
+					if (data.error) {
+						console.error(data);
+						console.groupEnd();
+						throw new Error("server returned an error!");
+					}
+
+					console.info(data);
 					console.groupEnd();
 
-					loading--;
 					lastRequestTime = data.serverTime;
 
 					var that = this;
@@ -138,10 +145,12 @@ define(["jquery", "socket", "socketStream", "step", "whispeerHelper", "config", 
 			socketS.emit("ping", {}, function () {});
 		});
 
+		keyStore.upload.setSocket(socketS);
+
 		return socketS;
 	};
 
-	service.$inject = ["$rootScope", "ssn.sessionService"];
+	service.$inject = ["$rootScope", "ssn.sessionService", "ssn.keyStoreService"];
 
 	return service;
 });

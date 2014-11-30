@@ -4,7 +4,10 @@
 		<span class="title" data-i18n="magicbar.requests.title"></span>
 		<ul class="unstyled" id="requestsList">
 			<li class="request" data-ng-repeat="user in requests">
-				<friend data-user="user" data-type="request"></friend>
+				<friend data-user="user">
+					<button class="btn btn--primary btn--fixPadding" data-i18n="magicbar.requests.accept" ng-click="$parent.acceptRequest(user)"></button>
+					<button class="btn btn--danger btn--fixPadding" data-i18n="magicbar.requests.decline"></button>
+				</friend>
 			</li>
 			<li class="request error" data-ng-if="requests.length == 0">
 				<span data-i18n="magicbar.requests.none"></span>
@@ -20,7 +23,10 @@
 		<span class="title" data-i18n="friends.title"></span>
 		<ol id="friendsList" class="unstyled">
 			<li data-ng-repeat="friend in friends">
-				<friend data-user="friend" data-type="friend"></friend>
+				<friend data-user="friend">
+					<a href="/messages?userid={{friend.id}}"><i class="fa fa-2x fa-envelope fa-fw"></i></a>
+					<a data-ng-click="$parent.removeFriend(friend)"><i class="clickable fa fa-2x fa-times fa-fw"></i></a>
+				</friend>
 			</li>
 		</ol>
 	</section>

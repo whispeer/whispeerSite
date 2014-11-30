@@ -83,8 +83,7 @@
 		"loading": "Laden..."
 	},
 	"directives": {
-		"allfriends": "Alle Freunde",
-		"friendsoffriends": "Freunde von Freunden"
+		"allfriends": "Alle Freunde"
 	},
 	"usersearch": {
 		"mutualFriends": "gemeinsame Freunde",
@@ -230,9 +229,8 @@
 			},
 			"content": "{{content}}"
 		},
-		"comments": {
-			"time":	"Am {date} um {time}"
-		}
+		"newComment": "Schreibe einen Kommentar!",
+		"comments": "Kommentare"
 	},
 	"messages": {
 		"title": "Nachrichten",

@@ -29,7 +29,7 @@ define([], function () {
 		}
 
 		function loadOldLogin() {
-			if (storage.get("loggedin") === "true" && storage.get("passwords")) {
+			if (storage.get("loggedin") === "true" && storage.get("password")) {
 				var sid = storage.get("sid");
 				var userid = storage.get("userid");
 				setSID(sid, userid);

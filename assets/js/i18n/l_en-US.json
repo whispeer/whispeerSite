@@ -83,8 +83,7 @@
 		"loading": "Loading..."
 	},
 	"directives": {
-		"allfriends": "All Friends",
-		"friendsoffriends": "Friends of Friends"
+		"allfriends": "All Friends"
 	},
 	"usersearch": {
 		"mutualFriends": "mutual friends",

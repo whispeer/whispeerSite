@@ -3,7 +3,7 @@
 **/
 (function () {
 	"use strict";
-	var models = ["user"];
+	var models = ["user", "message", "comment"];
 
 	var includes = ["angular"];
 

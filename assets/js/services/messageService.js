@@ -1,8 +1,17 @@
 /**
 * MessageService
 **/
-define(["step", "whispeerHelper", "validation/validator", "asset/observer", "asset/sortedSet"], function (step, h, validator, Observer, sortedSet) {
+define([
+		"step",
+		"whispeerHelper",
+		"validation/validator",
+		"asset/observer",
+		"asset/sortedSet",
+		"asset/securedDataWithMetaData"
+	], function (step, h, validator, Observer, sortedSet, SecuredData) {
 	"use strict";
+
+	var messageService;
 
 	function sortGetTime(a, b) {
 		return (a.getTime() - b.getTime());
@@ -16,142 +25,26 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer", "ass
 		return (b.obj.getTime() - a.obj.getTime());
 	}
 
-
-	var service = function ($rootScope, $timeout, errorService, socket, sessionService, userService, keyStore, initService, windowService) {
+	var service = function ($rootScope, $timeout, errorService, socket, sessionService, userService, keyStore, initService, windowService, Message) {
 		var messages = {};
 		var topics = {};
 
-		var listeners = [];
-
 		var topicArray = sortedSet(sortObjGetTimeInv);
-
-		var Message = function (data) {
-			var theMessage = this;
-
-			var meta = data.meta;
-			var content = data.content;
-			var ownMessage;
-
-			this.data = {
-				text: "",
-				timestamp: meta.sendTime,
-
-				loading: true,
-				loaded: false,
-
-				sender: {
-					"id": meta.sender,
-					"name": "",
-					"url": "",
-					"image": "assets/img/user.png"
-				},
-
-				id: meta.messageid,
-				obj: this
-			};
-
-			var decrypted = false;
-			var decryptedText;
-
-			var err = validator.validate("message", data);
-			if (err) {
-				throw err;
-			}
-
-			if (typeof content.key === "object") {
-				content.key = keyStore.upload.addKey(content.key);
-			}
-
-			this.getHash = function getHashF() {
-				return meta.ownHash;
-			};
-
-			this.getTopicHash = function getHashF() {
-				return meta.topicHash;
-			};
-
-			this.getID = function getIDF() {
-				return h.parseDecimal(meta.messageid);
-			};
-
-			this.getTopicID = function getTopicIDF() {
-				return meta.topicid;
-			};
-
-			this.getTime = function getTimeF() {
-				return meta.sendTime;
-			};
-
-			this.isOwn = function isOwnF() {
-				return ownMessage;
-			};
-
-			this.loadSender = function loadSenderF(cb) {
-				var theSender;
-				step(function () {
-					userService.get(meta.sender, this);
-				}, h.sF(function loadS1(sender) {
-					this.parallel.unflatten();
-
-					theSender = sender;
-					sender.loadBasicData(this);
-				}), h.sF(function loadS2() {
-					theMessage.data.sender = theSender.data;
-					ownMessage = theSender.isOwn();
-
-					this.ne();
-				}), cb);
-			};
-
-			this.loadFullData = function loadFullDataF(cb) {
-				step(function l1() {
-					theMessage.decrypt(this);
-				}, h.sF(function l2() {
-					theMessage.loadSender(this);
-				}), h.sF(function l3() {
-					this.ne();
-				}), cb);
-			};
-
-			this.decrypt = function decryptF(cb) {
-				step(function () {
-					if (decrypted) {
-						this.last.ne();
-					} else {
-						keyStore.sym.decrypt({
-							ct: content.text,
-							iv: content.iv
-						}, content.key, this);
-					}
-				}, h.sF(function (text) {
-					decrypted = true;
-					decryptedText = text;
-
-					var randomPart = text.indexOf("::");
-
-					theMessage.data.text = text.substr(randomPart + 2);
-
-					this.ne(text);
-				}), cb);
-			};
-		};
 
 		var Topic = function (data) {
 			var messages = sortedSet(sortGetTime), dataMessages = sortedSet(sortObjGetTime), messagesByID = {}, theTopic = this, loadInitial = true;
 
-			var err = validator.validate("topic", data);
+			var err = validator.validate("topic", data.meta);
 			if (err) {
-				console.log("Topic Data Invalid! Fix this!");
-				//throw err;
+				throw err;
 			}
 
-			if (typeof data.key === "object") {
-				data.key = keyStore.upload.addKey(data.key);
-			}
+			data.meta.receiver.sort();
 
-			if (typeof data.additionalKey === "object") {
-				keyStore.upload.addKey(data.additionalKey);
-			}
+			var meta = SecuredData.load(undefined, data.meta, {
+				type: "topic",
+				attributesNotVerified: ["newest", "topicid", "unread", "newestTime"]
+			});
 
 			var unreadMessages;
 
@@ -170,11 +63,13 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer", "ass
 
 				unreadMessages = newUnread.map(h.parseDecimal);
 				theTopic.data.unread = (unreadMessages.length > 0);
-				var i;
-				for (i = 0; i < messages.length; i += 1) {
-					messages[i].unread = (unreadMessages.indexOf(messages[i].getID()) > -1);
-				}
+
+				messages.forEach(function (message) {
+					message.unread = unreadMessages.indexOf(message.getID()) > -1;
+				});
 			}
+
+			var receiver = meta.metaAttr("receiver");
 
 			this.data = {
 				remaining: 1,
@@ -188,11 +83,15 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer", "ass
 				remainingUserTitle: "",
 
 				id: data.topicid,
-				type: (data.receiver.length <= 2 ? "peerChat" : "groupChat"),
+				type: (receiver.length <= 2 ? "peerChat" : "groupChat"),
 				obj: this
 			};
 
 			setUnread(data.unread);
+
+			this.getSecuredData = function () {
+				return meta;
+			};
 
 			this.messageUnread = function messageUnreadF(mid) {
 				return unreadMessages.indexOf(mid) > -1;
@@ -207,7 +106,7 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer", "ass
 			};
 
 			this.getHash = function getHashF() {
-				return data.topicHash;
+				return meta.getHash();
 			};
 
 			this.getID = function getIDF() {
@@ -219,7 +118,7 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer", "ass
 			};
 
 			this.getKey = function getKeyF() {
-				return data.key;
+				return meta.metaAttr("_key");
 			};
 
 			this.markRead = function markMessagesRead(cb) {
@@ -281,6 +180,7 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer", "ass
 					data.newestTime = Math.max(m.getTime(), data.newestTime);
 					topicArray.resort();
 
+					m.verifyParent(theTopic);
 					m.loadFullData(this);
 				}, h.sF(function () {
 					addMessageToList(m);
@@ -298,9 +198,20 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer", "ass
 				}), cb);
 			};
 
+			this.verify = function verify(cb) {
+				step(function () {
+					userService.get(meta.metaAttr("creator"), this);
+				}, h.sF(function (creator) {
+					meta.verify(creator.getSignKey(), this);
+				}), h.sF(function () {
+					keyStore.security.addEncryptionIdentifier(meta.metaAttr("_key"));
+					this.ne();
+				}), cb);
+			};
+
 			this.loadReceiverNames = function loadRNF(cb) {
 				step(function () {
-					userService.getMultipleFormatted(data.receiver, this);
+					userService.getMultipleFormatted(receiver, this);
 				}, h.sF(function (receiverObjects) {
 					var partners = theTopic.data.partners;
 					var i, me;
@@ -327,13 +238,15 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer", "ass
 			};
 
 			this.getReceiver = function () {
-				return data.receiver.slice();
+				return receiver;
 			};
 
 			this.loadAllData = function loadAllDataF(cb) {
 				step(function () {
-					theTopic.loadReceiverNames(this);
+					theTopic.verify(this);
 				}, h.sF(function () {
+					theTopic.loadReceiverNames(this);
+				}), h.sF(function () {
 					theTopic.loadNewest(this);
 				}), cb);
 			};
@@ -390,85 +303,6 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer", "ass
 			};
 		};
 
-		Message.createData = function (topic, message, cb) {
-			step(function () {
-				if (typeof topic !== "object") {
-					Topic.get(topic, this);
-				} else {
-					this.ne(topic);
-				}
-			}, h.sF(function (rTopic) {
-				topic = rTopic;
-				keyStore.random.hex(128-(message.length%128), this);
-			}), h.sF(function (random) {
-				message = random + "::" + message;
-
-				var newest = topic.data.latestMessage;
-
-				var meta = {
-					createTime: new Date().getTime(),
-					topicHash: newest.getTopicHash(),
-					previousMessage: h.parseDecimal(newest.getID()),
-					previousMessageHash: newest.getHash()
-				};
-
-				var topicKey = topic.getKey();
-
-				Message.createRawData(topicKey, message, meta, this);
-			}), h.sF(function (mData) {
-
-				mData.meta.topicid = topic.getID();
-
-				var result = {
-					message: mData
-				};
-
-				this.ne(result);
-			}), cb);
-		};
-
-		Message.createRawData = function (topicKey, message, meta, cb) {
-			var mKey, mData, encryptedMessageData;
-			step(function () {
-				keyStore.sym.generateKey(this, "messageMain");
-			}, h.sF(function (key) {
-				mKey = key;
-
-				this.parallel.unflatten();
-
-				keyStore.sym.encrypt(message, key, this.parallel());
-				keyStore.sym.symEncryptKey(key, topicKey, this.parallel());
-			}), h.sF(function (encr) {
-				var unEncryptedMessageData = {
-					meta: meta,
-					content: message
-				};
-
-				encryptedMessageData = {
-					meta: meta,
-					content: {
-						iv: encr.iv,
-						text: encr.ct
-					}
-				};
-
-				this.parallel.unflatten();
-
-				meta.ownHash = keyStore.hash.hashObjectHex(encryptedMessageData);
-
-				keyStore.sign.signObject(encryptedMessageData, userService.getown().getSignKey(), this.parallel());
-				keyStore.sign.signObject(unEncryptedMessageData, userService.getown().getSignKey(), this.parallel());
-			}), h.sF(function (encrSignature, unEncrSignature) {
-				mData = encryptedMessageData;
-				mData.meta.signature = unEncrSignature;
-				mData.meta.encrSignature = encrSignature;
-
-				mData.content.key = keyStore.upload.getKey(mKey);
-
-				this.ne(mData);
-			}), cb);
-		};
-
 		Topic.get = function (topicid, cb) {
 			var theTopic;
 			step(function () {
@@ -491,14 +325,14 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer", "ass
 		};
 
 		Topic.createData = function (receiver, message, cb) {
-			var receiverObjects, topicKey, result, topicHash;
+			var receiverObjects, topicKey, topicData;
 			step(function () {
 				//load receiver
 				receiver = receiver.map(function (val) {
 					if (typeof val === "object") {
 						return val.getID();
 					} else {
-						return parseInt(val, 10);
+						return h.parseDecimal(val);
 					}
 				});
 
@@ -529,62 +363,48 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer", "ass
 				}
 			}), h.sF(function (cryptKeys) {
 				var cryptKeysData = keyStore.upload.getKeys(cryptKeys);
-				var topicKeyData = keyStore.upload.getKey(topicKey);
-				var receiver = [];
-				var receiverIDs;
+				var receiverKeys = {}, receiverIDs = [];
 
-				var i;
-				for (i = 0; i < receiverObjects.length; i += 1) {
-					var cur = receiverObjects[i];
-					receiver.push({
-						identifier: cur.getID(),
-						key: cryptKeysData[i]
-					});
-
-				}
-
-				receiver.push({
-					identifier: userService.getown().getID()
+				receiverObjects.forEach(function (receiver, index) {
+					receiverIDs.push(receiver.getID());
+					receiverKeys[receiver.getID()] = cryptKeys[index];
 				});
 
-				receiverIDs = receiver.map(function (e) {
-					return e.identifier;
-				});
-
-				//create data
-				result = {
-					topic: {
-						createTime: new Date().getTime(),
-						key: topicKeyData,
-						receiver: receiver
-					}
-				};
+				receiverIDs.push(userService.getown().getID());
+				receiverIDs.sort();
 
 				// topic hashable data.
-				var topicHashData = {
-					createTime: result.topic.createTime,
-					key: topicKey,
-					receiver: receiverIDs
-				};
-
-				topicHash = keyStore.hash.hashObjectHex(topicHashData);
-
-				keyStore.random.hex(128-(message.length%128), this);
-			}), h.sF(function (random) {
-				message = random + "::" + message;
-
-				var meta = {
+				var topicMeta = {
 					createTime: new Date().getTime(),
-					topicHash: topicHash,
-					previousMessage: 0,
-					previousMessageHash: "0"
+					receiver: receiverIDs,
+					creator: userService.getown().getID()
 				};
 
-				Message.createRawData(topicKey, message, meta, this);
-			}), h.sF(function (mData) {
-				result.message = mData;
+				//create data
+				topicData = {
+					keys: cryptKeysData.concat([keyStore.upload.getKey(topicKey)]),
+					receiverKeys: receiverKeys
+				};
 
-				this.ne(result);
+				this.parallel.unflatten();
+				SecuredData.create({}, topicMeta, { type: "topic" }, userService.getown().getSignKey(), topicKey, this);
+			}), h.sF(function (tData) {
+				topicData.topic = tData.meta;
+
+				var topic = new Topic({
+					meta: topicData.topic,
+					unread: []
+				});
+
+				var messageMeta = {
+					createTime: new Date().getTime()
+				};
+
+				Message.createRawData(topic, message, messageMeta, this);
+			}), h.sF(function (mData) {
+				topicData.message = mData;
+
+				this.ne(topicData);
 			}), cb);
 		};
 
@@ -640,14 +460,13 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer", "ass
 			return m;
 		}
 
-		function callListener(message) {
-			var i;
-			for (i = 0; i < listeners.length; i += 1) {
-				try {
-					listeners[i](message);
-				} catch (e) {
-					errorService.criticalError(e);
-				}
+		function addSocketMessage(messageData) {
+			if (messageData) {
+				var message = makeMessage(messageData, true, function () {
+					$timeout(function () {
+						messageService.notify(message, "message");
+					});
+				});
 			}
 		}
 
@@ -655,24 +474,14 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer", "ass
 			if (!e) {
 				if (data.topic) {
 					var t = makeTopic(data.topic, function () {
-						if (data.message) {
-							var m = makeMessage(data.message, true, function () {
-								$timeout(function () {
-									callListener(m);
-								});
-							});
-						}
+						addSocketMessage(data.message);
 					});
 
 					if (t.data.unread) {
 						messageService.data.unread += 1;
 					}
-				} else if (data.message) {
-					var m = makeMessage(data.message, true, function () {
-						$timeout(function () {
-							callListener(m);
-						});
-					});
+				} else {
+					addSocketMessage(data.message);
 				}
 			} else {
 				errorService.criticalError(e);
@@ -683,21 +492,17 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer", "ass
 
 		var activeTopic = 0;
 
-		var messageService = {
+		messageService = {
 			isActiveTopic: function (topicid) {
 				return activeTopic === h.parseDecimal(topicid);
 			},
 			setActiveTopic: function (topicid) {
 				activeTopic = h.parseDecimal(topicid);
 			},
-			listenNewMessage: function (func) {
-				listeners.push(func);
-			},
 			reset: function () {
 				messages = {};
 				topics = {};
 				topicArray = sortedSet(sortObjGetTimeInv);
-				listeners = [];
 				messageService.data = {
 					latestTopics: {
 						count: 0,
@@ -806,8 +611,8 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer", "ass
 					} else {
 						Topic.createData(receiver, message, this);
 					}
-				}), h.sF(function (result) {
-					socket.emit("messages.sendNewTopic", result, this);
+				}), h.sF(function (topicData) {
+					socket.emit("messages.sendNewTopic", topicData, this);
 				}), h.sF(function (result) {
 					makeTopic(result.topic, cb);
 				}), cb || h.nop);
@@ -819,11 +624,19 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer", "ass
 					} else if (count > 3) {
 						throw new Error("failed to send message");
 					}
+
+					if (typeof topic !== "object") {
+						Topic.get(topic, this);
+					} else {
+						this.ne(topic);
+					}
+				}, h.sF(function (topic) {
 					Message.createData(topic, message, this);
-				}, h.sF(function (result) {
+				}), h.sF(function (result) {
 					socket.emit("messages.send", result, this);
 				}), h.sF(function (result) {
 					if (!result.success) {
+						//TODO: really improve this!
 						window.setTimeout(function () {
 							messageService.sendMessage(topic, message, cb, count + 1);
 						}, 200);
@@ -863,7 +676,7 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer", "ass
 		initService.register("messages.getUnreadCount", {}, function (data, cb) {
 			messageService.data.unread = h.parseDecimal(data.unread) || 0;
 
-			messageService.listenNewMessage(function(m) {
+			messageService.listen(function(m) {
 				if (!m.isOwn()) {
 					if (!messageService.isActiveTopic(m.getTopicID()) || !windowService.isVisible) {
 						windowService.playMessageSound();
@@ -872,7 +685,7 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer", "ass
 
 					windowService.setAdvancedTitle("newmessage", m.data.sender.basic.shortname);
 				}
-			});
+			}, "message");
 
 			cb();
 		});
@@ -884,7 +697,7 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer", "ass
 		return messageService;
 	};
 
-	service.$inject = ["$rootScope", "$timeout", "ssn.errorService", "ssn.socketService", "ssn.sessionService", "ssn.userService", "ssn.keyStoreService", "ssn.initService", "ssn.windowService"];
+	service.$inject = ["$rootScope", "$timeout", "ssn.errorService", "ssn.socketService", "ssn.sessionService", "ssn.userService", "ssn.keyStoreService", "ssn.initService", "ssn.windowService", "ssn.models.message"];
 
 	return service;
 });

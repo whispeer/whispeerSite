@@ -1,43 +1,88 @@
 /**
 * postService
 **/
-define(["step", "whispeerHelper", "validation/validator", "asset/observer", "asset/errors"], function (step, h, validator, Observer, errors) {
+define(["step", "whispeerHelper", "validation/validator", "asset/observer", "asset/errors", "asset/securedDataWithMetaData", "asset/state"], function (step, h, validator, Observer, errors, SecuredData, State) {
 	"use strict";
 
-	var service = function ($rootScope, socket, keyStore, userService, circleService) {
+	var service = function ($rootScope, socket, keyStore, errorService, userService, circleService, filterKeyService, Comment) {
 		var postsById = {};
 		var postsByUserWall = {};
 		var TimelineByFilter = {};
 
 		var Post = function (data) {
+			var thePost = this, id = data.id;
+
+			var securedData = SecuredData.load(data.content, data.meta, { type: "post" });
+			var comments = data.comments || [];
+			comments = comments.map(function (comment) {
+				return new Comment(comment);
+			});
+
+			var commentState = new State();
+
 			this.data = {
 				loaded: false,
 				id: data.id,
 				info: {
 					"with": ""
 				},
-				time: data.meta.time,
+				time: securedData.metaAttr("time"),
 				isWallPost: false,
-				comments: []
+				newComment: {
+					state: commentState.data,
+					text: "",
+					create: function (text) {
+						if (text === "") {
+							commentState.fail();
+							return;
+						}
+
+						commentState.pending();
+						step(function () {
+							thePost.addComment(text, this);
+						}, h.sF(function () {
+							thePost.data.newComment.text = "";
+							this.ne();
+						}), errorService.failOnError(commentState));
+					}
+				},
+				comments: comments.map(function (comment) {
+					return comment.data;
+				})
 			};
-
-			var thePost = this, id = data.id;
-			var meta = data.meta, content = data.content;
-			var text, decrypted = false;
-
-			if (typeof meta.key === "object") {
-				meta.key = keyStore.upload.addKey(meta.key);
-			}
 
 			this.getID = function () {
 				return id;
 			};
+
+			this.getComments = function () {
+				return comments;
+			};
+
+			function commentListener(e, data) {
+				var comment;
+				step(function () {
+					comment = new Comment(data);
+
+					comment.load(thePost, comments[comments.length - 1], this.parallel());
+				}, h.sF(function () {
+					comments.push(comment);
+					thePost.data.comments.push(comment.data);
+				}), errorService.criticalError);
+			}
+
+			socket.listen("post." + id + ".comment.new", commentListener);
+
+			$rootScope.$on("ssn.reset", function () {
+				socket.removeAllListener("post." + id + ".comment.new");
+			});
 
 			this.loadData = function (cb) {
 				step(function () {
 					this.parallel.unflatten();
 					thePost.getSender(this.parallel());
 					thePost.getWallUser(this.parallel());
+					loadComments(this.parallel());
 				}, h.sF(function (sender, walluser) {
 					var d = thePost.data;
 
@@ -47,7 +92,9 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer", "ass
 					}
 
 					d.sender = sender;
-
+					securedData.verify(sender.user.getSignKey(), this.parallel());
+				}), h.sF(function () {
+					keyStore.security.addEncryptionIdentifier(securedData.metaAttr("_key"));
 					thePost.getText(this);
 				}), h.sF(function (text) {
 					var d = thePost.data;
@@ -61,11 +108,44 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer", "ass
 				}), cb);
 			};
 
+			this.getSecured = function () {
+				return securedData;
+			};
+
+			function loadComments(cb) {
+				step(function () {
+					if (comments.length === 0) {
+						this.last.ne();
+						return;
+					}
+
+					comments.forEach(function (comment, i) {
+						comment.load(thePost, comments[i - 1], this.parallel());
+					}, this);
+				}, cb);
+			}
+
+			this.addComment = function (comment, cb) {
+				step(function () {
+					Comment.create(comment, thePost, this);
+				}, h.sF(function () {
+					this.ne();
+				}), cb);
+			};
+
+			this.getHash = function () {
+				return securedData.getHash();
+			};
+
+			this.getKey = function () {
+				return securedData.metaAttr("_key");
+			};
+
 			this.getWallUser = function (cb) {
 					var theUser;
 					step(function () {
-						if (data.meta.walluser) {
-							userService.get(data.meta.walluser, this);
+						if (securedData.metaAttr("walluser")) {
+							userService.get(securedData.metaAttr("walluser"), this);
 						} else {
 							this.last();
 						}
@@ -81,7 +161,7 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer", "ass
 			this.getSender = function (cb) {
 				var theUser;
 				step(function () {
-					userService.get(data.meta.sender, this);
+					userService.get(securedData.metaAttr("sender"), this);
 				}, h.sF(function (user) {
 					theUser = user;
 
@@ -92,131 +172,23 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer", "ass
 			};
 
 			this.getText = function (cb) {
-				step(function () {
-					thePost.decrypt(this);
-				}, h.sF(function (success) {
-					if (!success) {
-						throw new Error("could not decrypt post");
-					}
-
-					this.ne(text);
-				}), cb);
-			};
-
-			this.decrypt = function (cb) {
-				step(function () {
-					keyStore.sym.decrypt(content, meta.key, this);
-				}, h.sF(function (content) {
-					if (content) {
-						if (keyStore.hash.hash(content) !== meta.contentHash) {
-							throw new Error("invalid content hash!");
-						}
-
-						text = keyStore.hash.removePaddingFromObject(content);
-						decrypted = true;
-
-						this.ne(true);
-					} else {
-						this.ne(false);
-					}
-				}), cb);
+				securedData.decrypt(cb);
 			};
 		};
 
 		function makePost(data) {
-			//TODO: check if validation really goes through
+			var err = validator.validate("post", data);
+			if (err) {
+				throw err;
+			}
 
-			validator.validate("post", data);
 			if (postsById[data.id]) {
 				return postsById[data.id];
 			}
 
 			var p = new Post(data);
-
 			postsById[p.getID()] = p;
-
 			return p;
-		}
-
-		function removeDoubleFilter(filter) {
-			var currentFilter, currentFilterOrder = 0;
-			var filterOrder = {
-				allfriends: 1,
-				friendsoffriends: 2,
-				everyone: 3
-			};
-
-			var i, cur;
-			for (i = 0; i < filter.length; i += 1) {
-				cur = filter[i];
-				if (currentFilterOrder < filterOrder[cur]) {
-					currentFilter = cur;
-					currentFilterOrder = filterOrder[cur];
-				}
-			}
-
-			return currentFilter;
-		}
-
-		function filterToKeys(filter, cb) {
-			var alwaysFilter = [], userFriendsFilter = [], userFilter = [], circleFilter = [];
-
-			if (!filter) {
-				filter = ["always:allfriends"];
-			}
-
-			var i, map;
-			for (i = 0; i < filter.length; i += 1) {
-				map = filter[i].split(":");
-				switch(map[0]) {
-					case "friends":
-						userFriendsFilter.push(map[1]);
-						break;
-					case "always":
-						alwaysFilter.push(map[1]);
-						break;
-					case "circle":
-						circleFilter.push(map[1]);
-						break;
-					case "user":
-						userFilter.push(map[1]);
-						break;
-					default:
-						throw new errors.InvalidFilter("unknown group");
-				}
-			}
-
-			step(function () {
-				this.parallel.unflatten();
-				circleFilterToKeys(circleFilter, this.parallel());
-				userFilterToKeys(userFilter, this.parallel());
-				userFriendsFilterToKeys(userFriendsFilter, this.parallel());
-			}, h.sF(function (circleKeys, userKeys, userFriendsKeys) {
-				var alwaysKeys = alwaysFilterToKeys(alwaysFilter);
-				var keys = alwaysKeys.concat(circleKeys).concat(userKeys).concat(userFriendsKeys);
-
-				this.ne(keys);
-			}), cb);
-		}
-
-		function alwaysFilterToKeys(filter) {
-			if (filter.length === 0) {
-				return [];
-			}
-
-			var theFilter = removeDoubleFilter(filter);
-
-			switch (theFilter) {
-				case "allfriends":
-					return [userService.getown().getFriendsKey()];
-				case "friendsoffriends":
-					return [userService.getown().getFriendsLevel2Key()];
-				case "everyone":
-					//we do not encrypt it anyhow .... this needs to be checked in before!
-					throw new Error("should never be here");
-				default:
-					throw new errors.InvalidFilter("unknown always value");
-			}
 		}
 
 		function circleFiltersToUser(filter, cb) {
@@ -234,45 +206,6 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer", "ass
 				}
 
 				this.ne(h.arrayUnique(user));
-			}), cb);
-		}
-
-		function circleFilterToKeys(filter, cb) {
-			step(function () {
-				circleService.loadAll(this);
-			}, h.sF(function () {
-				var keys = [], i;
-				for (i = 0; i < filter.length; i += 1) {
-					keys.push(circleService.get(filter[i]).getKey());
-				}
-				
-				this.ne(keys);
-			}), cb);
-		}
-
-		function userFilterToKeys(user, cb) {
-			step(function () {
-				userService.getMultiple(user, this);
-			}, h.sF(function (users) {
-				var i, keys = [];
-				for (i = 0; i < users.length; i += 1) {
-					keys.push(users[i].getContactKey());
-				}
-
-				this.ne(keys);
-			}), cb);
-		}
-
-		function userFriendsFilterToKeys(user, cb) {
-			step(function () {
-				userService.getMultiple(user, this);
-			}, h.sF(function (users) {
-				var i, keys = [];
-				for (i = 0; i < users.length; i += 1) {
-					keys.push(users[i].getFriendsKey());
-				}
-
-				this.ne(keys);
 			}), cb);
 		}
 
@@ -402,50 +335,41 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer", "ass
 							contentHash,
 							time,
 							signature,
+							sender: ownid,
 							(key),
 							(walluser), //for a wallpost
 						}
 						content //padded!
 				*/
-				var postKey;
-
-				var data = {
-					meta: {}
-				};
+				var meta = {}, postKey;
 
 				step(function () {
 					this.parallel.unflatten();
 
-					keyStore.hash.addPaddingToObject(content, 128, this.parallel());
 					keyStore.sym.generateKey(this.parallel(), "post key");
-					filterToKeys(visibleSelection, this.parallel());
-				}, h.sF(function (paddedContent, keyid, keys) {
-					var i;
-					postKey = keyid;
-					content = paddedContent;
+					filterKeyService.filterToKeys(visibleSelection, this.parallel());
+				}, h.sF(function (key, keys) {
+					postKey = key;
 
-					data.meta.contentHash = keyStore.hash.hash(content);
-					data.meta.time = new Date().getTime();
-					data.meta.walluser = wallUserID;
+					meta.time = new Date().getTime();
+					meta.sender = userService.getown().getID();
+					meta.walluser = wallUserID;
 	
 					this.parallel.unflatten();
-
-					keyStore.sym.encrypt(content, keyid, this.parallel());
-
-					keyStore.sign.signObject(data.meta, userService.getown().getSignKey(), this.parallel());
-
-					for (i = 0; i < keys.length; i += 1) {
-						keyStore.sym.symEncryptKey(postKey, keys[i], this.parallel());
-					}
-				}), h.sF(function (encryptedContent, signature) {
-					data.content = encryptedContent;
-					data.meta.key = keyStore.upload.getKey(postKey);
-					data.meta.signature = signature;
-
+					SecuredData.create(content, meta, { type: "post" }, userService.getown().getSignKey(), postKey, this.parallel());
+					keys.forEach(function (key) {
+						keyStore.sym.symEncryptKey(postKey, key, this.parallel());
+					}, this);
+				}), h.sF(function (data) {
+					data.meta._key = keyStore.upload.getKey(data.meta._key);
 					socket.emit("posts.createPost", {
 						postData: data
 					}, this);
 				}), h.sF(function (result) {
+					if (result.error) {
+						throw new Error("post creation failed on server");
+					}
+
 					var newPost = makePost(result.createdPost);
 
 					if (h.parseDecimal(wallUserID) === 0) {
@@ -481,7 +405,7 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer", "ass
 		return postService;
 	};
 
-	service.$inject = ["$rootScope", "ssn.socketService", "ssn.keyStoreService", "ssn.userService", "ssn.circleService"];
+	service.$inject = ["$rootScope", "ssn.socketService", "ssn.keyStoreService", "ssn.errorService", "ssn.userService", "ssn.circleService", "ssn.filterKeyService", "ssn.models.comment"];
 
 	return service;
 });

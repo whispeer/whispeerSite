@@ -3,7 +3,7 @@
 /**
 * SessionHelper
 **/
-define(["step", "whispeerHelper", "crypto/trustManager"], function (step, h, trustManager) {
+define(["step", "whispeerHelper", "crypto/trustManager", "asset/securedDataWithMetaData"], function (step, h, trustManager, SecuredData) {
 	"use strict";
 
 	var service = function (socketService, keyStoreService, ProfileService, sessionService, blobService) {
@@ -37,7 +37,11 @@ define(["step", "whispeerHelper", "crypto/trustManager"], function (step, h, tru
 					if (data.error) {
 						this.last({ unknownName: true });
 					} else {
-						var hash = keyStoreService.hash.hashPW(password);
+						if (data.salt.length !== 16) {
+							throw new SecurityError("server wut?")
+						}
+
+						var hash = keyStoreService.hash.hashPW(password, data.salt);
 
 						hash = keyStoreService.hash.hash(hash + data.token);
 						socketService.emit("session.login", {
@@ -53,7 +57,7 @@ define(["step", "whispeerHelper", "crypto/trustManager"], function (step, h, tru
 						sessionHelper.resetKey();
 						
 						sessionService.setSID(data.sid, data.userid);
-						keyStoreService.addPassword(password);
+						keyStoreService.security.setPassword(password);
 
 						this.last.ne();
 					}
@@ -89,42 +93,59 @@ define(["step", "whispeerHelper", "crypto/trustManager"], function (step, h, tru
 					}
 
 					var privateProfile = new ProfileService({
-						profile: profile.priv,
-						metaData: profile.metaData
-					}, true);
+						content: profile.priv
+					}, { isDecrypted: true });
 
 					var privateProfileMe = new ProfileService({
-						profile: h.objectJoin(h.objectJoin(profile.priv, profile.pub), profile.nobody),
-						metaData: {
-							scope: "me"
-						}
-					}, true);
+						content: h.objectJoin(h.objectJoin(profile.priv, profile.pub), profile.nobody),
+						meta: { myProfile: true }
+					}, { isDecrypted: true });
 
-					trustManager.allow(3);
+					var publicProfile = new ProfileService({
+						content: profile.pub || {}
+					}, { isPublicProfile: true });
+
+					var correctKeys = h.objectMap(keys, keyStoreService.correctKeyIdentifier);
+					var ownKeys = {main: correctKeys.main, sign: correctKeys.sign};
+					delete correctKeys.main;
+					delete correctKeys.profile;
+
+					var signedKeys = SecuredData.load(undefined, correctKeys, { type: "signedKeys" });
+
+					trustManager.allow(4);
 
 					this.parallel.unflatten();
 
-					privateProfile.signAndEncrypt(keys.sign, keys.profile, keys.main, this.parallel());
-					privateProfileMe.signAndEncrypt(keys.sign, keys.main, keys.main, this.parallel());
-					keyStoreService.sign.signObject(profile.pub, keys.sign, this.parallel());
+					privateProfile.signAndEncrypt(keys.sign, keys.profile, this.parallel());
+					privateProfileMe.signAndEncrypt(keys.sign, keys.main, this.parallel());
+					publicProfile.sign(keys.sign, this.parallel());
+
 					keyStoreService.sym.encryptObject(settings, keys.main, 0, this.parallel());
+					signedKeys.sign(keys.sign, this.parallel());
+
+					keyStoreService.security.makePWVerifiable(ownKeys, password, this.parallel());
+
+					keyStoreService.random.hex(16, this.parallel());
 
 					keyStoreService.sym.pwEncryptKey(keys.main, password, this.parallel());
-					keyStoreService.sym.symEncryptKey(keys.friendsLevel2, keys.friends, this.parallel());
 					keyStoreService.sym.symEncryptKey(keys.profile, keys.friends, this.parallel());
-				}), h.sF(function register3(privateProfile, privateProfileMe, publicProfileSignature, settings) {
+				}), h.sF(function register3(privateProfile, privateProfileMe, publicProfile, settings, signedKeys, signedOwnKeys, salt) {
 					keys = h.objectMap(keys, keyStoreService.correctKeyIdentifier);
 					trustManager.disallow();
 
-					profile.pub.signature = publicProfileSignature;
-
 					var registerData = {
+						password: {
+							salt: salt,
+							hash: keyStoreService.hash.hashPW(password, salt),
+						},
 						inviteCode: inviteCode,
-						password: keyStoreService.hash.hashPW(password),
 						keys: h.objectMap(keys, keyStoreService.upload.getKey),
+						signedKeys: signedKeys,
+						signedOwnKeys: signedOwnKeys,
 						profile: {
-							pub: profile.pub,
-							priv: [privateProfile, privateProfileMe]
+							pub: publicProfile,
+							priv: [privateProfile],
+							me: privateProfileMe
 						},
 						settings: settings
 					};
@@ -142,7 +163,7 @@ define(["step", "whispeerHelper", "crypto/trustManager"], function (step, h, tru
 					result = _result;
 
 					sessionHelper.resetKey();
-					keyStoreService.addPassword(password);
+					keyStoreService.security.setPassword(password);
 
 					if (imageBlob) {
 						imageBlob.upload(this);
@@ -169,8 +190,7 @@ define(["step", "whispeerHelper", "crypto/trustManager"], function (step, h, tru
 					["sign", "sign"],
 					["crypt", "asym"],
 					["profile", "sym"],
-					["friends", "sym"],
-					["friendsLevel2", "sym"]
+					["friends", "sym"]
 				];
 
 				function getCorrectKeystore(index) {

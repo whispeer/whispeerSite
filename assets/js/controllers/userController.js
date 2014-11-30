@@ -178,6 +178,10 @@ define(["step", "whispeerHelper", "asset/resizableImage", "asset/state", "libs/q
 			userObject.addAsFriend();
 		};
 
+		$scope.removeFriend = function () {
+			userObject.removeAsFriend();
+		};
+
 		$scope.edit = function () {
 			$scope.editGeneral = !$scope.editGeneral;
 
@@ -254,7 +258,7 @@ define(["step", "whispeerHelper", "asset/resizableImage", "asset/state", "libs/q
 				}), h.sF(function () {
 					$scope.edit();
 
-					this.ne();
+					$timeout(this);
 				}), errorService.failOnError(saveUserState));
 			}
 		};
@@ -361,6 +365,7 @@ define(["step", "whispeerHelper", "asset/resizableImage", "asset/state", "libs/q
 				for (i = 0; i < toRemove.length; i += 1) {
 					circleService.get(toRemove[i]).removePersons([$scope.user.id], this.parallel());
 				}
+				this.parallel()();
 			}), errorService.failOnError(circleState));
 		};
 
@@ -388,10 +393,10 @@ define(["step", "whispeerHelper", "asset/resizableImage", "asset/state", "libs/q
 
 			step(function () {
 				postService.createPost($scope.newPost.text, visibleSelection, wallUserID, this);
-			}, h.sF(function (post) {
+			}, h.sF(function () {
 				$scope.newPost.text = "";
 
-				console.log(post);
+				this.ne();
 			}), errorService.failOnError(sendPostState));
 		};
 

@@ -1,48 +1,48 @@
-/**
+/**.
 * MessageService
 **/
-define(["step", "whispeerHelper", "asset/observer"], function (step, h, Observer) {
+define(["step", "whispeerHelper", "asset/observer", "asset/securedDataWithMetaData"], function (step, h, Observer, SecuredData) {
 	"use strict";
 
-	var service = function ($rootScope, socket, userService, sessionService, keyStore) {
+	var service = function ($rootScope, socket, userService, friendsService, sessionService, keyStore, settingsService) {
 		var circles = {};
 		var circleArray = [];
 		var circleData = [];
 
 		var Circle = function (data) {
-			var id = data.id, user = data.user.map(h.parseDecimal), name = data.name, decrypted = false, theCircle = this, persons = [];
-			var decryptedName, key, usersLoaded = 0;
+			var id = data.id, theCircle = this, persons = [];
 
-			if (typeof data.key === "object") {
-				key = keyStore.upload.addKey(data.key);
-			} else {
-				key = data.key;
-			}
+			var circleSec = SecuredData.load(data.content, data.meta, { type: "circle" });
+			var circleUsers = circleSec.metaAttr("users").map(h.parseDecimal);
 
 			this.getID = function getIDF() {
 				return id;
 			};
 
 			this.getUserIDs = function () {
-				return user;
+				return circleUsers;
 			};
 
 			this.hasUser = function (uid) {
-				return user.indexOf(h.parseDecimal(uid)) !== -1;
+				return circleUsers.indexOf(h.parseDecimal(uid)) !== -1;
 			};
 
 			this.getKey = function () {
-				return key;
+				return circleSec.metaAttr("circleKey");
 			};
 
 			this.remove = function (cb) {
 				step(function () {
-					socket.emit("circles.removeCircle", {
+					//remove from settings
+					settingsService.privacy.removeCircle(id, this);
+				}, h.sF(function () {
+					//then delete from server
+					socket.emit("circle.delete", {
 						remove: {
 							circleid: id
 						}
 					}, this);
-				}, h.sF(function () {
+				}), h.sF(function () {
 					var circle = circles[id];
 					delete circles[id];
 					h.removeArray(circleArray, circle);
@@ -52,146 +52,134 @@ define(["step", "whispeerHelper", "asset/observer"], function (step, h, Observer
 				}), cb);
 			};
 
-			this.removePersons = function (uids, cb) {
-				var newUser, userIDs, newKey;
+			this.setUser = function (uids, cb) {
+				var newKey, oldKey = circleSec.metaAttr("circleKey"), removing = false, friendKeys;
+
 				step(function () {
-					uids = uids.map(h.parseDecimal).filter(function (e) {
-						return user.indexOf(e) > -1;
+					uids = uids.map(h.parseDecimal);
+					removing = h.arraySubtract(circleUsers, uids).length > 0;
+
+					if (removing) {
+						generateNewKey(this);
+					} else {
+						this.ne(oldKey);
+					}
+				}, h.sF(function (_newKey) {
+					newKey = _newKey;
+
+					this.parallel.unflatten();
+					if (removing) {
+						encryptKeyForUsers(newKey, uids, this.parallel());
+						keyStore.sym.symEncryptKey(oldKey, newKey, this.parallel());
+					} else {
+						encryptKeyForUsers(newKey, h.arraySubtract(uids, circleUsers), this.parallel());
+					}
+				}), h.sF(function (_friendKeys) {
+					friendKeys = _friendKeys;
+					circleSec.metaSet({
+						users: uids,
+						circleKey: newKey
 					});
 
-					newUser = user.filter(function (e) {
-						return uids.indexOf(e) === -1;
-					});
+					this.parallel.unflatten();
+					circleSec.getUpdatedData(userService.getown().getSignKey(), this);
+				}), h.sF(function (newData) {
+					var update = {
+						id: id,
+						content: newData.content,
+						meta: newData.meta						
+					};
 
-					generateUsersSpecificData(newUser, this);
-				}, h.sF(function (localNewKey, userids) {
-					newKey = localNewKey;
-					userIDs = userids;
-
-					var mainKey = userService.getown().getMainKey();
-
-					keyStore.sym.symEncryptKey(newKey, mainKey, this.parallel());
-					keyStore.sym.symEncryptKey(key, newKey, this.parallel());
-				}), h.sF(function () {
-					socket.emit("circles.removeUsers", {
-						remove: {
-							oldKeyDecryptor: keyStore.upload.getDecryptors([key], [newKey]),
-							circleid: id,
-							key: keyStore.upload.getKey(newKey),
-							remove: uids,
-							user: userIDs
-						}
-					}, this);
-				}), h.sF(function (result) {
-					if (result.removed) {
-						key = newKey;
-						user = userIDs;
+					if (removing) {
+						update.decryptors = keyStore.upload.getDecryptors([oldKey], [newKey]);
+						update.key = keyStore.upload.getKey(newKey);
+					} else {
+						update.decryptors = keyStore.upload.getDecryptors([newKey], friendKeys);
 					}
 
-					this.ne(result.removed);
+					socket.emit("circle.update", { update: update }, this);
+				}), h.sF(function () {
+					//emit
+					circleUsers = uids;
+					persons = persons.filter(function (user) {
+						return uids.indexOf(user.id) > -1;
+					});
+					theCircle.data.persons = persons;
+					theCircle.data.userids = circleUsers;
+
+					if (removing) {
+						//rebuild profiles
+						userService.getown().uploadChangedProfile(this);
+					} else {
+						this.ne();
+					}
+				}), h.sF(function () {
+					theCircle.loadPersons(this);
 				}), cb);
+			};
+
+			this.removePersons = function (uids, cb) {
+				uids = uids.map(h.parseDecimal).filter(function (e) {
+					return circleUsers.indexOf(e) > -1;
+				});
+
+				var users = circleUsers.filter(function (e) {
+					return uids.indexOf(e) === -1;
+				});
+
+				this.setUser(users, cb);
 			};
 
 			this.addPersons = function (uids, cb) {
-				var friendShipKeys = [], userids = [];
-				step(function () {
-					userService.getMultiple(uids, this);
-				}, h.sF(function (otherUsers) {
-					var i, u, friendShipKey;
+				uids = uids.filter(function (u) {
+					return circleUsers.indexOf(u) === -1;
+				});
 
-					for (i = 0; i < otherUsers.length; i += 1) {
-						u = otherUsers[i];
-						friendShipKey = u.getFriendShipKey();
-						if (friendShipKey && user.indexOf(u.getID()) === -1) {
-							keyStore.sym.symEncryptKey(key, friendShipKey, this.parallel());
-							userids.push(u.getID());
-							friendShipKeys.push(friendShipKey);
-						} else {
-							throw new Error("no friendShipKey");
-						}
-					}
-				}), h.sF(function () {
-					var decryptors = keyStore.upload.getDecryptors([key], friendShipKeys);
-
-					h.assert(decryptors[key].length === userids.length);
-
-					var data = {
-						decryptors: decryptors,
-						circleid: id,
-						userids: userids
-					};
-
-					socket.emit("circles.addUsers", {
-						add: data
-					}, this);
-				}), h.sF(function (result) {
-					var i;
-					if (!result.error && result.added) {
-						for (i = 0; i < userids.length; i += 1) {
-							if (user.indexOf(userids[i]) === -1) {
-								user.push(userids[i]);
-							}
-						}
-					}
-					
-					theCircle.notify(userids, "usersAdded");
-
-					this.ne();
-				}), cb);
+				this.setUser(uids.concat(circleUsers), cb);
 			};
 
-			this.decrypt = function (cb) {
+			this.load = function (cb) {
 				step(function () {
-					if (!decrypted) {
-						var own = userService.getown();
-						var mainKey = own.getMainKey();
+					this.parallel.unflatten();
 
-						keyStore.sym.decrypt(JSON.parse(name), mainKey, this);
-						decrypted = true;
-					}
-				}, h.sF(function (name) {
-					decryptedName = name;
-					theCircle.data.name = name;
+					circleSec.decrypt(this.parallel());
+					circleSec.verify(userService.getown().getSignKey(), this.parallel());
+				}, h.sF(function (content) {
+					keyStore.security.addEncryptionIdentifier(circleSec.metaAttr("circleKey"));
+					theCircle.data.name = content.name;
 
 					this.ne();
 				}), cb);
 			};
 
 			this.loadPersons = function (cb, limit) {
-				var theUsers;
 				limit = limit || 20;
 				limit = Math.min(h.parseDecimal(limit), 20);
 
-				if (usersLoaded < user.length) {
+				if (persons.length < circleUsers.length) {
 					step(function () {
-						var end = Math.min(user.length, usersLoaded + limit);
-						var nextLoad = user.slice(usersLoaded, end);
+						var loadedIDs = persons.map(function (p) { return p.id; });
+						var loadableUsers = circleUsers.filter(function (user) {
+							return loadedIDs.indexOf(user) === -1
+						});
 
-						usersLoaded = end;
-
-						userService.getMultiple(nextLoad, this);
+						userService.getMultiple(loadableUsers.slice(0, limit), this);
 					}, h.sF(function (users) {
-						theUsers = users;
-						var i;
-						for (i = 0; i < user.length; i += 1) {
-							users[i].loadBasicData(this.parallel());
-						}
+						users.forEach(function (user) {
+							persons.push(user.data);
+							user.loadBasicData(this.parallel());
+						}, this);
 					}), h.sF(function () {
-						var i;
-						for (i = 0; i < theUsers.length; i += 1) {
-							persons.push(theUsers[i].data);
-						}
-
 						this.ne(persons);
 					}), cb);
 				} else {
-					cb(0);
+					cb();
 				}
 			};
 
 			this.data = {
 				id: id,
-				userids: user,
+				userids: circleUsers,
 				name: "",
 				image: "assets/img/circle.png",
 				persons: persons
@@ -217,33 +205,44 @@ define(["step", "whispeerHelper", "asset/observer"], function (step, h, Observer
 			return circle;
 		}
 
-		function generateUsersSpecificData(users, cb) {
-			var key, userIDs = [];
+		function encryptKeyForUsers(key, users, cb) {
+			users = users.map(h.parseDecimal);
+			var keys;
+			step(function () {
+				if (users && users.length > 0) {
+					this.ne();
+				} else {
+					this.last.ne([]);
+				}
+			}, h.sF(function () {
+				users.forEach(function (user) {
+					if (!friendsService.getUserFriendShipKey(user)) {
+						throw new Error("no friend key for user: " + user);
+					}
+				});
+
+				keys = users.map(function (user) {
+					return friendsService.getUserFriendShipKey(user);
+				});
+
+				keys.forEach(function (friendKey) {
+					keyStore.sym.symEncryptKey(key, friendKey, this.parallel());
+				}, this);
+			}), h.sF(function () {
+				this.ne(keys);
+			}), cb);
+		}
+
+		function generateNewKey(cb) {
+			var key;
 			step(function () {
 				keyStore.sym.generateKey(this, "CircleKey");
-			}, h.sF(function (symKey) {
-				if (users) {
-					key = symKey;
-					userService.getMultiple(users, this);
-				} else {
-					this.last.ne(symKey, []);
-				}
-			}), h.sF(function (userObjects) {
-				var i, friendKey;
-
-				for (i = 0; i < userObjects.length; i += 1) {
-					friendKey = userObjects[i].getFriendShipKey();
-					if (key) {
-						keyStore.sym.symEncryptKey(key, friendKey, this.parallel());
-						userIDs.push(userObjects[i].getID());
-					}
-				}
-
-				this.parallel()();
+			}, h.sF(function (_key) {
+				key = _key;
+				keyStore.sym.symEncryptKey(key, userService.getown().getMainKey(), this);
 			}), h.sF(function () {
-				this.ne(key, userIDs);
+				this.ne(key);
 			}), cb);
-
 		}
 
 		var circleService = {
@@ -256,43 +255,41 @@ define(["step", "whispeerHelper", "asset/observer"], function (step, h, Observer
 				return circles[id];
 			},
 			inWhichCircles: function (uid) {
-				var i, result = [];
-				for (i = 0; i  < circleArray.length; i += 1) {
-					if (circleArray[i].hasUser(parseInt(uid, 10))) {
-						result.push(circleArray[i]);
-					}
-				}
+				uid = h.parseDecimal(uid);
 
-				return result;
+				return circleArray.filter(function (circle) {
+					return circle.hasUser(uid);
+				});
 			},
 			create: function (name, cb, users) {
-				var key, theCircle, userIDs;
+				var key, theCircle;
+				users = users.map(h.parseDecimal);
 				step(function () {
-					generateUsersSpecificData(users, this);
-				}, h.sF(function (symKey, users) {
+					generateNewKey(this);
+				}, h.sF(function (symKey) {
 					key = symKey;
-					userIDs = users;
-
+					encryptKeyForUsers(key, users, this);
+				}), h.sF(function () {
 					var own = userService.getown();
 					var mainKey = own.getMainKey();
 
-					this.parallel.unflatten();
-
-					keyStore.sym.encrypt(name, mainKey, this.parallel());
-					keyStore.sym.symEncryptKey(key, mainKey, this.parallel());
-				}), h.sF(function (encrypted) {
+					SecuredData.create({ name: name }, {
+						users: users,
+						circleKey: key
+					}, { type: "circle" }, own.getSignKey(), mainKey, this);
+				}), h.sF(function (data) {
 					var keyData = keyStore.upload.getKey(key);
 
-					socket.emit("circles.add", {
+					socket.emit("circle.create", {
 						circle: {
 							key: keyData,
-							user: userIDs,
-							name: JSON.stringify(encrypted)
+							content: data.content,
+							meta: data.meta
 						}
 					}, this);
 				}), h.sF(function (data) {
-					theCircle = makeCircle(data.result);
-					theCircle.decrypt(this);
+					theCircle = makeCircle(data.created);
+					theCircle.load(this);
 				}), h.sF(function () {
 					this.ne(theCircle);
 				}), cb);
@@ -316,9 +313,7 @@ define(["step", "whispeerHelper", "asset/observer"], function (step, h, Observer
 						loading = true;
 						circleService.data.loading = false;
 
-						socket.emit("circles.getAll", {
-							fullKey: true
-						}, this);
+						socket.emit("circle.all", {}, this);
 					} else if (loaded) {
 						this.last.ne();
 					} else {
@@ -327,16 +322,15 @@ define(["step", "whispeerHelper", "asset/observer"], function (step, h, Observer
 						}, "loaded");
 					}
 				}, h.sF(function (data) {
-					var i, c;
 					if (data.circles) {
-						for (i = 0; i < data.circles.length; i += 1) {
-							c = makeCircle(data.circles[i]);
-							c.decrypt(this.parallel());
-						}
+						data.circles.forEach(function (circle) {
+							var c = makeCircle(circle);
+							c.load(this.parallel());
+						}, this);
 
 						this.parallel()();
 					} else {
-						console.error("Could not load circles");
+						throw new Error("server did not return circles");
 					}
 				}), h.sF(function () {
 					loading = false;
@@ -360,7 +354,7 @@ define(["step", "whispeerHelper", "asset/observer"], function (step, h, Observer
 		return circleService;
 	};
 
-	service.$inject = ["$rootScope", "ssn.socketService", "ssn.userService", "ssn.sessionService", "ssn.keyStoreService"];
+	service.$inject = ["$rootScope", "ssn.socketService", "ssn.userService", "ssn.friendsService", "ssn.sessionService", "ssn.keyStoreService", "ssn.settingsService"];
 
 	return service;
 });

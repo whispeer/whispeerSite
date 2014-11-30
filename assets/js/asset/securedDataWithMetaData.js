@@ -1,5 +1,8 @@
 define(["whispeerHelper", "step", "crypto/keyStore", "asset/errors"], function (h, step, keyStore, errors) {
 	"use strict";
+
+	var attributesNeverVerified = ["_signature", "_hashObject"];
+
 	/** crypted content with metadata
 		@param content the content to handle either encrypted or decrypted
 		@param meta metadata for the content
@@ -7,25 +10,43 @@ define(["whispeerHelper", "step", "crypto/keyStore", "asset/errors"], function (
 	*/
 	function SecuredDataWithMetaData(content, meta, options, isDecrypted) {
 		options = options || {};
+
+		//we need to somehow ensure that we have the correct object type.
+		if (typeof options.type !== "string") {
+			throw new Error("need a type for security!");
+		}
+
+		this._type = options.type;
+
 		this._removeEmpty = options.removeEmpty;
 		this._encryptDepth = options.encryptDepth || 0;
 
-		this._decrypted = isDecrypted;
+		this._attributesNotVerified = options.attributesNotVerified || [];
+		this._attributesNotVerified.filter(function (val) {
+			return val.match(/^A-z0-9$/);
+		});
+		this._attributesNotVerified = attributesNeverVerified.concat(this._attributesNotVerified);
 
-		this._originalMeta = meta || {};
+		this._decrypted = isDecrypted;
+		this._decryptionFullFiller = new h.FullFiller();
+
 		this._hasContent = true;
+
+		this._original = {
+			meta: meta || {}
+		};
 
 		if (typeof content === "undefined") {
 			this._hasContent = false;
 		} else if (isDecrypted) {
-			this._content = content;
+			this._original.content = content;
 		} else {
-			this._encryptedContent = content;
+			this._original.encryptedContent = content;
 		}
 
-		this._updatedMeta = h.deepCopyObj(meta);
+		this._updated = h.deepCopyObj(this._original);
 
-		this._updatedContent = this._content;
+		this._isKeyVerified = false;
 	}
 
 	SecuredDataWithMetaData.prototype._blockDisallowedAttributes = function (data) {
@@ -34,60 +55,98 @@ define(["whispeerHelper", "step", "crypto/keyStore", "asset/errors"], function (
 		}
 	};
 
-	SecuredDataWithMetaData.prototype.sign = function (signKey, cb) {
+	SecuredDataWithMetaData.prototype.getHash = function () {
+		return this._updated.meta._ownHash;
+	};
+
+	SecuredDataWithMetaData.prototype.sign = function (signKey, cb, noCache) {
 		var that = this;
-		var toSign = h.deepCopyObj(that._updatedMeta);
+		var toSign = h.deepCopyObj(that._updated.meta);
 
 		step(function () {
 			toSign._version = 1;
+			toSign._type = that._type;
 
-			delete toSign._signature;
-			delete toSign._hashObject;
+			//do not sign attributes which should not be verified
+			that._attributesNotVerified.forEach(function(attr) {
+				delete toSign[attr];
+			});
+
+			if (that._updated.paddedContent || that._updated.content) {
+				var hashContent = that._updated.paddedContent || that._updated.content;
+
+				toSign._contentHash = keyStore.hash.hashObjectOrValueHex(hashContent);
+
+				//create new ownHash
+				delete toSign._ownHash;
+				toSign._ownHash = keyStore.hash.hashObjectOrValueHex(toSign);
+			}
 			
-			keyStore.sign.signObject(toSign, signKey, this);
+			keyStore.sign.signObject(toSign, signKey, this, noCache);
 		}, h.sF(function (signature) {
 			toSign._signature = signature;
 
+			that._updated.meta = toSign;
 			this.ne(toSign);
 		}), cb);
+	};
 
+	SecuredDataWithMetaData.prototype.getUpdatedData = function (signKey, cb) {
+		var that = this;
+
+		step(function () {
+			that.verify(signKey, this);
+		}, h.sF(function () {
+			if (that._hasContent) {
+				keyStore.security.addEncryptionIdentifier(that._original.meta._key);
+				that._signAndEncrypt(signKey, that._original.meta._key, this);
+			} else {
+				that.sign(signKey, this);
+			}
+		}), cb);
 	};
 
 	/** sign and encrypt this object.
 		pads and then encrypts our content.
 		adds contentHash, key id and version to metaData and signs meta data.
 		@param signKey key to use for signing
-		@param cryptKey key to use for encryption
 		@param cb callback(cryptedData, metaData),
 	*/
-	SecuredDataWithMetaData.prototype.signAndEncrypt = function (signKey, cryptKey, cb) {
+	SecuredDataWithMetaData.prototype._signAndEncrypt = function (signKey, cryptKey, cb) {
+		var that = this, hashObject;
 		if (!that._hasContent) {
 			throw new Error("can only sign and not encrypt");
 		}
 
-		var that = this, hashObject;
+		if (that._original.meta._key && (that._original.meta._key !== cryptKey || !that._isKeyVerified)) {
+			throw new Error("can not re-encrypt an old object with new key!");
+		}
+
 		step(function () {
 			//add padding!
-			keyStore.hash.addPaddingToObject(that._updatedContent, 128, this);
+			keyStore.hash.addPaddingToObject(that._updated.content, 128, this);
 		}, h.sF(function (paddedContent) {
-			that._updatedMeta._contentHash = keyStore.hash.hashObjectOrValueHex(paddedContent);
-			that._updatedMeta._key = keyStore.correctKeyIdentifier(cryptKey);
+			that._updated.paddedContent = paddedContent;
 
-			if (typeof paddedContent === "object") {
+			that._updated.meta._key = keyStore.correctKeyIdentifier(cryptKey);
+
+			if (typeof paddedContent === "object" && that._encryptDepth > 0) {
 				hashObject = keyStore.hash.deepHashObject(paddedContent);
 			}
 
 			this.parallel.unflatten();
 			keyStore.sym.encryptObject(paddedContent, cryptKey, that._encryptDepth, this.parallel());
 			that.sign(signKey, this.parallel());
-		}), h.sF(function (cryptedData) {
+		}), h.sF(function (cryptedData, meta) {
 			if (hashObject) {
-				that._updatedMeta._hashObject = hashObject;
+				meta._hashObject = hashObject;
 			}
+
+			that._updated.meta = meta;
 
 			this.ne({
 				content: cryptedData,
-				meta: that._updatedMeta
+				meta: meta
 			});
 		}), cb);
 	};
@@ -104,27 +163,51 @@ define(["whispeerHelper", "step", "crypto/keyStore", "asset/errors"], function (
 		//check signature is correct
 		//question: store signature with meta data? -> YES!
 		step(function () {
-			that.decrypt(this);
-		}, h.sF(function () {
-			if (that._hasContent) {
-				if (keyStore.hash.hashObjectOrValueHex(that._paddedContent) !== that._originalMeta._contentHash) {
-					throw new errors.SecurityError("content hash did not match");
-				}
+			var metaCopy = h.deepCopyObj(that._original.meta);
+
+			that._attributesNotVerified.forEach(function(attr) {
+				delete metaCopy[attr];
+			});
+
+			if (metaCopy._type !== that._type) {
+				throw new errors.SecurityError("invalid object type. is: " + metaCopy._type + " should be: " + that._type);
 			}
 
-			var metaCopy = h.deepCopyObj(that._originalMeta);
-
-			delete metaCopy._signature;
-			delete metaCopy._hashObject;
-
-			keyStore.sign.verifyObject(that._originalMeta._signature, metaCopy, signKey, this);
-		}), h.sF(function (correctSignature) {
+			keyStore.sign.verifyObject(that._original.meta._signature, metaCopy, signKey, this);
+		}, h.sF(function (correctSignature) {
 			if (!correctSignature) {
 				throw new errors.SecurityError("signature did not match");
 			}
 
-			this.ne();
+			that._verifyContentHash();
+
+			that._isKeyVerified = true;
+			this.ne(true);
 		}), cb);
+	};
+
+	SecuredDataWithMetaData.prototype.updated = function () {
+		this._changed = false;
+	};
+
+	SecuredDataWithMetaData.prototype._decrypt = function (cb) {
+		var that = this;
+
+		step(function () {
+			that._decryptionFullFiller.await(cb);
+			that._decryptionFullFiller.start(this);
+		}, h.sF(function () {
+			keyStore.sym.decryptObject(that._original.encryptedContent, that._encryptDepth, this, that._original.meta._key);
+		}), h.sF(function (decryptedData) {
+			that._decrypted = true;
+			that._original.paddedContent = decryptedData;
+			that._original.content = keyStore.hash.removePaddingFromObject(decryptedData, 128);
+			that._updated.content = h.deepCopyObj(that._original.content);
+
+			that._verifyContentHash();
+
+			this.ne();
+		}), this._decryptionFullFiller.finish);
 	};
 
 	SecuredDataWithMetaData.prototype.decrypt = function (cb) {
@@ -135,18 +218,25 @@ define(["whispeerHelper", "step", "crypto/keyStore", "asset/errors"], function (
 			return;
 		}
 
-		step(function () {
-			if (that._decrypted) {
-				this.last.ne();
-			} else {
-				keyStore.sym.decryptObject(that._encryptedContent, that._encryptDepth, this, that._originalMeta._key);
-			}
-		}, h.sF(function (decryptedData) {
-			that._paddedContent = decryptedData;
-			that._content = keyStore.hash.removePaddingFromObject(decryptedData, 128);
+		if (this._decrypted) {
+			cb(null, this._original.content);
+			return;
+		}
 
-			this.ne(that._content);
+		step(function () {
+			that._decrypt(this);
+		}, h.sF(function () {
+			this.ne(that._original.content);
 		}), cb);
+	};
+
+	SecuredDataWithMetaData.prototype._verifyContentHash = function() {
+		if (this._hasContent && this._decrypted) {
+			var hash = keyStore.hash.hashObjectOrValueHex(this._original.paddedContent || this._original.content);
+			if (hash !== this._original.meta._contentHash) {
+				throw new errors.SecurityError("content hash did not match");
+			}
+		}
 	};
 
 	SecuredDataWithMetaData.prototype.isChanged = function () {
@@ -159,20 +249,22 @@ define(["whispeerHelper", "step", "crypto/keyStore", "asset/errors"], function (
 		return this._decrypted;
 	};
 
-	SecuredDataWithMetaData.prototype.content = {};
-	SecuredDataWithMetaData.prototype.meta = {};
-
 	SecuredDataWithMetaData.prototype.contentGet = function () {
-		return h.deepCopyObj(this._content);
+		return h.deepCopyObj(this._updated.content);
 	};
 	SecuredDataWithMetaData.prototype.metaGet = function () {
-		return h.deepCopyObj(this._updatedMeta);
+		return h.deepCopyObj(this._updated.meta);
 	};
 	SecuredDataWithMetaData.prototype.metaHasAttr = function (attr) {
-		return this._updatedMeta.hasOwnProperty(attr);
+		return this._updated.meta.hasOwnProperty(attr);
+	};
+	SecuredDataWithMetaData.prototype.metaKeys = function () {
+		return Object.keys(this._updated.meta).filter(function (key) {
+			return key[0] !== "_";
+		});
 	};
 	SecuredDataWithMetaData.prototype.metaAttr = function (attr) {
-		return h.deepCopyObj(this._updatedMeta[attr]);
+		return h.deepCopyObj(this._updated.meta[attr]);
 	};
 
 	/** sets the whole content to the given data
@@ -180,32 +272,20 @@ define(["whispeerHelper", "step", "crypto/keyStore", "asset/errors"], function (
 	*/
 	SecuredDataWithMetaData.prototype.contentSet = function (newContent) {
 		this._hasContent = this._changed = true;
-		this._updatedContent = newContent;
-	};
-
-	/** joins content with the given object
-		@param addContentData data to add to the content object
-		@param removeEmpty remove empty options ("", {}, []) while joining
-	*/
-	SecuredDataWithMetaData.prototype.contentJoin = function (addContentData, removeEmpty) {
-		if (typeof this._updatedContent !== "object") {
-			throw new Error("our content is not an object");
-		}
-
-		this._changed = true;
-		this._updatedContent = h.extend(this._updatedContent, addContentData, 5, removeEmpty);
+		this._updated.content = newContent;
 	};
 
 	/** set a certain attribute in the content object
-		@param attrs [] list of which attribute to set
+		@param attr attribute to set
 		@param value value to set attribute to
 	*/
-	SecuredDataWithMetaData.prototype.contentAdd = function (attrs, value) {
-		if (typeof this._updatedContent !== "object") {
+	SecuredDataWithMetaData.prototype.contentSetAttr = function (attr, value) {
+		if (typeof this._updated.content !== "object") {
 			throw new Error("our content is not an object");
 		}
 
-		this._changed = h.deepSetCreate(this._updatedMeta, attrs, value);
+		this._updated.content[attr] = value;
+		this._changed = true;
 	};
 
 	/** sets the whole metaData to the given data
@@ -215,18 +295,25 @@ define(["whispeerHelper", "step", "crypto/keyStore", "asset/errors"], function (
 		this._blockDisallowedAttributes(newMetaData);
 
 		this._changed = true;
-		this._updatedMeta = newMetaData;
+		this._updated.meta = newMetaData;
 	};
 
-	/** joins meta with the given object
-		@param addMetaData data to add to the meta object
-		@param removeEmpty remove empty options ("", {}, []) while joining
-	*/
-	SecuredDataWithMetaData.prototype.metaJoin = function (addMetaData, removeEmpty) {
-		this._blockDisallowedAttributes(addMetaData);
+	SecuredDataWithMetaData.prototype.metaRemoveAttr = function (attr) {
+		if (attr[0] === "_") {
+			throw new Error("private attributes should not be provided by outside world");
+		}
 
 		this._changed = true;
-		this._updatedMeta = h.extend(this._updatedMeta, addMetaData, 5, removeEmpty);
+		delete this._updated.meta[attr];
+	};
+
+	SecuredDataWithMetaData.prototype.metaSetAttr = function (attr, value) {
+		if (attr[0] === "_") {
+			throw new Error("private attributes should not be provided by outside world");
+		}
+
+		this._changed = true;
+		this._updated.meta[attr] = value;
 	};
 
 	/** set a certain attribute in the meta object
@@ -234,8 +321,57 @@ define(["whispeerHelper", "step", "crypto/keyStore", "asset/errors"], function (
 		@param value value to set attribute to
 	*/
 	SecuredDataWithMetaData.prototype.metaAdd = function (attrs, value) {
-		this._changed = h.deepSetCreate(this._updatedMeta, attrs, value);
+		this._changed = h.deepSetCreate(this._updated.meta, attrs, value);
 	};
 
-	return SecuredDataWithMetaData;
+	SecuredDataWithMetaData.prototype.setParent = function (parentSecuredData) {
+		this._updated.meta._parent = parentSecuredData.getHash();
+	};
+
+	SecuredDataWithMetaData.prototype.checkParent = function (expectedParent) {
+		if (this._updated.meta._parent !== expectedParent.getHash()) {
+			throw new errors.SecurityError("wrong parent. is: " + this._updated.meta._parent + " should be: " + expectedParent.getHash());
+		}
+	};
+
+	SecuredDataWithMetaData.prototype.getRelationshipCounter = function () {
+		return h.parseDecimal(this._updated.meta._sortCounter || 0);
+	};
+
+	SecuredDataWithMetaData.prototype.setAfterRelationShip = function (afterSecuredData) {
+		this._updated.meta._sortCounter = afterSecuredData.getRelationshipCounter() + 1;
+	};
+
+	SecuredDataWithMetaData.prototype.checkAfter = function (securedData) {
+		if (this.getRelationshipCounter() < securedData.getRelationshipCounter()) {
+			throw new errors.SecurityError("wrong ordering. " + this.getRelationshipCounter() + " should be after " + securedData.getRelationshipCounter());
+		}
+	};
+
+	SecuredDataWithMetaData.prototype.checkBefore = function (securedData) {
+		if (this.getRelationshipCounter() > securedData.getRelationshipCounter()) {
+			throw new errors.SecurityError("wrong ordering. " + this.getRelationshipCounter() + " should be before " + securedData.getRelationshipCounter());
+		}
+	};
+
+	var api = {
+		create: function (content, meta, options, signKey, cryptKey, cb) {
+			var secured = new SecuredDataWithMetaData(content, meta, options, true);
+			step(function () {
+				window.setTimeout(this, 0);
+			}, h.sF(function () {
+				secured._signAndEncrypt(signKey, cryptKey, this);
+			}), cb);
+
+			return secured;
+		},
+		load: function (content, meta, options) {
+			return new SecuredDataWithMetaData(content, meta, options);
+		},
+		createRaw: function (content, meta, options) {
+			return new SecuredDataWithMetaData(content, meta, options, true);
+		}
+	};
+
+	return api;
 });

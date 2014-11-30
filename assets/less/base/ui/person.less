@@ -27,6 +27,9 @@
 	img {
 		max-width: 80px;
 	}
+	.clickable {
+		cursor: pointer;
+	}
 	.userimageWrap {
 		.column(4);
 		float: left;
@@ -47,25 +50,9 @@
 	}
 	.action {
 		margin-top: 5px;
-		display: none;
+		display: inline-block;
 	}
-	&[data-type="request"] {
-		.friendRequest {
-			display: inline-block;
-			.btn {
-				width: 40%;
-				margin-right: 10px;
-				float: left;
-			}
-		}
-	}
-	&[data-type="friend"] {
-		.interact {
-			display: inline-block;
-			color: @primary;
-			cursor: pointer;
-		}
-	}
+
 	@media @desktop {
 		i.fa {
 			font-size: 1.5em;

@@ -37,6 +37,38 @@ define(["step", "whispeerHelper", "crypto/encryptedData"], function (step, h, En
 			updateBranch: function (branchName, value, cb) {
 				settings.setAttribute([branchName], value, cb);
 			},
+			privacy: {
+				safetyNames: ["birthday", "location", "relationship", "education", "work", "gender", "languages"],
+				setPrivacy: function (privacy, cb, updateProfile) {
+					step(function () {
+						api.updateBranch("privacy", privacy, this);
+					}, h.sF(function () {
+						api.uploadChangedData(this);
+					}), h.sF(function () {
+						if (!updateProfile) {
+							this.last.ne();
+							return;
+						}
+
+						var userService = $injector.get("ssn.userService");
+						userService.getown().uploadChangedProfile(this);
+					}), cb);
+				},
+				removeCircle: function (id, cb) {
+					step(function () {
+						api.getBranch("privacy", this);
+					}, h.sF(function (privacy) {
+						api.privacy.safetyNames.forEach(function (safetyName) {
+							h.removeArray(privacy[safetyName].visibility, "circle:" + id);
+						});
+
+						h.removeArray(privacy.basic.firstname.visibility, "circle:" + id);
+						h.removeArray(privacy.basic.lastname.visibility, "circle:" + id);
+
+						api.privacy.setPrivacy(privacy, this, true);
+					}), cb);
+				}
+			},
 			uploadChangedData: function (cb) {
 				step(function () {
 					var userService = $injector.get("ssn.userService");
