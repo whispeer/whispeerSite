@@ -82,6 +82,27 @@
 		"regnow": "Sign up now!",
 		"loading": "Loading..."
 	},
+	"landingpage": {
+		"heading": "Your privacy - our commitment!",
+		"paragraphOne": "whispeer is a social network that has specialized on the security of your data. We completely encrypt all communication from end to end.",
+		"paragraphTwo": "To register an account we only really need a username and a password. Everything else is optional.",
+		"featureOne": "Encrypted",
+		"featureOneProse": "Everything is de- and encrypted on the client. Only chosen recipients can read messages, no eavesdropping third",
+		"featureTwo": "Open",
+		"featureTwoProse": "All personal details are optional, you may have as many accounts as you'd like, and usage of pseudonyms is encouraged",
+		"featureThree": "Ad-free",
+		"featureThreeProse": "No ads, voluntary payment and paid premium features",
+		"legal": "I accept the terms and conditions as well as the privacy policy",
+		"inviteExplain": "Due to startup-technical reasons we require an invite key for registration at this point. Lean startup, user-wise.",
+		"more": {
+			"headingOne": "Why whispeer?",
+			"headingTwo": "How do I register?",
+			"paragraphOne": "With most services you have to trust in your provider to secure your data. With whispeer we give control over your data back to you. Encryption secures your data from prying eyes, including our's.",
+			"paragraphTwo": "We enjoy offering as much security as possible. That is why you have to use at least eight characters for your password. We recommend a password length of over 12 characters and a combination of lower- and uppercase letters, symbols and digits.",
+			"paragraphThree": "Your first and last name is optional and can be entered on your profile setup page following your registration. You can also, optionally, enter your e-mail address. We will use it only to tell you about whispeer news, and nobody except the whispeer team will be able to see it.",
+			"paragraphFour": "yada yada"
+		}
+	},
 	"directives": {
 		"allfriends": "All Friends"
 	},
@@ -179,7 +200,7 @@
 				"passwordWeak": "Password too weak"
 			},
 
-			"enterinvitecode": "Enter your invite code:",
+			"enterinvitecode": "Enter your invite code",
 			"invitecode": "Invite code",
 			"requestinvite": "Request an invite:",
 
