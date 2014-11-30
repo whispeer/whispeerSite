@@ -100,7 +100,7 @@
 			"paragraphOne": "With most services you have to trust in your provider to secure your data. With whispeer we give control over your data back to you. Encryption secures your data from prying eyes, including our's.",
 			"paragraphTwo": "We enjoy offering as much security as possible. That is why you have to use at least eight characters for your password. We recommend a password length of over 12 characters and a combination of lower- and uppercase letters, symbols and digits.",
 			"paragraphThree": "Your first and last name is optional and can be entered on your profile setup page following your registration. You can also, optionally, enter your e-mail address. We will use it only to tell you about whispeer news, and nobody except the whispeer team will be able to see it.",
-			"paragraphFour": "yada yada"
+			"paragraphFour": "In addition to that, you can add other data to your profile, including your date of birth, the city you live in and your relationship status.  Each of these data is encrypted and will initially only be visible to you.  You can then define the rights for each and every piece of information, defining exactly who can see what. You want your friends to see your date of birth, but not where you currently live?  No problem. Everyone belonging to your circle 'Colleagues' should see where you work, but not your relationship status? Easy. Just enter your settings and add individual friends, or whole groups for each part.  You stay in control."
 		}
 	},
 	"directives": {
