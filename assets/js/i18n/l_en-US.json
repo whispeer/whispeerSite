@@ -12,9 +12,9 @@
 	"views": {
 		"invite": {
 			"invite": "Invite",
-			"viaMail": "Invite via E-Mail",
+			"viaMail": "Invite via E-mail",
 			"viaMailExplanation": "Enter your friends' e-mail addresses to invite them:",
-			"mail": "e-mail",
+			"mail": "E-mail",
 			"viaLink": "Invite via link",
 			"viaLinkExplanation": "Generate an invite link that you can pass on to friends:",
 			"generateLink": "Generate an invite link",
@@ -36,8 +36,8 @@
 			"optionalData": {
 				"header": "Optional Data:",
 				"nameExplanation": "Tell us your first name and surname so your friends can find you easily:",
-				"mailExplanation": "Tell us your e-Mail so we can contact you if there is news:",
-				"mail": "E-Mail",
+				"mailExplanation": "Tell us your e-mail so we can contact you if there is news:",
+				"mail": "E-mail",
 				"firstName": "First name",
 				"lastName": "Last name"
 				"privateName": "Turn your name private (Your friends will have a hard time finding you that way)"
@@ -190,8 +190,8 @@
 			"previous": "Previous",
 			"repeatPassword":	"Repeat Password",
 			"passwordstrength":	"Password strength: ",
-			"email":	"E-Mail address",
-			"repeatEmail":	"Repeat E-Mail address",
+			"email":	"E-mail address",
+			"repeatEmail":	"Repeat e-mail address",
 
 			"firstname": "Firstname",
 			"lastname": "Lastname",
@@ -369,8 +369,8 @@
 		"askQuestion": "Ask your question!",
 		"faq": {
 			"register": {
-				"question": "Do I have to give my full name and E-Mail address when I register?",
-				"answer":	"No. If you want to register, you can do this with a Username only. You can, though, give you E-Mail address. You can, of course, choose if you want to give your full name or maybe only a part. But you can encrypt your name, so that later, only your friends on whispeer can see your full name."
+				"question": "Do I have to give my full name and e-mail address when I register?",
+				"answer":	"No. If you want to register, you can do this with a Username only. You can, though, give you e-mail address. You can, of course, choose if you want to give your full name or maybe only a part. But you can encrypt your name, so that later, only your friends on whispeer can see your full name."
 			},
 			"password": {
 				"question": "How do I create a secure password?",
@@ -409,7 +409,7 @@
 				"answer":	"At the moment, please write us an e-mail with the username and/or e-mail adress you want to report. Our address is support@whispeer.de . We will implement a report-Button as soon as possible."
 			},
 			"account": {
-				"question": "Where can I change my User-Data (password, username, e-mail-adress)?",
+				"question": "Where can I change my User-Data (password, username, e-mail adress)?",
 				"answer":	"In the menu on the left, please click on \"Settings\". You are now on the settings-page where you can change all your data in the first category called \"General\"."
 			},
 			"privacy": {
