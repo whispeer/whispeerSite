@@ -42,13 +42,28 @@
 
 	footer {
 		.spacious;
+
 		color: white;
 		background-color: @primary;
+		border-top: 24px solid @primaryLighter;
 
 		a {
 			color: white;
 		}
+
+		.left, .right {
+			.limited-width;
+			float: initial;
+			text-align: left;
+			a {
+				padding-right: 8px;
+				&:first-of-type {
+					display: none;
+				}
+			}
+		}
 	}
+
 	.annotatedInputContainer,
 	.name, .pw,
 	.error, .loginLoading {
