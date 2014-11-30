@@ -39,7 +39,7 @@
 				"mailExplanation": "Tell us your e-mail so we can contact you if there is news:",
 				"mail": "E-mail",
 				"firstName": "First name",
-				"lastName": "Last name"
+				"lastName": "Last name",
 				"privateName": "Turn your name private (Your friends will have a hard time finding you that way)"
 			},
 			"save": "Save Mail and Name"
@@ -168,7 +168,7 @@
 		"wrongPassword": "Wrong password",
 		"register": {
 			"errors": {
-				"agb": "Please accept our terms and conditions"
+				"agb": "Please accept our terms and conditions",
 				"mailInvalid": "Invalid e-mail",
 				"mailUsed": "This e-mail is already in use",
 				"nickEmpty": "Please enter a username",
@@ -176,8 +176,8 @@
 				"nickUsed": "This username is already in use",
 				"password2Empty": "Please repeat your password",
 				"passwordEmpty": "Please enter a password",
-				"passwordNoMatch": "Passwords do not match"
-				"passwordWeak": "Password too weak",
+				"passwordNoMatch": "Passwords do not match",
+				"passwordWeak": "Password too weak"
 			},
 
 			"enterinvitecode": "Enter your invite code:",
@@ -345,7 +345,7 @@
 				}
 			},
 			"wall": {
-				"title":	"Wall"
+				"title":	"Wall",
 				"postIt":	"Write on the wall of {user}"
 			},
 			"friends": {
@@ -400,10 +400,6 @@
 				"question": "How do I choose who can see my posts?",
 				"answer":	"When you write a post, you have to areas where you can type in text. In the first one, write the names of the people and/or circles who should see your post. In the second area, type in your post. When you typed in all the people and wrote a post, just click on \"Post\" to publish it for your chosen friends to read!"
 			},
-			//"magicbar": {
-			//	"question": "What is the MagicBar and how do I use it?",
-			//	"answer":	"The MagicBar is one of the unique features of whispeer. It appears when you click on one of the Icons on the top right corner. The MagicBar gives you a better overview over the site. Furthermore, it shows you your latest messages and new unread messages, friends request and notifications. You can accept or decline friends request directly in the MagicBar. If you click on one of your messages, you will directly get to the conversation itself. If you want to know more about the MagicBar, visit our Blog at: http://blog.whispeer.de/2013/08/die-whispeer-oberflaeche-3-die-magicbar/ "
-			//},
 			"report": {
 				"question": "How can I report someone?",
 				"answer":	"At the moment, please write us an e-mail with the username and/or e-mail adress you want to report. Our address is support@whispeer.de . We will implement a report-Button as soon as possible."
