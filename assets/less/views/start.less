@@ -31,6 +31,20 @@
 		}
 	}
 
+	.spacious {
+		padding-top: 48px;
+		padding-bottom: 64px;
+	}
+
+	footer {
+		.spacious;
+		color: white;
+		background-color: @primary;
+
+		a {
+			color: white;
+		}
+	}
 	.annotatedInputContainer,
 	.name, .pw,
 	.error, .loginLoading {
@@ -57,13 +71,11 @@
 
 	#more {
 		.limited-width;
+		.spacious;
 
 		font-size: 20px;
 		line-height: 32px;
 		text-align: left;
-
-		padding-top: 48px;
-		padding-bottom: 64px;
 	}
 
 	.rightWrap {
@@ -86,14 +98,13 @@
 	}
 
 	.splash {
+		.spacious;
 		font-size: 20px;
 		line-height: 32px;
 
 		display: inline-block;
 
 		color: #ffffff;
-		padding-top: 48px;
-		padding-bottom: 64px;
 		box-sizing: border-box;
 		position: relative;
 
@@ -226,16 +237,5 @@
 		span[data-strength="10"]:after { width: @pwStrengthWidth*(10/10); background-color: @primaryDarkest; }
 	}
 
-	footer {
-		padding-top: 48px;
-		padding-bottom: 64px;
-
-		color: white;
-		background-color: @primary;
-
-		a {
-			color: white;
-		}
-	}
 }
 
