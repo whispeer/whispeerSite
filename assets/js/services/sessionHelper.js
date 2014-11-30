@@ -10,6 +10,18 @@ define(["step", "whispeerHelper", "crypto/trustManager"], function (step, h, tru
 		var keyGenerationStarted = false, keys = {}, keyGenListener = [], keyGenDone;
 
 		var sessionHelper = {
+			checkInviteCode: function (code, cb) {
+				step(function () {
+					if (code.length !== 10) {
+						this.last.ne(false);
+					} else {
+						socketService.emit("invites.checkCode", { inviteCode: code }, this);
+					}
+				}, h.sF(function (result) {
+					this.ne(result.valid);
+				}), cb);
+			},
+
 			logout: function () {
 				step(function sendLogout() {
 					socketService.emit("session.logout", {logout: true}, this);
@@ -23,7 +35,7 @@ define(["step", "whispeerHelper", "crypto/trustManager"], function (step, h, tru
 					}, this);
 				}, h.sF(function hashWithToken(data) {
 					if (data.error) {
-						this.last(data.errorData);
+						this.last({ unknownName: true });
 					} else {
 						var hash = keyStoreService.hash.hashPW(password);
 
@@ -36,7 +48,7 @@ define(["step", "whispeerHelper", "crypto/trustManager"], function (step, h, tru
 					}
 				}), h.sF(function loginResults(data) {
 					if (data.error) {
-						this.last(data.errorData);
+						this.last({ wrongPassword: true });
 					} else {
 						sessionHelper.resetKey();
 						
@@ -48,7 +60,7 @@ define(["step", "whispeerHelper", "crypto/trustManager"], function (step, h, tru
 				}), callback);
 			},
 
-			register: function (nickname, mail, password, profile, imageBlob, settings, callback) {
+			register: function (nickname, mail, inviteCode, password, profile, imageBlob, settings, callback) {
 				var keys, result;
 				step(function register1() {
 					this.parallel.unflatten();
@@ -107,6 +119,7 @@ define(["step", "whispeerHelper", "crypto/trustManager"], function (step, h, tru
 					profile.pub.signature = publicProfileSignature;
 
 					var registerData = {
+						inviteCode: inviteCode,
 						password: keyStoreService.hash.hashPW(password),
 						keys: h.objectMap(keys, keyStoreService.upload.getKey),
 						profile: {

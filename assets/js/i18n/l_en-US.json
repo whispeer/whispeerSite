@@ -10,6 +10,40 @@
 		}
 	},
 	"views": {
+		"invite": {
+			"invite": "Invite",
+			"viaMail": "Invite via E-mail",
+			"viaMailExplanation": "Enter your friends' e-mail addresses to invite them:",
+			"mail": "E-mail",
+			"viaLink": "Invite via link",
+			"viaLinkExplanation": "Generate an invite link that you can pass on to friends:",
+			"generateLink": "Generate an invite link",
+			"code": "Invite:",
+			"link": "Invite link:",
+			"yourName": "Let your friends know, who's inviting them (optional):",
+			"name": "Name"
+		},
+		"setup": {
+			"welcomeHeader": "Welcome to whispeer!",
+			"backup": {
+				"header": "Save your key now",
+				"why": "Why?",
+				"downloadKey": "Download key",
+				"or": "or",
+				"printKey": "Print key",
+				"ignore": "Don't save key"
+			},
+			"optionalData": {
+				"header": "Optional Data:",
+				"nameExplanation": "Tell us your first name and last name so your friends can find you easily:",
+				"mailExplanation": "Tell us your e-mail so we can contact you if there is news:",
+				"mail": "E-mail",
+				"firstName": "First name",
+				"lastName": "Last name",
+				"privateName": "Turn your name private (Your friends will have a hard time finding you that way)"
+			},
+			"save": "Save Mail and Name"
+		},
 		"mail": {
 			"verify": "verify Mail",
 			"updateMe": "I would like to receive updates via mail",
@@ -28,7 +62,9 @@
 				},
 				"createGroup": "Copy as group",
 				"sendMessage": "Message to circle",
-				"addPeople":	"Add persons"
+				"edit":	"Edit circle",
+				"save":	"Save circle",
+				"remove":	"Delete circle"
 			},
 			"removeCircle":	"Do you really want to remove this Circle?",
 			"newCircle":	"Create a new circle",
@@ -120,36 +156,52 @@
 		"notifications":	"Mitteilungen ({count})"
 	},
 	"login": {
-		"username": "Username",
-		"password": "Password",
+		"forgotName": "Forgot username",
+		"forgotPassword": "Forgot password",
+		"header": "Login",
 		"link": "Log In",
 		"loginFailed": "Username and Password don't match!",
+		"moreInfo":	"Mehr Info",
+		"password": "Password",
+		"unknownName": "Unknown username",
+		"username": "Username",
+		"wrongPassword": "Wrong password",
 		"register": {
 			"errors": {
-				"nickInvalid": "Invalid username",
+				"agb": "Please accept our terms and conditions",
+				"mailInvalid": "Invalid e-mail",
+				"mailUsed": "This e-mail is already in use",
+				"nickEmpty": "Please enter a username",
+				"nickInvalid": "The username can only contain letters and digits",
 				"nickUsed": "This username is already in use",
-				"mailInvalid": "Invalid mail",
-				"mailUsed": "This mail is already in use",
-				"passwordWeak": "Password to weak",
-				"passwordNoMatch": "Passwords do not match"
+				"password2Empty": "Please repeat your password",
+				"passwordEmpty": "Please enter a password",
+				"passwordNoMatch": "Passwords do not match",
+				"passwordWeak": "Password too weak"
 			},
+
+			"enterinvitecode": "Enter your invite code:",
+			"invitecode": "Invite code",
+			"requestinvite": "Request an invite:",
+
+			"createAccount": "Create an account",
 			"link":	"Register",
 			"next": "Next",
 			"previous": "Previous",
 			"repeatPassword":	"Repeat Password",
 			"passwordstrength":	"Password strength: ",
-			"email":	"E-Mail address",
-			"repeatEmail":	"Repeat E-Mail address",
+			"email":	"E-mail address",
+			"repeatEmail":	"Repeat e-mail address",
 
-			"firstname": "Firstname",
-			"lastname": "Lastname",
+			"firstname": "First name",
+			"lastname": "Last name",
 
 			"country":	"State",
 			"location":	"City",
 			"uploadImage":	"Upload Profile Picture",
 			"more": "More Information",
 			"intro": "Please type in your gender, name, birthday and city where you live. With these information, your friends on whispeer can find you more easily. We don't force you to do so, though! It is completely up to you.",
-			"newaccount": "Create a new account"
+			"newaccount": "Create an account"
 		}
 	},
 	"wall": {
@@ -177,7 +229,9 @@
 				"name":	"{{sender}}:"
 			},
 			"content": "{{content}}"
-
+		},
+		"comments": {
+			"time":	"On {date} at {time}"
 		}
 	},
 	"messages": {
@@ -308,7 +362,8 @@
 				}
 			},
 			"wall": {
-				"title":	"Wall"
+				"title":	"Wall",
+				"postIt":	"Write on the wall of {user}"
 			},
 			"friends": {
 				"info":	"Friends"
@@ -331,8 +386,8 @@
 		"askQuestion": "Ask your question!",
 		"faq": {
 			"register": {
-				"question": "Do I have to give my full name and E-Mail address when I register?",
-				"answer":	"No. If you want to register, you can do this with a Username only. You can, though, give you E-Mail address. You can, of course, choose if you want to give your full name or maybe only a part. But you can encrypt your name, so that later, only your friends on whispeer can see your full name."
+				"question": "Do I have to give my full name and e-mail address when I register?",
+				"answer":	"No. If you want to register, you can do this with a Username only. You can, though, give you e-mail address. You can, of course, choose if you want to give your full name or maybe only a part. But you can encrypt your name, so that later, only your friends on whispeer can see your full name."
 			},
 			"password": {
 				"question": "How do I create a secure password?",
@@ -367,7 +422,7 @@
 				"answer":	"At the moment, please write us an e-mail with the username and/or e-mail adress you want to report. Our address is support@whispeer.de . We will implement a report-Button as soon as possible."
 			},
 			"account": {
-				"question": "Where can I change my User-Data (password, username, e-mail-adress)?",
+				"question": "Where can I change my User-Data (password, username, e-mail adress)?",
 				"answer":	"In the menu on the left, please click on \"Settings\". You are now on the settings-page where you can change all your data in the first category called \"General\"."
 			},
 			"privacy": {
@@ -389,7 +444,6 @@
 				"birthday": "Birthday",
 				"relationship": "Relationship status",
 				"education": "Education",
-
 				"work": "Job",
 				"gender": "Gender",
 				"languages": "Language",
@@ -435,7 +489,7 @@
 					"title":	"User Interface Language",
 					"langs": {
 						"de":		"German",
-						"en-US":	"English (US)"
+						"en-US":	"English"
 					}
 				}
 			},
@@ -490,9 +544,9 @@
 					"post": {
 						"you": {
 							"own": "{user} commented your post: \"{what}\"",
-							"commented": "{user} commented a post of {owner}, that you also commented: \"{what}\"",
+							"commented": "{user} commented a post of {owne}, that you also commented: \"{what}\"",
 							"awesomed":	"{user} commented a post of {owner}, that you think is awesome: \"{what}\"",
-							"tagged":	"{user} commented your shared post: \"{what}\""
+							"shared":	"{user} commented on a post you shared: \"{what}\""
 						},
 						"his": {
 							"commented": "{user} commented his post, that you also commented: \"{what}\"",

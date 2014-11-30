@@ -573,6 +573,26 @@ define(["step", "whispeerHelper", "asset/state"], function (step, h, State) {
 
 			this.update = updateUser;
 
+			this.createBackupKey = function (cb) {
+				var outerKey;
+				step(function () {
+					keyStoreService.sym.createBackupKey(mainKey, this);
+				}, h.sF(function (decryptors, innerKey, _outerKey) {
+					outerKey = _outerKey;
+
+					socketService.emit("user.backupKey", {
+						innerKey: innerKey,
+						decryptors: decryptors
+					}, this);
+				}), h.sF(function (data) {
+					if (data.error) {
+						throw new Error("server error");
+					}
+
+					this.ne(keyStoreService.format.base32(outerKey));
+				}), cb);
+			};
+
 			this.getTrustLevel = function (cb) {
 				step(function () {
 					theUser.getTrustData(this);
