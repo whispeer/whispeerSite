@@ -35,7 +35,7 @@
 			},
 			"optionalData": {
 				"header": "Optional Data:",
-				"nameExplanation": "Tell us your first name and surname so your friends can find you easily:",
+				"nameExplanation": "Tell us your first name and last name so your friends can find you easily:",
 				"mailExplanation": "Tell us your e-mail so we can contact you if there is news:",
 				"mail": "E-mail",
 				"firstName": "First name",
@@ -193,8 +193,8 @@
 			"email":	"E-mail address",
 			"repeatEmail":	"Repeat e-mail address",
 
-			"firstname": "Firstname",
-			"lastname": "Lastname",
+			"firstname": "First name",
+			"lastname": "Last name",
 
 			"country":	"State",
 			"location":	"City",
