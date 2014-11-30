@@ -3,7 +3,7 @@ body {
 	background-color: @white;
 	.box-fix;
 	*zoom: 1;
-	
+
 	#container {
 		.box-fix;
 		#loading {
@@ -13,22 +13,12 @@ body {
 			position: relative;
 		}
 	}
-	
+
 	textarea {
 		resize: none;
 		overflow: auto;
 	}
-	
-	footer {
-		.box-fix;
-		color: #3d9404;
-		a {
-			color: #3d9404;
-			&:hover {
-				color: #4eb508;
-			}
-		}
-	}	
+
 	&:not(.startView) {
 		padding-top: 65px;
 		footer {
@@ -38,6 +28,17 @@ body {
 	&:not(.mainView, .startView) {
 		#main {
 			overflow-y: scroll;
-		}	
+		}
+	}
+}
+
+footer {
+	.box-fix;
+	color: #3d9404;
+	a {
+		color: #3d9404;
+		&:hover {
+			color: #4eb508;
+		}
 	}
 }

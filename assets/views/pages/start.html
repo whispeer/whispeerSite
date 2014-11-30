@@ -4,26 +4,23 @@
 </section>
 
 <section data-ng-if="!mobile" class="splash">
-	<sidebar id="rightWrap">
+	<sidebar class="rightWrap">
 		<section class="box register">
 			<ng-include src="'assets/views/start/register.html'"></ng-include>
 		</section>
 	</sidebar>
-	<div class="left">
-		<header>
-			<h1>Deine Privatsphäre - unser Auftrag!</h1>
-			<p>
-				whispeer ist ein soziales Netzwerk, dass sich auf die Sicherheit
-				deiner Daten spezialisiert hat.
-			</p>
-			<p>
-				Bei jedem üblichen Dienst musst du darauf vertrauen, dass der
-				Betreiber deine Daten schützt. Bei whispeer geben wir dir die
-				Kontrolle über deine Daten zurück. Die Verschlüsselung schützt
-				deine Daten vor unberechtigten Augen, auch die der whispeer
-				Betreiber!
-			</p>
-		</header>
+	<div class="leftWrap">
+		<h1>Deine Privatsphäre - unser Auftrag!</h1>
+		<p>
+			whispeer ist ein soziales Netzwerk, dass sich auf die Sicherheit
+			deiner Daten spezialisiert hat. Mit vollständiger Verschlüsselung
+			sämtlicher Kommunikation von Ende zu Ende.
+		</p>
+		<p>
+      Um einen Account bei whispeer zu registrieren, brauchen wir nur
+      einen Accountnamen und ein Passwort von euch. Alles andere ist
+      optional.
+		</p>
 		<img src="assets/img/landing_white.png">
 	</div>
 	<div class="features">
@@ -57,72 +54,49 @@
 <div class="intermezzo">
 	<section data-ng-if="!mobile" id="more">
 
-		<h1>Wie sichert whispeer deine Daten?</h1>
-		<ol class="unstyled">
-			<li class="full">
-				<span class="title">Ende-zu-Ende-Verschlüsselung</span>
-				<p class="content">Bei jedem üblichen Dienst musst du darauf vertrauen, dass der Betreiber deine Daten schützt. Bei whispeer geben wir dir die Kontrolle über deine Daten zurück. Die Verschlüsselung schützt deine Daten vor unberechtigten Augen, auch die der whispeer Betreiber!</p>
-			</li>
-			<li class="full">
-				<span class="title">Vertrauensverwaltung</span>
-				<p class="content">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
-			</li>
-			<li class="full">
-				<span class="title">Reichweitenkontrolle</span>
-				<p class="content">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
-			</li>
-			<li class="full">
-				<span class="title">Ende-zu-Ende-Verschlüsselung</span>
-				<p class="content">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
-			</li>
-		</ol>
-
-		<h1>Wie funktioniert die Registration bei whispeer?</h1>
-		<p class="content">
-			Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+		<h1>Warum Whispeer?</h1>
+		<p class="leftWrap">
+      Bei jedem üblichen Dienst musst du darauf vertrauen, dass der
+      Betreiber deine Daten schützt. Bei whispeer geben wir dir die
+      Kontrolle über deine Daten zurück. Die Verschlüsselung schützt
+      deine Daten vor ungewünschten Augen, auch unseren.
 		</p>
 
-		<h1>whispeer Features</h1>
-		<ul class="unstyled iconList">
-			<li class="full">
-				<img class="icon" src="assets/img/icons/messages.png" alt="Messages">
-				<p class="content">Sende deinen Freunden Nachrichten!</p>
-			</li>
-			<li class="full">
-				<img class="icon" src="assets/img/icons/messages.png" alt="Messages">
-				<p class="content">Schreibe Posts und suche aus, wer sie sehen kann!</p>
-			</li>
-			<li class="full">
-				<img class="icon" src="assets/img/icons/messages.png" alt="Messages">
-				<p class="content">Erstelle Kreise!</p>
-			</li>
-			<li class="full">
-				<img class="icon" src="assets/img/icons/messages.png" alt="Messages">
-				<p class="content">Filtere deinen Newsfeed!</p>
-			</li>
-			<li class="full">
-				<img class="icon" src="assets/img/icons/messages.png" alt="Messages">
-				<p class="content">Erzeuge Gruppenchats!</p>
-			</li>
-			<li class="full">
-				<img class="icon" src="assets/img/icons/messages.png" alt="Messages">
-				<p class="content">Sende deinen Freunden Nachrichten!</p>
-			</li>
-			<li class="full">
-				<img class="icon" src="assets/img/icons/messages.png" alt="Messages">
-				<p class="content">Sende deinen Freunden Nachrichten!</p>
-			</li>
-		</ul>
+		<h1>Wie registriere ich mich?</h1>
+		<p class="leftWrap">
+      Wir geben euch gerne so viel Sicherheit wie möglich. Deswegen muss
+      euer Passwort mindestens acht Zeichen lang sein. Wir empfehlen
+      eine Passwortlänge von über 12 Zeichen mit einer Kombination aus
+      Groß- und Kleinschreibung, Sonderzeichen und Zahlen.
+		</p>
 
-		<!--
-		<h1>Erzähle allen von whispeer!</h1>
-		<div id="shareIconWrap">
-			<span class="icon fa fa-3x fa-facebook"></span>
-			<span class="icon fa fa-3x fa-twitter"></span>
-			<span class="icon fa fa-3x fa-google-plus"></span>
-		</div>
-		-->
+		<sidebar class="rightWrap">
+			<section class="box register">
+				<ng-include src="'assets/views/start/register.html'"></ng-include>
+			</section>
+		</sidebar>
 
-		<ng-include src="'assets/views/start/register.html'"></ng-include>
+		<p class="leftWrap">
+      Euer Vorname und Nachname ist optional und kann direkt nach dem
+      Registrieren auf der Setup-Seite angegeben werden. Hier kann auch
+      eine E-Mail Adresse eingetragen werden. Diese benutzen wir, um
+      euch Neuigkeiten mitzuteilen. Eure E-Mail Adresse ist nur für das
+      whispeer-Team sichtbar.
+		</p>
+
+		<p class="leftWrap">
+     Weiterhin könnt ihr euer Profil um andere Daten ergänzen, wie zum
+     Beispiel euer Geburtsdatum, euren Wohnort, euren Beziehungsstatus.
+     Jede dieser Angaben ist anfangs verschlüsselt und nur für euch
+     selbst sichtbar. Ihr könnt für jede einzelne Angabe auswählen,
+     wer genau sie sehen kann. Eure Freunde sollen euer Geburtsdatum
+     wissen, aber nicht euren Wohnort? Kein Problem. Euer selbst
+     erstellter Kreis „Kollegen“ soll sehen wo ihr arbeitet, aber nicht
+     was euer Beziehungsstatus ist? Auch das ist ganz einfach. Unter
+     den Einstellungen könnt ihr angeben, ob alle Freunde oder nur
+     einer (oder mehrere) eurer Kreise diese Information sehen darf. So
+     behaltet ihr den Überblick und die Kontrolle!
+		</p>
+
 	</section>
 </div>

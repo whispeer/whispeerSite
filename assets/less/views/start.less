@@ -57,43 +57,50 @@
 
 	#more {
 		.limited-width;
+
+		font-size: 20px;
+		line-height: 32px;
+		text-align: left;
+
+		padding-top: 48px;
+		padding-bottom: 64px;
+	}
+
+	.rightWrap {
+		width: 400px;
+		float: right;
+	}
+
+	.leftWrap {
+		width: 650px;
+		overflow: hidden;
+		text-align: left;
+		img {
+			max-width: 100%;
+		}
+	}
+
+	h1 {
+		font-weight: bold;
+		font-size: 2.4rem;
 	}
 
 	.splash {
 		font-size: 20px;
-		line-height: 28px;
+		line-height: 32px;
 
 		display: inline-block;
 
 		color: #ffffff;
-		padding-top: 0;
-		padding-bottom: 20px;
+		padding-top: 48px;
+		padding-bottom: 64px;
 		box-sizing: border-box;
 		position: relative;
 
 		.limited-width;
 
-		header {
-			text-align: left;
-		}
-
-		h1 {
-			font-weight: bold;
-			font-size: 2.4rem;
-		}
-
-		.left {
-			width: 650px;
+		.leftWrap {
 			min-height: 250px;
-			overflow: hidden;
-			img {
-				max-width: 100%;
-			}
-		}
-
-		#rightWrap {
-			width: 400px;
-			float: right;
 		}
 
 		.features {
@@ -134,6 +141,7 @@
 		float: left;
 		margin-top: 30px;
 		text-align: center;
+		min-height: 360px;
 
 		&.box {
 			color: black;
@@ -159,14 +167,15 @@
 
 			input:not([type="submit"]):not([type="reset"]):not([type="button"]):not([type="file"]):not([type="radio"]):not([type="checkbox"]) {
 				width: 300px;
+				height: 48px;
 			}
 
 			button {
 				font-size: 24px;
 				line-height: normal;
 				width: 300px;
-				margin-top: 20px;
-				margin-bottom: 10px;
+				margin-top: 16px;
+				margin-bottom: 0;
 			}
 
 			.registerAGB {
@@ -215,6 +224,18 @@
 		span[data-strength="8"]:after { width: @pwStrengthWidth*(8/10); background-color: @primary; }
 		span[data-strength="9"]:after { width: @pwStrengthWidth*(9/10); background-color: @primaryDarker; }
 		span[data-strength="10"]:after { width: @pwStrengthWidth*(10/10); background-color: @primaryDarkest; }
+	}
+
+	footer {
+		padding-top: 48px;
+		padding-bottom: 64px;
+
+		color: white;
+		background-color: @primary;
+
+		a {
+			color: white;
+		}
 	}
 }
 
