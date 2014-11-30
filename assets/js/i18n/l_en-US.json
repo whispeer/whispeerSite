@@ -10,6 +10,20 @@
 		}
 	},
 	"views": {
+		"invite": {
+			"invite": "Invite",
+			"viaMail": "Invite via e-Mail",
+			"viaMailExplanation": "To invite your friends, enter their e-Mails here:",
+			"mail": "E-Mail",
+			"invite": "Invite!",
+			"viaLink": "Invitation via link",
+			"viaLinkExplanation": "Generate an invitation code that you can pass on:",
+			"generateLink": "Generate invitation link",
+			"code": "Invitation code:",
+			"link": "Invitation link:",
+			"yourName": "Let your friends know who invites them (optional):",
+			"name": "Name"
+		},
 		"setup": {
 			"welcomeHeader": "Welcome to whispeer!",
 			"backup": {
@@ -26,7 +40,8 @@
 				"mailExplanation": "Tell us your e-Mail so we can contact you if there is news:",
 				"mail": "E-Mail",
 				"firstName": "Name",
-				"lastName": "Surname"
+				"lastName": "Surname",
+				"privateName": "Make my name private! (It's harder for your friends to find you)"
 			},
 			"save": "Save Mail and Name"
 		},
@@ -48,7 +63,10 @@
 				},
 				"createGroup": "Copy as group",
 				"sendMessage": "Message to circle",
-				"addPeople":	"Add persons"
+				"addPeople":	"Add people",
+				"edit":	"Edit circle",
+				"save":	"Save circle",
+				"remove":	"Delete circle"
 			},
 			"removeCircle":	"Do you really want to remove this Circle?",
 			"newCircle":	"Create a new circle",
@@ -140,19 +158,34 @@
 		"notifications":	"Mitteilungen ({count})"
 	},
 	"login": {
+		"header": "Login",
 		"username": "Username",
 		"password": "Password",
 		"link": "Log In",
-		"loginFailed": "Username and Password don't match!",
+		"loginFailed": "Username and password don't match!",
+		"unknownName": "Unknown username",
+		"wrongPassword": "Wrong password",
+		"forgotPassword": "Forgot password",
+		"forgotName": "Forgot username",
+		"moreInfo":	"More information",
 		"register": {
 			"errors": {
+				"nickEmpty": "Please insert a username",
 				"nickInvalid": "Invalid username",
 				"nickUsed": "This username is already in use",
 				"mailInvalid": "Invalid mail",
-				"mailUsed": "This mail is already in use",
+				"mailUsed": "This e-mail is already in use",
 				"passwordWeak": "Password to weak",
-				"passwordNoMatch": "Passwords do not match"
+				"passwordEmpty": "Please insert a password",
+				"password2Empty": "Please repeat your password",
+				"passwordNoMatch": "Passwords do not match",
+				"agb": "Please agree to our terms and conditions"
 			},
+			"enterinvitecode": "Enter invitation code:",
+			"invitecode": "initation code",
+			"requestinvite": "Request an invitation code:",
+
+			"createAccount": "Create an account",
 			"link":	"Register",
 			"next": "Next",
 			"previous": "Previous",
@@ -198,6 +231,9 @@
 			},
 			"content": "{{content}}"
 
+		},
+		"comments": {
+			"time":	"On the {date} at {time}"
 		}
 	},
 	"messages": {
@@ -311,7 +347,8 @@
 				}
 			},
 			"wall": {
-				"title":	"Wall"
+				"title":	"Wall",
+				"postIt":	"Write something on {user}'s wall"
 			},
 			"friends": {
 				"info":	"Friends"
@@ -497,9 +534,9 @@
 					"post": {
 						"you": {
 							"own": "{user} commented your post: \"{what}\"",
-							"commented": "{user} commented a post of {owner}, that you also commented: \"{what}\"",
+							"commented": "{user} commented a post of {owne}, that you also commented: \"{what}\"",
 							"awesomed":	"{user} commented a post of {owner}, that you think is awesome: \"{what}\"",
-							"tagged":	"{user} commented your shared post: \"{what}\""
+							"shared":	"{user} commented on a post you shared: \"{what}\""
 						},
 						"his": {
 							"commented": "{user} commented his post, that you also commented: \"{what}\"",

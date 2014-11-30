@@ -13,11 +13,11 @@
 		"invite": {
 			"invite": "Einladen",
 			"viaMail": "Einladung via E-Mail",
-			"viaMailExplanation": "Gib die E-Mails deiner Freunde ein um sie einzuladen:",
+			"viaMailExplanation": "Gib die E-Mails deiner Freunde ein, um sie einzuladen:",
 			"mail": "E-Mail",
 			"invite": "Einladen!",
 			"viaLink": "Einladung via Link",
-			"viaLinkExplanation": "Generiere einen Einladungs-Link den du weitergeben kannst:",
+			"viaLinkExplanation": "Generiere einen Einladungs-Link, den du weitergeben kannst:",
 			"generateLink": "Einladungslink generieren",
 			"code": "Einladungscode:",
 			"link": "Einladungslink:",
@@ -36,7 +36,7 @@
 			},
 			"optionalData": {
 				"header": "Freiwillige Angaben:",
-				"nameExplanation": "Nenne uns deinen Vor- und Nachnamen. damit Freunde dich einfacher finden:",
+				"nameExplanation": "Nenne uns deinen Vor- und Nachnamen, damit Freunde dich einfacher finden:",
 				"mailExplanation": "Nenne uns deine E-Mail, damit wir dich bei Neuigkeiten benachrichtigen können:",
 				"mail": "E-Mail",
 				"firstName": "Vorname",
@@ -63,6 +63,7 @@
 				},	
 				"createGroup": "Als Gruppe kopieren",
 				"sendMessage": "Nachricht an Kreis",
+				"addPeople":	"Personen hinzufügen",
 				"edit":	"Kreis bearbeiten",
 				"save":	"Kreis speichern",
 				"remove":	"Kreis löschen"
@@ -521,12 +522,12 @@
 						"his": {
 							"commented": "{user} hat sein eigenes Foto kommentiert, das du auch kommentiert hast: \"{what}\"",
 							"awesomed":	"{user} hat sein eigenes Foto kommentiert, das du awesome findest: \"{what}\"",
-							"linked": "{user} hat sein eigenes Foto kommentierst, auf dem du verlinkt bist: \"{what}\""
+							"tagged": "{user} hat sein eigenes Foto kommentierst, auf dem du verlinkt bist: \"{what}\""
 						},
 						"her": {
 							"commented": "{user} hat ihr eigenes Foto kommentiert, das du auch kommentiert hast: \"{what}\"",
 							"awesomed":	"{user} hat ihr eigenes Foto kommentiert, das du awesome findest: \"{what}\"",
-							"linked": "{user} hat ihr eigenes Foto kommentierst, auf dem du verlinkt bist: \"{what}\""
+							"tagged": "{user} hat ihr eigenes Foto kommentierst, auf dem du verlinkt bist: \"{what}\""
 						}
 					},
 					"post": {
