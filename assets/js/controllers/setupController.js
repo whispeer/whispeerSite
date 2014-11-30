@@ -41,8 +41,10 @@ define(["step", "whispeerHelper", "asset/state", "libs/qr"], function (step, h, 
 					this.ne();
 				}
 			}, h.sF(function () {
-				me.setProfileAttribute("basic.firstname", $scope.profile.firstName, this.parallel());
-				me.setProfileAttribute("basic.lastname", $scope.profile.lastName, this.parallel());
+				me.setProfileAttribute("basic", {
+					firstname: $scope.profile.firstName,
+					lastname: $scope.profile.lastName
+				}, this);
 			}), h.sF(function () {
 				me.uploadChangedProfile(this);
 			}), h.sF(function () {
