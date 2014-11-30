@@ -1942,6 +1942,9 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 					outerBackupKey = sjcl.random.randomWords(8);
 					backupKey = new SymKey(sjcl.random.randomWords(8));
 
+					makeKeyUsableForEncryption(backupKey.getRealID());
+					makeKeyUsableForEncryption(new SymKey(outerBackupKey).getRealID());
+
 					toBackupKey.addSymDecryptor(backupKey, this.parallel());
 					backupKey.addSymDecryptor(new SymKey(outerBackupKey), this.parallel());
 				}), h.sF(function () {
