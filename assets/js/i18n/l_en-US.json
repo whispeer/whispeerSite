@@ -40,7 +40,7 @@
 				"mail": "E-mail",
 				"firstName": "First name",
 				"lastName": "Last name",
-				"privateName": "Turn your name private (Your friends will have a hard time finding you that way)"
+				"privateName": "Turn your name private (Your friends will not find you as easily anymore though)"
 			},
 			"save": "Save Mail and Name"
 		},
