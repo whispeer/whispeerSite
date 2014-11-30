@@ -15,7 +15,6 @@
 			"viaMail": "Einladung via E-Mail",
 			"viaMailExplanation": "Gib die E-Mails deiner Freunde ein um sie einzuladen:",
 			"mail": "E-Mail",
-			"invite": "Einladen!",
 			"viaLink": "Einladung via Link",
 			"viaLinkExplanation": "Generiere einen Einladungs-Link den du weitergeben kannst:",
 			"generateLink": "Einladungslink generieren",
@@ -41,7 +40,7 @@
 				"mail": "E-Mail",
 				"firstName": "Vorname",
 				"lastName": "Nachname",
-				"privateName": "Mache meinen Namen privat! (Deine Freunde können dich dann schwieriger finden)"
+				"privateName": "Mache meinen Namen privat (Deine Freunde können dich dann schwieriger finden)"
 			},
 			"save": "Name und E-Mail speichern"
 		},
@@ -60,7 +59,7 @@
 				"title": {
 					"loaded": "Kreis anzeigen:",
 					"create": "Neuen Kreis erstellen"
-				},	
+				},
 				"createGroup": "Als Gruppe kopieren",
 				"sendMessage": "Nachricht an Kreis",
 				"edit":	"Kreis bearbeiten",
@@ -157,28 +156,28 @@
 		"notifications":	"Mitteilungen ({count})"
 	},
 	"login": {
+		"forgotName": "Benutzername vergessen",
+		"forgotPassword": "Passwort vergessen",
 		"header": "Login",
-		"username": "Nutzername",
-		"password": "Passwort",
 		"link": "Einloggen",
 		"loginFailed": "Nutzername und Passwort stimmen nicht überein!",
-		"unknownName": "Unbekannter Nutzername",
-		"wrongPassword": "Falsches Passwort",
-		"forgotPassword": "Passwort vergessen",
-		"forgotName": "Benutzername vergessen",
 		"moreInfo":	"Mehr Info",
+		"password": "Passwort",
+		"unknownName": "Unbekannter Nutzername",
+		"username": "Nutzername",
+		"wrongPassword": "Falsches Passwort",
 		"register": {
 			"errors": {
+				"agb": "Bitte akzeptiere die AGB"
+				"mailInvalid": "Ungültige E-Mail",
+				"mailUsed": "Diese E-Mail ist schon vergeben",
 				"nickEmpty": "Bitte gib einen Nutzernamen an",
 				"nickInvalid": "Der Nutzername darf nur Buchstaben und Zahlen beinhalten",
 				"nickUsed": "Dieser Nutzername ist schon vergeben",
-				"mailInvalid": "Invalide E-Mail",
-				"mailUsed": "Diese E-Mail ist schon vergeben",
-				"passwordEmpty": "Bitte gib ein Passwort ein",
-				"passwordWeak": "Passwort zu schwach",
 				"password2Empty": "Bitte wiederhole dein Passwort",
+				"passwordEmpty": "Bitte gib ein Passwort ein",
 				"passwordNoMatch": "Passwörter stimmen nicht überein",
-				"agb": "Bitte akzeptiere die AGB!"
+				"passwordWeak": "Passwort zu schwach",
 			},
 
 			"enterinvitecode": "Einladungscode eingeben:",
@@ -477,7 +476,7 @@
 					"title":	"Sprache der Oberfläche",
 					"langs": {
 						"de":		"Deutsch",
-						"en-US":	"Englisch (US)"
+						"en-US":	"Englisch"
 					}
 				}
 			},

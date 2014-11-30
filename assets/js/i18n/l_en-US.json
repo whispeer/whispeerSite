@@ -10,6 +10,19 @@
 		}
 	},
 	"views": {
+		"invite": {
+			"invite": "Invite",
+			"viaMail": "Invite via E-Mail",
+			"viaMailExplanation": "Enter your friends' e-mail addresses to invite them:",
+			"mail": "e-mail",
+			"viaLink": "Invite via link",
+			"viaLinkExplanation": "Generate an invite link that you can pass on to friends:",
+			"generateLink": "Generate an invite code",
+			"code": "Invite:",
+			"link": "Invite link:",
+			"yourName": "Let your friends know, who's inviting them (optional):",
+			"name": "Name"
+		},
 		"setup": {
 			"welcomeHeader": "Welcome to whispeer!",
 			"backup": {
@@ -25,8 +38,9 @@
 				"nameExplanation": "Tell us your first name and surname so your friends can find you easily:",
 				"mailExplanation": "Tell us your e-Mail so we can contact you if there is news:",
 				"mail": "E-Mail",
-				"firstName": "Name",
-				"lastName": "Surname"
+				"firstName": "First name",
+				"lastName": "Last name"
+				"privateName": "Turn your name private (Your friends will have a hard time finding you that way)"
 			},
 			"save": "Save Mail and Name"
 		},
@@ -48,7 +62,9 @@
 				},
 				"createGroup": "Copy as group",
 				"sendMessage": "Message to circle",
-				"addPeople":	"Add persons"
+				"edit":	"Edit circle",
+				"save":	"Save circle",
+				"remove":	"Delete circle"
 			},
 			"removeCircle":	"Do you really want to remove this Circle?",
 			"newCircle":	"Create a new circle",
@@ -140,19 +156,35 @@
 		"notifications":	"Mitteilungen ({count})"
 	},
 	"login": {
-		"username": "Username",
-		"password": "Password",
+		"forgotName": "Forgot username",
+		"forgotPassword": "Forgot password",
+		"header": "Login",
 		"link": "Log In",
 		"loginFailed": "Username and Password don't match!",
+		"moreInfo":	"Mehr Info",
+		"password": "Password",
+		"unknownName": "Unknown username",
+		"username": "Username",
+		"wrongPassword": "Wrong password",
 		"register": {
 			"errors": {
-				"nickInvalid": "Invalid username",
-				"nickUsed": "This username is already in use",
+				"agb": "Please accept our terms and conditions"
 				"mailInvalid": "Invalid mail",
 				"mailUsed": "This mail is already in use",
-				"passwordWeak": "Password to weak",
+				"nickEmpty": "Bitte gib einen Nutzernamen an",
+				"nickInvalid": "The username can only contain letters and digits",
+				"nickUsed": "This username is already in use",
+				"password2Empty": "Please repeat your password",
+				"passwordEmpty": "Please enter a password",
 				"passwordNoMatch": "Passwords do not match"
+				"passwordWeak": "Password too weak",
 			},
+
+			"enterinvitecode": "Enter your invite code:",
+			"invitecode": "Invite code",
+			"requestinvite": "Request an invite:",
+
+			"createAccount": "Create account",
 			"link":	"Register",
 			"next": "Next",
 			"previous": "Previous",
@@ -197,7 +229,9 @@
 				"name":	"{{sender}}:"
 			},
 			"content": "{{content}}"
-
+		},
+		"comments": {
+			"time":	"On {date} at {time}"
 		}
 	},
 	"messages": {
@@ -312,6 +346,7 @@
 			},
 			"wall": {
 				"title":	"Wall"
+				"postIt":	"Write on the wall of {user}"
 			},
 			"friends": {
 				"info":	"Friends"
@@ -396,7 +431,6 @@
 				"birthday": "Birthday",
 				"relationship": "Relationship status",
 				"education": "Education",
-
 				"work": "Job",
 				"gender": "Gender",
 				"languages": "Language",
@@ -442,7 +476,7 @@
 					"title":	"User Interface Language",
 					"langs": {
 						"de":		"German",
-						"en-US":	"English (US)"
+						"en-US":	"English"
 					}
 				}
 			},
