@@ -10,6 +10,40 @@
 		}
 	},
 	"views": {
+		"invite": {
+			"invite": "Einladen",
+			"viaMail": "Einladung via E-Mail",
+			"viaMailExplanation": "Gib die E-Mail Adressen deiner Freunde ein, um sie einzuladen:",
+			"mail": "E-Mail",
+			"viaLink": "Einladung via Link",
+			"viaLinkExplanation": "Generiere einen Einladungs-Link, den du weitergeben kannst:",
+			"generateLink": "Einladungslink generieren",
+			"code": "Einladungscode:",
+			"link": "Einladungslink:",
+			"yourName": "Lass deine Freunde wissen, wer sie einlädt (freiwillig):",
+			"name": "Name"
+		},
+		"setup": {
+			"welcomeHeader": "Willkommen bei whispeer!",
+			"backup": {
+				"header": "Sichere jetzt deinen Schlüssel",
+				"why": "Warum?",
+				"downloadKey": "Schlüssel herunterladen",
+				"or": "oder",
+				"printKey": "Schlüssel ausdrucken",
+				"ignore": "Schlüssel nicht sichern"
+			},
+			"optionalData": {
+				"header": "Freiwillige Angaben:",
+				"nameExplanation": "Nenne uns deinen Vor- und Nachnamen, damit Freunde dich einfacher finden:",
+				"mailExplanation": "Nenne uns deine E-Mail, damit wir dich bei Neuigkeiten benachrichtigen können:",
+				"mail": "E-Mail",
+				"firstName": "Vorname",
+				"lastName": "Nachname",
+				"privateName": "Mache meinen Namen privat (Deine Freunde können dich dann schwieriger finden)"
+			},
+			"save": "Name und E-Mail speichern"
+		},
 		"mail": {
 			"verify": "E-Mail bestätigen",
 			"updateMe": "Ich möchte Updates per E-Mail erhalten",
@@ -25,7 +59,7 @@
 				"title": {
 					"loaded": "Kreis anzeigen:",
 					"create": "Neuen Kreis erstellen"
-				},	
+				},
 				"createGroup": "Als Gruppe kopieren",
 				"sendMessage": "Nachricht an Kreis",
 				"edit":	"Kreis bearbeiten",
@@ -121,21 +155,35 @@
 		"notifications":	"Mitteilungen ({count})"
 	},
 	"login": {
-		"username": "Benutzername",
-		"password": "Passwort",
+		"forgotName": "Benutzername vergessen",
+		"forgotPassword": "Passwort vergessen",
+		"header": "Login",
 		"link": "Einloggen",
-		"loginFailed": "Benutzername und Password stimmen nicht überein!",
+		"loginFailed": "Nutzername und Passwort stimmen nicht überein!",
 		"moreInfo":	"Mehr Info",
+		"password": "Passwort",
+		"unknownName": "Unbekannter Nutzername",
+		"username": "Nutzername",
+		"wrongPassword": "Falsches Passwort",
 		"register": {
 			"errors": {
-				"nickInvalid": "Invalider Username",
-				"nickUsed": "Dieser Username ist schon vergeben",
-				"mailInvalid": "Invalide E-Mail",
+				"agb": "Bitte akzeptiere die AGB",
+				"mailInvalid": "Ungültige E-Mail",
 				"mailUsed": "Diese E-Mail ist schon vergeben",
-				"passwordWeak": "Passwort zu schwach",
-				"passwordNoMatch": "Passwörter stimmen nicht überein"
+				"nickEmpty": "Bitte gib einen Nutzernamen an",
+				"nickInvalid": "Der Nutzername darf nur Buchstaben und Zahlen beinhalten",
+				"nickUsed": "Dieser Nutzername ist schon vergeben",
+				"password2Empty": "Bitte wiederhole dein Passwort",
+				"passwordEmpty": "Bitte gib ein Passwort ein",
+				"passwordNoMatch": "Passwörter stimmen nicht überein",
+				"passwordWeak": "Passwort zu schwach"
 			},
 
+			"enterinvitecode": "Einladungscode eingeben:",
+			"invitecode": "Einladungscode",
+			"requestinvite": "Einladungscode anfragen:",
+
+			"createAccount": "Account erstellen",
 			"link":	"Registrieren",
 			"next": "Weiter",
 			"previous": "Zurück",
@@ -151,8 +199,8 @@
 			"location":	"Wohnort",
 			"uploadImage":	"Profilbild hochladen",
 			"more": "Weitere Informationen",
-			"intro": "Bitte teile uns dein Geschlecht, deinen Namen, dein Geburtsdatum und deinen Wohnort mit. Dies ermöglicht deinen Freunden bei whispeer, dich zu finden. Selbstverständlich zwingen wir dich nicht dazu, diese Angaben zu machen!",
-			"newaccount": "Neues Konto erstellen"
+			"intro": "Teil uns dein Geschlecht, deinen Namen, dein Geburtsdatum und deinen Wohnort mit. Dies ermöglicht deinen Freunden bei whispeer, dich zu finden. Selbstverständlich zwingen wir dich nicht dazu, diese Angaben zu machen!",
+			"newaccount": "Komm' zu uns!"
 		}
 	},
 	"wall": {
@@ -336,8 +384,8 @@
 		"askQuestion": "Stelle deine Frage!",
 		"faq": {
 			"register": {
-				"question": "Muss ich beim Registrieren meinen vollen Namen und meine E-Mail-Adresse angeben?",
-				"answer":	"Nein. Wenn du dich registrieren möchtest, kannst du dies schon mit einem Username. Du kannst aber auch nur eine E-Mail-Adresse angeben. Natürlich kannst du dir aussuchen, ob du deinen vollen Namen angeben möchtest, oder vielleicht nur einen Teil davon. Allerdings kannst du deinen Namen auch verschlüsseln, sodass später nur deine Freunde auf whispeer deinen ganzen Namen sehen können."
+				"question": "Muss ich beim Registrieren meinen vollen Namen und meine E-Mail Adresse angeben?",
+				"answer":	"Nein. Wenn du dich registrieren möchtest, kannst du dies schon mit einem Username. Du kannst aber auch nur eine E-Mail Adresse angeben. Natürlich kannst du dir aussuchen, ob du deinen vollen Namen angeben möchtest, oder vielleicht nur einen Teil davon. Allerdings kannst du deinen Namen auch verschlüsseln, sodass später nur deine Freunde auf whispeer deinen ganzen Namen sehen können."
 			},
 			"password": {
 				"question": "Wie erstelle ich ein sicheres Passwort?",
@@ -372,7 +420,7 @@
 				"answer":	"Momentan musst du uns eine Mail mit dem Namen der Person, bzw. ihrem Usernamen oder ihrer E-Mail senden. Die Adresse ist support@whispeer.de . Es wird jedoch so bald wie möglich einen Melden-Button geben."
 			},
 			"account": {
-				"question": "Wo kann ich meine Konto-Daten (Passwort, Username, E-Mail-Adresse) ändern?",
+				"question": "Wo kann ich meine Konto-Daten (Passwort, Username, E-Mail Adresse) ändern?",
 				"answer":	"Deine Konto-Daten kannst du ändern, wenn du im Menü links auf 'Einstellungen' klickst. Du wirst dann auf die Einstellungs-Seite weitergeleitet, und unter dem ersten Thema 'Allgemein' kannst du deine Angaben ändern."
 			},
 			"privacy": {
@@ -439,7 +487,7 @@
 					"title":	"Sprache der Oberfläche",
 					"langs": {
 						"de":		"Deutsch",
-						"en-US":	"Englisch (US)"
+						"en-US":	"Englisch"
 					}
 				}
 			},
@@ -483,12 +531,12 @@
 						"his": {
 							"commented": "{user} hat sein eigenes Foto kommentiert, das du auch kommentiert hast: \"{what}\"",
 							"awesomed":	"{user} hat sein eigenes Foto kommentiert, das du awesome findest: \"{what}\"",
-							"linked": "{user} hat sein eigenes Foto kommentierst, auf dem du verlinkt bist: \"{what}\""
+							"tagged": "{user} hat sein eigenes Foto kommentierst, auf dem du verlinkt bist: \"{what}\""
 						},
 						"her": {
 							"commented": "{user} hat ihr eigenes Foto kommentiert, das du auch kommentiert hast: \"{what}\"",
 							"awesomed":	"{user} hat ihr eigenes Foto kommentiert, das du awesome findest: \"{what}\"",
-							"linked": "{user} hat ihr eigenes Foto kommentierst, auf dem du verlinkt bist: \"{what}\""
+							"tagged": "{user} hat ihr eigenes Foto kommentierst, auf dem du verlinkt bist: \"{what}\""
 						}
 					},
 					"post": {

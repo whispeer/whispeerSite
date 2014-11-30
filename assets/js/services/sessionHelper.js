@@ -10,6 +10,18 @@ define(["step", "whispeerHelper", "crypto/trustManager", "asset/securedDataWithM
 		var keyGenerationStarted = false, keys = {}, keyGenListener = [], keyGenDone;
 
 		var sessionHelper = {
+			checkInviteCode: function (code, cb) {
+				step(function () {
+					if (code.length !== 10) {
+						this.last.ne(false);
+					} else {
+						socketService.emit("invites.checkCode", { inviteCode: code }, this);
+					}
+				}, h.sF(function (result) {
+					this.ne(result.valid);
+				}), cb);
+			},
+
 			logout: function () {
 				step(function sendLogout() {
 					socketService.emit("session.logout", {logout: true}, this);
@@ -23,7 +35,7 @@ define(["step", "whispeerHelper", "crypto/trustManager", "asset/securedDataWithM
 					}, this);
 				}, h.sF(function hashWithToken(data) {
 					if (data.error) {
-						this.last(data.errorData);
+						this.last({ unknownName: true });
 					} else {
 						if (data.salt.length !== 16) {
 							throw new SecurityError("server wut?")
@@ -40,7 +52,7 @@ define(["step", "whispeerHelper", "crypto/trustManager", "asset/securedDataWithM
 					}
 				}), h.sF(function loginResults(data) {
 					if (data.error) {
-						this.last(data.errorData);
+						this.last({ wrongPassword: true });
 					} else {
 						sessionHelper.resetKey();
 						
@@ -52,7 +64,7 @@ define(["step", "whispeerHelper", "crypto/trustManager", "asset/securedDataWithM
 				}), callback);
 			},
 
-			register: function (nickname, mail, password, profile, imageBlob, settings, callback) {
+			register: function (nickname, mail, inviteCode, password, profile, imageBlob, settings, callback) {
 				var keys, result;
 				step(function register1() {
 					this.parallel.unflatten();
@@ -126,6 +138,7 @@ define(["step", "whispeerHelper", "crypto/trustManager", "asset/securedDataWithM
 							salt: salt,
 							hash: keyStoreService.hash.hashPW(password, salt),
 						},
+						inviteCode: inviteCode,
 						keys: h.objectMap(keys, keyStoreService.upload.getKey),
 						signedKeys: signedKeys,
 						signedOwnKeys: signedOwnKeys,

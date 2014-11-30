@@ -8,6 +8,7 @@
 	box-shadow: 0px 0px 4px @primaryDarker;
 	background: @primary;
 	#navInner {
+		width: 100%;
 		#brand {
 			// this has to be prepended, because some of the .column values
 			// are once more overwritten in subsequent rules.
@@ -119,6 +120,13 @@
 		.navIcon {
 			cursor: pointer;
 			position: relative;
+		}
+	}
+	#login {
+		@media @desktop {
+			display: inline-block;
+			float: right;
+			margin: 6px 1%;
 		}
 	}
 }

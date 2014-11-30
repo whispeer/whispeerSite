@@ -13,6 +13,7 @@ if (window.location.href.indexOf("file:///") === 0) {
 requirejs.config({
 	paths: {
 		jquery: "libs/jquery-1.9.1",
+		qtip: "libs/jquery.qtip",
 		angular: "libs/angular",
 		angularRoute: "libs/angular-route",
 		socket: "libs/socket.io",

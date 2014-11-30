@@ -1,27 +1,102 @@
-<div id="logo">
-	<img src="assets/img/logo.png">
+<section data-ng-if="mobile" class="register">
+	<ng-include src="'assets/views/pages/login.html'" ng-controller="ssn.loginController"></ng-include>
+	<ng-include src="'assets/views/start/register.html'"></ng-include>
+</section>
+
+<section data-ng-if="!mobile" class="splash">
+	<sidebar class="rightWrap">
+		<section class="box register">
+			<ng-include src="'assets/views/start/register.html'"></ng-include>
+		</section>
+	</sidebar>
+	<div class="leftWrap">
+		<h1>Deine Privatsphäre - unser Auftrag!</h1>
+		<p>
+			whispeer ist ein soziales Netzwerk, dass sich auf die Sicherheit
+			deiner Daten spezialisiert hat. Mit vollständiger Verschlüsselung
+			sämtlicher Kommunikation von Ende zu Ende.
+		</p>
+		<p>
+      Um einen Account bei whispeer zu registrieren, brauchen wir nur
+      einen Accountnamen und ein Passwort von euch. Alles andere ist
+      optional.
+		</p>
+		<img src="assets/img/landing_white.png">
+	</div>
+	<div class="features">
+		<div class="feature">
+			<div class="title"><i class="fa fa-lock"></i> Verschlüsselt</div>
+			<div class="content">
+				auf Nutzerseite verschlüsselt
+				nur ausgewählte Empfänger
+				kein Mitlesen durch Dritte
+			</div>
+		</div>
+		<div class="feature">
+			<div class="title"><i class="fa fa-paper-plane"></i> Offen</div>
+			<div class="content">
+				alle Angaben freiwillig
+				Pseudonyme erlaubt
+				mehre Accounts
+			</div>
+		</div>
+		<div class="feature">
+			<div class="title"><i class="fa fa-gift"></i> Werbefrei</div>
+			<div class="content">
+				keine Werbung
+				freiwilliges Bezahlen durch Spenden
+				käufliche Premium Features
+			</div>
+		</div>
+	</div>
+</section>
+
+<div class="intermezzo">
+	<section data-ng-if="!mobile" id="more">
+
+		<h1>Warum Whispeer?</h1>
+		<p class="leftWrap">
+      Bei jedem üblichen Dienst musst du darauf vertrauen, dass der
+      Betreiber deine Daten schützt. Bei whispeer geben wir dir die
+      Kontrolle über deine Daten zurück. Die Verschlüsselung schützt
+      deine Daten vor ungewünschten Augen, auch unseren.
+		</p>
+
+		<h1>Wie registriere ich mich?</h1>
+		<p class="leftWrap">
+      Wir geben euch gerne so viel Sicherheit wie möglich. Deswegen muss
+      euer Passwort mindestens acht Zeichen lang sein. Wir empfehlen
+      eine Passwortlänge von über 12 Zeichen mit einer Kombination aus
+      Groß- und Kleinschreibung, Sonderzeichen und Zahlen.
+		</p>
+
+		<sidebar class="rightWrap">
+			<section class="box register">
+				<ng-include src="'assets/views/start/register.html'"></ng-include>
+			</section>
+		</sidebar>
+
+		<p class="leftWrap">
+      Euer Vorname und Nachname ist optional und kann direkt nach dem
+      Registrieren auf der Setup-Seite angegeben werden. Hier kann auch
+      eine E-Mail Adresse eingetragen werden. Diese benutzen wir, um
+      euch Neuigkeiten mitzuteilen. Eure E-Mail Adresse ist nur für das
+      whispeer-Team sichtbar.
+		</p>
+
+		<p class="leftWrap">
+     Weiterhin könnt ihr euer Profil um andere Daten ergänzen, wie zum
+     Beispiel euer Geburtsdatum, euren Wohnort, euren Beziehungsstatus.
+     Jede dieser Angaben ist anfangs verschlüsselt und nur für euch
+     selbst sichtbar. Ihr könnt für jede einzelne Angabe auswählen,
+     wer genau sie sehen kann. Eure Freunde sollen euer Geburtsdatum
+     wissen, aber nicht euren Wohnort? Kein Problem. Euer selbst
+     erstellter Kreis „Kollegen“ soll sehen wo ihr arbeitet, aber nicht
+     was euer Beziehungsstatus ist? Auch das ist ganz einfach. Unter
+     den Einstellungen könnt ihr angeben, ob alle Freunde oder nur
+     einer (oder mehrere) eurer Kreise diese Information sehen darf. So
+     behaltet ihr den Überblick und die Kontrolle!
+		</p>
+
+	</section>
 </div>
-<header data-ng-show="!info && registerState.step == 1">
-	<div id="topWrap">
-		<h3 data-i18n="start.welcome"></h3>
-		<a href="" class="btn btn--info btn--small" data-ng-click="info = !info" data-i18n="start.more"></a>
-	</div>	
-</header>
-<header data-ng-show="info">
-	<div id="topWrap">
-		<h3 data-i18n="start.moreInfo"></h3>
-		<a href="" class="btn btn--primary btn--small" data-ng-click="info = !info" data-i18n="start.regnow"></a>
-	</div>	
-</header>
-<!-- use ng-show to keep register/login information which would otherwise be gone -->
-<section data-ng-show="!info">
-	<form id="loginForm" data-ng-if="registerState.step == 1" autocomplete="off">
-		<h4 data-i18n="login.link"></h4>
-		<ng-include data-ng-controller="ssn.loginController" data-src="'assets/views/start/login/login.html'"></ng-include>
-	</form>
-	<form id="registerForm" data-regStep="{{registerState.step}}" data-ng-controller="ssn.registerController" autocomplete="off">
-		<ng-include data-ng-click="registerFormClick()" data-onload="stepLoaded()" data-src="'assets/views/start/register/step' + registerState.step + '.html'"></ng-include>
-	</form>
-</section>
-<section id="info" data-ng-if="info" data-i18n="start.infoText">
-</section>

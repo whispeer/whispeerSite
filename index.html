@@ -1,9 +1,8 @@
-
 <!doctype html>
 <!--[if lt IE 7]> <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="de"> <![endif]-->
 <!--[if IE 7]>    <html class="no-js lt-ie9 lt-ie8" lang="de"> <![endif]-->
 <!--[if IE 8]>    <html class="no-js lt-ie9" lang="de"> <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="de" data-ng-csp> <!--<![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="de" data-ng-csp data-ng-class="cssClass" data-ng-controller="ssn.rootController" class="loading"> <!--<![endif]-->
 <head>
 	<base href="/" />
 	<meta charset="utf-8">
@@ -23,6 +22,7 @@
 	<link rel="apple-touch-icon" href="assets/img/favicons/touch-icon-ipad-retina.png" sizes="152x152" />
 
 	<link rel="stylesheet" href="assets/css/angular-csp.css">
+	<link rel="stylesheet" href="assets/css/jquery.qtip.css">
 	<link rel="stylesheet" href="assets/css/fontello/fontello.css">
 	<!--[if IE 7]><link rel="stylesheet" href="css/fontello/fontello-ie7.css"><![endif]-->
 	<link rel="stylesheet" href="assets/vendor/css/font-awesome.css">
@@ -34,7 +34,7 @@
 	<!--[if lte IE 8]><p class=chromeframe>Your browser is <em>ancient!</em> <a href="http://browsehappy.com/">Upgrade to a different browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to experience this site.</p><![endif]-->
 	<noscript>Hallo! Leider steht uns bei deinem Browser kein Javascript zur Verfügung!<br> Daher ist es nicht möglich whispeer zu nutzen, da wir unbedingt Javascript benötigen!<br> Vielen Dank für dein Verständnis!</noscript>
 	<!-- !Top Bar -->
-	<nav id="topNav" data-ng-if="loggedin" data-ng-cloak data-ng-class="{push: (mobile && sidebarActive && !searchActive)}">
+	<nav id="topNav" data-ng-if="!mobile || loggedin" data-ng-cloak data-ng-class="{push: (mobile && sidebarActive && !searchActive)}">
 		<div id="navInner">
 			<button class="toggle" id="toggleSidebar" data-ng-click="toggleSidebar()" data-ng-if="mobile">
 				<i class="icon icon-menu"></i>
@@ -46,9 +46,12 @@
 			</button>
 			<button class="toggle" id="toggleSearch" data-ng-click="toggleSearch()" data-ng-if="mobile"><i class="icon icon-search"></i></button>
 			<a href="start" id="brand" data-ng-click="mobileActivateView()"><span id="brandNormal">whis</span><span id="brandInverse">peer</span></a>
-			<div class="nav-collapse collapse">
+			<div class="nav-collapse collapse" data-ng-if="loggedin">
 				<usersearch size="big" data-input-i18n-attr="menu.search|placeholder"/>
 			</div>
+		</div>
+		<div id="login" data-ng-if="!loggedin" data-ng-controller="ssn.loginController">
+			<ng-include data-src="'assets/views/start/login/login.html'" data-ng-if="login.isHeaderForm"></ng-include>
 		</div>
 	</nav>
 	<!-- end !Top Bar-->
