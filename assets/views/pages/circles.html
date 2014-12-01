@@ -10,7 +10,7 @@
 			</span>
 			<span data-ng-if="!circleLoaded">
 				<span data-i18n="views.circles.header.title.create"></span>
-			</span>	
+			</span>
 		</span>
 		<button id="backToMenu" data-ng-if="mobile && showCircle" data-ng-click="unloadCircleMobile()"><i class="icon icon-menu"></i></button>
 		<button id="removeCircle" data-ng-if="circleLoaded" data-ng-click="removeCircle()"><i class="icon icon-trash"></i></button>
@@ -29,8 +29,11 @@
 						</div>
 						<div class="personCount" data-i18n="views.circles.personCount|count={{circle.userids.length}}">
 						</div>
-					</div>	
+					</div>
 					<div class="clear-fix"></div>
+				</li>
+				<li class="inviteFriends" data-ng-if="circles.length <= 3">
+					<a href="/invite" data-i18n="inviteFriends"></a>
 				</li>
 			</div>
 		</ul>
@@ -50,11 +53,11 @@
 	</div>
 
 	<div id="circleContainer" class="newCircle" data-ng-if="!circleLoaded && showCircle">
-		<div id="circleWrap">	
+		<div id="circleWrap">
 			<form id="inputWrap">
 				<input type="text" data-i18n-attr="views.circles.titleForNew|placeholder" id="titleInput" data-ng-model="circleName">
 				<usersearch data-scope="friends" data-multiple type="text" data-input-i18n-attr="views.circles.searchFriends|placeholder" id="friendInput" />
-				<button class="btn btn--primary btn--big" id="savecircle" type="submit" data-ng-click="createNew(circleName)" data-i18n="views.circles.createCircle"></button>		
+				<button class="btn btn--primary btn--big" id="savecircle" type="submit" data-ng-click="createNew(circleName)" data-i18n="views.circles.createCircle"></button>
 			</form>
 		</div>
 	</div>

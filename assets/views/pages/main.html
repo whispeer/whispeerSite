@@ -13,5 +13,6 @@
 	</header>
 	<div class="posts">
 		<post data-ng-repeat="post in posts" data-post="post" id="{{post.id}}"></post>
-	</div>	
+		<article class="inviteFriends" data-ng-if="posts.length == 0"><a href="/invite" data-i18n="inviteFriends"></a></article>
+	</div>
 </div>
