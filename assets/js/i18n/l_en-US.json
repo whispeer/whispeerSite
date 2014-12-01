@@ -93,7 +93,7 @@
 		"featureTwoProse": "All personal details are optional, you may have as many accounts as you'd like, and usage of pseudonyms is encouraged",
 		"featureThree": "Ad-free",
 		"featureThreeProse": "No ads, voluntary payment and paid premium features",
-		"legal": "I accept the terms and conditions as well as the privacy policy",
+		"legal": "I accept the {agb} as well as the {privacyPolicy}",
 		"inviteExplain": "Due to startup-technical reasons we require an invite key for registration at this point. Lean startup, user-wise.",
 		"more": {
 			"headingOne": "Why whispeer?",

@@ -93,7 +93,7 @@
 		"featureTwoProse": "Alle Angaben sind freiwillig, jeder kann so viele Accounts erstellen, wie gewünscht, und Verwendung vom Pseudonymen ist ausdrücklich erlaubt",
 		"featureThree": "Werbefrei",
 		"featureThreeProse": "Keine Werbung, freiwilliges Bezahlen durch Spenden und käufliche Premiumfeatures",
-		"legal": "Ich akzeptiere die AGB und Datenschutzbestimmungen",
+		"legal": "Ich akzeptiere die {agb} und {privacyPolicy}",
 		"inviteExplain": "Aus startuptechnischen Gründen wird zur Registrierung ein Invite-Code benötigt. Schlankes Startup, usermäßig.",
 		"more": {
 			"headingOne": "Warum whispeer?",

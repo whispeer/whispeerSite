@@ -26,7 +26,11 @@
 			</div>
 			<div class="registerAGB">
 				<label for="checkAGB" data-error-hint="registerFailed" data-error-hint-f1="isAgbError()" data-error-hint-t1="login.register.errors.agb">
-					<input type="checkbox" data-ng-model="$parent.agb" class="checkAGB"> <span data-i18n="landingpage.legal"></span>
+					<input type="checkbox" data-ng-model="$parent.agb" class="checkAGB">
+					<span data-i18n="landingpage.legal">
+						<a href="/agb" data-for="agb" data-i18n="window.title.terms" target="_blank"></a>
+						<a href="/privacyPolicy" data-for="privacyPolicy" data-i18n="window.title.data" target="_blank"></a>
+					</span>
 				</label>
 			</div>
 		</div>
