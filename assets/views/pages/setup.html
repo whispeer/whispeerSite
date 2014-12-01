@@ -3,15 +3,7 @@
 <div class="backup">
 	<header>
 		<h2 data-i18n="views.setup.backup.header"></h2>
-		<div data-ng-if="!profileSaved" class="hint hint--bottom hint--info hint--rounded why" data-hint="Dummy!" data-i18n="views.setup.backup.why"></div>
-		<div class="backupWarningExplanation" data-ng-if="profileSaved && !backupClicked">
-			<p>
-				Hier sind deine Daten sicher aufgehoben - so sicher, dass dein Account <strong>verloren</strong> ist, wenn du dein Passwort vergisst!
-			</p>
-			<p>
-				Lade deshalb deinen Schlüssel herunter, mit dem du bei einem Passwortverlust wieder Zugriff auf deinen Account kriegst:
-			</p>
-		</div>
+		<div class="backupWarningExplanation" data-syntaxify data-i18n="views.setup.backup.explanation"></div>
 	</header>	
 	<button class="btn btn--primary btn--big" data-ng-click="downloadBackup()">
 		<i class="fa fa-download"></i> <span data-i18n="views.setup.backup.downloadKey"></span>
