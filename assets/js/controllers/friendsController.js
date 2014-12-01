@@ -10,6 +10,10 @@ define(["step", "whispeerHelper"], function (step, h) {
 		$scope.friends = [];
 		$scope.requests = [];
 
+		$scope.removeFriend = function (user) {
+			user.user.removeAsFriend();
+		};
+
 		function loadFriendsUsers() {
 			step(function () {
 				var friends = friendsService.getFriends();
