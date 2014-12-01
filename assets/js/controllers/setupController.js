@@ -5,7 +5,7 @@
 define(["step", "whispeerHelper", "asset/state", "libs/qr"], function (step, h, State, qr) {
 	"use strict";
 
-	function setupController($scope, $location, cssService, errorService, userService) {
+	function setupController($scope, $location, cssService, errorService, userService, settingsService) {
 		cssService.setClass("setupView");
 
 		var saveSetupState = new State();
@@ -20,6 +20,27 @@ define(["step", "whispeerHelper", "asset/state", "libs/qr"], function (step, h, 
 			lastName: "",
 			mail: ""
 		};
+
+		function makeNamePrivate(cb) {
+			step(function () {
+				settingsService.getBranch("privacy", this);
+			}, h.sF(function (safetySettings) {
+				safetySettings = h.deepCopyObj(safetySettings, 4);
+				safetySettings.basic = {
+					firstname: {
+						encrypt: true,
+						visibility: ["always:allfriends"]
+					},
+					lastname: {
+						encrypt: true,
+						visibility: ["always:allfriends"]
+					}
+				};
+				settingsService.updateBranch("privacy", safetySettings, this);
+			}), h.sF(function () {
+				settingsService.uploadChangedData(this);
+			}), cb);
+		}
 
 		step(function () {
 			var me = userService.getown();
@@ -36,7 +57,7 @@ define(["step", "whispeerHelper", "asset/state", "libs/qr"], function (step, h, 
 			var me = userService.getown();
 			step(function () {
 				if ($scope.profile.privateName) {
-
+					makeNamePrivate(this);
 				} else {
 					this.ne();
 				}
@@ -116,7 +137,7 @@ define(["step", "whispeerHelper", "asset/state", "libs/qr"], function (step, h, 
 		};
 	}
 
-	setupController.$inject = ["$scope", "$location", "ssn.cssService", "ssn.errorService", "ssn.userService"];
+	setupController.$inject = ["$scope", "$location", "ssn.cssService", "ssn.errorService", "ssn.userService", "ssn.settingsService"];
 
 	return setupController;
 });
