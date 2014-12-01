@@ -1,7 +1,15 @@
 .loginForm {
 	#loginformsubmit {
-		margin-top: 5px;
-		margin-bottom: 5px;
+		@media @desktop {
+			margin-top: 5px;
+			margin-bottom: 5px;
+		}
+		@media @mobile {
+			width: ~"calc(100% - 58px)";
+			border: solid 1px darken(#ffffff, 45%);
+			border-top: none;
+			border-radius: 0px 0px 5px 5px;
+		}
 	}
 
 	.loginLoading,
@@ -16,8 +24,13 @@
 		background-color: lighten(@red,5%);
 		text-shadow: 1px 1px 1px @red;
 		color: #fff;
-		border: 1px solid darken(@red,10%);
-		border-radius: 5px;
+		border: solid 1px darken(#ffffff, 45%);
+		@media @desktop {
+			border-radius: 5px;
+		}
+		@media @mobile {
+			border-top: none;
+		}
 		padding-bottom: 10px;
 		padding-top: 10px;
 		.box-fix;

@@ -29,6 +29,10 @@
 		input[type="text"], input[type=""], input[type="password"] {
 			width: 100%;
 		}
+		#mobileLogo {
+			max-width: ~"calc(100% - 58px)";
+			margin: 0 29px;
+		}
 	}
 
 	.spacious {
@@ -48,7 +52,19 @@
 	.annotatedInputContainer,
 	.name, .pw,
 	.error, .loginLoading {
-		margin: 0px 29px 14px 29px;
+		margin:  0px 29px;
+		@media @desktop {
+			margin-bottom: 14px;
+		}
+	}
+
+	#mail {
+		border-radius: 5px 5px 0px 0px
+	}
+
+	#password {
+		border-radius: 0px;
+		border-top: none;
 	}
 
 	#main {
@@ -95,6 +111,9 @@
 	h1 {
 		font-weight: bold;
 		font-size: 2.4rem;
+		@media @mobile {
+			color: @white;
+		}
 	}
 
 	.splash {
@@ -202,6 +221,41 @@
 				text-indent: -16px;
 				font-size: 12px;
 				margin:	0;
+			}
+		}
+
+
+		@media @mobile {
+			padding-bottom: 50px;
+			.inputWrap {
+				.nickname {
+					border-radius: 5px 5px 0 0;
+				}
+				.password, .password2, .registerAGB {
+					border-radius: 0;
+					border-top: 0;
+					border-bottom: solid 1px darken(#ffffff, 45%);
+				}
+				.registerAGB {
+					background: @white;
+					 .box-shadow(inset 0px 0px 5px #ccc);
+					width: ~"calc(100% - 60px)";
+					margin: 0 30px;
+					padding: 5px;
+					.box-fix;
+				}
+			}
+			.submitWrap {
+				width: 100%;
+				width: ~"calc(100% - 58px)";
+				margin: 0 29px;
+				button {
+					width: 100%;
+					margin-top: 0;
+					border: solid 1px darken(#ffffff, 45%);
+					border-top: none;
+					border-radius: 0 0 5px 5px;
+				}
 			}
 		}
 
