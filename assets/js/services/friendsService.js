@@ -110,6 +110,8 @@ define(["step", "whispeerHelper", "asset/observer", "asset/securedDataWithMetaDa
 						friendsService.notify(uid, "newRequested");
 					}
 
+					updateCounters();
+
 					this.ne();
 				}
 			}), cb);
