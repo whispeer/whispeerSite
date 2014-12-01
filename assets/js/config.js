@@ -11,8 +11,8 @@ var config = {
 if (useServer) {
 	config = {
 		https: true,
-		ws: "beta.whispeer.de",
-		wsPort: 3001
+		ws: "data.whispeer.de",
+		wsPort: 443
 	};
 }
 

@@ -24,7 +24,9 @@
 		"notificationCenter",
 		"impressum",
 		"setup",
-		"invite"
+		"invite",
+		"agb",
+		"privacyPolicy"
 	];
 
 	var includes = ["angular"];

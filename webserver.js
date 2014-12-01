@@ -37,6 +37,9 @@
 	cspConfig["default-src"].push("https://beta.whispeer.de:3001");
 	cspConfig["default-src"].push("wss://beta.whispeer.de:3001");
 
+	cspConfig["default-src"].push("https://data.whispeer.de");
+	cspConfig["default-src"].push("wss://data.whispeer.de");
+
 	for (var dev in ifaces) {
 		ifaces[dev].forEach(pushAddress);
 	}
@@ -57,7 +60,7 @@
 		}
 	});
 
-	var angular = ["user", "messages", "circles", "main", "friends", "login", "loading", "help", "settings", "start", "notificationCenter", "setup", "invite"];
+	var angular = ["user", "messages", "circles", "main", "friends", "login", "loading", "help", "settings", "start", "notificationCenter", "setup", "invite", "agb", "impressum", "privacyPolicy"];
 
 	require("http").createServer(function (request, response) {
 		request.addListener("end", function () {
