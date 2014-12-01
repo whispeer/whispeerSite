@@ -43,6 +43,8 @@ define(["app"], function (app) {
 		addMain("version");
 		addMain("legal");
 		addMain("impressum");
+		addMain("agb");
+		addMain("privacyPolicy");
 		addMain("notificationCenter");
 
 		$routeProvider.when("/logout", {
