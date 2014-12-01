@@ -26,7 +26,8 @@
 		"setup",
 		"invite",
 		"agb",
-		"privacyPolicy"
+		"privacyPolicy",
+		"recovery"
 	];
 
 	var includes = ["angular"];
