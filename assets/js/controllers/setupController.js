@@ -2,7 +2,7 @@
 * setupController
 **/
 
-define(["step", "whispeerHelper", "asset/state", "libs/qr"], function (step, h, State, qr) {
+define(["step", "whispeerHelper", "asset/state", "libs/qr", "libs/filesaver"], function (step, h, State, qr, saveAs) {
 	"use strict";
 
 	function setupController($scope, $location, cssService, errorService, userService, settingsService) {
@@ -124,10 +124,9 @@ define(["step", "whispeerHelper", "asset/state", "libs/qr"], function (step, h, 
 			step(function () {
 				createBackup(this);
 			}, h.sF(function (canvas) {
-				var a = document.createElement("a");
-				a.href = canvas.toDataURL();
-				a.download = "whispeer-backup.png";
-				a.click();
+				canvas.toBlob(this.ne);
+			}), h.sF(function (blob) {
+				saveAs(blob, "whispeer-backup.png");
 			}), errorService.criticalError);
 		};
 
