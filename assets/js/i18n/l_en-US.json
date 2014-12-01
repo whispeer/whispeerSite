@@ -33,6 +33,7 @@
 			"backup": {
 				"header": "Save your key now",
 				"why": "Why?",
+				"explanation": "If you forget your password for whispeer, you don't have access to your account anymore. To reset your password, you need a particular code which is generetaded specifically for you. You will find that code in the file. Please download the file or print it out, so we can give you access to your account again if needed.",
 				"downloadKey": "Download key",
 				"or": "or",
 				"printKey": "Print key",

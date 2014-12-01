@@ -32,6 +32,7 @@
 			"welcomeHeader": "Willkommen bei whispeer!",
 			"backup": {
 				"header": "Sichere jetzt deinen Schlüssel",
+				"why": "Warum?",
 				"explanation": "Wenn du dein whispeer-Passwort vergisst, hast du keinen Zugang mehr zu deinem Account. Um dein Passwort zurückzusetzen, brauchst du einen für dich speziellen Code, der in der Datei steht. Speichere sie oder drucke sie aus, damit wir dir im Notfall wieder Zugriff auf deinen Account geben können.",
 				"downloadKey": "Schlüssel herunterladen",
 				"or": "oder",
