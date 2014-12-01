@@ -13,7 +13,7 @@
 	"views": {
 		"recovery": {
 			"title": "Accountwiederherstellung",
-			"explanation": "Eine automatische Accountwiederherstellung ist noch nicht vorhanden. \n Solltest du dein Passwort vergessen haben, so sende uns bitte eine E-Mail an {mail}."
+			"explanation": "Eine automatische Accountwiederherstellung ist noch nicht vorhanden. {br} Solltest du dein Passwort vergessen haben, so sende uns bitte eine E-Mail an {mail}. {br} Gib deinen Wiederherstellungs-Schlüssel niemals weiter auch nicht an uns!"
 		},
 		"invite": {
 			"invite": "Einladen",

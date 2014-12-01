@@ -11,6 +11,10 @@
 	},
 	"inviteFriends": "Invite your friends!",
 	"views": {
+		"recovery": {
+			"title": "Account recovery",
+			"explanation": "Your account can not be recovered automatically yet. {br} If you forgot your password please send an E-Mail to {mail}. {br} Never send your backup key to anyone not even us!"
+		},
 		"invite": {
 			"invite": "Invite",
 			"viaMail": "Invite via E-mail",
