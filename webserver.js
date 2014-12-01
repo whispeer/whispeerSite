@@ -60,7 +60,7 @@
 		}
 	});
 
-	var angular = ["user", "messages", "circles", "main", "friends", "login", "loading", "help", "settings", "start", "notificationCenter", "setup", "invite", "agb", "impressum", "privacyPolicy"];
+	var angular = ["user", "messages", "circles", "main", "friends", "login", "loading", "help", "settings", "start", "notificationCenter", "setup", "invite", "agb", "impressum", "privacyPolicy", "recovery"];
 
 	require("http").createServer(function (request, response) {
 		request.addListener("end", function () {
