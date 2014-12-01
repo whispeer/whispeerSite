@@ -20,6 +20,10 @@
 
 	#main {
 		text-align: center;
+		@media @mobile {
+			overflow: scroll;
+			-webkit-overflow-scrolling: touch;
+		}
 	}
 	h1 {
 		.large-text();
@@ -87,7 +91,7 @@
 			.column(12);
 			h3 {
 				// workaround with a float and .width() here to keep the original h3 margin!
-				float: left; 
+				float: left;
 				.width(12);
 				text-align: left;
 			}
