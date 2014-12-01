@@ -13,7 +13,7 @@
 	"views": {
 		"recovery": {
 			"title": "Accountwiederherstellung",
-			"explanation": "Eine automatische Accountwiederherstellung ist noch nicht vorhanden. {br} Solltest du dein Passwort vergessen haben, so sende uns bitte eine E-Mail an {mail}. {br} Gib deinen Wiederherstellungs-Schlüssel niemals weiter auch nicht an uns!"
+			"explanation": "Eine automatische Accountwiederherstellung ist noch nicht vorhanden. {br} Solltest du dein Passwort vergessen haben, sende uns bitte eine E-Mail an {mail}. {br} Gib deinen Wiederherstellungs-Schlüssel niemals weiter, auch nicht an uns!"
 		},
 		"invite": {
 			"invite": "Einladen",
@@ -96,9 +96,9 @@
 		"featureTwo": "Offen",
 		"featureTwoProse": "Alle Angaben sind freiwillig, jeder kann so viele Accounts erstellen, wie gewünscht, und Verwendung vom Pseudonymen ist ausdrücklich erlaubt",
 		"featureThree": "Werbefrei",
-		"featureThreeProse": "Keine Werbung, freiwilliges Bezahlen und käufliche Premiumfeatures",
+		"featureThreeProse": "Es gibt keine Werbung, das Bezahlen ist freiwillig und Premium-Features sind zusätzlich käuflich",
 		"legal": "Ich akzeptiere die {agb} und {privacyPolicy}",
-		"inviteExplain": "Ihr benötigt eine Einladung, um euch bei whispeer registrieren zu können. Wir haben uns zu diesem Schritt entschieden, damit wir einen optimalen Service bereit stellen können—auf kurze und auf lange Sicht. Bald wird whispeer dann auch ohne Einladung für jeden zugänglich sein. Nutzt die Zeit bis dahin, um eure Familie und Freunde zu whispeer einzuladen!",
+		"inviteExplain": "Ihr benötigt eine Einladung, um euch bei whispeer registrieren zu können. Wir haben uns zu diesem Schritt entschieden, damit wir einen optimalen Service bereit stellen können — auf kurze und auf lange Sicht. Bald wird whispeer dann auch ohne Einladung für jeden zugänglich sein. Nutzt die Zeit bis dahin, um eure Familie und Freunde zu whispeer einzuladen!",
 		"more": {
 			"headingOne": "Warum whispeer?",
 			"headingTwo": "Wie registriere ich mich?",
@@ -291,7 +291,7 @@
 			"back": "Zurück",
 			"verifyTitle":	"Benutzerverifizierung",
 			"verifyInfo": {
-				"code":	"Bitte gib den Fingerprint von {user} ein [br] Diesen findet er in seinen Einstellungen. [br] Fingerprints sollten nicht über das Internet getauscht werden, da dies unsicher ist.[br] Am besten ist es sich persönlich zu treffen!",
+				"code":	"Bitte gib den Fingerprint von {user} ein. [br] Diesen findet er in seinen Einstellungen. [br] Fingerprints sollten nicht über das Internet getauscht werden, da dies unsicher ist.[br] Am besten ist es, sich persönlich zu treffen!",
 				"qr":	"Halte den QR-Code von {user} in deine Kamera, sodass er im unteren Fenster sichtbar ist.[br] Sobald der Code erkannt wurde, wird {user} automatisch verifiziert."
 			},
 			"nodevice": "Es konnte keine Kamera erkannt werden!",
@@ -300,7 +300,7 @@
 			"verifyWithQr":		"QR-Code",
 			"chooseVerifyMethod":	"Verifiziere die Identität von {user}. Wähle eine Verifizierungsmethode:",
 			"qrSaveButton":	{
-				"fail":	"Der Fingerprint stimmt nicht! Klick hier um es erneut zu probieren!",
+				"fail":	"Der Fingerprint stimmt nicht! Klicke hier, um es erneut zu probieren!",
 				"pending":	"Der Fingerprint wird überprüft!"
 			}
 		},

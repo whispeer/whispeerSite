@@ -13,19 +13,19 @@
 	"views": {
 		"recovery": {
 			"title": "Account recovery",
-			"explanation": "Your account can not be recovered automatically yet. {br} If you forgot your password please send an E-Mail to {mail}. {br} Never send your backup key to anyone not even us!"
+			"explanation": "Your account can not be recovered automatically yet. {br} If you forgot your password please send an e-mail to {mail}. {br} Never send your backup key to anyone not even us!"
 		},
 		"invite": {
 			"invite": "Invite",
-			"viaMail": "Invite via E-mail",
+			"viaMail": "Invite via e-mail",
 			"viaMailExplanation": "Enter your friends' e-mail addresses to invite them:",
 			"mail": "E-mail",
 			"viaLink": "Invite via link",
-			"viaLinkExplanation": "Generate an invite link that you can pass on to friends:",
-			"generateLink": "Generate an invite link",
+			"viaLinkExplanation": "Generate an invite link that you can pass on to your friends:",
+			"generateLink": "Generate an invitation link",
 			"code": "Invite:",
-			"link": "Invite link:",
-			"yourName": "Let your friends know, who's inviting them (optional):",
+			"link": "Invitation link:",
+			"yourName": "Let your friends know who is inviting them (optional):",
 			"name": "Name"
 		},
 		"setup": {
@@ -45,15 +45,15 @@
 				"mail": "E-mail",
 				"firstName": "First name",
 				"lastName": "Last name",
-				"privateName": "Turn your name private (Your friends will not find you as easily anymore though)"
+				"privateName": "Turn your name private (Your friends will not find you as easily anymore)"
 			},
 			"save": "Save Mail and Name"
 		},
 		"mail": {
-			"verify": "verify Mail",
+			"verify": "Verify e-mail",
 			"updateMe": "I would like to receive updates via mail",
 			"verifying": "Verifying.",
-			"verified": "Your mail was verified.",
+			"verified": "Your e-mail was verified.",
 			"backToLogin": "Return to login",
 			"failed": "Verification failed!\n Maybe your verification code is outdated."
 		},
@@ -94,18 +94,18 @@
 		"featureOne": "Encrypted",
 		"featureOneProse": "Everything is de- and encrypted on the client. Only chosen recipients can read messages, no eavesdropping third",
 		"featureTwo": "Open",
-		"featureTwoProse": "All personal details are optional, you may have as many accounts as you'd like, and usage of pseudonyms is encouraged",
+		"featureTwoProse": "All personal details are optional, you may have as many accounts as you like, and usage of pseudonyms is encouraged",
 		"featureThree": "Ad-free",
-		"featureThreeProse": "No ads, voluntary payment and paid premium features",
-		"legal": "I accept the {agb} as well as the {privacyPolicy}",
-		"inviteExplain": "You need an invitation to register for whispeer. We decided to take this step, so that we can provide the best service possible—both short term and in the long run. Soon we will be open to everyone and able to offer whispeer accounts without invitation. Use the time until then to invite your family and friends to join whispeer!",
+		"featureThreeProse": "There are no ads, payment is voluntary and premium features can be additionally purchased",
+		"legal": "I accept the {agb} and the {privacyPolicy}",
+		"inviteExplain": "You need an invitation to register for whispeer. We decided to take this step, so that we can provide the best service possible — both short term and in the long run. Soon we will be open to everyone and able to offer whispeer accounts without invitation. Use the time until then to invite your family and friends to join whispeer!",
 		"more": {
 			"headingOne": "Why whispeer?",
 			"headingTwo": "How do I register?",
-			"paragraphOne": "With most services you have to trust in your provider to secure your data. With whispeer we give control over your data back to you. Encryption secures your data from prying eyes, including our's.",
-			"paragraphTwo": "We enjoy offering as much security as possible. That is why you have to use at least eight characters for your password. We recommend a password length of over 12 characters and a combination of lower- and uppercase letters, symbols and digits.",
-			"paragraphThree": "Your first and last name is optional and can be entered on your profile setup page following your registration. You can also, optionally, enter your e-mail address. We will use it only to tell you about whispeer news, and nobody except the whispeer team will be able to see it.",
-			"paragraphFour": "In addition to that, you can add other data to your profile, including your date of birth, the city you live in and your relationship status.  Each of these data is encrypted and will initially only be visible to you.  You can then define the rights for each and every piece of information, defining exactly who can see what. You want your friends to see your date of birth, but not where you currently live?  No problem. Everyone belonging to your circle 'Colleagues' should see where you work, but not your relationship status? Easy. Just enter your settings and add individual friends, or whole groups for each part.  You stay in control."
+			"paragraphOne": "With most services you have to trust your provider to secure your data. With whispeer, we give control over your data back to you. Encryption secures your data from prying eyes, including ours.",
+			"paragraphTwo": "We enjoy offering as much security as possible, which is why you have to use at least eight characters for your password. We recommend a password length of over 12 characters and a combination of lower- and uppercase letters, symbols and digits.",
+			"paragraphThree": "Your first and last name is optional and can be entered on your profile setup page directly following your registration. You can also enter your e-mail address if you want to. We will use it only to tell you about whispeer news, and nobody except the whispeer team will be able to see it.",
+			"paragraphFour": "In addition to that, you can add other data to your profile, including your date of birth, the city you live in and your relationship status.  Each information is encrypted and will initially only be visible to you. You can then define the rights for each and every piece of information, defining exactly who can see what. You want your friends to see your date of birth, but not where you currently live? No problem. Everyone belonging to your circle 'Colleagues' should see where you work, but not your relationship status? Easy. Just enter your settings and add individual friends, or whole groups for each part. You stay in control."
 		}
 	},
 	"directives": {
@@ -157,7 +157,7 @@
 			"december": "December"
 		},
 		"time": {
-			"justNow": 		"right now",
+			"justNow": 		"just now",
 			"oneMinuteAgo":	"one minute ago",
 			"minutesAgo":	"{minutes} minutes ago",
 			"oneHourAgo":	"one hour and {minutes} minutes ago",
@@ -185,8 +185,8 @@
 		"forgotPassword": "Forgot password",
 		"header": "Login",
 		"link": "Log In",
-		"loginFailed": "Username and Password don't match!",
-		"moreInfo":	"Mehr Info",
+		"loginFailed": "Username and password don't match!",
+		"moreInfo":	"More information",
 		"password": "Password",
 		"unknownName": "Unknown username",
 		"username": "Username",
@@ -205,15 +205,15 @@
 				"passwordWeak": "Password too weak"
 			},
 
-			"enterinvitecode": "Enter your invite code",
-			"invitecode": "Invite code",
-			"requestinvite": "Request an invite:",
+			"enterinvitecode": "Enter your invitation code",
+			"invitecode": "Invitation code",
+			"requestinvite": "Request an invitation:",
 
 			"createAccount": "Create an account",
 			"link":	"Register",
 			"next": "Next",
 			"previous": "Previous",
-			"repeatPassword":	"Repeat Password",
+			"repeatPassword":	"Repeat password",
 			"passwordstrength":	"Password strength: ",
 			"email":	"E-mail address",
 			"repeatEmail":	"Repeat e-mail address",
@@ -223,9 +223,9 @@
 
 			"country":	"State",
 			"location":	"City",
-			"uploadImage":	"Upload Profile Picture",
-			"more": "More Information",
-			"intro": "Please type in your gender, name, birthday and city where you live. With these information, your friends on whispeer can find you more easily. We don't force you to do so, though! It is completely up to you.",
+			"uploadImage":	"Upload profile picture",
+			"more": "More information",
+			"intro": "Please type in your gender, name, birthday and city you live in. With this information, your friends on whispeer can find you more easily. We don't force you to do so, though! It is completely up to you.",
 			"newaccount": "Create an account"
 		}
 	},
@@ -238,7 +238,7 @@
 		},
 		"filter": {
 			"title": "Filter",
-			"placeholder": "Whose posts do you want to see in the News-Feed?"
+			"placeholder": "Whose posts do you want to see in the Newsfeed?"
 		},
 		"info": {
 			"with": "with {name}",
@@ -291,13 +291,13 @@
 			"verifyTitle":	"User verification",
 			"back": "Back",
 			"verifyInfo": {
-				"code":	"Please input {user}'s fingerprint.[br] He can find his fingerprint on the settings page![br] Never use online communication to share the fingerprint as it is insecure! Best practice is to meet in person.",
-				"qr":	"Please scan {user}'s qr-code with your camera.[br] {user} will be automatically verified, as soon as our software detects the correct qr-code"
+				"code":	"Please input {user}'s fingerprint.[br] He can find his fingerprint on the settings page![br] Never use online communication to share the fingerprint as it is insecure! Ideally, you meet in person.",
+				"qr":	"Please scan {user}'s QR-code with your camera.[br] {user} will be automatically verified, as soon as our software detects the correct QR-code"
 			},
 			"nodevice": "We could not detect a camera!",
 			"verifyUser":	"Verifying {user}",
 			"verifyWithCode":	"Manual input",
-			"verifyWithQr":		"QR-Code",
+			"verifyWithQr":		"QR-code",
 			"chooseVerifyMethod":	"Please verify {user}'s identity. Select a verification method:",
 			"qrSaveButton":	{
 				"fail":	"Fingerprint wrong! Click to try again!",
@@ -443,10 +443,10 @@
 			},
 			"report": {
 				"question": "How can I report someone?",
-				"answer":	"At the moment, please write us an e-mail with the username and/or e-mail adress you want to report. Our address is support@whispeer.de . We will implement a report-Button as soon as possible."
+				"answer":	"At the moment, please write us an e-mail with the username and/or e-mail address you want to report. Our address is support@whispeer.de . We will implement a report-Button as soon as possible."
 			},
 			"account": {
-				"question": "Where can I change my User-Data (password, username, e-mail adress)?",
+				"question": "Where can I change my User-Data (password, username, e-mail address)?",
 				"answer":	"In the menu on the left, please click on \"Settings\". You are now on the settings-page where you can change all your data in the first category called \"General\"."
 			},
 			"privacy": {
@@ -520,10 +520,10 @@
 			"account":	"Account",
 			"changeName": "Change name",
 			"changeUsername": "Change username",
-			"changeMail": "Change e-mail adress",
+			"changeMail": "Change e-mail address",
 			"changePassword": "Change password",
 			"save": "Save",
-			"mail": "E-mail adress"
+			"mail": "E-mail address"
 		}
 	},
 	"magicbar": {
