@@ -5,7 +5,7 @@
 define(["step", "whispeerHelper", "asset/state"], function (step, h, State) {
 	"use strict";
 
-	function registerController($scope, $timeout, $routeParams, keyStore, errorService, sessionHelper, sessionService) {
+	function registerController($scope, $timeout, $routeParams, keyStore, errorService, sessionHelper, sessionService, socketService) {
 		var inviteCodeState = new State();
 
 		$scope.invite = {
@@ -18,8 +18,14 @@ define(["step", "whispeerHelper", "asset/state"], function (step, h, State) {
 		}, function (value) {
 			inviteCodeState.pending();
 			step(function () {
+				if (socketService.isConnected()) {
+					this();
+				} else {
+					socketService.once("connect", this.ne);
+				}
+			}, h.sF(function () {
 				sessionHelper.checkInviteCode(value, this);
-			}, h.sF(function (valid) {
+			}), h.sF(function (valid) {
 				if (!valid) {
 					throw new Error("code not valid");
 				}
@@ -269,7 +275,7 @@ define(["step", "whispeerHelper", "asset/state"], function (step, h, State) {
 		};
 	}
 
-	registerController.$inject = ["$scope", "$timeout", "$routeParams", "ssn.keyStoreService", "ssn.errorService", "ssn.sessionHelper", "ssn.sessionService"];
+	registerController.$inject = ["$scope", "$timeout", "$routeParams", "ssn.keyStoreService", "ssn.errorService", "ssn.sessionHelper", "ssn.sessionService", "ssn.socketService"];
 
 	return registerController;
 });
