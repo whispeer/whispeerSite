@@ -44,11 +44,11 @@ define(["step", "whispeerHelper", "asset/state", "libs/qr"], function (step, h, 
 
 		step(function () {
 			var me = userService.getown();
-			$scope.mail = me.getMail();
+			$scope.profile.mail = me.getMail();
 			me.getName(this);
 		}, h.sF(function (names) {
-			$scope.firstName = names.firstname;
-			$scope.lastName = names.lastname;
+			$scope.profile.firstName = names.firstname;
+			$scope.profile.lastName = names.lastname;
 		}), errorService.criticalError);
 
 		$scope.saveProfile = function () {
@@ -68,6 +68,12 @@ define(["step", "whispeerHelper", "asset/state", "libs/qr"], function (step, h, 
 				}, this);
 			}), h.sF(function () {
 				me.uploadChangedProfile(this);
+			}), h.sF(function () {
+				if (h.isMail($scope.profile.mail)) {
+					me.setMail($scope.profile.mail, this);
+				} else {
+					this.ne();
+				}
 			}), h.sF(function () {
 				if ($scope.backupClicked) {
 					$location.path("/main");
