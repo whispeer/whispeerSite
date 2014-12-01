@@ -38,7 +38,7 @@ define(["whispeerHelper", "step", "asset/state", "libs/qr"], function (h, step, 
 			$scope.safety = h.deepCopyObj(privacy, 4);
 
 			$scope.notificationSound = "on";
-			$scope.sendShortCut = "enter";
+			$scope.sendShortCut = "ctrlEnter";
 
 			$scope.uiLanguage = localize.getLanguage();
 
