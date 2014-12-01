@@ -250,9 +250,8 @@
 			},
 			"content": "{{content}}"
 		},
-		"comments": {
-			"time":	"On {date} at {time}"
-		}
+		"newComment": "Add a comment!",
+		"comments": "Comments"
 	},
 	"messages": {
 		"title": "Messages",
