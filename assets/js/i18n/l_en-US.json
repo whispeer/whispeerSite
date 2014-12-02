@@ -538,7 +538,8 @@
 			"title": "Requests",
 			"mutuals": "{count} mutual friends",
 			"accept":	"Accept",
-			"decline":	"Ignore"
+			"decline":	"Ignore",
+			"confirmRemove": "Really remove {user} from your friends list?"
 		},
 		"settings": {
 			"title": "Settings"

@@ -538,7 +538,8 @@
 			"title": "Anfragen",
 			"mutuals": "{count} gemeinsame Freunde",
 			"accept":	"Annehmen",
-			"decline":	"Ignorieren"
+			"decline":	"Ignorieren",
+			"confirmRemove": "{user} wirklich von der Freundesliste entfernen?"
 		},
 		"settings": {
 			"title": "Optionen"
