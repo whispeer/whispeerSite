@@ -182,24 +182,24 @@
 		"notifications":	"Mitteilungen ({count})"
 	},
 	"login": {
-		"forgotName": "Benutzername vergessen",
+		"forgotName": "Accountname vergessen",
 		"forgotPassword": "Passwort vergessen",
 		"header": "Login",
 		"link": "Einloggen",
-		"loginFailed": "Nutzername und Passwort stimmen nicht überein!",
+		"loginFailed": "Accountname und Passwort stimmen nicht überein!",
 		"moreInfo":	"Mehr Info",
 		"password": "Passwort",
-		"unknownName": "Unbekannter Nutzername",
-		"username": "Nutzername",
+		"unknownName": "Unbekannter Accountname",
+		"username": "Accountname",
 		"wrongPassword": "Falsches Passwort",
 		"register": {
 			"errors": {
 				"agb": "Bitte akzeptiere die AGB",
 				"mailInvalid": "Ungültige E-Mail",
 				"mailUsed": "Diese E-Mail ist schon vergeben",
-				"nickEmpty": "Bitte gib einen Nutzernamen an",
-				"nickInvalid": "Der Nutzername darf nur Buchstaben und Zahlen beinhalten",
-				"nickUsed": "Dieser Nutzername ist schon vergeben",
+				"nickEmpty": "Bitte gib einen Accountnamen an",
+				"nickInvalid": "Der Accountname darf nur Buchstaben und Zahlen beinhalten",
+				"nickUsed": "Dieser Accountname ist schon vergeben",
 				"password2Empty": "Bitte wiederhole dein Passwort",
 				"passwordEmpty": "Bitte gib ein Passwort ein",
 				"passwordNoMatch": "Passwörter stimmen nicht überein",
@@ -412,7 +412,7 @@
 		"faq": {
 			"register": {
 				"question": "Muss ich beim Registrieren meinen vollen Namen und meine E-Mail Adresse angeben?",
-				"answer":	"Nein. Wenn du dich registrieren möchtest, kannst du dies schon mit einem Username. Du kannst aber auch nur eine E-Mail Adresse angeben. Natürlich kannst du dir aussuchen, ob du deinen vollen Namen angeben möchtest, oder vielleicht nur einen Teil davon. Allerdings kannst du deinen Namen auch verschlüsseln, sodass später nur deine Freunde auf whispeer deinen ganzen Namen sehen können."
+				"answer":	"Nein. Wenn du dich registrieren möchtest, kannst du dies schon mit einem Accountnamen. Du kannst aber auch nur eine E-Mail Adresse angeben. Natürlich kannst du dir aussuchen, ob du deinen vollen Namen angeben möchtest, oder vielleicht nur einen Teil davon. Allerdings kannst du deinen Namen auch verschlüsseln, sodass später nur deine Freunde auf whispeer deinen ganzen Namen sehen können."
 			},
 			"password": {
 				"question": "Wie erstelle ich ein sicheres Passwort?",
@@ -424,7 +424,7 @@
 			},
 			"search": {
 				"question": "Wie funktioniert die Suche?",
-				"answer":	"Im Moment kannst du nach Vornamen, Nachnamen und Usernamen suchen. Du tippst also einen Namen in die Suche ein und bekommst dann User, die auf deine Suchanfrage passen, vorgeschlagen."
+				"answer":	"Im Moment kannst du nach Vornamen, Nachnamen und Accountnamen suchen. Du tippst also einen Namen in die Suche ein und bekommst dann User, die auf deine Suchanfrage passen, vorgeschlagen."
 			},
 			"messages": {
 				"question": "Wie wähle ich aus, wer meine Nachrichten erhält? Kann ich auch Nachrichten an mehrere Personen verschicken?",
@@ -444,10 +444,10 @@
 			},
 			"report": {
 				"question": "Wie kann ich jemanden melden?",
-				"answer":	"Momentan musst du uns eine Mail mit dem Namen der Person, bzw. ihrem Usernamen oder ihrer E-Mail senden. Die Adresse ist support@whispeer.de . Es wird jedoch so bald wie möglich einen Melden-Button geben."
+				"answer":	"Momentan musst du uns eine Mail mit dem Namen der Person, bzw. ihrem Accountnamen oder ihrer E-Mail senden. Die Adresse ist support@whispeer.de . Es wird jedoch so bald wie möglich einen Melden-Button geben."
 			},
 			"account": {
-				"question": "Wo kann ich meine Konto-Daten (Passwort, Username, E-Mail Adresse) ändern?",
+				"question": "Wo kann ich meine Konto-Daten (Passwort, Accountname, E-Mail Adresse) ändern?",
 				"answer":	"Deine Konto-Daten kannst du ändern, wenn du im Menü links auf 'Einstellungen' klickst. Du wirst dann auf die Einstellungs-Seite weitergeleitet, und unter dem ersten Thema 'Allgemein' kannst du deine Angaben ändern."
 			},
 			"privacy": {
@@ -476,7 +476,7 @@
 					"header": "Name",
 					"firstname": "Vorname",
 					"lastname": "Nachname",
-					"username": "Username"
+					"username": "Accountname"
 				}
 			},
 			"whomayseeit": {
@@ -520,7 +520,7 @@
 			},
 			"account":	"Benutzerkonto",
 			"changeName": "Namen ändern",
-			"changeUsername": "Usernamen ändern",
+			"changeUsername": "Accountnamen ändern",
 			"changeMail": "E-Mail Adresse ändern",
 			"changePassword": "Passwort ändern",
 			"save": "Speichern",
