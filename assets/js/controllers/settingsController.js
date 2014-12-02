@@ -56,11 +56,12 @@ define(["whispeerHelper", "step", "asset/state", "libs/qr"], function (h, step, 
 			$scope.firstName = names.firstname;
 			$scope.lastName = names.lastname;
 			$scope.nickName = names.nickname;
-			$scope.fingerprint = userService.getown().data.fingerprint;
+			var fp = userService.getown().data.fingerprint;
+			$scope.fingerprint = [fp.substr(0,13), fp.substr(13,13), fp.substr(26,13), fp.substr(39,13)];
 
 			qr.image({
 				image: document.getElementById("fingerPrintQR"),
-				value: $scope.fingerprint,
+				value: fp,
 				size: 7,
 				level: "L"
 			});

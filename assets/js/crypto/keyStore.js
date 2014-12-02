@@ -1723,7 +1723,7 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 			},
 			fingerPrint: function (keyID) {
 				var hex = keyID.split(":")[1];
-				return sjcl.codec.base32.fromBits(sjcl.codec.hex.toBits(hex));
+				return sjcl.codec.base32.fromBits(sjcl.codec.hex.toBits(hex)).toUpperCase();
 			},
 			base32: function (bits) {
 				return sjcl.codec.base32.fromBits(bits);

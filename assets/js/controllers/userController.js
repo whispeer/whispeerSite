@@ -136,8 +136,7 @@ define(["step", "whispeerHelper", "asset/resizableImage", "asset/state", "libs/q
 		};
 
 		function partitionInput() {
-			var fpLength = $scope.fingerPrint[0].length;
-
+			var fpLength = $scope.fingerPrint[0].length, i;
 			var given = $scope.givenPrint.join("");
 
 			for (i = 0; i < $scope.fingerPrint.length - 1; i += 1) {
@@ -148,18 +147,20 @@ define(["step", "whispeerHelper", "asset/resizableImage", "asset/state", "libs/q
 		}
 
 		function focusMissingField() {
-			var fpLength = $scope.fingerPrint[0].length;
+			var fpLength = $scope.fingerPrint[0].length, i;
 
 			for (i = 0; i < $scope.givenPrint.length; i += 1) {
 				if ($scope.givenPrint[i].length < fpLength) {
 					jQuery(".verify input")[i].focus();
-					break;
+					return;
 				}
 			}
+
+			jQuery(".verify input")[$scope.givenPrint.length - 1].focus();
 		}
 
 		$scope.nextInput = function (index) {
-			$scope.givenPrint[index] = $scope.givenPrint[index].toLowerCase().replace(/[^a-z0-9]/g, "");
+			$scope.givenPrint[index] = $scope.givenPrint[index].toUpperCase().replace(/[^A-Z0-9]/g, "");
 
 			partitionInput();
 			focusMissingField();

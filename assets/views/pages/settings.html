@@ -15,7 +15,10 @@
 		<header><span class="title" data-i18n="settings.changes.general.title"></span></header>
 		<div class="config" id="fingerprint">
 			<h5 data-i18n="settings.changes.general.fingerprints.title"></h5>
-			<p><input readonly="readonly" id="yourFingerprint" type="text" data-ng-model="fingerprint"></p>
+			<p>
+				<span data-ng-repeat="part in fingerprint">{{part}}{{$last ? '' : ' - '}}</span>
+			</p>
+			<p></p>
 			<p id="qrCode"><img id="fingerPrintQR"></p>
 		</div>
 		<div class="config" id="uiLanguage">
