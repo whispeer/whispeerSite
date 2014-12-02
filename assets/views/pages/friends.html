@@ -28,7 +28,7 @@
 					<a data-ng-click="$parent.removeFriend(friend)"><i class="clickable fa fa-2x fa-times fa-fw"></i></a>
 				</friend>
 			</li>
-			<li class="inviteFriends">
+			<li class="inviteFriends" data-ng-if="friends.length < 50">
 				<a class="btn btn--primary btn--large" href="/invite" data-i18n="inviteFriends"></a>
 			</li>
 		</ol>
