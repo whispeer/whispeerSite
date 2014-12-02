@@ -10,6 +10,20 @@ if (window.location.href.indexOf("file:///") === 0) {
 	document.getElementsByTagName("base")[0].setAttribute("href", base);
 }
 
+var errors = [];
+
+window.onerror = function (str, file, line, col, e) {
+	"use strict";
+
+	errors.push({
+		str: str,
+		file: file,
+		line: line,
+		col: col,
+		e: e
+	});
+};
+
 requirejs.config({
 	paths: {
 		jquery: "libs/jquery-1.9.1",

@@ -137,6 +137,27 @@ define(["jquery", "socket", "socketStream", "step", "whispeerHelper", "config"],
 			}
 		};
 
+		$(document).keypress(function (e) {
+			if (e.shiftKey && e.ctrlKey && e.keyCode === 5) {
+				if (errors.length > 0) {
+					var yes = confirm("Send errors to whispeer server?");
+
+					if (yes) {
+						socketS.emit("errors", {
+							errors: errors
+						}, function (e) {
+							if (e) {
+								alert("Transfer failed!");
+							} else {
+								alert("Errors successfully transfered to server");
+							}
+						});
+					}
+				}
+			}
+		});
+
+
 		socket.on("disconnect", function () {
 			console.info("socket disconnected");
 			loading = 0;
