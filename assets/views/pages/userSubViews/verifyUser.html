@@ -14,7 +14,7 @@
 				<span class="introText" data-syntaxify data-i18n="profile.trustmanager.verifyInfo.code|user={{user.basic.shortname}}"></span>
 				<div class="inputWrap">
 					<span data-ng-repeat="part in fingerPrint">
-						<input maxlength="{{part.length}}" type="text" data-i18n-attr="profile.trustmanager.part{{$index+1}}|placeholder" data-ng-model="givenPrint[$index]" data-ng-change="nextInput($index)">
+						<input type="text" data-i18n-attr="profile.trustmanager.part{{$index+1}}|placeholder" data-ng-model="givenPrint[$index]" data-ng-change="nextInput($index)">
 						<span class="fa icon valid" data-ng-class="faEqual(givenPrint[$index], part)">
 						</span>
 						<span class="clearfix"></span>

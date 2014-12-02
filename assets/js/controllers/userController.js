@@ -124,7 +124,7 @@ define(["step", "whispeerHelper", "asset/resizableImage", "asset/state", "libs/q
 
 		$scope.givenPrint = ["", "", "", ""];
 		$scope.faEqual = function (val1, val2) {
-			if (val1.length !== val2.length) {
+			if (val1.length < val2.length) {
 				return "";
 			}
 
@@ -135,11 +135,34 @@ define(["step", "whispeerHelper", "asset/resizableImage", "asset/state", "libs/q
 			}
 		};
 
+		function partitionInput() {
+			var fpLength = $scope.fingerPrint[0].length;
+
+			var given = $scope.givenPrint.join("");
+
+			for (i = 0; i < $scope.fingerPrint.length - 1; i += 1) {
+				$scope.givenPrint[i] = given.substr(i * fpLength, fpLength);
+			}
+
+			$scope.givenPrint[$scope.fingerPrint.length - 1] = given.substr(i * fpLength);
+		}
+
+		function focusMissingField() {
+			var fpLength = $scope.fingerPrint[0].length;
+
+			for (i = 0; i < $scope.givenPrint.length; i += 1) {
+				if ($scope.givenPrint[i].length < fpLength) {
+					jQuery(".verify input")[i].focus();
+					break;
+				}
+			}
+		}
+
 		$scope.nextInput = function (index) {
 			$scope.givenPrint[index] = $scope.givenPrint[index].toLowerCase().replace(/[^a-z0-9]/g, "");
-			if ($scope.givenPrint[index] === $scope.fingerPrint[index] && index < $scope.fingerPrint.length - 1) {
-				jQuery(".verify input")[index+1].focus();
-			}
+
+			partitionInput();
+			focusMissingField();
 		};
 
 		$scope.toggleVerify = function () {
