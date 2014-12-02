@@ -9,13 +9,17 @@ define(["step", "whispeerHelper", "asset/state"], function (step, h, State) {
 		var inviteCodeState = new State();
 
 		$scope.invite = {
-			code: $routeParams.inviteCode,
+			code: $routeParams.inviteCode || "",
 			valid: inviteCodeState.data
 		};
 
 		$scope.$watch(function () {
 			return $scope.invite.code;
 		}, function (value) {
+			if (value.length !== 10) {
+				inviteCodeState.failed();
+			}
+
 			inviteCodeState.pending();
 			step(function () {
 				if (socketService.isConnected()) {

@@ -33,8 +33,8 @@ define(["step", "whispeerHelper", "crypto/trustManager", "asset/securedDataWithM
 					socketService.emit("session.token", {
 						identifier: name
 					}, this);
-				}, h.sF(function hashWithToken(data) {
-					if (data.error) {
+				}, function hashWithToken(e, data) {
+					if (e) {
 						this.last({ unknownName: true });
 					} else {
 						if (data.salt.length !== 16) {
@@ -50,8 +50,8 @@ define(["step", "whispeerHelper", "crypto/trustManager", "asset/securedDataWithM
 							token: data.token
 						}, this);
 					}
-				}), h.sF(function loginResults(data) {
-					if (data.error) {
+				}, function loginResults(e, data) {
+					if (e) {
 						this.last({ wrongPassword: true });
 					} else {
 						sessionHelper.resetKey();
@@ -61,7 +61,7 @@ define(["step", "whispeerHelper", "crypto/trustManager", "asset/securedDataWithM
 
 						this.last.ne();
 					}
-				}), callback);
+				}, callback);
 			},
 
 			register: function (nickname, mail, inviteCode, password, profile, imageBlob, settings, callback) {

@@ -112,17 +112,19 @@ define(["jquery", "socket", "socketStream", "step", "whispeerHelper", "config"],
 
 					lastRequestTime = data.serverTime;
 
-					var that = this;
-					$rootScope.$apply(function () {
-						updateLogin(data);
+					updateLogin(data);
 
-						if (typeof callback === "function") {
-							that.ne(data);
-						} else {
-							console.log("unhandled response" + data);
-						}
+					if (typeof callback === "function") {
+						this.ne(data);
+					} else {
+						console.log("unhandled response" + data);
+					}
+				}), function () {
+					var args = arguments, that = this;
+					$rootScope.$apply(function () {
+						that.apply(that, args);
 					});
-				}), callback);
+				}, callback);
 			},
 			getLoadingCount: function () {
 				return loading;
