@@ -5,8 +5,8 @@
 		<ul class="unstyled" id="requestsList">
 			<li class="request" data-ng-repeat="user in requests">
 				<friend data-user="user">
-					<button class="btn btn--primary btn--fixPadding" data-i18n="magicbar.requests.accept" ng-click="$parent.acceptRequest(user)"></button>
-					<button class="btn btn--danger btn--fixPadding" data-i18n="magicbar.requests.decline"></button>
+					<savebutton class="btn btn--primary" data-i18n="magicbar.requests.accept" data-state="user.addFriendState" ng-click="$parent.acceptRequest(user)"></savebutton>
+					<button class="btn btn--danger" data-i18n="magicbar.requests.decline"></button>
 				</friend>
 			</li>
 			<li class="request error" data-ng-if="requests.length == 0">
