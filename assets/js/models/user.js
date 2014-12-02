@@ -188,7 +188,7 @@ define(["step", "whispeerHelper", "asset/state", "asset/securedDataWithMetaData"
 					var keys = friendsService.getAllFriendShipKeys();
 					keys.forEach(function (key) {
 						keyStoreService.sym.symEncryptKey(newFriendsKey, key, this.parallel());
-					});
+					}, this);
 					keyStoreService.sym.symEncryptKey(newFriendsKey, mainKey, this.parallel());
 					//encrypt old friends key with new friends key
 					keyStoreService.sym.symEncryptKey(friendsKey, newFriendsKey, this.parallel());
