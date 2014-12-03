@@ -91,7 +91,7 @@
 	"landingpage": {
 		"heading": "Your privacy - our commitment!",
 		"paragraphOne": "whispeer is a social network that has specialized on the security of your data. We completely encrypt all communication from end to end.",
-		"paragraphTwo": "To register an account we only really need a username and a password. Everything else is optional.",
+		"paragraphTwo": "To register an account we only need a username and a password. Everything else is optional.",
 		"featureOne": "Encrypted",
 		"featureOneProse": "Everything is de- and encrypted on the client. Only chosen recipients can read messages, no eavesdropping third",
 		"featureTwo": "Open",

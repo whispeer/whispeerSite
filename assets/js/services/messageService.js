@@ -51,9 +51,15 @@ define([
 			function setUnread(newUnread) {
 				if (unreadMessages) {
 					if (newUnread.length === 0 && unreadMessages.length > 0) {
+						console.log("decrease unread count, topicid: " + data.topicid);
 						messageService.data.unread -= 1;
 					} else if (newUnread.length > 0 && unreadMessages.length === 0) {
+						console.log("increase unread count, topicid: " + data.topicid);
 						messageService.data.unread += 1;
+					}
+
+					if (messageService.data.unread < 0) {
+						messageService.data.unread = 0;
 					}
 				}
 
