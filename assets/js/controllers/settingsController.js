@@ -5,7 +5,7 @@
 define(["whispeerHelper", "step", "asset/state", "libs/qr"], function (h, step, State, qr) {
 	"use strict";
 
-	function settingsController($scope, errorService, cssService, settingsService, userService, localize) {
+	function settingsController($scope, $timeout, errorService, cssService, settingsService, userService, localize) {
 		cssService.setClass("settingsView", true);
 
 		var saveSafetyState = new State();
@@ -56,11 +56,12 @@ define(["whispeerHelper", "step", "asset/state", "libs/qr"], function (h, step, 
 			$scope.firstName = names.firstname;
 			$scope.lastName = names.lastname;
 			$scope.nickName = names.nickname;
-			$scope.fingerprint = userService.getown().data.fingerprint;
+			var fp = userService.getown().data.fingerprint;
+			$scope.fingerprint = [fp.substr(0,13), fp.substr(13,13), fp.substr(26,13), fp.substr(39,13)];
 
 			qr.image({
 				image: document.getElementById("fingerPrintQR"),
-				value: $scope.fingerprint,
+				value: fp,
 				size: 7,
 				level: "L"
 			});
@@ -98,13 +99,11 @@ define(["whispeerHelper", "step", "asset/state", "libs/qr"], function (h, step, 
 		$scope.saveSafety = function () {
 			saveSafetyState.pending();
 			step(function () {
-				settingsService.getBranch("privacy", this);
-			}, h.sF(function (branch) {
-				userService.getown().rebuildProfilesForSettings($scope.safety, branch, this);
-			}), h.sF(function () {
 				settingsService.updateBranch("privacy", $scope.safety, this);
-			}), h.sF(function () {
+			}, h.sF(function () {
 				settingsService.uploadChangedData(this);
+			}), h.sF(function () {
+				userService.getown().uploadChangedProfile(this);
 			}), errorService.failOnError(saveSafetyState));
 		};
 
@@ -127,10 +126,14 @@ define(["whispeerHelper", "step", "asset/state", "libs/qr"], function (h, step, 
 
 			var me = userService.getown();
 			step(function () {
-				me.setProfileAttribute("basic.firstname", $scope.firstName, this.parallel());
-				me.setProfileAttribute("basic.lastname", $scope.lastName, this.parallel());
+				me.setProfileAttribute("basic", {
+					firstname: $scope.firstName,
+					lastname: $scope.lastName
+				}, this.parallel());
 			}, h.sF(function () {
 				me.uploadChangedProfile(this);
+			}), h.sF(function () {
+				$timeout(this);
 			}), errorService.failOnError(saveNameState));
 		};
 
@@ -160,7 +163,7 @@ define(["whispeerHelper", "step", "asset/state", "libs/qr"], function (h, step, 
 		};
 	}
 
-	settingsController.$inject = ["$scope", "ssn.errorService", "ssn.cssService", "ssn.settingsService", "ssn.userService", "localize"];
+	settingsController.$inject = ["$scope", "$timeout", "ssn.errorService", "ssn.cssService", "ssn.settingsService", "ssn.userService", "localize"];
 
 	return settingsController;
 });

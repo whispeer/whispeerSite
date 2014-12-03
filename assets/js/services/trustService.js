@@ -22,11 +22,11 @@ define(["step", "whispeerHelper", "crypto/trustManager", "crypto/signatureCache"
 				}
 			}), errorService.criticalError);
 		}
-		window.setInterval(uploadSignatureCache, 1000);
+		window.setInterval(uploadSignatureCache, 5000);
 
 		function uploadDatabase(cb) {
 			step(function () {
-				trustManager.getUpdatedVersion(userService.getown().getSignKey(), this);
+				trustManager.getUpdatedVersion(this);
 			}, h.sF(function (newTrustContent) {
 				socketService.emit("trustManager.set", {
 					content: newTrustContent
@@ -50,15 +50,18 @@ define(["step", "whispeerHelper", "crypto/trustManager", "crypto/signatureCache"
 		}
 
 		userService.listen(addNewUsers, "loadedUser");
+		userService.listen(function () {
+			trustManager.setOwnSignKey(userService.getown().getSignKey());
+		}, "ownEarly");
 
 		initService.register("trustManager.get", {}, function (data, cb) {
 			if (data.content) {
-				trustManager.loadDatabase(data.content, userService.getown().getSignKey(), cb);
+				trustManager.loadDatabase(data.content, cb);
 			} else {
 				trustManager.createDatabase(userService.getown());
 				uploadDatabase(cb);
 			}
-		}, true);
+		});
 
 		initService.register("signatureCache.get", {}, function (data, cb) {
 			if (data.content) {
@@ -67,10 +70,11 @@ define(["step", "whispeerHelper", "crypto/trustManager", "crypto/signatureCache"
 				signatureCache.createDatabase(userService.getown().getSignKey());
 				cb();
 			}
-		});
+		}, true);
 
 		$rootScope.$on("ssn.reset", function () {
 			trustManager.reset();
+			signatureCache.reset();
 		});
 
 		return {

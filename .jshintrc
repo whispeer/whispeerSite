@@ -8,7 +8,9 @@
 		"requirejs": true,
 		"jQuery": true,
 		"startup": true,
-		"confirm": true
+		"confirm": true,
+		"alert": true,
+		"errors": true
 	},
 	"undef": true,
 	"browser": true,
@@ -26,9 +28,6 @@
 	"unused": true,
 	"strict": true,
 	"trailing": true,
-	//mabye?
 	"latedef": true,
-	//"maxparams": 6,
-	//"maxdepth": 2,
 	"maxstatements": false
 }

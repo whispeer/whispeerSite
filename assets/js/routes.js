@@ -24,7 +24,15 @@ define(["app"], function (app) {
 			});
 		}
 
-		addMain("start");
+		$routeProvider.when("/start/:inviteCode", {
+			templateUrl: "assets/views/pages/start.html",
+			controller: "ssn.startController",
+		});
+
+		addMain("start", false);
+		addMain("login");
+		addMain("invite");
+		addMain("setup");
 		addMain("main");
 		addMain("friends");
 		addMain("messages", false);
@@ -34,6 +42,10 @@ define(["app"], function (app) {
 		addMain("loading");
 		addMain("version");
 		addMain("legal");
+		addMain("impressum");
+		addMain("agb");
+		addMain("privacyPolicy");
+		addMain("recovery");
 		addMain("notificationCenter");
 
 		$routeProvider.when("/logout", {

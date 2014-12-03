@@ -10,12 +10,15 @@
 	</div>
 -->
 </header>
+<<<<<<< HEAD
 <div class="box-content box-content--scroll">
 	<header class="box-header box-header--content"><span class="box-header-title" data-i18n="settings.changes.general.title"></span></header>
 	<section class="settingsView-section" id="settingsView-general">
 		<div class="settingsView-setting" class="settingsView-fingerprint">
 			<h5 class="settingsView-setting-header" data-i18n="settings.changes.general.fingerprints.title"></h5>
-			<p class="settingsView-setting-row"><input readonly="readonly" class="settingsView-yourFingerprint" type="text" data-ng-model="fingerprint"></p>
+			<p class="settingsView-setting-row">
+				<span data-ng-repeat="part in fingerprint">{{part}}{{$last ? '' : ' - '}}</span>
+			</p>
 			<p class="settingsView-setting-row"><img class="settingsView-qrCode" id="fingerPrintQR" /></p>
 		</div>
 

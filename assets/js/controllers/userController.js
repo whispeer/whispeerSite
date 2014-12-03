@@ -124,7 +124,7 @@ define(["step", "whispeerHelper", "asset/resizableImage", "asset/state", "libs/q
 
 		$scope.givenPrint = ["", "", "", ""];
 		$scope.faEqual = function (val1, val2) {
-			if (val1.length !== val2.length) {
+			if (val1.length < val2.length) {
 				return "";
 			}
 
@@ -135,11 +135,35 @@ define(["step", "whispeerHelper", "asset/resizableImage", "asset/state", "libs/q
 			}
 		};
 
-		$scope.nextInput = function (index) {
-			$scope.givenPrint[index] = $scope.givenPrint[index].toLowerCase().replace(/[^a-z0-9]/g, "");
-			if ($scope.givenPrint[index] === $scope.fingerPrint[index] && index < $scope.fingerPrint.length - 1) {
-				jQuery(".verify input")[index+1].focus();
+		function partitionInput() {
+			var fpLength = $scope.fingerPrint[0].length, i;
+			var given = $scope.givenPrint.join("");
+
+			for (i = 0; i < $scope.fingerPrint.length - 1; i += 1) {
+				$scope.givenPrint[i] = given.substr(i * fpLength, fpLength);
 			}
+
+			$scope.givenPrint[$scope.fingerPrint.length - 1] = given.substr(i * fpLength);
+		}
+
+		function focusMissingField() {
+			var fpLength = $scope.fingerPrint[0].length, i;
+
+			for (i = 0; i < $scope.givenPrint.length; i += 1) {
+				if ($scope.givenPrint[i].length < fpLength) {
+					jQuery(".verify input")[i].focus();
+					return;
+				}
+			}
+
+			jQuery(".verify input")[$scope.givenPrint.length - 1].focus();
+		}
+
+		$scope.nextInput = function (index) {
+			$scope.givenPrint[index] = $scope.givenPrint[index].toUpperCase().replace(/[^A-Z0-9]/g, "");
+
+			partitionInput();
+			focusMissingField();
 		};
 
 		$scope.toggleVerify = function () {
@@ -176,6 +200,10 @@ define(["step", "whispeerHelper", "asset/resizableImage", "asset/state", "libs/q
 
 		$scope.addFriend = function () {
 			userObject.addAsFriend();
+		};
+
+		$scope.removeFriend = function () {
+			userObject.removeAsFriend();
 		};
 
 		$scope.edit = function () {
@@ -254,7 +282,7 @@ define(["step", "whispeerHelper", "asset/resizableImage", "asset/state", "libs/q
 				}), h.sF(function () {
 					$scope.edit();
 
-					this.ne();
+					$timeout(this);
 				}), errorService.failOnError(saveUserState));
 			}
 		};
@@ -361,6 +389,7 @@ define(["step", "whispeerHelper", "asset/resizableImage", "asset/state", "libs/q
 				for (i = 0; i < toRemove.length; i += 1) {
 					circleService.get(toRemove[i]).removePersons([$scope.user.id], this.parallel());
 				}
+				this.parallel()();
 			}), errorService.failOnError(circleState));
 		};
 
@@ -388,10 +417,10 @@ define(["step", "whispeerHelper", "asset/resizableImage", "asset/state", "libs/q
 
 			step(function () {
 				postService.createPost($scope.newPost.text, visibleSelection, wallUserID, this);
-			}, h.sF(function (post) {
+			}, h.sF(function () {
 				$scope.newPost.text = "";
 
-				console.log(post);
+				this.ne();
 			}), errorService.failOnError(sendPostState));
 		};
 

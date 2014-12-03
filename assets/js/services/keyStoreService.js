@@ -4,9 +4,7 @@
 define(["angular", "crypto/keyStore"], function (angular, keyStore) {
 	"use strict";
 
-	var service = function (socketService, $rootScope) {
-		keyStore.upload.setSocket(socketService);
-
+	var service = function ($rootScope) {
 		$rootScope.$on("ssn.reset", function () {
 			keyStore.reset();
 		});
@@ -14,7 +12,7 @@ define(["angular", "crypto/keyStore"], function (angular, keyStore) {
 		return keyStore;
 	};
 
-	service.$inject = ["ssn.socketService", "$rootScope"];
+	service.$inject = ["$rootScope"];
 
 	return service;
 });

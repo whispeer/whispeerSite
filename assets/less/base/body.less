@@ -1,6 +1,6 @@
 html, body {height: 100%; width: 100%; overflow: hidden;}
 
-html:not(.registerView) {
+html:not(.startView) {
 	body {
 		padding-top: 50px;
 		.box-fix;
@@ -10,7 +10,7 @@ html:not(.registerView) {
 	}
 }
 
-html:not(.mainView):not(.registerView) {
+html:not(.mainView):not(.startView) {
 	#container {
 		padding: 10px 0;
 	}
@@ -30,7 +30,7 @@ noscript {
 
 #container {
 	height: 100%;
-	.box-fix;
+	&:extend(.box-fix);
 }
 
 #loading {
@@ -52,13 +52,13 @@ noscript {
 	}
 
 	.transition(@mobileNavTransitionTime ease);
-	&.hidden {
-		display: none;
-		width: 0;
-	}
-	&.push {
-		margin-right: (-1 * @mobileNavWidth);
-	}
+}
+.main-hidden {
+	display: none;
+	width: 0;
+}
+.main-push {
+	margin-right: (-1 * @mobileNavWidth);
 }
 
 #sidebar-left {
@@ -102,7 +102,7 @@ textarea {
 	overflow: auto;
 }
 
-footer {
+.footer {
 	display: none;
 	visibility: hidden;
 	float: left;
@@ -117,12 +117,12 @@ footer {
 			color: #4eb508;
 		}
 	}
-	.left, .right {
-		width: 50%;
-		float: left;
-		text-align: left;
-	}
-	.right {
-		text-align: right;
-	}
+}
+.footer-left, .footer-right {
+	width: 50%;
+	float: left;
+	text-align: left;
+}
+.footer-right {
+	text-align: right;
 }

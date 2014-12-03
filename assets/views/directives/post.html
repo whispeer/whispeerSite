@@ -15,18 +15,16 @@
 	</aside>
 	<p class="content" data-syntaxify="post.content.text"></p>
 	<aside class="actions">
-	<span class="date"><i class="icon icon-clock"></i> {{post.time|smartdate}}</span>
-	<!-- this should be enabled once we're on the new code base
-	<span ng-click="show=!show" class="action"><i class="icon icon-comment"></i> Comments</span>
-	-->
+		<span class="date"><i class="icon icon-clock"></i> {{post.time|smartdate}}</span>
+		<span ng-click="show=!show" class="action"><i class="icon icon-comment"></i> <span data-i18n="wall.comments"></span> ({{post.comments.length}})</span>
 	</aside>
 	<aside class="comments" ng-show="show">
 		<ul>
 			<comment data-ng-repeat="comment in post.comments" comment="comment"></comment>
 		</ul>
 		<div>
-			<textarea data-strg-enter="post.newComment.create(post.newComment.text)" data-ng-model="post.newComment.text"></textarea>
-			<savebutton data-translation="wall.postit.send" data-ng-click="post.newComment.create(post.newComment.text)" data-state="sendPostState" data-noiniticon></savebutton>
+			<textarea data-i18n-attr="wall.newComment|placeholder" data-strg-enter="post.newComment.create(post.newComment.text)" data-ng-model="post.newComment.text"></textarea>
+			<savebutton data-translation="wall.postit.send" data-ng-click="post.newComment.create(post.newComment.text)" data-state="post.newComment.state" data-noiniticon></savebutton>
 		</div>
 	</aside>
 </article>

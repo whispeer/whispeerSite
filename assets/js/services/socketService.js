@@ -1,7 +1,7 @@
 /**
 * SocketService
 **/
-define(["jquery", "socket", "socketStream", "step", "whispeerHelper", "config", "cryptoWorker/generalWorkerInclude"], function ($, io, iostream, step, h, config, generalWorkerInclude) {
+define(["jquery", "socket", "socketStream", "step", "whispeerHelper", "config"], function ($, io, iostream, step, h, config) {
 	"use strict";
 
 	var socket;
@@ -11,11 +11,7 @@ define(["jquery", "socket", "socketStream", "step", "whispeerHelper", "config", 
 		socket = io.connect("http://" + config.ws + ":" + config.wsPort);
 	}
 
-	var service = function ($rootScope, sessionService) {
-		generalWorkerInclude.setBeforeCallBack(function (evt, cb) {
-			$rootScope.$apply(cb);
-		});
-
+	var service = function ($rootScope, sessionService, keyStore) {
 		function updateLogin(data) {
 			if (data.logedin) {
 				sessionService.setSID(data.sid, data.userid);
@@ -64,6 +60,9 @@ define(["jquery", "socket", "socketStream", "step", "whispeerHelper", "config", 
 			once: function () {
 				socket.once.apply(socket, arguments);
 			},
+			removeAllListener: function (channel) {
+				socket.removeAllListeners(channel);
+			},
 			listen: function (channel, callback) {
 				socket.on(channel, function (data) {
 					console.log("received data on " + channel);
@@ -94,28 +93,38 @@ define(["jquery", "socket", "socketStream", "step", "whispeerHelper", "config", 
 					console.groupCollapsed("Answer on " + channel);
 					console.info((new Date().getTime() - time));
 
-					if (data.error) {
-						console.error(data);
-					} else {
-						console.info(data);
+					loading--;
+
+					if (data.keys) {
+						data.keys.forEach(function (key) {
+							keyStore.upload.addKey(key);
+						});
 					}
 
+					if (data.error) {
+						console.error(data);
+						console.groupEnd();
+						throw new Error("server returned an error!");
+					}
+
+					console.info(data);
 					console.groupEnd();
 
-					loading--;
 					lastRequestTime = data.serverTime;
 
-					var that = this;
-					$rootScope.$apply(function () {
-						updateLogin(data);
+					updateLogin(data);
 
-						if (typeof callback === "function") {
-							that.ne(data);
-						} else {
-							console.log("unhandled response" + data);
-						}
+					if (typeof callback === "function") {
+						this.ne(data);
+					} else {
+						console.log("unhandled response" + data);
+					}
+				}), function () {
+					var args = arguments, that = this;
+					$rootScope.$apply(function () {
+						that.apply(that, args);
 					});
-				}), callback);
+				}, callback);
 			},
 			getLoadingCount: function () {
 				return loading;
@@ -128,6 +137,27 @@ define(["jquery", "socket", "socketStream", "step", "whispeerHelper", "config", 
 			}
 		};
 
+		$(document).keypress(function (e) {
+			if (e.shiftKey && e.ctrlKey && e.keyCode === 5) {
+				if (errors.length > 0) {
+					var yes = confirm("Send errors to whispeer server?");
+
+					if (yes) {
+						socketS.emit("errors", {
+							errors: errors
+						}, function (e) {
+							if (e) {
+								alert("Transfer failed!");
+							} else {
+								alert("Errors successfully transfered to server");
+							}
+						});
+					}
+				}
+			}
+		});
+
+
 		socket.on("disconnect", function () {
 			console.info("socket disconnected");
 			loading = 0;
@@ -138,10 +168,12 @@ define(["jquery", "socket", "socketStream", "step", "whispeerHelper", "config", 
 			socketS.emit("ping", {}, function () {});
 		});
 
+		keyStore.upload.setSocket(socketS);
+
 		return socketS;
 	};
 
-	service.$inject = ["$rootScope", "ssn.sessionService"];
+	service.$inject = ["$rootScope", "ssn.sessionService", "ssn.keyStoreService"];
 
 	return service;
 });

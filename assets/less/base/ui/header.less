@@ -9,9 +9,6 @@
 	background: @primary;
 	width: 100%;
 	.transition(@mobileNavTransitionTime ease);
-	&.push {
-		margin-left: @mobileNavWidth;
-	}
 }
 .header-push {
 	margin-left: @mobileNavWidth;
@@ -98,5 +95,12 @@
 	@media @mobile {
 		display: none;
 		visibility: hidden;
+	}
+}
+#header-login {
+	@media @desktop {
+		display: inline-block;
+		float: right;
+		margin: 6px 1%;
 	}
 }

@@ -9,6 +9,7 @@
 	display: inline-block;
 	float: left;
 	clear: both;
+
 	padding: @default-padding;
 
 	// this should really be dealt with once and for all in the userimage
@@ -25,6 +26,10 @@
 	.meta {
 		width: 100%;
 		.fa { color: @linkColor; }
+		span, strong {
+			padding-left: @default-padding;
+			white-space: nowrap;
+		}
 	}
 
 	.content {
@@ -49,6 +54,7 @@
 	}
 
 	.comments {
+		width: 40em;
 
 		@media @mobile {
 			padding-left: @default-padding;
@@ -77,7 +83,8 @@
 			margin-left: @user-image-size-small;
 		}
 
-		textarea { width: 100% }
+		textarea { width: 100%; }
+
 		button {
 			margin-top: 6px;
 			float: right;

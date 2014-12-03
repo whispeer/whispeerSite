@@ -2,6 +2,7 @@
     appDir: "./",
 	paths: {
 		jquery: "libs/jquery-1.9.1",
+		qtip: "libs/jquery.qtip",
 		angular: "libs/angular",
 		angularRoute: "libs/angular-route",
 		socket: "libs/socket.io",
@@ -23,7 +24,7 @@
 	priority: [
 		"angular"
 	],
-    dir: "../appdirectory-build",
+    dir: "./appdirectory-build",
     optimize: "none",
     preserveLicenseComments: true,
     generateSourceMaps: false,

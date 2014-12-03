@@ -31,15 +31,23 @@
 				</div>
 				<div class="clear-fix"></div>
 			</li>
-		</div>
+			<li class="inviteFriends" data-ng-if="circles.length <= 3">
+				<a href="/invite" data-i18n="inviteFriends"></a>
+			</li>
+			</div>
+		</ul>
+	</div>
 	</ul>
 </div>
 
 <div id="circleContainer" data-circleID="{{thisCircle.id}}" data-ng-if="circleLoaded && showCircle">
 	<div id="circleWrap">
-		<ol id="friendsList" class="unstyled">
+		<ol id="friendsList" class="u-unstyled">
 			<li data-ng-repeat="friend in thisCircle.persons">
-				<friend data-user="friend" data-type="friend"></friend>
+				<friend data-user="friend" data-type="friend">
+					<a href="/messages?userid={{friend.id}}"><i class="fa fa-2x fa-envelope fa-fw"></i></a>
+					<a data-ng-click="$parent.removeUser(friend)"><i class="clickable fa fa-2x fa-times fa-fw"></i></a>
+				</friend>
 			</li>
 		</ol>
 	</div>

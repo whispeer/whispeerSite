@@ -12,7 +12,7 @@ define (["whispeerHelper", "step", "asset/observer", "asset/errors", "crypto/key
 		return keyStore.hash.hashObjectOrValueHex(data);
 	}
 
-	var trustManager = {
+	var signatureCache = {
 		isLoaded: function () {
 			return loaded;
 		},
@@ -25,11 +25,13 @@ define (["whispeerHelper", "step", "asset/observer", "asset/errors", "crypto/key
 			signKey = ownKey;
 			data.me = ownKey;
 
-			database = new SecuredData(undefined, data);
+			database = new SecuredData.load(undefined, data, { type: "signatureCache" });
 			loaded = true;
+
+			signatureCache.notify("", "loaded");
 		},
 		loadDatabase: function (data, ownKey, cb) {
-			var givenDatabase = new SecuredData(undefined, data);
+			var givenDatabase = new SecuredData.load(undefined, data, { type: "signatureCache" });
 			step(function () {
 				if (data.me === ownKey) {
 					givenDatabase.verify(ownKey, this);
@@ -41,7 +43,7 @@ define (["whispeerHelper", "step", "asset/observer", "asset/errors", "crypto/key
 				database = givenDatabase;
 				loaded = true;
 
-				trustManager.notify("", "loaded");
+				signatureCache.notify("", "loaded");
 
 				this.ne();
 			}), cb);
@@ -73,10 +75,7 @@ define (["whispeerHelper", "step", "asset/observer", "asset/errors", "crypto/key
 
 			var sHash = dataSetToHash(signature, hash, key);
 
-			var newData = {};
-			newData[sHash] = valid;
-
-			database.metaJoin(newData);
+			database.metaSetAttr(sHash, valid);
 		},
 		reset: function () {
 			loaded = false;
@@ -84,11 +83,14 @@ define (["whispeerHelper", "step", "asset/observer", "asset/errors", "crypto/key
 		},
 		getUpdatedVersion: function (cb) {
 			changed = false;
-			database.sign(signKey, cb);
+
+			step(function () {
+				database.sign(signKey, cb, true);
+			}, cb);
 		}
 	};
 
-	Observer.call(trustManager);
+	Observer.call(signatureCache);
 
-	return trustManager;
+	return signatureCache;
 });

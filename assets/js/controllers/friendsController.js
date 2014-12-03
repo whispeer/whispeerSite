@@ -5,10 +5,16 @@
 define(["step", "whispeerHelper"], function (step, h) {
 	"use strict";
 
-	function friendsController($scope, cssService, friendsService, userService)  {
+	function friendsController($scope, cssService, friendsService, userService, localize)  {
 		cssService.setClass("friendsView", !$scope.mobile);
 		$scope.friends = [];
 		$scope.requests = [];
+
+		$scope.removeFriend = function (user) {
+			if (confirm(localize.getLocalizedString("magicbar.requests.confirmRemove", { user: user.name }))) {
+				user.user.removeAsFriend();
+			}
+		};
 
 		function loadFriendsUsers() {
 			step(function () {
@@ -38,7 +44,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 		};
 	}
 
-	friendsController.$inject = ["$scope", "ssn.cssService", "ssn.friendsService", "ssn.userService"];
+	friendsController.$inject = ["$scope", "ssn.cssService", "ssn.friendsService", "ssn.userService", "localize"];
 
 	return friendsController;
 });

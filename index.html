@@ -22,6 +22,7 @@
 	<link rel="apple-touch-icon" href="assets/img/favicons/touch-icon-ipad-retina.png" sizes="152x152" />
 
 	<link rel="stylesheet" href="assets/css/angular-csp.css">
+	<link rel="stylesheet" href="assets/css/jquery.qtip.css">
 	<link rel="stylesheet" href="assets/css/fontello/fontello.css">
 	<!--[if IE 7]><link rel="stylesheet" href="css/fontello/fontello-ie7.css"><![endif]-->
 	<link rel="stylesheet" href="assets/vendor/css/font-awesome.css">
@@ -33,7 +34,7 @@
 	<!--[if lte IE 8]><p class=chromeframe>Your browser is <em>ancient!</em> <a href="http://browsehappy.com/">Upgrade to a different browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to experience this site.</p><![endif]-->
 	<noscript>Hallo! Leider steht uns bei deinem Browser kein Javascript zur Verfügung!<br> Daher ist es nicht möglich whispeer zu nutzen, da wir unbedingt Javascript benötigen!<br> Vielen Dank für dein Verständnis!</noscript>
 	<!-- !Top Bar -->
-	<nav class="header" data-ng-if="loggedin" data-ng-cloak data-ng-class="{'header-push': (mobile && sidebarActive && !searchActive)}">
+	<nav class="header" data-ng-if="!mobile || loggedin" data-ng-cloak data-ng-class="{'header-push': (mobile && sidebarActive && !searchActive)}">
 		<div class="header-inner">
 			<button class="header-toggle header-toggle-sidebar" data-ng-click="toggleSidebar()" data-ng-if="mobile">
 				<i class="fa fa-bars header-toggle-icon"></i>
@@ -49,8 +50,11 @@
 			<button class="header-toggle header-toggle-search" data-ng-click="toggleSearch()" data-ng-if="mobile">
 				<i class="fa fa-search header-toggle-icon"></i>
 			</button>
-			<div class="header-collapse">
+			<div class="header-collapse" data-ng-if="loggedin">
 				<usersearch class="search--navbar" size="big" data-input-i18n-attr="menu.search|placeholder"/>
+			</div>
+			<div id="header-login" data-ng-if="!loggedin" data-ng-controller="ssn.loginController">
+				<ng-include data-src="'assets/views/start/login/login.html'" data-ng-if="login.isHeaderForm"></ng-include>
 			</div>
 		</div>
 	</nav>
@@ -62,7 +66,7 @@
 			<div id="userpanel">
 				<a href="{{user.basic.url}}" id="userpanel-me">
 					<img data-ng-src="{{user.basic.image}}" alt="" id="userpanel-me-image">
-					 {{user.name}}
+					<span id="userpanel-me-name">{{user.name}}</span>
 				</a>
 				<nav id="userpanel-menu">
 					<ul class="u-unstyled" id="userpanel-menu-list">
@@ -180,9 +184,9 @@
 	</div>
 	<!-- end !Main Container -->
 	<!-- !footer -->
-	<footer data-ng-if="!mobile">
-		<div class="left">&copy; 2014 whispeer</div>
-		<div class="right">
+	<footer class="fotter" data-ng-if="!mobile">
+		<div class="footer-left">&copy; 2014 whispeer</div>
+		<div class="footer-right">
 			<a href="version">v{{version}}</a>&nbsp;
 			<a href="" data-i18n="window.title.terms"></a>&nbsp;
 			<a href="" data-i18n="window.title.data"></a>&nbsp;

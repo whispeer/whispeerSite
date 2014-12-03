@@ -12,7 +12,9 @@
 // Styleguide 2.2
 
 input[type="text"],
-input[type="password"] {
+input[type="password"],
+input[type=""],
+input:not([type]) {
 	padding: 9px;
 	outline: 0;
 	overflow: hidden;
@@ -64,4 +66,25 @@ textarea {
 
 button[disabled] {
 	cursor: not-allowed;
+}
+
+@annotatedInputRight: 10px;
+@annotatedInputIconSize: 16px;
+
+.annotatedInputContainer {
+	position: relative;
+
+	input[type="text"], input[type=""], input[type="password"] {
+		padding-right: @annotatedInputRight + @annotatedInputIconSize;
+	}
+
+	.icon {
+		position: absolute;
+		top: 0; bottom: 0;
+		margin: auto 0;
+		width: @annotatedInputIconSize;
+		height: @annotatedInputIconSize;
+
+		right: @annotatedInputRight;
+	}
 }
