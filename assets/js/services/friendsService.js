@@ -328,18 +328,18 @@ define(["step", "whispeerHelper", "asset/observer", "asset/securedDataWithMetaDa
 						signedList.verify(userService.getown().getSignKey(), this);
 					}
 				}, h.sF(function () {
-					if (removed.length > 0) {
-						removeUnfriendedPersons(this);
-					} else {
-						this.ne();
-					}
-				}), h.sF(function () {
 					var requestedOrFriends = signedList.metaKeys().map(h.parseDecimal);
 					requestedOrFriends.forEach(function (uid) {
 						keyStore.security.addEncryptionIdentifier(signedList.metaAttr(uid));
 					});
 
 					this.ne();
+				}), h.sF(function () {
+					if (removed.length > 0) {
+						removeUnfriendedPersons(this);
+					} else {
+						this.ne();
+					}
 				}), cb);
 			},
 			onlineStatus: function (uid) {
