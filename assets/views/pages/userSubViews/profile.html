@@ -140,8 +140,8 @@
 		<li data-ng-repeat="friend in friends">
 			<friend data-user="friend"></friend>
 		</li>
-		<li class="inviteFriends" data-ng-if="friends.length == 0">
-			<a href="/invite" data-i18n="inviteFriends"></a>
+		<li class="inviteFriends" data-ng-if="friends.length < 50 && user.me">
+			<a class="btn btn--primary btn--large" href="/invite" data-i18n="inviteFriends"></a>
 		</li>
 	</ol>
 </section>
