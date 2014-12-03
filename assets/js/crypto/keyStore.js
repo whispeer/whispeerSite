@@ -242,6 +242,8 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 				internalDecrypt(d.decryptorid, d.type, d.ct, this, d.iv, d.salt);
 			}, function (err, result) {
 				if (err || result === false) {
+					errors.push(err || { err: "internaldecryptor returned false for realid: " + realid });
+					console.log(err);
 					console.log("decryptor failed for key: " + realid);
 
 					decryptors = decryptors.filter(function (decryptor) {
