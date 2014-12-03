@@ -276,9 +276,13 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 		*/
 		function decryptKeyF(callback) {
 			step(function () {
+				window.setTimeout(this);
+			}, h.sF(function () {
+				afterRequireCall(this);
+			}), h.sF(function () {
 				decrypted.await(callback);
 				decrypted.start(this);
-			}, h.sF(function () {
+			}), h.sF(function () {
 				decryptKey(this);
 			}), decrypted.finish);
 		}

@@ -47,7 +47,7 @@ var each = function(list, iterator, callback) {
         if (list.hasOwnProperty(key)) {
           iterator.apply(list, [key, list[key]]);
         }
-      } 
+      }
     }
 
   };
