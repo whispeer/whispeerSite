@@ -7,10 +7,12 @@ define(["step", "whispeerHelper", "asset/state"], function (step, h, State) {
 
 	function registerController($scope, $timeout, $routeParams, keyStore, errorService, sessionHelper, sessionService, socketService) {
 		var inviteCodeState = new State();
+		var inviteMailState = new State();
 
 		$scope.invite = {
 			code: $routeParams.inviteCode || "",
-			valid: inviteCodeState.data
+			valid: inviteCodeState.data,
+			mailValid: inviteMailState.data
 		};
 
 		$scope.$watch(function () {

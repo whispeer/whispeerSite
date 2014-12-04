@@ -39,12 +39,23 @@
 		</div>
 	</form>
 	<form data-ng-if="!invite.valid.success">
-		<h1 data-i18n="login.register.enterinvitecode"></h1>
+		<h1 data-i18n="login.register.invite.enterCode"></h1>
 		<p data-i18n="landingpage.inviteExplain"></p>
 		<div class="inputWrap">
 			<div class="annotatedInputContainer">
-				<input type="text" class="inviteCode" data-i18n-attr="login.register.invitecode|placeholder" data-ng-model="invite.code">
+				<input type="text" class="inviteCode" data-i18n-attr="login.register.invite.code|placeholder" data-ng-model="invite.code">
 				<span class="fa icon" data-ng-class="{'fa-check': invite.valid.success, 'fa-times': invite.valid.failed, 'fa-spinner': invite.valid.pending}" data-ng-if="!empty(invite.code)"></span>
+			</div>
+		</div>
+		<div class="inputWrap">
+			<div class="annotatedInputContainer">
+				<h1 data-i18n="login.register.invite.request"></h1>
+				<p data-i18n="landingpage.inviteMailExplain"></p>
+				<input type="text" class="inviteCode" data-i18n-attr="login.register.invite.mail|placeholder" data-ng-model="invite.mail">
+				<span class="fa icon" data-ng-class="{'fa-check': false, 'fa-times': false, 'fa-spinner': false}" data-ng-if="!empty(invite.mail)"></span>
+			</div>
+			<div>
+				<savebutton data-state="invite.mailValid" data-translation="login.register.invite.submit|type=" data-noiniticon></savebutton>
 			</div>
 		</div>
 	</form>

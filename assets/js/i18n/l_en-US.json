@@ -206,9 +206,13 @@
 				"passwordWeak": "Password too weak"
 			},
 
-			"enterinvitecode": "Enter your invitation code",
-			"invitecode": "Invitation code",
-			"requestinvite": "Request an invitation:",
+			"invite": {
+				"enterCode": "Enter your invitation code",
+				"code": "Invitation code",
+				"request": "Request an invitation:",
+				"mail": "E-Mail",
+				"submit": "Request invitation"
+			},
 
 			"createAccount": "Create an account",
 			"link":	"Register",
