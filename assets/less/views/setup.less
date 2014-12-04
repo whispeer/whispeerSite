@@ -17,12 +17,20 @@
 			left: 0px;
 		}
 	}
-
+	#container {
+		@media @mobile {
+			overflow-y: scroll;
+			-webkit-overflow-scrolling: touch;
+			float: left;
+			margin-top: 2px;
+			padding-top: 0;
+			height: ~"calc(100% - 52px)" !important;
+		}
+	}
 	#main {
 		text-align: center;
-		@media @mobile {
-			overflow: scroll;
-			-webkit-overflow-scrolling: touch;
+		@media @desktop {
+			overflow-y: scroll;
 		}
 	}
 	h1 {
