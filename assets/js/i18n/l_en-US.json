@@ -211,7 +211,8 @@
 				"code": "Invitation code",
 				"request": "Request an invitation:",
 				"mail": "E-mail",
-				"submit": "Request invitation"
+				"submit": "Request invitation",
+				"thanks": "Thank you for your interest!"
 			},
 
 			"createAccount": "Create an account",

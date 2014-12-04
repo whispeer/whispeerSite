@@ -210,7 +210,8 @@
 				"code": "Einladungscode",
 				"request": "Einladung anfordern:",
 				"mail": "E-Mail",
-				"submit": "Einladung anfordern"
+				"submit": "Einladung anfordern",
+				"thanks": "Vielen Dank für dein Interesse!"
 			},
 			"createAccount": "Account erstellen",
 			"link":	"Registrieren",

@@ -12,7 +12,19 @@ define(["step", "whispeerHelper", "asset/state"], function (step, h, State) {
 		$scope.invite = {
 			code: $routeParams.inviteCode || "",
 			valid: inviteCodeState.data,
-			mailValid: inviteMailState.data
+			mailValid: inviteMailState.data,
+			request: function (mail) {
+				inviteMailState.pending();
+
+				if (!h.isMail(mail)) {
+					inviteMailState.failed();
+					return;
+				}
+
+				step(function () {
+					socketService.emit("invites.requestWithMail", { mail: mail }, this);
+				}, errorService.failOnError(inviteMailState));
+			}
 		};
 
 		$scope.$watch(function () {

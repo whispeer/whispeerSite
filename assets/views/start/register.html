@@ -48,15 +48,16 @@
 			</div>
 		</div>
 		<div class="inputWrap">
-			<div class="annotatedInputContainer">
-				<h1 data-i18n="login.register.invite.request"></h1>
-				<p data-i18n="landingpage.inviteMailExplain"></p>
+			<h1 data-i18n="login.register.invite.request"></h1>
+			<p data-i18n="landingpage.inviteMailExplain"></p>
+			<div class="annotatedInputContainer" data-ng-if="!invite.mailValid.success">
 				<input type="text" class="inviteCode" data-i18n-attr="login.register.invite.mail|placeholder" data-ng-model="invite.mail">
 				<span class="fa icon" data-ng-class="{'fa-check': false, 'fa-times': false, 'fa-spinner': false}" data-ng-if="!empty(invite.mail)"></span>
 			</div>
-			<div>
-				<savebutton data-state="invite.mailValid" data-translation="login.register.invite.submit|type=" data-noiniticon></savebutton>
+			<div data-ng-if="!invite.mailValid.success">
+				<savebutton data-state="invite.mailValid" data-ng-click="invite.request(invite.mail)" data-translation="login.register.invite.submit|type=" data-noiniticon></savebutton>
 			</div>
+			<div data-i18n="login.register.invite.thanks" data-ng-if="invite.mailValid.success"></div>
 		</div>
 	</form>
 </div>
