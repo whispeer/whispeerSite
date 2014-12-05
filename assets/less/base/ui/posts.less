@@ -4,6 +4,7 @@
 @default-padding: 12px;
 @minor-padding: 6px;
 
+@column-width: 40em;
 
 .post {
 	width: 92%; // magic, due to magic 92% further above in the DOM.
@@ -40,7 +41,7 @@
 	}
 
 	.content {
-		max-width: 40em;
+		max-width: @column-width;
 		padding-left: @default-padding;
 		margin-top: 0;
 		margin-bottom: 0;
@@ -64,6 +65,7 @@
 	}
 
 	.comments {
+		max-width: @column-width;
 
 		@media @mobile {
 			padding-left: @default-padding;
