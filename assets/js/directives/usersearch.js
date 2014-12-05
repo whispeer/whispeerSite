@@ -116,14 +116,10 @@ define(["step", "whispeerHelper", "asset/state"], function (step, h, State) {
 				});
 
 				scope.$on("queryChange", function (event, query) {
-					if (query.length >= 3) {
-						window.clearTimeout(timer);
-						timer = window.setTimeout(function () {
-							queryResults(query);
-						}, 250);
-					} else {
-						submitResults([]);
-					}
+					window.clearTimeout(timer);
+					timer = window.setTimeout(function () {
+						queryResults(query);
+					}, 250);
 
 					event.stopPropagation();
 				});
