@@ -249,6 +249,11 @@
 
 		@media @mobile {
 			padding-bottom: 50px;
+			.registerForm p {
+				color: @white;
+				padding: 0 29px;
+				text-align: justify;
+			}
 			.inputWrap {
 				.nickname {
 					border-radius: 5px 5px 0 0;
@@ -278,6 +283,24 @@
 					border-top: none;
 					border-radius: 0 0 5px 5px;
 				}
+			}
+			.inviteCode {
+				margin-top: 15px;
+			}
+			#requestInvite, .registerForm {
+				margin-top: 35px;
+				border-top: 1px solid #ccc;
+			}
+			#requestInviteMail {
+				border-radius: 5px 5px 0 0;
+			}
+			#sendInviteRequest {
+				width: ~"calc(100% - 58px)";
+				margin: 0 29px;
+				padding: 9px;
+				border-radius: 0 0 5px 5px;
+				border: solid 1px darken(#ffffff, 45%);
+				border-top: none;
 			}
 		}
 
