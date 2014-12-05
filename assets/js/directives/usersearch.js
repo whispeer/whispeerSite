@@ -45,14 +45,20 @@ define(["step", "whispeerHelper", "asset/state"], function (step, h, State) {
 					}, h.sF(function (user) {
 						theUsers = user || [];
 
+						if (iAttrs.filter) {
+							var filter = scope.$parent.$eval(iAttrs.filter);
+							theUsers = theUsers.filter(function (user) {
+								return filter.indexOf(user.getID()) === -1;
+							});
+						}
+
 						if (theUsers.length === 0) {
 							this.ne([]);
 						}
 
-						var i;
-						for (i = 0; i < user.length; i += 1) {
-							theUsers[i].loadBasicData(this.parallel());
-						}
+						theUsers.forEach(function (user) {
+							user.loadBasicData(this.parallel());
+						}, this);
 					}), h.sF(function () {
 						var users = theUsers.map(function (e) {
 							var circleState = new State();
@@ -116,12 +122,14 @@ define(["step", "whispeerHelper", "asset/state"], function (step, h, State) {
 				});
 
 				scope.$on("queryChange", function (event, query) {
-					window.clearTimeout(timer);
-					timer = window.setTimeout(function () {
-						queryResults(query);
-					}, 250);
+					if (query.length > 0) {
+						window.clearTimeout(timer);
+						timer = window.setTimeout(function () {
+							queryResults(query);
+						}, 250);
 
-					event.stopPropagation();
+						event.stopPropagation();
+					}
 				});
 			}
 		};
