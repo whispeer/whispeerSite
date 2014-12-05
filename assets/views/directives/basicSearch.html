@@ -12,7 +12,7 @@
 			</li>
 		</ul>
 	</form>
-	<div class="search-resultsDrop" data-ng-if="show()" ng-transclude>
+	<div class="search-resultsDrop" data-ng-if="show() && results.length > 0" ng-transclude>
 	</div>
 	<div class="dropdown search-selectedDrop" data-ng-if="showSelectedElements && !show()">
 		<div class="dropdown-header">
