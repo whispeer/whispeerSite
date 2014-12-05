@@ -18,6 +18,7 @@ define(["step", "whispeerHelper", "asset/state"], function (step, h, State) {
 		}, function (value) {
 			if (value.length !== 10) {
 				inviteCodeState.failed();
+				return;
 			}
 
 			inviteCodeState.pending();
