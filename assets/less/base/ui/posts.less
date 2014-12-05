@@ -50,11 +50,14 @@
 
 	.date, .action {
 		.detail-text();
+
 	}
 	.action {
 		cursor: pointer;
 	}
-
+	@media @mobile {
+		.actions .date:after { content: '\a' ; white-space: pre; }
+	}
 	.comments, .actions {
 		padding-left: @default-padding;
 		margin-left: @user-image-size;
