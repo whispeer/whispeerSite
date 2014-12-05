@@ -47,7 +47,7 @@
 				<span class="fa icon" data-ng-class="{'fa-check': invite.valid.success, 'fa-times': invite.valid.failed, 'fa-spinner': invite.valid.pending}" data-ng-if="!empty(invite.code)"></span>
 			</div>
 		</div>
-		<div class="inputWrap">
+		<div class="inputWrap" id="requestInvite">
 			<h1 data-i18n="login.register.invite.request"></h1>
 			<p data-i18n="landingpage.inviteMailExplain"></p>
 			<div class="annotatedInputContainer" data-ng-if="!invite.mailValid.success">
