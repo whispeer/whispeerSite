@@ -2,6 +2,8 @@
 @user-image-size-small: 32px;
 
 @default-padding: 12px;
+@minor-padding: 6px;
+
 
 .post {
 	width: 92%; // magic, due to magic 92% further above in the DOM.
@@ -11,6 +13,7 @@
 	clear: both;
 
 	padding: @default-padding;
+	padding-left: 0;
 
 	// this should really be dealt with once and for all in the userimage
 	// directive.
@@ -27,8 +30,13 @@
 		width: 100%;
 		.fa { color: @linkColor; }
 		span, strong {
-			padding-left: @default-padding;
 			white-space: nowrap;
+		}
+		strong:first-of-type {
+			padding-right: @minor-padding;
+		}
+		span strong:first-of-type {
+			padding-left: @minor-padding;
 		}
 	}
 
