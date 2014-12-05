@@ -27,8 +27,7 @@
 	}
 
 	.meta {
-		width: 100%;
-		.fa { color: @linkColor; }
+		strong ~ span .fa { color: @linkColor; }
 		span, strong {
 			white-space: nowrap;
 		}
@@ -62,7 +61,6 @@
 	}
 
 	.comments {
-		width: 40em;
 
 		@media @mobile {
 			padding-left: @default-padding;
@@ -89,6 +87,10 @@
 
 		.content, .meta {
 			margin-left: @user-image-size-small;
+		}
+
+		.meta {
+			padding-left: @default-padding;
 		}
 
 		textarea { width: 100%; }
