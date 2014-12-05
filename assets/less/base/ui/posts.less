@@ -2,6 +2,9 @@
 @user-image-size-small: 32px;
 
 @default-padding: 12px;
+@minor-padding: 6px;
+
+@column-width: 40em;
 
 .post {
 	width: 92%; // magic, due to magic 92% further above in the DOM.
@@ -11,6 +14,7 @@
 	clear: both;
 
 	padding: @default-padding;
+	padding-left: 0;
 
 	// this should really be dealt with once and for all in the userimage
 	// directive.
@@ -24,16 +28,20 @@
 	}
 
 	.meta {
-		width: 100%;
-		.fa { color: @linkColor; }
+		strong ~ span .fa { color: @linkColor; }
 		span, strong {
-			padding-left: @default-padding;
 			white-space: nowrap;
+		}
+		strong:first-of-type {
+			padding-right: @minor-padding;
+		}
+		span strong:first-of-type {
+			padding-left: @minor-padding;
 		}
 	}
 
 	.content {
-		max-width: 40em;
+		max-width: @column-width;
 		padding-left: @default-padding;
 		margin-top: 0;
 		margin-bottom: 0;
@@ -43,18 +51,21 @@
 
 	.date, .action {
 		.detail-text();
+
 	}
 	.action {
 		cursor: pointer;
 	}
-
+	@media @mobile {
+		.actions .date:after { content: '\a' ; white-space: pre; }
+	}
 	.comments, .actions {
 		padding-left: @default-padding;
 		margin-left: @user-image-size;
 	}
 
 	.comments {
-		width: 40em;
+		max-width: @column-width;
 
 		@media @mobile {
 			padding-left: @default-padding;
@@ -81,6 +92,10 @@
 
 		.content, .meta {
 			margin-left: @user-image-size-small;
+		}
+
+		.meta {
+			padding-left: @default-padding;
 		}
 
 		textarea { width: 100%; }
