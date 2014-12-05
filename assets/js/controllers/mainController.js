@@ -28,11 +28,15 @@ define(["step", "whispeerHelper", "asset/state"], function (step, h, State) {
 			});
 		});
 
+		var loadedTimeline = [0];
+
 		$scope.$on("selectionChange:timelineFilter", function (event, newSelection) {
 			$scope.filterSelection = newSelection.map(function (e) {
 				return e.id;
 			});
-			reloadTimeline();
+			if (!h.arrayEqual(loadedTimeline, $scope.filterSelection)) {
+				reloadTimeline();
+			}
 		});
 
 		$scope.togglePost = function() {
@@ -70,11 +74,13 @@ define(["step", "whispeerHelper", "asset/state"], function (step, h, State) {
 		};
 
 		function reloadTimeline() {
+			loadedTimeline = $scope.filterSelection;
 			postService.getTimelinePosts(0, $scope.filterSelection, function (err, posts) {
 				$scope.posts = posts;
 			});
 		}
 
+		reloadTimeline();
 		$scope.posts = [];
 	}
 

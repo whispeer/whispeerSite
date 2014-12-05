@@ -186,10 +186,16 @@ define(["step", "whispeerHelper", "asset/state"], function (step, h, State) {
 				return bursts;
 			}
 
+			if (messages.length === 0) {
+				return [];
+			}
+
 			bursts = [];
 
 			burstTopic = $scope.activeTopic.id;
 			burstMessageCount = messages.length;
+
+			previousSender = messages[0].sender.id;
 
 			messages.forEach(function(message) {
 				if (currentBurst.length > 0 && previousSender !== message.sender.id) {

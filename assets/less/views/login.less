@@ -20,6 +20,15 @@
 		}
 	}
 
+	.loginLoading {
+		@media @mobile {
+			background: @white;
+			border: solid 1px darken(#ffffff, 45%);
+			border-top: none;
+			 .box-shadow(inset 0px 0px 5px #ccc);
+		}
+	}
+
 	.error {
 		background-color: lighten(@red,5%);
 		text-shadow: 1px 1px 1px @red;

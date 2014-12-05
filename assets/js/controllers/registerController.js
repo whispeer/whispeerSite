@@ -7,10 +7,24 @@ define(["step", "whispeerHelper", "asset/state"], function (step, h, State) {
 
 	function registerController($scope, $timeout, $routeParams, keyStore, errorService, sessionHelper, sessionService, socketService) {
 		var inviteCodeState = new State();
+		var inviteMailState = new State();
 
 		$scope.invite = {
 			code: $routeParams.inviteCode || "",
-			valid: inviteCodeState.data
+			valid: inviteCodeState.data,
+			mailValid: inviteMailState.data,
+			request: function (mail) {
+				inviteMailState.pending();
+
+				if (!h.isMail(mail)) {
+					inviteMailState.failed();
+					return;
+				}
+
+				step(function () {
+					socketService.emit("invites.requestWithMail", { mail: mail }, this);
+				}, errorService.failOnError(inviteMailState));
+			}
 		};
 
 		$scope.$watch(function () {
@@ -18,6 +32,7 @@ define(["step", "whispeerHelper", "asset/state"], function (step, h, State) {
 		}, function (value) {
 			if (value.length !== 10) {
 				inviteCodeState.failed();
+				return;
 			}
 
 			inviteCodeState.pending();

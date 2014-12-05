@@ -226,11 +226,14 @@
 				"passwordNoMatch": "Passwörter stimmen nicht überein",
 				"passwordWeak": "Passwort zu schwach"
 			},
-
-			"enterinvitecode": "Einladungscode eingeben",
-			"invitecode": "Einladungscode",
-			"requestinvite": "Einladungscode anfragen:",
-
+			"invite": {
+				"enterCode": "Gib deinen Einladungscode ein!",
+				"code": "Einladungscode",
+				"request": "Einladung anfordern:",
+				"mail": "E-Mail",
+				"submit": "Einladung anfordern",
+				"thanks": "Vielen Dank für dein Interesse!"
+			},
 			"createAccount": "Account erstellen",
 			"link":	"Registrieren",
 			"next": "Weiter",

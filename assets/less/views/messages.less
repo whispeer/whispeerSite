@@ -288,12 +288,21 @@
 				}
 			}
 
-			.userimg {
+			.username {
+				.detail-text();
+				padding-bottom: @default-padding / 2;
+				text-transform: uppercase;
+			}
+
+			.username, .userimg {
+				margin-left: @extended-padding;
+				margin-right: @extended-padding;
+			}
+
+			.userimg, {
 				display: inline-block;
 				float: left;
 				clear: both;
-				margin-left: @extended-padding;
-				margin-right: @extended-padding;
 				img {
 					.border-radius(100%);
 					width: @message-image-size;
@@ -357,6 +366,9 @@
 				}
 				.userimg {
 					float: right;
+				}
+				.username {
+					text-align: right;
 				}
 				.messages {
 					background-color: @own-message-bg;

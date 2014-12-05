@@ -17,12 +17,12 @@ if (useServer) {
 }
 
 if (typeof module !== "undefined" && module.exports) {
-    module.exports = config;
+	module.exports = config;
 }
 
 if (typeof define === "function") {
-    define([], function () {
+	define([], function () {
 		"use strict";
 		return config;
-    });
+	});
 }
