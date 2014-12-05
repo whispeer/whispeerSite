@@ -59,6 +59,7 @@ define([
 					}
 
 					if (messageService.data.unread < 0) {
+						console.log("set unread count to zero");
 						messageService.data.unread = 0;
 					}
 				}
