@@ -9,16 +9,13 @@ define(["step", "whispeerHelper"], function (step, h) {
 			templateUrl: "assets/views/directives/circleSearch.html",
 			replace: true,
 			link: function postLink(scope, element, attrs) {
-				var user;
+				var user, elements;
 				scope.$on("createCircle", function (event, data) {
 					if (user) {
-						circleService.create(data, h.sF(function () {
-							var circles = circleService.inWhichCircles(user);
+						circleService.create(data, h.sF(function (circle) {
 							scope.$broadcast("resetSearch");
-							scope.$broadcast("initialSelection", circles.map(function (e) {
-								return e.data;
-							}));
-						}), [user]);
+							scope.$broadcast("initialSelection", elements.concat([circle.data]));
+						}), []);
 					}
 				});
 
@@ -40,12 +37,15 @@ define(["step", "whispeerHelper"], function (step, h) {
 					}));
 				}
 
+				scope.$on("selectionChange", function (e, _elements) {
+					elements = _elements;
+				});
+
 				scope.$on("elementSelected", function (e) {
 					e.stopPropagation();
 				});
 
-				scope.$on("queryChange", function (event, query) {
-					event.stopPropagation();
+				function loadQuery(query) {
 					step(function () {
 						circleService.loadAll(this);
 					}, h.sF(function () {
@@ -64,7 +64,12 @@ define(["step", "whispeerHelper"], function (step, h) {
 						}
 
 						submitResults(result);
-					}));
+					}));					
+				}
+
+				scope.$on("queryChange", function (event, query) {
+					event.stopPropagation();
+					loadQuery(query);
 				});
 			}
 		};
