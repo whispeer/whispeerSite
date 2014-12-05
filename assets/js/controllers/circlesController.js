@@ -2,10 +2,13 @@
 * circlesController
 **/
 
-define(["whispeerHelper"], function (h) {
+define(["whispeerHelper", "asset/state"], function (h, State) {
 	"use strict";
 
 	function circlesController($scope, cssService, circleService, errorService, localize) {
+		var addUsersToCircleState = new State();
+		$scope.addUsersToCircle = addUsersToCircleState.data;
+
 		$scope.circleid = 0;
 		$scope.showCircle = !$scope.mobile;
 

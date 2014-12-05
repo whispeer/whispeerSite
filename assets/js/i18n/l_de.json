@@ -83,7 +83,8 @@
 			"createCircle": "Kreis erstellen",
 			"personCount":	"Es befinden sich {count} Personen in diesem Kreis",
 			"personsInCircle":"Personen im Kreis \"{name}\"",
-			"nocircle": "Keine Kreise gefunden"
+			"nocircle": "Keine Kreise gefunden",
+			"addUsers": "Nutzer hinzufügen"
 		}
 	},
 	"start": {

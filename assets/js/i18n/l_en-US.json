@@ -83,7 +83,8 @@
 			"createCircle": "Create circle",
 			"personCount":	"There are {count} people in this circle",
 			"personsInCircle":"People in circle \"{name}\"",
-			"nocircle": "No circles found"
+			"nocircle": "No circles found",
+			"addUsers": "Add users to this circle"
 		}
 	},
 	"start": {
