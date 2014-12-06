@@ -46,7 +46,7 @@ define(["step", "whispeerHelper", "asset/observer"], function (step, h, Observer
 				step(function () {
 					settingsService.getBranch("sound", this);
 				}, h.sF(function (sound) {
-					if (!sound || sound.active) {
+					if (sound.enabled) {
 						document.getElementById("sound").play();
 					}
 				}), errorService.criticalError);

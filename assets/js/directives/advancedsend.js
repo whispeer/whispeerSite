@@ -14,12 +14,14 @@ define(["step", "whispeerHelper"], function (step, h) {
 
                     element.bind("keydown keypress", function (event) {
                         if(event.which === 13) {
-                            if (messages && messages.sendShortCut === "ctrlEnter") {
+                            if (messages.sendShortCut === "ctrlEnter") {
                                 if (event.ctrlKey) {
                                     send();
                                     event.preventDefault();
                                 }
-                            } else {
+                            }
+
+                            if (messages.sendShortCut === "enter") {
                                 if (!event.ctrlKey && !event.shiftKey) {
                                     send();
                                     event.preventDefault();
