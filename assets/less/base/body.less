@@ -58,7 +58,7 @@ noscript {
 	width: 0;
 }
 .main-push {
-	margin-right: (-1 * @mobileNavWidth);
+	margin-right: (-1 * @mobileNavWidth) !important; // we need an !important since we are overwriting a media-query on an id!
 }
 
 #sidebar-left {
