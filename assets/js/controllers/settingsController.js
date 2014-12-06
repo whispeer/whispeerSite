@@ -76,20 +76,15 @@ define(["whispeerHelper", "step", "asset/state", "libs/qr"], function (h, step, 
 				settingsService.getBranch("sound", this.parallel());
 				settingsService.getBranch("messages", this.parallel());
 				settingsService.getBranch("uiLanguage", this.parallel());
-			}, h.sF(function (sound, messages, uiLanguage) {
-				sound = sound || {};
-				messages = messages || {};
-				uiLanguage = uiLanguage || {};
-
-				sound.active = ($scope.notificationSound === "on" ? true : false);
+			}, h.sF(function (sound, messages) {
+				sound.enabled = ($scope.notificationSound === "on" ? true : false);
 				messages.sendShortCut = $scope.sendShortCut;
 
-				uiLanguage.data = $scope.uiLanguage;
 				localize.setLanguage($scope.uiLanguage);
 
 				settingsService.updateBranch("sound", sound, this.parallel());
 				settingsService.updateBranch("messages", messages, this.parallel());
-				settingsService.updateBranch("uiLanguage", uiLanguage, this.parallel());
+				settingsService.updateBranch("uiLanguage", $scope.uiLanguage, this.parallel());
 			}), h.sF(function () {
 				settingsService.uploadChangedData(this);
 			}), errorService.failOnError(saveGeneralState));

@@ -231,10 +231,6 @@ define(["step", "whispeerHelper", "asset/state"], function (step, h, State) {
 			return "fa-times";
 		};
 
-		var defaultSettings = {
-			encrypt: true,
-			visibility: []
-		};
 
 		$scope.register = function doRegisterC() {
 			if ($scope.passwordStrength() === 0 || $scope.password !== $scope.password2 || !$scope.agb || $scope.empty($scope.nickname)) {
@@ -243,36 +239,8 @@ define(["step", "whispeerHelper", "asset/state"], function (step, h, State) {
 				return;
 			}
 
-			var settings = {
-				privacy: {
-					basic: {
-						firstname: {
-							encrypt: false,
-							visibility: ["always:allfriends"]
-						},
-						lastname: {
-							encrypt: false,
-							visibility: ["always:allfriends"]
-						}
-					},
-					image: {
-						encrypt: false,
-						visibility: []
-					},
-					imageBlob: {
-						encrypt: false,
-						visibility: []
-					},
-					location: defaultSettings,
-					birthday: defaultSettings,
-					relationship: defaultSettings,
-					education: defaultSettings,
-					work: defaultSettings,
-					gender: defaultSettings,
-					languages: defaultSettings
-				},
-				sharePosts: ["always:allfriends"]
-			};
+			var settings = {};
+			var imageBlob;
 
 			var profile = {
 				pub: {},
@@ -286,7 +254,7 @@ define(["step", "whispeerHelper", "asset/state"], function (step, h, State) {
 			step(function () {
 				console.time("register");
 				sessionService.setReturnURL("/setup");
-				sessionHelper.register($scope.nickname, "", $scope.invite.code, $scope.password, profile, undefined, settings, this);
+				sessionHelper.register($scope.nickname, "", $scope.invite.code, $scope.password, profile, imageBlob, settings, this);
 			}, function () {
 				console.timeEnd("register");
 				console.log("register done!");
