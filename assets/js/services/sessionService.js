@@ -45,6 +45,8 @@ define([], function () {
 				loaded = true;
 			}
 
+			$location.replace();
+
 			//save return path if we are 
 			// - not logging out
 			// - not already fully loaded 
