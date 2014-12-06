@@ -62,8 +62,8 @@
 	<!-- !Main Container -->
 	<div id="container" data-ng-cloak>
 		<!-- !Left Sidebar -->
-		<aside id="sidebar-left" data-ng-if="loggedin && !mobile">
-			<div id="userpanel">
+		<aside id="sidebar-left" data-ng-if="loggedin" data-ng-class="{'sidebarLeft-show': (sidebarActive && !searchActive)}">
+			<div id="userpanel" data-ng-show="!mobile">
 				<a href="{{user.basic.url}}" id="userpanel-me">
 					<img data-ng-src="{{user.basic.image}}" alt="" id="userpanel-me-image">
 					<span id="userpanel-me-name">{{user.name}}</span>
@@ -94,11 +94,9 @@
 				</div>
 				-->
 			</div>
-		</aside>
-		<!-- end !Userpanel -->
-		<!-- !Mobile Menu -->
-		<aside id="sidebar-left" data-ng-if="loggedin && mobile" data-ng-class="{'sidebarLeft-show': (sidebarActive && !searchActive)}">
-			<ul class="mobileMenu">
+			<!-- end !Userpanel -->
+			<!-- !Mobile Menu -->
+			<ul class="mobileMenu" data-ng-show="mobile">
 				<li class="mobileMenu-item">
 					<a class="mobileMenu-link" href="main"  data-ng-click="toggleSidebar()">
 						<i class="fa fa-home fa-2x fa-fw mobileMenu-icon"></i>
@@ -154,8 +152,9 @@
 					</a>
 				</li>
 			</ul>
+			<!-- end !Mobile Menu -->
 		</aside>
-		<!-- end !Mobile Menu -->
+		<!-- end !Left Sidebar -->
 		<!-- !Loaded View -->
 		<section id="main" data-ng-view data-ng-class="{'main-push': (mobile && sidebarActive && !searchActive), box: isBox}" data-ng-if="!searchActive">
 			<div id="logo">
