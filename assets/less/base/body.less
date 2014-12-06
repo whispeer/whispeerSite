@@ -65,7 +65,7 @@ noscript {
 	width: 0;
 }
 .main-push {
-	.translate(@mobileNavWidth);
+	.translate3d(@mobileNavWidth);
 	overflow: hidden;
 }
 
@@ -82,7 +82,7 @@ noscript {
 		position: absolute;
 		top: -1px;
 		left: 0;
-		.translate((-1 * @mobileNavWidth));
+		.translate3d((-1 * @mobileNavWidth));
 		transition-duration: @mobileNavTransitionTime;
 		overflow: scroll;
 		z-index: 1040;
@@ -92,7 +92,7 @@ noscript {
 		height: ~"100% + 1px";
 		background: @primary;
 		&.sidebarLeft-show {
-			.translate(0);
+			.translate3d(0);
 		}
 	}
 }
