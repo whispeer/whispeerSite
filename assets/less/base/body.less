@@ -5,6 +5,12 @@ html:not(.startView) {
 		padding-top: 50px;
 		.box-fix;
 	}
+	@media @mobile {
+		#main {
+			top: 50px;
+			left: 0;
+		}
+	}
 	footer {
 		background: rgba(255,255,255,0.79);
 	}
@@ -15,7 +21,6 @@ html:not(.mainView):not(.startView) {
 		padding: 10px 0;
 	}
 }
-
 
 body {
 	background-color: @white;
@@ -49,16 +54,19 @@ noscript {
 
 	@media @mobile {
 		.column(12);
+		position: absolute;
+		height: ~"calc(100% - 50px)";
 	}
 
-	.transition(@mobileNavTransitionTime ease);
+	transition-duration: @mobileNavTransitionTime;
 }
 .main-hidden {
 	display: none;
 	width: 0;
 }
 .main-push {
-	margin-right: (-1 * @mobileNavWidth) !important; // we need an !important since we are overwriting a media-query on an id!
+	.translate(@mobileNavWidth);
+	overflow: hidden;
 }
 
 #sidebar-left {
@@ -71,19 +79,20 @@ noscript {
 
 	@media @mobile {
 		width: @mobileNavWidth;
-		float: left;
-		margin-left: (-1 * @mobileNavWidth);
-		margin-top: -51px;
+		position: absolute;
+		top: -1px;
+		left: 0;
+		.translate((-1 * @mobileNavWidth));
+		transition-duration: @mobileNavTransitionTime;
 		overflow: scroll;
 		z-index: 1040;
 		padding: 0;
 		-webkit-overflow-scrolling: touch;
 		.box-fix;
-		.transition(margin-left @mobileNavTransitionTime ease);
-		height: ~"calc(100% + 50px)";
+		height: ~"100% + 1px";
 		background: @primary;
-		&.show {
-			margin-left: 0;
+		&.sidebarLeft-show {
+			.translate(0);
 		}
 	}
 }
