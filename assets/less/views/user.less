@@ -111,7 +111,7 @@
 		height: ~"calc(100% - 50px)";
 	}
 	@media @mobile {
-		height: ~"calc(100% - 70px)";
+		height: ~"calc(100% - 76px)";
 	}
 }
 .userView-section,
@@ -229,5 +229,57 @@
 	width: 100%;
 	@media @mobile {
 		margin: 5px 0;
+	}
+}
+.userVew-introText {
+	padding: 1%;
+	display: inline-block;
+	width: 100%;
+	&:extend(.box-fix);
+}
+.userView-verifyMethodButton {
+	@media @mobile {
+		.column(12);
+		margin-top: 5px;
+		&:first-child {
+			margin-top: 0;
+		}
+	}
+}
+.userView-keyPart {
+	@media @mobile {
+		.column(1,2,left,1);
+		input {
+			border-bottom: none;
+		}
+		&:nth-child(odd) {
+			margin: 0 0 0 1%;
+		}
+		&:nth-child(even) {
+			margin: 0 1% 0 0;
+		}
+		&:first-child,
+		&:nth-child(2) {
+			input {
+				margin-top: 5px;
+			}
+		}
+		&:first-child {
+			input {
+				border-radius: 5px 0 0 0;
+			}
+		}
+		&:nth-child(2) {
+			input {
+				border-radius: 0 5px 0 0;
+			}
+		}
+	}
+}
+#userView-submitKey {
+	@media @mobile {
+		.column(12);
+		border-radius: 0 0 5px 5px;
+		border-top: none;
 	}
 }

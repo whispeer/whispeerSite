@@ -1,28 +1,26 @@
-<section id="verifyUser">
-	<article>
-		<header>
-			<span data-i18n="profile.trustmanager.verifyTitle"></span>
+<section class="userView-section" id="userView-section-verifyUser">
+		<header class="box-header box-header--content">
+			<span class="box-header-title" data-i18n="profile.trustmanager.verifyTitle"></span>
 		</header>
-		<div class="verifyContent">
-			<div data-ng-if="!verifyCode && !qr.view" class="chooseVerifyMethod">
+		<div class="userView-subSection verifyContent">
+			<div data-ng-if="!verifyCode && !qr.view" class="userView-subSection" id="userView-chooseVerifyMethod">
 				<h3 data-i18n="profile.trustmanager.chooseVerifyMethod|user={{user.basic.shortname}}"></h3>
-				<button class="btn btn--big btn--primary" data-ng-click="verifyWithCode()" data-i18n="profile.trustmanager.verifyWithCode|user={{user.basic.shortname}}"></button>
-				<button class="btn btn--big btn--primary" data-ng-disabled="!qr.available" data-ng-click="verifyWithQrCode()" data-i18n="profile.trustmanager.verifyWithQr|user={{user.basic.shortname}}"></button>
+				<button class="userView-verifyMethodButton btn btn--big btn--primary" data-ng-click="verifyWithCode()" data-i18n="profile.trustmanager.verifyWithCode|user={{user.basic.shortname}}"></button>
+				<button class="userView-verifyMethodButton btn btn--big btn--primary" data-ng-disabled="!qr.available" data-ng-click="verifyWithQrCode()" data-i18n="profile.trustmanager.verifyWithQr|user={{user.basic.shortname}}"></button>
 			</div>
 			<button class="btn btn--primary btn--big back" data-ng-if="qr.available && (verifyCode || qr.view)" data-i18n="profile.trustmanager.back" data-ng-click="resetVerifcationMethod()"></button>
-			<div class="verify" data-ng-if="verifyCode">
-				<span class="introText" data-syntaxify data-i18n="profile.trustmanager.verifyInfo.code|user={{user.basic.shortname}}"></span>
+			<div class="verify userView-subSection" data-ng-if="verifyCode">
+				<span class="userVew-introText" data-syntaxify data-i18n="profile.trustmanager.verifyInfo.code|user={{user.basic.shortname}}"></span>
 				<div class="inputWrap">
-					<span data-ng-repeat="part in fingerPrint">
-						<input type="text" data-i18n-attr="profile.trustmanager.part{{$index+1}}|placeholder" data-ng-model="givenPrint[$index]" data-ng-change="nextInput($index)">
+					<div class="userView-keyPart annotatedInputContainer" data-ng-repeat="part in fingerPrint">
+						<input type="text" class="input-noradius" data-i18n-attr="profile.trustmanager.part{{$index+1}}|placeholder" data-ng-model="givenPrint[$index]" data-ng-change="nextInput($index)">
 						<span class="fa icon valid" data-ng-class="faEqual(givenPrint[$index], part)">
 						</span>
-						<span class="clearfix"></span>
-					</span>
-					<savebutton class="btn--input" data-state="verifyingUser" data-ng-click="verify(givenPrint)"></savebutton>
+					</div>
+					<savebutton id="userView-submitKey" class="btn--input" data-state="verifyingUser" data-ng-click="verify(givenPrint)"></savebutton>
 				</div>
 			</div>
-			<div class="verify" data-ng-show="qr.view">
+			<div class="verify userView-subSection" data-ng-show="qr.view">
 				<div class="error" data-ng-if="qr.noDevice" data-i18n="profile.trustmanager.nodevice"></div>
 				<span data-syntaxify data-i18n="profile.trustmanager.verifyInfo.qr|user={{user.basic.shortname}}"></span>
 				<div class="qrScanner">
@@ -31,5 +29,4 @@
 				</div>
 			</div>
 		</div>
-	</article>
 </section>

@@ -27,9 +27,11 @@ input:not([type]) {
 
 		background: @inputBackground;
 		border: solid 1px @inputBorder;
-		border-radius: @inputBorderRadius;
 		.box-shadow(inset 0px 0px 4px @inputBorder);
 		transition: ease .5s;
+	}
+	&:not(.input-custom):not(.input-noradius) {
+		border-radius: @inputBorderRadius;
 	}
 	&:focus {
 		outline: 0;
@@ -38,7 +40,8 @@ input:not([type]) {
 			.box-shadow(inset 0px 0px 5px rgba(red(@inputBorderFocus), green(@inputBorderFocus),blue(@inputBorderFocus), 0.75));
 		}
 	}
-	&[disabled], &[readonly] {
+	&[disabled],
+	&[readonly] {
 		outline: 0;
 		color: darken(@white, 65%);
 		cursor: not-allowed;
@@ -76,6 +79,7 @@ button[disabled] {
 
 	input[type="text"], input[type=""], input[type="password"] {
 		padding-right: @annotatedInputRight + @annotatedInputIconSize;
+		width: 100%;
 	}
 
 	.icon {
