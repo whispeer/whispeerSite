@@ -81,16 +81,37 @@ define(["step", "whispeerHelper", "asset/resizableImage", "asset/state", "libs/q
 			var moz=false;
 
 			step(function () {
+				if (window.MediaStreamTrack) {
+					window.MediaStreamTrack.getSources(this.ne);
+				} else {
+					this.ne();
+				}
+			}, h.sF(function (sources) {
+				var constraints = {
+					audio: false,
+					video: true
+				};
+
+				if (sources) {
+					var environmentSources = sources.filter(function (data) {
+						return data.kind === "video" && data.facing === "environment";
+					});
+
+					if (environmentSources.length === 1) {
+						constraints.video = { optional: [{sourceId: environmentSources[0].id}] };
+					}
+				}
+
 				if(navigator.getUserMedia) {
-					navigator.getUserMedia({video: true, audio: false}, this.ne, this);
+					navigator.getUserMedia(constraints, this.ne, this);
 				} else if(navigator.webkitGetUserMedia) {
 					webkit=true;
-					navigator.webkitGetUserMedia({video: true, audio: false}, this.ne, this);
+					navigator.webkitGetUserMedia(constraints, this.ne, this);
 				} else if(navigator.mozGetUserMedia) {
 					moz=true;
-					navigator.mozGetUserMedia({video: true, audio: false}, this.ne, this);
+					navigator.mozGetUserMedia(constraints, this.ne, this);
 				}
-			}, h.sF(function (stream) {
+			}), h.sF(function (stream) {
 				$scope.qr.noDevice = false;
 				theStream = stream;
 				var v = document.getElementById("qrCodeVideo");
