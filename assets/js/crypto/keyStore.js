@@ -1808,7 +1808,7 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 				}), cb);
 			},
 			isKeyLoaded: function (realid) {
-				return symKeys.hasOwnProperty(realid) || cryptKeys.hasOwnProperty(realid) || !signKeys.hasOwnProperty(realid);
+				return symKeys.hasOwnProperty(realid) || cryptKeys.hasOwnProperty(realid) || signKeys.hasOwnProperty(realid);
 			},
 			addKey: function (keyData) {
 				if (h.isRealID(keyData.realid)) {
