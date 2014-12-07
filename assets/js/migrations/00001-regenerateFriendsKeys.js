@@ -17,8 +17,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 			});
 
 			if (invalidKeys.length === 0) {
-				debugger;
-				//this.last.ne(true);
+				this.last.ne(true);
 			} else {
 				this.ne(invalidKeys);
 			}
