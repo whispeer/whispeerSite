@@ -293,6 +293,16 @@ define(["step", "whispeerHelper", "asset/observer", "asset/securedDataWithMetaDa
 			getUserFriendShipKey: function (uid) {
 				return signedList.metaAttr(uid);
 			},
+			getUserForKey: function (realid) {
+				var meta = signedList.metaGet(), result;
+				h.objectEach(meta, function (key, value) {
+					if (value === realid) {
+						result = h.parseDecimal(key);
+					}
+				});
+
+				return result;
+			},
 			getAllFriendShipKeys: function () {
 				var meta = signedList.metaGet(), keys = [];
 				h.objectEach(meta, function (key, value) {
