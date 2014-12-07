@@ -12,6 +12,18 @@ define(["jquery", "qtip"], function (jQuery) {
 					});
 				}
 
+				var showWhen = {
+					ready: true
+				};
+				var hideWhen = false;
+
+				if (attrs.errorHintEvent) {
+					showWhen = {
+						event: attrs.errorHintEvent
+					};
+					hideWhen = {};
+				}
+
 				scope.$watch(function () {
 					if (!show) {
 						return false;
@@ -38,11 +50,9 @@ define(["jquery", "qtip"], function (jQuery) {
 								my: 'top center',
 								at: 'bottom center'
 							},
-							show: {
-								ready: true
-							},
-							hide: false
-						})
+							show: showWhen,
+							hide: hideWhen
+						});
 					} else {
 						elm.qtip('destroy', true);
 					}
