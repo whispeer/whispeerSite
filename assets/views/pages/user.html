@@ -3,8 +3,8 @@
 		<h1 class="userView-userName" data-ng-class="{'userView-userName--me': user.me}">{{user.name}}</h1>
 		<div id="userView-trustlevel" data-trustlevel="{{user.trustLevel}}" data-ng-if="!user.me" data-ng-click="toggleVerify()">
 			<span class="text" data-ng-if="!mobile">Trust-Level: {{user.trustLevel}}</span>&nbsp;
-			<span class="text" id="userView-trustlevel-digit" data-ng-if="mobile">{{user.trustLevel}}</span>&nbsp;
-			<i data-ng-if="user.trustLevel < 2" class="icon icon-plus-circle"></i>
+			<span class="text" class="userView-trustlevel-digit" data-ng-if="mobile">{{user.trustLevel}}</span>&nbsp;
+			<i data-ng-if="user.trustLevel < 2" class="userView-trustlevel-digit fa fa-plus-circle fa-fw"></i>
 		</div>
 	</heading>
 	<nav class="box-header-links" id="userView-navigation">

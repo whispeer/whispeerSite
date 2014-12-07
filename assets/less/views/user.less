@@ -62,7 +62,7 @@
 	}
 	@media @mobile {
 		.column(2);
-		margin-top: 11px;
+		margin-top: 8px;
 		padding: 5px 0;
 	}
 	display: block;
@@ -70,7 +70,6 @@
 	position: relative;
 	line-height: @line-height;
 
-	padding: 5px;
 	.border-radius(5px);
 	text-align: center;
 	color: #fff;
@@ -90,11 +89,22 @@
 		background: @green;
 	}
 }
-#userView-trustlevel-digit {
-	float: left;
-	display: inline-block;
-	width: 100%;
-	margin: -20px auto;
+.userView-trustlevel-digit {
+	@media @mobile {
+		float: left;
+		display: inline-block;
+		position: relative;
+		width: 100%;
+		margin: 0;
+		text-align: center;
+	}
+}
+#userView-trustlevel:not([data-trustlevel="2"]):not([data-trustlevel="3"]) .userView-trustlevel-digit {
+	@media @mobile {
+		float: right;
+		width: 50%;
+		line-height: 20px;
+	}
 }
 #userView-content {
 	@media @desktop {
