@@ -18,6 +18,11 @@ html:not(.startView) {
 }
 
 html:not(.mainView):not(.startView) {
+	@media @desktop {
+		#container {
+			padding: 10px 0;
+		}
+	}
 	@media @mobile {
 		#main {
 			top: 55px;
