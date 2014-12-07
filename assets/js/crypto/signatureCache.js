@@ -67,6 +67,10 @@ define (["whispeerHelper", "step", "asset/observer", "asset/errors", "crypto/key
 			}
 		},
 		addSignatureStatus: function (signature, hash, key, valid) {
+			if (!valid) {
+				return;
+			}
+
 			changed = true;
 
 			if (typeof valid !== "boolean" || !h.isRealID(key) || !h.isSignature(chelper.bits2hex(signature))) {
