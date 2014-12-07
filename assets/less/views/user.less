@@ -18,7 +18,7 @@
 }
 .userView-userName {
 	@media @desktop {
-		.column(9);
+		.column(8);
 	}
 	@media @mobile {
 		.column(10);
@@ -57,8 +57,9 @@
 }
 #userView-trustlevel {
 	@media @desktop {
-		.column(3);
+		.column(4);
 		margin-top: 11px;
+		padding: 5px 0;
 	}
 	@media @mobile {
 		.column(2);
@@ -246,6 +247,11 @@
 		}
 	}
 }
+.userView-keyInputWrap {
+	@media @desktop {
+		.column(10,12,left,1%);
+	}
+}
 .userView-keyPart {
 	@media @mobile {
 		.column(1,2,left,1);
@@ -275,11 +281,18 @@
 			}
 		}
 	}
+	@media @desktop {
+		.column(1,4,left,1%);
+	}
 }
 #userView-submitKey {
 	@media @mobile {
 		.column(12);
 		border-radius: 0 0 5px 5px;
 		border-top: none;
+	}
+	@media @desktop {
+		.column(2,12,left,1%);
+		margin: 0 1% 0 0;
 	}
 }
