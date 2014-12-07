@@ -1,3 +1,7 @@
-<div class="userimageWrap hint--center hint--right hint--rounded" data-trustlevel="{{userData.trustLevel}}" data-ng-class="{'hint': userData.trustLevel >= 0,'hint--error': userData.trustLevel == 0, 'hint--warning': userData.trustLevel == 1, 'hint--success': userData.trustLevel >= 2}" data-hint="Trust-Level: {{userData.trustLevel}}">
+<div class="userimageWrap" data-trustlevel="{{userData.trustLevel}}" data-error-hint="!userData.me"
+data-error-hint-event="mouseover"
+data-error-hint-f1="userData.trustLevel == 0" data-error-hint-t1="trustLevel.unVerified"
+data-error-hint-f2="userData.trustLevel == 1" data-error-hint-t2="trustLevel.groupVerified"
+data-error-hint-f3="userData.trustLevel == 2" data-error-hint-t3="trustLevel.selfVerified">
 	<img class="picture" data-ng-src="{{userData.basic.image}}" alt="{{userData.name}}" />
 </div>

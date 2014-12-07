@@ -194,7 +194,7 @@ define(["step", "whispeerHelper", "asset/state", "asset/securedDataWithMetaData"
 					keyStoreService.sym.symEncryptKey(friendsKey, newFriendsKey, this.parallel());
 				}), h.sF(function () {
 					//update signedKeys
-					signedKeys.metaSetAttr("friendsKey", newFriendsKey);
+					signedKeys.metaSetAttr("friends", newFriendsKey);
 					signedKeys.getUpdatedData(signKey, this);
 				}), h.sF(function (updatedSignedKeys) {
 					friendsKey = newFriendsKey;

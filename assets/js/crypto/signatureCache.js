@@ -50,7 +50,7 @@ define (["whispeerHelper", "step", "asset/observer", "asset/errors", "crypto/key
 		},
 		isSignatureInCache: function (signature, hash, key) {
 			var sHash = dataSetToHash(signature, hash, key);
-			if (database.metaHasAttr(sHash)) {
+			if (database.metaHasAttr(sHash) && database.metaAttr(sHash) === true) {
 				return true;
 			}
 
@@ -67,6 +67,10 @@ define (["whispeerHelper", "step", "asset/observer", "asset/errors", "crypto/key
 			}
 		},
 		addSignatureStatus: function (signature, hash, key, valid) {
+			if (!valid) {
+				return;
+			}
+
 			changed = true;
 
 			if (typeof valid !== "boolean" || !h.isRealID(key) || !h.isSignature(chelper.bits2hex(signature))) {

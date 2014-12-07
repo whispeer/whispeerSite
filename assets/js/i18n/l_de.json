@@ -1,4 +1,9 @@
 {
+	"trustLevel": {
+		"unVerified": "Die Identität dieser Person wurde noch nicht verifiziert. Du kannst sie auf ihrem Profil verifizieren!",
+		"groupVerified": "Ein Freund hat diese Person verifiziert.",
+		"selfVerified": "Du hast diese Person verifiziert."
+	},
 	"window": {
 		"title": {
 			"newmessage": "{data}: Neue Nachricht",

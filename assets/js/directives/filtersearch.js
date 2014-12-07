@@ -72,11 +72,13 @@ define(["step", "whispeerHelper"], function (step, h) {
 				}
 
 				function getAlways(id, cb) {
-					cb(null, {
-						name: localize.getLocalizedString("directives." + id),
-						id: "always:" + id,
-						count: getAlwaysCount(id)
-					});
+					step(function () {
+						this.ne({
+							name: localize.getLocalizedString("directives." + id),
+							id: "always:" + id,
+							count: getAlwaysCount(id)
+						});
+					}, cb);
 				}
 
 				function getElementById(id, cb) {
