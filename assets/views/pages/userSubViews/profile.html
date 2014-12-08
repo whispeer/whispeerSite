@@ -65,9 +65,9 @@
 					<span data-ng-if="editGeneral" data-for="school">
 						<span class="input-group" data-ng-repeat="school in adv.education">
 							<input type="text" data-i18n-attr="profile.section.general.education.edit|placeholder" data-ng-model="school.name">
-							<button class="remove btn btn--danger" data-ng-click="removeElement(adv.education, $index)"><i class="icon icon-cancel-circle"></i></button>
+							<button class="remove btn btn--danger" data-ng-click="removeElement(adv.education, $index)"><i class="fa fa-times-circle"></i></button>
 						</span>
-						<button class="add btn btn--primary" data-ng-click="addElement(adv.education, {name: ''}, 3)"><i class="icon icon-plus-circle"></i></button>
+						<button class="add btn btn--primary" data-ng-click="addElement(adv.education, {name: ''}, 3)"><i class="fa fa-plus-circle"></i></button>
 					</span>
 				</span>
 			</p>
@@ -106,9 +106,9 @@
 					<span data-ng-if="editGeneral" data-for="language">
 						<span class="input-group" data-ng-repeat="language in adv.languages">
 							<input type="text" data-i18n-attr="profile.section.general.languages.edit|placeholder" data-ng-model="language.name">
-							<button class="btn btn--danger remove" data-ng-click="removeElement(adv.languages, $index)"><i class="icon icon-cancel-circle"></i></button>
+							<button class="btn btn--danger remove" data-ng-click="removeElement(adv.languages, $index)"><i class="fa fa-times-circle"></i></button>
 						</span>
-						<button class="btn btn--primary add" data-ng-click="addElement(adv.languages, {name:''})"><i class="icon icon-plus-circle"></i></button>
+						<button class="btn btn--primary add" data-ng-click="addElement(adv.languages, {name:''})"><i class="fa fa-plus-circle"></i></button>
 					</span>
 				</span>
 			</p>
