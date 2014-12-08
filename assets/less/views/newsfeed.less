@@ -50,7 +50,7 @@
 }
 #newsfeedView-shareText {
 	.column(8,8,left,0);
-	height: 38px;
+	height: 40px;
 	margin-top: -1px;
 	border: none;
 	border-top: 1px solid #aaa;
@@ -72,20 +72,23 @@
 }
 #newsfeedView-filter-title {
 	.column(12);
-	@media @desktop {
-		height: 30px;
+	&:hover {
+		background: @btnBackground;
+		cursor: default;
 	}
-	@media @mobile {
-		height: 40px;
-	}
-	padding: 4px 0;
-	.gradient(@btnBackground, @btnBackgroundHover);
-	border: 1px solid @btnBorder;
-	.border-radius(4px);
+}
+.newsfeedView-filter-title--active {
+	border-radius: 5px 5px 0 0;
+	border-bottom: none;
 }
 #newsfeedView-theFilter {
 	.column(12,12);
-	margin-top: 9px;
+	margin-top: 0;
+	height: 42px;
+}
+#newsfeedView-theFilter .search-wrapper {
+	border-radius: 0 0 5px 5px;
+	height: 42px;
 }
 #newsfeedView-theFilter .searchDrop {
 	margin-top: 5px;
@@ -94,9 +97,12 @@
 	.column(12,12,left,0);
 }
 .inviteFriends {
-	width: 100%;
+	width: 98%;
 	text-align: center;
+	margin: 10px 1% 0;
 	a {
 		.large-text();
+		width: 100%;
+		line-height: 40px;
 	}
 }

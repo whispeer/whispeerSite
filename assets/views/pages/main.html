@@ -7,12 +7,14 @@
 			<savebutton id="newsfeedView-sendPost" data-translation="wall.postit.send" data-ng-click="sendPost()" data-state="sendPostState" data-noiniticon data-ng-disabled="!canSend"></savebutton>
 		</form>
 		<div id="newsfeedView-filter">
-			<button id="newsfeedView-filter-title" data-i18n="wall.filter.title" data-ng-click="toggleFilter()"></button>
+			<button id="newsfeedView-filter-title" class="btn btn--border" data-ng-class="{'newsfeedView-filter-title--active': (filterActive || !mobile)}" data-i18n="wall.filter.title" data-ng-click="toggleFilter()"></button>
 			<div data-ng-if="filterActive || !mobile"><filtersearch data-internalid="timelineFilter" data-selected="filterSelection" class="hideScroll" data-input-i18n-attr="wall.filter.placeholder|placeholder" id="newsfeedView-theFilter" /></div>
 		</div>
 	</header>
 	<div class="posts" id="newsfeedView-posts">
 		<post data-ng-repeat="post in posts" data-post="post" id="{{post.id}}"></post>
-		<article class="inviteFriends" data-ng-if="posts.length <= 3"><a class="btn btn--primary btn--large" href="/invite" data-i18n="inviteFriends"></a></article>
+		<article class="inviteFriends" data-ng-if="posts.length <= 3">
+			<a class="btn btn--primary btn--large" href="/invite" data-i18n="inviteFriends"></a>
+		</article>
 	</div>
 </div>

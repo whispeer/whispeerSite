@@ -23,7 +23,7 @@ input:not([type]) {
 	.box-fix;
 	&:not(.input-custom) {
 		height: 40px;
-		line-height: 20px;
+		line-height: 22px;
 
 		background: @inputBackground;
 		border: solid 1px @inputBorder;
@@ -52,6 +52,7 @@ input:not([type]) {
 }
 textarea {
 	padding: 9px;
+	line-height: 22px;
 	outline: 0;
 
 	background: @inputBackground;
@@ -77,9 +78,10 @@ button[disabled] {
 .annotatedInput-container {
 	position: relative;
 }
-.annotatedInput-input {
+.annotatedInput-container .annotatedInput-input {
 	padding-right: @annotatedInputRight + @annotatedInputIconSize;
 	width: 100%;
+	height: 100%;
 }
 .annotatedInput-icon {
 	position: absolute;
