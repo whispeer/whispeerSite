@@ -308,20 +308,3 @@ define(["step", "whispeerHelper"], function (step, h) {
 
 	return service;
 });
-
-/*
-
-var fd = new FormData();
-fd.append('fname', 'test.wav');
-fd.append('data', soundBlob);
-$.ajax({
-    type: 'POST',
-    url: '/upload.php',
-    data: fd,
-    processData: false,
-    contentType: false
-}).done(function(data) {
-       console.log(data);
-});
-
-*/
