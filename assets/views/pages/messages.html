@@ -1,6 +1,6 @@
 <header class="box-header">
 	<button data-ng-if="!mobile || !showMessage" class="box-header-button box-header-button--left" id="newmessage" data-ng-click="unloadTopic()">
-		<i class="icon-plus-circle" id="plusBtn"></i><span data-i18n="messages.newMessage"></span>
+		<i class="fa fa-plus-circle fa-fw" id="plusBtn"></i><span data-i18n="messages.newMessage"></span>
 	</button>
 	<span class="box-header-title" data-ng-class="{'box-header-title--visible': showMessage}">
 		<span data-ng-if="!topicLoaded && !showMessage" data-i18n="messages.title"></span>
