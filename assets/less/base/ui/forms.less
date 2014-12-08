@@ -74,21 +74,32 @@ button[disabled] {
 @annotatedInputRight: 10px;
 @annotatedInputIconSize: 16px;
 
-.annotatedInputContainer {
+.annotatedInput-container {
 	position: relative;
+}
+.annotatedInput-input {
+	padding-right: @annotatedInputRight + @annotatedInputIconSize;
+	width: 100%;
+}
+.annotatedInput-icon {
+	position: absolute;
+	top: 0; bottom: 0;
+	margin: auto 0;
+	width: @annotatedInputIconSize;
+	height: @annotatedInputIconSize;
 
-	input[type="text"], input[type=""], input[type="password"] {
-		padding-right: @annotatedInputRight + @annotatedInputIconSize;
-		width: 100%;
-	}
+	right: @annotatedInputRight;
+}
+.annotatedInput-container .annotatedInput-button { // this overspecification causes the rules to be applied over the .btn rules!
+	position: absolute;
+	top: 0; bottom: 0;
+	margin: auto 0;
+	height: 40px;
+	border-radius: 0 5px 5px 0;
+	border: none;
 
-	.icon {
-		position: absolute;
-		top: 0; bottom: 0;
-		margin: auto 0;
-		width: @annotatedInputIconSize;
-		height: @annotatedInputIconSize;
-
-		right: @annotatedInputRight;
-	}
+	right: @annotatedInputRight - 10px;
+}
+.annotatedInput-container--button .annotatedInput-input {
+	padding-right: @annotatedInputRight + @annotatedInputIconSize + 20px;
 }
