@@ -4,7 +4,7 @@
 	<header>
 		<h2 data-i18n="views.setup.backup.header"></h2>
 		<div class="backupWarningExplanation" data-syntaxify data-i18n="views.setup.backup.explanation"></div>
-	</header>	
+	</header>
 	<button class="btn btn--primary btn--big" data-ng-click="downloadBackup()">
 		<i class="fa fa-download"></i> <span data-i18n="views.setup.backup.downloadKey"></span>
 	</button>
@@ -13,7 +13,7 @@
 		<i class="fa fa-print"></i> <span data-i18n="views.setup.backup.printKey"></span>
 	</button>
 
-	<button class="btn btn--primary btn--danger btn--big" data-ng-if="profileSaved && !backupClicked">
+	<button id="setupView-noBackup" class="btn btn--primary btn--danger btn--big" data-ng-if="profileSaved && !backupClicked">
 		<span data-i18n="views.setup.backup.ignore"></span>
 	</button>
 </div>
