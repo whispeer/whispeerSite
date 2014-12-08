@@ -212,9 +212,18 @@
 				color: @primary;
 			}
 
-			input:not([type="submit"]):not([type="reset"]):not([type="button"]):not([type="file"]):not([type="radio"]):not([type="checkbox"]) {
+			input:not([type="submit"]):not([type="reset"]):not([type="button"]):not([type="file"]):not([type="radio"]):not([type="checkbox"]),
+			.annotatedInput-container {
 				width: 300px;
 				height: 48px;
+			}
+
+			.annotatedInput-container {
+				margin: 0 auto;
+			}
+
+			.annotatedInput-input {
+				width: 100%;
 			}
 
 			button {

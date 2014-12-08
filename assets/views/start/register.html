@@ -2,27 +2,27 @@
 	<form class="registerForm" data-ng-if="invite.valid.success">
 		<h1 data-i18n="login.register.newaccount"></h1>
 		<div class="inputWrap" data-ng-click="inputsUsed()" data-ng-keydown="inputsUsed()">
-			<div class="annotatedInputContainer">
-				<input type="text" class="nickname" data-i18n-attr="login.username|placeholder" data-ng-model="$parent.nickname" data-ng-model-onblur data-ng-change="nicknameChange(); inputUsed([nicknameUsed,nicknameInvalid])"
+			<div class="annotatedInput-container">
+				<input class="annotatedInput-input" type="text" class="nickname" data-i18n-attr="login.username|placeholder" data-ng-model="$parent.nickname" data-ng-model-onblur data-ng-change="nicknameChange(); inputUsed([nicknameUsed,nicknameInvalid])"
 					data-error-hint="registerFailed"
 					data-error-hint-f1="nicknameEmpty()" data-error-hint-t1="login.register.errors.nickEmpty"
 					data-error-hint-f2="nicknameInvalid()" data-error-hint-t2="login.register.errors.nickInvalid"
 					data-error-hint-f3="nicknameUsed()" data-error-hint-t3="login.register.errors.nickUsed">
-				<span class="fa icon" data-ng-class="acceptIconNicknameFree()" data-ng-if="!empty(nickname)"></span>
+				<span class="annotatedInput-icon fa" data-ng-class="acceptIconNicknameFree()" data-ng-if="!empty(nickname)"></span>
 			</div>
-			<div class="annotatedInputContainer">
-				<input class="strenghInput password" data-ng-change="inputUsed([passwordToWeak])" type="password" data-i18n-attr="login.password|placeholder" data-ng-model="$parent.password"
+			<div class="annotatedInput-container">
+				<input class="annotatedInput-input strenghInput password" data-ng-change="inputUsed([passwordToWeak])" type="password" data-i18n-attr="login.password|placeholder" data-ng-model="$parent.password"
 					data-error-hint="registerFailed"
 					data-error-hint-f1="passwordEmpty()" data-error-hint-t1="login.register.errors.passwordEmpty"
 					data-error-hint-f2="passwordToWeak()" data-error-hint-t2="login.register.errors.passwordWeak">
-				<span class="icon" data-strength="{{passwordStrength()}}"></span>
+				<span class="annotatedInput-icon" data-strength="{{passwordStrength()}}"></span>
 			</div>
-			<div class="annotatedInputContainer">
-				<input type="password" class="password2" data-i18n-attr="login.register.repeatPassword|placeholder" data-ng-model="$parent.password2"
+			<div class="annotatedInput-container">
+				<input type="password" class="annotatedInput-input password2" data-i18n-attr="login.register.repeatPassword|placeholder" data-ng-model="$parent.password2"
 					data-error-hint="registerFailed"
 					data-error-hint-f1="password2Empty()" data-error-hint-t1="login.register.errors.password2Empty"
 					data-error-hint-f2="noPasswordMatch()" data-error-hint-t2="login.register.errors.passwordNoMatch">
-				<span class="fa icon" data-ng-class="acceptIcon(password, password2)" data-ng-if="!empty(password) && !empty(password2)"></span>
+				<span class="annotatedInput-icon fa" data-ng-class="acceptIcon(password, password2)" data-ng-if="!empty(password) && !empty(password2)"></span>
 			</div>
 			<div class="registerAGB">
 				<label for="checkAGB" data-error-hint="registerFailed" data-error-hint-f1="isAgbError()" data-error-hint-t1="login.register.errors.agb">
@@ -42,17 +42,17 @@
 		<h1 data-i18n="login.register.invite.enterCode"></h1>
 		<p data-i18n="landingpage.inviteExplain"></p>
 		<div class="inputWrap">
-			<div class="annotatedInputContainer">
-				<input type="text" class="inviteCode" data-i18n-attr="login.register.invite.code|placeholder" data-ng-model="invite.code">
-				<span class="fa icon" data-ng-class="{'fa-check': invite.valid.success, 'fa-times': invite.valid.failed, 'fa-spinner': invite.valid.pending}" data-ng-if="!empty(invite.code)"></span>
+			<div class="annotatedInput-container">
+				<input type="text" class="annotatedInput-input inviteCode" data-i18n-attr="login.register.invite.code|placeholder" data-ng-model="invite.code">
+				<span class="annotatedInput-icon fa" data-ng-class="{'fa-check': invite.valid.success, 'fa-times': invite.valid.failed, 'fa-spinner': invite.valid.pending}" data-ng-if="!empty(invite.code)"></span>
 			</div>
 		</div>
 		<div class="inputWrap" id="requestInvite">
 			<h1 data-i18n="login.register.invite.request"></h1>
 			<p data-i18n="landingpage.inviteMailExplain"></p>
-			<div class="annotatedInputContainer" data-ng-if="!invite.mailValid.success">
-				<input type="text" id="requestInviteMail" data-i18n-attr="login.register.invite.mail|placeholder" data-ng-model="invite.mail">
-				<span class="fa icon" data-ng-class="{'fa-check': false, 'fa-times': false, 'fa-spinner': false}" data-ng-if="!empty(invite.mail)"></span>
+			<div class="annotatedInput-container" data-ng-if="!invite.mailValid.success">
+				<input type="text" class="annotatedInput-input" id="requestInviteMail" data-i18n-attr="login.register.invite.mail|placeholder" data-ng-model="invite.mail">
+				<span class="annotatedInput-icon fa" data-ng-class="{'fa-check': false, 'fa-times': false, 'fa-spinner': false}" data-ng-if="!empty(invite.mail)"></span>
 			</div>
 			<div data-ng-if="!invite.mailValid.success">
 				<savebutton id="sendInviteRequest" data-state="invite.mailValid" data-ng-click="invite.request(invite.mail)" data-translation="login.register.invite.submit|type=" data-noiniticon></savebutton>
