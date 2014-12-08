@@ -297,11 +297,6 @@ define(["step", "whispeerHelper"], function (step, h) {
 						blobListener[blobID] = [this];
 						loadBlob(blobID, isPublic);
 					}
-				}), h.sF(function (data) {
-					var blob = h.dataURItoBlob("data:image/png;base64," + data.blob);
-					knownBlobs[blobID] = new MyBlob(blob, blobID);
-
-					this.ne(knownBlobs[blobID]);
 				}), cb);
 			}
 		};
