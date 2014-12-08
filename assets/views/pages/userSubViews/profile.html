@@ -24,7 +24,6 @@
 					<span class="day" data-for="day" data-ng-if="!editGeneral">{{adv.birthday.day}}</span>
 					<span class="month" data-for="month" data-ng-if="!editGeneral" data-i18n="date.month.{{adv.birthday.month}}"></span>
 					<span class="year" data-for="year" data-ng-if="!editGeneral">{{adv.birthday.year}}</span>
-			<p>
 					<select class="day" data-for="day" data-ng-if="editGeneral" data-ng-model="adv.birthday.day" data-ng-options="day for day in days">
 						<option value="" data-i18n="profile.section.general.birthday.day"></option>
 					</select>
