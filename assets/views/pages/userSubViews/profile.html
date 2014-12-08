@@ -9,7 +9,7 @@
 		</header>
 		<div class="userView-userimage" data-ng-class="{'userView-userimage--editing':changeImage, 'userView-userimage--bigger': mobile && editGeneral && !changeImage}">
 			<userimage data-user="user" data-ng-if="!changeImage" />
-			<span class="editImage" data-ng-if="editGeneral && !changeImage" data-i18n="profile.section.general.changeImage" data-ng-click="doChangeImage()"></span>
+			<span class="editImage btn btn--primary btn--input" data-ng-if="editGeneral && !changeImage" data-i18n="profile.section.general.changeImage" data-ng-click="doChangeImage()"></span>
 			<div class="uploadImageForm" data-ng-if="editGeneral && changeImage">
 				<span id="uploadButton" data-i18n="login.register.uploadImage"></span>
 				<input id="filesUpload" type="file" data-file="imageChange" width="4000">
@@ -17,10 +17,10 @@
 			<canvas data-ng-if="changeImage" id="original"></canvas>
 			<div class="resizableWrapper" data-ng-show="!mobile"></div>
 		</div>
-		<div class="userView-info" ng-init="adv=user.advanced">
-			<p id="userView-birthday" data-ng-if="set(adv.birthday) || editGeneral">
-				<i class="fa fa-gift"></i>
-				<span data-i18n="profile.section.general.birthday.text">
+		<div class="userView-info" data-ng-class="{'userView-info--edit': editGeneral}" data-ng-init="adv=user.advanced">
+			<p id="userView-birthday" class="userView-infoRow" data-ng-if="set(adv.birthday) || editGeneral">
+				<i class="userView-infoIcon fa fa-gift fa-fw"></i>
+				<span class="userView-infoText" data-i18n="profile.section.general.birthday.text">
 					<span class="day" data-for="day" data-ng-if="!editGeneral">{{adv.birthday.day}}</span>
 					<span class="month" data-for="month" data-ng-if="!editGeneral" data-i18n="date.month.{{adv.birthday.month}}"></span>
 					<span class="year" data-for="year" data-ng-if="!editGeneral">{{adv.birthday.year}}</span>
@@ -36,18 +36,18 @@
 					</select>
 				</span>
 			</p>
-			<p id="userView-residence" data-ng-if="set(adv.location) || editGeneral">
-				<i class="fa fa-home"></i>
-				<span data-i18n="profile.section.general.location.{{getLocationVals(adv.location)}}">
+			<p id="userView-residence" class="userView-infoRow" data-ng-if="set(adv.location) || editGeneral">
+				<i class="userView-infoIcon fa fa-home fa-fw"></i>
+				<span class="userView-infoText" data-i18n="profile.section.general.location.{{getLocationVals(adv.location)}}">
 					<span data-for="town" class="town" data-ng-if="!editGeneral">{{adv.location.town}}</span>
 					<input data-for="town" type="text" data-i18n-attr="profile.section.general.location.placeholders.city|placeholder" data-ng-model="adv.location.town" data-ng-if="editGeneral">
 					<span data-for="country" class="country" data-ng-if="!editGeneral">{{adv.location.country}}</span>
 					<input data-for="country" type="text" data-i18n-attr="profile.section.general.location.placeholders.country|placeholder" data-ng-model="adv.location.country" data-ng-if="editGeneral">
 				</span>
 			</p>
-			<p id="userView-relationship" data-ng-if="set(adv.relationship) || editGeneral">
-				<i class="fa fa-heart"></i>
-				<span data-i18n="profile.section.general.relation.{{getRelationVals(adv.relationship)}}">
+			<p id="userView-relationship" class="userView-infoRow" data-ng-if="set(adv.relationship) || editGeneral">
+				<i class="userView-infoIcon fa fa-heart fa-fw"></i>
+				<span class="userView-infoText" data-i18n="profile.section.general.relation.{{getRelationVals(adv.relationship)}}">
 					<span data-for="relationType" class="relationType" data-ng-if="!editGeneral" data-i18n="profile.section.general.relation.status.{{adv.relationship.type}}"></span>
 					<select data-for="relationType" class="relationType" data-ng-model="adv.relationship.type" data-ng-if="editGeneral">
 						<option></option>
@@ -58,22 +58,22 @@
 					<input data-for="name" type="text" data-i18n-attr="profile.section.general.relation.placeholder|placeholder" data-ng-model="adv.relationship.name" data-ng-if="editGeneral">
 				</span>
 			</p>
-			<p id="userView-school" data-ng-if="set(adv.education) || editGeneral">
-				<i class="fa fa-book"></i>
-				<span data-i18n="profile.section.general.education.display">
-					<span data-ng-if="!editGeneral" data-for="school"><span data-ng-repeat="school in adv.education">{{school.name}}</span></span>
+			<p id="userView-school" class="userView-infoRow" data-ng-if="set(adv.education) || editGeneral">
+				<i class="userView-infoIcon fa fa-book fa-fw"></i>
+				<span class="userView-infoText" data-i18n="profile.section.general.education.display">
+					<span data-ng-if="!editGeneral" data-for="school"><span class="userView-commaSeperated" data-ng-repeat="school in adv.education">{{school.name}}</span></span>
 					<span data-ng-if="editGeneral" data-for="school">
-						<span class="input-group" data-ng-repeat="school in adv.education">
-							<input type="text" data-i18n-attr="profile.section.general.education.edit|placeholder" data-ng-model="school.name">
-							<button class="remove btn btn--danger" data-ng-click="removeElement(adv.education, $index)"><i class="fa fa-times-circle"></i></button>
+						<span class="userView-info-group annotatedInput-container annotatedInput-container--button" data-ng-repeat="school in adv.education">
+							<input class="annotatedInput-input" type="text" data-i18n-attr="profile.section.general.education.edit|placeholder" data-ng-model="school.name">
+							<button class="btn btn--danger annotatedInput-button" data-ng-click="removeElement(adv.education, $index)"><i class="fa fa-times-circle"></i></button>
 						</span>
-						<button class="add btn btn--primary" data-ng-click="addElement(adv.education, {name: ''}, 3)"><i class="fa fa-plus-circle"></i></button>
+						<button class="userView-addGroupButton btn btn--primary" data-ng-click="addElement(adv.education, {name: ''}, 3)"><i class="fa fa-plus-circle"></i></button>
 					</span>
 				</span>
 			</p>
-			<p id="userView-work" data-ng-if="set(adv.work) || editGeneral">
-				<i class="fa fa-briefcase"></i>
-				<span data-i18n="profile.section.general.work.{{getWorkVals(adv.work)}}">
+			<p id="userView-work" class="userView-infoRow" data-ng-if="set(adv.work) || editGeneral">
+				<i class="userView-infoIcon fa fa-briefcase fa-fw"></i>
+				<span class="userView-infoText" data-i18n="profile.section.general.work.{{getWorkVals(adv.work)}}">
 					<span data-ng-if="!editGeneral" data-for="what">{{adv.work.what}}</span>
 					<input data-ng-if="editGeneral" data-i18n-attr="profile.section.general.work.placeholders.what|placeholder" data-for="what" data-ng-model="adv.work.what">
 
@@ -81,9 +81,9 @@
 					<input data-ng-if="editGeneral" data-i18n-attr="profile.section.general.work.placeholders.where|placeholder" data-for="where" data-ng-model="adv.work.where">
 				</span>
 			</p>
-			<p id="userView-gender" data-ng-if="set(adv.gender) || editGeneral">
-				<i class="fa fa-fw" data-ng-class="{'fa-male': adv.gender.gender == 'm', 'fa-female': adv.gender.gender == 'f', 'fa-user': (adv.gender.gender == 'o' || adv.gender.gender == '')}"></i>
-				<span data-i18n="profile.section.general.gender.default">
+			<p id="userView-gender" class="userView-infoRow" data-ng-if="set(adv.gender) || editGeneral">
+				<i class="userView-infoIcon fa fa-fw" data-ng-class="{'fa-male': adv.gender.gender == 'm', 'fa-female': adv.gender.gender == 'f', 'fa-user': (adv.gender.gender == 'o' || adv.gender.gender == '' || !adv.gender.gender)}"></i>
+				<span class="userView-infoText" data-i18n="profile.section.general.gender.default">
 					<span data-ng-if="!editGeneral && adv.gender.gender!='o'" data-for="gender" data-i18n="profile.section.general.gender.{{adv.gender.gender}}"></span>
 					<span data-ng-if="!editGeneral && adv.gender.gender=='o'" data-for="gender">
 						{{adv.gender.text}}
@@ -97,18 +97,18 @@
 					<input data-for="gender" data-ng-if="editGeneral && adv.gender.gender=='o'" data-ng-model="adv.gender.text" data-i18n-attr="profile.section.general.gender.otherInput|placeholder"/>
 				</span>
 			</p>
-			<p id="userView-languages" data-ng-if="set(adv.languages) || editGeneral">
-				<i class="fa fa-globe"></i>
-				<span data-i18n="profile.section.general.languages.display">
+			<p id="userView-languages" class="userView-infoRow" data-ng-if="set(adv.languages) || editGeneral">
+				<i class="userView-infoIcon fa fa-globe fa-fw"></i>
+				<span class="userView-infoText" data-i18n="profile.section.general.languages.display">
 					<span data-ng-if="!editGeneral" data-for="language">
-						<span class="userView-language" data-ng-repeat="language in adv.languages">{{language.name}}</span>
+						<span class="userView-commaSeperated" data-ng-repeat="language in adv.languages">{{language.name}}</span>
 					</span>
 					<span data-ng-if="editGeneral" data-for="language">
-						<span class="input-group" data-ng-repeat="language in adv.languages">
-							<input type="text" data-i18n-attr="profile.section.general.languages.edit|placeholder" data-ng-model="language.name">
-							<button class="btn btn--danger remove" data-ng-click="removeElement(adv.languages, $index)"><i class="fa fa-times-circle"></i></button>
+						<span class="userView-info-group annotatedInput-container annotatedInput-container--button" data-ng-repeat="language in adv.languages">
+							<input class="annotatedInput-input" type="text" data-i18n-attr="profile.section.general.languages.edit|placeholder" data-ng-model="language.name">
+							<button class="annotatedInput-button btn btn--danger remove" data-ng-click="removeElement(adv.languages, $index)"><i class="fa fa-times-circle"></i></button>
 						</span>
-						<button class="btn btn--primary add" data-ng-click="addElement(adv.languages, {name:''})"><i class="fa fa-plus-circle"></i></button>
+						<button class="userView-addGroupButton btn btn--primary add" data-ng-click="addElement(adv.languages, {name:''})"><i class="fa fa-plus-circle"></i></button>
 					</span>
 				</span>
 			</p>
