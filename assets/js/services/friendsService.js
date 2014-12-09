@@ -386,6 +386,21 @@ define(["step", "whispeerHelper", "asset/observer", "asset/securedDataWithMetaDa
 			friendsService.reset();
 		});
 
+		socket.listen("notify.signedList", function (e, data) {
+			if (signedList.metaAttr("_signature") !== data._signature) {
+				var userService = $injector.get("ssn.userService");
+				var updatedSignedList = SecuredData.load(undefined, data, { type: "signedFriendList" });
+
+				step(function () {
+					updatedSignedList.verify(userService.getown().getSignKey(), this);
+				}, h.sF(function () {
+					signedList = updatedSignedList;
+				}), function (e) {
+					throw e;
+				});
+			}
+		});
+
 		return friendsService;
 	};
 

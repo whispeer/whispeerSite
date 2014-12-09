@@ -77,6 +77,14 @@ define(["step", "whispeerHelper", "crypto/trustManager", "crypto/signatureCache"
 			signatureCache.reset();
 		});
 
+		socketService.listen("notify.trustManager", function (e, data) {
+			trustManager.updateDatabase(data, function (e) {
+				if (e) {
+					throw e;
+				}
+			});
+		});
+
 		return {
 			hasKey: function (keyid) {
 				return trustManager.hasKeyData(keyid);
