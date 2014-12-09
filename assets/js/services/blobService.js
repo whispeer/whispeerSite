@@ -6,7 +6,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 
 	var knownBlobs = {};
 
-	var service = function (socketService, keyStore) {
+	var service = function ($rootScope, socketService, keyStore) {
 		var MyBlob = function (blobData, blobID, options) {
 			this._blobData = blobData;
 			options = options || {};
@@ -260,7 +260,9 @@ define(["step", "whispeerHelper"], function (step, h) {
 							knownBlobs[blobID] = new MyBlob(event.target.result, blobID);
 						}
 
-						success(null, knownBlobs[blobID]);
+						$rootScope.$apply(function () {
+							success(null, knownBlobs[blobID]);
+						});
 					} else {
 						err();
 					}
@@ -304,7 +306,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 		return api;
 	};
 
-	service.$inject = ["ssn.socketService", "ssn.keyStoreService"];
+	service.$inject = ["$rootScope", "ssn.socketService", "ssn.keyStoreService"];
 
 	return service;
 });
