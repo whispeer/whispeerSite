@@ -24,14 +24,14 @@
 					<span class="day" data-for="day" data-ng-if="!editGeneral">{{adv.birthday.day}}</span>
 					<span class="month" data-for="month" data-ng-if="!editGeneral" data-i18n="date.month.{{adv.birthday.month}}"></span>
 					<span class="year" data-for="year" data-ng-if="!editGeneral">{{adv.birthday.year}}</span>
-					<select class="day" data-for="day" data-ng-if="editGeneral" data-ng-model="adv.birthday.day" data-ng-options="day for day in days">
+					<select class="userview-info-bdaySelect" data-for="day" data-ng-if="editGeneral" data-ng-model="adv.birthday.day" data-ng-options="day for day in days">
 						<option value="" data-i18n="profile.section.general.birthday.day"></option>
 					</select>
-					<select class="month" data-for="month" data-ng-if="editGeneral" data-ng-model="adv.birthday.month">
+					<select class="userview-info-bdaySelect" data-for="month" data-ng-if="editGeneral" data-ng-model="adv.birthday.month">
 						<option value="" data-i18n="profile.section.general.birthday.month"></option>
 						<option data-ng-repeat="month in months" data-i18n="date.month.{{month}}" value="{{$index+1}}" data-ng-selected="$index+1 == adv.birthday.month"></option>
 					</select>
-					<select class="year" data-for="year" data-ng-if="editGeneral" data-ng-model="adv.birthday.year" data-ng-options="year for year in years">
+					<select class="userview-info-bdaySelect" data-for="year" data-ng-if="editGeneral" data-ng-model="adv.birthday.year" data-ng-options="year for year in years">
 						<option value="" data-i18n="profile.section.general.birthday.year"></option>
 					</select>
 				</span>
@@ -40,7 +40,7 @@
 				<i class="userView-infoIcon fa fa-home fa-fw"></i>
 				<span class="userView-infoText" data-i18n="profile.section.general.location.{{getLocationVals(adv.location)}}">
 					<span data-for="town" class="town" data-ng-if="!editGeneral">{{adv.location.town}}</span>
-					<input data-for="town" type="text" data-i18n-attr="profile.section.general.location.placeholders.city|placeholder" data-ng-model="adv.location.town" data-ng-if="editGeneral">
+					<input data-for="town" type="text" class="userView-info-inputs" data-i18n-attr="profile.section.general.location.placeholders.city|placeholder" data-ng-model="adv.location.town" data-ng-if="editGeneral">
 					<span data-for="country" class="country" data-ng-if="!editGeneral">{{adv.location.country}}</span>
 					<input data-for="country" type="text" data-i18n-attr="profile.section.general.location.placeholders.country|placeholder" data-ng-model="adv.location.country" data-ng-if="editGeneral">
 				</span>
@@ -75,10 +75,10 @@
 				<i class="userView-infoIcon fa fa-briefcase fa-fw"></i>
 				<span class="userView-infoText" data-i18n="profile.section.general.work.{{getWorkVals(adv.work)}}">
 					<span data-ng-if="!editGeneral" data-for="what">{{adv.work.what}}</span>
-					<input data-ng-if="editGeneral" data-i18n-attr="profile.section.general.work.placeholders.what|placeholder" data-for="what" data-ng-model="adv.work.what">
+					<input data-ng-if="editGeneral" class="userView-info-inputs" data-i18n-attr="profile.section.general.work.placeholders.what|placeholder" data-for="what" data-ng-model="adv.work.what">
 
 					<span data-ng-if="!editGeneral" data-for="where">{{adv.work.where}}</span>
-					<input data-ng-if="editGeneral" data-i18n-attr="profile.section.general.work.placeholders.where|placeholder" data-for="where" data-ng-model="adv.work.where">
+					<input data-ng-if="editGeneral" class="userView-info-inputs" data-i18n-attr="profile.section.general.work.placeholders.where|placeholder" data-for="where" data-ng-model="adv.work.where">
 				</span>
 			</p>
 			<p id="userView-gender" class="userView-infoRow" data-ng-if="set(adv.gender) || editGeneral">
