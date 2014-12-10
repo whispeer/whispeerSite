@@ -94,6 +94,22 @@
 				</div>
 				-->
 			</div>
+			<!-- !Footer -->
+			<footer class="footer" data-ng-if="!mobile">
+				<div class="footer-row">
+					<a href="version">v{{version}}</a>
+				</div>
+				<span class="footer-row">&copy; 2014 whispeer</span>
+				<div class="footer-row">
+					<a href="" data-i18n="window.title.data"></a>
+				</div>
+				<div class="footer-row">
+					<a href="" data-i18n="window.title.terms"></a>
+					<a href="mailto:support@whispeer.de" data-i18n="window.title.contact"></a>
+					<a href="http://blog.whispeer.de/de/impressum/" target="_blank" data-i18n="window.title.notice"></a>
+				</div>
+			</footer>
+			<!-- end !Footer -->
 			<!-- end !Userpanel -->
 			<!-- !Mobile Menu -->
 			<ul class="mobileMenu" data-ng-show="mobile">
@@ -176,18 +192,6 @@
 		<!-- end !Mobile Notifications -->
 	</div>
 	<!-- end !Main Container -->
-	<!-- !Footer -->
-	<footer class="fotter" data-ng-if="!mobile">
-		<div class="footer-left">&copy; 2014 whispeer</div>
-		<div class="footer-right">
-			<a href="version">v{{version}}</a>&nbsp;
-			<a href="" data-i18n="window.title.terms"></a>&nbsp;
-			<a href="" data-i18n="window.title.data"></a>&nbsp;
-			<a href="mailto:support@whispeer.de" data-i18n="window.title.contact"></a>&nbsp;
-			<a href="http://blog.whispeer.de/de/impressum/" target="_blank" data-i18n="window.title.notice"></a>
-		</div>
-	</footer>
-	<!-- end !Footer -->
 	<!-- !messageSound -->
 	<audio id="sound" preload="auto">
 		<source src="assets/data/newMessage.wav" type="audio/wave">
