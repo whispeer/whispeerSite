@@ -81,7 +81,7 @@ define(["step", "whispeerHelper", "asset/resizableImage", "asset/state", "libs/q
 			var moz=false;
 
 			step(function () {
-				if (window.MediaStreamTrack) {
+				if (window.MediaStreamTrack && window.MediaStreamTrack.getSources) {
 					window.MediaStreamTrack.getSources(this.ne);
 				} else {
 					this.ne();
