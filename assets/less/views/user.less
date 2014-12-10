@@ -122,20 +122,63 @@
 }
 .userView-userimage {
 	@media @mobile {
-		.column(1,4);
-		margin-top: 15px;
+		.column(12);
+		margin-top: 5px;
+		margin-bottom: 5px;
 	}
 	@media @desktop {
 		.column(1,8);
 		margin-top: 15px;
+		margin-bottom: 15px;
 	}
+}
+.userView-editImage {
+	width: 100%;
+	margin: 5px 0 0 0;
+}
+#userView-userimage-theImage {
+	@media @mobile {
+		height: 100px;
+		width: 100px;
+	}
+	margin: 0 auto;
+}
+.userView-userimage--editing {
+	.width(12);
+	position: relative;
+}
+#userView-uploadProfileImage {
+	@media @desktop {
+		width: 50%;
+	}
+	@media @mobile {
+		width: 80%;
+	}
+	margin: 0 auto 5px;
+}
+.userView-userimage-canvasWrapper {
+	display: block;
+	position: relative;
+	@media @desktop {
+		width: 600px;
+		max-width: 100%;
+		margin: 0 auto;
+	}
+	@media @mobile {
+		width: 100%;
+	}
+}
+#userView-userimage-original {
+	position: relative;
+	width: 600px;
+	max-width: 100%;
 }
 .userView-info {
 	@media @desktop {
 		.column(7,8);
 	}
 	@media @mobile {
-		.column(3,4);
+		.column(12);
 	}
 }
 .userView-commaSeperated{
@@ -191,6 +234,9 @@
 }
 .userView-info--edit .userView-infoText {
 	line-height: 40px;
+}
+#userView-saveInfo-button {
+	width: 100%;
 }
 .userView-actions {
 	border-top: 1px solid @btnBorder;

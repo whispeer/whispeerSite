@@ -239,7 +239,7 @@ define(["step", "whispeerHelper", "asset/resizableImage", "asset/state", "libs/q
 
 		$scope.imageChange = resizableImage.callBackForFileLoad(function () {
 			resizableImage.paintImageOnCanvasWithResizer({
-				element: document.getElementById("original"),
+				element: document.getElementById("userView-userimage-original"),
 				width: CANVASWIDTH,
 				height: CANVASHEIGHT
 			});
@@ -251,7 +251,7 @@ define(["step", "whispeerHelper", "asset/resizableImage", "asset/state", "libs/q
 
 			resizableImage.loadImage($scope.user.basic.image, function () {
 				resizableImage.paintImageOnCanvasWithResizer({
-					element: document.getElementById("original"),
+					element: document.getElementById("userView-userimage-original"),
 					width: CANVASWIDTH,
 					height: CANVASHEIGHT
 				});

@@ -8,14 +8,16 @@
 			</div>
 		</header>
 		<div class="userView-userimage" data-ng-class="{'userView-userimage--editing':changeImage, 'userView-userimage--bigger': mobile && editGeneral && !changeImage}">
-			<userimage data-user="user" data-ng-if="!changeImage" />
-			<span class="editImage btn btn--primary btn--input" data-ng-if="editGeneral && !changeImage" data-i18n="profile.section.general.changeImage" data-ng-click="doChangeImage()"></span>
-			<div class="uploadImageForm" data-ng-if="editGeneral && changeImage">
-				<span id="uploadButton" data-i18n="login.register.uploadImage"></span>
-				<input id="filesUpload" type="file" data-file="imageChange" width="4000">
+			<userimage id="userView-userimage-theImage" data-user="user" data-ng-if="!changeImage" />
+			<span class="userView-editImage btn btn--primary btn--input" data-ng-if="editGeneral && !changeImage" data-i18n="profile.section.general.changeImage" data-ng-click="doChangeImage()"></span>
+			<div class="uploadForm" id="userView-uploadProfileImage" data-ng-if="editGeneral && changeImage">
+				<span class="uploadForm-button btn btn--primary btn--input" data-i18n="login.register.uploadImage"></span>
+				<input class="uploadForm-theForm" type="file" data-file="imageChange" width="4000">
 			</div>
-			<canvas data-ng-if="changeImage" id="original"></canvas>
-			<div class="resizableWrapper" data-ng-show="!mobile"></div>
+			<div class="userView-userimage-canvasWrapper">
+				<canvas data-ng-if="changeImage" id="userView-userimage-original"></canvas>
+				<div class="resizableWrapper" data-ng-show="!mobile"></div>
+			</div>
 		</div>
 		<div class="userView-info" data-ng-class="{'userView-info--edit': editGeneral}" data-ng-init="adv=user.advanced">
 			<p id="userView-birthday" class="userView-infoRow" data-ng-if="set(adv.birthday) || editGeneral">
@@ -112,8 +114,8 @@
 					</span>
 				</span>
 			</p>
-			<p id="userView-saveInfo" data-ng-show="editGeneral">
-				<savebutton translation="settings.changes.save" data-state="saveUserState" data-ng-click="saveUser()"></savebutton>
+			<p class="userView-infoRow" id="userView-saveInfo" data-ng-show="editGeneral">
+				<savebutton id="userView-saveInfo-button" translation="settings.changes.save" data-state="saveUserState" data-ng-click="saveUser()"></savebutton>
 			</p>
 		</div>
 	</section>

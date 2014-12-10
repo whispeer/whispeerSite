@@ -105,3 +105,24 @@ button[disabled] {
 .annotatedInput-container--button .annotatedInput-input {
 	padding-right: @annotatedInputRight + @annotatedInputIconSize + 20px;
 }
+
+.uploadForm {
+	display: block;
+	position: relative;
+	height: 40px;
+}
+.uploadForm-button {
+	width: 100%;
+	z-index: 1;
+}
+.uploadForm-theForm {
+	position: absolute;
+	width: 100%;
+	background: red;
+	height: 40px;
+	top: 0;
+	left: 0;
+	z-index: 2;
+	opacity: 0;
+	cursor: pointer;
+}
