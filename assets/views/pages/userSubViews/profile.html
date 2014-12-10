@@ -60,15 +60,15 @@
 			</p>
 			<p id="userView-school" class="userView-infoRow" data-ng-if="set(adv.education) || editGeneral">
 				<i class="userView-infoIcon fa fa-book fa-fw"></i>
-				<span class="userView-infoText" data-i18n="profile.section.general.education.display">
-					<span data-ng-if="!editGeneral" data-for="school"><span class="userView-commaSeperated" data-ng-repeat="school in adv.education">{{school.name}}</span></span>
-					<span data-ng-if="editGeneral" data-for="school">
+				<span class="userView-infoText" data-i18n="profile.section.general.education.display"  data-ng-if="!editGeneral">
+					<span data-for="school"><span class="userView-commaSeperated" data-ng-repeat="school in adv.education">{{school.name}}</span></span>
+				</span>
+				<span class="userView-infoText" data-ng-if="editGeneral" data-for="school">
 						<span class="userView-info-group annotatedInput-container annotatedInput-container--button" data-ng-repeat="school in adv.education">
 							<input class="annotatedInput-input" type="text" data-i18n-attr="profile.section.general.education.edit|placeholder" data-ng-model="school.name">
 							<button class="btn btn--danger annotatedInput-button" data-ng-click="removeElement(adv.education, $index)"><i class="fa fa-times-circle"></i></button>
 						</span>
 						<button class="userView-addGroupButton btn btn--primary" data-ng-click="addElement(adv.education, {name: ''}, 3)"><i class="fa fa-plus-circle"></i></button>
-					</span>
 				</span>
 			</p>
 			<p id="userView-work" class="userView-infoRow" data-ng-if="set(adv.work) || editGeneral">
