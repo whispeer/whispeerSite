@@ -12,6 +12,8 @@ define(["step", "whispeerHelper", "asset/observer", "asset/securedDataWithMetaDa
 		})
 	*/
 
+	//we need locking here!
+
 	var service = function ($rootScope, $injector, socket, sessionService, keyStore, initService) {
 		var friends = [], requests = [], requested = [], ignored = [], removed = [], signedList, onlineFriends = {};
 		var friendsData = {
@@ -384,6 +386,21 @@ define(["step", "whispeerHelper", "asset/observer", "asset/securedDataWithMetaDa
 
 		$rootScope.$on("ssn.reset", function () {
 			friendsService.reset();
+		});
+
+		socket.listen("notify.signedList", function (e, data) {
+			if (signedList.metaAttr("_signature") !== data._signature) {
+				var userService = $injector.get("ssn.userService");
+				var updatedSignedList = SecuredData.load(undefined, data, { type: "signedFriendList" });
+
+				step(function () {
+					updatedSignedList.verify(userService.getown().getSignKey(), this);
+				}, h.sF(function () {
+					signedList = updatedSignedList;
+				}), function (e) {
+					throw e;
+				});
+			}
 		});
 
 		return friendsService;

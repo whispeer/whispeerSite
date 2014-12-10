@@ -237,7 +237,7 @@ define(["step", "whispeerHelper", "asset/state"], function (step, h, State) {
 		};
 
 		$scope.register = function doRegisterC() {
-			if ($scope.passwordStrength() === 0 || $scope.password !== $scope.password2 || !$scope.agb || $scope.empty($scope.nickname)) {
+			if ($scope.passwordStrength() === 0 || $scope.password !== $scope.password2 || !$scope.agb || !h.isNickname($scope.nickname)) {
 				$scope.registerFailed = true;
 				onlyErrors = false;
 				return;
