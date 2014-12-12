@@ -46,11 +46,13 @@ define(["step", "whispeerHelper"], function () {
 				scope.query = "";
 				scope.results = [];
 
+				scope.remainingWidth = 100;
+
 				/** open search element or not **/
 				var focused = false, clicked = false, initialized = false;
 
 				/* we need to build the input on our own to be able to add custom attributes */
-				var input = jQuery('<input type="text" class="search-query input-custom" data-ng-click="click(true, $event)"  data-ng-keydown="keydown($event)" data-ng-change="queryChange()" data-ng-model="query" data-onfocus="focus(true)" data-onblur="focus(false)">');
+				var input = jQuery('<input type="text" class="search-query input-custom" style="width: {{remainingWidth}}px" data-ng-click="click(true, $event)"  data-ng-keydown="keydown($event)" data-ng-change="queryChange()" data-ng-model="query" data-onfocus="focus(true)" data-onblur="focus(false)">');
 
 				/* add attributes on outer element starting with input- to the inner input */
 				var attr, attrName;
@@ -215,26 +217,27 @@ define(["step", "whispeerHelper"], function () {
 				scope.hiddenCount = 0;
 
 				function decreasePreviewCount() {
-					var INPUTWIDTH = 100;
+					var MININPUTWIDTH = 100;
 
-					var element = iElement.find(".inputWrap");
+					var element = iElement.find(".search-form");
 					var availableWidth = element.innerWidth();
 
 					var selectedWidth = 0;
-					element.find(".searchResult").each(function (i , e) {
+					element.find(".search-result").each(function (i , e) {
 						e = jQuery(e);
 						//e.show();
 						selectedWidth += e.outerWidth();
 						//e.hide();
 					});
-					var plusWidth = 0;//element.find(".selected").outerWidth();
 
-					var currentWidth = selectedWidth + plusWidth + INPUTWIDTH;
+					var currentWidth = selectedWidth + MININPUTWIDTH;
 
 					if (currentWidth > availableWidth) {
 						scope.previewCount = Math.max(0, scope.previewCount - 1);
 						$timeout(decreasePreviewCount);
 					}
+
+					scope.remainingWidth = availableWidth - currentWidth + MININPUTWIDTH;
 
 					scope.hiddenCount = Math.max(0, scope.selectedElements.length - scope.previewCount);
 				}
