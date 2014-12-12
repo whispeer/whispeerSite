@@ -11,7 +11,7 @@
 	}
 	#newcircle {
 		@media @mobile { .width(12,12,0); margin: 0; border: none; }
-		@media @desktop { .width(4,12,1%); margin: 0 1% 0 0; }
+		@media @desktop { .width(4,12,0); }
 	}
 	#removeCircle {
 		@media @desktop { .width(1); }
@@ -23,7 +23,7 @@
 	}
 	#circleListWrap {
 		@media @mobile { .width(12,12,0); margin: 0; }
-		@media @desktop { .column(4,12,left,1%); margin: 0 1% 0 0; border-right: 1px solid #ccc; }
+		@media @desktop { .column(4,12,left,0); border-right: 1px solid #ccc; }
 		&:extend(.box-fix);
 		height: ~"calc(100% - 31px)";
 	}
