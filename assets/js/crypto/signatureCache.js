@@ -12,11 +12,26 @@ define (["whispeerHelper", "step", "asset/observer", "asset/errors", "crypto/key
 		return keyStore.hash.hashObjectOrValueHex(data);
 	}
 
-	function cleanUpDatabase() {
-		var times = database.metaKeys().filter(function (key) {
+	function allHashes() {
+		return database.metaKeys().filter(function (key) {
 				return key.indexOf("hash::") === 0;
-		}).map(function (key) {
+		});
+	}
+
+	function cleanUpDatabase() {
+		var times = allHashes().map(function (key) {
 			return database.metaAttr(key);
+		});
+
+		times.sort(function (a, b) { return b - a; });
+
+		var border = times[200] + 200;
+
+		allHashes().forEach(function (key) {
+			if (database.metaAttr(key) < border) {
+				database.metaRemoveAttr(key);
+				changed = true;
+			}
 		});
 	}
 
@@ -56,6 +71,8 @@ define (["whispeerHelper", "step", "asset/observer", "asset/errors", "crypto/key
 					} else {
 						givenDatabase.metaSetAttr(key, new Date().getTime());
 					}
+
+					changed = true;
 				});
 
 				this.ne();
@@ -82,7 +99,12 @@ define (["whispeerHelper", "step", "asset/observer", "asset/errors", "crypto/key
 			if (database.metaHasAttr(sHash)) {
 				var data = database.metaAttr(sHash);
 
+				changed = true;
 				database.metaSetAttr(sHash, new Date().getTime());
+
+				if (database.metaKeys().length > 500) {
+					cleanUpDatabase();
+				}
 
 				return (data !== false);
 			} else {
@@ -104,7 +126,7 @@ define (["whispeerHelper", "step", "asset/observer", "asset/errors", "crypto/key
 
 			database.metaSetAttr(sHash, new Date().getTime());
 
-			if (database.metaKeys.length > 500) {
+			if (database.metaKeys().length > 500) {
 				cleanUpDatabase();
 			}
 		},
