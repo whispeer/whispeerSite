@@ -13,8 +13,6 @@
 	</header>
 	<div class="posts" id="newsfeedView-posts">
 		<post data-ng-repeat="post in posts" data-post="post" id="{{post.id}}"></post>
-		<article class="inviteFriends" data-ng-if="posts.length <= 3">
-			<a class="btn btn--primary btn--large" href="/invite" data-i18n="inviteFriends"></a>
-		</article>
+		<a data-ng-if="posts.length <= 3" class="btn btn--primary btn--large inviteFriends-link" id="newsfeedView-inviteFriends" href="/invite" data-i18n="inviteFriends"></a>
 	</div>
 </div>
