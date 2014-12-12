@@ -3,7 +3,7 @@
 		<ul class="search-wrapper">
 			<li data-ng-repeat="element in selectedElements" class="search-result btn btn--primary btn--noRadius" data-ng-if="$index<previewCount">
 				<span class="search-result-name">{{element.name}}</span>
-				<a href="" class="search-result-remove" data-ng-click="removeSelection($index, $event)"><i class="fa fa-close"></i></a>
+				<i class="search-result-remove fa fa-times-circle" data-ng-click="removeSelection($index, $event)"></i>
 			</li>
 			<li class="search-result btn btn--primary btn--noRadius" data-ng-if="multiple && hiddenCount > 0" data-ng-click="toggleShowSelectedElements(true, $event)">
 				<span class="search-result-name">+{{hiddenCount}}</span>
