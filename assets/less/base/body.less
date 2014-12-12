@@ -95,8 +95,10 @@ noscript {
 	@media @desktop {
 		.column(2);
 		position: fixed;
-		top: 65px;
+		top: 50px;
 		left: 0;
+		overflow-y: auto;
+		overflow-x: hidden;
 	}
 
 	@media @mobile {
@@ -157,11 +159,10 @@ textarea {
 }
 
 .footer {
-	float: left;
 	width: 100%;
-	margin: 0 0 0;
+	margin: 0 0 55px 0;
 	padding: 5px 5px 0px 5px;
-	.box-fix;
+	&:extend(.box-fix);
 	color: #3d9404;
 	a {
 		color: #3d9404;
