@@ -222,22 +222,22 @@ define(["step", "whispeerHelper"], function () {
 					var element = iElement.find(".search-form");
 					var availableWidth = element.innerWidth();
 
-					var selectedWidth = 0;
+					var selectedWidth = 0, found = false;
 					element.find(".search-result").each(function (i , e) {
-						e = jQuery(e);
-						//e.show();
-						selectedWidth += e.outerWidth();
-						//e.hide();
+						if (!found) {
+							var elementWidth = jQuery(e).outerWidth();
+							var takenWidth = selectedWidth + elementWidth + MININPUTWIDTH;
+
+							if (takenWidth > availableWidth) {
+								scope.previewCount = Math.max(0, i);
+								found = true;
+							} else {
+								selectedWidth += elementWidth;
+							}
+						}
 					});
 
-					var currentWidth = selectedWidth + MININPUTWIDTH;
-
-					if (currentWidth > availableWidth) {
-						scope.previewCount = Math.max(0, scope.previewCount - 1);
-						$timeout(decreasePreviewCount);
-					}
-
-					scope.remainingWidth = availableWidth - currentWidth + MININPUTWIDTH;
+					scope.remainingWidth = availableWidth - selectedWidth;
 
 					scope.hiddenCount = Math.max(0, scope.selectedElements.length - scope.previewCount);
 				}
