@@ -217,7 +217,7 @@ define(["step", "whispeerHelper"], function () {
 				scope.hiddenCount = 0;
 
 				function updatePreviewCount() {
-					var PLUSWIDTH = 50;
+					var PLUSWIDTH = 55;
 
 					scope.previewCount = scope.selectedElements.length;
 
