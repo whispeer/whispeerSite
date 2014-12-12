@@ -17,7 +17,7 @@
 	padding-top: 10px;
 	text-align: center;
 	z-index: 1000;
-	.border-radiuses(2px,0,0,2px);
+	border-radius: 4px 0 0 4px;
 }
 #newsfeedView-postForm {
 	@media @desktop {
@@ -29,7 +29,7 @@
 	margin: 0 1% 0 0;
 	padding: 0;
 	border: 1px solid #aaa;
-	.border-radius(5px);
+	border-radius: 4px;
 	&:extend(.box-fix);
 }
 #newsfeedView-receivers {
@@ -39,14 +39,14 @@
 	&:extend(.box-fix);
 }
 #newsfeedView-receivers .search-wrapper {
-	border-radius: 0 0 4px 0;
+	border-radius: 0 0 0 3px;
 }
 #newsfeedView-sendPost {
 	.column(2.5,8,right,0);
 
 	border: none;
 	border-top: 1px solid #aaa;
-	border-radius: 0 0 4px 0; // this border has to be smaller for some reason.
+	border-radius: 0 0 3px 0; // this border has to be smaller for some reason.
 }
 #newsfeedView-shareText {
 	.column(8,8,left,0);
