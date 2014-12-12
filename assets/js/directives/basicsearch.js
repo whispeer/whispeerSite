@@ -217,7 +217,6 @@ define(["step", "whispeerHelper"], function () {
 				scope.hiddenCount = 0;
 
 				function updatePreviewCount() {
-					var MININPUTWIDTH = 100;
 					var PLUSWIDTH = 50;
 
 					scope.previewCount = scope.selectedElements.length;
@@ -225,6 +224,8 @@ define(["step", "whispeerHelper"], function () {
 					var element = iElement.find(".search-form");
 
 					var availableWidth = element.innerWidth();
+
+					var MININPUTWIDTH = ((availableWidth * 0.4) > 100) ? (availableWidth * 0.4) : 100;
 
 					var selectedWidth = 0, found = false;
 					element.find(".search-result").slice(0, -1).each(function (i , e) {
