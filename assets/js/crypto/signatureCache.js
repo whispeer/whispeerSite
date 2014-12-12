@@ -12,6 +12,14 @@ define (["whispeerHelper", "step", "asset/observer", "asset/errors", "crypto/key
 		return keyStore.hash.hashObjectOrValueHex(data);
 	}
 
+	function cleanUpDatabase() {
+		var times = database.metaKeys().filter(function (key) {
+				return key.indexOf("hash::") === 0;
+		}).map(function (key) {
+			return database.metaAttr(key);
+		});
+	}
+
 	var signatureCache = {
 		isLoaded: function () {
 			return loaded;
@@ -95,6 +103,10 @@ define (["whispeerHelper", "step", "asset/observer", "asset/errors", "crypto/key
 			var sHash = dataSetToHash(signature, hash, key);
 
 			database.metaSetAttr(sHash, new Date().getTime());
+
+			if (database.metaKeys.length > 500) {
+				cleanUpDatabase();
+			}
 		},
 		reset: function () {
 			loaded = false;
