@@ -23,42 +23,36 @@
 
 	display: inline-block;
 	box-sizing: border-box;
+}
+.person-userimage {
+	.column(4);
+	float: left;
+	margin-right: 1%;
+	max-width: 80px;
+}
+.person-username, .person-similar, .person-action {
+	.column(8,12,left,6);
+	margin: 0 1% 0 5%;
+}
+.person-status {
+	margin-right: 4px;
+}
+.person-username {
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+.person-similar {
+	.detail-text();
+	margin-top: 5px;
+}
+.person-action {
+	margin-top: 5px;
+	display: inline-block;
+}
 
-	img {
-		max-width: 80px;
-	}
-	.clickable {
-		cursor: pointer;
-	}
-	.userimage-wrap {
-		.column(4);
-		float: left;
-		margin-right: 1%;
-	}
-	.username, .similar, .action {
-		.status {
-			margin-right: 4px;
-		}
-		.column(8,12,left,6);
-		margin: 0 1% 0 5%;
-	}
-	.username {
-		overflow: hidden;
-		white-space: nowrap;
-		text-overflow: ellipsis;
-	}
-	.similar {
-		.detail-text();
-		margin-top: 5px;
-	}
-	.action {
-		margin-top: 5px;
-		display: inline-block;
-	}
-
-	@media @desktop {
-		i.fa {
-			font-size: 1.5em;
-		}
+@media @desktop {
+	.person i.fa {
+		font-size: 1.5em;
 	}
 }

@@ -44,10 +44,10 @@
 	<div id="circleWrap">
 		<ol id="friendsList" class="u-unstyled">
 			<li data-ng-repeat="friend in thisCircle.persons">
-				<friend data-user="friend" data-type="friend">
+				<person data-user="friend" data-type="friend">
 					<a href="/messages?userid={{friend.id}}"><i class="fa fa-2x fa-envelope fa-fw"></i></a>
 					<a data-ng-click="$parent.removeUser(friend)"><i class="clickable fa fa-2x fa-times fa-fw"></i></a>
-				</friend>
+				</person>
 			</li>
 		</ol>
 	</div>

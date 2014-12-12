@@ -144,7 +144,7 @@
 	<header class="box-header box-header--content"><span class="box-header-title" data-i18n="profile.section.friends.info"></header>
 	<ol id="userView-friendsList" class="unstyled">
 		<li class="userView-friendElement" data-ng-repeat="friend in friends">
-			<friend data-user="friend"></friend>
+			<person data-user="friend"></person>
 		</li>
 		<li class="inviteFriends" id="userView-inviteFriends" data-ng-if="friends.length < 50 && user.me">
 			<a class="inviteFriends-link btn btn--primary btn--large" id="userView-inviteFriends-link" href="/invite" data-i18n="inviteFriends"></a>

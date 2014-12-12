@@ -25,10 +25,10 @@
 		<span class="friendsView-title" data-i18n="friends.title"></span>
 		<ol id="friendsView-friendsList" class="unstyled">
 			<li class="friendsView-friend" data-ng-repeat="friend in friends">
-				<friend data-user="friend" data-type="friend">
+				<person data-user="friend" data-type="friend">
 					<a href="/messages?userid={{friend.id}}"><i class="fa fa-2x fa-envelope fa-fw"></i></a>
 					<a data-ng-click="$parent.removeFriend(friend)"><i class="clickable fa fa-2x fa-times fa-fw"></i></a>
-				</friend>
+				</person>
 			</li>
 			<li class="friendsView-friend inviteFriends" data-ng-if="friends.length < 50">
 				<a class="inviteFriends-link btn btn--primary" href="/invite" data-i18n="inviteFriends"></a>
