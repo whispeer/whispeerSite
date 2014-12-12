@@ -255,6 +255,8 @@ define(["step", "whispeerHelper"], function () {
 					scope.hiddenCount = Math.max(0, scope.selectedElements.length - scope.previewCount);
 					scope.remainingWidth = availableWidth - selectedWidth - (scope.hiddenCount > 0 ? PLUSWIDTH : 0);
 				}
+				 /* this has to run once since the input width would not be set for searches without selected elements */
+				updatePreviewCount();
 
 				function selectionUpdated(selection) {
 					if (scope.multiple) {
