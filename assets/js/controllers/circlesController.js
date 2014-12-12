@@ -99,6 +99,10 @@ define(["whispeerHelper"], function (h) {
 			});
 			$scope.thisCircle = circleService.get(id).data;
 		};
+
+		$scope.isActiveCircle = function (id) {
+			return $scope.circleid === id;
+		};
 	}
 
 	circlesController.$inject = ["$scope", "ssn.cssService", "ssn.circleService", "ssn.errorService", "localize"];
