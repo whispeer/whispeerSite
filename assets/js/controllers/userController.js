@@ -464,6 +464,7 @@ define(["step", "whispeerHelper", "asset/resizableImage", "asset/state", "libs/q
 			user.loadFullData(this);
 		}), h.sF(function () {
 			$scope.user = userObject.data;
+			$scope.adv = $scope.user.advanced;
 
 			$scope.loading = false;
 			userObject.getFriends(this);
