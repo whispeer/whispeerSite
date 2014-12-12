@@ -82,7 +82,6 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer", "ass
 					this.parallel.unflatten();
 					thePost.getSender(this.parallel());
 					thePost.getWallUser(this.parallel());
-					loadComments(this.parallel());
 				}, h.sF(function (sender, walluser) {
 					var d = thePost.data;
 
@@ -103,6 +102,8 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer", "ass
 					d.content = {
 						text: text
 					};
+
+					loadComments(errorService.criticalError);
 
 					this.ne();
 				}), cb);
@@ -265,7 +266,8 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer", "ass
 
 					socket.emit("posts.getTimeline", {
 						afterID: afterID,
-						filter: finalFilter
+						filter: finalFilter,
+						count: 5
 					}, this);
 				}), h.sF(function (results) {
 					var thePost, i, posts = results.posts || [];
@@ -282,7 +284,7 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer", "ass
 
 					registerNewPosts(finalFilter);
 
-					this.parallel()();
+					this.ne();
 				}), h.sF(function () {
 					this.ne(result);
 				}), cb);
