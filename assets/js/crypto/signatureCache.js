@@ -39,6 +39,19 @@ define (["whispeerHelper", "step", "asset/observer", "asset/errors", "crypto/key
 					throw new errors.SecurityError("not my signature cache");
 				}
 			}, h.sF(function () {
+				//migrate database here before really loading it if necessary
+				givenDatabase.metaKeys().filter(function (key) {
+					return key.indexOf("hash::") === 0 && typeof givenDatabase.metaAttr(key) === "boolean";
+				}).forEach(function (key) {
+					if (givenDatabase.metaAttr(key) === false) {
+						givenDatabase.metaRemoveAttr(key);
+					} else {
+						givenDatabase.metaSetAttr(key, new Date().getTime());
+					}
+				});
+
+				this.ne();
+			}), h.sF(function () {
 				signKey = ownKey;
 				database = givenDatabase;
 				loaded = true;
@@ -50,7 +63,7 @@ define (["whispeerHelper", "step", "asset/observer", "asset/errors", "crypto/key
 		},
 		isSignatureInCache: function (signature, hash, key) {
 			var sHash = dataSetToHash(signature, hash, key);
-			if (database.metaHasAttr(sHash) && database.metaAttr(sHash) !== false) {
+			if (database.metaHasAttr(sHash)) {
 				return true;
 			}
 
@@ -60,6 +73,8 @@ define (["whispeerHelper", "step", "asset/observer", "asset/errors", "crypto/key
 			var sHash = dataSetToHash(signature, hash, key);
 			if (database.metaHasAttr(sHash)) {
 				var data = database.metaAttr(sHash);
+
+				database.metaSetAttr(sHash, new Date().getTime());
 
 				return (data !== false);
 			} else {
@@ -79,7 +94,7 @@ define (["whispeerHelper", "step", "asset/observer", "asset/errors", "crypto/key
 
 			var sHash = dataSetToHash(signature, hash, key);
 
-			database.metaSetAttr(sHash, valid);
+			database.metaSetAttr(sHash, new Date().getTime());
 		},
 		reset: function () {
 			loaded = false;
