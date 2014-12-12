@@ -4,8 +4,8 @@
 			<li data-ng-repeat="element in selectedElements" class="search-result btn btn--primary btn--noRadius" data-ng-show="$index<previewCount">
 				<span class="search-result-name">{{element.name}}</span>
 				<i class="search-result-remove fa fa-times-circle" data-ng-click="removeSelection($index, $event)"></i>
-			</li>
-			<li class="search-result search-result--hiddenCount btn btn--primary btn--noRadius" data-ng-show="multiple && hiddenCount > 0" data-ng-click="toggleShowSelectedElements(true, $event)">
+			</li><!--
+			--><li class="search-result search-result--hiddenCount btn btn--primary btn--noRadius" data-ng-show="multiple && hiddenCount > 0" data-ng-click="toggleShowSelectedElements(true, $event)">
 				<span class="search-result-name">+{{hiddenCount}}</span>
 			</li>
 			<li class="search-input">
