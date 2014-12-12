@@ -216,17 +216,27 @@ define(["step", "whispeerHelper"], function () {
 				scope.previewCount = 0;
 				scope.hiddenCount = 0;
 
-				function decreasePreviewCount() {
+				function updatePreviewCount() {
 					var MININPUTWIDTH = 100;
+					var PLUSWIDTH = 50;
+
+					scope.previewCount = scope.selectedElements.length;
 
 					var element = iElement.find(".search-form");
+
 					var availableWidth = element.innerWidth();
 
 					var selectedWidth = 0, found = false;
-					element.find(".search-result").each(function (i , e) {
+					element.find(".search-result").slice(0, -1).each(function (i , e) {
 						if (!found) {
-							var elementWidth = jQuery(e).outerWidth();
-							var takenWidth = selectedWidth + elementWidth + MININPUTWIDTH;
+							e = jQuery(e);
+
+							var wasHidden = e.hasClass("ng-hide");
+
+							e.removeClass("ng-hide");
+
+							var elementWidth = e.outerWidth();
+							var takenWidth = selectedWidth + elementWidth + MININPUTWIDTH + PLUSWIDTH;
 
 							if (takenWidth > availableWidth) {
 								scope.previewCount = Math.max(0, i);
@@ -234,18 +244,15 @@ define(["step", "whispeerHelper"], function () {
 							} else {
 								selectedWidth += elementWidth;
 							}
+
+							if (wasHidden) {
+								e.addClass("ng-hide");
+							}
 						}
 					});
 
-					scope.remainingWidth = availableWidth - selectedWidth;
-
 					scope.hiddenCount = Math.max(0, scope.selectedElements.length - scope.previewCount);
-				}
-
-				function updatePreviewCount() {
-					scope.previewCount = scope.selectedElements.length;
-
-					$timeout(decreasePreviewCount);
+					scope.remainingWidth = availableWidth - selectedWidth - (scope.hiddenCount > 0 ? PLUSWIDTH : 0);
 				}
 
 				function selectionUpdated(selection) {
@@ -261,7 +268,7 @@ define(["step", "whispeerHelper"], function () {
 
 						scope.results = filterRealResults();
 
-						updatePreviewCount();
+						$timeout(updatePreviewCount);
 					}
 
 					if (selection) {
