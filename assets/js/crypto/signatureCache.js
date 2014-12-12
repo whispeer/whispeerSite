@@ -50,7 +50,7 @@ define (["whispeerHelper", "step", "asset/observer", "asset/errors", "crypto/key
 		},
 		isSignatureInCache: function (signature, hash, key) {
 			var sHash = dataSetToHash(signature, hash, key);
-			if (database.metaHasAttr(sHash) && database.metaAttr(sHash) === true) {
+			if (database.metaHasAttr(sHash) && database.metaAttr(sHash) !== false) {
 				return true;
 			}
 
@@ -61,7 +61,7 @@ define (["whispeerHelper", "step", "asset/observer", "asset/errors", "crypto/key
 			if (database.metaHasAttr(sHash)) {
 				var data = database.metaAttr(sHash);
 
-				return (data === true);
+				return (data !== false);
 			} else {
 				throw new Error("tried to get signature status but not in cache!");
 			}
