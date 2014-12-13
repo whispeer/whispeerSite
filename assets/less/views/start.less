@@ -14,7 +14,12 @@
 	}
 
 	body {
-		padding-top: 50px;
+		@media @desktop {
+			padding-top: 50px;
+		}
+		@media @mobile {
+			padding-top: 0;
+		}
 	}
 
 	#topNav {
@@ -211,8 +216,12 @@
 				margin-bottom: 20px;
 				color: @primary;
 			}
-
-			input:not([type="submit"]):not([type="reset"]):not([type="button"]):not([type="file"]):not([type="radio"]):not([type="checkbox"]),
+			input:not([type="submit"])
+			:not([type="reset"])
+			:not([type="button"])
+			:not([type="file"])
+			:not([type="radio"])
+			:not([type="checkbox"]),
 			.annotatedInput-container {
 				width: 300px;
 				height: 48px;
@@ -257,13 +266,17 @@
 		}
 
 		@media @mobile {
-			padding-bottom: 50px;
+			.registerWrap {
+				background: @primaryLighter;
+			}
 			.registerForm p {
 				color: @white;
 				padding: 0 29px;
 				text-align: justify;
 			}
 			.inputWrap {
+				width: ~"calc(100% - 58px)";
+				margin: 0 29px;
 				.nickname {
 					border-radius: 5px 5px 0 0;
 				}
@@ -304,8 +317,8 @@
 				border-radius: 5px 5px 0 0;
 			}
 			#sendInviteRequest {
-				width: ~"calc(100% - 58px)";
-				margin: 0 29px;
+				width: 100%;
+				margin: 0 0 20px 0;
 				padding: 9px;
 				border-radius: 0 0 5px 5px;
 				border: solid 1px darken(#ffffff, 45%);
