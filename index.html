@@ -1,5 +1,5 @@
 <!doctype html>
-<html class="no-js" lang="de" data-ng-csp class="loading" data-ng-class="cssClass" data-ng-controller="ssn.rootController">
+<html class="no-js loading" lang="de" data-ng-csp class="loading" data-ng-class="cssClass" data-ng-controller="ssn.rootController">
 <head>
 	<base href="/" />
 	<meta charset="utf-8">
@@ -27,7 +27,14 @@
 </head>
 <body>
 	<!--[if lte IE 8]><p class=chromeframe>Your browser is <em>ancient!</em> <a href="http://browsehappy.com/">Upgrade to a different browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to experience this site.</p><![endif]-->
-	<noscript>Hallo! Leider steht uns bei deinem Browser kein Javascript zur Verfügung!<br> Daher ist es nicht möglich whispeer zu nutzen, da wir unbedingt Javascript benötigen!<br> Vielen Dank für dein Verständnis!</noscript>
+	<noscript class="no-script">
+		<span>
+			<p><i class="fa fa-frown-o fa-3x fa-fw"></i></p>
+			<p>Hallo! Leider steht uns bei deinem Browser kein Javascript zur Verfügung!</p>
+			<p>Daher ist es nicht möglich whispeer zu nutzen, da wir unbedingt Javascript benötigen!</p>
+			<p>Vielen Dank für dein Verständnis!</p>
+		</span>
+	</noscript>
 	<!-- !Top Bar -->
 	<nav class="header" data-ng-if="!mobile || loggedin" data-ng-cloak data-ng-class="{'header-push': (mobile && sidebarActive && !searchActive)}">
 		<div class="header-inner">
