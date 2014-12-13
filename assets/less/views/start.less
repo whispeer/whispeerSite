@@ -251,6 +251,7 @@
 			}
 
 			.registerAGB {
+				display: inline-block;
 				padding-left: 46px;
 				padding-right: 28px;
 				text-align: left;
@@ -287,11 +288,13 @@
 					border-bottom: solid 1px darken(#ffffff, 45%);
 				}
 				.registerAGB {
+					display: inline-block;
 					background: @white;
-					 .box-shadow(inset 0px 0px 5px #ccc);
-					width: ~"calc(100% - 60px)";
-					margin: 0 30px;
-					padding: 5px;
+					box-shadow: inset 0px 0px 5px #ccc;
+					width: 100%;
+					height: 40px;
+					line-height: 40px;
+					padding: 0 5px;
 					.box-fix;
 				}
 			}
