@@ -358,29 +358,30 @@
 .userView-keyPart {
 	@media @mobile {
 		.column(1,2,left,1);
-		input {
-			border-bottom: none;
-		}
-		&:nth-child(odd) {
+		&:nth-of-type(odd) {
 			margin: 0 0 0 1%;
 		}
-		&:nth-child(even) {
+		&:nth-of-type(even) {
 			margin: 0 1% 0 0;
+			.userView-keyPart-input {
+				border-left: none;
+			}
 		}
 		&:first-child,
-		&:nth-child(2) {
-			input {
+		&:nth-of-type(2) {
+			.userView-keyPart-input {
 				margin-top: 5px;
+				border-bottom: none;
 			}
 		}
 		&:first-child {
-			input {
-				border-radius: 5px 0 0 0;
+			.userView-keyPart-input {
+				border-radius: @inputBorderRadius 0 0 0;
 			}
 		}
-		&:nth-child(2) {
-			input {
-				border-radius: 0 5px 0 0;
+		&:nth-of-type(2) {
+			.userView-keyPart-input {
+				border-radius: 0 @inputBorderRadius 0 0;
 			}
 		}
 	}
