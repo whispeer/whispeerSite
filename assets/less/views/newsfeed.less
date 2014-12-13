@@ -22,6 +22,7 @@
 #newsfeedView-postForm {
 	@media @desktop {
 		.column(8,12,left,1%);
+		margin: 0 1% 0 0;
 	}
 	@media @mobile {
 		.column(12);
@@ -71,7 +72,12 @@
 	.column(12);
 }
 #newsfeedView-filter-title {
-	.column(12);
+	@media @mobile {
+		.column(12);
+	}
+	@media @desktop {
+		.column(12,12,left,0);
+	}
 	&:hover {
 		background: @btnBackground;
 		cursor: default;
@@ -82,7 +88,12 @@
 	border-bottom: none;
 }
 #newsfeedView-theFilter {
-	.column(12,12);
+	@media @mobile {
+		.column(12);
+	}
+	@media @desktop {
+		.column(12,12,left,0);
+	}
 	margin-top: 0;
 	height: 42px;
 }
@@ -97,9 +108,9 @@
 	.column(12,12,left,0);
 }
 #newsfeedView-inviteFriends {
-	width: 98%;
+	width: 100%;
 	text-align: center;
-	margin: 10px 1% 0;
+	margin: 10px 0 0;
 	a {
 		.large-text();
 		width: 100%;
