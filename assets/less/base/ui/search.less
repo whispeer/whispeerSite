@@ -22,7 +22,7 @@
 	// the search is supposed to look like a normal input
 	border: solid 1px @inputBorder;
 	border-radius: @inputBorderRadius;
-	.box-shadow(inset 0px 0px 4px @inputBorder);
+	box-shadow: inset 0px 0px 4px @inputBorder;
 
 	background: @white;
 
@@ -70,7 +70,7 @@
 	overflow: hidden;
 
 	background-color: @white;
-	border: 1px solid #8c8c8c;
+	border: 1px solid @btnBorder;
 	border-radius: @inputBorderRadius;
 
 	&:extend(.box-fix);
@@ -85,6 +85,8 @@
 	overflow-y: scroll;
 	overflow-x: hidden;
 	-webkit-overflow-scrolling: touch;
+
+	border-radius: @inputBorderRadius;
 
 	display: inline-block;
 }

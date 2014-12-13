@@ -3,8 +3,8 @@
 	display: block;
 	float: left;
 	.gradient(@btnBackground, @btnBackgroundHover);
-	border: 1px solid @grayLight;
-	.border-radius(5px);
+	border: 1px solid @btnBorder;
+	border-radius: @inputBorderRadius;
 	z-index: 10000;
 	margin-top: 6px;
 	overflow: visible;
@@ -18,7 +18,7 @@
 		position: absolute;
 		top: -5px;
 		left: 13px;
-		border: 5px solid @grayLight;
+		border: 5px solid @btnBorder;
 		border-top: none;
 		border-left-color: transparent;
 		border-right-color: transparent;
@@ -40,7 +40,7 @@
 }
 .dropdown-header {
 	float: left;
-	border-bottom: 1px solid @grayLight;
+	border-bottom: 1px solid @btnBorder;
 	width: 100%;
 	height: 40px;
 	&:extend(.box-fix);
