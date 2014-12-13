@@ -43,6 +43,7 @@
 	}
 	.circleList-item {
 		width: 100%;
+		height: 89px;
 		border: none;
 		border-bottom: 1px solid #ccc;
 		padding: 0;
@@ -52,12 +53,15 @@
 	.circleList-item-image {
 		@media @mobile { .column(2); }
 		@media @desktop { .column(2,11); }
-		height: 89px;
-		padding: 5px 0 0 0;
+		padding: 6px 0 0 0;
+		max-height: 76px;
+		max-width: 76px;
 		.userimg {
 			border-radius: 100%;
 			padding: 0;
 			width: 100%;
+			max-width: 77px;
+			max-height: 77px;
 		}
 	}
 	.circleList-item-info {
