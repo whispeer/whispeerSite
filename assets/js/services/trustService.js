@@ -22,7 +22,7 @@ define(["step", "whispeerHelper", "crypto/trustManager", "crypto/signatureCache"
 				}
 			}), errorService.criticalError);
 		}
-		window.setInterval(uploadSignatureCache, 5000);
+		window.setInterval(uploadSignatureCache, 10000);
 
 		function uploadDatabase(cb) {
 			step(function () {
