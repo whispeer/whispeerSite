@@ -8,7 +8,7 @@
 				<button class="userView-verifyMethodButton btn btn--big btn--primary" data-ng-click="verifyWithCode()" data-i18n="profile.trustmanager.verifyWithCode|user={{user.basic.shortname}}"></button>
 				<button class="userView-verifyMethodButton btn btn--big btn--primary" data-ng-disabled="!qr.available" data-ng-click="verifyWithQrCode()" data-i18n="profile.trustmanager.verifyWithQr|user={{user.basic.shortname}}"></button>
 			</div>
-			<button class="btn btn--primary btn--big back" data-ng-if="qr.available && (verifyCode || qr.view)" data-i18n="profile.trustmanager.back" data-ng-click="resetVerifcationMethod()"></button>
+			<button class="btn btn--primary btn--big userView-verify-back" data-ng-if="qr.available && (verifyCode || qr.view)" data-i18n="profile.trustmanager.back" data-ng-click="resetVerifcationMethod()"></button>
 			<div class="verify userView-subSection" data-ng-if="verifyCode">
 				<span class="userVew-introText" data-syntaxify data-i18n="profile.trustmanager.verifyInfo.code|user={{user.basic.shortname}}"></span>
 				<div class="userView-keyInputWrap">
