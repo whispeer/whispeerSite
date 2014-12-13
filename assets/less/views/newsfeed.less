@@ -29,14 +29,14 @@
 	}
 	margin: 0 1% 0 0;
 	padding: 0;
-	border: 1px solid #aaa;
+	border: 1px solid @btnBorder;
 	border-radius: 4px;
 	&:extend(.box-fix);
 }
 #newsfeedView-receivers {
 	.column(5.5,8,left,0);
 
-	border-top: 1px solid #aaa;
+	border-top: 1px solid @btnBorder;
 	&:extend(.box-fix);
 }
 #newsfeedView-receivers .search-wrapper {
@@ -46,7 +46,7 @@
 	.column(2.5,8,right,0);
 
 	border: none;
-	border-top: 1px solid #aaa;
+	border-top: 1px solid @btnBorder;
 	border-radius: 0 0 3px 0; // this border has to be smaller for some reason.
 }
 #newsfeedView-shareText {
@@ -54,7 +54,7 @@
 	height: 40px;
 	margin-top: -1px;
 	border: none;
-	border-top: 1px solid #aaa;
+	border-top: 1px solid @btnBorder;
 	.border-radiuses(5px,0,0,5px);
 }
 #newsfeedView-filter {
