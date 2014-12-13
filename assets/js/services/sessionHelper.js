@@ -38,7 +38,7 @@ define(["step", "whispeerHelper", "crypto/trustManager", "asset/securedDataWithM
 						this.last({ unknownName: true });
 					} else {
 						if (data.salt.length !== 16) {
-							throw new SecurityError("server wut?")
+							throw new SecurityError("server wut?");
 						}
 
 						var hash = keyStoreService.hash.hashPW(password, data.salt);
