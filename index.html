@@ -90,7 +90,7 @@
 				-->
 			</div>
 			<!-- !Footer -->
-			<footer class="footer" data-ng-if="!mobile">
+			<footer class="footer" data-ng-class="{'footer--show': !mobile && cssClass != 'startView'}">
 				<div class="footer-row">
 					<a href="version">v{{version}}</a>
 				</div>
@@ -183,7 +183,7 @@
 	</div>
 	<!-- end !Main Container -->
 	<!-- !StartViewFooter -->
-	<footer class="footer spacious" data-ng-if="!mobile && cssClass == 'startView'">
+	<footer class="footer spacious" data-ng-class="{'footer--show': !mobile && cssClass == 'startView'}">
 		<div class="left">&copy; 2014 whispeer</div>
 		<div class="right">
 			<a href="version">v{{version}}</a>
