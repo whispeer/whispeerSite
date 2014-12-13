@@ -204,8 +204,8 @@
 		"help": "Help",
 		"logout": "Logout",
 		"search": "Search...",
-		"legal":	"Legal",
-		"notifications":	"Mitteilungen ({count})"
+		"legal":	"Legal information",
+		"notifications":	"Notifications ({count})"
 	},
 	"login": {
 		"forgotName": "Forgot username",

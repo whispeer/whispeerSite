@@ -204,7 +204,7 @@
 		"help": "Hilfe",
 		"logout": "Logout",
 		"search": "Suchen...",
-		"legal":	"Rechtliches",
+		"legal":	"Rechtliche Informationen",
 		"notifications":	"Mitteilungen ({count})"
 	},
 	"login": {
