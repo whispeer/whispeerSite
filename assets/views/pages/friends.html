@@ -6,10 +6,10 @@
 		<span class="friendsView-title" data-i18n="magicbar.requests.title"></span>
 		<ul class="unstyled" id="requestsList">
 			<li class="friendsView-friend friendsView-request" data-ng-repeat="user in requests">
-				<friend data-user="user">
-					<savebutton class="btn btn--primary" data-i18n="magicbar.requests.accept" data-state="user.addFriendState" ng-click="$parent.acceptRequest(user)"></savebutton>
-					<button class="btn btn--danger" data-i18n="magicbar.requests.decline"></button>
-				</friend>
+				<person data-user="user">
+					<savebutton class="friendRequest-actionButton btn btn--primary" data-i18n="magicbar.requests.accept" data-state="user.addFriendState" data-ng-click="$parent.acceptRequest(user)" data-ng-class="{'btn--noPadding': mobile}"></savebutton>
+					<button class="friendRequest-actionButton btn btn--danger" data-i18n="magicbar.requests.decline" data-ng-class="{'btn--noPadding': mobile}"></button>
+				</person>
 			</li>
 			<li class="friendsView-request error" data-ng-if="requests.length == 0">
 				<span data-i18n="magicbar.requests.none"></span>
