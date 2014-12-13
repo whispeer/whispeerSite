@@ -171,9 +171,30 @@
 		}
 	},
 	"notimplemented": "Noch nicht implementiert :(",
-	"search": "Personen werden gesucht",
+	"search": {
+		"user": {
+			"selected": "Ausgewählte Personen ({count})",
+			"emptyselection": "Keine Personen ausgewählt!",
+			"select": "Person auswählen ({count})",
+			"mutualFriends": "gemeinsame Freunde",
+			"from": "aus",
+			"age": "Alter:",
+			"message": "Nachricht senden",
+			"add": "Als Freund hinzufügen"
+		},
+		"circle": {
+			"selected": "Ausgewählte Kreise ({count})",
+			"emptyselection": "Keine Kreise ausgewählt!",
+			"select": "Kreise auswählen ({count})"
+		},
+		"filter": {
+			"selected": "Ausgewählte Kreise ({count})",
+			"emptyselection": "Kein Kreis ausgewählt",
+			"select": "Kreis auswählen ({count})"
+		}
+	},
 	"menu": {
-		"newsfeed":	"Newsfeed",
+		"newsfeed":	"Neuigkeiten",
 		"profil": "Profil",
 		"friends": "Freunde ({count}+{requests})",
 		"messages": "Nachrichten ({count})",
@@ -183,7 +204,7 @@
 		"help": "Hilfe",
 		"logout": "Logout",
 		"search": "Suchen...",
-		"legal":	"Rechtliches",
+		"legal":	"Rechtliche Informationen",
 		"notifications":	"Mitteilungen ({count})"
 	},
 	"login": {

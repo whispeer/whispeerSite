@@ -1,20 +1,19 @@
-<nav data-ng-if="!loading">
-	<heading>
-		<h1>{{user.name}}</h1>
-		<div class="trustlevel" data-trustlevel="{{user.trustLevel}}" data-ng-if="!user.me" data-ng-click="toggleVerify()">
-			<span class="text">Trust-Level: {{user.trustLevel}}</span>&nbsp;
-			<i data-ng-if="user.trustLevel < 2" class="icon icon-plus-circle"></i>
+<header class="box-header" id="userView-header">
+	<heading id="userView-header-info">
+		<h1 class="userView-userName" data-ng-class="{'userView-userName--me': user.me}">{{user.name}}</h1>
+		<div id="userView-trustlevel" data-trustlevel="{{user.trustLevel}}" data-ng-if="!user.me" data-ng-click="toggleVerify()">
+			<span class="text" data-ng-if="!mobile">Trust-Level: {{user.trustLevel}}</span>&nbsp;
+			<span class="text" class="userView-trustlevel-digit" data-ng-if="mobile">{{user.trustLevel}}</span>&nbsp;
+			<i data-ng-if="user.trustLevel < 2" class="userView-trustlevel-digit fa fa-plus-circle fa-fw"></i>
 		</div>
 	</heading>
-	<menu type="list" class="unstyled">
-		<li><a scrolltoid="info" data-i18n="profile.head.info"></a></li>
-		<li><a scrolltoid="wall" data-i18n="profile.head.wall"></a></li>
-		<li><a scrolltoid="friends" data-i18n="profile.head.friends"></a></li>
-	</menu>
-</nav>
-<div id="wrap" data-ng-if="!loading">
-	<div id="scroller" class="box">
-		<ng-include data-ng-if="!verifyNow || user.me" data-src="'assets/views/pages/userSubViews/profile.html'"></ng-include>
-		<ng-include data-ng-if="verifyNow && !user.me" data-src="'assets/views/pages/userSubViews/verifyUser.html'"></ng-include>
-	</div>
+	<nav class="box-header-links" id="userView-navigation">
+		<a class="userView-navigation-link box-header-link" scrolltoid="generalInfo" data-i18n="profile.head.info"></a>
+		<a class="userView-navigation-link box-header-link" scrolltoid="wall" data-i18n="profile.head.wall"></a>
+		<a class="userView-navigation-link box-header-link" scrolltoid="friends" data-i18n="profile.head.friends"></a>
+	</nav>
+</header>
+<div class="box-content box-content--scroll" id="userView-content">
+	<ng-include data-ng-if="!verifyNow || user.me" data-src="'assets/views/pages/userSubViews/profile.html'"></ng-include>
+	<ng-include data-ng-if="verifyNow && !user.me" data-src="'assets/views/pages/userSubViews/verifyUser.html'"></ng-include>
 </div>

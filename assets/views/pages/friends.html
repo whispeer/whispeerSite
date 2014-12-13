@@ -1,36 +1,37 @@
-<header><span class="title">Freunde</span></header>
-<section class="scroll">
-	<section data-ng-if="requests.length > 0">
-		<span class="title" data-i18n="magicbar.requests.title"></span>
+<header class="box-header" data-ng-if="!mobile">
+	<span class="box-header-title">Freunde</span>
+</header>
+<section data-ng-class="{'box-content box-content--scroll': !mobile}">
+	<section class="friendsView-section" data-ng-if="requests.length > 0">
+		<span class="friendsView-title" data-i18n="magicbar.requests.title"></span>
 		<ul class="unstyled" id="requestsList">
-			<li class="request" data-ng-repeat="user in requests">
-				<friend data-user="user">
-					<savebutton class="btn btn--primary" data-i18n="magicbar.requests.accept" data-state="user.addFriendState" ng-click="$parent.acceptRequest(user)"></savebutton>
-					<button class="btn btn--danger" data-i18n="magicbar.requests.decline"></button>
-				</friend>
+			<li class="friendsView-friend friendsView-request" data-ng-repeat="user in requests">
+				<person data-user="user">
+					<savebutton class="friendRequest-actionButton btn btn--primary {{mobile ? 'btn--noPadding' : ''}}" data-i18n="magicbar.requests.accept" data-state="user.addFriendState" data-ng-click="$parent.acceptRequest(user)"></savebutton>
+					<button class="friendRequest-actionButton btn btn--danger" data-i18n="magicbar.requests.decline" data-ng-class="{'btn--noPadding': mobile}"></button>
+				</person>
 			</li>
-			<li class="request error" data-ng-if="requests.length == 0">
+			<li class="friendsView-request error" data-ng-if="requests.length == 0">
 				<span data-i18n="magicbar.requests.none"></span>
 			</li>
 		</ul>
 		<ul class="unstyled" data-ng-if="requests.length == 0">
-			<li class="request error">
+			<li class="friendsView-request error">
 				<span data-i18n="magicbar.requests.none"></span>
 			</li>
 		</ul>
 	</section>
-	<section>
-		<span class="title" data-i18n="friends.title"></span>
-		<ol id="friendsList" class="unstyled">
-			<li data-ng-repeat="friend in friends">
-				<friend data-user="friend">
+	<section class="friendsView-section">
+		<span class="friendsView-title" data-i18n="friends.title"></span>
+		<ol id="friendsView-friendsList" class="unstyled">
+			<li class="friendsView-friend" data-ng-repeat="friend in friends">
+				<person data-user="friend" data-type="friend">
 					<a href="/messages?userid={{friend.id}}"><i class="fa fa-2x fa-envelope fa-fw"></i></a>
-					<a data-ng-click="$parent.removeFriend(friend)"><i class="clickable fa fa-2x fa-times fa-fw"></i></a>
-				</friend>
+					<a data-ng-click="$parent.removeFriend(friend)"><i class="person-clickable fa fa-2x fa-times fa-fw"></i></a>
+				</person>
 			</li>
-			<li class="inviteFriends" data-ng-if="friends.length < 50">
-				<a class="btn btn--primary btn--large" href="/invite" data-i18n="inviteFriends"></a>
+			<li class="friendsView-friend" id="friendsView-inviteFriends" data-ng-if="friends.length < 50">
+				<a class="inviteFriends-link btn btn--primary" id="friendsView-inviteFriends-link" href="/invite" data-i18n="inviteFriends"></a>
 			</li>
-		</ol>
 	</section>
 </section>

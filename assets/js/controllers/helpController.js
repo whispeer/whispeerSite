@@ -6,7 +6,7 @@ define([], function () {
 	"use strict";
 
 	function helpController($scope, cssService) {
-		cssService.setClass("helpView");
+		cssService.setClass("helpView", true);
 		$scope.faq = {
 			"general": ["register", "password", "search", "report", "account", ],
 			"safety": ["safety"],

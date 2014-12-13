@@ -4,7 +4,7 @@
 //
 // Markup:
 // <div class="box">
-// 	<header><span class="title">Title</span><span class="links"><a href="#">Link #1</a><a href="#">Link #2</a><a href="#">Link #3</a></span></header>
+// 	<header class="box-header"><span class="box-header-title">Title</span><span class="box-header-links"><a href="#" class="box-header-link">Link #1</a> <a href="#" class="box-header-link">Link #2</a> <a href="#" class="box-header-link">Link #3</a></span></header>
 // 	<section>
 //		<header><span class="title">First Section Header</span></header>
 //		<p>Lorem Ipsum</p>
@@ -15,80 +15,90 @@
 //
 // Styleguide 2.1
 .box {
+	overflow: hidden;
+
 	.border-radius(5px);
 	background-color: @btnBackgroundHover;
 	border: 1px solid @btnBorder;
 	border-bottom: 1px solid #000;
 	border-bottom-color: darken(@btnBorder, 10%);
-	.box-fix;
-	header {
-		height: 20px;
-		//margin-top: -30px;
-		.gradient(darken(@btnBackground, 2%), @btnBackgroundHover);
-		border: none;
-		border-bottom: 1px solid @btnBorder;
-		.border-radiuses(5px, 0px, 0px, 5px);
-		padding: 5px 0;
-		.edit {
-			float: right;
-			color: #b2b2b2;
-			&:hover {
-				color: lighten(#b2b2b2,10%);
-			}
-		}
-		.title {
-			float: left;
-			margin: 0 1%;
-		}
-		.links {
-			float: right;
-			margin: 0 1%;
-			 a {
-				 color: #666;
-			 }
-		}
-		button {
-			padding: 2px 7px;
-			margin-top: -5px !important;
-			margin-right: 0 !important;
-			outline: none;
-			border: none;
-			height: 30px;
-			background: transparent;
-			text-align: left;
-			&.right {
-				float: right;
-				border-left: 1px solid #bbb;
-			}
-			&.left {
-				float: left;
-				border-right: 1px solid #bbb;
-			}
-			&:hover {
-				background: rgba(202,202,202,0.2);
-			}
-			&:focus {
-				box-shadow: inset 0px 0px 2px @grayLight;
-			}
-		}
+	&:extend(.box-fix);
+}
+.box-header {
+	height: 30px;
+	.gradient(darken(@btnBackground, 2%), @btnBackgroundHover);
+	border: none;
+	border-bottom: 1px solid @btnBorder;
+	overflow: hidden;
+}
+.box-header-links {
+	float: right;
+	margin: 0 1%;
+	line-height: 30px;
+}
+.box-header-link {
+	display: inline-block;
+	float: left;
+	color: #b2b2b2;
+	margin: 0 0.25em;
+	&:hover {
+		color: lighten(#b2b2b2,10%);
 	}
-	section {
-		padding: 5px 0;
-		.border-radiuses(0, 5px, 5px, 0);
-		.clear-fix;
-		header {
-			margin-top: -5px !important;
-			background-color: @btnBackgroundHover;
-			border-top: 1px solid @btnBorder;
-			.border-radius(0px);
-			padding: 5px 0px;
-			&:before, :after {
-				content: "";
-				margin-left: 5px;
-			}
-		}
-		h1,h2,h3,h4,h5,h6 {
-			margin-left: 0.5%;
-		}
+	&:first-child {
+		margin-left: 0;
 	}
+	&:last-child {
+		margin-right: 0;
+	}
+}
+.box-header-title {
+	float: left;
+	margin: 0 1%;
+	line-height: 30px;
+}
+.box-header-button {
+	padding: 2px 7px;
+	margin-right: 0;
+	outline: none;
+	border: none;
+	height: 30px;
+	background: transparent;
+	text-align: left;
+	&:hover {
+		background: rgba(202,202,202,0.2);
+	}
+	&:focus {
+		box-shadow: inset 0px 0px 2px @grayLight;
+	}
+}
+.box-header-button--right {
+	float: right;
+	border-left: 1px solid #bbb;
+}
+.box-header-button--left {
+	float: left;
+	border-right: 1px solid #bbb;
+}
+.box-header--content {
+	margin-top: -6px;
+	border-top: 1px solid @btnBorder;
+	background: @btnBackgroundHover;
+	&:before, :after {
+		content: "";
+		margin-left: 5px;
+	}
+}
+.box-content {
+	padding: 5px 0;
+	.border-radiuses(0, 5px, 5px, 0);
+	&:extend(.box-fix);
+	&:extend(.clear-fix);
+	h1,h2,h3,h4,h5,h6 {
+		margin-left: 0.5%;
+	}
+}
+.box-content--scroll {
+	overflow-y: scroll;
+	height: ~"calc(100% - 30px)"; // fixes the scroll-bar. negative margin will place the scroll-bar into the header.
+	-webkit-overflow-scrolling: touch;
 }

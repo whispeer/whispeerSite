@@ -14,7 +14,13 @@
 	}
 
 	body {
-		padding-top: 0;
+		@media @desktop {
+			padding-top: 50px;
+		}
+		@media @mobile {
+			padding-top: 0;
+			background: @primaryLighter;
+		}
 	}
 
 	#topNav {
@@ -40,12 +46,12 @@
 		padding-bottom: 64px;
 	}
 
-	footer {
-		.spacious;
-
+	.footer {
 		color: white;
 		background-color: @primary;
 		border-top: 24px solid @primaryLighter;
+		margin: 0;
+		.normal-text();
 
 		a {
 			color: white;
@@ -211,10 +217,23 @@
 				margin-bottom: 20px;
 				color: @primary;
 			}
-
-			input:not([type="submit"]):not([type="reset"]):not([type="button"]):not([type="file"]):not([type="radio"]):not([type="checkbox"]) {
+			input:not([type="submit"])
+			:not([type="reset"])
+			:not([type="button"])
+			:not([type="file"])
+			:not([type="radio"])
+			:not([type="checkbox"]),
+			.annotatedInput-container {
 				width: 300px;
 				height: 48px;
+			}
+
+			.annotatedInput-container {
+				margin: 0 auto;
+			}
+
+			.annotatedInput-input {
+				width: 100%;
 			}
 
 			button {
@@ -232,6 +251,7 @@
 			}
 
 			.registerAGB {
+				display: inline-block;
 				padding-left: 46px;
 				padding-right: 28px;
 				text-align: left;
@@ -244,17 +264,25 @@
 		#requestInvite {
 			border-top: 1px solid #ccc;
 			display: inline-block;
-			margin-top: 0.67em;
+			margin-top: 0.67rem;
+		}
+
+		#requestInvite-heading {
+			margin-top: 0.67rem;
 		}
 
 		@media @mobile {
-			padding-bottom: 50px;
+			.registerWrap {
+				background: transparent;
+			}
 			.registerForm p {
 				color: @white;
 				padding: 0 29px;
 				text-align: justify;
 			}
 			.inputWrap {
+				width: ~"calc(100% - 58px)";
+				margin: 0 29px;
 				.nickname {
 					border-radius: 5px 5px 0 0;
 				}
@@ -264,11 +292,13 @@
 					border-bottom: solid 1px darken(#ffffff, 45%);
 				}
 				.registerAGB {
+					display: inline-block;
 					background: @white;
-					 .box-shadow(inset 0px 0px 5px #ccc);
-					width: ~"calc(100% - 60px)";
-					margin: 0 30px;
-					padding: 5px;
+					box-shadow: inset 0px 0px 5px #ccc;
+					width: 100%;
+					height: 40px;
+					line-height: 40px;
+					padding: 0 5px;
 					.box-fix;
 				}
 			}
@@ -295,9 +325,8 @@
 				border-radius: 5px 5px 0 0;
 			}
 			#sendInviteRequest {
-				width: ~"calc(100% - 58px)";
-				margin: 0 29px;
-				padding: 9px;
+				width: 100%;
+				margin: 0 0 20px 0;
 				border-radius: 0 0 5px 5px;
 				border: solid 1px darken(#ffffff, 45%);
 				border-top: none;

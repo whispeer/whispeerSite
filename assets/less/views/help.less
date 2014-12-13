@@ -1,65 +1,25 @@
-.helpView {
-	#main {
-		.box;
-		padding-top: 30px;
-		height: 100%;
-		background-color: @btnBackgroundHover;
-		border: 1px solid @btnBorder;
-		border-bottom: 1px solid darken(@btnBorder, 10%);
-		.border-radius(5px);
-		.box-fix;
-		header {
-			margin-top: -30px;
-			#title {
-				float: left;
-				margin: 0 1%;
-			}
-		}
-		#helpWrap {
-			height: 100%;
-			overflow-y: scroll;
-			overflow-x: hidden;
-		}
-		section {
-			header {
-				background-color: @btnBackgroundHover;
-				border-top: 1px solid @btnBorder;
-				.border-radius(0px);
-				float: left;
-				width: 100%;
-				margin: 0px 0 10px 0;
-				padding: 5px 0px;
-				&:before, :after {
-					content: "";
-					margin-left: 5px;
-				}
-			}
-			&#general header {
-				border-top: none;
-				margin: -10px 0 0 0;
-			}
-			ol {
-				.unstyled;
-			}
-			.qa {
-				.column(12);
-				.question {
-				}
-				.answer {
-					margin-left: 10px;
-					.column(8);
-				}
-			}
-			&#newQuestion {
-				input {
-					.column(8);
-					margin-bottom: 10px;
-				}
-				button {
-					.column(4);
-					padding: 7px;
-				}
-			}
-		}
-	}
+.helpView-section {
+	width: 100%;
+	display: block;
+
+	margin-bottom: 21px;
+	&:extend(.clear-fix);
+}
+.helpView-qa {
+	width: 100%;
+}
+.helpView-answer {
+	width: 96%;
+	margin:0 2%;
+}
+.helpView-askQuestion {
+	.column(8);
+}
+.helpView-submitQuestion {
+	.column(4);
+}
+.helpView-askQuestion,
+.helpView-submitQuestion {
+	margin-top: 10px;
+	margin-bottom: 15px;
 }

@@ -6,7 +6,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 	"use strict";
 
 	function friendsController($scope, cssService, friendsService, userService, localize)  {
-		cssService.setClass("friendsView");
+		cssService.setClass("friendsView", !$scope.mobile);
 		$scope.friends = [];
 		$scope.requests = [];
 
@@ -37,7 +37,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 		friendsService.listen(loadFriendsUsers);
 		friendsService.listen(loadRequestsUsers);
 		loadFriendsUsers();
-		loadRequestsUsers();		
+		loadRequestsUsers();
 
 		$scope.acceptRequest = function (request) {
 			request.user.acceptFriendShip();

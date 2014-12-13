@@ -208,7 +208,7 @@ define(["step", "whispeerHelper", "asset/resizableImage", "asset/state", "libs/q
 
 		$scope.changeImage = false;
 
-		cssService.setClass("profileView");
+		cssService.setClass("profileView", true);
 
 		$scope.days = ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31"];
 		$scope.months = ["january", "february", "march", "april", "may", "june", "july", "august", "september", "october", "november", "december"];
@@ -239,7 +239,7 @@ define(["step", "whispeerHelper", "asset/resizableImage", "asset/state", "libs/q
 
 		$scope.imageChange = resizableImage.callBackForFileLoad(function () {
 			resizableImage.paintImageOnCanvasWithResizer({
-				element: document.getElementById("original"),
+				element: document.getElementById("userView-userimage-original"),
 				width: CANVASWIDTH,
 				height: CANVASHEIGHT
 			});
@@ -251,7 +251,7 @@ define(["step", "whispeerHelper", "asset/resizableImage", "asset/state", "libs/q
 
 			resizableImage.loadImage($scope.user.basic.image, function () {
 				resizableImage.paintImageOnCanvasWithResizer({
-					element: document.getElementById("original"),
+					element: document.getElementById("userView-userimage-original"),
 					width: CANVASWIDTH,
 					height: CANVASHEIGHT
 				});
@@ -464,6 +464,7 @@ define(["step", "whispeerHelper", "asset/resizableImage", "asset/state", "libs/q
 			user.loadFullData(this);
 		}), h.sF(function () {
 			$scope.user = userObject.data;
+			$scope.adv = $scope.user.advanced;
 
 			$scope.loading = false;
 			userObject.getFriends(this);

@@ -11,44 +11,61 @@
 //
 // Styleguide 2.2
 
-input[type="text"], input[type=""], input[type="password"], input:not([type]) {
+input[type="text"],
+input[type="password"],
+input[type=""],
+input:not([type]) {
 	padding: 9px;
-    border: solid 1px darken(#ffffff, 45%);
-    outline: 0;
-    background: #ffffff;
-    .border-radius(5px);
-    .box-shadow(inset 0px 0px 5px #ccc);
-    .box-fix;
+	outline: 0;
+	border-radius: 0;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	.box-fix;
+	&:not(.input-custom) {
+		height: 40px;
+		line-height: 22px;
+
+		background: @inputBackground;
+		border: solid 1px @inputBorder;
+		.box-shadow(inset 0px 0px 4px @inputBorder);
+		transition: ease .5s;
+	}
+	&:not(.input-custom):not(.input-noradius) {
+		border-radius: @inputBorderRadius;
+	}
 	&:focus {
 		outline: 0;
-		border: solid 1px darken(@primary, 8%);
-		.box-shadow(inset 0px 0px 5px rgba(red(@primaryLighter), green(@primaryLighter),blue(@primaryLighter), 0.75));
-		.transition(border-color .3s linear);
-		.transition(box-shadow .3s linear);
+		&:not(.input-custom) {
+			border: solid 1px @inputBorderFocus;
+			.box-shadow(inset 0px 0px 5px rgba(red(@inputBorderFocus), green(@inputBorderFocus),blue(@inputBorderFocus), 0.75));
+		}
 	}
-	&[disabled], &[readonly] {
-		border: solid 1px darken(#ffffff, 45%);
+	&[disabled],
+	&[readonly] {
 		outline: 0;
-		.box-shadow(inset 0px 0px 5px #ccc);
 		color: darken(@white, 65%);
-		cursor: default;
+		cursor: not-allowed;
+		&:not(.input-custom) {
+			.box-shadow(inset 0px 0px 5px #ccc);
+		}
 	}
 }
 textarea {
 	padding: 9px;
-    border: solid 1px darken(#ffffff, 45%);
-    outline: 0;
-    background: #ffffff;
-    .border-radius(5px);
-    .box-shadow(inset 1px #333);
-    .box-shadow(inset 0px 0px 5px #ccc);
-    .box-fix;
+	line-height: 22px;
+	outline: 0;
+
+	background: @inputBackground;
+	border: solid 1px @inputBorder;
+	border-radius: @inputBorderRadius;
+	.box-shadow(inset 0px 0px 4px @inputBorder);
+	transition: ease .5s;
+	.box-fix;
 	&:focus {
 		outline: 0;
-		border: solid 1px darken(@primary, 8%);
-		.box-shadow(inset 0px 0px 5px rgba(red(@primaryLighter), green(@primaryLighter),blue(@primaryLighter), 0.75));
-		.transition(border-color .3s linear);
-		.transition(border-color .3s linear);
+		border: solid 1px @inputBorderFocus;
+		.box-shadow(inset 0px 0px 5px rgba(red(@inputBorderFocus), green(@inputBorderFocus),blue(@inputBorderFocus), 0.75));
 	}
 }
 
@@ -59,20 +76,54 @@ button[disabled] {
 @annotatedInputRight: 10px;
 @annotatedInputIconSize: 16px;
 
-.annotatedInputContainer {
+.annotatedInput-container {
 	position: relative;
+}
+.annotatedInput-container .annotatedInput-input {
+	padding-right: @annotatedInputRight + @annotatedInputIconSize;
+	width: 100%;
+	height: 100%;
+}
+.annotatedInput-icon {
+	position: absolute;
+	top: 0; bottom: 0;
+	margin: auto 0;
+	width: @annotatedInputIconSize;
+	height: @annotatedInputIconSize;
 
-	input[type="text"], input[type=""], input[type="password"] {
-		padding-right: @annotatedInputRight + @annotatedInputIconSize;
-	}
+	right: @annotatedInputRight;
+}
+.annotatedInput-container .annotatedInput-button { // this overspecification causes the rules to be applied over the .btn rules!
+	position: absolute;
+	top: 0; bottom: 0;
+	margin: auto 0;
+	height: 40px;
+	border-radius: 0 5px 5px 0;
+	border: none;
 
-	.icon {
-		position: absolute;
-		top: 0; bottom: 0;
-		margin: auto 0;
-		width: @annotatedInputIconSize;
-		height: @annotatedInputIconSize;
+	right: @annotatedInputRight - 10px;
+}
+.annotatedInput-container--button .annotatedInput-input {
+	padding-right: @annotatedInputRight + @annotatedInputIconSize + 20px;
+}
 
-		right: @annotatedInputRight;
-	}
+.uploadForm {
+	display: block;
+	position: relative;
+	height: 40px;
+}
+.uploadForm-button {
+	width: 100%;
+	z-index: 1;
+}
+.uploadForm-theForm {
+	position: absolute;
+	width: 100%;
+	background: red;
+	height: 40px;
+	top: 0;
+	left: 0;
+	z-index: 2;
+	opacity: 0;
+	cursor: pointer;
 }

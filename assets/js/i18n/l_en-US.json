@@ -171,7 +171,28 @@
 		}
 	},
 	"notimplemented": "Not implemented yet :(",
-	"search": "People are being searched",
+	"search": {
+		"user": {
+			"selected": "Selected Persons ({count})",
+			"emptyselection": "No Person selected!",
+			"select": "Select Person ({count})",
+			"mutualFriends": "mutual friends",
+			"from": "from",
+			"age": "Age:",
+			"message": "Send Message",
+			"add": "Add as Friend"
+		},
+		"circle": {
+			"selected": "Selected Circles ({count})",
+			"emptyselection": "No Circles selected!",
+			"select": "Select Circles ({count})"
+		},
+		"filter": {
+			"selected": "Selected Circles ({count})",
+			"emptyselection": "No Circles selected!",
+			"select": "Select Circle ({count})"
+		}
+	},
 	"menu": {
 		"newsfeed":	"Newsfeed",
 		"profil": "Profile",
@@ -183,8 +204,8 @@
 		"help": "Help",
 		"logout": "Logout",
 		"search": "Search...",
-		"legal":	"Legal",
-		"notifications":	"Mitteilungen ({count})"
+		"legal":	"Legal information",
+		"notifications":	"Notifications ({count})"
 	},
 	"login": {
 		"forgotName": "Forgot username",

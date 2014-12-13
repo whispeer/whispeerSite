@@ -1,0 +1,123 @@
+.mainView {
+	overflow: visible;
+	body {
+		overflow: visible;
+	}
+}
+#newsfeedView-wall {
+	height: 100%;
+	width: 100%;
+	&:extend(.box-fix);
+}
+#newsfeedView-wall-header {
+	@media @desktop {
+		height: 85px;
+	}
+	.column(12,12,left,0);
+	padding-top: 10px;
+	text-align: center;
+	z-index: 1000;
+	border-radius: 4px 0 0 4px;
+}
+#newsfeedView-postForm {
+	@media @desktop {
+		.column(8,12,left,1%);
+		margin: 0 1% 0 0;
+	}
+	@media @mobile {
+		.column(12);
+	}
+	margin: 0 1% 0 0;
+	padding: 0;
+	border: 1px solid @btnBorder;
+	border-radius: 4px;
+	&:extend(.box-fix);
+}
+#newsfeedView-receivers {
+	.column(5.5,8,left,0);
+
+	border-top: 1px solid @btnBorder;
+	&:extend(.box-fix);
+}
+#newsfeedView-receivers .search-wrapper {
+	border-radius: 0 0 0 3px;
+}
+#newsfeedView-sendPost {
+	.column(2.5,8,right,0);
+
+	border: none;
+	border-top: 1px solid @btnBorder;
+	border-radius: 0 0 3px 0; // this border has to be smaller for some reason.
+}
+#newsfeedView-shareText {
+	.column(8,8,left,0);
+	height: 40px;
+	margin-top: -1px;
+	border: none;
+	border-top: 1px solid @btnBorder;
+	.border-radiuses(5px,0,0,5px);
+}
+#newsfeedView-filter {
+	@media @desktop {
+		.column(4,12,left,1%);
+		margin: 0 0 0 1%;
+		height: 80px;
+	}
+	@media @mobile {
+		.column(12,12,left,0);
+		margin-top: 10px;
+	}
+}
+#newsfeedView-activatePost {
+	.column(12);
+}
+#newsfeedView-filter-title {
+	@media @mobile {
+		.column(12);
+	}
+	@media @desktop {
+		.column(12,12,left,0);
+	}
+	&:hover {
+		background: @btnBackground;
+		cursor: default;
+	}
+}
+.newsfeedView-filter-title--active {
+	border-radius: 5px 5px 0 0;
+	border-bottom: none;
+}
+#newsfeedView-theFilter {
+	@media @mobile {
+		.column(12);
+	}
+	@media @desktop {
+		.column(12,12,left,0);
+	}
+	margin-top: 0;
+	height: 42px;
+}
+#newsfeedView-theFilter .search-wrapper {
+	border-radius: 0 0 5px 5px;
+	height: 42px;
+}
+#newsfeedView-theFilter .searchDrop {
+	margin-top: 5px;
+}
+#newsfeedView-posts {
+	.column(12,12,left,0);
+}
+#newsfeedView-inviteFriends {
+	width: 100%;
+	text-align: center;
+	margin: 10px 0 0;
+	@media @mobile {
+		width: 98%;
+		margin: 10px 1% 0;
+	}
+	a {
+		.large-text();
+		width: 100%;
+		line-height: 40px;
+	}
+}

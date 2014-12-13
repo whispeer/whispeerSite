@@ -3,9 +3,9 @@
 		<h1 data-i18n="views.invite.viaMail"></h1>
 		<p data-i18n="views.invite.viaMailExplanation"></p>
 		<ul class="emailList unstyled">
-			<li class="annotatedInputContainer" data-ng-repeat="mail in inviteMails track by $index">
-				<input type="text" data-i18n-attr="views.invite.mail|placeholder" data-ng-model="inviteMails[$index]">
-				<span class="fa fa-fw icon" data-ng-class="{'fa-times': !isMail(inviteMails[$index])}" data-ng-if="!empty(inviteMails[$index])"></span>
+			<li class="annotatedInput-container" data-ng-repeat="mail in inviteMails track by $index">
+				<input type="text" class="annotatedInput-input" data-i18n-attr="views.invite.mail|placeholder" data-ng-model="inviteMails[$index]">
+				<span class="annotatedInput-icon fa fa-fw" data-ng-class="{'fa-times': !isMail(inviteMails[$index])}" data-ng-if="!empty(inviteMails[$index])"></span>
 			</li>
 		</ul>
 

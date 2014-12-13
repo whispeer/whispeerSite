@@ -1,130 +1,126 @@
-<header>
-	<span data-i18n="settings.header.title" class="title"></span>
-<!--
-	<div class="links">
-		<a href="#general">Allgemein</a>
-		<a href="#safety">Sicherheit</a>
-		<a href="#privacy">Privatsphäre</a>
-		<a href="#notifications">Benachrichtigungen</a>
-		<a href="#features">Zusätzliche Funktionen</a>
-	</div>
--->
+<header class="box-header">
+	<span data-i18n="settings.header.title" class="box-header-title"></span>
 </header>
-<div id="settingsWrap">
-	<section id="general">
-		<header><span class="title" data-i18n="settings.changes.general.title"></span></header>
-		<div class="config" id="fingerprint">
-			<h5 data-i18n="settings.changes.general.fingerprints.title"></h5>
-			<p>
+<div class="box-content box-content--scroll">
+	<header class="box-header box-header--content"><span class="box-header-title" data-i18n="settings.changes.general.title"></span></header>
+	<section class="settingsView-section" id="settingsView-general">
+		<div class="settingsView-setting" class="settingsView-fingerprint">
+			<h5 class="settingsView-setting-header" data-i18n="settings.changes.general.fingerprints.title"></h5>
+			<p class="settingsView-setting-row">
 				<span data-ng-repeat="part in fingerprint">{{part}}{{$last ? '' : ' - '}}</span>
 			</p>
-			<p></p>
-			<p id="qrCode"><img id="fingerPrintQR"></p>
+			<p class="settingsView-setting-row"><img class="settingsView-qrCode" id="fingerPrintQR" /></p>
 		</div>
-		<div class="config" id="uiLanguage">
-			<h5 data-i18n="settings.changes.general.uiLanguage.title"></h5>
-			<p>
+
+		<div class="settingsView-setting" id="settingsView-uiLanguage">
+			<h5 class="settingsView-setting-header" data-i18n="settings.changes.general.uiLanguage.title"></h5>
+			<p class="settingsView-setting-row">
 				<select class="language" type="text" data-ng-model="uiLanguage">
 					<option data-ng-repeat="lang in languages" value="{{lang}}" data-i18n="settings.changes.general.uiLanguage.langs.{{lang}}" data-ng-selected="lang == uiLanguage"></option>
 				</select>
 			</p>
 		</div>
-		<div class="config" id="sendMethod">
-			<h5 data-i18n="settings.changes.general.sendMethod.title"></h5>
-			<p>
-				<label for="sendMethodEnter" class="btn btn--primary btn--big">
+
+		<div class="settingsView-setting" id="settingsView-sendMethod">
+			<h5 class="settingsView-setting-header" data-i18n="settings.changes.general.sendMethod.title"></h5>
+			<p class="settingsView-setting-row">
+				<label for="sendMethodEnter" class="settingsView-selectLabel btn btn--primary btn--big">
 					<input type="radio" data-ng-model="sendShortCut" name="sendMethod" value="enter" id="sendMethodEnter">
 					&nbsp;<span data-i18n="settings.changes.general.sendMethod.enter"></span>
 				</label>
 			</p>
-			<p>
-				<label for="sendMethodCtrlEnter" class="btn btn--primary btn--big">
+			<p class="settingsView-setting-row">
+				<label for="sendMethodCtrlEnter" class="settingsView-selectLabel btn btn--primary btn--big">
 					<input type="radio" data-ng-model="sendShortCut" name="sendMethod" value="ctrlEnter" id="sendMethodCtrlEnter">
 					&nbsp;<span data-i18n="settings.changes.general.sendMethod.ctrlEnter"></span>
 				</label>
 			</p>
 		</div>
-		<div class="config" id="sounds">
-			<h5 data-i18n="settings.changes.general.notificationSounds.title"></h5>
-			<p>
-				<label for="messageSoundOn" class="btn btn--primary btn--big">
+
+		<div class="settingsView-setting" id="settingsView-sounds">
+			<h5 class="settingsView-setting-header" data-i18n="settings.changes.general.notificationSounds.title"></h5>
+			<p class="settingsView-setting-row">
+				<label for="messageSoundOn" class="settingsView-selectLabel btn btn--primary btn--big">
 					<input type="radio" data-ng-model="notificationSound" name="messageSound" value="on" id="messageSoundOn">
 					&nbsp;<span data-i18n="settings.changes.general.notificationSounds.on"></span>
 				</label>
 			</p>
-			<p>
-				<label for="messageSoundOff" class="btn btn--primary btn--big">
+			<p class="settingsView-setting-row">
+				<label for="messageSoundOff" class="settingsView-selectLabel btn btn--primary btn--big">
 					<input type="radio" data-ng-model="notificationSound" name="messageSound" value="off" id="messageSoundOff">
 					&nbsp;<span data-i18n="settings.changes.general.notificationSounds.off"></span>
 				</label>
 			</p>
 		</div>
-		<savebutton class="settingsFormButton" data-translation="settings.changes.save" data-state="saveGeneralState" data-ng-click="saveGeneral()"></savebutton>
+
+		<savebutton class="settingsView-settingsFormButton" data-translation="settings.changes.save" data-state="saveGeneralState" data-ng-click="saveGeneral()"></savebutton>
 	</section>
-	<section id="account">
-		<header><span class="title" data-i18n="settings.changes.account"></span></header>
-		<div class="config" id="name">
-			<h5 data-i18n="settings.changes.changeName"></h5>
-			<input type="text" id="firstname" data-ng-model="firstName" data-i18n-attr="settings.safety.attributes.names.firstname|placeholder">
-			<input type="text" id="lastname" data-ng-model="lastName" data-i18n-attr="settings.safety.attributes.names.lastname|placeholder">
-			<savebutton state="saveNameState" data-translation="settings.changes.save" data-ng-click="saveName()"></savebutton>
+	<header class="box-header box-header--content"><span class="box-header-title" data-i18n="settings.changes.account"></span></header>
+	<section class="settingsView-section" id="settingsView-account">
+		<div class="settingsView-setting" id="settingsView-name">
+			<h5 class="settingsView-setting-header" data-i18n="settings.changes.changeName"></h5>
+			<input type="text" id="settingsView-firstNameInput" data-ng-model="firstName" data-i18n-attr="settings.safety.attributes.names.firstname|placeholder">
+			<input type="text" id="settingsView-lastNameInput" data-ng-model="lastName" data-i18n-attr="settings.safety.attributes.names.lastname|placeholder">
+			<savebutton id="settingsView-saveName" state="saveNameState" data-translation="settings.changes.save" data-ng-click="saveName()"></savebutton>
 		</div>
-		<div class="config" id="nickname">
-			<h5 data-i18n="settings.changes.changeUsername"></h5>
-			<input disabled="disabled" type="text" id="newNickname" data-ng-model="nickName" data-i18n-attr="settings.safety.attributes.names.username|placeholder">
-			<button disabled="disabled" type="submit" data-ng-click="saveNickName()"><i class="icon-ok-circle"></i> <span data-i18n="settings.changes.save"></span></button>
+		<div class="settingsView-setting" id="settingsView-nickname">
+			<h5 class="settingsView-setting-header" data-i18n="settings.changes.changeUsername"></h5>
+			<input disabled="disabled" type="text" id="settingsView-nickNameInput" data-ng-model="nickName" data-i18n-attr="settings.safety.attributes.names.username|placeholder">
+			<savebutton id="settingsView-saveNickName" state="saveNameState" data-translation="settings.changes.save" data-ng-click="saveNickName()" disabled></savebutton>
 		</div>
-		<div class="config" id="mail">
-			<h5 data-i18n="settings.changes.changeMail"></h5>
-			<input type="text" id="email" data-ng-model="mail" data-i18n-attr="settings.changes.mail|placeholder">
-			<savebutton state="saveMailState" data-translation="settings.changes.save" data-ng-click="saveMail()"></savebutton>
+		<div class="settingsView-setting" id="settingsView-mail">
+			<h5 class="settingsView-setting-header" data-i18n="settings.changes.changeMail"></h5>
+			<input type="text" id="settingsView-mailInput" data-ng-model="mail" data-i18n-attr="settings.changes.mail|placeholder">
+			<savebutton id="settingsView-saveMail" state="saveMailState" data-translation="settings.changes.save" data-ng-click="saveMail()"></savebutton>
 		</div>
-		<div class="config" id="password">
-			<h5 data-i18n="settings.changes.changePassword"></h5>
-			<input disabled="disabled" type="password" id="newPassword" data-i18n-attr="login.password|placeholder">
-			<input disabled="disabled" type="password" id="newPassword2" data-i18n-attr="login.register.repeatPassword|placeholder">
-			<button disabled="disabled" type="submit" data-ng-click="savePassword()"><i class="icon-ok-circle"></i> <span data-i18n="settings.changes.save"></span></button>
+		<div class="settingsView-setting" id="settingsView-password">
+			<h5 class="settingsView-setting-header" data-i18n="settings.changes.changePassword"></h5>
+			<input disabled="disabled" type="password" id="settingsView-passwordInput" data-i18n-attr="login.password|placeholder">
+			<input disabled="disabled" type="password" id="settingsView-passwordInput2" data-i18n-attr="login.register.repeatPassword|placeholder">
+			<savebutton id="settingsView-savePassword" state="saveNameState" data-translation="settings.changes.save" data-ng-click="savePassword()" disabled></savebutton>
 		</div>
 	</section>
-	<section id="safety">
-		<header><span class="title" data-i18n="settings.safety.title"></span></header>
-		<h4 data-i18n="settings.safety.attributes.names.header"></h4>
-		<div class="config select" id="firstNameEncryption">
-			<span data-i18n="settings.safety.attributes.names.firstname"></span>
-			<button type="submit" data-ng-click="safety.basic.firstname.encrypt=!safety.basic.firstname.encrypt" data-encrypted="{{safety.basic.firstname.encrypt}}">
-				<i class="icon-lock" data-ng-if="safety.basic.firstname.encrypt"></i>
-				<i class="icon-lock-open" data-ng-if="!safety.basic.firstname.encrypt"></i>
-			</button>
-			<div data-ng-if="safety.basic.firstname.encrypt"><filtersearch data-res="safety.basic.firstname" data-res-attr="visibility" data-selected="safety.basic.firstname.visibility" data-input-i18n-attr="settings.safety.whomayseeit.firstname|placeholder" class="whoMaySeeIt"></filtersearch></div>
-		</div>
-		<div class="config select" id="lastNameEncryption">
-			<span data-i18n="settings.safety.attributes.names.lastname"></span>
-			<button type="submit" data-ng-click="safety.basic.lastname.encrypt=!safety.basic.lastname.encrypt" data-encrypted="{{safety.basic.lastname.encrypt}}">
-				<i class="icon-lock" data-ng-if="safety.basic.lastname.encrypt"></i>
-				<i class="icon-lock-open" data-ng-if="!safety.basic.lastname.encrypt"></i>
-			</button>
-			<div data-ng-if="safety.basic.lastname.encrypt"><filtersearch data-res="safety.basic.lastname" data-res-attr="visibility" data-selected="safety.basic.lastname.visibility" data-input-i18n-attr="settings.safety.whomayseeit.lastname|placeholder" class="whoMaySeeIt"></filtersearch></div>
-		</div>
-		<h4 data-i18n="menu.profil"></h4>
-		<div class="config select" data-ng-repeat="name in safetySorted" id="{{name}}Encryption">
-			<span data-i18n="settings.safety.attributes.{{name}}"></span>
-			<button type="submit" data-ng-click="safety[name].encrypt=!safety[name].encrypt" data-encrypted="{{safety[name].encrypt}}">
-				<i class="icon-lock" data-ng-if="safety[name].encrypt"></i>
-				<i class="icon-lock-open" data-ng-if="!safety[name].encrypt"></i>
-			</button>
-			<div data-ng-if="safety[name].encrypt"><filtersearch data-res="safety[name]" data-res-attr="visibility" data-selected="safety[name].visibility" data-input-i18n-attr="settings.safety.whomayseeit.{{name}}|placeholder" class="whoMaySeeIt"></filtersearch></div>
-		</div>
-		<savebutton class="settingsFormButton" state="saveSafetyState" data-translation="settings.changes.save" data-ng-click="saveSafety()"></savebutton>
-		<savebutton class="settingsFormButton" initicon="icon-cancel-circle" successicon="icon-cancel-circle" state="resetSafetyState" data-translation="settings.safety.reset" data-ng-click="resetSafety()"></savebutton>
+	<header class="box-header box-header--content"><span class="box-header-title" data-i18n="settings.safety.title"></span></header>
+	<section id="settingsView-safety">
+		<header class="box-header box-header--content"><span class="box-header-title" data-i18n="settings.safety.attributes.names.header"></span></header>
+		<section class="settingsView-section" id="settingsView-safety-name">
+			<div class="settingsView-setting settingsView-setting--select" id="settingsView-firstNameEncryption">
+				<p data-i18n="settings.safety.attributes.names.firstname"></p>
+				<button class="settingsView-toggleEncryption btn" type="submit" data-ng-class="{'btn--primary': safety.basic.firstname.encrypt, 'btn--danger': !safety.basic.firstname.encrypt}" data-ng-click="safety.basic.firstname.encrypt=!safety.basic.firstname.encrypt" data-encrypted="{{safety.basic.firstname.encrypt}}">
+					<i class="fa fa-lock fa-fw" data-ng-if="safety.basic.firstname.encrypt"></i>
+					<i class="fa fa-unlock fa-fw" data-ng-if="!safety.basic.firstname.encrypt"></i>
+				</button>
+				<div data-ng-if="safety.basic.firstname.encrypt">
+					<filtersearch data-res="safety.basic.firstname" data-res-attr="visibility" data-selected="safety.basic.firstname.visibility" data-input-i18n-attr="settings.safety.whomayseeit.firstname|placeholder" class="settingsView-whoMaySeeIt"></filtersearch>
+				</div>
+			</div>
+
+			<div class="settingsView-setting settingsView-setting--select" id="settingsView-lastNameEncryption">
+				<p data-i18n="settings.safety.attributes.names.lastname"></p>
+				<button class="settingsView-toggleEncryption btn" type="submit" data-ng-class="{'btn--primary': safety.basic.lastname.encrypt, 'btn--danger': !safety.basic.lastname.encrypt}" data-ng-click="safety.basic.lastname.encrypt=!safety.basic.lastname.encrypt" data-encrypted="{{safety.basic.lastname.encrypt}}">
+					<i class="fa fa-lock fa-fw" data-ng-if="safety.basic.lastname.encrypt"></i>
+					<i class="fa fa-unlock fa-fw" data-ng-if="!safety.basic.lastname.encrypt"></i>
+				</button>
+				<div data-ng-if="safety.basic.lastname.encrypt">
+					<filtersearch data-res="safety.basic.lastname" data-res-attr="visibility" data-selected="safety.basic.lastname.visibility" data-input-i18n-attr="settings.safety.whomayseeit.lastname|placeholder" class="settingsView-whoMaySeeIt"></filtersearch>
+				</div>
+			</div>
+		</section>
+
+		<header class="box-header box-header--content"><span class="box-header-title" data-i18n="menu.profil"></span></header>
+		<section class="settingsView-section" id="settingsView-safety-name">
+			<div class="settingsView-setting settingsView-setting--select" data-ng-repeat="name in safetySorted" id="settingsView-{{name}}Encryption">
+				<p data-i18n="settings.safety.attributes.{{name}}"></p>
+				<button class="settingsView-toggleEncryption btn" type="submit" data-ng-class="{'btn--primary': safety[name].encrypt, 'btn--danger': !safety[name].encrypt}" data-ng-click="safety[name].encrypt=!safety[name].encrypt" data-encrypted="{{safety[name].encrypt}}">
+					<i class="fa fa-lock fa-fw" data-ng-if="safety[name].encrypt"></i>
+					<i class="fa fa-unlock fa-fw" data-ng-if="!safety[name].encrypt"></i>
+				</button>
+				<div data-ng-if="safety[name].encrypt">
+					<filtersearch data-res="safety[name]" data-res-attr="visibility" data-selected="safety[name].visibility" data-input-i18n-attr="settings.safety.whomayseeit.{{name}}|placeholder" class="settingsView-whoMaySeeIt"></filtersearch>
+				</div>
+			</div>
+		</section>
+		<savebutton class="settingsView-settingsFormButton" state="saveSafetyState" data-translation="settings.changes.save" data-ng-click="saveSafety()"></savebutton>
+		<savebutton class="settingsView-settingsFormButton" initicon="icon-cancel-circle" successicon="icon-cancel-circle" state="resetSafetyState" data-translation="settings.safety.reset" data-ng-click="resetSafety()"></savebutton>
 	</section>
-<!--
-	<section id="notifications">
-		<header><span class="title">Benachrichtigungen</span></header>
-		<div class="notimplemented"><span data-i18n="notimplemented"></span></div>
-	</section>
-	<section id="features">
-		<header><span class="title">Zusätzliche Funktionen</span></header>
-		<div class="notimplemented"><span data-i18n="notimplemented"></span></div>
-	</section>
--->
 </div>
