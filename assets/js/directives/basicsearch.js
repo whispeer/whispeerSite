@@ -239,7 +239,7 @@ define(["step", "whispeerHelper"], function () {
 							var elementWidth = e.outerWidth();
 							var takenWidth = selectedWidth + elementWidth + MININPUTWIDTH + PLUSWIDTH;
 
-							if (takenWidth > availableWidth) {
+							if (takenWidth > availableWidth && i !== 0) {
 								scope.previewCount = Math.max(0, i);
 								found = true;
 							} else {
