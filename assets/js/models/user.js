@@ -72,6 +72,7 @@ define(["step", "whispeerHelper", "asset/state", "asset/securedDataWithMetaData"
 			var id, mail, nickname, publicProfile, privateProfiles = [], myProfile, mutualFriends;
 
 			var addFriendState = new State();
+			var ignoreFriendState = new State();
 
 			this.data = {};
 
@@ -541,6 +542,7 @@ define(["step", "whispeerHelper", "asset/state", "asset/securedDataWithMetaData"
 					theUser.data.isMyFriend = friendsService.areFriends(theUser.getID());
 
 					theUser.data.addFriendState = addFriendState.data;
+					theUser.data.ignoreFriendState = ignoreFriendState.data;
 
 					theUser.loadImage();
 
@@ -668,6 +670,15 @@ define(["step", "whispeerHelper", "asset/state", "asset/securedDataWithMetaData"
 						nickname: nickname || ""
 					});
 				}), cb);
+			};
+
+			this.ignoreFriendShip = function () {
+				ignoreFriendState.pending();
+				if (!this.isOwn()) {
+					friendsService.ignoreFriendShip(this.getID(), errorService.failOnError(ignoreFriendState));
+				} else {
+					ignoreFriendState.failed();
+				}				
 			};
 
 			this.acceptFriendShip = function () {

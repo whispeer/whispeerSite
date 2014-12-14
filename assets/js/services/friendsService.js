@@ -106,7 +106,7 @@ define(["step", "whispeerHelper", "asset/observer", "asset/securedDataWithMetaDa
 					if (result.friends) {
 						friends.push(uid);
 						h.removeArray(requests, uid);
-						friendsService.notify(uid, "newFriend");
+						friendsService.notify(uid, "new");
 					} else {
 						requested.push(uid);
 						friendsService.notify(uid, "newRequested");
@@ -137,7 +137,7 @@ define(["step", "whispeerHelper", "asset/observer", "asset/securedDataWithMetaDa
 
 				updateCounters();
 
-				friendsService.notify(uid, "newFriend");
+				friendsService.notify(uid, "new");
 
 				userOnline(uid, 2);
 			}
@@ -222,7 +222,7 @@ define(["step", "whispeerHelper", "asset/observer", "asset/securedDataWithMetaDa
 						h.removeArray(removed, uid);
 
 						updateCounters();
-						friendsService.notify(uid, "removeFriend");
+						friendsService.notify(uid, "remove");
 						userOnline(uid, -1);
 
 						circleService.loadAll(this);
@@ -250,6 +250,21 @@ define(["step", "whispeerHelper", "asset/observer", "asset/securedDataWithMetaDa
 				}
 
 				addAsFriend(uid, cb);
+			},
+			ignoreFriendShip: function (uid, cb) {
+				step(function () {
+					if (requests.indexOf(uid) > -1 && !h.containsOr(uid, friends, requested)) {
+						socket.emit("friends.ignore", { uid: uid }, this);
+					} else {
+						throw new Error("no request Oo");
+					}
+				}, h.sF(function () {
+					ignored.push(uid);
+					h.removeArray(requests, uid);
+					friendsService.notify(uid, "ignore");
+
+					this.ne();
+				}), cb);
 			},
 			acceptFriendShip: function (uid, cb) {
 				if (requests.indexOf(uid) > -1 && !h.containsOr(uid, friends, requested)) {

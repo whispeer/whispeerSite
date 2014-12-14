@@ -42,6 +42,10 @@ define(["step", "whispeerHelper"], function (step, h) {
 		$scope.acceptRequest = function (request) {
 			request.user.acceptFriendShip();
 		};
+
+		$scope.ignoreRequest = function (request) {
+			request.user.ignoreFriendShip();
+		};
 	}
 
 	friendsController.$inject = ["$scope", "ssn.cssService", "ssn.friendsService", "ssn.userService", "localize"];
