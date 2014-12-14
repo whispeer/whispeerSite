@@ -262,6 +262,7 @@ define(["step", "whispeerHelper", "asset/observer", "asset/securedDataWithMetaDa
 					ignored.push(uid);
 					h.removeArray(requests, uid);
 					friendsService.notify(uid, "ignore");
+					updateCounters();
 
 					this.ne();
 				}), cb);
