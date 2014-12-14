@@ -30,6 +30,7 @@ requirejs.config({
 		qtip: "libs/jquery.qtip",
 		angular: "libs/angular",
 		angularRoute: "libs/angular-route",
+		angularTouch: "libs/angular-touch",
 		socket: "libs/socket.io",
 		socketStream: "libs/socket.io-stream",
 		step: "step/lib/step",
@@ -44,8 +45,10 @@ requirejs.config({
         },
         "angularRoute":{
             deps:["angular"]
+        },
+        "angularTouch":{
+            deps:["angular"]
         }
-
     },
     /*
 	shim: {
@@ -62,7 +65,8 @@ requirejs( [
 	"angular",
 	"app",
 	"routes",
-	"libs/canvas-toBlob"
+	"libs/canvas-toBlob",
+	"angularTouch"
 ], function($, angular, app) {
 	"use strict";
 	$(document).ready(function () {

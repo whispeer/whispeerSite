@@ -109,6 +109,18 @@ define(["step", "whispeerHelper", "cryptoWorker/generalWorkerInclude"], function
 			});
 		});
 
+		$scope.activateSidebar = function () {
+			if (!$scope.sidebarActive) {
+				$scope.toggleSidebar();
+			}
+		};
+
+		$scope.deactivateSidebar = function () {
+			if ($scope.sidebarActive) {
+				$scope.toggleSidebar();
+			}
+		};
+
 		$scope.toggleSidebar = function() {
 			$scope.sidebarActive = !$scope.sidebarActive;
 			$scope.searchActive = false;
