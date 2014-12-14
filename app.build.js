@@ -5,6 +5,7 @@
 		qtip: "libs/jquery.qtip",
 		angular: "libs/angular",
 		angularRoute: "libs/angular-route",
+		angularTouch: "libs/angular-touch",
 		socket: "libs/socket.io",
         socketStream: "libs/socket.io-stream",
 		step: "step/lib/step",
