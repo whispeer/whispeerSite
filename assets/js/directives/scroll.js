@@ -73,8 +73,14 @@ define([], function () {
 			compile: function () {
 				return {
 					post: function (scope, elm, attrs) {
+
 						var keepBottom = (typeof attrs.keepbottom !== "undefined");
+						var lockScrollBottom = (typeof attrs.lockscrollbottom !== "undefined");
 						var first = elm[0];
+
+						if (first.tagName === "BODY") {
+							elm = jQuery(window);
+						}
 
 						if (attrs.lockscrolling) {
 							scope.$watch(attrs.lockscrolling, function (newValue) {
@@ -107,7 +113,7 @@ define([], function () {
 									if (diff !== 0) {
 										if (atBottom && keepBottom) {
 											scrollBottom(elm, 4);
-										} else {
+										} else if (lockScrollBottom) {
 											if (diff > 0) {
 												elm.scrollTop(elm.scrollTop() + diff);
 											}
