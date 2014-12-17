@@ -88,7 +88,7 @@ define([], function () {
 
 						var scrollHeight = first.scrollHeight;
 
-						var PUFFER = 10;
+						var PUFFER = 30;
 
 						function isAtBottom() {
 							return first.offsetHeight + elm.scrollTop() >= (first.scrollHeight - PUFFER);
