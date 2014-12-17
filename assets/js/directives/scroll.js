@@ -76,10 +76,13 @@ define([], function () {
 
 						var keepBottom = (typeof attrs.keepbottom !== "undefined");
 						var lockScrollBottom = (typeof attrs.lockscrollbottom !== "undefined");
+						var scrollWindow = (typeof attrs.scrollWindow !== "undefined");
+						var customOnce = (typeof attrs.customOnce !== "undefined");
 						var first = elm[0];
 
-						if (first.tagName === "BODY") {
+						if (first.tagName === "BODY" || scrollWindow) {
 							elm = jQuery(window);
+							first = document.body;
 						}
 
 						if (attrs.lockscrolling) {
@@ -159,9 +162,11 @@ define([], function () {
 									distanceTopPercentage: (elm.scrollTop() / elm.innerHeight())
 								};
 
-								if (scope.$eval(attrs.custom, scrollState) && (!wasCalled || !attrs.customOnce)) {
-									scope.$eval(attrs.atCustom);
-									wasCalled = true;
+								if (scope.$eval(attrs.custom, scrollState)) {
+									if (!wasCalled || !customOnce) {
+										scope.$eval(attrs.atCustom);
+										wasCalled = true;
+									}
 								} else {
 									wasCalled = false;
 								}
