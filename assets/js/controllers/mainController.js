@@ -13,6 +13,9 @@ define(["step", "whispeerHelper", "asset/state"], function (step, h, State) {
 		var sendPostState = new State();
 		$scope.sendPostState = sendPostState.data;
 
+		var timelineLoadingState = new State();
+		$scope.timelineLoadingState = timelineLoadingState.data;		
+
 		$scope.postActive = false;
 		$scope.filterActive = false;
 		$scope.newPost = {
@@ -75,9 +78,13 @@ define(["step", "whispeerHelper", "asset/state"], function (step, h, State) {
 
 		function reloadTimeline() {
 			loadedTimeline = $scope.filterSelection;
-			postService.getTimelinePosts(0, $scope.filterSelection, function (err, posts) {
+			timelineLoadingState.pending();
+			step(function () {
+				postService.getTimelinePosts(0, $scope.filterSelection, this);
+			}, h.sF(function (posts) {
 				$scope.posts = posts;
-			});
+				this.ne();
+			}), errorService.failOnError(timelineLoadingState));
 		}
 
 		reloadTimeline();

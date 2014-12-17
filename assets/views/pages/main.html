@@ -13,6 +13,7 @@
 	</header>
 	<div class="posts" id="newsfeedView-posts">
 		<a class="btn btn--primary btn--large inviteFriends-link" id="newsfeedView-inviteFriends" href="/invite" data-i18n="inviteFriends"></a>
+		<div class="" data-ng-if="timelineLoadingState.pending"><i class="saveButton-spinner fa fa-2x fa-fw fa-spinner fa-spin"></i> <span class="large-text" data-i18n="wall.loading"></span></div>
 		<post data-ng-repeat="post in posts" data-post="post" id="{{post.id}}"></post>
 	</div>
 </div>
