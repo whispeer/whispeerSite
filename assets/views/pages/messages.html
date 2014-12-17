@@ -20,7 +20,7 @@
 	</button>
 </header>
 
-<div id="topicListWrap" data-ng-if="!mobile || !showMessage">
+<div id="topicListWrap" data-ng-if="!mobile || !showMessage" data-scroll data-custom="distancePercentage < 0.5" data-at-custom="loadMoreTopics()">
 	<ul id="topicList">
 		<div id="topicListScroll">
 			<li data-ng-repeat="topic in topics" id="{{topic.id}}" class="topic {{topic.type}} {{topic.unread?'unread':''}} {{isActiveTopic(topic)?'active':''}}" data-ng-click="loadActiveTopic(topic.id)">
