@@ -63,6 +63,13 @@ define(["whispeerHelper", "asset/state"], function (h, State) {
 			circleService.get($scope.circleid).removePersons([user.id], errorService.criticalError);
 		};
 
+		$scope.usersToAdd = {};
+		$scope.addUsers = function (users) {
+			addUsersToCircleState.pending();
+
+			circleService.get($scope.circleid).addPersons(users, errorService.failOnError(addUsersToCircleState));
+		};
+
 		$scope.removeCircle = function () {
 			var response = confirm(localize.getLocalizedString("views.circles.removeCircle"));
 			if (response) {
@@ -93,6 +100,10 @@ define(["whispeerHelper", "asset/state"], function (h, State) {
 		};
 
 		$scope.loadActiveCircle = function (id) {
+			$scope.$broadcast("resetSearch");
+			var addUsersToCircleState = new State();
+			$scope.addUsersToCircle = addUsersToCircleState.data;
+
 			$scope.showCircle = true;
 			$scope.circleLoaded = true;
 			$scope.circleid = id;
