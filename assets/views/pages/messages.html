@@ -51,7 +51,7 @@
 
 <div id="topicWrap" data-topicID="{{activeTopic.id}}" class="{{activeTopic.type}}" data-ng-if="topicLoaded && showMessage">
 	<div id="messageWrap">
-		<ul class="scroll-pane" id="messageList" data-scroll data-keepBottom data-lockscrolling="scrollLock" data-ontop="loadMoreMessages()" data-onbottomwithauto="markRead()">
+		<ul class="scroll-pane" id="messageList" data-scroll data-keepBottom data-custom="distanceTopPercentage < 0.5" data-at-custom="loadMoreMessages()" data-custom-once data-lockscrolling="scrollLock" data-onbottomwithauto="markRead()">
 			<li class="burst" data-ng-repeat="burst in messageBursts()" data-ng-class="{me:burst[0].sender.me, other:burst[0].sender.other}">
 				<div class="username">{{burst[0].sender.name}}</div>
 				<div class="userimg">

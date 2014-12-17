@@ -91,7 +91,7 @@ define([], function () {
 						var PUFFER = 30;
 
 						function isAtBottom() {
-							return first.offsetHeight + elm.scrollTop() >= (first.scrollHeight - PUFFER);
+							return elm.scrollTop() >= (first.scrollHeight -  elm.innerHeight() - PUFFER);
 						}
 
 						function isAtTop() {
@@ -124,24 +124,40 @@ define([], function () {
 						atBottom = isAtBottom();
 						atTop = isAtTop();
 
+						var wasCalled = false;
+
 						elm.bind("scroll", function() {
 							if (isAtBottom()) {
 								if (attrs.onbottomwithauto) {
 									scope.$eval(attrs.onbottomwithauto);
 								}
 
-								if (atBottom === false) {
-									if (attrs.onbottom) {
-										scope.$eval(attrs.onbottom);
-									}
+								if (atBottom === false && attrs.onbottom) {
+									scope.$eval(attrs.onbottom);
 								}
 							}
 
-							if (isAtTop()) {
-								if (atTop === false) {
-									if (attrs.ontop) {
-										scope.$eval(attrs.ontop);
-									}
+							if (isAtTop() && atTop === false && attrs.ontop) {
+								scope.$eval(attrs.ontop);
+							}
+
+							if (attrs.custom && attrs.atCustom) {
+								var scrollHeight = first.scrollHeight - elm.innerHeight();
+								var scrollState = {
+									scrollHeight: scrollHeight,
+									scrolledHeight: elm.scrollTop(),
+									height: elm.innerHeight(),
+									percentage: elm.scrollTop() / scrollHeight,
+									distance: (scrollHeight - elm.scrollTop()),
+									distancePercentage: (scrollHeight - elm.scrollTop()) / elm.innerHeight(),
+									distanceTopPercentage: (elm.scrollTop() / elm.innerHeight())
+								};
+
+								if (scope.$eval(attrs.custom, scrollState) && (!wasCalled || !attrs.customOnce)) {
+									scope.$eval(attrs.atCustom);
+									wasCalled = true;
+								} else {
+									wasCalled = false;
 								}
 							}
 
