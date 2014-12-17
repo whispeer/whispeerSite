@@ -52,6 +52,11 @@
 <div id="topicWrap" data-topicID="{{activeTopic.id}}" class="{{activeTopic.type}}" data-ng-if="topicLoaded && showMessage">
 	<div id="messageWrap">
 		<ul class="scroll-pane" id="messageList" data-scroll data-keepBottom data-lockscrolling="scrollLock" data-ontop="loadMoreMessages()" data-onbottomwithauto="markRead()">
+			<li>
+				<span data-i18n="messages.remaining|count={{activeTopic.remaining}}" data-ng-if="activeTopic.remaining > 0"></span>
+				<span data-i18n="messages.endOfStream" data-ng-if="activeTopic.remaining == 0"></span>
+				<i data-ng-if="loadingMessages" class="fa  fa-2x fa-fw fa-spinner fa-spin"></i>
+			</li>
 			<li class="burst" data-ng-repeat="burst in messageBursts()" data-ng-class="{me:burst[0].sender.me, other:burst[0].sender.other}">
 				<div class="username">{{burst[0].sender.name}}</div>
 				<div class="userimg">

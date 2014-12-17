@@ -291,6 +291,8 @@
 		"comments": "Comments"
 	},
 	"messages": {
+		"endOfStream": "End of message stream!",
+		"remaining": "{count} remaining messages!",
 		"title": "Messages",
 		"chat" :"Chat with",
 		"newMessage": "New message",
