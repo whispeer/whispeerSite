@@ -14,6 +14,8 @@ define(["step", "whispeerHelper", "asset/resizableImage", "asset/state", "libs/q
 		var saveUserState = new State();
 		$scope.saveUserState = saveUserState.data;
 
+		$scope.user = {};
+
 		$scope.loading = true;
 		$scope.notExisting = false;
 		$scope.loadingFriends = true;
