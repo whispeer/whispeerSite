@@ -13,9 +13,6 @@ define(["step", "whispeerHelper", "asset/state"], function (step, h, State) {
 		var sendPostState = new State();
 		$scope.sendPostState = sendPostState.data;
 
-		var timelineLoadingState = new State();
-		$scope.timelineLoadingState = timelineLoadingState.data;		
-
 		$scope.postActive = false;
 		$scope.filterActive = false;
 		$scope.newPost = {
@@ -31,15 +28,12 @@ define(["step", "whispeerHelper", "asset/state"], function (step, h, State) {
 			});
 		});
 
-		var loadedTimeline = [0];
-
 		$scope.$on("selectionChange:timelineFilter", function (event, newSelection) {
 			$scope.filterSelection = newSelection.map(function (e) {
 				return e.id;
 			});
-			if (!h.arrayEqual(loadedTimeline, $scope.filterSelection)) {
-				reloadTimeline();
-			}
+
+			reloadTimeline();
 		});
 
 		$scope.togglePost = function() {
@@ -47,7 +41,7 @@ define(["step", "whispeerHelper", "asset/state"], function (step, h, State) {
 		};
 
 		$scope.loadMorePosts = function () {
-			console.log("load more posts!");
+			$scope.currentTimeline.loadMorePosts(errorService.criticalError);
 		};
 
 		$scope.sendPost = function () {
@@ -80,19 +74,16 @@ define(["step", "whispeerHelper", "asset/state"], function (step, h, State) {
 			$scope.filterActive = !$scope.filterActive;
 		};
 
+		$scope.currentTimeline = null;
+
 		function reloadTimeline() {
-			loadedTimeline = $scope.filterSelection;
-			timelineLoadingState.pending();
 			step(function () {
-				postService.getTimelinePosts(0, $scope.filterSelection, this);
-			}, h.sF(function (posts) {
-				$scope.posts = posts;
-				this.ne();
-			}), errorService.failOnError(timelineLoadingState));
+				$scope.currentTimeline = postService.getTimeline($scope.filterSelection);
+				$scope.currentTimeline.loadInitial(this);
+			}, errorService.criticalError);
 		}
 
 		reloadTimeline();
-		$scope.posts = [];
 	}
 
 	mainController.$inject = ["$scope", "ssn.cssService", "ssn.postService", "ssn.errorService"];

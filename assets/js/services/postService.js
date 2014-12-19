@@ -4,7 +4,7 @@
 define(["step", "whispeerHelper", "validation/validator", "asset/observer", "asset/errors", "asset/securedDataWithMetaData", "asset/state"], function (step, h, validator, Observer, errors, SecuredData, State) {
 	"use strict";
 
-	var service = function ($rootScope, socket, keyStore, errorService, userService, circleService, filterKeyService, Comment) {
+	var service = function ($rootScope, $timeout, socket, keyStore, errorService, userService, circleService, filterKeyService, Comment) {
 		var postsById = {};
 		var postsByUserWall = {};
 		var TimelineByFilter = {};
@@ -28,6 +28,9 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer", "ass
 				},
 				time: securedData.metaAttr("time"),
 				isWallPost: false,
+				loadComments: function () {
+					thePost.loadComments(errorService.criticalError);
+				},
 				newComment: {
 					state: commentState.data,
 					text: "",
@@ -103,8 +106,6 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer", "ass
 						text: text
 					};
 
-					loadComments(errorService.criticalError);
-
 					this.ne();
 				}), cb);
 			};
@@ -113,7 +114,7 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer", "ass
 				return securedData;
 			};
 
-			function loadComments(cb) {
+			this.loadComments = function(cb) {
 				step(function () {
 					if (comments.length === 0) {
 						this.last.ne();
@@ -124,7 +125,7 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer", "ass
 						comment.load(thePost, comments[i - 1], this.parallel());
 					}, this);
 				}, cb);
-			}
+			};
 
 			this.addComment = function (comment, cb) {
 				step(function () {
@@ -240,54 +241,171 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer", "ass
 							filterObject.result.unshift(e);
 						});
 					}
-				}));			
+				}));
 			}
 
 			window.setInterval(loadNewPosts, 5*60*1000);
 		}
 
-		var postService = {
-			getTimelinePosts: function (afterID, filter, cb) {
-				var result = [], finalFilter = [];
-				step(function () {
-					var i, circles = [], split;
-					for (i = 0; i < filter.length; i += 1) {
-						split = filter[i].split(":");
-						if (split[0] === "circle") {
-							circles.push(split[1]);
-						} else {
-							finalFilter.push(filter[i]);
-						}
-					}
+		var Timeline = function (filter) {
+			this._filter = filter;
+			this._posts = [];
+			this._postsData = [];
+			this._requested = 0;
 
-					circleFiltersToUser(circles, this);
-				}, h.sF(function (users) {
-					finalFilter = finalFilter.concat(users.map(function (e) {return "user:" + e;}));
+			this.loading = false;
+			this.loaded = false;
+		};
 
-					socket.emit("posts.getTimeline", {
-						afterID: afterID,
-						filter: finalFilter,
-						count: 20
-					}, this);
-				}), h.sF(function (results) {
-					var thePost, i, posts = results.posts || [];
-					for (i = 0; i < posts.length; i += 1) {
-						thePost = makePost(posts[i]);
+		Timeline.prototype.getPosts = function () {
+			return this._postsData;
+		};
+
+		Timeline.prototype._loadNewestPosts = function () {
+			if (this._posts.length === 0) {
+				return;
+			}
+
+			var that = this;
+			step(function () {
+				that._expandFilter(this);
+			}, h.sF(function () {
+				var beforeID = that._getNewestID();
+
+				socket.emit("posts.getNewestTimeline", {
+					filter: that._expandedFilter,
+					beforeID: beforeID,
+					lastRequestTime: that._requested
+				}, this);
+			}), h.sF(function (data) {
+				if (data.posts) {
+					var newPosts = data.posts.map(function (thePost) {
+						thePost = makePost(thePost);
 						thePost.loadData(this.parallel());
-						result.push(thePost.data);
+
+						return thePost.data;
+					}, this);
+
+					that._requested = socket.lastRequestTime();
+
+					newPosts.reverse().map(function (e) {
+						that._posts.unshift(e);
+					});
+				}
+			}), errorService.criticalError);
+		};
+
+		Timeline.prototype.getNewestID = function () {
+			if (this._posts.length === 0) {
+				return 0;
+			}
+
+			return this._posts[0].getID();
+		};
+
+		Timeline.prototype.getOldestID = function () {
+			if (this._posts.length === 0) {
+				return 0;
+			}
+
+			return this._posts[this._posts.length - 1].getID();
+		};
+
+		Timeline.prototype._expandFilter = function(cb) {
+			var that = this, finalFilter = [];
+
+			if (this._finalFilter) {
+				cb();
+				return;
+			}
+
+			step(function () {
+				var circles = [];
+
+				that._filter.forEach(function (filterElement) {
+					var split = filterElement.split(":");
+					if (split[0] === "circle") {
+						circles.push(split[1]);
+					} else {
+						finalFilter.push(filterElement);
 					}
+				});
 
-					TimelineByFilter[JSON.stringify(finalFilter)] = {
-						result: result,
-						requested: socket.lastRequestTime()
-					};
+				circleFiltersToUser(circles, this);
+			}, h.sF(function (users) {
+				finalFilter = finalFilter.concat(users.map(function (e) {return "user:" + e;}));
 
-					registerNewPosts(finalFilter);
+				that._finalFilter = finalFilter;
 
-					this.parallel()();
-				}), h.sF(function () {
-					this.ne(result);
-				}), cb);
+				this.ne();
+			}), cb);
+		};
+
+		Timeline.prototype.loadInitial = function (cb) {
+			if (this.loaded) {
+				cb();
+				return;
+			}
+
+			this.loadMorePosts(cb);
+		};
+
+		Timeline.prototype.loadMorePosts = function (cb) {
+			if (this.loading) {
+				cb();
+				return;
+			}
+
+			var that = this;
+			this.loading = true;
+
+			step(function () {
+				that._expandFilter(this);
+			}, h.sF(function () {
+				socket.emit("posts.getTimeline", {
+					afterID: that.getOldestID(),
+					filter: that._finalFilter,
+					count: 20
+				}, this);
+			}), h.sF(function (results) {
+				var posts = results.posts || [];
+
+				that._posts = that._posts.concat(posts.map(function (post) {
+					var thePost = makePost(post);
+					thePost.loadData(this.parallel());
+
+					return thePost;
+				}, this));
+				that._requested = socket.lastRequestTime;
+
+				this.parallel()();
+			}), function (e) {
+				that.loading = false;
+
+				that._postsData = that._posts.map(function (post) {
+					return post.data;
+				});
+
+				if (!e) {
+					that.loaded = true;
+				}
+
+				this(e);
+			}, cb);
+		};
+
+		var timelinesCache = {};
+
+		var postService = {
+			getTimeline: function (filter) {
+				filter.sort();
+
+				var filterString = JSON.stringify(filter);
+				if (!timelinesCache[filterString]) {
+					timelinesCache[filterString] = new Timeline(filter);	
+				}
+
+				return timelinesCache[filterString];
 			},
 			getWallPosts: function (afterID, userid, cb) {
 				var result = [];
@@ -407,7 +525,7 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer", "ass
 		return postService;
 	};
 
-	service.$inject = ["$rootScope", "ssn.socketService", "ssn.keyStoreService", "ssn.errorService", "ssn.userService", "ssn.circleService", "ssn.filterKeyService", "ssn.models.comment"];
+	service.$inject = ["$rootScope", "$timeout", "ssn.socketService", "ssn.keyStoreService", "ssn.errorService", "ssn.userService", "ssn.circleService", "ssn.filterKeyService", "ssn.models.comment"];
 
 	return service;
 });
