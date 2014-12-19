@@ -360,8 +360,10 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer", "ass
 			this.loading = true;
 
 			step(function () {
-				that._expandFilter(this);
+				$timeout(this);
 			}, h.sF(function () {
+				that._expandFilter(this);
+			}), h.sF(function () {
 				socket.emit("posts.getTimeline", {
 					afterID: that.getOldestID(),
 					filter: that._finalFilter,
