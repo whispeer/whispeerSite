@@ -269,6 +269,7 @@ define([
 
 			this.loadMoreMessages = function loadMoreMessagesF(cb, max) {
 				var loadMore = new Date().getTime();
+				var remaining = 0;
 				step(function () {
 					if (theTopic.data.remaining > 0) {
 						socket.emit("messages.getTopicMessages", {
@@ -282,7 +283,9 @@ define([
 				}, h.sF(function (data) {
 					theTopic.delayMessageAdding();
 					console.log("Message server took: " + (new Date().getTime() - loadMore));
-					theTopic.data.remaining = data.remaining;
+
+					remaining = data.remaining;
+
 					if (data.messages) {
 						var i;
 						for (i = 0; i < data.messages.length; i += 1) {
@@ -292,6 +295,7 @@ define([
 
 					this.parallel()();
 				}), h.sF(function () {
+					theTopic.data.remaining = remaining;
 					theTopic.runMessageAdding();
 					console.log("Message loading took: " + (new Date().getTime() - loadMore));
 					this.ne();

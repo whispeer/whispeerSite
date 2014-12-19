@@ -290,6 +290,8 @@
 		"comments": "Kommentare"
 	},
 	"messages": {
+		"endOfStream": "Keine weiteren Nachrichten!",
+		"remaining": "{count} Nachrichten!",
 		"title": "Nachrichten",
 		"chat" :"Chat mit",
 		"newMessage": "Neue Nachricht",
