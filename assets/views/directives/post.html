@@ -16,11 +16,15 @@
 	<p class="content" data-syntaxify="post.content.text"></p>
 	<aside class="actions">
 		<span class="date"><i class="fa fa-clock-o"></i> {{post.time|smartdate}}</span>
-		<span ng-click="show=!show" class="action"><i class="fa fa-comment"></i> <span data-i18n="wall.comments"></span> ({{post.comments.length}})</span>
+		<span ng-click="toggleShowComments()" class="action"><i class="fa fa-comment"></i> <span data-i18n="wall.comments"></span> ({{post.comments.length}})</span>
 	</aside>
-	<aside class="comments" ng-show="show">
+	<aside class="comments" ng-show="showComments">
 		<ul>
-			<comment data-ng-repeat="comment in post.comments" comment="comment"></comment>
+			<li class="post-comments-loading" data-ng-show="post.commentsLoading">
+				<i class="saveButton-spinner fa fa-2x fa-fw fa-spinner fa-spin"></i>
+				<p class="large-text" data-i18n="wall.commentsLoading"></p>
+			</li>
+			<comment data-ng-show="!post.commentsLoading" data-ng-repeat="comment in post.comments" comment="comment"></comment>
 		</ul>
 		<div>
 			<textarea data-i18n-attr="wall.newComment|placeholder" data-strg-enter="post.newComment.create(post.newComment.text)" data-ng-model="post.newComment.text"></textarea>
