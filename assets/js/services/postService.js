@@ -267,7 +267,7 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer", "ass
 					socket.emit("posts.getTimeline", {
 						afterID: afterID,
 						filter: finalFilter,
-						count: 5
+						count: 20
 					}, this);
 				}), h.sF(function (results) {
 					var thePost, i, posts = results.posts || [];
@@ -284,7 +284,7 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer", "ass
 
 					registerNewPosts(finalFilter);
 
-					this.ne();
+					this.parallel()();
 				}), h.sF(function () {
 					this.ne(result);
 				}), cb);
