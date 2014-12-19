@@ -289,7 +289,8 @@
 			"content": "{{content}}"
 		},
 		"newComment": "Add a comment!",
-		"comments": "Comments"
+		"comments": "Comments",
+		"commentsLoading": "Comments are being loaded!"
 	},
 	"messages": {
 		"endOfStream": "End of message stream!",

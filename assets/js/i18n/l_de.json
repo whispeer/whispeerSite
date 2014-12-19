@@ -287,7 +287,8 @@
 			"content": "{{content}}"
 		},
 		"newComment": "Schreibe einen Kommentar!",
-		"comments": "Kommentare"
+		"comments": "Kommentare",
+		"commentsLoading": "Kommentare werden geladen!"
 	},
 	"messages": {
 		"endOfStream": "Keine weiteren Nachrichten!",

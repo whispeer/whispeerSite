@@ -20,6 +20,10 @@
 	</aside>
 	<aside class="comments" ng-show="showComments">
 		<ul>
+			<li class="post-comments-loading" data-ng-show="false">
+				<i class="saveButton-spinner fa fa-2x fa-fw fa-spinner fa-spin"></i>
+				<p class="large-text" data-i18n="wall.commentsLoading"></p>
+			</li>
 			<comment data-ng-repeat="comment in post.comments" comment="comment"></comment>
 		</ul>
 		<div>
