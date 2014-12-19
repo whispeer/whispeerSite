@@ -43,6 +43,10 @@ define(["step", "whispeerHelper", "asset/state"], function (step, h, State) {
 			$scope.postActive = !$scope.postActive;
 		};
 
+		$scope.loadMorePosts = function () {
+			console.log("load more posts!");
+		};
+
 		$scope.sendPost = function () {
 			sendPostState.pending();
 
