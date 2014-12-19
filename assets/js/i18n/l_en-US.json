@@ -262,6 +262,7 @@
 		}
 	},
 	"wall": {
+		"loading": "Loading your newsfeed!",
 		"createPost": "Post something!",
 		"postit": {
 			"receiver": "Who is allowed to read this post?",
