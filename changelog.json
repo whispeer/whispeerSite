@@ -3,6 +3,11 @@
 		"2": {
 			"0": [
 				"Initial release"
+			],
+			"1": [
+				"Speed improvements",
+				"A lot of bugfixes",
+				"Infinite Scrolling for posts and message topics"
 			]
 		}
 	}

@@ -1145,7 +1145,7 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 					this.last.ne(signatureCache.getSignatureStatus(signature, hash, realid));
 				} else {
 					console.info("slow verify");
-					console.time("verify");
+					console.time("verify-" + chelper.bits2hex(hash));
 
 					if (firstVerify) {
 						firstVerify = false;
@@ -1155,7 +1155,7 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 					}
 				}
 			}), h.sF(function (valid) {
-				console.timeEnd("verify");
+				console.timeEnd("verify-" + chelper.bits2hex(hash));
 				if (signatureCache.isLoaded()) {
 					signatureCache.addSignatureStatus(signature, hash, realid, valid);
 				}

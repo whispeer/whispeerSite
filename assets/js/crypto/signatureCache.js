@@ -19,20 +19,25 @@ define (["whispeerHelper", "step", "asset/observer", "asset/errors", "crypto/key
 	}
 
 	function cleanUpDatabase() {
-		var times = allHashes().map(function (key) {
-			return database.metaAttr(key);
-		});
+		if (allHashes().length > 500) {
+			console.log("Cleaning up database (" + allHashes().length + ")");
+			var times = allHashes().map(function (key) {
+				return database.metaAttr(key);
+			});
 
-		times.sort(function (a, b) { return b - a; });
+			times.sort(function (a, b) { return b - a; });
 
-		var border = times[200] + 200;
+			var border = times[400] + 200;
 
-		allHashes().forEach(function (key) {
-			if (database.metaAttr(key) < border) {
-				database.metaRemoveAttr(key);
-				changed = true;
-			}
-		});
+			allHashes().forEach(function (key) {
+				if (database.metaAttr(key) < border) {
+					database.metaRemoveAttr(key);
+					changed = true;
+				}
+			});
+
+			console.log("Cleaned up database (" + allHashes().length + ")");
+		}
 	}
 
 	var signatureCache = {
@@ -102,9 +107,7 @@ define (["whispeerHelper", "step", "asset/observer", "asset/errors", "crypto/key
 				changed = true;
 				database.metaSetAttr(sHash, new Date().getTime());
 
-				if (database.metaKeys().length > 500) {
-					cleanUpDatabase();
-				}
+				cleanUpDatabase();
 
 				return (data !== false);
 			} else {
@@ -126,9 +129,7 @@ define (["whispeerHelper", "step", "asset/observer", "asset/errors", "crypto/key
 
 			database.metaSetAttr(sHash, new Date().getTime());
 
-			if (database.metaKeys().length > 500) {
-				cleanUpDatabase();
-			}
+			cleanUpDatabase();
 		},
 		reset: function () {
 			loaded = false;
