@@ -20,11 +20,11 @@
 	</aside>
 	<aside class="comments" ng-show="showComments">
 		<ul>
-			<li class="post-comments-loading" data-ng-show="false">
+			<li class="post-comments-loading" data-ng-show="post.commentsLoading">
 				<i class="saveButton-spinner fa fa-2x fa-fw fa-spinner fa-spin"></i>
 				<p class="large-text" data-i18n="wall.commentsLoading"></p>
 			</li>
-			<comment data-ng-repeat="comment in post.comments" comment="comment"></comment>
+			<comment data-ng-show="!post.commentsLoading" data-ng-repeat="comment in post.comments" comment="comment"></comment>
 		</ul>
 		<div>
 			<textarea data-i18n-attr="wall.newComment|placeholder" data-strg-enter="post.newComment.create(post.newComment.text)" data-ng-model="post.newComment.text"></textarea>

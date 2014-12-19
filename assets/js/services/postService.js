@@ -121,9 +121,16 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer", "ass
 						return;
 					}
 
+					thePost.data.commentsLoading = true;
+
+					$timeout(this);
+				}, h.sF(function () {
 					comments.forEach(function (comment, i) {
 						comment.load(thePost, comments[i - 1], this.parallel());
 					}, this);
+				}), function (e) {
+					thePost.data.commentsLoading = false;
+					this(e);
 				}, cb);
 			};
 
