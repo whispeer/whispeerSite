@@ -514,15 +514,14 @@ define([
 				messages = {};
 				topics = {};
 				topicArray = sortedSet(sortObjGetTimeInv);
-				messageService.data = {
-					latestTopics: {
+				messageService.data.latestTopics = {
 						count: 0,
 						loading: false,
 						loaded: false,
 						data: topicArray
-					},
-					unread: 0
 				};
+
+				messageService.data.unread = 0;
 			},
 			loadMoreLatest: function (cb) {
 				var l = messageService.data.latestTopics;
