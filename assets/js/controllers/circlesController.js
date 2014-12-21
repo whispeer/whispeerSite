@@ -2,7 +2,7 @@
 * circlesController
 **/
 
-define(["whispeerHelper", "asset/state"], function (h, State) {
+define(["whispeerHelper", "asset/state", "step"], function (h, State, step) {
 	"use strict";
 
 	function circlesController($scope, cssService, circleService, errorService, localize) {
@@ -67,7 +67,12 @@ define(["whispeerHelper", "asset/state"], function (h, State) {
 		$scope.addUsers = function (users) {
 			addUsersToCircleState.pending();
 
-			circleService.get($scope.circleid).addPersons(users, errorService.failOnError(addUsersToCircleState));
+			step(function () {
+				circleService.get($scope.circleid).addPersons(users, this);
+			}, h.sF(function () {
+				$scope.$broadcast("resetSearch");
+				this.ne();
+			}), errorService.failOnError(addUsersToCircleState));
 		};
 
 		$scope.removeCircle = function () {
@@ -101,7 +106,7 @@ define(["whispeerHelper", "asset/state"], function (h, State) {
 
 		$scope.loadActiveCircle = function (id) {
 			$scope.$broadcast("resetSearch");
-			var addUsersToCircleState = new State();
+			addUsersToCircleState = new State();
 			$scope.addUsersToCircle = addUsersToCircleState.data;
 
 			$scope.showCircle = true;
