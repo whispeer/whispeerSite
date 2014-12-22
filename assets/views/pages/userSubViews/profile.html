@@ -1,0 +1,153 @@
+<section class="userView-section" id="userView-section-info">
+	<section class="userView-subSection" id="generalInfo">
+		<header class="box-header box-header--content">
+			<span class="box-header-title" data-i18n="profile.section.general.headers.title"></span>
+			<div class="box-header-links">
+				<a href="" class="edit box-header-link" data-i18n="profile.edit.false" data-ng-if="user.me && !editGeneral" data-ng-click="edit()"></a>
+				<a href="" class="edit box-header-link" data-i18n="profile.edit.true" data-ng-if="user.me && editGeneral" data-ng-click="saveUser()"></a>
+			</div>
+		</header>
+		<div class="userView-userimage" data-ng-class="{'userView-userimage--editing':changeImage, 'userView-userimage--bigger': mobile && editGeneral && !changeImage}">
+			<userimage id="userView-userimage-theImage" data-user="user" data-ng-if="!changeImage" />
+			<span class="userView-editImage btn btn--primary btn--input" data-ng-if="editGeneral && !changeImage" data-i18n="profile.section.general.changeImage" data-ng-click="doChangeImage()"></span>
+			<div class="uploadForm" id="userView-uploadProfileImage" data-ng-if="editGeneral && changeImage">
+				<span class="uploadForm-button btn btn--primary btn--input" data-i18n="login.register.uploadImage"></span>
+				<input class="uploadForm-theForm" type="file" data-file="imageChange" width="4000">
+			</div>
+			<div class="userView-userimage-canvasWrapper">
+				<canvas data-ng-if="changeImage" id="userView-userimage-original"></canvas>
+				<div class="resizableWrapper" data-ng-show="!mobile"></div>
+			</div>
+		</div>
+		<div class="userView-info" data-ng-class="{'userView-info--edit': editGeneral}">
+			<p id="userView-birthday" class="userView-infoRow" data-ng-if="set(adv.birthday) || editGeneral">
+				<i class="userView-infoIcon fa fa-gift fa-fw"></i>
+				<span class="userView-infoText" data-i18n="profile.section.general.birthday.text">
+					<span class="day" data-for="day" data-ng-if="!editGeneral">{{adv.birthday.day}}</span>
+					<span class="month" data-for="month" data-ng-if="!editGeneral" data-i18n="date.month.{{adv.birthday.month}}"></span>
+					<span class="year" data-for="year" data-ng-if="!editGeneral">{{adv.birthday.year}}</span>
+					<select class="userview-info-bdaySelect" data-for="day" data-ng-if="editGeneral" data-ng-model="adv.birthday.day" data-ng-options="day for day in days">
+						<option value="" data-i18n="profile.section.general.birthday.day"></option>
+					</select>
+					<select class="userview-info-bdaySelect" data-for="month" data-ng-if="editGeneral" data-ng-model="adv.birthday.month">
+						<option value="" data-i18n="profile.section.general.birthday.month"></option>
+						<option data-ng-repeat="month in months" data-i18n="date.month.{{month}}" value="{{$index+1}}" data-ng-selected="$index+1 == adv.birthday.month"></option>
+					</select>
+					<select class="userview-info-bdaySelect" data-for="year" data-ng-if="editGeneral" data-ng-model="adv.birthday.year" data-ng-options="year for year in years">
+						<option value="" data-i18n="profile.section.general.birthday.year"></option>
+					</select>
+				</span>
+			</p>
+			<p id="userView-residence" class="userView-infoRow" data-ng-if="set(adv.location) || editGeneral">
+				<i class="userView-infoIcon fa fa-home fa-fw"></i>
+				<span class="userView-infoText" data-i18n="profile.section.general.location.{{getLocationVals(adv.location)}}">
+					<span data-for="town" class="town" data-ng-if="!editGeneral">{{adv.location.town}}</span>
+					<input data-for="town" type="text" class="userView-info-inputs" data-i18n-attr="profile.section.general.location.placeholders.city|placeholder" data-ng-model="adv.location.town" data-ng-if="editGeneral">
+					<span data-for="country" class="country" data-ng-if="!editGeneral">{{adv.location.country}}</span>
+					<input data-for="country" type="text" data-i18n-attr="profile.section.general.location.placeholders.country|placeholder" data-ng-model="adv.location.country" data-ng-if="editGeneral">
+				</span>
+			</p>
+			<p id="userView-relationship" class="userView-infoRow" data-ng-if="set(adv.relationship) || editGeneral">
+				<i class="userView-infoIcon fa fa-heart fa-fw"></i>
+				<span class="userView-infoText" data-i18n="profile.section.general.relation.{{getRelationVals(adv.relationship)}}">
+					<span data-for="relationType" class="relationType" data-ng-if="!editGeneral" data-i18n="profile.section.general.relation.status.{{adv.relationship.type}}"></span>
+					<select data-for="relationType" class="relationType" data-ng-model="adv.relationship.type" data-ng-if="editGeneral">
+						<option></option>
+						<option data-ng-repeat="type in possibleStatus" data-i18n="profile.section.general.relation.status.{{type}}" value="{{type}}" data-ng-selected="type == adv.relationship.type"></option>
+					</select>
+
+					<span data-for="name" class="partner" data-ng-if="!editGeneral">{{adv.relationship.name}}</span>
+					<input data-for="name" type="text" data-i18n-attr="profile.section.general.relation.placeholder|placeholder" data-ng-model="adv.relationship.name" data-ng-if="editGeneral">
+				</span>
+			</p>
+			<p id="userView-school" class="userView-infoRow" data-ng-if="set(adv.education) || editGeneral">
+				<i class="userView-infoIcon fa fa-book fa-fw"></i>
+				<span class="userView-infoText" data-i18n="profile.section.general.education.display"  data-ng-if="!editGeneral">
+					<span data-for="school"><span class="userView-commaSeperated" data-ng-repeat="school in adv.education">{{school.name}}</span></span>
+				</span>
+				<span class="userView-infoText" data-ng-if="editGeneral" data-for="school">
+						<span class="userView-info-group annotatedInput-container annotatedInput-container--button" data-ng-repeat="school in adv.education">
+							<input class="annotatedInput-input" type="text" data-i18n-attr="profile.section.general.education.edit|placeholder" data-ng-model="school.name">
+							<button class="btn btn--danger annotatedInput-button" data-ng-click="removeElement(adv.education, $index)"><i class="fa fa-times-circle"></i></button>
+						</span>
+						<button class="userView-addGroupButton btn btn--primary" data-ng-click="addElement(adv.education, {name: ''}, 3)"><i class="fa fa-plus-circle"></i></button>
+				</span>
+			</p>
+			<p id="userView-work" class="userView-infoRow" data-ng-if="set(adv.work) || editGeneral">
+				<i class="userView-infoIcon fa fa-briefcase fa-fw"></i>
+				<span class="userView-infoText" data-i18n="profile.section.general.work.{{getWorkVals(adv.work)}}">
+					<span data-ng-if="!editGeneral" data-for="what">{{adv.work.what}}</span>
+					<input data-ng-if="editGeneral" class="userView-info-inputs" data-i18n-attr="profile.section.general.work.placeholders.what|placeholder" data-for="what" data-ng-model="adv.work.what">
+
+					<span data-ng-if="!editGeneral" data-for="where">{{adv.work.where}}</span>
+					<input data-ng-if="editGeneral" class="userView-info-inputs" data-i18n-attr="profile.section.general.work.placeholders.where|placeholder" data-for="where" data-ng-model="adv.work.where">
+				</span>
+			</p>
+			<p id="userView-gender" class="userView-infoRow" data-ng-if="set(adv.gender) || editGeneral">
+				<i class="userView-infoIcon fa fa-fw" data-ng-class="{'fa-male': adv.gender.gender == 'm', 'fa-female': adv.gender.gender == 'f', 'fa-user': (adv.gender.gender == 'o' || adv.gender.gender == '' || !adv.gender.gender)}"></i>
+				<span class="userView-infoText" data-i18n="profile.section.general.gender.default">
+					<span data-ng-if="!editGeneral && adv.gender.gender!='o'" data-for="gender" data-i18n="profile.section.general.gender.{{adv.gender.gender}}"></span>
+					<span data-ng-if="!editGeneral && adv.gender.gender=='o'" data-for="gender">
+						{{adv.gender.text}}
+					</span>
+					<select data-ng-if="editGeneral" type="dropdown" data-ng-model="adv.gender.gender" data-for="gender">
+						<option value="" data-i18n="profile.section.general.gender.none"></option>
+						<option value="m" data-i18n="profile.section.general.gender.m"></option>
+						<option value="f" data-i18n="profile.section.general.gender.f"></option>
+						<option value="o" data-i18n="profile.section.general.gender.other"></option>
+					</select>
+					<input data-for="gender" data-ng-if="editGeneral && adv.gender.gender=='o'" data-ng-model="adv.gender.text" data-i18n-attr="profile.section.general.gender.otherInput|placeholder"/>
+				</span>
+			</p>
+			<p id="userView-languages" class="userView-infoRow" data-ng-if="set(adv.languages) || editGeneral">
+				<i class="userView-infoIcon fa fa-globe fa-fw"></i>
+				<span class="userView-infoText" data-i18n="profile.section.general.languages.display">
+					<span data-ng-if="!editGeneral" data-for="language">
+						<span class="userView-commaSeperated" data-ng-repeat="language in adv.languages">{{language.name}}</span>
+					</span>
+					<span data-ng-if="editGeneral" data-for="language">
+						<span class="userView-info-group annotatedInput-container annotatedInput-container--button" data-ng-repeat="language in adv.languages">
+							<input class="annotatedInput-input" type="text" data-i18n-attr="profile.section.general.languages.edit|placeholder" data-ng-model="language.name">
+							<button class="annotatedInput-button btn btn--danger remove" data-ng-click="removeElement(adv.languages, $index)"><i class="fa fa-times-circle"></i></button>
+						</span>
+						<button class="userView-addGroupButton btn btn--primary add" data-ng-click="addElement(adv.languages, {name:''})"><i class="fa fa-plus-circle"></i></button>
+					</span>
+				</span>
+			</p>
+			<p class="userView-infoRow" id="userView-saveInfo" data-ng-show="editGeneral">
+				<savebutton id="userView-saveInfo-button" translation="settings.changes.save" data-state="saveUserState" data-ng-click="saveUser()"></savebutton>
+			</p>
+		</div>
+	</section>
+	<div class="userView-actions userView-subSection">
+		<savebutton data-ng-if="!user.me && !user.added" class="userView-addFriend" data-ng-click="addFriend()" data-state="user.addFriendState" data-noiniticon data-translation="profile.actions.addFriend|user={{user.name}}|b="></savebutton>
+		<div class="userView-addToCircle" data-ng-if="user.added">
+			<circlesearch data-res="circles" id="userView-selectCircle" data-input-i18n-attr="profile.actions.addToCircle|placeholder|user={{user.name}}" data-user="user.id"></circlesearch>
+			<saveButton id="userView-submitCircle" data-ng-click="saveCircles()" data-state="circles.saving"></saveButton>
+		</div>
+		<!--<button ng-if="user.added" ng-click="removeFriend()">REMOVE FRIEND [TRANSLATE]</button> -->
+		<a href="messages?userid={{user.id}}" class="userView-sendMessage btn btn--primary btn--input"><span data-i18n="profile.actions.sendMessage|user={{user.name}}"></span></a>
+	</div>
+</section>
+<section class="userView-section" id="wall">
+	<header class="box-header box-header--content"><span class="box-header-title" data-i18n="profile.section.wall.title"></span></header>
+	<form data-ng-if="(user.isMyFriend || user.me)" class="form-inline" id="userView-postIt">
+		<textarea data-strg-enter="sendPost()" data-ng-model="newPost.text" data-i18n-attr="wall.postit.text|placeholder" id="userView-shareText" data-ng-if="user.me"></textarea>
+		<textarea data-strg-enter="sendPost()" data-ng-model="newPost.text" data-i18n-attr="profile.section.wall.postIt|placeholder|user={{user.name}}" id="userView-shareText" data-ng-if="!user.me"></textarea>
+		<savebutton id="userView-sendPost" data-state="sendPostState" data-translation="wall.postit.send" data-ng-click="sendPost()"></savebutton>
+	</form>
+	<div class="posts" id="userView-posts">
+		<post data-ng-repeat="post in posts" data-post="post" id="{{post.id}}"></post>
+	</div>
+</section>
+<section class="userView-section" id="friends">
+	<header class="box-header box-header--content"><span class="box-header-title" data-i18n="profile.section.friends.info"></header>
+	<ol id="userView-friendsList" class="unstyled">
+		<li class="userView-friendElement" data-ng-repeat="friend in friends">
+			<person data-user="friend"></person>
+		</li>
+		<li class="inviteFriends" id="userView-inviteFriends" data-ng-if="friends.length < 50 && user.me">
+			<a class="inviteFriends-link btn btn--primary btn--large" id="userView-inviteFriends-link" href="/invite" data-i18n="inviteFriends"></a>
+		</li>
+	</ol>
+</section>

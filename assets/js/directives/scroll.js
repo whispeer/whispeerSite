@@ -73,11 +73,20 @@ define([], function () {
 			compile: function () {
 				return {
 					post: function (scope, elm, attrs) {
+
 						var keepBottom = (typeof attrs.keepbottom !== "undefined");
+						var lockScrollBottom = (typeof attrs.lockscrollbottom !== "undefined");
+						var scrollWindow = (typeof attrs.scrollWindow !== "undefined");
+						var customOnce = (typeof attrs.customOnce !== "undefined");
 						var first = elm[0];
 
-						if (attrs.lockScrolling) {
-							scope.$watch(attrs.lockScrolling, function (newValue) {
+						if (first.tagName === "BODY" || scrollWindow) {
+							elm = jQuery(window);
+							first = document.body;
+						}
+
+						if (attrs.lockscrolling) {
+							scope.$watch(attrs.lockscrolling, function (newValue) {
 								if (newValue) {
 									disableScroll(elm);
 								} else {
@@ -88,10 +97,10 @@ define([], function () {
 
 						var scrollHeight = first.scrollHeight;
 
-						var PUFFER = 10;
+						var PUFFER = 30;
 
 						function isAtBottom() {
-							return first.offsetHeight + elm.scrollTop() >= (first.scrollHeight - PUFFER);
+							return elm.scrollTop() >= (first.scrollHeight -  elm.innerHeight() - PUFFER);
 						}
 
 						function isAtTop() {
@@ -107,7 +116,7 @@ define([], function () {
 									if (diff !== 0) {
 										if (atBottom && keepBottom) {
 											scrollBottom(elm, 4);
-										} else {
+										} else if (lockScrollBottom) {
 											if (diff > 0) {
 												elm.scrollTop(elm.scrollTop() + diff);
 											}
@@ -124,20 +133,42 @@ define([], function () {
 						atBottom = isAtBottom();
 						atTop = isAtTop();
 
+						var wasCalled = false;
+
 						elm.bind("scroll", function() {
 							if (isAtBottom()) {
-								if (atBottom === false) {
-									if (attrs.onbottom) {
-										scope.$eval(attrs.onbottom);
-									}
+								if (attrs.onbottomwithauto) {
+									scope.$eval(attrs.onbottomwithauto);
+								}
+
+								if (atBottom === false && attrs.onbottom) {
+									scope.$eval(attrs.onbottom);
 								}
 							}
 
-							if (isAtTop()) {
-								if (atTop === false) {
-									if (attrs.ontop) {
-										scope.$eval(attrs.ontop);
+							if (isAtTop() && atTop === false && attrs.ontop) {
+								scope.$eval(attrs.ontop);
+							}
+
+							if (attrs.custom && attrs.atCustom) {
+								var scrollHeight = first.scrollHeight - elm.innerHeight();
+								var scrollState = {
+									scrollHeight: scrollHeight,
+									scrolledHeight: elm.scrollTop(),
+									height: elm.innerHeight(),
+									percentage: elm.scrollTop() / scrollHeight,
+									distance: (scrollHeight - elm.scrollTop()),
+									distancePercentage: (scrollHeight - elm.scrollTop()) / elm.innerHeight(),
+									distanceTopPercentage: (elm.scrollTop() / elm.innerHeight())
+								};
+
+								if (scope.$eval(attrs.custom, scrollState)) {
+									if (!wasCalled || !customOnce) {
+										scope.$eval(attrs.atCustom);
+										wasCalled = true;
 									}
+								} else {
+									wasCalled = false;
 								}
 							}
 

@@ -1,17 +1,24 @@
 /**
 * postService
 **/
-define(["step", "whispeerHelper", "validation/validator", "asset/observer", "asset/errors", "asset/securedDataWithMetaData"], function (step, h, validator, Observer, errors, SecuredData) {
+define(["step", "whispeerHelper", "validation/validator", "asset/observer", "asset/errors", "asset/securedDataWithMetaData", "asset/state"], function (step, h, validator, Observer, errors, SecuredData, State) {
 	"use strict";
 
-	var service = function ($rootScope, socket, keyStore, userService, circleService) {
+	var service = function ($rootScope, $timeout, socket, keyStore, errorService, userService, circleService, filterKeyService, Comment) {
 		var postsById = {};
 		var postsByUserWall = {};
 		var TimelineByFilter = {};
 
 		var Post = function (data) {
 			var thePost = this, id = data.id;
+
 			var securedData = SecuredData.load(data.content, data.meta, { type: "post" });
+			var comments = data.comments || [];
+			comments = comments.map(function (comment) {
+				return new Comment(comment);
+			});
+
+			var commentState = new State();
 
 			this.data = {
 				loaded: false,
@@ -22,15 +29,60 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer", "ass
 				time: securedData.metaAttr("time"),
 				isWallPost: false,
 				removable: false,
-				comments: [],
 				remove: function () {
 					thePost.remove(function () {});
-				}
+				},
+				loadComments: function () {
+					thePost.loadComments(errorService.criticalError);
+				},
+				newComment: {
+					state: commentState.data,
+					text: "",
+					create: function (text) {
+						if (text === "") {
+							commentState.fail();
+							return;
+						}
+
+						commentState.pending();
+						step(function () {
+							thePost.addComment(text, this);
+						}, h.sF(function () {
+							thePost.data.newComment.text = "";
+							this.ne();
+						}), errorService.failOnError(commentState));
+					}
+				},
+				comments: comments.map(function (comment) {
+					return comment.data;
+				})
 			};
 
 			this.getID = function () {
 				return id;
 			};
+
+			this.getComments = function () {
+				return comments;
+			};
+
+			function commentListener(e, data) {
+				var comment;
+				step(function () {
+					comment = new Comment(data);
+
+					comment.load(thePost, comments[comments.length - 1], this.parallel());
+				}, h.sF(function () {
+					comments.push(comment);
+					thePost.data.comments.push(comment.data);
+				}), errorService.criticalError);
+			}
+
+			socket.listen("post." + id + ".comment.new", commentListener);
+
+			$rootScope.$on("ssn.reset", function () {
+				socket.removeAllListener("post." + id + ".comment.new");
+			});
 
 			this.loadData = function (cb) {
 				step(function () {
@@ -45,14 +97,14 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer", "ass
 						d.walluser = walluser.data;
 					}
 
-					d.sender = sender.data;
-
-					if (sender.isOwn() || walluser.isOwn()) {
+					if (sender.user.isOwn() || walluser.isOwn()) {
 						d.removable = true;
 					}
 
-					securedData.verify(sender.getSignKey(), this);
+					d.sender = sender;
+					securedData.verify(sender.user.getSignKey(), this.parallel());
 				}), h.sF(function () {
+					keyStore.security.addEncryptionIdentifier(securedData.metaAttr("_key"));
 					thePost.getText(this);
 				}), h.sF(function (text) {
 					var d = thePost.data;
@@ -64,6 +116,46 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer", "ass
 
 					this.ne();
 				}), cb);
+			};
+
+			this.getSecured = function () {
+				return securedData;
+			};
+
+			this.loadComments = function(cb) {
+				step(function () {
+					if (comments.length === 0) {
+						this.last.ne();
+						return;
+					}
+
+					thePost.data.commentsLoading = true;
+
+					$timeout(this);
+				}, h.sF(function () {
+					comments.forEach(function (comment, i) {
+						comment.load(thePost, comments[i - 1], this.parallel());
+					}, this);
+				}), function (e) {
+					thePost.data.commentsLoading = false;
+					this(e);
+				}, cb);
+			};
+
+			this.addComment = function (comment, cb) {
+				step(function () {
+					Comment.create(comment, thePost, this);
+				}, h.sF(function () {
+					this.ne();
+				}), cb);
+			};
+
+			this.getHash = function () {
+				return securedData.getHash();
+			};
+
+			this.getKey = function () {
+				return securedData.metaAttr("_key");
 			};
 
 			this.getWallUser = function (cb) {
@@ -137,87 +229,6 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer", "ass
 			return p;
 		}
 
-		function removeDoubleFilter(filter) {
-			var currentFilter, currentFilterOrder = 0;
-			var filterOrder = {
-				allfriends: 1,
-				friendsoffriends: 2,
-				everyone: 3
-			};
-
-			var i, cur;
-			for (i = 0; i < filter.length; i += 1) {
-				cur = filter[i];
-				if (currentFilterOrder < filterOrder[cur]) {
-					currentFilter = cur;
-					currentFilterOrder = filterOrder[cur];
-				}
-			}
-
-			return currentFilter;
-		}
-
-		function filterToKeys(filter, cb) {
-			var alwaysFilter = [], userFriendsFilter = [], userFilter = [], circleFilter = [];
-
-			if (!filter) {
-				filter = ["always:allfriends"];
-			}
-
-			var i, map;
-			for (i = 0; i < filter.length; i += 1) {
-				map = filter[i].split(":");
-				switch(map[0]) {
-					case "friends":
-						userFriendsFilter.push(map[1]);
-						break;
-					case "always":
-						alwaysFilter.push(map[1]);
-						break;
-					case "circle":
-						circleFilter.push(map[1]);
-						break;
-					case "user":
-						userFilter.push(map[1]);
-						break;
-					default:
-						throw new errors.InvalidFilter("unknown group");
-				}
-			}
-
-			step(function () {
-				this.parallel.unflatten();
-				circleFilterToKeys(circleFilter, this.parallel());
-				userFilterToKeys(userFilter, this.parallel());
-				userFriendsFilterToKeys(userFriendsFilter, this.parallel());
-			}, h.sF(function (circleKeys, userKeys, userFriendsKeys) {
-				var alwaysKeys = alwaysFilterToKeys(alwaysFilter);
-				var keys = alwaysKeys.concat(circleKeys).concat(userKeys).concat(userFriendsKeys);
-
-				this.ne(keys);
-			}), cb);
-		}
-
-		function alwaysFilterToKeys(filter) {
-			if (filter.length === 0) {
-				return [];
-			}
-
-			var theFilter = removeDoubleFilter(filter);
-
-			switch (theFilter) {
-				case "allfriends":
-					return [userService.getown().getFriendsKey()];
-				case "friendsoffriends":
-					return [userService.getown().getFriendsLevel2Key()];
-				case "everyone":
-					//we do not encrypt it anyhow .... this needs to be checked in before!
-					throw new Error("should never be here");
-				default:
-					throw new errors.InvalidFilter("unknown always value");
-			}
-		}
-
 		function circleFiltersToUser(filter, cb) {
 			if (filter.length === 0) {
 				cb(null, []);
@@ -233,45 +244,6 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer", "ass
 				}
 
 				this.ne(h.arrayUnique(user));
-			}), cb);
-		}
-
-		function circleFilterToKeys(filter, cb) {
-			step(function () {
-				circleService.loadAll(this);
-			}, h.sF(function () {
-				var keys = [], i;
-				for (i = 0; i < filter.length; i += 1) {
-					keys.push(circleService.get(filter[i]).getKey());
-				}
-				
-				this.ne(keys);
-			}), cb);
-		}
-
-		function userFilterToKeys(user, cb) {
-			step(function () {
-				userService.getMultiple(user, this);
-			}, h.sF(function (users) {
-				var i, keys = [];
-				for (i = 0; i < users.length; i += 1) {
-					keys.push(users[i].getContactKey());
-				}
-
-				this.ne(keys);
-			}), cb);
-		}
-
-		function userFriendsFilterToKeys(user, cb) {
-			step(function () {
-				userService.getMultiple(user, this);
-			}, h.sF(function (users) {
-				var i, keys = [];
-				for (i = 0; i < users.length; i += 1) {
-					keys.push(users[i].getFriendsKey());
-				}
-
-				this.ne(keys);
 			}), cb);
 		}
 
@@ -305,53 +277,173 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer", "ass
 							filterObject.result.unshift(e);
 						});
 					}
-				}));			
+				}));
 			}
 
 			window.setInterval(loadNewPosts, 5*60*1000);
 		}
 
-		var postService = {
-			getTimelinePosts: function (afterID, filter, cb) {
-				var result = [], finalFilter = [];
-				step(function () {
-					var i, circles = [], split;
-					for (i = 0; i < filter.length; i += 1) {
-						split = filter[i].split(":");
-						if (split[0] === "circle") {
-							circles.push(split[1]);
-						} else {
-							finalFilter.push(filter[i]);
-						}
-					}
+		var Timeline = function (filter) {
+			this._filter = filter;
+			this._posts = [];
+			this._postsData = [];
+			this._requested = 0;
 
-					circleFiltersToUser(circles, this);
-				}, h.sF(function (users) {
-					finalFilter = finalFilter.concat(users.map(function (e) {return "user:" + e;}));
+			this.loading = false;
+			this.loaded = false;
+		};
 
-					socket.emit("posts.getTimeline", {
-						afterID: afterID,
-						filter: finalFilter
-					}, this);
-				}), h.sF(function (results) {
-					var thePost, i, posts = results.posts || [];
-					for (i = 0; i < posts.length; i += 1) {
-						thePost = makePost(posts[i]);
+		Timeline.prototype.getPosts = function () {
+			return this._postsData;
+		};
+
+		Timeline.prototype._loadNewestPosts = function () {
+			if (this._posts.length === 0) {
+				return;
+			}
+
+			var that = this;
+			step(function () {
+				that._expandFilter(this);
+			}, h.sF(function () {
+				var beforeID = that._getNewestID();
+
+				socket.emit("posts.getNewestTimeline", {
+					filter: that._expandedFilter,
+					beforeID: beforeID,
+					lastRequestTime: that._requested
+				}, this);
+			}), h.sF(function (data) {
+				if (data.posts) {
+					var newPosts = data.posts.map(function (thePost) {
+						thePost = makePost(thePost);
 						thePost.loadData(this.parallel());
-						result.push(thePost.data);
+
+						return thePost.data;
+					}, this);
+
+					that._requested = socket.lastRequestTime();
+
+					newPosts.reverse().map(function (e) {
+						that._posts.unshift(e);
+					});
+				}
+			}), errorService.criticalError);
+		};
+
+		Timeline.prototype.getNewestID = function () {
+			if (this._posts.length === 0) {
+				return 0;
+			}
+
+			return this._posts[0].getID();
+		};
+
+		Timeline.prototype.getOldestID = function () {
+			if (this._posts.length === 0) {
+				return 0;
+			}
+
+			return this._posts[this._posts.length - 1].getID();
+		};
+
+		Timeline.prototype._expandFilter = function(cb) {
+			var that = this, finalFilter = [];
+
+			if (this._finalFilter) {
+				cb();
+				return;
+			}
+
+			step(function () {
+				var circles = [];
+
+				that._filter.forEach(function (filterElement) {
+					var split = filterElement.split(":");
+					if (split[0] === "circle") {
+						circles.push(split[1]);
+					} else {
+						finalFilter.push(filterElement);
 					}
+				});
 
-					TimelineByFilter[JSON.stringify(finalFilter)] = {
-						result: result,
-						requested: socket.lastRequestTime()
-					};
+				circleFiltersToUser(circles, this);
+			}, h.sF(function (users) {
+				finalFilter = finalFilter.concat(users.map(function (e) {return "user:" + e;}));
 
-					registerNewPosts(finalFilter);
+				that._finalFilter = finalFilter;
 
-					this.parallel()();
-				}), h.sF(function () {
-					this.ne(result);
-				}), cb);
+				this.ne();
+			}), cb);
+		};
+
+		Timeline.prototype.loadInitial = function (cb) {
+			if (this.loaded) {
+				cb();
+				return;
+			}
+
+			this.loadMorePosts(cb);
+		};
+
+		Timeline.prototype.loadMorePosts = function (cb) {
+			if (this.loading) {
+				cb();
+				return;
+			}
+
+			var that = this;
+			this.loading = true;
+
+			step(function () {
+				$timeout(this);
+			}, h.sF(function () {
+				that._expandFilter(this);
+			}), h.sF(function () {
+				socket.emit("posts.getTimeline", {
+					afterID: that.getOldestID(),
+					filter: that._finalFilter,
+					count: 20
+				}, this);
+			}), h.sF(function (results) {
+				var posts = results.posts || [];
+
+				that._posts = that._posts.concat(posts.map(function (post) {
+					var thePost = makePost(post);
+					thePost.loadData(this.parallel());
+
+					return thePost;
+				}, this));
+				that._requested = socket.lastRequestTime;
+
+				this.parallel()();
+			}), function (e) {
+				that.loading = false;
+
+				that._postsData = that._posts.map(function (post) {
+					return post.data;
+				});
+
+				if (!e) {
+					that.loaded = true;
+				}
+
+				this(e);
+			}, cb);
+		};
+
+		var timelinesCache = {};
+
+		var postService = {
+			getTimeline: function (filter) {
+				filter.sort();
+
+				var filterString = JSON.stringify(filter);
+				if (!timelinesCache[filterString]) {
+					timelinesCache[filterString] = new Timeline(filter);	
+				}
+
+				return timelinesCache[filterString];
 			},
 			getWallPosts: function (afterID, userid, cb) {
 				var result = [];
@@ -413,7 +505,7 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer", "ass
 					this.parallel.unflatten();
 
 					keyStore.sym.generateKey(this.parallel(), "post key");
-					filterToKeys(visibleSelection, this.parallel());
+					filterKeyService.filterToKeys(visibleSelection, this.parallel());
 				}, h.sF(function (key, keys) {
 					postKey = key;
 
@@ -471,7 +563,7 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer", "ass
 		return postService;
 	};
 
-	service.$inject = ["$rootScope", "ssn.socketService", "ssn.keyStoreService", "ssn.userService", "ssn.circleService"];
+	service.$inject = ["$rootScope", "$timeout", "ssn.socketService", "ssn.keyStoreService", "ssn.errorService", "ssn.userService", "ssn.circleService", "ssn.filterKeyService", "ssn.models.comment"];
 
 	return service;
 });

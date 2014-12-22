@@ -7,13 +7,12 @@
 	@header-height: 30px;
 
 	// big/small image size in topic list.
-	@user-image-size: 72px;
+	@user-image-size: 76px;
 	@user-image-size-small: 56px;
 	@remaining-user-bubble-size: 28px;
 	@remaining-user-bubble-border: 3px;
 	@remaining-user-bubble-bg: white;
 	@remaining-user-bubble-fg: green;
-	@remaining-user-bubble-font: 15px;
 
 	// user image size in message list.
 	@message-image-size: 48px; //@user-image-size-small;
@@ -34,7 +33,7 @@
 
 	// This really should be pulled from somewhere else.
 	@message-preview-lineheight: 20px;
-	@preview-lines: 2;
+	@preview-lines: 3;
 
 	.message-mixin(@form-height: @form-height) {
 
@@ -50,45 +49,56 @@
 			}
 
 			.time {
-				font-size: 80%;
-				color: #888;
+				.detail-text();
 				white-space: nowrap;
 				text-align: right;
 				text-overflow: ellipsis;
 				overflow: hidden;
 			}
+
 			.me .time {
 				color: #eee;
 			}
 
 			#main {
 				// main has to stay here, as there are mains on pages that have no
-				// .messagesView. .box() is also needed, for that grey box that is
-				// everywhere.
-				.box();
+				// .messagesView.
+
 				overflow: hidden;
-				header {
-					overflow: hidden;
-					.title {
-						display: none;
-						visibility: hidden;
-						&.chat, &.newMessage {
-							@media @desktop { .column(11, 16); }
-							@media @mobile { .column(4, 5); }
-							visibility: visible;
-						}
-						overflow: hidden;
-						text-overflow: ellipsis;
-						white-space: nowrap;
-					}
+				// we have to force a margin-top of 5px for mobile devices, so the box wont hang in the #topNav.
+				// Sadly, it has to be set with !important. Furthermore, we have to set the height for mobile devices
+				// so the box does not get too high.
+				@media @mobile {
+					margin-top: 5px !important;
+					height: 100%;
 				}
+			}
+
+			.box-header-title {
+				@media @desktop { .column(11, 16); }
+				@media @mobile { .column(4, 5); }
+				display: none;
+				visibility: hidden;
+
+				overflow: hidden;
+				text-overflow: ellipsis;
+				white-space: nowrap;
+			}
+			.box-header-title--visible { // is this stuff even necessary??
+				display: inline-block;
+				visibility: visible;
 			}
 
 		}
 
 		#newmessage {
 			@media @desktop { .column(5, 16, left, 0); }
-			@media @mobile { .column(1, 1, left, 0); }
+			// remove the unneeded border-right for mobile devices. Sadly not possible without an !imoportant.
+			// Nils: it feels like the original border-right is too wide!
+			@media @mobile {
+				.column(1, 1, left, 0);
+				border-right: none !important;
+			}
 			&.topic {
 				border: none;
 				background: transparent;
@@ -110,6 +120,10 @@
 			overflow-x: hidden;
 			box-sizing: border-box;
 			border-bottom: @header-height solid transparent;
+			border-right: 1px solid #ccc;
+
+			// nice scrolling for iOS.
+			-webkit-overflow-scrolling: touch;
 
 		}
 
@@ -127,7 +141,6 @@
 					}
 				}
 				.username {
-					font-size: 0.9em!important;
 					padding-top: @default-padding;
 					padding-left: 0;
 					text-overflow: ellipsis;
@@ -135,9 +148,9 @@
 					overflow: hidden;
 				}
 				.lastMessage {
+					.small-text();
 					color: #555;
-					font-size: 0.8em;
-					height: (@preview-lines * @message-preview-lineheight); // three lines of text.
+					height: (@preview-lines * @small-line-height); // three lines of text.
 					overflow: hidden;
 					padding-left: @status-compensation;
 					padding-right: @extended-padding;
@@ -168,7 +181,7 @@
 							padding: @default-padding;
 							img {
 								display: block;
-								box-sizing: content-box;
+								box-sizing: border-box;
 								width: @user-image-size;
 								height: @user-image-size;
 							}
@@ -201,21 +214,21 @@
 								box-sizing: content-box;
 								width: @remaining-user-bubble-size;
 								height: @remaining-user-bubble-size;
+
 								left: (@default-padding + @user-image-size - @remaining-user-bubble-size - @remaining-user-bubble-border);
 								top: (@default-padding + @user-image-size - @remaining-user-bubble-size - @remaining-user-bubble-border);
 								border: @remaining-user-bubble-border solid @remaining-user-bubble-fg;
 								border-radius: 100%;
 
-								line-height: @remaining-user-bubble-size;
 								text-align: center;
+								line-height: @remaining-user-bubble-size;
+								.bold-text();
 
 								color: @remaining-user-bubble-fg;
 								background: @remaining-user-bubble-bg;
 
 								// typography, this should probably be handled elsewhere.
-								font-size: @remaining-user-bubble-font;
 								text-decoration: italic;
-								font-weight: bold;
 							}
 						}
 					}
@@ -229,8 +242,19 @@
 			position: relative;
 		}
 
+		#topicWrap.newMessage {
+			padding: @default-padding @default-padding 0;
+			.box-fix;
+		}
+
+		.newMessage #messageTitle h2 {
+			margin-top: 0;
+		}
+
 		#messageWrap {
 			height: 100%;
+			// this makes absolute positioned elements adopt the padding.
+			position: relative;
 		}
 
 		#messageList {
@@ -248,6 +272,9 @@
 			margin: 0;
 			padding: 0;
 
+			// nice scrolling for iOS.
+			-webkit-overflow-scrolling: touch;
+
 			.burst {
 				float: left;
 				clear: both;
@@ -261,12 +288,21 @@
 				}
 			}
 
-			.userimg {
+			.username {
+				.detail-text();
+				padding-bottom: @default-padding / 2;
+				text-transform: uppercase;
+			}
+
+			.username, .userimg {
+				margin-left: @extended-padding;
+				margin-right: @extended-padding;
+			}
+
+			.userimg, {
 				display: inline-block;
 				float: left;
 				clear: both;
-				margin-left: @extended-padding;
-				margin-right: @extended-padding;
 				img {
 					.border-radius(100%);
 					width: @message-image-size;
@@ -331,6 +367,9 @@
 				.userimg {
 					float: right;
 				}
+				.username {
+					text-align: right;
+				}
 				.messages {
 					background-color: @own-message-bg;
 					color: @own-message-fg;
@@ -352,6 +391,24 @@
 
 		}
 
+		#messageView-loadingIcon {
+			float: left;
+			text-align: right;
+		}
+
+		#messageView-loadingText {
+			float: right;
+			text-align: left;
+		}
+
+		#messageView-loadingIcon,
+		#messageView-loadingText {
+			width: 49%;
+			height: 28px;
+			line-height: 28px;
+			margin: 15px 0.5%;
+		}
+
 		#inputWrap { // this is the form
 			display: block;
 			position: absolute;
@@ -368,5 +425,29 @@
 				.column(1,4);
 			}
 		}
+		.newMessage #inputWrap {
+			// the * 2 is caused by the relative positioning of the parent which is
+			// needed for the padding to apply correctly -- but only for desktops.
+			@media @desktop { bottom: (@header-height * 2); }
+
+			textarea {
+				.width(3,4,1%);
+				margin: 0 1% 0 0;
+			}
+			button {
+				.width(1,4,1%);
+				margin: 0 0 0 1%;
+			}
+		}
 	}
+}
+
+@media @mobile {
+	#messages > .message-mixin(
+		@form-height: 40px;
+	);
+}
+
+@media @desktop {
+	#messages > .message-mixin();
 }

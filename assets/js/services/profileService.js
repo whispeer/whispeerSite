@@ -1,7 +1,7 @@
 /**
 * ProfileService
 **/
-define(["step", "whispeerHelper", "crypto/encryptedData", "validation/validator", "asset/observer", "asset/securedDataWithMetaData"], function (step, h, EncryptedData, validator, Observer, SecuredData) {
+define(["step", "whispeerHelper", "validation/validator", "asset/observer", "asset/securedDataWithMetaData"], function (step, h, validator, Observer, SecuredData) {
 	"use strict";
 
 	var service = function () {
@@ -14,26 +14,17 @@ define(["step", "whispeerHelper", "crypto/encryptedData", "validation/validator"
 			var securedData;
 
 			if (isDecrypted) {
-				securedData = SecuredData.createRaw(data.profile.content, data.profile.meta, {
+				securedData = SecuredData.createRaw(data.content, data.meta, {
 					type: "profile",
 					removeEmpty: true,
 					encryptDepth: 1
 				});
 			} else {
-				securedData = SecuredData.load(data.profile.content, data.profile.meta, {
+				securedData = SecuredData.load(data.content, data.meta, {
 					type: "profile",
 					removeEmpty: true,
 					encryptDepth: 1
 				});
-			}
-
-			var metaData;
-			if (!isPublicProfile) {
-				metaData = new EncryptedData(data.own, {}, isDecrypted);
-
-				if (data.metaData === false) {
-					metaData = false;
-				}
 			}
 
 			var id, theProfile = this;
@@ -75,13 +66,6 @@ define(["step", "whispeerHelper", "crypto/encryptedData", "validation/validator"
 					} else {
 						securedData.getUpdatedData(signKey, this);
 					}
-				}), h.sF(function (securedProfileData) {
-					var result = {
-						profileid: id,
-						profile: securedProfileData
-					};
-
-					this.ne(result);
 				}), cb);
 			};
 
@@ -102,21 +86,12 @@ define(["step", "whispeerHelper", "crypto/encryptedData", "validation/validator"
 				}), cb);
 			};
 
-			this.signAndEncrypt = function signAndEncryptF(signKey, cryptKey, mainKey, cb) {
+			this.signAndEncrypt = function signAndEncryptF(signKey, cryptKey, cb) {
 				if (isPublicProfile) {
 					throw new Error("no encrypt for public profiles!");
 				}
 
-				step(function () {
-					this.parallel.unflatten();
-					securedData._signAndEncrypt(signKey, cryptKey, this.parallel());
-					metaData.getUploadData(mainKey, this.parallel());
-				}, h.sF(function (securedProfileData, privateProfileData) {
-					this.ne({
-						profile: securedProfileData,
-						own: privateProfileData
-					});
-				}), cb);
+				securedData._signAndEncrypt(signKey, cryptKey, cb);
 			};
 
 			this.updated = function () {
@@ -124,7 +99,7 @@ define(["step", "whispeerHelper", "crypto/encryptedData", "validation/validator"
 			};
 
 			this.changed = function () {
-				return securedData.isChanged() || metaData.isChanged();
+				return securedData.isChanged();
 			};
 
 			this.verify = function (signKey, cb) {
@@ -141,29 +116,13 @@ define(["step", "whispeerHelper", "crypto/encryptedData", "validation/validator"
 				}), cb);
 			};
 
-			this.setAttribute = function setAttributeF(attrs, value, cb) {
+			this.setAttribute = function setAttributeF(attr, value, cb) {
 				step(function () {
-					theProfile.decrypt(this, attrs[0]);
+					theProfile.decrypt(this, attr);
 				}, h.sF(function () {
-					securedData.contentAdd(attrs, value);
+					securedData.contentSetAttr(attr, value);
 
 					this.ne();
-				}), cb);
-			};
-
-			this.getScope = function (cb) {
-				if (isPublicProfile) {
-					throw new Error("no scope for public profiles");
-				}
-
-				step(function () {
-					if (metaData) {
-						metaData.getBranch("scope", this);
-					} else {
-						this.ne(false);
-					}
-				}, h.sF(function (scope) {
-					this.ne(scope);
 				}), cb);
 			};
 

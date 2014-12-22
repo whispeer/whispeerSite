@@ -6,7 +6,7 @@ define([], function () {
 	"use strict";
 
 	function helpController($scope, cssService) {
-		cssService.setClass("legalView");
+		cssService.setClass("legalView", true);
 	}
 
 	helpController.$inject = ["$scope", "ssn.cssService"];

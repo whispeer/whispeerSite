@@ -12,9 +12,9 @@ define(function () {
 			templateUrl: "assets/views/directives/saveButton.html",
 			replace: true,
 			link: function (scope, iElement, iAttrs) {
-				scope.successIcon = "icon-ok-circle";
-				scope.initIcon = "icon-ok-circle";
-				scope.failureIcon = "icon-cancel-circle";
+				scope.successIcon = "fa-check-circle";
+				scope.initIcon = "fa-check-circle";
+				scope.failureIcon = "fa-times-circle";
 
 				if (iAttrs.initicon) {
 					scope.initIcon = iAttrs.initicon;

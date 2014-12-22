@@ -73,7 +73,7 @@ define(["step", "whispeerHelper", "asset/observer", "crypto/signatureCache"], fu
 			}), cb);
 		}
 
-		var delay = h.delayMultiple(THROTTLE, doLoad);
+		var delay = h.delayMultiple(THROTTLE, doLoad, 5);
 
 		function loadUser(identifier, cb) {
 			step(function () {
@@ -217,7 +217,7 @@ define(["step", "whispeerHelper", "asset/observer", "crypto/signatureCache"], fu
 						window.setTimeout(this.ne, 5000);
 					}, h.sF(function () {
 						var own = userService.getown();
-						if (own.getNickOrMail() === identifier) {
+						if (own && own.getNickOrMail() === identifier) {
 							improve.forEach(function (keyID) {
 								keyStoreService.sym.symEncryptKey(keyID, own.getMainKey(), this.parallel());
 							}, this);

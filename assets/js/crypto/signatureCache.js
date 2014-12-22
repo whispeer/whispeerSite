@@ -12,6 +12,34 @@ define (["whispeerHelper", "step", "asset/observer", "asset/errors", "crypto/key
 		return keyStore.hash.hashObjectOrValueHex(data);
 	}
 
+	function allHashes() {
+		return database.metaKeys().filter(function (key) {
+				return key.indexOf("hash::") === 0;
+		});
+	}
+
+	function cleanUpDatabase() {
+		if (allHashes().length > 500) {
+			console.log("Cleaning up database (" + allHashes().length + ")");
+			var times = allHashes().map(function (key) {
+				return database.metaAttr(key);
+			});
+
+			times.sort(function (a, b) { return b - a; });
+
+			var border = times[400] + 200;
+
+			allHashes().forEach(function (key) {
+				if (database.metaAttr(key) < border) {
+					database.metaRemoveAttr(key);
+					changed = true;
+				}
+			});
+
+			console.log("Cleaned up database (" + allHashes().length + ")");
+		}
+	}
+
 	var signatureCache = {
 		isLoaded: function () {
 			return loaded;
@@ -39,6 +67,21 @@ define (["whispeerHelper", "step", "asset/observer", "asset/errors", "crypto/key
 					throw new errors.SecurityError("not my signature cache");
 				}
 			}, h.sF(function () {
+				//migrate database here before really loading it if necessary
+				givenDatabase.metaKeys().filter(function (key) {
+					return key.indexOf("hash::") === 0 && typeof givenDatabase.metaAttr(key) === "boolean";
+				}).forEach(function (key) {
+					if (givenDatabase.metaAttr(key) === false) {
+						givenDatabase.metaRemoveAttr(key);
+					} else {
+						givenDatabase.metaSetAttr(key, new Date().getTime());
+					}
+
+					changed = true;
+				});
+
+				this.ne();
+			}), h.sF(function () {
 				signKey = ownKey;
 				database = givenDatabase;
 				loaded = true;
@@ -61,12 +104,21 @@ define (["whispeerHelper", "step", "asset/observer", "asset/errors", "crypto/key
 			if (database.metaHasAttr(sHash)) {
 				var data = database.metaAttr(sHash);
 
-				return (data === true);
+				changed = true;
+				database.metaSetAttr(sHash, new Date().getTime());
+
+				cleanUpDatabase();
+
+				return (data !== false);
 			} else {
 				throw new Error("tried to get signature status but not in cache!");
 			}
 		},
 		addSignatureStatus: function (signature, hash, key, valid) {
+			if (!valid) {
+				return;
+			}
+
 			changed = true;
 
 			if (typeof valid !== "boolean" || !h.isRealID(key) || !h.isSignature(chelper.bits2hex(signature))) {
@@ -75,10 +127,9 @@ define (["whispeerHelper", "step", "asset/observer", "asset/errors", "crypto/key
 
 			var sHash = dataSetToHash(signature, hash, key);
 
-			var newData = {};
-			newData[sHash] = valid;
+			database.metaSetAttr(sHash, new Date().getTime());
 
-			database.metaJoin(newData);
+			cleanUpDatabase();
 		},
 		reset: function () {
 			loaded = false;

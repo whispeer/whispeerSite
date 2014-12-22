@@ -1,17 +1,22 @@
-<div id="wall">
-	<header>
-		<button class="btn btn--primary activatePost" data-ng-if="!postActive && mobile" data-ng-click="togglePost()" data-i18n="wall.createPost"></button>
-		<form data-ng-if="postActive || !mobile" class="form-inline" id="postIt">
-			<textarea data-strg-enter="sendPost()" data-ng-model="newPost.text" data-i18n-attr="wall.postit.text|placeholder" id="shareText" data-ng-disabled="!canSend"></textarea>
-			<filtersearch data-internalid="postReaders" data-selected="newPost.readers" data-input-i18n-attr="wall.postit.receiver|placeholder" id="receiver" />
-			<savebutton data-translation="wall.postit.send" data-ng-click="sendPost()" data-state="sendPostState" data-noiniticon data-ng-disabled="!canSend"></savebutton>
+<div id="newsfeedView-wall" data-scroll data-scroll-window data-custom="distancePercentage < 0.5" data-at-custom="loadMorePosts()" data-custom-once>
+	<header id="newsfeedView-wall-header">
+		<button class="btn btn--primary" id="newsfeedView-activatePost" data-ng-if="!postActive && mobile" data-ng-click="togglePost()" data-i18n="wall.createPost"></button>
+		<form data-ng-if="postActive || !mobile" class="form-inline" id="newsfeedView-postForm">
+			<textarea data-strg-enter="sendPost()" data-ng-model="newPost.text" data-i18n-attr="wall.postit.text|placeholder" id="newsfeedView-shareText" data-ng-disabled="!canSend" id="newsfeedView-shareText"></textarea>
+			<filtersearch class="search--custom" data-internalid="postReaders" data-selected="newPost.readers" data-input-i18n-attr="wall.postit.receiver|placeholder" id="newsfeedView-receivers" />
+			<savebutton id="newsfeedView-sendPost" data-translation="wall.postit.send" data-ng-click="sendPost()" data-state="sendPostState" data-noiniticon data-ng-disabled="!canSend"></savebutton>
 		</form>
-		<div id="filter">
-			<button class="title" data-i18n="wall.filter.title" data-ng-click="toggleFilter()"></button>
-			<div data-ng-if="filterActive || !mobile"><filtersearch data-internalid="timelineFilter" data-selected="filterSelection" class="hideScroll" data-input-i18n-attr="wall.filter.placeholder|placeholder" id="theFilter" /></div>
+		<div id="newsfeedView-filter">
+			<button id="newsfeedView-filter-title" class="btn btn--border" data-ng-class="{'newsfeedView-filter-title--active': (filterActive || !mobile)}" data-i18n="wall.filter.title" data-ng-click="toggleFilter()"></button>
+			<div data-ng-if="filterActive || !mobile"><filtersearch data-internalid="timelineFilter" data-selected="filterSelection" class="hideScroll" data-input-i18n-attr="wall.filter.placeholder|placeholder" id="newsfeedView-theFilter" /></div>
 		</div>
 	</header>
-	<div class="posts">
-		<post data-ng-repeat="post in posts" data-post="post" id="{{post.id}}"></post>
-	</div>	
+	<div class="posts" id="newsfeedView-posts">
+		<a class="btn btn--primary btn--large inviteFriends-link" id="newsfeedView-inviteFriends" href="/invite" data-i18n="inviteFriends"></a>
+		<post data-ng-repeat="post in currentTimeline.getPosts()" data-post="post" id="{{post.id}}"></post>
+		<div id="newsfeedView-loading" data-ng-show="currentTimeline.loading">
+			<i class="saveButton-spinner fa fa-2x fa-fw fa-spinner fa-spin"></i>
+			<p class="large-text" data-i18n="wall.loading"></p>
+		</div>
+	</div>
 </div>

@@ -1,26 +1,28 @@
 define([], function () {
 	"use strict";
 
-	var listener = [], theClass = "loading";
+	var listeners = [], theClass = "loading", isBox = false;
 
 	var service = function (errorService) {
 		var res = {
 			addListener: function addListenerF(func) {
 				if (typeof func === "function") {
-					listener.push(func);
+					listeners.push(func);
 				}
 			},
-			setClass: function setClassF(myClass) {
-				theClass = myClass;
-
-				var i;
-				for (i = 0; i < listener.length; i += 1) {
+			callListeners: function () {
+				listeners.forEach(function (listener) {
 					try {
-						listener[i](theClass);
+						listener(theClass, isBox);
 					} catch (e) {
 						errorService.criticalError(e);
 					}
-				}
+				});
+			},
+			setClass: function setClassF(_theClass, _isBox) {
+				theClass = _theClass;
+				isBox = _isBox || false;
+				res.callListeners();
 			},
 			getClass: function getClassF() {
 				if (theClass === "") {

@@ -1,20 +1,35 @@
 <article class="post">
-	<a href='{{post.sender.basic.url}}' class="userimg"><userimage data-user="post.sender"></a>
-	<div class="postWrap">
-		<div class="postContent">
-			<div class="author" data-ng-class="{wallPost: post.isWallPost}">
-				<a href='{{post.sender.basic.url}}' class="poster">{{post.sender.name}}</a>
-				<div data-ng-if="post.walluser" class="walluserWrap">
-					<div class="arrow arrow-right"></div>
-					<a href='{{post.walluser.basic.url}}' class="walluser">{{post.walluser.name}}</a>
-				</div>
-			</div>
-			<button data-ng-if="post.removable" data-ng-click="post.remove()">del</button>
-			<div class="postText" data-syntaxify="post.content.text"></div>
-			<!--<div class="postImage" data-ng-if="post.content.image"><img data-ng-src="{{post.content.image}}"></div> -->
-		</div>	
-		<div class="postInfo">
-			<p class="date"><i class="icon icon-clock"></i> {{post.time|smartdate}}</p>
+	<aside class="meta">
+		<a href='{{post.sender.basic.url}}' class="userimg">
+			<userimage data-user="post.sender"></userimage>
+		</a>
+		<strong>
+			<a href='{{post.sender.basic.url}}'>{{post.sender.name}}</a>
+		</strong>
+		<span data-ng-if="post.walluser">
+			<i class="fa fa-caret-right"></i>
+			<strong>
+				<a href='{{post.walluser.basic.url}}'>{{post.walluser.name}}</a>
+			</strong>
+		</span>
+	</aside>
+	<button data-ng-if="post.removable" data-ng-click="post.remove()">del</button>
+	<p class="content" data-syntaxify="post.content.text"></p>
+	<aside class="actions">
+		<span class="date"><i class="fa fa-clock-o"></i> {{post.time|smartdate}}</span>
+		<span ng-click="toggleShowComments()" class="action"><i class="fa fa-comment"></i> <span data-i18n="wall.comments"></span> ({{post.comments.length}})</span>
+	</aside>
+	<aside class="comments" ng-show="showComments">
+		<ul>
+			<li class="post-comments-loading" data-ng-show="post.commentsLoading">
+				<i class="saveButton-spinner fa fa-2x fa-fw fa-spinner fa-spin"></i>
+				<p class="large-text" data-i18n="wall.commentsLoading"></p>
+			</li>
+			<comment data-ng-show="!post.commentsLoading" data-ng-repeat="comment in post.comments" comment="comment"></comment>
+		</ul>
+		<div>
+			<textarea data-i18n-attr="wall.newComment|placeholder" data-strg-enter="post.newComment.create(post.newComment.text)" data-ng-model="post.newComment.text"></textarea>
+			<savebutton data-translation="wall.postit.send" data-ng-click="post.newComment.create(post.newComment.text)" data-state="post.newComment.state" data-noiniticon></savebutton>
 		</div>
-	</div>
+	</aside>
 </article>

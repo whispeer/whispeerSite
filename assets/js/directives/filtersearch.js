@@ -18,7 +18,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 					scope.$broadcast("queryResults", results);
 				}
 
-				var alwaysAvailableFilter = ["allfriends", "friendsoffriends"];
+				var alwaysAvailableFilter = ["allfriends"];
 
 				function loadInitialSelection(attribute) {
 					var selected = scope.$parent.$eval(attribute);
@@ -64,9 +64,6 @@ define(["step", "whispeerHelper"], function (step, h) {
 						case "allfriends":
 							key = me.getFriendsKey();
 							break;
-						case "friendsoffriends":
-							key = me.getFriendsLevel2Key();
-							break;
 						default:
 							return 0;
 					}
@@ -75,11 +72,13 @@ define(["step", "whispeerHelper"], function (step, h) {
 				}
 
 				function getAlways(id, cb) {
-					cb(null, {
-						name: localize.getLocalizedString("directives." + id),
-						id: "always:" + id,
-						count: getAlwaysCount(id)
-					});
+					step(function () {
+						this.ne({
+							name: localize.getLocalizedString("directives." + id),
+							id: "always:" + id,
+							count: getAlwaysCount(id)
+						});
+					}, cb);
 				}
 
 				function getElementById(id, cb) {

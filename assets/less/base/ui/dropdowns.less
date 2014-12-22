@@ -3,23 +3,22 @@
 	display: block;
 	float: left;
 	.gradient(@btnBackground, @btnBackgroundHover);
-	border: 1px solid @grayLight;
-	.border-radius(5px);
+	border: 1px solid @btnBorder;
+	border-radius: @inputBorderRadius;
 	z-index: 10000;
 	margin-top: 6px;
-	padding-top: 30px;
 	overflow: visible;
 	color: #000;
-	.box-fix;
+	&:extend(.box-fix);
 	&:before {
 		content: ' ';
 		float: left;
-		width: 0; 
+		width: 0;
 		height: 0;
 		position: absolute;
 		top: -5px;
 		left: 13px;
-		border: 5px solid @grayLight;
+		border: 5px solid @btnBorder;
 		border-top: none;
 		border-left-color: transparent;
 		border-right-color: transparent;
@@ -27,7 +26,7 @@
 	&:after {
 		content: ' ';
 		float: left;
-		width: 0; 
+		width: 0;
 		height: 0;
 		position: absolute;
 		top: -4px;
@@ -38,40 +37,40 @@
 		border-left-color: transparent;
 		border-right-color: transparent;
 	}
-	.dropdown-header {
-		border-bottom: 1px solid @grayLight;
-		float: left;
-		width: 100%;
-		height: 30px;
-		margin-top: -30px;
-		.title {
-			float: left;
-			margin-top: 5px;
-			padding-left: 1%;
-			.box-fix;
-		}
-		.close {
-			float: right;
-			margin-top: 5px;
-			padding-right: 1%;
-			.box-fix;
-			cursor: pointer;
-			&:hover {
-				color: @gray;
-			}
-		}
+}
+.dropdown-header {
+	float: left;
+	border-bottom: 1px solid @btnBorder;
+	width: 100%;
+	height: 40px;
+	&:extend(.box-fix);
+}
+.dropdown-header-title,
+.dropdown-header-close {
+	line-height: 38px;
+}
+.dropdown-header-title {
+	float: left;
+	padding-left: 1%;
+	&:extend(.box-fix);
+}
+.dropdown-header-close {
+	float: right;
+	padding-right: 1%;
+	&:extend(.box-fix);
+	cursor: pointer;
+	&:hover {
+		color: @gray;
 	}
-	.dropdown-container {
-		float: left;
-		width: 100%;
-		height: 100%;
-		padding: 0;
-		margin: 0;
-		display: block;
-		position: relative;
-		overflow-y: scroll;
-		overflow-x: hidden;
-		.border-radiuses(0,5px,5px,0);
-		.box-fix;
-	}
+}
+.dropdown-container {
+	width: 100%;
+	height: calc(~"100% - "@dropdownHeaderHeight); // this should work in most cases
+	padding: 0;
+	margin: 0;
+	display: inline-block;
+	position: relative;
+	overflow-y: scroll;
+	.border-radiuses(0,5px,5px,0);
+	&:extend(.box-fix);
 }

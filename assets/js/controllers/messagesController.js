@@ -6,10 +6,12 @@ define(["step", "whispeerHelper", "asset/state"], function (step, h, State) {
 	"use strict";
 
 	function messagesController($scope, $routeParams, $location, $timeout, errorService, cssService, messageService) {
-		cssService.setClass("messagesView");
+		cssService.setClass("messagesView", true);
 
 		$scope.topicid = 0;
 		$scope.showMessage = !$scope.mobile;
+
+		var topicsLoadingState = new State();
 
 		$scope.$watch(function () { return $routeParams.userid; }, function () {
 			if ($routeParams.userid) {
@@ -32,16 +34,30 @@ define(["step", "whispeerHelper", "asset/state"], function (step, h, State) {
 			}
 		});
 
-		messageService.loadMoreLatest(function (e) {
-			if ($routeParams.topicid) {
-				$scope.loadActiveTopic($routeParams.topicid);
+		function loadTopics(initial) {
+			if (topicsLoadingState.isPending()) {
+				return;
 			}
 
-			errorService.criticalError(e);
-		});
+			topicsLoadingState.pending();
+			step(function () {
+				messageService.loadMoreLatest(this);	
+			}, h.sF(function () {
+				if ($routeParams.topicid && initial) {
+					$scope.loadActiveTopic($routeParams.topicid);
+				}
+				this.ne();
+			}), errorService.failOnError(topicsLoadingState));
+		}
+
+		loadTopics(true);
 
 		$scope.canSend = false;
 		$scope.topicLoaded = false;
+
+		$scope.loadMoreTopics = function () {
+			loadTopics(true);
+		};
 
 		$scope.isActiveTopic = function (topic) {
 			return ($scope.topicid === parseInt(topic.id, 10));
@@ -73,8 +89,8 @@ define(["step", "whispeerHelper", "asset/state"], function (step, h, State) {
 
 		$scope.scrollLock = false;
 
-		$scope.markRead = function (messageid) {
-			$scope.activeTopic.obj.markRead(messageid, errorService.criticalError);
+		$scope.markRead = function () {
+			$scope.activeTopic.obj.markRead(errorService.criticalError);
 		};
 
 		$scope.loadMoreMessages = function () {
@@ -136,7 +152,7 @@ define(["step", "whispeerHelper", "asset/state"], function (step, h, State) {
 
 					var m = theTopic.data.messages;
 					if (m.length > 0) {
-						theTopic.markRead(m[m.length - 1].id, errorService.criticalError);
+						theTopic.markRead(errorService.criticalError);
 					}
 				});
 			}));
@@ -162,6 +178,7 @@ define(["step", "whispeerHelper", "asset/state"], function (step, h, State) {
 				$scope.canSend = true;
 				if (!e) {
 					$scope.activeTopic.newMessage = "";
+					$scope.markRead(errorService.criticalError);
 					$timeout(function () {
 						sendMessageState.reset();
 					}, 2000);
@@ -185,10 +202,16 @@ define(["step", "whispeerHelper", "asset/state"], function (step, h, State) {
 				return bursts;
 			}
 
+			if (messages.length === 0) {
+				return [];
+			}
+
 			bursts = [];
 
 			burstTopic = $scope.activeTopic.id;
 			burstMessageCount = messages.length;
+
+			previousSender = messages[0].sender.id;
 
 			messages.forEach(function(message) {
 				if (currentBurst.length > 0 && previousSender !== message.sender.id) {

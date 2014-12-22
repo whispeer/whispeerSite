@@ -1,6 +1,4 @@
- //class="hint--right hint--error hint--always" data-hint=""
-
- define(["jquery"], function (jQuery) {
+define(["jquery", "qtip"], function (jQuery) {
 	"use strict";
 	var directive =  function(localize) {
 		return {
@@ -14,8 +12,18 @@
 					});
 				}
 
-				//errorHintF
-				//errorHintT
+				var showWhen = {
+					ready: true
+				};
+				var hideWhen = false;
+
+				if (attrs.errorHintEvent) {
+					showWhen = {
+						event: attrs.errorHintEvent
+					};
+					hideWhen = {};
+				}
+
 				scope.$watch(function () {
 					if (!show) {
 						return false;
@@ -30,14 +38,23 @@
 
 					return false;
 				}, function (value) {
-					var lineBreak = jQuery("<div/>").html("&#xa;").text();
-
 					if (value) {
-						elm.addClass("hint--right hint--error hint--always")
-							.attr("data-hint", localize.getLocalizedString(attrs["errorHintT" + value]).replace("[br]", lineBreak));
+						elm.qtip({ // Grab some elements to apply the tooltip to
+							content: {
+								text: localize.getLocalizedString(attrs["errorHintT" + value]),
+							},
+							style: {
+								classes: 'qtip-bootstrap'
+							},
+							position: {
+								my: 'top center',
+								at: 'bottom center'
+							},
+							show: showWhen,
+							hide: hideWhen
+						});
 					} else {
-						elm.removeClass("hint--right hint--error hint--always")
-							.removeAttr("data-hint");
+						elm.qtip('destroy', true);
 					}
 				});
 			}

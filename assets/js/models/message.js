@@ -41,12 +41,12 @@ define(["step",
 				obj: this
 			};
 
-			this.getHash = function getHashF() {
-				return securedData.getHash();
+			this.getSecuredData = function () {
+				return securedData;
 			};
 
-			this.getTopicHash = function getHashF() {
-				return securedData.metaAttr("topicHash");
+			this.getHash = function getHashF() {
+				return securedData.getHash();
 			};
 
 			this.getID = function getIDF() {
@@ -93,6 +93,10 @@ define(["step",
 				}), cb);
 			};
 
+			this.verifyParent = function (topic) {
+				securedData.checkParent(topic.getSecuredData());
+			};
+
 			this.verify = function (signKey, cb) {
 				securedData.verify(signKey, cb);
 			};
@@ -113,14 +117,10 @@ define(["step",
 
 				var meta = {
 					createTime: new Date().getTime(),
-					topicHash: newest.getTopicHash(),
-					previousMessage: h.parseDecimal(newest.getID()),
-					previousMessageHash: newest.getHash()
 				};
 
-				var topicKey = topic.getKey();
-
-				Message.createRawData(topicKey, message, meta, this);
+				var mySecured = Message.createRawData(topic, message, meta, this);
+				mySecured.setAfterRelationShip(newest.getSecuredData());
 			}, h.sF(function (mData) {
 				mData.meta.topicid = topic.getID();
 
@@ -132,8 +132,11 @@ define(["step",
 			}), cb);
 		};
 
-		Message.createRawData = function (topicKey, message, meta, cb) {
-			SecuredData.create(message, meta, { type: "message" }, userService.getown().getSignKey(), topicKey, cb);
+		Message.createRawData = function (topic, message, meta, cb) {
+			var secured = SecuredData.create(message, meta, { type: "message" }, userService.getown().getSignKey(), topic.getKey(), cb);
+			secured.setParent(topic.getSecuredData());
+
+			return secured;
 		};
 
 		return Message;

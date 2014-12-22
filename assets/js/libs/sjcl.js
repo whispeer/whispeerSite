@@ -469,6 +469,20 @@ sjcl.bitArray = {
    */
   _xor4: function(x,y) {
     return [x[0]^y[0],x[1]^y[1],x[2]^y[2],x[3]^y[3]];
+  },
+
+  /** byteswap a word array inplace.
+   * (does not handle partial words)
+   * @param {sjcl.bitArray} a word array
+   * @return {sjcl.bitArray} byteswapped array
+   */
+  byteswapM: function(a) {
+    var i, v, m = 0xff00;
+    for (i = 0; i < a.length; ++i) {
+      v = a[i];
+      a[i] = (v >>> 24) | ((v >>> 8) & m) | ((v & m) << 8) | (v << 24);
+    }
+    return a;
   }
 };
 /** @fileOverview Bit array codec implementations.
@@ -624,7 +638,7 @@ sjcl.codec.base64 = {
     if (_url) {
       c = c.substr(0,62) + '-_';
     }
-    for (i=0; out.length * 6 <= bl; ) {
+    for (i=0; out.length * 6 < bl; ) {
       out += c.charAt((ta ^ arr[i]>>>bits) >>> 26);
       if (bits < 6) {
         ta = arr[i] << (6-bits);
@@ -904,6 +918,27 @@ sjcl.mode.ccm = {
    */
   name: "ccm",
   
+  _progressListeners: [],
+
+  listenProgress: function (cb) {
+    sjcl.mode.ccm._progressListeners.push(cb);
+  },
+
+  unListenProgress: function (cb) {
+    var index = sjcl.mode.ccm._progressListeners.indexOf(cb);
+    if (index > -1) {
+      sjcl.mode.ccm._progressListeners.splice(index, 1);
+    }
+  },
+
+  _callProgressListener: function (val) {
+    var p = sjcl.mode.ccm._progressListeners.slice(), i;
+
+    for (i = 0; i < p.length; i += 1) {
+      p[i](val);
+    }
+  },
+
   /** Encrypt in CCM mode.
    * @static
    * @param {Object} prf The pseudorandom function.  It must have a block size of 16 bytes.
@@ -1050,7 +1085,7 @@ sjcl.mode.ccm = {
    * @private
    */
   _ctrMode: function(prf, data, iv, tag, tlen, L) {
-    var enc, i, w=sjcl.bitArray, xor = w._xor4, ctr, l = data.length, bl=w.bitLength(data);
+    var enc, i, w=sjcl.bitArray, xor = w._xor4, ctr, l = data.length, bl=w.bitLength(data), n = l/50, p = n;
 
     // start the ctr
     ctr = w.concat([w.partial(8,L-1)],iv).concat([0,0,0]).slice(0,4);
@@ -1062,6 +1097,10 @@ sjcl.mode.ccm = {
     if (!l) { return {tag:tag, data:[]}; }
     
     for (i=0; i<l; i+=4) {
+      if (i > n) {
+        sjcl.mode.ccm._callProgressListener(i/l);
+        n += p;
+      }
       ctr[3]++;
       enc = prf.encrypt(ctr);
       data[i]   ^= enc[0];
@@ -1940,8 +1979,21 @@ sjcl.prng.prototype = {
   },
   
   _mouseCollector: function (ev) {
-    var x = ev.x || ev.clientX || ev.offsetX || 0, y = ev.y || ev.clientY || ev.offsetY || 0;
-    sjcl.random.addEntropy([x,y], 2, "mouse");
+    var x, y;
+
+    try {
+      x = ev.x || ev.clientX || ev.offsetX || 0;
+      y = ev.y || ev.clientY || ev.offsetY || 0;
+    } catch (err) {
+      // Event originated from a secure element. No mouse position available.
+      x = 0;
+      y = 0;
+    }
+
+    if (x != 0 && y!= 0) {
+      sjcl.random.addEntropy([x,y], 2, "mouse");
+    }
+
     this._addCurrentTimeToEntropy(0);
   },
   
@@ -1950,7 +2002,7 @@ sjcl.prng.prototype = {
   },
 
   _addCurrentTimeToEntropy: function (estimatedEntropy) {
-    if (window && window.performance && typeof window.performance.now === "function") {
+    if (typeof window !== 'undefined' && window.performance && typeof window.performance.now === "function") {
       //how much entropy do we want to add here?
       sjcl.random.addEntropy(window.performance.now(), estimatedEntropy, "loadtime");
     } else {
@@ -2016,7 +2068,7 @@ sjcl.random = new sjcl.prng(6);
       buf = new Uint32Array(new Uint8Array(buf).buffer);
       sjcl.random.addEntropy(buf, 1024, "crypto.randomBytes");
 
-    } else if (window && Uint32Array) {
+    } else if (typeof window !== 'undefined' && typeof Uint32Array !== 'undefined') {
       ab = new Uint32Array(32);
       if (window.crypto && window.crypto.getRandomValues) {
         window.crypto.getRandomValues(ab);
@@ -2175,7 +2227,11 @@ sjcl.random = new sjcl.prng(6);
     j._add(rp, p);
     rp.key = password;
 
-    return sjcl.codec.utf8String.fromBits(ct);
+    if (params.raw === 1) {
+      return ct;
+    } else {
+      return sjcl.codec.utf8String.fromBits(ct);
+    }
   },
 
   /** Simple decryption function.
@@ -2936,8 +2992,16 @@ sjcl.ecc.point = function(curve,x,y) {
   if (x === undefined) {
     this.isIdentity = true;
   } else {
+    if (x instanceof sjcl.bn) {
+      x = new curve.field(x);
+    }
+    if (y instanceof sjcl.bn) {
+      y = new curve.field(y);
+    }
+
     this.x = x;
     this.y = y;
+
     this.isIdentity = false;
   }
   this.curve = curve;
@@ -3364,7 +3428,16 @@ sjcl.ecc.elGamal.secretKey.prototype = {
   */
   dh: function(pk) {
     return sjcl.hash.sha256.hash(pk._point.mult(this._exponent).toBits());
-  }
+  },
+  
+  /** Diffie-Hellmann function, compatible with Java generateSecret
+   * @param {elGamal.publicKey} pk The Public Key to do Diffie-Hellmann with
+   * @return {bitArray} undigested X value, diffie-hellmann result for this key combination,
+   * compatible with Java generateSecret().
+   */
+   dhJavaEc: function(pk) {
+     return pk._point.mult(this._exponent).x.toBits();
+   }
 };
 
 /** ecdsa keys */

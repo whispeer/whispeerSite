@@ -1,8 +1,37 @@
-<header><span class="title" role="title" data-i18n="friends.title"></span></header>
-<section>
-	<ol id="friendsList" class="unstyled">
-		<li data-ng-repeat="friend in friends">
-			<friend data-user="friend"></friend>
-		</li>	
-	</ol>
+<header class="box-header" data-ng-if="!mobile">
+	<span class="box-header-title">Freunde</span>
+</header>
+<section data-ng-class="{'box-content box-content--scroll': !mobile}">
+	<section class="friendsView-section" data-ng-if="requests.length > 0">
+		<span class="friendsView-title" data-i18n="magicbar.requests.title"></span>
+		<ul class="unstyled" id="requestsList">
+			<li class="friendsView-friend friendsView-request" data-ng-repeat="user in requests">
+				<person data-user="user">
+					<savebutton class="friendRequest-actionButton btn--primary {{mobile ? 'btn--noPadding' : ''}}" data-i18n="magicbar.requests.accept" data-state="user.addFriendState" data-ng-click="$parent.acceptRequest(user)"></savebutton>
+					<savebutton class="friendRequest-actionButton btn--danger {{mobile ? 'btn--noPadding' : ''}}" data-i18n="magicbar.requests.decline" data-state="user.ignoreFriendState" data-ng-click="$parent.ignoreRequest(user)"></savebutton>
+				</person>
+			</li>
+			<li class="friendsView-request error" data-ng-if="requests.length == 0">
+				<span data-i18n="magicbar.requests.none"></span>
+			</li>
+		</ul>
+		<ul class="unstyled" data-ng-if="requests.length == 0">
+			<li class="friendsView-request error">
+				<span data-i18n="magicbar.requests.none"></span>
+			</li>
+		</ul>
+	</section>
+	<section class="friendsView-section">
+		<span class="friendsView-title" data-i18n="friends.title"></span>
+		<ol id="friendsView-friendsList" class="unstyled">
+			<li class="friendsView-friend" data-ng-repeat="friend in friends">
+				<person data-user="friend" data-type="friend">
+					<a href="/messages?userid={{friend.id}}"><i class="fa fa-2x fa-envelope fa-fw"></i></a>
+					<a data-ng-click="$parent.removeFriend(friend)"><i class="person-clickable fa fa-2x fa-times fa-fw"></i></a>
+				</person>
+			</li>
+			<li class="friendsView-friend" id="friendsView-inviteFriends" data-ng-if="friends.length < 50">
+				<a class="inviteFriends-link btn btn--primary" id="friendsView-inviteFriends-link" href="/invite" data-i18n="inviteFriends"></a>
+			</li>
+	</section>
 </section>

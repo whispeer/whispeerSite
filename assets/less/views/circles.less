@@ -1,191 +1,234 @@
 .circlesView {
-	.maxHeight {
+	#main {
 		height: 100%;
 	}
-	#main {
-		.box;
+	.box-header-title {
+		@media @desktop { .width(7); }
+		@media @mobile { .width(10.5); &.circleLoaded{ .width(9); } }
+		overflow: hidden;
+		white-space: nowrap;
+		text-overflow: ellipsis;
 	}
-	header {
-		.title {
-			overflow: hidden;
-			white-space: nowrap;
-			text-overflow: ellipsis;
-		}
-		nav {
-			a {
-				color: lighten(@gray,20%);
-				cursor: pointer;
-				&.delete {
-					color: @red;
-					&:hover {
-						color: lighten(@red, 5%);
-					}
-				}
-				&.save {
-					color: @primary;
-					&:hover {
-						color: @primaryLighter;
-					}
-				}
-			}
-		}
+	#newcircle {
+		@media @mobile { .width(12,12,0); margin: 0; border: none; }
+		@media @desktop { .width(4,12,0); }
+	}
+	#removeCircle {
+		@media @desktop { .width(1); }
+		@media @mobile { .width(1.5); }
+		text-align: center;
+	}
+	#backToMenu {
+		@media @mobile { .width(1.5); text-align: center; }
 	}
 	#circleListWrap {
-		margin-right: 3px;
-		#circleList {
-			.unstyled;
-			.box-fix;
-			#circleListScroll {
-				.box-fix;
-				margin-top: 10px;
+		@media @mobile { .width(12,12,0); margin: 0; }
+		@media @desktop { .column(4,12,left,0); border-right: 1px solid #ccc; }
+		&:extend(.box-fix);
+		height: ~"calc(100% - 31px)";
+	}
+	#circleList {
+		&:extend(.box-fix);
+		height: 100%;
+		margin: 0;
+	}
+	#circleListScroll {
+		&:extend(.box-fix);
+		margin-top: 0;
+		height: 100%;
+		overflow-y: scroll;
+
+		// nice scrolling for iOS.
+		-webkit-overflow-scrolling: touch;
+	}
+	.circleList-item {
+		width: 100%;
+		height: 89px;
+		border: none;
+		border-bottom: 1px solid #ccc;
+		padding: 0;
+		cursor: pointer;
+		transition: background 0.2s ease;
+	}
+	.circleList-item-image {
+		@media @mobile { .column(2); }
+		@media @desktop { .column(2,11); }
+		padding: 6px 0 0 0;
+		max-height: 76px;
+		max-width: 76px;
+		.userimg {
+			border-radius: 100%;
+			padding: 0;
+			width: 100%;
+			max-width: 77px;
+			max-height: 77px;
+		}
+	}
+	.circleList-item-info {
+		@media @mobile { .column(10); margin-top: 5px; }
+		@media @desktop { .column(9,11); }
+	}
+	.circleList-item-listname {
+		width: 100%;
+		text-overflow: ellipsis;
+		overflow: hidden;
+		display: inline-block;
+		white-space: nowrap;
+	}
+	.circleList-item-personCount {
+		color: #555;
+	}
+	.circleList-item:last-child {
+		border-bottom: none;
+	}
+	.circleList-item:hover {
+		background-color: @primaryLighter;
+		.circleList-item-listname {
+			color: #ececec;
+		}
+		.circleList-item-personCount {
+			color: #eee;
+		}
+	}
+	.circleList-item--active {
+		background-color: @primaryLighter;
+		&:hover {
+			background-color: @primaryLighter;
+		}
+	}
+	.circleList-item--active .circleList-item-listname {
+		color: #ececec;
+	}
+	.circleList-item--active .circleList-item-personCount {
+		color: #eee;
+	}
+	#circleView-inviteFriends {
+		@media @screen {
+			width: 100;
+		}
+		margin: 0;
+	}
+	.inviteFriends-link {
+		.large-text();
+		width: 100%;
+		@media @desktop {
+			min-height: 100px;
+			line-height: 100px;
+		}
+		@media @mobile {
+			min-height: 75px;
+			line-height: 75px;
+		}
+		text-align: center;
+		border-radius: 0;
+		border: none;
+	}
+	#circleContainer {
+		@media @desktop { .column(8,12,left,0); }
+		height: calc(~"100% - 31px");
+		.box-fix;
+		overflow-y: scroll;
+
+		// nice scrolling for iOS.
+		-webkit-overflow-scrolling: touch;
+	}
+	#circleTitle {
+		h2 {
+			white-space: nowrap;
+			text-overflow: ellipsis;
+			overflow: hidden;
+			max-width: 95%;
+			width: auto;
+			display: inline-block;
+			float: left;
+		}
+	}
+	.editTitleButton {
+		margin-top: 17px;
+		margin-left: 1%;
+		float: left;
+		max-width: 4%;
+		text-align: center;
+		padding-left: 1%;
+		padding-right: 1%;
+	}
+	.editTitle {
+		input {
+			.column(6);
+		}
+		button {
+			.column(4);
+			height: 37px;
+			margin-top: 13px !important;
+		}
+		input, button {
+			margin-top: 13px;
+		}
+		h2 {
+			float: left;
+			.width(2);
+			overflow: auto;
+		}
+	}
+	#circleWrap {
+		width: 100%;
+		height: 100%;
+		#friendsList {
+			.clear-fix;
+			height: 100%;
+			margin: 0;
+			&:before, &:after {
+				height: 1%;
+				position: relative;
+				width: 100%;
+				float: left;
+				background: transparent;
 			}
-			#newcircle {
-				border: none;
-				.border-radius(2px);
-				.btn {
-					width: 100%;
-					cursor: pointer;
+			li {
+				position: relative;
+				@media @mobile { .column(1,2); }
+				@media @desktop { .column(1,3); }
+				.person {
+					margin: 1% !important;
 				}
-				&:hover {
+				&.add {
 					background: none;
-				}
-			}
-			.circle {
-				.border-radius(5px);
-				border: none;
-				border-bottom: 1px solid #aaa;
-				padding: 0;
-				.left {
-					padding: 0;
-					.userimg {
-						.border-radiuses(0,0,5px,5px);
-						padding: 0;
-					}
-				}
-				.listname {
-					strong {
-						text-overflow: ellipsis;
-						overflow: hidden;
+					border: 1px solid #ccc;
+					span {
 						display: inline-block;
-						white-space: nowrap;
-					}	
-				}
-				.personCount {
-					font-size: 0.85em;
-					color: #555;
-				}
-				&:hover {
-					background-color: @primaryLightest;
-					.listname {
-						color: #ececec;
-					}
-					.personCount {
-						color: #eee;
-					}
-				}
-				&.active {
-					background-color: @primaryLighter;
-					.listname {
-						color: #ececec;
-					}
-					.personCount {
-						color: #eee;
+						margin-top: 50%;
 					}
 					&:hover {
-						background-color: @primaryLightest;
-					}		
-				}
-				.time {
-					font-size: small;
-					color: #888;
-					float: right;
-					margin-right: 5px;
-					margin-top: -20px;
+						border: 1px solid @primary;
+						span {
+							text-shadow: 0px 0px 2px #ddd;
+						}
+					}
 				}
 			}
 		}
 	}
-	#circleContainer {
+	.newCircle {
 		#circleTitle {
 			h2 {
-				white-space: nowrap;
-				text-overflow: ellipsis;
-				overflow: hidden;
-				max-width: 95%;
-				width: auto;
-				display: inline-block;
-				float: left;
-			}
-			.editTitleButton {
-				margin-top: 17px;
-				margin-left: 1%;
-				float: left;
-				max-width: 4%;
-				text-align: center;
-				padding-left: 1%;
-				padding-right: 1%;
-			}
-			.editTitle {
-				input {
-					.column(6);
-				}
-				button {
-					.column(4);
-					height: 37px;
-					margin-top: 13px !important;
-				}
-				input, button {
-					margin-top: 13px;
-				}
-				h2 {
-					float: left;
-					.width(2);
-					overflow: auto;
-				}
+				.column(12);
+				margin-left: -1%;
 			}
 		}
-		#circleWrap {
-			width: 100%;
-			height: 100%;
-			overflow-y: scroll;
-			#friendsList {
-				.clear-fix;
-				text-align: center;
-				li {	
-					position: relative;
-					&.add {
-						background: none;
-						border: 1px solid #ccc;
-						span {
-							font-size: 100px;
-							line-height: 40px;
-							display: inline-block;
-							margin-top: 50%;
-						}
-						&:hover {
-							border: 1px solid @primary;
-							span {
-								text-shadow: 0px 0px 2px #ddd;
-							}
-						}
-					}	
-				}
-			}
-		}	
-		&.newCircle {
-			#circleTitle {
-				h2 {
-					.column(12);
-					margin-left: -1%;
-				}
-			}
-			#circleName {
-				margin-bottom: 14px !important;
+		#inputWrap {
+			.column(12);
+			position: relative;
+			top: 0;
+			left: 0;
+			margin-top: 1%;
+			#titleInput, #friendInput {
+				.column(12);
+				margin-bottom: 1%;
 			}
 			#savecircle {
-				padding: 10px 10px;
+				@media @mobile { .column(12); }
 				margin-left: 1% !important;
 			}
-		}	
+		}
 	}
 }

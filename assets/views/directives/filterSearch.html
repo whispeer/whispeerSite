@@ -1,6 +1,6 @@
-<basicsearch multiple="true" class="filterSearch">
-	<ol class="unstyled searchSuggestions">
-		<li style="width: {{width + 15}}px" data-ng-repeat="result in results" data-ng-class="currentClass($index)" data-ng-mouseover="setCurrent($index)" data-ng-click="selectResult($index)">
+<basicsearch class="search--filterSearch" multiple="true" base="filter">
+	<ol class="search-suggestions u-unstyled">
+		<li class="search-suggestion search-suggestion-circle" style="width: {{width}}px" data-ng-repeat="result in results" data-ng-class="currentClass($index)" data-ng-mouseover="setCurrent($index)" data-ng-click="selectResult($index)">
 			{{result.name}} ({{result.count}})
 		</li>
 	</ol>

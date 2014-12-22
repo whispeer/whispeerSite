@@ -18,11 +18,17 @@ define(["step", "whispeerHelper", "cryptoWorker/generalWorkerInclude"], function
 		}
 	}
 
-	function rootController($rootScope, $scope, $timeout, $http, socketService, sessionService, sessionHelper, userService, cssService, messageService, trustService, friendsService) {
+	function rootController($rootScope, $scope, $timeout, $http, socketService, sessionService, sessionHelper, userService, cssService, messageService, trustService, friendsService, keyStore) {
 		var buildDate = "20140518";
 
 		generalWorkerInclude.setBeforeCallBack(function (evt, cb) {
 			$rootScope.$apply(cb);
+		});
+
+		keyStore.setAfterRequireCall(function (cb) {
+				$rootScope.$apply(function () {
+					cb();
+				});
 		});
 
 		$http({ method: "GET", url: "changelog.json?t=" + (new Date()).getTime(), cache: false }).success(function (data) {
@@ -37,7 +43,8 @@ define(["step", "whispeerHelper", "cryptoWorker/generalWorkerInclude"], function
 
 		function updateMobile() {
 			var old = $scope.mobile;
-			$scope.mobile = jQuery(window).width() < 768;
+
+			$scope.mobile = jQuery(window).width() < 1025;
 
 			if ($scope.mobile !== old) {
 				$timeout(h.nop);
@@ -57,6 +64,7 @@ define(["step", "whispeerHelper", "cryptoWorker/generalWorkerInclude"], function
 
 		$scope.user = nullUser;
 		$scope.friends = friendsService.data;
+		$scope.messages = messageService.data;
 
 		$scope.$on("ssn.login", function () {
 			$scope.loggedin = sessionService.isLoggedin();
@@ -101,6 +109,18 @@ define(["step", "whispeerHelper", "cryptoWorker/generalWorkerInclude"], function
 			});
 		});
 
+		$scope.activateSidebar = function () {
+			if (!$scope.sidebarActive) {
+				$scope.toggleSidebar();
+			}
+		};
+
+		$scope.deactivateSidebar = function () {
+			if ($scope.sidebarActive) {
+				$scope.toggleSidebar();
+			}
+		};
+
 		$scope.toggleSidebar = function() {
 			$scope.sidebarActive = !$scope.sidebarActive;
 			$scope.searchActive = false;
@@ -117,8 +137,9 @@ define(["step", "whispeerHelper", "cryptoWorker/generalWorkerInclude"], function
 			$scope.sidebarActive = false;
 		};
 
-		cssService.addListener(function (newClass) {
+		cssService.addListener(function (newClass, isBox) {
 			$scope.cssClass = newClass;
+			$scope.isBox = isBox;
 		});
 
 		jQuery(document.body).removeClass("loading");
@@ -130,7 +151,7 @@ define(["step", "whispeerHelper", "cryptoWorker/generalWorkerInclude"], function
 		};
 	}
 
-	rootController.$inject = ["$rootScope", "$scope", "$timeout", "$http", "ssn.socketService", "ssn.sessionService", "ssn.sessionHelper", "ssn.userService", "ssn.cssService", "ssn.messageService", "ssn.trustService", "ssn.friendsService"];
+	rootController.$inject = ["$rootScope", "$scope", "$timeout", "$http", "ssn.socketService", "ssn.sessionService", "ssn.sessionHelper", "ssn.userService", "ssn.cssService", "ssn.messageService", "ssn.trustService", "ssn.friendsService", "ssn.keyStoreService"];
 
 	return rootController;
 });

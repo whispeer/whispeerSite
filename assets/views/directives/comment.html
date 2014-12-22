@@ -1,11 +1,10 @@
-<li data-ng-class="{me:comment.user.me}">
-	<span class="userimage"><img data-ng-src="{{comment.user.image}}"></span>
-	<span class="text">
-		{{comment.content}}
-	</span>
-	<aside>
-		<span class="timestamp" data-i18n="wall.comments.time|date={{comment.date}}|time={{comment.timestamp}}"></span>
-		<!-- <a class="showComments" data-i18n="wall.info.comments.showem" data-ng-click="showComments=!showComments" data-ng-init="showComments=false"></a> -->
-		isMe: {{comment.user.me}}
+<li data-ng-class="{me:comment.sender.me}">
+	<a href='{{comment.sender.basic.url}}' class="userimg">
+		<userimage data-user="comment.sender"></userimage>
+	</a>
+	<a href='{{comment.sender.basic.url}}'>{{comment.sender.name}}</a>
+	<p class="content" data-syntaxify="comment.text"></p>
+	<aside class="meta">
+		<span class="date"><i class="fa fa-clock-o"></i> {{comment.time|smartdate}}</span>
 	</aside>
 </li>

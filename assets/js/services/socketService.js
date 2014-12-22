@@ -32,6 +32,8 @@ define(["jquery", "socket", "socketStream", "step", "whispeerHelper", "config"],
 			}
 		}, 10000);
 
+		var loading = 0;
+
 		var socketS = {
 			isConnected: function () {
 				return socket.socket.connected;
@@ -58,6 +60,9 @@ define(["jquery", "socket", "socketStream", "step", "whispeerHelper", "config"],
 			once: function () {
 				socket.once.apply(socket, arguments);
 			},
+			removeAllListener: function (channel) {
+				socket.removeAllListeners(channel);
+			},
 			listen: function (channel, callback) {
 				socket.on(channel, function (data) {
 					console.log("received data on " + channel);
@@ -77,6 +82,7 @@ define(["jquery", "socket", "socketStream", "step", "whispeerHelper", "config"],
 					console.groupEnd();
 
 					time = new Date().getTime();
+					loading++;
 
 					if (socket.socket.connected) {
 						socket.emit(channel, data, this.ne);
@@ -87,6 +93,8 @@ define(["jquery", "socket", "socketStream", "step", "whispeerHelper", "config"],
 					console.groupCollapsed("Answer on " + channel);
 					console.info((new Date().getTime() - time));
 
+					loading--;
+
 					if (data.keys) {
 						data.keys.forEach(function (key) {
 							keyStore.upload.addKey(key);
@@ -95,28 +103,33 @@ define(["jquery", "socket", "socketStream", "step", "whispeerHelper", "config"],
 
 					if (data.error) {
 						console.error(data);
+						console.groupEnd();
 						throw new Error("server returned an error!");
-					} else {
-						console.info(data);
 					}
 
+					console.info(data);
 					console.groupEnd();
 
 					lastRequestTime = data.serverTime;
 
-					//console.debug(h.parseDecimal(data.serverTime) - new Date().getTime());
+					updateLogin(data);
 
-					var that = this;
-					$rootScope.$apply(function () {
-						updateLogin(data);
-
-						if (typeof callback === "function") {
-							that.ne(data);
-						} else {
-							console.log("unhandled response" + data);
-						}
+					if (typeof callback === "function") {
+						this.ne(data);
+					} else {
+						console.log("unhandled response" + data);
+					}
+				}), function () {
+					var args = arguments, that = this;
+					window.setTimeout(function () {
+						$rootScope.$apply(function () {
+							that.apply(that, args);
+						});
 					});
-				}), callback);
+				}, callback);
+			},
+			getLoadingCount: function () {
+				return loading;
 			},
 			lastRequestTime: function () {
 				return lastRequestTime;
@@ -126,7 +139,34 @@ define(["jquery", "socket", "socketStream", "step", "whispeerHelper", "config"],
 			}
 		};
 
+		$(document).keypress(function (e) {
+			if (e.shiftKey && e.ctrlKey && e.keyCode === 5) {
+				if (errors.length > 0) {
+					var yes = confirm("Send errors to whispeer server?");
+
+					if (yes) {
+						socketS.emit("errors", {
+							errors: errors
+						}, function (e) {
+							if (e) {
+								alert("Transfer failed!");
+							} else {
+								alert("Errors successfully transfered to server");
+							}
+						});
+					}
+				}
+			}
+		});
+
+
+		socket.on("disconnect", function () {
+			console.info("socket disconnected");
+			loading = 0;
+		});
+
 		socket.on("reconnect", function () {
+			console.info("socket reconnected");
 			socketS.emit("ping", {}, function () {});
 		});
 

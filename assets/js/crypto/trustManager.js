@@ -109,7 +109,31 @@ define (["whispeerHelper", "step", "asset/observer", "asset/securedDataWithMetaD
 		setOwnSignKey: function (_ownKey) {
 			ownKey = _ownKey;
 		},
+		updateDatabase: function (data, cb) {
+			if (!loaded || data._signature === database.metaAttr("_signature")) {
+				return;
+			}
+
+			var givenDatabase = SecuredData.load(undefined, data, { type: "trustManager" });
+			step(function () {
+				if (data.me === ownKey) {
+					givenDatabase.verify(ownKey, this);
+				} else {
+					throw new errors.SecurityError("not my trust database");
+				}
+			}, h.sF(function () {
+				database = givenDatabase;
+
+				trustManager.notify("", "updated");
+
+				this.ne();
+			}), cb);
+		},
 		loadDatabase: function (data, cb) {
+			if (loaded) {
+				return;
+			}
+
 			var givenDatabase = SecuredData.load(undefined, data, { type: "trustManager" });
 			step(function () {
 				if (data.me === ownKey) {
