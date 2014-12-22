@@ -121,8 +121,10 @@ define(["jquery", "socket", "socketStream", "step", "whispeerHelper", "config"],
 					}
 				}), function () {
 					var args = arguments, that = this;
-					$rootScope.$apply(function () {
-						that.apply(that, args);
+					window.setTimeout(function () {
+						$rootScope.$apply(function () {
+							that.apply(that, args);
+						});
 					});
 				}, callback);
 			},
