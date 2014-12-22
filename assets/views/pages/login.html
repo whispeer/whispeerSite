@@ -12,7 +12,7 @@
 			<div class="error" data-ng-if="login.unknownName" id="errorLogin" data-i18n="login.unknownName"></div>
 			<div class="error" data-ng-if="login.wrongPassword" id="errorLogin" data-i18n="login.wrongPassword"></div>
 		</div>
-		<savebutton id="loginformsubmit" data-state="login.state" class="btn btn--input btn--primary" type="submit" data-ng-click="login.login()" data-translation="login.link"></savebutton>
+		<savebutton id="loginformsubmit" data-noiniticon data-state="login.state" class="btn btn--input btn--primary" type="submit" data-ng-click="login.login()" data-translation="login.link"></savebutton>
 	</form>
 	<div class="smallRow" data-ng-if="login.failedOnce && false">
 		<button class="btn btn-send" data-i18n="login.forgotName"></button>
