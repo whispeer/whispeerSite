@@ -8,6 +8,9 @@ define(["step", "whispeerHelper", "asset/state"], function (step, h, State) {
 	function registerController($scope, $timeout, $routeParams, keyStore, errorService, sessionHelper, sessionService, socketService) {
 		var inviteCodeState = new State();
 		var inviteMailState = new State();
+		var registerState = new State();
+
+		$scope.registerState = registerState.data;
 
 		$scope.invite = {
 			code: $routeParams.inviteCode || "",
@@ -233,9 +236,11 @@ define(["step", "whispeerHelper", "asset/state"], function (step, h, State) {
 
 
 		$scope.register = function doRegisterC() {
+			registerState.pending();
 			if ($scope.passwordStrength() === 0 || $scope.password !== $scope.password2 || !$scope.agb || !h.isNickname($scope.nickname)) {
 				$scope.registerFailed = true;
 				onlyErrors = false;
+				registerState.failed();
 				return;
 			}
 
@@ -255,10 +260,12 @@ define(["step", "whispeerHelper", "asset/state"], function (step, h, State) {
 				console.time("register");
 				sessionService.setReturnURL("/setup");
 				sessionHelper.register($scope.nickname, "", $scope.invite.code, $scope.password, profile, imageBlob, settings, this);
-			}, function () {
+			}, function (e) {
 				console.timeEnd("register");
 				console.log("register done!");
-			});
+
+				this(e);
+			}, errorService.failOnError(registerState));
 		};
 	}
 
