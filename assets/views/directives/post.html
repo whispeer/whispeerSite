@@ -13,11 +13,11 @@
 			</strong>
 		</span>
 	</aside>
-	<button data-ng-if="post.removable" data-ng-click="post.remove()">del</button>
 	<p class="content" data-syntaxify="post.content.text"></p>
 	<aside class="actions">
 		<span class="date"><i class="fa fa-clock-o"></i> {{post.time|smartdate}}</span>
 		<span ng-click="toggleShowComments()" class="action"><i class="fa fa-comment"></i> <span data-i18n="wall.comments"></span> ({{post.comments.length}})</span>
+		<span data-ng-if="post.removable" data-ng-click="post.remove()" class="action"><i class="fa fa-times"></i><span data-i18n="wall.remove"></span></span>
 	</aside>
 	<aside class="comments" ng-show="showComments">
 		<ul>

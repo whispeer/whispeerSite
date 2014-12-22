@@ -262,6 +262,8 @@
 		}
 	},
 	"wall": {
+		"remove": "Remove post",
+		"confirmRemovePost": "Really remove post?",
 		"loading": "Loading your newsfeed!",
 		"createPost": "Post something!",
 		"postit": {
