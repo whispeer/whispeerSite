@@ -1,19 +1,22 @@
-define(["step"], function (step) {
+define(["step", "asset/state"], function (step, State) {
 	"use strict";
 
 	var service = function ($rootScope, $location, sessionHelper) {
+		var loginState = new State();
+
 		var res = {
 			identifier: "",
 			password: "",
+			state: loginState.data,
 			success: false,
 			unknownName: false,
 			wrongPassword: false,
 			failure: false,
 			failedOnce: false,
 			isHeaderForm: false,
-			loading: false,
 			login: function () {
-				res.loading = true;
+				loginState.pending();
+
 				res.success = false;
 				res.unknownName = false;
 				res.wrongPassword = false;
@@ -22,8 +25,8 @@ define(["step"], function (step) {
 				step(function () {
 					sessionHelper.login(res.identifier, res.password, this);
 				}, function (e) {
-					res.loading = false;
 					if (e) {
+						loginState.failed();
 						res.failedOnce = true;
 						if (e.wrongPassword) {
 							res.wrongPassword = true;
@@ -37,8 +40,8 @@ define(["step"], function (step) {
 							$location.path("/login");
 						}
 					} else {
+						loginState.success();
 						res.failedOnce = false;
-						res.success = true;
 						res.identifier = "";
 						res.password = "";
 					}
