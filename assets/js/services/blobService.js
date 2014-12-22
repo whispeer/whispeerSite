@@ -235,6 +235,10 @@ define(["step", "whispeerHelper"], function (step, h) {
 
 		var db, request;
 		step(function () {
+			if (!window.indexedDB.open) {
+				return;
+			}
+
 			request = window.indexedDB.open("whispeer");
 			request.onerror = this;
 			request.onsuccess = this.ne;
@@ -247,7 +251,9 @@ define(["step", "whispeerHelper"], function (step, h) {
 			db.onerror = function (event) {
 				console.log(event);
 			};
-		}));
+		}), function (e) {
+			console.log("Could not load indexedDB");
+		});
 
 		function loadBlobFromDB(blobID, err, success) {
 			if (db) {
