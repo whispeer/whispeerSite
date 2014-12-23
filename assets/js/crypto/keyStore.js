@@ -594,32 +594,6 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 			}
 		};
 
-		/** encrypt a text.
-		* @param text text to encrypt
-		* @param callback called with result
-		* @param optional iv initialization vector
-		*/
-		function encryptF(text, callback, iv) {
-			if (!isKeyUsableForEncryption(intKey.getRealID())) {
-				throw new errors.SecurityError("Key not usable for encryption: " + intKey.getRealID());
-			}
-
-			if (iv) {
-				throw new Error("found iv usage");
-			}
-
-			debugger;
-			throw new Error("bla");
-
-			step(function symEncryptI1() {
-				intKey.decryptKey(this);
-			}, h.sF(function symEncryptI2() {
-				var result = sjcl.encrypt(chelper.hex2bits(intKey.getSecret()), text);
-
-				this.ne(chelper.sjclPacket2Object(result));
-			}), callback);
-		}
-
 		this.encryptWithPrefix = function (prefix, data, callback) {
 			if (!isKeyUsableForEncryption(intKey.getRealID())) {
 				throw new errors.SecurityError("Key not usable for encryption: " + intKey.getRealID());
@@ -683,7 +657,6 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 			}), callback);
 		}
 
-		this.encrypt = encryptF;
 		this.decrypt = decryptF;
 
 		function encryptAndJsonifyF(text, callback, iv) {
