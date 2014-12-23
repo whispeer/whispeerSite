@@ -1,6 +1,13 @@
 <h1 data-i18n="views.setup.welcomeHeader"></h1>
 
-<div class="backup">
+<div class="backup" data-ng-if="backupFailed">
+	<header>
+		<h2 data-i18n="views.setup.backup.header"></h2>
+		<div class="backupWarningExplanation" data-syntaxify data-i18n="views.setup.backup.impossible"></div>
+	</header>
+</div>
+
+<div class="backup" data-ng-if="!backupFailed">
 	<header>
 		<h2 data-i18n="views.setup.backup.header"></h2>
 		<div class="backupWarningExplanation" data-syntaxify data-i18n="views.setup.backup.explanation"></div>
