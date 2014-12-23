@@ -37,7 +37,7 @@
 		</span>
 	</noscript>
 	<!-- !Top Bar -->
-	<nav class="header" data-ng-if="!mobile || loggedin" data-ng-cloak data-ng-class="{'header-push': (mobile && sidebarActive && !searchActive)}">
+	<header class="header" data-ng-if="!mobile || loggedin" data-ng-cloak data-ng-class="{'header-push': (mobile && sidebarActive && !searchActive)}">
 		<div class="header-inner">
 			<button class="header-toggle header-toggle-sidebar" data-ng-click="toggleSidebar()" data-ng-if="mobile">
 				<i class="fa fa-bars header-toggle-icon"></i>
@@ -60,7 +60,7 @@
 				<ng-include data-src="'assets/views/start/login/login.html'" data-ng-if="login.isHeaderForm"></ng-include>
 			</div>
 		</div>
-	</nav>
+	</header>
 	<!-- end !Top Bar-->
 	<!-- !Main Container -->
 	<div id="container" data-ng-cloak>
