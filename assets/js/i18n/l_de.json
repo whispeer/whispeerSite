@@ -1,4 +1,9 @@
 {
+	"trustLevel": {
+		"unVerified": "Die Identität dieser Person wurde noch nicht verifiziert. Du kannst sie auf ihrem Profil verifizieren!",
+		"groupVerified": "Ein Freund hat diese Person verifiziert.",
+		"selfVerified": "Du hast diese Person verifiziert."
+	},
 	"window": {
 		"title": {
 			"newmessage": "{data}: Neue Nachricht",
@@ -9,7 +14,47 @@
 			"notice": "Impressum"
 		}
 	},
+	"inviteFriends": "Lade deine Freunde ein!",
 	"views": {
+		"recovery": {
+			"title": "Accountwiederherstellung",
+			"explanation": "Eine automatische Accountwiederherstellung ist noch nicht vorhanden. {br} Solltest du dein Passwort vergessen haben, sende uns bitte eine E-Mail an {mail}. {br} Gib deinen Wiederherstellungs-Schlüssel niemals weiter, auch nicht an uns!"
+		},
+		"invite": {
+			"invite": "Einladen",
+			"viaMail": "Einladung via E-Mail",
+			"viaMailExplanation": "Gib die E-Mail Adressen deiner Freunde ein, um sie einzuladen:",
+			"mail": "E-Mail",
+			"viaLink": "Einladung via Link",
+			"viaLinkExplanation": "Generiere einen Einladungs-Link, den du weitergeben kannst:",
+			"generateLink": "Einladungslink generieren",
+			"code": "Einladungscode:",
+			"link": "Einladungslink:",
+			"yourName": "Lass deine Freunde wissen, wer sie einlädt (freiwillig):",
+			"name": "Name"
+		},
+		"setup": {
+			"welcomeHeader": "Willkommen bei whispeer!",
+			"backup": {
+				"header": "Sichere jetzt deinen Schlüssel",
+				"why": "Warum?",
+				"explanation": "Wenn du dein whispeer-Passwort vergisst, hast du keinen Zugang mehr zu deinem Account. Um dein Passwort zurückzusetzen, brauchst du einen für dich speziellen Code, der in der Datei steht. Speichere sie oder drucke sie aus, damit wir dir im Notfall wieder Zugriff auf deinen Account geben können.",
+				"downloadKey": "Schlüssel herunterladen",
+				"or": "oder",
+				"printKey": "Schlüssel ausdrucken",
+				"ignore": "Schlüssel nicht sichern"
+			},
+			"optionalData": {
+				"header": "Freiwillige Angaben:",
+				"nameExplanation": "Nenne uns deinen Vor- und Nachnamen, damit Freunde dich einfacher finden:",
+				"mailExplanation": "Nenne uns deine E-Mail, damit wir dich bei Neuigkeiten benachrichtigen können:",
+				"mail": "E-Mail",
+				"firstName": "Vorname",
+				"lastName": "Nachname",
+				"privateName": "Mache meinen Namen privat (Deine Freunde können dich dann schwieriger finden)"
+			},
+			"save": "Name und E-Mail speichern"
+		},
 		"mail": {
 			"verify": "E-Mail bestätigen",
 			"updateMe": "Ich möchte Updates per E-Mail erhalten",
@@ -25,7 +70,7 @@
 				"title": {
 					"loaded": "Kreis anzeigen:",
 					"create": "Neuen Kreis erstellen"
-				},	
+				},
 				"createGroup": "Als Gruppe kopieren",
 				"sendMessage": "Nachricht an Kreis",
 				"edit":	"Kreis bearbeiten",
@@ -48,9 +93,29 @@
 		"regnow": "Jetzt anmelden!",
 		"loading": "Laden..."
 	},
+	"landingpage": {
+		"heading": "Deine Privatsphäre - unser Auftrag!",
+		"paragraphOne": "whispeer ist ein soziales Netzwerk, dass sich auf die Sicherheit deiner Daten spezialisiert hat. Mit vollständiger Verschlüsselung sämtlicher Kommunikation von Ende zu Ende.",
+		"paragraphTwo": "Um einen Account bei whispeer zu registrieren, brauchen wir nur einen Accountnamen und ein Passwort von euch. Alles andere ist optional.",
+		"featureOne": "Verschlüsselt",
+		"featureOneProse": "Alles wird auf Nutzerseite ver- und entschlüsselt. Nur die ausgewählten Empfänger können Nachrichten lesen, kein Mitlesen durch Dritte",
+		"featureTwo": "Offen",
+		"featureTwoProse": "Alle Angaben sind freiwillig, jeder kann so viele Accounts erstellen, wie gewünscht, und Verwendung vom Pseudonymen ist ausdrücklich erlaubt",
+		"featureThree": "Werbefrei",
+		"featureThreeProse": "Es gibt keine Werbung, das Bezahlen ist freiwillig und Premium-Features sind zusätzlich käuflich",
+		"legal": "Ich akzeptiere die {agb} und {privacyPolicy}",
+		"inviteExplain": "Ihr benötigt eine Einladung, um euch bei whispeer registrieren zu können. Wir haben uns zu diesem Schritt entschieden, damit wir einen optimalen Service bereit stellen können — auf kurze und auf lange Sicht. Bald wird whispeer dann auch ohne Einladung für jeden zugänglich sein. Nutzt die Zeit bis dahin, um eure Familie und Freunde zu whispeer einzuladen!",
+		"more": {
+			"headingOne": "Warum whispeer?",
+			"headingTwo": "Wie registriere ich mich?",
+			"paragraphOne": "Bei jedem üblichen Dienst musst du darauf vertrauen, dass der Betreiber deine Daten schützt. Bei whispeer geben wir dir die Kontrolle über deine Daten zurück. Die Verschlüsselung schützt deine Daten vor ungewünschten Augen, auch unseren.",
+			"paragraphTwo": "Wir geben euch gerne so viel Sicherheit wie möglich. Deswegen muss euer Passwort mindestens acht Zeichen lang sein. Wir empfehlen eine Passwortlänge von über 12 Zeichen mit einer Kombination aus Groß- und Kleinschreibung, Sonderzeichen und Zahlen.",
+			"paragraphThree": "Euer Vorname und Nachname ist optional und kann direkt nach dem Registrieren auf der Setup-Seite angegeben werden. Hier kann auch eine E-Mail Adresse eingetragen werden. Diese benutzen wir, um euch Neuigkeiten mitzuteilen. Eure E-Mail Adresse ist nur für das whispeer-Team sichtbar.",
+			"paragraphFour": "Weiterhin könnt ihr euer Profil um andere Daten ergänzen, wie zum Beispiel euer Geburtsdatum, euren Wohnort, euren Beziehungsstatus. Jede dieser Angaben ist anfangs verschlüsselt und nur für euch selbst sichtbar. Ihr könnt für jede einzelne Angabe auswählen, wer genau sie sehen kann. Eure Freunde sollen euer Geburtsdatum wissen, aber nicht euren Wohnort? Kein Problem. Euer selbst erstellter Kreis „Kollegen“ soll sehen wo ihr arbeitet, aber nicht was euer Beziehungsstatus ist? Auch das ist ganz einfach. Unter den Einstellungen könnt ihr angeben, ob alle Freunde oder nur einer (oder mehrere) eurer Kreise diese Information sehen darf. So behaltet ihr den Überblick und die Kontrolle!"
+		}
+	},
 	"directives": {
-		"allfriends": "Alle Freunde",
-		"friendsoffriends": "Freunde von Freunden"
+		"allfriends": "Alle Freunde"
 	},
 	"usersearch": {
 		"mutualFriends": "gemeinsame Freunde",
@@ -106,11 +171,32 @@
 		}
 	},
 	"notimplemented": "Noch nicht implementiert :(",
-	"search": "Personen werden gesucht",
+	"search": {
+		"user": {
+			"selected": "Ausgewählte Personen ({count})",
+			"emptyselection": "Keine Personen ausgewählt!",
+			"select": "Person auswählen ({count})",
+			"mutualFriends": "gemeinsame Freunde",
+			"from": "aus",
+			"age": "Alter:",
+			"message": "Nachricht senden",
+			"add": "Als Freund hinzufügen"
+		},
+		"circle": {
+			"selected": "Ausgewählte Kreise ({count})",
+			"emptyselection": "Keine Kreise ausgewählt!",
+			"select": "Kreise auswählen ({count})"
+		},
+		"filter": {
+			"selected": "Ausgewählte Kreise ({count})",
+			"emptyselection": "Kein Kreis ausgewählt",
+			"select": "Kreis auswählen ({count})"
+		}
+	},
 	"menu": {
-		"newsfeed":	"Newsfeed",
+		"newsfeed":	"Neuigkeiten",
 		"profil": "Profil",
-		"friends": "Freunde ({count})",
+		"friends": "Freunde ({count}+{requests})",
 		"messages": "Nachrichten ({count})",
 		"media": "Medien",
 		"circles": "Kreise",
@@ -118,25 +204,42 @@
 		"help": "Hilfe",
 		"logout": "Logout",
 		"search": "Suchen...",
-		"legal":	"Rechtliches",
+		"legal":	"Rechtliche Informationen",
 		"notifications":	"Mitteilungen ({count})"
 	},
 	"login": {
-		"username": "Benutzername",
-		"password": "Passwort",
+		"forgotName": "Accountname vergessen",
+		"forgotPassword": "Passwort vergessen",
+		"header": "Login",
 		"link": "Einloggen",
-		"loginFailed": "Benutzername und Password stimmen nicht überein!",
+		"loginFailed": "Accountname und Passwort stimmen nicht überein!",
 		"moreInfo":	"Mehr Info",
+		"password": "Passwort",
+		"unknownName": "Unbekannter Accountname",
+		"username": "Accountname",
+		"wrongPassword": "Falsches Passwort",
 		"register": {
 			"errors": {
-				"nickInvalid": "Invalider Username",
-				"nickUsed": "Dieser Username ist schon vergeben",
-				"mailInvalid": "Invalide E-Mail",
+				"agb": "Bitte akzeptiere die AGB",
+				"mailInvalid": "Ungültige E-Mail",
 				"mailUsed": "Diese E-Mail ist schon vergeben",
-				"passwordWeak": "Passwort zu schwach",
-				"passwordNoMatch": "Passwörter stimmen nicht überein"
+				"nickEmpty": "Bitte gib einen Accountnamen an",
+				"nickInvalid": "Der Accountname darf nur Buchstaben und Zahlen beinhalten",
+				"nickUsed": "Dieser Accountname ist schon vergeben",
+				"password2Empty": "Bitte wiederhole dein Passwort",
+				"passwordEmpty": "Bitte gib ein Passwort ein",
+				"passwordNoMatch": "Passwörter stimmen nicht überein",
+				"passwordWeak": "Passwort zu schwach"
 			},
-
+			"invite": {
+				"enterCode": "Gib deinen Einladungscode ein!",
+				"code": "Einladungscode",
+				"request": "Einladung anfordern:",
+				"mail": "E-Mail",
+				"submit": "Einladung anfordern",
+				"thanks": "Vielen Dank für dein Interesse!"
+			},
+			"createAccount": "Account erstellen",
 			"link":	"Registrieren",
 			"next": "Weiter",
 			"previous": "Zurück",
@@ -152,11 +255,12 @@
 			"location":	"Wohnort",
 			"uploadImage":	"Profilbild hochladen",
 			"more": "Weitere Informationen",
-			"intro": "Bitte teile uns dein Geschlecht, deinen Namen, dein Geburtsdatum und deinen Wohnort mit. Dies ermöglicht deinen Freunden bei whispeer, dich zu finden. Selbstverständlich zwingen wir dich nicht dazu, diese Angaben zu machen!",
-			"newaccount": "Neues Konto erstellen"
+			"intro": "Teil uns dein Geschlecht, deinen Namen, dein Geburtsdatum und deinen Wohnort mit. Dies ermöglicht deinen Freunden bei whispeer, dich zu finden. Selbstverständlich zwingen wir dich nicht dazu, diese Angaben zu machen!",
+			"newaccount": "Komm' zu uns!"
 		}
 	},
 	"wall": {
+		"loading": "Beiträge werden geladen!",
 		"createPost": "Einen Post verfassen",
 		"postit": {
 			"receiver": "Wer soll deinen Beitrag lesen können?",
@@ -182,11 +286,13 @@
 			},
 			"content": "{{content}}"
 		},
-		"comments": {
-			"time":	"Am {date} um {time}"
-		}
+		"newComment": "Schreibe einen Kommentar!",
+		"comments": "Kommentare",
+		"commentsLoading": "Kommentare werden geladen!"
 	},
 	"messages": {
+		"endOfStream": "Keine weiteren Nachrichten!",
+		"remaining": "{count} Nachrichten!",
 		"title": "Nachrichten",
 		"chat" :"Chat mit",
 		"newMessage": "Neue Nachricht",
@@ -212,8 +318,25 @@
 			"sendMessage": "{user} eine Nachricht senden"
 		},
 		"trustmanager" : {
-			"verifyTitle":	"Benutzer verifizieren",
-			"verifyInfo":	"Um den Benutzer zu verifizieren, gib bitte seinen Fingerprint hier ein. Diesen kann er unter \"Einstellungen\" -> \"Dein Fingerprint\" ablesen."
+			"part1": "Part 1",
+			"part2": "Part 2",
+			"part3": "Part 3",
+			"part4": "Part 4",
+			"back": "Zurück",
+			"verifyTitle":	"Benutzerverifizierung",
+			"verifyInfo": {
+				"code":	"Bitte gib den Fingerprint von {user} ein. [br] Diesen findet er in seinen Einstellungen. [br] Fingerprints sollten nicht über das Internet getauscht werden, da dies unsicher ist.[br] Am besten ist es, sich persönlich zu treffen!",
+				"qr":	"Halte den QR-Code von {user} in deine Kamera, sodass er im unteren Fenster sichtbar ist.[br] Sobald der Code erkannt wurde, wird {user} automatisch verifiziert."
+			},
+			"nodevice": "Es konnte keine Kamera erkannt werden!",
+			"verifyUser":	"Verifiziere {user}",
+			"verifyWithCode":	"Manuelle Eingabe",
+			"verifyWithQr":		"QR-Code",
+			"chooseVerifyMethod":	"Verifiziere die Identität von {user}. Wähle eine Verifizierungsmethode:",
+			"qrSaveButton":	{
+				"fail":	"Der Fingerprint stimmt nicht! Klicke hier, um es erneut zu probieren!",
+				"pending":	"Der Fingerprint wird überprüft!"
+			}
 		},
 		"section":	{
 			"general": {
@@ -321,8 +444,8 @@
 		"askQuestion": "Stelle deine Frage!",
 		"faq": {
 			"register": {
-				"question": "Muss ich beim Registrieren meinen vollen Namen und meine E-Mail-Adresse angeben?",
-				"answer":	"Nein. Wenn du dich registrieren möchtest, kannst du dies schon mit einem Username. Du kannst aber auch nur eine E-Mail-Adresse angeben. Natürlich kannst du dir aussuchen, ob du deinen vollen Namen angeben möchtest, oder vielleicht nur einen Teil davon. Allerdings kannst du deinen Namen auch verschlüsseln, sodass später nur deine Freunde auf whispeer deinen ganzen Namen sehen können."
+				"question": "Muss ich beim Registrieren meinen vollen Namen und meine E-Mail Adresse angeben?",
+				"answer":	"Nein. Wenn du dich registrieren möchtest, kannst du dies schon mit einem Accountnamen. Du kannst aber auch nur eine E-Mail Adresse angeben. Natürlich kannst du dir aussuchen, ob du deinen vollen Namen angeben möchtest, oder vielleicht nur einen Teil davon. Allerdings kannst du deinen Namen auch verschlüsseln, sodass später nur deine Freunde auf whispeer deinen ganzen Namen sehen können."
 			},
 			"password": {
 				"question": "Wie erstelle ich ein sicheres Passwort?",
@@ -334,7 +457,7 @@
 			},
 			"search": {
 				"question": "Wie funktioniert die Suche?",
-				"answer":	"Im Moment kannst du nach Vornamen, Nachnamen und Usernamen suchen. Du tippst also einen Namen in die Suche ein und bekommst dann User, die auf deine Suchanfrage passen, vorgeschlagen."
+				"answer":	"Im Moment kannst du nach Vornamen, Nachnamen und Accountnamen suchen. Du tippst also einen Namen in die Suche ein und bekommst dann User, die auf deine Suchanfrage passen, vorgeschlagen."
 			},
 			"messages": {
 				"question": "Wie wähle ich aus, wer meine Nachrichten erhält? Kann ich auch Nachrichten an mehrere Personen verschicken?",
@@ -352,16 +475,12 @@
 				"question": "Wie kann ich auswählen, wer meine Statusmeldungen sieht?",
 				"answer":	"Wenn du einen Post schreibst, hast du zwei Eingabefelder. In das obere Eingabefeld schreibst du die Namen von den Personen und/oder Kreisen, die diesen Post sehen sollen. In das untere Feld schreibst du deinen Post. Wenn du alle Personen ausgewählt hast, und deinen Post geschrieben hast, klicke auf den Button 'Senden', um den Post für diese Personen zu veröffentlichen."
 			},
-			"magicbar": {
-				"question": "Was ist die MagicBar und wie benutze ich sie?",
-				"answer":	"Die MagicBar ist eines der einzigartigen Features von whispeer. Sie erscheint, wenn du rechts oben auf eines der vier verschiedenen Icons klickst. Die MagicBar dient dazu, dir einen besseren Überblick zu geben. Außerdem zeigt sie dir deine letzten und deine neuen Nachrichten, Frendschaftsanfragen und Benachrichtigungen an. Freundschaftsanfragen kannst du direkt in der MagicBar bestätigen oder ablehnen. Durch einen Klick auf eine Nachricht kommst du direkt zu der Konversation. Wenn du mehr über die MagicBar erfahren möchtest, liest du am besten unseren Blogeintrag darüber: http://blog.whispeer.de/2013/08/die-whispeer-oberflaeche-3-die-magicbar/ "
-			},
 			"report": {
 				"question": "Wie kann ich jemanden melden?",
-				"answer":	"Momentan musst du uns eine Mail mit dem Namen der Person, bzw. ihrem Usernamen oder ihrer E-Mail senden. Die Adresse ist support@whispeer.de . Es wird jedoch so bald wie möglich einen Melden-Button geben."
+				"answer":	"Momentan musst du uns eine Mail mit dem Namen der Person, bzw. ihrem Accountnamen oder ihrer E-Mail senden. Die Adresse ist support@whispeer.de . Es wird jedoch so bald wie möglich einen Melden-Button geben."
 			},
 			"account": {
-				"question": "Wo kann ich meine Konto-Daten (Passwort, Username, E-Mail-Adresse) ändern?",
+				"question": "Wo kann ich meine Konto-Daten (Passwort, Accountname, E-Mail Adresse) ändern?",
 				"answer":	"Deine Konto-Daten kannst du ändern, wenn du im Menü links auf 'Einstellungen' klickst. Du wirst dann auf die Einstellungs-Seite weitergeleitet, und unter dem ersten Thema 'Allgemein' kannst du deine Angaben ändern."
 			},
 			"privacy": {
@@ -390,7 +509,7 @@
 					"header": "Name",
 					"firstname": "Vorname",
 					"lastname": "Nachname",
-					"username": "Username"
+					"username": "Accountname"
 				}
 			},
 			"whomayseeit": {
@@ -428,13 +547,13 @@
 					"title":	"Sprache der Oberfläche",
 					"langs": {
 						"de":		"Deutsch",
-						"en-US":	"Englisch (US)"
+						"en-US":	"Englisch"
 					}
 				}
 			},
 			"account":	"Benutzerkonto",
 			"changeName": "Namen ändern",
-			"changeUsername": "Usernamen ändern",
+			"changeUsername": "Accountnamen ändern",
 			"changeMail": "E-Mail Adresse ändern",
 			"changePassword": "Passwort ändern",
 			"save": "Speichern",
@@ -452,7 +571,8 @@
 			"title": "Anfragen",
 			"mutuals": "{count} gemeinsame Freunde",
 			"accept":	"Annehmen",
-			"decline":	"Ignorieren"
+			"decline":	"Ignorieren",
+			"confirmRemove": "{user} wirklich von der Freundesliste entfernen?"
 		},
 		"settings": {
 			"title": "Optionen"
@@ -472,12 +592,12 @@
 						"his": {
 							"commented": "{user} hat sein eigenes Foto kommentiert, das du auch kommentiert hast: \"{what}\"",
 							"awesomed":	"{user} hat sein eigenes Foto kommentiert, das du awesome findest: \"{what}\"",
-							"linked": "{user} hat sein eigenes Foto kommentierst, auf dem du verlinkt bist: \"{what}\""
+							"tagged": "{user} hat sein eigenes Foto kommentierst, auf dem du verlinkt bist: \"{what}\""
 						},
 						"her": {
 							"commented": "{user} hat ihr eigenes Foto kommentiert, das du auch kommentiert hast: \"{what}\"",
 							"awesomed":	"{user} hat ihr eigenes Foto kommentiert, das du awesome findest: \"{what}\"",
-							"linked": "{user} hat ihr eigenes Foto kommentierst, auf dem du verlinkt bist: \"{what}\""
+							"tagged": "{user} hat ihr eigenes Foto kommentierst, auf dem du verlinkt bist: \"{what}\""
 						}
 					},
 					"post": {

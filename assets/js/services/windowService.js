@@ -25,6 +25,8 @@ define(["step", "whispeerHelper", "asset/observer"], function (step, h, Observer
 
 		window.setInterval(cycleTitle, 3000);
 
+		var notificationCount = 0, lastTimeNotificationClick = 0;
+
 		var api = {
 			isVisible: true,
 			isActive: true,
@@ -44,32 +46,41 @@ define(["step", "whispeerHelper", "asset/observer"], function (step, h, Observer
 				step(function () {
 					settingsService.getBranch("sound", this);
 				}, h.sF(function (sound) {
-					if (!sound || sound.active) {
+					if (sound.enabled) {
 						document.getElementById("sound").play();
 					}
 				}), errorService.criticalError);
 			},
-			sendLocalNotification: function(type, obj) {
-				if (window.Notification) {
-					if (type === "message") {
-						if (window.Notification.permission === "granted") {
-							var n = new window.Notification(
-								localize.getLocalizedString("notification.newmessage").replace("{user}", obj.sender.name),
-								{
-									"body": obj.sender.basic.shortname + ": " + obj.text,
-									"tag":	obj.timestamp,
-									"icon":	obj.sender.basic.image
-								}
-							);
-							n.onclick = function () {
-								$rootScope.$apply(function () {
-									$location.path("/messages").search({topicid: obj.obj.getTopicID()});
-								});
+			createNotification: function (text, options, path, search) {
+				if (window.Notification && window.Notification.permission === "granted" && notificationCount < 5) {
+					notificationCount += 1;
+					var notification = new window.Notification(text, options);
 
-								this.close();
-							};
+					notification.onclick = function () {
+						if (new Date().getTime() - lastTimeNotificationClick > 50) {
+							$rootScope.$apply(function () {
+								$location.path(path).search(search);
+							});
 						}
-					}
+
+						this.close();
+					};
+
+					notification.onclose = function () {
+						notificationCount -= 1;
+					};
+
+					return notification;
+				}
+			},
+			sendLocalNotification: function(type, obj) {
+				if (type === "message") {
+					return api.createNotification(localize.getLocalizedString("notification.newmessage").replace("{user}", obj.sender.name),
+						{
+							"body": obj.sender.basic.shortname + ": " + obj.text,
+							"tag":	obj.timestamp,
+							"icon":	obj.sender.basic.image
+						}, "/messages", {topicid: obj.obj.getTopicID()});
 				}		
 			}
 		};

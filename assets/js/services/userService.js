@@ -73,7 +73,7 @@ define(["step", "whispeerHelper", "asset/observer", "crypto/signatureCache"], fu
 			}), cb);
 		}
 
-		var delay = h.delayMultiple(THROTTLE, doLoad);
+		var delay = h.delayMultiple(THROTTLE, doLoad, 5);
 
 		function loadUser(identifier, cb) {
 			step(function () {

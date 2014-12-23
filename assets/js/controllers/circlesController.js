@@ -8,18 +8,18 @@ define(["whispeerHelper"], function (h) {
 	function circlesController($scope, cssService, circleService, errorService, localize) {
 		$scope.circleid = 0;
 		$scope.showCircle = !$scope.mobile;
-		
+
 		$scope.editingTitle = {
 			"success":		true,
 			"failure":		false,
 			"operation":	false,
 			"active":		false
 		};
-		
+
 		$scope.editTitle = function () {
 			$scope.editingTitle.active = true;
 		};
-		
+
 		$scope.saveTitle = function () {
 			$scope.editingTitle.success = true;
 			$scope.editingTitle.active = false;
@@ -29,8 +29,8 @@ define(["whispeerHelper"], function (h) {
 
 		$scope.circles = circleService.data.circles;
 
-		cssService.setClass("circlesView");
-		
+		cssService.setClass("circlesView", true);
+
 		$scope.getLength = function(obj) {
 			return obj.length;
 		};
@@ -55,7 +55,11 @@ define(["whispeerHelper"], function (h) {
 
 			$scope.showCircle = !$scope.mobile;
 		};
-		
+
+		$scope.removeUser = function (user) {
+			circleService.get($scope.circleid).removePersons([user.id], errorService.criticalError);
+		};
+
 		$scope.removeCircle = function () {
 			var response = confirm(localize.getLocalizedString("views.circles.removeCircle"));
 			if (response) {
@@ -76,7 +80,7 @@ define(["whispeerHelper"], function (h) {
 			$scope.thisCircle = {};
 			$scope.circleid = 0;
 		};
-		
+
 		$scope.unloadCircleMobile = function () {
 			$scope.showCircle = false;
 
@@ -94,6 +98,10 @@ define(["whispeerHelper"], function (h) {
 				console.log("loaded");
 			});
 			$scope.thisCircle = circleService.get(id).data;
+		};
+
+		$scope.isActiveCircle = function (id) {
+			return $scope.circleid === id;
 		};
 	}
 

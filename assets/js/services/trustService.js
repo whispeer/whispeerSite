@@ -22,7 +22,7 @@ define(["step", "whispeerHelper", "crypto/trustManager", "crypto/signatureCache"
 				}
 			}), errorService.criticalError);
 		}
-		window.setInterval(uploadSignatureCache, 5000);
+		window.setInterval(uploadSignatureCache, 10000);
 
 		function uploadDatabase(cb) {
 			step(function () {
@@ -75,6 +75,14 @@ define(["step", "whispeerHelper", "crypto/trustManager", "crypto/signatureCache"
 		$rootScope.$on("ssn.reset", function () {
 			trustManager.reset();
 			signatureCache.reset();
+		});
+
+		socketService.listen("notify.trustManager", function (e, data) {
+			trustManager.updateDatabase(data, function (e) {
+				if (e) {
+					throw e;
+				}
+			});
 		});
 
 		return {

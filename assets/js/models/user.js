@@ -68,10 +68,11 @@ define(["step", "whispeerHelper", "asset/state", "asset/securedDataWithMetaData"
 
 	function userModel($injector, $location, blobService, keyStoreService, ProfileService, sessionService, settingsService, socketService, friendsService, errorService) {
 		return function User (providedData) {
-			var theUser = this, mainKey, signKey, cryptKey, friendShipKey, friendsKey, friendsLevel2Key, migrationState, signedKeys, signedOwnKeys;
+			var theUser = this, mainKey, signKey, cryptKey, friendShipKey, friendsKey, migrationState, signedKeys, signedOwnKeys;
 			var id, mail, nickname, publicProfile, privateProfiles = [], myProfile, mutualFriends;
 
 			var addFriendState = new State();
+			var ignoreFriendState = new State();
 
 			this.data = {};
 
@@ -107,7 +108,6 @@ define(["step", "whispeerHelper", "asset/state", "asset/securedDataWithMetaData"
 
 				if (isMe || friendsService.didOtherRequest(id)) {
 					friendsKey = signedKeys.metaAttr("friends");
-					friendsLevel2Key = signedKeys.metaAttr("friendsLevel2");
 				}
 
 				if (!isMe && friendsService.didIRequest(id)) {
@@ -172,6 +172,36 @@ define(["step", "whispeerHelper", "asset/state", "asset/securedDataWithMetaData"
 			}
 
 			updateUser(providedData);
+
+			this.generateNewFriendsKey = function (cb) {
+				var newFriendsKey;
+				step(function () {
+					if (!theUser.isOwn()) {
+						throw new Error("not my own user");
+					}
+
+					//generate new key
+					keyStoreService.sym.generateKey(this, "friends");
+				}, h.sF(function (_newFriendsKey) {
+					newFriendsKey = _newFriendsKey;
+
+					//encrypt with all friendShipKeys
+					var keys = friendsService.getAllFriendShipKeys();
+					keys.forEach(function (key) {
+						keyStoreService.sym.symEncryptKey(newFriendsKey, key, this.parallel());
+					}, this);
+					keyStoreService.sym.symEncryptKey(newFriendsKey, mainKey, this.parallel());
+					//encrypt old friends key with new friends key
+					keyStoreService.sym.symEncryptKey(friendsKey, newFriendsKey, this.parallel());
+				}), h.sF(function () {
+					//update signedKeys
+					signedKeys.metaSetAttr("friends", newFriendsKey);
+					signedKeys.getUpdatedData(signKey, this);
+				}), h.sF(function (updatedSignedKeys) {
+					friendsKey = newFriendsKey;
+					this.ne(updatedSignedKeys, newFriendsKey);
+				}), cb);
+			};
 
 			this.setFriendShipKey = function (key) {
 				if (!friendShipKey) {
@@ -296,7 +326,9 @@ define(["step", "whispeerHelper", "asset/state", "asset/securedDataWithMetaData"
 					socketService.emit("user.profile.update", profileData, this);
 				}), h.sF(function () {
 					myProfile.updated();
-					this.ne();
+
+					basicDataLoaded = false;
+					theUser.loadFullData(this);
 				}), cb);
 			};
 
@@ -307,6 +339,16 @@ define(["step", "whispeerHelper", "asset/state", "asset/securedDataWithMetaData"
 			*/
 			this.setProfileAttribute = function (attribute, value, cb) {
 				myProfile.setAttribute(attribute, value, cb);
+			};
+
+			this.getFingerPrint = function () {
+				return keyStoreService.format.fingerPrint(theUser.getSignKey());
+			};
+
+			this.verifyFingerPrint = function (fingerPrint, cb) {
+				if (fingerPrint !== theUser.getFingerPrint()) {
+					return false;
+				}
 			};
 
 			this.setAdvancedProfile = function (advancedProfile, cb) {
@@ -337,11 +379,9 @@ define(["step", "whispeerHelper", "asset/state", "asset/securedDataWithMetaData"
 					signedKeys.verify(signKey, this);
 				}, h.sF(function () {
 					var friends = signedKeys.metaAttr("friends");
-					var friendsLevel2 = signedKeys.metaAttr("friendsLevel2");
 					var crypt = signedKeys.metaAttr("crypt");
 
 					keyStoreService.security.addEncryptionIdentifier(friends);
-					keyStoreService.security.addEncryptionIdentifier(friendsLevel2);
 					keyStoreService.security.addEncryptionIdentifier(crypt);
 
 					this.ne();
@@ -386,6 +426,26 @@ define(["step", "whispeerHelper", "asset/state", "asset/securedDataWithMetaData"
 			};
 
 			this.update = updateUser;
+
+			this.createBackupKey = function (cb) {
+				var outerKey;
+				step(function () {
+					keyStoreService.sym.createBackupKey(mainKey, this);
+				}, h.sF(function (decryptors, innerKey, _outerKey) {
+					outerKey = _outerKey;
+
+					socketService.emit("user.backupKey", {
+						innerKey: innerKey,
+						decryptors: decryptors
+					}, this);
+				}), h.sF(function (data) {
+					if (data.error) {
+						throw new Error("server error");
+					}
+
+					this.ne(keyStoreService.format.base32(outerKey));
+				}), cb);
+			};
 
 			this.getTrustLevel = function (cb) {
 				step(function () {
@@ -482,6 +542,7 @@ define(["step", "whispeerHelper", "asset/state", "asset/securedDataWithMetaData"
 					theUser.data.isMyFriend = friendsService.areFriends(theUser.getID());
 
 					theUser.data.addFriendState = addFriendState.data;
+					theUser.data.ignoreFriendState = ignoreFriendState.data;
 
 					theUser.loadImage();
 
@@ -536,10 +597,6 @@ define(["step", "whispeerHelper", "asset/state", "asset/securedDataWithMetaData"
 
 			this.getFriendsKey = function () {
 				return friendsKey;
-			};
-
-			this.getFriendsLevel2Key = function () {
-				return friendsLevel2Key;
 			};
 
 			this.getID = function () {
@@ -615,10 +672,27 @@ define(["step", "whispeerHelper", "asset/state", "asset/securedDataWithMetaData"
 				}), cb);
 			};
 
+			this.ignoreFriendShip = function () {
+				ignoreFriendState.pending();
+				if (!this.isOwn()) {
+					friendsService.ignoreFriendShip(this.getID(), errorService.failOnError(ignoreFriendState));
+				} else {
+					ignoreFriendState.failed();
+				}				
+			};
+
 			this.acceptFriendShip = function () {
 				addFriendState.pending();
 				if (!this.isOwn()) {
 					friendsService.acceptFriendShip(this.getID(), errorService.failOnError(addFriendState));
+				} else {
+					addFriendState.failed();
+				}
+			};
+
+			this.removeAsFriend = function () {
+				if (!this.isOwn()) {
+					friendsService.removeFriend(this.getID(), errorService.criticalError);
 				} else {
 					addFriendState.failed();
 				}

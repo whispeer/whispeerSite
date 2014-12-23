@@ -3,199 +3,58 @@
 // Displays the userimage and the name of a specific person
 //
 // Markup:
-// <div class="person {$modifiers}" style="width: 25%; background-image: url(img/user.png);">
-//	<div class="pushup">
-//		<p class="username">Person</p>
-//		<span class="status" data-status=""></span>
-//		<p class="mutualfriends">5 mutual Friends</p>
+//	<div class="person">
+//		<img src="{{userData.basic.image}}" alt="{{userData.name}}">
+//		<p class="username">{{userData.name}}</p>
+//		<p class="mutualfriends" data-i18n="friends.mutualFriends|count={{userData.basic.mutualFriends.length}}"></p>
+//		<p class="action">
+//			<button class="btn btn--primary" data-i18n="magicbar.requests.accept" ng-click="acceptRequest(request)"></button>
+//			<button class="btn btn--danger" data-i18n="magicbar.requests.decline"></button>
+//		</p>
 //	</div>
-// </div>
 //
 // .pending						- This person has not confirmed the friendship request yet.
 // .requested					- This person sent a friendship request to you.
 //
 // Styleguide 2.7
 .person {
-	padding: 0;
-	margin-bottom: 15px !important;
-	.box-fix;
-	background-image: url(../img/user.png);
-	background-repeat: no-repeat;
-	background-position: center center;
-	.background-size(cover);
-	.border-radius(5px);
-	border: 1px solid @btnBackgroundHover;
-	overflow: hidden !important;
-	display: block;
-	position: relative;
-	float: left;
 	width: 100%;
-	.username {
-		width: 80%;
-		display: inline-block;
-		overflow: hidden;
-		text-overflow: ellipsis;
-		white-space: nowrap;
-		text-align: center;
-		a {
-			color: #fff;
-			&:hover {
-				text-decoration: underline;
-			}
-		}	
-	}
-	.optionsBar {
-		height: 30px;
-		width: 100% !important;
-		margin: 0;
-		padding: 0;
-		.box-fix;
-		background: rgba(0,0,0,0.5);
-		border-top: 1px solid rgba(0,0,0,0.6);
-		.border-radiuses(0, 5px, 5px, 0);
-		overflow: hidden;
-		position: absolute;
-		bottom: 0;
-		left:	0;
-		span {
-			.column(1,2);
-			margin-top: 4px;
-			text-align: center;
-			i {
-				display: inline-block;
-				color: @white;
-				text-shadow: 0 -1px 0 rgba(0,0,0,.25);
-				cursor: pointer;
-				width: 1em !important;
-				&:hover {
-					color: #c73636;
-				}
-			}	
-			&.sendMessage {
-				i {
-					&:hover {
-						color: @green;
-					}
-				}
-			}
-		}
-	}
-	.pushup {
-		background: rgba(0,0,0,0.5);
-		width: 100% !important;
-		margin: 0 !important;
-		margin-top: 0px;
-		padding: 0;
-		.border-radius(0);
-		//border-top: 1px solid #333;
-		color: @white;
-		.box-fix;
-		//.transition(all 1s ease);
-		overflow: hidden;
-		text-align: center;
-		height: 50px;
-		float: left;
-		display: inline-block;
-		position: relative;
-		visibility: visible;
-		.status {
-			display: inline-block;
-			float: left;
-			margin: -27px 0 0 5%;
-		}
-		p {
-			opacity: 0;
-			.transition(opacity 0.4s ease-in-out 0.1s);
-			margin-top: 0px;
-			&.username {
-				opacity: 1;
-				margin-top: 10px;
-			}
-		}
-		.requestPending {
-			display: none;
-			visibility: hidden;
-		}
-	}
-	.optionsBar {
-		display: none;
-		visibility: hidden;
-		.requestedYou {
-			display: none;
-			visibility: hidden;
-		}
-	}
-	&:hover {
-		.pushup {
-			opacity: 1;
-			height: 80px;
-			.transition(all 1s ease);
-			p {
-				opacity: 1;
-			}
-		}
-	}
-	&.pending {
-		&:after {
-			width: 100%;
-			height: 100%;
-			position: absolute;
-			background-color: @grayLighter;
-			opacity: 0.6;
-			display: block;
-			content: ' ';
-			float: left;
-			z-index: 9999;
-		}
-		.pushup {
-			opacity: 1;
-			height: 80px !important;
-			.transition(none);
-			p {
-				opacity: 1;
-			}
-			.mutualfriends, .status {
-				display: none;
-				visibility: hidden;
-			}
-			.requestPending {
-				display: inline-block;
-				visibility: visible;
-			}
-		}
-	}
-	&.requested {
-		.pushup {
-			opacity: 1;
-			height: 80px !important;
-			p {
-				opacity: 1;
-			}
-		}
-		.optionsBar {
-			height: 35px;
-			padding-top: 0;
-			display: inline-block;
-			visibility: visible;
-			.requestedYou {
-				.column(12);
-				margin-top: 5px;
-				margin-left: 2.5%;
-			}
-			button {
-				.column(6);
-				margin-bottom: 5px;
-				padding: 3px;
-				span {
-					width: 100%;
-					text-align: center;
-					margin-top: 0px;
-				}
-			}
-			.sendMessage, .removeUser {
-				display: none;
-				visibility: hidden;
-			}
-		}
+	padding: 6px 0;
+
+	display: inline-block;
+	box-sizing: border-box;
+}
+.person-userimage {
+	.column(4,12,left,1%);
+	margin: 0 1% 0 0;
+	max-width: 80px;
+}
+.person-username, .person-similar, .person-action {
+	.column(8,12,left,6);
+	margin: 0 1% 0 5%;
+}
+.person-status {
+	margin-right: 4px;
+}
+.person-username {
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+.person-similar {
+	.detail-text();
+	margin-top: 5px;
+}
+.person-action {
+	margin-top: 5px;
+	display: inline-block;
+}
+.person-clickable {
+	cursor: pointer;
+}
+
+@media @desktop {
+	.person i.fa {
+		font-size: 1.5em;
 	}
 }

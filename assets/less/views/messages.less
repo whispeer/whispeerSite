@@ -62,9 +62,8 @@
 
 			#main {
 				// main has to stay here, as there are mains on pages that have no
-				// .messagesView. .box() is also needed, for that grey box that is
-				// everywhere.
-				.box();
+				// .messagesView.
+
 				overflow: hidden;
 				// we have to force a margin-top of 5px for mobile devices, so the box wont hang in the #topNav.
 				// Sadly, it has to be set with !important. Furthermore, we have to set the height for mobile devices
@@ -73,21 +72,21 @@
 					margin-top: 5px !important;
 					height: 100%;
 				}
-				header {
-					overflow: hidden;
-					.title {
-						display: none;
-						visibility: hidden;
-						&.chat, &.newMessage {
-							@media @desktop { .column(11, 16); }
-							@media @mobile { .column(4, 5); }
-							visibility: visible;
-						}
-						overflow: hidden;
-						text-overflow: ellipsis;
-						white-space: nowrap;
-					}
-				}
+			}
+
+			.box-header-title {
+				@media @desktop { .column(11, 16); }
+				@media @mobile { .column(4, 5); }
+				display: none;
+				visibility: hidden;
+
+				overflow: hidden;
+				text-overflow: ellipsis;
+				white-space: nowrap;
+			}
+			.box-header-title--visible { // is this stuff even necessary??
+				display: inline-block;
+				visibility: visible;
 			}
 
 		}
@@ -121,7 +120,8 @@
 			overflow-x: hidden;
 			box-sizing: border-box;
 			border-bottom: @header-height solid transparent;
-			
+			border-right: 1px solid #ccc;
+
 			// nice scrolling for iOS.
 			-webkit-overflow-scrolling: touch;
 
@@ -242,8 +242,19 @@
 			position: relative;
 		}
 
+		#topicWrap.newMessage {
+			padding: @default-padding @default-padding 0;
+			.box-fix;
+		}
+
+		.newMessage #messageTitle h2 {
+			margin-top: 0;
+		}
+
 		#messageWrap {
 			height: 100%;
+			// this makes absolute positioned elements adopt the padding.
+			position: relative;
 		}
 
 		#messageList {
@@ -260,7 +271,7 @@
 			left: 0;
 			margin: 0;
 			padding: 0;
-			
+
 			// nice scrolling for iOS.
 			-webkit-overflow-scrolling: touch;
 
@@ -277,12 +288,21 @@
 				}
 			}
 
-			.userimg {
+			.username {
+				.detail-text();
+				padding-bottom: @default-padding / 2;
+				text-transform: uppercase;
+			}
+
+			.username, .userimg {
+				margin-left: @extended-padding;
+				margin-right: @extended-padding;
+			}
+
+			.userimg, {
 				display: inline-block;
 				float: left;
 				clear: both;
-				margin-left: @extended-padding;
-				margin-right: @extended-padding;
 				img {
 					.border-radius(100%);
 					width: @message-image-size;
@@ -347,6 +367,9 @@
 				.userimg {
 					float: right;
 				}
+				.username {
+					text-align: right;
+				}
 				.messages {
 					background-color: @own-message-bg;
 					color: @own-message-fg;
@@ -368,6 +391,24 @@
 
 		}
 
+		#messageView-loadingIcon {
+			float: left;
+			text-align: right;
+		}
+
+		#messageView-loadingText {
+			float: right;
+			text-align: left;
+		}
+
+		#messageView-loadingIcon,
+		#messageView-loadingText {
+			width: 49%;
+			height: 28px;
+			line-height: 28px;
+			margin: 15px 0.5%;
+		}
+
 		#inputWrap { // this is the form
 			display: block;
 			position: absolute;
@@ -384,5 +425,29 @@
 				.column(1,4);
 			}
 		}
+		.newMessage #inputWrap {
+			// the * 2 is caused by the relative positioning of the parent which is
+			// needed for the padding to apply correctly -- but only for desktops.
+			@media @desktop { bottom: (@header-height * 2); }
+
+			textarea {
+				.width(3,4,1%);
+				margin: 0 1% 0 0;
+			}
+			button {
+				.width(1,4,1%);
+				margin: 0 0 0 1%;
+			}
+		}
 	}
+}
+
+@media @mobile {
+	#messages > .message-mixin(
+		@form-height: 40px;
+	);
+}
+
+@media @desktop {
+	#messages > .message-mixin();
 }

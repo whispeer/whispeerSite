@@ -1,62 +1,22 @@
-<div id="logo">
-	<img src="assets/img/logo.png" alt="whispeer - keep your secrets">
+<div class="loginForm">
+	<h1 data-i18n="login.header"></h1>
+	<form>
+		<div class="name">
+			<input type="text" id="mail" data-i18n-attr="login.username|placeholder" data-ng-model="login.identifier">
+		</div>
+		<div class="pw">
+			<input type="password" id="password" data-i18n-attr="login.password|placeholder" data-ng-model="login.password">
+		</div>
+		<div class="errors">
+			<div class="error" data-ng-if="login.failure" id="errorLogin" data-i18n="login.loginFailed"></div>
+			<div class="error" data-ng-if="login.unknownName" id="errorLogin" data-i18n="login.unknownName"></div>
+			<div class="error" data-ng-if="login.wrongPassword" id="errorLogin" data-i18n="login.wrongPassword"></div>
+		</div>
+		<savebutton id="loginformsubmit" data-noiniticon data-state="login.state" class="btn btn--input btn--primary" type="submit" data-ng-click="login.login()" data-translation="login.link"></savebutton>
+	</form>
+	<div class="smallRow" data-ng-if="login.failedOnce && false">
+		<button class="btn btn-send" data-i18n="login.forgotName"></button>
+		<button class="btn btn-send" data-i18n="login.forgotPassword"></button>
+	</div>
+	<a href="/start?register" data-ng-if="!mobile" data-i18n="login.register.createAccount"></a>
 </div>
-<form id="loginform" data-ng-if="loginForm">
-<!--{{loginFailed}}-->
-	<div>
-		<input type="text" id="mail" data-i18n-attr="login.username|placeholder" data-ng-model="identifier">
-	</div>
-	<div>
-		<input type="password" id="password" data-i18n-attr="login.password|placeholder" data-ng-model="password">
-	</div>
-	<div class="error" id="errorLogin" data-ng-show="loginFailed" data-i18n="login.loginFailed"></div>
-	<div>
-		<button id="loginformsubmit" class="btn" type="submit" data-ng-click="login(identifier, password)">{{'login.link'|i18n}}</button>
-	</div>
-</form>
-<form id="registerform" data-ng-if="!loginForm" data-ng-click="registerFormClick()" data-ng-controller="ssn.loginController">
-	<div data-ng-repeat="attribute in profileAttributes" data-tooltip-title="{{attribute.hoverText}}" data-tooltip-position="left">
-		<input name="{{attribute.name}}" type="text" placeholder="{{attribute.placeHolder}}" data-ng-model="attribute.value">
-		<span class="icon lock">
-			<img data-ng-src="{{lock(attribute.encrypted)}}" alt="{{((attribute.encrypted) && ('Privat') || ('Öffentlich'))}}" data-ng-click="attribute.encrypted=!attribute.encrypted"/>
-		</span>
-	</div>
-	<div data-tooltip-title="{{attribute.hoverText}}" data-tooltip-position="right">
-		<input type="text" id="rnickname" data-i18n-attr="login.username|placeholder" data-ng-model="nickname" data-ng-model-onblur data-ng-change="nicknameChange()">
-		<span class="icon fail" id="rnicknameIcon">
-			<img data-ng-src="{{acceptIconNicknameFree()}}" alt="Ok!">
-		</span>
-	</div>
-	<div>
-		<input type="text" id="rmail" data-i18n-attr="login.register.email|placeholder" data-ng-model="mail" data-ng-model-onblur data-ng-change="mailChange()">
-		<span class="icon check" id="rmailIcon">
-			<img data-ng-src="{{acceptIconMailFree()}}" alt="Ok!">
-		</span>
-	</div>
-	<div>
-		<input type="text" id="rmail2" data-i18n-attr="login.register.repeatEmail|placeholder" data-ng-model="mail2">
-		<span class="icon check" id="rmail2Icon">
-			<img data-ng-src="{{acceptIcon(mail, mail2)}}" alt="Ok!">
-		</span>
-	</div>
-	<div id="uploadImage">
-		<span id="uploadButton" data-i18n="login.register.uploadImage"></span>
-		<input id="files-upload" type="file" data-file="imageChange">
-	</div>
-	<div>
-		<input type="password" id="rpassword" data-i18n-attr="login.password|placeholder" data-ng-model="password">
-		<span class="icon" id="rpasswordIcon" data-strength="{{passwordStrength()}}"></span>
-	</div>
-	<div class="success" id="successRegisterPassword" style="display:block"><span data-i18n="login.register.passwordstrength"></span><span>{{passwordStrength()}}</span></div>
-	<div>
-		<input type="password" id="rpassword2" data-i18n-attr="login.register.repeatPassword|placeholder" data-ng-model="password2">
-		<span class="icon check" id="rpassword2Icon">
-			<img data-ng-src="{{acceptIcon(password, password2)}}" alt="Ok!">
-		</span>
-	</div>
-	<div>
-		<button id="registerformsubmit" class="btn" type="submit"  data-ng-click="register()" data-i18n="login.register.link"></button>
-	</div>
-</form>
-<a href="#" id="callRegister" data-ng-show="loginForm" data-ng-click="showRegister()" data-eat-click data-i18n="login.register.link"></a>
-<a href="#" id="callLogin" data-ng-show="!loginForm"  data-ng-click="showLogin()" data-eat-click data-i18n="login.link"></a>

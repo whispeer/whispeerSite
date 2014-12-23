@@ -43,6 +43,7 @@ define(["step", "whispeerHelper", "cryptoWorker/generalWorkerInclude"], function
 
 		function updateMobile() {
 			var old = $scope.mobile;
+
 			$scope.mobile = jQuery(window).width() < 1025;
 
 			if ($scope.mobile !== old) {
@@ -63,6 +64,7 @@ define(["step", "whispeerHelper", "cryptoWorker/generalWorkerInclude"], function
 
 		$scope.user = nullUser;
 		$scope.friends = friendsService.data;
+		$scope.messages = messageService.data;
 
 		$scope.$on("ssn.login", function () {
 			$scope.loggedin = sessionService.isLoggedin();
@@ -107,6 +109,18 @@ define(["step", "whispeerHelper", "cryptoWorker/generalWorkerInclude"], function
 			});
 		});
 
+		$scope.activateSidebar = function () {
+			if (!$scope.sidebarActive) {
+				$scope.toggleSidebar();
+			}
+		};
+
+		$scope.deactivateSidebar = function () {
+			if ($scope.sidebarActive) {
+				$scope.toggleSidebar();
+			}
+		};
+
 		$scope.toggleSidebar = function() {
 			$scope.sidebarActive = !$scope.sidebarActive;
 			$scope.searchActive = false;
@@ -123,8 +137,9 @@ define(["step", "whispeerHelper", "cryptoWorker/generalWorkerInclude"], function
 			$scope.sidebarActive = false;
 		};
 
-		cssService.addListener(function (newClass) {
+		cssService.addListener(function (newClass, isBox) {
 			$scope.cssClass = newClass;
+			$scope.isBox = isBox;
 		});
 
 		jQuery(document.body).removeClass("loading");

@@ -10,11 +10,27 @@ if (window.location.href.indexOf("file:///") === 0) {
 	document.getElementsByTagName("base")[0].setAttribute("href", base);
 }
 
+var errors = [];
+
+window.onerror = function (str, file, line, col, e) {
+	"use strict";
+
+	errors.push({
+		str: str,
+		file: file,
+		line: line,
+		col: col,
+		e: e
+	});
+};
+
 requirejs.config({
 	paths: {
 		jquery: "libs/jquery-1.9.1",
+		qtip: "libs/jquery.qtip",
 		angular: "libs/angular",
 		angularRoute: "libs/angular-route",
+		angularTouch: "libs/angular-touch",
 		socket: "libs/socket.io",
 		socketStream: "libs/socket.io-stream",
 		step: "step/lib/step",
@@ -29,8 +45,10 @@ requirejs.config({
         },
         "angularRoute":{
             deps:["angular"]
+        },
+        "angularTouch":{
+            deps:["angular"]
         }
-
     },
     /*
 	shim: {
@@ -47,7 +65,8 @@ requirejs( [
 	"angular",
 	"app",
 	"routes",
-	"libs/canvas-toBlob"
+	"libs/canvas-toBlob",
+	"angularTouch"
 ], function($, angular, app) {
 	"use strict";
 	$(document).ready(function () {

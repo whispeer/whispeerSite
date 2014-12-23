@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 process.nextTick(function () {
 	var fs = require("fs");
 	var basePath = "./assets/js/i18n/";

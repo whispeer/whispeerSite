@@ -11,18 +11,18 @@ var config = {
 if (useServer) {
 	config = {
 		https: true,
-		ws: "beta.whispeer.de",
-		wsPort: 3001
+		ws: "data.whispeer.de",
+		wsPort: 443
 	};
 }
 
 if (typeof module !== "undefined" && module.exports) {
-    module.exports = config;
+	module.exports = config;
 }
 
 if (typeof define === "function") {
-    define([], function () {
+	define([], function () {
 		"use strict";
 		return config;
-    });
+	});
 }

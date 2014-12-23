@@ -104,6 +104,9 @@ define(["jquery", "socket", "socketStream", "step", "whispeerHelper", "config", 
 			once: function () {
 				socket.once.apply(socket, arguments);
 			},
+			removeAllListener: function (channel) {
+				socket.removeAllListeners(channel);
+			},
 			listen: function (channel, callback) {
 				socket.on(channel, function (data) {
 					console.log("received data on " + channel);
@@ -134,6 +137,8 @@ define(["jquery", "socket", "socketStream", "step", "whispeerHelper", "config", 
 					console.groupCollapsed("Answer on " + channel);
 					console.info((new Date().getTime() - time));
 
+					loading--;
+
 					if (data.keys) {
 						data.keys.forEach(function (key) {
 							keyStore.upload.addKey(key);
@@ -152,17 +157,23 @@ define(["jquery", "socket", "socketStream", "step", "whispeerHelper", "config", 
 					console.info(data);
 					console.groupEnd();
 
-					var that = this;
-					$rootScope.$apply(function () {
-						updateLogin(data);
+					lastRequestTime = data.serverTime;
 
-						if (typeof callback === "function") {
-							that.ne(data);
-						} else {
-							console.log("unhandled response" + data);
-						}
+					updateLogin(data);
+
+					if (typeof callback === "function") {
+						this.ne(data);
+					} else {
+						console.log("unhandled response" + data);
+					}
+				}), function () {
+					var args = arguments, that = this;
+					window.setTimeout(function () {
+						$rootScope.$apply(function () {
+							that.apply(that, args);
+						});
 					});
-				}), callback);
+				}, callback);
 			},
 			getLoadingCount: function () {
 				return loading;
@@ -174,6 +185,27 @@ define(["jquery", "socket", "socketStream", "step", "whispeerHelper", "config", 
 				socket.send(data);
 			}
 		};
+
+		$(document).keypress(function (e) {
+			if (e.shiftKey && e.ctrlKey && e.keyCode === 5) {
+				if (errors.length > 0) {
+					var yes = confirm("Send errors to whispeer server?");
+
+					if (yes) {
+						socketS.emit("errors", {
+							errors: errors
+						}, function (e) {
+							if (e) {
+								alert("Transfer failed!");
+							} else {
+								alert("Errors successfully transfered to server");
+							}
+						});
+					}
+				}
+			}
+		});
+
 
 		socket.on("disconnect", function () {
 			console.info("socket disconnected");

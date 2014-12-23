@@ -78,7 +78,7 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer", "ass
 					securedData.sign(signKey, this);
 				}, h.sF(function (signedMeta) {
 					var result = {
-						content: securedData.updatedContentGet(),
+						content: securedData.contentGet(),
 						meta: signedMeta
 					};
 

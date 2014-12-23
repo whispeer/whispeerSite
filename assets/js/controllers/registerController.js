@@ -2,137 +2,102 @@
 * loginController
 **/
 
-define(["step", "whispeerHelper", "asset/resizableImage", "asset/observer"], function (step, h, ResizableImage, Observer) {
+define(["step", "whispeerHelper", "asset/state"], function (step, h, State) {
 	"use strict";
 
-	function registerController($scope, errorService, sessionHelper, sessionService, cssService) {
-		var resizableImage = new ResizableImage();
-		var observer = new Observer();
-		cssService.setClass("registerView");
-		
-		var ENDSIZE = 256;
-		var CANVASWIDTH = 600, CANVASHEIGHT = 300;
+	function registerController($scope, $timeout, $routeParams, keyStore, errorService, sessionHelper, sessionService, socketService) {
+		var inviteCodeState = new State();
+		var inviteMailState = new State();
+		var registerState = new State();
 
-		$scope.imageChange = resizableImage.callBackForFileLoad(function () {
-			resizableImage.paintImageOnCanvasWithResizer({
-				element: document.getElementById("original"),
-				width: CANVASWIDTH,
-				height: CANVASHEIGHT
-			});
+		$scope.registerState = registerState.data;
+
+		$scope.invite = {
+			code: $routeParams.inviteCode || "",
+			valid: inviteCodeState.data,
+			mailValid: inviteMailState.data,
+			request: function (mail) {
+				inviteMailState.pending();
+
+				if (!h.isMail(mail)) {
+					inviteMailState.failed();
+					return;
+				}
+
+				step(function () {
+					socketService.emit("invites.requestWithMail", { mail: mail }, this);
+				}, errorService.failOnError(inviteMailState));
+			}
+		};
+
+		$scope.$watch(function () {
+			return $scope.invite.code;
+		}, function (value) {
+			if (value.length !== 10) {
+				inviteCodeState.failed();
+				return;
+			}
+
+			inviteCodeState.pending();
+			step(function () {
+				if (socketService.isConnected()) {
+					this();
+				} else {
+					socketService.once("connect", this.ne);
+				}
+			}, h.sF(function () {
+				sessionHelper.checkInviteCode(value, this);
+			}), h.sF(function (valid) {
+				if (!valid) {
+					throw new Error("code not valid");
+				}
+
+				this.ne();
+			}), errorService.failOnError(inviteCodeState));
 		});
-
-		observer.listen(function () {
-			$scope.registerError = true;
-			return $scope.mailCheck &&
-					$scope.nicknameCheck &&
-					!$scope.noPasswordMatch() &&
-					!$scope.passwordToWeak();
-		}, "stepLeave1");
-
-		observer.listen(function () {
-			$scope.registerError = false;
-		}, "stepLoaded2");
-
-		observer.listen(function () {
-			resizableImage.removeResizable();
-		}, "stepLeave3");
-
-		observer.listen(function () {
-			resizableImage.repaint({
-				element: document.getElementById("original"),
-				width: CANVASWIDTH,
-				height: CANVASHEIGHT
-			});
-		}, "stepLoaded3");
 
 		$scope.password = "";
 		$scope.password2 = "";
-
-		$scope.mail = "";
-		$scope.mail2 = "";
 
 		$scope.nickname = "";
 		$scope.nicknameCheckLoading = false;
 		$scope.nicknameCheck = false;
 		$scope.nicknameCheckError = false;
 
-		$scope.identifier = "";
+		$scope.nickNameError = true;
+		$scope.registerFailed = false;
 
-		$scope.mailCheck = true;
-		$scope.mailCheckError = false;
-		$scope.mailCheckLoading = false;
+		$scope.agb = false;
 
-		$scope.firstname = {
-			value: "",
-			encrypted: false
-		};
-
-		$scope.lastname = {
-			value: "",
-			encrypted: false
-		};
-
-		$scope.days = ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31"];
-		$scope.months = ["january", "february", "march", "april", "may", "june", "july", "august", "september", "october", "november", "december"];
-		$scope.years = ["1999", "1998", "1997", "1996", "1995", "1994", "1993", "1992", "1991", "1990", "1989", "1988", "1987", "1986", "1985", "1984", "1983", "1982", "1981", "1980", "1979", "1978", "1977", "1976", "1975", "1974", "1973", "1972", "1971", "1970", "1969", "1968", "1967", "1966", "1965", "1964", "1963", "1962", "1961", "1960", "1959", "1958", "1957", "1956", "1955", "1954", "1953", "1952", "1951", "1950", "1949", "1948", "1947", "1946", "1945", "1944", "1943", "1942", "1941", "1940", "1939", "1938", "1937", "1936", "1935", "1934", "1933", "1932", "1931", "1930", "1929", "1928", "1927", "1926", "1925", "1924", "1923", "1922", "1921", "1920", "1919", "1918", "1917", "1916", "1915", "1914", "1913", "1912", "1911", "1910", "1909", "1908", "1907", "1906", "1905", "1904", "1903", "1902", "1901", "1900"];
-
-		$scope.user = {
-			basic: {},
-			birthday: {},
-			location: {}
-		};
-
-		$scope.validImage = true;
-
-		function falseAnd(a, b) {
-			return a !== false && b !== false;
-		}
-
-		window.addEventListener("popstate", function (event) {
-			if (event.state && event.state.oldStep && event.state.step) {
-				$scope.$apply(function () {
-					setStep(event.state.step, true);
-				});
-			}
-		});
-
-		window.history.pushState({oldStep: -1, step: 1}, "step changed");
-
-		function setStep(step, popStateChange) {
-			if (step > 0 && step < 4) {
-				var oldStep = $scope.registerState.step;
-				var result1 = observer.notify(oldStep, "stepLeave", falseAnd);
-				var result2 = observer.notify(oldStep, "stepLeave" + oldStep, falseAnd);
-
-				if (result1 !== false && result2 !== false) {
-					$scope.registerState.step = step;
-					
-					if (!popStateChange) {
-						window.history.pushState({oldStep: oldStep, step: step}, "step changed");
-					}
-
-					observer.notify(step, "stepChanged");
-					observer.notify(step, "stepChanged" + step);
-				}
-			}
-		}
-
-		$scope.stepLoaded = function stepLoadedF() {
-			var step = $scope.registerState.step;
-			observer.notify(step, "stepLoaded");
-			observer.notify(step, "stepLoaded" + step);
-		};
-
-		$scope.nextRegisterStep = function nextRegisterStep() {
-			setStep($scope.registerState.step+1);
-		};
-		
-		$scope.prevRegisterStep = function prevRegisterStep() {
-			setStep($scope.registerState.step-1);
-		};
-		
 		$scope.passwordStrength = function passwordStrengthC() {
 			return sessionHelper.passwordStrength($scope.password);
+		};
+
+		if ($routeParams.register) {
+			$timeout(function () {
+				jQuery("#rnickname").focus();
+			}, 50);
+		}
+
+		var onlyErrors = false;
+		$scope.inputsUsed = function () {
+			$scope.registerFailed = false;
+			onlyErrors = false;
+		};
+
+		var timeout;
+
+		$scope.inputUsed = function (checkFunctions) {
+			if (timeout) {
+				$timeout.cancel(timeout);
+			}
+
+			timeout = $timeout(function () {
+				if (!$scope.registerFailed) {
+					onlyErrors = checkFunctions;
+					$scope.registerFailed = true;
+				}
+			}, 500);
 		};
 
 		$scope.registerFormClick = function formClickF() {
@@ -141,78 +106,14 @@ define(["step", "whispeerHelper", "asset/resizableImage", "asset/observer"], fun
 
 		$scope.acceptIcon = function acceptIconC(value1, value2) {
 			if (value1 === value2) {
-				return "assets/img/accept.png";
+				return "fa-check";
 			}
 
-			return "assets/img/fail.png";
+			return "fa-times";
 		};
 
 		$scope.startKeyGeneration = function startKeyGen1() {
 			sessionHelper.startKeyGeneration();
-		};
-
-		$scope.mailChange = function mailChange() {
-			if ($scope.mail === "") {
-				$scope.mailCheckLoading = false;
-				$scope.mailCheck = true;
-				$scope.mailCheckError = false;
-
-				return;
-			}
-
-			step(function doMailCheck() {
-				var internalMail = $scope.mail;
-
-				$scope.mailCheckLoading = true;
-				$scope.mailCheck = false;
-				$scope.mailCheckError = false;
-
-				sessionHelper.mailUsed(internalMail, this);
-			}, function mailChecked(e, mailUsed) {
-				errorService.criticalError(e);
-
-				$scope.mailCheckLoading = false;
-
-				if (mailUsed === false) {
-					$scope.mailCheck = true;
-				} else if (mailUsed === true) {
-					$scope.mailCheck = false;
-				} else {
-					$scope.mailCheckError = true;
-				}
-			});
-		};
-
-		$scope.lock = function lockF(bool) {
-			if (bool) {
-				return "assets/img/lock_closed.png";
-			} else {
-				return "assets/img/lock_open.png";
-			}
-		};
-
-		$scope.red = function redF(bool) {
-			if (!bool) {
-				return "red";
-			} else {
-				return "";
-			}
-		};
-
-		$scope.acceptIconMailFree = function acceptIconMail() {
-			if ($scope.mailCheckLoading) {
-				return "assets/img/loader_green.gif";
-			}
-
-			if ($scope.mailCheckError === true) {
-				return "assets/img/error.png";
-			}
-
-			if ($scope.mailCheck) {
-				return "assets/img/accept.png";
-			}
-
-			return "assets/img/fail.png";
 		};
 
 		$scope.nicknameChange = function nicknameChange() {
@@ -240,121 +141,135 @@ define(["step", "whispeerHelper", "asset/resizableImage", "asset/observer"], fun
 
 		$scope.showHint = false;
 
+		var errors = [];
+
+		function notPrevious(func) {
+			if (onlyErrors && onlyErrors.indexOf(func) === -1) {
+				return false;
+			}
+
+			var filter = true, result = true;
+			errors.filter(function (val) {
+				if (onlyErrors) {
+					return onlyErrors.indexOf(val) !== -1;
+				}
+
+				return true;
+			}).filter(function (val) {
+				if (val === func) {
+					filter = false;
+				}
+				return filter;
+			}).map(function (func) {
+				return func();
+			}).forEach(function (invalid) {
+				if (invalid) {
+					result = false;
+				}
+			});
+
+			return result;
+		}
+
+		$scope.empty = function (val) {
+			return val === "" || !h.isset(val);
+		};
+
+		$scope.nicknameEmpty = function () {
+			return notPrevious($scope.nicknameEmpty) && $scope.empty($scope.nickname);
+		};
+
 		$scope.nicknameInvalid = function () {
-			return $scope.nickname === "" || !h.isNickname($scope.nickname);
+			return notPrevious($scope.nicknameInvalid) && !$scope.empty($scope.nickname) && !h.isNickname($scope.nickname);
 		};
 
 		$scope.nicknameUsed = function () {
-			return !$scope.nicknameInvalid() && !$scope.nicknameCheck && !$scope.nicknameCheckLoading;
+			return notPrevious($scope.nicknameUsed) && !$scope.empty($scope.nickname) && !$scope.nicknameCheck && !$scope.nicknameCheckLoading;
 		};
 
-		$scope.mailInvalid = function () {
-			return $scope.mail !== "" && !h.isMail($scope.mail);
-		};
-
-		$scope.mailUsed = function () {
-			return !$scope.mailInvalid() && !$scope.mailCheck && !$scope.mailCheckLoading;
+		$scope.passwordEmpty = function () {
+			return notPrevious($scope.passwordEmpty) && $scope.empty($scope.password);
 		};
 
 		$scope.passwordToWeak = function () {
-			return $scope.passwordStrength() < 1;
+			return notPrevious($scope.passwordToWeak) && $scope.passwordStrength() < 1;
+		};
+
+		$scope.password2Empty = function () {
+			return notPrevious($scope.password2Empty) && $scope.empty($scope.password2);
 		};
 
 		$scope.noPasswordMatch = function () {
-			return $scope.password !== $scope.password2;
+			return notPrevious($scope.noPasswordMatch) &&  $scope.password !== $scope.password2;
 		};
+
+		$scope.isAgbError = function () {
+			return notPrevious($scope.isAgbError) && !$scope.agb;
+		};
+
+		errors = [
+			$scope.nicknameEmpty,
+			$scope.nicknameInvalid,
+			$scope.nicknameUsed,
+			$scope.passwordEmpty,
+			$scope.passwordToWeak,
+			$scope.password2Empty,
+			$scope.noPasswordMatch,
+			$scope.isAgbError
+		];
 
 		$scope.acceptIconNicknameFree = function acceptIconNickname() {
 			if ($scope.nicknameCheckLoading) {
-				return "assets/img/loader_green.gif";
+				return "fa-spinner";
 			}
 
 			if ($scope.nicknameCheckError === true) {
-				return "assets/img/error.png";
+				return "fa-warning";
 			}
 
 			if ($scope.nicknameCheck) {
-				return "assets/img/accept.png";
+				return "fa-check";
 			}
 
-			return "assets/img/fail.png";
+			return "fa-times";
 		};
 
-		var defaultSettings = {
-			encrypt: true,
-			visibility: []
-		};
 
 		$scope.register = function doRegisterC() {
-			var settings = {
-				privacy: {
-					basic: {
-						firstname: {
-							encrypt: false,
-							visibility: ["always:allfriends"]
-						},
-						lastname: {
-							encrypt: false,
-							visibility: ["always:allfriends"]
-						}
-					},
-					image: {
-						encrypt: false,
-						visibility: []
-					},
-					imageBlob: {
-						encrypt: false,
-						visibility: []
-					},
-					location: defaultSettings,
-					birthday: defaultSettings,
-					relationship: defaultSettings,
-					education: defaultSettings,
-					work: defaultSettings,
-					gender: defaultSettings,
-					languages: defaultSettings
-				},
-				sharePosts: ["always:allfriends"]
-			};
+			registerState.pending();
+			if ($scope.passwordStrength() === 0 || $scope.password !== $scope.password2 || !$scope.agb || !h.isNickname($scope.nickname)) {
+				$scope.registerFailed = true;
+				onlyErrors = false;
+				registerState.failed();
+				return;
+			}
+
+			var settings = {};
+			var imageBlob;
 
 			var profile = {
 				pub: {},
 				priv: {},
-				nobody: $scope.user
+				nobody: {},
+				metaData: {
+					scope: "always:allfriends"
+				}
 			};
 
 			step(function () {
-				resizableImage.getImageBlob(ENDSIZE, this.ne);
-			}, h.sF(function (imageBlob) {
-				function setAttribute(name, data) {
-					settings.privacy.basic[name].encrypt = data.encrypted;
-
-
-					if (data.value !== "") {
-						if (data.encrypted) {
-							profile.priv.basic = profile.priv.basic || {};
-							profile.priv.basic[name] = data.value;
-						} else {
-							profile.pub.basic = profile.pub.basic || {};
-							profile.pub.basic[name] = data.value;
-						}
-					}
-				}
-
-				setAttribute("firstname", $scope.firstname);
-				setAttribute("lastname", $scope.lastname);
-
 				console.time("register");
-				sessionHelper.register($scope.nickname, $scope.mail, $scope.password, profile, imageBlob, settings, this);
-			}), function () {
+				sessionService.setReturnURL("/setup");
+				sessionHelper.register($scope.nickname, "", $scope.invite.code, $scope.password, profile, imageBlob, settings, this);
+			}, function (e) {
 				console.timeEnd("register");
 				console.log("register done!");
-				resizableImage.removeResizable();
-			});
+
+				this(e);
+			}, errorService.failOnError(registerState));
 		};
 	}
 
-	registerController.$inject = ["$scope", "ssn.errorService", "ssn.sessionHelper", "ssn.sessionService", "ssn.cssService"];
+	registerController.$inject = ["$scope", "$timeout", "$routeParams", "ssn.keyStoreService", "ssn.errorService", "ssn.sessionHelper", "ssn.sessionService", "ssn.socketService"];
 
 	return registerController;
 });

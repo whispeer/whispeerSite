@@ -4,14 +4,13 @@
 define(["step", "whispeerHelper", "asset/observer", "asset/securedDataWithMetaData"], function (step, h, Observer, SecuredData) {
 	"use strict";
 
-	var service = function ($rootScope, socket, userService, sessionService, keyStore) {
+	var service = function ($rootScope, socket, userService, friendsService, sessionService, keyStore, settingsService) {
 		var circles = {};
 		var circleArray = [];
 		var circleData = [];
 
 		var Circle = function (data) {
 			var id = data.id, theCircle = this, persons = [];
-			var usersLoaded = 0;
 
 			var circleSec = SecuredData.load(data.content, data.meta, { type: "circle" });
 			var circleUsers = circleSec.metaAttr("users").map(h.parseDecimal);
@@ -34,12 +33,16 @@ define(["step", "whispeerHelper", "asset/observer", "asset/securedDataWithMetaDa
 
 			this.remove = function (cb) {
 				step(function () {
-					socket.emit("circles.removeCircle", {
+					//remove from settings
+					settingsService.privacy.removeCircle(id, this);
+				}, h.sF(function () {
+					//then delete from server
+					socket.emit("circle.delete", {
 						remove: {
 							circleid: id
 						}
 					}, this);
-				}, h.sF(function () {
+				}), h.sF(function () {
 					var circle = circles[id];
 					delete circles[id];
 					h.removeArray(circleArray, circle);
@@ -50,7 +53,7 @@ define(["step", "whispeerHelper", "asset/observer", "asset/securedDataWithMetaDa
 			};
 
 			this.setUser = function (uids, cb) {
-				var newKey, oldKey = circleSec.metaAttr("circleKey"), removing = false;
+				var newKey, oldKey = circleSec.metaAttr("circleKey"), removing = false, friendKeys;
 
 				step(function () {
 					uids = uids.map(h.parseDecimal);
@@ -71,9 +74,8 @@ define(["step", "whispeerHelper", "asset/observer", "asset/securedDataWithMetaDa
 					} else {
 						encryptKeyForUsers(newKey, h.arraySubtract(uids, circleUsers), this.parallel());
 					}
-				}), h.sF(function (users) {
-					uids = users;
-
+				}), h.sF(function (_friendKeys) {
+					friendKeys = _friendKeys;
 					circleSec.metaSet({
 						users: uids,
 						circleKey: newKey
@@ -91,13 +93,28 @@ define(["step", "whispeerHelper", "asset/observer", "asset/securedDataWithMetaDa
 					if (removing) {
 						update.decryptors = keyStore.upload.getDecryptors([oldKey], [newKey]);
 						update.key = keyStore.upload.getKey(newKey);
+					} else {
+						update.decryptors = keyStore.upload.getDecryptors([newKey], friendKeys);
 					}
 
 					socket.emit("circle.update", { update: update }, this);
 				}), h.sF(function () {
 					//emit
+					circleUsers = uids;
+					persons = persons.filter(function (user) {
+						return uids.indexOf(user.id) > -1;
+					});
+					theCircle.data.persons = persons;
+					theCircle.data.userids = circleUsers;
 
-					this.ne();
+					if (removing) {
+						//rebuild profiles
+						userService.getown().uploadChangedProfile(this);
+					} else {
+						this.ne();
+					}
+				}), h.sF(function () {
+					theCircle.loadPersons(this);
 				}), cb);
 			};
 
@@ -139,14 +156,14 @@ define(["step", "whispeerHelper", "asset/observer", "asset/securedDataWithMetaDa
 				limit = limit || 20;
 				limit = Math.min(h.parseDecimal(limit), 20);
 
-				if (usersLoaded < circleUsers.length) {
+				if (persons.length < circleUsers.length) {
 					step(function () {
-						var end = Math.min(circleUsers.length, usersLoaded + limit);
-						var nextLoad = circleUsers.slice(usersLoaded, end);
+						var loadedIDs = persons.map(function (p) { return p.id; });
+						var loadableUsers = circleUsers.filter(function (user) {
+							return loadedIDs.indexOf(user) === -1
+						});
 
-						usersLoaded = end;
-
-						userService.getMultiple(nextLoad, this);
+						userService.getMultiple(loadableUsers.slice(0, limit), this);
 					}, h.sF(function (users) {
 						users.forEach(function (user) {
 							persons.push(user.data);
@@ -189,29 +206,30 @@ define(["step", "whispeerHelper", "asset/observer", "asset/securedDataWithMetaDa
 		}
 
 		function encryptKeyForUsers(key, users, cb) {
+			users = users.map(h.parseDecimal);
+			var keys;
 			step(function () {
 				if (users && users.length > 0) {
-					userService.getMultiple(users, this);
+					this.ne();
 				} else {
 					this.last.ne([]);
 				}
-			}, h.sF(function (userObjects) {
-				userObjects.forEach(function (user) {
-					if (!user.getFriendShipKey()) {
-						throw new Error("no friend key for user: " + user.getID());
+			}, h.sF(function () {
+				users.forEach(function (user) {
+					if (!friendsService.getUserFriendShipKey(user)) {
+						throw new Error("no friend key for user: " + user);
 					}
 				});
 
-				userObjects.forEach(function (user) {
-					var friendKey = user.getFriendShipKey();
+				keys = users.map(function (user) {
+					return friendsService.getUserFriendShipKey(user);
+				});
+
+				keys.forEach(function (friendKey) {
 					keyStore.sym.symEncryptKey(key, friendKey, this.parallel());
 				}, this);
-
-				users = userObjects.map(function (user) {
-					return user.getID();
-				});
 			}), h.sF(function () {
-				this.ne(users);
+				this.ne(keys);
 			}), cb);
 		}
 
@@ -244,15 +262,14 @@ define(["step", "whispeerHelper", "asset/observer", "asset/securedDataWithMetaDa
 				});
 			},
 			create: function (name, cb, users) {
-				var key, theCircle, userIDs;
+				var key, theCircle;
+				users = users.map(h.parseDecimal);
 				step(function () {
 					generateNewKey(this);
 				}, h.sF(function (symKey) {
 					key = symKey;
 					encryptKeyForUsers(key, users, this);
-				}), h.sF(function (users) {
-					userIDs = users;
-
+				}), h.sF(function () {
 					var own = userService.getown();
 					var mainKey = own.getMainKey();
 
@@ -337,7 +354,7 @@ define(["step", "whispeerHelper", "asset/observer", "asset/securedDataWithMetaDa
 		return circleService;
 	};
 
-	service.$inject = ["$rootScope", "ssn.socketService", "ssn.userService", "ssn.sessionService", "ssn.keyStoreService"];
+	service.$inject = ["$rootScope", "ssn.socketService", "ssn.userService", "ssn.friendsService", "ssn.sessionService", "ssn.keyStoreService", "ssn.settingsService"];
 
 	return service;
 });

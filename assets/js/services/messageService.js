@@ -34,10 +34,9 @@ define([
 		var Topic = function (data) {
 			var messages = sortedSet(sortGetTime), dataMessages = sortedSet(sortObjGetTime), messagesByID = {}, theTopic = this, loadInitial = true;
 
-			var err = validator.validate("topic", data);
+			var err = validator.validate("topic", data.meta);
 			if (err) {
-				console.log("Topic Data Invalid! Fix this!");
-				//throw err;
+				throw err;
 			}
 
 			data.meta.receiver.sort();
@@ -52,9 +51,16 @@ define([
 			function setUnread(newUnread) {
 				if (unreadMessages) {
 					if (newUnread.length === 0 && unreadMessages.length > 0) {
+						console.log("decrease unread count, topicid: " + data.topicid);
 						messageService.data.unread -= 1;
 					} else if (newUnread.length > 0 && unreadMessages.length === 0) {
+						console.log("increase unread count, topicid: " + data.topicid);
 						messageService.data.unread += 1;
+					}
+
+					if (messageService.data.unread < 0) {
+						console.log("set unread count to zero");
+						messageService.data.unread = 0;
 					}
 				}
 
@@ -89,6 +95,10 @@ define([
 			};
 
 			setUnread(data.unread);
+
+			this.getSecuredData = function () {
+				return meta;
+			};
 
 			this.messageUnread = function messageUnreadF(mid) {
 				return unreadMessages.indexOf(mid) > -1;
@@ -177,6 +187,7 @@ define([
 					data.newestTime = Math.max(m.getTime(), data.newestTime);
 					topicArray.resort();
 
+					m.verifyParent(theTopic);
 					m.loadFullData(this);
 				}, h.sF(function () {
 					addMessageToList(m);
@@ -258,6 +269,7 @@ define([
 
 			this.loadMoreMessages = function loadMoreMessagesF(cb, max) {
 				var loadMore = new Date().getTime();
+				var remaining = 0;
 				step(function () {
 					if (theTopic.data.remaining > 0) {
 						socket.emit("messages.getTopicMessages", {
@@ -271,7 +283,9 @@ define([
 				}, h.sF(function (data) {
 					theTopic.delayMessageAdding();
 					console.log("Message server took: " + (new Date().getTime() - loadMore));
-					theTopic.data.remaining = data.remaining;
+
+					remaining = data.remaining;
+
 					if (data.messages) {
 						var i;
 						for (i = 0; i < data.messages.length; i += 1) {
@@ -281,6 +295,7 @@ define([
 
 					this.parallel()();
 				}), h.sF(function () {
+					theTopic.data.remaining = remaining;
 					theTopic.runMessageAdding();
 					console.log("Message loading took: " + (new Date().getTime() - loadMore));
 					this.ne();
@@ -321,7 +336,7 @@ define([
 		};
 
 		Topic.createData = function (receiver, message, cb) {
-			var receiverObjects, topicKey, topicData, topicHash;
+			var receiverObjects, topicKey, topicData;
 			step(function () {
 				//load receiver
 				receiver = receiver.map(function (val) {
@@ -382,20 +397,22 @@ define([
 					receiverKeys: receiverKeys
 				};
 
-				topicHash = keyStore.hash.hashObjectHex(topicMeta);
+				this.parallel.unflatten();
+				SecuredData.create({}, topicMeta, { type: "topic" }, userService.getown().getSignKey(), topicKey, this);
+			}), h.sF(function (tData) {
+				topicData.topic = tData.meta;
+
+				var topic = new Topic({
+					meta: topicData.topic,
+					unread: []
+				});
 
 				var messageMeta = {
-					createTime: new Date().getTime(),
-					topicHash: topicHash,
-					previousMessage: 0,
-					previousMessageHash: "0"
+					createTime: new Date().getTime()
 				};
 
-				this.parallel.unflatten();
-				SecuredData.create({}, topicMeta, { type: "topic" }, userService.getown().getSignKey(), topicKey, this.parallel());
-				Message.createRawData(topicKey, message, messageMeta, this.parallel());
-			}), h.sF(function (tData, mData) {
-				topicData.topic = tData.meta;
+				Message.createRawData(topic, message, messageMeta, this);
+			}), h.sF(function (mData) {
 				topicData.message = mData;
 
 				this.ne(topicData);
@@ -497,15 +514,14 @@ define([
 				messages = {};
 				topics = {};
 				topicArray = sortedSet(sortObjGetTimeInv);
-				messageService.data = {
-					latestTopics: {
+				messageService.data.latestTopics = {
 						count: 0,
 						loading: false,
 						loaded: false,
 						data: topicArray
-					},
-					unread: 0
 				};
+
+				messageService.data.unread = 0;
 			},
 			loadMoreLatest: function (cb) {
 				var l = messageService.data.latestTopics;

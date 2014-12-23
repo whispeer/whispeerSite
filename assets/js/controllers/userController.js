@@ -2,7 +2,7 @@
 * userController
 **/
 
-define(["step", "whispeerHelper", "asset/resizableImage", "asset/state"], function (step, h, ResizableImage, State) {
+define(["step", "whispeerHelper", "asset/resizableImage", "asset/state", "libs/qrreader"], function (step, h, ResizableImage, State, qrreader) {
 	"use strict";
 
 	function userController($scope, $routeParams, $timeout, cssService, errorService, userService, postService, circleService, blobService) {
@@ -14,40 +14,203 @@ define(["step", "whispeerHelper", "asset/resizableImage", "asset/state"], functi
 		var saveUserState = new State();
 		$scope.saveUserState = saveUserState.data;
 
+		$scope.user = {};
+
 		$scope.loading = true;
 		$scope.notExisting = false;
 		$scope.loadingFriends = true;
 		$scope.verifyNow = false;
 
-		$scope.givenPrint = "";
+		var verifyState = new State();
+		$scope.verifyingUser = verifyState.data;
+
+		$scope.qr = {
+			available: !!(navigator.getUserMedia || navigator.mozGetUserMedia || navigator.webkitGetUserMedia),
+			view: false,
+			read: false,
+			reset: function () {
+				if (verifyState.isFailed()) {
+					$scope.qr.read = false;
+					initializeReader();
+				}
+			}
+		};
+
+		$scope.verifyCode = !$scope.qr.available;
+
+		$scope.verifyWithCode = function () {
+			$scope.verifyCode = true;
+		};
+
+		$scope.resetVerifcationMethod = function () {
+			$scope.verifyCode = false;
+			$scope.qr.view = false;
+		};
+
+		var theStream;
+
+		function captureToCanvas() {
+			if (!$scope.qr.read) {
+				try {
+					var width = 800;
+					var height = 600;
+
+					var gCanvas = document.createElement("canvas");
+					gCanvas.width = width;
+					gCanvas.height = height;
+
+					var gCtx = gCanvas.getContext("2d");
+					gCtx.clearRect(0, 0, width, height);
+
+					gCtx.drawImage(document.getElementById("qrCodeVideo"), 0, 0);
+					var codeText = qrreader.decodeCanvas(gCanvas);
+
+					$scope.qr.read = true;
+					theStream.stop();
+					$scope.qrCode = codeText;
+
+					$scope.verify(codeText);
+				} catch(e) {
+					console.error(e);
+					$scope.qrCode = "error:" + e;
+					$timeout(captureToCanvas, 500);
+				}
+			}
+		}
+
+		function initializeReader() {
+			var webkit=false;
+			var moz=false;
+
+			step(function () {
+				if (window.MediaStreamTrack && window.MediaStreamTrack.getSources) {
+					window.MediaStreamTrack.getSources(this.ne);
+				} else {
+					this.ne();
+				}
+			}, h.sF(function (sources) {
+				var constraints = {
+					audio: false,
+					video: true
+				};
+
+				if (sources) {
+					var environmentSources = sources.filter(function (data) {
+						return data.kind === "video" && data.facing === "environment";
+					});
+
+					if (environmentSources.length === 1) {
+						constraints.video = { optional: [{sourceId: environmentSources[0].id}] };
+					}
+				}
+
+				if(navigator.getUserMedia) {
+					navigator.getUserMedia(constraints, this.ne, this);
+				} else if(navigator.webkitGetUserMedia) {
+					webkit=true;
+					navigator.webkitGetUserMedia(constraints, this.ne, this);
+				} else if(navigator.mozGetUserMedia) {
+					moz=true;
+					navigator.mozGetUserMedia(constraints, this.ne, this);
+				}
+			}), h.sF(function (stream) {
+				$scope.qr.noDevice = false;
+				theStream = stream;
+				var v = document.getElementById("qrCodeVideo");
+
+				if(webkit) {
+					v.src = window.webkitURL.createObjectURL(stream);
+				} else if(moz) {
+					v.mozSrcObject = stream;
+					v.play();
+				} else {
+					v.src = stream;
+				}
+
+				$timeout(captureToCanvas, 500);
+			}), function (e) {
+				if (e.name === "DevicesNotFoundError") {
+					$scope.qr.noDevice = true;
+
+					$timeout(initializeReader, 1000);
+				} else {
+					this(e);
+				}
+			}, errorService.criticalError);
+		}
+
+		$scope.verifyWithQrCode = function () {
+			$scope.qr.view = true;
+
+			initializeReader();
+		};
+
+		$scope.givenPrint = ["", "", "", ""];
+		$scope.faEqual = function (val1, val2) {
+			if (val1.length < val2.length) {
+				return "";
+			}
+
+			if (val1 === val2) {
+				return "fa-check";
+			} else {
+				return "fa-times";
+			}
+		};
+
+		function partitionInput() {
+			var fpLength = $scope.fingerPrint[0].length, i;
+			var given = $scope.givenPrint.join("");
+
+			for (i = 0; i < $scope.fingerPrint.length - 1; i += 1) {
+				$scope.givenPrint[i] = given.substr(i * fpLength, fpLength);
+			}
+
+			$scope.givenPrint[$scope.fingerPrint.length - 1] = given.substr(i * fpLength);
+		}
+
+		function focusMissingField() {
+			var fpLength = $scope.fingerPrint[0].length, i;
+
+			for (i = 0; i < $scope.givenPrint.length; i += 1) {
+				if ($scope.givenPrint[i].length < fpLength) {
+					jQuery(".verify input")[i].focus();
+					return;
+				}
+			}
+
+			jQuery(".verify input")[$scope.givenPrint.length - 1].focus();
+		}
+
+		$scope.nextInput = function (index) {
+			$scope.givenPrint[index] = $scope.givenPrint[index].toUpperCase().replace(/[^A-Z0-9]/g, "");
+
+			partitionInput();
+			focusMissingField();
+		};
 
 		$scope.toggleVerify = function () {
 			$scope.verifyNow = !$scope.verifyNow;
 		};
 
-		var verifyState = new State();
-		$scope.verifyingUser = verifyState.data;
-
 		$scope.verify = function (fingerPrint) {
 			verifyState.pending();
-
-			var ok = userObject.verifyFingerPrint(fingerPrint, function (e) {
-				if (e) {
-					verifyState.failed();
-					errorService.criticalError(e);
-				} else {
-					verifyState.success();
-				}
-			});
-
-			if (!ok) {
-				verifyState.failed();
+			if (typeof fingerPrint.join === "function") {
+				fingerPrint = fingerPrint.join("");
 			}
+
+			step(function () {
+				var ok = userObject.verifyFingerPrint(fingerPrint, this);	
+
+				if (!ok) {
+					this(new Error("wrong code"));
+				}
+			}, errorService.failOnError(verifyState));
 		};
 
 		$scope.changeImage = false;
 
-		cssService.setClass("profileView");
+		cssService.setClass("profileView", true);
 
 		$scope.days = ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31"];
 		$scope.months = ["january", "february", "march", "april", "may", "june", "july", "august", "september", "october", "november", "december"];
@@ -62,6 +225,10 @@ define(["step", "whispeerHelper", "asset/resizableImage", "asset/state"], functi
 			userObject.addAsFriend();
 		};
 
+		$scope.removeFriend = function () {
+			userObject.removeAsFriend();
+		};
+
 		$scope.edit = function () {
 			$scope.editGeneral = !$scope.editGeneral;
 
@@ -74,7 +241,7 @@ define(["step", "whispeerHelper", "asset/resizableImage", "asset/state"], functi
 
 		$scope.imageChange = resizableImage.callBackForFileLoad(function () {
 			resizableImage.paintImageOnCanvasWithResizer({
-				element: document.getElementById("original"),
+				element: document.getElementById("userView-userimage-original"),
 				width: CANVASWIDTH,
 				height: CANVASHEIGHT
 			});
@@ -86,7 +253,7 @@ define(["step", "whispeerHelper", "asset/resizableImage", "asset/state"], functi
 
 			resizableImage.loadImage($scope.user.basic.image, function () {
 				resizableImage.paintImageOnCanvasWithResizer({
-					element: document.getElementById("original"),
+					element: document.getElementById("userView-userimage-original"),
 					width: CANVASWIDTH,
 					height: CANVASHEIGHT
 				});
@@ -245,6 +412,7 @@ define(["step", "whispeerHelper", "asset/resizableImage", "asset/state"], functi
 				for (i = 0; i < toRemove.length; i += 1) {
 					circleService.get(toRemove[i]).removePersons([$scope.user.id], this.parallel());
 				}
+				this.parallel()();
 			}), errorService.failOnError(circleState));
 		};
 
@@ -288,6 +456,9 @@ define(["step", "whispeerHelper", "asset/resizableImage", "asset/state"], functi
 		}, h.sF(function (user) {
 			userObject = user;
 
+			var fp = user.getFingerPrint();
+			$scope.fingerPrint = [fp.substr(0,13), fp.substr(13,13), fp.substr(26,13), fp.substr(39,13)];
+
 			postService.getWallPosts(0, userObject.getID(), function (err, posts) {
 				$scope.posts = posts;
 			});
@@ -295,6 +466,7 @@ define(["step", "whispeerHelper", "asset/resizableImage", "asset/state"], functi
 			user.loadFullData(this);
 		}), h.sF(function () {
 			$scope.user = userObject.data;
+			$scope.adv = $scope.user.advanced;
 
 			$scope.loading = false;
 			userObject.getFriends(this);

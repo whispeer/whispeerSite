@@ -4,7 +4,8 @@ define(["step", "whispeerHelper"], function () {
 	function searchDirective($timeout, $compile) {
 		return {
 			scope: {
-				"res": "="
+				"res": "=",
+				"base": "@"
 			},
 			/* this is an element */
 			restrict: "E",
@@ -17,6 +18,25 @@ define(["step", "whispeerHelper"], function () {
 					selectedElements: []
 				};
 
+				scope.showSelectedElements = false;
+				scope.toggleShowSelectedElements = function (bool, $event) {
+					if ($event) {
+						$event.stopPropagation();
+						$event.preventDefault();
+					}
+
+					if (bool) {
+						internallyClicked = true;
+						scope.showSelectedElements = !scope.showSelectedElements;
+						focused = false;
+						clicked = false;
+						$timeout(function () {
+							internallyClicked = false;
+						});
+					}
+					initialize();
+				};
+
 				scope.resultAttribute = iAttrs.resAttr || "selectedElements";
 				scope.multiple = iAttrs.multiple !== undefined;
 				scope.big = iAttrs.size === "big";
@@ -26,11 +46,13 @@ define(["step", "whispeerHelper"], function () {
 				scope.query = "";
 				scope.results = [];
 
+				scope.remainingWidth = 100;
+
 				/** open search element or not **/
 				var focused = false, clicked = false, initialized = false;
 
 				/* we need to build the input on our own to be able to add custom attributes */
-				var input = jQuery("<input type='text' class='searchQuery'  data-ng-keydown='keydown($event)' data-ng-change='queryChange()' data-ng-model='query' data-onfocus='focus(true)' data-onblur='focus(false)'>");
+				var input = jQuery('<input type="text" class="search-query input-custom" style="width: {{remainingWidth}}px" data-ng-click="click(true, $event)"  data-ng-keydown="keydown($event)" data-ng-change="queryChange()" data-ng-model="query" data-onfocus="focus(true)" data-onblur="focus(false)">');
 
 				/* add attributes on outer element starting with input- to the inner input */
 				var attr, attrName;
@@ -45,7 +67,7 @@ define(["step", "whispeerHelper"], function () {
 
 				/* compile & append input */
 				$compile(input)(scope);
-				iElement.find(".searchField").append(input);
+				iElement.find(".search-input").append(input);
 
 				function initialize() {
 					if (!initialized) {
@@ -78,6 +100,7 @@ define(["step", "whispeerHelper"], function () {
 				scope.hide = function () {
 					scope.focus(false);
 					scope.click(false);
+					scope.showSelectedElements = false;
 				};
 
 				scope.click = function (bool, $event) {
@@ -99,6 +122,7 @@ define(["step", "whispeerHelper"], function () {
 
 				scope.focus = function (bool) {
 					focused = bool;
+					scope.showSelectedElements = false;
 					initialize();
 				};
 
@@ -178,7 +202,7 @@ define(["step", "whispeerHelper"], function () {
 
 				scope.currentClass = function (i) {
 					if (i === scope.current) {
-						return "active";
+						return "search-suggestion-active";
 					}
 
 					return "";
@@ -189,6 +213,50 @@ define(["step", "whispeerHelper"], function () {
 				var internalid = iAttrs.internalid;
 				var selectedIDs = [];
 				scope.selectedElements = [];
+				scope.previewCount = 0;
+				scope.hiddenCount = 0;
+
+				function updatePreviewCount() {
+					var PLUSWIDTH = 55;
+
+					scope.previewCount = scope.selectedElements.length;
+
+					var element = iElement.find(".search-form");
+
+					var availableWidth = element.innerWidth();
+
+					var MININPUTWIDTH = ((availableWidth * 0.4) > 100) ? (availableWidth * 0.4) : 100;
+
+					var selectedWidth = 0, found = false;
+					element.find(".search-result").slice(0, -1).each(function (i , e) {
+						if (!found) {
+							e = jQuery(e);
+
+							var wasHidden = e.hasClass("ng-hide");
+
+							e.removeClass("ng-hide");
+
+							var elementWidth = e.outerWidth();
+							var takenWidth = selectedWidth + elementWidth + MININPUTWIDTH + PLUSWIDTH;
+
+							if (takenWidth > availableWidth && i !== 0) {
+								scope.previewCount = Math.max(0, i);
+								found = true;
+							} else {
+								selectedWidth += elementWidth;
+							}
+
+							if (wasHidden) {
+								e.addClass("ng-hide");
+							}
+						}
+					});
+
+					scope.hiddenCount = Math.max(0, scope.selectedElements.length - scope.previewCount);
+					scope.remainingWidth = availableWidth - selectedWidth - (scope.hiddenCount > 0 ? PLUSWIDTH : 0);
+				}
+				 /* this has to run once since the input width would not be set for searches without selected elements */
+				updatePreviewCount();
 
 				function selectionUpdated(selection) {
 					if (scope.multiple) {
@@ -202,6 +270,8 @@ define(["step", "whispeerHelper"], function () {
 						scope.$emit("selectionChange:" + internalid, scope.selectedElements);
 
 						scope.results = filterRealResults();
+
+						$timeout(updatePreviewCount);
 					}
 
 					if (selection) {

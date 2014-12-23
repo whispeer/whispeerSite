@@ -6,7 +6,7 @@ define(["whispeerHelper", "step", "asset/state", "libs/qr"], function (h, step, 
 	"use strict";
 
 	function settingsController($scope, $timeout, errorService, cssService, settingsService, userService, localize) {
-		cssService.setClass("settingsView");
+		cssService.setClass("settingsView", true);
 
 		var saveSafetyState = new State();
 		$scope.saveSafetyState = saveSafetyState.data;
@@ -56,11 +56,12 @@ define(["whispeerHelper", "step", "asset/state", "libs/qr"], function (h, step, 
 			$scope.firstName = names.firstname;
 			$scope.lastName = names.lastname;
 			$scope.nickName = names.nickname;
-			$scope.fingerprint = userService.getown().data.fingerprint;
+			var fp = userService.getown().data.fingerprint;
+			$scope.fingerprint = [fp.substr(0,13), fp.substr(13,13), fp.substr(26,13), fp.substr(39,13)];
 
 			qr.image({
 				image: document.getElementById("fingerPrintQR"),
-				value: $scope.fingerprint,
+				value: fp,
 				size: 7,
 				level: "L"
 			});
@@ -75,20 +76,15 @@ define(["whispeerHelper", "step", "asset/state", "libs/qr"], function (h, step, 
 				settingsService.getBranch("sound", this.parallel());
 				settingsService.getBranch("messages", this.parallel());
 				settingsService.getBranch("uiLanguage", this.parallel());
-			}, h.sF(function (sound, messages, uiLanguage) {
-				sound = sound || {};
-				messages = messages || {};
-				uiLanguage = uiLanguage || {};
-
-				sound.active = ($scope.notificationSound === "on" ? true : false);
+			}, h.sF(function (sound, messages) {
+				sound.enabled = ($scope.notificationSound === "on" ? true : false);
 				messages.sendShortCut = $scope.sendShortCut;
 
-				uiLanguage.data = $scope.uiLanguage;
 				localize.setLanguage($scope.uiLanguage);
 
 				settingsService.updateBranch("sound", sound, this.parallel());
 				settingsService.updateBranch("messages", messages, this.parallel());
-				settingsService.updateBranch("uiLanguage", uiLanguage, this.parallel());
+				settingsService.updateBranch("uiLanguage", $scope.uiLanguage, this.parallel());
 			}), h.sF(function () {
 				settingsService.uploadChangedData(this);
 			}), errorService.failOnError(saveGeneralState));

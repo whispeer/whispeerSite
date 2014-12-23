@@ -9,7 +9,14 @@ define(function () {
 			},
 			restrict: "E",
 			templateUrl: "assets/views/directives/post.html",
-			replace: true
+			replace: true,
+			link: function (scope) {
+				scope.showComments = false;
+				scope.toggleShowComments = function () {
+					scope.showComments = !scope.showComments;
+					scope.post.loadComments();
+				};
+			}
 		};			
 	}
 

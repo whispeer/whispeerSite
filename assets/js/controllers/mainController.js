@@ -47,11 +47,16 @@ define(["step", "whispeerHelper", "asset/state", "asset/Image"], function (step,
 			$scope.filterSelection = newSelection.map(function (e) {
 				return e.id;
 			});
+
 			reloadTimeline();
 		});
 
 		$scope.togglePost = function() {
 			$scope.postActive = !$scope.postActive;
+		};
+
+		$scope.loadMorePosts = function () {
+			$scope.currentTimeline.loadMorePosts(errorService.criticalError);
 		};
 
 		$scope.sendPost = function () {
@@ -99,13 +104,16 @@ define(["step", "whispeerHelper", "asset/state", "asset/Image"], function (step,
 			$scope.filterActive = !$scope.filterActive;
 		};
 
+		$scope.currentTimeline = null;
+
 		function reloadTimeline() {
-			postService.getTimelinePosts(0, $scope.filterSelection, function (err, posts) {
-				$scope.posts = posts;
-			});
+			step(function () {
+				$scope.currentTimeline = postService.getTimeline($scope.filterSelection);
+				$scope.currentTimeline.loadInitial(this);
+			}, errorService.criticalError);
 		}
 
-		$scope.posts = [];
+		reloadTimeline();
 	}
 
 	mainController.$inject = ["$scope", "ssn.cssService", "ssn.postService", "ssn.blobService", "ssn.errorService"];

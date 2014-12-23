@@ -2,6 +2,9 @@
 @user-image-size-small: 32px;
 
 @default-padding: 12px;
+@minor-padding: 6px;
+
+@column-width: 40em;
 
 .modal {
 	position: absolute;
@@ -51,7 +54,9 @@
 	display: inline-block;
 	float: left;
 	clear: both;
+
 	padding: @default-padding;
+	padding-left: 0;
 
 	// this should really be dealt with once and for all in the userimage
 	// directive.
@@ -65,12 +70,20 @@
 	}
 
 	.meta {
-		width: 100%;
-		.fa { color: @linkColor; }
+		strong ~ span .fa { color: @linkColor; }
+		span, strong {
+			white-space: nowrap;
+		}
+		strong:first-of-type {
+			padding-right: @minor-padding;
+		}
+		span strong:first-of-type {
+			padding-left: @minor-padding;
+		}
 	}
 
 	.content {
-		max-width: 40em;
+		max-width: @column-width;
 		padding-left: @default-padding;
 		margin-top: 0;
 		margin-bottom: 0;
@@ -80,11 +93,15 @@
 
 	.date, .action {
 		.detail-text();
+
 	}
 	.action {
 		cursor: pointer;
 	}
 
+	@media @mobile {
+		.actions .date:after { content: '\a' ; white-space: pre; }
+	}
 	.comments, .actions, .images {
 		padding-left: @default-padding;
 		margin-left: @user-image-size;
@@ -135,6 +152,7 @@
 	}
 
 	.comments {
+		max-width: @column-width;
 
 		@media @mobile {
 			padding-left: @default-padding;
@@ -163,10 +181,20 @@
 			margin-left: @user-image-size-small;
 		}
 
-		textarea { width: 100% }
+		.meta {
+			padding-left: @default-padding;
+		}
+
+		textarea { width: 100%; }
+
 		button {
 			margin-top: 6px;
 			float: right;
 		}
+	}
+
+	.post-comments-loading {
+		width: 50%;
+		text-align: center;
 	}
 }

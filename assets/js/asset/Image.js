@@ -130,6 +130,12 @@ define(["step", "whispeerHelper"], function (step, h) {
 		doneCanvasE.height = size;
 
 		var doneCanvas = doneCanvasE.getContext("2d");
+
+		pos.left = Math.floor(pos.left);
+		pos.top = Math.floor(pos.top);
+		pos.width = Math.floor(pos.width);
+		size = Math.floor(size);
+
 		doneCanvas.drawImage(this._image, pos.left, pos.top, pos.width, pos.width, 0, 0, size, size);
 
 		return doneCanvasE;

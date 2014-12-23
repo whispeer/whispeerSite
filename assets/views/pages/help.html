@@ -1,46 +1,46 @@
-<header>
-	<span data-i18n="help.headers.title" id="title"></span>
+<header class="box-header">
+	<span class="box-header-title" data-i18n="help.headers.title" id="title"></span>
 </header>
-<div id="helpWrap">
-	<section id="general">
-		<header data-i18n="help.headers.general"></header>
-		<ol>
+<section class="box-content box-content--scroll">
+	<section id="general" class="helpView-section">
+		<header class="box-header box-header--content"><span class="box-header-title" data-i18n="help.headers.general"></span></header>
+		<ol class="helpView-qaList u-unstyled">
 			<li class="qa" data-ng-repeat="shortcut in faq.general">
-				<p class="question" data-i18n="help.faq.{{shortcut}}.question"></p>
-				<p class="answer" data-syntaxify data-i18n="help.faq.{{shortcut}}.answer"></p>
+				<p class="helpView-question" data-i18n="help.faq.{{shortcut}}.question"></p>
+				<p class="helpView-answer" data-syntaxify data-i18n="help.faq.{{shortcut}}.answer"></p>
 			</li>
-		</ol>	
+		</ol>
 	</section>
-	<section id="safety">
-		<header data-i18n="help.headers.safety"></header>
-		<ol>
+	<section id="safety" class="helpView-section">
+		<header class="box-header box-header--content"><span class="box-header-title" data-i18n="help.headers.safety"></span></header>
+		<ol class="helpView-qaList u-unstyled">
 			<li class="qa" data-ng-repeat="shortcut in faq.safety">
-				<p class="question" data-i18n="help.faq.{{shortcut}}.question"></p>
-				<p class="answer" data-syntaxify data-i18n="help.faq.{{shortcut}}.answer"></p>
+				<p class="helpView-question" data-i18n="help.faq.{{shortcut}}.question"></p>
+				<p class="helpView-answer" data-syntaxify data-i18n="help.faq.{{shortcut}}.answer"></p>
 			</li>
 		</ol>
 	</section>
-	<section id="privacy">
-		<header data-i18n="help.headers.privacy"></header>
-		<ol>
+	<section id="privacy" class="helpView-section">
+		<header class="box-header box-header--content"><span class="box-header-title" data-i18n="help.headers.privacy"></span></header>
+		<ol class="helpView-qaList u-unstyled">
 			<li class="qa" data-ng-repeat="shortcut in faq.privacy">
-				<p class="question" data-i18n="help.faq.{{shortcut}}.question"></p>
-				<p class="answer" data-syntaxify data-i18n="help.faq.{{shortcut}}.answer"></p>
+				<p class="helpView-question" data-i18n="help.faq.{{shortcut}}.question"></p>
+				<p class="helpView-answer" data-syntaxify data-i18n="help.faq.{{shortcut}}.answer"></p>
 			</li>
 		</ol>
 	</section>
-	<section id="functionality">
-		<header data-i18n="help.headers.functionality"></header>
-		<ol>
+	<section id="functionality" class="helpView-section">
+		<header class="box-header box-header--content"><span class="box-header-title" data-i18n="help.headers.functionality"></span></header>
+		<ol class="helpView-qaList u-unstyled">
 			<li class="qa" data-ng-repeat="shortcut in faq.functionality">
-				<p class="question" data-i18n="help.faq.{{shortcut}}.question"></p>
-				<p class="answer" data-syntaxify data-i18n="help.faq.{{shortcut}}.answer"></p>
+				<p class="helpView-question" data-i18n="help.faq.{{shortcut}}.question"></p>
+				<p class="helpView-answer" data-syntaxify data-i18n="help.faq.{{shortcut}}.answer"></p>
 			</li>
 		</ol>
 	</section>
-	<section id="newQuestion">
-		<header data-i18n="help.headers.newQuestion"></header>
-		<input class="askQuestion" type="text" data-i18n-attr="help.askQuestion|placeholder">
-		<button class="btn btn--primary" data-i18n="general.send"></button>
+	<section id="helpView-newQuestion" class="helpView-section">
+		<header class="box-header box-header--content"><span class="box-header-title" data-i18n="help.headers.newQuestion"></span></header>
+		<input class="helpView-askQuestion" type="text" data-i18n-attr="help.askQuestion|placeholder">
+		<button class="helpView-submitQuestion btn btn--primary btn--input" data-i18n="general.send"></button>
 	</section>
 </div>

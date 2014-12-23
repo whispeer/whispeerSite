@@ -1,0 +1,148 @@
+.setupView {
+	.printCanvas {
+		display: none;
+	}
+
+	@media print {
+		div {
+			display: none
+		}
+		header {
+			display: none
+		}
+		.printCanvas {
+			display: inline-block;
+			position: fixed;
+			top: 0px;
+			left: 0px;
+		}
+	}
+	#container {
+		@media @mobile {
+			overflow-y: scroll;
+			-webkit-overflow-scrolling: touch;
+			float: left;
+			margin-top: 2px;
+			padding-top: 0;
+			height: ~"calc(100% - 52px)" !important;
+		}
+	}
+	#main {
+		text-align: center;
+		@media @desktop {
+			overflow-y: scroll;
+		}
+	}
+	h1 {
+		.large-text();
+		padding-left: 1%;
+		.box-fix;
+	}
+	h2 {
+		// this is provisoric. we definetly need a medium-text option.
+		font-size: 1.25em;
+		line-height: 0.89em;
+		margin-bottom: 0;
+	}
+	.why {
+		.detail-text();
+		margin-bottom: 0.67em;
+	}
+	.backup {
+		background: transparent;
+		padding: 1%;
+		.box-fix;
+		@media @desktop {
+			.column(8);
+			.push(2);
+			.pull(2);
+			margin-bottom: 1.34em;
+		}
+		@media @mobile {
+			.column(12);
+			margin-bottom: 1.34em;
+			button, .full-line {
+				.column(12);
+			}
+		}
+		h2 {
+			margin-top: 0;
+		}
+		.backupWarningExplanation {
+			text-align: left;
+			width: 70%;
+			margin: 15px auto;
+		}
+		p {
+			margin-top: 0;
+			margin-bottom: 1%;
+		}
+	}
+	#setupView-noBackup {
+		margin-top: 1.34em;
+	}
+	.profile {
+		background: transparent;
+		padding: 1%;
+		.box-fix;
+		border-radius: 3px;
+		@media @desktop {
+			.column(8);
+			.push(2);
+			.pull(2);
+		}
+		@media @mobile {
+			.column(12);
+		}
+		h2 {
+			margin-top: 0;
+		}
+		.name, .mail, .submit {
+			// same styling for desktop and mobile ahead!
+			.column(12);
+			h3 {
+				// workaround with a float and .width() here to keep the original h3 margin!
+				float: left;
+				.width(12);
+				text-align: left;
+			}
+		}
+		.name {
+			input[type="text"] {
+				@media @desktop {
+					.column(6);
+				}
+				@media @mobile {
+					.column(12);
+					margin-bottom: 0.5em;
+				}
+			}
+			div {
+				text-align: left;
+				.column(12);
+				margin-top: 5px;
+			}
+		}
+		.mail {
+			input {
+				// same styling for desktop and mobile ahead!
+				.column(12);
+			}
+		}
+		.submit {
+			margin-top: 1em;
+			button {
+				@media @desktop {
+					.column(6);
+					.push(3);
+				}
+				@media @mobile {
+					.column(12);
+					&:first-child {
+						margin-bottom: 0.5em;
+					}
+				}
+			}
+		}
+	}
+}

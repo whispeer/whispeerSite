@@ -1,12 +1,12 @@
 [submodule "assets/js/helper"]
 	path = assets/js/helper
-	url = ssh://git@whispeer.de:4351/whispeerHelper
+	url = ssh://git@ovt.me:4351/whispeerHelper
 [submodule "assets/js/step"]
 	path = assets/js/step
-	url = ssh://git@whispeer.de:4351/whispeerStep
+	url = ssh://git@ovt.me:4351/whispeerStep
 [submodule "assets/js/validation"]
 	path = assets/js/validation
-	url = ssh://git@whispeer.de:4351/whispeerValidations
+	url = ssh://git@ovt.me:4351/whispeerValidations
 [submodule "assets/js/cryptoWorker"]
 	path = assets/js/cryptoWorker
 	url = https://github.com/Nilos/sjcl-worker.git

@@ -4,6 +4,45 @@ define(["step", "whispeerHelper", "crypto/encryptedData"], function (step, h, En
 	var service = function ($rootScope, $injector, localize, initService) {
 		var settings;
 
+		var notVisible = {
+			encrypt: true,
+			visibility: []
+		};
+
+		var defaultSettings = {
+			privacy: {
+				basic: {
+					firstname: {
+						encrypt: false,
+						visibility: ["always:allfriends"]
+					},
+					lastname: {
+						encrypt: false,
+						visibility: ["always:allfriends"]
+					}
+				},
+				imageBlob: {
+					encrypt: false,
+					visibility: []
+				},
+				location: notVisible,
+				birthday: notVisible,
+				relationship: notVisible,
+				education: notVisible,
+				work: notVisible,
+				gender: notVisible,
+				languages: notVisible
+			},
+			sharePosts: ["always:allfriends"],
+			sound: {
+				enabled: true
+			},
+			messages: {
+				sendShortCut: "enter"
+			},
+			uiLanguage: localize.getLanguage()
+		};
+
 		initService.register("settings.getSettings", {}, function (data, cb) {
 			settings = new EncryptedData(data.settings);
 			step(function () {
@@ -26,7 +65,11 @@ define(["step", "whispeerHelper", "crypto/encryptedData"], function (step, h, En
 				settings.decrypt(cb);
 			},
 			getBranch: function (branch, cb) {
-				settings.getBranch(branch, cb);
+				step(function () {
+					settings.getBranch(branch, this);
+				}, h.sF(function (branchContent) {
+					this.ne(branchContent || defaultSettings[branch]);
+				}), cb);
 			},
 			updateAttribute: function (attrs, value, cb) {
 				settings.setAttribute(attrs, value, cb);
@@ -36,6 +79,38 @@ define(["step", "whispeerHelper", "crypto/encryptedData"], function (step, h, En
 			},
 			updateBranch: function (branchName, value, cb) {
 				settings.setAttribute([branchName], value, cb);
+			},
+			privacy: {
+				safetyNames: ["birthday", "location", "relationship", "education", "work", "gender", "languages"],
+				setPrivacy: function (privacy, cb, updateProfile) {
+					step(function () {
+						api.updateBranch("privacy", privacy, this);
+					}, h.sF(function () {
+						api.uploadChangedData(this);
+					}), h.sF(function () {
+						if (!updateProfile) {
+							this.last.ne();
+							return;
+						}
+
+						var userService = $injector.get("ssn.userService");
+						userService.getown().uploadChangedProfile(this);
+					}), cb);
+				},
+				removeCircle: function (id, cb) {
+					step(function () {
+						api.getBranch("privacy", this);
+					}, h.sF(function (privacy) {
+						api.privacy.safetyNames.forEach(function (safetyName) {
+							h.removeArray(privacy[safetyName].visibility, "circle:" + id);
+						});
+
+						h.removeArray(privacy.basic.firstname.visibility, "circle:" + id);
+						h.removeArray(privacy.basic.lastname.visibility, "circle:" + id);
+
+						api.privacy.setPrivacy(privacy, this, true);
+					}), cb);
+				}
 			},
 			uploadChangedData: function (cb) {
 				step(function () {
