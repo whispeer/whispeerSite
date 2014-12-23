@@ -72,18 +72,14 @@
 					<span id="userpanel-me-name">{{user.name}}</span>
 				</a>
 				<nav id="userpanel-menu">
-					<ul class="u-unstyled" id="userpanel-menu-list">
-						<li class="userpanel-menu-listItem"><a href="main" class="userpanel-menu-link" data-i18n="menu.newsfeed"></a></li>
-						<li class="userpanel-menu-listItem"><a href="{{user.basic.url}}" class="userpanel-menu-link" data-i18n="menu.profil"></a></li>
-						<li class="userpanel-menu-listItem"><a href="friends" class="userpanel-menu-link" data-i18n="menu.friends|count={{friends.friendsCount}}|requests={{friends.requestsCount}}"></a></li>
-						<li class="userpanel-menu-listItem"><a href="messages" class="userpanel-menu-link" data-i18n="menu.messages|count={{messages.unread}}"></a></li>
-						<li class="userpanel-menu-listItem"><a href="circles" class="userpanel-menu-link" data-i18n="menu.circles"></a></li>
-						<li class="userpanel-menu-listItem"><a href="settings" class="userpanel-menu-link" data-i18n="menu.settings"></a></li>
-						<li class="userpanel-menu-listItem"><a href="help" class="userpanel-menu-link" data-i18n="menu.help"></a></li>
-						<li class="userpanel-menu-listItem"><a href="#" class="userpanel-menu-link" data-ng-click="logout()" data-eat-click data-i18n="menu.logout"></a></li>
-					</ul>
-					<div class="clear-fix">
-					</div>
+					<a href="main" class="userpanel-menu-link" data-i18n="menu.newsfeed"></a>
+					<a href="{{user.basic.url}}" class="userpanel-menu-link" data-i18n="menu.profil"></a>
+					<a href="friends" class="userpanel-menu-link" data-i18n="menu.friends|count={{friends.friendsCount}}|requests={{friends.requestsCount}}"></a>
+					<a href="messages" class="userpanel-menu-link" data-i18n="menu.messages|count={{messages.unread}}"></a>
+					<a href="circles" class="userpanel-menu-link" data-i18n="menu.circles"></a>
+					<a href="settings" class="userpanel-menu-link" data-i18n="menu.settings"></a>
+					<a href="help" class="userpanel-menu-link" data-i18n="menu.help"></a>
+					<a href="#" class="userpanel-menu-link" data-ng-click="logout()" data-eat-click data-i18n="menu.logout"></a>
 				</nav>
 			</div>
 			<div class="notificationWrap">
