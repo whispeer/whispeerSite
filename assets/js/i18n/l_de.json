@@ -429,6 +429,8 @@
 		}
 	},
 	"friends": {
+		"message": "{user} eine Nachricht senden",
+		"remove": "{user} als Freund entfernen",
 		"mutualFriends":	"{count} gemeinsame Freunde",
 		"title":			"Freundesliste"
 	},

@@ -431,6 +431,8 @@
 		}
 	},
 	"friends": {
+		"message": "sent {user} a message",
+		"remove": "remove {user} from your friends list",
 		"mutualFriends":	"{count} mutual friends",
 		"title":			"Friends list"
 	},
