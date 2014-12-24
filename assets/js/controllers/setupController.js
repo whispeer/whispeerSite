@@ -11,6 +11,8 @@ define(["step", "whispeerHelper", "asset/state", "libs/qr", "libs/filesaver"], f
 		var saveSetupState = new State();
 		$scope.saveSetupState = saveSetupState.data;
 
+		$scope.backupFailed = false;
+
 		$scope.backupClicked = false;
 		$scope.backupWarning = false;
 		$scope.profileSaved = false;
@@ -75,7 +77,7 @@ define(["step", "whispeerHelper", "asset/state", "libs/qr", "libs/filesaver"], f
 					this.ne();
 				}
 			}), h.sF(function () {
-				if ($scope.backupClicked) {
+				if ($scope.backupClicked || $scope.backupFailed) {
 					$location.path("/main");
 				} else {
 					$scope.profileSaved = true;
@@ -85,7 +87,6 @@ define(["step", "whispeerHelper", "asset/state", "libs/qr", "libs/filesaver"], f
 		};
 
 		function createBackup(cb) {
-			$scope.backupClicked = true;
 			step(function () {
 				userService.getown().createBackupKey(this);
 			}, h.sF(function (keyData) {
@@ -120,25 +121,38 @@ define(["step", "whispeerHelper", "asset/state", "libs/qr", "libs/filesaver"], f
 			}), cb);
 		}
 
+		var backupBlob;
+		var backupCanvas;
+
+		step(function () {
+			createBackup(this);
+		}, h.sF(function (canvas) {
+			backupCanvas = canvas;
+			canvas.toBlob(this.ne);
+		}), h.sF(function (blob) {
+			backupBlob = blob;
+		}), function (e) {
+			if (e) {
+				errorService.criticalError(e);
+				$scope.backupFailed = true;
+			}
+		});
+
 		$scope.downloadBackup = function () {
 			step(function () {
-				createBackup(this);
-			}, h.sF(function (canvas) {
-				canvas.toBlob(this.ne);
-			}), h.sF(function (blob) {
-				saveAs(blob, "whispeer-backup.png");
-			}), errorService.criticalError);
+				saveAs(backupBlob, "whispeer-backup.png");
+				$scope.backupClicked = true;
+			}, errorService.criticalError);
 		};
 
 		$scope.printBackup = function () {
 			step(function () {
-				createBackup(this);
-			}, h.sF(function (canvas) {
-				canvas.className = "printCanvas";
-				document.body.appendChild(canvas);
+				backupCanvas.className = "printCanvas";
+				document.body.appendChild(backupCanvas);
 
 				window.print();
-			}), errorService.criticalError);
+				$scope.backupClicked = true;
+			}, errorService.criticalError);
 		};
 	}
 

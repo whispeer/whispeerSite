@@ -39,6 +39,7 @@
 				"header": "Sichere jetzt deinen Schlüssel",
 				"why": "Warum?",
 				"explanation": "Wenn du dein whispeer-Passwort vergisst, hast du keinen Zugang mehr zu deinem Account. Um dein Passwort zurückzusetzen, brauchst du einen für dich speziellen Code, der in der Datei steht. Speichere sie oder drucke sie aus, damit wir dir im Notfall wieder Zugriff auf deinen Account geben können.",
+				"impossible": "Du kannst mit dem aktuellen Gerät deine Schlüssel-Datei nicht herunterladen! Wenn du dein whispeer-Passwort vergisst, hast du keinen Zugang mehr zu deinem Account. Bitte benutze ein anderes Gerät um deinen Schlüssel zu sichern!",
 				"downloadKey": "Schlüssel herunterladen",
 				"or": "oder",
 				"printKey": "Schlüssel ausdrucken",
