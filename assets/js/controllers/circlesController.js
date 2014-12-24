@@ -2,10 +2,13 @@
 * circlesController
 **/
 
-define(["whispeerHelper"], function (h) {
+define(["whispeerHelper", "asset/state", "step"], function (h, State, step) {
 	"use strict";
 
 	function circlesController($scope, cssService, circleService, errorService, localize) {
+		var addUsersToCircleState = new State();
+		$scope.addUsersToCircle = addUsersToCircleState.data;
+
 		$scope.circleid = 0;
 		$scope.showCircle = !$scope.mobile;
 
@@ -60,6 +63,18 @@ define(["whispeerHelper"], function (h) {
 			circleService.get($scope.circleid).removePersons([user.id], errorService.criticalError);
 		};
 
+		$scope.usersToAdd = {};
+		$scope.addUsers = function (users) {
+			addUsersToCircleState.pending();
+
+			step(function () {
+				circleService.get($scope.circleid).addPersons(users, this);
+			}, h.sF(function () {
+				$scope.$broadcast("resetSearch");
+				this.ne();
+			}), errorService.failOnError(addUsersToCircleState));
+		};
+
 		$scope.removeCircle = function () {
 			var response = confirm(localize.getLocalizedString("views.circles.removeCircle"));
 			if (response) {
@@ -90,6 +105,10 @@ define(["whispeerHelper"], function (h) {
 		};
 
 		$scope.loadActiveCircle = function (id) {
+			$scope.$broadcast("resetSearch");
+			addUsersToCircleState = new State();
+			$scope.addUsersToCircle = addUsersToCircleState.data;
+
 			$scope.showCircle = true;
 			$scope.circleLoaded = true;
 			$scope.circleid = id;
