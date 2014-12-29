@@ -1,0 +1,22 @@
+CACHE MANIFEST
+
+#timestamp
+
+#expand:./assets/img/
+
+#expand:./assets/css/
+
+#expand:./assets/vendor/
+
+#expand:./assets/js/
+
+#expand:./assets/views/
+
+#expand:./assets/data/
+
+#routes
+
+/changelog.json
+
+NETWORK:
+https://data.whispeer.de/*

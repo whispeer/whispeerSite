@@ -1,30 +1,31 @@
 {
-	"name": "Whispeer",
-	"version": "0.1.8",
-	"main": "app://beta.whispeer.de/index.html#!/main",
-	"nodejs": false,
-	"toolbar": true,
-	"window": {
-		"title": "whispeer",
-		"toolbar": true,
-		"icon": "assets/img/favicons/touch-icon-ipad.png",
-		"postion": "center",
-		"height": 999999,
-		"width": 999999,
-		"fullscreen": false
-	},
-	"dependencies": {
-		"font-awesome": "4.1.0",
-		"grunt": "~0.4.5",
-		"grunt-browser-sync": "~1.1.0",
-		"grunt-contrib-copy": "^0.5.0",
-		"grunt-contrib-jshint": "~0.10.0",
-		"grunt-contrib-less": "~0.11.3",
-		"grunt-contrib-watch": "~0.6.1",
-		"node-static": "0.7.x"
-	},
-	"scripts": {
-		"build": "grunt build",
-		"postinstall": "npm run build"
-	}
+  "name": "Whispeer",
+  "version": "0.1.8",
+  "main": "app://beta.whispeer.de/index.html#!/main",
+  "nodejs": false,
+  "toolbar": true,
+  "window": {
+    "title": "whispeer",
+    "toolbar": true,
+    "icon": "assets/img/favicons/touch-icon-ipad.png",
+    "postion": "center",
+    "height": 999999,
+    "width": 999999,
+    "fullscreen": false
+  },
+  "dependencies": {
+    "font-awesome": "4.1.0",
+    "grunt": "~0.4.5",
+    "grunt-browser-sync": "~1.1.0",
+    "grunt-contrib-copy": "^0.5.0",
+    "grunt-contrib-jshint": "~0.10.0",
+    "grunt-contrib-less": "~0.11.3",
+    "grunt-contrib-watch": "~0.6.1",
+    "lazy": "^1.0.11",
+    "node-static": "0.7.x"
+  },
+  "scripts": {
+    "build": "grunt build",
+    "postinstall": "npm run build"
+  }
 }
