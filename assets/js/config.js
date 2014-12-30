@@ -2,6 +2,8 @@
 
 var useServer = false;
 
+var buildDate = "20141230";
+
 var config = {
 	https: false,
 	ws: "127.0.0.1",
