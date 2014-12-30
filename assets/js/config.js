@@ -16,6 +16,8 @@ if (useServer) {
 	};
 }
 
+config.buildDate = buildDate;
+
 if (typeof module !== "undefined" && module.exports) {
 	module.exports = config;
 }

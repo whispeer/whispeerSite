@@ -99,3 +99,12 @@ new Lazy(fs.createReadStream(source))
 		fs.writeFileSync(destination, result.join("\n"));
 		console.log("Successfully created manifest file");
 	});
+
+var buildTime = new Date();
+var buildDate = buildTime.getFullYear().toString() + (buildTime.getMonth() + 1) + buildTime.getDate().toString();
+
+var rootController = fs.readFileSync("./assets/js/config.js").toString();
+
+rootController = rootController.replace(/var buildDate \= \"[0-9\-]*\";/, "var buildDate = \"" + buildDate + "\";");
+
+fs.writeFileSync("./assets/js/config.js", rootController);

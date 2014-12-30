@@ -1,12 +1,11 @@
-define(["step", "whispeerHelper"], function (step, h) {
+define(["step", "whispeerHelper"], function () {
 	"use strict";
 
 	var UPDATEINTERVAL = 1 * 1000;
 	var appCache = window.applicationCache;
 
 	function handleCacheUpdateReady (e) {
-		console.log("cache event");
-		console.log(e);
+		console.log("cache update ready");
 	}
 
 	function handleCacheError (e) {
@@ -14,8 +13,8 @@ define(["step", "whispeerHelper"], function (step, h) {
 		console.log(e);
 	}
 
-	function handleCacheUpdating (e) {
-		console.log("Updating whispeer!");
+	function handleCacheUpdating () {
+		console.log("Updating whispeer to a new version!");
 	}
 
 	function handleCacheProgress (e) {
