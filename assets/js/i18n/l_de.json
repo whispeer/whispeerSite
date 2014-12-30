@@ -262,6 +262,8 @@
 		}
 	},
 	"wall": {
+		"confirmRemovePost": "Post wirklich löschen?",
+		"remove": "Post löschen",
 		"loading": "Beiträge werden geladen!",
 		"createPost": "Einen Post verfassen",
 		"postit": {
