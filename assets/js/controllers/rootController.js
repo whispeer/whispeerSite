@@ -31,7 +31,7 @@ define(["step", "whispeerHelper", "cryptoWorker/generalWorkerInclude"], function
 				});
 		});
 
-		$http({ method: "GET", url: "changelog.json?t=" + (new Date()).getTime(), cache: false }).success(function (data) {
+		$http({ method: "GET", url: "changelog.json", cache: false }).success(function (data) {
 			var version = getVersionString(data);
 			version = version.substr(0, version.length - 1);
 

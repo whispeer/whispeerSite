@@ -8,15 +8,40 @@ CACHE MANIFEST
 
 #expand:./assets/vendor/
 
-#expand:./assets/js/
-
 #expand:./assets/views/
 
 #expand:./assets/data/
 
+#if:!production
+#expand:./assets/js/
+#endif
+
+#if:production
+#params:/assets/js/
+
+/assets/js/cryptoWorker/generalWorker.js
+/assets/js/cryptoWorker/sjclWorker.js
+/assets/js/cryptoWorker/minimalHelper.js
+/assets/js/libs/sjcl.js
+/assets/js/libs/require.js
+
+#endif
+
 #routes
+
+/assets/vendor/fonts/fontawesome-webfont.eot?v=4.1.0
+/assets/vendor/fonts/fontawesome-webfont.eot?#iefix&v=4.1
+/assets/vendor/fonts/fontawesome-webfont.woff?v=4.1.0
+/assets/vendor/fonts/fontawesome-webfont.ttf?v=4.1.0
+/assets/vendor/fonts/fontawesome-webfont.svg?v=4.1.0
 
 /changelog.json
 
+/settings
+/user/daniel
+
+FALLBACK:
+user/ /index.html
+
 NETWORK:
-https://data.whispeer.de/*
+*
