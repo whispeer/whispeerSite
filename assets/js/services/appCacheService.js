@@ -4,7 +4,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 	var UPDATEINTERVAL = 1 * 1000;
 	var appCache = window.applicationCache;
 
-	function handleCacheEvent (e) {
+	function handleCacheUpdateReady (e) {
 		console.log("cache event");
 		console.log(e);
 	}
@@ -31,9 +31,6 @@ define(["step", "whispeerHelper"], function (step, h) {
 		console.log("Appcache enabled!");
 		console.log(appCache.status);
 
-		// Fired after the first cache of the manifest.
-		appCache.addEventListener("cached", handleCacheEvent, false);
-
 		// An update was found. The browser is fetching resources.
 		appCache.addEventListener("downloading", handleCacheUpdating, false);
 
@@ -45,7 +42,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 		appCache.addEventListener("progress", handleCacheProgress, false);
 
 		// Fired when the manifest resources have been newly redownloaded.
-		appCache.addEventListener("updateready", handleCacheEvent, false);
+		appCache.addEventListener("updateready", handleCacheUpdateReady, false);
 
 		window.setInterval(checkForUpdate, UPDATEINTERVAL);
 
@@ -53,14 +50,9 @@ define(["step", "whispeerHelper"], function (step, h) {
 
 	var service = function () {
 		return {
-			checkForUpdate: function () {
-
-			},
-			getStatus: function () {
-
-			},
+			checkForUpdate: checkForUpdate,
 			isUpdateReady: function () {
-
+				return appCache.status === appCache.UPDATEREADY;
 			}
 		};
 	};

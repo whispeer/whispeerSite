@@ -1,11 +1,7 @@
-/* global process */
-(function() {
+var grunt = require("grunt");
+
+function buildCSPConfig() {
 	"use strict";
-
-	var nstatic = require("node-static");
-
-	var WHISPEER_PORT = process.env.WHISPEER_PORT || 80;
-
 	var cspConfig = {
 		"default-src": ["'self'"],
 		"script-src": ["'self'"],
@@ -17,31 +13,25 @@
 	var os=require("os");
 	var ifaces=os.networkInterfaces();
 
-	function pushAddress(details){
-		if (details.family === "IPv4") {
-			cspConfig["default-src"].push("http://" + details.address + ":3000");
-			cspConfig["default-src"].push("ws://" + details.address + ":3000");		
+	function pushAddress(address){
+		cspConfig["default-src"].push("http://" + address + ":3000");
+		cspConfig["default-src"].push("ws://" + address + ":3000");		
 
-			cspConfig["default-src"].push("ws://" + details.address + ":3001");
-			cspConfig["default-src"].push("http://" + details.address + ":3001");
+		cspConfig["default-src"].push("http://" + address + ":3001");
+		cspConfig["default-src"].push("ws://" + address + ":3001");
 
-			cspConfig["script-src"].push("http://" + details.address + ":3001");
-		}
+		cspConfig["script-src"].push("http://" + address + ":3001");
 	}
 
-	pushAddress({
-		family: "IPv4",
-		address: "localhost"
-	});
-
-	cspConfig["default-src"].push("https://beta.whispeer.de:3001");
-	cspConfig["default-src"].push("wss://beta.whispeer.de:3001");
+	pushAddress("localhost");
 
 	cspConfig["default-src"].push("https://data.whispeer.de");
 	cspConfig["default-src"].push("wss://data.whispeer.de");
 
 	for (var dev in ifaces) {
-		ifaces[dev].forEach(pushAddress);
+		if (ifaces.hasOwnProperty(dev)) {
+			ifaces[dev].filter(function (e) { return e.family === "IPV4"; }).map(function (e) { return e.address; }).forEach(pushAddress);
+		}
 	}
 
 	var csp = "";
@@ -52,6 +42,19 @@
 
 		csp += current;
 	});
+
+	return csp;
+}
+
+function run() {
+	/* jshint validthis: true */
+
+	"use strict";
+	var nstatic = require("node-static");
+
+	var WHISPEER_PORT = process.env.WHISPEER_PORT || 8080;
+
+	var csp = buildCSPConfig();
 
 	var fileServer  = new nstatic.Server(".", {
 		"headers": {
@@ -64,7 +67,7 @@
 
 	require("http").createServer(function (request, response) {
 		request.addListener("end", function () {
-			fileServer.serve(request, response, function (e, res) {
+			fileServer.serve(request, response, function (e) {
 				if (e && (e.status === 404)) {
 					var dir = request.url.split(/\/|\?/)[1];
 
@@ -79,5 +82,15 @@
 		}).resume();
 	}).listen(WHISPEER_PORT);
 
-	console.log("Server started");
-})();
+	if (this && this.async) {
+		this.async();
+	}
+
+	grunt.log.writeln("Whispeer Web Server started");
+}
+
+module.exports = run;
+
+if (!module.parent) {
+	run();
+}

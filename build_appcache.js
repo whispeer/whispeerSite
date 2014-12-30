@@ -71,7 +71,7 @@ function evaluateLine(line) {
 	return line;
 }
 
-Lazy(fs.createReadStream(source))
+new Lazy(fs.createReadStream(source))
 	.lines
 	.map(String)
 	.map(function (line) {
@@ -97,4 +97,5 @@ Lazy(fs.createReadStream(source))
 	})
 	.join(function (result) {
 		fs.writeFileSync(destination, result.join("\n"));
+		console.log("Successfully created manifest file");
 	});

@@ -27,5 +27,9 @@
   "scripts": {
     "build": "grunt build",
     "postinstall": "npm run build"
+  },
+  "devDependencies": {
+    "grunt-concurrent": "^1.0.0",
+    "grunt-execute": "^0.2.2"
   }
 }
