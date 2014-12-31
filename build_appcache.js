@@ -10,15 +10,13 @@ var Lazy    = require("lazy"),
 
 var ifStop = false;
 
+var config = require("./assets/js/config");
+
 var commands = {
 	"if": function (line) {
 		var vm = require("vm");
 
-		var variables = {
-			production: false
-		};
-
-		ifStop = !vm.runInNewContext(line, variables);
+		ifStop = !vm.runInNewContext(line, config);
 	},
 	endif: function () {
 		ifStop = false;
@@ -103,8 +101,10 @@ new Lazy(fs.createReadStream(source))
 var buildTime = new Date();
 var buildDate = buildTime.getFullYear().toString() + (buildTime.getMonth() + 1) + buildTime.getDate().toString();
 
-var rootController = fs.readFileSync("./assets/js/config.js").toString();
+if (config.production) {
+	var rootController = fs.readFileSync("./assets/js/config.js").toString();
 
-rootController = rootController.replace(/var buildDate \= \"[0-9\-]*\";/, "var buildDate = \"" + buildDate + "\";");
+	rootController = rootController.replace(/var buildDate \= \"[0-9\-]*\";/, "var buildDate = \"" + buildDate + "\";");
 
-fs.writeFileSync("./assets/js/config.js", rootController);
+	fs.writeFileSync("./assets/js/config.js", rootController);
+}
