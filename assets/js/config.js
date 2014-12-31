@@ -1,10 +1,12 @@
 /* global module */
 
-var useServer = false;
-
 var production = false;
-
+var useServer = false;
 var buildDate = "20141231";
+
+if (production) {
+	useServer = true;
+}
 
 var config = {
 	https: false,
