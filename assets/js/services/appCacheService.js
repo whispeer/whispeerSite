@@ -1,11 +1,14 @@
-define(["step", "whispeerHelper"], function () {
+define(["config"], function (config) {
 	"use strict";
 
-	var UPDATEINTERVAL = 1 * 1000;
+	var UPDATEINTERVAL = config.production ? 5 * 60 * 1000 : 1 * 1000;
 	var appCache = window.applicationCache;
 
-	function handleCacheUpdateReady (e) {
+	function handleCacheUpdateReady () {
 		console.log("cache update ready");
+		if (!config.production) {
+			window.location.reload();
+		}
 	}
 
 	function handleCacheError (e) {
@@ -26,9 +29,6 @@ define(["step", "whispeerHelper"], function () {
 	}
 
 	if (appCache) {
-
-		console.log("Appcache enabled!");
-		console.log(appCache.status);
 
 		// An update was found. The browser is fetching resources.
 		appCache.addEventListener("downloading", handleCacheUpdating, false);
