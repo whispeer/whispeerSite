@@ -2,7 +2,9 @@
 
 var useServer = false;
 
-var buildDate = "20141230";
+var production = false;
+
+var buildDate = "20141231";
 
 var config = {
 	https: false,
@@ -18,6 +20,7 @@ if (useServer) {
 	};
 }
 
+config.production = production;
 config.buildDate = buildDate;
 
 if (typeof module !== "undefined" && module.exports) {
