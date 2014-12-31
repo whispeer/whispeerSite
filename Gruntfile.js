@@ -58,7 +58,7 @@ grunt.initConfig({
 			}
 		},
 		manifest: {
-			files: ["assets/**/*"],
+			files: ["assets/**/*", "index.html"],
 			tasks: ["build"],
 			options: {
 				spawn: false

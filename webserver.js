@@ -24,6 +24,7 @@ function buildCSPConfig() {
 	}
 
 	pushAddress("localhost");
+	pushAddress("127.0.0.1");
 
 	cspConfig["default-src"].push("https://data.whispeer.de");
 	cspConfig["default-src"].push("wss://data.whispeer.de");
