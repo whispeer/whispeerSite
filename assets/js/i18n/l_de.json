@@ -501,6 +501,8 @@
 	},
 	"settings": {
 		"safety": {
+			"encrypted": "verschlüsselt",
+			"decrypted": "entschlüsselt",
 			"title": "Sicherheit - Welche deiner Profildaten sollen verschlüsselt werden?",
 			"reset": "Zurücksetzen",
 			"attributes": {
