@@ -1,6 +1,12 @@
 /* global module */
 
+var production = false;
 var useServer = false;
+var buildDate = "20141231";
+
+if (production) {
+	useServer = true;
+}
 
 var config = {
 	https: false,
@@ -15,6 +21,9 @@ if (useServer) {
 		wsPort: 443
 	};
 }
+
+config.production = production;
+config.buildDate = buildDate;
 
 if (typeof module !== "undefined" && module.exports) {
 	module.exports = config;
