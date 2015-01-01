@@ -4,10 +4,10 @@
 define(["step", "whispeerHelper", "validation/validator", "asset/observer", "asset/errors", "asset/securedDataWithMetaData", "asset/state"], function (step, h, validator, Observer, errors, SecuredData, State) {
 	"use strict";
 
-	var service = function ($rootScope, $timeout, socket, keyStore, errorService, userService, circleService, filterKeyService, Comment) {
+	var service = function ($rootScope, $timeout, localize, socket, keyStore, errorService, userService, circleService, filterKeyService, Comment) {
 		var postsById = {};
 		var postsByUserWall = {};
-		var TimelineByFilter = {};
+		var timelinesCache = {};
 
 		var Post = function (data) {
 			var thePost = this, id = data.id;
@@ -28,6 +28,12 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer", "ass
 				},
 				time: securedData.metaAttr("time"),
 				isWallPost: false,
+				removable: false,
+				remove: function () {
+					if (confirm(localize.getLocalizedString("wall.confirmRemovePost"))) {
+						thePost.remove(errorService.criticalError);
+					}
+				},
 				loadComments: function () {
 					thePost.loadComments(errorService.criticalError);
 				},
@@ -90,11 +96,15 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer", "ass
 
 					if (walluser) {
 						d.isWallPost = true;
-						d.walluser = walluser;
+						d.walluser = walluser.data;
 					}
 
-					d.sender = sender;
-					securedData.verify(sender.user.getSignKey(), this.parallel());
+					if (sender.isOwn() || (walluser && walluser.isOwn())) {
+						d.removable = true;
+					}
+
+					d.sender = sender.data;
+					securedData.verify(sender.getSignKey(), this.parallel());
 				}), h.sF(function () {
 					keyStore.security.addEncryptionIdentifier(securedData.metaAttr("_key"));
 					thePost.getText(this);
@@ -163,7 +173,7 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer", "ass
 
 						theUser.loadBasicData(this);
 					}), h.sF(function () {
-						this.ne(theUser.data);
+						this.ne(theUser);
 					}), cb);
 			};
 
@@ -176,7 +186,28 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer", "ass
 
 					theUser.loadBasicData(this);
 				}), h.sF(function () {
-					this.ne(theUser.data);
+					this.ne(theUser);
+				}), cb);
+			};
+
+			this.remove = function (cb) {
+				step(function () {
+					if (thePost.data.removable) {
+						socket.emit("posts.remove", {
+							postid: id
+						}, this);
+					}
+				}, h.sF(function () {
+					h.objectEach(postsByUserWall, function (key, val) {
+						h.removeArray(val.result, thePost.data);
+					});
+					h.objectEach(timelinesCache, function (key, timeline) {
+						timeline.removePost(thePost);
+					});
+
+					delete postsById[id];
+
+					this.ne();
 				}), cb);
 			};
 
@@ -266,6 +297,11 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer", "ass
 
 		Timeline.prototype.getPosts = function () {
 			return this._postsData;
+		};
+
+		Timeline.prototype.removePost = function (thePost) {
+			this._posts = h.removeArray(this._posts, thePost);
+			this._postsData = h.removeArray(this._postsData, thePost.data);
 		};
 
 		Timeline.prototype._loadNewestPosts = function () {
@@ -403,7 +439,13 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer", "ass
 			}, cb);
 		};
 
-		var timelinesCache = {};
+		Timeline.prototype.addPost = function (newPost) {
+			this._posts.unshift(newPost);
+
+			this._postsData = this._posts.map(function (post) {
+				return post.data;
+			});
+		};
 
 		var postService = {
 			getTimeline: function (filter) {
@@ -456,7 +498,7 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer", "ass
 			reset: function () {
 				postsById = {};
 				postsByUserWall = {};
-				TimelineByFilter = {};
+				timelinesCache = {};
 			},
 			createPost: function (content, visibleSelection, wallUserID, cb) {
 				/*
@@ -509,10 +551,11 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer", "ass
 						postsByUserWall[wallUserID].unshift(newPost.data);
 					}
 
-					var f = "[\"always:allfriends\"]";
-					if (TimelineByFilter[f]) {
-						TimelineByFilter[f].result.unshift(newPost.data);
-					}
+					//TODO: add to all
+
+					h.objectEach(timelinesCache, function (key, timeline) {
+						timeline.addPost(newPost);
+					});
 
 					newPost.loadData(this);
 				}), cb);
@@ -534,7 +577,7 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer", "ass
 		return postService;
 	};
 
-	service.$inject = ["$rootScope", "$timeout", "ssn.socketService", "ssn.keyStoreService", "ssn.errorService", "ssn.userService", "ssn.circleService", "ssn.filterKeyService", "ssn.models.comment"];
+	service.$inject = ["$rootScope", "$timeout", "localize", "ssn.socketService", "ssn.keyStoreService", "ssn.errorService", "ssn.userService", "ssn.circleService", "ssn.filterKeyService", "ssn.models.comment"];
 
 	return service;
 });

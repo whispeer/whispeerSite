@@ -11,3 +11,5 @@ assets/less/styleguide.md
 tmp/*
 node_modules/*
 assets/vendor
+whispeer.mf
+*.DS_STORE
