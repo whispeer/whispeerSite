@@ -433,6 +433,8 @@
 		}
 	},
 	"friends": {
+		"message": "{user} eine Nachricht senden",
+		"remove": "{user} als Freund entfernen",
 		"mutualFriends":	"{count} gemeinsame Freunde",
 		"title":			"Freundesliste"
 	},
@@ -499,6 +501,8 @@
 	},
 	"settings": {
 		"safety": {
+			"encrypted": "verschlüsselt",
+			"decrypted": "entschlüsselt",
 			"title": "Sicherheit - Welche deiner Profildaten sollen verschlüsselt werden?",
 			"reset": "Zurücksetzen",
 			"attributes": {

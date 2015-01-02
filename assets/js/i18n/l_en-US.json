@@ -435,6 +435,8 @@
 		}
 	},
 	"friends": {
+		"message": "sent {user} a message",
+		"remove": "remove {user} from your friends list",
 		"mutualFriends":	"{count} mutual friends",
 		"title":			"Friends list"
 	},
@@ -501,6 +503,8 @@
 	},
 	"settings": {
 		"safety": {
+			"encrypted": "encrypted",
+			"decrypted": "decrypted",
 			"title": "Security - What parts of your profile do you want to encrypt?",
 			"reset": "Reset",
 			"attributes": {
