@@ -1,0 +1,23 @@
+{
+  "name": "whispeer",
+  "homepage": "https://github.com/whispeer/whispeer",
+  "authors": [
+    "Nils Kenneweg <nk@ovt.me>",
+    "Martin Czuchra",
+    "Daniel Melchior"
+  ],
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bluebird": "~2.5.2",
+    "amanda": "~0.4.7",
+    "requirejs": "~2.1.15",
+    "jquery": "~1.9.1"
+  }
+}
