@@ -6,7 +6,12 @@ define(["step", "whispeerHelper"], function (step, h) {
 
 	var knownBlobs = {};
 
-	var service = function ($rootScope, socketService, keyStore) {
+	var service = function ($rootScope, socketService, keyStore, Cache) {
+		var blobCache = new Cache("blobs");
+		Cache.listen(function () {
+			blobCache.allEntries();
+		}, "ready");
+
 		var MyBlob = function (blobData, blobID, options) {
 			this._blobData = blobData;
 			options = options || {};
@@ -233,27 +238,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 			}), step.multiplex(blobListener[blobID]));
 		}
 
-		var db, request;
-		step(function () {
-			if (!window.indexedDB.open) {
-				return;
-			}
-
-			request = window.indexedDB.open("whispeer");
-			request.onerror = this;
-			request.onsuccess = this.ne;
-			request.onupgradeneeded = function (event) {
-				var db = event.target.result;
-				db.createObjectStore("blobs");
-			};
-		}, h.sF(function () {
-			db = request.result;
-			db.onerror = function (event) {
-				console.log(event);
-			};
-		}), function (e) {
-			console.log("Could not load indexedDB");
-		});
+		var db;
 
 		function loadBlobFromDB(blobID, err, success) {
 			if (db) {
@@ -312,7 +297,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 		return api;
 	};
 
-	service.$inject = ["$rootScope", "ssn.socketService", "ssn.keyStoreService"];
+	service.$inject = ["$rootScope", "ssn.socketService", "ssn.keyStoreService", "ssn.cacheService"];
 
 	return service;
 });
