@@ -35,7 +35,7 @@ requirejs.config({
 		bluebird: "bower/bluebird/js/browser/bluebird",
 		jquery: "bower/jquery/jquery",
 		requirejs: "bower/requirejs/require",
-		socket: "bower/socket.io/lib/socket.io",
+		socket: "libs/socket.io",
 		socketStream: "libs/socket.io-stream",
 		qtip: "bower/qtip2/basic/jquery.qtip"
 	},
@@ -47,12 +47,12 @@ requirejs.config({
 			],
 			exports: "angular"
 		},
-		"angular-route": {
+		"angularRoute": {
 			deps: [
 				"angular"
 			]
 		},
-		"angular-touch": {
+		"angularTouch": {
 			deps: [
 				"angular"
 			]
