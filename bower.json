@@ -18,6 +18,10 @@
     "bluebird": "~2.5.2",
     "amanda": "~0.4.7",
     "requirejs": "~2.1.15",
-    "jquery": "~1.9.1"
+    "jquery": "~1.9.1",
+    "socket.io": "~0.9.16",
+    "angular": "1.2.13",
+    "angular-touch": "1.2.13",
+    "angular-route": "1.2.13"
   }
 }
