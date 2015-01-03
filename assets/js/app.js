@@ -22,7 +22,7 @@
 
 define([
 	"angular",
-	"angularRoute",
+	"angular-route",
 	"controllers/controllers",
 	"services/services",
 	"filter/filter",

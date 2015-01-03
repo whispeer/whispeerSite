@@ -7,6 +7,7 @@ grunt.loadNpmTasks("grunt-browser-sync");
 grunt.loadNpmTasks("grunt-contrib-copy");
 grunt.loadNpmTasks("grunt-execute");
 grunt.loadNpmTasks("grunt-concurrent");
+grunt.loadNpmTasks("grunt-bower-requirejs");
 
 grunt.initConfig({
     concurrent: {
@@ -80,7 +81,12 @@ grunt.initConfig({
         manifest: {
             src: ["build_appcache.js"]
         }
-    }
+    },
+	bower: {
+		target: {
+			rjsConfig: "assets/js/main.js"
+		}
+	}
 });
 
 grunt.registerTask("default", ["build", "browserSync", "concurrent:development"]);
