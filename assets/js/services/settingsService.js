@@ -48,8 +48,8 @@ define(["step", "whispeerHelper", "crypto/encryptedData"], function (step, h, En
 			step(function () {
 				settings.getBranch("uiLanguage", this);
 			}, h.sF(function (language) {
-				if (language && language.data) {
-					localize.setLanguage(language.data);
+				if (language) {
+					localize.setLanguage(language);
 				}
 
 				this.ne();
