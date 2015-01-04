@@ -13,3 +13,4 @@ node_modules/*
 assets/vendor
 whispeer.mf
 *.DS_STORE
+assets/js/bower

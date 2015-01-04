@@ -29,6 +29,7 @@
     "postinstall": "npm run build"
   },
   "devDependencies": {
+    "grunt-bower-install-simple": "^1.1.0",
     "grunt-concurrent": "^1.0.0",
     "grunt-execute": "^0.2.2"
   }

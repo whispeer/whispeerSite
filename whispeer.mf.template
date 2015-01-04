@@ -23,7 +23,7 @@ CACHE MANIFEST
 /assets/js/cryptoWorker/sjclWorker.js
 /assets/js/cryptoWorker/minimalHelper.js
 /assets/js/libs/sjcl.js
-/assets/js/libs/require.js
+/assets/js/bower/requirejs/require.js
 
 #endif
 
