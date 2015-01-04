@@ -35,7 +35,7 @@ requirejs.config({
 		bluebird: "bower/bluebird/js/browser/bluebird",
 		jquery: "bower/jquery/jquery",
 		requirejs: "bower/requirejs/require",
-		socket: "libs/socket.io",
+		socket: "bower/socket.io-client/dist/socket.io",
 		socketStream: "libs/socket.io-stream",
 		qtip: "bower/qtip2/basic/jquery.qtip"
 	},
