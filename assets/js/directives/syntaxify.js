@@ -14,12 +14,12 @@ define([], function () {
 		(?:[a-z0-9\-\.]+)                    # The domain limiting it to just allowed characters
 		(?::[0-9]+)?                         # Server port number
 		(?:                                  # The path (optional)
-			\/(?:[\w#!:\.\?\+=&%@!\-\/\(\)]+)|  # or a forward slash followed by a full path
-			\?(?:[\w#!:\.\?\+=&%@!\-\/\(\)]+)  # or a question mark followed by key value pairs
+			\/(?:[\w#!:\.\?\+=&%@!\-\/\(]+)|  # or a forward slash followed by a full path
+			\?(?:[\w#!:\.\?\+=&%@!\-\/\(]+)  # or a question mark followed by key value pairs
 		)?/
 		*/
 
-		var urlRegex = /((?:http|https):\/\/(?:[\w\.\-\+]+:{0,1}[\w\.\-\+]*@)?(?:[a-z0-9\-\.]+)(?::[0-9]+)?(?:\/(?:[\w#!:\.\?\+=&%@!\-\/\(\)]+)|\?(?:[\w#!:\.\?\+=&%@!\-\/\(\)]+))?)(?!http)/;
+		var urlRegex = /((?:http|https):\/\/(?:[\w\.\-\+]+:{0,1}[\w\.\-\+]*@)?(?:[a-z0-9\-\.]+)(?::[0-9]+)?(?:\/(?:[\w#!:\.\?\+=&%@!\-\/\(]+)|\?(?:[\w#!:\.\?\+=&%@!\-\/\(]+))?)(?!http)/;
 
 		var urls = text.split(urlRegex);
 

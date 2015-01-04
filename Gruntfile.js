@@ -4,9 +4,19 @@ grunt.loadNpmTasks("grunt-contrib-jshint");
 grunt.loadNpmTasks("grunt-contrib-less");
 grunt.loadNpmTasks("grunt-contrib-watch");
 grunt.loadNpmTasks("grunt-browser-sync");
-grunt.loadNpmTasks('grunt-contrib-copy');
+grunt.loadNpmTasks("grunt-contrib-copy");
+grunt.loadNpmTasks("grunt-execute");
+grunt.loadNpmTasks("grunt-concurrent");
 
 grunt.initConfig({
+    concurrent: {
+        development: {
+            tasks: ["server", "watch"],
+            options: {
+                logConcurrentOutput: true
+            }
+        }
+    },
 	jshint: {
 		all: {
 			src: ["Gruntfile.js", "assets/js/**/*.js"],
@@ -46,6 +56,13 @@ grunt.initConfig({
 			options: {
 				spawn: false
 			}
+		},
+		manifest: {
+			files: ["assets/**/*", "index.html"],
+			tasks: ["build"],
+			options: {
+				spawn: false
+			}
 		}
 	},
 	browserSync: {
@@ -58,10 +75,16 @@ grunt.initConfig({
 				watchTask: true
 			}
 		}
-	}
+	},
+    execute: {
+        manifest: {
+            src: ["build_appcache.js"]
+        }
+    }
 });
 
-grunt.registerTask("default", ["browserSync", "watch"]);
+grunt.registerTask("default", ["build", "browserSync", "concurrent:development"]);
 
-grunt.registerTask("build", ["copy", "less"]);
+grunt.registerTask("build", ["copy", "less", "execute:manifest"]);
 
+grunt.registerTask("server", "Start the whispeer web server.", require("./webserver"));
