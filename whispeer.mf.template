@@ -25,6 +25,8 @@ CACHE MANIFEST
 /assets/js/libs/sjcl.js
 /assets/js/bower/requirejs/require.js
 
+#expand:./assets/js/i18n/
+
 #endif
 
 #routes
