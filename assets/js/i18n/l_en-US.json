@@ -39,6 +39,7 @@
 				"header": "Save your key now",
 				"why": "Why?",
 				"explanation": "If you forget your password for whispeer, you don't have access to your account anymore. To reset your password, you need a particular code which is generetaded specifically for you. You will find that code in the file. Please download the file or print it out, so we can give you access to your account again if needed.",
+				"impossible": "You can not download your backup key with this device! If you forget your password for whispeer, you don't have access to your account anymore. Please use a different device to download or print your backup key!",
 				"downloadKey": "Download key",
 				"or": "or",
 				"printKey": "Print key",
@@ -83,7 +84,8 @@
 			"createCircle": "Create circle",
 			"personCount":	"There are {count} people in this circle",
 			"personsInCircle":"People in circle \"{name}\"",
-			"nocircle": "No circles found"
+			"nocircle": "No circles found",
+			"addUsers": "Add users to this circle"
 		}
 	},
 	"start": {
@@ -262,6 +264,8 @@
 		}
 	},
 	"wall": {
+		"remove": "Remove post",
+		"confirmRemovePost": "Really remove post?",
 		"loading": "Loading your newsfeed!",
 		"createPost": "Post something!",
 		"postit": {
@@ -431,6 +435,8 @@
 		}
 	},
 	"friends": {
+		"message": "sent {user} a message",
+		"remove": "remove {user} from your friends list",
 		"mutualFriends":	"{count} mutual friends",
 		"title":			"Friends list"
 	},
@@ -497,6 +503,8 @@
 	},
 	"settings": {
 		"safety": {
+			"encrypted": "encrypted",
+			"decrypted": "decrypted",
 			"title": "Security - What parts of your profile do you want to encrypt?",
 			"reset": "Reset",
 			"attributes": {

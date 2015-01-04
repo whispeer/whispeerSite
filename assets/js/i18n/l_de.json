@@ -39,6 +39,7 @@
 				"header": "Sichere jetzt deinen Schlüssel",
 				"why": "Warum?",
 				"explanation": "Wenn du dein whispeer-Passwort vergisst, hast du keinen Zugang mehr zu deinem Account. Um dein Passwort zurückzusetzen, brauchst du einen für dich speziellen Code, der in der Datei steht. Speichere sie oder drucke sie aus, damit wir dir im Notfall wieder Zugriff auf deinen Account geben können.",
+				"impossible": "Du kannst mit dem aktuellen Gerät deine Schlüssel-Datei nicht herunterladen! Wenn du dein whispeer-Passwort vergisst, hast du keinen Zugang mehr zu deinem Account. Bitte benutze ein anderes Gerät um deinen Schlüssel zu sichern!",
 				"downloadKey": "Schlüssel herunterladen",
 				"or": "oder",
 				"printKey": "Schlüssel ausdrucken",
@@ -83,7 +84,8 @@
 			"createCircle": "Kreis erstellen",
 			"personCount":	"Es befinden sich {count} Personen in diesem Kreis",
 			"personsInCircle":"Personen im Kreis \"{name}\"",
-			"nocircle": "Keine Kreise gefunden"
+			"nocircle": "Keine Kreise gefunden",
+			"addUsers": "Nutzer hinzufügen"
 		}
 	},
 	"start": {
@@ -260,6 +262,8 @@
 		}
 	},
 	"wall": {
+		"confirmRemovePost": "Post wirklich löschen?",
+		"remove": "Post löschen",
 		"loading": "Beiträge werden geladen!",
 		"createPost": "Einen Post verfassen",
 		"postit": {
@@ -429,6 +433,8 @@
 		}
 	},
 	"friends": {
+		"message": "{user} eine Nachricht senden",
+		"remove": "{user} als Freund entfernen",
 		"mutualFriends":	"{count} gemeinsame Freunde",
 		"title":			"Freundesliste"
 	},
@@ -495,6 +501,8 @@
 	},
 	"settings": {
 		"safety": {
+			"encrypted": "verschlüsselt",
+			"decrypted": "entschlüsselt",
 			"title": "Sicherheit - Welche deiner Profildaten sollen verschlüsselt werden?",
 			"reset": "Zurücksetzen",
 			"attributes": {

@@ -4,11 +4,11 @@
 	}
 
 	@media print {
-		div {
-			display: none
+		body * {
+			display: none;
 		}
-		header {
-			display: none
+		#container, #main {
+			display: inline-block;
 		}
 		.printCanvas {
 			display: inline-block;
@@ -52,13 +52,13 @@
 		background: transparent;
 		padding: 1%;
 		.box-fix;
-		@media @desktop {
+		@media @screen and @desktop {
 			.column(8);
 			.push(2);
 			.pull(2);
 			margin-bottom: 1.34em;
 		}
-		@media @mobile {
+		@media @screen and @mobile {
 			.column(12);
 			margin-bottom: 1.34em;
 			button, .full-line {
@@ -86,12 +86,12 @@
 		padding: 1%;
 		.box-fix;
 		border-radius: 3px;
-		@media @desktop {
+		@media @screen and @desktop {
 			.column(8);
 			.push(2);
 			.pull(2);
 		}
-		@media @mobile {
+		@media @screen and @mobile {
 			.column(12);
 		}
 		h2 {
@@ -109,10 +109,10 @@
 		}
 		.name {
 			input[type="text"] {
-				@media @desktop {
+				@media @screen and @desktop {
 					.column(6);
 				}
-				@media @mobile {
+				@media @screen and @mobile {
 					.column(12);
 					margin-bottom: 0.5em;
 				}
@@ -132,11 +132,11 @@
 		.submit {
 			margin-top: 1em;
 			button {
-				@media @desktop {
+				@media @screen and @desktop {
 					.column(6);
 					.push(3);
 				}
-				@media @mobile {
+				@media @screen and @mobile {
 					.column(12);
 					&:first-child {
 						margin-bottom: 0.5em;

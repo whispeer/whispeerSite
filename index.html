@@ -1,5 +1,5 @@
 <!doctype html>
-<html class="no-js loading" lang="de" data-ng-csp class="loading" data-ng-class="cssClass" data-ng-controller="ssn.rootController">
+<html manifest="whispeer.mf" class="no-js loading" lang="de" data-ng-csp class="loading" data-ng-class="cssClass" data-ng-controller="ssn.rootController">
 <head>
 	<base href="/" />
 	<meta charset="utf-8">
@@ -24,7 +24,7 @@
 	<link rel="stylesheet" href="assets/vendor/css/font-awesome.css">
 	<link rel="stylesheet" href="assets/css/style.css">
 
-	<script data-main="assets/js/main" src="assets/js/libs/require.js"></script>
+	<script data-main="assets/js/main" src="assets/js/bower/requirejs/require.js"></script>
 </head>
 <body data-ng-swipe-right="activateSidebar()" data-ng-swipe-left="deactivateSidebar()">
 	<!--[if lte IE 8]><p class=chromeframe>Your browser is <em>ancient!</em> <a href="http://browsehappy.com/">Upgrade to a different browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to experience this site.</p><![endif]-->
@@ -37,7 +37,7 @@
 		</span>
 	</noscript>
 	<!-- !Top Bar -->
-	<nav class="header" data-ng-if="!mobile || loggedin" data-ng-cloak data-ng-class="{'header-push': (mobile && sidebarActive && !searchActive)}">
+	<header class="header" data-ng-if="!mobile || loggedin" data-ng-cloak data-ng-class="{'header-push': (mobile && sidebarActive && !searchActive)}">
 		<div class="header-inner">
 			<button class="header-toggle header-toggle-sidebar" data-ng-click="toggleSidebar()" data-ng-if="mobile">
 				<i class="fa fa-bars header-toggle-icon"></i>
@@ -47,7 +47,7 @@
 					</span>
 				</span>
 			</button>
-			<a href="start" class="header-brand" data-ng-click="mobileActivateView()">
+			<a href="main" class="header-brand" data-ng-click="mobileActivateView()">
 				<span class="header-brand--normal">whis</span><span class="header-brand--inverse">peer</span>
 			</a>
 			<button class="header-toggle header-toggle-search" data-ng-click="toggleSearch()" data-ng-if="mobile">
@@ -60,7 +60,7 @@
 				<ng-include data-src="'assets/views/start/login/login.html'" data-ng-if="login.isHeaderForm"></ng-include>
 			</div>
 		</div>
-	</nav>
+	</header>
 	<!-- end !Top Bar-->
 	<!-- !Main Container -->
 	<div id="container" data-ng-cloak>
@@ -72,18 +72,14 @@
 					<span id="userpanel-me-name">{{user.name}}</span>
 				</a>
 				<nav id="userpanel-menu">
-					<ul class="u-unstyled" id="userpanel-menu-list">
-						<li class="userpanel-menu-listItem"><a href="main" class="userpanel-menu-link" data-i18n="menu.newsfeed"></a></li>
-						<li class="userpanel-menu-listItem"><a href="{{user.basic.url}}" class="userpanel-menu-link" data-i18n="menu.profil"></a></li>
-						<li class="userpanel-menu-listItem"><a href="friends" class="userpanel-menu-link" data-i18n="menu.friends|count={{friends.friendsCount}}|requests={{friends.requestsCount}}"></a></li>
-						<li class="userpanel-menu-listItem"><a href="messages" class="userpanel-menu-link" data-i18n="menu.messages|count={{messages.unread}}"></a></li>
-						<li class="userpanel-menu-listItem"><a href="circles" class="userpanel-menu-link" data-i18n="menu.circles"></a></li>
-						<li class="userpanel-menu-listItem"><a href="settings" class="userpanel-menu-link" data-i18n="menu.settings"></a></li>
-						<li class="userpanel-menu-listItem"><a href="help" class="userpanel-menu-link" data-i18n="menu.help"></a></li>
-						<li class="userpanel-menu-listItem"><a href="#" class="userpanel-menu-link" data-ng-click="logout()" data-eat-click data-i18n="menu.logout"></a></li>
-					</ul>
-					<div class="clear-fix">
-					</div>
+					<a href="main" class="userpanel-menu-link" data-i18n="menu.newsfeed"></a>
+					<a href="{{user.basic.url}}" class="userpanel-menu-link" data-i18n="menu.profil"></a>
+					<a href="friends" class="userpanel-menu-link" data-i18n="menu.friends|count={{friends.friendsCount}}|requests={{friends.requestsCount}}"></a>
+					<a href="messages" class="userpanel-menu-link" data-i18n="menu.messages|count={{messages.unread}}"></a>
+					<a href="circles" class="userpanel-menu-link" data-i18n="menu.circles"></a>
+					<a href="settings" class="userpanel-menu-link" data-i18n="menu.settings"></a>
+					<a href="help" class="userpanel-menu-link" data-i18n="menu.help"></a>
+					<a href="#" class="userpanel-menu-link" data-ng-click="logout()" data-eat-click data-i18n="menu.logout"></a>
 				</nav>
 			</div>
 			<div class="notificationWrap">
@@ -110,62 +106,44 @@
 			<!-- end !Footer -->
 			<!-- end !Userpanel -->
 			<!-- !Mobile Menu -->
-			<ul class="mobileMenu" data-ng-show="mobile">
-				<li class="mobileMenu-item">
-					<a class="mobileMenu-link" href="main"  data-ng-click="toggleSidebar()">
-						<i class="fa fa-home fa-2x fa-fw mobileMenu-icon"></i>
-						<span data-i18n="menu.newsfeed"></span>
-					</a>
-				</li>
-				<li class="mobileMenu-item">
-					<a class="mobileMenu-link" href="{{user.basic.url}}" data-ng-click="toggleSidebar()">
-						<img class="mobileMenu-icon u-circle" data-ng-src="{{user.basic.image}}" alt="{{user.basic.name}}">
-						<span data-i18n="menu.profil"></span>
-					</a>
-				</li>
-				<li class="mobileMenu-item">
-					<a class="mobileMenu-link" href="friends"  data-ng-click="toggleSidebar()">
-						<img class="mobileMenu-icon" data-ng-src="assets/img/icons/mobile/friends.png" alt="Freunde">
-						<span data-i18n="menu.friends|count={{friends.friendsCount}}|requests={{friends.requestsCount}}"></span>
-					</a>
-				</li>
-				<li class="mobileMenu-item">
-					<a class="mobileMenu-link" href="messages"  data-ng-click="toggleSidebar()">
-						<img class="mobileMenu-icon" data-ng-src="assets/img/icons/mobile/messages.png" alt="Nachrichten">
-						<span data-i18n="menu.messages|count={{messages.unread}}"></span>
-					</a>
-				</li>
-				<li class="mobileMenu-item">
-					<a class="mobileMenu-link" href="circles"  data-ng-click="toggleSidebar()">
-						<img class="mobileMenu-icon" data-ng-src="assets/img/icons/mobile/circles.png" alt="">
-						<span data-i18n="menu.circles"></span>
-					</a>
-				</li>
-				<li class="mobileMenu-item">
-					<a class="mobileMenu-link" href="settings"  data-ng-click="toggleSidebar()">
-						<img class="mobileMenu-icon" data-ng-src="assets/img/icons/mobile/settings.png">
-						<span data-i18n="menu.settings"></span>
-					</a>
-				</li>
-				<li class="mobileMenu-item">
-					<a class="mobileMenu-link" href="help"  data-ng-click="toggleSidebar()">
-						<img class="mobileMenu-icon" data-ng-src="assets/img/icons/mobile/help.png">
-						<span data-i18n="menu.help"></span>
-					</a>
-				</li>
-				<li class="mobileMenu-item">
-					<a class="mobileMenu-link" href="legal" data-ng-click="toggleSidebar()">
-						<i class="fa fa-book fa-2x fa-fw mobileMenu-icon"></i>
-						<span data-i18n="menu.legal"></span>
-					</a>
-				</li>
-				<li data-ng-click="toggleSidebar()" class="mobileMenu-item">
-					<a class="mobileMenu-link" href="#" data-ng-click="logout()" data-eat-click>
-						<img class="mobileMenu-icon" data-ng-src="assets/img/icons/mobile/logout.png">
-						<span data-i18n="menu.logout"></span>
-					</a>
-				</li>
-			</ul>
+			<nav class="mobileMenu" data-ng-show="mobile">
+				<a class="mobileMenu-link" href="main"  data-ng-click="toggleSidebar()">
+					<i class="fa fa-home fa-2x fa-fw mobileMenu-icon"></i>
+					<span class="mobileMenu-text" data-i18n="menu.newsfeed"></span>
+				</a>
+				<a class="mobileMenu-link" href="{{user.basic.url}}" data-ng-click="toggleSidebar()">
+					<img class="mobileMenu-image u-circle" data-ng-src="{{user.basic.image}}" alt="{{user.basic.name}}">
+					<span class="mobileMenu-text" data-i18n="menu.profil"></span>
+				</a>
+				<a class="mobileMenu-link" href="friends"  data-ng-click="toggleSidebar()">
+					<img class="mobileMenu-image" data-ng-src="assets/img/icons/mobile/friends.png" alt="Freunde">
+					<span class="mobileMenu-text" data-i18n="menu.friends|count={{friends.friendsCount}}|requests={{friends.requestsCount}}"></span>
+				</a>
+				<a class="mobileMenu-link" href="messages"  data-ng-click="toggleSidebar()">
+					<img class="mobileMenu-image" data-ng-src="assets/img/icons/mobile/messages.png" alt="Nachrichten">
+					<span class="mobileMenu-text" data-i18n="menu.messages|count={{messages.unread}}"></span>
+				</a>
+				<a class="mobileMenu-link" href="circles"  data-ng-click="toggleSidebar()">
+					<img class="mobileMenu-image" data-ng-src="assets/img/icons/mobile/circles.png" alt="">
+					<span class="mobileMenu-text" data-i18n="menu.circles"></span>
+				</a>
+				<a class="mobileMenu-link" href="settings"  data-ng-click="toggleSidebar()">
+					<img class="mobileMenu-image" data-ng-src="assets/img/icons/mobile/settings.png">
+					<span class="mobileMenu-text" data-i18n="menu.settings"></span>
+				</a>
+				<a class="mobileMenu-link" href="help"  data-ng-click="toggleSidebar()">
+					<img class="mobileMenu-image" data-ng-src="assets/img/icons/mobile/help.png">
+					<span class="mobileMenu-text" data-i18n="menu.help"></span>
+				</a>
+				<a class="mobileMenu-link" href="legal" data-ng-click="toggleSidebar()">
+					<i class="fa fa-book fa-2x fa-fw mobileMenu-icon"></i>
+					<span class="mobileMenu-text" data-i18n="menu.legal"></span>
+				</a>
+				<a class="mobileMenu-link" href="#" data-ng-click="logout()" data-eat-click>
+					<img class="mobileMenu-image" data-ng-src="assets/img/icons/mobile/logout.png">
+					<span class="mobileMenu-text" data-i18n="menu.logout"></span>
+				</a>
+			</nav>
 			<!-- end !Mobile Menu -->
 		</aside>
 		<!-- end !Left Sidebar -->

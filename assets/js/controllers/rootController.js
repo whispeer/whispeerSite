@@ -2,7 +2,7 @@
 * sessionController
 **/
 
-define(["step", "whispeerHelper", "cryptoWorker/generalWorkerInclude"], function (step, h, generalWorkerInclude) {
+define(["step", "whispeerHelper", "cryptoWorker/generalWorkerInclude", "config"], function (step, h, generalWorkerInclude, config) {
 	"use strict";
 
 	function getVersionString(data) {
@@ -19,8 +19,6 @@ define(["step", "whispeerHelper", "cryptoWorker/generalWorkerInclude"], function
 	}
 
 	function rootController($rootScope, $scope, $timeout, $http, socketService, sessionService, sessionHelper, userService, cssService, messageService, trustService, friendsService, keyStore) {
-		var buildDate = "20140518";
-
 		generalWorkerInclude.setBeforeCallBack(function (evt, cb) {
 			$rootScope.$apply(cb);
 		});
@@ -31,11 +29,11 @@ define(["step", "whispeerHelper", "cryptoWorker/generalWorkerInclude"], function
 				});
 		});
 
-		$http({ method: "GET", url: "changelog.json?t=" + (new Date()).getTime(), cache: false }).success(function (data) {
+		$http({ method: "GET", url: "changelog.json", cache: false }).success(function (data) {
 			var version = getVersionString(data);
 			version = version.substr(0, version.length - 1);
 
-			$scope.version = version + "-" + buildDate;
+			$scope.version = version + "-" + config.buildDate;
 		});
 
 		$scope.version = "";

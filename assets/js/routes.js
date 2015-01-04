@@ -66,7 +66,7 @@ define(["app"], function (app) {
 
 		$routeProvider.when("/:identifier", {
 			redirectTo: function (params) {
-				if (params.identifier.match(/^(A-z0-9)+$/)) {
+				if (params.identifier.match(/^[A-z0-9]+$/)) {
 					return "/user/" + params.identifier;
 				}
 

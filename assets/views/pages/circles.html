@@ -18,7 +18,7 @@
 <div id="circleListWrap" data-ng-if="!mobile || !showCircle">
 	<ul id="circleList" class="unstyled">
 		<div id="circleListScroll">
-			<li data-ng-repeat="circle in circles" id="{{circle.id}}" class="circleList-item {{isActiveCircle(circle.id)?'circleList-item--active':''}}" data-ng-click="loadActiveCircle(circle.id)">
+			<li data-ng-repeat="circle in circles" id="{{circle.id}}" class="circleList-item {{isActiveCircle(circle.id)?'circleList-item--active':''}}" data-accessible-click="loadActiveCircle(circle.id)">
 				<div class="circleList-item-image">
 					<img class="userimg" data-ng-src="{{circle.image}}" alt="Userimage">
 				</div>
@@ -42,6 +42,10 @@
 
 <div id="circleContainer" data-circleID="{{thisCircle.id}}" data-ng-if="circleLoaded && showCircle">
 	<div id="circleWrap">
+		<div class="circleView-addUsers">
+			<usersearch class="circleView-addUsers-search" size="small" data-scope="friends" res="usersToAdd" data-filter="thisCircle.userids" data-multiple type="text" data-input-i18n-attr="views.circles.searchFriends|placeholder" />
+			<savebutton class="circleView-addUsers-submit" data-noiniticon data-translation="views.circles.addUsers|b=" data-state="addUsersToCircle" data-ng-click="addUsers(usersToAdd.selectedElements)"></savebutton>
+		</div>
 		<ol id="friendsList" class="u-unstyled">
 			<li data-ng-repeat="friend in thisCircle.persons">
 				<person data-user="friend" data-type="friend">
@@ -57,7 +61,7 @@
 	<div id="circleWrap">
 		<form id="inputWrap">
 			<input type="text" data-i18n-attr="views.circles.titleForNew|placeholder" id="titleInput" data-ng-model="circleName">
-			<usersearch data-scope="friends" data-multiple type="text" data-input-i18n-attr="views.circles.searchFriends|placeholder" id="friendInput" />
+			<usersearch size="small" data-scope="friends" data-multiple type="text" data-input-i18n-attr="views.circles.searchFriends|placeholder" id="friendInput" />
 			<button class="btn btn--primary btn--big" id="savecircle" type="submit" data-ng-click="createNew(circleName)" data-i18n="views.circles.createCircle"></button>
 		</form>
 	</div>
