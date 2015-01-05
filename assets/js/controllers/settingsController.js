@@ -43,7 +43,7 @@ define(["whispeerHelper", "step", "asset/state", "libs/qr"], function (h, step, 
 			$scope.uiLanguage = localize.getLanguage();
 
 			if (sound) {
-				$scope.notificationSound = (sound.active ? "on" : "off");
+				$scope.notificationSound = (sound.enabled ? "on" : "off");
 			}
 			if (messages) {
 				$scope.sendShortCut = messages.sendShortCut || "enter";

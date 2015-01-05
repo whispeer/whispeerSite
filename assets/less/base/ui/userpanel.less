@@ -45,31 +45,18 @@
 #userpanel-menu {
 	margin-top: 15px;
 }
-#userpanel-menu-list {
-	margin-left: 0;
-}
-.userpanel-menu-listItem {
-	text-align: left;
-	width: 80%;
-	margin: 10px 0;
-}
 .userpanel-menu-link {
+	position: relative;
+	display: inline-block;
+	float: left;
+	width: 80%;
+	height: @baseLineHeight;
+	margin: 5px 0;
+	padding: 0 0 0 4px;
 	text-align: left;
-	padding: 5px 0 5px 4px;
+
 	background-color: transparent;
-	height: @baseLineHeight;
-	position: relative;
 }
-.userpanel-menu-link--current {
-	height: @baseLineHeight;
-	position: relative;
-	.border-radius(8px);
-	background-color: @primaryLighter;
-	color: #f5ffe9;
-	margin: 5px 0 0 -3px;
-}
-.userpanel-menu-listItem:first-child {
-	.userpanel-menu-link {
-		margin-top: 0;
-	}
+.userpanel-menu-link:first-child {
+	margin-top: 0;
 }
