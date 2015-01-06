@@ -6,11 +6,8 @@ define(["step", "whispeerHelper"], function (step, h) {
 
 	var knownBlobs = {};
 
-	var service = function ($rootScope, socketService, keyStore, Cache) {
+	var service = function ($rootScope, socketService, keyStore, errorService, Cache) {
 		var blobCache = new Cache("blobs");
-		Cache.listen(function () {
-			blobCache.allEntries();
-		}, "ready");
 
 		var MyBlob = function (blobData, blobID, options) {
 			this._blobData = blobData;
@@ -238,40 +235,14 @@ define(["step", "whispeerHelper"], function (step, h) {
 			}), step.multiplex(blobListener[blobID]));
 		}
 
-		var db;
-
-		function loadBlobFromDB(blobID, err, success) {
-			if (db) {
-				db.transaction("blobs").objectStore("blobs").get(blobID).onsuccess = function(event) {
-					if (event.target.result) {
-						var blob = h.dataURItoBlob(event.target.result);
-						if (blob) {
-							knownBlobs[blobID] = new MyBlob(blob, blobID);
-						} else {
-							knownBlobs[blobID] = new MyBlob(event.target.result, blobID);
-						}
-
-						$rootScope.$apply(function () {
-							success(null, knownBlobs[blobID]);
-						});
-					} else {
-						err();
-					}
-				};
-			} else {
-				err();
-			}
+		function loadBlobFromDB(blobID) {
+			return blobCache.receive(blobID).then(function (blob) {
+				return new MyBlob(blob, blobID);
+			});
 		}
 
 		function addBlobToDB(blob) {
-			if (db) {
-				blob.getStringRepresentation(function (err, blobString) {
-					if (!err) {
-						var store = db.transaction("blobs", "readwrite").objectStore("blobs");
-						store.add(blobString, blob.getBlobID());
-					}
-				});
-			}
+			blobCache.store(blob.getBlobID(), blob._blobData).catch(errorService.criticalError);
 		}
 
 		var api = {
@@ -280,7 +251,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 			},
 			getBlob: function (blobID, cb, isPublic) {
 				step(function () {
-					loadBlobFromDB(blobID, this, this.last);
+					loadBlobFromDB(blobID);
 				}, h.sF(function () {
 					if (knownBlobs[blobID]) {
 						this.ne(knownBlobs[blobID]);
@@ -297,7 +268,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 		return api;
 	};
 
-	service.$inject = ["$rootScope", "ssn.socketService", "ssn.keyStoreService", "ssn.cacheService"];
+	service.$inject = ["$rootScope", "ssn.socketService", "ssn.keyStoreService", "ssn.errorService", "ssn.cacheService"];
 
 	return service;
 });

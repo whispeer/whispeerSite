@@ -1,6 +1,6 @@
 var db;
 
-define(["step", "whispeerHelper", "asset/observer"], function (step, h, Observer) {
+define(["step", "whispeerHelper", "asset/observer", "bluebird"], function (step, h, Observer, Promise) {
 	"use strict";
 
 	var upgrades = {
@@ -25,58 +25,70 @@ define(["step", "whispeerHelper", "asset/observer"], function (step, h, Observer
 	}
 
 	var service = function (errorService) {
-		var request;
+		var databasePromise;
+
+		function promisify(request) {
+			return new Promise(function (resolve, reject) {
+				request.onerror = reject;
+				request.onsuccess = resolve;
+			}).then(function (event) {
+				return event.target.result;
+			});
+		}
 
 		function Cache(name) {
 			this._name = name;
 		}
 
-		Cache.prototype.allEntries = function () {
-			var index = db.transaction("objects", "readwrite").objectStore("objects").index("type");
-		};
-
-		Cache.prototype.store = function (id, data) {
-			var store = db.transaction("objects", "readwrite").objectStore("objects");
-			store.add({
-				data: data,
-				created: new Date().getTime(),
-				used: new Date().getTime(),
-				id: this._name + "/" + id,
-				type: this._name
+		Cache.prototype.entryCount = function () {
+			return databasePromise.then(function (db) {
+				return promisify(db.transaction("objects").objectStore("objects").index("type").count(this._name));
 			});
 		};
 
-		Cache.prototype.receive = function (id, cb) {
-			step(function () {
-				var request = db.transaction(this._name).objectStore(this._name).get(this._name + "/" + id);
-				request.onerror = this;
-				request.onsuccess = this.ne;
-			}, h.sF(function (event) {
-				this.ne(event.target.result);
-			}), cb);
+		Cache.prototype.store = function (id, data) {
+			return databasePromise.then(function (db) {
+				var store = db.transaction("objects", "readwrite").objectStore("objects");
+				return promisify(store.add({
+					data: data,
+					created: new Date().getTime(),
+					used: new Date().getTime(),
+					id: this._name + "/" + id,
+					type: this._name
+				}));
+			});
+		};
+
+		Cache.prototype.receive = function (id) {
+			return databasePromise.then(function (db) {
+				return promisify(db.transaction("objects").objectStore("objects").get(this._name + "/" + id));
+			}).then(function (result) {
+				result.used = new Date().getTime();
+				db.transaction("objects", "readwrite").objectStore("objects").update(this._name + "/" + id, result);
+
+				return result.data;
+			});
 		};
 
 		Cache.prototype.cleanUp = function () {
-
+			//remove data which hasn't been used in a long time or is very big
 		};
 
 		Observer.call(Cache);
 
-		step(function () {
-			if (!window.indexedDB.open) {
-				return;
-			}
+		if (!window.indexedDB || !window.indexedDB.open) {
+			return;
+		}
 
-			request = window.indexedDB.open("whispeer", 2);
-			request.onerror = this;
-			request.onsuccess = this.ne;
-			request.onupgradeneeded = upgradeDatabase;
-		}, h.sF(function () {
-			db = request.result;
+		var request = window.indexedDB.open("whispeer", 2);
+		request.onupgradeneeded = upgradeDatabase;
+
+		databasePromise = promisify(request).then(function (db) {
 			Cache.notify("", "ready");
-
 			db.onerror = errorService.criticalError;
-		}), errorService.logError);
+
+			return db;
+		});
 
 		return Cache;
 	};
