@@ -59,7 +59,7 @@ define(["step", "whispeerHelper", "asset/observer", "bluebird"], function (step,
 			});
 		};
 
-		Cache.prototype.receive = function (id) {
+		Cache.prototype.get = function (id) {
 			return databasePromise.then(function (db) {
 				return promisify(db.transaction("objects").objectStore("objects").get(this._name + "/" + id));
 			}).then(function (result) {
