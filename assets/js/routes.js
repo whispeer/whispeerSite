@@ -30,6 +30,11 @@ define(["app"], function (app) {
 			controller: "ssn.startController",
 		});
 
+		$routeProvider.when("/recovery/:recoveryCode", {
+			templateUrl: "assets/views/pages/recovery.html",
+			controller: "ssn.recoveryController",
+		});
+
 		addMain("start", false);
 		addMain("login");
 		addMain("invite");

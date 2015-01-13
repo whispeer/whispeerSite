@@ -1,7 +1,14 @@
 <div>
 	<h1 data-i18n="views.recovery.title"></h1>
-	<span data-i18n="views.recovery.explanation">
-		<a href="mailto:support@whispeer.de" data-for="mail">support@whispeer.de</a>
-		<br data-for="br">
-	</span>
+	<div data-ng-if="codeProvided">
+		Lade deinen Backup-Schlüssel hoch:
+		<input class="uploadForm-theForm" type="file" data-file="fileUpload">
+		oder scanne den ausgedruckten QR-Code:
+		<button data-ng-if="!qr"></button>
+		<qr-scanner data-success="qrCode" data-ng-if="qr"></qr-scanner>
+	</div>
+	<div data-ng-if="!codeProvided">
+		E-Mail: <input type='text' placeholder="E-Mail" data-ng-model="request.identifier">
+		<savebutton data-state="request.state" data-ng-click="request.execute(request.identifier)">Wiederherstellung anfordern</savebutton>
+	</div>
 </div>
