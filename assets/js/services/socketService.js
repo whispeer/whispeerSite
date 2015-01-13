@@ -4,6 +4,8 @@
 define(["jquery", "socket", "socketStream", "step", "whispeerHelper", "config"], function ($, io, iostream, step, h, config) {
 	"use strict";
 
+	var APIVERSION = "0.0.1";
+
 	var socket;
 	if (config.https) {
 		socket = io.connect("https://" + config.ws + ":" + config.wsPort);
@@ -76,6 +78,7 @@ define(["jquery", "socket", "socketStream", "step", "whispeerHelper", "config"],
 				var time;
 				step(function doEmit() {
 					data.sid = sessionService.getSID();
+					data.version = APIVERSION;
 
 					console.groupCollapsed("Request on " + channel);
 					console.log(data);
