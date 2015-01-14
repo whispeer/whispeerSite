@@ -3,12 +3,12 @@
 			<span class="box-header-title" data-i18n="profile.trustmanager.verifyTitle"></span>
 		</header>
 		<div class="userView-subSection verifyContent">
-			<div data-ng-if="!verifyCode && !qr.view" class="userView-subSection" id="userView-chooseVerifyMethod">
+			<div data-ng-if="!verifyCode && !qr.enabled" class="userView-subSection" id="userView-chooseVerifyMethod">
 				<h3 data-i18n="profile.trustmanager.chooseVerifyMethod|user={{user.basic.shortname}}"></h3>
 				<button class="userView-verifyMethodButton btn btn--big btn--primary" data-ng-click="verifyWithCode()" data-i18n="profile.trustmanager.verifyWithCode|user={{user.basic.shortname}}"></button>
 				<button class="userView-verifyMethodButton btn btn--big btn--primary" data-ng-disabled="!qr.available" data-ng-click="verifyWithQrCode()" data-i18n="profile.trustmanager.verifyWithQr|user={{user.basic.shortname}}"></button>
 			</div>
-			<button class="btn btn--primary btn--big userView-verify-back" data-ng-if="qr.available && (verifyCode || qr.view)" data-i18n="profile.trustmanager.back" data-ng-click="resetVerifcationMethod()"></button>
+			<button class="btn btn--primary btn--big userView-verify-back" data-ng-if="qr.available && (verifyCode || qr.enabled)" data-i18n="profile.trustmanager.back" data-ng-click="resetVerifcationMethod()"></button>
 			<div class="verify userView-subSection" data-ng-if="verifyCode">
 				<span class="userVew-introText" data-syntaxify data-i18n="profile.trustmanager.verifyInfo.code|user={{user.basic.shortname}}"></span>
 				<div class="userView-keyInputWrap">
@@ -20,11 +20,12 @@
 				</div>
 				<savebutton id="userView-submitKey" class="btn--input" data-state="verifyingUser" data-ng-click="verify(givenPrint)"></savebutton>
 			</div>
-			<div class="verify userView-subSection" data-ng-show="qr.view">
+			<div class="verify userView-subSection" data-ng-show="qr.enabled">
 				<div class="error" data-ng-if="qr.noDevice" data-i18n="profile.trustmanager.nodevice"></div>
 				<span data-syntaxify data-i18n="profile.trustmanager.verifyInfo.qr|user={{user.basic.shortname}}"></span>
 				<div class="qrScanner">
 					<savebutton data-ng-click="qr.reset()" data-ng-if="qr.read" data-state="verifyingUser" data-translation="profile.trustmanager.qrSaveButton"></savebutton>
+					<qr-scanner state="qr" callback="verify(code)"></qr-scanner>
 					<video data-ng-if="!qr.read" id="qrCodeVideo" autoplay></video>
 				</div>
 			</div>
