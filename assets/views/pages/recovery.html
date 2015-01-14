@@ -2,10 +2,10 @@
 	<h1 data-i18n="views.recovery.title"></h1>
 	<div data-ng-if="codeProvided">
 		Lade deinen Backup-Schlüssel hoch:
-		<input class="uploadForm-theForm" type="file" data-file="fileUpload">
+		<input type="file" data-file="fileUpload">
 		oder scanne den ausgedruckten QR-Code:
-		<button data-ng-if="!qr"></button>
-		<qr-scanner data-success="qrCode" data-ng-if="qr"></qr-scanner>
+		<button data-ng-if="qr.read"></button>
+		<qr-scanner state="qr" callback="backupKeyCallback(code)"></qr-scanner>
 	</div>
 	<div data-ng-if="!codeProvided">
 		E-Mail: <input type='text' placeholder="E-Mail" data-ng-model="request.identifier">

@@ -26,7 +26,6 @@
 				<div class="qrScanner">
 					<savebutton data-ng-click="qr.reset()" data-ng-if="qr.read" data-state="verifyingUser" data-translation="profile.trustmanager.qrSaveButton"></savebutton>
 					<qr-scanner state="qr" callback="verify(code)"></qr-scanner>
-					<video data-ng-if="!qr.read" id="qrCodeVideo" autoplay></video>
 				</div>
 			</div>
 		</div>
