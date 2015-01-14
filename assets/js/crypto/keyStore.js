@@ -242,19 +242,19 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 				internalDecrypt(d.decryptorid, d.type, d.ct, this, d.iv, d.salt);
 			}, function (err, result) {
 				if (err || result === false) {
-					errors.push(err || { err: "internaldecryptor returned false for realid: " + realid });
+					globalErrors.push(err || { err: "internaldecryptor returned false for realid: " + realid });
 					console.log(err);
 					console.log("decryptor failed for key: " + realid);
 
 					decryptors = decryptors.filter(function (decryptor) {
-						return decryptor !== usedDecryptor;
+						return decryptor !== usedDecryptor.decryptor;
 					});
 
 					if (decryptors.length === 0) {
 						throw new errors.DecryptionError("Could finally not decrypt key!");
 					}
 
-					theKey.decryptKey(cb);
+					decryptKey(cb);
 					return;
 				}
 
@@ -736,7 +736,7 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 			if (symKeys[realKeyID]) {
 				this.ne(symKeys[realKeyID]);
 			} else {
-				throw new errors.InvalidDataError("keychain not found");
+				throw new errors.InvalidDataError("keychain not found (sym)");
 			}
 		}), callback);
 	}
@@ -1172,7 +1172,7 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 			if (signKeys[realKeyID]) {
 				this.ne(signKeys[realKeyID]);
 			} else {
-				throw new errors.InvalidDataError("keychain not found");
+				throw new errors.InvalidDataError("keychain not found (sign)");
 			}
 		}), callback);
 	}
