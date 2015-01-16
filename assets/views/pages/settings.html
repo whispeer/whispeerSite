@@ -75,9 +75,9 @@
 		</div>
 		<div class="settingsView-setting" id="settingsView-password">
 			<h5 class="settingsView-setting-header" data-i18n="settings.changes.changePassword"></h5>
-			<input disabled="disabled" type="password" id="settingsView-passwordInput" data-i18n-attr="login.password|placeholder">
-			<input disabled="disabled" type="password" id="settingsView-passwordInput2" data-i18n-attr="login.register.repeatPassword|placeholder">
-			<savebutton id="settingsView-savePassword" state="saveNameState" data-translation="settings.changes.save" data-ng-click="savePassword()" disabled></savebutton>
+			<input type="password" id="settingsView-passwordInput" data-ng-model="password" data-i18n-attr="login.password|placeholder">
+			<input type="password" id="settingsView-passwordInput2" data-i18n-attr="login.register.repeatPassword|placeholder">
+			<savebutton id="settingsView-savePassword" state="savePasswordState" data-translation="settings.changes.save" data-ng-click="savePassword()"></savebutton>
 		</div>
 	</section>
 	<header class="box-header box-header--content"><span class="box-header-title" data-i18n="settings.safety.title"></span></header>
