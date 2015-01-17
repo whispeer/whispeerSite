@@ -63,10 +63,21 @@
 }
 #newsfeedView-sendPost {
 	.column(2.5,8,right,0);
-
+	padding: 0;
 	border: none;
 	border-top: 1px solid @btnBorder;
-	border-radius: 0 0 3px 0; // this border has to be smaller for some reason.
+	.box-fix;
+}
+#newsfeedView-submit {
+	float: left;
+	width: ~"calc(100% - 48px)";
+	margin: 0;
+	border: none;
+	//border-right: 1px solid @btnBorder;
+}
+#newsfeedView-addImage {
+	float: left;
+	width: 48px;
 }
 #newsfeedView-shareText {
 	.column(8,8,left,0);

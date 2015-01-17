@@ -6,15 +6,12 @@
 			<textarea data-strg-enter="sendPost()" data-ng-model="newPost.text" data-i18n-attr="wall.postit.text|placeholder" id="newsfeedView-shareText" data-ng-disabled="!canSend" id="newsfeedView-shareText"></textarea>
 			<filtersearch class="search--custom" data-internalid="postReaders" data-selected="newPost.readers" data-input-i18n-attr="wall.postit.receiver|placeholder" id="newsfeedView-receivers" />
 
-			<div class="righty">
-				<savebutton id="newsfeedView-sendPost" data-translation="wall.postit.send" data-ng-click="sendPost()" data-state="sendPostState" data-noiniticon data-ng-disabled="!canSend"></savebutton>
-			</div>
-			<div class="righty">
-				<button id="newsfeedView-image" class="btn btn--primary fa fa-photo fa-2x">
-					<div>
-						<input type="file" multiple data-file="newPost.addImages">
-					</div>
-				</button>
+			<div id="newsfeedView-sendPost">
+				<div class="uploadForm" id="newsfeedView-addImage">
+					<span class="uploadForm-button btn btn--primary btn--input btn--noRadius"><span class="fa fa-photo fa-2x"></span></span>
+					<input class="uploadForm-theForm" type="file" multiple data-file="newPost.addImages">
+				</div>
+				<savebutton class="btn--noRadius" id="newsfeedView-submit" data-translation="wall.postit.send" data-ng-click="sendPost()" data-state="sendPostState" data-noiniticon data-ng-disabled="!canSend"></savebutton>
 			</div>
 
 			<div class="images">
@@ -35,7 +32,6 @@
 					</div>
 				</div>
 			</div>
-
 		</form>
 		<div id="newsfeedView-filter">
 			<button id="newsfeedView-filter-title" class="btn btn--border" data-ng-class="{'newsfeedView-filter-title--active': (filterActive || !mobile)}" data-i18n="wall.filter.title" data-ng-click="toggleFilter()"></button>
