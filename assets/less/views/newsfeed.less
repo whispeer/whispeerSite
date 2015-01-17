@@ -62,22 +62,25 @@
 	border-radius: 0 0 0 3px;
 }
 #newsfeedView-sendPost {
-	.column(2.5,8,right,0);
+	.column(2.5,8,left,0);
 	padding: 0;
 	border: none;
 	border-top: 1px solid @btnBorder;
+	background: @btnBorder;
 	.box-fix;
 }
 #newsfeedView-submit {
-	float: left;
+	display: inline-block;
+	float: right;
 	width: ~"calc(100% - 48px)";
-	margin: 0;
-	border: none;
-	//border-right: 1px solid @btnBorder;
 }
 #newsfeedView-addImage {
 	float: left;
+	display: inline-block;
 	width: 48px;
+}
+#newsfeedView-addImageIcon {
+	vertical-align: middle;
 }
 #newsfeedView-shareText {
 	.column(8,8,left,0);

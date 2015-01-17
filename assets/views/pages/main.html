@@ -8,7 +8,9 @@
 
 			<div id="newsfeedView-sendPost">
 				<div class="uploadForm" id="newsfeedView-addImage">
-					<span class="uploadForm-button btn btn--primary btn--input btn--noRadius"><span class="fa fa-photo fa-2x"></span></span>
+					<span class="uploadForm-button btn btn--primary btn--input btn--noRadius">
+						<span class="fa fa-photo fa-2x" id="newsfeedView-addImageIcon"></span>
+					</span>
 					<input class="uploadForm-theForm" type="file" multiple data-file="newPost.addImages">
 				</div>
 				<savebutton class="btn--noRadius" id="newsfeedView-submit" data-translation="wall.postit.send" data-ng-click="sendPost()" data-state="sendPostState" data-noiniticon data-ng-disabled="!canSend"></savebutton>
