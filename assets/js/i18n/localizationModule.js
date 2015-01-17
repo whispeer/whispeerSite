@@ -110,7 +110,7 @@ define(["angular"], function (angular) {
 				// allows setting of language on the fly
 				setLanguage: function (value) {
 					if (language !== value) {
-						language = value;
+						language = (value || "").toString();
 						initLocalizedResources();
 					}
 				},
