@@ -13,6 +13,9 @@ define(["whispeerHelper", "step", "asset/state"], function (h, step, State) {
 		var savePasswordState = new State();
 		$scope.savePasswordState = savePasswordState.data;
 
+		var loadBackupKeyState = new State();
+		$scope.loadBackupKeyState = loadBackupKeyState.data;
+
 		$scope.changePassword = {
 			password: "",
 			password2: "",
@@ -39,7 +42,10 @@ define(["whispeerHelper", "step", "asset/state"], function (h, step, State) {
 			}, h.sF(function () {
 				$scope.changePassword = true;
 				$rootScope.$broadcast("ssn.recovery");
-			}), errorService.criticalError);
+			}), function (e) {
+				$scope.qr.reset();
+				this(e);
+			}, errorService.criticalError);
 		};
 
 		var requestState = new State();
