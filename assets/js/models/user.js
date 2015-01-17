@@ -469,6 +469,35 @@ define(["step", "whispeerHelper", "asset/state", "asset/securedDataWithMetaData"
 				cb(null, trust);
 			};
 
+			this.changePassword = function (newPassword, cb) {
+				step(function () {
+					if (!theUser.isOwn()) {
+						throw new Error("not my own user");
+					}
+
+					var ownKeys = {main: mainKey, sign: signKey};
+
+					this.parallel.unflatten();
+
+					keyStoreService.security.makePWVerifiable(ownKeys, newPassword, this.parallel());
+					keyStoreService.random.hex(16, this.parallel());
+
+					keyStoreService.sym.pwEncryptKey(mainKey, newPassword, this.parallel());
+				}, h.sF(function (signedOwnKeys, salt, decryptor) {
+					socketService.emit("user.changePassword", {
+						signedOwnKeys: signedOwnKeys,
+						password: {
+							salt: salt,
+							hash: keyStoreService.hash.hashPW(newPassword, salt),
+						},
+						decryptor: decryptor
+					}, this);
+				}), h.sF(function () {
+					keyStoreService.security.setPassword(newPassword);
+					this.ne();
+				}), cb);
+			},
+
 			this.loadFullData = function (cb) {
 				step(function () {
 					advancedBranches.forEach(function (branch) {

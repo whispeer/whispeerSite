@@ -20,6 +20,9 @@ define(["whispeerHelper", "step", "asset/state", "libs/qr"], function (h, step, 
 		var saveMailState = new State();
 		$scope.saveMailState = saveMailState.data;
 
+		var savePasswordState = new State();
+		$scope.savePasswordState = savePasswordState.data;
+
 		var saveGeneralState = new State();
 		$scope.saveGeneralState = saveGeneralState.data;
 
@@ -153,6 +156,11 @@ define(["whispeerHelper", "step", "asset/state", "libs/qr"], function (h, step, 
 		};
 
 		$scope.savePassword = function () {
+			savePasswordState.pending();
+
+			step(function () {
+				userService.getown().changePassword($scope.password, this);
+			}, errorService.failOnError(savePasswordState));
 			//The easy version at first!
 			//TODO: improve for more reliability against server.
 		};
