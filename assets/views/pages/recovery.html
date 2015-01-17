@@ -1,13 +1,20 @@
 <div>
 	<h1 data-i18n="views.recovery.title"></h1>
-	<div data-ng-if="codeProvided">
+	<div data-ng-if="changePassword.enabled">
+		<h5 class="settingsView-setting-header" data-i18n="settings.changes.changePassword"></h5>
+		<input type="password" id="settingsView-passwordInput" data-ng-model="changePassword.password" data-i18n-attr="login.password|placeholder">
+		<input type="password" id="settingsView-passwordInput2" data-i18n-attr="login.register.repeatPassword|placeholder">
+		<savebutton id="settingsView-savePassword" state="savePasswordState" data-translation="settings.changes.save" data-ng-click="savePassword()"></savebutton>
+	</div>
+	<div data-ng-if="!changePassword.enabled && codeProvided">
 		Lade deinen Backup-Schlüssel hoch:
 		<input type="file" data-file="fileUpload">
+		oder gib den Code manuell ein:
+		<input type="text">
 		oder scanne den ausgedruckten QR-Code:
-		<button data-ng-if="qr.read"></button>
 		<qr-scanner state="qr" callback="backupKeyCallback(code)"></qr-scanner>
 	</div>
-	<div data-ng-if="!codeProvided">
+	<div data-ng-if="!changePassword.enabled && !codeProvided">
 		E-Mail: <input type='text' placeholder="E-Mail" data-ng-model="request.identifier">
 		<savebutton data-state="request.state" data-ng-click="request.execute(request.identifier)">Wiederherstellung anfordern</savebutton>
 	</div>

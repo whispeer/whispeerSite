@@ -1,13 +1,30 @@
 define(["whispeerHelper", "step", "asset/state"], function (h, step, State) {
 	"use strict";
 
-	function recoveryController($scope, $routeParams, socketService, keyStore, cssService, errorService) {
+	function recoveryController($scope, $rootScope, $routeParams, socketService, keyStore, sessionService, userService, cssService, errorService) {
 		cssService.setClass("recoveryView");
 
 		$scope.codeProvided = $routeParams.recoveryCode;
 
 		$scope.qr = {
 			enabled: $scope.codeProvided
+		};
+
+		var savePasswordState = new State();
+		$scope.savePasswordState = savePasswordState.data;
+
+		$scope.changePassword = {
+			password: "",
+			password2: "",
+			enabled: sessionService.isLoggedin()
+		};
+
+		$scope.savePassword = function () {
+			savePasswordState.pending();
+
+			step(function () {
+				userService.getown().changePassword($scope.changePassword.password, this);
+			}, errorService.failOnError(savePasswordState));
 		};
 
 		$scope.backupKeyCallback = function (key) {
@@ -20,7 +37,8 @@ define(["whispeerHelper", "step", "asset/state"], function (h, step, State) {
 					keyFingerPrint: keyID
 				}, this);
 			}, h.sF(function () {
-
+				$scope.changePassword = true;
+				$rootScope.$broadcast("ssn.recovery");
 			}), errorService.criticalError);
 		};
 
@@ -38,7 +56,7 @@ define(["whispeerHelper", "step", "asset/state"], function (h, step, State) {
 		};
 	}
 
-	recoveryController.$inject = ["$scope", "$routeParams", "ssn.socketService", "ssn.keyStoreService", "ssn.cssService", "ssn.errorService"];
+	recoveryController.$inject = ["$scope", "$rootScope", "$routeParams", "ssn.socketService", "ssn.keyStoreService", "ssn.sessionService", "ssn.userService", "ssn.cssService", "ssn.errorService"];
 
 	return recoveryController;
 });

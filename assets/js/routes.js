@@ -5,7 +5,6 @@ define(["app"], function (app) {
 		$locationProvider.html5Mode(true);
 		$locationProvider.hashPrefix("!");
 
-		console.log(window.location.href);
 		if (window.location.href.indexOf("file:///") === 0) {
 			$provide.decorator("$sniffer", function($delegate) {
 				$delegate.history = false;

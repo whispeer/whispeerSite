@@ -38,6 +38,7 @@ define(["step", "whispeerHelper", "cryptoWorker/generalWorkerInclude", "config"]
 
 		$scope.version = "";
 		$scope.loggedin = false;
+		$scope.recovery = false;
 
 		function updateMobile() {
 			var old = $scope.mobile;
@@ -64,8 +65,21 @@ define(["step", "whispeerHelper", "cryptoWorker/generalWorkerInclude", "config"]
 		$scope.friends = friendsService.data;
 		$scope.messages = messageService.data;
 
+		$scope.$on("ssn.recovery", function () {
+			$scope.recovery = true;
+			$scope.loggedin = false;
+		});
+
+		$scope.$watch(function () {
+			return $scope.loggedin;
+		}, function () {
+			if ($scope.recovery) {
+				$scope.loggedin = false;
+			}
+		});
+
 		$scope.$on("ssn.login", function () {
-			$scope.loggedin = sessionService.isLoggedin();
+			$scope.loggedin = sessionService.isLoggedin() && !$scope.recovery;
 			if (!$scope.loggedin) {
 				$scope.user = nullUser;
 			}

@@ -10,8 +10,10 @@ define(["whispeerHelper", "step", "libs/qrreader"], function (h, step, qrreader)
 			restrict: "E",
 			templateUrl: "assets/views/directives/qrScanner.html",
 			link: function (scope, iElement) {
+				var destroyed = false, theStream;
+
 				function captureToCanvas() {
-					if (!scope.state.read) {
+					if (!scope.state.read && !destroyed) {
 						try {
 							var width = 800;
 							var height = 600;
@@ -38,6 +40,10 @@ define(["whispeerHelper", "step", "libs/qrreader"], function (h, step, qrreader)
 				}
 
 				function initializeReader() {
+					if (destroyed) {
+						return;
+					}
+
 					var webkit=false;
 					var moz=false;
 
@@ -61,6 +67,10 @@ define(["whispeerHelper", "step", "libs/qrreader"], function (h, step, qrreader)
 							if (environmentSources.length === 1) {
 								constraints.video = { optional: [{sourceId: environmentSources[0].id}] };
 							}
+						}
+
+						if (destroyed) {
+							return;
 						}
 
 						if(navigator.getUserMedia) {
@@ -98,6 +108,13 @@ define(["whispeerHelper", "step", "libs/qrreader"], function (h, step, qrreader)
 					}, errorService.criticalError);
 				}
 
+				scope.$on("$destroy", function() {
+					if (theStream) {
+						theStream.stop();
+					}
+					destroyed = true;
+				});
+
 				scope.state = scope.state || {};
 
 				scope.state.available = !!(navigator.getUserMedia || navigator.mozGetUserMedia || navigator.webkitGetUserMedia);
@@ -109,8 +126,6 @@ define(["whispeerHelper", "step", "libs/qrreader"], function (h, step, qrreader)
 						initializeReader();
 					}
 				};
-
-				var theStream;
 
 				if (scope.state.enabled) {
 					initializeReader();
