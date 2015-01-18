@@ -1,7 +1,7 @@
 define(["whispeerHelper", "step", "libs/qrreader"], function (h, step, qrreader) {
 	"use strict";
 
-	function personDirective($timeout, errorService) {
+	function qrScannerDirective($timeout, errorService) {
 		return {
 			scope:	{
 				callback: "&",
@@ -140,7 +140,7 @@ define(["whispeerHelper", "step", "libs/qrreader"], function (h, step, qrreader)
 		};
 	}
 
-	personDirective.$inject = ["$timeout", "ssn.errorService"];
+	qrScannerDirective.$inject = ["$timeout", "ssn.errorService"];
 
-	return personDirective;
+	return qrScannerDirective;
 });
