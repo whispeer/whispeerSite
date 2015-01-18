@@ -52,6 +52,7 @@ define(["app"], function (app) {
 		addMain("privacyPolicy");
 		addMain("recovery");
 		addMain("notificationCenter");
+		addMain("acceptInvite");
 
 		$routeProvider.when("/logout", {
 			templateUrl: "assets/views/pages/loading.html",
