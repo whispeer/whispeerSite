@@ -5,7 +5,7 @@
 define(["whispeerHelper", "step", "asset/state", "libs/qr"], function (h, step, State, qr) {
 	"use strict";
 
-	function settingsController($scope, $timeout, errorService, cssService, settingsService, userService, localize) {
+	function settingsController($scope, $timeout, errorService, cssService, sessionHelper, settingsService, userService, localize) {
 		cssService.setClass("settingsView", true);
 
 		var saveSafetyState = new State();
@@ -28,6 +28,8 @@ define(["whispeerHelper", "step", "asset/state", "libs/qr"], function (h, step, 
 
 		$scope.safetySorted = ["birthday", "location", "relationship", "education", "work", "gender", "languages"];
 		$scope.languages = ["de", "en-US"];
+
+		$scope.password = $scope.password2 = "";
 
 		step(function () {
 			this.parallel.unflatten();
@@ -158,6 +160,16 @@ define(["whispeerHelper", "step", "asset/state", "libs/qr"], function (h, step, 
 		$scope.savePassword = function () {
 			savePasswordState.pending();
 
+			if ($scope.password !== $scope.password2) {
+				savePasswordState.failed();
+				return;
+			}
+
+			if (sessionHelper.passwordStrength($scope.password) < 1) {
+				savePasswordState.failed();
+				return;
+			}
+
 			step(function () {
 				userService.getown().changePassword($scope.password, this);
 			}, errorService.failOnError(savePasswordState));
@@ -166,7 +178,7 @@ define(["whispeerHelper", "step", "asset/state", "libs/qr"], function (h, step, 
 		};
 	}
 
-	settingsController.$inject = ["$scope", "$timeout", "ssn.errorService", "ssn.cssService", "ssn.settingsService", "ssn.userService", "localize"];
+	settingsController.$inject = ["$scope", "$timeout", "ssn.errorService", "ssn.cssService", "ssn.sessionHelper", "ssn.settingsService", "ssn.userService", "localize"];
 
 	return settingsController;
 });
