@@ -437,7 +437,7 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 		function addPWDecryptorF(pw, callback) {
 			step(function () {
 				var prefix = sjcl.codec.utf8String.toBits("key::");
-				var data = sjcl.bitArray.concat(prefix, preSecret);
+				var data = sjcl.bitArray.concat(prefix, preSecret || internalSecret);
 
 				this.ne(chelper.sjclPacket2Object(sjcl.encrypt(pw, data)));
 			}, h.sF(function (data) {
@@ -454,7 +454,7 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 				dirtyKeys.push(superKey);
 				dirtyDecryptors.push(decryptorData);
 
-				this.ne();
+				this.ne(decryptorData);
 			}), callback);
 		}
 
