@@ -56,8 +56,7 @@ define(["step", "whispeerHelper", "asset/state"], function (step, h, State) {
 			}), errorService.failOnError(inviteCodeState));
 		});
 
-		$scope.password = "";
-		$scope.password2 = "";
+		$scope.pwState = { password: "" };
 
 		$scope.nickname = "";
 		$scope.nicknameCheckLoading = false;
@@ -67,10 +66,6 @@ define(["step", "whispeerHelper", "asset/state"], function (step, h, State) {
 		$scope.nickNameError = true;
 
 		$scope.agb = false;
-
-		$scope.passwordStrength = function passwordStrengthC() {
-			return sessionHelper.passwordStrength($scope.password);
-		};
 
 		if ($routeParams.register) {
 			$timeout(function () {
@@ -133,22 +128,6 @@ define(["step", "whispeerHelper", "asset/state"], function (step, h, State) {
 			return !$scope.empty($scope.nickname) && !$scope.nicknameCheck && !$scope.nicknameCheckLoading;
 		};
 
-		$scope.passwordEmpty = function () {
-			return $scope.empty($scope.password);
-		};
-
-		$scope.passwordToWeak = function () {
-			return !$scope.empty($scope.password) && $scope.passwordStrength() < 1;
-		};
-
-		$scope.password2Empty = function () {
-			return $scope.empty($scope.password2);
-		};
-
-		$scope.noPasswordMatch = function () {
-			return $scope.password !== $scope.password2;
-		};
-
 		$scope.isAgbError = function () {
 			return !$scope.agb;
 		};
@@ -180,16 +159,6 @@ define(["step", "whispeerHelper", "asset/state"], function (step, h, State) {
 			{ validator: "nicknameUsed()", translation: "login.register.errors.nickUsed", onChange: 500 }
 		];
 
-		$scope.passwordValidations = [
-			{ validator: "passwordEmpty()", translation: "login.register.errors.passwordEmpty" },
-			{ validator: "passwordToWeak()", translation: "login.register.errors.passwordWeak", onChange: 500 }
-		];
-
-		$scope.password2Validations = [
-			{ validator: "password2Empty()", translation: "login.register.errors.password2Empty" },
-			{ validator: "noPasswordMatch()", translation: "login.register.errors.passwordNoMatch" }
-		];
-
 		$scope.agbValidations = [
 			{ validator: "isAgbError()", translation: "login.register.errors.agb" }
 		];
@@ -217,7 +186,7 @@ define(["step", "whispeerHelper", "asset/state"], function (step, h, State) {
 			step(function () {
 				console.time("register");
 				sessionService.setReturnURL("/setup");
-				sessionHelper.register($scope.nickname, "", $scope.invite.code, $scope.password, profile, imageBlob, settings, this);
+				sessionHelper.register($scope.nickname, "", $scope.invite.code, $scope.pwState.password, profile, imageBlob, settings, this);
 			}, function (e) {
 				console.timeEnd("register");
 				console.log("register done!");
