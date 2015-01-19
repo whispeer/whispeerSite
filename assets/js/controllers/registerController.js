@@ -77,14 +77,6 @@ define(["step", "whispeerHelper", "asset/state"], function (step, h, State) {
 			sessionHelper.startKeyGeneration();
 		};
 
-		$scope.acceptIcon = function acceptIconC(value1, value2) {
-			if (value1 === value2) {
-				return "fa-check";
-			}
-
-			return "fa-times";
-		};
-
 		$scope.startKeyGeneration = function startKeyGen1() {
 			sessionHelper.startKeyGeneration();
 		};
