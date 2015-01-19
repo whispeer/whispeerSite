@@ -65,7 +65,6 @@ define(["step", "whispeerHelper", "asset/state"], function (step, h, State) {
 		$scope.nicknameCheckError = false;
 
 		$scope.nickNameError = true;
-		$scope.registerFailed = false;
 
 		$scope.agb = false;
 
@@ -78,27 +77,6 @@ define(["step", "whispeerHelper", "asset/state"], function (step, h, State) {
 				jQuery("#rnickname").focus();
 			}, 50);
 		}
-
-		var onlyErrors = false;
-		$scope.inputsUsed = function () {
-			$scope.registerFailed = false;
-			onlyErrors = false;
-		};
-
-		var timeout;
-
-		$scope.inputUsed = function (checkFunctions) {
-			if (timeout) {
-				$timeout.cancel(timeout);
-			}
-
-			timeout = $timeout(function () {
-				if (!$scope.registerFailed) {
-					onlyErrors = checkFunctions;
-					$scope.registerFailed = true;
-				}
-			}, 500);
-		};
 
 		$scope.registerFormClick = function formClickF() {
 			sessionHelper.startKeyGeneration();
@@ -139,84 +117,46 @@ define(["step", "whispeerHelper", "asset/state"], function (step, h, State) {
 			});
 		};
 
-		$scope.showHint = false;
-
-		var errors = [];
-
-		function notPrevious(func) {
-			if (onlyErrors && onlyErrors.indexOf(func) === -1) {
-				return false;
-			}
-
-			var filter = true, result = true;
-			errors.filter(function (val) {
-				if (onlyErrors) {
-					return onlyErrors.indexOf(val) !== -1;
-				}
-
-				return true;
-			}).filter(function (val) {
-				if (val === func) {
-					filter = false;
-				}
-				return filter;
-			}).map(function (func) {
-				return func();
-			}).forEach(function (invalid) {
-				if (invalid) {
-					result = false;
-				}
-			});
-
-			return result;
-		}
-
 		$scope.empty = function (val) {
 			return val === "" || !h.isset(val);
 		};
 
 		$scope.nicknameEmpty = function () {
-			return notPrevious($scope.nicknameEmpty) && $scope.empty($scope.nickname);
+			return $scope.empty($scope.nickname);
 		};
 
 		$scope.nicknameInvalid = function () {
-			return notPrevious($scope.nicknameInvalid) && !$scope.empty($scope.nickname) && !h.isNickname($scope.nickname);
+			return !$scope.empty($scope.nickname) && !h.isNickname($scope.nickname);
 		};
 
 		$scope.nicknameUsed = function () {
-			return notPrevious($scope.nicknameUsed) && !$scope.empty($scope.nickname) && !$scope.nicknameCheck && !$scope.nicknameCheckLoading;
+			return !$scope.empty($scope.nickname) && !$scope.nicknameCheck && !$scope.nicknameCheckLoading;
 		};
 
 		$scope.passwordEmpty = function () {
-			return notPrevious($scope.passwordEmpty) && $scope.empty($scope.password);
+			return $scope.empty($scope.password);
 		};
 
 		$scope.passwordToWeak = function () {
-			return notPrevious($scope.passwordToWeak) && $scope.passwordStrength() < 1;
+			return !$scope.empty($scope.password) && $scope.passwordStrength() < 1;
 		};
 
 		$scope.password2Empty = function () {
-			return notPrevious($scope.password2Empty) && $scope.empty($scope.password2);
+			return $scope.empty($scope.password2);
 		};
 
 		$scope.noPasswordMatch = function () {
-			return notPrevious($scope.noPasswordMatch) &&  $scope.password !== $scope.password2;
+			return $scope.password !== $scope.password2;
 		};
 
 		$scope.isAgbError = function () {
-			return notPrevious($scope.isAgbError) && !$scope.agb;
+			return !$scope.agb;
 		};
 
-		errors = [
-			$scope.nicknameEmpty,
-			$scope.nicknameInvalid,
-			$scope.nicknameUsed,
-			$scope.passwordEmpty,
-			$scope.passwordToWeak,
-			$scope.password2Empty,
-			$scope.noPasswordMatch,
-			$scope.isAgbError
-		];
+		$scope.validationOptions = {
+			validateOnCallback: true,
+			hideOnInteraction: true
+		};
 
 		$scope.acceptIconNicknameFree = function acceptIconNickname() {
 			if ($scope.nicknameCheckLoading) {
@@ -234,12 +174,30 @@ define(["step", "whispeerHelper", "asset/state"], function (step, h, State) {
 			return "fa-times";
 		};
 
+		$scope.nicknameValidations = [
+			{ validator: "nicknameEmpty()", translation: "login.register.errors.nickEmpty" },
+			{ validator: "nicknameInvalid()", translation: "login.register.errors.nickInvalid", onChange: 500 },
+			{ validator: "nicknameUsed()", translation: "login.register.errors.nickUsed", onChange: 500 }
+		];
+
+		$scope.passwordValidations = [
+			{ validator: "passwordEmpty()", translation: "login.register.errors.passwordEmpty" },
+			{ validator: "passwordToWeak()", translation: "login.register.errors.passwordWeak", onChange: 500 }
+		];
+
+		$scope.password2Validations = [
+			{ validator: "password2Empty()", translation: "login.register.errors.password2Empty" },
+			{ validator: "noPasswordMatch()", translation: "login.register.errors.passwordNoMatch" }
+		];
+
+		$scope.agbValidations = [
+			{ validator: "isAgbError()", translation: "login.register.errors.agb" }
+		];
+
 
 		$scope.register = function doRegisterC() {
 			registerState.pending();
-			if ($scope.passwordStrength() === 0 || $scope.password !== $scope.password2 || !$scope.agb || !h.isNickname($scope.nickname)) {
-				$scope.registerFailed = true;
-				onlyErrors = false;
+			if ($scope.validationOptions.checkValidations()) {
 				registerState.failed();
 				return;
 			}
