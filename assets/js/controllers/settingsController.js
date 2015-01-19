@@ -29,7 +29,11 @@ define(["whispeerHelper", "step", "asset/state", "libs/qr"], function (h, step, 
 		$scope.safetySorted = ["birthday", "location", "relationship", "education", "work", "gender", "languages"];
 		$scope.languages = ["de", "en-US"];
 
-		$scope.password = $scope.password2 = "";
+		$scope.pwState = { password: "" };
+		$scope.pwValidationOptions = {
+			validateOnCallback: true,
+			hideOnInteraction: true
+		};
 
 		step(function () {
 			this.parallel.unflatten();
@@ -160,18 +164,13 @@ define(["whispeerHelper", "step", "asset/state", "libs/qr"], function (h, step, 
 		$scope.savePassword = function () {
 			savePasswordState.pending();
 
-			if ($scope.password !== $scope.password2) {
-				savePasswordState.failed();
-				return;
-			}
-
-			if (sessionHelper.passwordStrength($scope.password) < 1) {
+			if ($scope.pwValidationOptions.checkValidations()) {
 				savePasswordState.failed();
 				return;
 			}
 
 			step(function () {
-				userService.getown().changePassword($scope.password, this);
+				userService.getown().changePassword($scope.pwState.password, this);
 			}, errorService.failOnError(savePasswordState));
 			//The easy version at first!
 			//TODO: improve for more reliability against server.
