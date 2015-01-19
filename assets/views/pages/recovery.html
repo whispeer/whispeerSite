@@ -2,9 +2,10 @@
 	<h1 data-i18n="views.recovery.title"></h1>
 	<div data-ng-if="changePassword.enabled">
 		<h5 class="settingsView-setting-header" data-i18n="settings.changes.changePassword"></h5>
-		<input type="password" id="settingsView-passwordInput" data-ng-model="changePassword.password" data-i18n-attr="login.password|placeholder">
-		<input type="password" id="settingsView-passwordInput2" data-i18n-attr="login.register.repeatPassword|placeholder">
-		<savebutton id="settingsView-savePassword" state="savePasswordState" data-translation="settings.changes.save" data-ng-click="savePassword()"></savebutton>
+		<form validated-form="pwValidationOptions">
+			<passwordinput state="changePassword"></passwordinput>
+			<savebutton id="settingsView-savePassword" state="savePasswordState" data-translation="settings.changes.save" data-ng-click="savePassword()"></savebutton>
+		</form>
 	</div>
 	<div data-ng-if="!changePassword.enabled && codeProvided">
 		Lade deinen Backup-Schlüssel hoch:

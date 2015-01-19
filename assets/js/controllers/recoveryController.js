@@ -16,14 +16,23 @@ define(["whispeerHelper", "step", "asset/state"], function (h, step, State) {
 		var loadBackupKeyState = new State();
 		$scope.loadBackupKeyState = loadBackupKeyState.data;
 
+		$scope.pwValidationOptions = {
+			validateOnCallback: true,
+			hideOnInteraction: true
+		};
+
 		$scope.changePassword = {
 			password: "",
-			password2: "",
 			enabled: sessionService.isLoggedin()
 		};
 
 		$scope.savePassword = function () {
 			savePasswordState.pending();
+
+			if ($scope.pwValidationOptions.checkValidations()) {
+				savePasswordState.failed();
+				return;
+			}
 
 			step(function () {
 				userService.getown().changePassword($scope.changePassword.password, this);
