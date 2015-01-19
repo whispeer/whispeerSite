@@ -8,11 +8,9 @@
 		</form>
 	</div>
 	<div data-ng-if="!changePassword.enabled && codeProvided">
-		Lade deinen Backup-Schlüssel hoch:
-		<input type="file" data-file="fileUpload">
-		oder gib den Code manuell ein:
-		<input type="text"><savebutton data-state="loadBackupKeyState"></savebutton>
-		oder scanne den ausgedruckten QR-Code:
+		<div>Lade deinen Backup-Schlüssel hoch: <button><input type="file" data-file="fileUpload"></button></div>
+		<div>Gib den Code manuell ein: <input type="text" data-ng-model="manualCode"><savebutton data-state="loadBackupKeyState" data-ng-click="loadBackupKeyManual()"></savebutton></div>
+		<div>Scanne den ausgedruckten QR-Code: </div>
 		<qr-scanner state="qr" callback="backupKeyCallback(code)"></qr-scanner>
 	</div>
 	<div data-ng-if="!changePassword.enabled && !codeProvided">
