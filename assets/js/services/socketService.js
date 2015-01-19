@@ -148,7 +148,6 @@ define(["jquery", "socket", "socketStream", "step", "whispeerHelper", "config", 
 						});
 					}
 
-					loading--;
 					lastRequestTime = data.serverTime;
 
 					if (data.error) {
