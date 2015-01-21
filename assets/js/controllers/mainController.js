@@ -2,10 +2,10 @@
 * mainController
 **/
 
-define(["step", "whispeerHelper", "asset/state", "asset/Image"], function (step, h, State, MyImage) {
+define(["step", "whispeerHelper", "asset/state", "bluebird"], function (step, h, State, Promise) {
 	"use strict";
 
-	function mainController($scope, cssService, postService, blobService, errorService) {
+	function mainController($scope, cssService, postService, ImageUploadService, errorService) {
 		cssService.setClass("mainView");
 
 		$scope.canSend = true;
@@ -22,15 +22,9 @@ define(["step", "whispeerHelper", "asset/state", "asset/Image"], function (step,
 			removeImage: function (index) {
 				$scope.newPost.images.splice(index, 1);
 			},
-			addImages: MyImage.callBackForMultipleFiles(function (e, newImages) {
+			addImages: ImageUploadService.fileCallback(function (newImages) {
 				$scope.$apply(function () {
-					newImages.forEach(function (newImage) {
-						$scope.newPost.images.push({
-							name: newImage._name,
-							data: newImage,
-							url: newImage._image.src
-						});
-					});
+					$scope.newPost.images = $scope.newPost.images.concat(newImages);
 				});
 			})
 		};
@@ -67,38 +61,22 @@ define(["step", "whispeerHelper", "asset/state", "asset/Image"], function (step,
 				return;
 			}
 
-			step(function () {
-				if ($scope.canSend) {
-					$scope.canSend = false;
+			if ($scope.canSend) {
+				$scope.canSend = false;
 
-					var images = $scope.newPost.images.map(function (i) { return i.data; });
+				var images = $scope.newPost.images;
 
-					if (images.length === 0) {
-						this.ne([]);
-						return;
-					}
-
-					images.forEach(function (image) {
-						blobService.prepareImage(image, this.parallel());
-					}, this);
-				}
-			}, h.sF(function (blobs) {
-				blobs.forEach(function (blob, index) {
-					$scope.newPost.images[index].upload = blob.original.blob.getUploadStatus();
-				});
-
-				postService.createPost($scope.newPost.text, $scope.newPost.readers, 0, this, blobs);
-			}), function (e) {
-				$scope.canSend = true;
-				$scope.postActive = false;
-
-				if (!e) {
+				postService.createPost($scope.newPost.text, $scope.newPost.readers, 0, images).then(function () {
 					$scope.newPost.text = "";
 					$scope.newPost.images = [];
-				}
-
-				this(e);
-			}, errorService.failOnError(sendPostState));
+				}).catch(sendPostState.failed.bind(sendPostState))
+				.then(sendPostState.success.bind(sendPostState))
+				.finally(function () {
+					$scope.canSend = true;
+					$scope.postActive = false;
+					$scope.$apply();
+				});
+			}
 		};
 		$scope.toggleFilter = function() {
 			$scope.filterActive = !$scope.filterActive;
@@ -116,7 +94,7 @@ define(["step", "whispeerHelper", "asset/state", "asset/Image"], function (step,
 		reloadTimeline();
 	}
 
-	mainController.$inject = ["$scope", "ssn.cssService", "ssn.postService", "ssn.blobService", "ssn.errorService"];
+	mainController.$inject = ["$scope", "ssn.cssService", "ssn.postService", "ssn.imageUploadService", "ssn.errorService"];
 
 	return mainController;
 });

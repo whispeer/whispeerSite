@@ -1,7 +1,7 @@
 /**
 * postService
 **/
-define(["step", "whispeerHelper", "validation/validator", "asset/observer", "asset/errors", "asset/securedDataWithMetaData", "asset/state"], function (step, h, validator, Observer, errors, SecuredData, State) {
+define(["step", "whispeerHelper", "bluebird", "validation/validator", "asset/observer", "asset/errors", "asset/securedDataWithMetaData", "asset/state"], function (step, h, Promise, validator, Observer, errors, SecuredData, State) {
 	"use strict";
 
 	var service = function ($rootScope, $timeout, localize, socket, keyStore, errorService, userService, circleService, blobService, filterKeyService, Comment) {
@@ -504,7 +504,7 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer", "ass
 				postsByUserWall = {};
 				timelinesCache = {};
 			},
-			createPost: function (content, visibleSelection, wallUserID, cb, blobs) {
+			createPost: function (content, visibleSelection, wallUserID, images) {
 				/*
 						meta: {
 							contentHash,
@@ -516,53 +516,48 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer", "ass
 						}
 						content //padded!
 				*/
-				var meta = {}, postKey, blobKeys;
+				//var meta = {}, postKey, blobKeys;
 
-				step(function () {
-					keyStore.sym.generateKey(this, "post key");
-				}, h.sF(function (_postKey) {
-					postKey = _postKey;
+				var imagePreparation = Promise.resolve(images).map(function (image) {
+					return image.prepare();
+				});
 
-					if (blobs.length === 0) {
-						this();
-						return;
-					}
+				var keyGeneration = h.promisify(Promise, function (cb) {
+					return keyStore.sym.generateKey(cb, "post key");
+				});
 
-					blobs.forEach(function (blob) {
-						blob.original.blob.encryptAndUpload(postKey, this.parallel());
-						blob.preview.blob.encryptAndUpload(postKey, this.parallel());
-					}, this);
-				}), h.sF(function (_blobKeys) {
-					blobKeys = _blobKeys || [];
+				var symEncryptKey = Promise.promisify(keyStore.sym.symEncryptKey, keyStore.sym);
+				var filterToKeys = Promise.promisify(filterKeyService.filterToKeys, filterKeyService);
+				var createSecuredData = Promise.promisify(SecuredData.create, SecuredData);
+				var socketEmit = Promise.promisify(socket.emit, socket);
 
-					filterKeyService.filterToKeys(visibleSelection, this);
-					//hash images, hash downsized images, get image server ids
-				}), h.sF(function (keys) {
+				return Promise.all([keyGeneration, imagePreparation]).spread(function (postKey, imagesMetaData) {
+					var uploadImages = Promise.all(images.map(function (image) {
+						return image.upload(postKey);
+					}));
+
+					var encryptPostKeys = filterToKeys(visibleSelection).map(function (key) {
+						return symEncryptKey(postKey, key);
+					});
+
+					var meta = {};
 					meta.time = new Date().getTime();
 					meta.sender = userService.getown().getID();
 					meta.walluser = wallUserID;
-					meta.images = blobs.map(function (blob) {
-						var meta = {original: blob.original.meta};
-						if (blob.preview) {
-							meta.preview = blob.preview.meta;
-						}
-						return meta;
-					});
+					meta.images = imagesMetaData;
 
-					//create post
-					//upload images after that!
-					this.parallel.unflatten();
-					SecuredData.create(content, meta, { type: "post" }, userService.getown().getSignKey(), postKey, this.parallel());
-					keys.forEach(function (key) {
-						keyStore.sym.symEncryptKey(postKey, key, this.parallel());
-					}, this);
-				}), h.sF(function (data) {
-					data.imageKeys = blobKeys.map(keyStore.upload.getKey);
+					var securedData = createSecuredData(content, meta, { type: "post" }, userService.getown().getSignKey(), postKey);
+
+					return Promise.all([uploadImages, securedData, encryptPostKeys]);
+				}).spread(function (imageKeys, data) {
+					imageKeys = h.array.flatten(imageKeys);
+
+
+					data.imageKeys = imageKeys.map(keyStore.upload.getKey);
 					data.meta._key = keyStore.upload.getKey(data.meta._key);
-					socket.emit("posts.createPost", {
-						postData: data
-					}, this);
-				}), h.sF(function (result) {
+
+					return socketEmit("posts.createPost", { postData: data });
+				}).then(function (result) {
 					if (result.error) {
 						throw new Error("post creation failed on server");
 					}
@@ -577,20 +572,12 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer", "ass
 						postsByUserWall[wallUserID].unshift(newPost.data);
 					}
 
-					//TODO: add to all
-
 					h.objectEach(timelinesCache, function (key, timeline) {
 						timeline.addPost(newPost);
 					});
 
-					newPost.loadData(this);
-				}), cb);
-
-				//hash content
-
-				//getUser: walluser
-				//visibleSelection to keys
-				//encryptKey with visibleSelectionKeys
+					return Promise.promisify(newPost.loadData, newPost)();
+				});
 			}
 		};
 

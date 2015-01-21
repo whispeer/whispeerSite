@@ -19,7 +19,7 @@
 			<div class="images">
 				<div class="imagePreview" data-ng-repeat="image in newPost.images" data-ng-if="$index < 3">
 					<button class="remove fa fa-times" data-ng-click='newPost.removeImage($index)'></button>
-					<img alt="{{image.name}}" data-ng-src="{{image.url}}">
+					<img alt="{{image.getName()}}" data-ng-src="{{image.getUrl()}}">
 					<div class="percentage" data-ng-if="image.upload.acting"><div class="bar" style="width:{{image.upload.percentage*100}}%"></div></div>
 				</div>
 				<div class="advancedHint" data-ng-if="newPost.images.length > 3">
@@ -28,7 +28,7 @@
 						<div class="hintContent">
 							<div data-ng-repeat="image in newPost.images" data-ng-if="$index > 2">
 								<button class="remove fa fa-times" data-ng-click='newPost.removeImage($index)'></button>
-								{{image.name}}
+								{{image.getName()}}
 							</div>
 						</div>
 					</div>

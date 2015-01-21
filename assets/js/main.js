@@ -37,7 +37,8 @@ requirejs.config({
 		requirejs: "bower/requirejs/require",
 		socket: "bower/socket.io-client/socket.io",
 		socketStream: "libs/socket.io-stream",
-		qtip: "bower/qtip2/basic/jquery.qtip"
+		qtip: "bower/qtip2/basic/jquery.qtip",
+		imageLib: "bower/blueimp-load-image/js/load-image"
 	},
 	baseUrl: "assets/js",
 	shim: {

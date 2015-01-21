@@ -26,7 +26,8 @@
 		"blobService",
 		"trustService",
 		"loginDataService",
-		"appCacheService"
+		"appCacheService",
+		"imageUploadService"
 	];
 
 	var includes = ["angular"];
