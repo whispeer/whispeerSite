@@ -325,22 +325,6 @@ define(["step", "whispeerHelper"], function (step, h) {
 			}), step.multiplex(blobListener[blobID]));
 		}
 
-		function blobToDataSet(blob, cb) {
-			step(function () {
-				this.parallel.unflatten();
-				blob.preReserveID(this.parallel());
-				blob.getHash(this.parallel());
-			}, h.sF(function (id, hash) {
-				this.ne({
-					blob: blob,
-					meta: {
-						imageHash: hash,
-						id: id
-					}
-				});
-			}), cb);
-		}
-
 		var db, request;
 		step(function () {
 			if (!window.indexedDB.open) {
@@ -398,57 +382,13 @@ define(["step", "whispeerHelper"], function (step, h) {
 		}
 
 		var api = {
-			prepareImage: function (image, cb) {
-				//var MINSIZEDIFFERENCE = 1000;
-				var original, preview;
-				var originalSize, previewSize;
-				step(function () {
-					var original = image.downSize();
-					var preview = image.downSize(600);
-
-					originalSize = {
-						width: original.width,
-						height: original.height
-					};
-
-					previewSize = {
-						width: preview.width,
-						height: preview.height
-					};
-
-					this.parallel.unflatten();
-					h.canvasToBlob(original, this.parallel());
-					h.canvasToBlob(preview, this.parallel());
-				}, h.sF(function (_original, _preview) {
-					original = api.createBlob(_original);
-					preview = api.createBlob(_preview);
-
-					this.parallel.unflatten();
-					blobToDataSet(original, this.parallel());
-
-					//if (preview.getSize() < original.getSize() - MINSIZEDIFFERENCE) {
-					blobToDataSet(preview, this.parallel());
-					//}
-				}), h.sF(function (original, preview) {
-					original.meta.width = originalSize.width;
-					original.meta.height = originalSize.height;
-					preview.meta.width = previewSize.width;
-					preview.meta.height = previewSize.height;
-
-					var result = { original: original };
-					if (preview) {
-						result.preview = preview;
-					}
-
-					this.ne(result);
-				}), cb);
-			},
 			createBlob: function (blob) {
 				return new MyBlob(blob);
 			},
 			getBlob: function (blobID, cb) {
 				step(function () {
-					loadBlobFromDB(blobID, this, this.last);
+					//loadBlobFromDB(blobID, this, this.last);
+					this.ne();
 				}, h.sF(function () {
 					if (knownBlobs[blobID]) {
 						this.ne(knownBlobs[blobID]);

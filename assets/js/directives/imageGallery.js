@@ -4,12 +4,12 @@ define(["step", "whispeerHelper"], function (step, h) {
 	function imageGallery(errorService, blobService) {
 		function loadImagePreviews(images) {
 			images.forEach(function (image) {
-				loadImage(image.preview);
+				loadImage(image.lowest);
 			});
 		}
 
 		function loadImage(data) {
-			var blobid = data.id;
+			var blobid = data.blobID;
 
 			data.loading = true;
 			data.decrypting = false;
@@ -40,7 +40,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 			},
 			restrict: "E",
 			templateUrl: "assets/views/directives/gallery.html",
-			link: function(scope, iElement, iAttrs) {
+			link: function(scope) {
 				scope.$watch("images", function () {
 					scope.preview = scope.preview || scope.images.length;
 					loadImagePreviews(scope.images.slice(0, scope.preview));
@@ -49,8 +49,8 @@ define(["step", "whispeerHelper"], function (step, h) {
 				scope.modal = false;
 				scope.viewImage = function (index) {
 					scope.modal = true;
-					scope.modalImage = scope.images[index].original;
-					loadImage(scope.images[index].original);
+					scope.modalImage = scope.images[index].highest;
+					loadImage(scope.images[index].highest);
 				};
 			}
 		};
