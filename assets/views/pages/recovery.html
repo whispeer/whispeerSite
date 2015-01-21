@@ -14,8 +14,10 @@
 	<p data-i18n="views.recovery.or"></p>
 	<h2 class="recoveryView-subTitle" data-i18n="views.recovery.manualKey"></h2>
 	<div class="inputSandwich">
-		<input class="inputSandwich-top" type="text" data-ng-model="manualCode" data-i18n-attr="views.recovery.typeKey|placeholder">
-		<savebutton class="inputSandwich-bottom" data-state="loadBackupKeyState" data-ng-click="loadBackupKeyManual()"></savebutton>
+		<form>
+			<input class="inputSandwich-top" type="text" data-ng-model="manualCode" data-i18n-attr="views.recovery.typeKey|placeholder">
+			<savebutton class="inputSandwich-bottom" data-state="loadBackupKeyState" data-ng-click="loadBackupKeyManual()"></savebutton>
+		</form>
 	</div>	
 	<p data-i18n="views.recovery.or"></p>
 	<h2 class="recoveryView-subTitle" data-i18n="views.recovery.scanKey" data-ng-if="qr.enabled"></h2>
@@ -23,6 +25,8 @@
 </section>
 <section data-ng-if="!changePassword.enabled && !codeProvided" class="recoveryView-section">
 	<h2 class="recoveryView-subTitle" data-i18n="views.recovery.byMail"></h2>
-	<input class="inputSandwich-top" type="text" placeholder="E-Mail" data-ng-model="request.identifier">
-	<savebutton class="inputSandwich-bottom" data-state="request.state" data-ng-click="request.execute(request.identifier)" data-translation="views.recovery.requestRecovery"></savebutton>
+	<form>
+		<input class="inputSandwich-top" type="text" placeholder="E-Mail" data-ng-model="request.identifier">
+		<savebutton class="inputSandwich-bottom" data-state="request.state" data-ng-click="request.execute(request.identifier)" data-translation="views.recovery.requestRecovery"></savebutton>
+	</form>
 </section>
