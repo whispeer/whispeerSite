@@ -36,7 +36,9 @@ define(["whispeerHelper", "step", "asset/state", "libs/qrreader"], function (h, 
 
 			step(function () {
 				userService.getown().changePassword($scope.changePassword.password, this);
-			}, errorService.failOnError(savePasswordState));
+			}, h.sF(function () {
+				window.location.href = "/";
+			}), errorService.failOnError(savePasswordState));
 		};
 
 		function doRecovery(key, cb) {
