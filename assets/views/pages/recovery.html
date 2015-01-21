@@ -7,13 +7,22 @@
 	</form>
 </div>
 <section data-ng-if="!changePassword.enabled && codeProvided" class="recoveryView-section">
-	<div>Lade deinen Backup-Schlüssel hoch: <button><input type="file" data-file="fileUpload"></button></div>
-	<div>Gib den Code manuell ein: <input type="text" data-ng-model="manualCode"><savebutton data-state="loadBackupKeyState" data-ng-click="loadBackupKeyManual()"></savebutton></div>
-	<div>Scanne den ausgedruckten QR-Code: </div>
+	<div class="uploadForm">
+		<button class="uploadForm-botton btn btn--primary" data-i18n="views.recovery.uploadKey"></button>
+		<input class="uploadForm-theForm" type="file" data-file="fileUpload">
+	</div>
+	<p data-i18n="views.recovery.or"></p>
+	<h2 class="recoveryView-subTitle" data-i18n="views.recovery.manualKey"></h2>
+	<div class="inputSandwich">
+		<input class="inputSandwich-top" type="text" data-ng-model="manualCode" data-i18n-attr="views.recovery.typeKey|placeholder">
+		<savebutton class="inputSandwich-bottom" data-state="loadBackupKeyState" data-ng-click="loadBackupKeyManual()"></savebutton>
+	</div>	
+	<p data-i18n="views.recovery.or"></p>
+	<h2 class="recoveryView-subTitle" data-i18n="views.recovery.scanKey"></h2>
 	<qr-scanner state="qr" callback="backupKeyCallback(code)"></qr-scanner>
 </section>
 <section data-ng-if="!changePassword.enabled && !codeProvided" class="recoveryView-section">
-	<h2 data-i18n="views.recovery.byMail" id="recoveryView-subTitle"></h2>
-	<input type="text" placeholder="E-Mail" data-ng-model="request.identifier" id="recoveryView-eMail">
-	<savebutton data-state="request.state" data-ng-click="request.execute(request.identifier)" data-translation="views.recovery.requestRecovery" id="recoveryView-sendRequest"></savebutton>
+	<h2 class="recoveryView-subTitle" data-i18n="views.recovery.byMail"></h2>
+	<input class="inputSandwich-top" type="text" placeholder="E-Mail" data-ng-model="request.identifier">
+	<savebutton class="inputSandwich-bottom" data-state="request.state" data-ng-click="request.execute(request.identifier)" data-translation="views.recovery.requestRecovery"></savebutton>
 </section>

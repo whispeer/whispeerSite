@@ -17,10 +17,15 @@
 	"inviteFriends": "Invite your friends!",
 	"views": {
 		"recovery": {
+			"or": "or",
 			"title": "Account recovery",
 			"explanation": "Your account can not be recovered automatically yet. {br} If you forgot your password please send an e-mail to {mail}. {br} Never send your backup key to anyone not even us!",
 			"byMail": "Recovery via E-Mail",
-			"requestRecovery": "Request Recovery"
+			"requestRecovery": "Request Recovery",
+			"uploadKey": "Upload your Backup-Key",
+			"manualKey": "Enter your Backup-Key manually",
+			"typeKey": "Enter Backup-Key here",
+			"scanKey": "Scan your printed QR-Code"
 		},
 		"invite": {
 			"invite": "Invite",
