@@ -5,7 +5,6 @@ define(["app"], function (app) {
 		$locationProvider.html5Mode(true);
 		$locationProvider.hashPrefix("!");
 
-		console.log(window.location.href);
 		if (window.location.href.indexOf("file:///") === 0) {
 			$provide.decorator("$sniffer", function($delegate) {
 				$delegate.history = false;
@@ -28,6 +27,11 @@ define(["app"], function (app) {
 		$routeProvider.when("/start/:inviteCode", {
 			templateUrl: "assets/views/pages/start.html",
 			controller: "ssn.startController",
+		});
+
+		$routeProvider.when("/recovery/:nick/:recoveryCode", {
+			templateUrl: "assets/views/pages/recovery.html",
+			controller: "ssn.recoveryController",
 		});
 
 		addMain("start", false);

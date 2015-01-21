@@ -1,5 +1,5 @@
 <!doctype html>
-<html manifest="whispeer.mf" class="no-js loading" lang="de" data-ng-csp class="loading" data-ng-class="cssClass" data-ng-controller="ssn.rootController">
+<html manifest="/whispeer.mf" class="no-js loading" lang="de" data-ng-csp class="loading" data-ng-class="cssClass" data-ng-controller="ssn.rootController">
 <head>
 	<base href="/" />
 	<meta charset="utf-8">
@@ -56,7 +56,7 @@
 			<div class="header-collapse" data-ng-if="loggedin">
 				<usersearch class="search--navbar" size="big" data-input-i18n-attr="menu.search|placeholder"/>
 			</div>
-			<div id="header-login" data-ng-if="!loggedin" data-ng-controller="ssn.loginController">
+			<div id="header-login" data-ng-if="!loggedin && !recovery" data-ng-controller="ssn.loginController">
 				<ng-include data-src="'assets/views/start/login/login.html'" data-ng-if="login.isHeaderForm"></ng-include>
 			</div>
 		</div>

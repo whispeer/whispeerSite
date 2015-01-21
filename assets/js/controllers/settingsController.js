@@ -5,7 +5,7 @@
 define(["whispeerHelper", "step", "asset/state", "libs/qr"], function (h, step, State, qr) {
 	"use strict";
 
-	function settingsController($scope, $timeout, errorService, cssService, settingsService, userService, localize) {
+	function settingsController($scope, $timeout, errorService, cssService, sessionHelper, settingsService, userService, localize) {
 		cssService.setClass("settingsView", true);
 
 		var saveSafetyState = new State();
@@ -177,7 +177,7 @@ define(["whispeerHelper", "step", "asset/state", "libs/qr"], function (h, step, 
 		};
 	}
 
-	settingsController.$inject = ["$scope", "$timeout", "ssn.errorService", "ssn.cssService", "ssn.settingsService", "ssn.userService", "localize"];
+	settingsController.$inject = ["$scope", "$timeout", "ssn.errorService", "ssn.cssService", "ssn.sessionHelper", "ssn.settingsService", "ssn.userService", "localize"];
 
 	return settingsController;
 });

@@ -8,7 +8,7 @@ define([], function () {
 		var sid = "", loggedin = false, ownLoaded = false, userid, returnURL, loaded = false;
 
 		var noLoginRequired = ["ssn.startController", "ssn.loginController", "ssn.recoveryController", "ssn.versionController", "ssn.mailController", "ssn.agbController", "ssn.privacyPolicyController", "ssn.impressumController"];
-		var loggoutRequired = ["ssn.startController", "ssn.loginController", "ssn.loadingController", "ssn.recoveryController"];
+		var loggoutRequired = ["ssn.startController", "ssn.loginController", "ssn.loadingController"];
 
 		function setSID(newSID, user) {
 			if (newSID !== sid) {

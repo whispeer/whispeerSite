@@ -2299,9 +2299,7 @@ define([], function () {
 
 	qrcode.sizeOfDataLengthInfo =  [  [ 10, 9, 8, 8 ],  [ 12, 11, 16, 10 ],  [ 14, 13, 16, 12 ] ];
 
-	qrcode.callback = null;
-
-	qrcode.decodeCanvas = function (ele) {
+	qrcode.decodeCanvas = function (ele, cb) {
         var canvas_qr = ele;
         var context = canvas_qr.getContext('2d');
         qrcode.width = canvas_qr.width;
@@ -2309,14 +2307,14 @@ define([], function () {
         qrcode.imagedata = context.getImageData(0, 0, qrcode.width, qrcode.height);
         qrcode.result = qrcode.process(context);
 
-        if(qrcode.callback!=null) {
-            qrcode.callback(qrcode.result);
+        if(cb) {
+            cb(qrcode.result);
         }
 
         return qrcode.result;
 	};
 
-	qrcode.decode = function(src){
+	qrcode.decode = function(src, cb){
 
 	    if(arguments.length==0)
 	    {
@@ -2326,8 +2324,8 @@ define([], function () {
 	        qrcode.height = canvas_qr.height;
 	        qrcode.imagedata = context.getImageData(0, 0, qrcode.width, qrcode.height);
 	        qrcode.result = qrcode.process(context);
-	        if(qrcode.callback!=null)
-	            qrcode.callback(qrcode.result);
+	        if(cb)
+	            cb(qrcode.result);
 	        return qrcode.result;
 	    }
 	    else
@@ -2356,8 +2354,8 @@ define([], function () {
 	                qrcode.imagedata = context.getImageData(0, 0, canvas_qr.width, canvas_qr.height);
 	            }catch(e){
 	                qrcode.result = "Cross domain image reading not supported in your browser! Save it to your computer then drag and drop the file!";
-	                if(qrcode.callback!=null)
-	                    qrcode.callback(qrcode.result);
+	                if(cb)
+	                    cb(qrcode.result);
 	                return;
 	            }
 
@@ -2370,8 +2368,8 @@ define([], function () {
 	                console.log(e);
 	                qrcode.result = "error decoding QR Code";
 	            }
-	            if(qrcode.callback!=null)
-	                qrcode.callback(qrcode.result);
+	            if(cb)
+	                cb(qrcode.result);
 	        }
 	        image.src = src;
 	    }

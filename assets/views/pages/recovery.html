@@ -1,7 +1,32 @@
-<div>
-	<h1 data-i18n="views.recovery.title"></h1>
-	<span data-i18n="views.recovery.explanation">
-		<a href="mailto:support@whispeer.de" data-for="mail">support@whispeer.de</a>
-		<br data-for="br">
-	</span>
+<h1 id="recoveryView-title" data-i18n="views.recovery.title"></h1>
+<div data-ng-if="changePassword.enabled" class="recoveryView-section">
+	<h5 class="settingsView-setting-header" data-i18n="settings.changes.changePassword"></h5>
+	<form validated-form="pwValidationOptions" class="inputSandwich">
+		<passwordinput state="changePassword" class1="inputSandwich-top" class2="inputSandwich-middle"></passwordinput>
+		<savebutton class="inputSandwich-bottom" state="savePasswordState" data-translation="settings.changes.save" data-ng-click="savePassword()"></savebutton>
+	</form>
 </div>
+<section data-ng-if="!changePassword.enabled && codeProvided" class="recoveryView-section">
+	<div class="uploadForm">
+		<button class="uploadForm-botton btn btn--primary" data-i18n="views.recovery.uploadKey"></button>
+		<input class="uploadForm-theForm" type="file" data-file="fileUpload">
+	</div>
+	<p data-i18n="views.recovery.or"></p>
+	<h2 class="recoveryView-subTitle" data-i18n="views.recovery.manualKey"></h2>
+	<div class="inputSandwich">
+		<form>
+			<input class="inputSandwich-top" type="text" data-ng-model="manualCode" data-i18n-attr="views.recovery.typeKey|placeholder">
+			<savebutton class="inputSandwich-bottom" data-state="loadBackupKeyState" data-ng-click="loadBackupKeyManual()"></savebutton>
+		</form>
+	</div>	
+	<p data-i18n="views.recovery.or"></p>
+	<h2 class="recoveryView-subTitle" data-i18n="views.recovery.scanKey" data-ng-if="qr.enabled"></h2>
+	<qr-scanner state="qr" callback="backupKeyCallback(code)" data-ng-if="qr.enabled"></qr-scanner>
+</section>
+<section data-ng-if="!changePassword.enabled && !codeProvided" class="recoveryView-section">
+	<h2 class="recoveryView-subTitle" data-i18n="views.recovery.byMail"></h2>
+	<form>
+		<input class="inputSandwich-top" type="text" placeholder="E-Mail" data-ng-model="request.identifier">
+		<savebutton class="inputSandwich-bottom" data-state="request.state" data-ng-click="request.execute(request.identifier)" data-translation="views.recovery.requestRecovery"></savebutton>
+	</form>
+</section>
