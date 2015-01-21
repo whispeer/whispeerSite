@@ -1,9 +1,9 @@
 <h1 id="recoveryView-title" data-i18n="views.recovery.title"></h1>
 <div data-ng-if="changePassword.enabled">
 	<h5 class="settingsView-setting-header" data-i18n="settings.changes.changePassword"></h5>
-	<form validated-form="pwValidationOptions">
+	<form validated-form="pwValidationOptions" class="inputSandwich">
 		<passwordinput state="changePassword"></passwordinput>
-		<savebutton id="settingsView-savePassword" state="savePasswordState" data-translation="settings.changes.save" data-ng-click="savePassword()"></savebutton>
+		<savebutton class="inputSandwich-bottom" state="savePasswordState" data-translation="settings.changes.save" data-ng-click="savePassword()"></savebutton>
 	</form>
 </div>
 <section data-ng-if="!changePassword.enabled && codeProvided" class="recoveryView-section">
