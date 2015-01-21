@@ -160,3 +160,124 @@
 	text-align: center;
 	margin-top: 20px;
 }
+
+
+//bad code follows! --> only to show daniel what I have in mind!
+
+.images {
+	text-align: left;
+	max-height: 38px * 3;
+	display: block;
+
+	.percentage {
+		height: 10px;
+		width: 80%;
+
+		position: relative;
+		top: -20px;
+		left: 0px;
+		right: 0px;
+		margin: auto;
+
+		background-color: white;
+
+		overflow: hidden;
+
+		border: 1px solid gray;
+		.border-radius(5px);
+	}
+	.bar {
+		background-color: green;
+		height: 10px;
+	}
+	img {
+		.border-radius(5px);
+		max-height: 100%;
+		max-width: 100%;
+	}
+	.imagePreview {
+		margin-top: 5px;
+		margin-right: 5px;
+		display: inline-block;
+		width: 30%;
+		max-height: 100%;
+
+		.remove {
+			padding: 0;
+			border-radius: 10px;
+			border: none;
+			position: absolute;
+			width: 20px;
+			height: 20px;
+			margin-left: 2px;
+			margin-top: 2px;
+			background-color: gray;
+			color: red;
+		}
+	}
+
+	.advancedHint {
+		.bold-text();
+
+		width: 30px;
+		height: 30px;
+
+		text-align: center;
+		line-height: 30px;
+
+		display: inline-block;
+		position: relative;
+		left: -30px;
+		top: -5px;
+		background: gray;
+
+		.border-radius(20px)
+	}
+
+	.hintContent .remove {
+		padding: 0;
+		border: none;
+
+		background-color: transparent;
+		color: red;
+	}
+
+	.advancedHint .hintWrapper:hover {
+		display: block;
+	}
+
+	.advancedHint:hover > .hintWrapper {
+		display: block;
+	}
+
+	.hintWrapper:before {
+		width: 3px;	
+		display: block;
+		content: '';
+		border: 6px solid transparent;
+		border-top: 0px;
+		margin-left: 8px;
+		border-bottom-color: #383838;
+	}
+
+	.hintContent {
+		padding: 7px;
+		background-color: #383838;
+		.border-radius(5px);
+	}
+
+	.advancedHint > .hintWrapper {
+		.normal-text();
+		display: none;
+
+		text-align:left;
+
+		position: absolute;
+		top: 30px;
+
+		left: 0px;
+
+		width: 25em;
+	}
+
+}
