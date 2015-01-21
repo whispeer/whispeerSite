@@ -1,20 +1,19 @@
-<div>
-	<h1 data-i18n="views.recovery.title"></h1>
-	<div data-ng-if="changePassword.enabled">
-		<h5 class="settingsView-setting-header" data-i18n="settings.changes.changePassword"></h5>
-		<form validated-form="pwValidationOptions">
-			<passwordinput state="changePassword"></passwordinput>
-			<savebutton id="settingsView-savePassword" state="savePasswordState" data-translation="settings.changes.save" data-ng-click="savePassword()"></savebutton>
-		</form>
-	</div>
-	<div data-ng-if="!changePassword.enabled && codeProvided">
-		<div>Lade deinen Backup-Schlüssel hoch: <button><input type="file" data-file="fileUpload"></button></div>
-		<div>Gib den Code manuell ein: <input type="text" data-ng-model="manualCode"><savebutton data-state="loadBackupKeyState" data-ng-click="loadBackupKeyManual()"></savebutton></div>
-		<div>Scanne den ausgedruckten QR-Code: </div>
-		<qr-scanner state="qr" callback="backupKeyCallback(code)"></qr-scanner>
-	</div>
-	<div data-ng-if="!changePassword.enabled && !codeProvided">
-		E-Mail: <input type='text' placeholder="E-Mail" data-ng-model="request.identifier">
-		<savebutton data-state="request.state" data-ng-click="request.execute(request.identifier)">Wiederherstellung anfordern</savebutton>
-	</div>
+<h1 id="recoveryView-title" data-i18n="views.recovery.title"></h1>
+<div data-ng-if="changePassword.enabled">
+	<h5 class="settingsView-setting-header" data-i18n="settings.changes.changePassword"></h5>
+	<form validated-form="pwValidationOptions">
+		<passwordinput state="changePassword"></passwordinput>
+		<savebutton id="settingsView-savePassword" state="savePasswordState" data-translation="settings.changes.save" data-ng-click="savePassword()"></savebutton>
+	</form>
 </div>
+<section data-ng-if="!changePassword.enabled && codeProvided" class="recoveryView-section">
+	<div>Lade deinen Backup-Schlüssel hoch: <button><input type="file" data-file="fileUpload"></button></div>
+	<div>Gib den Code manuell ein: <input type="text" data-ng-model="manualCode"><savebutton data-state="loadBackupKeyState" data-ng-click="loadBackupKeyManual()"></savebutton></div>
+	<div>Scanne den ausgedruckten QR-Code: </div>
+	<qr-scanner state="qr" callback="backupKeyCallback(code)"></qr-scanner>
+</section>
+<section data-ng-if="!changePassword.enabled && !codeProvided" class="recoveryView-section">
+	<h2 data-i18n="views.recovery.byMail" id="recoveryView-subTitle"></h2>
+	<input type="text" placeholder="E-Mail" data-ng-model="request.identifier" id="recoveryView-eMail">
+	<savebutton data-state="request.state" data-ng-click="request.execute(request.identifier)" data-translation="views.recovery.requestRecovery" id="recoveryView-sendRequest"></savebutton>
+</section>

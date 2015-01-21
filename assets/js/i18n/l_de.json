@@ -18,7 +18,9 @@
 	"views": {
 		"recovery": {
 			"title": "Accountwiederherstellung",
-			"explanation": "Eine automatische Accountwiederherstellung ist noch nicht vorhanden. {br} Solltest du dein Passwort vergessen haben, sende uns bitte eine E-Mail an {mail}. {br} Gib deinen Wiederherstellungs-Schlüssel niemals weiter, auch nicht an uns!"
+			"explanation": "Eine automatische Accountwiederherstellung ist noch nicht vorhanden. {br} Solltest du dein Passwort vergessen haben, sende uns bitte eine E-Mail an {mail}. {br} Gib deinen Wiederherstellungs-Schlüssel niemals weiter, auch nicht an uns!",
+			"byMail": "Wiederherstellung per E-Mail",
+			"requestRecovery": "Wiederherstellung anfordern"
 		},
 		"invite": {
 			"invite": "Einladen",

@@ -18,7 +18,9 @@
 	"views": {
 		"recovery": {
 			"title": "Account recovery",
-			"explanation": "Your account can not be recovered automatically yet. {br} If you forgot your password please send an e-mail to {mail}. {br} Never send your backup key to anyone not even us!"
+			"explanation": "Your account can not be recovered automatically yet. {br} If you forgot your password please send an e-mail to {mail}. {br} Never send your backup key to anyone not even us!",
+			"byMail": "Recovery via E-Mail",
+			"requestRecovery": "Request Recovery"
 		},
 		"invite": {
 			"invite": "Invite",
