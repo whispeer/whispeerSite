@@ -10,15 +10,14 @@
 	&:extend(.box-fix);
 }
 #newsfeedView-wall-header {
-	@media @desktop {
-		height: 85px;
-	}
 	.column(12,12,left,0);
 	padding-top: 10px;
 	text-align: center;
 	z-index: 1000;
 	border-radius: 4px 0 0 4px;
 }
+
+// Post Form
 #newsfeedView-postForm {
 	@media @desktop {
 		.column(8,12,left,1%);
@@ -32,25 +31,6 @@
 	border: 1px solid @btnBorder;
 	border-radius: 4px;
 	&:extend(.box-fix);
-}
-#newsfeedView-image {
-	padding: 0;
-	width: 40px;
-	height: 40px;
-	text-align: center;
-	line-height: 40px;
-}
-#newsfeedView-image div {
-	height: 40px;
-	width: 40px;
-	position: relative;
-	top: -40px;
-	opacity: 0;
-	overflow: hidden;
-}
-#newsfeedView-image input {
-	height: 100%;
-	width: 100%;
 }
 #newsfeedView-receivers {
 	.column(5.5,8,left,0);
@@ -90,6 +70,44 @@
 	border-top: 1px solid @btnBorder;
 	.border-radiuses(5px,0,0,5px);
 }
+#newsfeed-newPostImages {
+	display: block;
+	float: left;
+	width: 100%;
+	height: 38px * 3;
+	overflow-x: scroll;
+	overflow-y: hidden;
+	white-space: nowrap;
+	text-align: left;
+}
+.newsfeed-newPostImage {
+	border-radius: 3px;
+	height: 100%;
+	max-width: 100%;
+}	
+.newsfeed-newPostImagePreview {
+	display: inline-block;
+	position: relative;
+	max-width: 23%;
+	height: 100%;
+	margin: 0 1%;
+	padding: 5px 0;
+	&:extend(.box-fix);
+}
+.newsfeed-newPostImageRemove {
+	padding: 0;
+	border-radius: 10px;
+	border: none;
+	position: absolute;
+	top: 10px;
+	right: 5px;
+	width: 20px;
+	height: 20px;
+	background: transparent;
+	color: white;
+}
+
+// Filter
 #newsfeedView-filter {
 	@media @desktop {
 		.column(4,12,left,1%);
@@ -159,125 +177,4 @@
 	display: inline-block;
 	text-align: center;
 	margin-top: 20px;
-}
-
-
-//bad code follows! --> only to show daniel what I have in mind!
-
-.images {
-	text-align: left;
-	max-height: 38px * 3;
-	display: block;
-
-	.percentage {
-		height: 10px;
-		width: 80%;
-
-		position: relative;
-		top: -20px;
-		left: 0px;
-		right: 0px;
-		margin: auto;
-
-		background-color: white;
-
-		overflow: hidden;
-
-		border: 1px solid gray;
-		.border-radius(5px);
-	}
-	.bar {
-		background-color: green;
-		height: 10px;
-	}
-	img {
-		.border-radius(5px);
-		max-height: 100%;
-		max-width: 100%;
-	}
-	.imagePreview {
-		margin-top: 5px;
-		margin-right: 5px;
-		display: inline-block;
-		width: 30%;
-		max-height: 100%;
-
-		.remove {
-			padding: 0;
-			border-radius: 10px;
-			border: none;
-			position: absolute;
-			width: 20px;
-			height: 20px;
-			margin-left: 2px;
-			margin-top: 2px;
-			background-color: gray;
-			color: red;
-		}
-	}
-
-	.advancedHint {
-		.bold-text();
-
-		width: 30px;
-		height: 30px;
-
-		text-align: center;
-		line-height: 30px;
-
-		display: inline-block;
-		position: relative;
-		left: -30px;
-		top: -5px;
-		background: gray;
-
-		.border-radius(20px)
-	}
-
-	.hintContent .remove {
-		padding: 0;
-		border: none;
-
-		background-color: transparent;
-		color: red;
-	}
-
-	.advancedHint .hintWrapper:hover {
-		display: block;
-	}
-
-	.advancedHint:hover > .hintWrapper {
-		display: block;
-	}
-
-	.hintWrapper:before {
-		width: 3px;	
-		display: block;
-		content: '';
-		border: 6px solid transparent;
-		border-top: 0px;
-		margin-left: 8px;
-		border-bottom-color: #383838;
-	}
-
-	.hintContent {
-		padding: 7px;
-		background-color: #383838;
-		.border-radius(5px);
-	}
-
-	.advancedHint > .hintWrapper {
-		.normal-text();
-		display: none;
-
-		text-align:left;
-
-		position: absolute;
-		top: 30px;
-
-		left: 0px;
-
-		width: 25em;
-	}
-
 }
