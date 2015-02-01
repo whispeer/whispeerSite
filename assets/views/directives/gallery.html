@@ -1,11 +1,12 @@
-<modal show="modal">
-	<img class="modalContent-image" data-ng-src="{{modalImage.url}}">
+<modal show="modal" loading="modalImage.highest.loading">
+	<img class="modalContent-image" data-ng-src="{{modalImage.highest.url}}" data-ng-if="!modalImage.highest.loading">
+	<img class="modalContent-image" data-ng-src="{{modalImage.lowest.url}}" data-ng-if="modalImage.highest.loading">
 </modal>
 <div class="postImages">
 	<div class="postImageWrap" data-ng-click="viewImage($index)" data-image-gallery="images" data-ng-repeat="image in images" data-ng-if="$index < preview">
 		<img class="postImage" data-ng-src="{{image.lowest.url}}">
 	</div>
-	<div class="moreImages" data-ng-if="images.length > preview">
+	<button class="moreImages" data-ng-click="loadAllImages()" data-ng-if="images.length > preview">
 		+ {{images.length - preview}}
-	</div>
+	</button>
 </div>

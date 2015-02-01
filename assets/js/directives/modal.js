@@ -1,15 +1,19 @@
-define(function () {
+define(["jquery"], function (jQuery) {
 	"use strict";
 	return function () {
 		return {
 			scope: {
-				visible: "=show"
+				visible: "=show",
+				loading: "=loading"
 			},
 			restrict: "E",
 			templateUrl: "assets/views/directives/modal.html",
 			replace: true,
 			transclude: true,
-			link: function (scope, element, attrs) {
+			link: function (scope, iElement, attrs) {
+				var ESC = 27;
+				var CLOSEKEYS = [ESC];
+
 				scope.hide = function () {
 					scope.visible = false;
 				};
@@ -21,6 +25,14 @@ define(function () {
 				scope.toggle = function () {
 					scope.visible = !scope.visible;
 				};
+
+				jQuery(document).keyup(function (e) {
+					scope.$apply(function () {
+						if (CLOSEKEYS.indexOf(e.keyCode) > -1) {
+							scope.visible = false;
+						}
+					});
+				});
 			}
 		};
 	};

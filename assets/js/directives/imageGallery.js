@@ -40,18 +40,52 @@ define(["step", "whispeerHelper"], function (step, h) {
 			},
 			restrict: "E",
 			templateUrl: "assets/views/directives/gallery.html",
-			link: function(scope) {
+			link: function(scope, iElement) {
 				scope.$watch("images", function () {
 					scope.preview = scope.preview || scope.images.length;
 					loadImagePreviews(scope.images.slice(0, scope.preview));
 				});
 
+				scope.loadAllImages = function () {
+					loadImagePreviews(scope.images.slice(scope.preview));
+					scope.preview = scope.images.length;
+				};
+
 				scope.modal = false;
 				scope.viewImage = function (index) {
 					scope.modal = true;
-					scope.modalImage = scope.images[index].highest;
-					loadImage(scope.images[index].highest);
+					scope.imageIndex = index;
+					scope.modalImage = scope.images[scope.imageIndex];
+					loadImage(scope.modalImage.highest);
 				};
+
+				var KEYS = {
+					LEFT: 37,
+					RIGHT: 39,
+					J: 74,
+					K: 75,
+					UP: 38,
+					DOWN: 40
+				};
+
+				var NEXTKEYS = [KEYS.DOWN, KEYS.J, KEYS.RIGHT];
+				var PREVKEYS = [KEYS.UP, KEYS.K, KEYS.LEFT];
+
+				jQuery(document).keyup(function (e) {
+					if (scope.modal) {
+						scope.$apply(function () {
+							if (NEXTKEYS.indexOf(e.keyCode) > -1) {
+								scope.imageIndex = Math.min(scope.imageIndex + 1, scope.images.length - 1);
+								e.preventDefault();
+							}
+							if (PREVKEYS.indexOf(e.keyCode) > -1) {
+								scope.imageIndex = Math.max(scope.imageIndex - 1, 0);
+								e.preventDefault();
+							}
+							scope.viewImage(scope.imageIndex);
+						});
+					}
+				});
 			}
 		};
 	}
