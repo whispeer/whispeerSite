@@ -1,11 +1,11 @@
 <modal show="modal">
 	<img data-ng-src="{{modalImage.url}}">
 </modal>
-<aside class="images">
-	<div data-ng-click="viewImage($index)" data-image-gallery="images" class="postImage" data-ng-repeat="image in images" data-ng-if="$index < preview">
-		<img data-ng-src="{{image.lowest.url}}">
+<div class="postImages">
+	<div class="postImageWrap" data-ng-click="viewImage($index)" data-image-gallery="images" data-ng-repeat="image in images" data-ng-if="$index < preview">
+		<img class="postImage" data-ng-src="{{image.lowest.url}}">
 	</div>
-	<div class="plusBubble" data-ng-if="images.length > preview">
+	<div class="moreImages" data-ng-if="images.length > preview">
 		+ {{images.length - preview}}
 	</div>
-</aside>
+</div>
