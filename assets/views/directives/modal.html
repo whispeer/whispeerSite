@@ -1,5 +1,6 @@
 <div class="modal" data-ng-show="visible">
 	<div class="modalBackground" data-ng-click="hide()"></div>
-	<button class="modalClose" data-ng-click="hide()"></button>
-	<div class="modalContent" ng-transclude></div>
+	<button class="modalClose btn btn--inverse btn--noRadius fa fa-times-circle" data-ng-click="hide()"></button>
+	<div class="modalContentWrap" ng-transclude>
+	</div>
 </div>
