@@ -6,7 +6,7 @@
 	<div class="postImageWrap" data-ng-click="viewImage($index)" data-image-gallery="images" data-ng-repeat="image in images" data-ng-if="$index < preview">
 		<img class="postImage" data-ng-src="{{image.lowest.url}}">
 	</div>
-	<button class="moreImages btn btn--inverse btn--noRadius" data-ng-click="loadAllImages()" data-ng-if="images.length > preview">
+	<button class="moreImages btn btn--inverse btn--noRadius" data-ng-click="loadMoreImages()" data-ng-if="images.length > preview">
 		+ {{images.length - preview}}
 	</button>
 </div>

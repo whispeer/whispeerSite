@@ -42,13 +42,15 @@ define(["step", "whispeerHelper"], function (step, h) {
 			templateUrl: "assets/views/directives/gallery.html",
 			link: function(scope, iElement) {
 				scope.$watch("images", function () {
-					scope.preview = scope.preview || scope.images.length;
+					scope.preview = parseInt(scope.preview, 10) || scope.images.length;
 					loadImagePreviews(scope.images.slice(0, scope.preview));
 				});
 
-				scope.loadAllImages = function () {
-					loadImagePreviews(scope.images.slice(scope.preview));
-					scope.preview = scope.images.length;
+				scope.loadMoreImages = function () {
+					scope.preview = parseInt(scope.preview, 10);
+
+					loadImagePreviews(scope.images.slice(scope.preview, scope.preview + 4));
+					scope.preview += 4;
 				};
 
 				scope.modal = false;
