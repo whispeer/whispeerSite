@@ -1,7 +1,7 @@
 /**
 * MessageService
 **/
-define(["step", "whispeerHelper"], function (step, h) {
+define(["step", "whispeerHelper", "asset/Progress"], function (step, h, Progress) {
 	"use strict";
 
 	var knownBlobs = {};
@@ -25,14 +25,6 @@ define(["step", "whispeerHelper"], function (step, h) {
 			this._meta = options.meta || {};
 			this._key = this._meta._key;
 			this._decrypted = !this._key;
-
-			this._uploadStatus = {
-				uploaded: this._uploaded,
-				acting: false,
-				uploading: false,
-				percentage: -1,
-				encrypting: false
-			};
 		};
 
 		MyBlob.prototype.isUploaded = function () {
@@ -64,29 +56,32 @@ define(["step", "whispeerHelper"], function (step, h) {
 			}), cb);
 		};
 
-		MyBlob.prototype.encryptAndUpload = function (key, cb) {
+		MyBlob.prototype.encryptAndUpload = function (key, progress, cb) {
+			var uploadProgress = new Progress({ total: this.getSize() });
+			var encryptProgress = new Progress({ total: this.getSize() });
+
+			progress.addDepend(uploadProgress);
+			progress.addDepend(encryptProgress);
+
 			var that = this, blobKey;
 			step(function () {
-				that.encrypt(this);
+				that.encrypt(encryptProgress, this);
 			}, h.sF(function (_blobKey) {
 				blobKey = _blobKey;
 				keyStore.sym.symEncryptKey(blobKey, key, this);
 			}), h.sF(function () {
-				that.upload(this);
+				that.upload(uploadProgress, this);
 			}), h.sF(function () {
 				this.ne(blobKey);
 			}), cb);
 		};
 
-		MyBlob.prototype.encrypt = function (cb) {
+		MyBlob.prototype.encrypt = function (progress, cb) {
 			var that = this;
 			step(function () {
 				if (that._uploaded || !that._decrypted) {
 					throw new Error("trying to encrypt an already encrypted or public blob. add a key decryptor if you want to give users access");
 				}
-
-				that._uploadStatus.encrypting = true;
-				that._uploadStatus.acting = true;
 
 				this.parallel.unflatten();
 				keyStore.sym.generateKey(this.parallel(), "blob key");
@@ -98,13 +93,12 @@ define(["step", "whispeerHelper"], function (step, h) {
 				console.time("blobencrypt" + (that._blobID || that._preReserved));
 				keyStore.sym.encryptArrayBuffer(buf, that._key, this);
 			}), h.sF(function (encryptedData) {
+				progress.progress(that.getSize());
 				console.timeEnd("blobencrypt" + (that._blobID || that._preReserved));
 				console.log(encryptedData.byteLength);
 				that._decrypted = false;
 
 				that._blobData = new Blob([encryptedData], {type: that._blobData.type});
-
-				that._uploadStatus.encrypting = false;
 
 				this.ne(that._key);
 			}), cb);
@@ -157,43 +151,9 @@ define(["step", "whispeerHelper"], function (step, h) {
 			}
 		};
 
-		MyBlob.prototype.getUploadStatus = function () {
-			return this._uploadStatus;
-		};
+		MyBlob.prototype.upload = function (progress, cb) {
+			progress.setTotal(this.getSize());
 
-		MyBlob.prototype._registerListener = function (blobid) {
-			var that = this;
-			socketService.uploadObserver.listen(function () {
-				that._uploadStarted();
-			}, "uploadStart:" + blobid);
-
-			socketService.uploadObserver.listen(function (blobid) {
-				that._uploadProgress(blobid);
-			}, "uploadProgress:" + blobid);
-
-			socketService.uploadObserver.listen(function () {
-				that._uploadFinished();
-			}, "uploadFinished:" + blobid);
-		};
-
-		MyBlob.prototype._uploadStarted = function () {
-			this._uploadStatus.uploading = true;
-			this._uploadStatus.acting = true;
-			this._uploadStatus.percentage = 0;
-		};
-
-		MyBlob.prototype._uploadProgress = function (blobid) {
-			var u = socketService.getUploadStatus(blobid);
-			this._uploadStatus.percentage = u.uploaded / u.fullSize;
-		};
-
-		MyBlob.prototype._uploadFinished = function () {
-			this._uploadStatus.percentage = 1;
-			this._uploadStatus.uploading = false;
-			this._uploadStatus.uploaded = true;
-		};
-
-		MyBlob.prototype.upload = function (cb) {
 			var that = this;
 			step(function () {
 				if (that._uploaded) {
@@ -202,9 +162,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 					that.reserveID(this);
 				}
 			}, h.sF(function (blobid) {
-				that._registerListener(blobid);
-
-				socketService.uploadBlob(that._blobData, blobid, this);
+				socketService.uploadBlob(that._blobData, blobid, progress, this);
 			}), h.sF(function () {
 				that._uploaded = true;
 

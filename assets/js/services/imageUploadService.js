@@ -1,7 +1,7 @@
 /**
 * imageUploadService
 **/
-define(["step", "whispeerHelper", "jquery", "bluebird", "imageLib"], function (step, h, $, Promise, imageLib) {
+define(["step", "whispeerHelper", "jquery", "bluebird", "imageLib", "asset/Progress"], function (step, h, $, Promise, imageLib, Progress) {
 	"use strict";
 
 	var service = function (blobService) {
@@ -42,6 +42,7 @@ define(["step", "whispeerHelper", "jquery", "bluebird", "imageLib"], function (s
 		var ImageUpload = function (file, options) {
 			this._file = file;
 			this._options = $.extend({}, defaultOptions, options);
+			this._progress = new Progress();
 
 			if (!file.type.match(/image.*/)) {
 				throw new Error("not an image!");
@@ -64,9 +65,17 @@ define(["step", "whispeerHelper", "jquery", "bluebird", "imageLib"], function (s
 			});
 		};
 
-		ImageUpload._uploadPreparedBlob = function (encryptionKey, blobMeta) {
+		ImageUpload.prototype.getProgress = function () {
+			return this._progress.getProgress();
+		};
+
+		ImageUpload.prototype._uploadPreparedBlob = function (encryptionKey, blobMeta) {
+			var progress = new Progress();
+
+			this._progress.addDepend(progress);
+
 			var encryptAndUpload = Promise.promisify(blobMeta.blob.encryptAndUpload, blobMeta.blob);
-			return encryptAndUpload(encryptionKey).then(function (blobKey) {
+			return encryptAndUpload(encryptionKey, progress).then(function (blobKey) {
 				return blobKey;
 			});
 		};
@@ -152,13 +161,15 @@ define(["step", "whispeerHelper", "jquery", "bluebird", "imageLib"], function (s
 		};
 
 		ImageUpload.prototype._uploadImage = function (encryptionKey) {
-			return Promise.resolve(this._blobs || this.prepare()).map(function (blobWithMetaData) {
-				return ImageUpload._uploadPreparedBlob(encryptionKey, blobWithMetaData);
+			return Promise.resolve(this._blobs || this.prepare()).bind(this).map(function (blobWithMetaData) {
+				return this._uploadPreparedBlob(encryptionKey, blobWithMetaData);
 			});
 		};
 
-		ImageUpload.prototype._uploadGif = function () {
-			return new Promise(blobService.createBlob(this._file)).call(ImageUpload.blobToDataSet).call(ImageUpload._uploadPreparedBlob);
+		ImageUpload.prototype._uploadGif = function (encryptionKey) {
+			return new Promise(blobService.createBlob(this._file)).bind(this).call(ImageUpload.blobToDataSet).then(function (blobWithMetaData) {
+				this._uploadPreparedBlob(encryptionKey, blobWithMetaData);
+			});
 		};
 
 		return ImageUpload;

@@ -45,10 +45,7 @@ define(["jquery", "socket", "socketStream", "step", "whispeerHelper", "config", 
 			isConnected: function () {
 				return socket.connected;
 			},
-			getUploadStatus: function (blobid) {
-				return upload[blobid];
-			},
-			uploadBlob: function (blob, blobid, cb) {
+			uploadBlob: function (blob, blobid, progress, cb) {
 				if (uploadingCounter > 3) {
 					internalObserver.listenOnce(function () {
 						socketS.uploadBlob(blob, blobid, cb);
@@ -66,7 +63,6 @@ define(["jquery", "socket", "socketStream", "step", "whispeerHelper", "config", 
 				}, h.sF(function () {
 					streamUpgraded = true;
 
-					internalObserver.notify(blobid, "uploadStart:" + blobid);
 					var stream = iostream.createStream();
 					iostream(socket).emit("pushBlob", stream, {
 						blobid: blobid
@@ -74,18 +70,8 @@ define(["jquery", "socket", "socketStream", "step", "whispeerHelper", "config", 
 
 					var blobStream = iostream.createBlobReadStream(blob);
 
-					upload[blobid] = {
-						fullSize: blob.size,
-						uploaded: 0,
-						blobid: blobid,
-					};
-
 					blobStream.on("data", function(chunk) {
-						$rootScope.$apply(function () {
-							upload[blobid].uploaded += chunk.length;
-							internalObserver.notify(blobid, "uploadProgress");
-							internalObserver.notify(blobid, "uploadProgress:" + blobid);
-						});
+						progress.progressDelta(chunk.length);
 					});
 
 					blobStream.on("end", this);
