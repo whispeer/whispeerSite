@@ -117,11 +117,13 @@ define(["step", "whispeerHelper", "jquery", "bluebird", "imageLib", "asset/Progr
 		};
 
 		ImageUpload.prototype.upload = function (encryptionKey) {
-			if (this._file.type.match(/image.gif/i)) {
-				return this._uploadGif(encryptionKey);
-			} else {
-				return this._uploadImage(encryptionKey);
+			if (!this._blobs) {
+				throw new Error("usage error: prepare was not called!");
 			}
+
+			return Promise.resolve(this._blobs).bind(this).map(function (blobWithMetaData) {
+				return this._uploadPreparedBlob(encryptionKey, blobWithMetaData);
+			});
 		};
 
 		ImageUpload.prototype._createSizeData = function (size) {
@@ -132,7 +134,7 @@ define(["step", "whispeerHelper", "jquery", "bluebird", "imageLib", "asset/Progr
 			});
 		};
 
-		ImageUpload.prototype.prepare = function () {
+		ImageUpload.prototype._prepareImage = function () {
 			return Promise.resolve(this._options.sizes).bind(this).map(this._createSizeData).then(function (blobs) {
 				var lastBlob, result = {};
 
@@ -152,23 +154,30 @@ define(["step", "whispeerHelper", "jquery", "bluebird", "imageLib", "asset/Progr
 			});
 		};
 
+		ImageUpload.prototype._prepareGif = function () {
+			return ImageUpload.blobToDataSet(blobService.createBlob(this._file)).bind(this).then(function (blob) {
+				this._blobs = [blob];
+
+				return {
+					lowest: blob.meta,
+					highest: blob.meta
+				};
+			});
+		};
+
+		ImageUpload.prototype.prepare = function () {
+			if (this._file.type.match(/image.gif/i)) {
+				return this._prepareGif();
+			} else {
+				return this._prepareImage();
+			}
+		};
+
 		ImageUpload.prototype._resizeFile = function (sizeOptions) {
 			var options = $.extend({}, sizeOptions, { canvas: true });
 
 			return ImageUpload.imageLibLoad(this._file, options).then(function (canvas) {
 				return canvasToBlob(canvas);
-			});
-		};
-
-		ImageUpload.prototype._uploadImage = function (encryptionKey) {
-			return Promise.resolve(this._blobs || this.prepare()).bind(this).map(function (blobWithMetaData) {
-				return this._uploadPreparedBlob(encryptionKey, blobWithMetaData);
-			});
-		};
-
-		ImageUpload.prototype._uploadGif = function (encryptionKey) {
-			return new Promise(blobService.createBlob(this._file)).bind(this).call(ImageUpload.blobToDataSet).then(function (blobWithMetaData) {
-				this._uploadPreparedBlob(encryptionKey, blobWithMetaData);
 			});
 		};
 
