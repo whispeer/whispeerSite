@@ -111,19 +111,27 @@ button[disabled] {
 	display: block;
 	position: relative;
 	height: 40px;
+	overflow: hidden;
+	
+	cursor: pointer;
 }
 .uploadForm-button {
+	height: 100%;
 	width: 100%;
 	z-index: 1;
 }
 .uploadForm-theForm {
 	position: absolute;
 	width: 100%;
-	background: red;
-	height: 40px;
-	top: 0;
+	height: ~"calc(100% + 50px)";
+	top: -50px;
 	left: 0;
 	z-index: 2;
 	opacity: 0;
+	background: black;
+	
 	cursor: pointer;
+}
+.uploadForm-theForm:hover {
+	opacity: 0.05;
 }
