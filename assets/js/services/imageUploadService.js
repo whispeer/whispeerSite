@@ -12,13 +12,21 @@ define(["step", "whispeerHelper", "jquery", "bluebird", "imageLib"], function (s
 			sizes: [
 				{
 					name: "lowest",
-					maxWidth: 600,
-					maxHeight: 600
+					maxWidth: 640,
+					maxHeight: 480
 				},
 				{
-					//1 MB
+					name: "middle",
+					maxWidth: 1280,
+					maxHeight: 720
+				},
+				{
 					name: "highest",
-					maxSize: 1*1024*1024
+					maxWidth: 2560,
+					maxHeight: 1440
+				},
+				{
+					name: "original"
 				}
 			],
 			gif: true,
