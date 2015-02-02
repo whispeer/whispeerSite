@@ -125,11 +125,20 @@ define(["step", "whispeerHelper", "jquery", "bluebird", "imageLib"], function (s
 
 		ImageUpload.prototype.prepare = function () {
 			return Promise.resolve(this._options.sizes).bind(this).map(this._createSizeData).then(function (blobs) {
-				this._blobs = blobs;
-				var result = {};
-				blobs.forEach(function (blob) {
-					result[blob.size.name] = blob.meta;
-				});
+				var lastBlob, result = {};
+
+				this._blobs = blobs.sort(function (a, b) { return b.blob.getSize() - a.blob.getSize(); }).filter(function (blob) {
+					var keep = !lastBlob || (lastBlob.blob.getSize() - blob.blob.getSize()) > this._options.minimumSizeDifference;
+
+					if (keep) {
+						lastBlob = blob;
+					}
+
+					result[blob.size.name] = lastBlob.meta;
+
+					return keep;
+				}, this);
+
 				return result;
 			});
 		};
