@@ -40,7 +40,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 			},
 			restrict: "E",
 			templateUrl: "assets/views/directives/gallery.html",
-			link: function(scope, iElement) {
+			link: function(scope) {
 				scope.$watch("images", function () {
 					scope.preview = parseInt(scope.preview, 10) || scope.images.length;
 					loadImagePreviews(scope.images.slice(0, scope.preview));
@@ -57,6 +57,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 				scope.viewImage = function (index) {
 					scope.modal = true;
 					scope.imageIndex = index;
+
 					scope.modalImage = scope.images[scope.imageIndex];
 					loadImage(scope.modalImage.highest);
 				};

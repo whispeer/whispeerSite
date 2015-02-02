@@ -20,7 +20,7 @@
 				<div class="newsfeed-newPostImagePreview" data-ng-repeat="image in newPost.images">
 					<button class="newsfeed-newPostImageRemove fa fa-times-circle" data-ng-click='newPost.removeImage($index)'></button>
 					<img class="newsfeed-newPostImage" alt="{{image.getName()}}" data-ng-src="{{image.getUrl()}}">
-					<progress class="newsfeed-newPostImageProgress" value="{{image.getProgress()}}" max="100%" data-ng-show="image.getProgress() > 0"></progress>
+					<progress class="newsfeed-newPostImageProgress" value="{{image.getProgress()}}" max="100%" data-ng-show="!canSend"></progress>
 				</div>
 				<!--
 <div id="newsfeed-newPostHiddenImages" data-ng-if="newPost.images.length > 3">
