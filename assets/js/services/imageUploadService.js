@@ -29,12 +29,21 @@ define(["step", "whispeerHelper", "jquery", "bluebird", "imageLib", "asset/Progr
 					name: "original"
 				}
 			],
+			gifSizes: [
+				{
+					name: "lowest",
+					maxWidth: 640,
+					maxHeight: 480
+				},
+				{
+					name: "highest"
+				}
+			],
 			gif: true,
 			original: false
 		};
 
 		/* TODO:
-			- size difference
 			- maximum size for a resolution
 			- original: enable, remove meta-data (exif etc.)
 		*/

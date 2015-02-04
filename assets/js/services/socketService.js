@@ -48,7 +48,7 @@ define(["jquery", "socket", "socketStream", "step", "whispeerHelper", "config", 
 			uploadBlob: function (blob, blobid, progress, cb) {
 				if (uploadingCounter > 3) {
 					internalObserver.listenOnce(function () {
-						socketS.uploadBlob(blob, blobid, cb);
+						socketS.uploadBlob(blob, blobid, progress, cb);
 					}, "uploadFinished");
 					return;
 				}
