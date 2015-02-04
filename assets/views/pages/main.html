@@ -20,26 +20,8 @@
 				<div class="newsfeed-newPostImagePreview" data-ng-repeat="image in newPost.images">
 					<button class="newsfeed-newPostImageRemove fa fa-times-circle" data-ng-click='newPost.removeImage($index)'></button>
 					<img class="newsfeed-newPostImage" alt="{{image.getName()}}" data-ng-src="{{image.getUrl()}}">
-					<progress class="newsfeed-newPostImageProgress" value="{{image.getProgress()}}" max="100%" data-ng-show="!canSend"></progress>
+					<progress class="newsfeed-newPostImageProgress" value="{{image.getProgress()}}" max="100"></progress>
 				</div>
-				<!--
-<div id="newsfeed-newPostHiddenImages" data-ng-if="newPost.images.length > 3">
-					<span id="newsfeed-newPostHiddenImagesCount">+ {{newPost.images.length - 3}}</span>
-					<div class="dropdown">
-						<div class="dropdown-header">
-							<span class="dropdown-header-title">{{newPost.images.length - 3}} weitere Bilder</span>
-						</div>
-						<div class="dropdown-container">
-							<ul class="u-unstyled">
-								<li class="newsfeed-newPostHiddenImage" data-ng-repeat="image in newPost.images" data-ng-if="$index > 2">
-									<button class="newsfeed-newPostHiddenImage-remove fa fa-times-circle" data-ng-click='newPost.removeImage($index)'></button>
-									{{image.getName()}}
-								</li>
-							</ul>
-						</div>
-					</div>
-				</div>
--->
 			</div>
 		</form>
 		<div id="newsfeedView-filter">
