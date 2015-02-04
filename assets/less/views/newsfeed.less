@@ -58,6 +58,13 @@
 	float: left;
 	display: inline-block;
 	width: 48px;
+	border-right: 1px solid @btnBorder;
+	&:extend(.box-fix);
+}
+@media screen and (-webkit-min-device-pixel-ratio:0) { // we've got whitespace in webkit as an artificial border..
+	#newsfeedView-addImage {
+		border: none;
+	}
 }
 #newsfeedView-addImageIcon {
 	vertical-align: middle;
