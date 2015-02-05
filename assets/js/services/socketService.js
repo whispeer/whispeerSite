@@ -35,7 +35,6 @@ define(["jquery", "socket", "socketStream", "step", "whispeerHelper", "config", 
 		}, 10000);
 
 		var loading = 0;
-		var upload = {};
 
 		var internalObserver = new Observer();
 		var uploadingCounter = 0, streamUpgraded = false;
