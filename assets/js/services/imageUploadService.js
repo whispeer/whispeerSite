@@ -152,9 +152,10 @@ define(["step", "whispeerHelper", "jquery", "bluebird", "imageLib", "asset/Progr
 		};
 
 		ImageUpload.prototype._createSizeData = function (size) {
-			return this._resizeFile(size).then(function (resizedImage) {
+			return this._resizeFile(size).bind(this).then(function (resizedImage) {
 				return ImageUpload.blobToDataSet(blobService.createBlob(resizedImage));
 			}).then(function (data) {
+				data.meta.gif = this._isGif;
 				return $.extend({}, data, { size: size });
 			});
 		};
