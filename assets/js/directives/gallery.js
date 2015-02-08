@@ -1,7 +1,7 @@
 define(["step", "whispeerHelper"], function (step, h) {
 	"use strict";
 
-	function imageGallery(errorService, blobService) {
+	function imageGallery(errorService, blobService, screenSizeService) {
 		function loadImagePreviews(images) {
 			images.forEach(function (image) {
 				loadImage(image.lowest);
@@ -41,6 +41,11 @@ define(["step", "whispeerHelper"], function (step, h) {
 			templateUrl: "assets/views/directives/gallery.html",
 			link: function(scope) {
 				var previewChunk = 4;
+
+				if (screenSizeService.mobile) {
+					previewChunk = 2;	
+				}
+
 				scope.preview = previewChunk;
 
 				scope.$watch("images", function () {
@@ -93,5 +98,8 @@ define(["step", "whispeerHelper"], function (step, h) {
 			}
 		};
 	}
+
+	imageGallery.$inject = ["ssn.errorService", "ssn.blobService", "ssn.screenSizeService"];
+
 	return imageGallery;
 });
