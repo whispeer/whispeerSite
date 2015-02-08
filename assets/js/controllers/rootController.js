@@ -18,7 +18,7 @@ define(["step", "whispeerHelper", "cryptoWorker/generalWorkerInclude", "config"]
 		}
 	}
 
-	function rootController($rootScope, $scope, $timeout, $http, socketService, sessionService, sessionHelper, userService, cssService, messageService, trustService, friendsService) {
+	function rootController($rootScope, $scope, screenSizeService, $http, socketService, sessionService, sessionHelper, userService, cssService, messageService, trustService, friendsService) {
 		generalWorkerInclude.setBeforeCallBack(function (evt, cb) {
 			$rootScope.$apply(cb);
 		});
@@ -33,18 +33,10 @@ define(["step", "whispeerHelper", "cryptoWorker/generalWorkerInclude", "config"]
 		$scope.version = "";
 		$scope.loggedin = false;
 
-		function updateMobile() {
-			var old = $scope.mobile;
-
-			$scope.mobile = jQuery(window).width() < 1025;
-
-			if ($scope.mobile !== old) {
-				$timeout(h.nop);
-			}
-		}
-
-		jQuery(window).resize(updateMobile);
-		updateMobile();
+		$scope.mobile = screenSizeService.mobile;
+		screenSizeService.listen(function (mobile) {
+			$scope.mobile = mobile;
+		});
 
 		var nullUser = {
 			name: "",
@@ -143,7 +135,7 @@ define(["step", "whispeerHelper", "cryptoWorker/generalWorkerInclude", "config"]
 		};
 	}
 
-	rootController.$inject = ["$rootScope", "$scope", "$timeout", "$http", "ssn.socketService", "ssn.sessionService", "ssn.sessionHelper", "ssn.userService", "ssn.cssService", "ssn.messageService", "ssn.trustService", "ssn.friendsService"];
+	rootController.$inject = ["$rootScope", "$scope", "ssn.screenSizeService", "$http", "ssn.socketService", "ssn.sessionService", "ssn.sessionHelper", "ssn.userService", "ssn.cssService", "ssn.messageService", "ssn.trustService", "ssn.friendsService"];
 
 	return rootController;
 });
