@@ -61,6 +61,10 @@ define(["step", "whispeerHelper"], function (step, h) {
 
 				scope.modal = false;
 				scope.viewImage = function (index) {
+					if (screenSizeService.mobile) {
+						return;
+					}
+
 					scope.modal = true;
 					scope.imageIndex = index;
 
