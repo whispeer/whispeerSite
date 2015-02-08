@@ -2,10 +2,10 @@
 * mainController
 **/
 
-define(["step", "whispeerHelper", "asset/state", "bluebird"], function (step, h, State, Promise) {
+define(["step", "whispeerHelper", "asset/state"], function (step, h, State) {
 	"use strict";
 
-	function mainController($scope, cssService, postService, ImageUploadService, errorService) {
+	function mainController($scope, cssService, postService, ImageUploadService, errorService, screenSize) {
 		cssService.setClass("mainView");
 
 		$scope.canSend = true;
@@ -44,6 +44,16 @@ define(["step", "whispeerHelper", "asset/state", "bluebird"], function (step, h,
 
 			reloadTimeline();
 		});
+
+		var firstTimeUpload = true;
+
+		$scope.mobilePromptUser = function ($event) {
+			if (screenSize.mobile && firstTimeUpload && !window.confirm("Uploading files on mobile can drain battery. Are you sure?")) {
+				$event.preventDefault();
+			} else {
+				firstTimeUpload = false;
+			}
+		};
 
 		$scope.togglePost = function() {
 			$scope.postActive = !$scope.postActive;
@@ -94,7 +104,7 @@ define(["step", "whispeerHelper", "asset/state", "bluebird"], function (step, h,
 		reloadTimeline();
 	}
 
-	mainController.$inject = ["$scope", "ssn.cssService", "ssn.postService", "ssn.imageUploadService", "ssn.errorService"];
+	mainController.$inject = ["$scope", "ssn.cssService", "ssn.postService", "ssn.imageUploadService", "ssn.errorService", "ssn.screenSizeService"];
 
 	return mainController;
 });
