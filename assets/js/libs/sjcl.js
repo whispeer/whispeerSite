@@ -918,6 +918,27 @@ sjcl.mode.ccm = {
    */
   name: "ccm",
   
+  _progressListeners: [],
+
+  listenProgress: function (cb) {
+    sjcl.mode.ccm._progressListeners.push(cb);
+  },
+
+  unListenProgress: function (cb) {
+    var index = sjcl.mode.ccm._progressListeners.indexOf(cb);
+    if (index > -1) {
+      sjcl.mode.ccm._progressListeners.splice(index, 1);
+    }
+  },
+
+  _callProgressListener: function (val) {
+    var p = sjcl.mode.ccm._progressListeners.slice(), i;
+
+    for (i = 0; i < p.length; i += 1) {
+      p[i](val);
+    }
+  },
+
   /** Encrypt in CCM mode.
    * @static
    * @param {Object} prf The pseudorandom function.  It must have a block size of 16 bytes.
@@ -932,8 +953,8 @@ sjcl.mode.ccm = {
     tlen = tlen || 64;
     adata = adata || [];
     
-    if (ivl < 7) {
-      throw new sjcl.exception.invalid("ccm: iv must be at least 7 bytes");
+    if (ivl < 7 || ivl > 13) {
+      throw new sjcl.exception.invalid("ccm: iv must be between 7 and 13 bytes");
     }
     
     // compute the length of the length
@@ -1071,7 +1092,7 @@ sjcl.mode.ccm = {
    * @private
    */
   _ctrMode: function(prf, data, iv, tag, tlen, L) {
-    var enc, i, w=sjcl.bitArray, xor = w._xor4, ctr, l = data.length, bl=w.bitLength(data);
+    var enc, i, w=sjcl.bitArray, xor = w._xor4, ctr, l = data.length, bl=w.bitLength(data), n = l/50, p = n;
 
     // start the ctr
     ctr = w.concat([w.partial(8,L-1)],iv).concat([0,0,0]).slice(0,4);
@@ -1083,6 +1104,10 @@ sjcl.mode.ccm = {
     if (!l) { return {tag:tag, data:[]}; }
     
     for (i=0; i<l; i+=4) {
+      if (i > n) {
+        sjcl.mode.ccm._callProgressListener(i/l);
+        n += p;
+      }
       ctr[3]++;
       enc = prf.encrypt(ctr);
       data[i]   ^= enc[0];
@@ -2093,7 +2118,7 @@ sjcl.random = new sjcl.prng(6);
  * @author Mike Hamburg
  * @author Dan Boneh
  */
- 
+
  /** @namespace JSON encapsulation */
  sjcl.json = {
   /** Default values for encryption */
@@ -2144,7 +2169,7 @@ sjcl.random = new sjcl.prng(6);
       plaintext = sjcl.codec.utf8String.toBits(plaintext);
     }
     if (typeof adata === "string") {
-      adata = sjcl.codec.utf8String.toBits(adata);
+      p.adata = adata = sjcl.codec.utf8String.toBits(adata);
     }
     prp = new sjcl.cipher[p.cipher](password);
 
@@ -2250,7 +2275,7 @@ sjcl.random = new sjcl.prng(6);
     var j = sjcl.json;
     return j._decrypt(password, j.decode(ciphertext), params, rp);
   },
-  
+
   /** Encode a flat structure into a JSON string.
    * @param {Object} obj The structure to encode.
    * @return {String} A JSON string.
@@ -2288,7 +2313,7 @@ sjcl.random = new sjcl.prng(6);
     }
     return out+'}';
   },
-  
+
   /** Decode a simple (flat) JSON string into a structure.  The ciphertext,
    * adata, salt and iv will be base64-decoded.
    * @param {String} str The string.
@@ -2297,7 +2322,7 @@ sjcl.random = new sjcl.prng(6);
    */
   decode: function (str) {
     str = str.replace(/\s/g,'');
-    if (!str.match(/^\{.*\}$/)) { 
+    if (!str.match(/^\{.*\}$/)) {
       throw new sjcl.exception.invalid("json decode: this isn't json!");
     }
     var a = str.replace(/^\{|\}$/g, '').split(/,/), out={}, i, m;
@@ -2308,14 +2333,14 @@ sjcl.random = new sjcl.prng(6);
       if (m[3]) {
         out[m[2]] = parseInt(m[3],10);
       } else if (m[4]) {
-        out[m[2]] = m[2].match(/^(ct|salt|iv)$/) ? sjcl.codec.base64.toBits(m[4]) : unescape(m[4]);
+        out[m[2]] = m[2].match(/^(ct|adata|salt|iv)$/) ? sjcl.codec.base64.toBits(m[4]) : unescape(m[4]);
       } else if (m[5]) {
         out[m[2]] = m[5] === 'true';
       }
     }
     return out;
   },
-  
+
   /** Insert all elements of src into target, modifying and returning target.
    * @param {Object} target The object to be modified.
    * @param {Object} src The object to pull data from.
@@ -2337,7 +2362,7 @@ sjcl.random = new sjcl.prng(6);
     }
     return target;
   },
-  
+
   /** Remove all elements of minus from plus.  Does not modify plus.
    * @private
    */
@@ -2352,7 +2377,7 @@ sjcl.random = new sjcl.prng(6);
 
     return out;
   },
-  
+
   /** Return only the specified elements of src.
    * @private
    */
@@ -2397,22 +2422,20 @@ sjcl.misc._pbkdf2Cache = {};
  */
 sjcl.misc.cachedPbkdf2 = function (password, obj) {
   var cache = sjcl.misc._pbkdf2Cache, c, cp, str, salt, iter;
-  
+
   obj = obj || {};
   iter = obj.iter || 1000;
-  
+
   /* open the cache for this password and iteration count */
   cp = cache[password] = cache[password] || {};
   c = cp[iter] = cp[iter] || { firstSalt: (obj.salt && obj.salt.length) ?
                      obj.salt.slice(0) : sjcl.random.randomWords(2,0) };
-          
+
   salt = (obj.salt === undefined) ? c.firstSalt : obj.salt;
-  
+
   c[salt] = c[salt] || sjcl.misc.pbkdf2(password, salt, obj.iter);
   return { key: c[salt].slice(0), salt:salt.slice(0) };
 };
-
-
 /**
  * @constructor
  * Constructs a new bignum from another bignum, a number or a hex string.
@@ -3022,7 +3045,7 @@ sjcl.ecc.point.prototype = {
   mult: function(k) {
     return this.toJac().mult(k, this).toAffine();
   },
-  
+
   /**
    * Multiply this point by k, added to affine2*k2, and return the answer in Jacobian coordinates.
    * @param {bigInt} k The coefficient to multiply this by.
@@ -3033,7 +3056,7 @@ sjcl.ecc.point.prototype = {
   mult2: function(k, k2, affine2) {
     return this.toJac().mult2(k, this, k2, affine2).toAffine();
   },
-  
+
   multiples: function() {
     var m, i, j;
     if (this._multiples === undefined) {
@@ -3045,6 +3068,11 @@ sjcl.ecc.point.prototype = {
       }
     }
     return this._multiples;
+  },
+
+  negate: function() {
+    var newY = new this.curve.field(0).sub(this.y).normalize().reduce();
+    return new sjcl.ecc.point(this.curve, this.x, newY);
   },
 
   isValid: function() {
@@ -3083,7 +3111,7 @@ sjcl.ecc.pointJac.prototype = {
    * Adds S and T and returns the result in Jacobian coordinates. Note that S must be in Jacobian coordinates and T must be in affine coordinates.
    * @param {sjcl.ecc.pointJac} S One of the points to add, in Jacobian coordinates.
    * @param {sjcl.ecc.point} T The other point to add, in affine coordinates.
-   * @return {sjcl.ecc.pointJac} The sum of the two points, in Jacobian coordinates. 
+   * @return {sjcl.ecc.pointJac} The sum of the two points, in Jacobian coordinates.
    */
   add: function(T) {
     var S = this, sz2, c, d, c2, x1, x2, x, y1, y2, y, z;
@@ -3109,7 +3137,7 @@ sjcl.ecc.pointJac.prototype = {
         return new sjcl.ecc.pointJac(S.curve);
       }
     }
-    
+
     d = T.y.mul(sz2.mul(S.z)).subM(S.y);
     c2 = c.square();
 
@@ -3125,7 +3153,7 @@ sjcl.ecc.pointJac.prototype = {
 
     return new sjcl.ecc.pointJac(this.curve,x,y,z);
   },
-  
+
   /**
    * doubles this point.
    * @return {sjcl.ecc.pointJac} The doubled point.
@@ -3158,7 +3186,7 @@ sjcl.ecc.pointJac.prototype = {
     var zi = this.z.inverse(), zi2 = zi.square();
     return new sjcl.ecc.point(this.curve, this.x.mul(zi2).fullReduce(), this.y.mul(zi2.mul(zi)).fullReduce());
   },
-  
+
   /**
    * Multiply this point by k and return the answer in Jacobian coordinates.
    * @param {bigInt} k The coefficient to multiply by.
@@ -3171,7 +3199,7 @@ sjcl.ecc.pointJac.prototype = {
     } else if (k.limbs !== undefined) {
       k = k.normalize().limbs;
     }
-    
+
     var i, j, out = new sjcl.ecc.point(this.curve).toJac(), multiples = affine.multiples();
 
     for (i=k.length-1; i>=0; i--) {
@@ -3179,10 +3207,10 @@ sjcl.ecc.pointJac.prototype = {
         out = out.doubl().doubl().doubl().doubl().add(multiples[k[i]>>j & 0xF]);
       }
     }
-    
+
     return out;
   },
-  
+
   /**
    * Multiply this point by k, added to affine2*k2, and return the answer in Jacobian coordinates.
    * @param {bigInt} k The coefficient to multiply this by.
@@ -3197,13 +3225,13 @@ sjcl.ecc.pointJac.prototype = {
     } else if (k1.limbs !== undefined) {
       k1 = k1.normalize().limbs;
     }
-    
+
     if (typeof(k2) === "number") {
       k2 = [k2];
     } else if (k2.limbs !== undefined) {
       k2 = k2.normalize().limbs;
     }
-    
+
     var i, j, out = new sjcl.ecc.point(this.curve).toJac(), m1 = affine.multiples(),
         m2 = affine2.multiples(), l1, l2;
 
@@ -3214,8 +3242,12 @@ sjcl.ecc.pointJac.prototype = {
         out = out.doubl().doubl().doubl().doubl().add(m1[l1>>j & 0xF]).add(m2[l2>>j & 0xF]);
       }
     }
-    
+
     return out;
+  },
+
+  negate: function() {
+    return this.toAffine().negate().toJac();
   },
 
   isValid: function() {
@@ -3316,7 +3348,7 @@ sjcl.ecc.curves = {
 /** our basicKey classes
 */
 sjcl.ecc.basicKey = {
-  /** ecc publicKey. 
+  /** ecc publicKey.
   * @constructor
   * @param {curve} curve the elliptic curve
   * @param {point} point the point on the curve
@@ -3389,7 +3421,7 @@ sjcl.ecc.elGamal = {
   * @param {secretKey} sec secret Key to use. used to get the publicKey for ones secretKey
   */
   generateKeys: sjcl.ecc.basicKey.generateKeys("elGamal"),
-  /** elGamal publicKey. 
+  /** elGamal publicKey.
   * @constructor
   * @augments sjcl.ecc.basicKey.publicKey
   */
@@ -3434,7 +3466,7 @@ sjcl.ecc.elGamal.secretKey.prototype = {
   dh: function(pk) {
     return sjcl.hash.sha256.hash(pk._point.mult(this._exponent).toBits());
   },
-  
+
   /** Diffie-Hellmann function, compatible with Java generateSecret
    * @param {elGamal.publicKey} pk The Public Key to do Diffie-Hellmann with
    * @return {bitArray} undigested X value, diffie-hellmann result for this key combination,
@@ -3456,7 +3488,7 @@ sjcl.ecc.ecdsa = {
   generateKeys: sjcl.ecc.basicKey.generateKeys("ecdsa")
 };
 
-/** ecdsa publicKey. 
+/** ecdsa publicKey.
 * @constructor
 * @augments sjcl.ecc.basicKey.publicKey
 */
@@ -3467,7 +3499,7 @@ sjcl.ecc.ecdsa.publicKey = function (curve, point) {
 /** specific functions for ecdsa publicKey. */
 sjcl.ecc.ecdsa.publicKey.prototype = {
   /** Diffie-Hellmann function
-  * @param {bitArray} hash hash to verify. 
+  * @param {bitArray} hash hash to verify.
   * @param {bitArray} rs signature bitArray.
   * @param {boolean}  fakeLegacyVersion use old legacy version
   */
@@ -3506,7 +3538,7 @@ sjcl.ecc.ecdsa.secretKey = function (curve, exponent) {
 /** specific functions for ecdsa secretKey. */
 sjcl.ecc.ecdsa.secretKey.prototype = {
   /** Diffie-Hellmann function
-  * @param {bitArray} hash hash to sign. 
+  * @param {bitArray} hash hash to sign.
   * @param {int} paranoia paranoia for random number generation
   * @param {boolean} fakeLegacyVersion use old legacy version
   */
