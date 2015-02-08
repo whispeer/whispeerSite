@@ -12,18 +12,24 @@ define(["step", "whispeerHelper", "jquery", "bluebird", "imageLib", "asset/Progr
 			sizes: [
 				{
 					name: "lowest",
-					maxWidth: 640,
-					maxHeight: 480
+					restrictions: {
+						maxWidth: 640,
+						maxHeight: 480
+					}
 				},
 				{
 					name: "middle",
-					maxWidth: 1280,
-					maxHeight: 720
+					restrictions: {
+						maxWidth: 1280,
+						maxHeight: 720
+					}
 				},
 				{
 					name: "highest",
-					maxWidth: 2560,
-					maxHeight: 1440
+					restrictions: {
+						maxWidth: 2560,
+						maxHeight: 1440
+					}
 				},
 				{
 					name: "original"
@@ -32,8 +38,10 @@ define(["step", "whispeerHelper", "jquery", "bluebird", "imageLib", "asset/Progr
 			gifSizes: [
 				{
 					name: "lowest",
-					maxWidth: 640,
-					maxHeight: 480
+					restrictions: {
+						maxWidth: 640,
+						maxHeight: 480
+					}
 				},
 				{
 					name: "highest"
@@ -47,6 +55,14 @@ define(["step", "whispeerHelper", "jquery", "bluebird", "imageLib", "asset/Progr
 			- maximum size for a resolution
 			- original: enable, remove meta-data (exif etc.)
 		*/
+
+		function sizeDiff(a, b) {
+			return a.blob.getSize() - b.blob.getSize();
+		}
+
+		function sizeSorter(a, b) {
+			return sizeDiff(b, a);
+		}
 
 		var ImageUpload = function (file, options) {
 			this._file = file;
@@ -143,47 +159,41 @@ define(["step", "whispeerHelper", "jquery", "bluebird", "imageLib", "asset/Progr
 			});
 		};
 
-		ImageUpload.prototype._prepareImage = function () {
-			return Promise.resolve(this._options.sizes).bind(this).map(this._createSizeData).then(function (blobs) {
-				var lastBlob, result = {};
-
-				this._blobs = blobs.sort(function (a, b) { return b.blob.getSize() - a.blob.getSize(); }).filter(function (blob) {
-					var keep = !lastBlob || (lastBlob.blob.getSize() - blob.blob.getSize()) > this._options.minimumSizeDifference;
-
-					if (keep) {
-						lastBlob = blob;
-					}
-
-					result[blob.size.name] = lastBlob.meta;
-
-					return keep;
-				}, this);
-
-				return result;
-			});
-		};
-
-		ImageUpload.prototype._prepareGif = function () {
-			return ImageUpload.blobToDataSet(blobService.createBlob(this._file)).bind(this).then(function (blob) {
-				this._blobs = [blob];
-
-				return {
-					lowest: blob.meta,
-					highest: blob.meta
-				};
-			});
-		};
-
 		ImageUpload.prototype.prepare = function () {
-			if (this._file.type.match(/image.gif/i)) {
-				return this._prepareGif();
-			} else {
-				return this._prepareImage();
-			}
+			this._isGif = !!this._file.type.match(/image.gif/i);
+
+			var sizes = this._isGif ? this._options.gifSizes : this._options.sizes;
+
+			return Promise.resolve(sizes)
+				.bind(this)
+				.map(this._createSizeData)
+				.then(this._removeUnnededBlobs);
+		};
+
+		ImageUpload.prototype._removeUnnededBlobs = function (blobs) {
+			var lastBlob, result = {};
+
+			this._blobs = blobs.sort(sizeSorter).filter(function (blob) {
+				var keep = !lastBlob || this._isGif || sizeDiff(lastBlob, blob) > this._options.minimumSizeDifference;
+
+				if (keep) {
+					lastBlob = blob;
+				}
+
+				result[blob.size.name] = lastBlob.meta;
+
+				return keep;
+			}, this);
+
+			return result;
 		};
 
 		ImageUpload.prototype._resizeFile = function (sizeOptions) {
-			var options = $.extend({}, sizeOptions, { canvas: true });
+			if (this._isGif && !sizeOptions.restrictions) {
+				return Promise.resolve(this._file);
+			}
+
+			var options = $.extend({}, sizeOptions.restrictions || {}, { canvas: true });
 
 			return ImageUpload.imageLibLoad(this._file, options).then(function (canvas) {
 				return canvasToBlob(canvas);
