@@ -35,22 +35,23 @@ define(["step", "whispeerHelper"], function (step, h) {
 
 		return {
 			scope: {
-				"images": "=",
-				"preview": "@"
+				"images": "="
 			},
 			restrict: "E",
 			templateUrl: "assets/views/directives/gallery.html",
 			link: function(scope) {
+				var previewChunk = 4;
+				scope.preview = previewChunk;
+
 				scope.$watch("images", function () {
-					scope.preview = parseInt(scope.preview, 10) || scope.images.length;
 					loadImagePreviews(scope.images.slice(0, scope.preview));
 				});
 
 				scope.loadMoreImages = function () {
 					scope.preview = parseInt(scope.preview, 10);
 
-					loadImagePreviews(scope.images.slice(scope.preview, scope.preview + 4));
-					scope.preview += 4;
+					loadImagePreviews(scope.images.slice(scope.preview, scope.preview + previewChunk));
+					scope.preview += previewChunk;
 				};
 
 				scope.modal = false;
