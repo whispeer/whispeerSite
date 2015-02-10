@@ -77,23 +77,38 @@
 	.postImageWrap:only-child {
 		max-height: 18em;
 	}
-	
+
 	.postImageWrap:only-child .postImage {
 		width: auto;
 	}
 
 	.postImageWrap {
+		position: relative;
 		height: 9em;
-		width: ~"calc(50% - 5px)";
+		line-height: 9em;
+		max-width: ~"calc(50% - 5px)";
 		display: inline-block;
 		margin: 0 5px 5px 0;
-		
+
 		cursor: pointer;
 	}
-	
+
 	.postImage {
 		height: 100%;
 		width: 100%;
+	}
+
+	.postImage--play {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		line-height: 9rem;
+
+		vertical-align: middle;
+		color: @white;
+		text-shadow: 0px 0px 2px black;
+		text-align: center;
 	}
 
 	.comments {
