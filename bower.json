@@ -24,6 +24,7 @@
     "angular-route": "1.2.17",
     "qtip2": "~2.2.1",
     "socket.io-client": "~1.3.2",
-    "blueimp-load-image": "~1.13.0"
+    "blueimp-load-image": "~1.13.0",
+    "sjcl": "#feature/arrayBuffer"
   }
 }
