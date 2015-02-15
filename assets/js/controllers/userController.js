@@ -438,13 +438,13 @@ define(["step", "whispeerHelper", "asset/resizableImage", "asset/state", "libs/q
 				visibleSelection.push("friends:" + $scope.user.id);
 			}
 
-			step(function () {
-				postService.createPost($scope.newPost.text, visibleSelection, wallUserID, this);
-			}, h.sF(function () {
+			postService.createPost($scope.newPost.text, visibleSelection, wallUserID, []).then(function () {
 				$scope.newPost.text = "";
-
-				this.ne();
-			}), errorService.failOnError(sendPostState));
+			}).catch(sendPostState.failed.bind(sendPostState))
+			.then(sendPostState.success.bind(sendPostState))
+			.finally(function () {
+				$scope.$apply();
+			});
 		};
 
 		$scope.possibleStatus = ["single", "relationship", "engaged", "married", "divorced", "widowed", "complicated", "open", "inlove"];

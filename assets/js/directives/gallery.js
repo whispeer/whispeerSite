@@ -49,7 +49,9 @@ define(["step", "whispeerHelper"], function (step, h) {
 				scope.preview = previewChunk;
 
 				scope.$watch("images", function () {
-					loadImagePreviews(scope.images.slice(0, scope.preview));
+					if (scope.images) {
+						loadImagePreviews(scope.images.slice(0, scope.preview));
+					}
 				});
 
 				scope.loadMoreImages = function () {
