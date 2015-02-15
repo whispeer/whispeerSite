@@ -70,7 +70,10 @@
 	}
 
 	.postImages {
-		width: 36em;
+		@media @desktop {
+			width: 36em;
+		}
+		max-width: 100%;
 		margin-top: 5px;
 	}
 
@@ -86,7 +89,12 @@
 		position: relative;
 		height: 9em;
 		line-height: 9em;
-		max-width: ~"calc(50% - 5px)";
+		@media @desktop {
+			max-width: ~"calc(50% - 5px)";
+		}
+		@media @mobile {
+			max-width: ~"calc(100% - 10px)";
+		}
 		display: inline-block;
 		margin: 0 5px 5px 0;
 
