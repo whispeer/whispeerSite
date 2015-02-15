@@ -59,6 +59,9 @@ define(["step", "whispeerHelper", "jquery", "bluebird", "imageLib", "asset/Progr
 		var encryptionQueue = new Queue(500 * 1000);
 		encryptionQueue.start();
 
+		var resizeQueue = new Queue(1);
+		resizeQueue.start();
+
 		function sizeDiff(a, b) {
 			return a.blob.getSize() - b.blob.getSize();
 		}
@@ -160,12 +163,14 @@ define(["step", "whispeerHelper", "jquery", "bluebird", "imageLib", "asset/Progr
 		};
 
 		ImageUpload.prototype._createSizeData = function (size) {
-			return this._resizeFile(size).bind(this).then(function (resizedImage) {
-				return ImageUpload.blobToDataSet(blobService.createBlob(resizedImage));
-			}).then(function (data) {
-				data.meta.gif = this._isGif;
-				return $.extend({}, data, { size: size });
-			});
+			return resizeQueue.enqueue(1, function () {
+				return this._resizeFile(size).bind(this).then(function (resizedImage) {
+					return ImageUpload.blobToDataSet(blobService.createBlob(resizedImage));
+				}).then(function (data) {
+					data.meta.gif = this._isGif;
+					return $.extend({}, data, { size: size });
+				});
+			}, this);
 		};
 
 		ImageUpload.prototype.prepare = function () {

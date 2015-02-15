@@ -79,7 +79,10 @@ define(["step", "whispeerHelper", "asset/state"], function (step, h, State) {
 				postService.createPost($scope.newPost.text, $scope.newPost.readers, 0, images).then(function () {
 					$scope.newPost.text = "";
 					$scope.newPost.images = [];
-				}).catch(sendPostState.failed.bind(sendPostState))
+				}).catch(function (e) {
+					debugger;
+					sendPostState.failed();
+				})
 				.then(sendPostState.success.bind(sendPostState))
 				.finally(function () {
 					$scope.canSend = true;
