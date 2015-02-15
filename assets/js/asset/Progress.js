@@ -6,6 +6,7 @@ define(["whispeerHelper", "asset/observer"], function (h, Observer) {
 
 		this._init = false;
 		this._done = 0;
+		this._progress = 0;
 
 		this._options = options;
 		this._parseOptions();
@@ -81,7 +82,7 @@ define(["whispeerHelper", "asset/observer"], function (h, Observer) {
 		var done = 0, total = 0;
 		this._depends.forEach(function (depend) {
 			done += depend.getDone();
-			total += depend.getTotal();
+			total += depend.getTotal() || 0;
 		});
 
 		this._done = done;
