@@ -40,7 +40,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 			restrict: "E",
 			templateUrl: "assets/views/directives/gallery.html",
 			link: function(scope) {
-				var previewChunk = 4;
+				var previewChunk = 3;
 
 				if (screenSizeService.mobile) {
 					previewChunk = 2;	
