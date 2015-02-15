@@ -7,12 +7,13 @@ define(["bluebird"], function (Promise) {
 		this._runningWeight = 0;
 	}
 
-	Queue.prototype.enqueue = function (weight, task) {
+	Queue.prototype.enqueue = function (weight, task, thisArg) {
 		var _this = this;
 		var promise = new Promise(function (resolve, reject) {
 			_this._queue.push({
 				task: task,
 				weight: weight,
+				thisArg: thisArg,
 				resolve: resolve,
 				reject: reject
 			});
@@ -37,7 +38,7 @@ define(["bluebird"], function (Promise) {
 	Queue.prototype._runTask = function (task) {
 		var _this = this;
 		this._runningWeight += task.weight;
-		task.task().then(function (result) {
+		task.task.call(task.thisArg).then(function (result) {
 			task.resolve(result);
 		}, function (error) {
 			task.reject(error);
