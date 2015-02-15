@@ -1,7 +1,7 @@
 /**
 * imageUploadService
 **/
-define(["step", "whispeerHelper", "jquery", "bluebird", "imageLib", "asset/Progress"], function (step, h, $, Promise, imageLib, Progress) {
+define(["step", "whispeerHelper", "jquery", "bluebird", "imageLib", "asset/Progress", "asset/Queue"], function (step, h, $, Promise, imageLib, Progress, Queue) {
 	"use strict";
 
 	var service = function (blobService) {
@@ -55,6 +55,9 @@ define(["step", "whispeerHelper", "jquery", "bluebird", "imageLib", "asset/Progr
 			- maximum size for a resolution
 			- original: enable, remove meta-data (exif etc.)
 		*/
+
+		var uploadQueue = new Queue(3);
+		uploadQueue.start();
 
 		function sizeDiff(a, b) {
 			return a.blob.getSize() - b.blob.getSize();
@@ -142,12 +145,15 @@ define(["step", "whispeerHelper", "jquery", "bluebird", "imageLib", "asset/Progr
 		};
 
 		ImageUpload.prototype.upload = function (encryptionKey) {
+			var _this = this;
 			if (!this._blobs) {
 				throw new Error("usage error: prepare was not called!");
 			}
 
-			return Promise.resolve(this._blobs).bind(this).map(function (blobWithMetaData) {
-				return this._uploadPreparedBlob(encryptionKey, blobWithMetaData);
+			return uploadQueue.enqueue(1, function () {
+				return Promise.resolve(_this._blobs).bind(_this).map(function (blobWithMetaData) {
+					return _this._uploadPreparedBlob(encryptionKey, blobWithMetaData);
+				});
 			});
 		};
 
