@@ -30,9 +30,6 @@ define(["step", "whispeerHelper", "jquery", "bluebird", "imageLib", "asset/Progr
 						maxWidth: 2560,
 						maxHeight: 1440
 					}
-				},
-				{
-					name: "original"
 				}
 			],
 			gifSizes: [
@@ -58,6 +55,9 @@ define(["step", "whispeerHelper", "jquery", "bluebird", "imageLib", "asset/Progr
 
 		var uploadQueue = new Queue(3);
 		uploadQueue.start();
+
+		var encryptionQueue = new Queue(500 * 1000);
+		encryptionQueue.start();
 
 		function sizeDiff(a, b) {
 			return a.blob.getSize() - b.blob.getSize();
@@ -102,9 +102,11 @@ define(["step", "whispeerHelper", "jquery", "bluebird", "imageLib", "asset/Progr
 
 			this._progress.addDepend(progress);
 
-			var encryptAndUpload = Promise.promisify(blobMeta.blob.encryptAndUpload, blobMeta.blob);
-			return encryptAndUpload(encryptionKey, progress).then(function (blobKey) {
-				return blobKey;
+			return encryptionQueue.enqueue(blobMeta.blob.getSize(), function () {
+				var encryptAndUpload = Promise.promisify(blobMeta.blob.encryptAndUpload, blobMeta.blob);
+				return encryptAndUpload(encryptionKey, progress).then(function (blobKey) {
+					return blobKey;
+				});
 			});
 		};
 
