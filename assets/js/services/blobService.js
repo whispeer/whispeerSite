@@ -25,6 +25,9 @@ define(["step", "whispeerHelper", "asset/Progress"], function (step, h, Progress
 			this._meta = options.meta || {};
 			this._key = this._meta._key;
 			this._decrypted = !this._key;
+
+			this._uploadProgress = new Progress({ total: this.getSize() });
+			this._encryptProgress = new Progress({ total: this.getSize() });
 		};
 
 		MyBlob.prototype.isUploaded = function () {
@@ -56,27 +59,22 @@ define(["step", "whispeerHelper", "asset/Progress"], function (step, h, Progress
 			}), cb);
 		};
 
-		MyBlob.prototype.encryptAndUpload = function (key, progress, cb) {
-			var uploadProgress = new Progress({ total: this.getSize() });
-			var encryptProgress = new Progress({ total: this.getSize() });
-
-			progress.addDepend(uploadProgress);
-			progress.addDepend(encryptProgress);
+		MyBlob.prototype.encryptAndUpload = function (key, cb) {
 
 			var that = this, blobKey;
 			step(function () {
-				that.encrypt(encryptProgress, this);
+				that.encrypt(this);
 			}, h.sF(function (_blobKey) {
 				blobKey = _blobKey;
 				keyStore.sym.symEncryptKey(blobKey, key, this);
 			}), h.sF(function () {
-				that.upload(uploadProgress, this);
+				that.upload(this);
 			}), h.sF(function () {
 				this.ne(blobKey);
 			}), cb);
 		};
 
-		MyBlob.prototype.encrypt = function (progress, cb) {
+		MyBlob.prototype.encrypt = function (cb) {
 			var that = this;
 			step(function () {
 				if (that._uploaded || !that._decrypted) {
@@ -93,7 +91,7 @@ define(["step", "whispeerHelper", "asset/Progress"], function (step, h, Progress
 				console.time("blobencrypt" + (that._blobID || that._preReserved));
 				keyStore.sym.encryptArrayBuffer(buf, that._key, this);
 			}), h.sF(function (encryptedData) {
-				progress.progress(that.getSize());
+				that._encryptProgress.progress(that.getSize());
 				console.timeEnd("blobencrypt" + (that._blobID || that._preReserved));
 				console.log(encryptedData.byteLength);
 				that._decrypted = false;
@@ -151,9 +149,7 @@ define(["step", "whispeerHelper", "asset/Progress"], function (step, h, Progress
 			}
 		};
 
-		MyBlob.prototype.upload = function (progress, cb) {
-			progress.setTotal(this.getSize());
-
+		MyBlob.prototype.upload = function (cb) {
 			var that = this;
 			step(function () {
 				if (that._uploaded) {
@@ -162,7 +158,7 @@ define(["step", "whispeerHelper", "asset/Progress"], function (step, h, Progress
 					that.reserveID(this);
 				}
 			}, h.sF(function (blobid) {
-				socketService.uploadBlob(that._blobData, blobid, progress, this);
+				socketService.uploadBlob(that._blobData, blobid, that._uploadProgress, this);
 			}), h.sF(function () {
 				that._uploaded = true;
 

@@ -101,13 +101,12 @@ define(["step", "whispeerHelper", "jquery", "bluebird", "imageLib", "asset/Progr
 		};
 
 		ImageUpload.prototype._uploadPreparedBlob = function (encryptionKey, blobMeta) {
-			var progress = new Progress();
-
-			this._progress.addDepend(progress);
+			this._progress.addDepend(blobMeta.blob._uploadProgress);
+			this._progress.addDepend(blobMeta.blob._encryptProgress);
 
 			return encryptionQueue.enqueue(blobMeta.blob.getSize(), function () {
 				var encryptAndUpload = Promise.promisify(blobMeta.blob.encryptAndUpload, blobMeta.blob);
-				return encryptAndUpload(encryptionKey, progress).then(function (blobKey) {
+				return encryptAndUpload(encryptionKey).then(function (blobKey) {
 					return blobKey;
 				});
 			});
