@@ -3,7 +3,9 @@
 		<h1 data-i18n="login.register.newaccount"></h1>
 		<div class="inputWrap">
 			<div class="annotatedInput-container">
-				<input class="annotatedInput-input" type="text" class="nickname" data-i18n-attr="login.username|placeholder" data-ng-model="$parent.nickname" data-ng-model-onblur data-ng-change="nicknameChange()" validation="nicknameValidations">
+				<input class="annotatedInput-input" type="text" class="nickname" data-i18n-attr="login.username|placeholder" data-ng-model="$parent.nickname" data-ng-model-onblur data-ng-change="nicknameChange()" validation="nicknameValidations"
+				data-error-hint="true" data-error-hint-event="mouseup"
+				data-error-hint-f1="true" data-error-hint-t1="trustLevel.unVerified">
 				<span class="annotatedInput-icon fa" data-ng-class="acceptIconNicknameFree()" data-ng-if="!empty(nickname)"></span>
 			</div>
 			<passwordinput state="pwState"></passwordinput>

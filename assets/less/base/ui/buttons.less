@@ -95,9 +95,12 @@
 	width: 20px;
 	margin-top: 3px;
 }
-.btn[disabled] { // disabled should overwrite all other styles so it goes down here
+.btn[disabled],
+.btn-saveButton--operation,
+.btn-saveButton--operation:hover { // disabled should overwrite all other styles so it goes down here
 	background: @btnBackgroundHover;
 	color: @grayLight !important; // this has to be important...
+	cursor: not-allowed;
 	border: 1px solid @btnBorder;
 	line-height: 38px;
 	text-shadow: none;
