@@ -16,7 +16,7 @@
 define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForReady", "cryptoWorker/sjclWorkerInclude", "asset/errors"], function (step, h, chelper, sjcl, waitForReady, sjclWorkerInclude, errors) {
 	"use strict";
 
-	var socket, firstVerify = true, afterRequireCall, improvementListener = [], makeKey, keyStore;
+	var socket, firstVerify = true, afterRequireCall, improvementListener = [], makeKey, keyStore, recovery = false;
 
 	/** dirty and new keys to upload. */
 	var dirtyKeys = [], newKeys = [];
@@ -145,7 +145,7 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 	function internalDecrypt(decryptorid, decryptortype, ctext, callback, iv, salt) {
 		step(function () {
 			var cryptor;
-			if (decryptortype === "symKey") {
+			if (decryptortype === "symKey" || decryptortype === "backup") {
 				step(function () {
 					SymKey.get(decryptorid, this);
 				}, h.sF(function (theKey) {
@@ -251,19 +251,19 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 				internalDecrypt(d.decryptorid, d.type, d.ct, this, d.iv, d.salt);
 			}, function (err, result) {
 				if (err || result === false) {
-					errors.push(err || { err: "internaldecryptor returned false for realid: " + realid });
+					globalErrors.push(err || { err: "internaldecryptor returned false for realid: " + realid });
 					console.log(err);
 					console.log("decryptor failed for key: " + realid);
 
 					decryptors = decryptors.filter(function (decryptor) {
-						return decryptor !== usedDecryptor;
+						return decryptor !== usedDecryptor.decryptor;
 					});
 
 					if (decryptors.length === 0) {
 						throw new errors.DecryptionError("Could finally not decrypt key!");
 					}
 
-					theKey.decryptKey(cb);
+					decryptKey(cb);
 					return;
 				}
 
@@ -446,7 +446,7 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 		function addPWDecryptorF(pw, callback) {
 			step(function () {
 				var prefix = sjcl.codec.utf8String.toBits("key::");
-				var data = sjcl.bitArray.concat(prefix, preSecret);
+				var data = sjcl.bitArray.concat(prefix, preSecret || internalSecret);
 
 				this.ne(chelper.sjclPacket2Object(sjcl.json._encrypt(pw, data)));
 			}, h.sF(function (data) {
@@ -463,7 +463,7 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 				dirtyKeys.push(superKey);
 				dirtyDecryptors.push(decryptorData);
 
-				this.ne();
+				this.ne(decryptorData);
 			}), callback);
 		}
 
@@ -749,7 +749,7 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 			if (symKeys[realKeyID]) {
 				this.ne(symKeys[realKeyID]);
 			} else {
-				throw new errors.InvalidDataError("keychain not found");
+				throw new errors.InvalidDataError("keychain not found (sym)");
 			}
 		}), callback);
 	}
@@ -1185,7 +1185,7 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 			if (signKeys[realKeyID]) {
 				this.ne(signKeys[realKeyID]);
 			} else {
-				throw new errors.InvalidDataError("keychain not found");
+				throw new errors.InvalidDataError("keychain not found (sign)");
 			}
 		}), callback);
 	}
@@ -1633,6 +1633,7 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 	/** our interface */
 	keyStore = {
 		reset: function reset() {
+			recovery = false;
 			dirtyKeys = [];
 			newKeys = [];
 
@@ -1676,6 +1677,7 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 			},
 
 			setPassword: function (pw) {
+				recovery = false;
 				password = pw;
 
 				if (localStorage) {
@@ -1684,14 +1686,16 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 			},
 
 			verifyWithPW: function (data, expectedResult) {
-				//decrypt data with pw
-				var result = sjcl.decrypt(password, chelper.Object2sjclPacket(data));
-				//unpad data
-				result = new ObjectPadder(JSON.parse(result), 128).unpad();
+				if (!recovery) {
+					//decrypt data with pw
+					var result = sjcl.decrypt(password, chelper.Object2sjclPacket(data));
+					//unpad data
+					result = new ObjectPadder(JSON.parse(result), 128).unpad();
 
-				//check with expectedresult
-				if (!h.deepEqual(expectedResult, result)) {
-					throw new errors.SecurityError("verify with pw failed");
+					//check with expectedresult
+					if (!h.deepEqual(expectedResult, result)) {
+						throw new errors.SecurityError("verify with pw failed");
+					}
 				}
 			},
 
@@ -1950,6 +1954,19 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 
 					this.ne(decryptorsAdded, backupKeyData, outerBackupKey);
 				}), callback);
+			},
+
+			loadBackupKey: function (outerBackupKey) {
+				var key = new SymKey(outerBackupKey);
+				if (!symKeys[key.getRealID()]) {
+					symKeys[key.getRealID()] = key;
+				} else {
+					throw new errors.SecurityError("Key already exists in symKey database (double add?)");
+				}
+
+				recovery = true;
+
+				return key.getRealID();
 			},
 
 			/** encrypt key with sym key

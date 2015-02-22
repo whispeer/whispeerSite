@@ -107,6 +107,37 @@ button[disabled] {
 	padding-right: @annotatedInputRight + @annotatedInputIconSize + 20px;
 }
 
+@pwStrengthWidth: 40px;
+
+.annotatedInput-container .strenghInput {
+	padding-right: @annotatedInputRight + @pwStrengthWidth + 5px;
+}
+
+span[data-strength] {
+	width: 40px;
+	height: 8px;
+	border: 1px solid gray;
+	border-radius: 4px;
+}
+
+span[data-strength]:after {
+	display: block;
+	content: '';
+	height: 8px;
+}
+
+span[data-strength="0"]:after { width: @pwStrengthWidth*(0/10); background-color: #ff0000; }
+span[data-strength="1"]:after { width: @pwStrengthWidth*(1/10); background-color: #ff4d00; }
+span[data-strength="2"]:after { width: @pwStrengthWidth*(2/10); background-color: #ff7700; }
+span[data-strength="3"]:after { width: @pwStrengthWidth*(3/10); background-color: #ffa200; }
+span[data-strength="4"]:after { width: @pwStrengthWidth*(4/10); background-color: #ffc400; }
+span[data-strength="5"]:after { width: @pwStrengthWidth*(5/10); background-color: #80d000; }
+span[data-strength="6"]:after { width: @pwStrengthWidth*(6/10); background-color: @primaryLightest; }
+span[data-strength="7"]:after { width: @pwStrengthWidth*(7/10); background-color: @primaryLighter; }
+span[data-strength="8"]:after { width: @pwStrengthWidth*(8/10); background-color: @primary; }
+span[data-strength="9"]:after { width: @pwStrengthWidth*(9/10); background-color: @primaryDarker; }
+span[data-strength="10"]:after { width: @pwStrengthWidth*(10/10); background-color: @primaryDarkest; }
+
 .uploadForm {
 	display: block;
 	position: relative;
@@ -134,4 +165,24 @@ button[disabled] {
 }
 .uploadForm-theForm:hover {
 	opacity: 0.05;
+}
+
+.inputSandwich {
+	display: block;
+	position: relative;
+}
+.inputSandwich-top,
+.inputSandwich-middle,
+.inputSandwich-bottom {
+	width: 100%;
+	margin: 0;
+}
+.inputSandwich-top {
+	border-radius: @inputBorderRadius @inputBorderRadius 0 0 !important;	
+}
+.inputSandwich-middle {
+	border-radius: 0 !important;
+}
+.inputSandwich-bottom {
+	border-radius: 0 0 @inputBorderRadius @inputBorderRadius !important;
 }

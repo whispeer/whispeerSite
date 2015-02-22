@@ -10,7 +10,7 @@ if (window.location.href.indexOf("file:///") === 0) {
 	document.getElementsByTagName("base")[0].setAttribute("href", base);
 }
 
-var errors = [];
+var globalErrors = [];
 
 window.onerror = function (str, file, line, col, e) {
 	"use strict";
