@@ -27,6 +27,6 @@
     "blueimp-load-image": "~1.13.0",
     "sjcl": "#feature/arrayBuffer",
     "angular-i18n-directive": "~0.1.0",
-    "worker-queue.js": "~0.0.2"
+    "worker-queue.js": "~0.0.3"
   }
 }
