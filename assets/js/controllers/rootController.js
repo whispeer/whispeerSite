@@ -2,7 +2,7 @@
 * sessionController
 **/
 
-define(["step", "whispeerHelper", "cryptoWorker/generalWorkerInclude", "config"], function (step, h, generalWorkerInclude, config) {
+define(["step", "whispeerHelper", "config"], function (step, h, config) {
 	"use strict";
 
 	function getVersionString(data) {
@@ -18,11 +18,7 @@ define(["step", "whispeerHelper", "cryptoWorker/generalWorkerInclude", "config"]
 		}
 	}
 
-	function rootController($rootScope, $scope, screenSizeService, $http, socketService, sessionService, sessionHelper, userService, cssService, messageService, trustService, friendsService) {
-		generalWorkerInclude.setBeforeCallBack(function (evt, cb) {
-			$rootScope.$apply(cb);
-		});
-
+	function rootController($scope, screenSizeService, $http, socketService, sessionService, sessionHelper, userService, cssService, messageService, trustService, friendsService) {
 		$http({ method: "GET", url: "changelog.json", cache: false }).success(function (data) {
 			var version = getVersionString(data);
 			version = version.substr(0, version.length - 1);
@@ -149,7 +145,7 @@ define(["step", "whispeerHelper", "cryptoWorker/generalWorkerInclude", "config"]
 		};
 	}
 
-	rootController.$inject = ["$rootScope", "$scope", "ssn.screenSizeService", "$http", "ssn.socketService", "ssn.sessionService", "ssn.sessionHelper", "ssn.userService", "ssn.cssService", "ssn.messageService", "ssn.trustService", "ssn.friendsService"];
+	rootController.$inject = ["$scope", "ssn.screenSizeService", "$http", "ssn.socketService", "ssn.sessionService", "ssn.sessionHelper", "ssn.userService", "ssn.cssService", "ssn.messageService", "ssn.trustService", "ssn.friendsService"];
 
 	return rootController;
 });

@@ -26,6 +26,7 @@
     "socket.io-client": "~1.3.2",
     "blueimp-load-image": "~1.13.0",
     "sjcl": "#feature/arrayBuffer",
-    "angular-i18n-directive": "~0.1.0"
+    "angular-i18n-directive": "~0.1.0",
+    "worker-queue.js": "~0.0.2"
   }
 }

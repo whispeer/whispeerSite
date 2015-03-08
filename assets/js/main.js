@@ -15,7 +15,7 @@ var globalErrors = [];
 window.onerror = function (str, file, line, col, e) {
 	"use strict";
 
-	errors.push({
+	globalErrors.push({
 		str: str,
 		file: file,
 		line: line,
@@ -39,7 +39,9 @@ requirejs.config({
 		socketStream: "libs/socket.io-stream",
 		qtip: "bower/qtip2/basic/jquery.qtip",
 		imageLib: "bower/blueimp-load-image/js/load-image",
-		localizationModule: "bower/angular-i18n-directive/src/localizationModule"
+		localizationModule: "bower/angular-i18n-directive/src/localizationModule",
+		workerQueue: "bower/worker-queue.js/src/index",
+		PromiseWorker: "bower/require-promise-worker.js/src/index"
 	},
 	baseUrl: "assets/js",
 	shim: {

@@ -13,10 +13,10 @@
 	
 	keyid: identifier@timestamp
 **/
-define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForReady", "cryptoWorker/sjclWorkerInclude", "asset/errors"], function (step, h, chelper, sjcl, waitForReady, sjclWorkerInclude, errors) {
+define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForReady", "crypto/sjclWorkerInclude", "asset/errors"], function (step, h, chelper, sjcl, waitForReady, sjclWorkerInclude, errors) {
 	"use strict";
 
-	var socket, firstVerify = true, afterRequireCall, improvementListener = [], makeKey, keyStore, recovery = false;
+	var socket, firstVerify = true, afterAsyncCall, improvementListener = [], makeKey, keyStore, recovery = false;
 
 	/** dirty and new keys to upload. */
 	var dirtyKeys = [], newKeys = [];
@@ -54,6 +54,16 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 		}
 	} catch (e) {
 		console.log(e);
+	}
+
+	function afterAsyncCallbacky(cb) {
+		return function () {
+			var xargs = arguments;
+			var that = this;
+			afterAsyncCall(function () {
+				cb.apply(that, xargs);
+			});
+		};
 	}
 
 	function makeKeyUsableForEncryption(realid) {
@@ -287,7 +297,7 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 			step(function () {
 				window.setTimeout(this);
 			}, h.sF(function () {
-				afterRequireCall(this);
+				afterAsyncCall(this);
 			}), h.sF(function () {
 				decrypted.await(callback);
 				decrypted.start(this);
@@ -633,7 +643,7 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 					data = sjcl.bitArray.concat(prefix, data);
 				}
 
-				sjclWorkerInclude.sym.encrypt(intKey.getSecret(), data, this);
+				sjclWorkerInclude.sym.encrypt(intKey.getSecret(), data).then(afterAsyncCallbacky(this.ne), afterAsyncCallbacky(this));
 			}), h.sF(function (result) {
 				if (decode) {
 					this.ne(result);
@@ -678,7 +688,7 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 				if (ctext.ct.length < 500) {
 					this.ne(sjcl.json._decrypt(intKey.getSecret(), ctext, {raw: 1}));
 				} else {
-					sjclWorkerInclude.sym.decrypt(intKey.getSecret(), ctext, this);
+					sjclWorkerInclude.sym.decrypt(intKey.getSecret(), ctext).then(afterAsyncCallbacky(this.ne), afterAsyncCallbacky(this));
 				}
 			}), h.sF(function (result) {
 				this.ne(result);
@@ -1089,7 +1099,7 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 				trustManager = tM;
 				signatureCache = _signatureCache;
 
-				afterRequireCall(this);
+				afterAsyncCall(this);
 			}), h.sF(function () {
 				if (!trustManager.isLoaded) {
 					trustManager.listen(this, "loaded");
@@ -1121,7 +1131,7 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 				signatureCache = sC;
 				trustManager = tM;
 
-				afterRequireCall(this);
+				afterAsyncCall(this);
 			}), h.sF(function () {
 				if (!trustManager.hasKeyData(intKey.getRealID())) {
 					throw new errors.SecurityError("key not in key database");
@@ -1137,7 +1147,7 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 						firstVerify = false;
 						this.ne(publicKey.verify(hash, signature));
 					} else {
-						sjclWorkerInclude.asym.verify(publicKey, signature, hash, this);
+						sjclWorkerInclude.asym.verify(publicKey, signature, hash).then(afterAsyncCallbacky(this.ne), afterAsyncCallbacky(this));
 					}
 				}
 			}), h.sF(function (valid) {
@@ -1650,8 +1660,8 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 			firstVerify = true;
 		},
 
-		setAfterRequireCall: function (cb) {
-			afterRequireCall = cb;
+		setAfterAsyncCall: function (cb) {
+			afterAsyncCall = cb;
 		},
 
 		setKeyGenIdentifier: function (identifier) {
@@ -1751,7 +1761,9 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 			},
 
 			hashBigBase64CodedData: function (text, cb) {
-				sjclWorkerInclude.hash(text, cb);
+				step(function () {
+					sjclWorkerInclude.hash(text).then(afterAsyncCallbacky(this.ne), afterAsyncCallbacky(this));
+				}, cb);
 			},
 
 			hashPW: function (pw, salt) {
