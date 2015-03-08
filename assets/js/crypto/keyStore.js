@@ -619,7 +619,7 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 		* @param optional iv initialization vector
 		*/
 
-		this.encryptWithPrefix = function (prefix, data, callback, decode) {
+		this.encryptWithPrefix = function (prefix, data, callback, progressCallback, noDecode) {
 			if (!isKeyUsableForEncryption(intKey.getRealID())) {
 				throw new errors.SecurityError("Key not usable for encryption: " + intKey.getRealID());
 			}
@@ -643,9 +643,9 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 					data = sjcl.bitArray.concat(prefix, data);
 				}
 
-				sjclWorkerInclude.sym.encrypt(intKey.getSecret(), data).then(afterAsyncCallbacky(this.ne), afterAsyncCallbacky(this));
+				sjclWorkerInclude.sym.encrypt(intKey.getSecret(), data, progressCallback).then(afterAsyncCallbacky(this.ne), afterAsyncCallbacky(this));
 			}), h.sF(function (result) {
-				if (decode) {
+				if (noDecode) {
 					this.ne(result);
 				} else {
 					this.ne(chelper.sjclPacket2Object(result));
@@ -2085,11 +2085,11 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 				}), callback);
 			},
 
-			encryptArrayBuffer: function (buf, realKeyID, callback) {
+			encryptArrayBuffer: function (buf, realKeyID, callback, progressCallback) {
 				step(function symEncrypt1() {
 					SymKey.get(realKeyID, this);
 				}, h.sF(function symEncrypt2(key) {
-					key.encryptWithPrefix("buf::", buf, this, true);
+					key.encryptWithPrefix("buf::", buf, this, progressCallback, true);
 				}), h.sF(function (result) {
 					result.iv = sjcl.codec.arrayBuffer.fromBits(result.iv, false);
 					result.ct.tag = sjcl.codec.arrayBuffer.fromBits(result.ct.tag, false);
@@ -2112,20 +2112,6 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 					key.decrypt(decr, this);
 				}), h.sF(function (decryptedData) {
 					this.ne(removeExpectedPrefix(decryptedData, "buf::"));
-				}), callback);
-			},
-
-			encryptBigBase64: function (bin, realKeyID, callback) {
-				step(function symEncrypt1() {
-					SymKey.get(realKeyID, this);
-				}, h.sF(function symEncrypt2(key) {
-					if (typeof bin === "string") {
-						bin = sjcl.codec.base64.toBits(bin);
-					}
-
-					key.encryptWithPrefix("bin::", bin, this, true);
-				}), h.sF(function (result) {
-					this.ne(sjcl.codec.base64.fromBits(result.iv.concat(result.ct)));
 				}), callback);
 			},
 

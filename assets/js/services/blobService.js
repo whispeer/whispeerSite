@@ -89,7 +89,9 @@ define(["step", "whispeerHelper", "asset/Progress"], function (step, h, Progress
 				that._key = _key;
 
 				console.time("blobencrypt" + (that._blobID || that._preReserved));
-				keyStore.sym.encryptArrayBuffer(buf, that._key, this);
+				keyStore.sym.encryptArrayBuffer(buf, that._key, this, function (progress) {
+					that._encryptProgress.progress(that.getSize() * progress);	
+				});
 			}), h.sF(function (encryptedData) {
 				that._encryptProgress.progress(that.getSize());
 				console.timeEnd("blobencrypt" + (that._blobID || that._preReserved));

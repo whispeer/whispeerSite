@@ -4,7 +4,7 @@
 define(["step", "whispeerHelper", "jquery", "bluebird", "imageLib", "asset/Progress", "asset/Queue"], function (step, h, $, Promise, imageLib, Progress, Queue) {
 	"use strict";
 
-	var service = function (blobService) {
+	var service = function ($timeout, blobService) {
 		var canvasToBlob = Promise.promisify(h.canvasToBlob, h);
 
 		var defaultOptions = {
@@ -74,6 +74,7 @@ define(["step", "whispeerHelper", "jquery", "bluebird", "imageLib", "asset/Progr
 			this._file = file;
 			this._options = $.extend({}, defaultOptions, options);
 			this._progress = new Progress();
+			this._progress.listen(this._maybeApply.bind(this), "progress");
 
 			if (!file.type.match(/image.*/)) {
 				throw new Error("not an image!");
@@ -94,6 +95,10 @@ define(["step", "whispeerHelper", "jquery", "bluebird", "imageLib", "asset/Progr
 					}
 				}, options);
 			});
+		};
+
+		ImageUpload.prototype._maybeApply = function (progress) {
+			$timeout(function () {});
 		};
 
 		ImageUpload.prototype.getProgress = function () {
@@ -216,7 +221,7 @@ define(["step", "whispeerHelper", "jquery", "bluebird", "imageLib", "asset/Progr
 		return ImageUpload;
 	};
 
-	service.$inject = ["ssn.blobService"];
+	service.$inject = ["$timeout", "ssn.blobService"];
 
 	return service;
 });

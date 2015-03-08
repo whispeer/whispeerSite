@@ -126,7 +126,7 @@ define(["workerQueue", "bluebird", "crypto/minimalHelper"], function (WorkerQueu
 			}
 		},
 		sym: {
-			encrypt: function (key, message) {
+			encrypt: function (key, message, progressListener) {
 				var data = {
 					"key": key,
 					"message": message,
@@ -135,7 +135,7 @@ define(["workerQueue", "bluebird", "crypto/minimalHelper"], function (WorkerQueu
 					"encrypt": true
 				};
 
-				return workers.schedule(data);
+				return workers.schedule(data, progressListener);
 			},
 			decrypt: function (key, message) {
 				var data = {

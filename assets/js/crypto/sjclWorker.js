@@ -1,6 +1,14 @@
 define(["libs/sjcl", "crypto/minimalHelper"], function (sjcl, chelper) {
 	"use strict";
 
+	function nop() {}
+
+	var metaListener = nop;
+
+	sjcl.mode.ccm.listenProgress(function (progress) {
+		metaListener(progress);
+	});
+
 	function transformSymData(data) {
 		if (!data.key || !data.message) {
 			throw new Error("need message and key!");
@@ -123,7 +131,9 @@ define(["libs/sjcl", "crypto/minimalHelper"], function (sjcl, chelper) {
 		}
 	}
 
-	return function (data) {
+	return function (data, _metaListener) {
+		metaListener = _metaListener || nop;
+
 		if (data.randomNumber) {
 			sjcl.random.addEntropy(data.randomNumber, data.entropy, "adding entropy");
 			return "entropy";
