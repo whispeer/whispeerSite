@@ -75,6 +75,7 @@ define(["step", "whispeerHelper", "jquery", "bluebird", "imageLib", "asset/Progr
 			this._options = $.extend({}, defaultOptions, options);
 			this._progress = new Progress();
 			this._progress.listen(this._maybeApply.bind(this), "progress");
+			this._previousProgress = 0;
 
 			if (!file.type.match(/image.*/)) {
 				throw new Error("not an image!");
@@ -98,7 +99,10 @@ define(["step", "whispeerHelper", "jquery", "bluebird", "imageLib", "asset/Progr
 		};
 
 		ImageUpload.prototype._maybeApply = function (progress) {
-			$timeout(function () {});
+			if (progress - this._previousProgress > 0.01) {
+				this._previousProgress = progress;
+				$timeout(function () {});
+			}
 		};
 
 		ImageUpload.prototype.getProgress = function () {
