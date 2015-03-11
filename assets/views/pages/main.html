@@ -2,9 +2,27 @@
 	<header id="newsfeedView-wall-header">
 		<button class="btn btn--primary" id="newsfeedView-activatePost" data-ng-if="!postActive && mobile" data-ng-click="togglePost()" data-i18n="wall.createPost"></button>
 		<form data-ng-if="postActive || !mobile" class="form-inline" id="newsfeedView-postForm">
+
 			<textarea data-strg-enter="sendPost()" data-ng-model="newPost.text" data-i18n-attr="wall.postit.text|placeholder" id="newsfeedView-shareText" data-ng-disabled="!canSend" id="newsfeedView-shareText"></textarea>
 			<filtersearch class="search--custom" data-internalid="postReaders" data-selected="newPost.readers" data-input-i18n-attr="wall.postit.receiver|placeholder" id="newsfeedView-receivers" />
-			<savebutton id="newsfeedView-sendPost" data-translation="wall.postit.send" data-ng-click="sendPost()" data-state="sendPostState" data-noiniticon data-ng-disabled="!canSend"></savebutton>
+
+			<div id="newsfeedView-sendPost">
+				<div class="uploadForm" id="newsfeedView-addImage">
+					<span class="uploadForm-button btn btn--primary btn--input btn--noRadius">
+						<span class="fa fa-photo fa-2x" id="newsfeedView-addImageIcon"></span>
+					</span>
+					<input class="uploadForm-theForm" type="file" multiple data-file="newPost.addImages" data-ng-click="mobilePromptUser($event)">
+				</div>
+				<savebutton class="btn--noRadius" id="newsfeedView-submit" data-translation="wall.postit.send" data-ng-click="sendPost()" data-state="sendPostState" data-noiniticon data-ng-disabled="!canSend"></savebutton>
+			</div>
+
+			<div id="newsfeed-newPostImages" data-ng-if="newPost.images.length > 0 || image.upload.percentage > 0">
+				<div class="newsfeed-newPostImagePreview" data-ng-repeat="image in newPost.images">
+					<button class="newsfeed-newPostImageRemove fa fa-times-circle" data-ng-click='newPost.removeImage($index)'></button>
+					<img class="newsfeed-newPostImage" alt="{{image.getName()}}" data-ng-src="{{image.getUrl()}}">
+					<progress class="newsfeed-newPostImageProgress" value="{{image.getProgress()*100}}" max="100"></progress>
+				</div>
+			</div>
 		</form>
 		<div id="newsfeedView-filter">
 			<button id="newsfeedView-filter-title" class="btn btn--border" data-ng-class="{'newsfeedView-filter-title--active': (filterActive || !mobile)}" data-i18n="wall.filter.title" data-ng-click="toggleFilter()"></button>

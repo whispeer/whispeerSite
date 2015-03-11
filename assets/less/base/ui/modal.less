@@ -1,0 +1,72 @@
+.modal {
+	position: fixed;
+	top: 0px;
+	left: 0px;
+	height: 100%;
+	width: 100%;
+	z-index: @zIndex-modal;
+}
+
+.modalBackground {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	opacity: 0.7;
+	z-index: -1;
+	background-color: gray;
+}
+
+.modalClose {
+	position: absolute;
+	top: 0;
+	right: 0;
+	height: 51px;
+	width: 51px;
+	line-height: 51px;
+}
+
+.modalContentWrap {
+	position: absolute;
+	top: 10%;
+	left: 10%;
+	right: 10%;
+	bottom: 10%;
+	margin: auto;
+
+	width: 80%;
+	height: 80%;
+
+	border-radius: 3px;
+	background-color: transparent;
+	opacity: 1;
+
+	text-align: center;
+
+	pointer-events: none;
+}
+
+.modalContent-image {
+	position: relative;
+	max-width: 100%;
+	height: 100%;
+	box-shadow: 0px 0px 20px @gray;
+	background: white;
+	pointer-events: all;
+}
+
+.modalContent-spinner {
+	color: @white;
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	margin: auto;
+	overflow: auto;
+	height: 3em;
+	width: 3em;
+	line-height: 3em;
+	z-index: @zIndex-modal + 1;
+}

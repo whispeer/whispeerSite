@@ -9,6 +9,12 @@ define(["angular", "crypto/keyStore"], function (angular, keyStore) {
 			keyStore.reset();
 		});
 
+		keyStore.setAfterAsyncCall(function (cb) {
+			$rootScope.$apply(function () {
+				cb();
+			});
+		});
+
 		return keyStore;
 	};
 

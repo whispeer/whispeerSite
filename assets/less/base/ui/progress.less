@@ -1,0 +1,55 @@
+progress,
+progress[role] {
+	appearance: none;
+	-webkit-appearance: none;
+	-moz-appearance: none;
+
+	height: 5px;
+
+	border-radius: 20px;
+	overflow: hidden;
+
+	border: none;
+
+	color: @green;
+}
+
+progress[role]:after {
+	background-image: none;
+}
+
+progress[role] strong {
+	display: none; // disable possible text inside of progess bar
+}
+
+progress,
+progress[role][aria-valuenow],
+progress::-webkit-progress-bar {
+	background: #ccc !important;
+}
+
+// this has to stand alone for some reason...
+
+progress[aria-valuenow]:before {
+	background: @green;
+}
+
+progress::-webkit-progress-value {
+	background: @green;
+}
+
+progress::-moz-progress-bar {
+	background: @green;
+}
+
+progress:not([value]) {
+	background: #ccc;
+}
+
+progress:not([value])::-moz-progress-bar {
+	background: #ccc;
+}
+
+progress:not([value])::-webkit-progress-bar {
+	background: #ccc;
+}

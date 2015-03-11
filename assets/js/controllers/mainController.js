@@ -5,7 +5,7 @@
 define(["step", "whispeerHelper", "asset/state"], function (step, h, State) {
 	"use strict";
 
-	function mainController($scope, cssService, postService, errorService) {
+	function mainController($scope, cssService, postService, ImageUploadService, errorService, screenSize) {
 		cssService.setClass("mainView");
 
 		$scope.canSend = true;
@@ -17,7 +17,16 @@ define(["step", "whispeerHelper", "asset/state"], function (step, h, State) {
 		$scope.filterActive = false;
 		$scope.newPost = {
 			text: "",
-			readers: ["always:allfriends"]
+			readers: ["always:allfriends"],
+			images: [],
+			removeImage: function (index) {
+				$scope.newPost.images.splice(index, 1);
+			},
+			addImages: ImageUploadService.fileCallback(function (newImages) {
+				$scope.$apply(function () {
+					$scope.newPost.images = $scope.newPost.images.concat(newImages);
+				});
+			})
 		};
 
 		$scope.filterSelection = ["always:allfriends"];
@@ -36,6 +45,16 @@ define(["step", "whispeerHelper", "asset/state"], function (step, h, State) {
 			reloadTimeline();
 		});
 
+		var firstTimeUpload = true;
+
+		$scope.mobilePromptUser = function ($event) {
+			if (screenSize.mobile && firstTimeUpload && !window.confirm("Uploading files on mobile can drain battery. Are you sure?")) {
+				$event.preventDefault();
+			} else {
+				firstTimeUpload = false;
+			}
+		};
+
 		$scope.togglePost = function() {
 			$scope.postActive = !$scope.postActive;
 		};
@@ -52,23 +71,25 @@ define(["step", "whispeerHelper", "asset/state"], function (step, h, State) {
 				return;
 			}
 
-			step(function () {
-				if ($scope.canSend) {
-					$scope.canSend = false;
+			if ($scope.canSend) {
+				$scope.canSend = false;
 
-					postService.createPost($scope.newPost.text, $scope.newPost.readers, 0, this);
+				var images = $scope.newPost.images;
 
-					$scope.postActive = false;
-				}
-			}, h.sF(function (e) {
-				$scope.canSend = true;
-
-				if (!e) {
+				postService.createPost($scope.newPost.text, $scope.newPost.readers, 0, images).then(function () {
 					$scope.newPost.text = "";
-				}
-
-				this(e);
-			}), errorService.failOnError(sendPostState));
+					$scope.newPost.images = [];
+				}).catch(function (e) {
+					debugger;
+					sendPostState.failed();
+				})
+				.then(sendPostState.success.bind(sendPostState))
+				.finally(function () {
+					$scope.canSend = true;
+					$scope.postActive = false;
+					$scope.$apply();
+				});
+			}
 		};
 		$scope.toggleFilter = function() {
 			$scope.filterActive = !$scope.filterActive;
@@ -86,7 +107,7 @@ define(["step", "whispeerHelper", "asset/state"], function (step, h, State) {
 		reloadTimeline();
 	}
 
-	mainController.$inject = ["$scope", "ssn.cssService", "ssn.postService", "ssn.errorService"];
+	mainController.$inject = ["$scope", "ssn.cssService", "ssn.postService", "ssn.imageUploadService", "ssn.errorService", "ssn.screenSizeService"];
 
 	return mainController;
 });
