@@ -32,6 +32,7 @@
 			"viaMail": "Einladung via E-Mail",
 			"viaMailExplanation": "Gib die E-Mail Adressen deiner Freunde ein, um sie einzuladen:",
 			"mail": "E-Mail",
+			"addMail": "Weitere Person per E-Mail einladen",
 			"viaLink": "Einladung via Link",
 			"viaLinkExplanation": "Generiere einen Einladungs-Link, den du weitergeben kannst:",
 			"generateLink": "Einladungslink generieren",

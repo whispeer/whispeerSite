@@ -33,6 +33,10 @@ define(["step", "whispeerHelper", "asset/state"], function (step, h, State) {
 			}
 		});
 
+		$scope.addInviteMail = function () {
+			$scope.inviteMails.push("");
+		}
+
 		$scope.$watch(function () {
 			return $scope.inviteMails[$scope.inviteMails.length - 1];
 		}, function (val) {
