@@ -276,7 +276,7 @@ define(["step", "whispeerHelper", "asset/Progress"], function (step, h, Progress
 					knownBlobs[blobID] = new MyBlob(dataString, blobID, { meta: data.meta });
 				}
 
-				if (!data.meta._key) {
+				if (!data.meta || !data.meta._key) {
 					addBlobToDB(knownBlobs[blobID]);
 				}
 
