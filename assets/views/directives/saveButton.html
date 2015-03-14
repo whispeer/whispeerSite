@@ -3,8 +3,5 @@
 	<i data-ng-if="state.init && initIcon" class="fa fa-fw {{initIcon}}"></i>
 	<i data-ng-if="state.failed && failureIcon" class="fa fa-fw {{failureIcon}}"></i>
 	<i data-ng-if="state.pending" class="saveButton-spinner fa fa-fw fa-spinner fa-spin"></i>
-	<span data-ng-if="state.success" data-i18n="{{translation}}.success"></span>
-	<span data-ng-if="state.init" data-i18n="{{translation}}.init"></span>
-	<span data-ng-if="state.failed" data-i18n="{{translation}}.fail"></span>
-	<span data-ng-if="state.pending" data-i18n="{{translation}}.pending"></span>
+	<span ng-transclude></span>
 </button>

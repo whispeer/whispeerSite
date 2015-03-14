@@ -30,7 +30,9 @@
 		</ul>
 		<div>
 			<textarea data-i18n-attr="wall.newComment|placeholder" data-strg-enter="post.newComment.create(post.newComment.text)" data-ng-model="post.newComment.text"></textarea>
-			<savebutton data-translation="wall.postit.send" data-ng-click="post.newComment.create(post.newComment.text)" data-state="post.newComment.state" data-noiniticon></savebutton>
+			<savebutton data-ng-click="post.newComment.create(post.newComment.text)" data-state="post.newComment.state" data-noiniticon>
+				<span data-i18n="wall.postit.send"></span>
+			</savebutton>
 		</div>
 	</aside>
 </article>

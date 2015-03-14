@@ -16,7 +16,7 @@
 			</label>
 		</div>
 		<div class="submitWrap">
-			<savebutton class="btn btn--big btn--danger" data-noiniticon data-state="registerState" type="submit"  data-ng-click="register()" data-translation="login.register.link|state="></savebutton>
+			<savebutton class="btn btn--big btn--danger" data-noiniticon data-state="registerState" type="submit"  data-ng-click="register()"><span data-i18n="login.register.link"></span></savebutton>
 		</div>
 	</form>
 	<form class="registerForm" data-ng-if="!invite.valid.success">
@@ -36,7 +36,9 @@
 				<span class="annotatedInput-icon fa" data-ng-class="{'fa-check': false, 'fa-times': false, 'fa-spinner': false}" data-ng-if="!empty(invite.mail)"></span>
 			</div>
 			<div data-ng-if="!invite.mailValid.success">
-				<savebutton id="sendInviteRequest" data-state="invite.mailValid" data-ng-click="invite.request(invite.mail)" data-translation="login.register.invite.submit|type=" data-noiniticon></savebutton>
+				<savebutton id="sendInviteRequest" data-state="invite.mailValid" data-ng-click="invite.request(invite.mail)" data-noiniticon>
+					<span data-i18n="login.register.invite.submit"></span>
+				</savebutton>
 			</div>
 			<div data-i18n="login.register.invite.thanks" data-ng-if="invite.mailValid.success"></div>
 		</div>

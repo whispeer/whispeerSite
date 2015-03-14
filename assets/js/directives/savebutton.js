@@ -5,8 +5,7 @@ define(function () {
 		return {
 			transclude: true,
 			scope:	{
-				state:		"=state",
-				translation:"@translation"
+				state:		"=state"
 			},
 			restrict: "E",
 			templateUrl: "assets/views/directives/saveButton.html",
