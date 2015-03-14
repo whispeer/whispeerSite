@@ -177,6 +177,7 @@ define(["step", "whispeerHelper", "asset/Progress"], function (step, h, Progress
 			step(function () {
 				var meta = that._meta;
 				meta._key = that._key;
+				meta.one = 1;
 
 				if (that._preReserved) {
 					socketService.emit("blob.fullyReserveID", {
@@ -275,7 +276,7 @@ define(["step", "whispeerHelper", "asset/Progress"], function (step, h, Progress
 					knownBlobs[blobID] = new MyBlob(dataString, blobID, { meta: data.meta });
 				}
 
-				if (!data.meta.key) {
+				if (!data.meta._key) {
 					addBlobToDB(knownBlobs[blobID]);
 				}
 
