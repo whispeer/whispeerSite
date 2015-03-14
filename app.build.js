@@ -10,9 +10,14 @@
         bluebird: "bower/bluebird/js/browser/bluebird",
         jquery: "bower/jquery/jquery",
         requirejs: "bower/requirejs/require",
-        socket: "bower/socket.io-client/dist/socket.io",
+        socket: "bower/socket.io-client/socket.io",
         socketStream: "libs/socket.io-stream",
-        qtip: "bower/qtip2/basic/jquery.qtip"
+        qtip: "bower/qtip2/basic/jquery.qtip",
+        imageLib: "bower/blueimp-load-image/js/load-image",
+        localizationModule: "bower/angular-i18n-directive/src/localizationModule",
+        workerQueue: "bower/worker-queue.js/src/index",
+        PromiseWorker: "bower/require-promise-worker.js/src/index"
+
     },
     baseUrl: "assets/js",
     shim: {
