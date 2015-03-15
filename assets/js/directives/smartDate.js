@@ -33,10 +33,14 @@ define(["whispeerHelper"], function (h) {
             });
         }
 
+        function timestampDiffNow(timestamp) {
+            return new Date().getTime() - timestamp;
+        }
+
         function toDateString(input) {
             if (input) {
                 var date = new Date(h.parseDecimal(input));
-                var diff = new Date().getTime() - date.getTime();
+                var diff = timestampDiffNow(h.parseDecimal(input));
 
                 var sameDate = new Date(date).setHours(0, 0, 0, 0) === new Date().setHours(0, 0, 0, 0);
                 if (sameDate) {
@@ -62,14 +66,25 @@ define(["whispeerHelper"], function (h) {
                         element.text(result);
                     }
                 }
-                
+
                 updateDateString();
 
                 scope.$watch(function () {
                     return scope.time;
                 }, updateDateString);
 
-                $window.setInterval(updateDateString, 1000);
+                var time = h.parseDecimal(scope.time);
+                if (time > 999999) {
+                    var diff = timestampDiffNow(time);
+
+                    if (diff > ONEHOUR) {
+                        $window.setInterval(updateDateString, 5*60*1000);
+                    } else if (diff > ONEMINUTE) {
+                        $window.setInterval(updateDateString, 30*1000);
+                    } else {
+                        $window.setInterval(updateDateString, 1000);
+                    }
+                }
             }
         };
     };

@@ -4,7 +4,7 @@ define(["jquery", "qtip"], function () {
 		return {
 			restrict: "A",
 			link: function(scope, elm) {
-				if (scope.userData.me) {
+				if (!scope.userData || scope.userData.me) {
 					return;
 				}
 
