@@ -42,7 +42,7 @@
 				<div class="lastMessage">
 					{{topic.latestMessage.data.text}}
 				</div>
-				<div class="time"><i class="fa fa-clock-o"></i> {{topic.latestMessage.data.timestamp|smartdate}}</div>
+				<div class="time"><i class="fa fa-clock-o"></i> <span data-smart-date="topic.latestMessage.data.timestamp"></span></div>
 				<div class="clear-fix"></div>
 			</li>
 		</div>
@@ -68,7 +68,7 @@
 					<li data-ng-cloak data-ng-repeat="message in burst" data-messageID="{{message.id}}" class="message">
 						<div class="messageContent">
 							<div class="messageText {{message.type}}" data-ng-class="{{message.type}}" data-syntaxify="message.text"><img data-ng-if="message.type != 'image'" data-ng-src=""></div>
-							<div class="time"><i class="fa fa-clock-o"></i> {{message.timestamp|smartdate}}</div>
+							<div class="time"><i class="fa fa-clock-o"></i> <span data-smart-date="message.timestamp"></span></div>
 						</div>
 					</li>
 				</ul>
