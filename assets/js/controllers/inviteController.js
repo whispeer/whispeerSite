@@ -18,32 +18,9 @@ define(["step", "whispeerHelper", "asset/state"], function (step, h, State) {
 
 		$scope.domain = $location.protocol() + "://" + $location.host();
 
-		$scope.$watch(function () {
-			return $scope.inviteMails.filter(function (e) {
-				return e !== "";
-			}).length;
-		}, function () {
-			var inviteMails = $scope.inviteMails.filter(function (e) {
-				return e !== "";
-			});
-			inviteMails.push("");
-
-			if (inviteMails.length !== $scope.inviteMails.length) {
-				$scope.inviteMails = inviteMails;
-			}
-		});
-
 		$scope.addInviteMail = function () {
 			$scope.inviteMails.push("");
-		}
-
-		$scope.$watch(function () {
-			return $scope.inviteMails[$scope.inviteMails.length - 1];
-		}, function (val) {
-			if (val !== "") {
-				$scope.inviteMails.push("");
-			}
-		});
+		};
 
 		$scope.empty = function (val) {
 			return val === "" || !h.isset(val);
