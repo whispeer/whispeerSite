@@ -1,61 +1,50 @@
-define(["jquery", "qtip"], function (jQuery) {
+define(["jquery", "qtip"], function () {
 	"use strict";
 	var directive =  function(localize) {
 		return {
 			restrict: "A",
-			link: function(scope, elm, attrs) {
-				var show = true;
-
-				if (attrs.errorHint) {
-					scope.$watch(attrs.errorHint, function (value) {
-						show = value;
-					});
+			link: function(scope, elm) {
+				if (scope.userData.me) {
+					return;
 				}
 
-				var showWhen = {
-					ready: true
-				};
-				var hideWhen = false;
-
-				if (attrs.errorHintEvent) {
-					showWhen = {
-						event: attrs.errorHintEvent
-					};
-					hideWhen = {};
-				}
-
-				scope.$watch(function () {
-					if (!show) {
-						return false;
+				elm.mouseover(function () {
+					var translation = "";
+					switch(scope.userData.trustLevel) {
+						case 0:
+							translation = "unVerified";
+							break;
+						case 1:
+							translation = "groupVerified";
+							break;
+						case 2:
+							translation = "selfVerified";
+							break;
+						default:
+							break;
 					}
 
-					var i;
-					for (i = 1; i <= 10; i += 1) {
-						if (attrs["errorHintF" + i] && scope.$eval(attrs["errorHintF" + i])) {
-							return i;
+					elm.qtip({
+						content: {
+							text: localize.getLocalizedString("trustLevel." + translation)
+						},
+						style: {
+							classes: "qtip-bootstrap"
+						},
+						position: {
+							my: "top center",
+							at: "bottom center"
 						}
-					}
+					});
+					elm.qtip("show");
+				});
 
-					return false;
-				}, function (value) {
-					if (value) {
-						elm.qtip({ // Grab some elements to apply the tooltip to
-							content: {
-								text: localize.getLocalizedString(attrs["errorHintT" + value]),
-							},
-							style: {
-								classes: 'qtip-bootstrap'
-							},
-							position: {
-								my: 'top center',
-								at: 'bottom center'
-							},
-							show: showWhen,
-							hide: hideWhen
-						});
-					} else {
-						elm.qtip('destroy', true);
-					}
+				elm.mouseout(function () {
+					elm.qtip("hide");
+				});
+
+				scope.$on("$destroy", function() {
+					elm.qtip("destroy", true);
 				});
 			}
 		};
