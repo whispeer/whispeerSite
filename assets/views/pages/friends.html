@@ -7,8 +7,12 @@
 		<ul class="unstyled" id="requestsList">
 			<li class="friendsView-friend friendsView-request" data-ng-repeat="user in requests">
 				<person data-user="user">
-					<savebutton class="friendRequest-actionButton btn--primary {{mobile ? 'btn--noPadding' : ''}}" data-i18n="magicbar.requests.accept" data-state="user.addFriendState" data-ng-click="$parent.acceptRequest(user)"></savebutton>
-					<savebutton class="friendRequest-actionButton btn--danger {{mobile ? 'btn--noPadding' : ''}}" data-i18n="magicbar.requests.decline" data-state="user.ignoreFriendState" data-ng-click="$parent.ignoreRequest(user)"></savebutton>
+					<savebutton class="friendRequest-actionButton btn--primary {{mobile ? 'btn--noPadding' : ''}}" data-state="user.addFriendState" data-ng-click="$parent.acceptRequest(user)">
+						<span data-i18n="magicbar.requests.accept"></span>
+					</savebutton>
+					<savebutton class="friendRequest-actionButton btn--danger {{mobile ? 'btn--noPadding' : ''}}" data-state="user.ignoreFriendState" data-ng-click="$parent.ignoreRequest(user)">
+						<span data-i18n="magicbar.requests.decline"></span>
+					</savebutton>
 				</person>
 			</li>
 			<li class="friendsView-request error" data-ng-if="requests.length == 0">

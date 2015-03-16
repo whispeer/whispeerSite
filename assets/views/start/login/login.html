@@ -1,5 +1,7 @@
 <form>
 	<input autofocus type="text" id="mail" data-i18n-attr="login.username|placeholder" data-ng-model="login.identifier">
 	<input type="password" id="password" data-i18n-attr="login.password|placeholder" data-ng-model="login.password">
-	<savebutton id="loginformsubmit" data-state="login.state" class="btn btn--input btn--primary" type="submit" data-ng-click="login.login()" data-translation="login.link"></savebutton>
+	<savebutton id="loginformsubmit" data-state="login.state" class="btn btn--input btn--primary" type="submit" data-ng-click="login.login()">
+		<span data-i18n="login.link"></span>
+	</savebutton>
 </form>

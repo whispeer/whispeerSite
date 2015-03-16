@@ -11,6 +11,10 @@ define(["step", "whispeerHelper"], function (step, h) {
 		function loadImage(data) {
 			var blobid = data.blobID;
 
+			if (data.loaded) {
+				return;
+			}
+
 			data.loading = true;
 			data.decrypting = false;
 			data.downloading = false;
@@ -29,6 +33,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 			}), h.sF(function (url) {
 				data.loading = false;
 				data.decrypting = false;
+				data.loaded = true;
 				data.url = url;
 			}), errorService.criticalError);
 		}

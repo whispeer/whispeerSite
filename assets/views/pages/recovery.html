@@ -3,7 +3,9 @@
 	<h5 class="settingsView-setting-header" data-i18n="settings.changes.changePassword"></h5>
 	<form validated-form="pwValidationOptions" class="inputSandwich">
 		<passwordinput state="changePassword" class1="inputSandwich-top" class2="inputSandwich-middle"></passwordinput>
-		<savebutton class="inputSandwich-bottom" state="savePasswordState" data-translation="settings.changes.save" data-ng-click="savePassword()"></savebutton>
+		<savebutton class="inputSandwich-bottom" state="savePasswordState" data-ng-click="savePassword()">
+			<span data-i18n="settings.changes.save"></span>
+		</savebutton>
 	</form>
 </div>
 <section data-ng-if="!changePassword.enabled && codeProvided" class="recoveryView-section">
@@ -27,6 +29,8 @@
 	<h2 class="recoveryView-subTitle" data-i18n="views.recovery.byMail"></h2>
 	<form>
 		<input class="inputSandwich-top" type="text" placeholder="E-Mail" data-ng-model="request.identifier">
-		<savebutton class="inputSandwich-bottom" data-state="request.state" data-ng-click="request.execute(request.identifier)" data-translation="views.recovery.requestRecovery"></savebutton>
+		<savebutton class="inputSandwich-bottom" data-state="request.state" data-ng-click="request.execute(request.identifier)">
+			<span data-i18n="views.recovery.requestRecovery"></span>
+		</savebutton>
 	</form>
 </section>

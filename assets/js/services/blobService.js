@@ -177,6 +177,7 @@ define(["step", "whispeerHelper", "asset/Progress"], function (step, h, Progress
 			step(function () {
 				var meta = that._meta;
 				meta._key = that._key;
+				meta.one = 1;
 
 				if (that._preReserved) {
 					socketService.emit("blob.fullyReserveID", {
@@ -275,7 +276,9 @@ define(["step", "whispeerHelper", "asset/Progress"], function (step, h, Progress
 					knownBlobs[blobID] = new MyBlob(dataString, blobID, { meta: data.meta });
 				}
 
-				addBlobToDB(knownBlobs[blobID]);
+				if (!data.meta || !data.meta._key) {
+					addBlobToDB(knownBlobs[blobID]);
+				}
 
 				this.ne(knownBlobs[blobID]);
 			}), step.multiplex(blobListener[blobID]));
@@ -343,8 +346,7 @@ define(["step", "whispeerHelper", "asset/Progress"], function (step, h, Progress
 			},
 			getBlob: function (blobID, cb) {
 				step(function () {
-					//loadBlobFromDB(blobID, this, this.last);
-					this.ne();
+					loadBlobFromDB(blobID, this, this.last);
 				}, h.sF(function () {
 					if (knownBlobs[blobID]) {
 						this.ne(knownBlobs[blobID]);

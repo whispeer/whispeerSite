@@ -24,7 +24,10 @@
 				<div class="error" data-ng-if="qr.noDevice" data-i18n="profile.trustmanager.nodevice"></div>
 				<span data-syntaxify data-i18n="profile.trustmanager.verifyInfo.qr|user={{user.basic.shortname}}"></span>
 				<div class="qrScanner">
-					<savebutton data-ng-click="qr.reset()" data-ng-if="qr.read" data-state="verifyingUser" data-translation="profile.trustmanager.qrSaveButton"></savebutton>
+					<savebutton data-ng-click="qr.reset()" data-ng-if="qr.read" data-state="verifyingUser">
+						<span data-i18n="profile.trustmanager.qrSaveButton.failed" data-ng-show="verifyingUser.failed"></span>
+						<span data-i18n="profile.trustmanager.qrSaveButton.pending" data-ng-show="verifyingUser.pending"></span>
+					</savebutton>
 					<qr-scanner state="qr" callback="verify(code)"></qr-scanner>
 				</div>
 			</div>

@@ -10,7 +10,9 @@
 			</div>
 			<div class="search-suggestion-actions" data-ng-if="big">
 				<a class="search-suggestion-row search-action search-action-message btn btn--primary btn--border" data-ng-click="notifyParent('sendMessage', user)" data-stop-event="click" data-i18n="usersearch.message"></a>
-				<savebutton class="search-suggestion-row search-action search-action-addFriend btn--border" data-state="user.addFriendState" data-ng-if="!user.me && !user.added" data-ng-click="notifyParent('addFriend', user)" data-stop-event="click" data-translation="usersearch.add" data-noiniticon></savebutton>
+				<savebutton class="search-suggestion-row search-action search-action-addFriend btn--border" data-state="user.addFriendState" data-ng-if="!user.me && !user.added" data-ng-click="notifyParent('addFriend', user)" data-stop-event="click" data-noiniticon>
+					<span data-i18n="usersearch.add"></span>
+				</savebutton>
 				<div class="search-suggestion-row search-action search-action-addCircle" data-stop-event="click" ng-if="user.added">
 					<circlesearch res="circles" class="search-action-selectCircle" data-input-i18n-attr="profile.actions.addToCircle|placeholder|user={{user.name}}" data-user="user.id"></circlesearch>
 					<savebutton class="search-action-circleSubmit btn--border btn--noPadding" data-ng-click="notifyParent('saveCircles', {circles: circles, user: user})" data-state="user.circleState"></savebutton>

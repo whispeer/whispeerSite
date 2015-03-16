@@ -53,7 +53,9 @@
 			</p>
 		</div>
 
-		<savebutton class="settingsView-settingsFormButton" data-translation="settings.changes.save" data-state="saveGeneralState" data-ng-click="saveGeneral()"></savebutton>
+		<savebutton class="settingsView-settingsFormButton" data-state="saveGeneralState" data-ng-click="saveGeneral()">
+			<span data-i18n="settings.changes.save"></span>
+		</savebutton>
 	</section>
 	<header class="box-header box-header--content"><span class="box-header-title" data-i18n="settings.changes.account"></span></header>
 	<section class="settingsView-section" id="settingsView-account">
@@ -61,23 +63,31 @@
 			<h5 class="settingsView-setting-header" data-i18n="settings.changes.changeName"></h5>
 			<input type="text" id="settingsView-firstNameInput" data-ng-model="firstName" data-i18n-attr="settings.safety.attributes.names.firstname|placeholder">
 			<input type="text" id="settingsView-lastNameInput" data-ng-model="lastName" data-i18n-attr="settings.safety.attributes.names.lastname|placeholder">
-			<savebutton id="settingsView-saveName" state="saveNameState" data-translation="settings.changes.save" data-ng-click="saveName()"></savebutton>
+			<savebutton id="settingsView-saveName" state="saveNameState" data-ng-click="saveName()">
+				<span data-i18n="settings.changes.save"></span>
+			</savebutton>
 		</div>
 		<div class="settingsView-setting" id="settingsView-nickname">
 			<h5 class="settingsView-setting-header" data-i18n="settings.changes.changeUsername"></h5>
 			<input disabled="disabled" type="text" id="settingsView-nickNameInput" data-ng-model="nickName" data-i18n-attr="settings.safety.attributes.names.username|placeholder">
-			<savebutton id="settingsView-saveNickName" state="saveNameState" data-translation="settings.changes.save" data-ng-click="saveNickName()" disabled></savebutton>
+			<savebutton id="settingsView-saveNickName" state="saveNameState" data-ng-click="saveNickName()" disabled>
+				<span data-i18n="settings.changes.save"></span>
+			</savebutton>
 		</div>
 		<div class="settingsView-setting" id="settingsView-mail">
 			<h5 class="settingsView-setting-header" data-i18n="settings.changes.changeMail"></h5>
 			<input type="text" id="settingsView-mailInput" data-ng-model="mail" data-i18n-attr="settings.changes.mail|placeholder">
-			<savebutton id="settingsView-saveMail" state="saveMailState" data-translation="settings.changes.save" data-ng-click="saveMail()"></savebutton>
+			<savebutton id="settingsView-saveMail" state="saveMailState" data-ng-click="saveMail()">
+				<span data-i18n="settings.changes.save"></span>
+			</savebutton>
 		</div>
 		<div class="settingsView-setting" id="settingsView-password">
 			<h5 class="settingsView-setting-header" data-i18n="settings.changes.changePassword"></h5>
 			<form validated-form="pwValidationOptions">
 				<passwordinput state="pwState"></passwordinput>
-				<savebutton id="settingsView-savePassword" state="savePasswordState" data-translation="settings.changes.save" data-ng-click="savePassword()"></savebutton>
+				<savebutton id="settingsView-savePassword" state="savePasswordState" data-ng-click="savePassword()">
+					<span data-i18n="settings.changes.save"></span>
+				</savebutton>
 			</form>
 		</div>
 	</section>
@@ -121,7 +131,11 @@
 				</div>
 			</div>
 		</section>
-		<savebutton class="settingsView-settingsFormButton" state="saveSafetyState" data-translation="settings.changes.save" data-ng-click="saveSafety()"></savebutton>
-		<savebutton class="settingsView-settingsFormButton" initicon="fa-times-circle" successicon="fa-times-circle" state="resetSafetyState" data-translation="settings.safety.reset" data-ng-click="resetSafety()"></savebutton>
+		<savebutton class="settingsView-settingsFormButton" state="saveSafetyState" data-ng-click="saveSafety()">
+			<span data-i18n="settings.changes.save"></span>
+		</savebutton>
+		<savebutton class="settingsView-settingsFormButton" initicon="fa-times-circle" successicon="fa-times-circle" state="resetSafetyState" data-ng-click="resetSafety()">
+			<span data-i18n="settings.safety.reset"></span>
+		</savebutton>
 	</section>
 </div>

@@ -13,7 +13,9 @@
 					</span>
 					<input class="uploadForm-theForm" type="file" multiple data-file="newPost.addImages" data-ng-click="mobilePromptUser($event)">
 				</div>
-				<savebutton class="btn--noRadius" id="newsfeedView-submit" data-translation="wall.postit.send" data-ng-click="sendPost()" data-state="sendPostState" data-noiniticon data-ng-disabled="!canSend"></savebutton>
+				<savebutton class="btn--noRadius" id="newsfeedView-submit" data-ng-click="sendPost()" data-state="sendPostState" data-noiniticon data-ng-disabled="!canSend">
+					<span data-i18n="wall.postit.send"></span>
+				</savebutton>
 			</div>
 
 			<div id="newsfeed-newPostImages" data-ng-if="newPost.images.length > 0 || image.upload.percentage > 0">

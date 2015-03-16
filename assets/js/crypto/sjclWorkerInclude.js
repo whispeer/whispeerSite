@@ -34,7 +34,7 @@ define(["workerQueue", "bluebird", "crypto/minimalHelper"], function (WorkerQueu
 	}
 
 	//Promise, numberOfWorkers, workerPath, setupMethod, requireOverRide
-	var workers = new WorkerQueue(bluebird, 4, "crypto/sjclWorker", addEntropy);
+	var workers = new WorkerQueue(bluebird, 4, "crypto/sjclWorker", addEntropy, "/assets/js/bower/requirejs/require.js");
 
 	var sjclWorker = {
 		hash: function (toHash) {
