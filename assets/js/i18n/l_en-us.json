@@ -32,6 +32,7 @@
 			"viaMail": "Invite via e-mail",
 			"viaMailExplanation": "Enter your friends' e-mail addresses to invite them:",
 			"mail": "E-mail",
+			"addMail": "Add another E-Mail",
 			"viaLink": "Invite via link",
 			"viaLinkExplanation": "Generate an invite link that you can pass on to your friends:",
 			"generateLink": "Generate an invitation link",
