@@ -51,6 +51,10 @@ define(["step", "whispeerHelper", "asset/state"], function (step, h, State) {
 			}), errorService.failOnError(inviteMailState));
 		};
 
+		$scope.removeInput = function (i) {
+			$scope.inviteMails.splice(i, 1);
+		}
+
 		$scope.generateInvite = function () {
 			inviteGenerateState.pending();
 
