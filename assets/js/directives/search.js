@@ -1,7 +1,7 @@
 define([], function () {
 	"use strict";
 
-	function searchDirective() {
+	function searchDirective($injector) {
 		return {
 			scope: {
 				"callback": "=",
@@ -13,7 +13,9 @@ define([], function () {
 			templateUrl: "assets/views/directives/search.html",
 			replace: false,
 			transclude: false,
-			controller: ["$scope", function (scope) {
+			link: function (scope, iElement, iAttrs) {
+				var searchSupplier = $injector(iAttrs.supplier);
+
 				var oldQuery = "";
 				/* attribute to define if we want multiple results or one */
 				scope.query = "";
@@ -67,7 +69,7 @@ define([], function () {
 						oldQuery = scope.query;
 						scope.searching = true;
 
-						scope.search(scope.query).then(function (results) {
+						searchSupplier.search(scope.query).then(function (results) {
 							if (currentQuery === scope.query) {
 								scope.searching = false;
 								scope.results = results;
@@ -136,9 +138,11 @@ define([], function () {
 						e.preventDefault();
 					}
 				};
-			}]
+			}
 		};
 	}
+
+	searchDirective.$inject = ["$injector"];
 
 	return searchDirective;
 });
