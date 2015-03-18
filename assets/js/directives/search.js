@@ -14,7 +14,7 @@ define([], function () {
 			replace: false,
 			transclude: false,
 			link: function (scope, iElement, iAttrs) {
-				var searchSupplier = $injector(iAttrs.supplier);
+				var searchSupplier = $injector.get(iAttrs.supplier);
 
 				var oldQuery = "";
 				/* attribute to define if we want multiple results or one */
