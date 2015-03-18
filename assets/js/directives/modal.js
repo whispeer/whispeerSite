@@ -27,11 +27,10 @@ define(["jquery"], function (jQuery) {
 				};
 
 				jQuery(document).keyup(function (e) {
-					scope.$apply(function () {
-						if (CLOSEKEYS.indexOf(e.keyCode) > -1) {
-							scope.visible = false;
-						}
-					});
+					if (scope.visible && CLOSEKEYS.indexOf(e.keyCode) > -1) {
+						scope.visible = false;
+						scope.$apply();
+					}
 				});
 			}
 		};
