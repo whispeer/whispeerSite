@@ -2,8 +2,8 @@
 
 "use strict";
 
-var destination = "whispeer.mf";
-var source = "whispeer.mf.template";
+var destination = "manifest.mf";
+var source = "manifest.mf.template";
 
 var Lazy    = require("lazy"),
 	fs  = require("fs");
