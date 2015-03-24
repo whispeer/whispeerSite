@@ -1,25 +1,41 @@
 ({
     appDir: "./",
-	paths: {
-		jquery: "libs/jquery-1.9.1",
-		qtip: "libs/jquery.qtip",
-		angular: "libs/angular",
-		angularRoute: "libs/angular-route",
-		angularTouch: "libs/angular-touch",
-		socket: "libs/socket.io",
+    paths: {
+        step: "step/lib/step",
+        whispeerHelper: "helper/helper",
+        amanda: "bower/amanda/releases/latest/amanda",
+        angular: "bower/angular/angular",
+        angularRoute: "bower/angular-route/angular-route",
+        angularTouch: "bower/angular-touch/angular-touch",
+        bluebird: "bower/bluebird/js/browser/bluebird",
+        jquery: "bower/jquery/jquery",
+        requirejs: "bower/requirejs/require",
+        socket: "bower/socket.io-client/socket.io",
         socketStream: "libs/socket.io-stream",
-		step: "step/lib/step",
-		whispeerHelper: "helper/helper",
-		amanda: "libs/amanda"
-	},
-	baseUrl: "assets/js",
+        qtip: "bower/qtip2/basic/jquery.qtip",
+        imageLib: "bower/blueimp-load-image/js/load-image",
+        localizationModule: "bower/angular-i18n-directive/src/localizationModule",
+        workerQueue: "bower/worker-queue.js/src/index",
+        PromiseWorker: "bower/require-promise-worker.js/src/index"
+
+    },
+    baseUrl: "assets/js",
     shim: {
-        "angular": {
-            deps: ["jquery"],
+        angular: {
+            deps: [
+                "jquery"
+            ],
             exports: "angular"
         },
-        "angularRoute":{
-            deps:["angular"]
+        "angularRoute": {
+            deps: [
+                "angular"
+            ]
+        },
+        "angularTouch": {
+            deps: [
+                "angular"
+            ]
         }
     },
 	priority: [

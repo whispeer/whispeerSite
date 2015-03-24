@@ -2,7 +2,7 @@
 * userController
 **/
 
-define(["step", "whispeerHelper", "asset/resizableImage", "asset/state", "libs/qrreader"], function (step, h, ResizableImage, State, qrreader) {
+define(["step", "whispeerHelper", "asset/resizableImage", "asset/state"], function (step, h, ResizableImage, State) {
 	"use strict";
 
 	function userController($scope, $routeParams, $timeout, cssService, errorService, userService, postService, circleService, blobService) {
@@ -25,18 +25,15 @@ define(["step", "whispeerHelper", "asset/resizableImage", "asset/state", "libs/q
 		$scope.verifyingUser = verifyState.data;
 
 		$scope.qr = {
-			available: !!(navigator.getUserMedia || navigator.mozGetUserMedia || navigator.webkitGetUserMedia),
-			view: false,
-			read: false,
-			reset: function () {
-				if (verifyState.isFailed()) {
-					$scope.qr.read = false;
-					initializeReader();
-				}
-			}
+			enabled: false
 		};
 
-		$scope.verifyCode = !$scope.qr.available;
+		$scope.verifyCode = false;
+		$scope.$watch(function () { return $scope.qr.available; }, function (isAvailable) {
+			if (isAvailable === false) {
+				$scope.verifyCode = true;
+			}
+		});
 
 		$scope.verifyWithCode = function () {
 			$scope.verifyCode = true;
@@ -44,105 +41,11 @@ define(["step", "whispeerHelper", "asset/resizableImage", "asset/state", "libs/q
 
 		$scope.resetVerifcationMethod = function () {
 			$scope.verifyCode = false;
-			$scope.qr.view = false;
+			$scope.qr.enabled = false;
 		};
 
-		var theStream;
-
-		function captureToCanvas() {
-			if (!$scope.qr.read) {
-				try {
-					var width = 800;
-					var height = 600;
-
-					var gCanvas = document.createElement("canvas");
-					gCanvas.width = width;
-					gCanvas.height = height;
-
-					var gCtx = gCanvas.getContext("2d");
-					gCtx.clearRect(0, 0, width, height);
-
-					gCtx.drawImage(document.getElementById("qrCodeVideo"), 0, 0);
-					var codeText = qrreader.decodeCanvas(gCanvas);
-
-					$scope.qr.read = true;
-					theStream.stop();
-					$scope.qrCode = codeText;
-
-					$scope.verify(codeText);
-				} catch(e) {
-					console.error(e);
-					$scope.qrCode = "error:" + e;
-					$timeout(captureToCanvas, 500);
-				}
-			}
-		}
-
-		function initializeReader() {
-			var webkit=false;
-			var moz=false;
-
-			step(function () {
-				if (window.MediaStreamTrack && window.MediaStreamTrack.getSources) {
-					window.MediaStreamTrack.getSources(this.ne);
-				} else {
-					this.ne();
-				}
-			}, h.sF(function (sources) {
-				var constraints = {
-					audio: false,
-					video: true
-				};
-
-				if (sources) {
-					var environmentSources = sources.filter(function (data) {
-						return data.kind === "video" && data.facing === "environment";
-					});
-
-					if (environmentSources.length === 1) {
-						constraints.video = { optional: [{sourceId: environmentSources[0].id}] };
-					}
-				}
-
-				if(navigator.getUserMedia) {
-					navigator.getUserMedia(constraints, this.ne, this);
-				} else if(navigator.webkitGetUserMedia) {
-					webkit=true;
-					navigator.webkitGetUserMedia(constraints, this.ne, this);
-				} else if(navigator.mozGetUserMedia) {
-					moz=true;
-					navigator.mozGetUserMedia(constraints, this.ne, this);
-				}
-			}), h.sF(function (stream) {
-				$scope.qr.noDevice = false;
-				theStream = stream;
-				var v = document.getElementById("qrCodeVideo");
-
-				if(webkit) {
-					v.src = window.webkitURL.createObjectURL(stream);
-				} else if(moz) {
-					v.mozSrcObject = stream;
-					v.play();
-				} else {
-					v.src = stream;
-				}
-
-				$timeout(captureToCanvas, 500);
-			}), function (e) {
-				if (e.name === "DevicesNotFoundError") {
-					$scope.qr.noDevice = true;
-
-					$timeout(initializeReader, 1000);
-				} else {
-					this(e);
-				}
-			}, errorService.criticalError);
-		}
-
 		$scope.verifyWithQrCode = function () {
-			$scope.qr.view = true;
-
-			initializeReader();
+			$scope.qr.enabled = true;
 		};
 
 		$scope.givenPrint = ["", "", "", ""];
@@ -438,13 +341,13 @@ define(["step", "whispeerHelper", "asset/resizableImage", "asset/state", "libs/q
 				visibleSelection.push("friends:" + $scope.user.id);
 			}
 
-			step(function () {
-				postService.createPost($scope.newPost.text, visibleSelection, wallUserID, this);
-			}, h.sF(function () {
+			postService.createPost($scope.newPost.text, visibleSelection, wallUserID, []).then(function () {
 				$scope.newPost.text = "";
-
-				this.ne();
-			}), errorService.failOnError(sendPostState));
+			}).catch(sendPostState.failed.bind(sendPostState))
+			.then(sendPostState.success.bind(sendPostState))
+			.finally(function () {
+				$scope.$apply();
+			});
 		};
 
 		$scope.possibleStatus = ["single", "relationship", "engaged", "married", "divorced", "widowed", "complicated", "open", "inlove"];

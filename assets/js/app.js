@@ -28,7 +28,7 @@ define([
 	"filter/filter",
 	"directives/directives",
 	"models/models",
-	"i18n/localizationModule",
+	"localizationModule",
 	"emptyInclude"
 ], function (angular) {
 	"use strict";

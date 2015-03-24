@@ -19,9 +19,6 @@ CACHE MANIFEST
 #if:production
 #params:/assets/js/
 
-/assets/js/cryptoWorker/generalWorker.js
-/assets/js/cryptoWorker/sjclWorker.js
-/assets/js/cryptoWorker/minimalHelper.js
 /assets/js/libs/sjcl.js
 /assets/js/bower/requirejs/require.js
 
@@ -31,6 +28,8 @@ CACHE MANIFEST
 
 #routes
 
+/index.html
+
 /assets/vendor/fonts/fontawesome-webfont.eot?v=4.1.0
 /assets/vendor/fonts/fontawesome-webfont.eot?#iefix&v=4.1
 /assets/vendor/fonts/fontawesome-webfont.woff?v=4.1.0
@@ -39,11 +38,8 @@ CACHE MANIFEST
 
 /changelog.json
 
-/settings
-/user/daniel
-
 FALLBACK:
-user/ /index.html
+/ /index.html
 
 NETWORK:
 *

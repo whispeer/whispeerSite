@@ -17,14 +17,22 @@
 	"inviteFriends": "Lade deine Freunde ein!",
 	"views": {
 		"recovery": {
+			"or": "oder",
 			"title": "Accountwiederherstellung",
-			"explanation": "Eine automatische Accountwiederherstellung ist noch nicht vorhanden. {br} Solltest du dein Passwort vergessen haben, sende uns bitte eine E-Mail an {mail}. {br} Gib deinen Wiederherstellungs-Schlüssel niemals weiter, auch nicht an uns!"
+			"explanation": "Eine automatische Accountwiederherstellung ist noch nicht vorhanden. {br} Solltest du dein Passwort vergessen haben, sende uns bitte eine E-Mail an {mail}. {br} Gib deinen Wiederherstellungs-Schlüssel niemals weiter, auch nicht an uns!",
+			"byMail": "Wiederherstellung per E-Mail",
+			"requestRecovery": "Wiederherstellung anfordern",
+			"uploadKey": "Lade deinen Backup-Schlüssel hoch",
+			"manualKey": "Gib den Backup-Schlüssel manuell ein",
+			"typeKey": "Hier Backup-Schlüssel eintippen",
+			"scanKey": "Scanne den ausgedruckten QR-Code"
 		},
 		"invite": {
 			"invite": "Einladen",
 			"viaMail": "Einladung via E-Mail",
 			"viaMailExplanation": "Gib die E-Mail Adressen deiner Freunde ein, um sie einzuladen:",
 			"mail": "E-Mail",
+			"addMail": "Weitere Person per E-Mail einladen",
 			"viaLink": "Einladung via Link",
 			"viaLinkExplanation": "Generiere einen Einladungs-Link, den du weitergeben kannst:",
 			"generateLink": "Einladungslink generieren",
@@ -338,7 +346,7 @@
 			"verifyWithQr":		"QR-Code",
 			"chooseVerifyMethod":	"Verifiziere die Identität von {user}. Wähle eine Verifizierungsmethode:",
 			"qrSaveButton":	{
-				"fail":	"Der Fingerprint stimmt nicht! Klicke hier, um es erneut zu probieren!",
+				"failed":	"Der Fingerprint stimmt nicht! Klicke hier, um es erneut zu probieren!",
 				"pending":	"Der Fingerprint wird überprüft!"
 			}
 		},

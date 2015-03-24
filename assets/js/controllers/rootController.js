@@ -2,7 +2,7 @@
 * sessionController
 **/
 
-define(["step", "whispeerHelper", "cryptoWorker/generalWorkerInclude", "config"], function (step, h, generalWorkerInclude, config) {
+define(["step", "whispeerHelper", "config"], function (step, h, config) {
 	"use strict";
 
 	function getVersionString(data) {
@@ -18,17 +18,7 @@ define(["step", "whispeerHelper", "cryptoWorker/generalWorkerInclude", "config"]
 		}
 	}
 
-	function rootController($rootScope, $scope, $timeout, $http, socketService, sessionService, sessionHelper, userService, cssService, messageService, trustService, friendsService, keyStore) {
-		generalWorkerInclude.setBeforeCallBack(function (evt, cb) {
-			$rootScope.$apply(cb);
-		});
-
-		keyStore.setAfterRequireCall(function (cb) {
-				$rootScope.$apply(function () {
-					cb();
-				});
-		});
-
+	function rootController($scope, screenSizeService, $http, socketService, sessionService, sessionHelper, userService, cssService, messageService, trustService, friendsService) {
 		$http({ method: "GET", url: "changelog.json", cache: false }).success(function (data) {
 			var version = getVersionString(data);
 			version = version.substr(0, version.length - 1);
@@ -38,19 +28,12 @@ define(["step", "whispeerHelper", "cryptoWorker/generalWorkerInclude", "config"]
 
 		$scope.version = "";
 		$scope.loggedin = false;
+		$scope.recovery = false;
 
-		function updateMobile() {
-			var old = $scope.mobile;
-
-			$scope.mobile = jQuery(window).width() < 1025;
-
-			if ($scope.mobile !== old) {
-				$timeout(h.nop);
-			}
-		}
-
-		jQuery(window).resize(updateMobile);
-		updateMobile();
+		$scope.mobile = screenSizeService.mobile;
+		screenSizeService.listen(function (mobile) {
+			$scope.mobile = mobile;
+		});
 
 		var nullUser = {
 			name: "",
@@ -64,8 +47,21 @@ define(["step", "whispeerHelper", "cryptoWorker/generalWorkerInclude", "config"]
 		$scope.friends = friendsService.data;
 		$scope.messages = messageService.data;
 
+		$scope.$on("ssn.recovery", function () {
+			$scope.recovery = true;
+			$scope.loggedin = false;
+		});
+
+		$scope.$watch(function () {
+			return $scope.loggedin;
+		}, function () {
+			if ($scope.recovery) {
+				$scope.loggedin = false;
+			}
+		});
+
 		$scope.$on("ssn.login", function () {
-			$scope.loggedin = sessionService.isLoggedin();
+			$scope.loggedin = sessionService.isLoggedin() && !$scope.recovery;
 			if (!$scope.loggedin) {
 				$scope.user = nullUser;
 			}
@@ -101,7 +97,7 @@ define(["step", "whispeerHelper", "cryptoWorker/generalWorkerInclude", "config"]
 			});
 		});
 
-		socketService.on("reconnect", function () {
+		socketService.on("connect", function () {
 			$scope.$apply(function () {
 				$scope.lostConnection = false;
 			});
@@ -149,7 +145,7 @@ define(["step", "whispeerHelper", "cryptoWorker/generalWorkerInclude", "config"]
 		};
 	}
 
-	rootController.$inject = ["$rootScope", "$scope", "$timeout", "$http", "ssn.socketService", "ssn.sessionService", "ssn.sessionHelper", "ssn.userService", "ssn.cssService", "ssn.messageService", "ssn.trustService", "ssn.friendsService", "ssn.keyStoreService"];
+	rootController.$inject = ["$scope", "ssn.screenSizeService", "$http", "ssn.socketService", "ssn.sessionService", "ssn.sessionHelper", "ssn.userService", "ssn.cssService", "ssn.messageService", "ssn.trustService", "ssn.friendsService"];
 
 	return rootController;
 });

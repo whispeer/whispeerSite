@@ -44,7 +44,9 @@
 	<div id="circleWrap">
 		<div class="circleView-addUsers">
 			<usersearch class="circleView-addUsers-search" size="small" data-scope="friends" res="usersToAdd" data-filter="thisCircle.userids" data-multiple type="text" data-input-i18n-attr="views.circles.searchFriends|placeholder" />
-			<savebutton class="circleView-addUsers-submit" data-noiniticon data-translation="views.circles.addUsers|b=" data-state="addUsersToCircle" data-ng-click="addUsers(usersToAdd.selectedElements)"></savebutton>
+			<savebutton class="circleView-addUsers-submit" data-noiniticon data-state="addUsersToCircle" data-ng-click="addUsers(usersToAdd.selectedElements)">
+				<span data-i18n="views.circles.addUsers"></span>
+			</savebutton>
 		</div>
 		<ol id="friendsList" class="u-unstyled">
 			<li data-ng-repeat="friend in thisCircle.persons">

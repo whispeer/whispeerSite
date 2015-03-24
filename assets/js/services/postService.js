@@ -1,10 +1,10 @@
 /**
 * postService
 **/
-define(["step", "whispeerHelper", "validation/validator", "asset/observer", "asset/errors", "asset/securedDataWithMetaData", "asset/state"], function (step, h, validator, Observer, errors, SecuredData, State) {
+define(["step", "whispeerHelper", "bluebird", "validation/validator", "asset/observer", "asset/errors", "asset/securedDataWithMetaData", "asset/state"], function (step, h, Promise, validator, Observer, errors, SecuredData, State) {
 	"use strict";
 
-	var service = function ($rootScope, $timeout, localize, socket, keyStore, errorService, userService, circleService, filterKeyService, Comment) {
+	var service = function ($rootScope, $timeout, localize, socket, keyStore, errorService, userService, circleService, blobService, filterKeyService, Comment, screenSize) {
 		var postsById = {};
 		var postsByUserWall = {};
 		var timelinesCache = {};
@@ -26,6 +26,8 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer", "ass
 				info: {
 					"with": ""
 				},
+				/* list of images with attributes: loaded, encrypting, decrypting, uploading, percent, url */
+				images: [],
 				time: securedData.metaAttr("time"),
 				isWallPost: false,
 				removable: false,
@@ -115,6 +117,8 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer", "ass
 					d.content = {
 						text: text
 					};
+
+					d.images = securedData.metaAttr("images");
 
 					this.ne();
 				}), cb);
@@ -410,7 +414,7 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer", "ass
 				socket.emit("posts.getTimeline", {
 					afterID: that.getOldestID(),
 					filter: that._finalFilter,
-					count: 20
+					count: screenSize.mobile ? 10 : 20
 				}, this);
 			}), h.sF(function (results) {
 				var posts = results.posts || [];
@@ -500,7 +504,7 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer", "ass
 				postsByUserWall = {};
 				timelinesCache = {};
 			},
-			createPost: function (content, visibleSelection, wallUserID, cb) {
+			createPost: function (content, visibleSelection, wallUserID, images) {
 				/*
 						meta: {
 							contentHash,
@@ -512,31 +516,48 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer", "ass
 						}
 						content //padded!
 				*/
-				var meta = {}, postKey;
+				//var meta = {}, postKey, blobKeys;
 
-				step(function () {
-					this.parallel.unflatten();
+				var imagePreparation = Promise.resolve(images).map(function (image) {
+					return image.prepare();
+				});
 
-					keyStore.sym.generateKey(this.parallel(), "post key");
-					filterKeyService.filterToKeys(visibleSelection, this.parallel());
-				}, h.sF(function (key, keys) {
-					postKey = key;
+				var keyGeneration = h.promisify(Promise, function (cb) {
+					return keyStore.sym.generateKey(cb, "post key");
+				});
 
+				var symEncryptKey = Promise.promisify(keyStore.sym.symEncryptKey, keyStore.sym);
+				var filterToKeys = Promise.promisify(filterKeyService.filterToKeys, filterKeyService);
+				var createSecuredData = Promise.promisify(SecuredData.create, SecuredData);
+				var socketEmit = Promise.promisify(socket.emit, socket);
+
+				return Promise.all([keyGeneration, imagePreparation]).spread(function (postKey, imagesMetaData) {
+					var uploadImages = Promise.all(images.map(function (image) {
+						return image.upload(postKey);
+					}));
+
+					var encryptPostKeys = filterToKeys(visibleSelection).map(function (key) {
+						return symEncryptKey(postKey, key);
+					});
+
+					var meta = {};
 					meta.time = new Date().getTime();
 					meta.sender = userService.getown().getID();
 					meta.walluser = wallUserID;
-	
-					this.parallel.unflatten();
-					SecuredData.create(content, meta, { type: "post" }, userService.getown().getSignKey(), postKey, this.parallel());
-					keys.forEach(function (key) {
-						keyStore.sym.symEncryptKey(postKey, key, this.parallel());
-					}, this);
-				}), h.sF(function (data) {
+					meta.images = imagesMetaData;
+
+					var securedData = createSecuredData(content, meta, { type: "post" }, userService.getown().getSignKey(), postKey);
+
+					return Promise.all([uploadImages, securedData, encryptPostKeys]);
+				}).spread(function (imageKeys, data) {
+					imageKeys = h.array.flatten(imageKeys);
+
+
+					data.imageKeys = imageKeys.map(keyStore.upload.getKey);
 					data.meta._key = keyStore.upload.getKey(data.meta._key);
-					socket.emit("posts.createPost", {
-						postData: data
-					}, this);
-				}), h.sF(function (result) {
+
+					return socketEmit("posts.createPost", { postData: data });
+				}).then(function (result) {
 					if (result.error) {
 						throw new Error("post creation failed on server");
 					}
@@ -551,20 +572,12 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer", "ass
 						postsByUserWall[wallUserID].unshift(newPost.data);
 					}
 
-					//TODO: add to all
-
 					h.objectEach(timelinesCache, function (key, timeline) {
 						timeline.addPost(newPost);
 					});
 
-					newPost.loadData(this);
-				}), cb);
-				
-				//hash content
-				
-				//getUser: walluser
-				//visibleSelection to keys
-				//encryptKey with visibleSelectionKeys
+					return Promise.promisify(newPost.loadData, newPost)();
+				});
 			}
 		};
 
@@ -577,7 +590,7 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer", "ass
 		return postService;
 	};
 
-	service.$inject = ["$rootScope", "$timeout", "localize", "ssn.socketService", "ssn.keyStoreService", "ssn.errorService", "ssn.userService", "ssn.circleService", "ssn.filterKeyService", "ssn.models.comment"];
+	service.$inject = ["$rootScope", "$timeout", "localize", "ssn.socketService", "ssn.keyStoreService", "ssn.errorService", "ssn.userService", "ssn.circleService", "ssn.blobService", "ssn.filterKeyService", "ssn.models.comment", "ssn.screenSizeService"];
 
 	return service;
 });

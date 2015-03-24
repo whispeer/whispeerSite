@@ -43,8 +43,7 @@ define(["libs/sjcl", "whispeerHelper", "asset/errors"], function (sjcl, h, error
 
 			return sjcl.codec.hex.fromBits(t);
 		},
-		sjclPacket2Object: function (data) {
-			var decoded = sjcl.json.decode(data);
+		sjclPacket2Object: function (decoded) {
 			var result = {
 				ct: helper.bits2hex(decoded.ct),
 				iv: helper.bits2hex(decoded.iv)

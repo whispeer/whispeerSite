@@ -12,5 +12,6 @@ tmp/*
 node_modules/*
 assets/vendor
 whispeer.mf
+manifest.mf
 *.DS_STORE
 assets/js/bower

@@ -1,8 +1,10 @@
 /**
 * SocketService
 **/
-define(["jquery", "socket", "socketStream", "step", "whispeerHelper", "config"], function ($, io, iostream, step, h, config) {
+define(["jquery", "socket", "socketStream", "step", "whispeerHelper", "config", "asset/observer"], function ($, io, iostream, step, h, config, Observer) {
 	"use strict";
+
+	var APIVERSION = "0.0.1";
 
 	var socket;
 	if (config.https) {
@@ -24,8 +26,8 @@ define(["jquery", "socket", "socketStream", "step", "whispeerHelper", "config"],
 
 		window.setInterval(function () {
 			try {
-				if (!socket.socket.connected) {
-					socket.socket.connect();
+				if (!socket.connected) {
+					socket.connect();
 				}
 			} catch (e) {
 				console.error(e);
@@ -34,14 +36,32 @@ define(["jquery", "socket", "socketStream", "step", "whispeerHelper", "config"],
 
 		var loading = 0;
 
+		var internalObserver = new Observer();
+		var uploadingCounter = 0, streamUpgraded = false;
+
 		var socketS = {
+			uploadObserver: internalObserver,
 			isConnected: function () {
-				return socket.socket.connected;
+				return socket.connected;
 			},
-			uploadBlob: function (blob, blobid, cb) {
+			uploadBlob: function (blob, blobid, progress, cb) {
+				if (uploadingCounter > 3) {
+					internalObserver.listenOnce(function () {
+						socketS.uploadBlob(blob, blobid, progress, cb);
+					}, "uploadFinished");
+					return;
+				}
+
+				uploadingCounter++;
 				step(function () {
-					socketS.emit("blob.upgradeStream", {}, this);
+					if (!streamUpgraded) {
+						socketS.emit("blob.upgradeStream", {}, this);
+					} else {
+						this.ne();
+					}
 				}, h.sF(function () {
+					streamUpgraded = true;
+
 					var stream = iostream.createStream();
 					iostream(socket).emit("pushBlob", stream, {
 						blobid: blobid
@@ -49,10 +69,21 @@ define(["jquery", "socket", "socketStream", "step", "whispeerHelper", "config"],
 
 					var blobStream = iostream.createBlobReadStream(blob);
 
+					blobStream.on("data", function(chunk) {
+						progress.progressDelta(chunk.length);
+					});
+
 					blobStream.on("end", this);
 
 					blobStream.pipe(stream);
-				}), cb);
+				}), function (e) {
+					uploadingCounter--;
+
+					internalObserver.notify(blobid, "uploadFinished");
+					internalObserver.notify(blobid, "uploadFinished:" + blobid);
+
+					this(e);
+				}, cb);
 			},
 			on: function () {
 				socket.on.apply(socket, arguments);
@@ -76,6 +107,7 @@ define(["jquery", "socket", "socketStream", "step", "whispeerHelper", "config"],
 				var time;
 				step(function doEmit() {
 					data.sid = sessionService.getSID();
+					data.version = APIVERSION;
 
 					console.groupCollapsed("Request on " + channel);
 					console.log(data);
@@ -84,7 +116,7 @@ define(["jquery", "socket", "socketStream", "step", "whispeerHelper", "config"],
 					time = new Date().getTime();
 					loading++;
 
-					if (socket.socket.connected) {
+					if (socketS.isConnected()) {
 						socket.emit(channel, data, this.ne);
 					} else {
 						throw new Error("no connection");
@@ -100,6 +132,8 @@ define(["jquery", "socket", "socketStream", "step", "whispeerHelper", "config"],
 							keyStore.upload.addKey(key);
 						});
 					}
+
+					lastRequestTime = data.serverTime;
 
 					if (data.error) {
 						console.error(data);
@@ -163,10 +197,12 @@ define(["jquery", "socket", "socketStream", "step", "whispeerHelper", "config"],
 		socket.on("disconnect", function () {
 			console.info("socket disconnected");
 			loading = 0;
+			streamUpgraded = false;
+			uploadingCounter = 0;
 		});
 
-		socket.on("reconnect", function () {
-			console.info("socket reconnected");
+		socket.on("connect", function () {
+			console.info("socket connected");
 			socketS.emit("ping", {}, function () {});
 		});
 

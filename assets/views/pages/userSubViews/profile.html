@@ -115,12 +115,16 @@
 				</span>
 			</p>
 			<p class="userView-infoRow" id="userView-saveInfo" data-ng-show="editGeneral">
-				<savebutton id="userView-saveInfo-button" translation="settings.changes.save" data-state="saveUserState" data-ng-click="saveUser()"></savebutton>
+				<savebutton id="userView-saveInfo-button" data-state="saveUserState" data-ng-click="saveUser()">
+					<span data-i18n="settings.changes.save"></span>
+				</savebutton>
 			</p>
 		</div>
 	</section>
 	<div class="userView-actions userView-subSection">
-		<savebutton data-ng-if="!user.me && !user.added" class="userView-addFriend" data-ng-click="addFriend()" data-state="user.addFriendState" data-noiniticon data-translation="profile.actions.addFriend|user={{user.name}}|b="></savebutton>
+		<savebutton data-ng-if="!user.me && !user.added" class="userView-addFriend" data-ng-click="addFriend()" data-state="user.addFriendState" data-noiniticon>
+			<span data-i18n="profile.actions.addFriend|user={{user.name}}"></span>
+		</savebutton>
 		<div class="userView-addToCircle" data-ng-if="user.added">
 			<circlesearch data-res="circles" id="userView-selectCircle" data-input-i18n-attr="profile.actions.addToCircle|placeholder|user={{user.name}}" data-user="user.id"></circlesearch>
 			<saveButton id="userView-submitCircle" data-ng-click="saveCircles()" data-state="circles.saving"></saveButton>
@@ -134,7 +138,9 @@
 	<form data-ng-if="(user.isMyFriend || user.me)" class="form-inline" id="userView-postIt">
 		<textarea data-strg-enter="sendPost()" data-ng-model="newPost.text" data-i18n-attr="wall.postit.text|placeholder" id="userView-shareText" data-ng-if="user.me"></textarea>
 		<textarea data-strg-enter="sendPost()" data-ng-model="newPost.text" data-i18n-attr="profile.section.wall.postIt|placeholder|user={{user.name}}" id="userView-shareText" data-ng-if="!user.me"></textarea>
-		<savebutton id="userView-sendPost" class="btn-noPadding" data-state="sendPostState" data-translation="wall.postit.send" data-ng-click="sendPost()"></savebutton>
+		<savebutton id="userView-sendPost" class="btn-noPadding" data-state="sendPostState" data-ng-click="sendPost()">
+			<span data-i18n="wall.postit.send"></span>
+		</savebutton>
 	</form>
 	<div class="posts" id="userView-posts">
 		<post data-ng-repeat="post in posts" data-post="post" id="{{post.id}}"></post>

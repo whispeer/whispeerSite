@@ -14,6 +14,7 @@ function buildCSPConfig() {
 	var ifaces=os.networkInterfaces();
 
 	function pushAddress(address){
+		console.log(address);
 		cspConfig["default-src"].push("http://" + address + ":3000");
 		cspConfig["default-src"].push("ws://" + address + ":3000");		
 

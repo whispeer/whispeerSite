@@ -17,14 +17,22 @@
 	"inviteFriends": "Invite your friends!",
 	"views": {
 		"recovery": {
+			"or": "or",
 			"title": "Account recovery",
-			"explanation": "Your account can not be recovered automatically yet. {br} If you forgot your password please send an e-mail to {mail}. {br} Never send your backup key to anyone not even us!"
+			"explanation": "Your account can not be recovered automatically yet. {br} If you forgot your password please send an e-mail to {mail}. {br} Never send your backup key to anyone not even us!",
+			"byMail": "Recovery via E-Mail",
+			"requestRecovery": "Request Recovery",
+			"uploadKey": "Upload your Backup-Key",
+			"manualKey": "Enter your Backup-Key manually",
+			"typeKey": "Enter Backup-Key here",
+			"scanKey": "Scan your printed QR-Code"
 		},
 		"invite": {
 			"invite": "Invite",
 			"viaMail": "Invite via e-mail",
 			"viaMailExplanation": "Enter your friends' e-mail addresses to invite them:",
 			"mail": "E-mail",
+			"addMail": "Add another E-Mail",
 			"viaLink": "Invite via link",
 			"viaLinkExplanation": "Generate an invite link that you can pass on to your friends:",
 			"generateLink": "Generate an invitation link",
