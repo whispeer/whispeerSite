@@ -119,7 +119,7 @@ define(["step", "whispeerHelper", "asset/observer", "asset/securedDataWithMetaDa
 			}), cb);
 		}
 
-		socket.listen("friendRequest", function (e, requestData) {
+		socket.channel("friendRequest", function (e, requestData) {
 			var uid = h.parseDecimal(requestData.uid);
 			if (!h.containsOr(uid, requests, friends, requested))  {
 				requests.push(uid);
@@ -129,7 +129,7 @@ define(["step", "whispeerHelper", "asset/observer", "asset/securedDataWithMetaDa
 			}
 		});
 
-		socket.listen("friendAccept", function (e, requestData) {
+		socket.channel("friendAccept", function (e, requestData) {
 			var uid = h.parseDecimal(requestData.uid);
 			if (!h.containsOr(uid, requests, friends))  {
 				friends.push(uid);
@@ -143,7 +143,7 @@ define(["step", "whispeerHelper", "asset/observer", "asset/securedDataWithMetaDa
 			}
 		});
 
-		socket.listen("friendOnlineChange", function (e, requestData) {
+		socket.channel("friendOnlineChange", function (e, requestData) {
 			userOnline(requestData.uid, requestData.status);
 		});
 
@@ -404,7 +404,7 @@ define(["step", "whispeerHelper", "asset/observer", "asset/securedDataWithMetaDa
 			friendsService.reset();
 		});
 
-		socket.listen("notify.signedList", function (e, data) {
+		socket.channel("notify.signedList", function (e, data) {
 			if (signedList.metaAttr("_signature") !== data._signature) {
 				var userService = $injector.get("ssn.userService");
 				var updatedSignedList = SecuredData.load(undefined, data, { type: "signedFriendList" });

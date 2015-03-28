@@ -130,17 +130,26 @@ define(["jquery", "socket", "socketStream", "step", "whispeerHelper", "config", 
 			removeAllListener: function (channel) {
 				socket.removeAllListeners(channel);
 			},
-			listen: function (channel, callback) {
+			listen: function () {
+				throw new Error("akjldhsflksdjhg");
+			},
+			channel: function (channel, callback) {
 				socket.on(channel, function (data) {
-					console.log("received data on " + channel);
-					console.log(data);
+					log.log("received data on " + channel);
+					log.log(data);
 					$rootScope.$apply(function () {
 						callback(null, data);
 					});
 				});
 			},
 			awaitNoRequests: function () {
-				return Promise.resolve();
+				if (loading === 0) {
+					return Promise.resolve();
+				}
+
+				return new Promise(function (resolve, reject) {
+					resolve();
+				});
 			},
 			emit: function (channel, request, callback) {
 				if (!socketS.isConnected()) {
