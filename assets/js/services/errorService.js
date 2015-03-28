@@ -4,7 +4,7 @@ define([], function () {
 	function logError(e) {
 		if (e) {
 			console.error(e);
-			errors.push({
+			globalErrors.push({
 				e: e,
 				str: e.toString(),
 				stack: e.stack

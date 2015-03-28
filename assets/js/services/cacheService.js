@@ -1,94 +1,63 @@
-var db;
-
-define(["step", "whispeerHelper", "asset/observer", "bluebird"], function (step, h, Observer, Promise) {
+define(["dexie", "bluebird"], function (Dexie, Promise) {
 	"use strict";
 
-	var upgrades = {
-		version1: function (db) {
-			db.createObjectStore("blobs");
-		},
-		version2: function (db) {
-			db.deleteObjectStore("blobs");
+	 var db = new Dexie("whispeer");
 
-			var objectStore = db.createObjectStore("objects", { keyPath: "id" });
-			objectStore.createIndex("created", "created", { unique: false });
-			objectStore.createIndex("used", "used", { unique: false });
-			objectStore.createIndex("type", "type", { unique: false });
-		}
-	};
+	db.version(2).stores({
+        cache: "id,created,used,type,size"
+    });
 
-	function upgradeDatabase(event) {
-		var i;
-		for (i = event.oldVersion+1; i <= event.newVersion; i += 1) {
-			upgrades["version" + i](event.target.result);
-		}
-	}
+    db.open();
 
 	var service = function (errorService) {
-		var databasePromise;
+		db.on("error", errorService.criticalError);
+		db.on("blocked", errorService.logError);
 
-		function promisify(request) {
-			return new Promise(function (resolve, reject) {
-				request.onerror = reject;
-				request.onsuccess = resolve;
-			}).then(function (event) {
-				return event.target.result;
-			});
-		}
-
-		function Cache(name) {
+		function Cache(name, options) {
 			this._name = name;
+			this._options = options || {};
 		}
 
 		Cache.prototype.entryCount = function () {
-			return databasePromise.then(function (db) {
-				return promisify(db.transaction("objects").objectStore("objects").index("type").count(this._name));
-			});
+			return Promise.join(db.cache.where("type").equals(this._name).count());
 		};
 
-		Cache.prototype.store = function (id, data) {
-			return databasePromise.then(function (db) {
-				var store = db.transaction("objects", "readwrite").objectStore("objects");
-				return promisify(store.add({
-					data: data,
-					created: new Date().getTime(),
-					used: new Date().getTime(),
-					id: this._name + "/" + id,
-					type: this._name
-				}));
-			});
+		Cache.prototype.store = function (id, data, size) {
+			if (size > 1*1024*1024) {
+				return Promise.resolve();
+			}
+
+			return Promise.join(db.cache.add({
+				data: data,
+				created: new Date().getTime(),
+				used: new Date().getTime(),
+				id: this._name + "/" + id,
+				type: this._name,
+				size: size || 0
+			}));
 		};
 
 		Cache.prototype.get = function (id) {
-			return databasePromise.then(function (db) {
-				return promisify(db.transaction("objects").objectStore("objects").get(this._name + "/" + id));
-			}).then(function (result) {
-				result.used = new Date().getTime();
-				db.transaction("objects", "readwrite").objectStore("objects").update(this._name + "/" + id, result);
+			var cacheResult = db.cache.where(":id").equals(this._name + "/" + id);
 
-				return result.data;
-			});
+			cacheResult.modify({ used: new Date().getTime() });
+			return Promise.join(cacheResult.first().then(function (data) {
+				if (typeof data !== "undefined") {
+					return data.data;
+				}
+
+				throw new Error("cache miss");
+			}));
 		};
 
 		Cache.prototype.cleanUp = function () {
 			//remove data which hasn't been used in a long time or is very big
+			return Promise.join(db.count().then(function (count) {
+				if (count > 100) {
+					db.orderBy("used").limit(count - 100).delete();
+				}
+			}));
 		};
-
-		Observer.call(Cache);
-
-		if (!window.indexedDB || !window.indexedDB.open) {
-			return;
-		}
-
-		var request = window.indexedDB.open("whispeer", 2);
-		request.onupgradeneeded = upgradeDatabase;
-
-		databasePromise = promisify(request).then(function (db) {
-			Cache.notify("", "ready");
-			db.onerror = errorService.criticalError;
-
-			return db;
-		});
 
 		return Cache;
 	};

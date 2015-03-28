@@ -1,7 +1,7 @@
 /**
 * SocketService
 **/
-define(["jquery", "socket", "socketStream", "step", "whispeerHelper", "config", "asset/observer"], function ($, io, iostream, step, h, config, Observer) {
+define(["jquery", "socket", "socketStream", "step", "whispeerHelper", "config", "asset/observer", "bluebird"], function ($, io, iostream, step, h, config, Observer, Promise) {
 	"use strict";
 
 	var APIVERSION = "0.0.1";
@@ -38,6 +38,42 @@ define(["jquery", "socket", "socketStream", "step", "whispeerHelper", "config", 
 
 		var internalObserver = new Observer();
 		var uploadingCounter = 0, streamUpgraded = false;
+
+		var log = {
+			log: function () {
+				console.log.apply(console, arguments);
+			},
+			info: function () {
+				console.info.apply(console, arguments);
+			},
+			error: function () {
+				console.error.apply(console, arguments);
+			},
+			timer: function (name) {
+				var message = new Date().toLocaleTimeString() + ":" + name + "(" + Math.random() + ")";
+				console.time(message);
+				return message;
+			},
+			timerEnd: function (message) {
+				console.timeEnd(message);
+			}
+		};
+
+		function addKeys(keys) {
+			if (!keys) {
+				return;
+			}
+
+			keys.forEach(function (key) {
+				keyStore.upload.addKey(key);
+			});
+		}
+
+		function emit(channel, request) {
+			return new Promise(function (resolve, reject) {
+				socket.emit(channel, request, resolve);
+			});
+		}
 
 		var socketS = {
 			uploadObserver: internalObserver,
@@ -103,64 +139,53 @@ define(["jquery", "socket", "socketStream", "step", "whispeerHelper", "config", 
 					});
 				});
 			},
-			emit: function (channel, data, callback) {
-				var time;
-				step(function doEmit() {
-					data.sid = sessionService.getSID();
-					data.version = APIVERSION;
+			awaitNoRequests: function () {
+				return Promise.resolve();
+			},
+			emit: function (channel, request, callback) {
+				if (!socketS.isConnected()) {
+					throw new Error("no connection");
+				}
 
-					console.groupCollapsed("Request on " + channel);
-					console.log(data);
-					console.groupEnd();
+				var timer = log.timer("request on " + channel);
 
-					time = new Date().getTime();
-					loading++;
+				request.sid = sessionService.getSID();
+				request.version = APIVERSION;
 
-					if (socketS.isConnected()) {
-						socket.emit(channel, data, this.ne);
-					} else {
-						throw new Error("no connection");
-					}
-				}, h.sF(function emitResults(data) {
-					console.groupCollapsed("Answer on " + channel);
-					console.info((new Date().getTime() - time));
+				log.info("Request on " + channel);
+				log.info(request);
 
-					loading--;
+				loading++;
 
-					if (data.keys) {
-						data.keys.forEach(function (key) {
-							keyStore.upload.addKey(key);
-						});
-					}
+				var resultPromise = emit(channel, request).then(function (response) {
+					log.info("Answer on " + channel);
+					log.timerEnd(timer);
 
-					lastRequestTime = data.serverTime;
+					addKeys(response.keys);
 
-					if (data.error) {
-						console.error(data);
-						console.groupEnd();
+					lastRequestTime = response.serverTime;
+
+					if (response.error) {
+						log.error(response);
 						throw new Error("server returned an error!");
 					}
 
-					console.info(data);
-					console.groupEnd();
+					log.info(response);
 
-					lastRequestTime = data.serverTime;
+					lastRequestTime = response.serverTime;
 
-					updateLogin(data);
+					updateLogin(response);
+					
+					return response;
+				}).finally(function () {
+					loading--;
+				});
 
-					if (typeof callback === "function") {
-						this.ne(data);
-					} else {
-						console.log("unhandled response" + data);
-					}
-				}), function () {
-					var args = arguments, that = this;
-					window.setTimeout(function () {
-						$rootScope.$apply(function () {
-							that.apply(that, args);
-						});
-					});
-				}, callback);
+				if (typeof callback === "function") {
+					step.unpromisify(resultPromise, callback);
+				}
+
+				return resultPromise;
 			},
 			getLoadingCount: function () {
 				return loading;
