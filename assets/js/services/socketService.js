@@ -130,9 +130,6 @@ define(["jquery", "socket", "socketStream", "step", "whispeerHelper", "config", 
 			removeAllListener: function (channel) {
 				socket.removeAllListeners(channel);
 			},
-			listen: function () {
-				throw new Error("akjldhsflksdjhg");
-			},
 			channel: function (channel, callback) {
 				socket.on(channel, function (data) {
 					log.log("received data on " + channel);
@@ -147,8 +144,12 @@ define(["jquery", "socket", "socketStream", "step", "whispeerHelper", "config", 
 					return Promise.resolve();
 				}
 
-				return new Promise(function (resolve, reject) {
-					resolve();
+				return new Promise(function (resolve) {
+					socketS.listen(function () {
+						if (loading === 0) {
+							resolve();
+						}
+					}, "response");
 				});
 			},
 			emit: function (channel, request, callback) {
@@ -165,6 +166,7 @@ define(["jquery", "socket", "socketStream", "step", "whispeerHelper", "config", 
 				log.info(request);
 
 				loading++;
+				socketS.notify(null, "request");
 
 				var resultPromise = emit(channel, request).then(function (response) {
 					log.info("Answer on " + channel);
@@ -188,6 +190,7 @@ define(["jquery", "socket", "socketStream", "step", "whispeerHelper", "config", 
 					return response;
 				}).finally(function () {
 					loading--;
+					socketS.notify(null, "response");
 				});
 
 				if (typeof callback === "function") {
@@ -207,14 +210,14 @@ define(["jquery", "socket", "socketStream", "step", "whispeerHelper", "config", 
 			}
 		};
 
+		Observer.call(socketS);
+
 		$(document).keypress(function (e) {
 			if (e.shiftKey && e.ctrlKey && e.keyCode === 5) {
-				if (errors.length > 0) {
-					var yes = confirm("Send errors to whispeer server?");
-
-					if (yes) {
+				if (globalErrors.length > 0) {
+					if (confirm("Send errors to whispeer server?")) {
 						socketS.emit("errors", {
-							errors: errors
+							errors: globalErrors
 						}, function (e) {
 							if (e) {
 								alert("Transfer failed!");
@@ -223,13 +226,15 @@ define(["jquery", "socket", "socketStream", "step", "whispeerHelper", "config", 
 							}
 						});
 					}
+				} else {
+					alert("No Errors to transfer");
 				}
 			}
 		});
 
 
 		socket.on("disconnect", function () {
-			console.info("socket disconnected");
+			log.info("socket disconnected");
 			loading = 0;
 			streamUpgraded = false;
 			uploadingCounter = 0;

@@ -10,7 +10,7 @@
 		"startup": true,
 		"confirm": true,
 		"alert": true,
-		"errors": true
+		"globalErrors": true
 	},
 	"undef": true,
 	"browser": true,
