@@ -19,7 +19,7 @@ define(["dexie", "bluebird"], function (Dexie, Promise) {
 		}
 
 		Cache.prototype.entryCount = function () {
-			return Promise.join(db.cache.where("type").equals(this._name).count());
+			return Promise.resolve(db.cache.where("type").equals(this._name).count());
 		};
 
 		Cache.prototype.store = function (id, data, size) {
@@ -27,7 +27,7 @@ define(["dexie", "bluebird"], function (Dexie, Promise) {
 				return Promise.resolve();
 			}
 
-			return Promise.join(db.cache.add({
+			return Promise.resolve(db.cache.add({
 				data: data,
 				created: new Date().getTime(),
 				used: new Date().getTime(),
@@ -41,7 +41,7 @@ define(["dexie", "bluebird"], function (Dexie, Promise) {
 			var cacheResult = db.cache.where(":id").equals(this._name + "/" + id);
 
 			cacheResult.modify({ used: new Date().getTime() });
-			return Promise.join(cacheResult.first().then(function (data) {
+			return Promise.resolve(cacheResult.first().then(function (data) {
 				if (typeof data !== "undefined") {
 					return data.data;
 				}
@@ -52,7 +52,7 @@ define(["dexie", "bluebird"], function (Dexie, Promise) {
 
 		Cache.prototype.cleanUp = function () {
 			//remove data which hasn't been used in a long time or is very big
-			return Promise.join(db.count().then(function (count) {
+			return Promise.resolve(db.count().then(function (count) {
 				if (count > 100) {
 					db.orderBy("used").limit(count - 100).delete();
 				}
