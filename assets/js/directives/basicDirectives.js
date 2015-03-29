@@ -35,8 +35,7 @@
 		"gallery",
 		"smartDate",
 
-		"search",
-		"userSearch"
+		"search"
 	];
 
 	var includes = ["angular"];

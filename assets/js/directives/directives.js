@@ -3,7 +3,7 @@
 **/
 
 define(["angular", "directives/basicDirectives", "directives/circlesearch", "directives/filtersearch", "directives/scrollToID"],
-		function (angular, d, userSearch, circleSearch, filterSearch, scrollToID) {
+		function (angular, d, circleSearch, filterSearch, scrollToID) {
 	"use strict";
 
 	d.directive("circlesearch", ["ssn.userService", "$timeout", "ssn.circleService", circleSearch]);

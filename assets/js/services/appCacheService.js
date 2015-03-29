@@ -6,9 +6,6 @@ define(["config"], function (config) {
 
 	function handleCacheUpdateReady () {
 		console.log("cache update ready");
-		if (!config.production) {
-			window.location.reload();
-		}
 	}
 
 	function handleCacheError (e) {

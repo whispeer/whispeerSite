@@ -1,20 +1,17 @@
 define(["angular", "bluebird"], function (angular, Promise) {
 	"use strict";
 	return function () {
-		angular.module("ssn.search").factory("userSearchSupplier", ["userService", function (userService) {
-			var Search = function (iAttrs) {
-				this._iAttrs = iAttrs;
-			};
+		angular.module("ssn.search").factory("userSearchSupplier", ["ssn.userService", function (userService) {
+			var Search = function () {};
 
-			Search.prototype.search = function (query, iAttrs) {
+			Search.prototype.search = function (query, filter) {
 				var action = Promise.promisify(userService.query, userService);
 
-				return action(query).then(function (users) {
-					if (!iAttrs.filter) {
+				return action(query).bind(this).then(function (users) {
+					if (!filter) {
 						return users;
 					}
 
-					var filter = scope.$eval(iAttrs.filter);
 					return users.filter(function (user) {
 						return filter.indexOf(user.getID()) === -1;
 					});

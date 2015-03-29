@@ -14,7 +14,8 @@ define([], function () {
 			replace: false,
 			transclude: false,
 			link: function (scope, iElement, iAttrs) {
-				var searchSupplier = $injector.get(iAttrs.supplier);
+				var SearchSupplierClass = $injector.get(iAttrs.supplier);
+				var searchSupplier = new SearchSupplierClass();
 
 				var oldQuery = "";
 				/* attribute to define if we want multiple results or one */
@@ -64,12 +65,16 @@ define([], function () {
 				scope.searching = false;
 
 				scope.queryChange = function (noDiffNecessary) {
-					var currentQuery = scope.query;
+					var currentQuery = scope.query, filter;
 					if (noDiffNecessary || oldQuery !== currentQuery) {
 						oldQuery = scope.query;
 						scope.searching = true;
 
-						searchSupplier.search(scope.query).then(function (results) {
+						if (iAttrs.filter) {
+							filter = scope.$eval(iAttrs.filter);
+						}
+
+						searchSupplier.search(scope.query, filter).then(function (results) {
 							if (currentQuery === scope.query) {
 								scope.searching = false;
 								scope.results = results;
