@@ -1,7 +1,10 @@
+/* global process, module */
+
 var grunt = require("grunt");
 
 function buildCSPConfig() {
 	"use strict";
+
 	var cspConfig = {
 		"default-src": ["'self'"],
 		"script-src": ["'self'"],
@@ -13,10 +16,13 @@ function buildCSPConfig() {
 	var os=require("os");
 	var ifaces=os.networkInterfaces();
 
-	function pushAddress(address){
-		console.log(address);
+	grunt.log.writeln("Content Security Policy settings:" );
+	function pushAddress(address) {
+		grunt.log.writeln("Allowing from " + address );
+
+
 		cspConfig["default-src"].push("http://" + address + ":3000");
-		cspConfig["default-src"].push("ws://" + address + ":3000");		
+		cspConfig["default-src"].push("ws://" + address + ":3000");
 
 		cspConfig["default-src"].push("http://" + address + ":3001");
 		cspConfig["default-src"].push("ws://" + address + ":3001");
@@ -58,7 +64,7 @@ function run() {
 
 	var csp = buildCSPConfig();
 
-	var fileServer  = new nstatic.Server(".", {
+	var fileServer = new nstatic.Server(".", {
 		"headers": {
 			"Cache-Control": "no-cache, must-revalidate",
 			"Content-Security-Policy": csp
@@ -66,6 +72,8 @@ function run() {
 	});
 
 	var angular = ["user", "messages", "circles", "main", "friends", "login", "loading", "help", "settings", "start", "notificationCenter", "setup", "invite", "agb", "impressum", "privacyPolicy", "recovery"];
+
+	grunt.log.writeln("Starting webserver...");
 
 	require("http").createServer(function (request, response) {
 		request.addListener("end", function () {
@@ -84,11 +92,12 @@ function run() {
 		}).resume();
 	}).listen(WHISPEER_PORT);
 
+	grunt.log.writeln("Whispeer web server started on port " + WHISPEER_PORT);
+
 	if (this && this.async) {
 		this.async();
 	}
 
-	grunt.log.writeln("Whispeer Web Server started");
 }
 
 module.exports = run;
