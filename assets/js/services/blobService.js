@@ -197,7 +197,7 @@ define(["step", "whispeerHelper", "asset/Progress", "asset/Queue"], function (st
 				if (data.blobid) {
 					that._blobID = data.blobid;
 
-					knownBlobs[that._blobID] = that;
+					knownBlobs[that._blobID] = Promise.resolve(that);
 
 					this.ne(that._blobID);
 				}
@@ -211,7 +211,7 @@ define(["step", "whispeerHelper", "asset/Progress", "asset/Queue"], function (st
 			}, h.sF(function (data) {
 				if (data.blobid) {
 					that._preReserved = data.blobid;
-					knownBlobs[that._preReserved] = that;
+					knownBlobs[that._preReserved] = Promise.resolve(that);
 					this.ne(data.blobid);
 				} else {
 					throw new Error("got no blobid");

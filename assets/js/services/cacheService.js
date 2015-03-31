@@ -27,6 +27,10 @@ define(["dexie", "bluebird"], function (Dexie, Promise) {
 				return Promise.resolve();
 			}
 
+			Promise.delay().bind(this).then(function () {
+				return this.cleanUp();
+			}).catch(errorService.criticalError);
+
 			return Promise.resolve(db.cache.add({
 				data: data,
 				created: new Date().getTime(),
@@ -52,7 +56,7 @@ define(["dexie", "bluebird"], function (Dexie, Promise) {
 
 		Cache.prototype.cleanUp = function () {
 			//remove data which hasn't been used in a long time or is very big
-			return Promise.resolve(db.count().then(function (count) {
+			return Promise.resolve(this.entryCount().then(function (count) {
 				if (count > 100) {
 					db.orderBy("used").limit(count - 100).delete();
 				}
