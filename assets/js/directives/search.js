@@ -10,7 +10,13 @@ define([], function () {
 			},
 			/* this is an element */
 			restrict: "E",
-			templateUrl: "assets/views/directives/search.html",
+			templateUrl: function (iElement, iAttrs) {
+				if (typeof iAttrs.multiple !== "undefined") {
+					return "assets/views/directives/searchMultiple.html";
+				}
+
+				return "assets/views/directives/search.html";
+			},
 			replace: false,
 			transclude: false,
 			link: function (scope, iElement, iAttrs) {

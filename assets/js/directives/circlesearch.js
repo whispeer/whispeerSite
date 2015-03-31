@@ -41,10 +41,6 @@ define(["step", "whispeerHelper"], function (step, h) {
 					elements = _elements;
 				});
 
-				scope.$on("elementSelected", function (e) {
-					e.stopPropagation();
-				});
-
 				function loadQuery(query) {
 					step(function () {
 						circleService.loadAll(this);
