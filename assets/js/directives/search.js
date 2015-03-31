@@ -137,6 +137,7 @@ define([], function () {
 
 				var UP = [38, 33];
 				var DOWN = [40, 34];
+				var ENTER = [13];
 
 				scope.keydown = function (e) {
 					if (UP.indexOf(e.keyCode) > -1) {
@@ -146,6 +147,11 @@ define([], function () {
 
 					if (DOWN.indexOf(e.keyCode) > -1) {
 						addCurrent(1);
+						e.preventDefault();
+					}
+
+					if (ENTER.indexOf(e.keyCode) > -1) {
+						scope.selectResult(scope.current);
 						e.preventDefault();
 					}
 				};
