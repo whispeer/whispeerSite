@@ -1,17 +1,29 @@
+# temporary files and logs
+
+*.DS_STORE
 *.cmd
 *.log
 *complexity.txt
 *log.txt
+tmp/*
+
+# editors
+
 codekit-config.json
 *.codekit
-assets/css/style.css
-assets/css/style.css.map
-assets/less/codekit-config.json
-assets/less/styleguide.md
-tmp/*
-node_modules/*
-assets/vendor
+.lvimrc
+
+# generated files
+
+/assets/css/style.css
+/assets/css/style.css.map
+/assets/less/codekit-config.json
+/assets/less/styleguide.md
 whispeer.mf
 manifest.mf
-*.DS_STORE
+
+# dependencies
+
+node_modules/*
+assets/vendor
 assets/js/bower

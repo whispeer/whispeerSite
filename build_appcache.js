@@ -26,7 +26,7 @@ var commands = {
 			return basePath + arg;
 		});
 	},
-	expand: function (dir) {
+	expand: function (dir, filter) {
 		if (dir.lastIndexOf("/") !== dir.length - 1) {
 			dir += "/";
 		}
@@ -37,10 +37,21 @@ var commands = {
 
 		var files = names.filter(function (file) { return fs.statSync(file).isFile(); });
 
-		var dirs = names.filter(function (file) { return fs.statSync(file).isDirectory(); }).map(commands.expand);
+		var dirs = names.filter(function (file) { return fs.statSync(file).isDirectory(); }).map(function (dir) {
+			return commands.expand(dir, filter);
+		});
 
 		return files.concat.apply(files, dirs).map(function (file) {
 			return file.indexOf(".") === 0 ? file.substr(1) : file;
+		}).filter(function (file) {
+			var i;
+			for (i = 0; i < filter.length; i += 1) {
+				if (file.lastIndexOf(filter[i]) > file.length - filter[i].length - 1) {
+					return true;
+				}
+			}
+
+			return false;
 		});
 	},
 	timestamp: function () {
@@ -49,9 +60,9 @@ var commands = {
 };
 
 function evaluateLine(line) {
-	var command, param;
+	var command, param, param2;
 
-	var match = line.match(/^\s*\#([A-z]*)?:?(.*)/);
+	var match = line.match(/^\s*\#([A-z]*)?:?([^:]*)?:?(.*)/);
 
 	if (!match) {
 		return line;
@@ -59,9 +70,10 @@ function evaluateLine(line) {
 
 	command = match[1];
 	param = match[2];
+	param2 = match[3].split("|");
 
 	if (commands[command] && (!ifStop || command === "endif")) {
-		var result = commands[command](param) || [];
+		var result = commands[command](param, param2) || [];
 		result.unshift(line);
 		return result;
 	}

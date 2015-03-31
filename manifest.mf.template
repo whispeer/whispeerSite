@@ -13,7 +13,7 @@ CACHE MANIFEST
 #expand:./assets/data/
 
 #if:!production
-#expand:./assets/js/
+#expand:./assets/js/:json|js
 #endif
 
 #if:production
