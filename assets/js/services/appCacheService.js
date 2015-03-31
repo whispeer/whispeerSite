@@ -25,7 +25,9 @@ define(["config"], function (config) {
 	}
 
 	function checkForUpdate () {
-		appCache.update();
+		if (appCache.status === appCache.IDLE) {
+			appCache.update();
+		}
 	}
 
 	if (appCache) {
