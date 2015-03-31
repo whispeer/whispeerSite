@@ -308,22 +308,26 @@ define(["step", "whispeerHelper", "asset/Progress"], function (step, h, Progress
 
 		function loadBlobFromDB(blobID, err, success) {
 			if (db) {
-				db.transaction("blobs").objectStore("blobs").get(blobID).onsuccess = function(event) {
-					if (event.target.result) {
-						var blob = h.dataURItoBlob(event.target.result);
-						if (blob) {
-							knownBlobs[blobID] = new MyBlob(blob, blobID);
-						} else {
-							knownBlobs[blobID] = new MyBlob(event.target.result, blobID);
-						}
+				try {
+					db.transaction("blobs").objectStore("blobs").get(blobID).onsuccess = function(event) {
+						if (event.target.result) {
+							var blob = h.dataURItoBlob(event.target.result);
+							if (blob) {
+								knownBlobs[blobID] = new MyBlob(blob, blobID);
+							} else {
+								knownBlobs[blobID] = new MyBlob(event.target.result, blobID);
+							}
 
-						$rootScope.$apply(function () {
-							success(null, knownBlobs[blobID]);
-						});
-					} else {
-						err();
-					}
-				};
+							$rootScope.$apply(function () {
+								success(null, knownBlobs[blobID]);
+							});
+						} else {
+							err();
+						}
+					};
+				} catch (e) {
+					err();
+				}
 			} else {
 				err();
 			}
