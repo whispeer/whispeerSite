@@ -126,6 +126,10 @@ define(["step", "whispeerHelper", "config"], function (step, h, config) {
 			$scope.cssClass = cssService.getClass();
 		};
 
+		$scope.visitUserProfile = function (user) {
+			user.user.visitProfile();
+		};
+
 		$scope.toggleSearch = function() {
 			$scope.searchActive = !$scope.searchActive;
 			$scope.sidebarActive = false;
