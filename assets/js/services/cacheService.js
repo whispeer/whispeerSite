@@ -14,7 +14,6 @@ define(["whispeerHelper", "dexie", "bluebird"], function (h, Dexie, Promise) {
     db.open();
 
 	var service = function (errorService) {
-		db.on("error", errorService.criticalError);
 		db.on("blocked", errorService.logError);
 
 		function Cache(name, options) {
