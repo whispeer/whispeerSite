@@ -1,4 +1,4 @@
-define(["dexie", "bluebird"], function (Dexie, Promise) {
+define(["whispeerHelper", "dexie", "bluebird"], function (h, Dexie, Promise) {
 	"use strict";
 
 	var db = new Dexie("whispeer");
@@ -26,6 +26,14 @@ define(["dexie", "bluebird"], function (Dexie, Promise) {
 			return Promise.resolve(db.cache.where("type").equals(this._name).count());
 		};
 
+		Cache.prototype._fixBlobStorage = function (cacheEntry) {
+			var blobToDataURI = Promise.promisify(h.blobToDataURI, h);
+			return blobToDataURI(cacheEntry.blob).then(function (blobAsUri) {
+				cacheEntry.blob = blobAsUri;
+				return db.cache.add(cacheEntry);
+			});
+		};
+
 		Cache.prototype.store = function (id, data, blob) {
 			if (blob && blob.size > 1*1024*1024) {
 				return Promise.resolve();
@@ -42,14 +50,20 @@ define(["dexie", "bluebird"], function (Dexie, Promise) {
 				id: this._name + "/" + id,
 				type: this._name,
 				size: 0
-			};
+			}, that = this;
 
 			if (blob) {
 				cacheEntry.blob = blob;
 				cacheEntry.size = blob.size;
 			}
 
-			return Promise.resolve(db.cache.add(cacheEntry));
+			return Promise.resolve(db.cache.add(cacheEntry).catch(function (e) {
+				if (e.code && e.code === e.DATA_CLONE_ERR) {
+					return that._fixBlobStorage(cacheEntry);
+				} else {
+					return Promise.reject(e);
+				}
+			}));
 		};
 
 		Cache.prototype.get = function (id) {
@@ -59,6 +73,10 @@ define(["dexie", "bluebird"], function (Dexie, Promise) {
 			return Promise.resolve(cacheResult.first().then(function (data) {
 				if (typeof data !== "undefined") {
 					data.data = JSON.parse(data.data);
+
+					if (typeof data.blob === "string") {
+						data.blob = h.dataURItoBlob(data.blob);
+					}
 
 					return data;
 				}
