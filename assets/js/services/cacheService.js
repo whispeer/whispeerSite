@@ -1,11 +1,15 @@
 define(["dexie", "bluebird"], function (Dexie, Promise) {
 	"use strict";
 
-	 var db = new Dexie("whispeer");
+	var db = new Dexie("whispeer");
 
 	db.version(2).stores({
-        cache: "id,created,used,type,size"
-    });
+		cache: "id,created,used,type,size"
+	});
+
+	db.version(1).stores({
+		blobs: "id"
+	});
 
     db.open();
 
@@ -22,8 +26,8 @@ define(["dexie", "bluebird"], function (Dexie, Promise) {
 			return Promise.resolve(db.cache.where("type").equals(this._name).count());
 		};
 
-		Cache.prototype.store = function (id, data, size) {
-			if (size > 1*1024*1024) {
+		Cache.prototype.store = function (id, data, blob) {
+			if (blob && blob.size > 1*1024*1024) {
 				return Promise.resolve();
 			}
 
@@ -31,14 +35,21 @@ define(["dexie", "bluebird"], function (Dexie, Promise) {
 				return this.cleanUp();
 			}).catch(errorService.criticalError);
 
-			return Promise.resolve(db.cache.add({
-				data: data,
+			var cacheEntry = {
+				data: JSON.stringify(data),
 				created: new Date().getTime(),
 				used: new Date().getTime(),
 				id: this._name + "/" + id,
 				type: this._name,
-				size: size || 0
-			}));
+				size: 0
+			};
+
+			if (blob) {
+				cacheEntry.blob = blob;
+				cacheEntry.size = blob.size;
+			}
+
+			return Promise.resolve(db.cache.add(cacheEntry));
 		};
 
 		Cache.prototype.get = function (id) {
@@ -47,7 +58,9 @@ define(["dexie", "bluebird"], function (Dexie, Promise) {
 			cacheResult.modify({ used: new Date().getTime() });
 			return Promise.resolve(cacheResult.first().then(function (data) {
 				if (typeof data !== "undefined") {
-					return data.data;
+					data.data = JSON.parse(data.data);
+
+					return data;
 				}
 
 				throw new Error("cache miss");

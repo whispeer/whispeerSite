@@ -277,15 +277,12 @@ define(["step", "whispeerHelper", "asset/Progress", "asset/Queue"], function (st
 
 		function loadBlobFromDB(blobID) {
 			return blobCache.get(blobID).then(function (data) {
-				return new MyBlob(data.blob, blobID, { meta: data.meta });
+				return new MyBlob(data.blob, blobID, { meta: data.data });
 			});
 		}
 
 		function addBlobToDB(blob) {
-			blobCache.store(blob.getBlobID(), {
-				blob: blob._blobData,
-				meta: blob._meta
-			}, blob._blobData.size).catch(errorService.criticalError);
+			blobCache.store(blob.getBlobID(), blob._meta, blob._blobData).catch(errorService.criticalError);
 		}
 
 		function loadBlob(blobID) {
