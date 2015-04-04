@@ -1,4 +1,4 @@
-define([], function () {
+define(["search/singleSearch", "search/multiSearch"], function (singleSearch, multiSearch) {
 	"use strict";
 
 	function searchDirective($injector) {
@@ -116,23 +116,6 @@ define([], function () {
 					scope.current = Math.min(scope.current, scope.results.length - 1);
 				};
 
-				/** suchergebnisse auswählen und hinzufügen */
-
-				function selectionUpdated(selection) {
-					if (selection) {
-						scope.callback(selection);
-					}
-				}
-
-				scope.selectResult = function(index) {
-					var result = scope.results[index];
-
-					scope.click(false);
-					scope.focus(false);
-
-					selectionUpdated(result);
-				};
-
 				/** key stuff */
 
 				var UP = [38, 33];
@@ -155,6 +138,12 @@ define([], function () {
 						e.preventDefault();
 					}
 				};
+
+				if (typeof iAttrs.multiple !== "undefined") {
+					multiSearch($injector, scope, iElement, iAttrs);
+				} else {
+					singleSearch($injector, scope, iElement, iAttrs);
+				}
 			}
 		};
 	}
