@@ -71,12 +71,12 @@ define([], function () {
 			scope.query = "";
 			scope.queryChange(true);
 
+			$timeout(updatePreviewCount);
+
+			scope.results = filterSelectedResults();
 			scope.callback(scope.selectedElements.map(function (e) {
 				return e.id;
 			}));
-
-			scope.results = filterSelectedResults();
-			$timeout(updatePreviewCount);
 		};
 
 		scope.markedForDeletion = -1;
