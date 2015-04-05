@@ -65,11 +65,15 @@
 				// .messagesView.
 
 				overflow: hidden;
+
+				@media @desktop {
+					position: relative;
+				}
+
 				// we have to force a margin-top of 5px for mobile devices, so the box wont hang in the #topNav.
 				// Sadly, it has to be set with !important. Furthermore, we have to set the height for mobile devices
 				// so the box does not get too high.
 				@media @mobile {
-					margin-top: 5px !important;
 					height: 100%;
 				}
 			}
@@ -112,14 +116,15 @@
 
 		#topicListWrap {
 
-			@media @desktop { .column(5, 16, left, 0); }
-			@media @mobile { .column(1, 1, left, 0); }
+			@media @desktop { width: 100%/16*5; }
+			@media @mobile { width: 100%; }
 
-			height: 100%;
+			position: absolute;
+			top: @header-height;
+			bottom: 0;
+
 			overflow-y: scroll;
 			overflow-x: hidden;
-			box-sizing: border-box;
-			border-bottom: @header-height solid transparent;
 			border-right: 1px solid #ccc;
 
 			// nice scrolling for iOS.
@@ -237,18 +242,19 @@
 		}
 
 		#topicWrap {
-			height: 100%;
-			overflow: hidden;
-			position: relative;
+			@media @desktop { left: 100%/16*5; }
+
+			position: absolute;
+			top: @header-height;
+			bottom: 0;
+			right: 0;
+			left: 0;
+
+			position: absolute;
 		}
 
-		#topicWrap.newMessage {
-			padding: @default-padding @default-padding 0;
-			.box-fix;
-		}
-
-		.newMessage #messageTitle h2 {
-			margin-top: 0;
+		.newMessage .search {
+			padding: @default-padding;
 		}
 
 		#messageWrap {
@@ -258,16 +264,14 @@
 		}
 
 		#messageList {
-
-			// this is for well-behaving w/ the form at the bottom.
-			box-sizing: border-box;
-			border-bottom: (@form-height + @header-height + 2 * @form-margin) solid transparent;
-			height: 100%;
 			width: 100%;
-			position: absolute;
 			overflow-x: hidden;
 			overflow-y: scroll;
+
+			// this is for well-behaving w/ the form at the bottom.
+			position: absolute;
 			top: 0;
+			bottom: (@form-height + 2 * @form-margin);
 			left: 0;
 			margin: 0;
 			padding: 0;
@@ -421,7 +425,7 @@
 			display: block;
 			position: absolute;
 			width: 100%;
-			bottom: @header-height;
+			bottom: 0;
 			margin-bottom: @form-margin;
 
 			textarea {
@@ -431,20 +435,6 @@
 			button {
 				height: @form-height;
 				.column(1,4);
-			}
-		}
-		.newMessage #inputWrap {
-			// the * 2 is caused by the relative positioning of the parent which is
-			// needed for the padding to apply correctly -- but only for desktops.
-			@media @desktop { bottom: (@header-height * 2); }
-
-			textarea {
-				.width(3,4,1%);
-				margin: 0 1% 0 0;
-			}
-			button {
-				.width(1,4,1%);
-				margin: 0 0 0 1%;
 			}
 		}
 	}
