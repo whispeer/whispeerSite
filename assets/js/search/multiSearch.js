@@ -51,6 +51,15 @@ define([], function () {
 		 /* this has to run once since the input width would not be set for searches without selected elements */
 		updatePreviewCount();
 
+		function selectionUpdated() {
+			$timeout(updatePreviewCount);
+
+			scope.results = filterSelectedResults();
+			scope.callback(scope.selectedElements.map(function (e) {
+				return e.id;
+			}));
+		}
+
 		scope.selectResult = function(index) {
 			var result = scope.results[index];
 
@@ -71,12 +80,7 @@ define([], function () {
 			scope.query = "";
 			scope.queryChange(true);
 
-			$timeout(updatePreviewCount);
-
-			scope.results = filterSelectedResults();
-			scope.callback(scope.selectedElements.map(function (e) {
-				return e.id;
-			}));
+			selectionUpdated();
 		};
 
 		scope.markedForDeletion = -1;
