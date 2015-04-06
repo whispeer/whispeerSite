@@ -1,12 +1,16 @@
 /**
 * MessageService
 **/
-define(["step", "whispeerHelper", "asset/Progress"], function (step, h, Progress) {
+define(["step", "whispeerHelper", "asset/Progress", "asset/Queue"], function (step, h, Progress, Queue) {
 	"use strict";
 
 	var knownBlobs = {};
+	var downloadBlobQueue = new Queue(1);
+	downloadBlobQueue.start();
 
-	var service = function ($rootScope, socketService, keyStore) {
+	var service = function ($rootScope, socketService, keyStore, errorService, Cache) {
+		var blobCache = new Cache("blobs");
+
 		var MyBlob = function (blobData, blobID, options) {
 			this._blobData = blobData;
 			options = options || {};
@@ -193,7 +197,7 @@ define(["step", "whispeerHelper", "asset/Progress"], function (step, h, Progress
 				if (data.blobid) {
 					that._blobID = data.blobid;
 
-					knownBlobs[that._blobID] = that;
+					knownBlobs[that._blobID] = Promise.resolve(that);
 
 					this.ne(that._blobID);
 				}
@@ -207,7 +211,7 @@ define(["step", "whispeerHelper", "asset/Progress"], function (step, h, Progress
 			}, h.sF(function (data) {
 				if (data.blobid) {
 					that._preReserved = data.blobid;
-					knownBlobs[that._preReserved] = that;
+					knownBlobs[that._preReserved] = Promise.resolve(that);
 					this.ne(data.blobid);
 				} else {
 					throw new Error("got no blobid");
@@ -253,95 +257,38 @@ define(["step", "whispeerHelper", "asset/Progress"], function (step, h, Progress
 			}), cb);
 		};
 
-		var blobListener = {};
+		function loadBlobFromServer(blobID) {
+			return downloadBlobQueue.enqueue(1, function () {
+				return socketService.awaitNoRequests().then(function () {
+					return socketService.emit("blob.getBlob", {
+						blobid: blobID
+					});
+				}).then(function (data) {
+					var dataString = "data:image/png;base64," + data.blob;
+					var blob = h.dataURItoBlob(dataString);
+					var theBlob = new MyBlob(blob, blobID, { meta: data.meta });
 
-		function loadBlob(blobID) {
-			if (socketService.getLoadingCount() !== 0) {
-				window.setTimeout(function () {
-					loadBlob(blobID);
-				}, 100);
-				return;
-			}
+					addBlobToDB(theBlob);
 
-			step(function () {
-				socketService.emit("blob.getBlob", {
-					blobid: blobID
-				}, this);
-			}, h.sF(function (data) {
-				var dataString = "data:image/png;base64," + data.blob;
-				var blob = h.dataURItoBlob(dataString);
-				if (blob) {
-					knownBlobs[blobID] = new MyBlob(blob, blobID, { meta: data.meta });
-				} else {
-					knownBlobs[blobID] = new MyBlob(dataString, blobID, { meta: data.meta });
-				}
-
-				if (!data.meta || !data.meta._key) {
-					addBlobToDB(knownBlobs[blobID]);
-				}
-
-				this.ne(knownBlobs[blobID]);
-			}), step.multiplex(blobListener[blobID]));
+					return theBlob;
+				});
+			});
 		}
 
-		var db, request;
-		step(function () {
-			if (!window.indexedDB.open) {
-				return;
-			}
-
-			request = window.indexedDB.open("whispeer");
-			request.onerror = this;
-			request.onsuccess = this.ne;
-			request.onupgradeneeded = function (event) {
-				var db = event.target.result;
-				db.createObjectStore("blobs");
-			};
-		}, h.sF(function () {
-			db = request.result;
-			db.onerror = function (event) {
-				console.log(event);
-			};
-		}), function (e) {
-			console.log("Could not load indexedDB");
-		});
-
-		function loadBlobFromDB(blobID, err, success) {
-			if (db) {
-				try {
-					db.transaction("blobs").objectStore("blobs").get(blobID).onsuccess = function(event) {
-						if (event.target.result) {
-							var blob = h.dataURItoBlob(event.target.result);
-							if (blob) {
-								knownBlobs[blobID] = new MyBlob(blob, blobID);
-							} else {
-								knownBlobs[blobID] = new MyBlob(event.target.result, blobID);
-							}
-
-							$rootScope.$apply(function () {
-								success(null, knownBlobs[blobID]);
-							});
-						} else {
-							err();
-						}
-					};
-				} catch (e) {
-					err();
-				}
-			} else {
-				err();
-			}
+		function loadBlobFromDB(blobID) {
+			return blobCache.get(blobID).then(function (data) {
+				return new MyBlob(data.blob, blobID, { meta: data.data });
+			});
 		}
 
 		function addBlobToDB(blob) {
-			if (db) {
-				blob.getStringRepresentation(function (err, blobString) {
-					if (!err) {
-						var store = db.transaction("blobs", "readwrite").objectStore("blobs");
-						store.add(blobString, blob.getBlobID());
-					}
-				});
-			}
+			blobCache.store(blob.getBlobID(), blob._meta, blob._blobData).catch(errorService.criticalError);
+		}
+
+		function loadBlob(blobID) {
+			return loadBlobFromDB(blobID).catch(function () {
+				return loadBlobFromServer(blobID);
+			});
 		}
 
 		var api = {
@@ -349,25 +296,18 @@ define(["step", "whispeerHelper", "asset/Progress"], function (step, h, Progress
 				return new MyBlob(blob);
 			},
 			getBlob: function (blobID, cb) {
-				step(function () {
-					loadBlobFromDB(blobID, this, this.last);
-				}, h.sF(function () {
-					if (knownBlobs[blobID]) {
-						this.ne(knownBlobs[blobID]);
-					} else if (blobListener[blobID]) {
-						blobListener[blobID].push(this);
-					} else {
-						blobListener[blobID] = [this];
-						loadBlob(blobID);
-					}
-				}), cb);
+				if (!knownBlobs[blobID]) {
+					knownBlobs[blobID] = loadBlob(blobID);
+				}
+
+				step.unpromisify(knownBlobs[blobID], cb);
 			}
 		};
 
 		return api;
 	};
 
-	service.$inject = ["$rootScope", "ssn.socketService", "ssn.keyStoreService"];
+	service.$inject = ["$rootScope", "ssn.socketService", "ssn.keyStoreService", "ssn.errorService", "ssn.cacheService"];
 
 	return service;
 });
