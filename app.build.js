@@ -22,6 +22,9 @@
     },
     baseUrl: "assets/js",
     shim: {
+        dexie: {
+            exports: "Dexie"
+        },
         angular: {
             deps: [
                 "jquery"
