@@ -481,7 +481,7 @@ define([
 			}
 		}
 
-		socket.listen("message", function (e, data) {
+		socket.channel("message", function (e, data) {
 			if (!e) {
 				if (data.topic) {
 					var t = makeTopic(data.topic, function () {

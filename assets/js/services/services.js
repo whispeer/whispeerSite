@@ -27,6 +27,7 @@
 		"trustService",
 		"loginDataService",
 		"appCacheService",
+		"cacheService",
 		"imageUploadService",
 		"screenSizeService"
 	];

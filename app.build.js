@@ -16,7 +16,8 @@
         imageLib: "bower/blueimp-load-image/js/load-image",
         localizationModule: "bower/angular-i18n-directive/src/localizationModule",
         workerQueue: "bower/worker-queue.js/src/index",
-        PromiseWorker: "bower/require-promise-worker.js/src/index"
+        PromiseWorker: "bower/require-promise-worker.js/src/index",
+        dexie: "bower/dexie/dist/latest/Dexie"
 
     },
     baseUrl: "assets/js",
