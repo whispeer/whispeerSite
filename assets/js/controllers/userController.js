@@ -290,6 +290,9 @@ define(["step", "whispeerHelper", "asset/resizableImage", "asset/state"], functi
 		var circleState = new State();
 
 		$scope.circles = {
+			callback: function (selected) {
+				$scope.circles.selectedElements = selected;
+			},
 			selectedElements: [],
 			saving: circleState.data
 		};
