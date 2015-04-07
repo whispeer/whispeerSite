@@ -61,7 +61,9 @@ define(["whispeerHelper", "search/singleSearch", "search/multiSearch"], function
 
 				/* close on body click */
 				jQuery(document.body).click(function () {
-					scope.hide();
+					scope.$apply(function () {
+						scope.hide();
+					});
 				});
 
 				scope.show = function () {

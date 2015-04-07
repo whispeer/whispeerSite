@@ -125,5 +125,19 @@ define(["whispeerHelper"], function (h) {
 
 		});
 
+		scope.$watch(function () {
+			return scope.show();
+		}, function (show) {
+			if (show) {
+				scope.showSelectedElements = false;
+			}
+		});
+
+		scope.showSelectedElements = false;
+		scope.doShowSelectedElements = function (bool) {
+			scope.showSelectedElements = bool;
+			scope.hide();
+		};
+
 	};
 });
