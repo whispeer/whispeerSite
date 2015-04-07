@@ -3,7 +3,7 @@ define(["whispeerHelper", "dexie", "bluebird"], function (h, Dexie, Promise) {
 
 	var db = new Dexie("whispeer");
 
-	db.version(2).stores({
+	db.version(21).stores({
 		cache: "id,created,used,type,size"
 	});
 
