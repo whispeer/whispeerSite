@@ -61,6 +61,7 @@ define(["whispeerHelper"], function (h) {
 			$timeout(updatePreviewCount);
 
 			scope.results = scope.applyFilterToResults(scope.unFilteredResults);
+			scope.setCurrent(scope.current);
 			scope.callback(scope.selectedElements.map(function (e) {
 				return e.id;
 			}));
