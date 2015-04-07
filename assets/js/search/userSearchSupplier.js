@@ -4,18 +4,10 @@ define(["angular", "bluebird"], function (angular, Promise) {
 		angular.module("ssn.search").factory("userSearchSupplier", ["ssn.userService", function (userService) {
 			var Search = function () {};
 
-			Search.prototype.search = function (query, filter) {
+			Search.prototype.search = function (query) {
 				var action = Promise.promisify(userService.query, userService);
 
-				return action(query).bind(this).then(function (users) {
-					if (!filter) {
-						return users;
-					}
-
-					return users.filter(function (user) {
-						return filter.indexOf(user.getID()) === -1;
-					});
-				}).map(function (user) {
+				return action(query).bind(this).map(function (user) {
 					var loadBasicData = Promise.promisify(user.loadBasicData, user);
 					return loadBasicData().then(function () {
 						return user;

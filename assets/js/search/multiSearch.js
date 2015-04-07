@@ -1,7 +1,7 @@
-define([], function () {
+define(["whispeerHelper"], function (h) {
 	"use strict";
 
-	return function ($injector, scope, iElement, iAttrs) {
+	return function ($injector, scope, iElement) {
 		var selectedIDs = [];
 		scope.selectedElements = [];
 		scope.previewCount = 0;
@@ -51,10 +51,16 @@ define([], function () {
 		 /* this has to run once since the input width would not be set for searches without selected elements */
 		updatePreviewCount();
 
+		scope.filter.push(function (results) {
+			return results.filter(function (result) {
+				return selectedIDs.indexOf(result.id) === -1;
+			});
+		});
+
 		function selectionUpdated() {
 			$timeout(updatePreviewCount);
 
-			scope.results = filterSelectedResults();
+			scope.results = scope.applyFilterToResults(scope.unFilteredResults);
 			scope.callback(scope.selectedElements.map(function (e) {
 				return e.id;
 			}));
@@ -102,6 +108,21 @@ define([], function () {
 		scope.$on("resetSearch", function () {
 			scope.selectedElements = [];
 			selectedIDs = [];
+		});
+
+		var BACKSPACE = [8];
+
+		scope.keydown = h.addAfterHook(scope.keydown, function (e) {
+			if (BACKSPACE.indexOf(e.keyCode) > -1 && scope.query.length === 0) {
+				if (scope.markedForDeletion !== -1) {
+					scope.removeSelection(scope.markedForDeletion);
+				} else {
+					scope.markedForDeletion = scope.selectedElements.length - 1;
+				}
+
+				e.preventDefault();
+			}
+
 		});
 
 	};

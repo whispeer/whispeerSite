@@ -1,4 +1,4 @@
-define(["search/singleSearch", "search/multiSearch"], function (singleSearch, multiSearch) {
+define(["whispeerHelper", "search/singleSearch", "search/multiSearch"], function (h, singleSearch, multiSearch) {
 	"use strict";
 
 	function searchDirective($injector) {
@@ -22,6 +22,27 @@ define(["search/singleSearch", "search/multiSearch"], function (singleSearch, mu
 			link: function (scope, iElement, iAttrs) {
 				var SearchSupplierClass = $injector.get(iAttrs.supplier);
 				var searchSupplier = new SearchSupplierClass();
+
+				scope.filter = [];
+				scope.filter.push(function (results) {
+					if (!iAttrs.filter) {
+						return results;
+					}
+
+					var filter = scope.$eval(iAttrs.filter);
+
+					return results.filter(function (result) {
+						return filter.indexOf(h.parseDecimal(result.id)) === -1;
+					});
+				});
+
+				scope.applyFilterToResults = function (results) {
+					scope.filter.forEach(function (filter) {
+						results = filter(results);
+					});
+
+					return results;
+				};
 
 				var oldQuery = "";
 				/* attribute to define if we want multiple results or one */
@@ -71,19 +92,17 @@ define(["search/singleSearch", "search/multiSearch"], function (singleSearch, mu
 				scope.searching = false;
 
 				scope.queryChange = function (noDiffNecessary) {
-					var currentQuery = scope.query, filter;
+					var currentQuery = scope.query;
 					if (noDiffNecessary || oldQuery !== currentQuery) {
 						oldQuery = scope.query;
 						scope.searching = true;
 
-						if (iAttrs.filter) {
-							filter = scope.$eval(iAttrs.filter);
-						}
-
-						searchSupplier.search(scope.query, filter).then(function (results) {
+						searchSupplier.search(scope.query).then(function (results) {
 							if (currentQuery === scope.query) {
 								scope.searching = false;
-								scope.results = results;
+
+								scope.unFilteredResults = results;
+								scope.results = scope.applyFilterToResults(scope.unFilteredResults);
 							}
 						});
 					}
