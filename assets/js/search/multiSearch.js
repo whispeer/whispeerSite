@@ -1,11 +1,13 @@
 define(["whispeerHelper"], function (h) {
 	"use strict";
 
-	return function ($injector, scope, iElement) {
+	return function ($injector, scope, iElement, iAttrs) {
 		var selectedIDs = [];
 		scope.selectedElements = [];
 		scope.previewCount = 0;
 		scope.hiddenCount = 0;
+
+		scope.selectDropTemplate = iAttrs.selectDropTemplate;
 
 		var $timeout = $injector.get("$timeout");
 

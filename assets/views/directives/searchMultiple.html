@@ -15,19 +15,6 @@
 	</form>
 	<div class="search-resultsDrop" data-ng-show="show()" data-ng-include="'assets/views/search/' + searchTemplate + 'Search.html'">
 	</div>
-	<div class="dropdown search-selectedDrop" data-ng-if="showSelectedElements">
-		<div class="dropdown-header">
-			<span class="dropdown-header-title" data-i18n="search.{{base}}.selected|count={{selectedElements.length}}"></span>
-			<div class="dropdown-header-close" data-ng-click="doShowSelectedElements(false)"><i class="fa fa-fw fa-times-circle"></i></div>
-		</div>
-		<ul class="dropdown-container search-selectedDrop-container u-unstyled">
-			<li data-ng-repeat="element in selectedElements" class="search-selectedDrop-result">
-				<span class="search-selectedDrop-result-name">{{element.name}}</span>
-				<a href="" class="search-selectedDrop-result-remove" data-ng-click="removeSelection($index, $event)"><i class="fa fa-fw fa-minus-circle"></i></a>
-			</li>
-			<li data-ng-if="selectedElements.length == 0" class="search-selectedDrop-result">
-				<span class="search-selectedDrop-result-name" data-i18n="search.{{base}}.emptyselection"></span>
-			</li>
-		</ul>
+	<div class="dropdown search-selectedDrop" data-ng-if="showSelectedElements" data-ng-include="'assets/views/search/' + selectDropTemplate  +'SelectDrop.html'">
 	</div>
 </div>
