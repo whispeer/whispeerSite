@@ -99,10 +99,12 @@ define(["whispeerHelper", "search/singleSearch", "search/multiSearch"], function
 
 						searchSupplier.search(scope.query).then(function (results) {
 							if (currentQuery === scope.query) {
-								scope.searching = false;
+								scope.$apply(function () {
+									scope.searching = false;
 
-								scope.unFilteredResults = results;
-								scope.results = scope.applyFilterToResults(scope.unFilteredResults);
+									scope.unFilteredResults = results;
+									scope.results = scope.applyFilterToResults(scope.unFilteredResults);
+								});
 							}
 						});
 					}

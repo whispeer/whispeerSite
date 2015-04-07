@@ -1,6 +1,6 @@
 <ol class="search-suggestions u-unstyled">
-	<li class="search-suggestion search-suggestion-noResults" data-ng-if="!results" style="width: {{width}}px" data-i18n="start.loading"></li>
-	<li class="search-suggestion search-suggestion-noResults" data-ng-if="results.length == 0" style="width: {{width}}px">
+	<li class="search-suggestion search-suggestion-noResults" data-ng-if="searching" style="width: {{width}}px" data-i18n="start.loading"></li>
+	<li class="search-suggestion search-suggestion-noResults" data-ng-if="!searching && results.length == 0" style="width: {{width}}px">
 		<span data-i18n="views.circles.nocircle"></span>
 		<button class="btn btn--primary" data-ng-if="query.length > 0" data-ng-click="notifyParent('createCircle', query)" data-i18n="views.circles.createCircle"></button>
 	</li>

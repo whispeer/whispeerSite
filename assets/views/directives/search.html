@@ -2,6 +2,6 @@
 	<form class="search-form">
 		<input type="text" class="search-query input-custom" data-i18n-attr="{{inputI18nAttr}}" data-ng-click="click(true, $event)"  data-ng-keydown="keydown($event)" data-ng-change="queryChange()" data-ng-model="query" data-onfocus="focus(true)" data-onblur="focus(false)">
 	</form>
-	<div class="search-resultsDrop" data-ng-show="show() && results.length > 0" data-ng-include="'assets/views/search/' + searchTemplate + 'Search.html'">
+	<div class="search-resultsDrop" data-ng-show="show()" data-ng-include="'assets/views/search/' + searchTemplate + 'Search.html'">
 	</div>
 </div>
