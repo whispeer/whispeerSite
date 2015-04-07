@@ -1,14 +1,14 @@
 define(["whispeerHelper", "dexie", "bluebird"], function (h, Dexie, Promise) {
 	"use strict";
 
-	var db = new Dexie("whispeer");
+	var db = new Dexie("whispeerCache");
 
-	db.version(21).stores({
-		cache: "id,created,used,type,size"
-	});
+	try {
+		indexedDB.deleteDatabase("whispeer");
+	} catch (e) {}
 
 	db.version(1).stores({
-		blobs: "id"
+		cache: "id,created,used,type,size"
 	});
 
     db.open();
