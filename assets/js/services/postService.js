@@ -82,7 +82,7 @@ define(["step", "whispeerHelper", "bluebird", "validation/validator", "asset/obs
 				}), errorService.criticalError);
 			}
 
-			socket.listen("post." + id + ".comment.new", commentListener);
+			socket.channel("post." + id + ".comment.new", commentListener);
 
 			$rootScope.$on("ssn.reset", function () {
 				socket.removeAllListener("post." + id + ".comment.new");
