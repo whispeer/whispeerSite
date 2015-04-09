@@ -1,15 +1,32 @@
 define(["whispeerHelper"], function (h) {
 	"use strict";
 
-	return function ($injector, scope, iElement, iAttrs) {
+	return function ($injector, scope, iElement) {
 		var selectedIDs = [];
 		scope.selectedElements = [];
 		scope.previewCount = 0;
 		scope.hiddenCount = 0;
 
-		scope.selectDropTemplate = iAttrs.selectDropTemplate;
-
 		var $timeout = $injector.get("$timeout");
+
+		if (scope.initialValues) {
+			scope.initialValues()().then(function (initialValues) {
+				scope.selectedElements = initialValues.map(function (e) {
+					return {
+						result: e,
+						id: e.id,
+						name: e.name
+					};
+				});
+
+				selectedIDs = initialValues.map(function (e) {
+					return e.id;
+				});
+
+				scope.$apply();
+				selectionUpdated();
+			});
+		}
 
 		function updatePreviewCount() {
 			var PLUSWIDTH = 55;
@@ -64,9 +81,7 @@ define(["whispeerHelper"], function (h) {
 
 			scope.results = scope.applyFilterToResults(scope.unFilteredResults);
 			scope.setCurrent(scope.current);
-			scope.callback(scope.selectedElements.map(function (e) {
-				return e.id;
-			}));
+			scope.callback()(selectedIDs);
 		}
 
 		scope.selectResult = function(index) {

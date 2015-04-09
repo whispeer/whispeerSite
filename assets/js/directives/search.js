@@ -4,9 +4,12 @@ define(["whispeerHelper", "search/singleSearch", "search/multiSearch"], function
 	function searchDirective($injector) {
 		return {
 			scope: {
-				"callback": "=",
+				"callback": "&",
 				"inputI18nAttr": "@",
-				"searchTemplate": "@"
+				"searchTemplate": "@",
+				//multi-search
+				"selectDropTemplate": "@",
+				"initialValues": "&"
 			},
 			/* this is an element */
 			restrict: "E",
