@@ -84,9 +84,7 @@ define(["whispeerHelper"], function (h) {
 			scope.callback()(selectedIDs);
 		}
 
-		scope.selectResult = function(index) {
-			var result = scope.results[index];
-
+		scope.selectResult = function(result) {
 			var name = result.name;
 			var id = result.id;
 

@@ -160,7 +160,7 @@ define(["whispeerHelper", "search/singleSearch", "search/multiSearch"], function
 					}
 
 					if (ENTER.indexOf(e.keyCode) > -1) {
-						scope.selectResult(scope.current);
+						scope.selectResult(scope.results[scope.current]);
 						e.preventDefault();
 					}
 				};

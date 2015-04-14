@@ -4,7 +4,7 @@ define(["angular", "bluebird"], function (angular, Promise) {
 		angular.module("ssn.search").factory("circleSearchSupplier", ["ssn.circleService", function (circleService) {
 			var Search = function () {};
 
-			Search.prototype.search = function (query, filter) {
+			Search.prototype.search = function (query) {
 				var action = Promise.promisify(circleService.loadAll, circleService);
 
 				return action().bind(this).then(function () {
