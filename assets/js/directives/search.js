@@ -98,6 +98,11 @@ define(["whispeerHelper", "search/singleSearch", "search/multiSearch"], function
 
 				scope.queryChange = function (noDiffNecessary) {
 					var currentQuery = scope.query;
+
+					if (oldQuery !== currentQuery) {
+						scope.click(true);
+					}
+
 					if (noDiffNecessary || oldQuery !== currentQuery) {
 						oldQuery = scope.query;
 						scope.searching = true;
@@ -112,10 +117,6 @@ define(["whispeerHelper", "search/singleSearch", "search/multiSearch"], function
 								});
 							}
 						});
-					}
-
-					if (oldQuery !== scope.query) {
-						scope.click(true);
 					}
 				};
 
