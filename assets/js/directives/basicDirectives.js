@@ -34,6 +34,7 @@
 		"passwordinput",
 		"gallery",
 		"smartDate",
+		"createcircle",
 
 		"search"
 	];

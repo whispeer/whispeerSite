@@ -2,8 +2,7 @@
 	<li class="search-suggestion search-suggestion-noResults" data-ng-if="searching" style="width: {{width}}px" data-i18n="start.loading"></li>
 	<li class="search-suggestion search-suggestion-noResults" data-ng-if="!searching && results.length == 0" style="width: {{width}}px">
 		<span data-i18n="views.circles.nocircle"></span>
-		<createcircle data-name="query" data-after-create="queryChange(true);"></createcircle>
-		<button class="btn btn--primary" data-ng-if="query.length > 0" data-ng-click="notifyParent('createCircle', query)" data-i18n="views.circles.createCircle"></button>
+		<createcircle data-name="query" data-after-create="selectResult(circle.data)"></createcircle>
 	</li>
 	<li class="search-suggestion search-suggestion-circle" style="width: {{width}}px" data-ng-repeat="circle in results" data-ng-class="{'search-suggestion-active': current==$index}" data-ng-mouseover="setCurrent($index)" data-ng-click="selectResult(circle)">
 		{{circle.name}} ({{circle.userids.length}})
