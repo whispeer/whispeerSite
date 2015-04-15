@@ -32,7 +32,7 @@ define(["whispeerHelper", "search/singleSearch", "search/multiSearch"], function
 						return results;
 					}
 
-					var filter = scope.$eval(iAttrs.filter);
+					var filter = scope.$parent.$eval(iAttrs.filter);
 
 					return results.filter(function (result) {
 						return filter.indexOf(h.parseDecimal(result.id)) === -1;

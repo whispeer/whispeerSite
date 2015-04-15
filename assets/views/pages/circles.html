@@ -43,8 +43,8 @@
 <div id="circleContainer" data-circleID="{{thisCircle.id}}" data-ng-if="circleLoaded && showCircle">
 	<div id="circleWrap">
 		<div class="circleView-addUsers">
-			<usersearch class="circleView-addUsers-search" size="small" data-scope="friends" res="usersToAdd" data-filter="thisCircle.userids" data-multiple type="text" data-input-i18n-attr="views.circles.searchFriends|placeholder" />
-			<savebutton class="circleView-addUsers-submit" data-noiniticon data-state="addUsersToCircle" data-ng-click="addUsers(usersToAdd.selectedElements)">
+			<search class="circleView-addUsers-search"  data-supplier="friendsSearchSupplier" callback="visitUserProfile" data-search-template="user" data-filter="thisCircle.userids" data-multiple data-input-i18n-attr="views.circles.searchFriends|placeholder" />
+			<savebutton class="circleView-addUsers-submit" data-noiniticon data-state="addUsersToCircle" data-ng-click="addUsers()">
 				<span data-i18n="views.circles.addUsers"></span>
 			</savebutton>
 		</div>
