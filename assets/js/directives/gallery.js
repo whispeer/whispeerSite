@@ -22,7 +22,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 			var blob;
 			step(function () {
 				data.downloading = true;
-				blobService.getBlob(blobid, this, false);
+				blobService.getBlob(blobid, this);
 			}, h.sF(function (_blob) {
 				data.downloading = false;
 				data.decrypting = true;

@@ -654,7 +654,7 @@ define(["step", "whispeerHelper", "asset/state", "asset/securedDataWithMetaData"
 					getProfileAttribute("imageBlob", this);
 				}, h.sF(function (imageBlob) {
 					if (imageBlob) {
-						blobService.getBlob(imageBlob.blobid, this, true);
+						blobService.getBlob(imageBlob.blobid, this);
 					} else {
 						this.last.ne("assets/img/user.png");
 					}
