@@ -1,0 +1,10 @@
+<ol class="search-suggestions u-unstyled" data-ng-class="{'small': !big}">
+	<li class="search-suggestion search-suggestion-user" data-ng-repeat="user in results" data-ng-class="{'search-suggestion-active': current==$index}" data-ng-mouseover="setCurrent($index)" data-ng-click="selectResult(user)">
+		<userimage class="search-suggestion-userimage" data-user="user" />
+		<div class="search-suggestion-info">
+			<span class="search-suggestion-row search-suggestion-name">{{::user.name}}
+				<small class="search-suggestion-nickname">&nbsp;- {{::user.names.nickname}}</small>
+			</span>
+		</div>
+	</li>
+</ol>
