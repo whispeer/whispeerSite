@@ -21,7 +21,6 @@
 		"stopEvent",
 		"inview",
 		"syntaxify",
-		"basicsearch",
 		"autofocus",
 		"trustHint",
 		"savebutton",
