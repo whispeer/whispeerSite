@@ -6,7 +6,7 @@ define([], function () {
 			scope.click(false);
 			scope.focus(false);
 
-			scope.callback()(result);
+			scope.callback({ selected: result });
 		};
 	};
 });

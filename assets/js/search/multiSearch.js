@@ -81,7 +81,7 @@ define(["whispeerHelper"], function (h) {
 
 			scope.results = scope.applyFilterToResults(scope.unFilteredResults);
 			scope.setCurrent(scope.current);
-			scope.callback()(selectedIDs);
+			scope.callback({ selected: selectedIDs });
 		}
 
 		scope.selectResult = function(result) {

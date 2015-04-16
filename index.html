@@ -54,7 +54,7 @@
 				<i class="fa fa-search header-toggle-icon"></i>
 			</button>
 			<div class="header-collapse" data-ng-if="loggedin">
-				<search data-supplier="userSearchSupplier" callback="visitUserProfile" data-search-template="user" class="search--navbar" data-input-i18n-attr="menu.search|placeholder"/>
+				<search data-supplier="userSearchSupplier" callback="visitUserProfile(selected)" data-search-template="user" class="search--navbar" data-input-i18n-attr="menu.search|placeholder"/>
 			</div>
 			<div id="header-login" data-ng-if="!loggedin && !recovery" data-ng-controller="ssn.loginController">
 				<ng-include data-src="'assets/views/start/login/login.html'" data-ng-if="login.isHeaderForm"></ng-include>

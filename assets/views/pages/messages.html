@@ -84,9 +84,8 @@
 </div>
 
 <div id="topicWrap" class="newMessage" data-ng-if="!topicLoaded && showMessage">
-	<search data-supplier="userSearchSupplier" callback="create.setUsers" data-search-template="userSimple" data-multiple data-input-i18n-attr="messages.search|placeholder" />
+	<search data-supplier="userSearchSupplier" callback="create.setUsers(selected)" data-search-template="userSimple" data-multiple data-input-i18n-attr="messages.search|placeholder" />
 
-	<usersearch res="create" data-user="userid" size="small" focus="all" id="recieverInput" data-multiple data-selected-users="create.selectedUsers" data-input-i18n-attr="messages.search|placeholder" />
 	<form id="inputWrap">
 		<textarea data-advancedsend="create.send(create.users, create.text)" type="text" data-i18n-attr="messages.sendMessage.text|placeholder" id="messageInput" data-ng-model="create.text"></textarea>
 		<savebutton id="sendmessage" data-state="sendMessageState" data-ng-click="create.send(create.users, create.text)">
