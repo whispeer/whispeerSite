@@ -1,0 +1,5 @@
+<ol class="search-suggestions u-unstyled">
+	<li class="search-suggestion search-suggestion-circle" data-ng-repeat="result in results" data-ng-class="{'search-suggestion-active': current==$index}" data-ng-mouseover="setCurrent($index)" data-ng-click="selectResult(result)">
+		{{result.name}} ({{result.count}})
+	</li>
+</ol>

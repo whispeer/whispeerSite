@@ -160,7 +160,7 @@
 		<!-- end !Loaded View -->
 		<!-- !Mobile Search -->
 		<section id="mobileSearch" data-ng-if="searchActive && !sidebarActive">
-			<usersearch id="theMobileSearch" size="big" data-input-i18n-attr="menu.search|placeholder"/>
+			<search data-supplier="userSearchSupplier" callback="visitUserProfile(selected)" data-search-template="user" id="theMobileSearch" data-input-i18n-attr="menu.search|placeholder"/>
 		</section>
 		<!-- end !Mobile Search -->
 	</div>

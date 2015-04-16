@@ -35,7 +35,7 @@ define(["whispeerHelper", "search/singleSearch", "search/multiSearch"], function
 					var filter = scope.$parent.$eval(iAttrs.filter);
 
 					return results.filter(function (result) {
-						return filter.indexOf(h.parseDecimal(result.id)) === -1;
+						return filter.indexOf(result.id) === -1;
 					});
 				});
 

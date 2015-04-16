@@ -1,4 +1,4 @@
-define(["angular", "search/userSearchSupplier", "search/circleSearchSupplier", "search/friendsSearchSupplier"], function (angular) {
+define(["angular", "search/filterSearchSupplier", "search/userSearchSupplier", "search/circleSearchSupplier", "search/friendsSearchSupplier"], function (angular) {
 	"use strict";
 	angular.module("ssn.search", []);
 

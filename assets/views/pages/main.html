@@ -4,7 +4,8 @@
 		<form data-ng-if="postActive || !mobile" class="form-inline" id="newsfeedView-postForm">
 
 			<textarea data-strg-enter="sendPost()" data-ng-model="newPost.text" data-i18n-attr="wall.postit.text|placeholder" id="newsfeedView-shareText" data-ng-disabled="!canSend" id="newsfeedView-shareText"></textarea>
-			<filtersearch class="search--custom" data-internalid="postReaders" data-selected="newPost.readers" data-input-i18n-attr="wall.postit.receiver|placeholder" id="newsfeedView-receivers" />
+			<search data-multiple class="search--custom" data-supplier="filterSearchSupplier" data-search-template="filter" data-input-i18n-attr="wall.postit.receiver|placeholder" id="newsfeedView-receivers" />
+			<filtersearch data-internalid="postReaders" data-selected="newPost.readers" />
 
 			<div id="newsfeedView-sendPost">
 				<div class="uploadForm" id="newsfeedView-addImage">
@@ -28,7 +29,10 @@
 		</form>
 		<div id="newsfeedView-filter">
 			<button id="newsfeedView-filter-title" class="btn btn--border" data-ng-class="{'newsfeedView-filter-title--active': (filterActive || !mobile)}" data-i18n="wall.filter.title" data-ng-click="toggleFilter()"></button>
-			<div data-ng-if="filterActive || !mobile"><filtersearch data-internalid="timelineFilter" data-selected="filterSelection" class="hideScroll" data-input-i18n-attr="wall.filter.placeholder|placeholder" id="newsfeedView-theFilter" /></div>
+			<div data-ng-if="filterActive || !mobile">
+				<search data-multiple class="hideScroll" data-supplier="filterSearchSupplier" data-search-template="filter" data-input-i18n-attr="wall.filter.placeholder|placeholder" id="newsfeedView-theFilter" />
+				<filtersearch data-internalid="timelineFilter" data-selected="filterSelection" />
+			</div>
 		</div>
 	</header>
 	<div class="posts" id="newsfeedView-posts">
