@@ -2,11 +2,9 @@
 * BaseDirective
 **/
 
-define(["angular", "directives/basicDirectives", "directives/scrollToID"],
-		function (angular, d, circleSearch, filterSearch, scrollToID) {
+define(["angular", "directives/basicDirectives"],
+		function (angular, d) {
 	"use strict";
-
-	d.directive("scrolltoid", ["$location", "$anchorScroll", scrollToID]);
 
 	return d;
 });

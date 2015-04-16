@@ -35,6 +35,7 @@
 		"smartDate",
 		"createcircle",
 		"addfriend",
+		"scrollToID",
 
 		"search"
 	];
@@ -51,7 +52,7 @@
 
 		var i;
 		for (i = 0; i < directives.length; i += 1) {
-			d.directive(directives[i], arguments[i+1]);
+			d.directive(arguments[i+1].$name || directives[i], arguments[i+1]);
 		}
 
 		return d;
