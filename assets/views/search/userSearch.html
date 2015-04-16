@@ -9,13 +9,7 @@
 		</div>
 		<div class="search-suggestion-actions">
 			<a class="search-suggestion-row search-action search-action-message btn btn--primary btn--border" href="messages?userid={{user.id}}" data-stop-event="click" data-i18n="usersearch.message"></a>
-			<savebutton class="search-suggestion-row search-action search-action-addFriend btn--border" data-state="user.addFriendState" data-ng-if="!user.me && !user.added" data-ng-click="notifyParent('addFriend', user)" data-stop-event="click" data-noiniticon>
-				<span data-i18n="usersearch.add"></span>
-			</savebutton>
-			<div class="search-suggestion-row search-action search-action-addCircle" data-stop-event="click" ng-if="user.added">
-				<search data-multiple data-callback="circles.callback(selected)" data-initial-values="circles.initial" data-supplier="circleSearchSupplier" data-search-template="circle" data-select-drop-template="default" data-input-i18n-attr="profile.actions.addToCircle|placeholder|user={{user.name}}" class="search-action-selectCircle"></search>
-				<savebutton class="search-action-circleSubmit btn--border btn--noPadding" data-ng-click="notifyParent('saveCircles', {circles: circles, user: user})" data-state="user.circleState"></savebutton>
-			</div>
+			<addfriend data-user="user" data-ng-if="::!user.me" class="search-suggestion-row search-action search-friendship"></addfriend>
 		</div>
 	</li>
 </ol>

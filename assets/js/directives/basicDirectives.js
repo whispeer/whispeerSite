@@ -35,6 +35,7 @@
 		"gallery",
 		"smartDate",
 		"createcircle",
+		"addfriend",
 
 		"search"
 	];

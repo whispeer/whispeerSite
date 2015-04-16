@@ -154,28 +154,32 @@
 	}
 	margin-top: 5px;
 }
-.search-action-addFriend,
+.search-friendship .addFriend {
+	width: 100%;
+}
+
+.search-friendship .addFriend,
 .search-action-message {
 	@media @mobile {
 		padding: 0;
 	}
 }
-.search-action-selectCircle {
+.search-friendship .selectCircle {
 	.column(10,12,left,0);
 	margin-left: 0;
 	margin-right: 0;
 	border-radius: 5px 5px 0 0;
 }
-.search-action-circleSubmit {
+.search-friendship .circleSubmit {
 	.column(2,12,right,0);
 	border-radius: 0 @inputBorderRadius @inputBorderRadius 0;
 	border-left: 0;
 }
-.search-action-selectCircle .search-wrapper {
+.search-friendship .selectCircle .search-wrapper {
 	border-radius: @inputBorderRadius 0 0 @inputBorderRadius;
 }
-.search-action-selectCircle .search-resultsDrop,
-.search-action-selectCircle .search-selectedDrop {
+.search-friendship .selectCircle .search-resultsDrop,
+.search-friendship .selectCircle .search-selectedDrop {
 	top: -112%;
 	left: -110%;
 	bottom: -88%;
@@ -184,14 +188,14 @@
 
 	overflow: hidden;
 }
-.search-action-selectCircle .search-suggestions {
+.search-friendship .selectCircle .search-suggestions {
 	height: auto;
 	max-height: 100%;
 }
-.search-action-selectCircle .search-suggestion {
+.search-friendship .selectCircle .search-suggestion {
 	color: @black;
 }
-.search-action-selectCircle .search-suggestion-active {
+.search-friendship .selectCircle .search-suggestion-active {
 	color: @white;
 }
 
