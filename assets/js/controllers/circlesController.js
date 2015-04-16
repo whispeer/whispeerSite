@@ -42,12 +42,12 @@ define(["whispeerHelper", "asset/state", "step"], function (h, State, step) {
 
 		$scope.selectedUsers = [];
 
-		$scope.$on("selectionChange", function (event, newSelection) {
-			$scope.selectedUsers = newSelection;
-		});
+		$scope.setCreateNewUsers = function (selected) {
+			$scope.selectedUsers = selected;
+		};
 
 		$scope.createNew = function (name) {
-			var ids = $scope.selectedUsers.map(h.qm("id"));
+			var ids = $scope.selectedUsers.map(h.parseDecimal);
 			circleService.create(name, function (e, circle) {
 				errorService.criticalError(e);
 

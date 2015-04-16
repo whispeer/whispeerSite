@@ -63,7 +63,7 @@
 	<div id="circleWrap">
 		<form id="inputWrap">
 			<input type="text" data-i18n-attr="views.circles.titleForNew|placeholder" id="titleInput" data-ng-model="circleName">
-			<usersearch size="small" data-scope="friends" data-multiple type="text" data-input-i18n-attr="views.circles.searchFriends|placeholder" id="friendInput" />
+			<search data-supplier="friendsSearchSupplier" id="friendInput" callback="setCreateNewUsers(selected)" data-search-template="userSimple" data-multiple data-input-i18n-attr="views.circles.searchFriends|placeholder"></search>
 			<button class="btn btn--primary btn--big" id="savecircle" type="submit" data-ng-click="createNew(circleName)" data-i18n="views.circles.createCircle"></button>
 		</form>
 	</div>
