@@ -31,19 +31,14 @@ define(["step", "whispeerHelper", "asset/state"], function (step, h, State) {
 
 		$scope.filterSelection = ["always:allfriends"];
 
-		$scope.$on("selectionChange:postReaders", function (event, newSelection) {
-			$scope.newPost.readers = newSelection.map(function (e) {
-				return e.id;
-			});
-		});
+		$scope.setPostReaders = function (newSelection) {
+			$scope.newPost.readers = newSelection;
+		};
 
-		$scope.$on("selectionChange:timelineFilter", function (event, newSelection) {
-			$scope.filterSelection = newSelection.map(function (e) {
-				return e.id;
-			});
-
+		$scope.setTimelineFilter = function (newSelection) {
+			$scope.filterSelection = newSelection;
 			reloadTimeline();
-		});
+		};
 
 		var firstTimeUpload = true;
 
