@@ -51,6 +51,7 @@ define(["whispeerHelper", "search/singleSearch", "search/multiSearch"], function
 				/* attribute to define if we want multiple results or one */
 				scope.query = "";
 				scope.results = [];
+				scope.unFilteredResults = [];
 
 				/** open search element or not **/
 				var focused = false, clicked = false, initialized = false;
