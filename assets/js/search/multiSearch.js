@@ -9,8 +9,9 @@ define(["whispeerHelper"], function (h) {
 
 		var $timeout = $injector.get("$timeout");
 
-		if (scope.initialValues()) {
-			scope.initialValues()().then(function (initialValues) {
+		var initialPromise = scope.initialValues();
+		if (initialPromise) {
+			initialPromise.then(function (initialValues) {
 				scope.selectedElements = initialValues.map(function (e) {
 					return {
 						result: e,

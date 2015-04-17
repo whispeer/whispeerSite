@@ -5,7 +5,7 @@
 define(["step", "whispeerHelper", "asset/state"], function (step, h, State) {
 	"use strict";
 
-	function mainController($scope, cssService, postService, ImageUploadService, errorService, screenSize) {
+	function mainController($scope, cssService, postService, ImageUploadService, filterService, errorService, screenSize) {
 		cssService.setClass("mainView");
 
 		$scope.canSend = true;
@@ -28,6 +28,8 @@ define(["step", "whispeerHelper", "asset/state"], function (step, h, State) {
 				});
 			})
 		};
+
+		$scope.getFiltersByID = filterService.getFiltersByID;
 
 		$scope.filterSelection = ["always:allfriends"];
 
@@ -102,7 +104,7 @@ define(["step", "whispeerHelper", "asset/state"], function (step, h, State) {
 		reloadTimeline();
 	}
 
-	mainController.$inject = ["$scope", "ssn.cssService", "ssn.postService", "ssn.imageUploadService", "ssn.errorService", "ssn.screenSizeService"];
+	mainController.$inject = ["$scope", "ssn.cssService", "ssn.postService", "ssn.imageUploadService", "ssn.filterService", "ssn.errorService", "ssn.screenSizeService"];
 
 	return mainController;
 });

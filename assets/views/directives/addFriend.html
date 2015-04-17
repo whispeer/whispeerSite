@@ -2,6 +2,6 @@
 	<span data-i18n="usersearch.add"></span>
 </savebutton>
 <div data-stop-event="click" ng-if="user.added">
-	<search data-multiple data-callback="circles.callback(selected)" data-initial-values="circles.initial" data-supplier="circleSearchSupplier" data-search-template="circle" data-select-drop-template="default" data-input-i18n-attr="profile.actions.addToCircle|placeholder|user={{user.name}}" class="selectCircle"></search>
+	<search data-multiple data-callback="circles.callback(selected)" data-initial-values="circles.initial()" data-supplier="circleSearchSupplier" data-search-template="circle" data-select-drop-template="default" data-input-i18n-attr="profile.actions.addToCircle|placeholder|user={{user.name}}" class="selectCircle"></search>
 	<savebutton class="circleSubmit btn--border btn--noPadding" data-ng-click="saveCircles()" data-state="circles.saving"></savebutton>
 </div>

@@ -116,6 +116,10 @@ define(["whispeerHelper", "step", "bluebird", "asset/errors"], function (h, step
 			});
 		}
 
+		function getFiltersByID(ids) {
+			return Bluebird.resolve(ids).map(getFilterByID);
+		}
+
 		var alwaysAvailableFilter = ["allfriends"];
 
 		function getAllFilters() {
@@ -142,9 +146,13 @@ define(["whispeerHelper", "step", "bluebird", "asset/errors"], function (h, step
 
 		var res = {
 			filterToKeys: filterToKeys,
+
 			getFilterByID: getFilterByID,
+			getFiltersByID: getFiltersByID,
+
 			getAlwaysByID: getAlwaysByID,
 			getCircleByID: getCircleByID,
+
 			getAllFilters: getAllFilters
 		};
 

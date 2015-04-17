@@ -27,7 +27,7 @@ define(["angular", "bluebird"], function (angular) {
 				query = query.toLowerCase();
 
 				return filterService.getAllFilters().then(function (filters) {
-					filters.filter(function (filter) {
+					return filters.filter(function (filter) {
 						return matchesQuery(query, filter.name);
 					});
 				});
