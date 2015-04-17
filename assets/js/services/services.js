@@ -19,7 +19,7 @@
 		"initService",
 		"settingsService",
 		"postService",
-		"filterKeyService",
+		"filterService",
 		"migrationService",
 		"windowService",
 		"errorService",
