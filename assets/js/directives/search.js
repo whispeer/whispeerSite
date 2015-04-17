@@ -140,8 +140,8 @@ define(["whispeerHelper", "search/singleSearch", "search/multiSearch"], function
 				scope.setCurrent = function (val) {
 					scope.current = val;
 
-					scope.current = Math.max(0, scope.current);
 					scope.current = Math.min(scope.current, scope.results.length - 1);
+					scope.current = Math.max(0, scope.current);
 				};
 
 				/** key stuff */

@@ -9,24 +9,26 @@ define(["whispeerHelper"], function (h) {
 
 		var $timeout = $injector.get("$timeout");
 
-		var initialPromise = scope.initialValues();
-		if (initialPromise) {
-			initialPromise.then(function (initialValues) {
-				scope.selectedElements = initialValues.map(function (e) {
-					return {
-						result: e,
-						id: e.id,
-						name: e.name
-					};
-				});
+		function loadInitialSelection() {
+			var initialPromise = scope.initialValues();
+			if (initialPromise) {
+				initialPromise.then(function (initialValues) {
+					scope.selectedElements = initialValues.map(function (e) {
+						return {
+							result: e,
+							id: e.id,
+							name: e.name
+						};
+					});
 
-				selectedIDs = initialValues.map(function (e) {
-					return e.id;
-				});
+					selectedIDs = initialValues.map(function (e) {
+						return e.id;
+					});
 
-				scope.$apply();
-				selectionUpdated();
-			});
+					scope.$apply();
+					selectionUpdated();
+				});
+			}
 		}
 
 		function updatePreviewCount() {
@@ -126,6 +128,12 @@ define(["whispeerHelper"], function (h) {
 			scope.selectedElements = [];
 			selectedIDs = [];
 		});
+
+		scope.$on("reloadInitialSelection", function () {
+			loadInitialSelection();
+		});
+
+		loadInitialSelection();
 
 		var BACKSPACE = [8];
 
