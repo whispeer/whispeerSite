@@ -7,6 +7,7 @@ define(["whispeerHelper", "search/singleSearch", "search/multiSearch"], function
 				"callback": "&",
 				"inputI18nAttr": "@",
 				"searchTemplate": "@",
+				"addClasses": "@",
 				//multi-search
 				"selectDropTemplate": "@",
 				"initialValues": "&"
