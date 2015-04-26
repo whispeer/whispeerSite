@@ -1,6 +1,8 @@
 define(["whispeerHelper", "search/singleSearch", "search/multiSearch"], function (h, singleSearch, multiSearch) {
 	"use strict";
 
+	var lastSearchOpened = 0;
+
 	function searchDirective($injector) {
 		return {
 			scope: {
@@ -24,6 +26,7 @@ define(["whispeerHelper", "search/singleSearch", "search/multiSearch"], function
 			replace: false,
 			transclude: false,
 			link: function (scope, iElement, iAttrs) {
+				var thisSearchOpened = 0;
 				var SearchSupplierClass = $injector.get(iAttrs.supplier);
 				var searchSupplier = new SearchSupplierClass();
 
@@ -72,7 +75,7 @@ define(["whispeerHelper", "search/singleSearch", "search/multiSearch"], function
 				});
 
 				scope.isVisible = function () {
-					return isVisible;
+					return isVisible && (lastSearchOpened === thisSearchOpened);
 				};
 
 				scope.hide = function () {
@@ -86,6 +89,7 @@ define(["whispeerHelper", "search/singleSearch", "search/multiSearch"], function
 						$event.stopPropagation();
 					}
 
+					lastSearchOpened = thisSearchOpened = new Date().getTime();
 					isVisible = true;
 					initialize();
 				};
@@ -144,9 +148,14 @@ define(["whispeerHelper", "search/singleSearch", "search/multiSearch"], function
 
 				var UP = [38, 33];
 				var DOWN = [40, 34];
-				var ENTER = [13];
+				var SELECT = [13];
+				var CLOSE = [27];
 
 				scope.keydown = function (e) {
+					if (CLOSE.indexOf(e.keyCode) > -1) {
+						scope.hide();
+					}
+
 					if (UP.indexOf(e.keyCode) > -1) {
 						addCurrent(-1);
 						e.preventDefault();
@@ -157,7 +166,7 @@ define(["whispeerHelper", "search/singleSearch", "search/multiSearch"], function
 						e.preventDefault();
 					}
 
-					if (ENTER.indexOf(e.keyCode) > -1) {
+					if (SELECT.indexOf(e.keyCode) > -1) {
 						scope.selectResult(scope.results[scope.current]);
 						e.preventDefault();
 					}
