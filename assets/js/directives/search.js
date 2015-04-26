@@ -74,8 +74,10 @@ define(["whispeerHelper", "search/singleSearch", "search/multiSearch"], function
 					});
 				});
 
+				var noAutoClose = typeof iAttrs.noAutoClose !== "undefined";
+
 				scope.isVisible = function () {
-					return isVisible && (lastSearchOpened === thisSearchOpened);
+					return isVisible && (noAutoClose || lastSearchOpened === thisSearchOpened);
 				};
 
 				scope.hide = function () {
@@ -89,7 +91,9 @@ define(["whispeerHelper", "search/singleSearch", "search/multiSearch"], function
 						$event.stopPropagation();
 					}
 
-					lastSearchOpened = thisSearchOpened = new Date().getTime();
+					if (!noAutoClose) {
+						lastSearchOpened = thisSearchOpened = new Date().getTime();
+					}
 					isVisible = true;
 					initialize();
 				};
