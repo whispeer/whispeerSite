@@ -151,9 +151,9 @@ define(["whispeerHelper"], function (h) {
 		});
 
 		scope.$watch(function () {
-			return scope.show();
-		}, function (show) {
-			if (show) {
+			return scope.isVisible();
+		}, function (isVisible) {
+			if (isVisible) {
 				scope.showSelectedElements = false;
 			}
 		});

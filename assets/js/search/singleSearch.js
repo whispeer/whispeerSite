@@ -3,8 +3,7 @@ define([], function () {
 
 	return function ($injector, scope) {
 		scope.selectResult = function(result) {
-			scope.click(false);
-			scope.focus(false);
+			scope.hide();
 
 			scope.callback({ selected: result });
 		};

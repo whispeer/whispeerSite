@@ -55,7 +55,7 @@ define(["whispeerHelper", "search/singleSearch", "search/multiSearch"], function
 				scope.unFilteredResults = [];
 
 				/** open search element or not **/
-				var focused = false, clicked = false, initialized = false;
+				var isVisible = false, initialized = false;
 
 				function initialize() {
 					if (!initialized) {
@@ -71,27 +71,22 @@ define(["whispeerHelper", "search/singleSearch", "search/multiSearch"], function
 					});
 				});
 
-				scope.show = function () {
-					return (focused || clicked);
+				scope.isVisible = function () {
+					return isVisible;
 				};
 
 				scope.hide = function () {
-					scope.focus(false);
-					scope.click(false);
-				};
+					isVisible = false;
 
-				scope.click = function (bool, $event) {
-					if ($event) {
-						$event.stopPropagation();
-						$event.preventDefault();
-					}
-
-					clicked = bool;
 					initialize();
 				};
 
-				scope.focus = function (bool) {
-					focused = bool;
+				scope.show = function ($event) {
+					if ($event) {
+						$event.stopPropagation();
+					}
+
+					isVisible = true;
 					initialize();
 				};
 
@@ -102,7 +97,7 @@ define(["whispeerHelper", "search/singleSearch", "search/multiSearch"], function
 					var currentQuery = scope.query;
 
 					if (oldQuery !== currentQuery) {
-						scope.click(true);
+						scope.show();
 					}
 
 					if (noDiffNecessary || oldQuery !== currentQuery) {
