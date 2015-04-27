@@ -1,27 +1,34 @@
 define(function () {
 	"use strict";
 
-	function accessibleClick($compile) {
+	function accessibleClick() {
 		return {
 			restrict: "A",
 			replace: false,
-			terminal: true,
-			priority: 1001,
-			link: function link(scope,element, attrs) {
-				element.attr("data-ng-click", attrs.accessibleClick);
-				element.attr("data-ng-keypress", attrs.accessibleClick);
+			scope: {
+				accessibleClick: "&"
+			},
+			link: function link(scope,element) {
+				var SELECT = [13];
+				element.on("click", function () {
+					scope.accessibleClick();
+				});
+
+				element.on("keypress", function (e) {
+					if (SELECT.indexOf(e.keyCode) > -1) {
+						scope.$apply(function () {
+							scope.accessibleClick();
+						});
+					}
+				});
+
 				element.attr("tabIndex", "0");
 				element.attr("role", "button");
-
-				element.removeAttr("data-accessible-click"); //remove the attribute to avoid indefinite loop
-				element.removeAttr("accessible-click"); //also remove the same attribute with data- prefix in case users specify data-common-things in the html
-
-				$compile(element)(scope);
 			}
 		};
 	}
 
-	accessibleClick.$inject = ["$compile"];
+	accessibleClick.$inject = [];
 
 	return accessibleClick;
 });
