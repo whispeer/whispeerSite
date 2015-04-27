@@ -1,23 +1,23 @@
-<header class="box-header" data-ng-if="!(mobile && showMessage)">
-	<button class="box-header-button box-header-button--left" id="newmessage" data-ng-click="unloadTopic()">
+<header class="box-header">
+	<button data-ng-if="!mobile || !showMessage" class="box-header-button box-header-button--left" id="newmessage" data-ng-click="unloadTopic()">
 		<i class="fa fa-plus-circle fa-fw" id="plusBtn"></i><span data-i18n="messages.newMessage"></span>
 	</button>
-</header>
-
-<header class="box-header" data-ng-if="mobile && showMessage">
-	<span class="box-header-title box-header-title--visible">
-		<span data-ng-if="!topicLoaded" data-i18n="messages.newMessage"></span>
-		<span data-ng-if="topicLoaded">
+	<span class="box-header-title" data-ng-class="{'box-header-title--visible': showMessage}">
+		<span data-ng-if="!topicLoaded && !showMessage" data-i18n="messages.title"></span>
+		<span data-ng-if="!topicLoaded && showMessage" data-i18n="messages.newMessage"></span>
+		<span data-ng-if="topicLoaded && showMessage">
 			<span data-i18n="messages.chat"></span>
 			<span data-ng-repeat="partner in activeTopic.partners">
 				<span class="status" data-status="{{partner.online}}"></span>
 				<a href="{{partner.basic.url}}">
-					{{activeTopic.partners.length>2?partner.basic.shortname:partner.name}}
-				</a>{{$last?"":", "}}
+					<span data-ng-if="::activeTopic.partners.length>2">{{partner.basic.shortname}}</span>
+					<span data-ng-if="activeTopic.partners.length<=2">{{partner.name}}</span>
+				</a>
+				{{::($last?"":", ")}}
 			</span>
 		</span>
 	</span>
-	<button id="showTopics" class="box-header-button box-header-button--right" data-ng-click="unloadTopic(false)">
+	<button id="showTopics" class="box-header-button box-header-button--right" data-ng-click="unloadTopic(false)" data-ng-if="mobile && showMessage">
 		<i class="fa fa-bars fa-fw"></i>
 	</button>
 </header>
