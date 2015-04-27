@@ -61,9 +61,10 @@ define(["step", "whispeerHelper", "asset/state"], function (step, h, State) {
 		};
 
 		$scope.sendPost = function () {
+			var images = $scope.newPost.images;
 			sendPostState.pending();
 
-			if ($scope.newPost.text === "") {
+			if ($scope.newPost.text === "" && images.length === 0) {
 				sendPostState.failed();
 				return;
 			}
@@ -71,13 +72,10 @@ define(["step", "whispeerHelper", "asset/state"], function (step, h, State) {
 			if ($scope.canSend) {
 				$scope.canSend = false;
 
-				var images = $scope.newPost.images;
-
 				postService.createPost($scope.newPost.text, $scope.newPost.readers, 0, images).then(function () {
 					$scope.newPost.text = "";
 					$scope.newPost.images = [];
 				}).catch(function (e) {
-					debugger;
 					sendPostState.failed();
 				})
 				.then(sendPostState.success.bind(sendPostState))
