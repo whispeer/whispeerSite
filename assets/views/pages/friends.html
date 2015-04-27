@@ -30,7 +30,7 @@
 		<ol id="friendsView-friendsList" class="unstyled">
 			<li class="friendsView-friend" data-ng-repeat="friend in friends">
 				<person data-user="friend" data-type="friend">
-					<a href="/messages?userid={{friend.id}}" data-i18n-attr="friends.message|aria-label|user={{friend.name}}"><i class="fa fa-2x fa-envelope fa-fw"></i></a>
+					<a href="/messages?userid={{::friend.id}}" data-i18n-attr="friends.message|aria-label|user={{friend.name}}"><i class="fa fa-2x fa-envelope fa-fw"></i></a>
 					<a data-accessible-click="removeFriend(friend)" data-i18n-attr="friends.remove|aria-label|user={{friend.name}}" ><i class="person-clickable fa fa-2x fa-times fa-fw"></i></a>
 				</person>
 			</li>
