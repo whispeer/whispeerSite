@@ -1,0 +1,38 @@
+<nav class="mobileMenu">
+	<a class="mobileMenu-link" href="main"  data-ng-click="toggleSidebar()">
+		<i class="fa fa-home fa-2x fa-fw mobileMenu-icon"></i>
+		<span class="mobileMenu-text" data-i18n="menu.newsfeed"></span>
+	</a>
+	<a class="mobileMenu-link" href="{{user.basic.url}}" data-ng-click="toggleSidebar()">
+		<img class="mobileMenu-image u-circle" data-ng-src="{{user.basic.image}}" alt="{{user.basic.name}}">
+		<span class="mobileMenu-text" data-i18n="menu.profil"></span>
+	</a>
+	<a class="mobileMenu-link" href="friends"  data-ng-click="toggleSidebar()">
+		<img class="mobileMenu-image" data-ng-src="assets/img/icons/mobile/friends.png" alt="Freunde">
+		<span class="mobileMenu-text" data-i18n="menu.friends|count={{friends.friendsCount}}|requests={{friends.requestsCount}}"></span>
+	</a>
+	<a class="mobileMenu-link" href="messages"  data-ng-click="toggleSidebar()">
+		<img class="mobileMenu-image" data-ng-src="assets/img/icons/mobile/messages.png" alt="Nachrichten">
+		<span class="mobileMenu-text" data-i18n="menu.messages|count={{messages.unread}}"></span>
+	</a>
+	<a class="mobileMenu-link" href="circles"  data-ng-click="toggleSidebar()">
+		<img class="mobileMenu-image" data-ng-src="assets/img/icons/mobile/circles.png" alt="">
+		<span class="mobileMenu-text" data-i18n="menu.circles"></span>
+	</a>
+	<a class="mobileMenu-link" href="settings"  data-ng-click="toggleSidebar()">
+		<img class="mobileMenu-image" data-ng-src="assets/img/icons/mobile/settings.png">
+		<span class="mobileMenu-text" data-i18n="menu.settings"></span>
+	</a>
+	<a class="mobileMenu-link" href="help"  data-ng-click="toggleSidebar()">
+		<img class="mobileMenu-image" data-ng-src="assets/img/icons/mobile/help.png">
+		<span class="mobileMenu-text" data-i18n="menu.help"></span>
+	</a>
+	<a class="mobileMenu-link" href="legal" data-ng-click="toggleSidebar()">
+		<i class="fa fa-book fa-2x fa-fw mobileMenu-icon"></i>
+		<span class="mobileMenu-text" data-i18n="menu.legal"></span>
+	</a>
+	<a class="mobileMenu-link" href="#" data-ng-click="logout()" data-eat-click>
+		<img class="mobileMenu-image" data-ng-src="assets/img/icons/mobile/logout.png">
+		<span class="mobileMenu-text" data-i18n="menu.logout"></span>
+	</a>
+</nav>

@@ -13,12 +13,12 @@
 			</strong>
 		</span>
 	</aside>
-	<p class="content" data-syntaxify="post.content.text"></p>
+	<p class="content" data-syntaxify="::post.content.text"></p>
 	<gallery data-images="post.images"></gallery>
 	<aside class="actions">
 		<span class="date"><i class="fa fa-clock-o"></i> <span data-smart-date="post.time"></span></span>
 		<span data-accessible-click="toggleShowComments()" class="action"><i class="fa fa-comment"></i> <span data-i18n="wall.comments"></span> ({{post.comments.length}})</span>
-		<span data-ng-if="post.removable" data-accessible-click="post.remove()" class="action"><i class="fa fa-times fa-fw"></i> <span data-i18n="wall.remove"></span></span>
+		<span data-ng-if="::post.removable" data-accessible-click="post.remove()" class="action"><i class="fa fa-times fa-fw"></i> <span data-i18n="wall.remove"></span></span>
 	</aside>
 	<aside class="comments" ng-show="showComments">
 		<ul>

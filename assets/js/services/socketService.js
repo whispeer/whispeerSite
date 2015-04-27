@@ -194,7 +194,7 @@ define(["jquery", "socket", "socketStream", "step", "whispeerHelper", "config", 
 				});
 
 				if (typeof callback === "function") {
-					step.unpromisify(resultPromise, callback);
+					step.unpromisify(resultPromise, h.addAfterHook(callback, $rootScope.$apply.bind($rootScope, null)));
 				}
 
 				return resultPromise;

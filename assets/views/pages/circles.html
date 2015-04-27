@@ -51,7 +51,7 @@
 		<ol id="friendsList" class="u-unstyled">
 			<li data-ng-repeat="friend in thisCircle.persons">
 				<person data-user="friend" data-type="friend">
-					<a href="/messages?userid={{friend.id}}"><i class="fa fa-2x fa-envelope fa-fw"></i></a>
+					<a href="/messages?userid={{::friend.id}}"><i class="fa fa-2x fa-envelope fa-fw"></i></a>
 					<a data-ng-click="$parent.removeUser(friend)"><i class="person-clickable fa fa-2x fa-times fa-fw"></i></a>
 				</person>
 			</li>
