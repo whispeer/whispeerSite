@@ -1,0 +1,15 @@
+<ol class="search-suggestions u-unstyled">
+	<li class="search-suggestion search-suggestion-user" data-ng-repeat="user in results" data-ng-class="{'search-suggestion-active': current==$index}" data-ng-mouseover="setCurrent($index)" data-ng-click="selectResult(user)">
+		<userimage class="search-suggestion-userimage" data-user="user" />
+		<div class="search-suggestion-info">
+			<span class="search-suggestion-row search-suggestion-name">{{::user.name}}<small class="search-suggestion-nickname">&nbsp;- {{::user.names.nickname}}</small></span>
+			<span class="search-suggestion-row search-suggestion-friends">{{::user.basic.mutualFriends.length}} <span data-i18n="usersearch.mutualFriends"></span></span>
+			<!--<span class="search-suggestion-row search-suggestion-location"><span data-i18n="usersearch.from"></span> {{::user.basic.location}}</span>
+			<span class="search-suggestion-row search-suggestion-age"><span data-i18n="usersearch.age"></span> {{::user.basic.age}}</span>-->
+		</div>
+		<div class="search-suggestion-actions">
+			<a class="search-suggestion-row search-action search-action-message btn btn--primary btn--border" href="messages?userid={{user.id}}" data-stop-event="click" data-i18n="usersearch.message"></a>
+			<addfriend data-user="user" data-ng-if="::!user.me" class="search-suggestion-row search-action search-friendship"></addfriend>
+		</div>
+	</li>
+</ol>

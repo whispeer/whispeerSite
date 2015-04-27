@@ -2,15 +2,59 @@
 * BaseDirective
 **/
 
-define(["angular", "directives/basicDirectives", "directives/usersearch", "directives/circlesearch", "directives/filtersearch", "directives/scrollToID"],
-		function (angular, d, userSearch, circleSearch, filterSearch, scrollToID) {
+(function () {
 	"use strict";
+	var directives = [
+		"modal",
+		"smoothScroll",
+		"eatClick",
+		"blur",
+		"onblur",
+		"person",
+		"strgEnter",
+		"enter",
+		"onfocus",
+		"comment",
+		"post",
+		"scroll",
+		"file",
+		"stopEvent",
+		"inview",
+		"syntaxify",
+		"autofocus",
+		"trustHint",
+		"savebutton",
+		"advancedsend",
+		"focusMe",
+		"userimage",
+		"accessibleClick",
+		"qrScanner",
+		"validatedForm",
+		"passwordinput",
+		"gallery",
+		"smartDate",
+		"createcircle",
+		"addfriend",
+		"scrollToID",
 
-	d.directive("usersearch", ["ssn.errorService", "ssn.circleService", "ssn.userService", "ssn.friendsService", "$location", "$timeout", userSearch]);
-	d.directive("circlesearch", ["ssn.userService", "$timeout", "ssn.circleService", circleSearch]);
-	d.directive("filtersearch", ["ssn.keyStoreService", "ssn.userService", "$timeout", "ssn.circleService", "localize", filterSearch]);
-	d.directive("scrolltoid", ["$location", "$anchorScroll", scrollToID]);
+		"search"
+	];
 
-	return d;
-});
+	var includes = ["angular"];
 
+	var i;
+	for (i = 0; i < directives.length; i += 1) {
+		includes.push("directives/" + directives[i]);
+	}
+
+	define(includes, function (angular) {
+		var d = angular.module("ssn.directives",[]);
+
+		var i;
+		for (i = 0; i < directives.length; i += 1) {
+			d.directive(arguments[i+1].$name || directives[i], arguments[i+1]);
+		}
+
+		return d;
+	});
+})();

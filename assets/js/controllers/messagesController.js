@@ -65,7 +65,10 @@ define(["step", "whispeerHelper", "asset/state"], function (step, h, State) {
 
 		$scope.create = {
 			text: "",
-			selectedElements: [],
+			setUsers: function (users) {
+				$scope.create.users = users;
+			},
+			users: [],
 			send: function (receiver, text) {
 				sendMessageState.pending();
 

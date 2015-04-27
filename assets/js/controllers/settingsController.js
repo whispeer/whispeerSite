@@ -5,7 +5,7 @@
 define(["whispeerHelper", "step", "asset/state", "libs/qr"], function (h, step, State, qr) {
 	"use strict";
 
-	function settingsController($scope, $timeout, errorService, cssService, sessionHelper, settingsService, userService, localize) {
+	function settingsController($scope, $timeout, errorService, cssService, sessionHelper, settingsService, userService, filterService, localize) {
 		cssService.setClass("settingsView", true);
 
 		var saveSafetyState = new State();
@@ -34,6 +34,8 @@ define(["whispeerHelper", "step", "asset/state", "libs/qr"], function (h, step, 
 			validateOnCallback: true,
 			hideOnInteraction: true
 		};
+
+		$scope.getFiltersByID = filterService.getFiltersByID;
 
 		step(function () {
 			this.parallel.unflatten();
@@ -177,7 +179,7 @@ define(["whispeerHelper", "step", "asset/state", "libs/qr"], function (h, step, 
 		};
 	}
 
-	settingsController.$inject = ["$scope", "$timeout", "ssn.errorService", "ssn.cssService", "ssn.sessionHelper", "ssn.settingsService", "ssn.userService", "localize"];
+	settingsController.$inject = ["$scope", "$timeout", "ssn.errorService", "ssn.cssService", "ssn.sessionHelper", "ssn.settingsService", "ssn.userService", "ssn.filterService", "localize"];
 
 	return settingsController;
 });

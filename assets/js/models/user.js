@@ -267,7 +267,7 @@ define(["step", "whispeerHelper", "asset/state", "asset/securedDataWithMetaData"
 					scopes = getAllProfileTypes(privacySettings);
 
 					this.parallel.unflatten();
-					$injector.get("ssn.filterKeyService").filterToKeys(scopes, this.parallel());
+					$injector.get("ssn.filterService").filterToKeys(scopes, this.parallel());
 					myProfile.getFull(this.parallel());
 				}), h.sF(function (keys, profile) {
 					var scopeData = h.joinArraysToObject({

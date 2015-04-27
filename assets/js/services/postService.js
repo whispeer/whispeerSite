@@ -4,7 +4,7 @@
 define(["step", "whispeerHelper", "bluebird", "validation/validator", "asset/observer", "asset/errors", "asset/securedDataWithMetaData", "asset/state"], function (step, h, Promise, validator, Observer, errors, SecuredData, State) {
 	"use strict";
 
-	var service = function ($rootScope, $timeout, localize, socket, keyStore, errorService, userService, circleService, blobService, filterKeyService, Comment, screenSize) {
+	var service = function ($rootScope, $timeout, localize, socket, keyStore, errorService, userService, circleService, blobService, filterService, Comment, screenSize) {
 		var postsById = {};
 		var postsByUserWall = {};
 		var timelinesCache = {};
@@ -527,7 +527,7 @@ define(["step", "whispeerHelper", "bluebird", "validation/validator", "asset/obs
 				});
 
 				var symEncryptKey = Promise.promisify(keyStore.sym.symEncryptKey, keyStore.sym);
-				var filterToKeys = Promise.promisify(filterKeyService.filterToKeys, filterKeyService);
+				var filterToKeys = Promise.promisify(filterService.filterToKeys, filterService);
 				var createSecuredData = Promise.promisify(SecuredData.create, SecuredData);
 				var socketEmit = Promise.promisify(socket.emit, socket);
 
@@ -590,7 +590,7 @@ define(["step", "whispeerHelper", "bluebird", "validation/validator", "asset/obs
 		return postService;
 	};
 
-	service.$inject = ["$rootScope", "$timeout", "localize", "ssn.socketService", "ssn.keyStoreService", "ssn.errorService", "ssn.userService", "ssn.circleService", "ssn.blobService", "ssn.filterKeyService", "ssn.models.comment", "ssn.screenSizeService"];
+	service.$inject = ["$rootScope", "$timeout", "localize", "ssn.socketService", "ssn.keyStoreService", "ssn.errorService", "ssn.userService", "ssn.circleService", "ssn.blobService", "ssn.filterService", "ssn.models.comment", "ssn.screenSizeService"];
 
 	return service;
 });

@@ -126,7 +126,7 @@
 			<span data-i18n="profile.actions.addFriend|user={{user.name}}"></span>
 		</savebutton>
 		<div class="userView-addToCircle" data-ng-if="user.added">
-			<circlesearch data-res="circles" id="userView-selectCircle" data-input-i18n-attr="profile.actions.addToCircle|placeholder|user={{user.name}}" data-user="user.id"></circlesearch>
+			<search data-multiple data-callback="circles.callback(selected)" data-initial-values="circles.initial()" data-supplier="circleSearchSupplier" data-search-template="circle" data-select-drop-template="default" id="userView-selectCircle" data-input-i18n-attr="profile.actions.addToCircle|placeholder|user={{user.name}}"></search>
 			<saveButton id="userView-submitCircle" data-ng-click="saveCircles()" data-state="circles.saving"></saveButton>
 		</div>
 		<!--<button ng-if="user.added" ng-click="removeFriend()">REMOVE FRIEND [TRANSLATE]</button> -->

@@ -42,12 +42,12 @@ define(["whispeerHelper", "asset/state", "step"], function (h, State, step) {
 
 		$scope.selectedUsers = [];
 
-		$scope.$on("selectionChange", function (event, newSelection) {
-			$scope.selectedUsers = newSelection;
-		});
+		$scope.setCreateNewUsers = function (selected) {
+			$scope.selectedUsers = selected;
+		};
 
 		$scope.createNew = function (name) {
-			var ids = $scope.selectedUsers.map(h.qm("id"));
+			var ids = $scope.selectedUsers.map(h.parseDecimal);
 			circleService.create(name, function (e, circle) {
 				errorService.criticalError(e);
 
@@ -63,12 +63,16 @@ define(["whispeerHelper", "asset/state", "step"], function (h, State, step) {
 			circleService.get($scope.circleid).removePersons([user.id], errorService.criticalError);
 		};
 
-		$scope.usersToAdd = {};
-		$scope.addUsers = function (users) {
+		var usersToAdd;
+		$scope.setUsersToAdd = function (users) {
+			usersToAdd = users;
+		};
+
+		$scope.addUsers = function () {
 			addUsersToCircleState.pending();
 
 			step(function () {
-				circleService.get($scope.circleid).addPersons(users, this);
+				circleService.get($scope.circleid).addPersons(usersToAdd, this);
 			}, h.sF(function () {
 				$scope.$broadcast("resetSearch");
 				this.ne();

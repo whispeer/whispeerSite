@@ -14,5 +14,8 @@ define(function () {
 			}
 		};
 	}
+	scrollTo.$inject = ["$location", "$anchorScroll"];
+	scrollTo.$name = "scrolltoid";
+
 	return scrollTo;
 });

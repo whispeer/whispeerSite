@@ -84,11 +84,6 @@ define(["step", "whispeerHelper", "config"], function (step, h, config) {
 		$scope.sidebarActive = false;
 		$scope.searchActive = false;
 
-		$scope.$on("elementSelected", function () {
-			$scope.searchActive = false;
-			$scope.sidebarActive = false;
-		});
-
 		$scope.lostConnection = false;
 
 		socketService.on("disconnect", function () {
@@ -124,6 +119,12 @@ define(["step", "whispeerHelper", "config"], function (step, h, config) {
 			$scope.sidebarActive = false;
 			$scope.searchActive = false;
 			$scope.cssClass = cssService.getClass();
+		};
+
+		$scope.visitUserProfile = function (user) {
+			user.user.visitProfile();
+			$scope.searchActive = false;
+			$scope.sidebarActive = false;
 		};
 
 		$scope.toggleSearch = function() {

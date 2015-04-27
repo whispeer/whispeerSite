@@ -263,7 +263,7 @@ define(["step", "whispeerHelper", "asset/observer", "asset/securedDataWithMetaDa
 			},
 			create: function (name, cb, users) {
 				var key, theCircle;
-				users = users.map(h.parseDecimal);
+				users = (users || []).map(h.parseDecimal);
 				step(function () {
 					generateNewKey(this);
 				}, h.sF(function (symKey) {

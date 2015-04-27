@@ -2,7 +2,7 @@
 * userController
 **/
 
-define(["step", "whispeerHelper", "asset/resizableImage", "asset/state"], function (step, h, ResizableImage, State) {
+define(["step", "whispeerHelper", "bluebird", "asset/resizableImage", "asset/state"], function (step, h, Promise, ResizableImage, State) {
 	"use strict";
 
 	function userController($scope, $routeParams, $timeout, cssService, errorService, userService, postService, circleService, blobService) {
@@ -290,6 +290,19 @@ define(["step", "whispeerHelper", "asset/resizableImage", "asset/state"], functi
 		var circleState = new State();
 
 		$scope.circles = {
+			initial: function () {
+				var user = h.parseDecimal($scope.user.id);
+				var loadAllCircles = Promise.promisify(circleService.loadAll);
+
+				return loadAllCircles().then(function () {
+					return circleService.inWhichCircles(user).map(function (circle) {
+						return circle.data;
+					});
+				});
+			},
+			callback: function (selected) {
+				$scope.circles.selectedElements = selected;
+			},
 			selectedElements: [],
 			saving: circleState.data
 		};

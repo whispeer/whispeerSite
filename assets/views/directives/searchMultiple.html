@@ -1,0 +1,20 @@
+<div class="search search--multiple {{addClasses}}">
+	<div class="search-form">
+		<ul class="search-wrapper">
+			<li data-ng-repeat="element in selectedElements" class="search-result btn btn--primary btn--noRadius" data-ng-show="$index<previewCount">
+				<span class="search-result-name">{{element.name}}</span>
+				<i class="search-result-remove fa fa-times-circle" data-ng-click="removeSelection($index, $event)"></i>
+			</li><!--
+			--><li class="search-result search-result--hiddenCount btn btn--primary btn--noRadius" data-ng-show="hiddenCount > 0" data-ng-click="doShowSelectedElements(true)">
+				<span class="search-result-name">+{{hiddenCount}}</span>
+			</li><!--
+			--><li class="search-input">
+				<input type="text" class="search-query input-custom" data-i18n-attr="{{inputI18nAttr}}" data-ng-click="show($event)"  data-ng-keydown="keydown($event)" data-ng-change="queryChange()" data-ng-model="query" data-onfocus="show()" style="width: {{remainingWidth}}px">
+			</li>
+		</ul>
+	</div>
+	<div class="search-resultsDrop" data-ng-show="isVisible()" data-ng-include="'assets/views/search/' + searchTemplate + 'Search.html'">
+	</div>
+	<div class="dropdown search-selectedDrop" data-ng-if="showSelectedElements" data-ng-include="'assets/views/search/' + selectDropTemplate  +'SelectDrop.html'">
+	</div>
+</div>

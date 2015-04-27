@@ -5,7 +5,7 @@
 define(["step", "whispeerHelper", "asset/state"], function (step, h, State) {
 	"use strict";
 
-	function mainController($scope, cssService, postService, ImageUploadService, errorService, screenSize) {
+	function mainController($scope, cssService, postService, ImageUploadService, filterService, errorService, screenSize) {
 		cssService.setClass("mainView");
 
 		$scope.canSend = true;
@@ -29,21 +29,18 @@ define(["step", "whispeerHelper", "asset/state"], function (step, h, State) {
 			})
 		};
 
+		$scope.getFiltersByID = filterService.getFiltersByID;
+
 		$scope.filterSelection = ["always:allfriends"];
 
-		$scope.$on("selectionChange:postReaders", function (event, newSelection) {
-			$scope.newPost.readers = newSelection.map(function (e) {
-				return e.id;
-			});
-		});
+		$scope.setPostReaders = function (newSelection) {
+			$scope.newPost.readers = newSelection;
+		};
 
-		$scope.$on("selectionChange:timelineFilter", function (event, newSelection) {
-			$scope.filterSelection = newSelection.map(function (e) {
-				return e.id;
-			});
-
+		$scope.setTimelineFilter = function (newSelection) {
+			$scope.filterSelection = newSelection;
 			reloadTimeline();
-		});
+		};
 
 		var firstTimeUpload = true;
 
@@ -107,7 +104,7 @@ define(["step", "whispeerHelper", "asset/state"], function (step, h, State) {
 		reloadTimeline();
 	}
 
-	mainController.$inject = ["$scope", "ssn.cssService", "ssn.postService", "ssn.imageUploadService", "ssn.errorService", "ssn.screenSizeService"];
+	mainController.$inject = ["$scope", "ssn.cssService", "ssn.postService", "ssn.imageUploadService", "ssn.filterService", "ssn.errorService", "ssn.screenSizeService"];
 
 	return mainController;
 });
