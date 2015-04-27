@@ -117,7 +117,7 @@ define(["step", "whispeerHelper", "asset/state"], function (step, h, State) {
 		};
 
 		$scope.nicknameUsed = function () {
-			return !$scope.empty($scope.nickname) && !$scope.nicknameCheck && !$scope.nicknameCheckLoading;
+			return !$scope.empty($scope.nickname) && h.isNickname($scope.nickname) && !$scope.nicknameCheck && !$scope.nicknameCheckLoading;
 		};
 
 		$scope.isAgbError = function () {
