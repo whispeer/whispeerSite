@@ -80,7 +80,6 @@
 	border-right: 1px solid #bbb;
 }
 .box-header--content {
-	margin-top: -6px;
 	border-top: 1px solid @btnBorder;
 	background: @btnBackgroundHover;
 	&:before, :after {
@@ -88,14 +87,20 @@
 		margin-left: 5px;
 	}
 }
+.box-header--noBorder {
+	border-top: none;
+}
 .box-content {
-	padding: 5px 0;
+	padding: 0;
 	.border-radiuses(0, 5px, 5px, 0);
 	&:extend(.box-fix);
 	&:extend(.clear-fix);
 	h1,h2,h3,h4,h5,h6 {
 		margin-left: 0.5%;
 	}
+}
+.box-content--padding {
+	padding: 5px 0;
 }
 .box-content--scroll {
 	overflow-y: scroll;
