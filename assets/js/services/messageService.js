@@ -231,7 +231,7 @@ define([
 					}
 
 					theTopic.data.partnersDisplay = partners.slice(0, 2);
-					if (partners.length > 4) {
+					if (partners.length > 2) {
 						theTopic.data.remainingUser = partners.length - 2;
 						for (i = 2; i < partners.length; i += 1) {
 							theTopic.data.remainingUserTitle += partners[i].name;
