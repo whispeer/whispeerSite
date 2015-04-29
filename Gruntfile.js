@@ -1,3 +1,5 @@
+"use strict";
+
 var grunt = require("grunt");
 
 grunt.loadNpmTasks("grunt-contrib-jshint");
@@ -19,7 +21,11 @@ var requireFiles = grunt.file.expand({
 	"models/*.js",
 	"directives/*.js",
 	"services/*.js"
-]);
+]).map(function (file) {
+	return file.replace(".js", "");
+});
+
+requireFiles.push("bower/requirejs/require.js");
 
 grunt.initConfig({
 	requirejs: {
@@ -102,7 +108,7 @@ grunt.initConfig({
 	},
     execute: {
         manifest: {
-            src: ["build_appcache.js"]
+            src: ["./scripts/build_appcache.js"]
         }
     },
     run: {
@@ -112,13 +118,37 @@ grunt.initConfig({
     },
 	"bower-install-simple": {
 		prod: {}
+	},
+	manifest: {
+		production: {
+			destination: "./manifest.mf",
+			source: "./templates/manifest.mf.template",
+			config: "./assets/js/config"
+		}
 	}
 });
 
 grunt.registerTask("default", ["build:development", "browserSync", "concurrent:development"]);
 
 grunt.registerTask("build:development", ["copy", "bower-install-simple", "less", "run:buildsjcl"]);
-
-grunt.registerTask("build:production", ["copy", "bower-install-simple", "less", "execute:manifest", "run:buildsjcl"]);
+grunt.registerTask("build:production", ["copy", "bower-install-simple", "less", "requirejs", "execute:manifest", "run:buildsjcl"]);
 
 grunt.registerTask("server", "Start the whispeer web server.", require("./webserver"));
+
+grunt.task.registerMultiTask("manifest", "Build the manifest file.", function () {
+	var destination = this.data.destination;
+	var source = this.data.source;
+	var config = require(this.data.config);
+
+	require("./scripts/build_appcache")(source, destination, config, this.async());
+
+	/*
+	var buildTime = new Date();
+	var buildDate = buildTime.getFullYear().toString() + (buildTime.getMonth() + 1) + buildTime.getDate().toString();
+
+	var rootController = fs.readFileSync("./assets/js/config.js").toString();
+	rootController = rootController.replace(/var buildDate \= \"[0-9\-]*\";/, "var buildDate = \"" + buildDate + "\";");
+	fs.writeFileSync("./assets/js/config.js", rootController);
+	*/
+});
+

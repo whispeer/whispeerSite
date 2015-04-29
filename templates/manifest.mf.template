@@ -12,19 +12,12 @@ CACHE MANIFEST
 
 #expand:./assets/data/
 
-#if:!production
-#expand:./assets/js/:json|js
-#endif
-
-#if:production
-#params:/assets/js/
+/assets/js/build.js
 
 /assets/js/libs/sjcl.js
 /assets/js/bower/requirejs/require.js
 
 #expand:./assets/js/i18n/
-
-#endif
 
 #routes
 
