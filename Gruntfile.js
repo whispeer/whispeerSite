@@ -91,11 +91,6 @@ grunt.initConfig({
 			}
 		}
 	},
-    execute: {
-        manifest: {
-            src: ["./scripts/build_appcache.js"]
-        }
-    },
     run: {
         buildsjcl: {
             cmd: "./scripts/build-sjcl.sh"
@@ -116,7 +111,7 @@ grunt.initConfig({
 grunt.registerTask("default", ["build:development", "browserSync", "concurrent:development"]);
 
 grunt.registerTask("build:development", ["copy", "bower-install-simple", "less", "run:buildsjcl"]);
-grunt.registerTask("build:production", ["copy", "bower-install-simple", "less", "requirejs", "execute:manifest", "run:buildsjcl"]);
+grunt.registerTask("build:production", ["copy", "bower-install-simple", "less", "requirejs", "manifest", "run:buildsjcl"]);
 
 grunt.registerTask("server", "Start the whispeer web server.", require("./webserver"));
 
