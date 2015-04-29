@@ -28,7 +28,7 @@ grunt.initConfig({
 
 				name: "main",
 				insertRequire: ["main"],
-				include: ["bower/requirejs/require.js"]
+				include: ["bower/requirejs/require.js", "requireConfig"]
 			}
 		}
 	},
