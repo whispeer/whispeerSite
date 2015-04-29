@@ -1,4 +1,4 @@
-define([], function () {
+define(["controllers/controllerModule"], function (controllerModule) {
 	"use strict";
 
 	function agbController($scope, cssService) {
@@ -7,5 +7,5 @@ define([], function () {
 
 	agbController.$inject = ["$scope", "ssn.cssService"];
 
-	return agbController;
+	controllerModule.controller("ssn.agbController", agbController);
 });

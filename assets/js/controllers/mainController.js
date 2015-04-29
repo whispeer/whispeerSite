@@ -2,7 +2,7 @@
 * mainController
 **/
 
-define(["step", "whispeerHelper", "asset/state"], function (step, h, State) {
+define(["step", "whispeerHelper", "asset/state", "controllers/controllerModule"], function (step, h, State, controllerModule) {
 	"use strict";
 
 	function mainController($scope, cssService, postService, ImageUploadService, filterService, errorService, screenSize) {
@@ -104,5 +104,5 @@ define(["step", "whispeerHelper", "asset/state"], function (step, h, State) {
 
 	mainController.$inject = ["$scope", "ssn.cssService", "ssn.postService", "ssn.imageUploadService", "ssn.filterService", "ssn.errorService", "ssn.screenSizeService"];
 
-	return mainController;
+	controllerModule.controller("ssn.mainController", mainController);
 });

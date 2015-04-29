@@ -1,7 +1,7 @@
 /**
 * imageUploadService
 **/
-define(["step", "whispeerHelper", "jquery", "bluebird", "imageLib", "asset/Progress", "asset/Queue"], function (step, h, $, Promise, imageLib, Progress, Queue) {
+define(["step", "whispeerHelper", "jquery", "bluebird", "imageLib", "asset/Progress", "asset/Queue", "services/serviceModule"], function (step, h, $, Promise, imageLib, Progress, Queue, serviceModule) {
 	"use strict";
 
 	var service = function ($timeout, blobService) {
@@ -227,5 +227,5 @@ define(["step", "whispeerHelper", "jquery", "bluebird", "imageLib", "asset/Progr
 
 	service.$inject = ["$timeout", "ssn.blobService"];
 
-	return service;
+	serviceModule.factory("ssn.imageUploadService", service);
 });

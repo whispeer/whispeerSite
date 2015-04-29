@@ -1,4 +1,4 @@
-define([], function () {
+define(["controllers/controllerModule"], function (controllerModule) {
 	"use strict";
 
 	function privacyPolicyController($scope, cssService) {
@@ -7,5 +7,5 @@ define([], function () {
 
 	privacyPolicyController.$inject = ["$scope", "ssn.cssService"];
 
-	return privacyPolicyController;
+	controllerModule.controller("ssn.privacyPolicyController", privacyPolicyController);
 });

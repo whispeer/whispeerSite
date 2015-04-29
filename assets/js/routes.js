@@ -53,7 +53,6 @@ define(["app"], function (app) {
 		addMain("agb");
 		addMain("privacyPolicy");
 		addMain("recovery");
-		addMain("notificationCenter");
 		addMain("acceptInvite");
 
 		$routeProvider.when("/logout", {

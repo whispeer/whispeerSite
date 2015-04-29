@@ -1,4 +1,4 @@
-define(["whispeerHelper", "step", "bluebird", "asset/errors"], function (h, step, Bluebird, errors) {
+define(["whispeerHelper", "step", "bluebird", "asset/errors", "services/serviceModule"], function (h, step, Bluebird, errors, serviceModule) {
 	"use strict";
 
 	var service = function (localize, keyStore, userService, circleService) {
@@ -161,5 +161,5 @@ define(["whispeerHelper", "step", "bluebird", "asset/errors"], function (h, step
 
 	service.$inject = ["localize", "ssn.keyStoreService", "ssn.userService", "ssn.circleService"];
 
-	return service;
+	serviceModule.factory("ssn.filterService", service);
 });

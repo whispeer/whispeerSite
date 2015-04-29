@@ -2,7 +2,7 @@
 * friendsController
 **/
 
-define(["step", "whispeerHelper"], function (step, h) {
+define(["step", "whispeerHelper", "controllers/controllerModule"], function (step, h, controllerModule) {
 	"use strict";
 
 	function friendsController($scope, cssService, friendsService, userService, localize)  {
@@ -50,5 +50,5 @@ define(["step", "whispeerHelper"], function (step, h) {
 
 	friendsController.$inject = ["$scope", "ssn.cssService", "ssn.friendsService", "ssn.userService", "localize"];
 
-	return friendsController;
+	controllerModule.controller("ssn.friendsController", friendsController);
 });

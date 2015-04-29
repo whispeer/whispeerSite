@@ -2,7 +2,7 @@
 * loginController
 **/
 
-define(["step", "whispeerHelper", "asset/state"], function (step, h, State) {
+define(["step", "whispeerHelper", "asset/state", "controllers/controllerModule"], function (step, h, State, controllerModule) {
 	"use strict";
 
 	function registerController($scope, $timeout, $routeParams, keyStore, errorService, sessionHelper, sessionService, socketService) {
@@ -190,5 +190,5 @@ define(["step", "whispeerHelper", "asset/state"], function (step, h, State) {
 
 	registerController.$inject = ["$scope", "$timeout", "$routeParams", "ssn.keyStoreService", "ssn.errorService", "ssn.sessionHelper", "ssn.sessionService", "ssn.socketService"];
 
-	return registerController;
+	controllerModule.controller("ssn.registerController", registerController);
 });

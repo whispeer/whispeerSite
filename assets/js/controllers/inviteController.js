@@ -2,7 +2,7 @@
 * inviteController
 **/
 
-define(["step", "whispeerHelper", "asset/state"], function (step, h, State) {
+define(["step", "whispeerHelper", "asset/state", "controllers/controllerModule"], function (step, h, State, controllerModule) {
 	"use strict";
 
 	function inviteController($scope, $location, cssService, keyStore, socketService, errorService) {
@@ -70,5 +70,5 @@ define(["step", "whispeerHelper", "asset/state"], function (step, h, State) {
 
 	inviteController.$inject = ["$scope", "$location", "ssn.cssService", "ssn.keyStoreService", "ssn.socketService", "ssn.errorService"];
 
-	return inviteController;
+	controllerModule.controller("ssn.inviteController", inviteController);
 });

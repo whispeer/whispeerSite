@@ -2,7 +2,7 @@
 * loginController
 **/
 
-define([], function () {
+define(["controllers/controllerModule"], function (controllerModule) {
 	"use strict";
 
 	function loginController($scope, $location, loginDataService, cssService) {
@@ -30,5 +30,5 @@ define([], function () {
 
 	loginController.$inject = ["$scope", "$location", "ssn.loginDataService", "ssn.cssService"];
 
-	return loginController;
+	controllerModule.controller("ssn.loginController", loginController);
 });

@@ -2,7 +2,7 @@
 * sessionController
 **/
 
-define([], function () {
+define(["controllers/controllerModule"], function (controllerModule) {
 	"use strict";
 
 	function logoutController($scope, sessionHelper) {
@@ -11,5 +11,5 @@ define([], function () {
 
 	logoutController.$inject = ["$scope", "ssn.sessionHelper"];
 
-	return logoutController;
+	controllerModule.controller("ssn.logoutController", logoutController);
 });

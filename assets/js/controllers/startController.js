@@ -2,7 +2,7 @@
 * startController
 **/
 
-define([], function () {
+define(["controllers/controllerModule"], function (controllerModule) {
 	"use strict";
 
 	function startController($scope, sessionHelper, cssService) {
@@ -11,5 +11,5 @@ define([], function () {
 
 	startController.$inject = ["$scope", "ssn.sessionHelper", "ssn.cssService"];
 
-	return startController;
+	controllerModule.controller("ssn.startController", startController);
 });

@@ -2,7 +2,7 @@
 * sessionController
 **/
 
-define(["step", "whispeerHelper", "config"], function (step, h, config) {
+define(["step", "whispeerHelper", "config", "controllers/controllerModule"], function (step, h, config, controllerModule) {
 	"use strict";
 
 	function getVersionString(data) {
@@ -148,5 +148,5 @@ define(["step", "whispeerHelper", "config"], function (step, h, config) {
 
 	rootController.$inject = ["$scope", "ssn.screenSizeService", "$http", "ssn.socketService", "ssn.sessionService", "ssn.sessionHelper", "ssn.userService", "ssn.cssService", "ssn.messageService", "ssn.trustService", "ssn.friendsService"];
 
-	return rootController;
+	controllerModule.controller("ssn.rootController", rootController);
 });

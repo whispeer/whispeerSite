@@ -1,3 +1,25 @@
+var WEB_SOCKET_SWF_LOCATION = "libs/WebSocketMain.swf";
+var startup = new Date().getTime();
+
+if (window.location.href.indexOf("file:///") === 0) {
+	var base = window.location.href.replace("file://", "");
+	base = base.replace(/\#\!(.*)/g, "");
+	document.getElementsByTagName("base")[0].setAttribute("href", base);
+}
+
+var globalErrors = [];
+
+window.onerror = function (str, file, line, col, e) {
+	"use strict";
+	globalErrors.push({
+		str: str,
+		file: file,
+		line: line,
+		col: col,
+		e: e
+	});
+};
+
 define([
 	"jquery",
 	"angular",
@@ -7,30 +29,6 @@ define([
 	"angularTouch"
 ], function($, angular, app) {
 	"use strict";
-
-	var WEB_SOCKET_SWF_LOCATION = "libs/WebSocketMain.swf";
-	var startup = new Date().getTime();
-
-	void(startup);
-	void (WEB_SOCKET_SWF_LOCATION);
-
-	if (window.location.href.indexOf("file:///") === 0) {
-		var base = window.location.href.replace("file://", "");
-		base = base.replace(/\#\!(.*)/g, "");
-		document.getElementsByTagName("base")[0].setAttribute("href", base);
-	}
-
-	var globalErrors = [];
-
-	window.onerror = function (str, file, line, col, e) {
-		globalErrors.push({
-			str: str,
-			file: file,
-			line: line,
-			col: col,
-			e: e
-		});
-	};
 
 	$(document).ready(function () {
 		var $html = $("html");
