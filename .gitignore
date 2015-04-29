@@ -28,4 +28,4 @@ node_modules/*
 assets/vendor
 assets/js/bower
 
-assets/js/build.js
+assets/js/build/*.js

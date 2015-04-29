@@ -12,6 +12,7 @@ grunt.loadNpmTasks("grunt-concurrent");
 grunt.loadNpmTasks("grunt-bower-install-simple");
 grunt.loadNpmTasks("grunt-run");
 grunt.loadNpmTasks("grunt-contrib-requirejs");
+grunt.loadNpmTasks("grunt-contrib-clean");
 
 grunt.initConfig({
 	requirejs: {
@@ -106,6 +107,9 @@ grunt.initConfig({
 			config: "./assets/js/config"
 		}
 	},
+	clean: {
+		build: ["assets/js/build/*.js"]
+	},
 	fileToHashName: {
 		build: {
 			source: "assets/js/build/build.js"
@@ -113,12 +117,6 @@ grunt.initConfig({
 	}
 });
 
-grunt.registerTask("default", ["build:development", "browserSync", "concurrent:development"]);
-
-grunt.registerTask("build:development", ["copy", "bower-install-simple", "less", "run:buildsjcl"]);
-grunt.registerTask("build:production", ["copy", "bower-install-simple", "less", "requirejs", "run:buildsjcl", "buildDate", "fileToHashName", "manifest"]);
-
-grunt.registerTask("server", "Start the whispeer web server.", require("./webserver"));
 
 grunt.task.registerTask("buildDate", function () {
 	var buildTime = new Date();
@@ -162,3 +160,9 @@ grunt.task.registerMultiTask("manifest", "Build the manifest file.", function ()
 	require("./scripts/build_appcache")(source, destination, config, this.async());
 });
 
+grunt.registerTask("default", ["build:development", "browserSync", "concurrent:development"]);
+
+grunt.registerTask("build:development", ["clean", "copy", "bower-install-simple", "less", "run:buildsjcl"]);
+grunt.registerTask("build:production",  ["clean", "copy", "bower-install-simple", "less", "requirejs", "run:buildsjcl", "buildDate", "fileToHashName", "manifest"]);
+
+grunt.registerTask("server", "Start the whispeer web server.", require("./webserver"));
