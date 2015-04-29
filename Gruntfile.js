@@ -9,16 +9,35 @@ grunt.loadNpmTasks("grunt-execute");
 grunt.loadNpmTasks("grunt-concurrent");
 grunt.loadNpmTasks("grunt-bower-install-simple");
 grunt.loadNpmTasks("grunt-run");
+grunt.loadNpmTasks("grunt-contrib-requirejs");
 
 grunt.initConfig({
-    concurrent: {
-        development: {
-            tasks: ["server", "watch"],
-            options: {
-                logConcurrentOutput: true
-            }
-        }
-    },
+	requirejs: {
+		compile: {
+			options: {
+				mainConfigFile: "./assets/js/requireConfig.js",
+
+				out: "assets/js/build.js",
+				baseUrl: "./assets/js",
+
+				optimize: "none",
+				preserveLicenseComments: true,
+				generateSourceMaps: false,
+
+				name: "main",
+				insertRequire: ["main"],
+				include: ["services/*"]
+			}
+		}
+	},
+	concurrent: {
+		development: {
+			tasks: ["server", "watch"],
+			options: {
+				logConcurrentOutput: true
+			}
+		}
+	},
 	jshint: {
 		all: {
 			src: ["Gruntfile.js", "assets/js/**/*.js"],
