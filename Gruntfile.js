@@ -27,7 +27,6 @@ grunt.initConfig({
 				generateSourceMaps: false,
 
 				name: "main",
-				insertRequire: ["main"],
 				include: ["bower/requirejs/require.js", "requireConfig"]
 			}
 		}
