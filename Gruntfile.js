@@ -11,6 +11,16 @@ grunt.loadNpmTasks("grunt-bower-install-simple");
 grunt.loadNpmTasks("grunt-run");
 grunt.loadNpmTasks("grunt-contrib-requirejs");
 
+var requireFiles = grunt.file.expand({
+	cwd: "./assets/js/"
+}, [
+	"controllers/*.js",
+	"validation/*.js",
+	"models/*.js",
+	"directives/*.js",
+	"services/*.js"
+]);
+
 grunt.initConfig({
 	requirejs: {
 		compile: {
@@ -26,7 +36,7 @@ grunt.initConfig({
 
 				name: "main",
 				insertRequire: ["main"],
-				include: ["services/*"]
+				include: requireFiles
 			}
 		}
 	},
