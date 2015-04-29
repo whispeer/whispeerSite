@@ -8,7 +8,7 @@ grunt.loadNpmTasks("grunt-contrib-copy");
 grunt.loadNpmTasks("grunt-execute");
 grunt.loadNpmTasks("grunt-concurrent");
 grunt.loadNpmTasks("grunt-bower-install-simple");
-grunt.loadNpmTasks('grunt-run');
+grunt.loadNpmTasks("grunt-run");
 
 grunt.initConfig({
     concurrent: {
@@ -58,13 +58,6 @@ grunt.initConfig({
 			options: {
 				spawn: false
 			}
-		},
-		manifest: {
-			files: ["assets/**/*", "index.html"],
-			tasks: ["build"],
-			options: {
-				spawn: false
-			}
 		}
 	},
 	browserSync: {
@@ -81,14 +74,11 @@ grunt.initConfig({
     execute: {
         manifest: {
             src: ["build_appcache.js"]
-        },
-        fixAngular: {
-            src: ["fix-angular.js"]
         }
     },
     run: {
         buildsjcl: {
-            cmd: "./build-sjcl.sh"
+            cmd: "./scripts/build-sjcl.sh"
         }
     },
 	"bower-install-simple": {
@@ -96,8 +86,10 @@ grunt.initConfig({
 	}
 });
 
-grunt.registerTask("default", ["build", "browserSync", "concurrent:development"]);
+grunt.registerTask("default", ["build:development", "browserSync", "concurrent:development"]);
 
-grunt.registerTask("build", ["copy", "bower-install-simple", "less", "execute:manifest", "execute:fixAngular", "run:buildsjcl"]);
+grunt.registerTask("build:development", ["copy", "bower-install-simple", "less", "run:buildsjcl"]);
+
+grunt.registerTask("build:production", ["copy", "bower-install-simple", "less", "execute:manifest", "run:buildsjcl"]);
 
 grunt.registerTask("server", "Start the whispeer web server.", require("./webserver"));
