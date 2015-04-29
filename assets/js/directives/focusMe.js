@@ -1,7 +1,7 @@
-define([], function () {
+define(["directives/directivesModule"], function (directivesModule) {
 	"use strict";
 
-	function focusMe($timeout) {
+	function focusMeDirective($timeout) {
 		return {
 			scope: { trigger: "=focusMe" },
 			link: function(scope, element) {
@@ -16,7 +16,7 @@ define([], function () {
 		};
 	}
 
-	focusMe.$inject = ["$timeout"];
+	focusMeDirective.$inject = ["$timeout"];
 
-	return focusMe;
+	directivesModule.directive("focusMe", focusMeDirective);
 });

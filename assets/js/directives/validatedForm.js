@@ -1,4 +1,4 @@
-define(["whispeerHelper", "step"], function (h) {
+define(["whispeerHelper", "directives/directivesModule"], function (h, directivesModule) {
 	"use strict";
 
 	function validatedForm(localize) {
@@ -134,5 +134,5 @@ define(["whispeerHelper", "step"], function (h) {
 
 	validatedForm.$inject = ["localize"];
 
-	return validatedForm;
+	directivesModule.directive("validatedForm", validatedForm);
 });

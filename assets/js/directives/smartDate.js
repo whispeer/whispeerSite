@@ -1,4 +1,4 @@
-define(["whispeerHelper"], function (h) {
+define(["whispeerHelper", "directives/directivesModule"], function (h, directivesModule) {
     "use strict";
     var directive = function ($window, localize) {
         var ONEHOUR = 60*60*1000;
@@ -91,5 +91,5 @@ define(["whispeerHelper"], function (h) {
 
     directive.$inject = ["$window", "localize"];
 
-    return directive;
+    directivesModule.directive("smartDate", directive);
 });

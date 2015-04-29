@@ -1,6 +1,6 @@
-define(["step", "whispeerHelper"], function (step, h) {
+define(["step", "whispeerHelper", "directives/directivesModule"], function (step, h, directivesModule) {
     "use strict";
-    var directive = function (settingsService, errorService) {
+    var advancedsendDirective = function (settingsService, errorService) {
         return {
             link: function (scope, element, attrs) {
                 step(function () {
@@ -34,7 +34,7 @@ define(["step", "whispeerHelper"], function (step, h) {
         };
     };
 
-    directive.$inject = ["ssn.settingsService", "ssn.errorService"];
+    advancedsendDirective.$inject = ["ssn.settingsService", "ssn.errorService"];
 
-    return directive;
+    directivesModule.directive("advancedsend", advancedsendDirective);
 });

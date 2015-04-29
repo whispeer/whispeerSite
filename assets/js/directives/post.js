@@ -1,4 +1,4 @@
-define(function () {
+define(["directives/directivesModule"], function (directivesModule) {
 	"use strict";
 
 	function postDirective() {
@@ -20,5 +20,5 @@ define(function () {
 		};			
 	}
 
-	return postDirective;
+	directivesModule.directive("post", postDirective);
 });

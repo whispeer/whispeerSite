@@ -1,11 +1,13 @@
-define([], function () {
+define(["directives/directivesModule"], function (directivesModule) {
 	"use strict";
 
-	return function () {
+	var fileDirective = function () {
 		return {
 			link: function (scope, elm, attrs) {
 				elm.bind("change", scope.$eval(attrs.file));
 			}
 		};
 	};
+
+	directivesModule.directive("file", fileDirective);
 });

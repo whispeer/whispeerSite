@@ -2,59 +2,32 @@
 * BaseDirective
 **/
 
-(function () {
-	"use strict";
-	var directives = [
-		"modal",
-		"smoothScroll",
-		"eatClick",
-		"blur",
-		"onblur",
-		"person",
-		"strgEnter",
-		"enter",
-		"onfocus",
-		"comment",
-		"post",
-		"scroll",
-		"file",
-		"stopEvent",
-		"inview",
-		"syntaxify",
-		"autofocus",
-		"trustHint",
-		"savebutton",
-		"advancedsend",
-		"focusMe",
-		"userimage",
-		"accessibleClick",
-		"qrScanner",
-		"validatedForm",
-		"passwordinput",
-		"gallery",
-		"smartDate",
-		"createcircle",
-		"addfriend",
-		"scrollToID",
-
-		"search"
-	];
-
-	var includes = ["angular"];
-
-	var i;
-	for (i = 0; i < directives.length; i += 1) {
-		includes.push("directives/" + directives[i]);
-	}
-
-	define(includes, function (angular) {
-		var d = angular.module("ssn.directives",[]);
-
-		var i;
-		for (i = 0; i < directives.length; i += 1) {
-			d.directive(arguments[i+1].$name || directives[i], arguments[i+1]);
-		}
-
-		return d;
-	});
-})();
+define([
+	"directives/modal",
+	"directives/eatClick",
+	"directives/person",
+	"directives/strgEnter",
+	"directives/onfocus",
+	"directives/comment",
+	"directives/post",
+	"directives/scroll",
+	"directives/file",
+	"directives/stopEvent",
+	"directives/syntaxify",
+	"directives/autofocus",
+	"directives/scrollToID",
+	"directives/savebutton",
+	"directives/focusMe",
+	"directives/advancedsend",
+	"directives/userimage",
+	"directives/trustHint",
+	"directives/accessibleClick",
+	"directives/qrScanner",
+	"directives/validatedForm",
+	"directives/passwordinput",
+	"directives/gallery",
+	"directives/smartDate",
+	"directives/createcircle",
+	"directives/addfriend",
+	"directives/search"
+]);

@@ -1,4 +1,4 @@
-define([], function () {
+define(["directives/directivesModule"], function (directivesModule) {
 	"use strict";
 
 	// left: 37, up: 38, right: 39, down: 40,
@@ -67,7 +67,7 @@ define([], function () {
 		}, 50);
 	}
 
-	return function () {
+	var scrollDirective = function () {
 		var atBottom = false, atTop = false;
 		return {
 			compile: function () {
@@ -180,4 +180,6 @@ define([], function () {
 			}
 		};
 	};
+
+	directivesModule.directive("scrol", scrollDirective);
 });

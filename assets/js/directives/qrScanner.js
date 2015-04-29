@@ -1,4 +1,4 @@
-define(["whispeerHelper", "step", "libs/qrreader"], function (h, step, qrreader) {
+define(["whispeerHelper", "step", "libs/qrreader", "directives/directivesModule"], function (h, step, qrreader, directivesModule) {
 	"use strict";
 
 	function qrScannerDirective($timeout, errorService) {
@@ -142,5 +142,5 @@ define(["whispeerHelper", "step", "libs/qrreader"], function (h, step, qrreader)
 
 	qrScannerDirective.$inject = ["$timeout", "ssn.errorService"];
 
-	return qrScannerDirective;
+	directivesModule.directive("qrScanner", qrScannerDirective);
 });
