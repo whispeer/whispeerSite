@@ -16,11 +16,8 @@ grunt.loadNpmTasks("grunt-contrib-requirejs");
 var requireFiles = grunt.file.expand({
 	cwd: "./assets/js/"
 }, [
-	"controllers/*.js",
 	"validation/*.js",
-	"models/*.js",
-	"directives/*.js",
-	"services/*.js"
+	"directives/*.js"
 ]).map(function (file) {
 	return file.replace(".js", "");
 });
