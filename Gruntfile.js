@@ -19,7 +19,7 @@ grunt.initConfig({
 			options: {
 				mainConfigFile: "./assets/js/requireConfig.js",
 
-				out: "assets/js/build.js",
+				out: "assets/js/build/build.js",
 				baseUrl: "./assets/js",
 
 				optimize: "none",
@@ -105,13 +105,18 @@ grunt.initConfig({
 			source: "./templates/manifest.mf.template",
 			config: "./assets/js/config"
 		}
+	},
+	fileToHashName: {
+		build: {
+			source: "assets/js/build/build.js"
+		}
 	}
 });
 
 grunt.registerTask("default", ["build:development", "browserSync", "concurrent:development"]);
 
 grunt.registerTask("build:development", ["copy", "bower-install-simple", "less", "run:buildsjcl"]);
-grunt.registerTask("build:production", ["copy", "bower-install-simple", "less", "requirejs", "run:buildsjcl", "buildDate", "manifest"]);
+grunt.registerTask("build:production", ["copy", "bower-install-simple", "less", "requirejs", "run:buildsjcl", "buildDate", "fileToHashName", "manifest"]);
 
 grunt.registerTask("server", "Start the whispeer web server.", require("./webserver"));
 
@@ -123,6 +128,30 @@ grunt.task.registerTask("buildDate", function () {
 	var rootController = fs.readFileSync("./assets/js/config.js").toString();
 	rootController = rootController.replace(/var buildDate \= \"[0-9\-]*\";/, "var buildDate = \"" + buildDate + "\";");
 	fs.writeFileSync("./assets/js/config.js", rootController);
+});
+
+grunt.task.registerMultiTask("fileToHashName", "Hash a file and rename the file to the hash", function () {
+	var done = this.async();
+
+	var filename = this.data.source;
+	var crypto = require("crypto");
+	var fs = require("fs");
+
+	var shasum = crypto.createHash("sha1");
+
+	var s = fs.ReadStream(filename);
+	s.on("data", function(d) {
+		shasum.update(d);
+	});
+
+	s.on("end", function() {
+		var hash = shasum.digest("hex");
+		var newFileName = filename.replace(/\/[^/]*.js/, "/" + hash + ".js");
+
+		fs.renameSync(filename, newFileName);
+
+		done();
+	});
 });
 
 grunt.task.registerMultiTask("manifest", "Build the manifest file.", function () {
