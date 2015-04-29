@@ -181,5 +181,5 @@ define(["directives/directivesModule"], function (directivesModule) {
 		};
 	};
 
-	directivesModule.directive("scrol", scrollDirective);
+	directivesModule.directive("scroll", scrollDirective);
 });
