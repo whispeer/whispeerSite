@@ -111,7 +111,7 @@ grunt.initConfig({
 grunt.registerTask("default", ["build:development", "browserSync", "concurrent:development"]);
 
 grunt.registerTask("build:development", ["copy", "bower-install-simple", "less", "run:buildsjcl"]);
-grunt.registerTask("build:production", ["copy", "bower-install-simple", "less", "requirejs", "manifest", "run:buildsjcl"]);
+grunt.registerTask("build:production", ["copy", "bower-install-simple", "less", "requirejs", "run:buildsjcl", "manifest"]);
 
 grunt.registerTask("server", "Start the whispeer web server.", require("./webserver"));
 
@@ -122,13 +122,12 @@ grunt.task.registerMultiTask("manifest", "Build the manifest file.", function ()
 
 	require("./scripts/build_appcache")(source, destination, config, this.async());
 
-	/*
 	var buildTime = new Date();
 	var buildDate = buildTime.getFullYear().toString() + (buildTime.getMonth() + 1) + buildTime.getDate().toString();
 
+	var fs = require("fs");
 	var rootController = fs.readFileSync("./assets/js/config.js").toString();
 	rootController = rootController.replace(/var buildDate \= \"[0-9\-]*\";/, "var buildDate = \"" + buildDate + "\";");
 	fs.writeFileSync("./assets/js/config.js", rootController);
-	*/
 });
 
