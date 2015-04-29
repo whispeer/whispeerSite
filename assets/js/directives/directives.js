@@ -30,4 +30,4 @@ define([
 	"directives/createcircle",
 	"directives/addfriend",
 	"directives/search"
-]);
+], function () {});

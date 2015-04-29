@@ -13,16 +13,6 @@ grunt.loadNpmTasks("grunt-bower-install-simple");
 grunt.loadNpmTasks("grunt-run");
 grunt.loadNpmTasks("grunt-contrib-requirejs");
 
-var requireFiles = grunt.file.expand({
-	cwd: "./assets/js/"
-}, [
-	"directives/*.js"
-]).map(function (file) {
-	return file.replace(".js", "");
-});
-
-requireFiles.push("bower/requirejs/require.js");
-
 grunt.initConfig({
 	requirejs: {
 		compile: {
@@ -38,7 +28,7 @@ grunt.initConfig({
 
 				name: "main",
 				insertRequire: ["main"],
-				include: requireFiles
+				include: ["bower/requirejs/require.js"]
 			}
 		}
 	},

@@ -24,6 +24,5 @@ define([
 	"controllers/agbController",
 	"controllers/privacyPolicyController",
 	"controllers/recoveryController",
-
 	"controllers/acceptInviteController"
-]);
+], function () {});
