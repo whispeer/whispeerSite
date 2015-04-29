@@ -1,84 +1,4 @@
-var requireConfig = {
-	paths: {
-		step: "step/lib/step",
-		whispeerHelper: "helper/helper",
-		amanda: "bower/amanda/releases/latest/amanda",
-		angular: "bower/angular/angular",
-		angularRoute: "bower/angular-route/angular-route",
-		angularTouch: "bower/angular-touch/angular-touch",
-		bluebird: "bower/bluebird/js/browser/bluebird",
-		jquery: "bower/jquery/jquery",
-		requirejs: "bower/requirejs/require",
-		socket: "bower/socket.io-client/socket.io",
-		socketStream: "libs/socket.io-stream",
-		qtip: "bower/qtip2/basic/jquery.qtip",
-		imageLib: "bower/blueimp-load-image/js/load-image",
-		localizationModule: "bower/angular-i18n-directive/src/localizationModule",
-		workerQueue: "bower/worker-queue.js/src/index",
-		PromiseWorker: "bower/require-promise-worker.js/src/index",
-		dexie: "bower/dexie/dist/latest/Dexie"
-	},
-	baseUrl: "assets/js",
-	shim: {
-		dexie: {
-			exports: "Dexie"
-		},
-		angular: {
-			deps: [
-				"jquery"
-			],
-			exports: "angular"
-		},
-		"angularRoute": {
-			deps: [
-				"angular"
-			]
-		},
-		"angularTouch": {
-			deps: [
-				"angular"
-			]
-		}
-	},
-	priority: [
-		"angular"
-	]
-};
-
-  if (typeof module !== "undefined" && module.exports) {
-    module.exports = requireConfig;
-    return;
-  }
-
-requirejs.config(requireConfig);
-
-var WEB_SOCKET_SWF_LOCATION = "libs/WebSocketMain.swf";
-var startup = new Date().getTime();
-
-void(startup);
-void (WEB_SOCKET_SWF_LOCATION);
-
-if (window.location.href.indexOf("file:///") === 0) {
-	var base = window.location.href.replace("file://", "");
-	base = base.replace(/\#\!(.*)/g, "");
-	document.getElementsByTagName("base")[0].setAttribute("href", base);
-}
-
-var globalErrors = [];
-
-window.onerror = function (str, file, line, col, e) {
-	"use strict";
-
-	globalErrors.push({
-		str: str,
-		file: file,
-		line: line,
-		col: col,
-		e: e
-	});
-};
-
-requirejs( [
+define([
 	"jquery",
 	"angular",
 	"app",
@@ -87,6 +7,31 @@ requirejs( [
 	"angularTouch"
 ], function($, angular, app) {
 	"use strict";
+
+	var WEB_SOCKET_SWF_LOCATION = "libs/WebSocketMain.swf";
+	var startup = new Date().getTime();
+
+	void(startup);
+	void (WEB_SOCKET_SWF_LOCATION);
+
+	if (window.location.href.indexOf("file:///") === 0) {
+		var base = window.location.href.replace("file://", "");
+		base = base.replace(/\#\!(.*)/g, "");
+		document.getElementsByTagName("base")[0].setAttribute("href", base);
+	}
+
+	var globalErrors = [];
+
+	window.onerror = function (str, file, line, col, e) {
+		globalErrors.push({
+			str: str,
+			file: file,
+			line: line,
+			col: col,
+			e: e
+		});
+	};
+
 	$(document).ready(function () {
 		var $html = $("html");
 		angular.bootstrap($html, [app.name]);
