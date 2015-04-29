@@ -1,7 +1,7 @@
 /**
 * imageUploadService
 **/
-define(["step", "whispeerHelper", "asset/observer", "jquery"], function (step, h, Observer, jQuery) {
+define(["step", "whispeerHelper", "asset/observer", "jquery", "services/serviceModule"], function (step, h, Observer, jQuery, serviceModule) {
 	"use strict";
 
 	var service = function ($timeout) {
@@ -28,5 +28,5 @@ define(["step", "whispeerHelper", "asset/observer", "jquery"], function (step, h
 
 	service.$inject = ["$timeout"];
 
-	return service;
+	serviceModule.factory("ssn.screenSizeService", service);
 });

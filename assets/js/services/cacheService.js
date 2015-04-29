@@ -1,4 +1,4 @@
-define(["whispeerHelper", "dexie", "bluebird"], function (h, Dexie, Promise) {
+define(["whispeerHelper", "dexie", "bluebird", "services/serviceModule"], function (h, Dexie, Promise, serviceModule) {
 	"use strict";
 
 	var db = new Dexie("whispeerCache");
@@ -99,5 +99,5 @@ define(["whispeerHelper", "dexie", "bluebird"], function (h, Dexie, Promise) {
 
 	service.$inject = ["ssn.errorService"];
 
-	return service;
+	serviceModule.factory("ssn.cacheService", service);
 });

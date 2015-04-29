@@ -1,4 +1,4 @@
-define(["step", "asset/state"], function (step, State) {
+define(["step", "asset/state", "services/serviceModule"], function (step, State, serviceModule) {
 	"use strict";
 
 	var service = function ($rootScope, $location, sessionHelper) {
@@ -61,5 +61,5 @@ define(["step", "asset/state"], function (step, State) {
 
 	service.$inject = ["$rootScope", "$location", "ssn.sessionHelper"];
 
-	return service;
+	serviceModule.factory("ssn.loginDataService", service);
 });

@@ -3,7 +3,7 @@
 /**
 * SessionHelper
 **/
-define(["step", "whispeerHelper", "crypto/trustManager", "asset/securedDataWithMetaData"], function (step, h, trustManager, SecuredData) {
+define(["step", "whispeerHelper", "crypto/trustManager", "asset/securedDataWithMetaData", "services/serviceModule"], function (step, h, trustManager, SecuredData, serviceModule) {
 	"use strict";
 
 	var service = function (socketService, keyStoreService, ProfileService, sessionService, blobService) {
@@ -312,5 +312,5 @@ define(["step", "whispeerHelper", "crypto/trustManager", "asset/securedDataWithM
 
 	service.$inject = ["ssn.socketService", "ssn.keyStoreService", "ssn.profileService", "ssn.sessionService", "ssn.blobService"];
 
-	return service;
+	serviceModule.factory("ssn.sessionHelper", service);
 });

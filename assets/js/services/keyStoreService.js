@@ -1,7 +1,7 @@
 /**
 * LoginService
 **/
-define(["angular", "crypto/keyStore"], function (angular, keyStore) {
+define(["services/serviceModule", "crypto/keyStore"], function (serviceModule, keyStore) {
 	"use strict";
 
 	var service = function ($rootScope) {
@@ -20,5 +20,5 @@ define(["angular", "crypto/keyStore"], function (angular, keyStore) {
 
 	service.$inject = ["$rootScope"];
 
-	return service;
+	serviceModule.factory("ssn.keyStoreService", service);
 });

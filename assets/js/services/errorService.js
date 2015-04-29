@@ -1,4 +1,4 @@
-define([], function () {
+define(["services/serviceModule"], function (serviceModule) {
 	"use strict";
 
 	function logError(e) {
@@ -35,5 +35,5 @@ define([], function () {
 
 	service.$inject = [];
 
-	return service;
+	serviceModule.factory("ssn.errorService", service);
 });
