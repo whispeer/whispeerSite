@@ -45,12 +45,11 @@ window.onerror = function (str, file, line, col, e) {
 define([
 	"jquery",
 	"angular",
-	"app",
-	"routes",
-	"libs/canvas-toBlob",
-	"angularTouch"
+	"login/loginLoader"
 ], function($, angular, app) {
 	"use strict";
+
+	console.log("loaded");
 
 	$(document).ready(function () {
 		var $html = $("html");
