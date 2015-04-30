@@ -1,10 +1,7 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
-
-  {% include head.html %}
-
-  <body>
-  	{{content}}
-  </body>
-
+	{{content}}
+	{% assign data = site.data[page.dataSet] %}
+	{% include head.html %}
+	{% include b2b.html %}
 </html>

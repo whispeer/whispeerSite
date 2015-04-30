@@ -1,0 +1,26 @@
+{
+	general: {
+		title: "Lorem Ipsum",
+		description: "Bacon ipsum dolor amet t-bone bresaola ribeye, pig kielbasa meatloaf corned beef cupim pastrami. Chicken spare ribs alcatra beef filet mignon jerky brisket beef ribs drumstick biltong cupim. Beef ribs landjaeger fatback filet mignon short loin, pancetta ground round beef pig frankfurter salami."
+	},
+	teaser: {
+		headline: "Lorem Ipsum",
+		details: "Bacon ipsum dolor amet t-bone bresaola ribeye, pig kielbasa meatloaf corned beef cupim pastrami. Chicken spare ribs alcatra beef filet mignon jerky brisket beef ribs drumstick biltong cupim. Beef ribs landjaeger fatback filet mignon short loin, pancetta ground round beef pig frankfurter salami.",
+		image: "",
+		video: "",
+		mailForm: true
+	},
+	sections: [
+		{
+			headline: "Lorem Ipsum",
+			details: "Bacon ipsum dolor amet t-bone bresaola ribeye, pig kielbasa meatloaf corned beef cupim pastrami. Chicken spare ribs alcatra beef filet mignon jerky brisket beef ribs drumstick biltong cupim. Beef ribs landjaeger fatback filet mignon short loin, pancetta ground round beef pig frankfurter salami.",
+			icon: "fa-users",
+			learnmore: true,
+			mailForm: false
+		},
+		{
+			learnmore: false,
+			mailForm: true
+		}
+	]
+}
