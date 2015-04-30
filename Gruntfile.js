@@ -128,6 +128,18 @@ grunt.task.registerTask("buildDate", function () {
 	fs.writeFileSync("./assets/js/config.js", rootController);
 });
 
+grunt.task.registerTask("scriptInclude", "Add the correct script include to the index.html", function () {
+	var include = grunt.file.expand("assets/js/build/*.js");
+	if(include.length === 1) {
+		var index = grunt.file.read("index.html");
+
+		index = index.replace(/<script.*/, "<script src='" + include[0] + "'></script>");
+		grunt.file.write("index.html", index);
+	} else {
+		throw new Error("No build file!");
+	}
+});
+
 grunt.task.registerMultiTask("fileToHashName", "Hash a file and rename the file to the hash", function () {
 	var done = this.async();
 
@@ -163,6 +175,6 @@ grunt.task.registerMultiTask("manifest", "Build the manifest file.", function ()
 grunt.registerTask("default", ["build:development", "browserSync", "concurrent:development"]);
 
 grunt.registerTask("build:development", ["clean", "copy", "bower-install-simple", "less", "run:buildsjcl"]);
-grunt.registerTask("build:production",  ["clean", "copy", "bower-install-simple", "less", "requirejs", "run:buildsjcl", "buildDate", "fileToHashName", "manifest"]);
+grunt.registerTask("build:production",  ["clean", "copy", "bower-install-simple", "less", "requirejs", "run:buildsjcl", "buildDate", "fileToHashName", "scriptInclude", "manifest"]);
 
 grunt.registerTask("server", "Start the whispeer web server.", require("./webserver"));
