@@ -16,8 +16,10 @@ CACHE MANIFEST
 #expand:./assets/js/build/
 
 /assets/js/libs/sjcl.js
-/assets/js/bower/requirejs/require.js
+/assets/js/crypto/sjclWorker.js
 /assets/js/bower/require-promise-worker.js/src/worker.js
+
+/assets/js/bower/requirejs/require.js
 
 #routes
 
