@@ -12,12 +12,12 @@ CACHE MANIFEST
 
 #expand:./assets/data/
 
+#expand:./assets/js/i18n/
 #expand:./assets/js/build/
 
 /assets/js/libs/sjcl.js
 /assets/js/bower/requirejs/require.js
-
-#expand:./assets/js/i18n/
+/assets/js/bower/require-promise-worker.js/src/worker.js
 
 #routes
 
