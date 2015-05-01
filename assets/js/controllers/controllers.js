@@ -3,7 +3,6 @@
 **/
 define([
 	"controllers/logoutController",
-	"controllers/loginController",
 	"controllers/rootController",
 	"controllers/userController",
 	"controllers/mainController",

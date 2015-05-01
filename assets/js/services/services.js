@@ -22,7 +22,6 @@ define([
 	"services/errorService",
 	"services/blobService",
 	"services/trustService",
-	"services/loginDataService",
 	"services/appCacheService",
 	"services/cacheService",
 	"services/imageUploadService",
