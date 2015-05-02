@@ -94,7 +94,7 @@ define([
 					} else {
 						loginState.success();
 
-						//window.top.location = "/main";
+						window.top.location = "/main";
 
 						res.failedOnce = false;
 						res.identifier = "";

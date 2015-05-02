@@ -2,7 +2,10 @@
 * loginController
 **/
 
-define(["login/loginModule", "login/loginDataService"], function (loginModule) {
+define([
+	"login/loginModule",
+	"login/loginDataService"
+], function (loginModule) {
 	"use strict";
 
 	function loginController($scope, $location, loginDataService) {
