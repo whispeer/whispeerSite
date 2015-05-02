@@ -33,10 +33,15 @@ define([
 			interceptorFactories.push(interceptorName);
 		};
 
-		var service = function ($injector, $rootScope, keyStore) {
-			var interceptors = interceptorFactories.map(function (name) {
-				return $injector.get(name);
-			}).reverse();
+		var service = function ($injector, $rootScope) {
+			var interceptors;
+			function loadInterceptors() {
+				if (!interceptors) {
+					interceptors = interceptorFactories.map(function (name) {
+						return $injector.get(name);
+					}).reverse();
+				}
+			}
 
 			var lastRequestTime = 0;
 
@@ -150,6 +155,8 @@ define([
 					});
 				},
 				emit: function (channel, request, callback) {
+					loadInterceptors();
+
 					if (!socketS.isConnected()) {
 						throw new Error("no connection");
 					}
@@ -248,12 +255,10 @@ define([
 				socketS.emit("ping", {}, function () {});
 			});
 
-			keyStore.upload.setSocket(socketS);
-
 			return socketS;
 		};
 
-		this.$get = ["$injector", "$rootScope", "ssn.keyStoreService", service];
+		this.$get = ["$injector", "$rootScope", service];
 	};
 
 	serviceModule.provider("ssn.socketService", provider);
