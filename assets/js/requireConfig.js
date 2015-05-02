@@ -16,7 +16,8 @@ requirejs.config({
 		localizationModule: "bower/angular-i18n-directive/src/localizationModule",
 		workerQueue: "bower/worker-queue.js/src/index",
 		PromiseWorker: "bower/require-promise-worker.js/src/index",
-		dexie: "bower/dexie/dist/latest/Dexie"
+		dexie: "bower/dexie/dist/latest/Dexie",
+		debug: "bower/visionmedia-debug/dist/debug"
 	},
 	baseUrl: "assets/js",
 	shim: {

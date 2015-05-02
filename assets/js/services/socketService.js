@@ -1,7 +1,18 @@
 /**
 * SocketService
 **/
-define(["services/serviceModule", "jquery", "socket", "socketStream", "step", "whispeerHelper", "config", "asset/observer", "bluebird"], function (serviceModule, $, io, iostream, step, h, config, Observer, Promise) {
+define([
+	"services/serviceModule",
+	"debug",
+	"jquery",
+	"socket",
+	"socketStream",
+	"step",
+	"whispeerHelper",
+	"config",
+	"asset/observer",
+	"bluebird"
+], function (serviceModule, debug, $, io, iostream, step, h, config, Observer, Promise) {
 	"use strict";
 
 	var APIVERSION = "0.0.1";
@@ -12,6 +23,8 @@ define(["services/serviceModule", "jquery", "socket", "socketStream", "step", "w
 	} else {
 		socket = io.connect("http://" + config.ws + ":" + config.wsPort);
 	}
+
+	var socketDebug = debug("whispeer:socket");
 
 	var provider = function () {
 		var interceptorFactories = [];
@@ -50,12 +63,6 @@ define(["services/serviceModule", "jquery", "socket", "socketStream", "step", "w
 			var uploadingCounter = 0, streamUpgraded = false;
 
 			var log = {
-				log: function () {
-					console.log.apply(console, arguments);
-				},
-				info: function () {
-					console.info.apply(console, arguments);
-				},
 				error: function () {
 					console.error.apply(console, arguments);
 				},
@@ -142,8 +149,8 @@ define(["services/serviceModule", "jquery", "socket", "socketStream", "step", "w
 				},
 				channel: function (channel, callback) {
 					socket.on(channel, function (data) {
-						log.log("received data on " + channel);
-						log.log(data);
+						socketDebug("received data on " + channel);
+						socketDebug(data);
 						$rootScope.$apply(function () {
 							callback(null, data);
 						});
@@ -172,14 +179,14 @@ define(["services/serviceModule", "jquery", "socket", "socketStream", "step", "w
 					request.sid = sessionService.getSID();
 					request.version = APIVERSION;
 
-					log.info("Request on " + channel);
-					log.info(request);
+					socketDebug("Request on " + channel);
+					socketDebug(request);
 
 					loading++;
 					socketS.notify(null, "request");
 
 					var resultPromise = emit(channel, request).then(function (response) {
-						log.info("Answer on " + channel);
+						socketDebug("Answer on " + channel);
 						log.timerEnd(timer);
 
 						//TODO: refactor into after hook!
@@ -192,7 +199,7 @@ define(["services/serviceModule", "jquery", "socket", "socketStream", "step", "w
 							throw new Error("server returned an error!");
 						}
 
-						log.info(response);
+						socketDebug(response);
 
 						//TODO: move to after hook
 						updateLogin(response);
@@ -245,14 +252,14 @@ define(["services/serviceModule", "jquery", "socket", "socketStream", "step", "w
 
 
 			socket.on("disconnect", function () {
-				log.info("socket disconnected");
+				socketDebug("socket disconnected");
 				loading = 0;
 				streamUpgraded = false;
 				uploadingCounter = 0;
 			});
 
 			socket.on("connect", function () {
-				console.info("socket connected");
+				socketDebug("socket connected");
 				socketS.emit("ping", {}, function () {});
 			});
 
