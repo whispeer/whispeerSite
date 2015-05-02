@@ -182,13 +182,15 @@ define([
 
 					loading++;
 					socketS.notify(null, "request");
+					interceptors.forEach(function (interceptor) {
+						if (interceptor.transformRequest) {
+							request = interceptor.transformRequest(request);
+						}
+					});
 
 					var resultPromise = emit(channel, request).then(function (response) {
 						socketDebug("Answer on " + channel);
 						log.timerEnd(timer);
-
-						//TODO: refactor into after hook!
-						addKeys(response.keys);
 
 						lastRequestTime = response.serverTime;
 
@@ -198,6 +200,15 @@ define([
 						}
 
 						socketDebug(response);
+
+						interceptors.forEach(function (interceptor) {
+							if (interceptor.transformResponse) {
+								request = interceptor.transformResponse(request);
+							}
+						});
+
+						//TODO: refactor into after hook!
+						addKeys(response.keys);
 
 						//TODO: move to after hook
 						updateLogin(response);
