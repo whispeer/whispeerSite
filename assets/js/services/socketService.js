@@ -203,7 +203,7 @@ define([
 
 						interceptors.forEach(function (interceptor) {
 							if (interceptor.transformResponse) {
-								request = interceptor.transformResponse(request);
+								response = interceptor.transformResponse(request);
 							}
 						});
 
