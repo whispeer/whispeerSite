@@ -33,18 +33,10 @@ define([
 			interceptorFactories.push(interceptorName);
 		};
 
-		var service = function ($injector, $rootScope, sessionService, keyStore) {
+		var service = function ($injector, $rootScope, keyStore) {
 			var interceptors = interceptorFactories.map(function (name) {
 				return $injector.get(name);
 			}).reverse();
-
-			function updateLogin(data) {
-				if (data.logedin) {
-					sessionService.setSID(data.sid, data.userid);
-				} else {
-					sessionService.logout();
-				}
-			}
 
 			var lastRequestTime = 0;
 
@@ -74,18 +66,8 @@ define([
 				}
 			};
 
-			function addKeys(keys) {
-				if (!keys) {
-					return;
-				}
-
-				keys.forEach(function (key) {
-					keyStore.upload.addKey(key);
-				});
-			}
-
 			function emit(channel, request) {
-				return new Promise(function (resolve, reject) {
+				return new Promise(function (resolve) {
 					socket.emit(channel, request, resolve);
 				});
 			}
@@ -174,19 +156,19 @@ define([
 
 					var timer = log.timer("request on " + channel);
 
-					request.sid = sessionService.getSID();
 					request.version = APIVERSION;
 
 					socketDebug("Request on " + channel);
 					socketDebug(request);
 
-					loading++;
-					socketS.notify(null, "request");
 					interceptors.forEach(function (interceptor) {
 						if (interceptor.transformRequest) {
 							request = interceptor.transformRequest(request);
 						}
 					});
+
+					loading++;
+					socketS.notify(null, "request");
 
 					var resultPromise = emit(channel, request).then(function (response) {
 						socketDebug("Answer on " + channel);
@@ -206,12 +188,6 @@ define([
 								response = interceptor.transformResponse(request);
 							}
 						});
-
-						//TODO: refactor into after hook!
-						addKeys(response.keys);
-
-						//TODO: move to after hook
-						updateLogin(response);
 						
 						return response;
 					}).finally(function () {
@@ -277,7 +253,7 @@ define([
 			return socketS;
 		};
 
-		this.$get = ["$injector", "$rootScope", "ssn.sessionService", "ssn.keyStoreService", service];
+		this.$get = ["$injector", "$rootScope", "ssn.keyStoreService", service];
 	};
 
 	serviceModule.provider("ssn.socketService", provider);
