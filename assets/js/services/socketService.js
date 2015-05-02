@@ -192,7 +192,7 @@ define([
 
 						interceptors.forEach(function (interceptor) {
 							if (interceptor.transformResponse) {
-								response = interceptor.transformResponse(request);
+								response = interceptor.transformResponse(response);
 							}
 						});
 						

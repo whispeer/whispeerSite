@@ -120,6 +120,7 @@ define(["services/serviceModule"], function (serviceModule) {
 				sid = "";
 				loggedin = false;
 				ownLoaded = false;
+
 				storage.clear();
 
 				loginChange(true);

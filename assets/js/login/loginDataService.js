@@ -1,7 +1,15 @@
-define(["step", "asset/state", "login/loginModule"], function (step, State, loginModule) {
+define([
+	"step",
+	"asset/state",
+	"login/loginModule",
+	"services/keyStoreService",
+	"services/socketService",
+	"services/keyStoreService",
+	"services/storageService"
+], function (step, State, loginModule) {
 	"use strict";
 
-	var service = function ($rootScope, $location, sessionHelper) {
+	var service = function ($rootScope, $location, keyStoreService, socketService, storage) {
 		var loginState = new State();
 
 		var res = {
@@ -41,10 +49,10 @@ define(["step", "asset/state", "login/loginModule"], function (step, State, logi
 					if (e) {
 						this.last({ wrongPassword: true });
 					} else {
-						sessionHelper.resetKey();
-						
-						sessionService.setSID(data.sid, data.userid);
-						keyStoreService.security.setPassword(password);
+						storage.set("sid", data.sid);
+						storage.set("userid", data.userid);
+						storage.set("loggedin", true);
+						storage.set("password", password);
 
 						this.last.ne();
 					}
@@ -66,7 +74,7 @@ define(["step", "asset/state", "login/loginModule"], function (step, State, logi
 				res.failure = false;
 
 				step(function () {
-					sessionHelper.login(res.identifier, res.password, this);
+					res.loginServer(res.identifier, res.password, this);
 				}, function (e) {
 					if (e) {
 						loginState.failed();
@@ -86,7 +94,7 @@ define(["step", "asset/state", "login/loginModule"], function (step, State, logi
 					} else {
 						loginState.success();
 
-						window.location.href = "/main";
+						//window.top.location = "/main";
 
 						res.failedOnce = false;
 						res.identifier = "";
@@ -106,7 +114,7 @@ define(["step", "asset/state", "login/loginModule"], function (step, State, logi
 		return res;
 	};
 
-	service.$inject = ["$rootScope", "$location"];
+	service.$inject = ["$rootScope", "$location", "ssn.keyStoreService", "ssn.socketService", "ssn.storageService"];
 
 	loginModule.factory("ssn.loginDataService", service);
 });
