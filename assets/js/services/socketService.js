@@ -25,6 +25,7 @@ define([
 	}
 
 	var socketDebug = debug("whispeer:socket");
+	var socketError = debug("whispeer:socket:error");
 
 	var provider = function () {
 		var interceptorFactories = [];
@@ -53,7 +54,7 @@ define([
 						socket.connect();
 					}
 				} catch (e) {
-					console.error(e);
+					socketError(e);
 				}
 			}, 10000);
 
@@ -63,9 +64,6 @@ define([
 			var uploadingCounter = 0, streamUpgraded = false;
 
 			var log = {
-				error: function () {
-					console.error.apply(console, arguments);
-				},
 				timer: function (name) {
 					var message = new Date().toLocaleTimeString() + ":" + name + "(" + Math.random() + ")";
 					console.time(message);
@@ -195,7 +193,7 @@ define([
 						lastRequestTime = response.serverTime;
 
 						if (response.error) {
-							log.error(response);
+							socketError(response);
 							throw new Error("server returned an error!");
 						}
 
