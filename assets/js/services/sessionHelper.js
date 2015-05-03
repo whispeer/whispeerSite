@@ -28,42 +28,6 @@ define(["step", "whispeerHelper", "crypto/trustManager", "asset/securedDataWithM
 				});
 			},
 
-			login: function (name, password, callback) {
-				step(function loginStartup() {
-					socketService.emit("session.token", {
-						identifier: name
-					}, this);
-				}, function hashWithToken(e, data) {
-					if (e) {
-						this.last({ unknownName: true });
-					} else {
-						if (data.salt.length !== 16) {
-							throw new SecurityError("server wut?");
-						}
-
-						var hash = keyStoreService.hash.hashPW(password, data.salt);
-
-						hash = keyStoreService.hash.hash(hash + data.token);
-						socketService.emit("session.login", {
-							identifier: name,
-							password: hash,
-							token: data.token
-						}, this);
-					}
-				}, function loginResults(e, data) {
-					if (e) {
-						this.last({ wrongPassword: true });
-					} else {
-						sessionHelper.resetKey();
-						
-						sessionService.setSID(data.sid, data.userid);
-						keyStoreService.security.setPassword(password);
-
-						this.last.ne();
-					}
-				}, callback);
-			},
-
 			register: function (nickname, mail, inviteCode, password, profile, imageBlob, settings, callback) {
 				var keys, result;
 				step(function register1() {

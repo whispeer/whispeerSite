@@ -29,7 +29,6 @@ define(["services/serviceModule"], function (serviceModule) {
 			usedKeys.filter(function (key) {
 				return key.indexOf(this._prefix) === 0;
 			}, this).forEach(function (key) {
-				console.log("removing key: " + key);
 				localStorage.removeItem(key);
 			});
 		};

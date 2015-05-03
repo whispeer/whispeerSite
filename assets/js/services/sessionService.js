@@ -12,25 +12,15 @@ define(["services/serviceModule"], function (serviceModule) {
 
 		var sessionStorage = new Storage("whispeer.session");
 
-		function setSID(newSID, user) {
-			if (newSID !== sid) {
-				sid = newSID;
+		function loadOldLogin() {
+			if (sessionStorage.get("loggedin") === "true" && sessionStorage.get("password")) {
+				sid = sessionStorage.get("sid");
 				loggedin = true;
-				userid = user;
+				userid = sessionStorage.get("userid");
 
 				loginChange();
 
 				return true;
-			}
-
-			return false;
-		}
-
-		function loadOldLogin() {
-			if (sessionStorage.get("loggedin") === "true" && sessionStorage.get("password")) {
-				var sid = sessionStorage.get("sid");
-				var userid = sessionStorage.get("userid");
-				setSID(sid, userid);
 			} else {
 				sessionStorage.clear();
 			}
@@ -93,10 +83,6 @@ define(["services/serviceModule"], function (serviceModule) {
 		var sessionService = {
 			setReturnURL: function (url) {
 				returnURL = url;
-			},
-
-			setSID: function (newSID, userid) {
-				setSID(newSID, userid);
 			},
 
 			getSID: function () {
