@@ -1,4 +1,4 @@
-<div class="loginForm">
+<div class="loginForm" data-ng-controller="ssn.loginController">
 	<h1 data-i18n="login.header"></h1>
 	<form>
 		<div class="name">
@@ -8,9 +8,9 @@
 			<input type="password" id="password" data-i18n-attr="login.password|placeholder" data-ng-model="login.password">
 		</div>
 		<div class="errors">
-			<div class="error" data-ng-if="login.failure" id="errorLogin" data-i18n="login.loginFailed"></div>
-			<div class="error" data-ng-if="login.unknownName" id="errorLogin" data-i18n="login.unknownName"></div>
-			<div class="error" data-ng-if="login.wrongPassword" id="errorLogin" data-i18n="login.wrongPassword"></div>
+			<div class="error" data-ng-if="login.failureCode > 1" id="errorLogin" data-i18n="login.loginFailed"></div>
+			<div class="error" data-ng-if="login.failureCode == 0" id="errorLogin" data-i18n="login.unknownName"></div>
+			<div class="error" data-ng-if="login.failureCode == 1" id="errorLogin" data-i18n="login.wrongPassword"></div>
 		</div>
 		<savebutton id="loginformsubmit" data-noiniticon data-state="login.state" class="btn btn--input btn--primary" type="submit" data-ng-click="login.login()">
 			<span data-i18n="login.link"></span>

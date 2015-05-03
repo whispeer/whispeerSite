@@ -11,15 +11,19 @@ define([
 	function loginController($scope, $location, loginDataService) {
 		$scope.login = loginDataService;
 		$scope.$watch(function () {
-			return loginDataService.unknownName;
+			return loginDataService.failureCode === 0;
 		}, function (val) {
 			if (val) {
 				jQuery("#mail").focus();
 			}
 		});
 
+		if (loginDataService.identifier) {
+			jQuery("#password").focus();
+		}
+
 		$scope.$watch(function () {
-			return loginDataService.wrongPassword;
+			return loginDataService.failureCode === 1;
 		}, function (val) {
 			if (val) {
 				jQuery("#password").focus();
