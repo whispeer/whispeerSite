@@ -64,6 +64,10 @@ function run() {
 
 	var csp = buildCSPConfig();
 
+	if (process.env.WHISPEER_NO_CSP) {
+		csp = "";
+	}
+
 	var fileServer = new nstatic.Server(".", {
 		"headers": {
 			"Cache-Control": "no-cache, must-revalidate",
