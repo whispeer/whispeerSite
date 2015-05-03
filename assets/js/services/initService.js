@@ -1,4 +1,4 @@
-define(["step", "whispeerHelper"], function (step, h) {
+define(["step", "whispeerHelper", "services/serviceModule"], function (step, h, serviceModule) {
 	"use strict";
 
 	var service = function ($timeout, $rootScope, errorService, socketService, sessionService, migrationService) {
@@ -94,5 +94,5 @@ define(["step", "whispeerHelper"], function (step, h) {
 
 	service.$inject = ["$timeout", "$rootScope", "ssn.errorService", "ssn.socketService", "ssn.sessionService", "ssn.migrationService"];
 
-	return service;
+	serviceModule.factory("ssn.initService", service);
 });

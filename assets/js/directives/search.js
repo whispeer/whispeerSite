@@ -1,4 +1,4 @@
-define(["whispeerHelper", "search/singleSearch", "search/multiSearch"], function (h, singleSearch, multiSearch) {
+define(["whispeerHelper", "search/singleSearch", "search/multiSearch", "directives/directivesModule"], function (h, singleSearch, multiSearch, directivesModule) {
 	"use strict";
 
 	var lastSearchOpened = 0;
@@ -187,5 +187,5 @@ define(["whispeerHelper", "search/singleSearch", "search/multiSearch"], function
 
 	searchDirective.$inject = ["$injector"];
 
-	return searchDirective;
+	directivesModule.directive("search", searchDirective);
 });

@@ -1,4 +1,4 @@
-define(["bluebird"], function (Bluebird) {
+define(["bluebird", "directives/directivesModule"], function (Bluebird, directivesModule) {
 	"use strict";
 
 	function createcircle(circleService) {
@@ -27,5 +27,5 @@ define(["bluebird"], function (Bluebird) {
 
 	createcircle.$inject = ["ssn.circleService"];
 
-	return createcircle;
+	directivesModule.directive("createcircle", createcircle);
 });

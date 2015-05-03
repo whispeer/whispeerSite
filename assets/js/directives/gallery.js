@@ -1,4 +1,4 @@
-define(["step", "whispeerHelper"], function (step, h) {
+define(["step", "whispeerHelper", "directives/directivesModule"], function (step, h, directivesModule) {
 	"use strict";
 
 	function imageGallery(errorService, blobService, screenSizeService) {
@@ -112,5 +112,5 @@ define(["step", "whispeerHelper"], function (step, h) {
 
 	imageGallery.$inject = ["ssn.errorService", "ssn.blobService", "ssn.screenSizeService"];
 
-	return imageGallery;
+	directivesModule.directive("gallery", imageGallery);
 });

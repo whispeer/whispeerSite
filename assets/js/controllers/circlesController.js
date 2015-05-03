@@ -2,7 +2,7 @@
 * circlesController
 **/
 
-define(["whispeerHelper", "asset/state", "step"], function (h, State, step) {
+define(["whispeerHelper", "asset/state", "step", "controllers/controllerModule"], function (h, State, step, controllerModule) {
 	"use strict";
 
 	function circlesController($scope, cssService, circleService, errorService, localize) {
@@ -130,5 +130,5 @@ define(["whispeerHelper", "asset/state", "step"], function (h, State, step) {
 
 	circlesController.$inject = ["$scope", "ssn.cssService", "ssn.circleService", "ssn.errorService", "localize"];
 
-	return circlesController;
+	controllerModule.controller("ssn.circlesController", circlesController);
 });

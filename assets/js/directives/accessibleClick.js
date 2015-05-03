@@ -1,4 +1,4 @@
-define(function () {
+define(["directives/directivesModule"], function (directivesModule) {
 	"use strict";
 
 	function accessibleClick() {
@@ -30,5 +30,5 @@ define(function () {
 
 	accessibleClick.$inject = [];
 
-	return accessibleClick;
+	directivesModule.directive("accessibleClick", accessibleClick);
 });

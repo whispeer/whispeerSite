@@ -1,4 +1,4 @@
-define([], function () {
+define(["controllers/controllerModule"], function (controllerModule) {
 	"use strict";
 
 	function impressumController(cssService) {
@@ -7,5 +7,5 @@ define([], function () {
 
 	impressumController.$inject = ["ssn.cssService"];
 
-	return impressumController;
+	controllerModule.controller("ssn.impressumController", impressumController);
 });

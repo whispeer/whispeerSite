@@ -2,7 +2,7 @@
 
 var production = false;
 var useServer = false;
-var buildDate = "20141231";
+var buildDate = "2015429";
 
 if (production) {
 	useServer = true;

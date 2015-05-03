@@ -1,7 +1,7 @@
 /**
 * SessionService
 **/
-define([], function () {
+define(["services/serviceModule"], function (serviceModule) {
 	"use strict";
 
 	var service = function ($rootScope, $location, $route, storage) {
@@ -135,5 +135,5 @@ define([], function () {
 
 	service.$inject = ["$rootScope", "$location", "$route", "ssn.storageService"];
 
-	return service;
+	serviceModule.factory("ssn.sessionService", service);
 });

@@ -1,4 +1,4 @@
-define(["whispeerHelper", "step", "asset/state", "libs/qrreader"], function (h, step, State, qrreader) {
+define(["whispeerHelper", "step", "asset/state", "libs/qrreader", "controllers/controllerModule"], function (h, step, State, qrreader, controllerModule) {
 	"use strict";
 
 	function recoveryController($scope, $rootScope, $routeParams, socketService, keyStore, sessionService, userService, cssService, errorService) {
@@ -103,5 +103,5 @@ define(["whispeerHelper", "step", "asset/state", "libs/qrreader"], function (h, 
 
 	recoveryController.$inject = ["$scope", "$rootScope", "$routeParams", "ssn.socketService", "ssn.keyStoreService", "ssn.sessionService", "ssn.userService", "ssn.cssService", "ssn.errorService"];
 
-	return recoveryController;
+	controllerModule.controller("ssn.recoveryController", recoveryController);
 });

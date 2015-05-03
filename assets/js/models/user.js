@@ -1,4 +1,4 @@
-define(["step", "whispeerHelper", "asset/state", "asset/securedDataWithMetaData"], function (step, h, State, SecuredData) {
+define(["step", "whispeerHelper", "asset/state", "asset/securedDataWithMetaData", "models/modelsModule"], function (step, h, State, SecuredData, modelsModule) {
 	"use strict";
 
 	var advancedBranches = ["location", "birthday", "relationship", "education", "work", "gender", "languages"];
@@ -740,5 +740,5 @@ define(["step", "whispeerHelper", "asset/state", "asset/securedDataWithMetaData"
 
 	userModel.$inject = ["$injector", "$location", "ssn.blobService",  "ssn.keyStoreService", "ssn.profileService", "ssn.sessionService", "ssn.settingsService", "ssn.socketService", "ssn.friendsService", "ssn.errorService"];
 
-	return userModel;
+	modelsModule.factory("ssn.models.user", userModel);
 });

@@ -1,4 +1,4 @@
-define(["step", "whispeerHelper"], function (step, h) {
+define(["step", "whispeerHelper", "services/serviceModule"], function (step, h, serviceModule) {
 	"use strict";
 
 	//get users migration state
@@ -41,5 +41,5 @@ define(["step", "whispeerHelper"], function (step, h) {
 
 	service.$inject = ["$injector", "ssn.errorService"];
 
-	return service;
+	serviceModule.factory("ssn.migrationService", service);
 });

@@ -2,7 +2,7 @@
 * loadingController
 **/
 
-define([], function () {
+define(["controllers/controllerModule"], function (controllerModule) {
 	"use strict";
 
 	function loadingController(cssService) {
@@ -11,5 +11,5 @@ define([], function () {
 
 	loadingController.$inject = ["ssn.cssService"];
 
-	return loadingController;
+	controllerModule.controller("ssn.loadingController", loadingController);
 });

@@ -1,7 +1,7 @@
-define(["whispeerHelper", "step", "asset/state"], function (h, step, State) {
+define(["whispeerHelper", "step", "asset/state", "controllers/controllerModule"], function (h, step, State, controllerModule) {
 	"use strict";
 
-	function versionController($scope, cssService, socketService, errorService) {
+	function acceptInviteController($scope, cssService, socketService, errorService) {
 		cssService.setClass("acceptInviteView");
 
 		var acceptInviteState = new State();
@@ -25,7 +25,7 @@ define(["whispeerHelper", "step", "asset/state"], function (h, step, State) {
 		};
 	}
 
-	versionController.$inject = ["$scope", "ssn.cssService", "ssn.socketService", "ssn.errorService"];
+	acceptInviteController.$inject = ["$scope", "ssn.cssService", "ssn.socketService", "ssn.errorService"];
 
-	return versionController;
+	controllerModule.controller("ssn.acceptInviteController", acceptInviteController);
 });

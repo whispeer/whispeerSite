@@ -1,4 +1,4 @@
-define(["whispeerHelper", "step"], function (h) {
+define(["whispeerHelper", "directives/directivesModule"], function (h, directivesModule) {
 	"use strict";
 
 	function passwordSaver(sessionHelper) {
@@ -85,5 +85,5 @@ define(["whispeerHelper", "step"], function (h) {
 
 	passwordSaver.$inject = ["ssn.sessionHelper"];
 
-	return passwordSaver;
+	directivesModule.directive("passwordinput", passwordSaver);
 });

@@ -2,7 +2,7 @@
 * userController
 **/
 
-define(["step", "whispeerHelper", "bluebird", "asset/resizableImage", "asset/state"], function (step, h, Promise, ResizableImage, State) {
+define(["step", "whispeerHelper", "bluebird", "asset/resizableImage", "asset/state", "controllers/controllerModule"], function (step, h, Promise, ResizableImage, State, controllerModule) {
 	"use strict";
 
 	function userController($scope, $routeParams, $timeout, cssService, errorService, userService, postService, circleService, blobService) {
@@ -406,5 +406,5 @@ define(["step", "whispeerHelper", "bluebird", "asset/resizableImage", "asset/sta
 
 	userController.$inject = ["$scope", "$routeParams", "$timeout", "ssn.cssService", "ssn.errorService", "ssn.userService", "ssn.postService", "ssn.circleService", "ssn.blobService"];
 
-	return userController;
+	controllerModule.controller("ssn.userController", userController);
 });

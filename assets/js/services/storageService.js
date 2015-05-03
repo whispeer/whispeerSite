@@ -1,7 +1,7 @@
 /**
 * StorageService
 **/
-define([], function () {
+define(["services/serviceModule"], function (serviceModule) {
 	"use strict";
 
 	var available = !!window.localStorage, polyfill = {};
@@ -49,5 +49,5 @@ define([], function () {
 
 	service.$inject = ["$rootScope"];
 
-	return service;
+	serviceModule.factory("ssn.storageService", service);
 });

@@ -2,14 +2,14 @@
 * friendsController
 **/
 
-define([], function () {
+define(["controllers/controllerModule"], function (controllerModule) {
 	"use strict";
 
-	function helpController($scope, cssService) {
+	function legalController($scope, cssService) {
 		cssService.setClass("legalView", true);
 	}
 
-	helpController.$inject = ["$scope", "ssn.cssService"];
+	legalController.$inject = ["$scope", "ssn.cssService"];
 
-	return helpController;
+	controllerModule.controller("ssn.legalController", legalController);
 });

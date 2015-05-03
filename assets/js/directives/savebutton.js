@@ -1,4 +1,4 @@
-define(function () {
+define(["directives/directivesModule"], function (directivesModule) {
 	"use strict";
 
 	function savebuttonDirective() {
@@ -34,5 +34,5 @@ define(function () {
 		};
 	}
 
-	return savebuttonDirective;
+	directivesModule.directive("savebutton", savebuttonDirective);
 });

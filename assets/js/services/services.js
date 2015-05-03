@@ -1,52 +1,30 @@
 /**
 * BaseService
 **/
-(function () {
-	"use strict";
-
-	var services = [
-		"socketService",
-		"keyStoreService",
-		"sessionService",
-		"sessionHelper",
-		"profileService",
-		"storageService",
-		"userService",
-		"cssService",
-		"messageService",
-		"circleService",
-		"friendsService",
-		"initService",
-		"settingsService",
-		"postService",
-		"filterService",
-		"migrationService",
-		"windowService",
-		"errorService",
-		"blobService",
-		"trustService",
-		"loginDataService",
-		"appCacheService",
-		"cacheService",
-		"imageUploadService",
-		"screenSizeService"
-	];
-
-	var includes = ["angular"];
-
-	var i;
-	for (i = 0; i < services.length; i += 1) {
-		includes.push("services/" + services[i]);
-	}
-
-	define(includes, function (angular) {
-		var servicesProvider = angular.module("ssn.services", []);
-
-		var i;
-		for (i = 0; i < services.length; i += 1) {
-			servicesProvider.factory("ssn." + services[i], arguments[i+1]);
-		}
-
-		return services;
-	});
-})();
+define([
+	"services/socketService",
+	"services/keyStoreService",
+	"services/sessionService",
+	"services/sessionHelper",
+	"services/profileService",
+	"services/storageService",
+	"services/userService",
+	"services/cssService",
+	"services/messageService",
+	"services/circleService",
+	"services/friendsService",
+	"services/initService",
+	"services/settingsService",
+	"services/postService",
+	"services/filterService",
+	"services/migrationService",
+	"services/windowService",
+	"services/errorService",
+	"services/blobService",
+	"services/trustService",
+	"services/loginDataService",
+	"services/appCacheService",
+	"services/cacheService",
+	"services/imageUploadService",
+	"services/screenSizeService"
+], function () {});

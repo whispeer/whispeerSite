@@ -1,10 +1,11 @@
 define(["step",
 	"whispeerHelper",
 	"validation/validator",
-	"asset/securedDataWithMetaData"
-], function (step, h, validator, SecuredData) {
+	"asset/securedDataWithMetaData",
+	"models/modelsModule"
+], function (step, h, validator, SecuredData, modelsModule) {
 	"use strict";
-	function messageModel(userService, socket) {
+	function commentModel(userService, socket) {
 		var Comment = function (data) {
 			this._secured = SecuredData.load(data.content, data.meta, { type: "comment" });
 
@@ -82,7 +83,7 @@ define(["step",
 		return Comment;
 	}
 
-	messageModel.$inject = ["ssn.userService", "ssn.socketService"];
+	commentModel.$inject = ["ssn.userService", "ssn.socketService"];
 
-	return messageModel;
+	modelsModule.factory("ssn.models.comment", commentModel);
 });

@@ -2,7 +2,7 @@
 * setupController
 **/
 
-define(["step", "whispeerHelper", "asset/state", "libs/qr", "libs/filesaver"], function (step, h, State, qr, saveAs) {
+define(["step", "whispeerHelper", "asset/state", "libs/qr", "libs/filesaver", "controllers/controllerModule"], function (step, h, State, qr, saveAs, controllerModule) {
 	"use strict";
 
 	function setupController($scope, $location, cssService, errorService, userService, settingsService) {
@@ -158,5 +158,5 @@ define(["step", "whispeerHelper", "asset/state", "libs/qr", "libs/filesaver"], f
 
 	setupController.$inject = ["$scope", "$location", "ssn.cssService", "ssn.errorService", "ssn.userService", "ssn.settingsService"];
 
-	return setupController;
+	controllerModule.controller("ssn.setupController", setupController);
 });

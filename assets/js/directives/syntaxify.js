@@ -1,5 +1,5 @@
 /* Warning! This code manipulates the DOM, do only change with extra care as you might create Cross-Site-Scripting holes */
-define([], function () {
+define(["directives/directivesModule"], function (directivesModule) {
 	"use strict";
 
 	function urlify(elm, text, remainingTextCallback) {
@@ -56,7 +56,7 @@ define([], function () {
 		});
 	}
 
-	var syntaxify =  function ($timeout) {
+	var syntaxifyDirective =  function ($timeout) {
 		return {
 			restrict: "A",
 			link: function (scope, elm, attrs) {
@@ -79,7 +79,7 @@ define([], function () {
 		};
 	};
 
-	syntaxify.$inject = ["$timeout"];
+	syntaxifyDirective.$inject = ["$timeout"];
 
-	return syntaxify;
+	directivesModule.directive("syntaxify", syntaxifyDirective);
 });

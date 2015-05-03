@@ -1,7 +1,7 @@
 /**
 * SocketService
 **/
-define(["jquery", "socket", "socketStream", "step", "whispeerHelper", "config", "asset/observer", "bluebird"], function ($, io, iostream, step, h, config, Observer, Promise) {
+define(["services/serviceModule", "jquery", "socket", "socketStream", "step", "whispeerHelper", "config", "asset/observer", "bluebird"], function (serviceModule, $, io, iostream, step, h, config, Observer, Promise) {
 	"use strict";
 
 	var APIVERSION = "0.0.1";
@@ -252,5 +252,5 @@ define(["jquery", "socket", "socketStream", "step", "whispeerHelper", "config", 
 
 	service.$inject = ["$rootScope", "ssn.sessionService", "ssn.keyStoreService"];
 
-	return service;
+	serviceModule.factory("ssn.socketService", service);
 });

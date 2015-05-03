@@ -1,7 +1,7 @@
 /**
 * ProfileService
 **/
-define(["step", "whispeerHelper", "validation/validator", "asset/observer", "asset/securedDataWithMetaData"], function (step, h, validator, Observer, SecuredData) {
+define(["step", "whispeerHelper", "validation/validator", "services/serviceModule", "asset/observer", "asset/securedDataWithMetaData"], function (step, h, validator, serviceModule, Observer, SecuredData) {
 	"use strict";
 
 	var service = function () {
@@ -160,5 +160,5 @@ define(["step", "whispeerHelper", "validation/validator", "asset/observer", "ass
 
 	service.$inject = [];
 
-	return service;
+	serviceModule.factory("ssn.profileService", service);
 });

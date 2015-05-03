@@ -1,8 +1,9 @@
 define(["step",
 	"whispeerHelper",
 	"validation/validator",
-	"asset/securedDataWithMetaData"
-], function (step, h, validator, SecuredData) {
+	"asset/securedDataWithMetaData",
+	"models/modelsModule"
+], function (step, h, validator, SecuredData, modelsModule) {
 	"use strict";
 	function messageModel(keyStore, userService) {
 		var Message = function (data) {
@@ -144,5 +145,5 @@ define(["step",
 
 	messageModel.$inject = ["ssn.keyStoreService", "ssn.userService"];
 
-	return messageModel;
+	modelsModule.factory("ssn.models.message", messageModel);
 });

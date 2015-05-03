@@ -5,10 +5,11 @@ define([
 		"step",
 		"whispeerHelper",
 		"validation/validator",
+		"services/serviceModule",
 		"asset/observer",
 		"asset/sortedSet",
 		"asset/securedDataWithMetaData"
-	], function (step, h, validator, Observer, sortedSet, SecuredData) {
+	], function (step, h, validator, serviceModule, Observer, sortedSet, SecuredData) {
 	"use strict";
 
 	var messageService;
@@ -709,5 +710,5 @@ define([
 
 	service.$inject = ["$rootScope", "$timeout", "ssn.errorService", "ssn.socketService", "ssn.sessionService", "ssn.userService", "ssn.keyStoreService", "ssn.initService", "ssn.windowService", "ssn.models.message"];
 
-	return service;
+	serviceModule.factory("ssn.messageService", service);
 });

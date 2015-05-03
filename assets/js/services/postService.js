@@ -1,7 +1,7 @@
 /**
 * postService
 **/
-define(["step", "whispeerHelper", "bluebird", "validation/validator", "asset/observer", "asset/errors", "asset/securedDataWithMetaData", "asset/state"], function (step, h, Promise, validator, Observer, errors, SecuredData, State) {
+define(["step", "whispeerHelper", "bluebird", "validation/validator", "services/serviceModule", "asset/observer", "asset/errors", "asset/securedDataWithMetaData", "asset/state"], function (step, h, Promise, validator, serviceModule, Observer, errors, SecuredData, State) {
 	"use strict";
 
 	var service = function ($rootScope, $timeout, localize, socket, keyStore, errorService, userService, circleService, blobService, filterService, Comment, screenSize) {
@@ -592,5 +592,5 @@ define(["step", "whispeerHelper", "bluebird", "validation/validator", "asset/obs
 
 	service.$inject = ["$rootScope", "$timeout", "localize", "ssn.socketService", "ssn.keyStoreService", "ssn.errorService", "ssn.userService", "ssn.circleService", "ssn.blobService", "ssn.filterService", "ssn.models.comment", "ssn.screenSizeService"];
 
-	return service;
+	serviceModule.factory("ssn.postService", service);
 });

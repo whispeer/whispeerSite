@@ -1,53 +1,28 @@
 /**
 * Base Controller
 **/
-(function() {
-	"use strict";
-
-	var controllers = [
-		"logout",
-		"login",
-		"root",
-		"user",
-		"main",
-		"friends",
-		"messages",
-		"circles",
-		"settings",
-		"help",
-		"loading",
-		"register",
-		"start",
-		"version",
-		"mail",
-		"legal",
-		"notificationCenter",
-		"impressum",
-		"setup",
-		"invite",
-		"agb",
-		"privacyPolicy",
-		"recovery",
-		"acceptInvite"
-	];
-
-	var includes = ["angular"];
-
-	var i;
-	for (i = 0; i < controllers.length; i += 1) {
-		includes.push("controllers/" + controllers[i] + "Controller");
-	}
-
-	console.log(JSON.stringify(includes));
-
-	define(includes, function (angular) {
-		var cons = angular.module("ssn.controllers", ["ssn.services"]);
-
-		var i;
-		for (i = 0; i < controllers.length; i += 1) {
-			cons.controller("ssn." + controllers[i] + "Controller", arguments[i+1]);
-		}
-
-		return cons;
-	});
-})();
+define([
+	"controllers/logoutController",
+	"controllers/loginController",
+	"controllers/rootController",
+	"controllers/userController",
+	"controllers/mainController",
+	"controllers/friendsController",
+	"controllers/messagesController",
+	"controllers/circlesController",
+	"controllers/settingsController",
+	"controllers/helpController",
+	"controllers/loadingController",
+	"controllers/registerController",
+	"controllers/startController",
+	"controllers/versionController",
+	"controllers/mailController",
+	"controllers/legalController",
+	"controllers/impressumController",
+	"controllers/setupController",
+	"controllers/inviteController",
+	"controllers/agbController",
+	"controllers/privacyPolicyController",
+	"controllers/recoveryController",
+	"controllers/acceptInviteController"
+], function () {});
