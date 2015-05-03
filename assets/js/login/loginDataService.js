@@ -26,7 +26,7 @@ define([
 			identifier: loginStorage.get("identifier"),
 			password: "",
 			state: loginState.data,
-			isHeaderForm: false,
+			isHeaderForm: window.top.location.pathname !== "/login",
 
 			loginServer: function (name, password, callback) {
 				step(function loginStartup() {
@@ -79,19 +79,11 @@ define([
 						window.top.location = "/login";
 					} else {
 						loginState.success();
-
 						window.top.location = "/main";
 					}
 				});
 			}
 		};
-
-
-		$rootScope.$watch(function () {
-			return $location.path() !== "/login";
-		}, function (val) {
-			res.isHeaderForm = val;
-		});
 
 		return res;
 	};

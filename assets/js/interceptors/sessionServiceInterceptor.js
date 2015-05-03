@@ -9,9 +9,7 @@ define([
 	var interceptor = function (sessionService) {
 		return {
 			transformResponse: function (response) {
-				if (response.logedin) {
-					sessionService.setSID(response.sid, response.userid);
-				} else {
+				if (!response.logedin) {
 					sessionService.logout();
 				}
 
