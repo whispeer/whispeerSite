@@ -20,7 +20,8 @@
 		},
 		{
 			learnmore: false,
-			mailForm: true
+			mailForm: true,
+			mailMargin: false
 		}
 	]
 }
