@@ -10,7 +10,6 @@ define(["step",
 
 			this.data = {
 				loaded: false,
-				text: "",
 				sender: null,
 				time: this._secured.metaAttr("createTime")
 			};

@@ -242,10 +242,10 @@
 .userView-actions {
 	border-top: 1px solid @btnBorder;
 	@media @desktop {
-		padding: 10px 0 16px 0;
+		padding: 10px 0 10px 0;
 	}
 	@media @mobile {
-		padding: 5px 0 11px 0;
+		padding: 5px 0 10px 0;
 	}
 }
 .userView-addFriend,
@@ -277,10 +277,14 @@
 	.column(12);
 	margin-top: 10px;
 }
+.userView-postIt--addMargin {
+	margin-bottom: 10px !important;
+}
 #userView-shareText {
 	@media @desktop {
 		float: left;
 		height: 40px;
+		line-height: 20px;
 		width: ~"calc(100% - 100px)";
 		border-radius: 5px 0 0 5px;
 	}

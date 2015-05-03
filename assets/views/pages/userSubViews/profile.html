@@ -1,6 +1,6 @@
 <section class="userView-section" id="userView-section-info">
 	<section class="userView-subSection" id="generalInfo">
-		<header class="box-header box-header--content">
+		<header class="box-header box-header--content box-header--noBorder">
 			<span class="box-header-title" data-i18n="profile.section.general.headers.title"></span>
 			<div class="box-header-links">
 				<a href="" class="edit box-header-link" data-i18n="profile.edit.false" data-ng-if="user.me && !editGeneral" data-ng-click="edit()"></a>
@@ -135,7 +135,7 @@
 </section>
 <section class="userView-section" id="wall">
 	<header class="box-header box-header--content"><span class="box-header-title" data-i18n="profile.section.wall.title"></span></header>
-	<form data-ng-if="(user.isMyFriend || user.me)" class="form-inline" id="userView-postIt">
+	<form data-ng-if="(user.isMyFriend || user.me)" data-ng-class="{'userView-postIt--addMargin': posts.length == 0}" class="form-inline" id="userView-postIt">
 		<textarea data-strg-enter="sendPost()" data-ng-model="newPost.text" data-i18n-attr="wall.postit.text|placeholder" id="userView-shareText" data-ng-if="user.me"></textarea>
 		<textarea data-strg-enter="sendPost()" data-ng-model="newPost.text" data-i18n-attr="profile.section.wall.postIt|placeholder|user={{user.name}}" id="userView-shareText" data-ng-if="!user.me"></textarea>
 		<savebutton id="userView-sendPost" class="btn-noPadding" data-state="sendPostState" data-ng-click="sendPost()">
