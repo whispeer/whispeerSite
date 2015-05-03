@@ -9,18 +9,23 @@ define([
 ], function (step, State, loginModule) {
 	"use strict";
 
-	var service = function ($rootScope, $location, keyStoreService, socketService, storage) {
+	var service = function ($rootScope, $location, keyStoreService, socketService, Storage) {
 		var loginState = new State();
 
+		var failureCodes = {
+			UNKNOWNNAME: 0,
+			WRONGPASSWORD: 1,
+			NOCONNECTION: 2,
+			UNKNOWN: 5
+		};
+
+		var sessionStorage = new Storage("whispeer.session");
+		var loginStorage = new Storage("whispeer.login");
+
 		var res = {
-			identifier: "",
+			identifier: loginStorage.get("identifier"),
 			password: "",
 			state: loginState.data,
-			success: false,
-			unknownName: false,
-			wrongPassword: false,
-			failure: false,
-			failedOnce: false,
 			isHeaderForm: false,
 
 			loginServer: function (name, password, callback) {
@@ -30,10 +35,11 @@ define([
 					}, this);
 				}, function hashWithToken(e, data) {
 					if (e) {
-						this.last({ unknownName: true });
+						this.last({ failure: failureCodes.UNKNOWNNAME });
 					} else {
 						if (data.salt.length !== 16) {
-							throw new SecurityError("server wut?");
+							this.last({ failure: failureCodes.SECURITY });
+							return;
 						}
 
 						var hash = keyStoreService.hash.hashPW(password, data.salt);
@@ -47,12 +53,12 @@ define([
 					}
 				}, function loginResults(e, data) {
 					if (e) {
-						this.last({ wrongPassword: true });
+						this.last({ failure: failureCodes.WRONGPASSWORD });
 					} else {
-						storage.set("sid", data.sid);
-						storage.set("userid", data.userid);
-						storage.set("loggedin", true);
-						storage.set("password", password);
+						sessionStorage.set("sid", data.sid);
+						sessionStorage.set("userid", data.userid);
+						sessionStorage.set("loggedin", true);
+						sessionStorage.set("password", password);
 
 						this.last.ne();
 					}
@@ -62,43 +68,19 @@ define([
 			login: function () {
 				loginState.pending();
 
-				res.failure = {};
-				res.failure.UNKNOWNNAME = 0;
-				res.failure.WRONGPASSWORD = 1;
-				res.failure.NOCONNECTION = 2;
-				res.failure.UNKNOWN = 5;
-
-				res.success = false;
-				res.unknownName = false;
-				res.wrongPassword = false;
-				res.failure = false;
+				loginStorage.set("identifier", res.identifier);
 
 				step(function () {
 					res.loginServer(res.identifier, res.password, this);
 				}, function (e) {
 					if (e) {
 						loginState.failed();
-
-						/* write username and failure reason to localstorage */
-						/* redirect to loginDetailed.html (except if we are there) */
-						res.failedOnce = true;
-						if (e.wrongPassword) {
-							res.wrongPassword = true;
-						} else if (e.unknownName) {
-							res.unknownName = true;
-						} else {
-							res.failure = true;
-						}
-
-						window.top.location = "loginDetail.html";
+						loginStorage.set("failureCode", e.failure);
+						window.top.location = "/login";
 					} else {
 						loginState.success();
 
 						window.top.location = "/main";
-
-						res.failedOnce = false;
-						res.identifier = "";
-						res.password = "";
 					}
 				});
 			}

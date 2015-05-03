@@ -4,21 +4,19 @@
 define(["services/serviceModule"], function (serviceModule) {
 	"use strict";
 
-	var service = function ($rootScope, $location, $route, storage) {
+	var service = function ($rootScope, $location, $route, Storage) {
 		var sid = "", loggedin = false, ownLoaded = false, userid, returnURL, loaded = false;
 
 		var noLoginRequired = ["ssn.startController", "ssn.loginController", "ssn.recoveryController", "ssn.versionController", "ssn.mailController", "ssn.agbController", "ssn.privacyPolicyController", "ssn.impressumController"];
 		var loggoutRequired = ["ssn.startController", "ssn.loginController", "ssn.loadingController"];
+
+		var sessionStorage = new Storage("whispeer.session");
 
 		function setSID(newSID, user) {
 			if (newSID !== sid) {
 				sid = newSID;
 				loggedin = true;
 				userid = user;
-
-				storage.set("sid", newSID);
-				storage.set("userid", userid);
-				storage.set("loggedin", true);
 
 				loginChange();
 
@@ -29,12 +27,12 @@ define(["services/serviceModule"], function (serviceModule) {
 		}
 
 		function loadOldLogin() {
-			if (storage.get("loggedin") === "true" && storage.get("password")) {
-				var sid = storage.get("sid");
-				var userid = storage.get("userid");
+			if (sessionStorage.get("loggedin") === "true" && sessionStorage.get("password")) {
+				var sid = sessionStorage.get("sid");
+				var userid = sessionStorage.get("userid");
 				setSID(sid, userid);
 			} else {
-				storage.clear();
+				sessionStorage.clear();
 			}
 		}
 
@@ -121,9 +119,9 @@ define(["services/serviceModule"], function (serviceModule) {
 				loggedin = false;
 				ownLoaded = false;
 
-				storage.clear();
+				sessionStorage.clear();
 
-				loginChange(true);
+				window.top.location = "/start";
 			},
 
 			isLoggedin: function () {
