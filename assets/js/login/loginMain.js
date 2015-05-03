@@ -45,11 +45,10 @@ window.onerror = function (str, file, line, col, e) {
 define([
 	"jquery",
 	"angular",
-	"login/loginLoader"
+	"login/loginLoader",
+	"localizationModule"
 ], function($, angular, app) {
 	"use strict";
-
-	console.log("loaded");
 
 	$(document).ready(function () {
 		var $html = $("html");
