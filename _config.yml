@@ -6,3 +6,6 @@ permalink: pretty
 
 # Build settings
 markdown: kramdown
+
+source: ./staticRaw
+destination: ./static
