@@ -17,9 +17,6 @@
 		<div class="header-collapse" data-ng-if="loggedin">
 			<search data-supplier="userSearchSupplier" callback="visitUserProfile(selected)" data-search-template="user" data-add-classes="search--navbar" data-input-i18n-attr="menu.search|placeholder"/>
 		</div>
-		<iframe id="header-login" src="/login.html" data-ng-if="!loggedin && !recovery"></iframe>
-		<!--<div id="header-login" data-ng-if="!loggedin && !recovery" data-ng-controller="ssn.loginController">
-			<ng-include data-src="'assets/views/start/login/login.html'" data-ng-if="login.isHeaderForm"></ng-include>
-		</div>-->
+		<iframe id="header-login" data-ng-if="!hideLoginForm" src="/login.html" data-ng-if="!loggedin && !recovery"></iframe>
 	</div>
 </header>

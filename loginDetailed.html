@@ -4,12 +4,18 @@
 	<base href="/" />
 	<meta charset="utf-8">
 
+	<link rel="shortcut icon" href="assets/img/favicons/favicon.png" type="image/x-icon">
 	<link rel="stylesheet" href="assets/vendor/css/font-awesome.css">
 	<link rel="stylesheet" href="assets/css/style.css">
 </head>
-<body>
-	<ng-include data-src="'assets/views/pages/login.html'">
-	</ng-include>
+<body data-ng-init="hideLoginForm = true">
+	<ng-include src="'assets/views/topBar.html'" data-ng-if="!mobile"></ng-include>
+	<div id="container">
+		<section id="main">
+			<ng-include data-src="'assets/views/pages/login.html'">
+			</ng-include>
+		</section>
+	</div>
 </body>
 <script data-main="assets/js/login/loginRequireConfig" src="assets/js/bower/requirejs/require.js"></script>
 </html>
