@@ -75,20 +75,31 @@ function run() {
 
 	grunt.log.writeln("Starting webserver...");
 
+	function write404(request, response, e) {
+		if (e && (e.status === 404)) {
+			response.writeHead(e.status, e.headers);
+			response.write("Not found");
+			response.end();
+		}
+	}
+
+	function serveStatic(request, response, e) {
+		if (e && (e.status === 404)) {
+			var dir = request.url.split(/\/|\?/)[1];
+
+			if (angular.indexOf(dir) === -1) {
+				request.url = "/static" + request.url;
+
+				fileServer.serve(request, response, write404.bind(null, request, response));
+			} else {
+				fileServer.serveFile("/index.html", 200, {}, request, response);
+			}
+		}		
+	}
+
 	require("http").createServer(function (request, response) {
 		request.addListener("end", function () {
-			fileServer.serve(request, response, function (e) {
-				if (e && (e.status === 404)) {
-					var dir = request.url.split(/\/|\?/)[1];
-
-					if (angular.indexOf(dir) === -1) {
-						console.error("File not found: " + request.url);
-						fileServer.serveFile("/index.html", 404, {}, request, response);
-					} else {
-						fileServer.serveFile("/index.html", 200, {}, request, response);
-					}
-				}
-			});
+			fileServer.serve(request, response, serveStatic.bind(null, request, response));
 		}).resume();
 	}).listen(WHISPEER_PORT);
 
