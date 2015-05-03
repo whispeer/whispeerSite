@@ -20,6 +20,8 @@ define([
 
 		if (loginDataService.identifier) {
 			jQuery("#password").focus();
+		} else {
+			jQuery("#mail").focus();
 		}
 
 		$scope.$watch(function () {

@@ -96,18 +96,18 @@ define(["services/serviceModule"], function (serviceModule) {
 			logout: function () {
 				if (loggedin) {
 					$rootScope.$broadcast("ssn.reset");
+
+					$location.search("");
+
+					userid = 0;
+					sid = "";
+					loggedin = false;
+					ownLoaded = false;
+
+					sessionStorage.clear();
+
+					window.top.location = "/start";
 				}
-
-				$location.search("");
-
-				userid = 0;
-				sid = "";
-				loggedin = false;
-				ownLoaded = false;
-
-				sessionStorage.clear();
-
-				window.top.location = "/start";
 			},
 
 			isLoggedin: function () {
