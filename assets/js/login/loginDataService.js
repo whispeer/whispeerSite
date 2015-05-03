@@ -22,11 +22,14 @@ define([
 		var sessionStorage = new Storage("whispeer.session");
 		var loginStorage = new Storage("whispeer.login");
 
+		var isHeaderForm = window.top.location.pathname !== "/login";
+
 		var res = {
 			identifier: loginStorage.get("identifier"),
 			password: "",
+			failureCode: loginStorage.get("failureCode"),
 			state: loginState.data,
-			isHeaderForm: window.top.location.pathname !== "/login",
+			
 
 			loginServer: function (name, password, callback) {
 				step(function loginStartup() {
@@ -75,8 +78,13 @@ define([
 				}, function (e) {
 					if (e) {
 						loginState.failed();
-						loginStorage.set("failureCode", e.failure);
-						window.top.location = "/login";
+
+						res.failureCode = e.failure;
+
+						if (!isHeaderForm) {
+							loginStorage.set("failureCode", e.failure);
+							window.top.location = "/login";
+						}
 					} else {
 						loginState.success();
 						window.top.location = "/main";
@@ -84,6 +92,8 @@ define([
 				});
 			}
 		};
+
+		loginStorage.remove("failureCode");
 
 		return res;
 	};
