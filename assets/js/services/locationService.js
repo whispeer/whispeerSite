@@ -7,6 +7,9 @@ define(["services/serviceModule"], function (serviceModule) {
 		var loginStorage = new Storage("whispeer.login");
 
 		var api = {
+			mainPage: function () {
+				window.top.location = "/main";
+			},
 			landingPage: function () {
 				window.top.location = "/start";
 			},

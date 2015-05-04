@@ -1,5 +1,5 @@
 <div class="registerWrap" data-ng-click="registerFormClick()" data-ng-controller="ssn.registerController">
-	<form class="registerForm" data-ng-if="invite.valid.success" data-validated-form="validationOptions">
+	<form class="registerForm" data-validated-form="validationOptions">
 		<h1 data-i18n="login.register.newaccount"></h1>
 		<div class="inputWrap">
 			<div class="annotatedInput-container">
@@ -17,29 +17,6 @@
 		</div>
 		<div class="submitWrap">
 			<savebutton class="btn btn--big btn--danger" data-noiniticon data-state="registerState" type="submit"  data-ng-click="register()"><span data-i18n="login.register.link"></span></savebutton>
-		</div>
-	</form>
-	<form class="registerForm" data-ng-if="!invite.valid.success">
-		<h1 data-i18n="login.register.invite.enterCode"></h1>
-		<p data-i18n="landingpage.inviteExplain"></p>
-		<div class="inputWrap">
-			<div class="annotatedInput-container">
-				<input type="text" class="annotatedInput-input inviteCode" data-i18n-attr="login.register.invite.code|placeholder" data-ng-model="invite.code">
-				<span class="annotatedInput-icon fa" data-ng-class="{'fa-check': invite.valid.success, 'fa-times': invite.valid.failed, 'fa-spinner': invite.valid.pending}" data-ng-if="!empty(invite.code)"></span>
-			</div>
-		</div>
-		<div class="inputWrap" id="requestInvite">
-			<h1 id="requestInvite-heading" data-i18n="login.register.invite.request"></h1>
-			<div class="annotatedInput-container" data-ng-if="!invite.mailValid.success">
-				<input type="text" class="annotatedInput-input" id="requestInviteMail" data-i18n-attr="login.register.invite.mail|placeholder" data-ng-model="invite.mail">
-				<span class="annotatedInput-icon fa" data-ng-class="{'fa-check': false, 'fa-times': false, 'fa-spinner': false}" data-ng-if="!empty(invite.mail)"></span>
-			</div>
-			<div data-ng-if="!invite.mailValid.success">
-				<savebutton id="sendInviteRequest" data-state="invite.mailValid" data-ng-click="invite.request(invite.mail)" data-noiniticon>
-					<span data-i18n="login.register.invite.submit"></span>
-				</savebutton>
-			</div>
-			<div data-i18n="login.register.invite.thanks" data-ng-if="invite.mailValid.success"></div>
 		</div>
 	</form>
 </div>

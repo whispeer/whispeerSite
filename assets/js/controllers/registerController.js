@@ -5,56 +5,10 @@
 define(["step", "whispeerHelper", "asset/state", "controllers/controllerModule"], function (step, h, State, controllerModule) {
 	"use strict";
 
-	function registerController($scope, $timeout, $routeParams, keyStore, errorService, sessionHelper, sessionService, socketService) {
-		var inviteCodeState = new State();
-		var inviteMailState = new State();
+	function registerController($scope, $routeParams, keyStore, errorService, sessionHelper, locationService) {
 		var registerState = new State();
 
 		$scope.registerState = registerState.data;
-
-		$scope.invite = {
-			code: $routeParams.inviteCode || "",
-			valid: inviteCodeState.data,
-			mailValid: inviteMailState.data,
-			request: function (mail) {
-				inviteMailState.pending();
-
-				if (!h.isMail(mail)) {
-					inviteMailState.failed();
-					return;
-				}
-
-				step(function () {
-					socketService.emit("invites.requestWithMail", { mail: mail }, this);
-				}, errorService.failOnError(inviteMailState));
-			}
-		};
-
-		$scope.$watch(function () {
-			return $scope.invite.code;
-		}, function (value) {
-			if (value.length !== 10) {
-				inviteCodeState.failed();
-				return;
-			}
-
-			inviteCodeState.pending();
-			step(function () {
-				if (socketService.isConnected()) {
-					this();
-				} else {
-					socketService.once("connect", this.ne);
-				}
-			}, h.sF(function () {
-				sessionHelper.checkInviteCode(value, this);
-			}), h.sF(function (valid) {
-				if (!valid) {
-					throw new Error("code not valid");
-				}
-
-				this.ne();
-			}), errorService.failOnError(inviteCodeState));
-		});
 
 		$scope.pwState = { password: "" };
 
@@ -68,7 +22,7 @@ define(["step", "whispeerHelper", "asset/state", "controllers/controllerModule"]
 		$scope.agb = false;
 
 		if ($routeParams.register) {
-			$timeout(function () {
+			window.setTimeout(function () {
 				jQuery("#rnickname").focus();
 			}, 50);
 		}
@@ -177,11 +131,11 @@ define(["step", "whispeerHelper", "asset/state", "controllers/controllerModule"]
 
 			step(function () {
 				console.time("register");
-				sessionService.setReturnURL("/setup");
-				sessionHelper.register($scope.nickname, "", $scope.invite.code, $scope.pwState.password, profile, imageBlob, settings, this);
+				locationService.setReturnURL("/setup");
+				sessionHelper.register($scope.nickname, "", $scope.pwState.password, profile, imageBlob, settings, this);
 			}, function (e) {
 				if (!e) {
-					window.top.location = "/main";
+					locationService.mainPage();
 				}
 
 				console.timeEnd("register");
@@ -192,7 +146,7 @@ define(["step", "whispeerHelper", "asset/state", "controllers/controllerModule"]
 		};
 	}
 
-	registerController.$inject = ["$scope", "$timeout", "$routeParams", "ssn.keyStoreService", "ssn.errorService", "ssn.sessionHelper", "ssn.sessionService", "ssn.socketService"];
+	registerController.$inject = ["$scope", "$routeParams", "ssn.keyStoreService", "ssn.errorService", "ssn.sessionHelper", "ssn.locationService", "ssn.socketService"];
 
 	controllerModule.controller("ssn.registerController", registerController);
 });
