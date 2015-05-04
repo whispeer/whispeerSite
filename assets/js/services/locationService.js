@@ -6,6 +6,8 @@ define(["services/serviceModule"], function (serviceModule) {
 
 		var loginStorage = new Storage("whispeer.login");
 
+		var blockedReturnUrls = ["/start", "/recovery"];
+
 		var api = {
 			mainPage: function () {
 				window.top.location = "/main";
@@ -20,6 +22,14 @@ define(["services/serviceModule"], function (serviceModule) {
 				window.top.location = "/login";
 			},
 			setReturnUrl: function (url) {
+				var blocked = blockedReturnUrls.filter(function (blockedUrl) {
+					return blockedUrl.indexOf(url) === 0;
+				}).length > 0;
+
+				if (blocked) {
+					return;
+				}
+
 				loginStorage.set("returnUrl", url);
 			},
 			loadInitialURL: function () {
