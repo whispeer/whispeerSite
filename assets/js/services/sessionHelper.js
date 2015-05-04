@@ -6,8 +6,8 @@
 define(["step", "whispeerHelper", "crypto/trustManager", "asset/securedDataWithMetaData", "services/serviceModule"], function (step, h, trustManager, SecuredData, serviceModule) {
 	"use strict";
 
-	var service = function (socketService, keyStoreService, ProfileService, sessionService, blobService) {
-		var keyGenerationStarted = false, keys = {}, keyGenListener = [], keyGenDone;
+	var service = function (socketService, keyStoreService, ProfileService, sessionService, blobService, Storage) {
+		var keyGenerationStarted = false, keys = {}, keyGenListener = [], keyGenDone, sessionStorage = new Storage("whispeer.session");
 
 		var sessionHelper = {
 			checkInviteCode: function (code, cb) {
@@ -125,6 +125,14 @@ define(["step", "whispeerHelper", "crypto/trustManager", "asset/securedDataWithM
 					socketService.emit("session.register", registerData, this);
 				}), h.sF(function (_result) {
 					result = _result;
+
+					if (result.sid) {
+						sessionStorage.set("sid", result.sid);
+						sessionStorage.set("userid", result.userid);
+						sessionStorage.set("loggedin", true);
+						sessionStorage.set("password", password);
+					}
+
 
 					sessionHelper.resetKey();
 					keyStoreService.security.setPassword(password);
@@ -274,7 +282,7 @@ define(["step", "whispeerHelper", "crypto/trustManager", "asset/securedDataWithM
 		return sessionHelper;
 	};
 
-	service.$inject = ["ssn.socketService", "ssn.keyStoreService", "ssn.profileService", "ssn.sessionService", "ssn.blobService"];
+	service.$inject = ["ssn.socketService", "ssn.keyStoreService", "ssn.profileService", "ssn.sessionService", "ssn.blobService", "ssn.storageService"];
 
 	serviceModule.factory("ssn.sessionHelper", service);
 });

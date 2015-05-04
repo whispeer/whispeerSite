@@ -180,6 +180,10 @@ define(["step", "whispeerHelper", "asset/state", "controllers/controllerModule"]
 				sessionService.setReturnURL("/setup");
 				sessionHelper.register($scope.nickname, "", $scope.invite.code, $scope.pwState.password, profile, imageBlob, settings, this);
 			}, function (e) {
+				if (!e) {
+					window.top.location = "/main";
+				}
+
 				console.timeEnd("register");
 				console.log("register done!");
 
