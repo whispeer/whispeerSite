@@ -1,7 +1,7 @@
 define(["services/serviceModule"], function (serviceModule) {
 	"use strict";
 
-	serviceModule.factory("ssn.locationService", ["$location", "$route", "ssn.storageService", function ($location, $route, Storage) {
+	serviceModule.factory("ssn.locationService", ["$location", "ssn.storageService", function ($location, Storage) {
 		var noLoginRequired = ["ssn.startController", "ssn.recoveryController", "ssn.versionController", "ssn.mailController", "ssn.agbController", "ssn.privacyPolicyController", "ssn.impressumController"];
 
 		var loginStorage = new Storage("whispeer.login");
@@ -12,6 +12,9 @@ define(["services/serviceModule"], function (serviceModule) {
 			},
 			landingPage: function () {
 				window.top.location = "/start";
+			},
+			loginPage: function () {
+				window.top.location = "/login";
 			},
 			setReturnUrl: function (url) {
 				loginStorage.set("returnUrl", url);
@@ -26,10 +29,6 @@ define(["services/serviceModule"], function (serviceModule) {
 				}
 			},
 			updateURL: function (loggedin, controller) {
-				if (!controller && $route.current) {
-					controller = $route.current.controller;
-				}
-
 				//not logged in but on a page requiring login --> landing
 				if (!loggedin && noLoginRequired.indexOf(controller) === -1) {
 					api.setReturnUrl($location.path());
