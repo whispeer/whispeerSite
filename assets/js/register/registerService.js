@@ -3,10 +3,19 @@
 /**
 * SessionHelper
 **/
-define(["step", "whispeerHelper", "crypto/trustManager", "asset/securedDataWithMetaData", "services/serviceModule"], function (step, h, trustManager, SecuredData, serviceModule) {
+define([
+		"step",
+		"whispeerHelper",
+		"crypto/trustManager",
+		"asset/securedDataWithMetaData",
+		"register/registerModule",
+		"services/socketService",
+		"services/profileService",
+		"services/storageService"
+	], function (step, h, trustManager, SecuredData, registerModule) {
 	"use strict";
 
-	serviceModule.factory("ssn.registerService", [
+	registerModule.factory("ssn.registerService", [
 		"ssn.socketService",
 		"ssn.keyStoreService",
 		"ssn.profileService",
