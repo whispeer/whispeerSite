@@ -47,6 +47,11 @@ define([
 	"angular",
 	"register/registerModule",
 	"register/registerController",
+
+	"directives/savebutton",
+	"directives/passwordinput",
+	"directives/validatedForm",
+
 	"localizationModule"
 ], function($, angular, app) {
 	"use strict";

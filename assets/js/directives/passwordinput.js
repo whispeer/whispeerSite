@@ -1,4 +1,4 @@
-define(["whispeerHelper", "directives/directivesModule"], function (h, directivesModule) {
+define(["whispeerHelper", "directives/directivesModule", "register/registerService"], function (h, directivesModule) {
 	"use strict";
 
 	function passwordSaver(registerService) {
