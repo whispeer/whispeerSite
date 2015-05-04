@@ -1691,7 +1691,7 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 				password = pw;
 
 				if (localStorage) {
-					localStorage.setItem("password", password);
+					localStorage.setItem("whispeer.session.password", password);
 				}
 			},
 

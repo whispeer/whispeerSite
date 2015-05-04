@@ -13,6 +13,9 @@ define(["services/serviceModule"], function (serviceModule) {
 			landingPage: function () {
 				window.top.location = "/start";
 			},
+			isLoginPage: function () {
+				return window.top.location.pathname.indexOf("/login") === 0;
+			},
 			loginPage: function () {
 				window.top.location = "/login";
 			},

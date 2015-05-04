@@ -2,14 +2,14 @@ define([
 	"step",
 	"asset/state",
 	"login/loginModule",
+	"services/locationService",
 	"services/keyStoreService",
 	"services/socketService",
-	"services/keyStoreService",
 	"services/storageService"
 ], function (step, State, loginModule) {
 	"use strict";
 
-	var service = function ($rootScope, $location, keyStoreService, socketService, Storage) {
+	var service = function ($rootScope, locationService, keyStoreService, socketService, Storage) {
 		var loginState = new State();
 
 		var failureCodes = {
@@ -22,7 +22,11 @@ define([
 		var sessionStorage = new Storage("whispeer.session");
 		var loginStorage = new Storage("whispeer.login");
 
-		var isViewForm = window.top.location.pathname === "/login";
+		var isViewForm = locationService.isLoginPage();
+
+		if (sessionStorage.get("loggedin") === "true") {
+			locationService.mainPage();
+		}
 
 		var res = {
 			identifier: loginStorage.get("identifier"),
@@ -83,11 +87,11 @@ define([
 
 						if (!isViewForm) {
 							loginStorage.set("failureCode", e.failure);
-							window.top.location = "/login";
+							locationService.loginPage();
 						}
 					} else {
 						loginState.success();
-						window.top.location = "/main";
+						locationService.mainPage();
 					}
 				});
 			}
@@ -98,7 +102,7 @@ define([
 		return res;
 	};
 
-	service.$inject = ["$rootScope", "$location", "ssn.keyStoreService", "ssn.socketService", "ssn.storageService"];
+	service.$inject = ["$rootScope", "ssn.locationService", "ssn.keyStoreService", "ssn.socketService", "ssn.storageService"];
 
 	loginModule.factory("ssn.loginDataService", service);
 });
