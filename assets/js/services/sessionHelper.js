@@ -6,7 +6,7 @@
 define(["step", "whispeerHelper", "crypto/trustManager", "asset/securedDataWithMetaData", "services/serviceModule"], function (step, h, trustManager, SecuredData, serviceModule) {
 	"use strict";
 
-	var service = function (socketService, keyStoreService, ProfileService, sessionService, blobService, Storage) {
+	var service = function (socketService, keyStoreService, ProfileService, Storage) {
 		var keyGenerationStarted = false, keys = {}, keyGenListener = [], keyGenDone, sessionStorage = new Storage("whispeer.session");
 
 		var sessionHelper = {
@@ -16,27 +16,14 @@ define(["step", "whispeerHelper", "crypto/trustManager", "asset/securedDataWithM
 				});
 			},
 
-			register: function (nickname, mail, password, profile, imageBlob, settings, callback) {
-				var keys, result;
+			register: function (nickname, mail, password, profile, settings, callback) {
+				var keys;
 				step(function register1() {
 					this.parallel.unflatten();
 
-					sessionHelper.startKeyGeneration(this.parallel());
-
-					if (imageBlob) {
-						imageBlob = blobService.createBlob(imageBlob);
-						imageBlob.preReserveID(this.parallel());
-						imageBlob.getHash(this.parallel());
-					}
-				}, h.sF(function register2(theKeys, blobid, imageHash) {
+					sessionHelper.startKeyGeneration(this);
+				}, h.sF(function register2(theKeys) {
 					keys = theKeys;
-
-					if (imageBlob) {
-						profile.pub.imageBlob = {
-							blobid: blobid,
-							imageHash: imageHash
-						};
-					}
 
 					if (nickname) {
 						keyStoreService.setKeyGenIdentifier(nickname);
@@ -110,9 +97,7 @@ define(["step", "whispeerHelper", "crypto/trustManager", "asset/securedDataWithM
 					}
 
 					socketService.emit("session.register", registerData, this);
-				}), h.sF(function (_result) {
-					result = _result;
-
+				}), h.sF(function (result) {
 					if (result.sid) {
 						sessionStorage.set("sid", result.sid);
 						sessionStorage.set("userid", result.userid);
@@ -120,27 +105,10 @@ define(["step", "whispeerHelper", "crypto/trustManager", "asset/securedDataWithM
 						sessionStorage.set("password", password);
 					}
 
-
-					sessionHelper.resetKey();
 					keyStoreService.security.setPassword(password);
 
-					if (imageBlob) {
-						imageBlob.upload(this);
-					} else {
-						this.ne();
-					}
-				}), h.sF(function () {
 					this.ne(result);
 				}), callback);
-			},
-
-			resetKey: function () {
-				if (keyGenDone) {
-					keyGenerationStarted = false;
-					keyGenDone = false;
-					keys = {};
-					keyGenListener = [];
-				}
 			},
 
 			startKeyGeneration: function startKeyGen(callback) {
@@ -269,7 +237,7 @@ define(["step", "whispeerHelper", "crypto/trustManager", "asset/securedDataWithM
 		return sessionHelper;
 	};
 
-	service.$inject = ["ssn.socketService", "ssn.keyStoreService", "ssn.profileService", "ssn.sessionService", "ssn.blobService", "ssn.storageService"];
+	service.$inject = ["ssn.socketService", "ssn.keyStoreService", "ssn.profileService", "ssn.storageService"];
 
 	serviceModule.factory("ssn.sessionHelper", service);
 });
