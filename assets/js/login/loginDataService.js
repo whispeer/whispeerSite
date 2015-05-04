@@ -22,7 +22,7 @@ define([
 		var sessionStorage = new Storage("whispeer.session");
 		var loginStorage = new Storage("whispeer.login");
 
-		var isViewForm = window.top.location.pathname === "/loginDetailed.html";
+		var isViewForm = window.top.location.pathname === "/login";
 
 		var res = {
 			identifier: loginStorage.get("identifier"),
@@ -83,7 +83,7 @@ define([
 
 						if (!isViewForm) {
 							loginStorage.set("failureCode", e.failure);
-							window.top.location = "/loginDetailed.html";
+							window.top.location = "/login";
 						}
 					} else {
 						loginState.success();
