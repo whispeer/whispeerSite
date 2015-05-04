@@ -25,5 +25,6 @@ define([
 	"services/appCacheService",
 	"services/cacheService",
 	"services/imageUploadService",
-	"services/screenSizeService"
+	"services/screenSizeService",
+	"services/locationService"
 ], function () {});
