@@ -9,7 +9,9 @@ define([
 		"crypto/trustManager",
 		"asset/securedDataWithMetaData",
 		"register/registerModule",
+
 		"services/socketService",
+		"services/keyStoreService",
 		"services/profileService",
 		"services/storageService"
 	], function (step, h, trustManager, SecuredData, registerModule) {

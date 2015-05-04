@@ -1,4 +1,4 @@
-define(["whispeerHelper", "directives/directivesModule"], function (h, directivesModule) {
+define(["whispeerHelper", "directives/directivesModule", "qtip"], function (h, directivesModule) {
 	"use strict";
 
 	function validatedForm(localize) {

@@ -1,4 +1,10 @@
-define(["angular", "directives/savebutton"], function (angular) {
+define([
+		"angular",
+		"angularRoute",
+		"directives/savebutton",
+		"directives/passwordinput",
+		"directives/validatedForm"
+	], function (angular) {
 	"use strict";
-	return angular.module("ssn.login", ["ssn.services", "ssn.directives", "localization"]);
+	return angular.module("ssn.register", ["ssn.services", "ssn.directives", "ngRoute", "localization"]);
 });

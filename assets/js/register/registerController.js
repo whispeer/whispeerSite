@@ -13,7 +13,7 @@ define([
 	], function (step, h, State, registerModule) {
 	"use strict";
 
-	function registerController($scope, $routeParams, errorService, registerService, locationService) {
+	function registerController($scope, errorService, registerService, locationService) {
 		var registerState = new State();
 
 		$scope.registerState = registerState.data;
@@ -29,11 +29,9 @@ define([
 
 		$scope.agb = false;
 
-		if ($routeParams.register) {
-			window.setTimeout(function () {
-				jQuery("#rnickname").focus();
-			}, 50);
-		}
+		window.setTimeout(function () {
+			jQuery("#rnickname").focus();
+		}, 50);
 
 		$scope.registerFormClick = function formClickF() {
 			registerService.startKeyGeneration();
@@ -153,7 +151,7 @@ define([
 		};
 	}
 
-	registerController.$inject = ["$scope", "$routeParams", "ssn.errorService", "ssn.registerService", "ssn.locationService", "ssn.socketService"];
+	registerController.$inject = ["$scope", "ssn.errorService", "ssn.registerService", "ssn.locationService", "ssn.socketService"];
 
 	registerModule.controller("ssn.registerController", registerController);
 });

@@ -29,6 +29,11 @@ requirejs.config({
 				"jquery"
 			],
 			exports: "angular"
+		},
+		"angularRoute": {
+			deps: [
+				"angular"
+			]
 		}
 	},
 	priority: [
