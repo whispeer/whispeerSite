@@ -17,23 +17,62 @@ define([
 
 	var APIVERSION = "0.0.1";
 
-	var socket;
-	if (config.https) {
-		socket = io.connect("https://" + config.ws + ":" + config.wsPort);
-	} else {
-		socket = io.connect("http://" + config.ws + ":" + config.wsPort);
-	}
-
 	var socketDebug = debug("whispeer:socket");
 	var socketError = debug("whispeer:socket:error");
 
 	var provider = function () {
 		var interceptorFactories = [];
+
+		var domain = (config.https ? "https://" : "http://") + config.ws + ":" + config.wsPort;
+		var autoConnect = true;
+		var autoReconnect = true;
+
 		this.addInterceptor = function (interceptorName) {
 			interceptorFactories.push(interceptorName);
 		};
 
+		this.setDomain = function (_domain) {
+			domain = _domain;
+		};
+
+		this.disableAutoConnect = function () {
+			autoConnect = false;
+		};
+
 		var service = function ($injector, $rootScope) {
+			var socket;
+			function connect() {
+				socket = io.connect(domain);
+
+				socket.on("disconnect", function () {
+					socketDebug("socket disconnected");
+					loading = 0;
+					streamUpgraded = false;
+					uploadingCounter = 0;
+				});
+
+				socket.on("connect", function () {
+					socketDebug("socket connected");
+					socketS.emit("ping", {}, function () {});
+				});
+			}
+
+			if (autoConnect) {
+				connect();
+			}
+
+			if (autoConnect && autoReconnect) {
+				window.setInterval(function () {
+					try {
+						if (!socket.connected) {
+							socket.connect();
+						}
+					} catch (e) {
+						socketError(e);
+					}
+				}, 10000);
+			}
+
 			var interceptors;
 			function loadInterceptors() {
 				if (!interceptors) {
@@ -44,16 +83,6 @@ define([
 			}
 
 			var lastRequestTime = 0;
-
-			window.setInterval(function () {
-				try {
-					if (!socket.connected) {
-						socket.connect();
-					}
-				} catch (e) {
-					socketError(e);
-				}
-			}, 10000);
 
 			var loading = 0;
 
@@ -240,19 +269,6 @@ define([
 						alert("No Errors to transfer");
 					}
 				}
-			});
-
-
-			socket.on("disconnect", function () {
-				socketDebug("socket disconnected");
-				loading = 0;
-				streamUpgraded = false;
-				uploadingCounter = 0;
-			});
-
-			socket.on("connect", function () {
-				socketDebug("socket connected");
-				socketS.emit("ping", {}, function () {});
 			});
 
 			return socketS;
