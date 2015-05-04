@@ -51,7 +51,7 @@ define(["whispeerHelper", "step", "asset/state", "libs/qrreader", "controllers/c
 					keyFingerPrint: keyID
 				}, this);
 			}, h.sF(function () {
-				$scope.changePassword = true;
+				$scope.changePassword.enabled = true;
 				$rootScope.$broadcast("ssn.recovery");
 				this.ne();
 			}), cb);

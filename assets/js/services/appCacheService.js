@@ -1,7 +1,7 @@
 define(["config"], function (config) {
 	"use strict";
 
-	var UPDATEINTERVAL = config.production ? 5 * 60 * 1000 : 1 * 1000;
+	var UPDATEINTERVAL = 5 * 60 * 1000;
 	var appCache = window.applicationCache;
 
 	function handleCacheUpdateReady () {
@@ -42,7 +42,9 @@ define(["config"], function (config) {
 		// Fired when the manifest resources have been newly redownloaded.
 		appCache.addEventListener("updateready", handleCacheUpdateReady, false);
 
-		window.setInterval(checkForUpdate, UPDATEINTERVAL);
+		if (config.production) {
+			window.setInterval(checkForUpdate, UPDATEINTERVAL);
+		}
 
 	}
 
