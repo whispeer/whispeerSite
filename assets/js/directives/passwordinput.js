@@ -1,7 +1,7 @@
 define(["whispeerHelper", "directives/directivesModule"], function (h, directivesModule) {
 	"use strict";
 
-	function passwordSaver(sessionHelper) {
+	function passwordSaver(registerService) {
 		return {
 			scope:	{
 				state: "=state",
@@ -57,7 +57,7 @@ define(["whispeerHelper", "directives/directivesModule"], function (h, directive
 
 
 				scope.passwordStrength = function () {
-					return sessionHelper.passwordStrength(scope.state.password);
+					return registerService.passwordStrength(scope.state.password);
 				};
 
 				scope.empty = function (val) {
@@ -83,7 +83,7 @@ define(["whispeerHelper", "directives/directivesModule"], function (h, directive
 		};
 	}
 
-	passwordSaver.$inject = ["ssn.sessionHelper"];
+	passwordSaver.$inject = ["ssn.registerService"];
 
 	directivesModule.directive("passwordinput", passwordSaver);
 });

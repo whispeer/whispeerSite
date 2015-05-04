@@ -5,7 +5,7 @@
 define(["step", "whispeerHelper", "asset/state", "controllers/controllerModule"], function (step, h, State, controllerModule) {
 	"use strict";
 
-	function registerController($scope, $routeParams, keyStore, errorService, sessionHelper, locationService) {
+	function registerController($scope, $routeParams, errorService, registerService, locationService) {
 		var registerState = new State();
 
 		$scope.registerState = registerState.data;
@@ -28,11 +28,11 @@ define(["step", "whispeerHelper", "asset/state", "controllers/controllerModule"]
 		}
 
 		$scope.registerFormClick = function formClickF() {
-			sessionHelper.startKeyGeneration();
+			registerService.startKeyGeneration();
 		};
 
 		$scope.startKeyGeneration = function startKeyGen1() {
-			sessionHelper.startKeyGeneration();
+			registerService.startKeyGeneration();
 		};
 
 		$scope.nicknameChange = function nicknameChange() {
@@ -42,7 +42,7 @@ define(["step", "whispeerHelper", "asset/state", "controllers/controllerModule"]
 				$scope.nicknameCheck = false;
 				$scope.nicknameCheckError = false;
 
-				sessionHelper.nicknameUsed(internalNickname, this);
+				registerService.nicknameUsed(internalNickname, this);
 			}, function nicknameChecked(e, nicknameUsed) {
 				errorService.criticalError(e);
 
@@ -118,7 +118,6 @@ define(["step", "whispeerHelper", "asset/state", "controllers/controllerModule"]
 			}
 
 			var settings = {};
-			var imageBlob;
 
 			var profile = {
 				pub: {},
@@ -131,8 +130,8 @@ define(["step", "whispeerHelper", "asset/state", "controllers/controllerModule"]
 
 			step(function () {
 				console.time("register");
-				locationService.setReturnURL("/setup");
-				sessionHelper.register($scope.nickname, "", $scope.pwState.password, profile, imageBlob, settings, this);
+				locationService.setReturnUrl("/setup");
+				registerService.register($scope.nickname, "", $scope.pwState.password, profile, settings, this);
 			}, function (e) {
 				if (!e) {
 					locationService.mainPage();
@@ -146,7 +145,7 @@ define(["step", "whispeerHelper", "asset/state", "controllers/controllerModule"]
 		};
 	}
 
-	registerController.$inject = ["$scope", "$routeParams", "ssn.keyStoreService", "ssn.errorService", "ssn.sessionHelper", "ssn.locationService", "ssn.socketService"];
+	registerController.$inject = ["$scope", "$routeParams", "ssn.errorService", "ssn.registerService", "ssn.locationService", "ssn.socketService"];
 
 	controllerModule.controller("ssn.registerController", registerController);
 });
