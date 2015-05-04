@@ -9,16 +9,22 @@ define(["services/serviceModule"], function (serviceModule) {
 
 		var sessionStorage = new Storage("whispeer.session");
 
+		function setLoginData(_sid, _userid, noRedirect) {
+			sid = _sid;
+			userid = _userid;
+			loggedin = true;
+
+			$timeout(function () {
+				$rootScope.$broadcast("ssn.login");
+				if (!noRedirect) {
+					locationService.loadInitialURL();
+				}
+			});
+		}
+
 		function loadOldLogin() {
 			if (sessionStorage.get("loggedin") === "true" && sessionStorage.get("password")) {
-				sid = sessionStorage.get("sid");
-				loggedin = true;
-				userid = sessionStorage.get("userid");
-
-				$timeout(function () {
-					$rootScope.$broadcast("ssn.login");
-					locationService.loadInitialURL();
-				});
+				setLoginData(sessionStorage.get("sid"), sessionStorage.get("userid"));
 			} else {
 				sessionStorage.clear();
 			}
@@ -31,6 +37,7 @@ define(["services/serviceModule"], function (serviceModule) {
 		});
 
 		var sessionService = {
+			setLoginData: setLoginData,
 			setReturnUrl: function (url) {
 				locationService.setReturnUrl(url);
 			},

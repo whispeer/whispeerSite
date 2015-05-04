@@ -23,7 +23,7 @@ define(["whispeerHelper", "step", "asset/state", "libs/qrreader", "controllers/c
 
 		$scope.changePassword = {
 			password: "",
-			enabled: sessionService.isLoggedin()
+			enabled: false
 		};
 
 		$scope.savePassword = function () {
@@ -37,7 +37,7 @@ define(["whispeerHelper", "step", "asset/state", "libs/qrreader", "controllers/c
 			step(function () {
 				userService.getown().changePassword($scope.changePassword.password, this);
 			}, h.sF(function () {
-				window.location.href = "/";
+				window.location.href = "/main";
 			}), errorService.failOnError(savePasswordState));
 		};
 
@@ -50,7 +50,8 @@ define(["whispeerHelper", "step", "asset/state", "libs/qrreader", "controllers/c
 					code: $routeParams.recoveryCode,
 					keyFingerPrint: keyID
 				}, this);
-			}, h.sF(function () {
+			}, h.sF(function (response) {
+				sessionService.setLoginData(response.sid, response.userid, true);
 				$scope.changePassword.enabled = true;
 				$rootScope.$broadcast("ssn.recovery");
 				this.ne();
