@@ -45,7 +45,8 @@ window.onerror = function (str, file, line, col, e) {
 define([
 	"jquery",
 	"angular",
-	"login/loginLoader",
+	"login/loginModule",
+	"login/loginController",
 	"localizationModule"
 ], function($, angular, app) {
 	"use strict";
