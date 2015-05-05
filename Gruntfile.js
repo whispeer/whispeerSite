@@ -68,7 +68,10 @@ grunt.initConfig({
 					expand: true,
 					cwd: "node_modules/font-awesome/css/",
 					src: "font-awesome.min.css",
-					dest: "assets/less/base/addons/"
+					dest: "assets/less/base/addons/",
+					rename: function (dest, src) {
+						return dest + src.replace(".css", ".less");
+					}
 				},
 				{
 					expand: true,

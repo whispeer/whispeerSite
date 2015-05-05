@@ -17,7 +17,7 @@ codekit-config.json
 
 /assets/css
 /assets/fonts
-/assets/less/base/addons/font-awesome.min.css
+/assets/less/base/addons/font-awesome.min.less
 /assets/less/codekit-config.json
 /assets/less/styleguide.md
 whispeer.mf
