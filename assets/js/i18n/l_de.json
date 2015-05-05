@@ -106,7 +106,7 @@
 	"landingpage": {
 		"heading": "Deine Privatsphäre - unser Auftrag!",
 		"paragraphOne": "whispeer ist ein soziales Netzwerk, dass sich auf die Sicherheit deiner Daten spezialisiert hat. Mit vollständiger Verschlüsselung sämtlicher Kommunikation von Ende zu Ende.",
-		"paragraphTwo": "Um einen Account bei whispeer zu registrieren, brauchen wir nur einen Accountnamen und ein Passwort von euch. Alles andere ist optional.",
+		"paragraphTwo": "Um einen Account bei whispeer zu registrieren, brauchen wir nur einen Accountnamen und ein Passwort von dir. Alles andere ist optional.",
 		"featureOne": "Verschlüsselt",
 		"featureOneProse": "Alles wird auf Nutzerseite ver- und entschlüsselt. Nur die ausgewählten Empfänger können Nachrichten lesen, kein Mitlesen durch Dritte",
 		"featureTwo": "Offen",
@@ -114,14 +114,14 @@
 		"featureThree": "Werbefrei",
 		"featureThreeProse": "Es gibt keine Werbung, das Bezahlen ist freiwillig und Premium-Features sind zusätzlich käuflich",
 		"legal": "Ich akzeptiere die {agb} und {privacyPolicy}",
-		"inviteExplain": "Ihr benötigt eine Einladung, um euch bei whispeer registrieren zu können. Wir haben uns zu diesem Schritt entschieden, damit wir einen optimalen Service bereit stellen können — auf kurze und auf lange Sicht. Bald wird whispeer dann auch ohne Einladung für jeden zugänglich sein. Nutzt die Zeit bis dahin, um eure Familie und Freunde zu whispeer einzuladen!",
+		"inviteExplain": "Du benötigst eine Einladung, um dich bei whispeer registrieren zu können. Wir haben uns zu diesem Schritt entschieden, damit wir einen optimalen Service bereit stellen können — auf kurze und auf lange Sicht. Bald wird whispeer dann auch ohne Einladung für jeden zugänglich sein. Nutze die Zeit bis dahin, um deine Familie und Freunde zu whispeer einzuladen!",
 		"more": {
 			"headingOne": "Warum whispeer?",
 			"headingTwo": "Wie registriere ich mich?",
 			"paragraphOne": "Bei jedem üblichen Dienst musst du darauf vertrauen, dass der Betreiber deine Daten schützt. Bei whispeer geben wir dir die Kontrolle über deine Daten zurück. Die Verschlüsselung schützt deine Daten vor ungewünschten Augen, auch unseren.",
-			"paragraphTwo": "Wir geben euch gerne so viel Sicherheit wie möglich. Deswegen muss euer Passwort mindestens acht Zeichen lang sein. Wir empfehlen eine Passwortlänge von über 12 Zeichen mit einer Kombination aus Groß- und Kleinschreibung, Sonderzeichen und Zahlen.",
-			"paragraphThree": "Euer Vorname und Nachname ist optional und kann direkt nach dem Registrieren auf der Setup-Seite angegeben werden. Hier kann auch eine E-Mail Adresse eingetragen werden. Diese benutzen wir, um euch Neuigkeiten mitzuteilen. Eure E-Mail Adresse ist nur für das whispeer-Team sichtbar.",
-			"paragraphFour": "Weiterhin könnt ihr euer Profil um andere Daten ergänzen, wie zum Beispiel euer Geburtsdatum, euren Wohnort, euren Beziehungsstatus. Jede dieser Angaben ist anfangs verschlüsselt und nur für euch selbst sichtbar. Ihr könnt für jede einzelne Angabe auswählen, wer genau sie sehen kann. Eure Freunde sollen euer Geburtsdatum wissen, aber nicht euren Wohnort? Kein Problem. Euer selbst erstellter Kreis „Kollegen“ soll sehen wo ihr arbeitet, aber nicht was euer Beziehungsstatus ist? Auch das ist ganz einfach. Unter den Einstellungen könnt ihr angeben, ob alle Freunde oder nur einer (oder mehrere) eurer Kreise diese Information sehen darf. So behaltet ihr den Überblick und die Kontrolle!"
+			"paragraphTwo": "Wir geben dir gerne so viel Sicherheit wie möglich. Deswegen muss dein Passwort mindestens acht Zeichen lang sein. Wir empfehlen eine Passwortlänge von über 12 Zeichen mit einer Kombination aus Groß- und Kleinschreibung, Sonderzeichen und Zahlen.",
+			"paragraphThree": "Dein Vorname und Nachname ist optional und kann direkt nach dem Registrieren auf der Setup-Seite angegeben werden. Hier kann auch eine E-Mail Adresse eingetragen werden. Diese benutzen wir, um dir Neuigkeiten mitzuteilen. Deine E-Mail Adresse ist nur für das whispeer-Team sichtbar.",
+			"paragraphFour": "Weiterhin kannst du dein Profil um andere Daten ergänzen, wie zum Beispiel dein Geburtsdatum, deinen Wohnort, deinen Beziehungsstatus. Jede dieser Angaben ist anfangs verschlüsselt und nur für dich selbst sichtbar. Du kannst für jede einzelne Angabe auswählen, wer genau sie sehen kann. Deine Freunde sollen dein Geburtsdatum wissen, aber nicht deinen Wohnort? Kein Problem. Dein selbst erstellter Kreis „Kollegen“ soll sehen wo du arbeitet, aber nicht was dein Beziehungsstatus ist? Auch das ist ganz einfach. Unter den Einstellungen kannst du angeben, ob alle Freunde oder nur einer (oder mehrere) deiner Kreise diese Information sehen darf. So behälst du den Überblick und die Kontrolle!"
 		}
 	},
 	"directives": {
@@ -463,7 +463,7 @@
 			},
 			"password": {
 				"question": "Wie erstelle ich ein sicheres Passwort?",
-				"answer":	"Wir haben uns ein  10-Punkte-System überlegt, das euch hilft, bessere und sichere Passörter zu finden. Mehr darüber lest ihr in dem Blogeintrag über das System: http://blog.whispeer.de/de/2013/08/update-wie-whispeer-dir-hilft-ein-sicheres-passwort-zu-finden/ und http://blog.whispeer.de/de/2013/07/wie-whispeer-dir-hilft-ein-sicheres-passwort-zu-finden/ "
+				"answer":	"Wir haben uns ein  10-Punkte-System überlegt, das dir hilft, bessere und sichere Passörter zu finden. Mehr darüber findest du in dem Blogeintrag über das System: http://blog.whispeer.de/de/2013/08/update-wie-whispeer-dir-hilft-ein-sicheres-passwort-zu-finden/ und http://blog.whispeer.de/de/2013/07/wie-whispeer-dir-hilft-ein-sicheres-passwort-zu-finden/"
 			},
 			"profile": {
 				"question": "Wie kann ich mein Profil bearbeiten?",
