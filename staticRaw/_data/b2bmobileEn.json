@@ -23,7 +23,24 @@
 		},
 		{
 			headline: "The advantages of whispeer:",
-			details: " - easy to use <br> - Access data on all devices and on the go with the app <br> - featuring messages, file transfer and team communication <br> - securing data by using high standards of encryption",
+			detailsList: [
+				{
+					icon: "fa-life-saver",
+					text: "Easy to use"
+				},
+				{
+					icon: "fa-mobile",
+					text: "Access data on all devices and on the go with the App"
+				},
+				{
+					icon: "fa-comments",
+					text: "Featuring Messages, File-Transfer and Team-Communication"
+				},
+				{
+					icon: "fa-lock",
+					text: "Securing Data by using high standards of Encryption"
+				}
+			],
 			icon: "fa-briefcase",
 			learnmore: true,
 			mailForm: false
