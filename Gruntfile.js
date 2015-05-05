@@ -64,11 +64,19 @@ grunt.initConfig({
 	copy: {
 		vendor: {
 			files: [
-			  { expand: true,
-					cwd: "node_modules/font-awesome/",
-					src: ["css/**", "fonts/**"],
-					dest: "assets/vendor/",
-					filter: "isFile" }
+				{
+					expand: true,
+					cwd: "node_modules/font-awesome/css/",
+					src: "font-awesome.min.css",
+					dest: "assets/less/base/addons/"
+				},
+				{
+					expand: true,
+					cwd: "node_modules/font-awesome/fonts/",
+					src: "**",
+					dest: "assets/fonts/",
+					filter: "isFile"
+				}
 			]
 		}
 	},
