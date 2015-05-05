@@ -46,4 +46,5 @@ requirejs.config({
 	]
 });
 
-requirejs(["main"]);
+var initialModule = document.querySelectorAll("[data-initial]")[0].getAttribute("data-initial");
+requirejs([initialModule]);
