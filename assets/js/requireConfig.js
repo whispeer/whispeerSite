@@ -46,5 +46,9 @@ requirejs.config({
 	]
 });
 
-var initialModule = document.querySelectorAll("[data-initial]")[0].getAttribute("data-initial");
-requirejs([initialModule]);
+var initialElement = document.querySelectorAll("script[data-initial]");
+
+if (initialElement.length === 1) {
+	var initialModule = initialElement[0].getAttribute("data-initial");
+	requirejs([initialModule]);
+}
