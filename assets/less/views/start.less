@@ -187,6 +187,58 @@
 		}
 	}
 
+	.startView-register {
+		text-align: center;
+		h1 {
+			font-size: 24px;
+			line-height: normal;
+			margin-bottom: 20px;
+			color: @primary;
+		}
+		input:not([type="submit"])
+		:not([type="reset"])
+		:not([type="button"])
+		:not([type="file"])
+		:not([type="radio"])
+		:not([type="checkbox"]),
+		.annotatedInput-container {
+			width: 300px;
+			height: 48px;
+		}
+
+		.annotatedInput-container {
+			margin: 0 auto;
+		}
+
+		.annotatedInput-input {
+			width: 100%;
+		}
+
+		button {
+			font-size: 24px;
+			line-height: normal;
+			width: 300px;
+			margin-top: 16px;
+			margin-bottom: 0;
+		}
+
+		p {
+			text-align: left;
+			padding-left: 32px;
+			padding-right: 32px;
+		}
+
+		.registerAGB {
+			display: inline-block;
+			padding-left: 46px;
+			padding-right: 28px;
+			text-align: left;
+			text-indent: -16px;
+			font-size: 12px;
+			margin:	0;
+		}
+	}
+
 	.register {
 		width: 100%;
 		float: left;
@@ -208,55 +260,6 @@
 			padding-bottom: 30px;
 			padding-left: 20px;
 			padding-right: 20px;
-
-			h1 {
-				font-size: 24px;
-				line-height: normal;
-				margin-bottom: 20px;
-				color: @primary;
-			}
-			input:not([type="submit"])
-			:not([type="reset"])
-			:not([type="button"])
-			:not([type="file"])
-			:not([type="radio"])
-			:not([type="checkbox"]),
-			.annotatedInput-container {
-				width: 300px;
-				height: 48px;
-			}
-
-			.annotatedInput-container {
-				margin: 0 auto;
-			}
-
-			.annotatedInput-input {
-				width: 100%;
-			}
-
-			button {
-				font-size: 24px;
-				line-height: normal;
-				width: 300px;
-				margin-top: 16px;
-				margin-bottom: 0;
-			}
-
-			p {
-				text-align: left;
-				padding-left: 32px;
-				padding-right: 32px;
-			}
-
-			.registerAGB {
-				display: inline-block;
-				padding-left: 46px;
-				padding-right: 28px;
-				text-align: left;
-				text-indent: -16px;
-				font-size: 12px;
-				margin:	0;
-			}
 		}
 
 		#requestInvite {
@@ -342,4 +345,10 @@
 #start-login-form {
 	text-align: right;
 	margin: 4px 1%;
+}
+#startView-registerIframe {
+	height: 400px;
+	width: 360px;
+	float: left;
+	border: none;
 }

@@ -1,5 +1,5 @@
 <!doctype html>
-<html manifest="/manifest.mf" lang="de" data-ng-csp class="registerView">
+<html manifest="/manifest.mf" lang="de" data-ng-csp class="startView body-iframe">
 <head>
 	<base href="/" />
 	<meta charset="utf-8">
@@ -7,14 +7,10 @@
 	<link rel="stylesheet" href="assets/vendor/css/font-awesome.css">
 	<link rel="stylesheet" href="assets/css/jquery.qtip.css">
 	<link rel="stylesheet" href="assets/css/style.css">
-</head>	
+</head>
 <body>
-	<div id="container">
-		<section id="main">
-			<ng-include data-ng-controller="ssn.registerController" data-src="'assets/views/start/register.html'">
-			</ng-include>
-		</section>
-	</div>
+	<ng-include data-ng-controller="ssn.registerController" data-src="'assets/views/start/register.html'" class="startView-register">
+	</ng-include>
 </body>
 <script data-main="assets/js/register/registerRequireConfig" src="assets/js/bower/requirejs/require.js"></script>
 </html>
