@@ -21,12 +21,13 @@ define(["services/serviceModule"], function (serviceModule) {
 			loginPage: function () {
 				window.top.location = "/login";
 			},
-			setReturnUrl: function (url) {
-				var blocked = blockedReturnUrls.filter(function (blockedUrl) {
+			isBlockedReturnUrl: function (url) {
+				return blockedReturnUrls.filter(function (blockedUrl) {
 					return blockedUrl.indexOf(url) === 0;
 				}).length > 0;
-
-				if (blocked) {
+			},
+			setReturnUrl: function (url) {
+				if (api.isBlockedReturnUrl(url)) {
 					return;
 				}
 
@@ -34,7 +35,7 @@ define(["services/serviceModule"], function (serviceModule) {
 			},
 			loadInitialURL: function () {
 				var returnURL = loginStorage.get("returnUrl");
-				if (returnURL) {
+				if (returnURL && !api.isBlockedReturnUrl(returnURL)) {
 					$location.path(returnURL);
 					loginStorage.remove("returnUrl");
 				} else {
