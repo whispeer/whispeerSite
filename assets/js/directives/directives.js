@@ -29,5 +29,6 @@ define([
 	"directives/smartDate",
 	"directives/createcircle",
 	"directives/addfriend",
-	"directives/search"
+	"directives/search",
+	"directives/lazyiframe"
 ], function () {});

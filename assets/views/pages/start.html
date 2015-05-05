@@ -1,13 +1,13 @@
 <section data-ng-if="mobile" class="register">
 	<img src="assets/img/logo.png" alt="whispeer - keep your secrets" id="mobileLogo" />
-	<iframe id="header-login" src="login/login.html"></iframe>
-	<iframe src="/register.html" class="startView-registerIframe"></iframe>
+	<lazyiframe id="header-login" src="login/login.html"></lazyiframe>
+	<lazyiframe src="/register.html" class="startView-registerIframe"></lazyiframe>
 </section>
 
 <section data-ng-if="!mobile" class="splash">
 	<sidebar class="rightWrap">
 		<section class="box register">
-			<iframe src="/register.html" class="startView-registerIframe"></iframe>
+			<lazyiframe src="/register.html" class="startView-registerIframe"></lazyiframe>
 		</section>
 	</sidebar>
 	<div class="leftWrap">
@@ -49,7 +49,7 @@
 
 		<sidebar class="rightWrap">
 			<section class="box register">
-				<iframe src="/register.html" class="startView-registerIframe"></iframe>
+				<lazyiframe src="/register.html" class="startView-registerIframe"></lazyiframe>
 			</section>
 		</sidebar>
 
