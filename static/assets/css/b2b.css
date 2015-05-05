@@ -25,20 +25,23 @@ html {
   background: #fff;
   color: #000; }
 
-.landing-section h1,
-.landing-section p {
+.section-header,
+.section-paragraph {
   display: block;
   width: 600px;
   margin-left: auto;
   margin-right: auto; }
 
-.landing-section h1 {
+.section-header {
   font-weight: 600;
   font-size: 2.5em; }
 
-.landing-section p {
+.section-paragraph {
   font-weight: 200;
   font-size: 1.2em; }
+
+.section-header--noTopMargin {
+  margin-top: 0px; }
 
 .button {
   background-image: none;
