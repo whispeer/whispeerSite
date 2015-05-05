@@ -45,8 +45,9 @@ define(["app"], function (app) {
 		addMain("messages", false);
 		addMain("circles");
 		addMain("settings");
+
+		//TODO: move all of these into own html files!
 		addMain("help");
-		addMain("loading");
 		addMain("version");
 		addMain("legal");
 		addMain("impressum");
