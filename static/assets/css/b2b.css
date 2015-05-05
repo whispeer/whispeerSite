@@ -19,11 +19,19 @@ html {
   background: #54AB0C;
   color: #fff;
   box-sizing: border-box;
-  text-align: center; }
+  text-align: center;
+  background-size: cover; }
 
 .landing-section:nth-child(2n) {
   background: #fff;
   color: #000; }
+
+.landing-section--darkText {
+  color: #000; }
+
+#heading {
+  height: 100vh;
+  padding: 50px 25px 200px; }
 
 .section-header,
 .section-paragraph {

@@ -6,7 +6,9 @@
 	teaser: {
 		headline: "Simple and secure communication for your business",
 		details: "Protect your companies confidential information - secure your messages with whispeer",
-		image: "business people or building /city (maybe both?) f.e. http://image.shutterstock.com/display_pic_with_logo/2117717/174966551/stock-photo-group-of-business-people-in-office-building-174966551.jpg",
+		imageIdeas: "business people or building /city (maybe both?) f.e. http://image.shutterstock.com/display_pic_with_logo/2117717/174966551/stock-photo-group-of-business-people-in-office-building-174966551.jpg",
+		image: "security.jpg",
+		darkText: true,
 		video: "",
 		mailForm: true
 	},

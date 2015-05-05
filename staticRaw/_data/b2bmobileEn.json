@@ -6,9 +6,10 @@
 	teaser: {
 		headline: "Maintain an overview over work - wherever you go",
 		details: "whispeer is a company communication platform that is not only easy to use, but running on all devices. No matter where you are, you can always keep track of whats going on.",
-		image: "busy city at night? http://www.shutterstock.com/de/pic-81144667/stock-photo-michigan-avenue-in-chicago-image-of-busy-traffic-at-chicago-night-street.html?src=XmEFSqSbEY7AMTqzUBCgXA-1-27 
-		or http://www.shutterstock.com/de/pic-135526199/stock-photo-bottom-angle-shooting-highway-car-light-trails-of-modern-urban-buildings.html?src=XmEFSqSbEY7AMTqzUBCgXA-1-40 
+		imageIdeas: "busy city at night? http://www.shutterstock.com/de/pic-81144667/stock-photo-michigan-avenue-in-chicago-image-of-busy-traffic-at-chicago-night-street.html?src=XmEFSqSbEY7AMTqzUBCgXA-1-27
+		or http://www.shutterstock.com/de/pic-135526199/stock-photo-bottom-angle-shooting-highway-car-light-trails-of-modern-urban-buildings.html?src=XmEFSqSbEY7AMTqzUBCgXA-1-40
 		or http://www.shutterstock.com/de/pic-132066608/stock-photo-dense-buildings-in-minato-ku-tokyo-japan-with-tokyo-sky-tree-visible-on-the-horizon.html?src=3XPZoEXUdHITf1y8mspt3g-1-26",
+		image: "mobile.jpg",
 		video: "",
 		mailForm: true
 	},

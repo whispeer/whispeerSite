@@ -6,8 +6,10 @@
 	teaser: {
 		headline: "Upgrade your company communication",
 		details: "whispeer is an easy to use, back to basics communication platform, that will finally rid you of the inter-company e-mail chaos!",
-		image: "business meeting with laughing people? something like http://www.shutterstock.com/de/pic-182278622/stock-photo-casual-people-meeting-at-industrial-office.html?src=YFYK6_mssNuk0bir201bqw-1-2 
+		imageIdeas: "business meeting with laughing people? something like http://www.shutterstock.com/de/pic-182278622/stock-photo-casual-people-meeting-at-industrial-office.html?src=YFYK6_mssNuk0bir201bqw-1-2
 		or http://www.shutterstock.com/de/pic-145004602/stock-photo-funny-businessman-telling-a-joke-during-conference-coffee-break.html?src=YFYK6_mssNuk0bir201bqw-1-0",
+		image: "usability.jpg",
+		darkText: true,
 		video: "",
 		mailForm: true
 	},

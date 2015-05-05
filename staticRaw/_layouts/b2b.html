@@ -8,7 +8,7 @@
 		<link rel="stylesheet" href="{{ "/assets/css/b2b.css" | prepend: site.baseurl }}">
 	</head>
 	<body>
-		<section class="landing-section" id="heading">
+		<section class="landing-section {% if data.teaser.darkText %} landing-section--darkText {% endif %}" id="heading" {% if data.teaser.image != null %} style="background-image: url(/assets/images/{{data.teaser.image}});" {% endif %}>
 			<h1 class="section-header {% if data.teaser.icon == null %} section-header--noTopMargin {% endif %}">{{ data.teaser.headline }}</h1>
 			<p class="section-paragraph">{{ data.teaser.details }}</p>
 			{% if data.teaser.mailForm %}
@@ -19,7 +19,7 @@
 			{% endif %}
 		</section>
 		{% for section in data.sections %}
-		<section class="landing-section">
+		<section class="landing-section {% if section.darkText %} landing-section--darkText {% endif %}"  {% if section.image != null %} style="background-image: url(/assets/images/{{section.image}});" {% endif %}>
 			{% capture thecycle %}{% cycle 'even', 'odd' %}{% endcapture %}
 			{% if section.icon != null %}<i class="fa fa-5x {{section.icon}}"></i>{% endif %}
 			{% if section.headline != null %}<h1 class="section-header {% if section.icon == null %} section-header--noTopMargin {% endif %}">{{ section.headline }}</h1>{% endif %}
