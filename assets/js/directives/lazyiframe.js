@@ -7,11 +7,18 @@ define(["directives/directivesModule"], function (directivesModule) {
 			template: "",
 			link: function (scope, iElement, iAttrs) {
 				window.setTimeout(function () {
-					var attributes = {
-						src: iAttrs.src,
-						id: iAttrs.id,
-						class: iAttrs.class
-					};
+					var attributes = {};
+
+					Object.keys(iAttrs.$attr).filter(function (attr) {
+						return attr.indexOf("ng") !== 0;
+					}).map(function (attr) {
+						return {
+							key: attr,
+							val: iAttrs.$attr[attr]
+						};
+					}).forEach(function (attr) {
+						attributes[attr.val] = iAttrs[attr.key];
+					});
 
 					iElement.append(
 						jQuery("<iframe>").attr(attributes)
