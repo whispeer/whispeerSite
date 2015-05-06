@@ -7,12 +7,9 @@ define([
 	"config/interceptorsConfig",
 
 	"directives/directives",
-
 	"services/services",
+	"models/user",
 
-	"models/models",
-
-	"angularRoute",
 	"localizationModule"
 ], function($, angular, app) {
 	"use strict";
