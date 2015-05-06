@@ -1,6 +1,6 @@
 define([
 	"angular",
-	"angularRoute",
+	"angularUiRouter",
 	"controllers/controllers",
 	"services/services",
 	"filter/filter",
@@ -22,7 +22,7 @@ define([
 		"ssn.search",
 		"ssn.interceptors.config",
 		"localization",
-		"ngRoute",
+		"ui.router",
 		"ngTouch"
 	], function ($compileProvider) {
 		$compileProvider.imgSrcSanitizationWhitelist(/^\s*(https?|ftp|file|blob|app):|data:image\//);
