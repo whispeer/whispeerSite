@@ -6,10 +6,9 @@
 		}
 		@media @mobile {
 			width: ~"calc(100% - 58px)";
-			border: solid 1px darken(#ffffff, 45%);
-			border-top: none;
-			border-radius: 0px 0px 5px 5px;
 		}
+		border: solid 1px #8c8c8c;
+		border-top: none;
 	}
 
 	.loginLoading,
@@ -34,12 +33,7 @@
 		text-shadow: 1px 1px 1px @red;
 		color: #fff;
 		border: solid 1px darken(#ffffff, 45%);
-		@media @desktop {
-			border-radius: 5px;
-		}
-		@media @mobile {
-			border-top: none;
-		}
+		border-top: none;
 		padding-bottom: 10px;
 		padding-top: 10px;
 		.box-fix;
@@ -72,12 +66,10 @@
 		.column(12,12,left,0);
 		button {
 			.column(6);
-			margin-bottom: 5px;
 		}
 	}
 	.error,
 	.loginLoading {
 		.column(12);
-		margin-bottom: 5px;
 	}
 }
