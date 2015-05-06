@@ -3,6 +3,15 @@ define([
 	"angular",
 	"recovery/recoveryModule",
 	"recovery/recoveryController",
+
+	"config/interceptorsConfig",
+
+	"directives/directives",
+
+	"services/services",
+
+	"models/models",
+
 	"angularRoute",
 	"localizationModule"
 ], function($, angular, app) {

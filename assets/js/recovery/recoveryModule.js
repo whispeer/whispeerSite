@@ -1,4 +1,4 @@
-define(["angular", "directives/directives"], function (angular) {
+define(["angular"], function (angular) {
 	"use strict";
-	return angular.module("ssn.recovery", ["ssn.services", "ssn.directives", "ssn.models", "localization", "ngRoute"]);
+	return angular.module("ssn.recovery", ["ssn.services", "ssn.directives", "ssn.models", "ssn.interceptors.config", "localization", "ngRoute"]);
 });
