@@ -1,10 +1,30 @@
-define(["whispeerHelper", "step", "asset/state", "libs/qrreader", "controllers/controllerModule"], function (h, step, State, qrreader, controllerModule) {
+define([
+		"whispeerHelper",
+		"step",
+		"asset/state",
+		"libs/qrreader",
+		"recovery/recoveryModule",
+		"services/services",
+	], function (h, step, State, qrreader, controllerModule) {
 	"use strict";
 
-	function recoveryController($scope, $rootScope, $routeParams, socketService, keyStore, sessionService, userService, cssService, errorService) {
+	function recoveryController($scope, $rootScope, $location, socketService, keyStore, sessionService, userService, cssService, errorService) {
 		cssService.setClass("recoveryView");
 
-		$scope.codeProvided = $routeParams.recoveryCode;
+		var parts = window.location.pathname.split("/");
+		var nick, recoveryCode;
+
+		parts = parts.filter(function (v) {
+			return v !== "";
+		});
+
+		if (parts.length === 3) {
+			recoveryCode = parts.pop();
+			nick = parts.pop();
+			$scope.codeProvided = true;
+		}
+
+		
 
 		$scope.qr = {
 			enabled: $scope.codeProvided
@@ -43,11 +63,11 @@ define(["whispeerHelper", "step", "asset/state", "libs/qrreader", "controllers/c
 
 		function doRecovery(key, cb) {
 			step(function () {
-				keyStore.setKeyGenIdentifier($routeParams.nick);
+				keyStore.setKeyGenIdentifier(nick);
 				var keyID = keyStore.sym.loadBackupKey(keyStore.format.unBase32(key));
 				keyStore.setKeyGenIdentifier("");
 				socketService.emit("recovery.useRecoveryCode", {
-					code: $routeParams.recoveryCode,
+					code: recoveryCode,
 					keyFingerPrint: keyID
 				}, this);
 			}, h.sF(function (response) {
@@ -102,7 +122,7 @@ define(["whispeerHelper", "step", "asset/state", "libs/qrreader", "controllers/c
 		};
 	}
 
-	recoveryController.$inject = ["$scope", "$rootScope", "$routeParams", "ssn.socketService", "ssn.keyStoreService", "ssn.sessionService", "ssn.userService", "ssn.cssService", "ssn.errorService"];
+	recoveryController.$inject = ["$scope", "$rootScope", "$location", "ssn.socketService", "ssn.keyStoreService", "ssn.sessionService", "ssn.userService", "ssn.cssService", "ssn.errorService"];
 
 	controllerModule.controller("ssn.recoveryController", recoveryController);
 });
