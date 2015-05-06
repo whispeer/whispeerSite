@@ -75,7 +75,7 @@ define([
 			login: function () {
 				loginState.pending();
 
-				loginStorage.set("identifier", res.identifier);
+				loginStorage.set("identifier", res.identifier || "");
 
 				step(function () {
 					res.loginServer(res.identifier, res.password, this);
