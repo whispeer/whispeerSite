@@ -57,7 +57,8 @@ grunt.initConfig({
 				sourceMapRootpath: "/"
 			},
 			files: {
-				"assets/css/style.css": "assets/less/style.less"
+				"assets/css/style.css": "assets/less/style.less",
+				"assets/css/iframe.css": "assets/less/iframe.less"
 			}
 		}
 	},
