@@ -24,8 +24,6 @@ define([
 			$scope.codeProvided = true;
 		}
 
-		
-
 		$scope.qr = {
 			enabled: $scope.codeProvided
 		};
@@ -57,6 +55,7 @@ define([
 			step(function () {
 				userService.getown().changePassword($scope.changePassword.password, this);
 			}, h.sF(function () {
+				sessionService.saveSession();
 				window.location.href = "/main";
 			}), errorService.failOnError(savePasswordState));
 		};
@@ -73,7 +72,7 @@ define([
 			}, h.sF(function (response) {
 				sessionService.setLoginData(response.sid, response.userid, true);
 				$scope.changePassword.enabled = true;
-				$rootScope.$broadcast("ssn.recovery");
+
 				this.ne();
 			}), cb);
 		}
