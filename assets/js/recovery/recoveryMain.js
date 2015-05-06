@@ -7,8 +7,6 @@ define([
 	"config/interceptorsConfig",
 
 	"directives/directives",
-	"services/services",
-	"models/user",
 
 	"localizationModule"
 ], function($, angular, app) {

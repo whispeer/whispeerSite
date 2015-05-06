@@ -4,7 +4,25 @@ define([
 		"asset/state",
 		"libs/qrreader",
 		"recovery/recoveryModule",
-		"services/services",
+
+		"models/user",
+
+		"services/socketService",
+		"services/keyStoreService",
+		"services/sessionService",
+		"services/userService",
+		"services/errorService",
+
+		//sub dependencies.
+		"services/locationService",
+		"services/storageService",
+		"services/blobService",
+		"services/cacheService",
+		"services/profileService",
+		"services/settingsService",
+		"services/initService",
+		"services/migrationService",
+		"services/friendsService",
 	], function (h, step, State, qrreader, controllerModule) {
 	"use strict";
 
