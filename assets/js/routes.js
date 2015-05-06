@@ -26,11 +26,6 @@ define(["app"], function (app) {
 			});
 		}
 
-		$routeProvider.when("/recovery/:nick/:recoveryCode", {
-			templateUrl: "assets/views/pages/recovery.html",
-			controller: "ssn.recoveryController",
-		});
-
 		addMain("login");
 		addMain("invite");
 		addMain("setup");
