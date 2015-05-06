@@ -7,8 +7,13 @@
 	<link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
-	<ng-include data-ng-controller="ssn.loginController" data-src="'assets/views/start/login/login.html'">
-	</ng-include>
+	<form id="start-login-form" data-ng-controller="ssn.loginController">
+		<input type="text" id="mail" data-i18n-attr="login.username|placeholder" data-ng-model="login.identifier">
+		<input type="password" id="password" data-i18n-attr="login.password|placeholder" data-ng-model="login.password">
+		<savebutton id="loginformsubmit" data-state="login.state" class="btn btn--input btn--primary" type="submit" data-ng-click="login.login()">
+			<span data-i18n="login.link"></span>
+		</savebutton>
+	</form>
 </body>
 <script data-main="assets/js/requireConfig" data-initial="login/loginMain" src="assets/js/bower/requirejs/require.js"></script>
 </html>
