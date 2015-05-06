@@ -47,7 +47,7 @@ define(["services/serviceModule"], function (serviceModule) {
 			},
 			updateURL: function (loggedin, controller) {
 				//not logged in but on a page requiring login --> landing
-				if (!loggedin && noLoginRequired.indexOf(controller) === -1) {
+				if (!loggedin && controller && noLoginRequired.indexOf(controller) === -1) {
 					api.setReturnUrl($location.path());
 					api.landingPage();
 					return;
