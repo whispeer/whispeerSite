@@ -5,28 +5,34 @@
 	<meta charset="utf-8">
 
 	<link rel="shortcut icon" href="assets/img/favicons/favicon.png" type="image/x-icon">
-	<link rel="stylesheet" href="assets/vendor/css/font-awesome.css">
 	<link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body data-ng-init="hideLoginForm = true" data-mobile>
-	<ng-include src="'assets/views/topBar.html'" data-ng-if="!mobile"></ng-include>
+	<header class="header" data-ng-cloak data-ng-class="{'header-push': (mobile && sidebarActive && !searchActive)}">
+		<div class="header-inner">
+			<a href="main" class="header-brand" data-ng-click="mobileActivateView()">
+				<span class="header-brand--normal">whis</span><span class="header-brand--inverse">peer</span>
+			</a>
+			<lazyiframe id="header-login" src="login/login.html" data-ng-if="!mobile"></lazyiframe>
+		</div>
+	</header>
 	<div id="container">
 		<section id="main">
 			<div class="loginForm" data-ng-controller="ssn.loginController">
 				<h1 data-i18n="login.header"></h1>
-				<form>
-					<div class="name">
+				<form class="inputSandwich">
+					<div class="name inputSandwich inputSandwich--top">
 						<input type="text" id="mail" data-i18n-attr="login.username|placeholder" data-ng-model="login.identifier">
 					</div>
-					<div class="pw">
+					<div class="pw inputSandwich inputSandwich--middle">
 						<input type="password" id="password" data-i18n-attr="login.password|placeholder" data-ng-model="login.password">
 					</div>
-					<div class="errors" data-ng-cloak>
+					<div class="errors inputSandwich inputSandwich--middle" data-ng-cloak>
 						<div class="error" data-ng-if="login.failureCode > 1" id="errorLogin" data-i18n="login.loginFailed"></div>
 						<div class="error" data-ng-if="login.failureCode == 0" id="errorLogin" data-i18n="login.unknownName"></div>
 						<div class="error" data-ng-if="login.failureCode == 1" id="errorLogin" data-i18n="login.wrongPassword"></div>
 					</div>
-					<savebutton id="loginformsubmit" data-noiniticon data-state="login.state" class="btn btn--input btn--primary" type="submit" data-ng-click="login.login()">
+					<savebutton id="loginformsubmit" data-noiniticon data-state="login.state" class="btn btn--input btn--primary inputSandwich inputSandwich--bottom" type="submit" data-ng-click="login.login()">
 						<span data-i18n="login.link"></span>
 					</savebutton>
 				</form>
