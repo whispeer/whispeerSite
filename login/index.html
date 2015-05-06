@@ -21,7 +21,7 @@
 					<div class="pw">
 						<input type="password" id="password" data-i18n-attr="login.password|placeholder" data-ng-model="login.password">
 					</div>
-					<div class="errors">
+					<div class="errors" data-ng-cloak>
 						<div class="error" data-ng-if="login.failureCode > 1" id="errorLogin" data-i18n="login.loginFailed"></div>
 						<div class="error" data-ng-if="login.failureCode == 0" id="errorLogin" data-i18n="login.unknownName"></div>
 						<div class="error" data-ng-if="login.failureCode == 1" id="errorLogin" data-i18n="login.wrongPassword"></div>
