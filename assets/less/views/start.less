@@ -190,10 +190,12 @@
 	.startView-register {
 		text-align: center;
 		h1 {
-			font-size: 24px;
-			line-height: normal;
-			margin-bottom: 20px;
-			color: @primary;
+			@media @desktop {
+				font-size: 24px;
+				line-height: normal;
+				margin-bottom: 20px;
+				color: @primary;
+			}
 		}
 		input:not([type="submit"])
 		:not([type="reset"])
@@ -202,8 +204,10 @@
 		:not([type="radio"])
 		:not([type="checkbox"]),
 		.annotatedInput-container {
-			width: 300px;
-			height: 48px;
+			@media @desktop {
+				width: 300px;
+				height: 48px;
+			}
 		}
 
 		.annotatedInput-container {
@@ -236,6 +240,50 @@
 			text-indent: -16px;
 			font-size: 12px;
 			margin:	0;
+		}
+		@media @mobile {
+			.registerWrap {
+				background: transparent;
+			}
+			.registerForm p {
+				color: @white;
+				padding: 0 29px;
+				text-align: justify;
+			}
+			.inputWrap {
+				width: ~"calc(100% - 58px)";
+				margin: 0 29px;
+				.nickname {
+					border-radius: 5px 5px 0 0;
+				}
+				.password, .password2, .registerAGB {
+					border-radius: 0;
+					border-top: 0;
+					border-bottom: solid 1px darken(#ffffff, 45%);
+				}
+				.registerAGB {
+					display: inline-block;
+					background: @white;
+					box-shadow: inset 0px 0px 5px #ccc;
+					width: 100%;
+					height: 40px;
+					line-height: 40px;
+					padding: 0 25px;
+					.box-fix;
+				}
+			}
+			.submitWrap {
+				width: 100%;
+				width: ~"calc(100% - 58px)";
+				margin: 0 29px;
+				button {
+					width: 100%;
+					margin-top: 0;
+					border: solid 1px darken(#ffffff, 45%);
+					border-top: none;
+					border-radius: 0 0 5px 5px;
+				}
+			}
 		}
 	}
 
@@ -272,68 +320,6 @@
 			margin-top: 0.67rem;
 		}
 
-		@media @mobile {
-			.registerWrap {
-				background: transparent;
-			}
-			.registerForm p {
-				color: @white;
-				padding: 0 29px;
-				text-align: justify;
-			}
-			.inputWrap {
-				width: ~"calc(100% - 58px)";
-				margin: 0 29px;
-				.nickname {
-					border-radius: 5px 5px 0 0;
-				}
-				.password, .password2, .registerAGB {
-					border-radius: 0;
-					border-top: 0;
-					border-bottom: solid 1px darken(#ffffff, 45%);
-				}
-				.registerAGB {
-					display: inline-block;
-					background: @white;
-					box-shadow: inset 0px 0px 5px #ccc;
-					width: 100%;
-					height: 40px;
-					line-height: 40px;
-					padding: 0 5px;
-					.box-fix;
-				}
-			}
-			.submitWrap {
-				width: 100%;
-				width: ~"calc(100% - 58px)";
-				margin: 0 29px;
-				button {
-					width: 100%;
-					margin-top: 0;
-					border: solid 1px darken(#ffffff, 45%);
-					border-top: none;
-					border-radius: 0 0 5px 5px;
-				}
-			}
-			.inviteCode {
-				margin-top: 15px;
-			}
-			#requestInvite, .registerForm {
-				margin-top: 35px;
-				border-top: 1px solid #ccc;
-			}
-			#requestInviteMail {
-				border-radius: 5px 5px 0 0;
-			}
-			#sendInviteRequest {
-				width: 100%;
-				margin: 0 0 20px 0;
-				border-radius: 0 0 5px 5px;
-				border: solid 1px darken(#ffffff, 45%);
-				border-top: none;
-			}
-		}
-
 		.icon {
 			&.fa-check { color: @green; }
 			&.fa-warning { color: @orange; }
@@ -346,9 +332,19 @@
 	text-align: right;
 	margin: 4px 1%;
 }
+.startView-loginIframe {
+	@media @mobile {
+		width: 100%;
+		height: 200px;
+	}
+}
 .startView-registerIframe {
-	height: 400px;
-	width: 360px;
-	float: left;
-	border: none;
+	height: 307px;
+	@media @mobile {
+		width: 100%;
+	}
+	@media @desktop {
+		width: 360px;
+		float: left;
+	}
 }

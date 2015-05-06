@@ -48,19 +48,22 @@
 
 .loginView {
 	#main {
-		.width(4);
-		.push(4);
-		.pull(4);
-
+		@media @desktop {
+			.width(4);
+			.push(4);
+			.pull(4);
+		}
 		text-align: center;
 	}
 	h1 {
 		.large-text();
-		margin-top: 0px;
+		@media @mobile {
+			color: #fff;
+			.bold-text();
+		}
 	}
 	input {
 		.column(12);
-		margin-bottom: 5px;
 	}
 	#loginformsubmit {
 		.column(12);
