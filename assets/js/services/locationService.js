@@ -9,17 +9,20 @@ define(["services/serviceModule"], function (serviceModule) {
 		var blockedReturnUrls = ["/start", "/recovery"];
 
 		var api = {
+			setTopLocation: function (url) {
+				window.top.location = url;
+			},
 			mainPage: function () {
-				window.top.location = "/main";
+				api.setTopLocation("/main");
 			},
 			landingPage: function () {
-				window.top.location = "/start";
+				api.setTopLocation("/start");
 			},
 			isLoginPage: function () {
 				return window.top.location.pathname.indexOf("/login") === 0;
 			},
 			loginPage: function () {
-				window.top.location = "/login";
+				api.setTopLocation("/login");
 			},
 			isBlockedReturnUrl: function (url) {
 				return blockedReturnUrls.filter(function (blockedUrl) {

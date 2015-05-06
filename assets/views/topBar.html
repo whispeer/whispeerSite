@@ -17,6 +17,6 @@
 		<div class="header-collapse" data-ng-if="loggedin">
 			<search data-supplier="userSearchSupplier" callback="visitUserProfile(selected)" data-search-template="user" data-add-classes="search--navbar" data-input-i18n-attr="menu.search|placeholder"/>
 		</div>
-		<lazyiframe id="header-login" src="login/login.html" data-ng-show="!loggedin && !recovery && !hideLoginForm"></lazyiframe>
+		<lazyiframe id="header-login" src="login/login.html" data-ng-if="!loggedin && !recovery && !hideLoginForm"></lazyiframe>
 	</div>
 </header>
