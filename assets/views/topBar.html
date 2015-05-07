@@ -11,7 +11,7 @@
 		<a data-ng-href="{{loggedin ? 'main' : 'start'}}" class="header-brand" data-ng-click="mobileActivateView()">
 			<span class="header-brand--normal">whis</span><span class="header-brand--inverse">peer</span>
 		</a>
-		<a href="login/" target="_self" class="header-toggle header-toggle-login" data-ng-if="mobile && !loggedin && !recovery">Login</a>
+		<a href="login/" target="_self" class="header-toggle header-toggle-login" data-ng-if="mobile && !loggedin && !recovery" data-i18n="login.link"></a>
 		<button class="header-toggle header-toggle-search" data-ng-click="toggleSearch()" data-ng-if="mobile && loggedin">
 			<i class="fa fa-search header-toggle-icon"></i>
 		</button>
