@@ -65,13 +65,7 @@ define(["app"], function (app) {
 			controller: "ssn.userController"
 		});
 
-		$stateProvider.state("short.user", {
-			url: "/{identifier:[A-z0-9]+}",
-			templateUrl: "assets/views/pages/user.html",
-			controller: "ssn.userController"
-		});
-
-		$urlRouterProvider.when("/", "/start");
+		$urlRouterProvider.when("/", "/main");
 	}]);
 
 });
