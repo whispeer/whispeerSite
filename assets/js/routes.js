@@ -42,8 +42,9 @@ define(["app"], function (app) {
 
 		$stateProvider.state("logout", {
 			url: "/logout",
-			templateUrl: "assets/views/pages/loading.html",
-			controller: "ssn.logoutController"
+			controller: ["ssn.sessionHelper", function (sessionHelper) {
+				sessionHelper.logout();
+			}]
 		});
 
 		$stateProvider.state("messages", {
