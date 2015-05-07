@@ -19,9 +19,17 @@ define(["directives/directivesModule"], function (directivesModule) {
 					attributes[attr.val] = iAttrs[attr.key];
 				});
 
-				iElement.append(
-					jQuery("<iframe>").attr(attributes)
-				);
+				function append() {
+					iElement.append(
+						jQuery("<iframe>").attr(attributes)
+					);
+				}
+
+				if (iAttrs.delay) {
+					window.setTimeout(append, parseInt(iAttrs.delay, 10));
+				} else {
+					append();
+				}
 			}
 		};
 	}
