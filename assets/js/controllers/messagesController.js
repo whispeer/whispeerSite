@@ -5,7 +5,7 @@
 define(["step", "whispeerHelper", "asset/state", "controllers/controllerModule"], function (step, h, State, controllerModule) {
 	"use strict";
 
-	function messagesController($scope, $routeParams, $location, $timeout, errorService, cssService, messageService) {
+	function messagesController($scope, $stateParams, $location, $timeout, errorService, cssService, messageService) {
 		cssService.setClass("messagesView", true);
 
 		$scope.topicid = 0;
@@ -13,9 +13,9 @@ define(["step", "whispeerHelper", "asset/state", "controllers/controllerModule"]
 
 		var topicsLoadingState = new State();
 
-		$scope.$watch(function () { return $routeParams.userid; }, function () {
-			if ($routeParams.userid) {
-				$scope.userid = $routeParams.userid;
+		$scope.$watch(function () { return $stateParams.userid; }, function () {
+			if ($stateParams.userid) {
+				$scope.userid = $stateParams.userid;
 				step(function () {
 					messageService.getUserTopic($scope.userid, this);
 				}, h.sF(function (topicid) {
@@ -26,9 +26,9 @@ define(["step", "whispeerHelper", "asset/state", "controllers/controllerModule"]
 			}
 		});
 
-		$scope.$watch(function(){ return $routeParams.topicid; }, function(){
-			if ($routeParams.topicid) {
-				$scope.loadActiveTopic($routeParams.topicid);
+		$scope.$watch(function(){ return $stateParams.topicid; }, function(){
+			if ($stateParams.topicid) {
+				$scope.loadActiveTopic($stateParams.topicid);
 			} else {
 				$scope.topicLoaded = false;
 			}
@@ -43,8 +43,8 @@ define(["step", "whispeerHelper", "asset/state", "controllers/controllerModule"]
 			step(function () {
 				messageService.loadMoreLatest(this);	
 			}, h.sF(function () {
-				if ($routeParams.topicid && initial) {
-					$scope.loadActiveTopic($routeParams.topicid);
+				if ($stateParams.topicid && initial) {
+					$scope.loadActiveTopic($stateParams.topicid);
 				}
 				this.ne();
 			}), errorService.failOnError(topicsLoadingState));
@@ -235,7 +235,7 @@ define(["step", "whispeerHelper", "asset/state", "controllers/controllerModule"]
 	}
 
 
-	messagesController.$inject = ["$scope", "$routeParams", "$location", "$timeout", "ssn.errorService", "ssn.cssService", "ssn.messageService"];
+	messagesController.$inject = ["$scope", "$stateParams", "$location", "$timeout", "ssn.errorService", "ssn.cssService", "ssn.messageService"];
 
 	controllerModule.controller("ssn.messagesController", messagesController);
 });

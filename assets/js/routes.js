@@ -1,7 +1,7 @@
 define(["app"], function (app) {
 	"use strict";
 
-	return app.config(["$stateProvider", "$provide", "$locationProvider", "localizationLoaderProvider", function ($stateProvider, $provide, $locationProvider, localizationLoaderProvider) {
+	return app.config(["$stateProvider", "$urlRouterProvider", "$provide", "$locationProvider", "localizationLoaderProvider", function ($stateProvider, $urlRouterProvider, $provide, $locationProvider, localizationLoaderProvider) {
 		localizationLoaderProvider.setAvailableLanguages(["en-us", "de"]);
 
 		$locationProvider.html5Mode(true);
@@ -14,16 +14,11 @@ define(["app"], function (app) {
 			});
 		}
 
-		function addMain(name, reloadOnSearch) {
-			if (reloadOnSearch !== false) {
-				reloadOnSearch = true;
-			}
-
+		function addMain(name) {
 			$stateProvider.state(name, {
 				url: "/" + name,
 				templateUrl: "assets/views/pages/" + name + ".html",
-				controller: "ssn." + name + "Controller",
-				reloadOnSearch: reloadOnSearch
+				controller: "ssn." + name + "Controller"
 			});
 		}
 
@@ -32,13 +27,12 @@ define(["app"], function (app) {
 		addMain("setup");
 		addMain("main");
 		addMain("friends");
-		addMain("messages", false);
 		addMain("circles");
 		addMain("settings");
 		addMain("acceptInvite");
 
 		//TODO: move all of these into own html files!
-		addMain("start", false);
+		addMain("start");
 		addMain("help");
 		addMain("version");
 		addMain("legal");
@@ -52,27 +46,31 @@ define(["app"], function (app) {
 			controller: "ssn.logoutController"
 		});
 
-		/*$stateProvider.state("/verifyMail/:challenge", {
+		$stateProvider.state("messages", {
+			url: "/messages?topicid&userid",
+			templateUrl: "assets/views/pages/messages.html",
+			controller: "ssn.messagesController"
+		});
+
+		$stateProvider.state("verifyMail", {
+			url: "/verifyMail/:challenge",
 			templateUrl: "assets/views/pages/mail.html",
 			controller: "ssn.mailController"
 		});
 
-		$stateProvider.state("/user/:identifier", {
+		$stateProvider.state("user", {
+			url: "/user/:identifier",
 			templateUrl: "assets/views/pages/user.html",
 			controller: "ssn.userController"
 		});
 
-		$stateProvider.state("/:identifier", {
-			redirectTo: function (params) {
-				if (params.identifier.match(/^[A-z0-9]+$/)) {
-					return "/user/" + params.identifier;
-				}
-
-				return "/start";
-			}
+		$stateProvider.state("short.user", {
+			url: "/{identifier:[A-z0-9]+}",
+			templateUrl: "assets/views/pages/user.html",
+			controller: "ssn.userController"
 		});
 
-		$stateProvider.otherwise({redirectTo: "/start"});*/
+		$urlRouterProvider.when("/", "/start");
 	}]);
 
 });
