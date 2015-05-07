@@ -85,14 +85,14 @@
 	#main {
 		text-align: center;
 		width: 100% !important;
-		min-height: 750px;
 		margin: 0 !important;
 
-		@media @mobile {
-			min-height: 100vh;
-		}
 		@media @desktop {
 			background-color: @primaryLighter;
+			min-height: 750px;
+		}
+		@media @mobile {
+			height: auto;
 		}
 	}
 
