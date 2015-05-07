@@ -13,27 +13,6 @@ define(["step", "whispeerHelper", "asset/state", "controllers/controllerModule"]
 
 		var topicsLoadingState = new State();
 
-		$scope.$watch(function () { return $stateParams.userid; }, function () {
-			if ($stateParams.userid) {
-				$scope.userid = $stateParams.userid;
-				step(function () {
-					messageService.getUserTopic($scope.userid, this);
-				}, h.sF(function (topicid) {
-					if (topicid) {
-						$scope.loadActiveTopic(topicid);
-					}
-				}));
-			}
-		});
-
-		$scope.$watch(function(){ return $stateParams.topicid; }, function () {
-			if ($stateParams.topicid) {
-				$scope.loadActiveTopic($stateParams.topicid);
-			} else {
-				$scope.topicLoaded = false;
-			}
-		});
-
 		function loadTopics(initial) {
 			if (topicsLoadingState.isPending()) {
 				return;
@@ -231,6 +210,23 @@ define(["step", "whispeerHelper", "asset/state", "controllers/controllerModule"]
 
 			return bursts;
 		};
+
+		if ($stateParams.userid) {
+			$scope.userid = $stateParams.userid;
+			step(function () {
+				messageService.getUserTopic($scope.userid, this);
+			}, h.sF(function (topicid) {
+				if (topicid) {
+					$scope.loadActiveTopic(topicid);
+				}
+			}));
+		}
+
+		if ($stateParams.topicid) {
+			$scope.loadActiveTopic($stateParams.topicid);
+		} else {
+			$scope.topicLoaded = false;
+		}
 
 	}
 
