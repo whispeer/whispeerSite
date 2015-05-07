@@ -1,13 +1,11 @@
 <section data-ng-if="mobile" class="register">
-	<img src="assets/img/logo.png" alt="whispeer - keep your secrets" id="mobileLogo" />
-	<ng-include src="'assets/views/pages/login.html'" ng-controller="ssn.loginController"></ng-include>
-	<ng-include src="'assets/views/start/register.html'"></ng-include>
+	<lazyiframe src="/register.html" class="startView-registerIframe"></lazyiframe>
 </section>
 
 <section data-ng-if="!mobile" class="splash">
 	<sidebar class="rightWrap">
 		<section class="box register">
-			<ng-include src="'assets/views/start/register.html'"></ng-include>
+			<lazyiframe delay="500" src="/register.html" class="startView-registerIframe"></lazyiframe>
 		</section>
 	</sidebar>
 	<div class="leftWrap">
@@ -38,8 +36,8 @@
 	</div>
 </section>
 
-<div class="intermezzo">
-	<section data-ng-if="!mobile" id="more">
+<div class="intermezzo" data-ng-if="!mobile">
+	<section id="more">
 
 		<h1 data-i18n="landingpage.more.headingOne"></h1>
 		<p class="leftWrap" data-i18n="landingpage.more.paragraphOne"></p>
@@ -49,7 +47,7 @@
 
 		<sidebar class="rightWrap">
 			<section class="box register">
-				<ng-include src="'assets/views/start/register.html'"></ng-include>
+				<lazyiframe delay="500" src="/register.html" class="startView-registerIframe"></lazyiframe>
 			</section>
 		</sidebar>
 

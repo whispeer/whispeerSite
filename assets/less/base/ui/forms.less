@@ -15,6 +15,8 @@ input[type="text"],
 input[type="password"],
 input[type=""],
 input:not([type]) {
+	-webkit-appearance: none;
+	appearance: none;
 	padding: 9px;
 	outline: 0;
 	border-radius: 0;
@@ -28,8 +30,9 @@ input:not([type]) {
 
 		background: @inputBackground;
 		border: solid 1px @inputBorder;
-		.box-shadow(inset 0px 0px 4px @inputBorder);
-		transition: ease .5s;
+		@media @desktop {
+			.box-shadow(inset 0px 0px 4px @inputBorder);
+		}
 	}
 	&:not(.input-custom):not(.input-noradius) {
 		border-radius: @inputBorderRadius;
@@ -38,7 +41,9 @@ input:not([type]) {
 		outline: 0;
 		&:not(.input-custom) {
 			border: solid 1px @inputBorderFocus;
-			.box-shadow(inset 0px 0px 5px rgba(red(@inputBorderFocus), green(@inputBorderFocus),blue(@inputBorderFocus), 0.75));
+			@media @desktop {
+				.box-shadow(inset 0px 0px 5px rgba(red(@inputBorderFocus), green(@inputBorderFocus),blue(@inputBorderFocus), 0.75));
+			}
 		}
 	}
 	&[disabled],
@@ -93,7 +98,7 @@ button[disabled] {
 
 	right: @annotatedInputRight;
 }
-.annotatedInput-button { // this overspecification causes the rules to be applied over the .btn rules!
+.annotatedInput-button {
 	position: absolute;
 	top: 0; bottom: 0;
 	margin: auto 0;
@@ -187,6 +192,21 @@ span[data-strength="10"]:after { width: @pwStrengthWidth*(10/10); background-col
 .inputSandwich-bottom {
 	width: 100%;
 	margin: 0;
+}
+.inputSandwich-middle,
+.inputSandwich-bottom {
+	border-top-width: 0 !important;
+	&:focus {
+		border-top-width: 1px !important;
+		margin-top: -1px;
+		height: 41px !important;
+		&.annotatedInput-input {
+			position: absolute;
+			top: -1px;
+			padding-top: 10px !important;
+			margin-top: 0;
+		}
+	}
 }
 .inputSandwich-top {
 	border-radius: @inputBorderRadius @inputBorderRadius 0 0 !important;

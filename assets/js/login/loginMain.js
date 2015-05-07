@@ -1,10 +1,8 @@
 define([
 	"jquery",
 	"angular",
-	"app",
-	"routes",
-	"libs/canvas-toBlob",
-	"angularTouch"
+	"login/loginModule",
+	"login/loginController"
 ], function($, angular, app) {
 	"use strict";
 

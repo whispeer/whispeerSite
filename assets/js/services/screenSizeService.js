@@ -9,7 +9,7 @@ define(["step", "whispeerHelper", "asset/observer", "jquery", "services/serviceM
 		Observer.call(api);
 
 		function updateMobile() {
-			var mobile = jQuery(window).width() < 1025;
+			var mobile = jQuery(window.top).width() < 1025;
 
 			if (mobile !== api.mobile) {
 				api.mobile = mobile;
@@ -20,7 +20,7 @@ define(["step", "whispeerHelper", "asset/observer", "jquery", "services/serviceM
 			}
 		}
 
-		jQuery(window).resize(updateMobile);
+		jQuery(window.top).resize(updateMobile);
 		updateMobile();
 
 		return api;

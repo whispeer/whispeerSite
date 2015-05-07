@@ -1,5 +1,5 @@
 <!doctype html>
-<html manifest="/manifest.mf" class="no-js loading" lang="de" data-ng-csp class="loading" data-ng-class="cssClass" data-ng-controller="ssn.rootController">
+<html class="no-js loading" lang="de" data-ng-csp data-ng-class="cssClass" data-ng-controller="ssn.rootController">
 <head>
 	<base href="/" />
 	<meta charset="utf-8">
@@ -21,12 +21,9 @@
 	<link rel="apple-touch-icon" href="assets/img/favicons/touch-icon-iphone-retina.png" sizes="120x120" />
 	<link rel="apple-touch-icon" href="assets/img/favicons/touch-icon-ipad-retina.png" sizes="152x152" />
 
-	<link rel="stylesheet" href="assets/css/angular-csp.css">
-	<link rel="stylesheet" href="assets/css/jquery.qtip.css">
-	<link rel="stylesheet" href="assets/vendor/css/font-awesome.css">
 	<link rel="stylesheet" href="assets/css/style.css">
 
-	<script data-main="assets/js/requireConfig" src="assets/js/bower/requirejs/require.js"></script>
+	<script data-main="assets/js/requireConfig" data-initial="main" src="assets/js/bower/requirejs/require.js"></script>
 </head>
 <body data-ng-swipe-right="activateSidebar()" data-ng-swipe-left="deactivateSidebar()">
 	<!--[if lte IE 8]><p class=chromeframe>Your browser is <em>ancient!</em> <a href="http://browsehappy.com/">Upgrade to a different browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to experience this site.</p><![endif]-->
@@ -38,7 +35,7 @@
 			<p>Vielen Dank für dein Verständnis!</p>
 		</span>
 	</noscript>
-	<ng-include src="'assets/views/topBar.html'" data-ng-if="!mobile || loggedin"></ng-include>
+	<ng-include src="'assets/views/topBar.html'"></ng-include>
 	<!-- !Disconnect Notification -->
 	<div id="globalNotificationSpace" data-ng-show="lostConnection"></div>
 	<div id="globalNotification" data-ng-show="lostConnection">
@@ -76,7 +73,7 @@
 		</aside>
 		<!-- end !Left Sidebar -->
 		<!-- !Loaded View -->
-		<section id="main" data-ng-view data-ng-class="{'main-push': (mobile && sidebarActive && !searchActive), box: isBox}" data-ng-show="!searchActive">
+		<section id="main" data-ng-if="!loading" data-ng-view data-ng-class="{'main-push': (mobile && sidebarActive && !searchActive), box: isBox}" data-ng-show="!searchActive">
 			<div id="logo">
 				<img src="assets/img/logo.png">
 			</div>

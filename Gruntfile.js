@@ -57,18 +57,30 @@ grunt.initConfig({
 				sourceMapRootpath: "/"
 			},
 			files: {
-				"assets/css/style.css": "assets/less/style.less"
+				"assets/css/style.css": "assets/less/style.less",
+				"assets/css/static.css": "assets/less/static.less"
 			}
 		}
 	},
 	copy: {
 		vendor: {
 			files: [
-			  { expand: true,
-					cwd: "node_modules/font-awesome/",
-					src: ["css/**", "fonts/**"],
-					dest: "assets/vendor/",
-					filter: "isFile" }
+				{
+					expand: true,
+					cwd: "node_modules/font-awesome/css/",
+					src: "font-awesome.min.css",
+					dest: "assets/less/base/addons/",
+					rename: function (dest, src) {
+						return dest + src.replace(".css", ".less");
+					}
+				},
+				{
+					expand: true,
+					cwd: "node_modules/font-awesome/fonts/",
+					src: "**",
+					dest: "assets/fonts/",
+					filter: "isFile"
+				}
 			]
 		}
 	},

@@ -3,7 +3,6 @@
 **/
 define([
 	"controllers/logoutController",
-	"controllers/loginController",
 	"controllers/rootController",
 	"controllers/userController",
 	"controllers/mainController",
@@ -12,8 +11,6 @@ define([
 	"controllers/circlesController",
 	"controllers/settingsController",
 	"controllers/helpController",
-	"controllers/loadingController",
-	"controllers/registerController",
 	"controllers/startController",
 	"controllers/versionController",
 	"controllers/mailController",

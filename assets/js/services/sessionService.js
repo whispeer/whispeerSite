@@ -4,101 +4,42 @@
 define(["services/serviceModule"], function (serviceModule) {
 	"use strict";
 
-	var service = function ($rootScope, $location, $route, storage) {
-		var sid = "", loggedin = false, ownLoaded = false, userid, returnURL, loaded = false;
+	var service = function ($rootScope, $timeout, locationService, Storage) {
+		var sid = "", loggedin = false, userid;
 
-		var noLoginRequired = ["ssn.startController", "ssn.loginController", "ssn.recoveryController", "ssn.versionController", "ssn.mailController", "ssn.agbController", "ssn.privacyPolicyController", "ssn.impressumController"];
-		var loggoutRequired = ["ssn.startController", "ssn.loginController", "ssn.loadingController"];
+		var sessionStorage = new Storage("whispeer.session");
 
-		function setSID(newSID, user) {
-			if (newSID !== sid) {
-				sid = newSID;
-				loggedin = true;
-				userid = user;
+		function setLoginData(_sid, _userid, noRedirect) {
+			sid = _sid;
+			userid = _userid;
+			loggedin = true;
 
-				storage.set("sid", newSID);
-				storage.set("userid", userid);
-				storage.set("loggedin", true);
-
-				loginChange();
-
-				return true;
-			}
-
-			return false;
+			$timeout(function () {
+				$rootScope.$broadcast("ssn.login");
+				if (!noRedirect) {
+					locationService.loadInitialURL();
+				}
+			});
 		}
 
 		function loadOldLogin() {
-			if (storage.get("loggedin") === "true" && storage.get("password")) {
-				var sid = storage.get("sid");
-				var userid = storage.get("userid");
-				setSID(sid, userid);
+			if (sessionStorage.get("loggedin") === "true" && sessionStorage.get("password")) {
+				setLoginData(sessionStorage.get("sid"), sessionStorage.get("userid"));
 			} else {
-				storage.clear();
+				sessionStorage.clear();
 			}
 		}
 
-		function updateURL(c, logout) {
-			if (!loaded) {
-				loadOldLogin();
-
-				loaded = true;
-			}
-
-			$location.replace();
-
-			//save return path if we are 
-			// - not logging out
-			// - not already fully loaded 
-			// - do not already have a return path
-			if (!ownLoaded && !logout && !returnURL) {
-				returnURL = $location.path();
-			}
-
-			//not logged in but on a page requiring logout --> landing
-			if (!loggedin && noLoginRequired.indexOf(c) === -1) {
-				$location.path("/start");
-				return;
-			}
-
-			//logged in but not yet loaded -> loading page
-			if (loggedin && !ownLoaded) {
-				$location.path("/loading");
-			}
-
-			if (loggedin && ownLoaded && loggoutRequired.indexOf(c) > -1) {
-				if (returnURL && returnURL !== "/loading") {
-					$location.path(returnURL);
-					returnURL = undefined;
-				} else {
-					$location.path("/main");
-				}
-			}
-		}
+		loadOldLogin();
 
 		$rootScope.$on("$routeChangeStart", function (scope, next) {
-			updateURL(next.controller);
+			locationService.updateURL(loggedin, next.controller);
 		});
-
-		$rootScope.$on("ssn.ownLoaded", function () {
-			ownLoaded = true;
-			updateURL($route.current.controller);
-		});
-
-		function loginChange(logout) {
-			$rootScope.$broadcast("ssn.login");
-			if ($route.current) {
-				updateURL($route.current.controller, logout);
-			}
-		}
 
 		var sessionService = {
-			setReturnURL: function (url) {
-				returnURL = url;
-			},
-
-			setSID: function (newSID, userid) {
-				setSID(newSID, userid);
+			setLoginData: setLoginData,
+			setReturnUrl: function (url) {
+				locationService.setReturnUrl(url);
 			},
 
 			getSID: function () {
@@ -112,17 +53,9 @@ define(["services/serviceModule"], function (serviceModule) {
 			logout: function () {
 				if (loggedin) {
 					$rootScope.$broadcast("ssn.reset");
+					sessionStorage.clear();
+					locationService.landingPage();
 				}
-
-				$location.search("");
-
-				userid = 0;
-				sid = "";
-				loggedin = false;
-				ownLoaded = false;
-				storage.clear();
-
-				loginChange(true);
 			},
 
 			isLoggedin: function () {
@@ -133,7 +66,7 @@ define(["services/serviceModule"], function (serviceModule) {
 		return sessionService;
 	};
 
-	service.$inject = ["$rootScope", "$location", "$route", "ssn.storageService"];
+	service.$inject = ["$rootScope", "$timeout", "ssn.locationService", "ssn.storageService"];
 
 	serviceModule.factory("ssn.sessionService", service);
 });

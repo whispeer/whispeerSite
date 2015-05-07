@@ -16,7 +16,8 @@ requirejs.config({
 		localizationModule: "bower/angular-i18n-directive/src/localizationModule",
 		workerQueue: "bower/worker-queue.js/src/index",
 		PromiseWorker: "bower/require-promise-worker.js/src/index",
-		dexie: "bower/dexie/dist/latest/Dexie"
+		dexie: "bower/dexie/dist/latest/Dexie",
+		debug: "bower/visionmedia-debug/dist/debug"
 	},
 	baseUrl: "assets/js",
 	shim: {
@@ -45,4 +46,52 @@ requirejs.config({
 	]
 });
 
-requirejs(["main"]);
+var startup = new Date().getTime();
+
+if (window.location.href.indexOf("file:///") === 0) {
+	var base = window.location.href.replace("file://", "");
+	base = base.replace(/\#\!(.*)/g, "");
+	document.getElementsByTagName("base")[0].setAttribute("href", base);
+}
+
+/*
+	Console-polyfill. MIT license.
+	https://github.com/paulmillr/console-polyfill
+	Make it safe to do console.log() always.
+*/
+(function(con) {
+	"use strict";
+	var dummy = function() {};
+
+	var methods =
+		["assert","clear","count","debug","dir","dirxml","error","exception","group","groupCollapsed",
+		"groupEnd","info","log","markTimeline","profile","profileEnd","table","time","timeEnd",
+		"timeStamp","trace","warn"];
+
+	con.memory = {};
+
+	var i;
+	for (i = 0; i < methods.length; i += 1) {
+		con[methods[i]] = con[methods[i]] || dummy;
+	}
+})(this.console = this.console || {}); // Using `this` for web workers.
+
+var globalErrors = [];
+
+window.onerror = function (str, file, line, col, e) {
+	"use strict";
+	globalErrors.push({
+		str: str,
+		file: file,
+		line: line,
+		col: col,
+		e: e
+	});
+};
+
+var initialElement = document.querySelectorAll("script[data-initial]");
+
+if (initialElement.length === 1) {
+	var initialModule = initialElement[0].getAttribute("data-initial");
+	requirejs([initialModule]);
+}

@@ -2,59 +2,21 @@
 * loginController
 **/
 
-define(["step", "whispeerHelper", "asset/state", "controllers/controllerModule"], function (step, h, State, controllerModule) {
+define([
+		"step",
+		"whispeerHelper",
+		"asset/state",
+		"register/registerModule",
+		"services/errorService",
+		"register/registerService",
+		"services/locationService"
+	], function (step, h, State, registerModule) {
 	"use strict";
 
-	function registerController($scope, $timeout, $routeParams, keyStore, errorService, sessionHelper, sessionService, socketService) {
-		var inviteCodeState = new State();
-		var inviteMailState = new State();
+	function registerController($scope, errorService, registerService, locationService) {
 		var registerState = new State();
 
 		$scope.registerState = registerState.data;
-
-		$scope.invite = {
-			code: $routeParams.inviteCode || "",
-			valid: inviteCodeState.data,
-			mailValid: inviteMailState.data,
-			request: function (mail) {
-				inviteMailState.pending();
-
-				if (!h.isMail(mail)) {
-					inviteMailState.failed();
-					return;
-				}
-
-				step(function () {
-					socketService.emit("invites.requestWithMail", { mail: mail }, this);
-				}, errorService.failOnError(inviteMailState));
-			}
-		};
-
-		$scope.$watch(function () {
-			return $scope.invite.code;
-		}, function (value) {
-			if (value.length !== 10) {
-				inviteCodeState.failed();
-				return;
-			}
-
-			inviteCodeState.pending();
-			step(function () {
-				if (socketService.isConnected()) {
-					this();
-				} else {
-					socketService.once("connect", this.ne);
-				}
-			}, h.sF(function () {
-				sessionHelper.checkInviteCode(value, this);
-			}), h.sF(function (valid) {
-				if (!valid) {
-					throw new Error("code not valid");
-				}
-
-				this.ne();
-			}), errorService.failOnError(inviteCodeState));
-		});
 
 		$scope.pwState = { password: "" };
 
@@ -67,18 +29,16 @@ define(["step", "whispeerHelper", "asset/state", "controllers/controllerModule"]
 
 		$scope.agb = false;
 
-		if ($routeParams.register) {
-			$timeout(function () {
-				jQuery("#rnickname").focus();
-			}, 50);
-		}
+		window.setTimeout(function () {
+			jQuery("#rnickname").focus();
+		}, 50);
 
 		$scope.registerFormClick = function formClickF() {
-			sessionHelper.startKeyGeneration();
+			registerService.startKeyGeneration();
 		};
 
 		$scope.startKeyGeneration = function startKeyGen1() {
-			sessionHelper.startKeyGeneration();
+			registerService.startKeyGeneration();
 		};
 
 		$scope.nicknameChange = function nicknameChange() {
@@ -88,7 +48,7 @@ define(["step", "whispeerHelper", "asset/state", "controllers/controllerModule"]
 				$scope.nicknameCheck = false;
 				$scope.nicknameCheckError = false;
 
-				sessionHelper.nicknameUsed(internalNickname, this);
+				registerService.nicknameUsed(internalNickname, this);
 			}, function nicknameChecked(e, nicknameUsed) {
 				errorService.criticalError(e);
 
@@ -164,7 +124,6 @@ define(["step", "whispeerHelper", "asset/state", "controllers/controllerModule"]
 			}
 
 			var settings = {};
-			var imageBlob;
 
 			var profile = {
 				pub: {},
@@ -177,9 +136,13 @@ define(["step", "whispeerHelper", "asset/state", "controllers/controllerModule"]
 
 			step(function () {
 				console.time("register");
-				sessionService.setReturnURL("/setup");
-				sessionHelper.register($scope.nickname, "", $scope.invite.code, $scope.pwState.password, profile, imageBlob, settings, this);
+				locationService.setReturnUrl("/setup");
+				registerService.register($scope.nickname, "", $scope.pwState.password, profile, settings, this);
 			}, function (e) {
+				if (!e) {
+					locationService.mainPage();
+				}
+
 				console.timeEnd("register");
 				console.log("register done!");
 
@@ -188,7 +151,7 @@ define(["step", "whispeerHelper", "asset/state", "controllers/controllerModule"]
 		};
 	}
 
-	registerController.$inject = ["$scope", "$timeout", "$routeParams", "ssn.keyStoreService", "ssn.errorService", "ssn.sessionHelper", "ssn.sessionService", "ssn.socketService"];
+	registerController.$inject = ["$scope", "ssn.errorService", "ssn.registerService", "ssn.locationService", "ssn.socketService"];
 
-	controllerModule.controller("ssn.registerController", registerController);
+	registerModule.controller("ssn.registerController", registerController);
 });

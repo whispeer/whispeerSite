@@ -47,7 +47,7 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 
 	try {
 		if (localStorage) {
-			var pw = localStorage.getItem("password");
+			var pw = localStorage.getItem("whispeer.session.password");
 			if (pw && typeof pw === "string") {
 				password = pw;
 			}
@@ -1691,7 +1691,7 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 				password = pw;
 
 				if (localStorage) {
-					localStorage.setItem("password", password);
+					localStorage.setItem("whispeer.session.password", password);
 				}
 			},
 

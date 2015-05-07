@@ -1,10 +1,12 @@
 define([
 	"jquery",
 	"angular",
-	"app",
-	"routes",
-	"libs/canvas-toBlob",
-	"angularTouch"
+	"register/registerModule",
+	"register/registerController",
+
+	"directives/savebutton",
+	"directives/passwordinput",
+	"directives/validatedForm",
 ], function($, angular, app) {
 	"use strict";
 

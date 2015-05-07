@@ -30,6 +30,8 @@ define(["step", "whispeerHelper", "config", "controllers/controllerModule"], fun
 		$scope.loggedin = false;
 		$scope.recovery = false;
 
+		$scope.loading = sessionService.isLoggedin();
+
 		$scope.mobile = screenSizeService.mobile;
 		screenSizeService.listen(function (mobile) {
 			$scope.mobile = mobile;
@@ -62,6 +64,7 @@ define(["step", "whispeerHelper", "config", "controllers/controllerModule"], fun
 
 		$scope.$on("ssn.login", function () {
 			$scope.loggedin = sessionService.isLoggedin() && !$scope.recovery;
+
 			if (!$scope.loggedin) {
 				$scope.user = nullUser;
 			}
@@ -76,6 +79,7 @@ define(["step", "whispeerHelper", "config", "controllers/controllerModule"], fun
 				}
 			}, h.sF(function () {
 				$scope.user = user.data;
+				$scope.loading = false;
 
 				console.log("Own Name loaded:" + (new Date().getTime() - startup));
 			}));
@@ -115,10 +119,18 @@ define(["step", "whispeerHelper", "config", "controllers/controllerModule"], fun
 			$scope.searchActive = false;
 		};
 
+		function updateCssClass() {
+			if (!$scope.loading) {
+				$scope.cssClass = cssService.getClass();
+			} else {
+				$scope.cssClass = "loading";
+			}
+		}
+
 		$scope.mobileActivateView = function() {
 			$scope.sidebarActive = false;
 			$scope.searchActive = false;
-			$scope.cssClass = cssService.getClass();
+			updateCssClass();
 		};
 
 		$scope.visitUserProfile = function (user) {
@@ -133,13 +145,13 @@ define(["step", "whispeerHelper", "config", "controllers/controllerModule"], fun
 		};
 
 		cssService.addListener(function (newClass, isBox) {
-			$scope.cssClass = newClass;
+			updateCssClass();
 			$scope.isBox = isBox;
 		});
 
 		jQuery(document.body).removeClass("loading");
 
-		$scope.cssClass = cssService.getClass();
+		updateCssClass();
 
 		$scope.logout = function () {
 			sessionHelper.logout();
