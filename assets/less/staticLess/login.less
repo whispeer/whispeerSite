@@ -1,3 +1,36 @@
+.loginView {
+	#main {
+		@media @desktop {
+			.width(4);
+			.push(4);
+			.pull(4);
+		}
+		text-align: center;
+	}
+	h1 {
+		.large-text();
+	}
+	input {
+		.column(12);
+	}
+	#loginformsubmit {
+		.column(12);
+	}
+	.smallRow {
+		.column(12,12,left,0);
+		button {
+			.column(6);
+		}
+	}
+	.error,
+	.loginLoading {
+		.column(12);
+	}
+	.backToRegister {
+		display: inline-block;
+		margin-top: 20px;
+	}
+}
 .loginForm {
 	width: 90%;
 	margin: 0 5%;
@@ -41,37 +74,7 @@
 		.box-fix;
 	}
 }
-
-.loginView {
-	#main {
-		@media @desktop {
-			.width(4);
-			.push(4);
-			.pull(4);
-		}
-		text-align: center;
-	}
-	h1 {
-		.large-text();
-	}
-	input {
-		.column(12);
-	}
-	#loginformsubmit {
-		.column(12);
-	}
-	.smallRow {
-		.column(12,12,left,0);
-		button {
-			.column(6);
-		}
-	}
-	.error,
-	.loginLoading {
-		.column(12);
-	}
-	.backToRegister {
-		display: inline-block;
-		margin-top: 20px;
-	}
+#start-login-form { // Login on startView
+	text-align: right;
+	margin: 4px 1%;
 }

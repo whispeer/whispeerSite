@@ -11,10 +11,6 @@
 		width: 1100px;
 	}
 
-	body {
-		padding-top: 50px;
-	}
-
 	#topNav {
 		position: relative;
 	}
@@ -183,81 +179,6 @@
 		}
 	}
 
-	.qtip {
-			margin-top: 3px; // give it some air to breathe...
-		}
-
-	.startView-register {
-		text-align: center;
-		h1 {
-			font-size: 24px;
-			line-height: normal;
-			margin-bottom: 20px;
-			color: @primary;
-		}
-		input:not([type="submit"])
-		:not([type="reset"])
-		:not([type="button"])
-		:not([type="file"])
-		:not([type="radio"])
-		:not([type="checkbox"]),
-		.annotatedInput-container {
-			@media @desktop {
-				width: 300px;
-			}
-			height: 50px;
-			margin: 0 auto;
-		}
-
-		.inputSandwich-middle,
-		.inputSandwich-bottom {
-			&:focus {
-				height: 51px !important;
-			}
-		}
-
-		.annotatedInput-input {
-			width: 100%;
-			height: 100%;
-		}
-
-		p {
-			text-align: left;
-			padding-left: 32px;
-			padding-right: 32px;
-		}
-		.registerAGB {
-			display: inline-block;
-			background: @white;
-			border: solid 1px @inputBorder;
-			border-top: none;
-			border-bottom: none;
-			width: 100%;
-			min-height: 50px;
-			text-indent: -16px;
-			font-size: 12px;
-			margin:	0;
-			padding: 15px 0;
-			.box-fix;
-			@media @desktop {
-				box-shadow: inset 0px 0px 5px #ccc;
-			}
-		}
-		.submitWrap {
-			width: 100%;
-		}
-		.register-submitButton {
-			width: 100%;
-			height: 50px;
-			line-height: 48px;
-			margin-top: 0;
-			border: solid 1px darken(#ffffff, 45%);
-			border-top: none;
-			font-size: 24px;
-			line-height: normal;
-		}
-	}
-
 	.register {
 		width: 100%;
 		float: left;
@@ -300,10 +221,6 @@
 		}
 	}
 
-}
-#start-login-form {
-	text-align: right;
-	margin: 4px 1%;
 }
 .startView-registerIframe {
 	height: 315px;

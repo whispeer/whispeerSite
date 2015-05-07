@@ -58,7 +58,7 @@ grunt.initConfig({
 			},
 			files: {
 				"assets/css/style.css": "assets/less/style.less",
-				"assets/css/iframe.css": "assets/less/iframe.less"
+				"assets/css/static.css": "assets/less/static.less"
 			}
 		}
 	},
