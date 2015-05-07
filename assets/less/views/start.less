@@ -12,13 +12,7 @@
 	}
 
 	body {
-		@media @desktop {
-			padding-top: 50px;
-		}
-		@media @mobile {
-			padding-top: 0;
-			background: @primaryLighter;
-		}
+		padding-top: 50px;
 	}
 
 	#topNav {
@@ -97,7 +91,9 @@
 		@media @mobile {
 			min-height: 100vh;
 		}
-		background-color: @primaryLighter;
+		@media @desktop {
+			background-color: @primaryLighter;
+		}
 	}
 
 	.intermezzo {
@@ -190,12 +186,10 @@
 	.startView-register {
 		text-align: center;
 		h1 {
-			@media @desktop {
-				font-size: 24px;
-				line-height: normal;
-				margin-bottom: 20px;
-				color: @primary;
-			}
+			font-size: 24px;
+			line-height: normal;
+			margin-bottom: 20px;
+			color: @primary;
 		}
 		input:not([type="submit"])
 		:not([type="reset"])
@@ -218,72 +212,34 @@
 			width: 100%;
 		}
 
-		button {
-			font-size: 24px;
-			line-height: normal;
-			width: 300px;
-			margin-top: 16px;
-			margin-bottom: 0;
-		}
-
 		p {
 			text-align: left;
 			padding-left: 32px;
 			padding-right: 32px;
 		}
-
 		.registerAGB {
 			display: inline-block;
-			padding-left: 46px;
-			padding-right: 28px;
-			text-align: left;
+			background: @white;
+			box-shadow: inset 0px 0px 5px #ccc;
+			width: 100%;
+			height: 40px;
 			text-indent: -16px;
 			font-size: 12px;
 			margin:	0;
+			line-height: 40px;
+			padding: 0;
+			.box-fix;
 		}
-		@media @mobile {
-			.registerWrap {
-				background: transparent;
-			}
-			.registerForm p {
-				color: @white;
-				padding: 0 29px;
-				text-align: justify;
-			}
-			.inputWrap {
-				width: ~"calc(100% - 58px)";
-				margin: 0 29px;
-				.nickname {
-					border-radius: 5px 5px 0 0;
-				}
-				.password, .password2, .registerAGB {
-					border-radius: 0;
-					border-top: 0;
-					border-bottom: solid 1px darken(#ffffff, 45%);
-				}
-				.registerAGB {
-					display: inline-block;
-					background: @white;
-					box-shadow: inset 0px 0px 5px #ccc;
-					width: 100%;
-					height: 40px;
-					line-height: 40px;
-					padding: 0 25px;
-					.box-fix;
-				}
-			}
-			.submitWrap {
-				width: 100%;
-				width: ~"calc(100% - 58px)";
-				margin: 0 29px;
-				button {
-					width: 100%;
-					margin-top: 0;
-					border: solid 1px darken(#ffffff, 45%);
-					border-top: none;
-					border-radius: 0 0 5px 5px;
-				}
-			}
+		.submitWrap {
+			width: 100%;
+		}
+		.register-submitButton {
+			width: 100%;
+			margin-top: 0;
+			border: solid 1px darken(#ffffff, 45%);
+			border-top: none;
+			font-size: 24px;
+			line-height: normal;
 		}
 	}
 
@@ -332,16 +288,11 @@
 	text-align: right;
 	margin: 4px 1%;
 }
-.startView-loginIframe {
-	@media @mobile {
-		width: 100%;
-		height: 200px;
-	}
-}
 .startView-registerIframe {
 	height: 307px;
 	@media @mobile {
-		width: 100%;
+		width: 90%;
+		margin: 0 5%;
 	}
 	@media @desktop {
 		width: 360px;

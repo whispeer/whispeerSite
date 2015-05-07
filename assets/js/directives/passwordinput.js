@@ -9,13 +9,13 @@ define(["whispeerHelper", "directives/directivesModule", "register/registerServi
 				class2: "@class2"
 			},
 			restrict: "E",
-			template: 
+			template:
 				"<div class='annotatedInput-container'>" +
-				"	<input class='annotatedInput-input strenghInput password {{class1}}' type='password' data-i18n-attr='login.password|placeholder' data-ng-model='state.password' validation='passwordValidations'>" +
+				"	<input class='annotatedInput-input strenghInput password {{class1}} inputSandwich inputSandwich-middle' type='password' data-i18n-attr='login.password|placeholder' data-ng-model='state.password' validation='passwordValidations'>" +
 				"	<span class='annotatedInput-icon' data-strength='{{passwordStrength()}}'></span>" +
 				"</div>" +
 				"<div class='annotatedInput-container'>" +
-				"	<input type='password' class='annotatedInput-input password2 {{class2}}' data-i18n-attr='login.register.repeatPassword|placeholder' data-ng-model='state.password2' validation='password2Validations'>" +
+				"	<input type='password' class='annotatedInput-input password2 {{class2}} inputSandwich inputSandwich-middle' data-i18n-attr='login.register.repeatPassword|placeholder' data-ng-model='state.password2' validation='password2Validations'>" +
 				"	<span class='annotatedInput-icon fa' data-ng-class='acceptIcon(state.password, state.password2)' data-ng-if='!empty(state.password) && !empty(state.password2)'></span>" +
 				"</div>",
 			link: function (scope) {
