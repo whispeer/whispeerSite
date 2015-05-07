@@ -200,8 +200,8 @@
 		.annotatedInput-container {
 			@media @desktop {
 				width: 300px;
-				height: 48px;
 			}
+			height: 50px;
 		}
 
 		.annotatedInput-container {
@@ -210,6 +210,7 @@
 
 		.annotatedInput-input {
 			width: 100%;
+			height: 100%;
 		}
 
 		p {
@@ -220,21 +221,27 @@
 		.registerAGB {
 			display: inline-block;
 			background: @white;
-			box-shadow: inset 0px 0px 5px #ccc;
+			border: solid 1px @inputBorder;
+			border-top: none;
+			border-bottom: none;
 			width: 100%;
-			height: 40px;
+			min-height: 50px;
 			text-indent: -16px;
 			font-size: 12px;
 			margin:	0;
-			line-height: 40px;
-			padding: 0;
+			padding: 15px 0;
 			.box-fix;
+			@media @desktop {
+				box-shadow: inset 0px 0px 5px #ccc;
+			}
 		}
 		.submitWrap {
 			width: 100%;
 		}
 		.register-submitButton {
 			width: 100%;
+			height: 50px;
+			line-height: 48px;
 			margin-top: 0;
 			border: solid 1px darken(#ffffff, 45%);
 			border-top: none;
@@ -246,7 +253,9 @@
 	.register {
 		width: 100%;
 		float: left;
-		margin-top: 30px;
+		@media @desktop {
+			margin-top: 30px;
+		}
 		text-align: center;
 		min-height: 360px;
 
@@ -289,7 +298,7 @@
 	margin: 4px 1%;
 }
 .startView-registerIframe {
-	height: 307px;
+	height: 315px;
 	@media @mobile {
 		width: 90%;
 		margin: 0 5%;
