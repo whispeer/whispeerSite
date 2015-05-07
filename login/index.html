@@ -7,13 +7,12 @@
 	<link rel="shortcut icon" href="assets/img/favicons/favicon.png" type="image/x-icon">
 	<link rel="stylesheet" href="assets/css/iframe.css">
 </head>
-<body data-ng-init="hideLoginForm = true" data-mobile data-is-iframe>
-	<header class="header" data-ng-cloak data-ng-if="!isIframe">
+<body data-mobile>
+	<header class="header">
 		<div class="header-inner">
-			<a href="main" class="header-brand" data-ng-click="mobileActivateView()">
+			<a href="start" class="header-brand">
 				<span class="header-brand--normal">whis</span><span class="header-brand--inverse">peer</span>
 			</a>
-			<lazyiframe id="header-login" src="login/login.html"></lazyiframe>
 		</div>
 	</header>
 	<div id="container">

@@ -1,4 +1,4 @@
-<header class="header" data-ng-cloak data-ng-class="{'header-push': (mobile && sidebarActive && !searchActive), 'header-mobile': mobile && !logggedin}">
+<header class="header" data-ng-cloak data-ng-class="{'header-push': (mobile && sidebarActive && !searchActive), 'header-mobile': mobile && !loggedin}">
 	<div class="header-inner">
 		<button class="header-toggle header-toggle-sidebar" data-ng-click="toggleSidebar()" data-ng-if="mobile && loggedin">
 			<i class="fa fa-bars header-toggle-icon"></i>
@@ -8,7 +8,7 @@
 				</span>
 			</span>
 		</button>
-		<a href="main" class="header-brand" data-ng-click="mobileActivateView()">
+		<a data-ng-href="{{loggedin ? 'main' : 'start'}}" class="header-brand" data-ng-click="mobileActivateView()">
 			<span class="header-brand--normal">whis</span><span class="header-brand--inverse">peer</span>
 		</a>
 		<button class="header-toggle header-toggle-search" data-ng-click="toggleSearch()" data-ng-if="mobile && loggedin">
@@ -17,6 +17,7 @@
 		<div class="header-collapse" data-ng-if="loggedin">
 			<search data-supplier="userSearchSupplier" callback="visitUserProfile(selected)" data-search-template="user" data-add-classes="search--navbar" data-input-i18n-attr="menu.search|placeholder"/>
 		</div>
-		<lazyiframe id="header-login" class="header-collapse" src="login/login.html" data-ng-if="!loggedin && !recovery && !hideLoginForm"></lazyiframe>
+		<lazyiframe id="header-login" class="header-collapse" src="login/login.html" data-ng-if="!loggedin && !recovery"></lazyiframe>
+		<a href="login/" target="_self" class="btn" data-ng-if="mobile && !loggedin && !recovery">Login</a>
 	</div>
 </header>

@@ -1,5 +1,4 @@
 <section data-ng-if="mobile" class="register">
-	<lazyiframe src="login/loginMobile.html" class="startView-loginIframe"></lazyiframe>
 	<lazyiframe src="/register.html" class="startView-registerIframe"></lazyiframe>
 </section>
 
@@ -37,8 +36,8 @@
 	</div>
 </section>
 
-<div class="intermezzo">
-	<section data-ng-if="!mobile" id="more">
+<div class="intermezzo" data-ng-if="!mobile">
+	<section id="more">
 
 		<h1 data-i18n="landingpage.more.headingOne"></h1>
 		<p class="leftWrap" data-i18n="landingpage.more.paragraphOne"></p>
