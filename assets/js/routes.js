@@ -1,7 +1,7 @@
 define(["app"], function (app) {
 	"use strict";
 
-	return app.config(["$routeProvider", "$provide", "$locationProvider", "localizationLoaderProvider", function ($routeProvider, $provide, $locationProvider, localizationLoaderProvider) {
+	return app.config(["$stateProvider", "$provide", "$locationProvider", "localizationLoaderProvider", function ($stateProvider, $provide, $locationProvider, localizationLoaderProvider) {
 		localizationLoaderProvider.setAvailableLanguages(["en-us", "de"]);
 
 		$locationProvider.html5Mode(true);
@@ -19,7 +19,8 @@ define(["app"], function (app) {
 				reloadOnSearch = true;
 			}
 
-			$routeProvider.when("/" + name, {
+			$stateProvider.state(name, {
+				url: "/" + name,
 				templateUrl: "assets/views/pages/" + name + ".html",
 				controller: "ssn." + name + "Controller",
 				reloadOnSearch: reloadOnSearch
@@ -45,22 +46,23 @@ define(["app"], function (app) {
 		addMain("agb");
 		addMain("privacyPolicy");
 
-		$routeProvider.when("/logout", {
+		$stateProvider.state("logout", {
+			url: "/logout",
 			templateUrl: "assets/views/pages/loading.html",
 			controller: "ssn.logoutController"
 		});
 
-		$routeProvider.when("/verifyMail/:challenge", {
+		/*$stateProvider.state("/verifyMail/:challenge", {
 			templateUrl: "assets/views/pages/mail.html",
 			controller: "ssn.mailController"
 		});
 
-		$routeProvider.when("/user/:identifier", {
+		$stateProvider.state("/user/:identifier", {
 			templateUrl: "assets/views/pages/user.html",
 			controller: "ssn.userController"
 		});
 
-		$routeProvider.when("/:identifier", {
+		$stateProvider.state("/:identifier", {
 			redirectTo: function (params) {
 				if (params.identifier.match(/^[A-z0-9]+$/)) {
 					return "/user/" + params.identifier;
@@ -69,7 +71,8 @@ define(["app"], function (app) {
 				return "/start";
 			}
 		});
-		$routeProvider.otherwise({redirectTo: "/start"});
+
+		$stateProvider.otherwise({redirectTo: "/start"});*/
 	}]);
 
 });

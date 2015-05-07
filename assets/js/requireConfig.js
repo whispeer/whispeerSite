@@ -36,6 +36,11 @@ requirejs.config({
 				"angular"
 			]
 		},
+		"angularUiRouter": {
+			deps: [
+				"angular"
+			]
+		},
 		"angularTouch": {
 			deps: [
 				"angular"
