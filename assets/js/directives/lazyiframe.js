@@ -6,7 +6,7 @@ define(["directives/directivesModule"], function (directivesModule) {
 			restrict: "E",
 			template: "",
 			link: function (scope, iElement, iAttrs) {
-				var attributes = {}, attributesEmpty = {};
+				var attributes = {}, attributesEmpty = [];
 
 				Object.keys(iAttrs.$attr).filter(function (attr) {
 					return attr.indexOf("ng") !== 0;
@@ -17,7 +17,7 @@ define(["directives/directivesModule"], function (directivesModule) {
 					};
 				}).forEach(function (attr) {
 					attributes[attr.val] = iAttrs[attr.key];
-					attributesEmpty[attr.val] = "";
+					attributesEmpty.push(attr.val);
 				});
 
 				function append() {
@@ -25,7 +25,9 @@ define(["directives/directivesModule"], function (directivesModule) {
 						jQuery("<iframe>").attr(attributes)
 					);
 
-					iElement.attr(attributesEmpty);
+					attributesEmpty.forEach(function (attr) {
+						iElement.removeAttr(attr);
+					});
 				}
 
 				if (iAttrs.delay) {
