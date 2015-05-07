@@ -9,7 +9,7 @@
 		imageIdeas: "business meeting with laughing people? something like http://www.shutterstock.com/de/pic-182278622/stock-photo-casual-people-meeting-at-industrial-office.html?src=YFYK6_mssNuk0bir201bqw-1-2
 		or http://www.shutterstock.com/de/pic-145004602/stock-photo-funny-businessman-telling-a-joke-during-conference-coffee-break.html?src=YFYK6_mssNuk0bir201bqw-1-0",
 		image: "usability.jpg",
-		darkText: true,
+		lightBlur: true,
 		video: "",
 		mailForm: true
 	},

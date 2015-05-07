@@ -16,6 +16,19 @@
 
 html {
 	font-family: 'Source Sans Pro', sans-serif;
+	text-rendering: optimizeLegibility;
+}
+.darkBlur {
+	color: #ffffff;
+	text-shadow: 0px 0px 5px #000;
+	background: rgba(50, 50, 50, 0.4);
+	box-shadow: 0px 0px 10px 15px rgba(50, 50, 50, 0.4);
+}
+.lightBlur {
+	color: #fff;
+	text-shadow: 1px 1px 2px #000;
+	background: rgba(237, 237, 237, 0.2);
+	box-shadow: 0px 0px 15px 15px rgba(237, 237, 237, 0.2);
 }
 .landing-section {
 	position: relative;
@@ -31,9 +44,6 @@ html {
 }
 .landing-section:nth-child(2n) {
 	background: #fff;
-	color: #000;
-}
-.landing-section--darkText {
 	color: #000;
 }
 #heading {
@@ -53,7 +63,7 @@ html {
 }
 .section-paragraph {
 	font-weight: 200;
-	font-size: 1.2em;
+	font-size: 1.5em;
 }
 .section-ul {
 	width: 450px;
