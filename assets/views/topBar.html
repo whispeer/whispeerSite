@@ -1,4 +1,4 @@
-<header class="header" data-ng-cloak data-ng-class="{'header-push': (mobile && sidebarActive && !searchActive), 'header-mobile': mobile && !loggedin}">
+<header class="header" data-ng-cloak data-ng-class="{'header-push': (mobile && sidebarActive && !searchActive)}">
 	<div class="header-inner">
 		<button class="header-toggle header-toggle-sidebar" data-ng-click="toggleSidebar()" data-ng-if="mobile && loggedin">
 			<i class="fa fa-bars header-toggle-icon"></i>
@@ -8,7 +8,7 @@
 				</span>
 			</span>
 		</button>
-		<a data-ng-href="{{loggedin ? 'main' : 'start'}}" class="header-brand" data-ng-click="mobileActivateView()">
+		<a data-ng-href="{{loggedin ? 'main' : 'start'}}" class="header-brand" data-ng-class="{'header-brand--left': !loggedin || !mobile }" data-ng-click="mobileActivateView()">
 			<span class="header-brand--normal">whis</span><span class="header-brand--inverse">peer</span>
 		</a>
 		<a href="login/" target="_self" class="header-toggle header-toggle-login" data-ng-if="mobile && !loggedin && !recovery" data-i18n="login.link"></a>
