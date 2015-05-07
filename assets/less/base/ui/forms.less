@@ -32,7 +32,6 @@ input:not([type]) {
 		border: solid 1px @inputBorder;
 		@media @desktop {
 			.box-shadow(inset 0px 0px 4px @inputBorder);
-			transition: border ease .5s;
 		}
 	}
 	&:not(.input-custom):not(.input-noradius) {
@@ -198,10 +197,15 @@ span[data-strength="10"]:after { width: @pwStrengthWidth*(10/10); background-col
 .inputSandwich-bottom {
 	border-top-width: 0 !important;
 	&:focus {
-		position: absolute;
-		top: -1px;
 		border-top-width: 1px !important;
-		padding-top: 10px !important;
+		margin-top: -1px;
+		height: 41px !important;
+		&.annotatedInput-input {
+			position: absolute;
+			top: -1px;
+			padding-top: 10px !important;
+			margin-top: 0;
+		}
 	}
 }
 .inputSandwich-top {
