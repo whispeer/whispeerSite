@@ -1,4 +1,6 @@
 .loginForm {
+	width: 90%;
+	margin: 0 5%;
 	#loginformsubmit {
 		@media @desktop {
 			margin-top: 5px;
@@ -51,9 +53,6 @@
 	}
 	h1 {
 		.large-text();
-		@media @mobile {
-			.bold-text();
-		}
 	}
 	input {
 		.column(12);
@@ -70,5 +69,9 @@
 	.error,
 	.loginLoading {
 		.column(12);
+	}
+	.backToRegister {
+		display: inline-block;
+		margin-top: 20px;
 	}
 }
