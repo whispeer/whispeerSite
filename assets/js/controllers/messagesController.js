@@ -26,7 +26,7 @@ define(["step", "whispeerHelper", "asset/state", "controllers/controllerModule"]
 			}
 		});
 
-		$scope.$watch(function(){ return $stateParams.topicid; }, function(){
+		$scope.$watch(function(){ return $stateParams.topicid; }, function () {
 			if ($stateParams.topicid) {
 				$scope.loadActiveTopic($stateParams.topicid);
 			} else {

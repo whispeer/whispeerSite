@@ -49,7 +49,8 @@ define(["app"], function (app) {
 		$stateProvider.state("messages", {
 			url: "/messages?topicid&userid",
 			templateUrl: "assets/views/pages/messages.html",
-			controller: "ssn.messagesController"
+			controller: "ssn.messagesController",
+			reloadOnSearch: false
 		});
 
 		$stateProvider.state("verifyMail", {
