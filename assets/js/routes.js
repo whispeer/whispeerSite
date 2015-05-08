@@ -14,8 +14,14 @@ define(["app"], function (app) {
 			});
 		}
 
+		$stateProvider.state("app", {
+			url: "/{locale}",
+			abstract: true,
+			template: "<ui-view/>"
+		});
+
 		function addMain(name) {
-			$stateProvider.state(name, {
+			$stateProvider.state("app." + name, {
 				url: "/" + name,
 				templateUrl: "assets/views/pages/" + name + ".html",
 				controller: "ssn." + name + "Controller"
@@ -40,33 +46,41 @@ define(["app"], function (app) {
 		addMain("agb");
 		addMain("privacyPolicy");
 
-		$stateProvider.state("logout", {
+		$stateProvider.state("app.logout", {
 			url: "/logout",
 			controller: ["ssn.sessionHelper", function (sessionHelper) {
 				sessionHelper.logout();
 			}]
 		});
 
-		$stateProvider.state("messages", {
+		$stateProvider.state("app.messages", {
 			url: "/messages?topicid&userid",
 			templateUrl: "assets/views/pages/messages.html",
 			controller: "ssn.messagesController",
 			reloadOnSearch: false
 		});
 
-		$stateProvider.state("verifyMail", {
+		$stateProvider.state("app.verifyMail", {
 			url: "/verifyMail/:challenge",
 			templateUrl: "assets/views/pages/mail.html",
 			controller: "ssn.mailController"
 		});
 
-		$stateProvider.state("user", {
+		$stateProvider.state("app.user", {
 			url: "/user/:identifier",
 			templateUrl: "assets/views/pages/user.html",
 			controller: "ssn.userController"
 		});
 
-		$urlRouterProvider.when("/", "/main");
+		$urlRouterProvider.otherwise(function ($injector, url) {
+			var locale = $injector.get("localize").getLanguage();
+
+			if (url.$$path) {
+				return locale + url.$$path;
+			} else {
+				return locale + "/main";
+			}
+		});
 	}]);
 
 });

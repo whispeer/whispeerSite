@@ -38,7 +38,7 @@ define(["services/serviceModule"], function (serviceModule) {
 
 		loadOldLogin();
 
-		$rootScope.$on("$routeChangeStart", function (scope, next) {
+		$rootScope.$on("$stateChangeStart", function (scope, next) {
 			locationService.updateURL(loggedin, next.controller);
 		});
 
