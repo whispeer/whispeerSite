@@ -30,9 +30,6 @@ input:not([type]) {
 
 		background: @inputBackground;
 		border: solid 1px @inputBorder;
-		@media @desktop {
-			.box-shadow(inset 0px 0px 4px @inputBorder);
-		}
 	}
 	&:not(.input-custom):not(.input-noradius) {
 		border-radius: @inputBorderRadius;
@@ -41,9 +38,6 @@ input:not([type]) {
 		outline: 0;
 		&:not(.input-custom) {
 			border: solid 1px @inputBorderFocus;
-			@media @desktop {
-				.box-shadow(inset 0px 0px 5px rgba(red(@inputBorderFocus), green(@inputBorderFocus),blue(@inputBorderFocus), 0.75));
-			}
 		}
 	}
 	&[disabled],
@@ -51,9 +45,6 @@ input:not([type]) {
 		outline: 0;
 		color: darken(@white, 65%);
 		cursor: not-allowed;
-		&:not(.input-custom) {
-			.box-shadow(inset 0px 0px 5px #ccc);
-		}
 	}
 }
 textarea {
