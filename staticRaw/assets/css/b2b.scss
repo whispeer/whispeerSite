@@ -55,6 +55,13 @@ html {
 	background: rgba(237, 237, 237, 0.2);
 	box-shadow: 0px 0px 15px 15px rgba(237, 237, 237, 0.2);
 }
+.fa-xxl {
+	font-size: $iconSizeLarge;
+	vertical-align: middle;
+	@media #{$smallerMobile} {
+		font-size: 5em;
+	}
+}
 .landing-section {
 	position: relative;
 	float: left;
@@ -116,6 +123,28 @@ html {
 }
 .section-header--noTopMargin {
 	margin-top: 0px;
+}
+.landing-section-icon {
+	width: 25%;
+	@media #{$smallerMobile} {
+		width: 100%;
+	}
+}
+.landing-section-text {
+	width: 75%;
+	@media #{$smallerMobile} {
+		width: 100%;
+	}
+}
+.landing-section-escape {
+	width: 100%;
+	float: left;
+}
+.landing-section-left {
+	float: left;
+}
+.landing-section-right {
+	float: right;
 }
 .button {
 	background-image: none;
