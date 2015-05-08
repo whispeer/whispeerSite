@@ -75,7 +75,7 @@ define(["app"], function (app) {
 		$urlRouterProvider.otherwise(function ($injector, url) {
 			var locale = $injector.get("localize").getLanguage();
 
-			if (url.$$path) {
+			if (url.$$path && url.$$path.indexOf(locale) === -1) {
 				return locale + url.$$path;
 			} else {
 				return locale + "/main";
