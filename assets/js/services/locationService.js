@@ -42,6 +42,10 @@ define(["services/serviceModule"], function (serviceModule) {
 					$location.path(returnURL);
 					loginStorage.remove("returnUrl");
 				}
+
+				if (api.isBlockedReturnUrl(window.top.location.pathname)) {
+					$location.path("/main");
+				}
 			},
 			updateURL: function (loggedin, controller) {
 				//not logged in but on a page requiring login --> landing
