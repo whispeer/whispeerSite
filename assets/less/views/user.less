@@ -357,9 +357,11 @@
 .userView-keyInputWrap {
 	@media @desktop {
 		.column(10,12,left,1%);
+		margin: 0 0 0 1%;
 	}
 }
 .userView-keyPart {
+	position: relative;
 	@media @mobile {
 		.column(1,2,left,1);
 		&:nth-of-type(odd) {
@@ -390,7 +392,38 @@
 		}
 	}
 	@media @desktop {
-		.column(1,4,left,1%);
+		.column(1,4,left,0);
+	}
+}
+.userView-keyPart-input {
+	@media @desktop {
+		border-radius: 0 !important;
+		border-left-width: 0 !important;
+		&:focus {
+			border-left-width: 1px !important;
+			position: absolute;
+			left: -1px;
+			width: ~"calc(100% + 2px)";
+		}
+	}
+}
+.userView-keyPart:first-child {
+	@media @desktop {
+		border-radius: @inputBorderRadius 0 0 @inputBorderRadius !important;
+		overflow: hidden;
+	}
+}
+.userView-keyPart:first-child .userView-keyPart-input {
+	@media @desktop {
+		border-left-width: 1px !important;
+		position: relative;
+		left: 0;
+		width: 100%;
+	}
+}
+.userView-keyPart:nth-child(3) .userView-keyPart-input {
+	@media @desktop {
+		width: ~"calc(100% + 1px)";
 	}
 }
 #userView-submitKey {
@@ -402,5 +435,6 @@
 	@media @desktop {
 		.column(2,12,left,1%);
 		margin: 0 1% 0 0;
+		border-radius: 0 @inputBorderRadius @inputBorderRadius 0;
 	}
 }
