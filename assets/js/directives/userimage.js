@@ -1,4 +1,4 @@
-define(function () {
+define(["directives/directivesModule"], function (directivesModule) {
 	"use strict";
 
 	function userimage() {
@@ -13,5 +13,5 @@ define(function () {
 		};
 	}
 
-	return userimage;
+	directivesModule.directive("userimage", userimage);
 });

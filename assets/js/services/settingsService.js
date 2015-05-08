@@ -1,4 +1,4 @@
-define(["step", "whispeerHelper", "crypto/encryptedData"], function (step, h, EncryptedData) {
+define(["step", "whispeerHelper", "crypto/encryptedData", "services/serviceModule"], function (step, h, EncryptedData, serviceModule) {
 	"use strict";
 
 	var service = function ($rootScope, $injector, localize, initService) {
@@ -172,5 +172,5 @@ define(["step", "whispeerHelper", "crypto/encryptedData"], function (step, h, En
 
 	service.$inject = ["$rootScope", "$injector", "localize", "ssn.initService"];
 
-	return service;
+	serviceModule.factory("ssn.settingsService", service);
 });

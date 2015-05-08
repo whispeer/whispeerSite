@@ -1,4 +1,4 @@
-define(["step", "whispeerHelper", "asset/state", "bluebird"], function (step, h, State, Bluebird) {
+define(["step", "whispeerHelper", "asset/state", "bluebird", "directives/directivesModule"], function (step, h, State, Bluebird, directivesModule) {
 	"use strict";
 
 	function addFriendDirective($timeout, errorService, circleService) {
@@ -65,5 +65,5 @@ define(["step", "whispeerHelper", "asset/state", "bluebird"], function (step, h,
 
 	addFriendDirective.$inject = ["$timeout", "ssn.errorService", "ssn.circleService"];
 
-	return addFriendDirective;
+	directivesModule.directive("addfriend", addFriendDirective);
 });

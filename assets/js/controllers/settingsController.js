@@ -2,7 +2,7 @@
 * friendsController
 **/
 
-define(["whispeerHelper", "step", "asset/state", "libs/qr"], function (h, step, State, qr) {
+define(["whispeerHelper", "step", "asset/state", "libs/qr", "controllers/controllerModule"], function (h, step, State, qr, controllerModule) {
 	"use strict";
 
 	function settingsController($scope, $timeout, errorService, cssService, sessionHelper, settingsService, userService, filterService, localize) {
@@ -181,5 +181,5 @@ define(["whispeerHelper", "step", "asset/state", "libs/qr"], function (h, step, 
 
 	settingsController.$inject = ["$scope", "$timeout", "ssn.errorService", "ssn.cssService", "ssn.sessionHelper", "ssn.settingsService", "ssn.userService", "ssn.filterService", "localize"];
 
-	return settingsController;
+	controllerModule.controller("ssn.settingsController", settingsController);
 });

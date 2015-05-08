@@ -1,53 +1,46 @@
 /**
 * StorageService
 **/
-define([], function () {
+define(["services/serviceModule"], function (serviceModule) {
 	"use strict";
 
-	var available = !!window.localStorage, polyfill = {};
-
 	var service = function ($rootScope) {
-		var storage = {
-			get: function getF(key) {
-				if (available) {
-					return localStorage.getItem(key);
-				} else {
-					return polyfill[key];
-				}
-			},
+		var Storage = function (prefix) {
+			this._prefix = prefix;
+		};
 
-			set: function setF(key, data) {
-				if (available) {
-					localStorage.setItem(key, data);
-				} else {
-					polyfill[key] = data;
-				}
-			},
+		Storage.prototype.get = function getF(key) {
+			var finalKey = this._prefix + "." + key;
+			return localStorage.getItem(finalKey);
+		};
 
-			remove: function removeF(key) {
-				if (available) {
-					localStorage.removeItem(key);
-				} else {
-					delete polyfill[key];
-				}
-			},
+		Storage.prototype.set = function setF(key, data) {
+			var finalKey = this._prefix + "." + key;
+			localStorage.setItem(finalKey, data);
+		};
 
-			clear: function clearF() {
-				polyfill = {};
-				if (available) {
-					localStorage.clear();
-				}
-			}
+		Storage.prototype.remove = function removeF(key) {
+			var finalKey = this._prefix + "." + key;
+			localStorage.removeItem(finalKey);
+		};
+
+		Storage.prototype.clear = function clearF() {
+			var usedKeys = Object.keys(localStorage);
+			usedKeys.filter(function (key) {
+				return key.indexOf(this._prefix) === 0;
+			}, this).forEach(function (key) {
+				localStorage.removeItem(key);
+			});
 		};
 
 		$rootScope.$on("ssn.reset", function () {
-			storage.clear();
+			new Storage("whispeer.session").clear();
 		});
 
-		return storage;
+		return Storage;
 	};
 
 	service.$inject = ["$rootScope"];
 
-	return service;
+	serviceModule.factory("ssn.storageService", service);
 });

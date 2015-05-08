@@ -15,8 +15,9 @@ codekit-config.json
 
 # generated files
 
-/assets/css/style.css
-/assets/css/style.css.map
+/assets/css
+/assets/fonts
+/assets/less/base/addons/font-awesome.min.less
 /assets/less/codekit-config.json
 /assets/less/styleguide.md
 whispeer.mf
@@ -27,3 +28,5 @@ manifest.mf
 node_modules/*
 assets/vendor
 assets/js/bower
+
+assets/js/build/*.js

@@ -36,7 +36,6 @@ define(["app"], function (app) {
 			controller: "ssn.recoveryController",
 		});
 
-		addMain("start", false);
 		addMain("login");
 		addMain("invite");
 		addMain("setup");
@@ -45,16 +44,17 @@ define(["app"], function (app) {
 		addMain("messages", false);
 		addMain("circles");
 		addMain("settings");
+		addMain("acceptInvite");
+
+		//TODO: move all of these into own html files!
+		addMain("start", false);
 		addMain("help");
-		addMain("loading");
 		addMain("version");
 		addMain("legal");
 		addMain("impressum");
 		addMain("agb");
 		addMain("privacyPolicy");
 		addMain("recovery");
-		addMain("notificationCenter");
-		addMain("acceptInvite");
 
 		$routeProvider.when("/logout", {
 			templateUrl: "assets/views/pages/loading.html",

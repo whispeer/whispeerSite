@@ -1,4 +1,4 @@
-define(["step", "whispeerHelper", "crypto/trustManager", "crypto/signatureCache"], function (step, h, trustManager, signatureCache) {
+define(["step", "whispeerHelper", "crypto/trustManager", "crypto/signatureCache", "services/serviceModule"], function (step, h, trustManager, signatureCache, serviceModule) {
 	"use strict";
 
 	var service = function ($rootScope, initService, userService, socketService, errorService) {
@@ -105,5 +105,5 @@ define(["step", "whispeerHelper", "crypto/trustManager", "crypto/signatureCache"
 
 	service.$inject = ["$rootScope", "ssn.initService", "ssn.userService", "ssn.socketService", "ssn.errorService"];
 
-	return service;
+	serviceModule.factory("ssn.trustService", service);
 });

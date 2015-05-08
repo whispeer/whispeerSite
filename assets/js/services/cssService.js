@@ -1,4 +1,4 @@
-define([], function () {
+define(["services/serviceModule"], function (serviceModule) {
 	"use strict";
 
 	var listeners = [], theClass = "loading", isBox = false;
@@ -37,5 +37,5 @@ define([], function () {
 
 	service.$inject = ["ssn.errorService"];
 
-	return service;
+	serviceModule.factory("ssn.cssService", service);
 });

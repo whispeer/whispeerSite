@@ -1,7 +1,7 @@
 /**
 * MessageService
 **/
-define(["step", "whispeerHelper", "asset/Progress", "asset/Queue"], function (step, h, Progress, Queue) {
+define(["step", "whispeerHelper", "asset/Progress", "asset/Queue", "services/serviceModule"], function (step, h, Progress, Queue, serviceModule) {
 	"use strict";
 
 	var knownBlobs = {};
@@ -309,5 +309,5 @@ define(["step", "whispeerHelper", "asset/Progress", "asset/Queue"], function (st
 
 	service.$inject = ["$rootScope", "ssn.socketService", "ssn.keyStoreService", "ssn.errorService", "ssn.cacheService"];
 
-	return service;
+	serviceModule.factory("ssn.blobService", service);
 });

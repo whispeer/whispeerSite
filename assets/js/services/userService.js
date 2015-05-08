@@ -1,4 +1,4 @@
-define(["step", "whispeerHelper", "asset/observer", "crypto/signatureCache"], function (step, h, Observer, signatureCache) {
+define(["step", "whispeerHelper", "services/serviceModule", "asset/observer", "crypto/signatureCache"], function (step, h, serviceModule, Observer, signatureCache) {
 	"use strict";
 
 	var service = function ($rootScope, User, errorService, initService, socketService, keyStoreService, sessionService) {
@@ -268,5 +268,5 @@ define(["step", "whispeerHelper", "asset/observer", "crypto/signatureCache"], fu
 
 	service.$inject = ["$rootScope", "ssn.models.user", "ssn.errorService", "ssn.initService", "ssn.socketService", "ssn.keyStoreService", "ssn.sessionService"];
 
-	return service;
+	serviceModule.factory("ssn.userService", service);
 });

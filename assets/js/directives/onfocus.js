@@ -1,4 +1,4 @@
-define(function () {
+define(["directives/directivesModule"], function (directivesModule) {
 	"use strict";
 	var directive =  function($timeout) {
 		return {
@@ -14,5 +14,5 @@ define(function () {
 
 	directive.$inject = ["$timeout"];
 
-	return directive;
+	directivesModule.directive("onfocus", directive);
 });

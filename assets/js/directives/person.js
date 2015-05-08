@@ -1,4 +1,4 @@
-define(function () {
+define(["directives/directivesModule"], function (directivesModule) {
 	"use strict";
 
 	function personDirective() {
@@ -13,5 +13,5 @@ define(function () {
 		};
 	}
 
-	return personDirective;
+	directivesModule.directive("person", personDirective);
 });

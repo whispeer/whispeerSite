@@ -38,7 +38,7 @@ function buildCSPConfig() {
 
 	for (var dev in ifaces) {
 		if (ifaces.hasOwnProperty(dev)) {
-			ifaces[dev].filter(function (e) { return e.family === "IPV4"; }).map(function (e) { return e.address; }).forEach(pushAddress);
+			ifaces[dev].filter(function (e) { return e.family.indexOf("4") > -1; }).map(function (e) { return e.address; }).forEach(pushAddress);
 		}
 	}
 
@@ -63,6 +63,10 @@ function run() {
 	var WHISPEER_PORT = process.env.WHISPEER_PORT || 8080;
 
 	var csp = buildCSPConfig();
+
+	if (process.env.WHISPEER_NO_CSP) {
+		csp = "";
+	}
 
 	var fileServer = new nstatic.Server(".", {
 		"headers": {

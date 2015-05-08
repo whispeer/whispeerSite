@@ -1,6 +1,6 @@
-define(function () {
+define(["directives/directivesModule"], function (directivesModule) {
     "use strict";
-    return function () {
+    var strgEnterDirective = function () {
         return {
             link: function (scope, element, attrs) {
                 element.bind("keydown keypress", function (event) {
@@ -15,4 +15,6 @@ define(function () {
             }
         };
     };
+
+    directivesModule.directive("strgEnter", strgEnterDirective);
 });

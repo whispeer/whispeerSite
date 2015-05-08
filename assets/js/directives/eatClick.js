@@ -2,7 +2,7 @@
 directive to eat clicks.
 stops event default, mainly necessary for links
 **/
-define(function () {
+define(["directives/directivesModule"], function (directivesModule) {
 	"use strict";
 
 	function eatClickDirective() {
@@ -13,5 +13,5 @@ define(function () {
 		};
 	}
 
-	return eatClickDirective;
+	directivesModule.directive("eatClick", eatClickDirective);
 });

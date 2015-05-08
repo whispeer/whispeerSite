@@ -1,4 +1,4 @@
-define(["jquery", "qtip"], function () {
+define(["directives/directivesModule", "jquery", "qtip"], function (directivesModule) {
 	"use strict";
 	var directive =  function(localize) {
 		return {
@@ -52,5 +52,5 @@ define(["jquery", "qtip"], function () {
 
 	directive.$inject = ["localize"];
 
-	return directive;
+	directivesModule.directive("trustHint", directive);
 });

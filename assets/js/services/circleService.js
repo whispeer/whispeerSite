@@ -1,7 +1,7 @@
 /**.
 * MessageService
 **/
-define(["step", "whispeerHelper", "asset/observer", "asset/securedDataWithMetaData"], function (step, h, Observer, SecuredData) {
+define(["step", "whispeerHelper", "asset/observer", "services/serviceModule", "asset/securedDataWithMetaData"], function (step, h, Observer, serviceModule, SecuredData) {
 	"use strict";
 
 	var service = function ($rootScope, socket, userService, friendsService, sessionService, keyStore, settingsService) {
@@ -356,5 +356,5 @@ define(["step", "whispeerHelper", "asset/observer", "asset/securedDataWithMetaDa
 
 	service.$inject = ["$rootScope", "ssn.socketService", "ssn.userService", "ssn.friendsService", "ssn.sessionService", "ssn.keyStoreService", "ssn.settingsService"];
 
-	return service;
+	serviceModule.factory("ssn.circleService", service);
 });

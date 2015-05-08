@@ -1,7 +1,6 @@
-
-define(function () {
+define(["directives/directivesModule"], function (directivesModule) {
 	"use strict";
-	return function () {
+	var stopEventDirective = function () {
 		return {
 			restrict: "A",
 			link: function (scope, element, attr) {
@@ -11,4 +10,6 @@ define(function () {
 			}
 		};
 	};
+
+	directivesModule.directive("stopEvent", stopEventDirective);
 });

@@ -1,7 +1,7 @@
 /**
 * imageUploadService
 **/
-define(["step", "whispeerHelper", "asset/observer", "jquery"], function (step, h, Observer, jQuery) {
+define(["step", "whispeerHelper", "asset/observer", "jquery", "services/serviceModule"], function (step, h, Observer, jQuery, serviceModule) {
 	"use strict";
 
 	var service = function ($timeout) {
@@ -9,7 +9,7 @@ define(["step", "whispeerHelper", "asset/observer", "jquery"], function (step, h
 		Observer.call(api);
 
 		function updateMobile() {
-			var mobile = jQuery(window).width() < 1025;
+			var mobile = jQuery(window.top).width() < 1025;
 
 			if (mobile !== api.mobile) {
 				api.mobile = mobile;
@@ -20,7 +20,7 @@ define(["step", "whispeerHelper", "asset/observer", "jquery"], function (step, h
 			}
 		}
 
-		jQuery(window).resize(updateMobile);
+		jQuery(window.top).resize(updateMobile);
 		updateMobile();
 
 		return api;
@@ -28,5 +28,5 @@ define(["step", "whispeerHelper", "asset/observer", "jquery"], function (step, h
 
 	service.$inject = ["$timeout"];
 
-	return service;
+	serviceModule.factory("ssn.screenSizeService", service);
 });

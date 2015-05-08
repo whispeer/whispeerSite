@@ -1,10 +1,10 @@
 /**
 * LoginService
 **/
-define(["angular", "crypto/keyStore"], function (angular, keyStore) {
+define(["services/serviceModule", "crypto/keyStore"], function (serviceModule, keyStore) {
 	"use strict";
 
-	var service = function ($rootScope) {
+	var service = function ($rootScope, socketService) {
 		$rootScope.$on("ssn.reset", function () {
 			keyStore.reset();
 		});
@@ -15,10 +15,10 @@ define(["angular", "crypto/keyStore"], function (angular, keyStore) {
 			});
 		});
 
+		keyStore.upload.setSocket(socketService);
+
 		return keyStore;
 	};
 
-	service.$inject = ["$rootScope"];
-
-	return service;
+	serviceModule.factory("ssn.keyStoreService", ["$rootScope", "ssn.socketService", service]);
 });

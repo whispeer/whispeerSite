@@ -2,7 +2,7 @@
 * messagesController
 **/
 
-define(["step", "whispeerHelper", "asset/state"], function (step, h, State) {
+define(["step", "whispeerHelper", "asset/state", "controllers/controllerModule"], function (step, h, State, controllerModule) {
 	"use strict";
 
 	function messagesController($scope, $routeParams, $location, $timeout, errorService, cssService, messageService) {
@@ -237,5 +237,5 @@ define(["step", "whispeerHelper", "asset/state"], function (step, h, State) {
 
 	messagesController.$inject = ["$scope", "$routeParams", "$location", "$timeout", "ssn.errorService", "ssn.cssService", "ssn.messageService"];
 
-	return messagesController;
+	controllerModule.controller("ssn.messagesController", messagesController);
 });

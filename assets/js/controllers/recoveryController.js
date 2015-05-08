@@ -1,4 +1,4 @@
-define(["whispeerHelper", "step", "asset/state", "libs/qrreader"], function (h, step, State, qrreader) {
+define(["whispeerHelper", "step", "asset/state", "libs/qrreader", "controllers/controllerModule"], function (h, step, State, qrreader, controllerModule) {
 	"use strict";
 
 	function recoveryController($scope, $rootScope, $routeParams, socketService, keyStore, sessionService, userService, cssService, errorService) {
@@ -23,7 +23,7 @@ define(["whispeerHelper", "step", "asset/state", "libs/qrreader"], function (h, 
 
 		$scope.changePassword = {
 			password: "",
-			enabled: sessionService.isLoggedin()
+			enabled: false
 		};
 
 		$scope.savePassword = function () {
@@ -37,7 +37,7 @@ define(["whispeerHelper", "step", "asset/state", "libs/qrreader"], function (h, 
 			step(function () {
 				userService.getown().changePassword($scope.changePassword.password, this);
 			}, h.sF(function () {
-				window.location.href = "/";
+				window.location.href = "/main";
 			}), errorService.failOnError(savePasswordState));
 		};
 
@@ -50,8 +50,9 @@ define(["whispeerHelper", "step", "asset/state", "libs/qrreader"], function (h, 
 					code: $routeParams.recoveryCode,
 					keyFingerPrint: keyID
 				}, this);
-			}, h.sF(function () {
-				$scope.changePassword = true;
+			}, h.sF(function (response) {
+				sessionService.setLoginData(response.sid, response.userid, true);
+				$scope.changePassword.enabled = true;
 				$rootScope.$broadcast("ssn.recovery");
 				this.ne();
 			}), cb);
@@ -103,5 +104,5 @@ define(["whispeerHelper", "step", "asset/state", "libs/qrreader"], function (h, 
 
 	recoveryController.$inject = ["$scope", "$rootScope", "$routeParams", "ssn.socketService", "ssn.keyStoreService", "ssn.sessionService", "ssn.userService", "ssn.cssService", "ssn.errorService"];
 
-	return recoveryController;
+	controllerModule.controller("ssn.recoveryController", recoveryController);
 });

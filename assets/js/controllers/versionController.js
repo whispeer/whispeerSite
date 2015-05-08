@@ -1,4 +1,4 @@
-define(["whispeerHelper"], function (h) {
+define(["whispeerHelper", "controllers/controllerModule"], function (h, controllerModule) {
 	"use strict";
 
 	function flattenObject(obj, concatString) {
@@ -45,5 +45,5 @@ define(["whispeerHelper"], function (h) {
 
 	versionController.$inject = ["$scope", "$http", "ssn.cssService"];
 
-	return versionController;
+	controllerModule.controller("ssn.versionController", versionController);
 });

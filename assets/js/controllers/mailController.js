@@ -1,4 +1,4 @@
-define(["whispeerHelper", "step", "asset/state"], function (h, step, SuccessState) {
+define(["whispeerHelper", "step", "asset/state", "controllers/controllerModule"], function (h, step, SuccessState, controllerModule) {
 	"use strict";
 
 	function mailController($scope, $routeParams, socketService, cssService) {
@@ -30,5 +30,5 @@ define(["whispeerHelper", "step", "asset/state"], function (h, step, SuccessStat
 
 	mailController.$inject = ["$scope", "$routeParams", "ssn.socketService", "ssn.cssService"];
 
-	return mailController;
+	controllerModule.controller("ssn.mailController", mailController);
 });

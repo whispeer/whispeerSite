@@ -2,7 +2,7 @@
 * sessionController
 **/
 
-define(["step", "whispeerHelper", "config"], function (step, h, config) {
+define(["step", "whispeerHelper", "config", "controllers/controllerModule"], function (step, h, config, controllerModule) {
 	"use strict";
 
 	function getVersionString(data) {
@@ -29,6 +29,8 @@ define(["step", "whispeerHelper", "config"], function (step, h, config) {
 		$scope.version = "";
 		$scope.loggedin = false;
 		$scope.recovery = false;
+
+		$scope.loading = sessionService.isLoggedin();
 
 		$scope.mobile = screenSizeService.mobile;
 		screenSizeService.listen(function (mobile) {
@@ -62,6 +64,7 @@ define(["step", "whispeerHelper", "config"], function (step, h, config) {
 
 		$scope.$on("ssn.login", function () {
 			$scope.loggedin = sessionService.isLoggedin() && !$scope.recovery;
+
 			if (!$scope.loggedin) {
 				$scope.user = nullUser;
 			}
@@ -76,6 +79,7 @@ define(["step", "whispeerHelper", "config"], function (step, h, config) {
 				}
 			}, h.sF(function () {
 				$scope.user = user.data;
+				$scope.loading = false;
 
 				console.log("Own Name loaded:" + (new Date().getTime() - startup));
 			}));
@@ -115,10 +119,18 @@ define(["step", "whispeerHelper", "config"], function (step, h, config) {
 			$scope.searchActive = false;
 		};
 
+		function updateCssClass() {
+			if (!$scope.loading) {
+				$scope.cssClass = cssService.getClass();
+			} else {
+				$scope.cssClass = "loading";
+			}
+		}
+
 		$scope.mobileActivateView = function() {
 			$scope.sidebarActive = false;
 			$scope.searchActive = false;
-			$scope.cssClass = cssService.getClass();
+			updateCssClass();
 		};
 
 		$scope.visitUserProfile = function (user) {
@@ -133,13 +145,13 @@ define(["step", "whispeerHelper", "config"], function (step, h, config) {
 		};
 
 		cssService.addListener(function (newClass, isBox) {
-			$scope.cssClass = newClass;
+			updateCssClass();
 			$scope.isBox = isBox;
 		});
 
 		jQuery(document.body).removeClass("loading");
 
-		$scope.cssClass = cssService.getClass();
+		updateCssClass();
 
 		$scope.logout = function () {
 			sessionHelper.logout();
@@ -148,5 +160,5 @@ define(["step", "whispeerHelper", "config"], function (step, h, config) {
 
 	rootController.$inject = ["$scope", "ssn.screenSizeService", "$http", "ssn.socketService", "ssn.sessionService", "ssn.sessionHelper", "ssn.userService", "ssn.cssService", "ssn.messageService", "ssn.trustService", "ssn.friendsService"];
 
-	return rootController;
+	controllerModule.controller("ssn.rootController", rootController);
 });

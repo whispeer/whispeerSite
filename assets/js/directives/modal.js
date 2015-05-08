@@ -1,6 +1,6 @@
-define(["jquery"], function (jQuery) {
+define(["jquery", "directives/directivesModule"], function (jQuery, directivesModule) {
 	"use strict";
-	return function () {
+	directivesModule.directive("modal", function () {
 		return {
 			scope: {
 				visible: "=show",
@@ -10,7 +10,7 @@ define(["jquery"], function (jQuery) {
 			templateUrl: "assets/views/directives/modal.html",
 			replace: true,
 			transclude: true,
-			link: function (scope, iElement, attrs) {
+			link: function (scope) {
 				var ESC = 27;
 				var CLOSEKEYS = [ESC];
 
@@ -34,5 +34,5 @@ define(["jquery"], function (jQuery) {
 				});
 			}
 		};
-	};
+	});
 });

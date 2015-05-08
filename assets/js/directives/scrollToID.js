@@ -1,6 +1,6 @@
-define(function () {
+define(["directives/directivesModule"], function (directivesModule) {
 	"use strict";
-	function scrollTo() {
+	function scrollToIDDirective() {
 		return {
 			restrict: "A",
 			link: function(scope, iElement, iAttrs) {
@@ -14,8 +14,8 @@ define(function () {
 			}
 		};
 	}
-	scrollTo.$inject = ["$location", "$anchorScroll"];
-	scrollTo.$name = "scrolltoid";
+	scrollToIDDirective.$inject = ["$location", "$anchorScroll"];
+	scrollToIDDirective.$name = "scrolltoid";
 
-	return scrollTo;
+	directivesModule.directive("scrolltoid", scrollToIDDirective);
 });

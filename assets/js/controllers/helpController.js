@@ -2,7 +2,7 @@
 * friendsController
 **/
 
-define([], function () {
+define(["controllers/controllerModule"], function (controllerModule) {
 	"use strict";
 
 	function helpController($scope, cssService) {
@@ -17,5 +17,5 @@ define([], function () {
 
 	helpController.$inject = ["$scope", "ssn.cssService"];
 
-	return helpController;
+	controllerModule.controller("ssn.helpController", helpController);
 });

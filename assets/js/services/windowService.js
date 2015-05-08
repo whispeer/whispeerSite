@@ -1,4 +1,4 @@
-define(["step", "whispeerHelper", "asset/observer"], function (step, h, Observer) {
+define(["step", "whispeerHelper", "asset/observer", "services/serviceModule"], function (step, h, Observer, serviceModule) {
 	"use strict";
 
 	function service(localize, $location, $rootScope, settingsService, errorService) {
@@ -142,5 +142,5 @@ define(["step", "whispeerHelper", "asset/observer"], function (step, h, Observer
 
 	service.$inject = ["localize", "$location", "$rootScope", "ssn.settingsService", "ssn.errorService"];
 
-	return service;
+	serviceModule.factory("ssn.windowService", service);
 });
