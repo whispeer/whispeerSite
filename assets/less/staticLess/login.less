@@ -1,0 +1,73 @@
+.loginView {
+	#main {
+		@media @desktop {
+			.width(4);
+			.push(4);
+			.pull(4);
+		}
+		text-align: center;
+	}
+	h1 {
+		.large-text();
+	}
+	input {
+		.column(12);
+	}
+	#loginformsubmit {
+		.column(12);
+	}
+	.smallRow {
+		.column(12,12,left,0);
+		button {
+			.column(6);
+		}
+	}
+	.error,
+	.loginLoading {
+		.column(12);
+	}
+	.backToRegister {
+		display: inline-block;
+		margin-top: 20px;
+	}
+}
+.loginForm {
+	width: 90%;
+	margin: 0 5%;
+	#loginformsubmit {
+		border: solid 1px #8c8c8c;
+		border-top: none;
+	}
+
+	.loginLoading,
+	.error {
+		height: 39px;
+		img {
+			height: 39px;
+		}
+	}
+
+	.loginLoading {
+		@media @mobile {
+			background: @white;
+			border: solid 1px darken(#ffffff, 45%);
+			border-top: none;
+			 .box-shadow(inset 0px 0px 5px #ccc);
+		}
+	}
+
+	.error {
+		background-color: lighten(@red,5%);
+		text-shadow: 1px 1px 1px @red;
+		color: #fff;
+		border: solid 1px darken(#ffffff, 45%);
+		border-top: none;
+		padding-bottom: 10px;
+		padding-top: 10px;
+		.box-fix;
+	}
+}
+#start-login-form { // Login on startView
+	text-align: right;
+	margin: 4px 1%;
+}

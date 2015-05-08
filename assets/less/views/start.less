@@ -11,16 +11,6 @@
 		width: 1100px;
 	}
 
-	body {
-		@media @desktop {
-			padding-top: 50px;
-		}
-		@media @mobile {
-			padding-top: 0;
-			background: @primaryLighter;
-		}
-	}
-
 	#topNav {
 		position: relative;
 	}
@@ -91,13 +81,15 @@
 	#main {
 		text-align: center;
 		width: 100% !important;
-		min-height: 750px;
 		margin: 0 !important;
 
-		@media @mobile {
-			min-height: 100vh;
+		@media @desktop {
+			background-color: @primaryLighter;
+			min-height: 750px;
 		}
-		background-color: @primaryLighter;
+		@media @mobile {
+			height: auto;
+		}
 	}
 
 	.intermezzo {
@@ -187,62 +179,12 @@
 		}
 	}
 
-	.startView-register {
-		text-align: center;
-		h1 {
-			font-size: 24px;
-			line-height: normal;
-			margin-bottom: 20px;
-			color: @primary;
-		}
-		input:not([type="submit"])
-		:not([type="reset"])
-		:not([type="button"])
-		:not([type="file"])
-		:not([type="radio"])
-		:not([type="checkbox"]),
-		.annotatedInput-container {
-			width: 300px;
-			height: 48px;
-		}
-
-		.annotatedInput-container {
-			margin: 0 auto;
-		}
-
-		.annotatedInput-input {
-			width: 100%;
-		}
-
-		button {
-			font-size: 24px;
-			line-height: normal;
-			width: 300px;
-			margin-top: 16px;
-			margin-bottom: 0;
-		}
-
-		p {
-			text-align: left;
-			padding-left: 32px;
-			padding-right: 32px;
-		}
-
-		.registerAGB {
-			display: inline-block;
-			padding-left: 46px;
-			padding-right: 28px;
-			text-align: left;
-			text-indent: -16px;
-			font-size: 12px;
-			margin:	0;
-		}
-	}
-
 	.register {
 		width: 100%;
 		float: left;
-		margin-top: 30px;
+		@media @desktop {
+			margin-top: 30px;
+		}
 		text-align: center;
 		min-height: 360px;
 
@@ -272,68 +214,6 @@
 			margin-top: 0.67rem;
 		}
 
-		@media @mobile {
-			.registerWrap {
-				background: transparent;
-			}
-			.registerForm p {
-				color: @white;
-				padding: 0 29px;
-				text-align: justify;
-			}
-			.inputWrap {
-				width: ~"calc(100% - 58px)";
-				margin: 0 29px;
-				.nickname {
-					border-radius: 5px 5px 0 0;
-				}
-				.password, .password2, .registerAGB {
-					border-radius: 0;
-					border-top: 0;
-					border-bottom: solid 1px darken(#ffffff, 45%);
-				}
-				.registerAGB {
-					display: inline-block;
-					background: @white;
-					box-shadow: inset 0px 0px 5px #ccc;
-					width: 100%;
-					height: 40px;
-					line-height: 40px;
-					padding: 0 5px;
-					.box-fix;
-				}
-			}
-			.submitWrap {
-				width: 100%;
-				width: ~"calc(100% - 58px)";
-				margin: 0 29px;
-				button {
-					width: 100%;
-					margin-top: 0;
-					border: solid 1px darken(#ffffff, 45%);
-					border-top: none;
-					border-radius: 0 0 5px 5px;
-				}
-			}
-			.inviteCode {
-				margin-top: 15px;
-			}
-			#requestInvite, .registerForm {
-				margin-top: 35px;
-				border-top: 1px solid #ccc;
-			}
-			#requestInviteMail {
-				border-radius: 5px 5px 0 0;
-			}
-			#sendInviteRequest {
-				width: 100%;
-				margin: 0 0 20px 0;
-				border-radius: 0 0 5px 5px;
-				border: solid 1px darken(#ffffff, 45%);
-				border-top: none;
-			}
-		}
-
 		.icon {
 			&.fa-check { color: @green; }
 			&.fa-warning { color: @orange; }
@@ -342,13 +222,14 @@
 	}
 
 }
-#start-login-form {
-	text-align: right;
-	margin: 4px 1%;
-}
 .startView-registerIframe {
-	height: 400px;
-	width: 360px;
-	float: left;
-	border: none;
+	height: 315px;
+	@media @mobile {
+		width: 90%;
+		margin: 0 5%;
+	}
+	@media @desktop {
+		width: 360px;
+		float: left;
+	}
 }

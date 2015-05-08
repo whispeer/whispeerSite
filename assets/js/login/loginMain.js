@@ -2,8 +2,7 @@ define([
 	"jquery",
 	"angular",
 	"login/loginModule",
-	"login/loginController",
-	"localizationModule"
+	"login/loginController"
 ], function($, angular, app) {
 	"use strict";
 
