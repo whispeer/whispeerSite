@@ -3,7 +3,7 @@
 process.nextTick(function () {
 	var fs = require("fs");
 	var basePath = "./assets/js/i18n/";
-	var files = ["l_en-US.json", "l_de.json"];
+	var files = ["l_en.json", "l_de.json"];
 
 	var fileContents = [];
 

@@ -27,7 +27,7 @@ define(["whispeerHelper", "step", "asset/state", "libs/qr", "controllers/control
 		$scope.saveGeneralState = saveGeneralState.data;
 
 		$scope.safetySorted = ["birthday", "location", "relationship", "education", "work", "gender", "languages"];
-		$scope.languages = ["de", "en-US"];
+		$scope.languages = ["de", "en"];
 
 		$scope.pwState = { password: "" };
 		$scope.pwValidationOptions = {

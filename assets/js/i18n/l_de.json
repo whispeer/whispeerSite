@@ -563,7 +563,7 @@
 					"title":	"Sprache der Oberfläche",
 					"langs": {
 						"de":		"Deutsch",
-						"en-US":	"Englisch"
+						"en":		"Englisch"
 					}
 				}
 			},
