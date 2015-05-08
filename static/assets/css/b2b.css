@@ -39,28 +39,37 @@ html {
   background: #fff;
   color: #000; }
 
-#heading {
-  height: 100vh;
-  padding: 50px 25px 200px; }
+@media screen and (min-width: 1155px) {
+  #heading {
+    height: 100vh;
+    padding: 50px 25px 200px; } }
+@media screen and (max-width: 1154px) {
+  #heading {
+    min-height: 100vh; } }
 
 .section-header,
 .section-paragraph {
   display: block;
-  width: 600px;
   margin-left: auto;
   margin-right: auto; }
-
-.section-header {
-  font-weight: 600;
-  font-size: 2.5em; }
-
-.section-paragraph {
-  font-weight: 200;
-  font-size: 1.5em; }
+  @media screen and (min-width: 1155px) {
+    .section-header,
+    .section-paragraph {
+      width: 600px; } }
+  @media screen and (max-width: 1154px) {
+    .section-header,
+    .section-paragraph {
+      width: 90%;
+      max-width: 600px; } }
 
 .section-ul {
   width: 450px;
   margin: 0 auto 26.799999237060547px; }
+
+.fa-ul {
+  padding-left: 2.14285714em;
+  margin-left: auto;
+  box-sizing: border-box; }
 
 .section-li {
   display: block;
@@ -99,11 +108,17 @@ html {
   border: none; }
 
 .email-form {
-  width: 40%;
+  max-width: 500px;
   height: 50px;
   margin: 0 auto;
   clear: both;
   text-align: center; }
+  @media screen and (min-width: 1155px) {
+    .email-form {
+      width: 40%; } }
+  @media screen and (max-width: 1154px) {
+    .email-form {
+      width: 100%; } }
 
 .email-form--addMargin {
   margin-top: 50px; }

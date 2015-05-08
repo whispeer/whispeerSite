@@ -1,6 +1,9 @@
 ---
 ---
 
+$mobile: "screen and (max-width: 1154px)";
+$desktop: "screen and (min-width: 1155px)";
+
 @font-face {
   font-family: 'Source Sans Pro';
   font-style: normal;
@@ -47,13 +50,24 @@ html {
 	color: #000;
 }
 #heading {
-	height: 100vh; // 92% support looks ok to me
-	padding: 50px 25px 200px;
+	@media #{$desktop} {
+		height: 100vh; // 92% support looks ok to me
+		padding: 50px 25px 200px;
+	}
+	@media #{$mobile} {
+		min-height: 100vh;
+	}
 }
 .section-header,
 .section-paragraph {
+	@media #{$desktop} {
+		width: 600px;
+	}
+	@media #{$mobile} {
+		width: 90%;
+		max-width: 600px;
+	}
 	display: block;
-	width: 600px;
 	margin-left: auto;
 	margin-right: auto;
 }
@@ -68,6 +82,11 @@ html {
 .section-ul {
 	width: 450px;
 	margin: 0 auto 26.799999237060547px;
+}
+.fa-ul {
+	padding-left: 2.14285714em;
+	margin-left: auto;
+	box-sizing: border-box;
 }
 .section-li {
 	display: block;
@@ -108,7 +127,13 @@ html {
 	border: none;
 }
 .email-form {
-	width: 40%;
+	@media #{$desktop} {
+		width: 40%;
+	}
+	@media #{$mobile} {
+		width: 100%;
+	}
+	max-width: 500px;
 	height: 50px;
 	margin: 0 auto;
 	clear: both;
