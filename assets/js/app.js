@@ -23,6 +23,8 @@ define([
 		"ssn.search",
 		"ssn.runners",
 		"ssn.interceptors.config",
+		"ssn.locale.config",
+
 		"localization",
 		"ui.router",
 		"ngTouch"

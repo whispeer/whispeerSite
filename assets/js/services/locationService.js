@@ -19,14 +19,14 @@ define(["services/serviceModule"], function (serviceModule) {
 				api.setTopLocation("/start");
 			},
 			isLoginPage: function () {
-				return window.top.location.pathname.indexOf("/login") === 0;
+				return window.top.location.pathname.indexOf("/login") !== -1;
 			},
 			loginPage: function () {
 				api.setTopLocation("/login");
 			},
 			isBlockedReturnUrl: function (url) {
 				return blockedReturnUrls.filter(function (blockedUrl) {
-					return blockedUrl.indexOf(url) === 0;
+					return url.indexOf(blockedUrl) !== -1;
 				}).length > 0;
 			},
 			setReturnUrl: function (url) {
