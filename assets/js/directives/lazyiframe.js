@@ -6,7 +6,7 @@ define(["directives/directivesModule"], function (directivesModule) {
 			restrict: "E",
 			template: "",
 			link: function (scope, iElement, iAttrs) {
-				var attributes = {};
+				var attributes = {}, attributesEmpty = [];
 
 				Object.keys(iAttrs.$attr).filter(function (attr) {
 					return attr.indexOf("ng") !== 0;
@@ -17,11 +17,24 @@ define(["directives/directivesModule"], function (directivesModule) {
 					};
 				}).forEach(function (attr) {
 					attributes[attr.val] = iAttrs[attr.key];
+					attributesEmpty.push(attr.val);
 				});
 
-				iElement.append(
-					jQuery("<iframe>").attr(attributes)
-				);
+				function append() {
+					iElement.append(
+						jQuery("<iframe>").attr(attributes)
+					);
+
+					attributesEmpty.forEach(function (attr) {
+						iElement.removeAttr(attr);
+					});
+				}
+
+				if (iAttrs.delay) {
+					window.setTimeout(append, parseInt(iAttrs.delay, 10));
+				} else {
+					append();
+				}
 			}
 		};
 	}

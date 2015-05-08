@@ -40,6 +40,8 @@ define([
 			$scope.codeProvided = true;
 		}
 
+		$scope.manualCode = "";
+
 		$scope.qr = {
 			enabled: $scope.codeProvided
 		};

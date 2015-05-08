@@ -9,7 +9,7 @@ define(["whispeerHelper", "directives/directivesModule", "services/passwordStren
 				class2: "@class2"
 			},
 			restrict: "E",
-			template: 
+			template:
 				"<div class='annotatedInput-container'>" +
 				"	<input class='annotatedInput-input strenghInput password {{class1}}' type='password' data-i18n-attr='login.password|placeholder' data-ng-model='state.password' validation='passwordValidations'>" +
 				"	<span class='annotatedInput-icon' data-strength='{{passwordStrength()}}'></span>" +

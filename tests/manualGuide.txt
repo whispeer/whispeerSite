@@ -1,0 +1,42 @@
+Test all on mobile and desktop!
+
+- register
+- login
+- recovery
+
+- friendship
+ - initiate
+ - accept
+ - decline
+ - remove friend
+
+- circle
+ - create
+ - create with user
+ - add user
+ - remove user
+
+- message
+ - new
+  - with oneself
+  - with another user
+  - with 2 other users
+  - with 3 other users
+ - add message to topic
+ - add message to topic using another user
+
+- post
+ - create
+  - without image
+  - with image
+ - delete
+ - comment
+ - comment as other user
+
+- profile
+ - edit
+ - change visibility
+  - check visibility!
+
+- wallpost
+ - create

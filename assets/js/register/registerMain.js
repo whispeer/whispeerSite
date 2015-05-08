@@ -7,8 +7,6 @@ define([
 	"directives/savebutton",
 	"directives/passwordinput",
 	"directives/validatedForm",
-
-	"localizationModule"
 ], function($, angular, app) {
 	"use strict";
 

@@ -87,17 +87,23 @@ define(["step", "whispeerHelper", "asset/state", "libs/qr", "libs/filesaver", "c
 		};
 
 		function createBackup(cb) {
+			var image, keyData;
+
 			step(function () {
 				userService.getown().createBackupKey(this);
-			}, h.sF(function (keyData) {
-				var image = new Image(100, 200);
+			}, h.sF(function (_keyData) {
+				keyData = _keyData;
+				image = new Image(100, 200);
+
+				image.onload = this.ne;
+
 				qr.image({
 					image: image,
 					value: keyData,
 					size: 7,
 					level: "L"
 				});
-				
+			}), h.sF(function () {
 				var c=document.createElement("canvas");
 				c.width = image.width + 200;
 				c.height = image.height + 200;

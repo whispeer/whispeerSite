@@ -1,0 +1,47 @@
+// CSS-Reset
+@import "base/reset";
+
+// Load other Libraries
+@import "base/addons/angular-csp.less";
+@import "base/addons/jquery.qtip.less";
+@import "base/addons/font-awesome.min.less";
+
+// Grid
+@import "base/grid";
+
+// Core Variables / Mixins
+@import "base/variables";
+@import "base/mixins";
+
+// Basic Stuff
+@import "base/ui/typography";
+@import "base/ui/header";
+@import "base/ui/forms";
+@import "base/ui/buttons";
+
+body {
+	background: transparent;
+}
+.hasTopBar {
+	padding-top: 50px;
+}
+
+// Views
+
+// Register
+@import "staticLess/register";
+
+// Login
+@import "staticLess/login";
+
+// Recovery
+@import "staticLess/recovery";
+
+// Help
+@import "views/help";
+
+// Legal
+@import "views/legal";
+
+// Version history
+@import "views/version";
