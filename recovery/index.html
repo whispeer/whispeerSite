@@ -1,15 +1,15 @@
 <!doctype html>
-<html lang="de" data-ng-csp class="recoveryView">
+<html lang="de" data-ng-csp class="recoveryView hasTopBar">
 <head>
 	<base href="/" />
 	<meta charset="utf-8">
 
 	<link rel="shortcut icon" href="assets/img/favicons/favicon.png" type="image/x-icon">
 	<link rel="stylesheet" href="assets/vendor/css/font-awesome.css">
-	<link rel="stylesheet" href="assets/css/style.css">
+	<link rel="stylesheet" href="assets/css/static.css">
 </head>
 <body data-mobile>
-	<ng-include src="'assets/views/topBar.html'" data-ng-if="!mobile"></ng-include>
+	<ng-include src="'assets/views/topBar.html'"></ng-include>
 	<div id="container">
 		<section id="main" data-ng-cloak data-ng-controller="ssn.recoveryController">
 			<h1 id="recoveryView-title" data-i18n="views.recovery.title"></h1>
@@ -34,7 +34,7 @@
 						<input class="inputSandwich-top" type="text" data-ng-model="manualCode" data-i18n-attr="views.recovery.typeKey|placeholder">
 						<savebutton class="inputSandwich-bottom" data-state="loadBackupKeyState" data-ng-click="loadBackupKeyManual()"></savebutton>
 					</form>
-				</div>	
+				</div>
 				<p data-i18n="views.recovery.or"></p>
 				<h2 class="recoveryView-subTitle" data-i18n="views.recovery.scanKey" data-ng-if="qr.enabled"></h2>
 				<qr-scanner state="qr" callback="backupKeyCallback(code)" data-ng-if="qr.enabled"></qr-scanner>
