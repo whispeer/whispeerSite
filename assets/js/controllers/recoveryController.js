@@ -5,6 +5,7 @@ define(["whispeerHelper", "step", "asset/state", "libs/qrreader", "controllers/c
 		cssService.setClass("recoveryView");
 
 		$scope.codeProvided = $routeParams.recoveryCode;
+		$scope.manualCode = "";
 
 		$scope.qr = {
 			enabled: $scope.codeProvided
