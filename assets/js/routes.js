@@ -2,7 +2,8 @@ define(["app"], function (app) {
 	"use strict";
 
 	return app.config(["$stateProvider", "$urlRouterProvider", "$provide", "$locationProvider", "localizationLoaderProvider", function ($stateProvider, $urlRouterProvider, $provide, $locationProvider, localizationLoaderProvider) {
-		localizationLoaderProvider.setAvailableLanguages(["en-us", "de"]);
+		localizationLoaderProvider.setAvailableLanguages(["en", "de"]);
+		localizationLoaderProvider.setFallBackLanguage("en");
 
 		$locationProvider.html5Mode(true);
 		$locationProvider.hashPrefix("!");

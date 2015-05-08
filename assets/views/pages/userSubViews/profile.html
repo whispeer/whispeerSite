@@ -130,7 +130,7 @@
 			<saveButton id="userView-submitCircle" data-ng-click="saveCircles()" data-state="circles.saving"></saveButton>
 		</div>
 		<!--<button ng-if="user.added" ng-click="removeFriend()">REMOVE FRIEND [TRANSLATE]</button> -->
-		<a href="messages?userid={{user.id}}" class="userView-sendMessage btn btn--primary btn--input"><span data-i18n="profile.actions.sendMessage|user={{user.name}}"></span></a>
+		<a ui-sref="app.messages({userid: user.id})" class="userView-sendMessage btn btn--primary btn--input"><span data-i18n="profile.actions.sendMessage|user={{user.name}}"></span></a>
 	</div>
 </section>
 <section class="userView-section" id="wall">
@@ -153,7 +153,7 @@
 			<person data-user="friend"></person>
 		</li>
 		<li class="inviteFriends" id="userView-inviteFriends" data-ng-if="friends.length < 50 && user.me">
-			<a class="inviteFriends-link btn btn--primary btn--large" id="userView-inviteFriends-link" href="/invite" data-i18n="inviteFriends"></a>
+			<a class="inviteFriends-link btn btn--primary btn--large" id="userView-inviteFriends-link" ui-sref="app.invite" data-i18n="inviteFriends"></a>
 		</li>
 	</ol>
 </section>
