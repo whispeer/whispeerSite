@@ -1,10 +1,45 @@
-define(["whispeerHelper", "step", "asset/state", "libs/qrreader", "controllers/controllerModule"], function (h, step, State, qrreader, controllerModule) {
+define([
+		"whispeerHelper",
+		"step",
+		"asset/state",
+		"libs/qrreader",
+		"recovery/recoveryModule",
+
+		"models/user",
+
+		"services/socketService",
+		"services/keyStoreService",
+		"services/sessionService",
+		"services/userService",
+		"services/errorService",
+
+		//sub dependencies.
+		"services/locationService",
+		"services/storageService",
+		"services/blobService",
+		"services/cacheService",
+		"services/profileService",
+		"services/settingsService",
+		"services/initService",
+		"services/migrationService",
+		"services/friendsService",
+	], function (h, step, State, qrreader, controllerModule) {
 	"use strict";
 
-	function recoveryController($scope, $rootScope, $routeParams, socketService, keyStore, sessionService, userService, cssService, errorService) {
-		cssService.setClass("recoveryView");
+	function recoveryController($scope, socketService, keyStore, sessionService, userService, errorService) {
+		var parts = window.location.pathname.split("/");
+		var nick, recoveryCode;
 
-		$scope.codeProvided = $routeParams.recoveryCode;
+		parts = parts.filter(function (v) {
+			return v !== "";
+		});
+
+		if (parts.length === 3) {
+			recoveryCode = parts.pop();
+			nick = parts.pop();
+			$scope.codeProvided = true;
+		}
+
 		$scope.manualCode = "";
 
 		$scope.qr = {
@@ -38,23 +73,24 @@ define(["whispeerHelper", "step", "asset/state", "libs/qrreader", "controllers/c
 			step(function () {
 				userService.getown().changePassword($scope.changePassword.password, this);
 			}, h.sF(function () {
+				sessionService.saveSession();
 				window.location.href = "/main";
 			}), errorService.failOnError(savePasswordState));
 		};
 
 		function doRecovery(key, cb) {
 			step(function () {
-				keyStore.setKeyGenIdentifier($routeParams.nick);
+				keyStore.setKeyGenIdentifier(nick);
 				var keyID = keyStore.sym.loadBackupKey(keyStore.format.unBase32(key));
 				keyStore.setKeyGenIdentifier("");
 				socketService.emit("recovery.useRecoveryCode", {
-					code: $routeParams.recoveryCode,
+					code: recoveryCode,
 					keyFingerPrint: keyID
 				}, this);
 			}, h.sF(function (response) {
 				sessionService.setLoginData(response.sid, response.userid, true);
 				$scope.changePassword.enabled = true;
-				$rootScope.$broadcast("ssn.recovery");
+
 				this.ne();
 			}), cb);
 		}
@@ -103,7 +139,7 @@ define(["whispeerHelper", "step", "asset/state", "libs/qrreader", "controllers/c
 		};
 	}
 
-	recoveryController.$inject = ["$scope", "$rootScope", "$routeParams", "ssn.socketService", "ssn.keyStoreService", "ssn.sessionService", "ssn.userService", "ssn.cssService", "ssn.errorService"];
+	recoveryController.$inject = ["$scope", "ssn.socketService", "ssn.keyStoreService", "ssn.sessionService", "ssn.userService", "ssn.errorService"];
 
 	controllerModule.controller("ssn.recoveryController", recoveryController);
 });

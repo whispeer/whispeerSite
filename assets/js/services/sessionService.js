@@ -9,6 +9,12 @@ define(["services/serviceModule"], function (serviceModule) {
 
 		var sessionStorage = new Storage("whispeer.session");
 
+		function saveSession() {
+			sessionStorage.set("sid", sid);
+			sessionStorage.set("userid", userid);
+			sessionStorage.set("loggedin", true);
+		}
+
 		function setLoginData(_sid, _userid, noRedirect) {
 			sid = _sid;
 			userid = _userid;
@@ -37,6 +43,7 @@ define(["services/serviceModule"], function (serviceModule) {
 		});
 
 		var sessionService = {
+			saveSession: saveSession,
 			setLoginData: setLoginData,
 			setReturnUrl: function (url) {
 				locationService.setReturnUrl(url);

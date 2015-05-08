@@ -26,16 +26,6 @@ define(["app"], function (app) {
 			});
 		}
 
-		$routeProvider.when("/start/:inviteCode", {
-			templateUrl: "assets/views/pages/start.html",
-			controller: "ssn.startController",
-		});
-
-		$routeProvider.when("/recovery/:nick/:recoveryCode", {
-			templateUrl: "assets/views/pages/recovery.html",
-			controller: "ssn.recoveryController",
-		});
-
 		addMain("login");
 		addMain("invite");
 		addMain("setup");
@@ -54,7 +44,6 @@ define(["app"], function (app) {
 		addMain("impressum");
 		addMain("agb");
 		addMain("privacyPolicy");
-		addMain("recovery");
 
 		$routeProvider.when("/logout", {
 			templateUrl: "assets/views/pages/loading.html",

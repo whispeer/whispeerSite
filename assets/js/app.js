@@ -21,7 +21,6 @@ define([
 		"ssn.filter",
 		"ssn.search",
 		"ssn.interceptors.config",
-		"ssn.register",
 		"localization",
 		"ngRoute",
 		"ngTouch"

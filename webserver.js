@@ -85,6 +85,11 @@ function run() {
 				if (e && (e.status === 404)) {
 					var dir = request.url.split(/\/|\?/)[1];
 
+					if (dir === "recovery") {
+						fileServer.serveFile("/recovery/index.html", 200, {}, request, response);
+						return;
+					}
+
 					if (angular.indexOf(dir) === -1) {
 						console.error("File not found: " + request.url);
 						fileServer.serveFile("/index.html", 404, {}, request, response);
