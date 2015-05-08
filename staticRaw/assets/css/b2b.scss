@@ -1,6 +1,14 @@
 ---
 ---
 
+$fontSize: 1.5em;
+$fontWeight: 200;
+
+$fontSizeLarge: 2.5em;
+$fontWeightLarge: 600;
+
+$defaultLineHeight: 120%;
+
 $mobile: "screen and (max-width: 1154px)";
 $desktop: "screen and (min-width: 1155px)";
 
@@ -20,6 +28,16 @@ $desktop: "screen and (min-width: 1155px)";
 html {
 	font-family: 'Source Sans Pro', sans-serif;
 	text-rendering: optimizeLegibility;
+}
+.normalFont {
+	font-size: $fontSize;
+	font-weight: $fontWeight;
+	line-height: $defaultLineHeight;
+}
+.largeFont {
+	font-size: $fontSizeLarge;
+	font-weight: $fontWeightLarge;
+	line-height: $defaultLineHeight;
 }
 .darkBlur {
 	color: #ffffff;
@@ -72,12 +90,10 @@ html {
 	margin-right: auto;
 }
 .section-header {
-	font-weight: 600;
-	font-size: 2.5em;
+	@extend .largeFont;
 }
 .section-paragraph {
-	font-weight: 200;
-	font-size: 1.5em;
+	@extend .normalFont;
 }
 .section-ul {
 	width: 450px;
