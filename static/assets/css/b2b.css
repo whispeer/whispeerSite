@@ -73,7 +73,7 @@ html {
       max-width: 600px; } }
 
 .section-ul {
-  width: 450px;
+  max-width: 450px;
   margin: 0 auto 26.799999237060547px; }
 
 .fa-ul {
@@ -129,6 +129,9 @@ html {
   @media screen and (max-width: 1154px) {
     .email-form {
       width: 100%; } }
+  @media screen and (max-width: 666px) {
+    .email-form {
+      height: 60px; } }
 
 .email-form--addMargin {
   margin-top: 50px; }
@@ -144,7 +147,7 @@ html {
   float: left;
   width: 65%;
   margin: 0;
-  height: 50px;
+  height: 100%;
   color: #000;
   border: 1px solid #ccc;
   border-right: none;
@@ -156,8 +159,12 @@ html {
   float: left;
   width: 35%;
   margin: 0;
+  height: 100%;
   box-sizing: border-box;
   background: #54AB0C; }
+  @media screen and (max-width: 666px) {
+    .email-form-submit {
+      line-height: 25px; } }
 
 .email-form-submit:hover {
   background: #4b990a; }
