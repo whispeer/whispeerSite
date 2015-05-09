@@ -1,0 +1,43 @@
+$fontSize: 1.5em;
+$fontWeight: 200;
+
+$fontSizeLarge: 2.5em;
+$fontWeightLarge: 600;
+$iconSizeLarge: 15em;
+$iconLineHeightLarge: 10em;
+
+$defaultLineHeight: 120%;
+
+
+$smallerMobile: "screen and (max-width: 666px)";
+$mobile: "screen and (max-width: 1154px)";
+$desktop: "screen and (min-width: 1155px)";
+
+// Grays
+// -------------------------
+$black:                 #000;
+$grayDarker:            #222;
+$grayDark:              #333;
+$gray:                  #555;
+$grayLight:             #999;
+$grayLighter:           #eee;
+$white:                 #fff;
+
+
+// Accent colors
+// -------------------------
+$blue:                  #049cdb;
+$blueDark:              #0064cd;
+$red:                   #9d261d;
+$yellow:                #ffc40d;
+$orange:				#f7b311;
+$orangeDark:			#f7bf10;
+$pink:                  #c3325f;
+$purple:                #7a43b6;
+$green:					#54AB0C;
+
+$primary:	 #3A8100;
+$primaryLighter: #54AB0C;
+$primaryLightest: #59B40E;
+$primaryDarker: #3B7B06;
+$primaryDarkest: #377900;

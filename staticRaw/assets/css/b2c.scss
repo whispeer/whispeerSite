@@ -1,0 +1,29 @@
+---
+---
+
+@import "variables";
+@import "typography";
+@import "sections";
+@import "misc";
+
+.header {
+	background: rgba(red($primary), green($primary), blue($primary), 0.8);
+}
+
+.header-inner {
+	@media #{$mobile} {
+		padding: 0 50px;
+		box-sizing: border-box;
+		text-align: center;
+	}
+}
+.header-brand {
+	@media #{$mobile} {
+		display: inline-block;
+		float: none;
+		width: none;
+		margin: 0;
+
+		text-align: center;
+	}
+}

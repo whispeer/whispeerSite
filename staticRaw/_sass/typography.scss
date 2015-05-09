@@ -1,0 +1,38 @@
+@font-face {
+  font-family: 'Source Sans Pro';
+  font-style: normal;
+  font-weight: 200;
+  src: local('Source Sans Pro ExtraLight'), local('SourceSansPro-ExtraLight'), url(/assets/fonts/SourceSansPro-ExtraLight.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Source Sans Pro';
+  font-style: normal;
+  font-weight: 600;
+  src: local('Source Sans Pro Semibold'), local('SourceSansPro-Semibold'), url(/assets/fonts/SourceSansPro-Semibold.ttf) format('truetype');
+}
+html {
+	font-family: 'Source Sans Pro', sans-serif;
+	text-rendering: optimizeLegibility;
+}
+.normalFont {
+	font-size: $fontSize;
+	font-weight: $fontWeight;
+	line-height: $defaultLineHeight;
+}
+.largeFont {
+	font-size: $fontSizeLarge;
+	font-weight: $fontWeightLarge;
+	line-height: $defaultLineHeight;
+}
+.darkBlur {
+	color: #ffffff;
+	text-shadow: 0px 0px 5px #000;
+	background: rgba(50, 50, 50, 0.4);
+	box-shadow: 0px 0px 10px 15px rgba(50, 50, 50, 0.4);
+}
+.lightBlur {
+	color: #fff;
+	text-shadow: 1px 1px 2px #000;
+	background: rgba(237, 237, 237, 0.2);
+	box-shadow: 0px 0px 15px 15px rgba(237, 237, 237, 0.2);
+}

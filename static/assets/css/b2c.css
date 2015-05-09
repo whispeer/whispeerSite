@@ -130,81 +130,19 @@ html {
     .fa-xxl {
       font-size: 5em; } }
 
-.button {
-  background-image: none;
-  -webkit-tab-highlight-color: transparent;
-  -moz-user-select: none;
-  -webkit-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  border: none;
-  display: inline-block;
-  width: auto;
-  height: 50px;
-  line-height: 50px;
-  padding: 0 15px;
-  text-decoration: none;
-  background: transparent;
-  color: #000;
-  border: 1px solid #ccc; }
+.header {
+  background: rgba(58, 129, 0, 0.8); }
 
-.button:hover {
-  background: rgba(60, 60, 60, 0.1); }
+@media screen and (max-width: 1154px) {
+  .header-inner {
+    padding: 0 50px;
+    box-sizing: border-box;
+    text-align: center; } }
 
-.button--green {
-  color: #fff; }
-
-.button--more {
-  border: none; }
-
-.email-form {
-  max-width: 500px;
-  height: 50px;
-  margin: 0 auto;
-  clear: both;
-  text-align: center; }
-  @media screen and (min-width: 1155px) {
-    .email-form {
-      width: 40%; } }
-  @media screen and (max-width: 1154px) {
-    .email-form {
-      width: 100%; } }
-  @media screen and (max-width: 666px) {
-    .email-form {
-      height: 60px; } }
-
-.email-form--addMargin {
-  margin-top: 50px; }
-
-.email-form-input {
-  padding: 10px 15px;
-  outline: 0;
-  border: none;
-  border-radius: 0;
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  float: left;
-  width: 65%;
-  margin: 0;
-  height: 100%;
-  color: #000;
-  border: 1px solid #ccc;
-  border-right: none;
-  border-radius: 5px 0 0 5px;
-  box-sizing: border-box; }
-
-.email-form-submit {
-  border-radius: 0 5px 5px 0;
-  float: left;
-  width: 35%;
-  margin: 0;
-  height: 100%;
-  box-sizing: border-box;
-  background: #54AB0C; }
-  @media screen and (max-width: 666px) {
-    .email-form-submit {
-      line-height: 25px; } }
-
-.email-form-submit:hover {
-  background: #4b990a; }
+@media screen and (max-width: 1154px) {
+  .header-brand {
+    display: inline-block;
+    float: none;
+    width: none;
+    margin: 0;
+    text-align: center; } }

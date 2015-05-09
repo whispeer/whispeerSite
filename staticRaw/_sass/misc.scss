@@ -1,0 +1,19 @@
+.helper-showMobile {
+	@media #{$desktop} {
+		display: none !important;
+		visibility: hidden !important;
+	}
+}
+.helper-hideMobile {
+	@media #{$mobile} {
+		display: none !important;
+		visibility: hidden !important;
+	}
+}
+.fa-xxl {
+	font-size: $iconSizeLarge;
+	vertical-align: middle;
+	@media #{$smallerMobile} {
+		font-size: 5em;
+	}
+}
