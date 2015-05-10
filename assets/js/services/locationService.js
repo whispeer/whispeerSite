@@ -10,7 +10,7 @@ define(["services/serviceModule", "whispeerHelper"], function (serviceModule, h)
 
 		var api = {
 			setTopLocation: function (url) {
-				var locale = h.getLanguageFromPath();
+				var locale = h.getLanguageFromPath() || "";
 				window.top.location = "/" + locale + url;
 			},
 			mainPage: function () {
