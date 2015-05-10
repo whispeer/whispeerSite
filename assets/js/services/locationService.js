@@ -1,4 +1,4 @@
-define(["services/serviceModule"], function (serviceModule) {
+define(["services/serviceModule", "whispeerHelper"], function (serviceModule, h) {
 	"use strict";
 
 	serviceModule.factory("ssn.locationService", ["$location", "ssn.storageService", function ($location, Storage) {
@@ -10,7 +10,8 @@ define(["services/serviceModule"], function (serviceModule) {
 
 		var api = {
 			setTopLocation: function (url) {
-				window.top.location = url;
+				var locale = h.getLanguageFromPath();
+				window.top.location = "/" + locale + url;
 			},
 			mainPage: function () {
 				api.setTopLocation("/main");
