@@ -31,11 +31,6 @@ define(["step", "whispeerHelper", "config", "controllers/controllerModule"], fun
 
 		$scope.loading = sessionService.isLoggedin();
 
-		$scope.mobile = screenSizeService.mobile;
-		screenSizeService.listen(function (mobile) {
-			$scope.mobile = mobile;
-		});
-
 		var nullUser = {
 			name: "",
 			basic: {
