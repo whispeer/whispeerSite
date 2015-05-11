@@ -22,7 +22,6 @@ var libs = [
 	"requirejs",
 	"socket",
 	"socketStream",
-	"localizationModule",
 	"workerQueue",
 	"PromiseWorker",
 	"debug",
