@@ -1,6 +1,6 @@
 {% assign i18n = site.data.whispeerI18n[page.lang] %}
 
-{% include whispeerHead.html %}
+{% include whispeerHead.html htmlClass="body-iframe" %}
 <body>
 	<form id="start-login-form" data-ng-controller="ssn.loginController">
 		<input type="text" id="mail" placeholder="{{i18n.login.username}}" data-ng-model="login.identifier">

@@ -1,6 +1,6 @@
 {% assign i18n = site.data.whispeerI18n[page.lang] %}
 
-{% include whispeerHead.html %}
+{% include whispeerHead.html htmlClass="startView body-iframe" %}
 <body>
 	<div data-ng-cloak class="startView-register registerWrap" data-ng-click="registerFormClick()" data-ng-controller="ssn.registerController">
 		<form class="registerForm" data-validated-form="validationOptions">
