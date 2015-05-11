@@ -5,11 +5,12 @@
 	padding: 50px 25px;
 
 	background: #54AB0C;
-	color: #fff;
+	color: #ffffff;
 	box-sizing: border-box;
 	text-align: center;
-	background-size: contain;
-	background-position: center bottom;
+	background-size: cover;
+	background-position: center center;
+	background-repeat: no-repeat;
 }
 .landing-section:nth-child(2n) {
 	background: #fff;

@@ -10,7 +10,12 @@
   font-weight: 600;
   src: local('Source Sans Pro Semibold'), local('SourceSansPro-Semibold'), url(/assets/fonts/SourceSansPro-Semibold.ttf) format('truetype');
 }
-html {
+
+h1, h2, h3, h4, h5, h6,
+p,
+li,
+button,
+input {
 	font-family: 'Source Sans Pro', sans-serif;
 	text-rendering: optimizeLegibility;
 }
