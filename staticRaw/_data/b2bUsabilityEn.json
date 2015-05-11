@@ -1,0 +1,31 @@
+{
+	general: {
+		title: "whispeer",
+		description: "what the hell goes in here?"
+	},
+	teaser: {
+		headline: "Upgrade your company communication",
+		details: "whispeer is an easy to use, back to basics communication platform, that will finally rid you of the inter-company e-mail chaos!",
+		imageIdeas: "business meeting with laughing people? something like http://www.shutterstock.com/de/pic-182278622/stock-photo-casual-people-meeting-at-industrial-office.html?src=YFYK6_mssNuk0bir201bqw-1-2
+		or http://www.shutterstock.com/de/pic-145004602/stock-photo-funny-businessman-telling-a-joke-during-conference-coffee-break.html?src=YFYK6_mssNuk0bir201bqw-1-0",
+		image: "usability.jpg",
+		lightBlur: true,
+		video: "",
+		mailForm: true
+	},
+	sections: [
+		{
+			headline: "whispeer is the modern communication platform you dream of:",
+			details: " - easy to use for everyone <br> - return to basic communication functions <br> - featuring messages, file transfer and team communication <br> - Access data on all devices and on the go <br> - securing data by using high standards of encryption  <br> - no more e-mail chaos <br>",
+			icon: "fa-comments",
+			learnmore: true,
+			mailForm: false
+		},
+		{
+			headline: "Upgrade your communication",
+			learnmore: false,
+			mailForm: true,
+			mailMargin: false
+		}
+	]
+}

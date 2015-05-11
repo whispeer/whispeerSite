@@ -1,0 +1,74 @@
+<!doctype html>
+<html>
+	{{content}}
+	{% assign data = site.data[page.dataSet] %}
+	{% assign lang = site.data[page.lang] %}
+	<head>
+		{% include head.html %}
+		<link rel="stylesheet" href="{{ "/assets/css/b2b.css" | prepend: site.baseurl }}">
+	</head>
+	<body>
+		<section class="landing-section" id="heading" {% if data.teaser.image != null %} style="background-image: url(/assets/images/{{data.teaser.image}});" {% endif %}>
+			<h1 class="section-header {% if data.teaser.icon == null %} section-header--noTopMargin {% endif %} {% if data.teaser.darkBlur %} darkBlur {% endif %} {% if data.teaser.lightBlur %} lightBlur {% endif %}">{{ data.teaser.headline }}</h1>
+			{% if data.teaser.details != null %}
+				<p class="section-paragraph {% if data.teaser.darkBlur %} darkBlur {% endif %} {% if data.teaser.lightBlur %} lightBlur {% endif %}">
+					{{ data.teaser.details }}
+				</p>
+			{% endif %}
+			{% if data.teaser.detailsList != null %}
+				<ul class="section-ul fa-ul {% if data.teaser.darkBlur %} darkBlur {% endif %} {% if data.teaser.lightBlur %} lightBlur {% endif %}">
+				{% for item in data.teaser.detailsList %}
+					<li class="section-li"><i class="fa fa-li {{item.icon}}"></i> {{item.text}}</li>
+				{% endfor %}
+				</ul>
+			{% endif %}
+			{% if data.teaser.mailForm %}
+				<form class="email-form email-form--addMargin">
+					<input class="email-form-input" type="text" placeholder="{{lang.enterMail}}"><!-- whitespace...
+					--><button class="email-form-submit button button--green" type="submit">{{lang.send}}</button>
+				</form>
+			{% endif %}
+		</section>
+		{% for section in data.sections %}
+		<section class="landing-section {% if section.darkText %} landing-section--darkText {% endif %}"  {% if section.image != null %} style="background-image: url(/assets/images/{{section.image}});" {% endif %}>
+			{% capture thecycle %}{% cycle 'even', 'odd' %}{% endcapture %}
+			{% if section.icon != null || section.image != null %}
+			<div class="{% if thecycle == 'even' %} landing-section-left {% else %} landing-section-right {% endif %} landing-section-icon">
+				{% if section.icon != null %}
+					<i class="fa fa-xxl {{section.icon}} {% if section.darkBlur %} darkBlur {% endif %} {% if section.lightBlur %} lightBlur {% endif %}"></i>
+				{% endif %}
+				{% if section.image != null %}
+					<img class="landing-section-image" src="{{ section.image.src }}" alt="{{ section.image.alt }}">
+				{% endif %}
+			</div>
+			{% endif %}
+			<div class="{% if section.icon != null || section.image != null %}{% if thecycle == 'odd' %} landing-section-left {% else %} landing-section-right {% endif %} landing-section-text {% endif %}">
+				{% if section.headline != null %}
+					<h1 class="section-header {% if section.icon == null %} section-header--noTopMargin {% endif %} {% if section.darkBlur %} darkBlur {% endif %} {% if section.lightBlur %} lightBlur {% endif %}">{{ section.headline }}</h1>
+				{% endif %}
+				{% if section.details != null %}
+					<p class="section-paragraph">{{ section.details }}</p>
+				{% endif %}
+				{% if section.detailsList != null %}
+					<ul class="section-ul fa-ul {% if section.darkBlur %} darkBlur {% endif %} {% if section.lightBlur %} lightBlur {% endif %}">
+					{% for item in section.detailsList %}
+						<li class="section-li"><i class="fa fa-li fa-fw {{item.icon}}"></i> {{item.text}}</li>
+					{% endfor %}
+					</ul>
+				{% endif %}
+				{% if section.learnmore %}
+					<a class="button button--more {% if thecycle == 'odd' %} button--green {% endif %}" href="#">{{lang.learnMore}}</a>
+				{% endif %}
+			</div>
+			{% if section.mailForm %}
+			<div class="landing-section-escape">
+					<form class="email-form {% if section.mailMargin %} email-form--addMargin {% endif %}">
+						<input class="email-form-input" type="text" placeholder="{{lang.enterMail}}"><!-- whitespace...
+						--><button class="email-form-submit button button--green" type="submit">{{lang.send}}</button>
+					</form>
+			</div>
+			{% endif %}
+		</section>
+		{% endfor %}
+	</body>
+</html>

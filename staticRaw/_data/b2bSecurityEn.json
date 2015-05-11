@@ -1,0 +1,37 @@
+{
+	general: {
+		title: "whispeer",
+		description: "what the hell goes in here?"
+	},
+	teaser: {
+		headline: "Simple and secure communication for your business",
+		details: "Protect your companies confidential information - secure your messages with whispeer",
+		imageIdeas: "business people or building /city (maybe both?) f.e. http://image.shutterstock.com/display_pic_with_logo/2117717/174966551/stock-photo-group-of-business-people-in-office-building-174966551.jpg",
+		image: "security.jpg",
+		lightBlur: true,
+		video: "",
+		mailForm: true
+	},
+	sections: [
+		{
+			headline: "Be more productive",
+			details: "Get rid of the e-mail traffic and become more productive by using our messaging system. It protects your information while you work - by encrypting your data in the background.",
+			icon: "fa-users",
+			learnmore: true,
+			mailForm: false
+		},
+		{
+			headline: "whispeer is the modern communication platform you dream of:",
+			details: " - easy to use <br> - featuring messages, file transfer and team communication <br> - securing data by using high standards of encryption <br> - Access data on all devices and on the go <br> - built in phishing protection <br>",
+			icon: "fa-lock",
+			learnmore: true,
+			mailForm: false
+		},
+		{
+			headline: "Upgrade your communication",
+			learnmore: false,
+			mailForm: true,
+			mailMargin: false
+		}
+	]
+}
