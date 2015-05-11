@@ -357,25 +357,29 @@
 .userView-keyInputWrap {
 	@media @desktop {
 		.column(10,12,left,1%);
+		margin: 0 0 0 1%;
 	}
 }
 .userView-keyPart {
+	position: relative;
 	@media @mobile {
 		.column(1,2,left,1);
+		&.annotatedInput-container {
+			height: 50px;
+		}
 		&:nth-of-type(odd) {
 			margin: 0 0 0 1%;
 		}
 		&:nth-of-type(even) {
 			margin: 0 1% 0 0;
 			.userView-keyPart-input {
-				border-left: none;
-			}
-		}
-		&:first-child,
-		&:nth-of-type(2) {
-			.userView-keyPart-input {
-				margin-top: 5px;
-				border-bottom: none;
+				border-left-width: 0;
+				&:focus {
+					position: absolute;
+					left: -1px;
+					width: ~"calc(100% + 1px)";
+					border-left-width: 1px;
+				}
 			}
 		}
 		&:first-child {
@@ -388,19 +392,65 @@
 				border-radius: 0 @inputBorderRadius 0 0;
 			}
 		}
+		&:nth-of-type(3),
+		&:nth-of-type(4) {
+			.userView-keyPart-input {
+				border-top-width: 0;
+				border-bottom: none !important;
+				&:focus {
+					position: absolute;
+					border-top-width: 1px;
+					top: -1px;
+					height: 51px !important;
+				}
+			}
+		}
 	}
 	@media @desktop {
-		.column(1,4,left,1%);
+		.column(1,4,left,0);
+	}
+}
+.userView-keyPart-input {
+	@media @desktop {
+		border-radius: 0 !important;
+		border-left-width: 0 !important;
+		&:focus {
+			border-left-width: 1px !important;
+			position: absolute;
+			left: -1px;
+			width: ~"calc(100% + 2px)";
+		}
+	}
+}
+.userView-keyPart:first-child {
+	@media @desktop {
+		border-radius: @inputBorderRadius 0 0 @inputBorderRadius !important;
+		overflow: hidden;
+	}
+}
+.userView-keyPart:first-child .userView-keyPart-input {
+	@media @desktop {
+		border-left-width: 1px !important;
+		position: relative;
+		left: 0;
+		width: 100%;
+	}
+}
+.userView-keyPart:nth-child(3) .userView-keyPart-input {
+	@media @desktop {
+		width: ~"calc(100% + 1px)";
 	}
 }
 #userView-submitKey {
 	@media @mobile {
 		.column(12);
+		height: 50px;
 		border-radius: 0 0 5px 5px;
 		border-top: none;
 	}
 	@media @desktop {
 		.column(2,12,left,1%);
 		margin: 0 1% 0 0;
+		border-radius: 0 @inputBorderRadius @inputBorderRadius 0;
 	}
 }

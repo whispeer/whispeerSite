@@ -30,9 +30,6 @@ input:not([type]) {
 
 		background: @inputBackground;
 		border: solid 1px @inputBorder;
-		@media @desktop {
-			.box-shadow(inset 0px 0px 4px @inputBorder);
-		}
 	}
 	&:not(.input-custom):not(.input-noradius) {
 		border-radius: @inputBorderRadius;
@@ -41,9 +38,6 @@ input:not([type]) {
 		outline: 0;
 		&:not(.input-custom) {
 			border: solid 1px @inputBorderFocus;
-			@media @desktop {
-				.box-shadow(inset 0px 0px 5px rgba(red(@inputBorderFocus), green(@inputBorderFocus),blue(@inputBorderFocus), 0.75));
-			}
 		}
 	}
 	&[disabled],
@@ -51,9 +45,6 @@ input:not([type]) {
 		outline: 0;
 		color: darken(@white, 65%);
 		cursor: not-allowed;
-		&:not(.input-custom) {
-			.box-shadow(inset 0px 0px 5px #ccc);
-		}
 	}
 }
 textarea {
@@ -83,11 +74,12 @@ button[disabled] {
 
 .annotatedInput-container {
 	position: relative;
+	height: 40px;
 }
 .annotatedInput-input {
 	padding-right: @annotatedInputRight + @annotatedInputIconSize;
 	width: 100%;
-	height: 100%;
+	height: 100% !important;
 }
 .annotatedInput-icon {
 	position: absolute;
@@ -203,7 +195,7 @@ span[data-strength="10"]:after { width: @pwStrengthWidth*(10/10); background-col
 		&.annotatedInput-input {
 			position: absolute;
 			top: -1px;
-			padding-top: 10px !important;
+			left: 0;
 			margin-top: 0;
 		}
 	}

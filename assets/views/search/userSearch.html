@@ -8,7 +8,7 @@
 			<span class="search-suggestion-row search-suggestion-age"><span data-i18n="usersearch.age"></span> {{::user.basic.age}}</span>-->
 		</div>
 		<div class="search-suggestion-actions">
-			<a class="search-suggestion-row search-action search-action-message btn btn--primary btn--border" href="messages?userid={{user.id}}" data-stop-event="click" data-i18n="usersearch.message"></a>
+			<a class="search-suggestion-row search-action search-action-message btn btn--primary btn--border" ui-sref="app.messages({userid: user.id})" data-stop-event="click" data-i18n="usersearch.message"></a>
 			<addfriend data-user="user" data-ng-if="::!user.me" class="search-suggestion-row search-action search-friendship"></addfriend>
 		</div>
 	</li>

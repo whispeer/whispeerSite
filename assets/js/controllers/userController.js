@@ -5,8 +5,8 @@
 define(["step", "whispeerHelper", "bluebird", "asset/resizableImage", "asset/state", "controllers/controllerModule"], function (step, h, Promise, ResizableImage, State, controllerModule) {
 	"use strict";
 
-	function userController($scope, $routeParams, $timeout, cssService, errorService, userService, postService, circleService, blobService) {
-		var identifier = $routeParams.identifier;
+	function userController($scope, $stateParams, $timeout, cssService, errorService, userService, postService, circleService, blobService) {
+		var identifier = $stateParams.identifier;
 		var userObject;
 
 		var resizableImage = new ResizableImage();
@@ -404,7 +404,7 @@ define(["step", "whispeerHelper", "bluebird", "asset/resizableImage", "asset/sta
 		$scope.friends = [];
 	}
 
-	userController.$inject = ["$scope", "$routeParams", "$timeout", "ssn.cssService", "ssn.errorService", "ssn.userService", "ssn.postService", "ssn.circleService", "ssn.blobService"];
+	userController.$inject = ["$scope", "$stateParams", "$timeout", "ssn.cssService", "ssn.errorService", "ssn.userService", "ssn.postService", "ssn.circleService", "ssn.blobService"];
 
 	controllerModule.controller("ssn.userController", userController);
 });

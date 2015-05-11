@@ -1,8 +1,8 @@
-define(["services/serviceModule"], function (serviceModule) {
+define(["services/serviceModule", "whispeerHelper"], function (serviceModule, h) {
 	"use strict";
 
 	serviceModule.factory("ssn.locationService", ["$location", "ssn.storageService", function ($location, Storage) {
-		var noLoginRequired = ["ssn.startController", "ssn.recoveryController", "ssn.versionController", "ssn.mailController", "ssn.agbController", "ssn.privacyPolicyController", "ssn.impressumController"];
+		var noLoginRequired = ["ssn.startController", "ssn.versionController", "ssn.mailController", "ssn.agbController", "ssn.privacyPolicyController", "ssn.impressumController"];
 
 		var loginStorage = new Storage("whispeer.login");
 
@@ -10,7 +10,8 @@ define(["services/serviceModule"], function (serviceModule) {
 
 		var api = {
 			setTopLocation: function (url) {
-				window.top.location = url;
+				var locale = h.getLanguageFromPath() || "";
+				window.top.location = "/" + locale + url;
 			},
 			mainPage: function () {
 				api.setTopLocation("/main");
@@ -19,14 +20,14 @@ define(["services/serviceModule"], function (serviceModule) {
 				api.setTopLocation("/start");
 			},
 			isLoginPage: function () {
-				return window.top.location.pathname.indexOf("/login") === 0;
+				return window.top.location.pathname.indexOf("/login") !== -1;
 			},
 			loginPage: function () {
 				api.setTopLocation("/login");
 			},
 			isBlockedReturnUrl: function (url) {
 				return blockedReturnUrls.filter(function (blockedUrl) {
-					return blockedUrl.indexOf(url) === 0;
+					return url.indexOf(blockedUrl) !== -1;
 				}).length > 0;
 			},
 			setReturnUrl: function (url) {
@@ -41,6 +42,10 @@ define(["services/serviceModule"], function (serviceModule) {
 				if (returnURL && !api.isBlockedReturnUrl(returnURL)) {
 					$location.path(returnURL);
 					loginStorage.remove("returnUrl");
+				}
+
+				if (api.isBlockedReturnUrl(window.top.location.pathname)) {
+					$location.path("/main");
 				}
 			},
 			updateURL: function (loggedin, controller) {

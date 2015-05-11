@@ -1,13 +1,14 @@
 define([
 	"jquery",
 	"angular",
+	"recovery/recoveryModule",
+	"recovery/recoveryController",
 
-	"config/routesConfig",
-	"config/localizationConfig",
+	"config/interceptorsConfig",
 
-	"app",
-	"libs/canvas-toBlob",
-	"angularTouch"
+	"directives/directives",
+
+	"localizationModule"
 ], function($, angular, app) {
 	"use strict";
 
