@@ -2,12 +2,19 @@
 	"de": {
 		"login": {
 			"link": "Einloggen",
+			"header": "Login",
 			"password": "Passwort",
 			"username": "Accountname",
+			"loginFailed": "Accountname und Passwort stimmen nicht überein!",
+			"unknownName": "Unbekannter Accountname",
+			"wrongPassword": "Falsches Passwort",
+			"forgotName": "Accountname vergessen",
+			"forgotPassword": "Passwort vergessen"
 		},
 		"register": {
 			"link":	"Registrieren",
 			"newaccount": "Komm' zu uns!",
+			"createAccount": "Account erstellen"
 		}
 	},
 	"en": {
