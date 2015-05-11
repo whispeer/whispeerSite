@@ -90,6 +90,28 @@ grunt.initConfig({
 			})
 		}
 	},
+	includes: {
+		compile: {
+			scripts: ["assets/js/build/lib.js", "assets/js/build/build.js"],
+			source: "index.html"
+		},
+		register: {
+			scripts: ["assets/js/build/lib.js", "assets/js/build/register.js"],
+			source: "register.html"
+		},
+		login: {
+			scripts: ["assets/js/build/lib.js", "assets/js/build/login.js"],
+			source: "login/index.html"
+		},
+		login2: {
+			scripts: ["assets/js/build/lib.js", "assets/js/build/login.js"],
+			source: "login/login.html"
+		},
+		recovery: {
+			scripts: ["assets/js/build/lib.js", "assets/js/build/recovery.js"],
+			source: "recovery/index.html"
+		}
+	},
 	concurrent: {
 		development: {
 			tasks: ["server", "watch"],
@@ -196,6 +218,19 @@ grunt.task.registerTask("buildDate", function () {
 	var rootController = fs.readFileSync("./assets/js/config.js").toString();
 	rootController = rootController.replace(/var buildDate \= \"[0-9\-]*\";/, "var buildDate = \"" + buildDate + "\";");
 	fs.writeFileSync("./assets/js/config.js", rootController);
+});
+
+grunt.task.registerMultiTask("includes", "Add the correct script include to the index.html", function () {
+	var file = this.data.source;
+	var scripts = this.data.scripts;
+
+	var includes = scripts.map(function (script) {
+		return "<script src='" + script + "'></script>";
+	}).join("\n");
+
+	var fileContent = grunt.file.read(file);
+	fileContent = fileContent.replace(/<script.*/, includes);
+	grunt.file.write(file, fileContent);
 });
 
 grunt.task.registerTask("scriptInclude", "Add the correct script include to the index.html", function () {
