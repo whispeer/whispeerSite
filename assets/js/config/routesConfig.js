@@ -75,8 +75,10 @@ define(["app"], function (app) {
 
 			if (url.$$path && url.$$path.indexOf(locale) === -1) {
 				return locale + url.$$path;
-			} else {
+			} else if ($injector.get("ssn.sessionService").isLoggedin()) {
 				return locale + "/main";
+			} else {
+				return locale + "/start";
 			}
 		});
 	}]);
