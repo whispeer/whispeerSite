@@ -5,9 +5,12 @@
 	<form id="start-login-form" data-ng-controller="ssn.loginController">
 		<input type="text" id="mail" placeholder="{{i18n.login.username}}" data-ng-model="login.identifier">
 		<input type="password" id="password" placeholder="{{i18n.login.password}}" data-ng-model="login.password">
-		<savebutton id="loginformsubmit" data-state="login.state" class="btn btn--input btn--primary" type="submit" data-ng-click="login.login()">
+		<button id="loginformsubmit" class="btn btn--input btn--primary btn--saveButton" data-ng-class="{'btn-saveButton--success': login.state.success || login.state.init, 'btn-saveButton--operation': login.state.pending, 'btn-saveButton--failure': login.state.failed}" type="submit" data-ng-click="login.login()">
+			<i data-ng-if="login.state.success || login.state.init" data-hide-savebutton class="fa fa-fw fa-check-circle"></i>
+			<i data-ng-cloak data-ng-if="login.state.failed" class="fa fa-fw fa-times-circle"></i>
+			<i data-ng-cloak data-ng-if="login.state.pending" class="saveButton-spinner fa fa-fw fa-spinner fa-spin"></i>
 			<span>{{i18n.login.link}}</span>
-		</savebutton>
+		</button>
 	</form>
 </body>
 <script data-main="assets/js/requireConfig" data-initial="login/loginMain" src="assets/js/bower/requirejs/require.js"></script>
