@@ -58,6 +58,7 @@ grunt.initConfig({
 				out: "assets/js/build/build.js",
 
 				name: "main",
+				insertRequire: ["main"],
 				include: ["requireConfig"],
 				excludeShallow: libs
 			})
@@ -67,6 +68,7 @@ grunt.initConfig({
 				out: "assets/js/build/register.js",
 
 				name: "register/registerMain",
+				insertRequire: ["register/registerMain"],
 				include: ["requireConfig"],
 				excludeShallow: libs
 			})
@@ -76,6 +78,7 @@ grunt.initConfig({
 				out: "assets/js/build/login.js",
 
 				name: "login/loginMain",
+				insertRequire: ["login/loginMain"],
 				include: ["requireConfig"],
 				excludeShallow: libs
 			})
@@ -85,6 +88,7 @@ grunt.initConfig({
 				out: "assets/js/build/recovery.js",
 
 				name: "recovery/recoveryMain",
+				insertRequire: ["recovery/recoveryMain"],
 				include: ["requireConfig"],
 				excludeShallow: libs
 			})
