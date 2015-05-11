@@ -1,7 +1,7 @@
 /**
 * imageUploadService
 **/
-define(["step", "whispeerHelper", "asset/observer", "jquery", "services/serviceModule"], function (step, h, Observer, jQuery, serviceModule) {
+define(["angular", "step", "whispeerHelper", "asset/observer", "services/serviceModule"], function (angular, step, h, Observer, serviceModule) {
 	"use strict";
 
 	var service = function ($timeout) {
@@ -9,7 +9,8 @@ define(["step", "whispeerHelper", "asset/observer", "jquery", "services/serviceM
 		Observer.call(api);
 
 		function updateMobile() {
-			var mobile = jQuery(window.top).width() < 1025;
+			var width = window.top.document.documentElement.clientWidth;
+			var mobile = width < 1025;
 
 			if (mobile !== api.mobile) {
 				api.mobile = mobile;
@@ -20,7 +21,7 @@ define(["step", "whispeerHelper", "asset/observer", "jquery", "services/serviceM
 			}
 		}
 
-		jQuery(window.top).resize(updateMobile);
+		angular.element(window.top).on("resize", updateMobile);
 		updateMobile();
 
 		return api;
