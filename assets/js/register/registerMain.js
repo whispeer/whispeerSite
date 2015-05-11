@@ -1,5 +1,4 @@
 define([
-	"jquery",
 	"angular",
 	"register/registerModule",
 	"register/registerController",
