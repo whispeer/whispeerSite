@@ -26,9 +26,10 @@
     "node-static": "0.7.x"
   },
   "devDependencies": {
+    "extend": "^2.0.1",
     "grunt-browser-sync": "~1.1.0",
-    "grunt-contrib-watch": "~0.6.1",
     "grunt-concurrent": "^1.0.0",
+    "grunt-contrib-watch": "~0.6.1",
     "grunt-run": "^0.3.0"
   },
   "scripts": {

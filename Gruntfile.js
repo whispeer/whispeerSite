@@ -14,22 +14,71 @@ grunt.loadNpmTasks("grunt-run");
 grunt.loadNpmTasks("grunt-contrib-requirejs");
 grunt.loadNpmTasks("grunt-contrib-clean");
 
+var libs = [
+	"step",
+	"whispeerHelper",
+	"angular",
+	"bluebird",
+	"requirejs",
+	"socket",
+	"socketStream",
+	"localizationModule",
+	"workerQueue",
+	"PromiseWorker",
+	"debug",
+	"libs/sjcl",
+	"jquery"
+];
+
+var extend = require("extend");
+
+var baseConfig = {
+	mainConfigFile: "./assets/js/requireConfig.js",
+
+	baseUrl: "./assets/js",
+
+	optimize: "none",
+	preserveLicenseComments: true,
+	generateSourceMaps: false,
+};
+
 grunt.initConfig({
 	requirejs: {
+		lib: {
+			options: extend({}, baseConfig, {
+				out: "assets/js/build/lib.js",
+
+				optimize: "uglify2",
+
+				include: ["requirejs"].concat(libs)
+			})
+		},
 		compile: {
-			options: {
-				mainConfigFile: "./assets/js/requireConfig.js",
-
+			options: extend({}, baseConfig, {
 				out: "assets/js/build/build.js",
-				baseUrl: "./assets/js",
-
-				optimize: "none",
-				preserveLicenseComments: true,
-				generateSourceMaps: false,
 
 				name: "main",
-				include: ["bower/requirejs/require.js", "requireConfig"]
-			}
+				include: ["requireConfig"],
+				excludeShallow: libs
+			})
+		},
+		register: {
+			options: extend({}, baseConfig, {
+				out: "assets/js/build/register.js",
+
+				name: "register/registerMain",
+				include: ["requireConfig"],
+				excludeShallow: libs
+			})
+		},
+		login: {
+			options: extend({}, baseConfig, {
+				out: "assets/js/build/login.js",
+
+				name: "login/loginMain",
+				include: ["requireConfig"],
+				excludeShallow: libs
+			})
 		}
 	},
 	concurrent: {
