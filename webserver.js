@@ -79,8 +79,17 @@ function run() {
 
 	grunt.log.writeln("Starting webserver...");
 
+	var locales = ["en", "de"];
+
 	require("http").createServer(function (request, response) {
 		request.addListener("end", function () {
+			var paths = request.url.split(/\/|\?/);
+
+			if (locales.indexOf(paths[1]) > -1) {
+				paths.splice(1, 1);
+				request.url = paths.join("/");
+			}
+
 			fileServer.serve(request, response, function (e) {
 				if (e && (e.status === 404)) {
 					var dir = request.url.split(/\/|\?/)[1];
