@@ -75,7 +75,7 @@ function run() {
 		}
 	});
 
-	var angular = ["user", "messages", "circles", "main", "friends", "login", "loading", "help", "settings", "start", "notificationCenter", "setup", "invite", "agb", "impressum", "privacyPolicy", "recovery"];
+	var angular = ["user", "messages", "circles", "main", "friends", "login", "loading", "help", "settings", "start", "notificationCenter", "setup", "invite", "agb", "impressum", "privacyPolicy", "recovery", "verifyMail"];
 
 	grunt.log.writeln("Starting webserver...");
 
@@ -87,9 +87,27 @@ function run() {
 		}
 	}
 
+	var locales = ["en", "de"];
+
+	function removeLocales(url) {
+		var paths = url.split(/\/|\?/);
+
+		if (locales.indexOf(paths[1]) > -1) {
+			paths.splice(1, 1);
+			return paths.join("/");
+		}
+
+		return url;
+	}
+
 	function serveStatic(request, response, e) {
 		if (e && (e.status === 404)) {
 			var dir = request.url.split(/\/|\?/)[1];
+
+			if (dir === "recovery") {
+				fileServer.serveFile("/recovery/index.html", 200, {}, request, response);
+				return;
+			}
 
 			if (angular.indexOf(dir) === -1) {
 				request.url = "/static" + request.url;
@@ -103,6 +121,7 @@ function run() {
 
 	require("http").createServer(function (request, response) {
 		request.addListener("end", function () {
+			request.url = removeLocales(request.url);
 			fileServer.serve(request, response, serveStatic.bind(null, request, response));
 		}).resume();
 	}).listen(WHISPEER_PORT);

@@ -17,7 +17,7 @@
 	<h2 class="recoveryView-subTitle" data-i18n="views.recovery.manualKey"></h2>
 	<div class="inputSandwich">
 		<form>
-			<input class="inputSandwich-top" type="text" data-ng-model="manualCode" data-i18n-attr="views.recovery.typeKey|placeholder">
+			<input class="inputSandwich-top" type="text" data-ng-model="$parent.manualCode" data-i18n-attr="views.recovery.typeKey|placeholder">
 			<savebutton class="inputSandwich-bottom" data-state="loadBackupKeyState" data-ng-click="loadBackupKeyManual()"></savebutton>
 		</form>
 	</div>	
