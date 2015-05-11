@@ -43,3 +43,30 @@
 	height: 332px;
 	border: none;
 }
+.section-next {
+	position: absolute;
+	@media #{$mobile} {
+		bottom: 5px;
+	}
+	@media #{$desktop} {
+		bottom: 2rem;
+	}
+	left: 50%;
+	margin-left: -75px;
+	width: 150px;
+	padding: 10px;
+
+
+	background: rgba(red($primary), green($primary), blue($primary), 0.9);
+	color: #fff;
+	border: 1px solid $primaryDarker;
+	box-sizing: border-box;
+}
+.section-next:hover {
+	color: #fff;
+	text-shadow: 0px 0px 2px #aaa;
+}
+.fa-section-next {
+	display: block;
+	margin-top: 2px;
+}

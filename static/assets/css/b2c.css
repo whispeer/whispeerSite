@@ -167,3 +167,28 @@ input {
   max-width: 500px;
   height: 332px;
   border: none; }
+
+.section-next {
+  position: absolute;
+  left: 50%;
+  margin-left: -75px;
+  width: 150px;
+  padding: 10px;
+  background: rgba(58, 129, 0, 0.9);
+  color: #fff;
+  border: 1px solid #3B7B06;
+  box-sizing: border-box; }
+  @media screen and (max-width: 1154px) {
+    .section-next {
+      bottom: 5px; } }
+  @media screen and (min-width: 1155px) {
+    .section-next {
+      bottom: 2rem; } }
+
+.section-next:hover {
+  color: #fff;
+  text-shadow: 0px 0px 2px #aaa; }
+
+.fa-section-next {
+  display: block;
+  margin-top: 2px; }
