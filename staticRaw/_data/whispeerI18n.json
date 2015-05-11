@@ -20,12 +20,19 @@
 	"en": {
 		"login": {
 			"link": "Log In",
+			"header": "Login",
 			"password": "Password",
 			"username": "Username",
+			"loginFailed": "Username and password don't match!",
+			"unknownName": "Unknown username",
+			"wrongPassword": "Wrong password",
+			"forgotName": "Forgot username",
+			"forgotPassword": "Forgot password",
 		},
 		"register": {
 			"link":	"Register",
 			"newaccount": "Create an account",
+			"createAccount": "Create an account"
 		}
 	}
 }
