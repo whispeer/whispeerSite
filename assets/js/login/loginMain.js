@@ -6,7 +6,7 @@ define([
 	"use strict";
 
 	angular.element(document).ready(function () {
-		var $html = angular.element("html");
+		var $html = angular.element(document.documentElement);
 		angular.bootstrap($html, [app.name]);
 		// Because of RequireJS we need to bootstrap the app app manually
 		// and Angular Scenario runner won"t be able to communicate with our app

@@ -14,21 +14,21 @@ define([
 			return loginDataService.failureCode === 0;
 		}, function (val) {
 			if (val) {
-				jQuery("#mail").focus();
+				document.getElementById("mail").focus();
 			}
 		});
 
 		if (loginDataService.identifier) {
-			jQuery("#password").focus();
+			document.getElementById("password").focus();
 		} else {
-			jQuery("#mail").focus();
+			document.getElementById("mail").focus();
 		}
 
 		$scope.$watch(function () {
 			return loginDataService.failureCode === 1;
 		}, function (val) {
 			if (val) {
-				jQuery("#password").focus();
+				document.getElementById("password").focus();
 			}
 		});
 	}
