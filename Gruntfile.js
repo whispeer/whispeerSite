@@ -79,6 +79,15 @@ grunt.initConfig({
 				include: ["requireConfig"],
 				excludeShallow: libs
 			})
+		},
+		recovery: {
+			options: extend({}, baseConfig, {
+				out: "assets/js/build/recovery.js",
+
+				name: "recovery/recoveryMain",
+				include: ["requireConfig"],
+				excludeShallow: libs
+			})
 		}
 	},
 	concurrent: {
