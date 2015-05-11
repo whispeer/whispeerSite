@@ -1,8 +1,11 @@
 define([
 	"jquery",
 	"angular",
+
+	"config/routesConfig",
+	"config/localizationConfig",
+
 	"app",
-	"routes",
 	"libs/canvas-toBlob",
 	"angularTouch"
 ], function($, angular, app) {

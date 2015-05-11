@@ -5,6 +5,7 @@ requirejs.config({
 		amanda: "bower/amanda/releases/latest/amanda",
 		angular: "bower/angular/angular",
 		angularRoute: "bower/angular-route/angular-route",
+		angularUiRouter: "bower/angular-ui-router/release/angular-ui-router",
 		angularTouch: "bower/angular-touch/angular-touch",
 		bluebird: "bower/bluebird/js/browser/bluebird",
 		jquery: "bower/jquery/jquery",
@@ -31,6 +32,11 @@ requirejs.config({
 			exports: "angular"
 		},
 		"angularRoute": {
+			deps: [
+				"angular"
+			]
+		},
+		"angularUiRouter": {
 			deps: [
 				"angular"
 			]

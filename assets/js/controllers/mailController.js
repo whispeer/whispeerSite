@@ -1,7 +1,7 @@
 define(["whispeerHelper", "step", "asset/state", "controllers/controllerModule"], function (h, step, SuccessState, controllerModule) {
 	"use strict";
 
-	function mailController($scope, $routeParams, socketService, cssService) {
+	function mailController($scope, $stateParams, socketService, cssService) {
 		cssService.setClass("mailView");
 
 		$scope.mails = true;
@@ -15,7 +15,7 @@ define(["whispeerHelper", "step", "asset/state", "controllers/controllerModule"]
 
 			step(function () {
 				socketService.emit("verifyMail", {
-					challenge: $routeParams.challenge,
+					challenge: $stateParams.challenge,
 					mailsEnabled: mailsEnabled
 				}, this);
 			}, h.sF(function (data) {
@@ -28,7 +28,7 @@ define(["whispeerHelper", "step", "asset/state", "controllers/controllerModule"]
 		};
 	}
 
-	mailController.$inject = ["$scope", "$routeParams", "ssn.socketService", "ssn.cssService"];
+	mailController.$inject = ["$scope", "$stateParams", "ssn.socketService", "ssn.cssService"];
 
 	controllerModule.controller("ssn.mailController", mailController);
 });

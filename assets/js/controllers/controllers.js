@@ -2,7 +2,6 @@
 * Base Controller
 **/
 define([
-	"controllers/logoutController",
 	"controllers/rootController",
 	"controllers/userController",
 	"controllers/mainController",

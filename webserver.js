@@ -75,12 +75,21 @@ function run() {
 		}
 	});
 
-	var angular = ["user", "messages", "circles", "main", "friends", "login", "loading", "help", "settings", "start", "notificationCenter", "setup", "invite", "agb", "impressum", "privacyPolicy", "recovery"];
+	var angular = ["user", "messages", "circles", "main", "friends", "login", "loading", "help", "settings", "start", "notificationCenter", "setup", "invite", "agb", "impressum", "privacyPolicy", "recovery", "verifyMail"];
 
 	grunt.log.writeln("Starting webserver...");
 
+	var locales = ["en", "de"];
+
 	require("http").createServer(function (request, response) {
 		request.addListener("end", function () {
+			var paths = request.url.split(/\/|\?/);
+
+			if (locales.indexOf(paths[1]) > -1) {
+				paths.splice(1, 1);
+				request.url = paths.join("/");
+			}
+
 			fileServer.serve(request, response, function (e) {
 				if (e && (e.status === 404)) {
 					var dir = request.url.split(/\/|\?/)[1];

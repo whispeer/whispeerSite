@@ -1,15 +1,15 @@
 <article class="post">
 	<aside class="meta">
-		<a href='{{post.sender.basic.url}}' class="userimg">
+		<a ui-sref='app.user({identifier: post.sender.names.nickname})' class="userimg">
 			<userimage data-user="post.sender"></userimage>
 		</a>
 		<strong>
-			<a href='{{post.sender.basic.url}}'>{{post.sender.name}}</a>
+			<a ui-sref='app.user({identifier: post.sender.names.nickname})'>{{post.sender.name}}</a>
 		</strong>
 		<span data-ng-if="post.walluser">
 			<i class="fa fa-caret-right"></i>
 			<strong>
-				<a href='{{post.walluser.basic.url}}'>{{post.walluser.name}}</a>
+				<a ui-sref='app.user({identifier: post.walluser.names.nickname})'>{{post.walluser.name}}</a>
 			</strong>
 		</span>
 	</aside>
