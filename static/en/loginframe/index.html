@@ -1,0 +1,21 @@
+
+
+<!doctype html>
+<html lang="en" data-ng-csp class="body-iframe">
+<head>
+	<base href="/" />
+	<meta charset="utf-8">
+
+	<link rel="stylesheet" href="assets/css/static.css">
+</head>
+<body>
+	<form id="start-login-form" data-ng-controller="ssn.loginController">
+		<input type="text" id="mail" placeholder="Username" data-ng-model="login.identifier">
+		<input type="password" id="password" placeholder="Password" data-ng-model="login.password">
+		<savebutton id="loginformsubmit" data-state="login.state" class="btn btn--input btn--primary" type="submit" data-ng-click="login.login()">
+			<span>Log In</span>
+		</savebutton>
+	</form>
+</body>
+<script data-main="assets/js/requireConfig" data-initial="login/loginMain" src="assets/js/bower/requirejs/require.js"></script>
+</html>

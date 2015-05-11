@@ -1,0 +1,12 @@
+{
+	"de": {
+		"link": "Einloggen",
+		"password": "Passwort",
+		"username": "Accountname"
+	},
+	"en": {
+		"link": "Log In",
+		"password": "Password",
+		"username": "Username",
+	}
+}
