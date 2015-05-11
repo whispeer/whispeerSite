@@ -82,7 +82,26 @@ function run() {
 		}
 	});
 
-	var angular = ["user", "messages", "circles", "main", "friends", "login", "loading", "help", "settings", "start", "notificationCenter", "setup", "invite", "agb", "impressum", "privacyPolicy", "recovery", "verifyMail"];
+	var angular = [
+		"user",
+		"messages",
+		"circles",
+		"main",
+		"friends",
+		"settings",
+		"start",
+		"notificationCenter",
+		"setup",
+
+		"help",
+		"invite",
+		"agb",
+		"impressum",
+		"privacyPolicy",
+		"legal",
+
+		"verifyMail"
+	];
 
 	grunt.log.writeln("Starting webserver...");
 
