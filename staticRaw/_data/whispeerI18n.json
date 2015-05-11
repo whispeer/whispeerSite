@@ -1,0 +1,24 @@
+{
+	"de": {
+		"login": {
+			"link": "Einloggen",
+			"password": "Passwort",
+			"username": "Accountname",
+		},
+		"register": {
+			"link":	"Registrieren",
+			"newaccount": "Komm' zu uns!",
+		}
+	},
+	"en": {
+		"login": {
+			"link": "Log In",
+			"password": "Password",
+			"username": "Username",
+		},
+		"register": {
+			"link":	"Register",
+			"newaccount": "Create an account",
+		}
+	}
+}

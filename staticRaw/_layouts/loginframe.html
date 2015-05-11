@@ -1,19 +1,12 @@
-{% assign i18n = site.data.loginframe[page.lang] %}
+{% assign i18n = site.data.whispeerI18n[page.lang] %}
 
-<!doctype html>
-<html lang="{{page.lang}}" data-ng-csp class="body-iframe">
-<head>
-	<base href="/" />
-	<meta charset="utf-8">
-
-	<link rel="stylesheet" href="assets/css/static.css">
-</head>
+{% include whispeerHead.html %}
 <body>
 	<form id="start-login-form" data-ng-controller="ssn.loginController">
-		<input type="text" id="mail" placeholder="{{i18n.username}}" data-ng-model="login.identifier">
-		<input type="password" id="password" placeholder="{{i18n.password}}" data-ng-model="login.password">
+		<input type="text" id="mail" placeholder="{{i18n.login.username}}" data-ng-model="login.identifier">
+		<input type="password" id="password" placeholder="{{i18n.login.password}}" data-ng-model="login.password">
 		<savebutton id="loginformsubmit" data-state="login.state" class="btn btn--input btn--primary" type="submit" data-ng-click="login.login()">
-			<span>{{i18n.link}}</span>
+			<span>{{i18n.login.link}}</span>
 		</savebutton>
 	</form>
 </body>
