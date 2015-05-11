@@ -18,7 +18,7 @@ define(["step", "whispeerHelper", "config", "controllers/controllerModule"], fun
 		}
 	}
 
-	function rootController($scope, screenSizeService, $http, socketService, sessionService, sessionHelper, userService, cssService, messageService, trustService, friendsService) {
+	function rootController($scope, $http, socketService, sessionService, sessionHelper, userService, cssService, messageService, trustService, friendsService) {
 		$http({ method: "GET", url: "changelog.json", cache: false }).success(function (data) {
 			var version = getVersionString(data);
 			version = version.substr(0, version.length - 1);
@@ -144,7 +144,7 @@ define(["step", "whispeerHelper", "config", "controllers/controllerModule"], fun
 		};
 	}
 
-	rootController.$inject = ["$scope", "ssn.screenSizeService", "$http", "ssn.socketService", "ssn.sessionService", "ssn.sessionHelper", "ssn.userService", "ssn.cssService", "ssn.messageService", "ssn.trustService", "ssn.friendsService"];
+	rootController.$inject = ["$scope", "$http", "ssn.socketService", "ssn.sessionService", "ssn.sessionHelper", "ssn.userService", "ssn.cssService", "ssn.messageService", "ssn.trustService", "ssn.friendsService"];
 
 	controllerModule.controller("ssn.rootController", rootController);
 });
