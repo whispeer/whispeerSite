@@ -39,6 +39,10 @@ define(["step", "whispeerHelper", "config", "controllers/controllerModule"], fun
 			id: 0
 		};
 
+		$scope.addLocale = function (url) {
+			return "/en" + url;
+		};
+
 		$scope.user = nullUser;
 		$scope.friends = friendsService.data;
 		$scope.messages = messageService.data;
