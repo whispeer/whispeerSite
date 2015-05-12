@@ -40,6 +40,13 @@
 			"link":	"Register",
 			"newaccount": "Create an account",
 			"createAccount": "Create an account"
+		},
+		"legal": {
+			"header": "Legal information",
+			"terms": "Terms and conditions",
+			"data": "Privacy policy",
+			"contact": "Contact",
+			"notice": "Site notice"
 		}
 	}
 }
