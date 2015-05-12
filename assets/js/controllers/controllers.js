@@ -2,7 +2,6 @@
 * Base Controller
 **/
 define([
-	"controllers/logoutController",
 	"controllers/rootController",
 	"controllers/userController",
 	"controllers/mainController",
@@ -20,6 +19,5 @@ define([
 	"controllers/inviteController",
 	"controllers/agbController",
 	"controllers/privacyPolicyController",
-	"controllers/recoveryController",
 	"controllers/acceptInviteController"
 ], function () {});

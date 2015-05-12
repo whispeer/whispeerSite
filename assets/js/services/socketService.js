@@ -4,7 +4,6 @@
 define([
 	"services/serviceModule",
 	"debug",
-	"jquery",
 	"socket",
 	"socketStream",
 	"step",
@@ -12,7 +11,7 @@ define([
 	"config",
 	"asset/observer",
 	"bluebird"
-], function (serviceModule, debug, $, io, iostream, step, h, config, Observer, Promise) {
+], function (serviceModule, debug, io, iostream, step, h, config, Observer, Promise) {
 	"use strict";
 
 	var APIVERSION = "0.0.1";
@@ -250,26 +249,6 @@ define([
 			};
 
 			Observer.call(socketS);
-
-			$(document).keypress(function (e) {
-				if (e.shiftKey && e.ctrlKey && e.keyCode === 5) {
-					if (globalErrors.length > 0) {
-						if (confirm("Send errors to whispeer server?")) {
-							socketS.emit("errors", {
-								errors: globalErrors
-							}, function (e) {
-								if (e) {
-									alert("Transfer failed!");
-								} else {
-									alert("Errors successfully transfered to server");
-								}
-							});
-						}
-					} else {
-						alert("No Errors to transfer");
-					}
-				}
-			});
 
 			return socketS;
 		};

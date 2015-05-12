@@ -68,43 +68,92 @@ function run() {
 		csp = "";
 	}
 
-	var fileServer = new nstatic.Server(".", {
+	var staticServer = new nstatic.Server("./static", {
 		"headers": {
 			"Cache-Control": "no-cache, must-revalidate",
 			"Content-Security-Policy": csp
 		}
 	});
 
-	var angular = ["user", "messages", "circles", "main", "friends", "login", "loading", "help", "settings", "start", "notificationCenter", "setup", "invite", "agb", "impressum", "privacyPolicy", "recovery"];
+	var mainServer = new nstatic.Server(".", {
+		"headers": {
+			"Cache-Control": "no-cache, must-revalidate",
+			"Content-Security-Policy": csp
+		}
+	});
+
+	var angular = [
+		"user",
+		"messages",
+		"circles",
+		"main",
+		"friends",
+		"settings",
+		"start",
+		"notificationCenter",
+		"setup",
+
+		"help",
+		"invite",
+		"agb",
+		"impressum",
+		"privacyPolicy",
+		"legal",
+
+		"verifyMail"
+	];
 
 	grunt.log.writeln("Starting webserver...");
 
-	function write404(request, response, e) {
-		if (e && (e.status === 404)) {
-			response.writeHead(e.status, e.headers);
-			response.write("Not found");
-			response.end();
-		}
+	var locales = ["en", "de"];
+
+	function Responder(request, response) {
+		this._request = request;
+		this._response = response;
 	}
 
-	function serveStatic(request, response, e) {
-		if (e && (e.status === 404)) {
-			var dir = request.url.split(/\/|\?/)[1];
-
-			if (angular.indexOf(dir) === -1) {
-				request.url = "/static" + request.url;
-
-				fileServer.serve(request, response, write404.bind(null, request, response));
-			} else {
-				fileServer.serveFile("/index.html", 200, {}, request, response);
+	Responder.prototype.ifError = function (cb) {
+		return function (e) {
+			if (e && (e.status === 404)) {
+				cb.apply(this, arguments);
 			}
-		}		
-	}
+		}.bind(this);
+	};
+
+	Responder.prototype.serveStatic = function () {
+		staticServer.serve(this._request, this._response, this.ifError(this.serveMain));
+	};
+
+	Responder.prototype.serveMain = function () {
+		mainServer.serve(this._request, this._response, this.ifError(this.serveAngular));
+	};
+
+	Responder.prototype.serveAngular = function () {
+		var paths = this._request.url.split(/\/|\?/);
+
+		paths = paths.filter(function (path) {
+			return path !== "" && locales.indexOf(path) === -1;
+		});
+
+		if (paths[0] === "recovery") {
+			mainServer.serveFile("/recovery/index.html", 200, {}, this._request, this._response);
+		} else if (paths.length === 0 || angular.indexOf(paths[0]) > -1) {
+			mainServer.serveFile("/index.html", 200, {}, this._request, this._response);
+		} else {
+			this.write404.apply(this, arguments);
+		}
+	};
+
+	Responder.prototype.write404 = function (e) {
+		this._response.writeHead(e.status, e.headers);
+		this._response.write("Not found");
+		this._response.end();
+	};
 
 	require("http").createServer(function (request, response) {
-		request.addListener("end", function () {
-			fileServer.serve(request, response, serveStatic.bind(null, request, response));
-		}).resume();
+		var responder = new Responder(request, response);
+
+		request.addListener("end", responder.serveStatic.bind(responder)).resume();
 	}).listen(WHISPEER_PORT);
 
 	grunt.log.writeln("Whispeer web server started on port " + WHISPEER_PORT);

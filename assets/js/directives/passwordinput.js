@@ -1,7 +1,7 @@
-define(["whispeerHelper", "directives/directivesModule", "register/registerService"], function (h, directivesModule) {
+define(["whispeerHelper", "directives/directivesModule", "services/passwordStrengthService"], function (h, directivesModule) {
 	"use strict";
 
-	function passwordSaver(registerService) {
+	function passwordSaver(passwordStrengthService) {
 		return {
 			scope:	{
 				state: "=state",
@@ -11,11 +11,11 @@ define(["whispeerHelper", "directives/directivesModule", "register/registerServi
 			restrict: "E",
 			template:
 				"<div class='annotatedInput-container'>" +
-				"	<input class='annotatedInput-input strenghInput password {{class1}} inputSandwich inputSandwich-middle' type='password' data-i18n-attr='login.password|placeholder' data-ng-model='state.password' validation='passwordValidations'>" +
+				"	<input class='annotatedInput-input strenghInput password {{class1}}' type='password' data-i18n-attr='login.password|placeholder' data-ng-model='state.password' validation='passwordValidations'>" +
 				"	<span class='annotatedInput-icon' data-strength='{{passwordStrength()}}'></span>" +
 				"</div>" +
 				"<div class='annotatedInput-container'>" +
-				"	<input type='password' class='annotatedInput-input password2 {{class2}} inputSandwich inputSandwich-middle' data-i18n-attr='login.register.repeatPassword|placeholder' data-ng-model='state.password2' validation='password2Validations'>" +
+				"	<input type='password' class='annotatedInput-input password2 {{class2}}' data-i18n-attr='login.register.repeatPassword|placeholder' data-ng-model='state.password2' validation='password2Validations'>" +
 				"	<span class='annotatedInput-icon fa' data-ng-class='acceptIcon(state.password, state.password2)' data-ng-if='!empty(state.password) && !empty(state.password2)'></span>" +
 				"</div>",
 			link: function (scope) {
@@ -57,7 +57,7 @@ define(["whispeerHelper", "directives/directivesModule", "register/registerServi
 
 
 				scope.passwordStrength = function () {
-					return registerService.passwordStrength(scope.state.password);
+					return passwordStrengthService.passwordStrength(scope.state.password);
 				};
 
 				scope.empty = function (val) {
@@ -83,7 +83,7 @@ define(["whispeerHelper", "directives/directivesModule", "register/registerServi
 		};
 	}
 
-	passwordSaver.$inject = ["ssn.registerService"];
+	passwordSaver.$inject = ["ssn.passwordStrengthService"];
 
 	directivesModule.directive("passwordinput", passwordSaver);
 });

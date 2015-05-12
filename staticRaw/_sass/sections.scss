@@ -53,11 +53,17 @@
 	margin-left: auto;
 	box-sizing: border-box;
 }
+.fa-li {
+	line-height: 45px;
+	font-size: 1.6rem;
+}
 .section-li {
 	display: block;
 	width: 100%;
 	padding: 10px;
 	text-align: left;
+	font-size: $fontSize;
+	font-weight: $fontWeight;
 }
 .section-header--noTopMargin {
 	margin-top: 0px;

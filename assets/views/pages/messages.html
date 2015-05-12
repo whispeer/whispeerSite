@@ -9,7 +9,7 @@
 			<span data-i18n="messages.chat"></span>
 			<span data-ng-repeat="partner in activeTopic.partners">
 				<span class="status" data-status="{{partner.online}}"></span>
-				<a href="{{partner.basic.url}}">
+				<a ui-sref="app.user({identifier: partner.names.nickname})">
 					<span data-ng-if="::activeTopic.partners.length>2">{{partner.basic.shortname}}</span>
 					<span data-ng-if="activeTopic.partners.length<=2">{{partner.name}}</span>
 				</a>

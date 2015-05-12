@@ -455,11 +455,13 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 		*/
 		function addPWDecryptorF(pw, callback) {
 			step(function () {
+				theKey.decryptKey(this);
+			}, h.sF(function () {
 				var prefix = sjcl.codec.utf8String.toBits("key::");
 				var data = sjcl.bitArray.concat(prefix, preSecret || internalSecret);
 
 				this.ne(chelper.sjclPacket2Object(sjcl.json._encrypt(pw, data)));
-			}, h.sF(function (data) {
+			}), h.sF(function (data) {
 				var decryptorData = {
 					//Think, shortHash here? id: ?,
 					type: "pw",
