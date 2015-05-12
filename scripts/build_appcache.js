@@ -22,6 +22,22 @@ function parse(source, destination, config, done) {
 				return basePath + arg;
 			});
 		},
+		fallback: function () {
+			var dirs = ["en"];
+			var names = [];
+
+			dirs.forEach(function (dir) {
+				names = names.concat(fs.readdirSync("./static/" + dir).map(function (dir) {
+					return "/en/" + dir;
+				}));
+			});
+
+			names = names.map(function (name) {
+				return name + " " + name + "/index.html";
+			});
+
+			return names;
+		},
 		expand: function (dir, remove) {
 			if (dir.lastIndexOf("/") !== dir.length - 1) {
 				dir += "/";

@@ -39,7 +39,7 @@ CACHE MANIFEST
 /changelog.json
 
 FALLBACK:
-/en/security /en/security/index.html
+#fallback
 / /index.html
 
 NETWORK:
