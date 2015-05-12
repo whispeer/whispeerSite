@@ -21,9 +21,16 @@ CACHE MANIFEST
 
 /assets/js/libs/sjcl.js
 /assets/js/crypto/sjclWorker.js
+/assets/js/crypto/minimalHelper.js
 /assets/js/bower/require-promise-worker.js/src/worker.js
 
 /assets/js/bower/requirejs/require.js
+
+/assets/fonts/fontawesome-webfont.eot?v=4.1.0
+/assets/fonts/fontawesome-webfont.eot?#iefix&v=4.1
+/assets/fonts/fontawesome-webfont.woff?v=4.1.0
+/assets/fonts/fontawesome-webfont.ttf?v=4.1.0
+/assets/fonts/fontawesome-webfont.svg?v=4.1.0
 
 #routes
 
