@@ -1,18 +1,23 @@
+
+
 <!doctype html>
-<html lang="de" data-ng-csp class="startView body-iframe">
+<html lang="en" data-ng-csp class="startView body-iframe">
 <head>
 	<base href="/" />
 	<meta charset="utf-8">
 
+	<link rel="shortcut icon" href="assets/img/favicons/favicon.png" type="image/x-icon">
+	<meta name="viewport" content="target-densitydpi=device-dpi, initial-scale=1.0, user-scalable=no" />
 	<link rel="stylesheet" href="assets/css/static.css">
 </head>
+
 <body>
 	<div data-ng-cloak class="startView-register registerWrap" data-ng-click="registerFormClick()" data-ng-controller="ssn.registerController">
 		<form class="registerForm" data-validated-form="validationOptions">
-			<h1 data-i18n="login.register.newaccount"></h1>
+			<h1>Create an account</h1>
 			<div class="inputWrap">
 				<div class="annotatedInput-container">
-					<input class="annotatedInput-input inputSandwich inputSandwich-top" type="text" class="nickname" data-i18n-attr="login.username|placeholder" data-ng-model="nickname" data-ng-model-onblur data-ng-change="nicknameChange()" validation="nicknameValidations">
+					<input class="annotatedInput-input inputSandwich inputSandwich-top" type="text" class="nickname" placeholder="Username" data-ng-model="nickname" data-ng-model-onblur data-ng-change="nicknameChange()" validation="nicknameValidations">
 					<span class="annotatedInput-icon fa" data-ng-class="acceptIconNicknameFree()" data-ng-if="!empty(nickname)"></span>
 				</div>
 				<passwordinput state="pwState" data-class1="inputSandwich inputSandwich-middle" data-class2="inputSandwich inputSandwich-middle"></passwordinput>
@@ -25,7 +30,7 @@
 				</label>
 			</div>
 			<div class="submitWrap">
-				<savebutton class="btn btn--big btn--danger register-submitButton inputSandwich inputSandwich-bottom" data-noiniticon data-state="registerState" type="submit"  data-ng-click="register()"><span data-i18n="login.register.link"></span></savebutton>
+				<savebutton class="btn btn--big btn--danger register-submitButton inputSandwich inputSandwich-bottom" data-noiniticon data-state="registerState" type="submit"  data-ng-click="register()"><span>Register</span></savebutton>
 			</div>
 		</form>
 	</div>

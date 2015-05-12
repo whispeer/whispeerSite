@@ -1,15 +1,15 @@
 define([
 	"step",
 	"asset/state",
+	"crypto/helper",
 	"login/loginModule",
 	"services/locationService",
-	"services/keyStoreService",
 	"services/socketService",
 	"services/storageService"
-], function (step, State, loginModule) {
+], function (step, State, chelper, loginModule) {
 	"use strict";
 
-	var service = function ($rootScope, locationService, keyStoreService, socketService, Storage) {
+	var service = function ($rootScope, locationService, socketService, Storage) {
 		var loginState = new State();
 
 		var failureCodes = {
@@ -49,9 +49,9 @@ define([
 							return;
 						}
 
-						var hash = keyStoreService.hash.hashPW(password, data.salt);
+						var hash = chelper.hashPW(password, data.salt);
 
-						hash = keyStoreService.hash.hash(hash + data.token);
+						hash = chelper.hash(hash + data.token);
 						socketService.emit("session.login", {
 							identifier: name,
 							password: hash,
@@ -102,7 +102,7 @@ define([
 		return res;
 	};
 
-	service.$inject = ["$rootScope", "ssn.locationService", "ssn.keyStoreService", "ssn.socketService", "ssn.storageService"];
+	service.$inject = ["$rootScope", "ssn.locationService", "ssn.socketService", "ssn.storageService"];
 
 	loginModule.factory("ssn.loginDataService", service);
 });

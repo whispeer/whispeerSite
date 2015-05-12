@@ -30,5 +30,6 @@ define([
 	"directives/createcircle",
 	"directives/addfriend",
 	"directives/search",
-	"directives/lazyiframe"
+	"directives/lazyiframe",
+	"directives/mobile"
 ], function () {});

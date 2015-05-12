@@ -1,15 +1,15 @@
-<!doctype html>
-<html lang="de" data-ng-csp class="recoveryView hasTopBar">
-<head>
-	<base href="/" />
-	<meta charset="utf-8">
+---
+---
 
-	<link rel="shortcut icon" href="assets/img/favicons/favicon.png" type="image/x-icon">
-	<link rel="stylesheet" href="assets/vendor/css/font-awesome.css">
-	<link rel="stylesheet" href="assets/css/static.css">
-</head>
-<body data-mobile>
-	<ng-include src="'assets/views/topBar.html'"></ng-include>
+{% include whispeerHead.html htmlClass="body-iframe" %}
+<body>
+	<header class="header">
+		<div class="header-inner header-inner--left">
+			<a href="start" class="header-brand">
+				<span class="header-brand--normal">whis</span><span class="header-brand--inverse">peer</span>
+			</a>
+		</div>
+	</header>
 	<div id="container">
 		<section id="main" data-ng-cloak data-ng-controller="ssn.recoveryController">
 			<h1 id="recoveryView-title" data-i18n="views.recovery.title"></h1>

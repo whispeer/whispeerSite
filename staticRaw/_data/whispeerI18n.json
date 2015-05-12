@@ -1,0 +1,38 @@
+{
+	"de": {
+		"login": {
+			"link": "Einloggen",
+			"header": "Login",
+			"password": "Passwort",
+			"username": "Accountname",
+			"loginFailed": "Accountname und Passwort stimmen nicht überein!",
+			"unknownName": "Unbekannter Accountname",
+			"wrongPassword": "Falsches Passwort",
+			"forgotName": "Accountname vergessen",
+			"forgotPassword": "Passwort vergessen"
+		},
+		"register": {
+			"link":	"Registrieren",
+			"newaccount": "Komm' zu uns!",
+			"createAccount": "Account erstellen"
+		}
+	},
+	"en": {
+		"login": {
+			"link": "Log In",
+			"header": "Login",
+			"password": "Password",
+			"username": "Username",
+			"loginFailed": "Username and password don't match!",
+			"unknownName": "Unknown username",
+			"wrongPassword": "Wrong password",
+			"forgotName": "Forgot username",
+			"forgotPassword": "Forgot password",
+		},
+		"register": {
+			"link":	"Register",
+			"newaccount": "Create an account",
+			"createAccount": "Create an account"
+		}
+	}
+}

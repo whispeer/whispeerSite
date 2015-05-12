@@ -1,5 +1,7 @@
+
+
 <!doctype html>
-<html lang="de" data-ng-csp class="loginView hasTopBar">
+<html lang="en" data-ng-csp class="loginView hasTopBar">
 <head>
 	<base href="/" />
 	<meta charset="utf-8">
@@ -8,6 +10,7 @@
 	<meta name="viewport" content="target-densitydpi=device-dpi, initial-scale=1.0, user-scalable=no" />
 	<link rel="stylesheet" href="assets/css/static.css">
 </head>
+
 <body data-mobile>
 	<header class="header">
 		<div class="header-inner header-inner--left">
@@ -19,28 +22,28 @@
 	<div id="container">
 		<section id="main">
 			<div class="loginForm" data-ng-controller="ssn.loginController">
-				<h1 data-i18n="login.header"></h1>
+				<h1>Login</h1>
 				<form class="inputSandwich">
 					<div class="name">
-						<input type="text" id="mail" class="inputSandwich inputSandwich-top" data-i18n-attr="login.username|placeholder" data-ng-model="login.identifier">
+						<input type="text" id="mail" class="inputSandwich inputSandwich-top" placeholder="Username" data-ng-model="login.identifier">
 					</div>
 					<div class="pw">
-						<input type="password" id="password" class="inputSandwich inputSandwich-middle" data-i18n-attr="login.password|placeholder" data-ng-model="login.password">
+						<input type="password" id="password" class="inputSandwich inputSandwich-middle" placeholder="Password" data-ng-model="login.password">
 					</div>
 					<div class="errors inputSandwich inputSandwich-middle" data-ng-cloak>
-						<div class="error" data-ng-if="login.failureCode > 1" id="errorLogin" data-i18n="login.loginFailed"></div>
-						<div class="error" data-ng-if="login.failureCode == 0" id="errorLogin" data-i18n="login.unknownName"></div>
-						<div class="error" data-ng-if="login.failureCode == 1" id="errorLogin" data-i18n="login.wrongPassword"></div>
+						<div class="error" data-ng-if="login.failureCode > 1" id="errorLogin">Username and password don't match!</div>
+						<div class="error" data-ng-if="login.failureCode == 0" id="errorLogin">Unknown username</div>
+						<div class="error" data-ng-if="login.failureCode == 1" id="errorLogin">Wrong password</div>
 					</div>
 					<savebutton id="loginformsubmit" data-noiniticon data-state="login.state" class="btn btn--input btn--primary inputSandwich inputSandwich-bottom" type="submit" data-ng-click="login.login()">
-						<span data-i18n="login.link"></span>
+						<span>Log In</span>
 					</savebutton>
 				</form>
 				<div class="smallRow" data-ng-if="login.failedOnce && false" data-ng-cloak>
-					<button class="btn btn-send" data-i18n="login.forgotName"></button>
-					<button class="btn btn-send" data-i18n="login.forgotPassword"></button>
+					<button class="btn btn-send">Forgot username</button>
+					<button class="btn btn-send">Forgot password</button>
 				</div>
-				<a href="/start?register" class="backToRegister" data-i18n="login.register.createAccount"></a>
+				<a href="/start?register" class="backToRegister">Create an account</a>
 			</div>
 		</section>
 	</div>
