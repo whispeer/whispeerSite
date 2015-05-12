@@ -6,14 +6,18 @@ CACHE MANIFEST
 
 #expand:./assets/css/
 
-#expand:./assets/vendor/
-
 #expand:./assets/views/
 
 #expand:./assets/data/
 
+#expand:./assets/fonts/
+
 #expand:./assets/js/i18n/
 #expand:./assets/js/build/
+
+#expand:./static/assets/:/static
+#expand:./static/en/:/static
+##expand:./static/de/:/static
 
 /assets/js/libs/sjcl.js
 /assets/js/crypto/sjclWorker.js
@@ -24,12 +28,6 @@ CACHE MANIFEST
 #routes
 
 /index.html
-
-/assets/vendor/fonts/fontawesome-webfont.eot?v=4.1.0
-/assets/vendor/fonts/fontawesome-webfont.eot?#iefix&v=4.1
-/assets/vendor/fonts/fontawesome-webfont.woff?v=4.1.0
-/assets/vendor/fonts/fontawesome-webfont.ttf?v=4.1.0
-/assets/vendor/fonts/fontawesome-webfont.svg?v=4.1.0
 
 /changelog.json
 
