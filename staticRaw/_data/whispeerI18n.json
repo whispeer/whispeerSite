@@ -1,5 +1,14 @@
 {
 	"de": {
+		"impressum": {
+			"header": "Impressum",
+			"register": "Handelsregister",
+			"director": "Geschäftsführer",
+			"address": "Anschrift",
+			"contact": "Kontakt",
+			"mail": "Mail",
+			"telephone": "Telefon"
+		},
 		"login": {
 			"link": "Einloggen",
 			"header": "Login",

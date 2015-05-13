@@ -1,19 +1,21 @@
+{% assign i18n = site.data.whispeerI18n[page.lang] %}
+
 {% include whispeerHead.html htmlClass="loginView hasTopBar" %}
 <body>
-	<h1>Impressum</h1>
+	<h1>{{ i18n.impressum.header }}</h1>
 
 	<h2>Angaben gemäß § 5 TMG:</h2>
 	<div>whispeer UG (haftungsbeschränkt)</div>
 	 
-	<div>Handelsregister: AG Charlottenburg, HRB 162914 B</div>
-	<div>Geschäftsführer: Nils Kenneweg</div>
+	<div>{{ i18n.impressum.register }}: AG Charlottenburg, HRB 162914 B</div>
+	<div>{{ i18n.impressum.director }}: Nils Kenneweg</div>
 
-	<h2>Anschrift</h2>
+	<h2>{{ i18n.impressum.address }}</h2>
 	<div>Rosenthaler Straße 72 a</div>
 	<div>10119 Berlin, Germany</div>
 
-	<h2>Kontakt</h2>
-	<div>Mail: support@whispeer.de</div>
-	<div>Telefon: +49 - 152 - 27369080</div>
+	<h2>{{ i18n.impressum.contact }}</h2>
+	<div>{{ i18n.impressum.mail }}: <a href="mailto:support@whispeer.de">support@whispeer.de</a></div>
+	<div>{{ i18n.impressum.telephone }}: +49 - 152 - 27369080</div>
 </body>
 </html>
