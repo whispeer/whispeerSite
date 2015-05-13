@@ -7,7 +7,8 @@
 			"address": "Anschrift",
 			"contact": "Kontakt",
 			"mail": "Mail",
-			"telephone": "Telefon"
+			"telephone": "Telefon",
+			"legal": "Angaben gemäß § 5 TMG"
 		},
 		"login": {
 			"link": "Einloggen",
@@ -41,7 +42,8 @@
 			"address": "Address",
 			"contact": "Contact",
 			"mail": "Mail",
-			"telephone": "Phone"
+			"telephone": "Phone",
+			"legal": "Information according to § 5 TMG"
 		},
 		"login": {
 			"link": "Log In",
