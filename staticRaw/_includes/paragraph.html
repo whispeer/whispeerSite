@@ -1,0 +1,13 @@
+<ol>
+{% for paragraph in include.element %}
+	<li>{% if paragraph.text %}
+			{{ paragraph.text }}
+		{% else %}
+			{{ paragraph }}
+		{% endif %}
+		{% if paragraph.subelements %}
+			{% include paragraph.html element=paragraph.subelements %}
+		{% endif %}
+	</li>
+{% endfor %}
+</ol>
