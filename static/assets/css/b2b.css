@@ -55,13 +55,15 @@ input {
   background: #fff;
   color: #000; }
 
-@media screen and (min-width: 1155px) {
-  #heading {
-    height: 100vh;
-    padding: 50px 25px 200px; } }
-@media screen and (max-width: 1154px) {
-  #heading {
-    min-height: 100vh; } }
+#heading {
+  overflow: visible; }
+  @media screen and (min-width: 1155px) {
+    #heading {
+      height: 100vh;
+      padding: 50px 25px 200px; } }
+  @media screen and (max-width: 1154px) {
+    #heading {
+      min-height: 100vh; } }
 
 .section-header,
 .section-paragraph {

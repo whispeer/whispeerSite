@@ -36,30 +36,31 @@
 .section-paragraph {
 	font-size: 1.6rem;
 }
+#heading .section-paragraph {
+	margin-top: -25px;
+}
 #landing-registerFrame {
 	width: 90%;
 	margin: 0 auto;
-	max-width: 500px;
+	max-width: 450px;
 	height: 332px;
 	border: none;
 }
 .section-next {
-	position: absolute;
 	@media #{$mobile} {
 		bottom: 5px;
 	}
 	@media #{$desktop} {
 		bottom: 2rem;
 	}
-	left: 50%;
-	margin-left: -75px;
+	display: block;
+	margin: 0 auto;
 	width: 150px;
 	padding: 10px;
 
 
-	background: rgba(red($primary), green($primary), blue($primary), 0.9);
 	color: #fff;
-	border: 1px solid $primaryDarker;
+	border: none;
 	box-sizing: border-box;
 }
 .section-next:hover {

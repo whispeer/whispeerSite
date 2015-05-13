@@ -55,13 +55,15 @@ input {
   background: #fff;
   color: #000; }
 
-@media screen and (min-width: 1155px) {
-  #heading {
-    height: 100vh;
-    padding: 50px 25px 200px; } }
-@media screen and (max-width: 1154px) {
-  #heading {
-    min-height: 100vh; } }
+#heading {
+  overflow: visible; }
+  @media screen and (min-width: 1155px) {
+    #heading {
+      height: 100vh;
+      padding: 50px 25px 200px; } }
+  @media screen and (max-width: 1154px) {
+    #heading {
+      min-height: 100vh; } }
 
 .section-header,
 .section-paragraph {
@@ -167,22 +169,23 @@ input {
 .section-paragraph {
   font-size: 1.6rem; }
 
+#heading .section-paragraph {
+  margin-top: -25px; }
+
 #landing-registerFrame {
   width: 90%;
   margin: 0 auto;
-  max-width: 500px;
+  max-width: 450px;
   height: 332px;
   border: none; }
 
 .section-next {
-  position: absolute;
-  left: 50%;
-  margin-left: -75px;
+  display: block;
+  margin: 0 auto;
   width: 150px;
   padding: 10px;
-  background: rgba(58, 129, 0, 0.9);
   color: #fff;
-  border: 1px solid #3B7B06;
+  border: none;
   box-sizing: border-box; }
   @media screen and (max-width: 1154px) {
     .section-next {

@@ -24,6 +24,7 @@
 	@media #{$mobile} {
 		min-height: 100vh;
 	}
+	overflow: visible;
 }
 .section-header,
 .section-paragraph {
