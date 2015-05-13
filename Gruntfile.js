@@ -96,23 +96,19 @@ grunt.initConfig({
 	includes: {
 		compile: {
 			scripts: ["assets/js/build/lib.js", "assets/js/build/build.js"],
-			source: "index.html"
+			sources: ["index.html"]
 		},
 		register: {
 			scripts: ["assets/js/build/lib.js", "assets/js/build/register.js"],
-			source: "register.html"
+			sources: ["static/en/register/index.html", "static/de/register/index.html"]
 		},
 		login: {
 			scripts: ["assets/js/build/lib.js", "assets/js/build/login.js"],
-			source: "login/index.html"
-		},
-		login2: {
-			scripts: ["assets/js/build/lib.js", "assets/js/build/login.js"],
-			source: "login/login.html"
+			sources: ["static/en/loginframe/index.html", "static/de/loginframe/index.html", "static/en/login/index.html", "static/de/login/index.html"]
 		},
 		recovery: {
 			scripts: ["assets/js/build/lib.js", "assets/js/build/recovery.js"],
-			source: "recovery/index.html"
+			sources: ["static/recovery/index.html"]
 		}
 	},
 	concurrent: {
@@ -224,16 +220,18 @@ grunt.task.registerTask("buildDate", function () {
 });
 
 grunt.task.registerMultiTask("includes", "Add the correct script include to the index.html", function () {
-	var file = this.data.source;
+	var files = this.data.sources;
 	var scripts = this.data.scripts;
 
 	var includes = scripts.map(function (script) {
 		return "<script src='" + script + "'></script>";
 	}).join("\n");
 
-	var fileContent = grunt.file.read(file);
-	fileContent = fileContent.replace(/<script.*/, includes);
-	grunt.file.write(file, fileContent);
+	files.forEach(function (file) {
+		var fileContent = grunt.file.read(file);
+		fileContent = fileContent.replace(/<script.*/, includes);
+		grunt.file.write(file, fileContent);
+	});
 });
 
 grunt.task.registerTask("scriptInclude", "Add the correct script include to the index.html", function () {

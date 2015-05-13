@@ -17,7 +17,7 @@ CACHE MANIFEST
 
 #expand:./static/assets/:/static
 #expand:./static/en/:/static
-##expand:./static/de/:/static
+#expand:./static/de/:/static
 
 /assets/js/libs/sjcl.js
 /assets/js/crypto/sjclWorker.js

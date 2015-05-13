@@ -23,7 +23,7 @@ function parse(source, destination, config, done) {
 			});
 		},
 		fallback: function () {
-			var dirs = ["en"];
+			var dirs = ["en", "de"];
 			var names = [];
 
 			dirs.forEach(function (dir) {
