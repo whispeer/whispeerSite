@@ -1,5 +1,8 @@
 {
 	"de": {
+		"privacy": {
+			"header": "Datenschutzerklärung"
+		},
 		"impressum": {
 			"header": "Impressum",
 			"register": "Handelsregister",
@@ -35,6 +38,9 @@
 		}
 	},
 	"en": {
+		"privacy": {
+			"header": "Privacy policy"
+		},
 		"impressum": {
 			"header": "Site Notice",
 			"register": "Register",
