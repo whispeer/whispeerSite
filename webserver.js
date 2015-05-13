@@ -124,8 +124,18 @@ function run() {
 		mainServer.serve(this._request, this._response, this.ifError(this.serveAngular));
 	};
 
+	Responder.prototype.getPossibleLocale = function () {
+		var languages = this._request.headers["accept-language"].split(",").map(function (lang) {
+			return lang.split(";")[0];
+		}).filter(function (lang) {
+			return locales.indexOf(lang) !== -1;
+		});
+
+		return languages[0] || locales[0];
+	};
+
 	Responder.prototype.redirectLocale = function () {
-		var redirectUrl = locales[0] + this._request.url;
+		var redirectUrl = "/" + this.getPossibleLocale() + this._request.url;
 
 		this._response.writeHead(302, {
 			Location: redirectUrl
