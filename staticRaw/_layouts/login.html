@@ -1,0 +1,42 @@
+{% assign i18n = site.data.whispeerI18n[page.lang] %}
+
+{% include whispeerHead.html htmlClass="loginView hasTopBar" %}
+<body data-mobile>
+	<header class="header">
+		<div class="header-inner header-inner--left">
+			<a href="start" class="header-brand">
+				<span class="header-brand--normal">whis</span><span class="header-brand--inverse">peer</span>
+			</a>
+		</div>
+	</header>
+	<div id="container">
+		<section id="main">
+			<div class="loginForm" data-ng-controller="ssn.loginController">
+				<h1>{{ i18n.login.header }}</h1>
+				<form class="inputSandwich">
+					<div class="name">
+						<input type="text" id="mail" class="inputSandwich inputSandwich-top" placeholder="{{ i18n.login.username }}" data-ng-model="login.identifier">
+					</div>
+					<div class="pw">
+						<input type="password" id="password" class="inputSandwich inputSandwich-middle" placeholder="{{ i18n.login.password }}" data-ng-model="login.password">
+					</div>
+					<div class="errors inputSandwich inputSandwich-middle" data-ng-cloak>
+						<div class="error" data-ng-if="login.failureCode > 1" id="errorLogin">{{ i18n.login.loginFailed }}</div>
+						<div class="error" data-ng-if="login.failureCode == 0" id="errorLogin">{{ i18n.login.unknownName }}</div>
+						<div class="error" data-ng-if="login.failureCode == 1" id="errorLogin">{{ i18n.login.wrongPassword }}</div>
+					</div>
+					<savebutton id="loginformsubmit" data-noiniticon data-state="login.state" class="btn btn--input btn--primary inputSandwich inputSandwich-bottom" type="submit" data-ng-click="login.login()">
+						<span>{{ i18n.login.link }}</span>
+					</savebutton>
+				</form>
+				<div class="smallRow" data-ng-if="login.failedOnce && false" data-ng-cloak>
+					<button class="btn btn-send">{{ i18n.login.forgotName }}</button>
+					<button class="btn btn-send">{{ i18n.login.forgotPassword }}</button>
+				</div>
+				<a href="/start?register" class="backToRegister">{{ i18n.register.createAccount }}</a>
+			</div>
+		</section>
+	</div>
+</body>
+<script data-main="assets/js/requireConfig" data-initial="login/loginMain" src="assets/js/bower/requirejs/require.js"></script>
+</html>

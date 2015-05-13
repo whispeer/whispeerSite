@@ -136,7 +136,7 @@ function run() {
 		});
 
 		if (paths[0] === "recovery") {
-			mainServer.serveFile("/recovery/index.html", 200, {}, this._request, this._response);
+			staticServer.serveFile("/recovery/index.html", 200, {}, this._request, this._response);
 		} else if (paths.length === 0 || angular.indexOf(paths[0]) > -1) {
 			mainServer.serveFile("/index.html", 200, {}, this._request, this._response);
 		} else {

@@ -1759,7 +1759,7 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 				return new ObjectPadder(obj, padLength).unpad();
 			},
 			hash: function (text) {
-				return chelper.bits2hex(sjcl.hash.sha256.hash(text));
+				return chelper.hash(text);
 			},
 
 			hashBigBase64CodedData: function (text, cb) {
@@ -1769,7 +1769,7 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 			},
 
 			hashPW: function (pw, salt) {
-				return chelper.bits2hex(sjcl.hash.sha256.hash(pw + salt));
+				return chelper.hashPW(pw, salt);
 			},
 
 			deepHashObject: function (obj) {
