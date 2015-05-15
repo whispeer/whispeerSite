@@ -22,6 +22,7 @@ codekit-config.json
 /assets/less/styleguide.md
 whispeer.mf
 manifest.mf
+.sass-cache
 
 # dependencies
 
