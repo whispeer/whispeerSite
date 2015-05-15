@@ -31,8 +31,6 @@ CACHE MANIFEST
 /assets/vendor/fonts/fontawesome-webfont.ttf?v=4.1.0
 /assets/vendor/fonts/fontawesome-webfont.svg?v=4.1.0
 
-/changelog.json
-
 FALLBACK:
 / /index.html
 

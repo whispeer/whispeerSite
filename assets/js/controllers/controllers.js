@@ -11,7 +11,6 @@ define([
 	"controllers/settingsController",
 	"controllers/helpController",
 	"controllers/startController",
-	"controllers/versionController",
 	"controllers/mailController",
 	"controllers/setupController",
 	"controllers/inviteController",
