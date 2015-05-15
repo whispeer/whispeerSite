@@ -1,0 +1,20 @@
+{% assign i18n = site.data.whispeerI18n[page.lang] %}
+
+{% include whispeerHead.html htmlClass="loginView hasTopBar" %}
+<body data-mobile>
+	<div id="container">
+		<section id="main">
+			<div data-ng-if="verifying.isInit()">
+				<input type="checkbox" data-ng-model="mails" id="updates"><label for="updates">{{ i18n.mail.updateMe }}</label><br>
+				<input type="submit" data-ng-click="verify(mails)" value="{{ i18n.mail.verify }}">
+			</div>
+			<div data-ng-if="verifying.isPending()">{{ i18n.mail.verifying }}</div>
+			<div data-ng-if="verifying.isSuccess()">{{ i18n.mail.verified }}</div>
+			<div data-ng-if="verifying.isFailed()" data-syntaxify>{{ i18n.mail.failed }}</div>
+
+			<a href='/start' data-ng-if="!loggedin" data-i18n="views.mail.backToLogin"></a>
+		</section>
+	</div>
+</body>
+<script data-main="assets/js/requireConfig" data-initial="verifyMail/verifyMailMain" src="assets/js/bower/requirejs/require.js"></script>
+</html>

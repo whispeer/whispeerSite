@@ -1,0 +1,31 @@
+
+
+<!doctype html>
+<html lang="de" data-ng-csp class="loginView hasTopBar">
+<head>
+	<base href="/" />
+	<meta charset="utf-8">
+
+	<link rel="shortcut icon" href="assets/img/favicons/favicon.png" type="image/x-icon">
+	<meta name="viewport" content="target-densitydpi=device-dpi, initial-scale=1.0, user-scalable=no" />
+	<link rel="stylesheet" href="assets/css/static.css">
+</head>
+
+<body data-mobile>
+	<div id="container">
+		<section id="main">
+			<div data-ng-if="verifying.isInit()">
+				<input type="checkbox" data-ng-model="mails" id="updates"><label for="updates">Ich möchte Updates per E-Mail erhalten</label><br>
+				<input type="submit" data-ng-click="verify(mails)" value="E-Mail bestätigen">
+			</div>
+			<div data-ng-if="verifying.isPending()">E-Mail wird verifiziert.</div>
+			<div data-ng-if="verifying.isSuccess()">Deine E-Mail Adresse wurde bestätigt.</div>
+			<div data-ng-if="verifying.isFailed()" data-syntaxify>Aktivierung fehlgeschlagen!
+ Möglicherweise ist dein Aktivierungscode abgelaufen.</div>
+
+			<a href='/start' data-ng-if="!loggedin" data-i18n="views.mail.backToLogin"></a>
+		</section>
+	</div>
+</body>
+<script data-main="assets/js/requireConfig" data-initial="verifyMail/verifyMailMain" src="assets/js/bower/requirejs/require.js"></script>
+</html>
