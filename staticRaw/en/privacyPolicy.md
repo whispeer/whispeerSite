@@ -1,5 +1,5 @@
 ---
 layout: legal
 lang: en
-baseView: true
+title: Privacy policy
 ---
