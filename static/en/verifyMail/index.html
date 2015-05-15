@@ -15,12 +15,12 @@
 	<div id="container" data-ng-controller="ssn.verifyMailController">
 		<section id="main">
 			<div data-ng-if="verifying.isInit()">
-				<input type="checkbox" data-ng-model="mails" id="updates"><label for="updates">I would like to receive updates via mail</label><br>
+				<input type="checkbox" data-ng-model="mails" checked id="updates"><label for="updates">I would like to receive updates via mail</label><br>
 				<input type="submit" data-ng-click="verify(mails)" value="Verify e-mail">
 			</div>
-			<div data-ng-if="verifying.isPending()">Verifying.</div>
-			<div data-ng-if="verifying.isSuccess()">Your e-mail was verified.</div>
-			<div data-ng-if="verifying.isFailed()" data-syntaxify>Verification failed!
+			<div data-ng-if="verifying.isPending()" data-ng-cloak>Verifying.</div>
+			<div data-ng-if="verifying.isSuccess()" data-ng-cloak>Your e-mail was verified.</div>
+			<div data-ng-if="verifying.isFailed()" data-ng-cloak data-syntaxify>Verification failed!
  Maybe your verification code is outdated.</div>
 
 			<a href='/start' data-ng-if="!loggedin" data-i18n="views.mail.backToLogin"></a>
