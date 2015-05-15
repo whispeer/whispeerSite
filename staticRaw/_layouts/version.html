@@ -1,0 +1,15 @@
+{% assign i18n = site.data.whispeerI18n[page.lang] %}
+
+{% include whispeerHead.html htmlClass="legalView hasTopBar" %}
+<body>
+	{% include topBar.html %}
+	<main class="box legalView-main">
+		<header class="box-header">
+			<span class="box-header-title">{% if page.title %}{{page.title}}{%endif%}</span>
+		</header>
+		<section class="box-content box-content--scroll box-content--sidePadding" id="general">
+			{{ content }}
+		</section>
+	</main>
+</body>
+</html>
