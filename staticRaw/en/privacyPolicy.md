@@ -1,4 +1,5 @@
 ---
-layout: privacyPolicy
+layout: legal
 lang: en
+title: Privacy policy
 ---
