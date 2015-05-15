@@ -7,13 +7,19 @@ define(["whispeerHelper", "step", "asset/state", "verifyMail/verifyMailModule", 
 		var verifying = new SuccessState();
 		$scope.verifying = verifying;
 
+		var parts = window.location.pathname.split("/");
+		parts = parts.filter(function (v) {
+			return v !== "";
+		});
+		$scope.challenge = parts.pop();
+
 		$scope.verify = function (mailsEnabled) {
 			verifying.reset();
 			verifying.pending();
 
 			step(function () {
 				socketService.emit("verifyMail", {
-					challenge: $stateParams.challenge,
+					challenge: $scope.challenge,
 					mailsEnabled: mailsEnabled
 				}, this);
 			}, h.sF(function (data) {
