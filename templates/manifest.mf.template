@@ -36,7 +36,11 @@ CACHE MANIFEST
 
 /index.html
 
-/changelog.json
+/assets/vendor/fonts/fontawesome-webfont.eot?v=4.1.0
+/assets/vendor/fonts/fontawesome-webfont.eot?#iefix&v=4.1
+/assets/vendor/fonts/fontawesome-webfont.woff?v=4.1.0
+/assets/vendor/fonts/fontawesome-webfont.ttf?v=4.1.0
+/assets/vendor/fonts/fontawesome-webfont.svg?v=4.1.0
 
 FALLBACK:
 #fallback

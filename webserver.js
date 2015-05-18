@@ -95,10 +95,6 @@ function run() {
 
 		"help",
 		"invite",
-		"agb",
-		"impressum",
-		"privacyPolicy",
-		"legal",
 
 		"verifyMail"
 	];
@@ -128,17 +124,45 @@ function run() {
 		mainServer.serve(this._request, this._response, this.ifError(this.serveAngular));
 	};
 
+	Responder.prototype.getPossibleLocale = function () {
+		var languages = this._request.headers["accept-language"].split(",").map(function (lang) {
+			return lang.split(";")[0];
+		}).filter(function (lang) {
+			return locales.indexOf(lang) !== -1;
+		});
+
+		return languages[0] || locales[0];
+	};
+
+	Responder.prototype.redirectLocale = function () {
+		var redirectUrl = "/" + this.getPossibleLocale() + this._request.url;
+
+		this._response.writeHead(302, {
+			Location: redirectUrl
+		});
+		this._response.write("Found - Redirecting");
+		this._response.end();
+	};
+
 	Responder.prototype.serveAngular = function () {
 		var paths = this._request.url.split(/\/|\?/);
 
 		paths = paths.filter(function (path) {
-			return path !== "" && locales.indexOf(path) === -1;
+			return path !== "";
 		});
+
+		var hasLocale = locales.indexOf(paths[0]) !== -1;
+
+		if (hasLocale) {
+			paths.shift();
+		}
 
 		if (paths[0] === "recovery") {
 			staticServer.serveFile("/recovery/index.html", 200, {}, this._request, this._response);
 		} else if (paths.length === 0 || angular.indexOf(paths[0]) > -1) {
 			mainServer.serveFile("/index.html", 200, {}, this._request, this._response);
+		} else if (!hasLocale) {
+			this.redirectLocale();
 		} else {
 			this.write404.apply(this, arguments);
 		}

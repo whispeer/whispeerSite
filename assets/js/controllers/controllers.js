@@ -11,12 +11,7 @@ define([
 	"controllers/settingsController",
 	"controllers/helpController",
 	"controllers/startController",
-	"controllers/versionController",
-	"controllers/legalController",
-	"controllers/impressumController",
 	"controllers/setupController",
 	"controllers/inviteController",
-	"controllers/agbController",
-	"controllers/privacyPolicyController",
 	"controllers/acceptInviteController"
 ], function () {});

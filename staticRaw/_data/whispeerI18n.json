@@ -8,6 +8,19 @@
 			"backToLogin": "Zurück zum Login",
 			"failed": "Aktivierung fehlgeschlagen!\n Möglicherweise ist dein Aktivierungscode abgelaufen."
 		},
+		"privacy": {
+			"header": "Datenschutzerklärung"
+		},
+		"impressum": {
+			"header": "Impressum",
+			"register": "Handelsregister",
+			"director": "Geschäftsführer",
+			"address": "Anschrift",
+			"contact": "Kontakt",
+			"mail": "Mail",
+			"telephone": "Telefon",
+			"legal": "Angaben gemäß § 5 TMG"
+		},
 		"login": {
 			"link": "Einloggen",
 			"header": "Login",
@@ -23,6 +36,13 @@
 			"link":	"Registrieren",
 			"newaccount": "Komm' zu uns!",
 			"createAccount": "Account erstellen"
+		},
+		"legal": {
+			"header": "Rechtliche Informationen",
+			"terms": "AGB",
+			"data": "Datenschutzbestimmungen",
+			"contact": "Kontakt",
+			"notice": "Impressum"
 		}
 	},
 	"en": {
@@ -33,6 +53,19 @@
 			"verified": "Your e-mail was verified.",
 			"backToLogin": "Return to login",
 			"failed": "Verification failed!\n Maybe your verification code is outdated."
+		},
+		"privacy": {
+			"header": "Privacy policy"
+		},
+		"impressum": {
+			"header": "Site Notice",
+			"register": "Register",
+			"director": "Director",
+			"address": "Address",
+			"contact": "Contact",
+			"mail": "Mail",
+			"telephone": "Phone",
+			"legal": "Information according to § 5 TMG"
 		},
 		"login": {
 			"link": "Log In",
@@ -49,6 +82,13 @@
 			"link":	"Register",
 			"newaccount": "Create an account",
 			"createAccount": "Create an account"
+		},
+		"legal": {
+			"header": "Legal information",
+			"terms": "Terms and conditions",
+			"data": "Privacy policy",
+			"contact": "Contact",
+			"notice": "Site notice"
 		}
 	}
 }
