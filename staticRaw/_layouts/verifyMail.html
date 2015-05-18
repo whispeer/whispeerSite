@@ -5,6 +5,7 @@
 	<div id="container" data-ng-controller="ssn.verifyMailController">
 		<section id="main">
 			<div data-ng-if="verifying.isInit()">
+				{{ i18n.mail.code }}:<input type="text" data-ng-model="challenge"><br><br>
 				<input type="checkbox" data-ng-model="mails" checked id="updates"><label for="updates">{{ i18n.mail.updateMe }}</label><br>
 				<input type="submit" data-ng-click="verify(mails)" value="{{ i18n.mail.verify }}">
 			</div>

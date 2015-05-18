@@ -1,6 +1,7 @@
 {
 	"de": {
 		"mail": {
+			"code": "Aktivierungscode",
 			"verify": "E-Mail bestätigen",
 			"updateMe": "Ich möchte Updates per E-Mail erhalten",
 			"verifying": "E-Mail wird verifiziert.",
@@ -47,6 +48,7 @@
 	},
 	"en": {
 		"mail": {
+			"code": "Verification Code",
 			"verify": "Verify e-mail",
 			"updateMe": "I would like to receive updates via mail",
 			"verifying": "Verifying.",

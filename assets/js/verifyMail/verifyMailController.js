@@ -11,7 +11,12 @@ define(["whispeerHelper", "step", "asset/state", "verifyMail/verifyMailModule", 
 		parts = parts.filter(function (v) {
 			return v !== "";
 		});
-		$scope.challenge = parts.pop();
+
+		$scope.challenge = "";
+
+		if (parts.length > 2) {
+			$scope.challenge = parts.pop();
+		}
 
 		$scope.verify = function (mailsEnabled) {
 			verifying.reset();
