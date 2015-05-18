@@ -36,7 +36,6 @@ define(["app"], function (app) {
 
 		//TODO: move all of these into own html files!
 		addMain("start");
-		addMain("version");
 
 		$stateProvider.state("app.logout", {
 			url: "/logout",

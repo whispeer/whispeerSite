@@ -22,7 +22,23 @@ function parse(source, destination, config, done) {
 				return basePath + arg;
 			});
 		},
-		expand: function (dir, filter) {
+		fallback: function () {
+			var dirs = ["en", "de"];
+			var names = [];
+
+			dirs.forEach(function (dir) {
+				names = names.concat(fs.readdirSync("./static/" + dir).map(function (dir) {
+					return "/en/" + dir;
+				}));
+			});
+
+			names = names.map(function (name) {
+				return name + " " + name + "/index.html";
+			});
+
+			return names;
+		},
+		expand: function (dir, remove) {
 			if (dir.lastIndexOf("/") !== dir.length - 1) {
 				dir += "/";
 			}
@@ -34,20 +50,14 @@ function parse(source, destination, config, done) {
 			var files = names.filter(function (file) { return fs.statSync(file).isFile(); });
 
 			var dirs = names.filter(function (file) { return fs.statSync(file).isDirectory(); }).map(function (dir) {
-				return commands.expand(dir, filter);
+				return commands.expand(dir, remove);
 			});
 
 			return files.concat.apply(files, dirs).map(function (file) {
 				return file.indexOf(".") === 0 ? file.substr(1) : file;
-			}).filter(function (file) {
-				var i;
-				for (i = 0; i < filter.length; i += 1) {
-					if (file.lastIndexOf(filter[i]) > file.length - filter[i].length - 1) {
-						return true;
-					}
-				}
-
-				return false;
+			}).map(function (file) {
+				console.log(file.replace(remove, ""));
+				return file.replace(remove, "");
 			});
 		},
 		timestamp: function () {
