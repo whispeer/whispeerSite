@@ -2,7 +2,7 @@ define(["services/serviceModule", "whispeerHelper"], function (serviceModule, h)
 	"use strict";
 
 	serviceModule.factory("ssn.locationService", ["$location", "ssn.storageService", function ($location, Storage) {
-		var noLoginRequired = ["ssn.startController", "ssn.versionController", "ssn.mailController", "ssn.agbController", "ssn.privacyPolicyController", "ssn.impressumController"];
+		var noLoginRequired = ["ssn.startController", "ssn.versionController", "ssn.mailController"];
 
 		var loginStorage = new Storage("whispeer.login");
 

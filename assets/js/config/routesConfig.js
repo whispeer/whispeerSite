@@ -26,7 +26,6 @@ define(["app"], function (app) {
 			});
 		}
 
-		addMain("login");
 		addMain("invite");
 		addMain("setup");
 		addMain("main");
@@ -39,10 +38,6 @@ define(["app"], function (app) {
 		addMain("start");
 		addMain("help");
 		addMain("version");
-		addMain("legal");
-		addMain("impressum");
-		addMain("agb");
-		addMain("privacyPolicy");
 
 		$stateProvider.state("app.logout", {
 			url: "/logout",
