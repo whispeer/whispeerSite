@@ -94,9 +94,7 @@ function run() {
 		"setup",
 
 		"help",
-		"invite",
-
-		"verifyMail"
+		"invite"
 	];
 
 	grunt.log.writeln("Starting webserver...");
@@ -151,7 +149,8 @@ function run() {
 			return path !== "";
 		});
 
-		var hasLocale = locales.indexOf(paths[0]) !== -1;
+		var possibleLocale = paths[0];
+		var hasLocale = locales.indexOf(possibleLocale) !== -1;
 
 		if (hasLocale) {
 			paths.shift();
@@ -163,6 +162,8 @@ function run() {
 			mainServer.serveFile("/index.html", 200, {}, this._request, this._response);
 		} else if (!hasLocale) {
 			this.redirectLocale();
+		} else if (paths[0] === "verifyMail") {
+			staticServer.serveFile(possibleLocale + "/verifyMail/index.html", 200, {}, this._request, this._response);
 		} else {
 			this.write404.apply(this, arguments);
 		}
