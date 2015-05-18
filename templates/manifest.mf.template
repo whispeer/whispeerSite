@@ -6,20 +6,31 @@ CACHE MANIFEST
 
 #expand:./assets/css/
 
-#expand:./assets/vendor/
-
 #expand:./assets/views/
 
 #expand:./assets/data/
 
+#expand:./assets/fonts/
+
 #expand:./assets/js/i18n/
 #expand:./assets/js/build/
 
+#expand:./static/assets/:/static
+#expand:./static/en/:/static
+#expand:./static/de/:/static
+
 /assets/js/libs/sjcl.js
 /assets/js/crypto/sjclWorker.js
+/assets/js/crypto/minimalHelper.js
 /assets/js/bower/require-promise-worker.js/src/worker.js
 
 /assets/js/bower/requirejs/require.js
+
+/assets/fonts/fontawesome-webfont.eot?v=4.1.0
+/assets/fonts/fontawesome-webfont.eot?#iefix&v=4.1
+/assets/fonts/fontawesome-webfont.woff?v=4.1.0
+/assets/fonts/fontawesome-webfont.ttf?v=4.1.0
+/assets/fonts/fontawesome-webfont.svg?v=4.1.0
 
 #routes
 
@@ -32,6 +43,7 @@ CACHE MANIFEST
 /assets/vendor/fonts/fontawesome-webfont.svg?v=4.1.0
 
 FALLBACK:
+#fallback
 / /index.html
 
 NETWORK:
