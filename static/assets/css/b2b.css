@@ -26,6 +26,9 @@ input {
   font-weight: 600;
   line-height: 120%; }
 
+.textShadow {
+  text-shadow: 1px 1px 2px #000; }
+
 .darkBlur {
   color: #ffffff;
   text-shadow: 0px 0px 5px #000;
@@ -37,6 +40,37 @@ input {
   text-shadow: 1px 1px 2px #000;
   background: rgba(237, 237, 237, 0.2);
   box-shadow: 0px 0px 15px 15px rgba(237, 237, 237, 0.2); }
+
+.button {
+  background-image: none;
+  -webkit-tab-highlight-color: transparent;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  border: none;
+  display: inline-block;
+  width: auto;
+  height: 50px;
+  line-height: 50px;
+  padding: 0 15px;
+  text-decoration: none;
+  background: transparent;
+  color: #000;
+  border: 1px solid #ccc; }
+
+.button:hover {
+  background: rgba(60, 60, 60, 0.1);
+  color: #000; }
+
+.button--green {
+  color: #fff; }
+
+.button--green:hover {
+  color: #fff; }
+
+.button--more {
+  border: none; }
 
 .landing-section {
   position: relative;
@@ -142,33 +176,6 @@ input {
   @media screen and (max-width: 666px) {
     .fa-xxl {
       font-size: 5em; } }
-
-.button {
-  background-image: none;
-  -webkit-tab-highlight-color: transparent;
-  -moz-user-select: none;
-  -webkit-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  border: none;
-  display: inline-block;
-  width: auto;
-  height: 50px;
-  line-height: 50px;
-  padding: 0 15px;
-  text-decoration: none;
-  background: transparent;
-  color: #000;
-  border: 1px solid #ccc; }
-
-.button:hover {
-  background: rgba(60, 60, 60, 0.1); }
-
-.button--green {
-  color: #fff; }
-
-.button--more {
-  border: none; }
 
 .email-form {
   max-width: 500px;

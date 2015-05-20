@@ -7,8 +7,9 @@
 		headline: "Concentrating on your friends",
 		details: "That is what whispeer stands for. No extra features, no confusing options, no distractions. We concentrate on what is important - communication and privacy.",
 		imageIdeas: "",
-		image: "security.jpg",
-		lightBlur: true,
+		image: "lighthouse2.jpg",
+		registerForm: true,
+		textShadow: true,
 		video: "",
 		mailForm: true
 	},
