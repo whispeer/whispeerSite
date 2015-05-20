@@ -1,30 +1,32 @@
 {% assign help = site.data.help[page.lang] %}
 
-{% include whispeerHead.html htmlClass="loginView hasTopBar" %}
+{% include whispeerHead.html htmlClass="staticBoxView hasTopBar" %}
 <body>
 	{% include topBar.html %}
-	<header class="box-header">
-		<span class="box-header-title" data-i18n="help.headers.title" id="title"></span>
-	</header>
-	<section class="box-content box-content--scroll">
-		{% for section in help.faq %}
-			<section id="{{section[0]}}" class="helpView-section">
-				<header class="box-header box-header--content box-header--noBorder"><span class="box-header-title" data-i18n="help.headers.general">{{ section[1].header }}</span></header>
-				<ol class="helpView-qaList u-unstyled">
-					{% for question in section[1].questions %}
-						<li>
-							<p class="helpView-question">{{ question.question }}</p>
-							<p class="helpView-answer" data-syntaxify>{{ question.answer }}</p>
-						</li>
-					{% endfor %}
-				</ol>
-			</section>
-		{% endfor %}
-		<!--
-		<section id="helpView-newQuestion" class="helpView-section">
-			<header class="box-header box-header--content"><span class="box-header-title" data-i18n="help.headers.newQuestion"></span></header>
-			<input class="helpView-askQuestion" type="text" data-i18n-attr="help.askQuestion|placeholder">
-			<button class="helpView-submitQuestion btn btn--primary btn--input" data-i18n="general.send"></button>
-		</section>-->
-	</section>
+	<main class="box staticBoxView-main">
+		<header class="box-header">
+			<span class="box-header-title" id="title">{{help.title}}</span>
+		</header>
+		<section class="box-content box-content--scroll">
+			{% for section in help.faq %}
+				<section id="{{section[0]}}" class="helpView-section">
+					<h2>{{ section[1].header }}</h2>
+					<ol class="helpView-qaList u-unstyled">
+						{% for question in section[1].questions %}
+							<li>
+								<p class="helpView-question">{{ question.question }}</p>
+								<p class="helpView-answer" data-syntaxify>{{ question.answer }}</p>
+							</li>
+						{% endfor %}
+					</ol>
+				</section>
+			{% endfor %}
+			<!--
+			<section id="helpView-newQuestion" class="helpView-section">
+				<header class="box-header box-header--content"><span class="box-header-title" data-i18n="help.headers.newQuestion"></span></header>
+				<input class="helpView-askQuestion" type="text" data-i18n-attr="help.askQuestion|placeholder">
+				<button class="helpView-submitQuestion btn btn--primary btn--input" data-i18n="general.send"></button>
+			</section>-->
+		</section>
+	</main>
 </body>
