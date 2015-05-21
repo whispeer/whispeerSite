@@ -16,7 +16,7 @@
 	sections: [
 		{
 			headline: "Es ist total einfach!",
-			details: "whispeer verschlüsselt alle deine Daten, damit du sicher bist und dich um nichts sorgen musst. Da das alles im Hintergrund passiert, ist whispeer immer noch einfach zu nutzen! Plus: sich registrieren dauert weniger als eine Minute und ist komplett kostenfrei!",
+			details: "whispeer verschlüsselt alle deine Daten, damit du sicher bist und dich um nichts sorgen musst. Da das alles im Hintergrund passiert, ist whispeer trotzdem einfach zu nutzen! Plus: Registrieren dauert weniger als eine Minute und ist komplett kostenfrei!",
 			icon: "fa-lock",
 			registerAd: true,
 			mailForm: false
