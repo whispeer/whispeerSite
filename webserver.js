@@ -93,7 +93,6 @@ function run() {
 		"notificationCenter",
 		"setup",
 
-		"help",
 		"invite",
 
 		"verifyMail"
