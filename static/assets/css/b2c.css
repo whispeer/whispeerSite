@@ -198,7 +198,7 @@ input {
       font-size: 5em; } }
 
 .header {
-  background: rgba(58, 129, 0, 0.9); }
+  background: rgba(58, 129, 0, 0.98); }
 
 @media screen and (max-width: 1154px) {
   .header-inner {
