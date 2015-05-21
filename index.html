@@ -1,5 +1,5 @@
 <!doctype html>
-<html class="no-js loading" lang="de" data-ng-csp data-ng-class="cssClass" data-ng-controller="ssn.rootController">
+<html manifest="/manifest.mf" class="no-js loading" lang="de" data-ng-csp data-ng-class="cssClass" data-ng-controller="ssn.rootController">
 <head>
 	<base href="/" />
 	<meta charset="utf-8">
@@ -25,7 +25,7 @@
 
 	<script data-main="assets/js/requireConfig" data-initial="main" src="assets/js/bower/requirejs/require.js"></script>
 </head>
-<body data-ng-swipe-right="activateSidebar()" data-ng-swipe-left="deactivateSidebar()">
+<body data-ng-swipe-right="activateSidebar()" data-ng-swipe-left="deactivateSidebar()" data-mobile>
 	<!--[if lte IE 8]><p class=chromeframe>Your browser is <em>ancient!</em> <a href="http://browsehappy.com/">Upgrade to a different browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to experience this site.</p><![endif]-->
 	<noscript class="no-script">
 		<span>
@@ -61,11 +61,11 @@
 			<!-- !Footer -->
 			<footer class="footer" data-ng-if="!mobile">
 				<div class="footer-row">
-					<a href="version">v{{version}}</a>
+					<a target="_self" href="{{addLocale('/version')}}">v{{version}}</a>
 				</div>
 				<span class="footer-row">&copy; 2015 whispeer</span>
 				<div class="footer-row">
-					<a href="legal" data-i18n="menu.legal"></a>
+					<a target="_self" href="{{addLocale('/legal')}}" data-i18n="menu.legal"></a>
 				</div>
 			</footer>
 			<!-- end !Footer -->
@@ -90,11 +90,11 @@
 	<footer class="footer spacious" data-ng-if="!mobile && cssClass == 'startView'">
 		<div class="left">&copy; 2015 whispeer</div>
 		<div class="right">
-			<a href="version">v{{::version}}</a>
-			<a href="/agb" data-i18n="window.title.terms"></a>
-			<a href="/privacyPolicy" data-i18n="window.title.data"></a>
-			<a href="mailto:support@whispeer.de" data-i18n="window.title.contact"></a>
-			<a href="impressum/" data-i18n="window.title.notice"></a>
+			<a target="_self" href="{{addLocale('/version')}}">v{{::version}}</a>
+			<a target="_self" href="{{addLocale('/agb')}}" data-i18n="window.title.terms"></a>
+			<a target="_self" href="{{addLocale('/privacyPolicy')}}" data-i18n="window.title.data"></a>
+			<a target="_self" href="mailto:support@whispeer.de" data-i18n="window.title.contact"></a>
+			<a target="_self" href="{{addLocale('/impressum')}}" data-i18n="window.title.notice"></a>
 		</div>
 	</footer>
 	<!-- end !StartViewFooter -->

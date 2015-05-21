@@ -1,0 +1,54 @@
+
+
+<!doctype html>
+<html lang="en" data-ng-csp class="loginView hasTopBar">
+<head>
+	<base href="/" />
+	<meta charset="utf-8">
+
+	<link rel="shortcut icon" href="assets/img/favicons/favicon.png" type="image/x-icon">
+	<meta name="viewport" content="target-densitydpi=device-dpi, initial-scale=1.0, user-scalable=no" />
+	<link rel="stylesheet" href="assets/css/static.css">
+	<title>whispeer</title>
+</head>
+
+<body data-mobile>
+	<header class="header">
+	<div class="header-inner header-inner--left">
+		<a href="/en" class="header-brand">
+			<span class="header-brand--normal">whis</span><span class="header-brand--inverse">peer</span>
+		</a>
+	</div>
+</header>
+
+	<div id="container">
+		<section id="main">
+			<div class="loginForm" data-ng-controller="ssn.loginController">
+				<h1>Login</h1>
+				<form class="inputSandwich">
+					<div class="name">
+						<input type="text" id="mail" class="inputSandwich inputSandwich-top" placeholder="Username" data-ng-model="login.identifier">
+					</div>
+					<div class="pw">
+						<input type="password" id="password" class="inputSandwich inputSandwich-middle" placeholder="Password" data-ng-model="login.password">
+					</div>
+					<div class="errors inputSandwich inputSandwich-middle" data-ng-cloak>
+						<div class="error" data-ng-if="login.failureCode > 1" id="errorLogin">Username and password don't match!</div>
+						<div class="error" data-ng-if="login.failureCode == 0" id="errorLogin">Unknown username</div>
+						<div class="error" data-ng-if="login.failureCode == 1" id="errorLogin">Wrong password</div>
+					</div>
+					<savebutton id="loginformsubmit" data-noiniticon data-state="login.state" class="btn btn--input btn--primary inputSandwich inputSandwich-bottom" type="submit" data-ng-click="login.login()">
+						<span>Log In</span>
+					</savebutton>
+				</form>
+				<div class="smallRow" data-ng-if="login.failedOnce && false" data-ng-cloak>
+					<button class="btn btn-send">Forgot username</button>
+					<button class="btn btn-send">Forgot password</button>
+				</div>
+				<a href="/start?register" class="backToRegister">Create an account</a>
+			</div>
+		</section>
+	</div>
+</body>
+<script data-main="assets/js/requireConfig" data-initial="login/loginMain" src="assets/js/bower/requirejs/require.js"></script>
+</html>

@@ -5,36 +5,12 @@
 define(["step", "whispeerHelper", "config", "controllers/controllerModule"], function (step, h, config, controllerModule) {
 	"use strict";
 
-	function getVersionString(data) {
-		if (typeof data === "object" && !(data instanceof Array)) {
-			var keys = Object.keys(data).map(h.parseDecimal);
-			keys.sort(function(a, b){return a-b;});
+	function rootController($scope, $http, localize, socketService, sessionService, sessionHelper, userService, cssService, messageService, trustService, friendsService) {
+		$scope.version = "0.2.2-" + config.buildDate;
 
-			var newest = keys[keys.length - 1];
-
-			return newest + "." + getVersionString(data[newest]);
-		} else {
-			return "";
-		}
-	}
-
-	function rootController($scope, screenSizeService, $http, socketService, sessionService, sessionHelper, userService, cssService, messageService, trustService, friendsService) {
-		$http({ method: "GET", url: "changelog.json", cache: false }).success(function (data) {
-			var version = getVersionString(data);
-			version = version.substr(0, version.length - 1);
-
-			$scope.version = version + "-" + config.buildDate;
-		});
-
-		$scope.version = "";
 		$scope.loggedin = false;
 
 		$scope.loading = sessionService.isLoggedin();
-
-		$scope.mobile = screenSizeService.mobile;
-		screenSizeService.listen(function (mobile) {
-			$scope.mobile = mobile;
-		});
 
 		var nullUser = {
 			name: "",
@@ -42,6 +18,10 @@ define(["step", "whispeerHelper", "config", "controllers/controllerModule"], fun
 				image: "assets/img/user.png"
 			},
 			id: 0
+		};
+
+		$scope.addLocale = function (url) {
+			return "/" + localize.getLanguage() + url;
 		};
 
 		$scope.user = nullUser;
@@ -144,7 +124,7 @@ define(["step", "whispeerHelper", "config", "controllers/controllerModule"], fun
 		};
 	}
 
-	rootController.$inject = ["$scope", "ssn.screenSizeService", "$http", "ssn.socketService", "ssn.sessionService", "ssn.sessionHelper", "ssn.userService", "ssn.cssService", "ssn.messageService", "ssn.trustService", "ssn.friendsService"];
+	rootController.$inject = ["$scope", "$http", "localize", "ssn.socketService", "ssn.sessionService", "ssn.sessionHelper", "ssn.userService", "ssn.cssService", "ssn.messageService", "ssn.trustService", "ssn.friendsService"];
 
 	controllerModule.controller("ssn.rootController", rootController);
 });

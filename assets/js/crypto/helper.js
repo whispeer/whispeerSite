@@ -1,6 +1,12 @@
 define(["libs/sjcl", "whispeerHelper", "asset/errors"], function (sjcl, h, errors) {
 	"use strict";
 	var helper = {
+		hash: function (text) {
+			return helper.bits2hex(sjcl.hash.sha256.hash(text));
+		},
+		hashPW: function (pw, salt) {
+			return helper.bits2hex(sjcl.hash.sha256.hash(pw + salt));
+		},
 		getCurveName: function (curve) {
 			var curcurve;
 			for (curcurve in sjcl.ecc.curves) {
