@@ -16,6 +16,10 @@
 	background: #fff;
 	color: #000;
 }
+.landing-section--inner {
+	max-width: 1280px;
+	margin: 0 auto;
+}
 #heading {
 	@media #{$desktop} {
 		height: 100vh; // 92% support looks ok to me
@@ -29,7 +33,7 @@
 .section-header,
 .section-paragraph {
 	@media #{$desktop} {
-		width: 600px;
+		width: 550px;
 	}
 	@media #{$mobile} {
 		width: 90%;

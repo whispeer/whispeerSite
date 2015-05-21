@@ -54,6 +54,9 @@
 	height: 332px;
 	border: none;
 }
+.section-ul {
+	max-width: 760px;
+}
 .section-next {
 	@media #{$mobile} {
 		bottom: 5px;
@@ -62,7 +65,7 @@
 		bottom: 2rem;
 	}
 	display: block;
-	margin: 0 auto;
+	margin: -15px auto 0;
 	width: 150px;
 	padding: 10px;
 
@@ -72,7 +75,7 @@
 	box-sizing: border-box;
 }
 .section-next:hover {
-	color: #fffff !important;
+	color: #ffffff;
 	text-shadow: 0px 0px 2px #aaa;
 }
 .fa-section-next {

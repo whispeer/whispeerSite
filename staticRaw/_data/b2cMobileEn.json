@@ -51,13 +51,12 @@
 			],
 			icon: "fa-users",
 			learnmore: true,
-			mailForm: false
+			registerForm: false
 		},
 		{
 			headline: "Get your own account now!",
 			learnmore: false,
-			mailForm: true,
-			mailMargin: false
+			registerForm: true
 		}
 	]
 }

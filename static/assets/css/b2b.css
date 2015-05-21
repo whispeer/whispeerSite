@@ -92,6 +92,10 @@ input {
   background: #fff;
   color: #000; }
 
+.landing-section--inner {
+  max-width: 1280px;
+  margin: 0 auto; }
+
 #heading {
   overflow: visible; }
   @media screen and (min-width: 1155px) {
@@ -110,7 +114,7 @@ input {
   @media screen and (min-width: 1155px) {
     .section-header,
     .section-paragraph {
-      width: 600px; } }
+      width: 550px; } }
   @media screen and (max-width: 1154px) {
     .section-header,
     .section-paragraph {
