@@ -55,7 +55,8 @@
 		},
 		{
 			headline: "Hol' dir deinen eigenen Account!",
-			registerForm: true
+			registerForm: true,
+			fullScreen: true
 		}
 	]
 }

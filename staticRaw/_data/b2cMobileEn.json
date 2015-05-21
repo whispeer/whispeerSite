@@ -55,7 +55,8 @@
 		},
 		{
 			headline: "Get your own account now!",
-			registerForm: true
+			registerForm: true,
+			fullScreen: true
 		}
 	]
 }
