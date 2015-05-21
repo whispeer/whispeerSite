@@ -1,0 +1,33 @@
+.button {
+	background-image: none;
+	-webkit-tab-highlight-color: transparent;
+	-moz-user-select: none;
+	-webkit-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+	border: none;
+
+	display: inline-block;
+	width: auto;
+	height: 50px;
+	line-height: 50px;
+	padding: 0 15px;
+	text-decoration: none;
+
+	background: transparent;
+	color: #000;
+	border: 1px solid #ccc;
+}
+.button:hover {
+	background: rgba(60, 60, 60, 0.1);
+	color: #000;
+}
+.button--green {
+	color: #fff;
+}
+.button--green:hover {
+	color: #fff;
+}
+.button--more {
+	border: none;
+}
