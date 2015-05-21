@@ -158,7 +158,8 @@ input {
   margin-top: 0px; }
 
 .landing-section-icon {
-  width: 25%; }
+  width: 25%;
+  margin-top: 3rem; }
   @media screen and (max-width: 666px) {
     .landing-section-icon {
       width: 100%; } }
