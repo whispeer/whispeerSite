@@ -38,7 +38,7 @@
 					<iframe class="landing-registerFrame" src="/register.html"></iframe>
 					{% endif %}
 					<a href="#register" class="section-next">
-						<span class="section-next-text">Learn more about whispeer</span>
+						<span class="section-next-text">{{lang.learnMore}}</span>
 						<i class="fa fa-section-next fa-arrow-down"></i>
 					</a>
 				</div>
@@ -71,8 +71,8 @@
 							{% endfor %}
 							</ul>
 						{% endif %}
-						{% if section.learnmore %}
-							<a class="button button--more {% if thecycle == 'odd' %} button--green {% endif %}" href="#">{{lang.learnMore}}</a>
+						{% if section.registerAd %}
+							<a class="button button--more {% if thecycle == 'odd' %} button--green {% endif %}" href="#">{{lang.registerAd}}</a>
 						{% endif %}
 					</div>
 					{% if section.registerForm %}
