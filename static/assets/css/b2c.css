@@ -268,3 +268,6 @@ input {
 .fa-section-next {
   display: block;
   margin-top: 2px; }
+
+a[name="content"] {
+  visibility: hidden; }
