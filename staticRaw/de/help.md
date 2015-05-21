@@ -8,7 +8,7 @@ title: Hilfe
 * Muss ich beim Registrieren meinen vollen Namen und meine E-Mail Adresse angeben?
 	* Nein. Wenn du dich registrieren möchtest, kannst du dies schon mit einem Accountnamen. Du kannst aber auch nur eine E-Mail Adresse angeben. Natürlich kannst du dir aussuchen, ob du deinen vollen Namen angeben möchtest, oder vielleicht nur einen Teil davon. Allerdings kannst du deinen Namen auch verschlüsseln, sodass später nur deine Freunde auf whispeer deinen ganzen Namen sehen können.
 * Wie erstelle ich ein sicheres Passwort?
-	* Wir haben uns ein 10-Punkte-System überlegt, das dir hilft, bessere und sichere Passörter zu finden. Mehr darüber findest du in dem Blogeintrag über das System: http://blog.whispeer.de/de/2013/08/update-wie-whispeer-dir-hilft-ein-sicheres-passwort-zu-finden/ und http://blog.whispeer.de/de/2013/07/wie-whispeer-dir-hilft-ein-sicheres-passwort-zu-finden/
+	* Wir haben uns ein 10-Punkte-System überlegt, das dir hilft, bessere und sichere Passörter zu finden.
 * Wie funktioniert die Suche?
 	* Im Moment kannst du nach Vornamen, Nachnamen und Accountnamen suchen. Du tippst also einen Namen in die Suche ein und bekommst dann User, die auf deine Suchanfrage passen, vorgeschlagen.
 * Wie kann ich jemanden melden?

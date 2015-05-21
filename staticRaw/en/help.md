@@ -8,7 +8,7 @@ title: Help
 * Do I have to give my full name and e-mail address when I register?
 	* No. If you want to register, you can do this with a Username only. You can, though, give you e-mail address. You can, of course, choose if you want to give your full name or maybe only a part. But you can encrypt your name, so that later, only your friends on whispeer can see your full name.
 * How do I create a secure password?
-	* We created a 10-point system that helps you find more secure passwords. You can read more about this on our Blog: http://blog.whispeer.de/de/2013/08/update-wie-whispeer-dir-hilft-ein-sicheres-passwort-zu-finden/ and http://blog.whispeer.de/de/2013/07/wie-whispeer-dir-hilft-ein-sicheres-passwort-zu-finden/ Both posts are written in German. An English version is following.
+	* We created a 10-point system that helps you find more secure passwords.
 * How does the search work?
 	* At the moment, you can search for first names, last names and usernames. Just type in the name of the person you want to find and the search will give you suggestions that match your search.
 * How can I report someone?
