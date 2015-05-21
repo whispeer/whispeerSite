@@ -11,6 +11,10 @@
   src: local('Source Sans Pro Semibold'), local('SourceSansPro-Semibold'), url(/assets/fonts/SourceSansPro-Semibold.ttf) format('truetype');
 }
 
+body {
+	line-height: normal;
+}
+
 h1, h2, h3, h4, h5, h6,
 p,
 li,
