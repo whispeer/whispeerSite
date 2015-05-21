@@ -1,12 +1,20 @@
 $fontSize: 1.5em;
 $fontWeight: 200;
 
+$fontSizeMobile: 1.3em;
+$fontWeightMobile: 400;
+
 $fontSizeLarge: 3em;
 $fontWeightLarge: 600;
+
+$fontSizeLargeMobile: 2em;
+$fontWeightLargeMobile: 600;
+
 $iconSizeLarge: 15em;
 $iconLineHeightLarge: 10em;
 
 $defaultLineHeight: 120%;
+$defaultLineHeightMobile: 120%;
 
 
 $smallerMobile: "screen and (max-width: 666px)";

@@ -29,33 +29,33 @@
 	}
 }
 .section-header {
-	font-size: 4rem;
+	@media #{$desktop} {
+		font-size: 4rem;
+	}
+	@media #{$mobile} {
+		font-size: 3rem;
+	}
 	letter-spacing: -2px;
 	margin-top: 2rem;
 	width: auto;
-}
-.section-paragraph {
-	font-size: 1.6rem;
 }
 #heading {
 	height: auto;
 	min-height: 100vh;
 	padding-top: 20px;
 	padding-bottom: 0;
+	background-position: center center;
 }
 #heading .section-paragraph {
 	margin-top: -10px;
 	margin-bottom: 45px;
 }
-#landing-registerFrame {
-	width: 90%;
+.landing-registerFrame {
+	width: 98%;
 	margin: 0 auto;
 	max-width: 450px;
 	height: 332px;
 	border: none;
-}
-.section-ul {
-	max-width: 760px;
 }
 .section-next {
 	@media #{$mobile} {

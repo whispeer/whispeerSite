@@ -33,7 +33,7 @@
 .section-header,
 .section-paragraph {
 	@media #{$desktop} {
-		width: 550px;
+		width: 600px;
 	}
 	@media #{$mobile} {
 		width: 90%;
@@ -44,13 +44,23 @@
 	margin-right: auto;
 }
 .section-header {
-	@extend .largeFont;
+	@media #{$desktop} {
+		@include largeFont;
+	}
+	@media #{$mobile} {
+		@include largeFontMobile;
+	}
 }
 .section-paragraph {
-	@extend .normalFont;
+	@media #{$desktop} {
+		@include normalFont;
+	}
+	@media #{$mobile} {
+		@include normalFontMobile;
+	}
 }
 .section-ul {
-	max-width: 450px;
+	max-width: 760px;
 	margin: 0 auto 26.799999237060547px;
 }
 .fa-ul {

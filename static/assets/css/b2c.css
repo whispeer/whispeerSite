@@ -1,8 +1,8 @@
 @font-face {
   font-family: 'Source Sans Pro';
   font-style: normal;
-  font-weight: 200;
-  src: local("Source Sans Pro ExtraLight"), local("SourceSansPro-ExtraLight"), url(/assets/fonts/SourceSansPro-ExtraLight.ttf) format("truetype"); }
+  font-weight: 400;
+  src: local("Source Sans Pro Regular"), local("SourceSansPro-Regular"), url(/assets/fonts/SourceSansPro-Regular.ttf) format("truetype"); }
 @font-face {
   font-family: 'Source Sans Pro';
   font-style: normal;
@@ -18,16 +18,6 @@ button,
 input {
   font-family: 'Source Sans Pro', sans-serif;
   text-rendering: optimizeLegibility; }
-
-.normalFont, .section-paragraph {
-  font-size: 1.5em;
-  font-weight: 200;
-  line-height: 120%; }
-
-.largeFont, .section-header {
-  font-size: 3em;
-  font-weight: 600;
-  line-height: 120%; }
 
 .textShadow {
   text-shadow: 1px 1px 2px #000; }
@@ -114,15 +104,37 @@ input {
   @media screen and (min-width: 1155px) {
     .section-header,
     .section-paragraph {
-      width: 550px; } }
+      width: 600px; } }
   @media screen and (max-width: 1154px) {
     .section-header,
     .section-paragraph {
       width: 90%;
       max-width: 600px; } }
 
+@media screen and (min-width: 1155px) {
+  .section-header {
+    font-size: 3em;
+    font-weight: 600;
+    line-height: 120%; } }
+@media screen and (max-width: 1154px) {
+  .section-header {
+    font-size: 2em;
+    font-weight: 600;
+    line-height: 120%; } }
+
+@media screen and (min-width: 1155px) {
+  .section-paragraph {
+    font-size: 1.5em;
+    font-weight: 200;
+    line-height: 120%; } }
+@media screen and (max-width: 1154px) {
+  .section-paragraph {
+    font-size: 1.3em;
+    font-weight: 400;
+    line-height: 120%; } }
+
 .section-ul {
-  max-width: 450px;
+  max-width: 760px;
   margin: 0 auto 26.799999237060547px; }
 
 .fa-ul {
@@ -202,33 +214,33 @@ input {
     text-align: center; } }
 
 .section-header {
-  font-size: 4rem;
   letter-spacing: -2px;
   margin-top: 2rem;
   width: auto; }
-
-.section-paragraph {
-  font-size: 1.6rem; }
+  @media screen and (min-width: 1155px) {
+    .section-header {
+      font-size: 4rem; } }
+  @media screen and (max-width: 1154px) {
+    .section-header {
+      font-size: 3rem; } }
 
 #heading {
   height: auto;
   min-height: 100vh;
   padding-top: 20px;
-  padding-bottom: 0; }
+  padding-bottom: 0;
+  background-position: center center; }
 
 #heading .section-paragraph {
   margin-top: -10px;
   margin-bottom: 45px; }
 
-#landing-registerFrame {
-  width: 90%;
+.landing-registerFrame {
+  width: 98%;
   margin: 0 auto;
   max-width: 450px;
   height: 332px;
   border: none; }
-
-.section-ul {
-  max-width: 760px; }
 
 .section-next {
   display: block;
