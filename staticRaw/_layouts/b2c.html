@@ -45,7 +45,7 @@
 			</section>
 			<a name="content"></a>
 			{% for section in data.sections %}
-			<section class="landing-section {% if section.darkText %} landing-section--darkText {% endif %} {% if section.fullScreen %} landing-section--fullScreen {% endif %}" {% if section.image != null %} style="background-image: url(/assets/images/{{section.image}});" {% endif %}>
+			<section class="landing-section{% if section.darkText %} landing-section--darkText{% endif %}{% if section.fullScreen %} landing-section--fullScreen{% endif %}"{% if section.image != null %} style="background-image: url(/assets/images/{{section.image}});" {% endif %}>
 				<div class="landing-section--inner">
 					{% capture thecycle %}{% cycle 'even', 'odd' %}{% endcapture %}
 					{% if section.icon != null || section.image != null %}
