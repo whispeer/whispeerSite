@@ -1,0 +1,48 @@
+#mailView-main {
+	text-align: center;
+	padding: 1em 0;
+}
+.mailView-inputLabel {
+	display: block;
+	margin-bottom: 1em;
+}
+#mailView-input {
+	width: 250px;
+	&::-webkit-input-placeholder { // every placeholder has to be styled individually...
+		text-align: center;
+	}
+	&:-moz-placeholder {
+		text-align: center;
+	}
+	&::-moz-placeholder {
+		text-align: center;
+	}
+	&::-ms-input-placeholder {
+		text-align: center;
+	}
+}
+#mailView-inputLabelText {
+	display: block;
+	margin-bottom: 1em;
+}
+.mailView-responseText {
+	display: block;
+	padding: 1em;
+	width: 300px;
+	margin: 0 auto;
+}
+.mailView-responseText--info {
+	background: darken(@blue, 5%);
+	color: #ffffff;
+	border: 1px solid darken(@blue, 15%);
+}
+.mailView-responseText--success {
+	background: @primary;
+	color: #ffffff;
+	border: 1px solid @primaryDarkest;
+}
+.mailView-responseText--error {
+	background: @red;
+	color: #ffffff;
+	border: 1px solid darken(@red, 15%);
+}
