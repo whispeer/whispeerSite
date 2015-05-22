@@ -1,5 +1,11 @@
 (function () {
 	"use strict";
+
+	if (localStorage.get("whispeer.session.loggedin") === "true") {
+		var locale = window.top.location.pathname.split("/")[1];
+		window.top.location = "/" + locale + "/main";
+	}
+
 	var overlayOpen = document.getElementById("video-overlay-open");
 	var overlayClose = document.getElementById("video-overlay-close");
 	var overlay = document.getElementsByClassName("video-overlay")[0];
