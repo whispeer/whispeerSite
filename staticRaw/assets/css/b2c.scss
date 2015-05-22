@@ -47,15 +47,23 @@
 	background-position: center center;
 }
 #heading .section-paragraph {
-	margin-top: -10px;
-	margin-bottom: 45px;
+	margin-top: -30px;
+	margin-bottom: 20px;
 }
 .landing-registerFrame {
+	display: block;
 	width: 98%;
 	margin: 0 auto;
 	max-width: 450px;
 	height: 332px;
 	border: none;
+}
+.landing-section-video {
+	display: block;
+	width: 98%;
+	margin: 0 auto;
+	margin-bottom: 20px;
+	max-width: 300px;
 }
 .section-next {
 	@media #{$mobile} {
