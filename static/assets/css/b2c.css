@@ -249,10 +249,27 @@ input {
 
 .landing-section-video {
   display: block;
+  position: relative;
   width: 98%;
   margin: 0 auto;
   margin-bottom: 20px;
-  max-width: 300px; }
+  max-width: 300px;
+  cursor: pointer; }
+
+.landing-section-video-image {
+  width: 100%;
+  height: 100%;
+  border: 2px solid rgba(255, 255, 255, 0.7); }
+
+.landing-section-video-icon {
+  position: absolute;
+  top: calc(50% - 2.5rem);
+  left: calc(50% - 2.5rem);
+  color: rgba(255, 255, 255, 0.9);
+  transition: .8s color ease; }
+
+.landing-section-video:hover .landing-section-video-icon {
+  color: rgba(58, 129, 0, 0.9); }
 
 .section-next {
   display: block;
@@ -301,9 +318,13 @@ a[name="content"] {
   right: 8%; }
 
 .video-overlay-video {
+  display: none;
   height: 80%;
   width: 80%;
   margin: 6% 10% 10%; }
 
 .video-overlay--visible {
+  display: block; }
+
+.video-overlay--visible .video-overlay-video {
   display: block; }
