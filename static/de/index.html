@@ -142,19 +142,6 @@
 			<div id="video-overlay-close"><i class="fa fa-times"></i></div>
 			<iframe class="video-overlay-video" width="1280" height="720" src="https://www.youtube.com/embed/AUTxOorMnKk" frameborder="0" allowfullscreen></iframe>
 		</div>
-		<script type="text/javascript">
-			var vo = document.getElementById("video-overlay-open");
-			var vc = document.getElementById("video-overlay-close");
-			var overlay = document.getElementsByClassName("video-overlay")[0];
-
-			vo.addEventListener("click", function() {
-				overlay.className += " video-overlay--visible";
-			});
-
-			vc.addEventListener("click", function() {
-				overlay.className =
-					overlay.className.replace(/(?:^|\s)video-overlay--visible(?!\S)/g, '');
-			});
-		</script>
+		<script src="/assets/js/b2c.js" type="text/javascript"></script>
 	</body>
 </html>

@@ -10,7 +10,8 @@ function buildCSPConfig() {
 		"script-src": ["'self'"],
 		"style-src": ["'self'", "'unsafe-inline'"],
 		"object-src": ["'none'"],
-		"img-src": ["'self'", "blob:", "data:"]
+		"img-src": ["'self'", "blob:", "data:"],
+		"frame-src": ["'self'", "https://www.youtube.com"]
 	};
 
 	var os=require("os");
