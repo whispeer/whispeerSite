@@ -10,12 +10,13 @@
 		console.error(e);
 	}
 
-	var videoShown = false;
+	var videoShown = false, overlayClosed = true;
 
 	var overlayOpen = document.getElementById("video-overlay-open");
 	var overlayClose = document.getElementById("video-overlay-close");
 	var overlay = document.getElementById("video-overlay");
 	var overlayWrapper = document.getElementById("video-overlay-wrapper");
+	var overlayIframe;
 
 	function showVideo() {
 		videoShown = true;
@@ -27,25 +28,67 @@
 				value: attr.value
 			};
 		});
-		var overlayIframe = document.createElement("iframe");
+		overlayIframe = document.createElement("iframe");
 		
 		attributes.forEach(function (attr) {
 			overlayIframe.setAttribute(attr.name, attr.value);
 		});
 
 		overlayWrapper.parentNode.replaceChild(overlayIframe, overlayWrapper);
+
+		var interval = setInterval(function () {
+			overlayIframe.contentWindow.postMessage(JSON.stringify({"event":"listening","id":1}), "https://www.youtube.com");
+
+			if (!overlayIframe.contentWindow) {
+				window.clearInterval(interval);
+			}
+		}, 250);
+
+		overlayIframe.addEventListener("load", function () {
+			window.clearInterval(interval);
+		});
 	}
 
+	function sendCommand(command) {
+		var youtubeCommand = window.JSON.stringify({
+			event: "command",
+			func: command
+		});
+		overlayIframe.contentWindow.postMessage(youtubeCommand, "https://www.youtube.com");
+	}
+
+	function playVideo() {
+		sendCommand("playVideo");
+	}
+
+	function pauseVideo() {
+		sendCommand("pauseVideo");
+	}
+
+	window.addEventListener("message", function (event) {
+		var data = JSON.parse(event.data);
+
+		if (data.event === "onReady" && overlayClosed) {
+			pauseVideo();
+		}
+	}, false);
+
 	function close() {
+		overlayClosed = true;
+
 		overlay.className =
 			overlay.className.replace(/(?:^|\s)video-overlay--visible(?!\S)/g, "");
+
+		pauseVideo();
 	}
 
 	function open() {
+		overlayClosed = false;
+
 		overlay.className += " video-overlay--visible";
 
 		if (videoShown) {
-
+			playVideo();
 		} else {
 			showVideo();
 		}
