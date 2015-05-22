@@ -1,0 +1,127 @@
+{
+	"de": {
+		"title": "Hilfe",
+		"faq": {
+			"general": {
+				"header":	"Allgemein",
+				"questions": [
+					{
+						"question": "Muss ich beim Registrieren meinen vollen Namen und meine E-Mail Adresse angeben?",
+						"answer":	"Nein. Wenn du dich registrieren möchtest, kannst du dies schon mit einem Accountnamen. Du kannst aber auch nur eine E-Mail Adresse angeben. Natürlich kannst du dir aussuchen, ob du deinen vollen Namen angeben möchtest, oder vielleicht nur einen Teil davon. Allerdings kannst du deinen Namen auch verschlüsseln, sodass später nur deine Freunde auf whispeer deinen ganzen Namen sehen können."
+					}, {
+						"question": "Wie erstelle ich ein sicheres Passwort?",
+						"answer":	"Wir haben uns ein  10-Punkte-System überlegt, das dir hilft, bessere und sichere Passörter zu finden. Mehr darüber findest du in dem Blogeintrag über das System: http://blog.whispeer.de/de/2013/08/update-wie-whispeer-dir-hilft-ein-sicheres-passwort-zu-finden/ und http://blog.whispeer.de/de/2013/07/wie-whispeer-dir-hilft-ein-sicheres-passwort-zu-finden/"
+					}, {
+						"question": "Wie funktioniert die Suche?",
+						"answer":	"Im Moment kannst du nach Vornamen, Nachnamen und Accountnamen suchen. Du tippst also einen Namen in die Suche ein und bekommst dann User, die auf deine Suchanfrage passen, vorgeschlagen."
+					}, {
+						"question": "Wie kann ich jemanden melden?",
+						"answer":	"Momentan musst du uns eine Mail mit dem Namen der Person, bzw. ihrem Accountnamen oder ihrer E-Mail senden. Die Adresse ist support@whispeer.de . Es wird jedoch so bald wie möglich einen Melden-Button geben."
+					}, {
+						"question": "Wo kann ich meine Konto-Daten (Passwort, Accountname, E-Mail Adresse) ändern?",
+						"answer":	"Deine Konto-Daten kannst du ändern, wenn du im Menü links auf 'Einstellungen' klickst. Du wirst dann auf die Einstellungs-Seite weitergeleitet, und unter dem ersten Thema 'Allgemein' kannst du deine Angaben ändern."
+					}
+				]
+			},
+			"safety": {
+				"header": "Sicherheit",
+				"questions": [
+					{
+						"question": "Wo kann ich auswählen, welche meiner Daten verschlüsselt werden?",
+						"answer": "Unter den Einstellungen (Menü links) kannst du unter dem zweiten Thema 'Sicherheit' genau auswählen, welche deiner Daten verschlüsselt werden und welche öffentlich sind."
+					}
+				]
+			},
+			"privacy": {
+				"header": "Privatsphäre",
+				"questions": [
+					{
+						"question": "Wie wähle ich aus, wer meine Nachrichten erhält? Kann ich auch Nachrichten an mehrere Personen verschicken?",
+						"answer":	"Durch einen Klick auf 'Nachrichten' im Menü oder auf 'Neue Nachricht' über der Übersicht deiner Nachrichten kommst du auf die Seite, auf der du eine neue Nachricht verschicken kannst. Dort gibst du in das obere Feld alle Personen ein, die diese Nachricht erhalten sollen. Du kannst auch den Namen eines Kreises eingeben, dann bekommt jede Person des Kreises eine einzelne Nachricht von dir (als ob du sie einzeln angeschrieben hättest). In das untere Feld schreibst du dann deine Nachricht und über den 'Senden'-Button verschickst du diese."
+					}, {
+						"question": "Wie kann ich auswählen, wer meine Statusmeldungen sieht?",
+						"answer":	"Wenn du einen Post schreibst, hast du zwei Eingabefelder. In das obere Eingabefeld schreibst du die Namen von den Personen und/oder Kreisen, die diesen Post sehen sollen. In das untere Feld schreibst du deinen Post. Wenn du alle Personen ausgewählt hast, und deinen Post geschrieben hast, klicke auf den Button 'Senden', um den Post für diese Personen zu veröffentlichen."
+					}, {
+						"question": "Wo kann ich meine Privatsphäre-Einstellungen ändern?",
+						"answer":	"Ähnlich wie bei deinen Konto-Daten klickst gehst du zunächst einmal auf die Einstellungs-Seite durch einen Klick auf 'Einstellungen' im Menü links. Deine Privatsphäre-Einstellungen kannst du unter dem dritten Thema 'Privatsphäre' ändern."
+					}
+				]
+			},
+			"functionality": {
+				"header": "Funktionsweise",
+				"questions": [
+					{
+						"question": "Wie kann ich mein Profil bearbeiten?",
+						"answer":	"Wenn du auf deinem eigenen Profil bist, steht links oben bei deinen Informationen 'Bearbeiten'. Klicke darauf, um deine Angaben in deinem Profil ändern. Wenn du fertig bist mit deinen Änderungen, klicke auf den 'Speichern'-Button. Deine Änderungen an deinem Profil werden dann übernommen."
+					}, {
+						"question": "Wie benutze ich den Filter?",
+						"answer":	"Tippe einfach den Namen eines Freundes oder eines Kreises in das Eingabefeld. In deinem Newsfeed siehst du dann alles, was mit dieser Person/den Personen aus dem Kreis zu tun hat, also z.B. ihre Statusmeldungen, Pinnwandeinträge und Kommentare."
+					}, {
+						"question": "Wie erstelle ich einen neuen Kreis?",
+						"answer":	"Klicke rechts im Menü auf 'Kreise'. Es erscheinen zwei Eingabefelder. In das obere trägst du den Namen ein, den dein neuer Kreis haben soll. In das untere tippst du die Namen deiner Freunde, die in diesem Kreis sein sollen. Wenn du alle Namen eingetragen hast und dein Kreis einen Titel hat, klickst du auf 'Kreis erstellen' und dein neuer Kreis ist fertig!"
+					}
+				]
+			}
+		}
+	},
+	"en": {
+		"title":	"Help",
+		"newQuestion":	"Ask a question",
+		"faq": {
+			"general": {
+				"header": "General",
+				"questions": [
+					{
+						"question": "Do I have to give my full name and e-mail address when I register?",
+						"answer":	"No. If you want to register, you can do this with a Username only. You can, though, give you e-mail address. You can, of course, choose if you want to give your full name or maybe only a part. But you can encrypt your name, so that later, only your friends on whispeer can see your full name."
+					}, {
+						"question": "How do I create a secure password?",
+						"answer":	"We created a 10-point system that helps you find more secure passwords. You can read more about this on our Blog: http://blog.whispeer.de/de/2013/08/update-wie-whispeer-dir-hilft-ein-sicheres-passwort-zu-finden/ and http://blog.whispeer.de/de/2013/07/wie-whispeer-dir-hilft-ein-sicheres-passwort-zu-finden/ Both posts are written in German. An English version is following."
+					}, {
+						"question": "How does the search work?",
+						"answer":	"At the moment, you can search for first names, last names and usernames. Just type in the name of the person you want to find and the search will give you suggestions that match your search."
+					}, {
+						"question": "How can I report someone?",
+						"answer":	"At the moment, please write us an e-mail with the username and/or e-mail address you want to report. Our address is support@whispeer.de . We will implement a report-Button as soon as possible."
+					}, {
+						"question": "Where can I change my User-Data (password, username, e-mail address)?",
+						"answer":	"In the menu on the left, please click on \"Settings\". You are now on the settings-page where you can change all your data in the first category called \"General\"."
+					}
+				]
+			},
+			"safety": {
+				"header": "Safety",
+				"questions": [{
+					"question": "Where can I choose which parts of my data are encrypted and which parts are public?",
+					"answer": "On the settings-page (menu on the left) in the second category called \"Security\", you can choose which parts exactly you want encrypted, which parts are public and which parts are only visible for certain people or circles."
+				}]
+			},
+			"privacy": {
+				"header": "Privacy",
+				"questions": [{
+					"question": "How can I choose who receives my messages? Can I send a message to more than one person?",
+					"answer":	"If you click on \"Messages\" in the Menu or on the \"New message\"-Button above your message-list, you get to the page where you can send a new message. In the first area, type in all the people you want to receive this message. You can also type in the name of a circle you created, then every friend in this circle receives the message (as if you wrote to them once at a time). In the second area, type in your message and send it by clicking on the button \"Send\". "
+				}, {
+					"question": "How do I choose who can see my posts?",
+					"answer":	"When you write a post, you have to areas where you can type in text. In the first one, write the names of the people and/or circles who should see your post. In the second area, type in your post. When you typed in all the people and wrote a post, just click on \"Post\" to publish it for your chosen friends to read!"
+				}, {
+					"question": "Where can I change my privacy-settings?",
+					"answer":	"Similar to the User-Data-settings, just click on \"Settings\" on the left menu. You can now change your privacy-settings in the third category which is called \"Privacy\"."
+				}]
+			},
+			"functionality": {
+				"header": "Functionality",
+				"questions": [{
+					"question": "How can I edit my profile?",
+					"answer":	"At the top left corner of your own profile page (near the word \"friends\") you can click on \"Edit profile\". Now you can edit your profile. To save your changes, just click \"Save\"."
+				}, {
+					"question": "How do I use the filter?",
+					"answer":	"Just type in the name of a friend or circle in the area. You then see everything from or connected to the people in the circle in your newsfeed, e.g. their posts, wallposts or comments."
+				}, {
+					"question": "How do I create a new circle?",
+					"answer":	"Click on \"Circles\" in the Menu on the left. You now should see two areas. In the first one, type in the name of your new circle. In the second one, type in the names of your friends you want to add to the circle. If you added all of your friends you want to be in the circle, click on \"Create circle\" and you're finished! Of yourse, you can later on just add more friends to existing circles!"
+				}]
+			}
+		}
+	}
+}

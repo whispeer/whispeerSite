@@ -5,6 +5,7 @@ define(["services/serviceModule", "whispeerHelper"], function (serviceModule, h)
 		var noLoginRequired = ["ssn.startController", "ssn.versionController", "ssn.mailController"];
 
 		var loginStorage = new Storage("whispeer.login");
+		var sessionStorage = new Storage("whispeer.session");
 
 		var blockedReturnUrls = ["/start", "/recovery"];
 
@@ -51,6 +52,8 @@ define(["services/serviceModule", "whispeerHelper"], function (serviceModule, h)
 			updateURL: function (loggedin, controller) {
 				//not logged in but on a page requiring login --> landing
 				if (!loggedin && controller && noLoginRequired.indexOf(controller) === -1) {
+					//this is only here to make absolutely sure that the localStorage is cleared to protect from infinite redirects.
+					sessionStorage.clear();
 					api.setReturnUrl($location.path());
 					api.landingPage();
 					return;

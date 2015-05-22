@@ -92,8 +92,6 @@ function run() {
 		"start",
 		"notificationCenter",
 		"setup",
-
-		"help",
 		"invite"
 	];
 
