@@ -1,9 +1,13 @@
 (function () {
 	"use strict";
 
-	if (localStorage.get("whispeer.session.loggedin") === "true") {
-		var locale = window.top.location.pathname.split("/")[1];
-		window.top.location = "/" + locale + "/main";
+	try {
+		if (localStorage.getItem("whispeer.session.loggedin") === "true") {
+			var locale = window.top.location.pathname.split("/")[1];
+			window.top.location = "/" + locale + "/main";
+		}
+	} catch (e) {
+		console.error(e);
 	}
 
 	var overlayOpen = document.getElementById("video-overlay-open");
