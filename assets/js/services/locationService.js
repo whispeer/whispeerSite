@@ -16,7 +16,7 @@ define(["services/serviceModule", "whispeerHelper"], function (serviceModule, h)
 				api.setTopLocation("/main");
 			},
 			landingPage: function () {
-				api.setTopLocation("/b2c");
+				api.setTopLocation("/");
 			},
 			isLoginPage: function () {
 				return window.top.location.pathname.indexOf("/login") !== -1;
