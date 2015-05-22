@@ -1,15 +1,20 @@
 (function () {
 	"use strict";
-	var vo = document.getElementById("video-overlay-open");
-	var vc = document.getElementById("video-overlay-close");
+	var overlayOpen = document.getElementById("video-overlay-open");
+	var overlayClose = document.getElementById("video-overlay-close");
 	var overlay = document.getElementsByClassName("video-overlay")[0];
 
-	vo.addEventListener("click", function() {
-		overlay.className += " video-overlay--visible";
-	});
-
-	vc.addEventListener("click", function() {
+	function close() {
 		overlay.className =
 			overlay.className.replace(/(?:^|\s)video-overlay--visible(?!\S)/g, "");
-	});
+	}
+
+	function open() {
+		overlay.className += " video-overlay--visible";
+	}
+
+	overlayOpen.addEventListener("click", open);
+
+	overlayClose.addEventListener("click", close);
+	overlay.addEventListener("click", close);
 })();
