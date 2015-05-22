@@ -33,6 +33,7 @@ define(["services/serviceModule"], function (serviceModule) {
 				setLoginData(sessionStorage.get("sid"), sessionStorage.get("userid"));
 			} else {
 				sessionStorage.clear();
+				locationService.landingPage();
 			}
 		}
 

@@ -34,9 +34,6 @@ define(["app"], function (app) {
 		addMain("settings");
 		addMain("acceptInvite");
 
-		//TODO: move all of these into own html files!
-		addMain("start");
-
 		$stateProvider.state("app.logout", {
 			url: "/logout",
 			controller: ["ssn.sessionHelper", function (sessionHelper) {
@@ -62,10 +59,8 @@ define(["app"], function (app) {
 
 			if (url.$$path && url.$$path.indexOf(locale) === -1) {
 				return locale + url.$$path;
-			} else if ($injector.get("ssn.sessionService").isLoggedin()) {
-				return locale + "/main";
 			} else {
-				return locale + "/start";
+				return locale + "/main";
 			}
 		});
 	}]);

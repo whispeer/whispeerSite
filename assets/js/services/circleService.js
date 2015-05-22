@@ -309,7 +309,7 @@ define(["step", "whispeerHelper", "asset/observer", "services/serviceModule", "a
 			},
 			loadAll: function (cb) {
 				step(function () {
-					if (sessionService.isLoggedin() && !loaded && !loading) {
+					if (!loaded && !loading) {
 						loading = true;
 						circleService.data.loading = false;
 

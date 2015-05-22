@@ -2,12 +2,10 @@ define(["services/serviceModule", "whispeerHelper"], function (serviceModule, h)
 	"use strict";
 
 	serviceModule.factory("ssn.locationService", ["$location", "ssn.storageService", function ($location, Storage) {
-		var noLoginRequired = ["ssn.startController", "ssn.versionController", "ssn.mailController"];
-
 		var loginStorage = new Storage("whispeer.login");
 		var sessionStorage = new Storage("whispeer.session");
 
-		var blockedReturnUrls = ["/start", "/recovery"];
+		var blockedReturnUrls = ["/b2c", "/recovery"];
 
 		var api = {
 			setTopLocation: function (url) {
@@ -18,7 +16,7 @@ define(["services/serviceModule", "whispeerHelper"], function (serviceModule, h)
 				api.setTopLocation("/main");
 			},
 			landingPage: function () {
-				api.setTopLocation("/start");
+				api.setTopLocation("/b2c");
 			},
 			isLoginPage: function () {
 				return window.top.location.pathname.indexOf("/login") !== -1;
@@ -49,9 +47,9 @@ define(["services/serviceModule", "whispeerHelper"], function (serviceModule, h)
 					$location.path("/main");
 				}
 			},
-			updateURL: function (loggedin, controller) {
+			updateURL: function (loggedin) {
 				//not logged in but on a page requiring login --> landing
-				if (!loggedin && controller && noLoginRequired.indexOf(controller) === -1) {
+				if (!loggedin) {
 					//this is only here to make absolutely sure that the localStorage is cleared to protect from infinite redirects.
 					sessionStorage.clear();
 					api.setReturnUrl($location.path());
