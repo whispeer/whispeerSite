@@ -71,14 +71,10 @@
 
 	.postImages {
 		@media @desktop {
-			width: 36em;
+			width: 72em;
 		}
 		max-width: 100%;
 		margin-top: 5px;
-	}
-
-	.postImageWrap:only-child {
-		max-height: 18em;
 	}
 
 	.postImageWrap:only-child .postImage {
@@ -87,11 +83,7 @@
 
 	.postImageWrap {
 		position: relative;
-		height: 9em;
-		line-height: 9em;
-		@media @desktop {
-			max-width: ~"calc(50% - 5px)";
-		}
+		max-height: 400px;
 		@media @mobile {
 			max-width: ~"calc(100% - 10px)";
 		}
@@ -102,7 +94,7 @@
 	}
 
 	.postImage {
-		height: 100%;
+		max-height: 400px;
 		max-width: 100%;
 	}
 
