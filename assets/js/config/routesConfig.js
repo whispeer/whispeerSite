@@ -51,12 +51,6 @@ define(["app"], function (app) {
 			reloadOnSearch: false
 		});
 
-		$stateProvider.state("app.verifyMail", {
-			url: "/verifyMail/:challenge",
-			templateUrl: "assets/views/pages/mail.html",
-			controller: "ssn.mailController"
-		});
-
 		$stateProvider.state("app.user", {
 			url: "/user/:identifier",
 			templateUrl: "assets/views/pages/user.html",

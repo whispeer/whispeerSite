@@ -34,11 +34,7 @@ define([
 			return v !== "";
 		});
 
-		if (parts.length === 4) {
-			parts.shift();
-		}
-
-		if (parts.length === 3) {
+		if (parts.length >= 3) {
 			recoveryCode = parts.pop();
 			nick = parts.pop();
 			$scope.codeProvided = true;

@@ -1,0 +1,30 @@
+{% assign i18n = site.data.whispeerI18n[page.lang] %}
+
+{% include whispeerHead.html htmlClass="mailView hasTopBar" %}
+<body data-mobile>
+	{% include topBar.html %}
+	<div id="container" data-ng-controller="ssn.verifyMailController">
+		<main id="mailView-main">
+			<div data-ng-if="verifying.isInit()">
+				<label class="mailView-inputLabel">
+					<span id="mailView-inputLabelText">{{ i18n.mail.code }}:</span>
+					<input type="text" data-ng-model="challenge" id="mailView-input" placeholder="{{ i18n.mail.placeholder }}">
+				</label>
+				<label class="mailView-inputLabel">
+					<input type="checkbox" data-ng-model="mails" checked id="mailView-updates">
+					{{ i18n.mail.updateMe }}
+				</label>
+				<input type="submit" data-ng-click="verify(mails)" value="{{ i18n.mail.verify }}" class="btn btn--primary mailView-submit">
+			</div>
+			<div id="mailView-response">
+				<span class="mailView-responseText mailView-responseText--info" data-ng-if="verifying.isPending()" data-ng-cloak>{{ i18n.mail.verifying }}</span>
+				<span class="mailView-responseText mailView-responseText--success" data-ng-if="verifying.isSuccess()" data-ng-cloak>{{ i18n.mail.verified }}</span>
+				<span class="mailView-responseText mailView-responseText--error" data-ng-if="verifying.isFailed()" data-ng-cloak data-syntaxify>{{ i18n.mail.failed }}</span>
+			</div>
+
+			<a href='/start' data-ng-if="!loggedin" data-i18n="views.mail.backToLogin"></a>
+		</main>
+	</div>
+</body>
+<script data-main="assets/js/requireConfig" data-initial="verifyMail/verifyMailMain" src="assets/js/bower/requirejs/require.js"></script>
+</html>

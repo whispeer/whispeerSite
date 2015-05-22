@@ -10,7 +10,6 @@ define([
 	"controllers/circlesController",
 	"controllers/settingsController",
 	"controllers/startController",
-	"controllers/mailController",
 	"controllers/setupController",
 	"controllers/inviteController",
 	"controllers/acceptInviteController"

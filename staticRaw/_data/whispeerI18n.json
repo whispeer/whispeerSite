@@ -1,5 +1,15 @@
 {
 	"de": {
+		"mail": {
+			"code": "Aktivierungscode",
+			"placeholder": "Aktivierungscode hier eingeben",
+			"verify": "E-Mail bestätigen",
+			"updateMe": "Ich möchte Updates per E-Mail erhalten",
+			"verifying": "E-Mail wird verifiziert.",
+			"verified": "Deine E-Mail Adresse wurde bestätigt.",
+			"backToLogin": "Zurück zum Login",
+			"failed": "Aktivierung fehlgeschlagen!\n Möglicherweise ist dein Aktivierungscode abgelaufen."
+		},
 		"privacy": {
 			"header": "Datenschutzerklärung"
 		},
@@ -38,6 +48,16 @@
 		}
 	},
 	"en": {
+		"mail": {
+			"code": "Verification Code",
+			"placeholder": "Enter Verification Code here",
+			"verify": "Verify e-mail",
+			"updateMe": "I would like to receive updates via mail",
+			"verifying": "Verifying.",
+			"verified": "Your e-mail was verified.",
+			"backToLogin": "Return to login",
+			"failed": "Verification failed!\n Maybe your verification code is outdated."
+		},
 		"privacy": {
 			"header": "Privacy policy"
 		},
