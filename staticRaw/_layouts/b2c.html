@@ -34,7 +34,7 @@
 						{% endfor %}
 						</ul>
 					{% endif %}
-					<iframe class="landing-section-video" width="300" height="169" src="https://www.youtube-nocookie.com/embed/AUTxOorMnKk" frameborder="0" allowfullscreen></iframe>
+					<img class="landing-section-video" id="video-overlay-open" src="/assets/images/videoThumb.jpg" alt="Start Video!">
 					{% if data.teaser.registerForm %}
 					<iframe class="landing-registerFrame" src="/{{page.lang}}/register/"></iframe>
 					{% endif %}
@@ -84,5 +84,23 @@
 			</section>
 			{% endfor %}
 		</main>
+		<div class="video-overlay">
+			<div id="video-overlay-close"><i class="fa fa-times"></i></div>
+			<iframe class="video-overlay-video" width="1280" height="720" src="https://www.youtube.com/embed/AUTxOorMnKk" frameborder="0" allowfullscreen></iframe>
+		</div>
+		<script type="text/javascript">
+			var vo = document.getElementById("video-overlay-open");
+			var vc = document.getElementById("video-overlay-close");
+			var overlay = document.getElementsByClassName("video-overlay")[0];
+
+			vo.addEventListener("click", function() {
+				overlay.className += " video-overlay--visible";
+			});
+
+			vc.addEventListener("click", function() {
+				overlay.className =
+					overlay.className.replace(/(?:^|\s)video-overlay--visible(?!\S)/g, '');
+			});
+		</script>
 	</body>
 </html>
