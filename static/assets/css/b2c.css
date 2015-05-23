@@ -321,8 +321,8 @@ a[name="content"] {
 
 #video-overlay-close {
   position: absolute;
-  top: 5%;
-  right: 7%;
+  top: -35px;
+  right: -35px;
   width: 30px;
   height: 30px;
   line-height: 30px;
@@ -335,13 +335,22 @@ a[name="content"] {
   border-radius: 100%; }
 
 .video-overlay-video {
+  width: 100%;
+  height: 100%; }
+
+#video-overlay-wrapper {
+  position: relative;
   display: none;
   height: 80%;
   width: 80%;
   margin: 6% 10% 10%; }
+  @media screen and (max-width: 1154px) {
+    #video-overlay-wrapper {
+      width: calc(100% - 76px);
+      margin: 55px 38px 0 38px; } }
 
 .video-overlay--visible {
   display: block; }
 
-.video-overlay--visible .video-overlay-video {
+.video-overlay--visible #video-overlay-wrapper {
   display: block; }

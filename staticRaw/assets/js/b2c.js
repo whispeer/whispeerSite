@@ -20,7 +20,7 @@
 	var overlayOpen = document.getElementById("video-overlay-open");
 	var overlayClose = document.getElementById("video-overlay-close");
 	var overlay = document.getElementById("video-overlay");
-	var overlayWrapper = document.getElementById("video-overlay-wrapper");
+	var overlayWrapper = document.getElementById("video-overlay-video");
 	var overlayIframe;
 
 	var registerAds = Array.prototype.slice.call(document.getElementsByClassName("register--ad"));
@@ -39,7 +39,7 @@
 			};
 		});
 		overlayIframe = document.createElement("iframe");
-		
+
 		attributes.forEach(function (attr) {
 			overlayIframe.setAttribute(attr.name, attr.value);
 		});
