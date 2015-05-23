@@ -29,6 +29,10 @@
 	});
 
 	function showVideo() {
+		if (videoShown) {
+			return;
+		}
+
 		videoShown = true;
 		var attributes = Array.prototype.slice.call(overlayWrapper.attributes).filter(function (attr) {
 			return attr.name.indexOf("data-") === 0;
@@ -47,7 +51,7 @@
 		overlayWrapper.parentNode.replaceChild(overlayIframe, overlayWrapper);
 
 		var interval = setInterval(function () {
-			overlayIframe.contentWindow.postMessage(JSON.stringify({"event":"listening","id":1}), "https://www.youtube.com");
+			overlayIframe.contentWindow.postMessage(JSON.stringify({"event":"listening","id":1}), "https://www.youtube-nocookie.com");
 
 			if (!overlayIframe.contentWindow) {
 				window.clearInterval(interval);
@@ -64,7 +68,7 @@
 			event: "command",
 			func: command
 		});
-		overlayIframe.contentWindow.postMessage(youtubeCommand, "https://www.youtube.com");
+		overlayIframe.contentWindow.postMessage(youtubeCommand, "https://www.youtube-nocookie.com");
 	}
 
 	function playVideo() {
@@ -78,8 +82,12 @@
 	window.addEventListener("message", function (event) {
 		var data = JSON.parse(event.data);
 
-		if (data.event === "onReady" && overlayClosed) {
-			pauseVideo();
+		if (data.event === "onReady") {
+			if (overlayClosed) {
+				pauseVideo();
+			} else {
+				playVideo();
+			}
 		}
 	}, false);
 
@@ -97,12 +105,13 @@
 
 		overlay.className += " video-overlay--visible";
 
-		if (videoShown) {
-			playVideo();
-		} else {
-			showVideo();
-		}
+		showVideo();
+		playVideo();
 	}
+
+	window.setTimeout(function () {
+		showVideo();
+	}, 10000);
 
 	overlayOpen.addEventListener("click", open);
 
