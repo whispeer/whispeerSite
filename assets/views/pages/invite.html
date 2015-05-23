@@ -19,11 +19,11 @@
 		<i class="fa fa-reddit"></i>Reddit
 	</a>
 
-	<button class="btn btn--primary"><i class="fa fa-envelope"></i>E-Mail</button>
-	<button class="btn btn--primary"><i class="fa fa-link"></i>Link</button>
+	<button class="btn btn--primary" data-ng-click="inviteMail = true"><i class="fa fa-envelope"></i>E-Mail</button>
+	<button class="btn btn--primary" data-ng-click="inviteLink = true"><i class="fa fa-link"></i>Link</button>
 </section>
 
-<section id="inviteMail">
+<section id="inviteMail" data-ng-if="inviteMail">
 	<form>
 		<h1 data-i18n="views.invite.viaMail"></h1>
 		<p data-i18n="views.invite.viaMailExplanation"></p>
@@ -46,7 +46,7 @@
 	</form>
 </section>
 
-<section id="inviteLink">
+<section id="inviteLink" data-ng-if="inviteLink">
 	<h1 data-i18n="views.invite.viaLink"></h1>
 	<p data-i18n="views.invite.viaLinkExplanation"></p>
 	<savebutton class="sendInvite btn--big" data-ng-click="generateInvite()" data-state="inviteGenerateState" data-noiniticon>
