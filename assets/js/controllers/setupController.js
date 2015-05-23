@@ -23,6 +23,10 @@ define(["step", "whispeerHelper", "asset/state", "libs/qr", "libs/filesaver", "c
 			mail: ""
 		};
 
+		$scope.goToNext = function () {
+			$location.path("/main");
+		};
+
 		function makeNamePrivate(cb) {
 			step(function () {
 				settingsService.getBranch("privacy", this);
@@ -78,7 +82,7 @@ define(["step", "whispeerHelper", "asset/state", "libs/qr", "libs/filesaver", "c
 				}
 			}), h.sF(function () {
 				if ($scope.backupClicked || $scope.backupFailed) {
-					$location.path("/main");
+					$scope.goToNext();
 				} else {
 					$scope.profileSaved = true;
 				}
@@ -144,10 +148,19 @@ define(["step", "whispeerHelper", "asset/state", "libs/qr", "libs/filesaver", "c
 			}
 		});
 
+		function backupDone() {
+			$scope.backupClicked = true;
+
+			if ($scope.profileSaved) {
+				$scope.goToNext();
+			}
+		}
+
 		$scope.downloadBackup = function () {
 			step(function () {
 				saveAs(backupBlob, "whispeer-backup.png");
-				$scope.backupClicked = true;
+
+				backupDone();
 			}, errorService.criticalError);
 		};
 
@@ -157,7 +170,7 @@ define(["step", "whispeerHelper", "asset/state", "libs/qr", "libs/filesaver", "c
 				document.body.appendChild(backupCanvas);
 
 				window.print();
-				$scope.backupClicked = true;
+				backupDone();
 			}, errorService.criticalError);
 		};
 	}
