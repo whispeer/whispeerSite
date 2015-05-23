@@ -108,4 +108,7 @@
 }
 .landing-section--fullScreen {
 	height: 100vh;
+	@media #{$mobile} {
+		min-height: 100vh;
+	}
 }

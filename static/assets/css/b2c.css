@@ -182,6 +182,9 @@ input {
 
 .landing-section--fullScreen {
   height: 100vh; }
+  @media screen and (max-width: 1154px) {
+    .landing-section--fullScreen {
+      min-height: 100vh; } }
 
 @media screen and (min-width: 1155px) {
   .helper-showMobile {
