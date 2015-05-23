@@ -1,0 +1,63 @@
+.animation-box {
+	width: 100%;
+	clear: both;
+	margin-top: 50px;
+}
+.animation-node {
+	display: inline-block;
+	float: left;
+	width: 20%;
+	margin: 0;
+	text-align: center;
+}
+.animation-node-description {
+	display: block;
+}
+.john,
+.steve {
+	width: 25%;
+}
+.johnPc,
+.stevePc {
+	width: 15%;
+	text-align: left;
+}
+.stevePc {
+	text-align: right;
+}
+.message {
+	position: absolute;
+}
+.message--john {
+	left: 17%;
+	opacity: 0;
+	-webkit-animation: sendMessage 5s 0 1 normal forwards;
+}
+.message--steve {
+	left: 77%;
+	opacity: 0;
+	-webkit-animation: sendMessage 5s 4s 1 reverse backwards;
+}
+
+@-webkit-keyframes sendMessage {
+	0% {
+		opacity: 0;
+		left: 17%;
+	}
+	30% {
+		opacity: 1;
+		left: 17%;
+	}
+	50% {
+		left: 47%;
+		opacity: 1;
+	}
+	70% {
+		left: 77%;
+		opacity: 1;
+	}
+	100% {
+		opacity: 0;
+		left: 77%;
+	}
+}
