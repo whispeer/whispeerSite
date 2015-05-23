@@ -17,6 +17,9 @@ define(["step", "whispeerHelper", "asset/state", "controllers/controllerModule"]
 		$scope.inviteGenerateState = inviteGenerateState.data;
 
 		$scope.domain = $location.protocol() + "://" + $location.host();
+		$scope.url = encodeURIComponent($scope.domain);
+		$scope.text = "whispeer is an awesome social network!";
+		$scope.hashtags = "privacy,whispeer";
 
 		$scope.addInviteMail = function () {
 			$scope.inviteMails.push("");
