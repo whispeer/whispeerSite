@@ -265,7 +265,7 @@ input {
   position: relative;
   width: 98%;
   margin: 0 auto;
-  margin-bottom: 20px;
+  margin-bottom: 17px;
   max-width: 300px;
   cursor: pointer; }
 
@@ -297,19 +297,17 @@ input {
 
 .section-next {
   display: block;
+  position: absolute;
   margin: -15px auto 0;
   width: 150px;
-  padding: 10px;
+  height: 55px;
+  padding: 11px 10px 10px;
+  left: calc(50% - 75px);
+  bottom: 25px;
   color: #fff;
   border: none;
   box-sizing: border-box;
   transition: 0.3s background ease; }
-  @media screen and (max-width: 1154px) {
-    .section-next {
-      margin-bottom: 20px; } }
-  @media screen and (min-width: 1155px) {
-    .section-next {
-      margin-bottom: 20px; } }
 
 .section-next:hover {
   color: #ffffff;
