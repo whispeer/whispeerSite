@@ -26,7 +26,6 @@ define(["app"], function (app) {
 			});
 		}
 
-		addMain("invite");
 		addMain("setup");
 		addMain("main");
 		addMain("friends");
@@ -36,6 +35,23 @@ define(["app"], function (app) {
 
 		//TODO: move all of these into own html files!
 		addMain("start");
+
+		$stateProvider.state("app.invite", {
+			url: "/invite",
+			templateUrl: "assets/views/pages/invites/invite.html",
+			controller: "ssn.inviteController"
+		});
+
+		$stateProvider.state("app.invite.mail", {
+			url: "/mail",
+			templateUrl: "assets/views/pages/invites/mail.html",
+			controller: "ssn.inviteMailController"
+		});
+
+		$stateProvider.state("app.invite.link", {
+			url: "/link",
+			templateUrl: "assets/views/pages/invites/link.html",
+		});
 
 		$stateProvider.state("app.logout", {
 			url: "/logout",
