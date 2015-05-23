@@ -11,7 +11,7 @@ function buildCSPConfig() {
 		"style-src": ["'self'", "'unsafe-inline'"],
 		"object-src": ["'none'"],
 		"img-src": ["'self'", "blob:", "data:"],
-		"frame-src": ["'self'", "https://www.youtube.com"]
+		"frame-src": ["'self'", "https://www.youtube.com", "https://www.youtube-nocookie.com"]
 	};
 
 	var os=require("os");
