@@ -28,6 +28,10 @@ function parse(source, destination, config, done) {
 
 			dirs.forEach(function (expandDir) {
 				names = names.concat(fs.readdirSync("./static/" + expandDir).map(function (dir) {
+					if (dir === "index.html") {
+						return "/" + expandDir;
+					}
+
 					return "/" + expandDir + "/" + dir;
 				}));
 			});
