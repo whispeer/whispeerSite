@@ -58,7 +58,7 @@
 						{% if (section.icon != null || section.image != null) %}
 						<div class="landing-section-icon{% if thecycle == 'odd' %} landing-section-icon--hideDesktop{% endif %}">
 							{% if section.icon != null %}
-								<i class="fa fa-xxl fa-fw {{section.icon}}{% if section.darkBlur %} darkBlur{% endif %}{% if section.lightBlur %} lightBlur{% endif %}"></i>
+								<i class="fa fa-xxl fa-fw {{section.icon}}{% if section.darkBlur %} darkBlur{% elsif section.lightBlur %} lightBlur{% else %} textShadow{% endif %}"></i>
 							{% endif %}
 							{% if section.image != null %}
 								<img class="landing-section-image" src="{{ section.image.src }}" alt="{{ section.image.alt }}">
@@ -67,7 +67,7 @@
 						{% endif %}
 						<div class="landing-section-text{% if section.icon == null && section.image == null %} landing-section--center{% endif %}">
 							{% if section.headline != null %}
-								<h1 class="section-header{% if section.icon == null %} section-header--noTopMargin{% endif %}{% if section.darkBlur %}darkBlur{% endif %}{% if section.lightBlur %} lightBlur{% endif %}">{{ section.headline }}</h1>
+								<h1 class="section-header{% if section.icon == null %} section-header--noTopMargin{% endif %}{% if section.darkBlur %} darkBlur{% elsif section.lightBlur %} lightBlur{% else %} textShadow{% endif %}">{{ section.headline }}</h1>
 							{% endif %}
 							{% if section.details != null %}
 								<p class="section-paragraph">{{ section.details }}</p>
@@ -86,7 +86,7 @@
 						{% if (section.icon != null || section.image != null) and thecycle == 'odd'%}
 						<div class="landing-section-icon landing-section-icon--hideMobile">
 							{% if section.icon != null %}
-								<i class="fa fa-xxl fa-fw {{section.icon}}{% if section.darkBlur %} darkBlur{% endif %}{% if section.lightBlur %} lightBlur{% endif %}"></i>
+								<i class="fa fa-xxl fa-fw {{section.icon}}{% if section.darkBlur %} darkBlur{% elsif section.lightBlur %} lightBlur{% else %} textShadow{% endif %}"></i>
 							{% endif %}
 							{% if section.image != null %}
 								<img class="landing-section-image" src="{{ section.image.src }}" alt="{{ section.image.alt }}">

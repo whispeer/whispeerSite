@@ -16,7 +16,10 @@
 }
 .landing-section:nth-child(2n) {
 	background: #fff;
-	color: #000;
+	color: #222;
+	.textShadow {
+		text-shadow: 1px 1px 2px #aaa;
+	}
 }
 .landing-section--inner {
 	max-width: 1280px;
