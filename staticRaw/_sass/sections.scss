@@ -20,9 +20,15 @@
 }
 .landing-section--inner {
 	max-width: 1280px;
+	width: 100%;
 	margin: 0 auto;
 	display: table-cell;
 	vertical-align: middle;
+}
+.landing-section--realInner {
+	display: table;
+	width: 100%;
+	margin: 0;
 }
 #heading {
 	@media #{$desktop} {
@@ -89,26 +95,34 @@
 }
 .landing-section-icon {
 	width: 25%;
-	margin-top: 3rem;
-	@media #{$smallerMobile} {
-		width: 100%;
-	}
 }
 .landing-section-text {
 	width: 75%;
+}
+.landing-section-icon,
+.landing-section-text {
+	position: relative;
+	display: table-cell;
+	vertical-align: middle;
 	@media #{$smallerMobile} {
 		width: 100%;
+		display: block;
+	}
+}
+.landing-section-icon--hideDesktop {
+	display: none;
+	@media #{$smallerMobile} {
+		display: block;
+	}
+}
+.landing-section-icon--hideMobile {
+	@media #{$smallerMobile} {
+		display: none;
 	}
 }
 .landing-section-escape {
 	width: 100%;
 	float: left;
-}
-.landing-section-left {
-	float: left;
-}
-.landing-section-right {
-	float: right;
 }
 .landing-section--fullScreen {
 	height: 100vh;

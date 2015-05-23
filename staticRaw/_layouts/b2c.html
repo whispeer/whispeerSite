@@ -53,33 +53,45 @@
 			{% for section in data.sections %}
 			<section class="landing-section{% if section.darkText %} landing-section--darkText{% endif %}{% if section.fullScreen %} landing-section--fullScreen{% endif %}"{% if section.image != null %} style="background-image: url(/assets/images/{{section.image}});" {% endif %}>
 				<div class="landing-section--inner">
-					{% capture thecycle %}{% cycle 'even', 'odd' %}{% endcapture %}
-					{% if section.icon != null || section.image != null %}
-					<div class="{% if thecycle == 'even' %} landing-section-left {% else %} landing-section-right {% endif %} landing-section-icon">
-						{% if section.icon != null %}
-							<i class="fa fa-xxl {{section.icon}} {% if section.darkBlur %} darkBlur {% endif %} {% if section.lightBlur %} lightBlur {% endif %}"></i>
+					<div class="landing-section--realInner">
+						{% capture thecycle %}{% cycle 'even', 'odd' %}{% endcapture %}
+						{% if (section.icon != null || section.image != null) %}
+						<div class="landing-section-icon{% if thecycle == 'odd' %} landing-section-icon--hideDesktop{% endif %}">
+							{% if section.icon != null %}
+								<i class="fa fa-xxl fa-fw {{section.icon}}{% if section.darkBlur %} darkBlur{% endif %}{% if section.lightBlur %} lightBlur{% endif %}"></i>
+							{% endif %}
+							{% if section.image != null %}
+								<img class="landing-section-image" src="{{ section.image.src }}" alt="{{ section.image.alt }}">
+							{% endif %}
+						</div>
 						{% endif %}
-						{% if section.image != null %}
-							<img class="landing-section-image" src="{{ section.image.src }}" alt="{{ section.image.alt }}">
-						{% endif %}
-					</div>
-					{% endif %}
-					<div class="{% if section.icon != null || section.image != null %}{% if thecycle == 'odd' %} landing-section-left {% else %} landing-section-right {% endif %} landing-section-text {% endif %}">
-						{% if section.headline != null %}
-							<h1 class="section-header {% if section.icon == null %} section-header--noTopMargin {% endif %} {% if section.darkBlur %} darkBlur {% endif %} {% if section.lightBlur %} lightBlur {% endif %}">{{ section.headline }}</h1>
-						{% endif %}
-						{% if section.details != null %}
-							<p class="section-paragraph">{{ section.details }}</p>
-						{% endif %}
-						{% if section.detailsList != null %}
-							<ul class="section-ul fa-ul {% if section.darkBlur %} darkBlur {% endif %} {% if section.lightBlur %} lightBlur {% endif %}">
-							{% for item in section.detailsList %}
-								<li class="section-li"><i class="fa fa-li fa-fw {{item.icon}}"></i> {{item.text}}</li>
-							{% endfor %}
-							</ul>
-						{% endif %}
-						{% if section.registerAd %}
-							<a class="button button--more register--ad {% if thecycle == 'even' %} button--green {% endif %}" href="#registerNow">{{lang.registerAd}}</a>
+						<div class="landing-section-text{% if section.icon == null && section.image == null %} landing-section--center{% endif %}">
+							{% if section.headline != null %}
+								<h1 class="section-header{% if section.icon == null %} section-header--noTopMargin{% endif %}{% if section.darkBlur %}darkBlur{% endif %}{% if section.lightBlur %} lightBlur{% endif %}">{{ section.headline }}</h1>
+							{% endif %}
+							{% if section.details != null %}
+								<p class="section-paragraph">{{ section.details }}</p>
+							{% endif %}
+							{% if section.detailsList != null %}
+								<ul class="section-ul fa-ul{% if section.darkBlur %} darkBlur{% endif %}{% if section.lightBlur %} lightBlur{% endif %}">
+								{% for item in section.detailsList %}
+									<li class="section-li"><i class="fa fa-li fa-fw {{item.icon}}"></i> {{item.text}}</li>
+								{% endfor %}
+								</ul>
+							{% endif %}
+							{% if section.registerAd %}
+								<a class="button button--more register--ad{% if thecycle == 'even' %} button--green{% endif %}" href="#registerNow">{{lang.registerAd}}</a>
+							{% endif %}
+						</div>
+						{% if (section.icon != null || section.image != null) and thecycle == 'odd'%}
+						<div class="landing-section-icon landing-section-icon--hideMobile">
+							{% if section.icon != null %}
+								<i class="fa fa-xxl fa-fw {{section.icon}}{% if section.darkBlur %} darkBlur{% endif %}{% if section.lightBlur %} lightBlur{% endif %}"></i>
+							{% endif %}
+							{% if section.image != null %}
+								<img class="landing-section-image" src="{{ section.image.src }}" alt="{{ section.image.alt }}">
+							{% endif %}
+						</div>
 						{% endif %}
 					</div>
 					{% if section.registerForm %}
