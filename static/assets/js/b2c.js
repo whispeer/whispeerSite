@@ -10,6 +10,11 @@
 		console.error(e);
 	}
 
+	function focusRegister() {
+		var frame = document.getElementById("registerFrame-main");
+		frame.contentWindow.document.getElementsByTagName("input")[0].focus();
+	}
+
 	var videoShown = false, overlayClosed = true;
 
 	var overlayOpen = document.getElementById("video-overlay-open");
@@ -17,6 +22,11 @@
 	var overlay = document.getElementById("video-overlay");
 	var overlayWrapper = document.getElementById("video-overlay-wrapper");
 	var overlayIframe;
+
+	var registerAds = Array.prototype.slice.call(document.getElementsByClassName("register--ad"));
+	registerAds.forEach(function (element) {
+		element.addEventListener("click", focusRegister);
+	});
 
 	function showVideo() {
 		videoShown = true;

@@ -39,7 +39,7 @@
 						<i class="fa fa-5x fa-play-circle-o landing-section-video-icon"></i>
 					</div>
 					{% if data.teaser.registerForm %}
-					<iframe class="landing-registerFrame" src="/{{page.lang}}/register/"></iframe>
+					<iframe class="landing-registerFrame" id="registerFrame-main" src="/{{page.lang}}/register/"></iframe>
 					{% endif %}
 					<a href="#content" class="section-next">
 						<span class="section-next-text">{{lang.learnMore}}</span>
@@ -77,7 +77,7 @@
 							</ul>
 						{% endif %}
 						{% if section.registerAd %}
-							<a class="button button--more {% if thecycle == 'even' %} button--green {% endif %}" href="#">{{lang.registerAd}}</a>
+							<a class="button button--more register--ad {% if thecycle == 'even' %} button--green {% endif %}" href="#">{{lang.registerAd}}</a>
 						{% endif %}
 					</div>
 					{% if section.registerForm %}
