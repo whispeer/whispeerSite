@@ -132,13 +132,21 @@ a[name="content"] {
 	background: rgba(0, 0, 0, 0.7);
 }
 #video-overlay-close {
-	width: 20px;
-	height: 20px;
-	color: #ffffff;
-	cursor: pointer;
 	position: absolute;
-	top: 6%;
-	right: 8%;
+	top: 5%;
+	right: 7%;
+
+	width: 30px;
+	height: 30px;
+	line-height: 30px;
+	text-align: center;
+	padding-right: 1px;
+
+	cursor: pointer;
+	color: #ffffff;
+	background: #000000;
+	border: 2px solid #ffffff;
+	border-radius: 100%;
 }
 .video-overlay-video {
 	display: none;
