@@ -36,7 +36,6 @@
 		font-size: 3rem;
 	}
 	letter-spacing: -2px;
-	margin-top: 2rem;
 	width: auto;
 }
 #heading {
@@ -47,11 +46,11 @@
 	background-position: center center;
 }
 #heading .landing-section--inner {
-	padding-bottom: 75px;
+	padding-bottom: calc(55px + 1rem);
 }
 #heading .section-paragraph {
 	margin-top: -30px;
-	margin-bottom: 20px;
+	padding-bottom: 0;
 }
 .landing-registerFrame {
 	display: block;
@@ -66,7 +65,7 @@
 	position: relative;
 	width: 98%;
 	margin: 0 auto;
-	margin-bottom: 17px;
+	margin-bottom: calc(1rem - 3px);
 	max-width: 300px;
 	cursor: pointer;
 }

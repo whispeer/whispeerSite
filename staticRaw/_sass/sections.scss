@@ -60,6 +60,8 @@
 	@media #{$mobile} {
 		@include largeFontMobile;
 	}
+	margin-top: 2rem;
+	margin-bottom: 2rem;
 }
 .section-paragraph {
 	@media #{$desktop} {
@@ -68,10 +70,15 @@
 	@media #{$mobile} {
 		@include normalFontMobile;
 	}
+	padding-bottom: 2rem;
+	margin-top: 1rem;
+	margin-bottom: 1rem;
 }
 .section-ul {
 	max-width: 760px;
-	margin: 0 auto 26.799999237060547px;
+	margin: 0 auto 2rem;
+	padding-top: 1rem;
+	padding-bottom: 1rem;
 }
 .fa-ul {
 	padding-left: 2.14285714em;
