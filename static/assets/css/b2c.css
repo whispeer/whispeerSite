@@ -293,14 +293,14 @@ input {
   transition: 0.3s background ease; }
   @media screen and (max-width: 1154px) {
     .section-next {
-      bottom: 5px; } }
+      margin-bottom: 20px; } }
   @media screen and (min-width: 1155px) {
     .section-next {
-      bottom: 2rem; } }
+      margin-bottom: 20px; } }
 
 .section-next:hover {
   color: #ffffff;
-  background: rgba(60, 60, 60, 0.1); }
+  background: rgba(60, 60, 60, 0.25); }
 
 .fa-section-next {
   display: block;

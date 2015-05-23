@@ -95,10 +95,10 @@
 }
 .section-next {
 	@media #{$mobile} {
-		bottom: 5px;
+		margin-bottom: 20px;
 	}
 	@media #{$desktop} {
-		bottom: 2rem;
+		margin-bottom: 20px;
 	}
 	display: block;
 	margin: -15px auto 0;
@@ -112,7 +112,7 @@
 }
 .section-next:hover {
 	color: #ffffff;
-	background: rgba(60, 60, 60, 0.1);
+	background: rgba(60, 60, 60, 0.25);
 }
 .fa-section-next {
 	display: block;
