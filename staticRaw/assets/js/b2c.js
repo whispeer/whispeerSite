@@ -15,7 +15,36 @@
 		frame.contentWindow.document.getElementsByTagName("input")[0].focus();
 	}
 
-	var videoShown = false, overlayClosed = true;
+	var videoShown = false, overlayClosed = true, wasDay;
+
+	var headingElement = document.getElementById("heading");
+
+	function removeClass(element, classToRemove) {
+		element.className =
+			element.className.replace(new RegExp("(?:^|\\s)" + classToRemove + "(?!\\S)", "g"), "");
+	}
+
+	function addClass(element, classToAdd) {
+		element.className += " " + classToAdd;
+	}
+
+	function updateImage() {
+		var hour = new Date().getHours();
+		var isDay = 7 < hour && hour < 20;
+
+		if (isDay !== wasDay) {
+			if (isDay) {
+				removeClass(headingElement, "background--night");
+			} else {
+				addClass(headingElement, "background--night");
+			}
+		}
+
+		wasDay = isDay;
+	}
+
+	updateImage();
+	window.setInterval(updateImage, 60);
 
 	var overlayOpen = document.getElementById("video-overlay-open");
 	var overlayClose = document.getElementById("video-overlay-close");
@@ -93,17 +122,14 @@
 
 	function close() {
 		overlayClosed = true;
-
-		overlay.className =
-			overlay.className.replace(/(?:^|\s)video-overlay--visible(?!\S)/g, "");
-
+		removeClass(overlay, "video-overlay--visible");
 		pauseVideo();
 	}
 
 	function open() {
 		overlayClosed = false;
 
-		overlay.className += " video-overlay--visible";
+		addClass(overlay, "video-overlay--visible");
 
 		showVideo();
 		playVideo();
