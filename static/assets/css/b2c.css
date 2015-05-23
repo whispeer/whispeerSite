@@ -72,6 +72,7 @@ input {
   position: relative;
   float: left;
   width: 100%;
+  min-height: 50vh;
   padding: 50px 25px;
   background: #54AB0C;
   color: #ffffff;
