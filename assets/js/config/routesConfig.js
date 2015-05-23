@@ -51,6 +51,7 @@ define(["app"], function (app) {
 		$stateProvider.state("app.invite.link", {
 			url: "/link",
 			templateUrl: "assets/views/pages/invites/link.html",
+			controller: "ssn.inviteLinkController"
 		});
 
 		$stateProvider.state("app.logout", {
