@@ -261,15 +261,26 @@ input {
   height: 100%;
   border: 2px solid rgba(255, 255, 255, 0.7); }
 
-.landing-section-video-icon {
+.landing-section-video-icon-wrap {
   position: absolute;
-  top: calc(50% - 2.5rem);
-  left: calc(50% - 2.5rem);
-  color: rgba(255, 255, 255, 0.9);
-  transition: .8s color ease; }
+  top: calc(50% - 2.5em);
+  left: calc(50% - 2.5em);
+  background-color: rgba(58, 129, 0, 0.9);
+  height: 5em;
+  width: 5em;
+  line-height: 5em;
+  border-radius: 100%;
+  text-align: center; }
+
+.landing-section-video-icon {
+  display: inline-block;
+  vertical-align: middle;
+  padding-left: 8px;
+  transition: .6s text-shadow ease;
+  transform: translate3d(0, 0, 0); }
 
 .landing-section-video:hover .landing-section-video-icon {
-  color: rgba(58, 129, 0, 0.9); }
+  text-shadow: 1px 1px 2px #000; }
 
 .section-next {
   display: block;
