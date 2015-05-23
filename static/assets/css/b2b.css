@@ -70,6 +70,7 @@ input {
 
 .landing-section {
   position: relative;
+  display: table;
   float: left;
   width: 100%;
   min-height: 50vh;
@@ -88,7 +89,9 @@ input {
 
 .landing-section--inner {
   max-width: 1280px;
-  margin: 0 auto; }
+  margin: 0 auto;
+  display: table-cell;
+  vertical-align: middle; }
 
 #heading {
   overflow: visible; }
