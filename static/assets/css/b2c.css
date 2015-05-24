@@ -391,19 +391,21 @@ a[name="content"] {
   display: block; }
 
 .animation-box {
-  float: left;
-  width: 100%;
-  clear: both;
-  margin-bottom: 2rem;
-  padding-bottom: 10px; }
+  position: relative;
+  width: 970px;
+  margin: 0 auto 2rem;
+  padding-bottom: 10px;
+  text-align: left !important; }
+  @media (max-width: 1000px) {
+    .animation-box {
+      display: none; } }
 
 .animation-node {
-  display: block;
-  float: left;
-  margin: 0 auto;
+  display: inline-block;
+  margin: 0;
+  padding: 0;
   width: 20%;
   line-height: 131px;
-  margin: 0;
   text-align: center; }
 
 .animation-node-description {
@@ -411,19 +413,33 @@ a[name="content"] {
   line-height: 1em; }
 
 .fa-xl {
-  font-size: 8em;
+  font-size: 8em; }
+
+.fa-l {
+  font-size: 5em; }
+
+.fa-middle {
   vertical-align: middle; }
-  @media screen and (max-width: 666px) {
-    .fa-xl {
-      font-size: 5em; } }
+
+.fa-bottom {
+  vertical-align: bottom; }
 
 .john,
 .steve {
-  width: 25%; }
+  width: 50px; }
+
+.john {
+  margin-right: 100px; }
+
+.steve {
+  margin-left: 90px; }
 
 .johnPc,
 .stevePc {
-  width: 15%; }
+  width: 150px; }
+
+.server {
+  width: 350px; }
 
 .message {
   position: absolute;
@@ -431,6 +447,8 @@ a[name="content"] {
   margin: 21px 0 0;
   line-height: 20px;
   left: 0;
+  top: 0;
+  opacity: 0;
   width: 100px;
   height: auto;
   border: 1px solid #fff;
@@ -440,81 +458,84 @@ a[name="content"] {
   transform: translate3d(0, 0, 0);
   -webkit-backface-visibility: hidden; }
 
-.message-john {
-  margin-left: 19%;
-  opacity: 0; }
-
-.message-steve {
-  margin-left: 75%;
-  opacity: 0; }
-
 .message-john--1 {
   -webkit-animation: sendMessage 8s; }
 
 .message-steve--1 {
-  -webkit-animation: sendMessage 8s 0s 1 reverse backwards; }
+  -webkit-animation: sendMessage 10s 0s 1 reverse backwards; }
 
 .message-john--infinity {
-  -webkit-animation: sendMessage 8s 8s infinite; }
+  -webkit-animation: sendMessage 10s 10s infinite; }
 
 .message-steve--infinity {
-  -webkit-animation: sendMessage 8s 8s infinite reverse backwards; }
+  -webkit-animation: sendMessage 10s 10s infinite reverse backwards; }
 
 @-webkit-keyframes sendMessage {
   0% {
     /* user a */
     opacity: 0;
-    margin-left: 18%;
+    margin-left: 60px;
     -webkit-filter: none; }
-  10% {
-    /* user b fade in */
+  5% {
+    /* user a fade in */
     opacity: 1;
-    margin-left: 18%;
+    margin-left: 60px;
     -webkit-filter: none; }
-  15% {
+  18% {
+    /* user a pause */
     opacity: 1;
-    margin-left: 18%;
+    margin-left: 60px;
     -webkit-filter: none; }
   20% {
     /* user a screen - blur */
     opacity: 1;
-    margin-left: 29.25%;
+    margin-left: 179px;
     -webkit-filter: none; }
-  20.5% {
+  22.5% {
     /* user a screen + blur */
     opacity: 1;
-    margin-left: 29.25%;
+    margin-left: 179px;
+    -webkit-filter: blur(4px); }
+  23% {
+    /* user a screen + blur pause */
+    opacity: 1;
+    margin-left: 179px;
     -webkit-filter: blur(4px); }
   25% {
     /* server */
     opacity: 1;
-    margin-left: 46.15%;
+    margin-left: 433px;
     -webkit-filter: blur(4px); }
-  29.5% {
+  27% {
+    /* user b screen + blur pause */
+    opacity: 1;
+    margin-left: 687px;
+    -webkit-filter: blur(4px); }
+  27.5% {
     /* user b screen + blur*/
     opacity: 1;
-    margin-left: 62.95%;
+    margin-left: 687px;
     -webkit-filter: blur(4px); }
   30% {
     /* user b screen - blur */
     opacity: 1;
-    margin-left: 62.95%;
+    margin-left: 687px;
     -webkit-filter: none; }
-  40% {
+  32% {
     /* user b */
     opacity: 1;
-    margin-left: 73.5%;
+    margin-left: 808px;
     -webkit-filter: none; }
   45% {
     /* user b */
     opacity: 1;
-    margin-left: 73.5%;
+    margin-left: 808px;
     -webkit-filter: none; }
   50% {
     /* user b fade out */
     opacity: 0;
-    margin-left: 73.5%; }
+    margin-left: 808px; }
   100% {
     /* fake-delay */
     opacity: 0;
-    margin-left: 73.5%; } }
+    margin-left: 808px; } }
