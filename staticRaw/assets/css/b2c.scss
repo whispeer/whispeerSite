@@ -239,6 +239,10 @@ a[name="content"] {
 	box-sizing: border-box;
 	transform: translate3d(0,0,0);
 	-webkit-backface-visibility: hidden;
+	-webkit-animation: sendMessage 15s;
+}
+.message:nth-child(2n) {
+	-webkit-animation-direction: reverse;
 }
 .message-sender {
 	font-size: 0.8em;
@@ -252,18 +256,17 @@ a[name="content"] {
 	font-size: 0.9em;
 	padding: 3px;
 }
-.message-john--1 {
-	-webkit-animation: sendMessage 8s;
+.message--infinity {
+	-webkit-animation-iteration-count: infinite;
 }
-.message-steve--1 {
-	-webkit-animation: sendMessage 15s 0s 1 reverse backwards;
-}
-.message-john--infinity {
-	-webkit-animation: sendMessage 15s 15s infinite;
-}
-.message-steve--infinity {
-	-webkit-animation: sendMessage 15s 15s infinite reverse backwards;
-}
+
+{% for message in site.data.animationData %}
+	{% if forloop.index > 2 %}
+	.message--{{forloop.index}} {
+		-webkit-animation-delay: (10 * (forloop.index - 2))s;
+	}
+	{% endif %}
+{%endfor%}
 
 @-webkit-keyframes sendMessage {
 	0% { /* user a */

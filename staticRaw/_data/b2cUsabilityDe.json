@@ -59,5 +59,15 @@
 			animation: true,
 			fullScreen: true
 		}
+	],
+	animationData: [
+		{
+			senderName: "John",
+			messageText: "Hey Steve!"
+		},
+		{
+			senderName: "Steve",
+			messageText: "Hey John!"
+		}
 	]
 }
