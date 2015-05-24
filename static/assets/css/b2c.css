@@ -389,3 +389,127 @@ a[name="content"] {
 
 .video-overlay--visible #video-overlay-wrapper {
   display: block; }
+
+.animation-box {
+  float: left;
+  width: 100%;
+  clear: both;
+  margin-bottom: 2rem;
+  padding-bottom: 10px; }
+
+.animation-node {
+  display: block;
+  float: left;
+  margin: 0 auto;
+  width: 20%;
+  line-height: 131px;
+  margin: 0;
+  text-align: center; }
+
+.animation-node-description {
+  display: block;
+  line-height: 1em; }
+
+.fa-xl {
+  font-size: 8em;
+  vertical-align: middle; }
+  @media screen and (max-width: 666px) {
+    .fa-xl {
+      font-size: 5em; } }
+
+.john,
+.steve {
+  width: 25%; }
+
+.johnPc,
+.stevePc {
+  width: 15%; }
+
+.message {
+  position: absolute;
+  text-align: center;
+  margin: 20px 0 0;
+  left: 0;
+  width: 100px;
+  height: auto;
+  border: 1px solid #fff;
+  border-radius: 3px;
+  box-sizing: border-box;
+  padding: 5px;
+  transform: translate3d(0, 0, 0);
+  -webkit-backface-visibility: hidden; }
+
+.message-john {
+  margin-left: 19%;
+  opacity: 0; }
+
+.message-steve {
+  margin-left: 75%;
+  opacity: 0; }
+
+.message-john--1 {
+  opacity: 1;
+  margin-left: calc(33.15% - 50px); }
+
+/*
+.message-john--1 {
+	-webkit-animation: sendMessage 7s;
+}
+.message-steve--1 {
+	-webkit-animation: sendMessage 7s 0s 1 reverse backwards;
+}
+.message-john--infinity {
+	-webkit-animation: sendMessage 7s 7s infinite;
+}
+.message-steve--infinity {
+	-webkit-animation: sendMessage 7s 7s infinite reverse backwards;
+}
+*/
+@-webkit-keyframes sendMessage {
+  0% {
+    /* user a */
+    opacity: 0;
+    margin-left: calc(23% - 50px);
+    -webkit-filter: none; }
+  5% {
+    opacity: 1;
+    margin-left: calc(23% - 50px);
+    -webkit-filter: none; }
+  15% {
+    /* user a screen */
+    opacity: 1;
+    margin-left: 29.25%;
+    -webkit-filter: none; }
+  17.5% {
+    /* usa a screen + blur */
+    opacity: 1;
+    margin-left: 29.25%;
+    -webkit-filter: blur(4px); }
+  25% {
+    /* server */
+    opacity: 1;
+    margin-left: 46.15%;
+    -webkit-filter: blur(4px); }
+  32.5% {
+    /* user b screen + blur*/
+    opacity: 1;
+    margin-left: 62.95%;
+    -webkit-filter: blur(4px); }
+  35% {
+    /* user b screen - blur */
+    opacity: 1;
+    margin-left: 62.95%;
+    -webkit-filter: none; }
+  45% {
+    /* user b */
+    opacity: 1;
+    margin-left: 73.5%;
+    -webkit-filter: none; }
+  50% {
+    /* user b fade out */
+    opacity: 0;
+    margin-left: 73.5%; }
+  100% {
+    /* fake-delay */
+    opacity: 0;
+    margin-left: 73.5%; } }
