@@ -199,7 +199,7 @@ grunt.initConfig({
 		}
 	},
 	clean: {
-		build: ["assets/js/build/*.js"]
+		build: ["assets/js/build/*.js", "manifest.mf"]
 	},
 	fileToHashName: {
 		build: {
