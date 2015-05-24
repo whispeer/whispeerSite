@@ -31,37 +31,37 @@
 	}
 	27% { /* user b screen + blur pause */
 		opacity: 1;
-		margin-left: 687px;
+		margin-left: 680px;
 		@include filter("blur(4px)");
 	}
 	27.5% { /* user b screen + blur*/
 		opacity: 1;
-		margin-left: 687px;
+		margin-left: 680px;
 		@include filter("blur(4px)");
 	}
 	30% { /* user b screen - blur */
 		opacity: 1;
-		margin-left: 687px;
+		margin-left: 680px;
 		@include filter("none");
 	}
 	32% { /* user b */
 		opacity: 1;
-		margin-left: 808px;
+		margin-left: 800px;
 		@include filter("none");
 	}
 	45% { /* user b */
 		opacity: 1;
-		margin-left: 808px;
+		margin-left: 800px;
 		@include filter("none");
 	}
 	50% { /* user b fade out */
 		opacity: 0;
-		margin-left: 808px;
+		margin-left: 800px;
 		@include filter("none");
 	}
 	100% { /* fake-delay */
 		opacity: 0;
-		margin-left: 808px;
+		margin-left: 800px;
 		@include filter("none");
 	}
 }
