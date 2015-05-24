@@ -449,14 +449,26 @@ a[name="content"] {
   left: 0;
   top: 0;
   opacity: 0;
+  padding: 0;
   width: 100px;
   height: auto;
   border: 1px solid #fff;
   border-radius: 3px;
   box-sizing: border-box;
-  padding: 5px;
   transform: translate3d(0, 0, 0);
   -webkit-backface-visibility: hidden; }
+
+.message-sender {
+  font-size: 0.8em;
+  display: block;
+  line-height: 0.8em;
+  border-bottom: 1px solid #fff;
+  padding: 3px 3px 3px 9px;
+  text-align: left; }
+
+.message-text {
+  font-size: 0.9em;
+  padding: 3px; }
 
 .message-john--1 {
   -webkit-animation: sendMessage 8s; }
