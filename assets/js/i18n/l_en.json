@@ -39,7 +39,9 @@
 			"code": "Invite:",
 			"link": "Invitation link:",
 			"yourName": "Let your friends know who is inviting them (optional):",
-			"name": "Name"
+			"name": "Name",
+			"shareText": "Share your private thoughts on whispeer!",
+			"shareHashTags": "privacy,whispeer"
 		},
 		"setup": {
 			"welcomeHeader": "Welcome to whispeer!",
