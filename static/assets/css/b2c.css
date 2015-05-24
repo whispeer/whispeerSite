@@ -424,18 +424,18 @@ a[name="content"] {
 .fa-bottom {
   vertical-align: bottom; }
 
-.john,
-.steve {
+.s1,
+.s2 {
   width: 50px; }
 
-.john {
+.s1 {
   margin-right: 100px; }
 
-.steve {
+.s2 {
   margin-left: 90px; }
 
-.johnPc,
-.stevePc {
+.s1Pc,
+.s2Pc {
   width: 150px; }
 
 .server {
@@ -459,7 +459,7 @@ a[name="content"] {
   -webkit-backface-visibility: hidden;
   -webkit-animation: sendMessage 15s; }
 
-.message:nth-child(2n) {
+.message-s2 {
   -webkit-animation-direction: reverse; }
 
 .message-sender {
@@ -476,6 +476,18 @@ a[name="content"] {
 
 .message--infinity {
   -webkit-animation-iteration-count: infinite; }
+
+.message-en--i3 {
+  -webkit-animation-delay: 15s; }
+
+.message-en--i4 {
+  -webkit-animation-delay: 30s; }
+
+.message-de--i3 {
+  -webkit-animation-delay: 15s; }
+
+.message-de--i4 {
+  -webkit-animation-delay: 30s; }
 
 @-webkit-keyframes sendMessage {
   0% {

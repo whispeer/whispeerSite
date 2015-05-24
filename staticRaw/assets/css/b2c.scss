@@ -1,6 +1,8 @@
 ---
 ---
 
+{% assign animationTime = 15 %}
+
 @import "variables";
 @import "typography";
 @import "buttons";
@@ -206,18 +208,18 @@ a[name="content"] {
 .fa-bottom {
 	vertical-align: bottom;
 }
-.john,
-.steve {
+.s1,
+.s2 {
 	width: 50px;
 }
-.john {
+.s1 {
 	margin-right: 100px;
 }
-.steve {
+.s2 {
 	margin-left: 90px;
 }
-.johnPc,
-.stevePc {
+.s1Pc,
+.s2Pc {
 	width: 150px;
 }
 .server {
@@ -239,9 +241,9 @@ a[name="content"] {
 	box-sizing: border-box;
 	transform: translate3d(0,0,0);
 	-webkit-backface-visibility: hidden;
-	-webkit-animation: sendMessage 15s;
+	-webkit-animation: sendMessage {{animationTime}}s;
 }
-.message:nth-child(2n) {
+.message-s2 {
 	-webkit-animation-direction: reverse;
 }
 .message-sender {
@@ -259,14 +261,16 @@ a[name="content"] {
 .message--infinity {
 	-webkit-animation-iteration-count: infinite;
 }
-
-{% for message in site.data.animationData %}
-	{% if forloop.index > 2 %}
-	.message--{{forloop.index}} {
-		-webkit-animation-delay: (10 * (forloop.index - 2))s;
-	}
-	{% endif %}
-{%endfor%}
+{% for lang in site.data.animation.langs %}
+	{% for message in site.data.animation[{{lang}}].data %}
+		{% if forloop.index > 2 %}
+		{% capture index %}{{ forloop.index | minus: 2 }}{% endcapture %}
+		.message-{{lang}}--i{{forloop.index}} {
+			-webkit-animation-delay: {{ animationTime | times: index }}s;
+		}
+		{% endif %}
+	{% endfor %}
+{% endfor %}
 
 @-webkit-keyframes sendMessage {
 	0% { /* user a */
