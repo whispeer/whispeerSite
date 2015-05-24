@@ -189,11 +189,11 @@ a[name="content"] {
 
 .animation-box {
 	position: relative;
-	width: 970px;
+	width: 960px;
 	margin: 0 auto 2rem;
 	padding-bottom: 10px;
 	text-align: left !important;
-	@media (max-width: 1000px) {
+	@media (max-width: 1010px) {
 		display: none;
 	}
 }
@@ -217,7 +217,7 @@ a[name="content"] {
 	margin-right: 100px;
 }
 .s2 {
-	margin-left: 90px;
+	margin-left: 100px;
 }
 .s1Pc,
 .s2Pc {
