@@ -428,7 +428,8 @@ a[name="content"] {
 .message {
   position: absolute;
   text-align: center;
-  margin: 20px 0 0;
+  margin: 21px 0 0;
+  line-height: 20px;
   left: 0;
   width: 100px;
   height: auto;
@@ -448,16 +449,16 @@ a[name="content"] {
   opacity: 0; }
 
 .message-john--1 {
-  -webkit-animation: sendMessage 7s; }
+  -webkit-animation: sendMessage 8s; }
 
 .message-steve--1 {
-  -webkit-animation: sendMessage 7s 0s 1 reverse backwards; }
+  -webkit-animation: sendMessage 8s 0s 1 reverse backwards; }
 
 .message-john--infinity {
-  -webkit-animation: sendMessage 7s 7s infinite; }
+  -webkit-animation: sendMessage 8s 8s infinite; }
 
 .message-steve--infinity {
-  -webkit-animation: sendMessage 7s 7s infinite reverse backwards; }
+  -webkit-animation: sendMessage 8s 8s infinite reverse backwards; }
 
 @-webkit-keyframes sendMessage {
   0% {
@@ -465,17 +466,22 @@ a[name="content"] {
     opacity: 0;
     margin-left: 18%;
     -webkit-filter: none; }
-  5% {
+  10% {
+    /* user b fade in */
     opacity: 1;
     margin-left: 18%;
     -webkit-filter: none; }
   15% {
-    /* user a screen */
+    opacity: 1;
+    margin-left: 18%;
+    -webkit-filter: none; }
+  20% {
+    /* user a screen - blur */
     opacity: 1;
     margin-left: 29.25%;
     -webkit-filter: none; }
-  17.5% {
-    /* usa a screen + blur */
+  20.5% {
+    /* user a screen + blur */
     opacity: 1;
     margin-left: 29.25%;
     -webkit-filter: blur(4px); }
@@ -484,15 +490,20 @@ a[name="content"] {
     opacity: 1;
     margin-left: 46.15%;
     -webkit-filter: blur(4px); }
-  32.5% {
+  29.5% {
     /* user b screen + blur*/
     opacity: 1;
     margin-left: 62.95%;
     -webkit-filter: blur(4px); }
-  35% {
+  30% {
     /* user b screen - blur */
     opacity: 1;
     margin-left: 62.95%;
+    -webkit-filter: none; }
+  40% {
+    /* user b */
+    opacity: 1;
+    margin-left: 73.5%;
     -webkit-filter: none; }
   45% {
     /* user b */
