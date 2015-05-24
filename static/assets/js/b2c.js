@@ -143,4 +143,38 @@
 
 	overlayClose.addEventListener("click", close);
 	overlay.addEventListener("click", close);
+
+	function isElementInViewport (el) {
+		var rect = el.getBoundingClientRect();
+
+		return (
+			rect.top >= 0 &&
+			rect.left >= 0 &&
+			rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) && /*or $(window).height() */
+			rect.right <= (window.innerWidth || document.documentElement.clientWidth) /*or $(window).width() */
+		);
+	}
+
+	function onVisibilityChange (el) {
+		return function () {
+			if (isElementInViewport(el) && !el.classList.contains('animation-start')) {
+			    addClass(el, 'animation-start');
+			}
+		}
+	}
+
+	var handler = onVisibilityChange(document.getElementsByClassName("animation-box")[0]);
+
+	if (window.addEventListener) {
+		addEventListener('DOMContentLoaded', handler, false);
+		addEventListener('load', handler, false);
+		addEventListener('scroll', handler, false);
+		addEventListener('resize', handler, false);
+	} else if (window.attachEvent)  {
+		attachEvent('onDOMContentLoaded', handler);
+		attachEvent('onload', handler);
+		attachEvent('onscroll', handler);
+		attachEvent('onresize', handler);
+	}
+
 })();

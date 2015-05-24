@@ -471,17 +471,7 @@ a[name="content"] {
   -webkit-backface-visibility: hidden;
   -moz-backface-visibility: hidden;
   -o-backface-visibility: hidden;
-  backface-visibility: hidden;
-  -webkit-animation: sendMessage 15s;
-  -moz-animation: sendMessage 15s;
-  -o-animation: sendMessage 15s;
-  animation: sendMessage 15s; }
-
-.message-s2 {
-  -webkit-animation-direction: reverse;
-  -moz-animation-direction: reverse;
-  -o-animation-direction: reverse;
-  animation-direction: reverse; }
+  backface-visibility: hidden; }
 
 .message-sender {
   font-size: 0.8em;
@@ -495,21 +485,29 @@ a[name="content"] {
   font-size: 0.9em;
   padding: 3px; }
 
-.message--infinity {
+.animation-start .message {
+  -webkit-animation: sendMessage 15s;
+  -moz-animation: sendMessage 15s;
+  -o-animation: sendMessage 15s;
+  animation: sendMessage 15s; }
+.animation-start .message-s2 {
+  -webkit-animation-direction: reverse;
+  -moz-animation-direction: reverse;
+  -o-animation-direction: reverse;
+  animation-direction: reverse; }
+.animation-start .message--infinity {
   -webkit-animation-iteration-count: infinite;
   -moz-animation-iteration-count: infinite;
   -o-animation-iteration-count: infinite;
   animation-iteration-count: infinite; }
-
-.message-en--i3,
-.message-en--i4 {
+.animation-start .message-en--i3,
+.animation-start .message-en--i4 {
   -webkit-animation-delay: 15s;
   -moz-animation-delay: 15s;
   -o-animation-delay: 15s;
   animation-delay: 15s; }
-
-.message-de--i3,
-.message-de--i4 {
+.animation-start .message-de--i3,
+.animation-start .message-de--i4 {
   -webkit-animation-delay: 15s;
   -moz-animation-delay: 15s;
   -o-animation-delay: 15s;

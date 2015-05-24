@@ -242,10 +242,6 @@ a[name="content"] {
 	box-sizing: border-box;
 	@include transform(translate3d(0,0,0));
 	@include backface-visibility(hidden);
-	@include animation(sendMessage {{animationTime}}s);
-}
-.message-s2 {
-	@include animation-direction(reverse);
 }
 .message-sender {
 	font-size: 0.8em;
@@ -259,23 +255,31 @@ a[name="content"] {
 	font-size: 0.9em;
 	padding: 3px;
 }
-.message--infinity {
-	@include animation-iteration-count(infinite);
-}
-{% for lang in site.data.animation.langs %}
-	{% for message in site.data.animation[{{lang}}].data %}
-		{% if forloop.index > 2 %}
-			{% capture doLoop %}{% cycle 'true', 'false' %}{% endcapture %}
-			{% if doLoop == 'true' %}
-				{% capture index %}{{ forloop.index | minus: 2 }}{% endcapture %}
-				.message-{{lang}}--i{{forloop.index}},
-				.message-{{lang}}--i{{forloop.index | plus: 1}} {
-					@include animation-delay({{ animationTime | times: index }}s);
-				}
+.animation-start {
+	.message {
+		@include animation(sendMessage {{animationTime}}s);
+	}
+	.message-s2 {
+		@include animation-direction(reverse);
+	}
+	.message--infinity {
+		@include animation-iteration-count(infinite);
+	}
+	{% for lang in site.data.animation.langs %}
+		{% for message in site.data.animation[{{lang}}].data %}
+			{% if forloop.index > 2 %}
+				{% capture doLoop %}{% cycle 'true', 'false' %}{% endcapture %}
+				{% if doLoop == 'true' %}
+					{% capture index %}{{ forloop.index | minus: 2 }}{% endcapture %}
+					.message-{{lang}}--i{{forloop.index}},
+					.message-{{lang}}--i{{forloop.index | plus: 1}} {
+						@include animation-delay({{ animationTime | times: index }}s);
+					}
+				{% endif %}
 			{% endif %}
-		{% endif %}
+		{% endfor %}
 	{% endfor %}
-{% endfor %}
+}
 
 @-webkit-keyframes sendMessage {
 	@include animationSendMessage;
