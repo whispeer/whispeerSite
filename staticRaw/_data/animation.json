@@ -1,0 +1,51 @@
+{
+	langs: ["en", "de"],
+	en: {
+		senders: [
+			"John",
+			"Steve"
+		],
+		data: [
+			{
+				sender: 0,
+				messageText: "Hey Steve!"
+			},
+			{
+				sender: 1,
+				messageText: "Hey John!"
+			},
+			{
+				sender: 0,
+				messageText: "Infinite Bullshit!"
+			},
+			{
+				sender: 1,
+				messageText: "Oh Yeah!"
+			}
+		]
+	},
+	de: {
+		senders: [
+			"Nils",
+			"Michelle"
+		],
+		data: [
+			{
+				sender: 0,
+				messageText: "Hey Michelle!"
+			},
+			{
+				sender: 1,
+				messageText: "Hey Nils!"
+			},
+			{
+				sender: 0,
+				messageText: "Pink Fluffy Unicorns"
+			},
+			{
+				sender: 1,
+				messageText: "Dancing on Rainbows"
+			}
+		]
+	}
+}
