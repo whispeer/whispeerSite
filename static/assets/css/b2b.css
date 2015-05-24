@@ -235,6 +235,18 @@ input {
     .fa-xxl {
       font-size: 5em; } }
 
+.fa-xl {
+  font-size: 8em; }
+
+.fa-l {
+  font-size: 5em; }
+
+.fa-middle {
+  vertical-align: middle; }
+
+.fa-bottom {
+  vertical-align: bottom; }
+
 .email-form {
   max-width: 500px;
   height: 50px;
