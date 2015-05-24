@@ -19,7 +19,7 @@
 			</div>
 		</header>
 		<main>
-			<section class="landing-section" id="heading" {% if data.teaser.image != null %} style="background-image: url(/assets/images/{{data.teaser.image}});" {% endif %}>
+			<section class="landing-section{% if data.teaser.image != null %} background{% endif %}" id="heading">
 				<div class="landing-section--inner">
 					<h1 class="section-header {% if data.teaser.textShadow %}textShadow{% endif %} {% if data.teaser.darkBlur %}darkBlur{% endif %} {% if data.teaser.lightBlur %}lightBlur{% endif %}">{{ data.teaser.headline }}</h1>
 					{% if data.teaser.details != null %}

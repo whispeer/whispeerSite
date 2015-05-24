@@ -75,13 +75,14 @@ input {
   width: 100%;
   min-height: 50vh;
   padding: 50px 25px;
-  background: #54AB0C;
+  background-color: #54AB0C;
   color: #ffffff;
   box-sizing: border-box;
   text-align: center;
   background-size: cover;
   background-position: center center;
-  background-repeat: no-repeat; }
+  background-repeat: no-repeat;
+  transition: 2s background-image ease-in-out; }
 
 .landing-section:nth-child(2n) {
   background: #fff;
@@ -330,6 +331,14 @@ input {
 
 .landing-section-video:hover .landing-section-video-icon {
   text-shadow: 1px 1px 2px #444; }
+
+.background {
+  background-image: url(/assets/images/lighthouse.jpg);
+  background-color: #ffffff; }
+
+.background--night {
+  background-image: url(/assets/images/lighthouse_night.jpg);
+  background-color: #555; }
 
 .section-next {
   display: block;

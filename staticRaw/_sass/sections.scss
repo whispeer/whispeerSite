@@ -6,13 +6,14 @@
 	min-height: 50vh;
 	padding: 50px 25px;
 
-	background: #54AB0C;
+	background-color: #54AB0C;
 	color: #ffffff;
 	box-sizing: border-box;
 	text-align: center;
 	background-size: cover;
 	background-position: center center;
 	background-repeat: no-repeat;
+	transition: 2s background-image ease-in-out;
 }
 .landing-section:nth-child(2n) {
 	background: #fff;

@@ -4,6 +4,7 @@
 {% assign animationTime = 15 %}
 
 @import "variables";
+@import "mixins";
 @import "typography";
 @import "buttons";
 @import "sections";
@@ -96,6 +97,14 @@
 }
 .landing-section-video:hover .landing-section-video-icon {
 	text-shadow: 1px 1px 2px #444;
+}
+.background {
+	background-image: url(/assets/images/lighthouse.jpg);
+	background-color: #ffffff;
+}
+.background--night {
+	background-image: url(/assets/images/lighthouse_night.jpg);
+	background-color: $gray;
 }
 .section-next {
 	display: block;
