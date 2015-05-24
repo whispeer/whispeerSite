@@ -256,13 +256,13 @@ a[name="content"] {
 	-webkit-animation: sendMessage 8s;
 }
 .message-steve--1 {
-	-webkit-animation: sendMessage 10s 0s 1 reverse backwards;
+	-webkit-animation: sendMessage 15s 0s 1 reverse backwards;
 }
 .message-john--infinity {
-	-webkit-animation: sendMessage 10s 10s infinite;
+	-webkit-animation: sendMessage 15s 15s infinite;
 }
 .message-steve--infinity {
-	-webkit-animation: sendMessage 10s 10s infinite reverse backwards;
+	-webkit-animation: sendMessage 15s 15s infinite reverse backwards;
 }
 
 @-webkit-keyframes sendMessage {
@@ -294,11 +294,6 @@ a[name="content"] {
 	23% { /* user a screen + blur pause */
 		opacity: 1;
 		margin-left: 179px;
-		-webkit-filter: blur(4px);
-	}
-	25% { /* server */
-		opacity: 1;
-		margin-left: 433px;
 		-webkit-filter: blur(4px);
 	}
 	27% { /* user b screen + blur pause */
