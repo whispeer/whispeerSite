@@ -448,32 +448,26 @@ a[name="content"] {
   opacity: 0; }
 
 .message-john--1 {
-  opacity: 1;
-  margin-left: calc(33.15% - 50px); }
+  -webkit-animation: sendMessage 7s; }
 
-/*
-.message-john--1 {
-	-webkit-animation: sendMessage 7s;
-}
 .message-steve--1 {
-	-webkit-animation: sendMessage 7s 0s 1 reverse backwards;
-}
+  -webkit-animation: sendMessage 7s 0s 1 reverse backwards; }
+
 .message-john--infinity {
-	-webkit-animation: sendMessage 7s 7s infinite;
-}
+  -webkit-animation: sendMessage 7s 7s infinite; }
+
 .message-steve--infinity {
-	-webkit-animation: sendMessage 7s 7s infinite reverse backwards;
-}
-*/
+  -webkit-animation: sendMessage 7s 7s infinite reverse backwards; }
+
 @-webkit-keyframes sendMessage {
   0% {
     /* user a */
     opacity: 0;
-    margin-left: calc(23% - 50px);
+    margin-left: 18%;
     -webkit-filter: none; }
   5% {
     opacity: 1;
-    margin-left: calc(23% - 50px);
+    margin-left: 18%;
     -webkit-filter: none; }
   15% {
     /* user a screen */

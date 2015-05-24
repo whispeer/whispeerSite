@@ -230,11 +230,6 @@ a[name="content"] {
 	opacity: 0;
 }
 .message-john--1 {
-	opacity: 1;
-	margin-left: calc(33.15% - 50px);
-}
-/*
-.message-john--1 {
 	-webkit-animation: sendMessage 7s;
 }
 .message-steve--1 {
@@ -246,17 +241,16 @@ a[name="content"] {
 .message-steve--infinity {
 	-webkit-animation: sendMessage 7s 7s infinite reverse backwards;
 }
-*/
 
 @-webkit-keyframes sendMessage {
 	0% { /* user a */
 		opacity: 0;
-		margin-left: calc(23% - 50px);
+		margin-left: 18%;
 		-webkit-filter: none;
 	}
 	5% {
 		opacity: 1;
-		margin-left: calc(23% - 50px);
+		margin-left: 18%;
 		-webkit-filter: none;
 	}
 	15% { /* user a screen */
