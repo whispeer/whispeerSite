@@ -270,7 +270,7 @@ a[name="content"] {
 			{% if forloop.index > 2 %}
 				{% capture doLoop %}{% cycle 'true', 'false' %}{% endcapture %}
 				{% if doLoop == 'true' %}
-					{% capture index %}{{ forloop.index | minus: 2 }}{% endcapture %}
+					{% capture index %}{{ forloop.index0 | divided_by: 2 }}{% endcapture %}
 					.message-{{lang}}--i{{forloop.index}},
 					.message-{{lang}}--i{{forloop.index | plus: 1}} {
 						@include animation-delay({{ animationTime | times: index }}s);
