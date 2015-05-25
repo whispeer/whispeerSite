@@ -9,10 +9,10 @@
 	// big/small image size in topic list.
 	@user-image-size: 76px;
 	@user-image-size-small: 56px;
-	@remaining-user-bubble-size: 28px;
+	@remaining-user-bubble-size: 32px;
 	@remaining-user-bubble-border: 3px;
-	@remaining-user-bubble-bg: white;
-	@remaining-user-bubble-fg: green;
+	@remaining-user-bubble-bg: rgba(red(@primary), green(@primary), blue(@primary), 0.95);;
+	@remaining-user-bubble-fg: #ffffff;
 
 	// user image size in message list.
 	@message-image-size: 48px; //@user-image-size-small;
@@ -221,20 +221,21 @@
 								width: @remaining-user-bubble-size;
 								height: @remaining-user-bubble-size;
 
-								left: (@default-padding + @user-image-size - @remaining-user-bubble-size - @remaining-user-bubble-border);
-								top: (@default-padding + @user-image-size - @remaining-user-bubble-size - @remaining-user-bubble-border);
-								border: @remaining-user-bubble-border solid @remaining-user-bubble-fg;
+								left: (@default-padding + @user-image-size - @remaining-user-bubble-size + 6px);
+								top: (@default-padding + @user-image-size - @remaining-user-bubble-size + 6px);
 								border-radius: 100%;
+								font-size: 0.9em;
 
 								text-align: center;
 								line-height: @remaining-user-bubble-size;
-								.bold-text();
 
 								color: @remaining-user-bubble-fg;
 								background: @remaining-user-bubble-bg;
 
 								// typography, this should probably be handled elsewhere.
 								text-decoration: italic;
+
+								z-index: 3;
 							}
 						}
 					}
