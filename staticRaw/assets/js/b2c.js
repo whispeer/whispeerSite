@@ -20,7 +20,7 @@
 		}
 	}
 
-	var globalNot = document.getElementsByClassName("globalNotificationWrap");
+	var globalNot = document.getElementsByClassName("globalNotificationWrap")[0];
 
 	if (!hasLocalStorage()) {
 		addClass(globalNot, "globalNotificationWrap--visible");
