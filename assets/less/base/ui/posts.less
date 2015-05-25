@@ -100,16 +100,26 @@
 
 	.postImage--play {
 		position: absolute;
-		top: 0;
-		left: 0;
-		width: 100%;
-		height: 100%;
-		line-height: 9rem;
+		top: ~"calc(50% - 25px)";
+		left: ~"calc(50% - 25px)";
+		width: 50px;
+		height: 50px;
+		line-height: 50px;
+
+		background-color: rgba(red(@primary), green(@primary), blue(@primary), 0.95);
 
 		vertical-align: middle;
 		color: @white;
-		text-shadow: 0px 0px 2px black;
+		text-shadow: 0px 0px 1px black;
 		text-align: center;
+		padding-left: 5px;
+		border-radius: 100%;
+		transition: .6s text-shadow ease;
+		&:extend(.box-fix);
+	}
+
+	.postImageWrap:hover .postImage--play {
+		text-shadow: 1px 1px 2px #444;
 	}
 
 	.comments {
