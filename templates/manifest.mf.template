@@ -26,11 +26,11 @@ CACHE MANIFEST
 
 /assets/js/bower/requirejs/require.js
 
-/assets/fonts/fontawesome-webfont.eot?v=4.1.0
-/assets/fonts/fontawesome-webfont.eot?#iefix&v=4.1
-/assets/fonts/fontawesome-webfont.woff?v=4.1.0
-/assets/fonts/fontawesome-webfont.ttf?v=4.1.0
-/assets/fonts/fontawesome-webfont.svg?v=4.1.0
+/assets/fonts/fontawesome-webfont.eot?v=4.3.0
+/assets/fonts/fontawesome-webfont.eot?#iefix&v=4.3.0
+/assets/fonts/fontawesome-webfont.woff?v=4.3.0
+/assets/fonts/fontawesome-webfont.ttf?v=4.3.0
+/assets/fonts/fontawesome-webfont.svg?v=4.3.0
 
 #routes
 
