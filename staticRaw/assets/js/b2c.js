@@ -198,16 +198,17 @@
 	}
 
 	function debounce(func, wait) {
-		var timeout;
+		var running = false;
 		return function() {
 			var context = this, args = arguments;
 			var later = function() {
-				timeout = null;
+				running = false;
 				func.apply(context, args);
 			};
 
-			clearTimeout(timeout);
-			timeout = setTimeout(later, wait);
+			if (!running) {
+				setTimeout(later, wait);
+			}
 		};
 	}
 
