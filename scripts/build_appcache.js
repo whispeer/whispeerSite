@@ -26,6 +26,19 @@ function parse(source, destination, config, done) {
 			var dirs = ["en", "de"];
 			var names = [];
 
+			var routes = [
+				"setup",
+				"main",
+				"friends",
+				"circles",
+				"settings",
+				"acceptInvite",
+				"invite",
+				"mail",
+				"link",
+				"logout"
+			];
+
 			dirs.forEach(function (expandDir) {
 				names = names.concat(fs.readdirSync("./static/" + expandDir).map(function (dir) {
 					if (dir === "index.html") {
@@ -38,6 +51,12 @@ function parse(source, destination, config, done) {
 
 			names = names.map(function (name) {
 				return name + " " + name + "/index.html";
+			});
+
+			dirs.forEach(function (expandDir) {
+				names=routes.map(function (route) {
+					return "/" + expandDir + "/" + route + " /index.html";
+				}).concat(names);
 			});
 
 			return names;
