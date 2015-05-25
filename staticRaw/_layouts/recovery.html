@@ -1,12 +1,6 @@
 {% include whispeerHead.html htmlClass="body-iframe" %}
 <body>
-	<header class="header">
-		<div class="header-inner header-inner--left">
-			<a href="start" class="header-brand">
-				<span class="header-brand--normal">whis</span><span class="header-brand--inverse">peer</span>
-			</a>
-		</div>
-	</header>
+	{% include topBar.html %}
 	<div id="container">
 		<section id="main" data-ng-cloak data-ng-controller="ssn.recoveryController">
 			<h1 id="recoveryView-title" data-i18n="views.recovery.title"></h1>
