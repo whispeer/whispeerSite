@@ -55,13 +55,11 @@ textarea {
 	background: @inputBackground;
 	border: solid 1px @inputBorder;
 	border-radius: @inputBorderRadius;
-	.box-shadow(inset 0px 0px 4px @inputBorder);
 	transition: ease .5s;
 	.box-fix;
 	&:focus {
 		outline: 0;
-		border: solid 1px @inputBorderFocus;
-		.box-shadow(inset 0px 0px 5px rgba(red(@inputBorderFocus), green(@inputBorderFocus),blue(@inputBorderFocus), 0.75));
+		border: 1px solid @inputBorderFocus;
 	}
 }
 
