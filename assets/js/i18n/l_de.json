@@ -14,7 +14,7 @@
 			"notice": "Impressum"
 		}
 	},
-	"inviteFriends": "Lade deine Freunde ein!",
+	"inviteFriends": "Erzähle der Welt von whispeer",
 	"views": {
 		"recovery": {
 			"or": "oder",
@@ -39,7 +39,9 @@
 			"code": "Einladungscode:",
 			"link": "Einladungslink:",
 			"yourName": "Lass deine Freunde wissen, wer sie einlädt (freiwillig):",
-			"name": "Name"
+			"name": "Name",
+			"shareText": "Teile deine privaten Gedanken auf whispeer!",
+			"shareHashTags": "Privatsphäre,whispeer"
 		},
 		"setup": {
 			"welcomeHeader": "Willkommen bei whispeer!",

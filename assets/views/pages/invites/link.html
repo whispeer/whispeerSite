@@ -1,0 +1,17 @@
+<section id="inviteLink">
+	<h1 data-i18n="views.invite.viaLink"></h1>
+	<p data-i18n="views.invite.viaLinkExplanation"></p>
+	<savebutton class="sendInvite btn--big" data-ng-click="generateInvite()" data-state="inviteGenerateState" data-noiniticon>
+		<span data-i18n="views.invite.generateLink"></span>
+	</savebutton>
+	<div class="inviteDetails" data-ng-if="inviteCode">
+		<div>
+			<span data-i18n="views.invite.code"></span>
+			<span>{{inviteCode}}</span>
+		</div>
+		<div>
+			<span data-i18n="views.invite.link"></span>
+			<a href='{{domain}}/?code={{inviteCode}}'>{{domain}}/?code={{inviteCode}}</a>
+		</div>
+	</div>
+</section>
