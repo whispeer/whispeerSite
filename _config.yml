@@ -9,3 +9,8 @@ markdown: kramdown
 
 source: ./staticRaw
 destination: ./static
+
+jekyll-press:
+  exclude:
+   - '*/register*'
+   - '*recovery*'

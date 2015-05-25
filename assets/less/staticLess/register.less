@@ -1,10 +1,15 @@
 .startView-register {
 	text-align: center;
-	h1 {
-		font-size: 24px;
-		line-height: normal;
+	.registerHeader {
+		font-size: 1.3rem;
+		line-height: 50px;
 		margin-bottom: 20px;
-		color: @primary;
+		color: #222;
+		background: @white;
+		height: 50px;
+		margin: 0;
+		border: 1px solid @inputBorder;
+		&:extend(.box-fix);
 	}
 	input:not([type="submit"])
 	:not([type="reset"])
@@ -48,10 +53,10 @@
 		text-indent: -16px;
 		font-size: 12px;
 		margin:	0;
-		padding: 15px 0;
+		padding: 15px 10px 15px 26px;
 		.box-fix;
 		@media @desktop {
-			box-shadow: inset 0px 0px 5px #ccc;
+			box-shadow: inset 0px 0px 5px @inputBorder;
 		}
 	}
 	.submitWrap {
@@ -62,7 +67,7 @@
 		height: 50px;
 		line-height: 48px;
 		margin-top: 0;
-		border: solid 1px darken(#ffffff, 45%);
+		border: solid 1px @inputBorder;
 		border-top: none;
 		font-size: 24px;
 		line-height: normal;

@@ -1,5 +1,7 @@
 {
 	learnMore: "Mehr Erfahren!",
 	send: "Jetzt eintragen",
-	enterMail: "Geben Sie Ihre E-Mail Adresse hier ein"
+	enterMail: "Geben Sie Ihre E-Mail Adresse hier ein",
+	registerAd: "Komm' jetzt zu whispeer!",
+	localStorageWarn: "Dein Browser unterstützt 'localStorage' nicht. Dieser wird von whispeer benötigt. Bitte aktiviere 'locaStorage' oder <a href=\"http://outdatedbrowser.com/de\" target=\"_blank\">aktualisiere auf einen neueren Browser.</a>"
 }

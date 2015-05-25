@@ -251,7 +251,6 @@
 				"thanks": "Thank you for your interest!"
 			},
 
-			"createAccount": "Create an account",
 			"link":	"Register",
 			"next": "Next",
 			"previous": "Previous",
@@ -268,7 +267,7 @@
 			"uploadImage":	"Upload profile picture",
 			"more": "More information",
 			"intro": "Please type in your gender, name, birthday and city you live in. With this information, your friends on whispeer can find you more easily. We don't force you to do so, though! It is completely up to you.",
-			"newaccount": "Create an account"
+			"newaccount": "Start using whispeer now"
 		}
 	},
 	"wall": {

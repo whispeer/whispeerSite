@@ -26,9 +26,13 @@ function parse(source, destination, config, done) {
 			var dirs = ["en", "de"];
 			var names = [];
 
-			dirs.forEach(function (dir) {
-				names = names.concat(fs.readdirSync("./static/" + dir).map(function (dir) {
-					return "/en/" + dir;
+			dirs.forEach(function (expandDir) {
+				names = names.concat(fs.readdirSync("./static/" + expandDir).map(function (dir) {
+					if (dir === "index.html") {
+						return "/" + expandDir;
+					}
+
+					return "/" + expandDir + "/" + dir;
 				}));
 			});
 
@@ -56,7 +60,6 @@ function parse(source, destination, config, done) {
 			return files.concat.apply(files, dirs).map(function (file) {
 				return file.indexOf(".") === 0 ? file.substr(1) : file;
 			}).map(function (file) {
-				console.log(file.replace(remove, ""));
 				return file.replace(remove, "");
 			});
 		},

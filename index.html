@@ -46,7 +46,7 @@
 	<!-- !Main Container -->
 	<div id="container" data-ng-cloak>
 		<!-- !Left Sidebar -->
-		<aside id="sidebar-left" data-ng-if="loggedin" data-ng-class="{'sidebarLeft-show': (sidebarActive && !searchActive), 'sidebarLeft-pushTop': (lostConnection)}">
+		<aside id="sidebar-left" data-ng-class="{'sidebarLeft-show': (sidebarActive && !searchActive), 'sidebarLeft-pushTop': (lostConnection)}">
 			<ng-include src="'assets/views/userPanel.html'" data-ng-if="!mobile"></ng-include>
 			<ng-include src="'assets/views/mobileMenu.html'" data-ng-if="mobile"></ng-include>
 
@@ -65,7 +65,7 @@
 				</div>
 				<span class="footer-row">&copy; 2015 whispeer</span>
 				<div class="footer-row">
-					<a target="_self" href="{{addLocale('/legal')}}" data-i18n="menu.legal"></a>
+					<a target="_blank" href="{{addLocale('/legal')}}" data-i18n="menu.legal"></a>
 				</div>
 			</footer>
 			<!-- end !Footer -->
@@ -86,18 +86,6 @@
 		<!-- end !Mobile Search -->
 	</div>
 	<!-- end !Main Container -->
-	<!-- !StartViewFooter -->
-	<footer class="footer spacious" data-ng-if="!mobile && cssClass == 'startView'">
-		<div class="left">&copy; 2015 whispeer</div>
-		<div class="right">
-			<a target="_self" href="{{addLocale('/version')}}">v{{::version}}</a>
-			<a target="_self" href="{{addLocale('/agb')}}" data-i18n="window.title.terms"></a>
-			<a target="_self" href="{{addLocale('/privacyPolicy')}}" data-i18n="window.title.data"></a>
-			<a target="_self" href="mailto:support@whispeer.de" data-i18n="window.title.contact"></a>
-			<a target="_self" href="{{addLocale('/impressum')}}" data-i18n="window.title.notice"></a>
-		</div>
-	</footer>
-	<!-- end !StartViewFooter -->
 	<!-- !messageSound -->
 	<audio id="sound" preload="auto">
 		<source src="assets/data/newMessage.wav" type="audio/wave">

@@ -1,0 +1,43 @@
+@mixin filter ($value) {
+	-webkit-filter: #{$value};
+	-moz-filter: #{$value};
+	-o-filter: #{$value};
+	-ms-filter: #{$value};
+	filter: #{$value};
+}
+@mixin animation($value) {
+	-webkit-animation: #{$value};
+	-moz-animation: #{$value};
+	-o-animation: #{$value};
+	animation: #{$value};
+}
+@mixin transform($value) {
+	-webkit-transform: #{$value};
+	-moz-transform: #{$value};
+	-o-transform: #{$value};
+	transform: #{$value};
+}
+@mixin backface-visibility($value) {
+	-webkit-backface-visibility: #{$value};
+	-moz-backface-visibility: #{$value};
+	-o-backface-visibility: #{$value};
+	backface-visibility: #{$value};
+}
+@mixin animation-iteration-count($value) {
+	-webkit-animation-iteration-count: #{$value};
+	-moz-animation-iteration-count: #{$value};
+	-o-animation-iteration-count: #{$value};
+	animation-iteration-count: #{$value};
+}
+@mixin animation-delay($value) {
+	-webkit-animation-delay: #{$value};
+	-moz-animation-delay: #{$value};
+	-o-animation-delay: #{$value};
+	animation-delay: #{$value};
+}
+@mixin animation-direction($value) {
+	-webkit-animation-direction:#{$value};
+	-moz-animation-direction: #{$value};
+	-o-animation-direction: #{$value};
+	animation-direction: #{$value};
+}

@@ -1,0 +1,36 @@
+.button {
+	background-image: none;
+	-webkit-tab-highlight-color: transparent;
+	-moz-user-select: none;
+	-webkit-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+	border: none;
+
+	display: inline-block;
+	width: auto;
+	height: 50px;
+	line-height: 50px;
+	padding: 0 15px;
+	text-decoration: none;
+
+	background: rgba(60, 60, 60, 0.1);
+	color: #000;
+	border: 1px solid #ccc;
+}
+.button:hover {
+	color: #000;
+	box-shadow: inset 1px 1px 1px rgba(0, 0, 0, 0.18);
+}
+.button:active {
+	box-shadow: inset 2px 2px 1px rgba(0, 0, 0, 0.18);
+}
+.button--green {
+	color: #fff;
+}
+.button--green:hover {
+	color: #fff;
+}
+.button--more {
+	border: none;
+}

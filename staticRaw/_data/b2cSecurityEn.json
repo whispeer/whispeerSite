@@ -1,0 +1,37 @@
+{
+	general: {
+		title: "whispeer",
+		description: "what the hell goes in here?"
+	},
+	teaser: {
+		headline: "Privacy is important!",
+		details: "Which is why we encrypt all your data on the go. No hassle, no complicated software. You write, we encrypt!",
+		imageIdeas: "",
+		image: "security.jpg",
+		lightBlur: true,
+		video: "",
+		mailForm: true
+	},
+	sections: [
+		{
+			headline: "Keep your secrets!",
+			details: "whispeer uses modern end-to-end-encryption. This means that neither we nor anyone else can read your messages and posts or see your pictures unless you allow it. You can finally feel safe when communicating online.",
+			icon: "fa-lock",
+			learnmore: true,
+			mailForm: false
+		},
+		{
+			headline: "The many benefits of whispeer:",
+			details: " - easy to use <br> - ad-free <br> - message friends, post on their walls, share thoughts, links and pictures <br> - all data is safely encrypted <br> - access your account on all devices and on the go <br>",
+			icon: "fa-users",
+			learnmore: true,
+			mailForm: false
+		},
+		{
+			headline: "Get your own account now!",
+			learnmore: false,
+			mailForm: true,
+			mailMargin: false
+		}
+	]
+}
