@@ -102,6 +102,9 @@
 	max-width: 450px;
 	height: 300px;
 	border: none;
+	@media (max-width: 395px) {
+		height: 318px;
+	}
 }
 #heading .landing-registerFrame {
 	padding-bottom: 32px;
