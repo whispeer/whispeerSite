@@ -177,7 +177,7 @@
 
 	function checkAnimationVisibility() {
 		var el = document.getElementsByClassName("animation-box")[0];
-		if (isElementInViewport(el) && !el.classList.contains("animation-start")) {
+		if (isElementInViewport(el) && el.className.indexOf("animation-start") === -1) {
 			addClass(el, "animation-start");
 		}
 	}
@@ -189,14 +189,26 @@
 		if (isElementInViewport(headingElement)) {
 			if (el.className.indexOf(visibleClass) !== -1) {
 				removeClass(el, visibleClass);
-				console.log("Removed Class");
 			}
 		} else {
 			if (el.className.indexOf(visibleClass) === -1) {
 				addClass(el, visibleClass);
-				console.log("Added Class");
 			}
 		}
+	}
+
+	function debounce(func, wait) {
+		var timeout;
+		return function() {
+			var context = this, args = arguments;
+			var later = function() {
+				timeout = null;
+				func.apply(context, args);
+			};
+
+			clearTimeout(timeout);
+			timeout = setTimeout(later, wait);
+		};
 	}
 
 	function onVisibilityChange () {
@@ -207,7 +219,7 @@
 		};
 	}
 
-	var handler = onVisibilityChange();
+	var handler = debounce(onVisibilityChange(), 50);
 
 	if (window.addEventListener) {
 		addEventListener("DOMContentLoaded", handler, false);
