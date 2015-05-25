@@ -2,25 +2,40 @@
 	langs: ["en", "de"],
 	en: {
 		senders: [
-			"John",
+			"Emma",
 			"Steve"
 		],
 		data: [
 			{
 				sender: 0,
-				messageText: "Hey Steve!"
-			},
-			{
+				messageText: "Hello Steve! :-)"
+			}, {
 				sender: 1,
-				messageText: "Hey John!"
-			},
-			{
+				messageText: "Hi Emma!"
+			}, {
 				sender: 0,
-				messageText: "Infinite Bullshit!"
-			},
-			{
+				messageText: "Already seen the Doctor?"
+			}, {
 				sender: 1,
-				messageText: "Oh Yeah!"
+				messageText: "No... Going tomorrow"
+			}, {
+				sender: 0,
+				messageText: "Please go! It's important..."
+			}, {
+				sender: 1,
+				messageText: "Guess you're right..."
+			}, {
+				sender: 0,
+				messageText: "Thanks.."
+			}, {
+				sender: 1,
+				messageText: "Want to sing a song?"
+			}, {
+				sender: 0,
+				messageText: "Pink Fluffy Unicorns"
+			}, {
+				sender: 1,
+				messageText: "Dancing on Rainbows"
 			}
 		]
 	},
