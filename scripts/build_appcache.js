@@ -36,7 +36,9 @@ function parse(source, destination, config, done) {
 				"invite",
 				"mail",
 				"link",
-				"logout"
+				"logout",
+				"messages",
+				"user"
 			];
 
 			dirs.forEach(function (expandDir) {
