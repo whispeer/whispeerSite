@@ -176,8 +176,7 @@
 				addClass(el, 'animation-start');
 			}
 			var el = document.getElementsByClassName("backToTop")[0];
-			var elTop = document.getElementById("heading");
-			if (isElementInViewport(elTop) && el.classList.contains('backToTop--visible')) {
+			if (isElementInViewport(headingElement) && el.classList.contains('backToTop--visible')) {
 				removeClass(el, 'backToTop--visible');
 				console.log("Removed Class");
 			} else {
