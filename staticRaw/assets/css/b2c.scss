@@ -1,7 +1,7 @@
 ---
 ---
 
-{% assign animationTime = 15 %}
+{% assign animationTime = 12 %}
 
 @import "variables";
 @import "mixins";
@@ -250,6 +250,8 @@ a[name="content"] {
 	border-bottom: 1px solid #fff;
 	padding: 3px 3px 3px 9px;
 	text-align: left;
+	background: #fff;
+	color: #444;
 }
 .message-text {
 	font-size: 0.9em;
