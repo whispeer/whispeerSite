@@ -108,7 +108,7 @@ grunt.initConfig({
 		},
 		recovery: {
 			scripts: ["assets/js/build/lib.js", "assets/js/build/recovery.js"],
-			sources: ["static/recovery/index.html"]
+			sources: ["static/en/recovery/index.html", "static/de/recovery/index.html"]
 		}
 	},
 	concurrent: {
