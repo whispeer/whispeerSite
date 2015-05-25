@@ -26,7 +26,7 @@
 	},
 	de: {
 		senders: [
-			"Nils",
+			"Daniel",
 			"Michelle"
 		],
 		data: [
@@ -36,7 +36,7 @@
 			},
 			{
 				sender: 1,
-				messageText: "Hey Nils!"
+				messageText: "Hey Daniel!"
 			},
 			{
 				sender: 0,
