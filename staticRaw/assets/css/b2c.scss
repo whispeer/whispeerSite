@@ -84,7 +84,7 @@
 #heading {
 	height: auto;
 	min-height: 100vh;
-	padding-top: 20px;
+	padding-top: 50px;
 	padding-bottom: 0;
 	background-position: center center;
 }
@@ -100,8 +100,11 @@
 	width: 98%;
 	margin: 0 auto;
 	max-width: 450px;
-	height: 332px;
+	height: 300px;
 	border: none;
+}
+#heading .landing-registerFrame {
+	padding-bottom: 32px;
 }
 .landing-section-video {
 	display: block;
@@ -180,7 +183,7 @@ a[name="content"] {
 	right: 0;
 	color: #fff;
 	background-color: $primary;
-	padding: 10px 25px;
+	padding: 1rem 2rem;
 }
 .backToTop:hover {
 	color: #fff;

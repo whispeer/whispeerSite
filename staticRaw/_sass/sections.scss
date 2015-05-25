@@ -4,7 +4,7 @@
 	float: left;
 	width: 100%;
 	min-height: 50vh;
-	padding: 50px 25px;
+	padding: 4rem 2rem;
 
 	background-color: #54AB0C;
 	color: #ffffff;
@@ -64,7 +64,7 @@
 	@media #{$mobile} {
 		@include largeFontMobile;
 	}
-	margin-top: 2rem;
+	margin-top: 0;
 	margin-bottom: 2rem;
 }
 .section-paragraph {
@@ -137,6 +137,7 @@
 }
 .landing-section--fullScreen {
 	height: 100vh;
+	padding-bottom: 1rem;
 	@media #{$mobile} {
 		min-height: 100vh;
 	}
