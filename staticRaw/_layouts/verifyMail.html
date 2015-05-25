@@ -22,7 +22,7 @@
 				<span class="mailView-responseText mailView-responseText--error" data-ng-if="verifying.isFailed()" data-ng-cloak data-syntaxify>{{ i18n.mail.failed }}</span>
 			</div>
 
-			<a href='/start' data-ng-if="!loggedin" data-i18n="views.mail.backToLogin"></a>
+			<a href='/{{page.lang}}/' data-i18n="views.mail.backToLogin"></a>
 		</main>
 	</div>
 </body>

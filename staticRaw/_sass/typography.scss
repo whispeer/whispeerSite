@@ -1,0 +1,60 @@
+@font-face {
+  font-family: 'Source Sans Pro';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Source Sans Pro Regular'), local('SourceSansPro-Regular'), url(/assets/fonts/SourceSansPro-Regular.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Source Sans Pro';
+  font-style: normal;
+  font-weight: 600;
+  src: local('Source Sans Pro Semibold'), local('SourceSansPro-Semibold'), url(/assets/fonts/SourceSansPro-Semibold.ttf) format('truetype');
+}
+
+body {
+	line-height: normal;
+}
+
+h1, h2, h3, h4, h5, h6,
+p,
+li,
+button,
+input {
+	font-family: 'Source Sans Pro', sans-serif;
+	text-rendering: optimizeLegibility;
+}
+@mixin normalFont {
+	font-size: $fontSize;
+	font-weight: $fontWeight;
+	line-height: $defaultLineHeight;
+}
+@mixin normalFontMobile {
+	font-size: $fontSizeMobile;
+	font-weight: $fontWeightMobile;
+	line-height: $defaultLineHeightMobile;
+}
+@mixin largeFont {
+	font-size: $fontSizeLarge;
+	font-weight: $fontWeightLarge;
+	line-height: $defaultLineHeight;
+}
+@mixin largeFontMobile {
+	font-size: $fontSizeLargeMobile;
+	font-weight: $fontWeightLargeMobile;
+	line-height: $defaultLineHeightMobile;
+}
+.textShadow {
+	text-shadow: 1px 1px 2px #444;
+}
+.darkBlur {
+	color: #ffffff;
+	text-shadow: 0px 0px 5px #000;
+	background: rgba(50, 50, 50, 0.4);
+	box-shadow: 0px 0px 10px 15px rgba(50, 50, 50, 0.4);
+}
+.lightBlur {
+	color: #fff;
+	text-shadow: 1px 1px 2px #444;
+	background: rgba(237, 237, 237, 0.2);
+	box-shadow: 0px 0px 15px 15px rgba(237, 237, 237, 0.2);
+}

@@ -8,9 +8,7 @@ define(["step", "whispeerHelper", "config", "controllers/controllerModule"], fun
 	function rootController($scope, $http, localize, socketService, sessionService, sessionHelper, userService, cssService, messageService, trustService, friendsService) {
 		$scope.version = "0.2.2-" + config.buildDate;
 
-		$scope.loggedin = false;
-
-		$scope.loading = sessionService.isLoggedin();
+		$scope.loading = true;
 
 		var nullUser = {
 			name: "",
@@ -28,21 +26,11 @@ define(["step", "whispeerHelper", "config", "controllers/controllerModule"], fun
 		$scope.friends = friendsService.data;
 		$scope.messages = messageService.data;
 
-		$scope.$on("ssn.login", function () {
-			$scope.loggedin = sessionService.isLoggedin();
-
-			if (!$scope.loggedin) {
-				$scope.user = nullUser;
-			}
-		});
-
 		$scope.$on("ssn.ownLoaded", function () {
 			var user;
 			step(function () {
-				if ($scope.loggedin) {
-					user = userService.getown();
-					user.loadBasicData(this);
-				}
+				user = userService.getown();
+				user.loadBasicData(this);
 			}, h.sF(function () {
 				$scope.user = user.data;
 				$scope.loading = false;

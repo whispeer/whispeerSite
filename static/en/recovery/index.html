@@ -1,15 +1,24 @@
----
----
+<!doctype html>
+<html lang="en" data-ng-csp class="body-iframe">
+<head>
+	<base href="/" />
+	<meta charset="utf-8">
 
-{% include whispeerHead.html htmlClass="body-iframe" %}
+	<link rel="shortcut icon" href="assets/img/favicons/favicon.png" type="image/x-icon">
+	<meta name="viewport" content="target-densitydpi=device-dpi, initial-scale=1.0, user-scalable=no" />
+	<link rel="stylesheet" href="assets/css/static.css">
+	<title>whispeer</title>
+</head>
+
 <body>
 	<header class="header">
-		<div class="header-inner header-inner--left">
-			<a href="start" class="header-brand">
-				<span class="header-brand--normal">whis</span><span class="header-brand--inverse">peer</span>
-			</a>
-		</div>
-	</header>
+	<div class="header-inner header-inner--left">
+		<a href="/en" class="header-brand">
+			<span class="header-brand--normal">whis</span><span class="header-brand--inverse">peer</span>
+		</a>
+	</div>
+</header>
+
 	<div id="container">
 		<section id="main" data-ng-cloak data-ng-controller="ssn.recoveryController">
 			<h1 id="recoveryView-title" data-i18n="views.recovery.title"></h1>

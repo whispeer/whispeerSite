@@ -251,7 +251,6 @@
 				"submit": "Einladung anfordern",
 				"thanks": "Vielen Dank für dein Interesse!"
 			},
-			"createAccount": "Account erstellen",
 			"link":	"Registrieren",
 			"next": "Weiter",
 			"previous": "Zurück",
@@ -268,7 +267,7 @@
 			"uploadImage":	"Profilbild hochladen",
 			"more": "Weitere Informationen",
 			"intro": "Teil uns dein Geschlecht, deinen Namen, dein Geburtsdatum und deinen Wohnort mit. Dies ermöglicht deinen Freunden bei whispeer, dich zu finden. Selbstverständlich zwingen wir dich nicht dazu, diese Angaben zu machen!",
-			"newaccount": "Komm' zu uns!"
+			"newaccount": "Komm' jetzt zu whispeer"
 		}
 	},
 	"wall": {

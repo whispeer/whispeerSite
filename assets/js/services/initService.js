@@ -67,11 +67,9 @@ define(["step", "whispeerHelper", "services/serviceModule"], function (step, h, 
 		}
 
 		$rootScope.$on("ssn.login", function () {
-			if (sessionService.isLoggedin()) {
-				$timeout(function () {
-					loadData();
-				});
-			}
+			$timeout(function () {
+				loadData();
+			});
 		});
 
 		return {

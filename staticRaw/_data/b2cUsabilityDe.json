@@ -1,0 +1,63 @@
+{
+	general: {
+		title: "whispeer",
+		description: "what the hell goes in here?"
+	},
+	teaser: {
+		headline: "Sich auf Freunde konzentrieren",
+		details: "Das ist wofür whispeer steht. Keine extra Funktionen, keine verwirrenden Optionen, keine Ablenkungen. Wir konzentrieren uns auf das, was wirklich wichtig ist: Kommunikation und Privatsphäre.",
+		imageIdeas: "",
+		image: "lighthouse.jpg",
+		registerForm: true,
+		textShadow: true,
+		video: "",
+		mailForm: true
+	},
+	sections: [
+		{
+			headline: "Es ist total einfach!",
+			details: "whispeer verschlüsselt alle deine Daten, damit du sicher bist und dich um nichts sorgen musst. Da das alles im Hintergrund passiert, ist whispeer trotzdem einfach zu nutzen! Plus: Registrieren dauert weniger als eine Minute und ist komplett kostenfrei!",
+			icon: "fa-lock",
+			registerAd: true,
+			mailForm: false
+		},
+		{
+			headline: "Die vielen Vorteile von whispeer:",
+			detailsList: [
+				{
+					icon: "fa-life-saver",
+					text: "Einfach zu nutzen"
+				},
+				{
+					icon: "fa-rocket",
+					text: "Schnelles Registrieren"
+				},
+				{
+					icon: "fa-paper-plane",
+					text: "Werbefrei"
+				},
+				{
+					icon: "fa-heart",
+					text: "Sende Freunden Nachrichten. Poste auf ihre Pinnwände. Teile Gedanken, Links und Fotos von deinen tollsten Momenten"
+				},
+				{
+					icon: "fa-lock",
+					text: "Alle deine Daten sind sicher und verschlüsselt"
+				},
+				{
+					icon: "fa-mobile",
+					text: "Logge dich auf jedem Gerät in deinen Account ein, egal wo du gerade bist"
+				}
+			],
+			icon: "fa-users",
+			registerAd: true,
+			registerForm: false
+		},
+		{
+			headline: "Hol' dir deinen eigenen Account!",
+			registerForm: true,
+			animation: true,
+			fullScreen: true
+		}
+	]
+}

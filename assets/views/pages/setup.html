@@ -20,7 +20,7 @@
 		<i class="fa fa-print"></i> <span data-i18n="views.setup.backup.printKey"></span>
 	</button>
 
-	<button id="setupView-noBackup" class="btn btn--primary btn--danger btn--big" data-ng-if="profileSaved && !backupClicked">
+	<button id="setupView-noBackup" class="btn btn--primary btn--danger btn--big" data-ng-click="goToNext()" data-ng-if="profileSaved && !backupClicked">
 		<span data-i18n="views.setup.backup.ignore"></span>
 	</button>
 </div>

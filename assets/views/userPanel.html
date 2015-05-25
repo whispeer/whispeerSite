@@ -10,7 +10,7 @@
 		<a ui-sref="app.messages" class="userpanel-menu-link" data-i18n="menu.messages|count={{messages.unread}}"></a>
 		<a ui-sref="app.circles" class="userpanel-menu-link" data-i18n="menu.circles"></a>
 		<a ui-sref="app.settings" class="userpanel-menu-link" data-i18n="menu.settings"></a>
-		<a ui-sref="app.help" class="userpanel-menu-link" data-i18n="menu.help"></a>
+		<a href="{{addLocale('/help')}}" target="_blank" class="userpanel-menu-link" data-i18n="menu.help"></a>
 		<a href="#" class="userpanel-menu-link" data-ng-click="logout()" data-eat-click data-i18n="menu.logout"></a>
 	</nav>
 </div>

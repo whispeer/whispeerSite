@@ -1,0 +1,67 @@
+@mixin animationSendMessage {
+	0% { /* user a */
+		opacity: 0;
+		margin-left: 60px;
+		@include filter("none");
+	}
+	5% { /* user a fade in */
+		opacity: 1;
+		margin-left: 60px;
+		@include filter("none");
+	}
+	18% { /* user a pause */
+		opacity: 1;
+		margin-left: 60px;
+		@include filter("none");
+	}
+	20% { /* user a screen - blur */
+		opacity: 1;
+		margin-left: 179px;
+		@include filter("none");
+	}
+	22.5% { /* user a screen + blur */
+		opacity: 1;
+		margin-left: 179px;
+		@include filter("blur(4px)");
+	}
+	23% { /* user a screen + blur pause */
+		opacity: 1;
+		margin-left: 179px;
+		@include filter("blur(4px)");
+	}
+	27% { /* user b screen + blur pause */
+		opacity: 1;
+		margin-left: 680px;
+		@include filter("blur(4px)");
+	}
+	27.5% { /* user b screen + blur*/
+		opacity: 1;
+		margin-left: 680px;
+		@include filter("blur(4px)");
+	}
+	30% { /* user b screen - blur */
+		opacity: 1;
+		margin-left: 680px;
+		@include filter("none");
+	}
+	32% { /* user b */
+		opacity: 1;
+		margin-left: 800px;
+		@include filter("none");
+	}
+	45% { /* user b */
+		opacity: 1;
+		margin-left: 800px;
+		@include filter("none");
+	}
+	50% { /* user b fade out */
+		opacity: 0;
+		margin-left: 800px;
+		@include filter("none");
+	}
+	100% { /* fake-delay */
+		opacity: 0;
+		margin-left: 800px;
+		@include filter("none");
+	}
+}

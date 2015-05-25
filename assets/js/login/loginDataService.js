@@ -22,6 +22,20 @@ define([
 		var sessionStorage = new Storage("whispeer.session");
 		var loginStorage = new Storage("whispeer.login");
 
+		if (localStorage.getItem("loggedin") === "true") {
+			var sid = localStorage.getItem("sid");
+			var userid = localStorage.getItem("userid");
+			var password = localStorage.getItem("password");
+
+			localStorage.clear();
+
+			//migrate to new format
+			sessionStorage.set("loggedin", "true");
+			sessionStorage.set("sid", sid);
+			sessionStorage.set("userid", userid);
+			sessionStorage.set("password", password);
+		}
+
 		var isViewForm = locationService.isLoginPage();
 
 		if (sessionStorage.get("loggedin") === "true") {

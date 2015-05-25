@@ -1,0 +1,357 @@
+---
+---
+
+{% assign animationTime = 12 %}
+
+@import "variables";
+@import "mixins";
+@import "typography";
+@import "buttons";
+@import "sections";
+@import "misc";
+
+.header {
+	background: rgba(red($primary), green($primary), blue($primary), 0.98);
+}
+
+.header-inner {
+	@media #{$mobile} {
+		padding: 0 50px;
+		box-sizing: border-box;
+		text-align: center;
+	}
+}
+.header-brand {
+	@media #{$mobile} {
+		display: inline-block;
+		float: none;
+		width: none;
+		margin: 0;
+
+		text-align: center;
+	}
+}
+.globalNotificationWrap {
+	display: none;
+}
+.globalNotificationWrap--visible {
+	display: block;
+}
+#globalNotification {
+	display: block;
+	position: fixed;
+	z-index: 9;
+
+	top: 50px;
+	left: 0;
+
+	width: 100%;
+	line-height: 30px;
+
+	background: rgba(30, 30, 30, 0.9);
+	color: #ffffff;
+	border-bottom: 1px solid rgba(10, 10, 10, 0.9);
+
+	text-align: center;
+}
+
+#globalNotification a {
+	color: #ffffff;
+	border-bottom: 1px dotted #ffffff;
+}
+
+#globalNotification a:hover {
+	border-bottom-style: solid;
+}
+
+#globalNotificationSpace {
+	display: block;
+	position: relative;
+
+	width: 100%;
+	height: 30px;
+}
+.section-header {
+	@media #{$desktop} {
+		font-size: 4rem;
+	}
+	@media #{$mobile} {
+		font-size: 3rem;
+	}
+	letter-spacing: -2px;
+	width: auto;
+}
+#heading {
+	height: auto;
+	min-height: 100vh;
+	padding-top: 50px;
+	padding-bottom: 0;
+	background-position: center center;
+}
+#heading .landing-section--inner {
+	padding-bottom: calc(55px + 1rem);
+}
+#heading .section-paragraph {
+	margin-top: -30px;
+	padding-bottom: 0;
+}
+.landing-registerFrame {
+	display: block;
+	width: 98%;
+	margin: 0 auto;
+	max-width: 450px;
+	height: 300px;
+	border: none;
+}
+#heading .landing-registerFrame {
+	padding-bottom: 32px;
+}
+.landing-section-video {
+	display: block;
+	position: relative;
+	width: 98%;
+	margin: 0 auto;
+	margin-bottom: calc(1rem - 3px);
+	max-width: 300px;
+	cursor: pointer;
+}
+.landing-section-video-image {
+	width: 100%;
+	height: 100%;
+	border: 2px solid rgba(255, 255, 255, 0.7);
+}
+.landing-section-video-icon-wrap {
+	position: absolute;
+	top: calc(50% - 2.5em);
+	left: calc(50% - 2.5em);
+	background-color: rgba(red($primary), green($primary), blue($primary), 0.9);
+	height: 5em;
+	width: 5em;
+	line-height: 5em;
+	border-radius: 100%;
+	text-align: center;
+}
+.landing-section-video-icon {
+	display: inline-block;
+	vertical-align: middle;
+	padding-left: 8px;
+	transition: .6s text-shadow ease;
+	transform: translate3d(0,0,0);
+}
+.landing-section-video:hover .landing-section-video-icon {
+	text-shadow: 1px 1px 2px #444;
+}
+.background {
+	background-image: url(/assets/images/lighthouse.jpg);
+	background-color: #ffffff;
+}
+.background--night {
+	background-image: url(/assets/images/lighthouse_night.jpg);
+	background-color: $gray;
+}
+.section-next {
+	display: block;
+	position: absolute;
+	margin: -15px auto 0;
+	width: 150px;
+	height: 55px;
+	padding: 11px 10px 10px;
+
+	left: calc(50% - 75px);
+	bottom: 25px;
+
+	color: #fff;
+	border: none;
+	box-sizing: border-box;
+	transition: 0.3s background ease;
+}
+.section-next:hover {
+	color: #ffffff;
+	background: rgba(60, 60, 60, 0.25);
+}
+.fa-section-next {
+	display: block;
+	margin-top: 2px;
+}
+a[name="content"] {
+	visibility: hidden;
+}
+.backToTop {
+	display: none;
+	position: fixed;
+	bottom: 0;
+	right: 0;
+	color: #fff;
+	background-color: $primary;
+	padding: 1rem 2rem;
+}
+.backToTop:hover {
+	color: #fff;
+	text-shadow: 0 0 2px #fff;
+}
+.backToTop--visible {
+	display: block;
+}
+.video-overlay {
+	display: none;
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	z-index: 9;
+	background: rgba(0, 0, 0, 0.7);
+}
+#video-overlay-close {
+	position: absolute;
+	top: -35px;
+	right: -35px;
+
+	width: 30px;
+	height: 30px;
+	line-height: 30px;
+	text-align: center;
+	padding-right: 1px;
+
+	cursor: pointer;
+	color: #ffffff;
+	background: #000000;
+	border: 2px solid #ffffff;
+	border-radius: 100%;
+}
+.video-overlay-video {
+	width: 100%;
+	height: 100%;
+}
+#video-overlay-wrapper {
+	position: relative;
+	display: none;
+	height: 80%;
+	width: 80%;
+	margin: 6% 10% 10%;
+	@media #{$mobile} {
+		width: calc(100% - 76px);
+		margin: 55px 38px 0 38px;
+	}
+}
+.video-overlay--visible {
+	display: block;
+}
+.video-overlay--visible #video-overlay-wrapper {
+	display: block;
+}
+
+// Animation
+@import "animation";
+
+{% assign animationTime = 15 %}
+
+.animation-box {
+	position: relative;
+	width: 960px;
+	margin: 0 auto 2rem;
+	padding-bottom: 10px;
+	text-align: left !important;
+	@media (max-width: 1010px) {
+		display: none;
+	}
+}
+.animation-node {
+	display: inline-block;
+	margin: 0;
+	padding: 0;
+	width: 20%;
+	line-height: 131px;
+	text-align: center;
+}
+.animation-node-description {
+	display: block;
+	line-height: 1em;
+}
+.s1,
+.s2 {
+	width: 55px;
+}
+.s1 {
+	margin-right: 100px;
+}
+.s2 {
+	margin-left: 100px;
+}
+.s1Pc,
+.s2Pc {
+	width: 150px;
+}
+.server {
+	width: 350px;
+}
+.message {
+	position: absolute;
+	text-align: center;
+	margin: 21px 0 0;
+	line-height: 17px;
+	left: 0;
+	top: 0;
+	opacity: 0;
+	padding: 0;
+	width: 100px;
+	height: auto;
+	border: 1px solid #fff;
+	border-radius: 3px;
+	box-sizing: border-box;
+	@include transform(translate3d(0,0,0));
+	@include backface-visibility(hidden);
+}
+.message-sender {
+	font-size: 0.8em;
+	display: block;
+	line-height: 0.8em;
+	border-bottom: 1px solid #fff;
+	padding: 3px;
+	text-align: left;
+	background: #fff;
+	color: #444;
+}
+.message-text {
+	font-size: 0.9em;
+	padding: 3px;
+	display: block;
+	line-height: 15px;
+}
+.animation-start {
+	.message {
+		@include animation(sendMessage {{animationTime}}s);
+	}
+	.message-s2 {
+		@include animation-direction(reverse);
+	}
+	.message--infinity {
+		@include animation-iteration-count(infinite);
+	}
+	{% for lang in site.data.animation.langs %}
+		{% for message in site.data.animation[{{lang}}].data %}
+			{% if forloop.index > 2 %}
+				{% capture doLoop %}{% cycle 'true', 'false' %}{% endcapture %}
+				{% if doLoop == 'true' %}
+					{% capture index %}{{ forloop.index0 | divided_by: 2 }}{% endcapture %}
+					.message-{{lang}}--i{{forloop.index}},
+					.message-{{lang}}--i{{forloop.index | plus: 1}} {
+						@include animation-delay({{ animationTime | times: index }}s);
+					}
+				{% endif %}
+			{% endif %}
+		{% endfor %}
+	{% endfor %}
+}
+@-webkit-keyframes sendMessage {
+	@include animationSendMessage;
+}
+@-moz-keyframes sendMessage {
+	@include animationSendMessage;
+}
+@-o-keyframes sendMessage {
+	@include animationSendMessage;
+}
+@keyframes sendMessage {
+	@include animationSendMessage;
+}
