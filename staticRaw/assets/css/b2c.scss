@@ -133,6 +133,22 @@
 a[name="content"] {
 	visibility: hidden;
 }
+.backToTop {
+	display: none;
+	position: fixed;
+	bottom: 0;
+	right: 0;
+	color: #fff;
+	background-color: $primary;
+	padding: 10px 25px;
+}
+.backToTop:hover {
+	color: #fff;
+	text-shadow: 0 0 2px #fff;
+}
+.backToTop--visible {
+	display: block;
+}
 .video-overlay {
 	display: none;
 	position: fixed;

@@ -164,20 +164,30 @@
 		return (
 			rect.top >= 0 &&
 			rect.left >= 0 &&
-			rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) && /*or $(window).height() */
-			rect.right <= (window.innerWidth || document.documentElement.clientWidth) /*or $(window).width() */
+			rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+			rect.right <= (window.innerWidth || document.documentElement.clientWidth)
 		);
 	}
 
-	function onVisibilityChange (el) {
+	function onVisibilityChange () {
 		return function () {
+			var el = document.getElementsByClassName("animation-box")[0];
 			if (isElementInViewport(el) && !el.classList.contains('animation-start')) {
-			    addClass(el, 'animation-start');
+				addClass(el, 'animation-start');
+			}
+			var el = document.getElementsByClassName("backToTop")[0];
+			var elTop = document.getElementById("heading");
+			if (isElementInViewport(elTop) && el.classList.contains('backToTop--visible')) {
+				removeClass(el, 'backToTop--visible');
+				console.log("Removed Class");
+			} else {
+				addClass(el, 'backToTop--visible');
+				console.log("Added Class");
 			}
 		}
 	}
 
-	var handler = onVisibilityChange(document.getElementsByClassName("animation-box")[0]);
+	var handler = onVisibilityChange();
 
 	if (window.addEventListener) {
 		addEventListener('DOMContentLoaded', handler, false);
