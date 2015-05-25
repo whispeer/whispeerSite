@@ -26,22 +26,16 @@
 	},
 	de: {
 		senders: [
-			"Johannes",
+			"Martina",
 			"Mark"
 		],
 		data: [
 			{
 				sender: 0,
-				messageText: "Hey Johannes!"
+				messageText: "Hey Mark!"
 			}, {
 				sender: 1,
-				messageText: "Hi Mark!"
-			}, {
-				sender: 0,
-				messageText: "Pink Fluffy Unicorns"
-			}, {
-				sender: 1,
-				messageText: "Dancing on Rainbows :)"
+				messageText: "Hi Martina!"
 			}, {
 				sender: 0,
 				messageText: "Warst du schon beim Arzt?"
@@ -50,7 +44,22 @@
 				messageText: "Nein, aber ich gehe morgen"
 			}, {
 				sender: 0,
-				messageText: "Das ist wichtig, bitte geh zum Arzt"
+				messageText: "Das ist wichtig, bitte geh hin"
+			}, {
+				sender: 1,
+				messageText: "Ok, hast ja recht!"
+			}, {
+				sender: 0,
+				messageText: "Danke."
+			}, {
+				sender: 1,
+				messageText: "Lass mal ein Lied singen?"
+			}, {
+				sender: 0,
+				messageText: "Pink Fluffy Unicorns"
+			}, {
+				sender: 1,
+				messageText: "Dancing on Rainbows"
 			}
 		]
 	}
