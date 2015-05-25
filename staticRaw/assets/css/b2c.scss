@@ -248,7 +248,7 @@ a[name="content"] {
 	display: block;
 	line-height: 0.8em;
 	border-bottom: 1px solid #fff;
-	padding: 3px 3px 3px 9px;
+	padding: 3px;
 	text-align: left;
 	background: #fff;
 	color: #444;
@@ -256,6 +256,7 @@ a[name="content"] {
 .message-text {
 	font-size: 0.9em;
 	padding: 3px;
+	display: block;
 }
 .animation-start {
 	.message {
@@ -282,7 +283,6 @@ a[name="content"] {
 		{% endfor %}
 	{% endfor %}
 }
-
 @-webkit-keyframes sendMessage {
 	@include animationSendMessage;
 }
