@@ -169,34 +169,49 @@
 		);
 	}
 
-	function onVisibilityChange () {
-		return function () {
-			var el = document.getElementsByClassName("animation-box")[0];
-			if (isElementInViewport(el) && !el.classList.contains('animation-start')) {
-				addClass(el, 'animation-start');
-			}
-			var el = document.getElementsByClassName("backToTop")[0];
-			if (isElementInViewport(headingElement) && el.classList.contains('backToTop--visible')) {
-				removeClass(el, 'backToTop--visible');
+	function checkAnimationVisibility() {
+		var el = document.getElementsByClassName("animation-box")[0];
+		if (isElementInViewport(el) && !el.classList.contains("animation-start")) {
+			addClass(el, "animation-start");
+		}		
+	}
+
+	function checkTopBarVisibility() {
+		var visibleClass = "backToTop--visible";
+		var el = document.getElementsByClassName("backToTop")[0];
+
+		if (isElementInViewport(headingElement)) {
+			if (el.className.indexOf(visibleClass) !== -1) {
+				removeClass(el, visibleClass);
 				console.log("Removed Class");
-			} else {
-				addClass(el, 'backToTop--visible');
+			}
+		} else {
+			if (el.className.indexOf(visibleClass) === -1) {
+				addClass(el, visibleClass);
 				console.log("Added Class");
 			}
 		}
 	}
 
+	function onVisibilityChange () {
+		return function () {
+			checkAnimationVisibility();
+
+			checkTopBarVisibility();
+		};
+	}
+
 	var handler = onVisibilityChange();
 
 	if (window.addEventListener) {
-		addEventListener('DOMContentLoaded', handler, false);
-		addEventListener('load', handler, false);
-		addEventListener('scroll', handler, false);
-		addEventListener('resize', handler, false);
+		addEventListener("DOMContentLoaded", handler, false);
+		addEventListener("load", handler, false);
+		addEventListener("scroll", handler, false);
+		addEventListener("resize", handler, false);
 	} else if (window.attachEvent)  {
-		attachEvent('onDOMContentLoaded', handler);
-		attachEvent('onload', handler);
-		attachEvent('onscroll', handler);
-		attachEvent('onresize', handler);
+		attachEvent("onDOMContentLoaded", handler);
+		attachEvent("onload", handler);
+		attachEvent("onscroll", handler);
+		attachEvent("onresize", handler);
 	}
 })();
