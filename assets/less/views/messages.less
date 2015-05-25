@@ -431,11 +431,15 @@
 
 			textarea {
 				height: @form-height;
-				.column(3,4);
+				.column(3,4,left,1%);
+				margin: 0 0 0 1%;
+				border-radius: @inputBorderRadius 0 0 @inputBorderRadius;
 			}
 			button {
 				height: @form-height;
-				.column(1,4);
+				.column(1,4,left,1%);
+				margin: 0 1% 0 0;
+				border-radius: 0 @inputBorderRadius @inputBorderRadius 0;
 			}
 		}
 	}
