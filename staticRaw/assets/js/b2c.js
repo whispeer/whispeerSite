@@ -10,6 +10,20 @@
 		console.error(e);
 	}
 
+	function hasLocalStorage() {
+		try {
+			localStorage.setItem("localStorageTest", "localStorageTest");
+			localStorage.removeItem("localStorageTest");
+			return true;
+		} catch (e) {
+			return false;
+		}
+	}
+
+	if (!hasLocalStorage()) {
+		//set a class here!
+	}
+
 	function focusRegister() {
 		var frame = document.getElementById("registerFrame-main");
 		frame.contentWindow.document.getElementsByTagName("input")[0].focus();
