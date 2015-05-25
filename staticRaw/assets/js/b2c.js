@@ -20,8 +20,10 @@
 		}
 	}
 
+	var globalNot = document.getElementsByClassName("globalNotificationWrap");
+
 	if (!hasLocalStorage()) {
-		//set a class here!
+		addClass(globalNot, "globalNotificationWrap--visible");
 	}
 
 	function focusRegister() {
@@ -177,7 +179,7 @@
 		var el = document.getElementsByClassName("animation-box")[0];
 		if (isElementInViewport(el) && !el.classList.contains("animation-start")) {
 			addClass(el, "animation-start");
-		}		
+		}
 	}
 
 	function checkTopBarVisibility() {
