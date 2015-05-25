@@ -44,6 +44,7 @@
 		element.className += " " + classToAdd;
 	}
 
+/* nobody should notice this in the compiled version
 	function updateImage() {
 		var hour = new Date().getHours();
 		var isDay = 7 < hour && hour < 20;
@@ -61,6 +62,7 @@
 
 	updateImage();
 	window.setInterval(updateImage, 60);
+*/
 
 	var overlayOpen = document.getElementById("video-overlay-open");
 	var overlayClose = document.getElementById("video-overlay-close");
