@@ -26,25 +26,31 @@
 	},
 	de: {
 		senders: [
-			"Daniel",
-			"Michelle"
+			"Johannes",
+			"Mark"
 		],
 		data: [
 			{
 				sender: 0,
-				messageText: "Hey Michelle!"
-			},
-			{
+				messageText: "Hey Johannes!"
+			}, {
 				sender: 1,
-				messageText: "Hey Daniel!"
-			},
-			{
+				messageText: "Hi Mark!"
+			}, {
 				sender: 0,
 				messageText: "Pink Fluffy Unicorns"
-			},
-			{
+			}, {
 				sender: 1,
-				messageText: "Dancing on Rainbows"
+				messageText: "Dancing on Rainbows :)"
+			}, {
+				sender: 0,
+				messageText: "Warst du schon beim Arzt?"
+			}, {
+				sender: 1,
+				messageText: "Nein, aber ich gehe morgen"
+			}, {
+				sender: 0,
+				messageText: "Das ist wichtig, bitte geh zum Arzt"
 			}
 		]
 	}
