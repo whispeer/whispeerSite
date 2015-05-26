@@ -1,9 +1,9 @@
-<section id="inviteMail">
+<section id="inviteView-inviteMail">
 	<form>
-		<h1 data-i18n="views.invite.viaMail"></h1>
+		<h1 data-i18n="views.invite.viaMail" class="inviteView-header"></h1>
 		<p data-i18n="views.invite.viaMailExplanation"></p>
-		<ul class="emailList unstyled">
-			<li class="annotatedInput-container" data-ng-class="{'annotatedInput-container--2': inviteMails.length > 1}" data-ng-repeat="mail in inviteMails track by $index">
+		<ul class="inviteView-emailList unstyled">
+			<li class="annotatedInput-container inviteView-mailContainer" data-ng-class="{'annotatedInput-container--2': inviteMails.length > 1}" data-ng-repeat="mail in inviteMails track by $index">
 				<input type="text" class="annotatedInput-input" data-i18n-attr="views.invite.mail|placeholder" data-ng-model="inviteMails[$index]">
 				<span class="annotatedInput-icon fa fa-fw" data-ng-class="{'fa-times': !isMail(inviteMails[$index])}" data-ng-if="!empty(inviteMails[$index])"></span>
 				<button class="btn btn--danger btn--noRadius annotatedInput-button" data-ng-click="removeInput($index)" data-ng-if="inviteMails.length > 1"><i class="fa fa-times fa-fw"></i></button>
@@ -13,9 +13,9 @@
 
 		<p data-i18n="views.invite.yourName"></p>
 
-		<input id="invitedBy" type="text" data-ng-model="name" data-i18n-attr="views.invite.name|placeholder">
+		<input id="inviteView-invitedBy" type="text" data-ng-model="name" data-i18n-attr="views.invite.name|placeholder">
 
-		<savebutton class="sendInvite btn--big" data-ng-click="inviteUsers(name, inviteMails)" data-state="inviteMailState" data-noiniticon>
+		<savebutton class="inviteView-sendInvite btn--big" data-ng-click="inviteUsers(name, inviteMails)" data-state="inviteMailState" data-noiniticon>
 			<span data-i18n="views.invite.invite"></span>
 		</savebutton>
 	</form>
