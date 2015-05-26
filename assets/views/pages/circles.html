@@ -32,7 +32,10 @@
 				<div class="clear-fix"></div>
 			</li>
 			<li id="circleView-inviteFriends" data-ng-if="circles.length <= 3">
-				<a class="inviteFriends-link btn btn--primary" id="circleView-inviteFriends-link" ui-sref="app.invite" data-i18n="inviteFriends"></a>
+				<a class="inviteFriends-link btn btn--gray btn--hasIcon" id="circleView-inviteFriends-link" ui-sref="app.invite">
+					<i class="fa fa-fw fa-share-alt btn-icon"></i>
+					<span class="btn-text" data-i18n="inviteFriends"></span>
+				</a>
 			</li>
 			</div>
 		</ul>
