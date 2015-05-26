@@ -1,7 +1,7 @@
 {
 	general: {
 		title: "whispeer",
-		description: "what the hell goes in here?"
+		description: "whispeer is a secure social network offering high privacy standards by using end-to-end encryption."
 	},
 	teaser: {
 		headline: "Concentrating on your friends",
