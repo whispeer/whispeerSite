@@ -12,6 +12,7 @@ define(["whispeerHelper", "search/singleSearch", "search/multiSearch", "directiv
 				"addClasses": "@",
 				//multi-search
 				"selectDropTemplate": "@",
+				"base": "@",
 				"initialValues": "&"
 			},
 			/* this is an element */
