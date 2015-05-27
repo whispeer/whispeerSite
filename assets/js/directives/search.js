@@ -12,6 +12,7 @@ define(["whispeerHelper", "search/singleSearch", "search/multiSearch", "directiv
 				"addClasses": "@",
 				//multi-search
 				"selectDropTemplate": "@",
+				"base": "@",
 				"initialValues": "&"
 			},
 			/* this is an element */
@@ -29,6 +30,7 @@ define(["whispeerHelper", "search/singleSearch", "search/multiSearch", "directiv
 				var thisSearchOpened = 0;
 				var SearchSupplierClass = $injector.get(iAttrs.supplier);
 				var searchSupplier = new SearchSupplierClass();
+				scope.selectDropTemplate = scope.selectDropTemplate || "default";
 
 				scope.filter = [];
 				scope.filter.push(function (results) {
