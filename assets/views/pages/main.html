@@ -34,7 +34,10 @@
 		</div>
 	</header>
 	<div class="posts" id="newsfeedView-posts">
-		<a class="btn btn--primary btn--large inviteFriends-link" id="newsfeedView-inviteFriends" href="/invite" data-i18n="inviteFriends"></a>
+		<a class="inviteFriends-link btn btn--gray btn--hasIcon" id="newsfeedView-inviteFriends-link" ui-sref="app.invite">
+			<i class="fa fa-fw fa-share-alt btn-icon"></i>
+			<span class="btn-text" data-i18n="inviteFriends"></span>
+		</a>
 		<post data-ng-repeat="post in currentTimeline.getPosts()" data-post="post" id="{{post.id}}"></post>
 		<div id="newsfeedView-loading" data-ng-show="currentTimeline.loading">
 			<i class="saveButton-spinner fa fa-2x fa-fw fa-spinner fa-spin"></i>

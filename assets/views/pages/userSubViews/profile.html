@@ -153,7 +153,10 @@
 			<person data-user="friend"></person>
 		</li>
 		<li class="inviteFriends" id="userView-inviteFriends" data-ng-if="friends.length < 50 && user.me">
-			<a class="inviteFriends-link btn btn--primary btn--large" id="userView-inviteFriends-link" ui-sref="app.invite" data-i18n="inviteFriends"></a>
+			<a class="inviteFriends-link btn btn--gray btn--hasIcon" id="userView-inviteFriends-link" ui-sref="app.invite">
+				<i class="fa fa-fw fa-share-alt btn-icon"></i>
+				<span class="btn-text" data-i18n="inviteFriends"></span>
+			</a>
 		</li>
 	</ol>
 </section>

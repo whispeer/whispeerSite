@@ -88,6 +88,30 @@
 .btn-saveButton--operation {
 	.buttonBackground(@btnInverseBackground, @btnInverseBackgroundHover, @btnInverseBackgroundFocus, @btnInverseBackgroundActive);
 }
+.btn--gray {
+	.buttonBackground(@btnGrayBackground, @btnGrayBackgroundHover, @btnGrayBackgroundFocus, @btnGrayBackgroundActive, #444);
+}
+.btn--hasIcon {
+	display: table;
+	position: relative;
+	padding-left: 1.28571429em;
+	font-size: 2em;
+	line-height: 20px;
+}
+.btn-icon {
+	position: absolute;
+	left: 0;
+	top: 50%;
+	margin: -14px auto 0 auto;
+	vertical-align: middle;
+}
+.btn-text {
+	display: table-cell;
+	font-size: 0.5em;
+	padding: 3px 0;
+	height: 100%;
+	vertical-align: middle;
+}
 .btn--fixPadding {
 	padding: 4px 0;
 }

@@ -35,7 +35,10 @@
 				</person>
 			</li>
 			<li class="friendsView-friend" id="friendsView-inviteFriends" data-ng-if="friends.length < 50">
-				<a class="inviteFriends-link btn btn--primary" id="friendsView-inviteFriends-link" ui-sref="app.invite" data-i18n="inviteFriends"></a>
+				<a class="inviteFriends-link btn btn--gray btn--hasIcon" id="friendsView-inviteFriends-link" ui-sref="app.invite">
+					<i class="fa fa-fw fa-share-alt btn-icon"></i>
+					<span class="btn-text" data-i18n="inviteFriends"></span>
+				</a>
 			</li>
 	</section>
 </section>
