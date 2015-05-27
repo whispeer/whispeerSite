@@ -138,6 +138,21 @@
 .search-suggestion-nickname {
 	color: @gray;
 }
+.search-suggestion-user--small {
+	height: 70px;
+	@media @mobile {
+		height: 70px;
+	}
+}
+.search-suggestion-user--small .search-suggestion-userimage {
+	margin-top: -25px;
+	max-width: 50px;
+	top: 50%;
+}
+.search-suggestion-user--small .search-suggestion-info,
+.search-suggestion-user--small .search-suggestion-name {
+	line-height: 70px;
+}
 .search-suggestion-actions {
 	@media @desktop {
 		.column(2,8);
