@@ -34,13 +34,10 @@
 	position: relative;
 	display: inline-block;
 	border-right: 1px solid @btnBorder;
-	top: -1px;
+	line-height: 40px;
 }
 .search-result-remove {
 	margin-left: 5px;
-}
-.search-result-remove:hover {
-	color: #ddd;
 }
 .search-result--hiddenCount {
 	width: 55px;
@@ -102,7 +99,15 @@
 	white-space: nowrap;
 	text-overflow: ellipsis;
 	padding: 0 1%;
+	color: #333333;
 	&:extend(.box-fix);
+}
+.search-suggestion-circle:hover {
+	background-color: @btnBackgroundHover;
+}
+.search-suggestion-active.search-suggestion-circle {
+	background-color: @btnBackgroundHover;
+	color: #333333;
 }
 .search-suggestion-user {
 	width: 100%;
