@@ -84,16 +84,17 @@
 #heading {
 	height: auto;
 	min-height: 100vh;
-	padding-top: 50px;
+	@media #{$desktop} {
+		padding-top: 50px;
+	}
 	padding-bottom: 0;
 	background-position: center center;
 }
 #heading .landing-section--inner {
 	padding-bottom: calc(55px + 1rem);
 }
-#heading .section-paragraph {
-	margin-top: -30px;
-	padding-bottom: 0;
+#heading .section-header {
+	width: 100%;
 }
 .landing-registerFrame {
 	display: block;
@@ -108,13 +109,16 @@
 }
 #heading .landing-registerFrame {
 	padding-bottom: 32px;
+	@media #{$mobile} {
+		padding-bottom: 16px;
+	}
 }
 .landing-section-video {
 	display: block;
 	position: relative;
 	width: 98%;
 	margin: 0 auto;
-	margin-bottom: calc(1rem - 3px);
+	margin-bottom: 1.7rem;
 	max-width: 300px;
 	cursor: pointer;
 }
