@@ -91,6 +91,16 @@ grunt.initConfig({
 				include: ["requireConfig"],
 				excludeShallow: libs
 			})
+		},
+		verify: {
+			options: extend({}, baseConfig, {
+				out: "assets/js/build/verifyMail.js",
+
+				name: "verifyMail/verifyMailMain",
+				insertRequire: ["verifyMail/verifyMailMain"],
+				include: ["requireConfig"],
+				excludeShallow: libs
+			})
 		}
 	},
 	includes: {
@@ -109,6 +119,10 @@ grunt.initConfig({
 		recovery: {
 			scripts: ["assets/js/build/lib.js", "assets/js/build/recovery.js"],
 			sources: ["static/en/recovery/index.html", "static/de/recovery/index.html"]
+		},
+		verify: {
+			scripts: ["assets/js/build/lib.js", "assets/js/build/verifyMail.js"],
+			sources: ["static/en/verifyMail/index.html", "static/de/verifyMail/index.html"]
 		}
 	},
 	concurrent: {
