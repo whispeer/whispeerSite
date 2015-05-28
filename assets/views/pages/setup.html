@@ -1,30 +1,5 @@
 <h1 data-i18n="views.setup.welcomeHeader"></h1>
 
-<div class="backup" data-ng-if="backupFailed">
-	<header>
-		<h2 data-i18n="views.setup.backup.header"></h2>
-		<div class="backupWarningExplanation" data-syntaxify data-i18n="views.setup.backup.impossible"></div>
-	</header>
-</div>
-
-<div class="backup" data-ng-if="!backupFailed">
-	<header>
-		<h2 data-i18n="views.setup.backup.header"></h2>
-		<div class="backupWarningExplanation" data-syntaxify data-i18n="views.setup.backup.explanation"></div>
-	</header>
-	<button class="btn btn--primary btn--big" data-ng-click="downloadBackup()">
-		<i class="fa fa-download"></i> <span data-i18n="views.setup.backup.downloadKey"></span>
-	</button>
-	<span class="full-line" data-i18n="views.setup.backup.or"></span>
-	<button class="btn btn--primary btn--big" data-ng-click="printBackup()">
-		<i class="fa fa-print"></i> <span data-i18n="views.setup.backup.printKey"></span>
-	</button>
-
-	<button id="setupView-noBackup" class="btn btn--primary btn--danger btn--big" data-ng-click="goToNext()" data-ng-if="profileSaved && !backupClicked">
-		<span data-i18n="views.setup.backup.ignore"></span>
-	</button>
-</div>
-
 <div class="profile" data-ng-if="!profileSaved">
 	<header>
 		<h2 data-i18n="views.setup.optionalData.header"></h2>
@@ -44,5 +19,10 @@
 		<savebutton data-state="saveSetupState" data-noiniticon data-ng-click="saveProfile()" class="btn--big">
 			<span data-i18n="views.setup.save"></span>
 		</savebutton>
+	</div>
+
+	<div class="submit">
+		<button class="btn btn--gray" data-ng-click="goToNext()" data-i18n="views.setup.optionalData.dismiss">
+		</button>
 	</div>
 </div>
