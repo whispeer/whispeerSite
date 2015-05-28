@@ -93,7 +93,8 @@ function run() {
 		"start",
 		"notificationCenter",
 		"setup",
-		"invite"
+		"invite",
+		"backup"
 	];
 
 	grunt.log.writeln("Starting webserver...");
