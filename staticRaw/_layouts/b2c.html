@@ -1,12 +1,21 @@
 <!doctype html>
 <html>
-	{{content}}
 	{% assign data = site.data[page.dataSet] %}
-	{% assign lang = site.data[page.lang] %}
+	{% assign lang = site.data.langs[page.lang] %}
 	<head>
 		{% include head.html %}
 		<link rel="stylesheet" href="{{ "/assets/css/static.css" | prepend: site.baseurl }}">
 		<link rel="stylesheet" href="{{ "/assets/css/b2c.css" | prepend: site.baseurl }}">
+		<meta property="og:url"				content="https://whispeer.de/{{page.lang}}" />
+		<meta property="og:type"			content="website" />
+		<meta property="og:title"			content="{{data.general.message}}" />
+		<meta property="og:site_name"		content="{{data.general.title}}" />
+		<meta property="og:description"		content="{{data.general.description}}" />
+		<meta property="og:image"			content="/assets/images/whispeer-sm.jpg" />
+		<meta property="og:locale" content="{{lang.fb}}" />
+		{% for lng in site.data.langs %}
+			{% if lng[0] != page.lang %}{%assign l = lng[0] %}<meta property="og:locale:alternate" content="{{site.data.langs[l].fb}}" />{% endif %}
+		{% endfor %}
 	</head>
 	<body>
 		<header class="header">

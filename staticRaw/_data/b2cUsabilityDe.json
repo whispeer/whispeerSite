@@ -1,6 +1,7 @@
 {
 	general: {
 		title: "whispeer",
+		message: "Einfach sicher kommunizieren",
 		description: "whispeer ist ein sicheres soziales Netzwerk, dass deine Privatsphäre durch Ende-zu-Ende Verschlüsselung schützt."
 	},
 	teaser: {
