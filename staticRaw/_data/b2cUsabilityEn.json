@@ -1,6 +1,7 @@
 {
 	general: {
 		title: "whispeer",
+		message: "Simply safe",
 		description: "whispeer is a secure social network offering high privacy standards by using end-to-end encryption."
 	},
 	teaser: {

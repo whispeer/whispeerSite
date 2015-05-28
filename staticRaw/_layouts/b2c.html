@@ -1,8 +1,7 @@
 <!doctype html>
-<html>
-	{{content}}
+<html itemscope itemtype="http://schema.org/Product">
 	{% assign data = site.data[page.dataSet] %}
-	{% assign lang = site.data[page.lang] %}
+	{% assign lang = site.data.langs[page.lang] %}
 	<head>
 		{% include head.html %}
 		<link rel="stylesheet" href="{{ "/assets/css/static.css" | prepend: site.baseurl }}">
