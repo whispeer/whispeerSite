@@ -2,10 +2,10 @@
 * messagesController
 **/
 
-define(["step", "whispeerHelper", "asset/state", "controllers/controllerModule"], function (step, h, State, controllerModule) {
+define(["step", "whispeerHelper", "asset/state", "bluebird", "controllers/controllerModule"], function (step, h, State, Bluebird, controllerModule) {
 	"use strict";
 
-	function messagesController($scope, $stateParams, $location, $timeout, errorService, cssService, messageService) {
+	function messagesController($scope, $stateParams, $location, $timeout, errorService, cssService, messageService, userService) {
 		cssService.setClass("messagesView", true);
 
 		$scope.topicid = 0;
@@ -211,16 +211,42 @@ define(["step", "whispeerHelper", "asset/state", "controllers/controllerModule"]
 			return bursts;
 		};
 
-		if ($stateParams.userid) {
+		function getUser(userid) {
+			var findUser = Bluebird.promisify(userService.get, userService);
+
+			return findUser(userid).then(function (user) {
+				var loadBasicData = Bluebird.promisify(user.loadBasicData, user);
+
+				return loadBasicData().then(function () {
+					return [user.data];
+				});
+			});
+		}
+
+		function loadInitialUser() {
+			if (!$stateParams.userid) {
+				return Bluebird.resolve([]);
+			}
+
+			var getUserTopic = Bluebird.promisify(messageService.getUserTopic, messageService);
+
 			$scope.userid = $stateParams.userid;
-			step(function () {
-				messageService.getUserTopic($scope.userid, this);
-			}, h.sF(function (topicid) {
+
+			return getUserTopic($scope.userid).then(function (topicid) {
 				if (topicid) {
 					$scope.loadActiveTopic(topicid);
+					return [];
+				} else {
+					return getUser($scope.userid);
 				}
-			}));
+			});
 		}
+
+		var loadInitialUserPromise = loadInitialUser();
+
+		$scope.getInitialUser = function () {
+			return loadInitialUserPromise;
+		};
 
 		if ($stateParams.topicid) {
 			$scope.loadActiveTopic($stateParams.topicid);
@@ -231,7 +257,7 @@ define(["step", "whispeerHelper", "asset/state", "controllers/controllerModule"]
 	}
 
 
-	messagesController.$inject = ["$scope", "$stateParams", "$location", "$timeout", "ssn.errorService", "ssn.cssService", "ssn.messageService"];
+	messagesController.$inject = ["$scope", "$stateParams", "$location", "$timeout", "ssn.errorService", "ssn.cssService", "ssn.messageService", "ssn.userService"];
 
 	controllerModule.controller("ssn.messagesController", messagesController);
 });
