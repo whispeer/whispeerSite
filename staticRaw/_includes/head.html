@@ -1,23 +1,30 @@
+<title>{{ data.general.title }}</title>
+<!-- Meta -->
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-
-<title>{{ data.general.title }}</title>
 <meta name="description" content="{{ data.general.description }}">
-
-<link rel="stylesheet" href="{{ "/assets/css/normalize.css" | prepend: site.baseurl }}">
-<link rel="stylesheet" href="{{ "/assets/css/font-awesome.min.css" | prepend: site.baseurl }}">
-<link rel="canonical" href="{{ page.url | replace:'index.html','' | prepend: site.baseurl | prepend: site.url }}">
-<link rel="shortcut icon" href="/assets/img/favicons/favicon.png" type="image/x-icon" />
+<!-- Open Graph Meta (Facebook, Twitter, Google+ Fallback)-->
 <meta property="og:url"				content="https://whispeer.de/{{page.lang}}" />
 <meta property="og:type"			content="website" />
 <meta property="og:title"			content="{{data.general.message}}" />
 <meta property="og:site_name"		content="{{data.general.title}}" />
 <meta property="og:description"		content="{{data.general.description}}" />
 <meta property="og:image"			content="/assets/images/whispeer-sm.jpg" />
-<meta property="og:locale" content="{{lang.fb}}" />
+<meta property="og:locale"			content="{{lang.fb}}" />
 {% for lng in site.data.langs %}
 	{% if lng[0] != page.lang %}{%assign l = lng[0] %}<meta property="og:locale:alternate" content="{{site.data.langs[l].fb}}" />{% endif %}
-{% endfor %}
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:site" content="@whispeerHQ">
+{% endfor %}#
+<!-- Twitter specific -->
+<meta name="twitter:card"			content="summary_large_image">
+<meta name="twitter:site"			content="@whispeerHQ">
+<!-- Goolge+ and Google Rich Search specific -->
+<meta itemprop="name"				content="{{data.general.title}} - {{data.general.message}}">
+<meta itemprop="description"		content="{{data.general.description}}">
+<meta itemprop="image"				content="/assets/images/whispeer-sm.jpg">
+<!-- End Meta -->
+
+<link rel="stylesheet" href="{{ "/assets/css/normalize.css" | prepend: site.baseurl }}">
+<link rel="stylesheet" href="{{ "/assets/css/font-awesome.min.css" | prepend: site.baseurl }}">
+<link rel="canonical" href="{{ page.url | replace:'index.html','' | prepend: site.baseurl | prepend: site.url }}">
+<link rel="shortcut icon" href="/assets/img/favicons/favicon.png" type="image/x-icon" />
