@@ -62,7 +62,8 @@
 				"mail": "E-Mail",
 				"firstName": "Vorname",
 				"lastName": "Nachname",
-				"privateName": "Mache meinen Namen privat (Deine Freunde können dich dann schwieriger finden)"
+				"privateName": "Mache meinen Namen privat (Deine Freunde können dich dann schwieriger finden)",
+				"dismiss": "Überspringen"
 			},
 			"save": "Name und E-Mail speichern"
 		},

@@ -1,0 +1,32 @@
+<h1 data-i18n="views.setup.welcomeHeader"></h1>
+
+<div class="backup" data-ng-if="backupFailed">
+	<header>
+		<h2 data-i18n="views.setup.backup.header"></h2>
+		<div class="backupWarningExplanation" data-syntaxify data-i18n="views.setup.backup.impossible"></div>
+
+		<button id="setupView-noBackup" class="btn btn--gray btn--big" data-ng-click="goToNext()">
+			<span data-i18n="views.setup.backup.ignore"></span>
+		</button>
+
+	</header>
+</div>
+
+<div class="backup" data-ng-if="!backupFailed">
+	<header>
+		<h2 data-i18n="views.setup.backup.header"></h2>
+		<div class="backupWarningExplanation" data-syntaxify data-i18n="views.setup.backup.explanation"></div>
+	</header>
+	<button class="btn btn--primary btn--big" data-ng-click="downloadBackup()">
+		<i class="fa fa-download"></i> <span data-i18n="views.setup.backup.downloadKey"></span>
+	</button>
+	<span class="full-line" data-i18n="views.setup.backup.or"></span>
+	<button class="btn btn--primary btn--big" data-ng-click="printBackup()">
+		<i class="fa fa-print"></i> <span data-i18n="views.setup.backup.printKey"></span>
+	</button>
+	<br><br>
+
+	<button id="setupView-noBackup" class="btn btn--gray btn--big" data-ng-click="goToNext()">
+		<span data-i18n="views.setup.backup.ignore"></span>
+	</button>
+</div>

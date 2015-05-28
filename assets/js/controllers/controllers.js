@@ -10,6 +10,7 @@ define([
 	"controllers/circlesController",
 	"controllers/settingsController",
 	"controllers/setupController",
+	"controllers/backupController",
 	"controllers/inviteController",
 	"controllers/inviteMailController",
 	"controllers/inviteLinkController",
