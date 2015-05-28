@@ -360,6 +360,10 @@
 				margin-top: -1 * (1px + @message-arrow-size);
 			}
 
+			.messages a:hover {
+				text-decoration: underline;
+			}
+
 			// messages from others
 			.other {
 				.messages:after {
@@ -396,7 +400,7 @@
 					border-left-color: @foreign-message-bg2;
 				}
 				a {
-					color: @own-message-fg;
+					color: @foreign-message-bg;
 				}
 			}
 
