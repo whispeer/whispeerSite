@@ -39,7 +39,7 @@
 	<ng-include src="'assets/views/topBar.html'"></ng-include>
 	<!-- !Disconnect Notification -->
 	<div id="globalNotificationSpace" data-ng-show="lostConnection"></div>
-	<div id="globalNotification" data-ng-show="lostConnection">
+	<div id="globalNotification" data-ng-show="lostConnection" data-ng-cloak>
 		<i class="fa fa-bolt"></i>
 		<span data-i18n="general.disconnected"></span>
 	</div>

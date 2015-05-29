@@ -5,7 +5,7 @@
 define(["step", "whispeerHelper", "config", "controllers/controllerModule"], function (step, h, config, controllerModule) {
 	"use strict";
 
-	function rootController($scope, $http, localize, socketService, sessionService, sessionHelper, userService, cssService, messageService, trustService, friendsService) {
+	function rootController($scope, $http, $interval, localize, socketService, sessionService, sessionHelper, userService, cssService, messageService, trustService, friendsService) {
 		$scope.version = "0.2.2-" + config.buildDate;
 
 		$scope.loading = true;
@@ -43,6 +43,10 @@ define(["step", "whispeerHelper", "config", "controllers/controllerModule"], fun
 		$scope.searchActive = false;
 
 		$scope.lostConnection = false;
+
+		$interval(function () {
+			$scope.lostConnection = !socketService.isConnected();
+		}, 2000);
 
 		socketService.on("disconnect", function () {
 			$scope.$apply(function () {
@@ -112,7 +116,7 @@ define(["step", "whispeerHelper", "config", "controllers/controllerModule"], fun
 		};
 	}
 
-	rootController.$inject = ["$scope", "$http", "localize", "ssn.socketService", "ssn.sessionService", "ssn.sessionHelper", "ssn.userService", "ssn.cssService", "ssn.messageService", "ssn.trustService", "ssn.friendsService"];
+	rootController.$inject = ["$scope", "$http", "$interval", "localize", "ssn.socketService", "ssn.sessionService", "ssn.sessionHelper", "ssn.userService", "ssn.cssService", "ssn.messageService", "ssn.trustService", "ssn.friendsService"];
 
 	controllerModule.controller("ssn.rootController", rootController);
 });
