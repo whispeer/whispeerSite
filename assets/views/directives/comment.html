@@ -1,8 +1,8 @@
 <li data-ng-class="{me:comment.sender.me}">
-	<a ui-sref="app.user({identifier: comment.sender.names.nickname})" class="userimg">
+	<a whispeer-sref="app.user({identifier: comment.sender.names.nickname})" class="userimg">
 		<userimage data-user="comment.sender"></userimage>
 	</a>
-	<a ui-sref="app.user({identifier: comment.sender.names.nickname})">{{comment.sender.name}}</a>
+	<a whispeer-sref="app.user({identifier: comment.sender.names.nickname})">{{comment.sender.name}}</a>
 	<p class="content" data-syntaxify="::comment.text"></p>
 	<aside class="meta">
 		<span class="date"><i class="fa fa-clock-o"></i> <span data-smart-date="::comment.time"></span>
