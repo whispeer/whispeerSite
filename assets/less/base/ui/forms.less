@@ -67,7 +67,7 @@ button[disabled] {
 	cursor: not-allowed;
 }
 
-@annotatedInputRight: 10px;
+@annotatedInputRight: 9px;
 @annotatedInputIconSize: 16px;
 
 .annotatedInput-container {
@@ -92,7 +92,7 @@ button[disabled] {
 	position: absolute;
 	top: 0; bottom: 0;
 	margin: auto 0;
-	height: 40px;
+	height: ~"calc(100% - 2px)"; // compromise border
 	border-radius: 0;
 	border: none;
 
@@ -111,6 +111,37 @@ button[disabled] {
 
 .annotatedInput-container--2 .annotatedInput-icon {
 	right: @annotatedInputRight + (@annotatedInputIconSize * 3);
+}
+
+.annotatedInput--reversed .annotatedInput-input {
+	padding-right: 9px;
+	padding-left: @annotatedInputRight + @annotatedInputIconSize;
+}
+
+.annotatedInput--reversed .annotatedInput-icon {
+	right: auto;
+	left: @annotatedInputRight;
+}
+
+.annotatedInput--reversed .annotatedInput-button {
+	right: auto;
+	left: @annotatedInputRight - 8px;
+}
+
+.annotatedInput--reversed.annotatedInput-container--2 .annotatedInput-input {
+	padding-left: @annotatedInputRight + (@annotatedInputIconSize * 4);
+}
+
+.annotatedInput--reversed.annotatedInput-container--2 .annotatedInput-icon, {
+	left: @annotatedInputRight + @annotatedInputIconSize;
+}
+
+.annotatedInput--reversed .annotatedInput-button {
+	border-radius: 0 3px 3px 0;
+	width: 50px;
+}
+.annotatedInput--reversed.annotatedInput-container--button .annotatedInput-input {
+	padding-left: @annotatedInputRight + @annotatedInputIconSize + 30px;
 }
 
 @pwStrengthWidth: 40px;

@@ -24,7 +24,10 @@
 			</li>
 		</ul>
 		<form id="inputWrap">
-			<textarea focus-me="canSend" id="messageInput" data-advancedsend="sendMessage(activeTopic.newMessage)" type="text" data-ng-model="activeTopic.newMessage" data-ng-disabled="!canSend" data-i18n-attr="messages.sendMessage.text|placeholder"></textarea>
+			<div class="annotatedInput annotatedInput--reversed" id="messageInput">
+				<i class="fa fa-upload annotatedInput-icon"></i>
+				<textarea focus-me="canSend" data-advancedsend="sendMessage(activeTopic.newMessage)" type="text" data-ng-model="activeTopic.newMessage" data-ng-disabled="!canSend" data-i18n-attr="messages.sendMessage.text|placeholder"></textarea>
+			</div>
 			<savebutton id="sendmessage" data-ng-click="sendMessage(activeTopic.newMessage)" data-state="sendMessageState" data-noiniticon>
 				<span data-i18n="messages.sendMessage.send"></span>
 			</savebutton>

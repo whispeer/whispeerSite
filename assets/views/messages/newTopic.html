@@ -2,7 +2,12 @@
 	<search data-supplier="userSearchSupplier" callback="create.setUsers(selected)" data-search-template="userSimple" data-multiple data-input-i18n-attr="messages.search|placeholder" data-base="user" data-initial-values="getInitialUser()"/>
 
 	<form id="inputWrap">
-		<textarea data-advancedsend="create.send(create.users, create.text)" type="text" data-i18n-attr="messages.sendMessage.text|placeholder" id="messageInput" data-ng-model="create.text"></textarea>
+		<div class="annotatedInput-container annotatedInput-container--button annotatedInput--reversed" id="messageInput">
+			<button class="btn annotatedInput-button">
+				<i class="fa fa-upload"></i>
+			</button>
+			<textarea data-advancedsend="create.send(create.users, create.text)" type="text" data-i18n-attr="messages.sendMessage.text|placeholder" class="annotatedInput-input" data-ng-model="create.text"></textarea>
+		</div>
 		<savebutton id="sendmessage" data-state="sendMessageState" data-ng-click="create.send(create.users, create.text)">
 			<span data-i18n="messages.sendMessage.send"></span>
 		</savebutton>
