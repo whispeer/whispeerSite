@@ -1,5 +1,7 @@
-.staticBoxView-main {
-	margin: 10px;
+.staticBoxView,
+.staticBoxView body {
+	height: 100%;
+	&:extend(.box-fix);
 }
 .staticBoxView-menu {
 	margin: 10px auto 0;
@@ -9,15 +11,18 @@
 .staticBoxView-menu-item {
 	width: 98%;
 	margin: 0 auto;
-	margin-bottom: 10px;
 	list-style-type: none;
 }
 .staticBoxView-menu-item-link {
-	width: 100%;
+	width: 98%;
 	color: #fff;
 	height: 50px;
 	line-height: 50px;
 	text-align: center;
+	margin: 0 auto 10px auto;
+	&:first-child {
+		margin-top: 10px;
+	}
 }
 .staticBoxView {
 	h2 {
