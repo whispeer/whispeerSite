@@ -3,8 +3,8 @@
 		height: 100%;
 	}
 	.box-header-title {
-		@media @desktop { .width(7); }
-		@media @mobile { .width(10.5); &.circleLoaded{ .width(9); } }
+		@media @desktop { width: ~"calc(((100%/12)*8) - 33px)"; }
+		@media @mobile { width: ~"calc(100% - 50px)"; &.circleLoaded{ width: ~"calc(100% - 100px)"; } }
 		overflow: hidden;
 		white-space: nowrap;
 		text-overflow: ellipsis;
@@ -13,19 +13,10 @@
 		@media @mobile { .width(12,12,0); margin: 0; border: none; }
 		@media @desktop { .width(4,12,0); }
 	}
-	#removeCircle {
-		@media @desktop { .width(1); }
-		@media @mobile { .width(1.5); }
-		text-align: center;
-	}
-	#backToMenu {
-		@media @mobile { .width(1.5); text-align: center; }
-	}
 	#circleListWrap {
 		@media @mobile { .width(12,12,0); margin: 0; }
-		@media @desktop { .column(4,12,left,0); border-right: 1px solid #ccc; }
+		@media @desktop { .column(4,12,left,0); border-right: 1px solid #ccc; height: 100%; }
 		&:extend(.box-fix);
-		height: ~"calc(100% - 31px)";
 	}
 	#circleList {
 		&:extend(.box-fix);
@@ -229,6 +220,9 @@
 			border-radius: 0 0 5px 5px;
 		}
 	}
+	.search-resultsDrop {
+		@media @mobile { top: 40px; }
+	}
 	.newCircle {
 		#circleTitle {
 			h2 {
@@ -251,9 +245,6 @@
 				margin-left: 1% !important;
 				border-radius: @inputBorderRadius;
 			}
-		}
-		.search-resultsDrop {
-			@media @mobile { top: 43px; }
 		}
 	}
 }

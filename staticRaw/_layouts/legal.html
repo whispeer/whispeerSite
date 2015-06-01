@@ -9,32 +9,22 @@
 		</header>
 		<section class="box-content box-content--scroll box-content--sidePadding" id="general">
 			{% if page.baseView == true %}
-			<ul class="staticBoxView-menu u-unstyled">
-				<li class="staticBoxView-menu-item">
-					<a class="staticBoxView-menu-item-link btn btn--primary" href="{{ page.lang | prepend: '/' | prepend: site.baseurl }}/agb">
-						<i class="fa fa-briefcase fa-fw"></i>
-						<span>{{ i18n.legal.terms }}</span>
-					</a>
-				</li>
-				<li class="staticBoxView-menu-item">
-					<a class="staticBoxView-menu-item-link btn btn--primary" href="{{ page.lang | prepend: '/' | prepend: site.baseurl }}/privacyPolicy">
-						<i class="fa fa-lock fa-fw"></i>
-						<span>{{ i18n.legal.data }}</span>
-					</a>
-				</li>
-				<li class="staticBoxView-menu-item">
-					<a class="staticBoxView-menu-item-link btn btn--primary" href="mailto:support@whispeer.de">
-						<i class="fa fa-comments fa-fw"></i>
-						<span>{{ i18n.legal.contact }}</span>
-					</a>
-				</li>
-				<li class="staticBoxView-menu-item">
-					<a class="staticBoxView-menu-item-link btn btn--primary" href="{{ page.lang | prepend: '/' | prepend: site.baseurl }}/impressum">
-						<i class="fa fa-book fa-fw"></i>
-						<span>{{ i18n.legal.notice }}</span>
-					</a>
-				</li>
-			</ul>
+				<a class="staticBoxView-menu-item-link btn btn--primary" href="{{ page.lang | prepend: '/' | prepend: site.baseurl }}/agb">
+					<i class="fa fa-briefcase fa-fw"></i>
+					<span>{{ i18n.legal.terms }}</span>
+				</a>
+				<a class="staticBoxView-menu-item-link btn btn--primary" href="{{ page.lang | prepend: '/' | prepend: site.baseurl }}/privacyPolicy">
+					<i class="fa fa-lock fa-fw"></i>
+					<span>{{ i18n.legal.data }}</span>
+				</a>
+				<a class="staticBoxView-menu-item-link btn btn--primary" href="mailto:support@whispeer.de">
+					<i class="fa fa-comments fa-fw"></i>
+					<span>{{ i18n.legal.contact }}</span>
+				</a>
+				<a class="staticBoxView-menu-item-link btn btn--primary" href="{{ page.lang | prepend: '/' | prepend: site.baseurl }}/impressum">
+					<i class="fa fa-book fa-fw"></i>
+					<span>{{ i18n.legal.notice }}</span>
+				</a>
 			{% endif %}
 			{{ content }}
 		</section>

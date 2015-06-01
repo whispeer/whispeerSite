@@ -27,13 +27,6 @@ html:not(.mainView):not(.startView):not(.inviteView) {
 			padding: 10px 0;
 		}
 	}
-	@media @mobile {
-		#main {
-			top: 55px;
-			height: ~"calc(100% - 60px)";
-
-		}
-	}
 }
 
 .body-iframe body {
@@ -81,7 +74,7 @@ noscript {
 	}
 
 	@media @mobile {
-		.column(12);
+		width: 100%;
 		position: absolute;
 		transition-duration: @mobileNavTransitionTime;
 	}

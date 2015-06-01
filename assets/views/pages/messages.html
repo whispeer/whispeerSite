@@ -21,12 +21,13 @@
 		<i class="fa fa-bars fa-fw"></i>
 	</button>
 </header>
+<section class="box-content--scroll">
+	<ng-include src="'assets/views/messages/topicsList.html'" data-ng-if="!mobile || !showMessage">
+	</ng-include>
 
-<ng-include src="'assets/views/messages/topicsList.html'" data-ng-if="!mobile || !showMessage">
-</ng-include>
+	<ng-include src="'assets/views/messages/messagesList.html'" data-ng-if="topicLoaded && showMessage">
+	</ng-include>
 
-<ng-include src="'assets/views/messages/messagesList.html'" data-ng-if="topicLoaded && showMessage">
-</ng-include>
-
-<ng-include src="'assets/views/messages/newTopic.html'" data-ng-if="!topicLoaded && showMessage">
-</ng-include>
+	<ng-include src="'assets/views/messages/newTopic.html'" data-ng-if="!topicLoaded && showMessage">
+	</ng-include>
+</section>
