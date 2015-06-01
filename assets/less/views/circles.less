@@ -3,8 +3,8 @@
 		height: 100%;
 	}
 	.box-header-title {
-		@media @desktop { .width(7); }
-		@media @mobile { .width(10.5); &.circleLoaded{ .width(9); } }
+		@media @desktop { width: ~"calc(((100%/12)*8) - 33px)"; }
+		@media @mobile { width: ~"calc(100% - 50px)"; &.circleLoaded{ width: ~"calc(100% - 100px)"; } }
 		overflow: hidden;
 		white-space: nowrap;
 		text-overflow: ellipsis;
