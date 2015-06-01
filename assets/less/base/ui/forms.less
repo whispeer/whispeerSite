@@ -155,6 +155,11 @@ button[disabled] {
 .annotatedInput--reversed .annotatedInput-button {
 	right: auto;
 	left: @annotatedInputRight - 8px;
+	border-radius: 0;
+}
+
+.annotatedInput--reversed .annotatedInput-button:first-child {
+	border-radius: 3px 0 0 3px;
 }
 
 .annotatedInput--reversed.annotatedInput-container--2 .annotatedInput-input {

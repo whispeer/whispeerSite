@@ -7,7 +7,7 @@
 				<button class="uploadForm-button btn"><i class="fa fa-upload"></i></button>
 				<input class="uploadForm-theForm" type="file" data-file="imageChange" width="4000">
 			</div>
-			<textarea data-advancedsend="create.send(create.users, create.text)" type="text" data-i18n-attr="messages.sendMessage.text|placeholder" class="annotatedInput-input" data-ng-model="create.text"></textarea>
+			<textarea id="messageView-messageInput" data-advancedsend="create.send(create.users, create.text)" type="text" data-i18n-attr="messages.sendMessage.text|placeholder" class="annotatedInput-input" data-ng-model="create.text"></textarea>
 		</div>
 		<savebutton id="sendmessage" data-state="sendMessageState" data-ng-click="create.send(create.users, create.text)">
 			<span data-i18n="messages.sendMessage.send"></span>
