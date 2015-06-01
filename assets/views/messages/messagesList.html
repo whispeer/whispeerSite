@@ -24,9 +24,12 @@
 			</li>
 		</ul>
 		<form id="inputWrap">
-			<div class="annotatedInput annotatedInput--reversed" id="messageInput">
-				<i class="fa fa-upload annotatedInput-icon"></i>
-				<textarea focus-me="canSend" data-advancedsend="sendMessage(activeTopic.newMessage)" type="text" data-ng-model="activeTopic.newMessage" data-ng-disabled="!canSend" data-i18n-attr="messages.sendMessage.text|placeholder"></textarea>
+			<div class="annotatedInput-container annotatedInput-container--button annotatedInput--reversed" id="messageInput">
+				<div class="uploadForm annotatedInput-button">
+					<button class="uploadForm-button btn"><i class="fa fa-upload"></i></button>
+					<input class="uploadForm-theForm" type="file" data-file="imageChange" width="4000">
+				</div>
+				<textarea id="messageView-messageInput" focus-me="canSend" data-advancedsend="sendMessage(activeTopic.newMessage)" type="text" data-ng-model="activeTopic.newMessage" data-ng-disabled="!canSend" data-i18n-attr="messages.sendMessage.text|placeholder" class="annotatedInput-input"></textarea>
 			</div>
 			<savebutton id="sendmessage" data-ng-click="sendMessage(activeTopic.newMessage)" data-state="sendMessageState" data-noiniticon>
 				<span data-i18n="messages.sendMessage.send"></span>
