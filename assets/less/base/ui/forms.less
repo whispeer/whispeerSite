@@ -126,6 +126,7 @@ button[disabled] {
 	border: none;
 
 	right: @annotatedInputRight - 10px;
+	border-left: 1px solid @inputBorder;
 }
 .annotatedInput-button:last-child {
 	border-radius: 0 3px 3px 0;
@@ -156,6 +157,8 @@ button[disabled] {
 	right: auto;
 	left: @annotatedInputRight - 8px;
 	border-radius: 0;
+	border-left: none;
+	border-right: 1px solid @inputBorder;
 }
 
 .annotatedInput--reversed .annotatedInput-button:first-child {
