@@ -67,6 +67,35 @@ button[disabled] {
 	cursor: not-allowed;
 }
 
+.uploadForm {
+	display: block;
+	position: relative;
+	height: 40px;
+	overflow: hidden;
+
+	cursor: pointer;
+}
+.uploadForm-button {
+	height: 100%;
+	width: 100%;
+	z-index: 1;
+}
+.uploadForm-theForm {
+	position: absolute;
+	width: 100%;
+	height: ~"calc(100% + 50px)";
+	top: -50px;
+	left: 0;
+	z-index: 2;
+	opacity: 0;
+	background: black;
+
+	cursor: pointer;
+}
+.uploadForm-theForm:hover {
+	opacity: 0.05;
+}
+
 @annotatedInputRight: 9px;
 @annotatedInputIconSize: 16px;
 
@@ -174,35 +203,6 @@ span[data-strength="7"]:after { width: @pwStrengthWidth*(7/10); background-color
 span[data-strength="8"]:after { width: @pwStrengthWidth*(8/10); background-color: @primary; }
 span[data-strength="9"]:after { width: @pwStrengthWidth*(9/10); background-color: @primaryDarker; }
 span[data-strength="10"]:after { width: @pwStrengthWidth*(10/10); background-color: @primaryDarkest; }
-
-.uploadForm {
-	display: block;
-	position: relative;
-	height: 40px;
-	overflow: hidden;
-
-	cursor: pointer;
-}
-.uploadForm-button {
-	height: 100%;
-	width: 100%;
-	z-index: 1;
-}
-.uploadForm-theForm {
-	position: absolute;
-	width: 100%;
-	height: ~"calc(100% + 50px)";
-	top: -50px;
-	left: 0;
-	z-index: 2;
-	opacity: 0;
-	background: black;
-
-	cursor: pointer;
-}
-.uploadForm-theForm:hover {
-	opacity: 0.05;
-}
 
 .inputSandwich {
 	display: block;
