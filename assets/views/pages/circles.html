@@ -14,60 +14,61 @@
 	<button id="backToMenu" class="box-header-button box-header-button--right" data-ng-if="mobile && showCircle" data-ng-click="unloadCircleMobile()"><i class="fa fa-fw fa-bars"></i></button>
 	<button id="removeCircle" class="box-header-button box-header-button--right" data-ng-if="circleLoaded" data-ng-click="removeCircle()"><i class="fa fa-fw fa-trash-o"></i></button>
 </header>
-
-<div id="circleListWrap" data-ng-if="!mobile || !showCircle">
-	<ul id="circleList" class="unstyled">
-		<div id="circleListScroll">
-			<li data-ng-repeat="circle in circles" id="{{circle.id}}" class="circleList-item {{isActiveCircle(circle.id)?'circleList-item--active':''}}" data-accessible-click="loadActiveCircle(circle.id)">
-				<div class="circleList-item-image">
-					<img class="userimg" data-ng-src="{{circle.image}}" alt="Userimage">
-				</div>
-				<div class="circleList-item-info">
-					<div class="circleList-item-listname">
-						<strong>{{circle.name}}</strong>
+<section class="box-content--scroll">
+	<div id="circleListWrap" data-ng-if="!mobile || !showCircle">
+		<ul id="circleList" class="unstyled">
+			<div id="circleListScroll">
+				<li data-ng-repeat="circle in circles" id="{{circle.id}}" class="circleList-item {{isActiveCircle(circle.id)?'circleList-item--active':''}}" data-accessible-click="loadActiveCircle(circle.id)">
+					<div class="circleList-item-image">
+						<img class="userimg" data-ng-src="{{circle.image}}" alt="Userimage">
 					</div>
-					<div class="circleList-item-personCount" data-i18n="views.circles.personCount|count={{circle.userids.length}}">
+					<div class="circleList-item-info">
+						<div class="circleList-item-listname">
+							<strong>{{circle.name}}</strong>
+						</div>
+						<div class="circleList-item-personCount" data-i18n="views.circles.personCount|count={{circle.userids.length}}">
+						</div>
 					</div>
+					<div class="clear-fix"></div>
+				</li>
+				<li id="circleView-inviteFriends" data-ng-if="circles.length <= 3">
+					<a class="inviteFriends-link btn btn--gray btn--hasIcon" id="circleView-inviteFriends-link" ui-sref="app.invite">
+						<i class="fa fa-fw fa-share-alt btn-icon"></i>
+						<span class="btn-text" data-i18n="inviteFriends"></span>
+					</a>
+				</li>
 				</div>
-				<div class="clear-fix"></div>
-			</li>
-			<li id="circleView-inviteFriends" data-ng-if="circles.length <= 3">
-				<a class="inviteFriends-link btn btn--gray btn--hasIcon" id="circleView-inviteFriends-link" ui-sref="app.invite">
-					<i class="fa fa-fw fa-share-alt btn-icon"></i>
-					<span class="btn-text" data-i18n="inviteFriends"></span>
-				</a>
-			</li>
-			</div>
+			</ul>
+		</div>
 		</ul>
 	</div>
-	</ul>
-</div>
 
-<div id="circleContainer" data-circleID="{{thisCircle.id}}" data-ng-if="circleLoaded && showCircle">
-	<div id="circleWrap">
-		<div class="circleView-addUsers">
-			<search class="circleView-addUsers-search"  data-supplier="friendsSearchSupplier" callback="setUsersToAdd(selected)" data-search-template="userSimple" data-filter="thisCircle.userids" data-multiple data-input-i18n-attr="views.circles.searchFriends|placeholder" data-base="user" />
-			<savebutton class="circleView-addUsers-submit" data-noiniticon data-state="addUsersToCircle" data-ng-click="addUsers()">
-				<span data-i18n="views.circles.addUsers"></span>
-			</savebutton>
+	<div id="circleContainer" data-circleID="{{thisCircle.id}}" data-ng-if="circleLoaded && showCircle">
+		<div id="circleWrap">
+			<div class="circleView-addUsers">
+				<search class="circleView-addUsers-search"  data-supplier="friendsSearchSupplier" callback="setUsersToAdd(selected)" data-search-template="userSimple" data-filter="thisCircle.userids" data-multiple data-input-i18n-attr="views.circles.searchFriends|placeholder" data-base="user" />
+				<savebutton class="circleView-addUsers-submit" data-noiniticon data-state="addUsersToCircle" data-ng-click="addUsers()">
+					<span data-i18n="views.circles.addUsers"></span>
+				</savebutton>
+			</div>
+			<ol id="friendsList" class="u-unstyled">
+				<li data-ng-repeat="friend in thisCircle.persons">
+					<person data-user="friend" data-type="friend">
+						<a ui-sref="app.messages({userid: friend.id})"><i class="fa fa-2x fa-envelope fa-fw"></i></a>
+						<a data-ng-click="$parent.removeUser(friend)"><i class="person-clickable fa fa-2x fa-times fa-fw"></i></a>
+					</person>
+				</li>
+			</ol>
 		</div>
-		<ol id="friendsList" class="u-unstyled">
-			<li data-ng-repeat="friend in thisCircle.persons">
-				<person data-user="friend" data-type="friend">
-					<a ui-sref="app.messages({userid: friend.id})"><i class="fa fa-2x fa-envelope fa-fw"></i></a>
-					<a data-ng-click="$parent.removeUser(friend)"><i class="person-clickable fa fa-2x fa-times fa-fw"></i></a>
-				</person>
-			</li>
-		</ol>
 	</div>
-</div>
 
-<div id="circleContainer" class="newCircle" data-ng-if="!circleLoaded && showCircle">
-	<div id="circleWrap">
-		<form id="inputWrap">
-			<input type="text" data-i18n-attr="views.circles.titleForNew|placeholder" id="titleInput" data-ng-model="circleName">
-			<search data-supplier="friendsSearchSupplier" id="friendInput" callback="setCreateNewUsers(selected)" data-search-template="userSimple" data-multiple data-input-i18n-attr="views.circles.searchFriends|placeholder" data-base="user"></search>
-			<button class="btn btn--primary btn--big" id="savecircle" type="submit" data-ng-click="createNew(circleName)" data-i18n="views.circles.createCircle"></button>
-		</form>
+	<div id="circleContainer" class="newCircle" data-ng-if="!circleLoaded && showCircle">
+		<div id="circleWrap">
+			<form id="inputWrap">
+				<input type="text" data-i18n-attr="views.circles.titleForNew|placeholder" id="titleInput" data-ng-model="circleName">
+				<search data-supplier="friendsSearchSupplier" id="friendInput" callback="setCreateNewUsers(selected)" data-search-template="userSimple" data-multiple data-input-i18n-attr="views.circles.searchFriends|placeholder" data-base="user"></search>
+				<button class="btn btn--primary btn--big" id="savecircle" type="submit" data-ng-click="createNew(circleName)" data-i18n="views.circles.createCircle"></button>
+			</form>
+		</div>
 	</div>
-</div>
+</section>
