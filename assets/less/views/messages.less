@@ -452,6 +452,16 @@
 					padding-bottom: 0;
 					line-height: 38px;
 				}
+				&::-webkit-input-placeholder { transition: .5s; transform: translate3d(0,0,0); }
+				&::-moz-placeholder { transition: .5s; transform: translate3d(0,0,0); }
+				&:-ms-input-placeholder { transition: .5s; transform: translate3d(0,0,0); }
+				&:-moz-placeholder { transition: .5s; transform: translate3d(0,0,0); }
+				&:focus {
+					&::-webkit-input-placeholder { opacity: 0; }
+					&::-moz-placeholder { opacity: 0; }
+					&:-ms-input-placeholder { opacity: 0; }
+					&:-moz-placeholder { opacity: 0; }
+				}
 			}
 			#sendmessage {
 				height: @form-height;
