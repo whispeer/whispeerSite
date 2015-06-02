@@ -1,28 +1,34 @@
 <section id="inviteView-selectInviteMethod">
 	<h1 class="inviteView-header" data-i18n="views.invite.title"></h1>
+
+	<label for="anonymousInvite">
+		<input type="checkbox" data-ng-model="anonymous" id="anonymousInvite" class="anonymousInvite">
+		<span data-i18n="views.invite.anonymous"></span>
+	</label><br><br>
+
 	<!-- Facebook -->
-	<a href="http://www.facebook.com/sharer.php?u={{url('fb')}}" target="_blank" class="btn btn--primary inviteView-shareButton">
+	<button data-ng-click="open('facebook')" target="_blank" class="btn btn--primary inviteView-shareButton">
 		<i class="fa fa-facebook"></i>
 		<span>Facebook</span>
-	</a>
+	</button>
 
 	<!-- Twitter -->
-	<a href="https://twitter.com/intent/tweet?url={{url()}}&text={{text}}&hashtags={{hashtags}}" target="_blank" class="btn btn--primary inviteView-shareButton">
+	<button data-ng-click="open('twitter')" target="_blank" class="btn btn--primary inviteView-shareButton">
 		<i class="fa fa-twitter"></i>
 		<span>Twitter</span>
-	</a>
+	</button>
 
 	<!-- Google+ -->
-	<a href="https://plus.google.com/share?url={{url('gp')}}" target="_blank" class="btn btn--primary inviteView-shareButton">
+	<button data-ng-click="open('google')" target="_blank" class="btn btn--primary inviteView-shareButton">
 		<i class="fa fa-google-plus"></i>
 		<span>Google+</span>
-	</a>
+	</button>
 
 	<!-- Reddit -->
-	<a href="http://reddit.com/submit?url={{url()}}&title={{text}}" target="_blank" class="btn btn--primary inviteView-shareButton">
+	<button data-ng-click="open('reddit')" target="_blank" class="btn btn--primary inviteView-shareButton">
 		<i class="fa fa-reddit"></i>
 		<span>Reddit</span>
-	</a>
+	</button>
 
 	<a whispeer-sref="app.invite.mail" class="btn btn--primary inviteView-shareButton">
 		<i class="fa fa-envelope"></i>
