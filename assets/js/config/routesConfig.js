@@ -27,6 +27,7 @@ define(["app"], function (app) {
 		}
 
 		addMain("setup");
+		addMain("backup");
 		addMain("main");
 		addMain("friends");
 		addMain("circles");

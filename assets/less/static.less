@@ -25,7 +25,8 @@ body {
 	background: transparent;
 }
 .hasTopBar {
-	padding-top: 50px;
+	@media @mobile { padding-top: 50px; }
+	@media @desktop { padding-top: 60px; }
 }
 
 // Views

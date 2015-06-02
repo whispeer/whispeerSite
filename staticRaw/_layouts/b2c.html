@@ -1,14 +1,19 @@
 <!doctype html>
-<html>
-	{{content}}
+<html itemscope itemtype="http://schema.org/Product" prefix="my_namespace: http://ogp.me/ns/website#">
 	{% assign data = site.data[page.dataSet] %}
-	{% assign lang = site.data[page.lang] %}
+	{% assign lang = site.data.langs[page.lang] %}
 	<head>
 		{% include head.html %}
 		<link rel="stylesheet" href="{{ "/assets/css/static.css" | prepend: site.baseurl }}">
 		<link rel="stylesheet" href="{{ "/assets/css/b2c.css" | prepend: site.baseurl }}">
 	</head>
 	<body>
+		<noscript class="no-script">
+			<span>
+				<p><i class="fa fa-frown-o fa-3x fa-fw"></i></p>
+				<p>{{data.general.noScript}}</p>
+			</span>
+		</noscript>
 		<header class="header">
 			<div class="header-inner">
 				<a data-ng-href="/{{page.lang}}/" class="header-brand" data-ng-click="mobileActivateView()">

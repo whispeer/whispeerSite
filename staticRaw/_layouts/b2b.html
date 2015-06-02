@@ -5,6 +5,8 @@
 	{% assign lang = site.data[page.lang] %}
 	<head>
 		{% include head.html %}
+		<link rel="stylesheet" href="{{ "/assets/css/normalize.css" | prepend: site.baseurl }}">
+		<link rel="stylesheet" href="{{ "/assets/css/font-awesome.min.css" | prepend: site.baseurl }}">
 		<link rel="stylesheet" href="{{ "/assets/css/b2b.css" | prepend: site.baseurl }}">
 	</head>
 	<body>

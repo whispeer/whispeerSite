@@ -3,8 +3,8 @@
 		height: 100%;
 	}
 	.box-header-title {
-		@media @desktop { .width(7); }
-		@media @mobile { .width(10.5); &.circleLoaded{ .width(9); } }
+		@media @desktop { width: ~"calc(((100%/12)*8) - 33px)"; }
+		@media @mobile { width: ~"calc(100% - 50px)"; &.circleLoaded{ width: ~"calc(100% - 100px)"; } }
 		overflow: hidden;
 		white-space: nowrap;
 		text-overflow: ellipsis;
@@ -13,19 +13,10 @@
 		@media @mobile { .width(12,12,0); margin: 0; border: none; }
 		@media @desktop { .width(4,12,0); }
 	}
-	#removeCircle {
-		@media @desktop { .width(1); }
-		@media @mobile { .width(1.5); }
-		text-align: center;
-	}
-	#backToMenu {
-		@media @mobile { .width(1.5); text-align: center; }
-	}
 	#circleListWrap {
 		@media @mobile { .width(12,12,0); margin: 0; }
-		@media @desktop { .column(4,12,left,0); border-right: 1px solid #ccc; }
+		@media @desktop { .column(4,12,left,0); border-right: 1px solid #ccc; height: 100%; }
 		&:extend(.box-fix);
-		height: ~"calc(100% - 31px)";
 	}
 	#circleList {
 		&:extend(.box-fix);
@@ -48,7 +39,7 @@
 		border-bottom: 1px solid #ccc;
 		padding: 0;
 		cursor: pointer;
-		transition: background 0.2s ease;
+		transition: 0.5s ease;
 	}
 	.circleList-item-image {
 		@media @mobile { .column(2); }
@@ -109,19 +100,8 @@
 		margin: 0;
 	}
 	.inviteFriends-link {
-		.large-text();
 		width: 100%;
-		@media @desktop {
-			min-height: 100px;
-			line-height: 100px;
-		}
-		@media @mobile {
-			min-height: 75px;
-			line-height: 75px;
-		}
-		text-align: center;
-		border-radius: 0;
-		border: none;
+		border-bottom: 1px solid #ccc;
 	}
 	#circleContainer {
 		@media @desktop { .column(8,12,left,0); }
@@ -240,6 +220,9 @@
 			border-radius: 0 0 5px 5px;
 		}
 	}
+	.search-resultsDrop {
+		@media @mobile { top: 40px; }
+	}
 	.newCircle {
 		#circleTitle {
 			h2 {
@@ -252,18 +235,16 @@
 			position: relative;
 			top: 0;
 			left: 0;
-			margin-top: 1%;
+			margin-top: 10px;
 			#titleInput, #friendInput {
 				.column(12);
-				margin-bottom: 1%;
+				margin-bottom: 10px;
 			}
 			#savecircle {
 				@media @mobile { .column(12); }
 				margin-left: 1% !important;
+				border-radius: @inputBorderRadius;
 			}
-		}
-		.search-resultsDrop {
-			@media @mobile { top: 43px; }
 		}
 	}
 }

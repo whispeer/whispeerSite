@@ -9,6 +9,7 @@
 	<title>whispeer</title>
 	<meta name="description" lang="de" content="whispeer: teile deine privaten Gedanken mit deinen Freunden!">
 	<meta name="description" lang="en" content="whispeer: share private thoughts with friends - free, no ads, encrypted">
+	<meta property="fb:app_id" content="156394267887242" />
 
 	<meta name="viewport" content="target-densitydpi=device-dpi, initial-scale=1.0, user-scalable=no" />
 	<link rel="shortcut icon" href="assets/img/favicons/favicon.png" type="image/x-icon" />
@@ -38,7 +39,7 @@
 	<ng-include src="'assets/views/topBar.html'"></ng-include>
 	<!-- !Disconnect Notification -->
 	<div id="globalNotificationSpace" data-ng-show="lostConnection"></div>
-	<div id="globalNotification" data-ng-show="lostConnection">
+	<div id="globalNotification" data-ng-show="lostConnection" data-ng-cloak>
 		<i class="fa fa-bolt"></i>
 		<span data-i18n="general.disconnected"></span>
 	</div>

@@ -24,6 +24,12 @@
 				<div class="time"><i class="fa fa-clock-o"></i> <span data-smart-date="topic.latestMessage.data.timestamp"></span></div>
 				<div class="clear-fix"></div>
 			</li>
+			<li id="messageView-inviteFriends" data-ng-if="topics.length <= 3">
+				<a class="inviteFriends-link btn btn--gray btn--hasIcon" id="messageView-inviteFriends-link" whispeer-sref="app.invite">
+					<i class="fa fa-fw fa-share-alt btn-icon"></i>
+					<span class="btn-text" data-i18n="inviteFriends"></span>
+				</a>
+			</li>
 		</div>
 	</ul>
 </div>

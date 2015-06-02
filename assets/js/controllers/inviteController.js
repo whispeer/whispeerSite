@@ -8,8 +8,10 @@ define(["step", "whispeerHelper", "asset/state", "controllers/controllerModule"]
 	function inviteController($scope, $location, cssService, localize) {
 		cssService.setClass("inviteView");
 
-		$scope.domain = $location.protocol() + "://" + $location.host();
-		$scope.url = encodeURIComponent($scope.domain);
+		$scope.domain = $location.protocol() + "://" + $location.host() + "/" + localize.getLanguage();
+		$scope.url = function (name) {
+			return encodeURIComponent($scope.domain + (name ? "?" + name : ""));
+		};
 		$scope.text = localize.getLocalizedString("views.invite.shareText", {});
 		$scope.hashtags = localize.getLocalizedString("views.invite.shareHashTags", {});
 	}

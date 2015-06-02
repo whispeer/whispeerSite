@@ -138,6 +138,7 @@ define([
 
 			step(function () {
 				console.time("register");
+
 				locationService.setReturnUrl("/setup");
 				registerService.register($scope.nickname, "", $scope.pwState.password, profile, settings, inviteCode, this);
 			}, function (e) {

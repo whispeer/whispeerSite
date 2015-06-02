@@ -21,17 +21,10 @@ html {
 	}
 }
 
-html:not(.mainView):not(.startView) {
+html:not(.mainView):not(.startView):not(.inviteView) {
 	@media @desktop {
 		#container {
 			padding: 10px 0;
-		}
-	}
-	@media @mobile {
-		#main {
-			top: 55px;
-			height: ~"calc(100% - 60px)";
-
 		}
 	}
 }
@@ -81,7 +74,7 @@ noscript {
 	}
 
 	@media @mobile {
-		.column(12);
+		width: 100%;
 		position: absolute;
 		transition-duration: @mobileNavTransitionTime;
 	}
@@ -95,8 +88,6 @@ noscript {
 }
 
 .inviteFriends-link {
-	.large-text();
-	line-height: 40px;
 	text-align: center;
 }
 
