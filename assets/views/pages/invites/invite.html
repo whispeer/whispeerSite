@@ -50,6 +50,7 @@
 				<loader data-model="user" data-ng-repeat="user in invite.usedBy" data-id="user" data-scope-attribute="user">
 					<person data-user="user" data-ng-if="loaded"></person>
 				</loader>
+				<p>{{ invite.reference ? invite.reference : invite.code }}</p>
 			</li>
 		</ul>
 	</section>
