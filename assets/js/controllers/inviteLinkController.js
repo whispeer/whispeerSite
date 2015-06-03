@@ -16,7 +16,7 @@ define(["step", "whispeerHelper", "asset/state", "controllers/controllerModule"]
 		inviteGenerateState.pending();
 
 		step(function () {
-			socketService.emit("invites.generateCode", {}, this);
+			socketService.emit("invites.generateCode", { active: true }, this);
 		}, h.sF(function (result) {
 			$scope.inviteCode = result.inviteCode;
 
