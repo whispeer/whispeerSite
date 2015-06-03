@@ -47,7 +47,9 @@
 	<section id="inviteView-acceptedInvites">
 		<ul data-ng-repeat="invite in sentInvites">
 			<li class="inviteView-invitedUser">
-				<person data-ng-repeat="user in invite.usedBy" data-user="user"></person>
+				<loader data-model="user" data-ng-repeat="user in invite.usedBy" data-id="user" data-scope-attribute="user">
+					<person data-user="user" data-ng-if="loaded"></person>
+				</loader>
 			</li>
 		</ul>
 	</section>
