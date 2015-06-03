@@ -86,8 +86,11 @@ define(["step", "whispeerHelper", "asset/state", "controllers/controllerModule"]
 			});
 			window.open(url);
 
-			activateCode(code, type);
-			generateCode();
+			if (!$scope.anonymous) {
+				activateCode(code, type);
+				generateCode();
+			}
+
 			updateSentInvites();
 		};
 	}
