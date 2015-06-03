@@ -1,11 +1,6 @@
 <section id="inviteView-selectInviteMethod">
 	<h1 class="inviteView-header" data-i18n="views.invite.title"></h1>
 
-	<label for="anonymousInvite">
-		<input type="checkbox" data-ng-model="anonymous" id="anonymousInvite" class="anonymousInvite">
-		<span data-i18n="views.invite.anonymous"></span>
-	</label><br><br>
-
 	<!-- Facebook -->
 	<button data-ng-click="open('facebook')" target="_blank" class="btn btn--primary inviteView-shareButton">
 		<i class="fa fa-facebook"></i>
@@ -40,6 +35,10 @@
 		<span>Link</span>
 	</a>
 
+	<label for="anonymousInvite" class="btn btn--gray inviteView-shareButton">
+		<input type="checkbox" data-ng-model="anonymous" id="anonymousInvite">
+		<span data-i18n="views.invite.anonymous"></span>
+	</label>
 
 	<h1 class="inviteView-header" id="inviteView-invitedHeader" data-i18n="views.invite.invited"></h1>
 
