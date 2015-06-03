@@ -45,7 +45,7 @@
 	<!-- if acceptedInvitations: -->
 	<h1 class="inviteView-header inviteView-header--noTopMargin" data-i18n="views.invite.invited"></h1>
 	<section id="inviteView-acceptedInvites">
-		<ul data-ng-repeat="invite in sentInvites">
+		<ul data-ng-repeat="invite in acceptedInvites">
 			<li class="inviteView-invitedUser">
 				<loader data-model="user" data-ng-repeat="user in invite.usedBy" data-id="user" data-scope-attribute="user">
 					<person data-user="user" data-ng-if="loaded"></person>
@@ -58,7 +58,7 @@
 	<h1 class="inviteView-header" data-i18n="views.invite.sentInvites"></h1>
 	<section id="inviteView-allInvites">
 		<ul>
-			<li data-ng-repeat="invite in sentInvites">{{ invite.reference ? invite.reference : invite.code }}</li>
+			<li data-ng-repeat="invite in unacceptedInvites">{{ invite.reference ? invite.reference : invite.code }}</li>
 		</ul>
 	</section>
 </section>

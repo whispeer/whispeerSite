@@ -63,8 +63,13 @@ define(["step", "whispeerHelper", "asset/state", "controllers/controllerModule"]
 			step(function () {
 				socketService.emit("invites.getMyInvites", {}, this);
 			}, h.sF(function (result) {
-				$scope.sentInvites = result.invites;
-				console.log($scope.sentInvites);
+				$scope.acceptedInvites = result.invites.filter(function (invite) {
+					return invite.usedBy.length > 0;
+				});
+
+				$scope.unacceptedInvites = result.invites.filter(function (invite) {
+					return invite.usedBy.length === 0;
+				});
 
 				this.ne();
 			}), errorService.failOnError(inviteDisplayState));
