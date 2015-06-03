@@ -89,34 +89,60 @@
 	text-align: center;
 }
 #inviteView-inviteLinkThing {
-	width: 600px;
-	height: 50px;
 	margin: 0 auto;
+	@media @desktop {
+		width: 600px;
+		height: 50px;
+	}
+	@media @mobile {
+		width: 90%;
+		max-width: 600px;
+		height: 100px;
+	}
 }
 #inviteView-inviteLinkThing-button,
 #inviteView-inviteLinkThing-spacer,
 #inviteView-inviteLinkThing-input {
 	height: 50px;
 	line-height: 48px;
-	float: left;
+	@media @desktop {
+		float: left;
+	}
 }
 #inviteView-inviteLinkThing-button {
-	width: 250px;
-	border-radius: 3px 0 0 3px;
+	@media @desktop {
+		width: 250px;
+		border-radius: 3px 0 0 3px;
+	}
+	@media @mobile {
+		width: 100%;
+		border-radius: 3px 3px 0 0;
+	}
 }
 #inviteView-inviteLinkThing-spacer {
-	width: 30px;
-	text-align: center;
-	background: #f9f9f9;
-	color: @gray;
-	box-shadow: inset 1px 0px 1px @btnBorder;
+	@media @desktop {
+		width: 30px;
+		text-align: center;
+		background: #f9f9f9;
+		color: @gray;
+		box-shadow: inset 1px 0px 1px @btnBorder;
+	}
+	@media @mobile {
+		display: none;
+	}
 }
 #inviteView-inviteLinkThing-input {
 	background: #fafafa;
 	text-align: center;
 	padding: 0 0.5rem;
-	width: 320px;
-	border-radius: 0 3px 3px 0;
 	box-shadow: inset 0px 0px 3px @btnBorder;
 	&:extend(.box-fix);
+	@media @desktop {
+		width: 320px;
+		border-radius: 0 3px 3px 0;
+	}
+	@media @mobile {
+		width: 100%;
+		border-radius: 0 0 3px 3px;
+	}
 }
