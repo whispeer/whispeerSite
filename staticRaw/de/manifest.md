@@ -2,6 +2,9 @@
 layout: manifest
 lang: de
 title: whispeer Manifest
+shareUrl: https%3A%2F%2Fwhispeer.de%2Fde%2Fmanifest%2F
+shareText: Lest das whispeer Manifest!
+shareHashtags: whispeer,manifest,privacy
 ---
 
 Auf anderen sozialen Netzwerken gehören deine Daten nicht dir. 
