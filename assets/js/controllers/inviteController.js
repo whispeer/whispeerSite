@@ -32,9 +32,10 @@ define(["step", "whispeerHelper", "asset/state", "controllers/controllerModule"]
 		}
 		generateCode();
 
-		function activateCode(code) {
+		function activateCode(code, reference) {
 			socketService.emit("invites.activateCode", {
-				code: code
+				code: code,
+				reference: reference
 			});
 		}
 
@@ -85,8 +86,11 @@ define(["step", "whispeerHelper", "asset/state", "controllers/controllerModule"]
 			});
 			window.open(url);
 
-			activateCode(code);
-			generateCode();
+			if (!$scope.anonymous) {
+				activateCode(code, type);
+				generateCode();
+			}
+
 			updateSentInvites();
 		};
 	}
