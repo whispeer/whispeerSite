@@ -29,6 +29,7 @@
 		},
 		"invite": {
 			"title": "whispeer is more fun with friends! Spread the word!",
+			"anonymous": "Send anonymous invite",
 			"invite": "Invite",
 			"viaMail": "Invite via e-mail",
 			"viaMailExplanation": "Enter your friends' e-mail addresses to invite them:",
