@@ -14,6 +14,9 @@ define(["step", "whispeerHelper", "asset/state", "controllers/controllerModule"]
 		var inviteGenerateState = new State();
 		$scope.inviteGenerateState = inviteGenerateState.data;
 
+		var inviteDisplayState = new State();
+		$scope.inviteDisplayState = inviteDisplayState.data;
+
 		var code;
 
 		function generateCode() {
@@ -46,7 +49,7 @@ define(["step", "whispeerHelper", "asset/state", "controllers/controllerModule"]
 				params[name] = null;
 			}
 
-			return encodeURIComponent($scope.domain + h.encodeParameters(params));
+			return encodeURIComponent($scope.domain + "/" + h.encodeParameters(params));
 		}
 
 		var urls = {
@@ -55,6 +58,19 @@ define(["step", "whispeerHelper", "asset/state", "controllers/controllerModule"]
 			"google": "'https://plus.google.com/share?url=' + url('gp')",
 			"reddit": "'http://reddit.com/submit?url=' + url() + '&title=' + text",
 		};
+
+		function updateSentInvites() {
+			step(function () {
+				socketService.emit("invites.getMyInvites", {}, this);
+			}, h.sF(function (result) {
+				$scope.sentInvites = result.invites;
+				console.log($scope.sentInvites);
+
+				this.ne();
+			}), errorService.failOnError(inviteDisplayState));
+		}
+
+		updateSentInvites();
 
 		$scope.open = function (type) {
 			var url = $scope.$eval(urls[type], {
@@ -66,6 +82,7 @@ define(["step", "whispeerHelper", "asset/state", "controllers/controllerModule"]
 
 			activateCode(code);
 			generateCode();
+			updateSentInvites();
 		};
 	}
 
