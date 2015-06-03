@@ -45,11 +45,10 @@
 
 	<table border=1>
 		<tr data-ng-repeat="invite in sentInvites">
-			<td>{{invite.code}}</td>
-			<td>{{invite.reference}}</td>
+			<td>{{ invite.reference ? invite.reference : invite.code }}</td>
 			<td>
 				<span data-ng-repeat="user in invite.usedBy">
-					<a href="/user/{{user}}">{{user}}</a>,
+					<a href="/user/{{user}}">{{user}}</a>{{$last?'':','}}
 				</span>
 			</td>
 		</tr>
