@@ -43,7 +43,8 @@
 			"yourName": "Lass deine Freunde wissen, wer sie einlädt (freiwillig):",
 			"name": "Name",
 			"shareText": "Teile deine privaten Gedanken auf whispeer!",
-			"shareHashTags": "Privatsphäre,whispeer"
+			"shareHashTags": "Privatsphäre,whispeer",
+			"invited": "Von dir eingeladene Personen:"
 		},
 		"setup": {
 			"welcomeHeader": "Willkommen bei whispeer!",
