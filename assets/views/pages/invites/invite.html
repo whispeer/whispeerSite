@@ -42,16 +42,20 @@
 </section>
 <ui-view></ui-view>
 <section id="inviteView-invitedPersons">
+	<!-- if acceptedInvitations: -->
 	<h1 class="inviteView-header" id="inviteView-invitedHeader" data-i18n="views.invite.invited"></h1>
-
-	<table border=1>
-		<tr data-ng-repeat="invite in sentInvites">
-			<td>{{ invite.reference ? invite.reference : invite.code }}</td>
-			<td>
-				<span data-ng-repeat="user in invite.usedBy">
-					<a href="/user/{{user}}">{{user}}</a>{{$last?'':','}}
-				</span>
-			</td>
-		</tr>
-	</table>
+	<section id="inviteView-acceptedInvites">
+		<ul data-ng-repeat="invite in sentInvites">
+			<li class="inviteView-invitedUser">
+				<person data-ng-repeat="user in invite.usedBy" data-user="user"></person>
+			</li>
+		</ul>
+	</section>
+	<!-- all sent invitations -->
+	<h1 class="inviteView-header" data-i18n="views.invite.sentInvites"></h1>
+	<section id="inviteView-allInvites">
+		<ul>
+			<li data-ng-repeat="invite in sentInvites">{{ invite.reference ? invite.reference : invite.code }}</li>
+		</ul>
+	</section>
 </section>

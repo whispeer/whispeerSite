@@ -68,3 +68,16 @@
 .inviteView-mailContainer:last-child {
 	margin-bottom: 0;
 }
+#inviteView-acceptedInvites,
+#inviteView-allInvites {
+	float: left;
+	width: 100%;
+}
+.inviteView-invitedUser {
+	@media @desktop {
+		.column(1,2);
+	}
+	@media @mobile {
+		.column(12);
+	}
+}

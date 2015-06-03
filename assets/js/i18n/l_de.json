@@ -44,7 +44,8 @@
 			"name": "Name",
 			"shareText": "Teile deine privaten Gedanken auf whispeer!",
 			"shareHashTags": "Privatsphäre,whispeer",
-			"invited": "Von dir eingeladene Personen:"
+			"invited": "Von dir eingeladene Personen:",
+			"sentInvites": "Gesendete Einladungen"
 		},
 		"setup": {
 			"welcomeHeader": "Willkommen bei whispeer!",
