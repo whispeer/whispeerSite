@@ -49,7 +49,7 @@
 			<li class="inviteView-invitedUser">
 				<loader data-model="user" data-ng-repeat="user in invite.usedBy" data-id="user" data-scope-attribute="user">
 					<person data-user="user" data-ng-if="loaded">
-						<p>{{ $parent.invite.reference ? $parent.invite.reference : $parent.invite.code }}</p>
+						<p data-ng-init="invite = $parent.$parent.$parent.$parent.invite">{{ invite.reference ? invite.reference : invite.code }}</p>
 					</person>
 				</loader>
 			</li>
