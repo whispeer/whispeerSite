@@ -28,8 +28,8 @@
 			"scanKey": "Scanne den ausgedruckten QR-Code"
 		},
 		"invite": {
-			"title": "Hol' deine Freunde zu whispeer!",
 			"anonymous": "Einladung anonym Versenden",
+			"title": "whispeer macht mehr Spaß mit Freunden! Lade jetzt deine Freunde ein!",
 			"invite": "Einladen",
 			"viaMail": "Einladung via E-Mail",
 			"viaMailExplanation": "Gib die E-Mail Adressen deiner Freunde ein, um sie einzuladen:",
