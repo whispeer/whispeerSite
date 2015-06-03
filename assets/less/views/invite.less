@@ -11,8 +11,10 @@
 		.column(12,12,none,0);
 	}
 }
-#inviteView-inviteMail {
-	padding-bottom: 1rem;
+#inviteView-inviteMail,
+#inviteView-inviteLink {
+	padding: 1rem;
+	padding-top: 0;
 }
 .inviteView-header {
 	.large-text();
@@ -21,7 +23,7 @@
 	text-align: center;
 	margin: 1rem 0;
 }
-#inviteView-invitedHeader {
+.inviteView-header--noTopMargin {
 	margin-top: 0;
 }
 #inviteView-inviteMail .inviteView-header {
@@ -80,4 +82,41 @@
 	@media @mobile {
 		.column(12);
 	}
+}
+
+#inviteView-inviteLinkParagraph {
+	width: 100%;
+	text-align: center;
+}
+#inviteView-inviteLinkThing {
+	width: 600px;
+	height: 50px;
+	margin: 0 auto;
+}
+#inviteView-inviteLinkThing-button,
+#inviteView-inviteLinkThing-spacer,
+#inviteView-inviteLinkThing-input {
+	height: 50px;
+	line-height: 48px;
+	float: left;
+}
+#inviteView-inviteLinkThing-button {
+	width: 250px;
+	border-radius: 3px 0 0 3px;
+}
+#inviteView-inviteLinkThing-spacer {
+	width: 30px;
+	text-align: center;
+	background: #f9f9f9;
+	color: @gray;
+	box-shadow: inset 1px 0px 1px @btnBorder;
+}
+#inviteView-inviteLinkThing-input {
+	background: #fafafa;
+	text-align: center;
+	padding: 0 0.5rem;
+	width: 320px;
+	border-radius: 0 3px 3px 0;
+	box-shadow: inset 0px 0px 3px @btnBorder;
+	&:extend(.box-fix);
 }

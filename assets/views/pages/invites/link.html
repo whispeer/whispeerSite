@@ -1,13 +1,15 @@
-<section id="inviteLink">
-	<h1 data-i18n="views.invite.viaLink"></h1>
-	<p data-i18n="views.invite.viaLinkExplanation"></p>
-	<savebutton class="sendInvite btn--big" data-ng-click="generateInvite()" data-state="inviteGenerateState" data-noiniticon>
-		<span data-i18n="views.invite.generateLink"></span>
-	</savebutton>
-	<div class="inviteDetails" data-ng-if="inviteCode">
-		<div>
-			<span data-i18n="views.invite.link"></span>
-			<a href='{{domain}}/?code={{inviteCode}}'>{{domain}}/?code={{inviteCode}}</a>
+<section id="inviteView-inviteLink">
+	<h1 class="inviteView-header inviteView-header--noTopMargin" data-i18n="views.invite.viaLink"></h1>
+	<p data-i18n="views.invite.viaLinkExplanation" id="inviteView-inviteLinkParagraph"></p>
+	<div id="inviteView-inviteLinkThing">
+		<savebutton id="inviteView-inviteLinkThing-button" data-ng-click="generateInvite()" data-state="inviteGenerateState" data-noiniticon>
+			<span data-i18n="views.invite.generateLink"></span>
+		</savebutton>
+		<div id="inviteView-inviteLinkThing-spacer">
+			<i class="fa" data-ng-class="{'fa-chevron-right': inviteCode, 'fa-circle-o-notch fa-spin': !inviteCode}"></i>
+		</div>
+		<div id="inviteView-inviteLinkThing-input">
+			<a href="{{domain}}/?code={{inviteCode}}">{{domain}}/?code={{inviteCode}}</a>
 		</div>
 	</div>
 </section>
