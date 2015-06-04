@@ -272,7 +272,7 @@ define(["step", "whispeerHelper", "asset/state", "asset/securedDataWithMetaData"
 				}), h.sF(function (keys, profile) {
 					var scopeData = h.joinArraysToObject({
 						name: scopes,
-						key: keys
+						key: keys.slice(0, keys.length - 1)
 					});
 
 					var pub = new ProfileService({ content: applicablePublicParts(privacySettings, profile) }, { isPublicProfile: true });
