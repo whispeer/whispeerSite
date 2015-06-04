@@ -32,5 +32,6 @@ define([
 	"directives/search",
 	"directives/lazyiframe",
 	"directives/mobile",
-	"directives/whispeerSref"
+	"directives/whispeerSref",
+	"directives/loader"
 ], function () {});
