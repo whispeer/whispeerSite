@@ -11,13 +11,20 @@
 		.column(12,12,none,0);
 	}
 }
-#inviteView-inviteMail {
-	padding-bottom: 1rem;
+#inviteView-inviteMail,
+#inviteView-inviteLink {
+	padding: 1rem;
+	padding-top: 0;
 }
 .inviteView-header {
 	.large-text();
+	float: left;
+	width: 100%;
 	text-align: center;
 	margin: 1rem 0;
+}
+.inviteView-header--noTopMargin {
+	margin-top: 0;
 }
 #inviteView-inviteMail .inviteView-header {
 	margin-top: 0;
@@ -43,6 +50,8 @@
 	margin-top: 0.5rem;
 }
 .inviteView-shareButton {
+	height: 50px;
+	line-height: 50px;
 	@media @desktop {
 		.column(1,2);
 		margin-bottom: 1rem;
@@ -50,8 +59,6 @@
 	@media @mobile {
 		.column(12);
 		margin-bottom: 1rem;
-		height: 50px;
-		line-height: 50px;
 		&:first-child {
 			margin-top: 1rem;
 		}
@@ -60,6 +67,115 @@
 		}
 	}
 }
+.inviteView-shareButton--fb,
+.inviteView-shareButton--tw,
+.inviteView-shareButton--gp,
+.inviteView-shareButton--rd {
+	color: #ffffff !important;
+}
+.inviteView-shareButton--fb {
+	background: rgb(59, 89, 152);
+	&:hover {
+		background: rgba(59, 89, 152, .95);
+	}
+}
+.inviteView-shareButton--tw {
+	background: rgb(0, 172, 237);
+	&:hover {
+		background: rgba(0, 172, 237, .92)
+	}
+}
+.inviteView-shareButton--gp {
+	background: rgb(221, 75, 57);
+	&:hover {
+		background: rgba(221, 75, 57, .95);
+	}
+}
+.inviteView-shareButton--rd {
+	background:	rgb(255, 69, 0);
+	&:hover {
+		background: rgba(255, 69, 0, .92);
+	}
+}
 .inviteView-mailContainer:last-child {
 	margin-bottom: 0;
+}
+#inviteView-acceptedInvites,
+#inviteView-allInvites {
+	float: left;
+	width: 100%;
+}
+.inviteView-invitedUser {
+	@media @desktop {
+		.column(1,2);
+	}
+	@media @mobile {
+		.column(12);
+	}
+}
+
+#inviteView-inviteLinkParagraph {
+	width: 100%;
+	text-align: center;
+}
+#inviteView-inviteLinkThing {
+	margin: 0 auto;
+	@media @desktop {
+		width: 600px;
+		height: 50px;
+	}
+	@media @mobile {
+		width: 90%;
+		max-width: 600px;
+		height: 100px;
+	}
+}
+#inviteView-inviteLinkThing-button,
+#inviteView-inviteLinkThing-spacer,
+#inviteView-inviteLinkThing-input {
+	height: 50px;
+	line-height: 48px;
+	@media @desktop {
+		float: left;
+	}
+}
+#inviteView-inviteLinkThing-button {
+	@media @desktop {
+		width: 250px;
+		border-radius: 3px 0 0 3px;
+	}
+	@media @mobile {
+		width: 100%;
+		border-radius: 3px 3px 0 0;
+	}
+}
+#inviteView-inviteLinkThing-spacer {
+	@media @desktop {
+		width: 30px;
+		text-align: center;
+		background: #f9f9f9;
+		color: @gray;
+		box-shadow: inset 1px 0px 1px @btnBorder;
+	}
+	@media @mobile {
+		display: none;
+	}
+}
+#inviteView-inviteLinkThing-input {
+	background: #fafafa;
+	text-align: center;
+	padding: 0 0.5rem;
+	box-shadow: inset 0px 0px 3px @btnBorder;
+	&:extend(.box-fix);
+	@media @desktop {
+		width: 320px;
+		border-radius: 0 3px 3px 0;
+	}
+	@media @mobile {
+		width: 100%;
+		border-radius: 0 0 3px 3px;
+	}
+}
+.inviteView-person--referrer {
+	.small-text();
 }

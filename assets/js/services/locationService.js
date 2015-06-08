@@ -47,6 +47,30 @@ define(["services/serviceModule", "whispeerHelper"], function (serviceModule, h)
 					$location.path("/main");
 				}
 			},
+			getUrlParameter: function (param) {
+				var search = window.top.location.search;
+				var pairs = search.substr(1).split("&");
+
+				var result = h.array.find(pairs.map(function (pair) {
+					if (pair.indexOf("=") !== -1) {
+						return {
+							key: pair.substr(0, pair.indexOf("=")),
+							value: pair.substr(pair.indexOf("=") + 1)
+						};
+					} else {
+						return {
+							key: pair,
+							value: ""
+						};
+					}
+				}), function (pair) {
+					return pair.key === param;
+				});
+
+				if (result) {
+					return result.value;
+				}
+			},
 			updateURL: function (loggedin) {
 				//not logged in but on a page requiring login --> landing
 				if (!loggedin) {

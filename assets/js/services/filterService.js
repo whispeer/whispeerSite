@@ -40,10 +40,6 @@ define(["whispeerHelper", "step", "bluebird", "asset/errors", "services/serviceM
 		}
 
 		function filterToKeys(filters, cb) {
-			if (filters.length === 0) {
-				cb(null, []);
-			}
-
 			step(function () {
 				filters.forEach(function (filter) {
 					var map = filter.split(":");
@@ -65,6 +61,8 @@ define(["whispeerHelper", "step", "bluebird", "asset/errors", "services/serviceM
 							throw new errors.InvalidFilter("unknown group");
 					}
 				}, this);
+
+				this.parallel()(null, userService.getown().getMainKey());
 			}, cb);
 		}
 
