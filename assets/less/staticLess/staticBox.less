@@ -29,7 +29,33 @@
 		margin-top: 10px;
 	}
 }
+.staticBoxView-shareBox {
+	width: 100%;
+	display: block;
+	.clear-fix;
+}
+.staticBoxView-shareButton {
+	height: 50px;
+	line-height: 50px;
+	@media @desktop {
+		.column(1,2);
+		margin-bottom: 1rem;
+	}
+	@media @mobile {
+		.column(12);
+		margin-bottom: 1rem;
+		&:first-child {
+			margin-top: 1rem;
+		}
+		&:last-child {
+			margin-bottom: 0;
+		}
+	}
+}
 .staticBoxView {
+	h1 {
+		.large-text();
+	}
 	h2 {
 		font-weight: 500;
 	}

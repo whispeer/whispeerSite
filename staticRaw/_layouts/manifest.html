@@ -8,31 +8,31 @@
 		<section class="box-content box-content--scroll">
 			{{content}}
 
+			<div class="staticBoxView-shareBox">
+				<h1>Share:</h1>
+				<a href="http://www.facebook.com/sharer.php?u={{page.shareUrl}}" target="_blank" class="btn shareButton shareButton--fb staticBoxView-shareButton">
+					<i class="fa fa-facebook"></i>
+					<span>Facebook</span>
+				</a>
 
-			Share:
-			<a href="http://www.facebook.com/sharer.php?u={{page.shareUrl}}" target="_blank" class="btn btn--primary inviteView-shareButton">
-				<i class="fa fa-facebook"></i>
-				<span>Facebook</span>
-			</a>
+				<!-- Twitter -->
+				<a href="https://twitter.com/intent/tweet?url={{page.shareUrl}}&text={{page.shareText}}&hashtags={{page.shareHashtags}}" target="_blank" class="btn shareButton shareButton--tw staticBoxView-shareButton">
+					<i class="fa fa-twitter"></i>
+					<span>Twitter</span>
+				</a>
 
-			<!-- Twitter -->
-			<a href="https://twitter.com/intent/tweet?url={{page.shareUrl}}&text={{page.shareText}}&hashtags={{page.shareHashtags}}" target="_blank" class="btn btn--primary inviteView-shareButton">
-				<i class="fa fa-twitter"></i>
-				<span>Twitter</span>
-			</a>
+				<!-- Google+ -->
+				<a href="https://plus.google.com/share?url={{page.shareUrl}}" target="_blank" class="btn shareButton shareButton--gp staticBoxView-shareButton">
+					<i class="fa fa-google-plus"></i>
+					<span>Google+</span>
+				</a>
 
-			<!-- Google+ -->
-			<a href="https://plus.google.com/share?url={{page.shareUrl}}" target="_blank" class="btn btn--primary inviteView-shareButton">
-				<i class="fa fa-google-plus"></i>
-				<span>Google+</span>
-			</a>
-
-			<!-- Reddit -->
-			<a href="http://reddit.com/submit?url={{page.shareUrl}}&title={{page.shareText}}" target="_blank" class="btn btn--primary inviteView-shareButton">
-				<i class="fa fa-reddit"></i>
-				<span>Reddit</span>
-			</a>
-
+				<!-- Reddit -->
+				<a href="http://reddit.com/submit?url={{page.shareUrl}}&title={{page.shareText}}" target="_blank" class="btn shareButton shareButton--rd staticBoxView-shareButton">
+					<i class="fa fa-reddit"></i>
+					<span>Reddit</span>
+				</a>
+			</div>
 
 		</section>
 	</main>
