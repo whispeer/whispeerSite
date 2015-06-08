@@ -21,7 +21,7 @@ Und durch Verschlüsselung können auch nur Personen sie lesen, denen du vertrau
 whispeer gibt dir Kontrolle.  
 Es gibt dir die Möglichkeit zurück, **relevante Diskussionen** zu führen,  
 relevante Inhalte zu tauschen, dich mit relevanten Personen zu verknüpfen.  
-Den wir glauben nur wer **sorglos teilen** kann teilt auch die interessanten Inhalte.  
+Denn wir glauben nur wer **sorglos teilen** kann, teilt auch die interessanten Inhalte.  
 
 Wir halten es für selbstverständlich, dass jeder Mensch die Kontrolle über seine Daten haben sollte.
 
