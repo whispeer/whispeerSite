@@ -25,5 +25,4 @@ Because we think that only who can **share carefree** shares interesting content
 
 We take it for granted that every human being should have control over their data.  
 
-Your data is yours!  
-
+Your data is yours!

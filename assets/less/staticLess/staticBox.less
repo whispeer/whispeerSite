@@ -34,6 +34,15 @@
 	display: block;
 	.clear-fix;
 }
+#staticBoxView-shareBox-header {
+	margin-top: 0;
+	@media @desktop {
+		padding-left: 0.5rem;
+	}
+	@media @mobile {
+		text-align: center;
+	}
+}
 .staticBoxView-shareButton {
 	height: 50px;
 	line-height: 50px;
@@ -46,9 +55,6 @@
 		margin-bottom: 1rem;
 		&:first-child {
 			margin-top: 1rem;
-		}
-		&:last-child {
-			margin-bottom: 0;
 		}
 	}
 }
