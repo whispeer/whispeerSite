@@ -2,6 +2,7 @@
 <html itemscope itemtype="http://schema.org/Product" prefix="my_namespace: http://ogp.me/ns/website#">
 	{% assign data = site.data[page.dataSet] %}
 	{% assign lang = site.data.langs[page.lang] %}
+	{% assign i18n = site.data.whispeerI18n[page.lang] %}
 	<head>
 		{% include head.html %}
 		<link rel="stylesheet" href="{{ "/assets/css/static.css" | prepend: site.baseurl }}">
@@ -144,6 +145,12 @@
 			</section>
 			{% endfor %}
 		</main>
+		<footer class="landing-section landing-section--footer">
+			<span class="landing-footer-left">&copy; {{ site.time | date: "%Y" }} whispeer</span>
+			<span class="landing-footer-right">
+				<a href="/legal/">{{i18n.legal.header}}</a>
+			</span>
+		</footer>
 		<a class="backToTop" href="#heading"><i class="fa fa-arrow-circle-o-up fa-2x"></i></a>
 		<div id="video-overlay" class="video-overlay">
 			<div id="video-overlay-wrapper">
