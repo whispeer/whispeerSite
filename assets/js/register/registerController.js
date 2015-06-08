@@ -134,10 +134,13 @@ define([
 				}
 			};
 
+			var inviteCode = locationService.getUrlParameter("code");
+
 			step(function () {
 				console.time("register");
-				locationService.setReturnUrl("/setup");
-				registerService.register($scope.nickname, "", $scope.pwState.password, profile, settings, this);
+
+				locationService.setReturnUrl("/backup");
+				registerService.register($scope.nickname, "", $scope.pwState.password, profile, settings, inviteCode, this);
 			}, function (e) {
 				if (!e) {
 					locationService.mainPage();

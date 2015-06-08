@@ -28,6 +28,8 @@
 			"scanKey": "Scan your printed QR-Code"
 		},
 		"invite": {
+			"title": "whispeer is more fun with friends! Spread the word!",
+			"anonymous": "Send anonymous invite",
 			"invite": "Invite",
 			"viaMail": "Invite via e-mail",
 			"viaMailExplanation": "Enter your friends' e-mail addresses to invite them:",
@@ -41,7 +43,10 @@
 			"yourName": "Let your friends know who is inviting them (optional):",
 			"name": "Name",
 			"shareText": "Share your private thoughts on whispeer!",
-			"shareHashTags": "privacy,whispeer"
+			"shareHashTags": "privacy,whispeer",
+			"invited": "People you invited:",
+			"sentInvites": "Invites sent by you",
+			"reference": "Referrer: {referrer}"
 		},
 		"setup": {
 			"welcomeHeader": "Welcome to whispeer!",
@@ -49,7 +54,7 @@
 				"header": "Save your key now",
 				"why": "Why?",
 				"explanation": "If you forget your password for whispeer, you don't have access to your account anymore. To reset your password, you need a particular code which is generetaded specifically for you. You will find that code in the file. Please download the file or print it out, so we can give you access to your account again if needed.",
-				"impossible": "You can not download your backup key with this device! If you forget your password for whispeer, you don't have access to your account anymore. Please use a different device to download or print your backup key!",
+				"impossible": "You can not download your backup key with this device! \n If you forget your password for whispeer, you don't have access to your account anymore. \n Please use a different device to download or print your backup key!",
 				"downloadKey": "Download key",
 				"or": "or",
 				"printKey": "Print key",
@@ -62,7 +67,8 @@
 				"mail": "E-mail",
 				"firstName": "First name",
 				"lastName": "Last name",
-				"privateName": "Turn your name private (Your friends will not find you as easily anymore)"
+				"privateName": "Turn your name private (Your friends will not find you as easily anymore)",
+				"dismiss": "Skip"
 			},
 			"save": "Save Mail and Name"
 		},

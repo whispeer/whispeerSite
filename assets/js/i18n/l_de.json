@@ -28,6 +28,8 @@
 			"scanKey": "Scanne den ausgedruckten QR-Code"
 		},
 		"invite": {
+			"anonymous": "Einladung anonym Versenden",
+			"title": "whispeer macht mehr Spaß mit Freunden! Lade jetzt deine Freunde ein!",
 			"invite": "Einladen",
 			"viaMail": "Einladung via E-Mail",
 			"viaMailExplanation": "Gib die E-Mail Adressen deiner Freunde ein, um sie einzuladen:",
@@ -35,13 +37,16 @@
 			"addMail": "Weitere Person per E-Mail einladen",
 			"viaLink": "Einladung via Link",
 			"viaLinkExplanation": "Generiere einen Einladungs-Link, den du weitergeben kannst:",
-			"generateLink": "Einladungslink generieren",
+			"generateLink": "Neuen Einladungslink generieren",
 			"code": "Einladungscode:",
 			"link": "Einladungslink:",
 			"yourName": "Lass deine Freunde wissen, wer sie einlädt (freiwillig):",
 			"name": "Name",
 			"shareText": "Teile deine privaten Gedanken auf whispeer!",
-			"shareHashTags": "Privatsphäre,whispeer"
+			"shareHashTags": "Privatsphäre,whispeer",
+			"invited": "Von dir eingeladene Personen:",
+			"sentInvites": "Gesendete Einladungen",
+			"reference": "Refferenz: {referrer}"
 		},
 		"setup": {
 			"welcomeHeader": "Willkommen bei whispeer!",
@@ -62,7 +67,8 @@
 				"mail": "E-Mail",
 				"firstName": "Vorname",
 				"lastName": "Nachname",
-				"privateName": "Mache meinen Namen privat (Deine Freunde können dich dann schwieriger finden)"
+				"privateName": "Mache meinen Namen privat (Deine Freunde können dich dann schwieriger finden)",
+				"dismiss": "Überspringen"
 			},
 			"save": "Name und E-Mail speichern"
 		},

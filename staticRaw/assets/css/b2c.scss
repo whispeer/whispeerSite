@@ -248,6 +248,30 @@ a[name="content"] {
 	display: block;
 }
 
+// NoScript
+.no-script {
+	width: 100%;
+	height: 100%;
+	z-index: 11;
+	position: absolute;
+	top: 0;
+	left: 0;
+	background: $primary;
+	font-size: 1.15em;
+	@media #{$mobile} {
+		top: 100px;
+	}
+	color: #fff;
+	width: 100%;
+	text-align: center;
+	p {
+		margin: 5px;
+	}
+	p:first-child {
+		margin: 1em;
+	}
+}
+
 // Animation
 @import "animation";
 

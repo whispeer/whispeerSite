@@ -1,36 +1,67 @@
 <section id="inviteView-selectInviteMethod">
-	<h1 class="inviteView-header" data-i18n="inviteFriends"></h1>
+	<h1 class="inviteView-header" data-i18n="views.invite.title"></h1>
+
 	<!-- Facebook -->
-	<a href="http://www.facebook.com/sharer.php?u={{url}}" target="_blank" class="btn btn--primary inviteView-shareButton">
+	<button data-ng-click="open('facebook')" target="_blank" class="btn inviteView-shareButton inviteView-shareButton--fb">
 		<i class="fa fa-facebook"></i>
 		<span>Facebook</span>
-	</a>
+	</button>
 
 	<!-- Twitter -->
-	<a href="https://twitter.com/intent/tweet?url={{url}}&text={{text}}&hashtags={{hashtags}}" target="_blank" class="btn btn--primary inviteView-shareButton">
+	<button data-ng-click="open('twitter')" target="_blank" class="btn inviteView-shareButton inviteView-shareButton--tw">
 		<i class="fa fa-twitter"></i>
 		<span>Twitter</span>
-	</a>
+	</button>
 
 	<!-- Google+ -->
-	<a href="https://plus.google.com/share?url={{url}}" target="_blank" class="btn btn--primary inviteView-shareButton">
+	<button data-ng-click="open('google')" target="_blank" class="btn inviteView-shareButton inviteView-shareButton--gp">
 		<i class="fa fa-google-plus"></i>
 		<span>Google+</span>
-	</a>
+	</button>
 
 	<!-- Reddit -->
-	<a href="http://reddit.com/submit?url={{url}}&title={{text}}" target="_blank" class="btn btn--primary inviteView-shareButton">
+	<button data-ng-click="open('reddit')" target="_blank" class="btn inviteView-shareButton inviteView-shareButton--rd">
 		<i class="fa fa-reddit"></i>
 		<span>Reddit</span>
-	</a>
+	</button>
 
-	<a ui-sref="app.invite.mail" class="btn btn--primary inviteView-shareButton">
+	<a whispeer-sref="app.invite.mail" class="btn btn--primary inviteView-shareButton">
 		<i class="fa fa-envelope"></i>
 		<span>E-Mail</span>
 	</a>
-	<!-- this does not make sense until we re-add invite-codes/reference codes
-		<a ui-sref="app.invite.link" class="btn btn--primary"><i class="fa fa-link"></i>Link</a>
-	-->
-</section>
 
+	<a ui-sref="app.invite.link" class="btn btn--primary inviteView-shareButton">
+		<i class="fa fa-link"></i>
+		<span>Link</span>
+	</a>
+
+	<label for="anonymousInvite" class="btn btn--gray inviteView-shareButton">
+		<input type="checkbox" data-ng-model="anonymous" id="anonymousInvite">
+		<span data-i18n="views.invite.anonymous"></span>
+	</label>
+</section>
 <ui-view></ui-view>
+<section id="inviteView-invitedPersons">
+	<!-- if acceptedInvitations: -->
+	<h1 class="inviteView-header inviteView-header--noTopMargin" data-i18n="views.invite.invited" data-ng-if="acceptedInvites.length > 0"></h1>
+	<section id="inviteView-acceptedInvites">
+		<ul>
+			<span data-ng-repeat="invite in acceptedInvites">
+				<li class="inviteView-invitedUser" data-ng-repeat="user in invite.usedBy">
+					<loader data-model="user" data-id="user" data-scope-attribute="user">
+						<person data-user="user" data-ng-if="loaded">
+							<p class="inviteView-person--referrer" data-ng-init="invite = $parent.$parent.$parent.$parent.invite" data-i18n="views.invite.reference"><span data-for="referrer">{{ invite.reference ? invite.reference : invite.code }}</span></p>
+						</person>
+					</loader>
+				</li>
+			</span>
+		</ul>
+	</section>
+	<!-- all sent invitations -->
+	<h1 class="inviteView-header" data-i18n="views.invite.sentInvites" data-ng-if="unacceptedInvites.length > 0"></h1>
+	<section id="inviteView-allInvites">
+		<ul>
+			<li data-ng-repeat="invite in unacceptedInvites">{{ invite.reference ? invite.reference : invite.code }}</li>
+		</ul>
+	</section>
+</section>

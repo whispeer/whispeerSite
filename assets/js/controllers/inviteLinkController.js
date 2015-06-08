@@ -9,19 +9,19 @@ define(["step", "whispeerHelper", "asset/state", "controllers/controllerModule"]
 		var inviteGenerateState = new State();
 		$scope.inviteGenerateState = inviteGenerateState.data;
 
-		$scope.empty = function (val) {
-			return val === "" || !h.isset(val);
+		$scope.generateInvite = function () {
+			inviteGenerateState.pending();
+
+			step(function () {
+				socketService.emit("invites.generateCode", { active: true }, this);
+			}, h.sF(function (result) {
+				$scope.inviteCode = result.inviteCode;
+
+				this.ne();
+			}), errorService.failOnError(inviteGenerateState));
 		};
 
-		inviteGenerateState.pending();
-
-		step(function () {
-			socketService.emit("invites.generateCode", {}, this);
-		}, h.sF(function (result) {
-			$scope.inviteCode = result.inviteCode;
-
-			this.ne();
-		}), errorService.failOnError(inviteGenerateState));
+		$scope.generateInvite();
 	}
 
 	inviteController.$inject = ["$scope", "ssn.socketService", "ssn.errorService"];

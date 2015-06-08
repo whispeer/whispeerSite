@@ -17,11 +17,14 @@
 .box {
 	overflow: hidden;
 
-	.border-radius(5px);
+	@media @desktop {
+		border-radius: @inputBorderRadius;
+		border: 1px solid @btnBorder;
+	}
+	@media @mobile {
+		height: 100%;
+	}
 	background-color: @btnBackgroundHover;
-	border: 1px solid @btnBorder;
-	border-bottom: 1px solid #000;
-	border-bottom-color: darken(@btnBorder, 10%);
 	&:extend(.box-fix);
 }
 .box-header {
@@ -30,6 +33,9 @@
 	border: none;
 	border-bottom: 1px solid @btnBorder;
 	overflow: hidden;
+	@media @mobile {
+		height: 50px;
+	}
 }
 .box-header-links {
 	float: right;
@@ -53,8 +59,12 @@
 }
 .box-header-title {
 	float: left;
-	margin: 0 1%;
+	padding: 0 1%;
 	line-height: 30px;
+	&:extend(.box-fix);
+	@media @mobile {
+		line-height: 50px;
+	}
 }
 .box-header-button {
 	padding: 2px 7px;
@@ -70,14 +80,19 @@
 	&:focus {
 		box-shadow: inset 0px 0px 2px @grayLight;
 	}
+	@media @mobile {
+		height: 50px;
+		width: 50px;
+		text-align: center;
+	}
 }
 .box-header-button--right {
 	float: right;
-	border-left: 1px solid #bbb;
+	border-left: 1px solid @btnBorder;
 }
 .box-header-button--left {
 	float: left;
-	border-right: 1px solid #bbb;
+	border-right: 1px solid @btnBorder;
 }
 .box-header--content {
 	border-top: 1px solid @btnBorder;
@@ -92,7 +107,7 @@
 }
 .box-content {
 	padding: 0;
-	.border-radiuses(0, 5px, 5px, 0);
+	border-radius: 0 @inputBorderRadius @inputBorderRadius 0;
 	&:extend(.box-fix);
 	&:extend(.clear-fix);
 	h1,h2,h3,h4,h5,h6 {
@@ -106,7 +121,11 @@
 	padding: 0px 10px;
 }
 .box-content--scroll {
+	position: relative;
 	overflow-y: scroll;
 	height: ~"calc(100% - 30px)"; // fixes the scroll-bar. negative margin will place the scroll-bar into the header.
 	-webkit-overflow-scrolling: touch;
+	@media @mobile {
+		height: ~"calc(100% - 50px)";
+	}
 }

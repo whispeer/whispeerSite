@@ -26,7 +26,7 @@ define([
 		var keyGenerationStarted = false, keys = {}, keyGenListener = [], keyGenDone, sessionStorage = new Storage("whispeer.session");
 
 		var registerService = {
-			register: function (nickname, mail, password, profile, settings, callback) {
+			register: function (nickname, mail, password, profile, settings, inviteCode, callback) {
 				var keys;
 				step(function register1() {
 					this.parallel.unflatten();
@@ -105,6 +105,10 @@ define([
 
 					if (nickname) {
 						registerData.nickname = nickname;
+					}
+
+					if (inviteCode) {
+						registerData.inviteCode = inviteCode;
 					}
 
 					socketService.emit("session.register", registerData, this);
