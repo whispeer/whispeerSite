@@ -24,7 +24,40 @@
 		margin-top: 10px;
 	}
 }
+.staticBoxView-shareBox {
+	width: 100%;
+	display: block;
+	.clear-fix;
+	@media @desktop {
+		padding: 0 0.5%;
+		box-sizing: border-box;
+	}
+}
+#staticBoxView-shareBox-header {
+	margin-top: 0;
+	@media @mobile {
+		text-align: center;
+	}
+}
+.staticBoxView-shareButton {
+	@media @desktop {
+		.column(1,8,left,1%);
+		margin-bottom: 1rem;
+	}
+	@media @mobile {
+		.column(12);
+		margin-bottom: 1rem;
+		height: 50px;
+		line-height: 50px;
+		&:first-child {
+			margin-top: 1rem;
+		}
+	}
+}
 .staticBoxView {
+	h1 {
+		.large-text();
+	}
 	h2 {
 		font-weight: 500;
 	}
