@@ -34,29 +34,26 @@
 	display: block;
 	.clear-fix;
 	@media @desktop {
-		padding: 0 1%;
+		padding: 0 0.5%;
 		box-sizing: border-box;
 	}
 }
 #staticBoxView-shareBox-header {
 	margin-top: 0;
-	@media @desktop {
-		padding-left: 0.5%;
-	}
 	@media @mobile {
 		text-align: center;
 	}
 }
 .staticBoxView-shareButton {
-	height: 50px;
-	line-height: 50px;
 	@media @desktop {
-		.column(1,4);
+		.column(1,8,left,1%);
 		margin-bottom: 1rem;
 	}
 	@media @mobile {
 		.column(12);
 		margin-bottom: 1rem;
+		height: 50px;
+		line-height: 50px;
 		&:first-child {
 			margin-top: 1rem;
 		}
