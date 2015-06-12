@@ -124,9 +124,27 @@ a:hover {
 		box-shadow: 1px 1px 5px #f0f0f0;
 	}
 }
+.blog-entry-header {
+	display: inline-block;
+	width: 100%;
+	margin-bottom: 1rem;
+}
 .blog-entry-heading {
 	margin: 0;
-	padding: 1rem 0;
+	padding: 1rem 0 0;
+}
+.blog-entry-meta {
+	line-height: 1.25rem;
+}
+.blog-entry-authorImage {
+	width: 1.25rem;
+	border-radius: 100%;
+	vertical-align: middle;
+}
+.blog-entry-author,
+.blog-entry-authorLink,
+.blog-entry-date {
+	vertical-align: bottom;
 }
 .blog-entry-content p {
 	margin: 0;
