@@ -20,6 +20,7 @@ codekit-config.json
 /assets/less/base/addons/font-awesome.min.less
 /assets/less/codekit-config.json
 /assets/less/styleguide.md
+/static
 whispeer.mf
 manifest.mf
 .sass-cache
