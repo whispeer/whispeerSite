@@ -7,7 +7,6 @@ grunt.loadNpmTasks("grunt-contrib-less");
 grunt.loadNpmTasks("grunt-contrib-watch");
 grunt.loadNpmTasks("grunt-browser-sync");
 grunt.loadNpmTasks("grunt-contrib-copy");
-grunt.loadNpmTasks("grunt-execute");
 grunt.loadNpmTasks("grunt-concurrent");
 grunt.loadNpmTasks("grunt-bower-install-simple");
 grunt.loadNpmTasks("grunt-run");
