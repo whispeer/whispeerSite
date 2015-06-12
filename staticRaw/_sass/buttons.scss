@@ -41,3 +41,34 @@
 .button--radius {
 	border-radius: 3px;
 }
+
+.button--shareButton--fb,
+.button--shareButton--tw,
+.button--shareButton--gp,
+.button--shareButton--rd {
+	color: #ffffff !important;
+}
+.button--shareButton--fb {
+	background: rgb(59, 89, 152);
+	&:hover {
+		background: rgba(59, 89, 152, .95);
+	}
+}
+.button--shareButton--tw {
+	background: rgb(0, 172, 237);
+	&:hover {
+		background: rgba(0, 172, 237, .92)
+	}
+}
+.button--shareButton--gp {
+	background: rgb(221, 75, 57);
+	&:hover {
+		background: rgba(221, 75, 57, .95);
+	}
+}
+.button--shareButton--rd {
+	background:	rgb(255, 69, 0);
+	&:hover {
+		background: rgba(255, 69, 0, .92);
+	}
+}

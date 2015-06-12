@@ -167,6 +167,29 @@ a:hover {
 	display: inline-block;
 	margin-bottom: 1rem;
 }
+#blog-entry-share {
+	display: inline-block;
+	width: 100%;
+	margin: 0;
+}
+#blog-entry-share-header {
+	padding: 0 0 1rem;
+}
+.blog-shareButton {
+	text-align: center;
+	box-sizing: border-box;
+	margin-bottom: 1rem;
+	@media #{$desktop} {
+		width: 24.7%;
+		margin-left: 0.4%;
+		&:first-of-type {
+			margin-left: 0;
+		}
+	}
+	@media #{$mobile} {
+		width: 100%;
+	}
+}
 blockquote {
 	margin: 1rem 2rem 1rem 2.5rem;
 }
