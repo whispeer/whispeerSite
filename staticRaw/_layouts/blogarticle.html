@@ -18,7 +18,7 @@
 					<h1 class="blog-entry-heading">{{page.title}}</h1>
 					<div class="blog-entry-meta">
 						{% if page.author %}
-								<img class="blog-entry-authorImage" {% if page.authorMail %}src="{{page.authorMail | to_gravatar }}"{% else %} src="/assets/img/user.png" {% endif%}alt="Picture of {{page.author}}">
+							<img class="blog-entry-authorImage" {% if page.authorMail %}src="{{page.authorMail | to_gravatar }}"{% else %} src="/assets/img/user.png" {% endif%}alt="Picture of {{page.author}}">
 							<small class="blog-entry-author">
 								{{lang.by}}
 								{% if page.authorMail %}
@@ -46,7 +46,7 @@
 						<span>Facebook</span>
 					</a><!--
 					Twitter
-					--><a href="https://twitter.com/intent/tweet?url={{page.url | prepend: site.url | cgi_escape}}&text={% if page.shareText %}{{page.shareText}}{% else %}{{lang.blogShareText}}{% endif %}&hashtags={% if page.hastags %}{{page.hastags}}{% else %}{{lang.blogHastags}}{ %endif %}" target="_blank" class="button button--noBorder button--radius button--shareButton button--shareButton--tw blog-shareButton">
+					--><a href="https://twitter.com/intent/tweet?url={{page.url | prepend: site.url | cgi_escape}}&text={% if page.shareText %}{{page.shareText}}{% else %}{{lang.blogShareText}}{% endif %}&hashtags={% if page.hastags %}{{page.hastags}}{% else %}{{lang.blogHastags}}{% endif %}" target="_blank" class="button button--noBorder button--radius button--shareButton button--shareButton--tw blog-shareButton">
 						<i class="fa fa-twitter"></i>
 						<span>Twitter</span>
 					</a><!--
