@@ -42,37 +42,50 @@ a:hover {
 }
 
 #blog {
+	text-align: center;
 	background: #f6f6f6;
 	color: #474747;
 	font-family: 'Lato', sans-serif;
+	@media #{$mobile} {
+		background: #fbfbfb;
+	}
 }
 #blog-header {
 	display: inline-block;
 	width: 100%;
 	text-align: center;
-	margin: 2rem auto 0;
+	padding: 2rem 0;
+	margin: 0 auto;
+	box-sizing: border-box;
+	@media #{$mobile} {
+		background: #f6f6f6;
+	}
 }
 #blog-header-logo {
 	width: 311px;
 	@media #{$mobile} {
-		max-width: 80%;
+		max-width: calc(100% - 2rem);
 	}
 }
-#blog-back {
+#blog-back,
+#blog-header-title {
 	display: block;
-	width: 100%;
+	width: calc(100% - 2rem);
 	max-width: 600px;
-	margin: 2rem auto 1rem;
+	margin: 2rem auto 4px;
 	box-sizing: border-box;
 }
+#blog-header-title {
+	padding: 0;
+}
 #blog-main {
-	display: block;
+	display: inline-block;
 	position: relative;
+	margin: 0 auto 2rem;
 	width: 100%;
 	@media #{$desktop} {
 		max-width: 600px;
 	}
-	margin: 1rem auto 2rem;
 }
 #blog-footer {
 	padding: 1rem;
@@ -166,4 +179,5 @@ code {
 	box-sizing: border-box;
 	width: 100%;
 	overflow-x: scroll;
+	-webkit-overflow-scrolling: touch;
 }
