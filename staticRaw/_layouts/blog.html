@@ -16,7 +16,7 @@
 			{% for post in site.categories[page.lang] %}
 			<article class="blog-entry">
 				<div class="blog-entry-header">
-					<h1 class="blog-entry-heading">{{post.title}}</h1>
+					<h1 class="blog-entry-heading"><a href="{{post.url}}" title="{{lang.goToPost}} {{post.title}}">{{post.title}}</a></h1>
 					<div class="blog-entry-meta">
 						{% if post.author %}
 							<img class="blog-entry-authorImage"{% if post.authorMail %}src="{{post.authorMail | to_gravatar }}"{% else %} src="/assets/img/user.png"{% endif%} alt="Picture of {{post.author}}">
@@ -37,8 +37,12 @@
 					</div>
 				</div>
 				<div class="blog-entry-content">
-					{{post.excerpt}}
-					<a href="{{post.url}}" class="button button--green button--noBorder button--radius blog-entry-more">{{lang.readMore}} <i class="fa fa-arrow-right fa-fw"></i></a>
+					{% if post.content contains "<!--more-->" %}
+						{{post.excerpt}}
+						<a href="{{post.url}}" class="button button--green button--noBorder button--radius blog-entry-more">{{lang.readMore}} <i class="fa fa-arrow-right fa-fw"></i></a>
+					{% else %}
+						{{post.content}}
+					{% endif %}
 				</div>
 				<div class="blog-entry-meta"></div>
 			</article>
