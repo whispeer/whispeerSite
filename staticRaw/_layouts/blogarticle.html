@@ -18,7 +18,7 @@
 					<h1 class="blog-entry-heading">{{page.title}}</h1>
 					<div class="blog-entry-meta">
 						{% if page.author %}
-							<img class="blog-entry-authorImage" {% if page.authorMail %}src="{{page.authorMail | to_gravatar }}"{% else %} src="/assets/img/user.png" {% endif%}alt="Picture of {{page.author}}">
+							<img class="blog-entry-authorImage"{% if page.authorMail %}src="{{page.authorMail | to_gravatar }}"{% else %} src="/assets/img/user.png"{% endif%} alt="Picture of {{page.author}}">
 							<small class="blog-entry-author">
 								{{lang.by}}
 								{% if page.authorMail %}
