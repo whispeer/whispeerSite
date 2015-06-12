@@ -10,7 +10,7 @@
 	<body id="blog-body">
 		<header id="blog-header">
 			<img id="blog-header-logo" src="/assets/img/logo-blog.png" alt="whispeer - keep your secrets!" />
-			<h1 id="blog-header-title">Blog</h1>
+			<h1 id="blog-header-title"><i class="fa fa-newspaper-o fa-fw"></i> Blog</h1>
 		</header>
 		<main id="blog-main">
 			{% for post in site.categories[page.lang] %}
@@ -18,7 +18,7 @@
 				<h1 class="blog-entry-heading">{{post.title}}</h1>
 				<div class="blog-entry-content">
 					{{post.excerpt}}
-					<a href="{{post.url}}" class="button button--green button--noBorder button--radius blog-entry-more">{{lang.readMore}}</a>
+					<a href="{{post.url}}" class="button button--green button--noBorder button--radius blog-entry-more">{{lang.readMore}} <i class="fa fa-arrow-right fa-fw"></i></a>
 				</div>
 				<div class="blog-entry-meta"></div>
 			</article>
