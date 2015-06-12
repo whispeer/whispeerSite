@@ -1,0 +1,31 @@
+{% assign langCode = page.lang %}
+{% assign lang = site.data.langs[langCode] %}
+<!doctype html>
+<html id="blog">
+	<head>
+		<title>whispeer Blog - {{page.title}}</title>
+		<meta charset="utf8" />
+		<meta name="viewport" content="target-densitydpi=device-dpi, initial-scale=1.0, user-scalable=no" />
+	</head>
+	<body id="blog-body">
+		<header id="blog-header">
+			<img id="blog-header-logo" src="/assets/img/logo-blog.png" alt="whispeer - keep your secrets!" />
+			<h2>Blog</h2>
+		</header>
+		<main id="blog-main">
+			{% for post in site.categories[page.lang] %}
+			<article class="blog-entry">
+				<h1 class="blog-entry-heading">{{post.title}}</h1>
+				<div class="blog-entry-content">
+					{{post.excerpt}}
+					<a href="{{post.url}}" class="button button--green button--noBorder button--radius blog-entry-more">{{lang.readMore}}</a>
+				</div>
+				<div class="blog-entry-meta"></div>
+			</article>
+			{% endfor %}
+		</main>
+		{% include blogFooter.html %}
+		<link href='http://fonts.googleapis.com/css?family=Lato:400,700' rel='stylesheet' type='text/css'>
+		<link rel="stylesheet" href="/assets/css/blog.css" />
+	</body>
+</html>

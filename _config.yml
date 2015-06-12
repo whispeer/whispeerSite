@@ -10,6 +10,8 @@ markdown: kramdown
 source: ./staticRaw
 destination: ./static
 
+excerpt_separator: <!--more-->
+
 jekyll-press:
   exclude:
    - '*/register*'

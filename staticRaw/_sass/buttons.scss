@@ -26,6 +26,7 @@
 	box-shadow: inset 2px 2px 1px rgba(0, 0, 0, 0.18);
 }
 .button--green {
+	background: #52a01a;
 	color: #fff;
 }
 .button--green:hover {
@@ -33,4 +34,10 @@
 }
 .button--more {
 	border: none;
+}
+.button--noBorder {
+	border: none;
+}
+.button--radius {
+	border-radius: 3px;
 }
