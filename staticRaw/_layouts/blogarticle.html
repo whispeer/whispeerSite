@@ -14,11 +14,30 @@
 		</header>
 		<main id="blog-main">
 			<article class="blog-entry">
-				<h1 class="blog-entry-heading">{{site.title}}</h1>
+				<div class="blog-entry-header">
+					<h1 class="blog-entry-heading">{{page.title}}</h1>
+					<div class="blog-entry-meta">
+						{% if page.author %}
+								<img class="blog-entry-authorImage" {% if page.authorMail %}src="{{page.authorMail | to_gravatar }}"{% else %} src="/assets/img/user.png" {% endif%}alt="Picture of {{page.author}}">
+							<small class="blog-entry-author">
+								{{lang.by}}
+								{% if page.authorMail %}
+								<a class="blog-entry-authorLink" href="mailto:{{page.authorMail}}">
+								{% endif %}
+								{{page.author}}
+								{% if page.authorMail %}</a>{% endif %}
+							</small>
+						{% endif %}
+						{% if page.date %}
+							<small class="blog-entry-date">
+								{{lang.preDate}}&nbsp;{{page.date | date: "%d.%m.%Y"}}
+							</small>
+						{% endif %}
+					</div>
+				</div>
 				<div class="blog-entry-content">
 					{{content}}
 				</div>
-				<div class="blog-entry-meta"></div>
 			</article>
 		</main>
 		{% include blogFooter.html %}
