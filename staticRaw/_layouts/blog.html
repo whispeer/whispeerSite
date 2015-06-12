@@ -15,7 +15,27 @@
 		<main id="blog-main">
 			{% for post in site.categories[page.lang] %}
 			<article class="blog-entry">
-				<h1 class="blog-entry-heading">{{post.title}}</h1>
+				<div class="blog-entry-header">
+					<h1 class="blog-entry-heading">{{post.title}}</h1>
+					<div class="blog-entry-meta">
+						{% if post.author %}
+							<img class="blog-entry-authorImage"{% if post.authorMail %}src="{{post.authorMail | to_gravatar }}"{% else %} src="/assets/img/user.png"{% endif%} alt="Picture of {{post.author}}">
+							<small class="blog-entry-author">
+								{{lang.by}}
+								{% if post.authorMail %}
+								<a class="blog-entry-authorLink" href="mailto:{{post.authorMail}}">
+								{% endif %}
+								{{post.author}}
+								{% if post.authorMail %}</a>{% endif %}
+							</small>
+						{% endif %}
+						{% if post.date %}
+							<small class="blog-entry-date">
+								{{lang.preDate}}&nbsp;{{post.date | date: "%d.%m.%Y"}}
+							</small>
+						{% endif %}
+					</div>
+				</div>
 				<div class="blog-entry-content">
 					{{post.excerpt}}
 					<a href="{{post.url}}" class="button button--green button--noBorder button--radius blog-entry-more">{{lang.readMore}} <i class="fa fa-arrow-right fa-fw"></i></a>
