@@ -1,0 +1,70 @@
+{% assign langCode = page.categories[0] %}
+{% assign lang = site.data.langs[langCode] %}
+<!doctype html>
+<html id="blog">
+	<head>
+		<title>whispeer Blog - {{page.title}}</title>
+		<meta charset="utf8" />
+		<meta name="viewport" content="target-densitydpi=device-dpi, initial-scale=1.0, user-scalable=no" />
+	</head>
+	<body id="blog-body">
+		<header id="blog-header">
+			<img id="blog-header-logo" src="/assets/img/logo-blog.png" alt="whispeer - keep your secrets!" />
+			<a class="button button--green button--noBorder button--radius" id="blog-back" href="/{{langCode}}/blog/"><i class="fa fa-arrow-left fa-fw"></i> {{lang.home}}</a>
+		</header>
+		<main id="blog-main">
+			<article class="blog-entry">
+				<div class="blog-entry-header">
+					<h1 class="blog-entry-heading">{{page.title}}</h1>
+					<div class="blog-entry-meta">
+						{% if page.author %}
+							<img class="blog-entry-authorImage"{% if page.authorMail %}src="{{page.authorMail | to_gravatar }}"{% else %} src="/assets/img/user.png"{% endif%} alt="Picture of {{page.author}}">
+							<small class="blog-entry-author">
+								{{lang.by}}
+								{% if page.authorMail %}
+								<a class="blog-entry-authorLink" href="mailto:{{page.authorMail}}">
+								{% endif %}
+								{{page.author}}
+								{% if page.authorMail %}</a>{% endif %}
+							</small>
+						{% endif %}
+						{% if page.date %}
+							<small class="blog-entry-date">
+								{{lang.preDate}}&nbsp;{{page.date | date: "%d.%m.%Y"}}
+							</small>
+						{% endif %}
+					</div>
+				</div>
+				<div class="blog-entry-content">
+					{{content}}
+				</div>
+				<div id="blog-entry-share">
+					<h3 id="blog-entry-share-header">{{lang.shareThis}}</h3>
+					<!-- Facebook -->
+					<a href="http://www.facebook.com/sharer.php?u={{page.url | prepend: site.url | cgi_escape}}" target="_blank" class="button button--noBorder button--radius button--shareButton button--shareButton--fb blog-shareButton">
+						<i class="fa fa-facebook"></i>
+						<span>Facebook</span>
+					</a><!--
+					Twitter
+					--><a href="https://twitter.com/intent/tweet?url={{page.url | prepend: site.url | cgi_escape}}&text={% if page.shareText %}{{page.shareText}}{% else %}{{lang.blogShareText}}{% endif %}&hashtags={% if page.hastags %}{{page.hastags}}{% else %}{{lang.blogHastags}}{% endif %}" target="_blank" class="button button--noBorder button--radius button--shareButton button--shareButton--tw blog-shareButton">
+						<i class="fa fa-twitter"></i>
+						<span>Twitter</span>
+					</a><!--
+					Google+
+					--><a href="https://plus.google.com/share?url={{page.url | prepend: site.url | cgi_escape}}" target="_blank" class="button button--noBorder button--radius button--shareButton button--shareButton--gp blog-shareButton">
+						<i class="fa fa-google-plus"></i>
+						<span>Google+</span>
+					</a><!--
+					Reddit
+					--><a href="http://reddit.com/submit?url={{page.url | prepend: site.url | cgi_escape}}&title={% if page.shareText %}{{page.shareText}}{% else %}{{lang.blogShareText}}{% endif %}" target="_blank" class="button button--noBorder button--radius button--shareButton button--shareButton--rd blog-shareButton">
+						<i class="fa fa-reddit"></i>
+						<span>Reddit</span>
+					</a>
+				</div>
+			</article>
+		</main>
+		{% include blogFooter.html %}
+		<link href="http://fonts.googleapis.com/css?family=Lato:400,700" rel="stylesheet" type="text/css">
+		<link rel="stylesheet" href="/assets/css/blog.css" />
+	</body>
+</html>

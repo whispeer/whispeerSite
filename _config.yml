@@ -1,14 +1,16 @@
 # Site settings
 title: Your awesome title
 #baseurl: "" # the subpath of your site, e.g. /blog/
-#url: "http://yourdomain.com" # the base hostname & protocol for your site
-permalink: pretty
+url: "https://whispeer.de" # the base hostname & protocol for your site
+permalink: none
 
 # Build settings
 markdown: kramdown
 
 source: ./staticRaw
 destination: ./static
+
+excerpt_separator: <!--more-->
 
 jekyll-press:
   exclude:

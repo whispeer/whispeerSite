@@ -23,7 +23,8 @@
     "grunt-contrib-less": "~0.11.3",
     "grunt-contrib-requirejs": "^0.4.4",
     "lazy": "^1.0.11",
-    "node-static": "0.7.x"
+    "node-static": "0.7.x",
+    "normalize.css": "^3.0.3"
   },
   "devDependencies": {
     "extend": "^2.0.1",
