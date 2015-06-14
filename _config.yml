@@ -2,7 +2,7 @@
 title: Your awesome title
 #baseurl: "" # the subpath of your site, e.g. /blog/
 url: "https://whispeer.de" # the base hostname & protocol for your site
-permalink: none
+permalink: pretty
 
 # Build settings
 markdown: kramdown
