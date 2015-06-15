@@ -5,6 +5,7 @@
 
 @import "variables";
 @import "mixins";
+@import "body";
 @import "typography";
 @import "buttons";
 @import "sections";
@@ -12,6 +13,7 @@
 
 .header {
 	background: rgba(red($primary), green($primary), blue($primary), 0.98);
+	font-family: ubuntulight, 'Helvetica Neue Light', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
 .header-inner {
@@ -71,31 +73,6 @@
 	width: 100%;
 	height: 30px;
 }
-.section-header {
-	@media #{$desktop} {
-		font-size: 4rem;
-	}
-	@media #{$mobile} {
-		font-size: 3rem;
-	}
-	letter-spacing: -2px;
-	width: auto;
-}
-#heading {
-	height: auto;
-	min-height: 100vh;
-	@media #{$desktop} {
-		padding-top: 50px;
-	}
-	padding-bottom: 0;
-	background-position: center center;
-}
-#heading .landing-section--inner {
-	padding-bottom: calc(55px + 1rem);
-}
-#heading .section-header {
-	width: 100%;
-}
 .landing-registerFrame {
 	display: block;
 	width: 98%;
@@ -106,6 +83,9 @@
 	@media (max-width: 395px) {
 		height: 318px;
 	}
+}
+#heading {
+	padding-bottom: 0;
 }
 #heading .landing-registerFrame {
 	padding-bottom: 32px;
@@ -148,41 +128,6 @@
 .landing-section-video:hover .landing-section-video-icon {
 	text-shadow: 1px 1px 2px #444;
 }
-.background {
-	background-image: url(/assets/images/lighthouse.jpg);
-	background-color: #ffffff;
-}
-.background--night {
-	background-image: url(/assets/images/lighthouse_night.jpg);
-	background-color: $gray;
-}
-.section-next {
-	display: block;
-	position: absolute;
-	margin: -15px auto 0;
-	width: 150px;
-	height: 55px;
-	padding: 11px 10px 10px;
-
-	left: calc(50% - 75px);
-	bottom: 25px;
-
-	color: #fff;
-	border: none;
-	box-sizing: border-box;
-	transition: 0.3s background ease;
-}
-.section-next:hover {
-	color: #ffffff;
-	background: rgba(60, 60, 60, 0.25);
-}
-.fa-section-next {
-	display: block;
-	margin-top: 2px;
-}
-a[name="content"] {
-	visibility: hidden;
-}
 .landing-section--footer {
 	min-height: 0;
 	padding: 1rem 8rem 1rem 2.5rem;
@@ -208,22 +153,6 @@ a[name="content"] {
 	@media #{mobile} {
 		text-align: right;
 	}
-}
-.backToTop {
-	display: none;
-	position: fixed;
-	bottom: 0;
-	right: 0;
-	color: #fff;
-	background-color: $primary;
-	padding: 1rem 2rem;
-}
-.backToTop:hover {
-	color: #fff;
-	text-shadow: 0 0 2px #fff;
-}
-.backToTop--visible {
-	display: block;
 }
 .video-overlay {
 	display: none;
@@ -272,30 +201,6 @@ a[name="content"] {
 }
 .video-overlay--visible #video-overlay-wrapper {
 	display: block;
-}
-
-// NoScript
-.no-script {
-	width: 100%;
-	height: 100%;
-	z-index: 11;
-	position: absolute;
-	top: 0;
-	left: 0;
-	background: $primary;
-	font-size: 1.15em;
-	@media #{$mobile} {
-		top: 100px;
-	}
-	color: #fff;
-	width: 100%;
-	text-align: center;
-	p {
-		margin: 5px;
-	}
-	p:first-child {
-		margin: 1em;
-	}
 }
 
 // Animation

@@ -9,12 +9,7 @@
 		<link rel="stylesheet" href="{{ "/assets/css/b2c.css" | prepend: site.baseurl }}">
 	</head>
 	<body>
-		<noscript class="no-script">
-			<span>
-				<p><i class="fa fa-frown-o fa-3x fa-fw"></i></p>
-				<p>{{data.general.noScript}}</p>
-			</span>
-		</noscript>
+		{% include noscript.html %}
 		<header class="header">
 			<div class="header-inner">
 				<a data-ng-href="/{{page.lang}}/" class="header-brand" data-ng-click="mobileActivateView()">
@@ -32,7 +27,7 @@
 			</div>
 		</div>
 		<main>
-			<section class="landing-section{% if data.teaser.image != null %} background{% endif %}" id="heading">
+			<section class="landing-section{% if data.teaser.image != null %} landing-section--background{% endif %}" id="heading">
 				<div class="landing-section--inner">
 					<h1 class="section-header {% if data.teaser.textShadow %}textShadow{% endif %} {% if data.teaser.darkBlur %}darkBlur{% endif %} {% if data.teaser.lightBlur %}lightBlur{% endif %}">{{ data.teaser.headline }}</h1>
 					{% if data.teaser.details != null %}
