@@ -1,6 +1,6 @@
 <!doctype html>
 <html itemscope itemtype="http://schema.org/Product" prefix="my_namespace: http://ogp.me/ns/website#">
-	{% assign data = site.data[page.dataSet] %}
+	{% assign data = site.data.b2c.[page.dataSet].[page.lang] %}
 	{% assign lang = site.data.langs[page.lang] %}
 	{% assign i18n = site.data.whispeerI18n[page.lang] %}
 	<head>

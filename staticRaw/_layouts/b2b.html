@@ -1,7 +1,6 @@
 <!doctype html>
 <html>
-	{{content}}
-	{% assign data = site.data[page.dataSet] %}
+	{% assign data = site.data.b2b.[page.dataSet].[page.lang] %}
 	{% assign lang = site.data.langs[page.lang] %}
 	<head>
 		{% include head.html %}
