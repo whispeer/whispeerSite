@@ -36,7 +36,6 @@
 			<p>Vielen Dank für dein Verständnis!</p>
 		</span>
 	</noscript>
-	<ng-include src="'assets/views/topBar.html'"></ng-include>
 	<!-- !Disconnect Notification -->
 	<div id="globalNotificationSpace" data-ng-show="lostConnection"></div>
 	<div id="globalNotification" data-ng-show="lostConnection" data-ng-cloak>
@@ -50,26 +49,6 @@
 		<aside id="sidebar-left" data-ng-class="{'sidebarLeft-show': (sidebarActive && !searchActive), 'sidebarLeft-pushTop': (lostConnection)}">
 			<ng-include src="'assets/views/userPanel.html'" data-ng-if="!mobile"></ng-include>
 			<ng-include src="'assets/views/mobileMenu.html'" data-ng-if="mobile"></ng-include>
-
-			<div class="notificationWrap">
-				<!--
-				<div class="notification" data-ng-repeat="notification in notifications">
-					<div class="close"><i class="icon icon-cancel-circle"></i></div>
-					<span></span>
-				</div>
-				-->
-			</div>
-			<!-- !Footer -->
-			<footer class="footer" data-ng-if="!mobile">
-				<div class="footer-row">
-					<a target="_self" href="{{addLocale('/version')}}">v{{version}}</a>
-				</div>
-				<span class="footer-row">&copy; 2015 whispeer</span>
-				<div class="footer-row">
-					<a target="_blank" href="{{addLocale('/legal')}}" data-i18n="menu.legal"></a>
-				</div>
-			</footer>
-			<!-- end !Footer -->
 			<!-- end !Userpanel -->
 		</aside>
 		<!-- end !Left Sidebar -->

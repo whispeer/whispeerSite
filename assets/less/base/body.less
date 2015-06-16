@@ -6,26 +6,16 @@ iframe {
 
 html {
 	body {
-		padding-top: 50px;
 		.box-fix;
 	}
 	@media @mobile {
 		#main {
-			top: 50px;
 			left: 0;
-			height: ~"calc(100% - 50px)";
+			height: 100%;
 		}
 	}
 	footer {
 		background: rgba(255,255,255,0.79);
-	}
-}
-
-html:not(.mainView):not(.startView):not(.inviteView) {
-	@media @desktop {
-		#container {
-			padding: 10px 0;
-		}
 	}
 }
 
@@ -69,8 +59,8 @@ noscript {
 
 #main {
 	@media @desktop {
-		.column(8);
-		.push(2);
+		.column(9.5,12,left,0);
+		.push(2.5,12,0);
 	}
 
 	@media @mobile {
@@ -92,10 +82,11 @@ noscript {
 }
 
 #sidebar-left {
+	background: @primaryDarkest;
 	@media @desktop {
-		.column(2);
+		.column(2.5,12,left,0);
 		position: fixed;
-		top: 50px;
+		top: 0;
 		left: 0;
 		overflow-y: auto;
 		overflow-x: hidden;
@@ -152,8 +143,7 @@ noscript {
 }
 
 #userpanel {
-	.column(12);
-	margin-bottom: 10px;
+	width: 100%;
 }
 
 textarea {

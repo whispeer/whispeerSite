@@ -27,20 +27,36 @@
 #userpanel {
 	text-align: center;
 	display: block;
-	margin: 15px 0 0 0;
+	margin: 0;
+}
+#userpanel a {
+	color: #ffffff !important;
 }
 #userpanel-me {
+	display: inline-block;
 	width: 100%;
+	height: 4rem;
+	line-height: 4rem;
+
+	background: rgba(60, 60, 60, 0.2);
+
+	font-size: 1.25rem;
+	font-weight: 400;
 	text-align: center;
+	&:hover {
+		background: rgba(60, 60, 60, 0.25);
+	}
 }
 #userpanel-me-image {
-	.border-radius(100%);
-	width: 80%;
-	border: 2px solid @green;
-	&:extend(.box-fix);
+	width: 2rem;
+	height: 2rem;
+
+	vertical-align: middle;
+
+	border-radius: 100%;
 }
 #userpanel-me-name {
-	display: block;
+	vertical-align: middle;
 }
 #userpanel-menu {
 	margin-top: 15px;
