@@ -125,7 +125,7 @@ define(["app"], function (app) {
 		$stateProvider.state("app.user.verify", {
 			url: "/verify",
 			templateUrl: "assets/views/pages/userSubViews/userVerify.html",
-			controller: "ssn.userController"
+			controller: "ssn.userVerifyController"
 		});
 
 		$stateProvider.state("app.user.info", {
@@ -137,13 +137,13 @@ define(["app"], function (app) {
 		$stateProvider.state("app.user.wall", {
 			url: "/wall",
 			templateUrl: "assets/views/pages/userSubViews/userWall.html",
-			controller: "ssn.userController"
+			controller: "ssn.userWallController"
 		});
 
 		$stateProvider.state("app.user.friends", {
 			url: "/friends",
 			templateUrl: "assets/views/pages/userSubViews/userFriends.html",
-			controller: "ssn.userController"
+			controller: "ssn.userFriendsController"
 		});
 
 		$urlRouterProvider.otherwise(function ($injector, url) {

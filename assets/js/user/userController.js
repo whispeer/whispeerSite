@@ -375,9 +375,9 @@ define(["step", "whispeerHelper", "bluebird", "asset/resizableImage", "asset/sta
 			var fp = user.getFingerPrint();
 			$scope.fingerPrint = [fp.substr(0,13), fp.substr(13,13), fp.substr(26,13), fp.substr(39,13)];
 
-			postService.getWallPosts(0, userObject.getID(), function (err, posts) {
+			/*postService.getWallPosts(0, userObject.getID(), function (err, posts) {
 				$scope.posts = posts;
-			});
+			});*/
 
 			user.loadFullData(this);
 		}), h.sF(function () {
@@ -385,7 +385,7 @@ define(["step", "whispeerHelper", "bluebird", "asset/resizableImage", "asset/sta
 			$scope.adv = $scope.user.advanced;
 
 			$scope.loading = false;
-			userObject.getFriends(this);
+			//userObject.getFriends(this);
 		}), h.sF(function (friends) {
 			userService.getMultiple(friends, this);
 		}), h.sF(function (friends) {
