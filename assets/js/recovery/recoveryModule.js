@@ -2,6 +2,7 @@ define(["angular", "config/localizationConfig"], function (angular) {
 	"use strict";
 	return angular.module("ssn.recovery", [
 		"ssn.services",
+		"ssn.user",
 		"ssn.directives",
 		"ssn.models",
 		"ssn.interceptors.config",
