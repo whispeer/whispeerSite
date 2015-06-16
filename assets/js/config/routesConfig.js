@@ -121,6 +121,30 @@ define(["app"], function (app) {
 			controller: "ssn.userController"
 		});
 
+		$stateProvider.state("app.user.verify", {
+			url: "/verify",
+			templateUrl: "assets/views/pages/userSubViews/userVerify.html",
+			controller: "ssn.userController"
+		});
+
+		$stateProvider.state("app.user.info", {
+			url: "/",
+			templateUrl: "assets/views/pages/userSubViews/userInfo.html",
+			controller: "ssn.userController"
+		});
+
+		$stateProvider.state("app.user.wall", {
+			url: "/wall",
+			templateUrl: "assets/views/pages/userSubViews/userWall.html",
+			controller: "ssn.userController"
+		});
+
+		$stateProvider.state("app.user.friends", {
+			url: "/friends",
+			templateUrl: "assets/views/pages/userSubViews/userFriends.html",
+			controller: "ssn.userController"
+		});
+
 		$urlRouterProvider.otherwise(function ($injector, url) {
 			var locale = $injector.get("localize").getLanguage();
 			console.log("Locale: " + locale);

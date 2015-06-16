@@ -13,7 +13,7 @@
 		<a class="userView-navigation-link box-header-link" scrolltoid="friends" data-i18n="profile.head.friends"></a>
 	</nav>
 </header>
+
 <div class="box-content box-content--scroll" id="userView-content">
-	<ng-include data-ng-if="!verifyNow || user.me" data-src="'assets/views/pages/userSubViews/profile.html'"></ng-include>
-	<ng-include data-ng-if="verifyNow && !user.me" data-src="'assets/views/pages/userSubViews/verifyUser.html'"></ng-include>
+	<ui-view></ui-view>
 </div>
