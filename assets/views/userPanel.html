@@ -3,14 +3,41 @@
 		<img data-ng-src="{{user.basic.image}}" alt="" id="userpanel-me-image">
 		<span id="userpanel-me-name">{{user.name}}</span>
 	</a>
+	<span class="brand">
+		<span class="brand--normal">whis</span><span class="brand--inverse">peer</span>
+	</span>
 	<nav id="userpanel-menu">
-		<a whispeer-sref="app.main" class="userpanel-menu-link" data-i18n="menu.newsfeed"></a>
-		<a whispeer-sref="app.user({identifier: user.names.nickname})" class="userpanel-menu-link" data-i18n="menu.profil"></a>
-		<a whispeer-sref="app.friends" class="userpanel-menu-link" data-i18n="menu.friends|count={{friends.friendsCount}}|requests={{friends.requestsCount}}"></a>
-		<a whispeer-sref="app.messages" class="userpanel-menu-link" data-i18n="menu.messages|count={{messages.unread}}"></a>
-		<a whispeer-sref="app.circles" class="userpanel-menu-link" data-i18n="menu.circles"></a>
-		<a whispeer-sref="app.settings" class="userpanel-menu-link" data-i18n="menu.settings"></a>
-		<a href="{{addLocale('/help')}}" target="_blank" class="userpanel-menu-link" data-i18n="menu.help"></a>
-		<a href="#" class="userpanel-menu-link" data-ng-click="logout()" data-eat-click data-i18n="menu.logout"></a>
+		<a class="userpanel-menu-link" whispeer-sref="app.main"  data-ng-click="toggleSidebar()">
+			<i class="fa fa-home fa-fw userpanel-menu-icon"></i>
+			<span class="userpanel-menu-text" data-i18n="menu.newsfeed"></span>
+		</a>
+		<a class="userpanel-menu-link" whispeer-sref="app.friends"  data-ng-click="toggleSidebar()">
+			<i class="fa fa-users fa-fw userpanel-menu-icon"></i>
+			<span class="userpanel-menu-text" data-i18n="menu.friends|count={{friends.friendsCount}}|requests={{friends.requestsCount}}"></span>
+		</a>
+		<a class="userpanel-menu-link" whispeer-sref="app.messages"  data-ng-click="toggleSidebar()">
+			<i class="fa fa-envelope-o fa-fw userpanel-menu-icon"></i>
+			<span class="userpanel-menu-text" data-i18n="menu.messages|count={{messages.unread}}"></span>
+		</a>
+		<a class="userpanel-menu-link" whispeer-sref="app.circles"  data-ng-click="toggleSidebar()">
+			<i class="fa fa-circle-thin fa-fw userpanel-menu-icon"></i>
+			<span class="userpanel-menu-text" data-i18n="menu.circles"></span>
+		</a>
+		<a class="userpanel-menu-link" whispeer-sref="app.settings"  data-ng-click="toggleSidebar()">
+			<i class="fa fa-cog fa-fw userpanel-menu-icon"></i>
+			<span class="userpanel-menu-text" data-i18n="menu.settings"></span>
+		</a>
+		<a class="userpanel-menu-link" href="{{addLocale('/help')}}" target="_blank"  data-ng-click="toggleSidebar()">
+			<i class="fa fa-question-circle fa-fw userpanel-menu-icon"></i>
+			<span class="userpanel-menu-text" data-i18n="menu.help"></span>
+		</a>
+		<a class="userpanel-menu-link" href="{{addLocale('/legal')}}" target="_blank" data-ng-click="toggleSidebar()">
+			<i class="fa fa-book fa-fw userpanel-menu-icon"></i>
+			<span class="userpanel-menu-text" data-i18n="menu.legal"></span>
+		</a>
+		<a class="userpanel-menu-link" href="#" data-ng-click="logout()" data-eat-click>
+			<i class="fa fa-sign-out fa-fw userpanel-menu-icon"></i>
+			<span class="userpanel-menu-text" data-i18n="menu.logout"></span>
+		</a>
 	</nav>
 </div>

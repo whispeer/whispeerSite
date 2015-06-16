@@ -30,7 +30,7 @@
 	margin: 0;
 }
 #userpanel a {
-	color: #ffffff !important;
+	color: #f9f9f9 !important;
 }
 #userpanel-me {
 	display: inline-block;
@@ -58,21 +58,60 @@
 #userpanel-me-name {
 	vertical-align: middle;
 }
-#userpanel-menu {
-	margin-top: 15px;
+.brand {
+	width: 100%;
+
+	.large-text();
+	.bold-text();
+	text-decoration: none;
+	text-shadow: 0px 0px 1px @white;
+	text-rendering: optimizeLegibility;
+
+	-webkit-font-smoothing: subpixel-antialiased;
+
+	height: 50px;
+	line-height: 49px;
+}
+.brand--normal {
+	height: 30px;
+	color: #fff;
+	.text-shadow(0px 0px 2px @primaryDarkest);
+}
+.brand--inverse {
+	color: @primaryLighter;
+	.text-shadow(0px 0px 2px @primaryDarkest);
+}
+.userpanel-menu {
+	.unstyled;
+	width: 100%;
 }
 .userpanel-menu-link {
-	position: relative;
-	display: inline-block;
-	float: left;
-	width: 80%;
-	height: @baseLineHeight;
-	margin: 5px 0;
-	padding: 0 0 0 4px;
-	text-align: left;
+	.column(12,12,left,0);
+	height: @navbarHeight;
+	line-height: @navbarHeight;
+	overflow: hidden;
+	border-top: 1px solid @primary;
+	&:hover {
+		background: rgba(60, 60, 60, 0.1)
+	}
+	&:last-child {
+		border-bottom: 1px solid @primary;
+	}
 
-	background-color: transparent;
+	padding: 0 25px;
+	text-align: center;
+
+	.box-fix;
 }
-.userpanel-menu-link:first-child {
-	margin-top: 0;
+.userpanel-menu-text {
+	display: inline-block;
+	width: ~"calc(100% - 50px)";
+
+	color: #fff;
+	text-align: center;
+}
+.userpanel-menu-icon {
+	float: left;
+	line-height: @navbarHeight;
+	font-size: 1.25rem;
 }
