@@ -1,0 +1,34 @@
+<div class="box-rightWrap">
+	<span class="box-header-title box-header-title--full circleLoaded" role="title" data-ng-if="showCircle">
+		<span>
+			<span data-i18n="views.circles.header.title.loaded"></span>
+			<span>{{thisCircle.name}}</span>
+		</span>
+
+		<button id="backToMenu" class="box-header-button box-header-button--right" data-ng-if="mobile" data-ng-click="unloadCircleMobile()">
+			<i class="fa fa-fw fa-bars"></i>
+		</button>
+		<button id="removeCircle" class="box-header-button box-header-button--right" data-ng-click="removeCircle()">
+			<i class="fa fa-fw fa-trash-o"></i>
+		</button>
+	</span>
+
+	<div id="circleContainer" data-circleID="{{thisCircle.id}}">
+		<div id="circleWrap">
+			<div class="circleView-addUsers">
+				<search class="circleView-addUsers-search"  data-supplier="friendsSearchSupplier" callback="setUsersToAdd(selected)" data-search-template="userSimple" data-filter="thisCircle.userids" data-multiple data-input-i18n-attr="views.circles.searchFriends|placeholder" data-base="user" />
+				<savebutton class="circleView-addUsers-submit" data-noiniticon data-state="addUsersToCircle" data-ng-click="addUsers()">
+					<span data-i18n="views.circles.addUsers"></span>
+				</savebutton>
+			</div>
+			<ol id="friendsList" class="u-unstyled">
+				<li data-ng-repeat="friend in thisCircle.persons">
+					<person data-user="friend" data-type="friend">
+						<a whispeer-sref="app.messages({userid: friend.id})"><i class="fa fa-2x fa-envelope fa-fw"></i></a>
+						<a data-ng-click="$parent.removeUser(friend)"><i class="person-clickable fa fa-2x fa-times fa-fw"></i></a>
+					</person>
+				</li>
+			</ol>
+		</div>
+	</div>
+</div>

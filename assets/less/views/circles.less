@@ -1,21 +1,16 @@
 .circlesView {
 	#main {
-		height: 100%;
-	}
-	.box-header-title {
-		@media @desktop { width: ~"calc(((100%/12)*8) - 33px)"; }
-		@media @mobile { width: ~"calc(100% - 50px)"; &.circleLoaded{ width: ~"calc(100% - 100px)"; } }
+		// main has to stay here, as there are mains on pages that have no
+		// .messagesView.
+
 		overflow: hidden;
-		white-space: nowrap;
-		text-overflow: ellipsis;
+
+		@media @desktop {
+			position: relative;
+		}
 	}
-	#newcircle {
-		@media @mobile { .width(12,12,0); margin: 0; border: none; }
-		@media @desktop { .width(4,12,0); }
-	}
+
 	#circleListWrap {
-		@media @mobile { .width(12,12,0); margin: 0; }
-		@media @desktop { .column(4,12,left,0); border-right: 1px solid #ccc; height: 100%; }
 		&:extend(.box-fix);
 	}
 	#circleList {
@@ -104,7 +99,7 @@
 		border-bottom: 1px solid #ccc;
 	}
 	#circleContainer {
-		@media @desktop { .column(8,12,left,0); }
+		width: 100%;
 		height: calc(~"100% - 31px");
 		.box-fix;
 		overflow-y: scroll;

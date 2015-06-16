@@ -4,7 +4,8 @@
 	// Some adjustable heights:
 	@form-height: 70px;
 	@form-margin: 5px;
-	@header-height: 31px;
+	@header-height-desktop: 30px;
+	@header-height-mobile: 50px;
 
 	// big/small image size in topic list.
 	@user-image-size: 76px;
@@ -71,54 +72,18 @@
 				}
 			}
 
-			.box-header-title {
-				@media @desktop { .column(11, 16); }
-				@media @mobile { .column(4, 5); }
-				display: none;
-				visibility: hidden;
-
-				overflow: hidden;
-				text-overflow: ellipsis;
-				white-space: nowrap;
-			}
-			.box-header-title--visible { // is this stuff even necessary??
-				display: inline-block;
-				visibility: visible;
-			}
-
-		}
-
-		#newmessage {
-			@media @desktop { .column(5, 16, left, 0); }
-			// remove the unneeded border-right for mobile devices. Sadly not possible without an !imoportant.
-			// Nils: it feels like the original border-right is too wide!
-			@media @mobile {
-				.column(1, 1, left, 0);
-				border-right: none !important;
-			}
-			&.topic {
-				border: none;
-				background: transparent;
-				.btn {
-					width: 100%;
-					border: none;
-					.border-radius(0);
-				}
-			}
 		}
 
 		#topicListWrap {
-
-			@media @desktop { width: 100%/16*5; }
-			@media @mobile { width: 100%; }
-
 			position: absolute;
-			top: 0;
+			@media @desktop { top: @header-height-desktop; }
+			@media @mobile { top: @header-height-mobile; }
+			right: 0;
+			left: 0;
 			bottom: 0;
 
 			overflow-y: scroll;
 			overflow-x: hidden;
-			border-right: 1px solid #ccc;
 
 			// nice scrolling for iOS.
 			-webkit-overflow-scrolling: touch;
@@ -242,15 +207,14 @@
 		}
 
 		#topicWrap {
-			@media @desktop { left: 100%/16*5; }
-
 			position: absolute;
-			top: 0;
+
+			@media @desktop { top: @header-height-desktop; }
+			@media @mobile { top: @header-height-mobile; }
+
 			bottom: 0;
 			right: 0;
 			left: 0;
-
-			position: absolute;
 		}
 
 		.newMessage .search {
