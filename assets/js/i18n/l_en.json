@@ -442,7 +442,9 @@
 			},
 			"wall": {
 				"title":	"Wall",
-				"postIt":	"Write on the wall of {user}"
+				"postIt":	"Write on the wall of {user}",
+				"loading":  "Loading wall!",
+				"more": "Load more content"
 			},
 			"friends": {
 				"info":	"Friends"
