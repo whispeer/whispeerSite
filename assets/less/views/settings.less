@@ -1,3 +1,6 @@
+.settingsView-header {
+	border-bottom: 0;
+}
 .settingsView-categories {
 	width: 100%;
 	height: 50px;
@@ -12,7 +15,8 @@
 	text-align: center;
 	background: @btnGrayBackground;
 	color: #000000;
-	border-right: 1px solid @btnBorder;
+	border: 1px solid @btnBorder;
+	border-left: 0;
 	border-radius: 0;
 	&:extend(.box-fix);
 	&:hover {
@@ -24,9 +28,13 @@
 	}
 }
 .settingsView-category--active {
-	background: @btnGrayBackgroundActive;
+	border: 1px solid @primaryLighter;
+	color: @primaryLighter;
+	margin-left: -1px;
+	width: ~"calc((100% / 3) + 1px)";
 	&:hover {
-		background: @btnGrayBackgroundActive;
+		background: @btnGrayBackground;
+		color: @primaryLighter;
 	}
 }
 .settingsView-section {
@@ -46,7 +54,7 @@
 	.clear-fix;
 }
 .settingsView-setting-header {
-	margin: 0.75em 0;
+	border-top: 0;
 }
 .settingsView-setting-row {
 	width: 98%;
