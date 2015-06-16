@@ -1,33 +1,53 @@
-<div id="topicWrap" data-topicID="{{activeTopic.id}}" class="{{activeTopic.type}}">
-	<div id="messageWrap">
-		<ul class="scroll-pane" id="messageList" data-scroll data-keepBottom data-lockscrollbottom data-custom="distanceTopPercentage < 0.5" data-at-custom="loadMoreMessages()" data-custom-once data-lockscrolling="scrollLock" data-onbottomwithauto="markRead()">
-			<li class="messageView-loadingText" data-ng-class="{'messageView-loadingText--relative': activeTopic.remaining == 0}">
-				<i class="fa fa-fw fa-spinner fa-spin" id="messageView-loadingIcon" data-ng-if="loadingMessages"></i>
-				<span data-i18n="messages.remaining|count={{activeTopic.remaining}}" data-ng-if="activeTopic.remaining > 0"></span>
-				<span data-i18n="messages.endOfStream" data-ng-if="activeTopic.remaining == 0"></span>
-			</li>
-			<li class="burst" data-ng-repeat="burst in messageBursts()" data-ng-class="{me:burst[0].sender.me, other:burst[0].sender.other}">
-				<div class="username">{{burst[0].sender.name}}</div>
-				<div class="userimg">
-					<a whispeer-sref="app.user({identifier: burst[0].sender.names.nickname})">
-						<userimage data-userID="sender{{burst[0].sender.id}}" data-user="burst[0].sender" data-trustlevel="0">
-					</a>
-				</div>
-				<ul class="messages">
-					<li data-ng-cloak data-ng-repeat="message in burst" data-messageID="{{::message.id}}" class="message">
-						<div class="messageContent">
-							<div class="messageText {{::message.type}}" data-ng-class="{{::message.type}}" data-syntaxify="::message.text"><img data-ng-if="message.type != 'image'" data-ng-src=""></div>
-							<div class="time"><i class="fa fa-clock-o"></i> <span data-smart-date="::message.timestamp"></span></div>
-						</div>
-					</li>
-				</ul>
-			</li>
-		</ul>
-		<form id="inputWrap">
-			<textarea focus-me="canSend" id="messageInput" data-advancedsend="sendMessage(activeTopic.newMessage)" type="text" data-ng-model="activeTopic.newMessage" data-ng-disabled="!canSend" data-i18n-attr="messages.sendMessage.text|placeholder"></textarea>
-			<savebutton id="sendmessage" data-ng-click="sendMessage(activeTopic.newMessage)" data-state="sendMessageState" data-noiniticon>
-				<span data-i18n="messages.sendMessage.send"></span>
-			</savebutton>
-		</form>
+<div id="messageView--rightWrap">
+	<span class="box-header-title">
+		<span>
+			<span data-i18n="messages.chat"></span>
+			<span data-ng-repeat="partner in activeTopic.partners">
+				<span class="status" data-status="{{partner.online}}"></span>
+				<a whispeer-sref="app.user({identifier: partner.names.nickname})">
+					<span data-ng-if="::activeTopic.partners.length>2">{{partner.basic.shortname}}</span>
+					<span data-ng-if="activeTopic.partners.length<=2">{{partner.name}}</span>
+				</a>
+				{{::($last?"":", ")}}
+			</span>
+		</span>
+
+		<button id="showTopics" class="box-header-button box-header-button--right" data-ng-click="unloadTopic(false)" data-ng-if="mobile">
+			<i class="fa fa-bars fa-fw"></i>
+		</button>
+	</span>
+
+	<div id="topicWrap" data-topicID="{{activeTopic.id}}" class="{{activeTopic.type}}">
+		<div id="messageWrap">
+			<ul class="scroll-pane" id="messageList" data-scroll data-keepBottom data-lockscrollbottom data-custom="distanceTopPercentage < 0.5" data-at-custom="loadMoreMessages()" data-custom-once data-lockscrolling="scrollLock" data-onbottomwithauto="markRead()">
+				<li class="messageView-loadingText" data-ng-class="{'messageView-loadingText--relative': activeTopic.remaining == 0}">
+					<i class="fa fa-fw fa-spinner fa-spin" id="messageView-loadingIcon" data-ng-if="loadingMessages"></i>
+					<span data-i18n="messages.remaining|count={{activeTopic.remaining}}" data-ng-if="activeTopic.remaining > 0"></span>
+					<span data-i18n="messages.endOfStream" data-ng-if="activeTopic.remaining == 0"></span>
+				</li>
+				<li class="burst" data-ng-repeat="burst in messageBursts()" data-ng-class="{me:burst[0].sender.me, other:burst[0].sender.other}">
+					<div class="username">{{burst[0].sender.name}}</div>
+					<div class="userimg">
+						<a whispeer-sref="app.user({identifier: burst[0].sender.names.nickname})">
+							<userimage data-userID="sender{{burst[0].sender.id}}" data-user="burst[0].sender" data-trustlevel="0">
+						</a>
+					</div>
+					<ul class="messages">
+						<li data-ng-cloak data-ng-repeat="message in burst" data-messageID="{{::message.id}}" class="message">
+							<div class="messageContent">
+								<div class="messageText {{::message.type}}" data-ng-class="{{::message.type}}" data-syntaxify="::message.text"><img data-ng-if="message.type != 'image'" data-ng-src=""></div>
+								<div class="time"><i class="fa fa-clock-o"></i> <span data-smart-date="::message.timestamp"></span></div>
+							</div>
+						</li>
+					</ul>
+				</li>
+			</ul>
+			<form id="inputWrap">
+				<textarea focus-me="canSend" id="messageInput" data-advancedsend="sendMessage(activeTopic.newMessage)" type="text" data-ng-model="activeTopic.newMessage" data-ng-disabled="!canSend" data-i18n-attr="messages.sendMessage.text|placeholder"></textarea>
+				<savebutton id="sendmessage" data-ng-click="sendMessage(activeTopic.newMessage)" data-state="sendMessageState" data-noiniticon>
+					<span data-i18n="messages.sendMessage.send"></span>
+				</savebutton>
+			</form>
+		</div>
 	</div>
 </div>

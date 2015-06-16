@@ -1,10 +1,19 @@
-<div id="topicWrap" class="newMessage">
-	<search data-supplier="userSearchSupplier" callback="create.setUsers(selected)" data-search-template="userSimple" data-multiple data-input-i18n-attr="messages.search|placeholder" data-base="user" data-initial-values="getInitialUser()"/>
+<div id="messageView--rightWrap">
+	<span class="box-header-title">
+		<span data-i18n="messages.newMessage"></span>
 
-	<form id="inputWrap">
-		<textarea data-advancedsend="create.send(create.users, create.text)" type="text" data-i18n-attr="messages.sendMessage.text|placeholder" id="messageInput" data-ng-model="create.text"></textarea>
-		<savebutton id="sendmessage" data-state="sendMessageState" data-ng-click="create.send(create.users, create.text)">
-			<span data-i18n="messages.sendMessage.send"></span>
-		</savebutton>
-	</form>
+		<button id="showTopics" class="box-header-button box-header-button--right" data-ng-click="unloadTopic(false)" data-ng-if="mobile">
+			<i class="fa fa-bars fa-fw"></i>
+		</button>
+	</span>
+	<div id="topicWrap" class="newMessage">
+		<search data-supplier="userSearchSupplier" callback="create.setUsers(selected)" data-search-template="userSimple" data-multiple data-input-i18n-attr="messages.search|placeholder" data-base="user" data-initial-values="getInitialUser()"></search>
+
+		<form id="inputWrap">
+			<textarea data-advancedsend="create.send(create.users, create.text)" type="text" data-i18n-attr="messages.sendMessage.text|placeholder" id="messageInput" data-ng-model="create.text"></textarea>
+			<savebutton id="sendmessage" data-state="sendMessageState" data-ng-click="create.send(create.users, create.text)">
+				<span data-i18n="messages.sendMessage.send"></span>
+			</savebutton>
+		</form>
+	</div>
 </div>
