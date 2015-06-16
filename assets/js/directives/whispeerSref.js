@@ -32,6 +32,14 @@ define(["directives/directivesModule", "angular"], function (directivesModule, a
 					element.attr("href", destination);
 				}
 
+				function checkActiveState() {
+					if ($state.current.name === stateName) {
+						element.addClass(attrs.whispeerSrefActive);
+					} else {
+						element.removeClass(attrs.whispeerSrefActive);
+					}
+				}
+
 				var ref = parseStateRef(link);
 				stateName = ref.state;
 
@@ -45,10 +53,15 @@ define(["directives/directivesModule", "angular"], function (directivesModule, a
 					params = {};
 				}
 
-
 				$rootScope.$on("localizeResourcesUpdates", updateHref);
 
 				updateHref();
+
+				if (attrs.whispeerSrefActive) {
+					$rootScope.$on("$stateChangeSuccess", checkActiveState);
+					checkActiveState();
+				}
+
 			}
 		};
 	}
