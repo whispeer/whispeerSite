@@ -18,7 +18,7 @@
 				</savebutton>
 			</div>
 
-			<div id="newsfeed-newPostImages" data-ng-if="newPost.images.length > 0 || image.upload.percentage > 0">
+			<div id="newsfeed-newPostImages" data-ng-if="newPost.images.length > 0">
 				<div class="newsfeed-newPostImagePreview" data-ng-repeat="image in newPost.images">
 					<button class="newsfeed-newPostImageRemove fa fa-times-circle" data-ng-click='newPost.removeImage($index)'></button>
 					<img class="newsfeed-newPostImage" alt="{{image.getName()}}" data-ng-src="{{image.getUrl()}}">
