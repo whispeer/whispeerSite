@@ -82,7 +82,7 @@
 	white-space: nowrap;
 }
 .box-header-button {
-	padding: 2px 7px;
+	padding: 0 7px;
 	margin-right: 0;
 	outline: none;
 	border: none;
@@ -99,17 +99,18 @@
 		padding: 0;
 		height: 50px;
 		width: 50px;
-		margin-right: -1%;
 		text-align: center;
 	}
 }
 .box-header-button--right {
 	float: right;
 	border-left: 1px solid @btnBorder;
+	margin-right: -1%;
 }
 .box-header-button--left {
 	float: left;
 	border-right: 1px solid @btnBorder;
+	margin-left: -1%;
 }
 .box-header-button--full {
 	width: 100%;
@@ -171,7 +172,7 @@
 	// nice scrolling for iOS.
 	-webkit-overflow-scrolling: touch;
 
-	.box-fix;	
+	.box-fix;
 }
 
 .box-rightWrap {
