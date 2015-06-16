@@ -1,0 +1,47 @@
+<header class="box-header box-header--content"><span class="box-header-title" data-i18n="settings.safety.title"></span></header>
+<section id="settingsView-safety">
+	<header class="box-header box-header--content"><span class="box-header-title" data-i18n="settings.safety.attributes.names.header"></span></header>
+	<section class="settingsView-section" id="settingsView-safety-name">
+		<div class="settingsView-setting settingsView-setting--select" id="settingsView-firstNameEncryption">
+			<p data-i18n="settings.safety.attributes.names.firstname"></p>
+			<button class="settingsView-toggleEncryption btn" type="submit" data-ng-class="{'btn--primary': safety.basic.firstname.encrypt, 'btn--danger': !safety.basic.firstname.encrypt}" data-ng-click="safety.basic.firstname.encrypt=!safety.basic.firstname.encrypt" data-encrypted="{{safety.basic.firstname.encrypt}}">
+				<i class="fa fa-lock fa-fw" data-ng-if="safety.basic.firstname.encrypt" data-i18n-attr="settings.safety.encrypted|aria-label"></i>
+				<i class="fa fa-unlock fa-fw" data-ng-if="!safety.basic.firstname.encrypt" data-i18n-attr="settings.safety.decrypted|aria-label"></i>
+			</button>
+			<div data-ng-if="safety.basic.firstname.encrypt">
+				<search data-supplier="filterSearchSupplier" data-multiple data-search-template="filter" data-callback="safety.basic.firstname.visibility = selected" data-initial-values="getFiltersByID(safety.basic.firstname.visibility)" data-input-i18n-attr="settings.safety.whomayseeit.firstname|placeholder" class="settingsView-whoMaySeeIt" data-base="filter"></search>
+			</div>
+		</div>
+
+		<div class="settingsView-setting settingsView-setting--select" id="settingsView-lastNameEncryption">
+			<p data-i18n="settings.safety.attributes.names.lastname"></p>
+			<button class="settingsView-toggleEncryption btn" type="submit" data-ng-class="{'btn--primary': safety.basic.lastname.encrypt, 'btn--danger': !safety.basic.lastname.encrypt}" data-ng-click="safety.basic.lastname.encrypt=!safety.basic.lastname.encrypt" data-encrypted="{{safety.basic.lastname.encrypt}}">
+				<i class="fa fa-lock fa-fw" data-ng-if="safety.basic.lastname.encrypt" data-i18n-attr="settings.safety.encrypted|aria-label"></i>
+				<i class="fa fa-unlock fa-fw" data-ng-if="!safety.basic.lastname.encrypt" data-i18n-attr="settings.safety.decrypted|aria-label"></i>
+			</button>
+			<div data-ng-if="safety.basic.lastname.encrypt">
+				<search data-supplier="filterSearchSupplier" data-multiple data-search-template="filter"data-callback="safety.basic.lastname.visibility = selected" data-initial-values="getFiltersByID(safety.basic.lastname.visibility)" data-input-i18n-attr="settings.safety.whomayseeit.lastname|placeholder" class="settingsView-whoMaySeeIt" data-base="filter"></search>
+			</div>
+		</div>
+	</section>
+
+	<header class="box-header box-header--content"><span class="box-header-title" data-i18n="menu.profil"></span></header>
+	<section class="settingsView-section" id="settingsView-safety-name">
+		<div class="settingsView-setting settingsView-setting--select" data-ng-repeat="name in safetySorted" id="settingsView-{{name}}Encryption">
+			<p data-i18n="settings.safety.attributes.{{name}}"></p>
+			<button class="settingsView-toggleEncryption btn" type="submit" data-ng-class="{'btn--primary': safety[name].encrypt, 'btn--danger': !safety[name].encrypt}" data-ng-click="safety[name].encrypt=!safety[name].encrypt" data-encrypted="{{safety[name].encrypt}}">
+				<i class="fa fa-lock fa-fw" data-ng-if="safety[name].encrypt" data-i18n-attr="settings.safety.encrypted|aria-label"></i>
+				<i class="fa fa-unlock fa-fw" data-ng-if="!safety[name].encrypt" data-i18n-attr="settings.safety.decrypted|aria-label"></i>
+			</button>
+			<div data-ng-if="safety[name].encrypt">
+				<search data-supplier="filterSearchSupplier" data-multiple data-search-template="filter"data-callback="safety[name].visibility = selected" data-initial-values="getFiltersByID(safety[name].visibility)" data-input-i18n-attr="settings.safety.whomayseeit.{{name}}|placeholder" class="settingsView-whoMaySeeIt" data-base="filter"></search>
+			</div>
+		</div>
+	</section>
+	<savebutton class="settingsView-settingsFormButton" state="saveSafetyState" data-ng-click="saveSafety()">
+		<span data-i18n="settings.changes.save"></span>
+	</savebutton>
+	<savebutton class="settingsView-settingsFormButton" initicon="fa-times-circle" successicon="fa-times-circle" state="resetSafetyState" data-ng-click="resetSafety()">
+		<span data-i18n="settings.safety.reset"></span>
+	</savebutton>
+</section>

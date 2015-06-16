@@ -31,8 +31,32 @@ define(["app"], function (app) {
 		addMain("main");
 		addMain("friends");
 		addMain("circles");
-		addMain("settings");
 		addMain("acceptInvite");
+
+		$stateProvider.state("app.settings", {
+			url: "/settings",
+			abstract: true,
+			templateUrl: "assets/views/pages/settings.html",
+			controller: "ssn.settingsController"
+		});
+
+		$stateProvider.state("app.settings.general", {
+			url: "",
+			templateUrl: "assets/views/pages/settings/general.html",
+			controller: "ssn.settingsController"
+		});
+
+		$stateProvider.state("app.settings.account", {
+			url: "/account",
+			templateUrl: "assets/views/pages/settings/account.html",
+			controller: "ssn.settingsController"
+		});
+
+		$stateProvider.state("app.settings.privacy", {
+			url: "/privacy",
+			templateUrl: "assets/views/pages/settings/privacy.html",
+			controller: "ssn.settingsController"
+		});
 
 		$stateProvider.state("app.invite", {
 			url: "/invite",
