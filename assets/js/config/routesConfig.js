@@ -84,10 +84,35 @@ define(["app"], function (app) {
 		});
 
 		$stateProvider.state("app.messages", {
-			url: "/messages?topicid&userid",
-			templateUrl: "assets/views/pages/messages.html",
-			controller: "ssn.messagesController",
-			reloadOnSearch: false
+			url: "/messages",
+			views: {
+				"list@app.messages": {
+					templateUrl: "assets/views/messages/listTopics.html",
+					controller: "ssn.messagesListController",
+				},
+				"": {
+					templateUrl: "assets/views/pages/messages.html",
+					controller: "ssn.messagesRedirectController",
+				}
+			}
+		});
+
+		$stateProvider.state("app.messages.list", {
+			url: "/list",
+			templateUrl: "assets/views/messages/listTopics.html",
+			controller: "ssn.messagesListController"
+		});
+
+		$stateProvider.state("app.messages.new", {
+			url: "/new?userid",
+			templateUrl: "assets/views/messages/newTopic.html",
+			controller: "ssn.messagesCreateController"
+		});
+
+		$stateProvider.state("app.messages.show", {
+			url: "/{topicid:[1-9][0-9]*}",
+			templateUrl: "assets/views/messages/showTopic.html",
+			controller: "ssn.messagesShowController"
 		});
 
 		$stateProvider.state("app.user", {
