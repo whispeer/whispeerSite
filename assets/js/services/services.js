@@ -10,7 +10,6 @@ define([
 	"services/storageService",
 	"services/userService",
 	"services/cssService",
-	"services/messageService",
 	"services/circleService",
 	"services/friendsService",
 	"services/initService",

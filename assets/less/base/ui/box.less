@@ -86,15 +86,19 @@
 	white-space: nowrap;
 }
 .box-header-button {
+	display: inline-block;
 	padding: 0 7px;
 	margin-right: 0;
 	outline: none;
 	border: none;
 	height: 30px;
+	line-height: 30px;
 	background: transparent;
 	text-align: left;
+	color: #000;
 	&:hover {
 		background: rgba(202,202,202,0.2);
+		color: #000;
 	}
 	&:focus {
 		box-shadow: inset 0px 0px 2px @grayLight;
@@ -103,8 +107,10 @@
 		padding: 0;
 		height: 50px;
 		width: 50px;
+		line-height: 50px;
 		text-align: center;
 	}
+	&:extend(.box-fix);
 }
 .box-header-button--right {
 	float: right;
