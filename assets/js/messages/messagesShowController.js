@@ -17,10 +17,6 @@ define(["step", "whispeerHelper", "asset/state", "bluebird", "messages/messagesM
 			$scope.activeTopic.obj.markRead(errorService.criticalError);
 		};
 
-		$scope.goToList = function () {
-			$state.go("app.messages.list");
-		};
-
 		$scope.loadMoreMessages = function () {
 			$scope.scrollLock = true;
 			$scope.loadingMessages = true;
