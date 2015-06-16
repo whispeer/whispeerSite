@@ -2,8 +2,10 @@
 	<span data-i18n="settings.header.title" class="box-header-title"></span>
 </header>
 <div class="box-content box-content--scroll">
-	<a whispeer-sref="app.settings.general">General</a>
-	<a whispeer-sref="app.settings.account">Account</a>
-	<a whispeer-sref="app.settings.privacy">Privacy</a>
+	<div class="settingsView-categories">
+		<a whispeer-sref="app.settings.general" class="settingsView-category">General</a>
+		<a whispeer-sref="app.settings.account" class="settingsView-category settingsView-category--active">Account</a>
+		<a whispeer-sref="app.settings.privacy" class="settingsView-category">Privacy</a>
+	</div>
 	<ui-view></ui-view>
 </div>
