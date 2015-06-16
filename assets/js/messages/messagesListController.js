@@ -6,8 +6,7 @@ define(["step", "whispeerHelper", "asset/state", "bluebird", "controllers/contro
 	"use strict";
 
 	function messagesController($scope, $state, $stateParams, errorService, messageService) {
-		$scope.topicid = 0;
-		$scope.showMessage = !$scope.mobile;
+		$scope.topics = messageService.data.latestTopics.data;
 
 		var topicsLoadingState = new State();
 
@@ -22,7 +21,9 @@ define(["step", "whispeerHelper", "asset/state", "bluebird", "controllers/contro
 			}, errorService.failOnError(topicsLoadingState));
 		}
 
-		loadTopics();
+		if ($scope.topics.length < 10) {
+			loadTopics();
+		}
 
 		$scope.loadMoreTopics = function () {
 			loadTopics();
@@ -43,11 +44,6 @@ define(["step", "whispeerHelper", "asset/state", "bluebird", "controllers/contro
 				return string;
 			}
 		};
-
-		$scope.topics = messageService.data.latestTopics.data;
-
-		$scope.newMessage = false;
-
 	}
 
 
