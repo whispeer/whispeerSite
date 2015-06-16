@@ -462,12 +462,13 @@ define(["step", "whispeerHelper", "bluebird", "validation/validator", "services/
 
 				return timelinesCache[filterString];
 			},
-			getWallPosts: function (afterID, userid, cb) {
+			getWallPosts: function (afterID, userid, limit, cb) {
 				var result = [];
 				step(function () {
 					socket.emit("posts.getWall", {
 						afterID: afterID,
-						userid: userid
+						userid: userid,
+						count: limit
 					}, this);
 				}, h.sF(function (results) {
 					var thePost, i, posts = results.posts || [];
