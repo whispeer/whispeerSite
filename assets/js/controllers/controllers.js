@@ -3,7 +3,6 @@
 **/
 define([
 	"controllers/rootController",
-	"controllers/userController",
 	"controllers/mainController",
 	"controllers/friendsController",
 	"controllers/circlesController",

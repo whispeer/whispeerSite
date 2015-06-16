@@ -1,15 +1,15 @@
 <article class="post">
 	<aside class="meta">
-		<a whispeer-sref='app.user({identifier: post.sender.names.nickname})' class="userimg">
+		<a whispeer-sref='app.user.info({identifier: post.sender.names.nickname})' class="userimg">
 			<userimage data-user="post.sender"></userimage>
 		</a>
 		<strong>
-			<a whispeer-sref='app.user({identifier: post.sender.names.nickname})'>{{post.sender.name}}</a>
+			<a whispeer-sref='app.user.info({identifier: post.sender.names.nickname})'>{{post.sender.name}}</a>
 		</strong>
 		<span data-ng-if="post.walluser">
 			<i class="fa fa-caret-right"></i>
 			<strong>
-				<a whispeer-sref='app.user({identifier: post.walluser.names.nickname})'>{{post.walluser.name}}</a>
+				<a whispeer-sref='app.user.info({identifier: post.walluser.names.nickname})'>{{post.walluser.name}}</a>
 			</strong>
 		</span>
 	</aside>

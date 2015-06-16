@@ -117,8 +117,40 @@ define(["app"], function (app) {
 
 		$stateProvider.state("app.user", {
 			url: "/user/:identifier",
-			templateUrl: "assets/views/pages/user.html",
+			abstract: true,
+			templateUrl: "assets/views/pages/userSubViews/user.html",
 			controller: "ssn.userController"
+		});
+
+		$stateProvider.state("app.user.verify", {
+			url: "/verify",
+			templateUrl: "assets/views/pages/userSubViews/userVerify.html",
+			controller: "ssn.userVerifyController"
+		});
+
+		$stateProvider.state("app.user.info", {
+			url: "",
+			views: {
+				"wall@app.user.info": {
+					templateUrl: "assets/views/pages/userSubViews/userWall.html",
+					controller: "ssn.userWallController",
+				},
+				"": {
+					templateUrl: "assets/views/pages/userSubViews/userInfo.html"
+				}
+			}
+		});
+
+		$stateProvider.state("app.user.wall", {
+			url: "/wall",
+			templateUrl: "assets/views/pages/userSubViews/userWall.html",
+			controller: "ssn.userWallController"
+		});
+
+		$stateProvider.state("app.user.friends", {
+			url: "/friends",
+			templateUrl: "assets/views/pages/userSubViews/userFriends.html",
+			controller: "ssn.userFriendsController"
 		});
 
 		$urlRouterProvider.otherwise(function ($injector, url) {

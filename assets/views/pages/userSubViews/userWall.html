@@ -1,0 +1,20 @@
+<section class="userView-section" id="wall">
+	<header class="box-header box-header--content"><span class="box-header-title" data-i18n="profile.section.wall.title"></span></header>
+	<form data-ng-if="(user.isMyFriend || user.me)" data-ng-class="{'userView-postIt--addMargin': posts.length == 0}" class="form-inline" id="userView-postIt">
+		<textarea data-strg-enter="sendPost()" data-ng-model="newPost.text" data-i18n-attr="wall.postit.text|placeholder" id="userView-shareText" data-ng-if="user.me"></textarea>
+		<textarea data-strg-enter="sendPost()" data-ng-model="newPost.text" data-i18n-attr="profile.section.wall.postIt|placeholder|user={{user.name}}" id="userView-shareText" data-ng-if="!user.me"></textarea>
+		<savebutton id="userView-sendPost" class="btn-noPadding" data-state="sendPostState" data-ng-click="sendPost()">
+			<span data-i18n="wall.postit.send"></span>
+		</savebutton>
+	</form>
+	<div class="posts" id="userView-posts">
+		<post data-ng-repeat="post in posts" data-post="post" id="{{post.id}}"></post>
+	</div>
+	<div id="userView-loadMorePostsWrap">
+		<button class="btn btn--primary" id="userView-loadMorePosts" data-ng-click="loadMorePosts()" data-ng-if="!loadingPosts" data-i18n="profile.section.wall.more"></button>
+	</div>
+	<div id="newsfeedView-loading" data-ng-show="loadingPosts">
+		<i class="saveButton-spinner fa fa-2x fa-fw fa-spinner fa-spin"></i>
+		<p class="large-text" data-i18n="profile.section.wall.loading"></p>
+	</div>
+</section>
