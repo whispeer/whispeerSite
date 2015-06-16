@@ -4,7 +4,7 @@
 			<span data-i18n="messages.chat"></span>
 			<span data-ng-repeat="partner in activeTopic.partners">
 				<span class="status" data-status="{{partner.online}}"></span>
-				<a whispeer-sref="app.user({identifier: partner.names.nickname})">
+				<a whispeer-sref="app.user.info({identifier: partner.names.nickname})">
 					<span data-ng-if="::activeTopic.partners.length>2">{{partner.basic.shortname}}</span>
 					<span data-ng-if="activeTopic.partners.length<=2">{{partner.name}}</span>
 				</a>
@@ -28,7 +28,7 @@
 				<li class="burst" data-ng-repeat="burst in messageBursts()" data-ng-class="{me:burst[0].sender.me, other:burst[0].sender.other}">
 					<div class="username">{{burst[0].sender.name}}</div>
 					<div class="userimg">
-						<a whispeer-sref="app.user({identifier: burst[0].sender.names.nickname})">
+						<a whispeer-sref="app.user.info({identifier: burst[0].sender.names.nickname})">
 							<userimage data-userID="sender{{burst[0].sender.id}}" data-user="burst[0].sender" data-trustlevel="0">
 						</a>
 					</div>
