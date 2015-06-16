@@ -32,6 +32,16 @@ define(["step", "whispeerHelper", "asset/state", "bluebird", "controllers/contro
 			return ($scope.topicid === parseInt(topic.id, 10));
 		};
 
+		$scope.goToShow = function (topicid) {
+			$state.go("app.messages.show", {
+				topicid: topicid
+			});
+		};
+
+		$scope.goToNew = function () {
+			$state.go("app.messages.new");
+		};
+
 		$scope.shortenMessage = function (string) {
 			if (!string) {
 				return "";

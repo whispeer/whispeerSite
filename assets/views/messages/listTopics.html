@@ -1,11 +1,11 @@
 <div class="box-leftWrap">
-	<button class="box-header-button box-header-button--full" data-ng-click="unloadTopic()">
+	<button class="box-header-button box-header-button--full" data-ng-click="goToNew()">
 		<i class="fa fa-plus-circle fa-fw" id="plusBtn"></i><span data-i18n="messages.newMessage"></span>
 	</button>
 	<div id="topicListWrap" data-scroll data-custom="distancePercentage < 0.5" data-at-custom="loadMoreTopics()">
 		<ul id="topicList">
 			<div id="topicListScroll">
-				<li data-ng-repeat="topic in topics" id="{{topic.id}}" class="topic {{::topic.type}}" data-ng-class="{'unread': topic.unread, 'active': isActiveTopic(topic)}" data-accessible-click="loadActiveTopic(topic.id)">
+				<li data-ng-repeat="topic in topics" id="{{topic.id}}" class="topic {{::topic.type}}" data-ng-class="{'unread': topic.unread, 'active': isActiveTopic(topic)}" data-accessible-click="goToShow(topic.id)">
 					<div class="left">
 						<div class="imgWrap" data-ng-if="::(topic.type == 'groupChat')">
 							<img class="userimg" data-ng-repeat="partner in topic.partnersDisplay" data-ng-src="{{partner.basic.image}}" alt="{{partner.name}}" title="{{partner.name}}">
