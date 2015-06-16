@@ -8,7 +8,6 @@ define([
 	"services/sessionHelper",
 	"services/profileService",
 	"services/storageService",
-	"services/userService",
 	"services/cssService",
 	"services/circleService",
 	"services/friendsService",

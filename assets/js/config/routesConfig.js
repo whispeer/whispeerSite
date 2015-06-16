@@ -117,7 +117,8 @@ define(["app"], function (app) {
 
 		$stateProvider.state("app.user", {
 			url: "/user/:identifier",
-			templateUrl: "assets/views/pages/user.html",
+			abstract: true,
+			templateUrl: "assets/views/pages/userSubViews/user.html",
 			controller: "ssn.userController"
 		});
 
@@ -128,7 +129,7 @@ define(["app"], function (app) {
 		});
 
 		$stateProvider.state("app.user.info", {
-			url: "/",
+			url: "",
 			templateUrl: "assets/views/pages/userSubViews/userInfo.html",
 			controller: "ssn.userController"
 		});
