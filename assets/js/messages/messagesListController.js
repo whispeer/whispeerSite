@@ -29,7 +29,7 @@ define(["step", "whispeerHelper", "asset/state", "bluebird", "controllers/contro
 		};
 
 		$scope.isActiveTopic = function (topic) {
-			return ($scope.topicid === parseInt(topic.id, 10));
+			return (messageService.isActiveTopic(parseInt(topic.id, 10)));
 		};
 
 		$scope.shortenMessage = function (string) {
