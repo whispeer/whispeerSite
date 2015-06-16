@@ -1,0 +1,14 @@
+<section class="userView-section" id="friends">
+	<header class="box-header box-header--content"><span class="box-header-title" data-i18n="profile.section.friends.info"></header>
+	<ol id="userView-friendsList" class="unstyled">
+		<li class="userView-friendElement" data-ng-repeat="friend in friends">
+			<person data-user="friend"></person>
+		</li>
+		<li class="inviteFriends" id="userView-inviteFriends" data-ng-if="friends.length < 50 && user.me">
+			<a class="inviteFriends-link btn btn--gray btn--hasIcon" id="userView-inviteFriends-link" whispeer-sref="app.invite">
+				<i class="fa fa-fw fa-share-alt btn-icon"></i>
+				<span class="btn-text" data-i18n="inviteFriends"></span>
+			</a>
+		</li>
+	</ol>
+</section>

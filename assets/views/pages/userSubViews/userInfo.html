@@ -133,30 +133,4 @@
 		<a whispeer-sref="app.messages.new({userid: user.id})" class="userView-sendMessage btn btn--primary btn--input"><span data-i18n="profile.actions.sendMessage|user={{user.name}}"></span></a>
 	</div>
 </section>
-<section class="userView-section" id="wall">
-	<header class="box-header box-header--content"><span class="box-header-title" data-i18n="profile.section.wall.title"></span></header>
-	<form data-ng-if="(user.isMyFriend || user.me)" data-ng-class="{'userView-postIt--addMargin': posts.length == 0}" class="form-inline" id="userView-postIt">
-		<textarea data-strg-enter="sendPost()" data-ng-model="newPost.text" data-i18n-attr="wall.postit.text|placeholder" id="userView-shareText" data-ng-if="user.me"></textarea>
-		<textarea data-strg-enter="sendPost()" data-ng-model="newPost.text" data-i18n-attr="profile.section.wall.postIt|placeholder|user={{user.name}}" id="userView-shareText" data-ng-if="!user.me"></textarea>
-		<savebutton id="userView-sendPost" class="btn-noPadding" data-state="sendPostState" data-ng-click="sendPost()">
-			<span data-i18n="wall.postit.send"></span>
-		</savebutton>
-	</form>
-	<div class="posts" id="userView-posts">
-		<post data-ng-repeat="post in posts" data-post="post" id="{{post.id}}"></post>
-	</div>
-</section>
-<section class="userView-section" id="friends">
-	<header class="box-header box-header--content"><span class="box-header-title" data-i18n="profile.section.friends.info"></header>
-	<ol id="userView-friendsList" class="unstyled">
-		<li class="userView-friendElement" data-ng-repeat="friend in friends">
-			<person data-user="friend"></person>
-		</li>
-		<li class="inviteFriends" id="userView-inviteFriends" data-ng-if="friends.length < 50 && user.me">
-			<a class="inviteFriends-link btn btn--gray btn--hasIcon" id="userView-inviteFriends-link" whispeer-sref="app.invite">
-				<i class="fa fa-fw fa-share-alt btn-icon"></i>
-				<span class="btn-text" data-i18n="inviteFriends"></span>
-			</a>
-		</li>
-	</ol>
-</section>
+<ui-view name="wall"></ui-view>

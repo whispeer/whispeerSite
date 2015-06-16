@@ -440,7 +440,9 @@
 			},
 			"wall": {
 				"title":	"Pinnwand",
-				"postIt":	"Schreibe etwas an die Pinnwand von {user}"
+				"postIt":	"Schreibe etwas an die Pinnwand von {user}",
+				"loading":  "Beiträge werden geladen!",
+				"more": "Mehr Beiträge laden"
 			},
 			"friends": {
 				"info":	"Freunde"
