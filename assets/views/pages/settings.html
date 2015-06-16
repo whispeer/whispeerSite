@@ -1,11 +1,11 @@
 <header class="box-header settingsView-header">
 	<span data-i18n="settings.header.title" class="box-header-title"></span>
-</header>
-<div class="box-content box-content--scroll">
 	<div class="settingsView-categories">
 		<a whispeer-sref="app.settings.general" whispeer-sref-active="settingsView-category--active" class="settingsView-category">General</a>
 		<a whispeer-sref="app.settings.account" whispeer-sref-active="settingsView-category--active" class="settingsView-category">Account</a>
 		<a whispeer-sref="app.settings.privacy" whispeer-sref-active="settingsView-category--active" class="settingsView-category">Privacy</a>
 	</div>
+</header>
+<div class="box-content box-content--scroll settingsView-box-content">
 	<ui-view></ui-view>
 </div>
