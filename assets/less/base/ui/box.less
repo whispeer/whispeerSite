@@ -1,3 +1,6 @@
+@box-header-height-desktop: 30px;
+@box-header-height-mobile: 50px;
+
 // Box
 //
 // The Box builds the foundation for most of the views.
@@ -66,6 +69,18 @@
 		line-height: 50px;
 	}
 }
+.box-header-title--full {
+	width: 100%;
+
+	border-bottom: 1px solid #ccc;
+
+	@media @desktop { height: @box-header-height-desktop; }
+	@media @mobile { height: @box-header-height-mobile; }
+
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
 .box-header-button {
 	padding: 2px 7px;
 	margin-right: 0;
@@ -95,6 +110,10 @@
 .box-header-button--left {
 	float: left;
 	border-right: 1px solid @btnBorder;
+}
+.box-header-button--full {
+	width: 100%;
+	border-bottom: 1px solid @btnBorder;
 }
 .box-header--content {
 	border-top: 1px solid @btnBorder;
@@ -138,4 +157,29 @@
 	.box-header-button { height: 50px; width: 50px; text-align: center; }
 	.box-content { border-radius: 0; }
 	.box-content--scroll { height: ~"calc(100% - 50px)"; }
+}
+
+.box-leftWrap {
+	position: relative;
+
+	@media @desktop { width: 100%/16*5; }
+	@media @mobile { width: 100%; }
+
+	border-right: 1px solid #ccc;
+	height: 100%;
+
+	// nice scrolling for iOS.
+	-webkit-overflow-scrolling: touch;
+
+	.box-fix;	
+}
+
+.box-rightWrap {
+	@media @desktop { left: 100%/16*5; }
+
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	right: 0;
+	left: 0;
 }

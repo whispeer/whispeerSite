@@ -72,24 +72,6 @@
 				}
 			}
 
-			.box-header-title {
-				width: 100%;
-
-				border-bottom: 1px solid #ccc;
-
-				@media @desktop { height: @header-height-desktop; }
-				@media @mobile { height: @header-height-mobile; }
-
-				overflow: hidden;
-				text-overflow: ellipsis;
-				white-space: nowrap;
-			}
-
-		}
-
-		#newmessage {
-			width: 100%;
-			border-bottom: 1px solid @btnBorder;
 		}
 
 		#topicListWrap {
@@ -102,21 +84,6 @@
 
 			overflow-y: scroll;
 			overflow-x: hidden;
-
-			// nice scrolling for iOS.
-			-webkit-overflow-scrolling: touch;
-
-			.box-fix;
-		}
-
-		#messageView--leftWrap {
-			position: relative;
-
-			@media @desktop { width: 100%/16*5; }
-			@media @mobile { width: 100%; }
-
-			border-right: 1px solid #ccc;
-			height: 100%;
 
 			// nice scrolling for iOS.
 			-webkit-overflow-scrolling: touch;
@@ -237,16 +204,6 @@
 				width: 100%;
 				border-bottom: 1px solid #ccc;
 			}
-		}
-
-		#messageView--rightWrap {
-			@media @desktop { left: 100%/16*5; }
-
-			position: absolute;
-			top: 0;
-			bottom: 0;
-			right: 0;
-			left: 0;
 		}
 
 		#topicWrap {
