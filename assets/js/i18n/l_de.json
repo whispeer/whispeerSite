@@ -460,6 +460,11 @@
 		"askQuestion": "Stelle deine Frage!"
 	},
 	"settings": {
+		"categories": {
+			"general": "Allgemein",
+			"account": "Account",
+			"safety": "Privatsphäre"
+		},
 		"safety": {
 			"encrypted": "verschlüsselt",
 			"decrypted": "entschlüsselt",

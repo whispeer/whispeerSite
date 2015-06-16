@@ -1,3 +1,64 @@
+.settingsView #main {
+	overflow: visible;
+}
+.settingsView-box-content {
+	@media @desktop { height: ~"calc(100% - 80px)"; }
+	@media @mobile { height: ~"calc(100% - 100px)"; }
+}
+.settingsView-header {
+	border-bottom: 0;
+	overflow: visible;
+	@media @desktop {
+		height: 80px;
+	}
+	@media @mobile {
+		height: 100px;
+	}
+}
+.settingsView-categories {
+	display: inline-block;
+	float: left;
+	width: ~"calc(100% + 2px)";
+	height: 50px;
+	margin-left: -1px;
+	margin-right: -1px;
+	.clear-fix;
+}
+.settingsView-category {
+	float: left;
+	width: 100% / 3;
+	display: inline-block;
+	height: 50px;
+	line-height: 50px;
+	text-align: center;
+	background: @btnGrayBackground;
+	color: #000000;
+	border: 1px solid @btnBorder;
+	border-left: 0;
+	border-radius: 0;
+	&:extend(.box-fix);
+	&:hover {
+		color: #000000;
+		background: @btnGrayBackgroundHover;
+	}
+}
+.settingsView-category--active {
+	border: 1px solid @primaryLighter;
+	color: @primaryLighter;
+	margin-left: -1px;
+	width: ~"calc((100% / 3) + 1px)";
+	&:hover {
+		background: @btnGrayBackground;
+		color: @primaryLighter;
+	}
+	&:first-child {
+		margin-left: 0;
+		width: 100% / 3;
+	}
+	&:last-child {
+		border-right: 1px solid @primaryLighter;
+	}
+}
 .settingsView-section {
 	width: 98%;
 
@@ -15,7 +76,7 @@
 	.clear-fix;
 }
 .settingsView-setting-header {
-	margin: 0.75em 0;
+	border-top: 0;
 }
 .settingsView-setting-row {
 	width: 98%;
@@ -89,9 +150,6 @@
 		width: ~"calc(98% - 52px)";
 		margin-left: 2%;
 	}
-}
-#settingsView-safety {
-	margin: 5px 0;
 }
 .settingsView-toggleEncryption,
 .settingsView-whoMaySeeIt {

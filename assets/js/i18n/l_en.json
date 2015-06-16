@@ -462,6 +462,11 @@
 		"askQuestion": "Ask your question!"
 	},
 	"settings": {
+		"categories": {
+			"general": "General",
+			"account": "Account",
+			"safety": "Privacy"
+		},
 		"safety": {
 			"encrypted": "encrypted",
 			"decrypted": "decrypted",

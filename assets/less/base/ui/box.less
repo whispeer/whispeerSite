@@ -62,6 +62,10 @@
 	padding: 0 1%;
 	line-height: 30px;
 	&:extend(.box-fix);
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	max-width: 100%;
+	overflow: hidden;
 	@media @mobile {
 		line-height: 50px;
 	}
@@ -102,12 +106,15 @@
 		margin-left: 5px;
 	}
 }
+.box-header--content .box-header-title {
+	float: none;
+	padding: 0;
+}
 .box-header--noBorder {
 	border-top: none;
 }
 .box-content {
 	padding: 0;
-	border-radius: 0 @inputBorderRadius @inputBorderRadius 0;
 	&:extend(.box-fix);
 	&:extend(.clear-fix);
 	h1,h2,h3,h4,h5,h6 {
