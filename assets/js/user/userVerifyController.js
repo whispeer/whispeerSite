@@ -5,18 +5,7 @@
 define(["step", "whispeerHelper", "bluebird", "asset/resizableImage", "asset/state", "user/userModule"], function (step, h, Promise, ResizableImage, State, userModule) {
 	"use strict";
 
-	function userController($scope, $stateParams, $timeout, cssService, errorService, userService) {
-		var identifier = $stateParams.identifier;
-		var userObject;
-
-		var saveUserState = new State();
-		$scope.saveUserState = saveUserState.data;
-
-		$scope.user = {};
-
-		$scope.loading = true;
-		$scope.notExisting = false;
-
+	function userController($scope, $stateParams, $timeout, cssService, errorService) {
 		var verifyState = new State();
 		$scope.verifyingUser = verifyState.data;
 
@@ -95,31 +84,13 @@ define(["step", "whispeerHelper", "bluebird", "asset/resizableImage", "asset/sta
 			}
 
 			step(function () {
-				var ok = userObject.verifyFingerPrint(fingerPrint, this);	
+				var ok = $scope.user.user.verifyFingerPrint(fingerPrint, this);	
 
 				if (!ok) {
 					this(new Error("wrong code"));
 				}
 			}, errorService.failOnError(verifyState));
 		};
-
-		cssService.setClass("profileView", true);
-
-		step(function () {
-			userService.get(identifier, this);
-		}, h.sF(function (user) {
-			userObject = user;
-
-			var fp = user.getFingerPrint();
-			$scope.fingerPrint = [fp.substr(0,13), fp.substr(13,13), fp.substr(26,13), fp.substr(39,13)];
-
-			user.loadFullData(this);
-		}), h.sF(function () {
-			$scope.user = userObject.data;
-			$scope.adv = $scope.user.advanced;
-
-			$scope.loading = false;
-		}));
 	}
 
 	userController.$inject = ["$scope", "$stateParams", "$timeout", "ssn.cssService", "ssn.errorService", "ssn.userService"];

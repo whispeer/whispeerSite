@@ -130,8 +130,7 @@ define(["app"], function (app) {
 
 		$stateProvider.state("app.user.info", {
 			url: "",
-			templateUrl: "assets/views/pages/userSubViews/userInfo.html",
-			controller: "ssn.userController"
+			templateUrl: "assets/views/pages/userSubViews/userInfo.html"
 		});
 
 		$stateProvider.state("app.user.wall", {
