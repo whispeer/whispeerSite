@@ -5,7 +5,7 @@
 define(["step", "whispeerHelper", "asset/state", "bluebird", "controllers/controllerModule"], function (step, h, State, Bluebird, controllerModule) {
 	"use strict";
 
-	function messagesController($scope, $stateParams, errorService, messageService, userService) {
+	function messagesController($scope, $state, $stateParams, errorService, messageService, userService) {
 		$scope.canSend = false;
 		$scope.topicLoaded = false;
 
@@ -30,7 +30,7 @@ define(["step", "whispeerHelper", "asset/state", "bluebird", "controllers/contro
 					if (!e) {
 						$scope.create.text = "";
 						$scope.create.selectedElements = [];
-						$scope.loadActiveTopic(id);
+						$scope.goToShow(id);
 						$scope.$broadcast("resetSearch");
 					}
 
@@ -63,7 +63,7 @@ define(["step", "whispeerHelper", "asset/state", "bluebird", "controllers/contro
 
 			return getUserTopic($stateParams.userid).then(function (topicid) {
 				if (topicid) {
-					$scope.loadActiveTopic(topicid);
+					$scope.goToShow(topicid);
 					return [];
 				} else {
 					return getUser($stateParams.userid);
@@ -71,8 +71,10 @@ define(["step", "whispeerHelper", "asset/state", "bluebird", "controllers/contro
 			});
 		}
 
-		$scope.loadActiveTopic = function () {
-			//TODO
+		$scope.goToShow = function (topicid) {
+			$state.go("app.messages.show", {
+				topicid: topicid
+			});
 		};
 
 		var loadInitialUserPromise = loadInitialUser();
@@ -84,7 +86,7 @@ define(["step", "whispeerHelper", "asset/state", "bluebird", "controllers/contro
 	}
 
 
-	messagesController.$inject = ["$scope", "$stateParams", "ssn.errorService", "ssn.messageService", "ssn.userService"];
+	messagesController.$inject = ["$scope", "$state", "$stateParams", "ssn.errorService", "ssn.messageService", "ssn.userService"];
 
 	controllerModule.controller("ssn.messagesCreateController", messagesController);
 });
