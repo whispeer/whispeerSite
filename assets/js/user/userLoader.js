@@ -1,5 +1,6 @@
 define([
 	"user/userService",
 	"user/userController",
-	"user/userVerifyController"
+	"user/userVerifyController",
+	"user/userWallController"
 ]);
