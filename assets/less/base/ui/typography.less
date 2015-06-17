@@ -7,7 +7,9 @@
 @large-font-size: 1.786em;
 @large-line-height: 1.426em;
 
-@text-color: #000000;
+@text-color-dark: #242424;
+@text-color-light: #fcfcfc;
+@text-color: @text-color-dark;
 @detail-color: #888888;
 
 
@@ -21,10 +23,14 @@ body, h1, h2, h3, h4, h5 {
 }
 
 .normal-text() {
-	font-family: ubuntulight, 'Helvetica Neue Light', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 	font-size: @font-size;
 	line-height: @line-height;
-	font-weight: 300;
+	font-weight: 400;
+}
+
+.semibold-text() {
+	font-weight: 500;
+	color: #222;
 }
 
 .bold-text() {
