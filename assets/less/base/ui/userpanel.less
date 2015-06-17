@@ -90,31 +90,31 @@
 }
 .userpanel-menu-link {
 	.column(12,12,left,0);
-	height: @navbarHeight;
-	line-height: @navbarHeight;
+	height: 3rem;
+	line-height: 3rem;
 	overflow: hidden;
-	border-top: 1px solid @primary;
+	border-bottom: 1px solid @primary;
 	&:hover {
 		background: rgba(60, 60, 60, 0.1)
 	}
-	&:last-child {
-		border-bottom: 1px solid @primary;
+	&:first-child {
+		border-top: 1px solid @primary;
 	}
 
 	padding: 0 25px;
 	text-align: center;
 
-	.box-fix;
+	&:extend(.box-fix);
 }
 .userpanel-menu-text {
 	display: inline-block;
-	width: ~"calc(100% - 50px)";
-
+	width: ~"calc(100% - 2rem)";
+	line-height: 3rem;
 	color: #fff;
 	text-align: center;
 }
 .userpanel-menu-icon {
 	float: left;
-	line-height: @navbarHeight;
+	line-height: 3rem;
 	font-size: 1.25rem;
 }

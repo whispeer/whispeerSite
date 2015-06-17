@@ -3,14 +3,14 @@
 }
 .settingsView-box-content {
 	width: 100%;
-	@media @desktop { height: ~"calc(100% - 130px)"; }
+	@media @desktop { height: ~"calc(100% - 7rem)"; }
 	@media @mobile { height: ~"calc(100% - 100px)"; }
 }
 .settingsView-header {
 	border-bottom: 0;
 	overflow: visible;
 	@media @desktop {
-		height: 130px;
+		height: 7rem;
 	}
 	@media @mobile {
 		height: 100px;
@@ -20,7 +20,7 @@
 	display: inline-block;
 	float: left;
 	width: ~"calc(100% + 2px)";
-	height: 50px;
+	height: 3rem;
 	margin-left: -1px;
 	margin-right: -1px;
 	.clear-fix;
@@ -29,8 +29,8 @@
 	float: left;
 	width: 100% / 3;
 	display: inline-block;
-	height: 50px;
-	line-height: 50px;
+	height: 3rem;
+	line-height: 3rem;
 	text-align: center;
 	background: @btnGrayBackground;
 	color: #000000;
@@ -158,17 +158,11 @@
 }
 .settingsView-settingsFormButton {
 	@media @mobile {
-		width: 100%;
-		margin: 5px 0;
+		width: 98%;
+		margin: 5px 1%;
 	}
 	@media @desktop {
 		width: 180px;
-		margin: 5px 2px;
-	}
-}
-#settingsView-safety .settingsView-settingsFormButton {
-	margin: 5px 1%;
-	@media @mobile {
-		width: 98%;
+		margin: 5px 0 5px 1%;
 	}
 }

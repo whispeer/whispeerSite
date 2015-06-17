@@ -29,6 +29,7 @@
 	border: none;
 	border-bottom: 1px solid @btnBorder;
 	overflow: hidden;
+	&:extend(.box-fix);
 }
 .box-header-links {
 	float: right;
@@ -117,8 +118,8 @@
 .box-header--content {
 	border-top: 1px solid @btnBorder;
 	background: @btnBackgroundHover;
-	height: 2rem;
-	line-height: 2rem;
+	height: 3rem;
+	line-height: 3rem;
 	&:before, :after {
 		content: "";
 		margin-left: 5px;
