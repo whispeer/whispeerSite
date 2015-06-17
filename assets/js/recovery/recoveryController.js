@@ -10,7 +10,7 @@ define([
 		"services/socketService",
 		"services/keyStoreService",
 		"services/sessionService",
-		"services/userService",
+		"user/userService",
 		"services/errorService",
 
 		//sub dependencies.
