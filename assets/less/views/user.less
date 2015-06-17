@@ -1,37 +1,28 @@
-#userView-header {
-	@media @desktop {
-		height: 50px;
-		line-height: 50px;
-	}
-	@media @mobile {
-		height: 75px;
-	}
-}
 #userView-header-info {
+	height: 4rem;
+	line-height: 4rem;
 	@media @desktop {
 		.column(6);
 	}
 	@media @mobile {
 		.column(12);
 	}
-	line-height: 50px;
 }
 .userView-userName {
+	.large-text();
+	height: 4rem;
+	line-height: 4rem;
+
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	color: lighten(@primary, 5%);
 	@media @desktop {
 		.column(8);
 	}
 	@media @mobile {
 		.column(10);
 	}
-	// set a proper text-size
-	.large-text();
-	line-height: 50px; // re-set line-height
-	// set correct overflow
-	height: @line-height;
-	overflow: hidden;
-	white-space: nowrap;
-	text-overflow: ellipsis;
-	color: lighten(@primary, 5%);
 }
 .userView-userName--me {
 	@media @mobile {
@@ -42,7 +33,6 @@
 #userView-navigation {
 	@media @desktop {
 		.column(5,12,right);
-		line-height: 50px;
 	}
 	@media @mobile {
 		.column(12);
@@ -58,8 +48,11 @@
 #userView-trustlevel {
 	@media @desktop {
 		.column(4);
-		margin-top: 11px;
-		padding: 5px 0;
+		padding: 0;
+		height: 2rem;
+		line-height: 2rem;
+		margin-top: 1rem;
+		margin-bottom: 1rem;
 	}
 	@media @mobile {
 		.column(2);
@@ -71,7 +64,7 @@
 	position: relative;
 	line-height: @line-height;
 
-	.border-radius(5px);
+	border-radius: @inputBorderRadius;
 	text-align: center;
 	color: #fff;
 	cursor: pointer;
@@ -105,14 +98,6 @@
 		float: right;
 		width: 50%;
 		line-height: 20px;
-	}
-}
-#userView-content {
-	@media @desktop {
-		height: ~"calc(100% - 50px)";
-	}
-	@media @mobile {
-		height: ~"calc(100% - 76px)";
 	}
 }
 .userView-section,
