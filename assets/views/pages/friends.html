@@ -3,7 +3,9 @@
 </header>
 <section data-ng-class="{'box-content box-content--scroll': !mobile}">
 	<section class="friendsView-section" data-ng-if="requests.length > 0">
-		<span class="friendsView-title" data-i18n="magicbar.requests.title"></span>
+		<header class="box-header box-header--content box-header--noBorder">
+			<span class="box-header-title" data-i18n="magicbar.requests.title"></span>
+		</header>
 		<ul class="unstyled" id="requestsList">
 			<li class="friendsView-friend friendsView-request" data-ng-repeat="user in requests">
 				<person data-user="user">
@@ -26,7 +28,9 @@
 		</ul>
 	</section>
 	<section class="friendsView-section">
-		<span class="friendsView-title" data-i18n="friends.title"></span>
+		<header class="box-header box-header--content box-header--pullUp">
+			<span class="box-header-title" data-i18n="friends.title"></span>
+		</header>
 		<ol id="friendsView-friendsList" class="unstyled">
 			<li class="friendsView-friend" data-ng-repeat="friend in friends">
 				<person data-user="friend" data-type="friend">
