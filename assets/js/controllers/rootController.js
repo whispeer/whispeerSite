@@ -41,6 +41,7 @@ define(["step", "whispeerHelper", "config", "controllers/controllerModule"], fun
 
 		$scope.sidebarActive = false;
 		$scope.searchActive = false;
+		$scope.showMenu = true;
 
 		$scope.lostConnection = false;
 

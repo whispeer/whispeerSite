@@ -85,11 +85,33 @@
 	color: @primaryLighter;
 	.text-shadow(0px 0px 2px @primaryDarkest);
 }
+#userpanel-shortcuts {
+	height: 3rem;
+	line-height: 3rem;
+	width: 100%;
+}
+.userpanel-shortcut {
+	display: inline-block;
+	float: left;
+	width: 100% / 3;
+	height: 3rem;
+	line-height: 3rem;
+	border: 1px solid @primary;
+	border-right: none;
+	&:extend(.box-fix);
+	&:first-child { border-left: none; }
+	&:hover {
+		background: rgba(60, 60, 60, 0.1)
+	}
+}
 #userpanel-menu {
 	width: 100%;
-	height: ~"calc(100% - 8rem)";
+	height: ~"calc(100% - 11rem)";
 	overflow: scroll;
 	z-index: 3;
+}
+.userpanel-menu--hide {
+	display: none !important;
 }
 .userpanel-menu-link {
 	display: inline-block;
@@ -100,9 +122,6 @@
 	border-bottom: 1px solid @primary;
 	&:hover {
 		background: rgba(60, 60, 60, 0.1)
-	}
-	&:first-child {
-		border-top: 1px solid @primary;
 	}
 
 	padding: 0 25px;
