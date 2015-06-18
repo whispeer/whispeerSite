@@ -1,10 +1,10 @@
 .search {
-	height: 40px;
+	height: 50px;
 	position: relative;
 }
 .search-form {
 	width: 100%;
-	height: 40px;
+	height: 50px;
 }
 .search-wrapper {
 	width: 100%;
@@ -34,7 +34,7 @@
 	position: relative;
 	display: inline-block;
 	border-right: 1px solid @btnBorder;
-	line-height: 40px;
+	line-height: 50px;
 }
 .search-result-remove {
 	margin-left: 5px;
@@ -90,10 +90,14 @@
 }
 .search-suggestion {
 	cursor: pointer;
-	height: 40px;
-	line-height: 38px;
-
+	height: 50px;
+	line-height: 49px;
+	border-bottom: 1px solid @btnBorder;
 	overflow: hidden;
+	&:last-child {
+		border-bottom: none;
+		line-height: 50px;
+	}
 }
 .search-suggestion-circle {
 	white-space: nowrap;
@@ -259,8 +263,8 @@
 .search-selectedDrop-result {
 	float: left;
 	width: 100%;
-	height: 40px;
-	line-height: 39px;
+	height: 50px;
+	line-height: 49px;
 
 	border: none;
 	border-bottom: 1px solid #ccc;
@@ -308,4 +312,9 @@
 .search--custom .search-wrapper {
 	border-radius: 0;
 	border: none;
+}
+
+.search--sideBorder .search-resultsDrop {
+	width: ~"calc(100% + 2px)";
+	left: -1px;
 }

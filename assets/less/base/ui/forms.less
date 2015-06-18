@@ -25,7 +25,7 @@ input:not([type]) {
 	text-overflow: ellipsis;
 	.box-fix;
 	&:not(.input-custom) {
-		height: 40px;
+		height: 50px;
 		line-height: 22px;
 
 		background: @inputBackground;
@@ -48,8 +48,9 @@ input:not([type]) {
 	}
 }
 textarea {
+	min-height: 50px;
 	padding: 9px;
-	line-height: 22px;
+	line-height: 16px;
 	outline: 0;
 
 	background: @inputBackground;
@@ -57,9 +58,30 @@ textarea {
 	border-radius: @inputBorderRadius;
 	transition: ease .5s;
 	.box-fix;
+	&::-webkit-input-placeholder {
+		line-height: 32px;
+		transition: 0.5s ease;
+	}
+	&::-moz-placeholder {
+		line-height: 32px;
+		transition: 0.5s ease;
+	}
+	&::-ms-input-placeholder {
+		line-height: 32px;
+		transition: 0.5s ease;
+	}
 	&:focus {
 		outline: 0;
 		border: 1px solid @inputBorderFocus;
+		&::-webkit-input-placeholder {
+			opacity: 0;
+		}
+		&::-moz-placeholder {
+			opacity: 0;
+		}
+		&::-ms-input-placeholder {
+			opacity: 0;
+		}
 	}
 }
 
@@ -147,7 +169,7 @@ span[data-strength="10"]:after { width: @pwStrengthWidth*(10/10); background-col
 .uploadForm {
 	display: block;
 	position: relative;
-	height: 40px;
+	height: 50px;
 	overflow: hidden;
 
 	cursor: pointer;
