@@ -321,6 +321,6 @@ grunt.task.registerMultiTask("manifest", "Build the manifest file.", function ()
 grunt.registerTask("default", ["build:development", "browserSync", "concurrent:development"]);
 
 grunt.registerTask("build:development", ["clean", "copy", "bower-install-simple", "less", "run:buildsjcl"]);
-grunt.registerTask("build:production",  ["clean", "copy", "bower-install-simple", "less", "requirejs", "run:buildsjcl", "buildDate", "includes", "manifest"]);
+grunt.registerTask("build:production",  ["clean", "copy", "bower-install-simple", "less", "requirejs", "run:buildsjcl", "buildDate", "includes"]);
 
 grunt.registerTask("server", "Start the whispeer web server.", require("./webserver"));
