@@ -28,7 +28,7 @@
 			</li>
 			<comment data-ng-show="!post.commentsLoading" data-ng-repeat="comment in post.comments" comment="comment"></comment>
 		</ul>
-		<div>
+		<div class="clear-fix">
 			<textarea data-i18n-attr="wall.newComment|placeholder" data-strg-enter="post.newComment.create(post.newComment.text)" data-ng-model="post.newComment.text"></textarea>
 			<savebutton data-ng-click="post.newComment.create(post.newComment.text)" data-state="post.newComment.state" data-noiniticon>
 				<span data-i18n="wall.postit.send"></span>

@@ -18,7 +18,7 @@ body {
 	color: @text-color;
 }
 
-body, h1, h2, h3, h4, h5 {
+body {
 	.normal-text();
 }
 
@@ -54,6 +54,14 @@ body, h1, h2, h3, h4, h5 {
 
 .minimal-line-height() {
 	line-height: @small-line-height;
+}
+
+h1 {
+	.large-text();
+}
+
+.h1-noMarginTop {
+	margin-top: 0;
 }
 
 small {

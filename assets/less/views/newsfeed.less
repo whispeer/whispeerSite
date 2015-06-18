@@ -20,51 +20,24 @@
 
 // Post Form
 #newsfeedView-postForm {
-	@media @desktop {
-		.column(8,12,left,1%);
-		margin: 0 1% 0 0;
-	}
-	@media @mobile {
-		.column(12);
-	}
-	margin: 0 1% 0 0;
-	padding: 0;
-	border: 1px solid @btnBorder;
-	border-radius: @inputBorderRadius;
-	&:extend(.box-fix);
+	display: inline-block;
 }
 #newsfeedView-receivers {
-	@media @desktop {
-		.column(5.5,8,left,0);
-	}
-	@media @mobile {
-		float: left;
-		width: 100%;
-	}
-
-	border-top: 1px solid @btnBorder;
+	float: left;
+	width: 100%;
+	border: 1px solid @btnBorder;
+	border-top: none;
+	border-bottom: none;
 	&:extend(.box-fix);
 }
 #newsfeedView-receivers .search-wrapper {
-	@media @desktop {
-		border-radius: 0 0 0 3px;
-	}
-	@media @mobile {
-		border-radius: 0;
-	}
+	border-radius: 0;
 }
 #newsfeedView-sendPost {
-	@media @desktop {
-		.column(2.5,8,left,0);
-		border-radius: 0 0 @inputBorderRadius 0;
-	}
-	@media @mobile {
-		float: left;
-		width: 100%;
-		border-radius: 0 0 @inputBorderRadius @inputBorderRadius;
-	}
+	float: left;
+	width: 100%;
+	border-radius: 0 0 @inputBorderRadius @inputBorderRadius;
 	padding: 0;
-	border: none;
 	border-top: 1px solid @btnBorder;
 	background: @btnBorder;
 	overflow: hidden;
@@ -72,17 +45,22 @@
 }
 #newsfeedView-submit {
 	display: inline-block;
-	float: right;
-	width: ~"calc(100% - 48px)";
+	float: left;
+	width: 100%;
+	border-radius: 0 0 3px 3px;
 }
 #newsfeedView-addImage {
 	float: left;
 	display: inline-block;
-	width: 48px;
-	border-right: 1px solid @btnBorder;
+	width: 100%;
 	&:extend(.box-fix);
 
 	overflow: hidden; // fix mobile
+}
+#newsfeedView-submit,
+#newsfeedView-addImage {
+	border: 1px solid @btnBorder !important;
+	border-top: none !important;
 }
 @media screen and (-webkit-min-device-pixel-ratio:0) { // we've got whitespace in webkit as an artificial border..
 	#newsfeedView-addImage {
@@ -104,9 +82,7 @@
 	.column(8,8,left,0);
 	height: 40px;
 	margin-top: -1px;
-	border: none;
-	border-top: 1px solid @btnBorder;
-	.border-radiuses(5px,0,0,5px);
+	border-radius: 3px 3px 0 0;
 }
 #newsfeed-newPostImages {
 	display: block;
@@ -117,10 +93,15 @@
 	overflow-y: hidden;
 	white-space: nowrap;
 	text-align: left;
+	background: #f9f9f9;
+	box-shadow: inset 0 0 6px #f0f0f0;
+	border-left: 1px solid @btnBorder;
+	border-right: 1px solid @btnBorder;
+	&:extend(.box-fix);
 }
 .newsfeed-newPostImage {
 	border-radius: 3px;
-	height: ~"calc(100% - 15px)";
+	height: 100%;
 	max-width: 100%;
 }
 .newsfeed-newPostImagePreview {
@@ -200,6 +181,7 @@
 }
 #newsfeedView-posts {
 	.column(12,12,left,0);
+	margin-top: -5px;
 }
 #newsfeedView-inviteFriends-link {
 	text-align: center;
@@ -217,11 +199,26 @@
 }
 .newsfeedView-post {
 	float: none;
-	display: block;
+	display: inline-block;
 	width: 80%;
 	padding: 1rem;
-	margin: 12px auto;
+	margin: 0.5rem 10%;
 	background: #fbfbfb;
 	border-radius: 3px;
 	box-shadow: 0 0 3px #f0f0f0;
+	&:extend(.box-fix);
+	&:extend(.clear-fix);
+}
+.newsfeedView-shareButton {
+	@media @desktop {
+		float: left;
+		width: 100% / 6 - 1% + (1% / 6);
+		margin: 0 0.5%;
+	}
+	&:first-child {
+		margin-left: 0;
+	}
+	&:last-child {
+		margin-right: 0;
+	}
 }
