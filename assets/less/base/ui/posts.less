@@ -16,6 +16,8 @@
 	padding: @default-padding;
 	padding-left: 0;
 
+	&:extend(.box-fix);
+
 	// this should really be dealt with once and for all in the userimage
 	// directive.
 	.userimg {
@@ -38,6 +40,10 @@
 		span strong:first-of-type {
 			padding-left: @minor-padding;
 		}
+	}
+
+	.post-username {
+		text-shadow: 1px 1px 1px #e2e2e2;
 	}
 
 	.content {
@@ -70,9 +76,6 @@
 	}
 
 	.postImages {
-		@media @desktop {
-			width: 72em;
-		}
 		max-width: 100%;
 		margin-top: 5px;
 	}

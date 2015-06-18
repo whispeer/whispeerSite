@@ -38,7 +38,7 @@
 			<i class="fa fa-fw fa-share-alt btn-icon"></i>
 			<span class="btn-text" data-i18n="inviteFriends"></span>
 		</a>
-		<post data-ng-repeat="post in currentTimeline.getPosts()" data-post="post" id="{{post.id}}"></post>
+		<post data-ng-repeat="post in currentTimeline.getPosts()" data-post="post" id="{{post.id}}" class="newsfeedView-post"></post>
 		<div id="newsfeedView-loading" data-ng-show="currentTimeline.loading">
 			<i class="saveButton-spinner fa fa-2x fa-fw fa-spinner fa-spin"></i>
 			<p class="large-text" data-i18n="wall.loading"></p>
