@@ -7,15 +7,20 @@
 @column-width: 40em;
 
 .post {
-	width: 92%; // magic, due to magic 92% further above in the DOM.
-
+	float: none;
 	display: inline-block;
 	position: relative;
-	float: left;
-	clear: both;
+	width: 80%;
+	margin: 0.5rem 10%;
+	background: #fbfbfb;
+	border-radius: 3px;
+	box-shadow: 0 0 3px #f0f0f0;
+	&:extend(.clear-fix);
+	&:last-of-type {
+		margin-bottom: 1rem;
+	}
 
 	padding: @default-padding;
-	padding-left: 0;
 
 	&:extend(.box-fix);
 
