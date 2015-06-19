@@ -57,10 +57,6 @@
 				overflow: hidden;
 			}
 
-			.me .time {
-				color: #eee;
-			}
-
 			#main {
 				// main has to stay here, as there are mains on pages that have no
 				// .messagesView.
@@ -321,47 +317,16 @@
 			.messages a:hover {
 				text-decoration: underline;
 			}
-
-			// messages from others
-			.other {
-				.messages:after {
-					border-right-color: @foreign-message-bg;
-				}
-				.messages:before {
-					border-right-color: @foreign-message-bg2;
-				}
+			.messages:after {
+				border-right-color: @foreign-message-bg;
+			}
+			.messages:before {
+				border-right-color: @foreign-message-bg2;
 			}
 
-			// customizations for messages by me
-			.me {
-				&.burst {
-					float: right;
-				}
-				.userimg {
-					float: right;
-				}
-				.username {
-					text-align: right;
-				}
-				.messages {
-					background-color: @own-message-bg;
-					color: @own-message-fg;
-				}
-				.messages:after, .messages:before {
-					left: 100%;
-				}
-				.messages:after {
-					border-color: fade(@own-message-bg, 0%);
-					border-left-color: @own-message-bg;
-				}
-				.messages:before {
-					border-left-color: @foreign-message-bg2;
-				}
-				a {
-					color: @foreign-message-bg;
-				}
+			.me .messages {
+				opacity: 0.75;
 			}
-
 		}
 
 		.messageView-loadingText {
