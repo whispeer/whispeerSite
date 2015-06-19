@@ -45,7 +45,7 @@
 			<a href="#" class="btn btn--primary">Finde deine Freunde auf whispeer</a>
 			<a whispeer-sref="app.invite" class="btn btn--primary">Lade deine Freunde ein</a>
 		</div>
-		<div class="newsfeedView-post" id="newssfeedView-invite" data-ng-if="currentTimeline.getPosts().length > 0">
+		<div class="newsfeedView-post" id="newssfeedView-invite" data-ng-if="currentTimeline.getPosts().length < 10 || true">
 			<h1 data-i18n="inviteFriends" class="h1-noMarginTop"></h1>
 			<!-- todo: use ssn.inviteController here to make buttons work. Problem: it changes the css class... -->
 			<div class="clear-fix">
