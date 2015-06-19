@@ -47,7 +47,7 @@
 	float: left;
 	width: 100%;
 	border-radius: 0 0 3px 3px;
-	border: 1px solid @btnBorder !important;
+	border: 1px solid @btnBorder;
 	border-top: none !important;
 }
 #newsfeedView-addImage {
@@ -73,12 +73,14 @@
 	position: relative;
 	float: left;
 	width: 100%;
-	height: 40px;
-	margin-top: -1px;
 	border-radius: 3px 3px 0 0;
 }
 .newsfeedView-shareText--fullBorder {
 	border-radius: @inputBorderRadius !important;
+}
+#newsfeedView-shareText-addImages {
+	width: 50px;
+	overflow: hidden;
 }
 .newsfeedView-post-fadingPart {
 	float: left;
@@ -100,15 +102,18 @@
 	text-align: left;
 	background: #f9f9f9;
 	box-shadow: inset 0 0 6px #f0f0f0;
-	border-left: 1px solid @btnBorder;
-	border-right: 1px solid @btnBorder;
 	&:extend(.box-fix);
+	animation-delay: 1s;
+	transition: 1s border; // avoid that the border shows up to early
+}
+.newsfeedView-newPostImages--border {
+	border: 1px solid @btnBorder;
 }
 .newsfeed-newPostImagePreview {
 	display: inline-block;
 	position: relative;
 	max-width: 23%;
-	height: 150px;
+	height: 100px;
 	margin: 0 1%;
 	padding: 8px 0 20px;
 	&:extend(.box-fix);

@@ -89,12 +89,41 @@ button[disabled] {
 	cursor: not-allowed;
 }
 
+.uploadForm {
+	display: block;
+	position: relative;
+	height: 50px;
+	overflow: hidden;
+
+	cursor: pointer;
+}
+.uploadForm-button {
+	height: 100%;
+	width: 100%;
+	z-index: 1;
+}
+.uploadForm-theForm {
+	position: absolute;
+	width: 100%;
+	height: ~"calc(100% + 50px)";
+	top: -50px;
+	left: 0;
+	z-index: 2;
+	opacity: 0;
+	background: black;
+
+	cursor: pointer;
+}
+.uploadForm-theForm:hover {
+	opacity: 0.05;
+}
+
 @annotatedInputRight: 10px;
 @annotatedInputIconSize: 16px;
 
 .annotatedInput-container {
 	position: relative;
-	height: 40px;
+	height: 50px;
 }
 .annotatedInput-input {
 	padding-right: @annotatedInputRight + @annotatedInputIconSize;
@@ -114,7 +143,7 @@ button[disabled] {
 	position: absolute;
 	top: 0; bottom: 0;
 	margin: auto 0;
-	height: 40px;
+	height: 50px;
 	border-radius: 0;
 	border: none;
 
@@ -126,7 +155,12 @@ button[disabled] {
 .annotatedInput-container--button .annotatedInput-input {
 	padding-right: @annotatedInputRight + @annotatedInputIconSize + 20px;
 }
-
+.annotatedInput-container--button.annotatedInput-container--hasBorder .annotatedInput-button {
+	height: 48px;
+	line-height: 48px;
+	padding-right: 1px;
+	margin: 1px 0 0;
+}
 .annotatedInput-container--2 .annotatedInput-input {
 	padding-right: @annotatedInputRight + (@annotatedInputIconSize * 4);
 }
@@ -135,7 +169,7 @@ button[disabled] {
 	right: @annotatedInputRight + (@annotatedInputIconSize * 3);
 }
 
-@pwStrengthWidth: 40px;
+@pwStrengthWidth: 50px;
 
 .annotatedInput-container .strenghInput {
 	padding-right: @annotatedInputRight + @pwStrengthWidth + 5px;
@@ -165,35 +199,6 @@ span[data-strength="7"]:after { width: @pwStrengthWidth*(7/10); background-color
 span[data-strength="8"]:after { width: @pwStrengthWidth*(8/10); background-color: @primary; }
 span[data-strength="9"]:after { width: @pwStrengthWidth*(9/10); background-color: @primaryDarker; }
 span[data-strength="10"]:after { width: @pwStrengthWidth*(10/10); background-color: @primaryDarkest; }
-
-.uploadForm {
-	display: block;
-	position: relative;
-	height: 50px;
-	overflow: hidden;
-
-	cursor: pointer;
-}
-.uploadForm-button {
-	height: 100%;
-	width: 100%;
-	z-index: 1;
-}
-.uploadForm-theForm {
-	position: absolute;
-	width: 100%;
-	height: ~"calc(100% + 50px)";
-	top: -50px;
-	left: 0;
-	z-index: 2;
-	opacity: 0;
-	background: black;
-
-	cursor: pointer;
-}
-.uploadForm-theForm:hover {
-	opacity: 0.05;
-}
 
 .inputSandwich {
 	display: block;

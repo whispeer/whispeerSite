@@ -12,17 +12,18 @@
 	</header>
 	<div data-ng-if="postActive || !mobile" class="newsfeedView-post" id="newsfeedView-postForm">
 		<div id="newsfeedView-postFormWrap">
-			<textarea data-strg-enter="sendPost()" data-ng-model="newPost.text" data-i18n-attr="wall.postit.text|placeholder" id="newsfeedView-shareText" data-ng-disabled="!canSend" data-ng-class="{'newsfeedView-shareText--fullBorder': newPost.text.length == 0}"></textarea>
-			<div class="newsfeedView-post-fadingPart animate" data-ng-class="{'newsfeedView-post-fadingPart--visible animate-heightAndOverflow': newPost.text.length > 0}">
-				<search data-multiple class="search--custom search--sideBorder" data-supplier="filterSearchSupplier" data-search-template="filter" data-input-i18n-attr="wall.postit.receiver|placeholder" id="newsfeedView-receivers" data-callback="setPostReaders(selected)" data-initial-values="getFiltersByID(newPost.readers)" data-base="circle"></search>
-				<div class="uploadForm" id="newsfeedView-addImage">
+			<div class="annotatedInput-container annotatedInput-container--button annotatedInput-container--hasBorder">
+				<textarea data-strg-enter="sendPost()" data-ng-model="newPost.text" data-i18n-attr="wall.postit.text|placeholder" id="newsfeedView-shareText" data-ng-disabled="!canSend" class="annotatedInput-input" data-ng-class="{'newsfeedView-shareText--fullBorder': newPost.text.length == 0 && newPost.images.length == 0}"></textarea>
+				<div class="uploadForm annotatedInput-button" id="newsfeedView-shareText-addImages">
 					<span class="uploadForm-button btn btn--input btn--noRadius">
-						<i class="fa fa-photo fa-2x" id="newsfeedView-addImageIcon"></i>
-						<span>Bilder hinzufügen</span>
+						<i class="fa fa-camera fa-2x" id="newsfeedView-addImageIcon"></i>
 					</span>
 					<input class="uploadForm-theForm" type="file" multiple data-file="newPost.addImages" data-ng-click="mobilePromptUser($event)">
 				</div>
-				<div id="newsfeed-newPostImages" class="animate" data-ng-class="{'animate-heightAndOverflow animate--forwards': newPost.images.length > 0}">
+			</div>
+			<div class="newsfeedView-post-fadingPart" data-ng-class="{'newsfeedView-post-fadingPart--visible animate-heightAndOverflow': newPost.text.length > 0 || newPost.images.length > 0}">
+				<search data-multiple class="search--custom search--sideBorder" data-supplier="filterSearchSupplier" data-search-template="filter" data-input-i18n-attr="wall.postit.receiver|placeholder" id="newsfeedView-receivers" data-callback="setPostReaders(selected)" data-initial-values="getFiltersByID(newPost.readers)" data-base="circle"></search>
+				<div id="newsfeed-newPostImages" data-ng-class="{'animate-heightAndOverflow animate--forwards newsfeedView-newPostImages--border': newPost.images.length > 0}">
 					<div class="newsfeed-newPostImagePreview" data-ng-repeat="image in newPost.images">
 						<button class="newsfeed-newPostImageRemove fa fa-times-circle" data-ng-click='newPost.removeImage($index)'></button>
 						<img class="newsfeed-newPostImage" alt="{{image.getName()}}" data-ng-src="{{image.getUrl()}}">
