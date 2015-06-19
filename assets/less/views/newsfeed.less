@@ -14,7 +14,6 @@
 	.column(12,12,left,0);
 	padding-top: 10px;
 	text-align: center;
-	z-index: 1000;
 	border-radius: @inputBorderRadius;
 }
 
@@ -38,34 +37,26 @@
 	width: 100%;
 	border-radius: 0 0 @inputBorderRadius @inputBorderRadius;
 	padding: 0;
-	border-top: 1px solid @btnBorder;
 	background: @btnBorder;
 	overflow: hidden;
 	.box-fix;
 }
 #newsfeedView-submit {
+	position: relative;
 	display: inline-block;
 	float: left;
 	width: 100%;
 	border-radius: 0 0 3px 3px;
+	border: 1px solid @btnBorder !important;
+	border-top: none !important;
 }
 #newsfeedView-addImage {
 	float: left;
 	display: inline-block;
 	width: 100%;
 	&:extend(.box-fix);
-
+	border: 1px solid @btnBorder;
 	overflow: hidden; // fix mobile
-}
-#newsfeedView-submit,
-#newsfeedView-addImage {
-	border: 1px solid @btnBorder !important;
-	border-top: none !important;
-}
-@media screen and (-webkit-min-device-pixel-ratio:0) { // we've got whitespace in webkit as an artificial border..
-	#newsfeedView-addImage {
-		border: none;
-	}
 }
 @media @mobile { // iphones do not have this whitespace tho...
 	#newsfeedView-submit {
@@ -79,16 +70,27 @@
 	vertical-align: middle;
 }
 #newsfeedView-shareText {
-	.column(8,8,left,0);
+	position: relative;
+	float: left;
+	width: 100%;
 	height: 40px;
 	margin-top: -1px;
 	border-radius: 3px 3px 0 0;
+}
+.newsfeedView-post-fadingPart {
+	float: left;
+	width: 100%;
+	height: 0;
+	overflow: hidden;
+}
+.newsfeedView-post-fadingPart--visible {
+	height: auto;
 }
 #newsfeed-newPostImages {
 	display: block;
 	float: left;
 	width: 100%;
-	height: 38px * 3;
+	height: 0;
 	overflow-x: scroll;
 	overflow-y: hidden;
 	white-space: nowrap;
@@ -99,19 +101,19 @@
 	border-right: 1px solid @btnBorder;
 	&:extend(.box-fix);
 }
-.newsfeed-newPostImage {
-	border-radius: 3px;
-	height: 100%;
-	max-width: 100%;
-}
 .newsfeed-newPostImagePreview {
 	display: inline-block;
 	position: relative;
 	max-width: 23%;
-	height: 100%;
+	height: 100px;
 	margin: 0 1%;
 	padding: 5px 0;
 	&:extend(.box-fix);
+}
+.newsfeed-newPostImage {
+	border-radius: 3px;
+	height: 100%;
+	max-width: 100%;
 }
 .newsfeed-newPostImageProgress {
 	float: left;
