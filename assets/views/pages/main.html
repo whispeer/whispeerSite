@@ -12,7 +12,7 @@
 	</header>
 	<div data-ng-if="postActive || !mobile" class="newsfeedView-post" id="newsfeedView-postForm">
 		<div id="newsfeedView-postFormWrap">
-			<textarea data-strg-enter="sendPost()" data-ng-model="newPost.text" data-i18n-attr="wall.postit.text|placeholder" id="newsfeedView-shareText" data-ng-disabled="!canSend" id="newsfeedView-shareText"></textarea>
+			<textarea data-strg-enter="sendPost()" data-ng-model="newPost.text" data-i18n-attr="wall.postit.text|placeholder" id="newsfeedView-shareText" data-ng-disabled="!canSend" data-ng-class="{'newsfeedView-shareText--fullBorder': newPost.text.length == 0}"></textarea>
 			<div class="newsfeedView-post-fadingPart animate" data-ng-class="{'newsfeedView-post-fadingPart--visible animate-heightAndOverflow': newPost.text.length > 0}">
 				<search data-multiple class="search--custom search--sideBorder" data-supplier="filterSearchSupplier" data-search-template="filter" data-input-i18n-attr="wall.postit.receiver|placeholder" id="newsfeedView-receivers" data-callback="setPostReaders(selected)" data-initial-values="getFiltersByID(newPost.readers)" data-base="circle"></search>
 				<div class="uploadForm" id="newsfeedView-addImage">
@@ -29,8 +29,6 @@
 						<progress class="newsfeed-newPostImageProgress" value="{{image.getProgress()*100}}" max="100"></progress>
 					</div>
 				</div>
-			</div>
-			<div id="newsfeedView-sendPost">
 				<savebutton class="btn--noRadius" id="newsfeedView-submit" data-ng-click="sendPost()" data-state="sendPostState" data-noiniticon data-ng-disabled="!canSend">
 					<span data-i18n="wall.postit.send"></span>
 				</savebutton>
