@@ -1,8 +1,8 @@
 @user-image-size: 76px;
 @user-image-size-small: 32px;
 
-@default-padding: 12px;
-@minor-padding: 6px;
+@default-padding: 1rem;
+@minor-padding: 0.5rem;
 
 @column-width: 40em;
 
@@ -10,6 +10,7 @@
 	width: 92%; // magic, due to magic 92% further above in the DOM.
 
 	display: inline-block;
+	position: relative;
 	float: left;
 	clear: both;
 
@@ -59,14 +60,30 @@
 		.detail-text();
 
 	}
-	.date {
-		color: @primary;
-	}
-	.date:hover {
-		text-decoration: underline;
-	}
 	.action {
 		cursor: pointer;
+	}
+
+	.post-link {
+		position: absolute;
+		top: @minor-padding;
+		right: @minor-padding;
+		color: @grayLight;
+		font-size: 1.1rem;
+		&:hover {
+			color: @gray;
+		}
+		@media @desktop {
+			visibility: hidden;
+		}
+	}
+
+	@media @desktop {
+		&:hover {
+			.post-link {
+				visibility: visible;
+			}
+		}
 	}
 
 	@media @mobile {
