@@ -33,6 +33,12 @@ define(["app"], function (app) {
 		addMain("circles");
 		addMain("acceptInvite");
 
+		$stateProvider.state("app.post", {
+			url: "/post/{postID:[1-9][0-9]*}",
+			templateUrl: "assets/views/pages/post.html",
+			controller: "ssn.postController"
+		});
+
 		$stateProvider.state("app.settings", {
 			url: "/settings",
 			abstract: true,

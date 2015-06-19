@@ -12,5 +12,6 @@ define([
 	"controllers/inviteController",
 	"controllers/inviteMailController",
 	"controllers/inviteLinkController",
-	"controllers/acceptInviteController"
+	"controllers/acceptInviteController",
+	"controllers/postController"
 ], function () {});
