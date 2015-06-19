@@ -101,16 +101,16 @@ noscript {
 		position: absolute;
 		top: 0;
 		left: 0;
-		.translate3d((-1 * @mobileNavWidth));
+		transform: translate3d((-1 * @mobileNavWidth), 0, 0);
 		transition-duration: @mobileNavTransitionTime;
 		z-index: 1040;
 		padding: 0;
 		overflow: hidden;
-		.box-fix;
+		&:extend(.box-fix);
 		height: 100%;
 		background: @primary;
 		&.sidebarLeft-show {
-			.translate3d(0);
+			transform: translate3d(0, 0, 0);
 		}
 		.mobileMenu {
 			overflow-y: scroll;
