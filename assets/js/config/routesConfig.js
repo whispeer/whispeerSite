@@ -115,6 +115,38 @@ define(["app"], function (app) {
 			controller: "ssn.messagesShowController"
 		});
 
+		$stateProvider.state("app.circles", {
+			url: "/circles",
+			views: {
+				"list@app.circles": {
+					templateUrl: "assets/views/circles/listCircles.html",
+					controller: "ssn.circlesListController",
+				},
+				"": {
+					templateUrl: "assets/views/pages/circles.html",
+					controller: "ssn.circlesRedirectController",
+				}
+			}
+		});
+
+		$stateProvider.state("app.circles.list", {
+			url: "/list",
+			templateUrl: "assets/views/circles/listCircles.html",
+			controller: "ssn.circlesListController"
+		});
+
+		$stateProvider.state("app.circles.new", {
+			url: "/new?userid",
+			templateUrl: "assets/views/circles/newCircle.html",
+			controller: "ssn.circlesCreateController"
+		});
+
+		$stateProvider.state("app.circles.show", {
+			url: "/{circleid:[1-9][0-9]*}",
+			templateUrl: "assets/views/circles/showCircle.html",
+			controller: "ssn.circlesShowController"
+		});
+
 		$stateProvider.state("app.user", {
 			url: "/user/:identifier",
 			abstract: true,
