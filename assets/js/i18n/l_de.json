@@ -1,4 +1,8 @@
 {
+	"generalWords": {
+		"at":	"bei",
+		"with":	"mit"
+	},
 	"trustLevel": {
 		"unVerified": "Die Identität dieser Person wurde noch nicht verifiziert. Du kannst sie auf ihrem Profil verifizieren!",
 		"groupVerified": "Ein Freund hat diese Person verifiziert.",
@@ -137,8 +141,10 @@
 	},
 	"usersearch": {
 		"mutualFriends": "gemeinsame Freunde",
-		"from": "aus",
-		"age": "Alter:",
+		"location": "Wohnt in {town}{country}",
+		"age": "{day}{month}{year}",
+		"relation":	"{relationType}{name}",
+		"work":	"{what}{where}",
 		"message": "Nachricht senden",
 		"add": "Als Freund hinzufügen"
 	},

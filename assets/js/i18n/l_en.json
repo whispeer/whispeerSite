@@ -1,4 +1,8 @@
 {
+	"generalWords": {
+		"at":	"bei",
+		"with":	"mit"
+	},
 	"trustLevel": {
 		"unVerified": "You have not verified this user. Verification is available on a users profile.",
 		"groupVerified": "One of your friends verified this user",
@@ -137,10 +141,12 @@
 	},
 	"usersearch": {
 		"mutualFriends": "mutual friends",
-		"from": "from",
-		"age": "Age:",
-		"message": "Send a message",
-		"add": "Add as friend"
+		"location": "From {town}{country}",
+		"age": "{day}{month}{year}",
+		"relation":	"{relationType}{name}",
+		"work":	"{what}{where}",
+		"message": "Send message",
+		"add": "Als Friend"
 	},
 	"general": {
 		"send":	"Send",

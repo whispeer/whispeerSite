@@ -3,9 +3,48 @@
 		<userimage class="search-suggestion-userimage" data-user="user" />
 		<div class="search-suggestion-info">
 			<span class="search-suggestion-row search-suggestion-name">{{::user.name}}<small class="search-suggestion-nickname">&nbsp;- {{::user.names.nickname}}</small></span>
-			<span class="search-suggestion-row search-suggestion-friends">{{::user.basic.mutualFriends.length}} <span data-i18n="usersearch.mutualFriends"></span></span>
-			<!--<span class="search-suggestion-row search-suggestion-location"><span data-i18n="usersearch.from"></span> {{::user.basic.location}}</span>
-			<span class="search-suggestion-row search-suggestion-age"><span data-i18n="usersearch.age"></span> {{::user.basic.age}}</span>-->
+			<span class="search-suggestion-row search-suggestion-friends" data-ng-if="::user.basic.mutualFriends.length > 0">{{::user.basic.mutualFriends.length}} <span data-i18n="usersearch.mutualFriends"></span></span>
+			<span class="search-suggestion-row search-suggestion-age" data-ng-if="::user.advanced.birthday.day.length > 0 || user.advanced.birthday.month.length > 0 || user.advanced.birthday.year.length > 0">
+				<i class="fa fa-gift fa-fw"></i>
+				<span data-i18n="usersearch.age">
+					<span data-for="day" data-ng-if="::user.advanced.birthday.day.length > 0">
+						<span>{{::user.advanced.birthday.day}}.</span>
+					</span>
+					<span data-for="month" data-ng-if="::user.advanced.birthday.month">
+						<span data-i18n="date.month.{{::user.advanced.birthday.month}}"></span>
+					</span>
+					<span data-for="year" data-ng-if="::user.advanced.birthday.year">{{::user.advanced.birthday.year}}</span>
+				</span>
+			</span>
+			<span class="search-suggestion-row search-suggestion-location" data-ng-if="::user.advanced.location.town || user.advanced.location.country">
+				<i class="fa fa-home fa-fw"></i>
+				<span data-i18n="usersearch.location">
+					<span data-for="town" data-ng-if="::user.advanced.location.town">{{::user.advanced.location.town}}<span data-ng-if="::user.advanced.location.country">, </span></span>
+					<span data-for="country" data-ng-if="::user.advanced.location.country">{{::user.advanced.location.country}}</span>
+				</span>
+			</span>
+			<span class="search-suggestion-row search-suggestion-relationship" data-ng-if="::user.advanced.relationship.type || user.advanced.relationship.name">
+				<i class="fa fa-heart fa-fw"></i>
+				<span data-i18n="usersearch.relation">
+					<span data-for="relationType" data-ng-if="::user.advanced.relationship.type" data-i18n="profile.section.general.relation.status.{{::user.advanced.relationship.type}}"></span>
+					<span data-for="name" data-ng-if="::user.advanced.relationship.name"> <span data-i18n="generalWords.with"></span> {{::user.advanced.relationship.name}}</span>
+				</span>
+			</span>
+			<span class="search-suggestion-row search-suggestion-education" data-ng-if="::user.advanced.education.length > 0">
+				<i class="fa fa-book fa-fw"></i>
+				<span data-ng-repeat="x in ::user.advanced.education">{{::x.name}}<span data-ng-if="!$last">, </span></span>
+			</span>
+			<span class="search-suggestion-row search-suggestion-work" data-ng-if="::user.advanced.work.what || user.advanced.work.where">
+				<i class="fa fa-briefcase fa-fw"></i>
+				<span data-i18n="usersearch.work">
+					<span data-for="what">{{::user.advanced.work.what}} <span data-i18n="generalWords.at"></span> </span>
+					<span data-for="where">{{::user.advanced.work.where}}</span>
+				</span>
+			</span>
+			<span class="search-suggestion-row search-suggestion-languages" data-ng-if="::user.advanced.languages.length > 0">
+				<i class="fa fa-globe fa-fw"></i>
+				<span data-ng-repeat="x in ::user.advanced.languages">{{::x.name}}<span data-ng-if="!$last">, </span></span>
+			</span>
 		</div>
 		<div class="search-suggestion-actions">
 			<a class="search-suggestion-row search-action search-action-message btn btn--primary btn--border" whispeer-sref="app.messages.new({userid: user.id})" data-stop-event="click" data-i18n="usersearch.message"></a>
