@@ -52,7 +52,12 @@
 		</aside>
 		<!-- end !Left Sidebar -->
 		<!-- !Loaded View -->
-		<section id="main" data-ng-if="!loading" data-ui-view data-ng-class="{'main-push': (mobile && sidebarActive && !searchActive), box: isBox}" data-ng-show="!searchActive">
+		<section id="main" data-ng-if="!loading" data-ng-class="{'main-push': (mobile && sidebarActive && !searchActive), box: isBox}" data-ng-show="!searchActive">
+			<header id="general-searchBar">
+				<search data-add-classes="search--custom" data-supplier="userSearchSupplier" callback="visitUserProfile(selected)" data-search-template="user" data-input-i18n-attr="menu.search|placeholder" id="general-searchBar-search"></search>
+				<div id="general-searchBar--background"></div>
+			</header>
+			<ui-view></ui-view>
 		</section>
 		<!-- end !Loaded View -->
 		<!-- !Mobile Search -->
