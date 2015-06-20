@@ -10,14 +10,31 @@
 	}
 }
 
+@keyframes slideInDown {
+  0% {
+    transform: translate3d(0, -100%, 0);
+    visibility: visible;
+  }
+
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
 .animate { // enable hardware acceleration
 	transform: translate3d(0,0,0);
+}
+
+.animate--fill {
+	animation-fill-mode: both;
 }
 
 .animate-heightAndOverflow {
 	animation-name: heightAndOverflow;
 	animation-duration: 1s;
 }
-.animate--forwards {
-	animation-fill-mode: forwards;
+
+.animate--slideInDown {
+	animation-name: slideInDown;
+	animation-duration: 1s;
 }

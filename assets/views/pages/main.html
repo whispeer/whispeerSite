@@ -23,7 +23,7 @@
 			</div>
 			<div class="newsfeedView-post-fadingPart" data-ng-class="{'newsfeedView-post-fadingPart--visible animate-heightAndOverflow': newPost.text.length > 0 || newPost.images.length > 0}">
 				<search data-multiple class="search--custom search--sideBorder" data-supplier="filterSearchSupplier" data-search-template="filter" data-input-i18n-attr="wall.postit.receiver|placeholder" id="newsfeedView-receivers" data-callback="setPostReaders(selected)" data-initial-values="getFiltersByID(newPost.readers)" data-base="circle"></search>
-				<div id="newsfeed-newPostImages" data-ng-class="{'animate-heightAndOverflow animate--forwards newsfeedView-newPostImages--border': newPost.images.length > 0}">
+				<div id="newsfeed-newPostImages" data-ng-class="{'animate-heightAndOverflow animate--fill newsfeedView-newPostImages--border': newPost.images.length > 0}">
 					<div class="newsfeed-newPostImagePreview" data-ng-repeat="image in newPost.images">
 						<button class="newsfeed-newPostImageRemove fa fa-times-circle" data-ng-click='newPost.removeImage($index)'></button>
 						<img class="newsfeed-newPostImage" alt="{{image.getName()}}" data-ng-src="{{image.getUrl()}}">
