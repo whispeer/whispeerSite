@@ -30,10 +30,6 @@ define(["whispeerHelper", "asset/state", "step", "controllers/controllerModule"]
 
 		$scope.thisCircle = {};
 
-		$scope.circles = circleService.data.circles;
-
-		cssService.setClass("circlesView", true);
-
 		$scope.getLength = function(obj) {
 			return obj.length;
 		};
