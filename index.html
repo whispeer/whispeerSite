@@ -52,19 +52,15 @@
 		</aside>
 		<!-- end !Left Sidebar -->
 		<!-- !Loaded View -->
-		<section id="main" data-ng-if="!loading" data-ng-class="{'main-push': (mobile && sidebarActive && !searchActive), box: isBox}" data-ng-show="!searchActive">
-			<header id="general-searchBar">
-				<search data-add-classes="search--custom" data-supplier="userSearchSupplier" callback="visitUserProfile(selected)" data-search-template="user" data-input-i18n-attr="menu.search|placeholder" id="general-searchBar-search"></search>
-				<div id="general-searchBar--background"></div>
+		<section id="main" data-ng-if="!loading" data-ng-class="{'main-push': (mobile && sidebarActive && !searchActive), box: isBox}">
+			<header id="general-searchBar" data-ng-if="searchActive">
+				<search data-add-classes="search--custom" data-supplier="userSearchSupplier" data-callback="visitUserProfile(selected)" data-search-template="user" data-input-i18n-attr="menu.search|placeholder" id="general-searchBar-search"></search>
+				<a data-ng-click="toggleSearch()" class="btn btn--inverse btn--noRadius" id="general-searchBar--close"><i class="fa fa-times-circle"></i></a>
+				<div id="general-searchBar--background" data-ng-click="toggleSearch()"></div>
 			</header>
 			<ui-view></ui-view>
 		</section>
 		<!-- end !Loaded View -->
-		<!-- !Mobile Search -->
-		<section id="mobileSearch" data-ng-if="searchActive && !sidebarActive">
-			<search data-supplier="userSearchSupplier" callback="visitUserProfile(selected)" data-search-template="user" data-add-classes="theMobileSearch" data-input-i18n-attr="menu.search|placeholder"/>
-		</section>
-		<!-- end !Mobile Search -->
 	</div>
 	<!-- end !Main Container -->
 	<!-- !messageSound -->

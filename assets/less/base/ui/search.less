@@ -58,6 +58,9 @@
 
 	border: none;
 }
+.search--activeRadius {
+	border-radius: @inputBorderRadius @inputBorderRadius 0 0 !important;
+}
 .search-resultsDrop {
 	position: absolute;
 	width: 100%;
@@ -68,10 +71,14 @@
 	overflow: hidden;
 
 	background-color: @white;
-	border: 1px solid @btnBorder;
-	border-radius: @inputBorderRadius;
+	border: none;
+	border-radius: 0 0 @inputBorderRadius @inputBorderRadius;
 
 	&:extend(.box-fix);
+}
+.search-resultsDrop--addBorder {
+	border: 1px solid @btnBorder;
+	border-top: none;
 }
 .search-suggestions {
 	width: 100%;
@@ -83,8 +90,6 @@
 	overflow-y: scroll;
 	overflow-x: hidden;
 	-webkit-overflow-scrolling: touch;
-
-	border-radius: @inputBorderRadius;
 
 	display: inline-block;
 }

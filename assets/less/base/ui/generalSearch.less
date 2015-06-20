@@ -7,7 +7,25 @@
 #general-searchBar-search {
 	float: left;
 	display: inline-block;
-	padding: 7px;
+	padding: 0.5em 4.5rem 0.5em 0.5em;
 	width: 100%;
 	&:extend(.box-fix);
+}
+#general-searchBar--close {
+	position: absolute;
+	top: 0;
+	right: 0;
+	height: 4rem;
+	width: 4rem;
+	line-height: 4rem;
+}
+#general-searchBar--background {
+	position: absolute;
+	top: 4rem;
+	left: 17rem;
+	height: 100%;
+	width: 100%;
+	background: darken(@btnInverseBackgroundFocus, 4%);
+	opacity: 0.96;
+	z-index: 6;
 }
