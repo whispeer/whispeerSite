@@ -5,7 +5,16 @@ define(["controllers/controllerModule", "whispeerHelper", "step", "asset/state"]
 		var addUsersToCircleState = new State();
 		$scope.addUsersToCircle = addUsersToCircleState.data;
 
-		$scope.circleid = 0;
+		$scope.circleid = $stateParams.circleid;
+		$scope.thisCircle = {};
+
+		step(function () {
+			circleService.loadAll(this);
+		}, h.sF(function () {
+			var theCircle = circleService.get($stateParams.circleid);
+			$scope.thisCircle = theCircle.data;
+			theCircle.loadPersons(this);
+		}), errorService.criticalError);
 
 		$scope.editingTitle = {
 			"success":		true,
@@ -22,8 +31,6 @@ define(["controllers/controllerModule", "whispeerHelper", "step", "asset/state"]
 			$scope.editingTitle.success = true;
 			$scope.editingTitle.active = false;
 		};
-
-		$scope.thisCircle = {};
 
 		$scope.getLength = function(obj) {
 			return obj.length;
@@ -63,20 +70,6 @@ define(["controllers/controllerModule", "whispeerHelper", "step", "asset/state"]
 				}
 			}), errorService.criticalError);
 		};
-
-		$scope.loadActiveCircle = function (id) {
-			$scope.circleid = id;
-
-			step(function () {
-				circleService.loadAll(this);
-			}, h.sF(function () {
-				var theCircle = circleService.get(id);
-				$scope.thisCircle = theCircle.data;
-				theCircle.loadPersons(this);
-			}), errorService.criticalError);
-		};
-
-		$scope.loadActiveCircle($stateParams.circleid);
 	}
 
 
