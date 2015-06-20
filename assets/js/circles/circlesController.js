@@ -40,25 +40,6 @@ define(["whispeerHelper", "asset/state", "step", "controllers/controllerModule"]
 
 		circleService.loadAll(errorService.criticalError);
 
-		$scope.selectedUsers = [];
-
-		$scope.setCreateNewUsers = function (selected) {
-			$scope.selectedUsers = selected;
-		};
-
-		$scope.createNew = function (name) {
-			var ids = $scope.selectedUsers.map(h.parseDecimal);
-			circleService.create(name, function (e, circle) {
-				errorService.criticalError(e);
-
-				if (!e) {
-					$scope.loadActiveCircle(circle.getID());
-				}
-			}, ids);
-
-			$scope.showCircle = !$scope.mobile;
-		};
-
 		$scope.removeUser = function (user) {
 			circleService.get($scope.circleid).removePersons([user.id], errorService.criticalError);
 		};
