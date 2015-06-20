@@ -142,7 +142,7 @@ define(["app"], function (app) {
 
 		$stateProvider.state("app.circles.show", {
 			url: "/{circleid:[1-9][0-9]*}",
-			templateUrl: "assets/views/circles/showCircle.html",
+			templateUrl: "assets/views/circles/circleShow.html",
 			controller: "ssn.circlesShowController"
 		});
 
