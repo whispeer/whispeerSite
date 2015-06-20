@@ -1,7 +1,7 @@
-define(["controllers/controllerModule", "whispeerHelper", "step", "asset/state"], function (circlesModule, h, step, State) {
+define(["controllers/controllerModule", "whispeerHelper", "step"], function (circlesModule, h, step) {
 	"use strict";
 
-	function circlesCreateController($scope, circleService, errorService) {
+	function circlesCreateController($scope, circleService, errorService, $state) {
 		$scope.circleName = "";
 		$scope.selectedUsers = [];
 
@@ -14,7 +14,7 @@ define(["controllers/controllerModule", "whispeerHelper", "step", "asset/state"]
 				var ids = $scope.selectedUsers.map(h.parseDecimal);
 				circleService.create(name, this, ids);
 			}, h.sF(function (circle) {
-				$scope.loadActiveCircle(circle.getID());
+				$state.go("app.circles.show", {circleid: circle.getID()});
 			}), errorService.criticalError);
 
 			$scope.showCircle = !$scope.mobile;
@@ -22,7 +22,7 @@ define(["controllers/controllerModule", "whispeerHelper", "step", "asset/state"]
 	}
 
 
-	circlesCreateController.$inject = ["$scope", "ssn.circleService", "ssn.errorService"];
+	circlesCreateController.$inject = ["$scope", "ssn.circleService", "ssn.errorService", "$state"];
 
 	circlesModule.controller("ssn.circlesCreateController", circlesCreateController);
 

@@ -1,7 +1,7 @@
 define(["controllers/controllerModule", "whispeerHelper", "step", "asset/state"], function (circlesModule, h, step, State) {
 	"use strict";
 
-	function circlesShowController($scope, circleService, errorService, localize, $stateParams) {
+	function circlesShowController($scope, circleService, errorService, localize, $stateParams, $state) {
 		var addUsersToCircleState = new State();
 		$scope.addUsersToCircle = addUsersToCircleState.data;
 
@@ -56,7 +56,7 @@ define(["controllers/controllerModule", "whispeerHelper", "step", "asset/state"]
 					circleService.get($scope.circleid).remove(this);
 				}
 			}, h.sF(function () {
-				$scope.unloadCircle();
+				$state.go("app.circles");
 			}), errorService.criticalError);
 		};
 
@@ -76,7 +76,7 @@ define(["controllers/controllerModule", "whispeerHelper", "step", "asset/state"]
 	}
 
 
-	circlesShowController.$inject = ["$scope", "ssn.circleService", "ssn.errorService", "localize", "$stateParams"];
+	circlesShowController.$inject = ["$scope", "ssn.circleService", "ssn.errorService", "localize", "$stateParams", "$state"];
 
 	circlesModule.controller("ssn.circlesShowController", circlesShowController);
 
