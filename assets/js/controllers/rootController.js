@@ -42,6 +42,7 @@ define(["step", "whispeerHelper", "config", "controllers/controllerModule"], fun
 		$scope.sidebarActive = false;
 		$scope.searchActive = false;
 		$scope.showMenu = true;
+		$scope.fadeOutSearch = false;
 
 		$scope.lostConnection = false;
 
@@ -99,7 +100,10 @@ define(["step", "whispeerHelper", "config", "controllers/controllerModule"], fun
 		};
 
 		$scope.toggleSearch = function() {
-			$scope.searchActive = !$scope.searchActive;
+			if ($scope.searchActive) {
+				$scope.fadeOutSearch = !$scope.fadeOutSearch;
+			}
+			$scope.searchActive = true;
 			$scope.sidebarActive = false;
 		};
 
