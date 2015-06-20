@@ -30,7 +30,6 @@ define(["app"], function (app) {
 		addMain("backup");
 		addMain("main");
 		addMain("friends");
-		addMain("circles");
 		addMain("acceptInvite");
 
 		$stateProvider.state("app.settings", {
