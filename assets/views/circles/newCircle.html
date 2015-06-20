@@ -1,11 +1,11 @@
 <div class="box-rightWrap">
-	<span class="box-header-title box-header-title--full" role="title" data-ng-if="showCircle" data-ng-class="{circleLoaded: circleLoaded}">
-		<span data-ng-if="!circleLoaded">
+	<span class="box-header-title box-header-title--full" role="title">
+		<span>
 			<span data-i18n="views.circles.header.title.create"></span>
 		</span>
-		<button id="backToMenu" class="box-header-button box-header-button--right" data-ng-if="mobile && showCircle" data-ng-click="unloadCircleMobile()"><i class="fa fa-fw fa-bars"></i></button>
+		<button id="backToMenu" class="box-header-button box-header-button--right" data-ng-if="mobile" data-ng-click="unloadCircleMobile()"><i class="fa fa-fw fa-bars"></i></button>
 	</span>
-	<div id="circleContainer" class="newCircle" data-ng-if="!circleLoaded && showCircle">
+	<div id="circleContainer" class="newCircle">
 		<div id="circleWrap">
 			<form id="inputWrap">
 				<input type="text" data-i18n-attr="views.circles.titleForNew|placeholder" id="titleInput" data-ng-model="circleName">
