@@ -3,7 +3,9 @@
 		<span>
 			<span data-i18n="views.circles.header.title.create"></span>
 		</span>
-		<button id="backToMenu" class="box-header-button box-header-button--right" data-ng-if="mobile" data-ng-click="unloadCircleMobile()"><i class="fa fa-fw fa-bars"></i></button>
+		<a whispeer-sref="app.circles.list" id="backToMenu" class="box-header-button box-header-button--right" data-ng-if="mobile">
+			<i class="fa fa-fw fa-bars"></i>
+		</a>
 	</span>
 	<div id="circleContainer" class="newCircle">
 		<div id="circleWrap">

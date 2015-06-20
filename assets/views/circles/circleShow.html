@@ -5,9 +5,9 @@
 			<span>{{thisCircle.name}}</span>
 		</span>
 
-		<button id="backToMenu" class="box-header-button box-header-button--right" data-ng-if="mobile" data-ng-click="unloadCircleMobile()">
+		<a whispeer-sref="app.circles.list" id="backToMenu" class="box-header-button box-header-button--right" data-ng-if="mobile">
 			<i class="fa fa-fw fa-bars"></i>
-		</button>
+		</a>
 		<button id="removeCircle" class="box-header-button box-header-button--right" data-ng-click="removeCircle()">
 			<i class="fa fa-fw fa-trash-o"></i>
 		</button>
