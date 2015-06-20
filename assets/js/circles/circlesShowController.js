@@ -56,7 +56,11 @@ define(["controllers/controllerModule", "whispeerHelper", "step", "asset/state"]
 					circleService.get($scope.circleid).remove(this);
 				}
 			}, h.sF(function () {
-				$state.go("app.circles");
+				if ($scope.mobile) {
+					$state.go("app.circles.list");
+				} else {
+					$state.go("app.circles.new");
+				}
 			}), errorService.criticalError);
 		};
 
