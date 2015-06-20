@@ -76,7 +76,8 @@ define(["step", "whispeerHelper", "config", "controllers/controllerModule"], fun
 
 		$scope.toggleSidebar = function() {
 			$scope.sidebarActive = !$scope.sidebarActive;
-			if ($scope.searchActive) { $scope.toggleSearch(); }
+			$scope.searchActive = false;
+			$scope.fadeOutSearch = false;
 		};
 
 		function updateCssClass() {
