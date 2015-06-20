@@ -1,6 +1,6 @@
 <div class="search search--multiple {{addClasses}}">
 	<div class="search-form">
-		<ul class="search-wrapper" data-ng-class="{'search--activeRadius': results.length > 0}">
+		<ul class="search-wrapper" data-ng-class="{'search--activeRadius': results.length > 0 && isVisible}">
 			<li data-ng-repeat="element in selectedElements" class="search-result btn btn--noRadius" data-ng-show="$index<previewCount">
 				<span class="search-result-name">{{element.name}}</span>
 				<i class="search-result-remove fa fa-times-circle" data-ng-click="removeSelection($index, $event)"></i>
