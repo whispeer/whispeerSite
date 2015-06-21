@@ -3,7 +3,7 @@
 		<userimage class="search-suggestion-userimage" data-user="user" />
 		<div class="search-suggestion-info">
 			<span class="search-suggestion-row search-suggestion-name">{{::user.name}}<small class="search-suggestion-nickname">&nbsp;- {{::user.names.nickname}}</small></span>
-			<span class="search-suggestion-row search-suggestion-row--info search-suggestion-friends" data-ng-if="::user.basic.mutualFriends.length > 0"><i class="fa fa-group fa-fw"></i> {{::user.basic.mutualFriends.length}} <span data-i18n="usersearch.mutualFriends"></span></span>
+			<span class="search-suggestion-row search-suggestion-row--info search-suggestion-friends" data-ng-if="::user.basic.mutualFriends.length > 0"><i class="fa fa-group fa-fw"></i> {{::user.basic.mutualFriends.length}} <span data-i18n="usersearch.mutualFriends" data-ng-if="::user.basic.mutualFriends.length > 1"></span><span data-i18n="usersearch.mutualFriend" data-ng-if="::user.basic.mutualFriends.length == 1"></span></span>
 			<span class="search-suggestion-row search-suggestion-row--info search-suggestion-age" data-ng-if="::user.advanced.birthday.day.length > 0 || user.advanced.birthday.month.length > 0 || user.advanced.birthday.year.length > 0">
 				<i class="fa fa-gift fa-fw"></i>
 				<span data-i18n="usersearch.age">

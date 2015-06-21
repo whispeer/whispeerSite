@@ -141,6 +141,7 @@
 	},
 	"usersearch": {
 		"mutualFriends": "mutual friends",
+		"mutualFriend": "mutual friend",
 		"location": "From {town}{country}",
 		"age": "{day}{month}{year}",
 		"relation":	"{relationType}{name}",
