@@ -8,8 +8,9 @@ define([
 		"messages/messagesModule",
 		"asset/observer",
 		"asset/sortedSet",
-		"asset/securedDataWithMetaData"
-	], function (step, h, validator, messagesModule, Observer, sortedSet, SecuredData) {
+		"asset/securedDataWithMetaData",
+		"bluebird"
+	], function (step, h, validator, messagesModule, Observer, sortedSet, SecuredData, Bluebird) {
 	"use strict";
 
 	var messageService;
@@ -631,6 +632,16 @@ define([
 				}), cb || h.nop);
 			},
 			sendMessage: function (topic, message, images, cb, count) {
+				var imagePreparation = Bluebird.resolve(images).map(function (image) {
+					return image.prepare();
+				});
+
+				//get topic
+
+				var uploadImages = Bluebird.all(images.map(function (image) {
+					return image.upload(topic.getKey());
+				}));
+
 				step(function () {
 					if (!count) {
 						count = 0;
