@@ -285,7 +285,7 @@
 	"wall": {
 		"confirmRemovePost": "Post wirklich löschen?",
 		"remove": "Post löschen",
-		"loading": "Beiträge werden geladen!",
+		"loading": "Beiträge werden geladen",
 		"createPost": "Einen Post verfassen",
 		"postit": {
 			"receiver": "Wer soll deinen Beitrag lesen können?",
