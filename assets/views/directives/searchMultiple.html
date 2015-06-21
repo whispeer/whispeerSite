@@ -2,6 +2,7 @@
 	<div class="search-form">
 		<ul class="search-wrapper" data-ng-class="{'search--activeRadius': results.length > 0 && isVisible()}">
 			<li data-ng-repeat="element in selectedElements" class="search-result btn btn--noRadius" data-ng-show="$index<previewCount">
+				<img class="search-result-image" data-ng-if="element.result.basic.image.length > 0" data-ng-src="{{element.result.basic.image}}" alt="{{element.name}}" />
 				<span class="search-result-name">{{element.name}}</span>
 				<i class="search-result-remove fa fa-times-circle" data-ng-click="removeSelection($index, $event)"></i>
 			</li><!--
