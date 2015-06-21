@@ -1,6 +1,6 @@
 <div class="search search--multiple {{addClasses}}">
 	<div class="search-form">
-		<ul class="search-wrapper" data-ng-class="{'search--activeRadius': results.length > 0 && isVisible}">
+		<ul class="search-wrapper" data-ng-class="{'search--activeRadius': results.length > 0 && isVisible()}">
 			<li data-ng-repeat="element in selectedElements" class="search-result btn btn--noRadius" data-ng-show="$index<previewCount">
 				<span class="search-result-name">{{element.name}}</span>
 				<i class="search-result-remove fa fa-times-circle" data-ng-click="removeSelection($index, $event)"></i>
@@ -13,7 +13,7 @@
 			</li>
 		</ul>
 	</div>
-	<div class="search-resultsDrop" data-ng-show="isVisible()" data-ng-include="'assets/views/search/' + searchTemplate + 'Search.html'">
+	<div class="search-resultsDrop" data-ng-show="isVisible()" data-ng-class="{'search-resultsDrop--addBorder': results.length > 0}" data-ng-include="'assets/views/search/' + searchTemplate + 'Search.html'">
 	</div>
 	<div class="dropdown search-selectedDrop" data-ng-if="showSelectedElements" data-ng-include="'assets/views/search/' + selectDropTemplate  +'SelectDrop.html'">
 	</div>
