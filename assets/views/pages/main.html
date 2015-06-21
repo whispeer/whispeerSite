@@ -36,6 +36,10 @@
 			</div>
 		</div>
 	</div>
+	<div class="post" id="newsfeedView-filterForm">
+		<h3 class="h1-noMarginTop">Filter deinen Newsfeed</h3>
+		<search data-multiple class="hideScroll" data-supplier="filterSearchSupplier" data-search-template="filter" data-input-i18n-attr="wall.filter.placeholder|placeholder" data-callback="setTimelineFilter(selected)" data-initial-values="getFiltersByID(filterSelection)" data-base="filter"/>
+	</div>
 	<div class="posts" id="newsfeedView-posts">
 		<div class="post" id="newsfeedView-noPosts" data-ng-if="currentTimeline.getPosts().length === 0">
 			<h1 class="h1-noMarginTop">Hallo {{user.basic.shortname}}! Das hier ist dein Newsfeed.</h1>
