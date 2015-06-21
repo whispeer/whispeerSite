@@ -145,6 +145,12 @@ define(["step", "whispeerHelper", "jquery", "bluebird", "imageLib", "asset/Progr
 						return new ImageUpload(file, config);
 					}));
 				}
+
+				try {
+					e.target.value = null;
+				} catch (ex) {
+					console.log(ex);
+				}
 			};
 		};
 

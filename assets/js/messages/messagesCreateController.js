@@ -93,7 +93,7 @@ define(["step", "whispeerHelper", "asset/state", "bluebird", "controllers/contro
 	}
 
 
-	messagesController.$inject = ["$scope", "$state", "$stateParams", "ssn.errorService", "ssn.messageService", "ssn.userService", "ssn.ImageUploadService"];
+	messagesController.$inject = ["$scope", "$state", "$stateParams", "ssn.errorService", "ssn.messageService", "ssn.userService", "ssn.imageUploadService"];
 
 	controllerModule.controller("ssn.messagesCreateController", messagesController);
 });

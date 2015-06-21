@@ -5,13 +5,25 @@
 define(["step", "whispeerHelper", "asset/state", "bluebird", "messages/messagesModule"], function (step, h, State, Bluebird, messagesModule) {
 	"use strict";
 
-	function messagesController($scope, $state, $stateParams, $timeout, localize, errorService, messageService) {
+	function messagesController($scope, $state, $stateParams, $timeout, localize, errorService, messageService, ImageUploadService) {
 		$scope.topicid = 0;
 
 		$scope.canSend = false;
 		$scope.topicLoaded = false;
 
 		$scope.scrollLock = false;
+
+		$scope.images = {
+			images: [],
+			removeImage: function (index) {
+				$scope.create.images.splice(index, 1);
+			},
+			addImages: ImageUploadService.fileCallback(function (newImages) {
+				$scope.$apply(function () {
+					$scope.create.images = $scope.create.images.concat(newImages);
+				});
+			})
+		};
 
 		$scope.markRead = function () {
 			$scope.activeTopic.obj.markRead(errorService.criticalError);
@@ -63,9 +75,10 @@ define(["step", "whispeerHelper", "asset/state", "bluebird", "messages/messagesM
 		$scope.sendMessage = function () {
 			sendMessageState.pending();
 
-			var images = [];
+			var images = $scope.images.images;
 			var text = $scope.activeTopic.newMessage;
-			if (typeof text === "undefined" || text === "") {
+
+			if (text === "" && images.length === 0) {
 				sendMessageState.failed();
 				return;
 			}
@@ -74,16 +87,15 @@ define(["step", "whispeerHelper", "asset/state", "bluebird", "messages/messagesM
 
 			step(function () {
 				messageService.sendMessage($scope.activeTopic.id, text, images, this);
-			}, function (e) {
+			}, h.sF(function () {
+				$scope.activeTopic.newMessage = "";
+				$scope.images.images = [];
+				$scope.markRead(errorService.criticalError);
+				$timeout(function () {
+					sendMessageState.reset();
+				}, 2000);
+			}), function (e) {
 				$scope.canSend = true;
-				if (!e) {
-					$scope.activeTopic.newMessage = "";
-					$scope.markRead(errorService.criticalError);
-					$timeout(function () {
-						sendMessageState.reset();
-					}, 2000);
-				}
-
 				this(e);
 			}, errorService.failOnError(sendMessageState));
 		};
@@ -130,7 +142,7 @@ define(["step", "whispeerHelper", "asset/state", "bluebird", "messages/messagesM
 	}
 
 
-	messagesController.$inject = ["$scope", "$state", "$stateParams", "$timeout", "localize", "ssn.errorService", "ssn.messageService"];
+	messagesController.$inject = ["$scope", "$state", "$stateParams", "$timeout", "localize", "ssn.errorService", "ssn.messageService", "ssn.imageUploadService"];
 
 	messagesModule.controller("ssn.messagesShowController", messagesController);
 });

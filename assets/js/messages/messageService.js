@@ -90,6 +90,8 @@ define([
 				remainingUser: "",
 				remainingUserTitle: "",
 
+				newMessage: "",
+
 				id: data.topicid,
 				type: (receiver.length <= 2 ? "peerChat" : "groupChat"),
 				obj: this
