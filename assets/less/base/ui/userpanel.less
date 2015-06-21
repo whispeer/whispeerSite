@@ -83,18 +83,18 @@
 	text-shadow: 0px 0px 2px @primaryDarkest;
 }
 #userpanel-shortcuts {
-	height: 3rem;
-	line-height: 3rem;
+	height: 4rem;
+	line-height: 4rem;
 	width: 100%;
+	border-bottom: 1px solid #366c17;
 }
 .userpanel-shortcut {
 	display: inline-block;
 	float: left;
 	width: 100% / 3;
-	height: 3rem;
-	line-height: 3rem;
-	border: 1px solid @primary;
-	border-right: none;
+	height: 4rem;
+	border-left: 1px solid #366c17;
+	line-height: 4rem;
 	font-size: 1.213em;
 	&:extend(.box-fix);
 	&:first-child { border-left: none; }
@@ -104,7 +104,7 @@
 }
 #userpanel-menu {
 	width: 100%;
-	height: ~"calc(100% - 11rem)";
+	height: ~"calc(100% - 12rem - 1px)";
 	overflow: scroll;
 	z-index: 3;
 }
@@ -115,15 +115,15 @@
 	display: inline-block;
 	float: left;
 	width: 100%;
-	height: 3rem;
-	line-height: 3rem;
+	height: 4rem;
+	line-height: 4rem;
 	overflow: hidden;
-	border-bottom: 1px solid @primary;
+	//border-bottom: 1px solid @primary;
 	&:hover {
 		background: rgba(60, 60, 60, 0.1)
 	}
 
-	padding: 0 25px;
+	padding: 0 2rem;
 	text-align: center;
 
 	&:extend(.box-fix);
@@ -133,10 +133,12 @@
 	width: ~"calc(100% - 2rem)";
 	line-height: 3rem;
 	color: #fff;
-	text-align: center;
+	text-align: left;
+	padding-left: 1.2352120536rem;
+	&:extend(.box-fix);
 }
 .userpanel-menu-icon {
 	float: left;
-	line-height: 3rem;
+	line-height: 4rem;
 	font-size: 1.25rem;
 }
