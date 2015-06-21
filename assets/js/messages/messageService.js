@@ -609,7 +609,7 @@ define([
 					}
 				}), cb);
 			},
-			sendNewTopic: function (receiver, message, cb) {
+			sendNewTopic: function (receiver, message, images, cb) {
 				step(function () {
 					if (receiver.length === 1) {
 						messageService.sendMessageToUserTopicIfExists(receiver, message, this);

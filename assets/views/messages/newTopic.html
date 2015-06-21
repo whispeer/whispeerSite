@@ -10,7 +10,7 @@
 		<search data-supplier="userSearchSupplier" callback="create.setUsers(selected)" data-search-template="userSimple" data-multiple data-input-i18n-attr="messages.search|placeholder" data-base="user" data-initial-values="getInitialUser()"></search>
 
 		<form id="inputWrap">
-			<textarea data-advancedsend="create.send(create.users, create.text)" type="text" data-i18n-attr="messages.sendMessage.text|placeholder" id="messageInput" data-ng-model="create.text"></textarea>
+			<textarea data-advancedsend="create.send(create.users, create.text, create.images)" type="text" data-i18n-attr="messages.sendMessage.text|placeholder" id="messageInput" data-ng-model="create.text"></textarea>
 			<savebutton id="sendmessage" data-state="sendMessageState" data-ng-click="create.send(create.users, create.text)">
 				<span data-i18n="messages.sendMessage.send"></span>
 			</savebutton>
