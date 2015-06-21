@@ -446,13 +446,13 @@
 				}
 			},
 			"wall": {
-				"title":	"Pinnwand",
+				"title":	"Pinnwand von {user}",
 				"postIt":	"Schreibe etwas an die Pinnwand von {user}",
 				"loading":  "Beiträge werden geladen!",
 				"more": "Mehr Beiträge laden"
 			},
 			"friends": {
-				"info":	"Freunde"
+				"info":	"Freunde von {user}"
 			}
 		}
 	},

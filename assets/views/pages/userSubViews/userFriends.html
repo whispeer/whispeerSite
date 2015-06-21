@@ -1,5 +1,5 @@
 <section class="userView-section" id="friends">
-	<header class="box-header box-header--content box-header--noBorder"><span class="box-header-title" data-i18n="profile.section.friends.info"></header>
+	<h2 class="userView-title" data-i18n="profile.section.friends.info"><span data-for="user">{{user.basic.shortname}}</span></h2>
 	<ol id="userView-friendsList" class="unstyled">
 		<li class="userView-friendElement" data-ng-repeat="friend in friends">
 			<person data-user="friend"></person>

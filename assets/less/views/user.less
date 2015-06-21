@@ -1,3 +1,6 @@
+#userView-content {
+	background: #f9f9f9;
+}
 #userView-header-info {
 	height: 4rem;
 	line-height: 4rem;
@@ -100,6 +103,16 @@
 		line-height: 20px;
 	}
 }
+.userView-title {
+	padding-left: 10%;
+}
+.userView-section {
+	padding: 0;
+}
+.userView-sectionPadding {
+	padding: 1rem;
+	&:extend(.box-fix);
+}
 .userView-section,
 .userView-subSection {
 	width: 100%;
@@ -112,9 +125,8 @@
 		margin-bottom: 5px;
 	}
 	@media @desktop {
-		.column(1,8);
-		margin-top: 15px;
-		margin-bottom: 15px;
+		.column(1,8,left,1%);
+		margin: 0 1% 15px 0;
 	}
 }
 .userView-editImage {
@@ -176,6 +188,21 @@
 	float: left;
 	margin: 5px auto;
 }
+#userView-section-info {
+	width: 80%;
+}
+#userView-section-info-header {
+	float: left;
+	width: 100%;
+}
+#userView-section-info-header-edit {
+	float: right;
+	margin-top: (-0.83 * 1.5em) - 1.426em;
+	color: @grayLight;
+	&:hover {
+		color: @gray;
+	}
+}
 .userView-info-inputs {
 	@media @mobile {
 		margin-bottom: 5px;
@@ -225,19 +252,16 @@
 	width: 100%;
 }
 .userView-actions {
-	border-top: 1px solid @btnBorder;
-	@media @desktop {
-		padding: 10px 0 10px 0;
-	}
-	@media @mobile {
-		padding: 5px 0 10px 0;
-	}
+	border-top: 1px solid #f0f0f0;
 }
 .userView-addFriend,
 .userView-addToCircle,
 .userView-sendMessage {
 	@media @desktop {
-		.column(6);
+		float: left;
+		width: 49.5%;
+		margin: 0 1% 0 0;
+		&:last-child { margin: 0; }
 	}
 	@media @mobile {
 		.column(12);
