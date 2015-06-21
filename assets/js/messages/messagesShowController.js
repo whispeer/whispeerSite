@@ -63,8 +63,9 @@ define(["step", "whispeerHelper", "asset/state", "bluebird", "messages/messagesM
 		$scope.sendMessage = function () {
 			sendMessageState.pending();
 
-			var n = $scope.activeTopic.newMessage;
-			if (typeof n === "undefined" || n === "") {
+			var images = [];
+			var text = $scope.activeTopic.newMessage;
+			if (typeof text === "undefined" || text === "") {
 				sendMessageState.failed();
 				return;
 			}
@@ -72,7 +73,7 @@ define(["step", "whispeerHelper", "asset/state", "bluebird", "messages/messagesM
 			$scope.canSend = false;
 
 			step(function () {
-				messageService.sendMessage($scope.activeTopic.id, n, this);
+				messageService.sendMessage($scope.activeTopic.id, text, images, this);
 			}, function (e) {
 				$scope.canSend = true;
 				if (!e) {

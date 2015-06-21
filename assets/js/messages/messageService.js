@@ -569,7 +569,7 @@ define([
 					Topic.get(topicid, this);
 				}), cb);
 			},
-			sendMessageToUserTopicIfExists: function(receiver, message, cb) {
+			sendMessageToUserTopicIfExists: function(receiver, message, images, cb) {
 				var theTopic;
 				step(function () {
 					messageService.getUserTopic(receiver[0], this);
@@ -600,7 +600,7 @@ define([
 
 					this.last.ne();
 				}), h.sF(function () {
-					messageService.sendMessage(theTopic, message, this);
+					messageService.sendMessage(theTopic, message, images, this);
 				}), h.sF(function (success) {
 					if (success) {
 						this.ne(theTopic);
@@ -612,7 +612,7 @@ define([
 			sendNewTopic: function (receiver, message, images, cb) {
 				step(function () {
 					if (receiver.length === 1) {
-						messageService.sendMessageToUserTopicIfExists(receiver, message, this);
+						messageService.sendMessageToUserTopicIfExists(receiver, message, images, this);
 					} else {
 						this.ne(false);
 					}
@@ -628,7 +628,7 @@ define([
 					makeTopic(result.topic, cb);
 				}), cb || h.nop);
 			},
-			sendMessage: function (topic, message, cb, count) {
+			sendMessage: function (topic, message, images, cb, count) {
 				step(function () {
 					if (!count) {
 						count = 0;
@@ -649,7 +649,7 @@ define([
 					if (!result.success) {
 						//TODO: really improve this!
 						window.setTimeout(function () {
-							messageService.sendMessage(topic, message, cb, count + 1);
+							messageService.sendMessage(topic, message, images, cb, count + 1);
 						}, 200);
 
 						return;
