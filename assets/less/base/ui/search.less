@@ -292,9 +292,17 @@
 .search-selectedDrop-result:last-child {
 	border: none;
 }
+.search-selectedDrop-result-image {
+	float: left;
+	width: 2rem;
+	height: 2rem;
+	border-radius: 100%;
+	margin-top: 9px;
+	margin-left: 9px;
+}
 .search-selectedDrop-result-name {
 	float: left;
-	width: ~"calc(98% - 20px)"; // compensate icon and margin
+	width: ~"calc(98% - 36px - 2rem)"; // compensate icon, image and margin
 	margin: 0 0 0 1%;
 
 	text-align: left;
@@ -306,10 +314,10 @@
 	cursor: default;
 }
 .search-selectedDrop-result-remove {
-	float: left;
+	float: right;
 	margin: 0 1% 0 0;
 	color: @black;
-	width: 20px;
+	width: 18px;
 }
 .search-selectedDrop-result-remove:hover {
 	color: @grayDark;
