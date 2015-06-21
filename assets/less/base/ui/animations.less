@@ -11,15 +11,15 @@
 }
 
 @keyframes slideInDown {
-	0% { transform: translate3d(0, -4rem, 0); height: 0; }
-	50% { transform: translate3d(0, -4rem, 0); height: 4rem; }
+	0% { transform: translate3d(0, -4rem, 0); height: 0; visibility: hidden; }
+	50% { transform: translate3d(0, -4rem, 0); height: 4rem; visibility: visible; }
 	100% { transform: translate3d(0, 0, 0); }
 }
 
 @keyframes slideOutUp {
 	0% { transform: translate3d(0, 0, 0); }
-	50% { transform: translate3d(0, -4rem, 0); height: 4rem; }
-	100% { transform: translate3d(0, -4rem, 0); height: 0;}
+	50% { transform: translate3d(0, -4rem, 0); height: 4rem; visibility: visible; }
+	100% { transform: translate3d(0, -4rem, 0); height: 0; visibility: hidden; }
 }
 
 @keyframes fadeIn {
