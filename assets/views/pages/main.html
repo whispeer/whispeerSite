@@ -32,14 +32,14 @@
 		</div>
 	</header>
 	<div class="posts" id="newsfeedView-posts">
-		<div class="post" id="newsfeedView-noPosts" data-ng-if="currentTimeline.getPosts().length === 0">
+		<div class="post" id="newsfeedView-noPosts" data-ng-if="!currentTimeline.loading && currentTimeline.getPosts().length === 0">
 			<h1 class="h1-noMarginTop">Hallo {{user.basic.shortname}}! Das hier ist dein Newsfeed.</h1>
 			<h2>Leider ist er aktuell noch leer. Das sollten wir schleunigst ändern!</h2>
 			<a href="#" class="btn btn--primary">Schreibe deinen ersten Post</a>
 			<a href="#" class="btn btn--primary">Finde deine Freunde auf whispeer</a>
 			<a whispeer-sref="app.invite" class="btn btn--primary">Lade deine Freunde ein</a>
 		</div>
-		<div class="post" id="newssfeedView-invite" data-ng-if="currentTimeline.getPosts().length < 10">
+		<div class="post" id="newssfeedView-invite" data-ng-if="!currentTimeline.loading && currentTimeline.getPosts().length < 10">
 			<h1 data-i18n="inviteFriends" class="h1-noMarginTop"></h1>
 			<!-- todo: use ssn.inviteController here to make buttons work. Problem: it changes the css class... -->
 			<div class="clear-fix">
