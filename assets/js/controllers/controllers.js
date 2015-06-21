@@ -5,7 +5,6 @@ define([
 	"controllers/rootController",
 	"controllers/mainController",
 	"controllers/friendsController",
-	"controllers/circlesController",
 	"controllers/settingsController",
 	"controllers/setupController",
 	"controllers/backupController",

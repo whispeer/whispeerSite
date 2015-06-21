@@ -1,0 +1,32 @@
+<div class="box-leftWrap">
+	<a class="box-header-button box-header-button--full" whispeer-sref="app.circles.new">
+		<i class="fa fa-fw fa-plus-circle" id="plusBtn"></i><span data-i18n="views.circles.newCircle"></span>
+	</a>
+	<div id="circleListWrap">
+		<ul id="circleList" class="unstyled">
+			<div id="circleListScroll">
+				<li data-ng-repeat="circle in circles" id="circle-{{circle.id}}" class="circleList-item {{isActiveCircle(circle.id)?'circleList-item--active':''}}">
+					<a whispeer-sref="app.circles.show({circleid: circle.id})">
+						<div class="circleList-item-image">
+							<img class="userimg" data-ng-src="{{circle.image}}" alt="Userimage">
+						</div>
+						<div class="circleList-item-info">
+							<div class="circleList-item-listname">
+								<strong>{{circle.name}}</strong>
+							</div>
+							<div class="circleList-item-personCount" data-i18n="views.circles.personCount|count={{circle.userids.length}}">
+							</div>
+						</div>
+						<div class="clear-fix"></div>
+					</a>
+				</li>
+				<li id="circleView-inviteFriends" data-ng-if="circles.length <= 3">
+					<a class="inviteFriends-link btn btn--gray btn--hasIcon" id="circleView-inviteFriends-link" whispeer-sref="app.invite">
+						<i class="fa fa-fw fa-share-alt btn-icon"></i>
+						<span class="btn-text" data-i18n="inviteFriends"></span>
+					</a>
+				</li>
+			</div>
+		</ul>
+	</div>
+</div>
