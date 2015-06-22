@@ -121,10 +121,10 @@
 	</section>
 	<div class="userView-actions userView-subSection userView-sectionPadding">
 		<savebutton data-ng-if="!user.me && !user.added" class="userView-addFriend" data-ng-click="addFriend()" data-state="user.addFriendState" data-noiniticon>
-			<span data-i18n="profile.actions.addFriend|user={{user.name}}"></span>
+			<span data-i18n="profile.actions.addFriend|user={{user.basic.shortname}}"></span>
 		</savebutton>
 		<!--<button ng-if="user.added" ng-click="removeFriend()">REMOVE FRIEND [TRANSLATE]</button> -->
-		<a whispeer-sref="app.messages.new({userid: user.id})" class="userView-sendMessage btn btn--primary btn--input"><span data-i18n="profile.actions.sendMessage|user={{user.name}}"></span></a>
+		<a whispeer-sref="app.messages.new({userid: user.id})" class="userView-sendMessage btn btn--primary btn--input"><span data-i18n="profile.actions.sendMessage|user={{user.basic.shortname}}"></span></a>
 		<div class="userView-addToCircle" data-ng-if="user.added">
 			<search data-multiple data-callback="circles.callback(selected)" data-initial-values="circles.initial()" data-supplier="circleSearchSupplier" data-search-template="circle" data-select-drop-template="default" id="userView-selectCircle" data-input-i18n-attr="profile.actions.addToCircle|placeholder|user={{user.name}}"></search>
 			<saveButton id="userView-submitCircle" data-ng-click="saveCircles()" data-state="circles.saving"></saveButton>
