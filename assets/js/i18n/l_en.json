@@ -85,27 +85,28 @@
 			"failed": "Verification failed!\n Maybe your verification code is outdated."
 		},
 		"circles": {
-			"searchFriends": "Type in the names of your friends you want to add to this circle!",
-			"titleForNew": "Type in the title of this circle!",
+			"searchFriends": "Type in the names of your friends you want to add to this Circle!",
+			"titleForNew": "Type in the title of this Circle!",
 			"header": {
 				"title":	{
 					"loaded": "Show Circle:",
 					"create": "Create new Circle"
 				},
 				"createGroup": "Copy as group",
-				"sendMessage": "Message to circle",
-				"edit":	"Edit circle",
-				"save":	"Save circle",
-				"remove":	"Delete circle"
+				"sendMessage": "Message to Circle",
+				"edit":	"Edit Circle",
+				"save":	"Save Circle",
+				"remove":	"Delete Circle"
 			},
 			"removeCircle":	"Do you really want to remove this Circle?",
-			"newCircle":	"Create a new circle",
-			"new": "New circle",
-			"createCircle": "Create circle",
-			"personCount":	"There are {count} people in this circle",
-			"personsInCircle":"People in circle \"{name}\"",
+			"newCircle":	"Create a new Circle",
+			"new": "New Circle",
+			"createCircle": "Create Circle",
+			"personCount":	"There are {count} people in this Circle",
+			"personsInCircle":"People in Circle \"{name}\"",
 			"nocircle": "No circles found",
-			"addUsers": "Add users to this circle"
+			"addUsers": "Add users to this Circle",
+			"removeUser": "Remove from Circle"
 		}
 	},
 	"start": {

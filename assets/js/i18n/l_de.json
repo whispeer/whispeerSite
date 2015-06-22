@@ -105,7 +105,8 @@
 			"personCount":	"Es befinden sich {count} Personen in diesem Kreis",
 			"personsInCircle":"Personen im Kreis \"{name}\"",
 			"nocircle": "Keine Kreise gefunden",
-			"addUsers": "Nutzer hinzufügen"
+			"addUsers": "Nutzer hinzufügen",
+			"removeUser": "Aus Kreis entfernen"
 		}
 	},
 	"start": {
