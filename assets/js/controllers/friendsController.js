@@ -6,7 +6,7 @@ define(["step", "whispeerHelper", "controllers/controllerModule"], function (ste
 	"use strict";
 
 	function friendsController($scope, cssService, friendsService, userService, localize)  {
-		cssService.setClass("friendsView", !$scope.mobile);
+		cssService.setClass("friendsView");
 		$scope.friends = [];
 		$scope.requests = [];
 

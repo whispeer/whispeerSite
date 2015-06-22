@@ -457,8 +457,8 @@
 		}
 	},
 	"friends": {
-		"message": "{user} eine Nachricht senden",
-		"remove": "{user} als Freund entfernen",
+		"message": "Nachricht senden",
+		"remove": "Freund entfernen",
 		"mutualFriends":	"{count} gemeinsame Freunde",
 		"title":			"Freundesliste"
 	},
