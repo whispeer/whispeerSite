@@ -28,6 +28,7 @@
 	white-space: nowrap;
 	text-overflow: ellipsis;
 	color: lighten(@primary, 5%);
+	&:extend(.box-fix);
 	@media @desktop {
 		.column(8);
 		height: 4rem;
@@ -37,6 +38,7 @@
 		.column(10);
 		height: 3rem;
 		line-height: 3rem;
+		padding-left: 4rem;
 	}
 }
 .userView-userName--me {
