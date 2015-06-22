@@ -39,10 +39,13 @@
 .box-header-link {
 	display: inline-block;
 	float: left;
-	color: #b2b2b2;
+	color: #555555;
 	margin: 0 0.25em;
 	&:hover {
-		color: lighten(#b2b2b2,10%);
+		color: #333333;
+		span {
+			border-bottom: 2px solid #444444;
+		}
 	}
 	&:first-child {
 		margin-left: 0;
@@ -50,6 +53,9 @@
 	&:last-child {
 		margin-right: 0;
 	}
+}
+.box-header-link--active span {
+	border-bottom: 2px solid #444444;
 }
 .box-header-title {
 	float: left;
