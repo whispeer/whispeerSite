@@ -16,11 +16,11 @@ define(["step", "whispeerHelper", "asset/state", "bluebird", "messages/messagesM
 		$scope.images = {
 			images: [],
 			removeImage: function (index) {
-				$scope.create.images.splice(index, 1);
+				$scope.images.images.splice(index, 1);
 			},
 			addImages: ImageUploadService.fileCallback(function (newImages) {
 				$scope.$apply(function () {
-					$scope.create.images = $scope.create.images.concat(newImages);
+					$scope.images.images = $scope.images.images.concat(newImages);
 				});
 			})
 		};
@@ -94,6 +94,7 @@ define(["step", "whispeerHelper", "asset/state", "bluebird", "messages/messagesM
 				$timeout(function () {
 					sendMessageState.reset();
 				}, 2000);
+				this.ne();
 			}), function (e) {
 				$scope.canSend = true;
 				this(e);

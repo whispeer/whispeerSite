@@ -631,45 +631,52 @@ define([
 					makeTopic(result.topic, cb);
 				}), cb || h.nop);
 			},
-			sendMessage: function (topic, message, images, cb, count) {
+			sendMessage: function (_topic, message, images, cb) {
+				var topic;
+
 				var imagePreparation = Bluebird.resolve(images).map(function (image) {
 					return image.prepare();
-				}).then(function () {
+				});
+
+				function uploadImages() {
 					return Bluebird.all(images.map(function (image) {
 						return image.upload(topic.getKey());
 					}));
-				});
+				}
 
-				//get topic
+				var getTopic = Bluebird.promisify(Topic.get, Topic);
+				var createMessageData = Bluebird.promisify(Message.createData, Message);
 
-				step(function () {
-					if (!count) {
-						count = 0;
-					} else if (count > 3) {
+				var resultPromise = Bluebird.resolve(_topic).then(function (topic) {
+					if (typeof topic !== "object") {
+						return getTopic(topic);
+					} else {
+						return topic;
+					}
+				}).then(function (_topic) {
+					topic = _topic;
+
+					return imagePreparation;
+				}).then(function (imagesMetaData) {
+					return Bluebird.all([createMessageData(topic, message, imagesMetaData), uploadImages()]);
+				}).spread(function (result, imageKeys) {
+					imageKeys = h.array.flatten(imageKeys);
+					result.message.imageKeys = imageKeys.map(keyStore.upload.getKey);
+
+					return socket.emit("messages.send", result);
+				}).then(function (response) {
+					if (!response.success) {
 						throw new Error("failed to send message");
 					}
 
-					if (typeof topic !== "object") {
-						Topic.get(topic, this);
-					} else {
-						this.ne(topic);
-					}
-				}, h.sF(function (topic) {
-					Message.createData(topic, message, this);
-				}), h.sF(function (result) {
-					socket.emit("messages.send", result, this);
-				}), h.sF(function (result) {
-					if (!result.success) {
-						//TODO: really improve this!
-						window.setTimeout(function () {
-							messageService.sendMessage(topic, message, images, cb, count + 1);
-						}, 200);
+					return true;
+				});
 
-						return;
-					}
+				if (typeof cb === "function") {
+					step.unpromisify(resultPromise, h.addAfterHook(cb, $rootScope.$apply.bind($rootScope, null)));
+				}
 
-					this.ne(true);
-				}), cb);
+				return resultPromise;
 			},
 			getUserTopic: function (uid, cb) {
 				step(function () {

@@ -28,6 +28,8 @@ define(["step", "whispeerHelper", "asset/state", "bluebird", "controllers/contro
 				});
 			}),
 			send: function (receiver, text, images) {
+				images = images || [];
+
 				sendMessageState.pending();
 
 				if (text === "") {

@@ -38,6 +38,8 @@ define(["step",
 					"image": "assets/img/user.png"
 				},
 
+				images: securedData.metaAttr("images"),
+
 				id: messageid,
 				obj: this
 			};
@@ -112,12 +114,13 @@ define(["step",
 			};
 		};
 
-		Message.createData = function (topic, message, cb) {
+		Message.createData = function (topic, message, imagesMeta, cb) {
 			step(function () {
 				var newest = topic.data.latestMessage;
 
 				var meta = {
 					createTime: new Date().getTime(),
+					images: imagesMeta
 				};
 
 				var mySecured = Message.createRawData(topic, message, meta, this);
