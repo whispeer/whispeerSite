@@ -87,6 +87,22 @@ noscript {
 	text-align: center;
 }
 
+#header-toggle-sidebar {
+	display: block;
+	position: fixed;
+	top: 0;
+	left: 0;
+	height: 4rem;
+	width: 4rem;
+	z-index: 8;
+	text-align: center;
+	padding: 0;
+	background: @primary;
+	border: none;
+	outline: none;
+	&:extend(.box-fix);
+}
+
 #sidebar-left {
 	background: @primaryDarkest;
 	@media @desktop {
@@ -121,28 +137,6 @@ noscript {
 			-webkit-overflow-scrolling: touch;
 		}
 	}
-}
-
-#mobileSearch {
-	.column(12);
-	margin-top: 10px;
-	height: ~"calc(100% - 15px)";
-}
-
-.theMobileSearch {
-	height: 100% !important; // sad but needed
-}
-
-.theMobileSearch .search-input {
-	width: 100%;
-}
-
-.theMobileSearch .search-resultsDrop {
-	bottom: 5px;
-}
-
-.theMobileSearch .search-suggestions {
-	max-height: 100%;
 }
 
 #userpanel {

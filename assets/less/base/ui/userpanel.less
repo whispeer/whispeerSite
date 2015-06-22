@@ -29,6 +29,10 @@
 	display: block;
 	margin: 0;
 	height: 100%;
+	@media @mobile {
+		overflow: scroll;
+		-webkit-overflow-scrolling: touch;
+	}
 }
 #userpanel a {
 	color: #f9f9f9 !important;
@@ -104,8 +108,10 @@
 }
 #userpanel-menu {
 	width: 100%;
-	height: ~"calc(100% - 12rem - 1px)";
-	overflow: scroll;
+	@media @desktop {
+		height: ~"calc(100% - 12rem - 1px)";
+		overflow: scroll;
+	}
 	z-index: 3;
 }
 .userpanel-menu--hide {

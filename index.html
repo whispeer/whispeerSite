@@ -45,6 +45,14 @@
 	<!-- end !Disconnect Notification -->
 	<!-- !Main Container -->
 	<div id="container" data-ng-cloak>
+		<button id="header-toggle-sidebar" data-ng-click="toggleSidebar()" data-ng-if="mobile">
+			<i class="fa fa-bars header-toggle-icon"></i>
+			<span>
+				<span class="badge" id="mobileCounter" data-ng-if="(messages.unread + friends.requestsCount + news.count) > 0">
+					<span>{{messages.unread + friends.requestsCount + news.count}}</span>
+				</span>
+			</span>
+		</button>
 		<!-- !Left Sidebar -->
 		<aside id="sidebar-left" data-ng-class="{'sidebarLeft-show': (sidebarActive && !searchActive)}">
 			<ng-include src="'assets/views/userPanel.html'"></ng-include>
