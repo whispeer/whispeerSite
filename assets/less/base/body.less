@@ -101,6 +101,12 @@ noscript {
 	border: none;
 	outline: none;
 	&:extend(.box-fix);
+	transition: none;
+}
+
+.header-toggle-sidebar--transparent {
+	background: transparent !important;
+	transition: @mobileNavTransitionTime background !important;
 }
 
 #sidebar-left {
@@ -121,7 +127,7 @@ noscript {
 		left: 0;
 		transform: translate3d((-1 * @mobileNavWidth), 0, 0);
 		transition-duration: @mobileNavTransitionTime;
-		z-index: 1040;
+		z-index: 7;
 		padding: 0;
 		overflow: hidden;
 		&:extend(.box-fix);
