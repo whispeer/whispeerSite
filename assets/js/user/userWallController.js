@@ -9,38 +9,7 @@ define(["step", "whispeerHelper", "bluebird", "asset/resizableImage", "asset/sta
 		var userObject, identifier = $stateParams.identifier;
 
 		$scope.posts = [];
-
 		$scope.loadingPosts = true;
-		$scope.newPost = {
-			text: ""
-		};
-
-		var sendPostState = new State();
-		$scope.sendPostState = sendPostState.data;
-
-		$scope.sendPost = function () {
-			sendPostState.pending();
-
-			var visibleSelection = ["always:allfriends"], wallUserID = 0;
-
-			if ($scope.newPost.text === "") {
-				sendPostState.failed();
-				return;
-			}
-
-			if (!$scope.user.me) {
-				wallUserID = $scope.user.id;
-				visibleSelection.push("friends:" + $scope.user.id);
-			}
-
-			postService.createPost($scope.newPost.text, visibleSelection, wallUserID, []).then(function () {
-				$scope.newPost.text = "";
-			}).catch(sendPostState.failed.bind(sendPostState))
-			.then(sendPostState.success.bind(sendPostState))
-			.finally(function () {
-				$scope.$apply();
-			});
-		};
 
 		$scope.loadMorePosts = function () {
 			if ($scope.loadingPosts) {

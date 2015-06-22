@@ -1,31 +1,6 @@
 <div id="newsfeedView-wall" data-scroll data-scroll-window data-custom="distancePercentage < 0.5" data-at-custom="loadMorePosts()" data-custom-once>
 	<header id="newsfeedView-wall-header">
-		<div class="post" id="newsfeedView-postForm">
-			<div id="newsfeedView-postFormWrap">
-				<div class="annotatedInput-container annotatedInput-container--button annotatedInput-container--hasBorder">
-					<textarea data-strg-enter="sendPost()" data-ng-model="newPost.text" data-i18n-attr="wall.postit.text|placeholder" id="newsfeedView-shareText" data-ng-disabled="!canSend" class="annotatedInput-input" data-ng-class="{'newsfeedView-shareText--fullBorder': newPost.text.length == 0 && newPost.images.length == 0}"></textarea>
-					<div class="uploadForm annotatedInput-button" id="newsfeedView-shareText-addImages">
-						<span class="uploadForm-button btn btn--input btn--noRadius">
-							<i class="fa fa-camera fa-2x" id="newsfeedView-addImageIcon"></i>
-						</span>
-						<input class="uploadForm-theForm" type="file" multiple data-file="newPost.addImages" data-ng-click="mobilePromptUser($event)">
-					</div>
-				</div>
-				<div class="newsfeedView-post-fadingPart" data-ng-class="{'newsfeedView-post-fadingPart--visible animate-heightAndOverflow': newPost.text.length > 0 || newPost.images.length > 0}">
-					<search data-multiple class="search--custom search--sideBorder" data-supplier="filterSearchSupplier" data-search-template="filter" data-input-i18n-attr="wall.postit.receiver|placeholder" id="newsfeedView-receivers" data-callback="setPostReaders(selected)" data-initial-values="getFiltersByID(newPost.readers)" data-base="circle"></search>
-					<div id="newsfeed-newPostImages" data-ng-class="{'animate-heightAndOverflow animate--fill newsfeedView-newPostImages--border': newPost.images.length > 0}">
-						<div class="newsfeed-newPostImagePreview" data-ng-repeat="image in newPost.images">
-							<button class="newsfeed-newPostImageRemove fa fa-times-circle" data-ng-click='newPost.removeImage($index)'></button>
-							<img class="newsfeed-newPostImage" alt="{{image.getName()}}" data-ng-src="{{image.getUrl()}}">
-							<progress class="newsfeed-newPostImageProgress" value="{{image.getProgress()*100}}" max="100"></progress>
-						</div>
-					</div>
-					<savebutton class="btn--noRadius" id="newsfeedView-submit" data-ng-click="sendPost()" data-state="sendPostState" data-noiniticon data-ng-disabled="!canSend">
-						<span data-i18n="wall.postit.send"></span>
-					</savebutton>
-				</div>
-			</div>
-		</div>
+		<newpost data-input-i18n-attr="wall.postit.text|placeholder"></newpost>
 		<div class="post" id="newsfeedView-filterForm">
 			<h3 class="h1-noMarginTop">Filter deinen Newsfeed</h3>
 			<search data-multiple class="hideScroll" data-supplier="filterSearchSupplier" data-search-template="filter" data-input-i18n-attr="wall.filter.placeholder|placeholder" data-callback="setTimelineFilter(selected)" data-initial-values="getFiltersByID(filterSelection)" data-base="filter"/>
