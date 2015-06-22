@@ -1,7 +1,7 @@
 <div class="post" id="newsfeedView-postForm">
 	<div id="newsfeedView-postFormWrap">
 		<div class="annotatedInput-container annotatedInput-container--button annotatedInput-container--hasBorder">
-			<textarea data-strg-enter="sendPost()" data-ng-model="newPost.text" data-i18n-attr="wall.postit.text|placeholder" id="newsfeedView-shareText" data-ng-disabled="!canSend" class="annotatedInput-input" data-ng-class="{'newsfeedView-shareText--fullBorder': newPost.text.length == 0 && newPost.images.length == 0}"></textarea>
+			<textarea data-strg-enter="sendPost()" data-ng-model="newPost.text" data-i18n-attr="{{inputI18nAttr}}" id="newsfeedView-shareText" data-ng-disabled="!canSend" class="annotatedInput-input" data-ng-class="{'newsfeedView-shareText--fullBorder': newPost.text.length == 0 && newPost.images.length == 0}"></textarea>
 			<div class="uploadForm annotatedInput-button" id="newsfeedView-shareText-addImages">
 				<span class="uploadForm-button btn btn--input btn--noRadius">
 					<i class="fa fa-camera fa-2x" id="newsfeedView-addImageIcon"></i>

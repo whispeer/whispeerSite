@@ -1,7 +1,7 @@
 <section class="userView-section" id="wall">
 	<h2 class="userView-title" data-i18n="profile.section.wall.title"><span data-for="user">{{user.basic.shortname}}</span></h2>
-	<newpost data-wall-user-id="user.id" data-ng-if="user.isMyFriend"></newpost>
-	<newpost data-ng-if="user.me"></newpost>
+	<newpost data-input-i18n-attr="wall.postit.text|placeholder" data-wall-user-id="user.id" data-ng-if="user.isMyFriend"></newpost>
+	<newpost data-input-i18n-attr="wall.postit.text|placeholder" data-ng-if="user.me"></newpost>
 	<div class="posts" id="userView-posts">
 		<post data-ng-repeat="post in posts" data-post="post" id="{{post.id}}"></post>
 	</div>
