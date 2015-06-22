@@ -634,13 +634,13 @@ define([
 			sendMessage: function (topic, message, images, cb, count) {
 				var imagePreparation = Bluebird.resolve(images).map(function (image) {
 					return image.prepare();
+				}).then(function () {
+					return Bluebird.all(images.map(function (image) {
+						return image.upload(topic.getKey());
+					}));
 				});
 
 				//get topic
-
-				var uploadImages = Bluebird.all(images.map(function (image) {
-					return image.upload(topic.getKey());
-				}));
 
 				step(function () {
 					if (!count) {
