@@ -2,10 +2,10 @@
 * messagesController
 **/
 
-define(["step", "whispeerHelper", "asset/state", "bluebird", "messages/messagesModule"], function (step, h, State, Bluebird, messagesModule) {
+define(["messages/messagesModule"], function (messagesModule) {
 	"use strict";
 
-	function messagesController($scope, $state, localize, cssService) {
+	function messagesController($scope, $rootScope, $state, cssService) {
 		cssService.setClass("messagesView", true);
 
 		function checkState() {
@@ -25,12 +25,14 @@ define(["step", "whispeerHelper", "asset/state", "bluebird", "messages/messagesM
 
 		checkState();
 
+		$rootScope.$on("$stateChangeSuccess", checkState);
+
 		$scope.$watch(function () {
 			return $scope.mobile;
 		}, checkState);
 	}
 
-	messagesController.$inject = ["$scope", "$state", "localize", "ssn.cssService"];
+	messagesController.$inject = ["$scope", "$rootScope", "$state", "ssn.cssService"];
 
 	messagesModule.controller("ssn.messagesRedirectController", messagesController);
 });
