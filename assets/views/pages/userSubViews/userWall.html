@@ -6,7 +6,7 @@
 		<post data-ng-repeat="post in posts" data-post="post" id="{{post.id}}"></post>
 	</div>
 	<div id="userView-loadMorePostsWrap">
-		<button class="btn btn--gray" id="userView-loadMorePosts" data-ng-click="loadMorePosts()" data-ng-if="!loadingPosts" data-i18n="profile.section.wall.more"></button>
+		<button class="btn btn--gray" id="userView-loadMorePosts" data-ng-click="loadMorePosts()" data-ng-if="!loadingPosts && !endOfPosts" data-i18n="profile.section.wall.more"></button>
 	</div>
 	<div id="newsfeedView-loading" data-ng-show="loadingPosts">
 		<i class="saveButton-spinner fa fa-2x fa-fw fa-spinner fa-spin"></i>

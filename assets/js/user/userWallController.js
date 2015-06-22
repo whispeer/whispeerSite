@@ -10,6 +10,37 @@ define(["step", "whispeerHelper", "bluebird", "asset/resizableImage", "asset/sta
 
 		$scope.posts = [];
 		$scope.loadingPosts = true;
+		$scope.endOfPosts = false;
+		$scope.newPost = {
+			text: ""
+		};
+
+		var sendPostState = new State();
+		$scope.sendPostState = sendPostState.data;
+
+		$scope.sendPost = function () {
+			sendPostState.pending();
+
+			var visibleSelection = ["always:allfriends"], wallUserID = 0;
+
+			if ($scope.newPost.text === "") {
+				sendPostState.failed();
+				return;
+			}
+
+			if (!$scope.user.me) {
+				wallUserID = $scope.user.id;
+				visibleSelection.push("friends:" + $scope.user.id);
+			}
+
+			postService.createPost($scope.newPost.text, visibleSelection, wallUserID, []).then(function () {
+				$scope.newPost.text = "";
+			}).catch(sendPostState.failed.bind(sendPostState))
+			.then(sendPostState.success.bind(sendPostState))
+			.finally(function () {
+				$scope.$apply();
+			});
+		};
 
 		$scope.loadMorePosts = function () {
 			if ($scope.loadingPosts) {
@@ -21,6 +52,8 @@ define(["step", "whispeerHelper", "bluebird", "asset/resizableImage", "asset/sta
 			step(function () {
 				postService.getWallPosts(h.array.last($scope.posts).id, userObject.getID(), 5, this);
 			}, h.sF(function (posts) {
+				$scope.endOfPosts = posts.length === 0;
+
 				$scope.posts = $scope.posts.concat(posts);
 				this.ne();
 			}), function () {
@@ -36,6 +69,8 @@ define(["step", "whispeerHelper", "bluebird", "asset/resizableImage", "asset/sta
 
 				postService.getWallPosts(0, userObject.getID(), 5, this);
 			}), h.sF(function (posts) {
+				$scope.endOfPosts = posts.length === 0;
+
 				$scope.posts = posts;
 				this.ne();
 			}), function () {
