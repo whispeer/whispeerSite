@@ -1,5 +1,5 @@
 <header class="box-header" id="userView-header">
-	<heading id="userView-header-info">
+	<span id="userView-header-info">
 		<h1 class="userView-userName" data-ng-class="{'userView-userName--me': user.me}">{{user.name}}</h1>
 		<a id="userView-trustlevel" data-trustlevel="{{user.trustLevel}}" data-ng-if="!user.me && user.trustLevel < 2" data-whispeer-sref="app.user.verify">
 			<span class="text" data-ng-if="!mobile">Trust-Level: {{user.trustLevel}}&nbsp;</span>
@@ -10,7 +10,7 @@
 			<span class="text" data-ng-if="!mobile">Trust-Level: {{user.trustLevel}}</span>
 			<span class="text" class="userView-trustlevel-digit" data-ng-if="mobile">{{user.trustLevel}}</span>
 		</div>
-	</heading>
+	</span>
 	<nav class="box-header-links" id="userView-navigation">
 		<a class="userView-navigation-link box-header-link" whispeer-sref="app.user.info" data-i18n="profile.head.info"></a>
 		<a class="userView-navigation-link box-header-link" whispeer-sref="app.user.wall" data-i18n="profile.head.wall"></a>

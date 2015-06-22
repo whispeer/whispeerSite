@@ -1,20 +1,28 @@
 #userView-content {
 	background-color: #f9f9f9;
+	@media @mobile {
+		height: ~"calc(100% - 6rem)";
+	}
+}
+#userView-header {
+	@media @mobile {
+		height: 6rem;
+	}
 }
 #userView-header-info {
-	height: 4rem;
-	line-height: 4rem;
 	@media @desktop {
 		.column(6);
+		height: 4rem;
+		line-height: 4rem;
 	}
 	@media @mobile {
 		.column(12);
+		height: 3rem;
+		line-height: 3rem;
 	}
 }
 .userView-userName {
 	.large-text();
-	height: 4rem;
-	line-height: 4rem;
 
 	overflow: hidden;
 	white-space: nowrap;
@@ -22,9 +30,13 @@
 	color: lighten(@primary, 5%);
 	@media @desktop {
 		.column(8);
+		height: 4rem;
+		line-height: 4rem;
 	}
 	@media @mobile {
 		.column(10);
+		height: 3rem;
+		line-height: 3rem;
 	}
 }
 .userView-userName--me {
@@ -39,14 +51,16 @@
 	}
 	@media @mobile {
 		.column(12);
-		margin-top: 5px;
-		margin-bottom: 10px;
 	}
 }
 .userView-navigation-link {
 	.column(1,3);
 	cursor: pointer;
 	text-align: center;
+	@media @mobile {
+		height: 3rem;
+		line-height: 3rem;
+	}
 }
 #userView-trustlevel {
 	@media @desktop {
@@ -190,7 +204,8 @@
 	margin: 5px auto;
 }
 #userView-section-info {
-	width: 80%;
+	@media @desktop { width: 80%; }
+	@media @mobile { width: 97%; }
 	margin-bottom: 0;
 }
 #userView-section-info-header {

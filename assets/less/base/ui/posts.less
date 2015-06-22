@@ -10,8 +10,8 @@
 	float: none;
 	display: inline-block;
 	position: relative;
-	width: 80%;
-	margin: 0.5rem 10%;
+	@media @desktop { width: 80%; margin: 0.5rem 10%; }
+	@media @mobile { width: 97%; margin: 0.5rem 1.5%; }
 	background: #fbfbfb;
 	border-radius: 3px;
 	box-shadow: 0 0 3px #f0f0f0;
@@ -63,10 +63,14 @@
 
 	.date, .action {
 		.detail-text();
-
 	}
 	.action {
 		cursor: pointer;
+		@media @mobile {
+			.btn;
+			.btn--small;
+			.btn--gray;
+		}
 	}
 
 	.post-link {
@@ -187,7 +191,7 @@
 			padding-left: @default-padding;
 		}
 
-		textarea { width: 100%; }
+		textarea { width: 100%; margin-top: @default-padding; }
 
 		button {
 			margin-top: 6px;
