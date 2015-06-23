@@ -85,8 +85,8 @@
 			"failed": "Verification failed!\n Maybe your verification code is outdated."
 		},
 		"circles": {
-			"searchFriends": "Type in the names of your friends you want to add to this Circle!",
-			"titleForNew": "Type in the title of this Circle!",
+			"searchFriends": "Add friends to this Circle",
+			"titleForNew": "Change the title of this Circle",
 			"header": {
 				"title":	{
 					"loaded": "Show Circle:",

@@ -85,8 +85,8 @@
 			"failed": "Aktivierung fehlgeschlagen!\n Möglicherweise ist dein Aktivierungscode abgelaufen."
 		},
 		"circles": {
-			"searchFriends": "Gib die Namen deiner Freunde ein, die du zum Kreis hinzufügen möchtest!",
-			"titleForNew": "Gib einen Titel für den neuen Kreis ein!",
+			"searchFriends": "Freunde zum Kreis hinzufügen",
+			"titleForNew": "Kreistitel ändern",
 			"header": {
 				"title": {
 					"loaded": "Kreis anzeigen:",

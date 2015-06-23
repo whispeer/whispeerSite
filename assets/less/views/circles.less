@@ -180,8 +180,9 @@
 	}
 }
 .circleView-addUsers {
-	.column(12);
-	margin-top: 10px;
+	float: left;
+	width: 100%;
+	border-bottom: 1px solid @btnBorder;
 }
 .circleView-addUsers-search {
 	@media @desktop {
@@ -193,26 +194,18 @@
 	}
 }
 .circleView-addUsers-search .search-wrapper {
-	@media @desktop {
-		border-radius: 5px 0 0 5px;
-	}
-	@media @mobile {
-		border-radius: 5px 5px 0 0;
-	}
+	border-radius: 0;
+	border: none;
 }
 .circleView-addUsers-submit {
+	border-radius: 0;
 	@media @desktop {
 		float: left;
 		width: 200px;
-		border-radius: 0 5px 5px 0;
 	}
 	@media @mobile {
 		width: 100%;
-		border-radius: 0 0 5px 5px;
 	}
-}
-.circleView .search-resultsDrop {
-	@media @mobile { top: 40px; }
 }
 #circleView-inputWrap {
 	.column(12);
