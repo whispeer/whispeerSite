@@ -8,7 +8,7 @@
 		<li class="userView-friendElement" data-ng-repeat="friend in friends">
 			<person data-user="friend"></person>
 		</li>
-		<li id="friendsView-noFriends" data-ng-if="friends.length == 0 || false">
+		<li id="friendsView-noFriends" data-ng-if="friends.length == 0 && !loadingFriends">
 			<h1 class="h1-noMarginTop">Hallo {{user.basic.shortname}}! Das hier ist deine Freundestliste.</h1>
 			<h2>Leider ist sie aktuell noch leer. Das werden wir jetzt ändern!</h2>
 			<a href="#" class="btn btn--primary">Finde deine Freunde auf whispeer</a>

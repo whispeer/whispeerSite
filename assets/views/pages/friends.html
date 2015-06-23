@@ -28,7 +28,7 @@
 			<i class="fa fa-circle-o-notch fa-2x fa-fw fa-spin"></i>
 			<p data-i18n="friends.loading"></p>
 		</li>
-		<li id="friendsView-noFriends" data-ng-if="friends.length == 0 && false">
+		<li id="friendsView-noFriends" data-ng-if="friends.length == 0 && !friendsLoading">
 			<h1 class="h1-noMarginTop">Hallo {{user.basic.shortname}}! Das hier ist deine Freundestliste.</h1>
 			<h2>Leider ist sie aktuell noch leer. Das werden wir jetzt ändern!</h2>
 			<a href="#" class="btn btn--primary">Finde deine Freunde auf whispeer</a>
