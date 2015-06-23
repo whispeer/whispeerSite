@@ -103,6 +103,16 @@
 		margin-left: @user-image-size;
 	}
 
+	.actions-buttons {
+		@media @mobile { margin-top: -5px; display: flex; flex-wrap: wrap; }
+	}
+
+	.action-button {
+		@media @mobile { margin: 5px 1rem 0 auto; flex-grow: 1; }
+		&:only-child { @media @mobile { margin: 5px auto; }}
+		&:last-child { @media @mobile { margin: 5px auto; } }
+	}
+
 	.moreImages {
 		width: ~"calc(100% - 5px)";
 	}
