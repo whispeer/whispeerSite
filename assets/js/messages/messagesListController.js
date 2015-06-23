@@ -9,6 +9,7 @@ define(["step", "whispeerHelper", "asset/state", "bluebird", "controllers/contro
 		$scope.topics = messageService.data.latestTopics.data;
 
 		var topicsLoadingState = new State();
+		$scope.topicsLoadingState = topicsLoadingState.data;
 
 		function loadTopics() {
 			if (topicsLoadingState.isPending()) {
