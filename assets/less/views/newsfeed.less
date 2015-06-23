@@ -12,8 +12,11 @@
 }
 #newsfeedView-wall-header {
 	width: 100%;
-	padding-top: 10px;
-	@media @mobile { margin-top: 4rem; }
+	@media @desktop { padding-top: 10px; }
+}
+#newsfeedView-wall-header-title {
+	@media @desktop { display: none; }
+	@media @mobile { text-align: center; margin: 0; height: 5rem; line-height: 4rem; }
 }
 
 // Post Form
