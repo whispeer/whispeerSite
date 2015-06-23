@@ -194,9 +194,12 @@
 		width: 100%;
 	}
 }
-.circleView-addUsers-search .search-wrapper {
-	border-radius: 0;
-	border: none;
+.circleView-addUsers-search,
+#circleView-friendInput {
+	.search-wrapper {
+		border-radius: 0;
+		border: none;
+	}
 }
 .circleView-addUsers-submit {
 	border-radius: 0;
@@ -209,18 +212,20 @@
 	}
 }
 #circleView-inputWrap {
-	.column(12);
+	width: 100%;
 	position: relative;
 	top: 0;
 	left: 0;
-	margin-top: 10px;
 }
 #circleView-titleInput, #circleView-friendInput {
-	.column(12);
-	margin-bottom: 10px;
+	width: 100%;
+}
+#circleView-titleInput {
+	border-radius: 0;
+	width: ~"calc(100% + 2px)";
+	margin: -1px -1px 0;
 }
 #circleView-savecircle {
-	@media @mobile { .column(12); }
-	margin-left: 1% !important;
-	border-radius: @inputBorderRadius;
+	border-radius: 0;
+	width: 100%;
 }
