@@ -10,11 +10,6 @@
 		}
 	}
 }
-
-#circleView-circleListWrap {
-	height: ~"calc(100% - 4rem)";
-	&:extend(.box-fix);
-}
 #circleView-circleList {
 	&:extend(.box-fix);
 	height: 100%;
@@ -104,8 +99,9 @@
 	border-radius: 0;
 }
 #circleView-container {
+	display: inline-block;
 	width: 100%;
-	height: calc(~"100% - 4rem");
+	height: ~"calc(100% - 4rem)";
 	.box-fix;
 	overflow-y: scroll;
 
