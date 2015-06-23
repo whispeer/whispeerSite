@@ -62,7 +62,9 @@ a:hover {
 	}
 }
 #blog-header-logo {
-	width: 311px;
+	width: 300px;
+	filter: drop-shadow(1px 1px 1px rgba(20,20,20,0.5));
+	-webkit-filter: drop-shadow(1px 1px 1px rgba(20,20,20,0.5));
 	@media #{$mobile} {
 		max-width: calc(100% - 2rem);
 	}
