@@ -18,39 +18,7 @@
 			<h1 data-i18n="inviteFriends" class="h1-noMarginTop"></h1>
 			<!-- todo: use ssn.inviteController here to make buttons work. Problem: it changes the css class... -->
 			<div class="clear-fix">
-				<!-- Facebook -->
-				<button data-ng-click="open('facebook')" target="_blank" class="btn shareButton shareButton--fb newsfeedView-shareButton">
-					<i class="fa fa-facebook"></i>
-					<span>Facebook</span>
-				</button>
-
-				<!-- Twitter -->
-				<button data-ng-click="open('twitter')" target="_blank" class="btn shareButton shareButton--tw newsfeedView-shareButton">
-					<i class="fa fa-twitter"></i>
-					<span>Twitter</span>
-				</button>
-
-				<!-- Google+ -->
-				<button data-ng-click="open('google')" target="_blank" class="btn shareButton shareButton--gp newsfeedView-shareButton">
-					<i class="fa fa-google-plus"></i>
-					<span>Google+</span>
-				</button>
-
-				<!-- Reddit -->
-				<button data-ng-click="open('reddit')" target="_blank" class="btn shareButton shareButton--rd newsfeedView-shareButton">
-					<i class="fa fa-reddit"></i>
-					<span>Reddit</span>
-				</button>
-
-				<a whispeer-sref="app.invite.mail" class="btn btn--primary shareButton newsfeedView-shareButton">
-					<i class="fa fa-envelope"></i>
-					<span>E-Mail</span>
-				</a>
-
-				<a ui-sref="app.invite.link" class="btn btn--primary shareButton newsfeedView-shareButton">
-					<i class="fa fa-link"></i>
-					<span>Link</span>
-				</a>
+				<invitebuttons></invitebuttons>
 			</div>
 		</div>
 		<post data-ng-repeat="post in currentTimeline.getPosts()" data-post="post" id="{{post.id}}" class="newsfeedView-post"></post>

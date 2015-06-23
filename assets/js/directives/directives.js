@@ -34,5 +34,6 @@ define([
 	"directives/mobile",
 	"directives/whispeerSref",
 	"directives/loader",
-	"directives/newPost"
+	"directives/newPost",
+	"directives/inviteButtons"
 ], function () {});
