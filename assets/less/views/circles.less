@@ -214,27 +214,19 @@
 .circleView .search-resultsDrop {
 	@media @mobile { top: 40px; }
 }
-.circleView-newCircle {
-	#circleView-circleTitle {
-		h2 {
-			.column(12);
-			margin-left: -1%;
-		}
-	}
-	#circleView-inputWrap {
-		.column(12);
-		position: relative;
-		top: 0;
-		left: 0;
-		margin-top: 10px;
-		#circleView-titleInput, #circleView-friendInput {
-			.column(12);
-			margin-bottom: 10px;
-		}
-		#circleView-savecircle {
-			@media @mobile { .column(12); }
-			margin-left: 1% !important;
-			border-radius: @inputBorderRadius;
-		}
-	}
+#circleView-inputWrap {
+	.column(12);
+	position: relative;
+	top: 0;
+	left: 0;
+	margin-top: 10px;
+}
+#circleView-titleInput, #circleView-friendInput {
+	.column(12);
+	margin-bottom: 10px;
+}
+#circleView-savecircle {
+	@media @mobile { .column(12); }
+	margin-left: 1% !important;
+	border-radius: @inputBorderRadius;
 }

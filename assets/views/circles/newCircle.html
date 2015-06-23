@@ -13,7 +13,7 @@
 		<div id="circleView-circleWrap">
 			<form id="circleView-inputWrap">
 				<input type="text" data-i18n-attr="views.circles.titleForNew|placeholder" id="circleView-titleInput" data-ng-model="circleName">
-				<search data-supplier="friendsSearchSupplier" id="friendInput" callback="setCreateNewUsers(selected)" data-search-template="userSimple" data-multiple data-input-i18n-attr="views.circles.searchFriends|placeholder" data-base="user"></search>
+				<search data-supplier="friendsSearchSupplier" id="circleView-friendInput" callback="setCreateNewUsers(selected)" data-search-template="userSimple" data-multiple data-input-i18n-attr="views.circles.searchFriends|placeholder" data-base="user"></search>
 				<button class="btn btn--primary btn--big" id="circleView-savecircle" type="submit" data-ng-click="createNew(circleName)" data-i18n="views.circles.createCircle"></button>
 			</form>
 		</div>
