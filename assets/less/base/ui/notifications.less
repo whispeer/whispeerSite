@@ -37,13 +37,21 @@
 		width: ~"calc(100% - 17rem)";
 	}
 
+	@media @mobile {
+		width: 100%;
+		left: 4rem;
+		padding-right: 4rem;
+	}
+
 	line-height: 4rem;
+	height: 4rem;
 
 	background: rgba(30, 30, 30, 0.9);
 	color: @white;
 	border-bottom: 1px solid rgba(10, 10, 10, 0.9);
 
 	text-align: center;
+	&:extend(.box-fix);
 }
 
 #globalNotificationSpace {
@@ -52,4 +60,8 @@
 
 	width: 100%;
 	height: 4rem;
+}
+
+.messagesView, .circlesView, .profileView {
+	#globalNotificationSpace { display: none; }
 }

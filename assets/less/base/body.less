@@ -108,6 +108,7 @@ noscript {
 .header-toggle-sidebar--transparent {
 	background: transparent !important;
 	transition: @mobileNavTransitionTime background !important;
+	z-index: 11 !important; // has to be highter than the menu which has to be higher than the disconnect message
 }
 
 #sidebar-left {
@@ -128,7 +129,7 @@ noscript {
 		left: 0;
 		transform: translate3d((-1 * @mobileNavWidth), 0, 0);
 		transition-duration: @mobileNavTransitionTime;
-		z-index: 7;
+		z-index: 10; // has to be higher than the disconnect message
 		padding: 0;
 		overflow: hidden;
 		&:extend(.box-fix);
