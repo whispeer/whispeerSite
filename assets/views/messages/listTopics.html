@@ -30,6 +30,10 @@
 						<div class="clear-fix"></div>
 					</a>
 				</li>
+				<li class="loadingSpinner" data-ng-if="topicsLoadingState.pending">
+					<i class="fa fa-circle-o-notch fa-2x fa-fw fa-spin"></i>
+					<p data-i18n="messages.loadingTopics"></p>
+				</li>
 				<li id="messageView-inviteFriends" data-ng-if="topics.length <= 3">
 					<a class="inviteFriends-link btn btn--gray btn--hasIcon" id="messageView-inviteFriends-link" whispeer-sref="app.invite">
 						<i class="fa fa-fw fa-share-alt btn-icon"></i>

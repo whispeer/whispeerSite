@@ -106,7 +106,9 @@
 			"personsInCircle":"People in Circle \"{name}\"",
 			"nocircle": "No circles found",
 			"addUsers": "Add users to this Circle",
-			"removeUser": "Remove from Circle"
+			"removeUser": "Remove from Circle",
+			"loading":	"Loading Circle",
+			"loadingCircles": "Loading Circles"
 		}
 	},
 	"start": {
@@ -320,8 +322,8 @@
 		"commentsLoading": "Comments are being loaded!"
 	},
 	"messages": {
-		"endOfStream": "End of message stream!",
-		"remaining": "{count} remaining messages!",
+		"endOfStream": "End of message stream",
+		"remaining": "Loading older messages. {count} remaining",
 		"title": "Messages",
 		"chat" :"Chat with",
 		"newMessage": "New message",
@@ -329,7 +331,8 @@
 		"sendMessage": {
 			"text": "Type in your message!",
 			"send": "Send"
-		}
+		},
+		"loadingTopics": "Loading conversations"
 	},
 	"profile": {
 		"edit": {
@@ -463,7 +466,8 @@
 		"message": "Send message",
 		"remove": "Remove friend",
 		"mutualFriends":	"{count} mutual friends",
-		"title":			"Friends list"
+		"title":			"Friends list",
+		"loading":	"Loading friends"
 	},
 	"help": {
 		"headers": {

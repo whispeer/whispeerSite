@@ -106,7 +106,9 @@
 			"personsInCircle":"Personen im Kreis \"{name}\"",
 			"nocircle": "Keine Kreise gefunden",
 			"addUsers": "Nutzer hinzufügen",
-			"removeUser": "Aus Kreis entfernen"
+			"removeUser": "Aus Kreis entfernen",
+			"loading": "Kreis wird geladen",
+			"loadingCircles": "Kreise werden geladen"
 		}
 	},
 	"start": {
@@ -318,8 +320,8 @@
 		"commentsLoading": "Kommentare werden geladen!"
 	},
 	"messages": {
-		"endOfStream": "Keine weiteren Nachrichten!",
-		"remaining": "{count} Nachrichten!",
+		"endOfStream": "Keine weiteren Nachrichten",
+		"remaining": "Nachrichten werden geladen. {count} verbleibend",
 		"title": "Nachrichten",
 		"chat" :"Chat mit",
 		"newMessage": "Neue Nachricht",
@@ -327,7 +329,8 @@
 		"sendMessage": {
 			"text": "Gib deine Nachricht ein!",
 			"send": "Senden"
-		}
+		},
+		"loadingTopics": "Konversationen werden geladen"
 	},
 	"profile": {
 		"edit":	{
@@ -461,7 +464,8 @@
 		"message": "Nachricht senden",
 		"remove": "Freund entfernen",
 		"mutualFriends":	"{count} gemeinsame Freunde",
-		"title":			"Freundesliste"
+		"title":			"Freundesliste",
+		"loading":			"Freunde werden geladen"
 	},
 	"help": {
 		"headers": {

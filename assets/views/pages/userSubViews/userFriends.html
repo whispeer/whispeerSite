@@ -1,10 +1,14 @@
 <section class="userView-section" id="friends">
 	<h2 class="userView-title" data-i18n="profile.section.friends.info"><span data-for="user">{{user.basic.shortname}}</span></h2>
 	<ol id="userView-friendsList" class="unstyled post">
+		<li class="loadingSpinner" data-ng-if="loadingFriends">
+			<i class="fa fa-circle-o-notch fa-2x fa-fw fa-spin"></i>
+			<p data-i18n="friends.loading"></p>
+		</li>
 		<li class="userView-friendElement" data-ng-repeat="friend in friends">
 			<person data-user="friend"></person>
 		</li>
-		<li id="friendsView-noFriends" data-ng-if="friends.length == 0">
+		<li id="friendsView-noFriends" data-ng-if="friends.length == 0 && !loadingFriends">
 			<h1 class="h1-noMarginTop">Hallo {{user.basic.shortname}}! Das hier ist deine Freundestliste.</h1>
 			<h2>Leider ist sie aktuell noch leer. Das werden wir jetzt ändern!</h2>
 			<a href="#" class="btn btn--primary">Finde deine Freunde auf whispeer</a>
