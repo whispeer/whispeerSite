@@ -3,7 +3,7 @@
 	<ol id="userView-friendsList" class="unstyled post">
 		<li id="friendsView-spinner" data-ng-if="true">
 			<i class="fa fa-circle-o-notch fa-2x fa-fw fa-spin"></i>
-			<p>Freunde werden geladen</p>
+			<p data-i18n="friends.loading"></p>
 		</li>
 		<li class="userView-friendElement" data-ng-repeat="friend in friends">
 			<person data-user="friend"></person>

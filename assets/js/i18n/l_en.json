@@ -106,7 +106,8 @@
 			"personsInCircle":"People in Circle \"{name}\"",
 			"nocircle": "No circles found",
 			"addUsers": "Add users to this Circle",
-			"removeUser": "Remove from Circle"
+			"removeUser": "Remove from Circle",
+			"loading":	"Loading Circle"
 		}
 	},
 	"start": {
@@ -463,7 +464,8 @@
 		"message": "Send message",
 		"remove": "Remove friend",
 		"mutualFriends":	"{count} mutual friends",
-		"title":			"Friends list"
+		"title":			"Friends list",
+		"loading":	"Loading friends"
 	},
 	"help": {
 		"headers": {
