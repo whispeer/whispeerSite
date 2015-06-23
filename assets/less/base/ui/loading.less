@@ -19,7 +19,9 @@
 		height: 65px;
 		margin-left: -150px;
 		left: 50%;
-		filter: drop-shadow(1px 1px 1px rgba(20,20,20,0.3));
+		filter: url(#drop-shadow);
+		filter: drop-shadow(1px 1px 1px rgba(20,20,20,0.5));
+		-ms-filter: "progid:DXImageTransform.Microsoft.Dropshadow(OffX=1, OffY=1, Color='#282828')";
 		@media @desktop {
 			top: 50%;
 			margin-top: -114px;

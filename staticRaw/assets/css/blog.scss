@@ -63,8 +63,10 @@ a:hover {
 }
 #blog-header-logo {
 	width: 300px;
+	filter: url(#drop-shadow);
 	filter: drop-shadow(1px 1px 1px rgba(20,20,20,0.5));
 	-webkit-filter: drop-shadow(1px 1px 1px rgba(20,20,20,0.5));
+	-ms-filter: "progid:DXImageTransform.Microsoft.Dropshadow(OffX=1, OffY=1, Color='#282828')";
 	@media #{$mobile} {
 		max-width: calc(100% - 2rem);
 	}

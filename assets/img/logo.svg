@@ -1,6 +1,15 @@
 <?xml version="1.0"?>
 <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="328" height="70">
-    <desc iVinci="yes" version="4.6" gridStep="20" showGrid="no" snapToGrid="no" codePlatform="0"/>
+    <filter id="drop-shadow">
+		<feGaussianBlur in="SourceAlpha" stdDeviation="2.2"/>
+		<feOffset dx="1" dy="1" result="offsetblur"/>
+		<feFlood flood-color="rgba(20,20,20,0.5)"/>
+		<feComposite in2="offsetblur" operator="in"/>
+		<feMerge>
+			<feMergeNode/>
+			<feMergeNode in="SourceGraphic"/>
+		</feMerge>
+	</filter>
     <g id="Layer1" name="Layer 2" visibility="hidden" opacity="1">
         <g id="Shape1">
             <desc shapeID="1" type="0" basicInfo-basicType="1" basicInfo-roundedRectRadius="12" basicInfo-polygonSides="6" basicInfo-starPoints="5" bounding="rect(-88.2735,-30.71,176.547,61.4201)" text="" font-familyName="Helvetica" font-pixelSize="20" font-bold="0" font-underline="0" font-alignment="1" strokeStyle="0" markerStart="0" markerEnd="0" shadowEnabled="0" shadowOffsetX="0" shadowOffsetY="2" shadowBlur="4" shadowOpacity="160" blurEnabled="0" blurRadius="4" transform="matrix(1.85867,0,0,1.14202,163.929,34.9286)" pers-center="0,0" pers-size="0,0" pers-start="0,0" pers-end="0,0" locked="0" mesh="" flag=""/>
