@@ -23,6 +23,10 @@
 				</savebutton>
 			</div>
 			<ol id="circleView-friendsList" class="u-unstyled">
+				<li id="friendsView-spinner" data-ng-if="true">
+					<i class="fa fa-circle-o-notch fa-2x fa-fw fa-spin"></i>
+					<p>Freunde werden geladen</p>
+				</li>
 				<li data-ng-repeat="friend in thisCircle.persons" class="circleView-person">
 					<person data-user="friend" data-type="friend">
 						<a whispeer-sref="app.messages.new({userid: friend.id})" data-i18n-attr="friends.message|aria-label|user={{friend.name}}" class="btn btn--small btn--gray friendsView-friend-add">
