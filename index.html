@@ -45,7 +45,7 @@
 	<!-- end !Disconnect Notification -->
 	<!-- !Main Container -->
 	<div id="container" data-ng-cloak>
-		<button id="header-toggle-sidebar" data-ng-click="toggleSidebar()" data-ng-class="{'header-toggle-sidebar--transparent': (sidebarActive && !searchActive)}" data-ng-if="mobile && !searchActive">
+		<button id="header-toggle-sidebar" data-ng-click="toggleSidebar()" data-ng-class="{'header-toggle-sidebar--transparent': sidebarActive}" data-ng-if="mobile && (!searchActive || fadeOutSearch)">
 			<i class="fa fa-bars header-toggle-icon" data-ng-if="!sidebarActive || searchActive"></i>
 			<i class="fa fa-chevron-left header-toggle-icon" data-ng-if="sidebarActive && !searchActive"></i>
 			<span>
