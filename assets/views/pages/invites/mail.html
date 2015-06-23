@@ -1,6 +1,6 @@
 <section id="inviteView-inviteMail">
 	<form>
-		<h1 data-i18n="views.invite.viaMail" class="inviteView-header"></h1>
+		<h1 data-i18n="views.invite.viaMail" class="inviteView-header inviteView-header--noMargin"></h1>
 		<p data-i18n="views.invite.viaMailExplanation"></p>
 		<ul class="inviteView-emailList unstyled">
 			<li class="annotatedInput-container inviteView-mailContainer" data-ng-class="{'annotatedInput-container--2': inviteMails.length > 1}" data-ng-repeat="mail in inviteMails track by $index">
@@ -15,7 +15,7 @@
 
 		<input id="inviteView-invitedBy" type="text" data-ng-model="name" data-i18n-attr="views.invite.name|placeholder">
 
-		<savebutton class="inviteView-sendInvite btn--big" data-ng-click="inviteUsers(name, inviteMails)" data-state="inviteMailState" data-noiniticon>
+		<savebutton class="inviteView-sendInvite" data-ng-click="inviteUsers(name, inviteMails)" data-state="inviteMailState" data-noiniticon>
 			<span data-i18n="views.invite.invite"></span>
 		</savebutton>
 	</form>

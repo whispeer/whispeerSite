@@ -1,5 +1,5 @@
 <section id="inviteView-selectInviteMethod">
-	<h1 class="inviteView-header" data-i18n="views.invite.title"></h1>
+	<h1 class="inviteView-header" id="inviteView-topHeader" data-i18n="views.invite.title"></h1>
 
 	<!-- Facebook -->
 	<button data-ng-click="open('facebook')" target="_blank" class="btn shareButton shareButton--fb inviteView-shareButton">
@@ -43,7 +43,7 @@
 <ui-view></ui-view>
 <section id="inviteView-invitedPersons">
 	<!-- if acceptedInvitations: -->
-	<h1 class="inviteView-header inviteView-header--noTopMargin" data-i18n="views.invite.invited" data-ng-if="acceptedInvites.length > 0"></h1>
+	<h1 class="inviteView-header inviteView-header--noMargin" data-i18n="views.invite.invited" data-ng-if="acceptedInvites.length > 0"></h1>
 	<section id="inviteView-acceptedInvites">
 		<ul>
 			<span data-ng-repeat="invite in acceptedInvites">
