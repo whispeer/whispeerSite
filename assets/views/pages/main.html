@@ -17,7 +17,7 @@
 		<div class="post" id="newssfeedView-invite" data-ng-if="!currentTimeline.loading && currentTimeline.getPosts().length < 10">
 			<h1 data-i18n="inviteFriends" class="h1-noMarginTop"></h1>
 			<!-- todo: use ssn.inviteController here to make buttons work. Problem: it changes the css class... -->
-			<div class="clear-fix">
+			<div class="clear-fix" id="newsfeedView-shareButtons">
 				<invitebuttons></invitebuttons>
 			</div>
 		</div>

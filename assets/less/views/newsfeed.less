@@ -206,16 +206,13 @@
 	text-align: center;
 	margin-top: 20px;
 }
+#newsfeedView-shareButtons .inviteButtons-wrapper {
+	display: flex;
+	flex-wrap: wrap;
+	margin-top: -0.5rem;
+}
 .newsfeedView-shareButton {
-	@media @desktop {
-		float: left;
-		width: 100% / 6 - 1% + (1% / 6);
-		margin: 0 0.5%;
-	}
-	&:first-child {
-		margin-left: 0;
-	}
-	&:last-child {
-		margin-right: 0;
-	}
+	width: 105px;
+	flex-grow: 1;
+	margin: 0.5rem;
 }
