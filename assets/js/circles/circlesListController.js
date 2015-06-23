@@ -2,9 +2,14 @@ define(["controllers/controllerModule", "whispeerHelper", "step", "asset/state"]
 	"use strict";
 
 	function circlesListController($scope, circleService, errorService) {
+		$scope.loadingCircleList = true;
 		$scope.circles = circleService.data.circles;
 
-		circleService.loadAll(errorService.criticalError);
+		step(function () {
+			circleService.loadAll(this);
+		}, h.sF(function () {
+			$scope.loadingCircleList = false;
+		}), errorService.criticalError);
 	}
 
 
