@@ -32,12 +32,6 @@ define(["directives/directivesModule", "angular"], function (directivesModule, a
 					element.attr("href", destination);
 				}
 
-				element.click(function () {
-					params.locale = localize.getLanguage();
-
-					$state.go(stateName, params);
-				});
-
 				function checkActiveState() {
 					if ($state.current.name === stateName) {
 						element.addClass(attrs.whispeerSrefActive);

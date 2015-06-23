@@ -74,6 +74,10 @@ define(["step", "whispeerHelper", "config", "controllers/controllerModule"], fun
 			}
 		};
 
+		$scope.closeSidebar = function() {
+			$scope.sidebarActive = false;
+		};
+
 		$scope.toggleSidebar = function() {
 			$scope.sidebarActive = !$scope.sidebarActive;
 			$scope.searchActive = false;
