@@ -155,7 +155,7 @@
 	"general": {
 		"send":	"Absenden",
 		"cancel":	"Abbrechen",
-		"disconnected":	"Du hast deine Verbindung zu den whispeer-Servern verloren."
+		"disconnected":	"Verbindung verloren"
 	},
 	"notification": {
 		"newmessage":	"Neue Nachricht von {user}"
