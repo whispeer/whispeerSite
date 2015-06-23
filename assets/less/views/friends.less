@@ -8,12 +8,13 @@
 .friendsView-title {
 	padding-left: 10%;
 	margin: 2rem 0;
-	@media @mobile { text-align: center; }
+	@media @mobile { text-align: center; margin: 0; height: 5rem; line-height: 4rem; }
 }
 .friendsView-section {
 	display: inline-block;
 	width: 100%;
 }
+.friendsView-section:not(:first-child) .friendsView-title { @media @mobile{ line-height: 5rem; } }
 #friendsView-friendsList,
 #friendsView-requestsList {
 	margin-top: 0;
