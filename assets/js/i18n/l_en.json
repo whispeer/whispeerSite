@@ -159,7 +159,8 @@
 		"zeroContent": {
 			"findFriends": "Find your friends on whispeer",
 			"inviteFriends": "Invite your friends",
-			"firstPost": "Write your first post"
+			"firstPost": "Write your first post",
+			"firstPostText": "My first whispeer post! Fully encrypted!"
 		}
 	},
 	"notification": {
