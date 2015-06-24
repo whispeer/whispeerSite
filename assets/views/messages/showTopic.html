@@ -26,18 +26,20 @@
 					<span data-i18n="messages.remaining|count={{activeTopic.remaining}}" data-ng-if="activeTopic.remaining > 0"></span>
 					<span data-i18n="messages.endOfStream" data-ng-if="activeTopic.remaining == 0"></span>
 				</li>
-				<li class="burst" data-ng-repeat="burst in messageBursts()" data-ng-class="{me:burst[0].sender.me, other:burst[0].sender.other}">
-					<div class="username">{{burst[0].sender.name}}</div>
+				<li class="burst" data-ng-repeat="burst in (bursts = messageBursts())" data-ng-class="{me:burst.isMe(), other:burst.isOther()}">
+					<div class="burst-date" data-ng-if="!burst.sameDay(bursts[$index - 1])"><span class="burst-date-text">{{burst.firstMessage().timestamp|date}}</span></div>
+
+					<div class="username">{{burst.sender().name}}</div>
 					<div class="userimg">
-						<a whispeer-sref="app.user.info({identifier: burst[0].sender.names.nickname})">
-							<userimage data-userID="sender{{burst[0].sender.id}}" data-user="burst[0].sender" data-trustlevel="0">
+						<a whispeer-sref="app.user.info({identifier: burst.sender().names.nickname})">
+							<userimage data-userID="sender{{burst.sender().id}}" data-user="burst.sender()" data-trustlevel="0">
 						</a>
 					</div>
 					<ul class="messages">
-						<li data-ng-cloak data-ng-repeat="message in burst" data-messageID="{{::message.id}}" class="message">
+						<li data-ng-cloak data-ng-repeat="message in burst.messages" data-messageID="{{::message.id}}" class="message">
 							<div class="messageContent">
 								<div class="messageText {{::message.type}}" data-ng-class="{{::message.type}}" data-syntaxify="::message.text"><img data-ng-if="message.type != 'image'" data-ng-src=""></div>
-								<div class="time"><i class="fa fa-clock-o"></i> <span data-smart-date="::message.timestamp"></span></div>
+								<div class="time"><i class="fa fa-clock-o"></i> <span data-smart-date="::message.timestamp" data-smart-date-no-day></span></div>
 							</div>
 						</li>
 					</ul>
