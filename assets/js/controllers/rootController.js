@@ -10,7 +10,6 @@ define(["step", "whispeerHelper", "config", "controllers/controllerModule"], fun
 
 		$scope.loading = true;
 
-		var oldFocusedElement;
 		var nullUser = {
 			name: "",
 			basic: {
@@ -114,7 +113,6 @@ define(["step", "whispeerHelper", "config", "controllers/controllerModule"], fun
 				$scope.fadeOutSearch = !$scope.fadeOutSearch;
 			} else {
 				window.setTimeout(function () {
-					oldFocusedElement = document.activeElement;
 					jQuery("#general-searchBar input").focus();
 				}, 1500);
 			}
