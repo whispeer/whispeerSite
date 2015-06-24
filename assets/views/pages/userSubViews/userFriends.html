@@ -15,7 +15,7 @@
 				<a href="#" class="btn btn--primary zeroContent-action" data-i18n="general.zeroContent.findFriends" data-ng-click="toggleSearch()"></a>
 				<a whispeer-sref="app.invite" class="btn btn--primary zeroContent-action" data-i18n="general.zeroContent.inviteFriends"></a>
 			</div>
-			<div class="zeroContent-actions" data-ng-if="::!user.me">
+			<div class="zeroContent-actions" data-ng-if="!user.me && !user.added">
 				<savebutton class="zeroContent-action" data-ng-click="addFriend()" data-state="user.addFriendState" data-noiniticon>
 					<span data-i18n="profile.actions.addFriend|user={{user.basic.shortname}}"></span>
 				</savebutton>
