@@ -27,7 +27,7 @@
 					<span data-i18n="messages.endOfStream" data-ng-if="activeTopic.remaining == 0"></span>
 				</li>
 				<li class="burst" data-ng-repeat="burst in (bursts = messageBursts())" data-ng-class="{me:burst.isMe(), other:burst.isOther()}">
-					<div data-ng-if="!burst.sameDay(bursts[$index - 1])">{{burst.firstMessage().timestamp|date}}</div>
+					<div class="burst-date" data-ng-if="!burst.sameDay(bursts[$index - 1])"><span class="burst-date-text">{{burst.firstMessage().timestamp|date}}</span></div>
 
 					<div class="username">{{burst.sender().name}}</div>
 					<div class="userimg">

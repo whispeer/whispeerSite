@@ -246,14 +246,34 @@
 			.burst {
 				float: left;
 				clear: both;
-				min-width: 80%;
-				max-width: 100%;
+				width: 100%;
 				word-wrap: break-word;
 				&:first-child {
 					// additional margin at the top, this will be useful when we have a
 					// 'pull down to load more' feature.
 					margin-top: @extended-padding;
 				}
+			}
+
+			.burst-date {
+				position: relative;
+				width: 100%;
+				display: inline-block;
+				color: @grayLight;
+				border-bottom: 1px solid @btnBorder;
+				margin: 1rem 0;
+			}
+
+			.burst-date-text {
+				position: absolute;
+				background: linear-gradient(to right, rgba(242,242,242,0) 0%, @btnBackgroundHover 8%, @btnBackgroundHover 50%, @btnBackgroundHover 92%, rgba(242,242,242,0) 100%);
+				background-size: 10rem 1px;
+				background-position: center center;
+				bottom: -10px;
+				width: 10rem;
+				left: 50%;
+				margin-left: -5rem;
+				text-align: center;
 			}
 
 			.username {
@@ -284,6 +304,7 @@
 				// so we need to add min size to prevent constant UI movement.
 				min-height: @message-image-size - 2 * @default-padding;
 				min-width: @message-image-size - 2 * @extended-padding;
+				max-width: 100%;
 				margin-left: @message-image-size + 2 * @extended-padding;
 				margin-right: @message-image-size + 2 * @extended-padding;
 				padding: @default-padding @extended-padding;
