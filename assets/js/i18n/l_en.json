@@ -155,7 +155,12 @@
 	"general": {
 		"send":	"Send",
 		"cancel":	"Cancel",
-		"disconnected":	"Lost Connection"
+		"disconnected":	"Lost Connection",
+		"zeroContent": {
+			"findFriends": "Find your friends on whispeer",
+			"inviteFriends": "Invite your friends",
+			"firstPost": "Write your first post"
+		}
 	},
 	"notification": {
 		"newmessage":	"New Message from {user}"
@@ -317,6 +322,10 @@
 			},
 			"content": "{{content}}"
 		},
+		"zeroContent": {
+			"headline": "Hey {name}! This is your newsfeed.",
+			"subhead": "There's nothing in here yet. But we're going to change that right now!"
+		},
 		"newComment": "Add a comment!",
 		"comments": "Comments",
 		"commentsLoading": "Comments are being loaded!"
@@ -458,7 +467,17 @@
 				"more": "Load more content"
 			},
 			"friends": {
-				"info":	"Friends"
+				"info":	"Friends",
+				"zeroContent": {
+					"headline": {
+						"true": "Hey {name}! This is your friends list.",
+						"false": "{name} has no friends on whispeer yet."
+					},
+					"subhead": {
+						"true": "Seems like nobody's home. Lets find a few of your friends!",
+						"false": "Add {name} to your friends!"
+					}
+				}
 			}
 		}
 	},
@@ -467,7 +486,11 @@
 		"remove": "Remove friend",
 		"mutualFriends":	"{count} mutual friends",
 		"title":			"Friends list",
-		"loading":	"Loading friends"
+		"loading":	"Loading friends",
+		"zeroContent": {
+			"headline": "Hey {name}! This is your friends list.",
+			"subhead": "Seems like nobody's home. Lets find a few of your friends!"
+		}
 	},
 	"help": {
 		"headers": {

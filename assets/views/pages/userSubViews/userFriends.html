@@ -8,11 +8,18 @@
 		<li class="userView-friendElement" data-ng-repeat="friend in friends">
 			<person data-user="friend"></person>
 		</li>
-		<li id="friendsView-noFriends" data-ng-if="friends.length == 0 && !loadingFriends">
-			<h1 class="h1-noMarginTop">Hallo {{user.basic.shortname}}! Das hier ist deine Freundestliste.</h1>
-			<h2>Leider ist sie aktuell noch leer. Das werden wir jetzt ändern!</h2>
-			<a href="#" class="btn btn--primary">Finde deine Freunde auf whispeer</a>
-			<a whispeer-sref="app.invite" class="btn btn--primary">Lade deine Freunde ein</a>
+		<li id="userView-noFriends" class="zeroContent" data-ng-if="friends.length == 0 && !loadingFriends">
+			<h1 class="h1-noMarginTop" data-i18n="profile.section.friends.zeroContent.headline.{{::user.me}}"><span data-for="name">{{user.basic.shortname}}</span></h1>
+			<h2 data-i18n="profile.section.friends.zeroContent.subhead.{{::user.me}}"><span data-for="name">{{user.basic.shortname}}</span></h2>
+			<div class="zeroContent-actions" data-ng-if="::user.me">
+				<a href="#" class="btn btn--primary zeroContent-action" data-i18n="general.zeroContent.findFriends"></a>
+				<a whispeer-sref="app.invite" class="btn btn--primary zeroContent-action" data-i18n="general.zeroContent.inviteFriends"></a>
+			</div>
+			<div class="zeroContent-actions" data-ng-if="::!user.me">
+				<savebutton class="zeroContent-action" data-ng-click="addFriend()" data-state="user.addFriendState" data-noiniticon>
+					<span data-i18n="profile.actions.addFriend|user={{user.basic.shortname}}"></span>
+				</savebutton>
+			</div>
 		</li>
 		<li class="inviteFriends" id="userView-inviteFriends" data-ng-if="friends.length < 50 && friends.length > 7 && user.me">
 			<a class="inviteFriends-link btn btn--gray btn--hasIcon" id="userView-inviteFriends-link" whispeer-sref="app.invite">

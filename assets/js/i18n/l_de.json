@@ -155,7 +155,12 @@
 	"general": {
 		"send":	"Absenden",
 		"cancel":	"Abbrechen",
-		"disconnected":	"Verbindung verloren"
+		"disconnected":	"Verbindung verloren",
+		"zeroContent": {
+			"findFriends": "Finde deine Freunde auf whispeer",
+			"inviteFriends": "Lade deine Freunde ein",
+			"firstPost": "Schreibe deinen ersten Post"
+		}
 	},
 	"notification": {
 		"newmessage":	"Neue Nachricht von {user}"
@@ -315,6 +320,10 @@
 			},
 			"content": "{{content}}"
 		},
+		"zeroContent": {
+			"headline": "Hallo {name}! Das hier ist dein Newsfeed.",
+			"subhead": "Leider ist er aktuell noch leer. Das sollten wir schleunigst ändern!"
+		},
 		"newComment": "Schreibe einen Kommentar!",
 		"comments": "Kommentare",
 		"commentsLoading": "Kommentare werden geladen!"
@@ -456,7 +465,17 @@
 				"more": "Mehr Beiträge laden"
 			},
 			"friends": {
-				"info":	"Freunde von {user}"
+				"info":	"Freunde von {user}",
+				"zeroContent": {
+					"headline": {
+						"true": "Hallo {name}! Das hier ist deine Freundestliste.",
+						"false": "{name} hat noch keine Freunde auf whispeer."
+					},
+					"subhead": {
+						"true": "Leider ist sie aktuell noch leer. Das werden wir jetzt ändern!",
+						"false": "Füge {name} jetzt als Freund hinzu!"
+					}
+				}
 			}
 		}
 	},
@@ -465,7 +484,11 @@
 		"remove": "Freund entfernen",
 		"mutualFriends":	"{count} gemeinsame Freunde",
 		"title":			"Freundesliste",
-		"loading":			"Freunde werden geladen"
+		"loading":			"Freunde werden geladen",
+		"zeroContent": {
+			"headline": "Hallo {name}! Das hier ist deine Freundestliste.",
+			"subhead": "Leider ist sie aktuell noch leer. Das werden wir jetzt ändern!"
+		}
 	},
 	"help": {
 		"headers": {
