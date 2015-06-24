@@ -1,44 +1,58 @@
-<header class="box-header" data-ng-if="!mobile">
-	<span class="box-header-title">Freunde</span>
-</header>
-<section data-ng-class="{'box-content box-content--scroll': !mobile}">
-	<section class="friendsView-section" data-ng-if="requests.length > 0">
-		<span class="friendsView-title" data-i18n="magicbar.requests.title"></span>
-		<ul class="unstyled" id="requestsList">
-			<li class="friendsView-friend friendsView-request" data-ng-repeat="user in requests">
-				<person data-user="user">
-					<savebutton class="friendRequest-actionButton btn--primary {{mobile ? 'btn--noPadding' : ''}}" data-state="user.addFriendState" data-ng-click="acceptRequest(user)">
-						<span data-i18n="magicbar.requests.accept"></span>
-					</savebutton>
-					<savebutton class="friendRequest-actionButton btn--danger {{mobile ? 'btn--noPadding' : ''}}" data-state="user.ignoreFriendState" data-ng-click="ignoreRequest(user)">
-						<span data-i18n="magicbar.requests.decline"></span>
-					</savebutton>
-				</person>
-			</li>
-			<li class="friendsView-request error" data-ng-if="requests.length == 0">
-				<span data-i18n="magicbar.requests.none"></span>
-			</li>
-		</ul>
-		<ul class="unstyled" data-ng-if="requests.length == 0">
-			<li class="friendsView-request error">
-				<span data-i18n="magicbar.requests.none"></span>
-			</li>
-		</ul>
-	</section>
-	<section class="friendsView-section">
-		<span class="friendsView-title" data-i18n="friends.title"></span>
-		<ol id="friendsView-friendsList" class="unstyled">
-			<li class="friendsView-friend" data-ng-repeat="friend in friends">
-				<person data-user="friend" data-type="friend">
-					<a whispeer-sref="app.messages.new({userid: friend.id})" data-i18n-attr="friends.message|aria-label|user={{friend.name}}"><i class="fa fa-2x fa-envelope fa-fw"></i></a>
-					<a data-accessible-click="removeFriend(friend)" data-i18n-attr="friends.remove|aria-label|user={{friend.name}}" ><i class="person-clickable fa fa-2x fa-times fa-fw"></i></a>
-				</person>
-			</li>
-			<li class="friendsView-friend" id="friendsView-inviteFriends" data-ng-if="friends.length < 50">
-				<a class="inviteFriends-link btn btn--gray btn--hasIcon" id="friendsView-inviteFriends-link" whispeer-sref="app.invite">
-					<i class="fa fa-fw fa-share-alt btn-icon"></i>
-					<span class="btn-text" data-i18n="inviteFriends"></span>
+<section class="friendsView-section" data-ng-if="requests.length > 0">
+	<h2 class="friendsView-title" data-i18n="magicbar.requests.title"></h2>
+	<ul class="unstyled post" id="friendsView-requestsList">
+		<li class="friendsView-friend friendsView-request" data-ng-repeat="user in requests">
+			<person data-user="user">
+				<savebutton class="friendRequest-actionButton btn--primary btn--small {{mobile ? 'btn--noPadding' : ''}}" data-state="user.addFriendState" data-ng-click="acceptRequest(user)">
+					<span data-i18n="magicbar.requests.accept"></span>
+				</savebutton>
+				<savebutton class="friendRequest-actionButton btn--gray btn--small {{mobile ? 'btn--noPadding' : ''}}" data-state="user.ignoreFriendState" data-ng-click="ignoreRequest(user)" data-initIcon="fa-times-circle">
+					<span data-i18n="magicbar.requests.decline"></span>
+				</savebutton>
+			</person>
+		</li>
+		<li class="friendsView-request error" data-ng-if="requests.length == 0">
+			<span data-i18n="magicbar.requests.none"></span>
+		</li>
+	</ul>
+	<ul class="unstyled" data-ng-if="requests.length == 0">
+		<li class="friendsView-request error">
+			<span data-i18n="magicbar.requests.none"></span>
+		</li>
+	</ul>
+</section>
+<section class="friendsView-section" data-ng-class="{'friendsView-section--pullUp': requests.length > 0}">
+	<h2 class="friendsView-title" data-i18n="friends.title"></h2>
+	<ol id="friendsView-friendsList" class="unstyled post">
+		<li class="loadingSpinner" data-ng-if="friendsLoading">
+			<i class="fa fa-circle-o-notch fa-2x fa-fw fa-spin"></i>
+			<p data-i18n="friends.loading"></p>
+		</li>
+		<li id="friendsView-noFriends" class="zeroContent" data-ng-if="friends.length == 0 && !friendsLoading">
+			<h1 class="h1-noMarginTop" data-i18n="friends.zeroContent.headline"><span data-for="name">{{user.basic.shortname}}</span></h1>
+			<h2 data-i18n="friends.zeroContent.subhead"></h2>
+			<div class="zeroContent-actions">
+				<a href="#" class="btn btn--primary zeroContent-action" data-i18n="general.zeroContent.findFriends" data-ng-click="toggleSearch()"></a>
+				<a whispeer-sref="app.invite" class="btn btn--primary zeroContent-action" data-i18n="general.zeroContent.inviteFriends"></a>
+			</div>
+		</li>
+		<li class="friendsView-friend" data-ng-repeat="friend in friends">
+			<person data-user="friend" data-type="friend">
+				<a whispeer-sref="app.messages.new({userid: friend.id})" data-i18n-attr="friends.message|aria-label|user={{friend.name}}" class="btn btn--small btn--gray friendsView-friend-add">
+					<i class="fa fa-comment fa-fw"></i>
+					<span data-i18n="friends.message" class="friendsView-friend-action-text"></span>
 				</a>
-			</li>
-	</section>
+				<a data-accessible-click="removeFriend(friend)" data-i18n-attr="friends.remove|aria-label|user={{friend.name}}" class="btn btn--small btn--gray friendsView-friend-remove">
+					<i class="person-clickable fa fa-times fa-fw"></i>
+					<span data-i18n="friends.remove" class="friendsView-friend-action-text"></span>
+				</a>
+			</person>
+		</li>
+		<li class="friendsView-friend" id="friendsView-inviteFriends" data-ng-if="friends.length < 50 && friends.length > 7">
+			<a class="inviteFriends-link btn btn--gray btn--hasIcon" id="friendsView-inviteFriends-link" whispeer-sref="app.invite">
+				<i class="fa fa-fw fa-share-alt btn-icon"></i>
+				<span class="btn-text" data-i18n="inviteFriends"></span>
+			</a>
+		</li>
+	</ol>
 </section>

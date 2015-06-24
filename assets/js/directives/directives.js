@@ -33,5 +33,8 @@ define([
 	"directives/lazyiframe",
 	"directives/mobile",
 	"directives/whispeerSref",
-	"directives/loader"
+	"directives/loader",
+	"directives/newPost",
+	"directives/inviteButtons",
+	"directives/closeSidebar"
 ], function () {});

@@ -1,5 +1,5 @@
 <div class="box-rightWrap">
-	<span class="box-header-title box-header-title--full">
+	<span class="box-header-title box-header-title--full box-header-title--push">
 		<span>
 			<span data-i18n="messages.chat"></span>
 			<span data-ng-repeat="partner in activeTopic.partners">
@@ -11,10 +11,11 @@
 				{{::($last?"":", ")}}
 			</span>
 		</span>
-
-		<a whispeer-sref="app.messages.list" id="showTopics" class="box-header-button box-header-button--right" data-ng-if="mobile">
-			<i class="fa fa-bars fa-fw"></i>
-		</a>
+		<div class="box-header-buttons--right">
+			<a whispeer-sref="app.messages.list" id="showTopics" class="box-header-button box-header-button--right" data-ng-if="mobile">
+				<i class="fa fa-arrow-left fa-fw"></i>
+			</a>
+		</div>
 	</span>
 
 	<div id="topicWrap" data-topicID="{{activeTopic.id}}" class="{{activeTopic.type}}">

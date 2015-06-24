@@ -3,9 +3,9 @@
 
 	// Some adjustable heights:
 	@form-height: 70px;
-	@form-margin: 5px;
-	@header-height-desktop: 30px;
-	@header-height-mobile: 50px;
+	@form-margin: 0;
+	@header-height-desktop: 4rem;
+	@header-height-mobile: 4rem;
 
 	// big/small image size in topic list.
 	@user-image-size: 76px;
@@ -98,7 +98,7 @@
 					.userimg {
 						width: 80px;
 						border: 1px solid #f2f2f2;
-						.border-radius(100%);
+						border-radius: 100%;
 					}
 				}
 				.username {
@@ -107,7 +107,7 @@
 					text-overflow: ellipsis;
 					white-space: nowrap;
 					overflow: hidden;
-					color: #000;
+					color: @text-color-dark;
 				}
 				.lastMessage {
 					.small-text();
@@ -200,6 +200,7 @@
 			.inviteFriends-link {
 				width: 100%;
 				border-bottom: 1px solid #ccc;
+				border-radius: 0;
 			}
 		}
 
@@ -214,8 +215,10 @@
 			left: 0;
 		}
 
-		.newMessage .search {
-			margin: 10px; // padding would have no effect on the drop
+		.newMessage .search-wrapper {
+			border: none;
+			border-bottom: 1px solid @btnBorder;
+			border-radius: 0;
 		}
 
 		#messageWrap {
@@ -269,7 +272,7 @@
 				float: left;
 				clear: both;
 				img {
-					.border-radius(100%);
+					border-radius: 100%;
 					width: @message-image-size;
 					height: @message-image-size;
 				}
@@ -358,21 +361,22 @@
 		#inputWrap { // this is the form
 			display: block;
 			position: absolute;
-			width: 100%;
+			width: ~"calc(100% + 2px)";
 			bottom: 0;
 			margin-bottom: @form-margin;
+			margin-left: -1px;
 
 			textarea {
 				height: @form-height;
-				.column(3,4,left,1%);
-				margin: 0 0 0 1%;
-				border-radius: @inputBorderRadius 0 0 @inputBorderRadius;
+				.column(3,4,left,0);
+				margin: 0;
+				border-radius: 0;
 			}
 			button {
 				height: @form-height;
-				.column(1,4,left,1%);
-				margin: 0 1% 0 0;
-				border-radius: 0 @inputBorderRadius @inputBorderRadius 0;
+				.column(1,4,left,0);
+				margin: 0;
+				border-radius: 0;
 			}
 		}
 	}
@@ -380,7 +384,7 @@
 
 @media @mobile {
 	#messages > .message-mixin(
-		@form-height: 40px;
+		@form-height: 64px;
 	);
 }
 

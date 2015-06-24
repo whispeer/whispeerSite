@@ -554,6 +554,8 @@ define([
 					for (i = 0; i < latest.topics.length; i += 1) {
 						makeTopic(latest.topics[i], this.parallel());
 					}
+
+					this.parallel()();
 				}), h.sF(function () {
 					messageService.notify("", "loadingDone");
 				}));

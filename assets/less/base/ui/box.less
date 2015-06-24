@@ -1,5 +1,5 @@
-@box-header-height-desktop: 30px;
-@box-header-height-mobile: 50px;
+@box-header-height-desktop: 4rem;
+@box-header-height-mobile: 4rem;
 
 // Box
 //
@@ -19,39 +19,33 @@
 // Styleguide 2.1
 .box {
 	overflow: hidden;
-
-	@media @desktop {
-		border-radius: @inputBorderRadius;
-		border: 1px solid @btnBorder;
-	}
-	@media @mobile {
-		height: 100%;
-	}
+	height: 100%;
 	background-color: @btnBackgroundHover;
 	&:extend(.box-fix);
 }
 .box-header {
-	height: 30px;
-	.gradient(darken(@btnBackground, 2%), @btnBackgroundHover);
+	height: 4rem;
+	background: @btnBackgroundHover;
 	border: none;
 	border-bottom: 1px solid @btnBorder;
 	overflow: hidden;
-	@media @mobile {
-		height: 50px;
-	}
+	&:extend(.box-fix);
 }
 .box-header-links {
 	float: right;
 	margin: 0 1%;
-	line-height: 30px;
+	line-height: 4rem;
 }
 .box-header-link {
 	display: inline-block;
 	float: left;
-	color: #b2b2b2;
+	color: #555555;
 	margin: 0 0.25em;
 	&:hover {
-		color: lighten(#b2b2b2,10%);
+		color: #333333;
+		span {
+			border-bottom: 2px solid #444444;
+		}
 	}
 	&:first-child {
 		margin-left: 0;
@@ -60,18 +54,18 @@
 		margin-right: 0;
 	}
 }
+.box-header-link--active span {
+	border-bottom: 2px solid #444444;
+}
 .box-header-title {
 	float: left;
 	padding: 0 1%;
-	line-height: 30px;
+	line-height: 4rem;
 	&:extend(.box-fix);
 	white-space: nowrap;
 	text-overflow: ellipsis;
 	max-width: 100%;
 	overflow: hidden;
-	@media @mobile {
-		line-height: 50px;
-	}
 }
 .box-header-title--full {
 	width: 100%;
@@ -85,16 +79,18 @@
 	text-overflow: ellipsis;
 	white-space: nowrap;
 }
+.box-header-title--push { @media @mobile { padding-left: 5rem; } }
 .box-header-button {
 	display: inline-block;
 	padding: 0 7px;
 	margin-right: 0;
 	outline: none;
 	border: none;
-	height: 30px;
-	line-height: 30px;
+	height: 4rem;
+	width: 4rem;
+	line-height: 4rem;
 	background: transparent;
-	text-align: left;
+	text-align: center;
 	color: #000;
 	&:hover {
 		background: rgba(202,202,202,0.2);
@@ -105,9 +101,7 @@
 	}
 	@media @mobile {
 		padding: 0;
-		height: 50px;
-		width: 50px;
-		line-height: 50px;
+		width: 4rem;
 		text-align: center;
 	}
 	&:extend(.box-fix);
@@ -120,6 +114,13 @@
 .box-header-button--left {
 	float: left;
 	border-right: 1px solid @btnBorder;
+}
+.box-header-buttons--right {
+	float: right;
+	margin-right: -1%;
+}
+.box-header-buttons--left {
+	float: left;
 	margin-left: -1%;
 }
 .box-header-button--full {
@@ -129,6 +130,8 @@
 .box-header--content {
 	border-top: 1px solid @btnBorder;
 	background: @btnBackgroundHover;
+	height: 3rem;
+	line-height: 3rem;
 	&:before, :after {
 		content: "";
 		margin-left: 5px;
@@ -137,9 +140,16 @@
 .box-header--content .box-header-title {
 	float: none;
 	padding: 0;
+	line-height: 2rem;
+}
+.box-header--content .box-header-links {
+	line-height: 2rem;
 }
 .box-header--noBorder {
 	border-top: none;
+}
+.box-header--pullUp {
+	margin-top: -1px;
 }
 .box-content {
 	padding: 0;
@@ -158,25 +168,14 @@
 .box-content--scroll {
 	position: relative;
 	overflow-y: scroll;
-	height: ~"calc(100% - 30px)"; // fixes the scroll-bar. negative margin will place the scroll-bar into the header.
+	height: ~"calc(100% - 4rem)"; // fixes the scroll-bar. negative margin will place the scroll-bar into the header.
 	-webkit-overflow-scrolling: touch;
-	@media @mobile {
-		height: ~"calc(100% - 50px)";
-	}
-}
-.box--large {
-	border-radius: 0;
-	.box-header { height: 50px; }
-	.box-header-title { line-height: 50px; }
-	.box-header-button { height: 50px; width: 50px; text-align: center; }
-	.box-content { border-radius: 0; }
-	.box-content--scroll { height: ~"calc(100% - 50px)"; }
 }
 
 .box-leftWrap {
 	position: relative;
 
-	@media @desktop { width: 100%/16*5; }
+	@media @desktop { width: 20rem; }
 	@media @mobile { width: 100%; }
 
 	border-right: 1px solid #ccc;
@@ -189,7 +188,7 @@
 }
 
 .box-rightWrap {
-	@media @desktop { left: 100%/16*5; }
+	@media @desktop { left: 20rem; }
 
 	position: absolute;
 	top: 0;

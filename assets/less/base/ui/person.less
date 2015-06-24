@@ -21,17 +21,21 @@
 	width: 100%;
 	padding: 6px 0;
 
-	display: inline-block;
+	display: flex;
 	box-sizing: border-box;
 }
 .person-userimage {
-	.column(4,12,left,1%);
-	margin: 0 1% 0 0;
-	max-width: 80px;
+	width: 80px;
+	flex-shrink: 0;
+}
+.person-data {
+	flex-grow: 1;
+	margin: 0 0 0 20px;
+	width: 225px;
 }
 .person-username, .person-similar, .person-action {
-	.column(8,12,left,6);
-	margin: 0 1% 0 5%;
+	width: 100%;
+	margin: 0;
 }
 .person-status {
 	margin-right: 4px;
@@ -47,14 +51,9 @@
 }
 .person-action {
 	margin-top: 5px;
-	display: inline-block;
+	display: flex;
+	flex-wrap: wrap;
 }
 .person-clickable {
 	cursor: pointer;
-}
-
-@media @desktop {
-	.person i.fa {
-		font-size: 1.5em;
-	}
 }

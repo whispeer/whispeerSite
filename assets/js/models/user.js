@@ -66,7 +66,7 @@ define(["step", "whispeerHelper", "asset/state", "asset/securedDataWithMetaData"
 		return h.arrayUnique(profileTypes);
 	}
 
-	function userModel($injector, $location, blobService, keyStoreService, ProfileService, sessionService, settingsService, socketService, friendsService, errorService) {
+	function userModel($injector, $state, blobService, keyStoreService, ProfileService, sessionService, settingsService, socketService, friendsService, errorService) {
 		return function User (providedData) {
 			var theUser = this, mainKey, signKey, cryptKey, friendShipKey, friendsKey, migrationState, signedKeys, signedOwnKeys;
 			var id, mail, nickname, publicProfile, privateProfiles = [], myProfile, mutualFriends;
@@ -633,12 +633,9 @@ define(["step", "whispeerHelper", "asset/state", "asset/securedDataWithMetaData"
 			};
 
 			this.visitProfile = function () {
-				var url = theUser.getUrl();
-				$location.path(url);
-			};
-
-			this.getUrl = function () {
-				return "user/" + this.getNickname();
+				$state.go("app.user.info", {
+					identifier: this.getNickname()
+				});
 			};
 
 			this.getNickname = function () {
@@ -738,7 +735,7 @@ define(["step", "whispeerHelper", "asset/state", "asset/securedDataWithMetaData"
 		};
 	}
 
-	userModel.$inject = ["$injector", "$location", "ssn.blobService",  "ssn.keyStoreService", "ssn.profileService", "ssn.sessionService", "ssn.settingsService", "ssn.socketService", "ssn.friendsService", "ssn.errorService"];
+	userModel.$inject = ["$injector", "$state", "ssn.blobService",  "ssn.keyStoreService", "ssn.profileService", "ssn.sessionService", "ssn.settingsService", "ssn.socketService", "ssn.friendsService", "ssn.errorService"];
 
 	modelsModule.factory("ssn.models.user", userModel);
 });

@@ -2,38 +2,36 @@
 .inviteView body {
 	overflow: scroll;
 }
+#inviteView-selectInviteMethod,
 #inviteView-inviteMail,
-#inviteView-selectInviteMethod {
-	@media @desktop {
-		.column(12);
-	}
-	@media @mobile {
-		.column(12,12,none,0);
-	}
+#inviteView-inviteLink {
+	width: 100%;
+	padding: 1rem;
+	padding-top: 0;
+	&:extend(.box-fix);
 }
 #inviteView-inviteMail,
 #inviteView-inviteLink {
-	padding: 1rem;
 	padding-top: 0;
 }
 .inviteView-header {
 	.large-text();
-	float: left;
+	display: inline-block;
 	width: 100%;
 	text-align: center;
 	margin: 1rem 0;
 }
-.inviteView-header--noTopMargin {
-	margin-top: 0;
+#inviteView-topHeader {
+	@media @mobile { margin-top: 4rem; }
 }
-#inviteView-inviteMail .inviteView-header {
-	margin-top: 0;
+.inviteView-header--noMargin {
+	margin: 0;
 }
 .inviteView-sendInvite,
 #inviteView-invitedBy,
 .inviteView-mailContainer,
 .inviteView-emailList {
-	.column(12,12,none,0);
+	width: 100%;
 }
 #inviteView-invitedBy {
 	margin-bottom: 1rem;
@@ -47,7 +45,7 @@
 	margin-bottom: 0.5rem;
 }
 #inviteView-addMail {
-	margin-top: 0.5rem;
+	margin-top: -0.25rem;
 }
 .inviteView-shareButton {
 	height: 50px;
@@ -57,7 +55,7 @@
 		margin-bottom: 1rem;
 	}
 	@media @mobile {
-		.column(12);
+		width: 100%;
 		margin-bottom: 1rem;
 		&:first-child {
 			margin-top: 1rem;
