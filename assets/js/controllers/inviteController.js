@@ -6,7 +6,7 @@ define(["step", "whispeerHelper", "asset/state", "controllers/controllerModule"]
 	"use strict";
 
 	function inviteController($scope, $location, $state, socketService, errorService, cssService, localize) {
-		if ($state.current.name === "app.invite") {
+		if ($state.current.name.indexOf("app.invite") > -1) {
 			cssService.setClass("inviteView");
 		}
 
