@@ -26,16 +26,14 @@ define(["step", "whispeerHelper", "asset/state", "bluebird", "controllers/contro
 					return;
 				}
 
-				messageService.sendNewTopic(receiver, text, function (e, id) {
-					if (!e) {
-						$scope.create.text = "";
-						$scope.create.selectedElements = [];
-						$scope.goToShow(id);
-						$scope.$broadcast("resetSearch");
-					}
-
-					this.ne(e);
-				}, errorService.failOnError(sendMessageState));
+				step(function () {
+					messageService.sendNewTopic(receiver, text, this);
+				}, h.sF(function (id) {
+					$scope.create.text = "";
+					$scope.create.selectedElements = [];
+					$scope.goToShow(id);
+					$scope.$broadcast("resetSearch");					
+				}), errorService.failOnError(sendMessageState));
 			}
 		};
 

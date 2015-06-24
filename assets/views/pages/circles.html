@@ -1,8 +1,3 @@
-<ng-include src="'assets/views/circles/circlesList.html'" data-ng-if="!mobile || !showCircle">
-</ng-include>
+<ui-view name="list" data-ng-if="!mobile"></ui-view>
 
-<ng-include src="'assets/views/circles/circleShow.html'" data-ng-if="circleLoaded && showCircle">
-</ng-include>
-
-<ng-include src="'assets/views/circles/newCircle.html'" data-ng-if="!circleLoaded && showCircle">
-</ng-include>
+<ui-view></ui-view>

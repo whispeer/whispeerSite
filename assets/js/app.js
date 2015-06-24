@@ -7,6 +7,7 @@ define([
 	"filter/filter",
 	"directives/directives",
 	"messages/messagesLoader",
+	"circles/circlesLoader",
 	"user/userLoader",
 	"search/loader",
 	"models/models",
@@ -27,6 +28,7 @@ define([
 		"ssn.interceptors.config",
 		"ssn.locale.config",
 		"ssn.messages",
+		"ssn.circles",
 		"ssn.user",
 
 		"localization",

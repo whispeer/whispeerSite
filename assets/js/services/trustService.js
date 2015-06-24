@@ -65,7 +65,15 @@ define(["step", "whispeerHelper", "crypto/trustManager", "crypto/signatureCache"
 
 		initService.register("signatureCache.get", {}, function (data, cb) {
 			if (data.content) {
-				signatureCache.loadDatabase(data.content, userService.getown().getSignKey(), cb);
+				step(function () {
+					signatureCache.loadDatabase(data.content, userService.getown().getSignKey(), this);
+				}, function (e) {
+					if (e) {
+						signatureCache.createDatabase(userService.getown().getSignKey());		
+					}
+
+					this.ne();
+				}, cb);
 			} else {
 				signatureCache.createDatabase(userService.getown().getSignKey());
 				cb();
