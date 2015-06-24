@@ -1,7 +1,7 @@
 define(["angular", "bluebird"], function (angular, Bluebird) {
 	"use strict";
 	return function () {
-		angular.module("ssn.search").factory("userSearchSupplier", ["ssn.userService", function (userService) {
+		angular.module("ssn.search").factory("userSearchSupplier", ["ssn.userService", "ssn.errorService", function (userService, errorService) {
 			var Search = function () {};
 
 			Search.prototype.search = function (query) {
@@ -17,9 +17,10 @@ define(["angular", "bluebird"], function (angular, Bluebird) {
 						return user;
 					});
 				}).then(function (users) {
-					return users.map(function (e) {
-						return e.data;
-					});						
+					return users.map(function (user) {
+						user.loadFullData(errorService.criticalError);
+						return user.data;
+					});
 				});
 			};
 

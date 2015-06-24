@@ -2,54 +2,53 @@
 	overflow: visible;
 }
 .settingsView-box-content {
-	@media @desktop { height: ~"calc(100% - 80px)"; }
-	@media @mobile { height: ~"calc(100% - 100px)"; }
+	width: 100%;
+	@media @desktop { height: ~"calc(100% - 7rem)"; }
+	@media @mobile { height: ~"calc(100% - 8rem)"; }
 }
 .settingsView-header {
 	border-bottom: 0;
 	overflow: visible;
 	@media @desktop {
-		height: 80px;
+		height: 7rem;
 	}
 	@media @mobile {
-		height: 100px;
+		height: 8rem;
 	}
 }
 .settingsView-categories {
 	display: inline-block;
 	float: left;
-	width: ~"calc(100% + 2px)";
-	height: 50px;
-	margin-left: -1px;
-	margin-right: -1px;
+	width: 100%;
+	height: 4rem;
 	.clear-fix;
 }
 .settingsView-category {
 	float: left;
 	width: 100% / 3;
 	display: inline-block;
-	height: 50px;
-	line-height: 50px;
+	height: 4rem;
+	line-height: 4rem;
 	text-align: center;
 	background: @btnGrayBackground;
-	color: #000000;
+	color: @text-color;
 	border: 1px solid @btnBorder;
 	border-left: 0;
 	border-radius: 0;
+	.semibold-text();
 	&:extend(.box-fix);
 	&:hover {
-		color: #000000;
-		background: @btnGrayBackgroundHover;
+		color: @primaryLighter;
 	}
 }
 .settingsView-category--active {
 	border: 1px solid @primaryLighter;
-	color: @primaryLighter;
+	color: #ffffff;
+	background: @primaryLighter;
 	margin-left: -1px;
 	width: ~"calc((100% / 3) + 1px)";
 	&:hover {
-		background: @btnGrayBackground;
-		color: @primaryLighter;
+		color: #ffffff;
 	}
 	&:first-child {
 		margin-left: 0;
@@ -157,17 +156,11 @@
 }
 .settingsView-settingsFormButton {
 	@media @mobile {
-		width: 100%;
-		margin: 5px 0;
+		width: 98%;
+		margin: 5px 1%;
 	}
 	@media @desktop {
 		width: 180px;
-		margin: 5px 2px;
-	}
-}
-#settingsView-safety .settingsView-settingsFormButton {
-	margin: 5px 1%;
-	@media @mobile {
-		width: 98%;
+		margin: 5px 0 5px 1%;
 	}
 }

@@ -1,10 +1,10 @@
 <li data-ng-class="{me:comment.sender.me}">
-	<a whispeer-sref="app.user.info({identifier: comment.sender.names.nickname})" class="userimg">
+	<a whispeer-sref="app.user.info({identifier: comment.sender.names.nickname})" class="post-userimage post-userimage--small">
 		<userimage data-user="comment.sender"></userimage>
 	</a>
-	<a whispeer-sref="app.user.info({identifier: comment.sender.names.nickname})">{{comment.sender.name}}</a>
-	<p class="content" data-syntaxify="::comment.text"></p>
-	<aside class="meta">
-		<span class="date"><i class="fa fa-clock-o"></i> <span data-smart-date="::comment.time"></span>
+	<a whispeer-sref="app.user.info({identifier: comment.sender.names.nickname})" class="post-username post-comment-username">{{comment.sender.name}}</a>
+	<p class="post-content post-comment-content" data-syntaxify="::comment.text"></p>
+	<aside class="post-meta post-comment-meta">
+		<span class="post-date post-comment-date"><i class="fa fa-clock-o"></i>&nbsp;<span class="post-date-time post-comment-date-time" data-smart-date="::comment.time"></span>
 	</aside>
 </li>

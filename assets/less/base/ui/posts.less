@@ -1,177 +1,191 @@
 @user-image-size: 76px;
 @user-image-size-small: 32px;
 
-@default-padding: 12px;
-@minor-padding: 6px;
+@default-padding: 1rem;
+@minor-padding: 0.5rem;
 
 @column-width: 40em;
 
 .post {
-	width: 92%; // magic, due to magic 92% further above in the DOM.
-
+	float: none;
 	display: inline-block;
-	float: left;
-	clear: both;
-
+	position: relative;
+	@media @desktop { width: 80%; margin: 0.5rem 10%; }
+	@media @mobile { width: 97%; margin: 0.5rem 1.5%; }
+	background: #fbfbfb;
+	border-radius: 3px;
+	box-shadow: 0 0 3px #f0f0f0;
 	padding: @default-padding;
-	padding-left: 0;
+	&:extend(.clear-fix);
+	&:extend(.box-fix);
+	&:last-of-type {
+		margin-bottom: 1rem;
+	}
+}
+.post-userimage {
+	float: left;
+	display: inline-block;
+	width: @user-image-size;
+	height: @user-image-size;
+	padding-right: @default-padding;
+}
 
-	// this should really be dealt with once and for all in the userimage
-	// directive.
-	.userimg {
-		float: left;
-		display: inline-block;
-		vertical-align: top;
-		width:  @user-image-size;
-		height: @user-image-size;
-		padding-right: @default-padding;
-	}
+.post-username, .post-receiver {
+	white-space: nowrap;
+	.fa { color: @linkColor; }
+}
+.post-username { padding-right: @minor-padding; }
+.post-receiver { padding-left: @minor-padding; }
 
-	.meta {
-		strong ~ span .fa { color: @linkColor; }
-		span, strong {
-			white-space: nowrap;
-		}
-		strong:first-of-type {
-			padding-right: @minor-padding;
-		}
-		span strong:first-of-type {
-			padding-left: @minor-padding;
-		}
-	}
+.post-username { text-shadow: 1px 1px 1px #e2e2e2; }
 
-	.content {
-		max-width: @column-width;
-		padding-left: @default-padding;
-		margin-top: 0;
-		margin-bottom: 0;
-		margin-left: @user-image-size;
-		word-wrap: break-word;
-	}
+.post-content {
+	max-width: @column-width;
+	padding-left: @default-padding;
+	margin-top: 0;
+	margin-bottom: 0;
+	margin-left: @user-image-size;
+	word-wrap: break-word;
+}
 
-	.date, .action {
-		.detail-text();
+.post-date, .post-action { .detail-text(); }
+.post-action {
+	cursor: pointer;
+	@media @mobile { .btn; .btn--small; .btn--gray;	}
+}
 
+.post-link {
+	position: absolute;
+	top: @minor-padding;
+	right: @minor-padding;
+	color: @grayLight;
+	font-size: 1.1rem;
+	@media @desktop {
+		visibility: hidden;
 	}
-	.date {
-		color: @primary;
+	&:hover {
+		color: @gray;
+		@media @desktop { visibility: visible; }
 	}
-	.date:hover {
-		text-decoration: underline;
+}
+
+@media @mobile {
+	.post-date:after { content: '\a' ; white-space: pre; }
+}
+.post-comments, .post-actions, .post-images {
+	padding-left: @default-padding;
+	margin-left: @user-image-size;
+}
+
+.post-actions-buttons {
+	@media @mobile { margin-top: -5px; display: flex; flex-wrap: wrap; }
+}
+
+.post-action-button {
+	@media @mobile { margin: 5px 0.5rem 0 auto; flex-grow: 1; }
+	&:only-child { @media @mobile { margin: 5px auto; }}
+	&:last-child { @media @mobile { margin: 5px auto; } }
+}
+
+.post-moreImages {
+	width: ~"calc(100% - 5px)";
+}
+
+.post-images {
+	max-width: 100%;
+	margin-top: 5px;
+}
+
+.post-imageWrap:only-child .postImage {
+	width: auto;
+}
+
+.post-imageWrap {
+	position: relative;
+	max-height: 400px;
+	@media @mobile {
+		max-width: ~"calc(100% - 10px)";
 	}
-	.action {
-		cursor: pointer;
-	}
+	display: inline-block;
+	margin: 0 5px 5px 0;
+
+	cursor: pointer;
+}
+
+.post-image {
+	max-height: 400px;
+	max-width: 100%;
+}
+
+.post-image--play {
+	position: absolute;
+	top: ~"calc(50% - 25px)";
+	left: ~"calc(50% - 25px)";
+	width: 50px;
+	height: 50px;
+	line-height: 50px;
+
+	background-color: rgba(red(@primary), green(@primary), blue(@primary), 0.95);
+
+	vertical-align: middle;
+	color: @white;
+	text-shadow: 0px 0px 1px black;
+	text-align: center;
+	padding-left: 5px;
+	border-radius: 100%;
+	transition: .6s text-shadow ease;
+	&:extend(.box-fix);
+}
+
+.post-imageWrap:hover .post-image--play {
+	text-shadow: 1px 1px 2px #444;
+}
+
+.post-comments {
+	max-width: @column-width;
 
 	@media @mobile {
-		.actions .date:after { content: '\a' ; white-space: pre; }
-	}
-	.comments, .actions, .postImages {
 		padding-left: @default-padding;
-		margin-left: @user-image-size;
+		margin-left: @user-image-size - @user-image-size-small - @default-padding;
 	}
-
-	.moreImages {
-		width: ~"calc(100% - 5px)";
-	}
-
-	.postImages {
-		@media @desktop {
-			width: 72em;
-		}
-		max-width: 100%;
-		margin-top: 5px;
-	}
-
-	.postImageWrap:only-child .postImage {
-		width: auto;
-	}
-
-	.postImageWrap {
-		position: relative;
-		max-height: 400px;
-		@media @mobile {
-			max-width: ~"calc(100% - 10px)";
-		}
-		display: inline-block;
-		margin: 0 5px 5px 0;
-
-		cursor: pointer;
-	}
-
-	.postImage {
-		max-height: 400px;
-		max-width: 100%;
-	}
-
-	.postImage--play {
-		position: absolute;
-		top: ~"calc(50% - 25px)";
-		left: ~"calc(50% - 25px)";
-		width: 50px;
-		height: 50px;
-		line-height: 50px;
-
-		background-color: rgba(red(@primary), green(@primary), blue(@primary), 0.95);
-
-		vertical-align: middle;
-		color: @white;
-		text-shadow: 0px 0px 1px black;
-		text-align: center;
-		padding-left: 5px;
-		border-radius: 100%;
-		transition: .6s text-shadow ease;
-		&:extend(.box-fix);
-	}
-
-	.postImageWrap:hover .postImage--play {
-		text-shadow: 1px 1px 2px #444;
-	}
-
-	.comments {
-		max-width: @column-width;
-
-		@media @mobile {
-			padding-left: @default-padding;
-			margin-left: @user-image-size - @user-image-size-small - @default-padding;
-		}
-
-		ul {
-			margin: 0;
-			padding: 0;
-			// this would be a sane global default.
-			list-style-type: none;
-			li {
-				padding-top: @default-padding;
-				&:last-of-type {
-					padding-bottom: @default-padding;
-				}
-			}
-		}
-
-		.userimg {
-			width:  @user-image-size-small;
-			height: @user-image-size-small;
-		}
-
-		.content, .meta {
-			margin-left: @user-image-size-small;
-		}
-
-		.meta {
-			padding-left: @default-padding;
-		}
-
-		textarea { width: 100%; }
-
-		button {
-			margin-top: 6px;
-			float: right;
+}
+.post-comments-list {
+	margin: 0;
+	padding: 0;
+	// this would be a sane global default.
+	list-style-type: none;
+	li {
+		padding-top: @default-padding;
+		&:last-of-type {
+			padding-bottom: @default-padding;
 		}
 	}
+}
 
-	.post-comments-loading {
-		width: 50%;
-		text-align: center;
-	}
+.post-userimage--small {
+	width:  @user-image-size-small;
+	height: @user-image-size-small;
+}
+
+.post-comment-content, .post-comment-meta {
+	margin-left: @user-image-size-small;
+}
+
+.post-comment-meta {
+	padding-left: @default-padding;
+}
+
+.post-newComment { width: 100%; margin-top: @default-padding; }
+
+.post-sendComment {
+	margin-top: 6px;
+	float: right;
+}
+
+.post-comments-loading {
+	width: 50%;
+	text-align: center;
+}
+.singlePost {
+	@media @mobile { margin-top: 5rem; }
 }

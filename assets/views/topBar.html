@@ -1,13 +1,5 @@
 <header class="header" data-ng-cloak data-ng-class="{'header-push': (mobile && sidebarActive && !searchActive)}">
 	<div class="header-inner" data-ng-class="{'header-inner--left': !mobile }">
-		<button class="header-toggle header-toggle-sidebar" data-ng-click="toggleSidebar()" data-ng-if="mobile">
-			<i class="fa fa-bars header-toggle-icon"></i>
-			<span>
-				<span class="badge" id="mobileCounter" data-ng-if="(messages.unread + friends.requestsCount + news.count) > 0">
-					<span>{{messages.unread + friends.requestsCount + news.count}}</span>
-				</span>
-			</span>
-		</button>
 		<a whispeer-sref="app.main" class="header-brand" data-ng-click="mobileActivateView()">
 			<span class="header-brand--normal">whis</span><span class="header-brand--inverse">peer</span>
 		</a>

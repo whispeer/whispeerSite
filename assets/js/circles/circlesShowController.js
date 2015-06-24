@@ -7,6 +7,7 @@ define(["controllers/controllerModule", "whispeerHelper", "step", "asset/state"]
 
 		$scope.circleid = $stateParams.circleid;
 		$scope.thisCircle = {};
+		$scope.circleLoading = true;
 
 		step(function () {
 			circleService.loadAll(this);
@@ -14,6 +15,8 @@ define(["controllers/controllerModule", "whispeerHelper", "step", "asset/state"]
 			var theCircle = circleService.get($stateParams.circleid);
 			$scope.thisCircle = theCircle.data;
 			theCircle.loadPersons(this);
+		}), h.sF(function () {
+			$scope.circleLoading = false;
 		}), errorService.criticalError);
 
 		$scope.editingTitle = {

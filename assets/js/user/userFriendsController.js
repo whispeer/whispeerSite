@@ -24,6 +24,8 @@ define(["step", "whispeerHelper", "bluebird", "asset/resizableImage", "asset/sta
 				$scope.friends.push(friends[i].data);
 				friends[i].loadBasicData(this.parallel());
 			}
+
+			this.parallel()();
 		}), h.sF(function () {
 			$scope.loadingFriends = false;
 		}));

@@ -9,7 +9,6 @@ define(["step", "whispeerHelper", "bluebird", "asset/resizableImage", "asset/sta
 		var userObject, identifier = $stateParams.identifier;
 
 		$scope.posts = [];
-
 		$scope.loadingPosts = true;
 		$scope.endOfPosts = false;
 		$scope.newPost = {
