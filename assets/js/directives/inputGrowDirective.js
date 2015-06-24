@@ -5,7 +5,8 @@ define(["directives/directivesModule", "whispeerHelper"], function (directivesMo
 		return {
 			restrict: "A",
 			link: function (scope, element, attributes) {
-				var initialHeight = element.innerHeight;
+				var parent = element.parent();
+				var initialHeight = parent.innerHeight;
 
 				function ensureSafeCSS() {
 					element.css({
@@ -27,13 +28,17 @@ define(["directives/directivesModule", "whispeerHelper"], function (directivesMo
 				function updateHeight() {
 					ensureSafeCSS();
 
-					element.height(0);
-					var newHeight = element[0].scrollHeight;
+					parent.height(0);
+					var height = element[0].scrollHeight;
 
-					var height = newHeight + 20;
-					height = Math.max(newHeight, initialHeight);
+					height = Math.max(height, initialHeight);
+
+					if (height > initialHeight) {
+						height = height + 20;
+					}
+
 					height = Math.min(parseInt(attributes.maximumHeight, 10), height);
-					element.innerHeight(height);
+					parent.innerHeight(height);
 
 					resetCSS();
 				}
@@ -45,11 +50,11 @@ define(["directives/directivesModule", "whispeerHelper"], function (directivesMo
 				}, function (isActive) {
 					if (isActive) {
 						$timeout(function () {
-							initialHeight = element.innerHeight();
+							initialHeight = parent.innerHeight();
 							updateHeight();
 						});
 					} else if (isActive === false) {
-						element.innerHeight("");
+						parent.innerHeight("");
 					}
 				});
 			}
