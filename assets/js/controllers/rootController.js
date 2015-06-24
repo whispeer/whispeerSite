@@ -10,6 +10,7 @@ define(["step", "whispeerHelper", "config", "controllers/controllerModule"], fun
 
 		$scope.loading = true;
 
+		var oldFocusedElement;
 		var nullUser = {
 			name: "",
 			basic: {
@@ -80,8 +81,12 @@ define(["step", "whispeerHelper", "config", "controllers/controllerModule"], fun
 
 		$scope.toggleSidebar = function() {
 			$scope.sidebarActive = !$scope.sidebarActive;
-			$scope.searchActive = false;
+			$scope.hideSearch();
 			$scope.fadeOutSearch = false;
+		};
+
+		$scope.hideSearch = function () {
+			$scope.searchActive = false;
 		};
 
 		function updateCssClass() {
@@ -93,23 +98,29 @@ define(["step", "whispeerHelper", "config", "controllers/controllerModule"], fun
 		}
 
 		$scope.mobileActivateView = function() {
-			$scope.sidebarActive = false;
-			$scope.searchActive = false;
+			$scope.hideSearch();
+			$scope.closeSidebar();
 			updateCssClass();
 		};
 
 		$scope.visitUserProfile = function (user) {
 			user.user.visitProfile();
-			$scope.searchActive = false;
-			$scope.sidebarActive = false;
+			$scope.hideSearch();
+			$scope.closeSidebar();
 		};
 
 		$scope.toggleSearch = function() {
 			if ($scope.searchActive) {
 				$scope.fadeOutSearch = !$scope.fadeOutSearch;
+			} else {
+				window.setTimeout(function () {
+					oldFocusedElement = document.activeElement;
+					jQuery("#general-searchBar input").focus();
+				}, 1500);
 			}
 			$scope.searchActive = true;
-			$scope.sidebarActive = false;
+
+			$scope.closeSidebar();
 		};
 
 		cssService.addListener(function (newClass, isBox) {
