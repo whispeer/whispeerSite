@@ -4,10 +4,10 @@ var grunt = require("grunt");
 
 grunt.loadNpmTasks("grunt-contrib-jshint");
 grunt.loadNpmTasks("grunt-contrib-less");
+grunt.loadNpmTasks("grunt-autoprefixer");
 grunt.loadNpmTasks("grunt-contrib-watch");
 grunt.loadNpmTasks("grunt-browser-sync");
 grunt.loadNpmTasks("grunt-contrib-copy");
-grunt.loadNpmTasks("grunt-execute");
 grunt.loadNpmTasks("grunt-concurrent");
 grunt.loadNpmTasks("grunt-bower-install-simple");
 grunt.loadNpmTasks("grunt-run");
@@ -155,6 +155,18 @@ grunt.initConfig({
 			}
 		}
 	},
+	autoprefixer: {
+		options: {
+			browsers: ["last 2 versions", "ie 9", "> 1% in DE"],
+			remove: true
+		},
+		style: {
+			expand: true,
+			flatten: true,
+			src: "assets/css/*.css",
+			dest: "assets/css/"
+		}
+	},
 	copy: {
 		vendor: {
 			files: [
@@ -164,7 +176,16 @@ grunt.initConfig({
 					src: "font-awesome.min.css",
 					dest: "assets/less/base/addons/",
 					rename: function (dest, src) {
-						return dest + src.replace(".css", ".less");
+						return dest + src.replace(".min.css", ".less");
+					}
+				},
+				{
+					expand: true,
+					cwd: "node_modules/font-awesome/css/",
+					src: "font-awesome.min.css",
+					dest: "staticRaw/_sass/",
+					rename: function (dest, src) {
+						return dest + src.replace(".min.css", ".scss");
 					}
 				},
 				{
@@ -173,6 +194,24 @@ grunt.initConfig({
 					src: "**",
 					dest: "assets/fonts/",
 					filter: "isFile"
+				},
+				{
+					expand: true,
+					cwd: "node_modules/normalize.css/",
+					src: "normalize.css",
+					dest: "assets/less/base/addons/",
+					rename: function (dest, src) {
+						return dest + src.replace(".css", ".less");
+					}
+				},
+				{
+					expand: true,
+					cwd: "node_modules/normalize.css/",
+					src: "normalize.css",
+					dest: "staticRaw/_sass/",
+					rename: function (dest, src) {
+						return dest + src.replace(".css", ".scss");
+					}
 				}
 			]
 		}
@@ -180,7 +219,7 @@ grunt.initConfig({
 	watch: {
 		scripts: {
 			files: ["assets/less/**/*.less"],
-			tasks: ["less"],
+			tasks: ["less", "autoprefixer"],
 			options: {
 				spawn: false
 			}
@@ -294,7 +333,7 @@ grunt.task.registerMultiTask("manifest", "Build the manifest file.", function ()
 
 grunt.registerTask("default", ["build:development", "browserSync", "concurrent:development"]);
 
-grunt.registerTask("build:development", ["clean", "copy", "bower-install-simple", "less", "run:buildsjcl"]);
-grunt.registerTask("build:production",  ["clean", "copy", "bower-install-simple", "less", "requirejs", "run:buildsjcl", "buildDate", "includes", "manifest"]);
+grunt.registerTask("build:development", ["clean", "copy", "bower-install-simple", "less", "autoprefixer", "run:buildsjcl"]);
+grunt.registerTask("build:production",  ["clean", "copy", "bower-install-simple", "less", "autoprefixer", "requirejs", "run:buildsjcl", "buildDate", "includes"]);
 
 grunt.registerTask("server", "Start the whispeer web server.", require("./webserver"));

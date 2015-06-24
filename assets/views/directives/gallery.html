@@ -3,12 +3,12 @@
 	<img class="modalContent-image" data-ng-src="{{modalImage.lowest.url}}" data-ng-if="modalImage.highest.loading">
 	<div class="modalContent-spinner" data-ng-if="modalImage.highest.loading"><i class="fa fa-spinner fa-spin fa-3x"></i></div>
 </modal>
-<div class="postImages">
-	<div class="postImageWrap" data-ng-click="viewImage($index)" data-image-gallery="images" data-ng-repeat="image in images" data-ng-if="$index < preview">
-		<img class="postImage" data-ng-src="{{image.lowest.url}}">
-		<span class="postImage--play fa fa-play fa-2x" data-ng-if="image.lowest.gif"></span>
+<div class="post-images">
+	<div class="post-imageWrap" data-ng-click="viewImage($index)" data-image-gallery="images" data-ng-repeat="image in images" data-ng-if="$index < preview">
+		<img class="post-image" data-ng-src="{{image.lowest.url}}">
+		<span class="post-image--play fa fa-play fa-2x" data-ng-if="image.lowest.gif"></span>
 	</div>
-	<button class="moreImages btn btn--inverse btn--noRadius" data-ng-click="loadMoreImages()" data-ng-if="images.length > preview">
+	<button class="post-moreImages btn btn--inverse btn--noRadius" data-ng-click="loadMoreImages()" data-ng-if="images.length > preview">
 		+ {{images.length - preview}}
 	</button>
 </div>

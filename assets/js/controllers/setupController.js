@@ -5,7 +5,7 @@
 define(["step", "whispeerHelper", "asset/state", "libs/qr", "libs/filesaver", "controllers/controllerModule"], function (step, h, State, qr, saveAs, controllerModule) {
 	"use strict";
 
-	function setupController($scope, $location, cssService, errorService, userService, settingsService) {
+	function setupController($scope, $state, cssService, errorService, userService, settingsService) {
 		cssService.setClass("setupView");
 
 		var saveSetupState = new State();
@@ -17,10 +17,6 @@ define(["step", "whispeerHelper", "asset/state", "libs/qr", "libs/filesaver", "c
 			firstName: "",
 			lastName: "",
 			mail: ""
-		};
-
-		$scope.goToNext = function () {
-			$location.path("/invite");
 		};
 
 		function makeNamePrivate(cb) {
@@ -77,13 +73,13 @@ define(["step", "whispeerHelper", "asset/state", "libs/qr", "libs/filesaver", "c
 					this.ne();
 				}
 			}), h.sF(function () {
-				$scope.goToNext();
+				$state.go("app.main");
 				this.ne();
 			}), errorService.failOnError(saveSetupState));
 		};
 	}
 
-	setupController.$inject = ["$scope", "$location", "ssn.cssService", "ssn.errorService", "ssn.userService", "ssn.settingsService"];
+	setupController.$inject = ["$scope", "$state", "ssn.cssService", "ssn.errorService", "ssn.userService", "ssn.settingsService"];
 
 	controllerModule.controller("ssn.setupController", setupController);
 });

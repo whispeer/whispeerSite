@@ -1,0 +1,55 @@
+<header class="box-header box-header--content settingsView-setting-header"><span class="box-header-title" data-i18n="settings.changes.general.title"></span></header>
+<section class="settingsView-section" id="settingsView-general">
+	<div class="settingsView-setting" class="settingsView-fingerprint">
+		<h5 class="settingsView-setting-header" data-i18n="settings.changes.general.fingerprints.title"></h5>
+		<p class="settingsView-setting-row">
+			<span data-ng-repeat="part in fingerprint">{{part}}{{$last ? '' : ' - '}}</span>
+		</p>
+		<p class="settingsView-setting-row"><img class="settingsView-qrCode" id="fingerPrintQR" /></p>
+	</div>
+
+	<div class="settingsView-setting" id="settingsView-uiLanguage">
+		<h5 class="settingsView-setting-header" data-i18n="settings.changes.general.uiLanguage.title"></h5>
+		<p class="settingsView-setting-row">
+			<select class="language" type="text" data-ng-model="uiLanguage">
+				<option data-ng-repeat="lang in languages" value="{{lang}}" data-i18n="settings.changes.general.uiLanguage.langs.{{lang}}" data-ng-selected="lang == uiLanguage"></option>
+			</select>
+		</p>
+	</div>
+
+	<div class="settingsView-setting" id="settingsView-sendMethod">
+		<h5 class="settingsView-setting-header" data-i18n="settings.changes.general.sendMethod.title"></h5>
+		<p class="settingsView-setting-row">
+			<label for="sendMethodEnter" class="settingsView-selectLabel btn btn--primary btn--big">
+				<input type="radio" data-ng-model="sendShortCut" name="sendMethod" value="enter" id="sendMethodEnter">
+				&nbsp;<span data-i18n="settings.changes.general.sendMethod.enter"></span>
+			</label>
+		</p>
+		<p class="settingsView-setting-row">
+			<label for="sendMethodCtrlEnter" class="settingsView-selectLabel btn btn--primary btn--big">
+				<input type="radio" data-ng-model="sendShortCut" name="sendMethod" value="ctrlEnter" id="sendMethodCtrlEnter">
+				&nbsp;<span data-i18n="settings.changes.general.sendMethod.ctrlEnter"></span>
+			</label>
+		</p>
+	</div>
+
+	<div class="settingsView-setting" id="settingsView-sounds">
+		<h5 class="settingsView-setting-header" data-i18n="settings.changes.general.notificationSounds.title"></h5>
+		<p class="settingsView-setting-row">
+			<label for="messageSoundOn" class="settingsView-selectLabel btn btn--primary btn--big">
+				<input type="radio" data-ng-model="notificationSound" name="messageSound" value="on" id="messageSoundOn">
+				&nbsp;<span data-i18n="settings.changes.general.notificationSounds.on"></span>
+			</label>
+		</p>
+		<p class="settingsView-setting-row">
+			<label for="messageSoundOff" class="settingsView-selectLabel btn btn--primary btn--big">
+				<input type="radio" data-ng-model="notificationSound" name="messageSound" value="off" id="messageSoundOff">
+				&nbsp;<span data-i18n="settings.changes.general.notificationSounds.off"></span>
+			</label>
+		</p>
+	</div>
+
+	<savebutton class="settingsView-settingsFormButton" data-state="saveGeneralState" data-ng-click="saveGeneral()">
+		<span data-i18n="settings.changes.save"></span>
+	</savebutton>
+</section>

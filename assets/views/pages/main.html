@@ -1,46 +1,32 @@
 <div id="newsfeedView-wall" data-scroll data-scroll-window data-custom="distancePercentage < 0.5" data-at-custom="loadMorePosts()" data-custom-once>
 	<header id="newsfeedView-wall-header">
-		<button class="btn btn--primary" id="newsfeedView-activatePost" data-ng-if="!postActive && mobile" data-ng-click="togglePost()" data-i18n="wall.createPost"></button>
-		<form data-ng-if="postActive || !mobile" class="form-inline" id="newsfeedView-postForm">
-
-			<textarea data-strg-enter="sendPost()" data-ng-model="newPost.text" data-i18n-attr="wall.postit.text|placeholder" id="newsfeedView-shareText" data-ng-disabled="!canSend" id="newsfeedView-shareText"></textarea>
-			<search data-multiple class="search--custom" data-supplier="filterSearchSupplier" data-search-template="filter" data-input-i18n-attr="wall.postit.receiver|placeholder" id="newsfeedView-receivers" data-callback="setPostReaders(selected)" data-initial-values="getFiltersByID(newPost.readers)" data-base="circle" />
-
-			<div id="newsfeedView-sendPost">
-				<div class="uploadForm" id="newsfeedView-addImage">
-					<span class="uploadForm-button btn btn--primary btn--input btn--noRadius">
-						<span class="fa fa-photo fa-2x" id="newsfeedView-addImageIcon"></span>
-					</span>
-					<input class="uploadForm-theForm" type="file" multiple data-file="newPost.addImages" data-ng-click="mobilePromptUser($event)">
-				</div>
-				<savebutton class="btn--noRadius" id="newsfeedView-submit" data-ng-click="sendPost()" data-state="sendPostState" data-noiniticon data-ng-disabled="!canSend">
-					<span data-i18n="wall.postit.send"></span>
-				</savebutton>
-			</div>
-
-			<div id="newsfeed-newPostImages" data-ng-if="newPost.images.length > 0 || image.upload.percentage > 0">
-				<div class="newsfeed-newPostImagePreview" data-ng-repeat="image in newPost.images">
-					<button class="newsfeed-newPostImageRemove fa fa-times-circle" data-ng-click='newPost.removeImage($index)'></button>
-					<img class="newsfeed-newPostImage" alt="{{image.getName()}}" data-ng-src="{{image.getUrl()}}">
-					<progress class="newsfeed-newPostImageProgress" value="{{image.getProgress()*100}}" max="100"></progress>
-				</div>
-			</div>
-		</form>
-		<div id="newsfeedView-filter">
-			<button id="newsfeedView-filter-title" class="btn btn--border" data-ng-class="{'newsfeedView-filter-title--active': (filterActive || !mobile)}" data-i18n="wall.filter.title" data-ng-click="toggleFilter()"></button>
-			<div data-ng-if="filterActive || !mobile">
-				<search data-multiple class="hideScroll" data-supplier="filterSearchSupplier" data-search-template="filter" data-input-i18n-attr="wall.filter.placeholder|placeholder" id="newsfeedView-theFilter" data-callback="setTimelineFilter(selected)" data-initial-values="getFiltersByID(filterSelection)" data-base="filter"/>
-			</div>
+		<h1 id="newsfeedView-wall-header-title">Newsfeed</h1>
+		<newpost data-input-i18n-attr="wall.postit.text|placeholder"></newpost>
+		<div class="post" id="newsfeedView-filterForm">
+			<h3 class="h1-noMarginTop">Filter deinen Newsfeed</h3>
+			<search data-multiple class="hideScroll" data-supplier="filterSearchSupplier" data-search-template="filter" data-input-i18n-attr="wall.filter.placeholder|placeholder" data-callback="setTimelineFilter(selected)" data-initial-values="getFiltersByID(filterSelection)" data-base="filter"/>
 		</div>
 	</header>
 	<div class="posts" id="newsfeedView-posts">
-		<a class="inviteFriends-link btn btn--gray btn--hasIcon" id="newsfeedView-inviteFriends-link" whispeer-sref="app.invite">
-			<i class="fa fa-fw fa-share-alt btn-icon"></i>
-			<span class="btn-text" data-i18n="inviteFriends"></span>
-		</a>
-		<post data-ng-repeat="post in currentTimeline.getPosts()" data-post="post" id="{{post.id}}"></post>
+		<div class="post" class="zeroContent" id="newsfeedView-noPosts" data-ng-if="!currentTimeline.loading && currentTimeline.getPosts().length === 0">
+			<h1 class="h1-noMarginTop" data-i18n="wall.zeroContent.headline"><span data-for="name">{{user.basic.shortname}}</span></h1>
+			<h2 data-i18n="wall.zeroContent.subhead"></h2>
+			<div id="newsfeedView-noPosts-actions" class="zeroContent-actions">
+				<a href="#" data-ng-click="focusNewPost()" class="btn btn--primary zeroContent-action newsfeedView-noPosts-action" data-i18n="general.zeroContent.firstPost"></a>
+				<a href="#" class="btn btn--primary zeroContent-action newsfeedView-noPosts-action" data-i18n="general.zeroContent.findFriends" data-ng-click="toggleSearch()"></a>
+				<a whispeer-sref="app.invite" class="btn btn--primary zeroContent-action newsfeedView-noPosts-action" data-i18n="general.zeroContent.inviteFriends"></a>
+			</div>
+		</div>
+		<div class="post" id="newssfeedView-invite" data-ng-if="!currentTimeline.loading && currentTimeline.getPosts().length < 10">
+			<h1 data-i18n="inviteFriends" class="h1-noMarginTop"></h1>
+			<!-- todo: use ssn.inviteController here to make buttons work. Problem: it changes the css class... -->
+			<div class="clear-fix" id="newsfeedView-shareButtons">
+				<invitebuttons></invitebuttons>
+			</div>
+		</div>
+		<post data-ng-repeat="post in currentTimeline.getPosts()" data-post="post" id="{{post.id}}" class="newsfeedView-post"></post>
 		<div id="newsfeedView-loading" data-ng-show="currentTimeline.loading">
-			<i class="saveButton-spinner fa fa-2x fa-fw fa-spinner fa-spin"></i>
+			<i class="saveButton-spinner fa fa-2x fa-fw fa-circle-o-notch fa-spin"></i>
 			<p class="large-text" data-i18n="wall.loading"></p>
 		</div>
 	</div>

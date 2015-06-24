@@ -1,0 +1,57 @@
+{% assign langCode = page.lang %}
+{% assign lang = site.data.langs[langCode] %}
+<!doctype html>
+<html id="blog">
+	<head>
+		<title>whispeer Blog - {{page.title}}</title>
+		<meta charset="utf8" />
+		<meta name="viewport" content="target-densitydpi=device-dpi, initial-scale=1.0, user-scalable=no" />
+	</head>
+	<body id="blog-body">
+		<header id="blog-header">
+			<svg width="300" height="65" id="blog-header-logo">
+				<image xlink:href="/assets/img/logo.svg" src="/assets/img/logo-blog.png" width="300" height="65" />
+			</svg>
+			<h1 id="blog-header-title"><i class="fa fa-newspaper-o fa-fw"></i> Blog</h1>
+		</header>
+		<main id="blog-main">
+			{% for post in site.categories[page.lang] %}
+			<article class="blog-entry">
+				<div class="blog-entry-header">
+					<h1 class="blog-entry-heading"><a href="{{post.url}}" title="{{lang.goToPost}} {{post.title}}">{{post.title}}</a></h1>
+					<div class="blog-entry-meta">
+						{% if post.author %}
+							<img class="blog-entry-authorImage"{% if post.authorMail %}src="{{post.authorMail | to_gravatar }}"{% else %} src="/assets/img/user.png"{% endif%} alt="Picture of {{post.author}}">
+							<small class="blog-entry-author">
+								{{lang.by}}
+								{% if post.authorMail %}
+								<a class="blog-entry-authorLink" href="mailto:{{post.authorMail}}">
+								{% endif %}
+								{{post.author}}
+								{% if post.authorMail %}</a>{% endif %}
+							</small>
+						{% endif %}
+						{% if post.date %}
+							<small class="blog-entry-date">
+								{{lang.preDate}}&nbsp;{{post.date | date: "%d.%m.%Y"}}
+							</small>
+						{% endif %}
+					</div>
+				</div>
+				<div class="blog-entry-content">
+					{% if post.content contains "<!--more-->" %}
+						{{post.excerpt}}
+						<a href="{{post.url}}" class="button button--green button--noBorder button--radius blog-entry-more">{{lang.readMore}} <i class="fa fa-arrow-right fa-fw"></i></a>
+					{% else %}
+						{{post.content}}
+					{% endif %}
+				</div>
+				<div class="blog-entry-meta"></div>
+			</article>
+			{% endfor %}
+		</main>
+		{% include blogFooter.html %}
+		<link href="http://fonts.googleapis.com/css?family=Lato:400,700" rel="stylesheet" type="text/css">
+		<link rel="stylesheet" href="/assets/css/blog.css" />
+	</body>
+</html>

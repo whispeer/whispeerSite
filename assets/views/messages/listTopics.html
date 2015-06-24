@@ -1,0 +1,46 @@
+<div class="box-leftWrap">
+	<a class="box-header-button box-header-button--full box-header-title--push" whispeer-sref="app.messages.new">
+		<i class="fa fa-plus-circle fa-fw" id="plusBtn"></i><span data-i18n="messages.newMessage"></span>
+	</a>
+	<div id="topicListWrap" data-scroll data-custom="distancePercentage < 0.5" data-at-custom="loadMoreTopics()">
+		<ul id="topicList">
+			<div id="topicListScroll">
+				<li data-ng-repeat="topic in topics" id="{{topic.id}}" class="topic {{::topic.type}}" data-ng-class="{'unread': topic.unread, 'active': isActiveTopic(topic)}">
+					<a whispeer-sref="app.messages.show({topicid: topic.id})">
+						<div class="left">
+							<div class="imgWrap" data-ng-if="::(topic.type == 'groupChat')">
+								<img class="userimg" data-ng-repeat="partner in topic.partnersDisplay" data-ng-src="{{partner.basic.image}}" alt="{{partner.name}}" title="{{partner.name}}">
+								<span data-ng-if="topic.remainingUser" title="{{topic.remainingUserTitle}}">+{{topic.remainingUser}}</span>
+							</div>
+							<div class="imgWrap" data-ng-if="::(topic.type == 'peerChat')">
+								<userimage data-ng-repeat="partner in ::topic.partnersDisplay" data-user="partner">
+							</div>
+						</div>
+						<div class="username">
+							<span ng-repeat="partner in ::topic.partners">
+								<span class="status" data-status="{{partner.online}}"></span>
+								<strong data-ng-if="::(topic.partners.length <= 1)">{{partner.name}}</strong>
+								<strong data-ng-if="::(topic.partners.length > 1)">{{partner.basic.shortname}}{{::($last?"":",")}}</strong>
+							</span>
+						</div>
+						<div class="lastMessage">
+							{{topic.latestMessage.data.text}}
+						</div>
+						<div class="time"><i class="fa fa-clock-o"></i> <span data-smart-date="topic.latestMessage.data.timestamp"></span></div>
+						<div class="clear-fix"></div>
+					</a>
+				</li>
+				<li class="loadingSpinner" data-ng-if="topicsLoadingState.pending">
+					<i class="fa fa-circle-o-notch fa-2x fa-fw fa-spin"></i>
+					<p data-i18n="messages.loadingTopics"></p>
+				</li>
+				<li id="messageView-inviteFriends" data-ng-if="topics.length <= 3">
+					<a class="inviteFriends-link btn btn--gray btn--hasIcon" id="messageView-inviteFriends-link" whispeer-sref="app.invite">
+						<i class="fa fa-fw fa-share-alt btn-icon"></i>
+						<span class="btn-text" data-i18n="inviteFriends"></span>
+					</a>
+				</li>
+			</div>
+		</ul>
+	</div>
+</div>

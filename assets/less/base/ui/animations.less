@@ -1,0 +1,67 @@
+@keyframes heightAndOverflow {
+	0% {
+		height: 0;
+		overflow: hidden;
+	}
+
+	100% {
+		height: 100px;
+		overflow: visible;
+	}
+}
+
+@keyframes slideInDown {
+	0% { transform: translate3d(0, -4rem, 0); height: 0; visibility: hidden; }
+	50% { transform: translate3d(0, -4rem, 0); height: 4rem; visibility: visible; }
+	100% { transform: translate3d(0, 0, 0); }
+}
+
+@keyframes slideOutUp {
+	0% { transform: translate3d(0, 0, 0); }
+	50% { transform: translate3d(0, -4rem, 0); height: 4rem; visibility: visible; }
+	100% { transform: translate3d(0, -4rem, 0); height: 0; visibility: hidden; }
+}
+
+@keyframes fadeIn {
+	0% { opacity: 0;}
+	100% { opacity: 1;}
+}
+
+@keyframes fadeOut {
+	0% { opacity: 1; }
+	99% { height: 100%; }
+	100% { opacity: 0; height: 0;}
+}
+
+.animate { // enable hardware acceleration
+	transform: translate3d(0,0,0);
+}
+
+.animate--fill {
+	animation-fill-mode: both;
+}
+
+.animate-heightAndOverflow {
+	animation-name: heightAndOverflow;
+	animation-duration: 1s;
+}
+
+.animate--slideInDown {
+	animation-name: slideInDown;
+	animation-duration: 1s;
+}
+
+.animate--slideOutUp {
+	animation-name: slideOutUp;
+	animation-duration: 1s;
+}
+
+.animate--fadeIn {
+	animation-name: fadeIn;
+	animation-duration: 1s;
+}
+
+.animate--fadeOut {
+	animation-name: fadeOut;
+	animation-duration: 1s;
+}

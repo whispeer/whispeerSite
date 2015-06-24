@@ -1,10 +1,10 @@
 .search {
-	height: 40px;
+	height: 50px;
 	position: relative;
 }
 .search-form {
 	width: 100%;
-	height: 40px;
+	height: 100%;
 }
 .search-wrapper {
 	width: 100%;
@@ -22,7 +22,6 @@
 	// the search is supposed to look like a normal input
 	border: solid 1px @inputBorder;
 	border-radius: @inputBorderRadius;
-	box-shadow: inset 0px 0px 4px @inputBorder;
 
 	background: @white;
 
@@ -34,7 +33,15 @@
 	position: relative;
 	display: inline-block;
 	border-right: 1px solid @btnBorder;
-	line-height: 40px;
+	line-height: 50px;
+}
+.search-result-image {
+	width: 2rem;
+	margin-bottom: 4px;
+	margin-right: 0.213rem;
+	line-height: 50px;
+	vertical-align: middle;
+	border-radius: 100%;
 }
 .search-result-remove {
 	margin-left: 5px;
@@ -51,12 +58,15 @@
 	white-space: nowrap;
 }
 .search-query {
-	height: 100%;
+	height: 100% !important;
 	width: 100%;
 
 	background-color: white;
 
 	border: none;
+}
+.search--activeRadius {
+	border-radius: @inputBorderRadius @inputBorderRadius 0 0 !important;
 }
 .search-resultsDrop {
 	position: absolute;
@@ -68,10 +78,14 @@
 	overflow: hidden;
 
 	background-color: @white;
-	border: 1px solid @btnBorder;
-	border-radius: @inputBorderRadius;
+	border: none;
+	border-radius: 0 0 @inputBorderRadius @inputBorderRadius;
 
 	&:extend(.box-fix);
+}
+.search-resultsDrop--addBorder {
+	border: 1px solid @btnBorder;
+	border-top: none;
 }
 .search-suggestions {
 	width: 100%;
@@ -84,16 +98,18 @@
 	overflow-x: hidden;
 	-webkit-overflow-scrolling: touch;
 
-	border-radius: @inputBorderRadius;
-
 	display: inline-block;
 }
 .search-suggestion {
 	cursor: pointer;
-	height: 40px;
-	line-height: 38px;
-
+	height: 50px;
+	line-height: 49px;
+	border-bottom: 1px solid @btnBorder;
 	overflow: hidden;
+	&:last-child {
+		border-bottom: none;
+		line-height: 50px;
+	}
 }
 .search-suggestion-circle {
 	white-space: nowrap;
@@ -111,12 +127,14 @@
 }
 .search-suggestion-user {
 	width: 100%;
-	height: 150px;
+	height: auto;
 	@media @mobile {
 		height: 175px;
 	}
 	margin: 0;
 	line-height: @line-height;
+	padding: 0.5rem;
+	&:extend(.box-fix);
 }
 .search-suggestion-userimage {
 	.column(1,8);
@@ -133,6 +151,9 @@
 .search-suggestion-row {
 	.column(12);
 }
+.search-suggestion-row--info:last-child {
+	padding-bottom: 0.426rem;
+}
 .search-suggestion-name {
 	.large-text();
 	white-space: nowrap;
@@ -142,6 +163,9 @@
 .search-suggestion-name,
 .search-suggestion-nickname {
 	color: @gray;
+}
+.search-suggestion-relationship::first-letter {
+	text-transform: uppercase;
 }
 .search-suggestion-user--small {
 	height: 70px;
@@ -186,7 +210,9 @@
 	@media @mobile {
 		.column(12);
 	}
-	margin-top: 4px;
+	@media @screen {
+		margin-bottom: 5px;
+	}
 	text-align: center;
 }
 .search-action {
@@ -259,8 +285,8 @@
 .search-selectedDrop-result {
 	float: left;
 	width: 100%;
-	height: 40px;
-	line-height: 39px;
+	height: 50px;
+	line-height: 49px;
 
 	border: none;
 	border-bottom: 1px solid #ccc;
@@ -273,9 +299,17 @@
 .search-selectedDrop-result:last-child {
 	border: none;
 }
+.search-selectedDrop-result-image {
+	float: left;
+	width: 2rem;
+	height: 2rem;
+	border-radius: 100%;
+	margin-top: 9px;
+	margin-left: 9px;
+}
 .search-selectedDrop-result-name {
 	float: left;
-	width: ~"calc(98% - 20px)"; // compensate icon and margin
+	width: ~"calc(98% - 36px - 2rem)"; // compensate icon, image and margin
 	margin: 0 0 0 1%;
 
 	text-align: left;
@@ -287,10 +321,10 @@
 	cursor: default;
 }
 .search-selectedDrop-result-remove {
-	float: left;
+	float: right;
 	margin: 0 1% 0 0;
 	color: @black;
-	width: 20px;
+	width: 18px;
 }
 .search-selectedDrop-result-remove:hover {
 	color: @grayDark;
@@ -305,7 +339,17 @@
 	width: 100%;
 }
 
-.search--custom .search-wrapper {
-	border-radius: 0;
-	border: none;
+.search--custom {
+	height: 100%;
+}
+
+.search--custom .search-wrapper,
+.search--custom .search-query {
+	border-radius: 0 !important;
+	border: none !important;
+}
+
+.search--sideBorder .search-resultsDrop {
+	width: ~"calc(100% + 2px)";
+	left: -1px;
 }

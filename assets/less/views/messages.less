@@ -3,8 +3,9 @@
 
 	// Some adjustable heights:
 	@form-height: 70px;
-	@form-margin: 5px;
-	@header-height: 31px;
+	@form-margin: 0;
+	@header-height-desktop: 4rem;
+	@header-height-mobile: 4rem;
 
 	// big/small image size in topic list.
 	@user-image-size: 76px;
@@ -56,10 +57,6 @@
 				overflow: hidden;
 			}
 
-			.me .time {
-				color: #eee;
-			}
-
 			#main {
 				// main has to stay here, as there are mains on pages that have no
 				// .messagesView.
@@ -71,54 +68,18 @@
 				}
 			}
 
-			.box-header-title {
-				@media @desktop { .column(11, 16); }
-				@media @mobile { .column(4, 5); }
-				display: none;
-				visibility: hidden;
-
-				overflow: hidden;
-				text-overflow: ellipsis;
-				white-space: nowrap;
-			}
-			.box-header-title--visible { // is this stuff even necessary??
-				display: inline-block;
-				visibility: visible;
-			}
-
-		}
-
-		#newmessage {
-			@media @desktop { .column(5, 16, left, 0); }
-			// remove the unneeded border-right for mobile devices. Sadly not possible without an !imoportant.
-			// Nils: it feels like the original border-right is too wide!
-			@media @mobile {
-				.column(1, 1, left, 0);
-				border-right: none !important;
-			}
-			&.topic {
-				border: none;
-				background: transparent;
-				.btn {
-					width: 100%;
-					border: none;
-					.border-radius(0);
-				}
-			}
 		}
 
 		#topicListWrap {
-
-			@media @desktop { width: 100%/16*5; }
-			@media @mobile { width: 100%; }
-
 			position: absolute;
-			top: 0;
+			@media @desktop { top: @header-height-desktop; }
+			@media @mobile { top: @header-height-mobile; }
+			right: 0;
+			left: 0;
 			bottom: 0;
 
 			overflow-y: scroll;
 			overflow-x: hidden;
-			border-right: 1px solid #ccc;
 
 			// nice scrolling for iOS.
 			-webkit-overflow-scrolling: touch;
@@ -137,7 +98,7 @@
 					.userimg {
 						width: 80px;
 						border: 1px solid #f2f2f2;
-						.border-radius(100%);
+						border-radius: 100%;
 					}
 				}
 				.username {
@@ -146,6 +107,7 @@
 					text-overflow: ellipsis;
 					white-space: nowrap;
 					overflow: hidden;
+					color: @text-color-dark;
 				}
 				.lastMessage {
 					.small-text();
@@ -238,23 +200,25 @@
 			.inviteFriends-link {
 				width: 100%;
 				border-bottom: 1px solid #ccc;
+				border-radius: 0;
 			}
 		}
 
 		#topicWrap {
-			@media @desktop { left: 100%/16*5; }
-
 			position: absolute;
-			top: 0;
+
+			@media @desktop { top: @header-height-desktop; }
+			@media @mobile { top: @header-height-mobile; }
+
 			bottom: 0;
 			right: 0;
 			left: 0;
-
-			position: absolute;
 		}
 
-		.newMessage .search {
-			margin: 10px; // padding would have no effect on the drop
+		.newMessage .search-wrapper {
+			border: none;
+			border-bottom: 1px solid @btnBorder;
+			border-radius: 0;
 		}
 
 		#messageWrap {
@@ -308,7 +272,7 @@
 				float: left;
 				clear: both;
 				img {
-					.border-radius(100%);
+					border-radius: 100%;
 					width: @message-image-size;
 					height: @message-image-size;
 				}
@@ -356,47 +320,16 @@
 			.messages a:hover {
 				text-decoration: underline;
 			}
-
-			// messages from others
-			.other {
-				.messages:after {
-					border-right-color: @foreign-message-bg;
-				}
-				.messages:before {
-					border-right-color: @foreign-message-bg2;
-				}
+			.messages:after {
+				border-right-color: @foreign-message-bg;
+			}
+			.messages:before {
+				border-right-color: @foreign-message-bg2;
 			}
 
-			// customizations for messages by me
-			.me {
-				&.burst {
-					float: right;
-				}
-				.userimg {
-					float: right;
-				}
-				.username {
-					text-align: right;
-				}
-				.messages {
-					background-color: @own-message-bg;
-					color: @own-message-fg;
-				}
-				.messages:after, .messages:before {
-					left: 100%;
-				}
-				.messages:after {
-					border-color: fade(@own-message-bg, 0%);
-					border-left-color: @own-message-bg;
-				}
-				.messages:before {
-					border-left-color: @foreign-message-bg2;
-				}
-				a {
-					color: @foreign-message-bg;
-				}
+			.me .messages {
+				opacity: 0.75;
 			}
-
 		}
 
 		.messageView-loadingText {
@@ -428,21 +361,22 @@
 		#inputWrap { // this is the form
 			display: block;
 			position: absolute;
-			width: 100%;
+			width: ~"calc(100% + 2px)";
 			bottom: 0;
 			margin-bottom: @form-margin;
+			margin-left: -1px;
 
 			textarea {
 				height: @form-height;
-				.column(3,4,left,1%);
-				margin: 0 0 0 1%;
-				border-radius: @inputBorderRadius 0 0 @inputBorderRadius;
+				.column(3,4,left,0);
+				margin: 0;
+				border-radius: 0;
 			}
 			button {
 				height: @form-height;
-				.column(1,4,left,1%);
-				margin: 0 1% 0 0;
-				border-radius: 0 @inputBorderRadius @inputBorderRadius 0;
+				.column(1,4,left,0);
+				margin: 0;
+				border-radius: 0;
 			}
 		}
 	}
@@ -450,7 +384,7 @@
 
 @media @mobile {
 	#messages > .message-mixin(
-		@form-height: 40px;
+		@form-height: 64px;
 	);
 }
 

@@ -1,7 +1,7 @@
 define(["step", "whispeerHelper", "asset/observer", "services/serviceModule"], function (step, h, Observer, serviceModule) {
 	"use strict";
 
-	function service(localize, $location, $rootScope, settingsService, errorService) {
+	function service(localize, $state, $rootScope, settingsService, errorService) {
 		var advancedTitle = {}, count = 0, topicInternalCount = 0;
 
 		function cycleTitle() {
@@ -51,7 +51,7 @@ define(["step", "whispeerHelper", "asset/observer", "services/serviceModule"], f
 					}
 				}), errorService.criticalError);
 			},
-			createNotification: function (text, options, path, search) {
+			createNotification: function (text, options, state, stateParams) {
 				if (window.Notification && window.Notification.permission === "granted" && notificationCount < 5) {
 					notificationCount += 1;
 					var notification = new window.Notification(text, options);
@@ -59,7 +59,8 @@ define(["step", "whispeerHelper", "asset/observer", "services/serviceModule"], f
 					notification.onclick = function () {
 						if (new Date().getTime() - lastTimeNotificationClick > 50) {
 							$rootScope.$apply(function () {
-								$location.path(path).search(search);
+								$state.go(state, stateParams);
+								window.focus();
 							});
 						}
 
@@ -75,12 +76,15 @@ define(["step", "whispeerHelper", "asset/observer", "services/serviceModule"], f
 			},
 			sendLocalNotification: function(type, obj) {
 				if (type === "message") {
-					return api.createNotification(localize.getLocalizedString("notification.newmessage").replace("{user}", obj.sender.name),
+					return api.createNotification(
+						localize.getLocalizedString("notification.newmessage").replace("{user}", obj.sender.name),
 						{
 							"body": obj.sender.basic.shortname + ": " + obj.text,
 							"tag":	obj.timestamp,
 							"icon":	obj.sender.basic.image
-						}, "/messages", {topicid: obj.obj.getTopicID()});
+						},
+						"app.messages.show",
+						{topicid: obj.obj.getTopicID()});
 				}		
 			}
 		};
@@ -140,7 +144,7 @@ define(["step", "whispeerHelper", "asset/observer", "services/serviceModule"], f
 		return api;
 	}
 
-	service.$inject = ["localize", "$location", "$rootScope", "ssn.settingsService", "ssn.errorService"];
+	service.$inject = ["localize", "$state", "$rootScope", "ssn.settingsService", "ssn.errorService"];
 
 	serviceModule.factory("ssn.windowService", service);
 });

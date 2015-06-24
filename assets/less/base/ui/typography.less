@@ -7,23 +7,30 @@
 @large-font-size: 1.786em;
 @large-line-height: 1.426em;
 
-@text-color: #000000;
+@text-color-dark: #242424;
+@text-color-light: #fcfcfc;
+@text-color: @text-color-dark;
 @detail-color: #888888;
 
 
 body {
+	font-family: 'Helvetica Neue Light', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 	color: @text-color;
 }
 
-body, h1, h2, h3, h4, h5 {
+body {
 	.normal-text();
 }
 
 .normal-text() {
-	font-family: ubuntulight, 'Helvetica Neue Light', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 	font-size: @font-size;
 	line-height: @line-height;
-	font-weight: 300;
+	font-weight: 400;
+}
+
+.semibold-text() {
+	font-weight: 500;
+	color: #222;
 }
 
 .bold-text() {
@@ -49,6 +56,14 @@ body, h1, h2, h3, h4, h5 {
 	line-height: @small-line-height;
 }
 
+h1 {
+	.large-text();
+}
+
+.h1-noMarginTop {
+	margin-top: 0;
+}
+
 small {
 	.detail-text();
 }
@@ -60,6 +75,9 @@ a {
 
 a:hover {
 	color: @linkColorHover;
+}
+a[data-ng-click] {
+	cursor: pointer;
 }
 
 p {
