@@ -31,12 +31,11 @@ define(["directives/directivesModule", "whispeerHelper"], function (directivesMo
 					parent.height(0);
 					var height = element[0].scrollHeight;
 
-					height = Math.max(height, initialHeight);
-
-					if (height > initialHeight) {
+					if (height >= initialHeight) {
 						height = height + 20;
 					}
 
+					height = Math.max(height, initialHeight);
 					height = Math.min(parseInt(attributes.maximumHeight, 10), height);
 					parent.innerHeight(height);
 
