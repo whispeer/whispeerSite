@@ -12,7 +12,7 @@
 }
 #newsfeedView-wall-header {
 	width: 100%;
-	@media @desktop { padding-top: 10px; }
+	@media @desktop { padding-top: 1rem; }
 }
 #newsfeedView-wall-header-title {
 	@media @desktop { display: none; }
@@ -22,6 +22,7 @@
 // Post Form
 #newsfeedView-postForm {
 	display: inline-block;
+	margin-bottom: 0.5rem
 }
 #newsfeedView-receivers {
 	float: left;
@@ -158,50 +159,12 @@
 #newsfeedView-activatePost {
 	.column(12);
 }
-#newsfeedView-filter-title {
-	@media @mobile {
-		.column(12);
-	}
-	@media @desktop {
-		.column(12,12,left,0);
-	}
-	&:hover {
-		background: @btnBackground;
-		cursor: default;
-	}
-}
-.newsfeedView-filter-title--active {
-	border-radius: 5px 5px 0 0;
-	border-bottom: none;
-}
-#newsfeedView-theFilter {
-	@media @mobile {
-		.column(12);
-	}
-	@media @desktop {
-		.column(12,12,left,0);
-	}
-	margin-top: 0;
-	height: 42px;
-}
-#newsfeedView-theFilter .search-wrapper {
-	border-radius: 0 0 5px 5px;
-	height: 42px;
-}
-#newsfeedView-theFilter .searchDrop {
-	margin-top: 5px;
-}
 #newsfeedView-posts {
-	.column(12,12,left,0);
-	margin-top: -5px;
+	width: 100%;
 }
-#newsfeedView-inviteFriends-link {
-	text-align: center;
-	margin: 10px auto 0;
-	@media @mobile {
-		width: 98%;
-		margin: 10px 1% 0;
-	}
+#newsfeedView-filterForm {
+	margin-top: 2px;
+	margin-bottom: 0.5rem;
 }
 #newsfeedView-loading {
 	width: 100%;
