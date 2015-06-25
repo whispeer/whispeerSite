@@ -92,6 +92,7 @@
 	line-height: 4rem;
 	width: 100%;
 	border-bottom: 1px solid #366c17;
+	&:extend(.box-fix);
 }
 .userpanel-shortcut {
 	display: inline-block;
@@ -110,7 +111,7 @@
 #userpanel-menu {
 	width: 100%;
 	@media @desktop {
-		height: ~"calc(100% - 12rem - 1px)";
+		height: ~"calc(100% - 12rem)";
 		overflow: auto;
 	}
 	z-index: 3;
