@@ -4,6 +4,15 @@ lang: de
 title: Versionshistorie
 ---
 
+## 0.2.5
+
+* Neues Design
+* Profil und Einstellungen unterteilt und verbessert
+* Bilder an Pinnwänden jetzt möglich
+* Posts können verlinkt werden
+* Bessere Einstiegshilfen
+* Bugfixes
+
 ## 0.2.2
 
 * Bilder im Newsfeed

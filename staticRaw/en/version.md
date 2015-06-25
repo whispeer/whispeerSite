@@ -3,6 +3,14 @@ layout: version
 lang: en
 title: Version History
 ---
+## 0.2.5
+
+* New Design
+* Profile and Settings improved
+* Images on user walls are now possible
+* Deep-Linking for posts available
+* Improved content after registration
+* Bugfixes
 
 ## 0.2.2
 
