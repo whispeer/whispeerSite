@@ -1,7 +1,7 @@
-<header class="box-header box-header--content settingsView-setting-header"><span class="box-header-title" data-i18n="settings.changes.general.title"></span></header>
+<header class="box-header box-header--content settingsView-setting-header--top"><span class="box-header-title" data-i18n="settings.changes.general.title"></span></header>
 <section class="settingsView-section" id="settingsView-general">
 	<div class="settingsView-setting" class="settingsView-fingerprint">
-		<h5 class="settingsView-setting-header" data-i18n="settings.changes.general.fingerprints.title"></h5>
+		<h3 class="settingsView-setting-header" data-i18n="settings.changes.general.fingerprints.title"></h3>
 		<p class="settingsView-setting-row">
 			<span data-ng-repeat="part in fingerprint">{{part}}{{$last ? '' : ' - '}}</span>
 		</p>
@@ -9,7 +9,7 @@
 	</div>
 
 	<div class="settingsView-setting" id="settingsView-uiLanguage">
-		<h5 class="settingsView-setting-header" data-i18n="settings.changes.general.uiLanguage.title"></h5>
+		<h3 class="settingsView-setting-header" data-i18n="settings.changes.general.uiLanguage.title"></h3>
 		<p class="settingsView-setting-row">
 			<select class="language" type="text" data-ng-model="uiLanguage">
 				<option data-ng-repeat="lang in languages" value="{{lang}}" data-i18n="settings.changes.general.uiLanguage.langs.{{lang}}" data-ng-selected="lang == uiLanguage"></option>
@@ -18,7 +18,7 @@
 	</div>
 
 	<div class="settingsView-setting" id="settingsView-sendMethod">
-		<h5 class="settingsView-setting-header" data-i18n="settings.changes.general.sendMethod.title"></h5>
+		<h3 class="settingsView-setting-header" data-i18n="settings.changes.general.sendMethod.title"></h3>
 		<p class="settingsView-setting-row">
 			<label for="sendMethodEnter" class="settingsView-selectLabel btn btn--primary btn--big">
 				<input type="radio" data-ng-model="sendShortCut" name="sendMethod" value="enter" id="sendMethodEnter">
@@ -34,7 +34,7 @@
 	</div>
 
 	<div class="settingsView-setting" id="settingsView-sounds">
-		<h5 class="settingsView-setting-header" data-i18n="settings.changes.general.notificationSounds.title"></h5>
+		<h3 class="settingsView-setting-header" data-i18n="settings.changes.general.notificationSounds.title"></h3>
 		<p class="settingsView-setting-row">
 			<label for="messageSoundOn" class="settingsView-selectLabel btn btn--primary btn--big">
 				<input type="radio" data-ng-model="notificationSound" name="messageSound" value="on" id="messageSoundOn">
