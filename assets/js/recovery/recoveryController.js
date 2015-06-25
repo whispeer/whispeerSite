@@ -40,7 +40,9 @@ define([
 			$scope.codeProvided = true;
 		}
 
-		$scope.manualCode = "";
+		$scope.manual = {
+			code: ""
+		};
 
 		$scope.qr = {
 			enabled: $scope.codeProvided
@@ -111,7 +113,7 @@ define([
 		$scope.loadBackupKeyManual = function () {
 			loadBackupKeyState.pending();
 
-			doRecovery($scope.manualCode, errorService.failOnError(loadBackupKeyState));
+			doRecovery($scope.manual.code, errorService.failOnError(loadBackupKeyState));
 		};
 
 		$scope.backupKeyCallback = function (key) {
