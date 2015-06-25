@@ -10,6 +10,9 @@
 		{% include noscript.html %}
 		<section class="landing-section landing-section--background" id="heading">
 			<div class="landing-section--inner">
+				<svg width="300" height="65" id="blog-header-logo">
+					<image xlink:href="/assets/img/logo.svg" src="/assets/img/logo-blog.png" width="300" height="65" />
+				</svg>
 				<h1 class="section-header {% if data.teaser.textShadow %}textShadow{% endif %} {% if data.teaser.darkBlur %}darkBlur{% endif %} {% if data.teaser.lightBlur %}lightBlur{% endif %}">{{ data.teaser.headline }}</h1>
 					{% if data.teaser.details != null %}
 						<p class="section-paragraph{% if data.teaser.textShadow %} textShadow{% endif %}{% if data.teaser.darkBlur %} darkBlur{% endif %}{% if data.teaser.lightBlur %} lightBlur{% endif %}">
