@@ -1,6 +1,8 @@
 define(["directives/directivesModule", "whispeerHelper"], function (directivesModule, h) {
 	"use strict";
 
+	var BOTTOM_PADDING = 10;
+
 	function growDirective($timeout) {
 		return {
 			restrict: "A",
@@ -32,7 +34,7 @@ define(["directives/directivesModule", "whispeerHelper"], function (directivesMo
 					var height = element[0].scrollHeight;
 
 					if (height >= initialHeight) {
-						height = height + 20;
+						height = height + BOTTOM_PADDING;
 					}
 
 					height = Math.max(height, initialHeight);
