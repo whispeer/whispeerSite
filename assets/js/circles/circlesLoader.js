@@ -4,4 +4,4 @@ define([
 	"circles/circlesCreateController",
 	"circles/circlesShowController",
 	"circles/circlesListController"
-]);
+], function () {});
