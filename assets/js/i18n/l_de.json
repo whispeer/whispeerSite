@@ -1,4 +1,8 @@
 {
+	"generalWords": {
+		"at":	"bei",
+		"with":	"mit"
+	},
 	"trustLevel": {
 		"unVerified": "Die Identität dieser Person wurde noch nicht verifiziert. Du kannst sie auf ihrem Profil verifizieren!",
 		"groupVerified": "Ein Freund hat diese Person verifiziert.",
@@ -81,8 +85,8 @@
 			"failed": "Aktivierung fehlgeschlagen!\n Möglicherweise ist dein Aktivierungscode abgelaufen."
 		},
 		"circles": {
-			"searchFriends": "Gib die Namen deiner Freunde ein, die du zum Kreis hinzufügen möchtest!",
-			"titleForNew": "Gib einen Titel für den neuen Kreis ein!",
+			"searchFriends": "Freunde zum Kreis hinzufügen",
+			"titleForNew": "Kreistitel ändern",
 			"header": {
 				"title": {
 					"loaded": "Kreis anzeigen:",
@@ -101,7 +105,10 @@
 			"personCount":	"Es befinden sich {count} Personen in diesem Kreis",
 			"personsInCircle":"Personen im Kreis \"{name}\"",
 			"nocircle": "Keine Kreise gefunden",
-			"addUsers": "Nutzer hinzufügen"
+			"addUsers": "Nutzer hinzufügen",
+			"removeUser": "Aus Kreis entfernen",
+			"loading": "Kreis wird geladen",
+			"loadingCircles": "Kreise werden geladen"
 		}
 	},
 	"start": {
@@ -137,15 +144,24 @@
 	},
 	"usersearch": {
 		"mutualFriends": "gemeinsame Freunde",
-		"from": "aus",
-		"age": "Alter:",
+		"mutualFriend": "gemeinsamer Freund",
+		"location": "Wohnt in {town}{country}",
+		"age": "{day}{month}{year}",
+		"relation":	"{relationType}{name}",
+		"work":	"{what}{where}",
 		"message": "Nachricht senden",
 		"add": "Als Freund hinzufügen"
 	},
 	"general": {
 		"send":	"Absenden",
 		"cancel":	"Abbrechen",
-		"disconnected":	"Du hast deine Verbindung zu den whispeer-Servern verloren."
+		"disconnected":	"Verbindung verloren",
+		"zeroContent": {
+			"findFriends": "Finde deine Freunde auf whispeer",
+			"inviteFriends": "Lade deine Freunde ein",
+			"firstPost": "Schreibe deinen ersten Post",
+			"firstPostText": "Mein erster whispeer Beitrag! Vollständig verschlüsselt!"
+		}
 	},
 	"notification": {
 		"newmessage":	"Neue Nachricht von {user}"
@@ -279,7 +295,7 @@
 	"wall": {
 		"confirmRemovePost": "Post wirklich löschen?",
 		"remove": "Post löschen",
-		"loading": "Beiträge werden geladen!",
+		"loading": "Beiträge werden geladen",
 		"createPost": "Einen Post verfassen",
 		"postit": {
 			"receiver": "Wer soll deinen Beitrag lesen können?",
@@ -305,13 +321,17 @@
 			},
 			"content": "{{content}}"
 		},
+		"zeroContent": {
+			"headline": "Hallo {name}! Das hier ist dein Newsfeed.",
+			"subhead": "Leider ist er aktuell noch leer. Das sollten wir schleunigst ändern!"
+		},
 		"newComment": "Schreibe einen Kommentar!",
 		"comments": "Kommentare",
 		"commentsLoading": "Kommentare werden geladen!"
 	},
 	"messages": {
-		"endOfStream": "Keine weiteren Nachrichten!",
-		"remaining": "{count} Nachrichten!",
+		"endOfStream": "Keine weiteren Nachrichten",
+		"remaining": "Nachrichten werden geladen. {count} verbleibend",
 		"title": "Nachrichten",
 		"chat" :"Chat mit",
 		"newMessage": "Neue Nachricht",
@@ -319,7 +339,8 @@
 		"sendMessage": {
 			"text": "Gib deine Nachricht ein!",
 			"send": "Senden"
-		}
+		},
+		"loadingTopics": "Konversationen werden geladen"
 	},
 	"profile": {
 		"edit":	{
@@ -439,19 +460,36 @@
 				}
 			},
 			"wall": {
-				"title":	"Pinnwand",
-				"postIt":	"Schreibe etwas an die Pinnwand von {user}"
+				"title":	"Pinnwand von {user}",
+				"postIt":	"Schreibe etwas an die Pinnwand von {user}",
+				"loading":  "Beiträge werden geladen!",
+				"more": "Mehr Beiträge laden"
 			},
 			"friends": {
-				"info":	"Freunde"
+				"info":	"Freunde von {user}",
+				"zeroContent": {
+					"headline": {
+						"true": "Hallo {name}! Das hier ist deine Freundestliste.",
+						"false": "{name} hat noch keine Freunde auf whispeer."
+					},
+					"subhead": {
+						"true": "Leider ist sie aktuell noch leer. Das werden wir jetzt ändern!",
+						"false": "Füge {name} jetzt als Freund hinzu!"
+					}
+				}
 			}
 		}
 	},
 	"friends": {
-		"message": "{user} eine Nachricht senden",
-		"remove": "{user} als Freund entfernen",
+		"message": "Nachricht senden",
+		"remove": "Freund entfernen",
 		"mutualFriends":	"{count} gemeinsame Freunde",
-		"title":			"Freundesliste"
+		"title":			"Freundesliste",
+		"loading":			"Freunde werden geladen",
+		"zeroContent": {
+			"headline": "Hallo {name}! Das hier ist deine Freundestliste.",
+			"subhead": "Leider ist sie aktuell noch leer. Das werden wir jetzt ändern!"
+		}
 	},
 	"help": {
 		"headers": {
@@ -460,6 +498,11 @@
 		"askQuestion": "Stelle deine Frage!"
 	},
 	"settings": {
+		"categories": {
+			"general": "Allgemein",
+			"account": "Account",
+			"safety": "Privatsphäre"
+		},
 		"safety": {
 			"encrypted": "verschlüsselt",
 			"decrypted": "entschlüsselt",

@@ -1,11 +1,9 @@
-<section class="userView-section" id="userView-section-info">
-	<section class="userView-subSection" id="generalInfo">
-		<header class="box-header box-header--content box-header--noBorder">
-			<span class="box-header-title" data-i18n="profile.section.general.headers.title"></span>
-			<div class="box-header-links">
-				<a href="" class="edit box-header-link" data-i18n="profile.edit.false" data-ng-if="user.me && !editGeneral" data-ng-click="edit()"></a>
-				<a href="" class="edit box-header-link" data-i18n="profile.edit.true" data-ng-if="user.me && editGeneral" data-ng-click="saveUser()"></a>
-			</div>
+<section class="userView-section post" id="userView-section-info">
+	<section class="userView-subSection userView-sectionPadding" id="generalInfo">
+		<header id="userView-section-info-header">
+			<h2 class="h1-noMarginTop" id="userView-section-info-header-title" data-i18n="profile.section.general.headers.title"></h2>
+			<a href="" id="userView-section-info-header-edit" data-i18n="profile.edit.false" data-ng-if="user.me && !editGeneral" data-ng-click="edit()"></a>
+			<a href="" id="userView-section-info-header-edit" data-i18n="profile.edit.true" data-ng-if="user.me && editGeneral" data-ng-click="saveUser()"></a>
 		</header>
 		<div class="userView-userimage" data-ng-class="{'userView-userimage--editing':changeImage, 'userView-userimage--bigger': mobile && editGeneral && !changeImage}">
 			<userimage id="userView-userimage-theImage" data-user="user" data-ng-if="!changeImage" />
@@ -121,42 +119,16 @@
 			</p>
 		</div>
 	</section>
-	<div class="userView-actions userView-subSection">
+	<div class="userView-actions userView-subSection userView-sectionPadding">
 		<savebutton data-ng-if="!user.me && !user.added" class="userView-addFriend" data-ng-click="addFriend()" data-state="user.addFriendState" data-noiniticon>
-			<span data-i18n="profile.actions.addFriend|user={{user.name}}"></span>
+			<span data-i18n="profile.actions.addFriend|user={{user.basic.shortname}}"></span>
 		</savebutton>
+		<!--<button ng-if="user.added" ng-click="removeFriend()">REMOVE FRIEND [TRANSLATE]</button> -->
+		<a whispeer-sref="app.messages.new({userid: user.id})" class="userView-sendMessage btn btn--primary btn--input"><span data-i18n="profile.actions.sendMessage|user={{user.basic.shortname}}"></span></a>
 		<div class="userView-addToCircle" data-ng-if="user.added">
 			<search data-multiple data-callback="circles.callback(selected)" data-initial-values="circles.initial()" data-supplier="circleSearchSupplier" data-search-template="circle" data-select-drop-template="default" id="userView-selectCircle" data-input-i18n-attr="profile.actions.addToCircle|placeholder|user={{user.name}}"></search>
 			<saveButton id="userView-submitCircle" data-ng-click="saveCircles()" data-state="circles.saving"></saveButton>
 		</div>
-		<!--<button ng-if="user.added" ng-click="removeFriend()">REMOVE FRIEND [TRANSLATE]</button> -->
-		<a whispeer-sref="app.messages({userid: user.id})" class="userView-sendMessage btn btn--primary btn--input"><span data-i18n="profile.actions.sendMessage|user={{user.name}}"></span></a>
 	</div>
 </section>
-<section class="userView-section" id="wall">
-	<header class="box-header box-header--content"><span class="box-header-title" data-i18n="profile.section.wall.title"></span></header>
-	<form data-ng-if="(user.isMyFriend || user.me)" data-ng-class="{'userView-postIt--addMargin': posts.length == 0}" class="form-inline" id="userView-postIt">
-		<textarea data-strg-enter="sendPost()" data-ng-model="newPost.text" data-i18n-attr="wall.postit.text|placeholder" id="userView-shareText" data-ng-if="user.me"></textarea>
-		<textarea data-strg-enter="sendPost()" data-ng-model="newPost.text" data-i18n-attr="profile.section.wall.postIt|placeholder|user={{user.name}}" id="userView-shareText" data-ng-if="!user.me"></textarea>
-		<savebutton id="userView-sendPost" class="btn-noPadding" data-state="sendPostState" data-ng-click="sendPost()">
-			<span data-i18n="wall.postit.send"></span>
-		</savebutton>
-	</form>
-	<div class="posts" id="userView-posts">
-		<post data-ng-repeat="post in posts" data-post="post" id="{{post.id}}"></post>
-	</div>
-</section>
-<section class="userView-section" id="friends">
-	<header class="box-header box-header--content"><span class="box-header-title" data-i18n="profile.section.friends.info"></header>
-	<ol id="userView-friendsList" class="unstyled">
-		<li class="userView-friendElement" data-ng-repeat="friend in friends">
-			<person data-user="friend"></person>
-		</li>
-		<li class="inviteFriends" id="userView-inviteFriends" data-ng-if="friends.length < 50 && user.me">
-			<a class="inviteFriends-link btn btn--gray btn--hasIcon" id="userView-inviteFriends-link" whispeer-sref="app.invite">
-				<i class="fa fa-fw fa-share-alt btn-icon"></i>
-				<span class="btn-text" data-i18n="inviteFriends"></span>
-			</a>
-		</li>
-	</ol>
-</section>
+<ui-view name="wall"></ui-view>

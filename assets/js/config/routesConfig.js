@@ -30,9 +30,38 @@ define(["app"], function (app) {
 		addMain("backup");
 		addMain("main");
 		addMain("friends");
-		addMain("circles");
-		addMain("settings");
 		addMain("acceptInvite");
+
+		$stateProvider.state("app.post", {
+			url: "/post/{postID:[1-9][0-9]*}",
+			templateUrl: "assets/views/pages/post.html",
+			controller: "ssn.postController"
+		});
+
+		$stateProvider.state("app.settings", {
+			url: "/settings",
+			abstract: true,
+			templateUrl: "assets/views/pages/settings.html",
+			controller: "ssn.settingsController"
+		});
+
+		$stateProvider.state("app.settings.general", {
+			url: "",
+			templateUrl: "assets/views/pages/settings/general.html",
+			controller: "ssn.settingsController"
+		});
+
+		$stateProvider.state("app.settings.account", {
+			url: "/account",
+			templateUrl: "assets/views/pages/settings/account.html",
+			controller: "ssn.settingsController"
+		});
+
+		$stateProvider.state("app.settings.privacy", {
+			url: "/privacy",
+			templateUrl: "assets/views/pages/settings/privacy.html",
+			controller: "ssn.settingsController"
+		});
 
 		$stateProvider.state("app.invite", {
 			url: "/invite",
@@ -60,16 +89,105 @@ define(["app"], function (app) {
 		});
 
 		$stateProvider.state("app.messages", {
-			url: "/messages?topicid&userid",
-			templateUrl: "assets/views/pages/messages.html",
-			controller: "ssn.messagesController",
-			reloadOnSearch: false
+			url: "/messages",
+			views: {
+				"list@app.messages": {
+					templateUrl: "assets/views/messages/listTopics.html",
+					controller: "ssn.messagesListController",
+				},
+				"": {
+					templateUrl: "assets/views/pages/messages.html",
+					controller: "ssn.messagesRedirectController",
+				}
+			}
+		});
+
+		$stateProvider.state("app.messages.list", {
+			url: "/list",
+			templateUrl: "assets/views/messages/listTopics.html",
+			controller: "ssn.messagesListController"
+		});
+
+		$stateProvider.state("app.messages.new", {
+			url: "/new?userid",
+			templateUrl: "assets/views/messages/newTopic.html",
+			controller: "ssn.messagesCreateController"
+		});
+
+		$stateProvider.state("app.messages.show", {
+			url: "/{topicid:[1-9][0-9]*}",
+			templateUrl: "assets/views/messages/showTopic.html",
+			controller: "ssn.messagesShowController"
+		});
+
+		$stateProvider.state("app.circles", {
+			url: "/circles",
+			views: {
+				"list@app.circles": {
+					templateUrl: "assets/views/circles/listCircles.html",
+					controller: "ssn.circlesListController",
+				},
+				"": {
+					templateUrl: "assets/views/pages/circles.html",
+					controller: "ssn.circlesRedirectController",
+				}
+			}
+		});
+
+		$stateProvider.state("app.circles.list", {
+			url: "/list",
+			templateUrl: "assets/views/circles/listCircles.html",
+			controller: "ssn.circlesListController"
+		});
+
+		$stateProvider.state("app.circles.new", {
+			url: "/new?userid",
+			templateUrl: "assets/views/circles/newCircle.html",
+			controller: "ssn.circlesCreateController"
+		});
+
+		$stateProvider.state("app.circles.show", {
+			url: "/{circleid:[1-9][0-9]*}",
+			templateUrl: "assets/views/circles/circleShow.html",
+			controller: "ssn.circlesShowController"
 		});
 
 		$stateProvider.state("app.user", {
 			url: "/user/:identifier",
-			templateUrl: "assets/views/pages/user.html",
+			abstract: true,
+			templateUrl: "assets/views/pages/userSubViews/user.html",
 			controller: "ssn.userController"
+		});
+
+		$stateProvider.state("app.user.verify", {
+			url: "/verify",
+			templateUrl: "assets/views/pages/userSubViews/userVerify.html",
+			controller: "ssn.userVerifyController"
+		});
+
+		$stateProvider.state("app.user.info", {
+			url: "",
+			views: {
+				"wall@app.user.info": {
+					templateUrl: "assets/views/pages/userSubViews/userWall.html",
+					controller: "ssn.userWallController",
+				},
+				"": {
+					templateUrl: "assets/views/pages/userSubViews/userInfo.html"
+				}
+			}
+		});
+
+		$stateProvider.state("app.user.wall", {
+			url: "/wall",
+			templateUrl: "assets/views/pages/userSubViews/userWall.html",
+			controller: "ssn.userWallController"
+		});
+
+		$stateProvider.state("app.user.friends", {
+			url: "/friends",
+			templateUrl: "assets/views/pages/userSubViews/userFriends.html",
+			controller: "ssn.userFriendsController"
 		});
 
 		$urlRouterProvider.otherwise(function ($injector, url) {

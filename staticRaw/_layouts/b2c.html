@@ -57,7 +57,7 @@
 					<i class="fa fa-section-next fa-arrow-down"></i>
 				</a>
 			</section>
-			<a name="content"></a>
+			<a id="content"></a>
 			{% for section in data.sections %}
 			<section class="landing-section{% if section.darkText %} landing-section--darkText{% endif %}{% if section.fullScreen %} landing-section--fullScreen{% endif %}"{% if section.image != null %} style="background-image: url(/assets/images/{{section.image}});" {% endif %}>
 				<div class="landing-section--inner">
@@ -103,7 +103,7 @@
 						{% endif %}
 					</div>
 					{% if section.animation %}
-					<section class="animation-box">
+					<div class="animation-box">
 						{% for message in site.data.animation[page.lang].data %}
 							<div class="message message-s{{message.sender | plus: 1}} message-{{page.lang}}--i{{forloop.index}}{% if forloop.last == true or forloop.rindex0 == 1 %} message--infinity{% endif %}">
 								<span class="message-sender">{{site.data.animation[page.lang].senders[message.sender]}}</span>
@@ -130,10 +130,10 @@
 							<i class="fa fa-user fa-l fa-bottom textShadow"></i>
 							<span class="animation-node-description">{{site.data.animation[page.lang].senders[1]}}</span>
 						</div>
-					</section>
+					</div>
 					{% endif %}
 					{% if section.registerForm %}
-					<a name="registerNow"></a>
+					<a id="registerNow"></a>
 					<iframe class="landing-registerFrame" id="registerFrame-main" src="/{{page.lang}}/register/"></iframe>
 					{% endif %}
 				</div>

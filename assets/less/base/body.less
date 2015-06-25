@@ -6,26 +6,16 @@ iframe {
 
 html {
 	body {
-		padding-top: 50px;
 		.box-fix;
 	}
 	@media @mobile {
 		#main {
-			top: 50px;
 			left: 0;
-			height: ~"calc(100% - 50px)";
+			height: 100%;
 		}
 	}
 	footer {
 		background: rgba(255,255,255,0.79);
-	}
-}
-
-html:not(.mainView):not(.startView):not(.inviteView) {
-	@media @desktop {
-		#container {
-			padding: 10px 0;
-		}
 	}
 }
 
@@ -43,8 +33,12 @@ html:not(.mainView):not(.startView):not(.inviteView) {
 	}
 }
 
+.noScroll {
+	overflow: hidden !important;
+}
+
 body {
-	background-color: @white;
+	background-color: #f9f9f9;
 	&:extend(.box-fix);
 	*zoom: 1;
 }
@@ -68,9 +62,11 @@ noscript {
 }
 
 #main {
+	position: relative;
 	@media @desktop {
-		.column(8);
-		.push(2);
+		width: ~"calc(100% - 17rem)";
+		margin-left: 17rem;
+		&:extend(.box-fix);
 	}
 
 	@media @mobile {
@@ -91,17 +87,39 @@ noscript {
 	text-align: center;
 }
 
+#header-toggle-sidebar {
+	display: block;
+	position: fixed;
+	top: 0;
+	left: 0;
+	height: 4rem;
+	width: 4rem;
+	z-index: 8;
+	text-align: center;
+	padding: 0;
+	background: @primary;
+	border: none;
+	outline: none;
+	&:extend(.box-fix);
+	transition: none;
+	.badge { top: auto; left: auto; bottom: 5px; right: 5px; }
+}
+
+.header-toggle-sidebar--transparent {
+	background: transparent !important;
+	transition: @mobileNavTransitionTime background !important;
+	z-index: 11 !important; // has to be highter than the menu which has to be higher than the disconnect message
+}
+
 #sidebar-left {
+	background: @primaryDarkest;
 	@media @desktop {
-		.column(2);
+		width: 17rem;
 		position: fixed;
-		top: 50px;
+		top: 0;
 		left: 0;
 		overflow-y: auto;
 		overflow-x: hidden;
-		&.sidebarLeft-pushTop {
-			top: 80px;
-		}
 	}
 
 	@media @mobile {
@@ -109,16 +127,16 @@ noscript {
 		position: absolute;
 		top: 0;
 		left: 0;
-		.translate3d((-1 * @mobileNavWidth));
+		transform: translate3d((-1 * @mobileNavWidth), 0, 0);
 		transition-duration: @mobileNavTransitionTime;
-		z-index: 1040;
+		z-index: 10; // has to be higher than the disconnect message
 		padding: 0;
 		overflow: hidden;
-		.box-fix;
+		&:extend(.box-fix);
 		height: 100%;
 		background: @primary;
 		&.sidebarLeft-show {
-			.translate3d(0);
+			transform: translate3d(0, 0, 0);
 		}
 		.mobileMenu {
 			overflow-y: scroll;
@@ -129,36 +147,20 @@ noscript {
 	}
 }
 
-#mobileSearch {
-	.column(12);
-	margin-top: 10px;
-	height: ~"calc(100% - 15px)";
-}
-
-.theMobileSearch {
-	height: 100% !important; // sad but needed
-}
-
-.theMobileSearch .search-input {
-	width: 100%;
-}
-
-.theMobileSearch .search-resultsDrop {
-	bottom: 5px;
-}
-
-.theMobileSearch .search-suggestions {
-	max-height: 100%;
-}
-
 #userpanel {
-	.column(12);
-	margin-bottom: 10px;
+	width: 100%;
 }
 
 textarea {
 	resize: none;
 	overflow: auto;
+}
+
+.loadingSpinner {
+	text-align: center;
+	flex-grow: 0;
+	width: 100%;
+	padding-top: 1rem;
 }
 
 .footer {

@@ -6,9 +6,10 @@ define(["step", "whispeerHelper", "controllers/controllerModule"], function (ste
 	"use strict";
 
 	function friendsController($scope, cssService, friendsService, userService, localize)  {
-		cssService.setClass("friendsView", !$scope.mobile);
+		cssService.setClass("friendsView");
 		$scope.friends = [];
 		$scope.requests = [];
+		$scope.friendsLoading = true;
 
 		$scope.removeFriend = function (user) {
 			if (confirm(localize.getLocalizedString("magicbar.requests.confirmRemove", { user: user.name }))) {
@@ -22,6 +23,7 @@ define(["step", "whispeerHelper", "controllers/controllerModule"], function (ste
 				userService.getMultipleFormatted(friends, this);
 			}, h.sF(function (result) {
 				$scope.friends = result;
+				$scope.friendsLoading = false;
 			}));
 		}
 

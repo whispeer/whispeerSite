@@ -5,11 +5,11 @@ define([
 		"step",
 		"whispeerHelper",
 		"validation/validator",
-		"services/serviceModule",
+		"messages/messagesModule",
 		"asset/observer",
 		"asset/sortedSet",
 		"asset/securedDataWithMetaData"
-	], function (step, h, validator, serviceModule, Observer, sortedSet, SecuredData) {
+	], function (step, h, validator, messagesModule, Observer, sortedSet, SecuredData) {
 	"use strict";
 
 	var messageService;
@@ -554,6 +554,8 @@ define([
 					for (i = 0; i < latest.topics.length; i += 1) {
 						makeTopic(latest.topics[i], this.parallel());
 					}
+
+					this.parallel()();
 				}), h.sF(function () {
 					messageService.notify("", "loadingDone");
 				}));
@@ -710,5 +712,5 @@ define([
 
 	service.$inject = ["$rootScope", "$timeout", "ssn.errorService", "ssn.socketService", "ssn.sessionService", "ssn.userService", "ssn.keyStoreService", "ssn.initService", "ssn.windowService", "ssn.models.message"];
 
-	serviceModule.factory("ssn.messageService", service);
+	messagesModule.factory("ssn.messageService", service);
 });

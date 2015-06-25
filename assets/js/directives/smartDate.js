@@ -37,7 +37,7 @@ define(["whispeerHelper", "directives/directivesModule"], function (h, directive
             return new Date().getTime() - timestamp;
         }
 
-        function toDateString(input) {
+        function toDateString(input, noDayDisplay) {
             if (input) {
                 var date = new Date(h.parseDecimal(input));
                 var diff = timestampDiffNow(h.parseDecimal(input));
@@ -45,6 +45,10 @@ define(["whispeerHelper", "directives/directivesModule"], function (h, directive
                 var sameDate = new Date(date).setHours(0, 0, 0, 0) === new Date().setHours(0, 0, 0, 0);
                 if (sameDate) {
                     return getDifferenceString(diff);
+                }
+
+                if (noDayDisplay) {
+                    return date.toLocaleTimeString();
                 }
 
                 return date.toLocaleDateString() + " " + date.toLocaleTimeString();
@@ -57,10 +61,10 @@ define(["whispeerHelper", "directives/directivesModule"], function (h, directive
             scope: {
                 time: "=smartDate"
             },
-            link: function (scope, element) {
+            link: function (scope, element, attrs) {
                 var previousResult;
                 function updateDateString() {
-                    var result = toDateString(scope.time);
+                    var result = toDateString(scope.time, attrs.smartDateNoDay !== undefined);
 
                     if (result !== previousResult) {
                         element.text(result);

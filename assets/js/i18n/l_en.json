@@ -1,4 +1,8 @@
 {
+	"generalWords": {
+		"at":	"bei",
+		"with":	"mit"
+	},
 	"trustLevel": {
 		"unVerified": "You have not verified this user. Verification is available on a users profile.",
 		"groupVerified": "One of your friends verified this user",
@@ -81,27 +85,30 @@
 			"failed": "Verification failed!\n Maybe your verification code is outdated."
 		},
 		"circles": {
-			"searchFriends": "Type in the names of your friends you want to add to this circle!",
-			"titleForNew": "Type in the title of this circle!",
+			"searchFriends": "Add friends to this Circle",
+			"titleForNew": "Change the title of this Circle",
 			"header": {
 				"title":	{
 					"loaded": "Show Circle:",
 					"create": "Create new Circle"
 				},
 				"createGroup": "Copy as group",
-				"sendMessage": "Message to circle",
-				"edit":	"Edit circle",
-				"save":	"Save circle",
-				"remove":	"Delete circle"
+				"sendMessage": "Message to Circle",
+				"edit":	"Edit Circle",
+				"save":	"Save Circle",
+				"remove":	"Delete Circle"
 			},
 			"removeCircle":	"Do you really want to remove this Circle?",
-			"newCircle":	"Create a new circle",
-			"new": "New circle",
-			"createCircle": "Create circle",
-			"personCount":	"There are {count} people in this circle",
-			"personsInCircle":"People in circle \"{name}\"",
+			"newCircle":	"Create a new Circle",
+			"new": "New Circle",
+			"createCircle": "Create Circle",
+			"personCount":	"There are {count} people in this Circle",
+			"personsInCircle":"People in Circle \"{name}\"",
 			"nocircle": "No circles found",
-			"addUsers": "Add users to this circle"
+			"addUsers": "Add users to this Circle",
+			"removeUser": "Remove from Circle",
+			"loading":	"Loading Circle",
+			"loadingCircles": "Loading Circles"
 		}
 	},
 	"start": {
@@ -137,15 +144,24 @@
 	},
 	"usersearch": {
 		"mutualFriends": "mutual friends",
-		"from": "from",
-		"age": "Age:",
-		"message": "Send a message",
-		"add": "Add as friend"
+		"mutualFriend": "mutual friend",
+		"location": "From {town}{country}",
+		"age": "{day}{month}{year}",
+		"relation":	"{relationType}{name}",
+		"work":	"{what}{where}",
+		"message": "Send message",
+		"add": "Als Friend"
 	},
 	"general": {
 		"send":	"Send",
 		"cancel":	"Cancel",
-		"disconnected":	"You've lost your connection to the whispeer server"
+		"disconnected":	"Lost Connection",
+		"zeroContent": {
+			"findFriends": "Find your friends on whispeer",
+			"inviteFriends": "Invite your friends",
+			"firstPost": "Write your first post",
+			"firstPostText": "My first whispeer post! Fully encrypted!"
+		}
 	},
 	"notification": {
 		"newmessage":	"New Message from {user}"
@@ -281,7 +297,7 @@
 	"wall": {
 		"remove": "Remove post",
 		"confirmRemovePost": "Really remove post?",
-		"loading": "Loading your newsfeed!",
+		"loading": "Loading your newsfeed",
 		"createPost": "Post something!",
 		"postit": {
 			"receiver": "Who is allowed to read this post?",
@@ -307,13 +323,17 @@
 			},
 			"content": "{{content}}"
 		},
+		"zeroContent": {
+			"headline": "Hey {name}! This is your newsfeed.",
+			"subhead": "There's nothing in here yet. But we're going to change that right now!"
+		},
 		"newComment": "Add a comment!",
 		"comments": "Comments",
 		"commentsLoading": "Comments are being loaded!"
 	},
 	"messages": {
-		"endOfStream": "End of message stream!",
-		"remaining": "{count} remaining messages!",
+		"endOfStream": "End of message stream",
+		"remaining": "Loading older messages. {count} remaining",
 		"title": "Messages",
 		"chat" :"Chat with",
 		"newMessage": "New message",
@@ -321,7 +341,8 @@
 		"sendMessage": {
 			"text": "Type in your message!",
 			"send": "Send"
-		}
+		},
+		"loadingTopics": "Loading conversations"
 	},
 	"profile": {
 		"edit": {
@@ -442,18 +463,35 @@
 			},
 			"wall": {
 				"title":	"Wall",
-				"postIt":	"Write on the wall of {user}"
+				"postIt":	"Write on the wall of {user}",
+				"loading":  "Loading wall!",
+				"more": "Load more content"
 			},
 			"friends": {
-				"info":	"Friends"
+				"info":	"Friends",
+				"zeroContent": {
+					"headline": {
+						"true": "Hey {name}! This is your friends list.",
+						"false": "{name} has no friends on whispeer yet."
+					},
+					"subhead": {
+						"true": "Seems like nobody's home. Lets find a few of your friends!",
+						"false": "Add {name} to your friends!"
+					}
+				}
 			}
 		}
 	},
 	"friends": {
-		"message": "sent {user} a message",
-		"remove": "remove {user} from your friends list",
+		"message": "Send message",
+		"remove": "Remove friend",
 		"mutualFriends":	"{count} mutual friends",
-		"title":			"Friends list"
+		"title":			"Friends list",
+		"loading":	"Loading friends",
+		"zeroContent": {
+			"headline": "Hey {name}! This is your friends list.",
+			"subhead": "Seems like nobody's home. Lets find a few of your friends!"
+		}
 	},
 	"help": {
 		"headers": {
@@ -462,6 +500,11 @@
 		"askQuestion": "Ask your question!"
 	},
 	"settings": {
+		"categories": {
+			"general": "General",
+			"account": "Account",
+			"safety": "Privacy"
+		},
 		"safety": {
 			"encrypted": "encrypted",
 			"decrypted": "decrypted",
