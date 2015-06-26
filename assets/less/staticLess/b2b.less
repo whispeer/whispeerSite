@@ -5,7 +5,6 @@
 }
 
 .business-header {
-	background: #fcfcfc;
 	border-bottom: none;
 	box-shadow: 0px 2px 4px rgba(20,20,20,0.5);
 
@@ -21,8 +20,6 @@
 	line-height: 4rem;
 	height: 4rem;
 	font-size: 2em;
-	background: @primary;
-	box-shadow: inset -1px 0 3px rgba(20,20,20,0.5);
 }
 
 .business-header-brand-child {
@@ -41,12 +38,14 @@
 }
 
 .business-header-nav-link {
-	margin: auto;
+	margin: auto 0;
 	font-size: 1.426em;
 	font-weight: 400;
-	color: @text-color-dark;
+	color: @text-color-light;
+	padding: 0 1rem;
 	&:hover {
-		color: @primaryLighter;
+		color: @text-color-light;
+		background: rgba(34, 34, 34, 0.1);
 	}
 }
 
