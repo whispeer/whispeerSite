@@ -2,8 +2,7 @@
 	general: {
 		title: "whispeer",
 		message: "Simply safe",
-		description: "whispeer is a secure social network offering high privacy standards by using end-to-end encryption.",
-		noScript: "Hey there! It seems like your Browser did not provide JavaScript.<br>whispeer is based on JavaScript and will not work without it.<br>Please activate JavaScript.<br>Thank You"
+		description: "whispeer is a secure social network offering high privacy standards by using end-to-end encryption."
 	},
 	teaser: {
 		headline: "Concentrating on your friends",

@@ -2,8 +2,7 @@
 	general: {
 		title: "whispeer",
 		message: "Einfach sicher kommunizieren",
-		description: "whispeer ist ein sicheres soziales Netzwerk, dass deine Privatsphäre durch Ende-zu-Ende Verschlüsselung schützt.",
-		noScript: "Hallo! Leider steht uns bei deinem Browser kein Javascript zur Verfügung!<br>Daher ist es nicht möglich whispeer zu nutzen, da wir unbedingt Javascript benötigen!<br>Vielen Dank für dein Verständnis!"
+		description: "whispeer ist ein sicheres soziales Netzwerk, dass deine Privatsphäre durch Ende-zu-Ende Verschlüsselung schützt."
 	},
 	teaser: {
 		headline: "Sich auf Freunde konzentrieren",
