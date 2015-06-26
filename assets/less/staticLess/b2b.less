@@ -9,19 +9,20 @@
 	box-shadow: 0px 2px 4px rgba(20,20,20,0.5);
 
 	height: 4rem;
+	@media @mobile { height: 8rem; }
 	display: flex;
 	flex-wrap: wrap;
 }
 
 .business-header-brand {
 	width: 150px;
+	@media @mobile { width: 100%; }
 	margin: 0;
 	text-align: center;
 	line-height: 4rem;
 	height: 4rem;
 	font-size: 2em;
 }
-
 .business-header-brand-child {
 	height: 4rem;
 	line-height: 4rem;
@@ -35,6 +36,7 @@
 	line-height: 4rem;
 	margin: auto 0 auto auto;
 	justify-content: space-between;
+	@media @mobile { width: 100%; margin: auto 0; }
 }
 
 .business-header-nav-link {
@@ -43,6 +45,8 @@
 	font-weight: 400;
 	color: @text-color-light;
 	padding: 0 1rem;
+	text-align: center;
+	@media @mobile { flex-grow: 1; }
 	&:hover {
 		color: @text-color-light;
 		background: rgba(34, 34, 34, 0.1);
@@ -60,6 +64,7 @@
 		width: 100%;
 		flex-shrink: 0;
 		text-align: center;
+		line-height: 1.426em;
 	}
 	h1 {
 		font-size: 2.5rem;
@@ -74,6 +79,7 @@
 	background-size: cover;
 	background-repeat: no-repeat;
 	background-position: center center;
+	@media screen and (max-width: 650px) { background-position: left center; }
 }
 
 #business-section--header {
@@ -120,10 +126,12 @@
 	width: 400px;
 	margin: 1rem;
 	text-align: left;
+	@media @mobile { width: 100%; text-align: center; margin: 0; padding: 1rem; .box-fix; }
 }
 
 .overview-feature-headline {
 	text-align: left !important;
+	@media @mobile { text-align: center !important; }
 }
 
 .overview-feature-detail {
@@ -160,7 +168,8 @@
 	flex-wrap: wrap;
 	max-width: 864px;
 	width: 100%;
-	margin: 1rem auto 4rem;
+	@media @desktop { margin: 1rem auto 14rem; }
+	@media @mobile { padding: 1rem; margin-bottom: 10rem; }
 }
 
 .business-email-form-input {
@@ -168,13 +177,15 @@
 	flex-grow: 1;
 	margin: 0;
 	margin-left: auto;
+	@media @mobile { border-radius: 3px 3px 0 0 !important; }
 }
 
 .business-email-form-submit {
 	width: 300px;
 	flex-grow: 1;
 	margin: 0;
-	margin-left: 1rem;
+	@media @desktop { margin-left: 1rem; }
+	@media @mobile { border-radius: 0 0 3px 3px; }
 }
 
 #footer {
@@ -192,13 +203,14 @@
 .footer-column {
 	width: 300px;
 	margin: 1rem auto;
+	@media @mobile { width: 100%; text-align: center; }
 	&:first-child {
 		margin-left: 1rem;
 	}
 }
 
 .footer-column--small {
-	width: 250px;
+	@media @desktop { width: 250px; }
 	margin: 1rem 0 1rem 1rem;
 }
 
@@ -210,6 +222,7 @@
 
 .footer-link {
 	padding: 0.25rem;
+	@media @mobile { padding: 1rem; }
 	 a {
 		color: #ffffff;
 		&:hover {
