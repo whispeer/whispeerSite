@@ -350,7 +350,15 @@
 			}
 
 			.me .messages {
-				opacity: 0.75;
+				background: lighten(@foreign-message-bg, 5%);
+				color: lighten(@text-color-dark, 25%);
+				border-color: lighten(@foreign-message-bg2, 5%);
+				&:after {
+					border-right-color: lighten(@foreign-message-bg, 5%);
+				}
+				&:before {
+					border-right-color: lighten(@foreign-message-bg2, 5%);
+				}
 			}
 		}
 
