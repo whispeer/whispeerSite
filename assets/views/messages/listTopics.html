@@ -1,5 +1,5 @@
 <div class="box-leftWrap">
-	<a class="box-header-button box-header-button--full" whispeer-sref="app.messages.new">
+	<a class="box-header-button box-header-button--full box-header-title--push" whispeer-sref="app.messages.new">
 		<i class="fa fa-plus-circle fa-fw" id="plusBtn"></i><span data-i18n="messages.newMessage"></span>
 	</a>
 	<div id="topicListWrap" data-scroll data-custom="distancePercentage < 0.5" data-at-custom="loadMoreTopics()">
@@ -29,6 +29,10 @@
 						<div class="time"><i class="fa fa-clock-o"></i> <span data-smart-date="topic.latestMessage.data.timestamp"></span></div>
 						<div class="clear-fix"></div>
 					</a>
+				</li>
+				<li class="loadingSpinner" data-ng-if="topicsLoadingState.pending">
+					<i class="fa fa-circle-o-notch fa-2x fa-fw fa-spin"></i>
+					<p data-i18n="messages.loadingTopics"></p>
 				</li>
 				<li id="messageView-inviteFriends" data-ng-if="topics.length <= 3">
 					<a class="inviteFriends-link btn btn--gray btn--hasIcon" id="messageView-inviteFriends-link" whispeer-sref="app.invite">

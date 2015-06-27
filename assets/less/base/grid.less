@@ -45,12 +45,12 @@
 	width: (@column-size*@x) - @margin;
 }
 
-.push(@x: 1, @columns:@columns) {
+.push(@x: 1, @columns:@columns, @margin:@margin) {
 	@column-size: @total-width / @columns;
-	margin-left: ((@column-size*@x)+1);
+	margin-left: ((@column-size*@x)+(@margin/2));
 }
 
 .pull(@x: 1, @columns:@columns) {
 	@column-size: @total-width / @columns;
-	margin-right: ((@column-size*@x)+1);
+	margin-right: ((@column-size*@x)+(@margin/2));
 }

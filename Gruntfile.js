@@ -4,6 +4,7 @@ var grunt = require("grunt");
 
 grunt.loadNpmTasks("grunt-contrib-jshint");
 grunt.loadNpmTasks("grunt-contrib-less");
+grunt.loadNpmTasks("grunt-autoprefixer");
 grunt.loadNpmTasks("grunt-contrib-watch");
 grunt.loadNpmTasks("grunt-browser-sync");
 grunt.loadNpmTasks("grunt-contrib-copy");
@@ -150,8 +151,21 @@ grunt.initConfig({
 			},
 			files: {
 				"assets/css/style.css": "assets/less/style.less",
-				"assets/css/static.css": "assets/less/static.less"
+				"assets/css/static.css": "assets/less/static.less",
+				"assets/css/style-b2b.css": "assets/less/style-b2b.less"
 			}
+		}
+	},
+	autoprefixer: {
+		options: {
+			browsers: ["last 2 versions", "ie 9", "> 1% in DE"],
+			remove: true
+		},
+		style: {
+			expand: true,
+			flatten: true,
+			src: "assets/css/*.css",
+			dest: "assets/css/"
 		}
 	},
 	copy: {
@@ -206,7 +220,7 @@ grunt.initConfig({
 	watch: {
 		scripts: {
 			files: ["assets/less/**/*.less"],
-			tasks: ["less"],
+			tasks: ["less", "autoprefixer"],
 			options: {
 				spawn: false
 			}
@@ -320,7 +334,7 @@ grunt.task.registerMultiTask("manifest", "Build the manifest file.", function ()
 
 grunt.registerTask("default", ["build:development", "browserSync", "concurrent:development"]);
 
-grunt.registerTask("build:development", ["clean", "copy", "bower-install-simple", "less", "run:buildsjcl"]);
-grunt.registerTask("build:production",  ["clean", "copy", "bower-install-simple", "less", "requirejs", "run:buildsjcl", "buildDate", "includes"]);
+grunt.registerTask("build:development", ["clean", "copy", "bower-install-simple", "less", "autoprefixer", "run:buildsjcl"]);
+grunt.registerTask("build:production",  ["clean", "copy", "bower-install-simple", "less", "autoprefixer", "requirejs", "run:buildsjcl", "buildDate", "includes"]);
 
 grunt.registerTask("server", "Start the whispeer web server.", require("./webserver"));

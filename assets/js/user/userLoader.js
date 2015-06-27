@@ -4,4 +4,4 @@ define([
 	"user/userVerifyController",
 	"user/userWallController",
 	"user/userFriendsController"
-]);
+], function () {});

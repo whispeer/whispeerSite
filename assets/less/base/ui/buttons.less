@@ -35,8 +35,8 @@
 	user-select: none;
 
 	display: inline-block;
-	min-height: 40px; // allow line-breaks
-	line-height: 38px; // this has to be -2px to compensate the border while vertically centering the text
+	min-height: 50px; // allow line-breaks
+	line-height: 50px;
 	padding: 0 15px;
 
 	background-image: none;
@@ -50,9 +50,15 @@
 	&:extend(.box-fix);
 }
 .btn--big {
-	padding: 0 10px;
+	padding: 0 2rem;
+	height: 4rem;
+	line-height: 4rem;
+}
+.btn--bigText {
+	font-size: 1.426em;
 }
 .btn--small {
+	min-height: 0;
 	padding: 0 7px;
 	height: 38px;
 	line-height: 38px;
@@ -62,7 +68,7 @@
 }
 .btn--border {
 	border: 1px solid @btnBorder;
-	line-height: 38px; // this has to be -2px to compensate the border while vertically centering the text
+	line-height: 48px; // this has to be -2px to compensate the border while vertically centering the text
 }
 .btn--noRadius {
 	border-radius: 0;
@@ -73,6 +79,12 @@
 .btn--primary,
 .btn-saveButton--success {
 	.buttonBackground(@btnGreenBackground, @btnGreenBackgroundHover, @btnGreenBackgroundFocus, @btnGreenBackgroundActive);
+}
+.btn--primaryLight {
+	.buttonBackground(@btnGreenLightBackground, @btnGreenLightBackgroundHover, @btnGreenLightBackgroundFocus, @btnGreenLightBackgroundActive);
+	&:focus, &:active {
+		box-shadow: inset 2px 2px 1px rgba(0, 0, 0, 0.18);
+	}
 }
 .btn--danger,
 .btn-saveButton--failure {

@@ -9,237 +9,219 @@
 			position: relative;
 		}
 	}
+}
+#circleView-circleList {
+	&:extend(.box-fix);
+	height: 100%;
+	margin: 0;
+}
+#circleView-circleListScroll {
+	&:extend(.box-fix);
+	margin-top: 0;
+	height: 100%;
+	overflow-y: scroll;
 
-	#circleListWrap {
-		&:extend(.box-fix);
-	}
-	#circleList {
-		&:extend(.box-fix);
-		height: 100%;
-		margin: 0;
-	}
-	#circleListScroll {
-		&:extend(.box-fix);
-		margin-top: 0;
-		height: 100%;
-		overflow-y: scroll;
-
-		// nice scrolling for iOS.
-		-webkit-overflow-scrolling: touch;
-	}
-	.circleList-item {
-		width: 100%;
-		height: 89px;
-		border: none;
-		border-bottom: 1px solid #ccc;
-		padding: 0;
-		cursor: pointer;
-		transition: 0.5s ease;
-	}
-	.circleList-item-image {
-		@media @mobile { .column(2); }
-		@media @desktop { .column(2,11); }
-		padding: 6px 0 0 0;
-		max-height: 76px;
-		max-width: 76px;
-		.userimg {
-			border-radius: 100%;
-			padding: 0;
-			width: 100%;
-			max-width: 77px;
-			max-height: 77px;
-		}
-	}
-	.circleList-item-info {
-		@media @mobile { .column(10); margin-top: 5px; }
-		@media @desktop { .column(9,11); }
-	}
-	.circleList-item-listname {
-		width: 100%;
-		text-overflow: ellipsis;
-		overflow: hidden;
-		display: inline-block;
-		white-space: nowrap;
-	}
-	.circleList-item-personCount {
-		color: #555;
-	}
-	.circleList-item:last-child {
-		border-bottom: none;
-	}
-	.circleList-item:hover {
-		background-color: @primaryLighter;
-		.circleList-item-listname {
-			color: #ececec;
-		}
-		.circleList-item-personCount {
-			color: #eee;
-		}
-	}
-	.circleList-item--active {
-		background-color: @primaryLighter;
-		&:hover {
-			background-color: @primaryLighter;
-		}
-	}
-	.circleList-item--active .circleList-item-listname {
+	// nice scrolling for iOS.
+	-webkit-overflow-scrolling: touch;
+}
+.circleView-circleList-item {
+	width: 100%;
+	height: 89px;
+	border: none;
+	border-bottom: 1px solid #ccc;
+	padding: 0;
+	cursor: pointer;
+	transition: 0.5s ease;
+	outline: none;
+}
+.circleView-circleList-item-image {
+	@media @mobile { .column(2); }
+	@media @desktop { .column(2,11); }
+	padding: 6px 0 0 0;
+	max-height: 76px;
+	max-width: 76px;
+}
+.circleView-userimg {
+	border-radius: 100%;
+	padding: 0;
+	width: 100%;
+	max-width: 77px;
+	max-height: 77px;
+}
+.circleView-circleList-item-info {
+	@media @mobile { .column(10); margin-top: 5px; }
+	@media @desktop { .column(9,11); }
+}
+.circleView-circleList-item-listname {
+	width: 100%;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	display: inline-block;
+	white-space: nowrap;
+	color: @text-color-dark;
+}
+.circleView-circleList-item-personCount {
+	color: #555;
+}
+.circleView-circleList-item:last-child {
+	border-bottom: none;
+}
+.circleView-circleList-item:hover {
+	background-color: @primaryLighter;
+	.circleView-circleList-item-listname {
 		color: #ececec;
 	}
-	.circleList-item--active .circleList-item-personCount {
+	.circleView-circleList-item-personCount {
 		color: #eee;
 	}
-	#circleView-inviteFriends {
-		@media @screen {
-			width: 100;
-		}
-		margin: 0;
+}
+.circleView-circleList-item--active {
+	background-color: @primaryLighter;
+	&:hover {
+		background-color: @primaryLighter;
 	}
-	.inviteFriends-link {
-		width: 100%;
-		border-bottom: 1px solid #ccc;
+}
+.circleView-circleList-item--active .circleList-item-listname {
+	color: #ececec;
+}
+.circleView-circleList-item--active .circleList-item-personCount {
+	color: #eee;
+}
+#circleView-inviteFriends {
+	@media @screen {
+		width: 100;
 	}
-	#circleContainer {
-		width: 100%;
-		height: calc(~"100% - 31px");
-		.box-fix;
-		overflow-y: scroll;
+	margin: 0;
+}
+#circleView-inviteFriends-link {
+	width: 100%;
+	border-bottom: 1px solid #ccc;
+	border-radius: 0;
+}
+#circleView-container {
+	display: inline-block;
+	width: 100%;
+	height: ~"calc(100% - 4rem)";
+	.box-fix;
+	overflow-y: scroll;
 
-		// nice scrolling for iOS.
-		-webkit-overflow-scrolling: touch;
-	}
-	#circleTitle {
-		h2 {
-			white-space: nowrap;
-			text-overflow: ellipsis;
-			overflow: hidden;
-			max-width: 95%;
-			width: auto;
-			display: inline-block;
-			float: left;
-		}
-	}
-	.editTitleButton {
-		margin-top: 17px;
-		margin-left: 1%;
+	// nice scrolling for iOS.
+	-webkit-overflow-scrolling: touch;
+}
+#circleView-circleTitle {
+	h2 {
+		white-space: nowrap;
+		text-overflow: ellipsis;
+		overflow: hidden;
+		max-width: 95%;
+		width: auto;
+		display: inline-block;
 		float: left;
-		max-width: 4%;
-		text-align: center;
-		padding-left: 1%;
-		padding-right: 1%;
 	}
-	.editTitle {
-		input {
-			.column(6);
-		}
-		button {
-			.column(4);
-			height: 37px;
-			margin-top: 13px !important;
-		}
-		input, button {
-			margin-top: 13px;
-		}
-		h2 {
-			float: left;
-			.width(2);
-			overflow: auto;
+}
+.circleView-editTitleButton {
+	margin-top: 17px;
+	margin-left: 1%;
+	float: left;
+	max-width: 4%;
+	text-align: center;
+	padding-left: 1%;
+	padding-right: 1%;
+}
+.circleView-editTitle {
+	.circleView-editTitle-input {
+		.column(6);
+	}
+	.circleView-editTitle-submit {
+		.column(4);
+		height: 37px;
+		margin-top: 13px !important;
+	}
+	.circleView-editTitle-input, .circleView-editTitle-submit {
+		margin-top: 13px;
+	}
+	h2 {
+		float: left;
+		.width(2);
+		overflow: auto;
+	}
+}
+#circleView-circleWrap {
+	width: 100%;
+	height: 100%;
+}
+#circleView-friendsList {
+	float: left;
+	display: flex;
+	flex-wrap: wrap;
+	margin: 5px 1% 0;
+}
+.circleView-person {
+	flex-grow: 1;
+	flex-basis: auto;
+	width: 300px;
+	padding: 5px;
+}
+.circleView-friend--add {
+	background: none;
+	border: 1px solid #ccc;
+	span {
+		display: inline-block;
+		margin-top: 50%;
+	}
+	&:hover {
+		border: 1px solid @primary;
+		span {
+			text-shadow: 0px 0px 2px #ddd;
 		}
 	}
-	#circleWrap {
+}
+.circleView-addUsers {
+	float: left;
+	width: 100%;
+	border-bottom: 1px solid @btnBorder;
+}
+.circleView-addUsers-search {
+	@media @desktop {
+		float: left;
+		width: ~"calc(100% - 200px)";
+	}
+	@media @mobile {
 		width: 100%;
-		height: 100%;
-		#friendsList {
-			.clear-fix;
-			height: 100%;
-			margin: 0;
-			&:before, &:after {
-				height: 1%;
-				position: relative;
-				width: 100%;
-				float: left;
-				background: transparent;
-			}
-			li {
-				position: relative;
-				@media @mobile { .column(1,2); }
-				@media @desktop { .column(1,3); }
-				.person {
-					margin: 1% !important;
-				}
-				&.add {
-					background: none;
-					border: 1px solid #ccc;
-					span {
-						display: inline-block;
-						margin-top: 50%;
-					}
-					&:hover {
-						border: 1px solid @primary;
-						span {
-							text-shadow: 0px 0px 2px #ddd;
-						}
-					}
-				}
-			}
-		}
 	}
-	.circleView-addUsers {
-		.column(12);
-		margin-top: 10px;
+}
+.circleView-addUsers-search,
+#circleView-friendInput {
+	.search-wrapper {
+		border-radius: 0;
+		border: none;
 	}
-	.circleView-addUsers-search {
-		@media @desktop {
-			float: left;
-			width: ~"calc(100% - 200px)";
-		}
-		@media @mobile {
-			width: 100%;
-		}
+}
+.circleView-addUsers-submit {
+	border-radius: 0;
+	@media @desktop {
+		float: left;
+		width: 200px;
 	}
-	.circleView-addUsers-search .search-wrapper {
-		@media @desktop {
-			border-radius: 5px 0 0 5px;
-		}
-		@media @mobile {
-			border-radius: 5px 5px 0 0;
-		}
+	@media @mobile {
+		width: 100%;
 	}
-	.circleView-addUsers-submit {
-		@media @desktop {
-			float: left;
-			width: 200px;
-			border-radius: 0 5px 5px 0;
-		}
-		@media @mobile {
-			width: 100%;
-			border-radius: 0 0 5px 5px;
-		}
-	}
-	.search-resultsDrop {
-		@media @mobile { top: 40px; }
-	}
-	.newCircle {
-		#circleTitle {
-			h2 {
-				.column(12);
-				margin-left: -1%;
-			}
-		}
-		#inputWrap {
-			.column(12);
-			position: relative;
-			top: 0;
-			left: 0;
-			margin-top: 10px;
-			#titleInput, #friendInput {
-				.column(12);
-				margin-bottom: 10px;
-			}
-			#savecircle {
-				@media @mobile { .column(12); }
-				margin-left: 1% !important;
-				border-radius: @inputBorderRadius;
-			}
-		}
-	}
+}
+#circleView-inputWrap {
+	width: 100%;
+	position: relative;
+	top: 0;
+	left: 0;
+}
+#circleView-titleInput, #circleView-friendInput {
+	width: 100%;
+}
+#circleView-titleInput {
+	border-radius: 0;
+	width: ~"calc(100% + 2px)";
+	margin: -1px -1px 0;
+}
+#circleView-savecircle {
+	border-radius: 0;
+	width: 100%;
 }

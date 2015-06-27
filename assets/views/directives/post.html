@@ -1,38 +1,41 @@
 <article class="post">
-	<aside class="meta">
-		<a whispeer-sref='app.user.info({identifier: post.sender.names.nickname})' class="userimg">
+	<aside class="post-meta">
+		<a whispeer-sref='app.user.info({identifier: post.sender.names.nickname})' class="post-userimage">
 			<userimage data-user="post.sender"></userimage>
 		</a>
-		<strong>
+		<strong class="post-username">
 			<a whispeer-sref='app.user.info({identifier: post.sender.names.nickname})'>{{post.sender.name}}</a>
 		</strong>
-		<span data-ng-if="post.walluser">
+		<span data-ng-if="post.walluser" class="post-receiver">
 			<i class="fa fa-caret-right"></i>
-			<strong>
+			<strong class="post-receiver-name">
 				<a whispeer-sref='app.user.info({identifier: post.walluser.names.nickname})'>{{post.walluser.name}}</a>
 			</strong>
 		</span>
+		<a whispeer-sref="app.post({postID: post.id})" class="post-link"><i class="fa fa-link"></i></a>
 	</aside>
-	<p class="content" data-syntaxify="::post.content.text"></p>
+	<p class="post-content" data-syntaxify="::post.content.text"></p>
 	<gallery data-images="post.images"></gallery>
-	<aside class="actions">
-		<a whispeer-sref="app.post({postID: post.id})" class="date">
-			<i class="fa fa-clock-o"></i> <span data-smart-date="post.time"></span>
-		</a>
-		<span data-accessible-click="toggleShowComments()" class="action"><i class="fa fa-comment"></i> <span data-i18n="wall.comments"></span> ({{post.comments.length}})</span>
-		<span data-ng-if="::post.removable" data-accessible-click="post.remove()" class="action"><i class="fa fa-times fa-fw"></i> <span data-i18n="wall.remove"></span></span>
+	<aside class="post-actions">
+		<span class="post-date">
+			<i class="fa fa-clock-o"></i>&nbsp;<span class="post-date-time" data-smart-date="post.time"></span>
+		</span>
+		<div class="post-actions-buttons">
+			<span data-accessible-click="toggleShowComments()" class="post-action post-action-button"><i class="fa fa-comment"></i>&nbsp;<span data-i18n="wall.comments"></span> ({{post.comments.length}})</span>
+			<span data-ng-if="::post.removable" data-accessible-click="post.remove()" class="post-action post-action-button"><i class="fa fa-times fa-fw"></i>&nbsp;<span data-i18n="wall.remove"></span></span>
+		</div>
 	</aside>
-	<aside class="comments" ng-show="showComments">
-		<ul>
+	<aside class="post-comments" ng-show="showComments">
+		<ul class="post-comments-list">
 			<li class="post-comments-loading" data-ng-show="post.commentsLoading">
-				<i class="saveButton-spinner fa fa-2x fa-fw fa-spinner fa-spin"></i>
-				<p class="large-text" data-i18n="wall.commentsLoading"></p>
+				<i class="saveButton-spinner fa fa-2x fa-fw fa-circle-o-notch fa-spin"></i>
+				<p data-i18n="wall.commentsLoading"></p>
 			</li>
 			<comment data-ng-show="!post.commentsLoading" data-ng-repeat="comment in post.comments" comment="comment"></comment>
 		</ul>
-		<div>
-			<textarea data-i18n-attr="wall.newComment|placeholder" data-strg-enter="post.newComment.create(post.newComment.text)" data-ng-model="post.newComment.text"></textarea>
-			<savebutton data-ng-click="post.newComment.create(post.newComment.text)" data-state="post.newComment.state" data-noiniticon>
+		<div class="clear-fix">
+			<textarea class="post-newComment" data-i18n-attr="wall.newComment|placeholder" data-strg-enter="post.newComment.create(post.newComment.text)" data-ng-model="post.newComment.text"></textarea>
+			<savebutton class="post-sendComment" data-ng-click="post.newComment.create(post.newComment.text)" data-state="post.newComment.state" data-noiniticon>
 				<span data-i18n="wall.postit.send"></span>
 			</savebutton>
 		</div>

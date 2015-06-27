@@ -1,0 +1,13 @@
+.zeroContent-actions {
+	width: 100%;
+	display: flex;
+	flex-wrap: wrap;
+}
+.zeroContent-action {
+	@media @mobile { width: 100%; flex-shrink: 0; margin-top: 0.5rem; }
+	&:first-of-type {
+		@media @mobile { margin-top: 0; }
+		@media @desktop { margin-left: 0; }
+	}
+	@media @desktop { flex-grow: 1; margin-left: 0.5rem; }
+}

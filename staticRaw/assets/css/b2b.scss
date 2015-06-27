@@ -3,64 +3,11 @@
 
 @import "variables";
 @import "mixins";
+@import "normalize";
+@import "font-awesome";
+@import "body";
 @import "typography";
 @import "buttons";
 @import "sections";
 @import "misc";
-
-.email-form {
-	@media #{$desktop} {
-		width: 40%;
-	}
-	@media #{$mobile} {
-		width: 100%;
-	}
-	@media #{$smallerMobile} {
-		height: 60px;
-	}
-	max-width: 500px;
-	height: 50px;
-	margin: 0 auto;
-	clear: both;
-	text-align: center;
-}
-.email-form--addMargin {
-	margin-top: 50px;
-}
-.email-form-input {
-	padding: 10px 15px;
-	outline: 0;
-	border: none;
-	border-radius: 0;
-	overflow: hidden;
-	white-space: nowrap;
-	text-overflow: ellipsis;
-
-	float: left;
-	width: 65%;
-	margin: 0;
-	height: 100%;
-
-	color: #000;
-	border: 1px solid #ccc;
-	border-right: none;
-	border-radius: 5px 0 0 5px;
-	box-sizing: border-box;
-}
-.email-form-submit {
-	@media #{$smallerMobile} {
-		line-height: 25px;
-	}
-	border-radius: 0 5px 5px 0;
-
-	float: left;
-	width: 35%;
-	margin: 0;
-	height: 100%;
-	box-sizing: border-box;
-	background: #54AB0C;
-
-}
-.email-form-submit:hover {
-	background: mix(#54AB0C, #000, 90%);
-}
+@import "mail-form";

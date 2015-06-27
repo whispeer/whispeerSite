@@ -4,4 +4,4 @@ define([
 	"messages/messagesCreateController",
 	"messages/messagesShowController",
 	"messages/messagesListController"
-]);
+], function () {});

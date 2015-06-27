@@ -1,10 +1,11 @@
 <div class="box-rightWrap">
-	<span class="box-header-title box-header-title--full">
+	<span class="box-header-title box-header-title--full box-header-title--push">
 		<span data-i18n="messages.newMessage"></span>
-
-		<a whispeer-sref="app.messages.list" id="showTopics" class="box-header-button box-header-button--right" data-ng-if="mobile">
-			<i class="fa fa-bars fa-fw"></i>
-		</a>
+		<div class="box-header-buttons--right">
+			<a whispeer-sref="app.messages.list" id="showTopics" class="box-header-button box-header-button--right" data-ng-if="mobile">
+				<i class="fa fa-arrow-left fa-fw"></i>
+			</a>
+		</div>
 	</span>
 	<div id="topicWrap" class="newMessage">
 		<search data-supplier="userSearchSupplier" callback="create.setUsers(selected)" data-search-template="userSimple" data-multiple data-input-i18n-attr="messages.search|placeholder" data-base="user" data-initial-values="getInitialUser()"></search>

@@ -1,0 +1,32 @@
+#general-searchBar {
+	float: left;
+	position: relative;
+	width: 100%;
+	height: 4rem;
+	z-index: 7;
+}
+#general-searchBar-search {
+	float: left;
+	display: inline-block;
+	width: ~"calc(100% - 4rem)";
+	height: 4rem;
+	&:extend(.box-fix);
+}
+#general-searchBar-search .search-resultsDrop {
+	top: 4rem;
+}
+#general-searchBar--close {
+	float: left;
+	height: 4rem;
+	width: 4rem;
+	line-height: 4rem;
+}
+#general-searchBar--background {
+	position: absolute;
+	top: 0;
+	left: 0;
+	height: 100%;
+	width: 100%;
+	background: rgba(37, 37, 37, 0.96);
+	z-index: 6;
+}

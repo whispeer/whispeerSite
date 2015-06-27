@@ -9,8 +9,8 @@ define(["step", "whispeerHelper", "bluebird", "asset/resizableImage", "asset/sta
 		var userObject, identifier = $stateParams.identifier;
 
 		$scope.posts = [];
-
 		$scope.loadingPosts = true;
+		$scope.endOfPosts = false;
 		$scope.newPost = {
 			text: ""
 		};
@@ -52,6 +52,8 @@ define(["step", "whispeerHelper", "bluebird", "asset/resizableImage", "asset/sta
 			step(function () {
 				postService.getWallPosts(h.array.last($scope.posts).id, userObject.getID(), 5, this);
 			}, h.sF(function (posts) {
+				$scope.endOfPosts = posts.length === 0;
+
 				$scope.posts = $scope.posts.concat(posts);
 				this.ne();
 			}), function () {
@@ -67,6 +69,8 @@ define(["step", "whispeerHelper", "bluebird", "asset/resizableImage", "asset/sta
 
 				postService.getWallPosts(0, userObject.getID(), 5, this);
 			}), h.sF(function (posts) {
+				$scope.endOfPosts = posts.length === 0;
+
 				$scope.posts = posts;
 				this.ne();
 			}), function () {

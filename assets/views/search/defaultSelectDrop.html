@@ -4,6 +4,7 @@
 </div>
 <ul class="dropdown-container search-selectedDrop-container u-unstyled">
 	<li data-ng-repeat="element in selectedElements" class="search-selectedDrop-result">
+		<img class="search-selectedDrop-result-image" data-ng-if="element.result.basic.image.length > 0" data-ng-src="{{element.result.basic.image}}" alt="{{element.name}}" />
 		<span class="search-selectedDrop-result-name">{{element.name}}</span>
 		<a href="" class="search-selectedDrop-result-remove" data-ng-click="removeSelection($index, $event)"><i class="fa fa-fw fa-minus-circle"></i></a>
 	</li>

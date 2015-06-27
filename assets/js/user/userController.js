@@ -254,6 +254,9 @@ define(["step", "whispeerHelper", "bluebird", "asset/resizableImage", "asset/sta
 		}, h.sF(function (user) {
 			userObject = user;
 
+			var fp = user.getFingerPrint();		
+			$scope.fingerPrint = [fp.substr(0,13), fp.substr(13,13), fp.substr(26,13), fp.substr(39,13)];
+
 			user.loadFullData(this);
 		}), h.sF(function () {
 			$scope.user = userObject.data;

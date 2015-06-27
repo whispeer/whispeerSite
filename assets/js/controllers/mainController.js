@@ -5,51 +5,26 @@
 define(["step", "whispeerHelper", "asset/state", "controllers/controllerModule"], function (step, h, State, controllerModule) {
 	"use strict";
 
-	function mainController($scope, cssService, postService, ImageUploadService, filterService, errorService, screenSize) {
+	function mainController($scope, cssService, postService, ImageUploadService, filterService, localize, errorService) {
 		cssService.setClass("mainView");
-
-		$scope.canSend = true;
-
-		var sendPostState = new State();
-		$scope.sendPostState = sendPostState.data;
 
 		$scope.postActive = false;
 		$scope.filterActive = false;
-		$scope.newPost = {
-			text: "",
-			readers: ["always:allfriends"],
-			images: [],
-			removeImage: function (index) {
-				$scope.newPost.images.splice(index, 1);
-			},
-			addImages: ImageUploadService.fileCallback(function (newImages) {
-				$scope.$apply(function () {
-					$scope.newPost.images = $scope.newPost.images.concat(newImages);
-				});
-			})
-		};
-
-		$scope.getFiltersByID = filterService.getFiltersByID;
 
 		$scope.filterSelection = ["always:allfriends"];
 
-		$scope.setPostReaders = function (newSelection) {
-			$scope.newPost.readers = newSelection;
+		$scope.focusNewPost = function () {
+			var textarea = jQuery("#newsfeedView-postForm textarea");
+			var scope = textarea.scope();
+
+			textarea.focus();
+			scope.newPost.text = localize.getLocalizedString("general.zeroContent.firstPostText", {});
+			scope.$apply();
 		};
 
 		$scope.setTimelineFilter = function (newSelection) {
 			$scope.filterSelection = newSelection;
 			reloadTimeline();
-		};
-
-		var firstTimeUpload = true;
-
-		$scope.mobilePromptUser = function ($event) {
-			if (screenSize.mobile && firstTimeUpload && !window.confirm("Uploading files on mobile can drain battery. Are you sure?")) {
-				$event.preventDefault();
-			} else {
-				firstTimeUpload = false;
-			}
 		};
 
 		$scope.togglePost = function() {
@@ -60,32 +35,6 @@ define(["step", "whispeerHelper", "asset/state", "controllers/controllerModule"]
 			$scope.currentTimeline.loadMorePosts(errorService.criticalError);
 		};
 
-		$scope.sendPost = function () {
-			var images = $scope.newPost.images;
-			sendPostState.pending();
-
-			if ($scope.newPost.text === "" && images.length === 0) {
-				sendPostState.failed();
-				return;
-			}
-
-			if ($scope.canSend) {
-				$scope.canSend = false;
-
-				postService.createPost($scope.newPost.text, $scope.newPost.readers, 0, images).then(function () {
-					$scope.newPost.text = "";
-					$scope.newPost.images = [];
-				}).catch(function (e) {
-					sendPostState.failed();
-				})
-				.then(sendPostState.success.bind(sendPostState))
-				.finally(function () {
-					$scope.canSend = true;
-					$scope.postActive = false;
-					$scope.$apply();
-				});
-			}
-		};
 		$scope.toggleFilter = function() {
 			$scope.filterActive = !$scope.filterActive;
 		};
@@ -102,7 +51,7 @@ define(["step", "whispeerHelper", "asset/state", "controllers/controllerModule"]
 		reloadTimeline();
 	}
 
-	mainController.$inject = ["$scope", "ssn.cssService", "ssn.postService", "ssn.imageUploadService", "ssn.filterService", "ssn.errorService", "ssn.screenSizeService"];
+	mainController.$inject = ["$scope", "ssn.cssService", "ssn.postService", "ssn.imageUploadService", "ssn.filterService", "localize", "ssn.errorService"];
 
 	controllerModule.controller("ssn.mainController", mainController);
 });

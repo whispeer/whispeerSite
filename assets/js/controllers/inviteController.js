@@ -5,8 +5,10 @@
 define(["step", "whispeerHelper", "asset/state", "controllers/controllerModule"], function (step, h, State, controllerModule) {
 	"use strict";
 
-	function inviteController($scope, $location, socketService, errorService, cssService, localize) {
-		cssService.setClass("inviteView");
+	function inviteController($scope, $location, $state, socketService, errorService, cssService, localize) {
+		if ($state.current.name.indexOf("app.invite") > -1) {
+			cssService.setClass("inviteView");
+		}
 
 		$scope.domain = $location.protocol() + "://" + $location.host() + ( window.location.port ? ":" + window.location.port : "" ) + "/" + localize.getLanguage();
 		$scope.anonymous = false;
@@ -95,7 +97,7 @@ define(["step", "whispeerHelper", "asset/state", "controllers/controllerModule"]
 		};
 	}
 
-	inviteController.$inject = ["$scope", "$location", "ssn.socketService", "ssn.errorService", "ssn.cssService", "localize"];
+	inviteController.$inject = ["$scope", "$location", "$state", "ssn.socketService", "ssn.errorService", "ssn.cssService", "localize"];
 
 	controllerModule.controller("ssn.inviteController", inviteController);
 });
