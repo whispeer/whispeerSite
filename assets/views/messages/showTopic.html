@@ -21,13 +21,13 @@
 	<div id="topicWrap" data-topicID="{{activeTopic.id}}" class="{{activeTopic.type}}">
 		<div id="messageWrap">
 			<ul class="scroll-pane" id="messageList" data-scroll data-keepBottom data-lockscrollbottom data-custom="distanceTopPercentage < 0.5" data-at-custom="loadMoreMessages()" data-custom-once data-lockscrolling="scrollLock" data-onbottomwithauto="markRead()">
-				<li class="messageView-loadingText" data-ng-class="{'messageView-loadingText--relative': activeTopic.remaining == 0}">
+				<li class="messageView-loadingText" data-ng-if="activeTopic.remaining > 0">
 					<i class="fa fa-fw fa-spinner fa-spin" id="messageView-loadingIcon" data-ng-if="loadingMessages"></i>
-					<span data-i18n="messages.remaining|count={{activeTopic.remaining}}" data-ng-if="activeTopic.remaining > 0"></span>
-					<span data-i18n="messages.endOfStream" data-ng-if="activeTopic.remaining == 0"></span>
+					<span data-i18n="messages.remaining|count={{activeTopic.remaining}}"></span>
 				</li>
+				<p data-i18n="messages.endOfStream" data-ng-if="activeTopic.remaining == 0 && !messageBursts()[0].sameDay(messageBursts()[0])" id="messagesView-endOfStream"><span data-for="date">{{::messageBursts()[0].firstMessage().timestamp|date}}</span></p>
 				<li class="burst" data-ng-repeat="burst in (bursts = messageBursts())" data-ng-class="{me:burst.isMe(), other:burst.isOther()}">
-					<div class="burst-date" data-ng-if="!burst.sameDay(bursts[$index - 1])"><span class="burst-date-text">{{burst.firstMessage().timestamp|date}}</span></div>
+					<div class="burst-date" data-ng-if="::!burst.sameDay(bursts[$index - 1]) && !$first"><span class="burst-date-text">{{::burst.firstMessage().timestamp|date}}</span></div>
 
 					<div class="username">{{burst.sender().name}}</div>
 					<div class="userimg">

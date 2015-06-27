@@ -330,7 +330,7 @@
 		"commentsLoading": "Kommentare werden geladen!"
 	},
 	"messages": {
-		"endOfStream": "Keine weiteren Nachrichten",
+		"endOfStream": "Konversation gestartet am {date}",
 		"remaining": "Nachrichten werden geladen. {count} verbleibend",
 		"title": "Nachrichten",
 		"chat" :"Chat mit",
