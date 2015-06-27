@@ -52,7 +52,7 @@
 						<button class="uploadForm-button btn"><i class="fa fa-upload"></i></button>
 						<input class="uploadForm-theForm" type="file" data-file="images.addImages" width="4000">
 					</div>
-					<textarea focus-me="canSend" id="messageView-messageInput" class="annotatedInput-input" data-advancedsend="create.send(create.users, create.text, create.images)" type="text" data-ng-model="activeTopic.newMessage" data-ng-disabled="!canSend" data-i18n-attr="messages.sendMessage.text|placeholder"></textarea>
+					<textarea focus-me="canSend" id="messageView-messageInput" class="annotatedInput-input" data-advancedsend="sendMessage(activeTopic.newMessage)" type="text" data-ng-model="activeTopic.newMessage" data-ng-disabled="!canSend" data-i18n-attr="messages.sendMessage.text|placeholder"></textarea>
 				</div>
 				<savebutton id="sendmessage" data-ng-click="sendMessage(activeTopic.newMessage)" data-state="sendMessageState" data-noiniticon>
 					<span data-i18n="messages.sendMessage.send"></span>
