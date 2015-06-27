@@ -25,7 +25,7 @@
 					<i class="fa fa-fw fa-spinner fa-spin" id="messageView-loadingIcon" data-ng-if="loadingMessages"></i>
 					<span data-i18n="messages.remaining|count={{activeTopic.remaining}}"></span>
 				</li>
-				<p data-i18n="messages.endOfStream" data-ng-if="activeTopic.remaining == 0 && !messageBursts()[0].sameDay(messageBursts()[0])" id="messagesView-endOfStream"><span data-for="date">{{::messageBursts()[0].firstMessage().timestamp|date}}</span></p>
+				<p data-i18n="messages.endOfStream" data-ng-if="activeTopic.remaining == 0" id="messagesView-endOfStream"><span data-for="date">{{::messageBursts()[0].firstMessage().timestamp|date}}</span></p>
 				<li class="burst" data-ng-repeat="burst in (bursts = messageBursts())" data-ng-class="{me:burst.isMe(), other:burst.isOther()}">
 					<div class="burst-date" data-ng-if="::!burst.sameDay(bursts[$index - 1]) && !$first"><span class="burst-date-text">{{::burst.firstMessage().timestamp|date}}</span></div>
 
