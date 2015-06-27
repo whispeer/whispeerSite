@@ -396,14 +396,10 @@
 			}
 			#messageView-messageInput {
 				border-radius: 0;
-				@media @mobile {
-					padding-top: 0;
-					padding-bottom: 0;
-				}
-				&::-webkit-input-placeholder { transition: .5s; transform: translate3d(0,0,0); }
-				&::-moz-placeholder { transition: .5s; transform: translate3d(0,0,0); }
-				&:-ms-input-placeholder { transition: .5s; transform: translate3d(0,0,0); }
-				&:-moz-placeholder { transition: .5s; transform: translate3d(0,0,0); }
+				&::-webkit-input-placeholder { line-height: 10px; padding-left: 3px; transition: .5s; transform: translate3d(0,0,0); }
+				&::-moz-placeholder { line-height: 10px; padding-left: 3px; transition: .5s; transform: translate3d(0,0,0); }
+				&:-ms-input-placeholder { line-height: 10px; padding-left: 3px; transition: .5s; transform: translate3d(0,0,0); }
+				&:-moz-placeholder { line-height: 10px; padding-left: 3px; transition: .5s; transform: translate3d(0,0,0); }
 				&:focus {
 					&::-webkit-input-placeholder { opacity: 0; }
 					&::-moz-placeholder { opacity: 0; }
