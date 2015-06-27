@@ -387,13 +387,30 @@
 			margin-bottom: @form-margin;
 			margin-left: -1px;
 
-			textarea {
+			#messageInput {
 				height: @form-height;
 				.column(3,4,left,0);
 				margin: 0;
 				border-radius: 0;
 			}
-			button {
+			#messageView-messageInput {
+				border-radius: 0;
+				@media @mobile {
+					padding-top: 0;
+					padding-bottom: 0;
+				}
+				&::-webkit-input-placeholder { transition: .5s; transform: translate3d(0,0,0); }
+				&::-moz-placeholder { transition: .5s; transform: translate3d(0,0,0); }
+				&:-ms-input-placeholder { transition: .5s; transform: translate3d(0,0,0); }
+				&:-moz-placeholder { transition: .5s; transform: translate3d(0,0,0); }
+				&:focus {
+					&::-webkit-input-placeholder { opacity: 0; }
+					&::-moz-placeholder { opacity: 0; }
+					&:-ms-input-placeholder { opacity: 0; }
+					&:-moz-placeholder { opacity: 0; }
+				}
+			}
+			#sendmessage {
 				height: @form-height;
 				.column(1,4,left,0);
 				margin: 0;

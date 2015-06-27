@@ -11,12 +11,15 @@
 //
 // Styleguide 2.2
 
+input, textarea {
+	-webkit-appearance: none;
+	appearance: none;
+}
+
 input[type="text"],
 input[type="password"],
 input[type=""],
 input:not([type]) {
-	-webkit-appearance: none;
-	appearance: none;
 	padding: 9px;
 	outline: 0;
 	border-radius: 0;
@@ -143,11 +146,12 @@ button[disabled] {
 	position: absolute;
 	top: 0; bottom: 0;
 	margin: auto 0;
-	height: 50px;
+	height: ~"calc(100% - 2px)"; // compromise border
 	border-radius: 0;
 	border: none;
 
 	right: @annotatedInputRight - 10px;
+	border-left: 1px solid @inputBorder;
 }
 .annotatedInput-button:last-child {
 	border-radius: 0 3px 3px 0;
@@ -167,6 +171,44 @@ button[disabled] {
 
 .annotatedInput-container--2 .annotatedInput-icon {
 	right: @annotatedInputRight + (@annotatedInputIconSize * 3);
+}
+
+.annotatedInput--reversed .annotatedInput-input {
+	padding-right: 9px;
+	padding-left: @annotatedInputRight + @annotatedInputIconSize;
+}
+
+.annotatedInput--reversed .annotatedInput-icon {
+	right: auto;
+	left: @annotatedInputRight;
+}
+
+.annotatedInput--reversed .annotatedInput-button {
+	right: auto;
+	left: @annotatedInputRight - 8px;
+	border-radius: 0;
+	border-left: none;
+	border-right: 1px solid @inputBorder;
+}
+
+.annotatedInput--reversed .annotatedInput-button:first-child {
+	border-radius: 3px 0 0 3px;
+}
+
+.annotatedInput--reversed.annotatedInput-container--2 .annotatedInput-input {
+	padding-left: @annotatedInputRight + (@annotatedInputIconSize * 4);
+}
+
+.annotatedInput--reversed.annotatedInput-container--2 .annotatedInput-icon, {
+	left: @annotatedInputRight + @annotatedInputIconSize;
+}
+
+.annotatedInput--reversed .annotatedInput-button {
+	border-radius: 0 3px 3px 0;
+	width: 50px;
+}
+.annotatedInput--reversed.annotatedInput-container--button .annotatedInput-input {
+	padding-left: @annotatedInputRight + @annotatedInputIconSize + 30px;
 }
 
 @pwStrengthWidth: 50px;

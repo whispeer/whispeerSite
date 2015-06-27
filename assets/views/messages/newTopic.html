@@ -9,10 +9,15 @@
 	</span>
 	<div id="topicWrap" class="newMessage">
 		<search data-supplier="userSearchSupplier" callback="create.setUsers(selected)" data-search-template="userSimple" data-multiple data-input-i18n-attr="messages.search|placeholder" data-base="user" data-initial-values="getInitialUser()"></search>
-
 		<form id="inputWrap">
-			<textarea data-advancedsend="create.send(create.users, create.text, create.images)" type="text" data-i18n-attr="messages.sendMessage.text|placeholder" id="messageInput" data-ng-model="create.text"></textarea>
-			<savebutton id="sendmessage" data-state="sendMessageState" data-ng-click="create.send(create.users, create.text)">
+			<div class="annotatedInput-container annotatedInput-container--button annotatedInput--reversed" id="messageInput">
+				<div class="uploadForm annotatedInput-button">
+					<button class="uploadForm-button btn"><i class="fa fa-upload"></i></button>
+					<input class="uploadForm-theForm" type="file" data-file="imageChange" width="4000">
+				</div>
+				<textarea id="messageView-messageInput" data-advancedsend="create.send(create.users, create.text, create.images)" type="text" data-i18n-attr="messages.sendMessage.text|placeholder" class="annotatedInput-input" data-ng-model="create.text"></textarea>
+			</div>
+			<savebutton id="sendmessage" data-state="sendMessageState" data-ng-click="create.send(create.users, create.text, create.images)">
 				<span data-i18n="messages.sendMessage.send"></span>
 			</savebutton>
 		</form>
