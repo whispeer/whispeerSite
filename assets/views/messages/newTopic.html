@@ -20,6 +20,13 @@
 			<savebutton id="sendmessage" data-state="sendMessageState" data-ng-click="create.send(create.users, create.text, create.images)">
 				<span data-i18n="messages.sendMessage.send"></span>
 			</savebutton>
+			<div id="messagesView-newMessageImages" data-ng-class="{'messagesView-newMessageImages--active animate-heightAndOverflow animate--fill': create.images.length > 0}">
+				<div class="newsfeed-newPostImagePreview" data-ng-repeat="image in create.images">
+					<button class="newsfeed-newPostImageRemove fa fa-times-circle" data-ng-click='create.removeImage($index)'></button>
+					<img class="newsfeed-newPostImage" alt="{{image.getName()}}" data-ng-src="{{image.getUrl()}}">
+					<progress class="newsfeed-newPostImageProgress" value="{{image.getProgress()*100}}" max="100"></progress>
+				</div>
+			</div>
 		</form>
 	</div>
 </div>

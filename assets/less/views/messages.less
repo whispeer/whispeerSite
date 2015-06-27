@@ -314,6 +314,7 @@
 				background: @foreign-message-bg;
 				border: 1px solid @foreign-message-bg2;
 				position: relative;
+				.post-images { margin: 0; padding: 0; }
 			}
 
 			.messages:after, .messages:before {
@@ -416,6 +417,15 @@
 				margin: 0;
 				border-radius: 0;
 			}
+		}
+		#messagesView-newMessageImages {
+			display: none;
+			width: 100%;
+			background: #ffffff;
+			border-left: 1px solid @btnBorder;
+		}
+		.messagesView-newMessageImages--active {
+			display: inline-block !important;
 		}
 	}
 }

@@ -38,7 +38,8 @@
 					<ul class="messages">
 						<li data-ng-cloak data-ng-repeat="message in burst.messages" data-messageID="{{::message.id}}" class="message">
 							<div class="messageContent">
-								<div class="messageText {{::message.type}}" data-ng-class="{{::message.type}}" data-syntaxify="::message.text"><img data-ng-if="message.type != 'image'" data-ng-src=""></div>
+								<div class="messageText {{::message.type}}" data-ng-class="{{::message.type}}" data-syntaxify="::message.text"></div>
+								<gallery data-images="message.images"></gallery>
 								<div class="time"><i class="fa fa-clock-o"></i> <span data-smart-date="::message.timestamp" data-smart-date-no-day></span></div>
 							</div>
 						</li>
@@ -56,6 +57,13 @@
 				<savebutton id="sendmessage" data-ng-click="sendMessage(activeTopic.newMessage)" data-state="sendMessageState" data-noiniticon>
 					<span data-i18n="messages.sendMessage.send"></span>
 				</savebutton>
+				<div id="messagesView-newMessageImages" data-ng-class="{'messagesView-newMessageImages--active animate-heightAndOverflow animate--fill': images.images.length > 0}">
+					<div class="newsfeed-newPostImagePreview" data-ng-repeat="image in images.images">
+						<button class="newsfeed-newPostImageRemove fa fa-times-circle" data-ng-click='images.removeImage($index)'></button>
+						<img class="newsfeed-newPostImage" alt="{{image.getName()}}" data-ng-src="{{image.getUrl()}}">
+						<progress class="newsfeed-newPostImageProgress" value="{{image.getProgress()*100}}" max="100"></progress>
+					</div>
+				</div>
 			</form>
 		</div>
 	</div>
