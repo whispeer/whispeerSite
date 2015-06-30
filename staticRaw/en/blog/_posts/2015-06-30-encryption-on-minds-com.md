@@ -5,15 +5,15 @@ author: Nils Kenneweg
 authorMail: nils@whispeer.de
 ---
 
-### A first test
+### Sending messages on minds
 
-The recent press talked a lot about minds.com, the social network backed by anonymous, which encrypts your messages!
+Minds.com was mentioned a lot in the recent press as the social network backed by anonymous, which encrypts your messages!
 Of course I was interested and took a closer look on it.
 When I opened the message view, I was prompted for a secondary password to encrypt my messages. After entering it, I started writing my first message to my other test account. Sending and receiving those messages was easy as promised, even though the "encryption" sometimes broke and I had to enter a new password.
 
 <!--more-->
 
-### A closer look
+### Diving deeper
 
 Next I took a closer look. At first glance it looked like a typical library for rsa encryption was used (found here: https://www.minds.com/mod/gatherings/vendors/jcryption.js)
 So I opened my network manager to inspect the data being sent. There it struck me, the data was not encrypted on the client side, it was transferred to the server using only transport encryption (TLS). Same for the user password.
