@@ -332,7 +332,7 @@
 		"commentsLoading": "Comments are being loaded!"
 	},
 	"messages": {
-		"endOfStream": "End of message stream",
+		"endOfStream": "Conversation started on {date}",
 		"remaining": "Loading older messages. {count} remaining",
 		"title": "Messages",
 		"chat" :"Chat with",

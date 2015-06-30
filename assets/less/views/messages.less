@@ -314,6 +314,7 @@
 				background: @foreign-message-bg;
 				border: 1px solid @foreign-message-bg2;
 				position: relative;
+				.post-images { margin: 0; padding: 0; }
 			}
 
 			.messages:after, .messages:before {
@@ -349,7 +350,15 @@
 			}
 
 			.me .messages {
-				opacity: 0.75;
+				background: lighten(@foreign-message-bg, 5%);
+				color: lighten(@text-color-dark, 25%);
+				border-color: lighten(@foreign-message-bg2, 5%);
+				&:after {
+					border-right-color: lighten(@foreign-message-bg, 5%);
+				}
+				&:before {
+					border-right-color: lighten(@foreign-message-bg2, 5%);
+				}
 			}
 		}
 
@@ -387,18 +396,48 @@
 			margin-bottom: @form-margin;
 			margin-left: -1px;
 
-			textarea {
+			#messageInput {
 				height: @form-height;
 				.column(3,4,left,0);
 				margin: 0;
 				border-radius: 0;
 			}
-			button {
+			#messageView-messageInput {
+				border-radius: 0;
+				&::-webkit-input-placeholder { line-height: 18px; padding-left: 3px; transition: .5s; transform: translate3d(0,0,0); }
+				&::-moz-placeholder { line-height: 18px; padding-left: 3px; transition: .5s; transform: translate3d(0,0,0); }
+				&:-ms-input-placeholder { line-height: 18px; padding-left: 3px; transition: .5s; transform: translate3d(0,0,0); }
+				&:-moz-placeholder { line-height: 18px; padding-left: 3px; transition: .5s; transform: translate3d(0,0,0); }
+				&:focus {
+					&::-webkit-input-placeholder { opacity: 0; }
+					&::-moz-placeholder { opacity: 0; }
+					&:-ms-input-placeholder { opacity: 0; }
+					&:-moz-placeholder { opacity: 0; }
+				}
+			}
+			#sendmessage {
 				height: @form-height;
 				.column(1,4,left,0);
 				margin: 0;
 				border-radius: 0;
 			}
+		}
+		#messagesView-newMessageImages {
+			display: none;
+			width: 100%;
+			background: #ffffff;
+			border-left: 1px solid @btnBorder;
+		}
+		.messagesView-newMessageImages--active {
+			display: inline-block !important;
+		}
+		#messagesView-endOfStream {
+			display: inline-block;
+			text-align: center;
+			width: 100%;
+			color: @grayLight;
+			border-bottom: 1px solid @btnBorder;
+			padding-bottom: 1rem;
 		}
 	}
 }

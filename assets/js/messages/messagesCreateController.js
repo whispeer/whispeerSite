@@ -5,7 +5,7 @@
 define(["step", "whispeerHelper", "asset/state", "bluebird", "controllers/controllerModule"], function (step, h, State, Bluebird, controllerModule) {
 	"use strict";
 
-	function messagesController($scope, $state, $stateParams, errorService, messageService, userService) {
+	function messagesController($scope, $state, $stateParams, errorService, messageService, userService, ImageUploadService) {
 		$scope.canSend = false;
 		$scope.topicLoaded = false;
 
@@ -18,16 +18,27 @@ define(["step", "whispeerHelper", "asset/state", "bluebird", "controllers/contro
 				$scope.create.users = users;
 			},
 			users: [],
-			send: function (receiver, text) {
+			images: [],
+			removeImage: function (index) {
+				$scope.create.images.splice(index, 1);
+			},
+			addImages: ImageUploadService.fileCallback(function (newImages) {
+				$scope.$apply(function () {
+					$scope.create.images = $scope.create.images.concat(newImages);
+				});
+			}),
+			send: function (receiver, text, images) {
+				images = images || [];
+
 				sendMessageState.pending();
 
-				if (text === "") {
+				if (text === "" && images.length === 0) {
 					sendMessageState.failed();
 					return;
 				}
 
 				step(function () {
-					messageService.sendNewTopic(receiver, text, this);
+					messageService.sendNewTopic(receiver, text, images, this);
 				}, h.sF(function (id) {
 					$scope.create.text = "";
 					$scope.create.selectedElements = [];
@@ -84,7 +95,7 @@ define(["step", "whispeerHelper", "asset/state", "bluebird", "controllers/contro
 	}
 
 
-	messagesController.$inject = ["$scope", "$state", "$stateParams", "ssn.errorService", "ssn.messageService", "ssn.userService"];
+	messagesController.$inject = ["$scope", "$state", "$stateParams", "ssn.errorService", "ssn.messageService", "ssn.userService", "ssn.imageUploadService"];
 
 	controllerModule.controller("ssn.messagesCreateController", messagesController);
 });

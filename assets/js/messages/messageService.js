@@ -8,8 +8,9 @@ define([
 		"messages/messagesModule",
 		"asset/observer",
 		"asset/sortedSet",
-		"asset/securedDataWithMetaData"
-	], function (step, h, validator, messagesModule, Observer, sortedSet, SecuredData) {
+		"asset/securedDataWithMetaData",
+		"bluebird"
+	], function (step, h, validator, messagesModule, Observer, sortedSet, SecuredData, Bluebird) {
 	"use strict";
 
 	var messageService;
@@ -89,6 +90,8 @@ define([
 
 				remainingUser: "",
 				remainingUserTitle: "",
+
+				newMessage: "",
 
 				id: data.topicid,
 				type: (receiver.length <= 2 ? "peerChat" : "groupChat"),
@@ -336,7 +339,7 @@ define([
 			}), cb);
 		};
 
-		Topic.createData = function (receiver, message, cb) {
+		Topic.createRawData = function (receiver, cb) {
 			var receiverObjects, topicKey, topicData;
 			step(function () {
 				//load receiver
@@ -403,21 +406,54 @@ define([
 			}), h.sF(function (tData) {
 				topicData.topic = tData.meta;
 
+				this.ne(topicData);
+			}), cb);
+		};
+
+		Topic.createData = function (receiver, message, images, cb) {
+			var imagePreparation = Bluebird.resolve(images).map(function (image) {
+				return image.prepare();
+			});
+
+			function uploadImages(topicKey) {
+				return Bluebird.all(images.map(function (image) {
+					return image.upload(topicKey);
+				}));
+			}
+
+			var createRawTopicData = Bluebird.promisify(Topic.createRawData, Topic);
+			var createRawMessageData = Bluebird.promisify(Message.createRawData, Message);
+
+			var resultPromise = Bluebird.all([createRawTopicData(receiver), imagePreparation]).spread(function (topicData, imagesMeta) {
 				var topic = new Topic({
 					meta: topicData.topic,
 					unread: []
 				});
 
 				var messageMeta = {
-					createTime: new Date().getTime()
+					createTime: new Date().getTime(),
+					images: imagesMeta
 				};
 
-				Message.createRawData(topic, message, messageMeta, this);
-			}), h.sF(function (mData) {
-				topicData.message = mData;
+				return Bluebird.all([
+					topicData,
+					createRawMessageData(topic, message, messageMeta),
+					uploadImages(topic.getKey())
+				]);
+			}).spread(function (topicData, messageData, imageKeys) {
+				imageKeys = h.array.flatten(imageKeys);
+				messageData.imageKeys = imageKeys.map(keyStore.upload.getKey);
 
-				this.ne(topicData);
-			}), cb);
+				topicData.message = messageData;
+
+				return topicData;
+			});
+
+			if (typeof cb === "function") {
+				step.unpromisify(resultPromise, h.addAfterHook(cb, $rootScope.$apply.bind($rootScope, null)));
+			}
+
+			return resultPromise;
 		};
 
 		function makeTopic(data, cb) {
@@ -571,7 +607,7 @@ define([
 					Topic.get(topicid, this);
 				}), cb);
 			},
-			sendMessageToUserTopicIfExists: function(receiver, message, cb) {
+			sendMessageToUserTopicIfExists: function(receiver, message, images, cb) {
 				var theTopic;
 				step(function () {
 					messageService.getUserTopic(receiver[0], this);
@@ -602,7 +638,7 @@ define([
 
 					this.last.ne();
 				}), h.sF(function () {
-					messageService.sendMessage(theTopic, message, this);
+					messageService.sendMessage(theTopic, message, images, this);
 				}), h.sF(function (success) {
 					if (success) {
 						this.ne(theTopic);
@@ -611,10 +647,10 @@ define([
 					}
 				}), cb);
 			},
-			sendNewTopic: function (receiver, message, cb) {
+			sendNewTopic: function (receiver, message, images, cb) {
 				step(function () {
 					if (receiver.length === 1) {
-						messageService.sendMessageToUserTopicIfExists(receiver, message, this);
+						messageService.sendMessageToUserTopicIfExists(receiver, message, images, this);
 					} else {
 						this.ne(false);
 					}
@@ -622,7 +658,7 @@ define([
 					if (topic) {
 						this.last.ne(topic.getID());
 					} else {
-						Topic.createData(receiver, message, this);
+						Topic.createData(receiver, message, images, this);
 					}
 				}), h.sF(function (topicData) {
 					socket.emit("messages.sendNewTopic", topicData, this);
@@ -630,35 +666,52 @@ define([
 					makeTopic(result.topic, cb);
 				}), cb || h.nop);
 			},
-			sendMessage: function (topic, message, cb, count) {
-				step(function () {
-					if (!count) {
-						count = 0;
-					} else if (count > 3) {
+			sendMessage: function (_topic, message, images, cb) {
+				var topic;
+
+				var imagePreparation = Bluebird.resolve(images).map(function (image) {
+					return image.prepare();
+				});
+
+				function uploadImages() {
+					return Bluebird.all(images.map(function (image) {
+						return image.upload(topic.getKey());
+					}));
+				}
+
+				var getTopic = Bluebird.promisify(Topic.get, Topic);
+				var createMessageData = Bluebird.promisify(Message.createData, Message);
+
+				var resultPromise = Bluebird.resolve(_topic).then(function (topic) {
+					if (typeof topic !== "object") {
+						return getTopic(topic);
+					} else {
+						return topic;
+					}
+				}).then(function (_topic) {
+					topic = _topic;
+
+					return imagePreparation;
+				}).then(function (imagesMetaData) {
+					return Bluebird.all([createMessageData(topic, message, imagesMetaData), uploadImages()]);
+				}).spread(function (result, imageKeys) {
+					imageKeys = h.array.flatten(imageKeys);
+					result.message.imageKeys = imageKeys.map(keyStore.upload.getKey);
+
+					return socket.emit("messages.send", result);
+				}).then(function (response) {
+					if (!response.success) {
 						throw new Error("failed to send message");
 					}
 
-					if (typeof topic !== "object") {
-						Topic.get(topic, this);
-					} else {
-						this.ne(topic);
-					}
-				}, h.sF(function (topic) {
-					Message.createData(topic, message, this);
-				}), h.sF(function (result) {
-					socket.emit("messages.send", result, this);
-				}), h.sF(function (result) {
-					if (!result.success) {
-						//TODO: really improve this!
-						window.setTimeout(function () {
-							messageService.sendMessage(topic, message, cb, count + 1);
-						}, 200);
+					return true;
+				});
 
-						return;
-					}
+				if (typeof cb === "function") {
+					step.unpromisify(resultPromise, h.addAfterHook(cb, $rootScope.$apply.bind($rootScope, null)));
+				}
 
-					this.ne(true);
-				}), cb);
+				return resultPromise;
 			},
 			getUserTopic: function (uid, cb) {
 				step(function () {
