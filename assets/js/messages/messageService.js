@@ -339,7 +339,7 @@ define([
 			}), cb);
 		};
 
-		Topic.createData = function (receiver, message, cb) {
+		Topic.createRawData = function (receiver, cb) {
 			var receiverObjects, topicKey, topicData;
 			step(function () {
 				//load receiver
@@ -406,21 +406,54 @@ define([
 			}), h.sF(function (tData) {
 				topicData.topic = tData.meta;
 
+				this.ne(topicData);
+			}), cb);
+		};
+
+		Topic.createData = function (receiver, message, images, cb) {
+			var imagePreparation = Bluebird.resolve(images).map(function (image) {
+				return image.prepare();
+			});
+
+			function uploadImages(topicKey) {
+				return Bluebird.all(images.map(function (image) {
+					return image.upload(topicKey);
+				}));
+			}
+
+			var createRawTopicData = Bluebird.promisify(Topic.createRawData, Topic);
+			var createRawMessageData = Bluebird.promisify(Message.createRawData, Message);
+
+			var resultPromise = Bluebird.all([createRawTopicData(receiver), imagePreparation]).spread(function (topicData, imagesMeta) {
 				var topic = new Topic({
 					meta: topicData.topic,
 					unread: []
 				});
 
 				var messageMeta = {
-					createTime: new Date().getTime()
+					createTime: new Date().getTime(),
+					images: imagesMeta
 				};
 
-				Message.createRawData(topic, message, messageMeta, this);
-			}), h.sF(function (mData) {
-				topicData.message = mData;
+				return Bluebird.all([
+					topicData,
+					createRawMessageData(topic, message, messageMeta),
+					uploadImages(topic.getKey())
+				]);
+			}).spread(function (topicData, messageData, imageKeys) {
+				imageKeys = h.array.flatten(imageKeys);
+				messageData.imageKeys = imageKeys.map(keyStore.upload.getKey);
 
-				this.ne(topicData);
-			}), cb);
+				topicData.message = messageData;
+
+				return topicData;
+			});
+
+			if (typeof cb === "function") {
+				step.unpromisify(resultPromise, h.addAfterHook(cb, $rootScope.$apply.bind($rootScope, null)));
+			}
+
+			return resultPromise;
 		};
 
 		function makeTopic(data, cb) {
@@ -625,7 +658,7 @@ define([
 					if (topic) {
 						this.last.ne(topic.getID());
 					} else {
-						Topic.createData(receiver, message, this);
+						Topic.createData(receiver, message, images, this);
 					}
 				}), h.sF(function (topicData) {
 					socket.emit("messages.sendNewTopic", topicData, this);
