@@ -32,7 +32,7 @@ define(["step", "whispeerHelper", "asset/state", "bluebird", "controllers/contro
 
 				sendMessageState.pending();
 
-				if (text === "") {
+				if (text === "" && images.length === 0) {
 					sendMessageState.failed();
 					return;
 				}
