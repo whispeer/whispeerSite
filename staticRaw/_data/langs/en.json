@@ -5,7 +5,7 @@
 	send: "Keep Me Updated!",
 	enterMail: "Enter your E-Mail here",
 	registerAd: "Start using whispeer now!",
-	localStorageWarn: "Your browser does not support 'localStorage'. It is required by whispeer to work correctly. Please activate 'locaStorage' or <a href=\"http://outdatedbrowser.com/en\" target=\"_blank\">update your Browser.</a>",
+	localStorageWarn: "Your browser does not support 'localStorage'. It is required by whispeer to work correctly. Please activate 'localStorage' or <a href=\"http://outdatedbrowser.com/en\" target=\"_blank\">update your Browser.</a>",
 	by: "By",
 	preDate: "on",
 	readMore: "Read more",
