@@ -391,7 +391,7 @@
 				},
 				"changeImage": "Profilbild ändern",
 				"birthday": {
-					"text":	"Geboren am {day}. {month} {year}",
+					"text":	"Geboren am {day} {month} {year}",
 					"day":	"Tag",
 					"month":	"Monat",
 					"year":	"Jahr",

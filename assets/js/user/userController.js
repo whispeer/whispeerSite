@@ -115,6 +115,10 @@ define(["step", "whispeerHelper", "bluebird", "asset/resizableImage", "asset/sta
 						adv.gender.text = "";
 					}
 
+					if (adv.birthday.day === null) {
+						adv.birthday.day = "";
+					}
+
 					userObject.setAdvancedProfile(adv, this);
 				}), h.sF(function () {
 					userObject.uploadChangedProfile(this);

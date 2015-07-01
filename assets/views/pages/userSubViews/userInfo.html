@@ -21,8 +21,8 @@
 			<p id="userView-birthday" class="userView-infoRow" data-ng-if="set(adv.birthday) || editGeneral">
 				<i class="userView-infoIcon fa fa-gift fa-fw"></i>
 				<span class="userView-infoText" data-i18n="profile.section.general.birthday.text">
-					<span class="day" data-for="day" data-ng-if="!editGeneral">{{adv.birthday.day}}</span>
-					<span class="month" data-for="month" data-ng-if="!editGeneral" data-i18n="date.month.{{adv.birthday.month}}"></span>
+					<span class="day" data-for="day" data-ng-if="!editGeneral && adv.birthday.day">{{adv.birthday.day}}.</span>
+					<span class="month" data-for="month" data-ng-if="!editGeneral && adv.birthday.month" data-i18n="date.month.{{adv.birthday.month}}"></span>
 					<span class="year" data-for="year" data-ng-if="!editGeneral">{{adv.birthday.year}}</span>
 					<select class="userview-info-bdaySelect" data-for="day" data-ng-if="editGeneral" data-ng-model="adv.birthday.day" data-ng-options="day for day in days">
 						<option value="" data-i18n="profile.section.general.birthday.day"></option>
