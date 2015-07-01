@@ -4,6 +4,12 @@ lang: de
 title: Versionshistorie
 ---
 
+## 0.2.6
+
+* Bilderversand in Nachrichten
+* Bugfixes - Kreise entfernen Button wieder sichtbar
+* Eingabefeld für Post vergrößert sich automatisch
+
 ## 0.2.5
 
 * Neues Design

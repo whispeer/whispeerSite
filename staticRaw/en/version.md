@@ -3,6 +3,13 @@ layout: version
 lang: en
 title: Version History
 ---
+
+## 0.2.6
+
+* Send images in messages
+* Bugfixes - remove circle button is now visible again
+* Input field for post grows with your content!
+
 ## 0.2.5
 
 * New Design
