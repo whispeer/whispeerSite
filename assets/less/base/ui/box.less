@@ -77,7 +77,11 @@
 
 	overflow: hidden;
 	text-overflow: ellipsis;
-	white-space: nowrap;
+	white-space: normal;
+
+	span {
+		white-space: nowrap;
+	}
 }
 .box-header-title--push { @media @mobile { padding-left: 5rem; } }
 .box-header-button {
