@@ -69,12 +69,13 @@ define(["step", "whispeerHelper", "crypto/encryptedData", "services/serviceModul
 
 				var ownUser = $injector.get("ssn.userService").getown();
 
-				settings = SecuredData.create(data.content, data.meta, options, ownUser.getSignKey(), ownUser.getMainKey(), this);
+				SecuredData.create(data.content, data.meta, options, ownUser.getSignKey(), ownUser.getMainKey(), this);
 			}), h.sF(function (signedAndEncryptedSettings) {
+				settings = SecuredData.load(signedAndEncryptedSettings.content, signedAndEncryptedSettings.meta, options);
+
 				socketService.emit("settings.setSettings", {
 					settings: signedAndEncryptedSettings
 				}, this);
-
 			}), h.sF(function () {
 				this.ne(settings);
 			}), cb);
