@@ -4,7 +4,10 @@
 		<newpost data-input-i18n-attr="wall.postit.text|placeholder"></newpost>
 		<div class="post" id="newsfeedView-filterForm">
 			<h3 class="h1-noMarginTop">Filter deinen Newsfeed</h3>
-			<search data-multiple class="hideScroll" data-supplier="filterSearchSupplier" data-search-template="filter" data-input-i18n-attr="wall.filter.placeholder|placeholder" data-callback="setTimelineFilter(selected)" data-initial-values="getFiltersByID(filterSelection)" data-base="filter"/>
+			<div data-ng-class="{'annotatedInput-container annotatedInput-container--button': !mobile, 'inputSandwich': mobile}">
+				<search data-multiple class="hideScroll" data-ng-class="{'annotatedInput-input annotatedInput-input--float': !mobile, 'inputSandwich-top': mobile}" data-supplier="filterSearchSupplier" data-search-template="filter" data-input-i18n-attr="wall.filter.placeholder|placeholder" data-callback="setTimelineFilter(selected)" data-initial-values="getFiltersByID(filterSelection)" data-base="filter"/>
+				<button class="btn btn--primary" data-ng-class="{'annotatedInput-button': !mobile, 'inputSandwich-bottom': mobile}">Auswahl speichern</button>
+			</div>
 		</div>
 	</header>
 	<div class="posts" id="newsfeedView-posts">
