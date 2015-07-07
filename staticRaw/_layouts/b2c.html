@@ -104,19 +104,19 @@
 					</div>
 					{% if section.animation %}
 					<div class="animation-box">
-						{% for message in site.data.animation[page.lang].data %}
+						{% for message in site.data.b2c.animation[page.lang].data %}
 							<div class="message message-s{{message.sender | plus: 1}} message-{{page.lang}}--i{{forloop.index}}{% if forloop.last == true or forloop.rindex0 == 1 %} message--infinity{% endif %}">
-								<span class="message-sender">{{site.data.animation[page.lang].senders[message.sender]}}</span>
+								<span class="message-sender">{{site.data.b2c.animation[page.lang].senders[message.sender]}}</span>
 								<span class="message-text">{{message.messageText}}</span>
 							</div>
 						{% endfor %}
 						<div class="animation-node s1">
 							<i class="fa fa-user fa-l fa-bottom textShadow"></i>
-							<span class="animation-node-description">{{site.data.animation[page.lang].senders[0]}}</span>
+							<span class="animation-node-description">{{site.data.b2c.animation[page.lang].senders[0]}}</span>
 						</div>
 						<div class="animation-node s1Pc">
 							<i class="fa fa-desktop fa-xl fa-fw fa-middle textShadow"></i>
-							<span class="animation-node-description">{{site.data.animation[page.lang].senders[0]}}'s PC</span>
+							<span class="animation-node-description">{{site.data.b2c.animation[page.lang].senders[0]}}'s PC</span>
 						</div>
 						<div class="animation-node server">
 							<i class="fa fa-server fa-xl fa-middle textShadow"></i>
@@ -124,11 +124,11 @@
 						</div>
 						<div class="animation-node s2Pc">
 							<i class="fa fa-desktop fa-xl fa-fw fa-middle textShadow"></i>
-							<span class="animation-node-description">{{site.data.animation[page.lang].senders[1]}}'s PC</span>
+							<span class="animation-node-description">{{site.data.b2c.animation[page.lang].senders[1]}}'s PC</span>
 						</div>
 						<div class="animation-node s2">
 							<i class="fa fa-user fa-l fa-bottom textShadow"></i>
-							<span class="animation-node-description">{{site.data.animation[page.lang].senders[1]}}</span>
+							<span class="animation-node-description">{{site.data.b2c.animation[page.lang].senders[1]}}</span>
 						</div>
 					</div>
 					{% endif %}
