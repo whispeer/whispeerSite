@@ -305,7 +305,7 @@
 			"send": "Post"
 		},
 		"filter": {
-			"title": "Filter",
+			"title": "Filter your newsfeed",
 			"placeholder": "Whose posts do you want to see in the Newsfeed?"
 		},
 		"info": {
