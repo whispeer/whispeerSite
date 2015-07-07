@@ -95,7 +95,8 @@ function run() {
 		"setup",
 		"invite",
 		"backup",
-		"post"
+		"post",
+		"patronize"
 	];
 
 	grunt.log.writeln("Starting webserver...");

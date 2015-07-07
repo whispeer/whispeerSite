@@ -81,6 +81,12 @@ define(["app"], function (app) {
 			controller: "ssn.inviteLinkController"
 		});
 
+		$stateProvider.state("app.patronize", {
+			url: "/patronize",
+			templateUrl: "assets/views/pages/patronize.html",
+			controller: "ssn.patronizeController"
+		});
+
 		$stateProvider.state("app.logout", {
 			url: "/logout",
 			controller: ["ssn.sessionHelper", function (sessionHelper) {

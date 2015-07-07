@@ -1,0 +1,45 @@
+.patronizeView {
+	body { background: #f9f9f9; }
+}
+
+#patronizeView-section {
+	display: inline-block;
+	@media @desktop { width: 80%; margin: 0.5rem 10%; }
+	@media @mobile { width: 97%; margin: 0 1.5% 0.5rem; }
+}
+
+#patronizeView-heading {
+	@media @mobile { text-align: center; margin: 0; height: 4rem; line-height: 4rem; padding-left: 3rem; }
+}
+
+.patronizeView-method {
+	width: 100%;
+	margin-bottom: 1rem;
+}
+
+.patronizeView-method-paypal {
+	background: #009cde;
+	&:hover {
+		background: lighten(#009cde, 5%);
+	}
+}
+
+.patronizeView-method-bank {
+	background: #000066;
+	&:hover {
+		background: lighten(#000066, 5%);
+	}
+}
+
+.patronizeView-method--active {
+	border-radius: @inputBorderRadius @inputBorderRadius 0 0;
+	margin-bottom: 0;
+}
+
+.patronizeView-method-detail {
+	margin-bottom: 1rem;
+	border-radius: 0 0 @inputBorderRadius @inputBorderRadius;
+	border: 1px solid @btnBorder;
+	padding: 0 1rem 1rem;
+	text-align: center;
+}
