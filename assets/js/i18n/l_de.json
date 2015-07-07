@@ -228,7 +228,7 @@
 		}
 	},
 	"menu": {
-		"newsfeed":	"Neuigkeiten",
+		"newsfeed":	"Newsfeed",
 		"profil": "Profil",
 		"friends": "Freunde ({count}+{requests})",
 		"messages": "Nachrichten ({count})",
@@ -303,7 +303,7 @@
 			"send": "Senden"
 		},
 		"filter": {
-			"title": "Filter",
+			"title": "Filter deinen Newsfeed",
 			"placeholder": "Wessen Posts möchtest du im News-Feed sehen?"
 		},
 		"info": {
