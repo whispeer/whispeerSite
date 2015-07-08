@@ -123,7 +123,10 @@ define([
 				return;
 			}
 
-			var settings = {};
+			var settings = {
+				meta: {},
+				content: {}
+			};
 
 			var profile = {
 				pub: {},

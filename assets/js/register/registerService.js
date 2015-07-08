@@ -69,6 +69,8 @@ define([
 					privateProfileMe.signAndEncrypt(keys.sign, keys.main, this.parallel());
 					publicProfile.sign(keys.sign, this.parallel());
 
+					SecuredData.create(settings.content, settings.meta, { type: "settings" }, keys.sign, keys.main, this.parallel());
+
 					keyStoreService.sym.encryptObject(settings, keys.main, 0, this.parallel());
 					signedKeys.sign(keys.sign, this.parallel());
 
