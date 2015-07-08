@@ -34,8 +34,7 @@ define(["step", "whispeerHelper", "asset/state", "libs/qr", "libs/filesaver", "c
 						visibility: ["always:allfriends"]
 					}
 				};
-				settingsService.updateBranch("privacy", safetySettings, this);
-			}), h.sF(function () {
+				settingsService.updateBranch("privacy", safetySettings);
 				settingsService.uploadChangedData(this);
 			}), cb);
 		}
