@@ -37,9 +37,24 @@
 }
 
 .patronizeView-method-detail {
+	display: inline-block;
+	width: 100%;
+	background: #ffffff;
 	margin-bottom: 1rem;
 	border-radius: 0 0 @inputBorderRadius @inputBorderRadius;
 	border: 1px solid @btnBorder;
+	border-top: none;
+	box-sizing: border-box;
 	padding: 0 1rem 1rem;
 	text-align: center;
+}
+
+.patrnonizeView-method-detail-paypal {
+	border-color: #009cde;
+	box-shadow: inset 0 0 3px rgba(0, 155, 222, 0.5);
+}
+
+.patrnonizeView-method-detail-bank {
+	border-color: #000066;
+	box-shadow: inset 0 0 3px rgba(0, 0, 103, 0.5);
 }

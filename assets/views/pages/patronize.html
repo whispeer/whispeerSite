@@ -2,7 +2,7 @@
 	<h1 id="patronizeView-heading">Support whispeer with a donation</h1>
 	<p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
 	<a href="#" class="btn btn--primary btn--big patronizeView-method patronizeView-method-paypal" data-ng-class="{'patronizeView-method--active': paypal}" data-ng-click="togglePaypal()"><i class="fa fa-paypal fa-fw"></i> Donate with PayPal</a>
-	<div class="patronizeView-method-detail" data-ng-if="paypal">
+	<div class="patronizeView-method-detail patrnonizeView-method-detail-paypal" data-ng-if="paypal">
 		<p>Klicke auf Spenden um whispeer einen frei wählbaren Beitrag zu senden.</p>
 		<p>Vielen Dank für deine Unterstützung!</p>
 		<form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
@@ -14,7 +14,7 @@
 	</div>
 
 	<a href="#" class="btn btn--primary btn--big patronizeView-method patronizeView-method-bank" data-ng-class="{'patronizeView-method--active': bank}" data-ng-click="toggleBank()"><i class="fa fa-bank fa-fw"></i> Donate via Bank Transfer</a>
-	<div class="patronizeView-method-detail" data-ng-if="bank">
+	<div class="patronizeView-method-detail patrnonizeView-method-detail-bank" data-ng-if="bank">
 		<p>Um whispeer zu unterstützen kannst du einen beliebigen Beitrag an die untenstehende Bankverbindung überweisen.</p>
 		<p>Vielen Dank für deine Unterstützung!</p>
 		<p>DADADADA</p>
