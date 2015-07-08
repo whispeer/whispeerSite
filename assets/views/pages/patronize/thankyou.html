@@ -1,12 +1,9 @@
 <div class="post" id="patronizeView-thankYou">
 	<i class="fa fa-heart fa-5x" id="patronizeView-thankyouIcon"></i>
-	<h1 id="patronizeView-heading">Thank you for supporting whispeer!</h1>
-	<p>
-		Thanks for helping us keep developing whispeer, {{user.basic.shortname}}!<br>
-		Without donations whispeers ongoing development would not be able.<br>
-		They empower us to develop new features that make whispeer even more awesome and better for you.
+	<h1 id="patronizeView-heading" data-i18n="patronize.thanks.heading"></h1>
+	<p data-i18n="patronize.thanks.content">
 	</p>
 	<a whispeer-sref="app.user.info({identifier: user.names.nickname})" class="btn btn--primary btn--big">
-		<i class="fa fa-star fa-3x fa-fw" id="patronizeView-star"></i> Click here to add a badge to your Profile to show the World that you backed whispeer!
+		<i class="fa fa-star fa-3x fa-fw" id="patronizeView-star"></i> <span data-i18n="patronize.thanks.badge"></span>
 	</a>
 </div>
