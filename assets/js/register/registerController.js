@@ -124,7 +124,9 @@ define([
 			}
 
 			var settings = {
-				meta: {},
+				meta: {
+					initialLanguage: h.getLanguageFromPath()
+				},
 				content: {}
 			};
 

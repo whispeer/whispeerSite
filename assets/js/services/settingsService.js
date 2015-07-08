@@ -67,6 +67,8 @@ define(["step", "whispeerHelper", "crypto/encryptedData", "services/serviceModul
 			}, h.sF(function (decryptedSettings) {
 				var data = turnOldSettingsToNew(decryptedSettings);
 
+				data.meta.initialLanguage = h.getLanguageFromPath();
+
 				var ownUser = $injector.get("ssn.userService").getown();
 
 				SecuredData.create(data.content, data.meta, options, ownUser.getSignKey(), ownUser.getMainKey(), this);
