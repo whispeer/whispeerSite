@@ -81,6 +81,25 @@ define(["app"], function (app) {
 			controller: "ssn.inviteLinkController"
 		});
 
+		$stateProvider.state("app.patronize", {
+			url: "/patronize",
+			abstract: true,
+			templateUrl: "assets/views/pages/patronize.html",
+			controller: "ssn.patronizeController"
+		});
+
+		$stateProvider.state("app.patronize.general", {
+			url: "",
+			templateUrl: "assets/views/pages/patronize/general.html",
+			controller: "ssn.patronizeController"
+		});
+
+		$stateProvider.state("app.patronize.thankyou", {
+			url: "/thankyou",
+			templateUrl: "assets/views/pages/patronize/thankyou.html",
+			controller: "ssn.patronizeThankYouController"
+		});
+
 		$stateProvider.state("app.logout", {
 			url: "/logout",
 			controller: ["ssn.sessionHelper", function (sessionHelper) {

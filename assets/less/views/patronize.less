@@ -1,0 +1,133 @@
+.patronizeView {
+	body { background: #f9f9f9; }
+}
+
+#patronizeView-section {
+	display: inline-block;
+	@media @desktop { width: 80%; margin: 0.5rem 10%; }
+	@media @mobile { width: 97%; margin: 0 1.5% 0.5rem; }
+}
+
+#patronizeView-heading {
+	text-align: center;
+	margin: 1rem 0;
+}
+
+.patronizeView-method {
+	width: 100%;
+	margin-bottom: 1rem;
+}
+
+.patronizeView-method-paypal {
+	background: #009cde;
+	&:hover,
+	&:active,
+	&:focus {
+		background: lighten(#009cde, 5%);
+	}
+}
+
+.patronizeView-method-bank {
+	background: #000066;
+	&:hover,
+	&:active,
+	&:focus {
+		background: lighten(#000066, 5%);
+	}
+}
+
+.patronizeView-method--active {
+	border-radius: @inputBorderRadius @inputBorderRadius 0 0;
+	margin-bottom: 0;
+}
+
+.patronizeView-method-detail {
+	display: inline-block;
+	width: 100%;
+	background: #ffffff;
+	margin-bottom: 1rem;
+	border-radius: 0 0 @inputBorderRadius @inputBorderRadius;
+	border: 1px solid @btnBorder;
+	border-top: none;
+	box-sizing: border-box;
+	padding: 0 1rem;
+	text-align: center;
+}
+
+.patrnonizeView-method-detail-paypal {
+	border-color: #009cde;
+	box-shadow: inset 0 0 3px rgba(0, 155, 222, 0.5);
+}
+
+.patrnonizeView-method-detail-bank {
+	border-color: #000066;
+	box-shadow: inset 0 0 3px rgba(0, 0, 103, 0.5);
+
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+}
+
+.patronizeView-method-detail-paragraph {
+	width: 100%;
+}
+
+#patronizeView-method-detail-bankInfo {
+	display: block;
+	text-align: left;
+	margin-bottom: 1rem;
+	td {
+		padding: 0 0.55rem;
+	}
+}
+
+#patronizeView-paypalForm {
+	margin-bottom: 1rem;
+}
+
+#patronizeView-content {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 100%;
+}
+
+#patronizeView-thankYou {
+	text-align: center;
+	margin: auto;
+}
+
+#patronizeView-thankyouIcon {
+	color: @red;
+	text-shadow: 3px 3px 0px darken(@red, 15%);
+	color: #e00;
+	animation: beat 5s infinite alternate;
+	transform-origin: center;
+}
+
+/* Heart beat animation */
+@keyframes beat{
+  0% {transform: scale(1);}
+  5% { transform: scale(1.15); }
+  15% { transform: scale(1); }
+  60% { transform: scale(1); }
+  65% { transform: scale(1.15); }
+  75% { transform: scale(1); }
+  100% { transform: scale(1); }
+}
+
+#patronizeView-star,
+#patronizeView-home {
+	vertical-align: middle;
+	margin-top: -2px;
+}
+
+#patronizeView-star {
+	color: @yellow;
+}
+
+#patronizeView-donateIcon {
+	color: @primary;
+	width: 100%;
+	text-align: center;
+}
