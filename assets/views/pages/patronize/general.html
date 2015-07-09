@@ -1,29 +1,30 @@
 <section class="post" id="patronizeView-section">
 	<i class="fa fa-heart fa-5x" id="patronizeView-donateIcon"></i>
-	<h1 id="patronizeView-heading" data-i18n="patronize.heading"></h1>
-	<p data-i18n="patronize.content"></p>
-	<a href="#" class="btn btn--primary btn--big patronizeView-method patronizeView-method-paypal" data-ng-class="{'patronizeView-method--active': paypal}" data-ng-click="togglePaypal()"><i class="fa fa-paypal fa-fw"></i> <span data-i18n="patronize.methods.paypal">Donate with PayPal</span></a>
+	<h1 id="patronizeView-heading" data-i18n="views.patronize.heading"></h1>
+	<p data-i18n="views.patronize.content"></p>
+	<a href="#" class="btn btn--primary btn--big patronizeView-method patronizeView-method-paypal" data-ng-class="{'patronizeView-method--active': paypal}" data-ng-click="togglePaypal()"><i class="fa fa-paypal fa-fw"></i> <span data-i18n="views.patronize.methods.paypal"></span></a>
 	<div class="patronizeView-method-detail patrnonizeView-method-detail-paypal" data-ng-if="paypal">
-		<p data-i18n="patronize.details.paypal">
+		<p data-i18n="views.patronize.details.paypal">
 		</p>
 		<form id="patronizeView-paypalForm" action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
 			<input type="hidden" name="cmd" value="_s-xclick">
-			<input type="hidden" name="hosted_button_id" value="P9W8Z8HH2LQ7J">
-			<input type="image" src="https://www.paypalobjects.com/de_DE/DE/i/btn/btn_donateCC_LG.gif" border="0" name="submit" alt="Jetzt einfach, schnell und sicher online bezahlen – mit PayPal.">
+			<input type="hidden" name="hosted_button_id" value="8KTC2VWKQG8EQ">
+			<input type="image" src="https://www.paypalobjects.com/de_DE/DE/i/btn/btn_donateCC_LG.gif" border="0" name="submit" data-i18n-attr="views.patronize.details.altTextPaypal|alt">
 			<img alt="" border="0" src="https://www.paypalobjects.com/de_DE/i/scr/pixel.gif" width="1" height="1">
 		</form>
 	</div>
 
-	<a href="#" class="btn btn--primary btn--big patronizeView-method patronizeView-method-bank" data-ng-class="{'patronizeView-method--active': bank}" data-ng-click="toggleBank()"><i class="fa fa-bank fa-fw"></i> <span data-i18n="patronize.methods.bank"></span></a>
+	<a href="#" class="btn btn--primary btn--big patronizeView-method patronizeView-method-bank" data-ng-class="{'patronizeView-method--active': bank}" data-ng-click="toggleBank()"><i class="fa fa-bank fa-fw"></i> <span data-i18n="views.patronize.methods.bank"></span></a>
 	<div class="patronizeView-method-detail patrnonizeView-method-detail-bank" data-ng-if="bank">
-		<p class="patronizeView-method-detail-paragraph" data-i18n="patronize.details.paypal">
+		<p class="patronizeView-method-detail-paragraph" data-i18n="views.patronize.details.bankContent">
 		</p>
 		<table id="patronizeView-method-detail-bankInfo">
-			<tr><td>IBAN:</td><td>DE64120400000025711300</td></tr>
-			<tr><td>BIC:</td><td>COBADEFFXXX</td></tr>
-			<tr><td>Bank:</td><td>Commerzbank</td></tr>
+			<tr><td data-i18n="views.patronize.details.iban"></td><td>DE64120400000025711300</td></tr>
+			<tr><td data-i18n="views.patronize.details.bic"></td><td>COBADEFFXXX</td></tr>
+			<tr><td data-i18n="views.patronize.details.bank"></td><td>Commerzbank</td></tr>
+			<tr><td data-i18n="views.patronize.details.usage"></td><td data-i18n="views.patronize.details.usageContent|userid={{user.id}}"></td></tr>
 		</table>
 	</div>
 
-	<a href="#" class="btn btn--primary btn--big patronizeView-method" target="_blank"><i class="fa fa-shopping-cart fa-fw"></i> <span data-i18n="patronize.methods.shop"></span></a>
+	<a href="#" class="btn btn--primary btn--big patronizeView-method" target="_blank"><i class="fa fa-shopping-cart fa-fw"></i> <span data-i18n="views.patronize.methods.shop"></span></a>
 </section>
