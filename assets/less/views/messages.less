@@ -227,6 +227,10 @@
 			position: relative;
 		}
 
+		.messageList--reduce {
+			bottom: (@form-height + 2 * @form-margin + 100px) !important;
+		}
+
 		#messageList {
 			width: 100%;
 			overflow-x: hidden;
@@ -242,6 +246,9 @@
 
 			// nice scrolling for iOS.
 			-webkit-overflow-scrolling: touch;
+
+			//transform: translate3d(0, 0, 0);
+			transition: 0.55s ease bottom;
 
 			.burst {
 				float: left;
