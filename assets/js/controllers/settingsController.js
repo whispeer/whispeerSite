@@ -93,10 +93,9 @@ define(["whispeerHelper", "step", "asset/state", "libs/qr", "controllers/control
 
 				localize.setLanguage($scope.uiLanguage);
 
-				settingsService.updateBranch("sound", sound, this.parallel());
-				settingsService.updateBranch("messages", messages, this.parallel());
-				settingsService.updateBranch("uiLanguage", $scope.uiLanguage, this.parallel());
-			}), h.sF(function () {
+				settingsService.updateBranch("sound", sound);
+				settingsService.updateBranch("messages", messages);
+				settingsService.updateBranch("uiLanguage", $scope.uiLanguage);
 				settingsService.uploadChangedData(this);
 			}), errorService.failOnError(saveGeneralState));
 
@@ -105,10 +104,9 @@ define(["whispeerHelper", "step", "asset/state", "libs/qr", "controllers/control
 		$scope.saveSafety = function () {
 			saveSafetyState.pending();
 			step(function () {
-				settingsService.updateBranch("privacy", $scope.safety, this);
-			}, h.sF(function () {
+				settingsService.updateBranch("privacy", $scope.safety);
 				settingsService.uploadChangedData(this);
-			}), h.sF(function () {
+			}, h.sF(function () {
 				userService.getown().uploadChangedProfile(this);
 			}), errorService.failOnError(saveSafetyState));
 		};

@@ -123,7 +123,12 @@ define([
 				return;
 			}
 
-			var settings = {};
+			var settings = {
+				meta: {
+					initialLanguage: h.getLanguageFromPath()
+				},
+				content: {}
+			};
 
 			var profile = {
 				pub: {},

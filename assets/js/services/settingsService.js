@@ -1,8 +1,8 @@
-define(["step", "whispeerHelper", "crypto/encryptedData", "services/serviceModule"], function (step, h, EncryptedData, serviceModule) {
+define(["step", "whispeerHelper", "crypto/encryptedData", "services/serviceModule", "asset/securedDataWithMetaData"], function (step, h, EncryptedData, serviceModule, SecuredData) {
 	"use strict";
 
-	var service = function ($rootScope, $injector, localize, initService) {
-		var settings;
+	var service = function ($rootScope, $injector, localize, initService, socketService) {
+		var settings, options = { type: "settings", removeEmpty: true };
 
 		var notVisible = {
 			encrypt: true,
@@ -43,11 +43,57 @@ define(["step", "whispeerHelper", "crypto/encryptedData", "services/serviceModul
 			uiLanguage: localize.getLanguage()
 		};
 
-		initService.register("settings.getSettings", {}, function (data, cb) {
-			settings = new EncryptedData(data.settings);
+		function turnOldSettingsToNew(settings) {
+			var result = {
+				meta: {},
+				content: {}
+			};
+
+			h.objectEach(settings, function (key, val) {
+				if (isBranchPublic(key)) {
+					result.meta[key] = val;
+				} else {
+					result.content[key] = val;
+				}
+			});
+
+			return result;
+		}
+
+		function migrateToFormat2(data, cb) {
 			step(function () {
-				settings.getBranch("uiLanguage", this);
-			}, h.sF(function (language) {
+				var oldSettings = new EncryptedData(data.settings);
+				oldSettings.decrypt(this);
+			}, h.sF(function (decryptedSettings) {
+				var data = turnOldSettingsToNew(decryptedSettings);
+
+				data.meta.initialLanguage = h.getLanguageFromPath();
+
+				var ownUser = $injector.get("ssn.userService").getown();
+
+				SecuredData.create(data.content, data.meta, options, ownUser.getSignKey(), ownUser.getMainKey(), this);
+			}), h.sF(function (signedAndEncryptedSettings) {
+				settings = SecuredData.load(signedAndEncryptedSettings.content, signedAndEncryptedSettings.meta, options);
+
+				socketService.emit("settings.setSettings", {
+					settings: signedAndEncryptedSettings
+				}, this);
+			}), h.sF(function () {
+				this.ne(settings);
+			}), cb);
+		}
+
+		initService.register("settings.getSettings", {}, function (data, cb) {
+			step(function () {
+				if (data.settings.ct) {
+					migrateToFormat2(data, this);
+				} else {
+					this.ne(SecuredData.load(data.settings.content, data.settings.meta, options));
+				}
+			}, h.sF(function (_settings) {
+				settings = _settings;
+				api.getBranch("uiLanguage", this);
+			}), h.sF(function (language) {
 				if (language) {
 					localize.setLanguage(language);
 				}
@@ -60,34 +106,50 @@ define(["step", "whispeerHelper", "crypto/encryptedData", "services/serviceModul
 			settings.reset();
 		});
 
+		var publicBranches = ["uiLanguage", "sound"];
+
+		function isBranchPublic(branchName) {
+			return publicBranches.indexOf(branchName) > -1;
+		}
+
 		var api = {
 			decrypt: function (cb) {
-				settings.decrypt(cb);
-			},
-			getBranch: function (branch, cb) {
 				step(function () {
-					settings.getBranch(branch, this);
-				}, h.sF(function (branchContent) {
-					this.ne(branchContent || defaultSettings[branch]);
+					var ownUser = $injector.get("ssn.userService").getown();
+
+					settings.decrypt(this.parallel());
+					settings.verify(ownUser.getSignKey(), this.parallel());
+				}, cb);
+			},
+			getBranch: function (branchName, cb) {
+				step(function () {
+					api.decrypt(this);
+				}, h.sF(function () {
+					var branchContent;
+
+					if (isBranchPublic(branchName)) {
+						branchContent = settings.metaAttr(branchName);
+					} else {
+						branchContent = settings.contentGet()[branchName];
+					}
+
+					this.ne(branchContent || defaultSettings[branchName]);
 				}), cb);
 			},
-			updateAttribute: function (attrs, value, cb) {
-				settings.setAttribute(attrs, value, cb);
-			},
-			updatePrivacyAttribute: function (attrs, value, cb) {
-				api.updateAttribute(attrs.unshift("privacy"), value, cb);
-			},
-			updateBranch: function (branchName, value, cb) {
-				settings.setAttribute([branchName], value, cb);
+			updateBranch: function (branchName, value) {
+				if (isBranchPublic(branchName)) {
+					settings.metaSetAttr(branchName, value);
+				} else {
+					settings.contentSetAttr(branchName, value);
+				}
 			},
 			privacy: {
 				safetyNames: ["birthday", "location", "relationship", "education", "work", "gender", "languages"],
 				setPrivacy: function (privacy, cb, updateProfile) {
 					step(function () {
 						api.updateBranch("privacy", privacy, this);
-					}, h.sF(function () {
 						api.uploadChangedData(this);
-					}), h.sF(function () {
+					}, h.sF(function () {
 						if (!updateProfile) {
 							this.last.ne();
 							return;
@@ -115,13 +177,13 @@ define(["step", "whispeerHelper", "crypto/encryptedData", "services/serviceModul
 			uploadChangedData: function (cb) {
 				step(function () {
 					var userService = $injector.get("ssn.userService");
-					if (settings.isChanged) {
-						settings.getUploadData(userService.getown().getMainKey(), this);
+
+					if (settings.isChanged()) {
+						settings.getUpdatedData(userService.getown().getSignKey(), this);
 					} else {
 						this.last.ne(true);
 					}
 				}, h.sF(function (newEncryptedSettings) {
-					var socketService = $injector.get("ssn.socketService");
 					socketService.emit("settings.setSettings", {
 						settings: newEncryptedSettings
 					}, this);
@@ -170,7 +232,7 @@ define(["step", "whispeerHelper", "crypto/encryptedData", "services/serviceModul
 		return api;
 	};
 
-	service.$inject = ["$rootScope", "$injector", "localize", "ssn.initService"];
+	service.$inject = ["$rootScope", "$injector", "localize", "ssn.initService", "ssn.socketService"];
 
 	serviceModule.factory("ssn.settingsService", service);
 });

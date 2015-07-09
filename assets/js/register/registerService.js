@@ -61,7 +61,7 @@ define([
 
 					var signedKeys = SecuredData.load(undefined, correctKeys, { type: "signedKeys" });
 
-					trustManager.allow(4);
+					trustManager.allow(5);
 
 					this.parallel.unflatten();
 
@@ -69,7 +69,8 @@ define([
 					privateProfileMe.signAndEncrypt(keys.sign, keys.main, this.parallel());
 					publicProfile.sign(keys.sign, this.parallel());
 
-					keyStoreService.sym.encryptObject(settings, keys.main, 0, this.parallel());
+					SecuredData.create(settings.content, settings.meta, { type: "settings" }, keys.sign, keys.main, this.parallel());
+
 					signedKeys.sign(keys.sign, this.parallel());
 
 					keyStoreService.security.makePWVerifiable(ownKeys, password, this.parallel());
