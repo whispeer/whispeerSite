@@ -1,7 +1,7 @@
 define(["whispeerHelper", "dexie", "bluebird", "services/serviceModule"], function (h, Dexie, Promise, serviceModule) {
 	"use strict";
 
-	var db;
+	var db, errorService;
 
 	function Cache(name, options) {
 		this._name = name;
@@ -116,7 +116,9 @@ define(["whispeerHelper", "dexie", "bluebird", "services/serviceModule"], functi
 		console.error("Dexie failed to initialize...");
 	}
 
-	function service (errorService) {
+	function service (_errorService) {
+		errorService = _errorService;
+
 		if (!db) {
 			return NoCache;
 		}
