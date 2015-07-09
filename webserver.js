@@ -37,6 +37,8 @@ function buildCSPConfig() {
 	cspConfig["default-src"].push("https://data.whispeer.de");
 	cspConfig["default-src"].push("wss://data.whispeer.de");
 
+	cspConfig["img-src"].push("https://www.paypalobjects.com/");
+
 	for (var dev in ifaces) {
 		if (ifaces.hasOwnProperty(dev)) {
 			ifaces[dev].filter(function (e) { return e.family.indexOf("4") > -1; }).map(function (e) { return e.address; }).forEach(pushAddress);
