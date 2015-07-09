@@ -100,6 +100,20 @@
 #patronizeView-thankyouIcon {
 	color: @red;
 	text-shadow: 3px 3px 0px darken(@red, 15%);
+	color: #e00;
+	animation: beat 5s infinite alternate;
+	transform-origin: center;
+}
+
+/* Heart beat animation */
+@keyframes beat{
+  0% {transform: scale(1);}
+  5% { transform: scale(1.15); }
+  15% { transform: scale(1); }
+  60% { transform: scale(1); }
+  65% { transform: scale(1.15); }
+  75% { transform: scale(1); }
+  100% { transform: scale(1); }
 }
 
 #patronizeView-star,
