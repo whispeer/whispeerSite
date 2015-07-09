@@ -13,5 +13,6 @@ define([
 	"controllers/inviteLinkController",
 	"controllers/acceptInviteController",
 	"controllers/postController",
-	"controllers/patronizeController"
+	"controllers/patronizeController",
+	"controllers/patronizeThankYouController"
 ], function () {});

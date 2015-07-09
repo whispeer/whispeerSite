@@ -96,7 +96,8 @@ define(["app"], function (app) {
 
 		$stateProvider.state("app.patronize.thankyou", {
 			url: "/thankyou",
-			templateUrl: "assets/views/pages/patronize/thankyou.html"
+			templateUrl: "assets/views/pages/patronize/thankyou.html",
+			controller: "ssn.patronizeThankYouController"
 		});
 
 		$stateProvider.state("app.logout", {
