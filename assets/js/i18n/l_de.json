@@ -264,7 +264,8 @@
 		"logout": "Logout",
 		"search": "Suchen...",
 		"legal":	"Rechtliche Informationen",
-		"notifications":	"Mitteilungen ({count})"
+		"notifications":	"Mitteilungen ({count})",
+		"patronize": "Unterstütze whispeer"
 	},
 	"login": {
 		"forgotName": "Accountname vergessen",

@@ -264,7 +264,8 @@
 		"logout": "Logout",
 		"search": "Search...",
 		"legal":	"Legal information",
-		"notifications":	"Notifications ({count})"
+		"notifications":	"Notifications ({count})",
+		"patronize": "Support whispeer"
 	},
 	"login": {
 		"forgotName": "Forgot username",
