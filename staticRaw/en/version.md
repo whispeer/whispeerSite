@@ -4,6 +4,11 @@ lang: en
 title: Version History
 ---
 
+## 0.2.7
+
+* Translated mails
+* Donations
+
 ## 0.2.6
 
 * Send images in messages

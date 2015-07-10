@@ -5,7 +5,7 @@
 define(["step", "whispeerHelper", "asset/state", "controllers/controllerModule"], function (step, h, State, controllerModule) {
 	"use strict";
 
-	function inviteController($scope, socketService, errorService) {
+	function inviteController($scope, socketService, errorService, localize) {
 		$scope.inviteMails = [""];
 
 		var inviteMailState = new State();
@@ -33,7 +33,8 @@ define(["step", "whispeerHelper", "asset/state", "controllers/controllerModule"]
 
 				socketService.emit("invites.byMail", {
 					mails: mailsToSend,
-					name: name
+					name: name,
+					language: localize.getLanguage()
 				}, this);
 			}, h.sF(function () {
 				$scope.inviteMails = $scope.inviteMails.filter(function (e) {
@@ -49,7 +50,7 @@ define(["step", "whispeerHelper", "asset/state", "controllers/controllerModule"]
 		};
 	}
 
-	inviteController.$inject = ["$scope", "ssn.socketService", "ssn.errorService"];
+	inviteController.$inject = ["$scope", "ssn.socketService", "ssn.errorService", "localize"];
 
 	controllerModule.controller("ssn.inviteMailController", inviteController);
 });

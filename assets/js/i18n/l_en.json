@@ -20,6 +20,31 @@
 	},
 	"inviteFriends": "New to whispeer? Invite your friends now!",
 	"views": {
+		"patronize": {
+			"heading": "Support whispeer",
+			"content": "whispeer is free to use but creates a great cost for us (like server rent and development-costs). If you want to support whispeer, we gratefully accept your donation.",
+			"methods": {
+				"paypal": "Donate with paypal",
+				"bank": "Donate via bank transfer",
+				"shop": "Fan-Shop"
+			},
+			"details": {
+				"bankContent": "Transfer any amount of money you choose!",
+				"paypal": "Donate any amount you want via paypal!",
+				"altTextPaypal": "Pay with PayPal",
+				"iban": "IBAN:",
+				"bic": "BIC:",
+				"bank": "Bank:",
+				"usage": "Designated use:",
+				"usageContent": "Donation User {userid}"
+			},
+			"thanks": {
+				"heading": "Thanks for your donation!",
+				"content": "Thanks for supporting the development and operation of whispeer!",
+				"back": "Back to newsfeed",
+				"badge": "Not available yet -> remove"
+			}
+		},
 		"recovery": {
 			"or": "or",
 			"title": "Account recovery",
@@ -239,7 +264,8 @@
 		"logout": "Logout",
 		"search": "Search...",
 		"legal":	"Legal information",
-		"notifications":	"Notifications ({count})"
+		"notifications":	"Notifications ({count})",
+		"patronize": "Support whispeer"
 	},
 	"login": {
 		"forgotName": "Forgot username",
@@ -305,7 +331,7 @@
 			"send": "Post"
 		},
 		"filter": {
-			"title": "Filter",
+			"title": "Filter your newsfeed",
 			"placeholder": "Whose posts do you want to see in the Newsfeed?"
 		},
 		"info": {

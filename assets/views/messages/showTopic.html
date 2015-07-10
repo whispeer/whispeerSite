@@ -20,7 +20,7 @@
 
 	<div id="topicWrap" data-topicID="{{activeTopic.id}}" class="{{activeTopic.type}}">
 		<div id="messageWrap">
-			<ul class="scroll-pane" id="messageList" data-scroll data-keepBottom data-lockscrollbottom data-custom="distanceTopPercentage < 0.5" data-at-custom="loadMoreMessages()" data-custom-once data-lockscrolling="scrollLock" data-onbottomwithauto="markRead()">
+			<ul class="scroll-pane" id="messageList" data-ng-class="{'messageList--reduce': images.images.length > 0}" data-scroll data-keepBottom data-lockscrollbottom data-custom="distanceTopPercentage < 0.5" data-at-custom="loadMoreMessages()" data-custom-once data-lockscrolling="scrollLock" data-onbottomwithauto="markRead()">
 				<li class="messageView-loadingText" data-ng-if="activeTopic.remaining > 0">
 					<i class="fa fa-fw fa-spinner fa-spin" id="messageView-loadingIcon" data-ng-if="loadingMessages"></i>
 					<span data-i18n="messages.remaining|count={{activeTopic.remaining}}"></span>

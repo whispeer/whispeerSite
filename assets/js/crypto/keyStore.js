@@ -1444,6 +1444,16 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 		}), cb);
 	};
 
+	ObjectPadder.prototype._padNumber = function (val, cb) {
+		var that = this;
+
+		step(function () {
+			that._padString(val.toString(), this);
+		}, h.sF(function (padded) {
+			this.ne("num::" + padded);
+		}), cb);
+	};
+
 	ObjectPadder.prototype._padAttribute = function (attr, cb) {
 		var type = typeof attr;
 		if (type === "object") {
@@ -1454,6 +1464,10 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 			}
 		} else if (type === "string") {
 			this._padString(attr, cb);
+		} else if (type === "number") {
+			this._padNumber(attr, cb);
+		} else if (type === "boolean") {
+			this._padNumber((attr ? 1 : 0), cb);
 		} else {
 			throw new errors.InvalidDataError("could not pad value of type " + type);
 		}
@@ -1476,6 +1490,14 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 	};
 
 	ObjectPadder.prototype._unpadString = function (val) {
+		var isNumber = false;
+
+		if (val.indexOf("num::") === 0) {
+			isNumber = true;
+
+			val = val.substr(5);
+		}
+
 		if (val.length%this._minLength !== 2) {
 			throw new errors.InvalidDataError("padding size invalid");
 		}
@@ -1486,7 +1508,13 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 			throw new errors.InvalidDataError("no padding seperator found");
 		}
 
-		return val.substr(paddingIndex + 2);
+		var unpadded = val.substr(paddingIndex + 2);
+
+		if (isNumber) {
+			return h.parseDecimal(unpadded);
+		}
+
+		return unpadded;
 	};
 
 	ObjectPadder.prototype._unpadArray = function (val) {

@@ -3,6 +3,10 @@ layout: version
 lang: de
 title: Versionshistorie
 ---
+## 0.2.7
+
+* E-Mails werden nun übersetzt
+* Spendemöglichkeit eingebaut
 
 ## 0.2.6
 

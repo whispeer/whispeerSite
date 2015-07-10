@@ -20,6 +20,31 @@
 	},
 	"inviteFriends": "Neu bei whispeer? Lade jetzt deine Freunde ein!",
 	"views": {
+		"patronize": {
+			"heading": "whispeer unterstützen",
+			"content": "whispeer ist für dich kostenlos, uns entstehen aber trotzdem Kosten (zum Beispiel Servermiete und Entwicklungskosten). Wenn du whispeer unterstützen möchtest, würden wir uns über deine Spende freuen!",
+			"methods": {
+				"paypal": "Mit Paypal spenden",
+				"bank": "Mit Banküberweisung spenden",
+				"shop": "Fan-Shop"
+			},
+			"details": {
+				"bankContent": "Überweise uns einen Betrag deiner Wahl!",
+				"paypal": "Spende einen Betrag deiner Wahl mit Paypal!",
+				"altTextPaypal": "Jetzt einfach, schnell und sicher online bezahlen – mit PayPal.",
+				"iban": "IBAN:",
+				"bic": "BIC:",
+				"bank": "Bank:",
+				"usage": "Verwendungszweck:",
+				"usageContent": "Spende Nutzer {userid}"
+			},
+			"thanks": {
+				"heading": "Vielen Dank für deine Spende!",
+				"content": "Danke das du Entwicklung und Betrieb von whispeer unterstützt!",
+				"back": "Zurück zum Newsfeed",
+				"badge": "Not available yet -> remove"
+			}
+		},
 		"recovery": {
 			"or": "oder",
 			"title": "Accountwiederherstellung",
@@ -228,7 +253,7 @@
 		}
 	},
 	"menu": {
-		"newsfeed":	"Neuigkeiten",
+		"newsfeed":	"Newsfeed",
 		"profil": "Profil",
 		"friends": "Freunde ({count}+{requests})",
 		"messages": "Nachrichten ({count})",
@@ -239,7 +264,8 @@
 		"logout": "Logout",
 		"search": "Suchen...",
 		"legal":	"Rechtliche Informationen",
-		"notifications":	"Mitteilungen ({count})"
+		"notifications":	"Mitteilungen ({count})",
+		"patronize": "Unterstütze whispeer"
 	},
 	"login": {
 		"forgotName": "Accountname vergessen",
@@ -303,7 +329,7 @@
 			"send": "Senden"
 		},
 		"filter": {
-			"title": "Filter",
+			"title": "Filter deinen Newsfeed",
 			"placeholder": "Wessen Posts möchtest du im News-Feed sehen?"
 		},
 		"info": {
