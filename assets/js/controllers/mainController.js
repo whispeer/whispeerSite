@@ -24,7 +24,11 @@ define(["step", "whispeerHelper", "asset/state", "controllers/controllerModule"]
 
 		$scope.setTimelineFilter = function (newSelection) {
 			$scope.filterSelection = newSelection;
+		};
+
+		$scope.applyFilter = function () {
 			reloadTimeline();
+			// TODO: Save for later
 		};
 
 		$scope.togglePost = function() {
