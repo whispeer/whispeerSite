@@ -175,7 +175,7 @@
 		"relation":	"{relationType}{name}",
 		"work":	"{what}{where}",
 		"message": "Send message",
-		"add": "Als Friend"
+		"add": "Add as friend"
 	},
 	"general": {
 		"send":	"Send",

@@ -48,7 +48,7 @@
 		</div>
 		<div class="search-suggestion-actions">
 			<a class="search-suggestion-row search-action search-action-message btn btn--primary btn--border" whispeer-sref="app.messages.new({userid: user.id})" data-stop-event="click" data-i18n="usersearch.message"></a>
-			<savebutton class="addFriend btn--border search-suggestion-row search-action" data-state="user.addFriendState" data-ng-if="!user.me && !user.added" data-ng-click="user.addFriend()" data-stop-event="click" data-noiniticon>
+			<savebutton class="addFriend btn--border search-suggestion-row search-action" data-state="user.addFriendState" data-ng-if="!user.me && !user.added" data-ng-click="user.user.addAsFriend()" data-stop-event="click" data-noiniticon>
 				<span data-i18n="usersearch.add"></span>
 			</savebutton>
 		</div>
