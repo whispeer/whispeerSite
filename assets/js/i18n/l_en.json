@@ -265,7 +265,8 @@
 		"search": "Search...",
 		"legal":	"Legal information",
 		"notifications":	"Notifications ({count})",
-		"patronize": "Support whispeer"
+		"patronize": "Support whispeer",
+		"invite": "Invite your friends"
 	},
 	"login": {
 		"forgotName": "Forgot username",
