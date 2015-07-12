@@ -82,24 +82,23 @@
 	float: left;
 	position: relative;
 	line-height: @line-height;
+	font-weight: 700;
 
-	border-radius: @inputBorderRadius;
 	text-align: center;
-	color: #fff;
 	cursor: pointer;
 	&:extend(.box-fix);
 
 	&[data-trustlevel="0"] {
-		background: @red;
+		color: @red;
 	}
 	&[data-trustlevel="1"] {
-		background: @orange;
+		color: @orange;
 	}
 	&[data-trustlevel="2"] {
-		background: @green;
+		color: @green;
 	}
 	&[data-trustlevel="3"] {
-		background: @green;
+		color: @green;
 	}
 }
 .userView-trustlevel-digit {

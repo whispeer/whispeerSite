@@ -372,6 +372,10 @@
 		"loadingTopics": "Loading conversations"
 	},
 	"profile": {
+		"trustlevel": {
+			"0": "Not verified",
+			"2": "Verified"
+		},
 		"edit": {
 			"false":	"Edit profile",
 			"true":		"Finish"

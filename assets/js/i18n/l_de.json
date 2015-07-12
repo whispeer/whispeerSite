@@ -370,6 +370,10 @@
 		"loadingTopics": "Konversationen werden geladen"
 	},
 	"profile": {
+		"trustlevel": {
+			"0": "Nicht verifiziert",
+			"2": "Verifiziert"
+		},
 		"edit":	{
 			"false":	"Profil bearbeiten",
 			"true":		"Fertigstellen"
