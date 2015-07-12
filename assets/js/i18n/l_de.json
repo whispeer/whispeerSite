@@ -231,6 +231,7 @@
 	},
 	"notimplemented": "Noch nicht implementiert :(",
 	"search": {
+		"searching": "Suche läuft",
 		"user": {
 			"selected": "Ausgewählte Personen ({count})",
 			"emptyselection": "Keine Personen ausgewählt!",
