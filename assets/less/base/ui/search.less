@@ -334,13 +334,15 @@
 	color: @grayDark;
 }
 
-// I could not get around some ugly selectors here. sorry!
-
-.search--navbar .search-drop {
-	z-index: @zIndex-navSearchDrop;
-}
-.search--navbar > .search-input {
-	width: 100%;
+.search--navbar {
+	.search-resultsDrop {
+		border: none;
+		border-top: 1px solid @btnBorder;
+		border-radius: 0;
+	}
+	.search-suggestions {
+		max-height: ~"calc(100vh - 4rem - 1px)";
+	}
 }
 
 .search--custom {
