@@ -403,6 +403,11 @@ define(["step", "whispeerHelper", "bluebird", "validation/validator", "services/
 				return;
 			}
 
+			if (this.end) {
+				cb();
+				return;
+			}
+
 			var that = this;
 			this.loading = true;
 
@@ -426,6 +431,10 @@ define(["step", "whispeerHelper", "bluebird", "validation/validator", "services/
 					return thePost;
 				}, this));
 				that._requested = socket.lastRequestTime;
+
+				if (posts.length === 0) {
+					that.end = true;
+				}
 
 				this.parallel()();
 			}), function (e) {
