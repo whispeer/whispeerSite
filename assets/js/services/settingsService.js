@@ -34,6 +34,7 @@ define(["step", "whispeerHelper", "crypto/encryptedData", "services/serviceModul
 				languages: notVisible
 			},
 			sharePosts: ["always:allfriends"],
+			filterSelection: [],
 			sound: {
 				enabled: true
 			},
