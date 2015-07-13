@@ -4,8 +4,7 @@ define(["step", "whispeerHelper", "directives/directivesModule"], function (step
         return {
             link: function (scope, element, attrs) {
                 step(function () {
-                    settingsService.getBranch("messages", this);
-                }, h.sF(function (messages) {
+                    var messages = settingsService.getBranch("messages");
                     function send() {
                         scope.$apply(function (){
                             scope.$eval(attrs.advancedsend);
@@ -29,7 +28,7 @@ define(["step", "whispeerHelper", "directives/directivesModule"], function (step
                             }
                         }
                     });
-                }), errorService.criticalError);
+                }, errorService.criticalError);
             }
         };
     };

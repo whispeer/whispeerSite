@@ -38,14 +38,14 @@ define(["whispeerHelper", "step", "asset/state", "libs/qr", "controllers/control
 		$scope.getFiltersByID = filterService.getFiltersByID;
 
 		step(function () {
-			this.parallel.unflatten();
+			userService.getown().loadBasicData(this);
+		}, h.sF(function () {
 
-			settingsService.getBranch("privacy", this.parallel());
-			settingsService.getBranch("sound", this.parallel());
-			settingsService.getBranch("messages", this.parallel());
-			settingsService.getBranch("uiLanguage", this.parallel());
-			userService.getown().loadBasicData(this.parallel());
-		}, h.sF(function (privacy, sound, messages, uiLanguage) {
+			var privacy = settingsService.getBranch("privacy");
+			var sound = settingsService.getBranch("sound");
+			var messages = settingsService.getBranch("messages");
+			var uiLanguage = settingsService.getBranch("uiLanguage");
+
 			$scope.safety = h.deepCopyObj(privacy, 4);
 
 			$scope.notificationSound = "on";
@@ -82,12 +82,9 @@ define(["whispeerHelper", "step", "asset/state", "libs/qr", "controllers/control
 			saveGeneralState.pending();
 
 			step(function () {
-				this.parallel.unflatten();
+				var sound = settingsService.getBranch("sound");
+				var messages = settingsService.getBranch("messages");
 
-				settingsService.getBranch("sound", this.parallel());
-				settingsService.getBranch("messages", this.parallel());
-				settingsService.getBranch("uiLanguage", this.parallel());
-			}, h.sF(function (sound, messages) {
 				sound.enabled = ($scope.notificationSound === "on" ? true : false);
 				messages.sendShortCut = $scope.sendShortCut;
 
@@ -97,7 +94,7 @@ define(["whispeerHelper", "step", "asset/state", "libs/qr", "controllers/control
 				settingsService.updateBranch("messages", messages);
 				settingsService.updateBranch("uiLanguage", $scope.uiLanguage);
 				settingsService.uploadChangedData(this);
-			}), errorService.failOnError(saveGeneralState));
+			}, errorService.failOnError(saveGeneralState));
 
 		};
 
@@ -114,13 +111,12 @@ define(["whispeerHelper", "step", "asset/state", "libs/qr", "controllers/control
 		$scope.resetSafety = function () {
 			resetSafetyState.pending();
 			step(function () {
-				settingsService.getBranch("privacy", this);
-			}, h.sF(function (branch) {
+				var branch = settingsService.getBranch("privacy");
 				$scope.safety = h.deepCopyObj(branch, 4);
 				$scope.$broadcast("reloadInitialSelection");
 
 				this.ne();
-			}), errorService.failOnError(resetSafetyState));
+			}, errorService.failOnError(resetSafetyState));
 		};
 
 		$scope.mail = userService.getown().getMail();
