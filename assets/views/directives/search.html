@@ -3,7 +3,7 @@
 		<input type="text" class="search-query input--custom" data-ng-class="{'search--activeRadius': results.length > 0 && isVisible()}" data-i18n-attr="{{inputI18nAttr}}" data-ng-click="show($event)"  data-ng-keydown="keydown($event)" data-ng-change="queryChange()" data-ng-model="query" data-onfocus="show()">
 	</form>
 	<div class="search-resultsDrop" data-ng-show="isVisible()" data-ng-class="{'search-resultsDrop--addBorder': query.length > 0}">
-		<div class="search-resultsDrop-spinner" data-ng-if="results.length === 0 && query.length > 0">
+		<div class="search-resultsDrop-spinner" data-ng-if="searching">
 			<i class="fa fa-3x fa-circle-o-notch fa-spin"></i>
 			<p class="noMargin-bottom" data-i18n="search.searching"></p>
 		</div>
