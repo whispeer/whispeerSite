@@ -61,7 +61,7 @@
 		<!-- !Loaded View -->
 		<section id="main" data-ng-if="!loading" data-ng-class="{'main-push': (mobile && sidebarActive && !searchActive), box: isBox}">
 			<header id="general-searchBar" class="animate--fill" data-ng-if="searchActive" data-ng-class="{'animate--slideInDown': searchActive && !fadeOutSearch, 'animate--slideOutUp': fadeOutSearch && searchActive}">
-				<search data-add-classes="search--custom" data-supplier="userSearchSupplier" data-callback="visitUserProfile(selected)" data-search-template="user" data-input-i18n-attr="menu.search|placeholder" id="general-searchBar-search"></search>
+				<search data-add-classes="search--custom search--navbar" data-supplier="userSearchSupplier" data-callback="visitUserProfile(selected)" data-search-template="user" data-input-i18n-attr="menu.search|placeholder" id="general-searchBar-search"></search>
 				<a data-ng-click="toggleSearch()" class="btn btn--inverse btn--noRadius" id="general-searchBar--close"><i class="fa fa-times-circle"></i></a>
 			</header>
 			<div id="general-searchBar--background" class="animate--fill" data-ng-click="toggleSearch()" data-ng-class="{'animate--fadeIn': searchActive && !fadeOutSearch, 'animate--fadeOut': fadeOutSearch && searchActive}" data-ng-if="searchActive"></div>

@@ -123,6 +123,16 @@ define(["whispeerHelper", "search/singleSearch", "search/multiSearch", "directiv
 									scope.results = scope.applyFilterToResults(scope.unFilteredResults);
 								});
 							}
+						}).catch(function (error) {
+							if (currentQuery === scope.query) {
+								scope.$apply(function () {
+									console.error(error);
+									scope.searching = false;
+
+									scope.unFilteredResults = [];
+									scope.results = [];
+								});
+							}
 						});
 					}
 				};
