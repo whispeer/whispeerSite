@@ -4,6 +4,14 @@ lang: en
 title: Version History
 ---
 
+## 0.2.8
+
+* Search improved: spinner is now shown while loading results
+* Search height increased to 100% of screen
+* Added "invite user" to the menu
+* Newsfeed filter can be saved and is not automatically applied
+* Bugfix: Add user as a friend from search works again
+
 ## 0.2.7
 
 * Translated mails

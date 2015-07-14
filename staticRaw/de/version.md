@@ -3,6 +3,15 @@ layout: version
 lang: de
 title: Versionshistorie
 ---
+
+## 0.2.8
+
+* Suche funktioniert jetzt besser und zeigt an wenn Nutzer geladen werden
+* Suche ist jetzt 100% der Größe
+* Nutzer einladen zum linken Menü hinzugefügt
+* Newsfeed Filter kann gespeichert werden und wird nicht mehr automatisch angewendet
+* Bugfixes: Nutzer als Freund hinzufügen in der Suche funktioniert wieder
+
 ## 0.2.7
 
 * E-Mails werden nun übersetzt
