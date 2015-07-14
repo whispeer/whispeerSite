@@ -255,8 +255,8 @@
 	"menu": {
 		"newsfeed":	"Newsfeed",
 		"profil": "Profil",
-		"friends": "Freunde ({count}+{requests})",
-		"messages": "Nachrichten ({count})",
+		"friends": "Freunde ({count})",
+		"messages": "Nachrichten",
 		"media": "Medien",
 		"circles": "Kreise",
 		"settings": "Einstellungen",
