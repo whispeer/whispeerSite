@@ -334,7 +334,8 @@
 		},
 		"filter": {
 			"title": "Filter your newsfeed",
-			"placeholder": "Whose posts do you want to see in the Newsfeed?"
+			"placeholder": "Whose posts do you want to see in the Newsfeed?",
+			"save":	"Apply Filter"
 		},
 		"info": {
 			"with": "with {name}",

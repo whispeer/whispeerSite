@@ -261,15 +261,13 @@ define(["step", "whispeerHelper", "asset/state", "asset/securedDataWithMetaData"
 						throw new Error("update on another user failed");
 					}
 
-					settingsService.getBranch("privacy", this);
-				}, h.sF(function (_privacySettings) {
-					privacySettings = _privacySettings;
+					privacySettings = settingsService.getBranch("privacy");
 					scopes = getAllProfileTypes(privacySettings);
 
 					this.parallel.unflatten();
 					$injector.get("ssn.filterService").filterToKeys(scopes, this.parallel());
 					myProfile.getFull(this.parallel());
-				}), h.sF(function (keys, profile) {
+				}, h.sF(function (keys, profile) {
 					var scopeData = h.joinArraysToObject({
 						name: scopes,
 						key: keys.slice(0, keys.length - 1)

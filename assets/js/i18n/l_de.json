@@ -332,7 +332,8 @@
 		},
 		"filter": {
 			"title": "Filter deinen Newsfeed",
-			"placeholder": "Wessen Posts möchtest du im News-Feed sehen?"
+			"placeholder": "Wessen Posts möchtest du im News-Feed sehen?",
+			"save":	"Filter anwenden"
 		},
 		"info": {
 			"with": "Mit {name}",

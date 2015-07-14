@@ -34,6 +34,7 @@ define(["step", "whispeerHelper", "crypto/encryptedData", "services/serviceModul
 				languages: notVisible
 			},
 			sharePosts: ["always:allfriends"],
+			filterSelection: [],
 			sound: {
 				enabled: true
 			},
@@ -92,8 +93,9 @@ define(["step", "whispeerHelper", "crypto/encryptedData", "services/serviceModul
 				}
 			}, h.sF(function (_settings) {
 				settings = _settings;
-				api.getBranch("uiLanguage", this);
-			}), h.sF(function (language) {
+				api.decrypt(this);
+			}), h.sF(function () {
+				var language = api.getBranch("uiLanguage");
 				if (language) {
 					localize.setLanguage(language);
 				}
@@ -121,20 +123,16 @@ define(["step", "whispeerHelper", "crypto/encryptedData", "services/serviceModul
 					settings.verify(ownUser.getSignKey(), this.parallel());
 				}, cb);
 			},
-			getBranch: function (branchName, cb) {
-				step(function () {
-					api.decrypt(this);
-				}, h.sF(function () {
-					var branchContent;
+			getBranch: function (branchName) {
+				var branchContent;
 
-					if (isBranchPublic(branchName)) {
-						branchContent = settings.metaAttr(branchName);
-					} else {
-						branchContent = settings.contentGet()[branchName];
-					}
+				if (isBranchPublic(branchName)) {
+					branchContent = settings.metaAttr(branchName);
+				} else {
+					branchContent = settings.contentGet()[branchName];
+				}
 
-					this.ne(branchContent || defaultSettings[branchName]);
-				}), cb);
+				return branchContent || defaultSettings[branchName];
 			},
 			updateBranch: function (branchName, value) {
 				if (isBranchPublic(branchName)) {
@@ -161,8 +159,8 @@ define(["step", "whispeerHelper", "crypto/encryptedData", "services/serviceModul
 				},
 				removeCircle: function (id, cb) {
 					step(function () {
-						api.getBranch("privacy", this);
-					}, h.sF(function (privacy) {
+						var privacy = api.getBranch("privacy");
+
 						api.privacy.safetyNames.forEach(function (safetyName) {
 							h.removeArray(privacy[safetyName].visibility, "circle:" + id);
 						});
@@ -171,7 +169,7 @@ define(["step", "whispeerHelper", "crypto/encryptedData", "services/serviceModul
 						h.removeArray(privacy.basic.lastname.visibility, "circle:" + id);
 
 						api.privacy.setPrivacy(privacy, this, true);
-					}), cb);
+					}, cb);
 				}
 			},
 			uploadChangedData: function (cb) {
@@ -191,41 +189,32 @@ define(["step", "whispeerHelper", "crypto/encryptedData", "services/serviceModul
 					this.ne(result.success);
 				}), cb);
 			},
-			getPrivacyAttribute: function (attr, cb) {
-				step(function () {
-					api.getBranch("privacy", this);
-				}, h.sF(function (b) {
-					var i, attrs = attr.split("."), cur = b;
-					for (i = 0; i < attrs.length; i += 1) {
-						if (cur[attrs[i]]) {
-							if (typeof cur[attrs[i]].encrypt !== "undefined") {
-								this.ne(cur[attrs[i]]);
-								return;
-							}
-							cur = cur[attrs[i]];
-						}
-					}
+			getPrivacyAttribute: function (attr) {
+				var b = api.getBranch("privacy");
 
-					throw new Error("could not find attribute settings");
-				}), cb);
-			},
-			getPrivacyEncryptionStatus: function (attr, cb) {
-				step(function () {
-					api.getPrivacyAttribute(attr, this);
-				}, h.sF(function (b) {
-					this.ne(b.encrypt);
-				}), cb);
-			},
-			getPrivacyVisibility: function (attr, cb) {
-				step(function () {
-					api.getPrivacyAttribute(attr, this);
-				}, h.sF(function (b) {
-					if (b.encrypt) {
-						this.ne(b.visibility);
-					} else {
-						this.ne(false);
+				var i, attrs = attr.split("."), cur = b;
+				for (i = 0; i < attrs.length; i += 1) {
+					if (cur[attrs[i]]) {
+						if (typeof cur[attrs[i]].encrypt !== "undefined") {
+							return cur[attrs[i]];
+						}
+						cur = cur[attrs[i]];
 					}
-				}), cb);
+				}
+
+				throw new Error("could not find attribute settings");
+			},
+			getPrivacyEncryptionStatus: function (attr) {
+				return api.getPrivacyAttribute(attr).encrypt;
+			},
+			getPrivacyVisibility: function (attr) {
+				var privacyAttribute = api.getPrivacyAttribute(attr);
+
+				if (privacyAttribute.encrypt) {
+					return privacyAttribute.visibility;
+				} else {
+					return false;
+				}
 			}
 		};
 

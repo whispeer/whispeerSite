@@ -21,9 +21,8 @@ define(["step", "whispeerHelper", "asset/state", "libs/qr", "libs/filesaver", "c
 
 		function makeNamePrivate(cb) {
 			step(function () {
-				settingsService.getBranch("privacy", this);
-			}, h.sF(function (safetySettings) {
-				safetySettings = h.deepCopyObj(safetySettings, 4);
+				var safetySettings = settingsService.getBranch("privacy");
+
 				safetySettings.basic = {
 					firstname: {
 						encrypt: true,
@@ -36,7 +35,7 @@ define(["step", "whispeerHelper", "asset/state", "libs/qr", "libs/filesaver", "c
 				};
 				settingsService.updateBranch("privacy", safetySettings);
 				settingsService.uploadChangedData(this);
-			}), cb);
+			}, cb);
 		}
 
 		step(function () {

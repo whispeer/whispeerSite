@@ -5,13 +5,18 @@
 define(["step", "whispeerHelper", "asset/state", "controllers/controllerModule"], function (step, h, State, controllerModule) {
 	"use strict";
 
-	function mainController($scope, cssService, postService, ImageUploadService, filterService, localize, errorService) {
+	function mainController($scope, cssService, postService, ImageUploadService, filterService, localize, settingsService, errorService) {
 		cssService.setClass("mainView");
 
 		$scope.postActive = false;
 		$scope.filterActive = false;
 
-		$scope.filterSelection = ["always:allfriends"];
+		var applyFilterState = new State();
+		$scope.applyFilterState = applyFilterState.data;
+
+		$scope.filterSelection = settingsService.getBranch("filterSelection");
+
+		$scope.getFiltersByID = filterService.getFiltersByID;
 
 		$scope.focusNewPost = function () {
 			var textarea = jQuery("#newsfeedView-postForm textarea");
@@ -24,7 +29,16 @@ define(["step", "whispeerHelper", "asset/state", "controllers/controllerModule"]
 
 		$scope.setTimelineFilter = function (newSelection) {
 			$scope.filterSelection = newSelection;
-			reloadTimeline();
+		};
+
+		$scope.applyFilter = function () {
+			step(function () {
+				settingsService.updateBranch("filterSelection", $scope.filterSelection);
+
+				reloadTimeline(this.parallel());
+				settingsService.uploadChangedData(this.parallel());
+			}, errorService.failOnError(applyFilterState));
+			// TODO: Save for later
 		};
 
 		$scope.togglePost = function() {
@@ -41,17 +55,21 @@ define(["step", "whispeerHelper", "asset/state", "controllers/controllerModule"]
 
 		$scope.currentTimeline = null;
 
-		function reloadTimeline() {
+		function reloadTimeline(cb) {
 			step(function () {
+				if ($scope.filterSelection.length === 0) {
+					$scope.filterSelection = ["always:allfriends"];
+				}
+
 				$scope.currentTimeline = postService.getTimeline($scope.filterSelection);
 				$scope.currentTimeline.loadInitial(this);
-			}, errorService.criticalError);
+			}, cb || errorService.criticalError);
 		}
 
 		reloadTimeline();
 	}
 
-	mainController.$inject = ["$scope", "ssn.cssService", "ssn.postService", "ssn.imageUploadService", "ssn.filterService", "localize", "ssn.errorService"];
+	mainController.$inject = ["$scope", "ssn.cssService", "ssn.postService", "ssn.imageUploadService", "ssn.filterService", "localize", "ssn.settingsService", "ssn.errorService"];
 
 	controllerModule.controller("ssn.mainController", mainController);
 });
