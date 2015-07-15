@@ -176,7 +176,8 @@ define(["whispeerHelper", "step", "crypto/keyStore", "asset/errors"], function (
 			keyStore.sign.verifyObject(that._original.meta._signature, metaCopy, signKey, this);
 		}, h.sF(function (correctSignature) {
 			if (!correctSignature) {
-				throw new errors.SecurityError("signature did not match");
+				alert("Bug: signature did not match (" + that._original.meta._type + ") Please report this bug!");
+				throw new errors.SecurityError("signature did not match " + that._original.meta._type);
 			}
 
 			that._verifyContentHash();
