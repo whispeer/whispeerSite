@@ -2278,7 +2278,7 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 				}), callback);
 			},
 
-			signObject: function signObjectF(object, realID, callback, noCache) {
+			signObject: function (object, realID, callback, noCache) {
 				step(function signO1() {
 					var hash = new ObjectHasher(object, 0).hashBits();
 					keyStore.sign.signHash(hash, realID, this, noCache);
@@ -2295,7 +2295,7 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 				keyStore.sign.verifyHash(signature, sjcl.hash.sha256.hash(text), realID, callback);
 			},
 
-			verifyObject: function signObjectF(signature, object, realID, callback) {
+			verifyObject: function (signature, object, realID, callback) {
 				step(function signO1() {
 					var hash = new ObjectHasher(object, 0).hashBits();
 					keyStore.sign.verifyHash(signature, hash, realID, this);
