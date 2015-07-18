@@ -18,11 +18,13 @@
 		</a>
 		<a class="userpanel-menu-link" whispeer-sref="app.friends">
 			<i class="fa fa-users fa-fw userpanel-menu-icon"></i>
-			<span class="userpanel-menu-text" data-i18n="menu.friends|count={{friends.friendsCount}}|requests={{friends.requestsCount}}"></span>
+			<span class="userpanel-menu-text" data-i18n="menu.friends|count={{friends.friendsCount}}"></span>
+			<span class="badge userpanel-menu-badge" data-ng-if="friends.requestsCount > 0">{{friends.requestsCount}}</span>
 		</a>
 		<a class="userpanel-menu-link" whispeer-sref="app.messages">
 			<i class="fa fa-envelope-o fa-fw userpanel-menu-icon"></i>
-			<span class="userpanel-menu-text" data-i18n="menu.messages|count={{messages.unread}}"></span>
+			<span class="userpanel-menu-text" data-i18n="menu.messages"></span>
+			<span class="badge userpanel-menu-badge" data-ng-if="messages.unread > 0">{{messages.unread}}</span>
 		</a>
 		<a class="userpanel-menu-link" whispeer-sref="app.circles">
 			<i class="fa fa-circle-thin fa-fw userpanel-menu-icon"></i>
