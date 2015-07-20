@@ -109,6 +109,28 @@ define (["whispeerHelper", "step", "asset/observer", "asset/securedDataWithMetaD
 		setOwnSignKey: function (_ownKey) {
 			ownKey = _ownKey;
 		},
+		addDataSet: function (dataSet) {
+			var signKey = dataSet.key;
+
+			var idKey = database.metaAttr(["ids", dataSet.userid]);
+			var nicknameKey = database.metaAttr(["nicknames", dataSet.nickname]);
+
+			if (idKey && idKey !== signKey) {
+				throw new errors.SecurityError("we already have got a key for this users id");
+			}
+
+			if (nicknameKey && nicknameKey !== signKey) {
+				throw new errors.SecurityError("we already have got a key for this users nickname");
+			}
+
+			database.metaAdd([signKey], dataSet);
+
+			if (dataSet.nickname) {
+				database.metaAdd(["nicknames", dataSet.nickname], signKey);
+			}
+
+			database.metaAdd(["ids", dataSet.userid], signKey);
+		},
 		updateDatabase: function (data, cb) {
 			if (!loaded || data._signature === database.metaAttr("_signature")) {
 				return;
@@ -122,9 +144,19 @@ define (["whispeerHelper", "step", "asset/observer", "asset/securedDataWithMetaD
 					throw new errors.SecurityError("not my trust database");
 				}
 			}, h.sF(function () {
-				database = givenDatabase;
+				var newKeys = givenDatabase.metaKeys().filter(function (key) {
+					return !database.metaHasAttr(key);
+				});
 
-				trustManager.notify("", "updated");
+				newKeys.forEach(function (signKey) {
+					var userDataSet = givenDatabase.metaAttr(signKey);
+
+					trustManager.addDataSet(userDataSet);
+				});
+
+				if (newKeys.length > 0) {
+					trustManager.notify("", "updated");
+				}
 
 				this.ne();
 			}), cb);
@@ -178,27 +210,7 @@ define (["whispeerHelper", "step", "asset/observer", "asset/securedDataWithMetaD
 			return false;
 		},
 		addUser: function (user) {
-			var signKey = user.getSignKey();
-
-			var idKey = database.metaAttr(["ids", user.getID()]);
-			var nicknameKey = database.metaAttr(["nicknames", user.getNickname()]);
-
-			if (idKey && idKey !== signKey) {
-				throw new errors.SecurityError("we already have got a key for this users id");
-			}
-
-			if (nicknameKey && nicknameKey !== signKey) {
-				throw new errors.SecurityError("we already have got a key for this users nickname");
-			}
-
-			database.metaAdd([signKey], userToDataSet(user));
-
-			if (user.getNickname()) {
-				database.metaAdd(["nicknames", user.getNickname()], signKey);
-			}
-
-			database.metaAdd(["ids", user.getID()], signKey);
-
+			trustManager.addDataSet(userToDataSet(user));
 		},
 		setKeyTrustLevel: function (signKey, trustLevel) {
 			if (trustLevel === trustStates.OWN) {
