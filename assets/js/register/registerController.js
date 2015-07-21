@@ -30,8 +30,8 @@ define([
 			return !!window.Worker;
 		}
 
-		function isMobileBrowser() {
-
+		function isUIView() {
+			return /(iPhone|iPod|iPad).*AppleWebKit(?!.*Safari)/i.test(navigator.userAgent);
 		}
 
 		function isTwitterBrowser() {
@@ -43,9 +43,9 @@ define([
 
 		if (isTwitterBrowser()) {
 			$scope.specific = "twitter";
+		} else if (isUIView()) {
+			$scope.specific = "uiview";
 		}
-
-		$scope.mobile = isMobileBrowser();
 
 		$scope.registerState = registerState.data;
 

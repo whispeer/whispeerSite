@@ -146,7 +146,8 @@
 	"landingpage": {
 		"oldBrowser": {
 			"old": "Dein aktuell verwendeter Browser unterstützt whispeer nicht. Bitte verwende einen anderen Browser!",
-			"twitter": "whispeer funktioniert im Twitter-Browser nicht, bitte öffne es in einem eigenständigen Browser!"
+			"twitter": "whispeer funktioniert im Twitter-Browser nicht, bitte öffne es in einem eigenständigen Browser!",
+			"uiview": "whispeer funktioniert in App-Internen Browsern nicht, bitte öffne es in einem eigenständigen Browser!"
 		},
 		"heading": "Deine Privatsphäre - unser Auftrag!",
 		"paragraphOne": "whispeer ist ein soziales Netzwerk, dass sich auf die Sicherheit deiner Daten spezialisiert hat. Mit vollständiger Verschlüsselung sämtlicher Kommunikation von Ende zu Ende.",
