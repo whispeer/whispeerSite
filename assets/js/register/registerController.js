@@ -30,6 +30,10 @@ define([
 			return !!window.Worker;
 		}
 
+		function isAndroid() {
+			return navigator.userAgent.toLowerCase().indexOf("android") > -1;
+		}
+
 		function isUIView() {
 			return /(iPhone|iPod|iPad).*AppleWebKit(?!.*Safari)/i.test(navigator.userAgent);
 		}
@@ -40,6 +44,7 @@ define([
 
 		$scope.oldBrowser = !hasLocalStorage() || !hasWebWorker();
 		$scope.specific = "old";
+		$scope.android = isAndroid();
 
 		if (isTwitterBrowser()) {
 			$scope.specific = "twitter";

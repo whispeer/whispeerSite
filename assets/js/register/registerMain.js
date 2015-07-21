@@ -3,6 +3,7 @@ define([
 	"register/registerModule",
 	"register/registerController",
 
+	"directives/mobile",
 	"directives/savebutton",
 	"directives/passwordinput",
 	"directives/validatedForm",

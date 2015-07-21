@@ -1,12 +1,23 @@
 {% assign i18n = site.data.whispeerI18n[page.lang] %}
 
 {% include whispeerHead.html htmlClass="startView body-iframe" %}
-<body data-ng-controller="ssn.registerController">
+<body data-ng-controller="ssn.registerController" data-mobile>
 	<div class="globalNotificationWrap" data-ng-cloak data-ng-if="oldBrowser">
 		<div id="globalNotificationSpace"></div>
 		<div id="globalNotification">
 			<i class="fa fa-times-circle"></i>
 			<span data-i18n="landingpage.oldBrowser.{{ "{{ specific " }}}}"></span>
+			<span data-ng-if="!mobile">
+				<span data-i18n="landingpage.oldBrowser.supported"></span>
+				<a href="https://www.google.com/chrome/">Chrome</a><br>
+				<a href="https://www.mozilla.org/de/firefox/new/">Firefox</a><br>
+				<a href="https://www.apple.com/de/safari/">Safari</a><br>
+			</span>
+			<span data-ng-if="android">
+				<span data-i18n="landingpage.oldBrowser.supported"></span>
+				<a href="https://play.google.com/store/apps/details?id=com.android.chrome">Chrome</a><br>
+				<a href="https://play.google.com/store/apps/details?id=org.mozilla.firefox">Firefox</a><br>
+			</span>
 		</div>
 	</div>
 	<div data-ng-cloak data-ng-if="!oldBrowser" class="startView-register registerWrap" data-ng-click="registerFormClick()">
