@@ -2,23 +2,20 @@
 
 {% include whispeerHead.html htmlClass="startView body-iframe" %}
 <body data-ng-controller="ssn.registerController" data-mobile>
-	<div class="globalNotificationWrap" data-ng-cloak data-ng-if="oldBrowser">
-		<div id="globalNotificationSpace"></div>
-		<div id="globalNotification">
-			<i class="fa fa-times-circle"></i>
-			<span data-i18n="landingpage.oldBrowser.{{ "{{ specific " }}}}"></span>
-			<span data-ng-if="!mobile">
-				<span data-i18n="landingpage.oldBrowser.supported"></span>
-				<a href="https://www.google.com/chrome/">Chrome</a><br>
-				<a href="https://www.mozilla.org/de/firefox/new/">Firefox</a><br>
-				<a href="https://www.apple.com/de/safari/">Safari</a><br>
-			</span>
-			<span data-ng-if="android">
-				<span data-i18n="landingpage.oldBrowser.supported"></span>
-				<a href="https://play.google.com/store/apps/details?id=com.android.chrome">Chrome</a><br>
-				<a href="https://play.google.com/store/apps/details?id=org.mozilla.firefox">Firefox</a><br>
-			</span>
-		</div>
+	<div class="box">
+			<p><i class="fa fa-times-circle fa-3x"></i></p>
+			<p data-i18n="landingpage.oldBrowser.{{ "{{ specific " }}}}"></p>
+			<p data-ng-if="!mobile">
+				<span data-i18n="landingpage.oldBrowser.supported"></span><br>
+				<a href="https://www.google.com/chrome/" class="btn btn--gray">Chrome</a>
+				<a href="https://www.mozilla.org/de/firefox/new/" class="btn btn--gray">Firefox</a>
+				<a href="https://www.apple.com/de/safari/" class="btn btn--gray">Safari</a>
+			</p>
+			<p data-ng-if="android">
+				<span data-i18n="landingpage.oldBrowser.supported"></span><br>
+				<a href="https://play.google.com/store/apps/details?id=com.android.chrome" class="btn btn--gray">Chrome</a>
+				<a href="https://play.google.com/store/apps/details?id=org.mozilla.firefox" class="btn btn--gray">Firefox</a>
+			</p>
 	</div>
 	<div data-ng-cloak data-ng-if="!oldBrowser" class="startView-register registerWrap" data-ng-click="registerFormClick()">
 		<form class="registerForm" data-validated-form="validationOptions">
