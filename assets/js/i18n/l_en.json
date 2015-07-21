@@ -147,7 +147,8 @@
 		"oldBrowser": {
 			"old": "Your browser does not support whispeer. Please use a more recent browser!",
 			"twitter": "whispeer does not work in the twitter-internal browser, please open whispeer in a standalone browser!",
-			"uiview": "whispeer does not work in an app-internal browser, please open whispeer in a standalone browser!"
+			"uiview": "whispeer does not work in an app-internal browser, please open whispeer in a standalone browser!",
+			"supported": "Supported browser:"
 		},
 		"heading": "Your privacy - our commitment!",
 		"paragraphOne": "whispeer is a social network that has specialized on the security of your data. We completely encrypt all communication from end to end.",
