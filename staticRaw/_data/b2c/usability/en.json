@@ -5,13 +5,13 @@
 		description: "whispeer is a secure social network offering high privacy standards by using end-to-end encryption."
 	},
 	teaser: {
-		headline: "Concentrating on your friends",
-		details: "That is what whispeer stands for. No extra features, no confusing options, no distractions. We concentrate on what is important - communication and privacy.",
+		headline: "Share private thoughts with friends",
+		details: "Send any image or text to your friends. We can not read anything you share! Speak freely about politics, health or black comedy. ",
 		imageIdeas: "",
 		image: "lighthouse.jpg",
 		registerForm: true,
 		textShadow: true,
-		video: "",
+		video: false,
 		mailForm: true
 	},
 	sections: [

@@ -42,12 +42,14 @@
 						{% endfor %}
 						</ul>
 					{% endif %}
-					<div class="landing-section-video" id="video-overlay-open">
-						<img class="landing-section-video-image" src="/assets/images/videoThumb.jpg" alt="Start Video!">
-						<div class="landing-section-video-icon-wrap">
-							<i class="fa fa-2x fa-play landing-section-video-icon"></i>
+					{% if data.teaser.video == true %}
+						<div class="landing-section-video" id="video-overlay-open">
+							<img class="landing-section-video-image" src="/assets/images/videoThumb.jpg" alt="Start Video!">
+							<div class="landing-section-video-icon-wrap">
+								<i class="fa fa-2x fa-play landing-section-video-icon"></i>
+							</div>
 						</div>
-					</div>
+					{% endif %}
 					{% if data.teaser.registerForm %}
 					<iframe class="landing-registerFrame" src="/{{page.lang}}/register/"></iframe>
 					{% endif %}

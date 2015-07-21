@@ -11,7 +11,7 @@
 		image: "lighthouse.jpg",
 		registerForm: true,
 		textShadow: true,
-		video: "",
+		video: true,
 		mailForm: true
 	},
 	sections: [
