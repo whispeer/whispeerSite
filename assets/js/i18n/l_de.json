@@ -144,6 +144,12 @@
 		"loading": "Laden..."
 	},
 	"landingpage": {
+		"oldBrowser": {
+			"old": "Dein aktuell verwendeter Browser unterstützt whispeer nicht. Bitte aktualisiere ihn verwende einen anderen Browser.",
+			"twitter": "whispeer funktioniert im Twitter-Browser nicht, bitte öffne es in einem eigenständigen Browser.",
+			"uiview": "whispeer funktioniert in In-App Browsern nicht, bitte öffne es in einem eigenständigen Browser.",
+			"supported": "Unterstützte Browser:"
+		},
 		"heading": "Deine Privatsphäre - unser Auftrag!",
 		"paragraphOne": "whispeer ist ein soziales Netzwerk, dass sich auf die Sicherheit deiner Daten spezialisiert hat. Mit vollständiger Verschlüsselung sämtlicher Kommunikation von Ende zu Ende.",
 		"paragraphTwo": "Um einen Account bei whispeer zu registrieren, brauchen wir nur einen Accountnamen und ein Passwort von dir. Alles andere ist optional.",

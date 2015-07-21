@@ -16,6 +16,42 @@ define([
 	function registerController($scope, errorService, registerService, locationService) {
 		var registerState = new State();
 
+		function hasLocalStorage() {
+			try {
+				localStorage.setItem("localStorageTest", "localStorageTest");
+				localStorage.removeItem("localStorageTest");
+				return true;
+			} catch (e) {
+				return false;
+			}
+		}
+
+		function hasWebWorker() {
+			return !!window.Worker;
+		}
+
+		function isAndroid() {
+			return navigator.userAgent.toLowerCase().indexOf("android") > -1;
+		}
+
+		function isUIView() {
+			return /(iPhone|iPod|iPad).*AppleWebKit(?!.*Safari)/i.test(navigator.userAgent);
+		}
+
+		function isTwitterBrowser() {
+			 return !!window.navigator.userAgent.match(/twitter/gi);
+		}
+
+		$scope.oldBrowser = !hasLocalStorage() || !hasWebWorker();
+		$scope.specific = "old";
+		$scope.android = isAndroid();
+
+		if (isTwitterBrowser()) {
+			$scope.specific = "twitter";
+		} else if (isUIView()) {
+			$scope.specific = "uiview";
+		}
+
 		$scope.registerState = registerState.data;
 
 		$scope.pwState = { password: "" };
