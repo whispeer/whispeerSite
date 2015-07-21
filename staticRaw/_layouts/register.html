@@ -1,8 +1,16 @@
 {% assign i18n = site.data.whispeerI18n[page.lang] %}
 
 {% include whispeerHead.html htmlClass="startView body-iframe" %}
-<body>
-	<div data-ng-cloak class="startView-register registerWrap" data-ng-click="registerFormClick()" data-ng-controller="ssn.registerController">
+<body data-ng-controller="ssn.registerController">
+	<div class="globalNotificationWrap" data-ng-cloak data-ng-if="oldBrowser">
+		<div id="globalNotificationSpace"></div>
+		<div id="globalNotification">
+			<i class="fa fa-times-circle"></i>
+			<span data-i18n="landingpage.oldBrowser.{{ "{{ specific " }}}}"></span>
+			<span>{{specific}}</span>
+		</div>
+	</div>
+	<div data-ng-cloak data-ng-if="!oldBrowser" class="startView-register registerWrap" data-ng-click="registerFormClick()">
 		<form class="registerForm" data-validated-form="validationOptions">
 			<h1 class="inputSandwich inputSandwich-top registerHeader">{{i18n.register.newaccount}}</h1>
 			<div class="inputWrap">
