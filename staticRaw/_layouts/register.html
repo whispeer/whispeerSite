@@ -2,7 +2,7 @@
 
 {% include whispeerHead.html htmlClass="startView body-iframe" %}
 <body data-ng-controller="ssn.registerController" data-mobile>
-	<div class="box">
+	<div class="box" data-ng-cloak data-ng-if="oldBrowser">
 			<p><i class="fa fa-times-circle fa-3x"></i></p>
 			<p data-i18n="landingpage.oldBrowser.{{ "{{ specific " }}}}"></p>
 			<p data-ng-if="!mobile">
