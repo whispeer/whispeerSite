@@ -113,6 +113,8 @@ define([
 						registerData.inviteCode = inviteCode;
 					}
 
+					registerData.preID = clientStorage.get("preID") || "";
+
 					socketService.emit("session.register", registerData, this);
 				}), h.sF(function (result) {
 					if (result.sid) {
