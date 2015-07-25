@@ -46,6 +46,8 @@ define([
 		$scope.specific = "old";
 		$scope.android = isAndroid();
 
+		registerService.setPreID();
+
 		if (isTwitterBrowser()) {
 			$scope.specific = "twitter";
 		} else if (isUIView()) {
