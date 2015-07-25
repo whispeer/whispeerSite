@@ -94,10 +94,6 @@ define(["step", "whispeerHelper", "asset/state", "asset/securedDataWithMetaData"
 				signedKeys = SecuredData.load(undefined, userData.signedKeys, { type: "signedKeys" });
 				signedOwnKeys = userData.signedOwnKeys;
 
-				userData.keys = h.objectMap(userData.keys, function (key) {
-					return keyStoreService.upload.addKey(key);
-				});
-
 				if (!mainKey && userData.mainKey) {
 					mainKey = userData.mainKey;
 				}
