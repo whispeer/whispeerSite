@@ -397,7 +397,7 @@
 			"verifyTitle":	"Benutzerverifizierung",
 			"verifyInfo": {
 				"code":	"Bitte gib den Fingerprint von {user} ein. [br] Dieser ist in den Einstellungen zu finden. [br] Fingerprints sollten nicht über das Internet getauscht werden, da dies unsicher ist.[br] Am besten ist es, sich persönlich zu treffen!",
-				"qr":	"Halte den QR-Code von {user} in deine Kamera, sodass dieser im unteren Fenster sichtbar ist. Der QR-Code ist in den Einstellungen abrufbar. [br] Sobald der Code erkannt wurde, wird {user} automatisch verifiziert."
+				"qr":	"Halte den QR-Code von {user} in deine Kamera, sodass dieser im unteren Fenster sichtbar ist. Der QR-Code ist in den Einstellungen abrufbar. Sobald der Code erkannt wurde, wird die verifizierung automatisch durchgeführt."
 			},
 			"nodevice": "Es konnte keine Kamera erkannt werden!",
 			"verifyUser":	"Verifiziere {user}",

@@ -399,7 +399,7 @@
 			"back": "Back",
 			"verifyInfo": {
 				"code":	"Please input {user}'s fingerprint. [br] The fingerprint can be found on the settings page.[br] Never use online communication to share the fingerprint as it is insecure. Ideally, meet in person!",
-				"qr":	"Please scan {user}'s QR-code with your camera. The QR-Code can be found on the settings page. [br] {user} will be automatically verified, as soon as our software detects the correct QR-code"
+				"qr":	"Please scan {user}'s QR-code with your camera. The QR-Code can be found on the settings page. The verification is completed as soon as our software detects the correct QR-code."
 			},
 			"nodevice": "We could not detect a camera!",
 			"verifyUser":	"Verifying {user}",
