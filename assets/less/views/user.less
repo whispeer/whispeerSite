@@ -394,7 +394,7 @@
 				&:focus {
 					position: absolute;
 					left: -1px;
-					width: ~"calc(100% + 1px)";
+					width: ~"calc(100% + 2px)";
 					border-left-width: 1px;
 				}
 			}
@@ -435,7 +435,7 @@
 			border-left-width: 1px !important;
 			position: absolute;
 			left: -1px;
-			width: ~"calc(100% + 2px)";
+			width: ~"calc(100% + 1px)";
 		}
 	}
 }
@@ -455,7 +455,17 @@
 }
 .userView-keyPart:nth-child(3) .userView-keyPart-input {
 	@media @desktop {
+		&:focus { width: ~"calc(100% + 2px)"; }
+	}
+}
+.userView-keyPart:last-child .userView-keyPart-input {
+	@media @desktop {
 		width: ~"calc(100% + 1px)";
+		border-right: none;
+		&:focus {
+			margin-left: 0;
+			border-right: none;
+		}
 	}
 }
 #userView-submitKey {
