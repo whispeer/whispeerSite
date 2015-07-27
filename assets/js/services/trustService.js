@@ -1,7 +1,7 @@
 define(["step", "whispeerHelper", "crypto/trustManager", "crypto/signatureCache", "services/serviceModule"], function (step, h, trustManager, signatureCache, serviceModule) {
 	"use strict";
 
-	var service = function ($rootScope, initService, userService, socketService, CacheService, errorService) {
+	var service = function ($rootScope, initService, userService, socketService, CacheService, sessionService, errorService) {
 		var THROTTLE = 20;
 
 
@@ -28,7 +28,7 @@ define(["step", "whispeerHelper", "crypto/trustManager", "crypto/signatureCache"
 			step(function () {
 				trustManager.getUpdatedVersion(this);
 			}, h.sF(function (newTrustContent) {
-				new CacheService("trustManager.get").store("", newTrustContent);
+				new CacheService("trustManager.get").store(sessionService.getUserID(), newTrustContent);
 
 				socketService.emit("trustManager.set", {
 					content: newTrustContent
@@ -145,7 +145,7 @@ define(["step", "whispeerHelper", "crypto/trustManager", "crypto/signatureCache"
 		};
 	};
 
-	service.$inject = ["$rootScope", "ssn.initService", "ssn.userService", "ssn.socketService", "ssn.cacheService", "ssn.errorService"];
+	service.$inject = ["$rootScope", "ssn.initService", "ssn.userService", "ssn.socketService", "ssn.cacheService", "ssn.sessionService", "ssn.errorService"];
 
 	serviceModule.factory("ssn.trustService", service);
 });

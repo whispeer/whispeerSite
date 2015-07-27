@@ -15,7 +15,7 @@ define(["step", "whispeerHelper", "services/serviceModule", "bluebird"], functio
 		}
 
 		function getCache(initRequest) {
-			return new CacheService(initRequest.domain).get(initRequest.id || "").then(function (cache) {
+			return new CacheService(initRequest.domain).get(initRequest.id || sessionService.getUserID()).then(function (cache) {
 				initRequest.cache = cache;
 
 				return initRequest;
@@ -25,8 +25,12 @@ define(["step", "whispeerHelper", "services/serviceModule", "bluebird"], functio
 		}
 
 		function setCache(initResponse, transformedData) {
+			if (!transformedData) {
+				return Promise.resolve(initResponse);
+			}
+
 			return new CacheService(initResponse.domain)
-				.store(initResponse.id || "", transformedData || initResponse.data.content)
+				.store(initResponse.id || sessionService.getUserID(), transformedData)
 				.then(function () {
 					return initResponse;
 				})
