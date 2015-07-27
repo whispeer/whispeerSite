@@ -51,7 +51,9 @@ function parse(source, destination, config, done) {
 				}));
 			});
 
-			names = names.map(function (name) {
+			names = names.filter(function (name) {
+				return name.indexOf("feed.xml") === -1;
+			}).map(function (name) {
 				return name + " " + name + "/index.html";
 			});
 
