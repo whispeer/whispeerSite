@@ -393,9 +393,9 @@ define(["step", "whispeerHelper", "asset/observer", "asset/securedDataWithMetaDa
 
 		Observer.call(friendsService);
 
-		initService.register("friends.all", {}, friendsService.load);
+		initService.get("friends.all", undefined, friendsService.load);
 
-		initService.register("friends.getOnline", {}, function (data, cb) {
+		initService.get("friends.getOnline", undefined, function (data, cb) {
 			friendsService.setOnline(data.online);
 			cb();
 		});

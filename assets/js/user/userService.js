@@ -236,8 +236,8 @@ define(["step", "whispeerHelper", "user/userModule", "asset/observer", "crypto/s
 
 		Observer.call(userService);
 
-		initService.register("user.get", function () {
-			return {identifier: sessionService.getUserID()};
+		initService.get("user.get", function () {
+			return sessionService.getUserID();
 		}, function (data, cb) {
 			var user;
 			step(function () {
@@ -257,7 +257,7 @@ define(["step", "whispeerHelper", "user/userModule", "asset/observer", "crypto/s
 				user.verifyKeys(this);
 			}), cb);
 
-		}, true);
+		}, { priorized: true });
 
 		$rootScope.$on("ssn.reset", function () {
 			userService.reset();

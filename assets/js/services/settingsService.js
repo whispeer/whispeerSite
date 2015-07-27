@@ -84,7 +84,7 @@ define(["step", "whispeerHelper", "crypto/encryptedData", "services/serviceModul
 			}), cb);
 		}
 
-		initService.register("settings.getSettings", {}, function (data, cb) {
+		initService.get("settings.getSettings", undefined, function (data, cb) {
 			step(function () {
 				if (data.settings.ct) {
 					migrateToFormat2(data, this);

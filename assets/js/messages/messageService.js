@@ -739,7 +739,7 @@ define([
 
 		Observer.call(messageService);
 
-		initService.register("messages.getUnreadCount", {}, function (data, cb) {
+		initService.get("messages.getUnreadCount", undefined, function (data, cb) {
 			messageService.data.unread = h.parseDecimal(data.unread) || 0;
 
 			messageService.listen(function(m) {
