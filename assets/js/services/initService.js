@@ -14,14 +14,31 @@ define(["step", "whispeerHelper", "services/serviceModule", "bluebird"], functio
 			});
 		}
 
-		function addCache(initRequest) {
-			return new CacheService(initRequest.domain).get(initRequest.id).then(function (cache) {
+		function getCache(initRequest) {
+			return new CacheService(initRequest.domain).get(initRequest.id || "").then(function (cache) {
 				initRequest.cache = cache;
 
 				return initRequest;
 			}).catch(function () {
 				return initRequest;
 			});
+		}
+
+		function setCache(initResponse) {
+			if (!initResponse.options.cache) {
+				return Bluebird.resolve(initResponse);
+			}
+
+			return new CacheService(initResponse.domain).store(initResponse.id || "", initResponse.data.content).then(function () {
+				return initResponse;
+			}).catch(function () {
+				return initResponse;
+			});
+		}
+		function setCaches(initResponses) {
+			return Bluebird.all([initResponses.map(function (initResponse) {
+				return setCache(initResponse);
+			})]);
 		}
 
 		function getServerData(initRequests) {
@@ -44,7 +61,7 @@ define(["step", "whispeerHelper", "services/serviceModule", "bluebird"], functio
 		}
 
 		function runCallbacksPriorized(initResponses, shouldBePriorized) {
-			return Promise.all(initResponses.filter(function (response) {
+			return Bluebird.all(initResponses.filter(function (response) {
 				return (shouldBePriorized ? response.options.priorized : !response.priorized);
 			}).map(function (response) {
 				var callback = Bluebird.promisify(response.callback);
@@ -69,7 +86,7 @@ define(["step", "whispeerHelper", "services/serviceModule", "bluebird"], functio
 				return newCallbacks;
 			}).map(function (initRequest) {
 				if (initRequest.options.cache) {
-					return addCache(initRequest);
+					return getCache(initRequest);
 				} else {
 					return initRequest;
 				}
@@ -80,7 +97,10 @@ define(["step", "whispeerHelper", "services/serviceModule", "bluebird"], functio
 			}).then(function (initResponses) {
 				console.timeEnd("serverInitGet");
 				console.time("init");
-				return runCallbacks(initResponses);
+				return Bluebird.all([
+					runCallbacks(initResponses),
+					setCaches(initResponses)
+				]);
 			}).then(function () {
 				console.timeEnd("init");
 				migrationService();
