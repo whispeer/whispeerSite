@@ -133,6 +133,7 @@ define (["whispeerHelper", "step", "asset/observer", "asset/securedDataWithMetaD
 		},
 		updateDatabase: function (data, cb) {
 			if (!loaded || data._signature === database.metaAttr("_signature")) {
+				cb();
 				return;
 			}
 

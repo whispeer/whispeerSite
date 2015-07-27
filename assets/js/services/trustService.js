@@ -1,7 +1,7 @@
 define(["step", "whispeerHelper", "crypto/trustManager", "crypto/signatureCache", "services/serviceModule"], function (step, h, trustManager, signatureCache, serviceModule) {
 	"use strict";
 
-	var service = function ($rootScope, initService, userService, socketService, errorService) {
+	var service = function ($rootScope, initService, userService, socketService, CacheService, errorService) {
 		var THROTTLE = 20;
 
 
@@ -28,6 +28,8 @@ define(["step", "whispeerHelper", "crypto/trustManager", "crypto/signatureCache"
 			step(function () {
 				trustManager.getUpdatedVersion(this);
 			}, h.sF(function (newTrustContent) {
+				new CacheService("trustManager.get").store("", newTrustContent);
+
 				socketService.emit("trustManager.set", {
 					content: newTrustContent
 				}, this);
@@ -54,13 +56,45 @@ define(["step", "whispeerHelper", "crypto/trustManager", "crypto/signatureCache"
 			trustManager.setOwnSignKey(userService.getown().getSignKey());
 		}, "ownEarly");
 
-		initService.get("trustManager.get", undefined, function (data, cb) {
-			if (data.content) {
-				trustManager.loadDatabase(data.content, cb);
-			} else {
+		function loadDatabase(database, cb) {
+			step(function () {
+				trustManager.loadDatabase(database, this);
+			}, h.sF(function () {
+				this.ne(database);
+			}), cb);
+		}
+
+		function createTrustDatabase(cb) {
+			step(function () {
 				trustManager.createDatabase(userService.getown());
-				uploadDatabase(cb);
+				this.ne();
+
+				uploadDatabase(errorService.criticalError);	
+			}, cb);
+		}
+
+		function loadCacheAndAddServer(cache, server, cb) {
+			step(function () {
+				trustManager.loadDatabase(cache, this);
+			}, h.sF(function () {
+				trustManager.updateDatabase(server, this);
+			}), h.sF(function () {
+				this.ne(cache);
+			}), cb);
+		}
+
+		initService.get("trustManager.get", undefined, function (data, cache, cb) {
+			if (cache && data.content) {
+				loadCacheAndAddServer(cache.data, data.content, cb);
+			} else if (cache) {
+				loadDatabase(cache.data, cb);
+			} else if (data.content) {
+				loadDatabase(data.content, cb);
+			} else {
+				createTrustDatabase(cb);
 			}
+		}, {
+			cache: true
 		});
 
 		initService.get("signatureCache.get", undefined, function (data, cb) {
@@ -111,7 +145,7 @@ define(["step", "whispeerHelper", "crypto/trustManager", "crypto/signatureCache"
 		};
 	};
 
-	service.$inject = ["$rootScope", "ssn.initService", "ssn.userService", "ssn.socketService", "ssn.errorService"];
+	service.$inject = ["$rootScope", "ssn.initService", "ssn.userService", "ssn.socketService", "ssn.cacheService", "ssn.errorService"];
 
 	serviceModule.factory("ssn.trustService", service);
 });
