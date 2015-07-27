@@ -67,39 +67,44 @@
 #userView-trustlevel {
 	@media @desktop {
 		.column(4);
-		padding: 0;
+		padding: 0 0 2rem 0;
 		height: 2rem;
 		line-height: 2rem;
-		margin-top: 1rem;
-		margin-bottom: 1rem;
+		margin-top: 0.85rem;
+		margin-bottom: 0.9rem;
 	}
 	@media @mobile {
 		.column(2);
-		margin-top: 8px;
-		padding: 5px 0;
+		margin-top: 2px;
+		padding: 2px;
 	}
 	display: block;
 	float: left;
 	position: relative;
 	line-height: @line-height;
+	font-weight: 700;
 
-	border-radius: @inputBorderRadius;
 	text-align: center;
-	color: #fff;
 	cursor: pointer;
 	&:extend(.box-fix);
 
 	&[data-trustlevel="0"] {
-		background: @red;
+		color: @red;
+		border: 2px solid @red;
+		border-radius: 3px;
+		&:hover {
+			background: @red;
+			color: #ffffff;
+		}
 	}
 	&[data-trustlevel="1"] {
-		background: @orange;
+		color: @orange;
 	}
 	&[data-trustlevel="2"] {
-		background: @green;
+		color: @green;
 	}
 	&[data-trustlevel="3"] {
-		background: @green;
+		color: @green;
 	}
 }
 .userView-trustlevel-digit {
@@ -348,20 +353,23 @@
 	padding: 1%;
 	display: inline-block;
 	width: 100%;
+	text-align: center;
 	&:extend(.box-fix);
 }
 .userView-verifyMethodButton {
-	@media @mobile {
-		.column(12);
-		margin-top: 5px;
-		&:first-child {
-			margin-top: 0;
-		}
+	width: 100%;
+	margin-top: 5px;
+	&:first-child {
+		margin-top: 0;
 	}
 }
 .userView-verify-back {
 	.column(12);
 	margin-top: 5px;
+}
+.userView-verify {
+	width: 100%;
+	text-align: center;
 }
 .userView-keyInputWrap {
 	@media @desktop {
@@ -386,7 +394,7 @@
 				&:focus {
 					position: absolute;
 					left: -1px;
-					width: ~"calc(100% + 1px)";
+					width: ~"calc(100% + 2px)";
 					border-left-width: 1px;
 				}
 			}
@@ -427,7 +435,7 @@
 			border-left-width: 1px !important;
 			position: absolute;
 			left: -1px;
-			width: ~"calc(100% + 2px)";
+			width: ~"calc(100% + 1px)";
 		}
 	}
 }
@@ -447,7 +455,17 @@
 }
 .userView-keyPart:nth-child(3) .userView-keyPart-input {
 	@media @desktop {
+		&:focus { width: ~"calc(100% + 2px)"; }
+	}
+}
+.userView-keyPart:last-child .userView-keyPart-input {
+	@media @desktop {
 		width: ~"calc(100% + 1px)";
+		border-right: none;
+		&:focus {
+			margin-left: 0;
+			border-right: none;
+		}
 	}
 }
 #userView-submitKey {

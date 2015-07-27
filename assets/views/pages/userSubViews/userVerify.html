@@ -1,35 +1,31 @@
-<section class="userView-section" id="userView-section-verifyUser">
-		<header class="box-header box-header--content box-header--noBorder">
-			<span class="box-header-title" data-i18n="profile.trustmanager.verifyTitle"></span>
-		</header>
-		<div class="userView-subSection verifyContent">
-			<div data-ng-if="!verifyCode && !qr.enabled" class="userView-subSection" id="userView-chooseVerifyMethod">
-				<h3 data-i18n="profile.trustmanager.chooseVerifyMethod|user={{user.basic.shortname}}"></h3>
-				<button class="userView-verifyMethodButton btn btn--big btn--primary" data-ng-click="verifyWithCode()" data-i18n="profile.trustmanager.verifyWithCode|user={{user.basic.shortname}}"></button>
-				<button class="userView-verifyMethodButton btn btn--big btn--primary" data-ng-disabled="!qr.available" data-ng-click="verifyWithQrCode()" data-i18n="profile.trustmanager.verifyWithQr|user={{user.basic.shortname}}"></button>
-			</div>
-			<button class="btn btn--primary btn--big userView-verify-back" data-ng-if="qr.available && (verifyCode || qr.enabled)" data-i18n="profile.trustmanager.back" data-ng-click="resetVerifcationMethod()"></button>
-			<div class="verify userView-subSection" data-ng-if="verifyCode">
-				<span class="userVew-introText" data-syntaxify data-i18n="profile.trustmanager.verifyInfo.code|user={{user.basic.shortname}}"></span>
-				<div class="userView-keyInputWrap">
-					<div class="userView-keyPart annotatedInput-container" data-ng-repeat="part in fingerPrint">
-						<input type="text" class="userView-keyPart-input annotatedInput-input" data-ng-class="{'input-noradius': mobile}" data-i18n-attr="profile.trustmanager.part{{$index+1}}|placeholder" data-ng-model="givenPrint[$index]" data-ng-change="nextInput($index)">
-						<span class="annotatedInput-icon fa valid" data-ng-class="faEqual(givenPrint[$index], part)">
-						</span>
-					</div>
-				</div>
-				<savebutton id="userView-submitKey" class="btn--input" data-state="verifyingUser" data-ng-click="verify(givenPrint)"></savebutton>
-			</div>
-			<div class="verify userView-subSection" data-ng-show="qr.enabled">
-				<div class="error" data-ng-if="qr.noDevice" data-i18n="profile.trustmanager.nodevice"></div>
-				<span data-syntaxify data-i18n="profile.trustmanager.verifyInfo.qr|user={{user.basic.shortname}}"></span>
-				<div class="qrScanner">
-					<savebutton data-ng-click="qr.reset()" data-ng-if="qr.read" data-state="verifyingUser">
-						<span data-i18n="profile.trustmanager.qrSaveButton.failed" data-ng-show="verifyingUser.failed"></span>
-						<span data-i18n="profile.trustmanager.qrSaveButton.pending" data-ng-show="verifyingUser.pending"></span>
-					</savebutton>
-					<qr-scanner state="qr" callback="verify(code)"></qr-scanner>
-				</div>
+<section class="post" id="userView-section-verifyUser">
+	<h1 class="h1-noMarginTop" data-i18n="profile.trustmanager.verifyTitle"></h1>
+	<div data-ng-if="!verifyCode && !qr.enabled" class="userView-subSection" id="userView-chooseVerifyMethod">
+		<h3 class="h1-noMarginTop" data-i18n="profile.trustmanager.chooseVerifyMethod|user={{user.basic.shortname}}"></h3>
+		<button class="userView-verifyMethodButton btn btn--big btn--primary" data-ng-click="verifyWithCode()"><i class="fa fa-keyboard-o fa-fw fa-lg"></i>&nbsp;<span data-i18n="profile.trustmanager.verifyWithCode|user={{user.basic.shortname}}"></span></button>
+		<button class="userView-verifyMethodButton btn btn--big btn--primary" data-ng-disabled="!qr.available" data-ng-click="verifyWithQrCode()"><i class="fa fa-qrcode fa-fw fa-lg"></i>&nbsp;<span data-i18n="profile.trustmanager.verifyWithQr|user={{user.basic.shortname}}"></span></button>
+	</div>
+	<button class="btn btn--primary userView-verify-back" data-ng-if="qr.available && (verifyCode || qr.enabled)" data-ng-click="resetVerifcationMethod()"><i class="fa fa-arrow-left fa-fw fa-lg"></i>&nbsp;<span data-i18n="profile.trustmanager.back"></span></button>
+	<div class="verify userView-subSection" data-ng-if="verifyCode">
+		<span class="userVew-introText" data-syntaxify data-i18n="profile.trustmanager.verifyInfo.code|user={{user.basic.shortname}}"></span>
+		<div class="userView-keyInputWrap">
+			<div class="userView-keyPart annotatedInput-container" data-ng-repeat="part in fingerPrint">
+				<input type="text" class="userView-keyPart-input annotatedInput-input" data-ng-class="{'input-noradius': mobile}" data-i18n-attr="profile.trustmanager.part{{$index+1}}|placeholder" data-ng-model="givenPrint[$index]" data-ng-change="nextInput($index)">
+				<span class="annotatedInput-icon fa valid" data-ng-class="faEqual(givenPrint[$index], part)">
+				</span>
 			</div>
 		</div>
+		<savebutton id="userView-submitKey" class="btn--input" data-state="verifyingUser" data-ng-click="verify(givenPrint)"></savebutton>
+	</div>
+	<div class="userView-verify userView-subSection" data-ng-show="qr.enabled">
+		<div class="error" data-ng-if="qr.noDevice" data-i18n="profile.trustmanager.nodevice"></div>
+		<p data-syntaxify data-i18n="profile.trustmanager.verifyInfo.qr|user={{user.basic.shortname}}"></p>
+		<div class="qrScanner">
+			<savebutton data-ng-click="qr.reset()" data-ng-if="qr.read" data-state="verifyingUser">
+				<span data-i18n="profile.trustmanager.qrSaveButton.failed" data-ng-show="verifyingUser.failed"></span>
+				<span data-i18n="profile.trustmanager.qrSaveButton.pending" data-ng-show="verifyingUser.pending"></span>
+			</savebutton>
+			<qr-scanner state="qr" callback="verify(code)"></qr-scanner>
+		</div>
+	</div>
 </section>
