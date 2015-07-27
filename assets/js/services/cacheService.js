@@ -44,7 +44,7 @@ define(["whispeerHelper", "dexie", "bluebird", "services/serviceModule"], functi
 			cacheEntry.size = blob.size;
 		}
 
-		return Promise.resolve(db.cache.add(cacheEntry).catch(function (e) {
+		return Promise.resolve(db.cache.put(cacheEntry).catch(function (e) {
 			if (e.code && e.code === e.DATA_CLONE_ERR) {
 				return that._fixBlobStorage(cacheEntry);
 			} else {
