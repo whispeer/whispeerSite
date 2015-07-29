@@ -14,8 +14,8 @@ define(["step", "whispeerHelper", "services/serviceModule", "bluebird"], functio
 			});
 		}
 
-		function addCache(initRequest) {
-			return new CacheService(initRequest.domain).get(initRequest.id).then(function (cache) {
+		function getCache(initRequest) {
+			return new CacheService(initRequest.domain).get(initRequest.id || sessionService.getUserID()).then(function (cache) {
 				initRequest.cache = cache;
 
 				return initRequest;
@@ -24,18 +24,42 @@ define(["step", "whispeerHelper", "services/serviceModule", "bluebird"], functio
 			});
 		}
 
+		function setCache(initResponse, transformedData) {
+			if (!transformedData) {
+				return Promise.resolve(initResponse);
+			}
+
+			return new CacheService(initResponse.domain)
+				.store(initResponse.id || sessionService.getUserID(), transformedData)
+				.then(function () {
+					return initResponse;
+				})
+				.catch(function () {
+					return initResponse;
+				});
+		}
+
 		function getServerData(initRequests) {
 			return Bluebird.resolve(initRequests).map(function (request) {
+				var requestObject = {
+					responseKey: "content"
+				};
+
 				var id = request.id;
 
 				if (typeof id === "function") {
 					id = id();
 				}
 
-				return socketService.emit(request.domain, {
-					id: id,
-					responseKey: "content"
-				}).then(function (response) {
+				if (typeof id !== "undefined") {
+					requestObject.id = id;
+				}
+
+				if (request.cache && request.cache.data && request.cache.data._signature) {
+					requestObject.cacheSignature = request.cache.data._signature;
+				}
+
+				return socketService.emit(request.domain, requestObject).then(function (response) {
 					request.data = response;
 
 					return request;
@@ -44,13 +68,15 @@ define(["step", "whispeerHelper", "services/serviceModule", "bluebird"], functio
 		}
 
 		function runCallbacksPriorized(initResponses, shouldBePriorized) {
-			return Promise.all(initResponses.filter(function (response) {
+			return Bluebird.all(initResponses.filter(function (response) {
 				return (shouldBePriorized ? response.options.priorized : !response.priorized);
 			}).map(function (response) {
 				var callback = Bluebird.promisify(response.callback);
 
 				if (response.options.cache) {
-					return callback(response.data.content, response.cache);
+					return callback(response.data.content, response.cache).then(function (transformedData) {
+						return setCache(response, transformedData);
+					});
 				}
 
 				return callback(response.data.content);
@@ -69,7 +95,7 @@ define(["step", "whispeerHelper", "services/serviceModule", "bluebird"], functio
 				return newCallbacks;
 			}).map(function (initRequest) {
 				if (initRequest.options.cache) {
-					return addCache(initRequest);
+					return getCache(initRequest);
 				} else {
 					return initRequest;
 				}
