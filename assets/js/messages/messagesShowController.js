@@ -8,7 +8,10 @@ define(["step", "whispeerHelper", "asset/state", "bluebird", "messages/messagesM
 	function messagesController($scope, $state, $stateParams, $timeout, localize, errorService, messageService, ImageUploadService) {
 		var MINUTE = 60 * 1000;
 
-		$scope.topicid = 0;
+		var topicLoadingState = new State();
+		$scope.topicLoadingState = topicLoadingState.data;
+
+		var topicID = h.parseDecimal($stateParams.topicid);
 
 		$scope.canSend = false;
 		$scope.topicLoaded = false;
@@ -44,32 +47,28 @@ define(["step", "whispeerHelper", "asset/state", "bluebird", "messages/messagesM
 			messageService.setActiveTopic(0);
 		});
 
-		$scope.loadActiveTopic = function (id) {
-			var theTopic;
-			step(function () {
-				id = parseInt(id, 10);
+		topicLoadingState.pending();
 
-				messageService.setActiveTopic(id);
-				messageService.getTopic(id, this);
-			}, h.sF(function (topic) {
-				theTopic = topic;
-				$scope.canSend = true;
-				$scope.newMessage = false;
-				theTopic.loadInitialMessages(this);
-			}), h.sF(function () {
-				$timeout(function () {
-					$scope.activeTopic = theTopic.data;
+		var topic;
+		step(function () {
+			messageService.getTopic(topicID, this);
+		}, h.sF(function (_topic) {
+			topic = _topic;
 
-					$scope.topicLoaded = true;
+			$scope.activeTopic = topic.data;
 
-					if (theTopic.data.messages.length > 0) {
-						theTopic.markRead(errorService.criticalError);
-					}
-				});
-			}));
-		};
+			$scope.canSend = true;
+			$scope.newMessage = false;
+			topic.loadInitialMessages(this);
+		}), h.sF(function () {
+			$scope.topicLoaded = true;
 
-		$scope.loadActiveTopic($stateParams.topicid);
+			if (topic.data.messages.length > 0) {
+				topic.markRead(errorService.criticalError);
+			}
+
+			this.ne();
+		}), errorService.failOnError(topicLoadingState));
 
 		var sendMessageState = new State();
 		$scope.sendMessageState = sendMessageState.data;
