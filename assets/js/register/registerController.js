@@ -42,28 +42,32 @@ define([
 			 return !!window.navigator.userAgent.match(/twitter/gi);
 		}
 
-		$scope.oldBrowser = !hasLocalStorage() || !hasWebWorker();
-		$scope.specific = "old";
-		$scope.android = isAndroid();
+		$scope.browser = {
+			old: !hasLocalStorage() || !hasWebWorker(),
+			specific: "old",
+			android: isAndroid()
+		};
 
 		if (isTwitterBrowser()) {
-			$scope.specific = "twitter";
+			$scope.browser.specific = "twitter";
 		} else if (isUIView()) {
-			$scope.specific = "uiview";
+			$scope.browser.specific = "uiview";
 		}
 
 		$scope.registerState = registerState.data;
 
 		$scope.pwState = { password: "" };
 
-		$scope.nickname = "";
-		$scope.nicknameCheckLoading = false;
-		$scope.nicknameCheck = false;
-		$scope.nicknameCheckError = false;
+		$scope.registerData = {
+			nickname: "",
+			nicknameCheckLoading: false,
+			nicknameCheck: false,
+			nicknameCheckError: false,
 
-		$scope.nickNameError = true;
+			nickNameError: true,
 
-		$scope.agb = false;
+			agb: false
+		};
 
 		window.setTimeout(function () {
 			jQuery("#rnickname").focus();
@@ -79,23 +83,23 @@ define([
 
 		$scope.nicknameChange = function nicknameChange() {
 			step(function nicknameCheck() {
-				var internalNickname = $scope.nickname;
-				$scope.nicknameCheckLoading = true;
-				$scope.nicknameCheck = false;
-				$scope.nicknameCheckError = false;
+				var internalNickname = $scope.registerData.nickname;
+				$scope.registerData.nicknameCheckLoading = true;
+				$scope.registerData.nicknameCheck = false;
+				$scope.registerData.nicknameCheckError = false;
 
 				registerService.nicknameUsed(internalNickname, this);
 			}, function nicknameChecked(e, nicknameUsed) {
 				errorService.criticalError(e);
 
-				$scope.nicknameCheckLoading = false;
+				$scope.registerData.nicknameCheckLoading = false;
 
 				if (nicknameUsed === false) {
-					$scope.nicknameCheck = true;
+					$scope.registerData.nicknameCheck = true;
 				} else if (nicknameUsed === true) {
-					$scope.nicknameCheck = false;
+					$scope.registerData.nicknameCheck = false;
 				} else {
-					$scope.nicknameCheckError = true;
+					$scope.registerData.nicknameCheckError = true;
 				}
 			});
 		};
@@ -105,19 +109,19 @@ define([
 		};
 
 		$scope.nicknameEmpty = function () {
-			return $scope.empty($scope.nickname);
+			return $scope.empty($scope.registerData.nickname);
 		};
 
 		$scope.nicknameInvalid = function () {
-			return !$scope.empty($scope.nickname) && !h.isNickname($scope.nickname);
+			return !$scope.empty($scope.registerData.nickname) && !h.isNickname($scope.registerData.nickname);
 		};
 
 		$scope.nicknameUsed = function () {
-			return !$scope.empty($scope.nickname) && h.isNickname($scope.nickname) && !$scope.nicknameCheck && !$scope.nicknameCheckLoading;
+			return !$scope.empty($scope.registerData.nickname) && h.isNickname($scope.registerData.nickname) && !$scope.registerData.nicknameCheck && !$scope.registerData.nicknameCheckLoading;
 		};
 
 		$scope.isAgbError = function () {
-			return !$scope.agb;
+			return !$scope.registerData.agb;
 		};
 
 		$scope.validationOptions = {
@@ -126,15 +130,15 @@ define([
 		};
 
 		$scope.acceptIconNicknameFree = function acceptIconNickname() {
-			if ($scope.nicknameCheckLoading) {
+			if ($scope.registerData.nicknameCheckLoading) {
 				return "fa-spinner";
 			}
 
-			if ($scope.nicknameCheckError === true) {
+			if ($scope.registerData.nicknameCheckError === true) {
 				return "fa-warning";
 			}
 
-			if ($scope.nicknameCheck) {
+			if ($scope.registerData.nicknameCheck) {
 				return "fa-check";
 			}
 
@@ -181,7 +185,7 @@ define([
 				console.time("register");
 
 				locationService.setReturnUrl("/backup");
-				registerService.register($scope.nickname, "", $scope.pwState.password, profile, settings, inviteCode, this);
+				registerService.register($scope.registerData.nickname, "", $scope.pwState.password, profile, settings, inviteCode, this);
 			}, function (e) {
 				if (!e) {
 					locationService.mainPage();
