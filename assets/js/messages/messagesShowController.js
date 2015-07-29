@@ -55,6 +55,7 @@ define(["step", "whispeerHelper", "asset/state", "bluebird", "messages/messagesM
 		}, h.sF(function (_topic) {
 			topic = _topic;
 
+			messageService.setActiveTopic(topicID);
 			$scope.activeTopic = topic.data;
 
 			$scope.canSend = true;
