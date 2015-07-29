@@ -48,6 +48,8 @@ define([
 			android: isAndroid()
 		};
 
+		registerService.setPreID();
+
 		if (isTwitterBrowser()) {
 			$scope.browser.specific = "twitter";
 		} else if (isUIView()) {

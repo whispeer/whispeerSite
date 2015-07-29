@@ -22,8 +22,9 @@ define([
 		"ssn.keyStoreService",
 		"ssn.profileService",
 		"ssn.storageService",
-	function (socketService, keyStoreService, ProfileService, Storage) {
-		var keyGenerationStarted = false, keys = {}, keyGenListener = [], keyGenDone, sessionStorage = new Storage("whispeer.session");
+		"ssn.errorService",
+	function (socketService, keyStoreService, ProfileService, Storage, errorService) {
+		var keyGenerationStarted = false, keys = {}, keyGenListener = [], keyGenDone, sessionStorage = new Storage("whispeer.session"), clientStorage = new Storage("whispeer.client");
 
 		var registerService = {
 			register: function (nickname, mail, password, profile, settings, inviteCode, callback) {
@@ -112,6 +113,8 @@ define([
 						registerData.inviteCode = inviteCode;
 					}
 
+					registerData.preID = clientStorage.get("preID") || "";
+
 					socketService.emit("session.register", registerData, this);
 				}), h.sF(function (result) {
 					if (result.sid) {
@@ -125,6 +128,27 @@ define([
 
 					this.ne(result);
 				}), callback);
+			},
+			setPreID: function () {
+				step(function () {
+					if (socketService.isConnected()) {
+						this();
+					} else {
+						socketService.once("connect", this.ne);
+					}
+				}, h.sF(function () {
+					if (clientStorage.get("preID")) {
+						this.ne(clientStorage.get("preID"));
+					} else {
+						keyStoreService.random.hex(40, this);
+					}
+				}), h.sF(function (preID) {
+					clientStorage.set("preID", preID);
+
+					socketService.emit("preRegisterID", {
+						id: preID
+					}, this);
+				}), errorService.criticalError);
 			},
 
 			startKeyGeneration: function startKeyGen(callback) {
