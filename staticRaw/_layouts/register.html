@@ -4,7 +4,7 @@
 <body data-ng-controller="ssn.registerController" data-mobile>
 	<div class="box" data-ng-cloak data-ng-if="browser.old">
 			<p><i class="fa fa-times-circle fa-3x"></i></p>
-			<p data-i18n="landingpage.oldBrowser.{{ "{{ specific " }}}}"></p>
+			<p data-i18n="landingpage.oldBrowser.{{ "{{ browser.specific " }}}}"></p>
 			<p data-ng-if="!mobile">
 				<span data-i18n="landingpage.oldBrowser.supported"></span><br>
 				<a href="https://www.google.com/chrome/" class="btn btn--gray">Chrome</a>
@@ -13,8 +13,8 @@
 			</p>
 			<p data-ng-if="browser.android">
 				<span data-i18n="landingpage.oldBrowser.supported"></span><br>
-				<a href="https://play.google.com/store/apps/details?id=com.android.chrome" class="btn btn--gray">Chrome</a>
-				<a href="https://play.google.com/store/apps/details?id=org.mozilla.firefox" class="btn btn--gray">Firefox</a>
+				<a href="https://play.google.com/store/apps/details?id=com.android.chrome" target="_blank" class="btn btn--gray">Chrome</a>
+				<a href="https://play.google.com/store/apps/details?id=org.mozilla.firefox" target="_blank" class="btn btn--gray">Firefox</a>
 			</p>
 	</div>
 	<div data-ng-cloak data-ng-if="!browser.old" class="startView-register registerWrap" data-ng-click="registerFormClick()">
