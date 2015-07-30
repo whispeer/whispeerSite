@@ -6,12 +6,12 @@
 	},
 	teaser: {
 		headline: "Share private thoughts with friends",
-		details: "Send any image or text to your friends. We can not read anything you share! Speak freely about politics, health or black comedy. ",
+		details: "Send any image or text to your friends. We can't read anything you share! Speak freely about politics, health or black humour. ",
 		imageIdeas: "",
 		image: "lighthouse.jpg",
 		registerForm: true,
 		textShadow: true,
-		video: false,
+		video: true,
 		mailForm: true
 	},
 	sections: [
