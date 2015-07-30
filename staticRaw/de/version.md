@@ -4,6 +4,12 @@ lang: de
 title: Versionshistorie
 ---
 
+## 0.2.9
+
+* Wiederherstellung von Accounts funktioniert wieder
+* Schnelleres Initial-Laden
+* Sicherheitsverbesserungen im Trustmanager
+
 ## 0.2.8
 
 * Suche funktioniert jetzt besser und zeigt an wenn Nutzer geladen werden

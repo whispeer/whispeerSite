@@ -4,6 +4,12 @@ lang: en
 title: Version History
 ---
 
+## 0.2.9
+
+* Account recovery works again
+* Faster initial loading
+* Security improvements
+
 ## 0.2.8
 
 * Search improved: spinner is now shown while loading results
