@@ -1111,6 +1111,7 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 			}), h.sF(function () {
 				if (!trustManager.hasKeyData(intKey.getRealID())) {
 					console.log("key not in key database");
+					alert("key not in key database: " + intKey.getRealID() + " - please report this issue to support@whispeer.de!");
 					throw new errors.SecurityError("key not in key database");
 				}
 				intKey.decryptKey(this);
