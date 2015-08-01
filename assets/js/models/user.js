@@ -111,7 +111,9 @@ define(["step", "whispeerHelper", "asset/state", "asset/securedDataWithMetaData"
 				}
 
 				if (!isMe) {
-					publicProfile = new ProfileService(userData.profile.pub, { isPublicProfile: true });
+					if (userData.profile.pub) {
+						publicProfile = new ProfileService(userData.profile.pub, { isPublicProfile: true });
+					}
 
 					privateProfiles = [];
 
@@ -225,7 +227,11 @@ define(["step", "whispeerHelper", "asset/state", "asset/securedDataWithMetaData"
 							profile.getAttribute(attribute, this.parallel());
 						}, this);
 
-						publicProfile.getAttribute(attribute, this.parallel());
+						if (publicProfile) {
+							publicProfile.getAttribute(attribute, this.parallel());
+						}
+
+						this.parallel()(null, undefined);
 					}
 				}, h.sF(function (attributeValues) {
 					var values = attributeValues.filter(function (value) {
@@ -395,7 +401,11 @@ define(["step", "whispeerHelper", "asset/state", "asset/securedDataWithMetaData"
 							priv.verify(signKey, this.parallel());
 						}, this);
 
-						publicProfile.verify(signKey, this.parallel());
+						if (publicProfile) {
+							publicProfile.verify(signKey, this.parallel());
+						}
+
+						this.parallel()(null, true);
 					}
 				}, h.sF(function (verified) {
 					var ok = verified.reduce(h.and, true);
