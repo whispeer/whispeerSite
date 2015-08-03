@@ -175,6 +175,10 @@ define(["whispeerHelper", "step", "crypto/keyStore", "asset/errors"], function (
 				throw new errors.SecurityError("invalid object type. is: " + metaCopy._type + " should be: " + that._type);
 			}
 
+			if (metaCopy._v2 === "false") {
+				metaCopy._v2 = false;
+			}
+
 			keyStore.sign.verifyObject(that._original.meta._signature, metaCopy, signKey, this, metaCopy._v2);
 		}, h.sF(function (correctSignature) {
 			if (!correctSignature) {
