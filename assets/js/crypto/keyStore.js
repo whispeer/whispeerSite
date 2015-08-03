@@ -1264,19 +1264,11 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 		}
 	};
 
-	var ObjectHasher = function (data, keepDepth, verifyTree) {
+	var ObjectHasher = function (data, keepDepth, v2) {
 		this._data = data;
 		this._depth = keepDepth;
-		this._verifyTree = verifyTree;
+		this._v2 = v2;
 		this._hashedObject = {};
-	};
-
-	ObjectHasher.prototype.verifyHashStructure = function () {
-		this._verifyTree = true;
-
-		this.verifyAllAttributesAreHashes(this._data);
-
-		this.hash();
 	};
 
 	ObjectHasher.prototype.sjclHash = function (data) {
@@ -1288,11 +1280,11 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 	};
 
 	ObjectHasher.prototype._hashProperty = function (val) {
-		return (this._verifyTree ? val : this.sjclHash("data::" + val.toString()));
+		return (this._v2 ? val : this.sjclHash("data::" + val.toString()));
 	};
 
 	ObjectHasher.prototype._doHashNewObject = function (val, attr) {
-		var hasher = new ObjectHasher(val, this._depth-1, this._verifyTree);
+		var hasher = new ObjectHasher(val, this._depth-1, this._v2);
 		var result = hasher.hash();
 		if (this._depth > 0) {
 			this._hashedObject[attr] = hasher.getHashObject();
@@ -1305,11 +1297,7 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 		var allowedTypes = ["number", "string", "boolean"];
 
 		if (attr === "hash") {
-			if (!this._verifyTree) {
-				throw new errors.InvalidDataError("object can not have hash attributes");
-			}
-
-			return;
+			throw new errors.InvalidDataError("object can not have hash attributes");
 		}
 
 		var type = typeof val, result;
@@ -1367,10 +1355,6 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 		}
 
 		var result = this._hashData();
-
-		if (this._verifyTree && result !== this._data.hash) {
-			throw new errors.ValidationError("verifyTree failed");
-		}
 
 		this._hashedObject.hash = result;
 		return result;
@@ -2279,9 +2263,9 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 				}), callback);
 			},
 
-			signObject: function (object, realID, callback, noCache) {
+			signObject: function (object, realID, callback, noCache, v2) {
 				step(function signO1() {
-					var hash = new ObjectHasher(object, 0).hashBits();
+					var hash = new ObjectHasher(object, 0, v2).hashBits();
 					keyStore.sign.signHash(hash, realID, this, noCache);
 				}, callback);
 			},
@@ -2296,9 +2280,9 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 				keyStore.sign.verifyHash(signature, sjcl.hash.sha256.hash(text), realID, callback);
 			},
 
-			verifyObject: function (signature, object, realID, callback) {
+			verifyObject: function (signature, object, realID, callback, v2) {
 				step(function signO1() {
-					var hash = new ObjectHasher(object, 0).hashBits();
+					var hash = new ObjectHasher(object, 0, v2).hashBits();
 					keyStore.sign.verifyHash(signature, hash, realID, this);
 				}, callback);
 			},
