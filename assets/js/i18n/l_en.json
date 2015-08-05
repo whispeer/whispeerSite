@@ -4,6 +4,7 @@
 		"with":	"with"
 	},
 	"trustLevel": {
+		"deleted": "Deleted user",
 		"unVerified": "You have not verified this user. Verification is available on a users profile.",
 		"groupVerified": "One of your friends verified this user",
 		"selfVerified": "You verified this user personally"
@@ -380,6 +381,7 @@
 		"loadingTopics": "Loading conversations"
 	},
 	"profile": {
+		"notFound": "User not found!",
 		"trustlevel": {
 			"0": "Not verified",
 			"2": "Verified"

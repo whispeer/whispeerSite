@@ -379,6 +379,7 @@
 		"loadingTopics": "Konversationen werden geladen"
 	},
 	"profile": {
+		"notFound": "Dieser Nutzer existiert nicht!",
 		"trustlevel": {
 			"0": "Nicht verifiziert",
 			"2": "Verifiziert"
