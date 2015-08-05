@@ -28,13 +28,13 @@ define([
 	}
 
 	var service = function ($rootScope, $timeout, errorService, socket, sessionService, userService, keyStore, initService, windowService, Message) {
-		var messages = {};
+		var messagesByID = {};
 		var topics = {};
 
 		var topicArray = sortedSet(sortObjGetTimeInv);
 
 		var Topic = function (data) {
-			var messages = sortedSet(sortGetTime), dataMessages = sortedSet(sortObjGetTime), messagesByID = {}, theTopic = this, loadInitial = true;
+			var messages = sortedSet(sortGetTime), dataMessages = sortedSet(sortObjGetTime), theTopic = this, loadInitial = true;
 
 			var err = validator.validate("topic", data.meta);
 			if (err) {
@@ -156,8 +156,8 @@ define([
 			};
 
 			function addMessagesToList(messagesToAdd) {
-				messagesToAdd.forEach(function (message) {
-					messagesByID[message.getID()] = message;
+				messagesToAdd = messagesToAdd.filter(function (message) {
+					return messages.indexOf(message) === -1;
 				});
 
 				messages.join(messagesToAdd);
@@ -480,13 +480,15 @@ define([
 
 			cb = cb || h.nop;
 
-			if (messages[id]) {
+			if (messagesByID[id]) {
 				$timeout(function () {
-					cb(null, messages[id]);
+					cb(null, messagesByID[id]);
 				});
+
+				return;
 			}
 
-			messages[id] = messageToAdd;
+			messagesByID[id] = messageToAdd;
 
 			step(function () {
 				Topic.get(messageToAdd.getTopicID(), this);
@@ -546,7 +548,7 @@ define([
 				activeTopic = h.parseDecimal(topicid);
 			},
 			reset: function () {
-				messages = {};
+				messagesByID = {};
 				topics = {};
 				topicArray = sortedSet(sortObjGetTimeInv);
 				messageService.data.latestTopics = {
