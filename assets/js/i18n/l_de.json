@@ -4,6 +4,7 @@
 		"with":	"mit"
 	},
 	"trustLevel": {
+		"deleted": "Nutzer wurde gelöscht",
 		"unVerified": "Die Identität dieser Person wurde noch nicht verifiziert. Du kannst sie auf ihrem Profil verifizieren!",
 		"groupVerified": "Ein Freund hat diese Person verifiziert.",
 		"selfVerified": "Du hast diese Person verifiziert."

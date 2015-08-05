@@ -197,6 +197,12 @@ define([
 				step(function () {
 					userService.get(meta.metaAttr("creator"), this);
 				}, h.sF(function (creator) {
+					if (creator.isNotExistingUser()) {
+						theTopic.data.disabled = true;
+						this.last.ne();
+						return;
+					}
+
 					meta.verify(creator.getSignKey(), this);
 				}), h.sF(function () {
 					keyStore.security.addEncryptionIdentifier(meta.metaAttr("_key"));

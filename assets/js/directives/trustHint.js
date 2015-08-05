@@ -11,6 +11,9 @@ define(["directives/directivesModule", "jquery", "qtip"], function (directivesMo
 				elm.mouseover(function () {
 					var translation = "";
 					switch(scope.userData.trustLevel) {
+						case -1:
+							translation = "deleted";
+							break;
 						case 0:
 							translation = "unVerified";
 							break;

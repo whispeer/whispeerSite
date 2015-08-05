@@ -3,11 +3,13 @@
 		<span>
 			<span data-i18n="messages.chat"></span>
 			<span data-ng-repeat="partner in activeTopic.partners">
-				<span class="status" data-status="{{partner.online}}"></span>
-				<a whispeer-sref="app.user.info({identifier: partner.names.nickname})">
+				<span class="status" data-status="{{partner.online}}" data-ng-if="::!partner.notExisting"></span>
+				<a whispeer-sref="app.user.info({identifier: partner.names.nickname})" data-ng-if="::!partner.notExisting">
 					<span data-ng-if="::activeTopic.partners.length>2">{{partner.basic.shortname}}</span>
 					<span data-ng-if="activeTopic.partners.length<=2">{{partner.name}}</span>
 				</a>
+
+				<span data-ng-if="::partner.notExisting">{{partner.name}}</span>
 				{{::($last?"":", ")}}
 			</span>
 		</span>
@@ -46,7 +48,7 @@
 					</ul>
 				</li>
 			</ul>
-			<form id="inputWrap">
+			<form id="inputWrap" data-ng-if="!activeTopic.disabled">
 				<div class="annotatedInput-container annotatedInput-container--button annotatedInput--reversed" id="messageInput">
 					<div class="uploadForm annotatedInput-button">
 						<button class="uploadForm-button btn"><i class="fa fa-upload"></i></button>

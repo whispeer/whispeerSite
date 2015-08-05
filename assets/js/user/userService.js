@@ -4,11 +4,30 @@ define(["step", "whispeerHelper", "user/userModule", "asset/observer", "crypto/s
 	var service = function ($rootScope, User, errorService, initService, socketService, keyStoreService, sessionService) {
 		var userService, knownIDs = [], users = {}, loading = {};
 
+
+		var name = "Deleted user"; //localize("user.deleted", {});
 		var NotExistingUser = {
-			getName: function (cb) {
-				cb("Not Existing User");
+			data: {
+				trustLevel: -1,
+				notExisting: true,
+				basic: {
+					shortname: name,
+					image: "assets/img/user.png"
+				},
+				name: name
+			},
+			isNotExistingUser: function () {
+				return true;
+			},
+			loadBasicData: function (cb) {
+				cb();
+			},
+			isOwn: function () {
+				return false;
 			}
 		};
+
+		NotExistingUser.data.user = NotExistingUser;
 
 		function makeUser(data) {
 			if (data.error === true) {
@@ -64,7 +83,9 @@ define(["step", "whispeerHelper", "user/userModule", "asset/observer", "crypto/s
 				}
 
 				result.forEach(function (u) {
-					u.verifyKeys(this.parallel());
+					if (u !== NotExistingUser) {
+						u.verifyKeys(this.parallel());
+					}
 				}, this);
 
 				this.parallel()();

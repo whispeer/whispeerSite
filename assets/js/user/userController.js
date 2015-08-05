@@ -256,6 +256,12 @@ define(["step", "whispeerHelper", "bluebird", "asset/resizableImage", "asset/sta
 		step(function () {
 			userService.get(identifier, this);
 		}, h.sF(function (user) {
+			if (user.isNotExistingUser()) {
+				$scope.user = user.data;
+				$scope.loading = false;
+				return;
+			}
+
 			userObject = user;
 
 			var fp = user.getFingerPrint();		
