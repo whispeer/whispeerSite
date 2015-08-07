@@ -63,7 +63,7 @@ define(["step", "whispeerHelper", "crypto/encryptedData", "services/serviceModul
 
 		function migrateToFormat2(data, cb) {
 			step(function () {
-				var oldSettings = new EncryptedData(data.settings);
+				var oldSettings = new EncryptedData(data.content);
 				oldSettings.decrypt(this);
 			}, h.sF(function (decryptedSettings) {
 				var data = turnOldSettingsToNew(decryptedSettings);
@@ -84,12 +84,18 @@ define(["step", "whispeerHelper", "crypto/encryptedData", "services/serviceModul
 			}), cb);
 		}
 
-		initService.get("settings.getSettings", undefined, function (data, cb) {
+		initService.get("settings.get", undefined, function (data, cache, cb) {
+			var toCache = h.deepCopyObj(data.content);
+
+			if (data.unChanged) {
+				data = cache.data;
+			}
+
 			step(function () {
-				if (data.settings.ct) {
+				if (data.content.ct) {
 					migrateToFormat2(data, this);
 				} else {
-					this.ne(SecuredData.load(data.settings.content, data.settings.meta, options));
+					this.ne(SecuredData.load(data.content.content, data.content.meta, options));
 				}
 			}, h.sF(function (_settings) {
 				settings = _settings;
@@ -100,8 +106,10 @@ define(["step", "whispeerHelper", "crypto/encryptedData", "services/serviceModul
 					localize.setLanguage(language);
 				}
 
-				this.ne();
+				this.ne(toCache);
 			}), cb);
+		}, {
+			cache: true
 		});
 
 		$rootScope.$on("reset", function () {
