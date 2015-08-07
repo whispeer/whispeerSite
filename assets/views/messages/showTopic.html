@@ -68,5 +68,11 @@
 				</div>
 			</form>
 		</div>
+		<div class="messages-overlay" data-ng-if="activeTopic.disabled"><!-- TODO: hide overlay when button is clicked -->
+			<div class="messages-overlay-content">
+				<p data-syntaxify data-i18n="messages.deleted.{{activeTopic.type}}"></p>
+				<button class="btn btn--primary" id="messages-overlay-button" data-i18n="messages.deleted.ok"></button>
+			</div>
+		</div>
 	</div>
 </div>

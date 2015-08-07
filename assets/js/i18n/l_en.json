@@ -378,7 +378,12 @@
 			"text": "Type in your message!",
 			"send": "Send"
 		},
-		"loadingTopics": "Loading conversations"
+		"loadingTopics": "Loading conversations",
+		"deleted": {
+			"peerChat": "The account of your Chat partner was deleted. Therefore you can only access your messages in this conversation. It is not possible to send new Messages to this user.",
+			"groupChat": "The account of a member of this chat was deleted. Therefore you can no longer access this members messages. Unfortunately it is not possible to send new messages in this conversation. Please start a new one with the remaining members instead.",
+			"ok": "Ok"
+		}
 	},
 	"profile": {
 		"notFound": "User not found!",
