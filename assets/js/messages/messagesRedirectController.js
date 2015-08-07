@@ -11,14 +11,14 @@ define(["messages/messagesModule"], function (messagesModule) {
 		function checkState() {
 			var stateName = $state.current.name;
 			if (stateName === "app.messages.list" && !$scope.mobile) {
-				$state.go("app.messages.new");
+				$state.go("app.messages.start");
 			}
 
 			if (stateName === "app.messages") {
 				if ($scope.mobile) {
 					$state.go("app.messages.list");
 				} else {
-					$state.go("app.messages.new");
+					$state.go("app.messages.start");
 				}
 			}
 		}

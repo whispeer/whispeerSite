@@ -374,6 +374,10 @@
 		"chat" :"Chat with",
 		"newMessage": "New message",
 		"search": "Who should receive this message?",
+		"start": {
+			"header": "No conversation selected",
+			"info": "To Chat with your friends select a conversation from the list on the left side or start a new one by clicking on the button \"New message\" in the upper left corner."
+		},
 		"sendMessage": {
 			"text": "Type in your message!",
 			"send": "Send"
