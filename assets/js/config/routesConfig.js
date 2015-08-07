@@ -140,6 +140,11 @@ define(["app"], function (app) {
 			}
 		});
 
+		$stateProvider.state("app.messages.start", {
+			url: "",
+			templateUrl: "assets/views/messages/start.html"
+		});
+
 		$stateProvider.state("app.messages.list", {
 			url: "/list",
 			templateUrl: "assets/views/messages/listTopics.html",

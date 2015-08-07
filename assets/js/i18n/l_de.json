@@ -371,6 +371,10 @@
 		"chat" :"Chat mit",
 		"newMessage": "Neue Nachricht",
 		"search": "Wer soll diese Nachricht empfangen?",
+		"start": {
+			"header": "Keine Nachricht ausgewählt",
+			"info": "Um mit deinen Freunden zu chatten wähle im linken Menü einen Chat aus oder starte einen Neuen indem du oben links auf den Button \"Neue Nachricht\" klickst."
+		},
 		"sendMessage": {
 			"text": "Gib deine Nachricht ein!",
 			"send": "Senden"
