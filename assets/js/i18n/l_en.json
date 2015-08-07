@@ -4,6 +4,7 @@
 		"with":	"with"
 	},
 	"trustLevel": {
+		"deleted": "Deleted user",
 		"unVerified": "You have not verified this user. Verification is available on a users profile.",
 		"groupVerified": "One of your friends verified this user",
 		"selfVerified": "You verified this user personally"
@@ -377,9 +378,15 @@
 			"text": "Type in your message!",
 			"send": "Send"
 		},
-		"loadingTopics": "Loading conversations"
+		"loadingTopics": "Loading conversations",
+		"deleted": {
+			"peerChat": "The account of your Chat partner was deleted. Therefore you can only access your messages in this conversation. It is not possible to send new Messages to this user.",
+			"groupChat": "The account of a member of this chat was deleted. Therefore you can no longer access this members messages. Unfortunately it is not possible to send new messages in this conversation. Please start a new one with the remaining members instead.",
+			"ok": "Ok"
+		}
 	},
 	"profile": {
+		"notFound": "User not found!",
 		"trustlevel": {
 			"0": "Not verified",
 			"2": "Verified"
