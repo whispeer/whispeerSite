@@ -11,7 +11,7 @@ define(["services/serviceModule"], function (serviceModule) {
 			redirect = false;
 		};
 
-		var service = function ($rootScope, $timeout, locationService, Storage) {
+		var service = function ($rootScope, $timeout, locationService, Storage, keyStore) {
 			var sid = "", loggedin = false, userid;
 
 			var sessionStorage = new Storage("whispeer.session");
@@ -36,21 +36,26 @@ define(["services/serviceModule"], function (serviceModule) {
 			}
 
 			function loadOldLogin() {
-				if (sessionStorage.get("loggedin") === "true" && sessionStorage.get("password")) {
-					setLoginData(sessionStorage.get("sid"), sessionStorage.get("userid"));
-				} else {
-					sessionStorage.clear();
+				sessionStorage.awaitLoading().then(function () {
+					if (sessionStorage.get("loggedin") === "true" && sessionStorage.get("password")) {
+						keyStore.security.setPassword(sessionStorage.get("password"));
+						setLoginData(sessionStorage.get("sid"), sessionStorage.get("userid"));
+					} else {
+						sessionStorage.clear();
 
-					if (redirect) {
-						locationService.landingPage();
+						if (redirect) {
+							locationService.landingPage();
+						}
 					}
-				}
+				});
 			}
 
 			loadOldLogin();
 
 			$rootScope.$on("$stateChangeStart", function (scope, next) {
-				locationService.updateURL(loggedin, next.controller);
+				sessionStorage.awaitLoading().then(function () {
+					locationService.updateURL(loggedin, next.controller);
+				});
 			});
 
 			var sessionService = {
@@ -84,7 +89,7 @@ define(["services/serviceModule"], function (serviceModule) {
 			return sessionService;
 		};
 
-		this.$get = ["$rootScope", "$timeout", "ssn.locationService", "ssn.storageService", service];
+		this.$get = ["$rootScope", "$timeout", "ssn.locationService", "ssn.storageService", "ssn.keyStoreService", service];
 	};
 
 	serviceModule.provider("ssn.sessionService", provider);
