@@ -1,4 +1,4 @@
-define(["whispeerHelper", "dexie", "bluebird", "services/serviceModule"], function (h, Dexie, Promise, serviceModule) {
+define(["whispeerHelper", "dexie", "bluebird", "services/serviceModule", "services/errorService"], function (h, Dexie, Promise, serviceModule) {
 	"use strict";
 
 	var db, errorService;
@@ -7,6 +7,10 @@ define(["whispeerHelper", "dexie", "bluebird", "services/serviceModule"], functi
 		this._name = name;
 		this._options = options || {};
 	}
+
+	Cache.prototype.entries = function () {
+		return db.cache.where("type").equals(this._name);
+	};
 
 	Cache.prototype.entryCount = function () {
 		return Promise.resolve(db.cache.where("type").equals(this._name).count());
@@ -45,6 +49,7 @@ define(["whispeerHelper", "dexie", "bluebird", "services/serviceModule"], functi
 		}
 
 		return Promise.resolve(db.cache.put(cacheEntry).catch(function (e) {
+			console.warn(e);
 			if (e.code && e.code === e.DATA_CLONE_ERR) {
 				return that._fixBlobStorage(cacheEntry);
 			} else {
@@ -54,9 +59,10 @@ define(["whispeerHelper", "dexie", "bluebird", "services/serviceModule"], functi
 	};
 
 	Cache.prototype.get = function (id) {
-		var cacheResult = db.cache.where(":id").equals(this._name + "/" + id);
+		var cacheResult = db.cache.where("id").equals(this._name + "/" + id);
 
-		cacheResult.modify({ used: new Date().getTime() });
+		db.cache.where("id").equals(this._name + "/" + id).modify({ used: new Date().getTime() });
+
 		return Promise.resolve(cacheResult.first().then(function (data) {
 			if (typeof data !== "undefined") {
 				data.data = JSON.parse(data.data);
@@ -76,6 +82,7 @@ define(["whispeerHelper", "dexie", "bluebird", "services/serviceModule"], functi
 		//remove data which hasn't been used in a long time or is very big
 		return Promise.resolve(this.entryCount().then(function (count) {
 			if (count > 100) {
+				console.warn("cleaning up cache");
 				db.cache.orderBy("used").limit(count - 100).delete();
 			}
 		}));
