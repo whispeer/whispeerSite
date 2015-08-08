@@ -41,11 +41,11 @@ define(["services/serviceModule"], function (serviceModule) {
 						keyStore.security.setPassword(sessionStorage.get("password"));
 						setLoginData(sessionStorage.get("sid"), sessionStorage.get("userid"));
 					} else {
-						sessionStorage.clear();
-
-						if (redirect) {
-							locationService.landingPage();
-						}
+						sessionStorage.clear().then(function () {
+							if (redirect) {
+								locationService.landingPage();
+							}
+						});
 					}
 				});
 			}
@@ -75,9 +75,10 @@ define(["services/serviceModule"], function (serviceModule) {
 
 				logout: function () {
 					if (loggedin) {
-						$rootScope.$broadcast("ssn.reset");
-						sessionStorage.clear();
-						locationService.landingPage();
+						sessionStorage.clear().then(function () {
+							locationService.landingPage();
+							$rootScope.$broadcast("ssn.reset");
+						});
 					}
 				},
 
