@@ -22,7 +22,7 @@ define([
 				localStorage.removeItem("localStorageTest");
 				return true;
 			} catch (e) {
-				return false;
+				return !!window.indexedDB;
 			}
 		}
 
