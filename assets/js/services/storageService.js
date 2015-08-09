@@ -19,7 +19,7 @@ define(["services/serviceModule", "bluebird", "services/cacheService"], function
 
 		var theCache = new Cache("localStorage");
 
-		if (false && hasLocalStorage()) {
+		if (hasLocalStorage()) {
 			Storage = function (prefix) {
 				this._prefix = prefix;
 				this._loadingPromise = Bluebird.resolve();
