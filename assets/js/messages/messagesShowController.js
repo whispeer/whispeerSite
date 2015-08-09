@@ -18,6 +18,12 @@ define(["step", "whispeerHelper", "asset/state", "bluebird", "messages/messagesM
 
 		$scope.scrollLock = false;
 
+		$scope.hideOverlay = false;
+
+		$scope.doHideOverlay = function () {
+			$scope.hideOverlay = true;
+		};
+
 		$scope.images = {
 			images: [],
 			removeImage: function (index) {

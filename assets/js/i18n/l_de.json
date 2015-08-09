@@ -4,6 +4,7 @@
 		"with":	"mit"
 	},
 	"trustLevel": {
+		"deleted": "Nutzer wurde gelöscht",
 		"unVerified": "Die Identität dieser Person wurde noch nicht verifiziert. Du kannst sie auf ihrem Profil verifizieren!",
 		"groupVerified": "Ein Freund hat diese Person verifiziert.",
 		"selfVerified": "Du hast diese Person verifiziert."
@@ -371,13 +372,23 @@
 		"chat" :"Chat mit",
 		"newMessage": "Neue Nachricht",
 		"search": "Wer soll diese Nachricht empfangen?",
+		"start": {
+			"header": "Keine Nachricht ausgewählt",
+			"info": "Um mit deinen Freunden zu chatten wähle im linken Menü einen Chat aus oder starte einen Neuen indem du oben links auf den Button \"Neue Nachricht\" klickst."
+		},
 		"sendMessage": {
 			"text": "Gib deine Nachricht ein!",
 			"send": "Senden"
 		},
-		"loadingTopics": "Konversationen werden geladen"
+		"loadingTopics": "Konversationen werden geladen",
+		"deleted": {
+			"peerChat": "Der Account deines Chatpartners wurde gelöscht. Daher wirst du nurnoch deine Nachrichten in dieser Unterhaltung lesen können. Ein Verfassen neuer Nachrichten ist in dieser Unterhaltung nicht möglich.",
+			"groupChat": "Der Account eines Teilnehmers dieses Chats wurde gelöscht. Daher können dessen verfasste Nachrichten nicht mehr abgerufen werden. Ein Verfassen neuer Nachrichten in dieser Unterhaltung ist nicht möglich. Bitte starte stattdessen eine neue Unterhaltung mit den verbleibenden Mitgliedern",
+			"ok": "Alles klar"
+		}
 	},
 	"profile": {
+		"notFound": "Dieser Nutzer existiert nicht!",
 		"trustlevel": {
 			"0": "Nicht verifiziert",
 			"2": "Verifiziert"

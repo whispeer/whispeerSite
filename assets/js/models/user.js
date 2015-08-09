@@ -129,6 +129,7 @@ define(["step", "whispeerHelper", "asset/state", "asset/securedDataWithMetaData"
 				}
 
 				theUser.data = {
+					notExisting: false,
 					user: theUser,
 					id: id,
 					trustLevel: 0,
@@ -718,6 +719,10 @@ define(["step", "whispeerHelper", "asset/state", "asset/securedDataWithMetaData"
 				} else {
 					addFriendState.failed();
 				}
+			};
+
+			this.isNotExistingUser = function () {
+				return false;
 			};
 
 			this.removeAsFriend = function () {

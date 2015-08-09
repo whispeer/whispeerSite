@@ -59,7 +59,7 @@ define(["whispeerHelper", "step", "crypto/keyStore", "asset/errors"], function (
 		return this._updated.meta._ownHash;
 	};
 
-	SecuredDataWithMetaData.prototype.sign = function (signKey, cb, noCache) {
+	SecuredDataWithMetaData.prototype.sign = function (signKey, cb, noCache, v2) {
 		var that = this;
 		var toSign = h.deepCopyObj(that._updated.meta);
 
@@ -81,8 +81,10 @@ define(["whispeerHelper", "step", "crypto/keyStore", "asset/errors"], function (
 				delete toSign._ownHash;
 				toSign._ownHash = keyStore.hash.hashObjectOrValueHex(toSign);
 			}
-			
-			keyStore.sign.signObject(toSign, signKey, this, noCache);
+
+			toSign._v2 = !!v2;
+
+			keyStore.sign.signObject(toSign, signKey, this, noCache, v2);
 		}, h.sF(function (signature) {
 			toSign._signature = signature;
 
@@ -173,7 +175,11 @@ define(["whispeerHelper", "step", "crypto/keyStore", "asset/errors"], function (
 				throw new errors.SecurityError("invalid object type. is: " + metaCopy._type + " should be: " + that._type);
 			}
 
-			keyStore.sign.verifyObject(that._original.meta._signature, metaCopy, signKey, this);
+			if (metaCopy._v2 === "false") {
+				metaCopy._v2 = false;
+			}
+
+			keyStore.sign.verifyObject(that._original.meta._signature, metaCopy, signKey, this, metaCopy._v2);
 		}, h.sF(function (correctSignature) {
 			if (!correctSignature) {
 				alert("Bug: signature did not match (" + that._original.meta._type + ") Please report this bug!");
