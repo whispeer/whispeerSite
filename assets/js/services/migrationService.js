@@ -9,7 +9,7 @@ define(["step", "whispeerHelper", "services/serviceModule"], function (step, h, 
 
 	//after success: update users migration state
 
-	var migrations = ["regenerateFriendsKeys"];
+	var migrations = ["regenerateFriendsKeys", "fixBrokenSettings"];
 
 	var service = function ($injector, errorService) {
 		var doMigration = function () {

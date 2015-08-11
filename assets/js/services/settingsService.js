@@ -125,6 +125,12 @@ define(["step", "whispeerHelper", "crypto/encryptedData", "services/serviceModul
 		}
 
 		var api = {
+			getContent: function () {
+				return settings.contentGet();
+			},
+			setContent: function (content) {
+				return settings.contentSet(content);
+			},
 			decrypt: function (cb) {
 				step(function () {
 					var ownUser = $injector.get("ssn.userService").getown();
