@@ -61,9 +61,10 @@ define(["step", "whispeerHelper", "crypto/encryptedData", "services/serviceModul
 			return result;
 		}
 
-		function migrateToFormat2(data, cb) {
+		function migrateToFormat2(givenOldSettings, cb) {
+			console.warn("migrating settings to format 2");
 			step(function () {
-				var oldSettings = new EncryptedData(data.content);
+				var oldSettings = new EncryptedData(givenOldSettings);
 				oldSettings.decrypt(this);
 			}, h.sF(function (decryptedSettings) {
 				var data = turnOldSettingsToNew(decryptedSettings);
@@ -85,17 +86,18 @@ define(["step", "whispeerHelper", "crypto/encryptedData", "services/serviceModul
 		}
 
 		initService.get("settings.get", undefined, function (data, cache, cb) {
-			var toCache = h.deepCopyObj(data.content);
+			var givenSettings = data.content;
+			var toCache = h.deepCopyObj(givenSettings);
 
 			if (data.unChanged) {
-				data = cache.data;
+				givenSettings = cache.data;
 			}
 
 			step(function () {
-				if (data.content.ct) {
-					migrateToFormat2(data, this);
+				if (givenSettings.ct) {
+					migrateToFormat2(givenSettings, this);
 				} else {
-					this.ne(SecuredData.load(data.content.content, data.content.meta, options));
+					this.ne(SecuredData.load(givenSettings.content, givenSettings.meta, options));
 				}
 			}, h.sF(function (_settings) {
 				settings = _settings;
