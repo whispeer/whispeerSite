@@ -12,6 +12,7 @@
 		registerForm: true,
 		textShadow: true,
 		video: true,
+		videoSubtitles: true,
 		mailForm: true
 	},
 	sections: [
