@@ -538,6 +538,7 @@
 		"mutualFriends":	"{count} mutual friends",
 		"title":			"Friends list",
 		"loading":	"Loading friends",
+		"search": "Search friends",
 		"zeroContent": {
 			"headline": "Hey {name}! This is your friends list.",
 			"subhead": "Seems like nobody's home. Lets find a few of your friends!"

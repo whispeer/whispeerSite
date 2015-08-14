@@ -10,6 +10,9 @@ define(["step", "whispeerHelper", "controllers/controllerModule"], function (ste
 		$scope.friends = [];
 		$scope.requests = [];
 		$scope.friendsLoading = true;
+		$scope.friendsFilter = {
+			name: ""
+		};
 
 		$scope.removeFriend = function (user) {
 			if (confirm(localize.getLocalizedString("magicbar.requests.confirmRemove", { user: user.name }))) {
