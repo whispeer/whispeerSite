@@ -4,6 +4,11 @@ lang: de
 title: Versionshistorie
 ---
 
+## 0.2.11
+
+* Bugfix für statische Seiten (z.B. AGB)
+* Freunde alphabetisch sortiert und filterbar
+
 ## 0.2.9
 
 * Wiederherstellung von Accounts funktioniert wieder
