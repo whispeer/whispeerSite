@@ -15,7 +15,7 @@ define(["step", "whispeerHelper", "asset/observer", "asset/securedDataWithMetaDa
 	//we need locking here!
 
 	var service = function ($rootScope, $injector, socket, sessionService, keyStore, initService) {
-		var friends = [], requests = [], requested = [], ignored = [], removed = [], signedList, onlineFriends = {};
+		var friends = [], requests = [], requested = [], ignored = [], removed = [], deleted = [], signedList, onlineFriends = {};
 		var friendsData = {
 			requestsCount: 0,
 			friendsCount: 0,
@@ -339,13 +339,14 @@ define(["step", "whispeerHelper", "asset/observer", "asset/securedDataWithMetaDa
 				requested = data.requested.map(h.parseDecimal);
 				ignored = data.ignored.map(h.parseDecimal);
 				removed = data.removed.map(h.parseDecimal);
+				deleted = data.deleted.map(h.parseDecimal);
 
 				updateCounters();
 
 				signedList = SecuredData.load(undefined, data.signedList || {}, { type: "signedFriendList" });
 
 				var requestedOrFriends = signedList.metaKeys().map(h.parseDecimal);
-				if (!h.arrayEqual(requestedOrFriends, requested.concat(friends).concat(removed))) {
+				if (!h.arrayEqual(requestedOrFriends, requested.concat(friends).concat(removed).concat(deleted))) {
 					throw new Error("unmatching arrays");
 				}
 
@@ -386,6 +387,7 @@ define(["step", "whispeerHelper", "asset/observer", "asset/securedDataWithMetaDa
 				requested = [];
 				ignored = [];
 				removed = [];
+				deleted = [];
 				onlineFriends = [];
 			},
 			data: friendsData
