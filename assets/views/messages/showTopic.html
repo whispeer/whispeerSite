@@ -1,6 +1,6 @@
 <div class="box-rightWrap">
-	<span class="box-header-title box-header-title--full box-header-title--push">
-		<span>
+	<div class="box-header box-header--padding">
+		<span class="box-header-title box-header-title--full-noExtras" data-ng-if="!editingTitle">
 			<span data-i18n="messages.chat"></span>
 			<span data-ng-repeat="partner in activeTopic.partners">
 				<span class="status" data-status="{{partner.online}}" data-ng-if="::!partner.notExisting"></span>
@@ -13,6 +13,7 @@
 				{{::($last?"":", ")}}
 			</span>
 		</span>
+		<input id="messages-editTitle" type="text" placeholder="Konversation umbenennen" data-ng-if="editingTitle" data-ng-model="topicTitle">
 		<div class="box-header-buttons--right">
 			<span>
 				<a data-ng-click="toggleMessageOptions()" id="showOptions" class="box-header-button box-header-button--right">
@@ -38,6 +39,12 @@
 			</span>
 			<a whispeer-sref="app.messages.list" id="showTopics" class="box-header-button box-header-button--right" data-ng-if="mobile">
 				<i class="fa fa-arrow-left fa-fw"></i>
+			</a>
+			<a data-ng-click="toggleEdit()" class="box-header-button box-header-button--right">
+				<i class="fa" data-ng-class="{'fa-pencil': !editingTitle, 'fa-times-circle': editingTitle}"></i>
+			</a>
+			<a data-ng-click="saveTitle()" data-ng-if="editingTitle" class="box-header-button box-header-button--right">
+				<i class="fa fa-check"></i>
 			</a>
 		</div>
 	</span>

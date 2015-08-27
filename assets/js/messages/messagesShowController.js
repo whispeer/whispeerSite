@@ -308,6 +308,11 @@ define(["step", "whispeerHelper", "asset/state", "bluebird", "messages/messagesM
 
 			return bursts;
 		};
+
+		$scope.editingTitle = false;
+		$scope.toggleEdit = function() {
+			$scope.editingTitle = !$scope.editingTitle;
+		}
 	}
 
 
