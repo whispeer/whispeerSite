@@ -49,6 +49,22 @@
 			<a data-ng-click="saveTitle()" data-ng-if="editingTitle" class="box-header-button box-header-button--right">
 				<i class="fa fa-check"></i>
 			</a>
+			<a data-ng-click="toggleFriendsDropdown()" class="box-header-button box-header-button--right">
+				<i class="fa fa-user-plus"></i>
+			</a>
+			<div class="dropdown dropdown--right" id="messages-addFriendsDrop" data-ng-if="addFriendsActive">
+				<div class="dropdown-header"><span class="dropdown-header-title">Freunde zum Chat hinzufügen</span><i class="fa fa-times-circle dropdown-header-close" data-ng-click="toggleFriendsDropdown()"></i></div>
+				<div class="dropdown-container" id="messages-addFriendsDrop-container">
+					<div id="messages-addFriendsDrop-spinner" data-ng-if="friendsLoading"><i class="fa fa-circle-o-notch fa-spin"></i></div>
+					<ul data-ng-if="!friendsLoading">
+						<li data-ng-repeat="friend in friends" class="messages-addFriendsDrop-friend">
+							<userimage data-user="friend" class="messages-addFriendsDrop-friend-userimage" />
+							<span class="messages-addFriendsDrop-friend-username">{{friend.name}}</span>
+							<a href="" class="btn btn--primaryLight messages-addFriendsDrop-friend-add"><i class="fa fa-plus-circle"></i></a>
+						</li>
+					</ul>
+				</div>
+			</div>
 		</div>
 	</span>
 
