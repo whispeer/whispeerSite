@@ -25,23 +25,28 @@ define (["whispeerHelper", "step", "asset/observer", "asset/errors", "crypto/key
 		signatureCache: {
 			sync: -1,
 			local: -1,
-			noCache: true
+			noCache: true,
+			saveID: true
 		},
 		me: {
 			sync: -1,
-			local: -1
+			local: -1,
+			saveID: true
 		},
 		user: {
 			sync: 100,
-			local: 500
+			local: 500,
+			saveID: true
 		},
 		message: {
 			sync: 20,
-			local: 100
+			local: 100,
+			saveID: false
 		},
 		post: {
 			sync: 10,
-			local: 100
+			local: 100,
+			saveID: false
 		}
 	};
 
