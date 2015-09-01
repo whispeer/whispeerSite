@@ -318,9 +318,14 @@
 				margin-top: 0;
 				border-radius: @extended-padding;
 				background: @foreign-message-bg;
-				border: 1px solid @foreign-message-bg2;
+				border: none;
+				box-shadow: 1px 2px 2px rgba(179, 179, 179, 0.65);
 				position: relative;
 				.post-images { margin: 0; padding: 0; }
+			}
+
+			.me .messages {
+				box-shadow: 1px 2px 2px rgba(199, 199, 199, 0.65);
 			}
 
 			.messages:after, .messages:before {
@@ -338,11 +343,6 @@
 				border-color: fade(@foreign-message-bg, 0%);
 				border-width: @message-arrow-size;
 				margin-top: -1 * @message-arrow-size;
-			}
-			.messages:before {
-				border-color: fade(@foreign-message-bg2, 0%);
-				border-width: 1px + @message-arrow-size;
-				margin-top: -1 * (1px + @message-arrow-size);
 			}
 
 			.messages a:hover {
