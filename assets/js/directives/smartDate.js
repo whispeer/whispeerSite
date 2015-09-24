@@ -2,6 +2,7 @@ define(["whispeerHelper", "directives/directivesModule"], function (h, directive
     "use strict";
     var directive = function ($window, localize) {
         var ONEHOUR = 60*60*1000;
+        var HALFHOUR = ONEHOUR / 2;
         var ONEMINUTE = 60*1000;
 
         function getDifferenceString(diff) {
@@ -15,22 +16,11 @@ define(["whispeerHelper", "directives/directivesModule"], function (h, directive
                 return localize.getLocalizedString("date.time.oneMinuteAgo");
             }
 
-            if (diff < ONEHOUR) {
+            if (diff <= HALFHOUR) {
                 return localize.getLocalizedString("date.time.minutesAgo", {
                     minutes: minutes
                 });
             }
-
-            if (diff < 2*ONEHOUR) {
-                return localize.getLocalizedString("date.time.oneHourAgo", {
-                    minutes: minutes
-                });
-            }
-
-            return localize.getLocalizedString("date.time.hoursAgo", {
-                hours: Math.floor(diff/ONEHOUR),
-                minutes: minutes
-            });
         }
 
         function timestampDiffNow(timestamp) {
@@ -42,16 +32,15 @@ define(["whispeerHelper", "directives/directivesModule"], function (h, directive
                 var date = new Date(h.parseDecimal(input));
                 var diff = timestampDiffNow(h.parseDecimal(input));
 
-                var sameDate = new Date(date).setHours(0, 0, 0, 0) === new Date().setHours(0, 0, 0, 0);
-                if (sameDate) {
+                if (diff < HALFHOUR) {
                     return getDifferenceString(diff);
                 }
 
                 if (noDayDisplay) {
-                    return date.toLocaleTimeString();
+                    return date.toLocaleTimeString().match(/^[^:]+(:\d\d){2} *(am|pm|)\b/i)[0];
                 }
 
-                return date.toLocaleDateString() + " " + date.toLocaleTimeString();
+                return date.toLocaleDateString() + " " + date.toLocaleTimeString().match(/^[^:]+(:\d\d){2} *(am|pm|)\b/i)[0];
             } else {
                 return "";
             }
@@ -81,8 +70,8 @@ define(["whispeerHelper", "directives/directivesModule"], function (h, directive
                 if (time > 999999) {
                     var diff = timestampDiffNow(time);
 
-                    if (diff > ONEHOUR) {
-                        $window.setInterval(updateDateString, 5*60*1000);
+                    if (diff > HALFHOUR) {
+                        $window.setInterval(updateDateString, 24*60*60*1000);
                     } else if (diff > ONEMINUTE) {
                         $window.setInterval(updateDateString, 30*1000);
                     } else {
