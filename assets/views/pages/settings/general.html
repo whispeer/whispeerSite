@@ -17,18 +17,12 @@
 		</p>
 	</div>
 
-	<div class="settingsView-setting" id="settingsView-mailCount">
+	<div class="settingsView-setting" id="settingsView-mailCount" data-ng-if="mails.available">
 		<h3 class="settingsView-setting-header" data-i18n="settings.changes.general.mailCount.title"></h3>
 		<p class="settingsView-setting-row">
 			<label for="getMail" class="settingsView-selectLabel btn btn--primary btn--big">
-				<input type="radio" data-ng-model="getMail" value="true" id="getMail">
+				<input type="checkbox" data-ng-model="mails.enabled" id="getMail">
 				&nbsp;<span data-i18n="settings.changes.general.mailCount.all"></span>
-			</label>
-		</p>
-		<p class="settingsView-setting-row">
-			<label for="dontGetMail" class="settingsView-selectLabel btn btn--primary btn--big">
-				<input type="radio" data-ng-model="getMail" value="false" id="dontGetMail">
-				&nbsp;<span data-i18n="settings.changes.general.mailCount.none"></span>
 			</label>
 		</p>
 	</div>
