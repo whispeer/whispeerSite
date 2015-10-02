@@ -25,7 +25,7 @@ define (["whispeerHelper", "step", "asset/observer", "asset/errors", "crypto/key
 		signatureCache: {
 			sync: -1,
 			local: -1,
-			noCache: true,
+			cacheOwnSignature: true,
 			saveID: true
 		},
 		me: {
@@ -74,7 +74,7 @@ define (["whispeerHelper", "step", "asset/observer", "asset/errors", "crypto/key
 	var Database = function (type, options) {
 		this._type = type;
 
-		this._noCache = options.noCache || false;
+		this._cacheOwnSignature = options.cacheOwnSignature || false;
 		this._syncMax = options.sync;
 		this._localMax = options.local;
 		this._changed = false;
@@ -161,7 +161,7 @@ define (["whispeerHelper", "step", "asset/observer", "asset/errors", "crypto/key
 			me: signKey,
 			signatures: this._signatures
 		}, { type: "signatureCache" });
-		databaseSecured.sign(signKey, cb, this._noCache);
+		databaseSecured.sign(signKey, cb, this._cacheOwnSignature);
 	};
 
 	Database.prototype.getUpdatedLocalVersion = function (cb) {
@@ -171,7 +171,7 @@ define (["whispeerHelper", "step", "asset/observer", "asset/errors", "crypto/key
 			me: signKey,
 			signatures: this._signatures
 		}, { type: "signatureCache" });
-		databaseSecured.sign(signKey, cb, this._noCache);
+		databaseSecured.sign(signKey, cb, this._cacheOwnSignature);
 	};
 
 	Database.prototype.allSignatures = function () {
