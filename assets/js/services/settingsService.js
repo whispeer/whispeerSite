@@ -2,7 +2,7 @@ define(["step", "whispeerHelper", "crypto/encryptedData", "services/serviceModul
 	"use strict";
 
 	var service = function ($rootScope, $injector, localize, initService, socketService) {
-		var settings, options = { type: "settings", removeEmpty: true };
+		var settings, serverSettings = {}, options = { type: "settings", removeEmpty: true };
 
 		var notVisible = {
 			encrypt: true,
@@ -87,6 +87,8 @@ define(["step", "whispeerHelper", "crypto/encryptedData", "services/serviceModul
 
 		initService.get("settings.get", undefined, function (data, cache, cb) {
 			var givenSettings = data.content;
+
+			serverSettings = givenSettings.server || {};
 			var toCache = h.deepCopyObj(givenSettings);
 
 			if (data.unChanged) {
@@ -119,9 +121,14 @@ define(["step", "whispeerHelper", "crypto/encryptedData", "services/serviceModul
 		});
 
 		var publicBranches = ["uiLanguage", "sound"];
+		var serverBranches = ["mailsEnabled"];
 
 		function isBranchPublic(branchName) {
 			return publicBranches.indexOf(branchName) > -1;
+		}
+
+		function isBranchServer(branchName) {
+			return serverBranches.indexOf(branchName) > -1;	
 		}
 
 		var api = {
@@ -142,16 +149,24 @@ define(["step", "whispeerHelper", "crypto/encryptedData", "services/serviceModul
 			getBranch: function (branchName) {
 				var branchContent;
 
-				if (isBranchPublic(branchName)) {
+				if (isBranchServer(branchName)) {
+					branchContent = serverSettings[branchName];
+				} else if (isBranchPublic(branchName)) {
 					branchContent = settings.metaAttr(branchName);
 				} else {
 					branchContent = settings.contentGet()[branchName];
 				}
 
-				return branchContent || defaultSettings[branchName];
+				if (typeof branchContent === "undefined") {
+					return defaultSettings[branchName];
+				}
+
+				return branchContent;
 			},
 			updateBranch: function (branchName, value) {
-				if (isBranchPublic(branchName)) {
+				if (isBranchServer(branchName)) {
+					serverSettings[branchName] = value;
+				} else if (isBranchPublic(branchName)) {
 					settings.metaSetAttr(branchName, value);
 				} else {
 					settings.contentSetAttr(branchName, value);
@@ -198,6 +213,8 @@ define(["step", "whispeerHelper", "crypto/encryptedData", "services/serviceModul
 						this.last.ne(true);
 					}
 				}, h.sF(function (newEncryptedSettings) {
+					newEncryptedSettings.server = serverSettings;
+
 					socketService.emit("settings.setSettings", {
 						settings: newEncryptedSettings
 					}, this);

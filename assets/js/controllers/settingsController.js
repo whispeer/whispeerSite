@@ -63,6 +63,11 @@ define(["whispeerHelper", "step", "asset/state", "libs/qr", "controllers/control
 				$scope.uiLanguage = uiLanguage.data;
 			}
 
+			$scope.mails = {
+				available: typeof settingsService.getBranch("mailsEnabled") !== "undefined",
+				enabled: settingsService.getBranch("mailsEnabled")
+			};
+
 			var names = userService.getown().data.names || {};
 			$scope.firstName = names.firstname;
 			$scope.lastName = names.lastname;
@@ -92,6 +97,7 @@ define(["whispeerHelper", "step", "asset/state", "libs/qr", "controllers/control
 
 				settingsService.updateBranch("sound", sound);
 				settingsService.updateBranch("messages", messages);
+				settingsService.updateBranch("mailsEnabled", $scope.mails.enabled);
 				settingsService.updateBranch("uiLanguage", $scope.uiLanguage);
 				settingsService.uploadChangedData(this);
 			}, errorService.failOnError(saveGeneralState));
