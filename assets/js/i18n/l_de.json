@@ -592,6 +592,11 @@
 		"changes": {
 			"general": {
 				"title": "Allgemein",
+				"mailCount": {
+					"title":	"Möchtest du per Mail über neue Interaktionen informiert werden?",
+					"all":		"Ja",
+					"none":		"Nein"
+				},
 				"sendMethod": {
 					"title":		"Wie möchtest du Nachrichten absenden?",
 					"enter":		"Enter",

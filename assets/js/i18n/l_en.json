@@ -594,6 +594,11 @@
 		"changes": {
 			"general": {
 				"title": "General",
+				"mailCount": {
+					"title":	"Do you want to get updates on interactions per Mail?",
+					"all":		"Yes",
+					"none":		"No"
+				},
 				"sendMethod": {
 					"title":		"Select a shortcut to send your messages",
 					"enter":		"Enter",
