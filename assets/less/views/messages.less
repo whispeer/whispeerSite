@@ -236,11 +236,12 @@
 			//transform: translate3d(0, 0, 0);
 			transition: 0.55s ease bottom;
 
-			.burst {
-				float: left;
+			.burst { // we'll have to handle very big screens since they'll show a lot of whitespace here
 				clear: both;
 				width: 100%;
 				word-wrap: break-word;
+				max-width: 750px;
+				margin: auto;
 				&:first-child {
 					// additional margin at the top, this will be useful when we have a
 					// 'pull down to load more' feature.
