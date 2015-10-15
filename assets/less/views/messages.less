@@ -107,6 +107,7 @@
 					white-space: nowrap;
 					overflow: hidden;
 					color: @text-color-dark;
+					color: #323232;
 				}
 				.lastMessage {
 					.small-text();
@@ -117,26 +118,12 @@
 					padding-right: @extended-padding;
 				}
 				&:hover, &.unread, &.active {
-					background-color: @primaryLighter;
-					.username {
-						color: #ececec;
-					}
-					.time {
-						color: #eee;
-					}
-					.lastMessage {
-						color: #eee;
-					}
-				}
-				&.unread, &.active {
-					&:hover {
-						background-color: @primaryLightest;
-					}
+					background-color: #e4e4e4;
 				}
 				&.groupChat, &.peerChat {
 					.left {
 						padding: 0;
-						margin: 0;
+						margin: 0 3px;
 						float: left;
 						.imgWrap {
 							padding: @default-padding;
@@ -249,11 +236,12 @@
 			//transform: translate3d(0, 0, 0);
 			transition: 0.55s ease bottom;
 
-			.burst {
-				float: left;
+			.burst { // we'll have to handle very big screens since they'll show a lot of whitespace here
 				clear: both;
 				width: 100%;
 				word-wrap: break-word;
+				max-width: 750px;
+				margin: auto;
 				&:first-child {
 					// additional margin at the top, this will be useful when we have a
 					// 'pull down to load more' feature.
@@ -262,41 +250,51 @@
 			}
 
 			.burst-date {
-				position: relative;
+				display: block;
 				width: 100%;
-				display: inline-block;
-				color: @grayLight;
-				border-bottom: 1px solid @btnBorder;
-				margin: 1rem 0;
-			}
-
-			.burst-date-text {
-				position: absolute;
-				background: linear-gradient(to right, rgba(242,242,242,0) 0%, @btnBackgroundHover 8%, @btnBackgroundHover 50%, @btnBackgroundHover 92%, rgba(242,242,242,0) 100%);
-				background-size: 10rem 1px;
-				background-position: center center;
-				bottom: -10px;
-				width: 10rem;
-				left: 50%;
-				margin-left: -5rem;
+				margin-bottom: 1rem;
 				text-align: center;
 			}
 
+			.burst-date-text {
+				display: inline-block;
+				position: relative;
+
+				font-size: 0.85em;
+				line-height: 2em;
+
+				margin: 0 auto;
+				padding: 0.25em 0.5em;
+				text-align: center;
+
+				color: #fff;
+				font-weight: 400;
+				background: fade(@primaryLighter, 90%);
+				box-shadow: 0 1px 1px fade(@primary, 80%);
+
+				border-radius: 8px;
+			}
+
 			.username {
-				.detail-text();
 				padding-bottom: @default-padding / 2;
-				text-transform: uppercase;
+				font-weight: 500;
 			}
 
 			.username, .userimg {
-				margin-left: @extended-padding;
 				margin-right: @extended-padding;
+			}
+
+			.username {
+				@media @desktop { margin-left: 5px; }
+				@media @mobile { margin-left: 0; }
 			}
 
 			.userimg, {
 				display: inline-block;
 				float: left;
 				clear: both;
+				@media @desktop { margin-left: 7 * @default-padding; }
+				@media @mobile { margin-left: @extended-padding; }
 				img {
 					border-radius: 100%;
 					width: @message-image-size;
@@ -311,21 +309,16 @@
 				min-height: @message-image-size - 2 * @default-padding;
 				min-width: @message-image-size - 2 * @extended-padding;
 				max-width: 100%;
-				margin-left: @message-image-size + 2 * @extended-padding;
-				margin-right: @message-image-size + 2 * @extended-padding;
-				padding: @default-padding @extended-padding;
+				margin-left: @message-image-size + 4 * @extended-padding;
+				@media @desktop { margin-left: @message-image-size + 4 * @extended-padding; margin-right: 4 * @extended-padding; }
+				@media @mobile { margin-left: @message-image-size + 1 * @extended-padding; margin-right: @default-padding; }
+				padding: 0 @extended-padding;
 				margin-bottom: @extended-padding;
 				margin-top: 0;
 				border-radius: @extended-padding;
-				background: @foreign-message-bg;
 				border: none;
-				box-shadow: 1px 2px 2px rgba(179, 179, 179, 0.65);
 				position: relative;
 				.post-images { margin: 0; padding: 0; }
-			}
-
-			.me .messages {
-				box-shadow: 1px 2px 2px rgba(199, 199, 199, 0.65);
 			}
 
 			.messages:after, .messages:before {
@@ -339,32 +332,31 @@
 				pointer-events: none;
 			}
 
-			.messages:after {
-				border-color: fade(@foreign-message-bg, 0%);
-				border-width: @message-arrow-size;
-				margin-top: -1 * @message-arrow-size;
-			}
-
 			.messages a:hover {
 				text-decoration: underline;
 			}
-			.messages:after {
-				border-right-color: @foreign-message-bg;
+
+			.messageContent {
+				display: inline-block;
+				width: 100%;
+				.clear-fix;
 			}
-			.messages:before {
-				border-right-color: @foreign-message-bg2;
+
+			.messageText {
+				float: left;
+				display: inline-block;
+				width: ~"calc(100% - 100px)";
 			}
 
 			.me .messages {
-				background: lighten(@foreign-message-bg, 5%);
-				color: lighten(@text-color-dark, 25%);
-				border-color: lighten(@foreign-message-bg2, 5%);
-				&:after {
-					border-right-color: lighten(@foreign-message-bg, 5%);
-				}
-				&:before {
-					border-right-color: lighten(@foreign-message-bg2, 5%);
-				}
+				color: #505050;
+			}
+
+			.time {
+				width: 100px;
+				display: inline-block;
+				float: left;
+				color: #b9b9b9;
 			}
 		}
 
@@ -380,8 +372,8 @@
 			padding: 0 0.5%;
 			box-sizing: border-box;
 			margin: 0;
-			background: rgba(0,0,0,0.8);
-			color: #fff;
+			background: rgba(245, 245, 245, 0.95);
+			color: #000000;
 			z-index: 9;
 		}
 
@@ -438,14 +430,15 @@
 			display: inline-block !important;
 		}
 		#messagesView-endOfStream {
-			display: inline-block;
-			text-align: center;
-			width: 100%;
-			color: @grayLight;
-			border-bottom: 1px solid @btnBorder;
-			padding-bottom: 1rem;
+			margin-top: 1rem;
 		}
 	}
+}
+
+.message-images {
+	width: ~"calc(100% - 100px)";
+	display: inline-block;
+	float: left;
 }
 
 .messages-overlay {
