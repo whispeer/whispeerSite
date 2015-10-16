@@ -6,112 +6,158 @@ define(["step",
 ], function (step, h, validator, SecuredData, modelsModule) {
 	"use strict";
 	function messageModel(keyStore, userService) {
-		var Message = function (data) {
-			var theMessage = this;
-
-			var err = validator.validate("message", data);
-			if (err) {
-				throw err;
+		var Message = function (topic, message, imagesMeta) {
+			if (arguments.length === 1) {
+				this.fromSecuredData(topic);
+			} else {
+				this.fromDecryptedData(topic, message, imagesMeta);
 			}
+		};
 
-			var messageid = h.parseDecimal(data.meta.messageid || data.messageid);
+		Message.prototype.fromSecuredData = function (data) {
+			this._hasBeenSent = true;
+			this._isDecrypted = false;
+
+			this._messageID = h.parseDecimal(data.meta.messageUUID || data.meta.messageid || data.messageid);
 
 			var metaCopy = h.deepCopyObj(data.meta);
-			var securedData = SecuredData.load(data.content, metaCopy, {
+			this._securedData = SecuredData.load(data.content, metaCopy, {
 				type: "message",
 				attributesNotVerified: ["sendTime", "sender", "topicid", "messageid"]
 			});
 
-			var ownMessage;
+			this.setData();
+		};
 
+		Message.prototype.fromDecryptedData = function (topic, message, imagesMeta) {
+			this._hasBeenSent = false;
+			this._isDecrypted = true;
+			this._isOwnMessage = true;
+
+			this._messageID = generateUUID();
+
+			var meta = {
+				createTime: new Date().getTime(),
+				images: imagesMeta
+			};
+
+			this._securedData = Message.createRawData(topic, message, meta);
+
+			this.setData();
+
+			this.data.text = message;
+		};
+
+		Message.prototype.setData = function () {
 			this.data = {
 				text: "",
-				timestamp: securedData.metaAttr("sendTime"),
+				timestamp: this.getTime(),
 
 				loading: true,
 				loaded: false,
 
 				sender: {
-					"id": securedData.metaAttr("sender"),
+					"id": this._securedData.metaAttr("sender"),
 					"name": "",
 					"url": "",
 					"image": "assets/img/user.png"
 				},
 
-				images: securedData.metaAttr("images"),
+				images: this._securedData.metaAttr("images"),
 
-				id: messageid,
+				id: this._messageID,
 				obj: this
 			};
+		};
 
-			this.getSecuredData = function () {
-				return securedData;
-			};
+		Message.prototype.isSend = function () {
 
-			this.getHash = function getHashF() {
-				return securedData.getHash();
-			};
+		};
 
-			this.getID = function getIDF() {
-				return messageid;
-			};
+		Message.prototype.send = function () {
+			if (this._hasBeenSent) {
+				throw new Error("trying to send an already send message");
+			}
+		};
 
-			this.getTopicID = function getTopicIDF() {
-				return securedData.metaAttr("topicid");
-			};
+		Message.prototype.getSecuredData = function () {
+			return this._securedData;
+		};
 
-			this.getTime = function getTimeF() {
-				return securedData.metaAttr("sendTime");
-			};
+		Message.prototype.getID = function getIDF() {
+			return this._messageID;
+		};
 
-			this.isOwn = function isOwnF() {
-				return ownMessage;
-			};
+		Message.prototype.getTopicID = function getTopicIDF() {
+			return this._securedData.metaAttr("topicid");
+		};
 
-			this.loadSender = function loadSenderF(cb) {
-				var theSender;
-				step(function () {
-					userService.get(securedData.metaAttr("sender"), this);
-				}, h.sF(function loadS1(sender) {
-					this.parallel.unflatten();
+		Message.prototype.getTime = function getTimeF() {
+			if (this._hasBeenSent) {
+				return this._securedData.metaAttr("sendTime");
+			} else {
+				return this._securedData.metaAttr("createTime");
+			}
+		};
 
-					theSender = sender;
-					sender.loadBasicData(this);
-				}), h.sF(function loadS2() {
-					theMessage.data.sender = theSender.data;
-					ownMessage = theSender.isOwn();
+		Message.prototype.isOwn = function isOwnF() {
+			return this._isOwnMessage;
+		};
 
-					this.ne(theSender);
-				}), cb);
-			};
+		Message.prototype.loadSender = function loadSenderF(cb) {
+			var theSender, theMessage = this;
+			step(function () {
+				userService.get(theMessage._securedData.metaAttr("sender"), this);
+			}, h.sF(function loadS1(sender) {
+				this.parallel.unflatten();
 
-			this.loadFullData = function loadFullDataF(cb) {
-				step(function l1() {
-					theMessage.loadSender(this);
-				}, h.sF(function l2(sender) {
-					theMessage.decrypt(this.parallel());
-					theMessage.verify(sender.getSignKey(), this.parallel());
-				}), h.sF(function l3() {
-					this.ne();
-				}), cb);
-			};
+				theSender = sender;
+				sender.loadBasicData(this);
+			}), h.sF(function loadS2() {
+				theMessage.data.sender = theSender.data;
+				theMessage._isOwnMessage = theSender.isOwn();
 
-			this.verifyParent = function (topic) {
-				securedData.checkParent(topic.getSecuredData());
-			};
+				this.ne(theSender);
+			}), cb);
+		};
 
-			this.verify = function (signKey, cb) {
-				securedData.verify(signKey, cb);
-			};
+		Message.prototype.loadFullData = function loadFullDataF(cb) {
+			var theMessage = this;
+			step(function l1() {
+				theMessage.loadSender(this);
+			}, h.sF(function l2(sender) {
+				theMessage.decrypt(this.parallel());
+				theMessage.verify(sender.getSignKey(), this.parallel());
+			}), h.sF(function l3() {
+				this.ne();
+			}), cb);
+		};
 
-			this.decrypt = function decryptF(cb) {
-				step(function () {
-					securedData.decrypt(this);
-				}, h.sF(function () {
-					theMessage.data.text = securedData.contentGet();
-					this.ne(securedData.contentGet());
-				}), cb);
-			};
+		Message.prototype.verifyParent = function (topic) {
+			this._securedData.checkParent(topic.getSecuredData());
+		};
+
+		Message.prototype.verify = function (signKey, cb) {
+			if (!this._hasBeenSent) {
+				throw new Error("verifying unsent message");
+			}
+
+			this._securedData.verify(signKey, cb);
+		};
+
+		Message.prototype.decrypt = function decryptF(cb) {
+			if (this._isDecrypted) {
+				cb(null, this.data.text);
+				return;
+			}
+
+			var theMessage = this;
+			step(function () {
+				theMessage._securedData.decrypt(this);
+			}, h.sF(function () {
+				theMessage.data.text = theMessage._securedData.contentGet();
+				this.ne(theMessage._securedData.contentGet());
+			}), cb);
 		};
 
 		Message.createData = function (topic, message, imagesMeta, cb) {
@@ -123,8 +169,9 @@ define(["step",
 					images: imagesMeta
 				};
 
-				var mySecured = Message.createRawData(topic, message, meta, this);
+				var mySecured = Message.createRawSecuredData(topic, message, meta);
 				mySecured.setAfterRelationShip(newest.getSecuredData());
+				mySecured._signAndEncrypt(userService.getown().getSignKey(), topic.getKey(), this);
 			}, h.sF(function (mData) {
 				mData.meta.topicid = topic.getID();
 
@@ -136,11 +183,16 @@ define(["step",
 			}), cb);
 		};
 
-		Message.createRawData = function (topic, message, meta, cb) {
-			var secured = SecuredData.create(message, meta, { type: "message" }, userService.getown().getSignKey(), topic.getKey(), cb);
+		Message.createRawSecuredData = function (topic, message, meta) {
+			var secured = SecuredData.createRaw(message, meta, { type: "message" });
 			secured.setParent(topic.getSecuredData());
 
 			return secured;
+		};
+
+		Message.createRawData = function (topic, message, meta, cb) {
+			var secured = Message.createRawSecuredData(topic, message, meta);
+			secured._signAndEncrypt(userService.getown().getSignKey(), topic.getKey(), cb);
 		};
 
 		return Message;
