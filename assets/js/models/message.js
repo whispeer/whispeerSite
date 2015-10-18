@@ -2,15 +2,16 @@ define(["step",
 	"whispeerHelper",
 	"validation/validator",
 	"asset/securedDataWithMetaData",
+	"bluebird",
 	"models/modelsModule"
-], function (step, h, validator, SecuredData, modelsModule) {
+], function (step, h, validator, SecuredData, Bluebird, modelsModule) {
 	"use strict";
 	function messageModel(keyStore, userService) {
-		var Message = function (topic, message, imagesMeta) {
+		var Message = function (topic, message, images) {
 			if (arguments.length === 1) {
 				this.fromSecuredData(topic);
 			} else {
-				this.fromDecryptedData(topic, message, imagesMeta);
+				this.fromDecryptedData(topic, message, images);
 			}
 		};
 
@@ -29,16 +30,19 @@ define(["step",
 			this.setData();
 		};
 
-		Message.prototype.fromDecryptedData = function (topic, message, imagesMeta) {
+		Message.prototype.fromDecryptedData = function (topic, message, images) {
 			this._hasBeenSent = false;
 			this._isDecrypted = true;
 			this._isOwnMessage = true;
+
+			this._topic = topic;
+			this._images = images;
 
 			this._messageID = generateUUID();
 
 			var meta = {
 				createTime: new Date().getTime(),
-				images: imagesMeta
+				messageUUID: this._messageID
 			};
 
 			this._securedData = Message.createRawData(topic, message, meta);
@@ -46,6 +50,18 @@ define(["step",
 			this.setData();
 
 			this.data.text = message;
+
+			this._prepareImages();
+		};
+
+		Message.prototype._prepareImages = function () {
+			this._prepareImagesPromise = Bluebird.resolve(this._images).map(function (image) {
+				return image.prepare();
+			});
+
+			this._prepareImagesPromise.then(function (imagesMeta) {
+				this.data.images = imagesMeta;
+			});
 		};
 
 		Message.prototype.setData = function () {
@@ -55,6 +71,7 @@ define(["step",
 
 				loading: true,
 				loaded: false,
+				sent: this._hasBeenSent,
 
 				sender: {
 					"id": this._securedData.metaAttr("sender"),
@@ -70,8 +87,14 @@ define(["step",
 			};
 		};
 
-		Message.prototype.isSend = function () {
+		Message.prototype.hasBeenSent = function () {
+			return this._hasBeenSent;
+		};
 
+		Message.prototype.uploadImages = function (topicKey) {
+			return Bluebird.all(this._images.map(function (image) {
+				return image.upload(topicKey);
+			}));
 		};
 
 		Message.prototype.send = function () {
