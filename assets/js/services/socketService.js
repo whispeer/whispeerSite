@@ -11,7 +11,7 @@ define([
 	"config",
 	"asset/observer",
 	"bluebird"
-], function (serviceModule, debug, io, iostream, step, h, config, Observer, Promise) {
+], function (serviceModule, debug, io, iostream, step, h, config, Observer, Bluebird) {
 	"use strict";
 
 	var APIVERSION = "0.0.1";
@@ -100,7 +100,7 @@ define([
 			};
 
 			function emit(channel, request) {
-				return new Promise(function (resolve) {
+				return new Bluebird(function (resolve) {
 					socket.emit(channel, request, resolve);
 				});
 			}
@@ -171,15 +171,24 @@ define([
 				},
 				awaitNoRequests: function () {
 					if (loading === 0) {
-						return Promise.resolve();
+						return Bluebird.resolve();
 					}
 
-					return new Promise(function (resolve) {
+					return new Bluebird(function (resolve) {
 						socketS.listen(function () {
 							if (loading === 0) {
 								resolve();
 							}
 						}, "response");
+					});
+				},
+				awaitConnection: function() {
+					return new Bluebird(function (resolve) {
+						if (socketS.isConnected()) {
+							resolve();
+						} else {
+							socketS.once("connect", resolve);
+						}
 					});
 				},
 				emit: function (channel, request, callback) {
