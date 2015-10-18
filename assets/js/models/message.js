@@ -3,10 +3,10 @@ define(["step",
 	"validation/validator",
 	"asset/securedDataWithMetaData",
 	"bluebird",
-	"models/modelsModule"
+	"models/modelsModule",
 ], function (step, h, validator, SecuredData, Bluebird, modelsModule) {
 	"use strict";
-	function messageModel(keyStore, userService) {
+	function messageModel(keyStore, userService, socket) {
 		var Message = function (topic, message, images) {
 			if (arguments.length === 1) {
 				this.fromSecuredData(topic);
@@ -92,15 +92,54 @@ define(["step",
 		};
 
 		Message.prototype.uploadImages = function (topicKey) {
-			return Bluebird.all(this._images.map(function (image) {
-				return image.upload(topicKey);
-			}));
+			if (!this.imageUploadPromise) {
+				this.imageUploadPromise = this._prepareImagesPromise.then(function () {
+					return Bluebird.all(this._images.map(function (image) {
+						return image.upload(topicKey);
+					}));
+				}).then(function (imageKeys) {
+					return h.array.flatten(imageKeys);
+				});
+			}
+
+			return this.imageUploadPromise;
+		};
+
+		Message.prototype.sendContinously = function () {
+			return h.repeatUntilTrue(function () {
+				return this.send();
+			}, 2000);
 		};
 
 		Message.prototype.send = function () {
 			if (this._hasBeenSent) {
 				throw new Error("trying to send an already send message");
 			}
+
+			socket.awaitConnection().bind(this).then(function () {
+				//topic.fetchNewerMessages
+				var newest = this._topic.data.latestMessage;
+
+				this._securedData.setAfterRelationShip(newest.getSecuredData());
+				var signAndEncrypt = Bluebird.promisify(this._securedData._signAndEncrypt, this._securedData);
+				var signAndEncryptPromise = signAndEncrypt(userService.getown().getSignKey(), this._topic.getKey());
+
+				return Bluebird.all([signAndEncryptPromise, this.uploadImages()]);
+			}).spread(function (result, imageKeys) {
+				result.message.imageKeys = imageKeys.map(keyStore.upload.getKey);
+
+				return socket.emit("messages.send", result);
+			}).then(function (response) {
+				if (!response.success) {
+					this._hasBeenSent = true;
+
+				}
+
+				return !response.success;
+			}).catch(function (e) {
+				console.warn(e);
+				return false;
+			});
 		};
 
 		Message.prototype.getSecuredData = function () {
@@ -221,7 +260,7 @@ define(["step",
 		return Message;
 	}
 
-	messageModel.$inject = ["ssn.keyStoreService", "ssn.userService"];
+	messageModel.$inject = ["ssn.keyStoreService", "ssn.userService", "ssn.socketService"];
 
 	modelsModule.factory("ssn.models.message", messageModel);
 });
