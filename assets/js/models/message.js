@@ -113,7 +113,7 @@ define(["step",
 
 		Message.prototype.send = function () {
 			if (this._hasBeenSent) {
-				throw new Error("trying to send an already send message");
+				throw new Error("trying to send an already sent message");
 			}
 
 			socket.awaitConnection().bind(this).then(function () {
