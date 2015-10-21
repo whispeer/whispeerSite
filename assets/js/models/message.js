@@ -38,19 +38,21 @@ define(["step",
 			this._topic = topic;
 			this._images = images;
 
-			this._messageID = generateUUID();
+			this._messageID = h.generateUUID();
 
 			var meta = {
 				createTime: new Date().getTime(),
-				messageUUID: this._messageID
+				messageUUID: this._messageID,
+				sender:userService.getown().getID()
 			};
 
-			this._securedData = Message.createRawData(topic, message, meta);
+			this._securedData = Message.createRawSecuredData(topic, message, meta);
 
 			this.setData();
 
 			this.data.text = message;
 
+			this.loadSender(h.nop);
 			this._prepareImages();
 		};
 
@@ -59,7 +61,7 @@ define(["step",
 				return image.prepare();
 			});
 
-			this._prepareImagesPromise.then(function (imagesMeta) {
+			this._prepareImagesPromise.bind(this).then(function (imagesMeta) {
 				this.data.images = imagesMeta;
 			});
 		};
@@ -116,7 +118,7 @@ define(["step",
 				throw new Error("trying to send an already sent message");
 			}
 
-			socket.awaitConnection().bind(this).then(function () {
+			return socket.awaitConnection().bind(this).then(function () {
 				//topic.fetchNewerMessages
 				var newest = this._topic.data.latestMessage;
 

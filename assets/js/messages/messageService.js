@@ -675,18 +675,7 @@ define([
 			sendMessage: function (_topic, message, images, cb) {
 				var topic;
 
-				var imagePreparation = Bluebird.resolve(images).map(function (image) {
-					return image.prepare();
-				});
-
-				function uploadImages() {
-					return Bluebird.all(images.map(function (image) {
-						return image.upload(topic.getKey());
-					}));
-				}
-
 				var getTopic = Bluebird.promisify(Topic.get, Topic);
-				var createMessageData = Bluebird.promisify(Message.createData, Message);
 
 				var resultPromise = Bluebird.resolve(_topic).then(function (topic) {
 					if (typeof topic !== "object") {
@@ -697,20 +686,10 @@ define([
 				}).then(function (_topic) {
 					topic = _topic;
 
-					return imagePreparation;
-				}).then(function (imagesMetaData) {
-					return Bluebird.all([createMessageData(topic, message, imagesMetaData), uploadImages()]);
-				}).spread(function (result, imageKeys) {
-					imageKeys = h.array.flatten(imageKeys);
-					result.message.imageKeys = imageKeys.map(keyStore.upload.getKey);
+					var messageObject = new Message(topic, message, images);
+					topic.addMessage(messageObject);
 
-					return socket.emit("messages.send", result);
-				}).then(function (response) {
-					if (!response.success) {
-						throw new Error("failed to send message");
-					}
-
-					return true;
+					//return message.send();
 				});
 
 				if (typeof cb === "function") {
