@@ -13,7 +13,17 @@
 	
 	keyid: identifier@timestamp
 **/
-define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForReady", "crypto/sjclWorkerInclude", "asset/errors"], function (step, h, chelper, sjcl, waitForReady, sjclWorkerInclude, errors) {
+/*
+{
+	"crv":"P-256",
+	"ext":true,
+	"key_ops":["verify"],
+	"kty":"EC",
+	"x":"_u7VBNaYjLEcaj2Vw1t-CiH_or3xPudekyW4iJrjwgs",
+	"y":"YMv7KmTnxpU16ytQrAYgcw4bpoQuPZwLSwvM_imsqxA"
+}
+*/
+define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForReady", "crypto/sjclWorkerInclude", "asset/errors", "bluebird"], function (step, h, chelper, sjcl, waitForReady, sjclWorkerInclude, errors, Bluebird) {
 	"use strict";
 
 	var socket, firstVerify = true, afterAsyncCall, improvementListener = [], makeKey, keyStore, recovery = false;
@@ -56,14 +66,24 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 		console.log(e);
 	}
 
-	function afterAsyncCallbacky(cb) {
-		return function () {
-			var xargs = arguments;
-			var that = this;
-			afterAsyncCall(function () {
-				cb.apply(that, xargs);
-			});
-		};
+	function requireAsync(modules) {
+		return new Bluebird(function (resolve, reject) {
+			require(modules, function () {
+				resolve(Array.prototype.slice.call(arguments));
+			}, reject);
+		});
+	}
+
+	function getSubtle() {
+		if (window.crypto.subtle) {
+			return window.crypto.subtle;
+		}
+
+		if (window.crypto.webkitSubtle) {
+			return window.crypto.webkitSubtle;
+		}
+
+		return false;
 	}
 
 	function makeKeyUsableForEncryption(realid) {
@@ -297,8 +317,7 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 			step(function () {
 				window.setTimeout(this);
 			}, h.sF(function () {
-				afterAsyncCall(this);
-			}), h.sF(function () {
+				afterAsyncCall();
 				decrypted.await(callback);
 				decrypted.start(this);
 			}), h.sF(function () {
@@ -645,7 +664,7 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 					data = sjcl.bitArray.concat(prefix, data);
 				}
 
-				sjclWorkerInclude.sym.encrypt(intKey.getSecret(), data, progressCallback).then(afterAsyncCallbacky(this.ne), afterAsyncCallbacky(this));
+				sjclWorkerInclude.sym.encrypt(intKey.getSecret(), data, progressCallback).then(this.ne, this).finally(afterAsyncCall);
 			}), h.sF(function (result) {
 				if (noDecode) {
 					this.ne(result);
@@ -690,7 +709,7 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 				if (ctext.ct.length < 500) {
 					this.ne(sjcl.json._decrypt(intKey.getSecret(), ctext, {raw: 1}));
 				} else {
-					sjclWorkerInclude.sym.decrypt(intKey.getSecret(), ctext).then(afterAsyncCallbacky(this.ne), afterAsyncCallbacky(this));
+					sjclWorkerInclude.sym.decrypt(intKey.getSecret(), ctext).then(this.ne, this).finally(afterAsyncCall);
 				}
 			}), h.sF(function (result) {
 				this.ne(result);
@@ -1052,6 +1071,30 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 
 		this.getRealID = intKey.getRealID;
 
+		this.getJWKPublicKey = function () {
+			var p = publicKey._point;
+
+			return {
+				"crv": "P-256",
+				"ext": true,
+				"key_ops":["verify"],
+				"kty": "EC",
+				"x": keyStore.format.base64ToUrl(sjcl.codec.base64.fromBits(p.x.toBits())),
+				"y": keyStore.format.base64ToUrl(sjcl.codec.base64.fromBits(p.y.toBits()))
+			};
+		};
+
+		this.getSubtlePublicKey = function () {
+			if (!this._getSubtlePublicKeyPromise) {
+				this._getSubtlePublicKeyPromise = getSubtle().importKey("jwk", this.getJWKPublicKey(), {
+					name: "ECDSA",
+					namedCurve: "P-256"
+				}, true, ["verify"]);
+			}
+
+			return this._getSubtlePublicKeyPromise;
+		};
+
 		//add private key functions
 		if (isPrivateKey) {
 			this.decrypted = intKey.decrypted;
@@ -1101,8 +1144,7 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 				trustManager = tM;
 				signatureCache = _signatureCache;
 
-				afterAsyncCall(this);
-			}), h.sF(function () {
+				afterAsyncCall();
 				if (!trustManager.isLoaded) {
 					trustManager.listen(this, "loaded");
 				} else {
@@ -1126,49 +1168,85 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 			}), callback);
 		}
 
-		function verifyF(signature, hash, callback) {
-			var signatureCache, trustManager;
-			step(function () {
-				require(["crypto/trustManager", "crypto/signatureCache"], this.ne, this);
-			}, h.sF(function (tM, sC) {
-				signatureCache = sC;
-				trustManager = tM;
+		var theKey = this;
 
-				afterAsyncCall(this);
-			}), h.sF(function () {
-				if (!trustManager.hasKeyData(intKey.getRealID())) {
-					throw new errors.SecurityError("key not in key database");
-				}
-
-				if (signatureCache.isLoaded() && signatureCache.isSignatureInCache(signature, hash, realid)) {
-					this.last.ne(signatureCache.getSignatureStatus(signature, hash, realid));
-				} else {
-					console.info("slow verify");
-					console.time("verify-" + chelper.bits2hex(hash));
-
-					if (firstVerify) {
-						firstVerify = false;
-						this.ne(publicKey.verify(hash, signature));
-					} else {
-						sjclWorkerInclude.asym.verify(publicKey, signature, hash).then(afterAsyncCallbacky(this.ne), afterAsyncCallbacky(this));
-					}
-				}
-			}), h.sF(function (valid) {
-				console.timeEnd("verify-" + chelper.bits2hex(hash));
-				if (signatureCache.isLoaded()) {
-					signatureCache.addSignatureStatus(signature, hash, realid, valid);
-				}
-
-				this.ne(valid);
-			}), callback);
+		function subtleVerify(key, signatureBuf, buf) {
+			return getSubtle().verify({
+				name: "ECDSA",
+				namedCurve: "P-256",
+				hash: "SHA-256"
+			}, key.publicKey, signatureBuf, buf);
 		}
 
 		if (isPrivateKey) {
 			this.sign = signF;
 		}
 
+		function verifySjcl(signature, hash) {
+			console.warn("Verifying with sjcl");
+			if (firstVerify) {
+				firstVerify = false;
+				return Bluebird.resolve(publicKey.verify(hash, signature));
+			}
+
+			return sjclWorkerInclude.asym.verify(publicKey, signature, hash);
+		}
+
+		function verifySubtle(signature, text) {
+			return theKey.getSubtlePublicKey().then(function (key) {
+				var signatureBuf = sjcl.codec.arrayBuffer.fromBits(signature);
+				var buf = new TextEncoder("utf-8").encode(text);
+
+				return subtleVerify({ publicKey: key }, signatureBuf, buf);
+			});
+		}
+
+		function verify(signature, text, hash) {
+			if (!getSubtle()) {
+				return verifySjcl(signature, hash);
+			}
+
+			return verifySubtle(signature, text).then(function (valid) {
+				if (!valid) {
+					return verifySjcl(signature, hash);
+				}
+
+				return valid;
+			}).catch(function (e) {
+				console.error(e);
+				return verifySjcl(signature, hash);
+			});
+		}
+
 		this.getFingerPrint = getFingerPrintF;
-		this.verify = verifyF;
+		this.verify = function (signature, text) {
+			return requireAsync(["crypto/trustManager", "crypto/signatureCache"]).spread(function (trustManager, signatureCache) {
+				var hash = sjcl.hash.sha256.hash(text);
+
+				if (!trustManager.hasKeyData(intKey.getRealID())) {
+					throw new errors.SecurityError("key not in key database");
+				}
+
+				if (signatureCache.isLoaded() && signatureCache.isSignatureInCache(signature, hash, realid)) {
+					return signatureCache.getSignatureStatus(signature, hash, realid);
+				}
+
+				console.info("Slow verify");
+				var name = chelper.bits2hex(signature).substr(0, 10);
+				console.time("verify-" + name);
+				return verify(signature, text, hash).then(function (valid) {
+					console.timeEnd("verify-" + name);
+					if (signatureCache.isLoaded()) {
+						signatureCache.addSignatureStatus(signature, hash, realid, valid);
+					}
+
+					return valid;
+				}).catch(function (e) {
+					console.error(e);
+					return false;
+				});
+			});
+		};
 	};
 
 	/** make a sign key out of keydata */
@@ -1264,33 +1342,22 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 		}
 	};
 
-	var ObjectHasher = function (data, keepDepth, v2) {
+	var ObjectHasher = function (data, v2) {
 		this._data = data;
-		this._depth = keepDepth;
 		this._v2 = v2;
-		this._hashedObject = {};
 	};
 
 	ObjectHasher.prototype.sjclHash = function (data) {
 		return "hash::" + chelper.bits2hex(sjcl.hash.sha256.hash(data));
 	};
 
-	ObjectHasher.prototype.getHashObject = function () {
-		return this._hashedObject;
-	};
-
 	ObjectHasher.prototype._hashProperty = function (val) {
 		return (this._v2 ? val : this.sjclHash("data::" + val.toString()));
 	};
 
-	ObjectHasher.prototype._doHashNewObject = function (val, attr) {
-		var hasher = new ObjectHasher(val, this._depth-1, this._v2);
-		var result = hasher.hash();
-		if (this._depth > 0) {
-			this._hashedObject[attr] = hasher.getHashObject();
-		}
-
-		return result;
+	ObjectHasher.prototype._doHashNewObject = function (val) {
+		var hasher = new ObjectHasher(val, this._v2);
+		return hasher.hash();
 	};
 
 	ObjectHasher.prototype._doHash = function (val, attr) {
@@ -1300,29 +1367,25 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 			throw new errors.InvalidDataError("object can not have hash attributes");
 		}
 
-		var type = typeof val, result;
+		var type = typeof val;
 		if (type === "object") {
-			result = this._doHashNewObject(val, attr);
-		} else if (allowedTypes.indexOf(type) > -1) {
-			result = this._hashProperty(val);
-		} else {
-			throw new Error("can not hash objects with " + type);
+			return this._doHashNewObject(val);
 		}
 
-		if (!this._hashedObject[attr]) {
-			this._hashedObject[attr] = result;
+		if (allowedTypes.indexOf(type) > -1) {
+			return this._hashProperty(val);
 		}
-
-		return result;
+		
+		throw new Error("can not hash objects with " + type);
 	};
 
-	ObjectHasher.prototype._hashArray = function () {
+	ObjectHasher.prototype._stringifyArray = function () {
 		var i, result = [];
 		for (i = 0; i < this._data.length; i += 1) {
 			result.push(this._doHash(this._data[i]), i);
 		}
 
-		return this.sjclHash(JSON.stringify(result));
+		return JSON.stringify(result);
 	};
 
 	ObjectHasher.prototype._jsonifyUnique = function (obj) {
@@ -1330,7 +1393,7 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 		return JSON.stringify(obj, sortation);
 	};
 
-	ObjectHasher.prototype._hashObject = function () {
+	ObjectHasher.prototype._hashSubObjects = function () {
 		var attr, hashObj = {};
 		for (attr in this._data) {
 			if (this._data.hasOwnProperty(attr)) {
@@ -1338,31 +1401,35 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 			}
 		}
 
-		return this.sjclHash(this._jsonifyUnique(hashObj));
+		return this._jsonifyUnique(hashObj);
 	};
 
-	ObjectHasher.prototype._hashData = function () {
+	ObjectHasher.prototype._stringifyObject = function () {
+		return this._hashSubObjects();
+	};
+
+	ObjectHasher.prototype._stringifyObjectOrArray = function () {
 		if (this._data instanceof Array) {
-			return this._hashArray();
+			return this._stringifyArray();
 		} else {
-			return this._hashObject();
+			return this._stringifyObject();
 		}
 	};
 
-	ObjectHasher.prototype.hash = function() {
+	ObjectHasher.prototype.stringify = function() {
 		if (typeof this._data !== "object") {
 			throw new errors.InvalidDataError("this is not an object!");
 		}
 
-		var result = this._hashData();
+		return this._stringifyObjectOrArray();
+	};
 
-		this._hashedObject.hash = result;
-		return result;
+	ObjectHasher.prototype.hash = function () {
+		return this.sjclHash(this.stringify());
 	};
 
 	ObjectHasher.prototype.hashBits = function () {
-		var result = this.hash();
-		return chelper.hex2bits(result.substr(6));
+		return chelper.hex2bits(this.hash().substr(6));
 	};
 
 	var ObjectPadder = function (obj, minLength) {
@@ -1736,6 +1803,12 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 		},
 
 		format: {
+			urlToBase64: function(str) {
+				return str.replace(/-/g, "+").replace(/_/g, "/");
+			},
+			base64ToUrl: function(str) {
+				return str.replace(/\+/g, "-").replace(/\//g, "_").replace(/=/g, "");
+			},
 			base64ToBits: function (base64) {
 				return sjcl.codec.base64.toBits(base64);
 			},
@@ -1777,18 +1850,12 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 
 			hashBigBase64CodedData: function (text, cb) {
 				step(function () {
-					sjclWorkerInclude.hash(text).then(afterAsyncCallbacky(this.ne), afterAsyncCallbacky(this));
+					sjclWorkerInclude.hash(text).then(this.ne, this).finally(afterAsyncCall);
 				}, cb);
 			},
 
 			hashPW: function (pw, salt) {
 				return chelper.hashPW(pw, salt);
-			},
-
-			deepHashObject: function (obj) {
-				var hasher = new ObjectHasher(obj);
-				hasher.hash();
-				return hasher.getHashObject();
 			},
 
 			hashObjectOrValueHex: function (val) {
@@ -1797,15 +1864,7 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 				} else {
 					return "hash::" + chelper.bits2hex(sjcl.hash.sha256.hash("data::" + val));
 				}
-			},
-
-			hashObject: function (obj) {
-				return new ObjectHasher(obj).hashBits();
-			},
-
-			hashObjectHex: function (obj) {
-				return new ObjectHasher(obj).hash();
-			},
+			}
 		},
 
 		upload: {
@@ -2252,6 +2311,7 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 			* @param callback callback
 			*/
 			signHash: function (hash, realID, callback, noCache) {
+				//subtle HERE!
 				step(function () {
 					hash = chelper.hex2bits(hash);
 
@@ -2264,8 +2324,9 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 			},
 
 			signObject: function (object, realID, callback, noCache, v2) {
+				//subtle HERE!
 				step(function signO1() {
-					var hash = new ObjectHasher(object, 0, v2).hashBits();
+					var hash = new ObjectHasher(object, v2).hashBits();
 					keyStore.sign.signHash(hash, realID, this, noCache);
 				}, callback);
 			},
@@ -2277,36 +2338,26 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 			* @param callback callback
 			*/
 			verifyText: function (signature, text, realID, callback) {
-				keyStore.sign.verifyHash(signature, sjcl.hash.sha256.hash(text), realID, callback);
+				signature = chelper.hex2bits(signature);
+
+				var getSignKey = Bluebird.promisify(SignKey.get, SignKey);
+
+				var resultPromise = getSignKey(realID).then(function (key) {
+					return key.verify(signature, text);
+				}).catch(function (e) {
+					console.error(e);
+
+					return false;
+				});
+
+				return step.unpromisify(resultPromise, h.addAfterHook(callback, afterAsyncCall));
 			},
 
 			verifyObject: function (signature, object, realID, callback, v2) {
 				step(function signO1() {
-					var hash = new ObjectHasher(object, 0, v2).hashBits();
-					keyStore.sign.verifyHash(signature, hash, realID, this);
-				}, callback);
-			},
+					var objectString = new ObjectHasher(object, v2).stringify();
 
-			/** verify a given hash
-			* @param signature given signature
-			* @param hash given hash
-			* @param realID key to verify against
-			* @param callback callback
-			*/
-			verifyHash: function (signature, hash, realID, callback) {
-				step(function () {
-					hash = chelper.hex2bits(hash);
-					signature = chelper.hex2bits(signature);
-
-					SignKey.get(realID, this);
-				}, h.sF(function (key) {
-					key.verify(signature, hash, this);
-				}), function (e, correct) {
-					if (e) {
-						this.ne(false);
-					} else {
-						this.ne(correct);
-					}
+					keyStore.sign.verifyText(signature, objectString, realID, this);
 				}, callback);
 			},
 
