@@ -17,6 +17,8 @@ define(["step", "whispeerHelper", "asset/Progress", "asset/Queue", "services/ser
 
 			if (typeof blobData === "string") {
 				this._legacy = true;
+			} else if (blobData instanceof File) {
+				this._file = true;
 			}
 
 			if (blobID) {
@@ -56,10 +58,18 @@ define(["step", "whispeerHelper", "asset/Progress", "asset/Queue", "services/ser
 			var that = this;
 			step(function () {
 				var reader = new FileReader();
-				reader.addEventListener("loadend", this.ne);
+
+				if (reader.addEventListener) {
+					reader.addEventListener("loadend", this.ne);
+				} else {
+					reader.onloadend = this.ne;
+				}
+
 				reader.readAsArrayBuffer(that._blobData);
 			}, h.sF(function (event) {
-				this.ne(event.currentTarget.result);
+				var target = event.currentTarget || event.target;
+
+				this.ne(target.result);
 			}), cb);
 		};
 
@@ -225,6 +235,11 @@ define(["step", "whispeerHelper", "asset/Progress", "asset/Queue", "services/ser
 				try {
 					if (that._legacy) {
 						this.ne(that._blobData);
+					} else if (that._blobData.localURL) {
+						if (window.ionic.Platform.isIOS()) { // wkwebview does not support filesystem. change the url to use the internal server
+							that._blobData.localURL = that._blobData.localURL.replace("cdvfile://localhost/cache/", "http://localhost:12344/Library/Caches/");
+						}
+						this.ne(that._blobData.localURL);
 					} else if (typeof window.URL !== "undefined") {
 						this.ne(window.URL.createObjectURL(that._blobData));
 					} else if (typeof webkitURL !== "undefined") {
@@ -265,8 +280,13 @@ define(["step", "whispeerHelper", "asset/Progress", "asset/Queue", "services/ser
 					});
 				}).then(function (data) {
 					var dataString = "data:image/png;base64," + data.blob;
-					var blob = h.dataURItoBlob(dataString);
-					var theBlob = new MyBlob(blob, blobID, { meta: data.meta });
+					var blob = h.dataURItoBlob(dataString), theBlob;
+
+					if (blob) {
+						theBlob = new MyBlob(blob, blobID, { meta: data.meta });
+					} else {
+						theBlob = new MyBlob(dataString, blobID, { meta: data.meta });
+					}
 
 					addBlobToDB(theBlob);
 
@@ -277,6 +297,9 @@ define(["step", "whispeerHelper", "asset/Progress", "asset/Queue", "services/ser
 
 		function loadBlobFromDB(blobID) {
 			return blobCache.get(blobID).then(function (data) {
+				if (typeof data.blob === "undefined") {
+					throw new Error("cache invalid!");
+				}
 				return new MyBlob(data.blob, blobID, { meta: data.data });
 			});
 		}
