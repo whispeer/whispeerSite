@@ -7,6 +7,8 @@ define(["step",
 ], function (step, h, validator, SecuredData, Bluebird, modelsModule) {
 	"use strict";
 	function messageModel(keyStore, userService, socket) {
+		var notVerified = ["sendTime", "sender", "topicid", "messageid"];
+
 		var Message = function (topic, message, images) {
 			if (arguments.length === 1) {
 				this.fromSecuredData(topic);
@@ -19,12 +21,13 @@ define(["step",
 			this._hasBeenSent = true;
 			this._isDecrypted = false;
 
-			this._messageID = h.parseDecimal(data.meta.messageUUID || data.meta.messageid || data.messageid);
+			this._serverID = h.parseDecimal(data.meta.messageid || data.messageid);
+			this._messageID = data.meta.messageUUID || this._serverID;
 
 			var metaCopy = h.deepCopyObj(data.meta);
 			this._securedData = SecuredData.load(data.content, metaCopy, {
 				type: "message",
-				attributesNotVerified: ["sendTime", "sender", "topicid", "messageid"]
+				attributesNotVerified: notVerified
 			});
 
 			this.setData();
@@ -95,7 +98,7 @@ define(["step",
 
 		Message.prototype.uploadImages = function (topicKey) {
 			if (!this.imageUploadPromise) {
-				this.imageUploadPromise = this._prepareImagesPromise.then(function () {
+				this.imageUploadPromise = this._prepareImagesPromise.bind(this).then(function () {
 					return Bluebird.all(this._images.map(function (image) {
 						return image.upload(topicKey);
 					}));
@@ -108,8 +111,9 @@ define(["step",
 		};
 
 		Message.prototype.sendContinously = function () {
-			return h.repeatUntilTrue(function () {
-				return this.send();
+			var message = this;
+			return h.repeatUntilTrue(Bluebird, function () {
+				return message.send();
 			}, 2000);
 		};
 
@@ -120,7 +124,7 @@ define(["step",
 
 			return socket.awaitConnection().bind(this).then(function () {
 				//topic.fetchNewerMessages
-				var newest = this._topic.data.latestMessage;
+				var newest = this._topic.getNewest();
 
 				this._securedData.setAfterRelationShip(newest.getSecuredData());
 				var signAndEncrypt = Bluebird.promisify(this._securedData._signAndEncrypt, this._securedData);
@@ -128,16 +132,19 @@ define(["step",
 
 				return Bluebird.all([signAndEncryptPromise, this.uploadImages()]);
 			}).spread(function (result, imageKeys) {
-				result.message.imageKeys = imageKeys.map(keyStore.upload.getKey);
+				result.meta.topicid = this._topic.getID();
+				result.imageKeys = imageKeys.map(keyStore.upload.getKey);
 
-				return socket.emit("messages.send", result);
+				return socket.emit("messages.send", {
+					message: result
+				});
 			}).then(function (response) {
-				if (!response.success) {
+				if (response.success) {
 					this._hasBeenSent = true;
-
+					this.data.sent = true;
 				}
 
-				return !response.success;
+				return response.success;
 			}).catch(function (e) {
 				console.warn(e);
 				return false;
@@ -146,6 +153,10 @@ define(["step",
 
 		Message.prototype.getSecuredData = function () {
 			return this._securedData;
+		};
+
+		Message.prototype.getServerID = function () {
+			return this._serverID;
 		};
 
 		Message.prototype.getID = function getIDF() {
@@ -248,7 +259,10 @@ define(["step",
 		};
 
 		Message.createRawSecuredData = function (topic, message, meta) {
-			var secured = SecuredData.createRaw(message, meta, { type: "message" });
+			var secured = SecuredData.createRaw(message, meta, {
+				type: "message",
+				attributesNotVerified: notVerified
+			});
 			secured.setParent(topic.getSecuredData());
 
 			return secured;

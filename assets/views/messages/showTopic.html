@@ -42,7 +42,7 @@
 							<div class="messageContent">
 								<div class="messageText {{::message.type}}" data-ng-class="{{::message.type}}" data-syntaxify="::message.text"></div>
 								<gallery data-images="message.images"></gallery>
-								<div class="time"><i class="fa fa-clock-o"></i> <span data-smart-date="::message.timestamp" data-smart-date-no-day></span></div>
+								<div class="time"><i class="fa fa-clock-o"></i> {{message.sent}} <span data-smart-date="::message.timestamp" data-smart-date-no-day></span></div>
 							</div>
 						</li>
 					</ul>

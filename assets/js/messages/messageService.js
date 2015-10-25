@@ -112,7 +112,7 @@ define([
 				if (messages.length === 0) {
 					return 0;
 				} else {
-					return messages[0].getID();
+					return messages[0].getServerID();
 				}
 			};
 
@@ -167,6 +167,13 @@ define([
 
 				theTopic.data.latestMessage = messages[messages.length - 1];
 			}
+
+			this.getNewest = function () {
+				var sentMessages = messages.filter(function (m) {
+					return m.hasBeenSent();
+				});
+				return sentMessages[sentMessages.length - 1];
+			};
 
 			this.addMessages = function (messages, addUnread) {
 				messages.forEach(function (message) {
@@ -687,9 +694,10 @@ define([
 					topic = _topic;
 
 					var messageObject = new Message(topic, message, images);
+					messagesByID[messageObject.getID()] = messageObject;
 					topic.addMessage(messageObject);
 
-					//return message.send();
+					messageObject.sendContinously();
 				});
 
 				if (typeof cb === "function") {
