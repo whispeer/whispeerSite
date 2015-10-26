@@ -168,7 +168,7 @@ define(["step",
 		};
 
 		Message.prototype.getTime = function getTimeF() {
-			if (this._hasBeenSent) {
+			if (this.getServerID()) {
 				return h.parseDecimal(this._securedData.metaAttr("sendTime"));
 			} else {
 				return h.parseDecimal(this._securedData.metaAttr("createTime"));
