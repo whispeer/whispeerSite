@@ -13,9 +13,7 @@
 
 <div class="box-content box-content--scroll" id="userView-content">
 	<ui-view data-ng-if="!user.notExisting"></ui-view>
-	<div data-ng-if="user.notExisting" data-i18n="user.notFound">
-		This user was deleted!
-	</div>
+	<div data-ng-if="user.notExisting" data-i18n="profile.notFound"></div>
 </div>
 
 <div>
