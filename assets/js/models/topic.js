@@ -87,6 +87,23 @@ define([
 
 			setUnread(data.unread);
 
+			this.refetchMessages = function () {
+				//TODO!
+				return new Bluebird.resolve();
+			};
+
+			this.awaitEarlierSend = function (time) {
+				var previousMessages = this.getNotSentMessages().filter(function (message) {
+					return message.getTime() < time;
+				});
+
+				if (previousMessages.length === 0) {
+					return Bluebird.resolve();
+				}
+
+				return previousMessages[previousMessages.length - 1].getSendPromise();
+			};
+
 			this.getSecuredData = function () {
 				return meta;
 			};
@@ -155,10 +172,20 @@ define([
 				theTopic.data.latestMessage = messages[messages.length - 1];
 			}
 
-			this.getNewest = function () {
-				var sentMessages = messages.filter(function (m) {
+			this.getSentMessages = function () {
+				return messages.filter(function (m) {
 					return m.hasBeenSent();
 				});
+			};
+
+			this.getNotSentMessages = function () {
+				return messages.filter(function (m) {
+					return !m.hasBeenSent();
+				});
+			};
+
+			this.getNewest = function () {
+				var sentMessages = this.getSentMessages();
 				return sentMessages[sentMessages.length - 1];
 			};
 

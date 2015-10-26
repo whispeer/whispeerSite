@@ -110,11 +110,21 @@ define(["step",
 			return this.imageUploadPromise;
 		};
 
+		Message.prototype.getSendPromise = function () {
+			return this._sendPromise;
+		};
+
 		Message.prototype.sendContinously = function () {
+			if (this._sendPromise) {
+				return this._sendPromise;
+			}
+
 			var message = this;
-			return h.repeatUntilTrue(Bluebird, function () {
+			this._sendPromise = h.repeatUntilTrue(Bluebird, function () {
 				return message.send();
 			}, 2000);
+
+			return this._sendPromise;
 		};
 
 		Message.prototype.send = function () {
@@ -123,7 +133,10 @@ define(["step",
 			}
 
 			return socket.awaitConnection().bind(this).then(function () {
-				//topic.fetchNewerMessages
+				return this._topic.refetchMessages();
+			}).then(function () {
+				return this._topic.awaitEarlierSend(this.getTime());
+			}).then(function () {
 				var newest = this._topic.getNewest();
 
 				this._securedData.setAfterRelationShip(newest.getSecuredData());
