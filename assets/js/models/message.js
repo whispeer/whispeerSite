@@ -169,9 +169,9 @@ define(["step",
 
 		Message.prototype.getTime = function getTimeF() {
 			if (this._hasBeenSent) {
-				return this._securedData.metaAttr("sendTime");
+				return h.parseDecimal(this._securedData.metaAttr("sendTime"));
 			} else {
-				return this._securedData.metaAttr("createTime");
+				return h.parseDecimal(this._securedData.metaAttr("createTime"));
 			}
 		};
 

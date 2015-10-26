@@ -4,5 +4,6 @@
 define([
 	"models/user",
 	"models/message",
-	"models/comment"
+	"models/comment",
+	"models/topic"
 ], function () {});
