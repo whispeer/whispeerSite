@@ -88,6 +88,31 @@ define([
 			setUnread(data.unread);
 
 			this.refetchMessages = function () {
+				/*
+					{
+						oldest: id,
+						inBetween: [ids],
+						newest: id
+					}
+				*/
+				/*
+					Topic.makeMessage
+				*/
+
+				var sentMessages = this.getSentMessages().map(function (message) {
+					return message.getID();
+				});
+				var oldest = sentMessages.shift();
+				var newest = sentMessages.pop();
+
+				var request = {
+					oldest: oldest,
+					newest: newest,
+					inBetween: sentMessages
+				};
+
+				console.log(request);
+
 				//TODO!
 				return new Bluebird.resolve();
 			};
