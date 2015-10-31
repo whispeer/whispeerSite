@@ -100,20 +100,38 @@ define([
 				*/
 
 				var sentMessages = this.getSentMessages().map(function (message) {
-					return message.getID();
+					return message.getServerID();
 				});
 				var oldest = sentMessages.shift();
 				var newest = sentMessages.pop();
 
 				var request = {
+					topicid: this.getID(),
 					oldest: oldest,
 					newest: newest,
-					inBetween: sentMessages
+					inBetween: sentMessages,
+					maximum: 20,
+					messageCountOnFlush: 10
 				};
 
-				console.log(request);
+				socket.emit("messages.refetch", request).then(function (response) {
+					if (response.clearMessages) {
+						//remove all sent messages we have!
+						messages.clear();
+						dataMessages.clear();
+						//messages.join(unsentMessages);
+						//dataMessages.join(unsentMessages.map(:data));
+					}
 
-				//TODO!
+					return response.messages;
+				}).map(function (messageData) {
+					var messageFromData = Bluebird.promisify(Topic.messageFromData, Topic);
+
+					return messageFromData(messageData);
+				}).then(function (messages) {
+					theTopic.addMessages(messages, false);
+				});
+
 				return new Bluebird.resolve();
 			};
 
