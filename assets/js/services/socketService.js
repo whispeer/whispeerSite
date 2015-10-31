@@ -23,8 +23,8 @@ define([
 		var interceptorFactories = [];
 
 		var domain = (config.https ? "https://" : "http://") + config.ws + ":" + config.wsPort;
-		var autoConnect = config.autoConnect;
-		var autoReconnect = config.autoReconnect;
+		var autoConnect = config.socket.autoConnect;
+		var autoReconnect = config.socket.autoReconnect;
 
 		var DisconnectError = h.createErrorType("disconnectedError");
 		var ServerError = h.createErrorType("serverError");
