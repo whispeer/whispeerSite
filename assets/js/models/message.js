@@ -158,7 +158,7 @@ define(["step",
 				}
 
 				return response.success;
-			}).catch(function (e) {
+			}).catch(socket.DisconnectError, function (e) {
 				console.warn(e);
 				return false;
 			});

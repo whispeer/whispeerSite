@@ -237,7 +237,9 @@ define([
 				messagesByID[messageObject.getID()] = messageObject;
 				this.addMessage(messageObject);
 
-				messageObject.sendContinously();
+				messageObject.sendContinously().catch(function (e) {
+					alert("An error occured sending a message!" + e.toString());
+				});
 			};
 
 			this.addMessages = function (messages, addUnread) {
