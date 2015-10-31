@@ -26,6 +26,9 @@ define([
 		var autoConnect = config.autoConnect;
 		var autoReconnect = config.autoReconnect;
 
+		var DisconnectError = h.createErrorType("disconnectedError");
+		var ServerError = h.createErrorType("serverError");
+
 		this.addInterceptor = function (interceptorName) {
 			interceptorFactories.push(interceptorName);
 		};
@@ -100,8 +103,15 @@ define([
 			};
 
 			function emit(channel, request) {
-				return new Bluebird(function (resolve) {
-					socket.emit(channel, request, resolve);
+				return new Bluebird(function (resolve, reject) {
+					var onDisconnect = function () {
+						reject(new DisconnectError("Disconnected while sending"));
+					};
+					socket.once("disconnect", onDisconnect);
+					socket.emit(channel, request, function (response) {
+						socket.off("disconnect", onDisconnect);
+						resolve(response);
+					});
 				});
 			}
 
@@ -110,6 +120,10 @@ define([
 			}
 
 			var socketS = {
+				errors: {
+					Disconnect: DisconnectError,
+					Server: ServerError
+				},
 				uploadObserver: internalObserver,
 				isConnected: function () {
 					return socket.connected;
@@ -199,7 +213,7 @@ define([
 					loadInterceptors();
 
 					if (!socketS.isConnected()) {
-						throw new Error("no connection");
+						throw new DisconnectError("no connection");
 					}
 
 					var timer = log.timer("request on " + channel);
@@ -226,7 +240,7 @@ define([
 
 						if (response.error) {
 							socketError(response);
-							throw new Error("server returned an error!");
+							throw new ServerError("server returned an error!");
 						}
 
 						socketDebug(response);
