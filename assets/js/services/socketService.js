@@ -23,8 +23,8 @@ define([
 		var interceptorFactories = [];
 
 		var domain = (config.https ? "https://" : "http://") + config.ws + ":" + config.wsPort;
-		var autoConnect = true;
-		var autoReconnect = true;
+		var autoConnect = config.autoConnect;
+		var autoReconnect = config.autoReconnect;
 
 		this.addInterceptor = function (interceptorName) {
 			interceptorFactories.push(interceptorName);
@@ -103,6 +103,10 @@ define([
 				return new Bluebird(function (resolve) {
 					socket.emit(channel, request, resolve);
 				});
+			}
+
+			if (config.debug) {
+				window.socket = socket;
 			}
 
 			var socketS = {
