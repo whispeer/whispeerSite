@@ -62,8 +62,9 @@ define(["step",
 		Message.prototype._prepareImages = function () {
 			this._prepareImagesPromise = Bluebird.resolve(this._images).map(function (image) {
 				return image.prepare();
-			}).bind(this).then(function (imagesMeta) {
-				this._securedData.metaSetAttr("images", imagesMeta);
+			});
+
+			this._prepareImagesPromise.bind(this).then(function (imagesMeta) {
 				this.data.images = imagesMeta;
 			});
 		};
@@ -137,7 +138,9 @@ define(["step",
 				return this._topic.awaitEarlierSend(this.getTime());
 			}).then(function () {
 				return this._prepareImagesPromise;
-			}).then(function () {
+			}).then(function (imagesMeta) {
+				this._securedData.metaSetAttr("images", imagesMeta);
+
 				var topicKey = this._topic.getKey();
 				var newest = this._topic.getNewest();
 
