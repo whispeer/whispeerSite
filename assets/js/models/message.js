@@ -2,116 +2,255 @@ define(["step",
 	"whispeerHelper",
 	"validation/validator",
 	"asset/securedDataWithMetaData",
-	"models/modelsModule"
-], function (step, h, validator, SecuredData, modelsModule) {
+	"bluebird",
+	"models/modelsModule",
+], function (step, h, validator, SecuredData, Bluebird, modelsModule) {
 	"use strict";
-	function messageModel(keyStore, userService) {
-		var Message = function (data) {
-			var theMessage = this;
+	function messageModel(keyStore, userService, socket) {
+		var notVerified = ["sendTime", "sender", "topicid", "messageid"];
 
-			var err = validator.validate("message", data);
-			if (err) {
-				throw err;
+		var Message = function (topic, message, images) {
+			if (arguments.length === 1) {
+				this.fromSecuredData(topic);
+			} else {
+				this.fromDecryptedData(topic, message, images);
 			}
+		};
 
-			var messageid = h.parseDecimal(data.meta.messageid || data.messageid);
+		Message.prototype.fromSecuredData = function (data) {
+			this._hasBeenSent = true;
+			this._isDecrypted = false;
+
+			this._serverID = h.parseDecimal(data.meta.messageid || data.messageid);
+			this._messageID = data.meta.messageUUID || this._serverID;
 
 			var metaCopy = h.deepCopyObj(data.meta);
-			var securedData = SecuredData.load(data.content, metaCopy, {
+			this._securedData = SecuredData.load(data.content, metaCopy, {
 				type: "message",
-				attributesNotVerified: ["sendTime", "sender", "topicid", "messageid"]
+				attributesNotVerified: notVerified
 			});
 
-			var ownMessage;
+			this.setData();
+		};
 
+		Message.prototype.fromDecryptedData = function (topic, message, images) {
+			this._hasBeenSent = false;
+			this._isDecrypted = true;
+			this._isOwnMessage = true;
+
+			this._topic = topic;
+			this._images = images;
+
+			this._messageID = h.generateUUID();
+
+			var meta = {
+				createTime: new Date().getTime(),
+				messageUUID: this._messageID,
+				sender:userService.getown().getID()
+			};
+
+			this._securedData = Message.createRawSecuredData(topic, message, meta);
+
+			this.setData();
+
+			this.data.text = message;
+
+			this.loadSender(h.nop);
+			this._prepareImages();
+		};
+
+		Message.prototype._prepareImages = function () {
+			this._prepareImagesPromise = Bluebird.resolve(this._images).map(function (image) {
+				return image.prepare();
+			});
+
+			this._prepareImagesPromise.bind(this).then(function (imagesMeta) {
+				this.data.images = imagesMeta;
+			});
+		};
+
+		Message.prototype.setData = function () {
 			this.data = {
 				text: "",
-				timestamp: securedData.metaAttr("sendTime"),
+				timestamp: this.getTime(),
 
 				loading: true,
 				loaded: false,
+				sent: this._hasBeenSent,
 
 				sender: {
-					"id": securedData.metaAttr("sender"),
+					"id": this._securedData.metaAttr("sender"),
 					"name": "",
 					"url": "",
 					"image": "assets/img/user.png"
 				},
 
-				images: securedData.metaAttr("images"),
+				images: this._securedData.metaAttr("images"),
 
-				id: messageid,
+				id: this._messageID,
 				obj: this
 			};
+		};
 
-			this.getSecuredData = function () {
-				return securedData;
-			};
+		Message.prototype.hasBeenSent = function () {
+			return this._hasBeenSent;
+		};
 
-			this.getHash = function getHashF() {
-				return securedData.getHash();
-			};
+		Message.prototype.uploadImages = function (topicKey) {
+			if (!this.imageUploadPromise) {
+				this.imageUploadPromise = this._prepareImagesPromise.bind(this).then(function () {
+					return Bluebird.all(this._images.map(function (image) {
+						return image.upload(topicKey);
+					}));
+				}).then(function (imageKeys) {
+					return h.array.flatten(imageKeys);
+				});
+			}
 
-			this.getID = function getIDF() {
-				return messageid;
-			};
+			return this.imageUploadPromise;
+		};
 
-			this.getTopicID = function getTopicIDF() {
-				return securedData.metaAttr("topicid");
-			};
+		Message.prototype.getSendPromise = function () {
+			return this._sendPromise;
+		};
 
-			this.getTime = function getTimeF() {
-				return securedData.metaAttr("sendTime");
-			};
+		Message.prototype.sendContinously = function () {
+			if (this._sendPromise) {
+				return this._sendPromise;
+			}
 
-			this.isOwn = function isOwnF() {
-				return ownMessage;
-			};
+			var message = this;
+			this._sendPromise = h.repeatUntilTrue(Bluebird, function () {
+				return message.send();
+			}, 2000);
 
-			this.loadSender = function loadSenderF(cb) {
-				var theSender;
-				step(function () {
-					userService.get(securedData.metaAttr("sender"), this);
-				}, h.sF(function loadS1(sender) {
-					this.parallel.unflatten();
+			return this._sendPromise;
+		};
 
-					theSender = sender;
-					sender.loadBasicData(this);
-				}), h.sF(function loadS2() {
-					theMessage.data.sender = theSender.data;
-					ownMessage = theSender.isOwn();
+		Message.prototype.send = function () {
+			if (this._hasBeenSent) {
+				throw new Error("trying to send an already sent message");
+			}
 
-					this.ne(theSender);
-				}), cb);
-			};
+			return socket.awaitConnection().bind(this).then(function () {
+				return this._topic.refetchMessages();
+			}).then(function () {
+				return this._topic.awaitEarlierSend(this.getTime());
+			}).then(function () {
+				return this._prepareImagesPromise;
+			}).then(function (imagesMeta) {
+				this._securedData.metaSetAttr("images", imagesMeta);
 
-			this.loadFullData = function loadFullDataF(cb) {
-				step(function l1() {
-					theMessage.loadSender(this);
-				}, h.sF(function l2(sender) {
-					theMessage.decrypt(this.parallel());
-					theMessage.verify(sender.getSignKey(), this.parallel());
-				}), h.sF(function l3() {
-					this.ne();
-				}), cb);
-			};
+				var topicKey = this._topic.getKey();
+				var newest = this._topic.getNewest();
 
-			this.verifyParent = function (topic) {
-				securedData.checkParent(topic.getSecuredData());
-			};
+				this._securedData.setAfterRelationShip(newest.getSecuredData());
+				var signAndEncrypt = Bluebird.promisify(this._securedData._signAndEncrypt, this._securedData);
+				var signAndEncryptPromise = signAndEncrypt(userService.getown().getSignKey(), topicKey);
 
-			this.verify = function (signKey, cb) {
-				securedData.verify(signKey, cb);
-			};
+				return Bluebird.all([signAndEncryptPromise, this.uploadImages(topicKey)]);
+			}).spread(function (result, imageKeys) {
+				result.meta.topicid = this._topic.getID();
+				result.imageKeys = imageKeys.map(keyStore.upload.getKey);
 
-			this.decrypt = function decryptF(cb) {
-				step(function () {
-					securedData.decrypt(this);
-				}, h.sF(function () {
-					theMessage.data.text = securedData.contentGet();
-					this.ne(securedData.contentGet());
-				}), cb);
-			};
+				return socket.emit("messages.send", {
+					message: result
+				});
+			}).then(function (response) {
+				if (response.success) {
+					this._hasBeenSent = true;
+					this.data.sent = true;
+				}
+
+				return response.success;
+			}).catch(function (e) {
+				console.warn(e);
+				return false;
+			});
+		};
+
+		Message.prototype.getSecuredData = function () {
+			return this._securedData;
+		};
+
+		Message.prototype.getServerID = function () {
+			return this._serverID;
+		};
+
+		Message.prototype.getID = function getIDF() {
+			return this._messageID;
+		};
+
+		Message.prototype.getTopicID = function getTopicIDF() {
+			return this._securedData.metaAttr("topicid");
+		};
+
+		Message.prototype.getTime = function getTimeF() {
+			if (this.getServerID()) {
+				return h.parseDecimal(this._securedData.metaAttr("sendTime"));
+			} else {
+				return h.parseDecimal(this._securedData.metaAttr("createTime"));
+			}
+		};
+
+		Message.prototype.isOwn = function isOwnF() {
+			return this._isOwnMessage;
+		};
+
+		Message.prototype.loadSender = function loadSenderF(cb) {
+			var theSender, theMessage = this;
+			step(function () {
+				userService.get(theMessage._securedData.metaAttr("sender"), this);
+			}, h.sF(function loadS1(sender) {
+				this.parallel.unflatten();
+
+				theSender = sender;
+				sender.loadBasicData(this);
+			}), h.sF(function loadS2() {
+				theMessage.data.sender = theSender.data;
+				theMessage._isOwnMessage = theSender.isOwn();
+
+				this.ne(theSender);
+			}), cb);
+		};
+
+		Message.prototype.loadFullData = function loadFullDataF(cb) {
+			var theMessage = this;
+			step(function l1() {
+				theMessage.loadSender(this);
+			}, h.sF(function l2(sender) {
+				theMessage.decrypt(this.parallel());
+				theMessage.verify(sender.getSignKey(), this.parallel());
+			}), h.sF(function l3() {
+				this.ne();
+			}), cb);
+		};
+
+		Message.prototype.verifyParent = function (topic) {
+			this._securedData.checkParent(topic.getSecuredData());
+		};
+
+		Message.prototype.verify = function (signKey, cb) {
+			if (!this._hasBeenSent) {
+				throw new Error("verifying unsent message");
+			}
+
+			this._securedData.verify(signKey, cb);
+		};
+
+		Message.prototype.decrypt = function decryptF(cb) {
+			if (this._isDecrypted) {
+				cb(null, this.data.text);
+				return;
+			}
+
+			var theMessage = this;
+			step(function () {
+				theMessage._securedData.decrypt(this);
+			}, h.sF(function () {
+				theMessage.data.text = theMessage._securedData.contentGet();
+				this.ne(theMessage._securedData.contentGet());
+			}), cb);
 		};
 
 		Message.createData = function (topic, message, imagesMeta, cb) {
@@ -123,8 +262,9 @@ define(["step",
 					images: imagesMeta
 				};
 
-				var mySecured = Message.createRawData(topic, message, meta, this);
+				var mySecured = Message.createRawSecuredData(topic, message, meta);
 				mySecured.setAfterRelationShip(newest.getSecuredData());
+				mySecured._signAndEncrypt(userService.getown().getSignKey(), topic.getKey(), this);
 			}, h.sF(function (mData) {
 				mData.meta.topicid = topic.getID();
 
@@ -136,17 +276,25 @@ define(["step",
 			}), cb);
 		};
 
-		Message.createRawData = function (topic, message, meta, cb) {
-			var secured = SecuredData.create(message, meta, { type: "message" }, userService.getown().getSignKey(), topic.getKey(), cb);
+		Message.createRawSecuredData = function (topic, message, meta) {
+			var secured = SecuredData.createRaw(message, meta, {
+				type: "message",
+				attributesNotVerified: notVerified
+			});
 			secured.setParent(topic.getSecuredData());
 
 			return secured;
 		};
 
+		Message.createRawData = function (topic, message, meta, cb) {
+			var secured = Message.createRawSecuredData(topic, message, meta);
+			secured._signAndEncrypt(userService.getown().getSignKey(), topic.getKey(), cb);
+		};
+
 		return Message;
 	}
 
-	messageModel.$inject = ["ssn.keyStoreService", "ssn.userService"];
+	messageModel.$inject = ["ssn.keyStoreService", "ssn.userService", "ssn.socketService"];
 
 	modelsModule.factory("ssn.models.message", messageModel);
 });

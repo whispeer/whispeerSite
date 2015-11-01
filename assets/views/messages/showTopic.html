@@ -45,8 +45,8 @@
 						<li data-ng-cloak data-ng-repeat="message in burst.messages" data-messageID="{{::message.id}}" class="message">
 							<div class="messageContent">
 								<div class="messageText {{::message.type}}" data-ng-class="{{::message.type}}" data-syntaxify="::message.text"></div>
-								<gallery class="message-images" data-ng-if="::message.images.length > 0" data-images="::message.images"></gallery>
-								<div class="time"><i class="fa fa-clock-o"></i> <span data-smart-date="::message.timestamp" data-smart-date-no-day></span></div>
+								<gallery class="message-images" data-ng-if="message.images.length > 0" data-images="::message.images"></gallery>
+								<div class="time"><i class="fa" data-ng-class="{'fa-circle-o-notch fa-spin': !message.sent, 'fa-clock-o': message.sent}"></i> <span data-smart-date="::message.timestamp" data-smart-date-no-day></span></div>
 							</div>
 						</li>
 					</ul>
