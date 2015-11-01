@@ -62,9 +62,8 @@ define(["step",
 		Message.prototype._prepareImages = function () {
 			this._prepareImagesPromise = Bluebird.resolve(this._images).map(function (image) {
 				return image.prepare();
-			});
-
-			this._prepareImagesPromise.bind(this).then(function (imagesMeta) {
+			}).bind(this).then(function (imagesMeta) {
+				this._securedData.metaSetAttr("images", imagesMeta);
 				this.data.images = imagesMeta;
 			});
 		};
@@ -137,13 +136,16 @@ define(["step",
 			}).then(function () {
 				return this._topic.awaitEarlierSend(this.getTime());
 			}).then(function () {
+				return this._prepareImagesPromise;
+			}).then(function () {
+				var topicKey = this._topic.getKey();
 				var newest = this._topic.getNewest();
 
 				this._securedData.setAfterRelationShip(newest.getSecuredData());
 				var signAndEncrypt = Bluebird.promisify(this._securedData._signAndEncrypt, this._securedData);
-				var signAndEncryptPromise = signAndEncrypt(userService.getown().getSignKey(), this._topic.getKey());
+				var signAndEncryptPromise = signAndEncrypt(userService.getown().getSignKey(), topicKey);
 
-				return Bluebird.all([signAndEncryptPromise, this.uploadImages()]);
+				return Bluebird.all([signAndEncryptPromise, this.uploadImages(topicKey)]);
 			}).spread(function (result, imageKeys) {
 				result.meta.topicid = this._topic.getID();
 				result.imageKeys = imageKeys.map(keyStore.upload.getKey);
