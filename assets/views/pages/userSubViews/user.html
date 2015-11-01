@@ -11,9 +11,15 @@
 	</nav>
 </header>
 
-<div class="box-content box-content--scroll" id="userView-content">
-	<ui-view data-ng-if="!user.notExisting"></ui-view>
-	<div data-ng-if="user.notExisting" data-i18n="profile.notFound"></div>
+<div class="box-content box-content--scroll" id="userView-content" data-ng-if="!user.notExisting">
+	<ui-view></ui-view>
+</div>
+
+<div class="userView-notFound" data-ng-if="user.notExisting">
+	<span>
+		<i class="fa fa-frown-o fa-3x"></i><br>
+		<h2 data-i18n="profile.notFound"></h2>
+	</span>
 </div>
 
 <div>
