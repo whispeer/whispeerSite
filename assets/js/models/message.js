@@ -159,6 +159,12 @@ define(["step",
 					this.data.sent = true;
 				}
 
+				if (response.server) {
+					this._securedData.metaSetAttr("sendTime", response.server.sendTime);
+					this._serverID = response.server.messageid;
+					this.data.timestamp = this.getTime();
+				}
+
 				return response.success;
 			}).catch(socket.errors.Disconnect, function (e) {
 				console.warn(e);
