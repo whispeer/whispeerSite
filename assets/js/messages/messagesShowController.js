@@ -5,7 +5,7 @@
 define(["step", "whispeerHelper", "asset/state", "bluebird", "messages/messagesModule"], function (step, h, State, Bluebird, messagesModule) {
 	"use strict";
 
-	function messagesController($scope, $state, $stateParams, $timeout, localize, errorService, messageService, ImageUploadService) {
+	function messagesController($scope, $element, $state, $stateParams, $timeout, localize, errorService, messageService, ImageUploadService) {
 		var MINUTE = 60 * 1000;
 
 		var topicLoadingState = new State();
@@ -41,9 +41,11 @@ define(["step", "whispeerHelper", "asset/state", "bluebird", "messages/messagesM
 		};
 
 		$scope.loadMoreMessages = function () {
+			var loadMore = Bluebird.promisify($scope.activeTopic.obj.loadMoreMessages, $scope.activeTopic.obj);
+
 			$scope.scrollLock = true;
 			$scope.loadingMessages = true;
-			$scope.activeTopic.obj.loadMoreMessages(function () {
+			return loadMore().then(function () {
 				$scope.loadingMessages = false;
 				$scope.scrollLock = false;
 			});
@@ -54,6 +56,24 @@ define(["step", "whispeerHelper", "asset/state", "bluebird", "messages/messagesM
 		});
 
 		topicLoadingState.pending();
+
+		function loadMoreUntilFull() {
+			Bluebird.delay(500).then(function () {
+				var scroller = $element.find(".scroll-pane");
+
+				var outerHeight = scroller.height();
+				var innerHeight = 0;
+				scroller.children().each(function(){
+					innerHeight = innerHeight + jQuery(this).outerHeight(true);
+				});
+
+				if (outerHeight > innerHeight) {
+					return $scope.loadMoreMessages().then(function () {
+						loadMoreUntilFull();
+					});
+				}
+			});
+		}
 
 		var topic;
 		step(function () {
@@ -73,6 +93,8 @@ define(["step", "whispeerHelper", "asset/state", "bluebird", "messages/messagesM
 			if (topic.data.messages.length > 0) {
 				topic.markRead(errorService.criticalError);
 			}
+
+			loadMoreUntilFull();
 
 			this.ne();
 		}), errorService.failOnError(topicLoadingState));
@@ -219,7 +241,7 @@ define(["step", "whispeerHelper", "asset/state", "bluebird", "messages/messagesM
 	}
 
 
-	messagesController.$inject = ["$scope", "$state", "$stateParams", "$timeout", "localize", "ssn.errorService", "ssn.messageService", "ssn.imageUploadService"];
+	messagesController.$inject = ["$scope", "$element", "$state", "$stateParams", "$timeout", "localize", "ssn.errorService", "ssn.messageService", "ssn.imageUploadService"];
 
 	messagesModule.controller("ssn.messagesShowController", messagesController);
 });
