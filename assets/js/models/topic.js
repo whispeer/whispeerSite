@@ -94,6 +94,12 @@ define([
 			});
 
 			this.refetchMessages = function () {
+				if (this.fetchingMessages) {
+					return;
+				}
+
+				this.fetchingMessages = true;
+
 				/*
 					{
 						oldest: id,
@@ -120,7 +126,7 @@ define([
 					messageCountOnFlush: 10
 				};
 
-				socket.emit("messages.refetch", request).then(function (response) {
+				return socket.emit("messages.refetch", request).bind(this).then(function (response) {
 					if (response.clearMessages) {
 						//remove all sent messages we have!
 						messages.clear();
@@ -136,9 +142,9 @@ define([
 					return messageFromData(messageData);
 				}).then(function (messages) {
 					theTopic.addMessages(messages, false);
+				}).finally(function () {
+					this.fetchingMessages = false;
 				});
-
-				return new Bluebird.resolve();
 			};
 
 			this.awaitEarlierSend = function (time) {
