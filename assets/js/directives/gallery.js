@@ -38,6 +38,22 @@ define(["step", "whispeerHelper", "directives/directivesModule"], function (step
 			}), errorService.criticalError);
 		}
 
+		function convertUploadImages(images) {
+			return images.map(function (image) {
+				return {
+					upload: image,
+					highest: {
+						loading: false,
+						url: image.getUrl()
+					},
+					lowest: {
+						loading: false,
+						url: image.getUrl()
+					}
+				};
+			});
+		}
+
 		return {
 			scope: {
 				"images": "="
@@ -55,7 +71,11 @@ define(["step", "whispeerHelper", "directives/directivesModule"], function (step
 
 				scope.$watch("images", function () {
 					if (scope.images) {
-						loadImagePreviews(scope.images.slice(0, scope.preview));
+						if (scope.images[0].getProgress) {
+							scope.images = convertUploadImages(scope.images);
+						} else {
+							loadImagePreviews(scope.images.slice(0, scope.preview));
+						}
 					}
 				});
 
@@ -76,7 +96,10 @@ define(["step", "whispeerHelper", "directives/directivesModule"], function (step
 					scope.imageIndex = index;
 
 					scope.modalImage = scope.images[scope.imageIndex];
-					loadImage(scope.modalImage.highest);
+
+					if (!scope.modalImage.upload) {
+						loadImage(scope.modalImage.highest);
+					}
 				};
 
 				var KEYS = {

@@ -54,6 +54,7 @@ define(["step",
 			this.setData();
 
 			this.data.text = message;
+			this.data.images = images;
 
 			this.loadSender(h.nop);
 			this._prepareImages();
@@ -62,10 +63,6 @@ define(["step",
 		Message.prototype._prepareImages = function () {
 			this._prepareImagesPromise = Bluebird.resolve(this._images).map(function (image) {
 				return image.prepare();
-			});
-
-			this._prepareImagesPromise.bind(this).then(function (imagesMeta) {
-				this.data.images = imagesMeta;
 			});
 		};
 
