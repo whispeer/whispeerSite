@@ -87,6 +87,12 @@ define([
 
 			setUnread(data.unread);
 
+			socket.on("connect", function () {
+				window.setTimeout(function () {
+					theTopic.refetchMessages();
+				}, h.randomIntFromInterval(500, 5000));
+			});
+
 			this.refetchMessages = function () {
 				/*
 					{

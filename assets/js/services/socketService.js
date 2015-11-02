@@ -170,10 +170,10 @@ define([
 					}, cb);
 				},
 				on: function () {
-					socket.on.apply(socket, arguments);
+					return socket.on.apply(socket, arguments);
 				},
 				once: function () {
-					socket.once.apply(socket, arguments);
+					return socket.once.apply(socket, arguments);
 				},
 				removeAllListener: function (channel) {
 					socket.removeAllListeners(channel);
