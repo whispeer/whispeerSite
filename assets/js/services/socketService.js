@@ -23,8 +23,11 @@ define([
 		var interceptorFactories = [];
 
 		var domain = (config.https ? "https://" : "http://") + config.ws + ":" + config.wsPort;
-		var autoConnect = true;
-		var autoReconnect = true;
+		var autoConnect = config.socket.autoConnect;
+		var autoReconnect = config.socket.autoReconnect;
+
+		var DisconnectError = h.createErrorType("disconnectedError");
+		var ServerError = h.createErrorType("serverError");
 
 		this.addInterceptor = function (interceptorName) {
 			interceptorFactories.push(interceptorName);
@@ -100,12 +103,27 @@ define([
 			};
 
 			function emit(channel, request) {
-				return new Bluebird(function (resolve) {
-					socket.emit(channel, request, resolve);
+				return new Bluebird(function (resolve, reject) {
+					var onDisconnect = function () {
+						reject(new DisconnectError("Disconnected while sending"));
+					};
+					socket.once("disconnect", onDisconnect);
+					socket.emit(channel, request, function (response) {
+						socket.off("disconnect", onDisconnect);
+						resolve(response);
+					});
 				});
 			}
 
+			if (config.debug) {
+				window.socket = socket;
+			}
+
 			var socketS = {
+				errors: {
+					Disconnect: DisconnectError,
+					Server: ServerError
+				},
 				uploadObserver: internalObserver,
 				isConnected: function () {
 					return socket.connected;
@@ -152,10 +170,10 @@ define([
 					}, cb);
 				},
 				on: function () {
-					socket.on.apply(socket, arguments);
+					return socket.on.apply(socket, arguments);
 				},
 				once: function () {
-					socket.once.apply(socket, arguments);
+					return socket.once.apply(socket, arguments);
 				},
 				removeAllListener: function (channel) {
 					socket.removeAllListeners(channel);
@@ -195,7 +213,7 @@ define([
 					loadInterceptors();
 
 					if (!socketS.isConnected()) {
-						throw new Error("no connection");
+						throw new DisconnectError("no connection");
 					}
 
 					var timer = log.timer("request on " + channel);
@@ -222,7 +240,7 @@ define([
 
 						if (response.error) {
 							socketError(response);
-							throw new Error("server returned an error!");
+							throw new ServerError("server returned an error!");
 						}
 
 						socketDebug(response);

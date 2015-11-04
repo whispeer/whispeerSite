@@ -54,6 +54,7 @@ define(["step",
 			this.setData();
 
 			this.data.text = message;
+			this.data.images = images;
 
 			this.loadSender(h.nop);
 			this._prepareImages();
@@ -62,10 +63,6 @@ define(["step",
 		Message.prototype._prepareImages = function () {
 			this._prepareImagesPromise = Bluebird.resolve(this._images).map(function (image) {
 				return image.prepare();
-			});
-
-			this._prepareImagesPromise.bind(this).then(function (imagesMeta) {
-				this.data.images = imagesMeta;
 			});
 		};
 
@@ -162,8 +159,14 @@ define(["step",
 					this.data.sent = true;
 				}
 
+				if (response.server) {
+					this._securedData.metaSetAttr("sendTime", response.server.sendTime);
+					this._serverID = response.server.messageid;
+					this.data.timestamp = this.getTime();
+				}
+
 				return response.success;
-			}).catch(function (e) {
+			}).catch(socket.errors.Disconnect, function (e) {
 				console.warn(e);
 				return false;
 			});

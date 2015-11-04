@@ -87,9 +87,64 @@ define([
 
 			setUnread(data.unread);
 
+			socket.on("connect", function () {
+				window.setTimeout(function () {
+					theTopic.refetchMessages();
+				}, h.randomIntFromInterval(500, 5000));
+			});
+
 			this.refetchMessages = function () {
-				//TODO!
-				return new Bluebird.resolve();
+				if (this.fetchingMessages) {
+					return;
+				}
+
+				this.fetchingMessages = true;
+
+				/*
+					{
+						oldest: id,
+						inBetween: [ids],
+						newest: id
+					}
+				*/
+				/*
+					Topic.makeMessage
+				*/
+
+				var sentMessages = this.getSentMessages().map(function (message) {
+					return message.getServerID();
+				});
+				var oldest = sentMessages.shift();
+				var newest = sentMessages.pop();
+
+				var request = {
+					topicid: this.getID(),
+					oldest: oldest,
+					newest: newest,
+					inBetween: sentMessages,
+					maximum: 20,
+					messageCountOnFlush: 10
+				};
+
+				return socket.emit("messages.refetch", request).bind(this).then(function (response) {
+					if (response.clearMessages) {
+						//remove all sent messages we have!
+						messages.clear();
+						dataMessages.clear();
+						//messages.join(unsentMessages);
+						//dataMessages.join(unsentMessages.map(:data));
+					}
+
+					return response.messages;
+				}).map(function (messageData) {
+					var messageFromData = Bluebird.promisify(Topic.messageFromData, Topic);
+
+					return messageFromData(messageData);
+				}).then(function (messages) {
+					theTopic.addMessages(messages, false);
+				}).finally(function () {
+					this.fetchingMessages = false;
+				});
 			};
 
 			this.awaitEarlierSend = function (time) {
@@ -194,7 +249,9 @@ define([
 				messagesByID[messageObject.getID()] = messageObject;
 				this.addMessage(messageObject);
 
-				messageObject.sendContinously();
+				messageObject.sendContinously().catch(function (e) {
+					alert("An error occured sending a message!" + e.toString());
+				});
 			};
 
 			this.addMessages = function (messages, addUnread) {
