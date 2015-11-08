@@ -88,12 +88,12 @@ define(["step", "whispeerHelper", "crypto/encryptedData", "services/serviceModul
 		initService.get("settings.get", undefined, function (data, cache, cb) {
 			var givenSettings = data.content;
 
-			serverSettings = givenSettings.server || {};
-			var toCache = h.deepCopyObj(givenSettings);
-
 			if (data.unChanged) {
 				givenSettings = cache.data;
 			}
+
+			var toCache = h.deepCopyObj(givenSettings);
+			serverSettings = givenSettings.server || {};
 
 			step(function () {
 				if (givenSettings.ct) {
