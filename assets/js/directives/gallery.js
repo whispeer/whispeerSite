@@ -70,7 +70,7 @@ define(["step", "whispeerHelper", "directives/directivesModule"], function (step
 				scope.preview = previewChunk;
 
 				scope.$watch("images", function () {
-					if (scope.images) {
+					if (scope.images && scope.images.length > 0) {
 						if (scope.images[0].getProgress) {
 							scope.images = convertUploadImages(scope.images);
 						} else {
