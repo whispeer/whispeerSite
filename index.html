@@ -26,7 +26,7 @@
 
 	<script data-main="assets/js/requireConfig" data-initial="main" src="assets/js/bower/requirejs/require.js"></script>
 </head>
-<body data-ng-swipe-right="activateSidebar()" data-ng-swipe-left="deactivateSidebar()" data-ng-class="{'noScroll': searchActive && !fadeOutSearch}" data-mobile>
+<body data-ng-swipe-right="activateSidebar()" data-ng-swipe-left="deactivateSidebar()" data-mobile>
 	<!--[if lte IE 8]><p class=chromeframe>Your browser is <em>ancient!</em> <a href="http://browsehappy.com/">Upgrade to a different browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to experience this site.</p><![endif]-->
 	<noscript class="no-script">
 		<p><i class="fa fa-frown-o fa-3x fa-fw"></i></p>
@@ -43,9 +43,9 @@
 	<!-- end !Disconnect Notification -->
 	<!-- !Main Container -->
 	<div id="container" data-ng-cloak>
-		<button id="header-toggle-sidebar" data-ng-click="toggleSidebar()" data-ng-class="{'header-toggle-sidebar--transparent': sidebarActive}" data-ng-if="mobile && (!searchActive || fadeOutSearch)">
-			<i class="fa fa-bars header-toggle-icon" data-ng-if="!sidebarActive || searchActive"></i>
-			<i class="fa fa-chevron-left header-toggle-icon" data-ng-if="sidebarActive && !searchActive"></i>
+		<button id="header-toggle-sidebar" data-ng-class="{'header-toggle-sidebar--transparent': sidebarActive}" data-ng-if="mobile">
+			<i class="fa fa-bars header-toggle-icon" data-ng-if="!sidebarActive"></i>
+			<i class="fa fa-chevron-left header-toggle-icon" data-ng-if="sidebarActive"></i>
 			<span>
 				<span class="badge" id="mobileCounter" data-ng-if="(messages.unread + friends.requestsCount + news.count) > 0">
 					<span>{{messages.unread + friends.requestsCount + news.count}}</span>
@@ -53,18 +53,13 @@
 			</span>
 		</button>
 		<!-- !Left Sidebar -->
-		<aside id="sidebar-left" data-ng-class="{'sidebarLeft-show': (sidebarActive && !searchActive)}">
+		<aside id="sidebar-left" data-ng-class="{'sidebarLeft-show': sidebarActive}">
 			<ng-include src="'assets/views/userPanel.html'"></ng-include>
 			<!-- end !Userpanel -->
 		</aside>
 		<!-- end !Left Sidebar -->
 		<!-- !Loaded View -->
-		<section id="main" data-ng-if="!loading" data-ng-class="{'main-push': (mobile && sidebarActive && !searchActive), box: isBox}">
-			<header id="general-searchBar" class="animate--fill" data-ng-if="searchActive" data-ng-class="{'animate--slideInDown': searchActive && !fadeOutSearch, 'animate--slideOutUp': fadeOutSearch && searchActive}">
-				<search data-add-classes="search--custom search--navbar" data-supplier="userSearchSupplier" data-callback="visitUserProfile(selected)" data-search-template="user" data-input-i18n-attr="menu.search|placeholder" id="general-searchBar-search"></search>
-				<a data-ng-click="toggleSearch()" class="btn btn--inverse btn--noRadius" id="general-searchBar--close"><i class="fa fa-times-circle"></i></a>
-			</header>
-			<div id="general-searchBar--background" class="animate--fill" data-ng-click="toggleSearch()" data-ng-class="{'animate--fadeIn': searchActive && !fadeOutSearch, 'animate--fadeOut': fadeOutSearch && searchActive}" data-ng-if="searchActive"></div>
+		<section id="main" data-ng-if="!loading" data-ng-class="{'main-push': (mobile && sidebarActive), box: isBox}">
 			<ui-view></ui-view>
 		</section>
 		<!-- end !Loaded View -->
