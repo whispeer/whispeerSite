@@ -35,9 +35,7 @@ define(["app"], function (app) {
 		$stateProvider.state("app.search", {
 			url: "/search",
 			templateUrl: "assets/views/pages/search.html",
-			controller: ["ssn.cssService", function (cssService) {
-				cssService.setClass("searchView", true);
-			}]
+			controller: "ssn.searchController"
 		});
 
 		$stateProvider.state("app.post", {
