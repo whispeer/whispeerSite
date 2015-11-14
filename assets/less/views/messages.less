@@ -241,7 +241,7 @@
 				width: 100%;
 				word-wrap: break-word;
 				max-width: 750px;
-				margin: auto;
+				margin-left: 0;
 				&:first-child {
 					// additional margin at the top, this will be useful when we have a
 					// 'pull down to load more' feature.
@@ -261,7 +261,7 @@
 				position: relative;
 
 				font-size: 0.85em;
-				line-height: 2em;
+				line-height: 1.75em;
 
 				margin: 0 auto;
 				padding: 0.25em 0.5em;
@@ -269,10 +269,11 @@
 
 				color: #fff;
 				font-weight: 400;
-				background: fade(@primaryLighter, 90%);
-				box-shadow: 0 1px 1px fade(@primary, 80%);
+				background: #a5a5a5;
+				box-shadow: 0 1px 1px rgba(164, 164, 164, 0.15);
 
 				border-radius: 8px;
+				opacity: 0.3;
 			}
 
 			.username {
