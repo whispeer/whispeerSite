@@ -6,6 +6,12 @@
 	width: 100%;
 	height: 100%;
 }
+.searchView .search-form {
+	@media @mobile {
+		padding-left: 4rem;
+		box-sizing: border-box;
+	}
+}
 .search-wrapper {
 	width: 100%;
 	height: 100%;
@@ -133,7 +139,7 @@
 	width: 100%;
 	height: auto;
 	@media @mobile {
-		height: 175px;
+		min-height: 185px;
 	}
 	margin: 0;
 	line-height: @line-height;
@@ -154,6 +160,9 @@
 }
 .search-suggestion-row {
 	.column(12);
+}
+.search-suggestion-row--info {
+  line-height: 1.426em;
 }
 .search-suggestion-row--info:last-child {
 	padding-bottom: 0.426rem;
@@ -222,7 +231,7 @@
 .search-action {
 	@media @mobile {
 		.column(6);
-		margin-top: 10px;
+		margin-top: 5px;
 	}
 	margin-top: 5px;
 }
