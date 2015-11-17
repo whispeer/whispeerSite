@@ -1363,7 +1363,7 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 			return hasher.stringify();
 		}
 
-		return "hash::" + hasher.hash();
+		return this.sjclHash(hasher.stringify());
 	};
 
 	ObjectHasher.prototype._doHash = function (val, attr) {
@@ -1866,7 +1866,7 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 
 			hashObjectOrValueHex: function (val) {
 				if (typeof val === "object") {
-					return new ObjectHasher(val).hash();
+					return "hash::" + new ObjectHasher(val).hash();
 				} else {
 					return "hash::" + chelper.bits2hex(sjcl.hash.sha256.hash("data::" + val));
 				}

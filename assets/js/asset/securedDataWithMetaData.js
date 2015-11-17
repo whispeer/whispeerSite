@@ -62,7 +62,7 @@ define(["whispeerHelper", "step", "crypto/keyStore", "asset/errors"], function (
 	SecuredDataWithMetaData.prototype.sign = function (signKey, cb, noCache) {
 		var that = this;
 		var toSign = h.deepCopyObj(that._updated.meta);
-		var hashVersion = 3;
+		var hashVersion = 1;
 
 		step(function () {
 			toSign._version = 1;
