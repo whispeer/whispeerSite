@@ -63,7 +63,7 @@ define(["step", "whispeerHelper", "services/serviceModule", "bluebird"], functio
 
 		function runCallbacksPriorized(initResponses, shouldBePriorized) {
 			return Bluebird.all(initResponses.filter(function (response) {
-				return (shouldBePriorized ? response.options.priorized : !response.priorized);
+				return (shouldBePriorized ? response.options.priorized : !response.options.priorized);
 			}).map(function (response) {
 				var callback = Bluebird.promisify(response.callback);
 
