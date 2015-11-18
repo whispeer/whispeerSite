@@ -9,10 +9,8 @@ define(["services/serviceModule", "crypto/keyStore"], function (serviceModule, k
 			keyStore.reset();
 		});
 
-		keyStore.setAfterAsyncCall(function (cb) {
-			$rootScope.$apply(function () {
-				cb();
-			});
+		keyStore.setAfterAsyncCall(function () {
+			$rootScope.$apply();
 		});
 
 		keyStore.upload.setSocket(socketService);

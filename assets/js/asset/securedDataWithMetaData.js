@@ -114,7 +114,7 @@ define(["whispeerHelper", "step", "crypto/keyStore", "asset/errors"], function (
 		@param cb callback(cryptedData, metaData),
 	*/
 	SecuredDataWithMetaData.prototype._signAndEncrypt = function (signKey, cryptKey, cb) {
-		var that = this, hashObject;
+		var that = this;
 		if (!that._hasContent) {
 			throw new Error("can only sign and not encrypt");
 		}
@@ -131,18 +131,10 @@ define(["whispeerHelper", "step", "crypto/keyStore", "asset/errors"], function (
 
 			that._updated.meta._key = keyStore.correctKeyIdentifier(cryptKey);
 
-			if (typeof paddedContent === "object" && that._encryptDepth > 0) {
-				hashObject = keyStore.hash.deepHashObject(paddedContent);
-			}
-
 			this.parallel.unflatten();
 			keyStore.sym.encryptObject(paddedContent, cryptKey, that._encryptDepth, this.parallel());
 			that.sign(signKey, this.parallel());
 		}), h.sF(function (cryptedData, meta) {
-			if (hashObject) {
-				meta._hashObject = hashObject;
-			}
-
 			that._updated.meta = meta;
 
 			this.ne({
