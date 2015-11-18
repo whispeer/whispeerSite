@@ -1193,7 +1193,9 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 		}
 
 		function verifySubtle(signature, text) {
-			return theKey.getSubtlePublicKey().then(function (key) {
+			return Bluebird.try(function () {
+				return theKey.getSubtlePublicKey();
+			}).then(function (key) {
 				var signatureBuf = sjcl.codec.arrayBuffer.fromBits(signature);
 				var buf = new TextEncoder("utf-8").encode(text);
 
