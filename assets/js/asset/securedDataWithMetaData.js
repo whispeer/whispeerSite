@@ -1,4 +1,4 @@
-define(["whispeerHelper", "step", "crypto/keyStore", "asset/errors"], function (h, step, keyStore, errors) {
+define(["whispeerHelper", "step", "crypto/keyStore", "asset/errors", "config"], function (h, step, keyStore, errors, config) {
 	"use strict";
 
 	var attributesNeverVerified = ["_signature", "_hashObject"];
@@ -62,7 +62,7 @@ define(["whispeerHelper", "step", "crypto/keyStore", "asset/errors"], function (
 	SecuredDataWithMetaData.prototype.sign = function (signKey, cb, noCache) {
 		var that = this;
 		var toSign = h.deepCopyObj(that._updated.meta);
-		var hashVersion = 1;
+		var hashVersion = config.hashVersion;
 
 		step(function () {
 			toSign._version = 1;
