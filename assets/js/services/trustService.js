@@ -102,23 +102,6 @@ define(["step", "whispeerHelper", "crypto/trustManager", "crypto/signatureCache"
 			cache: true
 		});
 
-		initService.get("signatureCache.get", undefined, function (data, cb) {
-			if (data.content) {
-				step(function () {
-					signatureCache.loadDatabase(data.content, userService.getown().getSignKey(), this);
-				}, function (e) {
-					if (e) {
-						signatureCache.createDatabase(userService.getown().getSignKey());		
-					}
-
-					this.ne();
-				}, cb);
-			} else {
-				signatureCache.createDatabase(userService.getown().getSignKey());
-				cb();
-			}
-		}, { priorized: true });
-
 		$rootScope.$on("ssn.reset", function () {
 			trustManager.reset();
 			signatureCache.reset();

@@ -23,29 +23,24 @@ define (["whispeerHelper", "step", "asset/observer", "asset/errors", "crypto/key
 
 	var types = {
 		signatureCache: {
-			sync: -1,
-			local: -1,
+			maxCount: -1,
 			cacheOwnSignature: true,
 			saveID: true
 		},
 		me: {
-			sync: -1,
-			local: -1,
+			maxCount: -1,
 			saveID: true
 		},
 		user: {
-			sync: 100,
-			local: 500,
+			maxCount: 500,
 			saveID: true
 		},
 		message: {
-			sync: 20,
-			local: 100,
+			maxCount: 100,
 			saveID: false
 		},
 		post: {
-			sync: 10,
-			local: 100,
+			maxCount: 100,
 			saveID: false
 		}
 	};
@@ -75,8 +70,9 @@ define (["whispeerHelper", "step", "asset/observer", "asset/errors", "crypto/key
 		this._type = type;
 
 		this._cacheOwnSignature = options.cacheOwnSignature || false;
-		this._syncMax = options.sync;
-		this._localMax = options.local;
+		this._maxCount = options.maxCount;
+		this._saveID = options.saveID;
+
 		this._changed = false;
 
 		this._signatures = {};
@@ -86,7 +82,18 @@ define (["whispeerHelper", "step", "asset/observer", "asset/errors", "crypto/key
 		return this._changed;
 	};
 
-	Database.prototype.addSignature = function (signature, hash, key, valid) {
+	Database.prototype.getCacheEntry = function (id) {
+		var entry = {};
+		if (this._maxCount > -1) {
+			entry.date = new Date().getTime();
+		}
+
+		if (this._saveID) {
+			entry.id = id;
+		}
+	};
+
+	Database.prototype.addSignature = function (signature, hash, key, valid, id) {
 		if (!valid) {
 			return;
 		}
@@ -99,7 +106,7 @@ define (["whispeerHelper", "step", "asset/observer", "asset/errors", "crypto/key
 
 		var sHash = dataSetToHash(signature, hash, key);
 
-		this._signatures[sHash] = new Date().getTime();
+		this._signatures[sHash] = this.getCacheEntry(id);
 
 		this.cleanUp();
 	};
@@ -114,20 +121,24 @@ define (["whispeerHelper", "step", "asset/observer", "asset/errors", "crypto/key
 	};
 
 	Database.prototype.cleanUp = function () {
+		if (this._maxCount === -1) {
+			return;
+		}
+
 		var hashes = this.allHashes();
-		if (hashes.length > this._localMax) {
+		if (hashes.length > this._maxCount) {
 			console.log("Cleaning up database of type " + this._type + " (" + hashes.length + ")");
 
 			var times = hashes.map(function (key) {
 				return {
-					time: this._signatures[key],
+					time: this._signatures[key].date,
 					key: key
 				};
 			}, this);
 
 			times.sort(function (a, b) { return a.time - b.time; });
 
-			var remove = times.slice(0, times.length - this._localMax);
+			var remove = times.slice(0, times.length - this._maxCount);
 
 			remove.forEach(function (hash) {
 				delete this._signatures[hash];
@@ -164,16 +175,6 @@ define (["whispeerHelper", "step", "asset/observer", "asset/errors", "crypto/key
 		databaseSecured.sign(signKey, cb, this._cacheOwnSignature);
 	};
 
-	Database.prototype.getUpdatedLocalVersion = function (cb) {
-		this._changed = false;
-
-		var databaseSecured = new SecuredData.load(undefined, {
-			me: signKey,
-			signatures: this._signatures
-		}, { type: "signatureCache" });
-		databaseSecured.sign(signKey, cb, this._cacheOwnSignature);
-	};
-
 	Database.prototype.allSignatures = function () {
 		return Object.keys(this._signatures);
 	};
@@ -185,13 +186,13 @@ define (["whispeerHelper", "step", "asset/observer", "asset/errors", "crypto/key
 	});
 
 	var api2 = {
-		isLoaded: function () {
-
-		},
 		isChanged: function () {
 
 		},
-		loadSecured: function (securedData, type, cb) {
+		load: function (securedData, type, cb) {
+
+		},
+		getUpdatedVersion: function () {
 
 		},
 		isSignatureInCache: function (signature, hash, key) {
