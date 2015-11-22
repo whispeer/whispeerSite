@@ -1,4 +1,4 @@
-define(["whispeerHelper", "step", "crypto/keyStore", "asset/errors"], function (h, step, keyStore, errors) {
+define(["whispeerHelper", "step", "crypto/keyStore", "asset/errors", "config"], function (h, step, keyStore, errors, config) {
 	"use strict";
 
 	var attributesNeverVerified = ["_signature", "_hashObject"];
@@ -59,9 +59,10 @@ define(["whispeerHelper", "step", "crypto/keyStore", "asset/errors"], function (
 		return this._updated.meta._ownHash;
 	};
 
-	SecuredDataWithMetaData.prototype.sign = function (signKey, cb, noCache, v2) {
+	SecuredDataWithMetaData.prototype.sign = function (signKey, cb, noCache) {
 		var that = this;
 		var toSign = h.deepCopyObj(that._updated.meta);
+		var hashVersion = config.hashVersion;
 
 		step(function () {
 			toSign._version = 1;
@@ -82,9 +83,9 @@ define(["whispeerHelper", "step", "crypto/keyStore", "asset/errors"], function (
 				toSign._ownHash = keyStore.hash.hashObjectOrValueHex(toSign);
 			}
 
-			toSign._v2 = !!v2;
+			toSign._hashVersion = hashVersion;
 
-			keyStore.sign.signObject(toSign, signKey, this, noCache, v2);
+			keyStore.sign.signObject(toSign, signKey, this, noCache, hashVersion);
 		}, h.sF(function (signature) {
 			toSign._signature = signature;
 
@@ -166,11 +167,19 @@ define(["whispeerHelper", "step", "crypto/keyStore", "asset/errors"], function (
 				throw new errors.SecurityError("invalid object type. is: " + metaCopy._type + " should be: " + that._type);
 			}
 
-			if (metaCopy._v2 === "false") {
-				metaCopy._v2 = false;
+			if (typeof metaCopy._hashVersion === "number") {
+				metaCopy._hashVersion = h.parseDecimal(metaCopy._hashVersion);
 			}
 
-			keyStore.sign.verifyObject(that._original.meta._signature, metaCopy, signKey, this, metaCopy._v2);
+			var hashVersion = 1;
+
+			if (metaCopy._hashVersion) {
+				hashVersion = metaCopy._hashVersion;
+			} else if (metaCopy._v2 && metaCopy._v2 !== "false") {
+				hashVersion = 2;
+			}
+
+			keyStore.sign.verifyObject(that._original.meta._signature, metaCopy, signKey, this, hashVersion);
 		}, h.sF(function (correctSignature) {
 			if (!correctSignature) {
 				alert("Bug: signature did not match (" + that._original.meta._type + ") Please report this bug!");
