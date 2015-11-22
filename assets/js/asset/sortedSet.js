@@ -1,26 +1,31 @@
 define ([], function () {
-    "use strict";
+	"use strict";
 
-    /* jshint validthis: true */
+	/* jshint validthis: true */
 
-    var sortedSet = function (sortFunction) {
-        var arr = [];
-        arr.push = function () {
-            Array.prototype.push.apply(this, arguments);
-            this.resort();
-        };
+	var sortedSet = function (sortFunction) {
+		var arr = [];
 
-        arr.join = function (elements) {
-            Array.prototype.push.apply(this, elements);
-            this.resort();
-        };
+		arr.clear = function () {
+			arr.length = 0;
+		};
 
-        arr.resort = function () {
-            this.sort(sortFunction);
-        };
+		arr.push = function () {
+			Array.prototype.push.apply(this, arguments);
+			this.resort();
+		};
 
-        return arr;
-    };
+		arr.join = function (elements) {
+			Array.prototype.push.apply(this, elements);
+			this.resort();
+		};
 
-    return sortedSet;
+		arr.resort = function () {
+			this.sort(sortFunction);
+		};
+
+		return arr;
+	};
+
+	return sortedSet;
 });

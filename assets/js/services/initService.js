@@ -4,16 +4,6 @@ define(["step", "whispeerHelper", "services/serviceModule", "bluebird"], functio
 	var service = function ($timeout, $rootScope, errorService, socketService, sessionService, migrationService, CacheService) {
 		var newCallbacks = [];
 
-		function awaitConnection() {
-			return new Bluebird(function (resolve) {
-				if (socketService.isConnected()) {
-					resolve();
-				} else {
-					socketService.once("connect", resolve);
-				}
-			});
-		}
-
 		function getCache(initRequest) {
 			return new CacheService(initRequest.domain).get(initRequest.id || sessionService.getUserID()).then(function (cache) {
 				initRequest.cache = cache;
@@ -73,7 +63,7 @@ define(["step", "whispeerHelper", "services/serviceModule", "bluebird"], functio
 
 		function runCallbacksPriorized(initResponses, shouldBePriorized) {
 			return Bluebird.all(initResponses.filter(function (response) {
-				return (shouldBePriorized ? response.options.priorized : !response.priorized);
+				return (shouldBePriorized ? response.options.priorized : !response.options.priorized);
 			}).map(function (response) {
 				var callback = Bluebird.promisify(response.callback);
 
@@ -94,7 +84,7 @@ define(["step", "whispeerHelper", "services/serviceModule", "bluebird"], functio
 		}
 
 		function loadData() {
-			awaitConnection().then(function () {
+			socketService.awaitConnection().then(function () {
 				console.time("cacheInitGet");
 				return newCallbacks;
 			}).map(function (initRequest) {

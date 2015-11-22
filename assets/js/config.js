@@ -22,8 +22,15 @@ if (useServer) {
 	};
 }
 
+config.debug = false;
+
 config.production = production;
 config.buildDate = buildDate;
+
+config.socket = {
+	autoConnect: true,
+	autoReconnect: true
+};
 
 if (typeof module !== "undefined" && module.exports) {
 	module.exports = config;

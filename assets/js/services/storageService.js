@@ -44,6 +44,8 @@ define(["services/serviceModule", "bluebird", "services/cacheService"], function
 				}, this).forEach(function (key) {
 					localStorage.removeItem(key);
 				});
+
+				return this.save();
 			};
 
 			Storage.prototype.save = function () {

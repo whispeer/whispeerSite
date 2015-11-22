@@ -2,7 +2,7 @@ define(["step", "whispeerHelper", "crypto/encryptedData", "services/serviceModul
 	"use strict";
 
 	var service = function ($rootScope, $injector, localize, initService, socketService) {
-		var settings, options = { type: "settings", removeEmpty: true };
+		var settings, serverSettings = {}, options = { type: "settings", removeEmpty: true };
 
 		var notVisible = {
 			encrypt: true,
@@ -61,9 +61,10 @@ define(["step", "whispeerHelper", "crypto/encryptedData", "services/serviceModul
 			return result;
 		}
 
-		function migrateToFormat2(data, cb) {
+		function migrateToFormat2(givenOldSettings, cb) {
+			console.warn("migrating settings to format 2");
 			step(function () {
-				var oldSettings = new EncryptedData(data.content);
+				var oldSettings = new EncryptedData(givenOldSettings);
 				oldSettings.decrypt(this);
 			}, h.sF(function (decryptedSettings) {
 				var data = turnOldSettingsToNew(decryptedSettings);
@@ -85,17 +86,20 @@ define(["step", "whispeerHelper", "crypto/encryptedData", "services/serviceModul
 		}
 
 		initService.get("settings.get", undefined, function (data, cache, cb) {
-			var toCache = h.deepCopyObj(data.content);
+			var givenSettings = data.content;
 
 			if (data.unChanged) {
-				data = cache.data;
+				givenSettings = cache.data;
 			}
 
+			var toCache = h.deepCopyObj(givenSettings);
+			serverSettings = givenSettings.server || {};
+
 			step(function () {
-				if (data.content.ct) {
-					migrateToFormat2(data, this);
+				if (givenSettings.ct) {
+					migrateToFormat2(givenSettings, this);
 				} else {
-					this.ne(SecuredData.load(data.content.content, data.content.meta, options));
+					this.ne(SecuredData.load(givenSettings.content, givenSettings.meta, options));
 				}
 			}, h.sF(function (_settings) {
 				settings = _settings;
@@ -117,12 +121,23 @@ define(["step", "whispeerHelper", "crypto/encryptedData", "services/serviceModul
 		});
 
 		var publicBranches = ["uiLanguage", "sound"];
+		var serverBranches = ["mailsEnabled"];
 
 		function isBranchPublic(branchName) {
 			return publicBranches.indexOf(branchName) > -1;
 		}
 
+		function isBranchServer(branchName) {
+			return serverBranches.indexOf(branchName) > -1;	
+		}
+
 		var api = {
+			getContent: function () {
+				return settings.contentGet();
+			},
+			setContent: function (content) {
+				return settings.contentSet(content);
+			},
 			decrypt: function (cb) {
 				step(function () {
 					var ownUser = $injector.get("ssn.userService").getown();
@@ -134,16 +149,24 @@ define(["step", "whispeerHelper", "crypto/encryptedData", "services/serviceModul
 			getBranch: function (branchName) {
 				var branchContent;
 
-				if (isBranchPublic(branchName)) {
+				if (isBranchServer(branchName)) {
+					branchContent = serverSettings[branchName];
+				} else if (isBranchPublic(branchName)) {
 					branchContent = settings.metaAttr(branchName);
 				} else {
 					branchContent = settings.contentGet()[branchName];
 				}
 
-				return branchContent || defaultSettings[branchName];
+				if (typeof branchContent === "undefined") {
+					return defaultSettings[branchName];
+				}
+
+				return branchContent;
 			},
 			updateBranch: function (branchName, value) {
-				if (isBranchPublic(branchName)) {
+				if (isBranchServer(branchName)) {
+					serverSettings[branchName] = value;
+				} else if (isBranchPublic(branchName)) {
 					settings.metaSetAttr(branchName, value);
 				} else {
 					settings.contentSetAttr(branchName, value);
@@ -190,6 +213,8 @@ define(["step", "whispeerHelper", "crypto/encryptedData", "services/serviceModul
 						this.last.ne(true);
 					}
 				}, h.sF(function (newEncryptedSettings) {
+					newEncryptedSettings.server = serverSettings;
+
 					socketService.emit("settings.setSettings", {
 						settings: newEncryptedSettings
 					}, this);

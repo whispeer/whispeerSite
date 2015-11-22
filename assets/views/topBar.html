@@ -1,13 +1,7 @@
-<header class="header" data-ng-cloak data-ng-class="{'header-push': (mobile && sidebarActive && !searchActive)}">
+<header class="header" data-ng-cloak data-ng-class="{'header-push': (mobile && sidebarActive)}">
 	<div class="header-inner" data-ng-class="{'header-inner--left': !mobile }">
 		<a whispeer-sref="app.main" class="header-brand" data-ng-click="mobileActivateView()">
 			<span class="header-brand--normal">whis</span><span class="header-brand--inverse">peer</span>
 		</a>
-		<button class="header-toggle header-toggle-search" data-ng-click="toggleSearch()" data-ng-if="mobile">
-			<i class="fa fa-search header-toggle-icon"></i>
-		</button>
-		<div class="header-collapse">
-			<search data-supplier="userSearchSupplier" callback="visitUserProfile(selected)" data-search-template="user" data-add-classes="search--navbar" data-input-i18n-attr="menu.search|placeholder"/>
-		</div>
 	</div>
 </header>

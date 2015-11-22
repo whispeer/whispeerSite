@@ -32,6 +32,12 @@ define(["app"], function (app) {
 		addMain("friends");
 		addMain("acceptInvite");
 
+		$stateProvider.state("app.search", {
+			url: "/search",
+			templateUrl: "assets/views/pages/search.html",
+			controller: "ssn.searchController"
+		});
+
 		$stateProvider.state("app.post", {
 			url: "/post/{postID:[1-9][0-9]*}",
 			templateUrl: "assets/views/pages/post.html",

@@ -65,6 +65,19 @@ function run() {
 
 	var WHISPEER_PORT = process.env.WHISPEER_PORT || 8080;
 
+	process.argv.forEach(function(val, index, array) {
+		// let's make nils happy
+		if (val === "--port") {
+			WHISPEER_PORT = array[index + 1];
+		} else {
+			// or just.. don't
+			val = val.split("=");
+			if (val[0] === "--port") {
+				WHISPEER_PORT = val[1];
+			}
+		}
+	});
+
 	var csp = buildCSPConfig();
 
 	if (process.env.WHISPEER_NO_CSP) {
@@ -98,7 +111,8 @@ function run() {
 		"invite",
 		"backup",
 		"post",
-		"patronize"
+		"patronize",
+		"search"
 	];
 
 	grunt.log.writeln("Starting webserver...");

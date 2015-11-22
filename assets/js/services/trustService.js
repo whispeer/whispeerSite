@@ -78,8 +78,13 @@ define(["step", "whispeerHelper", "crypto/trustManager", "crypto/signatureCache"
 				trustManager.loadDatabase(cache, this);
 			}, h.sF(function () {
 				trustManager.updateDatabase(server, this);
-			}), h.sF(function () {
-				this.ne(cache);
+			}), h.sF(function (changedByUpdate) {
+				if (changedByUpdate) {
+					uploadDatabase(errorService.criticalError);
+					this.ne(cache);
+				} else {
+					this.ne(server);
+				}
 			}), cb);
 		}
 

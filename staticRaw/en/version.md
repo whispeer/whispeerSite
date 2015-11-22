@@ -4,6 +4,11 @@ lang: en
 title: Version History
 ---
 
+## 0.2.11
+
+* Bugfix for static pages (e.g. Terms and conditions)
+* Friends are now sorted by alphabet and can be filtered
+
 ## 0.2.9
 
 * Account recovery works again

@@ -159,7 +159,7 @@ define (["whispeerHelper", "step", "asset/observer", "asset/securedDataWithMetaD
 					trustManager.notify("", "updated");
 				}
 
-				this.ne();
+				this.ne(newKeys.length > 0);
 			}), cb);
 		},
 		loadDatabase: function (data, cb) {
