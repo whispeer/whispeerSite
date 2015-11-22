@@ -2304,25 +2304,11 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 				}), callback);
 			},
 
-			/** sign a given text
-			* @param text text to sign
-			* @param realID key id with which to sign
-			* @param callback callback
-			*/
-			signText: function (text, realID, callback, noCache) {
-				keyStore.sign.signHash(sjcl.hash.sha256.hash(text), realID, callback, noCache);
-			},
+			signObject: function (object, realID, callback, noCache, version) {
+				var hash = new ObjectHasher(object, version).hashBits();
 
-			/** sign a hash
-			* @param hash hash to sign
-			* @param realID key id with which to sign
-			* @param callback callback
-			*/
-			signHash: function (hash, realID, callback, noCache) {
 				//subtle HERE!
-				step(function () {
-					hash = chelper.hex2bits(hash);
-
+				step(function signO1() {
 					SignKey.get(realID, this);
 				}, h.sF(function (key) {
 					key.sign(hash, this, noCache);
@@ -2331,27 +2317,14 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 				}), callback);
 			},
 
-			signObject: function (object, realID, callback, noCache, version) {
-				//subtle HERE!
-				step(function signO1() {
-					var hash = new ObjectHasher(object, version).hashBits();
-					keyStore.sign.signHash(hash, realID, this, noCache);
-				}, callback);
-			},
-
-			/** verify a given text
-			* @param signature given signature
-			* @param text given text
-			* @param realID key to verify against
-			* @param callback callback
-			*/
-			verifyText: function (signature, text, realID, callback) {
+			verifyObject: function (signature, object, realID, callback, version) {
 				signature = chelper.hex2bits(signature);
 
 				var getSignKey = Bluebird.promisify(SignKey.get, SignKey);
 
+				var objectString = new ObjectHasher(object, version).stringify();
 				var resultPromise = getSignKey(realID).then(function (key) {
-					return key.verify(signature, text);
+					return key.verify(signature, objectString);
 				}).catch(function (e) {
 					console.error(e);
 
@@ -2359,14 +2332,6 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 				});
 
 				return step.unpromisify(resultPromise, h.addAfterHook(callback, afterAsyncCall));
-			},
-
-			verifyObject: function (signature, object, realID, callback, version) {
-				step(function signO1() {
-					var objectString = new ObjectHasher(object, version).stringify();
-
-					keyStore.sign.verifyText(signature, objectString, realID, this);
-				}, callback);
 			},
 
 			fingerPrintKey: function (realID, cb) {
