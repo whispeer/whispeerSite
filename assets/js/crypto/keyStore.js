@@ -1220,10 +1220,6 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 			});
 		}
 
-
-		/*this.last.ne(signatureCache.getSignatureStatus(signature, hash, realid, type));
-		signatureCache.addSignatureStatus(signature, hash, realid, valid, type);*/
-
 		this.getFingerPrint = getFingerPrintF;
 		this.verify = function (signature, text, type, id) {
 			return requireAsync(["crypto/trustManager", "crypto/signatureCache"]).spread(function (trustManager, signatureCache) {
@@ -1256,9 +1252,6 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 			});
 		};
 	};
-
-//sign: 160ms
-//hash: ?
 
 	/** make a sign key out of keydata */
 	function makeSignKey(keyData) {
