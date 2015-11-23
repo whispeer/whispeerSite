@@ -27,6 +27,8 @@ config.debug = false;
 config.production = production;
 config.buildDate = buildDate;
 
+config.hashVersion = 1;
+
 config.socket = {
 	autoConnect: true,
 	autoReconnect: true
