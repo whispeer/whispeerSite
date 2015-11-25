@@ -2324,7 +2324,7 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 
 				var objectString = new ObjectHasher(object, version).stringify();
 				var resultPromise = getSignKey(realID).then(function (key) {
-					return key.verify(signature, objectString);
+					return key.verify(signature, objectString, object._type);
 				}).catch(function (e) {
 					console.error(e);
 
