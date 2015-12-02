@@ -22,29 +22,20 @@ define (["whispeerHelper", "step", "asset/observer", "asset/errors", "crypto/key
 	*/
 
 	var types = {
-		signatureCache: {
-			maxCount: -1,
-			cacheOwnSignature: false,
-			saveID: true
-		},
 		me: {
 			maxCount: -1,
-			cacheOwnSignature: true,
 			saveID: true
 		},
 		user: {
 			maxCount: 500,
-			cacheOwnSignature: true,
 			saveID: true
 		},
 		message: {
 			maxCount: 100,
-			cacheOwnSignature: true,
 			saveID: false
 		},
 		post: {
 			maxCount: 100,
-			cacheOwnSignature: true,
 			saveID: false
 		}
 	};
@@ -73,13 +64,16 @@ define (["whispeerHelper", "step", "asset/observer", "asset/errors", "crypto/key
 	var Database = function (type, options) {
 		this._type = type;
 
-		this._cacheOwnSignature = options.cacheOwnSignature || false;
 		this._maxCount = options.maxCount;
 		this._saveID = options.saveID;
 
 		this._changed = false;
 
 		this._signatures = {};
+	};
+
+	Database.prototype.getType = function () {
+		return this._type;
 	};
 
 	Database.prototype.isChanged = function () {
@@ -186,20 +180,47 @@ define (["whispeerHelper", "step", "asset/observer", "asset/errors", "crypto/key
 	};
 
 	var allDatabases = [];
-	h.objectEach(types, function (key, val) {
-		types[key] = new Database(key, val);
-		allDatabases.push(types[key]);
+	h.objectEach(types, function (name, val) {
+		types[name] = new Database(name, val);
+		allDatabases.push(types[name]);
 	});
 
 	var api2 = {
 		isChanged: function () {
-
+			return allDatabases.reduce(h.or, false);
 		},
-		load: function (securedData) {
+		load: function (securedData, ownKey) {
+			if (securedData.me !== ownKey) {
+				throw new errors.SecurityError("not my signature cache");
+			}
 
+			var givenDatabase = new SecuredData.load(undefined, securedData, { type: "signatureCache" });
+
+			return givenDatabase.verify(ownKey).then(function () {
+				securedData.databases.forEach(function (db) {
+					types[db.type].joinEntries(db.entries);
+				});
+
+				signKey = ownKey;
+				loaded = true;
+
+				signatureCache.notify("", "loaded");
+			});
 		},
 		getUpdatedVersion: function () {
+			var databases = allDatabases.map(function (db) {
+				return {
+					type: db.getType(),
+					entries: db.allEntries()
+				};
+			});
 
+			var data = {
+				me: signKey,
+				databases: databases
+			};
+
+			//.sign(signKey, cb, true);
 		},
 		isSignatureInCache: function (signature, hash, key) {
 			var sHash = dataSetToHash(signature, hash, key);
@@ -245,9 +266,6 @@ define (["whispeerHelper", "step", "asset/observer", "asset/errors", "crypto/key
 			} else {
 				throw new Error("tried to get signature status but not in cache!");
 			}
-		},
-		getUpdatedVersion: function () {
-
 		}
 	};
 
