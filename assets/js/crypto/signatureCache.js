@@ -24,23 +24,27 @@ define (["whispeerHelper", "step", "asset/observer", "asset/errors", "crypto/key
 	var types = {
 		signatureCache: {
 			maxCount: -1,
-			cacheOwnSignature: true,
+			cacheOwnSignature: false,
 			saveID: true
 		},
 		me: {
 			maxCount: -1,
+			cacheOwnSignature: true,
 			saveID: true
 		},
 		user: {
 			maxCount: 500,
+			cacheOwnSignature: true,
 			saveID: true
 		},
 		message: {
 			maxCount: 100,
+			cacheOwnSignature: true,
 			saveID: false
 		},
 		post: {
 			maxCount: 100,
+			cacheOwnSignature: true,
 			saveID: false
 		}
 	};
@@ -93,6 +97,34 @@ define (["whispeerHelper", "step", "asset/observer", "asset/errors", "crypto/key
 		}
 	};
 
+	Database.prototype.allEntries = function () {
+		return this.allSignatures().map(function (signatureHash) {
+			var entry = h.deepCopyObject(this.getEntry(signatureHash));
+			entry.signatureHash = signatureHash;
+			return entry;
+		}, this);
+	};
+
+	Database.prototype.getEntry = function (signatureHash) {
+		return this._signatures[signatureHash];
+	};
+
+	Database.prototype.deleteByID = function (id) {
+		if (!this._saveID) {
+			return;
+		}
+
+		this.allEntries().filter(function (entry) {
+			return entry.id === id;
+		}).forEach(function (entry) {
+			this.deleteEntry(entry.signatureHash);
+		}, this);
+	};
+
+	Database.prototype.deleteEntry = function (signatureHash) {
+		delete this._signatures[signatureHash];
+	};
+
 	Database.prototype.addSignature = function (signature, hash, key, valid, id) {
 		if (!valid) {
 			return;
@@ -106,6 +138,7 @@ define (["whispeerHelper", "step", "asset/observer", "asset/errors", "crypto/key
 
 		var sHash = dataSetToHash(signature, hash, key);
 
+		this.deleteByID(id);
 		this._signatures[sHash] = this.getCacheEntry(id);
 
 		this.cleanUp();
@@ -125,54 +158,18 @@ define (["whispeerHelper", "step", "asset/observer", "asset/errors", "crypto/key
 			return;
 		}
 
-		var hashes = this.allHashes();
-		if (hashes.length > this._maxCount) {
-			console.log("Cleaning up database of type " + this._type + " (" + hashes.length + ")");
-
-			var times = hashes.map(function (key) {
-				return {
-					time: this._signatures[key].date,
-					key: key
-				};
-			}, this);
-
-			times.sort(function (a, b) { return a.time - b.time; });
-
-			var remove = times.slice(0, times.length - this._maxCount);
-
-			remove.forEach(function (hash) {
-				delete this._signatures[hash];
-			}, this);
+		var entries = this.allEntries();
+		if (entries.length <= this._maxCount) {
+			return;
 		}
-	};
 
-	Database.prototype.addSignaturesFromSecured = function (data, cb) {
-		var givenDatabase = new SecuredData.load(undefined, data, { type: "signatureCache" });
-		step(function () {
-			if (data.me === signKey) {
-				givenDatabase.verify(signKey, this);
-			} else {
-				throw new errors.SecurityError("not my signature cache");
-			}
-		}, h.sF(function () {
-			var newSignatures = givenDatabase.metaAttr("signatures");
+		console.log("Cleaning up database of type " + this._type + " (" + entries.length + ")");
 
-			h.objectEach(newSignatures, function (key, value) {
-				this._signatures[key] = value;
-			}, this);
+		entries.sort(function (a, b) { return a.date - b.date; });
 
-			this.ne();
-		}), cb);
-	};
-
-	Database.prototype.getUpdatedVersion = function (cb) {
-		this._changed = false;
-
-		var databaseSecured = new SecuredData.load(undefined, {
-			me: signKey,
-			signatures: this._signatures
-		}, { type: "signatureCache" });
-		databaseSecured.sign(signKey, cb, this._cacheOwnSignature);
+		entries.slice(0, entries.length - this._maxCount).forEach(function (entry) {
+			this.deleteEntry(entry.signatureHash);
+		}, this);
 	};
 
 	Database.prototype.allSignatures = function () {
@@ -189,7 +186,7 @@ define (["whispeerHelper", "step", "asset/observer", "asset/errors", "crypto/key
 		isChanged: function () {
 
 		},
-		load: function (securedData, type, cb) {
+		load: function (securedData) {
 
 		},
 		getUpdatedVersion: function () {
@@ -244,34 +241,6 @@ define (["whispeerHelper", "step", "asset/observer", "asset/errors", "crypto/key
 
 		}
 	};
-
-	function allHashes() {
-		return database.metaKeys().filter(function (key) {
-				return key.indexOf("hash::") === 0;
-		});
-	}
-
-	function cleanUpDatabase() {
-		if (allHashes().length > 500) {
-			console.log("Cleaning up database (" + allHashes().length + ")");
-			var times = allHashes().map(function (key) {
-				return database.metaAttr(key);
-			});
-
-			times.sort(function (a, b) { return b - a; });
-
-			var border = times[400] + 200;
-
-			allHashes().forEach(function (key) {
-				if (database.metaAttr(key) < border) {
-					database.metaRemoveAttr(key);
-					changed = true;
-				}
-			});
-
-			console.log("Cleaned up database (" + allHashes().length + ")");
-		}
-	}
 
 	var signatureCache = {
 		isLoaded: function () {
