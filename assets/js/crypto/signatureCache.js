@@ -194,9 +194,7 @@ define (["whispeerHelper", "step", "asset/observer", "asset/errors", "crypto/key
 				throw new errors.SecurityError("not my signature cache");
 			}
 
-			var givenDatabase = new SecuredData.load(undefined, securedData, { type: "signatureCache" });
-
-			return givenDatabase.verify(ownKey).then(function () {
+			SecuredData.load(undefined, securedData, { type: "signatureCache" }).verify(ownKey).then(function () {
 				securedData.databases.forEach(function (db) {
 					types[db.type].joinEntries(db.entries);
 				});
@@ -207,7 +205,11 @@ define (["whispeerHelper", "step", "asset/observer", "asset/errors", "crypto/key
 				signatureCache.notify("", "loaded");
 			});
 		},
-		getUpdatedVersion: function () {
+		getUpdatedVersion: function (cb) {
+			if (!loaded) {
+				return;
+			}
+
 			var databases = allDatabases.map(function (db) {
 				return {
 					type: db.getType(),
@@ -220,7 +222,7 @@ define (["whispeerHelper", "step", "asset/observer", "asset/errors", "crypto/key
 				databases: databases
 			};
 
-			//.sign(signKey, cb, true);
+			//SecuredData.load(undefined, data, { type: "signatureCache" }).sign(signKey, cb, true);
 		},
 		isSignatureInCache: function (signature, hash, key) {
 			var sHash = dataSetToHash(signature, hash, key);
@@ -249,11 +251,8 @@ define (["whispeerHelper", "step", "asset/observer", "asset/errors", "crypto/key
 				return;
 			}
 
-			var sHash = dataSetToHash(signature, hash, key);
 			var db = types[reducedType];
-			db.metaSetAttr(sHash, new Date().getTime());
-
-			db.cleanUp();
+			db.addSignatureStatus(signature, hash, key);
 		},
 		getSignatureStatus: function (signature, hash, key, type) {
 			var sHash = dataSetToHash(signature, hash, key);
