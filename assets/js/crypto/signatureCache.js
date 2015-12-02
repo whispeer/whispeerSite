@@ -130,27 +130,36 @@ define (["whispeerHelper", "step", "asset/observer", "asset/errors", "crypto/key
 			return;
 		}
 
-		this._changed = true;
-
 		if (typeof valid !== "boolean" || !h.isRealID(key) || !h.isSignature(chelper.bits2hex(signature))) {
 			throw new Error("invalid input");
 		}
 
 		var sHash = dataSetToHash(signature, hash, key);
 
+		if (this.hasEntry(sHash)) {
+			this.getEntry(sHash).date = new Date().getTime();
+			return;
+		}
+
 		this.deleteByID(id);
 		this._signatures[sHash] = this.getCacheEntry(id);
+
+		this._changed = true;
 
 		this.cleanUp();
 	};
 
-	Database.prototype.hasSignature = function (signature, hash, key) {
-		var sHash = dataSetToHash(signature, hash, key);
-		if (this._signatures[sHash]) {
+	Database.prototype.hasEntry = function (signatureHash) {
+		if (this._signatures[signatureHash]) {
 			return true;
 		}
 
 		return false;
+	};
+
+	Database.prototype.hasSignature = function (signature, hash, key) {
+		var sHash = dataSetToHash(signature, hash, key);
+		return this.hasEntry(sHash);
 	};
 
 	Database.prototype.cleanUp = function () {
