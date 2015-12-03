@@ -103,6 +103,18 @@ define (["whispeerHelper", "step", "asset/observer", "asset/errors", "crypto/key
 		return this._signatures[signatureHash];
 	};
 
+	Database.prototype.joinEntries = function (entries) {
+		entries.forEach(function (entry) {
+			var signatureHash = entry.signatureHash;
+
+			delete entry.signatureHash;
+
+			if (!this[signatureHash]) {
+				this[signatureHash] = entry;
+			}
+		}, this);
+	};
+
 	Database.prototype.deleteByID = function (id) {
 		if (!this._saveID) {
 			return;
