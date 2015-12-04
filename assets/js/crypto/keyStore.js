@@ -2317,21 +2317,19 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 				}), callback);
 			},
 
-			verifyObject: function (signature, object, realID, callback, version) {
+			verifyObject: function (signature, object, realID, version) {
 				signature = chelper.hex2bits(signature);
 
 				var getSignKey = Bluebird.promisify(SignKey.get, SignKey);
 
 				var objectString = new ObjectHasher(object, version).stringify();
-				var resultPromise = getSignKey(realID).then(function (key) {
+				return getSignKey(realID).then(function (key) {
 					return key.verify(signature, objectString, object._type);
 				}).catch(function (e) {
 					console.error(e);
 
 					return false;
 				});
-
-				return step.unpromisify(resultPromise, h.addAfterHook(callback, afterAsyncCall));
 			},
 
 			fingerPrintKey: function (realID, cb) {

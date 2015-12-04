@@ -234,7 +234,7 @@ define (["whispeerHelper", "step", "asset/observer", "asset/errors", "crypto/key
 				databases: databases
 			};
 
-			//SecuredData.load(undefined, data, { type: "signatureCache" }).sign(signKey, cb, true);
+			SecuredData.load(undefined, data, { type: "signatureCache" }).sign(signKey, cb, true);
 		},
 		isSignatureInCache: function (signature, hash, key) {
 			var sHash = dataSetToHash(signature, hash, key);

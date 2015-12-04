@@ -152,19 +152,18 @@ define(["whispeerHelper", "step", "crypto/keyStore", "asset/errors", "config"], 
 		@throw SecurityError: contenthash or signature wrong
 	*/
 	SecuredDataWithMetaData.prototype.verify = function (signKey, cb) {
-		var that = this;
 		//check contentHash is correct
 		//check signature is correct
-		//question: store signature with meta data? -> YES!
-		step(function () {
-			var metaCopy = h.deepCopyObj(that._original.meta);
 
-			that._attributesNotVerified.forEach(function(attr) {
+		var resultPromise = Bluebird.resolve().bind(this).then(function () {
+			var metaCopy = h.deepCopyObj(this._original.meta);
+
+			this._attributesNotVerified.forEach(function(attr) {
 				delete metaCopy[attr];
 			});
 
-			if (metaCopy._type !== that._type) {
-				throw new errors.SecurityError("invalid object type. is: " + metaCopy._type + " should be: " + that._type);
+			if (metaCopy._type !== this._type) {
+				throw new errors.SecurityError("invalid object type. is: " + metaCopy._type + " should be: " + this._type);
 			}
 
 			if (typeof metaCopy._hashVersion === "number") {
@@ -179,18 +178,20 @@ define(["whispeerHelper", "step", "crypto/keyStore", "asset/errors", "config"], 
 				hashVersion = 2;
 			}
 
-			keyStore.sign.verifyObject(that._original.meta._signature, metaCopy, signKey, this, hashVersion);
-		}, h.sF(function (correctSignature) {
+			return keyStore.sign.verifyObject(this._original.meta._signature, metaCopy, signKey, hashVersion);
+		}).then(function (correctSignature) {
 			if (!correctSignature) {
-				alert("Bug: signature did not match (" + that._original.meta._type + ") Please report this bug!");
-				throw new errors.SecurityError("signature did not match " + that._original.meta._type);
+				alert("Bug: signature did not match (" + this._original.meta._type + ") Please report this bug!");
+				throw new errors.SecurityError("signature did not match " + this._original.meta._type);
 			}
 
-			that._verifyContentHash();
+			this._verifyContentHash();
+			this._isKeyVerified = true;
 
-			that._isKeyVerified = true;
-			this.ne(true);
-		}), cb);
+			return true;
+		});
+
+		return step.unpromisify(resultPromise, cb);
 	};
 
 	SecuredDataWithMetaData.prototype.updated = function () {
