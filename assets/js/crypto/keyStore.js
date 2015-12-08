@@ -1136,7 +1136,7 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 			return fingerPrintPublicKey(publicKey);
 		}
 
-		function signF(hash, callback, noCache, type) {
+		function signF(hash, callback, type) {
 			var trustManager, signatureCache;
 			step(function () {
 				require(["crypto/trustManager", "crypto/signatureCache"], this.ne, this);
@@ -1160,7 +1160,7 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 			}), h.sF(function () {
 				this.ne(intKey.getSecret().sign(hash));
 			}), h.sF(function (signature) {
-				if (signatureCache.isLoaded() && !noCache) {
+				if (signatureCache.isLoaded()) {
 					signatureCache.addSignatureStatus(signature, hash, realid, true, type);
 				}
 
@@ -1232,7 +1232,7 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 				console.info("Slow verify");
 				var name = chelper.bits2hex(signature).substr(0, 10);
 				console.time("verify-" + name);
-				return signatureCache.getSignatureStatus(signature, hash, realid, type).then(function (validCacheEntry) {
+				return signatureCache.getSignatureStatus(signature, hash, realid).then(function (validCacheEntry) {
 					if (validCacheEntry) {
 						return validCacheEntry;
 					}
@@ -2304,14 +2304,14 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 				}), callback);
 			},
 
-			signObject: function (object, realID, callback, noCache, version) {
+			signObject: function (object, realID, callback, version) {
 				var hash = new ObjectHasher(object, version).hashBits();
 
 				//subtle HERE!
 				step(function signO1() {
 					SignKey.get(realID, this);
 				}, h.sF(function (key) {
-					key.sign(hash, this, noCache);
+					key.sign(hash, this);
 				}), h.sF(function (signature) {
 					this.ne(chelper.bits2hex(signature));
 				}), callback);

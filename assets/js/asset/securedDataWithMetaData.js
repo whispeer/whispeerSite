@@ -59,7 +59,7 @@ define(["whispeerHelper", "step", "crypto/keyStore", "asset/errors", "config"], 
 		return this._updated.meta._ownHash;
 	};
 
-	SecuredDataWithMetaData.prototype.sign = function (signKey, cb, noCache) {
+	SecuredDataWithMetaData.prototype.sign = function (signKey, cb) {
 		var that = this;
 		var toSign = h.deepCopyObj(that._updated.meta);
 		var hashVersion = config.hashVersion;
@@ -85,7 +85,7 @@ define(["whispeerHelper", "step", "crypto/keyStore", "asset/errors", "config"], 
 
 			toSign._hashVersion = hashVersion;
 
-			keyStore.sign.signObject(toSign, signKey, this, noCache, hashVersion);
+			keyStore.sign.signObject(toSign, signKey, this, hashVersion);
 		}, h.sF(function (signature) {
 			toSign._signature = signature;
 

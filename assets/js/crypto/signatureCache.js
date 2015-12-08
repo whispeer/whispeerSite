@@ -217,7 +217,7 @@ define (["whispeerHelper", "step", "asset/observer", "asset/errors", "crypto/key
 				signatureCache.notify("", "loaded");
 			});
 		},
-		getUpdatedVersion: function (cb) {
+		getUpdatedVersion: function () {
 			if (!loaded) {
 				return;
 			}
@@ -234,7 +234,7 @@ define (["whispeerHelper", "step", "asset/observer", "asset/errors", "crypto/key
 				databases: databases
 			};
 
-			SecuredData.load(undefined, data, { type: "signatureCache" }).sign(signKey, cb, true);
+			return SecuredData.load(undefined, data, { type: "signatureCache" }).sign(signKey);
 		},
 		isSignatureInCache: function (signature, hash, key) {
 			var sHash = dataSetToHash(signature, hash, key);
@@ -243,12 +243,8 @@ define (["whispeerHelper", "step", "asset/observer", "asset/errors", "crypto/key
 				return database.metaHasAttr(sHash);
 			}).length > 0;
 		},
-		addSignatureStatus: function (signature, hash, key, valid, type) {
-			if (!valid) {
-				return;
-			}
-
-			if (typeof valid !== "boolean" || !h.isRealID(key) || !h.isSignature(chelper.bits2hex(signature))) {
+		addValidSignature: function (signature, hash, key, type) {
+			if (!h.isRealID(key) || !h.isSignature(chelper.bits2hex(signature))) {
 				throw new Error("invalid input");
 			}
 
@@ -266,7 +262,7 @@ define (["whispeerHelper", "step", "asset/observer", "asset/errors", "crypto/key
 			var db = types[reducedType];
 			db.addSignatureStatus(signature, hash, key);
 		},
-		getSignatureStatus: function (signature, hash, key, type) {
+		getSignatureStatus: function (signature, hash, key) {
 			var sHash = dataSetToHash(signature, hash, key);
 			if (database.metaHasAttr(sHash)) {
 				var data = database.metaAttr(sHash);
