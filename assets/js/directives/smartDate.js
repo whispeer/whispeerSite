@@ -58,6 +58,8 @@ define(["whispeerHelper", "directives/directivesModule"], function (h, directive
                     if (result !== previousResult) {
                         element.text(result);
                     }
+
+                    previousResult = result;
                 }
 
                 updateDateString();
