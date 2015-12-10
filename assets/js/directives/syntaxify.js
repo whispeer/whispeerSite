@@ -16,8 +16,6 @@ define(["directives/directivesModule"], function (directivesModule) {
 			}
 		}
 
-		console.log(removeUntil);
-
 		var removedCharacters = "";
 
 		if (removeUntil) {
