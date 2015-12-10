@@ -2,6 +2,36 @@
 define(["directives/directivesModule"], function (directivesModule) {
 	"use strict";
 
+	var ignoreAsLastCharacter = ["'", ")", "\"", "."];
+	var linkElement = jQuery("<a>").attr("target", "_blank");
+
+	function appendUrl(elm, url, remainingTextCallback) {
+		var i, removeUntil = 0;
+		for (i = -1; i > -5; i -= 1) {
+			//if i:=-1 than i+1 would be 0 and thus the slice would be empty.
+			var lastCharacter = url.slice(i, i+1 || undefined);
+			if (ignoreAsLastCharacter.indexOf(lastCharacter) === -1) {
+				removeUntil = i + 1;
+				break;
+			}
+		}
+
+		console.log(removeUntil);
+
+		var removedCharacters = "";
+
+		if (removeUntil) {
+			removedCharacters = url.slice(removeUntil);
+			url = url.slice(0, removeUntil);
+		}
+
+		elm.append(linkElement.clone().attr("href", url).text(url));
+
+		if (removeUntil) {
+			remainingTextCallback(removedCharacters);
+		}
+	}
+
 	function urlify(elm, text, remainingTextCallback) {
 		/*
 		/                                   # Start at the beginning of the text
@@ -14,20 +44,20 @@ define(["directives/directivesModule"], function (directivesModule) {
 		(?:[a-z0-9\-\.]+)                    # The domain limiting it to just allowed characters
 		(?::[0-9]+)?                         # Server port number
 		(?:                                  # The path (optional)
-			\/(?:[\w#!:\.\?\+=&%@!\-\/\(]+)|  # or a forward slash followed by a full path
-			\?(?:[\w#!:\.\?\+=&%@!\-\/\(]+)  # or a question mark followed by key value pairs
+			\/(?:[\w#!:"'\)\.\?\+=&%@!\-\/\(]+)|  # or a forward slash followed by a full path
+			\?(?:[\w#!:"'\)\.\?\+=&%@!\-\/\(]+)  # or a question mark followed by key value pairs
 		)?/
 		*/
 
-		var urlRegex = /((?:http|https):\/\/(?:[\w\.\-\+]+:{0,1}[\w\.\-\+]*@)?(?:[a-z0-9\-\.]+)(?::[0-9]+)?(?:\/(?:[\w#!:\.\?\+=&%@!\-\/\(]+)|\?(?:[\w#!:\.\?\+=&%@!\-\/\(]+))?)(?!http)/;
+		var urlRegex = /((?:http|https):\/\/(?:[\w\.\-\+]+:{0,1}[\w\.\-\+]*@)?(?:[a-z0-9\-\.]+)(?::[0-9]+)?(?:\/(?:[\w#!:"'\)\.\?\+=&%@!\-\/\(]+)|\?(?:[\w#!:"'\)\.\?\+=&%@!\-\/\(]+))?)(?!http)/;
 
 		var urls = text.split(urlRegex);
 
-		var i, a = jQuery("<a>").attr("target", "_blank");
+		var i;
 		for (i = 0; i < urls.length; i += 2) {
 			remainingTextCallback(urls[i]);
 			if (urls[i+1]) {
-				elm.append(a.clone().attr("href", urls[i+1]).text(urls[i+1]));
+				appendUrl(elm, urls[i+1], remainingTextCallback);
 			}
 		}
 	}
