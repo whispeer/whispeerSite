@@ -1,5 +1,6 @@
 "use strict";
 
+var Bluebird = require("bluebird");
 var grunt = require("grunt");
 
 grunt.loadNpmTasks("grunt-contrib-jshint");
@@ -102,6 +103,16 @@ grunt.initConfig({
 				excludeShallow: libs
 			})
 		}
+	},
+	assetHash: {
+		compile: [
+			"assets/js/build/lib.js",
+			"assets/js/build/build.js",
+			"assets/js/build/register.js",
+			"assets/js/build/login.js",
+			"assets/js/build/recovery.js",
+			"assets/js/build/verifyMail.js"
+		]
 	},
 	includes: {
 		compile: {
@@ -245,20 +256,8 @@ grunt.initConfig({
 	"bower-install-simple": {
 		prod: {}
 	},
-	manifest: {
-		production: {
-			destination: "./manifest.mf",
-			source: "./templates/manifest.mf.template",
-			config: "./assets/js/config"
-		}
-	},
 	clean: {
 		build: ["assets/js/build/*.js", "manifest.mf"]
-	},
-	fileToHashName: {
-		build: {
-			source: "assets/js/build/build.js"
-		}
 	}
 });
 
@@ -300,41 +299,46 @@ grunt.task.registerTask("scriptInclude", "Add the correct script include to the 
 	}
 });
 
-grunt.task.registerMultiTask("fileToHashName", "Hash a file and rename the file to the hash", function () {
-	var done = this.async();
-
-	var filename = this.data.source;
+function sha1File(filename) {
 	var crypto = require("crypto");
 	var fs = require("fs");
 
-	var shasum = crypto.createHash("sha1");
+	return new Bluebird(function (resolve, reject) {
+		var shasum = crypto.createHash("sha1");
+		var s = fs.ReadStream(filename);
 
-	var s = fs.ReadStream(filename);
-	s.on("data", function(d) {
-		shasum.update(d);
+		s.on("data", function(d) {
+			shasum.update(d);
+		});
+
+		s.on("end", function() {
+			var hash = shasum.digest("hex");
+
+			resolve(hash);
+		});
 	});
+}
 
-	s.on("end", function() {
-		var hash = shasum.digest("hex");
-		var newFileName = filename.replace(/\/[^/]*.js/, "/" + hash + ".js");
+grunt.task.registerMultiTask("assetHash", "Hash a file and rename the file to the hash", function () {
+	var done = this.async();
 
-		fs.renameSync(filename, newFileName);
+	var fs = require("fs");
 
-		done();
-	});
+	return Bluebird.resolve(this.data).map(function (filename) {
+		return sha1File(filename).then(function (hash) {
+			var newFileName = filename.replace(/\/([^\/]*).js/, "/$1-" + hash + ".js");
+
+			console.log("Renaming " + filename + " to " + newFileName);
+
+			fs.renameSync(filename, newFileName);
+		});
+	}).then(done);
 });
 
-grunt.task.registerMultiTask("manifest", "Build the manifest file.", function () {
-	var destination = this.data.destination;
-	var source = this.data.source;
-	var config = require(this.data.config);
-
-	require("./scripts/build_appcache")(source, destination, config, this.async());
-});
 
 grunt.registerTask("default", ["build:development", "browserSync", "concurrent:development"]);
 
 grunt.registerTask("build:development", ["clean", "copy", "bower-install-simple", "less", "autoprefixer", "run:buildsjcl"]);
-grunt.registerTask("build:production",  ["clean", "copy", "bower-install-simple", "less", "autoprefixer", "requirejs", "run:buildsjcl", "buildDate", "includes"]);
+grunt.registerTask("build:production",  ["clean", "copy", "bower-install-simple", "less", "autoprefixer", "requirejs", "run:buildsjcl", "buildDate", "assetHash", "includes"]);
 
 grunt.registerTask("server", "Start the whispeer web server.", require("./webserver"));
