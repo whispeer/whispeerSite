@@ -116,23 +116,23 @@ grunt.initConfig({
 	},
 	includes: {
 		compile: {
-			scripts: ["assets/js/build/lib.js", "assets/js/build/build.js"],
+			scripts: ["lib", "build"],
 			sources: ["index.html"]
 		},
 		register: {
-			scripts: ["assets/js/build/lib.js", "assets/js/build/register.js"],
+			scripts: ["lib", "register"],
 			sources: ["static/en/register/index.html", "static/de/register/index.html"]
 		},
 		login: {
-			scripts: ["assets/js/build/lib.js", "assets/js/build/login.js"],
+			scripts: ["lib", "login"],
 			sources: ["static/en/loginframe/index.html", "static/de/loginframe/index.html", "static/en/login/index.html", "static/de/login/index.html"]
 		},
 		recovery: {
-			scripts: ["assets/js/build/lib.js", "assets/js/build/recovery.js"],
+			scripts: ["lib", "recovery"],
 			sources: ["static/en/recovery/index.html", "static/de/recovery/index.html"]
 		},
 		verify: {
-			scripts: ["assets/js/build/lib.js", "assets/js/build/verifyMail.js"],
+			scripts: ["lib", "verifyMail"],
 			sources: ["static/en/verifyMail/index.html", "static/de/verifyMail/index.html"]
 		}
 	},
@@ -273,11 +273,17 @@ grunt.task.registerTask("buildDate", function () {
 });
 
 grunt.task.registerMultiTask("includes", "Add the correct script include to the index.html", function () {
-	var files = this.data.sources;
-	var scripts = this.data.scripts;
+	var scripts = grunt.file.expand("assets/js/build/*.js");
 
-	var includes = scripts.map(function (script) {
-		return "<script src='" + script + "'></script>";
+	var files = this.data.sources;
+	var scriptNames = this.data.scripts;
+
+	var includes = scriptNames.map(function (script) {
+		var scriptPath = scripts.filter(function (fileName) {
+			return fileName.replace("assets/js/build", "").indexOf(script) > -1;
+		})[0];
+
+		return "<script src='" + scriptPath + "'></script>";
 	}).join("\n");
 
 	files.forEach(function (file) {
