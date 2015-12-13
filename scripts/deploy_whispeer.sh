@@ -1,5 +1,4 @@
 #!/bin/bash
-cd whispeer
 npm install
 git submodule update --init
 bower install
