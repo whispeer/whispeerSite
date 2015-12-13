@@ -88,21 +88,18 @@ define(["step", "whispeerHelper", "directives/directivesModule"], function (step
 
 				scope.modal = false;
 				scope.runGif = false;
-				scope.viewImage = function (index, gifRunning) {
-					gifRunning = gifRunning || false;
+				scope.viewImage = function (index) {
 					scope.imageIndex = index;
 
 					scope.modalImage = scope.images[scope.imageIndex];
 
-					if (screenSizeService.mobile && !scope.modalImage.lowest.gif) {
+					if (scope.modalImage.lowest.gif) {
+						scope.runGif = !scope.runGif;
+					} else if (screenSizeService.mobile) {
 						return;
+					} else {
+						scope.modal = true;
 					}
-
-					// we do not want a modal when it's a gif!
-					scope.modal = !scope.modalImage.lowest.gif;
-
-					// toggle runGif
-					scope.runGif = !gifRunning;
 
 					if (!scope.modalImage.upload) {
 						loadImage(scope.modalImage.highest);

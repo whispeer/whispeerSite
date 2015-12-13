@@ -4,7 +4,7 @@
 	<div class="modalContent-spinner" data-ng-if="modalImage.highest.loading"><i class="fa fa-spin fa-circle-o-notch fa-3x"></i></div>
 </modal>
 <div class="post-images">
-	<div class="post-imageWrap" data-ng-click="viewImage($index, runGif)" data-image-gallery="images" data-ng-repeat="image in images" data-ng-if="$index < preview">
+	<div class="post-imageWrap" data-ng-click="viewImage($index)" data-image-gallery="images" data-ng-repeat="image in images" data-ng-if="$index < preview">
 		<img class="post-image" data-ng-if="!runGif" data-ng-src="{{image.lowest.url}}">
 		<span class="post-image--play fa fa-play fa-2x" data-ng-if="image.lowest.gif && !runGif"></span>
 		<div data-ng-if="runGif">
