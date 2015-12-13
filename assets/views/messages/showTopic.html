@@ -35,7 +35,7 @@
 				<li class="burst" data-ng-repeat="burst in (bursts = messageBursts())" data-ng-class="{me:burst.isMe(), other:burst.isOther()}">
 					<div class="burst-date" data-ng-if="::!burst.sameDay(bursts[$index - 1]) && !$first"><span class="burst-date-text">{{::burst.firstMessage().timestamp|date}}</span></div>
 
-					<a whispeer-sref="app.user.info({identifier: partner.names.nickname})" class="username">{{burst.sender().name}}</a>
+					<a whispeer-sref="app.user.info({identifier: burst.sender().names.nickname})" class="username">{{burst.sender().name}}</a>
 					<div class="userimg">
 						<a whispeer-sref="app.user.info({identifier: burst.sender().names.nickname})">
 							<userimage data-userID="sender{{burst.sender().id}}" data-user="burst.sender()" data-trustlevel="0">
