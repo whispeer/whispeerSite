@@ -87,15 +87,19 @@ define(["step", "whispeerHelper", "directives/directivesModule"], function (step
 				};
 
 				scope.modal = false;
+				scope.runGif = false;
 				scope.viewImage = function (index) {
-					if (screenSizeService.mobile) {
-						return;
-					}
-
-					scope.modal = true;
 					scope.imageIndex = index;
 
 					scope.modalImage = scope.images[scope.imageIndex];
+
+					if (scope.modalImage.lowest.gif) {
+						scope.runGif = !scope.runGif;
+					} else if (screenSizeService.mobile) {
+						return;
+					} else {
+						scope.modal = true;
+					}
 
 					if (!scope.modalImage.upload) {
 						loadImage(scope.modalImage.highest);
