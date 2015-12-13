@@ -71,6 +71,10 @@ define(["step", "whispeerHelper", "asset/observer", "services/serviceModule"], f
 						notificationCount -= 1;
 					};
 
+					window.setTimeout(function () {
+						notification.close();
+					}, 5*1000);
+
 					return notification;
 				}
 			},
