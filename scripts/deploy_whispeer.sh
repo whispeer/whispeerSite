@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 npm install
 git submodule update --init
 bower install
@@ -10,6 +11,7 @@ cp -r whispeer whispeer-deploy
 cp config.js ./whispeer-deploy/assets/js/
 cd whispeer-deploy
 
+jekyll build
 grunt build:production
 
 cd /var/www/
