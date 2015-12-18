@@ -44,20 +44,14 @@ define(["directives/directivesModule"], function (directivesModule) {
 								scrollTop: scrollTop,
 								scrollBottom: scrollBottom
 							};
-							console.warn(scrollInfo);
 						}
 
 						function scrollTop(scrollTo) {
-							console.warn("scrolling to: " + scrollTo + " - " + elm.scrollTop());
 							elm.scrollTop(scrollTo);
 						}
 
 						function reSyncBottomScroll(previousBottom) {
-							//scrollBottom = nativeElement.scrollHeight -  elm.innerHeight() - scrollTop;
-							//scrollTop + scrollBottom = nativeElement.scrollHeight -  elm.innerHeight();
-
 							var scrollTo = getScrollHeight() -  elm.innerHeight() - previousBottom;
-							console.warn(getScrollHeight() + " - " + elm.innerHeight() + "-" + previousBottom);
 							scrollTop(scrollTo);
 						}
 
@@ -71,8 +65,6 @@ define(["directives/directivesModule"], function (directivesModule) {
 								if (runningTimer) {
 									return;
 								}
-
-								console.warn("DOM Subtree Modified");
 
 								var preModifyScrollInfo = scrollInfo;
 
@@ -88,12 +80,13 @@ define(["directives/directivesModule"], function (directivesModule) {
 									}
 
 									if (preModifyScrollInfo.atBottom && keepBottom) {
+										console.info("Scroll to bottom");
 										scrollTop(nativeElement.scrollHeight);
 										return;
 									}
 
 									if (bottomRelative) {
-										console.warn("Scroll Relative Bottom");
+										console.info("reSync Bottom Scroll");
 										reSyncBottomScroll(preModifyScrollInfo.scrollBottom);
 									}
 								}, 25);
