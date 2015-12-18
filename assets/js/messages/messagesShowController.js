@@ -16,8 +16,6 @@ define(["step", "whispeerHelper", "asset/state", "bluebird", "messages/messagesM
 		$scope.canSend = false;
 		$scope.topicLoaded = false;
 
-		$scope.scrollLock = false;
-
 		$scope.hideOverlay = false;
 
 		$scope.doHideOverlay = function () {
@@ -43,11 +41,9 @@ define(["step", "whispeerHelper", "asset/state", "bluebird", "messages/messagesM
 		$scope.loadMoreMessages = function () {
 			var loadMore = Bluebird.promisify($scope.activeTopic.obj.loadMoreMessages, $scope.activeTopic.obj);
 
-			$scope.scrollLock = true;
 			$scope.loadingMessages = true;
 			return loadMore().then(function () {
 				$scope.loadingMessages = false;
-				$scope.scrollLock = false;
 			});
 		};
 
