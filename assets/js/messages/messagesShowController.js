@@ -239,7 +239,7 @@ define(["step", "whispeerHelper", "asset/state", "bluebird", "messages/messagesM
 			});
 
 			if (fittingBursts.length > 1) {
-				throw new Error("There should only be one fitting burst!");
+				console.warn("There should only be one fitting burst!");
 			}
 
 			if (fittingBursts.length === 0) {
