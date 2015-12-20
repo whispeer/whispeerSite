@@ -14,6 +14,7 @@ grunt.loadNpmTasks("grunt-bower-install-simple");
 grunt.loadNpmTasks("grunt-run");
 grunt.loadNpmTasks("grunt-contrib-requirejs");
 grunt.loadNpmTasks("grunt-contrib-clean");
+grunt.loadNpmTasks('grunt-angular-templates');
 
 var libs = [
 	"step",
@@ -59,7 +60,7 @@ grunt.initConfig({
 
 				name: "main",
 				insertRequire: ["main"],
-				include: ["requireConfig"],
+				include: ["requireConfig", "build/template"],
 				excludeShallow: libs
 			})
 		},
@@ -113,6 +114,27 @@ grunt.initConfig({
 			"assets/js/build/recovery.js",
 			"assets/js/build/verifyMail.js"
 		]
+	},
+	ngtemplates:  {
+		ssn: {
+			src: "assets/views/**/*.html",
+			dest: "assets/js/build/template.js",
+			options:  {
+				bootstrap:  function(module, script) {
+					return "define(['app'], function (app) { app.run(['$templateCache', function ($templateCache) { " + script + " }]); });";
+				},
+				htmlmin: {
+					collapseBooleanAttributes:      true,
+					collapseWhitespace:             true,
+					removeAttributeQuotes:          true,
+					removeComments:                 true, // Only if you don't use comment directives!
+					removeEmptyAttributes:          true,
+					removeRedundantAttributes:      true,
+					removeScriptTypeAttributes:     true,
+					removeStyleLinkTypeAttributes:  true
+				}
+			}
+		}
 	},
 	includes: {
 		compile: {
@@ -345,6 +367,6 @@ grunt.task.registerMultiTask("assetHash", "Hash a file and rename the file to th
 grunt.registerTask("default", ["build:development", "browserSync", "concurrent:development"]);
 
 grunt.registerTask("build:development", ["clean", "copy", "bower-install-simple", "less", "autoprefixer", "run:buildsjcl"]);
-grunt.registerTask("build:production",  ["clean", "copy", "bower-install-simple", "less", "autoprefixer", "requirejs", "run:buildsjcl", "buildDate", "assetHash", "includes"]);
+grunt.registerTask("build:production",  ["clean", "copy", "bower-install-simple", "less", "autoprefixer", "ngtemplates", "requirejs", "run:buildsjcl", "buildDate", "assetHash", "includes"]);
 
 grunt.registerTask("server", "Start the whispeer web server.", require("./webserver"));
