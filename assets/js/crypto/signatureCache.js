@@ -197,7 +197,7 @@ define (["whispeerHelper", "step", "asset/observer", "asset/errors", "crypto/key
 		allDatabases.push(types[name]);
 	});
 
-	var api2 = {
+	var signatureCache = {
 		isChanged: function () {
 			return allDatabases.reduce(h.or, false);
 		},
@@ -211,11 +211,14 @@ define (["whispeerHelper", "step", "asset/observer", "asset/errors", "crypto/key
 					types[db.type].joinEntries(db.entries);
 				});
 
-				signKey = ownKey;
-				loaded = true;
-
-				signatureCache.notify("", "loaded");
+				signatureCache.initialize(ownKey);
 			});
+		},
+		initialize: function (ownKey) {
+			signKey = ownKey;
+			loaded = true;
+
+			signatureCache.notify("", "loaded");
 		},
 		getUpdatedVersion: function () {
 			if (!loaded) {
@@ -264,119 +267,11 @@ define (["whispeerHelper", "step", "asset/observer", "asset/errors", "crypto/key
 		},
 		getSignatureStatus: function (signature, hash, key) {
 			var sHash = dataSetToHash(signature, hash, key);
-			if (database.metaHasAttr(sHash)) {
-				var data = database.metaAttr(sHash);
-
-				api2.addSignatureStatus(signature, hash, key, type);
-
-				return (data !== false);
-			} else {
-				throw new Error("tried to get signature status but not in cache!");
-			}
-		}
-	};
-
-	var signatureCache = {
-		isLoaded: function () {
-			return loaded;
-		},
-		isChanged: function () {
-			return changed;
-		},
-		createDatabase: function (ownKey) {
-			var data = {};
-
-			signKey = ownKey;
-			data.me = ownKey;
-
-			database = new SecuredData.load(undefined, data, { type: "signatureCache" });
-			loaded = true;
-
-			signatureCache.notify("", "loaded");
-		},
-		loadDatabase: function (data, ownKey, cb) {
-			var givenDatabase = new SecuredData.load(undefined, data, { type: "signatureCache" });
-			step(function () {
-				if (data.me === ownKey) {
-					givenDatabase.verify(ownKey, this);
-				} else {
-					throw new errors.SecurityError("not my signature cache");
-				}
-			}, h.sF(function () {
-				//migrate database here before really loading it if necessary
-				givenDatabase.metaKeys().filter(function (key) {
-					return key.indexOf("hash::") === 0 && typeof givenDatabase.metaAttr(key) === "boolean";
-				}).forEach(function (key) {
-					if (givenDatabase.metaAttr(key) === false) {
-						givenDatabase.metaRemoveAttr(key);
-					} else {
-						givenDatabase.metaSetAttr(key, new Date().getTime());
-					}
-
-					changed = true;
-				});
-
-				this.ne();
-			}), h.sF(function () {
-				signKey = ownKey;
-				database = givenDatabase;
-				loaded = true;
-
-				signatureCache.notify("", "loaded");
-
-				this.ne();
-			}), cb);
-		},
-		isSignatureInCache: function (signature, hash, key) {
-			var sHash = dataSetToHash(signature, hash, key);
-			if (database.metaHasAttr(sHash)) {
+			if (database.hasEntry(sHash)) {
 				return true;
-			}
-
-			return false;
-		},
-		getSignatureStatus: function (signature, hash, key, type) {
-			var sHash = dataSetToHash(signature, hash, key);
-			if (database.metaHasAttr(sHash)) {
-				var data = database.metaAttr(sHash);
-
-				changed = true;
-				database.metaSetAttr(sHash, new Date().getTime());
-
-				cleanUpDatabase();
-
-				return (data !== false);
 			} else {
 				throw new Error("tried to get signature status but not in cache!");
 			}
-		},
-		addSignatureStatus: function (signature, hash, key, valid, type) {
-			if (!valid) {
-				return;
-			}
-
-			changed = true;
-
-			if (typeof valid !== "boolean" || !h.isRealID(key) || !h.isSignature(chelper.bits2hex(signature))) {
-				throw new Error("invalid input");
-			}
-
-			var sHash = dataSetToHash(signature, hash, key);
-
-			database.metaSetAttr(sHash, new Date().getTime());
-
-			cleanUpDatabase();
-		},
-		reset: function () {
-			loaded = false;
-			database = undefined;
-		},
-		getUpdatedVersion: function (cb) {
-			changed = false;
-
-			step(function () {
-				database.sign(signKey, cb, true);
-			}, cb);
 		}
 	};
 

@@ -4,26 +4,6 @@ define(["step", "whispeerHelper", "crypto/trustManager", "crypto/signatureCache"
 	var service = function ($rootScope, initService, userService, socketService, CacheService, sessionService, errorService) {
 		var THROTTLE = 20;
 
-
-		function uploadSignatureCache() {
-			if (!signatureCache.isLoaded() || !signatureCache.isChanged()) {
-				return;
-			}
-
-			step(function () {
-				signatureCache.getUpdatedVersion(this);
-			}, h.sF(function (newTrustContent) {
-				socketService.emit("signatureCache.set", {
-					content: newTrustContent
-				}, this);
-			}), h.sF(function (result) {
-				if (!result.success) {
-					throw new Error(result.error);	
-				}
-			}), errorService.criticalError);
-		}
-		window.setInterval(uploadSignatureCache, 10000);
-
 		function uploadDatabase(cb) {
 			step(function () {
 				trustManager.getUpdatedVersion(this);
@@ -113,6 +93,23 @@ define(["step", "whispeerHelper", "crypto/trustManager", "crypto/signatureCache"
 					throw e;
 				}
 			});
+		});
+
+		new CacheService("signatureCache").get(sessionService.getUserID())
+		.catch(function () {
+			return;
+		}).then(function (signatureCache) {
+			//wait for initService own user data
+
+			userService.listen("ownEarly");
+
+			return signatureCache;
+		}).then(function (signatureCache) {
+			if (signatureCache) {
+				signatureCache.load(signatureCache, userService.getown().getSignKey());
+			} else {
+				signatureCache.initialize(userService.getown().getSignKey());
+			}
 		});
 
 		return {

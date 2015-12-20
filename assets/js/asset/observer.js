@@ -12,6 +12,10 @@ define (["whispeerHelper"], function (h) {
         this._listenersOnce[type].push(fn);
     }
 
+    function listenPromiseF(type) {
+
+    }
+
     function listenF(fn, type) {
         type = type || "any";
         if (typeof this._listeners[type] === "undefined") {
@@ -47,6 +51,7 @@ define (["whispeerHelper"], function (h) {
         this._listeners = {};
         this._listenersOnce = {};
 
+        this.listenPromise = listenPromiseF;
         this.listenOnce = listenOnceF;
         this.listen = listenF;
         //this.unlisten = unListenF;
