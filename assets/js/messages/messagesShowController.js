@@ -145,8 +145,9 @@ define(["step", "whispeerHelper", "asset/state", "bluebird", "messages/messagesM
 			});
 		};
 
-		Burst.prototype.removeAllExceptFirst = function () {
-			this.messages.splice(1, this.messages.length - 1);
+		Burst.prototype.removeAllExceptLast = function () {
+			this.messages.splice(0, this.messages.length - 1);
+			debugger;
 		};
 
 		Burst.prototype.firstMessage = function () {
@@ -272,7 +273,7 @@ define(["step", "whispeerHelper", "asset/state", "bluebird", "messages/messagesM
 			}
 
 			bursts.forEach(function (burst) {
-				burst.removeAllExceptFirst();
+				burst.removeAllExceptLast();
 			});
 
 			if (burstTopic !== $scope.activeTopic.id) {
