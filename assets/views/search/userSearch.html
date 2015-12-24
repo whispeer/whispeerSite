@@ -1,6 +1,6 @@
 <ol class="search-suggestions u-unstyled">
 	<li class="search-suggestion search-suggestion-user" data-ng-repeat="user in results" data-ng-class="{'search-suggestion-active': current==$index}" data-ng-mouseover="setCurrent($index)" data-ng-click="selectResult(user)">
-		<userimage class="search-suggestion-userimage" data-user="user" />
+		<userimage class="search-suggestion-userimage" data-user="user"></userimage>
 		<div class="search-suggestion-info">
 			<span class="search-suggestion-row search-suggestion-name">{{::user.name}}<small class="search-suggestion-nickname">&nbsp;- {{::user.names.nickname}}</small></span>
 			<span class="search-suggestion-row search-suggestion-row--info search-suggestion-friends" data-ng-if="::user.basic.mutualFriends.length > 0"><i class="fa fa-group fa-fw"></i> {{::user.basic.mutualFriends.length}} <span data-i18n="usersearch.mutualFriends" data-ng-if="::user.basic.mutualFriends.length > 1"></span><span data-i18n="usersearch.mutualFriend" data-ng-if="::user.basic.mutualFriends.length == 1"></span></span>

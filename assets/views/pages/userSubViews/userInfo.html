@@ -6,7 +6,7 @@
 			<a href="" id="userView-section-info-header-edit" data-i18n="profile.edit.true" data-ng-if="user.me && editGeneral" data-ng-click="saveUser()"></a>
 		</header>
 		<div class="userView-userimage" data-ng-class="{'userView-userimage--editing':changeImage, 'userView-userimage--bigger': mobile && editGeneral && !changeImage}">
-			<userimage id="userView-userimage-theImage" data-user="user" data-ng-if="!changeImage" />
+			<userimage id="userView-userimage-theImage" data-user="user" data-ng-if="!changeImage"></userimage>
 			<span class="userView-editImage btn btn--primary btn--input" data-ng-if="editGeneral && !changeImage" data-i18n="profile.section.general.changeImage" data-ng-click="doChangeImage()"></span>
 			<div class="uploadForm" id="userView-uploadProfileImage" data-ng-if="editGeneral && changeImage">
 				<span class="uploadForm-button btn btn--primary btn--input" data-i18n="login.register.uploadImage"></span>
