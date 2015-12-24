@@ -147,7 +147,6 @@ define(["step", "whispeerHelper", "asset/state", "bluebird", "messages/messagesM
 
 		Burst.prototype.removeAllExceptLast = function () {
 			this.messages.splice(0, this.messages.length - 1);
-			debugger;
 		};
 
 		Burst.prototype.firstMessage = function () {

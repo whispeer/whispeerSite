@@ -152,12 +152,8 @@ define([
 					this.last.ne();
 				}), h.sF(function () {
 					messageService.sendMessage(theTopic, message, images, this);
-				}), h.sF(function (success) {
-					if (success) {
-						this.ne(theTopic);
-					} else {
-						this("message send failed");
-					}
+				}), h.sF(function () {
+					this.ne(theTopic);
 				}), cb);
 			},
 			sendNewTopic: function (receiver, message, images, cb) {
