@@ -4,6 +4,10 @@ define(["step", "whispeerHelper", "directives/directivesModule"], function (step
 	function imageGallery(errorService, blobService, screenSizeService) {
 		function loadImagePreviews(images) {
 			images.forEach(function (image) {
+				if (image.upload) {
+					return;
+				}
+
 				loadImage(image.lowest);
 			});
 		}
@@ -38,22 +42,6 @@ define(["step", "whispeerHelper", "directives/directivesModule"], function (step
 			}), errorService.criticalError);
 		}
 
-		function convertUploadImages(images) {
-			return images.map(function (image) {
-				return {
-					upload: image,
-					highest: {
-						loading: false,
-						url: image.getUrl()
-					},
-					lowest: {
-						loading: false,
-						url: image.getUrl()
-					}
-				};
-			});
-		}
-
 		return {
 			scope: {
 				"images": "="
@@ -71,11 +59,7 @@ define(["step", "whispeerHelper", "directives/directivesModule"], function (step
 
 				scope.$watch("images", function () {
 					if (scope.images && scope.images.length > 0) {
-						if (scope.images[0].getProgress) {
-							scope.images = convertUploadImages(scope.images);
-						} else {
-							loadImagePreviews(scope.images.slice(0, scope.preview));
-						}
+						loadImagePreviews(scope.images.slice(0, scope.preview));
 					}
 				});
 
