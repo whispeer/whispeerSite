@@ -54,7 +54,13 @@ define(["step",
 			this.setData();
 
 			this.data.text = message;
-			this.data.images = images;
+			this.data.images = images.map(function (image) {
+				if (!image.convertForGallery) {
+					return image;
+				}
+
+				return image.convertForGallery();
+			});
 
 			this.loadSender(h.nop);
 			this._prepareImages();

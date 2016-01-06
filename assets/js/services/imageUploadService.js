@@ -98,6 +98,20 @@ define(["step", "whispeerHelper", "jquery", "bluebird", "imageLib", "asset/Progr
 			});
 		};
 
+		ImageUpload.prototype.convertForGallery = function () {
+			return {
+				upload: this,
+				highest: {
+					loading: false,
+					url: this.getUrl()
+				},
+				lowest: {
+					loading: false,
+					url: this.getUrl()
+				}
+			};
+		};
+
 		ImageUpload.prototype._maybeApply = function (progress) {
 			if (progress - this._previousProgress > 0.01) {
 				this._previousProgress = progress;
