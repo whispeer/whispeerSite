@@ -98,24 +98,18 @@ define(["step", "whispeerHelper", "jquery", "bluebird", "imageLib", "asset/Progr
 			});
 		};
 
-		ImageUpload.prototype.convertForGallery = function (images) {
-			return images.map(function (image) {
-				if (!image.getProgress) {
-					return image;
+		ImageUpload.prototype.convertForGallery = function () {
+			return {
+				upload: this,
+				highest: {
+					loading: false,
+					url: this.getUrl()
+				},
+				lowest: {
+					loading: false,
+					url: this.getUrl()
 				}
-
-				return {
-					upload: image,
-					highest: {
-						loading: false,
-						url: image.getUrl()
-					},
-					lowest: {
-						loading: false,
-						url: image.getUrl()
-					}
-				};
-			});
+			};
 		};
 
 		ImageUpload.prototype._maybeApply = function (progress) {
