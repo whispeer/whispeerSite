@@ -9,26 +9,6 @@ define(["step",
 	function messageModel(keyStore, userService, socket) {
 		var notVerified = ["sendTime", "sender", "topicid", "messageid"];
 
-		function convertUploadImages(images) {
-			return images.map(function (image) {
-				if (!image.getProgress) {
-					return image;
-				}
-
-				return {
-					upload: image,
-					highest: {
-						loading: false,
-						url: image.getUrl()
-					},
-					lowest: {
-						loading: false,
-						url: image.getUrl()
-					}
-				};
-			});
-		}
-
 		var Message = function (topic, message, images) {
 			if (arguments.length === 1) {
 				this.fromSecuredData(topic);
@@ -74,7 +54,7 @@ define(["step",
 			this.setData();
 
 			this.data.text = message;
-			this.data.images = convertUploadImages(images);
+			this.data.images = images.convertForGallery();
 
 			this.loadSender(h.nop);
 			this._prepareImages();
