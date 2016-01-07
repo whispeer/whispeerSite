@@ -4,7 +4,7 @@
 		<p data-i18n="views.invite.viaMailExplanation"></p>
 		<ul class="inviteView-emailList unstyled">
 			<li class="annotatedInput-container inviteView-mailContainer" data-ng-class="{'annotatedInput-container--2': inviteMails.length > 1}" data-ng-repeat="mail in inviteMails track by $index">
-				<input type="text" class="annotatedInput-input" data-i18n-attr="views.invite.mail|placeholder" data-ng-model="inviteMails[$index]">
+				<input type="email" class="annotatedInput-input" data-i18n-attr="views.invite.mail|placeholder" data-ng-model="inviteMails[$index]">
 				<span class="annotatedInput-icon fa fa-fw" data-ng-class="{'fa-times': !isMail(inviteMails[$index])}" data-ng-if="!empty(inviteMails[$index])"></span>
 				<button class="btn btn--gray btn--noRadius annotatedInput-button" data-ng-click="removeInput($index)" data-ng-if="inviteMails.length > 1"><i class="fa fa-times fa-fw"></i></button>
 			</li>
