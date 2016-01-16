@@ -4,6 +4,11 @@ lang: de
 title: Versionshistorie
 ---
 
+## 0.2.17
+
+* E-Mail Eingabefelder verbessert
+* Bugfixes
+
 ## 0.2.15
 
 * Bugfix: Verifizierung mit QR-Code funktioniert wieder
