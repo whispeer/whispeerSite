@@ -2,12 +2,15 @@ define([
 	"jquery",
 	"angular",
 
+	"app",
+
 	"config/routesConfig",
 	"config/localizationConfig",
 
-	"app",
 	"libs/canvas-toBlob",
-	"angularTouch"
+	"angularTouch",
+
+	"optional!build/template"
 ], function($, angular, app) {
 	"use strict";
 

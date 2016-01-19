@@ -4,6 +4,42 @@ lang: de
 title: Versionshistorie
 ---
 
+## 0.2.17
+
+* E-Mail Eingabefelder verbessert
+* Bugfixes
+
+## 0.2.15
+
+* Bugfix: Verifizierung mit QR-Code funktioniert wieder
+* Darstellung von Nachrichten verbessert
+* Bugfixes
+
+## 0.2.14
+
+* Bessere Darstellung von Bildern
+* Schnelleres Laden von Nachrichten
+
+## 0.2.13
+
+* Bessers Scrolling in den Nachrichten
+* Browser-Benachrichtigungen werden automatisch geschlossen
+* Abspielen von gifs ohne Popup (auch auf mobilen Geräten)
+* Bugfixes
+
+## 0.2.12
+
+* Nachrichten:
+** Neues Design
+** Asynchrones Senden
+** automatisches synchronisieren wenn der Nutzer offline war
+
+* starke Geschwindigkeitsverbeserungen im Firefox und Chrome
+* Bessere Erkennung von Links
+* Schnellere und aufgeräumtere Suche
+* User nicht gefunden Seite
+* Man kann E-Mail Benachrichtigungen an- und ausschalten
+
 ## 0.2.11
 
 * Bugfix für statische Seiten (z.B. AGB)

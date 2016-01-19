@@ -16,8 +16,6 @@ define(["step", "whispeerHelper", "asset/state", "bluebird", "messages/messagesM
 		$scope.canSend = false;
 		$scope.topicLoaded = false;
 
-		$scope.scrollLock = false;
-
 		$scope.hideOverlay = false;
 
 		$scope.doHideOverlay = function () {
@@ -43,11 +41,9 @@ define(["step", "whispeerHelper", "asset/state", "bluebird", "messages/messagesM
 		$scope.loadMoreMessages = function () {
 			var loadMore = Bluebird.promisify($scope.activeTopic.obj.loadMoreMessages, $scope.activeTopic.obj);
 
-			$scope.scrollLock = true;
 			$scope.loadingMessages = true;
 			return loadMore().then(function () {
 				$scope.loadingMessages = false;
-				$scope.scrollLock = false;
 			});
 		};
 
@@ -131,18 +127,34 @@ define(["step", "whispeerHelper", "asset/state", "bluebird", "messages/messagesM
 			}, errorService.failOnError(sendMessageState));
 		};
 
-		var burstMessageCount = 0, bursts = [], burstTopic;
+		var bursts = [], burstTopic;
 
 		function Burst() {
 			this.messages = [];
 		}
 
+		Burst.prototype.hasMessage = function (message) {
+			return this.messages.indexOf(message) > -1;
+		};
+
 		Burst.prototype.addMessage = function (message) {
 			this.messages.push(message);
+
+			this.messages.sort(function (m1, m2) {
+				return m1.timestamp - m2.timestamp;
+			});
+		};
+
+		Burst.prototype.removeAllExceptLast = function () {
+			this.messages.splice(0, this.messages.length - 1);
 		};
 
 		Burst.prototype.firstMessage = function () {
 			return this.messages[0];
+		};
+
+		Burst.prototype.lastMessage = function () {
+			return this.messages[this.messages.length - 1];
 		};
 
 		Burst.prototype.hasMessages = function () {
@@ -207,33 +219,85 @@ define(["step", "whispeerHelper", "asset/state", "bluebird", "messages/messagesM
 			return this.firstMessage().sender;
 		};
 
+		function getMatchingBurst(bursts, message) {
+			var fittingBursts = bursts.filter(function (burst, index, bursts) {
+				var nextBurst = bursts[index + 1], previousBurst = bursts[index - 1];
+
+				if (!burst.fitsMessage(message)) {
+					return false;
+				}
+
+				if (nextBurst && nextBurst.firstMessage().timestamp < message.timestamp) {
+					return false;
+				}
+
+				if (previousBurst && previousBurst.lastMessage().timestamp > message.timestamp) {
+					return false;
+				}
+
+				return true;
+			});
+
+			if (fittingBursts.length > 1) {
+				console.warn("There should only be one fitting burst!");
+			}
+
+			if (fittingBursts.length === 0) {
+				var newBurst = new Burst();
+				bursts.push(newBurst);
+
+				return newBurst;
+			}
+
+			return fittingBursts[0];
+		}
+
+		function getNewMessages(messages, bursts) {
+			return messages.filter(function (message) {
+				return bursts.reduce(function (prev, current) {
+					return prev && !current.hasMessage(message);
+				}, true);
+			});
+		}
+
 		$scope.messageBursts = function() {
 			if (!$scope.activeTopic || $scope.activeTopic.messages.length === 0) {
 				return [];
 			}
 
-			var messages = $scope.activeTopic.messages, currentBurst = new Burst();
+			var messages = $scope.activeTopic.messages;
 
-			if (burstTopic === $scope.activeTopic.id && burstMessageCount === messages.length) {
+			if (getNewMessages(messages, bursts).length === 0) {
 				return bursts;
 			}
 
-			burstTopic = $scope.activeTopic.id;
-			burstMessageCount = messages.length;
-
-			bursts = [currentBurst];
-
-			messages.forEach(function(message) {
-				if (!currentBurst.fitsMessage(message)) {
-					currentBurst = new Burst();
-					bursts.push(currentBurst);
-				}
-
-				currentBurst.addMessage(message);
+			bursts.forEach(function (burst) {
+				burst.removeAllExceptLast();
 			});
 
-			bursts = bursts.filter(function (burst) {
-				return burst.hasMessages();
+			if (burstTopic !== $scope.activeTopic.id) {
+				bursts = [new Burst()];
+			}
+
+			var newMessages = getNewMessages(messages, bursts);
+
+			if (newMessages.length === 0) {
+				return bursts;
+			}
+
+			newMessages.sort(function (m1, m2) {
+				return m2.timestamp - m1.timestamp;
+			});
+
+			burstTopic = $scope.activeTopic.id;
+
+			newMessages.forEach(function(message) {
+				var burst = getMatchingBurst(bursts, message);
+				burst.addMessage(message);
+
+				bursts.sort(function (b1, b2) {
+					return b1.firstMessage().timestamp - b2.firstMessage().timestamp;
+				});
 			});
 
 			return bursts;

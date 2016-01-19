@@ -5,12 +5,12 @@
 </modal>
 <div class="post-images">
 	<div class="post-imageWrap" data-ng-click="viewImage($index)" data-image-gallery="images" data-ng-repeat="image in images" data-ng-if="$index < preview">
-		<img class="post-image" data-ng-if="!runGif" data-ng-src="{{image.lowest.url}}">
-		<span class="post-image--play fa fa-play fa-2x" data-ng-if="image.lowest.gif && !runGif"></span>
-		<div data-ng-if="runGif">
-			<img class="post-image" data-ng-src="{{modalImage.highest.url}}" data-ng-if="!modalImage.highest.loading">
-			<img class="post-image" data-ng-src="{{modalImage.lowest.url}}" data-ng-if="modalImage.highest.loading">
-			<div class="modalContent-spinner" data-ng-if="modalImage.highest.loading"><i class="fa fa-spin fa-circle-o-notch fa-3x"></i></div>
+		<img class="post-image" data-ng-if="!runGif($index)" data-ng-src="{{image.lowest.url}}">
+		<span class="post-image--play fa fa-play fa-2x" data-ng-if="image.lowest.gif && !runGif($index)"></span>
+		<div data-ng-if="runGif($index)">
+			<img class="post-image" data-ng-src="{{image.highest.url}}" data-ng-if="!image.highest.loading">
+			<img class="post-image" data-ng-src="{{image.lowest.url}}" data-ng-if="image.highest.loading">
+			<div class="modalContent-spinner" data-ng-if="image.highest.loading"><i class="fa fa-spin fa-circle-o-notch fa-3x"></i></div>
 		</div>
 	</div>
 	<button class="post-moreImages btn btn--inverse btn--noRadius" data-ng-click="loadMoreImages()" data-ng-if="images.length > preview">

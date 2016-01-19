@@ -4,6 +4,10 @@ define(["step", "whispeerHelper", "directives/directivesModule"], function (step
 	function imageGallery(errorService, blobService, screenSizeService) {
 		function loadImagePreviews(images) {
 			images.forEach(function (image) {
+				if (image.upload) {
+					return;
+				}
+
 				loadImage(image.lowest);
 			});
 		}
@@ -38,22 +42,6 @@ define(["step", "whispeerHelper", "directives/directivesModule"], function (step
 			}), errorService.criticalError);
 		}
 
-		function convertUploadImages(images) {
-			return images.map(function (image) {
-				return {
-					upload: image,
-					highest: {
-						loading: false,
-						url: image.getUrl()
-					},
-					lowest: {
-						loading: false,
-						url: image.getUrl()
-					}
-				};
-			});
-		}
-
 		return {
 			scope: {
 				"images": "="
@@ -71,11 +59,7 @@ define(["step", "whispeerHelper", "directives/directivesModule"], function (step
 
 				scope.$watch("images", function () {
 					if (scope.images && scope.images.length > 0) {
-						if (scope.images[0].getProgress) {
-							scope.images = convertUploadImages(scope.images);
-						} else {
-							loadImagePreviews(scope.images.slice(0, scope.preview));
-						}
+						loadImagePreviews(scope.images.slice(0, scope.preview));
 					}
 				});
 
@@ -86,20 +70,26 @@ define(["step", "whispeerHelper", "directives/directivesModule"], function (step
 					scope.preview += previewChunk;
 				};
 
-				scope.modal = false;
-				scope.runGif = false;
-				scope.viewImage = function (index) {
-					scope.imageIndex = index;
+				var runningGifs = false;
 
-					scope.modalImage = scope.images[scope.imageIndex];
+				scope.modal = false;
+				scope.runGif = function (index) {
+					return index === scope.imageIndex && runningGifs;
+				};
+
+				scope.viewImage = function (index) {
+					scope.modalImage = scope.images[index];
 
 					if (scope.modalImage.lowest.gif) {
-						scope.runGif = !scope.runGif;
+						runningGifs = scope.imageIndex !== index || !runningGifs;
 					} else if (screenSizeService.mobile) {
 						return;
 					} else {
+						runningGifs = false;
 						scope.modal = true;
 					}
+
+					scope.imageIndex = index;
 
 					if (!scope.modalImage.upload) {
 						loadImage(scope.modalImage.highest);

@@ -29,7 +29,9 @@ define(["whispeerHelper", "step", "libs/qrreader", "directives/directivesModule"
 							var code = qrreader.decodeCanvas(gCanvas);
 
 							scope.state.read = true;
-							theStream.stop();
+							try {
+								theStream.stop();
+							} catch (e) {}
 
 							scope.callback({code: code});
 						} catch(e) {
