@@ -131,12 +131,8 @@ define (["whispeerHelper", "step", "asset/observer", "asset/errors", "crypto/key
 		delete this._signatures[signatureHash];
 	};
 
-	Database.prototype.addSignature = function (signature, hash, key, valid, id) {
-		if (!valid) {
-			return;
-		}
-
-		if (typeof valid !== "boolean" || !h.isRealID(key) || !h.isSignature(chelper.bits2hex(signature))) {
+	Database.prototype.addSignature = function (signature, hash, key, id) {
+		if (!h.isRealID(key) || !h.isSignature(chelper.bits2hex(signature))) {
 			throw new Error("invalid input");
 		}
 
@@ -198,12 +194,23 @@ define (["whispeerHelper", "step", "asset/observer", "asset/errors", "crypto/key
 	});
 
 	var signatureCache = {
+		/**
+		* Has the signature cache changed? (was a signature added/removed?)
+		*/
 		isChanged: function () {
 			return allDatabases.reduce(h.or, false);
 		},
+		/**
+		* Load a given signature cache
+		* @param securedData secured data of the signature cache to load
+		* @param ownKey own signing key
+		*/
 		load: function (securedData, ownKey) {
 			if (securedData.me !== ownKey) {
-				throw new errors.SecurityError("not my signature cache");
+				console.warn("not my signature cache");
+				signatureCache.initialize(ownKey);
+
+				return;
 			}
 
 			SecuredData.load(undefined, securedData, { type: "signatureCache" }).verify(ownKey).then(function () {
@@ -214,12 +221,19 @@ define (["whispeerHelper", "step", "asset/observer", "asset/errors", "crypto/key
 				signatureCache.initialize(ownKey);
 			});
 		},
+		/**
+		* Initialize cache
+		* @param ownKey id of the own sign key
+		*/
 		initialize: function (ownKey) {
 			signKey = ownKey;
 			loaded = true;
 
 			signatureCache.notify("", "loaded");
 		},
+		/**
+		* Get the signed updated version of this signature cache
+		*/
 		getUpdatedVersion: function () {
 			if (!loaded) {
 				return;
@@ -239,6 +253,12 @@ define (["whispeerHelper", "step", "asset/observer", "asset/errors", "crypto/key
 
 			return SecuredData.load(undefined, data, { type: "signatureCache" }).sign(signKey);
 		},
+		/**
+		* Check if a signature is in the cache
+		* @param signature the signature to check for
+		* @param hash hash that was signed
+		* @param key key that was used to sign the signature
+		*/
 		isSignatureInCache: function (signature, hash, key) {
 			var sHash = dataSetToHash(signature, hash, key);
 
@@ -246,7 +266,15 @@ define (["whispeerHelper", "step", "asset/observer", "asset/errors", "crypto/key
 				return database.metaHasAttr(sHash);
 			}).length > 0;
 		},
-		addValidSignature: function (signature, hash, key, type) {
+		/**
+		* Add a valid signature to the cache.
+		* @param signature the signature to add
+		* @param hash the hash that was signed by the signature
+		* @param key the key used to verify the signature
+		* @param type type of the signed object
+		* @param (id) id of the signed object
+		*/
+		addValidSignature: function (signature, hash, key, type, id) {
 			if (!h.isRealID(key) || !h.isSignature(chelper.bits2hex(signature))) {
 				throw new Error("invalid input");
 			}
@@ -263,8 +291,15 @@ define (["whispeerHelper", "step", "asset/observer", "asset/errors", "crypto/key
 			}
 
 			var db = types[reducedType];
-			db.addSignatureStatus(signature, hash, key);
+			db.addSignature(signature, hash, key, type + "-" + id);
 		},
+		/**
+		* Get a signature status.
+		* @param signature the signature to check for
+		* @param hash hash that was signed
+		* @param key key that was used to sign the signature
+		* @throws if the signature is not in the cache. use isSignatureInCache to determine if a signature is in the cache.
+		*/
 		getSignatureStatus: function (signature, hash, key) {
 			var sHash = dataSetToHash(signature, hash, key);
 			if (database.hasEntry(sHash)) {
