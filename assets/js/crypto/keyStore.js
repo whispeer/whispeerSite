@@ -1136,7 +1136,7 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 			return fingerPrintPublicKey(publicKey);
 		}
 
-		function signF(hash, callback, type) {
+		function signF(hash, type, callback) {
 			var trustManager, signatureCache;
 			step(function () {
 				require(["crypto/trustManager", "crypto/signatureCache"], this.ne, this);
@@ -1161,7 +1161,7 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 				this.ne(intKey.getSecret().sign(hash));
 			}), h.sF(function (signature) {
 				if (signatureCache.isLoaded()) {
-					signatureCache.addSignatureStatus(signature, hash, realid, true, type);
+					signatureCache.addValidSignature(signature, hash, realid, type);
 				}
 
 				this.ne(signature);
@@ -1229,19 +1229,18 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 					throw new errors.SecurityError("key not in key database");
 				}
 
+				if (signatureCache.isSignatureInCache(signature, hash, realid)) {
+					return Bluebird.resolve(signatureCache.getSignatureStatus(signature, hash, realid));
+				}
+
 				console.info("Slow verify");
 				var name = chelper.bits2hex(signature).substr(0, 10);
 				console.time("verify-" + name);
-				return signatureCache.getSignatureStatus(signature, hash, realid).then(function (validCacheEntry) {
-					if (validCacheEntry) {
-						return validCacheEntry;
-					}
 
-					return verify(signature, text, hash);
-				}).then(function (valid) {
+				return verify(signature, text, hash).then(function (valid) {
 					console.timeEnd("verify-" + name);
 					if (valid) {
-						signatureCache.addSignatureStatus(signature, hash, realid, type, id);
+						signatureCache.addValidSignature(signature, hash, realid, type, id);
 					}
 
 					return valid;
@@ -2304,14 +2303,14 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 				}), callback);
 			},
 
-			signObject: function (object, realID, callback, version) {
+			signObject: function (object, realID, version, callback) {
 				var hash = new ObjectHasher(object, version).hashBits();
 
 				//subtle HERE!
 				step(function signO1() {
 					SignKey.get(realID, this);
 				}, h.sF(function (key) {
-					key.sign(hash, this);
+					key.sign(hash, object._type, this);
 				}), h.sF(function (signature) {
 					this.ne(chelper.bits2hex(signature));
 				}), callback);

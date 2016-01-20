@@ -1,6 +1,6 @@
-define (["whispeerHelper", "step", "asset/observer", "asset/errors", "crypto/keyStore", "crypto/helper", "asset/securedDataWithMetaData"], function (h, step, Observer, errors, keyStore, chelper, SecuredData) {
+define (["whispeerHelper", "step", "asset/observer", "asset/errors", "crypto/keyStore", "crypto/helper", "asset/securedDataWithMetaData", "bluebird"], function (h, step, Observer, errors, keyStore, chelper, SecuredData, Bluebird) {
 	"use strict";
-	var database, loaded = false, signKey, changed = false;
+	var loaded = false, changed = false, signKey;
 
 	function dataSetToHash(signature, hash, key) {
 		var data = {
@@ -41,7 +41,7 @@ define (["whispeerHelper", "step", "asset/observer", "asset/errors", "crypto/key
 	};
 
 	var cacheTypes = {
-		signatureCache: "signatureCache",
+		signatureCache: "noCache",
 
 		signedKeys: "user",
 		signedFriendList: "user",
@@ -67,17 +67,11 @@ define (["whispeerHelper", "step", "asset/observer", "asset/errors", "crypto/key
 		this._maxCount = options.maxCount;
 		this._saveID = options.saveID;
 
-		this._changed = false;
-
 		this._signatures = {};
 	};
 
 	Database.prototype.getType = function () {
 		return this._type;
-	};
-
-	Database.prototype.isChanged = function () {
-		return this._changed;
 	};
 
 	Database.prototype.getCacheEntry = function (id) {
@@ -86,14 +80,16 @@ define (["whispeerHelper", "step", "asset/observer", "asset/errors", "crypto/key
 			entry.date = new Date().getTime();
 		}
 
-		if (this._saveID) {
+		if (this._saveID && id) {
 			entry.id = id;
 		}
+
+		return entry;
 	};
 
 	Database.prototype.allEntries = function () {
 		return this.allSignatures().map(function (signatureHash) {
-			var entry = h.deepCopyObject(this.getEntry(signatureHash));
+			var entry = h.deepCopyObj(this.getEntry(signatureHash));
 			entry.signatureHash = signatureHash;
 			return entry;
 		}, this);
@@ -109,14 +105,14 @@ define (["whispeerHelper", "step", "asset/observer", "asset/errors", "crypto/key
 
 			delete entry.signatureHash;
 
-			if (!this[signatureHash]) {
-				this[signatureHash] = entry;
+			if (!this._signatures[signatureHash]) {
+				this._signatures[signatureHash] = entry;
 			}
 		}, this);
 	};
 
 	Database.prototype.deleteByID = function (id) {
-		if (!this._saveID) {
+		if (!this._saveID || !id) {
 			return;
 		}
 
@@ -146,7 +142,7 @@ define (["whispeerHelper", "step", "asset/observer", "asset/errors", "crypto/key
 		this.deleteByID(id);
 		this._signatures[sHash] = this.getCacheEntry(id);
 
-		this._changed = true;
+		changed = true;
 
 		this.cleanUp();
 	};
@@ -198,7 +194,13 @@ define (["whispeerHelper", "step", "asset/observer", "asset/errors", "crypto/key
 		* Has the signature cache changed? (was a signature added/removed?)
 		*/
 		isChanged: function () {
-			return allDatabases.reduce(h.or, false);
+			return changed;
+		},
+		resetChanged: function () {
+			changed = false;
+		},
+		isLoaded: function () {
+			return loaded;
 		},
 		/**
 		* Load a given signature cache
@@ -251,7 +253,10 @@ define (["whispeerHelper", "step", "asset/observer", "asset/errors", "crypto/key
 				databases: databases
 			};
 
-			return SecuredData.load(undefined, data, { type: "signatureCache" }).sign(signKey);
+			var securedData = SecuredData.load(undefined, data, { type: "signatureCache" });
+			var signSecuredData = Bluebird.promisify(securedData.sign, securedData);
+
+			return signSecuredData(signKey);
 		},
 		/**
 		* Check if a signature is in the cache
@@ -263,7 +268,7 @@ define (["whispeerHelper", "step", "asset/observer", "asset/errors", "crypto/key
 			var sHash = dataSetToHash(signature, hash, key);
 
 			return allDatabases.filter(function (database) {
-				return database.metaHasAttr(sHash);
+				return database.hasEntry(sHash);
 			}).length > 0;
 		},
 		/**
@@ -290,8 +295,12 @@ define (["whispeerHelper", "step", "asset/observer", "asset/errors", "crypto/key
 				return;
 			}
 
+			if (id) {
+				id = type + "-" + id;
+			}
+
 			var db = types[reducedType];
-			db.addSignature(signature, hash, key, type + "-" + id);
+			db.addSignature(signature, hash, key, id);
 		},
 		/**
 		* Get a signature status.
@@ -301,8 +310,7 @@ define (["whispeerHelper", "step", "asset/observer", "asset/errors", "crypto/key
 		* @throws if the signature is not in the cache. use isSignatureInCache to determine if a signature is in the cache.
 		*/
 		getSignatureStatus: function (signature, hash, key) {
-			var sHash = dataSetToHash(signature, hash, key);
-			if (database.hasEntry(sHash)) {
+			if (signatureCache.isSignatureInCache(signature, hash, key)) {
 				return true;
 			} else {
 				throw new Error("tried to get signature status but not in cache!");

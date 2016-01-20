@@ -1,8 +1,8 @@
-define(["step", "whispeerHelper", "crypto/trustManager", "crypto/signatureCache", "services/serviceModule"], function (step, h, trustManager, signatureCache, serviceModule) {
+define(["step", "whispeerHelper", "crypto/trustManager", "crypto/signatureCache", "services/serviceModule", "bluebird"], function (step, h, trustManager, signatureCache, serviceModule, Bluebird) {
 	"use strict";
 
 	var service = function ($rootScope, initService, userService, socketService, CacheService, sessionService, errorService) {
-		var THROTTLE = 20;
+		var THROTTLE = 20, signatureCacheObject = new CacheService("signatureCache");
 
 		function uploadDatabase(cb) {
 			step(function () {
@@ -23,6 +23,24 @@ define(["step", "whispeerHelper", "crypto/trustManager", "crypto/signatureCache"
 		}
 
 		var delay = h.aggregateOnce(THROTTLE, uploadDatabase);
+
+
+		function storeSignatureCache() {
+			if (signatureCache.isChanged()) {
+				console.log("Storing signature cache!");
+
+				signatureCache.resetChanged();
+
+				signatureCache.getUpdatedVersion().then(function (updatedVersion) {
+					console.log(updatedVersion);
+					return signatureCacheObject.store(sessionService.getUserID(), updatedVersion);
+				}).then(function () {
+					console.log("stored signature cache");
+				});
+			}
+		}
+
+		window.setInterval(storeSignatureCache, 3000);
 
 		function addNewUsers(user) {
 			if (trustManager.isLoaded() && !trustManager.hasKeyData(user.getSignKey())) {
@@ -95,18 +113,17 @@ define(["step", "whispeerHelper", "crypto/trustManager", "crypto/signatureCache"
 			});
 		});
 
-		new CacheService("signatureCache").get(sessionService.getUserID())
-		.catch(function () {
-			return;
-		}).then(function (signatureCache) {
-			//wait for initService own user data
+		var ownUserLoaded = new Bluebird(function (resolve) {
+			userService.listenOnce(resolve, "ownEarly");
+		});
 
-			userService.listen("ownEarly");
-
-			return signatureCache;
-		}).then(function (signatureCache) {
-			if (signatureCache) {
-				signatureCache.load(signatureCache, userService.getown().getSignKey());
+		ownUserLoaded.then(function () {
+			return signatureCacheObject.get(sessionService.getUserID()).catch(function () {
+				return;
+			});
+		}).then(function (signatureCacheData) {
+			if (signatureCacheData) {
+				signatureCache.load(signatureCacheData.data, userService.getown().getSignKey());
 			} else {
 				signatureCache.initialize(userService.getown().getSignKey());
 			}

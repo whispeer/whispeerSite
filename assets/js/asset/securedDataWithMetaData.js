@@ -1,4 +1,4 @@
-define(["whispeerHelper", "step", "crypto/keyStore", "asset/errors", "config"], function (h, step, keyStore, errors, config) {
+define(["whispeerHelper", "step", "crypto/keyStore", "asset/errors", "config", "bluebird"], function (h, step, keyStore, errors, config, Bluebird) {
 	"use strict";
 
 	var attributesNeverVerified = ["_signature", "_hashObject"];
@@ -85,7 +85,7 @@ define(["whispeerHelper", "step", "crypto/keyStore", "asset/errors", "config"], 
 
 			toSign._hashVersion = hashVersion;
 
-			keyStore.sign.signObject(toSign, signKey, this, hashVersion);
+			keyStore.sign.signObject(toSign, signKey, hashVersion, this);
 		}, h.sF(function (signature) {
 			toSign._signature = signature;
 
