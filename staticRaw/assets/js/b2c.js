@@ -72,28 +72,46 @@
 		element.addEventListener("click", focusRegister);
 	});
 
+	var isOpen = false;
+
 	function close() {
 		removeClass(overlay, "video-overlay--visible");
 		videoElement.pause();
+
+		isOpen = false;
 	}
 
 	function open() {
 		addClass(overlay, "video-overlay--visible");
 		videoElement.play();
+		videoElement.focus();
+
+		isOpen = true;
+	}
+
+	function togglePlayback() {
+		if (videoElement.paused) {
+			videoElement.play();
+		} else {
+			videoElement.pause();
+		}
 	}
 
 	window.setTimeout(function () {
 		//buffer automatically?
 	}, 10000);
 
+	document.body.addEventListener("keypress", function (e) {
+		if (e.keyCode === 32 && isOpen) {
+			togglePlayback();
+			e.preventDefault();
+		}
+	});
+
 	videoElement.addEventListener("click", function (e) {
 		e.stopPropagation();
 
-		if (videoElement.paused) {
-			videoElement.play();
-		} else {
-			videoElement.pause();
-		}
+		togglePlayback();
 	});
 
 	overlayOpen.addEventListener("click", open);
