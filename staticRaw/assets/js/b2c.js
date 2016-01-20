@@ -72,27 +72,29 @@
 		element.addEventListener("click", focusRegister);
 	});
 
-	function playVideo() {
-		videoElement.play();
-	}
-
-	function pauseVideo() {
-		videoElement.pause();
-	}
-
 	function close() {
 		removeClass(overlay, "video-overlay--visible");
-		pauseVideo();
+		videoElement.pause();
 	}
 
 	function open() {
 		addClass(overlay, "video-overlay--visible");
-		playVideo();
+		videoElement.play();
 	}
 
 	window.setTimeout(function () {
 		//buffer automatically?
 	}, 10000);
+
+	videoElement.addEventListener("click", function (e) {
+		e.stopPropagation();
+
+		if (videoElement.paused) {
+			videoElement.play();
+		} else {
+			videoElement.pause();
+		}
+	});
 
 	overlayOpen.addEventListener("click", open);
 
