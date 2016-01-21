@@ -377,7 +377,7 @@ define(["step", "whispeerHelper", "asset/state", "asset/securedDataWithMetaData"
 			this.verifyKeys = function (cb) {
 				var signKey = theUser.getSignKey();
 				step(function () {
-					signedKeys.verify(signKey, this);
+					signedKeys.verify(signKey, this, theUser.getID());
 				}, h.sF(function () {
 					var friends = signedKeys.metaAttr("friends");
 					var crypt = signedKeys.metaAttr("crypt");

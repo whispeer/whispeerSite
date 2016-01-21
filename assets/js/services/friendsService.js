@@ -354,7 +354,7 @@ define(["step", "whispeerHelper", "asset/observer", "asset/securedDataWithMetaDa
 					if (!data.signedList) {
 						this.last.ne();
 					} else {
-						signedList.verify(userService.getown().getSignKey(), this);
+						signedList.verify(userService.getown().getSignKey(), this, "user");
 					}
 				}, h.sF(function () {
 					var requestedOrFriends = signedList.metaKeys().map(h.parseDecimal);
@@ -412,7 +412,7 @@ define(["step", "whispeerHelper", "asset/observer", "asset/securedDataWithMetaDa
 				var updatedSignedList = SecuredData.load(undefined, data, { type: "signedFriendList" });
 
 				step(function () {
-					updatedSignedList.verify(userService.getown().getSignKey(), this);
+					updatedSignedList.verify(userService.getown().getSignKey(), this, "user");
 				}, h.sF(function () {
 					signedList = updatedSignedList;
 				}), function (e) {
