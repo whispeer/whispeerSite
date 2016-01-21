@@ -1229,8 +1229,9 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 					throw new errors.SecurityError("key not in key database");
 				}
 
-				if (signatureCache.isSignatureInCache(signature, hash, realid)) {
-					return Bluebird.resolve(signatureCache.getSignatureStatus(signature, hash, realid));
+				if (signatureCache.isValidSignatureInCache(signature, hash, realid)) {
+					signatureCache.addValidSignature(signature, hash, realid, type, id);
+					return Bluebird.resolve(true);
 				}
 
 				console.info("Slow verify");
@@ -2316,14 +2317,14 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 				}), callback);
 			},
 
-			verifyObject: function (signature, object, realID, version) {
+			verifyObject: function (signature, object, realID, version, id) {
 				signature = chelper.hex2bits(signature);
 
 				var getSignKey = Bluebird.promisify(SignKey.get, SignKey);
 
 				var objectString = new ObjectHasher(object, version).stringify();
 				return getSignKey(realID).then(function (key) {
-					return key.verify(signature, objectString, object._type);
+					return key.verify(signature, objectString, object._type, id);
 				}).catch(function (e) {
 					console.error(e);
 

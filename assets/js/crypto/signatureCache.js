@@ -134,15 +134,10 @@ define (["whispeerHelper", "step", "asset/observer", "asset/errors", "crypto/key
 
 		var sHash = dataSetToHash(signature, hash, key);
 
-		if (this.hasEntry(sHash)) {
-			this.getEntry(sHash).date = new Date().getTime();
-			return;
-		}
+		changed = changed || this.hasEntry(sHash);
 
 		this.deleteByID(id);
 		this._signatures[sHash] = this.getCacheEntry(id);
-
-		changed = true;
 
 		this.cleanUp();
 	};
@@ -264,7 +259,7 @@ define (["whispeerHelper", "step", "asset/observer", "asset/errors", "crypto/key
 		* @param hash hash that was signed
 		* @param key key that was used to sign the signature
 		*/
-		isSignatureInCache: function (signature, hash, key) {
+		isValidSignatureInCache: function (signature, hash, key) {
 			var sHash = dataSetToHash(signature, hash, key);
 
 			return allDatabases.filter(function (database) {
@@ -297,24 +292,11 @@ define (["whispeerHelper", "step", "asset/observer", "asset/errors", "crypto/key
 
 			if (id) {
 				id = type + "-" + id;
+				console.log("ID:" + id);
 			}
 
 			var db = types[reducedType];
 			db.addSignature(signature, hash, key, id);
-		},
-		/**
-		* Get a signature status.
-		* @param signature the signature to check for
-		* @param hash hash that was signed
-		* @param key key that was used to sign the signature
-		* @throws if the signature is not in the cache. use isSignatureInCache to determine if a signature is in the cache.
-		*/
-		getSignatureStatus: function (signature, hash, key) {
-			if (signatureCache.isSignatureInCache(signature, hash, key)) {
-				return true;
-			} else {
-				throw new Error("tried to get signature status but not in cache!");
-			}
 		}
 	};
 

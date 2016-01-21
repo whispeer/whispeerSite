@@ -143,7 +143,7 @@ define(["step", "whispeerHelper", "asset/observer", "services/serviceModule", "a
 					this.parallel.unflatten();
 
 					circleSec.decrypt(this.parallel());
-					circleSec.verify(userService.getown().getSignKey(), this.parallel());
+					circleSec.verify(userService.getown().getSignKey(), this.parallel(), id);
 				}, h.sF(function (content) {
 					keyStore.security.addEncryptionIdentifier(circleSec.metaAttr("circleKey"));
 					theCircle.data.name = content.name;
@@ -160,7 +160,7 @@ define(["step", "whispeerHelper", "asset/observer", "services/serviceModule", "a
 					step(function () {
 						var loadedIDs = persons.map(function (p) { return p.id; });
 						var loadableUsers = circleUsers.filter(function (user) {
-							return loadedIDs.indexOf(user) === -1
+							return loadedIDs.indexOf(user) === -1;
 						});
 
 						userService.getMultiple(loadableUsers.slice(0, limit), this);

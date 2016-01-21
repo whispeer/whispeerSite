@@ -40,7 +40,7 @@ define(["step", "whispeerHelper", "crypto/trustManager", "crypto/signatureCache"
 			}
 		}
 
-		window.setInterval(storeSignatureCache, 3000);
+		window.setInterval(storeSignatureCache, 10000);
 
 		function addNewUsers(user) {
 			if (trustManager.isLoaded() && !trustManager.hasKeyData(user.getSignKey())) {
@@ -113,13 +113,17 @@ define(["step", "whispeerHelper", "crypto/trustManager", "crypto/signatureCache"
 			});
 		});
 
-		var ownUserLoaded = new Bluebird(function (resolve) {
-			userService.listenOnce(resolve, "ownEarly");
-		});
+		var ownUserLoaded = userService.listenPromise("ownEarly");
 
-		ownUserLoaded.then(function () {
+		sessionService.listenPromise("ssn.login").then(function () {
+			console.time("getSignatureCache");
 			return signatureCacheObject.get(sessionService.getUserID()).catch(function () {
 				return;
+			});
+		}).then(function (signatureCacheData) {
+			console.timeEnd("getSignatureCache");
+			return ownUserLoaded.then(function () {
+				return signatureCacheData;
 			});
 		}).then(function (signatureCacheData) {
 			if (signatureCacheData) {

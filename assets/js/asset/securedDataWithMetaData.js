@@ -151,7 +151,7 @@ define(["whispeerHelper", "step", "crypto/keyStore", "asset/errors", "config", "
 		@param cb called when signature was ok, otherwise SecurityError is thrown
 		@throw SecurityError: contenthash or signature wrong
 	*/
-	SecuredDataWithMetaData.prototype.verify = function (signKey, cb) {
+	SecuredDataWithMetaData.prototype.verify = function (signKey, cb, id) {
 		//check contentHash is correct
 		//check signature is correct
 
@@ -178,7 +178,7 @@ define(["whispeerHelper", "step", "crypto/keyStore", "asset/errors", "config", "
 				hashVersion = 2;
 			}
 
-			return keyStore.sign.verifyObject(this._original.meta._signature, metaCopy, signKey, hashVersion);
+			return keyStore.sign.verifyObject(this._original.meta._signature, metaCopy, signKey, hashVersion, id);
 		}).then(function (correctSignature) {
 			if (!correctSignature) {
 				alert("Bug: signature did not match (" + this._original.meta._type + ") Please report this bug!");
