@@ -134,7 +134,7 @@ define (["whispeerHelper", "step", "asset/observer", "asset/errors", "crypto/key
 
 		var sHash = dataSetToHash(signature, hash, key);
 
-		changed = changed || this.hasEntry(sHash);
+		changed = true;
 
 		this.deleteByID(id);
 		this._signatures[sHash] = this.getCacheEntry(id);
