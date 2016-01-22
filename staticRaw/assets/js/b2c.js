@@ -20,6 +20,15 @@
 		}
 	}
 
+	function removeClass(element, classToRemove) {
+		element.className =
+			element.className.replace(new RegExp("(?:^|\\s)" + classToRemove + "(?!\\S)", "g"), "");
+	}
+
+	function addClass(element, classToAdd) {
+		element.className += " " + classToAdd;
+	}
+
 	var globalNot = document.getElementsByClassName("globalNotificationWrap")[0];
 
 	if (!hasLocalStorage()) {
@@ -31,18 +40,7 @@
 		frame.contentWindow.document.getElementsByTagName("input")[0].focus();
 	}
 
-	var videoShown = false, overlayClosed = true, wasDay;
-
 	var headingElement = document.getElementById("heading");
-
-	function removeClass(element, classToRemove) {
-		element.className =
-			element.className.replace(new RegExp("(?:^|\\s)" + classToRemove + "(?!\\S)", "g"), "");
-	}
-
-	function addClass(element, classToAdd) {
-		element.className += " " + classToAdd;
-	}
 
 /* nobody should notice this in the compiled version
 	function updateImage() {
@@ -67,95 +65,54 @@
 	var overlayOpen = document.getElementById("video-overlay-open");
 	var overlayClose = document.getElementById("video-overlay-close");
 	var overlay = document.getElementById("video-overlay");
-	var overlayWrapper = document.getElementById("video-overlay-video");
-	var overlayIframe;
+	var videoElement = document.getElementById("video-overlay-video-element");
 
 	var registerAds = Array.prototype.slice.call(document.getElementsByClassName("register--ad"));
 	registerAds.forEach(function (element) {
 		element.addEventListener("click", focusRegister);
 	});
 
-	function showVideo() {
-		if (videoShown) {
-			return;
-		}
-
-		videoShown = true;
-		var attributes = Array.prototype.slice.call(overlayWrapper.attributes).filter(function (attr) {
-			return attr.name.indexOf("data-") === 0;
-		}).map(function (attr) {
-			return {
-				name: attr.name.substr(5),
-				value: attr.value
-			};
-		});
-		overlayIframe = document.createElement("iframe");
-
-		attributes.forEach(function (attr) {
-			overlayIframe.setAttribute(attr.name, attr.value);
-		});
-
-		overlayWrapper.parentNode.replaceChild(overlayIframe, overlayWrapper);
-
-		var interval = setInterval(function () {
-			overlayIframe.contentWindow.postMessage(JSON.stringify({"event":"listening","id":1}), "https://www.youtube-nocookie.com");
-
-			if (!overlayIframe.contentWindow) {
-				window.clearInterval(interval);
-			}
-		}, 250);
-
-		overlayIframe.addEventListener("load", function () {
-			window.clearInterval(interval);
-		});
-	}
-
-	function sendCommand(command) {
-		var youtubeCommand = window.JSON.stringify({
-			event: "command",
-			func: command
-		});
-		overlayIframe.contentWindow.postMessage(youtubeCommand, "https://www.youtube-nocookie.com");
-	}
-
-	function playVideo() {
-		sendCommand("playVideo");
-	}
-
-	function pauseVideo() {
-		sendCommand("pauseVideo");
-	}
-
-	window.addEventListener("message", function (event) {
-		var data = JSON.parse(event.data);
-
-		if (data.event === "onReady") {
-			if (overlayClosed) {
-				pauseVideo();
-			} else {
-				playVideo();
-			}
-		}
-	}, false);
+	var isOpen = false;
 
 	function close() {
-		overlayClosed = true;
 		removeClass(overlay, "video-overlay--visible");
-		pauseVideo();
+		videoElement.pause();
+
+		isOpen = false;
 	}
 
 	function open() {
-		overlayClosed = false;
-
 		addClass(overlay, "video-overlay--visible");
+		videoElement.play();
+		videoElement.focus();
 
-		showVideo();
-		playVideo();
+		isOpen = true;
+	}
+
+	function togglePlayback() {
+		if (videoElement.paused) {
+			videoElement.play();
+		} else {
+			videoElement.pause();
+		}
 	}
 
 	window.setTimeout(function () {
-		showVideo();
+		//buffer automatically?
 	}, 10000);
+
+	document.body.addEventListener("keypress", function (e) {
+		if (e.keyCode === 32 && isOpen) {
+			togglePlayback();
+			e.preventDefault();
+		}
+	});
+
+	videoElement.addEventListener("click", function (e) {
+		e.stopPropagation();
+
+		togglePlayback();
+	});
 
 	overlayOpen.addEventListener("click", open);
 
