@@ -1234,7 +1234,7 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 					return Bluebird.resolve(true);
 				}
 
-				console.info("Slow verify");
+				console.info("Slow verify of type: " + type);
 				var name = chelper.bits2hex(signature).substr(0, 10);
 				console.time("verify-" + name);
 

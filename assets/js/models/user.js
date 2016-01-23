@@ -112,6 +112,7 @@ define(["step", "whispeerHelper", "asset/state", "asset/securedDataWithMetaData"
 
 				if (!isMe) {
 					if (userData.profile.pub) {
+						userData.profile.pub.profileid = userData.profile.pub.profileid || id;
 						publicProfile = new ProfileService(userData.profile.pub, { isPublicProfile: true });
 					}
 

@@ -30,8 +30,12 @@ define (["whispeerHelper", "step", "asset/observer", "asset/errors", "crypto/key
 			maxCount: 500,
 			saveID: true
 		},
+		topic: {
+			maxCount: 30,
+			saveID: false
+		},
 		message: {
-			maxCount: 100,
+			maxCount: 200,
 			saveID: false
 		},
 		post: {
@@ -51,7 +55,7 @@ define (["whispeerHelper", "step", "asset/observer", "asset/errors", "crypto/key
 		trustManager: "me",
 		settings: "me",
 
-		topic: "message", 
+		topic: "topic",
 		message: "message",
 
 		post: "post",
@@ -292,7 +296,6 @@ define (["whispeerHelper", "step", "asset/observer", "asset/errors", "crypto/key
 
 			if (id) {
 				id = type + "-" + id;
-				console.log("ID:" + id);
 			}
 
 			var db = types[reducedType];
