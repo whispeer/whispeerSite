@@ -4,21 +4,15 @@ define(["whispeerHelper", "directives/directivesModule", "services/passwordStren
 	function passwordSaver(passwordStrengthService) {
 		return {
 			scope:	{
-				state: "=state",
-				class1: "@class1",
-				class2: "@class2"
+				state: "=passwordinput"
 			},
+			transclude: true,
 			restrict: "E",
-			template:
-				"<div class='annotatedInput-container'>" +
-				"	<input class='annotatedInput-input strenghInput password {{class1}}' type='password' data-i18n-attr='login.password|placeholder' data-ng-model='state.password' validation='passwordValidations'>" +
-				"	<span class='annotatedInput-icon' data-strength='{{passwordStrength()}}'></span>" +
-				"</div>" +
-				"<div class='annotatedInput-container'>" +
-				"	<input type='password' class='annotatedInput-input password2 {{class2}}' data-i18n-attr='login.register.repeatPassword|placeholder' data-ng-model='state.password2' validation='password2Validations'>" +
-				"	<span class='annotatedInput-icon fa' data-ng-class='acceptIcon(state.password, state.password2)' data-ng-if='!empty(state.password) && !empty(state.password2)'></span>" +
-				"</div>",
-			link: function (scope) {
+			link: function (scope, element, attrs, ctrl, transclude) {
+				transclude(scope, function(clone) {
+					element.append(clone);
+				});
+
 				scope.passwordValidations = [
 					{
 						validator: "passwordEmpty()",
@@ -43,9 +37,6 @@ define(["whispeerHelper", "directives/directivesModule", "services/passwordStren
 				];
 
 				scope.state = scope.state || {};
-
-				scope.state.password = "";
-				scope.state.password2 = "";
 
 				scope.acceptIcon = function (value1, value2) {
 					if (value1 === value2) {

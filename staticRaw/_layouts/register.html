@@ -17,20 +17,29 @@
 				<a href="https://play.google.com/store/apps/details?id=org.mozilla.firefox" target="_blank" class="btn btn--gray">Firefox</a>
 			</p>
 	</div>
-	<div data-ng-cloak data-ng-if="!browser.old" class="startView-register registerWrap" data-ng-click="registerFormClick()">
+	<div data-ng-if="!browser.old" class="startView-register registerWrap" data-ng-click="registerFormClick()">
 		<form class="registerForm" data-validated-form="validationOptions">
 			<h1 class="inputSandwich inputSandwich-top registerHeader">{{i18n.register.newaccount}}</h1>
 			<div class="inputWrap">
 				<div class="annotatedInput-container">
-					<input class="annotatedInput-input inputSandwich inputSandwich-middle" type="text" class="nickname" placeholder="{{i18n.login.username}}" data-ng-model="registerData.nickname" data-ng-model-onblur data-ng-change="nicknameChange()" validation="nicknameValidations">
+					<input class="annotatedInput-input inputSandwich inputSandwich-middle" type="text" class="nickname" placeholder="{{i18n.login.username}}" data-ng-model="registerData.nickname" data-load-val data-ng-model-onblur data-ng-change="nicknameChange()" validation="nicknameValidations">
 					<span class="annotatedInput-icon fa" data-ng-class="acceptIconNicknameFree()" data-ng-if="!empty(registerData.nickname)"></span>
 				</div>
-				<passwordinput state="pwState" data-class1="inputSandwich inputSandwich-middle" data-class2="inputSandwich inputSandwich-middle"></passwordinput>
+				<passwordinput state="pwState">
+					<div class='annotatedInput-container'>
+						<input class='annotatedInput-input strenghInput password inputSandwich inputSandwich-middle' type='password' placeholder='{{i18n.login.password}}' data-ng-model='state.password' data-load-val validation='passwordValidations'>
+						<span class='annotatedInput-icon' data-strength='{{ "{{ passwordStrength() " }}}}'></span>
+					</div>
+					<div class='annotatedInput-container'>
+						<input type='password' class='annotatedInput-input password2 inputSandwich inputSandwich-middle' placeholder='{{i18n.register.repeatPassword}}' data-ng-model='state.password2' data-load-val validation='password2Validations'>
+						<span class='annotatedInput-icon fa' data-ng-class='acceptIcon(state.password, state.password2)' data-ng-if='!empty(state.password) && !empty(state.password2)'></span>
+					</div>
+				</passwordinput>
 				<label class="registerAGB inputSandwich inputSandwich-middle" for="checkAGB" validation="agbValidations">
-					<input type="checkbox" data-ng-model="registerData.agb" id="checkAGB" class="checkAGB">
+					<input type="checkbox" data-ng-model="registerData.agb" id="checkAGB" class="checkAGB" data-load-val>
 					<span data-i18n="landingpage.legal">
-						<a href="/agb" data-for="agb" data-i18n="window.title.terms" target="_blank"></a>
-						<a href="/privacyPolicy" data-for="privacyPolicy" data-i18n="window.title.data" target="_blank"></a>
+						<a href="/agb" data-for="agb" target="_blank">{{i18n.legal.terms}}</a>
+						<a href="/privacyPolicy" data-for="privacyPolicy" target="_blank">{{i18n.legal.data}}</a>
 					</span>
 				</label>
 			</div>

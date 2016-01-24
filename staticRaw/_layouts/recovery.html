@@ -7,7 +7,16 @@
 			<div data-ng-if="changePassword.enabled" class="recoveryView-section">
 				<h5 class="settingsView-setting-header" data-i18n="settings.changes.changePassword"></h5>
 				<form validated-form="pwValidationOptions" class="inputSandwich">
-					<passwordinput state="changePassword" class1="inputSandwich-top" class2="inputSandwich-middle"></passwordinput>
+					<passwordinput state="changePassword">
+						<div class='annotatedInput-container'>
+							<input class='annotatedInput-input strenghInput password inputSandwich-top' type='password' data-i18n-attr='login.password|placeholder' data-ng-model='state.password' validation='passwordValidations'>
+							<span class='annotatedInput-icon' data-strength='{{ "{{ passwordStrength() " }}}}'></span>
+						</div>
+						<div class='annotatedInput-container'>
+							<input type='password' class='annotatedInput-input password2 inputSandwich-middle' data-i18n-attr='login.register.repeatPassword|placeholder' data-ng-model='state.password2' validation='password2Validations'>
+							<span class='annotatedInput-icon fa' data-ng-class='acceptIcon(state.password, state.password2)' data-ng-if='!empty(state.password) && !empty(state.password2)'></span>
+						</div>
+					</passwordinput>
 					<savebutton class="inputSandwich-bottom" state="savePasswordState" data-ng-click="savePassword()">
 						<span data-i18n="settings.changes.save"></span>
 					</savebutton>

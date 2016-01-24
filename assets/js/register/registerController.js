@@ -13,7 +13,7 @@ define([
 	], function (step, h, State, registerModule) {
 	"use strict";
 
-	function registerController($scope, errorService, registerService, locationService) {
+	function registerController($scope, $timeout, errorService, registerService, locationService) {
 		var registerState = new State();
 
 		function hasLocalStorage() {
@@ -61,14 +61,11 @@ define([
 		$scope.pwState = { password: "" };
 
 		$scope.registerData = {
-			nickname: "",
 			nicknameCheckLoading: false,
 			nicknameCheck: false,
 			nicknameCheckError: false,
 
-			nickNameError: true,
-
-			agb: false
+			nickNameError: true
 		};
 
 		window.setTimeout(function () {
@@ -83,7 +80,7 @@ define([
 			registerService.startKeyGeneration();
 		};
 
-		$scope.nicknameChange = function nicknameChange() {
+		$scope.nicknameChange = function () {
 			step(function nicknameCheck() {
 				var internalNickname = $scope.registerData.nickname;
 				$scope.registerData.nicknameCheckLoading = true;
@@ -105,6 +102,8 @@ define([
 				}
 			});
 		};
+
+		$timeout($scope.nicknameChange);
 
 		$scope.empty = function (val) {
 			return val === "" || !h.isset(val);
@@ -201,7 +200,7 @@ define([
 		};
 	}
 
-	registerController.$inject = ["$scope", "ssn.errorService", "ssn.registerService", "ssn.locationService", "ssn.socketService"];
+	registerController.$inject = ["$scope", "$timeout", "ssn.errorService", "ssn.registerService", "ssn.locationService", "ssn.socketService"];
 
 	registerModule.controller("ssn.registerController", registerController);
 });
