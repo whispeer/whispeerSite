@@ -26,7 +26,7 @@ define([
 		});
 
 		loginDataService.loadedStorage.then(function () {
-			var focus = false;
+			var focus = window.top.whispeerStopAutoFocus;
 
 			if ($scope.login) {
 				if ($scope.login.identifier) {

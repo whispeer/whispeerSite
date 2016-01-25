@@ -17,7 +17,7 @@
 				<a href="https://play.google.com/store/apps/details?id=org.mozilla.firefox" target="_blank" class="btn btn--gray">Firefox</a>
 			</p>
 	</div>
-	<div data-ng-if="!browser.old" class="startView-register registerWrap" data-ng-click="registerFormClick()">
+	<div data-ng-show="!browser.old" class="startView-register registerWrap" data-ng-click="registerFormClick()">
 		<form class="registerForm" data-validated-form="validationOptions">
 			<h1 class="inputSandwich inputSandwich-top registerHeader">{{i18n.register.newaccount}}</h1>
 			<div class="inputWrap">
