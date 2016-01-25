@@ -9,10 +9,10 @@
 				<h1>{{ i18n.login.header }}</h1>
 				<form class="inputSandwich">
 					<div class="name">
-						<input type="text" id="mail" class="inputSandwich inputSandwich-top" placeholder="{{ i18n.login.username }}" data-ng-model="login.identifier">
+						<input type="text" id="mail" class="inputSandwich inputSandwich-top" placeholder="{{ i18n.login.username }}" data-ng-model="login.identifier" data-load-val>
 					</div>
 					<div class="pw">
-						<input type="password" id="password" class="inputSandwich inputSandwich-middle" placeholder="{{ i18n.login.password }}" data-ng-model="login.password">
+						<input type="password" id="password" class="inputSandwich inputSandwich-middle" placeholder="{{ i18n.login.password }}" data-ng-model="login.password" data-load-val>
 					</div>
 					<div class="errors inputSandwich inputSandwich-middle" data-ng-cloak>
 						<div class="error" data-ng-if="login.failureCode > 1" id="errorLogin">{{ i18n.login.loginFailed }}</div>

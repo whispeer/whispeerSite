@@ -9,7 +9,6 @@ define([
 	"use strict";
 
 	function loginController($scope, $location, loginDataService) {
-		$scope.login = loginDataService;
 		$scope.$watch(function () {
 			return loginDataService.failureCode === 0;
 		}, function (val) {
@@ -18,17 +17,39 @@ define([
 			}
 		});
 
-		if (loginDataService.identifier) {
-			document.getElementById("password").focus();
-		} else {
-			document.getElementById("mail").focus();
-		}
-
 		$scope.$watch(function () {
 			return loginDataService.failureCode === 1;
 		}, function (val) {
 			if (val) {
 				document.getElementById("password").focus();
+			}
+		});
+
+		loginDataService.loadedStorage.then(function () {
+			var focus = false;
+
+			if ($scope.login) {
+				if ($scope.login.identifier) {
+					loginDataService.identifier = $scope.login.identifier;
+					focus = true;
+				}
+
+				if ($scope.login.password) {
+					loginDataService.password = $scope.login.password;
+					focus = true;
+				}
+			}
+
+			$scope.login = loginDataService;
+
+			if (focus) {
+				return;
+			}
+
+			if (loginDataService.identifier) {
+				document.getElementById("password").focus();
+			} else {
+				document.getElementById("mail").focus();
 			}
 		});
 	}
