@@ -23,11 +23,10 @@
 						<span>{{ i18n.login.link }}</span>
 					</savebutton>
 				</form>
-				<div class="smallRow" data-ng-if="login.failedOnce && false" data-ng-cloak>
-					<button class="btn btn-send">{{ i18n.login.forgotName }}</button>
-					<button class="btn btn-send">{{ i18n.login.forgotPassword }}</button>
-				</div>
 				<a href="/{{page.lang}}/" class="backToRegister">{{ i18n.register.createAccount }}</a>
+				<div data-ng-if="login.failedOnce" data-ng-cloak>
+					<a href="/{{page.lang}}/recovery">{{ i18n.login.recovery }}</a>
+				</div>
 			</div>
 		</section>
 	</div>
