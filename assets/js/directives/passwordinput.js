@@ -4,7 +4,7 @@ define(["whispeerHelper", "directives/directivesModule", "services/passwordStren
 	function passwordSaver(passwordStrengthService) {
 		return {
 			scope:	{
-				state: "=passwordinput"
+				state: "=state"
 			},
 			transclude: true,
 			restrict: "E",
