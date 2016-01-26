@@ -23,12 +23,13 @@ var libs = [
 	"bluebird",
 	"requirejs",
 	"socket",
-	"socketStream",
 	"workerQueue",
 	"PromiseWorker",
 	"debug",
 	"libs/sjcl",
-	"jquery"
+	"jquery",
+	"dexie",
+	"amanda"
 ];
 
 var extend = require("extend");
