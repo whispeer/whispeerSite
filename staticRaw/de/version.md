@@ -4,6 +4,12 @@ lang: de
 title: Versionshistorie
 ---
 
+## 0.2.18
+
+* Verbessertes Caching von Signaturen
+* Schnellere Startseite
+* Selbst gehostetes Startseiten Video
+
 ## 0.2.17
 
 * E-Mail Eingabefelder verbessert
