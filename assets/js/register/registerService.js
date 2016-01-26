@@ -227,11 +227,13 @@ define([
 					if (nickname === "" || !h.isNickname(nickname)) {
 						this.last.ne(true);
 					} else {
-						socketService.emit("nicknameFree", {
-							nickname: nickname
-						}, this);
+						socketService.awaitConnection().then(this, this.ne);
 					}
-				}, h.sF(function nicknameResult(data) {
+				}, h.sF(function () {
+					socketService.emit("nicknameFree", {
+						nickname: nickname
+					}, this);
+				}), h.sF(function nicknameResult(data) {
 					if (data.nicknameUsed === true) {
 						this.ne(true);
 					} else if (data.nicknameUsed === false) {

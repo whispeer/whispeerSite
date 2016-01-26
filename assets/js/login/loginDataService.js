@@ -122,7 +122,7 @@ define([
 			}
 		};
 
-		loginStorage.awaitLoading().then(function () {
+		res.loadedStorage = loginStorage.awaitLoading().then(function () {
 			res.identifier = loginStorage.get("identifier");
 			res.failureCode = parseInt(loginStorage.get("failureCode"), 10);
 

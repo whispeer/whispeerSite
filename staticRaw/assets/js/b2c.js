@@ -1,6 +1,8 @@
 (function () {
 	"use strict";
 
+	window.whispeerStopAutoFocus = false;
+
 	try {
 		if (localStorage.getItem("whispeer.session.loggedin") === "true") {
 			var locale = window.top.location.pathname.split("/")[1];
@@ -41,6 +43,21 @@
 	}
 
 	var headingElement = document.getElementById("heading");
+
+	var iframes = Array.prototype.slice.call(document.getElementsByTagName("iframe"));
+
+	function iframeLoaded(e) {
+		var inputs = Array.prototype.slice.call(e.srcElement.contentWindow.document.getElementsByTagName("input"));
+		inputs.forEach(function (input) {
+			input.addEventListener("click", function () {
+				whispeerStopAutoFocus = true;
+			});
+		});
+	}
+
+	iframes.forEach(function (ele) {
+		ele.addEventListener("load", iframeLoaded);
+	});
 
 /* nobody should notice this in the compiled version
 	function updateImage() {
@@ -97,10 +114,6 @@
 		}
 	}
 
-	window.setTimeout(function () {
-		//buffer automatically?
-	}, 10000);
-
 	document.body.addEventListener("keypress", function (e) {
 		if (e.keyCode === 32 && isOpen) {
 			togglePlayback();
@@ -114,7 +127,9 @@
 		togglePlayback();
 	});
 
-	overlayOpen.addEventListener("click", open);
+	if (overlayOpen) {
+		overlayOpen.addEventListener("click", open);
+	}
 
 	overlayClose.addEventListener("click", close);
 	overlay.addEventListener("click", close);

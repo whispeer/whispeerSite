@@ -25,7 +25,16 @@
 	<div class="settingsView-setting" id="settingsView-password">
 		<h3 class="settingsView-setting-header" data-i18n="settings.changes.changePassword"></h3>
 		<form validated-form="pwValidationOptions">
-			<passwordinput state="pwState"></passwordinput>
+			<passwordinput state="pwState">
+				<div class='annotatedInput-container'>
+					<input class='annotatedInput-input strenghInput password' type='password' placeholder='{{i18n.login.password}}' data-ng-model='state.password' data-load-val validation='passwordValidations'>
+					<span class='annotatedInput-icon' data-strength='{{ "{{ passwordStrength() " }}}}'></span>
+				</div>
+				<div class='annotatedInput-container'>
+					<input type='password' class='annotatedInput-input password2' placeholder='{{i18n.register.repeatPassword}}' data-ng-model='state.password2' data-load-val validation='password2Validations'>
+					<span class='annotatedInput-icon fa' data-ng-class='acceptIcon(state.password, state.password2)' data-ng-if='!empty(state.password) && !empty(state.password2)'></span>
+				</div>
+			</passwordinput>
 			<savebutton id="settingsView-savePassword" state="savePasswordState" data-ng-click="savePassword()">
 				<span data-i18n="settings.changes.save"></span>
 			</savebutton>

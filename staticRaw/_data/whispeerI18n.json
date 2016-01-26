@@ -37,6 +37,7 @@
 		"register": {
 			"link":	"Registrieren",
 			"newaccount": "Komm' zu uns!",
+			"repeatPassword": "Passwort wiederholen",
 			"createAccount": "Account erstellen"
 		},
 		"legal": {
@@ -84,6 +85,7 @@
 		},
 		"register": {
 			"link":	"Register",
+			"repeatPassword": "Repeat password",
 			"newaccount": "Create an account",
 			"createAccount": "Create an account"
 		},
