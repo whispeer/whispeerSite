@@ -108,9 +108,7 @@ define(["step", "whispeerHelper", "services/serviceModule", "bluebird"], functio
 			}).catch(errorService.criticalError);
 		}
 
-		$rootScope.$on("ssn.login", function () {
-			loadData();
-		});
+		sessionService.listen(loadData, "ssn.login")
 
 		return {
 			/** get via api, also check cache in before!

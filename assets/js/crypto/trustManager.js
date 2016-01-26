@@ -140,7 +140,7 @@ define (["whispeerHelper", "step", "asset/observer", "asset/securedDataWithMetaD
 			var givenDatabase = SecuredData.load(undefined, data, { type: "trustManager" });
 			step(function () {
 				if (data.me === ownKey) {
-					givenDatabase.verify(ownKey, this);
+					givenDatabase.verify(ownKey, this, "user");
 				} else {
 					throw new errors.SecurityError("not my trust database");
 				}
@@ -170,7 +170,7 @@ define (["whispeerHelper", "step", "asset/observer", "asset/securedDataWithMetaD
 			var givenDatabase = SecuredData.load(undefined, data, { type: "trustManager" });
 			step(function () {
 				if (data.me === ownKey) {
-					givenDatabase.verify(ownKey, this);
+					givenDatabase.verify(ownKey, this, "user");
 				} else {
 					throw new errors.SecurityError("not my trust database");
 				}

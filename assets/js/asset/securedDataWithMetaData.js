@@ -1,4 +1,4 @@
-define(["whispeerHelper", "step", "crypto/keyStore", "asset/errors", "config"], function (h, step, keyStore, errors, config) {
+define(["whispeerHelper", "step", "crypto/keyStore", "asset/errors", "config", "bluebird"], function (h, step, keyStore, errors, config, Bluebird) {
 	"use strict";
 
 	var attributesNeverVerified = ["_signature", "_hashObject"];
@@ -59,7 +59,7 @@ define(["whispeerHelper", "step", "crypto/keyStore", "asset/errors", "config"], 
 		return this._updated.meta._ownHash;
 	};
 
-	SecuredDataWithMetaData.prototype.sign = function (signKey, cb, noCache) {
+	SecuredDataWithMetaData.prototype.sign = function (signKey, cb) {
 		var that = this;
 		var toSign = h.deepCopyObj(that._updated.meta);
 		var hashVersion = config.hashVersion;
@@ -85,7 +85,7 @@ define(["whispeerHelper", "step", "crypto/keyStore", "asset/errors", "config"], 
 
 			toSign._hashVersion = hashVersion;
 
-			keyStore.sign.signObject(toSign, signKey, this, noCache, hashVersion);
+			keyStore.sign.signObject(toSign, signKey, hashVersion, this);
 		}, h.sF(function (signature) {
 			toSign._signature = signature;
 
@@ -151,20 +151,19 @@ define(["whispeerHelper", "step", "crypto/keyStore", "asset/errors", "config"], 
 		@param cb called when signature was ok, otherwise SecurityError is thrown
 		@throw SecurityError: contenthash or signature wrong
 	*/
-	SecuredDataWithMetaData.prototype.verify = function (signKey, cb) {
-		var that = this;
+	SecuredDataWithMetaData.prototype.verify = function (signKey, cb, id) {
 		//check contentHash is correct
 		//check signature is correct
-		//question: store signature with meta data? -> YES!
-		step(function () {
-			var metaCopy = h.deepCopyObj(that._original.meta);
 
-			that._attributesNotVerified.forEach(function(attr) {
+		var resultPromise = Bluebird.resolve().bind(this).then(function () {
+			var metaCopy = h.deepCopyObj(this._original.meta);
+
+			this._attributesNotVerified.forEach(function(attr) {
 				delete metaCopy[attr];
 			});
 
-			if (metaCopy._type !== that._type) {
-				throw new errors.SecurityError("invalid object type. is: " + metaCopy._type + " should be: " + that._type);
+			if (metaCopy._type !== this._type) {
+				throw new errors.SecurityError("invalid object type. is: " + metaCopy._type + " should be: " + this._type);
 			}
 
 			if (typeof metaCopy._hashVersion === "number") {
@@ -179,18 +178,20 @@ define(["whispeerHelper", "step", "crypto/keyStore", "asset/errors", "config"], 
 				hashVersion = 2;
 			}
 
-			keyStore.sign.verifyObject(that._original.meta._signature, metaCopy, signKey, this, hashVersion);
-		}, h.sF(function (correctSignature) {
+			return keyStore.sign.verifyObject(this._original.meta._signature, metaCopy, signKey, hashVersion, id);
+		}).then(function (correctSignature) {
 			if (!correctSignature) {
-				alert("Bug: signature did not match (" + that._original.meta._type + ") Please report this bug!");
-				throw new errors.SecurityError("signature did not match " + that._original.meta._type);
+				alert("Bug: signature did not match (" + this._original.meta._type + ") Please report this bug!");
+				throw new errors.SecurityError("signature did not match " + this._original.meta._type);
 			}
 
-			that._verifyContentHash();
+			this._verifyContentHash();
+			this._isKeyVerified = true;
 
-			that._isKeyVerified = true;
-			this.ne(true);
-		}), cb);
+			return true;
+		});
+
+		return step.unpromisify(resultPromise, cb);
 	};
 
 	SecuredDataWithMetaData.prototype.updated = function () {

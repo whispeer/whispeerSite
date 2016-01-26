@@ -1136,7 +1136,7 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 			return fingerPrintPublicKey(publicKey);
 		}
 
-		function signF(hash, callback, noCache) {
+		function signF(hash, type, callback) {
 			var trustManager, signatureCache;
 			step(function () {
 				require(["crypto/trustManager", "crypto/signatureCache"], this.ne, this);
@@ -1160,8 +1160,8 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 			}), h.sF(function () {
 				this.ne(intKey.getSecret().sign(hash));
 			}), h.sF(function (signature) {
-				if (signatureCache.isLoaded() && !noCache) {
-					signatureCache.addSignatureStatus(signature, hash, realid, true);
+				if (signatureCache.isLoaded()) {
+					signatureCache.addValidSignature(signature, hash, realid, type);
 				}
 
 				this.ne(signature);
@@ -1221,7 +1221,7 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 		}
 
 		this.getFingerPrint = getFingerPrintF;
-		this.verify = function (signature, text) {
+		this.verify = function (signature, text, type, id) {
 			return requireAsync(["crypto/trustManager", "crypto/signatureCache"]).spread(function (trustManager, signatureCache) {
 				var hash = sjcl.hash.sha256.hash(text);
 
@@ -1229,17 +1229,19 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 					throw new errors.SecurityError("key not in key database");
 				}
 
-				if (signatureCache.isLoaded() && signatureCache.isSignatureInCache(signature, hash, realid)) {
-					return signatureCache.getSignatureStatus(signature, hash, realid);
+				if (signatureCache.isValidSignatureInCache(signature, hash, realid)) {
+					signatureCache.addValidSignature(signature, hash, realid, type, id);
+					return Bluebird.resolve(true);
 				}
 
-				console.info("Slow verify");
+				console.info("Slow verify of type: " + type);
 				var name = chelper.bits2hex(signature).substr(0, 10);
 				console.time("verify-" + name);
+
 				return verify(signature, text, hash).then(function (valid) {
 					console.timeEnd("verify-" + name);
-					if (signatureCache.isLoaded()) {
-						signatureCache.addSignatureStatus(signature, hash, realid, valid);
+					if (valid) {
+						signatureCache.addValidSignature(signature, hash, realid, type, id);
 					}
 
 					return valid;
@@ -2302,69 +2304,32 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 				}), callback);
 			},
 
-			/** sign a given text
-			* @param text text to sign
-			* @param realID key id with which to sign
-			* @param callback callback
-			*/
-			signText: function (text, realID, callback, noCache) {
-				keyStore.sign.signHash(sjcl.hash.sha256.hash(text), realID, callback, noCache);
-			},
+			signObject: function (object, realID, version, callback) {
+				var hash = new ObjectHasher(object, version).hashBits();
 
-			/** sign a hash
-			* @param hash hash to sign
-			* @param realID key id with which to sign
-			* @param callback callback
-			*/
-			signHash: function (hash, realID, callback, noCache) {
 				//subtle HERE!
-				step(function () {
-					hash = chelper.hex2bits(hash);
-
+				step(function signO1() {
 					SignKey.get(realID, this);
 				}, h.sF(function (key) {
-					key.sign(hash, this, noCache);
+					key.sign(hash, object._type, this);
 				}), h.sF(function (signature) {
 					this.ne(chelper.bits2hex(signature));
 				}), callback);
 			},
 
-			signObject: function (object, realID, callback, noCache, version) {
-				//subtle HERE!
-				step(function signO1() {
-					var hash = new ObjectHasher(object, version).hashBits();
-					keyStore.sign.signHash(hash, realID, this, noCache);
-				}, callback);
-			},
-
-			/** verify a given text
-			* @param signature given signature
-			* @param text given text
-			* @param realID key to verify against
-			* @param callback callback
-			*/
-			verifyText: function (signature, text, realID, callback) {
+			verifyObject: function (signature, object, realID, version, id) {
 				signature = chelper.hex2bits(signature);
 
 				var getSignKey = Bluebird.promisify(SignKey.get, SignKey);
 
-				var resultPromise = getSignKey(realID).then(function (key) {
-					return key.verify(signature, text);
+				var objectString = new ObjectHasher(object, version).stringify();
+				return getSignKey(realID).then(function (key) {
+					return key.verify(signature, objectString, object._type, id);
 				}).catch(function (e) {
 					console.error(e);
 
 					return false;
 				});
-
-				return step.unpromisify(resultPromise, h.addAfterHook(callback, afterAsyncCall));
-			},
-
-			verifyObject: function (signature, object, realID, callback, version) {
-				step(function signO1() {
-					var objectString = new ObjectHasher(object, version).stringify();
-
-					keyStore.sign.verifyText(signature, objectString, realID, this);
-				}, callback);
 			},
 
 			fingerPrintKey: function (realID, cb) {

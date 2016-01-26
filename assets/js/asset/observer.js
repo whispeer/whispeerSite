@@ -1,4 +1,4 @@
-define (["whispeerHelper"], function (h) {
+define (["whispeerHelper", "bluebird"], function (h, Bluebird) {
     "use strict";
 
     /* jshint validthis: true */
@@ -10,6 +10,13 @@ define (["whispeerHelper"], function (h) {
             this._listenersOnce[type] = [];
         }
         this._listenersOnce[type].push(fn);
+    }
+
+    function listenPromiseF(type) {
+        var that = this;
+        return new Bluebird(function (resolve) {
+            that.listenOnce(resolve, type);
+        });
     }
 
     function listenF(fn, type) {
@@ -47,6 +54,7 @@ define (["whispeerHelper"], function (h) {
         this._listeners = {};
         this._listenersOnce = {};
 
+        this.listenPromise = listenPromiseF;
         this.listenOnce = listenOnceF;
         this.listen = listenF;
         //this.unlisten = unListenF;

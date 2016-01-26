@@ -1,28 +1,8 @@
-define(["step", "whispeerHelper", "crypto/trustManager", "crypto/signatureCache", "services/serviceModule"], function (step, h, trustManager, signatureCache, serviceModule) {
+define(["step", "whispeerHelper", "crypto/trustManager", "crypto/signatureCache", "services/serviceModule", "bluebird"], function (step, h, trustManager, signatureCache, serviceModule, Bluebird) {
 	"use strict";
 
 	var service = function ($rootScope, initService, userService, socketService, CacheService, sessionService, errorService) {
-		var THROTTLE = 20;
-
-
-		function uploadSignatureCache() {
-			if (!signatureCache.isLoaded() || !signatureCache.isChanged()) {
-				return;
-			}
-
-			step(function () {
-				signatureCache.getUpdatedVersion(this);
-			}, h.sF(function (newTrustContent) {
-				socketService.emit("signatureCache.set", {
-					content: newTrustContent
-				}, this);
-			}), h.sF(function (result) {
-				if (!result.success) {
-					throw new Error(result.error);	
-				}
-			}), errorService.criticalError);
-		}
-		window.setInterval(uploadSignatureCache, 10000);
+		var THROTTLE = 20, signatureCacheObject = new CacheService("signatureCache");
 
 		function uploadDatabase(cb) {
 			step(function () {
@@ -43,6 +23,24 @@ define(["step", "whispeerHelper", "crypto/trustManager", "crypto/signatureCache"
 		}
 
 		var delay = h.aggregateOnce(THROTTLE, uploadDatabase);
+
+
+		function storeSignatureCache() {
+			if (signatureCache.isChanged()) {
+				console.log("Storing signature cache!");
+
+				signatureCache.resetChanged();
+
+				signatureCache.getUpdatedVersion().then(function (updatedVersion) {
+					console.log(updatedVersion);
+					return signatureCacheObject.store(sessionService.getUserID(), updatedVersion);
+				}).then(function () {
+					console.log("stored signature cache");
+				});
+			}
+		}
+
+		window.setInterval(storeSignatureCache, 10000);
 
 		function addNewUsers(user) {
 			if (trustManager.isLoaded() && !trustManager.hasKeyData(user.getSignKey())) {
@@ -102,23 +100,6 @@ define(["step", "whispeerHelper", "crypto/trustManager", "crypto/signatureCache"
 			cache: true
 		});
 
-		initService.get("signatureCache.get", undefined, function (data, cb) {
-			if (data.content) {
-				step(function () {
-					signatureCache.loadDatabase(data.content, userService.getown().getSignKey(), this);
-				}, function (e) {
-					if (e) {
-						signatureCache.createDatabase(userService.getown().getSignKey());		
-					}
-
-					this.ne();
-				}, cb);
-			} else {
-				signatureCache.createDatabase(userService.getown().getSignKey());
-				cb();
-			}
-		}, { priorized: true });
-
 		$rootScope.$on("ssn.reset", function () {
 			trustManager.reset();
 			signatureCache.reset();
@@ -130,6 +111,26 @@ define(["step", "whispeerHelper", "crypto/trustManager", "crypto/signatureCache"
 					throw e;
 				}
 			});
+		});
+
+		var ownUserLoaded = userService.listenPromise("ownEarly");
+
+		sessionService.listenPromise("ssn.login").then(function () {
+			console.time("getSignatureCache");
+			return signatureCacheObject.get(sessionService.getUserID()).catch(function () {
+				return;
+			});
+		}).then(function (signatureCacheData) {
+			console.timeEnd("getSignatureCache");
+			return ownUserLoaded.then(function () {
+				return signatureCacheData;
+			});
+		}).then(function (signatureCacheData) {
+			if (signatureCacheData) {
+				signatureCache.load(signatureCacheData.data, userService.getown().getSignKey());
+			} else {
+				signatureCache.initialize(userService.getown().getSignKey());
+			}
 		});
 
 		return {

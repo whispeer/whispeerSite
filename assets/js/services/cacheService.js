@@ -82,7 +82,7 @@ define(["whispeerHelper", "dexie", "bluebird", "services/serviceModule", "servic
 		//remove data which hasn't been used in a long time or is very big
 		return Promise.resolve(this.entryCount().then(function (count) {
 			if (count > 100) {
-				console.warn("cleaning up cache");
+				console.warn("cleaning up cache " + this._name);
 				db.cache.orderBy("used").limit(count - 100).delete();
 			}
 		}));

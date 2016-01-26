@@ -1,7 +1,7 @@
 /**
 * SessionService
 **/
-define(["services/serviceModule"], function (serviceModule) {
+define(["services/serviceModule", "asset/observer"], function (serviceModule, Observer) {
 	"use strict";
 
 	var provider = function () {
@@ -12,7 +12,7 @@ define(["services/serviceModule"], function (serviceModule) {
 		};
 
 		var service = function ($rootScope, $timeout, locationService, Storage, keyStore) {
-			var sid = "", loggedin = false, userid;
+			var sid = "", loggedin = false, userid, sessionService;
 
 			var sessionStorage = new Storage("whispeer.session");
 
@@ -28,7 +28,7 @@ define(["services/serviceModule"], function (serviceModule) {
 				loggedin = true;
 
 				$timeout(function () {
-					$rootScope.$broadcast("ssn.login");
+					sessionService.notify("", "ssn.login");
 					if (!noRedirect) {
 						locationService.loadInitialURL();
 					}
@@ -58,7 +58,7 @@ define(["services/serviceModule"], function (serviceModule) {
 				});
 			});
 
-			var sessionService = {
+			sessionService = {
 				saveSession: saveSession,
 				setLoginData: setLoginData,
 				setReturnUrl: function (url) {
@@ -86,6 +86,8 @@ define(["services/serviceModule"], function (serviceModule) {
 					return loggedin;
 				}
 			};
+
+			Observer.call(sessionService);
 
 			return sessionService;
 		};

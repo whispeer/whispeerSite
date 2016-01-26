@@ -44,12 +44,16 @@ define(["step", "whispeerHelper", "validation/validator", "services/serviceModul
 
 			checkProfile();
 
-			if (!isDecrypted) {
+			if (data.profileid) {
 				id = data.profileid;
 			}
 
 			this.getID = function getIDF() {
-				return id;
+				if (!id) {
+					return;
+				}
+
+				return isPublicProfile ? "public-" + id : "private-" + id;
 			};
 
 			this.getUpdatedData = function getUpdatedData(signKey, cb) {
@@ -103,7 +107,7 @@ define(["step", "whispeerHelper", "validation/validator", "services/serviceModul
 			};
 
 			this.verify = function (signKey, cb) {
-				securedData.verify(signKey, cb);
+				securedData.verify(signKey, cb, this.getID());
 			};
 
 			this.setFullProfile = function setFullProfileF(data, cb) {

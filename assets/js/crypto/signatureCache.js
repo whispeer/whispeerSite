@@ -1,6 +1,6 @@
-define (["whispeerHelper", "step", "asset/observer", "asset/errors", "crypto/keyStore", "crypto/helper", "asset/securedDataWithMetaData"], function (h, step, Observer, errors, keyStore, chelper, SecuredData) {
+define (["whispeerHelper", "step", "asset/observer", "asset/errors", "crypto/keyStore", "crypto/helper", "asset/securedDataWithMetaData", "bluebird"], function (h, step, Observer, errors, keyStore, chelper, SecuredData, Bluebird) {
 	"use strict";
-	var database, loaded = false, signKey, changed = false;
+	var loaded = false, changed = false, signKey;
 
 	function dataSetToHash(signature, hash, key) {
 		var data = {
@@ -12,135 +12,294 @@ define (["whispeerHelper", "step", "asset/observer", "asset/errors", "crypto/key
 		return keyStore.hash.hashObjectOrValueHex(data);
 	}
 
-	function allHashes() {
-		return database.metaKeys().filter(function (key) {
-				return key.indexOf("hash::") === 0;
-		});
-	}
+	/*
+		user:  signedKeys, signedFriendList, profile
+		me: circle, trustManager, settings
+		message: topic, message
+		post: post, comment
 
-	function cleanUpDatabase() {
-		if (allHashes().length > 500) {
-			console.log("Cleaning up database (" + allHashes().length + ")");
-			var times = allHashes().map(function (key) {
-				return database.metaAttr(key);
-			});
+		noCache: friendShip, removeFriend
+	*/
 
-			times.sort(function (a, b) { return b - a; });
-
-			var border = times[400] + 200;
-
-			allHashes().forEach(function (key) {
-				if (database.metaAttr(key) < border) {
-					database.metaRemoveAttr(key);
-					changed = true;
-				}
-			});
-
-			console.log("Cleaned up database (" + allHashes().length + ")");
+	var types = {
+		me: {
+			maxCount: -1,
+			saveID: true
+		},
+		user: {
+			maxCount: 500,
+			saveID: true
+		},
+		topic: {
+			maxCount: 30,
+			saveID: false
+		},
+		message: {
+			maxCount: 200,
+			saveID: false
+		},
+		post: {
+			maxCount: 100,
+			saveID: false
 		}
-	}
+	};
+
+	var cacheTypes = {
+		signatureCache: "noCache",
+
+		signedKeys: "user",
+		signedFriendList: "user",
+		profile: "user",
+
+		circle: "me",
+		trustManager: "me",
+		settings: "me",
+
+		topic: "topic",
+		message: "message",
+
+		post: "post",
+
+		comment: "noCache",
+		friendShip: "noCache",
+		removeFriend: "noCache"
+	};
+	
+	var Database = function (type, options) {
+		this._type = type;
+
+		this._maxCount = options.maxCount;
+		this._saveID = options.saveID;
+
+		this._signatures = {};
+	};
+
+	Database.prototype.getType = function () {
+		return this._type;
+	};
+
+	Database.prototype.getCacheEntry = function (id) {
+		var entry = {};
+		if (this._maxCount > -1) {
+			entry.date = new Date().getTime();
+		}
+
+		if (this._saveID && id) {
+			entry.id = id;
+		}
+
+		return entry;
+	};
+
+	Database.prototype.allEntries = function () {
+		return this.allSignatures().map(function (signatureHash) {
+			var entry = h.deepCopyObj(this.getEntry(signatureHash));
+			entry.signatureHash = signatureHash;
+			return entry;
+		}, this);
+	};
+
+	Database.prototype.getEntry = function (signatureHash) {
+		return this._signatures[signatureHash];
+	};
+
+	Database.prototype.joinEntries = function (entries) {
+		entries.forEach(function (entry) {
+			var signatureHash = entry.signatureHash;
+
+			delete entry.signatureHash;
+
+			if (!this._signatures[signatureHash]) {
+				this._signatures[signatureHash] = entry;
+			}
+		}, this);
+	};
+
+	Database.prototype.deleteByID = function (id) {
+		if (!this._saveID || !id) {
+			return;
+		}
+
+		this.allEntries().filter(function (entry) {
+			return entry.id === id;
+		}).forEach(function (entry) {
+			this.deleteEntry(entry.signatureHash);
+		}, this);
+	};
+
+	Database.prototype.deleteEntry = function (signatureHash) {
+		delete this._signatures[signatureHash];
+	};
+
+	Database.prototype.addSignature = function (signature, hash, key, id) {
+		if (!h.isRealID(key) || !h.isSignature(chelper.bits2hex(signature))) {
+			throw new Error("invalid input");
+		}
+
+		var sHash = dataSetToHash(signature, hash, key);
+
+		changed = true;
+
+		this.deleteByID(id);
+		this._signatures[sHash] = this.getCacheEntry(id);
+
+		this.cleanUp();
+	};
+
+	Database.prototype.hasEntry = function (signatureHash) {
+		if (this._signatures[signatureHash]) {
+			return true;
+		}
+
+		return false;
+	};
+
+	Database.prototype.hasSignature = function (signature, hash, key) {
+		var sHash = dataSetToHash(signature, hash, key);
+		return this.hasEntry(sHash);
+	};
+
+	Database.prototype.cleanUp = function () {
+		if (this._maxCount === -1) {
+			return;
+		}
+
+		var entries = this.allEntries();
+		if (entries.length <= this._maxCount) {
+			return;
+		}
+
+		console.log("Cleaning up database of type " + this._type + " (" + entries.length + ")");
+
+		entries.sort(function (a, b) { return a.date - b.date; });
+
+		entries.slice(0, entries.length - this._maxCount).forEach(function (entry) {
+			this.deleteEntry(entry.signatureHash);
+		}, this);
+	};
+
+	Database.prototype.allSignatures = function () {
+		return Object.keys(this._signatures);
+	};
+
+	var allDatabases = [];
+	h.objectEach(types, function (name, val) {
+		types[name] = new Database(name, val);
+		allDatabases.push(types[name]);
+	});
 
 	var signatureCache = {
-		isLoaded: function () {
-			return loaded;
-		},
+		/**
+		* Has the signature cache changed? (was a signature added/removed?)
+		*/
 		isChanged: function () {
 			return changed;
 		},
-		createDatabase: function (ownKey) {
-			var data = {};
+		resetChanged: function () {
+			changed = false;
+		},
+		isLoaded: function () {
+			return loaded;
+		},
+		/**
+		* Load a given signature cache
+		* @param securedData secured data of the signature cache to load
+		* @param ownKey own signing key
+		*/
+		load: function (securedData, ownKey) {
+			if (securedData.me !== ownKey) {
+				console.warn("not my signature cache");
+				signatureCache.initialize(ownKey);
 
+				return;
+			}
+
+			SecuredData.load(undefined, securedData, { type: "signatureCache" }).verify(ownKey).then(function () {
+				securedData.databases.forEach(function (db) {
+					types[db.type].joinEntries(db.entries);
+				});
+
+				signatureCache.initialize(ownKey);
+			});
+		},
+		/**
+		* Initialize cache
+		* @param ownKey id of the own sign key
+		*/
+		initialize: function (ownKey) {
 			signKey = ownKey;
-			data.me = ownKey;
-
-			database = new SecuredData.load(undefined, data, { type: "signatureCache" });
 			loaded = true;
 
 			signatureCache.notify("", "loaded");
 		},
-		loadDatabase: function (data, ownKey, cb) {
-			var givenDatabase = new SecuredData.load(undefined, data, { type: "signatureCache" });
-			step(function () {
-				if (data.me === ownKey) {
-					givenDatabase.verify(ownKey, this);
-				} else {
-					throw new errors.SecurityError("not my signature cache");
-				}
-			}, h.sF(function () {
-				//migrate database here before really loading it if necessary
-				givenDatabase.metaKeys().filter(function (key) {
-					return key.indexOf("hash::") === 0 && typeof givenDatabase.metaAttr(key) === "boolean";
-				}).forEach(function (key) {
-					if (givenDatabase.metaAttr(key) === false) {
-						givenDatabase.metaRemoveAttr(key);
-					} else {
-						givenDatabase.metaSetAttr(key, new Date().getTime());
-					}
-
-					changed = true;
-				});
-
-				this.ne();
-			}), h.sF(function () {
-				signKey = ownKey;
-				database = givenDatabase;
-				loaded = true;
-
-				signatureCache.notify("", "loaded");
-
-				this.ne();
-			}), cb);
-		},
-		isSignatureInCache: function (signature, hash, key) {
-			var sHash = dataSetToHash(signature, hash, key);
-			if (database.metaHasAttr(sHash)) {
-				return true;
-			}
-
-			return false;
-		},
-		getSignatureStatus: function (signature, hash, key) {
-			var sHash = dataSetToHash(signature, hash, key);
-			if (database.metaHasAttr(sHash)) {
-				var data = database.metaAttr(sHash);
-
-				changed = true;
-				database.metaSetAttr(sHash, new Date().getTime());
-
-				cleanUpDatabase();
-
-				return (data !== false);
-			} else {
-				throw new Error("tried to get signature status but not in cache!");
-			}
-		},
-		addSignatureStatus: function (signature, hash, key, valid) {
-			if (!valid) {
+		/**
+		* Get the signed updated version of this signature cache
+		*/
+		getUpdatedVersion: function () {
+			if (!loaded) {
 				return;
 			}
 
-			changed = true;
+			var databases = allDatabases.map(function (db) {
+				return {
+					type: db.getType(),
+					entries: db.allEntries()
+				};
+			});
 
-			if (typeof valid !== "boolean" || !h.isRealID(key) || !h.isSignature(chelper.bits2hex(signature))) {
+			var data = {
+				me: signKey,
+				databases: databases
+			};
+
+			var securedData = SecuredData.load(undefined, data, { type: "signatureCache" });
+			var signSecuredData = Bluebird.promisify(securedData.sign, securedData);
+
+			return signSecuredData(signKey);
+		},
+		/**
+		* Check if a signature is in the cache
+		* @param signature the signature to check for
+		* @param hash hash that was signed
+		* @param key key that was used to sign the signature
+		*/
+		isValidSignatureInCache: function (signature, hash, key) {
+			var sHash = dataSetToHash(signature, hash, key);
+
+			return allDatabases.filter(function (database) {
+				return database.hasEntry(sHash);
+			}).length > 0;
+		},
+		/**
+		* Add a valid signature to the cache.
+		* @param signature the signature to add
+		* @param hash the hash that was signed by the signature
+		* @param key the key used to verify the signature
+		* @param type type of the signed object
+		* @param (id) id of the signed object
+		*/
+		addValidSignature: function (signature, hash, key, type, id) {
+			if (!h.isRealID(key) || !h.isSignature(chelper.bits2hex(signature))) {
 				throw new Error("invalid input");
 			}
 
-			var sHash = dataSetToHash(signature, hash, key);
+			var reducedType = cacheTypes[type];
 
-			database.metaSetAttr(sHash, new Date().getTime());
+			if (!reducedType) {
+				console.warn("unknown type: " + type);
+				return;
+			}
 
-			cleanUpDatabase();
-		},
-		reset: function () {
-			loaded = false;
-			database = undefined;
-		},
-		getUpdatedVersion: function (cb) {
-			changed = false;
+			if (reducedType === "noCache") {
+				return;
+			}
 
-			step(function () {
-				database.sign(signKey, cb, true);
-			}, cb);
+			if (id) {
+				id = type + "-" + id;
+			}
+
+			var db = types[reducedType];
+			db.addSignature(signature, hash, key, id);
 		}
 	};
 

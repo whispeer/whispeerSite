@@ -143,7 +143,7 @@ define(["step", "whispeerHelper", "crypto/encryptedData", "services/serviceModul
 					var ownUser = $injector.get("ssn.userService").getown();
 
 					settings.decrypt(this.parallel());
-					settings.verify(ownUser.getSignKey(), this.parallel());
+					settings.verify(ownUser.getSignKey(), this.parallel(), "settings");
 				}, cb);
 			},
 			getBranch: function (branchName) {

@@ -112,6 +112,7 @@ define(["step", "whispeerHelper", "asset/state", "asset/securedDataWithMetaData"
 
 				if (!isMe) {
 					if (userData.profile.pub) {
+						userData.profile.pub.profileid = userData.profile.pub.profileid || id;
 						publicProfile = new ProfileService(userData.profile.pub, { isPublicProfile: true });
 					}
 
@@ -377,7 +378,7 @@ define(["step", "whispeerHelper", "asset/state", "asset/securedDataWithMetaData"
 			this.verifyKeys = function (cb) {
 				var signKey = theUser.getSignKey();
 				step(function () {
-					signedKeys.verify(signKey, this);
+					signedKeys.verify(signKey, this, theUser.getID());
 				}, h.sF(function () {
 					var friends = signedKeys.metaAttr("friends");
 					var crypt = signedKeys.metaAttr("crypt");
