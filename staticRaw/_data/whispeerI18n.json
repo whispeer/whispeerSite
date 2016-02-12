@@ -32,7 +32,8 @@
 			"unknownName": "Unbekannter Accountname",
 			"wrongPassword": "Falsches Passwort",
 			"forgotName": "Accountname vergessen",
-			"forgotPassword": "Passwort vergessen"
+			"forgotPassword": "Passwort vergessen",
+			"recovery": "Passwort zurücksetzen"
 		},
 		"register": {
 			"link":	"Registrieren",
@@ -82,6 +83,7 @@
 			"wrongPassword": "Wrong password",
 			"forgotName": "Forgot username",
 			"forgotPassword": "Forgot password",
+			"recovery": "Reset password"
 		},
 		"register": {
 			"link":	"Register",

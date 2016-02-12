@@ -7,7 +7,7 @@
 		<section id="main">
 			<div class="loginForm" data-ng-controller="ssn.loginController">
 				<h1>{{ i18n.login.header }}</h1>
-				<form class="inputSandwich">
+				<form class="loginForm-theForm inputSandwich">
 					<div class="name">
 						<input type="text" id="mail" class="inputSandwich inputSandwich-top" placeholder="{{ i18n.login.username }}" data-ng-model="login.identifier" data-load-val>
 					</div>
@@ -23,11 +23,8 @@
 						<span>{{ i18n.login.link }}</span>
 					</savebutton>
 				</form>
-				<div class="smallRow" data-ng-if="login.failedOnce && false" data-ng-cloak>
-					<button class="btn btn-send">{{ i18n.login.forgotName }}</button>
-					<button class="btn btn-send">{{ i18n.login.forgotPassword }}</button>
-				</div>
-				<a href="/{{page.lang}}/" class="backToRegister">{{ i18n.register.createAccount }}</a>
+				<a href="/{{page.lang}}/" class="link-under-form">{{ i18n.register.createAccount }}</a>
+				<a href="/{{page.lang}}/recovery" data-ng-if="login.failedOnce" class="link-under-form" data-ng-cloak>{{ i18n.login.recovery }}</a>
 			</div>
 		</section>
 	</div>
