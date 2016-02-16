@@ -62,8 +62,7 @@ a:hover {
 	}
 }
 #blog-header-logo {
-	width: 300px;
-	filter: url(#drop-shadow);
+	width: 328px;
 	filter: drop-shadow(1px 1px 1px rgba(20,20,20,0.5));
 	-webkit-filter: drop-shadow(1px 1px 1px rgba(20,20,20,0.5));
 	-ms-filter: "progid:DXImageTransform.Microsoft.Dropshadow(OffX=1, OffY=1, Color='#282828')";
@@ -117,7 +116,8 @@ a:hover {
 	}
 }
 .blog-entry {
-	display: block;
+	display: inline-block;
+	width: 100%;
 	position: relative;
 	padding: 0 1rem;
 	margin-bottom: 1rem;

@@ -1,5 +1,4 @@
-{% assign langCode = page.lang %}
-{% assign lang = site.data.langs[langCode] %}
+{% include setLang.html %}
 <!doctype html>
 <html id="blog">
 	<head>
@@ -10,9 +9,7 @@
 	</head>
 	<body id="blog-body">
 		<header id="blog-header">
-			<svg width="300" height="65" id="blog-header-logo">
-				<image xlink:href="/assets/img/logo.svg" src="/assets/img/logo-blog.png" width="300" height="65" />
-			</svg>
+			{% include svgLogoFallback.html %}
 			<h1 id="blog-header-title"><i class="fa fa-newspaper-o fa-fw"></i> Blog</h1>
 		</header>
 		<main id="blog-main">

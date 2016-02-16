@@ -1,5 +1,4 @@
-{% assign langCode = page.categories[0] %}
-{% assign lang = site.data.langs[langCode] %}
+{% include setLang.html %}
 <!doctype html>
 <html id="blog">
 	<head>
@@ -10,9 +9,7 @@
 	</head>
 	<body id="blog-body">
 		<header id="blog-header">
-			<svg width="300" height="65" id="blog-header-logo">
-				<image xlink:href="/assets/img/logo.svg" src="/assets/img/logo-blog.png" width="300" height="65" />
-			</svg>
+			{% include svgLogoFallback.html %}
 			<a class="button button--green button--noBorder button--radius" id="blog-back" href="/{{langCode}}/blog/"><i class="fa fa-arrow-left fa-fw"></i> {{lang.home}}</a>
 		</header>
 		<main id="blog-main">
@@ -41,29 +38,9 @@
 				<div class="blog-entry-content">
 					{{content}}
 				</div>
-				<div id="blog-entry-share">
-					<h3 id="blog-entry-share-header">{{lang.shareThis}}</h3>
-					<!-- Facebook -->
-					<a href="http://www.facebook.com/sharer.php?u={{page.url | prepend: site.url | cgi_escape}}" target="_blank" class="button button--noBorder button--radius button--shareButton button--shareButton--fb blog-shareButton">
-						<i class="fa fa-facebook"></i>
-						<span>Facebook</span>
-					</a><!--
-					Twitter
-					--><a href="https://twitter.com/intent/tweet?url={{page.url | prepend: site.url | cgi_escape}}&text={% if page.shareText %}{{page.shareText}}{% else %}{{lang.blogShareText}}{% endif %}&hashtags={% if page.hastags %}{{page.hastags}}{% else %}{{lang.blogHastags}}{% endif %}" target="_blank" class="button button--noBorder button--radius button--shareButton button--shareButton--tw blog-shareButton">
-						<i class="fa fa-twitter"></i>
-						<span>Twitter</span>
-					</a><!--
-					Google+
-					--><a href="https://plus.google.com/share?url={{page.url | prepend: site.url | cgi_escape}}" target="_blank" class="button button--noBorder button--radius button--shareButton button--shareButton--gp blog-shareButton">
-						<i class="fa fa-google-plus"></i>
-						<span>Google+</span>
-					</a><!--
-					Reddit
-					--><a href="http://reddit.com/submit?url={{page.url | prepend: site.url | cgi_escape}}&title={% if page.shareText %}{{page.shareText}}{% else %}{{lang.blogShareText}}{% endif %}" target="_blank" class="button button--noBorder button--radius button--shareButton button--shareButton--rd blog-shareButton">
-						<i class="fa fa-reddit"></i>
-						<span>Reddit</span>
-					</a>
-				</div>
+				{% if page.social != false %}
+					{% include share.html %}
+				{% endif %}
 			</article>
 		</main>
 		{% include blogFooter.html %}

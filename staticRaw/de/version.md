@@ -1,5 +1,5 @@
 ---
-layout: version
+layout: default
 lang: de
 title: Versionshistorie
 ---
