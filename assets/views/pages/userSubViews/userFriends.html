@@ -12,7 +12,7 @@
 			<h1 class="h1-noMarginTop" data-i18n="profile.section.friends.zeroContent.headline.{{::user.me}}" data-ng-if="::user.me"><span data-for="name">{{user.basic.shortname}}</span></h1>
 			<h2 data-i18n="profile.section.friends.zeroContent.subhead.{{::user.me}}" data-ng-if="::user.me"><span data-for="name">{{user.basic.shortname}}</span></h2>
 			<div class="zeroContent-actions" data-ng-if="::user.me">
-				<a href="#" class="btn btn--primary zeroContent-action" data-i18n="general.zeroContent.findFriends" data-ng-click="toggleSearch()"></a>
+				<a whispeer-sref="app.search" class="btn btn--primary zeroContent-action" data-i18n="general.zeroContent.findFriends"></a>
 				<a whispeer-sref="app.invite" class="btn btn--primary zeroContent-action" data-i18n="general.zeroContent.inviteFriends"></a>
 			</div>
 			<div class="zeroContent-actions" data-ng-if="!user.me && !user.added">
