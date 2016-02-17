@@ -33,7 +33,7 @@
 							<i class="fa fa-comment fa-fw"></i>
 							<span data-i18n="friends.message" class="friendsView-friend-action-text"></span>
 						</a>
-						<a data-accessible-click="removeUser(friend)" data-i18n-attr="friends.remove|aria-label|user={{friend.name}}" class="btn btn--small btn--gray friendsView-friend-remove">
+						<a data-accessible-click="removeUser(friend)" data-i18n-attr="friends.remove|aria-label|user={{friend.name}}" class="btn btn--small btn--gray friendsView-friend-remove" data-ng-class="{'friendsView-friend-remove--notExisting': friend.notExisting}">
 							<i class="person-clickable fa fa-times fa-fw"></i>
 							<span data-i18n="views.circles.removeUser" class="friendsView-friend-action-text"></span>
 						</a>
