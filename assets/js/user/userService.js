@@ -6,32 +6,38 @@ define(["step", "whispeerHelper", "user/userModule", "asset/observer", "crypto/s
 
 
 		var name = "Deleted user"; //localize("user.deleted", {});
-		var NotExistingUser = {
-			data: {
+		var NotExistingUser = function (identifier) {
+			this.data = {
 				trustLevel: -1,
 				notExisting: true,
 				basic: {
 					shortname: name,
 					image: "assets/img/user.png"
 				},
-				name: name
-			},
-			isNotExistingUser: function () {
-				return true;
-			},
-			loadBasicData: function (cb) {
-				cb();
-			},
-			isOwn: function () {
-				return false;
-			}
-		};
+				name: name,
+				user: this
+			};
 
-		NotExistingUser.data.user = NotExistingUser;
+			if (typeof identifier === "number") {
+				this.data.id = identifier;
+			}
+
+			this.isNotExistingUser = function () {
+				return true;
+			};
+
+			this.loadBasicData = function (cb) {
+				cb();
+			};
+
+			this.isOwn = function () {
+				return false;
+			};
+		};
 
 		function makeUser(data) {
 			if (data.error === true) {
-				return NotExistingUser;
+				return new NotExistingUser();
 			}
 
 			var theUser = new User(data);
@@ -75,7 +81,7 @@ define(["step", "whispeerHelper", "user/userModule", "asset/observer", "crypto/s
 				if (data && data.users) {
 					result = data.users.map(function (e) {
 						if (e.userNotExisting) {
-							return NotExistingUser;
+							return new NotExistingUser(e.identifier);
 						} else {
 							return makeUser(e);
 						}
@@ -83,7 +89,7 @@ define(["step", "whispeerHelper", "user/userModule", "asset/observer", "crypto/s
 				}
 
 				result.forEach(function (u) {
-					if (u !== NotExistingUser) {
+					if (!u.isNotExistingUser()) {
 						u.verifyKeys(this.parallel());
 					}
 				}, this);

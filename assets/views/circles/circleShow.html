@@ -29,7 +29,7 @@
 				</li>
 				<li data-ng-repeat="friend in thisCircle.persons" class="circleView-person">
 					<person data-user="friend" data-type="friend">
-						<a whispeer-sref="app.messages.new({userid: friend.id})" data-i18n-attr="friends.message|aria-label|user={{friend.name}}" class="btn btn--small btn--gray friendsView-friend-add">
+						<a whispeer-sref="app.messages.new({userid: friend.id})" data-ng-if="!friend.notExisting" data-i18n-attr="friends.message|aria-label|user={{friend.name}}" class="btn btn--small btn--gray friendsView-friend-add">
 							<i class="fa fa-comment fa-fw"></i>
 							<span data-i18n="friends.message" class="friendsView-friend-action-text"></span>
 						</a>
