@@ -1,18 +1,15 @@
-{% assign langCode = page.lang %}
-{% assign lang = site.data.langs[langCode] %}
+{% include setLang.html %}
 <!doctype html>
 <html id="blog">
 	<head>
 		<title>whispeer Blog - {{page.title}}</title>
 		<meta charset="utf8" />
-		<meta name="viewport" content="target-densitydpi=device-dpi, initial-scale=1.0, user-scalable=no" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, shrink-to-fit=no" />
 		<link rel="shortcut icon" href="/assets/img/favicons/favicon.png" type="image/x-icon" />
 	</head>
 	<body id="blog-body">
 		<header id="blog-header">
-			<svg width="300" height="65" id="blog-header-logo">
-				<image xlink:href="/assets/img/logo.svg" src="/assets/img/logo-blog.png" width="300" height="65" />
-			</svg>
+			{% include svgLogoFallback.html %}
 			<h1 id="blog-header-title"><i class="fa fa-newspaper-o fa-fw"></i> Blog</h1>
 		</header>
 		<main id="blog-main">

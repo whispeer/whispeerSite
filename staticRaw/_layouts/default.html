@@ -1,0 +1,31 @@
+{% include setLang.html %}
+<!doctype html>
+<html id="blog">
+	<head>
+		<title>{{page.title}}</title>
+		<meta charset="utf8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, shrink-to-fit=no" />
+		<link rel="shortcut icon" href="/assets/img/favicons/favicon.png" type="image/x-icon" />
+	</head>
+	<body id="blog-body">
+		<header id="blog-header">
+			<a href="/{{langCode}}">{% include svgLogoFallback.html %}</a>
+		</header>
+		<main id="blog-main">
+			<article class="blog-entry">
+				<div class="blog-entry-header">
+					<h1 class="blog-entry-heading">{{page.title}}</h1>
+				</div>
+				<div class="blog-entry-content">
+					{{content}}
+				</div>
+				{% if page.social == true %}
+					{% include share.html %}
+				{% endif %}
+			</article>
+		</main>
+		{% include blogFooter.html links=page.footerLinks %}
+		<link href="http://fonts.googleapis.com/css?family=Lato:400,700" rel="stylesheet" type="text/css">
+		<link rel="stylesheet" href="/assets/css/blog.css" />
+	</body>
+</html>

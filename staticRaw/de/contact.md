@@ -1,5 +1,5 @@
 ---
-layout: help
+layout: legal
 lang: de
 title: Kontakt
 ---
@@ -7,5 +7,6 @@ title: Kontakt
 Via E-Mail: [support@whispeer.de](support@whispeer.de)  
 Via whispeer: [Support](/user/support)
 
-PGP-Key [hier](/assets/support_whispeer_pub.asc) herunterladen.  
+PGP-Key [hier](/assets/support_whispeer_pub.asc) herunterladen.
+
 Fingerabdruck: 98AA 18D2 F2A8 ACCD 4585 A49B C09D 8E62 DC4C 00A3

@@ -7,8 +7,15 @@
 @import "buttons";
 @import "syntax";
 
-$desktop: "(min-width: 632px)";
-$mobile: "(max-width: 631px)";
+$desktop: "(min-width: 890px)";
+$mobile: "(max-width: 889px)";
+
+html, body {
+	width: 100%;
+
+	margin: 0;
+	padding: 0;
+}
 
 // Typography first
 
@@ -32,6 +39,16 @@ h3 { font-size: 20px; }
 h4 { font-size: 16px; }
 h5 { font-size: 14px; }
 h6 { font-size: 12px; }
+
+@media #{$mobile} {
+	h1 { font-size: 27px; }
+	h2 { font-size: 22px; }
+	h3 { font-size: 18px; }
+	h4 { font-size: 16px; }
+	h5 { font-size: 14px; }
+	h6 { font-size: 12px; }
+}
+
 a {
 	text-decoration: none;
 	font-weight: 700;
@@ -46,9 +63,6 @@ a:hover {
 	background: #f6f6f6;
 	color: #474747;
 	font-family: 'Lato', sans-serif;
-	@media #{$mobile} {
-		background: #fbfbfb;
-	}
 }
 #blog-header {
 	display: inline-block;
@@ -62,8 +76,7 @@ a:hover {
 	}
 }
 #blog-header-logo {
-	width: 300px;
-	filter: url(#drop-shadow);
+	width: 250px;
 	filter: drop-shadow(1px 1px 1px rgba(20,20,20,0.5));
 	-webkit-filter: drop-shadow(1px 1px 1px rgba(20,20,20,0.5));
 	-ms-filter: "progid:DXImageTransform.Microsoft.Dropshadow(OffX=1, OffY=1, Color='#282828')";
@@ -75,7 +88,7 @@ a:hover {
 #blog-header-title {
 	display: block;
 	width: calc(100% - 2rem);
-	max-width: 600px;
+	max-width: 880px;
 	margin: 2rem auto 4px;
 	box-sizing: border-box;
 }
@@ -87,8 +100,9 @@ a:hover {
 	position: relative;
 	width: 100%;
 	margin: 0 auto;
-	@media #{$desktop} {
-		max-width: 600px;
+	max-width: 880px;
+	@media #{$mobile} {
+		width: calc(100% - 24px);
 	}
 }
 #blog-footer {
@@ -96,8 +110,11 @@ a:hover {
 	box-sizing: border-box;
 	margin: 0 auto;
 	width: 100%;
-	@media #{$desktop} {
-		max-width: 600px;
+	max-width: 880px;
+
+	@media #{$mobile} {
+		padding: 0;
+		width: calc(100% - 24px);
 	}
 }
 .blog-footer-row {
@@ -105,10 +122,12 @@ a:hover {
 	margin-bottom: 1rem;
 }
 .blog-footer-link {
+	display: inline-block;
 	padding: 0 0.5rem 0 0;
 	@media #{$mobile} {
 		line-height: 2rem;
-		padding: 0 1.5rem 0 0;
+		padding: 0;
+		width: 100%;
 	}
 	@media screen {
 		&:last-child {
@@ -117,17 +136,16 @@ a:hover {
 	}
 }
 .blog-entry {
-	display: block;
+	display: inline-block;
+	width: 100%;
 	position: relative;
 	padding: 0 1rem;
 	margin-bottom: 1rem;
 
 	background: #fbfbfb;
 	box-sizing: border-box;
-	@media #{$desktop} {
-		border-radius: 3px;
-		box-shadow: 0 0 5px #f0f0f0;
-	}
+	box-shadow: 0 0 5px #f0f0f0;
+	border-radius: 3px;
 }
 .blog-entry-header {
 	display: inline-block;
@@ -210,6 +228,20 @@ ol,
 ul {
 	margin: 0 0 1rem;
 	padding: 0 0 0 2.5rem;
+	@media #{$mobile} {
+		padding: 0 0 0 1.75rem;
+	}
+}
+
+
+@media #{$mobile} {
+	ul {
+		padding: 0 0 0 1.75rem;
+	}
+
+	ol {
+		padding-left: 1.25em;
+	}
 }
 
 .highlight {

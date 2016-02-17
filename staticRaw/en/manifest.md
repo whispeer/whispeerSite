@@ -1,10 +1,11 @@
 ---
-layout: manifest
+layout: default
 lang: en
 title: whispeer manifest
 shareUrl: https%3A%2F%2Fwhispeer.de%2Fen%2Fmanifest%2F
 shareText: Read the whispeer manifest!
-shareHashtags: whispeer,manifest,privacy
+hashtags: whispeer,manifest,privacy
+social: true
 ---
 
 On other social media, your data is not yours.

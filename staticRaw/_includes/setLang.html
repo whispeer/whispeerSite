@@ -1,0 +1,9 @@
+{% assign langCode = page.categories[0] %}
+{% if langCode == nil %}
+	{% if page.lang %}
+		{% assign langCode = page.lang %}
+	{% else %}
+		{% assign langCode = "en" %}
+	{% endif %}
+{% endif %}
+{% assign lang = site.data.langs[langCode] %}
