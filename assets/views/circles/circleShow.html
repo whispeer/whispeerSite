@@ -27,13 +27,13 @@
 					<i class="fa fa-circle-o-notch fa-2x fa-fw fa-spin"></i>
 					<p data-i18n="views.circles.loading"></p>
 				</li>
-				<li data-ng-if="!circleLoading" data-ng-repeat="friendID in thisCircle.userids" class="circleView-person" ng-init="friend = getPerson(friendID)">
+				<li data-ng-repeat="friend in thisCircle.persons" class="circleView-person">
 					<person data-user="friend" data-type="friend">
-						<a whispeer-sref="app.messages.new({userid: friend.id})" data-ng-if="!friend.notExisting" data-i18n-attr="friends.message|aria-label|user={{friend.name}}" class="btn btn--small btn--gray friendsView-friend-add">
+						<a whispeer-sref="app.messages.new({userid: friend.id})" data-i18n-attr="friends.message|aria-label|user={{friend.name}}" class="btn btn--small btn--gray friendsView-friend-add">
 							<i class="fa fa-comment fa-fw"></i>
 							<span data-i18n="friends.message" class="friendsView-friend-action-text"></span>
 						</a>
-						<a data-accessible-click="removeUser(friendID)" data-i18n-attr="friends.remove|aria-label|user={{friend.name}}" class="btn btn--small btn--gray friendsView-friend-remove">
+						<a data-accessible-click="removeUser(friend)" data-i18n-attr="friends.remove|aria-label|user={{friend.name}}" class="btn btn--small btn--gray friendsView-friend-remove">
 							<i class="person-clickable fa fa-times fa-fw"></i>
 							<span data-i18n="views.circles.removeUser" class="friendsView-friend-action-text"></span>
 						</a>
