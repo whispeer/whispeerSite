@@ -79,7 +79,7 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 			return window.msCrypto.subtle;
 		}
 
-		if (!window.crypt) {
+		if (!window.crypto) {
 			return false;
 		}
 
