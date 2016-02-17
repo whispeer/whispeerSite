@@ -75,6 +75,14 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 	}
 
 	function getSubtle() {
+		if (window.msCrypto && window.msCrypto.subtle) {
+			return window.msCrypto.subtle;
+		}
+
+		if (!window.crypto) {
+			return false;
+		}
+
 		if (window.crypto.subtle) {
 			return window.crypto.subtle;
 		}
