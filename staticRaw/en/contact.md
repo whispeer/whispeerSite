@@ -4,7 +4,7 @@ lang: en
 title: Contact
 ---
 
-Via E-Mail: [support@whispeer.de](support@whispeer.de)
+Via E-Mail: [support@whispeer.de](support@whispeer.de)  
 Via whispeer: [Support](/user/support)
 
 PGP-Key: Download [here](/assets/support_whispeer_pub.asc).
