@@ -4,6 +4,17 @@ lang: de
 title: Versionshistorie
 ---
 
+## 0.2.19
+
+* Neues Design der AGB/Impressum/Datenschutz Seite
+* Kontakt Seite mit PGP-Key
+* Entfernen von gelöschten Nutzern aus Kreisen geht jetzt
+* Wiederherstellungslink beim Login
+* Bugfix: Internet Explorer 11
+* Bugfix: Nutzer zu einem Kreis hinzufügen
+* Bugfix: Passwortstärke in den Einstellungen
+* Bugfix: Suche öffnen über die Buttons wenn noch kein Inhalt vorhanden ist
+
 ## 0.2.18
 
 * Verbessertes Caching von Signaturen
