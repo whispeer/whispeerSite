@@ -2,7 +2,7 @@
 	<userimage class="person-userimage" data-user="userData"></userimage>
 	<div class="person-data">
 		<p class="person-username"><span class="person-status status" data-status="{{userData.online}}"></span><strong><a ui-sref="app.user.info({identifier: userData.names.nickname})">{{userData.name}}</a></strong></p>
-		<p class="person-similar" data-ng-show="!userData.me" data-i18n="friends.mutualFriends|count={{userData.basic.mutualFriends.length}}"></p>
+		<p class="person-similar" data-ng-show="!userData.me && !userData.notExisting" data-i18n="friends.mutualFriends|count={{userData.basic.mutualFriends.length}}"></p>
 		<p class="person-action" data-ng-transclude></p>
 	</div>
 </div>

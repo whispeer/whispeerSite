@@ -26,6 +26,24 @@ define(["controllers/controllerModule", "whispeerHelper", "step", "asset/state"]
 			"active":		false
 		};
 
+		$scope.getPerson = function (id) {
+			var user = $scope.thisCircle.persons.filter(function (user) {
+				return user.id === id;
+			});
+
+			if (user.length === 1) {
+				return user[0];
+			}
+
+			var notExisting = $scope.thisCircle.persons.filter(function (user) {
+				return user.notExisting;
+			});
+
+			if (notExisting.length > 0) {
+				return notExisting[0];
+			}
+		};
+
 		$scope.editTitle = function () {
 			$scope.editingTitle.active = true;
 		};
@@ -39,8 +57,8 @@ define(["controllers/controllerModule", "whispeerHelper", "step", "asset/state"]
 			return obj.length;
 		};
 
-		$scope.removeUser = function (user) {
-			circleService.get($scope.circleid).removePersons([user.id], errorService.criticalError);
+		$scope.removeUser = function (userID) {
+			circleService.get($scope.circleid).removePersons([userID], errorService.criticalError);
 		};
 
 		var usersToAdd;
