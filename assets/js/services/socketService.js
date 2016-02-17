@@ -14,7 +14,7 @@ define([
 ], function (serviceModule, debug, io, iostream, step, h, config, Observer, Bluebird) {
 	"use strict";
 
-	var APIVERSION = "0.0.1";
+	var APIVERSION = "0.0.2";
 
 	var socketDebug = debug("whispeer:socket");
 	var socketError = debug("whispeer:socket:error");
