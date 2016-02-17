@@ -130,29 +130,50 @@
 }
 .landing-section--footer {
 	min-height: 0;
-	padding: 1rem 8rem 1rem 2.5rem;
+	padding: 1rem 8rem 1rem 1rem;
 	background: #ffffff;
 	color: #000000;
 	text-align: left;
 	border-top: 1rem solid $primary;
 	@media #{$mobile} {
-		padding: 0.5rem 6rem 0.5rem 0.5rem;
+		padding: 1rem 6rem 1rem 0.5rem;
+	}
+	&:after {
+		content: " ";
+		background: $primary;
+		width: 88px;
+		height: 100%;
+
+		position: absolute;
+		top: 0;
+		right: 0;
 	}
 }
 .landing-footer-left,
 .landing-footer-right {
-	float: left;
-	width: 50%;
+	@media #{$desktop} {
+		display: inline-block;
+		float: left;
+	}
 	@media #{$mobile} {
+		display: inline-block;
 		width: 100%;
-		height: 1rem;
-		text-align: left;
+		line-height: 1.5em;
+		font-size: 1.2em;
 	}
 }
 .landing-footer-right {
-	@media #{mobile} {
+	@media #{$desktop} {
 		text-align: right;
+		float: right;
+		padding: 0 1em;
 	}
+}
+.landing-footer-link {
+	@media #{$desktop} {
+		padding: 0 0.5em;
+	}
+	white-space: nowrap;
 }
 .video-overlay {
 	display: none;

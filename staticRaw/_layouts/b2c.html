@@ -138,7 +138,22 @@
 		<footer class="landing-section landing-section--footer">
 			<span class="landing-footer-left">&copy; {{ site.time | date: "%Y" }} whispeer</span>
 			<span class="landing-footer-right">
-				<a href="/legal/">{{i18n.legal.header}}</a>
+				<a class="landing-footer-link" href="/agb">
+					<i class="fa fa-briefcase fa-fw"></i>
+					{{lang.terms}}
+				</a>
+				<a class="landing-footer-link" href="/privacyPolicy">
+					<i class="fa fa-lock fa-fw"></i>
+					{{lang.privacyPolicy}}
+				</a>
+				<a class="landing-footer-link" href="/contact">
+					<i class="fa fa-envelope fa-fw"></i>
+					{{lang.contact}}
+				</a>
+				<a class="landing-footer-link" href="/impressum">
+					<i class="fa fa-book fa-fw"></i>
+					{{lang.imprint}}
+				</a>
 			</span>
 		</footer>
 		<a class="backToTop" href="#heading"><i class="fa fa-arrow-circle-o-up fa-2x"></i></a>
