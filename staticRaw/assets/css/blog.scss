@@ -126,7 +126,7 @@ a:hover {
 	padding: 0 0.5rem 0 0;
 	@media #{$mobile} {
 		line-height: 2rem;
-		padding: 0 1.5rem 0 0;
+		padding: 0;
 		width: 100%;
 	}
 	@media screen {
