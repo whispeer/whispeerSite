@@ -76,7 +76,7 @@
 			"shareHashTags": "Privatsphäre,whispeer",
 			"invited": "Von dir eingeladene Personen:",
 			"sentInvites": "Gesendete Einladungen",
-			"reference": "Refferenz: {referrer}"
+			"reference": "Referenz: {referrer}"
 		},
 		"setup": {
 			"welcomeHeader": "Willkommen bei whispeer!",
