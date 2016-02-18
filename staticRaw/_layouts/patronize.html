@@ -1,0 +1,35 @@
+---
+layout: default
+---
+
+{% assign lang = site.data.langs[page.lang] %}
+{% assign i18n = site.data.whispeerI18n[page.lang] %}
+
+<section class="post" id="fundView-section">
+	<i class="fa fa-heart fa-5x" id="fundView-donateIcon"></i>
+	<h1 id="fundView-heading">{{ i18n.fund.heading }}</h1>
+	<p>{{ i18n.fund.content }}</p>
+	<a href="#" class="btn btn--primary btn--big fundView-method fundView-method-paypal fundView-method--active"><i class="fa fa-paypal fa-fw"></i> {{ i18n.fund.methods.paypal }}</a>
+	<div class="fundView-method-detail patrnonizeView-method-detail-paypal">
+		<p>{{ i18n.fund.details.paypal }}</p>
+		<form id="fundView-paypalForm" action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+			<input type="hidden" name="cmd" value="_s-xclick">
+			<input type="hidden" name="hosted_button_id" value="8KTC2VWKQG8EQ">
+			<input type="image" src="https://www.paypalobjects.com/de_DE/DE/i/btn/btn_donateCC_LG.gif" border="0" name="submit" alt="{{ i18n.fund.details.altTextPaypal }}">
+			<img alt="" border="0" src="https://www.paypalobjects.com/de_DE/i/scr/pixel.gif" width="1" height="1">
+		</form>
+	</div>
+
+	<a href="#" class="btn btn--primary btn--big fundView-method fundView-method-bank fundView-method--active"><i class="fa fa-bank fa-fw"></i> {{ i18n.fund.methods.bank }}</a>
+	<div class="fundView-method-detail patrnonizeView-method-detail-bank" data-ng-if="bank">
+		<p class="fundView-method-detail-paragraph">{{ i18n.fund.details.bankContent }}</p>
+		<table id="fundView-method-detail-bankInfo">
+			<tr><td>{{ i18n.fund.details.iban }}</td><td>DE64120400000025711300</td></tr>
+			<tr><td>{{ i18n.fund.details.bic }}</td><td>COBADEFFXXX</td></tr>
+			<tr><td>{{ i18n.fund.details.bank }}</td><td>Commerzbank</td></tr>
+			<tr><td>{{ i18n.fund.details.usage }}</td><td>{{ i18n.fund.details.usageContent }}</td></tr>
+		</table>
+	</div>
+
+	<a href="http://whispeer.spreadshirt.de" class="btn btn--primary btn--big fundView-method" target="_blank"><i class="fa fa-shopping-cart fa-fw"></i> {{ i18n.fund.methods.shop }}</a>
+</section>

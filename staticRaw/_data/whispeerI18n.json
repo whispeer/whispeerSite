@@ -47,7 +47,31 @@
 			"data": "Datenschutzbestimmungen",
 			"contact": "Kontakt",
 			"notice": "Impressum"
-		}
+		},
+		"fund": {
+			"heading": "whispeer unterstützen",
+			"content": "whispeer ist für dich kostenlos, uns entstehen aber trotzdem Kosten (zum Beispiel Servermiete und Entwicklungskosten). Wenn du whispeer unterstützen möchtest, würden wir uns über deine Spende freuen!",
+			"methods": {
+				"paypal": "Mit Paypal spenden",
+				"bank": "Mit Banküberweisung spenden",
+				"shop": "Fan-Shop"
+			},
+			"details": {
+				"bankContent": "Überweise uns einen Betrag deiner Wahl!",
+				"paypal": "Spende einen Betrag deiner Wahl mit Paypal!",
+				"altTextPaypal": "Jetzt einfach, schnell und sicher online bezahlen – mit PayPal.",
+				"iban": "IBAN:",
+				"bic": "BIC:",
+				"bank": "Bank:",
+				"usage": "Verwendungszweck:",
+				"usageContent": "Anonyme Spende"
+			},
+			"thanks": {
+				"heading": "Vielen Dank für deine Spende!",
+				"content": "Danke das du Entwicklung und Betrieb von whispeer unterstützt!",
+				"back": "Zurück zur Startseite"
+			}
+		},
 	},
 	"en": {
 		"mail": {
@@ -98,6 +122,30 @@
 			"contact": "Contact",
 			"notice": "Site notice"
 		},
+		"fund": {
+			"heading": "Support whispeer",
+			"content": "whispeer is free to use but creates a great cost for us (like server rent and development-costs). If you want to support whispeer, we gratefully accept your donation.",
+			"methods": {
+				"paypal": "Donate with paypal",
+				"bank": "Donate via bank transfer",
+				"shop": "Fan-Shop"
+			},
+			"details": {
+				"bankContent": "Transfer any amount of money you choose!",
+				"paypal": "Donate any amount you want via paypal!",
+				"altTextPaypal": "Pay with PayPal",
+				"iban": "IBAN:",
+				"bic": "BIC:",
+				"bank": "Bank:",
+				"usage": "Designated use:",
+				"usageContent": "Donation Anonymous"
+			},
+			"thanks": {
+				"heading": "Thanks for your donation!",
+				"content": "Thanks for supporting the development and operation of whispeer!",
+				"back": "Back to startpage"
+			}
+		},
 	},
 	"fr": {
 		"mail": {
@@ -147,5 +195,5 @@
 			"notice": "Site notice"
 		}
 	}
-	
+
 }

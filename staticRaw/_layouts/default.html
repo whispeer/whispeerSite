@@ -25,7 +25,15 @@
 			</article>
 		</main>
 		{% include blogFooter.html links=page.footerLinks %}
-		<link href="http://fonts.googleapis.com/css?family=Lato:400,700" rel="stylesheet" type="text/css">
 		<link rel="stylesheet" href="/assets/css/blog.css" />
+		<link href="http://fonts.googleapis.com/css?family=Lato:400,700" rel="stylesheet" type="text/css">
+
+		{% if page.includeStatic == true %}
+			<link rel="stylesheet" href="/assets/css/static.css" />
+		{% endif %}
+
+		{% if page.addStylesheet != nil %}
+			<link rel="stylesheet" href="/assets/css/{{page.addStylesheet}}" />
+		{% endif %}
 	</body>
 </html>
