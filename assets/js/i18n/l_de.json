@@ -21,7 +21,7 @@
 	},
 	"inviteFriends": "Neu bei whispeer? Lade jetzt deine Freunde ein!",
 	"views": {
-		"patronize": {
+		"fund": {
 			"heading": "whispeer unterstützen",
 			"content": "whispeer ist für dich kostenlos, uns entstehen aber trotzdem Kosten (zum Beispiel Servermiete und Entwicklungskosten). Wenn du whispeer unterstützen möchtest, würden wir uns über deine Spende freuen!",
 			"methods": {
@@ -273,7 +273,7 @@
 		"search": "Suchen...",
 		"legal":	"Rechtliche Informationen",
 		"notifications":	"Mitteilungen ({count})",
-		"patronize": "Unterstütze whispeer",
+		"fund": "Unterstütze whispeer",
 		"invite": "Lade deine Freunde ein"
 	},
 	"login": {
