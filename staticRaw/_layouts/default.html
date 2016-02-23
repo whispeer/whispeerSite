@@ -14,7 +14,9 @@
 		<main id="blog-main">
 			<article class="blog-entry">
 				<div class="blog-entry-header">
+				{% if page.hideTitle != true %}
 					<h1 class="blog-entry-heading">{{page.title}}</h1>
+				{% endif %}
 				</div>
 				<div class="blog-entry-content">
 					{{content}}
