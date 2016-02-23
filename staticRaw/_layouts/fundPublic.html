@@ -1,0 +1,53 @@
+---
+layout: default
+---
+
+{% assign lang = site.data.langs[page.lang] %}
+{% assign i18n = site.data.whispeerI18n[page.lang] %}
+
+<header id="fundView-header">
+	<i class="fa fa-heart fa-5x" id="fundView-donateIcon"></i>
+	<h1>{{ i18n.fund.heading }}</h1>
+</header>
+
+<p class="fundView-content">{{ i18n.fund.content }}</p>
+
+<h2 style="margin-bottom: 0;">{{ i18n.fund.methods.paypal }}</h2>
+<form class="fundView-content" action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+	<button type="submit" class="button button--paypal button--block button--noBorder button--center button--radius">
+		<i class="fa fa-paypal fa-fw"></i>
+		{{ i18n.fund.methods.paypalLink }}
+	</button>
+	<input type="hidden" name="cmd" value="_s-xclick">
+	<input type="hidden" name="hosted_button_id" value="8KTC2VWKQG8EQ">
+</form>
+
+<h2>{{ i18n.fund.methods.bank }}</h2>
+<div class="fundView-content">
+	<p>{{ i18n.fund.details.bankContent }}</p>
+	<table id="fundView-table">
+		<tr>
+			<td>{{ i18n.fund.details.iban }}</td>
+			<td>DE64120400000025711300</td>
+		</tr>
+		<tr>
+			<td>{{ i18n.fund.details.bic }}</td>
+			<td>COBADEFFXXX</td>
+		</tr>
+		<tr>
+			<td>{{ i18n.fund.details.bank }}</td>
+			<td>Commerzbank</td>
+		</tr>
+		<tr>
+			<td>{{ i18n.fund.details.usage }}</td>
+			<td>{{ i18n.fund.details.usageContent }}</td>
+		</tr>
+	</table>
+</div>
+
+<h2 style="margin-top: 1rem; margin-bottom: 0;">
+	{{ i18n.fund.methods.shop }}
+</h2>
+<div class="fundView-content">
+	<a href="http://whispeer.spreadshirt.de" class="button button--green button--block  button--noBorder button--center button--radius" target="_blank"><i class="fa fa-shopping-cart fa-fw"></i> {{ i18n.fund.methods.shopLink }}</a>
+</div>

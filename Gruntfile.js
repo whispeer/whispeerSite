@@ -186,8 +186,7 @@ grunt.initConfig({
 			files: {
 				"assets/css/style.css": "assets/less/style.less",
 				"assets/css/static.css": "assets/less/static.less",
-				"assets/css/style-b2b.css": "assets/less/style-b2b.less",
-				"assets/css/fund.css": "assets/less/views/fund.less"
+				"assets/css/style-b2b.css": "assets/less/style-b2b.less"
 			}
 		}
 	},

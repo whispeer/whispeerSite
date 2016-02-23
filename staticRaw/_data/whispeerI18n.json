@@ -53,8 +53,10 @@
 			"content": "whispeer ist für dich kostenlos, uns entstehen aber trotzdem Kosten (zum Beispiel Servermiete und Entwicklungskosten). Wenn du whispeer unterstützen möchtest, würden wir uns über deine Spende freuen!",
 			"methods": {
 				"paypal": "Mit Paypal spenden",
+				"paypalLink": "Jetzt mit Paypal spenden",
 				"bank": "Mit Banküberweisung spenden",
-				"shop": "Fan-Shop"
+				"shop": "Fan-Shop",
+				"shopLink": "Jetzt im Fan-Shop einkaufen"
 			},
 			"details": {
 				"bankContent": "Überweise uns einen Betrag deiner Wahl!",
@@ -126,9 +128,11 @@
 			"heading": "Support whispeer",
 			"content": "whispeer is free to use but creates a great cost for us (like server rent and development-costs). If you want to support whispeer, we gratefully accept your donation.",
 			"methods": {
-				"paypal": "Donate with paypal",
+				"paypal": "Donate with Paypal",
+				"paypalLink": "Donate with Paypal now",
 				"bank": "Donate via bank transfer",
-				"shop": "Fan-Shop"
+				"shop": "Fan-Shop",
+				"shopLink": "Go to the Fan-Shop"
 			},
 			"details": {
 				"bankContent": "Transfer any amount of money you choose!",
