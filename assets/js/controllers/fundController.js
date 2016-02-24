@@ -5,8 +5,8 @@
 define(["step", "whispeerHelper", "asset/state", "libs/qr", "libs/filesaver", "controllers/controllerModule"], function (step, h, State, qr, saveAs, controllerModule) {
 	"use strict";
 
-	function patronizeController($scope, cssService) {
-		cssService.setClass("patronizeView");
+	function fundController($scope, cssService) {
+		cssService.setClass("fundView");
 
 		$scope.paypal = false;
 		$scope.bank = false;
@@ -22,7 +22,7 @@ define(["step", "whispeerHelper", "asset/state", "libs/qr", "libs/filesaver", "c
 		}
 	}
 
-	patronizeController.$inject = ["$scope", "ssn.cssService"];
+	fundController.$inject = ["$scope", "ssn.cssService"];
 
-	controllerModule.controller("ssn.patronizeController", patronizeController);
+	controllerModule.controller("ssn.fundController", fundController);
 });

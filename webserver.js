@@ -111,7 +111,7 @@ function run() {
 		"invite",
 		"backup",
 		"post",
-		"patronize",
+		"fund",
 		"search"
 	];
 

@@ -87,42 +87,42 @@ define(["app"], function (app) {
 			controller: "ssn.inviteLinkController"
 		});
 
-		$stateProvider.state("app.patronize", {
+		$stateProvider.state("app.fund", {
 			url: "/fund",
 			abstract: true,
-			templateUrl: "assets/views/pages/patronize.html",
-			controller: "ssn.patronizeController"
+			templateUrl: "assets/views/pages/fund.html",
+			controller: "ssn.fundController"
 		});
 
-		$stateProvider.state("app.patronize.general", {
+		$stateProvider.state("app.fund.general", {
 			url: "",
-			templateUrl: "assets/views/pages/patronize/general.html",
-			controller: "ssn.patronizeController"
+			templateUrl: "assets/views/pages/fund/general.html",
+			controller: "ssn.fundController"
 		});
 
-		$stateProvider.state("app.patronize.thankyou", {
+		$stateProvider.state("app.fund.thankyou", {
 			url: "/thankyou",
-			templateUrl: "assets/views/pages/patronize/thankyou.html",
-			controller: "ssn.patronizeThankYouController"
+			templateUrl: "assets/views/pages/fund/thankyou.html",
+			controller: "ssn.fundThankYouController"
 		});
 
-		$stateProvider.state("app.patronizeold", {
-			url: "/patronize",
+		$stateProvider.state("app.fundold", {
+			url: "/fund",
 			abstract: true,
-			templateUrl: "assets/views/pages/patronize.html",
-			controller: "ssn.patronizeController"
+			templateUrl: "assets/views/pages/fund.html",
+			controller: "ssn.fundController"
 		});
 
-		$stateProvider.state("app.patronizeold.general", {
+		$stateProvider.state("app.fundold.general", {
 			url: "",
-			templateUrl: "assets/views/pages/patronize/general.html",
-			controller: "ssn.patronizeController"
+			templateUrl: "assets/views/pages/fund/general.html",
+			controller: "ssn.fundController"
 		});
 
-		$stateProvider.state("app.patronizeold.thankyou", {
+		$stateProvider.state("app.fundold.thankyou", {
 			url: "/thankyou",
-			templateUrl: "assets/views/pages/patronize/thankyou.html",
-			controller: "ssn.patronizeThankYouController"
+			templateUrl: "assets/views/pages/fund/thankyou.html",
+			controller: "ssn.fundThankYouController"
 		});
 
 		$stateProvider.state("app.logout", {

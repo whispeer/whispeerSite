@@ -17,6 +17,8 @@
 	background: rgba(60, 60, 60, 0.1);
 	color: #000;
 	border: 1px solid #ccc;
+
+	box-sizing: border-box;
 }
 .button:hover {
 	color: #000;
@@ -43,7 +45,11 @@
 }
 .button--block {
 	display: block;
+	width: 100%;
 	margin: 1em 0;
+}
+.button--center {
+	text-align: center;
 }
 
 .button--shareButton--fb,
@@ -74,5 +80,16 @@
 	background:	rgb(255, 69, 0);
 	&:hover {
 		background: rgba(255, 69, 0, .92);
+	}
+}
+
+.button--paypal {
+	background: #009cde;
+	color: #fff;
+	&:hover,
+	&:active,
+	&:focus {
+		//background: lighten(#009cde, 5%);
+		color: #fff;
 	}
 }

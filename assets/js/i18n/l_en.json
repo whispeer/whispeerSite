@@ -21,7 +21,7 @@
 	},
 	"inviteFriends": "New to whispeer? Invite your friends now!",
 	"views": {
-		"patronize": {
+		"fund": {
 			"heading": "Support whispeer",
 			"content": "whispeer is free to use but creates a great cost for us (like server rent and development-costs). If you want to support whispeer, we gratefully accept your donation.",
 			"methods": {
@@ -273,7 +273,7 @@
 		"search": "Search...",
 		"legal":	"Legal information",
 		"notifications":	"Notifications ({count})",
-		"patronize": "Support whispeer",
+		"fund": "Support whispeer",
 		"invite": "Invite your friends"
 	},
 	"login": {
