@@ -1,0 +1,15 @@
+{
+	"https": true,
+	"ws": "data.whispeer.de",
+	"wsPort": 443,
+
+	"debug": true,
+	"production": true,
+
+	"hashVersion": 1,
+
+	"socket": {
+		"autoConnect": true,
+		"autoReconnect": true
+	}
+}

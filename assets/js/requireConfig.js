@@ -1,5 +1,8 @@
 requirejs.config({
 	paths: {
+		text: "bower/requirejs-plugins/lib/text",
+		json: "bower/requirejs-plugins/src/json",
+
 		step: "step/lib/step",
 		whispeerHelper: "helper/helper",
 		amanda: "bower/amanda/releases/latest/amanda",
