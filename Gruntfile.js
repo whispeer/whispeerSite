@@ -29,7 +29,12 @@ var libs = [
 	"libs/sjcl",
 	"jquery",
 	"dexie",
-	"amanda"
+	"amanda",
+	"json"
+];
+
+var configJson = [
+	"json!conf/production.config.json"
 ];
 
 var extend = require("extend");
@@ -50,9 +55,9 @@ grunt.initConfig({
 			options: extend({}, baseConfig, {
 				out: "assets/js/build/lib.js",
 
-				optimize: "uglify2",
+				optimize: "none",
 
-				include: ["requirejs"].concat(libs)
+				include: ["requirejs"].concat(libs).concat(configJson)
 			})
 		},
 		compile: {
