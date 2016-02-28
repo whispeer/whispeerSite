@@ -4,12 +4,5 @@
 	"wsPort": 3000,
 
 	"debug": true,
-	"production": true,
-
-	"hashVersion": 1,
-
-	"socket": {
-		"autoConnect": true,
-		"autoReconnect": true
-	}
+	"production": false
 }

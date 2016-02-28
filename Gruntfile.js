@@ -36,7 +36,8 @@ var libs = [
 var env = process.env.WHISPEER_ENV || "production";
 
 var configJson = [
-	"json!conf/" + env + ".config.json"
+	"json!conf/" + env + ".config.json",
+	"json!conf/base.config.json"
 ];
 
 var extend = require("extend");
