@@ -2,5 +2,6 @@
 * BaseService
 **/
 define([
-	"runners/localizationRunner"
+	"runners/localizationRunner",
+	"runners/serviceWorkerRunner"
 ], function () {});
