@@ -14,7 +14,7 @@ grunt.loadNpmTasks("grunt-bower-install-simple");
 grunt.loadNpmTasks("grunt-run");
 grunt.loadNpmTasks("grunt-contrib-requirejs");
 grunt.loadNpmTasks("grunt-contrib-clean");
-grunt.loadNpmTasks('grunt-angular-templates');
+grunt.loadNpmTasks("grunt-angular-templates");
 
 var libs = [
 	"step",
