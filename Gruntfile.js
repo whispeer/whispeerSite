@@ -373,6 +373,6 @@ grunt.task.registerMultiTask("assetHash", "Hash a file and rename the file to th
 grunt.registerTask("default", ["build:development", "browserSync", "concurrent:development"]);
 
 grunt.registerTask("build:development", ["clean", "copy", "bower-install-simple", "less", "autoprefixer", "run:buildsjcl"]);
-grunt.registerTask("build:production",  ["clean", "copy", "bower-install-simple", "less", "autoprefixer", "ngtemplates", "requirejs", "run:buildsjcl", "buildDate", "assetHash", "includes"]);
+grunt.registerTask("build:production",  ["clean", "copy", "bower-install-simple", "less", "autoprefixer", "ngtemplates", "requirejs", "run:buildsjcl", "assetHash", "includes"]);
 
 grunt.registerTask("server", "Start the whispeer web server.", require("./webserver"));
