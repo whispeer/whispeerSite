@@ -35,8 +35,6 @@ var libs = [
 
 var env = process.env.WHISPEER_ENV || "production";
 
-console.log(env);
-
 var configJson = [
 	"json!conf/" + env + ".config.json"
 ];
@@ -51,6 +49,11 @@ var baseConfig = {
 	optimize: "none",
 	preserveLicenseComments: true,
 	generateSourceMaps: false,
+
+	wrap: {
+		start: "",
+		end: ""
+	},
 };
 
 grunt.initConfig({
@@ -61,7 +64,11 @@ grunt.initConfig({
 
 				optimize: "none",
 
-				include: ["requirejs"].concat(libs).concat(configJson)
+				include: ["requirejs"].concat(libs).concat(configJson),
+
+				wrap: {
+					start: "var WHISPEER_ENV='" + env + "';"
+				}
 			})
 		},
 		compile: {
