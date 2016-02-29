@@ -1,6 +1,7 @@
 .landing-section {
 	position: relative;
 	display: table;
+	display: flex;
 	float: left;
 	width: 100%;
 	min-height: 50vh;
@@ -37,7 +38,7 @@
 .landing-section--inner {
 	max-width: 1280px;
 	width: 100%;
-	margin: 0 auto;
+	margin: auto;
 	display: table-cell;
 	vertical-align: middle;
 }
@@ -45,9 +46,6 @@
 	display: table;
 	width: 100%;
 	margin: 0;
-}
-#heading .landing-section--inner {
-	padding-bottom: calc(55px + 1rem);
 }
 #heading .section-header {
 	width: 100%;
@@ -123,6 +121,7 @@
 }
 #heading .section-paragraph {
 	margin-top: -16px;
+	margin-bottom: 1.5rem;
 	padding-bottom: 0;
 	@media #{$mobile} {
 		margin-top: -20px;
