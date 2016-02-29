@@ -31,12 +31,7 @@ define(["app"], function (app) {
 		addMain("main");
 		addMain("friends");
 		addMain("acceptInvite");
-
-		$stateProvider.state("app.search", {
-			url: "/search",
-			templateUrl: "assets/views/pages/search.html",
-			controller: "ssn.searchController"
-		});
+		addMain("search");
 
 		$stateProvider.state("app.post", {
 			url: "/post/{postID:[1-9][0-9]*}",
@@ -101,25 +96,6 @@ define(["app"], function (app) {
 		});
 
 		$stateProvider.state("app.fund.thankyou", {
-			url: "/thankyou",
-			templateUrl: "assets/views/pages/fund/thankyou.html",
-			controller: "ssn.fundThankYouController"
-		});
-
-		$stateProvider.state("app.fundold", {
-			url: "/fund",
-			abstract: true,
-			templateUrl: "assets/views/pages/fund.html",
-			controller: "ssn.fundController"
-		});
-
-		$stateProvider.state("app.fundold.general", {
-			url: "",
-			templateUrl: "assets/views/pages/fund/general.html",
-			controller: "ssn.fundController"
-		});
-
-		$stateProvider.state("app.fundold.thankyou", {
 			url: "/thankyou",
 			templateUrl: "assets/views/pages/fund/thankyou.html",
 			controller: "ssn.fundThankYouController"
