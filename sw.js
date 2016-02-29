@@ -19,8 +19,21 @@ var COMMITHASHURL = "/assets/commit.sha";
 
 var CACHEFILENAME = "cacheMetaData.json";
 
-var currentCache;
-var currentFilesConfig;
+var UPDATEINTERVAL = 5 * 1000;
+
+function getLatestCache() {
+	return caches.keys().then(function (keys) {
+		keys = keys.filter(function (key) {
+			return isOurCacheName(key);
+		});
+
+		if (keys.length === 1) {
+			return caches.open(keys[0]);
+		}
+
+		throw new Error("no cache found :(");
+	});
+}
 
 function hashToCacheName(hash) {
 	return CACHEPREFIX + hash;
@@ -61,20 +74,6 @@ function getMetaData(cache) {
 		return response.json();
 	}).then(function (json) {
 		return json;
-	});
-}
-
-function getLatestCache() {
-	return caches.keys().then(function (keys) {
-		keys = keys.filter(function (key) {
-			return isOurCacheName(key);
-		});
-
-		if (keys.length === 1) {
-			return caches.open(keys[0]);
-		}
-
-		throw new Error("no cache found :(");
 	});
 }
 
@@ -149,7 +148,7 @@ function loadIfNewer(hashCacheName) {
 	}).then(function (keyList) {
 		keyList.filter(function (cacheName) {
 			return isOurCacheName(cacheName) &&  cacheName !== hashCacheName;
-		}).map(function () {
+		}).map(function (cacheName) {
 			return caches.delete(cacheName);
 		});
 	}).then(function () {
@@ -166,7 +165,11 @@ function loadIfNewer(hashCacheName) {
 
 }
 
+var lastUpdated = 0;
+
 function checkForUpdate() {
+	lastUpdated = timestamp();
+
 	return deleteOldCaches().then(function () {
 		return fetch(COMMITHASHURL);
 	}).then(function (response) {
@@ -180,14 +183,24 @@ function checkForUpdate() {
 	});
 }
 
-self.addEventListener("fetch", function(event) {
-	if (!currentCache) {
-		console.log("No cache loaded");
-		return;
-	}
+var currentCache = checkForUpdate();
 
+function getCurrentCache() {
+	if (timestamp() - lastUpdated > UPDATEINTERVAL) {
+		return checkForUpdate();
+	} else {
+		return currentCache;
+	}
+}
+
+self.addEventListener("fetch", function(event) {
 	event.respondWith(
-		currentCache.then(function (cache) {
+		getCurrentCache().then(function (cache) {
+			if (!cache) {
+				console.log("No cache loaded");
+				return false;
+			}
+
 			return cache.match(event.request);
 		}).then(function(response) {
 			// Cache hit - return response
@@ -203,20 +216,14 @@ self.addEventListener("fetch", function(event) {
 	);
 });
 
-self.addEventListener("activate", function(event) {
+self.addEventListener("activate", function() {
 	console.log("activate" + timestamp());
 
-	var deleteOldCachesPromise = deleteOldCaches();
-	currentCache = deleteOldCachesPromise.then(function () {
-		return getLatestCache();
-	});
-
-	event.waitUntil(deleteOldCachesPromise);
+	currentCache = checkForUpdate();
 });
 
-self.addEventListener("install", function(event) {
+self.addEventListener("install", function() {
 	console.log("install" + timestamp());
 
 	currentCache = checkForUpdate();
-	event.waitUntil(currentCache);
 });
