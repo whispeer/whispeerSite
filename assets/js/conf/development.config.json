@@ -1,0 +1,8 @@
+{
+	"https": false,
+	"ws": "127.0.0.1",
+	"wsPort": 3000,
+
+	"debug": true,
+	"production": false
+}

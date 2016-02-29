@@ -1,0 +1,8 @@
+{
+	"hashVersion": 1,
+
+	"socket": {
+		"autoConnect": true,
+		"autoReconnect": true
+	}
+}

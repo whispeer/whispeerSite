@@ -6,8 +6,6 @@ define(["step", "whispeerHelper", "config", "controllers/controllerModule"], fun
 	"use strict";
 
 	function rootController($scope, $http, $interval, localize, socketService, sessionService, sessionHelper, userService, cssService, messageService, trustService, friendsService) {
-		$scope.version = "0.2.2-" + config.buildDate;
-
 		$scope.loading = true;
 
 		var nullUser = {

@@ -14,7 +14,7 @@ grunt.loadNpmTasks("grunt-bower-install-simple");
 grunt.loadNpmTasks("grunt-run");
 grunt.loadNpmTasks("grunt-contrib-requirejs");
 grunt.loadNpmTasks("grunt-contrib-clean");
-grunt.loadNpmTasks('grunt-angular-templates');
+grunt.loadNpmTasks("grunt-angular-templates");
 
 var libs = [
 	"step",
@@ -29,7 +29,15 @@ var libs = [
 	"libs/sjcl",
 	"jquery",
 	"dexie",
-	"amanda"
+	"amanda",
+	"json"
+];
+
+var env = process.env.WHISPEER_ENV || "production";
+
+var configJson = [
+	"json!conf/" + env + ".config.json",
+	"json!conf/base.config.json"
 ];
 
 var extend = require("extend");
@@ -42,6 +50,11 @@ var baseConfig = {
 	optimize: "none",
 	preserveLicenseComments: true,
 	generateSourceMaps: false,
+
+	wrap: {
+		start: "",
+		end: ""
+	},
 };
 
 grunt.initConfig({
@@ -50,9 +63,13 @@ grunt.initConfig({
 			options: extend({}, baseConfig, {
 				out: "assets/js/build/lib.js",
 
-				optimize: "uglify2",
+				optimize: "none",
 
-				include: ["requirejs"].concat(libs)
+				include: ["requirejs"].concat(libs).concat(configJson),
+
+				wrap: {
+					start: "var WHISPEER_ENV='" + env + "';"
+				}
 			})
 		},
 		compile: {
@@ -368,6 +385,6 @@ grunt.task.registerMultiTask("assetHash", "Hash a file and rename the file to th
 grunt.registerTask("default", ["build:development", "browserSync", "concurrent:development"]);
 
 grunt.registerTask("build:development", ["clean", "copy", "bower-install-simple", "less", "autoprefixer", "run:buildsjcl"]);
-grunt.registerTask("build:production",  ["clean", "copy", "bower-install-simple", "less", "autoprefixer", "ngtemplates", "requirejs", "run:buildsjcl", "buildDate", "assetHash", "includes"]);
+grunt.registerTask("build:production",  ["clean", "copy", "bower-install-simple", "less", "autoprefixer", "ngtemplates", "requirejs", "run:buildsjcl", "assetHash", "includes"]);
 
 grunt.registerTask("server", "Start the whispeer web server.", require("./webserver"));
