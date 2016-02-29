@@ -2,7 +2,13 @@ define (["whispeerHelper", "step", "asset/observer", "asset/securedDataWithMetaD
 	"use strict";
 	var database, loaded = false, trustManager;
 
-	var trustStates = new Enum("BROKEN", "UNTRUSTED", "TIMETRUSTED", "WHISPEERVERIFIED", "NETWORKVERIFIED", "VERIFIED", "OWN");
+	var sortedTrustStates = ["BROKEN", "UNTRUSTED", "TIMETRUSTED", "WHISPEERVERIFIED", "NETWORKVERIFIED", "VERIFIED", "OWN"];
+
+	var trustStates = new Enum(sortedTrustStates);
+
+	sortedTrustStates = sortedTrustStates.map(function (trustLevel) {
+		return trustStates.fromString("|" + trustLevel + "|");
+	});
 
 	function serializeTrust(trustLevel) {
 		return trustStates.toString(trustLevel);
@@ -71,7 +77,7 @@ define (["whispeerHelper", "step", "asset/observer", "asset/securedDataWithMetaD
 		return content;
 	}
 
-	var fakeKeyExistence = 0, ownKey;
+	var fakeKeyExistence = 0, ownKey, specialKeys = ["me", "nicknames", "ids"];
 
 	trustManager = {
 		allow: function (count) {
@@ -137,6 +143,7 @@ define (["whispeerHelper", "step", "asset/observer", "asset/securedDataWithMetaD
 				return;
 			}
 
+			console.log("Updating trust database");
 			var givenDatabase = SecuredData.load(undefined, data, { type: "trustManager" });
 			step(function () {
 				if (data.me === ownKey) {
@@ -149,17 +156,40 @@ define (["whispeerHelper", "step", "asset/observer", "asset/securedDataWithMetaD
 					return !database.metaHasAttr(key);
 				});
 
+				var oldKeys = givenDatabase.metaKeys().filter(function (key) {
+					return database.metaHasAttr(key);
+				}).filter(function (key) {
+					return specialKeys.indexOf(key) === -1;
+				});
+
+				var changed = false;
+
 				newKeys.forEach(function (signKey) {
+					changed = true;
+
 					var userDataSet = givenDatabase.metaAttr(signKey);
 
 					trustManager.addDataSet(userDataSet);
 				});
 
-				if (newKeys.length > 0) {
+				oldKeys.forEach(function (signKey) {
+					var oldValue = database.metaAttr(signKey);
+					var newValue = givenDatabase.metaAttr(signKey);
+
+					var oldTrust = unserializeTrust(oldValue.trust);
+					var newTrust = unserializeTrust(newValue.trust);
+
+					if (sortedTrustStates.indexOf(oldTrust) < sortedTrustStates.indexOf(newTrust)) {
+						changed = true;
+						database.metaAdd([signKey, "trust"], newValue.trust);
+					}
+				});
+
+				if (changed) {
 					trustManager.notify("", "updated");
 				}
 
-				this.ne(newKeys.length > 0);
+				this.ne(changed);
 			}), cb);
 		},
 		loadDatabase: function (data, cb) {
