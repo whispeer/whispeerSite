@@ -1,52 +1,85 @@
 {% assign i18n = site.data.whispeerI18n[page.lang] %}
 
-{% include whispeerHead.html htmlClass="startView body-iframe" %}
-<body data-ng-controller="ssn.registerController" data-mobile>
-	<div class="box" data-ng-cloak data-ng-if="browser.old">
-			<p><i class="fa fa-times-circle fa-3x"></i></p>
-			<p data-i18n="landingpage.oldBrowser.{{ "{{ browser.specific " }}}}"></p>
-			<p data-ng-if="!mobile">
-				<span data-i18n="landingpage.oldBrowser.supported"></span><br>
-				<a href="https://www.google.com/chrome/" class="btn btn--gray">Chrome</a>
-				<a href="https://www.mozilla.org/de/firefox/new/" class="btn btn--gray">Firefox</a>
-				<a href="https://www.apple.com/de/safari/" class="btn btn--gray">Safari</a>
-			</p>
-			<p data-ng-if="browser.android">
-				<span data-i18n="landingpage.oldBrowser.supported"></span><br>
-				<a href="https://play.google.com/store/apps/details?id=com.android.chrome" target="_blank" class="btn btn--gray">Chrome</a>
-				<a href="https://play.google.com/store/apps/details?id=org.mozilla.firefox" target="_blank" class="btn btn--gray">Firefox</a>
-			</p>
+{% include whispeerHead.html htmlClass="registerView" realStyle=true %}
+<body data-ng-controller="ssn.registerController" data-mobile data-ng-class="{'loaded': loading === false}">
+	<div id="register-loading">
+	{% include loader.html id="register-loading-loader" %}
 	</div>
-	<div data-ng-show="!browser.old" class="startView-register registerWrap" data-ng-click="registerFormClick()">
-		<form class="registerForm" data-validated-form="validationOptions">
-			<h1 class="inputSandwich inputSandwich-top registerHeader">{{i18n.register.newaccount}}</h1>
-			<div class="inputWrap">
-				<div class="annotatedInput-container">
-					<input class="annotatedInput-input inputSandwich inputSandwich-middle" type="text" class="nickname" placeholder="{{i18n.login.username}}" data-ng-model="registerData.nickname" data-load-val data-ng-model-onblur data-ng-change="nicknameChange()" validation="nicknameValidations">
-					<span class="annotatedInput-icon fa" data-ng-class="acceptIconNicknameFree()" data-ng-if="!empty(registerData.nickname)"></span>
-				</div>
-				<passwordinput state="pwState">
-					<div class='annotatedInput-container'>
-						<input class='annotatedInput-input strenghInput password inputSandwich inputSandwich-middle' type='password' placeholder='{{i18n.login.password}}' data-ng-model='state.password' data-load-val validation='passwordValidations'>
-						<span class='annotatedInput-icon' data-strength='{{ "{{ passwordStrength() " }}}}'></span>
-					</div>
-					<div class='annotatedInput-container'>
-						<input type='password' class='annotatedInput-input password2 inputSandwich inputSandwich-middle' placeholder='{{i18n.register.repeatPassword}}' data-ng-model='state.password2' data-load-val validation='password2Validations'>
-						<span class='annotatedInput-icon fa' data-ng-class='acceptIcon(state.password, state.password2)' data-ng-if='!empty(state.password) && !empty(state.password2)'></span>
-					</div>
-				</passwordinput>
-				<label class="registerAGB inputSandwich inputSandwich-middle" for="checkAGB" validation="agbValidations">
-					<input type="checkbox" data-ng-model="registerData.agb" id="checkAGB" class="checkAGB" data-load-val>
-					<span data-i18n="landingpage.legal">
-						<a href="/agb" data-for="agb" target="_blank">{{i18n.legal.terms}}</a>
-						<a href="/privacyPolicy" data-for="privacyPolicy" target="_blank">{{i18n.legal.data}}</a>
-					</span>
-				</label>
+	<div class="box" data-ng-cloak data-ng-if="browser.old">
+		<p><i class="fa fa-times-circle fa-3x"></i></p>
+		<p data-i18n="landingpage.oldBrowser.{{ "{{ browser.specific " }}}}"></p>
+		<p data-ng-if="!mobile">
+			<span data-i18n="landingpage.oldBrowser.supported"></span><br>
+			<a href="https://www.google.com/chrome/" class="btn btn--gray">Chrome</a>
+			<a href="https://www.mozilla.org/de/firefox/new/" class="btn btn--gray">Firefox</a>
+			<a href="https://www.apple.com/de/safari/" class="btn btn--gray">Safari</a>
+		</p>
+		<p data-ng-if="browser.android">
+			<span data-i18n="landingpage.oldBrowser.supported"></span><br>
+			<a href="https://play.google.com/store/apps/details?id=com.android.chrome" target="_blank" class="btn btn--gray">Chrome</a>
+			<a href="https://play.google.com/store/apps/details?id=org.mozilla.firefox" target="_blank" class="btn btn--gray">Firefox</a>
+		</p>
+	</div>
+	<div id="register-container" data-ng-if="!browser.old">
+		<aside id="sidebar-left" class="register-sidebar-left">
+			<div id="userpanel">
+				<a class="brand">
+					<span class="brand--normal">whis</span><span class="brand--inverse">peer</span>
+				</a>
+				<a id="userpanel-me" class="register-userpanel-me">
+					<img src="assets/img/user.png" alt="" id="userpanel-me-image" class="register-userpanel-me-image">
+					<span id="userpanel-me-name" class="register-userpanel-me-name">{% raw %}{{registerData.nickname}}{% endraw %}</span>
+				</a>
+				<nav id="userpanel-shortcuts">
+				</nav>
+				<nav id="userpanel-menu">
+				</nav>
 			</div>
-			<div class="submitWrap">
-				<savebutton class="btn btn--big btn--primary register-submitButton inputSandwich inputSandwich-bottom" data-noiniticon data-state="registerState" type="submit"  data-ng-click="register()"><span>{{i18n.register.link}}</span></savebutton>
+		</aside>
+		<section id="register-main">
+			<div id="startView-register">
+				<form class="registerForm">
+					<header id="register-guide">
+						<h1 class="register-headline">
+							Hallo<span data-ng-if="registerData.nickname.length > 0"> {% raw %}{{registerData.nickname}}{% endraw %}</span>!
+						</h1>
+						<h2 class="register-headline">
+							Die Registration bei whispeer ist ganz einfach. Geb' einfach einen Benutzernamen ein und klick auf weiter!
+						</h2>
+					</header>
+					<section class="register-body" data-ng-show="registerStep === 0">
+						<div class="annotatedInput-container">
+							<input class="annotatedInput-input" type="text" id="register-nickname" placeholder="{{i18n.login.username}}" data-ng-model="registerData.nickname" data-load-val data-ng-model-onblur data-ng-change="nicknameChange()" validation="nicknameValidations">
+							<span class="annotatedInput-icon fa" data-ng-class="acceptIconNicknameFree()" data-ng-if="!empty(registerData.nickname)"></span>
+						</div>
+						<button class="btn" id="register-nextStep" data-ng-class="{'btn--disabled': !registerData.nicknameCheck, 'btn--primary': registerData.nicknameCheck}" data-ng-click="nextStep(); registerFormClick();">Weiter <i class="fa fa-arrow-right"></i></button>
+					</section>
+					<section class="register-body" data-ng-show="registerStep === 1">
+						<passwordinput state="pwState">
+							<div class='annotatedInput-container'>
+								<input class='annotatedInput-input strenghInput password inputSandwich inputSandwich-top' type='password' placeholder='{{i18n.login.password}}' data-ng-model='state.password' data-load-val validation='passwordValidations'>
+								<span class='annotatedInput-icon' data-strength='{{ "{{ passwordStrength() " }}}}'></span>
+							</div>
+							<div class='annotatedInput-container'>
+								<input type='password' class='annotatedInput-input password2 inputSandwich inputSandwich-bottom' placeholder='{{i18n.register.repeatPassword}}' data-ng-model='state.password2' data-load-val validation='password2Validations'>
+								<span class='annotatedInput-icon fa' data-ng-class='acceptIcon(state.password, state.password2)' data-ng-if='!empty(state.password) && !empty(state.password2)'></span>
+							</div>
+						</passwordinput>
+						<button class="btn" id="register-nextStep" data-ng-class="{'btn--disabled': !(pwState.password.length >= 8 && pwState.password === pwState.password2), 'btn--primary': pwState.password.length >= 8 && pwState.password === pwState.password2}" data-ng-click="nextStep()">Weiter <i class="fa fa-arrow-right"></i></button>
+					</section>
+					<section class="register-body" data-ng-show="registerStep === 2">
+						<label class="registerAGB inputSandwich inputSandwich-middle" for="checkAGB" validation="agbValidations">
+							<input type="checkbox" data-ng-model="registerData.agb" id="checkAGB" class="checkAGB" data-load-val>
+							<span data-i18n="landingpage.legal">
+								<a href="/agb" data-for="agb" target="_blank">{{i18n.legal.terms}}</a>
+								<a href="/privacyPolicy" data-for="privacyPolicy" target="_blank">{{i18n.legal.data}}</a>
+							</span>
+						</label>
+						<savebutton class="btn btn--primary" data-noiniticon data-state="registerState" type="submit"  data-ng-click="register()"><span>{{i18n.register.link}}</span></savebutton>
+					</section>
+				</form>
 			</div>
-		</form>
+		</section>
 	</div>
 </body>
 <script src="/assets/js/build/commons.bundle.js"></script>

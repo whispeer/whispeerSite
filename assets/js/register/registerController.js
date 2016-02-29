@@ -48,6 +48,8 @@ define([
 			android: isAndroid()
 		};
 
+		$scope.loading = false;
+
 		registerService.setPreID();
 
 		if (isTwitterBrowser()) {
@@ -79,6 +81,12 @@ define([
 		$scope.startKeyGeneration = function startKeyGen1() {
 			registerService.startKeyGeneration();
 		};
+
+		$scope.registerStep = 0;
+
+		$scope.nextStep = function() {
+			$scope.registerStep++;
+		}
 
 		$scope.nicknameChange = function () {
 			Bluebird.try(function nicknameCheck() {

@@ -6,6 +6,10 @@
 
 	<link rel="shortcut icon" href="assets/img/favicons/favicon.png" type="image/x-icon">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, shrink-to-fit=no" />
-	<link rel="stylesheet" href="assets/css/static.css">
+	{% if include.realStyle == true %}
+		<link rel="stylesheet" href="assets/css/style.css">
+	{% else %}
+		<link rel="stylesheet" href="assets/css/static.css">
+	{% endif %}
 	<title>whispeer{%if page.title%} - {{page.title}}{%endif%}</title>
 </head>

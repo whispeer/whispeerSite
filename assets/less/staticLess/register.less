@@ -1,78 +1,92 @@
-.startView-register {
-	text-align: center;
-	.registerHeader {
-		font-size: 1.3rem;
-		line-height: 50px;
-		margin-bottom: 20px;
-		color: #222;
-		background: @white;
-		height: 50px;
-		margin: 0;
-		border: 1px solid @inputBorder;
-		&:extend(.box-fix);
-	}
-	input:not([type="submit"])
-	:not([type="reset"])
-	:not([type="button"])
-	:not([type="file"])
-	:not([type="radio"])
-	:not([type="checkbox"]),
-	.annotatedInput-container {
-		@media @desktop {
-			width: 300px;
-		}
-		height: 50px;
-		margin: 0 auto;
-	}
+#register-loading {
+	display: flex;
+	justify-content: center;
+	algin-items: center;
 
-	.inputSandwich-middle,
-	.inputSandwich-bottom {
-		&:focus {
-			height: 51px !important;
-		}
-	}
+	position: absolute;
+	top: 0;
+	left: 0;
 
-	.annotatedInput-input {
-		width: 100%;
-		height: 100% !important;
-	}
+	height: 100%;
+	width: 100%;
+	background: @primary;
+	z-index: 3;
+}
 
-	p {
-		text-align: left;
-		padding-left: 32px;
-		padding-right: 32px;
-	}
-	.registerAGB {
-		display: inline-block;
-		background: @white;
-		border: solid 1px @inputBorder;
-		border-top: none;
-		border-bottom: none;
+#register-loading-loader {
+	margin: auto;
+}
+
+.loaded #register-loading {
+	display: none !important;
+}
+
+#register-container {
+	display: flex;
+	height: 100%;
+}
+
+.register-sidebar-left {
+	position: relative !important;
+	flex-shrink: 0 !important;
+	&:after {
+		content: " ";
+		position: absolute;
+
+		top: 0;
+		left: 0;
+
 		width: 100%;
-		min-height: 50px;
-		text-indent: -16px;
-		font-size: 12px;
-		margin:	0;
-		padding: 15px 10px 15px 26px;
-		.box-fix;
-		@media @desktop {
-			box-shadow: inset 0px 0px 5px @inputBorder;
-		}
-	}
-	.submitWrap {
-		width: 100%;
-	}
-	.register-submitButton {
-		width: 100%;
-		height: 50px;
-		line-height: 48px;
-		margin-top: 0;
-		border: solid 1px @inputBorder;
-		border-top: none;
-		font-size: 24px;
-		line-height: normal;
+		height: 100%;
+		background: fade(#000, 35%);
+		z-index: 2;
 	}
 }
-.qtip {
-	margin-top: 3px; // give it some air to breathe...
+
+.registerView,
+.registerView body {
+	height: 100%;
+}
+
+#register-main {
+	width: 100%;
+	flex-shrink: 1 !important;
+	padding: 0 2em;
+	box-sizing: border-box;
+
+	display: flex;
+}
+
+.register-userpanel-me {
+	display: flex !important;
+
+	text-align: left !important;
+	padding: 0 1em;
+	box-sizing: border-box;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+
+.register-userpanel-me-image {
+	position: relative;
+	margin: auto;
+	flex-shrink: 0;
+	z-index: 1;
+}
+
+.register-userpanel-me-name {
+	display: inline-block;
+	width: 100%;
+	text-align: center;
+	flex-shrink: 1;
+}
+
+#startView-register {
+	margin: auto;
+}
+
+#register-nextStep {
+	float: right;
+	margin: 1em 1px 0 0;
 }

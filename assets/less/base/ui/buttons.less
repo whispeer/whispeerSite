@@ -138,6 +138,7 @@
 	margin-top: 3px;
 }
 .btn[disabled],
+.btn--disabled,
 .btn-saveButton--operation,
 .btn-saveButton--operation:hover { // disabled should overwrite all other styles so it goes down here
 	background: @btnBackgroundHover;
@@ -146,6 +147,7 @@
 	border: 1px solid @btnBorder;
 	line-height: 38px;
 	text-shadow: none;
+	pointer-events: none;
 }
 .shareButton--fb,
 .shareButton--tw,
