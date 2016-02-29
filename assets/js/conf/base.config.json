@@ -4,5 +4,9 @@
 	"socket": {
 		"autoConnect": true,
 		"autoReconnect": true
+	},
+
+	"serviceWorker": {
+		"enabled": false
 	}
 }

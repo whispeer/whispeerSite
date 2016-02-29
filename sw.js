@@ -217,13 +217,9 @@ self.addEventListener("fetch", function(event) {
 });
 
 self.addEventListener("activate", function() {
-	console.log("activate" + timestamp());
-
-	currentCache = checkForUpdate();
+	console.log("activate sw:" + timestamp());
 });
 
 self.addEventListener("install", function() {
-	console.log("install" + timestamp());
-
-	currentCache = checkForUpdate();
+	console.log("install sw:" + timestamp());
 });

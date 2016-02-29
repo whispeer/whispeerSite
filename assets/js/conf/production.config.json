@@ -4,5 +4,9 @@
 	"wsPort": 443,
 
 	"debug": false,
-	"production": true
+	"production": true,
+
+	"serviceWorker": {
+		"enabled": true
+	}
 }
