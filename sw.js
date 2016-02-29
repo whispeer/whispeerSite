@@ -19,7 +19,7 @@ var COMMITHASHURL = "/assets/commit.sha";
 
 var CACHEFILENAME = "cacheMetaData.json";
 
-var currentCommitHash;
+var currentCacheName;
 var currentFilesConfig;
 
 function hashToCacheName(hash) {
@@ -52,6 +52,10 @@ function storeMetaData(cache, metaData) {
 	return cache.put(CACHEFILENAME, new Response(JSON.stringify(metaData)));
 }
 
+function isOurCacheName(name) {
+	return name.indexOf(CACHEPREFIX) === 0;
+}
+
 function getMetaData(cache) {
 	return cache.match(new self.Request(CACHEFILENAME)).then(function (response) {
 		return response.json();
@@ -60,11 +64,25 @@ function getMetaData(cache) {
 	});
 }
 
+function getLatestCache() {
+	caches.keys().then(function (keys) {
+		keys.filter(function (key) {
+			return isOurCacheName(key);
+		});
+
+		if (keys.length === 1) {
+			return caches.open(keys[0]);
+		}
+
+		throw new Error("no cache found :(");
+	});
+}
+
 function deleteOldCaches() {
 	return Promise.resolve(caches.keys()).then(function (keys) {
 		return keys;
 	}).filter(function (key) {
-		return key.indexOf(CACHEPREFIX) === 0;
+		return isOurCacheName(key);
 	}).map(function (key) {
 		return caches.open(key).then(function (cache) {
 			return getMetaData(cache);
@@ -116,7 +134,7 @@ function fillCache(cache) {
 function loadIfNewer(hashCacheName) {
 	return caches.keys().then(function(keyList) {
 		if (keyList.indexOf(hashCacheName) === -1) {
-			console.log("Got a different commit hash - updating");
+			console.log("Got a different commit hash - updating (" + hashCacheName + ")");
 
 			return caches.open(hashCacheName).then(function (cache) {
 				return fillCache(cache);
@@ -125,16 +143,22 @@ function loadIfNewer(hashCacheName) {
 			});
 		}
 
+		console.log("Cache already loaded: (" + hashCacheName + ")");
+
 		return keyList;
 	}).then(function (keyList) {
 		keyList.filter(function (cacheName) {
-			return cacheName.indexOf(CACHEPREFIX) > -1 &&  cacheName !== hashCacheName;
+			return isOurCacheName(cacheName) &&  cacheName !== hashCacheName;
 		}).map(function () {
 			return caches.delete(cacheName);
 		});
+	}).then(function () {
+		return caches.open(hashCacheName);
 	}).catch(function () {
 		//update failed delete the new cache!
-		return caches.delete(hashCacheName);
+		return caches.delete(hashCacheName).then(function () {
+			return getLatestCache();
+		});
 	});
 
 }
@@ -146,7 +170,7 @@ function checkForUpdate() {
 		if (response.ok) {
 			return response.text();
 		} else {
-			throw new Error("Invalid response!");
+			return getLatestCache();
 		}
 	}).then(function (hash) {
 		return loadIfNewer(hashToCacheName(hash));
