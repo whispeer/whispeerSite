@@ -154,7 +154,7 @@ function loadIfNewer(hashCacheName) {
 	}).then(function () {
 		return caches.open(hashCacheName);
 	}).catch(function (e) {
-		console.log("Update failed!");
+		console.log("Update failed! " + hashCacheName);
 		console.log(e);
 
 		//update failed delete the new cache!
@@ -187,10 +187,10 @@ var currentCache = checkForUpdate();
 
 function getCurrentCache() {
 	if (timestamp() - lastUpdated > UPDATEINTERVAL) {
-		return checkForUpdate();
-	} else {
-		return currentCache;
+		currentCache = checkForUpdate();
 	}
+
+	return currentCache;
 }
 
 self.addEventListener("fetch", function(event) {
@@ -203,9 +203,7 @@ self.addEventListener("fetch", function(event) {
 
 			return cache.match(event.request);
 		}).then(function(response) {
-			// Cache hit - return response
 			if (response) {
-				console.log("Cache hit: " + event.request.url);
 				return response;
 			}
 
