@@ -26,7 +26,7 @@
 define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForReady", "crypto/sjclWorkerInclude", "asset/errors", "bluebird"], function (step, h, chelper, sjcl, waitForReady, sjclWorkerInclude, errors, Bluebird) {
 	"use strict";
 
-	var socket, firstVerify = true, afterAsyncCall, improvementListener = [], makeKey, keyStore, recovery = false;
+	var socket, firstVerify = true, afterAsyncCall, improvementListener = [], makeKey, keyStore, recovery = false, sjclWarning = true;
 
 	/** dirty and new keys to upload. */
 	var dirtyKeys = [], newKeys = [];
@@ -1191,7 +1191,10 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 		}
 
 		function verifySjcl(signature, hash) {
-			console.warn("Verifying with sjcl");
+			if (sjclWarning) {
+				console.warn("Verifying with sjcl");
+				sjclWarning = false;
+			}
 			if (firstVerify) {
 				firstVerify = false;
 				return Bluebird.resolve(publicKey.verify(hash, signature));
@@ -1223,7 +1226,9 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 
 				return valid;
 			}).catch(function (e) {
-				console.error(e);
+				if (sjclWarning) {
+					console.error(e);
+				}
 				return verifySjcl(signature, hash);
 			});
 		}
