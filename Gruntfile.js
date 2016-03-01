@@ -439,8 +439,6 @@ grunt.task.registerTask("workerCache", "Write worker cache and commit sha", func
 		])
 	};
 
-	console.log(filesJSON);
-
 	grunt.file.write("assets/files.json", JSON.stringify(filesJSON));
 	grunt.file.write("assets/commit.sha", getCurrentCommitHash());
 });
