@@ -4,7 +4,7 @@
 	</form>
 	<div class="search-resultsDrop" data-ng-show="isVisible()" data-ng-class="{'search-resultsDrop--addBorder': query.length > 0}">
 		<div class="search-resultsDrop-spinner" data-ng-if="searching">
-			<i class="fa fa-3x fa-circle-o-notch fa-spin"></i>
+			<loadingindicator></loadingindicator>
 			<p class="noMargin-bottom" data-i18n="search.searching"></p>
 		</div>
 		<div class="search-resultsDrop-content" data-ng-include="'assets/views/search/' + searchTemplate + 'Search.html'"></div>
