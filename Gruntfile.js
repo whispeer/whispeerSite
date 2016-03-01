@@ -377,12 +377,18 @@ grunt.task.registerTask("workerCache", "Write worker cache and commit sha", func
 		"assets/js/i18n/l_de.json",
 
 		"assets/fonts/fontawesome-webfont.woff2?v=4.3.0",
+		"assets/fonts/SourceSansPro-Semibold.ttf",
+		"assets/fonts/SourceSansPro-Regular.ttf",
+		"assets/img/favicons/favicon.png",
 
 		"en",
 		"de",
 		"en/loginframe/",
 		"de/loginframe/",
 
+		"assets/images/videoThumb.jpg",
+
+		"assets/js/b2c.js",
 		"assets/css/b2c.css",
 		"assets/css/static.css"
 	];
