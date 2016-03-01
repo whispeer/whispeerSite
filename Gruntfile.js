@@ -345,6 +345,73 @@ grunt.task.registerTask("scriptInclude", "Add the correct script include to the 
 	}
 });
 
+function getCurrentCommitHash() {
+	var git = require("git-rev-sync");
+	return git.long();
+}
+
+grunt.task.registerTask("workerCache", "Write worker cache and commit sha", function () {
+	var cacheFiles = [
+		"assets/js/build/lib*",
+		"assets/js/build/build*",
+		"assets/js/build/login*",
+	];
+
+	var preload = [
+		"assets/js/bower/require-promise-worker.js/src/worker.js",
+		"assets/js/bower/requirejs/require.js",
+		"assets/js/crypto/sjclWorker.js",
+		"assets/js/libs/sjcl.js",
+		"assets/js/crypto/minimalHelper.js",
+
+		"assets/img/logo.svg",
+		"assets/data/newMessage.ogg",
+
+		"assets/css/style.css",
+		"index.html",
+		"assets/img/loader.gif",
+		"assets/img/user.png",
+
+		"assets/js/i18n/l_en.json",
+		"assets/js/i18n/l_de.json",
+
+		"assets/fonts/fontawesome-webfont.woff2?v=4.3.0"
+	];
+
+	var indexRedirects = [
+		//basic routes
+		"setup",
+		"backup",
+		"main",
+		"friends",
+		"acceptInvite",
+		"search",
+
+		//complex routes
+		"post",
+		"settings",
+		"invite",
+		"fund",
+		"logout",
+		"messages",
+		"circles",
+		"user"
+	];
+
+	var filesJSON = {
+		preload: preload.concat.apply(preload, cacheFiles.map(function (cacheFile) {
+			return grunt.file.expand(cacheFile);
+		})).map(function (cacheFile) {
+			return "/" + cacheFile;
+		})
+	};
+
+	console.log(filesJSON);
+
+	grunt.file.write("assets/files.json", JSON.stringify(filesJSON));
+	grunt.file.write("assets/commit.sha", getCurrentCommitHash());
+});
+
 function sha1File(filename) {
 	var crypto = require("crypto");
 	var fs = require("fs");
@@ -385,6 +452,6 @@ grunt.task.registerMultiTask("assetHash", "Hash a file and rename the file to th
 grunt.registerTask("default", ["build:development", "browserSync", "concurrent:development"]);
 
 grunt.registerTask("build:development", ["clean", "copy", "bower-install-simple", "less", "autoprefixer", "run:buildsjcl"]);
-grunt.registerTask("build:production",  ["clean", "copy", "bower-install-simple", "less", "autoprefixer", "ngtemplates", "requirejs", "run:buildsjcl", "assetHash", "includes"]);
+grunt.registerTask("build:production",  ["clean", "copy", "bower-install-simple", "less", "autoprefixer", "ngtemplates", "requirejs", "run:buildsjcl", "assetHash", "includes", "workerCache"]);
 
 grunt.registerTask("server", "Start the whispeer web server.", require("./webserver"));

@@ -207,7 +207,7 @@ self.addEventListener("fetch", function(event) {
 				return response;
 			}
 
-			console.log("Cache miss: " + event.request.url);
+			console.info("Cache miss: " + event.request.url);
 
 			return fetch(event.request);
 		})
