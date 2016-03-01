@@ -186,6 +186,8 @@ function checkForUpdate() {
 		}
 	}).then(function (hash) {
 		return loadIfNewer(hashToCacheName(hash));
+	}).catch(function () {
+		return getLatestCache();
 	});
 }
 
@@ -207,14 +209,14 @@ self.addEventListener("fetch", function(event) {
 				return false;
 			}
 
-			console.log(cacheData);
-			console.log(event.request.url);
-
 			var redirect = cacheData.filesConfig.redirect.filter(function (redir) {
 				return event.request.url.match(new RegExp(redir.from));
 			});
 
-			console.warn(redirect);
+			if (redirect.length === 1) {
+				console.log("Redirecting " + event.request.url + " to " + redirect[0].to);
+				return cacheData.cache.match(redirect[0].to);
+			}
 
 			return cacheData.cache.match(event.request);
 		}).then(function(response) {
