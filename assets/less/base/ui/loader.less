@@ -1,0 +1,40 @@
+.loader {
+	margin: 100px auto 0;
+	width: 70px;
+	text-align: center;
+}
+
+.loader-bounce {
+	width: 18px;
+	height: 18px;
+
+	border-radius: 100%;
+	display: inline-block;
+	animation: sk-bouncedelay 1.4s infinite ease-in-out both;
+}
+
+.loader-black .loader-bounce {
+	background-color: #000;
+}
+
+.loader-white .loader-bounce {
+	background-color: #fff;
+}
+
+.loader-bounce1 {
+	animation-delay: -0.32s;
+}
+
+.loader-bounce2 {
+	animation-delay: -0.16s;
+}
+
+@keyframes sk-bouncedelay {
+	0%, 80%, 100% {
+		-webkit-transform: scale(0);
+		transform: scale(0);
+	} 40% {
+		-webkit-transform: scale(1.0);
+		transform: scale(1.0);
+	}
+}

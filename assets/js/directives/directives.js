@@ -37,5 +37,6 @@ define([
 	"directives/inputGrowDirective",
 	"directives/newPost",
 	"directives/inviteButtons",
-	"directives/closeSidebar"
+	"directives/closeSidebar",
+	"directives/loadingindicator"
 ], function () {});

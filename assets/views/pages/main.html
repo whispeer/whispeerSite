@@ -28,8 +28,8 @@
 			</div>
 		</div>
 		<post data-ng-repeat="post in currentTimeline.getPosts()" data-post="post" id="{{post.id}}" class="newsfeedView-post"></post>
-		<div id="newsfeedView-loading" data-ng-show="currentTimeline.loading">
-			<i class="saveButton-spinner fa fa-2x fa-fw fa-circle-o-notch fa-spin"></i>
+		<div id="newsfeedView-loading" data-ng-show="currentTimeline.loading || true">
+			<loadingindicator></loadingindicator>
 			<p class="large-text" data-i18n="wall.loading"></p>
 		</div>
 	</div>
