@@ -371,6 +371,7 @@ grunt.task.registerTask("workerCache", "Write worker cache and commit sha", func
 		"index.html",
 		"assets/img/loader.gif",
 		"assets/img/user.png",
+		"assets/img/circle.png",
 
 		"assets/js/i18n/l_en.json",
 		"assets/js/i18n/l_de.json",
@@ -379,8 +380,11 @@ grunt.task.registerTask("workerCache", "Write worker cache and commit sha", func
 
 		"en",
 		"de",
-		"en/loginframe",
-		"de/loginframe",
+		"en/loginframe/",
+		"de/loginframe/",
+
+		"assets/css/b2c.css",
+		"assets/css/static.css"
 	];
 
 	var indexRedirects = [
@@ -414,7 +418,16 @@ grunt.task.registerTask("workerCache", "Write worker cache and commit sha", func
 				from: "/" + redir + "(\/.*)?$",
 				to: "index.html"
 			};
-		})
+		}).concat([
+			{
+				from: "/en/$",
+				to: "/en"
+			},
+			{
+				from: "/de/$",
+				to: "/de"
+			}
+		])
 	};
 
 	console.log(filesJSON);
