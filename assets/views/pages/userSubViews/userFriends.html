@@ -2,7 +2,7 @@
 	<h2 class="userView-title" data-i18n="profile.section.friends.info"><span data-for="user">{{user.basic.shortname}}</span></h2>
 	<ol id="userView-friendsList" class="unstyled post">
 		<li class="loadingSpinner" data-ng-if="loadingFriends">
-			<i class="fa fa-circle-o-notch fa-2x fa-fw fa-spin"></i>
+			<loadingindicator></loadingindicator>
 			<p data-i18n="friends.loading"></p>
 		</li>
 		<li class="userView-friendElement" data-ng-repeat="friend in friends">

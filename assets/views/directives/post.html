@@ -28,7 +28,7 @@
 	<aside class="post-comments" ng-show="showComments">
 		<ul class="post-comments-list">
 			<li class="post-comments-loading" data-ng-show="post.commentsLoading">
-				<i class="saveButton-spinner fa fa-2x fa-fw fa-circle-o-notch fa-spin"></i>
+				<loadingindicator></loadingindicator>
 				<p data-i18n="wall.commentsLoading"></p>
 			</li>
 			<comment data-ng-show="!post.commentsLoading" data-ng-repeat="comment in post.comments" comment="comment"></comment>

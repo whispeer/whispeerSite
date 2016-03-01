@@ -9,7 +9,7 @@
 		<button class="btn btn--gray" id="userView-loadMorePosts" data-ng-click="loadMorePosts()" data-ng-if="!loadingPosts && !endOfPosts" data-i18n="profile.section.wall.more"></button>
 	</div>
 	<div id="newsfeedView-loading" data-ng-show="loadingPosts">
-		<i class="saveButton-spinner fa fa-2x fa-fw fa-circle-o-notch fa-spin"></i>
+		<loadingindicator></loadingindicator>
 		<p class="large-text" data-i18n="profile.section.wall.loading"></p>
 	</div>
 </section>

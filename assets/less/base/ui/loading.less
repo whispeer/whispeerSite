@@ -32,25 +32,6 @@
 		}
 		z-index: 11;
 	}
-	#container {
-		&:before {
-			content: url('../img/loader.gif');
-			position: absolute;
-			width: 128px;
-			height: 128px;
-			right: 0;
-			left: 0;
-			top: 0;
-			bottom: 0;
-			margin: auto;
-			padding-top: 64px;
-			z-index: 11;
-			.box-fix;
-			@media @mobile {
-				margin: 60px auto;
-			}
-		}
-	}
 	.no-script {
 		z-index: 11;
 		position: absolute;
@@ -68,6 +49,26 @@
 		p:first-child {
 			margin: 1em;
 		}
+	}
+	#globalLoadingInidicator {
+		position: absolute;
+
+		top: 50%;
+		left: 50%;
+
+		margin-top: -10px;
+		margin-left: -50px;
+
+		z-index: 11;
+
+		width: 100px;
+
+		.loader-bounce {
+			width: 15px;
+			height: 15px;
+			margin: 2px;
+		}
+
 	}
 	#globalNotification {
 		width: 100%;
