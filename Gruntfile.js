@@ -324,7 +324,7 @@ grunt.task.registerMultiTask("includes", "Add the correct script include to the 
 		})[0];
 
 		return "<script src='" + scriptPath + "'></script>";
-	}).join("\n");
+	}).join("");
 
 	files.forEach(function (file) {
 		var fileContent = grunt.file.read(file);
