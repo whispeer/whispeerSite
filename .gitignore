@@ -15,6 +15,9 @@ codekit-config.json
 
 # generated files
 
+/assets/files.json
+/assets/commit.sha
+
 /assets/css
 /assets/fonts
 /assets/less/base/addons/font-awesome.min.less
