@@ -28,7 +28,7 @@
 			</div>
 		</div>
 		<post data-ng-repeat="post in currentTimeline.getPosts()" data-post="post" id="{{post.id}}" class="newsfeedView-post"></post>
-		<div id="newsfeedView-loading" data-ng-show="currentTimeline.loading || true">
+		<div id="newsfeedView-loading" data-ng-show="currentTimeline.loading">
 			<loadingindicator></loadingindicator>
 			<p class="large-text" data-i18n="wall.loading"></p>
 		</div>

@@ -6,7 +6,7 @@
 		<ul id="circleView-circleList" class="unstyled">
 			<div id="circleView-circleListScroll">
 				<li class="loadingSpinner" data-ng-if="loadingCircleList">
-					<i class="fa fa-circle-o-notch fa-2x fa-fw fa-spin"></i>
+					<loadingindicator></loadingindicator>
 					<p data-i18n="views.circles.loadingCircles"></p>
 				</li>
 				<li data-ng-repeat="circle in circles" id="circle-{{circle.id}}" class="circleView-circleList-item {{isActiveCircle(circle.id)?'circleView-circleList-item--active':''}}">
