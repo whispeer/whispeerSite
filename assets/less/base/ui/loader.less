@@ -5,12 +5,12 @@
 }
 
 .loader-bounce {
-	width: 15px;
-	height: 15px;
+	width: 10px;
+	height: 10px;
 
 	border-radius: 100%;
 	display: inline-block;
-	animation: sk-bouncedelay 1.4s infinite ease-in-out both;
+	animation: loader-bounce 1.4s infinite ease-in-out both;
 }
 
 .loader-black .loader-bounce {
@@ -29,7 +29,7 @@
 	animation-delay: -0.16s;
 }
 
-@keyframes sk-bouncedelay {
+@keyframes loader-bounce {
 	0%, 80%, 100% {
 		-webkit-transform: scale(0);
 		transform: scale(0);
