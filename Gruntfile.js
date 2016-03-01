@@ -391,9 +391,11 @@ grunt.task.registerTask("workerCache", "Write worker cache and commit sha", func
 		"en/login",
 		"de/login",
 
+		"assets/views/directives/saveButton.html",
+
 		"assets/js/b2c.js",
 		"assets/css/b2c.css",
-		"assets/css/static.css"
+		"assets/css/static.css",
 	];
 
 	var indexRedirects = [
