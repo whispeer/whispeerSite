@@ -63,7 +63,7 @@ grunt.initConfig({
 			options: extend({}, baseConfig, {
 				out: "assets/js/build/lib.js",
 
-				optimize: "none",
+				optimize: "uglify2",
 
 				include: ["requirejs"].concat(libs).concat(configJson),
 
