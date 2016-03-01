@@ -11,6 +11,6 @@ define(["config"], function (config) {
 				console.log("ServiceWorker registration failed: ", err);
 			});
 		} else {
-			console.log("Service worker disabled: " + config.serviceWorker.enabled);
+			console.log("Service worker enabled: " + config.serviceWorker.enabled);
 		}
 });
