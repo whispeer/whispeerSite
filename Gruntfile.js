@@ -388,6 +388,9 @@ grunt.task.registerTask("workerCache", "Write worker cache and commit sha", func
 
 		"assets/images/videoThumb.jpg",
 
+		"en/login",
+		"de/login",
+
 		"assets/js/b2c.js",
 		"assets/css/b2c.css",
 		"assets/css/static.css"
