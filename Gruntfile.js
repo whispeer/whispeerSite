@@ -375,7 +375,12 @@ grunt.task.registerTask("workerCache", "Write worker cache and commit sha", func
 		"assets/js/i18n/l_en.json",
 		"assets/js/i18n/l_de.json",
 
-		"assets/fonts/fontawesome-webfont.woff2?v=4.3.0"
+		"assets/fonts/fontawesome-webfont.woff2?v=4.3.0",
+
+		"en",
+		"de",
+		"en/loginframe",
+		"de/loginframe",
 	];
 
 	var indexRedirects = [
@@ -403,6 +408,12 @@ grunt.task.registerTask("workerCache", "Write worker cache and commit sha", func
 			return grunt.file.expand(cacheFile);
 		})).map(function (cacheFile) {
 			return "/" + cacheFile;
+		}),
+		redirect: indexRedirects.map(function (redir) {
+			return {
+				from: "/" + redir + "(\/.*)?$",
+				to: "index.html"
+			};
 		})
 	};
 

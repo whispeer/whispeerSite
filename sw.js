@@ -2,15 +2,6 @@
 
 "use strict";
 
-/*
-	install: load current commit hash and files config -> add to db
-	fetch:
-		- maybe update if not updated or old
-		- 
-		- get files list from cache
-	store meta data in cache
-*/
-
 self.importScripts("/assets/js/bower/bluebird/js/browser/bluebird.js");
 
 var CACHEPREFIX = "whispeer-";
@@ -21,22 +12,8 @@ var CACHEFILENAME = "cacheMetaData.json";
 
 var UPDATEINTERVAL = 5 * 1000;
 
-function getLatestCache() {
-	return caches.keys().then(function (keys) {
-		keys = keys.filter(function (key) {
-			return isOurCacheName(key);
-		});
-
-		if (keys.length === 1) {
-			return caches.open(keys[0]);
-		}
-
-		throw new Error("no cache found :(");
-	});
-}
-
-function hashToCacheName(hash) {
-	return CACHEPREFIX + hash;
+function isOurCacheName(name) {
+	return name.indexOf(CACHEPREFIX) === 0;
 }
 
 function getAndCache(cache, url) {
@@ -57,16 +34,43 @@ function getAndCache(cache, url) {
 	});
 }
 
+function getCacheInfo(cache) {
+	return getAndCache(cache, FILESCONFIGURL).then(function (response) {
+		return response.json();
+	}).then(function (filesConfig) {
+		return {
+			cache: cache,
+			filesConfig: filesConfig
+		};
+	});
+}
+
+function getLatestCache() {
+	return caches.keys().then(function (keys) {
+		keys = keys.filter(function (key) {
+			return isOurCacheName(key);
+		});
+
+		if (keys.length === 1) {
+			return caches.open(keys[0]);
+		}
+
+		throw new Error("no cache found :(");
+	}).then(function (cache) {
+		return getCacheInfo(cache);
+	});
+}
+
+function hashToCacheName(hash) {
+	return CACHEPREFIX + hash;
+}
+
 function timestamp() {
 	return new Date().getTime();
 }
 
 function storeMetaData(cache, metaData) {
 	return cache.put(CACHEFILENAME, new Response(JSON.stringify(metaData)));
-}
-
-function isOurCacheName(name) {
-	return name.indexOf(CACHEPREFIX) === 0;
 }
 
 function getMetaData(cache) {
@@ -152,7 +156,9 @@ function loadIfNewer(hashCacheName) {
 			return caches.delete(cacheName);
 		});
 	}).then(function () {
-		return caches.open(hashCacheName);
+		return caches.open(hashCacheName).then(function (cache) {
+			return getCacheInfo(cache);
+		});
 	}).catch(function (e) {
 		console.log("Update failed! " + hashCacheName);
 		console.log(e);
@@ -195,13 +201,22 @@ function getCurrentCache() {
 
 self.addEventListener("fetch", function(event) {
 	event.respondWith(
-		getCurrentCache().then(function (cache) {
-			if (!cache) {
+		getCurrentCache().then(function (cacheData) {
+			if (!cacheData) {
 				console.log("No cache loaded");
 				return false;
 			}
 
-			return cache.match(event.request);
+			console.log(cacheData);
+			console.log(event.request.url);
+
+			var redirect = cacheData.filesConfig.redirect.filter(function (redir) {
+				return event.request.url.match(new RegExp(redir.from));
+			});
+
+			console.warn(redirect);
+
+			return cacheData.cache.match(event.request);
 		}).then(function(response) {
 			if (response) {
 				return response;
