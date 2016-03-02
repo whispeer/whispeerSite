@@ -4,6 +4,13 @@ lang: de
 title: Versionshistorie
 ---
 
+## 0.2.20
+
+* besseres Caching
+* Neue Ladeanimation
+* Spendenseite ohne Login
+* Bugfix in der Verifizierung von anderen Nutzern
+
 ## 0.2.19
 
 * Neues Design der AGB/Impressum/Datenschutz Seite
