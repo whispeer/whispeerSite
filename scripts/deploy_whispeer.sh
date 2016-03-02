@@ -22,6 +22,7 @@ sudo mkdir whispeer
 sudo ln -s ../whispeer-build whispeer/oldBuild
 
 sudo cp /home/nilos/whispeer-deploy/index.html /var/www/whispeer
+sudo cp /home/nilos/whispeer-deploy/sw.js /var/www/whispeer
 sudo cp -r /home/nilos/whispeer-deploy/assets /var/www/whispeer
 sudo cp -r /home/nilos/whispeer-deploy/static /var/www/whispeer
 sudo cp -r /home/nilos/whispeer-app/versions /var/www/whispeer/app
