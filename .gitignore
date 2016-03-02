@@ -1,6 +1,7 @@
 # temporary files and logs
 
 *.DS_STORE
+*.DS_Store
 *.cmd
 *.log
 *complexity.txt
