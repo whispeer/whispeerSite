@@ -5,7 +5,7 @@
 define(["step", "whispeerHelper", "asset/state", "controllers/controllerModule"], function (step, h, State, controllerModule) {
 	"use strict";
 
-	function mainController($scope, cssService, postService, ImageUploadService, filterService, localize, settingsService, errorService) {
+	function mainController($scope, $stateParams, cssService, postService, ImageUploadService, filterService, localize, settingsService, errorService) {
 		cssService.setClass("mainView");
 
 		$scope.postActive = false;
@@ -61,7 +61,7 @@ define(["step", "whispeerHelper", "asset/state", "controllers/controllerModule"]
 					$scope.filterSelection = ["always:allfriends"];
 				}
 
-				$scope.currentTimeline = postService.getTimeline($scope.filterSelection);
+				$scope.currentTimeline = postService.getTimeline($scope.filterSelection, $stateParams.sortByCommentTime);
 				$scope.currentTimeline.loadInitial(this);
 			}, cb || errorService.criticalError);
 		}
@@ -69,7 +69,7 @@ define(["step", "whispeerHelper", "asset/state", "controllers/controllerModule"]
 		reloadTimeline();
 	}
 
-	mainController.$inject = ["$scope", "ssn.cssService", "ssn.postService", "ssn.imageUploadService", "ssn.filterService", "localize", "ssn.settingsService", "ssn.errorService"];
+	mainController.$inject = ["$scope", "$stateParams", "ssn.cssService", "ssn.postService", "ssn.imageUploadService", "ssn.filterService", "localize", "ssn.settingsService", "ssn.errorService"];
 
 	controllerModule.controller("ssn.mainController", mainController);
 });
