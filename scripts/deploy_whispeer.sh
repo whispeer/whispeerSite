@@ -8,7 +8,6 @@ cd ..
 
 rm -rf whispeer-deploy
 cp -r whispeer whispeer-deploy
-cp config.js ./whispeer-deploy/assets/js/
 cd whispeer-deploy
 
 jekyll build
