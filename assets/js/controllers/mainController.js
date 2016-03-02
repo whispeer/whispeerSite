@@ -41,6 +41,19 @@ define(["step", "whispeerHelper", "asset/state", "controllers/controllerModule"]
 			// TODO: Save for later
 		};
 
+		$scope.sortType = "timeSort";
+		$scope.sortIcon = "fa-newspaper-o"
+
+		$scope.toggleSort = function() {
+			if($scope.sortType === "commentSort") {
+				$scope.sortType = "timeSort";
+				$scope.sortIcon = "fa-newspaper-o"
+			} else {
+				$scope.sortType = "commentSort";
+				$scope.sortIcon = "fa-comment"
+			}
+		}
+
 		$scope.togglePost = function() {
 			$scope.postActive = !$scope.postActive;
 		};

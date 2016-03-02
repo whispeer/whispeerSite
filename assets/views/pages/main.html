@@ -2,11 +2,31 @@
 	<header id="newsfeedView-wall-header">
 		<h1 id="newsfeedView-wall-header-title" data-i18n="menu.newsfeed"></h1>
 		<newpost data-input-i18n-attr="wall.postit.text|placeholder"></newpost>
-		<div class="post" id="newsfeedView-filterForm">
-			<h3 class="h1-noMarginTop" data-i18n="wall.filter.title"></h3>
-			<div data-ng-class="{'annotatedInput-container annotatedInput-container--button': !mobile, 'inputSandwich': mobile}">
-				<search data-multiple class="hideScroll" data-ng-class="{'annotatedInput-input annotatedInput-input--float': !mobile, 'inputSandwich-top': mobile}" data-supplier="filterSearchSupplier" data-search-template="filter" data-input-i18n-attr="wall.filter.placeholder|placeholder" data-callback="setTimelineFilter(selected)" data-initial-values="getFiltersByID(filterSelection)" data-base="filter"></search>
-				<button class="btn btn--primary" data-ng-class="{'annotatedInput-button': !mobile, 'inputSandwich-bottom': mobile}" data-ng-click="applyFilter()"><i class="fa fa-filter fa-fw"></i><span data-i18n="wall.filter.save"></span></button>
+		<div class="post" id="newsfeedView-filterAndSort">
+			<div id="newsfeedView-filterForm">
+				<h3 class="h1-noMarginTop" data-i18n="wall.filter.title"></h3>
+				<div data-ng-class="{'annotatedInput-container annotatedInput-container--button': !mobile, 'inputSandwich': mobile}">
+					<search data-multiple class="hideScroll" data-ng-class="{'annotatedInput-input annotatedInput-input--float': !mobile, 'inputSandwich-top': mobile}" data-supplier="filterSearchSupplier" data-search-template="filter" data-input-i18n-attr="wall.filter.placeholder|placeholder" data-callback="setTimelineFilter(selected)" data-initial-values="getFiltersByID(filterSelection)" data-base="filter"></search>
+					<button class="btn btn--primary" data-ng-class="{'annotatedInput-button': !mobile, 'inputSandwich-bottom': mobile}" data-ng-click="applyFilter()"><i class="fa fa-filter fa-fw"></i><span data-i18n="wall.filter.save"></span></button>
+				</div>
+			</div>
+			<div id="newsfeedView-sortForm">
+				<h3 id="newsfeedView-sortForm-header">Posts Sortieren</h3>
+				<button class="btn btn--primary" id="newsfeedView-sortForm-button" data-ng-click="toggleSort()">
+					<i class="fa" data-ng-class="sortIcon"></i>
+					<span data-i18n="wall.sort.{{sortType}}"></span>
+				</button>
+<!-- 				<div class="dropdown" id="newsfeedView-sortForm-dropdown">
+					<div class="dropdown-header">
+						<span class="dropdown-header-title" id="newsfeedView-sortForm-dropdown-title"></span>
+						<div class="dropdown-header-close">
+							<i class="fa fa-fw fa-times-circle"></i>
+						</div>
+					</div>
+					<ul class="dropdown-container u-unstyled">
+						<li class="newsfeedView-sortForm-dropdown-item"></li>
+					</ul>
+				</div> -->
 			</div>
 		</div>
 	</header>

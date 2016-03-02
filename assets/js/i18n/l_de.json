@@ -342,6 +342,10 @@
 			"placeholder": "Wessen Posts möchtest du im News-Feed sehen?",
 			"save":	"Filter anwenden"
 		},
+		"sort": {
+			"timeSort": "Neueste Posts",
+			"commentSort": "Neueste Kommentare"
+		},
 		"info": {
 			"with": "Mit {name}",
 			"awesome":	"Awesomeness: {count}",
