@@ -41,18 +41,15 @@ define(["step", "whispeerHelper", "asset/state", "controllers/controllerModule"]
 			// TODO: Save for later
 		};
 
-		$scope.sortType = "timeSort";
-		$scope.sortIcon = "fa-newspaper-o"
+		$scope.sortByCommentTime = $stateParams.sortByCommentTime;
+		$scope.sortType = $scope.sortByCommentTime ? "timeSort" : "commentSort";
+		$scope.sortIcon = "fa-newspaper-o";
 
 		$scope.toggleSort = function() {
-			if($scope.sortType === "commentSort") {
-				$scope.sortType = "timeSort";
-				$scope.sortIcon = "fa-newspaper-o"
-			} else {
-				$scope.sortType = "commentSort";
-				$scope.sortIcon = "fa-comment"
-			}
-		}
+			$scope.sortByCommentTime = !$scope.sortByCommentTime;
+
+			reloadTimeline();
+		};
 
 		$scope.togglePost = function() {
 			$scope.postActive = !$scope.postActive;
@@ -74,7 +71,7 @@ define(["step", "whispeerHelper", "asset/state", "controllers/controllerModule"]
 					$scope.filterSelection = ["always:allfriends"];
 				}
 
-				$scope.currentTimeline = postService.getTimeline($scope.filterSelection, $stateParams.sortByCommentTime);
+				$scope.currentTimeline = postService.getTimeline($scope.filterSelection, $scope.sortByCommentTime);
 				$scope.currentTimeline.loadInitial(this);
 			}, cb || errorService.criticalError);
 		}

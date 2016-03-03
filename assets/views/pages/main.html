@@ -12,9 +12,13 @@
 			</div>
 			<div id="newsfeedView-sortForm">
 				<h3 id="newsfeedView-sortForm-header">Posts Sortieren</h3>
-				<button class="btn btn--primary" id="newsfeedView-sortForm-button" data-ng-click="toggleSort()">
-					<i class="fa" data-ng-class="sortIcon"></i>
-					<span data-i18n="wall.sort.{{sortType}}"></span>
+				<button class="btn btn--primary" id="newsfeedView-sortForm-button" data-ng-click="toggleSort()" data-ng-show="!sortByCommentTime">
+					<i class="fa fa-comment"></i>
+					<span data-i18n="wall.sort.commentSort"></span>
+				</button>
+				<button class="btn btn--primary" id="newsfeedView-sortForm-button" data-ng-click="toggleSort()" data-ng-if="sortByCommentTime">
+					<i class="fa fa-newspaper-o"></i>
+					<span data-i18n="wall.sort.timeSort"></span>
 				</button>
 <!-- 				<div class="dropdown" id="newsfeedView-sortForm-dropdown">
 					<div class="dropdown-header">
