@@ -41,7 +41,7 @@ define(["step", "whispeerHelper", "asset/state", "controllers/controllerModule"]
 			// TODO: Save for later
 		};
 
-		$scope.sortByCommentTime = $stateParams.sortByCommentTime;
+		$scope.sortByCommentTime = $stateParams.sortByCommentTime || false;
 		$scope.sortType = $scope.sortByCommentTime ? "timeSort" : "commentSort";
 		$scope.sortIcon = "fa-newspaper-o";
 
