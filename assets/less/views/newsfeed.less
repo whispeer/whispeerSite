@@ -175,6 +175,11 @@
 	margin-bottom: 0.5rem;
 	width: 100%;
 	flex-shrink: 1;
+
+	@media @desktop {
+		width: ~"calc(100% - 200px - 1rem)";
+	}
+
 	@media @mobile {
 		flex-shrink: 0;
 		margin-bottom: 0;
@@ -195,9 +200,9 @@
 	}
 }
 #newsfeedView-sortForm-button {
+	width: 100%;
 	margin-top: 2px;
 	@media @mobile {
-		width: 100%;
 		margin: 0;
 	}
 }
