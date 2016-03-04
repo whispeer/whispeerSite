@@ -297,7 +297,7 @@ grunt.initConfig({
 		prod: {}
 	},
 	clean: {
-		build: ["assets/js/build/*.js", "manifest.mf"]
+		build: ["assets/js/build/*.js", "manifest.mf", "assets/commit.sha", "assets/files.json"]
 	}
 });
 
