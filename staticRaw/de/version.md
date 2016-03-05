@@ -4,6 +4,10 @@ lang: de
 title: Versionshistorie
 ---
 
+## 0.2.21
+
+* Newsfeed nach "zuletzt kommentiert" sortieren hinzugefügt
+
 ## 0.2.20
 
 * besseres Caching
