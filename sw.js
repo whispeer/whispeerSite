@@ -220,6 +220,9 @@ self.addEventListener("fetch", function(event) {
 			}
 
 			return cacheData.cache.match(event.request);
+		}).catch(function (e) {
+			console.warn(e);
+			return false;
 		}).then(function(response) {
 			if (response) {
 				return response;
