@@ -344,6 +344,10 @@
 			"placeholder": "Whose posts do you want to see in the Newsfeed?",
 			"save":	"Apply Filter"
 		},
+		"sort": {
+			"timeSort": "Newest Posts",
+			"commentSort": "Newest Comments"
+		},
 		"info": {
 			"with": "with {name}",
 			"awesome":	"Awesomeness: {count}",

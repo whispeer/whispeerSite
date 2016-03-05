@@ -164,9 +164,67 @@
 #newsfeedView-posts {
 	width: 100%;
 }
+#newsfeedView-filterAndSort {
+	display: flex;
+	@media @mobile {
+		flex-wrap: wrap;
+	}
+}
 #newsfeedView-filterForm {
 	margin-top: 2px;
 	margin-bottom: 0.5rem;
+	width: 100%;
+	flex-shrink: 1;
+
+	@media @desktop {
+		width: ~"calc(100% - 200px - 1rem)";
+	}
+
+	@media @mobile {
+		flex-shrink: 0;
+		margin-bottom: 0;
+	}
+}
+#newsfeedView-sortForm {
+	width: 200px;
+	flex-shrink: 0;
+	margin: 0 0 0 1rem;
+	@media @mobile {
+		width: 100%;
+		margin: 0;
+	}
+}
+#newsfeedView-sortForm-header {
+	@media @desktop {
+		margin-top: 0;
+	}
+}
+#newsfeedView-sortForm-button {
+	width: 100%;
+	margin-top: 2px;
+	@media @mobile {
+		margin: 0;
+	}
+}
+#newsfeedView-sortForm-dropdown {
+	width: 197px;
+}
+#newsfeedView-sortForm-dropdown-title {
+	padding-left: 0.5em;
+}
+.newsfeedView-sortForm-dropdown-item {
+	padding: 0 0.25em;
+	height: 50px;
+	line-height: 49px;
+	border-bottom: 1px solid #ccc;
+	cursor: pointer;
+
+	&:hover {
+		background: fade(@grayLighter, 40%);
+	}
+	&:last-child {
+		border-bottom: none;
+	}
 }
 #newsfeedView-loading {
 	width: 100%;

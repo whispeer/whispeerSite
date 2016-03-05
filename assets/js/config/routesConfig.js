@@ -28,10 +28,15 @@ define(["app"], function (app) {
 
 		addMain("setup");
 		addMain("backup");
-		addMain("main");
 		addMain("friends");
 		addMain("acceptInvite");
 		addMain("search");
+
+		$stateProvider.state("app.main", {
+			url: "/main?sortByCommentTime",
+			templateUrl: "assets/views/pages/main.html",
+			controller: "ssn.mainController"
+		});
 
 		$stateProvider.state("app.post", {
 			url: "/post/{postID:[1-9][0-9]*}",

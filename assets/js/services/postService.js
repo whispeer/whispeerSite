@@ -253,47 +253,13 @@ define(["step", "whispeerHelper", "bluebird", "validation/validator", "services/
 			}), cb);
 		}
 
-		function registerNewPosts(filter) {
-			var filterObject = TimelineByFilter[JSON.stringify(filter)];
-
-			function loadNewPosts() {
-				step(function () {
-					var beforeID = 0;
-					if (filterObject.result.length > 0) {
-						beforeID = filterObject.result[0].id;
-					}
-
-					socket.emit("posts.getNewestTimeline", {
-						filter: filter,
-						beforeID: beforeID,
-						lastRequestTime: filterObject.requested
-					}, this);
-				}, h.sF(function (data) {
-					if (data.posts) {
-						var newPosts = data.posts.map(function (thePost) {
-							thePost = makePost(thePost);
-							thePost.loadData(this.parallel());
-
-							return thePost.data;
-						}, this);
-
-						filterObject.requested = socket.lastRequestTime();
-
-						newPosts.reverse().map(function (e) {
-							filterObject.result.unshift(e);
-						});
-					}
-				}));
-			}
-
-			window.setInterval(loadNewPosts, 5*60*1000);
-		}
-
-		var Timeline = function (filter) {
+		var Timeline = function (filter, sortByCommentTime) {
 			this._filter = filter;
 			this._posts = [];
 			this._postsData = [];
 			this._requested = 0;
+
+			this._sortByCommentTime = sortByCommentTime;
 
 			this.loading = false;
 			this.loaded = false;
@@ -306,40 +272,6 @@ define(["step", "whispeerHelper", "bluebird", "validation/validator", "services/
 		Timeline.prototype.removePost = function (thePost) {
 			this._posts = h.removeArray(this._posts, thePost);
 			this._postsData = h.removeArray(this._postsData, thePost.data);
-		};
-
-		Timeline.prototype._loadNewestPosts = function () {
-			if (this._posts.length === 0) {
-				return;
-			}
-
-			var that = this;
-			step(function () {
-				that._expandFilter(this);
-			}, h.sF(function () {
-				var beforeID = that._getNewestID();
-
-				socket.emit("posts.getNewestTimeline", {
-					filter: that._expandedFilter,
-					beforeID: beforeID,
-					lastRequestTime: that._requested
-				}, this);
-			}), h.sF(function (data) {
-				if (data.posts) {
-					var newPosts = data.posts.map(function (thePost) {
-						thePost = makePost(thePost);
-						thePost.loadData(this.parallel());
-
-						return thePost.data;
-					}, this);
-
-					that._requested = socket.lastRequestTime();
-
-					newPosts.reverse().map(function (e) {
-						that._posts.unshift(e);
-					});
-				}
-			}), errorService.criticalError);
 		};
 
 		Timeline.prototype.getNewestID = function () {
@@ -419,6 +351,7 @@ define(["step", "whispeerHelper", "bluebird", "validation/validator", "services/
 				socket.emit("posts.getTimeline", {
 					afterID: that.getOldestID(),
 					filter: that._finalFilter,
+					sortByCommentTime: that._sortByCommentTime,
 					count: screenSize.mobile ? 10 : 20
 				}, this);
 			}), h.sF(function (results) {
@@ -461,12 +394,12 @@ define(["step", "whispeerHelper", "bluebird", "validation/validator", "services/
 		};
 
 		var postService = {
-			getTimeline: function (filter) {
+			getTimeline: function (filter, sortByCommentTime) {
 				filter.sort();
 
-				var filterString = JSON.stringify(filter);
+				var filterString = JSON.stringify(filter) + "-" + sortByCommentTime;
 				if (!timelinesCache[filterString]) {
-					timelinesCache[filterString] = new Timeline(filter);	
+					timelinesCache[filterString] = new Timeline(filter, sortByCommentTime);	
 				}
 
 				return timelinesCache[filterString];
