@@ -426,12 +426,12 @@ grunt.task.registerTask("workerCache", "Write worker cache and commit sha", func
 		}),
 		redirect: indexRedirects.map(function (redir) {
 			return {
-				from: "^((?!assets).)*/" + redir + "(\/.*)?$",
+				from: "^/[^/]*/" + redir + "(\/.*)?$",
 				to: "index.html"
 			};
 		}).concat([
 			{
-				from: "/en/$",
+				from: "^/en/$",
 				to: "/en"
 			},
 			{

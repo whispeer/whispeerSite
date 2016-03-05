@@ -210,7 +210,8 @@ self.addEventListener("fetch", function(event) {
 			}
 
 			var redirect = cacheData.filesConfig.redirect.filter(function (redir) {
-				return event.request.url.match(new RegExp(redir.from));
+				var path = event.request.url.match(/^.*?:\/\/.*?(\/.*)$/)[1];
+				return path.match(new RegExp(redir.from));
 			});
 
 			if (redirect.length === 1) {
