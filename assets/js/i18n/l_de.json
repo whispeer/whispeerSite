@@ -344,7 +344,7 @@
 		},
 		"sort": {
 			"timeSort": "Neueste Posts",
-			"commentSort": "Neueste Kommentare"
+			"commentSort": "Neueste Interaktionen"
 		},
 		"info": {
 			"with": "Mit {name}",
