@@ -41,15 +41,20 @@ define(["step", "whispeerHelper", "asset/state", "controllers/controllerModule"]
 			// TODO: Save for later
 		};
 
-		$scope.sortByCommentTime = $stateParams.sortByCommentTime === "true";
+		$scope.sortByCommentTime = $stateParams.sortByCommentTime === "true" || settingsService.getBranch("sortByCommentTime");
 		$scope.sortIcon = "fa-newspaper-o";
 
 		$scope.toggleSort = function() {
-			$scope.sortByCommentTime = !$scope.sortByCommentTime;
+			step(function () {
+				$scope.sortByCommentTime = !$scope.sortByCommentTime;
 
-			$state.go(".", { sortByCommentTime: $scope.sortByCommentTime  }, { reload: false });
+				settingsService.updateBranch("sortByCommentTime", $scope.sortByCommentTime);
 
-			reloadTimeline();
+				$state.go(".", { sortByCommentTime: $scope.sortByCommentTime  }, { reload: false });
+
+				reloadTimeline(this.parallel());
+				settingsService.uploadChangedData(this.parallel());
+			}, errorService.criticalError);
 		};
 
 		$scope.togglePost = function() {
