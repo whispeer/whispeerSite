@@ -398,6 +398,11 @@ define(["step", "whispeerHelper", "bluebird", "validation/validator", "services/
 				filter.sort();
 
 				var filterString = JSON.stringify(filter) + "-" + sortByCommentTime;
+
+				if (sortByCommentTime) {
+					delete timelinesCache[filterString];
+				}
+
 				if (!timelinesCache[filterString]) {
 					timelinesCache[filterString] = new Timeline(filter, sortByCommentTime);	
 				}
