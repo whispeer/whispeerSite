@@ -35,7 +35,8 @@ define(["app"], function (app) {
 		$stateProvider.state("app.main", {
 			url: "/main?sortByCommentTime",
 			templateUrl: "assets/views/pages/main.html",
-			controller: "ssn.mainController"
+			controller: "ssn.mainController",
+			reloadOnSearch: false
 		});
 
 		$stateProvider.state("app.post", {
