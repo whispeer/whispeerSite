@@ -4,6 +4,11 @@ lang: de
 title: Versionshistorie
 ---
 
+## 0.2.22
+
+* Newsfeed Sortierung wird gespeichert
+* Sortieroption klarer formuliert
+
 ## 0.2.21
 
 * Newsfeed nach "zuletzt kommentiert" sortieren hinzugefügt
