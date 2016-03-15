@@ -105,7 +105,6 @@ define(["step", "whispeerHelper", "services/serviceModule", "bluebird", "asset/o
 				console.timeEnd("init");
 				migrationService();
 				initService.notify("", "initDone");
-				$rootScope.$broadcast("ssn.ownLoaded");
 			}).catch(errorService.criticalError);
 		}
 
