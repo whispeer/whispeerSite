@@ -10,7 +10,7 @@ var COMMITHASHURL = "/assets/commit.sha";
 
 var CACHEFILENAME = "cacheMetaData.json";
 
-var UPDATEINTERVAL = 5 * 1000;
+var UPDATEINTERVAL = 60 * 1000;
 
 function isOurCacheName(name) {
 	return name.indexOf(CACHEPREFIX) === 0;
