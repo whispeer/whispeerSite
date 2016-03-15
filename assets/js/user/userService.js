@@ -278,13 +278,14 @@ define(["step", "whispeerHelper", "user/userModule", "asset/observer", "crypto/s
 
 		Observer.call(userService);
 
-		initService.get("user.get", function () {
-			return sessionService.getUserID();
-		}, function (data, cb) {
-			var user;
-			step(function () {
-				user = makeUser(data);
-
+		initService.registerCallback(function () {
+			return socketService.awaitConnection().then(function () {
+				return socketService.emit("user.get", {
+					id: sessionService.getUserID()
+				});
+			}).then(function (data) {
+				return makeUser(data);
+			}).then(function (user) {
 				var identifier = user.getNickOrMail();
 
 				keyStoreService.setKeyGenIdentifier(identifier);
@@ -296,15 +297,16 @@ define(["step", "whispeerHelper", "user/userModule", "asset/observer", "crypto/s
 				ownUserStatus.verifyOwnKeysDoneResolve();
 				delete ownUserStatus.verifyOwnKeysDoneResolve;
 
-				step.unpromisify(signatureCache.awaitLoading(), this);
-			}, h.sF(function () {
-				user.verifyKeys(this);
-			}), h.sF(function () {
+				return signatureCache.awaitLoading().then(function () {
+					return user;
+				});
+			}).then(function (user) {
+				var verifyKeys = Bluebird.promisify(user.verifyKeys, user);
+				return verifyKeys();
+			}).then(function () {
 				ownUserStatus.loadedResolve();
 				delete ownUserStatus.loadedResolve;
-
-				this.ne();
-			}), cb);
+			});
 		});
 
 		$rootScope.$on("ssn.reset", function () {
