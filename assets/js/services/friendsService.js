@@ -378,9 +378,6 @@ define(["step", "whispeerHelper", "asset/observer", "asset/securedDataWithMetaDa
 
 				return onlineFriends[uid] || 0;
 			},
-			setOnline: function (online) {
-				onlineFriends = online;
-			},
 			reset: function () {
 				friends = [];
 				requests = [];
