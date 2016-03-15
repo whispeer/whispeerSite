@@ -1,9 +1,16 @@
-define(["step", "whispeerHelper", "user/userModule", "asset/observer", "crypto/signatureCache"], function (step, h, userModule, Observer, signatureCache) {
+define(["step", "whispeerHelper", "user/userModule", "asset/observer", "crypto/signatureCache", "bluebird"], function (step, h, userModule, Observer, signatureCache, Bluebird) {
 	"use strict";
 
 	var service = function ($rootScope, User, errorService, initService, socketService, keyStoreService, sessionService) {
-		var userService, knownIDs = [], users = {}, loading = {};
+		var userService, knownIDs = [], users = {}, loading = {}, ownUserStatus = {};
 
+		ownUserStatus.verifyOwnKeysDone = new Bluebird(function (resolve) {
+			ownUserStatus.verifyOwnKeysDoneResolve = resolve;
+		});
+
+		ownUserStatus.loaded = new Bluebird(function (resolve) {
+			ownUserStatus.loadedResolve = resolve;
+		});
 
 		var name = "Deleted user"; //localize("user.deleted", {});
 		var NotExistingUser = function (identifier) {
@@ -227,6 +234,14 @@ define(["step", "whispeerHelper", "user/userModule", "asset/observer", "crypto/s
 				}), cb);
 			},
 
+			verifyOwnKeysDone: function () {
+				return ownUserStatus.verifyOwnKeysDone;
+			},
+
+			ownLoaded: function () {
+				return ownUserStatus.loaded;
+			},
+
 			/** get own user. synchronous */
 			getown: function getownF() {
 				return users[sessionService.getUserID()];
@@ -277,13 +292,19 @@ define(["step", "whispeerHelper", "user/userModule", "asset/observer", "crypto/s
 				keyStoreService.sym.registerMainKey(user.getMainKey());
 
 				user.verifyOwnKeys();
-				userService.notify(user, "ownEarly");
+
+				ownUserStatus.verifyOwnKeysDoneResolve();
+				delete ownUserStatus.verifyOwnKeysDoneResolve;
 
 				signatureCache.listen(this.ne, "loaded");
 			}, h.sF(function () {
 				user.verifyKeys(this);
-			}), cb);
+			}), h.sF(function () {
+				ownUserStatus.loadedResolve();
+				delete ownUserStatus.loadedResolve;
 
+				this.ne();
+			}), cb);
 		}, { priorized: true });
 
 		$rootScope.$on("ssn.reset", function () {
