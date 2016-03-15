@@ -11,6 +11,15 @@ define(["config"], function (config) {
 				console.log("ServiceWorker registration failed: ", err);
 			});
 		} else {
+			navigator.serviceWorker.getRegistration("/").then(function(registration) {
+				if (registration) {
+					return registration.unregister();
+				}
+			}).then(function (unregistered) {
+				if (unregistered) {
+					console.info("unregistered service worker");
+				}
+			});
 			console.log("Service worker enabled: " + config.serviceWorker.enabled);
 		}
 });
