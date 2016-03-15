@@ -1,7 +1,7 @@
 /**
 * friendsService
 **/
-define(["step", "whispeerHelper", "asset/observer", "asset/securedDataWithMetaData", "services/serviceModule"], function (step, h, Observer, SecuredData, serviceModule) {
+define(["step", "whispeerHelper", "asset/observer", "asset/securedDataWithMetaData", "services/serviceModule", "bluebird"], function (step, h, Observer, SecuredData, serviceModule, Bluebird) {
 	"use strict";
 
 	/*
@@ -395,7 +395,9 @@ define(["step", "whispeerHelper", "asset/observer", "asset/securedDataWithMetaDa
 		initService.get("friends.all", undefined, friendsService.load);
 
 		initService.listen(function () {
-			socket.awaitConnection().delay(500).then(function () {
+			Bluebird.delay(500).then(function () {
+				return socket.awaitConnection();
+			}).then(function () {
 				return socket.emit("friends.getOnline", {});
 			}).then(function (data) {
 				h.objectEach(data.online, function (uid, status) {
