@@ -61,10 +61,8 @@ define(["step", "whispeerHelper", "services/serviceModule", "bluebird", "asset/o
 			});
 		}
 
-		function runCallbacksPriorized(initResponses, shouldBePriorized) {
-			return Bluebird.all(initResponses.filter(function (response) {
-				return (shouldBePriorized ? response.options.priorized : !response.options.priorized);
-			}).map(function (response) {
+		function runCallbacks(initResponses) {
+			return Bluebird.all(initResponses).map(function (response) {
 				var callback = Bluebird.promisify(response.callback);
 
 				if (response.options.cache) {
@@ -74,12 +72,6 @@ define(["step", "whispeerHelper", "services/serviceModule", "bluebird", "asset/o
 				}
 
 				return callback(response.data.content);
-			}));
-		}
-
-		function runCallbacks(initResponses) {
-			return runCallbacksPriorized(initResponses, true).then(function () {
-				return runCallbacksPriorized(initResponses, false);
 			});
 		}
 
@@ -122,7 +114,6 @@ define(["step", "whispeerHelper", "services/serviceModule", "bluebird", "asset/o
 		initService = {
 			/** get via api, also check cache in before!
 			* @param domain: domain to get from
-			* @param priorized: is this callback priorized?
 			*/
 			get: function (domain, id, cb, options) {
 				initRequestsList.push({

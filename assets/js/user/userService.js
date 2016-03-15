@@ -305,7 +305,7 @@ define(["step", "whispeerHelper", "user/userModule", "asset/observer", "crypto/s
 
 				this.ne();
 			}), cb);
-		}, { priorized: true });
+		});
 
 		$rootScope.$on("ssn.reset", function () {
 			userService.reset();
