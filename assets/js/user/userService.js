@@ -296,7 +296,7 @@ define(["step", "whispeerHelper", "user/userModule", "asset/observer", "crypto/s
 				ownUserStatus.verifyOwnKeysDoneResolve();
 				delete ownUserStatus.verifyOwnKeysDoneResolve;
 
-				signatureCache.listen(this.ne, "loaded");
+				step.unpromisify(signatureCache.awaitLoading(), this);
 			}, h.sF(function () {
 				user.verifyKeys(this);
 			}), h.sF(function () {
