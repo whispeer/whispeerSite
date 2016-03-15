@@ -241,22 +241,26 @@ define([
 			updateReadCount();
 		}, "unread");
 
-		initService.get("messages.getUnreadCount", undefined, function (data, cb) {
-			messageService.data.unread = h.parseDecimal(data.unread) || 0;
+		initService.listen(function () {
+			Bluebird.delay(500).then(function () {
+				return socket.awaitConnection();
+			}).then(function () {
+				return socket.emit("messages.getUnreadCount", {});
+			}).then(function (data) {
+				messageService.data.unread = h.parseDecimal(data.unread) || 0;
 
-			messageService.listen(function(m) {
-				if (!m.isOwn()) {
-					if (!messageService.isActiveTopic(m.getTopicID()) || !windowService.isVisible) {
-						windowService.playMessageSound();
-						windowService.sendLocalNotification("message", m.data);
+				messageService.listen(function(m) {
+					if (!m.isOwn()) {
+						if (!messageService.isActiveTopic(m.getTopicID()) || !windowService.isVisible) {
+							windowService.playMessageSound();
+							windowService.sendLocalNotification("message", m.data);
+						}
+
+						windowService.setAdvancedTitle("newmessage", m.data.sender.basic.shortname);
 					}
-
-					windowService.setAdvancedTitle("newmessage", m.data.sender.basic.shortname);
-				}
-			}, "message");
-
-			cb();
-		});
+				}, "message");
+			});
+		}, "initDone");
 
 		$rootScope.$on("ssn.reset", function () {
 			messageService.reset();
