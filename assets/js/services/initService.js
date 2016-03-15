@@ -84,7 +84,14 @@ define(["step", "whispeerHelper", "services/serviceModule", "bluebird", "asset/o
 		}
 
 		function loadData() {
-			socketService.awaitConnection().then(function () {
+			var runningInitCallbacks;
+			Bluebird.resolve().then(function () {
+				runningInitCallbacks = initCallbacks.map(function (initCallback) {
+					return initCallback();
+				});
+
+				return socketService.awaitConnection();
+			}).then(function () {
 				console.time("cacheInitGet");
 				return initRequestsList;
 			}).map(function (initRequest) {
@@ -101,6 +108,8 @@ define(["step", "whispeerHelper", "services/serviceModule", "bluebird", "asset/o
 				console.timeEnd("serverInitGet");
 				console.time("init");
 				return runCallbacks(initResponses);
+			}).then(function () {
+				return Bluebird.all(runningInitCallbacks);
 			}).then(function () {
 				console.timeEnd("init");
 				migrationService();
