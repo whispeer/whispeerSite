@@ -96,12 +96,14 @@ define(["step", "whispeerHelper", "crypto/encryptedData", "services/serviceModul
 			serverSettings = givenSettings.server || {};
 
 			step(function () {
+				step.unpromisify($injector.get("ssn.userService").ownLoaded(), this);
+			}, h.sF(function () {
 				if (givenSettings.ct) {
 					migrateToFormat2(givenSettings, this);
 				} else {
 					this.ne(SecuredData.load(givenSettings.content, givenSettings.meta, options));
 				}
-			}, h.sF(function (_settings) {
+			}), h.sF(function (_settings) {
 				settings = _settings;
 				api.decrypt(this);
 			}), h.sF(function () {

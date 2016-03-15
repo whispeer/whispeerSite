@@ -354,9 +354,11 @@ define(["step", "whispeerHelper", "asset/observer", "asset/securedDataWithMetaDa
 					if (!data.signedList) {
 						this.last.ne();
 					} else {
-						signedList.verify(userService.getown().getSignKey(), this, "user");
+						step.unpromisify(userService.verifyOwnKeysDone(), this);
 					}
 				}, h.sF(function () {
+					signedList.verify(userService.getown().getSignKey(), this, "user");
+				}), h.sF(function () {
 					var requestedOrFriends = signedList.metaKeys().map(h.parseDecimal);
 					requestedOrFriends.forEach(function (uid) {
 						keyStore.security.addEncryptionIdentifier(signedList.metaAttr(uid));

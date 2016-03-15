@@ -87,15 +87,17 @@ define(["step", "whispeerHelper", "crypto/trustManager", "crypto/signatureCache"
 		}
 
 		initService.get("trustManager.get", undefined, function (data, cache, cb) {
-			if (cache && data.content) {
-				loadCacheAndAddServer(cache.data, data.content, cb);
-			} else if (cache) {
-				loadDatabase(cache.data, cb);
-			} else if (data.content) {
-				loadDatabase(data.content, cb);
-			} else {
-				createTrustDatabase(cb);
-			}
+			userService.verifyOwnKeysDone().then(function () {
+				if (cache && data.content) {
+					loadCacheAndAddServer(cache.data, data.content, cb);
+				} else if (cache) {
+					loadDatabase(cache.data, cb);
+				} else if (data.content) {
+					loadDatabase(data.content, cb);
+				} else {
+					createTrustDatabase(cb);
+				}
+			});
 		}, {
 			cache: true
 		});
