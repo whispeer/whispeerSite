@@ -297,9 +297,7 @@ define(["step", "whispeerHelper", "user/userModule", "asset/observer", "crypto/s
 				ownUserStatus.verifyOwnKeysDoneResolve();
 				delete ownUserStatus.verifyOwnKeysDoneResolve;
 
-				return signatureCache.awaitLoading().then(function () {
-					return user;
-				});
+				return signatureCache.awaitLoading().thenReturn(user);
 			}).then(function (user) {
 				var verifyKeys = Bluebird.promisify(user.verifyKeys, user);
 				return verifyKeys();
