@@ -388,7 +388,7 @@ define(["step", "whispeerHelper", "asset/observer", "asset/securedDataWithMetaDa
 				ignored = [];
 				removed = [];
 				deleted = [];
-				onlineFriends = [];
+				onlineFriends = {};
 			},
 			data: friendsData
 		};
@@ -397,10 +397,15 @@ define(["step", "whispeerHelper", "asset/observer", "asset/securedDataWithMetaDa
 
 		initService.get("friends.all", undefined, friendsService.load);
 
-		initService.get("friends.getOnline", undefined, function (data, cb) {
-			friendsService.setOnline(data.online);
-			cb();
-		});
+		initService.listen(function () {
+			socket.awaitConnection().delay(500).then(function () {
+				return socket.emit("friends.getOnline", {});
+			}).then(function (data) {
+				h.objectEach(data.online, function (uid, status) {
+					userOnline(uid, status);
+				});
+			});
+		}, "initDone");
 
 		$rootScope.$on("ssn.reset", function () {
 			friendsService.reset();

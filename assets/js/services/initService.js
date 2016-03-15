@@ -1,8 +1,8 @@
-define(["step", "whispeerHelper", "services/serviceModule", "bluebird"], function (step, h, serviceModule, Bluebird) {
+define(["step", "whispeerHelper", "services/serviceModule", "bluebird", "asset/observer"], function (step, h, serviceModule, Bluebird, Observer) {
 	"use strict";
 
 	var service = function ($timeout, $rootScope, errorService, socketService, sessionService, migrationService, CacheService) {
-		var newCallbacks = [];
+		var initRequestsList = [], initCallbacks = [], initService;
 
 		function getCache(initRequest) {
 			return new CacheService(initRequest.domain).get(initRequest.id || sessionService.getUserID()).then(function (cache) {
@@ -86,7 +86,7 @@ define(["step", "whispeerHelper", "services/serviceModule", "bluebird"], functio
 		function loadData() {
 			socketService.awaitConnection().then(function () {
 				console.time("cacheInitGet");
-				return newCallbacks;
+				return initRequestsList;
 			}).map(function (initRequest) {
 				if (initRequest.options.cache) {
 					return getCache(initRequest);
@@ -104,26 +104,34 @@ define(["step", "whispeerHelper", "services/serviceModule", "bluebird"], functio
 			}).then(function () {
 				console.timeEnd("init");
 				migrationService();
+				initService.notify("", "initDone");
 				$rootScope.$broadcast("ssn.ownLoaded");
 			}).catch(errorService.criticalError);
 		}
 
-		sessionService.listen(loadData, "ssn.login")
+		sessionService.listen(loadData, "ssn.login");
 
-		return {
+		initService = {
 			/** get via api, also check cache in before!
 			* @param domain: domain to get from
 			* @param priorized: is this callback priorized?
 			*/
 			get: function (domain, id, cb, options) {
-				newCallbacks.push({
+				initRequestsList.push({
 					domain: domain,
 					id: id,
 					callback: cb,
 					options: options || {}
 				});
+			},
+			registerCallback: function (cb) {
+				initCallbacks.push(cb);
 			}
 		};
+
+		Observer.call(initService);
+
+		return initService;
 	};
 
 	service.$inject = ["$timeout", "$rootScope", "ssn.errorService", "ssn.socketService", "ssn.sessionService", "ssn.migrationService", "ssn.cacheService"];
