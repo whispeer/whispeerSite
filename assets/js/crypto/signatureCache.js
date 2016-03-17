@@ -1,6 +1,10 @@
 define (["whispeerHelper", "step", "asset/observer", "asset/errors", "crypto/keyStore", "crypto/helper", "asset/securedDataWithMetaData", "bluebird"], function (h, step, Observer, errors, keyStore, chelper, SecuredData, Bluebird) {
 	"use strict";
-	var loaded = false, changed = false, signKey;
+	var loaded = false, changed = false, signKey, isLoaded = {};
+
+	isLoaded.promise = new Bluebird(function (resolve) {
+		isLoaded.promiseResolve = resolve;
+	});
 
 	function dataSetToHash(signature, hash, key) {
 		var data = {
@@ -189,6 +193,9 @@ define (["whispeerHelper", "step", "asset/observer", "asset/errors", "crypto/key
 	});
 
 	var signatureCache = {
+		awaitLoading: function () {
+			return isLoaded.promise;
+		},
 		/**
 		* Has the signature cache changed? (was a signature added/removed?)
 		*/
@@ -230,7 +237,7 @@ define (["whispeerHelper", "step", "asset/observer", "asset/errors", "crypto/key
 			signKey = ownKey;
 			loaded = true;
 
-			signatureCache.notify("", "loaded");
+			isLoaded.promiseResolve();
 		},
 		/**
 		* Get the signed updated version of this signature cache

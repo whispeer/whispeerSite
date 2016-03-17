@@ -50,9 +50,9 @@ define(["step", "whispeerHelper", "crypto/trustManager", "crypto/signatureCache"
 		}
 
 		userService.listen(addNewUsers, "loadedUser");
-		userService.listen(function () {
+		userService.verifyOwnKeysDone().then(function () {
 			trustManager.setOwnSignKey(userService.getown().getSignKey());
-		}, "ownEarly");
+		});
 
 		function loadDatabase(database, cb) {
 			step(function () {
@@ -87,15 +87,17 @@ define(["step", "whispeerHelper", "crypto/trustManager", "crypto/signatureCache"
 		}
 
 		initService.get("trustManager.get", undefined, function (data, cache, cb) {
-			if (cache && data.content) {
-				loadCacheAndAddServer(cache.data, data.content, cb);
-			} else if (cache) {
-				loadDatabase(cache.data, cb);
-			} else if (data.content) {
-				loadDatabase(data.content, cb);
-			} else {
-				createTrustDatabase(cb);
-			}
+			userService.verifyOwnKeysDone().then(function () {
+				if (cache && data.content) {
+					loadCacheAndAddServer(cache.data, data.content, cb);
+				} else if (cache) {
+					loadDatabase(cache.data, cb);
+				} else if (data.content) {
+					loadDatabase(data.content, cb);
+				} else {
+					createTrustDatabase(cb);
+				}
+			});
 		}, {
 			cache: true
 		});
@@ -113,8 +115,6 @@ define(["step", "whispeerHelper", "crypto/trustManager", "crypto/signatureCache"
 			});
 		});
 
-		var ownUserLoaded = userService.listenPromise("ownEarly");
-
 		sessionService.listenPromise("ssn.login").then(function () {
 			console.time("getSignatureCache");
 			return signatureCacheObject.get(sessionService.getUserID()).catch(function () {
@@ -122,7 +122,7 @@ define(["step", "whispeerHelper", "crypto/trustManager", "crypto/signatureCache"
 			});
 		}).then(function (signatureCacheData) {
 			console.timeEnd("getSignatureCache");
-			return ownUserLoaded.then(function () {
+			return userService.verifyOwnKeysDone().then(function () {
 				return signatureCacheData;
 			});
 		}).then(function (signatureCacheData) {

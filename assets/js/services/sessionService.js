@@ -78,6 +78,10 @@ define(["services/serviceModule", "asset/observer"], function (serviceModule, Ob
 						sessionStorage.clear().then(function () {
 							locationService.landingPage();
 							$rootScope.$broadcast("ssn.reset");
+
+							if (window.indexedDB) {
+								window.indexedDB.deleteDatabase("whispeerCache");
+							}
 						});
 					}
 				},

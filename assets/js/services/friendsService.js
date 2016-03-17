@@ -1,7 +1,7 @@
 /**
 * friendsService
 **/
-define(["step", "whispeerHelper", "asset/observer", "asset/securedDataWithMetaData", "services/serviceModule"], function (step, h, Observer, SecuredData, serviceModule) {
+define(["step", "whispeerHelper", "asset/observer", "asset/securedDataWithMetaData", "services/serviceModule", "bluebird"], function (step, h, Observer, SecuredData, serviceModule, Bluebird) {
 	"use strict";
 
 	/*
@@ -354,9 +354,11 @@ define(["step", "whispeerHelper", "asset/observer", "asset/securedDataWithMetaDa
 					if (!data.signedList) {
 						this.last.ne();
 					} else {
-						signedList.verify(userService.getown().getSignKey(), this, "user");
+						step.unpromisify(userService.verifyOwnKeysDone(), this);
 					}
 				}, h.sF(function () {
+					signedList.verify(userService.getown().getSignKey(), this, "user");
+				}), h.sF(function () {
 					var requestedOrFriends = signedList.metaKeys().map(h.parseDecimal);
 					requestedOrFriends.forEach(function (uid) {
 						keyStore.security.addEncryptionIdentifier(signedList.metaAttr(uid));
@@ -378,9 +380,6 @@ define(["step", "whispeerHelper", "asset/observer", "asset/securedDataWithMetaDa
 
 				return onlineFriends[uid] || 0;
 			},
-			setOnline: function (online) {
-				onlineFriends = online;
-			},
 			reset: function () {
 				friends = [];
 				requests = [];
@@ -388,7 +387,7 @@ define(["step", "whispeerHelper", "asset/observer", "asset/securedDataWithMetaDa
 				ignored = [];
 				removed = [];
 				deleted = [];
-				onlineFriends = [];
+				onlineFriends = {};
 			},
 			data: friendsData
 		};
@@ -397,10 +396,17 @@ define(["step", "whispeerHelper", "asset/observer", "asset/securedDataWithMetaDa
 
 		initService.get("friends.all", undefined, friendsService.load);
 
-		initService.get("friends.getOnline", undefined, function (data, cb) {
-			friendsService.setOnline(data.online);
-			cb();
-		});
+		initService.listen(function () {
+			Bluebird.delay(500).then(function () {
+				return socket.awaitConnection();
+			}).then(function () {
+				return socket.emit("friends.getOnline", {});
+			}).then(function (data) {
+				h.objectEach(data.online, function (uid, status) {
+					userOnline(uid, status);
+				});
+			});
+		}, "initDone");
 
 		$rootScope.$on("ssn.reset", function () {
 			friendsService.reset();

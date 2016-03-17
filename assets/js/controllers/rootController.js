@@ -5,7 +5,7 @@
 define(["step", "whispeerHelper", "config", "controllers/controllerModule"], function (step, h, config, controllerModule) {
 	"use strict";
 
-	function rootController($scope, $http, $interval, localize, socketService, sessionService, sessionHelper, userService, cssService, messageService, trustService, friendsService) {
+	function rootController($scope, $http, $interval, localize, initService, socketService, sessionService, sessionHelper, userService, cssService, messageService, trustService, friendsService) {
 		$scope.loading = true;
 
 		var nullUser = {
@@ -24,7 +24,7 @@ define(["step", "whispeerHelper", "config", "controllers/controllerModule"], fun
 		$scope.friends = friendsService.data;
 		$scope.messages = messageService.data;
 
-		$scope.$on("ssn.ownLoaded", function () {
+		initService.listen(function () {
 			var user;
 			step(function () {
 				user = userService.getown();
@@ -35,7 +35,7 @@ define(["step", "whispeerHelper", "config", "controllers/controllerModule"], fun
 
 				console.log("Own Name loaded:" + (new Date().getTime() - startup));
 			}));
-		});
+		}, "initDone");
 
 		$scope.sidebarActive = false;
 		$scope.showMenu = true;
@@ -105,7 +105,7 @@ define(["step", "whispeerHelper", "config", "controllers/controllerModule"], fun
 		};
 	}
 
-	rootController.$inject = ["$scope", "$http", "$interval", "localize", "ssn.socketService", "ssn.sessionService", "ssn.sessionHelper", "ssn.userService", "ssn.cssService", "ssn.messageService", "ssn.trustService", "ssn.friendsService"];
+	rootController.$inject = ["$scope", "$http", "$interval", "localize", "ssn.initService", "ssn.socketService", "ssn.sessionService", "ssn.sessionHelper", "ssn.userService", "ssn.cssService", "ssn.messageService", "ssn.trustService", "ssn.friendsService"];
 
 	controllerModule.controller("ssn.rootController", rootController);
 });

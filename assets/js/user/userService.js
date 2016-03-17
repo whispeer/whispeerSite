@@ -1,9 +1,16 @@
-define(["step", "whispeerHelper", "user/userModule", "asset/observer", "crypto/signatureCache"], function (step, h, userModule, Observer, signatureCache) {
+define(["step", "whispeerHelper", "user/userModule", "asset/observer", "crypto/signatureCache", "bluebird"], function (step, h, userModule, Observer, signatureCache, Bluebird) {
 	"use strict";
 
 	var service = function ($rootScope, User, errorService, initService, socketService, keyStoreService, sessionService) {
-		var userService, knownIDs = [], users = {}, loading = {};
+		var userService, knownIDs = [], users = {}, loading = {}, ownUserStatus = {};
 
+		ownUserStatus.verifyOwnKeysDone = new Bluebird(function (resolve) {
+			ownUserStatus.verifyOwnKeysDoneResolve = resolve;
+		});
+
+		ownUserStatus.loaded = new Bluebird(function (resolve) {
+			ownUserStatus.loadedResolve = resolve;
+		});
 
 		var name = "Deleted user"; //localize("user.deleted", {});
 		var NotExistingUser = function (identifier) {
@@ -227,6 +234,14 @@ define(["step", "whispeerHelper", "user/userModule", "asset/observer", "crypto/s
 				}), cb);
 			},
 
+			verifyOwnKeysDone: function () {
+				return ownUserStatus.verifyOwnKeysDone;
+			},
+
+			ownLoaded: function () {
+				return ownUserStatus.loaded;
+			},
+
 			/** get own user. synchronous */
 			getown: function getownF() {
 				return users[sessionService.getUserID()];
@@ -263,13 +278,14 @@ define(["step", "whispeerHelper", "user/userModule", "asset/observer", "crypto/s
 
 		Observer.call(userService);
 
-		initService.get("user.get", function () {
-			return sessionService.getUserID();
-		}, function (data, cb) {
-			var user;
-			step(function () {
-				user = makeUser(data);
-
+		initService.registerCallback(function () {
+			return socketService.awaitConnection().then(function () {
+				return socketService.emit("user.get", {
+					id: sessionService.getUserID()
+				});
+			}).then(function (data) {
+				return makeUser(data);
+			}).then(function (user) {
 				var identifier = user.getNickOrMail();
 
 				keyStoreService.setKeyGenIdentifier(identifier);
@@ -277,14 +293,19 @@ define(["step", "whispeerHelper", "user/userModule", "asset/observer", "crypto/s
 				keyStoreService.sym.registerMainKey(user.getMainKey());
 
 				user.verifyOwnKeys();
-				userService.notify(user, "ownEarly");
 
-				signatureCache.listen(this.ne, "loaded");
-			}, h.sF(function () {
-				user.verifyKeys(this);
-			}), cb);
+				ownUserStatus.verifyOwnKeysDoneResolve();
+				delete ownUserStatus.verifyOwnKeysDoneResolve;
 
-		}, { priorized: true });
+				return signatureCache.awaitLoading().thenReturn(user);
+			}).then(function (user) {
+				var verifyKeys = Bluebird.promisify(user.verifyKeys, user);
+				return verifyKeys();
+			}).then(function () {
+				ownUserStatus.loadedResolve();
+				delete ownUserStatus.loadedResolve;
+			});
+		});
 
 		$rootScope.$on("ssn.reset", function () {
 			userService.reset();
