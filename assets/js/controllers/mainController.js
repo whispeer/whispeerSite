@@ -75,6 +75,12 @@ define(["step", "whispeerHelper", "asset/state", "controllers/controllerModule"]
 
 		$scope.dontWantToDonate = function () {
 			$scope.showDonateHint = false;
+
+			var donateSettings = settingsService.getBranch("donate");
+			donateSettings.refused = true;
+			settingsService.updateBranch("donate", donateSettings);
+
+			settingsService.uploadChangedData(errorService.criticalError);
 		};
 
 		function reloadTimeline(cb) {
