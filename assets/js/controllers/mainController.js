@@ -83,6 +83,19 @@ define(["step", "whispeerHelper", "asset/state", "controllers/controllerModule"]
 			settingsService.uploadChangedData(errorService.criticalError);
 		};
 
+		$scope.donateLater = function () {
+			//2 Days
+			var DONATELATERDIFF = 2 * 24 * 60 * 60 * 1000;
+
+			$scope.showDonateHint = false;
+
+			var donateSettings = settingsService.getBranch("donate");
+			donateSettings.later = new Date().getTime() + DONATELATERDIFF;
+			settingsService.updateBranch("donate", donateSettings);
+
+			settingsService.uploadChangedData(errorService.criticalError);
+		};
+
 		function reloadTimeline(cb) {
 			step(function () {
 				if ($scope.filterSelection.length === 0) {
