@@ -124,7 +124,7 @@ define(["step", "whispeerHelper", "crypto/encryptedData", "services/serviceModul
 			settings.reset();
 		});
 
-		var publicBranches = ["uiLanguage", "sound"];
+		var publicBranches = ["uiLanguage", "sound", "donate"];
 		var serverBranches = ["mailsEnabled"];
 
 		function isBranchPublic(branchName) {
