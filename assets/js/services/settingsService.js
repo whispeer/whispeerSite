@@ -33,6 +33,10 @@ define(["step", "whispeerHelper", "crypto/encryptedData", "services/serviceModul
 				gender: notVisible,
 				languages: notVisible
 			},
+			donate: {
+				refused: false,
+				later: 0
+			},
 			sharePosts: ["always:allfriends"],
 			filterSelection: [],
 			sound: {

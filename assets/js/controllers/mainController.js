@@ -11,6 +11,8 @@ define(["step", "whispeerHelper", "asset/state", "controllers/controllerModule"]
 		$scope.postActive = false;
 		$scope.filterActive = false;
 
+		$scope.showDonateHint = false;
+
 		var applyFilterState = new State();
 		$scope.applyFilterState = applyFilterState.data;
 
@@ -71,6 +73,10 @@ define(["step", "whispeerHelper", "asset/state", "controllers/controllerModule"]
 
 		$scope.currentTimeline = null;
 
+		$scope.dontWantToDonate = function () {
+			$scope.showDonateHint = false;
+		};
+
 		function reloadTimeline(cb) {
 			step(function () {
 				if ($scope.filterSelection.length === 0) {
@@ -79,7 +85,13 @@ define(["step", "whispeerHelper", "asset/state", "controllers/controllerModule"]
 
 				$scope.currentTimeline = postService.getTimeline($scope.filterSelection, $scope.sortByCommentTime);
 				$scope.currentTimeline.loadInitial(this);
-			}, cb || errorService.criticalError);
+			}, h.sF(function () {
+				var donateSettings = settingsService.getBranch("donate");
+
+				$scope.showDonateHint = !donateSettings.refused && donateSettings.later < new Date().getTime();
+
+				console.log(settingsService.getBranch("donate"));
+			}), cb || errorService.criticalError);
 		}
 
 		reloadTimeline();

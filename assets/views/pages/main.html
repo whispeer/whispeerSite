@@ -35,7 +35,7 @@
 		</div>
 	</header>
 	<div class="posts" id="newsfeedView-posts">
-		<div class="post please-donate">
+		<div class="post please-donate" data-ng-if="showDonateHint" data-ng-cloak>
 			<div class="please-donate-inner">
 				<i class="fa fa-heart fa-5x" id="fundView-donateIcon"></i>
 				<a href="" class="post-link"><i class="fa fa-times"></i></a>
@@ -47,8 +47,8 @@
 				Vielen Dank!<br>
 				Dein whispeer Team</p>
 
-				<a href="" class="btn btn--primary please-donate-link">Jetzt Spenden</a>
-				<a href="" class="please-donate-hide">Ich möchte nicht spenden.</a>
+				<a class="btn btn--primary please-donate-link" data-ui-sref="app.fund.general">Jetzt Spenden</a>
+				<a href="" class="please-donate-hide" data-ng-click="dontWantToDonate()">Ich möchte nicht spenden.</a>
 			</div>
 		</div>
 		<div class="post" class="zeroContent" id="newsfeedView-noPosts" data-ng-if="!currentTimeline.loading && currentTimeline.getPosts().length === 0">
