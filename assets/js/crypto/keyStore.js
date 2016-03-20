@@ -1252,15 +1252,17 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 		}
 
 		function hash(text) {
-			if (!getSubtle()) {
-				return Bluebird.resolve(sjcl.hash.sha256.hash(text));
-			}
+			return Bluebird.resolve(text).then(function () {
+				if (!getSubtle()) {
+					throw new Error("subtle not available");
+				}
 
-			var buf = new TextEncoder("utf-8").encode(text);
-
-			return getSubtle().digest("SHA-256", buf).then(function (hash) {
+				var buf = new TextEncoder("utf-8").encode(text);
+				return getSubtle().digest("SHA-256", buf);
+			}).then(function (hash) {
 				return subtleToHex(hash);
 			}).catch(function () {
+				console.log("Subtle hashing failed falling back to sjcl");
 				return sjcl.hash.sha256.hash(text);
 			});
 		}
