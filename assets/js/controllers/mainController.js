@@ -111,7 +111,7 @@ define(["step", "whispeerHelper", "asset/state", "controllers/controllerModule"]
 			}, h.sF(function () {
 				var donateSettings = settingsService.getBranch("donate");
 
-				$scope.showDonateHint = donateSettings.later < new Date().getTime();
+				$scope.showDonateHint = $scope.currentTimeline.displayDonateHint && donateSettings.later < new Date().getTime();
 
 				console.log(settingsService.getBranch("donate"));
 			}), cb || errorService.criticalError);
