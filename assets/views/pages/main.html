@@ -39,12 +39,12 @@
 			<div class="please-donate-inner">
 				<i class="fa fa-heart fa-5x" id="fundView-donateIcon"></i>
 				<a href="" class="post-link" data-ng-click="donateLater()"><i class="fa fa-times"></i></a>
-				<h1 data-i18n="donateHint.heading"></h1>
-				<h2 data-i18n="donateHint.subHeading"></h2>
-				<p data-i18n="donateHint.detailText" data-syntaxify></p>
+				<h1 data-i18n="donateHint.{{donateType}}heading"></h1>
+				<h2 data-i18n="donateHint.{{donateType}}subHeading"></h2>
+				<p data-i18n="donateHint.{{donateType}}detailText" data-syntaxify></p>
 
-				<a class="btn btn--primary please-donate-link" data-ui-sref="app.fund.general" data-i18n="donateHint.actionText"></a>
-				<a href="" class="please-donate-hide" data-ng-click="dontWantToDonate()" data-i18n="donateHint.refusalText"></a>
+				<a class="btn btn--primary please-donate-link" data-ui-sref="app.fund.general" data-i18n="donateHint.{{donateType}}actionText"></a>
+				<a href="" class="please-donate-hide" data-ng-click="dontWantToDonate()" data-i18n="donateHint.{{donateType}}refusalText"></a>
 			</div>
 		</div>
 		<div class="post" class="zeroContent" id="newsfeedView-noPosts" data-ng-if="!currentTimeline.loading && currentTimeline.getPosts().length === 0">

@@ -632,11 +632,13 @@
 		}
 	},
 	"donateHint": {
-		"heading": "Dir gefällt whispeer?",
-		"subHeading": "Dann unterstütze uns bitte mit einer kleinen Spende.",
-		"detailText": "Bei whispeer zeigen wir dir weder Werbung noch verkaufen wir deine Daten.\nDeshalb sind wir auf deine Spende angewiesen!\nWenn es dir möglich ist, möchten wir dich deshalb bitten uns zu helfen whispeer auch in Zukunft noch weiter betreiben zu können.\nVielen Dank!\nDein whispeer Team",
-		"actionText": "Jetzt Spenden",
-		"refusalText": "Ich möchte nicht spenden."
+		"donatePage": {
+			"heading": "Dir gefällt whispeer?",
+			"subHeading": "Dann unterstütze uns bitte mit einer kleinen Spende.",
+			"detailText": "Bei whispeer zeigen wir dir weder Werbung noch verkaufen wir deine Daten.\nDeshalb sind wir auf deine Spende angewiesen!\nWenn es dir möglich ist, möchten wir dich deshalb bitten uns zu helfen whispeer auch in Zukunft noch weiter betreiben zu können.\nVielen Dank!\nDein whispeer Team",
+			"actionText": "Jetzt Spenden",
+			"refusalText": "Ich möchte nicht spenden."
+		}
 	},
 	"magicbar": {
 		"close": "Schließen",
