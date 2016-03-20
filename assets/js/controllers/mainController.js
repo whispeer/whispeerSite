@@ -74,10 +74,14 @@ define(["step", "whispeerHelper", "asset/state", "controllers/controllerModule"]
 		$scope.currentTimeline = null;
 
 		$scope.dontWantToDonate = function () {
+			//90 days
+			var DONATELATERDIFF = 90 * 24 * 60 * 60 * 1000;
+
 			$scope.showDonateHint = false;
 
 			var donateSettings = settingsService.getBranch("donate");
 			donateSettings.refused = true;
+			donateSettings.later = new Date().getTime() + DONATELATERDIFF;
 			settingsService.updateBranch("donate", donateSettings);
 
 			settingsService.uploadChangedData(errorService.criticalError);
@@ -107,7 +111,7 @@ define(["step", "whispeerHelper", "asset/state", "controllers/controllerModule"]
 			}, h.sF(function () {
 				var donateSettings = settingsService.getBranch("donate");
 
-				$scope.showDonateHint = !donateSettings.refused && donateSettings.later < new Date().getTime();
+				$scope.showDonateHint = donateSettings.later < new Date().getTime();
 
 				console.log(settingsService.getBranch("donate"));
 			}), cb || errorService.criticalError);
