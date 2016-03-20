@@ -20,7 +20,7 @@ define(["step", "whispeerHelper", "asset/state", "controllers/controllerModule"]
 
 		$scope.getFiltersByID = filterService.getFiltersByID;
 
-		$scope.donateType = "donatePage";
+		$scope.donateType = "donatePage.";
 
 		$scope.focusNewPost = function () {
 			var textarea = jQuery("#newsfeedView-postForm textarea");
