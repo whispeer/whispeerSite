@@ -11,12 +11,16 @@ define(["step", "whispeerHelper", "asset/state", "controllers/controllerModule"]
 		$scope.postActive = false;
 		$scope.filterActive = false;
 
+		$scope.showDonateHint = false;
+
 		var applyFilterState = new State();
 		$scope.applyFilterState = applyFilterState.data;
 
 		$scope.filterSelection = settingsService.getBranch("filterSelection");
 
 		$scope.getFiltersByID = filterService.getFiltersByID;
+
+		$scope.donateType = "donatePage.";
 
 		$scope.focusNewPost = function () {
 			var textarea = jQuery("#newsfeedView-postForm textarea");
@@ -71,6 +75,33 @@ define(["step", "whispeerHelper", "asset/state", "controllers/controllerModule"]
 
 		$scope.currentTimeline = null;
 
+		$scope.dontWantToDonate = function () {
+			//90 days
+			var DONATELATERDIFF = 90 * 24 * 60 * 60 * 1000;
+
+			$scope.showDonateHint = false;
+
+			var donateSettings = settingsService.getBranch("donate");
+			donateSettings.refused = true;
+			donateSettings.later = new Date().getTime() + DONATELATERDIFF;
+			settingsService.updateBranch("donate", donateSettings);
+
+			settingsService.uploadChangedData(errorService.criticalError);
+		};
+
+		$scope.donateLater = function () {
+			//2 Days
+			var DONATELATERDIFF = 2 * 24 * 60 * 60 * 1000;
+
+			$scope.showDonateHint = false;
+
+			var donateSettings = settingsService.getBranch("donate");
+			donateSettings.later = new Date().getTime() + DONATELATERDIFF;
+			settingsService.updateBranch("donate", donateSettings);
+
+			settingsService.uploadChangedData(errorService.criticalError);
+		};
+
 		function reloadTimeline(cb) {
 			step(function () {
 				if ($scope.filterSelection.length === 0) {
@@ -79,7 +110,13 @@ define(["step", "whispeerHelper", "asset/state", "controllers/controllerModule"]
 
 				$scope.currentTimeline = postService.getTimeline($scope.filterSelection, $scope.sortByCommentTime);
 				$scope.currentTimeline.loadInitial(this);
-			}, cb || errorService.criticalError);
+			}, h.sF(function () {
+				var donateSettings = settingsService.getBranch("donate");
+
+				$scope.showDonateHint = $scope.currentTimeline.displayDonateHint && donateSettings.later < new Date().getTime();
+
+				console.log(settingsService.getBranch("donate"));
+			}), cb || errorService.criticalError);
 		}
 
 		reloadTimeline();

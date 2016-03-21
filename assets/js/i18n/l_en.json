@@ -633,6 +633,15 @@
 			"mail": "E-mail address"
 		}
 	},
+	"donateHint": {
+		"donatePage": {
+			"heading": "Enjoying whispeer?",
+			"subHeading": "Please support us with a small donation.",
+			"detailText": "whispeer has no ads and does not sell your data.\nwhispeer still costs us money, so we are dependent on donations!\nWe would appreciate a donation to keep whispeer running.\nThanks, your whispeer Team!",
+			"actionText": "Donate now!",
+			"refusalText": "I don't want to donate."
+		}
+	},
 	"magicbar": {
 		"close": "Close",
 		"messages": {

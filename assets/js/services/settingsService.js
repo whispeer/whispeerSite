@@ -33,6 +33,10 @@ define(["step", "whispeerHelper", "crypto/encryptedData", "services/serviceModul
 				gender: notVisible,
 				languages: notVisible
 			},
+			donate: {
+				refused: false,
+				later: 0
+			},
 			sharePosts: ["always:allfriends"],
 			filterSelection: [],
 			sound: {
@@ -122,7 +126,7 @@ define(["step", "whispeerHelper", "crypto/encryptedData", "services/serviceModul
 			settings.reset();
 		});
 
-		var publicBranches = ["uiLanguage", "sound"];
+		var publicBranches = ["uiLanguage", "sound", "donate"];
 		var serverBranches = ["mailsEnabled"];
 
 		function isBranchPublic(branchName) {

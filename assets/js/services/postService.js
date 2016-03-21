@@ -355,6 +355,7 @@ define(["step", "whispeerHelper", "bluebird", "validation/validator", "services/
 					count: screenSize.mobile ? 10 : 20
 				}, this);
 			}), h.sF(function (results) {
+				that.displayDonateHint = results.displayDonateHint;
 				var posts = results.posts || [];
 
 				that._posts = that._posts.concat(posts.map(function (post) {
