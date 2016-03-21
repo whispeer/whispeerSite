@@ -1,5 +1,5 @@
 {
-	"hashVersion": 1,
+	"hashVersion": 3,
 
 	"socket": {
 		"autoConnect": true,

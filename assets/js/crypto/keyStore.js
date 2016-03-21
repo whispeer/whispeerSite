@@ -1233,34 +1233,70 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 			});
 		}
 
+		function subtleToHex(buffer) {
+			var hexCodes = [];
+			var view = new DataView(buffer);
+			for (var i = 0; i < view.byteLength; i += 4) {
+				// Using getUint32 reduces the number of iterations needed (we process 4 bytes each time)
+				var value = view.getUint32(i);
+				// toString(16) will give the hex representation of the number without padding
+				var stringValue = value.toString(16);
+				// We use concatenation and slice for padding
+				var padding = "00000000";
+				var paddedValue = (padding + stringValue).slice(-padding.length);
+				hexCodes.push(paddedValue);
+			}
+
+			// Join all the hex strings into one
+			return hexCodes.join("");
+		}
+
+		function hash(text) {
+			return Bluebird.resolve(text).then(function () {
+				if (!getSubtle()) {
+					throw new Error("subtle not available");
+				}
+
+				var buf = new TextEncoder("utf-8").encode(text);
+				return getSubtle().digest("SHA-256", buf);
+			}).then(function (hash) {
+				return subtleToHex(hash);
+			}).catch(function () {
+				console.log("Subtle hashing failed falling back to sjcl");
+				return sjcl.hash.sha256.hash(text);
+			});
+		}
+
 		this.getFingerPrint = getFingerPrintF;
 		this.verify = function (signature, text, type, id) {
 			return requireAsync(["crypto/trustManager", "crypto/signatureCache"]).spread(function (trustManager, signatureCache) {
-				var hash = sjcl.hash.sha256.hash(text);
+				return hash(text).then(function (hash) {
+					hash = chelper.hex2bits(hash);
 
-				if (!trustManager.hasKeyData(intKey.getRealID())) {
-					throw new errors.SecurityError("key not in key database");
-				}
-
-				if (signatureCache.isValidSignatureInCache(signature, hash, realid)) {
-					signatureCache.addValidSignature(signature, hash, realid, type, id);
-					return Bluebird.resolve(true);
-				}
-
-				console.info("Slow verify of type: " + type);
-				var name = chelper.bits2hex(signature).substr(0, 10);
-				console.time("verify-" + name);
-
-				return verify(signature, text, hash).then(function (valid) {
-					console.timeEnd("verify-" + name);
-					if (valid) {
-						signatureCache.addValidSignature(signature, hash, realid, type, id);
+					if (!trustManager.hasKeyData(intKey.getRealID())) {
+						throw new errors.SecurityError("key not in key database");
 					}
 
-					return valid;
-				}).catch(function (e) {
-					console.error(e);
-					return false;
+					if (signatureCache.isValidSignatureInCache(signature, hash, realid)) {
+						signatureCache.addValidSignature(signature, hash, realid, type, id);
+						return Bluebird.resolve(true);
+					}
+
+					console.info("Slow verify of type: " + type);
+					var name = chelper.bits2hex(signature).substr(0, 10);
+					console.time("verify-" + name);
+
+					return verify(signature, text, hash).then(function (valid) {
+						console.timeEnd("verify-" + name);
+						if (valid) {
+							signatureCache.addValidSignature(signature, hash, realid, type, id);
+						}
+
+						return valid;
+					}).catch(function (e) {
+						console.error(e);
+						return false;
+					});
 				});
 			});
 		};
