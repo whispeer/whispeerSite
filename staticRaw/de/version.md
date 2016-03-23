@@ -4,6 +4,10 @@ lang: de
 title: Versionshistorie
 ---
 
+## 0.2.23
+
+* Geschwindigkeits- & Stabilitätsoptimierungen
+
 ## 0.2.22
 
 * Newsfeed Sortierung wird gespeichert
