@@ -1915,9 +1915,9 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 				return chelper.hashPW(pw, salt);
 			},
 
-			hashObjectOrValueHex: function (val) {
+			hashObjectOrValueHex: function (val, version) {
 				if (typeof val === "object") {
-					return "hash::" + new ObjectHasher(val).hash();
+					return "hash::" + new ObjectHasher(val, version).hash();
 				} else {
 					return "hash::" + chelper.bits2hex(sjcl.hash.sha256.hash("data::" + val));
 				}

@@ -1,4 +1,4 @@
-define (["whispeerHelper", "step", "asset/observer", "asset/errors", "crypto/keyStore", "crypto/helper", "asset/securedDataWithMetaData", "bluebird"], function (h, step, Observer, errors, keyStore, chelper, SecuredData, Bluebird) {
+define (["whispeerHelper", "step", "config", "asset/observer", "asset/errors", "crypto/keyStore", "crypto/helper", "asset/securedDataWithMetaData", "bluebird"], function (h, step, config, Observer, errors, keyStore, chelper, SecuredData, Bluebird) {
 	"use strict";
 	var loaded = false, changed = false, signKey, isLoaded = {};
 
@@ -13,7 +13,7 @@ define (["whispeerHelper", "step", "asset/observer", "asset/errors", "crypto/key
 			key: key
 		};
 
-		return keyStore.hash.hashObjectOrValueHex(data);
+		return keyStore.hash.hashObjectOrValueHex(data, config.hashVersion);
 	}
 
 	/*
@@ -214,6 +214,13 @@ define (["whispeerHelper", "step", "asset/observer", "asset/errors", "crypto/key
 		* @param ownKey own signing key
 		*/
 		load: function (securedData, ownKey) {
+			if (securedData.internalHashVersion !== config.hashVersion) {
+				console.warn("resetting signature cache to upgrade to new hash version");
+				signatureCache.initialize(ownKey);
+
+				return;
+			}
+
 			if (securedData.me !== ownKey) {
 				console.warn("not my signature cache");
 				signatureCache.initialize(ownKey);
@@ -256,6 +263,7 @@ define (["whispeerHelper", "step", "asset/observer", "asset/errors", "crypto/key
 
 			var data = {
 				me: signKey,
+				internalHashVersion: config.hashVersion,
 				databases: databases
 			};
 
