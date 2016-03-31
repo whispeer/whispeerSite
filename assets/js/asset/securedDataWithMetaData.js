@@ -240,7 +240,11 @@ define(["whispeerHelper", "step", "crypto/keyStore", "asset/errors", "config", "
 
 	SecuredDataWithMetaData.prototype._verifyContentHash = function() {
 		if (this._hasContent && this._decrypted) {
-			var hash = keyStore.hash.hashObjectOrValueHex(this._original.paddedContent || this._original.content);
+			var content = this._original.paddedContent || this._original.content;
+			var hashVersion = this._original.meta._contentHashVersion;
+
+			var hash = keyStore.hash.hashObjectOrValueHex(content, hashVersion);
+
 			if (hash !== this._original.meta._contentHash) {
 				throw new errors.SecurityError("content hash did not match");
 			}
