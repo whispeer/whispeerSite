@@ -53,6 +53,13 @@ define(["workerQueue", "bluebird", "crypto/minimalHelper"], function (WorkerQueu
 					toHash: toHash
 			});
 		},
+		stringify: function (content, version) {
+			return workers.schedule({
+					stringify: true,
+					content: content,
+					version: version,
+			});
+		},
 		asym: {
 			generateCryptKey: function (curve) {
 				var data = {

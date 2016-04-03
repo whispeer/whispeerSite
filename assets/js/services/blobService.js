@@ -236,9 +236,6 @@ define(["step", "whispeerHelper", "asset/Progress", "asset/Queue", "services/ser
 					if (that._legacy) {
 						this.ne(that._blobData);
 					} else if (that._blobData.localURL) {
-						if (window.ionic.Platform.isIOS()) { // wkwebview does not support filesystem. change the url to use the internal server
-							that._blobData.localURL = that._blobData.localURL.replace("cdvfile://localhost/cache/", "http://localhost:12344/Library/Caches/");
-						}
 						this.ne(that._blobData.localURL);
 					} else if (typeof window.URL !== "undefined") {
 						this.ne(window.URL.createObjectURL(that._blobData));
