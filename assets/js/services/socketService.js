@@ -134,6 +134,22 @@ define([
 			BlobUploader.MINIMUMPARTSIZE = 1 * 1000;
 			BlobUploader.MAXIMUMTIME = 2 * 1000;
 
+			BlobUploader.sliceBlob = function (blob, start, end) {
+				if (typeof blob.slice === "function") {
+					return blob.slice(start, end);
+				}
+
+				if (typeof blob.webkitSlice === "function") {
+					return blob.webkitSlice(start, end);
+				}
+
+				if (typeof blob.mozSlice === "function") {
+					return blob.mozSlice(start, end);
+				}
+
+				return blob;
+			};
+
 			BlobUploader.prototype.upload = function () {
 				if (!this._uploadingPromise) {
 					this._uploadingPromise =  this._uploadPartUntilDone();
@@ -161,7 +177,7 @@ define([
 				var uploadStarted = new Date().getTime(), uploadSize;
 
 				return socketS.awaitConnection().bind(this).then(function () {
-					var partToUpload = this._blob.slice(this._doneBytes, this._doneBytes + this._partSize);
+					var partToUpload = BlobUploader.sliceBlob(this._blob, this._doneBytes, this._doneBytes + this._partSize);
 					uploadSize = partToUpload.size;
 					var lastPart = this._blob.size === this._doneBytes + uploadSize;
 
