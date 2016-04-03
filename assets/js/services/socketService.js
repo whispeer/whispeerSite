@@ -125,6 +125,8 @@ define([
 				this._progressListeners = [];
 
 				this._reset();
+
+				Observer.call(this);
 			}
 
 			BlobUploader.MAXIMUMPARTSIZE = 1000 * 1000;
@@ -133,14 +135,18 @@ define([
 			BlobUploader.MAXIMUMTIME = 2 * 1000;
 
 			BlobUploader.prototype.upload = function () {
-				if (this._uploadingPromise) {
-					return this._uploadingPromise;
+				if (!this._uploadingPromise) {
+					this._uploadingPromise =  this._uploadPartUntilDone();
 				}
 
-				this._uploadingPromise =  this._uploadPartUntilDone;
+				return this._uploadingPromise;
 			};
 
 			BlobUploader.prototype._uploadPartUntilDone = function () {
+				if (this._doneBytes === this._blob.size) {
+					return Bluebird.resolve();
+				}
+
 				return this._uploadPart().then(function () {
 					return this._uploadPartUntilDone();
 				});
@@ -152,17 +158,23 @@ define([
 			};
 
 			BlobUploader.prototype._uploadPart = function () {
-				var uploadStarted = new Date().getTime();
+				var uploadStarted = new Date().getTime(), uploadSize;
 
 				return socketS.awaitConnection().bind(this).then(function () {
+					var partToUpload = this._blob.slice(this._doneBytes, this._doneBytes + this._partSize);
+					uploadSize = partToUpload.size;
+
+					console.log("Upload part of blob (" + this._blobid + ")  doneBytes: " + this._doneBytes + ". Size: " + uploadSize);
+
 					return socketS.emit("blob.uploadBlobPart", {
 						blobid: this._blobid,
-						blobPart: this._blob.splice(this._doneBytes, this._doneBytes + this._partSize),
+						blobPart: partToUpload,
 						doneBytes: this._doneBytes,
-						size: this._partSize,
+						size: uploadSize
 					});
 				}).then(function (response) {
-					if (response.reset || !response.success) {
+					if (response.reset) {
+						console.log("Restarting Upload");
 						return this._reset();
 					}
 
@@ -174,10 +186,12 @@ define([
 						this._doubleSize();
 					}
 
-					this._doneBytes += BlobUploader.PARTSIZE;
-					this._notifyProgress(this._doneBytes);
-				}).catch(function () {
+					this._doneBytes += uploadSize;
+					this.notify(this._doneBytes, "progress");
+				}).catch(function (e) {
+					console.log(e);
 					this._halfSize();
+					return Bluebird.delay(500);
 				});
 			};
 
@@ -187,10 +201,6 @@ define([
 
 			BlobUploader.prototype._doubleSize = function () {
 				this._partSize = Math.min(this._partSize * 2, BlobUploader.MAXIMUMPARTSIZE);
-			};
-
-			BlobUploader.prototype.listenProgress = function (progressListener) {
-				this._progressListeners.push(progressListener);
 			};
 
 			var socketS = {
