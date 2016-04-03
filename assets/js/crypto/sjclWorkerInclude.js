@@ -33,8 +33,18 @@ define(["workerQueue", "bluebird", "crypto/minimalHelper"], function (WorkerQueu
 		}
 	}
 
+	function dirname(path) {
+		return path.match(/(.*)[\/\\]/)[1] || "";
+	}
+
+	var requirePath = "/assets/js/bower/requirejs/require.js";
+
+	if (window.location.href.indexOf("file://") > -1) {
+		requirePath = dirname(window.location.href) + requirePath;
+	}
+
 	//Promise, numberOfWorkers, workerPath, setupMethod, requireOverRide
-	var workers = new WorkerQueue(bluebird, 4, "crypto/sjclWorker", addEntropy, "/assets/js/bower/requirejs/require.js");
+	var workers = new WorkerQueue(bluebird, 4, "crypto/sjclWorker", addEntropy, requirePath);
 
 	var sjclWorker = {
 		hash: function (toHash) {

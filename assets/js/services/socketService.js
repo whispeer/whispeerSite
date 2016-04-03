@@ -119,6 +119,106 @@ define([
 				window.socket = socket;
 			}
 
+			function BlobUploader(blob, blobid) {
+				this._blob = blob;
+				this._blobid = blobid;
+				this._progressListeners = [];
+
+				this._reset();
+
+				Observer.call(this);
+			}
+
+			BlobUploader.MAXIMUMPARTSIZE = 1000 * 1000;
+			BlobUploader.STARTPARTSIZE = 5 * 1000;
+			BlobUploader.MINIMUMPARTSIZE = 1 * 1000;
+			BlobUploader.MAXIMUMTIME = 2 * 1000;
+
+			BlobUploader.sliceBlob = function (blob, start, end) {
+				if (typeof blob.slice === "function") {
+					return blob.slice(start, end);
+				}
+
+				if (typeof blob.webkitSlice === "function") {
+					return blob.webkitSlice(start, end);
+				}
+
+				if (typeof blob.mozSlice === "function") {
+					return blob.mozSlice(start, end);
+				}
+
+				return blob;
+			};
+
+			BlobUploader.prototype.upload = function () {
+				if (!this._uploadingPromise) {
+					this._uploadingPromise =  this._uploadPartUntilDone();
+				}
+
+				return this._uploadingPromise;
+			};
+
+			BlobUploader.prototype._uploadPartUntilDone = function () {
+				if (this._doneBytes === this._blob.size) {
+					return Bluebird.resolve();
+				}
+
+				return this._uploadPart().then(function () {
+					return this._uploadPartUntilDone();
+				});
+			};
+
+			BlobUploader.prototype._reset = function () {
+				this._doneBytes = 0;
+				this._partSize = BlobUploader.STARTPARTSIZE;
+			};
+
+			BlobUploader.prototype._uploadPart = function () {
+				var uploadStarted = new Date().getTime(), uploadSize;
+
+				return socketS.awaitConnection().bind(this).then(function () {
+					var partToUpload = BlobUploader.sliceBlob(this._blob, this._doneBytes, this._doneBytes + this._partSize);
+					uploadSize = partToUpload.size;
+					var lastPart = this._blob.size === this._doneBytes + uploadSize;
+
+					return socketS.emit("blob.uploadBlobPart", {
+						blobid: this._blobid,
+						blobPart: partToUpload,
+						doneBytes: this._doneBytes,
+						size: uploadSize,
+						lastPart: lastPart
+					});
+				}).then(function (response) {
+					if (response.reset) {
+						console.warn("Restarting Upload");
+						return this._reset();
+					}
+
+					var uploadTook = new Date().getTime() - uploadStarted;
+
+					if (uploadTook > BlobUploader.MAXIMUMTIME) {
+						this._halfSize();
+					} else {
+						this._doubleSize();
+					}
+
+					this._doneBytes += uploadSize;
+					this.notify(this._doneBytes, "progress");
+				}).catch(function (e) {
+					console.error(e);
+					this._halfSize();
+					return Bluebird.delay(5000);
+				});
+			};
+
+			BlobUploader.prototype._halfSize = function () {
+				this._partSize = Math.max(this._partSize / 2, BlobUploader.MINIMUMPARTSIZE);
+			};
+
+			BlobUploader.prototype._doubleSize = function () {
+				this._partSize = Math.min(this._partSize * 2, BlobUploader.MAXIMUMPARTSIZE);
+			};
+
 			var socketS = {
 				errors: {
 					Disconnect: DisconnectError,
@@ -137,37 +237,20 @@ define([
 					}
 
 					uploadingCounter++;
-					step(function () {
-						if (!streamUpgraded) {
-							socketS.emit("blob.upgradeStream", {}, this);
-						} else {
-							this.ne();
-						}
-					}, h.sF(function () {
-						streamUpgraded = true;
+					var uploader = new BlobUploader(blob, blobid);
 
-						var stream = iostream.createStream();
-						iostream(socket).emit("pushBlob", stream, {
-							blobid: blobid
-						});
+					uploader.listen(function (doneBytes) {
+						progress.progress(doneBytes);
+					}, "progress");
 
-						var blobStream = iostream.createBlobReadStream(blob);
-
-						blobStream.on("data", function(chunk) {
-							progress.progressDelta(chunk.length);
-						});
-
-						blobStream.on("end", this);
-
-						blobStream.pipe(stream);
-					}), function (e) {
+					var uploadPromise = uploader.upload().then(function () {
 						uploadingCounter--;
 
 						internalObserver.notify(blobid, "uploadFinished");
-						internalObserver.notify(blobid, "uploadFinished:" + blobid);
+						internalObserver.notify(blobid, "uploadFinished:" + blobid);						
+					});
 
-						this(e);
-					}, cb);
+					return step.unpromisify(uploadPromise, cb);
 				},
 				on: function () {
 					return socket.on.apply(socket, arguments);
