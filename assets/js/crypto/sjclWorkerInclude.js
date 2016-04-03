@@ -39,10 +39,6 @@ define(["workerQueue", "bluebird", "crypto/minimalHelper"], function (WorkerQueu
 
 	var requirePath = "/assets/js/bower/requirejs/require.js";
 
-	if (/iPhone|iPad|iPod/.test(navigator.userAgent)) {
-		requirePath = "/www" + requirePath;
-	}
-
 	if (window.location.href.indexOf("file://") > -1) {
 		requirePath = dirname(window.location.href) + requirePath;
 	}
