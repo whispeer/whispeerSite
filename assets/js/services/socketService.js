@@ -44,7 +44,7 @@ define([
 		var service = function ($injector, $rootScope) {
 			var socket;
 			function connect() {
-				socket = io.connect(domain);
+				socket = io.connect(domain, config.socket.options);
 
 				socket.on("disconnect", function () {
 					socketDebug("socket disconnected");
