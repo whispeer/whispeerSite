@@ -7,7 +7,7 @@ define([
 	"config/routesConfig",
 	"config/localizationConfig",
 
-	"libs/canvas-toBlob",
+	"asset/toBlobPolyfill",
 	"angularTouch",
 
 	"optional!build/template"

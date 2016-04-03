@@ -245,7 +245,7 @@ define(["step", "whispeerHelper", "jquery", "bluebird", "imageLib", "asset/Progr
 			var options = $.extend({}, sizeOptions.restrictions || {}, { canvas: true });
 
 			return ImageUpload.imageLibLoad(this._file, options).then(function (canvas) {
-				return canvasToBlob(canvas);
+				return canvasToBlob(canvas, "image/jpeg");
 			});
 		};
 
