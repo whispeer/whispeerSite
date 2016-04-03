@@ -163,18 +163,18 @@ define([
 				return socketS.awaitConnection().bind(this).then(function () {
 					var partToUpload = this._blob.slice(this._doneBytes, this._doneBytes + this._partSize);
 					uploadSize = partToUpload.size;
-
-					console.log("Upload part of blob (" + this._blobid + ")  doneBytes: " + this._doneBytes + ". Size: " + uploadSize);
+					var lastPart = this._blob.size === this._doneBytes + uploadSize;
 
 					return socketS.emit("blob.uploadBlobPart", {
 						blobid: this._blobid,
 						blobPart: partToUpload,
 						doneBytes: this._doneBytes,
-						size: uploadSize
+						size: uploadSize,
+						lastPart: lastPart
 					});
 				}).then(function (response) {
 					if (response.reset) {
-						console.log("Restarting Upload");
+						console.warn("Restarting Upload");
 						return this._reset();
 					}
 
@@ -189,9 +189,9 @@ define([
 					this._doneBytes += uploadSize;
 					this.notify(this._doneBytes, "progress");
 				}).catch(function (e) {
-					console.log(e);
+					console.error(e);
 					this._halfSize();
-					return Bluebird.delay(500);
+					return Bluebird.delay(5000);
 				});
 			};
 
