@@ -33,10 +33,18 @@ define(["workerQueue", "bluebird", "crypto/minimalHelper"], function (WorkerQueu
 		}
 	}
 
+	function dirname(path) {
+		return path.match(/(.*)[\/\\]/)[1] || "";
+	}
+
 	var requirePath = "/assets/js/bower/requirejs/require.js";
 
+	if (/iPhone|iPad|iPod/.test(navigator.userAgent)) {
+		requirePath = "/www" + requirePath;
+	}
+
 	if (window.location.href.indexOf("file://") > -1) {
-		requirePath = window.location.href.replace("/main.html", "").replace("/register.html", "") + requirePath;
+		requirePath = dirname(window.location.href) + requirePath;
 	}
 
 	//Promise, numberOfWorkers, workerPath, setupMethod, requireOverRide

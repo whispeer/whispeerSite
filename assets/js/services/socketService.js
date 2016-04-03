@@ -119,6 +119,80 @@ define([
 				window.socket = socket;
 			}
 
+			function BlobUploader(blob, blobid) {
+				this._blob = blob;
+				this._blobid = blobid;
+				this._progressListeners = [];
+
+				this._reset();
+			}
+
+			BlobUploader.MAXIMUMPARTSIZE = 1000 * 1000;
+			BlobUploader.STARTPARTSIZE = 5 * 1000;
+			BlobUploader.MINIMUMPARTSIZE = 1 * 1000;
+			BlobUploader.MAXIMUMTIME = 2 * 1000;
+
+			BlobUploader.prototype.upload = function () {
+				if (this._uploadingPromise) {
+					return this._uploadingPromise;
+				}
+
+				this._uploadingPromise =  this._uploadPartUntilDone;
+			};
+
+			BlobUploader.prototype._uploadPartUntilDone = function () {
+				return this._uploadPart().then(function () {
+					return this._uploadPartUntilDone();
+				});
+			};
+
+			BlobUploader.prototype._reset = function () {
+				this._doneBytes = 0;
+				this._partSize = BlobUploader.STARTPARTSIZE;
+			};
+
+			BlobUploader.prototype._uploadPart = function () {
+				var uploadStarted = new Date().getTime();
+
+				return socketS.awaitConnection().bind(this).then(function () {
+					return socketS.emit("blob.uploadBlobPart", {
+						blobid: this._blobid,
+						blobPart: this._blob.splice(this._doneBytes, this._doneBytes + this._partSize),
+						doneBytes: this._doneBytes,
+						size: this._partSize,
+					});
+				}).then(function (response) {
+					if (response.reset || !response.success) {
+						return this._reset();
+					}
+
+					var uploadTook = new Date().getTime() - uploadStarted;
+
+					if (uploadTook > BlobUploader.MAXIMUMTIME) {
+						this._halfSize();
+					} else {
+						this._doubleSize();
+					}
+
+					this._doneBytes += BlobUploader.PARTSIZE;
+					this._notifyProgress(this._doneBytes);
+				}).catch(function () {
+					this._halfSize();
+				});
+			};
+
+			BlobUploader.prototype._halfSize = function () {
+				this._partSize = Math.max(this._partSize / 2, BlobUploader.MINIMUMPARTSIZE);
+			};
+
+			BlobUploader.prototype._doubleSize = function () {
+				this._partSize = Math.min(this._partSize * 2, BlobUploader.MAXIMUMPARTSIZE);
+			};
+
+			BlobUploader.prototype.listenProgress = function (progressListener) {
+				this._progressListeners.push(progressListener);
+			};
+
 			var socketS = {
 				errors: {
 					Disconnect: DisconnectError,
@@ -137,37 +211,20 @@ define([
 					}
 
 					uploadingCounter++;
-					step(function () {
-						if (!streamUpgraded) {
-							socketS.emit("blob.upgradeStream", {}, this);
-						} else {
-							this.ne();
-						}
-					}, h.sF(function () {
-						streamUpgraded = true;
+					var uploader = new BlobUploader(blob, blobid);
 
-						var stream = iostream.createStream();
-						iostream(socket).emit("pushBlob", stream, {
-							blobid: blobid
-						});
+					uploader.listen(function (doneBytes) {
+						progress.progress(doneBytes);
+					}, "progress");
 
-						var blobStream = iostream.createBlobReadStream(blob);
-
-						blobStream.on("data", function(chunk) {
-							progress.progressDelta(chunk.length);
-						});
-
-						blobStream.on("end", this);
-
-						blobStream.pipe(stream);
-					}), function (e) {
+					var uploadPromise = uploader.upload().then(function () {
 						uploadingCounter--;
 
 						internalObserver.notify(blobid, "uploadFinished");
-						internalObserver.notify(blobid, "uploadFinished:" + blobid);
+						internalObserver.notify(blobid, "uploadFinished:" + blobid);						
+					});
 
-						this(e);
-					}, cb);
+					return step.unpromisify(uploadPromise, cb);
 				},
 				on: function () {
 					return socket.on.apply(socket, arguments);
