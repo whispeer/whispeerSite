@@ -53,3 +53,79 @@ progress:not([value])::-moz-progress-bar {
 progress:not([value])::-webkit-progress-bar {
 	background: #ccc;
 }
+
+/* Circular Progress */
+
+.radial-progress {
+	@circle-size: 20px;
+	@circle-background: fade(#fff, 20%);
+	@circle-color: @white;
+	@inset-size: 12px;
+	@inset-color: lighten(#333, 20%);
+	@transition-length: 1s;
+
+	width:  @circle-size;
+	height: @circle-size;
+
+	background-color: @circle-background;
+	border-radius: 50%;
+	border: 2px solid @inset-color;
+
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	margin: (@circle-size / -2) 0 0 (@circle-size / -2);
+	.circle {
+		.mask, .fill {
+			width:    @circle-size;
+			height:   @circle-size;
+			position: absolute;
+			border-radius: 50%;
+
+			-webkit-backface-visibility: hidden;
+			transition: -webkit-transform @transition-length;
+			transition: -ms-transform @transition-length;
+			transition: transform @transition-length;
+			border-radius: 50%;
+		}
+		.mask {
+			clip: rect(0px, @circle-size, @circle-size, @circle-size/2);
+			.fill {
+				clip: rect(0px, @circle-size/2, @circle-size, 0px);
+				background-color: @circle-color;
+			}
+		}
+	}
+
+	.inset {
+		width:       @inset-size;
+		height:      @inset-size;
+		position:    absolute;
+		margin-left: (@circle-size - @inset-size)/2;
+		margin-top:  (@circle-size - @inset-size)/2;
+
+		background-color: @inset-color;
+		border-radius: 50%;
+	}
+
+	@i: 0;
+	@increment: 180deg / 100;
+	.loop (@i) when (@i <= 100) {
+		&[data-progress="@{i}"] {
+			.circle {
+				.mask.full, .fill {
+					-webkit-transform: rotate(@increment * @i);
+					-ms-transform: rotate(@increment * @i);
+					transform: rotate(@increment * @i);
+				}
+				.fill.fix {
+					-webkit-transform: rotate(@increment * @i * 2);
+					-ms-transform: rotate(@increment * @i * 2);
+					transform: rotate(@increment * @i * 2);
+				}
+			}
+		}
+		.loop(@i + 1);
+	}
+	.loop(@i);
+}
