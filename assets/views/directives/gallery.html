@@ -5,8 +5,8 @@
 </modal>
 <div class="post-images">
 	<div class="post-imageWrap" data-ng-click="viewImage($index)" data-image-gallery="images" data-ng-repeat="image in images" data-ng-if="$index < preview">
-		<div data-ng-if="image.upload !== undefined && image.upload._progress._progress < 1">
-			<div class="radial-progress" data-progress="{{image.upload._progress._progress * 100}}">
+		<div data-ng-if="image.upload && image.upload.getProgress() < 1">
+			<div class="radial-progress" data-progress="{{image.upload.getProgress() * 100 | number:0}}">
 				<div class="circle">
 					<div class="mask full">
 						<div class="fill"></div>
