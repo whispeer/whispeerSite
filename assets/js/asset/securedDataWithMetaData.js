@@ -367,6 +367,23 @@ define(["whispeerHelper", "step", "crypto/keyStore", "asset/errors", "config", "
 	};
 
 	var api = {
+		createPromisified: function (content, meta, options, signKey, cryptKey) {
+			var securedData, securedDataPromise;
+			securedDataPromise = new Bluebird(function (resolve, reject) {
+				securedData = api.create(content, meta, options, signKey, cryptKey, function (e, res) {
+					if (e) {
+						return reject(e);
+					}
+
+					resolve(res);
+				});
+			});
+
+			return {
+				promise: securedDataPromise,
+				data: securedData
+			};
+		},
 		create: function (content, meta, options, signKey, cryptKey, cb) {
 			var secured = new SecuredDataWithMetaData(content, meta, options, true);
 			step(function () {
