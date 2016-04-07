@@ -26,8 +26,8 @@
 			<span data-ng-if="::post.visibleSelection" class="post-action post-action-button">
 				<i class="fa fa-eye fa-fw"></i>
 				Sichtbar für
-				<span data-ng-repeat="visibleDescription in post.visibleSelection">
-					{{visibleDescription}}
+				<span data-ng-repeat="visibleFilterKey in post.visibleSelection">
+					<a whispeer-sref="{{visibleFilterKey.sref}}">{{visibleFilterKey.name}}</a>{{::($last?"":", ")}}
 				</span>
 			</span>
 		</div>

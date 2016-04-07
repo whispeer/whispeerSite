@@ -232,7 +232,11 @@ define(["step", "whispeerHelper", "bluebird", "validation/validator", "services/
 
 			this.getPrivate = function (cb) {
 				if (privateData) {
-					privateData.decrypt(cb);
+					step(function () {
+						privateData.decrypt(this);
+					}, h.sF(function (visibleSelection) {
+						step.unpromisify(filterService.getFiltersByID(visibleSelection), this);
+					}), cb);
 				} else {
 					cb();
 				}

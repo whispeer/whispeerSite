@@ -74,30 +74,24 @@ define(["whispeerHelper", "step", "bluebird", "asset/errors", "services/serviceM
 				return {
 					name: circle.name,
 					id: "circle:" + circle.id,
+					sref: "app.circles.show({circleid: " + circle.id + "})",
 					count: circle.userids.length
 				};
 			});
 		}
 
-		function getAlwaysCount(id) {
-			var key, me = userService.getown();
-
-			switch(id) {
-				case "allfriends":
-					key = me.getFriendsKey();
-					break;
-				default:
-					return 0;
+		function getAlwaysByID(id) {
+			if (id !== "allfriends") {
+				throw new Error("Invalid Always id");
 			}
 
-			return keyStore.upload.getKeyAccessCount(key) - 1;
-		}
+			var key = userService.getown().getFriendsKey();
 
-		function getAlwaysByID(id) {
 			return {
-				name: localize.getLocalizedString("directives." + id),
+				name: localize.getLocalizedString("directives.allfriends"),
 				id: "always:" + id,
-				count: getAlwaysCount(id)
+				sref: "app.friends",
+				count: keyStore.upload.getKeyAccessCount(key) - 1
 			};
 		}
 
