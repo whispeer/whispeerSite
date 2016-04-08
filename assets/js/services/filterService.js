@@ -80,6 +80,17 @@ define(["whispeerHelper", "step", "bluebird", "asset/errors", "services/serviceM
 			});
 		}
 
+		function getFriendsFilterByID(id) {
+			var getUser = Bluebird.promisify(userService.get, userService);
+			return getUser(id).then(function (user) {
+				return {
+					name: localize.getLocalizedString("directives.friendsOf", {name: user.data.name}),
+					id: "friends:" + user.data.id,
+					sref: "app.user({identifier: " + user.data.id + "})"
+				};
+			});
+		}
+
 		function getAlwaysByID(id) {
 			if (id !== "allfriends") {
 				throw new Error("Invalid Always id");
@@ -97,14 +108,17 @@ define(["whispeerHelper", "step", "bluebird", "asset/errors", "services/serviceM
 
 		function getFilterByID(id) {
 			return Bluebird.try(function () {
-				var domain = id.substr(0, 7);
-				var domainID = id.substr(7);
+				var colon = id.indexOf(":");
+				var domain = id.substr(0, colon + 1);
+				var domainID = id.substr(colon + 1);
 
 				if (domain === "always:") {
 					return getAlwaysByID(domainID);
 				} else if (domain === "circle:") {
 					return getCircleByID(domainID);
-				}				
+				} else if (domain === "friends:") {
+					return getFriendsFilterByID(domainID);
+				}
 			});
 		}
 

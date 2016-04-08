@@ -172,7 +172,8 @@
 		}
 	},
 	"directives": {
-		"allfriends": "Alle Freunde"
+		"allfriends": "Alle Freunde",
+		"friendsOf": "Freunde von {name}"
 	},
 	"usersearch": {
 		"mutualFriends": "gemeinsame Freunde",
