@@ -26,7 +26,7 @@
 			<span data-ng-if="::post.visibleSelection" class="post-action-visibility">
 				<i class="fa fa-eye fa-fw"></i>
 				<span data-i18n="wall.post.visible"></span>
-				<span class="btn btn--xs btn--gray post-action-visibility-button" data-ng-repeat="visibleFilterKey in post.visibleSelection">
+				<span class="btn btn--xs btn--gray post-action-visibility-button" data-ng-repeat="visibleFilterKey in post.visibleSelection" data-ng-if="visibleFilterKey">
 					<a whispeer-sref="{{visibleFilterKey.sref}}">{{visibleFilterKey.name}}</a>
 				</span>
 			</span>
