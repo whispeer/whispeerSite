@@ -57,11 +57,11 @@ progress:not([value])::-webkit-progress-bar {
 /* Circular Progress */
 
 .radial-progress {
-	@circle-size: 20px;
-	@circle-background: fade(#fff, 20%);
+	@circle-size: 30px;
+	@circle-background: fade(@gray, 80%);
 	@circle-color: @white;
-	@inset-size: 12px;
-	@inset-color: lighten(#333, 20%);
+	@inset-size: 24px;
+	@inset-color: @gray;
 	@transition-length: 1s;
 
 	width:  @circle-size;
@@ -69,7 +69,6 @@ progress:not([value])::-webkit-progress-bar {
 
 	background-color: @circle-background;
 	border-radius: 50%;
-	border: 2px solid @inset-color;
 
 	position: absolute;
 	top: 50%;
