@@ -25,7 +25,7 @@
 			<span data-ng-if="::post.removable" data-accessible-click="post.remove()" class="post-action post-action-button"><i class="fa fa-times fa-fw"></i>&nbsp;<span data-i18n="wall.remove"></span></span>
 			<span data-ng-if="::post.visibleSelection" class="post-action-visibility">
 				<i class="fa fa-eye fa-fw"></i>
-				Sichtbar für
+				<span data-i18n="wall.post.visible"></span>
 				<span class="btn btn--xs btn--gray post-action-visibility-button" data-ng-repeat="visibleFilterKey in post.visibleSelection">
 					<a whispeer-sref="{{visibleFilterKey.sref}}">{{visibleFilterKey.name}}</a>
 				</span>
