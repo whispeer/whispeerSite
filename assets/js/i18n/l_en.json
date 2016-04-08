@@ -361,7 +361,8 @@
 			"sender": {
 				"name":	"{{sender}}:"
 			},
-			"content": "{{content}}"
+			"content": "{{content}}",
+			"visible": "Visible to"
 		},
 		"zeroContent": {
 			"headline": "Hey {name}! This is your newsfeed.",
