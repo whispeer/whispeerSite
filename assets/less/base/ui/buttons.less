@@ -85,6 +85,12 @@
 .btn--primary,
 .btn-saveButton--success {
 	.buttonBackground(@btnGreenBackground, @btnGreenBackgroundHover, @btnGreenBackgroundFocus, @btnGreenBackgroundActive);
+	a {
+		color: @grayLighter;
+		&:hover {
+			color: @grayLight;
+		}
+	}
 }
 .btn--primaryLight {
 	.buttonBackground(@btnGreenLightBackground, @btnGreenLightBackgroundHover, @btnGreenLightBackgroundFocus, @btnGreenLightBackgroundActive);
@@ -144,7 +150,6 @@
 	background: @btnBackgroundHover;
 	color: @grayLight !important; // this has to be important...
 	cursor: not-allowed;
-	border: 1px solid @btnBorder;
 	line-height: 38px;
 	text-shadow: none;
 	pointer-events: none;

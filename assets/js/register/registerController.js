@@ -84,6 +84,10 @@ define([
 
 		$scope.registerStep = 0;
 
+		$scope.prevStep = function() {
+			$scope.registerStep--;
+		}
+
 		$scope.nextStep = function() {
 			$scope.registerStep++;
 		}

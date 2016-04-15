@@ -39,25 +39,35 @@
 		<section id="register-main">
 			<div id="startView-register">
 				<form class="registerForm">
-					<header id="register-guide">
-						<h1 class="register-headline">
-							Hallo<span data-ng-if="registerData.nickname.length > 0"> {% raw %}{{registerData.nickname}}{% endraw %}</span>!
-						</h1>
-						<h2 class="register-headline">
-							Die Registration bei whispeer ist ganz einfach. Geb' einfach einen Benutzernamen ein und klick auf weiter!
-						</h2>
-					</header>
 					<section class="register-body" data-ng-show="registerStep === 0">
+						<header id="register-guide">
+							<h1 class="register-headline">
+								Hallo<span data-ng-if="registerData.nickname.length > 0"> {% raw %}{{registerData.nickname}}{% endraw %}</span>!
+							</h1>
+							<p class="register-headline">
+								Die Registration bei whispeer ist ganz einfach. Geb' einfach einen Benutzernamen ein und klick auf weiter!
+							</p>
+						</header>
 						<div class="annotatedInput-container">
-							<input class="annotatedInput-input" type="text" id="register-nickname" placeholder="{{i18n.login.username}}" data-ng-model="registerData.nickname" data-load-val data-ng-model-onblur data-ng-change="nicknameChange()" validation="nicknameValidations">
+							<input class="annotatedInput-input" type="text" id="register-nickname" placeholder="{{i18n.login.username}}" data-ng-model="registerData.nickname" data-load-val data-ng-model-onblur data-ng-change="nicknameChange()" validation="nicknameValidations" autofocus>
 							<span class="annotatedInput-icon fa" data-ng-class="acceptIconNicknameFree()" data-ng-if="!empty(registerData.nickname)"></span>
 						</div>
 						<button class="btn" id="register-nextStep" data-ng-class="{'btn--disabled': !registerData.nicknameCheck, 'btn--primary': registerData.nicknameCheck}" data-ng-click="nextStep(); registerFormClick();">Weiter <i class="fa fa-arrow-right"></i></button>
 					</section>
 					<section class="register-body" data-ng-show="registerStep === 1">
+						<header id="register-guide">
+							<h1 class="register-headline">
+								Alles klar, {% raw %}{{registerData.nickname}}{% endraw %}</span>!
+							</h1>
+							<p class="register-headline">
+								Du musst jetzt noch ein möglichst starkes Passwort wählen.<br>
+								Wir empfehlen mindestens 12 Zeichen, darunter groß- und kleingeschriebene Buchstaben sowie Zahlen und Sonderzeichen.<br>
+								<small>Tipp: An der rechten Seite des Eingabefeldes findest du eine kleine Anzeige, die dir die Stärke deines Passworts anzeigt.</small>
+							</p>
+						</header>
 						<passwordinput state="pwState">
 							<div class='annotatedInput-container'>
-								<input class='annotatedInput-input strenghInput password inputSandwich inputSandwich-top' type='password' placeholder='{{i18n.login.password}}' data-ng-model='state.password' data-load-val validation='passwordValidations'>
+								<input class='annotatedInput-input strenghInput password inputSandwich inputSandwich-top' type='password' placeholder='{{i18n.login.password}}' data-ng-model='state.password' data-load-val validation='passwordValidations' autofocus>
 								<span class='annotatedInput-icon' data-strength='{{ "{{ passwordStrength() " }}}}'></span>
 							</div>
 							<div class='annotatedInput-container'>
@@ -65,17 +75,33 @@
 								<span class='annotatedInput-icon fa' data-ng-class='acceptIcon(state.password, state.password2)' data-ng-if='!empty(state.password) && !empty(state.password2)'></span>
 							</div>
 						</passwordinput>
-						<button class="btn" id="register-nextStep" data-ng-class="{'btn--disabled': !(pwState.password.length >= 8 && pwState.password === pwState.password2), 'btn--primary': pwState.password.length >= 8 && pwState.password === pwState.password2}" data-ng-click="nextStep()">Weiter <i class="fa fa-arrow-right"></i></button>
+						<button class="btn btn--gray" id="register-prevStep" type="button" data-ng-click="prevStep()"><i class="fa fa-arrow-left"></i> Zurück</button>
+						<!-- TODO: Really disable this thing when the expression is false. -->
+						<button class="btn" id="register-nextStep" type="submit" data-ng-class="{'btn--disabled': !(pwState.password.length >= 8 && pwState.password === pwState.password2), 'btn--primary': pwState.password.length >= 8 && pwState.password === pwState.password2}" data-ng-click="nextStep()">Weiter <i class="fa fa-arrow-right"></i></button>
 					</section>
-					<section class="register-body" data-ng-show="registerStep === 2">
-						<label class="registerAGB inputSandwich inputSandwich-middle" for="checkAGB" validation="agbValidations">
+					<section class="register-body" id="register-accept-agb" data-ng-show="registerStep === 2">
+						<header id="register-guide">
+							<h1 class="register-headline">
+								Der letzte Schritt</span>!
+							</h1>
+							<p class="register-headline">
+								Ein paar Formalitäten müssen dann leider doch sein:<br>
+								Wir bitten dich, unsere <a href="/agb" data-for="agb" target="_blank">{{i18n.legal.terms}}</a> und unsere <a href="/privacyPolicy" data-for="privacyPolicy" target="_blank">{{i18n.legal.data}}</a> zu lesen und zu akzeptieren.<br>
+								<small>Wir haben versucht, diese so kurz und simpel wie möglich zu halten, aber ganz ohne geht leider nicht.</small>
+							</p>
+						</header>
+						<label class="register-agb btn btn--primary btn--big" for="checkAGB" validation="agbValidations">
 							<input type="checkbox" data-ng-model="registerData.agb" id="checkAGB" class="checkAGB" data-load-val>
 							<span data-i18n="landingpage.legal">
 								<a href="/agb" data-for="agb" target="_blank">{{i18n.legal.terms}}</a>
 								<a href="/privacyPolicy" data-for="privacyPolicy" target="_blank">{{i18n.legal.data}}</a>
 							</span>
 						</label>
-						<savebutton class="btn btn--primary" data-noiniticon data-state="registerState" type="submit"  data-ng-click="register()"><span>{{i18n.register.link}}</span></savebutton>
+						<br>
+						<button class="btn btn--gray" id="register-prevStep" type="button" data-ng-click="prevStep()"><i class="fa fa-arrow-left"></i> Zurück</button>
+						<!-- TODO: Really disable this thing when the expression is false. -->
+						<!-- TODO: Validation-Options are out of scope -->
+						<savebutton class="btn btn--primary" id="register-nextStep" type="submit" data-noiniticon data-state="registerState" type="submit"  data-ng-click="register()"><span>{{i18n.register.link}}</span></savebutton>
 					</section>
 				</form>
 			</div>
