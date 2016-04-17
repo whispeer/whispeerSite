@@ -49,7 +49,7 @@
 							</p>
 						</header>
 						<div class="annotatedInput-container">
-							<input class="annotatedInput-input" type="text" id="register-nickname" placeholder="{{i18n.login.username}}" data-ng-model="registerData.nickname" data-load-val data-ng-model-onblur data-ng-change="nicknameChange()" validation="nicknameValidations" autofocus>
+							<input class="annotatedInput-input" type="text" id="register-nickname" placeholder="{{i18n.login.username}}" data-ng-model="registerData.nickname" data-load-val data-ng-model-onblur data-ng-change="nicknameChange()" validation="nicknameValidations" autofocus="registerStep === 0">
 							<span class="annotatedInput-icon fa" data-ng-class="acceptIconNicknameFree()" data-ng-if="!empty(registerData.nickname)"></span>
 						</div>
 						<button class="btn" id="register-nextStep" data-ng-class="{'btn--disabled': !registerData.nicknameCheck, 'btn--primary': registerData.nicknameCheck}" data-ng-click="nextStep(); registerFormClick();">Weiter <i class="fa fa-arrow-right"></i></button>
@@ -67,7 +67,7 @@
 						</header>
 						<passwordinput state="pwState">
 							<div class='annotatedInput-container'>
-								<input class='annotatedInput-input strenghInput password inputSandwich inputSandwich-top' type='password' placeholder='{{i18n.login.password}}' data-ng-model='state.password' data-load-val validation='passwordValidations' autofocus>
+								<input class='annotatedInput-input strenghInput password inputSandwich inputSandwich-top' type='password' placeholder='{{i18n.login.password}}' data-ng-model='state.password' data-load-val validation='passwordValidations' autofocus="$parent.registerStep === 1">
 								<span class='annotatedInput-icon' data-strength='{{ "{{ passwordStrength() " }}}}'></span>
 							</div>
 							<div class='annotatedInput-container'>

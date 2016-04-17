@@ -3,8 +3,16 @@ define(["directives/directivesModule"], function (directivesModule) {
 	var autofocusDirective = function() {
 		return {
 			link: function(scope, elm, attr) {
-				if (!attr.autofocus || attr.autofocus === "true") {
+				if (!attr.autofocus) {
 					elm.focus();
+				} else {
+					scope.$watch(attr.autofocus, function (val) {
+						if (val) {
+							window.setTimeout(function () {
+								elm.focus();
+							});
+						}
+					});
 				}
 			}
 		};
