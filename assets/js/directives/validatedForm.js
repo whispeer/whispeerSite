@@ -28,7 +28,11 @@ define(["whispeerHelper", "directives/directivesModule", "qtip"], function (h, d
 
 				var activeFailedValidation = false;
 
-				function removeErrorHints() {
+				function removeErrorHints(e) {
+					if (e && e.keyCode === 13) {
+						return;
+					}
+
 					activeFailedValidation = false;
 					validations.forEach(function (vElement) {
 						vElement.element.qtip("destroy", true);
@@ -40,6 +44,10 @@ define(["whispeerHelper", "directives/directivesModule", "qtip"], function (h, d
 						return;
 					} else if (activeFailedValidation) {
 						removeErrorHints();
+					}
+
+					if (!failedValidation.translation) {
+						return;
 					}
 
 					activeFailedValidation = failedValidation;
@@ -65,43 +73,13 @@ define(["whispeerHelper", "directives/directivesModule", "qtip"], function (h, d
 					});
 				}
 
-				function validateOnChange(vElement, validation) {
-					vElement.element.on("keyup", h.debounce(function () {
-						if (getElementScope(vElement.element).$eval(validation.validator)) {
-							showErrorHint(vElement.element, validation);
-						}
-					}, validation.onChange));
-				}
-
-
-				function registerChangeListener(vElement) {
-					vElement.validations.forEach(function (validation) {
-						if (validation.onChange) {
-							validateOnChange(vElement, validation);
-						}
-					});
-				}
-
-				//expand all validations
-				validations.forEach(function (vElement) {
-					var scope = getElementScope(vElement.element);
-					var deregister = scope.$watch(function () {
-						return scope.$eval(vElement.validator);
-					}, function (val) {
-						if (val) {
-							vElement.validations = val;
-							registerChangeListener(vElement);
-							deregister();
-						}
-					});
-				});
-
-				function checkValidations() {
+				function checkValidations(ids, skipHints) {
 					var invalidValidationFound = false;
 
 					//run all validations and show errors in qtips.
 
 					validations.forEach(function (vElement) {
+						if (ids && ids.indexOf(vElement.element.attr("id")) === -1) { return; }
 						if (invalidValidationFound) { return; }
 
 						var scope = getElementScope(vElement.element);
@@ -110,12 +88,14 @@ define(["whispeerHelper", "directives/directivesModule", "qtip"], function (h, d
 
 							if (scope.$eval(validation.validator)) {
 								invalidValidationFound = true;
-								showErrorHint(vElement.element, validation);
+								if (!skipHints) {
+									showErrorHint(vElement.element, validation);
+								}
 							}
 						});
 					});
 
-					if (!invalidValidationFound) {
+					if (!invalidValidationFound && !skipHints) {
 						removeErrorHints();
 					}
 
@@ -123,9 +103,7 @@ define(["whispeerHelper", "directives/directivesModule", "qtip"], function (h, d
 				}
 
 				if (options.validateOnCallback) {
-					options.checkValidations = function () {
-						return checkValidations();
-					};
+					options.checkValidations = checkValidations;
 				} else {
 					scope.$watch(function () {
 						checkValidations();

@@ -38,8 +38,8 @@
 		</aside>
 		<section id="register-main">
 			<div id="startView-register">
-				<form class="registerForm" data-validated-form="validationOptions">
-					<section class="register-body" data-ng-show="registerStep === 0">
+				<form class="registerForm" data-validated-form="validationOptions" autocomplete="off">
+					<section class="register-body" data-ng-show="nicknameForm">
 						<header id="register-guide">
 							<h1 class="register-headline">
 								Hallo<span data-ng-if="registerData.nickname.length > 0"> {% raw %}{{registerData.nickname}}{% endraw %}</span>!
@@ -49,12 +49,12 @@
 							</p>
 						</header>
 						<div class="annotatedInput-container">
-							<input class="annotatedInput-input" type="text" id="register-nickname" placeholder="{{i18n.login.username}}" data-ng-model="registerData.nickname" data-load-val data-ng-model-onblur data-ng-change="nicknameChange()" validation="nicknameValidations" autofocus="registerStep === 0">
+							<input class="annotatedInput-input" type="text" id="register-nickname" placeholder="{{i18n.login.username}}" data-ng-model="registerData.nickname" data-load-val data-ng-model-onblur data-ng-change="nicknameChange()" validation="nicknameValidations" autofocus="nicknameForm">
 							<span class="annotatedInput-icon fa" data-ng-class="acceptIconNicknameFree()" data-ng-if="!empty(registerData.nickname)"></span>
 						</div>
-						<button class="btn" id="register-nextStep" data-ng-class="{'btn--disabled': !registerData.nicknameCheck, 'btn--primary': registerData.nicknameCheck}" data-ng-click="nextStep(); registerFormClick();">Weiter <i class="fa fa-arrow-right"></i></button>
+						<button class="btn" id="register-nextStep" data-ng-class="{'btn--disabled': !nicknameValid, 'btn--primary': nicknameValid}" data-ng-click="goToNextForm(); registerFormClick();">Weiter <i class="fa fa-arrow-right"></i></button>
 					</section>
-					<section class="register-body" data-ng-show="registerStep === 1">
+					<section class="register-body" data-ng-show="passwordForm">
 						<header id="register-guide">
 							<h1 class="register-headline">
 								Alles klar, {% raw %}{{registerData.nickname}}{% endraw %}</span>!
@@ -67,19 +67,19 @@
 						</header>
 						<passwordinput state="pwState">
 							<div class='annotatedInput-container'>
-								<input class='annotatedInput-input strenghInput password inputSandwich inputSandwich-top' type='password' placeholder='{{i18n.login.password}}' data-ng-model='state.password' data-load-val validation='passwordValidations' autofocus="$parent.registerStep === 1">
+								<input class='annotatedInput-input strenghInput password inputSandwich inputSandwich-top' type='password' id="password1" placeholder='{{i18n.login.password}}' data-ng-model='state.password' data-load-val validation='passwordValidations' autofocus="$parent.passwordForm">
 								<span class='annotatedInput-icon' data-strength='{{ "{{ passwordStrength() " }}}}'></span>
 							</div>
 							<div class='annotatedInput-container'>
-								<input type='password' class='annotatedInput-input password2 inputSandwich inputSandwich-bottom' placeholder='{{i18n.register.repeatPassword}}' data-ng-model='state.password2' data-load-val validation='password2Validations'>
+								<input type='password' class='annotatedInput-input password2 inputSandwich inputSandwich-bottom' id="password2" placeholder='{{i18n.register.repeatPassword}}' data-ng-model='state.password2' data-load-val validation='password2Validations'>
 								<span class='annotatedInput-icon fa' data-ng-class='acceptIcon(state.password, state.password2)' data-ng-if='!empty(state.password) && !empty(state.password2)'></span>
 							</div>
 						</passwordinput>
-						<button class="btn btn--gray" id="register-prevStep" type="button" data-ng-click="prevStep()"><i class="fa fa-arrow-left"></i> Zurück</button>
+						<button class="btn btn--gray" id="register-prevStep" type="button" data-ng-click="goToNicknameForm()"><i class="fa fa-arrow-left"></i> Zurück</button>
 						<!-- TODO: Really disable this thing when the expression is false. -->
-						<button class="btn" id="register-nextStep" type="submit" data-ng-class="{'btn--disabled': !(pwState.password.length >= 8 && pwState.password === pwState.password2), 'btn--primary': pwState.password.length >= 8 && pwState.password === pwState.password2}" data-ng-click="nextStep()">Weiter <i class="fa fa-arrow-right"></i></button>
+						<button class="btn" id="register-nextStep" type="submit" data-ng-class="{'btn--disabled': !passwordsValid, 'btn--primary': passwordsValid}" data-ng-click="goToNextForm()">Weiter <i class="fa fa-arrow-right"></i></button>
 					</section>
-					<section class="register-body" id="register-accept-agb" data-ng-show="registerStep === 2">
+					<section class="register-body" id="register-accept-agb" data-ng-show="agbForm">
 						<header id="register-guide">
 							<h1 class="register-headline">
 								Der letzte Schritt</span>!
@@ -98,9 +98,8 @@
 							</span>
 						</label>
 						<br>
-						<button class="btn btn--gray" id="register-prevStep" type="button" data-ng-click="prevStep()"><i class="fa fa-arrow-left"></i> Zurück</button>
+						<button class="btn btn--gray" id="register-prevStep" type="button" data-ng-click="goToPasswordForm()"><i class="fa fa-arrow-left"></i> Zurück</button>
 						<!-- TODO: Really disable this thing when the expression is false. -->
-						<!-- TODO: Validation-Options are out of scope -->
 						<savebutton class="btn btn--primary" id="register-nextStep" type="submit" data-noiniticon data-state="registerState" type="submit"  data-ng-click="register()"><span>{{i18n.register.link}}</span></savebutton>
 					</section>
 				</form>
