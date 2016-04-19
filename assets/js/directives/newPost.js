@@ -71,7 +71,10 @@ define(["directives/directivesModule", "whispeerHelper", "asset/state"], functio
 							postService.createPost($scope.newPost.text, visibleSelection, wallUserId, images).then(function () {
 								$scope.newPost.text = "";
 								$scope.newPost.images = [];
-							}).catch(sendPostState.failed.bind(sendPostState))
+							}).catch(function (e) {
+								console.error(e);
+								sendPostState.failed();
+							})
 							.then(sendPostState.success.bind(sendPostState))
 							.finally(function () {
 								$scope.canSend = true;

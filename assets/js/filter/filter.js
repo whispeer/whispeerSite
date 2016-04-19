@@ -1,9 +1,6 @@
 /**
-* BaseFilter
+* Base Controller
 **/
-(function () {
-	"use strict";
-	define(["angular"], function (angular) {
-		angular.module("ssn.filter", []);
-	});
-})();
+define([
+	"filter/filterModule"
+], function () {});

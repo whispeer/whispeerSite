@@ -10,9 +10,14 @@ define(["step", "whispeerHelper", "bluebird", "validation/validator", "services/
 		var timelinesCache = {};
 
 		var Post = function (data) {
-			var thePost = this, id = data.id;
+			var thePost = this, id = data.id, privateData;
 
 			var securedData = SecuredData.load(data.content, data.meta, { type: "post" });
+
+			if (data.private) {
+				privateData = SecuredData.load(data.private.content, data.private.meta, { type: "postPrivate" });
+			}
+
 			var comments = data.comments || [];
 			comments = comments.map(function (comment) {
 				return new Comment(comment);
@@ -107,16 +112,26 @@ define(["step", "whispeerHelper", "bluebird", "validation/validator", "services/
 
 					d.sender = sender.data;
 					securedData.verify(sender.getSignKey(), this.parallel());
+
+					if (privateData) {
+						privateData.verify(sender.getSignKey(), this.parallel());
+					}
 				}), h.sF(function () {
+					this.parallel.unflatten();
+
 					keyStore.security.addEncryptionIdentifier(securedData.metaAttr("_key"));
-					thePost.getText(this);
-				}), h.sF(function (text) {
+
+					thePost.getText(this.parallel());
+					thePost.getPrivate(this.parallel());
+				}), h.sF(function (text, privateData) {
 					var d = thePost.data;
 
 					d.loaded = true;
 					d.content = {
 						text: text
 					};
+
+					d.visibleSelection = privateData;
 
 					d.images = securedData.metaAttr("images");
 
@@ -213,6 +228,18 @@ define(["step", "whispeerHelper", "bluebird", "validation/validator", "services/
 
 					this.ne();
 				}), cb);
+			};
+
+			this.getPrivate = function (cb) {
+				if (privateData) {
+					step(function () {
+						privateData.decrypt(this);
+					}, h.sF(function (visibleSelection) {
+						step.unpromisify(filterService.getFiltersByID(visibleSelection), this);
+					}), cb);
+				} else {
+					cb();
+				}
 			};
 
 			this.getText = function (cb) {
@@ -477,8 +504,8 @@ define(["step", "whispeerHelper", "bluebird", "validation/validator", "services/
 
 				var symEncryptKey = Promise.promisify(keyStore.sym.symEncryptKey, keyStore.sym);
 				var filterToKeys = Promise.promisify(filterService.filterToKeys, filterService);
-				var createSecuredData = Promise.promisify(SecuredData.create, SecuredData);
 				var socketEmit = Promise.promisify(socket.emit, socket);
+				var data, securedData;
 
 				return Promise.all([keyGeneration, imagePreparation]).spread(function (postKey, imagesMetaData) {
 					var uploadImages = Promise.all(images.map(function (image) {
@@ -495,15 +522,28 @@ define(["step", "whispeerHelper", "bluebird", "validation/validator", "services/
 					meta.walluser = wallUserID;
 					meta.images = imagesMetaData;
 
-					var securedData = createSecuredData(content, meta, { type: "post" }, userService.getown().getSignKey(), postKey);
+					var ownUser = userService.getown();
 
-					return Promise.all([uploadImages, securedData, encryptPostKeys]);
-				}).spread(function (imageKeys, data) {
+					var secured = SecuredData.createPromisified(content, meta, { type: "post" }, ownUser.getSignKey(), postKey);
+
+					securedData = secured.data;
+
+					return Promise.all([uploadImages, secured.promise, encryptPostKeys]);
+				}).spread(function (imageKeys, _data) {
+					data = _data;
+
 					imageKeys = h.array.flatten(imageKeys);
-
 
 					data.imageKeys = imageKeys.map(keyStore.upload.getKey);
 					data.meta._key = keyStore.upload.getKey(data.meta._key);
+
+					var ownUser = userService.getown();
+
+					var privateData = SecuredData.createPromisified(visibleSelection, {}, { type: "postPrivate" }, ownUser.getSignKey(), ownUser.getMainKey());
+					privateData.data.setParent(securedData);
+					return privateData.promise;
+				}).then(function (privateData) {
+					data.privateData = privateData;
 
 					return socketEmit("posts.createPost", { postData: data });
 				}).then(function (result) {
