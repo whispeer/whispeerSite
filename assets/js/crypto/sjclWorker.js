@@ -132,7 +132,13 @@ define(["libs/sjcl", "crypto/minimalHelper", "crypto/objectHasher"], function (s
 	}
 
 	function handleStringify(data) {
-		return new ObjectHasher(data.content, data.version).stringify();
+		var result = new ObjectHasher(data.content, data.version).stringify();
+
+		if (data.hash) {
+			return sjcl.hash.sha256.hash(result);
+		}
+
+		return result;
 	}
 
 	return function (data, _metaListener) {

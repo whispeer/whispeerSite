@@ -28,14 +28,14 @@ define(["step", "whispeerHelper", "crypto/trustManager", "crypto/signatureCache"
 		function storeSignatureCache() {
 			if (signatureCache.isChanged()) {
 				console.log("Storing signature cache!");
+				console.time("storedSignatureCache");
 
 				signatureCache.resetChanged();
 
 				signatureCache.getUpdatedVersion().then(function (updatedVersion) {
-					console.log(updatedVersion);
 					return signatureCacheObject.store(sessionService.getUserID(), updatedVersion);
 				}).then(function () {
-					console.log("stored signature cache");
+					console.timeEnd("storedSignatureCache");
 				});
 			}
 		}

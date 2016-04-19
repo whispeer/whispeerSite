@@ -1166,7 +1166,7 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 				}
 				intKey.decryptKey(this);
 			}), h.sF(function () {
-				this.ne(intKey.getSecret().sign(hash));
+				sjclWorkerInclude.asym.sign(intKey.getSecret(), hash).nodeify(this);
 			}), h.sF(function (signature) {
 				if (signatureCache.isLoaded()) {
 					signatureCache.addValidSignature(signature, hash, realid, type);
@@ -1822,19 +1822,17 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 			},
 
 			hashObjectOrValueHexAsync: function (val, version, cb) {
-				var p = Bluebird.try(function () {
+				return Bluebird.try(function () {
 					if (typeof val === "object") {
-						return sjclWorkerInclude.stringify(val, version);
+						return sjclWorkerInclude.stringify(val, version, true);
 					} else {
-						return "data::" + val;
+						return sjcl.hash.sha256.hash("data::" + val);
 					}
 				}).then(function (value) {
-					return chelper.bits2hex(sjcl.hash.sha256.hash(value));
+					return chelper.bits2hex(value);
 				}).then(function (hash) {
 					return "hash::" + hash;
-				});
-
-				return step.unpromisify(p, cb);
+				}).nodeify(cb);
 			},
 
 			hashObjectOrValueHex: function (val, version) {
@@ -2276,12 +2274,12 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 			},
 
 			signObject: function (object, realID, version, callback) {
-				var hash = new ObjectHasher(object, version).hashBits();
-
-				//subtle HERE!
 				step(function signO1() {
-					SignKey.get(realID, this);
-				}, h.sF(function (key) {
+					this.parallel.unflatten();
+
+					SignKey.get(realID, this.parallel());
+					sjclWorkerInclude.stringify(object, version, true).nodeify(this.parallel());
+				}, h.sF(function (key, hash) {
 					key.sign(hash, object._type, this);
 				}), h.sF(function (signature) {
 					this.ne(chelper.bits2hex(signature));
