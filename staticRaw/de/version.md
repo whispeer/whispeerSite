@@ -4,6 +4,13 @@ lang: de
 title: Versionshistorie
 ---
 
+## 0.2.24
+
+* Stark verbesserter Bilderupload. Geschwindigkeit wurde um ein vielfaches erhöht.
+* Schnelleres und flüssigeres Laden
+* Sichtbarkeitsanzeige an eigenen Posts
+* Bugfix: Bessere Erkennung von Links in Posts und Nachrichten
+
 ## 0.2.23
 
 * Geschwindigkeits- & Stabilitätsoptimierungen

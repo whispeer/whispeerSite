@@ -4,7 +4,7 @@
 define(["step", "whispeerHelper", "jquery", "bluebird", "imageLib", "asset/Progress", "asset/Queue", "services/serviceModule"], function (step, h, $, Promise, imageLib, Progress, Queue, serviceModule) {
 	"use strict";
 
-	var service = function ($timeout, blobService) {
+	var service = function ($timeout, blobService, screenSizeService) {
 		var canvasToBlob = Promise.promisify(h.canvasToBlob, h);
 
 		var defaultOptions = {
@@ -52,6 +52,12 @@ define(["step", "whispeerHelper", "jquery", "bluebird", "imageLib", "asset/Progr
 			- maximum size for a resolution
 			- original: enable, remove meta-data (exif etc.)
 		*/
+
+		if (screenSizeService.mobile) {
+			defaultOptions.sizes = defaultOptions.sizes.filter(function (size) {
+				return size.name !== "highest";
+			});
+		}
 
 		var uploadQueue = new Queue(3);
 		uploadQueue.start();
@@ -185,6 +191,7 @@ define(["step", "whispeerHelper", "jquery", "bluebird", "imageLib", "asset/Progr
 
 			return uploadQueue.enqueue(1, function () {
 				return Promise.resolve(_this._blobs).bind(_this).map(function (blobWithMetaData) {
+					console.info("Uploading blob");
 					return _this._uploadPreparedBlob(encryptionKey, blobWithMetaData);
 				});
 			});
@@ -238,14 +245,14 @@ define(["step", "whispeerHelper", "jquery", "bluebird", "imageLib", "asset/Progr
 			var options = $.extend({}, sizeOptions.restrictions || {}, { canvas: true });
 
 			return ImageUpload.imageLibLoad(this._file, options).then(function (canvas) {
-				return canvasToBlob(canvas);
+				return canvasToBlob(canvas, "image/jpeg");
 			});
 		};
 
 		return ImageUpload;
 	};
 
-	service.$inject = ["$timeout", "ssn.blobService"];
+	service.$inject = ["$timeout", "ssn.blobService", "ssn.screenSizeService"];
 
 	serviceModule.factory("ssn.imageUploadService", service);
 });

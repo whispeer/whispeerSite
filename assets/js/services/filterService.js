@@ -74,43 +74,51 @@ define(["whispeerHelper", "step", "bluebird", "asset/errors", "services/serviceM
 				return {
 					name: circle.name,
 					id: "circle:" + circle.id,
+					sref: "app.circles.show({circleid: " + circle.id + "})",
 					count: circle.userids.length
 				};
 			});
 		}
 
-		function getAlwaysCount(id) {
-			var key, me = userService.getown();
-
-			switch(id) {
-				case "allfriends":
-					key = me.getFriendsKey();
-					break;
-				default:
-					return 0;
-			}
-
-			return keyStore.upload.getKeyAccessCount(key) - 1;
+		function getFriendsFilterByID(id) {
+			var getUser = Bluebird.promisify(userService.get, userService);
+			return getUser(id).then(function (user) {
+				return {
+					name: localize.getLocalizedString("directives.friendsOf", {name: user.data.name}),
+					id: "friends:" + user.data.id,
+					sref: "app.user({identifier: " + user.data.id + "})"
+				};
+			});
 		}
 
 		function getAlwaysByID(id) {
+			if (id !== "allfriends") {
+				throw new Error("Invalid Always id");
+			}
+
+			var key = userService.getown().getFriendsKey();
+
 			return {
-				name: localize.getLocalizedString("directives." + id),
+				name: localize.getLocalizedString("directives.allfriends"),
 				id: "always:" + id,
-				count: getAlwaysCount(id)
+				sref: "app.friends",
+				count: keyStore.upload.getKeyAccessCount(key) - 1
 			};
 		}
 
 		function getFilterByID(id) {
 			return Bluebird.try(function () {
-				var domain = id.substr(0, 7);
-				var domainID = id.substr(7);
+				var colon = id.indexOf(":");
+				var domain = id.substr(0, colon + 1);
+				var domainID = id.substr(colon + 1);
 
 				if (domain === "always:") {
 					return getAlwaysByID(domainID);
 				} else if (domain === "circle:") {
 					return getCircleByID(domainID);
-				}				
+				} else if (domain === "friends:") {
+					return getFriendsFilterByID(domainID);
+				}
 			});
 		}
 

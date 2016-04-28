@@ -91,6 +91,10 @@ define(["step", "whispeerHelper", "directives/directivesModule"], function (step
 
 					scope.imageIndex = index;
 
+					if (!scope.modalImage.highest) {
+						scope.modalImage.highest = scope.modalImage.middle || scope.modalImage.lowest;
+					}
+
 					if (!scope.modalImage.upload) {
 						loadImage(scope.modalImage.highest);
 					}

@@ -172,7 +172,8 @@
 		}
 	},
 	"directives": {
-		"allfriends": "All Friends"
+		"allfriends": "All Friends",
+		"friendsOf": "Friends of {name}"
 	},
 	"usersearch": {
 		"mutualFriends": "mutual friends",
@@ -361,7 +362,8 @@
 			"sender": {
 				"name":	"{{sender}}:"
 			},
-			"content": "{{content}}"
+			"content": "{{content}}",
+			"visible": "Visible to"
 		},
 		"zeroContent": {
 			"headline": "Hey {name}! This is your newsfeed.",

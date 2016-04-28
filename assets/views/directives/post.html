@@ -1,4 +1,4 @@
-<article class="post">
+<article class="post" data-ng-class="{'post-visible-selection': post.visibleSelection.length > 0}">
 	<aside class="post-meta">
 		<a whispeer-sref='app.user.info({identifier: post.sender.names.nickname})' class="post-userimage">
 			<userimage data-user="post.sender"></userimage>
@@ -23,6 +23,13 @@
 		<div class="post-actions-buttons">
 			<span data-accessible-click="toggleShowComments()" class="post-action post-action-button"><i class="fa fa-comment"></i>&nbsp;<span data-i18n="wall.comments"></span> ({{post.comments.length}})</span>
 			<span data-ng-if="::post.removable" data-accessible-click="post.remove()" class="post-action post-action-button"><i class="fa fa-times fa-fw"></i>&nbsp;<span data-i18n="wall.remove"></span></span>
+			<span data-ng-if="::post.visibleSelection" class="post-action-visibility">
+				<i class="fa fa-eye fa-fw"></i>
+				<span data-i18n="wall.post.visible"></span>
+				<span class="btn btn--xs btn--gray post-action-visibility-button" data-ng-repeat="visibleFilterKey in post.visibleSelection" data-ng-if="visibleFilterKey">
+					<a whispeer-sref="{{visibleFilterKey.sref}}">{{visibleFilterKey.name}}</a>
+				</span>
+			</span>
 		</div>
 	</aside>
 	<aside class="post-comments" ng-show="showComments">

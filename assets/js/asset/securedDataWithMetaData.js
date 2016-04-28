@@ -185,7 +185,8 @@ define(["whispeerHelper", "step", "crypto/keyStore", "asset/errors", "config", "
 				throw new errors.SecurityError("signature did not match " + this._original.meta._type);
 			}
 
-			this._verifyContentHash();
+			return this._verifyContentHash();
+		}).then(function () {
 			this._isKeyVerified = true;
 
 			return true;
@@ -212,9 +213,7 @@ define(["whispeerHelper", "step", "crypto/keyStore", "asset/errors", "config", "
 			that._original.content = keyStore.hash.removePaddingFromObject(decryptedData, 128);
 			that._updated.content = h.deepCopyObj(that._original.content);
 
-			that._verifyContentHash();
-
-			this.ne();
+			that._verifyContentHash(this);
 		}), this._decryptionFullFiller.finish);
 	};
 
@@ -238,13 +237,20 @@ define(["whispeerHelper", "step", "crypto/keyStore", "asset/errors", "config", "
 		}), cb);
 	};
 
-	SecuredDataWithMetaData.prototype._verifyContentHash = function() {
-		if (this._hasContent && this._decrypted) {
-			var hash = keyStore.hash.hashObjectOrValueHex(this._original.paddedContent || this._original.content);
+	SecuredDataWithMetaData.prototype._verifyContentHash = function(cb) {
+		if (!this._hasContent || !this._decrypted) {
+			return step.unpromisify(Bluebird.resolve(), cb);
+		}
+
+		var p = Bluebird.bind(this).then(function () {
+			return keyStore.hash.hashObjectOrValueHexAsync(this._original.paddedContent || this._original.content);
+		}).then(function (hash) {
 			if (hash !== this._original.meta._contentHash) {
 				throw new errors.SecurityError("content hash did not match");
 			}
-		}
+		});
+
+		return step.unpromisify(p, cb);
 	};
 
 	SecuredDataWithMetaData.prototype.isChanged = function () {
@@ -363,6 +369,23 @@ define(["whispeerHelper", "step", "crypto/keyStore", "asset/errors", "config", "
 	};
 
 	var api = {
+		createPromisified: function (content, meta, options, signKey, cryptKey) {
+			var securedData, securedDataPromise;
+			securedDataPromise = new Bluebird(function (resolve, reject) {
+				securedData = api.create(content, meta, options, signKey, cryptKey, function (e, res) {
+					if (e) {
+						return reject(e);
+					}
+
+					resolve(res);
+				});
+			});
+
+			return {
+				promise: securedDataPromise,
+				data: securedData
+			};
+		},
 		create: function (content, meta, options, signKey, cryptKey, cb) {
 			var secured = new SecuredDataWithMetaData(content, meta, options, true);
 			step(function () {

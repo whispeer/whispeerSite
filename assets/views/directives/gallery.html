@@ -5,6 +5,21 @@
 </modal>
 <div class="post-images">
 	<div class="post-imageWrap" data-ng-click="viewImage($index)" data-image-gallery="images" data-ng-repeat="image in images" data-ng-if="$index < preview">
+		<div data-ng-if="image.upload && image.upload.getProgress() < 1">
+			<div class="radial-progress" data-progress="{{image.upload.getProgress() * 100 | number: 0}}">
+				<div class="circle">
+					<div class="mask full">
+						<div class="fill"></div>
+					</div>
+					<div class="mask half">
+						<div class="fill"></div>
+						<div class="fill fix"></div>
+					</div>
+					<div class="shadow"></div>
+					<div class="inset"></div>
+				</div>
+			</div>
+		</div>
 		<img class="post-image" data-ng-if="!runGif($index)" data-ng-src="{{image.lowest.url}}">
 		<span class="post-image--play fa fa-play fa-2x" data-ng-if="image.lowest.gif && !runGif($index)"></span>
 		<div data-ng-if="runGif($index)">

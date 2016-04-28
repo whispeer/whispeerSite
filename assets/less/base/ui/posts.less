@@ -22,6 +22,11 @@
 		margin-bottom: 1rem;
 	}
 }
+
+.post-visible-selection {
+	padding-bottom: 0;
+}
+
 .post-userimage {
 	float: left;
 	display: inline-block;
@@ -46,10 +51,27 @@
 	word-wrap: break-word;
 }
 
-.post-date, .post-action { .detail-text(); }
+.post-date, .post-action, .post-action-visibility { .detail-text(); }
 .post-action {
 	cursor: pointer;
 	@media @mobile { .btn; .btn--small; .btn--gray;	}
+}
+
+.post-action-visibility {
+	display: block;
+	width: 100%;
+	margin-right: 0.5rem;
+
+	min-height: 38px;
+	line-height: 34px;
+
+	@media @mobile {
+		margin-top: 4px;
+	}
+}
+
+.post-action-visibility-button {
+	margin: 0 3px;
 }
 
 .post-link {

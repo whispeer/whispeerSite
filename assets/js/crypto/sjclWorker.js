@@ -1,4 +1,4 @@
-define(["libs/sjcl", "crypto/minimalHelper"], function (sjcl, chelper) {
+define(["libs/sjcl", "crypto/minimalHelper", "crypto/objectHasher"], function (sjcl, chelper, ObjectHasher) {
 	"use strict";
 
 	function nop() {}
@@ -131,6 +131,10 @@ define(["libs/sjcl", "crypto/minimalHelper"], function (sjcl, chelper) {
 		}
 	}
 
+	function handleStringify(data) {
+		return new ObjectHasher(data.content, data.version).stringify();
+	}
+
 	return function (data, _metaListener) {
 		metaListener = _metaListener || nop;
 
@@ -141,6 +145,7 @@ define(["libs/sjcl", "crypto/minimalHelper"], function (sjcl, chelper) {
 
 		var asym = data.asym;
 		var isHash = data.isHash;
+		var stringify = data.stringify;
 
 		if (isHash) {
 			return handleHash(data);
@@ -148,6 +153,10 @@ define(["libs/sjcl", "crypto/minimalHelper"], function (sjcl, chelper) {
 
 		if (asym) {
 			return handleAsym(data);
+		}
+
+		if (stringify) {
+			return handleStringify(data);
 		}
 
 		return handleSym(data);
