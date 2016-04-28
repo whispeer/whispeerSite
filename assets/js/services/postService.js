@@ -67,6 +67,11 @@ define(["step", "whispeerHelper", "bluebird", "validation/validator", "services/
 				})
 			};
 
+			this.removeComment = function (comment) {
+				h.removeArray(this.data.comments, comment.data);
+				h.removeArray(comments, comment);
+			};
+
 			this.getID = function () {
 				return id;
 			};

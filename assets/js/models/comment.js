@@ -24,7 +24,7 @@ define(["step",
 		};
 
 		Comment.prototype.delete = function () {
-			return socket.emit("post.comment.delete", {
+			return socket.emit("posts.comment.delete", {
 				comment: this._id,
 				post: this._parentPost.getID()
 			}).bind(this).then(function () {
