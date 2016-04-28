@@ -369,7 +369,8 @@
 		},
 		"newComment": "Add a comment!",
 		"comments": "Comments",
-		"commentsLoading": "Comments are being loaded!"
+		"commentsLoading": "Comments are being loaded!",
+		"removeComment": "Remove comment"
 	},
 	"messages": {
 		"endOfStream": "Conversation started on {date}",
