@@ -80,6 +80,10 @@ define(["crypto/minimalHelper", "libs/sjcl"], function (chelper, sjcl) {
 			throw new Error("this is not an object!");
 		}
 
+		if (this._version === 4) {
+			return ObjectHasher.transformVal(this._data);
+		}
+
 		return this._stringifyObjectOrArray();
 	};
 
@@ -89,6 +93,44 @@ define(["crypto/minimalHelper", "libs/sjcl"], function (chelper, sjcl) {
 
 	ObjectHasher.prototype.hashBits = function () {
 		return sjcl.hash.sha256.hash(this.stringify());
+	};
+
+	ObjectHasher.getType = function (val) {
+		if (typeof val === "object") {
+			if (val instanceof Array) {
+				return "arr";
+			} else {
+				return "obj";
+			}
+		}
+
+		return "val";
+	};
+
+	ObjectHasher.transformVal = function (val) {
+		if (typeof val === "object") {
+			if (val instanceof Array) {
+				return val.map(ObjectHasher.transformVal);
+			} else {
+				return ObjectHasher.mapToArray(val);
+			}
+		}
+
+		return val;
+	};
+
+	ObjectHasher.handleVal = function (key, val) {
+		return [
+			ObjectHasher.getType(val),
+			key,
+			ObjectHasher.transformVal(val)
+		];
+	};
+
+	ObjectHasher.mapToArray = function (obj) {
+		return Object.keys(obj).sort().map(function (key) {
+			return ObjectHasher.handleVal(key, obj[key]);
+		});
 	};
 
 	return ObjectHasher;
