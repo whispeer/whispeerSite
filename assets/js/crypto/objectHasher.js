@@ -16,7 +16,7 @@ define(["crypto/minimalHelper", "libs/sjcl"], function (chelper, sjcl) {
 
 	ObjectHasher.prototype._doHashNewObject = function (val) {
 		var hasher = new ObjectHasher(val, this._version);
-		if (this._version >= 3) {
+		if (this._version === 3) {
 			return hasher.stringify();
 		}
 
@@ -56,7 +56,7 @@ define(["crypto/minimalHelper", "libs/sjcl"], function (chelper, sjcl) {
 		return JSON.stringify(obj, sortation);
 	};
 
-	ObjectHasher.prototype._hashSubObjects = function () {
+	ObjectHasher.prototype._stringifyObject = function () {
 		var attr, hashObj = {};
 		for (attr in this._data) {
 			if (this._data.hasOwnProperty(attr)) {
@@ -65,10 +65,6 @@ define(["crypto/minimalHelper", "libs/sjcl"], function (chelper, sjcl) {
 		}
 
 		return this._jsonifyUnique(hashObj);
-	};
-
-	ObjectHasher.prototype._stringifyObject = function () {
-		return this._hashSubObjects();
 	};
 
 	ObjectHasher.prototype._stringifyObjectOrArray = function () {
