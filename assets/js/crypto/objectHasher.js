@@ -110,7 +110,7 @@ define(["crypto/minimalHelper", "libs/sjcl"], function (chelper, sjcl) {
 	ObjectHasher.transformVal = function (val) {
 		if (typeof val === "object") {
 			if (val instanceof Array) {
-				return val.map(ObjectHasher.transformVal);
+				return val.map(ObjectHasher.handleVal.bind(ObjectHasher, ""));
 			} else {
 				return ObjectHasher.mapToArray(val);
 			}
