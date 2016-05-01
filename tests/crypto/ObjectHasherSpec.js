@@ -58,4 +58,42 @@ define(["crypto/objectHasher"], function (ObjectHasher) {
 		});
 	});
 
+	describe("version 3", function () {
+		it ("does not change empty objects", function () {
+			var result = new ObjectHasher({}, 3).stringify();
+
+			expect(result).toEqual('{}');
+		});
+
+		it ("does not change empty array", function () {
+			var result = new ObjectHasher([], 3).stringify();
+
+			expect(result).toEqual('[]');
+		});
+
+		it ("stringifies values", function () {
+			var result = new ObjectHasher({a: 5}, 3).stringify();
+
+			expect(result).toEqual('{"a":"5"}');
+		});
+
+		it ("sorts values", function () {
+			var result = new ObjectHasher({b: "a", a: "b"}, 3).stringify();
+
+			expect(result).toEqual('{"a":"b","b":"a"}');
+		});
+
+		it ("stringifies sub objects", function () {
+			var result = new ObjectHasher({a: {b: "c"}}, 3).stringify();
+
+			expect(result).toEqual('{"a":"{\\"b\\":\\"c\\"}"}');
+		});
+
+		it ("sorts attributes of sub objects", function () {
+			var result = new ObjectHasher({a: {b: "c", a: "c"}}, 3).stringify();
+
+			expect(result).toEqual('{"a":"{\\"a\\":\\"c\\",\\"b\\":\\"c\\"}"}');
+		});
+	});
+
 });
