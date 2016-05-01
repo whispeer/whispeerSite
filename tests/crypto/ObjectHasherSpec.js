@@ -96,6 +96,44 @@ define(["crypto/objectHasher"], function (ObjectHasher) {
 		});
 	});
 
+	describe("version 2", function () {
+		it("does not change empty objects", function () {
+			var result = new ObjectHasher({}, 2).stringify();
+
+			expect(result).toEqual('{}');
+		});
+
+		it("does not change empty array", function () {
+			var result = new ObjectHasher([], 2).stringify();
+
+			expect(result).toEqual('[]');
+		});
+
+		it("stringifies values", function () {
+			var result = new ObjectHasher({a: 5}, 2).stringify();
+
+			expect(result).toEqual('{"a":"5"}');
+		});
+
+		it("sorts values", function () {
+			var result = new ObjectHasher({b: "a", a: "b"}, 2).stringify();
+
+			expect(result).toEqual('{"a":"b","b":"a"}');
+		});
+
+		it("stringifies sub objects", function () {
+			var result = new ObjectHasher({a: {b: "c"}}, 2).stringify();
+
+			expect(result).toEqual('{"a":"hash::8e381f171b8633463e4696612f16c33e2abbcc27f54ef1455bd513f4ad6b3511"}');
+		});
+
+		it("sorts attributes of sub objects", function () {
+			var result = new ObjectHasher({a: {b: "c", a: "c"}}, 2).stringify();
+
+			expect(result).toEqual('{"a":"hash::97ad14762aa508302135f5a3e9a9611cebeb3352ee9e56de70aa854dfbdde681"}');
+		});
+	});
+
 	describe("version 1", function () {
 		it("does not change empty objects", function () {
 			var result = new ObjectHasher({}, 1).stringify();
