@@ -49,7 +49,7 @@
   },
   "scripts": {
     "build": "grunt build:development",
-    "test": "echo $PATH; ./node_modules/.bin/karma start --single-run --browsers PhantomJS",
+    "test": "./node_modules/.bin/karma start --single-run --browsers PhantomJS",
     "postinstall": "npm run build"
   }
 }
