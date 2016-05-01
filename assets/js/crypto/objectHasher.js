@@ -116,7 +116,7 @@ define(["crypto/minimalHelper", "libs/sjcl"], function (chelper, sjcl) {
 			}
 		}
 
-		return val;
+		return val.toString();
 	};
 
 	ObjectHasher.handleVal = function (key, val) {

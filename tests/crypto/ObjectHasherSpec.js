@@ -44,6 +44,12 @@ define(["crypto/objectHasher"], function (ObjectHasher) {
 
 			expect(result).toEqual(expected);
 		});
+
+		it("stringifies values", function() {
+			var result = new ObjectHasher({b: 5}, 4).stringify();
+
+			expect(result).toEqual('["obj","",[["val","b","5"]]]');
+		});
 	});
 
 });
