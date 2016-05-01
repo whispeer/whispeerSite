@@ -3,7 +3,7 @@ define(["crypto/minimalHelper", "libs/sjcl"], function (chelper, sjcl) {
 
 	var ObjectHasher = function (data, version) {
 		this._data = data;
-		this._version = version;
+		this._version = parseInt(version, 10);
 	};
 
 	ObjectHasher.prototype.sjclHash = function (data) {
@@ -81,7 +81,7 @@ define(["crypto/minimalHelper", "libs/sjcl"], function (chelper, sjcl) {
 		}
 
 		if (this._version === 4) {
-			return ObjectHasher.transformVal(this._data);
+			return JSON.stringify(ObjectHasher.transformVal(this._data));
 		}
 
 		return this._stringifyObjectOrArray();
