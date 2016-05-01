@@ -81,7 +81,7 @@ define(["crypto/minimalHelper", "libs/sjcl"], function (chelper, sjcl) {
 		}
 
 		if (this._version === 4) {
-			return JSON.stringify(ObjectHasher.transformVal(this._data));
+			return JSON.stringify(ObjectHasher.handleVal("", this._data));
 		}
 
 		return this._stringifyObjectOrArray();
