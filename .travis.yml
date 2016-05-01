@@ -2,4 +2,4 @@ language: node_js
 node_js:
   - 5.4
 install: npm install --ignore-scripts
-before_script: which phantomjs; PHANTOMJS_BIN=$(which phantomjs); echo $PHANTOMJS_BIN;
+before_script: export PHANTOMJS_BIN=$(which phantomjs); echo $PHANTOMJS_BIN;
