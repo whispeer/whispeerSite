@@ -11,7 +11,10 @@
 		"confirm": true,
 		"alert": true,
 		"globalErrors": true,
-		"module": true
+		"module": true,
+		"describe": true,
+		"it": true,
+		"expect": true
 	},
 	"undef": true,
 	"browser": true,
