@@ -23,9 +23,15 @@
     "grunt-contrib-jshint": "~0.10.0",
     "grunt-contrib-less": "~0.11.3",
     "grunt-contrib-requirejs": "^0.4.4",
+    "karma": "^0.13.22",
+    "karma-chrome-launcher": "^0.2.3",
+    "karma-jasmine": "^0.3.8",
+    "karma-phantomjs-launcher": "^1.0.0",
+    "karma-requirejs": "^0.2.6",
     "lazy": "^1.0.11",
     "node-static": "0.7.x",
-    "normalize.css": "^3.0.3"
+    "normalize.css": "^3.0.3",
+    "requirejs": "^2.2.0"
   },
   "devDependencies": {
     "bluebird": "^3.0.6",
