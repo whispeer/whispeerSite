@@ -7,25 +7,25 @@ define(["crypto/objectHasher"], function (ObjectHasher) {
 		it("empty object", function() {
 			var result = new ObjectHasher({}, 4).stringify();
 
-			expect(result).toEqual('["obj","",[]]');
+			expect(result).toEqual('["obj",[]]');
 		});
 
 		it("empty array", function() {
 			var result = new ObjectHasher([], 4).stringify();
 
-			expect(result).toEqual('["arr","",[]]');
+			expect(result).toEqual('["arr",[]]');
 		});
 
 		it("simple object", function() {
 			var result = new ObjectHasher({a: "test"}, 4).stringify();
 
-			expect(result).toEqual('["obj","",[["val","a","test"]]]');
+			expect(result).toEqual('["obj",[["val","a","test"]]]');
 		});
 
 		it("sorts attributes object", function() {
 			var result = new ObjectHasher({b: "a", a: "b"}, 4).stringify();
 
-			expect(result).toEqual('["obj","",[["val","a","b"],["val","b","a"]]]');
+			expect(result).toEqual('["obj",[["val","a","b"],["val","b","a"]]]');
 		});
 
 		it("complex object", function() {
@@ -40,7 +40,7 @@ define(["crypto/objectHasher"], function (ObjectHasher) {
 				}
 			}, 4).stringify();
 
-			var expected = '["obj","",[["obj","a",[["obj","b",[["obj","c",[["val","d","tata"]]]]]]],["obj","b",[["val","dud","dadam"],["val","test","bla"]]]]]';
+			var expected = '["obj",[["obj","a",[["obj","b",[["obj","c",[["val","d","tata"]]]]]]],["obj","b",[["val","dud","dadam"],["val","test","bla"]]]]]';
 
 			expect(result).toEqual(expected);
 		});
@@ -48,13 +48,13 @@ define(["crypto/objectHasher"], function (ObjectHasher) {
 		it("stringifies values", function() {
 			var result = new ObjectHasher({b: 5}, 4).stringify();
 
-			expect(result).toEqual('["obj","",[["val","b","5"]]]');
+			expect(result).toEqual('["obj",[["val","b","5"]]]');
 		});
 
 		it("transforms array values", function() {
 			var result = new ObjectHasher([{a: "b"}], 4).stringify();
 
-			expect(result).toEqual('["arr","",[["obj","",[["val","a","b"]]]]]');
+			expect(result).toEqual('["arr",[["obj",[["val","a","b"]]]]]');
 		});
 	});
 

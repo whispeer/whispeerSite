@@ -81,7 +81,7 @@ define(["crypto/minimalHelper", "libs/sjcl"], function (chelper, sjcl) {
 		}
 
 		if (this._version === 4) {
-			return JSON.stringify(ObjectHasher.handleVal("", this._data));
+			return JSON.stringify(ObjectHasher.handleVal(this._data));
 		}
 
 		return this._stringifyObjectOrArray();
@@ -110,7 +110,7 @@ define(["crypto/minimalHelper", "libs/sjcl"], function (chelper, sjcl) {
 	ObjectHasher.transformVal = function (val) {
 		if (typeof val === "object") {
 			if (val instanceof Array) {
-				return val.map(ObjectHasher.handleVal.bind(ObjectHasher, ""));
+				return val.map(ObjectHasher.handleVal);
 			} else {
 				return ObjectHasher.mapToArray(val);
 			}
@@ -119,17 +119,24 @@ define(["crypto/minimalHelper", "libs/sjcl"], function (chelper, sjcl) {
 		return val.toString();
 	};
 
-	ObjectHasher.handleVal = function (key, val) {
+	ObjectHasher.handleVal = function (val, key) {
+		if (key) {
+			return [
+				ObjectHasher.getType(val),
+				key,
+				ObjectHasher.transformVal(val)
+			];			
+		}
+
 		return [
 			ObjectHasher.getType(val),
-			key,
 			ObjectHasher.transformVal(val)
 		];
 	};
 
 	ObjectHasher.mapToArray = function (obj) {
 		return Object.keys(obj).sort().map(function (key) {
-			return ObjectHasher.handleVal(key, obj[key]);
+			return ObjectHasher.handleVal(obj[key], key);
 		});
 	};
 
