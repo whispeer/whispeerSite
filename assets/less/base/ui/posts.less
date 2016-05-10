@@ -52,9 +52,14 @@
 }
 
 .post-date, .post-action, .post-action-visibility { .detail-text(); }
+
 .post-action {
 	cursor: pointer;
 	@media @mobile { .btn; .btn--small; .btn--gray;	}
+}
+
+.post-action--pull-right {
+	@media @desktop { float: right; }
 }
 
 .post-action-visibility {
