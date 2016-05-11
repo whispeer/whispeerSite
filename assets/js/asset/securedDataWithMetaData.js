@@ -68,6 +68,8 @@ define(["whispeerHelper", "step", "crypto/keyStore", "asset/errors", "config", "
 			toSign._version = 1;
 			toSign._type = that._type;
 
+			toSign._hashVersion = hashVersion;
+
 			//do not sign attributes which should not be verified
 			that._attributesNotVerified.forEach(function(attr) {
 				delete toSign[attr];
@@ -76,17 +78,21 @@ define(["whispeerHelper", "step", "crypto/keyStore", "asset/errors", "config", "
 			if (that._updated.paddedContent || that._updated.content) {
 				var hashContent = that._updated.paddedContent || that._updated.content;
 
-				toSign._contentHash = keyStore.hash.hashObjectOrValueHex(hashContent);
+				keyStore.hash.hashObjectOrValueHexAsync(hashContent).then(function (contentHash) {
+					toSign._contentHash = contentHash;
 
-				//create new ownHash
-				delete toSign._ownHash;
-				toSign._ownHash = keyStore.hash.hashObjectOrValueHex(toSign);
+					//create new ownHash
+					delete toSign._ownHash;
+					return keyStore.hash.hashObjectOrValueHexAsync(toSign);
+				}).then(function (ownHash) {
+					toSign._ownHash = ownHash;
+				}).nodeify(this);
+			} else {
+				this();
 			}
-
-			toSign._hashVersion = hashVersion;
-
+		}, h.sF(function () {
 			keyStore.sign.signObject(toSign, signKey, hashVersion, this);
-		}, h.sF(function (signature) {
+		}), h.sF(function (signature) {
 			toSign._signature = signature;
 
 			this.ne(toSign);
