@@ -1,7 +1,31 @@
-define(["crypto/objectHasher"], function (ObjectHasher) {
+define(["crypto/objectHasher", "text!../../tests/crypto/bigObject.txt", "text!../../tests/crypto/bigObjectV3.txt", "text!../../tests/crypto/bigObjectV4.txt"], function (ObjectHasher, bigObjectString, bigObjectStringV3, bigObjectStringV4) {
 	"use strict";
 
 	/* jshint quotmark: false */
+
+	bigObjectString  = bigObjectString.replace("\n", "");
+	bigObjectStringV3 = bigObjectStringV3.replace("\n", "");
+	bigObjectStringV4 = bigObjectStringV4.replace("\n", "");
+
+	console.log(bigObjectStringV3.length);
+	console.log(bigObjectStringV4.length);
+
+	var time;
+	function now() {
+		return new Date().getTime();
+	}
+
+	function timeStart() {
+		time = now();
+	}
+
+	function timeEnd() {
+		console.log(now() - time);
+	}
+
+	function bigObject() {
+		return JSON.parse(bigObjectString);
+	}
 
 	describe("Version 4 Stringify with", function() {
 		it("empty object", function() {
@@ -56,6 +80,16 @@ define(["crypto/objectHasher"], function (ObjectHasher) {
 
 			expect(result).toEqual('["arr",[["obj",[["val","a","b"]]]]]');
 		});
+
+		it("big object", function() {
+			var obj = bigObject();
+
+			timeStart();
+			var result = new ObjectHasher(obj, 4).stringify();
+			timeEnd();
+
+			expect(result).toEqual(bigObjectStringV4);
+		});
 	});
 
 	describe("version 3", function () {
@@ -93,6 +127,16 @@ define(["crypto/objectHasher"], function (ObjectHasher) {
 			var result = new ObjectHasher({a: {b: "c", a: "c"}}, 3).stringify();
 
 			expect(result).toEqual('{"a":"{\\"a\\":\\"c\\",\\"b\\":\\"c\\"}"}');
+		});
+
+		it("big object", function() {
+			var obj = bigObject();
+
+			timeStart();
+			var result = new ObjectHasher(obj, 3).stringify();
+			timeEnd();
+
+			expect(result.length).toEqual(bigObjectStringV3.length);
 		});
 	});
 
@@ -132,6 +176,16 @@ define(["crypto/objectHasher"], function (ObjectHasher) {
 
 			expect(result).toEqual('{"a":"hash::97ad14762aa508302135f5a3e9a9611cebeb3352ee9e56de70aa854dfbdde681"}');
 		});
+
+		it("big object", function() {
+			var obj = bigObject();
+
+			timeStart();
+			var result = new ObjectHasher(obj, 2).stringify();
+			timeEnd();
+
+			expect(result).toEqual('{"a":"hash::b14cbb158809ca33e9359cc248e0999f3e0252702265cc0fbe88342fb33020e4"}');
+		});
 	});
 
 	describe("version 1", function () {
@@ -169,6 +223,16 @@ define(["crypto/objectHasher"], function (ObjectHasher) {
 			var result = new ObjectHasher({a: {b: "c", a: "c"}}, 1).stringify();
 
 			expect(result).toEqual('{"a":"hash::058c781de71fbdb3d86ea546297cfe202f58e54c56e7c2610330368375fc6594"}');
+		});
+
+		it("big object", function() {
+			var obj = bigObject();
+
+			timeStart();
+			var result = new ObjectHasher(obj, 1).stringify();
+			timeEnd();
+
+			expect(result).toEqual('{"a":"hash::987590df9c9cc570f9a3ed1a3252bcb6356c188a417dc3ee4b3595f38f9c8818"}');
 		});
 	});
 
