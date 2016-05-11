@@ -499,7 +499,7 @@ define(["step", "whispeerHelper", "asset/state", "asset/securedDataWithMetaData"
 						decryptor: decryptor
 					}, this);
 				}), h.sF(function () {
-					keyStoreService.security.setPassword(newPassword);
+					sessionService.setPassword(newPassword);
 					this.ne();
 				}), cb);
 			},

@@ -14,7 +14,7 @@ define(["services/serviceModule", "asset/observer"], function (serviceModule, Ob
 		var service = function ($rootScope, $timeout, locationService, Storage, keyStore) {
 			var sid = "", loggedin = false, userid, sessionService;
 
-			var sessionStorage = new Storage("whispeer.session");
+			var sessionStorage = Storage.withPrefix("whispeer.session");
 
 			function saveSession() {
 				sessionStorage.set("sid", sid);
@@ -35,10 +35,15 @@ define(["services/serviceModule", "asset/observer"], function (serviceModule, Ob
 				});
 			}
 
+			function setPassword(password) {
+				keyStore.security.setPassword(password);
+				sessionStorage.set("password", password);
+			}
+
 			function loadOldLogin() {
 				sessionStorage.awaitLoading().then(function () {
 					if (sessionStorage.get("loggedin") === "true" && sessionStorage.get("password")) {
-						keyStore.security.setPassword(sessionStorage.get("password"));
+						setPassword(sessionStorage.get("password"));
 						setLoginData(sessionStorage.get("sid"), sessionStorage.get("userid"));
 					} else {
 						sessionStorage.clear().then(function () {
@@ -59,6 +64,7 @@ define(["services/serviceModule", "asset/observer"], function (serviceModule, Ob
 			});
 
 			sessionService = {
+				setPassword: setPassword,
 				saveSession: saveSession,
 				setLoginData: setLoginData,
 				setReturnUrl: function (url) {

@@ -24,7 +24,7 @@ define([
 		"ssn.storageService",
 		"ssn.errorService",
 	function (socketService, keyStoreService, ProfileService, Storage, errorService) {
-		var keyGenerationStarted = false, keys = {}, keyGenListener = [], keyGenDone, sessionStorage = new Storage("whispeer.session"), clientStorage = new Storage("whispeer.client");
+		var keyGenerationStarted = false, keys = {}, keyGenListener = [], keyGenDone, sessionStorage = Storage.withPrefix("whispeer.session"), clientStorage = Storage.withPrefix("whispeer.client");
 
 		var registerService = {
 			register: function (nickname, mail, password, profile, settings, inviteCode, callback) {

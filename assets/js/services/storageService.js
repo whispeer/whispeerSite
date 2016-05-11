@@ -17,6 +17,24 @@ define(["services/serviceModule", "bluebird", "services/cacheService"], function
 			}
 		}
 
+		var storages = {};
+
+		var StorageService = {
+			broken: false,
+			withPrefix: function (prefix) {
+				if (!storages[prefix]) {
+					storages[prefix] = new Storage(prefix);
+				}
+
+				return storages[prefix];
+			},
+			promoteMainWindow: function () {
+				window.whispeerGetStorage = function (prefix) {
+					return storages[prefix];
+				};
+			}
+		};
+
 		var theCache = new Cache("localStorage");
 
 		if (hasLocalStorage()) {
@@ -93,6 +111,10 @@ define(["services/serviceModule", "bluebird", "services/cacheService"], function
 			};
 
 			Storage.prototype.save = function () {
+				if (StorageService.broken) {
+					return Bluebird.resolve();
+				}
+
 				return theCache.store(this._prefix, this._localStorageData);
 			};
 
@@ -107,13 +129,13 @@ define(["services/serviceModule", "bluebird", "services/cacheService"], function
 		};
 
 		$rootScope.$on("ssn.reset", function () {
-			var sessionStorage = new Storage("whispeer.session");
+			var sessionStorage = Storage.withPrefix("whispeer.session");
 			sessionStorage.awaitLoading().then(function () {
 				sessionStorage.clear();
 			});
 		});
 
-		return Storage;
+		return StorageService;
 	};
 
 	service.$inject = ["$rootScope", "ssn.cacheService"];

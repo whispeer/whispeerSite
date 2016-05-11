@@ -2,8 +2,8 @@ define(["services/serviceModule", "whispeerHelper"], function (serviceModule, h)
 	"use strict";
 
 	serviceModule.factory("ssn.locationService", ["$location", "ssn.storageService", function ($location, Storage) {
-		var loginStorage = new Storage("whispeer.login");
-		var sessionStorage = new Storage("whispeer.session");
+		var loginStorage = Storage.withPrefix("whispeer.login");
+		var sessionStorage = Storage.withPrefix("whispeer.session");
 
 		var blockedReturnUrls = ["/b2c", "/recovery"];
 
