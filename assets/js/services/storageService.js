@@ -77,12 +77,26 @@ define(["services/serviceModule", "bluebird", "services/cacheService"], function
 				this._prefix = prefix;
 
 				this._localStorageData = {};
-				this._loadingPromise = theCache.get(this._prefix).then(function (_localStorageData) {
+				this._loadingPromise = theCache.get(this._prefix).bind(this).then(function (_localStorageData) {
 					if (_localStorageData) {
 						that._localStorageData = _localStorageData.data;
 					}
 				}).catch(function (e) {
+					StorageService.broken = true;
 					console.warn(e);
+
+					var iframeWithMaybeStorage = jQuery(window.top.document.body).find("iframe").get(0);
+
+					if (iframeWithMaybeStorage) {
+						console.log("got iframe with data");
+						var getStorageFunction = iframeWithMaybeStorage.contentWindow.whispeerGetStorage;
+
+						if (getStorageFunction) {
+							console.log("got storage function");
+							var s = getStorageFunction(prefix);
+							this._localStorageData = s._localStorageData;
+						}
+					}
 				});
 
 			};

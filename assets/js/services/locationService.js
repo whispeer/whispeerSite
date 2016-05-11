@@ -7,10 +7,45 @@ define(["services/serviceModule", "whispeerHelper"], function (serviceModule, h)
 
 		var blockedReturnUrls = ["/b2c", "/recovery"];
 
+		function removeOther(ele) {
+			ele.siblings().remove();
+
+			if (!ele.parent().is("body")) {
+				removeOther(ele.parent());
+			} else {
+				ele.hide();
+			}
+		}
+
 		var api = {
 			setTopLocation: function (url) {
 				var locale = h.getLanguageFromPath() || "";
-				window.top.location = "/" + locale + url;
+
+				if (Storage.broken && url !== "/") {
+					//if you read this code, welcome to my personal hell!
+
+					/*
+						So let me explain why this is necessary.
+						Whispeer needs to store data locally, usually we use localStorage or indexedDB for that.
+						This is an ugly quirks to move all content into an iframe and take the outer iframe as the
+						storage area. This way the inner iframe could redirect as it wishes to without loosing the state.
+						But why not use localStorage? We do, this is a fallback.
+						Localstorage is not available in Safari Private Mode for example. Or if your disk is full.
+					*/
+
+					console.log("promoting as main window");
+					Storage.promoteMainWindow();
+
+					removeOther(jQuery(window.frameElement));
+
+					var body = jQuery(window.top.document.body);
+					var iframe = jQuery("<iframe class='contentFallBack'></iframe>");
+
+					body.append(iframe);
+					iframe.attr("src", url);
+				} else {
+					window.top.location = "/" + locale + url;
+				}
 			},
 			mainPage: function () {
 				api.setTopLocation("/main");
