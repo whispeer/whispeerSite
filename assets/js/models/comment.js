@@ -6,21 +6,37 @@ define(["step",
 ], function (step, h, validator, SecuredData, modelsModule) {
 	"use strict";
 	function commentModel(userService, socket) {
-		var Comment = function (data) {
+		var Comment = function (data, parentPost) {
+			var theComment = this;
 			this._secured = SecuredData.load(data.content, data.meta, { type: "comment" });
+
+			this._parentPost = parentPost;
+			this._id = data.id;
 
 			this.data = {
 				loaded: false,
 				sender: null,
-				time: this._secured.metaAttr("createTime")
+				time: this._secured.metaAttr("createTime"),
+				delete: function () {
+					theComment.delete();
+				}
 			};
+		};
+
+		Comment.prototype.delete = function () {
+			return socket.emit("posts.comment.delete", {
+				comment: this._id,
+				post: this._parentPost.getID()
+			}).bind(this).then(function () {
+				return this._parentPost.removeComment(this);
+			});
 		};
 
 		Comment.prototype.getSecured = function () {
 			return this._secured;
 		};
 
-		Comment.prototype.load = function (parentPost, previousComment, cb) {
+		Comment.prototype.load = function (previousComment, cb) {
 			var theComment = this;
 			step(function () {
 				this.parallel.unflatten();
@@ -34,7 +50,7 @@ define(["step",
 					theComment._secured.checkAfter(previousComment.getSecured());
 				}
 
-				theComment._secured.checkParent(parentPost.getSecured());
+				theComment._secured.checkParent(theComment._parentPost.getSecured());
 				theComment._secured.verify(sender.getSignKey(), this);
 			}), h.sF(function () {
 				theComment.data.loaded = true;

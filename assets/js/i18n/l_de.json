@@ -369,7 +369,8 @@
 		},
 		"newComment": "Schreibe einen Kommentar!",
 		"comments": "Kommentare",
-		"commentsLoading": "Kommentare werden geladen!"
+		"commentsLoading": "Kommentare werden geladen!",
+		"removeComment": "Kommentar löschen"
 	},
 	"messages": {
 		"endOfStream": "Konversation gestartet am {date}",

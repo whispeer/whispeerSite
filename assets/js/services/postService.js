@@ -20,8 +20,8 @@ define(["step", "whispeerHelper", "bluebird", "validation/validator", "services/
 
 			var comments = data.comments || [];
 			comments = comments.map(function (comment) {
-				return new Comment(comment);
-			});
+				return new Comment(comment, this);
+			}, this);
 
 			var commentState = new State();
 
@@ -67,6 +67,11 @@ define(["step", "whispeerHelper", "bluebird", "validation/validator", "services/
 				})
 			};
 
+			this.removeComment = function (comment) {
+				h.removeArray(this.data.comments, comment.data);
+				h.removeArray(comments, comment);
+			};
+
 			this.getID = function () {
 				return id;
 			};
@@ -78,9 +83,9 @@ define(["step", "whispeerHelper", "bluebird", "validation/validator", "services/
 			function commentListener(e, data) {
 				var comment;
 				step(function () {
-					comment = new Comment(data);
+					comment = new Comment(data, thePost);
 
-					comment.load(thePost, comments[comments.length - 1], this.parallel());
+					comment.load(comments[comments.length - 1], this.parallel());
 				}, h.sF(function () {
 					comments.push(comment);
 					thePost.data.comments.push(comment.data);
@@ -155,7 +160,7 @@ define(["step", "whispeerHelper", "bluebird", "validation/validator", "services/
 					$timeout(this);
 				}, h.sF(function () {
 					comments.forEach(function (comment, i) {
-						comment.load(thePost, comments[i - 1], this.parallel());
+						comment.load(comments[i - 1], this.parallel());
 					}, this);
 				}), function (e) {
 					thePost.data.commentsLoading = false;

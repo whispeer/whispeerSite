@@ -5,6 +5,12 @@
 	<a whispeer-sref="app.user.info({identifier: comment.sender.names.nickname})" class="post-username post-comment-username">{{comment.sender.name}}</a>
 	<p class="post-content post-comment-content" data-syntaxify="::comment.text"></p>
 	<aside class="post-meta post-comment-meta">
-		<span class="post-date post-comment-date"><i class="fa fa-clock-o"></i>&nbsp;<span class="post-date-time post-comment-date-time" data-smart-date="::comment.time"></span>
+		<span class="post-date post-comment-date">
+			<i class="fa fa-clock-o"></i>&nbsp;
+			<span class="post-date-time post-comment-date-time" data-smart-date="::comment.time"></span>
+		</span>
+		<span class="post-action post-action--pull-right" data-accessible-click="comment.delete()" data-ng-if="comment.sender.me">
+			<i class="fa fa-times fa-fw"></i>&nbsp;<span data-i18n="wall.removeComment"></span>
+		</span>
 	</aside>
 </li>
