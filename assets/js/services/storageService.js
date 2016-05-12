@@ -29,7 +29,7 @@ define(["services/serviceModule", "bluebird", "services/cacheService"], function
 				return storages[prefix];
 			},
 			promoteMainWindow: function () {
-				window.whispeerGetStorage = function (prefix) {
+				window.top.whispeerGetStorage = function (prefix) {
 					return storages[prefix];
 				};
 			}
@@ -85,17 +85,12 @@ define(["services/serviceModule", "bluebird", "services/cacheService"], function
 					StorageService.broken = true;
 					console.warn(e);
 
-					var iframeWithMaybeStorage = jQuery(window.top.document.body).find("iframe").get(0);
+					var getStorageFunction = window.top.whispeerGetStorage;
 
-					if (iframeWithMaybeStorage) {
-						console.log("got iframe with data");
-						var getStorageFunction = iframeWithMaybeStorage.contentWindow.whispeerGetStorage;
-
-						if (getStorageFunction) {
-							console.log("got storage function");
-							var s = getStorageFunction(prefix);
-							this._localStorageData = s._localStorageData;
-						}
+					if (getStorageFunction) {
+						console.log("got storage function");
+						var s = getStorageFunction(prefix);
+						this._localStorageData = s._localStorageData;
 					}
 				});
 
@@ -143,7 +138,7 @@ define(["services/serviceModule", "bluebird", "services/cacheService"], function
 		};
 
 		$rootScope.$on("ssn.reset", function () {
-			var sessionStorage = Storage.withPrefix("whispeer.session");
+			var sessionStorage = StorageService.withPrefix("whispeer.session");
 			sessionStorage.awaitLoading().then(function () {
 				sessionStorage.clear();
 			});

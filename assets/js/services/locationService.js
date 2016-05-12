@@ -36,7 +36,11 @@ define(["services/serviceModule", "whispeerHelper"], function (serviceModule, h)
 					console.log("promoting as main window");
 					Storage.promoteMainWindow();
 
-					removeOther(jQuery(window.frameElement));
+					if (window.frameElement) {
+						removeOther(jQuery(window.frameElement));
+					} else {
+						jQuery(document.body).empty();
+					}
 
 					var body = jQuery(window.top.document.body);
 					var iframe = jQuery("<iframe class='contentFallBack'></iframe>");
