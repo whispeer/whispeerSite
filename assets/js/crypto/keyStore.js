@@ -1734,10 +1734,6 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 			setPassword: function (pw) {
 				recovery = false;
 				password = pw;
-
-				if (localStorage) {
-					localStorage.setItem("whispeer.session.password", password);
-				}
 			},
 
 			verifyWithPW: function (data, expectedResult) {

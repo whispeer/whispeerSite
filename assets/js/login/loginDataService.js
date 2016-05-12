@@ -20,8 +20,8 @@ define([
 			UNKNOWN: 5
 		};
 
-		var sessionStorage = new Storage("whispeer.session");
-		var loginStorage = new Storage("whispeer.login");
+		var sessionStorage = Storage.withPrefix("whispeer.session");
+		var loginStorage = Storage.withPrefix("whispeer.login");
 
 		try {
 			if (localStorage.getItem("loggedin") === "true") {
