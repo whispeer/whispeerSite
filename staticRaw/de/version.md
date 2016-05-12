@@ -4,6 +4,14 @@ lang: de
 title: Versionshistorie
 ---
 
+## 0.2.25
+
+* Delete a comment
+* Fix logo display in Safari
+* Login/register fix for Safari in private mode
+* better performance
+* Bugfixes
+
 ## 0.2.24
 
 * Stark verbesserter Bilderupload. Geschwindigkeit wurde um ein vielfaches erhöht.
