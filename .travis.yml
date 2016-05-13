@@ -2,4 +2,7 @@ language: node_js
 node_js:
   - 5.4
 install: npm install --ignore-scripts
-before_script: export PHANTOMJS_BIN=$(which phantomjs)
+before_script:
+  - npm install -g bower
+  - bower install
+  - export PHANTOMJS_BIN=$(which phantomjs)
