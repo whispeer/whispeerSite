@@ -221,44 +221,58 @@ define([
 		Observer.call(messageService);
 
 		function updateReadCount() {
-			if (messageService.data.unread < 0) {
-				console.log("set unread count to zero");
-				messageService.data.unread = 0;
-			}
+			messageService.data.unread = messageService.data.unreadIDs.length;
 
 			if (messageService.data.unread === 0) {
 				windowService.removeAdvancedTitle("newmessage");
 			}
 		}
 
-		Topic.listen(function () {
-			messageService.data.unread -= 1;
+		function updateUnreadIDs(ids) {
+			ids = ids.map(h.parseDecimal);
+
+			messageService.data.unreadIDs = ids;
+			messageService.data.unread = ids.length;
+		}
+
+		function changeReadTopic(topicID, read) {
+			topicID = h.parseDecimal(topicID);
+
+			h.removeArray(messageService.data.unreadIDs, topicID);
+
+			if (!read) {
+				messageService.data.unreadIDs.unshift(topicID);
+			}
+
 			updateReadCount();
+		}
+
+		Topic.listen(function (id) {
+			changeReadTopic(id, true);
 		}, "read");
 
-		Topic.listen(function () {
-			messageService.data.unread += 1;
-			updateReadCount();
+		Topic.listen(function (id) {
+			changeReadTopic(id, false);
 		}, "unread");
+
+		messageService.listen(function(m) {
+			if (!m.isOwn()) {
+				if (!messageService.isActiveTopic(m.getTopicID()) || !windowService.isVisible) {
+					windowService.playMessageSound();
+					windowService.sendLocalNotification("message", m.data);
+				}
+
+				windowService.setAdvancedTitle("newmessage", m.data.sender.basic.shortname);
+			}
+		}, "message");
 
 		initService.listen(function () {
 			Bluebird.delay(500).then(function () {
 				return socket.awaitConnection();
 			}).then(function () {
-				return socket.emit("messages.getUnreadCount", {});
+				return socket.emit("messages.getUnreadTopicIDs", {});
 			}).then(function (data) {
-				messageService.data.unread = h.parseDecimal(data.unread) || 0;
-
-				messageService.listen(function(m) {
-					if (!m.isOwn()) {
-						if (!messageService.isActiveTopic(m.getTopicID()) || !windowService.isVisible) {
-							windowService.playMessageSound();
-							windowService.sendLocalNotification("message", m.data);
-						}
-
-						windowService.setAdvancedTitle("newmessage", m.data.sender.basic.shortname);
-					}
-				}, "message");
+				updateUnreadIDs(data.unread);
 			});
 		}, "initDone");
 

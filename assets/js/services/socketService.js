@@ -291,6 +291,18 @@ define([
 						}
 					});
 				},
+				/** definitly emits the request. might emit it multiple times! **/
+				definitlyEmit: function (channel, request, callback) {
+					var SOCKET_TIMEOUT = 10000;
+
+					return socketS.awaitConnection().then(function () {
+						return socketS.emit(channel, request).timeout(SOCKET_TIMEOUT);
+					}).catch(function () {
+						return Bluebird.delay(500).then(function () {
+							return socketS.definitlyEmit(channel, request, callback);
+						});
+					}).nodeify(callback);
+				},
 				emit: function (channel, request, callback) {
 					loadInterceptors();
 

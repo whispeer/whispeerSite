@@ -199,19 +199,20 @@ define([
 					return;
 				}
 
-				step(function () {
-					if (messages.length > 0) {
-						var messageTime = messages[messages.length - 1].getTime();
+				setUnread([]);
 
-						socket.emit("messages.markRead", {
-							topicid: theTopic.getID(),
-							beforeTime: messageTime + 1
-						}, this);
-					}
-				}, h.sF(function (data) {
+				if (messages.length === 0) {
+					return;
+				}
+
+				var messageTime = messages[messages.length - 1].getTime();
+
+				return socket.definitlyEmit("messages.markRead", {
+					topicid: theTopic.getID(),
+					beforeTime: messageTime + 1
+				}).then(function (data) {
 					setUnread(data.unread);
-					this.ne();
-				}), cb);
+				}).nodeify(cb);
 			};
 
 			function addMessagesToList(messagesToAdd) {
