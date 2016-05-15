@@ -201,9 +201,11 @@ define([
 					return;
 				}
 
+				var unreadLength = unreadMessages.length;
+
 				setUnread([]);
 
-				if (messages.length === 0) {
+				if (unreadLength === 0) {
 					return;
 				}
 
