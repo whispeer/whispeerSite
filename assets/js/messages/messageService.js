@@ -232,7 +232,7 @@ define([
 			ids = ids.map(h.parseDecimal);
 
 			messageService.data.unreadIDs = ids;
-			
+
 			Topic.all().filter(function (topic) {
 				return topic.unread;
 			}).forEach(function (topic) {
