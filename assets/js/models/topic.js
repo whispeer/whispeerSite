@@ -47,6 +47,8 @@ define([
 			var unreadMessages;
 
 			function setUnread(newUnread) {
+				newUnread = newUnread.map(h.parseDecimal);
+
 				if (unreadMessages) {
 					if (newUnread.length === 0 && unreadMessages.length > 0) {
 						console.log("decrease unread count, topicid: " + data.topicid);
@@ -57,7 +59,7 @@ define([
 					}
 				}
 
-				unreadMessages = newUnread.map(h.parseDecimal);
+				unreadMessages = newUnread;
 				theTopic.data.unread = (unreadMessages.length > 0);
 
 				messages.forEach(function (message) {
@@ -274,6 +276,10 @@ define([
 				theTopic.notify(messages, "addMessages");
 
 				topicArray.resort();
+
+				if (theTopic.data.latestMessage.isOwn()) {
+					this.markRead();
+				}
 			};
 
 			this.addMessage = function addMessageF(message, addUnread) {
