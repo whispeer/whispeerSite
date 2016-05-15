@@ -233,6 +233,15 @@ define([
 
 			messageService.data.unreadIDs = ids;
 			
+			Topic.all().filter(function (topic) {
+				return topic.unread;
+			}).forEach(function (topic) {
+				var id = h.parseDecimal(topic.id);
+				if (ids.indexOf(id) === -1) {
+					topic.obj.wasReadOnOtherClient();
+				}
+			});
+
 			updateReadCount();
 		}
 
@@ -256,6 +265,20 @@ define([
 			updateUnreadIDs(data.unread);
 		});
 
+		function loadUnreadTopicIDs() {
+			return Bluebird.delay(500).then(function () {
+				return socket.awaitConnection();
+			}).then(function () {
+				return socket.emit("messages.getUnreadTopicIDs", {});
+			}).then(function (data) {
+				updateUnreadIDs(data.unread);
+			});
+		}
+
+		socket.on("connect", function () {
+			loadUnreadTopicIDs();
+		});
+
 		Topic.listen(function (id) {
 			changeReadTopic(id, true);
 		}, "read");
@@ -276,13 +299,7 @@ define([
 		}, "message");
 
 		initService.listen(function () {
-			Bluebird.delay(500).then(function () {
-				return socket.awaitConnection();
-			}).then(function () {
-				return socket.emit("messages.getUnreadTopicIDs", {});
-			}).then(function (data) {
-				updateUnreadIDs(data.unread);
-			});
+			loadUnreadTopicIDs();
 		}, "initDone");
 
 		$rootScope.$on("ssn.reset", function () {

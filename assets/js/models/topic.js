@@ -193,6 +193,10 @@ define([
 				return meta.metaAttr("_key");
 			};
 
+			this.wasReadOnOtherClient = function () {
+				setUnread([]);
+			};
+
 			this.markRead = function markMessagesRead(cb) {
 				if (!windowService.isVisible) {
 					windowService.listenOnce(function () {
