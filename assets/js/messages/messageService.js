@@ -232,7 +232,8 @@ define([
 			ids = ids.map(h.parseDecimal);
 
 			messageService.data.unreadIDs = ids;
-			messageService.data.unread = ids.length;
+			
+			updateReadCount();
 		}
 
 		function changeReadTopic(topicID, read) {
@@ -246,6 +247,14 @@ define([
 
 			updateReadCount();
 		}
+
+		socket.channel("unreadTopics", function (e, data) {
+			if (e) {
+				return;
+			}
+
+			updateUnreadIDs(data.unread);
+		});
 
 		Topic.listen(function (id) {
 			changeReadTopic(id, true);
