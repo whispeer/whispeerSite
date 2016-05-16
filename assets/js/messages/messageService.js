@@ -221,45 +221,85 @@ define([
 		Observer.call(messageService);
 
 		function updateReadCount() {
-			if (messageService.data.unread < 0) {
-				console.log("set unread count to zero");
-				messageService.data.unread = 0;
-			}
+			messageService.data.unread = messageService.data.unreadIDs.length;
 
 			if (messageService.data.unread === 0) {
 				windowService.removeAdvancedTitle("newmessage");
 			}
 		}
 
-		Topic.listen(function () {
-			messageService.data.unread -= 1;
-			updateReadCount();
-		}, "read");
+		function updateUnreadIDs(ids) {
+			ids = ids.map(h.parseDecimal);
 
-		Topic.listen(function () {
-			messageService.data.unread += 1;
-			updateReadCount();
-		}, "unread");
+			messageService.data.unreadIDs = ids;
 
-		initService.listen(function () {
-			Bluebird.delay(500).then(function () {
+			Topic.all().filter(function (topic) {
+				return topic.unread;
+			}).forEach(function (topic) {
+				var id = h.parseDecimal(topic.id);
+				if (ids.indexOf(id) === -1) {
+					topic.obj.wasReadOnOtherClient();
+				}
+			});
+
+			updateReadCount();
+		}
+
+		function changeReadTopic(topicID, read) {
+			topicID = h.parseDecimal(topicID);
+
+			h.removeArray(messageService.data.unreadIDs, topicID);
+
+			if (!read) {
+				messageService.data.unreadIDs.unshift(topicID);
+			}
+
+			updateReadCount();
+		}
+
+		socket.channel("unreadTopics", function (e, data) {
+			if (e) {
+				return;
+			}
+
+			updateUnreadIDs(data.unread);
+		});
+
+		function loadUnreadTopicIDs() {
+			return Bluebird.delay(500).then(function () {
 				return socket.awaitConnection();
 			}).then(function () {
-				return socket.emit("messages.getUnreadCount", {});
+				return socket.emit("messages.getUnreadTopicIDs", {});
 			}).then(function (data) {
-				messageService.data.unread = h.parseDecimal(data.unread) || 0;
-
-				messageService.listen(function(m) {
-					if (!m.isOwn()) {
-						if (!messageService.isActiveTopic(m.getTopicID()) || !windowService.isVisible) {
-							windowService.playMessageSound();
-							windowService.sendLocalNotification("message", m.data);
-						}
-
-						windowService.setAdvancedTitle("newmessage", m.data.sender.basic.shortname);
-					}
-				}, "message");
+				updateUnreadIDs(data.unread);
 			});
+		}
+
+		socket.on("connect", function () {
+			loadUnreadTopicIDs();
+		});
+
+		Topic.listen(function (id) {
+			changeReadTopic(id, true);
+		}, "read");
+
+		Topic.listen(function (id) {
+			changeReadTopic(id, false);
+		}, "unread");
+
+		messageService.listen(function(m) {
+			if (!m.isOwn()) {
+				if (!messageService.isActiveTopic(m.getTopicID()) || !windowService.isVisible) {
+					windowService.playMessageSound();
+					windowService.sendLocalNotification("message", m.data);
+				}
+
+				windowService.setAdvancedTitle("newmessage", m.data.sender.basic.shortname);
+			}
+		}, "message");
+
+		initService.listen(function () {
+			loadUnreadTopicIDs();
 		}, "initDone");
 
 		$rootScope.$on("ssn.reset", function () {
