@@ -259,6 +259,7 @@ define([
 				this.addMessage(messageObject);
 
 				messageObject.sendContinously().catch(function (e) {
+					console.error(e);
 					alert("An error occured sending a message!" + e.toString());
 				});
 			};

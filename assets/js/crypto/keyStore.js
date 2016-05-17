@@ -1166,7 +1166,8 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 				}
 				intKey.decryptKey(this);
 			}), h.sF(function () {
-				sjclWorkerInclude.asym.sign(intKey.getSecret(), hash).nodeify(this);
+				this.ne(intKey.getSecret().sign(hash));
+				//sjclWorkerInclude.asym.sign(intKey.getSecret(), hash).nodeify(this);
 			}), h.sF(function (signature) {
 				if (signatureCache.isLoaded()) {
 					signatureCache.addValidSignature(signature, hash, realid, type);
