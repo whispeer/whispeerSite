@@ -77,7 +77,7 @@ define(["step", "whispeerHelper", "services/serviceModule", "bluebird", "asset/o
 
 		function loadData() {
 			var runningInitCallbacks;
-			Bluebird.resolve().then(function () {
+			return Bluebird.resolve().then(function () {
 				runningInitCallbacks = initCallbacks.map(function (initCallback) {
 					return initCallback();
 				});
@@ -109,12 +109,17 @@ define(["step", "whispeerHelper", "services/serviceModule", "bluebird", "asset/o
 			}).catch(errorService.criticalError);
 		}
 
-		sessionService.listen(loadData, "ssn.login");
+		var loadingPromise = sessionService.listenPromise("ssn.login").then(function () {
+			return loadData();
+		});
 
 		initService = {
 			/** get via api, also check cache in before!
 			* @param domain: domain to get from
 			*/
+			awaitLoading: function (cb) {
+				return loadingPromise.nodeify(cb);
+			},
 			get: function (domain, id, cb, options) {
 				initRequestsList.push({
 					domain: domain,

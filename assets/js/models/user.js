@@ -102,12 +102,20 @@ define(["step", "whispeerHelper", "asset/state", "asset/securedDataWithMetaData"
 				signKey = signedKeys.metaAttr("sign");
 				cryptKey = signedKeys.metaAttr("crypt");
 
-				if (isMe || friendsService.didOtherRequest(id)) {
+				if (isMe) {
 					friendsKey = signedKeys.metaAttr("friends");
 				}
 
-				if (!isMe && friendsService.didIRequest(id)) {
-					friendShipKey = friendsService.getUserFriendShipKey(id);
+				if (!isMe) {
+					friendsService.awaitLoading().then(function () {
+						if (friendsService.didOtherRequest(id)) {
+							friendsKey = signedKeys.metaAttr("friends");
+						}
+
+						if (friendsService.didIRequest(id)) {
+							friendShipKey = friendsService.getUserFriendShipKey(id);
+						}
+					});
 				}
 
 				if (!isMe) {
@@ -573,18 +581,20 @@ define(["step", "whispeerHelper", "asset/state", "asset/securedDataWithMetaData"
 
 					theUser.data.basic.shortname = shortname;
 
-					theUser.data.added = friendsService.didIRequest(theUser.getID());
-					theUser.data.isMyFriend = friendsService.areFriends(theUser.getID());
+					friendsService.awaitLoading().then(function () {
+						theUser.data.added = friendsService.didIRequest(theUser.getID());
+						theUser.data.isMyFriend = friendsService.areFriends(theUser.getID());
+
+						friendsService.listen(function () {
+							theUser.data.added = friendsService.didIRequest(theUser.getID());
+							theUser.data.isMyFriend = friendsService.areFriends(theUser.getID());
+						});
+					});
 
 					theUser.data.addFriendState = addFriendState.data;
 					theUser.data.ignoreFriendState = ignoreFriendState.data;
 
 					theUser.loadImage();
-
-					friendsService.listen(function () {
-						theUser.data.added = friendsService.didIRequest(theUser.getID());
-						theUser.data.isMyFriend = friendsService.areFriends(theUser.getID());
-					});
 
 					this.ne();
 				}), cb);

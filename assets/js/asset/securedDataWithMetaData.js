@@ -154,14 +154,14 @@ define(["whispeerHelper", "step", "crypto/keyStore", "asset/errors", "config", "
 	/** verify the decrypted data
 		decrypts data if necessary
 		@param signKey key to check signature against
-		@param cb called when signature was ok, otherwise SecurityError is thrown
+		@param id id for signature caching
 		@throw SecurityError: contenthash or signature wrong
 	*/
-	SecuredDataWithMetaData.prototype.verify = function (signKey, cb, id) {
+	SecuredDataWithMetaData.prototype.verifyAsync = function (signKey, id) {
 		//check contentHash is correct
 		//check signature is correct
 
-		var resultPromise = Bluebird.resolve().bind(this).then(function () {
+		return Bluebird.resolve().bind(this).then(function () {
 			var metaCopy = h.deepCopyObj(this._original.meta);
 
 			this._attributesNotVerified.forEach(function(attr) {
@@ -197,8 +197,10 @@ define(["whispeerHelper", "step", "crypto/keyStore", "asset/errors", "config", "
 
 			return true;
 		});
+	};
 
-		return step.unpromisify(resultPromise, cb);
+	SecuredDataWithMetaData.prototype.verify = function (signKey, cb, id) {
+		return this.verifyAsync(signKey, id).nodeify(cb);
 	};
 
 	SecuredDataWithMetaData.prototype.updated = function () {
