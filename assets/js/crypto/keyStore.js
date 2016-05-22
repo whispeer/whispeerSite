@@ -38,6 +38,8 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 	/** identifier list of keys we can use for encryption. this is mainly a safeguard for coding bugs. */
 	var keysUsableForEncryption = [];
 
+	var privateActionsBlocked = false;
+
 	/** our classes */
 	var Key, SymKey, CryptKey, SignKey;
 
@@ -649,6 +651,10 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 		*/
 
 		this.encryptWithPrefix = function (prefix, data, callback, progressCallback, noDecode) {
+			if (privateActionsBlocked) {
+				throw new errors.SecurityError("Private Actions are blocked");
+			}
+
 			if (!isKeyUsableForEncryption(intKey.getRealID())) {
 				throw new errors.SecurityError("Key not usable for encryption: " + intKey.getRealID());
 			}
@@ -904,6 +910,10 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 		* param callback callback
 		*/
 		function kemF(callback) {
+			if (privateActionsBlocked) {
+				throw new errors.SecurityError("Private Actions are blocked");
+			}
+
 			if (!isKeyUsableForEncryption(intKey.getRealID())) {
 				throw new errors.SecurityError("Key not usable for encryption: " + intKey.getRealID());
 			}
@@ -1145,6 +1155,10 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 		}
 
 		function signF(hash, type, callback) {
+			if (privateActionsBlocked) {
+				throw new errors.SecurityError("Private Actions are blocked");
+			}
+
 			var trustManager, signatureCache;
 			step(function () {
 				require(["crypto/trustManager", "crypto/signatureCache"], this.ne, this);
@@ -1728,6 +1742,18 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 		},
 
 		security: {
+			blockPrivateActions: function () {
+				privateActionsBlocked = true;
+			},
+
+			allowPrivateActions: function () {
+				privateActionsBlocked = false;
+			},
+
+			arePrivateActionsBlocked: function () {
+				return privateActionsBlocked;
+			},
+
 			addEncryptionIdentifier: function (realid) {
 				makeKeyUsableForEncryption(realid);
 			},
