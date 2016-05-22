@@ -43,8 +43,14 @@ define(["workerQueue", "bluebird", "crypto/minimalHelper"], function (WorkerQueu
 		requirePath = dirname(window.location.href) + requirePath;
 	}
 
+	var workerCount = 4;
+
+	if (navigator.hardwareConcurrency) {
+		workerCount = Math.max(navigator.hardwareConcurrency, workerCount);
+	}
+
 	//Promise, numberOfWorkers, workerPath, setupMethod, requireOverRide
-	var workers = new WorkerQueue(bluebird, 4, "crypto/sjclWorker", addEntropy, requirePath);
+	var workers = new WorkerQueue(bluebird, workerCount, "crypto/sjclWorker", addEntropy, requirePath);
 
 	var sjclWorker = {
 		hash: function (toHash) {
