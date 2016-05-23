@@ -9,9 +9,13 @@ define([
 	"asset/sortedSet",
 	"asset/securedDataWithMetaData",
 	"bluebird",
+	"debug",
 	"models/modelsModule",
-], function (step, h, validator, Observer, sortedSet, SecuredData, Bluebird, modelsModule) {
+], function (step, h, validator, Observer, sortedSet, SecuredData, Bluebird, debug, modelsModule) {
 	"use strict";
+
+	var debugName = "whispeer:topic";
+	var topicDebug = debug(debugName);
 
 	function topicModel($timeout, windowService, socket, userService, keyStore, sessionService, Message) {
 		function sortGetTime(a, b) {
@@ -51,10 +55,10 @@ define([
 
 				if (unreadMessages) {
 					if (newUnread.length === 0 && unreadMessages.length > 0) {
-						console.log("decrease unread count, topicid: " + data.topicid);
+						topicDebug("decrease unread count, topicid: " + data.topicid);
 						Topic.notify(data.topicid, "read");
 					} else if (newUnread.length > 0 && unreadMessages.length === 0) {
-						console.log("increase unread count, topicid: " + data.topicid);
+						topicDebug("increase unread count, topicid: " + data.topicid);
 						Topic.notify(data.topicid, "unread");
 					}
 				}
@@ -375,7 +379,7 @@ define([
 						this.last.ne();
 					}
 				}, h.sF(function (data) {
-					console.log("Message server took: " + (new Date().getTime() - loadMore));
+					topicDebug("Message server took: " + (new Date().getTime() - loadMore));
 
 					remaining = data.remaining;
 
@@ -391,7 +395,7 @@ define([
 
 					theTopic.data.remaining = remaining;
 
-					console.log("Message loading took: " + (new Date().getTime() - loadMore));
+					topicDebug("Message loading took: " + (new Date().getTime() - loadMore));
 					this.ne();
 				}), cb);
 				//load more messages and decrypt them.
@@ -435,7 +439,7 @@ define([
 				//add to topic list
 				topicArray.push(t.data);
 
-				console.log("Topic loaded:" + (new Date().getTime() - startup));
+				topicDebug("Topic loaded:" + (new Date().getTime() - startup));
 				this.ne(t.getID());
 			}), cb);
 

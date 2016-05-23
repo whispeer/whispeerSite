@@ -1,12 +1,27 @@
 /**
 * MessageService
 **/
-define(["step", "whispeerHelper", "asset/Progress", "asset/Queue", "services/serviceModule"], function (step, h, Progress, Queue, serviceModule) {
+define(["step", "whispeerHelper", "asset/Progress", "asset/Queue", "services/serviceModule", "debug"], function (step, h, Progress, Queue, serviceModule, debug) {
 	"use strict";
 
 	var knownBlobs = {};
 	var downloadBlobQueue = new Queue(1);
 	downloadBlobQueue.start();
+
+	var debugName = "whispeer:blobService";
+	var blobServiceDebug = debug(debugName);
+
+	function time(name) {
+		if (debug.enabled(debugName)) {
+			console.time(name);
+		}
+	}
+
+	function timeEnd(name) {
+		if (debug.enabled(debugName)) {
+			console.timeEnd(name);
+		}
+	}
 
 	var service = function ($rootScope, socketService, keyStore, errorService, Cache) {
 		var blobCache = new Cache("blobs");
@@ -102,14 +117,14 @@ define(["step", "whispeerHelper", "asset/Progress", "asset/Queue", "services/ser
 			}, h.sF(function (_key, buf) {
 				that._key = _key;
 
-				console.time("blobencrypt" + (that._blobID || that._preReserved));
+				time("blobencrypt" + (that._blobID || that._preReserved));
 				keyStore.sym.encryptArrayBuffer(buf, that._key, this, function (progress) {
 					that._encryptProgress.progress(that.getSize() * progress);	
 				});
 			}), h.sF(function (encryptedData) {
 				that._encryptProgress.progress(that.getSize());
-				console.timeEnd("blobencrypt" + (that._blobID || that._preReserved));
-				console.log(encryptedData.byteLength);
+				timeEnd("blobencrypt" + (that._blobID || that._preReserved));
+				blobServiceDebug(encryptedData.byteLength);
 				that._decrypted = false;
 
 				that._blobData = new Blob([encryptedData], {type: that._blobData.type});
@@ -127,10 +142,10 @@ define(["step", "whispeerHelper", "asset/Progress", "asset/Queue", "services/ser
 
 				that.getArrayBuffer(this);
 			}, h.sF(function (encryptedData) {
-				console.time("blobdecrypt" + that._blobID);
+				time("blobdecrypt" + that._blobID);
 				keyStore.sym.decryptArrayBuffer(encryptedData, that._key, this);
 			}), h.sF(function (decryptedData) {
-				console.timeEnd("blobdecrypt" + that._blobID);
+				timeEnd("blobdecrypt" + that._blobID);
 
 				that._decrypted = true;
 
