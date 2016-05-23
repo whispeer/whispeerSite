@@ -2,8 +2,11 @@
 * sessionController
 **/
 
-define(["step", "whispeerHelper", "config", "controllers/controllerModule"], function (step, h, config, controllerModule) {
+define(["step", "whispeerHelper", "config", "controllers/controllerModule", "debug"], function (step, h, config, controllerModule, debug) {
 	"use strict";
+
+	var debugName = "whispeer:rootController";
+	var rootControllerDebug = debug(debugName);
 
 	function rootController($scope, $http, $interval, localize, initService, socketService, sessionService, sessionHelper, userService, cssService, messageService, trustService, friendsService) {
 		$scope.loading = true;
@@ -33,7 +36,7 @@ define(["step", "whispeerHelper", "config", "controllers/controllerModule"], fun
 				$scope.user = user.data;
 				$scope.loading = false;
 
-				console.log("Own Name loaded:" + (new Date().getTime() - startup));
+				rootControllerDebug("Own Name loaded:" + (new Date().getTime() - startup));
 			}));
 		}, "initDone");
 
