@@ -232,7 +232,7 @@ define (["whispeerHelper", "step", "config", "asset/observer", "asset/errors", "
 				securedData.databases.forEach(function (db) {
 					types[db.type].joinEntries(db.entries);
 				});
-
+			}).finally(function () {
 				signatureCache.initialize(ownKey);
 			});
 		},
