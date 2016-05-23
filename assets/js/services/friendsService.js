@@ -427,8 +427,6 @@ define(["step", "whispeerHelper", "asset/observer", "asset/securedDataWithMetaDa
 		Observer.call(friendsService);
 
 		loadingPromise = initService.awaitLoading().then(function () {
-			return Bluebird.delay(30000);
-		}).then(function () {
 			return friendsService.load();
 		});
 
