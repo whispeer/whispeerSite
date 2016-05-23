@@ -114,6 +114,26 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 		};
 	}
 
+	function determineLength(object) {
+		if (typeof object !== "object") {
+			return 0;
+		}
+
+		return Object.keys(object).reduce(function (prev, cur) {
+			return prev + 1 + determineLength(object[cur]);
+		}, 0);
+	}
+
+	function stringifyObject(object, version) {
+		var length = determineLength(object);
+
+		if (h.parseDecimal(version) > 2 && length < 500) {
+			return Bluebird.resolve(new ObjectHasher(object, version).stringify());
+		}
+
+		return sjclWorkerInclude.stringify(object, version);
+	}
+
 	function removeExpectedPrefix(bitArray, prefix) {
 		var len = prefix.length, part;
 		prefix = sjcl.codec.utf8String.toBits(prefix);
@@ -2315,7 +2335,7 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 				var getSignKey = Bluebird.promisify(SignKey.get, SignKey);
 
 				return Bluebird.all([
-					sjclWorkerInclude.stringify(object, version),
+					stringifyObject(object, version),
 					getSignKey(realID)
 				]).spread(function (objectString, key) {
 					return key.verify(signature, objectString, object._type, id);
