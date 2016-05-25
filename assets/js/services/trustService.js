@@ -1,5 +1,20 @@
-define(["step", "whispeerHelper", "crypto/trustManager", "crypto/signatureCache", "services/serviceModule", "bluebird"], function (step, h, trustManager, signatureCache, serviceModule, Bluebird) {
+define(["step", "whispeerHelper", "crypto/trustManager", "crypto/signatureCache", "services/serviceModule", "debug"], function (step, h, trustManager, signatureCache, serviceModule, debug) {
 	"use strict";
+
+	var debugName = "whispeer:trustService";
+	var trustServiceDebug = debug(debugName);
+
+	function time(name) {
+		if (debug.enabled(debugName)) {
+			console.time(name);
+		}
+	}
+
+	function timeEnd(name) {
+		if (debug.enabled(debugName)) {
+			console.timeEnd(name);
+		}
+	}
 
 	var service = function ($rootScope, initService, userService, socketService, CacheService, sessionService, errorService) {
 		var THROTTLE = 20, STORESIGNATURECACHEINTERVAL = 60000, signatureCacheObject = new CacheService("signatureCache");
@@ -27,15 +42,15 @@ define(["step", "whispeerHelper", "crypto/trustManager", "crypto/signatureCache"
 
 		function storeSignatureCache() {
 			if (signatureCache.isChanged()) {
-				console.log("Storing signature cache!");
-				console.time("storedSignatureCache");
+				trustServiceDebug("Storing signature cache!");
+				time("storedSignatureCache");
 
 				signatureCache.resetChanged();
 
 				signatureCache.getUpdatedVersion().then(function (updatedVersion) {
 					return signatureCacheObject.store(sessionService.getUserID(), updatedVersion);
 				}).then(function () {
-					console.timeEnd("storedSignatureCache");
+					timeEnd("storedSignatureCache");
 				});
 			}
 		}
@@ -116,12 +131,12 @@ define(["step", "whispeerHelper", "crypto/trustManager", "crypto/signatureCache"
 		});
 
 		sessionService.listenPromise("ssn.login").then(function () {
-			console.time("getSignatureCache");
+			time("getSignatureCache");
 			return signatureCacheObject.get(sessionService.getUserID()).catch(function () {
 				return;
 			});
 		}).then(function (signatureCacheData) {
-			console.timeEnd("getSignatureCache");
+			timeEnd("getSignatureCache");
 			return userService.verifyOwnKeysDone().then(function () {
 				return signatureCacheData;
 			});

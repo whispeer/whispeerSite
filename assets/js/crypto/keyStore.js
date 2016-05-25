@@ -23,8 +23,10 @@
 	"y":"YMv7KmTnxpU16ytQrAYgcw4bpoQuPZwLSwvM_imsqxA"
 }
 */
-define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForReady", "crypto/sjclWorkerInclude", "crypto/objectHasher", "asset/errors", "bluebird"], function (step, h, chelper, sjcl, waitForReady, sjclWorkerInclude, ObjectHasher, errors, Bluebird) {
+define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForReady", "crypto/sjclWorkerInclude", "crypto/objectHasher", "asset/errors", "bluebird", "debug"], function (step, h, chelper, sjcl, waitForReady, sjclWorkerInclude, ObjectHasher, errors, Bluebird, debug) {
 	"use strict";
+
+	var keyStoreDebug = debug("whispeer:keyStore");
 
 	var socket, firstVerify = true, afterAsyncCall, improvementListener = [], makeKey, keyStore, recovery = false, sjclWarning = true;
 
@@ -65,7 +67,7 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 			}
 		}
 	} catch (e) {
-		console.log(e);
+		keyStoreDebug(e);
 	}
 
 	function requireAsync(modules) {
@@ -312,8 +314,8 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 			}, function (err, result) {
 				if (err || result === false) {
 					globalErrors.push(err || { err: "internaldecryptor returned false for realid: " + realid });
-					console.log(err);
-					console.log("decryptor failed for key: " + realid);
+					keyStoreDebug(err);
+					keyStoreDebug("decryptor failed for key: " + realid);
 
 					decryptors = decryptors.filter(function (decryptor) {
 						return decryptor !== usedDecryptor.decryptor;
@@ -401,7 +403,7 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 			}
 
 			if (level > 100) {
-				console.log("dafuq, deeply nested keys");
+				keyStoreDebug("dafuq, deeply nested keys");
 				return MAXSPEED;
 			}
 
@@ -797,7 +799,7 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 			throw new Error("not a valid key realid: " + realKeyID);
 		}
 
-		console.info("loading key: " + realKeyID);
+		keyStoreDebug("loading key: " + realKeyID);
 
 		delay(realKeyID, callback);
 	}
@@ -964,7 +966,7 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 
 				intKey.decryptKey(this);
 			}, h.sF(function () {
-				console.info("slow decrypt");
+				keyStoreDebug("slow decrypt");
 
 				this.ne(intKey.getSecret().unkem(tag));
 			}), callback);
@@ -1194,7 +1196,7 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 				}
 			}), h.sF(function () {
 				if (!trustManager.hasKeyData(intKey.getRealID())) {
-					console.log("key not in key database");
+					keyStoreDebug("key not in key database");
 					alert("key not in key database: " + intKey.getRealID() + " - please report this issue to support@whispeer.de!");
 					throw new errors.SecurityError("key not in key database");
 				}
@@ -1227,7 +1229,7 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 
 		function verifySjcl(signature, hash) {
 			if (sjclWarning) {
-				console.warn("Verifying with sjcl");
+				keyStoreDebug("Verifying with sjcl");
 				sjclWarning = false;
 			}
 			if (firstVerify) {
@@ -1297,7 +1299,7 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 			}).then(function (hash) {
 				return subtleToHex(hash);
 			}).catch(function () {
-				console.log("Subtle hashing failed falling back to sjcl");
+				keyStoreDebug("Subtle hashing failed falling back to sjcl");
 				return sjcl.hash.sha256.hash(text);
 			});
 		}
@@ -1317,12 +1319,18 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 						return Bluebird.resolve(true);
 					}
 
-					console.info("Slow verify of type: " + type);
+					keyStoreDebug("Slow verify of type: " + type);
 					var name = chelper.bits2hex(signature).substr(0, 10);
-					console.time("verify-" + name);
+
+					if (debug.enabled("whispeer:keyStore")) {
+						console.time("verify-" + name);
+					}
 
 					return verify(signature, text, hash).then(function (valid) {
-						console.timeEnd("verify-" + name);
+						if (debug.enabled("whispeer:keyStore")) {
+							console.timeEnd("verify-" + name);
+						}
+
 						if (valid) {
 							signatureCache.addValidSignature(signature, hash, realid, type, id);
 						}

@@ -1,5 +1,19 @@
-define(["step", "whispeerHelper", "services/serviceModule", "bluebird", "asset/observer"], function (step, h, serviceModule, Bluebird, Observer) {
+define(["step", "whispeerHelper", "services/serviceModule", "bluebird", "asset/observer", "debug"], function (step, h, serviceModule, Bluebird, Observer, debug) {
 	"use strict";
+
+	var debugName = "whispeer:initService";
+
+	function time(name) {
+		if (debug.enabled(debugName)) {
+			console.time(name);
+		}
+	}
+
+	function timeEnd(name) {
+		if (debug.enabled(debugName)) {
+			console.timeEnd(name);
+		}
+	}
 
 	var service = function ($timeout, $rootScope, errorService, socketService, sessionService, migrationService, CacheService) {
 		var initRequestsList = [], initCallbacks = [], initService;
@@ -84,7 +98,7 @@ define(["step", "whispeerHelper", "services/serviceModule", "bluebird", "asset/o
 
 				return socketService.awaitConnection();
 			}).then(function () {
-				console.time("cacheInitGet");
+				time("cacheInitGet");
 				return initRequestsList;
 			}).map(function (initRequest) {
 				if (initRequest.options.cache) {
@@ -93,17 +107,17 @@ define(["step", "whispeerHelper", "services/serviceModule", "bluebird", "asset/o
 					return initRequest;
 				}
 			}).then(function (initRequests) {
-				console.timeEnd("cacheInitGet");
-				console.time("serverInitGet");
+				timeEnd("cacheInitGet");
+				time("serverInitGet");
 				return getServerData(initRequests);
 			}).then(function (initResponses) {
-				console.timeEnd("serverInitGet");
-				console.time("init");
+				timeEnd("serverInitGet");
+				time("init");
 				return runCallbacks(initResponses);
 			}).then(function () {
 				return Bluebird.all(runningInitCallbacks);
 			}).then(function () {
-				console.timeEnd("init");
+				timeEnd("init");
 				migrationService();
 				initService.notify("", "initDone");
 			}).catch(errorService.criticalError);

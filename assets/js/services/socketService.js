@@ -93,11 +93,15 @@ define([
 			var log = {
 				timer: function (name) {
 					var message = new Date().toLocaleTimeString() + ":" + name + "(" + Math.random() + ")";
-					console.time(message);
+					if (debug.enabled("whispeer:socket")) {
+						console.time(message);
+					}
 					return message;
 				},
 				timerEnd: function (message) {
-					console.timeEnd(message);
+					if (debug.enabled("whispeer:socket")) {
+						console.timeEnd(message);
+					}
 				}
 			};
 
