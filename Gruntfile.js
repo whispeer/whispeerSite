@@ -362,6 +362,7 @@ grunt.task.registerTask("workerCache", "Write worker cache and commit sha", func
 		"assets/js/build/lib*",
 		"assets/js/build/build*",
 		"assets/js/build/login*",
+		"assets/js/build/worker*",
 	];
 
 	var preload = [
