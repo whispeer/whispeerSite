@@ -59,6 +59,13 @@ var baseConfig = {
 
 grunt.initConfig({
 	requirejs: {
+		worker: {
+			options: extend({}, baseConfig, {
+				out: "assets/js/build/worker.js",
+
+				include: ["requirejs"].concat(["bower/require-promise-worker.js/src/worker", "crypto/sjclWorker"])
+			})
+		},
 		lib: {
 			options: extend({}, baseConfig, {
 				out: "assets/js/build/lib.js",
