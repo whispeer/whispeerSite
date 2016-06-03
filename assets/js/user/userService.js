@@ -1,4 +1,4 @@
-define(["step", "whispeerHelper", "user/userModule", "asset/observer", "crypto/signatureCache", "bluebird"], function (step, h, userModule, Observer, signatureCache, Bluebird) {
+define(["step", "whispeerHelper", "user/userModule", "asset/observer", "crypto/signatureCache", "bluebird", "crypto/trustManager"], function (step, h, userModule, Observer, signatureCache, Bluebird, trustManager) {
 	"use strict";
 
 	var service = function ($rootScope, User, errorService, initService, socketService, keyStoreService, sessionService) {
@@ -293,6 +293,8 @@ define(["step", "whispeerHelper", "user/userModule", "asset/observer", "crypto/s
 				keyStoreService.sym.registerMainKey(user.getMainKey());
 
 				user.verifyOwnKeys();
+
+				trustManager.setOwnSignKey(user.getSignKey());
 
 				ownUserStatus.verifyOwnKeysDoneResolve();
 				delete ownUserStatus.verifyOwnKeysDoneResolve;
