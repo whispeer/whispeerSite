@@ -4,12 +4,19 @@ lang: de
 title: Versionshistorie
 ---
 
+## 0.2.26
+
+* Bugfix: Fehlermeldung beim Passwort zurücksetzen
+* Schnelleres Laden auf Systemen mit vielen Kernen
+* Bugfix: Mail link im Impressum
+* Bessere Synchronisation von ungelesenen Nachrichten
+
 ## 0.2.25
 
-* Delete a comment
-* Fix logo display in Safari
-* Login/register fix for Safari in private mode
-* better performance
+* Kommentar löschen
+* Bugfix: Anzeige des Logos in Safari
+* Bugfix: Login/registrieren im privaten Modus von Safari
+* Performanceoptimierungen
 * Bugfixes
 
 ## 0.2.24

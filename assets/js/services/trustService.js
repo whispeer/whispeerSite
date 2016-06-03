@@ -65,9 +65,6 @@ define(["step", "whispeerHelper", "crypto/trustManager", "crypto/signatureCache"
 		}
 
 		userService.listen(addNewUsers, "loadedUser");
-		userService.verifyOwnKeysDone().then(function () {
-			trustManager.setOwnSignKey(userService.getown().getSignKey());
-		});
 
 		function loadDatabase(database, cb) {
 			step(function () {
