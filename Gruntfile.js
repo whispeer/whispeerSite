@@ -366,11 +366,7 @@ grunt.task.registerTask("workerCache", "Write worker cache and commit sha", func
 	];
 
 	var preload = [
-		"assets/js/bower/require-promise-worker.js/src/worker.js",
 		"assets/js/bower/requirejs/require.js",
-		"assets/js/crypto/sjclWorker.js",
-		"assets/js/libs/sjcl.js",
-		"assets/js/crypto/minimalHelper.js",
 
 		"assets/img/logo.svg",
 		"assets/data/newMessage.ogg",
