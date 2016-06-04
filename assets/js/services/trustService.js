@@ -17,7 +17,7 @@ define(["step", "whispeerHelper", "crypto/trustManager", "crypto/signatureCache"
 	}
 
 	var service = function ($rootScope, initService, userService, socketService, CacheService, sessionService, errorService) {
-		var THROTTLE = 20, STORESIGNATURECACHEINTERVAL = 60000, signatureCacheObject = new CacheService("signatureCache");
+		var THROTTLE = 20, STORESIGNATURECACHEINTERVAL = 30000, signatureCacheObject = new CacheService("signatureCache");
 
 		function uploadDatabase(cb) {
 			step(function () {
@@ -135,7 +135,7 @@ define(["step", "whispeerHelper", "crypto/trustManager", "crypto/signatureCache"
 			});
 		}).then(function (signatureCacheData) {
 			timeEnd("getSignatureCache");
-			return userService.verifyOwnKeysDone().then(function () {
+			return userService.verifyOwnKeysCacheDone().then(function () {
 				return signatureCacheData;
 			});
 		}).then(function (signatureCacheData) {

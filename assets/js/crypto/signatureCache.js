@@ -250,7 +250,7 @@ define (["whispeerHelper", "step", "config", "asset/observer", "asset/errors", "
 		*/
 		getUpdatedVersion: function () {
 			if (!loaded) {
-				return;
+				return Bluebird.reject("Signature Cache not yet loaded!");
 			}
 
 			var databases = allDatabases.map(function (db) {
