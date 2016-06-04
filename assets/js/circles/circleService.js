@@ -313,7 +313,7 @@ define(["step", "whispeerHelper", "asset/observer", "services/serviceModule", "a
 						loading = true;
 						circleService.data.loading = false;
 
-						socket.emit("circle.all", {}, this);
+						socket.definitlyEmit("circle.all", {}, this);
 					} else if (loaded) {
 						this.last.ne();
 					} else {

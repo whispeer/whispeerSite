@@ -380,6 +380,8 @@ define(["step", "whispeerHelper", "bluebird", "validation/validator", "services/
 			}, h.sF(function () {
 				that._expandFilter(this);
 			}), h.sF(function () {
+				socket.awaitConnection().nodeify(this);
+			}), h.sF(function () {
 				socket.emit("posts.getTimeline", {
 					afterID: that.getOldestID(),
 					filter: that._finalFilter,
