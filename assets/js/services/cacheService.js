@@ -6,6 +6,7 @@ define(["whispeerHelper", "dexie", "bluebird", "services/serviceModule", "servic
 	function Cache(name, options) {
 		this._name = name;
 		this._options = options || {};
+		this._options.maxEntries = this._options.maxEntries || 100;
 	}
 
 	Cache.prototype.entries = function () {
@@ -91,11 +92,15 @@ define(["whispeerHelper", "dexie", "bluebird", "services/serviceModule", "servic
 	};
 
 	Cache.prototype.cleanUp = function () {
-		//remove data which hasn't been used in a long time or is very big
+		if (this._options.maxEntries === -1) {
+			return;
+		}
+
+		//remove data which hasn't been used in a long time
 		return Promise.resolve(this.entryCount().then(function (count) {
-			if (count > 100) {
+			if (count > this._options.maxEntries) {
 				console.warn("cleaning up cache " + this._name);
-				db.cache.orderBy("used").limit(count - 100).delete();
+				db.cache.orderBy("used").limit(count - this._options.maxEntries).delete();
 			}
 		}));
 	};
