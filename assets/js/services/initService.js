@@ -124,7 +124,9 @@ define(["step", "whispeerHelper", "services/serviceModule", "bluebird", "asset/o
 				return Bluebird.all([
 					initCacheCallbacks.map(runFunction),
 					runCacheCallbacks(initRequests)
-				]).catch(errorService.criticalError).thenReturn(initRequests);
+				]).then(function () {
+					initService.notify("", "initCacheDone");
+				}).catch(errorService.criticalError).thenReturn(initRequests);
 			}).then(function (initRequests) {
 				runningInitCallbacks = initCallbacks.map(runFunction);
 

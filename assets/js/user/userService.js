@@ -1,7 +1,7 @@
 define(["step", "whispeerHelper", "user/userModule", "asset/observer", "crypto/signatureCache", "bluebird", "crypto/trustManager"], function (step, h, userModule, Observer, signatureCache, Bluebird, trustManager) {
 	"use strict";
 
-	var service = function ($rootScope, User, errorService, initService, socketService, keyStoreService, sessionService, CacheService) {
+	var service = function ($rootScope, User, errorService, initService, socketService, keyStoreService, sessionService, CacheService, requestKeyService) {
 		var userService, knownIDs = [], users = {}, loading = {}, ownUserStatus = {};
 
 		var promises = ["verifyOwnKeysDone", "verifyOwnKeysCacheDone", "loadedCache", "loaded"];
@@ -331,7 +331,10 @@ define(["step", "whispeerHelper", "user/userModule", "asset/observer", "crypto/s
 				return signatureCache.awaitLoading().thenReturn(user);
 			}).then(function (user) {
 				var verifyKeys = Bluebird.promisify(user.verifyKeys, user);
-				return verifyKeys();
+				return verifyKeys().thenReturn(user);
+			}).then(function (user) {
+				requestKeyService.cacheKey(user.getSignKey(), "user-sign-" + user.getID(), requestKeyService.MAXCACHETIME);
+				requestKeyService.cacheKey(user.getMainKey(), "user-main-" + user.getID(), requestKeyService.MAXCACHETIME);
 			});
 		}
 
@@ -382,7 +385,7 @@ define(["step", "whispeerHelper", "user/userModule", "asset/observer", "crypto/s
 		return userService;
 	};
 
-	service.$inject = ["$rootScope", "ssn.models.user", "ssn.errorService", "ssn.initService", "ssn.socketService", "ssn.keyStoreService", "ssn.sessionService", "ssn.cacheService"];
+	service.$inject = ["$rootScope", "ssn.models.user", "ssn.errorService", "ssn.initService", "ssn.socketService", "ssn.keyStoreService", "ssn.sessionService", "ssn.cacheService", "ssn.requestKeyService"];
 
 	userModule.factory("ssn.userService", service);
 });

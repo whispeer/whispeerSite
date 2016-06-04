@@ -23,5 +23,6 @@ define([
 	"services/cacheService",
 	"services/imageUploadService",
 	"services/screenSizeService",
-	"services/locationService"
+	"services/locationService",
+	"services/requestKeyService"
 ], function () {});

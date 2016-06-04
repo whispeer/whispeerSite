@@ -81,14 +81,14 @@ define(["whispeerHelper", "dexie", "bluebird", "services/serviceModule", "servic
 
 	/** get all cache entries as a dexie collection. */
 	Cache.prototype.all = function () {
-		return db.cache.where("id").startsWith(this.name + "/");
+		return db.cache.where("id").startsWith(this._name + "/");
 	};
 
 	/** delete a certain cache entry
 	* id: id of the entry
 	*/
 	Cache.prototype.delete = function (id) {
-		return db.cache.where("id").equals(this.name + "/" + id).delete();
+		return db.cache.where("id").equals(this._name + "/" + id).delete();
 	};
 
 	Cache.prototype.cleanUp = function () {
@@ -97,7 +97,8 @@ define(["whispeerHelper", "dexie", "bluebird", "services/serviceModule", "servic
 		}
 
 		//remove data which hasn't been used in a long time
-		return Promise.resolve(this.entryCount().then(function (count) {
+		return Promise.resolve(this.entryCount().bind(this).then(function (count) {
+			console.log("Contains: " + count + " Entries (" + this._name + ")");
 			if (count > this._options.maxEntries) {
 				console.warn("cleaning up cache " + this._name);
 				db.cache.orderBy("used").limit(count - this._options.maxEntries).delete();

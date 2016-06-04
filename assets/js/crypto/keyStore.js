@@ -28,7 +28,7 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 
 	var keyStoreDebug = debug("whispeer:keyStore");
 
-	var socket, firstVerify = true, afterAsyncCall, improvementListener = [], makeKey, keyStore, recovery = false, sjclWarning = true;
+	var keyGetFunction, firstVerify = true, afterAsyncCall, improvementListener = [], makeKey, keyStore, recovery = false, sjclWarning = true;
 
 	/** dirty and new keys to upload. */
 	var dirtyKeys = [], newKeys = [];
@@ -535,25 +535,30 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 		this.addPWDecryptor = addPWDecryptorF;
 
 		/** get all data which need uploading. */
-		function getDecryptorDataF() {
+		function getDecryptorDataF(includeAllDecryptors) {
 			//get the upload data for the decryptors of this key.
 			//this will be called in the keys upload() function.
-			var result = [], i, tempR, k;
-			for (i = 0; i < dirtyDecryptors.length; i += 1) {
-				tempR = {};
-				for (k in dirtyDecryptors[i]) {
-					if (dirtyDecryptors[i].hasOwnProperty(k)) {
-						tempR[k] = dirtyDecryptors[i][k];
+
+			var decryptorArray = dirtyDecryptors;
+
+			if (includeAllDecryptors) {
+				decryptorArray = decryptors;
+			}
+
+			return decryptorArray.map(function (decryptor) {
+				var tempR = {}, k;
+				for (k in decryptor) {
+					if (decryptor.hasOwnProperty(k)) {
+						tempR[k] = decryptor[k];
 					}
 				}
 
 				if (tempR.decryptorid) {
 					tempR.decryptorid = correctKeyIdentifier(tempR.decryptorid);
 				}
-				result.push(tempR);
-			}
 
-			return result;
+				return tempR;
+			});
 		}
 		this.getDecryptorData = getDecryptorDataF;
 
@@ -636,11 +641,11 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 			return keyData.accessCount;
 		};
 
-		this.getUploadData = function () {
+		this.getUploadData = function (includeAllDecryptors) {
 			var data = {
 				realid: intKey.getRealID(),
 				type: "sym",
-				decryptors: this.getDecryptorData(),
+				decryptors: this.getDecryptorData(includeAllDecryptors),
 				comment: comment
 			};
 
@@ -767,41 +772,9 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 		}
 	}
 
-	function loadKeys(identifiers, cb) {
-		step(function getKeyF() {
-			var toLoadIdentifiers = [];
-
-			identifiers.forEach(function (e) {
-				if (!symKeys[e] && !cryptKeys[e] && !signKeys[e]) {
-					toLoadIdentifiers.push(e);
-				}
-			});
-
-			if (toLoadIdentifiers.length > 0) {
-				socket.definitlyEmit("key.getMultiple", {
-					loaded: [],
-					realids: identifiers
-				}, this);
-			} else {
-				this.last.ne(identifiers);
-			}
-		}, h.sF(function () {
-			this.ne(identifiers);
-		}), cb);
-	}
-
-	var THROTTLE = 20;
-	var delay = h.delayMultiple(THROTTLE, loadKeys);
-
 	/** load a key and his keychain. remove loaded keys */
 	function getKey(realKeyID, callback) {
-		if (typeof realKeyID !== "string") {
-			throw new Error("not a valid key realid: " + realKeyID);
-		}
-
-		keyStoreDebug("loading key: " + realKeyID);
-
-		delay(realKeyID, callback);
+		keyGetFunction(realKeyID, callback);
 	}
 
 	/** load  a symkey and its keychain */
@@ -899,7 +872,7 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 			this.addSymDecryptor = intKey.addSymDecryptor;
 			this.addPWDecryptor = intKey.addPWDecryptor;
 
-			this.getUploadData = function () {
+			this.getUploadData = function (includeAllDecryptors) {
 				var p = publicKey._point, data = {
 					realid: intKey.getRealID(),
 					point: {
@@ -908,7 +881,7 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 					},
 					curve: chelper.getCurveName(publicKey._curve),
 					type: "crypt",
-					decryptors: this.getDecryptorData(),
+					decryptors: this.getDecryptorData(includeAllDecryptors),
 					comment: comment
 				};
 
@@ -1147,7 +1120,7 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 			this.addSymDecryptor = intKey.addSymDecryptor;
 			this.addPWDecryptor = intKey.addPWDecryptor;
 
-			this.getUploadData = function () {
+			this.getUploadData = function (includeAllDecryptors) {
 				var p = publicKey._point, data = {
 					realid: intKey.getRealID(),
 					point: {
@@ -1156,7 +1129,7 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 					},
 					curve: chelper.getCurveName(publicKey._curve),
 					type: "sign",
-					decryptors: this.getDecryptorData(),
+					decryptors: this.getDecryptorData(includeAllDecryptors),
 					comment: comment
 				};
 
@@ -1923,14 +1896,21 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 
 				return -1;
 			},
-			setSocket: function (theSocket) {
-				socket = theSocket;
+			setKeyGet: function (_keyGetFunction) {
+				keyGetFunction = _keyGetFunction;
+			},
+			getExistingKey: function (keyid) {
+				if (!keyStore.upload.isKeyLoaded(keyid)) {
+					return;
+				}
+
+				var key = symKeys[keyid] || cryptKeys[keyid] || signKeys[keyid];
+				return key.getUploadData(true);
 			},
 			getKey: function (keyid) {
 				var i;
 				for (i = 0; i < newKeys.length; i += 1) {
 					if (keyid === newKeys[i].getRealID()) {
-
 						return newKeys[i].getUploadData();
 					}
 				}

@@ -4,7 +4,7 @@
 define(["services/serviceModule", "crypto/keyStore"], function (serviceModule, keyStore) {
 	"use strict";
 
-	var service = function ($rootScope, socketService) {
+	var service = function ($rootScope, requestKeyService) {
 		$rootScope.$on("ssn.reset", function () {
 			keyStore.reset();
 		});
@@ -13,10 +13,10 @@ define(["services/serviceModule", "crypto/keyStore"], function (serviceModule, k
 			$rootScope.$apply();
 		});
 
-		keyStore.upload.setSocket(socketService);
+		keyStore.upload.setKeyGet(requestKeyService.getKey);
 
 		return keyStore;
 	};
 
-	serviceModule.factory("ssn.keyStoreService", ["$rootScope", "ssn.socketService", service]);
+	serviceModule.factory("ssn.keyStoreService", ["$rootScope", "ssn.requestKeyService", service]);
 });
