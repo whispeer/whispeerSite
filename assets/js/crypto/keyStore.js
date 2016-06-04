@@ -1332,7 +1332,7 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 			if (signKeys[realKeyID]) {
 				this.last.ne(signKeys[realKeyID]);
 			} else {
-				getKey(realKeyID);
+				getKey(realKeyID, this);
 			}
 		}, h.sF(function keyGet() {
 			if (signKeys[realKeyID]) {
