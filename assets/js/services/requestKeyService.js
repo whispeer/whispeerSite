@@ -12,7 +12,8 @@ define(["services/serviceModule", "whispeerHelper", "bluebird", "debug", "crypto
 			return keyCache.all().each(function (cacheEntry) {
 				var data = JSON.parse(cacheEntry.data);
 				if (data.removeAfter < new Date().getTime()) {
-					//TODO: remove!
+					keyStoreDebug("remove by time: " + data.removeAfter);
+					keyCache.delete(cacheEntry.id.split("/")[1]);
 				}
 			});
 		}
@@ -26,8 +27,8 @@ define(["services/serviceModule", "whispeerHelper", "bluebird", "debug", "crypto
 				var data = JSON.parse(cacheEntry.data);
 
 				if (objectID === data.objectID && keyID !== data.key.realid) {
-					//TODO: remove!
 					keyStoreDebug("remove by object id: " + objectID);
+					keyCache.delete(keyID);
 				}
 			});
 		}
@@ -70,7 +71,7 @@ define(["services/serviceModule", "whispeerHelper", "bluebird", "debug", "crypto
 				keyCache.get(keyID).then(function (cacheEntry) {
 					if (cacheEntry.data.removeAfter < new Date().getTime()) {
 						keyStoreDebug("Remove Key from Cache " + keyID);
-						//TODO: remove!
+						keyCache.delete(keyID);
 					}
 
 					keyStore.upload.addKey(cacheEntry.data.key);
