@@ -135,7 +135,10 @@ define(["step", "whispeerHelper", "crypto/trustManager", "crypto/signatureCache"
 			});
 		}).then(function (signatureCacheData) {
 			timeEnd("getSignatureCache");
-			return userService.verifyOwnKeysCacheDone().then(function () {
+			return Bluebird.race([
+				userService.verifyOwnKeysCacheDone(),
+				userService.verifyOwnKeysDone()
+			]).then(function () {
 				return signatureCacheData;
 			});
 		}).then(function (signatureCacheData) {
