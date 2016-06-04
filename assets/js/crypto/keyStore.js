@@ -778,7 +778,7 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 			});
 
 			if (toLoadIdentifiers.length > 0) {
-				socket.emit("key.getMultiple", {
+				socket.definitlyEmit("key.getMultiple", {
 					loaded: [],
 					realids: identifiers
 				}, this);
