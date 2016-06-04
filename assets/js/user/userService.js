@@ -4,12 +4,15 @@ define(["step", "whispeerHelper", "user/userModule", "asset/observer", "crypto/s
 	var service = function ($rootScope, User, errorService, initService, socketService, keyStoreService, sessionService, CacheService) {
 		var userService, knownIDs = [], users = {}, loading = {}, ownUserStatus = {};
 
-		ownUserStatus.verifyOwnKeysDone = new Bluebird(function (resolve) {
-			ownUserStatus.verifyOwnKeysDoneResolve = resolve;
-		});
+		var promises = ["verifyOwnKeysDone", "verifyOwnKeysCacheDone", "loadedCache", "loaded"];
 
-		ownUserStatus.loaded = new Bluebird(function (resolve) {
-			ownUserStatus.loadedResolve = resolve;
+		promises.forEach(function (name) {
+			ownUserStatus[name] = new Bluebird(function (resolve) {
+				ownUserStatus[name + "Resolve"] = function () {
+					delete ownUserStatus[name + "Resolve"];
+					resolve();
+				};
+			});
 		});
 
 		var name = "Deleted user"; //localize("user.deleted", {});
@@ -234,8 +237,16 @@ define(["step", "whispeerHelper", "user/userModule", "asset/observer", "crypto/s
 				}), cb);
 			},
 
+			verifyOwnKeysCacheDone: function () {
+				return ownUserStatus.verifyOwnKeysCacheDone;
+			},
+
 			verifyOwnKeysDone: function () {
 				return ownUserStatus.verifyOwnKeysDone;
+			},
+
+			ownLoadedCache: function () {
+				return ownUserStatus.loadedCache;
 			},
 
 			ownLoaded: function () {
@@ -311,7 +322,8 @@ define(["step", "whispeerHelper", "user/userModule", "asset/observer", "crypto/s
 
 				if (server) {
 					ownUserStatus.verifyOwnKeysDoneResolve();
-					delete ownUserStatus.verifyOwnKeysDoneResolve;
+				} else {
+					ownUserStatus.verifyOwnKeysCacheDoneResolve();
 				}
 
 				trustManager.setOwnSignKey(user.getSignKey());
@@ -323,12 +335,12 @@ define(["step", "whispeerHelper", "user/userModule", "asset/observer", "crypto/s
 			});
 		}
 
-		initService.registerCallback(function () {
+		initService.registerCacheCallback(function () {
 			var cacheEntry;
 			var ownUserCache = new CacheService("ownUser");
 
 			return ownUserCache.get(sessionService.getUserID()).catch(function () {
-				return;
+				return false;
 			}).then(function (_cacheEntry) {
 				cacheEntry = _cacheEntry;
 
@@ -336,22 +348,30 @@ define(["step", "whispeerHelper", "user/userModule", "asset/observer", "crypto/s
 				if (cacheEntry) {
 					cachedInfo = getInfoFromCacheEntry(cacheEntry.data);
 
-					//loadOwnUser(cacheEntry.data);
+					loadOwnUser(cacheEntry.data, false);
+
+					ownUserStatus.loadedCacheResolve();
+
+					return cachedInfo;
 				}
 
-				return socketService.definitlyEmit("user.get", {
-					id: sessionService.getUserID(),
-					cachedInfo: cachedInfo
-				});
+				return false;
+			});
+		});
+
+		initService.registerCallback(function (cachedInfo) {
+			return socketService.definitlyEmit("user.get", {
+				id: sessionService.getUserID(),
+				cachedInfo: cachedInfo
 			}).then(function (data) {
 				return loadOwnUser(data, true).thenReturn(data);
 			}).then(function (userData) {
-				if (!cacheEntry) {
+				if (!cachedInfo) {
+					var ownUserCache = new CacheService("ownUser");
 					ownUserCache.store(sessionService.getUserID(), userData);
 				}
 
 				ownUserStatus.loadedResolve();
-				delete ownUserStatus.loadedResolve;
 			});
 		});
 

@@ -1,4 +1,4 @@
-define(["step", "whispeerHelper", "crypto/trustManager", "crypto/signatureCache", "services/serviceModule", "debug"], function (step, h, trustManager, signatureCache, serviceModule, debug) {
+define(["step", "whispeerHelper", "crypto/trustManager", "crypto/signatureCache", "services/serviceModule", "debug", "bluebird"], function (step, h, trustManager, signatureCache, serviceModule, debug, Bluebird) {
 	"use strict";
 
 	var debugName = "whispeer:trustService";
@@ -83,34 +83,35 @@ define(["step", "whispeerHelper", "crypto/trustManager", "crypto/signatureCache"
 			}, cb);
 		}
 
-		function loadCacheAndAddServer(cache, server, cb) {
-			step(function () {
-				trustManager.loadDatabase(cache, this);
-			}, h.sF(function () {
-				trustManager.updateDatabase(server, this);
-			}), h.sF(function (changedByUpdate) {
-				if (changedByUpdate) {
-					uploadDatabase(errorService.criticalError);
-					this.ne(cache);
-				} else {
-					this.ne(server);
-				}
-			}), cb);
+		var loadDatabaseAsync = Bluebird.promisify(loadDatabase);
+		var createTrustDatabaseAsync = Bluebird.promisify(createTrustDatabase);
+
+		function loadFromCache(cacheEntry) {
+			return userService.verifyOwnKeysCacheDone().then(function () {
+				return loadDatabaseAsync(cacheEntry.data);
+			});
 		}
 
-		initService.get("trustManager.get", undefined, function (data, cache, cb) {
-			userService.verifyOwnKeysDone().then(function () {
-				if (cache && data.content) {
-					loadCacheAndAddServer(cache.data, data.content, cb);
-				} else if (cache) {
-					loadDatabase(cache.data, cb);
-				} else if (data.content) {
-					loadDatabase(data.content, cb);
-				} else {
-					createTrustDatabase(cb);
+		initService.get("trustManager.get", function (data) {
+			return userService.verifyOwnKeysDone().then(function () {
+				if (trustManager.isLoaded()) {
+					if (!data.content) {
+						return;
+					}
+
+					var updateDatabaseAsync = Bluebird.promisify(trustManager.updateDatabase, trustManager);
+
+					return updateDatabaseAsync(data.content);
 				}
+
+				if (data.content) {
+					return loadDatabaseAsync(data.content);
+				}
+
+				return createTrustDatabaseAsync();
 			});
 		}, {
+			cacheCallback: loadFromCache,
 			cache: true
 		});
 

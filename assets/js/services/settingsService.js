@@ -1,4 +1,4 @@
-define(["step", "whispeerHelper", "crypto/encryptedData", "services/serviceModule", "asset/securedDataWithMetaData"], function (step, h, EncryptedData, serviceModule, SecuredData) {
+define(["step", "whispeerHelper", "crypto/encryptedData", "services/serviceModule", "asset/securedDataWithMetaData", "bluebird"], function (step, h, EncryptedData, serviceModule, SecuredData, Bluebird) {
 	"use strict";
 
 	var service = function ($rootScope, $injector, localize, initService, socketService) {
@@ -89,36 +89,50 @@ define(["step", "whispeerHelper", "crypto/encryptedData", "services/serviceModul
 			}), cb);
 		}
 
-		initService.get("settings.get", undefined, function (data, cache, cb) {
-			var givenSettings = data.content;
-
-			if (data.unChanged) {
-				givenSettings = cache.data;
-			}
-
-			var toCache = h.deepCopyObj(givenSettings);
-			serverSettings = givenSettings.server || {};
-
-			step(function () {
-				step.unpromisify($injector.get("ssn.userService").ownLoaded(), this);
-			}, h.sF(function () {
+		function loadSettings(givenSettings) {
+			return Bluebird.try(function () {
 				if (givenSettings.ct) {
-					migrateToFormat2(givenSettings, this);
+					return Bluebird.promisify(migrateToFormat2)(givenSettings);
 				} else {
-					this.ne(SecuredData.load(givenSettings.content, givenSettings.meta, options));
+					return SecuredData.load(givenSettings.content, givenSettings.meta, options);
 				}
-			}), h.sF(function (_settings) {
+			}).then(function (_settings) {
 				settings = _settings;
-				api.decrypt(this);
-			}), h.sF(function () {
+
+				var decryptAsync = Bluebird.promisify(api.decrypt, api);
+
+				return decryptAsync();
+			}).then(function () {
 				var language = api.getBranch("uiLanguage");
 				if (language) {
 					localize.setLanguage(language);
 				}
+			});
+		}
 
-				this.ne(toCache);
-			}), cb);
-		}, {
+		function loadFromCache(cacheEntry) {
+			return $injector.get("ssn.userService").ownLoadedCache().then(function () {
+				return loadSettings(cacheEntry.data);
+			});
+		}
+
+		function loadFromServer(data) {
+			if (data.unChanged) {
+				return Bluebird.resolve();
+			}
+
+			var givenSettings = data.content;
+
+			var toCache = h.deepCopyObj(givenSettings);
+			serverSettings = givenSettings.server || {};
+
+			return $injector.get("ssn.userService").ownLoaded().then(function () {
+				return loadSettings(givenSettings);
+			}).thenReturn(toCache);
+		}
+
+		initService.get("settings.get", loadFromServer, {
+			cacheCallback: loadFromCache,
 			cache: true
 		});
 
