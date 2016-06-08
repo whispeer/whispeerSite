@@ -41,7 +41,7 @@ define([
 		};
 
 		var service = function ($injector, $rootScope) {
-			var socket;
+			var socket, blockedWithToken = false, token;
 			function connect() {
 				socket = io.connect(domain, config.socket.options);
 
@@ -54,7 +54,7 @@ define([
 
 				socket.on("connect", function () {
 					socketDebug("socket connected");
-					socketS.emit("ping", {}, function () {});
+					socketS.emit("ping", { blockageToken: token }, function () {});
 				});
 			}
 
@@ -255,6 +255,16 @@ define([
 
 					return step.unpromisify(uploadPromise, cb);
 				},
+				blockEmitWithToken: function() {
+					blockedWithToken = true;
+					token = Math.random();
+					return token;
+				},
+				allowEmit: function(accessToken) {
+					if (blockedWithToken && accessToken === token) {
+						blockedWithToken = false;
+					}
+				},
 				on: function () {
 					return socket.on.apply(socket, arguments);
 				},
@@ -301,7 +311,8 @@ define([
 
 					return socketS.awaitConnection().then(function () {
 						return socketS.emit(channel, request).timeout(SOCKET_TIMEOUT);
-					}).catch(function () {
+					}).catch(function (e) {
+						console.error(e);
 						return Bluebird.delay(500).then(function () {
 							return socketS.definitlyEmit(channel, request, callback);
 						});
@@ -309,6 +320,10 @@ define([
 				},
 				emit: function (channel, request, callback) {
 					loadInterceptors();
+
+					if (blockedWithToken && request.blockageToken !== token) {
+						throw new DisconnectError("request blocked by token (channel: " + channel + ")");
+					}
 
 					if (!socketS.isConnected()) {
 						throw new DisconnectError("no connection");
