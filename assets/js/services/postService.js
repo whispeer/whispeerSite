@@ -4,7 +4,7 @@
 define(["step", "whispeerHelper", "bluebird", "validation/validator", "services/serviceModule", "asset/observer", "asset/errors", "asset/securedDataWithMetaData", "asset/state"], function (step, h, Promise, validator, serviceModule, Observer, errors, SecuredData, State) {
 	"use strict";
 
-	var service = function ($rootScope, $timeout, localize, socket, keyStore, errorService, userService, circleService, blobService, filterService, Comment, screenSize) {
+	var service = function ($rootScope, $timeout, localize, socket, keyStore, errorService, userService, circleService, blobService, filterService, Comment, screenSize, initService) {
 		var postsById = {};
 		var postsByUserWall = {};
 		var timelinesCache = {};
@@ -380,7 +380,7 @@ define(["step", "whispeerHelper", "bluebird", "validation/validator", "services/
 			}, h.sF(function () {
 				that._expandFilter(this);
 			}), h.sF(function () {
-				socket.awaitConnection().nodeify(this);
+				initService.awaitLoading(this);
 			}), h.sF(function () {
 				socket.emit("posts.getTimeline", {
 					afterID: that.getOldestID(),
@@ -586,7 +586,7 @@ define(["step", "whispeerHelper", "bluebird", "validation/validator", "services/
 		return postService;
 	};
 
-	service.$inject = ["$rootScope", "$timeout", "localize", "ssn.socketService", "ssn.keyStoreService", "ssn.errorService", "ssn.userService", "ssn.circleService", "ssn.blobService", "ssn.filterService", "ssn.models.comment", "ssn.screenSizeService"];
+	service.$inject = ["$rootScope", "$timeout", "localize", "ssn.socketService", "ssn.keyStoreService", "ssn.errorService", "ssn.userService", "ssn.circleService", "ssn.blobService", "ssn.filterService", "ssn.models.comment", "ssn.screenSizeService", "ssn.initService"];
 
 	serviceModule.factory("ssn.postService", service);
 });

@@ -84,7 +84,7 @@ define([
 				step(function () {
 					l.loading = true;
 
-					socket.awaitConnection().nodeify(this);
+					initService.awaitLoading(this);
 				}, h.sF(function () {
 					var last;
 					if (Topic.all().length > 0) {

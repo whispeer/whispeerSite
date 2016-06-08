@@ -152,11 +152,13 @@ define(["step", "whispeerHelper", "user/userModule", "asset/observer", "crypto/s
 			*/
 			query: function queryF(query, cb) {
 				step(function () {
-					socketService.emit("user.search", {
+					initService.awaitLoading(this);
+				}, h.sF(function () {
+					socketService.definitlyEmit("user.search", {
 						text: query,
 						known: knownIDs
 					}, this);
-				}, h.sF(function (data) {
+				}), h.sF(function (data) {
 					var result = [], user = data.results;
 
 					if (user) {

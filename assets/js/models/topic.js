@@ -480,7 +480,7 @@ define([
 				if (topics[topicid]) {
 					this.last.ne(topics[topicid]);
 				} else {
-					socket.emit("messages.getTopic", {
+					socket.definitlyEmit("messages.getTopic", {
 						topicid: topicid
 					}, this);
 				}
