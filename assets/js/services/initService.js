@@ -15,8 +15,8 @@ define(["step", "whispeerHelper", "services/serviceModule", "bluebird", "asset/o
 		}
 	}
 
-	var service = function ($timeout, $rootScope, errorService, socketService, sessionService, migrationService, CacheService) {
-		var initRequestsList = [], initCallbacks = [], initCacheCallbacks = [], initService;
+	var service = function ($timeout, $rootScope, errorService, socketService, sessionService, migrationService, CacheService, keyStore) {
+		var initRequestsList = [], initCallbacks = [], initCacheCallbacks = [], initService, blockageToken;
 
 		function getCache(initRequest) {
 			return new CacheService(initRequest.domain).get(initRequest.id || sessionService.getUserID()).then(function (cache) {
@@ -67,6 +67,8 @@ define(["step", "whispeerHelper", "services/serviceModule", "bluebird", "asset/o
 					}
 				}
 
+				requestObject.blockageToken = blockageToken;
+
 				return socketService.definitlyEmit(request.domain, requestObject).then(function (response) {
 					request.data = response;
 
@@ -104,10 +106,13 @@ define(["step", "whispeerHelper", "services/serviceModule", "bluebird", "asset/o
 		}
 
 		function runFunction(func) {
-			return func();
+			return func(blockageToken);
 		}
 
 		function loadData() {
+			keyStore.security.blockPrivateActions();
+			blockageToken = socketService.blockEmitWithToken();
+
 			var runningInitCallbacks;
 			return Bluebird.resolve().then(function () {
 
@@ -140,6 +145,9 @@ define(["step", "whispeerHelper", "services/serviceModule", "bluebird", "asset/o
 				return Bluebird.all(runningInitCallbacks);
 			}).then(function () {
 				timeEnd("init");
+				keyStore.security.allowPrivateActions();
+				socketService.allowEmit(blockageToken);
+
 				migrationService();
 				initService.notify("", "initDone");
 			}).catch(errorService.criticalError);
@@ -176,7 +184,7 @@ define(["step", "whispeerHelper", "services/serviceModule", "bluebird", "asset/o
 		return initService;
 	};
 
-	service.$inject = ["$timeout", "$rootScope", "ssn.errorService", "ssn.socketService", "ssn.sessionService", "ssn.migrationService", "ssn.cacheService"];
+	service.$inject = ["$timeout", "$rootScope", "ssn.errorService", "ssn.socketService", "ssn.sessionService", "ssn.migrationService", "ssn.cacheService", "ssn.keyStoreService"];
 
 	serviceModule.factory("ssn.initService", service);
 });
