@@ -1,4 +1,4 @@
-define(["step", "whispeerHelper", "services/serviceModule", "bluebird", "asset/observer", "debug"], function (step, h, serviceModule, Bluebird, Observer, debug) {
+define(["services/serviceModule", "bluebird", "asset/observer", "debug"], function (serviceModule, Bluebird, Observer, debug) {
 	"use strict";
 
 	var debugName = "whispeer:initService";

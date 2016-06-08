@@ -380,14 +380,14 @@ define(["step", "whispeerHelper", "bluebird", "validation/validator", "services/
 			}, h.sF(function () {
 				that._expandFilter(this);
 			}), h.sF(function () {
-				initService.awaitLoading(this);
+				return initService.awaitLoading();
 			}), h.sF(function () {
-				socket.emit("posts.getTimeline", {
+				return socket.emit("posts.getTimeline", {
 					afterID: that.getOldestID(),
 					filter: that._finalFilter,
 					sortByCommentTime: that._sortByCommentTime,
 					count: screenSize.mobile ? 10 : 20
-				}, this);
+				});
 			}), h.sF(function (results) {
 				that.displayDonateHint = results.displayDonateHint;
 				var posts = results.posts || [];
@@ -447,11 +447,11 @@ define(["step", "whispeerHelper", "bluebird", "validation/validator", "services/
 			getWallPosts: function (afterID, userid, limit, cb) {
 				var result = [];
 				step(function () {
-					socket.emit("posts.getWall", {
+					return socket.emit("posts.getWall", {
 						afterID: afterID,
 						userid: userid,
 						count: limit
-					}, this);
+					});
 				}, h.sF(function (results) {
 					var thePost, i, posts = results.posts || [];
 					for (i = 0; i < posts.length; i += 1) {

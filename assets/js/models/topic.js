@@ -17,7 +17,7 @@ define([
 	var debugName = "whispeer:topic";
 	var topicDebug = debug(debugName);
 
-	function topicModel($timeout, windowService, socket, userService, keyStore, sessionService, Message) {
+	function topicModel($timeout, windowService, socket, userService, keyStore, sessionService, Message, initService) {
 		function sortGetTime(a, b) {
 			return (a.getTime() - b.getTime());
 		}
@@ -480,9 +480,11 @@ define([
 				if (topics[topicid]) {
 					this.last.ne(topics[topicid]);
 				} else {
-					socket.definitlyEmit("messages.getTopic", {
-						topicid: topicid
-					}, this);
+					return initService.awaitLoading().then(function () {
+						return socket.definitlyEmit("messages.getTopic", {
+							topicid: topicid
+						});
+					});
 				}
 			}, h.sF(function (data) {
 				if (!data.error) {
@@ -627,7 +629,7 @@ define([
 		return Topic;
 	}
 
-	topicModel.$inject = ["$timeout", "ssn.windowService", "ssn.socketService", "ssn.userService", "ssn.keyStoreService", "ssn.sessionService", "ssn.models.message"];
+	topicModel.$inject = ["$timeout", "ssn.windowService", "ssn.socketService", "ssn.userService", "ssn.keyStoreService", "ssn.sessionService", "ssn.models.message", "ssn.initService"];
 
 	modelsModule.factory("ssn.models.topic", topicModel);
 });
