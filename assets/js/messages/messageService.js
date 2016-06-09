@@ -268,7 +268,9 @@ define([
 		});
 
 		function loadUnreadTopicIDs() {
-			return Bluebird.delay(500).then(function () {
+			return initService.awaitLoading().then(function () {
+				return Bluebird.delay(500);
+			}).then(function () {
 				return socket.awaitConnection();
 			}).then(function () {
 				return socket.emit("messages.getUnreadTopicIDs", {});
