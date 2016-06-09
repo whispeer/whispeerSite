@@ -59,6 +59,13 @@ var baseConfig = {
 
 grunt.initConfig({
 	requirejs: {
+		worker: {
+			options: extend({}, baseConfig, {
+				out: "assets/js/build/worker.js",
+
+				include: ["requirejs"].concat(["bower/require-promise-worker.js/src/worker", "crypto/sjclWorker"])
+			})
+		},
 		lib: {
 			options: extend({}, baseConfig, {
 				out: "assets/js/build/lib.js",
@@ -355,14 +362,11 @@ grunt.task.registerTask("workerCache", "Write worker cache and commit sha", func
 		"assets/js/build/lib*",
 		"assets/js/build/build*",
 		"assets/js/build/login*",
+		"assets/js/build/worker*",
 	];
 
 	var preload = [
-		"assets/js/bower/require-promise-worker.js/src/worker.js",
 		"assets/js/bower/requirejs/require.js",
-		"assets/js/crypto/sjclWorker.js",
-		"assets/js/libs/sjcl.js",
-		"assets/js/crypto/minimalHelper.js",
 
 		"assets/img/logo.svg",
 		"assets/data/newMessage.ogg",

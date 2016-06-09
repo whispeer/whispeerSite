@@ -1,4 +1,4 @@
-define(["workerQueue", "bluebird", "crypto/minimalHelper"], function (WorkerQueue, bluebird, chelper) {
+define(["workerQueue", "bluebird", "crypto/minimalHelper", "config"], function (WorkerQueue, bluebird, chelper, config) {
 	"use strict";
 
 	function getEntropy() {
@@ -50,7 +50,11 @@ define(["workerQueue", "bluebird", "crypto/minimalHelper"], function (WorkerQueu
 	}
 
 	//Promise, numberOfWorkers, workerPath, setupMethod, requireOverRide
-	var workers = new WorkerQueue(bluebird, workerCount, "crypto/sjclWorker", addEntropy, requirePath);
+	var workers = new WorkerQueue(bluebird, workerCount, "crypto/sjclWorker", {
+		setupMethod: addEntropy,
+		requirePath: requirePath,
+		workerScript: config.workerScript || false
+	});
 
 	var sjclWorker = {
 		hash: function (toHash) {
