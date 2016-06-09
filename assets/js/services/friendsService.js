@@ -88,8 +88,10 @@ define(["step", "whispeerHelper", "asset/observer", "asset/securedDataWithMetaDa
 		function addAsFriend(uid, cb) {
 			var otherUser, friendShipKey, userService = $injector.get("ssn.userService");
 			step(function () {
+				friendsService.awaitLoading(this);
+			}, h.sF(function () {
 				userService.get(uid, this);
-			}, h.sF(function (u) {
+			}), h.sF(function (u) {
 				otherUser = u;
 				createBasicData(userService.getown(), otherUser, this);
 			}), h.sF(function (data, _friendShipKey) {
@@ -184,7 +186,20 @@ define(["step", "whispeerHelper", "asset/observer", "asset/securedDataWithMetaDa
 			}), cb);
 		}
 
+		var loadingPromise;
+
 		var friendsService = {
+			isLoaded: function () {
+				return loadingPromise.isFulfilled();
+			},
+			ensureIsLoaded: function () {
+				if (!friendsService.isLoaded()) {
+					throw new Error("friends service not yet loaded!");
+				}
+			},
+			awaitLoading: function (cb) {
+				return loadingPromise.nodeify(cb);
+			},
 			getUserFriends: function (uid, cb) {
 				step(function () {
 					socket.emit("friends.getUser", {
@@ -195,6 +210,8 @@ define(["step", "whispeerHelper", "asset/observer", "asset/securedDataWithMetaDa
 				}), cb);
 			},
 			removeFriend: function (uid, cb) {
+				friendsService.ensureIsLoaded();
+
 				if (friends.indexOf(uid) === -1 && removed.indexOf(uid) === -1) {
 					throw new Error("not a friend!");
 				}
@@ -273,18 +290,28 @@ define(["step", "whispeerHelper", "asset/observer", "asset/securedDataWithMetaDa
 				}
 			},
 			didIRequest: function (uid) {
+				friendsService.ensureIsLoaded();
+
 				return h.containsOr(uid, friends, requested);
 			},
 			didOtherRequest: function (uid) {
+				friendsService.ensureIsLoaded();
+
 				return h.containsOr(uid, friends, requests);
 			},
 			areFriends: function (uid) {
+				friendsService.ensureIsLoaded();
+
 				return h.containsOr(uid, friends);
 			},
 			noRequests: function (uid) {
+				friendsService.ensureIsLoaded();
+
 				return !h.containsOr(uid, friends, requested, requests);
 			},
 			getRequestStatus: function (uid) {
+				friendsService.ensureIsLoaded();
+
 				if (friends.indexOf(uid) > -1) {
 					return "friends";
 				}
@@ -300,18 +327,28 @@ define(["step", "whispeerHelper", "asset/observer", "asset/securedDataWithMetaDa
 				return "request";
 			},
 			getRequests: function () {
+				friendsService.ensureIsLoaded();
+
 				return requests.slice();
 			},
 			getFriends: function () {
+				friendsService.ensureIsLoaded();
+
 				return friends.slice();
 			},
 			getRequested: function () {
+				friendsService.ensureIsLoaded();
+
 				return requested.slice();
 			},
 			getUserFriendShipKey: function (uid) {
+				friendsService.ensureIsLoaded();
+
 				return signedList.metaAttr(uid);
 			},
 			getUserForKey: function (realid) {
+				friendsService.ensureIsLoaded();
+
 				var meta = signedList.metaGet(), result;
 				h.objectEach(meta, function (key, value) {
 					if (value === realid) {
@@ -322,6 +359,8 @@ define(["step", "whispeerHelper", "asset/observer", "asset/securedDataWithMetaDa
 				return result;
 			},
 			getAllFriendShipKeys: function () {
+				friendsService.ensureIsLoaded();
+
 				var meta = signedList.metaGet(), keys = [];
 				h.objectEach(meta, function (key, value) {
 					if (h.isInt(key)) {
@@ -331,47 +370,40 @@ define(["step", "whispeerHelper", "asset/observer", "asset/securedDataWithMetaDa
 
 				return keys;
 			},
-			load: function (data, cb) {
+			load: function () {
 				var userService = $injector.get("ssn.userService");
 
-				friends = data.friends.map(h.parseDecimal);
-				requests = data.requests.map(h.parseDecimal);
-				requested = data.requested.map(h.parseDecimal);
-				ignored = data.ignored.map(h.parseDecimal);
-				removed = data.removed.map(h.parseDecimal);
-				deleted = data.deleted.map(h.parseDecimal);
+				return socket.definitlyEmit("friends.all", {}).then(function (data) {
+					friends = data.friends.map(h.parseDecimal);
+					requests = data.requests.map(h.parseDecimal);
+					requested = data.requested.map(h.parseDecimal);
+					ignored = data.ignored.map(h.parseDecimal);
+					removed = data.removed.map(h.parseDecimal);
+					deleted = data.deleted.map(h.parseDecimal);
 
-				updateCounters();
+					updateCounters();
 
-				signedList = SecuredData.load(undefined, data.signedList || {}, { type: "signedFriendList" });
+					signedList = SecuredData.load(undefined, data.signedList || {}, { type: "signedFriendList" });
 
-				var requestedOrFriends = signedList.metaKeys().map(h.parseDecimal);
-				if (!h.arrayEqual(requestedOrFriends, requested.concat(friends).concat(removed).concat(deleted))) {
-					throw new Error("unmatching arrays");
-				}
-
-				step(function () {
-					if (!data.signedList) {
-						this.last.ne();
-					} else {
-						step.unpromisify(userService.verifyOwnKeysDone(), this);
+					var requestedOrFriends = signedList.metaKeys().map(h.parseDecimal);
+					if (!h.arrayEqual(requestedOrFriends, requested.concat(friends).concat(removed).concat(deleted))) {
+						throw new Error("unmatching arrays");
 					}
-				}, h.sF(function () {
-					signedList.verify(userService.getown().getSignKey(), this, "user");
-				}), h.sF(function () {
+
+					return userService.verifyOwnKeysDone();
+				}).then(function () {
+					return signedList.verify(userService.getown().getSignKey(), "user");
+				}).then(function () {
 					var requestedOrFriends = signedList.metaKeys().map(h.parseDecimal);
 					requestedOrFriends.forEach(function (uid) {
 						keyStore.security.addEncryptionIdentifier(signedList.metaAttr(uid));
 					});
 
-					this.ne();
-				}), h.sF(function () {
 					if (removed.length > 0) {
-						removeUnfriendedPersons(this);
-					} else {
-						this.ne();
+						var removeUnfriendedPersonsAsync = Bluebird.promisify(removeUnfriendedPersons);
+						return removeUnfriendedPersonsAsync();
 					}
-				}), cb);
+				});
 			},
 			onlineStatus: function (uid) {
 				if (friends.indexOf(uid) === -1) {
@@ -394,19 +426,19 @@ define(["step", "whispeerHelper", "asset/observer", "asset/securedDataWithMetaDa
 
 		Observer.call(friendsService);
 
-		initService.get("friends.all", undefined, friendsService.load);
+		loadingPromise = initService.awaitLoading().then(function () {
+			return friendsService.load();
+		});
 
-		initService.listen(function () {
-			Bluebird.delay(500).then(function () {
-				return socket.awaitConnection();
-			}).then(function () {
-				return socket.emit("friends.getOnline", {});
-			}).then(function (data) {
-				h.objectEach(data.online, function (uid, status) {
-					userOnline(uid, status);
-				});
+		initService.awaitLoading().then(function () {
+			return Bluebird.delay(500);
+		}).then(function () {
+				return socket.definitlyEmit("friends.getOnline", {});
+		}).then(function (data) {
+			h.objectEach(data.online, function (uid, status) {
+				userOnline(uid, status);
 			});
-		}, "initDone");
+		});
 
 		$rootScope.$on("ssn.reset", function () {
 			friendsService.reset();

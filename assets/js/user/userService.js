@@ -1,15 +1,18 @@
 define(["step", "whispeerHelper", "user/userModule", "asset/observer", "crypto/signatureCache", "bluebird", "crypto/trustManager"], function (step, h, userModule, Observer, signatureCache, Bluebird, trustManager) {
 	"use strict";
 
-	var service = function ($rootScope, User, errorService, initService, socketService, keyStoreService, sessionService) {
+	var service = function ($rootScope, User, errorService, initService, socketService, keyStoreService, sessionService, CacheService, requestKeyService) {
 		var userService, knownIDs = [], users = {}, loading = {}, ownUserStatus = {};
 
-		ownUserStatus.verifyOwnKeysDone = new Bluebird(function (resolve) {
-			ownUserStatus.verifyOwnKeysDoneResolve = resolve;
-		});
+		var promises = ["verifyOwnKeysDone", "verifyOwnKeysCacheDone", "loadedCache", "loaded"];
 
-		ownUserStatus.loaded = new Bluebird(function (resolve) {
-			ownUserStatus.loadedResolve = resolve;
+		promises.forEach(function (name) {
+			ownUserStatus[name] = new Bluebird(function (resolve) {
+				ownUserStatus[name + "Resolve"] = function () {
+					delete ownUserStatus[name + "Resolve"];
+					resolve();
+				};
+			});
 		});
 
 		var name = "Deleted user"; //localize("user.deleted", {});
@@ -149,11 +152,13 @@ define(["step", "whispeerHelper", "user/userModule", "asset/observer", "crypto/s
 			*/
 			query: function queryF(query, cb) {
 				step(function () {
-					socketService.emit("user.search", {
+					initService.awaitLoading(this);
+				}, h.sF(function () {
+					socketService.definitlyEmit("user.search", {
 						text: query,
 						known: knownIDs
 					}, this);
-				}, h.sF(function (data) {
+				}), h.sF(function (data) {
 					var result = [], user = data.results;
 
 					if (user) {
@@ -234,8 +239,16 @@ define(["step", "whispeerHelper", "user/userModule", "asset/observer", "crypto/s
 				}), cb);
 			},
 
+			verifyOwnKeysCacheDone: function () {
+				return ownUserStatus.verifyOwnKeysCacheDone;
+			},
+
 			verifyOwnKeysDone: function () {
 				return ownUserStatus.verifyOwnKeysDone;
+			},
+
+			ownLoadedCache: function () {
+				return ownUserStatus.loadedCache;
 			},
 
 			ownLoaded: function () {
@@ -278,12 +291,27 @@ define(["step", "whispeerHelper", "user/userModule", "asset/observer", "crypto/s
 
 		Observer.call(userService);
 
-		initService.registerCallback(function () {
-			return socketService.awaitConnection().then(function () {
-				return socketService.emit("user.get", {
-					id: sessionService.getUserID()
+		function getInfoFromCacheEntry(userData) {
+			var profile = userData.profile;
+
+			var profileIDs = [];
+
+			if (profile.priv) {
+				profileIDs = profile.priv.map(function (profile) {
+					return profile.profileid;
 				});
-			}).then(function (data) {
+			}
+
+			profileIDs.push(profile.me.profileid);
+
+			return {
+				profiles: profileIDs,
+				signedKeys: userData.signedKeys._signature
+			};
+		}
+
+		function loadOwnUser(data, server) {
+			return Bluebird.try(function () {
 				return makeUser(data);
 			}).then(function (user) {
 				var identifier = user.getNickOrMail();
@@ -294,18 +322,61 @@ define(["step", "whispeerHelper", "user/userModule", "asset/observer", "crypto/s
 
 				user.verifyOwnKeys();
 
-				trustManager.setOwnSignKey(user.getSignKey());
+				if (server) {
+					ownUserStatus.verifyOwnKeysDoneResolve();
+				} else {
+					ownUserStatus.verifyOwnKeysCacheDoneResolve();
+				}
 
-				ownUserStatus.verifyOwnKeysDoneResolve();
-				delete ownUserStatus.verifyOwnKeysDoneResolve;
+				trustManager.setOwnSignKey(user.getSignKey());
 
 				return signatureCache.awaitLoading().thenReturn(user);
 			}).then(function (user) {
 				var verifyKeys = Bluebird.promisify(user.verifyKeys, user);
-				return verifyKeys();
-			}).then(function () {
+				return verifyKeys().thenReturn(user);
+			}).then(function (user) {
+				requestKeyService.cacheKey(user.getSignKey(), "user-sign-" + user.getID(), requestKeyService.MAXCACHETIME);
+				requestKeyService.cacheKey(user.getMainKey(), "user-main-" + user.getID(), requestKeyService.MAXCACHETIME);
+			});
+		}
+
+		var cachedInfo;
+
+		initService.registerCacheCallback(function () {
+			var cacheEntry;
+			var ownUserCache = new CacheService("ownUser");
+
+			return ownUserCache.get(sessionService.getUserID()).catch(function () {
+				return false;
+			}).then(function (_cacheEntry) {
+				cacheEntry = _cacheEntry;
+
+				if (cacheEntry) {
+					cachedInfo = getInfoFromCacheEntry(cacheEntry.data);
+
+					loadOwnUser(cacheEntry.data, false);
+
+					ownUserStatus.loadedCacheResolve();
+				}
+
+				return;
+			});
+		});
+
+		initService.registerCallback(function (blockageToken) {
+			return socketService.definitlyEmit("user.get", {
+				id: sessionService.getUserID(),
+				cachedInfo: cachedInfo,
+				blockageToken: blockageToken
+			}).then(function (data) {
+				return loadOwnUser(data, true).thenReturn(data);
+			}).then(function (userData) {
+				if (!cachedInfo) {
+					var ownUserCache = new CacheService("ownUser");
+					ownUserCache.store(sessionService.getUserID(), userData);
+				}
+
 				ownUserStatus.loadedResolve();
-				delete ownUserStatus.loadedResolve;
 			});
 		});
 
@@ -316,7 +387,7 @@ define(["step", "whispeerHelper", "user/userModule", "asset/observer", "crypto/s
 		return userService;
 	};
 
-	service.$inject = ["$rootScope", "ssn.models.user", "ssn.errorService", "ssn.initService", "ssn.socketService", "ssn.keyStoreService", "ssn.sessionService"];
+	service.$inject = ["$rootScope", "ssn.models.user", "ssn.errorService", "ssn.initService", "ssn.socketService", "ssn.keyStoreService", "ssn.sessionService", "ssn.cacheService", "ssn.requestKeyService"];
 
 	userModule.factory("ssn.userService", service);
 });

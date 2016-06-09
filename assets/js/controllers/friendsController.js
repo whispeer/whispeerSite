@@ -39,10 +39,12 @@ define(["step", "whispeerHelper", "controllers/controllerModule"], function (ste
 			}));
 		}
 
-		friendsService.listen(loadFriendsUsers);
-		friendsService.listen(loadRequestsUsers);
-		loadFriendsUsers();
-		loadRequestsUsers();
+		friendsService.awaitLoading().then(function () {
+			friendsService.listen(loadFriendsUsers);
+			friendsService.listen(loadRequestsUsers);
+			loadFriendsUsers();
+			loadRequestsUsers();
+		});
 
 		$scope.acceptRequest = function (request) {
 			request.user.acceptFriendShip();

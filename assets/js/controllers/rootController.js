@@ -27,7 +27,7 @@ define(["step", "whispeerHelper", "config", "controllers/controllerModule", "deb
 		$scope.friends = friendsService.data;
 		$scope.messages = messageService.data;
 
-		initService.listen(function () {
+		function afterInit() {
 			var user;
 			step(function () {
 				user = userService.getown();
@@ -38,7 +38,10 @@ define(["step", "whispeerHelper", "config", "controllers/controllerModule", "deb
 
 				rootControllerDebug("Own Name loaded:" + (new Date().getTime() - startup));
 			}));
-		}, "initDone");
+		}
+
+		initService.listen(afterInit, "initCacheDone");
+		initService.listen(afterInit, "initDone");
 
 		$scope.sidebarActive = false;
 		$scope.showMenu = true;

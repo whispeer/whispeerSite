@@ -84,6 +84,8 @@ define([
 				step(function () {
 					l.loading = true;
 
+					initService.awaitLoading(this);
+				}, h.sF(function () {
 					var last;
 					if (Topic.all().length > 0) {
 						last = Topic.all()[Topic.all().length - 1].obj.getID();
@@ -95,7 +97,7 @@ define([
 						afterTopic: last
 					}, this);
 
-				}, h.sF(function (latest) {
+				}), h.sF(function (latest) {
 					l.loaded = true;
 					l.loading = false;
 
@@ -266,7 +268,9 @@ define([
 		});
 
 		function loadUnreadTopicIDs() {
-			return Bluebird.delay(500).then(function () {
+			return initService.awaitLoading().then(function () {
+				return Bluebird.delay(500);
+			}).then(function () {
 				return socket.awaitConnection();
 			}).then(function () {
 				return socket.emit("messages.getUnreadTopicIDs", {});

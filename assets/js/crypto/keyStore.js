@@ -28,7 +28,7 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 
 	var keyStoreDebug = debug("whispeer:keyStore");
 
-	var socket, firstVerify = true, afterAsyncCall, improvementListener = [], makeKey, keyStore, recovery = false, sjclWarning = true;
+	var keyGetFunction, firstVerify = true, afterAsyncCall, improvementListener = [], makeKey, keyStore, recovery = false, sjclWarning = true;
 
 	/** dirty and new keys to upload. */
 	var dirtyKeys = [], newKeys = [];
@@ -39,6 +39,8 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 
 	/** identifier list of keys we can use for encryption. this is mainly a safeguard for coding bugs. */
 	var keysUsableForEncryption = [];
+
+	var privateActionsBlocked = false;
 
 	/** our classes */
 	var Key, SymKey, CryptKey, SignKey;
@@ -112,6 +114,26 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 
 			return new type.secretKey(curve, exponent);
 		};
+	}
+
+	function determineLength(object) {
+		if (typeof object !== "object") {
+			return 0;
+		}
+
+		return Object.keys(object).reduce(function (prev, cur) {
+			return prev + 1 + determineLength(object[cur]);
+		}, 0);
+	}
+
+	function stringifyObject(object, version) {
+		var length = determineLength(object);
+
+		if (h.parseDecimal(version) > 2 && length < 500) {
+			return Bluebird.resolve(new ObjectHasher(object, version).stringify());
+		}
+
+		return sjclWorkerInclude.stringify(object, version);
 	}
 
 	function removeExpectedPrefix(bitArray, prefix) {
@@ -513,25 +535,30 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 		this.addPWDecryptor = addPWDecryptorF;
 
 		/** get all data which need uploading. */
-		function getDecryptorDataF() {
+		function getDecryptorDataF(includeAllDecryptors) {
 			//get the upload data for the decryptors of this key.
 			//this will be called in the keys upload() function.
-			var result = [], i, tempR, k;
-			for (i = 0; i < dirtyDecryptors.length; i += 1) {
-				tempR = {};
-				for (k in dirtyDecryptors[i]) {
-					if (dirtyDecryptors[i].hasOwnProperty(k)) {
-						tempR[k] = dirtyDecryptors[i][k];
+
+			var decryptorArray = dirtyDecryptors;
+
+			if (includeAllDecryptors) {
+				decryptorArray = decryptors;
+			}
+
+			return decryptorArray.map(function (decryptor) {
+				var tempR = {}, k;
+				for (k in decryptor) {
+					if (decryptor.hasOwnProperty(k)) {
+						tempR[k] = decryptor[k];
 					}
 				}
 
 				if (tempR.decryptorid) {
 					tempR.decryptorid = correctKeyIdentifier(tempR.decryptorid);
 				}
-				result.push(tempR);
-			}
 
-			return result;
+				return tempR;
+			});
 		}
 		this.getDecryptorData = getDecryptorDataF;
 
@@ -614,11 +641,11 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 			return keyData.accessCount;
 		};
 
-		this.getUploadData = function () {
+		this.getUploadData = function (includeAllDecryptors) {
 			var data = {
 				realid: intKey.getRealID(),
 				type: "sym",
-				decryptors: this.getDecryptorData(),
+				decryptors: this.getDecryptorData(includeAllDecryptors),
 				comment: comment
 			};
 
@@ -651,6 +678,10 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 		*/
 
 		this.encryptWithPrefix = function (prefix, data, callback, progressCallback, noDecode) {
+			if (privateActionsBlocked) {
+				throw new errors.SecurityError("Private Actions are blocked");
+			}
+
 			if (!isKeyUsableForEncryption(intKey.getRealID())) {
 				throw new errors.SecurityError("Key not usable for encryption: " + intKey.getRealID());
 			}
@@ -741,41 +772,9 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 		}
 	}
 
-	function loadKeys(identifiers, cb) {
-		step(function getKeyF() {
-			var toLoadIdentifiers = [];
-
-			identifiers.forEach(function (e) {
-				if (!symKeys[e] && !cryptKeys[e] && !signKeys[e]) {
-					toLoadIdentifiers.push(e);
-				}
-			});
-
-			if (toLoadIdentifiers.length > 0) {
-				socket.emit("key.getMultiple", {
-					loaded: [],
-					realids: identifiers
-				}, this);
-			} else {
-				this.last.ne(identifiers);
-			}
-		}, h.sF(function () {
-			this.ne(identifiers);
-		}), cb);
-	}
-
-	var THROTTLE = 20;
-	var delay = h.delayMultiple(THROTTLE, loadKeys);
-
 	/** load a key and his keychain. remove loaded keys */
 	function getKey(realKeyID, callback) {
-		if (typeof realKeyID !== "string") {
-			throw new Error("not a valid key realid: " + realKeyID);
-		}
-
-		keyStoreDebug("loading key: " + realKeyID);
-
-		delay(realKeyID, callback);
+		keyGetFunction(realKeyID, callback);
 	}
 
 	/** load  a symkey and its keychain */
@@ -873,7 +872,7 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 			this.addSymDecryptor = intKey.addSymDecryptor;
 			this.addPWDecryptor = intKey.addPWDecryptor;
 
-			this.getUploadData = function () {
+			this.getUploadData = function (includeAllDecryptors) {
 				var p = publicKey._point, data = {
 					realid: intKey.getRealID(),
 					point: {
@@ -882,7 +881,7 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 					},
 					curve: chelper.getCurveName(publicKey._curve),
 					type: "crypt",
-					decryptors: this.getDecryptorData(),
+					decryptors: this.getDecryptorData(includeAllDecryptors),
 					comment: comment
 				};
 
@@ -906,6 +905,10 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 		* param callback callback
 		*/
 		function kemF(callback) {
+			if (privateActionsBlocked) {
+				throw new errors.SecurityError("Private Actions are blocked");
+			}
+
 			if (!isKeyUsableForEncryption(intKey.getRealID())) {
 				throw new errors.SecurityError("Key not usable for encryption: " + intKey.getRealID());
 			}
@@ -1117,7 +1120,7 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 			this.addSymDecryptor = intKey.addSymDecryptor;
 			this.addPWDecryptor = intKey.addPWDecryptor;
 
-			this.getUploadData = function () {
+			this.getUploadData = function (includeAllDecryptors) {
 				var p = publicKey._point, data = {
 					realid: intKey.getRealID(),
 					point: {
@@ -1126,7 +1129,7 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 					},
 					curve: chelper.getCurveName(publicKey._curve),
 					type: "sign",
-					decryptors: this.getDecryptorData(),
+					decryptors: this.getDecryptorData(includeAllDecryptors),
 					comment: comment
 				};
 
@@ -1147,6 +1150,10 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 		}
 
 		function signF(hash, type, callback) {
+			if (privateActionsBlocked) {
+				throw new errors.SecurityError("Private Actions are blocked");
+			}
+
 			var trustManager, signatureCache;
 			step(function () {
 				require(["crypto/trustManager", "crypto/signatureCache"], this.ne, this);
@@ -1736,6 +1743,18 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 		},
 
 		security: {
+			blockPrivateActions: function () {
+				privateActionsBlocked = true;
+			},
+
+			allowPrivateActions: function () {
+				privateActionsBlocked = false;
+			},
+
+			arePrivateActionsBlocked: function () {
+				return privateActionsBlocked;
+			},
+
 			addEncryptionIdentifier: function (realid) {
 				makeKeyUsableForEncryption(realid);
 			},
@@ -1877,14 +1896,21 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 
 				return -1;
 			},
-			setSocket: function (theSocket) {
-				socket = theSocket;
+			setKeyGet: function (_keyGetFunction) {
+				keyGetFunction = _keyGetFunction;
+			},
+			getExistingKey: function (keyid) {
+				if (!keyStore.upload.isKeyLoaded(keyid)) {
+					return;
+				}
+
+				var key = symKeys[keyid] || cryptKeys[keyid] || signKeys[keyid];
+				return key.getUploadData(true);
 			},
 			getKey: function (keyid) {
 				var i;
 				for (i = 0; i < newKeys.length; i += 1) {
 					if (keyid === newKeys[i].getRealID()) {
-
 						return newKeys[i].getUploadData();
 					}
 				}
@@ -2297,7 +2323,7 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 				var getSignKey = Bluebird.promisify(SignKey.get, SignKey);
 
 				return Bluebird.all([
-					sjclWorkerInclude.stringify(object, version),
+					stringifyObject(object, version),
 					getSignKey(realID)
 				]).spread(function (objectString, key) {
 					return key.verify(signature, objectString, object._type, id);

@@ -6,6 +6,7 @@ define(["whispeerHelper", "dexie", "bluebird", "services/serviceModule", "servic
 	function Cache(name, options) {
 		this._name = name;
 		this._options = options || {};
+		this._options.maxEntries = this._options.maxEntries || 100;
 	}
 
 	Cache.prototype.entries = function () {
@@ -78,12 +79,29 @@ define(["whispeerHelper", "dexie", "bluebird", "services/serviceModule", "servic
 		}));
 	};
 
+	/** get all cache entries as a dexie collection. */
+	Cache.prototype.all = function () {
+		return db.cache.where("id").startsWith(this._name + "/");
+	};
+
+	/** delete a certain cache entry
+	* id: id of the entry
+	*/
+	Cache.prototype.delete = function (id) {
+		return db.cache.where("id").equals(this._name + "/" + id).delete();
+	};
+
 	Cache.prototype.cleanUp = function () {
-		//remove data which hasn't been used in a long time or is very big
-		return Promise.resolve(this.entryCount().then(function (count) {
-			if (count > 100) {
+		if (this._options.maxEntries === -1) {
+			return;
+		}
+
+		//remove data which hasn't been used in a long time
+		return Promise.resolve(this.entryCount().bind(this).then(function (count) {
+			console.log("Contains: " + count + " Entries (" + this._name + ")");
+			if (count > this._options.maxEntries) {
 				console.warn("cleaning up cache " + this._name);
-				db.cache.orderBy("used").limit(count - 100).delete();
+				db.cache.orderBy("used").limit(count - this._options.maxEntries).delete();
 			}
 		}));
 	};

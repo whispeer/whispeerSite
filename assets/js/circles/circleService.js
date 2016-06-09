@@ -4,7 +4,7 @@
 define(["step", "whispeerHelper", "asset/observer", "services/serviceModule", "asset/securedDataWithMetaData"], function (step, h, Observer, serviceModule, SecuredData) {
 	"use strict";
 
-	var service = function ($rootScope, socket, userService, friendsService, sessionService, keyStore, settingsService) {
+	var service = function ($rootScope, socket, userService, friendsService, sessionService, keyStore, settingsService, initService) {
 		var circles = {};
 		var circleArray = [];
 		var circleData = [];
@@ -313,7 +313,7 @@ define(["step", "whispeerHelper", "asset/observer", "services/serviceModule", "a
 						loading = true;
 						circleService.data.loading = false;
 
-						socket.emit("circle.all", {}, this);
+						initService.awaitLoading(this);
 					} else if (loaded) {
 						this.last.ne();
 					} else {
@@ -321,7 +321,9 @@ define(["step", "whispeerHelper", "asset/observer", "services/serviceModule", "a
 							cb();
 						}, "loaded");
 					}
-				}, h.sF(function (data) {
+				}, h.sF(function () {
+					socket.definitlyEmit("circle.all", {}, this);
+				}), h.sF(function (data) {
 					if (data.circles) {
 						data.circles.forEach(function (circle) {
 							var c = makeCircle(circle);
@@ -354,7 +356,7 @@ define(["step", "whispeerHelper", "asset/observer", "services/serviceModule", "a
 		return circleService;
 	};
 
-	service.$inject = ["$rootScope", "ssn.socketService", "ssn.userService", "ssn.friendsService", "ssn.sessionService", "ssn.keyStoreService", "ssn.settingsService"];
+	service.$inject = ["$rootScope", "ssn.socketService", "ssn.userService", "ssn.friendsService", "ssn.sessionService", "ssn.keyStoreService", "ssn.settingsService", "ssn.initService"];
 
 	serviceModule.factory("ssn.circleService", service);
 });

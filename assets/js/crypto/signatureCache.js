@@ -1,4 +1,4 @@
-define (["whispeerHelper", "step", "config", "asset/observer", "asset/errors", "crypto/keyStore", "crypto/helper", "asset/securedDataWithMetaData", "bluebird"], function (h, step, config, Observer, errors, keyStore, chelper, SecuredData, Bluebird) {
+define (["whispeerHelper", "step", "config", "asset/observer", "asset/errors", "crypto/keyStore", "crypto/helper", "bluebird"], function (h, step, config, Observer, errors, keyStore, chelper, Bluebird) {
 	"use strict";
 	var loaded = false, changed = false, signKey, isLoaded = {};
 
@@ -63,6 +63,7 @@ define (["whispeerHelper", "step", "config", "asset/observer", "asset/errors", "
 		message: "message",
 
 		post: "post",
+		postPrivate: "post",
 
 		comment: "noCache",
 		friendShip: "noCache",
@@ -210,31 +211,29 @@ define (["whispeerHelper", "step", "config", "asset/observer", "asset/errors", "
 		},
 		/**
 		* Load a given signature cache
-		* @param securedData secured data of the signature cache to load
+		* @param signatureCacheData signature cache data to load.
 		* @param ownKey own signing key
 		*/
-		load: function (securedData, ownKey) {
-			if (securedData.internalHashVersion !== config.hashVersion) {
+		load: function (signatureCacheData, ownKey) {
+			if (signatureCacheData.internalHashVersion !== config.hashVersion) {
 				console.warn("resetting signature cache to upgrade to new hash version");
 				signatureCache.initialize(ownKey);
 
 				return;
 			}
 
-			if (securedData.me !== ownKey) {
+			if (signatureCacheData.me !== ownKey) {
 				console.warn("not my signature cache");
 				signatureCache.initialize(ownKey);
 
 				return;
 			}
 
-			SecuredData.load(undefined, securedData, { type: "signatureCache" }).verify(ownKey).then(function () {
-				securedData.databases.forEach(function (db) {
-					types[db.type].joinEntries(db.entries);
-				});
-			}).finally(function () {
-				signatureCache.initialize(ownKey);
+			signatureCacheData.databases.forEach(function (db) {
+				types[db.type].joinEntries(db.entries);
 			});
+
+			signatureCache.initialize(ownKey);
 		},
 		/**
 		* Initialize cache
@@ -251,7 +250,7 @@ define (["whispeerHelper", "step", "config", "asset/observer", "asset/errors", "
 		*/
 		getUpdatedVersion: function () {
 			if (!loaded) {
-				return;
+				return Bluebird.reject("Signature Cache not yet loaded!");
 			}
 
 			var databases = allDatabases.map(function (db) {
@@ -267,10 +266,7 @@ define (["whispeerHelper", "step", "config", "asset/observer", "asset/errors", "
 				databases: databases
 			};
 
-			var securedData = SecuredData.load(undefined, data, { type: "signatureCache" });
-			var signSecuredData = Bluebird.promisify(securedData.sign, securedData);
-
-			return signSecuredData(signKey);
+			return Bluebird.resolve(data);
 		},
 		/**
 		* Check if a signature is in the cache
