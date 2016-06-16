@@ -262,7 +262,18 @@ define([
 				messagesByID[messageObject.getID()] = messageObject;
 				this.addMessage(messageObject);
 
-				messageObject.sendContinously().catch(function (e) {
+				/*
+				var messageSendCache = new Cache("messageSend", { maxEntries: -1 })
+				messageSendCache.store(messageObject.getID(), {
+					topicID: this.getID(),
+					message: message,
+					//TODO: images?!
+				})
+				*/
+
+				messageObject.sendContinously().then(function () {
+					//return messageSendCache.delete(messageObject.getID());
+				}).catch(function (e) {
 					console.error(e);
 					alert("An error occured sending a message!" + e.toString());
 				});
