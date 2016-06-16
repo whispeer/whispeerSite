@@ -18,12 +18,6 @@ define(["step", "whispeerHelper", "asset/state", "bluebird", "messages/messagesM
 
 		$scope.hideOverlay = false;
 
-		$scope.showMessageOptions = false;
-
-		$scope.toggleMessageOptions = function() {
-			$scope.showMessageOptions = !$scope.showMessageOptions;
-		}
-
 		$scope.doHideOverlay = function () {
 			$scope.hideOverlay = true;
 		};
@@ -311,7 +305,13 @@ define(["step", "whispeerHelper", "asset/state", "bluebird", "messages/messagesM
 
 		$scope.editingTitle = false;
 		$scope.toggleEdit = function() {
+			$scope.showMessageOptions = false;
 			$scope.editingTitle = !$scope.editingTitle;
+		}
+
+		$scope.showMessageOptions = false;
+		$scope.toggleMessageOptions = function() {
+			$scope.showMessageOptions = !$scope.showMessageOptions;
 		}
 	}
 

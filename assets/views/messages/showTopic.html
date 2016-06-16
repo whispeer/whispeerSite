@@ -15,11 +15,14 @@
 		</span>
 		<input id="messages-editTitle" type="text" placeholder="Konversation umbenennen" data-ng-if="editingTitle" data-ng-model="topicTitle">
 		<div class="box-header-buttons--right">
-			<span>
+			<span data-ng-show="!editingTitle">
 				<a data-ng-click="toggleMessageOptions()" id="showOptions" class="box-header-button box-header-button--right">
 					<i class="fa fa-cog fa-fw"></i>
 				</a>
 				<ul class="button-dropdown" data-ng-if="showMessageOptions">
+					<li class="button-dropdown-action">
+						<a class="button-dropdown-action-text" data-ng-click="toggleEdit()">Titel ändern</a>
+					</li>
 					<li class="button-dropdown-action">
 						<a class="button-dropdown-action-text" data-ng-click="toggleMessageOptions()">
 							Archivieren
@@ -40,8 +43,8 @@
 			<a whispeer-sref="app.messages.list" id="showTopics" class="box-header-button box-header-button--right" data-ng-if="mobile">
 				<i class="fa fa-arrow-left fa-fw"></i>
 			</a>
-			<a data-ng-click="toggleEdit()" class="box-header-button box-header-button--right">
-				<i class="fa" data-ng-class="{'fa-pencil': !editingTitle, 'fa-times-circle': editingTitle}"></i>
+			<a data-ng-click="toggleEdit()" class="box-header-button box-header-button--right" data-ng-show="editingTitle">
+				<i class="fa fa-times-circle"></i>
 			</a>
 			<a data-ng-click="saveTitle()" data-ng-if="editingTitle" class="box-header-button box-header-button--right">
 				<i class="fa fa-check"></i>
