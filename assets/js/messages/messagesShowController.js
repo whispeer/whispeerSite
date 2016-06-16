@@ -18,6 +18,12 @@ define(["step", "whispeerHelper", "asset/state", "bluebird", "messages/messagesM
 
 		$scope.hideOverlay = false;
 
+		$scope.showMessageOptions = false;
+
+		$scope.toggleMessageOptions = function() {
+			$scope.showMessageOptions = !$scope.showMessageOptions;
+		}
+
 		$scope.doHideOverlay = function () {
 			$scope.hideOverlay = true;
 		};
