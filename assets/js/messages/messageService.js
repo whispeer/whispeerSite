@@ -101,6 +101,10 @@ define([
 					l.loaded = true;
 					l.loading = false;
 
+					if (latest.topics.length === 0) {
+						l.allTopicsLoaded = true;
+					}
+
 					var i;
 					for (i = 0; i < latest.topics.length; i += 1) {
 						Topic.fromData(latest.topics[i], this.parallel());

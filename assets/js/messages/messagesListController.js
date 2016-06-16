@@ -14,6 +14,10 @@ define(["step", "whispeerHelper", "asset/state", "bluebird", "controllers/contro
 		var loadMoreTopics = Bluebird.promisify(messageService.loadMoreLatest, messageService);
 
 		function loadTopics() {
+			if (messageService.data.latestTopics.allTopicsLoaded) {
+				return;
+			}
+
 			if (topicsLoadingState.isPending()) {
 				return;
 			}
@@ -27,6 +31,10 @@ define(["step", "whispeerHelper", "asset/state", "bluebird", "controllers/contro
 		}
 
 		function loadMoreUntilFull() {
+			if (messageService.data.latestTopics.allTopicsLoaded) {
+				return;
+			}
+
 			Bluebird.delay(500).then(function () {
 				var scroller = $element.find("#topicListWrap");
 
