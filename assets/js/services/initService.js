@@ -109,6 +109,10 @@ define(["services/serviceModule", "bluebird", "asset/observer", "debug"], functi
 			return func(blockageToken);
 		}
 
+		function runInitCacheCallbacks() {
+			return Bluebird.all(initCacheCallbacks.map(runFunction));
+		}
+
 		function loadData() {
 			keyStore.security.blockPrivateActions();
 			blockageToken = socketService.blockEmitWithToken();
@@ -127,7 +131,7 @@ define(["services/serviceModule", "bluebird", "asset/observer", "debug"], functi
 			}).then(function (initRequests) {
 				timeEnd("cacheInitGet");
 				return Bluebird.all([
-					initCacheCallbacks.map(runFunction),
+					runInitCacheCallbacks(),
 					runCacheCallbacks(initRequests)
 				]).then(function () {
 					initService.notify("", "initCacheDone");
