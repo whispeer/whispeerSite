@@ -19,7 +19,6 @@ define(["step", "whispeerHelper", "asset/state", "bluebird", "controllers/contro
 			}
 
 			topicsLoadingState.pending();
-			console.log("Load more!");
 			return loadMoreTopics().then(function () {
 				topicsLoadingState.success();
 			}).catch(function () {
@@ -29,8 +28,6 @@ define(["step", "whispeerHelper", "asset/state", "bluebird", "controllers/contro
 
 		function loadMoreUntilFull() {
 			Bluebird.delay(500).then(function () {
-				//topicListWrap
-				//topicListScroll
 				var scroller = $element.find("#topicListWrap");
 
 				var outerHeight = scroller.height();
