@@ -327,6 +327,7 @@ define(["step", "whispeerHelper", "asset/state", "bluebird", "messages/messagesM
 		}
 
 		$scope.toggleFriendsDropdown = function() {
+			$scope.showMessageOptions = false;
 			$scope.addFriendsActive = !$scope.addFriendsActive;
 			if ($scope.addFriendsActive) {
 				loadFriendsUsers();
