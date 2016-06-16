@@ -5,11 +5,13 @@
 define(["step", "whispeerHelper", "asset/state", "bluebird", "controllers/controllerModule"], function (step, h, State, Bluebird, controllerModule) {
 	"use strict";
 
-	function messagesController($scope, $state, $stateParams, errorService, messageService) {
+	function messagesController($scope, $state, $stateParams, $element, errorService, messageService) {
 		$scope.topics = messageService.data.latestTopics.data;
 
 		var topicsLoadingState = new State();
 		$scope.topicsLoadingState = topicsLoadingState.data;
+
+		var loadMoreTopics = Bluebird.promisify(messageService.loadMoreLatest, messageService);
 
 		function loadTopics() {
 			if (topicsLoadingState.isPending()) {
@@ -17,17 +19,38 @@ define(["step", "whispeerHelper", "asset/state", "bluebird", "controllers/contro
 			}
 
 			topicsLoadingState.pending();
-			step(function () {
-				messageService.loadMoreLatest(this);	
-			}, errorService.failOnError(topicsLoadingState));
+			console.log("Load more!");
+			return loadMoreTopics().then(function () {
+				topicsLoadingState.success();
+			}).catch(function () {
+				topicsLoadingState.failed();
+			});
 		}
 
-		if ($scope.topics.length < 10) {
-			loadTopics();
+		function loadMoreUntilFull() {
+			Bluebird.delay(500).then(function () {
+				//topicListWrap
+				//topicListScroll
+				var scroller = $element.find("#topicListWrap");
+
+				var outerHeight = scroller.height();
+				var innerHeight = 0;
+				scroller.children().each(function(){
+					innerHeight = innerHeight + jQuery(this).outerHeight(true);
+				});
+
+				if (outerHeight > innerHeight) {
+					return $scope.loadMoreTopics().then(function () {
+						loadMoreUntilFull();
+					});
+				}
+			});
 		}
+
+		loadMoreUntilFull();
 
 		$scope.loadMoreTopics = function () {
-			loadTopics();
+			return loadTopics();
 		};
 
 		$scope.isActiveTopic = function (topic) {
@@ -48,7 +71,7 @@ define(["step", "whispeerHelper", "asset/state", "bluebird", "controllers/contro
 	}
 
 
-	messagesController.$inject = ["$scope", "$state", "$stateParams", "ssn.errorService", "ssn.messageService"];
+	messagesController.$inject = ["$scope", "$state", "$stateParams", "$element", "ssn.errorService", "ssn.messageService"];
 
 	controllerModule.controller("ssn.messagesListController", messagesController);
 });
