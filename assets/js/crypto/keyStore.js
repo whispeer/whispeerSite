@@ -1695,13 +1695,9 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 			},
 
 			makePWVerifiable: function (data, pw, cb) {
-				step(function () {
-					//pad data
-					new ObjectPadder(data, 128).pad(this);
-				}, h.sF(function (paddedData) {
-					//encrypt with pw
-					encryptPW(pw, JSON.stringify(paddedData), this);
-				}), cb);
+				return new ObjectPadder(data, 128).pad().then(function (paddedData) {
+					return encryptPW(pw, JSON.stringify(paddedData));
+				}).nodeify(cb);
 			}
 		},
 
