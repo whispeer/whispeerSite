@@ -1,0 +1,40 @@
+<div class="box-rightWrap">
+	<div class="box-header box-header--padding">
+		<span class="box-header-title box-header-title--full-noExtras">
+			<span>Optionen:</span>
+			<span data-i18n="messages.chat"></span>
+			<span data-ng-repeat="partner in activeTopic.partners">
+				<span class="status" data-status="{{partner.online}}" data-ng-if="::!partner.notExisting"></span>
+				<a whispeer-sref="app.user.info({identifier: partner.names.nickname})" data-ng-if="::!partner.notExisting">
+					<span data-ng-if="::activeTopic.partners.length>2">{{partner.basic.shortname}}</span>
+					<span data-ng-if="activeTopic.partners.length<=2">{{partner.name}}</span>
+				</a>
+
+				<span data-ng-if="::partner.notExisting">{{partner.name}}</span>
+				{{::($last?"":", ")}}
+			</span>
+		</span>
+		<div class="box-header-buttons--right">
+			<a whispeer-sref="app.messages.list" id="showTopics" class="box-header-button box-header-button--right" data-ng-if="mobile">
+				<i class="fa fa-arrow-left fa-fw"></i>
+			</a>
+			<a whispeer-sref="app.messages.show({topicid: activeTopic.id})" class="box-header-button box-header-button--right">
+				<i class="fa fa-times-circle"></i>
+			</a>
+			<a data-ng-click="saveTitle()" class="box-header-button box-header-button--right">
+				<i class="fa fa-check"></i>
+			</a>
+		</div>
+	</span>
+
+	<div id="topicWrap" data-topicID="{{activeTopic.id}}" class="detail-chat">
+		<input id="messages-editTitle" type="text" placeholder="Konversationstitel" data-ng-model="topicTitle">
+		<h2>Personen in diesem Chat</h2>
+		<ul>
+			<li class="friendsView-friend" data-ng-repeat="partner in activeTopic.partners">
+				<person data-user="partner" data-type="friend">
+				</person>
+			</li>
+		</ul>
+	</div>
+</div>

@@ -5,7 +5,7 @@
 define(["step", "whispeerHelper", "asset/state", "bluebird", "messages/messagesModule"], function (step, h, State, Bluebird, messagesModule) {
 	"use strict";
 
-	function messagesController($scope, $element, $state, $stateParams, $timeout, localize, errorService, messageService, ImageUploadService, friendsService, userService) {
+	function messagesController($scope, $element, $state, $stateParams, $timeout, localize, errorService, messageService, ImageUploadService) {
 		var MINUTE = 60 * 1000;
 
 		var topicLoadingState = new State();
@@ -303,39 +303,13 @@ define(["step", "whispeerHelper", "asset/state", "bluebird", "messages/messagesM
 			return bursts;
 		};
 
-		$scope.editingTitle = false;
-		$scope.toggleEdit = function() {
-			$scope.showMessageOptions = false;
-			$scope.editingTitle = !$scope.editingTitle;
-		};
-
 		$scope.showMessageOptions = false;
 		$scope.toggleMessageOptions = function() {
 			$scope.showMessageOptions = !$scope.showMessageOptions;
 		};
-
-		$scope.friendsLoading = true;
-		$scope.addFriendsActive = false;
-		function loadFriendsUsers() {
-			step(function () {
-				var friends = friendsService.getFriends();
-				userService.getMultipleFormatted(friends, this);
-			}, h.sF(function (result) {
-				$scope.friends = result;
-				$scope.friendsLoading = false;
-			}));
-		}
-
-		$scope.toggleFriendsDropdown = function() {
-			$scope.showMessageOptions = false;
-			$scope.addFriendsActive = !$scope.addFriendsActive;
-			if ($scope.addFriendsActive) {
-				loadFriendsUsers();
-			}
-		};
 	}
 
-	messagesController.$inject = ["$scope", "$element", "$state", "$stateParams", "$timeout", "localize", "ssn.errorService", "ssn.messageService", "ssn.imageUploadService", "ssn.friendsService", "ssn.userService"];
+	messagesController.$inject = ["$scope", "$element", "$state", "$stateParams", "$timeout", "localize", "ssn.errorService", "ssn.messageService", "ssn.imageUploadService"];
 
 	messagesModule.controller("ssn.messagesShowController", messagesController);
 });

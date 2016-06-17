@@ -13,7 +13,6 @@
 				{{::($last?"":", ")}}
 			</span>
 		</span>
-		<input id="messages-editTitle" type="text" placeholder="Konversation umbenennen" data-ng-if="editingTitle" data-ng-model="topicTitle">
 		<div class="box-header-buttons--right">
 			<span data-ng-show="!editingTitle">
 				<a data-ng-click="toggleMessageOptions()" id="showOptions" class="box-header-button box-header-button--right">
@@ -21,10 +20,7 @@
 				</a>
 				<ul class="button-dropdown" data-ng-if="showMessageOptions">
 					<li class="button-dropdown-action">
-						<a class="button-dropdown-action-text" data-ng-click="toggleEdit()">Titel ändern</a>
-					</li>
-					<li class="button-dropdown-action">
-						<a class="button-dropdown-action-text" data-ng-click="toggleFriendsDropdown()">Freund zum Chat hinzufügen</a>
+						<a whispeer-sref="app.messages.detail({topicid: activeTopic.id})" class="button-dropdown-action-text">Optionen</a>
 					</li>
 					<li class="button-dropdown-action">
 						<a class="button-dropdown-action-text" data-ng-click="toggleMessageOptions()">
@@ -42,37 +38,9 @@
 						</a>
 					</li>
 				</ul>
-				<div class="dropdown dropdown--right" id="messages-addFriendsDrop" data-ng-if="addFriendsActive">
-					<div class="dropdown-header">
-						<span class="dropdown-header-title">
-							Freunde zum Chat hinzufügen
-						</span>
-						<i class="fa fa-times-circle dropdown-header-close" data-ng-click="toggleFriendsDropdown()"></i>
-					</div>
-					<div class="dropdown-container" id="messages-addFriendsDrop-container">
-						<div id="messages-addFriendsDrop-spinner" data-ng-if="friendsLoading">
-							<i class="fa fa-circle-o-notch fa-spin"></i>
-						</div>
-						<ul data-ng-if="!friendsLoading">
-							<li data-ng-repeat="friend in friends" class="messages-addFriendsDrop-friend">
-								<userimage data-user="friend" class="messages-addFriendsDrop-friend-userimage"></userimage>
-								<span class="messages-addFriendsDrop-friend-username">{{friend.name}}</span>
-								<a href="" class="btn btn--primaryLight messages-addFriendsDrop-friend-add">
-									<i class="fa fa-plus-circle"></i>
-								</a>
-							</li>
-						</ul>
-					</div>
-				</div>
 			</span>
 			<a whispeer-sref="app.messages.list" id="showTopics" class="box-header-button box-header-button--right" data-ng-if="mobile">
 				<i class="fa fa-arrow-left fa-fw"></i>
-			</a>
-			<a data-ng-click="toggleEdit()" class="box-header-button box-header-button--right" data-ng-show="editingTitle">
-				<i class="fa fa-times-circle"></i>
-			</a>
-			<a data-ng-click="saveTitle()" data-ng-if="editingTitle" class="box-header-button box-header-button--right">
-				<i class="fa fa-check"></i>
 			</a>
 		</div>
 	</span>
