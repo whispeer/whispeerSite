@@ -777,23 +777,6 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 		return keyGetFunction(realKeyID, callback);
 	}
 
-	/** load  a symkey and its keychain */
-	function symKeyGet(realKeyID, callback) {
-		step(function checkLoaded() {
-			if (symKeys[realKeyID]) {
-				this.last.ne(symKeys[realKeyID]);
-			} else {
-				getKey(realKeyID, this);
-			}
-		}, h.sF(function returnKey() {
-			if (symKeys[realKeyID]) {
-				this.ne(symKeys[realKeyID]);
-			} else {
-				throw new errors.InvalidDataError("keychain not found (sym)");
-			}
-		}), callback);
-	}
-
 	/** generates a symmetric key
 	* @param callback callback
 	*/
@@ -815,7 +798,21 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 		}), callback);
 	}
 
-	SymKey.get = symKeyGet;
+	/** load  a symkey and its keychain */
+	SymKey.get = function (realKeyID, callback) {
+		return Bluebird.try(function () {
+			if (!symKeys[realKeyID]) {
+				return getKey(realKeyID);
+			}
+		}).then(function () {
+			if (symKeys[realKeyID]) {
+				return symKeys[realKeyID];
+			}
+
+			throw new errors.InvalidDataError("keychain not found (sym)");
+		}).nodeify(callback);
+	};
+
 	SymKey.generate = symKeyGenerate;
 
 	/** a ecc crypto key
