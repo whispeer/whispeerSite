@@ -204,7 +204,7 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 	* @param iv necessary for symkey/pw encrypted data
 	* @param salt necessary for pw encrypted data
 	*/
-	function internalDecrypt(decryptorid, decryptortype, ctext, callback, iv, salt) {
+	function internalDecrypt(decryptorid, decryptortype, ctext, iv, salt) {
 		return Bluebird.try(function () {
 			if (decryptortype === "symKey" || decryptortype === "backup") {
 				return Bluebird.try(function () {
@@ -242,7 +242,7 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 			} else {
 				throw new errors.InvalidDataError("invalid decryptortype");
 			}
-		}).nodeify(callback);
+		});
 	}
 
 	/** returns a decryptors object if loaded
@@ -297,7 +297,7 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 
 		function decryptKey(cb) {
 			var usedDecryptor;
-			step(function () {
+			return Bluebird.try(function () {
 				usedDecryptor = theKey.getFastestDecryptor();
 
 				if (!usedDecryptor || !usedDecryptor.decryptor) {
@@ -306,35 +306,35 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 
 				var d = usedDecryptor.decryptor;
 
-				internalDecrypt(d.decryptorid, d.type, d.ct, this, d.iv, d.salt);
-			}, function (err, result) {
-				if (err || result === false) {
-					globalErrors.push(err || { err: "internaldecryptor returned false for realid: " + realid });
-					keyStoreDebug(err);
-					keyStoreDebug("decryptor failed for key: " + realid);
-
-					decryptors = decryptors.filter(function (decryptor) {
-						return decryptor !== usedDecryptor.decryptor;
-					});
-
-					if (decryptors.length === 0) {
-						throw new errors.DecryptionError("Could finally not decrypt key!");
-					}
-
-					decryptKey(cb);
-					return;
+				return internalDecrypt(d.decryptorid, d.type, d.ct, d.iv, d.salt);
+			}).then(function (result) {
+				if (result === false) {
+					throw new Error("Could not decrypt");
 				}
-
-				this.ne(pastProcessor(result));
 
 				if (usedDecryptor.decryptor.type === "cryptKey") {
 					h.callEach(improvementListener, [theKey.getRealID()]);
 				}
-			}, h.sF(function (pastProcessedSecret) {
+
+				return pastProcessor(result);
+			}).then(function (pastProcessedSecret) {
 				preSecret = internalSecret;
 				internalSecret = pastProcessedSecret;
-				this.ne();
-			}), cb);
+			}).catch(function (err) {
+				globalErrors.push(err || { err: "internaldecryptor returned false for realid: " + realid });
+				keyStoreDebug(err);
+				keyStoreDebug("decryptor failed for key: " + realid);
+
+				decryptors = decryptors.filter(function (decryptor) {
+					return decryptor !== usedDecryptor.decryptor;
+				});
+
+				if (decryptors.length === 0) {
+					throw new errors.DecryptionError("Could finally not decrypt key!");
+				}
+
+				return decryptKey();
+			}).nodeify(cb);
 		}
 
 		/** decrypt this key.
