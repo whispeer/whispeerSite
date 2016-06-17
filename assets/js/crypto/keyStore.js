@@ -961,26 +961,6 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 		}
 	}
 
-	/** get a crypt key
-	* @param realKeyID keys real id
-	* @param callback callback
-	*/
-	function cryptKeyGet(realKeyID, callback) {
-		step(function checkLoaded() {
-			if (cryptKeys[realKeyID]) {
-				this.last.ne(cryptKeys[realKeyID]);
-			} else {
-				getKey(realKeyID, this);
-			}
-		}, h.sF(function keyGet() {
-			if (cryptKeys[realKeyID]) {
-				this.ne(cryptKeys[realKeyID]);
-			} else {
-				throw new errors.InvalidDataError("keychain not found");
-			}
-		}), callback);
-	}
-
 	function fingerPrintData(data) {
 		return sjcl.codec.hex.fromBits(sjcl.hash.sha256.hash(data));
 	}
@@ -1034,7 +1014,24 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 		}), callback);
 	}
 
-	CryptKey.get = cryptKeyGet;
+	/** get a crypt key
+	* @param realKeyID keys real id
+	* @param callback callback
+	*/
+	CryptKey.get = function (realKeyID, callback) {
+		return Bluebird.try(function () {
+			if (!cryptKeys[realKeyID]) {
+				return getKey(realKeyID);
+			}
+		}).then(function () {
+			if (cryptKeys[realKeyID]) {
+				return cryptKeys[realKeyID];
+			}
+
+			throw new errors.InvalidDataError("keychain not found");
+		}).nodeify(callback);
+	};
+
 	CryptKey.generate = cryptKeyGenerate;
 
 	/** a signature key
