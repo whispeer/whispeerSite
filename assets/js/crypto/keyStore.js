@@ -2022,11 +2022,9 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 			* @param callback callback
 			*/
 			symEncryptKey: function symEncryptKeyF(realID, parentKeyID, callback) {
-				step(function () {
-					SymKey.get(realID, this);
-				}, h.sF(function (key) {
-					key.addSymDecryptor(parentKeyID, this);
-				}), callback);
+				return SymKey.get(realID).then(function (key) {
+					return key.addSymDecryptor(parentKeyID);
+				}).nodeify(callback);
 			},
 
 			/** encrypt this key with an asymmetric key
@@ -2035,17 +2033,14 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 			* @param callback callback
 			*/
 			asymEncryptKey: function asymEncryptKeyF(realID, parentKeyID, callback) {
-				var symKey;
-				step(function asymEncr1() {
-					SymKey.get(realID, this);
-				}, h.sF(function asymEncr2(key) {
-					symKey = key;
-					CryptKey.get(parentKeyID, this);
-				}), h.sF(function asymEncr3(key) {
-					key.kem(this);
-				}), h.sF(function asymEncr4(parentRealID) {
-					keyStore.sym.symEncryptKey(realID, parentRealID, this);
-				}), callback);
+				//ensure the key exists first!
+				return SymKey.get(realID).then(function () {
+					return CryptKey.get(parentKeyID);
+				}).then(function (key) {
+					return key.kem();
+				}).then(function (parentRealID) {
+					return keyStore.sym.symEncryptKey(realID, parentRealID);
+				}).nodeify(callback);
 			},
 
 			/** encrypt key with password
@@ -2054,11 +2049,9 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 			* @param callback callback
 			*/
 			pwEncryptKey: function pwEncryptKeyF(realID, password, callback) {
-				step(function () {
-					SymKey.get(realID, this);
-				}, h.sF(function (key) {
-					key.addPWDecryptor(password, this);
-				}), callback);
+				return SymKey.get(realID).then(function (key) {
+					return key.addPWDecryptor(password);
+				}).nodeify(callback);
 			},
 
 			/** encrypt text with this key.
