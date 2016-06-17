@@ -1810,13 +1810,9 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 
 		upload: {
 			preLoadMultiple: function (realids, cb) {
-				step(function () {
-					realids.forEach(function (realid) {
-						getKey(realid, this.parallel());
-					}, this);
-				}, h.sF(function () {
-					this.ne();
-				}), cb);
+				return Bluebird.resolve(realids).map(function (realid) {
+					return getKey(realid);
+				}).nodeify(cb);
 			},
 			isKeyLoaded: function (realid) {
 				return symKeys.hasOwnProperty(realid) || cryptKeys.hasOwnProperty(realid) || signKeys.hasOwnProperty(realid);
