@@ -215,7 +215,7 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 					return theKey.decrypt(ctext, iv);
 				}).then(function (decryptedData) {
 					return removeExpectedPrefix(decryptedData, "key::");
-				}).nodeify(callback);
+				});
 			} else if (decryptortype === "cryptKey") {
 				return Bluebird.try(function () {
 					return CryptKey.get(decryptorid);
