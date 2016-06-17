@@ -712,7 +712,7 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 		* @param callback called with results
 		* @param optional iv initialization vector
 		*/
-		this.decrypt = function decryptF(ctext, iv) {
+		this.decrypt = function (ctext, iv) {
 			var decryptKeyAsync = Bluebird.promisify(intKey.decryptKey, intKey);
 
 			return decryptKeyAsync().then(function () {
@@ -2087,9 +2087,7 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 			},
 
 			decryptArrayBuffer: function (buf, realKeyID, callback) {
-				step(function () {
-					SymKey.get(realKeyID, this);
-				}, h.sF(function (key) {
+				return SymKey.get(realKeyID).then(function (key) {
 					var buf32 = new Uint32Array(buf);
 
 					var decr = {
@@ -2099,15 +2097,13 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 					};
 
 					return key.decrypt(decr);
-				}), h.sF(function (decryptedData) {
-					this.ne(removeExpectedPrefix(decryptedData, "buf::"));
-				}), callback);
+				}).then(function (decryptedData) {
+					return removeExpectedPrefix(decryptedData, "buf::");
+				}).nodeify(callback);
 			},
 
 			decryptBigBase64: function (bin, realKeyID, callback) {
-				step(function () {
-					SymKey.get(realKeyID, this);
-				}, h.sF(function (key) {
+				return SymKey.get(realKeyID).then(function (key) {
 					bin = sjcl.codec.base64.toBits(bin);
 
 					var decr = {
@@ -2116,9 +2112,9 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 					};
 
 					return key.decrypt(decr);
-				}), h.sF(function (decryptedData) {
-					this.ne(sjcl.codec.base64.fromBits(removeExpectedPrefix(decryptedData, "bin::")));
-				}), callback);
+				}).then(function (decryptedData) {
+					return sjcl.codec.base64.fromBits(removeExpectedPrefix(decryptedData, "bin::"));
+				}).nodeify(callback);
 			}
 		},
 
