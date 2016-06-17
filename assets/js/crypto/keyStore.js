@@ -1405,26 +1405,10 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 	};
 
 	ObjectPadder.prototype._padArray = function (val, cb) {
-		var that = this;
-		step(function () {
-			var i;
-			for (i = 0; i < val.length; i += 1) {
-				var padder = new ObjectPadder(val[i], that._minLength);
-				padder.pad(this.parallel());
-			}
-
-			this.parallel()();
-		}, h.sF(function (padded) {
-			var i, result = [];
-			if (padded) {
-				for (i = 0; i < padded.length; i += 1) {
-					result[i] = padded[i];
-				}
-			}
-
-			this.ne(result);
-		}), cb);
-		//this._data instanceof Array
+		return Bluebird.resolve(val).bind(this).map(function (value) {
+			var padder = new ObjectPadder(value, this._minLength);
+			return Bluebird.promisify(padder.pad, padder)();
+		}).nodeify(cb);
 	};
 
 	ObjectPadder.prototype._padString = function (val, cb) {
