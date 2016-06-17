@@ -2250,11 +2250,9 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 			},
 
 			fingerPrintKey: function (realID, cb) {
-				step(function () {
-					CryptKey.get(realID, this);
-				}, h.sF(function (key) {
-					this.ne(key.getFingerPrint());
-				}), cb);
+				return CryptKey.get(realID).then(function (key) {
+					return key.getFingerPrint();
+				}).nodeify(cb);
 			}
 		}
 	};
