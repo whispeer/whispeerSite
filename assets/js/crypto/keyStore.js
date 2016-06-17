@@ -886,10 +886,12 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 			return fingerPrintPublicKey(publicKey);
 		}
 
+		this.getFingerPrint = getFingerPrintF;
+
 		/** create a key 
 		* param callback callback
 		*/
-		function kemF(callback) {
+		this.kem = function (callback) {
 			if (privateActionsBlocked) {
 				throw new errors.SecurityError("Private Actions are blocked");
 			}
@@ -898,22 +900,16 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 				throw new errors.SecurityError("Key not usable for encryption: " + intKey.getRealID());
 			}
 
-			var resultKey;
-			step(function () {
-				this.ne(publicKey.kem());
-			}, h.sF(function (keyData) {
-				resultKey = new SymKey(keyData.key);
+			return Bluebird.try(function () {
+				return publicKey.kem();
+			}).then(function (keyData) {
+				var resultKey = new SymKey(keyData.key);
 				symKeys[resultKey.getRealID()] = resultKey;
 				newKeys.push(resultKey);
 				makeKeyUsableForEncryption(resultKey.getRealID());
-				resultKey.addAsymDecryptor(realid, keyData.tag, this);
-			}), h.sF(function () {
-				this.ne(resultKey.getRealID());
-			}), callback);
-		}
-
-		this.getFingerPrint = getFingerPrintF;
-		this.kem = kemF;
+				return resultKey.addAsymDecryptor(realid, keyData.tag).thenReturn(resultKey.getRealID());
+			}).nodeify(callback);
+		};
 
 		if (isPrivateKey) {
 			/** unkem a key from a tag
