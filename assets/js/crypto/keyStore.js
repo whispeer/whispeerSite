@@ -214,7 +214,7 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 					cryptor = theKey;
 					theKey.decryptKey(this);
 				}), h.sF(function () {
-					cryptor.decrypt(ctext, this, iv);
+					return cryptor.decrypt(ctext, iv);
 				}), h.sF(function (decryptedData) {
 					this.ne(removeExpectedPrefix(decryptedData, "key::"));
 				}), callback);
@@ -720,7 +720,7 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 		* @param callback called with results
 		* @param optional iv initialization vector
 		*/
-		this.decrypt = function decryptF(ctext, callback, iv) {
+		this.decrypt = function decryptF(ctext, iv) {
 			var decryptKeyAsync = Bluebird.promisify(intKey.decryptKey, intKey);
 
 			return decryptKeyAsync().then(function () {
@@ -752,7 +752,7 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 				} else {
 					return sjclWorkerInclude.sym.decrypt(intKey.getSecret(), ctext);
 				}				
-			}).nodeify(callback);
+			});
 		};
 	};
 
@@ -1644,7 +1644,7 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 
 	ObjectCryptor.prototype.decryptAttr = function (cur, cb) {
 		if (cur.iv && cur.ct) {
-			this._key.decrypt(cur, cb);
+			this._key.decrypt(cur).nodeify(cb);
 		} else {
 			new ObjectCryptor(this._key, this._depth-1, cur).decrypt(cb);
 		}
@@ -1653,7 +1653,7 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 	ObjectCryptor.prototype._decryptEndAttribute = function (cb) {
 		var that = this;
 		step(function () {
-			that._key.decrypt(that._object, this);
+			return that._key.decrypt(that._object);
 		}, h.sF(function (result) {
 			this.ne(that.decryptCorrectObject(result));
 		}), cb);
@@ -2154,7 +2154,7 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 				step(function () {
 					SymKey.get(realKeyID, this);
 				}, h.sF(function (key) {
-					key.decrypt(ctext, this);
+					return key.decrypt(ctext);
 				}), h.sF(function (decryptedData) {
 					this.ne(sjcl.codec.utf8String.fromBits(removeExpectedPrefix(decryptedData, "data::")));
 				}), callback);
@@ -2184,7 +2184,7 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 						tag: sjcl.codec.arrayBuffer.toBits(new Uint32Array(buf32.subarray(buf32.byteLength/4-2)).buffer)
 					};
 
-					key.decrypt(decr, this);
+					return key.decrypt(decr);
 				}), h.sF(function (decryptedData) {
 					this.ne(removeExpectedPrefix(decryptedData, "buf::"));
 				}), callback);
@@ -2201,7 +2201,7 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 						ct: sjcl.bitArray.bitSlice(bin, 32*4)
 					};
 
-					key.decrypt(decr, this);
+					return key.decrypt(decr);
 				}), h.sF(function (decryptedData) {
 					this.ne(sjcl.codec.base64.fromBits(removeExpectedPrefix(decryptedData, "bin::")));
 				}), callback);
