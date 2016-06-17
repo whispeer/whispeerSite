@@ -501,14 +501,12 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 		* @param callback callback
 		*/
 		function addPWDecryptorF(pw, callback) {
-			step(function () {
-				theKey.decryptKey(this);
-			}, h.sF(function () {
+			return theKey.decryptKey().then(function () {
 				var prefix = sjcl.codec.utf8String.toBits("key::");
 				var data = sjcl.bitArray.concat(prefix, preSecret || internalSecret);
 
-				this.ne(chelper.sjclPacket2Object(sjcl.json._encrypt(pw, data)));
-			}), h.sF(function (data) {
+				return chelper.sjclPacket2Object(sjcl.json._encrypt(pw, data));
+			}).then(function (data) {
 				var decryptorData = {
 					//Think, shortHash here? id: ?,
 					type: "pw",
@@ -522,8 +520,8 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 				dirtyKeys.push(superKey);
 				dirtyDecryptors.push(decryptorData);
 
-				this.ne(decryptorData);
-			}), callback);
+				return decryptorData;
+			}).nodeify(callback);
 		}
 
 		this.addAsymDecryptor = addAsymDecryptorF;
