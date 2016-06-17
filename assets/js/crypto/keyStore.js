@@ -449,7 +449,7 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 		* @param callback callback
 		*/
 		function addAsymDecryptorF(realid, tag, callback) {
-			step(function () {
+			return Bluebird.try(function () {
 				var decryptorData = {
 					decryptorid: realid,
 					type: "cryptKey",
@@ -460,9 +460,7 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 				decryptors.push(decryptorData);
 				dirtyKeys.push(superKey);
 				dirtyDecryptors.push(decryptorData);
-
-				this.ne();
-			}, callback);
+			}).nodeify(callback);
 		}
 
 		/** add symKey decryptor.
@@ -470,34 +468,32 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 		* @param callback callback
 		*/
 		function addSymDecryptorF(realid, callback) {
-			var cryptor;
-			step(function addSymD1() {
+			Bluebird.try(function () {
 				if (realid instanceof SymKey) {
-					this.ne(realid);
-				} else {
-					SymKey.get(realid, this);
+					return realid;
 				}
-			}, h.sF(function addSymD2(cryptorKey) {
-				cryptor = cryptorKey;
-				theKey.decryptKey(this);
-			}), h.sF(function addSymD3() {
+
+				return SymKey.get(realid);
+			}).then(function (cryptorKey) {
+				return theKey.decryptKey().thenReturn(cryptorKey);
+			}).then(function (cryptorKey) {
 				var secret = preSecret || internalSecret;
-				cryptor.encryptWithPrefix("key::", secret, this);
-			}), h.sF(function addSymD4(data) {
-				var decryptorData = {
-					decryptorid: cryptor.getRealID(),
-					type: "symKey",
-					ct: chelper.bits2hex(data.ct),
-					iv: chelper.bits2hex(data.iv),
-					dirty: true
-				};
+				return cryptorKey.encryptWithPrefix("key::", secret).then(function (data) {
+					var decryptorData = {
+						decryptorid: cryptorKey.getRealID(),
+						type: "symKey",
+						ct: chelper.bits2hex(data.ct),
+						iv: chelper.bits2hex(data.iv),
+						dirty: true
+					};
 
-				decryptors.push(decryptorData);
-				dirtyKeys.push(superKey);
-				dirtyDecryptors.push(decryptorData);
+					decryptors.push(decryptorData);
+					dirtyKeys.push(superKey);
+					dirtyDecryptors.push(decryptorData);
 
-				this.ne(cryptor.getRealID());
-			}), callback);
+					return cryptorKey.getRealID();
+				});	
+			}).nodeify(callback);
 		}
 
 		/** add a pw decryptor
