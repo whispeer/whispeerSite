@@ -1500,49 +1500,33 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 		this._object = object;
 	};
 
-	ObjectCryptor.prototype.encryptAttr = function (cur, cb) {
+	ObjectCryptor.prototype._encryptAttr = function (cur) {
 		if (typeof cur === "object") {
-			new ObjectCryptor(this._key, this._depth-1, cur).encrypt(cb);
+			return new ObjectCryptor(this._key, this._depth-1, cur).encrypt();
 		} else if (typeof cur === "string" || typeof cur === "number" || typeof cur === "boolean") {
-			this._key.encryptWithPrefix("data::", cur.toString(), cb);
-		} else {
-			throw new errors.InvalidDataError("Invalid encrypt!");
+			return this._key.encryptWithPrefix("data::", cur.toString());
 		}
+
+		throw new errors.InvalidDataError("Invalid encrypt!");
 	};
 
-	ObjectCryptor.prototype.encryptObject = function (cb) {
-		var that = this;
-		step(function encryptAllAttributes() {
-			var attr;
-			for (attr in that._object) {
-				if (that._object.hasOwnProperty(attr) && attr !== "key") {
-					that.encryptAttr(that._object[attr], this.parallel());
-				}
+	ObjectCryptor.prototype._encryptObject = function () {
+		return Bluebird.props(h.objectMap(this._object, function (value, attr) {
+			if (attr !== "key") {
+				return this._encryptAttr(value);
 			}
-
-			this.parallel()();
-		}, h.sF(function (encrypted) {
-			var attr, resultObject = {}, count = 0;
-			for (attr in that._object) {
-				if (that._object.hasOwnProperty(attr) && attr !== "key") {
-					resultObject[attr] = encrypted[count];
-					count += 1;
-				}
-			}
-
-			this.ne(resultObject);
-		}), cb);
+		}, this));
 	};
 
-	ObjectCryptor.prototype.encryptJSON = function (cb) {
-		this._key.encryptWithPrefix("json::", JSON.stringify(this._object), cb);
+	ObjectCryptor.prototype._encryptJSON = function () {
+		return this._key.encryptWithPrefix("json::", JSON.stringify(this._object));
 	};
 
-	ObjectCryptor.prototype.encrypt = function (cb) {
+	ObjectCryptor.prototype.encrypt = function () {
 		if (this._depth > 0) {
-			this.encryptObject(cb);
+			return this._encryptObject();
 		} else {
-			this.encryptJSON(cb);
+			return this._encryptJSON();
 		}
 	};
 
@@ -2016,17 +2000,13 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 			* @param callback callback
 			*/
 			encryptObject: function (object, realKeyID, depth, callback) {
-				step(function objEncrypt1() {
-					if (object.iv) {
-						throw new errors.InvalidDataError("IV already set.");
-					}
+				if (object.iv) {
+					throw new errors.InvalidDataError("IV already set.");
+				}
 
-					SymKey.get(realKeyID, this);
-				}, h.sF(function objEncrypt2(key) {
-					new ObjectCryptor(key, depth, object).encrypt(this);
-				}), h.sF(function (result) {
-					this.ne(result);
-				}), callback);
+				return SymKey.get(realKeyID).then(function (key) {
+					return new ObjectCryptor(key, depth, object).encrypt();
+				}).nodeify(callback);
 			},
 
 			decryptObject: function (cobject, depth, callback, key) {
