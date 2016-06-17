@@ -1829,9 +1829,7 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 			},
 
 			hashBigBase64CodedData: function (text, cb) {
-				step(function () {
-					sjclWorkerInclude.hash(text).then(this.ne, this).finally(afterAsyncCall);
-				}, cb);
+				sjclWorkerInclude.hash(text).nodeify(cb);
 			},
 
 			hashPW: function (pw, salt) {
