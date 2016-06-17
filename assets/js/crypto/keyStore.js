@@ -1428,24 +1428,19 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 	};
 
 	ObjectPadder.prototype._padString = function (val, cb) {
-		var that = this;
+		var length = this._minLength - (val.length % this._minLength) + this._minLength;
 
-		step(function () {
-			var length = that._minLength-(val.length%that._minLength) + that._minLength;
-			keyStore.random.hex(length, this);
-		}, h.sF(function (rand) {
-			this.ne(rand + "::" + val);
-		}), cb);
+		return Bluebird.try(function () {
+			return keyStore.random.hex(length);
+		}).then(function (rand) {
+			return rand + "::" + val;
+		}).nodeify(cb);
 	};
 
 	ObjectPadder.prototype._padNumber = function (val, cb) {
-		var that = this;
-
-		step(function () {
-			that._padString(val.toString(), this);
-		}, h.sF(function (padded) {
-			this.ne("num::" + padded);
-		}), cb);
+		return this._padString(val.toString()).then(function (padded) {
+			return "num::" + padded;
+		}).nodeify(cb);
 	};
 
 	ObjectPadder.prototype._padAttribute = function (attr, cb) {
