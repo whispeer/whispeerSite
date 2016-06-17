@@ -1944,19 +1944,15 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 
 		random: {
 			hex: function (length, cb) {
-				step(function () {
-					waitForReady(this);
-				}, h.sF(function () {
+				return waitForReady.async().then(function () {
 					var res = chelper.bits2hex(sjcl.random.randomWords(Math.ceil(length/8)));
-					this.ne(res.substr(0, length));
-				}), cb);
+					return res.substr(0, length);
+				}).nodeify(cb);
 			},
 			words: function (number, cb) {
-				step(function () {
-					waitForReady(this);
-				}, h.sF(function () {
-					this.ne(sjcl.random.randomWords(number));
-				}), cb);
+				return waitForReady.async().then(function () {
+					return sjcl.random.randomWords(number);
+				}).nodeify(cb);
 			}
 		},
 
@@ -1969,15 +1965,11 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 			* @param callback callback
 			*/
 			generateKey: function generateKeyF(callback, comment) {
-				step(function symGen1() {
-					waitForReady(this);
-				}, h.sF(function () {
-					SymKey.generate(this, comment);
-				}), h.sF(function symGen2(key) {
-					var r = key.getRealID();
-
-					this.ne(r);
-				}), callback);
+				return waitForReady.async().then(function () {
+					return SymKey.generate(undefined, comment);
+				}).then(function (key) {
+					return key.getRealID();
+				}).nodeify(callback);
 			},
 
 			createBackupKey: function (realID, callback) {
