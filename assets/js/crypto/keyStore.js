@@ -468,7 +468,7 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 		* @param callback callback
 		*/
 		function addSymDecryptorF(realid, callback) {
-			Bluebird.try(function () {
+			return Bluebird.try(function () {
 				if (realid instanceof SymKey) {
 					return realid;
 				}
