@@ -1,4 +1,4 @@
-define(["libs/sjcl"], function (sjcl) {
+define(["libs/sjcl", "bluebird"], function (sjcl, Bluebird) {
 	"use strict";
 
 	/**
@@ -21,6 +21,8 @@ define(["libs/sjcl"], function (sjcl) {
 
 		return false;
 	};
+
+	waitForReady.async = Bluebird.promisify(waitForReady);
 
 	waitForReady.ready = false;
 	waitForReady.waiting = false;

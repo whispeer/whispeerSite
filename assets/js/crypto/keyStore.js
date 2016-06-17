@@ -962,41 +962,6 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 		}
 	}
 
-	/** generate a crypt key
-	* @param curve curve to use
-	* @param callback callback
-	*/
-	function cryptKeyGenerate(curve, callback, comment) {
-		step(function cryptGenI1() {
-			waitForReady(this);
-		}, h.sF(function () {
-			var curveO = chelper.getCurve(curve), key = sjcl.ecc.elGamal.generateKeys(curveO);
-			this.ne(key.pub, key.sec);
-		}), h.sF(function cryptGenI2(pub, sec) {
-			/*jslint nomen: true*/
-			var p = pub._point, data = {
-				point: {
-					x: chelper.bits2hex(p.x.toBits()),
-					y: chelper.bits2hex(p.y.toBits())
-				},
-				exponent: sec._exponent.toBits(),
-				realid: generateid(fingerPrintPublicKey(pub)),
-				curve: chelper.getCurveName(pub._curve),
-				comment: comment
-			};
-			/*jslint nomen: false*/
-
-			var key = makeCryptKey(data);
-			newKeys.push(key);
-
-			key.setComment(comment);
-
-			makeKeyUsableForEncryption(key.getRealID());
-
-			this.ne(key);
-		}), callback);
-	}
-
 	/** get a crypt key
 	* @param realKeyID keys real id
 	* @param callback callback
@@ -1015,7 +980,37 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 		}).nodeify(callback);
 	};
 
-	CryptKey.generate = cryptKeyGenerate;
+	/** generate a crypt key
+	* @param curve curve to use
+	* @param callback callback
+	*/
+	CryptKey.generate = function (curve, callback, comment) {
+		return waitForReady.async().then(function () {
+			var curveO = chelper.getCurve(curve), rawKey = sjcl.ecc.elGamal.generateKeys(curveO);
+
+			/*jslint nomen: true*/
+			var p = rawKey.pub._point, data = {
+				point: {
+					x: chelper.bits2hex(p.x.toBits()),
+					y: chelper.bits2hex(p.y.toBits())
+				},
+				exponent: rawKey.sec._exponent.toBits(),
+				realid: generateid(fingerPrintPublicKey(rawKey.pub)),
+				curve: chelper.getCurveName(rawKey.pub._curve),
+				comment: comment
+			};
+			/*jslint nomen: false*/
+
+			var key = makeCryptKey(data);
+			newKeys.push(key);
+
+			key.setComment(comment);
+
+			makeKeyUsableForEncryption(key.getRealID());
+
+			return key;
+		}).nodeify(callback);
+	};
 
 	/** a signature key
 	* @param keyData sign key data
