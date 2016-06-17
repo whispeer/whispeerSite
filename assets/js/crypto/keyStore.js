@@ -208,16 +208,15 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 		step(function () {
 			var cryptor;
 			if (decryptortype === "symKey" || decryptortype === "backup") {
-				step(function () {
-					SymKey.get(decryptorid, this);
-				}, h.sF(function (theKey) {
-					cryptor = theKey;
-					theKey.decryptKey(this);
-				}), h.sF(function () {
-					return cryptor.decrypt(ctext, iv);
-				}), h.sF(function (decryptedData) {
-					this.ne(removeExpectedPrefix(decryptedData, "key::"));
-				}), callback);
+				Bluebird.try(function () {
+					return SymKey.get(decryptorid);
+				}).then(function (theKey) {
+					return theKey.decryptKey().thenReturn(theKey);
+				}).then(function (theKey) {
+					return theKey.decrypt(ctext, iv);
+				}).then(function (decryptedData) {
+					return removeExpectedPrefix(decryptedData, "key::");
+				}).nodeify(callback);
 			} else if (decryptortype === "cryptKey") {
 				step(function () {
 					CryptKey.get(decryptorid, this);
@@ -356,8 +355,12 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 				decryptKey(this);
 			}), decrypted.finish);
 		}
+
 		this.decrypted = decryptedF;
-		this.decryptKey = decryptKeyF;
+		this.decryptKey = function (callback) {
+			var decryptAsync = Bluebird.promisify(decryptKeyF);
+			return decryptAsync().nodeify(callback);
+		};
 
 
 		/** getter for real id */
