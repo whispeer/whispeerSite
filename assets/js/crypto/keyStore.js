@@ -686,9 +686,7 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 				throw new errors.SecurityError("Key not usable for encryption: " + intKey.getRealID());
 			}
 
-			step(function symEncryptI1() {
-				intKey.decryptKey(this);
-			}, h.sF(function symEncryptI2() {
+			return intKey.decryptKey().then(function () {
 				if (typeof data === "string") {
 					data = sjcl.codec.utf8String.toBits(data);
 				}
@@ -705,14 +703,14 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 					data = sjcl.bitArray.concat(prefix, data);
 				}
 
-				sjclWorkerInclude.sym.encrypt(intKey.getSecret(), data, progressCallback).then(this.ne, this).finally(afterAsyncCall);
-			}), h.sF(function (result) {
+				return sjclWorkerInclude.sym.encrypt(intKey.getSecret(), data, progressCallback);
+			}).then(function (result) {
 				if (noDecode) {
-					this.ne(result);
+					return result;
 				} else {
-					this.ne(chelper.sjclPacket2Object(result));
+					return chelper.sjclPacket2Object(result);
 				}
-			}), callback);
+			}).nodeify(callback);
 		};
 
 		/** decrypt some text.
