@@ -1131,7 +1131,7 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 		}
 
 		if (isPrivateKey) {
-			this.sign = function (hash, type, callback) {
+			this.sign = function (hash, type) {
 				if (privateActionsBlocked) {
 					throw new errors.SecurityError("Private Actions are blocked");
 				}
@@ -1159,7 +1159,7 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 
 						return signature;
 					});
-				}).nodeify(callback);
+				});
 			};
 		}
 
@@ -2212,16 +2212,14 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 			},
 
 			signObject: function (object, realID, version, callback) {
-				step(function signO1() {
-					this.parallel.unflatten();
-
-					SignKey.get(realID, this.parallel());
-					sjclWorkerInclude.stringify(object, version, true).nodeify(this.parallel());
-				}, h.sF(function (key, hash) {
-					key.sign(hash, object._type, this);
-				}), h.sF(function (signature) {
-					this.ne(chelper.bits2hex(signature));
-				}), callback);
+				return Bluebird.all([
+					SignKey.get(realID),
+					sjclWorkerInclude.stringify(object, version, true)
+				]).spread(function (key, hash) {
+					return key.sign(hash, object._type);
+				}).then(function (signature) {
+					return chelper.bits2hex(signature);
+				}).nodeify(callback);
 			},
 
 			verifyObject: function (signature, object, realID, version, id) {
