@@ -1301,26 +1301,6 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 		}
 	}
 
-	/** get a signature key
-	* @param realKeyID the real id of the sign key
-	* @param callback callback
-	*/
-	function signKeyGet(realKeyID, callback) {
-		step(function checkLoaded() {
-			if (signKeys[realKeyID]) {
-				this.last.ne(signKeys[realKeyID]);
-			} else {
-				getKey(realKeyID, this);
-			}
-		}, h.sF(function keyGet() {
-			if (signKeys[realKeyID]) {
-				this.ne(signKeys[realKeyID]);
-			} else {
-				throw new errors.InvalidDataError("keychain not found (sign)");
-			}
-		}), callback);
-	}
-
 	/** generate a sign key
 	* @param curve curve for the key
 	* @param callback callback
@@ -1353,7 +1333,24 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 		}), callback);
 	}
 
-	SignKey.get = signKeyGet;
+	/** get a signature key
+	* @param realKeyID the real id of the sign key
+	* @param callback callback
+	*/
+	SignKey.get = function signKeyGet(realKeyID, callback) {
+		return Bluebird.try(function () {
+			if (!signKeys[realKeyID]) {
+				return getKey(realKeyID);
+			}
+		}).then(function () {
+			if (signKeys[realKeyID]) {
+				return signKeys[realKeyID];
+			}
+
+			throw new errors.InvalidDataError("keychain not found (sign)");
+		}).nodeify(callback);
+	};
+
 	SignKey.generate = signKeyGenerate;
 
 	/** make a key out of keyData. mainly checks type and calls appropriate function */
