@@ -87,15 +87,15 @@
 							</h1>
 							<p class="register-headline">
 								Ein paar Formalitäten müssen dann leider doch sein:<br>
-								Wir bitten dich, unsere <a href="/agb" data-for="agb" target="_blank">{{i18n.legal.terms}}</a> und unsere <a href="/privacyPolicy" data-for="privacyPolicy" target="_blank">{{i18n.legal.data}}</a> zu lesen und zu akzeptieren.<br>
+								Wir bitten dich, unsere <a href="/{{page.lang}}/agb" data-for="agb" target="_blank">{{i18n.legal.terms}}</a> und unsere <a href="/{{page.lang}}/privacyPolicy" data-for="privacyPolicy" target="_blank">{{i18n.legal.data}}</a> zu lesen und zu akzeptieren.<br>
 								<small>Wir haben versucht, diese so kurz und simpel wie möglich zu halten, aber ganz ohne geht leider nicht.</small>
 							</p>
 						</header>
 						<label class="register-agb btn btn--primary btn--big" for="checkAGB" validation="agbValidations">
 							<input type="checkbox" data-ng-model="registerData.agb" id="checkAGB" class="checkAGB" data-load-val>
 							<span data-i18n="landingpage.legal">
-								<a href="/agb" data-for="agb" target="_blank">{{i18n.legal.terms}}</a>
-								<a href="/privacyPolicy" data-for="privacyPolicy" target="_blank">{{i18n.legal.data}}</a>
+								<a href="/{{page.lang}}/agb" data-for="agb" target="_blank">{{i18n.legal.terms}}</a>
+								<a href="/{{page.lang}}/privacyPolicy" data-for="privacyPolicy" target="_blank">{{i18n.legal.data}}</a>
 							</span>
 						</label>
 						<br>
