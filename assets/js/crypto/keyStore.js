@@ -2035,13 +2035,9 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 			* @param callback callback
 			*/
 			encryptText: function (text, realKeyID, callback) {
-				step(function symEncrypt1() {
-					SymKey.get(realKeyID, this);
-				}, h.sF(function symEncrypt2(key) {
-					key.encryptWithPrefix("data::", text, this);
-				}), h.sF(function symEncrypt3(ct) {
-					this.ne(ct);
-				}), callback);
+				return SymKey.get(realKeyID).then(function (key) {
+					return key.encryptWithPrefix("data::", text);
+				}).nodeify(callback);
 			},
 
 			/** encrypt an object
@@ -2079,13 +2075,11 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 			* @param callback callback
 			*/
 			decryptText: function (ctext, realKeyID, callback) {
-				step(function () {
-					SymKey.get(realKeyID, this);
-				}, h.sF(function (key) {
+				return SymKey.get(realKeyID).then(function (key) {
 					return key.decrypt(ctext);
-				}), h.sF(function (decryptedData) {
-					this.ne(sjcl.codec.utf8String.fromBits(removeExpectedPrefix(decryptedData, "data::")));
-				}), callback);
+				}).then(function (decryptedData) {
+					return sjcl.codec.utf8String.fromBits(removeExpectedPrefix(decryptedData, "data::"));
+				}).nodeify(callback);
 			},
 
 			encryptArrayBuffer: function (buf, realKeyID, callback, progressCallback) {
