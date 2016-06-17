@@ -1371,75 +1371,57 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 		this._minLength = minLength;
 	};
 
-	ObjectPadder.prototype._padObject = function (val, cb) {
-		var that = this;
-		step(function () {
-			var attr;
-			for (attr in val) {
-				if (val.hasOwnProperty(attr)) {
-					var padder = new ObjectPadder(val[attr], that._minLength);
-					padder.pad(this.parallel());
-				}
-			}
-
-			this.parallel()();
-		}, h.sF(function (padded) {
-			var attr, count = 0, result = {};
-			for (attr in val) {
-				if (val.hasOwnProperty(attr)) {
-					result[attr] = padded[count];
-					count += 1;
-				}
-			}
-
-			this.ne(result);
-		}), cb);
+	ObjectPadder.prototype._padObject = function (val) {
+		return Bluebird.props(h.objectMap(val, function (value) {
+			var padder = new ObjectPadder(value, this._minLength);
+			return Bluebird.promisify(padder.pad, padder)();
+		}, this));
 	};
 
-	ObjectPadder.prototype._padArray = function (val, cb) {
+	ObjectPadder.prototype._padArray = function (val) {
 		return Bluebird.resolve(val).bind(this).map(function (value) {
 			var padder = new ObjectPadder(value, this._minLength);
 			return Bluebird.promisify(padder.pad, padder)();
-		}).nodeify(cb);
+		});
 	};
 
-	ObjectPadder.prototype._padString = function (val, cb) {
+	ObjectPadder.prototype._padString = function (val) {
 		var length = this._minLength - (val.length % this._minLength) + this._minLength;
 
 		return Bluebird.try(function () {
 			return keyStore.random.hex(length);
 		}).then(function (rand) {
 			return rand + "::" + val;
-		}).nodeify(cb);
+		});
 	};
 
-	ObjectPadder.prototype._padNumber = function (val, cb) {
+	ObjectPadder.prototype._padNumber = function (val) {
 		return this._padString(val.toString()).then(function (padded) {
 			return "num::" + padded;
-		}).nodeify(cb);
+		});
 	};
 
-	ObjectPadder.prototype._padAttribute = function (attr, cb) {
+	ObjectPadder.prototype._padAttribute = function (attr) {
 		var type = typeof attr;
 		if (type === "object") {
 			if (attr instanceof Array) {
-				this._padArray(attr, cb);
-			} else {
-				this._padObject(attr, cb);
+				return this._padArray(attr);
 			}
+
+			return this._padObject(attr);
 		} else if (type === "string") {
-			this._padString(attr, cb);
+			return this._padString(attr);
 		} else if (type === "number") {
-			this._padNumber(attr, cb);
+			return this._padNumber(attr);
 		} else if (type === "boolean") {
-			this._padNumber((attr ? 1 : 0), cb);
-		} else {
-			throw new errors.InvalidDataError("could not pad value of type " + type);
+			return this._padNumber((attr ? 1 : 0));
 		}
+
+		throw new errors.InvalidDataError("could not pad value of type " + type);
 	};
 
 	ObjectPadder.prototype.pad = function (cb) {
-		this._padAttribute(this._obj, cb);
+		return this._padAttribute(this._obj).nodeify(cb);
 	};
 
 	ObjectPadder.prototype._unpadObject = function (val) {
