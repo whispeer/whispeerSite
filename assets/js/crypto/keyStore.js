@@ -720,10 +720,10 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 		* @param callback called with results
 		* @param optional iv initialization vector
 		*/
-		function decryptF(ctext, callback, iv) {
-			step(function symDecryptI1() {
-				intKey.decryptKey(this);
-			}, h.sF(function symDecryptI2() {
+		this.decrypt = function decryptF(ctext, callback, iv) {
+			var decryptKeyAsync = Bluebird.promisify(intKey.decryptKey, intKey);
+
+			return decryptKeyAsync().then(function () {
 				if (typeof ctext !== "object") {
 					if (h.isHex(ctext)) {
 						ctext = chelper.hex2bits(ctext);
@@ -748,16 +748,12 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 				}
 
 				if (ctext.ct.length < 500) {
-					this.ne(sjcl.json._decrypt(intKey.getSecret(), ctext, {raw: 1}));
+					return sjcl.json._decrypt(intKey.getSecret(), ctext, {raw: 1});
 				} else {
-					sjclWorkerInclude.sym.decrypt(intKey.getSecret(), ctext).then(this.ne, this).finally(afterAsyncCall);
-				}
-			}), h.sF(function (result) {
-				this.ne(result);
-			}), callback);
-		}
-
-		this.decrypt = decryptF;
+					return sjclWorkerInclude.sym.decrypt(intKey.getSecret(), ctext);
+				}				
+			}).nodeify(callback);
+		};
 	};
 
 	/** make a symkey out of keydata */
