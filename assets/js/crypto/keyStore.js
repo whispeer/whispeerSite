@@ -781,21 +781,21 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 	* @param callback callback
 	*/
 	function symKeyGenerate(callback, comment) {
-		step(function symGenI1() {
-			this.ne(new SymKey());
-		}, h.sF(function symGenI2(key) {
-			if (!symKeys[key.getRealID()]) {
-				symKeys[key.getRealID()] = key;
-				newKeys.push(key);
-				makeKeyUsableForEncryption(key.getRealID());
-
-				key.setComment(comment);
-
-				this.ne(symKeys[key.getRealID()]);
-			} else {
-				symKeyGenerate(this);
+		return Bluebird.try(function () {
+			return new SymKey();
+		}).then(function (key) {
+			if (symKeys[key.getRealID()]) {
+				return symKeyGenerate();
 			}
-		}), callback);
+
+			symKeys[key.getRealID()] = key;
+			newKeys.push(key);
+			makeKeyUsableForEncryption(key.getRealID());
+
+			key.setComment(comment);
+
+			return symKeys[key.getRealID()];
+		}).nodeify(callback);
 	}
 
 	/** load  a symkey and its keychain */
