@@ -205,10 +205,9 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 	* @param salt necessary for pw encrypted data
 	*/
 	function internalDecrypt(decryptorid, decryptortype, ctext, callback, iv, salt) {
-		step(function () {
-			var cryptor;
+		return Bluebird.try(function () {
 			if (decryptortype === "symKey" || decryptortype === "backup") {
-				Bluebird.try(function () {
+				return Bluebird.try(function () {
 					return SymKey.get(decryptorid);
 				}).then(function (theKey) {
 					return theKey.decryptKey().thenReturn(theKey);
@@ -218,16 +217,15 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 					return removeExpectedPrefix(decryptedData, "key::");
 				}).nodeify(callback);
 			} else if (decryptortype === "cryptKey") {
-				step(function () {
-					CryptKey.get(decryptorid, this);
-				}, h.sF(function (theKey) {
-					cryptor = theKey;
-					theKey.decryptKey(this);
-				}), h.sF(function () {
-					cryptor.unkem(chelper.hex2bits(ctext), this);
-				}), callback);
+				return Bluebird.try(function () {
+					return CryptKey.get(decryptorid);
+				}).then(function (theKey) {
+					return theKey.decryptKey().thenReturn(theKey);
+				}).then(function (theKey) {
+					return theKey.unkem(chelper.hex2bits(ctext));
+				});
 			} else if (decryptortype === "pw") {
-				step(function () {
+				return Bluebird.try(function () {
 					var jsonData = chelper.Object2sjclPacket({
 						ct: ctext,
 						iv: iv,
@@ -236,16 +234,15 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 					if (password !== "") {
 						result = sjcl.decrypt(password, jsonData, { raw: 1 });
 
-						this.ne(removeExpectedPrefix(result, "key::"));
-						return;
+						return removeExpectedPrefix(result, "key::");
 					}
 
 					throw new errors.DecryptionError("no pw");
-				}, callback);
+				});
 			} else {
 				throw new errors.InvalidDataError("invalid decryptortype");
 			}
-		}, callback);
+		}).nodeify(callback);
 	}
 
 	/** returns a decryptors object if loaded
@@ -923,29 +920,27 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 			}), callback);
 		}
 
-		/** unkem a key from a tag
-		* @param tag the tag
-		* @param callback callback
-		*/
-		function unkemF(tag, callback) {
-			step(function () {
-				if (!isPrivateKey) {
-					this.last("not a private key");
-				}
-
-				intKey.decryptKey(this);
-			}, h.sF(function () {
-				keyStoreDebug("slow decrypt");
-
-				this.ne(intKey.getSecret().unkem(tag));
-			}), callback);
-		}
-
 		this.getFingerPrint = getFingerPrintF;
 		this.kem = kemF;
 
 		if (isPrivateKey) {
-			this.unkem = unkemF;
+			/** unkem a key from a tag
+			* @param tag the tag
+			* @param callback callback
+			*/
+			this.unkem = function (tag) {
+				return Bluebird.try(function () {
+					if (!isPrivateKey) {
+						throw new Error("not a private key");
+					}
+
+					return intKey.decryptKey();
+				}).then(function () {
+					keyStoreDebug("slow decrypt");
+
+					return intKey.getSecret().unkem(tag);
+				});
+			};
 		}
 	};
 
