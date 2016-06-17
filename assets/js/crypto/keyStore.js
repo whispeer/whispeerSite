@@ -2123,13 +2123,9 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 			* @param callback callback
 			*/
 			generateKey: function generateKeyF(callback, comment) {
-				step(function cryptGen1() {
-					CryptKey.generate("256", this, comment);
-				}, h.sF(function cryptGen2(key) {
-					var r = key.getRealID();
-
-					this.ne(r);
-				}), callback);
+				return CryptKey.generate("256", undefined, comment).then(function (key) {
+					return key.getRealID();
+				}).nodeify(callback);
 			},
 
 			/** encrypt key with sym key
@@ -2138,11 +2134,9 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 			* @param callback callback
 			*/
 			symEncryptKey: function symEncryptKeyF(realID, parentKeyID, callback) {
-				step(function () {
-					CryptKey.get(realID, this);
-				}, h.sF(function (key) {
-					key.addSymDecryptor(parentKeyID, this);
-				}), callback);
+				return CryptKey.get(realID).then(function (key) {
+					return key.addSymDecryptor(parentKeyID);
+				}).nodeify(callback);
 			},
 
 			/** encrypt key with password
@@ -2151,19 +2145,15 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 			* @param callback callback
 			*/
 			pwEncryptKey: function pwEncryptKeyF(realID, password, callback) {
-				step(function () {
-					CryptKey.get(realID, this);
-				}, h.sF(function (key) {
-					key.addPWDecryptor(password, this);
-				}), callback);
+				return CryptKey.get(realID).then(function (key) {
+					return key.addPWDecryptor(password);
+				}).nodeify(callback);
 			},
 
 			fingerPrintKey: function (realID, cb) {
-				step(function () {
-					CryptKey.get(realID, this);
-				}, h.sF(function (key) {
-					this.ne(key.getFingerPrint());
-				}), cb);
+				return CryptKey.get(realID).then(function (key) {
+					return key.getFingerPrint();
+				}).nodeify(cb);
 			}
 		},
 
@@ -2172,13 +2162,9 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 			* @param callback callback
 			*/
 			generateKey: function generateKeyF(callback, comment) {
-				step(function signGen1() {
-					SignKey.generate("256", this, comment);
-				}, h.sF(function signGen2(key) {
-					var r = key.getRealID();
-
-					this.ne(r);
-				}), callback);
+				return SignKey.generate("256", undefined, comment).then(function (key) {
+					return key.getRealID();
+				}).nodeify(callback);
 			},
 
 			/** encrypt key with sym key
@@ -2187,11 +2173,9 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 			* @param callback callback
 			*/
 			symEncryptKey: function symEncryptKeyF(realID, parentKeyID, callback) {
-				step(function () {
-					SignKey.get(realID, this);
-				}, h.sF(function (key) {
-					key.addSymDecryptor(parentKeyID, this);
-				}), callback);
+				return SignKey.get(realID).then(function (key) {
+					return key.addSymDecryptor(parentKeyID);
+				}).nodeify(callback);
 			},
 
 			/** encrypt key with password
@@ -2200,11 +2184,9 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 			* @param callback callback
 			*/
 			pwEncryptKey: function pwEncryptKeyF(realID, password, callback) {
-				step(function () {
-					SignKey.get(realID, this);
-				}, h.sF(function (key) {
-					key.addPWDecryptor(password, this);
-				}), callback);
+				return SignKey.get(realID).then(function (key) {
+					return key.addPWDecryptor(password);
+				}).nodeify(callback);
 			},
 
 			signObject: function (object, realID, version, callback) {
