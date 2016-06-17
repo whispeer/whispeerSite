@@ -1306,21 +1306,18 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 	* @param callback callback
 	*/
 	function signKeyGenerate(curve, callback, comment) {
-		step(function signGenI1() {
-			waitForReady(this);
-		}, h.sF(function () {
-			var curveO = chelper.getCurve(curve), key = sjcl.ecc.ecdsa.generateKeys(curveO);
-			this.ne(key.pub, key.sec);
-		}), h.sF(function signGenI2(pub, sec) {
+		return waitForReady.async().then(function () {
+			var curveO = chelper.getCurve(curve), rawKey = sjcl.ecc.ecdsa.generateKeys(curveO);
+
 			/*jslint nomen: true*/
-			var p = pub._point, data = {
+			var p = rawKey.pub._point, data = {
 				point: {
 					x: chelper.bits2hex(p.x.toBits()),
 					y: chelper.bits2hex(p.y.toBits())
 				},
-				exponent: sec._exponent.toBits(),
-				realid: generateid(fingerPrintPublicKey(pub)),
-				curve: chelper.getCurveName(pub._curve)
+				exponent: rawKey.sec._exponent.toBits(),
+				realid: generateid(fingerPrintPublicKey(rawKey.pub)),
+				curve: chelper.getCurveName(rawKey.pub._curve)
 			};
 			/*jslint nomen: false*/
 
@@ -1329,8 +1326,8 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 
 			key.setComment(comment);
 
-			this.ne(key);
-		}), callback);
+			return key;
+		}).nodeify(callback);
 	}
 
 	/** get a signature key
