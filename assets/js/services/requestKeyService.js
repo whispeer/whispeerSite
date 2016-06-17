@@ -46,7 +46,7 @@ define(["services/serviceModule", "whispeerHelper", "bluebird", "debug", "crypto
 				return socket.definitlyEmit("key.getMultiple", {
 					loaded: [],
 					realids: identifiers
-				}, this).thenReturn(identifiers);
+				}).thenReturn(identifiers);
 			}).nodeify(cb);
 		}
 
@@ -68,7 +68,7 @@ define(["services/serviceModule", "whispeerHelper", "bluebird", "debug", "crypto
 
 				keyStoreDebug("loading key: " + keyID);
 
-				keyCache.get(keyID).then(function (cacheEntry) {
+				return keyCache.get(keyID).then(function (cacheEntry) {
 					if (cacheEntry.data.removeAfter < new Date().getTime()) {
 						keyStoreDebug("Remove Key from Cache " + keyID);
 						keyCache.delete(keyID);

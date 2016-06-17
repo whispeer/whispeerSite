@@ -190,10 +190,10 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 	* @param callback callback
 	*/
 	function encryptPW(pw, text, callback) {
-		step(function () {
+		return Bluebird.try(function () {
 			var result = sjcl.json._encrypt(pw, text);
 			this.ne(chelper.sjclPacket2Object(result));
-		}, callback);
+		}).nodeify(callback);
 	}
 
 	/** our internal decryption function.
@@ -774,7 +774,7 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 
 	/** load a key and his keychain. remove loaded keys */
 	function getKey(realKeyID, callback) {
-		keyGetFunction(realKeyID, callback);
+		return keyGetFunction(realKeyID, callback);
 	}
 
 	/** load  a symkey and its keychain */
