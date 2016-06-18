@@ -671,7 +671,7 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 		* @param optional iv initialization vector
 		*/
 
-		this.encryptWithPrefix = function (prefix, data, callback, progressCallback, noDecode) {
+		this.encryptWithPrefix = function (prefix, data, progressCallback, noDecode) {
 			if (privateActionsBlocked) {
 				throw new errors.SecurityError("Private Actions are blocked");
 			}
@@ -704,7 +704,7 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 				} else {
 					return chelper.sjclPacket2Object(result);
 				}
-			}).nodeify(callback);
+			});
 		};
 
 		/** decrypt some text.
@@ -2033,15 +2033,13 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 			},
 
 			encryptArrayBuffer: function (buf, realKeyID, callback, progressCallback) {
-				step(function symEncrypt1() {
-					SymKey.get(realKeyID, this);
-				}, h.sF(function symEncrypt2(key) {
-					key.encryptWithPrefix("buf::", buf, this, progressCallback, true);
-				}), h.sF(function (result) {
+				return SymKey.get(realKeyID).then(function (key) {
+					return key.encryptWithPrefix("buf::", buf, progressCallback, true);
+				}).then(function (result) {
 					result.iv = sjcl.codec.arrayBuffer.fromBits(result.iv, false);
 					result.ct.tag = sjcl.codec.arrayBuffer.fromBits(result.ct.tag, false);
-					this.ne(h.concatBuffers(result.iv, result.ct.ciphertext_buffer, result.ct.tag));
-				}), callback);
+					return h.concatBuffers(result.iv, result.ct.ciphertext_buffer, result.ct.tag);
+				}).nodeify(callback);
 			},
 
 			decryptArrayBuffer: function (buf, realKeyID, callback) {
