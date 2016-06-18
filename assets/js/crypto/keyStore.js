@@ -1896,7 +1896,11 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 
 					backupKeyData.decryptors[0].type = "backup";
 
-					this.ne(decryptorsAdded, backupKeyData, outerBackupKey);
+					this.ne({
+						decryptors: decryptorsAdded,
+						innerKey: backupKeyData,
+						outerKey: outerBackupKey
+					});
 				}), callback);
 			},
 
