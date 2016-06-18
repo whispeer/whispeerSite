@@ -23,7 +23,7 @@
 	"y":"YMv7KmTnxpU16ytQrAYgcw4bpoQuPZwLSwvM_imsqxA"
 }
 */
-define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForReady", "crypto/sjclWorkerInclude", "crypto/objectHasher", "asset/errors", "bluebird", "debug"], function (step, h, chelper, sjcl, waitForReady, sjclWorkerInclude, ObjectHasher, errors, Bluebird, debug) {
+define(["whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForReady", "crypto/sjclWorkerInclude", "crypto/objectHasher", "asset/errors", "bluebird", "debug"], function (h, chelper, sjcl, waitForReady, sjclWorkerInclude, ObjectHasher, errors, Bluebird, debug) {
 	"use strict";
 
 	var keyStoreDebug = debug("whispeer:keyStore");
@@ -1876,11 +1876,10 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 				* server never distributes key2 except when advised to do so (manually for now!)
 				*/
 				var backupKey, outerBackupKey, toBackupKey;
-				step(function symGen1() {
-					waitForReady(this);
-				}, h.sF(function () {
-					SymKey.get(realID, this);
-				}), h.sF(function symGen2(_toBackupKey) {
+
+				return waitForReady.async().then(function () {
+					return SymKey.get(realID);
+				}).then(function (_toBackupKey) {
 					toBackupKey = _toBackupKey;
 					outerBackupKey = sjcl.random.randomWords(8);
 					backupKey = new SymKey(sjcl.random.randomWords(8));
@@ -1888,20 +1887,22 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 					makeKeyUsableForEncryption(backupKey.getRealID());
 					makeKeyUsableForEncryption(new SymKey(outerBackupKey).getRealID());
 
-					toBackupKey.addSymDecryptor(backupKey, this.parallel());
-					backupKey.addSymDecryptor(new SymKey(outerBackupKey), this.parallel());
-				}), h.sF(function () {
+					return Bluebird.all([
+						toBackupKey.addSymDecryptor(backupKey),
+						backupKey.addSymDecryptor(new SymKey(outerBackupKey))
+					]);
+				}).then(function () {
 					var decryptorsAdded = keyStore.upload.getDecryptors([toBackupKey.getRealID()], [backupKey.getRealID()]);
 					var backupKeyData = backupKey.getUploadData();
 
 					backupKeyData.decryptors[0].type = "backup";
 
-					this.ne({
+					return {
 						decryptors: decryptorsAdded,
 						innerKey: backupKeyData,
 						outerKey: outerBackupKey
-					});
-				}), callback);
+					};
+				}).nodeify(callback);
 			},
 
 			loadBackupKey: function (outerBackupKey) {
