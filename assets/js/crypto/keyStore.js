@@ -1557,47 +1557,29 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 		}
 	};
 
-	ObjectCryptor.prototype._decryptEndAttribute = function (cb) {
-		var that = this;
-		step(function () {
-			return that._key.decrypt(that._object);
-		}, h.sF(function (result) {
-			this.ne(that.decryptCorrectObject(result));
-		}), cb);
+	ObjectCryptor.prototype._decryptEndAttribute = function () {
+		return this._key.decrypt(this._object).bind(this).then(function (result) {
+			return this.decryptCorrectObject(result);
+		});
 	};
 
-	ObjectCryptor.prototype._decryptPartialObjects = function (cb) {
-		var that = this;
-		step(function () {
-			var attr;
-			for (attr in that._object) {
-				if (that._object.hasOwnProperty(attr) && attr !== "key") {
-					new ObjectCryptor(that._key, that._depth-1, that._object[attr]).decrypt(this.parallel());
-				}
+	ObjectCryptor.prototype._decryptPartialObjects = function () {
+		return Bluebird.props(h.objectMap(this._object, function (value, attr) {
+			if (attr !== "key") {
+				return new ObjectCryptor(this._key, this._depth-1, value).decrypt();
 			}
-			this.parallel()();
-		}, h.sF(function (decrypted) {
-			var attr, count = 0, resultObject = {};
-			for (attr in that._object) {
-				if (that._object.hasOwnProperty(attr) && attr !== "key") {
-					resultObject[attr] = decrypted[count];
-					count+=1;
-				}
-			}
-
-			this.ne(resultObject);
-		}), cb);
+		}, this));
 	};
 
-	ObjectCryptor.prototype.decrypt = function (cb) {
+	ObjectCryptor.prototype.decrypt = function () {
 		if (this._depth < 0) {
 			throw new errors.DecryptionError("invalid decryption depth!");
 		}
 
 		if (this._object.iv && this._object.ct) {
-			this._decryptEndAttribute(cb);
+			return this._decryptEndAttribute();
 		} else {
-			this._decryptPartialObjects(cb);
+			return this._decryptPartialObjects();
 		}
 	};
 
@@ -2010,13 +1992,9 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 			},
 
 			decryptObject: function (cobject, depth, callback, key) {
-				step(function objDecrypt1() {
-					SymKey.get(key || mainKey, this);
-				}, h.sF(function objDecrypt2(key) {
-					new ObjectCryptor(key, depth, cobject).decrypt(this);
-				}), h.sF(function objDecrypt3(result) {
-					this.ne(result);
-				}), callback);
+				return SymKey.get(key || mainKey).then(function () {
+					return new ObjectCryptor(key, depth, cobject).decrypt();
+				}).nodeify(callback);
 			},
 
 			/** decrypt an encrypted text
