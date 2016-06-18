@@ -267,7 +267,7 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 	* @param optional secret unencrypted secret if we already have it
 	*/
 	Key = function keyConstructor(superKey, realid, decryptors, optionals) {
-		var theKey = this, decrypted = new h.FullFiller(), dirtyDecryptors = [], internalSecret, preSecret;
+		var theKey = this, decryptKeyPromise, dirtyDecryptors = [], internalSecret, preSecret;
 
 		if (!decryptors) {
 			decryptors = [];
@@ -287,77 +287,65 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 		if (optionals.secret) {
 			preSecret = optionals.secret;
 			internalSecret = pastProcessor(optionals.secret);
-			decrypted.success();
+			decryptKeyPromise = Bluebird.resolve();
 		}
 
 		/** is the key decrypted */
-		function decryptedF() {
-			return decrypted.isSuccess();
-		}
+		this.decrypted = function decryptedF() {
+			return decryptKeyPromise && decryptKeyPromise.isFulfilled();
+		};
 
-		function decryptKey(cb) {
+		function decryptKey() {
 			var usedDecryptor;
-			return Bluebird.try(function () {
-				usedDecryptor = theKey.getFastestDecryptor();
+			if (!decryptKeyPromise) {
+				decryptKeyPromise = Bluebird.try(function () {
+					usedDecryptor = theKey.getFastestDecryptor();
 
-				if (!usedDecryptor || !usedDecryptor.decryptor) {
-					throw new errors.DecryptionError("Could not Decrypt key!");
-				}
+					if (!usedDecryptor || !usedDecryptor.decryptor) {
+						throw new errors.DecryptionError("Could not Decrypt key!");
+					}
 
-				var d = usedDecryptor.decryptor;
+					var d = usedDecryptor.decryptor;
 
-				return internalDecrypt(d.decryptorid, d.type, d.ct, d.iv, d.salt);
-			}).then(function (result) {
-				if (result === false) {
-					throw new Error("Could not decrypt");
-				}
+					return internalDecrypt(d.decryptorid, d.type, d.ct, d.iv, d.salt);
+				}).then(function (result) {
+					if (result === false) {
+						throw new Error("Could not decrypt");
+					}
 
-				if (usedDecryptor.decryptor.type === "cryptKey") {
-					h.callEach(improvementListener, [theKey.getRealID()]);
-				}
+					if (usedDecryptor.decryptor.type === "cryptKey") {
+						h.callEach(improvementListener, [theKey.getRealID()]);
+					}
 
-				return pastProcessor(result);
-			}).then(function (pastProcessedSecret) {
-				preSecret = internalSecret;
-				internalSecret = pastProcessedSecret;
-			}).catch(function (err) {
-				globalErrors.push(err || { err: "internaldecryptor returned false for realid: " + realid });
-				keyStoreDebug(err);
-				keyStoreDebug("decryptor failed for key: " + realid);
+					return pastProcessor(result);
+				}).then(function (pastProcessedSecret) {
+					preSecret = internalSecret;
+					internalSecret = pastProcessedSecret;
+				}).catch(function (err) {
+					globalErrors.push(err || { err: "internaldecryptor returned false for realid: " + realid });
+					keyStoreDebug(err);
+					keyStoreDebug("decryptor failed for key: " + realid);
 
-				decryptors = decryptors.filter(function (decryptor) {
-					return decryptor !== usedDecryptor.decryptor;
+					decryptors = decryptors.filter(function (decryptor) {
+						return decryptor !== usedDecryptor.decryptor;
+					});
+
+					if (decryptors.length === 0) {
+						throw new errors.DecryptionError("Could finally not decrypt key!");
+					}
+
+					return decryptKey();
 				});
+			}
 
-				if (decryptors.length === 0) {
-					throw new errors.DecryptionError("Could finally not decrypt key!");
-				}
-
-				return decryptKey();
-			}).nodeify(cb);
+			return decryptKeyPromise;
 		}
 
 		/** decrypt this key.
 		* @param callback called with true/false
 		* searches your whole keyspace for a decryptor and decrypts if possible
 		*/
-		function decryptKeyF(callback) {
-			step(function () {
-				window.setTimeout(this);
-			}, h.sF(function () {
-				afterAsyncCall();
-				decrypted.await(callback);
-				decrypted.start(this);
-			}), h.sF(function () {
-				decryptKey(this);
-			}), decrypted.finish);
-		}
-
-		this.decrypted = decryptedF;
-		this.decryptKey = function (callback) {
-			var decryptAsync = Bluebird.promisify(decryptKeyF);
-			return decryptAsync().nodeify(callback);
-		};
+		this.decryptKey = decryptKey;
 
 
 		/** getter for real id */
@@ -713,9 +701,7 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 		* @param optional iv initialization vector
 		*/
 		this.decrypt = function (ctext, iv) {
-			var decryptKeyAsync = Bluebird.promisify(intKey.decryptKey, intKey);
-
-			return decryptKeyAsync().then(function () {
+			return intKey.decryptKey().then(function () {
 				if (typeof ctext !== "object") {
 					if (h.isHex(ctext)) {
 						ctext = chelper.hex2bits(ctext);
