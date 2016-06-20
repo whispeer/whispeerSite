@@ -1982,8 +1982,8 @@ define(["whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForReady", "
 				}).nodeify(callback);
 			},
 
-			decryptObject: function (cobject, depth, callback, key) {
-				return SymKey.get(key || mainKey).then(function () {
+			decryptObject: function (cobject, depth, callback, keyID) {
+				return SymKey.get(keyID || mainKey).then(function (key) {
 					return new ObjectCryptor(key, depth, cobject).decrypt();
 				}).nodeify(callback);
 			},
