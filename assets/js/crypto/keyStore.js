@@ -576,14 +576,13 @@ define(["whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForReady", "
 		this.removeDirty = removeDirtyF;
 
 		/** get the secret of this key */
-		function getSecretF() {
-			if (decrypted.isSuccess()) {
+		this.getSecret = function () {
+			if (this.decrypted()) {
 				return internalSecret;
 			}
 
 			return false;
-		}
-		this.getSecret = getSecretF;
+		};
 	};
 
 	/** a SymKey.
