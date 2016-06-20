@@ -271,7 +271,7 @@ define([
 			this.addMessages = function (messages, addUnread) {
 				messages.forEach(function (message) {
 					var id = message.getID();
-					data.newestTime = Math.max(message.getTime(), data.newestTime);
+					data.newestTime = Math.max(message.getTime(), data.newestTime || 0);
 
 					message.verifyParent(theTopic);
 
