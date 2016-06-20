@@ -46,7 +46,7 @@ define(["workerQueue", "bluebird", "crypto/minimalHelper", "config"], function (
 	var workerCount = 4;
 
 	if (navigator.hardwareConcurrency) {
-		workerCount = Math.max(navigator.hardwareConcurrency, workerCount);
+		workerCount = Math.max(navigator.hardwareConcurrency - 1, workerCount);
 	}
 
 	//Promise, numberOfWorkers, workerPath, setupMethod, requireOverRide
