@@ -97,18 +97,14 @@ define(["whispeerHelper", "step", "crypto/keyStore", "asset/errors", "config", "
 	};
 
 	SecuredDataWithMetaData.prototype.getUpdatedData = function (signKey, cb) {
-		var that = this;
-
-		step(function () {
-			return that.verify(signKey);
-		}, h.sF(function () {
-			if (that._hasContent) {
-				keyStore.security.addEncryptionIdentifier(that._original.meta._key);
-				that._signAndEncrypt(signKey, that._original.meta._key, this);
-			} else {
-				that.sign(signKey, this);
+		return this.verify(signKey).bind(this).then(function () {
+			if (this._hasContent) {
+				keyStore.security.addEncryptionIdentifier(this._original.meta._key);
+				return this._signAndEncrypt(signKey, this._original.meta._key);
 			}
-		}), cb);
+
+			return this.sign(signKey, this);
+		}).nodeify(cb);
 	};
 
 	/** sign and encrypt this object.
