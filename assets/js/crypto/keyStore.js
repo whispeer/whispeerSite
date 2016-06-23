@@ -1688,7 +1688,7 @@ define(["whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForReady", "
 			addPaddingToObject: function (obj, minLength, cb) {
 				minLength = minLength || 128;
 
-				new ObjectPadder(obj, minLength).pad(cb);
+				return new ObjectPadder(obj, minLength).pad(cb);
 			},
 			removePaddingFromObject: function (obj, padLength) {
 				padLength = padLength || 128;

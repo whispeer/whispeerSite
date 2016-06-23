@@ -119,34 +119,31 @@ define(["whispeerHelper", "step", "crypto/keyStore", "asset/errors", "config", "
 		@param cb callback(cryptedData, metaData),
 	*/
 	SecuredDataWithMetaData.prototype._signAndEncrypt = function (signKey, cryptKey, cb) {
-		var that = this;
-		if (!that._hasContent) {
+		if (!this._hasContent) {
 			throw new Error("can only sign and not encrypt");
 		}
 
-		if (that._original.meta._key && (that._original.meta._key !== cryptKey || !that._isKeyVerified)) {
+		if (this._original.meta._key && (this._original.meta._key !== cryptKey || !this._isKeyVerified)) {
 			throw new Error("can not re-encrypt an old object with new key!");
 		}
 
-		step(function () {
-			//add padding!
-			return keyStore.hash.addPaddingToObject(that._updated.content, 128);
-		}, h.sF(function (paddedContent) {
-			that._updated.paddedContent = paddedContent;
+		return keyStore.hash.addPaddingToObject(this._updated.content, 128).bind(this).then(function (paddedContent) {
+			this._updated.paddedContent = paddedContent;
 
-			that._updated.meta._key = keyStore.correctKeyIdentifier(cryptKey);
+			this._updated.meta._key = keyStore.correctKeyIdentifier(cryptKey);
 
-			this.parallel.unflatten();
-			keyStore.sym.encryptObject(paddedContent, cryptKey, that._encryptDepth, this.parallel());
-			that.sign(signKey, this.parallel());
-		}), h.sF(function (cryptedData, meta) {
-			that._updated.meta = meta;
+			return Bluebird.all([
+				keyStore.sym.encryptObject(paddedContent, cryptKey, this._encryptDepth),
+				this.sign(signKey)
+			]);
+		}).spread(function (cryptedData, meta) {
+			this._updated.meta = meta;
 
-			this.ne({
+			return {
 				content: cryptedData,
 				meta: meta
-			});
-		}), cb);
+			};
+		}).nodeify(cb);
 	};
 
 	/** verify the decrypted data
