@@ -74,7 +74,7 @@ define(["step", "whispeerHelper", "asset/state", "libs/qr", "libs/filesaver", "c
 
 		$scope.downloadBackup = function () {
 			step(function () {
-				saveAs(backupBlob, "whispeer-backup.png");
+				saveAs(backupBlob, "whispeer-backup-" + userService.getown().getNickname() + ".png");
 
 				$scope.goToNext();
 			}, errorService.criticalError);
