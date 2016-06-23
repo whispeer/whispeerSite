@@ -1,4 +1,4 @@
-define(["whispeerHelper", "step", "crypto/keyStore", "asset/errors", "config", "bluebird"], function (h, step, keyStore, errors, config, Bluebird) {
+define(["whispeerHelper", "crypto/keyStore", "asset/errors", "config", "bluebird"], function (h, keyStore, errors, config, Bluebird) {
 	"use strict";
 
 	var attributesNeverVerified = ["_signature", "_hashObject"];
