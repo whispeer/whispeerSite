@@ -380,11 +380,10 @@ define(["whispeerHelper", "step", "crypto/keyStore", "asset/errors", "config", "
 		},
 		create: function (content, meta, options, signKey, cryptKey, cb) {
 			var secured = new SecuredDataWithMetaData(content, meta, options, true);
-			step(function () {
-				window.setTimeout(this, 0);
-			}, h.sF(function () {
-				secured._signAndEncrypt(signKey, cryptKey, this);
-			}), cb);
+
+			Bluebird.resolve().delay(1).then(function () {
+				return secured._signAndEncrypt(signKey, cryptKey);
+			}).nodeify(cb);
 
 			return secured;
 		},
