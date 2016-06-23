@@ -64,7 +64,7 @@ define(["whispeerHelper", "step", "crypto/keyStore", "asset/errors", "config", "
 		var toSign = h.deepCopyObj(that._updated.meta);
 		var hashVersion = config.hashVersion;
 
-		step(function () {
+		return Bluebird.try(function () {
 			toSign._version = 1;
 			toSign._type = that._type;
 
@@ -78,7 +78,7 @@ define(["whispeerHelper", "step", "crypto/keyStore", "asset/errors", "config", "
 			if (that._updated.paddedContent || that._updated.content) {
 				var hashContent = that._updated.paddedContent || that._updated.content;
 
-				keyStore.hash.hashObjectOrValueHexAsync(hashContent).then(function (contentHash) {
+				return keyStore.hash.hashObjectOrValueHexAsync(hashContent).then(function (contentHash) {
 					toSign._contentHash = contentHash;
 
 					//create new ownHash
@@ -86,24 +86,22 @@ define(["whispeerHelper", "step", "crypto/keyStore", "asset/errors", "config", "
 					return keyStore.hash.hashObjectOrValueHexAsync(toSign);
 				}).then(function (ownHash) {
 					toSign._ownHash = ownHash;
-				}).nodeify(this);
-			} else {
-				this();
+				});
 			}
-		}, h.sF(function () {
-			keyStore.sign.signObject(toSign, signKey, hashVersion, this);
-		}), h.sF(function (signature) {
+		}).then(function () {
+			return keyStore.sign.signObject(toSign, signKey, hashVersion);
+		}).then(function (signature) {
 			toSign._signature = signature;
 
-			this.ne(toSign);
-		}), cb);
+			return toSign;
+		}).nodeify(cb);
 	};
 
 	SecuredDataWithMetaData.prototype.getUpdatedData = function (signKey, cb) {
 		var that = this;
 
 		step(function () {
-			that.verify(signKey, this);
+			return that.verify(signKey);
 		}, h.sF(function () {
 			if (that._hasContent) {
 				keyStore.security.addEncryptionIdentifier(that._original.meta._key);
@@ -132,7 +130,7 @@ define(["whispeerHelper", "step", "crypto/keyStore", "asset/errors", "config", "
 
 		step(function () {
 			//add padding!
-			keyStore.hash.addPaddingToObject(that._updated.content, 128, this);
+			return keyStore.hash.addPaddingToObject(that._updated.content, 128);
 		}, h.sF(function (paddedContent) {
 			that._updated.paddedContent = paddedContent;
 
