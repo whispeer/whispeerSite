@@ -192,7 +192,7 @@ define(["whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForReady", "
 	function encryptPW(pw, text, callback) {
 		return Bluebird.try(function () {
 			var result = sjcl.json._encrypt(pw, text);
-			this.ne(chelper.sjclPacket2Object(result));
+			return chelper.sjclPacket2Object(result);
 		}).nodeify(callback);
 	}
 
