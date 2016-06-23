@@ -334,6 +334,8 @@ define(["whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForReady", "
 						throw new errors.DecryptionError("Could finally not decrypt key!");
 					}
 
+					decryptKeyPromise = undefined;
+
 					return decryptKey();
 				});
 			}

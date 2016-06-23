@@ -23,10 +23,12 @@ define([
 		"services/initService",
 		"services/migrationService",
 		"services/friendsService",
+
+		"services/trustService"
 	], function (h, step, State, qrreader, controllerModule) {
 	"use strict";
 
-	function recoveryController($scope, socketService, keyStore, sessionService, userService, errorService) {
+	function recoveryController($scope, socketService, keyStore, sessionService, trustService, userService, errorService) {
 		var parts = window.location.pathname.split("/");
 		var nick, recoveryCode;
 
@@ -141,7 +143,7 @@ define([
 		};
 	}
 
-	recoveryController.$inject = ["$scope", "ssn.socketService", "ssn.keyStoreService", "ssn.sessionService", "ssn.userService", "ssn.errorService"];
+	recoveryController.$inject = ["$scope", "ssn.socketService", "ssn.keyStoreService", "ssn.sessionService", "ssn.trustService", "ssn.userService", "ssn.errorService"];
 
 	controllerModule.controller("ssn.recoveryController", recoveryController);
 });
