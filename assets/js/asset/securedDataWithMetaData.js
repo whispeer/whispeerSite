@@ -28,7 +28,6 @@ define(["whispeerHelper", "step", "crypto/keyStore", "asset/errors", "config", "
 		this._attributesNotVerified = attributesNeverVerified.concat(this._attributesNotVerified);
 
 		this._decrypted = isDecrypted;
-		this._decryptionFullFiller = new h.FullFiller();
 
 		this._hasContent = true;
 
@@ -202,58 +201,52 @@ define(["whispeerHelper", "step", "crypto/keyStore", "asset/errors", "config", "
 		this._changed = false;
 	};
 
-	SecuredDataWithMetaData.prototype._decrypt = function (cb) {
-		var that = this;
+	SecuredDataWithMetaData.prototype._decrypt = function () {
+		if (!this._decryptionPromise) {
+			this._decryptionPromise = keyStore.sym.decryptObject(
+				this._original.encryptedContent,
+				this._encryptDepth,
+				undefined,
+				this._original.meta._key
+			).bind(this).then(function (decryptedData) {
+				this._decrypted = true;
+				this._original.paddedContent = decryptedData;
+				this._original.content = keyStore.hash.removePaddingFromObject(decryptedData, 128);
+				this._updated.content = h.deepCopyObj(this._original.content);
 
-		step(function () {
-			that._decryptionFullFiller.await(cb);
-			that._decryptionFullFiller.start(this);
-		}, h.sF(function () {
-			keyStore.sym.decryptObject(that._original.encryptedContent, that._encryptDepth, this, that._original.meta._key);
-		}), h.sF(function (decryptedData) {
-			that._decrypted = true;
-			that._original.paddedContent = decryptedData;
-			that._original.content = keyStore.hash.removePaddingFromObject(decryptedData, 128);
-			that._updated.content = h.deepCopyObj(that._original.content);
+				return this._verifyContentHash();
+			});
+		}
 
-			that._verifyContentHash(this);
-		}), this._decryptionFullFiller.finish);
+		return this._decryptionPromise;
 	};
 
 	SecuredDataWithMetaData.prototype.decrypt = function (cb) {
-		var that = this;
+		return Bluebird.resolve().bind(this).then(function () {
+			if (this._hasContent && !this._decrypted) {
+				return this._decrypt();
+			}
+		}).then(function () {
+			if (!this._hasContent) {
+				return;
+			}
 
-		if (!this._hasContent) {
-			cb();
-			return;
-		}
-
-		if (this._decrypted) {
-			cb(null, this._original.content);
-			return;
-		}
-
-		step(function () {
-			that._decrypt(this);
-		}, h.sF(function () {
-			this.ne(that._original.content);
-		}), cb);
+			return this._original.content;
+		}).nodeify(cb);
 	};
 
 	SecuredDataWithMetaData.prototype._verifyContentHash = function(cb) {
 		if (!this._hasContent || !this._decrypted) {
-			return step.unpromisify(Bluebird.resolve(), cb);
+			return Bluebird.resolve().nodeify(cb);
 		}
 
-		var p = Bluebird.bind(this).then(function () {
+		return Bluebird.bind(this).then(function () {
 			return keyStore.hash.hashObjectOrValueHexAsync(this._original.paddedContent || this._original.content);
 		}).then(function (hash) {
 			if (hash !== this._original.meta._contentHash) {
 				throw new errors.SecurityError("content hash did not match");
 			}
-		});
-
-		return step.unpromisify(p, cb);
+		}).nodeify(cb);
 	};
 
 	SecuredDataWithMetaData.prototype.isChanged = function () {
