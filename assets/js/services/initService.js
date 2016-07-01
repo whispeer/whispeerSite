@@ -15,7 +15,7 @@ define(["services/serviceModule", "bluebird", "asset/observer", "debug"], functi
 		}
 	}
 
-	var service = function ($timeout, $rootScope, errorService, socketService, sessionService, migrationService, CacheService, keyStore) {
+	var service = function ($timeout, $rootScope, errorService, socketService, sessionService, migrationService, CacheService, keyStore, requestKeyService) {
 		var initRequestsList = [], initCallbacks = [], initCacheCallbacks = [], initService, blockageToken;
 
 		function getCache(initRequest) {
@@ -117,6 +117,8 @@ define(["services/serviceModule", "bluebird", "asset/observer", "debug"], functi
 			keyStore.security.blockPrivateActions();
 			blockageToken = socketService.blockEmitWithToken();
 
+			requestKeyService.setBlockageToken(blockageToken);
+
 			var runningInitCallbacks;
 			return Bluebird.resolve().then(function () {
 
@@ -188,7 +190,7 @@ define(["services/serviceModule", "bluebird", "asset/observer", "debug"], functi
 		return initService;
 	};
 
-	service.$inject = ["$timeout", "$rootScope", "ssn.errorService", "ssn.socketService", "ssn.sessionService", "ssn.migrationService", "ssn.cacheService", "ssn.keyStoreService"];
+	service.$inject = ["$timeout", "$rootScope", "ssn.errorService", "ssn.socketService", "ssn.sessionService", "ssn.migrationService", "ssn.cacheService", "ssn.keyStoreService", "ssn.requestKeyService"];
 
 	serviceModule.factory("ssn.initService", service);
 });
