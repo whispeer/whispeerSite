@@ -17,7 +17,7 @@ define([
 	var debugName = "whispeer:topic";
 	var topicDebug = debug(debugName);
 
-	function topicModel($timeout, windowService, socket, userService, keyStore, sessionService, Message, initService) {
+	function topicModel($timeout, windowService, socket, userService, keyStore, sessionService, Message, initService, TopicUpdate) {
 		function sortGetTime(a, b) {
 			return (a.getTime() - b.getTime());
 		}
@@ -72,6 +72,7 @@ define([
 			}
 
 			var receiver = meta.metaAttr("receiver");
+			var latestTopicUpdate;
 
 			this.data = {
 				remaining: 1,
@@ -98,6 +99,31 @@ define([
 					theTopic.refetchMessages();
 				}, h.randomIntFromInterval(500, 5000));
 			});
+
+			this._useTopicUpdate = function (topicUpdateData) {
+				if (!topicUpdateData) {
+					return Bluebird.resolve();
+				}
+
+				var previousTopicUpdate = latestTopicUpdate;
+
+				topicUpdateData = new TopicUpdate(topicUpdateData);
+
+				latestTopicUpdate = topicUpdateData;
+				return latestTopicUpdate.getTitle().bind(this).then(function (title) {
+					latestTopicUpdate.ensureParent(this);
+
+					if (previousTopicUpdate) {
+						latestTopicUpdate.ensureIsAfterTopicUpdate(previousTopicUpdate);
+					}
+
+					this.data.title = title;
+				}).then(function () {
+					return latestTopicUpdate;
+				});
+			};
+
+			this._useTopicUpdate(data.latestTopicUpdate);
 
 			this.refetchMessages = function () {
 				if (this.fetchingMessages) {
@@ -199,6 +225,25 @@ define([
 
 			this.wasReadOnOtherClient = function () {
 				setUnread([]);
+			};
+
+			this.getLatestTopicUpdate = function () {
+				return socket.definitlyEmit("messages.getLatestTopicUpdate", {
+					topicID: this.getID()
+				}).bind(this).then(function (response) {
+					return this._useTopicUpdate(response.topicUpdate);
+				});
+			};
+
+			this.setTitle = function (title) {
+				return this.getLatestTopicUpdate().bind(this).then(function (previousTopicUpdate) {
+					return TopicUpdate.create(this, {
+						title: title,
+						previousTopicUpdate: previousTopicUpdate
+					});
+				}).then(function (topicUpdate) {
+					this._useTopicUpdate(topicUpdate);
+				});
 			};
 
 			this.markRead = function markMessagesRead(cb) {
@@ -629,7 +674,7 @@ define([
 		return Topic;
 	}
 
-	topicModel.$inject = ["$timeout", "ssn.windowService", "ssn.socketService", "ssn.userService", "ssn.keyStoreService", "ssn.sessionService", "ssn.models.message", "ssn.initService"];
+	topicModel.$inject = ["$timeout", "ssn.windowService", "ssn.socketService", "ssn.userService", "ssn.keyStoreService", "ssn.sessionService", "ssn.models.message", "ssn.initService", "ssn.models.topicUpdate"];
 
 	modelsModule.factory("ssn.models.topic", topicModel);
 });

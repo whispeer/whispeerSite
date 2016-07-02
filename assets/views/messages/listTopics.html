@@ -16,7 +16,8 @@
 								<userimage data-ng-repeat="partner in ::topic.partnersDisplay" data-user="partner"></userimage>
 							</div>
 						</div>
-						<div class="username">
+						<div data-ng-if="topic.title" class="username"><strong>{{topic.title}}</strong></div>
+						<div class="username" data-ng-if="!topic.title">
 							<span ng-repeat="partner in ::topic.partners">
 								<span class="status" data-status="{{partner.online}}"></span>
 								<strong data-ng-if="::(topic.partners.length <= 1)">{{partner.name}}</strong>

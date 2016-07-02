@@ -13,6 +13,18 @@ define(["step", "whispeerHelper", "asset/state", "bluebird", "messages/messagesM
 
 		var topicID = h.parseDecimal($stateParams.topicid);
 
+		$scope.saveTitle = function () {
+			var topicDetailsSavingState = new State();
+			$scope.topicDetailsSavingState = topicDetailsSavingState.data;
+
+			topicDetailsSavingState.pending();
+
+			var savePromise = $scope.activeTopic.obj.setTitle($scope.topicTitle);
+			errorService.failOnErrorPromise(topicDetailsSavingState, savePromise);
+		};
+
+		$scope.topicTitle = "";
+
 		var topic;
 		step(function () {
 			messageService.getTopic(topicID, this);
@@ -21,6 +33,8 @@ define(["step", "whispeerHelper", "asset/state", "bluebird", "messages/messagesM
 
 			messageService.setActiveTopic(topicID);
 			$scope.activeTopic = topic.data;
+
+			$scope.topicTitle = topic.data.title || "";
 
 			console.log(topic.data);
 		}), errorService.failOnError(topicLoadingState));

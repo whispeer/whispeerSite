@@ -1,8 +1,9 @@
 <div class="box-rightWrap">
 	<div class="box-header box-header--padding">
 		<span class="box-header-title box-header-title--full-noExtras" data-ng-if="!editingTitle">
-			<span data-i18n="messages.chat"></span>
-			<span data-ng-repeat="partner in activeTopic.partners">
+			<span data-ng-if="activeTopic.title">{{activeTopic.title}}</span>
+			<span data-i18n="messages.chat" data-ng-if="!activeTopic.title"></span>
+			<span data-ng-repeat="partner in activeTopic.partners" data-ng-if="!activeTopic.title">
 				<span class="status" data-status="{{partner.online}}" data-ng-if="::!partner.notExisting"></span>
 				<a whispeer-sref="app.user.info({identifier: partner.names.nickname})" data-ng-if="::!partner.notExisting">
 					<span data-ng-if="::activeTopic.partners.length>2">{{partner.basic.shortname}}</span>

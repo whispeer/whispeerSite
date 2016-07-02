@@ -58,6 +58,10 @@ define(["whispeerHelper", "crypto/keyStore", "asset/errors", "config", "bluebird
 		return this._updated.meta._ownHash;
 	};
 
+	SecuredDataWithMetaData.prototype.getKey = function () {
+		return this._original.meta._key;
+	};
+
 	SecuredDataWithMetaData.prototype.sign = function (signKey, cb) {
 		var that = this;
 		var toSign = h.deepCopyObj(that._updated.meta);
