@@ -13,10 +13,10 @@ define(["step", "whispeerHelper", "asset/state", "bluebird", "messages/messagesM
 
 		var topicID = h.parseDecimal($stateParams.topicid);
 
-		$scope.saveTitle = function () {
-			var topicDetailsSavingState = new State();
-			$scope.topicDetailsSavingState = topicDetailsSavingState.data;
+		var topicDetailsSavingState = new State();
+		$scope.topicDetailsSavingState = topicDetailsSavingState.data;
 
+		$scope.saveTitle = function () {
 			topicDetailsSavingState.pending();
 
 			var savePromise = $scope.activeTopic.obj.setTitle($scope.topicTitle);
