@@ -1,7 +1,11 @@
 <div class="box-rightWrap">
 	<div class="box-header box-header--padding">
 		<span class="box-header-title box-header-title--full-noExtras" data-ng-if="!editingTitle">
-			<span data-ng-if="activeTopic.title">{{activeTopic.title}}</span>
+			<span data-ng-if="activeTopic.title">
+				<a whispeer-sref="app.messages.detail({topicid: activeTopic.id})">
+					{{activeTopic.title}}
+				</a>
+			</span>
 			<span data-i18n="messages.chat" data-ng-if="!activeTopic.title"></span>
 			<span data-ng-repeat="partner in activeTopic.partners" data-ng-if="!activeTopic.title">
 				<span class="status" data-status="{{partner.online}}" data-ng-if="::!partner.notExisting"></span>
@@ -21,19 +25,19 @@
 				</a>
 				<ul class="button-dropdown" data-ng-if="showMessageOptions">
 					<li class="button-dropdown-action">
-						<a whispeer-sref="app.messages.detail({topicid: activeTopic.id})" class="button-dropdown-action-text">Optionen</a>
+						<a whispeer-sref="app.messages.detail({topicid: activeTopic.id})" class="button-dropdown-action-text" data-i18n="messages.details"></a>
 					</li>
-					<li class="button-dropdown-action">
+					<li class="button-dropdown-action" data-ng-if="doNotShow">
 						<a class="button-dropdown-action-text" data-ng-click="toggleMessageOptions()">
 							Archivieren
 						</a>
 					</li>
-					<li class="button-dropdown-action" data-ng-if="activeTopic.partners.length <= 2">
+					<li class="button-dropdown-action" data-ng-if="activeTopic.partners.length <= 2 && doNotShow">
 						<a class="button-dropdown-action-text" data-ng-click="toggleMessageOptions()">
 							Nutzer blockieren
 						</a>
 					</li>
-					<li class="button-dropdown-action" data-ng-if="activeTopic.partners.length <= 2">
+					<li class="button-dropdown-action" data-ng-if="activeTopic.partners.length <= 2 && doNotShow">
 						<a class="button-dropdown-action-text" data-ng-click="toggleMessageOptions()">
 							Als Freund hinzufügen
 						</a>

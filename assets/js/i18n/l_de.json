@@ -373,6 +373,7 @@
 		"removeComment": "Kommentar löschen"
 	},
 	"messages": {
+		"details": "Chat Info",
 		"endOfStream": "Konversation gestartet am {date}",
 		"remaining": "Nachrichten werden geladen. {count} verbleibend",
 		"title": "Nachrichten",
