@@ -7,6 +7,7 @@ define(["services/serviceModule", "whispeerHelper", "bluebird", "debug", "crypto
 
 		var keyCache = new CacheService("keys");
 		var keyStoreDebug = debug("whispeer:keyStore");
+		var blockageToken = "";
 
 		function cleanCache() {
 			return keyCache.all().each(function (cacheEntry) {
@@ -44,9 +45,10 @@ define(["services/serviceModule", "whispeerHelper", "bluebird", "debug", "crypto
 				}
 
 				return socket.definitlyEmit("key.getMultiple", {
+					blockageToken: blockageToken,
 					loaded: [],
 					realids: identifiers
-				}, this).thenReturn(identifiers);
+				}).thenReturn(identifiers);
 			}).nodeify(cb);
 		}
 
@@ -57,6 +59,9 @@ define(["services/serviceModule", "whispeerHelper", "bluebird", "debug", "crypto
 		/** load a key and his keychain. remove loaded keys */
 		return {
 			MAXCACHETIME: MAXCACHETIME,
+			setBlockageToken: function (_blockageToken) {
+				blockageToken = _blockageToken;
+			},
 			getKey: function (keyID, callback) {
 				if (typeof keyID !== "string") {
 					throw new Error("not a valid key realid: " + keyID);
@@ -68,7 +73,7 @@ define(["services/serviceModule", "whispeerHelper", "bluebird", "debug", "crypto
 
 				keyStoreDebug("loading key: " + keyID);
 
-				keyCache.get(keyID).then(function (cacheEntry) {
+				return keyCache.get(keyID).then(function (cacheEntry) {
 					if (cacheEntry.data.removeAfter < new Date().getTime()) {
 						keyStoreDebug("Remove Key from Cache " + keyID);
 						keyCache.delete(keyID);

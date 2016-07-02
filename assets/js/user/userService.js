@@ -343,23 +343,18 @@ define(["step", "whispeerHelper", "user/userModule", "asset/observer", "crypto/s
 		var cachedInfo;
 
 		initService.registerCacheCallback(function () {
-			var cacheEntry;
 			var ownUserCache = new CacheService("ownUser");
 
-			return ownUserCache.get(sessionService.getUserID()).catch(function () {
-				return false;
-			}).then(function (_cacheEntry) {
-				cacheEntry = _cacheEntry;
-
-				if (cacheEntry) {
-					cachedInfo = getInfoFromCacheEntry(cacheEntry.data);
-
-					loadOwnUser(cacheEntry.data, false);
-
-					ownUserStatus.loadedCacheResolve();
+			return ownUserCache.get(sessionService.getUserID()).then(function (cacheEntry) {
+				if (!cacheEntry) {
+					throw new Error("No user Cache");
 				}
 
-				return;
+				cachedInfo = getInfoFromCacheEntry(cacheEntry.data);
+
+				return loadOwnUser(cacheEntry.data, false);
+			}).then(function () {
+				ownUserStatus.loadedCacheResolve();
 			});
 		});
 

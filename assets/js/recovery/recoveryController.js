@@ -23,12 +23,16 @@ define([
 		"services/initService",
 		"services/migrationService",
 		"services/friendsService",
+
+		"services/trustService"
 	], function (h, step, State, qrreader, controllerModule) {
 	"use strict";
 
-	function recoveryController($scope, socketService, keyStore, sessionService, userService, errorService) {
+	function recoveryController($scope, socketService, keyStore, sessionService, trustService, userService, errorService, Cache) {
 		var parts = window.location.pathname.split("/");
 		var nick, recoveryCode;
+
+		Cache.disable();
 
 		parts = parts.filter(function (v) {
 			return v !== "";
@@ -75,6 +79,9 @@ define([
 			step(function () {
 				userService.getown().changePassword($scope.changePassword.password, this);
 			}, h.sF(function () {
+				if (window.indexedDB) {
+					window.indexedDB.deleteDatabase("whispeerCache");
+				}
 				sessionService.saveSession();
 				window.location.href = "/main";
 			}), errorService.failOnError(savePasswordState));
@@ -141,7 +148,7 @@ define([
 		};
 	}
 
-	recoveryController.$inject = ["$scope", "ssn.socketService", "ssn.keyStoreService", "ssn.sessionService", "ssn.userService", "ssn.errorService"];
+	recoveryController.$inject = ["$scope", "ssn.socketService", "ssn.keyStoreService", "ssn.sessionService", "ssn.trustService", "ssn.userService", "ssn.errorService", "ssn.cacheService"];
 
 	controllerModule.controller("ssn.recoveryController", recoveryController);
 });

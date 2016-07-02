@@ -23,7 +23,7 @@
 	"y":"YMv7KmTnxpU16ytQrAYgcw4bpoQuPZwLSwvM_imsqxA"
 }
 */
-define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForReady", "crypto/sjclWorkerInclude", "crypto/objectHasher", "asset/errors", "bluebird", "debug"], function (step, h, chelper, sjcl, waitForReady, sjclWorkerInclude, ObjectHasher, errors, Bluebird, debug) {
+define(["whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForReady", "crypto/sjclWorkerInclude", "crypto/objectHasher", "asset/errors", "bluebird", "debug"], function (h, chelper, sjcl, waitForReady, sjclWorkerInclude, ObjectHasher, errors, Bluebird, debug) {
 	"use strict";
 
 	var keyStoreDebug = debug("whispeer:keyStore");
@@ -190,10 +190,10 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 	* @param callback callback
 	*/
 	function encryptPW(pw, text, callback) {
-		step(function () {
+		return Bluebird.try(function () {
 			var result = sjcl.json._encrypt(pw, text);
-			this.ne(chelper.sjclPacket2Object(result));
-		}, callback);
+			return chelper.sjclPacket2Object(result);
+		}).nodeify(callback);
 	}
 
 	/** our internal decryption function.
@@ -204,31 +204,28 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 	* @param iv necessary for symkey/pw encrypted data
 	* @param salt necessary for pw encrypted data
 	*/
-	function internalDecrypt(decryptorid, decryptortype, ctext, callback, iv, salt) {
-		step(function () {
-			var cryptor;
+	function internalDecrypt(decryptorid, decryptortype, ctext, iv, salt) {
+		return Bluebird.try(function () {
 			if (decryptortype === "symKey" || decryptortype === "backup") {
-				step(function () {
-					SymKey.get(decryptorid, this);
-				}, h.sF(function (theKey) {
-					cryptor = theKey;
-					theKey.decryptKey(this);
-				}), h.sF(function () {
-					cryptor.decrypt(ctext, this, iv);
-				}), h.sF(function (decryptedData) {
-					this.ne(removeExpectedPrefix(decryptedData, "key::"));
-				}), callback);
+				return Bluebird.try(function () {
+					return SymKey.get(decryptorid);
+				}).then(function (theKey) {
+					return theKey.decryptKey().thenReturn(theKey);
+				}).then(function (theKey) {
+					return theKey.decrypt(ctext, iv);
+				}).then(function (decryptedData) {
+					return removeExpectedPrefix(decryptedData, "key::");
+				});
 			} else if (decryptortype === "cryptKey") {
-				step(function () {
-					CryptKey.get(decryptorid, this);
-				}, h.sF(function (theKey) {
-					cryptor = theKey;
-					theKey.decryptKey(this);
-				}), h.sF(function () {
-					cryptor.unkem(chelper.hex2bits(ctext), this);
-				}), callback);
+				return Bluebird.try(function () {
+					return CryptKey.get(decryptorid);
+				}).then(function (theKey) {
+					return theKey.decryptKey().thenReturn(theKey);
+				}).then(function (theKey) {
+					return theKey.unkem(chelper.hex2bits(ctext));
+				});
 			} else if (decryptortype === "pw") {
-				step(function () {
+				return Bluebird.try(function () {
 					var jsonData = chelper.Object2sjclPacket({
 						ct: ctext,
 						iv: iv,
@@ -237,16 +234,15 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 					if (password !== "") {
 						result = sjcl.decrypt(password, jsonData, { raw: 1 });
 
-						this.ne(removeExpectedPrefix(result, "key::"));
-						return;
+						return removeExpectedPrefix(result, "key::");
 					}
 
 					throw new errors.DecryptionError("no pw");
-				}, callback);
+				});
 			} else {
 				throw new errors.InvalidDataError("invalid decryptortype");
 			}
-		}, callback);
+		});
 	}
 
 	/** returns a decryptors object if loaded
@@ -271,7 +267,7 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 	* @param optional secret unencrypted secret if we already have it
 	*/
 	Key = function keyConstructor(superKey, realid, decryptors, optionals) {
-		var theKey = this, decrypted = new h.FullFiller(), dirtyDecryptors = [], internalSecret, preSecret;
+		var theKey = this, decryptKeyPromise, dirtyDecryptors = [], internalSecret, preSecret;
 
 		if (!decryptors) {
 			decryptors = [];
@@ -291,28 +287,41 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 		if (optionals.secret) {
 			preSecret = optionals.secret;
 			internalSecret = pastProcessor(optionals.secret);
-			decrypted.success();
+			decryptKeyPromise = Bluebird.resolve();
 		}
 
 		/** is the key decrypted */
-		function decryptedF() {
-			return decrypted.isSuccess();
-		}
+		this.decrypted = function decryptedF() {
+			return decryptKeyPromise && decryptKeyPromise.isFulfilled();
+		};
 
-		function decryptKey(cb) {
+		function decryptKey() {
 			var usedDecryptor;
-			step(function () {
-				usedDecryptor = theKey.getFastestDecryptor();
+			if (!decryptKeyPromise) {
+				decryptKeyPromise = Bluebird.try(function () {
+					usedDecryptor = theKey.getFastestDecryptor();
 
-				if (!usedDecryptor || !usedDecryptor.decryptor) {
-					throw new errors.DecryptionError("Could not Decrypt key!");
-				}
+					if (!usedDecryptor || !usedDecryptor.decryptor) {
+						throw new errors.DecryptionError("Could not Decrypt key!");
+					}
 
-				var d = usedDecryptor.decryptor;
+					var d = usedDecryptor.decryptor;
 
-				internalDecrypt(d.decryptorid, d.type, d.ct, this, d.iv, d.salt);
-			}, function (err, result) {
-				if (err || result === false) {
+					return internalDecrypt(d.decryptorid, d.type, d.ct, d.iv, d.salt);
+				}).then(function (result) {
+					if (result === false) {
+						throw new Error("Could not decrypt");
+					}
+
+					if (usedDecryptor.decryptor.type === "cryptKey") {
+						h.callEach(improvementListener, [theKey.getRealID()]);
+					}
+
+					return pastProcessor(result);
+				}).then(function (pastProcessedSecret) {
+					preSecret = internalSecret;
+					internalSecret = pastProcessedSecret;
+				}).catch(function (err) {
 					globalErrors.push(err || { err: "internaldecryptor returned false for realid: " + realid });
 					keyStoreDebug(err);
 					keyStoreDebug("decryptor failed for key: " + realid);
@@ -325,39 +334,20 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 						throw new errors.DecryptionError("Could finally not decrypt key!");
 					}
 
-					decryptKey(cb);
-					return;
-				}
+					decryptKeyPromise = undefined;
 
-				this.ne(pastProcessor(result));
+					return decryptKey();
+				});
+			}
 
-				if (usedDecryptor.decryptor.type === "cryptKey") {
-					h.callEach(improvementListener, [theKey.getRealID()]);
-				}
-			}, h.sF(function (pastProcessedSecret) {
-				preSecret = internalSecret;
-				internalSecret = pastProcessedSecret;
-				this.ne();
-			}), cb);
+			return decryptKeyPromise;
 		}
 
 		/** decrypt this key.
 		* @param callback called with true/false
 		* searches your whole keyspace for a decryptor and decrypts if possible
 		*/
-		function decryptKeyF(callback) {
-			step(function () {
-				window.setTimeout(this);
-			}, h.sF(function () {
-				afterAsyncCall();
-				decrypted.await(callback);
-				decrypted.start(this);
-			}), h.sF(function () {
-				decryptKey(this);
-			}), decrypted.finish);
-		}
-		this.decrypted = decryptedF;
-		this.decryptKey = decryptKeyF;
+		this.decryptKey = decryptKey;
 
 
 		/** getter for real id */
@@ -449,7 +439,7 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 		* @param callback callback
 		*/
 		function addAsymDecryptorF(realid, tag, callback) {
-			step(function () {
+			return Bluebird.try(function () {
 				var decryptorData = {
 					decryptorid: realid,
 					type: "cryptKey",
@@ -460,9 +450,7 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 				decryptors.push(decryptorData);
 				dirtyKeys.push(superKey);
 				dirtyDecryptors.push(decryptorData);
-
-				this.ne();
-			}, callback);
+			}).nodeify(callback);
 		}
 
 		/** add symKey decryptor.
@@ -470,34 +458,32 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 		* @param callback callback
 		*/
 		function addSymDecryptorF(realid, callback) {
-			var cryptor;
-			step(function addSymD1() {
+			return Bluebird.try(function () {
 				if (realid instanceof SymKey) {
-					this.ne(realid);
-				} else {
-					SymKey.get(realid, this);
+					return realid;
 				}
-			}, h.sF(function addSymD2(cryptorKey) {
-				cryptor = cryptorKey;
-				theKey.decryptKey(this);
-			}), h.sF(function addSymD3() {
+
+				return SymKey.get(realid);
+			}).then(function (cryptorKey) {
+				return theKey.decryptKey().thenReturn(cryptorKey);
+			}).then(function (cryptorKey) {
 				var secret = preSecret || internalSecret;
-				cryptor.encryptWithPrefix("key::", secret, this);
-			}), h.sF(function addSymD4(data) {
-				var decryptorData = {
-					decryptorid: cryptor.getRealID(),
-					type: "symKey",
-					ct: chelper.bits2hex(data.ct),
-					iv: chelper.bits2hex(data.iv),
-					dirty: true
-				};
+				return cryptorKey.encryptWithPrefix("key::", secret).then(function (data) {
+					var decryptorData = {
+						decryptorid: cryptorKey.getRealID(),
+						type: "symKey",
+						ct: chelper.bits2hex(data.ct),
+						iv: chelper.bits2hex(data.iv),
+						dirty: true
+					};
 
-				decryptors.push(decryptorData);
-				dirtyKeys.push(superKey);
-				dirtyDecryptors.push(decryptorData);
+					decryptors.push(decryptorData);
+					dirtyKeys.push(superKey);
+					dirtyDecryptors.push(decryptorData);
 
-				this.ne(cryptor.getRealID());
-			}), callback);
+					return cryptorKey.getRealID();
+				});	
+			}).nodeify(callback);
 		}
 
 		/** add a pw decryptor
@@ -505,14 +491,12 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 		* @param callback callback
 		*/
 		function addPWDecryptorF(pw, callback) {
-			step(function () {
-				theKey.decryptKey(this);
-			}, h.sF(function () {
+			return theKey.decryptKey().then(function () {
 				var prefix = sjcl.codec.utf8String.toBits("key::");
 				var data = sjcl.bitArray.concat(prefix, preSecret || internalSecret);
 
-				this.ne(chelper.sjclPacket2Object(sjcl.json._encrypt(pw, data)));
-			}), h.sF(function (data) {
+				return chelper.sjclPacket2Object(sjcl.json._encrypt(pw, data));
+			}).then(function (data) {
 				var decryptorData = {
 					//Think, shortHash here? id: ?,
 					type: "pw",
@@ -526,8 +510,8 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 				dirtyKeys.push(superKey);
 				dirtyDecryptors.push(decryptorData);
 
-				this.ne(decryptorData);
-			}), callback);
+				return decryptorData;
+			}).nodeify(callback);
 		}
 
 		this.addAsymDecryptor = addAsymDecryptorF;
@@ -594,14 +578,13 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 		this.removeDirty = removeDirtyF;
 
 		/** get the secret of this key */
-		function getSecretF() {
-			if (decrypted.isSuccess()) {
+		this.getSecret = function () {
+			if (this.decrypted()) {
 				return internalSecret;
 			}
 
 			return false;
-		}
-		this.getSecret = getSecretF;
+		};
 	};
 
 	/** a SymKey.
@@ -677,7 +660,7 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 		* @param optional iv initialization vector
 		*/
 
-		this.encryptWithPrefix = function (prefix, data, callback, progressCallback, noDecode) {
+		this.encryptWithPrefix = function (prefix, data, progressCallback, noDecode) {
 			if (privateActionsBlocked) {
 				throw new errors.SecurityError("Private Actions are blocked");
 			}
@@ -686,9 +669,7 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 				throw new errors.SecurityError("Key not usable for encryption: " + intKey.getRealID());
 			}
 
-			step(function symEncryptI1() {
-				intKey.decryptKey(this);
-			}, h.sF(function symEncryptI2() {
+			return intKey.decryptKey().then(function () {
 				if (typeof data === "string") {
 					data = sjcl.codec.utf8String.toBits(data);
 				}
@@ -705,14 +686,14 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 					data = sjcl.bitArray.concat(prefix, data);
 				}
 
-				sjclWorkerInclude.sym.encrypt(intKey.getSecret(), data, progressCallback).then(this.ne, this).finally(afterAsyncCall);
-			}), h.sF(function (result) {
+				return sjclWorkerInclude.sym.encrypt(intKey.getSecret(), data, progressCallback);
+			}).then(function (result) {
 				if (noDecode) {
-					this.ne(result);
+					return result;
 				} else {
-					this.ne(chelper.sjclPacket2Object(result));
+					return chelper.sjclPacket2Object(result);
 				}
-			}), callback);
+			});
 		};
 
 		/** decrypt some text.
@@ -720,10 +701,8 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 		* @param callback called with results
 		* @param optional iv initialization vector
 		*/
-		function decryptF(ctext, callback, iv) {
-			step(function symDecryptI1() {
-				intKey.decryptKey(this);
-			}, h.sF(function symDecryptI2() {
+		this.decrypt = function (ctext, iv) {
+			return intKey.decryptKey().then(function () {
 				if (typeof ctext !== "object") {
 					if (h.isHex(ctext)) {
 						ctext = chelper.hex2bits(ctext);
@@ -748,16 +727,12 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 				}
 
 				if (ctext.ct.length < 500) {
-					this.ne(sjcl.json._decrypt(intKey.getSecret(), ctext, {raw: 1}));
+					return sjcl.json._decrypt(intKey.getSecret(), ctext, {raw: 1});
 				} else {
-					sjclWorkerInclude.sym.decrypt(intKey.getSecret(), ctext).then(this.ne, this).finally(afterAsyncCall);
-				}
-			}), h.sF(function (result) {
-				this.ne(result);
-			}), callback);
-		}
-
-		this.decrypt = decryptF;
+					return sjclWorkerInclude.sym.decrypt(intKey.getSecret(), ctext);
+				}				
+			});
+		};
 	};
 
 	/** make a symkey out of keydata */
@@ -774,48 +749,45 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 
 	/** load a key and his keychain. remove loaded keys */
 	function getKey(realKeyID, callback) {
-		keyGetFunction(realKeyID, callback);
-	}
-
-	/** load  a symkey and its keychain */
-	function symKeyGet(realKeyID, callback) {
-		step(function checkLoaded() {
-			if (symKeys[realKeyID]) {
-				this.last.ne(symKeys[realKeyID]);
-			} else {
-				getKey(realKeyID, this);
-			}
-		}, h.sF(function returnKey() {
-			if (symKeys[realKeyID]) {
-				this.ne(symKeys[realKeyID]);
-			} else {
-				throw new errors.InvalidDataError("keychain not found (sym)");
-			}
-		}), callback);
+		return keyGetFunction(realKeyID, callback);
 	}
 
 	/** generates a symmetric key
 	* @param callback callback
 	*/
 	function symKeyGenerate(callback, comment) {
-		step(function symGenI1() {
-			this.ne(new SymKey());
-		}, h.sF(function symGenI2(key) {
-			if (!symKeys[key.getRealID()]) {
-				symKeys[key.getRealID()] = key;
-				newKeys.push(key);
-				makeKeyUsableForEncryption(key.getRealID());
-
-				key.setComment(comment);
-
-				this.ne(symKeys[key.getRealID()]);
-			} else {
-				symKeyGenerate(this);
+		return Bluebird.try(function () {
+			return new SymKey();
+		}).then(function (key) {
+			if (symKeys[key.getRealID()]) {
+				return symKeyGenerate();
 			}
-		}), callback);
+
+			symKeys[key.getRealID()] = key;
+			newKeys.push(key);
+			makeKeyUsableForEncryption(key.getRealID());
+
+			key.setComment(comment);
+
+			return symKeys[key.getRealID()];
+		}).nodeify(callback);
 	}
 
-	SymKey.get = symKeyGet;
+	/** load  a symkey and its keychain */
+	SymKey.get = function (realKeyID, callback) {
+		return Bluebird.try(function () {
+			if (!symKeys[realKeyID]) {
+				return getKey(realKeyID);
+			}
+		}).then(function () {
+			if (symKeys[realKeyID]) {
+				return symKeys[realKeyID];
+			}
+
+			throw new errors.InvalidDataError("keychain not found (sym)");
+		}).nodeify(callback);
+	};
+
 	SymKey.generate = symKeyGenerate;
 
 	/** a ecc crypto key
@@ -901,10 +873,12 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 			return fingerPrintPublicKey(publicKey);
 		}
 
+		this.getFingerPrint = getFingerPrintF;
+
 		/** create a key 
 		* param callback callback
 		*/
-		function kemF(callback) {
+		this.kem = function (callback) {
 			if (privateActionsBlocked) {
 				throw new errors.SecurityError("Private Actions are blocked");
 			}
@@ -913,43 +887,35 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 				throw new errors.SecurityError("Key not usable for encryption: " + intKey.getRealID());
 			}
 
-			var resultKey;
-			step(function () {
-				this.ne(publicKey.kem());
-			}, h.sF(function (keyData) {
-				resultKey = new SymKey(keyData.key);
+			return Bluebird.try(function () {
+				return publicKey.kem();
+			}).then(function (keyData) {
+				var resultKey = new SymKey(keyData.key);
 				symKeys[resultKey.getRealID()] = resultKey;
 				newKeys.push(resultKey);
 				makeKeyUsableForEncryption(resultKey.getRealID());
-				resultKey.addAsymDecryptor(realid, keyData.tag, this);
-			}), h.sF(function () {
-				this.ne(resultKey.getRealID());
-			}), callback);
-		}
-
-		/** unkem a key from a tag
-		* @param tag the tag
-		* @param callback callback
-		*/
-		function unkemF(tag, callback) {
-			step(function () {
-				if (!isPrivateKey) {
-					this.last("not a private key");
-				}
-
-				intKey.decryptKey(this);
-			}, h.sF(function () {
-				keyStoreDebug("slow decrypt");
-
-				this.ne(intKey.getSecret().unkem(tag));
-			}), callback);
-		}
-
-		this.getFingerPrint = getFingerPrintF;
-		this.kem = kemF;
+				return resultKey.addAsymDecryptor(realid, keyData.tag).thenReturn(resultKey.getRealID());
+			}).nodeify(callback);
+		};
 
 		if (isPrivateKey) {
-			this.unkem = unkemF;
+			/** unkem a key from a tag
+			* @param tag the tag
+			* @param callback callback
+			*/
+			this.unkem = function (tag) {
+				return Bluebird.try(function () {
+					if (!isPrivateKey) {
+						throw new Error("not a private key");
+					}
+
+					return intKey.decryptKey();
+				}).then(function () {
+					keyStoreDebug("slow decrypt");
+
+					return intKey.getSecret().unkem(tag);
+				});
+			};
 		}
 	};
 
@@ -963,26 +929,6 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 
 			return cryptKeys[keyData.realid];
 		}
-	}
-
-	/** get a crypt key
-	* @param realKeyID keys real id
-	* @param callback callback
-	*/
-	function cryptKeyGet(realKeyID, callback) {
-		step(function checkLoaded() {
-			if (cryptKeys[realKeyID]) {
-				this.last.ne(cryptKeys[realKeyID]);
-			} else {
-				getKey(realKeyID, this);
-			}
-		}, h.sF(function keyGet() {
-			if (cryptKeys[realKeyID]) {
-				this.ne(cryptKeys[realKeyID]);
-			} else {
-				throw new errors.InvalidDataError("keychain not found");
-			}
-		}), callback);
 	}
 
 	function fingerPrintData(data) {
@@ -1003,26 +949,41 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 		}
 	}
 
+	/** get a crypt key
+	* @param realKeyID keys real id
+	* @param callback callback
+	*/
+	CryptKey.get = function (realKeyID, callback) {
+		return Bluebird.try(function () {
+			if (!cryptKeys[realKeyID]) {
+				return getKey(realKeyID);
+			}
+		}).then(function () {
+			if (cryptKeys[realKeyID]) {
+				return cryptKeys[realKeyID];
+			}
+
+			throw new errors.InvalidDataError("keychain not found");
+		}).nodeify(callback);
+	};
+
 	/** generate a crypt key
 	* @param curve curve to use
 	* @param callback callback
 	*/
-	function cryptKeyGenerate(curve, callback, comment) {
-		step(function cryptGenI1() {
-			waitForReady(this);
-		}, h.sF(function () {
-			var curveO = chelper.getCurve(curve), key = sjcl.ecc.elGamal.generateKeys(curveO);
-			this.ne(key.pub, key.sec);
-		}), h.sF(function cryptGenI2(pub, sec) {
+	CryptKey.generate = function (curve, callback, comment) {
+		return waitForReady.async().then(function () {
+			var curveO = chelper.getCurve(curve), rawKey = sjcl.ecc.elGamal.generateKeys(curveO);
+
 			/*jslint nomen: true*/
-			var p = pub._point, data = {
+			var p = rawKey.pub._point, data = {
 				point: {
 					x: chelper.bits2hex(p.x.toBits()),
 					y: chelper.bits2hex(p.y.toBits())
 				},
-				exponent: sec._exponent.toBits(),
-				realid: generateid(fingerPrintPublicKey(pub)),
-				curve: chelper.getCurveName(pub._curve),
+				exponent: rawKey.sec._exponent.toBits(),
+				realid: generateid(fingerPrintPublicKey(rawKey.pub)),
+				curve: chelper.getCurveName(rawKey.pub._curve),
 				comment: comment
 			};
 			/*jslint nomen: false*/
@@ -1034,12 +995,9 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 
 			makeKeyUsableForEncryption(key.getRealID());
 
-			this.ne(key);
-		}), callback);
-	}
-
-	CryptKey.get = cryptKeyGet;
-	CryptKey.generate = cryptKeyGenerate;
+			return key;
+		}).nodeify(callback);
+	};
 
 	/** a signature key
 	* @param keyData sign key data
@@ -1149,43 +1107,6 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 			return fingerPrintPublicKey(publicKey);
 		}
 
-		function signF(hash, type, callback) {
-			if (privateActionsBlocked) {
-				throw new errors.SecurityError("Private Actions are blocked");
-			}
-
-			var trustManager, signatureCache;
-			step(function () {
-				require(["crypto/trustManager", "crypto/signatureCache"], this.ne, this);
-			}, h.sF(function (tM, _signatureCache) {
-				trustManager = tM;
-				signatureCache = _signatureCache;
-
-				afterAsyncCall();
-				if (!trustManager.isLoaded) {
-					trustManager.listen(this, "loaded");
-				} else {
-					this.ne();
-				}
-			}), h.sF(function () {
-				if (!trustManager.hasKeyData(intKey.getRealID())) {
-					keyStoreDebug("key not in key database");
-					alert("key not in key database: " + intKey.getRealID() + " - please report this issue to support@whispeer.de!");
-					throw new errors.SecurityError("key not in key database");
-				}
-				intKey.decryptKey(this);
-			}), h.sF(function () {
-				this.ne(intKey.getSecret().sign(hash));
-				//sjclWorkerInclude.asym.sign(intKey.getSecret(), hash).nodeify(this);
-			}), h.sF(function (signature) {
-				if (signatureCache.isLoaded()) {
-					signatureCache.addValidSignature(signature, hash, realid, type);
-				}
-
-				this.ne(signature);
-			}), callback);
-		}
-
 		var theKey = this;
 
 		function subtleVerify(key, signatureBuf, buf) {
@@ -1197,7 +1118,36 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 		}
 
 		if (isPrivateKey) {
-			this.sign = signF;
+			this.sign = function (hash, type) {
+				if (privateActionsBlocked) {
+					throw new errors.SecurityError("Private Actions are blocked");
+				}
+
+				return requireAsync(["crypto/trustManager", "crypto/signatureCache"]).spread(function (trustManager, signatureCache) {
+					return Bluebird.try(function () {
+						if (!trustManager.isLoaded) {
+							return trustManager.listenPromise("loaded");
+						}
+					}).then(function () {
+						if (!trustManager.hasKeyData(intKey.getRealID())) {
+							keyStoreDebug("key not in key database");
+							alert("key not in key database: " + intKey.getRealID() + " - please report this issue to support@whispeer.de!");
+							throw new errors.SecurityError("key not in key database");
+						}
+
+						return intKey.decryptKey();
+					}).then(function () {
+						return intKey.getSecret().sign(hash);
+						//sjclWorkerInclude.asym.sign(intKey.getSecret(), hash).nodeify(this);
+					}).then(function (signature) {
+						if (signatureCache.isLoaded()) {
+							signatureCache.addValidSignature(signature, hash, realid, type);
+						}
+
+						return signature;
+					});
+				});
+			};
 		}
 
 		function verifySjcl(signature, hash) {
@@ -1334,42 +1284,37 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 	* @param realKeyID the real id of the sign key
 	* @param callback callback
 	*/
-	function signKeyGet(realKeyID, callback) {
-		step(function checkLoaded() {
-			if (signKeys[realKeyID]) {
-				this.last.ne(signKeys[realKeyID]);
-			} else {
-				getKey(realKeyID, this);
+	SignKey.get = function signKeyGet(realKeyID, callback) {
+		return Bluebird.try(function () {
+			if (!signKeys[realKeyID]) {
+				return getKey(realKeyID);
 			}
-		}, h.sF(function keyGet() {
+		}).then(function () {
 			if (signKeys[realKeyID]) {
-				this.ne(signKeys[realKeyID]);
-			} else {
-				throw new errors.InvalidDataError("keychain not found (sign)");
+				return signKeys[realKeyID];
 			}
-		}), callback);
-	}
+
+			throw new errors.InvalidDataError("keychain not found (sign)");
+		}).nodeify(callback);
+	};
 
 	/** generate a sign key
 	* @param curve curve for the key
 	* @param callback callback
 	*/
-	function signKeyGenerate(curve, callback, comment) {
-		step(function signGenI1() {
-			waitForReady(this);
-		}, h.sF(function () {
-			var curveO = chelper.getCurve(curve), key = sjcl.ecc.ecdsa.generateKeys(curveO);
-			this.ne(key.pub, key.sec);
-		}), h.sF(function signGenI2(pub, sec) {
+	SignKey.generate = function (curve, callback, comment) {
+		return waitForReady.async().then(function () {
+			var curveO = chelper.getCurve(curve), rawKey = sjcl.ecc.ecdsa.generateKeys(curveO);
+
 			/*jslint nomen: true*/
-			var p = pub._point, data = {
+			var p = rawKey.pub._point, data = {
 				point: {
 					x: chelper.bits2hex(p.x.toBits()),
 					y: chelper.bits2hex(p.y.toBits())
 				},
-				exponent: sec._exponent.toBits(),
-				realid: generateid(fingerPrintPublicKey(pub)),
-				curve: chelper.getCurveName(pub._curve)
+				exponent: rawKey.sec._exponent.toBits(),
+				realid: generateid(fingerPrintPublicKey(rawKey.pub)),
+				curve: chelper.getCurveName(rawKey.pub._curve)
 			};
 			/*jslint nomen: false*/
 
@@ -1378,12 +1323,9 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 
 			key.setComment(comment);
 
-			this.ne(key);
-		}), callback);
-	}
-
-	SignKey.get = signKeyGet;
-	SignKey.generate = signKeyGenerate;
+			return key;
+		}).nodeify(callback);
+	};
 
 	/** make a key out of keyData. mainly checks type and calls appropriate function */
 	makeKey = function makeKeyF(key) {
@@ -1416,96 +1358,57 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 		this._minLength = minLength;
 	};
 
-	ObjectPadder.prototype._padObject = function (val, cb) {
-		var that = this;
-		step(function () {
-			var attr;
-			for (attr in val) {
-				if (val.hasOwnProperty(attr)) {
-					var padder = new ObjectPadder(val[attr], that._minLength);
-					padder.pad(this.parallel());
-				}
-			}
-
-			this.parallel()();
-		}, h.sF(function (padded) {
-			var attr, count = 0, result = {};
-			for (attr in val) {
-				if (val.hasOwnProperty(attr)) {
-					result[attr] = padded[count];
-					count += 1;
-				}
-			}
-
-			this.ne(result);
-		}), cb);
+	ObjectPadder.prototype._padObject = function (val) {
+		return Bluebird.props(h.objectMap(val, function (value) {
+			var padder = new ObjectPadder(value, this._minLength);
+			return Bluebird.promisify(padder.pad, padder)();
+		}, this));
 	};
 
-	ObjectPadder.prototype._padArray = function (val, cb) {
-		var that = this;
-		step(function () {
-			var i;
-			for (i = 0; i < val.length; i += 1) {
-				var padder = new ObjectPadder(val[i], that._minLength);
-				padder.pad(this.parallel());
-			}
-
-			this.parallel()();
-		}, h.sF(function (padded) {
-			var i, result = [];
-			if (padded) {
-				for (i = 0; i < padded.length; i += 1) {
-					result[i] = padded[i];
-				}
-			}
-
-			this.ne(result);
-		}), cb);
-		//this._data instanceof Array
+	ObjectPadder.prototype._padArray = function (val) {
+		return Bluebird.resolve(val).bind(this).map(function (value) {
+			var padder = new ObjectPadder(value, this._minLength);
+			return Bluebird.promisify(padder.pad, padder)();
+		});
 	};
 
-	ObjectPadder.prototype._padString = function (val, cb) {
-		var that = this;
+	ObjectPadder.prototype._padString = function (val) {
+		var length = this._minLength - (val.length % this._minLength) + this._minLength;
 
-		step(function () {
-			var length = that._minLength-(val.length%that._minLength) + that._minLength;
-			keyStore.random.hex(length, this);
-		}, h.sF(function (rand) {
-			this.ne(rand + "::" + val);
-		}), cb);
+		return Bluebird.try(function () {
+			return keyStore.random.hex(length);
+		}).then(function (rand) {
+			return rand + "::" + val;
+		});
 	};
 
-	ObjectPadder.prototype._padNumber = function (val, cb) {
-		var that = this;
-
-		step(function () {
-			that._padString(val.toString(), this);
-		}, h.sF(function (padded) {
-			this.ne("num::" + padded);
-		}), cb);
+	ObjectPadder.prototype._padNumber = function (val) {
+		return this._padString(val.toString()).then(function (padded) {
+			return "num::" + padded;
+		});
 	};
 
-	ObjectPadder.prototype._padAttribute = function (attr, cb) {
+	ObjectPadder.prototype._padAttribute = function (attr) {
 		var type = typeof attr;
 		if (type === "object") {
 			if (attr instanceof Array) {
-				this._padArray(attr, cb);
-			} else {
-				this._padObject(attr, cb);
+				return this._padArray(attr);
 			}
+
+			return this._padObject(attr);
 		} else if (type === "string") {
-			this._padString(attr, cb);
+			return this._padString(attr);
 		} else if (type === "number") {
-			this._padNumber(attr, cb);
+			return this._padNumber(attr);
 		} else if (type === "boolean") {
-			this._padNumber((attr ? 1 : 0), cb);
-		} else {
-			throw new errors.InvalidDataError("could not pad value of type " + type);
+			return this._padNumber((attr ? 1 : 0));
 		}
+
+		throw new errors.InvalidDataError("could not pad value of type " + type);
 	};
 
 	ObjectPadder.prototype.pad = function (cb) {
-		this._padAttribute(this._obj, cb);
+		return this._padAttribute(this._obj).nodeify(cb);
 	};
 
 	ObjectPadder.prototype._unpadObject = function (val) {
@@ -1584,49 +1487,33 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 		this._object = object;
 	};
 
-	ObjectCryptor.prototype.encryptAttr = function (cur, cb) {
+	ObjectCryptor.prototype._encryptAttr = function (cur) {
 		if (typeof cur === "object") {
-			new ObjectCryptor(this._key, this._depth-1, cur).encrypt(cb);
+			return new ObjectCryptor(this._key, this._depth-1, cur).encrypt();
 		} else if (typeof cur === "string" || typeof cur === "number" || typeof cur === "boolean") {
-			this._key.encryptWithPrefix("data::", cur.toString(), cb);
-		} else {
-			throw new errors.InvalidDataError("Invalid encrypt!");
+			return this._key.encryptWithPrefix("data::", cur.toString());
 		}
+
+		throw new errors.InvalidDataError("Invalid encrypt!");
 	};
 
-	ObjectCryptor.prototype.encryptObject = function (cb) {
-		var that = this;
-		step(function encryptAllAttributes() {
-			var attr;
-			for (attr in that._object) {
-				if (that._object.hasOwnProperty(attr) && attr !== "key") {
-					that.encryptAttr(that._object[attr], this.parallel());
-				}
+	ObjectCryptor.prototype._encryptObject = function () {
+		return Bluebird.props(h.objectMap(this._object, function (value, attr) {
+			if (attr !== "key") {
+				return this._encryptAttr(value);
 			}
-
-			this.parallel()();
-		}, h.sF(function (encrypted) {
-			var attr, resultObject = {}, count = 0;
-			for (attr in that._object) {
-				if (that._object.hasOwnProperty(attr) && attr !== "key") {
-					resultObject[attr] = encrypted[count];
-					count += 1;
-				}
-			}
-
-			this.ne(resultObject);
-		}), cb);
+		}, this));
 	};
 
-	ObjectCryptor.prototype.encryptJSON = function (cb) {
-		this._key.encryptWithPrefix("json::", JSON.stringify(this._object), cb);
+	ObjectCryptor.prototype._encryptJSON = function () {
+		return this._key.encryptWithPrefix("json::", JSON.stringify(this._object));
 	};
 
-	ObjectCryptor.prototype.encrypt = function (cb) {
+	ObjectCryptor.prototype.encrypt = function () {
 		if (this._depth > 0) {
-			this.encryptObject(cb);
+			return this._encryptObject();
 		} else {
-			this.encryptJSON(cb);
+			return this._encryptJSON();
 		}
 	};
 
@@ -1651,53 +1538,35 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 
 	ObjectCryptor.prototype.decryptAttr = function (cur, cb) {
 		if (cur.iv && cur.ct) {
-			this._key.decrypt(cur, cb);
+			this._key.decrypt(cur).nodeify(cb);
 		} else {
 			new ObjectCryptor(this._key, this._depth-1, cur).decrypt(cb);
 		}
 	};
 
-	ObjectCryptor.prototype._decryptEndAttribute = function (cb) {
-		var that = this;
-		step(function () {
-			that._key.decrypt(that._object, this);
-		}, h.sF(function (result) {
-			this.ne(that.decryptCorrectObject(result));
-		}), cb);
+	ObjectCryptor.prototype._decryptEndAttribute = function () {
+		return this._key.decrypt(this._object).bind(this).then(function (result) {
+			return this.decryptCorrectObject(result);
+		});
 	};
 
-	ObjectCryptor.prototype._decryptPartialObjects = function (cb) {
-		var that = this;
-		step(function () {
-			var attr;
-			for (attr in that._object) {
-				if (that._object.hasOwnProperty(attr) && attr !== "key") {
-					new ObjectCryptor(that._key, that._depth-1, that._object[attr]).decrypt(this.parallel());
-				}
+	ObjectCryptor.prototype._decryptPartialObjects = function () {
+		return Bluebird.props(h.objectMap(this._object, function (value, attr) {
+			if (attr !== "key") {
+				return new ObjectCryptor(this._key, this._depth-1, value).decrypt();
 			}
-			this.parallel()();
-		}, h.sF(function (decrypted) {
-			var attr, count = 0, resultObject = {};
-			for (attr in that._object) {
-				if (that._object.hasOwnProperty(attr) && attr !== "key") {
-					resultObject[attr] = decrypted[count];
-					count+=1;
-				}
-			}
-
-			this.ne(resultObject);
-		}), cb);
+		}, this));
 	};
 
-	ObjectCryptor.prototype.decrypt = function (cb) {
+	ObjectCryptor.prototype.decrypt = function () {
 		if (this._depth < 0) {
 			throw new errors.DecryptionError("invalid decryption depth!");
 		}
 
 		if (this._object.iv && this._object.ct) {
-			this._decryptEndAttribute(cb);
+			return this._decryptEndAttribute();
 		} else {
-			this._decryptPartialObjects(cb);
+			return this._decryptPartialObjects();
 		}
 	};
 
@@ -1779,13 +1648,9 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 			},
 
 			makePWVerifiable: function (data, pw, cb) {
-				step(function () {
-					//pad data
-					new ObjectPadder(data, 128).pad(this);
-				}, h.sF(function (paddedData) {
-					//encrypt with pw
-					encryptPW(pw, JSON.stringify(paddedData), this);
-				}), cb);
+				return new ObjectPadder(data, 128).pad().then(function (paddedData) {
+					return encryptPW(pw, JSON.stringify(paddedData));
+				}).nodeify(cb);
 			}
 		},
 
@@ -1825,7 +1690,7 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 			addPaddingToObject: function (obj, minLength, cb) {
 				minLength = minLength || 128;
 
-				new ObjectPadder(obj, minLength).pad(cb);
+				return new ObjectPadder(obj, minLength).pad(cb);
 			},
 			removePaddingFromObject: function (obj, padLength) {
 				padLength = padLength || 128;
@@ -1836,9 +1701,7 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 			},
 
 			hashBigBase64CodedData: function (text, cb) {
-				step(function () {
-					sjclWorkerInclude.hash(text).then(this.ne, this).finally(afterAsyncCall);
-				}, cb);
+				sjclWorkerInclude.hash(text).nodeify(cb);
 			},
 
 			hashPW: function (pw, salt) {
@@ -1870,13 +1733,9 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 
 		upload: {
 			preLoadMultiple: function (realids, cb) {
-				step(function () {
-					realids.forEach(function (realid) {
-						getKey(realid, this.parallel());
-					}, this);
-				}, h.sF(function () {
-					this.ne();
-				}), cb);
+				return Bluebird.resolve(realids).map(function (realid) {
+					return getKey(realid);
+				}).nodeify(cb);
 			},
 			isKeyLoaded: function (realid) {
 				return symKeys.hasOwnProperty(realid) || cryptKeys.hasOwnProperty(realid) || signKeys.hasOwnProperty(realid);
@@ -1983,19 +1842,15 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 
 		random: {
 			hex: function (length, cb) {
-				step(function () {
-					waitForReady(this);
-				}, h.sF(function () {
+				return waitForReady.async().then(function () {
 					var res = chelper.bits2hex(sjcl.random.randomWords(Math.ceil(length/8)));
-					this.ne(res.substr(0, length));
-				}), cb);
+					return res.substr(0, length);
+				}).nodeify(cb);
 			},
 			words: function (number, cb) {
-				step(function () {
-					waitForReady(this);
-				}, h.sF(function () {
-					this.ne(sjcl.random.randomWords(number));
-				}), cb);
+				return waitForReady.async().then(function () {
+					return sjcl.random.randomWords(number);
+				}).nodeify(cb);
 			}
 		},
 
@@ -2008,15 +1863,11 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 			* @param callback callback
 			*/
 			generateKey: function generateKeyF(callback, comment) {
-				step(function symGen1() {
-					waitForReady(this);
-				}, h.sF(function () {
-					SymKey.generate(this, comment);
-				}), h.sF(function symGen2(key) {
-					var r = key.getRealID();
-
-					this.ne(r);
-				}), callback);
+				return waitForReady.async().then(function () {
+					return SymKey.generate(undefined, comment);
+				}).then(function (key) {
+					return key.getRealID();
+				}).nodeify(callback);
 			},
 
 			createBackupKey: function (realID, callback) {
@@ -2026,11 +1877,10 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 				* server never distributes key2 except when advised to do so (manually for now!)
 				*/
 				var backupKey, outerBackupKey, toBackupKey;
-				step(function symGen1() {
-					waitForReady(this);
-				}, h.sF(function () {
-					SymKey.get(realID, this);
-				}), h.sF(function symGen2(_toBackupKey) {
+
+				return waitForReady.async().then(function () {
+					return SymKey.get(realID);
+				}).then(function (_toBackupKey) {
 					toBackupKey = _toBackupKey;
 					outerBackupKey = sjcl.random.randomWords(8);
 					backupKey = new SymKey(sjcl.random.randomWords(8));
@@ -2038,16 +1888,22 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 					makeKeyUsableForEncryption(backupKey.getRealID());
 					makeKeyUsableForEncryption(new SymKey(outerBackupKey).getRealID());
 
-					toBackupKey.addSymDecryptor(backupKey, this.parallel());
-					backupKey.addSymDecryptor(new SymKey(outerBackupKey), this.parallel());
-				}), h.sF(function () {
+					return Bluebird.all([
+						toBackupKey.addSymDecryptor(backupKey),
+						backupKey.addSymDecryptor(new SymKey(outerBackupKey))
+					]);
+				}).then(function () {
 					var decryptorsAdded = keyStore.upload.getDecryptors([toBackupKey.getRealID()], [backupKey.getRealID()]);
 					var backupKeyData = backupKey.getUploadData();
 
 					backupKeyData.decryptors[0].type = "backup";
 
-					this.ne(decryptorsAdded, backupKeyData, outerBackupKey);
-				}), callback);
+					return {
+						decryptors: decryptorsAdded,
+						innerKey: backupKeyData,
+						outerKey: outerBackupKey
+					};
+				}).nodeify(callback);
 			},
 
 			loadBackupKey: function (outerBackupKey) {
@@ -2069,11 +1925,9 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 			* @param callback callback
 			*/
 			symEncryptKey: function symEncryptKeyF(realID, parentKeyID, callback) {
-				step(function () {
-					SymKey.get(realID, this);
-				}, h.sF(function (key) {
-					key.addSymDecryptor(parentKeyID, this);
-				}), callback);
+				return SymKey.get(realID).then(function (key) {
+					return key.addSymDecryptor(parentKeyID);
+				}).nodeify(callback);
 			},
 
 			/** encrypt this key with an asymmetric key
@@ -2082,17 +1936,14 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 			* @param callback callback
 			*/
 			asymEncryptKey: function asymEncryptKeyF(realID, parentKeyID, callback) {
-				var symKey;
-				step(function asymEncr1() {
-					SymKey.get(realID, this);
-				}, h.sF(function asymEncr2(key) {
-					symKey = key;
-					CryptKey.get(parentKeyID, this);
-				}), h.sF(function asymEncr3(key) {
-					key.kem(this);
-				}), h.sF(function asymEncr4(parentRealID) {
-					keyStore.sym.symEncryptKey(realID, parentRealID, this);
-				}), callback);
+				//ensure the key exists first!
+				return SymKey.get(realID).then(function () {
+					return CryptKey.get(parentKeyID);
+				}).then(function (key) {
+					return key.kem();
+				}).then(function (parentRealID) {
+					return keyStore.sym.symEncryptKey(realID, parentRealID);
+				}).nodeify(callback);
 			},
 
 			/** encrypt key with password
@@ -2101,11 +1952,9 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 			* @param callback callback
 			*/
 			pwEncryptKey: function pwEncryptKeyF(realID, password, callback) {
-				step(function () {
-					SymKey.get(realID, this);
-				}, h.sF(function (key) {
-					key.addPWDecryptor(password, this);
-				}), callback);
+				return SymKey.get(realID).then(function (key) {
+					return key.addPWDecryptor(password);
+				}).nodeify(callback);
 			},
 
 			/** encrypt text with this key.
@@ -2114,13 +1963,9 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 			* @param callback callback
 			*/
 			encryptText: function (text, realKeyID, callback) {
-				step(function symEncrypt1() {
-					SymKey.get(realKeyID, this);
-				}, h.sF(function symEncrypt2(key) {
-					key.encryptWithPrefix("data::", text, this);
-				}), h.sF(function symEncrypt3(ct) {
-					this.ne(ct);
-				}), callback);
+				return SymKey.get(realKeyID).then(function (key) {
+					return key.encryptWithPrefix("data::", text);
+				}).nodeify(callback);
 			},
 
 			/** encrypt an object
@@ -2129,27 +1974,19 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 			* @param callback callback
 			*/
 			encryptObject: function (object, realKeyID, depth, callback) {
-				step(function objEncrypt1() {
-					if (object.iv) {
-						throw new errors.InvalidDataError("IV already set.");
-					}
+				if (object.iv) {
+					throw new errors.InvalidDataError("IV already set.");
+				}
 
-					SymKey.get(realKeyID, this);
-				}, h.sF(function objEncrypt2(key) {
-					new ObjectCryptor(key, depth, object).encrypt(this);
-				}), h.sF(function (result) {
-					this.ne(result);
-				}), callback);
+				return SymKey.get(realKeyID).then(function (key) {
+					return new ObjectCryptor(key, depth, object).encrypt();
+				}).nodeify(callback);
 			},
 
-			decryptObject: function (cobject, depth, callback, key) {
-				step(function objDecrypt1() {
-					SymKey.get(key || mainKey, this);
-				}, h.sF(function objDecrypt2(key) {
-					new ObjectCryptor(key, depth, cobject).decrypt(this);
-				}), h.sF(function objDecrypt3(result) {
-					this.ne(result);
-				}), callback);
+			decryptObject: function (cobject, depth, callback, keyID) {
+				return SymKey.get(keyID || mainKey).then(function (key) {
+					return new ObjectCryptor(key, depth, cobject).decrypt();
+				}).nodeify(callback);
 			},
 
 			/** decrypt an encrypted text
@@ -2158,31 +1995,25 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 			* @param callback callback
 			*/
 			decryptText: function (ctext, realKeyID, callback) {
-				step(function () {
-					SymKey.get(realKeyID, this);
-				}, h.sF(function (key) {
-					key.decrypt(ctext, this);
-				}), h.sF(function (decryptedData) {
-					this.ne(sjcl.codec.utf8String.fromBits(removeExpectedPrefix(decryptedData, "data::")));
-				}), callback);
+				return SymKey.get(realKeyID).then(function (key) {
+					return key.decrypt(ctext);
+				}).then(function (decryptedData) {
+					return sjcl.codec.utf8String.fromBits(removeExpectedPrefix(decryptedData, "data::"));
+				}).nodeify(callback);
 			},
 
 			encryptArrayBuffer: function (buf, realKeyID, callback, progressCallback) {
-				step(function symEncrypt1() {
-					SymKey.get(realKeyID, this);
-				}, h.sF(function symEncrypt2(key) {
-					key.encryptWithPrefix("buf::", buf, this, progressCallback, true);
-				}), h.sF(function (result) {
+				return SymKey.get(realKeyID).then(function (key) {
+					return key.encryptWithPrefix("buf::", buf, progressCallback, true);
+				}).then(function (result) {
 					result.iv = sjcl.codec.arrayBuffer.fromBits(result.iv, false);
 					result.ct.tag = sjcl.codec.arrayBuffer.fromBits(result.ct.tag, false);
-					this.ne(h.concatBuffers(result.iv, result.ct.ciphertext_buffer, result.ct.tag));
-				}), callback);
+					return h.concatBuffers(result.iv, result.ct.ciphertext_buffer, result.ct.tag);
+				}).nodeify(callback);
 			},
 
 			decryptArrayBuffer: function (buf, realKeyID, callback) {
-				step(function () {
-					SymKey.get(realKeyID, this);
-				}, h.sF(function (key) {
+				return SymKey.get(realKeyID).then(function (key) {
 					var buf32 = new Uint32Array(buf);
 
 					var decr = {
@@ -2191,16 +2022,14 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 						tag: sjcl.codec.arrayBuffer.toBits(new Uint32Array(buf32.subarray(buf32.byteLength/4-2)).buffer)
 					};
 
-					key.decrypt(decr, this);
-				}), h.sF(function (decryptedData) {
-					this.ne(removeExpectedPrefix(decryptedData, "buf::"));
-				}), callback);
+					return key.decrypt(decr);
+				}).then(function (decryptedData) {
+					return removeExpectedPrefix(decryptedData, "buf::");
+				}).nodeify(callback);
 			},
 
 			decryptBigBase64: function (bin, realKeyID, callback) {
-				step(function () {
-					SymKey.get(realKeyID, this);
-				}, h.sF(function (key) {
+				return SymKey.get(realKeyID).then(function (key) {
 					bin = sjcl.codec.base64.toBits(bin);
 
 					var decr = {
@@ -2208,10 +2037,10 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 						ct: sjcl.bitArray.bitSlice(bin, 32*4)
 					};
 
-					key.decrypt(decr, this);
-				}), h.sF(function (decryptedData) {
-					this.ne(sjcl.codec.base64.fromBits(removeExpectedPrefix(decryptedData, "bin::")));
-				}), callback);
+					return key.decrypt(decr);
+				}).then(function (decryptedData) {
+					return sjcl.codec.base64.fromBits(removeExpectedPrefix(decryptedData, "bin::"));
+				}).nodeify(callback);
 			}
 		},
 
@@ -2220,13 +2049,9 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 			* @param callback callback
 			*/
 			generateKey: function generateKeyF(callback, comment) {
-				step(function cryptGen1() {
-					CryptKey.generate("256", this, comment);
-				}, h.sF(function cryptGen2(key) {
-					var r = key.getRealID();
-
-					this.ne(r);
-				}), callback);
+				return CryptKey.generate("256", undefined, comment).then(function (key) {
+					return key.getRealID();
+				}).nodeify(callback);
 			},
 
 			/** encrypt key with sym key
@@ -2235,11 +2060,9 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 			* @param callback callback
 			*/
 			symEncryptKey: function symEncryptKeyF(realID, parentKeyID, callback) {
-				step(function () {
-					CryptKey.get(realID, this);
-				}, h.sF(function (key) {
-					key.addSymDecryptor(parentKeyID, this);
-				}), callback);
+				return CryptKey.get(realID).then(function (key) {
+					return key.addSymDecryptor(parentKeyID);
+				}).nodeify(callback);
 			},
 
 			/** encrypt key with password
@@ -2248,19 +2071,15 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 			* @param callback callback
 			*/
 			pwEncryptKey: function pwEncryptKeyF(realID, password, callback) {
-				step(function () {
-					CryptKey.get(realID, this);
-				}, h.sF(function (key) {
-					key.addPWDecryptor(password, this);
-				}), callback);
+				return CryptKey.get(realID).then(function (key) {
+					return key.addPWDecryptor(password);
+				}).nodeify(callback);
 			},
 
 			fingerPrintKey: function (realID, cb) {
-				step(function () {
-					CryptKey.get(realID, this);
-				}, h.sF(function (key) {
-					this.ne(key.getFingerPrint());
-				}), cb);
+				return CryptKey.get(realID).then(function (key) {
+					return key.getFingerPrint();
+				}).nodeify(cb);
 			}
 		},
 
@@ -2269,13 +2088,9 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 			* @param callback callback
 			*/
 			generateKey: function generateKeyF(callback, comment) {
-				step(function signGen1() {
-					SignKey.generate("256", this, comment);
-				}, h.sF(function signGen2(key) {
-					var r = key.getRealID();
-
-					this.ne(r);
-				}), callback);
+				return SignKey.generate("256", undefined, comment).then(function (key) {
+					return key.getRealID();
+				}).nodeify(callback);
 			},
 
 			/** encrypt key with sym key
@@ -2284,11 +2099,9 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 			* @param callback callback
 			*/
 			symEncryptKey: function symEncryptKeyF(realID, parentKeyID, callback) {
-				step(function () {
-					SignKey.get(realID, this);
-				}, h.sF(function (key) {
-					key.addSymDecryptor(parentKeyID, this);
-				}), callback);
+				return SignKey.get(realID).then(function (key) {
+					return key.addSymDecryptor(parentKeyID);
+				}).nodeify(callback);
 			},
 
 			/** encrypt key with password
@@ -2297,24 +2110,20 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 			* @param callback callback
 			*/
 			pwEncryptKey: function pwEncryptKeyF(realID, password, callback) {
-				step(function () {
-					SignKey.get(realID, this);
-				}, h.sF(function (key) {
-					key.addPWDecryptor(password, this);
-				}), callback);
+				return SignKey.get(realID).then(function (key) {
+					return key.addPWDecryptor(password);
+				}).nodeify(callback);
 			},
 
 			signObject: function (object, realID, version, callback) {
-				step(function signO1() {
-					this.parallel.unflatten();
-
-					SignKey.get(realID, this.parallel());
-					sjclWorkerInclude.stringify(object, version, true).nodeify(this.parallel());
-				}, h.sF(function (key, hash) {
-					key.sign(hash, object._type, this);
-				}), h.sF(function (signature) {
-					this.ne(chelper.bits2hex(signature));
-				}), callback);
+				return Bluebird.all([
+					SignKey.get(realID),
+					sjclWorkerInclude.stringify(object, version, true)
+				]).spread(function (key, hash) {
+					return key.sign(hash, object._type);
+				}).then(function (signature) {
+					return chelper.bits2hex(signature);
+				}).nodeify(callback);
 			},
 
 			verifyObject: function (signature, object, realID, version, id) {
@@ -2335,11 +2144,9 @@ define(["step", "whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForR
 			},
 
 			fingerPrintKey: function (realID, cb) {
-				step(function () {
-					CryptKey.get(realID, this);
-				}, h.sF(function (key) {
-					this.ne(key.getFingerPrint());
-				}), cb);
+				return CryptKey.get(realID).then(function (key) {
+					return key.getFingerPrint();
+				}).nodeify(cb);
 			}
 		}
 	};

@@ -390,9 +390,11 @@ define(["step", "whispeerHelper", "asset/observer", "asset/securedDataWithMetaDa
 						throw new Error("unmatching arrays");
 					}
 
-					return userService.verifyOwnKeysDone();
-				}).then(function () {
-					return signedList.verify(userService.getown().getSignKey(), "user");
+					return userService.verifyOwnKeysDone().thenReturn(data);
+				}).then(function (data) {
+					if (data.signedList) {
+						return signedList.verify(userService.getown().getSignKey(), "user");
+					}
 				}).then(function () {
 					var requestedOrFriends = signedList.metaKeys().map(h.parseDecimal);
 					requestedOrFriends.forEach(function (uid) {

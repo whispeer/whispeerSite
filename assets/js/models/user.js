@@ -445,8 +445,11 @@ define(["step", "whispeerHelper", "asset/state", "asset/securedDataWithMetaData"
 				var outerKey;
 				step(function () {
 					keyStoreService.sym.createBackupKey(mainKey, this);
-				}, h.sF(function (decryptors, innerKey, _outerKey) {
-					outerKey = _outerKey;
+				}, h.sF(function (backupKeyData) {
+					var decryptors = backupKeyData.decryptors;
+					var innerKey = backupKeyData.innerKey;
+
+					outerKey = backupKeyData.outerKey;
 
 					socketService.emit("user.backupKey", {
 						innerKey: innerKey,
