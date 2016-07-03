@@ -375,6 +375,7 @@
 		"removeComment": "Remove comment"
 	},
 	"messages": {
+		"chatPersons": "User in this chat",
 		"details": "chat info",
 		"endOfStream": "Conversation started on {date}",
 		"remaining": "Loading older messages. {count} remaining",

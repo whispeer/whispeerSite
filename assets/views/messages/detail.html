@@ -1,8 +1,7 @@
 <div class="box-rightWrap">
 	<div class="box-header box-header--padding">
 		<span class="box-header-title box-header-title--full-noExtras">
-			<span>Optionen:</span>
-			<span data-i18n="messages.chat"></span>
+			<span data-i18n="messages.details"></span>
 			<span data-ng-repeat="partner in activeTopic.partners">
 				<span class="status" data-status="{{partner.online}}" data-ng-if="::!partner.notExisting"></span>
 				<a whispeer-sref="app.user.info({identifier: partner.names.nickname})" data-ng-if="::!partner.notExisting">
@@ -28,7 +27,7 @@
 
 	<div id="topicWrap" data-topicID="{{activeTopic.id}}" class="detail-chat">
 		<input id="messages-editTitle" type="text" placeholder="Konversationstitel" data-ng-model="topicTitle">
-		<h2>Personen in diesem Chat</h2>
+		<h2 data-i18n="messages.chatPersons"></h2>
 		<ul>
 			<li class="friendsView-friend" data-ng-repeat="partner in activeTopic.partners">
 				<person data-user="partner" data-type="friend">
