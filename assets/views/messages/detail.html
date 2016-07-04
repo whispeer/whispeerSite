@@ -2,9 +2,7 @@
 	<div class="box-header box-header--padding">
 		<span class="box-header-title box-header-title--full-noExtras">
 			<span data-ng-if="activeTopic.title">
-				<a whispeer-sref="app.messages.detail({topicid: activeTopic.id})">
-					{{activeTopic.title}}
-				</a>
+				{{activeTopic.title}}
 			</span>
 			<span data-ng-if="!activeTopic.title">
 				<span data-i18n="messages.chat"></span>
