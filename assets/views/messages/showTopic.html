@@ -6,16 +6,18 @@
 					{{activeTopic.title}}
 				</a>
 			</span>
-			<span data-i18n="messages.chat" data-ng-if="!activeTopic.title"></span>
-			<span data-ng-repeat="partner in activeTopic.partners" data-ng-if="!activeTopic.title">
-				<span class="status" data-status="{{partner.online}}" data-ng-if="::!partner.notExisting"></span>
-				<a whispeer-sref="app.user.info({identifier: partner.names.nickname})" data-ng-if="::!partner.notExisting">
-					<span data-ng-if="::activeTopic.partners.length>2">{{partner.basic.shortname}}</span>
-					<span data-ng-if="activeTopic.partners.length<=2">{{partner.name}}</span>
-				</a>
+			<span data-ng-if="!activeTopic.title">
+				<span data-i18n="messages.chat"></span>
+				<span data-ng-repeat="partner in activeTopic.partners">
+					<span class="status" data-status="{{partner.online}}" data-ng-if="::!partner.notExisting"></span>
+					<a whispeer-sref="app.user.info({identifier: partner.names.nickname})" data-ng-if="::!partner.notExisting">
+						<span data-ng-if="::activeTopic.partners.length>2">{{partner.basic.shortname}}</span>
+						<span data-ng-if="activeTopic.partners.length<=2">{{partner.name}}</span>
+					</a>
 
-				<span data-ng-if="::partner.notExisting">{{partner.name}}</span>
-				{{::($last?"":", ")}}
+					<span data-ng-if="::partner.notExisting">{{partner.name}}</span>
+					{{::($last?"":", ")}}
+				</span>
 			</span>
 		</span>
 		<div class="box-header-buttons--right">
