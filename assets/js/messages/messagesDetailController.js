@@ -19,7 +19,9 @@ define(["step", "whispeerHelper", "asset/state", "bluebird", "messages/messagesM
 		$scope.saveTitle = function () {
 			topicDetailsSavingState.pending();
 
-			var savePromise = $scope.activeTopic.obj.setTitle($scope.topicTitle);
+			var savePromise = $scope.activeTopic.obj.setTitle($scope.topicTitle).then(function () {
+				$state.go("app.messages.show", { topicid: topicID });
+			});
 			errorService.failOnErrorPromise(topicDetailsSavingState, savePromise);
 		};
 
