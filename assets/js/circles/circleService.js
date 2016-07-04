@@ -32,24 +32,20 @@ define(["step", "whispeerHelper", "asset/observer", "services/serviceModule", "a
 			};
 
 			this.remove = function (cb) {
-				step(function () {
-					//remove from settings
-					settingsService.privacy.removeCircle(id, this);
-				}, h.sF(function () {
-					//then delete from server
-					socket.emit("circle.delete", {
+				var removeCircleAsync = Bluebird.promisify(settingsService.privacy.removeCircle, settingsService.privacy);
+
+				return settingsService.privacy.removeCircle().then(function () {
+					return socket.emit("circle.delete", {
 						remove: {
 							circleid: id
 						}
-					}, this);
-				}), h.sF(function () {
+					});
+				}).then(function () {
 					var circle = circles[id];
 					delete circles[id];
 					h.removeArray(circleArray, circle);
 					h.removeArray(circleData, circle.data);
-
-					this.ne();
-				}), cb);
+				}).nodeify(cb);
 			};
 
 			this.setUser = function (uids, cb) {

@@ -1,4 +1,4 @@
-define(["whispeerHelper", "step", "crypto/keyStore", "asset/errors", "config", "bluebird"], function (h, step, keyStore, errors, config, Bluebird) {
+define(["whispeerHelper", "crypto/keyStore", "asset/errors", "config", "bluebird"], function (h, keyStore, errors, config, Bluebird) {
 	"use strict";
 
 	var attributesNeverVerified = ["_signature", "_hashObject"];
@@ -28,7 +28,6 @@ define(["whispeerHelper", "step", "crypto/keyStore", "asset/errors", "config", "
 		this._attributesNotVerified = attributesNeverVerified.concat(this._attributesNotVerified);
 
 		this._decrypted = isDecrypted;
-		this._decryptionFullFiller = new h.FullFiller();
 
 		this._hasContent = true;
 
@@ -64,7 +63,7 @@ define(["whispeerHelper", "step", "crypto/keyStore", "asset/errors", "config", "
 		var toSign = h.deepCopyObj(that._updated.meta);
 		var hashVersion = config.hashVersion;
 
-		step(function () {
+		return Bluebird.try(function () {
 			toSign._version = 1;
 			toSign._type = that._type;
 
@@ -78,7 +77,7 @@ define(["whispeerHelper", "step", "crypto/keyStore", "asset/errors", "config", "
 			if (that._updated.paddedContent || that._updated.content) {
 				var hashContent = that._updated.paddedContent || that._updated.content;
 
-				keyStore.hash.hashObjectOrValueHexAsync(hashContent).then(function (contentHash) {
+				return keyStore.hash.hashObjectOrValueHexAsync(hashContent).then(function (contentHash) {
 					toSign._contentHash = contentHash;
 
 					//create new ownHash
@@ -86,32 +85,26 @@ define(["whispeerHelper", "step", "crypto/keyStore", "asset/errors", "config", "
 					return keyStore.hash.hashObjectOrValueHexAsync(toSign);
 				}).then(function (ownHash) {
 					toSign._ownHash = ownHash;
-				}).nodeify(this);
-			} else {
-				this();
+				});
 			}
-		}, h.sF(function () {
-			keyStore.sign.signObject(toSign, signKey, hashVersion, this);
-		}), h.sF(function (signature) {
+		}).then(function () {
+			return keyStore.sign.signObject(toSign, signKey, hashVersion);
+		}).then(function (signature) {
 			toSign._signature = signature;
 
-			this.ne(toSign);
-		}), cb);
+			return toSign;
+		}).nodeify(cb);
 	};
 
 	SecuredDataWithMetaData.prototype.getUpdatedData = function (signKey, cb) {
-		var that = this;
-
-		step(function () {
-			that.verify(signKey, this);
-		}, h.sF(function () {
-			if (that._hasContent) {
-				keyStore.security.addEncryptionIdentifier(that._original.meta._key);
-				that._signAndEncrypt(signKey, that._original.meta._key, this);
-			} else {
-				that.sign(signKey, this);
+		return this.verify(signKey).bind(this).then(function () {
+			if (this._hasContent) {
+				keyStore.security.addEncryptionIdentifier(this._original.meta._key);
+				return this._signAndEncrypt(signKey, this._original.meta._key);
 			}
-		}), cb);
+
+			return this.sign(signKey, this);
+		}).nodeify(cb);
 	};
 
 	/** sign and encrypt this object.
@@ -121,34 +114,31 @@ define(["whispeerHelper", "step", "crypto/keyStore", "asset/errors", "config", "
 		@param cb callback(cryptedData, metaData),
 	*/
 	SecuredDataWithMetaData.prototype._signAndEncrypt = function (signKey, cryptKey, cb) {
-		var that = this;
-		if (!that._hasContent) {
+		if (!this._hasContent) {
 			throw new Error("can only sign and not encrypt");
 		}
 
-		if (that._original.meta._key && (that._original.meta._key !== cryptKey || !that._isKeyVerified)) {
+		if (this._original.meta._key && (this._original.meta._key !== cryptKey || !this._isKeyVerified)) {
 			throw new Error("can not re-encrypt an old object with new key!");
 		}
 
-		step(function () {
-			//add padding!
-			keyStore.hash.addPaddingToObject(that._updated.content, 128, this);
-		}, h.sF(function (paddedContent) {
-			that._updated.paddedContent = paddedContent;
+		return keyStore.hash.addPaddingToObject(this._updated.content, 128).bind(this).then(function (paddedContent) {
+			this._updated.paddedContent = paddedContent;
 
-			that._updated.meta._key = keyStore.correctKeyIdentifier(cryptKey);
+			this._updated.meta._key = keyStore.correctKeyIdentifier(cryptKey);
 
-			this.parallel.unflatten();
-			keyStore.sym.encryptObject(paddedContent, cryptKey, that._encryptDepth, this.parallel());
-			that.sign(signKey, this.parallel());
-		}), h.sF(function (cryptedData, meta) {
-			that._updated.meta = meta;
+			return Bluebird.all([
+				keyStore.sym.encryptObject(paddedContent, cryptKey, this._encryptDepth),
+				this.sign(signKey)
+			]);
+		}).spread(function (cryptedData, meta) {
+			this._updated.meta = meta;
 
-			this.ne({
+			return {
 				content: cryptedData,
 				meta: meta
-			});
-		}), cb);
+			};
+		}).nodeify(cb);
 	};
 
 	/** verify the decrypted data
@@ -207,58 +197,52 @@ define(["whispeerHelper", "step", "crypto/keyStore", "asset/errors", "config", "
 		this._changed = false;
 	};
 
-	SecuredDataWithMetaData.prototype._decrypt = function (cb) {
-		var that = this;
+	SecuredDataWithMetaData.prototype._decrypt = function () {
+		if (!this._decryptionPromise) {
+			this._decryptionPromise = keyStore.sym.decryptObject(
+				this._original.encryptedContent,
+				this._encryptDepth,
+				undefined,
+				this._original.meta._key
+			).bind(this).then(function (decryptedData) {
+				this._decrypted = true;
+				this._original.paddedContent = decryptedData;
+				this._original.content = keyStore.hash.removePaddingFromObject(decryptedData, 128);
+				this._updated.content = h.deepCopyObj(this._original.content);
 
-		step(function () {
-			that._decryptionFullFiller.await(cb);
-			that._decryptionFullFiller.start(this);
-		}, h.sF(function () {
-			keyStore.sym.decryptObject(that._original.encryptedContent, that._encryptDepth, this, that._original.meta._key);
-		}), h.sF(function (decryptedData) {
-			that._decrypted = true;
-			that._original.paddedContent = decryptedData;
-			that._original.content = keyStore.hash.removePaddingFromObject(decryptedData, 128);
-			that._updated.content = h.deepCopyObj(that._original.content);
+				return this._verifyContentHash();
+			});
+		}
 
-			that._verifyContentHash(this);
-		}), this._decryptionFullFiller.finish);
+		return this._decryptionPromise;
 	};
 
 	SecuredDataWithMetaData.prototype.decrypt = function (cb) {
-		var that = this;
+		return Bluebird.resolve().bind(this).then(function () {
+			if (this._hasContent && !this._decrypted) {
+				return this._decrypt();
+			}
+		}).then(function () {
+			if (!this._hasContent) {
+				return;
+			}
 
-		if (!this._hasContent) {
-			cb();
-			return;
-		}
-
-		if (this._decrypted) {
-			cb(null, this._original.content);
-			return;
-		}
-
-		step(function () {
-			that._decrypt(this);
-		}, h.sF(function () {
-			this.ne(that._original.content);
-		}), cb);
+			return this._original.content;
+		}).nodeify(cb);
 	};
 
 	SecuredDataWithMetaData.prototype._verifyContentHash = function(cb) {
 		if (!this._hasContent || !this._decrypted) {
-			return step.unpromisify(Bluebird.resolve(), cb);
+			return Bluebird.resolve().nodeify(cb);
 		}
 
-		var p = Bluebird.bind(this).then(function () {
+		return Bluebird.bind(this).then(function () {
 			return keyStore.hash.hashObjectOrValueHexAsync(this._original.paddedContent || this._original.content);
 		}).then(function (hash) {
 			if (hash !== this._original.meta._contentHash) {
 				throw new errors.SecurityError("content hash did not match");
 			}
-		});
-
-		return step.unpromisify(p, cb);
+		}).nodeify(cb);
 	};
 
 	SecuredDataWithMetaData.prototype.isChanged = function () {
@@ -396,11 +380,10 @@ define(["whispeerHelper", "step", "crypto/keyStore", "asset/errors", "config", "
 		},
 		create: function (content, meta, options, signKey, cryptKey, cb) {
 			var secured = new SecuredDataWithMetaData(content, meta, options, true);
-			step(function () {
-				window.setTimeout(this, 0);
-			}, h.sF(function () {
-				secured._signAndEncrypt(signKey, cryptKey, this);
-			}), cb);
+
+			Bluebird.resolve().delay(1).then(function () {
+				return secured._signAndEncrypt(signKey, cryptKey);
+			}).nodeify(cb);
 
 			return secured;
 		},

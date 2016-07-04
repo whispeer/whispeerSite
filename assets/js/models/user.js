@@ -66,7 +66,7 @@ define(["step", "whispeerHelper", "asset/state", "asset/securedDataWithMetaData"
 		return h.arrayUnique(profileTypes);
 	}
 
-	function userModel($injector, blobService, keyStoreService, ProfileService, sessionService, settingsService, socketService, friendsService, errorService) {
+	function userModel($injector, $rootScope, blobService, keyStoreService, ProfileService, sessionService, settingsService, socketService, friendsService, errorService) {
 		return function User (providedData) {
 			var theUser = this, mainKey, signKey, cryptKey, friendShipKey, friendsKey, migrationState, signedKeys, signedOwnKeys;
 			var id, mail, nickname, publicProfile, privateProfiles = [], myProfile, mutualFriends;
@@ -445,8 +445,11 @@ define(["step", "whispeerHelper", "asset/state", "asset/securedDataWithMetaData"
 				var outerKey;
 				step(function () {
 					keyStoreService.sym.createBackupKey(mainKey, this);
-				}, h.sF(function (decryptors, innerKey, _outerKey) {
-					outerKey = _outerKey;
+				}, h.sF(function (backupKeyData) {
+					var decryptors = backupKeyData.decryptors;
+					var innerKey = backupKeyData.innerKey;
+
+					outerKey = backupKeyData.outerKey;
 
 					socketService.emit("user.backupKey", {
 						innerKey: innerKey,
@@ -510,7 +513,7 @@ define(["step", "whispeerHelper", "asset/state", "asset/securedDataWithMetaData"
 					sessionService.setPassword(newPassword);
 					this.ne();
 				}), cb);
-			},
+			};
 
 			this.loadFullData = function (cb) {
 				step(function () {
@@ -585,9 +588,13 @@ define(["step", "whispeerHelper", "asset/state", "asset/securedDataWithMetaData"
 						theUser.data.added = friendsService.didIRequest(theUser.getID());
 						theUser.data.isMyFriend = friendsService.areFriends(theUser.getID());
 
+						$rootScope.$apply();
+
 						friendsService.listen(function () {
 							theUser.data.added = friendsService.didIRequest(theUser.getID());
 							theUser.data.isMyFriend = friendsService.areFriends(theUser.getID());
+
+							$rootScope.$apply();
 						});
 					});
 
@@ -595,6 +602,8 @@ define(["step", "whispeerHelper", "asset/state", "asset/securedDataWithMetaData"
 					theUser.data.ignoreFriendState = ignoreFriendState.data;
 
 					theUser.loadImage();
+
+					$rootScope.$apply();
 
 					this.ne();
 				}), cb);
@@ -755,7 +764,7 @@ define(["step", "whispeerHelper", "asset/state", "asset/securedDataWithMetaData"
 		};
 	}
 
-	userModel.$inject = ["$injector", "ssn.blobService",  "ssn.keyStoreService", "ssn.profileService", "ssn.sessionService", "ssn.settingsService", "ssn.socketService", "ssn.friendsService", "ssn.errorService"];
+	userModel.$inject = ["$injector",  "$rootScope", "ssn.blobService",  "ssn.keyStoreService", "ssn.profileService", "ssn.sessionService", "ssn.settingsService", "ssn.socketService", "ssn.friendsService", "ssn.errorService"];
 
 	modelsModule.factory("ssn.models.user", userModel);
 });

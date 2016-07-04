@@ -1,7 +1,7 @@
 <header class="box-header" id="userView-header" data-ng-if="!user.notExisting">
 	<span id="userView-header-info">
 		<h1 class="userView-userName" data-ng-class="{'userView-userName--me': user.me}">{{user.name}}</h1>
-		<a id="userView-trustlevel" data-trustlevel="{{user.trustLevel}}" data-ng-if="::!user.me" data-whispeer-sref="app.user.verify" data-i18n="profile.trustlevel.{{user.trustLevel}}">
+		<a id="userView-trustlevel" data-trustlevel="{{user.trustLevel}}" data-ng-if="!user.me" data-whispeer-sref="app.user.verify" data-i18n="profile.trustlevel.{{user.trustLevel}}">
 		</a>
 	</span>
 	<nav class="box-header-links" id="userView-navigation">

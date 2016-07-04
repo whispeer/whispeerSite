@@ -196,7 +196,7 @@ define(["step", "whispeerHelper", "crypto/encryptedData", "services/serviceModul
 				safetyNames: ["birthday", "location", "relationship", "education", "work", "gender", "languages"],
 				setPrivacy: function (privacy, cb, updateProfile) {
 					step(function () {
-						api.updateBranch("privacy", privacy, this);
+						api.updateBranch("privacy", privacy);
 						api.uploadChangedData(this);
 					}, h.sF(function () {
 						if (!updateProfile) {
