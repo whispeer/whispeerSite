@@ -18,6 +18,14 @@ define(["services/serviceModule"], function (serviceModule) {
 				logError(e);
 			},
 			logError: logError,
+			failOnErrorPromise: function (state, promise) {
+				return promise.then(function () {
+					state.success();
+				}).catch(function (e) {
+					state.failed();
+					api.criticalError(e);
+				});
+			},
 			failOnError: function (state) {
 				return function (e) {
 					if (e) {

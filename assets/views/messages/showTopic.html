@@ -1,19 +1,51 @@
 <div class="box-rightWrap">
-	<span class="box-header-title box-header-title--full box-header-title--push">
-		<span>
-			<span data-i18n="messages.chat"></span>
-			<span data-ng-repeat="partner in activeTopic.partners">
-				<span class="status" data-status="{{partner.online}}" data-ng-if="::!partner.notExisting"></span>
-				<a whispeer-sref="app.user.info({identifier: partner.names.nickname})" data-ng-if="::!partner.notExisting">
-					<span data-ng-if="::activeTopic.partners.length>2">{{partner.basic.shortname}}</span>
-					<span data-ng-if="activeTopic.partners.length<=2">{{partner.name}}</span>
+	<div class="box-header box-header--padding">
+		<span class="box-header-title box-header-title--full-noExtras" data-ng-if="!editingTitle">
+			<span data-ng-if="activeTopic.title">
+				<a whispeer-sref="app.messages.detail({topicid: activeTopic.id})">
+					{{activeTopic.title}}
 				</a>
+			</span>
+			<span data-ng-if="!activeTopic.title">
+				<span data-i18n="messages.chat"></span>
+				<span data-ng-repeat="partner in activeTopic.partners">
+					<span class="status" data-status="{{partner.online}}" data-ng-if="::!partner.notExisting"></span>
+					<a whispeer-sref="app.user.info({identifier: partner.names.nickname})" data-ng-if="::!partner.notExisting">
+						<span data-ng-if="::activeTopic.partners.length>2">{{partner.basic.shortname}}</span>
+						<span data-ng-if="activeTopic.partners.length<=2">{{partner.name}}</span>
+					</a>
 
-				<span data-ng-if="::partner.notExisting">{{partner.name}}</span>
-				{{::($last?"":", ")}}
+					<span data-ng-if="::partner.notExisting">{{partner.name}}</span>
+					{{::($last?"":", ")}}
+				</span>
 			</span>
 		</span>
 		<div class="box-header-buttons--right">
+			<span data-ng-show="!editingTitle">
+				<a data-ng-click="toggleMessageOptions()" id="showOptions" class="box-header-button box-header-button--right">
+					<i class="fa fa-ellipsis-v fa-fw"></i>
+				</a>
+				<ul class="button-dropdown" data-ng-if="showMessageOptions">
+					<li class="button-dropdown-action">
+						<a whispeer-sref="app.messages.detail({topicid: activeTopic.id})" class="button-dropdown-action-text" data-i18n="messages.details"></a>
+					</li>
+					<li class="button-dropdown-action" data-ng-if="doNotShow">
+						<a class="button-dropdown-action-text" data-ng-click="toggleMessageOptions()">
+							Archivieren
+						</a>
+					</li>
+					<li class="button-dropdown-action" data-ng-if="activeTopic.partners.length <= 2 && doNotShow">
+						<a class="button-dropdown-action-text" data-ng-click="toggleMessageOptions()">
+							Nutzer blockieren
+						</a>
+					</li>
+					<li class="button-dropdown-action" data-ng-if="activeTopic.partners.length <= 2 && doNotShow">
+						<a class="button-dropdown-action-text" data-ng-click="toggleMessageOptions()">
+							Als Freund hinzufügen
+						</a>
+					</li>
+				</ul>
+			</span>
 			<a whispeer-sref="app.messages.list" id="showTopics" class="box-header-button box-header-button--right" data-ng-if="mobile">
 				<i class="fa fa-arrow-left fa-fw"></i>
 			</a>

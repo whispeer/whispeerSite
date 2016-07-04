@@ -151,6 +151,12 @@ define(["app"], function (app) {
 			controller: "ssn.messagesShowController"
 		});
 
+		$stateProvider.state("app.messages.detail", {
+			url: "/{topicid:[1-9][0-9]*}/detail",
+			templateUrl: "assets/views/messages/detail.html",
+			controller: "ssn.messagesDetailController"
+		});
+
 		$stateProvider.state("app.circles", {
 			url: "/circles",
 			views: {

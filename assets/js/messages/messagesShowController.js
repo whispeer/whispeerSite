@@ -302,8 +302,12 @@ define(["step", "whispeerHelper", "asset/state", "bluebird", "messages/messagesM
 
 			return bursts;
 		};
-	}
 
+		$scope.showMessageOptions = false;
+		$scope.toggleMessageOptions = function() {
+			$scope.showMessageOptions = !$scope.showMessageOptions;
+		};
+	}
 
 	messagesController.$inject = ["$scope", "$element", "$state", "$stateParams", "$timeout", "localize", "ssn.errorService", "ssn.messageService", "ssn.imageUploadService"];
 
