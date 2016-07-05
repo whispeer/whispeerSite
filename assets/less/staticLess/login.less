@@ -73,12 +73,18 @@
 }
 #start-login-form { // Login on startView
 	text-align: right;
-	margin: 5px 1%;
+	margin: 5px 5px 5px 0;
+	width: 495px;
 }
 .body-iframe {
 	#mail, #password, #loginformsubmit {
+		float: left;
+		margin-left: 1%;
 		height: 40px;
 		min-height: 0;
+		&:first-child {
+			margin-left: 0;
+		}
 	}
 	#loginformsubmit {
 		line-height: 38px;
