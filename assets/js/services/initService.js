@@ -2,6 +2,7 @@ define(["services/serviceModule", "bluebird", "asset/observer", "debug"], functi
 	"use strict";
 
 	var debugName = "whispeer:initService";
+	var initServiceDebug = debug(debugName);
 
 	function time(name) {
 		if (debug.enabled(debugName)) {
@@ -93,6 +94,7 @@ define(["services/serviceModule", "bluebird", "asset/observer", "debug"], functi
 
 				if (response.options.cache) {
 					return callback(response.data.content).then(function (transformedData) {
+						initServiceDebug("Callback done:" + response.domain);
 						if (!transformedData) {
 							return;
 						}
@@ -148,6 +150,7 @@ define(["services/serviceModule", "bluebird", "asset/observer", "debug"], functi
 				time("init");
 				return runCallbacks(initResponses);
 			}).then(function () {
+				initServiceDebug("Callbacks done!");
 				return Bluebird.all(runningInitCallbacks);
 			}).then(function () {
 				timeEnd("init");

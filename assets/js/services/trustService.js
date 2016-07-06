@@ -87,17 +87,25 @@ define(["step", "whispeerHelper", "crypto/trustManager", "crypto/signatureCache"
 		var createTrustDatabaseAsync = Bluebird.promisify(createTrustDatabase);
 
 		function loadFromCache(cacheEntry) {
+			trustServiceDebug("trustManager cache get done");
 			return userService.verifyOwnKeysCacheDone().then(function () {
+				trustServiceDebug("trustManager cache loading");
 				return loadDatabaseAsync(cacheEntry.data);
 			});
 		}
 
 		initService.get("trustManager.get", function (data) {
+			trustServiceDebug("trustManager.get finished unchanged: " + data.unChanged);
 			return userService.verifyOwnKeysDone().then(function () {
+				if (data.unChanged) {
+					trustServiceDebug("trustManager unChanged");
+					return;
+				}
+
+				trustServiceDebug("trustManager get loading");
+
 				if (trustManager.isLoaded()) {
-					if (!data.content) {
-						return;
-					}
+					trustServiceDebug("trustManager cache exists updating");
 
 					var updateDatabaseAsync = Bluebird.promisify(trustManager.updateDatabase, trustManager);
 
@@ -105,9 +113,11 @@ define(["step", "whispeerHelper", "crypto/trustManager", "crypto/signatureCache"
 				}
 
 				if (data.content) {
+					trustServiceDebug("load content");
 					return loadDatabaseAsync(data.content);
 				}
 
+				trustServiceDebug("create new trust database!");
 				return createTrustDatabaseAsync();
 			});
 		}, {
