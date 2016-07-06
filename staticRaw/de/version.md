@@ -4,6 +4,14 @@ lang: de
 title: Versionshistorie
 ---
 
+## 0.3.0
+
+* Nachrichten: Chat kann nun eine Titel bekommen!
+* Nachrichten: Auf großen Bildschirmen werden mehr Themen initial geladen
+* Offline: Initiales whispeer lädt offline
+* Geschwindigkeit und Speicherverbrauch verbessert
+* Bugfix: Neues Nachrichtenthema wird korrekt einsortiert
+
 ## 0.2.26
 
 * Bugfix: Fehlermeldung beim Passwort zurücksetzen
