@@ -86,8 +86,10 @@ define(["step", "whispeerHelper", "user/userModule", "asset/observer", "crypto/s
 		function doLoad(identifier, cb) {
 			var result = [];
 			step(function () {
+				initService.awaitLoading(this);
+			}, h.sF(function () {
 				socketService.emit("user.getMultiple", {identifiers: identifier}, this);
-			}, h.sF(function (data) {
+			}), h.sF(function (data) {
 				if (data && data.users) {
 					result = data.users.map(function (e) {
 						if (e.userNotExisting) {

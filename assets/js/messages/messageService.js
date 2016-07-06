@@ -202,10 +202,12 @@ define([
 			},
 			getUserTopic: function (uid, cb) {
 				step(function () {
-					socket.emit("messages.getUserTopic", {
+					initService.awaitLoading(this);
+				}, h.sF(function () {
+					socket.definitlyEmit("messages.getUserTopic", {
 						userid: uid
 					}, this);
-				}, h.sF(function (data) {
+				}), h.sF(function (data) {
 					if (data.topicid) {
 						this.ne(data.topicid);
 					} else {
