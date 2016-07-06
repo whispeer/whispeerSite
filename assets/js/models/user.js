@@ -593,8 +593,6 @@ define(["step", "whispeerHelper", "asset/state", "asset/securedDataWithMetaData"
 						friendsService.listen(function () {
 							theUser.data.added = friendsService.didIRequest(theUser.getID());
 							theUser.data.isMyFriend = friendsService.areFriends(theUser.getID());
-
-							$rootScope.$apply();
 						});
 					});
 
