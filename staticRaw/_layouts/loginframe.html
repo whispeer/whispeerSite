@@ -6,9 +6,9 @@
 		<input type="text" id="mail" placeholder="{{i18n.login.username}}" data-ng-model="login.identifier" data-load-val>
 		<input type="password" id="password" placeholder="{{i18n.login.password}}" data-ng-model="login.password" data-load-val>
 		<button id="loginformsubmit" class="btn btn--input btn--primary btn--saveButton" data-ng-class="{'btn-saveButton--success': login.state.success || login.state.init, 'btn-saveButton--operation': login.state.pending, 'btn-saveButton--failure': login.state.failed}" type="submit" data-ng-click="login.login()">
-			<i data-ng-if="login.state.success || login.state.init" data-hide-savebutton class="fa fa-fw fa-check-circle"></i>
-			<i data-ng-cloak data-ng-if="login.state.failed" class="fa fa-fw fa-times-circle"></i>
-			<i data-ng-cloak data-ng-if="login.state.pending" class="saveButton-spinner fa fa-fw fa-spinner fa-spin"></i>
+			<i data-ng-if="login.state.success || login.state.init" data-hide-savebutton class="fa fa-check-circle"></i>
+			<i data-ng-cloak data-ng-if="login.state.failed" class="fa fa-times-circle"></i>
+			<i data-ng-cloak data-ng-if="login.state.pending" class="saveButton-spinner fa fa-spinner fa-spin"></i>
 			<span>{{i18n.login.link}}</span>
 		</button>
 	</form>
