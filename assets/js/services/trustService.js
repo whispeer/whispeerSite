@@ -21,8 +21,10 @@ define(["step", "whispeerHelper", "crypto/trustManager", "crypto/signatureCache"
 
 		function uploadDatabase(cb) {
 			step(function () {
+				initService.awaitLoading(this);
+			}, h.sF(function () {
 				trustManager.getUpdatedVersion(this);
-			}, h.sF(function (newTrustContent) {
+			}), h.sF(function (newTrustContent) {
 				new CacheService("trustManager.get").store(sessionService.getUserID(), newTrustContent);
 
 				socketService.emit("trustManager.set", {
