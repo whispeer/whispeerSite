@@ -662,7 +662,7 @@ define(["whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForReady", "
 
 		this.encryptWithPrefix = function (prefix, data, progressCallback, noDecode) {
 			if (privateActionsBlocked) {
-				throw new errors.SecurityError("Private Actions are blocked");
+				throw new errors.SecurityError("Private Actions are blocked (encryptWithPrefix)");
 			}
 
 			if (!isKeyUsableForEncryption(intKey.getRealID())) {
@@ -880,7 +880,7 @@ define(["whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForReady", "
 		*/
 		this.kem = function (callback) {
 			if (privateActionsBlocked) {
-				throw new errors.SecurityError("Private Actions are blocked");
+				throw new errors.SecurityError("Private Actions are blocked (kem)");
 			}
 
 			if (!isKeyUsableForEncryption(intKey.getRealID())) {
@@ -1120,7 +1120,7 @@ define(["whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForReady", "
 		if (isPrivateKey) {
 			this.sign = function (hash, type) {
 				if (privateActionsBlocked) {
-					throw new errors.SecurityError("Private Actions are blocked");
+					throw new errors.SecurityError("Private Actions are blocked (sign)");
 				}
 
 				return requireAsync(["crypto/trustManager", "crypto/signatureCache"]).spread(function (trustManager, signatureCache) {

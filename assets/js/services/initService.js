@@ -147,6 +147,7 @@ define(["services/serviceModule", "bluebird", "asset/observer", "debug"], functi
 				return getServerData(initRequests);
 			}).then(function (initResponses) {
 				timeEnd("serverInitGet");
+				keyStore.security.allowPrivateActions();
 				time("init");
 				return runCallbacks(initResponses);
 			}).then(function () {
@@ -154,7 +155,6 @@ define(["services/serviceModule", "bluebird", "asset/observer", "debug"], functi
 				return Bluebird.all(runningInitCallbacks);
 			}).then(function () {
 				timeEnd("init");
-				keyStore.security.allowPrivateActions();
 				socketService.allowEmit(blockageToken);
 
 				migrationService();
