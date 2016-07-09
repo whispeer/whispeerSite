@@ -1,5 +1,6 @@
 define([
 	"angular",
+	"config",
 	"angularUiRouter",
 	"controllers/controllers",
 	"services/services",
@@ -14,7 +15,7 @@ define([
 	"config/interceptorsConfig",
 	"localizationModule",
 	"emptyInclude"
-], function (angular) {
+], function (angular, config) {
 	"use strict";
 
 	return angular.module("ssn", [
@@ -34,8 +35,12 @@ define([
 		"localization",
 		"ui.router",
 		"ngTouch"
-	], function ($compileProvider) {
+	], ["$compileProvider", function ($compileProvider) {
 		$compileProvider.imgSrcSanitizationWhitelist(/^\s*(https?|ftp|file|blob|app):|data:image\//);
 		$compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|ftp|mailto|tel|file|app):/);
-	});
+
+		if (!config.debug) {
+			$compileProvider.debugInfoEnabled(false);
+		}
+	}]);
 });
