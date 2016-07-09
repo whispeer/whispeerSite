@@ -65,9 +65,10 @@ define(["step", "whispeerHelper", "crypto/encryptedData", "services/serviceModul
 			return result;
 		}
 
-		function migrateToFormat2(givenOldSettings, cb) {
+		function migrateToFormat2(givenOldSettings, blockageToken, cb) {
 			console.warn("migrating settings to format 2");
 			step(function () {
+				keyStore.security.allowPrivateActions();
 				var oldSettings = new EncryptedData(givenOldSettings);
 				oldSettings.decrypt(this);
 			}, h.sF(function (decryptedSettings) {
@@ -82,17 +83,18 @@ define(["step", "whispeerHelper", "crypto/encryptedData", "services/serviceModul
 				settings = SecuredData.load(signedAndEncryptedSettings.content, signedAndEncryptedSettings.meta, options);
 
 				socketService.emit("settings.setSettings", {
-					settings: signedAndEncryptedSettings
+					settings: signedAndEncryptedSettings,
+					blockageToken: blockageToken
 				}, this);
 			}), h.sF(function () {
 				this.ne(settings);
 			}), cb);
 		}
 
-		function loadSettings(givenSettings) {
+		function loadSettings(givenSettings, blockageToken) {
 			return Bluebird.try(function () {
 				if (givenSettings.ct) {
-					return Bluebird.promisify(migrateToFormat2)(givenSettings);
+					return Bluebird.promisify(migrateToFormat2)(givenSettings, blockageToken);
 				} else {
 					return SecuredData.load(givenSettings.content, givenSettings.meta, options);
 				}
@@ -116,7 +118,7 @@ define(["step", "whispeerHelper", "crypto/encryptedData", "services/serviceModul
 			});
 		}
 
-		function loadFromServer(data) {
+		function loadFromServer(data, blockageToken) {
 			if (data.unChanged) {
 				return Bluebird.resolve();
 			}
@@ -127,7 +129,7 @@ define(["step", "whispeerHelper", "crypto/encryptedData", "services/serviceModul
 			serverSettings = givenSettings.server || {};
 
 			return $injector.get("ssn.userService").ownLoaded().then(function () {
-				return loadSettings(givenSettings);
+				return loadSettings(givenSettings, blockageToken);
 			}).thenReturn(toCache);
 		}
 

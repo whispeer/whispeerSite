@@ -93,7 +93,7 @@ define(["services/serviceModule", "bluebird", "asset/observer", "debug"], functi
 				var callback = response.callback;
 
 				if (response.options.cache) {
-					return callback(response.data.content).then(function (transformedData) {
+					return callback(response.data.content, blockageToken).then(function (transformedData) {
 						initServiceDebug("Callback done:" + response.domain);
 						if (!transformedData) {
 							return;
@@ -147,7 +147,6 @@ define(["services/serviceModule", "bluebird", "asset/observer", "debug"], functi
 				return getServerData(initRequests);
 			}).then(function (initResponses) {
 				timeEnd("serverInitGet");
-				keyStore.security.allowPrivateActions();
 				time("init");
 				return runCallbacks(initResponses);
 			}).then(function () {
@@ -155,6 +154,7 @@ define(["services/serviceModule", "bluebird", "asset/observer", "debug"], functi
 				return Bluebird.all(runningInitCallbacks);
 			}).then(function () {
 				timeEnd("init");
+				keyStore.security.allowPrivateActions();
 				socketService.allowEmit(blockageToken);
 
 				migrationService();
