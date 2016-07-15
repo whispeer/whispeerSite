@@ -54,8 +54,7 @@ requirejs.config({
 	]
 });
 
-/* jshint unused: false */
-var startup = new Date().getTime();
+window.startup = new Date().getTime();
 
 if (window.location.href.indexOf("file:///") === 0) {
 	var base = window.location.href.replace("file://", "");
