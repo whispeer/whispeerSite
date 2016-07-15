@@ -14,7 +14,11 @@
 		"module": true,
 		"describe": true,
 		"it": true,
-		"expect": true
+		"expect": true,
+		"File": true,
+		"indexedDB": true,
+		"WHISPEER_ENV": true,
+		"process": true
 	},
 	"undef": true,
 	"browser": true,

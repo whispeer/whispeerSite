@@ -32,8 +32,6 @@ define(["step", "whispeerHelper", "asset/observer", "services/serviceModule", "a
 			};
 
 			this.remove = function (cb) {
-				var removeCircleAsync = Bluebird.promisify(settingsService.privacy.removeCircle, settingsService.privacy);
-
 				return settingsService.privacy.removeCircle().then(function () {
 					return socket.emit("circle.delete", {
 						remove: {

@@ -13,5 +13,5 @@ define(["directives/directivesModule"], function (directivesModule) {
 		};			
 	}
 
-	directivesModule.directive("comment", commentDirective);;
+	directivesModule.directive("comment", commentDirective);
 });

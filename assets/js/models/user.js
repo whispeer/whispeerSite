@@ -355,7 +355,7 @@ define(["step", "whispeerHelper", "asset/state", "asset/securedDataWithMetaData"
 				return keyStoreService.format.fingerPrint(theUser.getSignKey());
 			};
 
-			this.verifyFingerPrint = function (fingerPrint, cb) {
+			this.verifyFingerPrint = function (fingerPrint) {
 				if (fingerPrint !== theUser.getFingerPrint()) {
 					return false;
 				}

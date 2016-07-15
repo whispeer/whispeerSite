@@ -1,4 +1,4 @@
-define(["controllers/controllerModule", "whispeerHelper", "step", "asset/state"], function (circlesModule, h, step, State) {
+define(["controllers/controllerModule", "whispeerHelper", "step"], function (circlesModule, h, step) {
 	"use strict";
 
 	function circlesListController($scope, circleService, errorService) {

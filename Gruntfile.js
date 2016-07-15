@@ -453,7 +453,7 @@ function sha1File(filename) {
 	var crypto = require("crypto");
 	var fs = require("fs");
 
-	return new Bluebird(function (resolve, reject) {
+	return new Bluebird(function (resolve) {
 		var shasum = crypto.createHash("sha1");
 		var s = fs.ReadStream(filename);
 

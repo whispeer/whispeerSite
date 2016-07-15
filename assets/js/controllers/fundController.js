@@ -14,12 +14,12 @@ define(["step", "whispeerHelper", "asset/state", "libs/qr", "libs/filesaver", "c
 		$scope.togglePaypal = function() {
 			$scope.paypal = !$scope.paypal;
 			$scope.bank = false;
-		}
+		};
 
 		$scope.toggleBank = function() {
 			$scope.bank = !$scope.bank;
 			$scope.paypal = false;
-		}
+		};
 	}
 
 	fundController.$inject = ["$scope", "ssn.cssService"];
