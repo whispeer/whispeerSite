@@ -54,6 +54,7 @@ requirejs.config({
 	]
 });
 
+/* jshint unused: false */
 var startup = new Date().getTime();
 
 if (window.location.href.indexOf("file:///") === 0) {

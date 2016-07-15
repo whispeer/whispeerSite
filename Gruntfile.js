@@ -1,3 +1,4 @@
+/* jshint -W097 */
 "use strict";
 
 var Bluebird = require("bluebird");
