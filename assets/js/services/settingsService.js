@@ -1,7 +1,7 @@
 define(["step", "whispeerHelper", "crypto/encryptedData", "services/serviceModule", "asset/securedDataWithMetaData", "bluebird"], function (step, h, EncryptedData, serviceModule, SecuredData, Bluebird) {
 	"use strict";
 
-	var service = function ($rootScope, $injector, localize, initService, socketService) {
+	var service = function ($rootScope, $injector, localize, initService, socketService, keyStore) {
 		var settings, serverSettings = {}, options = { type: "settings", removeEmpty: true };
 
 		var notVisible = {
@@ -276,7 +276,7 @@ define(["step", "whispeerHelper", "crypto/encryptedData", "services/serviceModul
 		return api;
 	};
 
-	service.$inject = ["$rootScope", "$injector", "localize", "ssn.initService", "ssn.socketService"];
+	service.$inject = ["$rootScope", "$injector", "localize", "ssn.initService", "ssn.socketService", "ssn.keyStoreService"];
 
 	serviceModule.factory("ssn.settingsService", service);
 });
