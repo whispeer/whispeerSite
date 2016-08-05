@@ -1,23 +1,28 @@
-define(["services/serviceModule"], function (serviceModule) {
+define(["services/serviceModule", "config"], function (serviceModule, config) {
 	"use strict";
 
-	function logError(e) {
-		if (e) {
-			console.error(e);
-			globalErrors.push({
-				e: e,
-				str: e.toString(),
-				stack: e.stack
-			});
-		}
-	}
-
-	var service = function () {
+	var service = function ($http) {
 		var api = {
 			criticalError: function (e) {
-				logError(e);
+				api.logError(e);
 			},
-			logError: logError,
+			logError: function logError(e) {
+				if (e) {
+					console.error(e);
+					$http.post(
+						(config.https ? "https://" : "http://") +
+						config.ws +
+						":" + config.wsPort +
+						"/reportError",
+					JSON.stringify({ error: e.toString() }));
+
+					globalErrors.push({
+						e: e,
+						str: e.toString(),
+						stack: e.stack
+					});
+				}
+			},
 			failOnErrorPromise: function (state, promise) {
 				return promise.then(function () {
 					state.success();
@@ -41,7 +46,7 @@ define(["services/serviceModule"], function (serviceModule) {
 		return api;
 	};
 
-	service.$inject = [];
+	service.$inject = ["$http"];
 
 	serviceModule.factory("ssn.errorService", service);
 });
