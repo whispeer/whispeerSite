@@ -84,6 +84,13 @@ define(["step", "whispeerHelper", "config", "controllers/controllerModule", "deb
 			$scope.sidebarActive = !$scope.sidebarActive;
 		};
 
+		function fixSafariScrolling(event) {
+			event.target.style.overflowY = "hidden";
+			setTimeout(function () { event.target.style.overflowY = "auto"; });
+		}
+
+		jQuery("#sidebar-left").on("webkitTransitionEnd", fixSafariScrolling);
+
 		function updateCssClass() {
 			if (!$scope.loading) {
 				$scope.cssClass = cssService.getClass();
