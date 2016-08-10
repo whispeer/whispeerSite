@@ -4,6 +4,13 @@ lang: de
 title: Versionshistorie
 ---
 
+## 0.3.1
+
+* Better mobile sidebar
+* Bugfix for settings header
+* Speed improvements
+* Do not warn users of battery usage on mobile upload
+
 ## 0.3.0
 
 * Nachrichten: Chat kann nun eine Titel bekommen!
