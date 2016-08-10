@@ -1,7 +1,7 @@
 define(["directives/directivesModule", "whispeerHelper", "asset/state"], function (directivesModule, h, State) {
 	"use strict";
 
-	function newPostDirective(postService, ImageUploadService, filterService, screenSize) {
+	function newPostDirective(postService, ImageUploadService, filterService) {
 		return {
 			scope: {
 				"inputI18nAttr": "@",
@@ -78,7 +78,7 @@ define(["directives/directivesModule", "whispeerHelper", "asset/state"], functio
 		};
 	}
 
-	newPostDirective.$inject = ["ssn.postService", "ssn.imageUploadService", "ssn.filterService", "ssn.screenSizeService"];
+	newPostDirective.$inject = ["ssn.postService", "ssn.imageUploadService", "ssn.filterService"];
 
 	directivesModule.directive("newpost", newPostDirective);
 });
