@@ -39,16 +39,6 @@ define(["directives/directivesModule", "whispeerHelper", "asset/state"], functio
 						$scope.newPost.readers = newSelection;
 					};
 
-					var firstTimeUpload = true;
-
-					$scope.mobilePromptUser = function ($event) {
-						if (screenSize.mobile && firstTimeUpload && !window.confirm("Uploading files on mobile can drain battery. Are you sure?")) {
-							$event.preventDefault();
-						} else {
-							firstTimeUpload = false;
-						}
-					};
-
 					$scope.sendPost = function () {
 						var images = $scope.newPost.images, wallUserId = 0;
 						sendPostState.pending();
