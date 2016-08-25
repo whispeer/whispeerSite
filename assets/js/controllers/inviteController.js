@@ -5,7 +5,7 @@
 define(["step", "whispeerHelper", "asset/state", "controllers/controllerModule"], function (step, h, State, controllerModule) {
 	"use strict";
 
-	function inviteController($scope, $location, $state, socketService, errorService, cssService, localize) {
+	function inviteController($scope, $location, $state, socketService, errorService, cssService, localize, initService) {
 		if ($state.current.name.indexOf("app.invite") > -1) {
 			cssService.setClass("inviteView");
 		}
@@ -63,9 +63,9 @@ define(["step", "whispeerHelper", "asset/state", "controllers/controllerModule"]
 		};
 
 		function updateSentInvites() {
-			step(function () {
-				socketService.emit("invites.getMyInvites", {}, this);
-			}, h.sF(function (result) {
+			var promise = initService.awaitLoading().then(function () {
+				return socketService.emit("invites.getMyInvites", {}, this);	
+			}).then(function (result) {
 				$scope.acceptedInvites = result.invites.filter(function (invite) {
 					return invite.usedBy.length > 0;
 				});
@@ -73,9 +73,9 @@ define(["step", "whispeerHelper", "asset/state", "controllers/controllerModule"]
 				$scope.unacceptedInvites = result.invites.filter(function (invite) {
 					return invite.usedBy.length === 0;
 				});
+			});
 
-				this.ne();
-			}), errorService.failOnError(inviteDisplayState));
+			errorService.failOnErrorPromise(inviteDisplayState, promise);
 		}
 
 		updateSentInvites();
@@ -97,7 +97,7 @@ define(["step", "whispeerHelper", "asset/state", "controllers/controllerModule"]
 		};
 	}
 
-	inviteController.$inject = ["$scope", "$location", "$state", "ssn.socketService", "ssn.errorService", "ssn.cssService", "localize"];
+	inviteController.$inject = ["$scope", "$location", "$state", "ssn.socketService", "ssn.errorService", "ssn.cssService", "localize", "ssn.initService"];
 
 	controllerModule.controller("ssn.inviteController", inviteController);
 });

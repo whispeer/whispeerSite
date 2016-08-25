@@ -470,11 +470,13 @@ define(["step", "whispeerHelper", "bluebird", "validation/validator", "services/
 					if (postsById[postid]) {
 						this.last.ne(postsById[postid]);
 					} else {
-						socket.emit("posts.getPost", {
-							postid: postid
-						}, this);
+						initService.awaitLoading(this);
 					}
-				}, h.sF(function (data) {
+				}, h.sF(function () {
+					socket.definitlyEmit("posts.getPost", {
+						postid: postid
+					}, this);
+				}), h.sF(function (data) {
 					if (data.post) {
 						this.ne(makePost(data.post));
 					} else {
