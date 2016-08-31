@@ -1,9 +1,10 @@
 /* Warning! This code manipulates the DOM, do only change with extra care as you might create Cross-Site-Scripting holes */
-define(["directives/directivesModule"], function (directivesModule) {
+define(["directives/directivesModule", "emojify"], function (directivesModule, emojify) {
 	"use strict";
 
 	var ignoreAsLastCharacter = ["'", ")", "\"", "."];
 	var linkElement = jQuery("<a>").attr("target", "_blank");
+	var emojiElement = jQuery("<span>").addClass("emoji");
 
 	function appendUrl(elm, url, remainingTextCallback) {
 		var i, removeUntil = 0;
@@ -72,11 +73,33 @@ define(["directives/directivesModule"], function (directivesModule) {
 		}
 	}
 
+	function emojifyReplacer(elm, text, remainingTextCallback) {
+		var foundEmojies = [];
+
+		debugger;
+
+		var emojified = emojify.replace(text, function (original, name) {
+			foundEmojies.push(name);
+
+			return ":emoji:" + name + ":emoji:";
+		});
+
+		var splitText = emojified.split(":emoji:");
+
+		splitText.forEach(function (val) {
+			if (foundEmojies.indexOf(val) > -1) {
+				elm.append(emojiElement.clone().addClass("emoji-" + val));
+			} else {
+				elm.append(remainingTextCallback(val));
+			}
+		});
+	}
+
 	function createTextNode(elm, text) {
 		elm.append(document.createTextNode(text));
 	}
 
-	var syntaxifier = [urlify, newlines, createTextNode];
+	var syntaxifier = [urlify, newlines, emojifyReplacer, createTextNode];
 
 	function callSyntaxifier(number, elm, text) {
 		syntaxifier[number](elm, text, function (text) {
