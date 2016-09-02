@@ -35,13 +35,13 @@ define([
 		socket.channel("message", function (e, data) {
 			if (!e) {
 				if (data.topic) {
-					var t = Topic.fromData(data.topic, function () {
+					Topic.fromData(data.topic).then(function (topic) {
+						if (topic.data.unread) {
+							changeReadTopic(topic.getID(), true);
+						}
+
 						addSocketMessage(data.message);
 					});
-
-					if (t.data.unread) {
-						messageService.data.unread += 1;
-					}
 				} else {
 					addSocketMessage(data.message);
 				}
@@ -86,9 +86,12 @@ define([
 
 					initService.awaitLoading(this);
 				}, h.sF(function () {
-					var last;
-					if (Topic.all().length > 0) {
-						last = Topic.all()[Topic.all().length - 1].obj.getID();
+					var last, topics = Topic.all().filter(function (topic) {
+						return !topic.obj.getIgnoreAsLastTopic();
+					});
+
+					if (topics.length > 0) {
+						last = topics[topics.length - 1].obj.getID();
 					} else {
 						last = 0;
 					}
@@ -105,13 +108,12 @@ define([
 						l.allTopicsLoaded = true;
 					}
 
-					var i;
-					for (i = 0; i < latest.topics.length; i += 1) {
-						Topic.fromData(latest.topics[i], this.parallel());
-					}
+					return Topic.multipleFromData(latest.topics);
+				}), h.sF(function (topics) {
+					topics.forEach(function (topic) {
+						topic.setIgnoreAsLastTopic(false);
+					});
 
-					this.parallel()();
-				}), h.sF(function () {
 					messageService.notify("", "loadingDone");
 				}));
 			},
@@ -178,7 +180,7 @@ define([
 				}), h.sF(function (topicData) {
 					socket.emit("messages.sendNewTopic", topicData, this);
 				}), h.sF(function (result) {
-					Topic.fromData(result.topic, cb);
+					return Topic.multipleFromData([result.topic]);
 				}), cb || h.nop);
 			},
 			sendMessage: function (topicID, message, images, cb) {

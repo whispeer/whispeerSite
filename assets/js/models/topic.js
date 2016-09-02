@@ -17,7 +17,7 @@ define([
 	var debugName = "whispeer:topic";
 	var topicDebug = debug(debugName);
 
-	function topicModel($timeout, windowService, socket, userService, keyStore, sessionService, Message, initService, TopicUpdate) {
+	function topicModel($timeout, $rootScope, windowService, socket, userService, keyStore, sessionService, Message, initService, TopicUpdate) {
 		function sortGetTime(a, b) {
 			return (a.getTime() - b.getTime());
 		}
@@ -75,6 +75,7 @@ define([
 			var latestTopicUpdate;
 
 			this.data = {
+				loaded: false,
 				remaining: 1,
 
 				messages: dataMessages,
@@ -342,6 +343,14 @@ define([
 				this.addMessages([message], addUnread);
 			};
 
+			this.setIgnoreAsLastTopic = function (val) {
+				this._ignoreAsLastTopic = val;
+			};
+
+			this.getIgnoreAsLastTopic = function () {
+				return this._ignoreAsLastTopic;
+			};
+
 			this.verify = function verify(cb) {
 				step(function () {
 					userService.get(meta.metaAttr("creator"), this);
@@ -395,9 +404,12 @@ define([
 				step(function () {
 					theTopic.verify(this);
 				}, h.sF(function () {
+					theTopic.loadNewest(this);
+				}), h.sF(function () {
 					theTopic.loadReceiverNames(this);
 				}), h.sF(function () {
-					theTopic.loadNewest(this);
+					theTopic.data.loaded = true;
+					this.ne();
 				}), cb);
 			};
 
@@ -462,33 +474,52 @@ define([
 			Observer.call(theTopic);
 		};
 
-		Topic.fromData = function (data, cb) {
-			cb = cb || h.nop;
+		Topic.multipleFromData = function (topicsData) {
+			return Bluebird.resolve(topicsData).map(function (topicData) {
+				return Topic.createTopicAndAdd(topicData);
+			}).map(function (topic) {
+				return Topic.loadTopic(topic);
+			}).then(function (topics) {
+				$rootScope.$apply();
+				return topics;
+			});
+		};
 
-			var t = new Topic(data);
+		Topic.createTopicAndAdd = function (topicData) {
+			var topic = new Topic(topicData);
 
-			var id = t.getID();
+			var id = topic.getID();
 
 			if (topics[id]) {
-				$timeout(function () {
-					cb(null, t.getID());
-				});
 				return topics[id];
 			}
 
-			topics[id] = t;
+			topics[id] = topic;
 
-			step(function () {
-				t.loadAllData(this);
-			}, h.sF(function () {
-				//add to topic list
-				topicArray.push(t.data);
+			topicArray.push(topic.data);
 
-				topicDebug("Topic loaded:" + (new Date().getTime() - startup));
-				this.ne(t.getID());
-			}), cb);
+			return topic;
+		};
 
-			return t;
+		Topic.loadTopic = function (topic) {
+			if (topic.data.loaded) {
+				return Bluebird.resolve(topic);
+			}
+
+			var promise = Bluebird.promisify(topic.loadAllData, topic)().thenReturn(topic);
+
+			promise.then(function (id) {
+				topicDebug("Topic loaded (" + id + "):" + (new Date().getTime() - startup));
+			});
+
+			return promise;
+		};
+
+		Topic.fromData = function (topicData) {
+			return Bluebird.resolve(topicData).then(function (topicData) {
+				var topic = Topic.createTopicAndAdd(topicData);
+				return Topic.loadTopic(topic);
+			});
 		};
 
 		Topic.messageFromData = function (data, cb) {
@@ -520,7 +551,6 @@ define([
 		};
 
 		Topic.get = function (topicid, cb) {
-			var theTopic;
 			step(function () {
 				if (topics[topicid]) {
 					this.last.ne(topics[topicid]);
@@ -533,11 +563,12 @@ define([
 				}
 			}, h.sF(function (data) {
 				if (!data.error) {
-					theTopic = Topic.fromData(data.topic, this);
+					return Topic.fromData(data.topic);
 				} else {
 					this.last.ne(false);
 				}
-			}), h.sF(function () {
+			}), h.sF(function (theTopic) {
+				theTopic.setIgnoreAsLastTopic(true);
 				this.last.ne(theTopic);
 			}), cb);
 		};
@@ -674,7 +705,7 @@ define([
 		return Topic;
 	}
 
-	topicModel.$inject = ["$timeout", "ssn.windowService", "ssn.socketService", "ssn.userService", "ssn.keyStoreService", "ssn.sessionService", "ssn.models.message", "ssn.initService", "ssn.models.topicUpdate"];
+	topicModel.$inject = ["$timeout", "$rootScope", "ssn.windowService", "ssn.socketService", "ssn.userService", "ssn.keyStoreService", "ssn.sessionService", "ssn.models.message", "ssn.initService", "ssn.models.topicUpdate"];
 
 	modelsModule.factory("ssn.models.topic", topicModel);
 });
