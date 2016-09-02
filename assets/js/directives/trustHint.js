@@ -9,6 +9,10 @@ define(["directives/directivesModule", "jquery", "qtip"], function (directivesMo
 				}
 
 				elm.mouseover(function () {
+					if (!scope.userData || scope.userData.me) {
+						return;
+					}
+
 					var translation = "";
 					switch(scope.userData.trustLevel) {
 						case -1:
