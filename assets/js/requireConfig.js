@@ -21,8 +21,7 @@ requirejs.config({
 		PromiseWorker: "bower/require-promise-worker.js/src/index",
 		dexie: "bower/dexie/dist/latest/Dexie",
 		debug: "bower/visionmedia-debug/dist/debug",
-		emojify: "bower/emojify.js/dist/js/emojify",
-		"emoji-parser": "bower/emoji-parser/main"
+		emojify: "bower/js-emoji/lib/emoji",
 	},
 	baseUrl: "assets/js",
 	shim: {

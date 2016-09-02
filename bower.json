@@ -32,7 +32,6 @@
     "angular-ui-router": "~0.2.14",
     "sjcl": "~1.0.3",
     "requirejs-plugins": "^1.0.3",
-    "emojify.js": "^1.1.0",
-    "emoji-parser": "^0.1.1"
+    "js-emoji": "^3.0.2"
   }
 }
