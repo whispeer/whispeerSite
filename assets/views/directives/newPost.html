@@ -14,7 +14,7 @@
 			<div id="newsfeed-newPostImages" data-ng-class="{'animate-heightAndOverflow animate--fill newsfeedView-newPostImages--border': newPost.images.length > 0}">
 				<div class="newsfeed-newPostImagePreview" data-ng-repeat="image in newPost.images">
 					<button class="newsfeed-newPostImageRemove fa fa-times-circle" data-ng-click='newPost.removeImage($index)'></button>
-					<img class="newsfeed-newPostImage" alt="{{image.getName()}}" data-ng-src="{{image.getUrl()}}">
+					<img class="newsfeed-newPostImage" alt="{{image.getName()}}" data-ng-src="{{image.getUrl()}}" data-ng-click='newPost.rotateImage($index)'>
 					<progress class="newsfeed-newPostImageProgress" value="{{image.getProgress()*100}}" max="100"></progress>
 				</div>
 			</div>

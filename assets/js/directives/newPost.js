@@ -21,6 +21,10 @@ define(["directives/directivesModule", "whispeerHelper", "asset/state"], functio
 						text: "",
 						readers: ["always:allfriends"],
 						images: [],
+						rotateImage: function (index) {
+							var image = $scope.newPost.images[index];
+							image.rotate();
+						},
 						removeImage: function (index) {
 							$scope.newPost.images.splice(index, 1);
 						},

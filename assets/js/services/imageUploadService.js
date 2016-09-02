@@ -77,6 +77,7 @@ define(["step", "whispeerHelper", "jquery", "bluebird", "imageLib", "asset/Progr
 		}
 
 		var ImageUpload = function (file, options) {
+			this.rotation = "0";
 			this._file = file;
 			this._options = $.extend({}, defaultOptions, options);
 			this._progress = new Progress();
@@ -174,11 +175,106 @@ define(["step", "whispeerHelper", "jquery", "bluebird", "imageLib", "asset/Progr
 			};
 		};
 
+		ImageUpload.rotate90270 = function (angle, img) {
+			var canvas = document.createElement("canvas");
+			canvas.width  = img.height;
+			canvas.height = img.width;
+			var diff = canvas.width-canvas.height;
+			var newCtx = canvas.getContext("2d");
+			newCtx.translate(canvas.width/2, canvas.height/2);
+			newCtx.rotate(angle);
+			newCtx.translate(-canvas.width/2, -canvas.height/2);
+			newCtx.drawImage(img, diff/2, -diff/2);
+
+			return canvas;
+		};
+
+		ImageUpload.rotate90 = function (img) {
+			var angle = Math.PI/2;
+
+			return ImageUpload.rotate90270(angle, img);
+		};
+
+		ImageUpload.rotate180 = function (img) {
+			var angle = Math.PI;
+
+			var canvas = document.createElement("canvas");
+			canvas.width  = img.width;
+			canvas.height = img.height;
+
+			var newCtx = canvas.getContext("2d");
+			newCtx.translate(canvas.width/2, canvas.height/2);
+			newCtx.rotate(angle);
+			newCtx.translate(-canvas.width/2, -canvas.height/2);
+			newCtx.drawImage(img, 0, 0);
+
+			return canvas;
+		};
+
+		ImageUpload.rotate270 = function (img) {
+			var angle = 3 * Math.PI/2;
+
+			return ImageUpload.rotate90270(angle, img);
+		};
+
+		ImageUpload.prototype.rotate = function () {
+			return this.generatePreviews().bind(this).then(function (previews) {
+				var newDegree = "0";
+				switch(this.rotation) {
+					case "0":
+						newDegree = "90";
+						break;
+					case "90":
+						newDegree = "180";
+						break;
+					case "180":
+						newDegree = "270";
+						break;
+				}
+
+				this.rotation = newDegree;
+
+				this._url = h.toUrl(previews[newDegree]);
+
+				return previews[newDegree];
+			});
+		};
+
+		ImageUpload.prototype.generatePreviews = function () {
+			if (!this._generatePreviewsPromise) {
+				this._generatePreviewsPromise = ImageUpload.imageLibLoad(this._file, {
+					maxHeight: 200, canvas: true
+				}).bind(this).then(function (img) {
+					return Promise.all([
+						canvasToBlob(img, "image/jpeg"),
+						canvasToBlob(ImageUpload.rotate90(img), "image/jpeg"),
+						canvasToBlob(ImageUpload.rotate180(img), "image/jpeg"),
+						canvasToBlob(ImageUpload.rotate270(img), "image/jpeg")
+					]);
+				}).spread(function (preview0, preview90, preview180, preview270) {
+					this._url = h.toUrl(preview0);
+
+					var previews = {};
+
+					previews["0"] = preview0;
+					previews["90"] = preview90;
+					previews["180"] = preview180;
+					previews["270"] = preview270;
+
+					return previews;
+				});
+			}
+
+			return this._generatePreviewsPromise;
+		};
+
 		ImageUpload.prototype.getName = function () {
 			return this._file.name;
 		};
 
 		ImageUpload.prototype.getUrl = function () {
+			this.generatePreviews();
+
 			this._url = this._url || h.toUrl(this._file);
 			return this._url;
 		};
