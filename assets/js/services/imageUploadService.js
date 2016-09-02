@@ -175,6 +175,21 @@ define(["step", "whispeerHelper", "jquery", "bluebird", "imageLib", "asset/Progr
 			};
 		};
 
+		ImageUpload.rotate = function (img, angle) {
+			switch (angle) {
+				case "0":
+					return img;
+				case "90":
+					return ImageUpload.rotate90(img);
+				case "180":
+					return ImageUpload.rotate180(img);
+				case "270":
+					return ImageUpload.rotate270(img);
+			}
+
+			return img;
+		};
+
 		ImageUpload.rotate90270 = function (angle, img) {
 			var canvas = document.createElement("canvas");
 			canvas.width  = img.height;
@@ -340,8 +355,8 @@ define(["step", "whispeerHelper", "jquery", "bluebird", "imageLib", "asset/Progr
 
 			var options = $.extend({}, sizeOptions.restrictions || {}, { canvas: true });
 
-			return ImageUpload.imageLibLoad(this._file, options).then(function (canvas) {
-				return canvasToBlob(canvas, "image/jpeg");
+			return ImageUpload.imageLibLoad(this._file, options).bind(this).then(function (canvas) {
+				return canvasToBlob(ImageUpload.rotate(canvas, this.rotation), "image/jpeg");
 			});
 		};
 
