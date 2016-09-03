@@ -1,8 +1,8 @@
 /* Warning! This code manipulates the DOM, do only change with extra care as you might create Cross-Site-Scripting holes */
-define(["directives/directivesModule", "emojify"], function (directivesModule, EmojiyConverter) {
+define(["directives/directivesModule", "emojify"], function (directivesModule, EmojifyConverter) {
 	"use strict";
 
-	var emojify = new EmojiyConverter();
+	var emojify = new EmojifyConverter();
 	emojify.img_sets.apple.sheet = "/assets/img/sheet_apple_64.png";
 	emojify.use_sheet = true;
 	emojify.include_title = true;
