@@ -20,7 +20,8 @@ requirejs.config({
 		workerQueue: "bower/worker-queue.js/src/index",
 		PromiseWorker: "bower/require-promise-worker.js/src/index",
 		dexie: "bower/dexie/dist/latest/Dexie",
-		debug: "bower/visionmedia-debug/dist/debug"
+		debug: "bower/visionmedia-debug/dist/debug",
+		emojify: "bower/js-emoji/lib/emoji",
 	},
 	baseUrl: "assets/js",
 	shim: {
