@@ -88,18 +88,34 @@ define(["step", "whispeerHelper", "crypto/trustManager", "crypto/signatureCache"
 		var loadDatabaseAsync = Bluebird.promisify(loadDatabase);
 		var createTrustDatabaseAsync = Bluebird.promisify(createTrustDatabase);
 
+		var loadCachePromise = Bluebird.resolve();
+
 		function loadFromCache(cacheEntry) {
 			trustServiceDebug("trustManager cache get done");
-			return userService.verifyOwnKeysCacheDone().then(function () {
+			loadCachePromise = Bluebird.race([
+				userService.verifyOwnKeysDone(),
+				userService.verifyOwnKeysCacheDone()
+			]).then(function () {
 				trustServiceDebug("trustManager cache loading");
 				return loadDatabaseAsync(cacheEntry.data);
 			});
+
+			return loadCachePromise;
 		}
 
 		initService.get("trustManager.get", function (data) {
 			trustServiceDebug("trustManager.get finished unchanged: " + data.unChanged);
-			return userService.verifyOwnKeysDone().then(function () {
+			return loadCachePromise.catch(function (e) {
+				trustServiceDebug("Could not load trust service from cache!");
+				console.error(e);
+			}).then(function () {
+				return userService.verifyOwnKeysDone();
+			}).then(function () {
 				if (data.unChanged) {
+					if (!trustManager.isLoaded()) {
+						throw new Error("cache loading seems to have failed but server is unchanged!");
+					}
+
 					trustServiceDebug("trustManager unChanged");
 					return;
 				}
@@ -129,7 +145,6 @@ define(["step", "whispeerHelper", "crypto/trustManager", "crypto/signatureCache"
 
 		$rootScope.$on("ssn.reset", function () {
 			trustManager.reset();
-			signatureCache.reset();
 		});
 
 		socketService.channel("notify.trustManager", function (e, data) {
