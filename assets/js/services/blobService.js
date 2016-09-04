@@ -23,7 +23,7 @@ define(["step", "whispeerHelper", "asset/Progress", "asset/Queue", "services/ser
 		}
 	}
 
-	var service = function ($rootScope, socketService, keyStore, errorService, Cache) {
+	var service = function ($rootScope, socketService, keyStore, errorService, Cache, initService) {
 		var blobCache = new Cache("blobs");
 
 		var MyBlob = function (blobData, blobID, options) {
@@ -286,7 +286,10 @@ define(["step", "whispeerHelper", "asset/Progress", "asset/Queue", "services/ser
 
 		function loadBlobFromServer(blobID) {
 			return downloadBlobQueue.enqueue(1, function () {
-				return socketService.awaitNoRequests().then(function () {
+				return Bluebird.all([
+					socketService.awaitNoRequests(),
+					initService.awaitLoading
+				]).then(function () {
 					return socketService.emit("blob.getBlob", {
 						blobid: blobID
 					});
@@ -342,7 +345,7 @@ define(["step", "whispeerHelper", "asset/Progress", "asset/Queue", "services/ser
 		return api;
 	};
 
-	service.$inject = ["$rootScope", "ssn.socketService", "ssn.keyStoreService", "ssn.errorService", "ssn.cacheService"];
+	service.$inject = ["$rootScope", "ssn.socketService", "ssn.keyStoreService", "ssn.errorService", "ssn.cacheService", "ssn.initService"];
 
 	serviceModule.factory("ssn.blobService", service);
 });
