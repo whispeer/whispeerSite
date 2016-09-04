@@ -111,7 +111,9 @@ define(["step", "whispeerHelper", "crypto/trustManager", "crypto/signatureCache"
 
 					var updateDatabaseAsync = Bluebird.promisify(trustManager.updateDatabase, trustManager);
 
-					return updateDatabaseAsync(data.content);
+					return updateDatabaseAsync(data.content).then(function () {
+						return false;
+					});
 				}
 
 				if (data.content) {
