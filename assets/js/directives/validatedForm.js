@@ -1,12 +1,22 @@
 define(["whispeerHelper", "directives/directivesModule", "qtip"], function (h, directivesModule) {
 	"use strict";
 
+	var elements = [];
+
 	function validatedForm(localize) {
 		return {
 			scope:	false,
 			restrict: "A",
 			link: function (scope, iElement, iAttr) {
 				var options = scope.$eval(iAttr.validatedForm);
+
+				function getElementScope(element) {
+					if (typeof element.scope() === "function" && element.scope()) {
+						return element.scope();
+					} else {
+						return element.data("scopeFallback");
+					}
+				}
 
 				var validations = [];
 				iElement.find("[validation]").each(function (i, e) {
@@ -20,7 +30,7 @@ define(["whispeerHelper", "directives/directivesModule", "qtip"], function (h, d
 
 				function validateOnChange(vElement, validation) {
 					vElement.element.on("keyup", h.debounce(function () {
-						if (vElement.element.scope().$eval(validation.validator)) {
+						if (getElementScope(vElement.element).$eval(validation.validator)) {
 							showErrorHint(vElement.element, validation);
 						}
 					}, validation.onChange));
@@ -36,7 +46,7 @@ define(["whispeerHelper", "directives/directivesModule", "qtip"], function (h, d
 
 				//expand all validations
 				validations.forEach(function (vElement) {
-					var scope = vElement.element.scope();
+					var scope = getElementScope(vElement.element);
 					var deregister = scope.$watch(function () {
 						return scope.$eval(vElement.validator);
 					}, function (val) {
@@ -95,7 +105,7 @@ define(["whispeerHelper", "directives/directivesModule", "qtip"], function (h, d
 					validations.forEach(function (vElement) {
 						if (invalidValidationFound) { return; }
 
-						var scope = vElement.element.scope();
+						var scope = getElementScope(vElement.element);
 						vElement.validations.forEach(function (validation) {
 							if (invalidValidationFound) { return; }
 
@@ -135,4 +145,15 @@ define(["whispeerHelper", "directives/directivesModule", "qtip"], function (h, d
 	validatedForm.$inject = ["localize"];
 
 	directivesModule.directive("validatedForm", validatedForm);
+
+	directivesModule.directive("validation", function () {
+		return {
+			scope:	false,
+			restrict: "A",
+			link: function (scope, iElement) {
+				elements.push(iElement);
+				iElement.data("scopeFallback", scope);
+			}
+		};
+	});
 });
