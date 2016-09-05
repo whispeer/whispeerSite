@@ -1,6 +1,8 @@
 define(["whispeerHelper", "directives/directivesModule", "qtip"], function (h, directivesModule) {
 	"use strict";
 
+	var elements = [];
+
 	function validatedForm(localize) {
 		return {
 			scope:	false,
@@ -128,6 +130,10 @@ define(["whispeerHelper", "directives/directivesModule", "qtip"], function (h, d
 			scope:	false,
 			restrict: "A",
 			link: function (scope, iElement) {
+<<<<<<< HEAD
+=======
+				elements.push(iElement);
+>>>>>>> fallback for scope getting if debug enabled
 				iElement.data("scopeFallback", scope);
 			}
 		};
