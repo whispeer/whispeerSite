@@ -66,7 +66,7 @@ define(["step", "whispeerHelper", "asset/state", "asset/securedDataWithMetaData"
 		return h.arrayUnique(profileTypes);
 	}
 
-	function userModel($injector, $rootScope, blobService, keyStoreService, ProfileService, sessionService, settingsService, socketService, friendsService, errorService) {
+	function userModel($injector, $rootScope, blobService, keyStoreService, ProfileService, sessionService, settingsService, socketService, friendsService, errorService, initService) {
 		return function User (providedData) {
 			var theUser = this, mainKey, signKey, cryptKey, friendShipKey, friendsKey, migrationState, signedKeys, signedOwnKeys;
 			var id, mail, nickname, publicProfile, privateProfiles = [], myProfile, mutualFriends;
@@ -444,8 +444,10 @@ define(["step", "whispeerHelper", "asset/state", "asset/securedDataWithMetaData"
 			this.createBackupKey = function (cb) {
 				var outerKey;
 				step(function () {
+					return initService.awaitLoading();
+				}, h.sF(function () {
 					keyStoreService.sym.createBackupKey(mainKey, this);
-				}, h.sF(function (backupKeyData) {
+				}), h.sF(function (backupKeyData) {
 					var decryptors = backupKeyData.decryptors;
 					var innerKey = backupKeyData.innerKey;
 
@@ -762,7 +764,7 @@ define(["step", "whispeerHelper", "asset/state", "asset/securedDataWithMetaData"
 		};
 	}
 
-	userModel.$inject = ["$injector",  "$rootScope", "ssn.blobService",  "ssn.keyStoreService", "ssn.profileService", "ssn.sessionService", "ssn.settingsService", "ssn.socketService", "ssn.friendsService", "ssn.errorService"];
+	userModel.$inject = ["$injector",  "$rootScope", "ssn.blobService",  "ssn.keyStoreService", "ssn.profileService", "ssn.sessionService", "ssn.settingsService", "ssn.socketService", "ssn.friendsService", "ssn.errorService", "ssn.initService"];
 
 	modelsModule.factory("ssn.models.user", userModel);
 });
