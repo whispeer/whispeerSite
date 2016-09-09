@@ -96,20 +96,6 @@ define(["whispeerHelper", "directives/directivesModule", "qtip"], function (h, d
 					});
 				});
 
-				//expand all validations
-				validations.forEach(function (vElement) {
-					var scope = vElement.element.scope();
-					var deregister = scope.$watch(function () {
-						return scope.$eval(vElement.validator);
-					}, function (val) {
-						if (val) {
-							vElement.validations = val;
-							registerChangeListener(vElement);
-							deregister();
-						}
-					});
-				});
-
 				function checkValidations() {
 					var invalidValidationFound = false;
 
