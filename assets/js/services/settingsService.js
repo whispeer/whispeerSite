@@ -2,7 +2,7 @@ define(["step", "whispeerHelper", "crypto/encryptedData", "services/serviceModul
 	"use strict";
 
 	var service = function ($rootScope, $injector, localize, initService, socketService, keyStore) {
-		var settings, serverSettings = {}, options = { type: "settings", removeEmpty: true };
+		var settings, serverSettings = {}, options = { type: "settings", removeEmpty: true }, api;
 
 		var notVisible = {
 			encrypt: true,
@@ -47,6 +47,17 @@ define(["step", "whispeerHelper", "crypto/encryptedData", "services/serviceModul
 			},
 			uiLanguage: localize.getLanguage()
 		};
+
+		var publicBranches = ["uiLanguage", "sound", "donate"];
+		var serverBranches = ["mailsEnabled"];
+
+		function isBranchPublic(branchName) {
+			return publicBranches.indexOf(branchName) > -1;
+		}
+
+		function isBranchServer(branchName) {
+			return serverBranches.indexOf(branchName) > -1;	
+		}
 
 		function turnOldSettingsToNew(settings) {
 			var result = {
@@ -142,18 +153,7 @@ define(["step", "whispeerHelper", "crypto/encryptedData", "services/serviceModul
 			settings.reset();
 		});
 
-		var publicBranches = ["uiLanguage", "sound", "donate"];
-		var serverBranches = ["mailsEnabled"];
-
-		function isBranchPublic(branchName) {
-			return publicBranches.indexOf(branchName) > -1;
-		}
-
-		function isBranchServer(branchName) {
-			return serverBranches.indexOf(branchName) > -1;	
-		}
-
-		var api = {
+		api = {
 			getContent: function () {
 				return settings.contentGet();
 			},

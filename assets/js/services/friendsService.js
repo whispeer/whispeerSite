@@ -15,7 +15,7 @@ define(["step", "whispeerHelper", "asset/observer", "asset/securedDataWithMetaDa
 	//we need locking here!
 
 	var service = function ($rootScope, $injector, socket, sessionService, keyStore, initService) {
-		var friends = [], requests = [], requested = [], ignored = [], removed = [], deleted = [], signedList, onlineFriends = {};
+		var friends = [], requests = [], requested = [], ignored = [], removed = [], deleted = [], signedList, onlineFriends = {}, friendsService;
 		var friendsData = {
 			requestsCount: 0,
 			friendsCount: 0,
@@ -188,7 +188,7 @@ define(["step", "whispeerHelper", "asset/observer", "asset/securedDataWithMetaDa
 
 		var loadingPromise;
 
-		var friendsService = {
+		friendsService = {
 			isLoaded: function () {
 				return loadingPromise.isFulfilled();
 			},

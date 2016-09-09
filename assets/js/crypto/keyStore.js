@@ -78,6 +78,24 @@ define(["whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForReady", "
 		});
 	}
 
+	function fingerPrintData(data) {
+		return sjcl.codec.hex.fromBits(sjcl.hash.sha256.hash(data));
+	}
+
+	function fingerPrintPublicKey(publicKey) {
+		//should we add the type and curve here too?
+		//as the curve is fixed for now it should not be a problem
+		return fingerPrintData(publicKey._point.toBits());
+	}
+
+	function fingerPrintSymKey(keyData) {
+		if (keyData instanceof Array) {
+			return fingerPrintData(keyData);
+		} else {
+			throw new errors.InvalidDataError("invalid key data");
+		}
+	}
+
 	function getSubtle() {
 		if (window.msCrypto && window.msCrypto.subtle) {
 			return window.msCrypto.subtle;
@@ -928,24 +946,6 @@ define(["whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForReady", "
 			}
 
 			return cryptKeys[keyData.realid];
-		}
-	}
-
-	function fingerPrintData(data) {
-		return sjcl.codec.hex.fromBits(sjcl.hash.sha256.hash(data));
-	}
-
-	function fingerPrintPublicKey(publicKey) {
-		//should we add the type and curve here too?
-		//as the curve is fixed for now it should not be a problem
-		return fingerPrintData(publicKey._point.toBits());
-	}
-
-	function fingerPrintSymKey(keyData) {
-		if (keyData instanceof Array) {
-			return fingerPrintData(keyData);
-		} else {
-			throw new errors.InvalidDataError("invalid key data");
 		}
 	}
 

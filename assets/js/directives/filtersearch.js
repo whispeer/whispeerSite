@@ -20,30 +20,6 @@ define(["step", "whispeerHelper"], function (step, h) {
 
 				var alwaysAvailableFilter = ["allfriends"];
 
-				function loadInitialSelection(attribute) {
-					var selected = scope.$parent.$eval(attribute);
-					step(function () {
-						$timeout(this);
-					}, h.sF(function () {
-						var i;
-						for (i = 0; i < selected.length; i += 1) {
-							getElementById(selected[i], this.parallel());
-						}
-
-						this.parallel()();
-					}), h.sF(function (result) {
-						scope.$broadcast("initialSelection", result || []);
-					}));
-				}
-
-				if (iAttrs.selected) {
-					scope.$on("reloadInitialSelection", function () {
-						loadInitialSelection(iAttrs.selected);
-					});
-
-					loadInitialSelection(iAttrs.selected);
-				}
-
 				function getCircle(id, cb) {
 					step(function () {
 						circleService.loadAll(this);
@@ -81,16 +57,6 @@ define(["step", "whispeerHelper"], function (step, h) {
 					}, cb);
 				}
 
-				function getElementById(id, cb) {
-					var part1 = id.substr(0, 7);
-					var part2 = id.substr(7);
-					if (part1 === "always:") {
-						getAlways(part2, cb);
-					} else if (part1 === "circle:") {
-						getCircle(part2, cb);
-					}
-				}
-
 				function matchesQuery(query, val) {
 					if (query === "") {
 						return true;
@@ -118,6 +84,40 @@ define(["step", "whispeerHelper"], function (step, h) {
 					}
 
 					return result;
+				}
+
+				function getElementById(id, cb) {
+					var part1 = id.substr(0, 7);
+					var part2 = id.substr(7);
+					if (part1 === "always:") {
+						getAlways(part2, cb);
+					} else if (part1 === "circle:") {
+						getCircle(part2, cb);
+					}
+				}
+
+				function loadInitialSelection(attribute) {
+					var selected = scope.$parent.$eval(attribute);
+					step(function () {
+						$timeout(this);
+					}, h.sF(function () {
+						var i;
+						for (i = 0; i < selected.length; i += 1) {
+							getElementById(selected[i], this.parallel());
+						}
+
+						this.parallel()();
+					}), h.sF(function (result) {
+						scope.$broadcast("initialSelection", result || []);
+					}));
+				}
+
+				if (iAttrs.selected) {
+					scope.$on("reloadInitialSelection", function () {
+						loadInitialSelection(iAttrs.selected);
+					});
+
+					loadInitialSelection(iAttrs.selected);
 				}
 
 				scope.$on("queryChange", function (event, query) {
