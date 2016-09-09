@@ -504,6 +504,13 @@ define(["step", "whispeerHelper", "asset/state", "asset/securedDataWithMetaData"
 					keyStoreService.random.hex(16, this.parallel());
 
 					keyStoreService.sym.pwEncryptKey(mainKey, newPassword, this.parallel());
+
+					try {	
+						var deleteRequest = indexedDB.deleteDatabase("whispeerCache");
+						var cb = this.parallel();
+						deleteRequest.onerror = function () { cb(); };
+						deleteRequest.onsuccess = function () { cb(); };
+					} catch (e) {}
 				}, h.sF(function (signedOwnKeys, salt, decryptor) {
 					socketService.emit("user.changePassword", {
 						signedOwnKeys: signedOwnKeys,
