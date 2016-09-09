@@ -11,7 +11,7 @@ requirejs.config({
 		angularUiRouter: "bower/angular-ui-router/release/angular-ui-router",
 		angularTouch: "bower/angular-touch/angular-touch",
 		bluebird: "bower/bluebird/js/browser/bluebird",
-		jquery: "bower/jquery/jquery",
+		jquery: "bower/jquery/dist/jquery",
 		requirejs: "bower/requirejs/require",
 		socket: "bower/socket.io-client/socket.io",
 		qtip: "bower/qtip2/basic/jquery.qtip",
