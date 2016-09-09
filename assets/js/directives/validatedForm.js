@@ -18,36 +18,6 @@ define(["whispeerHelper", "directives/directivesModule", "qtip"], function (h, d
 					});
 				});
 
-				function validateOnChange(vElement, validation) {
-					vElement.element.on("keyup", h.debounce(function () {
-						if (vElement.element.scope().$eval(validation.validator)) {
-							showErrorHint(vElement.element, validation);
-						}
-					}, validation.onChange));
-				}
-
-				function registerChangeListener(vElement) {
-					vElement.validations.forEach(function (validation) {
-						if (validation.onChange) {
-							validateOnChange(vElement, validation);
-						}
-					});
-				}
-
-				//expand all validations
-				validations.forEach(function (vElement) {
-					var scope = vElement.element.scope();
-					var deregister = scope.$watch(function () {
-						return scope.$eval(vElement.validator);
-					}, function (val) {
-						if (val) {
-							vElement.validations = val;
-							registerChangeListener(vElement);
-							deregister();
-						}
-					});
-				});
-
 				var activeFailedValidation = false;
 
 				function removeErrorHints() {
@@ -86,6 +56,36 @@ define(["whispeerHelper", "directives/directivesModule", "qtip"], function (h, d
 						hide: hideWhen
 					});
 				}
+
+				function validateOnChange(vElement, validation) {
+					vElement.element.on("keyup", h.debounce(function () {
+						if (vElement.element.scope().$eval(validation.validator)) {
+							showErrorHint(vElement.element, validation);
+						}
+					}, validation.onChange));
+				}
+
+				function registerChangeListener(vElement) {
+					vElement.validations.forEach(function (validation) {
+						if (validation.onChange) {
+							validateOnChange(vElement, validation);
+						}
+					});
+				}
+
+				//expand all validations
+				validations.forEach(function (vElement) {
+					var scope = vElement.element.scope();
+					var deregister = scope.$watch(function () {
+						return scope.$eval(vElement.validator);
+					}, function (val) {
+						if (val) {
+							vElement.validations = val;
+							registerChangeListener(vElement);
+							deregister();
+						}
+					});
+				});
 
 				function checkValidations() {
 					var invalidValidationFound = false;

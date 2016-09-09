@@ -1,7 +1,7 @@
 /**
 * MessageService
 **/
-define(["step", "whispeerHelper", "asset/Progress", "asset/Queue", "services/serviceModule", "debug"], function (step, h, Progress, Queue, serviceModule, debug) {
+define(["step", "whispeerHelper", "asset/Progress", "asset/Queue", "services/serviceModule", "debug", "bluebird"], function (step, h, Progress, Queue, serviceModule, debug, Bluebird) {
 	"use strict";
 
 	var knownBlobs = {};
@@ -222,7 +222,7 @@ define(["step", "whispeerHelper", "asset/Progress", "asset/Queue", "services/ser
 				if (data.blobid) {
 					that._blobID = data.blobid;
 
-					knownBlobs[that._blobID] = Promise.resolve(that);
+					knownBlobs[that._blobID] = Bluebird.resolve(that);
 
 					this.ne(that._blobID);
 				}
@@ -236,7 +236,7 @@ define(["step", "whispeerHelper", "asset/Progress", "asset/Queue", "services/ser
 			}, h.sF(function (data) {
 				if (data.blobid) {
 					that._preReserved = data.blobid;
-					knownBlobs[that._preReserved] = Promise.resolve(that);
+					knownBlobs[that._preReserved] = Bluebird.resolve(that);
 					this.ne(data.blobid);
 				} else {
 					throw new Error("got no blobid");
@@ -284,6 +284,10 @@ define(["step", "whispeerHelper", "asset/Progress", "asset/Queue", "services/ser
 			}), cb);
 		};
 
+		function addBlobToDB(blob) {
+			blobCache.store(blob.getBlobID(), blob._meta, blob._blobData).catch(errorService.criticalError);
+		}
+
 		function loadBlobFromServer(blobID) {
 			return downloadBlobQueue.enqueue(1, function () {
 				return socketService.awaitNoRequests().then(function () {
@@ -314,10 +318,6 @@ define(["step", "whispeerHelper", "asset/Progress", "asset/Queue", "services/ser
 				}
 				return new MyBlob(data.blob, blobID, { meta: data.data });
 			});
-		}
-
-		function addBlobToDB(blob) {
-			blobCache.store(blob.getBlobID(), blob._meta, blob._blobData).catch(errorService.criticalError);
 		}
 
 		function loadBlob(blobID) {

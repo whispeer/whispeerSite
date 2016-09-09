@@ -41,7 +41,15 @@ define([
 		};
 
 		var service = function ($injector, $rootScope) {
-			var socket, blockedWithToken = false, token;
+			var socket, blockedWithToken = false, token, socketS;
+
+			var lastRequestTime = 0;
+
+			var loading = 0;
+
+			var internalObserver = new Observer();
+			var uploadingCounter = 0, streamUpgraded = false;
+
 			function connect() {
 				socket = io.connect(domain, config.socket.options);
 
@@ -82,13 +90,6 @@ define([
 					}).reverse();
 				}
 			}
-
-			var lastRequestTime = 0;
-
-			var loading = 0;
-
-			var internalObserver = new Observer();
-			var uploadingCounter = 0, streamUpgraded = false;
 
 			var log = {
 				timer: function (name) {
@@ -222,7 +223,7 @@ define([
 				this._partSize = Math.min(this._partSize * 2, BlobUploader.MAXIMUMPARTSIZE);
 			};
 
-			var socketS = {
+			socketS = {
 				errors: {
 					Disconnect: DisconnectError,
 					Server: ServerError

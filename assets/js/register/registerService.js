@@ -160,11 +160,12 @@ define([
 					["friends", "sym"]
 				];
 
+				var ks = keyStoreService;
+
 				function getCorrectKeystore(index) {
 					return ks[toGenKeys[index][1]];
 				}
 
-				var ks = keyStoreService;
 				step(function keyGen1() {
 					if (typeof callback === "function") {
 						if (keyGenDone) {

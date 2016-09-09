@@ -74,6 +74,8 @@ define(["step", "whispeerHelper", "asset/state", "asset/securedDataWithMetaData"
 			var addFriendState = new State();
 			var ignoreFriendState = new State();
 
+			var basicDataLoaded = false;
+
 			this.data = {};
 
 			function updateUser(userData) {
@@ -542,8 +544,6 @@ define(["step", "whispeerHelper", "asset/state", "asset/securedDataWithMetaData"
 			this.getFriends = function (cb) {
 				friendsService.getUserFriends(this.getID(), cb);
 			};
-
-			var basicDataLoaded = false;
 
 			this.loadImage = function () {
 				step(function () {

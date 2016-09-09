@@ -31,7 +31,7 @@ define(["services/serviceModule", "bluebird", "asset/observer", "debug"], functi
 
 		function setCache(initResponse, transformedData) {
 			if (!transformedData) {
-				return Promise.resolve(initResponse);
+				return Bluebird.resolve(initResponse);
 			}
 
 			return new CacheService(initResponse.domain)

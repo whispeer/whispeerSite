@@ -104,7 +104,7 @@
 		return this._symbols.indexOf(symbol);
 	};
 	Enum.prototype.contains = function(sym) {
-		if (! sym instanceof Symbol) {
+		if (!(sym instanceof Symbol)) {
 			return false;
 		}
 		return this[sym.name] === sym;
