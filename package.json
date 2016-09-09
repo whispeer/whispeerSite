@@ -14,7 +14,7 @@
     "fullscreen": false
   },
   "dependencies": {
-    "font-awesome": "4.3.0",
+    "font-awesome": "4.6.3",
     "grunt": "~1.0.1",
     "grunt-autoprefixer": "^3.0.3",
     "grunt-bower-install-simple": "^1.1.0",
@@ -25,7 +25,7 @@
     "grunt-contrib-requirejs": "^1.0.0",
     "lazy": "^1.0.11",
     "node-static": "0.7.x",
-    "normalize.css": "^3.0.3",
+    "normalize.css": "^4.2.0",
     "requirejs": "^2.2.0"
   },
   "devDependencies": {
