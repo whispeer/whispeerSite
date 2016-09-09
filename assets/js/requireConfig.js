@@ -19,7 +19,7 @@ requirejs.config({
 		localizationModule: "bower/angular-i18n-directive/src/localizationModule",
 		workerQueue: "bower/worker-queue.js/src/index",
 		PromiseWorker: "bower/require-promise-worker.js/src/index",
-		dexie: "bower/dexie/dist/latest/Dexie",
+		dexie: "bower/dexie/dist/dexie",
 		debug: "bower/visionmedia-debug/dist/debug",
 		emojify: "bower/js-emoji/lib/emoji",
 	},
