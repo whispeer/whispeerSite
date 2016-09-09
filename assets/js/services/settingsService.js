@@ -103,6 +103,8 @@ define(["step", "whispeerHelper", "crypto/encryptedData", "services/serviceModul
 		}
 
 		function loadSettings(givenSettings, blockageToken) {
+			serverSettings = givenSettings.server || {};
+
 			return Bluebird.try(function () {
 				if (givenSettings.ct) {
 					return Bluebird.promisify(migrateToFormat2)(givenSettings, blockageToken);
@@ -123,25 +125,36 @@ define(["step", "whispeerHelper", "crypto/encryptedData", "services/serviceModul
 			});
 		}
 
+		var loadCachePromise = Bluebird.resolve();
+
 		function loadFromCache(cacheEntry) {
-			return $injector.get("ssn.userService").ownLoadedCache().then(function () {
+			var userService = $injector.get("ssn.userService");
+
+			loadCachePromise = Bluebird.race([
+				userService.ownLoadedCache(),
+				userService.ownLoaded()
+			]).then(function () {
 				return loadSettings(cacheEntry.data);
 			});
+
+			return loadCachePromise;
 		}
 
 		function loadFromServer(data, blockageToken) {
-			if (data.unChanged) {
-				return Bluebird.resolve();
-			}
+			return loadCachePromise.then(function () {
+				if (data.unChanged) {
+					return Bluebird.resolve();
+				}
 
-			var givenSettings = data.content;
+				var givenSettings = data.content;
 
-			var toCache = h.deepCopyObj(givenSettings);
-			serverSettings = givenSettings.server || {};
+				var toCache = h.deepCopyObj(givenSettings);
 
-			return $injector.get("ssn.userService").ownLoaded().then(function () {
-				return loadSettings(givenSettings, blockageToken);
-			}).thenReturn(toCache);
+				var userService = $injector.get("ssn.userService");
+				return userService.ownLoaded().then(function () {
+					return loadSettings(givenSettings, blockageToken);
+				}).thenReturn(toCache);
+			});
 		}
 
 		initService.get("settings.get", loadFromServer, {
