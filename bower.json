@@ -23,7 +23,7 @@
     "angular-route": "1.5.8",
     "qtip2": "~2.2.1",
     "socket.io-client": "~1.4.8",
-    "blueimp-load-image": "~1.13.0",
+    "blueimp-load-image": "~2.6.2",
     "angular-i18n-directive": ">=0.1.5",
     "worker-queue.js": "~0.1.0",
     "angular": "1.5.8",
