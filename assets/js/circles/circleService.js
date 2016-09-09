@@ -9,6 +9,46 @@ define(["step", "whispeerHelper", "asset/observer", "services/serviceModule", "a
 		var circleArray = [];
 		var circleData = [];
 
+		function encryptKeyForUsers(key, users, cb) {
+			users = users.map(h.parseDecimal);
+			var keys;
+			step(function () {
+				if (users && users.length > 0) {
+					this.ne();
+				} else {
+					this.last.ne([]);
+				}
+			}, h.sF(function () {
+				users.forEach(function (user) {
+					if (!friendsService.getUserFriendShipKey(user)) {
+						throw new Error("no friend key for user: " + user);
+					}
+				});
+
+				keys = users.map(function (user) {
+					return friendsService.getUserFriendShipKey(user);
+				});
+
+				keys.forEach(function (friendKey) {
+					keyStore.sym.symEncryptKey(key, friendKey, this.parallel());
+				}, this);
+			}), h.sF(function () {
+				this.ne(keys);
+			}), cb);
+		}
+
+		function generateNewKey(cb) {
+			var key;
+			step(function () {
+				keyStore.sym.generateKey(this, "CircleKey");
+			}, h.sF(function (_key) {
+				key = _key;
+				keyStore.sym.symEncryptKey(key, userService.getown().getMainKey(), this);
+			}), h.sF(function () {
+				this.ne(key);
+			}), cb);
+		}
+
 		var Circle = function (data) {
 			var id = data.id, theCircle = this, persons = [];
 
@@ -197,46 +237,6 @@ define(["step", "whispeerHelper", "asset/observer", "services/serviceModule", "a
 			circleData.push(circle.data);
 
 			return circle;
-		}
-
-		function encryptKeyForUsers(key, users, cb) {
-			users = users.map(h.parseDecimal);
-			var keys;
-			step(function () {
-				if (users && users.length > 0) {
-					this.ne();
-				} else {
-					this.last.ne([]);
-				}
-			}, h.sF(function () {
-				users.forEach(function (user) {
-					if (!friendsService.getUserFriendShipKey(user)) {
-						throw new Error("no friend key for user: " + user);
-					}
-				});
-
-				keys = users.map(function (user) {
-					return friendsService.getUserFriendShipKey(user);
-				});
-
-				keys.forEach(function (friendKey) {
-					keyStore.sym.symEncryptKey(key, friendKey, this.parallel());
-				}, this);
-			}), h.sF(function () {
-				this.ne(keys);
-			}), cb);
-		}
-
-		function generateNewKey(cb) {
-			var key;
-			step(function () {
-				keyStore.sym.generateKey(this, "CircleKey");
-			}, h.sF(function (_key) {
-				key = _key;
-				keyStore.sym.symEncryptKey(key, userService.getown().getMainKey(), this);
-			}), h.sF(function () {
-				this.ne(key);
-			}), cb);
 		}
 
 		var circleService = {

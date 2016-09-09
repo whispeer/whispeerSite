@@ -34,7 +34,7 @@ define(["workerQueue", "bluebird", "crypto/minimalHelper", "config"], function (
 	}
 
 	function dirname(path) {
-		return path.match(/(.*)[\/\\]/)[1] || "";
+		return path.replace(/\#.*/, "").replace(/\/[^\/]*$/, "");
 	}
 
 	var requirePath = "/assets/js/bower/requirejs/require.js";

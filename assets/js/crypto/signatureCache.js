@@ -60,6 +60,7 @@ define (["whispeerHelper", "step", "config", "asset/observer", "asset/errors", "
 		settings: "me",
 
 		topic: "topic",
+		topicUpdate: "topic",
 		message: "message",
 
 		post: "post",

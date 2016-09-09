@@ -32,24 +32,6 @@ define([
 			}
 		}
 
-		socket.channel("message", function (e, data) {
-			if (!e) {
-				if (data.topic) {
-					Topic.fromData(data.topic).then(function (topic) {
-						if (topic.data.unread) {
-							changeReadTopic(topic.getID(), true);
-						}
-
-						addSocketMessage(data.message);
-					});
-				} else {
-					addSocketMessage(data.message);
-				}
-			} else {
-				errorService.criticalError(e);
-			}
-		});
-
 		var currentlyLoadingTopics = false;
 
 		var activeTopic = 0;
@@ -266,6 +248,24 @@ define([
 
 			updateReadCount();
 		}
+
+		socket.channel("message", function (e, data) {
+			if (!e) {
+				if (data.topic) {
+					Topic.fromData(data.topic).then(function (topic) {
+						if (topic.data.unread) {
+							changeReadTopic(topic.getID(), true);
+						}
+
+						addSocketMessage(data.message);
+					});
+				} else {
+					addSocketMessage(data.message);
+				}
+			} else {
+				errorService.criticalError(e);
+			}
+		});
 
 		socket.channel("unreadTopics", function (e, data) {
 			if (e) {

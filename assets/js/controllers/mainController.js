@@ -8,6 +8,21 @@ define(["step", "whispeerHelper", "asset/state", "controllers/controllerModule"]
 	function mainController($scope, $state, $stateParams, cssService, postService, ImageUploadService, filterService, localize, settingsService, errorService) {
 		cssService.setClass("mainView");
 
+		function reloadTimeline(cb) {
+			step(function () {
+				if ($scope.filterSelection.length === 0) {
+					$scope.filterSelection = ["always:allfriends"];
+				}
+
+				$scope.currentTimeline = postService.getTimeline($scope.filterSelection, $scope.sortByCommentTime);
+				$scope.currentTimeline.loadInitial(this);
+			}, h.sF(function () {
+				var donateSettings = settingsService.getBranch("donate");
+
+				$scope.showDonateHint = $scope.currentTimeline.displayDonateHint && donateSettings.later < new Date().getTime();
+			}), cb || errorService.criticalError);
+		}
+
 		$scope.postActive = false;
 		$scope.filterActive = false;
 
@@ -101,21 +116,6 @@ define(["step", "whispeerHelper", "asset/state", "controllers/controllerModule"]
 
 			settingsService.uploadChangedData(errorService.criticalError);
 		};
-
-		function reloadTimeline(cb) {
-			step(function () {
-				if ($scope.filterSelection.length === 0) {
-					$scope.filterSelection = ["always:allfriends"];
-				}
-
-				$scope.currentTimeline = postService.getTimeline($scope.filterSelection, $scope.sortByCommentTime);
-				$scope.currentTimeline.loadInitial(this);
-			}, h.sF(function () {
-				var donateSettings = settingsService.getBranch("donate");
-
-				$scope.showDonateHint = $scope.currentTimeline.displayDonateHint && donateSettings.later < new Date().getTime();
-			}), cb || errorService.criticalError);
-		}
 
 		reloadTimeline();
 	}

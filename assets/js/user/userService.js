@@ -40,12 +40,20 @@ define(["step", "whispeerHelper", "user/userModule", "asset/observer", "crypto/s
 				cb();
 			};
 
+			this.loadFullData = function (cb) {
+				cb();
+			};
+
 			this.isOwn = function () {
 				return false;
 			};
 		};
 
 		function makeUser(data) {
+			if (data.userNotExisting) {
+				return new NotExistingUser(data.identifier);
+			}
+
 			if (data.error === true) {
 				return new NotExistingUser();
 			}
@@ -92,11 +100,7 @@ define(["step", "whispeerHelper", "user/userModule", "asset/observer", "crypto/s
 			}), h.sF(function (data) {
 				if (data && data.users) {
 					result = data.users.map(function (e) {
-						if (e.userNotExisting) {
-							return new NotExistingUser(e.identifier);
-						} else {
-							return makeUser(e);
-						}
+						return makeUser(e);
 					});
 				}
 

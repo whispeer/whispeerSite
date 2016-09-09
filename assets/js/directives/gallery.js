@@ -2,16 +2,6 @@ define(["step", "whispeerHelper", "directives/directivesModule"], function (step
 	"use strict";
 
 	function imageGallery(errorService, blobService, screenSizeService) {
-		function loadImagePreviews(images) {
-			images.forEach(function (image) {
-				if (image.upload) {
-					return;
-				}
-
-				loadImage(image.lowest);
-			});
-		}
-
 		function loadImage(data) {
 			var blobid = data.blobID;
 
@@ -40,6 +30,16 @@ define(["step", "whispeerHelper", "directives/directivesModule"], function (step
 				data.loaded = true;
 				data.url = url;
 			}), errorService.criticalError);
+		}
+
+		function loadImagePreviews(images) {
+			images.forEach(function (image) {
+				if (image.upload) {
+					return;
+				}
+
+				loadImage(image.lowest);
+			});
 		}
 
 		return {

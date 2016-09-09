@@ -100,6 +100,22 @@ define(["step", "whispeerHelper", "asset/observer", "services/serviceModule"], f
 			window.Notification.requestPermission();
 		}
 
+		function setVisible(visible) {
+			if (visible !== api.isVisible) {
+				api.isVisible = visible;
+
+				api.notify(visible, "visibilitychange");
+
+				if (visible) {
+					api.notify(visible, "visible");
+				} else {
+					api.notify(visible, "hidden");
+				}
+			}
+
+			api.isActive = visible;
+		}
+
 		var hidden = "hidden";
 
 		function onchange(evt) {
@@ -127,22 +143,6 @@ define(["step", "whispeerHelper", "asset/observer", "services/serviceModule"], f
 			document.addEventListener("msvisibilitychange", onchange);
 		} else {
 			window.onpageshow = window.onpagehide = window.onfocus = window.onblur = onchange;
-		}
-
-		function setVisible(visible) {
-			if (visible !== api.isVisible) {
-				api.isVisible = visible;
-
-				api.notify(visible, "visibilitychange");
-
-				if (visible) {
-					api.notify(visible, "visible");
-				} else {
-					api.notify(visible, "hidden");
-				}
-			}
-
-			api.isActive = visible;
 		}
 
 		return api;

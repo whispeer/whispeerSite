@@ -2,7 +2,7 @@ define(["step", "whispeerHelper", "crypto/encryptedData", "services/serviceModul
 	"use strict";
 
 	var service = function ($rootScope, $injector, localize, initService, socketService, keyStore) {
-		var settings, serverSettings = {}, options = { type: "settings", removeEmpty: true };
+		var settings, serverSettings = {}, options = { type: "settings", removeEmpty: true }, api;
 
 		var notVisible = {
 			encrypt: true,
@@ -48,6 +48,17 @@ define(["step", "whispeerHelper", "crypto/encryptedData", "services/serviceModul
 			uiLanguage: localize.getLanguage()
 		};
 
+		var publicBranches = ["uiLanguage", "sound", "donate"];
+		var serverBranches = ["mailsEnabled"];
+
+		function isBranchPublic(branchName) {
+			return publicBranches.indexOf(branchName) > -1;
+		}
+
+		function isBranchServer(branchName) {
+			return serverBranches.indexOf(branchName) > -1;	
+		}
+
 		function turnOldSettingsToNew(settings) {
 			var result = {
 				meta: {},
@@ -92,6 +103,8 @@ define(["step", "whispeerHelper", "crypto/encryptedData", "services/serviceModul
 		}
 
 		function loadSettings(givenSettings, blockageToken) {
+			serverSettings = givenSettings.server || {};
+
 			return Bluebird.try(function () {
 				if (givenSettings.ct) {
 					return Bluebird.promisify(migrateToFormat2)(givenSettings, blockageToken);
@@ -112,25 +125,36 @@ define(["step", "whispeerHelper", "crypto/encryptedData", "services/serviceModul
 			});
 		}
 
+		var loadCachePromise = Bluebird.resolve();
+
 		function loadFromCache(cacheEntry) {
-			return $injector.get("ssn.userService").ownLoadedCache().then(function () {
+			var userService = $injector.get("ssn.userService");
+
+			loadCachePromise = Bluebird.race([
+				userService.ownLoadedCache(),
+				userService.ownLoaded()
+			]).then(function () {
 				return loadSettings(cacheEntry.data);
 			});
+
+			return loadCachePromise;
 		}
 
 		function loadFromServer(data, blockageToken) {
-			if (data.unChanged) {
-				return Bluebird.resolve();
-			}
+			return loadCachePromise.then(function () {
+				if (data.unChanged) {
+					return Bluebird.resolve();
+				}
 
-			var givenSettings = data.content;
+				var givenSettings = data.content;
 
-			var toCache = h.deepCopyObj(givenSettings);
-			serverSettings = givenSettings.server || {};
+				var toCache = h.deepCopyObj(givenSettings);
 
-			return $injector.get("ssn.userService").ownLoaded().then(function () {
-				return loadSettings(givenSettings, blockageToken);
-			}).thenReturn(toCache);
+				var userService = $injector.get("ssn.userService");
+				return userService.ownLoaded().then(function () {
+					return loadSettings(givenSettings, blockageToken);
+				}).thenReturn(toCache);
+			});
 		}
 
 		initService.get("settings.get", loadFromServer, {
@@ -142,18 +166,7 @@ define(["step", "whispeerHelper", "crypto/encryptedData", "services/serviceModul
 			settings.reset();
 		});
 
-		var publicBranches = ["uiLanguage", "sound", "donate"];
-		var serverBranches = ["mailsEnabled"];
-
-		function isBranchPublic(branchName) {
-			return publicBranches.indexOf(branchName) > -1;
-		}
-
-		function isBranchServer(branchName) {
-			return serverBranches.indexOf(branchName) > -1;	
-		}
-
-		var api = {
+		api = {
 			getContent: function () {
 				return settings.contentGet();
 			},

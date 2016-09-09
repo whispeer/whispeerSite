@@ -196,6 +196,7 @@ grunt.initConfig({
 		all: {
 			src: ["Gruntfile.js", "assets/js/**/*.js"],
 			options: {
+				reporterOutput: "",
 				jshintrc: true
 			}
 		}
