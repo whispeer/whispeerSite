@@ -10,7 +10,7 @@ define(["services/serviceModule", "crypto/keyStore", "services/requestKeyService
 		});
 
 		keyStore.setAfterAsyncCall(function () {
-			$rootScope.$apply();
+			$rootScope.$applyAsync();
 		});
 
 		keyStore.upload.setKeyGet(requestKeyService.getKey);

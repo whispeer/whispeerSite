@@ -480,7 +480,7 @@ define([
 			}).map(function (topic) {
 				return Topic.loadTopic(topic);
 			}).then(function (topics) {
-				$rootScope.$apply();
+				$rootScope.$applyAsync();
 				return topics;
 			});
 		};
