@@ -346,17 +346,15 @@ define(["step", "whispeerHelper", "user/userModule", "asset/observer", "crypto/s
 			});
 		}
 
-		var cachedInfo;
+		var cachedInfo, ownUserCache = new CacheService("ownUser");
 
 		initService.registerCacheCallback(function () {
-			var ownUserCache = new CacheService("ownUser");
-
 			return ownUserCache.get(sessionService.getUserID()).then(function (cacheEntry) {
 				if (!cacheEntry) {
 					throw new Error("No user Cache");
 				}
 
-				cachedInfo = getInfoFromCacheEntry(cacheEntry.data);
+				cachedInfo = cacheEntry.data;
 
 				return loadOwnUser(cacheEntry.data, false);
 			}).then(function () {
@@ -367,15 +365,12 @@ define(["step", "whispeerHelper", "user/userModule", "asset/observer", "crypto/s
 		initService.registerCallback(function (blockageToken) {
 			return socketService.definitlyEmit("user.get", {
 				id: sessionService.getUserID(),
-				cachedInfo: cachedInfo,
+				//TODO: use cachedInfo: getInfoFromCacheEntry(cachedInfo),
 				blockageToken: blockageToken
 			}).then(function (data) {
 				return loadOwnUser(data, true).thenReturn(data);
 			}).then(function (userData) {
-				if (!cachedInfo) {
-					var ownUserCache = new CacheService("ownUser");
-					ownUserCache.store(sessionService.getUserID(), userData);
-				}
+				ownUserCache.store(sessionService.getUserID(), userData);
 
 				ownUserStatus.loadedResolve();
 			});
