@@ -40,6 +40,10 @@ define(["step", "whispeerHelper", "user/userModule", "asset/observer", "crypto/s
 				cb();
 			};
 
+			this.reLoadBasicData = function (cb) {
+				cb();
+			};
+
 			this.loadFullData = function (cb) {
 				cb();
 			};
@@ -65,7 +69,7 @@ define(["step", "whispeerHelper", "user/userModule", "asset/observer", "crypto/s
 			var nickname = theUser.getNickname();
 
 			if (users[id]) {
-				theUser.update(data);
+				users[id].update(data);
 				return users[id];
 			}
 
