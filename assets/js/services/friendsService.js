@@ -192,9 +192,9 @@ define(["step", "whispeerHelper", "asset/observer", "asset/securedDataWithMetaDa
 			isLoaded: function () {
 				return loadingPromise.isFulfilled();
 			},
-			ensureIsLoaded: function () {
+			ensureIsLoaded: function (method) {
 				if (!friendsService.isLoaded()) {
-					throw new Error("friends service not yet loaded!");
+					throw new Error("friends service not yet loaded! Method: " + method);
 				}
 			},
 			awaitLoading: function (cb) {
@@ -210,7 +210,7 @@ define(["step", "whispeerHelper", "asset/observer", "asset/securedDataWithMetaDa
 				}), cb);
 			},
 			removeFriend: function (uid, cb) {
-				friendsService.ensureIsLoaded();
+				friendsService.ensureIsLoaded("removeFriend");
 
 				if (friends.indexOf(uid) === -1 && removed.indexOf(uid) === -1) {
 					throw new Error("not a friend!");
@@ -290,27 +290,27 @@ define(["step", "whispeerHelper", "asset/observer", "asset/securedDataWithMetaDa
 				}
 			},
 			didIRequest: function (uid) {
-				friendsService.ensureIsLoaded();
+				friendsService.ensureIsLoaded("didIRequest");
 
 				return h.containsOr(uid, friends, requested);
 			},
 			didOtherRequest: function (uid) {
-				friendsService.ensureIsLoaded();
+				friendsService.ensureIsLoaded("didOtherRequest");
 
 				return h.containsOr(uid, friends, requests);
 			},
 			areFriends: function (uid) {
-				friendsService.ensureIsLoaded();
+				friendsService.ensureIsLoaded("areFriends");
 
 				return h.containsOr(uid, friends);
 			},
 			noRequests: function (uid) {
-				friendsService.ensureIsLoaded();
+				friendsService.ensureIsLoaded("noRequests");
 
 				return !h.containsOr(uid, friends, requested, requests);
 			},
 			getRequestStatus: function (uid) {
-				friendsService.ensureIsLoaded();
+				friendsService.ensureIsLoaded("getRequestStatus");
 
 				if (friends.indexOf(uid) > -1) {
 					return "friends";
@@ -327,27 +327,27 @@ define(["step", "whispeerHelper", "asset/observer", "asset/securedDataWithMetaDa
 				return "request";
 			},
 			getRequests: function () {
-				friendsService.ensureIsLoaded();
+				friendsService.ensureIsLoaded("getRequests");
 
 				return requests.slice();
 			},
 			getFriends: function () {
-				friendsService.ensureIsLoaded();
+				friendsService.ensureIsLoaded("getFriends");
 
 				return friends.slice();
 			},
 			getRequested: function () {
-				friendsService.ensureIsLoaded();
+				friendsService.ensureIsLoaded("getRequested");
 
 				return requested.slice();
 			},
 			getUserFriendShipKey: function (uid) {
-				friendsService.ensureIsLoaded();
+				friendsService.ensureIsLoaded("getUserFriendShipKey");
 
 				return signedList.metaAttr(uid);
 			},
 			getUserForKey: function (realid) {
-				friendsService.ensureIsLoaded();
+				friendsService.ensureIsLoaded("getUserForKey");
 
 				var meta = signedList.metaGet(), result;
 				h.objectEach(meta, function (key, value) {
@@ -359,7 +359,7 @@ define(["step", "whispeerHelper", "asset/observer", "asset/securedDataWithMetaDa
 				return result;
 			},
 			getAllFriendShipKeys: function () {
-				friendsService.ensureIsLoaded();
+				friendsService.ensureIsLoaded("getAllFriendShipKeys");
 
 				var meta = signedList.metaGet(), keys = [];
 				h.objectEach(meta, function (key, value) {
