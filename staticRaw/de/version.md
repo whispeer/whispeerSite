@@ -4,6 +4,18 @@ lang: de
 title: Versionshistorie
 ---
 
+## 0.3.2
+
+* Bugfix: Das eigene Profil aktualisiert sich nun lokal
+* Geschwindigkeitsverbesserungen bei vielen gleichzeitigen Änderungen
+* Bugfix: Passwort ändern funktioniert wieder
+* Emoji werden auf allen Plattformen gleich dargestellt
+* Emoji können mit den Abkürzungen vom Emoji Cheat Sheet eingegeben werden
+* Bilder können vor dem verschicken gedreht werden (bisher nur bei Posts)
+* Bugfix: Nachrichtenthemen verschwinden nicht mehr
+* Nachrichtenladen beschleunigt und Sortierung wird nun nicht verändert beim Laden
+* Bugfix: Darstellung des Fortschrittsbalkens beim Bildhochladen bei Posts im Firefox
+
 ## 0.3.1
 
 * Better mobile sidebar
