@@ -125,7 +125,7 @@ define(["whispeerHelper", "search/singleSearch", "search/multiSearch", "directiv
 							}
 						}).catch(function (error) {
 							if (currentQuery === scope.query) {
-								scope.$apply(function () {
+								scope.$applyAsync(function () {
 									console.error(error);
 									scope.searching = false;
 
