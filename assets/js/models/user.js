@@ -560,6 +560,11 @@ define(["step", "whispeerHelper", "asset/state", "asset/securedDataWithMetaData"
 				}), errorService.criticalError);
 			};
 
+			this.reLoadBasicData = function (cb) {
+				basicDataLoaded = false;
+				this.loadBasicData(cb);
+			};
+
 			this.loadBasicData = function (cb) {
 				step(function () {
 					if (!basicDataLoaded) {
@@ -597,11 +602,12 @@ define(["step", "whispeerHelper", "asset/state", "asset/securedDataWithMetaData"
 						theUser.data.added = friendsService.didIRequest(theUser.getID());
 						theUser.data.isMyFriend = friendsService.areFriends(theUser.getID());
 
-						$rootScope.$apply();
+						$rootScope.$applyAsync();
 
 						friendsService.listen(function () {
 							theUser.data.added = friendsService.didIRequest(theUser.getID());
 							theUser.data.isMyFriend = friendsService.areFriends(theUser.getID());
+							$rootScope.$applyAsync();
 						});
 					});
 
@@ -610,7 +616,7 @@ define(["step", "whispeerHelper", "asset/state", "asset/securedDataWithMetaData"
 
 					theUser.loadImage();
 
-					$rootScope.$apply();
+					$rootScope.$applyAsync();
 
 					this.ne();
 				}), cb);
