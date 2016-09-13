@@ -301,7 +301,7 @@ define(["step", "whispeerHelper", "user/userModule", "asset/observer", "crypto/s
 
 		Observer.call(userService);
 
-		function getInfoFromCacheEntry(userData) {
+		/*function getInfoFromCacheEntry(userData) {
 			var profile = userData.profile;
 
 			var profileIDs = [];
@@ -318,7 +318,7 @@ define(["step", "whispeerHelper", "user/userModule", "asset/observer", "crypto/s
 				profiles: profileIDs,
 				signedKeys: userData.signedKeys._signature
 			};
-		}
+		}*/
 
 		function loadOwnUser(data, server) {
 			return Bluebird.try(function () {
