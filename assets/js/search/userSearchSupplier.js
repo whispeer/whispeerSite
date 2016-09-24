@@ -1,14 +1,20 @@
-define(["angular", "bluebird"], function (angular, Bluebird) {
+define(["angular", "bluebird", "whispeerHelper"], function (angular, Bluebird, h) {
 	"use strict";
 	return function () {
 		angular.module("ssn.search").factory("userSearchSupplier", ["ssn.userService", "ssn.errorService", function (userService, errorService) {
-			var Search = function () {};
+			var Search = function () {
+				this.debouncedAction = h.debouncePromise(Bluebird, this.debouncedSearch.bind(this), 500);
+			};
 
 			Search.prototype.search = function (query) {
 				if (query.length < 3) {
 					return Bluebird.reject("minimum3letters");
 				}
 
+				return this.debouncedAction(query);
+			};
+
+			Search.prototype.debouncedSearch = function (query) {
 				var action = Bluebird.promisify(userService.query, userService);
 
 				return action(query).bind(this).map(function (user) {
