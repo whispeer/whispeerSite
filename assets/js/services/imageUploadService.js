@@ -1,11 +1,11 @@
 /**
 * imageUploadService
 **/
-define(["step", "whispeerHelper", "jquery", "bluebird", "imageLib", "asset/Progress", "asset/Queue", "services/serviceModule"], function (step, h, $, Promise, imageLib, Progress, Queue, serviceModule) {
+define(["step", "whispeerHelper", "jquery", "bluebird", "imageLib", "asset/Progress", "asset/Queue", "services/serviceModule"], function (step, h, $, Bluebird, imageLib, Progress, Queue, serviceModule) {
 	"use strict";
 
 	var service = function ($timeout, blobService, screenSizeService) {
-		var canvasToBlob = Promise.promisify(h.canvasToBlob.bind(h));
+		var canvasToBlob = Bluebird.promisify(h.canvasToBlob.bind(h));
 
 		var defaultOptions = {
 			minimumSizeDifference: 1024,
@@ -94,7 +94,7 @@ define(["step", "whispeerHelper", "jquery", "bluebird", "imageLib", "asset/Progr
 		};
 
 		ImageUpload.imageLibLoad = function (file, options) {
-			return new Promise(function (resolve, reject) {
+			return new Bluebird(function (resolve, reject) {
 				imageLib(file, function (canvas) {
 					if(canvas.type === "error") {
 						reject(canvas);
@@ -135,7 +135,7 @@ define(["step", "whispeerHelper", "jquery", "bluebird", "imageLib", "asset/Progr
 			this._progress.addDepend(blobMeta.blob._encryptProgress);
 
 			return encryptionQueue.enqueue(blobMeta.blob.getSize(), function () {
-				var encryptAndUpload = Promise.promisify(blobMeta.blob.encryptAndUpload.bind(blobMeta.blob));
+				var encryptAndUpload = Bluebird.promisify(blobMeta.blob.encryptAndUpload.bind(blobMeta.blob));
 				return encryptAndUpload(encryptionKey).then(function (blobKey) {
 					return blobKey;
 				});
@@ -143,9 +143,9 @@ define(["step", "whispeerHelper", "jquery", "bluebird", "imageLib", "asset/Progr
 		};
 
 		ImageUpload.blobToDataSet = function (blob) {
-			var preReserveID = Promise.promisify(blob.preReserveID.bind(blob));
-			var getHash = Promise.promisify(blob.getHash.bind(blob));
-			return Promise.all([preReserveID(), getHash()]).spread(function (blobID, hash) {
+			var preReserveID = Bluebird.promisify(blob.preReserveID.bind(blob));
+			var getHash = Bluebird.promisify(blob.getHash.bind(blob));
+			return Bluebird.all([preReserveID(), getHash()]).spread(function (blobID, hash) {
 				return {
 					blob: blob,
 					meta: {
@@ -260,7 +260,7 @@ define(["step", "whispeerHelper", "jquery", "bluebird", "imageLib", "asset/Progr
 				this._generatePreviewsPromise = ImageUpload.imageLibLoad(this._file, {
 					maxHeight: 200, canvas: true
 				}).bind(this).then(function (img) {
-					return Promise.all([
+					return Bluebird.all([
 						canvasToBlob(img, "image/jpeg"),
 						canvasToBlob(ImageUpload.rotate90(img), "image/jpeg"),
 						canvasToBlob(ImageUpload.rotate180(img), "image/jpeg"),
@@ -301,7 +301,7 @@ define(["step", "whispeerHelper", "jquery", "bluebird", "imageLib", "asset/Progr
 			}
 
 			return uploadQueue.enqueue(1, function () {
-				return Promise.resolve(_this._blobs).bind(_this).map(function (blobWithMetaData) {
+				return Bluebird.resolve(_this._blobs).bind(_this).map(function (blobWithMetaData) {
 					console.info("Uploading blob");
 					return _this._uploadPreparedBlob(encryptionKey, blobWithMetaData);
 				});
@@ -324,7 +324,7 @@ define(["step", "whispeerHelper", "jquery", "bluebird", "imageLib", "asset/Progr
 
 			var sizes = this._isGif ? this._options.gifSizes : this._options.sizes;
 
-			return Promise.resolve(sizes)
+			return Bluebird.resolve(sizes)
 				.bind(this)
 				.map(this._createSizeData)
 				.then(this._removeUnnededBlobs);
@@ -350,7 +350,7 @@ define(["step", "whispeerHelper", "jquery", "bluebird", "imageLib", "asset/Progr
 
 		ImageUpload.prototype._resizeFile = function (sizeOptions) {
 			if (this._isGif && !sizeOptions.restrictions) {
-				return Promise.resolve(this._file);
+				return Bluebird.resolve(this._file);
 			}
 
 			var options = $.extend({}, sizeOptions.restrictions || {}, { canvas: true });
