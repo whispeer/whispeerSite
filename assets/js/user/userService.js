@@ -113,16 +113,16 @@ define(["step", "whispeerHelper", "user/userModule", "asset/observer", "crypto/s
 			}).nodeify(cb);
 		}
 
-		var delay = h.delayMultiple(THROTTLE, doLoad, 5);
+		var delay = h.delayMultiplePromise(Bluebird, THROTTLE, doLoad, 5);
 
 		function loadUser(identifier, cb) {
-			step(function () {
+			return Bluebird.try(function () {
 				if (users[identifier]) {
-					this.last.ne(users[identifier]);
+					return users[identifier];
 				} else {
-					delay(identifier, this);
+					return delay(identifier);
 				}
-			}, cb);
+			}).nodeify(cb);
 		}
 
 		userService = {
