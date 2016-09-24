@@ -162,7 +162,9 @@ define([
 				}), h.sF(function (topicData) {
 					socket.emit("messages.sendNewTopic", topicData, this);
 				}), h.sF(function (result) {
-					return Topic.multipleFromData([result.topic]);
+					return Topic.multipleFromData([result.topic]).then(function (topics) {
+						return topics[0].getID();
+					});
 				}), cb || h.nop);
 			},
 			sendMessage: function (topicID, message, images, cb) {

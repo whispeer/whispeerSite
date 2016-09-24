@@ -8,7 +8,7 @@ define(["angular", "bluebird", "whispeerHelper"], function (angular, Bluebird, h
 
 			Search.prototype.search = function (query) {
 				if (query.length < 3) {
-					return Bluebird.reject("minimum3letters");
+					return Bluebird.reject(new Error("minimum3letters"));
 				}
 
 				return this.debouncedAction(query);
