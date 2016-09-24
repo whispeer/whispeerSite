@@ -388,7 +388,7 @@ define(["step", "whispeerHelper", "asset/state", "asset/securedDataWithMetaData"
 			this.verifyKeys = function (cb) {
 				return Bluebird.try(function () {
 					var signKey = theUser.getSignKey();
-					return signedKeys.verify(signKey, undefined, theUser.getID());
+					return signedKeys.verifyAsync(signKey, theUser.getID());
 				}).then(function () {
 					var friends = signedKeys.metaAttr("friends");
 					var crypt = signedKeys.metaAttr("crypt");

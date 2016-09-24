@@ -202,16 +202,9 @@ define(["step", "whispeerHelper", "user/userModule", "asset/observer", "crypto/s
 			* this function is asynchronous and returns immediatly. requests are also batched.
 			*/
 			getMultiple: function getMultipleF(identifiers, cb) {
-				step(function () {
-					var i;
-					for (i = 0; i < identifiers.length; i += 1) {
-						loadUser(identifiers[i], this.parallel());
-					}
-
-					if (identifiers.length === 0) {
-						this.ne([]);
-					}
-				}, cb);
+				return Bluebird.resolve(identifiers).map(function (id) {
+					return loadUser(id);
+				}).nodeify(cb);
 			},
 
 			/** gets multiple users and loads their basic data.

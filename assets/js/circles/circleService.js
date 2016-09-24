@@ -166,25 +166,23 @@ define(["step", "whispeerHelper", "asset/observer", "services/serviceModule", "a
 				limit = limit || 20;
 				limit = Math.min(h.parseDecimal(limit), 20);
 
-				if (persons.length < circleUsers.length) {
-					step(function () {
-						var loadedIDs = persons.map(function (p) { return p.id; });
-						var loadableUsers = circleUsers.filter(function (user) {
-							return loadedIDs.indexOf(user) === -1;
-						});
-
-						userService.getMultiple(loadableUsers.slice(0, limit), this);
-					}, h.sF(function (users) {
-						users.forEach(function (user) {
-							persons.push(user.data);
-							user.loadBasicData(this.parallel());
-						}, this);
-					}), h.sF(function () {
-						this.ne(persons);
-					}), cb);
-				} else {
-					cb();
+				if (persons.length >= circleUsers.length) {
+					return Bluebird.resolve().nodeify(cb);
 				}
+
+				return Bluebird.try(function () {
+					var loadedIDs = persons.map(function (p) { return p.id; });
+					var loadableUsers = circleUsers.filter(function (user) {
+						return loadedIDs.indexOf(user) === -1;
+					});
+
+					return userService.getMultiple(loadableUsers.slice(0, limit));
+				}).map(function (user) {
+					persons.push(user.data);
+					return Bluebird.fromCallback(function (cb) {
+						user.loadBasicData(cb);
+					}).thenReturn(user);
+				}).nodeify(cb);
 			};
 
 			this.data = {
@@ -232,37 +230,32 @@ define(["step", "whispeerHelper", "asset/observer", "services/serviceModule", "a
 				});
 			},
 			create: function (name, cb, users) {
-				var key, theCircle;
 				users = (users || []).map(h.parseDecimal);
-				step(function () {
-					generateNewKey(this);
-				}, h.sF(function (symKey) {
-					key = symKey;
-					encryptKeyForUsers(key, users, this);
-				}), h.sF(function () {
-					var own = userService.getown();
-					var mainKey = own.getMainKey();
 
-					SecuredData.create({ name: name }, {
-						users: users,
-						circleKey: key
-					}, { type: "circle" }, own.getSignKey(), mainKey, this);
-				}), h.sF(function (data) {
-					var keyData = keyStore.upload.getKey(key);
+				return generateNewKey().then(function (symKey) {
+					return encryptKeyForUsers(symKey, users).then(function () {
+						var own = userService.getown();
+						var mainKey = own.getMainKey();
 
-					socket.emit("circle.create", {
-						circle: {
-							key: keyData,
-							content: data.content,
-							meta: data.meta
-						}
-					}, this);
-				}), h.sF(function (data) {
-					theCircle = makeCircle(data.created);
-					theCircle.load(this);
-				}), h.sF(function () {
-					this.ne(theCircle);
-				}), cb);
+						return SecuredData.createAsync({ name: name }, {
+							users: users,
+							circleKey: symKey
+						}, { type: "circle" }, own.getSignKey(), mainKey);
+					}).then(function (circleData) {
+						var keyData = keyStore.upload.getKey(symKey);
+
+						return socket.emit("circle.create", {
+							circle: {
+								key: keyData,
+								content: circleData.content,
+								meta: circleData.meta
+							}
+						});
+					}).then(function (circleResponse) {
+						var theCircle = makeCircle(circleResponse.created);
+						return theCircle.load().thenReturn(theCircle);
+					});
+				}).nodeify(cb);
 			},
 			reset: function () {
 				circles = {};
