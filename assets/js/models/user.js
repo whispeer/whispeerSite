@@ -1,4 +1,4 @@
-define(["step", "whispeerHelper", "asset/state", "asset/securedDataWithMetaData", "models/modelsModule"], function (step, h, State, SecuredData, modelsModule) {
+define(["step", "whispeerHelper", "asset/state", "asset/securedDataWithMetaData", "models/modelsModule", "bluebird"], function (step, h, State, SecuredData, modelsModule, Bluebird) {
 	"use strict";
 
 	var advancedBranches = ["location", "birthday", "relationship", "education", "work", "gender", "languages"];
@@ -386,18 +386,16 @@ define(["step", "whispeerHelper", "asset/state", "asset/securedDataWithMetaData"
 			};
 
 			this.verifyKeys = function (cb) {
-				var signKey = theUser.getSignKey();
-				step(function () {
-					signedKeys.verify(signKey, this, theUser.getID());
-				}, h.sF(function () {
+				return Bluebird.try(function () {
+					var signKey = theUser.getSignKey();
+					return signedKeys.verify(signKey, undefined, theUser.getID());
+				}).then(function () {
 					var friends = signedKeys.metaAttr("friends");
 					var crypt = signedKeys.metaAttr("crypt");
 
 					keyStoreService.security.addEncryptionIdentifier(friends);
 					keyStoreService.security.addEncryptionIdentifier(crypt);
-
-					this.ne();
-				}), cb);
+				}).nodeify(cb);
 			};
 
 			this.verify = function (cb) {
