@@ -240,7 +240,7 @@ define(["step", "whispeerHelper", "bluebird", "validation/validator", "services/
 					step(function () {
 						privateData.decrypt(this);
 					}, h.sF(function (visibleSelection) {
-						step.unpromisify(filterService.getFiltersByID(visibleSelection), this);
+						return filterService.getFiltersByID(visibleSelection);
 					}), cb);
 				} else {
 					cb();

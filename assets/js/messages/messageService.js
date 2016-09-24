@@ -179,7 +179,7 @@ define([
 				});
 
 				if (typeof cb === "function") {
-					step.unpromisify(resultPromise, h.addAfterHook(cb, $rootScope.$apply.bind($rootScope, null)));
+					resultPromise.nodeify(h.addAfterHook(cb, $rootScope.$apply.bind($rootScope)));
 				}
 
 				return resultPromise;

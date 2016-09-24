@@ -693,11 +693,7 @@ define([
 				return topicData;
 			});
 
-			if (typeof cb === "function") {
-				step.unpromisify(resultPromise, cb);
-			}
-
-			return resultPromise;
+			return resultPromise.nodeify(cb);
 		};
 
 		Observer.call(Topic);
