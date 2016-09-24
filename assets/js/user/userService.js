@@ -377,6 +377,7 @@ define(["step", "whispeerHelper", "user/userModule", "asset/observer", "crypto/s
 				ownUserCache.store(sessionService.getUserID(), userData);
 
 				ownUserStatus.loadedResolve();
+				return null;
 			});
 		});
 
