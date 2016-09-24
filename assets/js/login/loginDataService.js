@@ -94,7 +94,7 @@ define([
 			},
 
 			login: function () {
-				var loginServer = Bluebird.promisify(res.loginServer, res);
+				var loginServer = Bluebird.promisify(res.loginServer.bind(res));
 
 				loginState.pending();
 

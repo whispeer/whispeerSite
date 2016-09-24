@@ -125,7 +125,7 @@ define(["step", "whispeerHelper", "crypto/trustManager", "crypto/signatureCache"
 				if (trustManager.isLoaded()) {
 					trustServiceDebug("trustManager cache exists updating");
 
-					var updateDatabaseAsync = Bluebird.promisify(trustManager.updateDatabase, trustManager);
+					var updateDatabaseAsync = Bluebird.promisify(trustManager.updateDatabase.bind(trustManager));
 
 					return updateDatabaseAsync(data.content).then(function () {
 						return false;

@@ -15,10 +15,10 @@ define(["angular", "bluebird", "whispeerHelper"], function (angular, Bluebird, h
 			};
 
 			Search.prototype.debouncedSearch = function (query) {
-				var action = Bluebird.promisify(userService.query, userService);
+				var action = Bluebird.promisify(userService.query.bind(userService));
 
 				return action(query).bind(this).map(function (user) {
-					var loadBasicData = Bluebird.promisify(user.loadBasicData, user);
+					var loadBasicData = Bluebird.promisify(user.loadBasicData.bind(user));
 					return loadBasicData().then(function () {
 						return user;
 					});

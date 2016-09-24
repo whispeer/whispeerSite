@@ -5,7 +5,7 @@ define(["step", "whispeerHelper", "jquery", "bluebird", "imageLib", "asset/Progr
 	"use strict";
 
 	var service = function ($timeout, blobService, screenSizeService) {
-		var canvasToBlob = Promise.promisify(h.canvasToBlob, h);
+		var canvasToBlob = Promise.promisify(h.canvasToBlob.bind(h));
 
 		var defaultOptions = {
 			minimumSizeDifference: 1024,
@@ -135,7 +135,7 @@ define(["step", "whispeerHelper", "jquery", "bluebird", "imageLib", "asset/Progr
 			this._progress.addDepend(blobMeta.blob._encryptProgress);
 
 			return encryptionQueue.enqueue(blobMeta.blob.getSize(), function () {
-				var encryptAndUpload = Promise.promisify(blobMeta.blob.encryptAndUpload, blobMeta.blob);
+				var encryptAndUpload = Promise.promisify(blobMeta.blob.encryptAndUpload.bind(blobMeta.blob));
 				return encryptAndUpload(encryptionKey).then(function (blobKey) {
 					return blobKey;
 				});
@@ -143,8 +143,8 @@ define(["step", "whispeerHelper", "jquery", "bluebird", "imageLib", "asset/Progr
 		};
 
 		ImageUpload.blobToDataSet = function (blob) {
-			var preReserveID = Promise.promisify(blob.preReserveID, blob);
-			var getHash = Promise.promisify(blob.getHash, blob);
+			var preReserveID = Promise.promisify(blob.preReserveID.bind(blob));
+			var getHash = Promise.promisify(blob.getHash.bind(blob));
 			return Promise.all([preReserveID(), getHash()]).spread(function (blobID, hash) {
 				return {
 					blob: blob,

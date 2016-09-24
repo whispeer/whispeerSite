@@ -9,10 +9,10 @@ define(["angular", "bluebird"], function (angular, Bluebird) {
 					return Bluebird.reject("minimum3letters");
 				}
 
-				var action = Bluebird.promisify(userService.queryFriends, userService);
+				var action = Bluebird.promisify(userService.queryFriends.bind(userService));
 
 				return action(query).bind(this).map(function (user) {
-					var loadBasicData = Bluebird.promisify(user.loadBasicData, user);
+					var loadBasicData = Bluebird.promisify(user.loadBasicData.bind(user));
 					return loadBasicData().then(function () {
 						return user;
 					});

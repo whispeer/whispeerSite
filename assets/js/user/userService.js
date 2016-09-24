@@ -342,7 +342,7 @@ define(["step", "whispeerHelper", "user/userModule", "asset/observer", "crypto/s
 
 				return signatureCache.awaitLoading().thenReturn(user);
 			}).then(function (user) {
-				var verifyKeys = Bluebird.promisify(user.verifyKeys, user);
+				var verifyKeys = Bluebird.promisify(user.verifyKeys.bind(user));
 				return verifyKeys().thenReturn(user);
 			}).then(function (user) {
 				requestKeyService.cacheKey(user.getSignKey(), "user-sign-" + user.getID(), requestKeyService.MAXCACHETIME);

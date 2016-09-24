@@ -5,7 +5,7 @@ define(["angular", "bluebird"], function (angular, Promise) {
 			var Search = function () {};
 
 			Search.prototype.search = function (query) {
-				var action = Promise.promisify(circleService.loadAll, circleService);
+				var action = Promise.promisify(circleService.loadAll.bind(circleService));
 
 				return action().bind(this).then(function () {
 					var circles = circleService.data.circles;

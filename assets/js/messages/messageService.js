@@ -166,7 +166,7 @@ define([
 				}), cb || h.nop);
 			},
 			sendMessage: function (topicID, message, images, cb) {
-				var getTopic = Bluebird.promisify(Topic.get, Topic);
+				var getTopic = Bluebird.promisify(Topic.get.bind(Topic));
 
 				var resultPromise = Bluebird.resolve(topicID).then(function (topic) {
 					if (typeof topic !== "object") {

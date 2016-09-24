@@ -114,7 +114,7 @@ define(["step", "whispeerHelper", "crypto/encryptedData", "services/serviceModul
 			}).then(function (_settings) {
 				settings = _settings;
 
-				var decryptAsync = Bluebird.promisify(api.decrypt, api);
+				var decryptAsync = Bluebird.promisify(api.decrypt.bind(api));
 
 				return decryptAsync();
 			}).then(function () {

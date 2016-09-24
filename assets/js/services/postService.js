@@ -511,9 +511,9 @@ define(["step", "whispeerHelper", "bluebird", "validation/validator", "services/
 					return keyStore.sym.generateKey(cb, "post key");
 				});
 
-				var symEncryptKey = Promise.promisify(keyStore.sym.symEncryptKey, keyStore.sym);
-				var filterToKeys = Promise.promisify(filterService.filterToKeys, filterService);
-				var socketEmit = Promise.promisify(socket.emit, socket);
+				var symEncryptKey = Promise.promisify(keyStore.sym.symEncryptKey.bind(keyStore.sym));
+				var filterToKeys = Promise.promisify(filterService.filterToKeys.bind(filterService));
+				var socketEmit = Promise.promisify(socket.emit.bind(socket));
 				var data, securedData;
 
 				return Promise.all([keyGeneration, imagePreparation]).spread(function (postKey, imagesMetaData) {
@@ -574,7 +574,7 @@ define(["step", "whispeerHelper", "bluebird", "validation/validator", "services/
 						timeline.addPost(newPost);
 					});
 
-					return Promise.promisify(newPost.loadData, newPost)();
+					return Promise.promisify(newPost.loadData.bind(newPost))();
 				});
 			}
 		};

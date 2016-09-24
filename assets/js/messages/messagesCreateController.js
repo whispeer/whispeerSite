@@ -52,10 +52,10 @@ define(["step", "whispeerHelper", "asset/state", "bluebird", "controllers/contro
 		$scope.topics = messageService.data.latestTopics.data;
 
 		function getUser(userid) {
-			var findUser = Bluebird.promisify(userService.get, userService);
+			var findUser = Bluebird.promisify(userService.get.bind(userService));
 
 			return findUser(userid).then(function (user) {
-				var loadBasicData = Bluebird.promisify(user.loadBasicData, user);
+				var loadBasicData = Bluebird.promisify(user.loadBasicData.bind(user));
 
 				return loadBasicData().then(function () {
 					return [user.data];
@@ -68,7 +68,7 @@ define(["step", "whispeerHelper", "asset/state", "bluebird", "controllers/contro
 				return Bluebird.resolve([]);
 			}
 
-			var getUserTopic = Bluebird.promisify(messageService.getUserTopic, messageService);
+			var getUserTopic = Bluebird.promisify(messageService.getUserTopic.bind(messageService));
 
 			return getUserTopic($stateParams.userid).then(function (topicid) {
 				if (topicid) {

@@ -1361,14 +1361,14 @@ define(["whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForReady", "
 	ObjectPadder.prototype._padObject = function (val) {
 		return Bluebird.props(h.objectMap(val, function (value) {
 			var padder = new ObjectPadder(value, this._minLength);
-			return Bluebird.promisify(padder.pad, padder)();
+			return Bluebird.promisify(padder.pad.bind(padder))();
 		}, this));
 	};
 
 	ObjectPadder.prototype._padArray = function (val) {
 		return Bluebird.resolve(val).bind(this).map(function (value) {
 			var padder = new ObjectPadder(value, this._minLength);
-			return Bluebird.promisify(padder.pad, padder)();
+			return Bluebird.promisify(padder.pad.bind(padder))();
 		});
 	};
 
@@ -2129,7 +2129,7 @@ define(["whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForReady", "
 			verifyObject: function (signature, object, realID, version, id) {
 				signature = chelper.hex2bits(signature);
 
-				var getSignKey = Bluebird.promisify(SignKey.get, SignKey);
+				var getSignKey = Bluebird.promisify(SignKey.get.bind(SignKey));
 
 				return Bluebird.all([
 					stringifyObject(object, version),
