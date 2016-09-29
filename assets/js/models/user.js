@@ -231,28 +231,19 @@ define(["step", "whispeerHelper", "asset/state", "asset/securedDataWithMetaData"
 			* @param cb
 			*/
 			function getProfileAttribute(attribute, cb) {
-				step(function () {
-					if (myProfile) {
-						myProfile.getAttribute(attribute, this.last);
-					} else {
-						privateProfiles.forEach(function (profile) {
-							profile.getAttribute(attribute, this.parallel());
-						}, this);
+				if (myProfile) {
+					return myProfile.getAttribute(attribute).nodeify(cb);
+				}
 
-						if (publicProfile) {
-							publicProfile.getAttribute(attribute, this.parallel());
-						}
+				var profiles = privateProfiles.concat([publicProfile]);
 
-						this.parallel()(null, undefined);
-					}
-				}, h.sF(function (attributeValues) {
-					var values = attributeValues.filter(function (value) {
-						return typeof value !== "undefined" && value !== "";
-					});
-
+				return Bluebird.resolve(profiles).map(function (profile) {
+					return profile.getAttribute(attribute);
+				}).filter(function (value) {
+					return typeof value !== "undefined" && value !== "";
+				}).then(function (values) {
 					if (values.length === 0) {
-						this.ne("");
-						return;
+						return "";
 					}
 
 					values.sort(function (val1, val2) {
@@ -263,8 +254,8 @@ define(["step", "whispeerHelper", "asset/state", "asset/securedDataWithMetaData"
 						return 0;
 					});
 
-					this.ne(values[0]);
-				}), cb);
+					return values[0];
+				}).nodeify(cb);
 			}
 
 			/** uses the me profile to generate new profiles */

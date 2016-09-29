@@ -27,7 +27,7 @@ define(["whispeerHelper", "validation/validator", "services/serviceModule", "ass
 				});
 			}
 
-			var id, theProfile = this;
+			var id;
 
 			function checkProfile() {
 				var err;
@@ -62,7 +62,7 @@ define(["whispeerHelper", "validation/validator", "services/serviceModule", "ass
 				//sign/hash merge
 				//encrypt merge
 
-				return theProfile.decrypt().bind(this).then(function () {
+				return this.decrypt().bind(this).then(function () {
 					if (isPublicProfile) {
 						return this.sign(signKey);
 					} else {
@@ -105,25 +105,25 @@ define(["whispeerHelper", "validation/validator", "services/serviceModule", "ass
 			};
 
 			this.setFullProfile = function setFullProfileF(data, cb) {
-				return theProfile.decrypt().then(function () {
+				return this.decrypt().then(function () {
 					securedData.contentSet(data);
 				}).nodeify(cb);
 			};
 
 			this.setAttribute = function setAttributeF(attr, value, cb) {
-				return theProfile.decrypt().then(function () {
+				return this.decrypt().then(function () {
 					securedData.contentSetAttr(attr, value);
 				}).nodeify(cb);
 			};
 
 			this.getFull = function getFullF(cb) {
-				return theProfile.decrypt().then(function () {
+				return this.decrypt().then(function () {
 					return securedData.contentGet();
 				}).nodeify(cb);
 			};
 
 			this.getAttribute = function getAttributeF(attrs, cb) {
-				return theProfile.decrypt().then(function () {
+				return this.decrypt().then(function () {
 					return h.deepGet(securedData.contentGet(), attrs);
 				}).nodeify(cb);
 			};
