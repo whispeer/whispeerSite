@@ -390,29 +390,25 @@ define(["step", "whispeerHelper", "asset/state", "asset/securedDataWithMetaData"
 			};
 
 			this.verify = function (cb) {
-				step(function () {
-					var signKey = theUser.getSignKey();
+				return Bluebird.try(function () {
+					var promises = [];
 
-					theUser.verifyKeys(this.parallel());
+					promises.push(theUser.verifyKeys());
 
 					if (theUser.isOwn()) {
-						myProfile.verify(signKey, this.parallel());
+						promises.push(myProfile.verify(signKey));
 					} else {
-						privateProfiles.forEach(function (priv) {
-							priv.verify(signKey, this.parallel());
-						}, this);
+						promises = promises.concat(privateProfiles.map(function (priv) {
+							return priv.verify(signKey);
+						}));
 
 						if (publicProfile) {
-							publicProfile.verify(signKey, this.parallel());
+							promises.push(publicProfile.verify(signKey));
 						}
-
-						this.parallel()(null, true);
 					}
-				}, h.sF(function (verified) {
-					var ok = verified.reduce(h.and, true);
 
-					this.ne(ok);
-				}), cb);
+					return Bluebird.all(promises);
+				}).nodeify(cb);
 			};
 
 			this.verifyFingerPrint = function (fingerPrint, cb) {
@@ -557,18 +553,18 @@ define(["step", "whispeerHelper", "asset/state", "asset/securedDataWithMetaData"
 			};
 
 			this.loadBasicData = function (cb) {
-				step(function () {
-					if (!basicDataLoaded) {
-						this.parallel.unflatten();
+				if (basicDataLoaded) {
+					return Bluebird.resolve().nodeify(cb);
+				}
 
-						theUser.getShortName(this.parallel());
-						theUser.getName(this.parallel());
-						theUser.getTrustLevel(this.parallel());
-						theUser.verify(this.parallel());
-					} else {
-						this.last.ne();
-					}
-				}, h.sF(function (shortname, names, trustLevel, signatureValid) {
+				return Bluebird.try(function () {
+					return Bluebird.all([
+						theUser.getShortName(),
+						theUser.getName(),
+						theUser.getTrustLevel(),
+						theUser.verify()
+					]);
+				}).spread(function (shortname, names, trustLevel, signatureValid) {
 					basicDataLoaded = true;
 
 					theUser.data.signatureValid = signatureValid;
@@ -608,17 +604,13 @@ define(["step", "whispeerHelper", "asset/state", "asset/securedDataWithMetaData"
 					theUser.loadImage();
 
 					$rootScope.$applyAsync();
-
-					this.ne();
-				}), cb);
+				}).nodeify(cb);
 			};
 
 			this.setMigrationState = function (migrationState, cb) {
-				step(function () {
-					socketService.emit("user.setMigrationState", {
+				return socketService.emit("user.setMigrationState", {
 						migrationState: migrationState
-					}, this);
-				}, cb);
+				}).nodeify(cb);
 			};
 
 			this.getMigrationState = function (cb) {
