@@ -458,25 +458,27 @@ define(["step", "whispeerHelper", "asset/state", "asset/securedDataWithMetaData"
 			};
 
 			this.getTrustLevel = function (cb) {
-				step(function () {
-					theUser.getTrustData(this);
-				}, h.sF(function (trust) {
+				return theUser.getTrustData().then(function (trust) {
 					if (trust.isOwn()) {
-						this.ne(-1);
-					} else if (trust.isVerified()) {
-						this.ne(2);
-					} else if (trust.isWhispeerVerified() || trust.isNetworkVerified()) {
-						this.ne(1);
-					} else {
-						this.ne(0);
+						return -1;
 					}
-				}), cb);
+
+					if (trust.isVerified()) {
+						return 2;
+					}
+
+					if (trust.isWhispeerVerified() || trust.isNetworkVerified()) {
+						return 1;
+					}
+					
+					return 0;
+				}).nodeify(cb);
 			};
 
-			this.getTrustData = function (cb) {
-				var trust = $injector.get("ssn.trustService").getKey(theUser.getSignKey());
-
-				cb(null, trust);
+			this.getTrustData = function () {
+				return Bluebird.resolve(
+					$injector.get("ssn.trustService").getKey(theUser.getSignKey())
+				);
 			};
 
 			this.changePassword = function (newPassword, cb) {
@@ -688,22 +690,16 @@ define(["step", "whispeerHelper", "asset/state", "asset/securedDataWithMetaData"
 			};
 
 			this.getShortName = function (cb) {
-				step(function getSN1() {
-					getProfileAttribute("basic", this);
-				}, h.sF(function (basic) {
+				return getProfileAttribute("basic").then(function (basic) {
 					basic = basic || {};
 					var nickname = theUser.getNickname();
 
-					this.ne(basic.firstname || basic.lastname || nickname || "");
-				}), cb);
+					return basic.firstname || basic.lastname || nickname || "";
+				}).nodeify(cb);
 			};
 
 			this.getName = function (cb) {
-				step(function getN1() {
-					this.parallel.unflatten();
-
-					getProfileAttribute("basic", this);
-				}, h.sF(function (basic) {
+				return getProfileAttribute("basic").then(function (basic) {
 					basic = basic || {};
 					var nickname = theUser.getNickname();
 
@@ -716,13 +712,13 @@ define(["step", "whispeerHelper", "asset/state", "asset/securedDataWithMetaData"
 						name = nickname;
 					}
 
-					this.ne({
+					return {
 						name: name,
 						firstname: basic.firstname || "",
 						lastname: basic.lastname || "",
 						nickname: nickname || ""
-					});
-				}), cb);
+					};
+				}).nodeify(cb);
 			};
 
 			this.ignoreFriendShip = function () {

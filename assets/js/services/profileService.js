@@ -101,7 +101,7 @@ define(["whispeerHelper", "validation/validator", "services/serviceModule", "ass
 			};
 
 			this.verify = function (signKey, cb) {
-				securedData.verify(signKey, cb, this.getID());
+				return securedData.verifyAsync(signKey, this.getID()).nodeify(cb);
 			};
 
 			this.setFullProfile = function setFullProfileF(data, cb) {
