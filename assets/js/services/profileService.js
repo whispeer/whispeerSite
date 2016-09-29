@@ -1,7 +1,7 @@
 /**
 * ProfileService
 **/
-define(["step", "whispeerHelper", "validation/validator", "services/serviceModule", "asset/observer", "asset/securedDataWithMetaData"], function (step, h, validator, serviceModule, Observer, SecuredData) {
+define(["whispeerHelper", "validation/validator", "services/serviceModule", "asset/observer", "asset/securedDataWithMetaData"], function (h, validator, serviceModule, Observer, SecuredData) {
 	"use strict";
 
 	var service = function () {
@@ -57,20 +57,18 @@ define(["step", "whispeerHelper", "validation/validator", "services/serviceModul
 			};
 
 			this.getUpdatedData = function getUpdatedData(signKey, cb) {
-				var that = this;
 				//pad updated profile
 				//merge paddedProfile and updatedPaddedProfile
 				//sign/hash merge
 				//encrypt merge
-				step(function () {
-					theProfile.decrypt(this);
-				}, h.sF(function  () {
+
+				return theProfile.decrypt().bind(this).then(function () {
 					if (isPublicProfile) {
-						that.sign(signKey, this);
+						return this.sign(signKey);
 					} else {
-						securedData.getUpdatedData(signKey, this);
+						return securedData.getUpdatedData(signKey);
 					}
-				}), cb);
+				}).nodeify(cb);
 			};
 
 			this.sign = function sign(signKey, cb) {
@@ -78,16 +76,12 @@ define(["step", "whispeerHelper", "validation/validator", "services/serviceModul
 					throw new Error("please encrypt private profiles!");
 				}
 
-				step(function () {
-					securedData.sign(signKey, this);
-				}, h.sF(function (signedMeta) {
-					var result = {
+				return securedData.sign(signKey).then(function (signedMeta) {
+					return {
 						content: securedData.contentGet(),
 						meta: signedMeta
 					};
-
-					this.ne(result);
-				}), cb);
+				}).nodeify(cb);
 			};
 
 			this.signAndEncrypt = function signAndEncryptF(signKey, cryptKey, cb) {
@@ -111,49 +105,33 @@ define(["step", "whispeerHelper", "validation/validator", "services/serviceModul
 			};
 
 			this.setFullProfile = function setFullProfileF(data, cb) {
-				step(function () {
-					theProfile.decrypt(this);
-				}, h.sF(function () {
+				return theProfile.decrypt().then(function () {
 					securedData.contentSet(data);
-
-					this.ne();
-				}), cb);
+				}).nodeify(cb);
 			};
 
 			this.setAttribute = function setAttributeF(attr, value, cb) {
-				step(function () {
-					theProfile.decrypt(this, attr);
-				}, h.sF(function () {
+				return theProfile.decrypt().then(function () {
 					securedData.contentSetAttr(attr, value);
-
-					this.ne();
-				}), cb);
+				}).nodeify(cb);
 			};
 
 			this.getFull = function getFullF(cb) {
-				step(function () {
-					theProfile.decrypt(this);
-				}, h.sF(function () {
-					this.last.ne(securedData.contentGet());
-				}), cb);
+				return theProfile.decrypt().then(function () {
+					return securedData.contentGet();
+				}).nodeify(cb);
 			};
 
 			this.getAttribute = function getAttributeF(attrs, cb) {
-				step(function () {
-					theProfile.decrypt(this, attrs[0]);
-				}, h.sF(function () {
-					this.last.ne(h.deepGet(securedData.contentGet(), attrs));
-				}), cb);
+				return theProfile.decrypt().then(function () {
+					return h.deepGet(securedData.contentGet(), attrs);
+				}).nodeify(cb);
 			};
 
-			this.decrypt = function decryptProfileF(cb, branch) {
-				step(function () {
-					securedData.decrypt(this, branch);	
-				}, h.sF(function () {
+			this.decrypt = function (cb) {
+				return securedData.decrypt().then(function () {
 					checkProfile();
-
-					this.ne();
-				}), cb);
+				}).nodeify(cb);
 			};
 
 			Observer.call(this);
