@@ -345,12 +345,6 @@ define(["step", "whispeerHelper", "asset/state", "asset/securedDataWithMetaData"
 				return keyStoreService.format.fingerPrint(theUser.getSignKey());
 			};
 
-			this.verifyFingerPrint = function (fingerPrint) {
-				if (fingerPrint !== theUser.getFingerPrint()) {
-					return false;
-				}
-			};
-
 			this.setAdvancedProfile = function (advancedProfile, cb) {
 				return Bluebird.resolve(advancedBranches).map(function (branch) {
 					return myProfile.setAttribute(branch, advancedProfile[branch]);
@@ -425,27 +419,27 @@ define(["step", "whispeerHelper", "asset/state", "asset/securedDataWithMetaData"
 
 			this.createBackupKey = function (cb) {
 				var outerKey;
-				step(function () {
+				return Bluebird.try(function () {
 					return initService.awaitLoading();
-				}, h.sF(function () {
-					keyStoreService.sym.createBackupKey(mainKey, this);
-				}), h.sF(function (backupKeyData) {
+				}).then(function () {
+					return keyStoreService.sym.createBackupKey(mainKey);
+				}).then(function (backupKeyData) {
 					var decryptors = backupKeyData.decryptors;
 					var innerKey = backupKeyData.innerKey;
 
 					outerKey = backupKeyData.outerKey;
 
-					socketService.emit("user.backupKey", {
+					return socketService.emit("user.backupKey", {
 						innerKey: innerKey,
 						decryptors: decryptors
-					}, this);
-				}), h.sF(function (data) {
+					});
+				}).then(function (data) {
 					if (data.error) {
 						throw new Error("server error");
 					}
 
-					this.ne(keyStoreService.format.base32(outerKey));
-				}), cb);
+					return keyStoreService.format.base32(outerKey);
+				}).nodeify(cb);
 			};
 
 			this.getTrustLevel = function (cb) {
@@ -509,25 +503,21 @@ define(["step", "whispeerHelper", "asset/state", "asset/securedDataWithMetaData"
 			};
 
 			this.loadFullData = function (cb) {
-				step(function () {
-					advancedBranches.forEach(function (branch) {
-						getProfileAttribute(branch, this.parallel());
-					}, this);
-
-					theUser.loadBasicData(this.parallel());
-				}, h.sF(function (result) {
-					var i, a = theUser.data.advanced, defaults = [{}, {}, {}, [], {}, {}, []];
+				return Bluebird.try(function () {
+					return theUser.loadBasicData().thenReturn(advancedBranches);
+				}).map(function (branch) {
+					return getProfileAttribute(branch);
+				}).then(function (result) {
+					var i, advanced = theUser.data.advanced, defaults = [{}, {}, {}, [], {}, {}, []];
 
 					for (i = 0; i < advancedBranches.length; i += 1) {
 						if (advancedBranches[i] === "gender" && typeof result[i] === "string") {
 							result[i] = { gender: result[i] };
 						}
 
-						a[advancedBranches[i]] = h.deepCopyObj(result[i] || defaults[i], 3);
+						advanced[advancedBranches[i]] = h.deepCopyObj(result[i] || defaults[i], 3);
 					}
-
-					this.ne();
-				}), cb);
+				}).nodeify(cb);
 			};
 
 			this.getFriends = function (cb) {
