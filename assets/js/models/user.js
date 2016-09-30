@@ -206,7 +206,7 @@ define(["step", "whispeerHelper", "asset/state", "asset/securedDataWithMetaData"
 				}), h.sF(function () {
 					//update signedKeys
 					signedKeys.metaSetAttr("friends", newFriendsKey);
-					signedKeys.getUpdatedData(signKey, this);
+					return signedKeys.getUpdatedData(signKey);
 				}), h.sF(function (updatedSignedKeys) {
 					friendsKey = newFriendsKey;
 					this.ne(updatedSignedKeys, newFriendsKey);
@@ -301,20 +301,17 @@ define(["step", "whispeerHelper", "asset/state", "asset/securedDataWithMetaData"
 			};
 
 			this.setMail = function (newMail, cb) {
-				step(function () {
-					if (newMail !== mail) {
-						socketService.emit("user.mailChange", { mail: newMail }, this);
-					} else {
-						this.last.ne();
-					}
-				}, h.sF(function (data) {
-					if (data.error) {
+				if (newMail !== mail) {
+					return Bluebird.resolve().nodeify(cb);
+				}
+
+				return socketService.emit("user.mailChange", { mail: newMail }).then(function (response) {
+					if (response.error) {
 						throw new Error("mail not accepted");
 					} else {
 						mail = newMail;
-						this.ne();
 					}
-				}), cb);
+				}).nodeify(cb);
 			};
 
 			/** uploads all profiles (also recreates them) */
@@ -355,11 +352,9 @@ define(["step", "whispeerHelper", "asset/state", "asset/securedDataWithMetaData"
 			};
 
 			this.setAdvancedProfile = function (advancedProfile, cb) {
-				step(function () {
-					advancedBranches.forEach(function (branch) {
-						myProfile.setAttribute(branch, advancedProfile[branch], this.parallel());
-					}, this);
-				}, cb);
+				return Bluebird.resolve(advancedBranches).map(function (branch) {
+					return myProfile.setAttribute(branch, advancedProfile[branch]);
+				}).nodeify(cb);
 			};
 
 			this.getProfileAttribute = getProfileAttribute;
