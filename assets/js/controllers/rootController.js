@@ -2,7 +2,7 @@
 * sessionController
 **/
 
-define(["step", "whispeerHelper", "config", "controllers/controllerModule", "debug", "bluebird"], function (step, h, config, controllerModule, debug, Bluebird) {
+define(["jquery", "step", "whispeerHelper", "config", "controllers/controllerModule", "debug", "bluebird"], function (jQuery, step, h, config, controllerModule, debug, Bluebird) {
 	"use strict";
 
 	var debugName = "whispeer:rootController";

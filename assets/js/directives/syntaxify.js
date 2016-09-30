@@ -1,5 +1,5 @@
 /* Warning! This code manipulates the DOM, do only change with extra care as you might create Cross-Site-Scripting holes */
-define(["directives/directivesModule", "emojify"], function (directivesModule, EmojifyConverter) {
+define(["jquery", "directives/directivesModule", "emojify"], function (jQuery, directivesModule, EmojifyConverter) {
 	"use strict";
 
 	var emojify = new EmojifyConverter();

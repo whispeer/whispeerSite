@@ -14,6 +14,7 @@
     "fullscreen": false
   },
   "dependencies": {
+    "exports-loader": "^0.6.3",
     "font-awesome": "4.6.3",
     "grunt": "~1.0.1",
     "grunt-autoprefixer": "^3.0.3",
@@ -23,10 +24,13 @@
     "grunt-contrib-jshint": "~1.0.0",
     "grunt-contrib-less": "~1.4.0",
     "grunt-contrib-requirejs": "^1.0.0",
+    "imports-loader": "^0.6.5",
+    "json-loader": "^0.5.4",
     "lazy": "^1.0.11",
     "node-static": "0.7.x",
     "normalize.css": "^4.2.0",
-    "requirejs": "^2.2.0"
+    "requirejs": "^2.2.0",
+    "webpack": "^1.13.2"
   },
   "devDependencies": {
     "bluebird": "^3.0.6",
