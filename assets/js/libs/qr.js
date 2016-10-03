@@ -1200,4 +1200,4 @@
     root.qr = qr;
   }
 
-})(this);
+})(window);
