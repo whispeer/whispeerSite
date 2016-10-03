@@ -6,7 +6,6 @@
 		"webkitURL": true,
 		"URL": true,
 		"requirejs": true,
-		"jQuery": true,
 		"startup": true,
 		"confirm": true,
 		"alert": true,
