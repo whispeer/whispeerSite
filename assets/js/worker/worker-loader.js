@@ -17,7 +17,7 @@ define([], function () {
 		this._busy = true;
 
 		if (!workerScriptOverride) {
-			this._worker = new Worker("./worker.bundle.js");
+			this._worker = new Worker("./assets/js/build/worker.bundle.js");
 		} else {
 			this._worker = new Worker(workerScriptOverride);
 		}
@@ -55,7 +55,7 @@ define([], function () {
 
 	PromiseWorker.prototype._lockFree = function () {
 		var that = this;
-		return new this._Promise(function (resolve, reject) {
+		return new this._Promise(function (resolve) {
 			that._taskQueue.push(resolve);
 			that._checkQueues();
 		});

@@ -2,13 +2,14 @@ var path = require("path");
 var webpack = require("webpack");
 
 module.exports = {
-	plugins: [
-		new webpack.ProvidePlugin({
-			$: "jquery",
-			"window.jQuery": "jquery"
-		})
-	],
+	context: path.resolve("./assets/js"),
 	resolve: {
+		plugins: [
+			new webpack.ProvidePlugin({
+				$: "jquery",
+				"window.jQuery": "jquery"
+			})
+		],
 		root: [
 			path.resolve("./assets/js")
 		],
@@ -39,15 +40,17 @@ module.exports = {
 	},
 	module: {
 		loaders: [
-			{ test: /angular/, loader: "exports?angular!imports?jquery" }
+			{ test: /angular/, loader: "exports?angular!imports?jquery" },
+			{ test: /localizationModule/, loader: "imports?jquery" }
 		]
 	},
 	entry: {
-		main: "./assets/js/main.js",
-		worker: "./assets/js/worker/worker.js"
+		main: "./main.js",
+		worker: "./worker/worker.js"
 	},
 	output: {
-		path: __dirname,
+		path: path.resolve("./assets/js/build/"),
+		publicPath: "/assets/js/build/",
 		filename: "[name].bundle.js"
 	}
 };

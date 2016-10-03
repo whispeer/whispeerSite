@@ -1,4 +1,4 @@
-define(["step", "whispeerHelper", "directives/directivesModule"], function (step, h, directivesModule) {
+define(["jquery", "step", "whispeerHelper", "directives/directivesModule"], function (jQuery, step, h, directivesModule) {
 	"use strict";
 
 	function imageGallery(errorService, blobService, screenSizeService) {

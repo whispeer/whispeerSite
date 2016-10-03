@@ -1,12 +1,8 @@
 /* global self */
-
-"use strict";
-
-var theHandler;
-
 var theHandler = require("crypto/sjclWorker");
 
 self.onmessage = function (event) {
+	"use strict";
 	var action = event.data.action;
 
 	if (action === "runTask") {
