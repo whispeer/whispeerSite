@@ -10,6 +10,9 @@ module.exports = {
 
 			minChunks: 2,
 			chunks: ["login", "register", "main"]
+		}),
+		new webpack.optimize.MinChunkSizePlugin({
+			minChunkSize: 2048
 		})
 	],
 	resolve: {
