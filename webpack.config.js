@@ -45,6 +45,8 @@ module.exports = {
 		]
 	},
 	entry: {
+		login: "./login/loginMain.js",
+		register: "./register/registerMain.js",
 		main: "./main.js",
 		worker: "./worker/worker.js"
 	},
