@@ -3,13 +3,16 @@ var webpack = require("webpack");
 
 module.exports = {
 	context: path.resolve("./assets/js"),
+	plugins: [
+		new webpack.optimize.CommonsChunkPlugin({
+			names: "commons",
+			filename: "commons.bundle.js",
+
+			minChunks: 2,
+			chunks: ["login", "register", "main"]
+		})
+	],
 	resolve: {
-		plugins: [
-			new webpack.ProvidePlugin({
-				$: "jquery",
-				"window.jQuery": "jquery"
-			})
-		],
 		root: [
 			path.resolve("./assets/js")
 		],
@@ -21,12 +24,10 @@ module.exports = {
 			whispeerHelper: "helper/helper",
 			amanda: "bower/amanda/releases/latest/amanda",
 			angular: "bower/angular/angular",
-			angularRoute: "bower/angular-route/angular-route",
 			angularUiRouter: "bower/angular-ui-router/release/angular-ui-router",
 			angularTouch: "bower/angular-touch/angular-touch",
 			bluebird: "bower/bluebird/js/browser/bluebird",
 			jquery: "bower/jquery/dist/jquery",
-			requirejs: "bower/requirejs/require",
 			socket: "bower/socket.io-client/socket.io",
 			qtip: "bower/qtip2/basic/jquery.qtip",
 			imageLib: "bower/blueimp-load-image/js/load-image",
