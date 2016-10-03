@@ -8,9 +8,11 @@ define(["step", "whispeerHelper"], function (step, h) {
 		var userid, invalidKey;
 
 		step(function () {
+			friendsService.awaitLoading(this);
+		}, h.sF(function () {
 			friendsKeys = friendsService.getAllFriendShipKeys();
 			keyStore.upload.preLoadMultiple(friendsKeys, this);
-		}, h.sF(function () {
+		}), h.sF(function () {
 
 			var invalidKeys = friendsKeys.filter(function (realid) {
 				return !keyStore.upload.isKeyLoaded(realid);
