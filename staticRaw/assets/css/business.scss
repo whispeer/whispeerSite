@@ -194,3 +194,60 @@ main {
 		color: $primary_light;
 	}
 }
+
+@import "animation";
+
+.animation-box {
+	margin-top: 72px;
+}
+
+.s1Pc,
+.s2Pc {
+	margin-top: 10px;
+}
+
+.animation-node-description {
+	font-size: 18px;
+	font-weight: 100;
+	line-height: 18px;
+}
+
+.message {
+	width: 106px;
+}
+
+{% assign animationTime = 15 %}
+
+.animation-start {
+	.message {
+		@include animation(sendMessage {{animationTime}}s);
+	}
+	.message-s2 {
+		@include animation-direction(reverse);
+	}
+	.message--infinity {
+		@include animation-iteration-count(infinite);
+	}
+	{% for lang in site.data.b2b.animation.langs %}
+		{% for message in site.data.b2b.animation[lang].data %}
+			{% if forloop.index > 2 %}
+				{% capture doLoop %}{% cycle 'true', 'false' %}{% endcapture %}
+				{% if doLoop == 'true' %}
+					{% capture index %}{{ forloop.index0 | divided_by: 2 }}{% endcapture %}
+					.message-{{lang}}--i{{forloop.index}},
+					.message-{{lang}}--i{{forloop.index | plus: 1}} {
+						@include animation-delay({{ animationTime | times: index }}s);
+					}
+				{% endif %}
+			{% endif %}
+		{% endfor %}
+	{% endfor %}
+}
+
+.fa-l {
+	font-size: 3em;
+}
+
+.fa-xl {
+	font-size: 5em;
+}
