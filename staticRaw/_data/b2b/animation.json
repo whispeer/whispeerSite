@@ -1,0 +1,33 @@
+{
+	"langs": ["en", "de"],
+	"en": {
+		"senders": [
+			"Alice",
+			"Bob"
+		],
+		"data": [
+			{
+				"sender": 0,
+				"messageText": "Spam!"
+			}, {
+				"sender": 1,
+				"messageText": "Spam back!"
+			}
+		]
+	},
+	"de": {
+		"senders": [
+			"Alice",
+			"Bob"
+		],
+		"data": [
+			{
+				"sender": 0,
+				"messageText": "Hier könnte Ihre Werbung stehen."
+			}, {
+				"sender": 1,
+				"messageText": "Werbung gibt's hier nicht!"
+			}
+		]
+	}
+}
