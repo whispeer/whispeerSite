@@ -16,6 +16,7 @@ grunt.loadNpmTasks("grunt-run");
 grunt.loadNpmTasks("grunt-contrib-requirejs");
 grunt.loadNpmTasks("grunt-contrib-clean");
 grunt.loadNpmTasks("grunt-angular-templates");
+grunt.loadNpmTasks('grunt-jekyll');
 
 var libs = [
 	"step",
@@ -284,6 +285,13 @@ grunt.initConfig({
 			options: {
 				spawn: false
 			}
+		},
+		jekyll: {
+			files: ["staticRaw/**/*.*"],
+			tasks: ["jekyll"],
+			options: {
+				spawn: false
+			}
 		}
 	},
 	browserSync: {
@@ -307,6 +315,14 @@ grunt.initConfig({
 	},
 	clean: {
 		build: ["assets/js/build/*.js", "manifest.mf", "assets/commit.sha", "assets/files.json"]
+	},
+	jekyll: {
+		options: {
+			bundleExec: true
+		},
+		dist: {
+			config: "_config.yml"
+		}
 	}
 });
 
@@ -490,7 +506,7 @@ grunt.task.registerMultiTask("assetHash", "Hash a file and rename the file to th
 
 grunt.registerTask("default", ["build:development", "browserSync", "concurrent:development"]);
 
-grunt.registerTask("build:development", ["clean", "copy", "bower-install-simple", "less", "autoprefixer", "run:buildsjcl"]);
-grunt.registerTask("build:production",  ["clean", "jshint", "copy", "bower-install-simple", "less", "autoprefixer", "ngtemplates", "requirejs", "run:buildsjcl", "assetHash", "includes", "workerCache"]);
+grunt.registerTask("build:development", ["clean", "copy", "bower-install-simple", "less", "autoprefixer", "run:buildsjcl", "jekyll"]);
+grunt.registerTask("build:production",  ["clean", "jshint", "copy", "bower-install-simple", "less", "autoprefixer", "ngtemplates", "requirejs", "run:buildsjcl", "assetHash", "includes", "workerCache", "jekyll"]);
 
 grunt.registerTask("server", "Start the whispeer web server.", require("./webserver"));
