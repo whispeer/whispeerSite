@@ -1,0 +1,73 @@
+<!doctype html>
+<html itemscope itemtype="http://schema.org/Product" prefix="my_namespace: http://ogp.me/ns/website#">
+	{% assign data = site.data.b2c.[page.dataSet].[page.lang] %}
+	{% assign lang = site.data.langs[page.lang] %}
+	{% assign i18n = site.data.whispeerI18n[page.lang] %}
+	<head>
+		{% include head.html %}
+		<link rel="stylesheet" href="{{ "/assets/css/static.css" | prepend: site.baseurl }}">
+		<link rel="stylesheet" href="{{ "/assets/css/business.css" | prepend: site.baseurl }}">
+	</head>
+	<body>
+		{% include noscript.html %}
+		<header class="header">
+			<div class="header-inner">
+				<a data-ng-href="/{{page.lang}}/" class="header-brand" data-ng-click="mobileActivateView()">
+					<span class="header-brand--normal">whis</span><span class="header-brand--inverse">peer</span>
+				</a>
+<!-- 				<a href="/login/" target="_self" class="header-toggle header-toggle-login helper-showMobile">Login</a> -->
+				<iframe id="header-login" class="helper-hideMobile" src="/{{page.lang}}/loginframe/"></iframe>
+			</div>
+		</header>
+		<main>
+			<section class="landing-section{% if data.teaser.image != null %} landing-section--background{% endif %}" id="heading">
+				<div class="landing-section--inner">
+					<img src="/assets/images/logo_b2b.png">
+
+					<h2 class="landing-section__heading">Unternehmen entwickeln sich.</h2>
+					<h2 class="landing-section__heading">Seien Sie Vorreiter.</h2>
+
+					<p class="landing-section__paragraph landing-section__paragraph--large">
+						Kommunizieren. Organisieren. Teilen. Alles digital & sicher.<br>
+						Bringen Sie Ihr Unternehmen in Sekunden auf das nächste Level.<br>
+						Und wir kümmern uns um den Rest - sorgenfrei für Sie.
+					</p>
+					<a href="#" class="landing-section__link">Entdecken Sie die Services von whispeer ></a>
+
+					<form name="quickRegister" class="landing-section__form">
+						<div class="caret-wrapped">
+							<input type="text" placeholder="Name Ihres Unternehmens" class="caret-wrapped__input landing-section__input">
+						</div>
+						<div class="caret-wrapped caret-wrapped--button caret-wrapped--primary caret-wrapped--no-left">
+							<button type="submit" class="caret-wrapped__button caret-wrapped__button--overlaying-left">weiter</button>
+						</div>
+				</div>
+			</section>
+
+		</main>
+		<footer class="landing-footer">
+			<span class="landing-footer__part landing-footer__left">
+				<img src="/assets/images/logo_b2b_small.png">
+			</span>
+			<span class="landing-footer__part landing-footer__right">
+				<a class="landing-footer__link" href="/{{page.lang}}/agb">
+					<i class="fa fa-briefcase fa-fw"></i>
+					{{lang.terms}}
+				</a>
+				<a class="landing-footer__link" href="/{{page.lang}}/privacyPolicy">
+					<i class="fa fa-lock fa-fw"></i>
+					{{lang.privacyPolicy}}
+				</a>
+				<a class="landing-footer__link" href="/{{page.lang}}/contact">
+					<i class="fa fa-envelope fa-fw"></i>
+					{{lang.contact}}
+				</a>
+				<a class="landing-footer__link" href="/{{page.lang}}/impressum">
+					<i class="fa fa-book fa-fw"></i>
+					{{lang.imprint}}
+				</a>
+			</span>
+		</footer>
+		<!-- <a class="backToTop" href="#heading"><i class="fa fa-arrow-circle-o-up fa-2x"></i></a> -->
+	</body>
+</html>
