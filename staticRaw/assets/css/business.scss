@@ -1,8 +1,6 @@
 ---
 ---
 
-@import "normalize";
-
 $primary: #3a8100;
 $primary_light: #54ab0c;
 $primary_lighter: #76a424;
@@ -12,6 +10,10 @@ $accent: #ffeda5;
 $complementary_decent: #788286;
 $complementary_strong: #1b676b;
 
+@import "mixins";
+@import "normalize";
+@import "caret-elements";
+
 main {
 	display: flex;
 	flex-direction: column;
@@ -19,12 +21,12 @@ main {
 	font-family: 'Roboto', sans-serif !important;
 	font-weight: 300;
 
-	color: #efefef;
+	color: $complementary_decent;
 }
 
 .landing-section {
 	display: flex;
-	justify-content: flex-start;
+
 	align-items: center;
 
 	min-height: 100vh;
@@ -37,9 +39,30 @@ main {
 	font-weight: thin;
 }
 
-.landing-section--background {
+.landing-section--background-image {
 	background-image: url("/assets/images/rustical_office.jpg");
 	background-size: 100% auto;
+
+	color: #fff;
+}
+
+.landing-section--background-primary {
+	background-color: $primary_light;
+
+	color: #fff;
+}
+
+.landing-section__inner--centered {
+	display: flex;
+
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+
+	width: 100%;
+	max-width: 1080px;
+
+	margin: auto;
 }
 
 .landing-section__heading {
@@ -48,9 +71,24 @@ main {
 	font-size: 48px;
 	font-weight: 100;
 
+	line-height: 48px;
+
 	font-family: 'Roboto Condensed', sans-serif;
 
 	text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.6);
+}
+
+.landing-section__heading--low-profile {
+	line-height: 24px;
+}
+
+.landing-section__heading--primary {
+	color: $primary;
+	text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.landing-section__heading--centered {
+	text-align: center;
 }
 
 .landing-section__paragraph {
@@ -59,18 +97,31 @@ main {
 }
 
 .landing-section__link {
+	color: $primary_light;
+
+	&:hover {
+		color: $primary_lighter;
+		text-decoration: underline;
+	}
+}
+
+.landing-section__link--accent {
 	color: $accent;
-	text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.6);
 
 	&:hover {
 		color: $accent;
-		text-decoration: underline;
 	}
+}
+
+.landing-secition__link--shadow {
+	text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.6);
 }
 
 .landing-section__form {
 	display: flex;
 	align-items: center;
+
+	font-size: 18px !important;
 }
 
 .landing-section__input {
@@ -79,6 +130,33 @@ main {
 	&::-webkit-input-placeholder {
 		color: $primary_lighter;
 	}
+}
+
+.landing-section__quote {
+	display: flex;
+	flex-wrap: wrap;
+}
+
+.landing-section__quote__icon {
+	display: flex;
+
+	justify-content: center;
+	align-items: center;
+
+	flex-basis: 15%;
+
+	font-size: 3em;
+}
+
+.landing-section__quote__text {
+	flex-basis: 85%;
+}
+
+.landing-section__quote__cite {
+	width: 100%;
+	flex-shrink: 0;
+
+	text-align: right;
 }
 
 .landing-footer {
@@ -115,109 +193,4 @@ main {
 	&:hover {
 		color: $primary_light;
 	}
-}
-
-.caret-wrapped {
-	position: relative;
-	display: inline-block;
-	margin: 1em 0 0 24px;
-
-	&:before {
-		position: absolute;
-		top: 0;
-		left: -24px;
-
-		content: " ";
-
-		width: 0;
-		height: 0;
-
-		border-style: solid;
-		border-width: 36px 24px 36px 0;
-		border-color: transparent #fff transparent transparent;
-
-		z-index: 3;
-	}
-
-	&:after {
-		position: absolute;
-		top: 0;
-		right: -24px;
-
-		content: " ";
-
-		width: 0;
-		height: 0;
-
-		border-style: solid;
-		border-width: 36px 0 36px 24px;
-		border-color: transparent transparent transparent #fff;
-
-		z-index: 3;
-	}
-}
-
-.caret-wrapped--no-left {
-	&:before {
-		display: none;
-	}
-
-	margin-left: 0;
-
-	.caret-wrapped__button {
-		background: $primary;
-	}
-}
-
-.caret-wrapped--primary {
-	&:before {
-		border-color: transparent $primary transparent transparent;
-	}
-
-	&:after {
-		border-color: transparent transparent transparent $primary;
-	}
-
-	&:hover {
-		&:before {
-			border-color: transparent $primary_dark transparent transparent;
-		}
-
-		&:after {
-			border-color: transparent transparent transparent $primary_dark;
-		}
-
-		.caret-wrapped__button {
-			background: $primary_dark;
-		}
-	}
-}
-
-.caret-wrapped--button {
-	cursor: pointer;
-}
-
-.caret-wrapped__input {
-	height: 72px !important;
-	line-height: 28px !important;
-
-	font-size: 18px !important;
-
-	border-radius: 0 !important;
-	border: none !important;
-}
-
-.caret-wrapped__button {
-	-webkit-appearance: none;
-
-	height: 72px;
-
-	font-size: 18px !important;
-
-	background: #fff;
-	border: none !important;
-}
-
-.caret-wrapped__button--overlaying-left {
-	padding-left: 36px;
 }
