@@ -1,80 +1,80 @@
 {
-	langs: ["en", "de"],
-	en: {
-		senders: [
+	"langs": ["en", "de"],
+	"en": {
+		"senders": [
 			"Emma",
 			"Steve"
 		],
-		data: [
+		"data": [
 			{
-				sender: 0,
-				messageText: "Hello Steve! :-)"
+				"sender": 0,
+				"messageText": "Hello Steve! :-)"
 			}, {
-				sender: 1,
-				messageText: "Hi Emma!"
+				"sender": 1,
+				"messageText": "Hi Emma!"
 			}, {
-				sender: 0,
-				messageText: "Already seen the Doctor?"
+				"sender": 0,
+				"messageText": "Already seen the Doctor?"
 			}, {
-				sender: 1,
-				messageText: "No... Going tomorrow"
+				"sender": 1,
+				"messageText": "No... Going tomorrow"
 			}, {
-				sender: 0,
-				messageText: "Please go! It's important..."
+				"sender": 0,
+				"messageText": "Please go! It's important..."
 			}, {
-				sender: 1,
-				messageText: "Guess you're right..."
+				"sender": 1,
+				"messageText": "Guess you're right..."
 			}, {
-				sender: 0,
-				messageText: "Thanks.."
+				"sender": 0,
+				"messageText": "Thanks.."
 			}, {
-				sender: 1,
-				messageText: "Want to sing a song?"
+				"sender": 1,
+				"messageText": "Want to sing a song?"
 			}, {
-				sender: 0,
-				messageText: "Pink Fluffy Unicorns"
+				"sender": 0,
+				"messageText": "Pink Fluffy Unicorns"
 			}, {
-				sender: 1,
-				messageText: "Dancing on Rainbows"
+				"sender": 1,
+				"messageText": "Dancing on Rainbows"
 			}
 		]
 	},
-	de: {
-		senders: [
+	"de": {
+		"senders": [
 			"Martina",
 			"Mark"
 		],
-		data: [
+		"data": [
 			{
-				sender: 0,
-				messageText: "Hey Mark!"
+				"sender": 0,
+				"messageText": "Hey Mark!"
 			}, {
-				sender: 1,
-				messageText: "Hi Martina!"
+				"sender": 1,
+				"messageText": "Hi Martina!"
 			}, {
-				sender: 0,
-				messageText: "Warst du schon beim Arzt?"
+				"sender": 0,
+				"messageText": "Warst du schon beim Arzt?"
 			}, {
-				sender: 1,
-				messageText: "Nein, aber ich gehe morgen"
+				"sender": 1,
+				"messageText": "Nein, aber ich gehe morgen"
 			}, {
-				sender: 0,
-				messageText: "Das ist wichtig, bitte geh hin"
+				"sender": 0,
+				"messageText": "Das ist wichtig, bitte geh hin"
 			}, {
-				sender: 1,
-				messageText: "Ok, hast ja recht!"
+				"sender": 1,
+				"messageText": "Ok, hast ja recht!"
 			}, {
-				sender: 0,
-				messageText: "Danke."
+				"sender": 0,
+				"messageText": "Danke."
 			}, {
-				sender: 1,
-				messageText: "Lass mal ein Lied singen?"
+				"sender": 1,
+				"messageText": "Lass mal ein Lied singen?"
 			}, {
-				sender: 0,
-				messageText: "Pink Fluffy Unicorns"
+				"sender": 0,
+				"messageText": "Pink Fluffy Unicorns"
 			}, {
-				sender: 1,
-				messageText: "Dancing on Rainbows"
+				"sender": 1,
+				"messageText": "Dancing on Rainbows"
 			}
 		]
 	}
