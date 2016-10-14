@@ -46,7 +46,7 @@
 				<div class="landing-section--inner">
 					<div class="landing-section--realInner">
 						{% capture thecycle %}{% cycle 'even', 'odd' %}{% endcapture %}
-						{% if (section.icon != null || section.image != null) %}
+						{% if section.icon != null or section.image != null %}
 						<div class="landing-section-icon{% if thecycle == 'odd' %} landing-section-icon--hideDesktop{% endif %}">
 							{% if section.icon != null %}
 								<i class="fa fa-xxl fa-fw {{section.icon}}{% if section.darkBlur %} darkBlur{% elsif section.lightBlur %} lightBlur{% else %} textShadow{% endif %}"></i>
@@ -56,7 +56,7 @@
 							{% endif %}
 						</div>
 						{% endif %}
-						<div class="landing-section-text{% if section.icon == null && section.image == null %} landing-section--center{% endif %}">
+						<div class="landing-section-text{% if section.icon == null and section.image == null %} landing-section--center{% endif %}">
 							{% if section.headline != null %}
 								<h1 class="section-header{% if section.icon == null %} section-header--noTopMargin{% endif %}{% if section.darkBlur %} darkBlur{% elsif section.lightBlur %} lightBlur{% else %} textShadow{% endif %}">{{ section.headline }}</h1>
 							{% endif %}
@@ -74,7 +74,7 @@
 								<a class="button button--more {% if thecycle == 'even' %} button--green{% endif %}" href="#registerNow">{{lang.learnMore}}</a>
 							{% endif %}
 						</div>
-						{% if (section.icon != null || section.image != null) and thecycle == 'odd'%}
+						{% if section.icon != null or section.image != null and thecycle == 'odd'%}
 						<div class="landing-section-icon landing-section-icon--hideMobile">
 							{% if section.icon != null %}
 								<i class="fa fa-xxl fa-fw {{section.icon}}{% if section.darkBlur %} darkBlur{% elsif section.lightBlur %} lightBlur{% else %} textShadow{% endif %}"></i>
