@@ -16,6 +16,19 @@ $light_grey: #f9f9f9;
 @import "normalize";
 @import "caret-elements";
 
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 100;
+  src: local('Roboto Thin'), local('Roboto-Thin'), url(../fonts/Roboto-Thin.woff) format('woff');
+}
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 300;
+  src: local('Roboto Light'), local('Roboto-Light'), url(../fonts/Roboto-Light.woff) format('woff');
+}
+
 main {
 	display: flex;
 	flex-direction: column;
@@ -38,7 +51,7 @@ main {
 
 	font-size: 24px;
 	line-height: 26px;
-	font-weight: thin;
+	font-weight: 100;
 }
 
 .landing-section--background-image {
@@ -70,6 +83,11 @@ main {
 .landing-section--small {
 	min-height: 0;
 	padding: 0;
+}
+
+
+.landing-section--first {
+	font-weight: 300;
 }
 
 .landing-section__heading {
