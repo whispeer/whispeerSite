@@ -60,7 +60,9 @@ h1, h2, h3, h4, h5, h6 {
 
 .landing-section--background-image {
 	background-image: url("/assets/images/rustical_office.jpg");
-	background-size: 100% auto;
+	background-repeat: no-repeat;
+	background-size: cover;
+	background-position: top right;
 
 	color: #fff;
 }
