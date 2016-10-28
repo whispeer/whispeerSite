@@ -372,6 +372,10 @@ h1, h2, h3, h4, h5, h6 {
 
 .detail__content {
 	margin: auto 0;
+
+	@media (max-width: 880px) {
+		margin-bottom: 34px;
+	}
 }
 
 .detail__content__headline {
