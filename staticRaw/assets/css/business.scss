@@ -226,15 +226,18 @@ h1, h2, h3, h4, h5, h6 {
 	display: flex;
 
 	width: 100%;
+
+	position: relative;
+
+	@media (max-width: 1640px) {
+		flex-wrap: wrap;
+	}
 }
 
 .feature {
 	display: flex;
 
 	width: 25%;
-	height: 280px;
-
-	align-items: center;
 
 	border-bottom: 1px solid rgba(0, 0, 0, 0.035);
 	box-sizing: border-box;
@@ -242,6 +245,26 @@ h1, h2, h3, h4, h5, h6 {
 	&:not(:last-child) {
 		border-right: 1px solid rgba(0, 0, 0, 0.035);
 	}
+
+	@media (max-width: 1650px) {
+		width: 50%;
+	}
+
+	@media (max-width: 880px) {
+		width: 100%;
+		flex-wrap: wrap;
+	}
+
+	@media (min-width: 881px) {
+		height: 280px;
+	}
+}
+
+.feature__short {
+	display: flex;
+	align-items: center;
+
+	height: 280px;
 }
 
 .feature__description {
@@ -270,7 +293,13 @@ h1, h2, h3, h4, h5, h6 {
 	background-color: $blue_grey;
 }
 
-.feature--active {
+.feature:focus {
+	outline: none !important;
+
+	@media (min-width: 881px) {
+		margin-bottom: 572px;
+	}
+
 	.feature__polygon {
 		background-color: $primary_light;
 
@@ -289,18 +318,50 @@ h1, h2, h3, h4, h5, h6 {
 			border-style: solid;
 			border-width: 8px 16px 0 16px;
 			border-color: $primary_light transparent transparent transparent;
+
+			z-index: 4;
+		}
+	}
+
+	.feature__detail {
+		visibility: visible;
+
+		@media (max-width: 880px) {
+			display: flex;
 		}
 	}
 }
 
-.detail {
+.feature__detail {
 	display: flex;
 	flex-direction: column;
 
-	min-height: 572px;
+	@media (max-width: 880px) {
+		position: relative;
+		display: none;
+
+		padding: 0 1em;
+	}
+
+	@media (min-width: 881px) {
+		position: absolute;
+		left: 0;
+		top: 280px;
+
+		height: 572px;
+
+		padding: 0 80px;
+	}
+
+	@media (min-width: 1640px) {
+		padding: 0 160px;
+	}
+
+	visibility: hidden;
+	box-sizing: border-box;
+
 	width: 100%;
 
-	padding-left: 160px;
 	background-color: $light_grey;
 
 	background-image: url("../images/encrypt_fast.png");
