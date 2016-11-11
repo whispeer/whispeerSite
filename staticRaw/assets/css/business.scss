@@ -354,6 +354,7 @@ h1, h2, h3, h4, h5, h6 {
 	}
 
 	@media (min-width: 1640px) {
+		top: 280px;
 		padding: 0 160px;
 	}
 
@@ -368,6 +369,15 @@ h1, h2, h3, h4, h5, h6 {
 	background-size: auto 100%;
 	background-repeat: no-repeat;
 	background-position: calc(100vw - 370px) 140px;
+}
+
+.feature:nth-child(3):focus,
+.feature:nth-child(4):focus {
+	@media (min-width: 881px) and (max-width: 1639px) {
+		.feature__detail {
+			top: 560px;
+		}
+	}
 }
 
 .detail__content {
