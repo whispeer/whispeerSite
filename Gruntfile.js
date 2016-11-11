@@ -16,7 +16,7 @@ grunt.loadNpmTasks("grunt-run");
 grunt.loadNpmTasks("grunt-contrib-requirejs");
 grunt.loadNpmTasks("grunt-contrib-clean");
 grunt.loadNpmTasks("grunt-angular-templates");
-grunt.loadNpmTasks('grunt-jekyll');
+grunt.loadNpmTasks("grunt-jekyll");
 
 var libs = [
 	"step",
