@@ -25,8 +25,8 @@ grunt.initConfig({
 			"assets/js/build/login.bundle.js",
 			"assets/js/build/main.bundle.js",
 			"assets/js/build/register.bundle.js",
-			"assets/js/build/recovery.js",
-			"assets/js/build/verifyMail.js"
+			"assets/js/build/recovery.bundle.js",
+			"assets/js/build/verifyMail.bundle.js"
 		],
 		worker: [
 			"assets/js/build/worker.bundle.js",
