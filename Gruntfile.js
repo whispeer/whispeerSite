@@ -358,7 +358,6 @@ grunt.task.registerTask("workerCache", "Write worker cache and commit sha", func
 		"assets/js/build/main*",
 		"assets/js/build/login*",
 		"assets/js/build/worker*",
-		"assets/fonts/*"
 	];
 
 	var preload = [
@@ -376,6 +375,7 @@ grunt.task.registerTask("workerCache", "Write worker cache and commit sha", func
 		"assets/js/i18n/l_en.json",
 		"assets/js/i18n/l_de.json",
 
+		"assets/fonts/fontawesome-webfont.ttf?v=4.6.3",
 		"assets/fonts/SourceSansPro-Semibold.ttf",
 		"assets/fonts/SourceSansPro-Regular.ttf",
 		"assets/img/favicons/favicon.png",
