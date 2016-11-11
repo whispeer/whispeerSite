@@ -7,8 +7,6 @@ var EmojifyConverter = require("emojify");
 var syntaxifyDirective = function ($timeout) {
 	"use strict";
 
-	console.log("loaded syntaxify directive");
-
 	var emojify = new EmojifyConverter();
 	emojify.img_sets.apple.sheet = "/assets/img/sheet_apple_64.png";
 	emojify.use_sheet = true;
