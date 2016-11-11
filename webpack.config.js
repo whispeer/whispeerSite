@@ -49,7 +49,7 @@ module.exports = {
 		loaders: [
 			{ test: /angular/, loader: "exports?angular!imports?jquery" },
 			{ test: /localizationModule/, loader: "imports?jquery" },
-			{ test: /\.html$/, loader: "ngtemplate!html" }
+			{ test: /\.html$/, loader: "ngtemplate?relativeTo=assets/views/!html?-attrs" }
 		]
 	},
 	entry: {

@@ -30,7 +30,7 @@ module.exports = app.config(["$stateProvider", "$urlRouterProvider", "$provide",
 	function addMain(name) {
 		$stateProvider.state("app." + name, {
 			url: "/" + name,
-			templateUrl: "assets/views/pages/" + name + ".html",
+			templateUrl: "pages/" + name + ".html",
 			controller: "ssn." + name + "Controller"
 		});
 	}
@@ -41,76 +41,76 @@ module.exports = app.config(["$stateProvider", "$urlRouterProvider", "$provide",
 
 	$stateProvider.state("app.main", {
 		url: "/main?sortByCommentTime",
-		templateUrl: "assets/views/pages/main.html",
+		templateUrl: "pages/main.html",
 		controller: "ssn.mainController",
 		reloadOnSearch: false
 	});
 
 	$stateProvider.state("app.post", {
 		url: "/post/{postID:[1-9][0-9]*}",
-		templateUrl: "assets/views/pages/post.html",
+		templateUrl: "pages/post.html",
 		controller: "ssn.postController"
 	});
 
 	$stateProvider.state("app.settings", {
 		url: "/settings",
 		abstract: true,
-		templateUrl: "assets/views/pages/settings.html",
+		templateUrl: "pages/settings.html",
 		controller: "ssn.settingsController"
 	});
 
 	$stateProvider.state("app.settings.general", {
 		url: "",
-		templateUrl: "assets/views/pages/settings/general.html",
+		templateUrl: "pages/settings/general.html",
 		controller: "ssn.settingsController"
 	});
 
 	$stateProvider.state("app.settings.account", {
 		url: "/account",
-		templateUrl: "assets/views/pages/settings/account.html",
+		templateUrl: "pages/settings/account.html",
 		controller: "ssn.settingsController"
 	});
 
 	$stateProvider.state("app.settings.privacy", {
 		url: "/privacy",
-		templateUrl: "assets/views/pages/settings/privacy.html",
+		templateUrl: "pages/settings/privacy.html",
 		controller: "ssn.settingsController"
 	});
 
 	$stateProvider.state("app.invite", {
 		url: "/invite",
-		templateUrl: "assets/views/pages/invites/invite.html",
+		templateUrl: "pages/invites/invite.html",
 		controller: "ssn.inviteController"
 	});
 
 	$stateProvider.state("app.invite.mail", {
 		url: "/mail",
-		templateUrl: "assets/views/pages/invites/mail.html",
+		templateUrl: "pages/invites/mail.html",
 		controller: "ssn.inviteMailController"
 	});
 
 	$stateProvider.state("app.invite.link", {
 		url: "/link",
-		templateUrl: "assets/views/pages/invites/link.html",
+		templateUrl: "pages/invites/link.html",
 		controller: "ssn.inviteLinkController"
 	});
 
 	$stateProvider.state("app.fund", {
 		url: "/fund",
 		abstract: true,
-		templateUrl: "assets/views/pages/fund.html",
+		templateUrl: "pages/fund.html",
 		controller: "ssn.fundController"
 	});
 
 	$stateProvider.state("app.fund.general", {
 		url: "",
-		templateUrl: "assets/views/pages/fund/general.html",
+		templateUrl: "pages/fund/general.html",
 		controller: "ssn.fundController"
 	});
 
 	$stateProvider.state("app.fund.thankyou", {
 		url: "/thankyou",
-		templateUrl: "assets/views/pages/fund/thankyou.html",
+		templateUrl: "pages/fund/thankyou.html",
 		controller: "ssn.fundThankYouController"
 	});
 
@@ -125,11 +125,11 @@ module.exports = app.config(["$stateProvider", "$urlRouterProvider", "$provide",
 		url: "/messages",
 		views: {
 			"list@app.messages": {
-				templateUrl: "assets/views/messages/listTopics.html",
+				templateUrl: "messages/listTopics.html",
 				controller: "ssn.messagesListController",
 			},
 			"": {
-				templateUrl: "assets/views/pages/messages.html",
+				templateUrl: "pages/messages.html",
 				controller: "ssn.messagesRedirectController",
 			}
 		}
@@ -137,30 +137,30 @@ module.exports = app.config(["$stateProvider", "$urlRouterProvider", "$provide",
 
 	$stateProvider.state("app.messages.start", {
 		url: "",
-		templateUrl: "assets/views/messages/start.html"
+		templateUrl: "messages/start.html"
 	});
 
 	$stateProvider.state("app.messages.list", {
 		url: "/list",
-		templateUrl: "assets/views/messages/listTopics.html",
+		templateUrl: "messages/listTopics.html",
 		controller: "ssn.messagesListController"
 	});
 
 	$stateProvider.state("app.messages.new", {
 		url: "/new?userid",
-		templateUrl: "assets/views/messages/newTopic.html",
+		templateUrl: "messages/newTopic.html",
 		controller: "ssn.messagesCreateController"
 	});
 
 	$stateProvider.state("app.messages.show", {
 		url: "/{topicid:[1-9][0-9]*}",
-		templateUrl: "assets/views/messages/showTopic.html",
+		templateUrl: "messages/showTopic.html",
 		controller: "ssn.messagesShowController"
 	});
 
 	$stateProvider.state("app.messages.detail", {
 		url: "/{topicid:[1-9][0-9]*}/detail",
-		templateUrl: "assets/views/messages/detail.html",
+		templateUrl: "messages/detail.html",
 		controller: "ssn.messagesDetailController"
 	});
 
@@ -168,11 +168,11 @@ module.exports = app.config(["$stateProvider", "$urlRouterProvider", "$provide",
 		url: "/circles",
 		views: {
 			"list@app.circles": {
-				templateUrl: "assets/views/circles/listCircles.html",
+				templateUrl: "circles/listCircles.html",
 				controller: "ssn.circlesListController",
 			},
 			"": {
-				templateUrl: "assets/views/pages/circles.html",
+				templateUrl: "pages/circles.html",
 				controller: "ssn.circlesRedirectController",
 			}
 		}
@@ -180,32 +180,32 @@ module.exports = app.config(["$stateProvider", "$urlRouterProvider", "$provide",
 
 	$stateProvider.state("app.circles.list", {
 		url: "/list",
-		templateUrl: "assets/views/circles/listCircles.html",
+		templateUrl: "circles/listCircles.html",
 		controller: "ssn.circlesListController"
 	});
 
 	$stateProvider.state("app.circles.new", {
 		url: "/new?userid",
-		templateUrl: "assets/views/circles/newCircle.html",
+		templateUrl: "circles/newCircle.html",
 		controller: "ssn.circlesCreateController"
 	});
 
 	$stateProvider.state("app.circles.show", {
 		url: "/{circleid:[1-9][0-9]*}",
-		templateUrl: "assets/views/circles/circleShow.html",
+		templateUrl: "circles/circleShow.html",
 		controller: "ssn.circlesShowController"
 	});
 
 	$stateProvider.state("app.user", {
 		url: "/user/:identifier",
 		abstract: true,
-		templateUrl: "assets/views/pages/userSubViews/user.html",
+		templateUrl: "pages/userSubViews/user.html",
 		controller: "ssn.userController"
 	});
 
 	$stateProvider.state("app.user.verify", {
 		url: "/verify",
-		templateUrl: "assets/views/pages/userSubViews/userVerify.html",
+		templateUrl: "pages/userSubViews/userVerify.html",
 		controller: "ssn.userVerifyController"
 	});
 
@@ -213,24 +213,24 @@ module.exports = app.config(["$stateProvider", "$urlRouterProvider", "$provide",
 		url: "",
 		views: {
 			"wall@app.user.info": {
-				templateUrl: "assets/views/pages/userSubViews/userWall.html",
+				templateUrl: "pages/userSubViews/userWall.html",
 				controller: "ssn.userWallController",
 			},
 			"": {
-				templateUrl: "assets/views/pages/userSubViews/userInfo.html"
+				templateUrl: "pages/userSubViews/userInfo.html"
 			}
 		}
 	});
 
 	$stateProvider.state("app.user.wall", {
 		url: "/wall",
-		templateUrl: "assets/views/pages/userSubViews/userWall.html",
+		templateUrl: "pages/userSubViews/userWall.html",
 		controller: "ssn.userWallController"
 	});
 
 	$stateProvider.state("app.user.friends", {
 		url: "/friends",
-		templateUrl: "assets/views/pages/userSubViews/userFriends.html",
+		templateUrl: "pages/userSubViews/userFriends.html",
 		controller: "ssn.userFriendsController"
 	});
 

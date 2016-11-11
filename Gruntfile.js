@@ -49,27 +49,6 @@ grunt.initConfig({
 			//"assets/js/build/verifyMail.js"
 		]
 	},
-	ngtemplates:  {
-		ssn: {
-			src: "assets/views/**/*.html",
-			dest: "assets/js/build/template.js",
-			options:  {
-				bootstrap:  function(module, script) {
-					return "define(['app'], function (app) { app.run(['$templateCache', function ($templateCache) { " + script + " }]); });";
-				},
-				htmlmin: {
-					collapseBooleanAttributes:      true,
-					collapseWhitespace:             true,
-					removeAttributeQuotes:          true,
-					removeComments:                 true, // Only if you don't use comment directives!
-					removeEmptyAttributes:          true,
-					removeRedundantAttributes:      true,
-					removeScriptTypeAttributes:     true,
-					removeStyleLinkTypeAttributes:  true
-				}
-			}
-		}
-	},
 	includes: {
 		compile: {
 			scripts: ["commons.bundle", "main.bundle"],
@@ -423,6 +402,6 @@ grunt.task.registerMultiTask("assetHash", "Hash a file and rename the file to th
 grunt.registerTask("default", ["build:development", "browserSync", "concurrent:development"]);
 
 grunt.registerTask("build:development", ["clean", "copy", "bower-install-simple", "less", "autoprefixer", "run:buildsjcl"]);
-grunt.registerTask("build:production",  ["clean", "jshint", "copy", "bower-install-simple", "less", "autoprefixer", "ngtemplates", "run:buildsjcl", "run:webpack", "assetHash", "includes", "workerInclude", "workerCache"]);
+grunt.registerTask("build:production",  ["clean", "jshint", "copy", "bower-install-simple", "less", "autoprefixer", "run:buildsjcl", "run:webpack", "assetHash", "includes", "workerInclude", "workerCache"]);
 
 grunt.registerTask("server", "Start the whispeer web server.", require("./webserver"));
