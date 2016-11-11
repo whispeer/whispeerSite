@@ -34,7 +34,7 @@ var libs = [
 	"json"
 ];
 
-process.env.WHISPEER_ENV = process.env.WHISPEER_ENV || "production";
+process.env.WHISPEER_ENV = process.env.WHISPEER_ENV || "development";
 
 var env = process.env.WHISPEER_ENV;
 
@@ -62,20 +62,6 @@ var baseConfig = {
 
 grunt.initConfig({
 	requirejs: {
-
-		lib: {
-			options: extend({}, baseConfig, {
-				out: "assets/js/build/lib.js",
-
-				optimize: "uglify2",
-
-				include: ["requirejs"].concat(libs).concat(configJson),
-
-				wrap: {
-					start: "var WHISPEER_ENV='" + env + "';"
-				}
-			})
-		},
 		recovery: {
 			options: extend({}, baseConfig, {
 				out: "assets/js/build/recovery.js",
