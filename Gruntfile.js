@@ -220,11 +220,17 @@ grunt.task.registerTask("workerInclude", function () {
 		return script.indexOf("worker") > -1;
 	})[0];
 
-	var conf = JSON.parse(grunt.file.read("assets/js/conf/production.config.json"));
+	var environments = ["production", "staging"];
 
-	conf.workerScript = workerScriptPath;
+	environments.forEach(function (environment) {
+		var path = "assets/js/conf/" + environment + ".config.json";
 
-	grunt.file.write("assets/js/conf/production.config.json", JSON.stringify(conf, null, "	"));
+		var conf = JSON.parse(grunt.file.read(path));
+
+		conf.workerScript = workerScriptPath;
+
+		grunt.file.write(path, JSON.stringify(conf, null, "	"));
+	});
 });
 
 grunt.task.registerMultiTask("includes", "Add the correct script include to the index.html", function () {
