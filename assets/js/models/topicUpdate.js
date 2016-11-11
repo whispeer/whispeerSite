@@ -1,4 +1,4 @@
-define(["bluebird", "asset/securedDataWithMetaData", "models/modelsModule"], function (Bluebird, SecuredData, modelsModule) {
+define(["bluebird", "asset/securedDataWithMetaData", "models/modelsModule", "whispeerHelper"], function (Bluebird, SecuredData, modelsModule, h) {
 	"use strict";
 
 	function topicUpdateModel(userService, socket) {
@@ -6,18 +6,44 @@ define(["bluebird", "asset/securedDataWithMetaData", "models/modelsModule"], fun
 			var content = updateData.content,
 				meta = updateData.meta;
 
+			console.log(updateData);
+
+			this.state = {
+				title: "",
+				loading: true,
+				timestamp: h.parseDecimal(meta.time)
+			};
+
 			this._securedData = SecuredData.load(content, meta, { type: "topicUpdate" });
 			this._userID = meta.userID;
 		}
 
+		TopicUpdate.prototype.setState = function (newState) {
+
+		};
+
+		TopicUpdate.prototype.getTime = function () {
+			return h.parseDecimal(this._securedData.metaAttr("time"));
+		};
+
 		TopicUpdate.prototype.load = function () {
 			if (!this._loadPromise) {
 				this._loadPromise = this.getUser().bind(this).then(function (user) {
+					this.setState({
+						user: user
+					});
+
 					return Bluebird.all([
 						this._securedData.decrypt(),
 						this._securedData.verify(user.getSignKey())
 					]);
 				}).spread(function (content) {
+					this.setState({
+						title: content.title,
+						loading: false
+					});
+					this.data.title = content.title;
+
 					return content;
 				});
 			}

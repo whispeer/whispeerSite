@@ -101,6 +101,24 @@ define([
 				}, h.randomIntFromInterval(500, 5000));
 			});
 
+			this._addTopicUpdates = function (topicUpdatesData) {
+				return Bluebird.resolve(topicUpdatesData).bind(this).map(this._addTopicUpdate);
+			};
+
+			this._addTopicUpdate = function (topicUpdateData) {
+				if (!topicUpdateData) {
+					return Bluebird.resolve();
+				}
+
+				var topicUpdateObject = new TopicUpdate(topicUpdateData);
+
+				if (topicUpdateObject.isLaterThan(latestTopicUpdate)) {
+					latestTopicUpdate = topicUpdateObject;
+				}
+
+				return topicUpdateObject.load(this);
+			};
+
 			this._useTopicUpdate = function (topicUpdateData) {
 				if (!topicUpdateData) {
 					return Bluebird.resolve();
@@ -439,6 +457,15 @@ define([
 					topicDebug("Message server took: " + (new Date().getTime() - loadMore));
 
 					remaining = data.remaining;
+
+					if (data.topicUpdates) {
+						Bluebird.resolve(data.topicUpdates).map(function (topicUpdateData) {
+							var topicUpdate = new TopicUpdate(topicUpdateData);
+							return topicUpdate.getTitle();
+						}).then(function (titles) {
+							console.warn(titles);
+						});
+					}
 
 					if (data.messages && data.messages.length > 0) {
 						data.messages.forEach(function (messageData) {
