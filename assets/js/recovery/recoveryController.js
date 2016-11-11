@@ -2,7 +2,6 @@ define([
 		"whispeerHelper",
 		"step",
 		"asset/state",
-		"libs/qrreader",
 		"recovery/recoveryModule",
 
 		"models/user",
@@ -25,7 +24,7 @@ define([
 		"services/friendsService",
 
 		"services/trustService"
-	], function (h, step, State, qrreader, controllerModule) {
+	], function (h, step, State, controllerModule) {
 	"use strict";
 
 	function recoveryController($scope, socketService, keyStore, sessionService, trustService, userService, errorService, Cache) {
@@ -105,12 +104,16 @@ define([
 		}
 
 		$scope.fileUpload = function (e) {
-			step(function () {
-				var file = e.target.files[0];
-				if (!file.type.match(/image.*/i)) {
-					return;
-				}
+			var file = e.target.files[0];
 
+			if (!file.type.match(/image.*/i)) {
+				return;
+			}
+
+			step(function () {
+				require.ensure(["libs/qrreader"], this);
+			}, function (require) {
+				var qrreader = require("libs/qrreader");
 				qrreader.decode(h.toUrl(file), this);
 			}, function (code) {
 				doRecovery(code, errorService.criticalError);
