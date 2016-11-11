@@ -229,7 +229,7 @@ define(["step", "whispeerHelper", "asset/observer", "services/serviceModule", "a
 					return circle.hasUser(uid);
 				});
 			},
-			create: function (name, cb, users) {
+			create: function (name, users) {
 				users = (users || []).map(h.parseDecimal);
 
 				return generateNewKey().then(function (symKey) {
@@ -255,7 +255,7 @@ define(["step", "whispeerHelper", "asset/observer", "services/serviceModule", "a
 						var theCircle = makeCircle(circleResponse.created);
 						return theCircle.load().thenReturn(theCircle);
 					});
-				}).nodeify(cb);
+				});
 			},
 			reset: function () {
 				circles = {};
