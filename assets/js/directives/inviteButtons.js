@@ -1,3 +1,5 @@
+var templateUrl = require("../../views/directives/inviteButtons.html");
+
 define(["directives/directivesModule"], function (directivesModule) {
 	"use strict";
 
@@ -5,7 +7,7 @@ define(["directives/directivesModule"], function (directivesModule) {
 		return {
 			scope: {},
 			restrict: "E",
-			templateUrl: "assets/views/directives/inviteButtons.html",
+			templateUrl: templateUrl,
 			replace: false,
 			transclude: false,
 			controller: "ssn.inviteController"

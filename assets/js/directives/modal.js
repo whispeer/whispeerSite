@@ -1,3 +1,5 @@
+var templateUrl = require("../../views/directives/modal.html");
+
 define(["jquery", "directives/directivesModule"], function (jQuery, directivesModule) {
 	"use strict";
 	directivesModule.directive("modal", function () {
@@ -7,7 +9,7 @@ define(["jquery", "directives/directivesModule"], function (jQuery, directivesMo
 				loading: "=loading"
 			},
 			restrict: "E",
-			templateUrl: "assets/views/directives/modal.html",
+			templateUrl: templateUrl,
 			replace: true,
 			transclude: true,
 			link: function (scope) {

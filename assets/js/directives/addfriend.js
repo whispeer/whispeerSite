@@ -1,4 +1,4 @@
-var templateUrl = require("../../../assets/views/directives/addFriend.html");
+var templateUrl = require("../../views/directives/addFriend.html");
 var step = require("step");
 var h= require("whispeerHelper");
 var State = require("asset/state");

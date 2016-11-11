@@ -1,3 +1,5 @@
+var templateUrl = require("../../views/directives/qrScanner.html");
+
 define(["whispeerHelper", "step", "libs/qrreader", "directives/directivesModule"], function (h, step, qrreader, directivesModule) {
 	"use strict";
 
@@ -8,7 +10,7 @@ define(["whispeerHelper", "step", "libs/qrreader", "directives/directivesModule"
 				state: "="
 			},
 			restrict: "E",
-			templateUrl: "assets/views/directives/qrScanner.html",
+			templateUrl: templateUrl,
 			link: function (scope, iElement) {
 				var destroyed = false, theStream;
 

@@ -1,4 +1,4 @@
-var templateUrl = require("../../../assets/views/directives/loadingindicator.html");
+var templateUrl = require("../../views/directives/loadingindicator.html");
 var directivesModule = require("directives/directivesModule");
 
 function loadingindicatorDirective() {
