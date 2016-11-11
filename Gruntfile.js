@@ -17,70 +17,23 @@ grunt.loadNpmTasks("grunt-contrib-requirejs");
 grunt.loadNpmTasks("grunt-contrib-clean");
 grunt.loadNpmTasks("grunt-angular-templates");
 
-var libs = [
-	"step",
-	"whispeerHelper",
-	"angular",
-	"bluebird",
-	"requirejs",
-	"socket",
-	"workerQueue",
-	"PromiseWorker",
-	"debug",
-	"libs/sjcl",
-	"jquery",
-	"dexie",
-	"amanda",
-	"json"
-];
-
 process.env.WHISPEER_ENV = process.env.WHISPEER_ENV || "development";
-
-var env = process.env.WHISPEER_ENV;
-
-var configJson = [
-	"json!conf/" + env + ".config.json",
-	"json!conf/base.config.json"
-];
-
-var extend = require("extend");
-
-var baseConfig = {
-	mainConfigFile: "./assets/js/requireConfig.js",
-
-	baseUrl: "./assets/js",
-
-	optimize: "none",
-	preserveLicenseComments: true,
-	generateSourceMaps: false,
-
-	wrap: {
-		start: "",
-		end: ""
-	},
-};
 
 grunt.initConfig({
 	requirejs: {
 		recovery: {
-			options: extend({}, baseConfig, {
+			options: {
 				out: "assets/js/build/recovery.js",
 
-				name: "recovery/recoveryMain",
-				insertRequire: ["recovery/recoveryMain"],
-				include: ["requireConfig"],
-				excludeShallow: libs
-			})
+				name: "recovery/recoveryMain"
+			}
 		},
 		verify: {
-			options: extend({}, baseConfig, {
+			options: {
 				out: "assets/js/build/verifyMail.js",
 
-				name: "verifyMail/verifyMailMain",
-				insertRequire: ["verifyMail/verifyMailMain"],
-				include: ["requireConfig"],
-				excludeShallow: libs
-			})
+				name: "verifyMail/verifyMailMain"
+			}
 		}
 	},
 	assetHash: {
