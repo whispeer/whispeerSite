@@ -1,4 +1,4 @@
-define(["step", "whispeerHelper", "crypto/trustManager", "crypto/signatureCache", "services/serviceModule", "debug", "bluebird"], function (step, h, trustManager, signatureCache, serviceModule, debug, Bluebird) {
+define(["whispeerHelper", "crypto/trustManager", "crypto/signatureCache", "services/serviceModule", "debug", "bluebird"], function (h, trustManager, signatureCache, serviceModule, debug, Bluebird) {
 	"use strict";
 
 	var debugName = "whispeer:trustService";
@@ -20,23 +20,19 @@ define(["step", "whispeerHelper", "crypto/trustManager", "crypto/signatureCache"
 		var THROTTLE = 20, STORESIGNATURECACHEINTERVAL = 30000, signatureCacheObject = new CacheService("signatureCache");
 
 		function uploadDatabase(cb) {
-			step(function () {
-				initService.awaitLoading(this);
-			}, h.sF(function () {
-				trustManager.getUpdatedVersion(this);
-			}), h.sF(function (newTrustContent) {
+			return initService.awaitLoading().then(function () {
+				return trustManager.getUpdatedVersion();
+			}).then(function (newTrustContent) {
 				new CacheService("trustManager.get").store(sessionService.getUserID(), newTrustContent);
 
-				socketService.emit("trustManager.set", {
+				return socketService.emit("trustManager.set", {
 					content: newTrustContent
-				}, this);
-			}), h.sF(function (result) {
-				if (result.success) {
-					this.ne();
-				} else {
-					errorService.criticalError(result.error);
+				});
+			}).then(function (response) {
+				if (!response.success) {
+					errorService.criticalError(response.error);
 				}
-			}), cb);
+			}).nodeify(cb);
 		}
 
 		var delay = h.aggregateOnce(THROTTLE, uploadDatabase);
@@ -69,20 +65,15 @@ define(["step", "whispeerHelper", "crypto/trustManager", "crypto/signatureCache"
 		userService.listen(addNewUsers, "loadedUser");
 
 		function loadDatabase(database, cb) {
-			step(function () {
-				trustManager.loadDatabase(database, this);
-			}, h.sF(function () {
-				this.ne(database);
-			}), cb);
+			return trustManager.loadDatabase(database).thenReturn(database).nodeify(cb);
 		}
 
 		function createTrustDatabase(cb) {
-			step(function () {
+			Bluebird.try(function () {
 				trustManager.createDatabase(userService.getown());
-				this.ne();
 
-				uploadDatabase(errorService.criticalError);	
-			}, cb);
+				return uploadDatabase();
+			}).nodeify(cb);
 		}
 
 		var loadDatabaseAsync = Bluebird.promisify(loadDatabase);
@@ -125,7 +116,7 @@ define(["step", "whispeerHelper", "crypto/trustManager", "crypto/signatureCache"
 				if (trustManager.isLoaded()) {
 					trustServiceDebug("trustManager cache exists updating");
 
-					var updateDatabaseAsync = Bluebird.promisify(trustManager.updateDatabase, trustManager);
+					var updateDatabaseAsync = Bluebird.promisify(trustManager.updateDatabase.bind(trustManager));
 
 					return updateDatabaseAsync(data.content).then(function () {
 						return false;

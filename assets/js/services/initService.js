@@ -139,6 +139,7 @@ define(["services/serviceModule", "bluebird", "asset/observer", "debug"], functi
 					runCacheCallbacks(initRequests)
 				]).then(function () {
 					initService.notify("", "initCacheDone");
+					return null;
 				}).catch(errorService.criticalError).thenReturn(initRequests);
 			}).then(function (initRequests) {
 				runningInitCallbacks = initCallbacks.map(runFunction);
@@ -159,6 +160,7 @@ define(["services/serviceModule", "bluebird", "asset/observer", "debug"], functi
 
 				migrationService();
 				initService.notify("", "initDone");
+				return null;
 			});
 
 			promise.catch(errorService.criticalError);

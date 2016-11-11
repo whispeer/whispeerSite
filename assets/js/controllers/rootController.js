@@ -31,7 +31,7 @@ define(["step", "whispeerHelper", "config", "controllers/controllerModule", "deb
 
 		function loadUser() {
 			var user = userService.getown();
-			var loadBasicDataAsync = Bluebird.promisify(user.reLoadBasicData, user);
+			var loadBasicDataAsync = Bluebird.promisify(user.reLoadBasicData.bind(user));
 			
 			return loadBasicDataAsync().then(function () {
 				$scope.user = user.data;

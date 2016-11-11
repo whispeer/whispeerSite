@@ -39,7 +39,7 @@ define(["step", "whispeerHelper", "asset/state", "bluebird", "messages/messagesM
 		};
 
 		$scope.loadMoreMessages = function () {
-			var loadMore = Bluebird.promisify($scope.activeTopic.obj.loadMoreMessages, $scope.activeTopic.obj);
+			var loadMore = Bluebird.promisify($scope.activeTopic.obj.loadMoreMessages.bind($scope.activeTopic.obj));
 
 			$scope.loadingMessages = true;
 			return loadMore().then(function () {

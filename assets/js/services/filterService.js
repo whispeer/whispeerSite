@@ -67,7 +67,7 @@ define(["whispeerHelper", "step", "bluebird", "asset/errors", "services/serviceM
 		}
 
 		function getCircleByID(id) {
-			var loadAllCircles = Bluebird.promisify(circleService.loadAll, circleService);
+			var loadAllCircles = Bluebird.promisify(circleService.loadAll.bind(circleService));
 
 			return loadAllCircles().then(function () {
 				var circle = circleService.get(id).data;
@@ -81,7 +81,7 @@ define(["whispeerHelper", "step", "bluebird", "asset/errors", "services/serviceM
 		}
 
 		function getFriendsFilterByID(id) {
-			var getUser = Bluebird.promisify(userService.get, userService);
+			var getUser = Bluebird.promisify(userService.get.bind(userService));
 			return getUser(id).then(function (user) {
 				return {
 					name: localize.getLocalizedString("directives.friendsOf", {name: user.data.name}),
@@ -133,7 +133,7 @@ define(["whispeerHelper", "step", "bluebird", "asset/errors", "services/serviceM
 				return getAlwaysByID(e);
 			});
 
-			var loadAllCircles = Bluebird.promisify(circleService.loadAll);
+			var loadAllCircles = Bluebird.promisify(circleService.loadAll.bind(circleService));
 
 			return loadAllCircles().then(function () {
 				var circles = circleService.data.circles;

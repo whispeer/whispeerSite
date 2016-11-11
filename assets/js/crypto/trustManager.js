@@ -1,4 +1,4 @@
-define (["whispeerHelper", "step", "asset/observer", "asset/securedDataWithMetaData", "asset/enum", "asset/errors"], function (h, step, Observer, SecuredData, Enum, errors) {
+define (["whispeerHelper", "asset/observer", "asset/securedDataWithMetaData", "asset/enum", "asset/errors", "bluebird"], function (h, Observer, SecuredData, Enum, errors, Bluebird) {
 	"use strict";
 	var database, loaded = false, trustManager;
 
@@ -139,19 +139,18 @@ define (["whispeerHelper", "step", "asset/observer", "asset/securedDataWithMetaD
 		},
 		updateDatabase: function (data, cb) {
 			if (!loaded || data._signature === database.metaAttr("_signature")) {
-				cb();
-				return;
+				return Bluebird.resolve().nodeify(cb);
 			}
 
 			console.log("Updating trust database");
 			var givenDatabase = SecuredData.load(undefined, data, { type: "trustManager" });
-			step(function () {
+			return Bluebird.try(function () {
 				if (data.me === ownKey) {
-					givenDatabase.verify(ownKey, this, "user");
-				} else {
-					throw new errors.SecurityError("not my trust database");
+					return givenDatabase.verifyAsync(ownKey, "user");
 				}
-			}, h.sF(function () {
+
+				throw new errors.SecurityError("not my trust database");
+			}).then(function () {
 				var newKeys = givenDatabase.metaKeys().filter(function (key) {
 					return !database.metaHasAttr(key);
 				});
@@ -189,8 +188,8 @@ define (["whispeerHelper", "step", "asset/observer", "asset/securedDataWithMetaD
 					trustManager.notify("", "updated");
 				}
 
-				this.ne(changed);
-			}), cb);
+				return changed;
+			}).nodeify(cb);
 		},
 		loadDatabase: function (data, cb) {
 			if (loaded) {
@@ -198,21 +197,19 @@ define (["whispeerHelper", "step", "asset/observer", "asset/securedDataWithMetaD
 			}
 
 			var givenDatabase = SecuredData.load(undefined, data, { type: "trustManager" });
-			step(function () {
+			return Bluebird.try(function () {
 				if (data.me === ownKey) {
-					givenDatabase.verify(ownKey, this, "user");
-				} else {
-					throw new errors.SecurityError("not my trust database");
+					return givenDatabase.verifyAsync(ownKey, "user");
 				}
-			}, h.sF(function () {
+
+				throw new errors.SecurityError("not my trust database");
+			}).then(function () {
 				trustManager.disallow();
 				database = givenDatabase;
 				loaded = true;
 
 				trustManager.notify("", "loaded");
-
-				this.ne();
-			}), cb);
+			}).nodeify(cb);
 		},
 		reset: function () {
 			loaded = false;
@@ -257,7 +254,7 @@ define (["whispeerHelper", "step", "asset/observer", "asset/securedDataWithMetaD
 			return false;
 		},
 		getUpdatedVersion: function (cb) {
-			database.sign(ownKey, cb, false);
+			return database.sign(ownKey).nodeify(cb);
 		}
 	};
 

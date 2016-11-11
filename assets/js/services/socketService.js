@@ -254,7 +254,7 @@ define([
 						internalObserver.notify(blobid, "uploadFinished:" + blobid);						
 					});
 
-					return step.unpromisify(uploadPromise, cb);
+					return uploadPromise.nodeify(cb);
 				},
 				blockEmitWithToken: function() {
 					blockedWithToken = true;
@@ -372,7 +372,7 @@ define([
 					});
 
 					if (typeof callback === "function") {
-						step.unpromisify(resultPromise, h.addAfterHook(callback, $rootScope.$applyAsync.bind($rootScope, null)));
+						resultPromise.nodeify(h.addAfterHook(callback, $rootScope.$applyAsync.bind($rootScope)));
 					}
 
 					return resultPromise;
