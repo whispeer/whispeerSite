@@ -186,7 +186,7 @@ grunt.initConfig({
 	},
 	concurrent: {
 		development: {
-			tasks: ["server", "watch"],
+			tasks: ["server", "watch", "run:webpackWatch"],
 			options: {
 				logConcurrentOutput: true
 			}
@@ -297,11 +297,20 @@ grunt.initConfig({
 			}
 		}
 	},
-    run: {
-        buildsjcl: {
-            cmd: "./scripts/build-sjcl.sh"
-        }
-    },
+	run: {
+		webpackWatch: {
+			cmd: "webpack",
+			args: [
+				"--watch"
+			]	
+		},
+		webpack: {
+			cmd: "webpack"
+		},
+		buildsjcl: {
+			cmd: "./scripts/build-sjcl.sh"
+		}
+	},
 	"bower-install-simple": {
 		prod: {}
 	},
@@ -491,6 +500,6 @@ grunt.task.registerMultiTask("assetHash", "Hash a file and rename the file to th
 grunt.registerTask("default", ["build:development", "browserSync", "concurrent:development"]);
 
 grunt.registerTask("build:development", ["clean", "copy", "bower-install-simple", "less", "autoprefixer", "run:buildsjcl"]);
-grunt.registerTask("build:production",  ["clean", "jshint", "copy", "bower-install-simple", "less", "autoprefixer", "ngtemplates", "requirejs", "run:buildsjcl", "assetHash", "includes", "workerCache"]);
+grunt.registerTask("build:production",  ["clean", "jshint", "copy", "bower-install-simple", "less", "autoprefixer", "ngtemplates", "webpack", "run:buildsjcl", "assetHash", "includes", "workerCache"]);
 
 grunt.registerTask("server", "Start the whispeer web server.", require("./webserver"));
