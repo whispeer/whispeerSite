@@ -1,23 +1,25 @@
 var path = require("path");
 var webpack = require("webpack");
 
+var plugins = [
+	new webpack.optimize.CommonsChunkPlugin({
+		names: "commons",
+		filename: "commons.bundle.js",
+
+		minChunks: 2,
+		chunks: ["login", "register", "main"]
+	}),
+	new webpack.optimize.MinChunkSizePlugin({
+		minChunkSize: 2048
+	}),
+	new webpack.DefinePlugin({
+		"WHISPEER_ENV": JSON.stringify(process.env.WHISPEER_ENV || "development")
+	}),
+];
+
 module.exports = {
 	context: path.resolve("./assets/js"),
-	plugins: [
-		new webpack.optimize.CommonsChunkPlugin({
-			names: "commons",
-			filename: "commons.bundle.js",
-
-			minChunks: 2,
-			chunks: ["login", "register", "main"]
-		}),
-		new webpack.optimize.MinChunkSizePlugin({
-			minChunkSize: 2048
-		}),
-		new webpack.DefinePlugin({
-			"WHISPEER_ENV": JSON.stringify(process.env.WHISPEER_ENV || "development")
-		}),
-	],
+	plugins: plugins,
 	resolve: {
 		root: [
 			path.resolve("./assets/js")
