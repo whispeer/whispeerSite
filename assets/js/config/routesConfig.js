@@ -3,6 +3,14 @@ var app = require("app");
 module.exports = app.config(["$stateProvider", "$urlRouterProvider", "$provide", "$locationProvider", function ($stateProvider, $urlRouterProvider, $provide, $locationProvider) {
 	"use strict";
 
+	var basicRoutes = [
+		"setup",
+		"backup",
+		"friends",
+		"acceptInvite",
+		"search",
+	];
+
 	$locationProvider.html5Mode(true);
 	$locationProvider.hashPrefix("!");
 
@@ -27,11 +35,9 @@ module.exports = app.config(["$stateProvider", "$urlRouterProvider", "$provide",
 		});
 	}
 
-	addMain("setup");
-	addMain("backup");
-	addMain("friends");
-	addMain("acceptInvite");
-	addMain("search");
+	basicRoutes.forEach(function (name) {
+		addMain(name);
+	});
 
 	$stateProvider.state("app.main", {
 		url: "/main?sortByCommentTime",

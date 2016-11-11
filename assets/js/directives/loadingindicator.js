@@ -1,22 +1,23 @@
-define(["directives/directivesModule"], function (directivesModule) {
+var templateUrl = require("../../../assets/views/directives/loadingindicator.html");
+var directivesModule = require("directives/directivesModule");
+
+function loadingindicatorDirective() {
 	"use strict";
 
-	function loadingindicatorDirective() {
-		return {
-			transclude: true,
-			scope:	{},
-			restrict: "E",
-			templateUrl: "assets/views/directives/loadingindicator.html",
-			replace: true,
-			link: function (scope, iElement, iAttrs) {
-				if (iAttrs.color) {
-					scope.color = iAttrs.color;
-				} else {
-					scope.color = "black";
-				}
+	return {
+		transclude: true,
+		scope:	{},
+		restrict: "E",
+		templateUrl: templateUrl,
+		replace: true,
+		link: function (scope, iElement, iAttrs) {
+			if (iAttrs.color) {
+				scope.color = iAttrs.color;
+			} else {
+				scope.color = "black";
 			}
-		};
-	}
+		}
+	};
+}
 
-	directivesModule.directive("loadingindicator", loadingindicatorDirective);
-});
+directivesModule.directive("loadingindicator", loadingindicatorDirective);
