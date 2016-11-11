@@ -373,12 +373,16 @@ define([
 					userService.getMultipleFormatted(receiver, this);
 				}, h.sF(function (receiverObjects) {
 					var partners = theTopic.data.partners;
-					var i, me;
+
+					if (partners.length > 0) {
+						this.ne();
+						return;
+					}
+
+					var i;
 					for (i = 0; i < receiverObjects.length; i += 1) {
 						if (!receiverObjects[i].user.isOwn() || receiverObjects.length === 1) {
 							partners.push(receiverObjects[i]);
-						} else {
-							me = receiverObjects[i];
 						}
 					}
 
@@ -480,7 +484,7 @@ define([
 			}).map(function (topic) {
 				return Topic.loadTopic(topic);
 			}).then(function (topics) {
-				$rootScope.$apply();
+				$rootScope.$applyAsync();
 				return topics;
 			});
 		};

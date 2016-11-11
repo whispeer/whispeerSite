@@ -9,7 +9,7 @@ define(["directives/directivesModule"], function (directivesModule) {
 			link: function ($scope, element) {
 				element.on("click", "a,button", function () {
 					$scope.closeSidebar();
-					$scope.$apply();
+					$scope.$applyAsync();
 				});
 			}
 		};

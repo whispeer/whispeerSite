@@ -1,8 +1,14 @@
 {
 	"https": true,
-	"ws": "staging.whispeer.de",
+	"ws": "data.whispeerstaging.de",
 	"wsPort": 443,
 
 	"debug": true,
-	"production": true
+	"production": true,
+
+	"workerScript": "/assets/js/build/worker.js",
+
+	"serviceWorker": {
+		"enabled": true
+	}
 }
