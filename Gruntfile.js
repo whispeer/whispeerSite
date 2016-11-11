@@ -73,7 +73,7 @@ grunt.initConfig({
 	},
 	concurrent: {
 		development: {
-			tasks: ["server", "watch", "run:webpackWatch"],
+			tasks: ["server", "watch", "run:webpackWatch", "run:webpackWorkerWatch"],
 			options: {
 				logConcurrentOutput: true
 			}
