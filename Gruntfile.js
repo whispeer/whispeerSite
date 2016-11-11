@@ -416,7 +416,18 @@ grunt.task.registerMultiTask("assetHash", "Hash a file and rename the file to th
 
 grunt.registerTask("default", ["build:development", "browserSync", "concurrent:development"]);
 
-grunt.registerTask("build:development", ["clean", "copy", "bower-install-simple", "less", "autoprefixer", "run:buildsjcl"]);
+grunt.registerTask("build:development", [
+	"clean",
+	"copy",
+	"bower-install-simple",
+	"less",
+	"autoprefixer",
+	"run:buildsjcl",
+	"run:webpackWorker",
+	"run:webpack",
+	"includes",
+]);
+
 grunt.registerTask("build:production",  [
 	"clean",
 	"jshint",
