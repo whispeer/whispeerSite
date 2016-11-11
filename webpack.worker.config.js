@@ -3,21 +3,7 @@ var webpack = require("webpack");
 
 process.env.WHISPEER_ENV = process.env.WHISPEER_ENV || "development";
 
-var plugins = [
-	new webpack.optimize.CommonsChunkPlugin({
-		names: "commons",
-		filename: "commons.bundle.js",
-
-		minChunks: 2,
-		chunks: ["login", "register", "main"]
-	}),
-	new webpack.optimize.MinChunkSizePlugin({
-		minChunkSize: 2048
-	}),
-	new webpack.DefinePlugin({
-		"WHISPEER_ENV": JSON.stringify(process.env.WHISPEER_ENV)
-	}),
-];
+var plugins = [];
 
 if (process.env.WHISPEER_ENV !== "development") {
 	plugins.push(new webpack.optimize.UglifyJsPlugin());
@@ -53,17 +39,8 @@ module.exports = {
 			emojify: "bower/js-emoji/lib/emoji",
 		}
 	},
-	module: {
-		loaders: [
-			{ test: /angular/, loader: "exports?angular!imports?jquery" },
-			{ test: /localizationModule/, loader: "imports?jquery" },
-			{ test: /\.html$/, loader: "ngtemplate?relativeTo=assets/views/!html?-attrs" }
-		]
-	},
 	entry: {
-		login: "./login/loginMain.js",
-		register: "./register/registerMain.js",
-		main: "./main.js",
+		worker: "./worker/worker.js"
 	},
 	output: {
 		path: path.resolve("./assets/js/build/"),

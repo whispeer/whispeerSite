@@ -17,8 +17,6 @@ grunt.loadNpmTasks("grunt-contrib-requirejs");
 grunt.loadNpmTasks("grunt-contrib-clean");
 grunt.loadNpmTasks("grunt-angular-templates");
 
-process.env.WHISPEER_ENV = process.env.WHISPEER_ENV || "development";
-
 grunt.initConfig({
 	requirejs: {
 		recovery: {
@@ -37,16 +35,18 @@ grunt.initConfig({
 		}
 	},
 	assetHash: {
-		compile: [
+		bundles: [
 
 			"assets/js/build/commons.bundle.js",
 			"assets/js/build/login.bundle.js",
 			"assets/js/build/main.bundle.js",
 			"assets/js/build/register.bundle.js",
-			"assets/js/build/worker.bundle.js",
 
 			//"assets/js/build/recovery.js",
 			//"assets/js/build/verifyMail.js"
+		],
+		worker: [
+			"assets/js/build/worker.bundle.js",
 		]
 	},
 	includes: {
@@ -191,8 +191,23 @@ grunt.initConfig({
 				"--watch"
 			]	
 		},
+		webpackWorkerWatch: {
+			cmd: "webpack",
+			args: [
+				"--watch",
+				"--config",
+				"webpack.worker.config.js"
+			]	
+		},
 		webpack: {
 			cmd: "webpack"
+		},
+		webpackWorker: {
+			cmd: "webpack",
+			args: [
+				"--config",
+				"webpack.worker.config.js"
+			]	
 		},
 		buildsjcl: {
 			cmd: "./scripts/build-sjcl.sh"
@@ -402,6 +417,24 @@ grunt.task.registerMultiTask("assetHash", "Hash a file and rename the file to th
 grunt.registerTask("default", ["build:development", "browserSync", "concurrent:development"]);
 
 grunt.registerTask("build:development", ["clean", "copy", "bower-install-simple", "less", "autoprefixer", "run:buildsjcl"]);
-grunt.registerTask("build:production",  ["clean", "jshint", "copy", "bower-install-simple", "less", "autoprefixer", "run:buildsjcl", "run:webpack", "assetHash", "includes", "workerInclude", "workerCache"]);
+grunt.registerTask("build:production",  [
+	"clean",
+	"jshint",
+	"copy",
+	"bower-install-simple",
+	"less",
+	"autoprefixer",
+	"run:buildsjcl",
+
+	"run:webpackWorker",
+	"assetHash:worker",
+	"workerInclude",
+
+	"run:webpack",
+	"assetHash:bundles",
+
+	"includes",
+	"workerCache"
+]);
 
 grunt.registerTask("server", "Start the whispeer web server.", require("./webserver"));
