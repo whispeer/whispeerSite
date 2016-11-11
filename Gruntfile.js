@@ -104,7 +104,6 @@ grunt.initConfig({
 			"assets/js/build/login.bundle.js",
 			"assets/js/build/main.bundle.js",
 			"assets/js/build/register.bundle.js",
-			"assets/js/build/template.js",
 			"assets/js/build/worker.bundle.js",
 
 			//"assets/js/build/recovery.js",

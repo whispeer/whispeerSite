@@ -4,7 +4,7 @@
 	"wsPort": 443,
 	"debug": false,
 	"production": true,
-	"workerScript": "assets/js/build/worker.bundle-5cfb8ed89aa9b5a6df06f07523708c7f469a30dd.js",
+	"workerScript": "assets/js/build/worker.bundle.js",
 	"serviceWorker": {
 		"enabled": true
 	}
