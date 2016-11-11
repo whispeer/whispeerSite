@@ -64,6 +64,8 @@ module.exports = {
 		login: "./login/loginMain.js",
 		register: "./register/registerMain.js",
 		main: "./main.js",
+		recovery: "./recovery/recoveryMain.js",
+		verifyMail: "./verifyMail/verifyMailMain.js"
 	},
 	output: {
 		path: path.resolve("./assets/js/build/"),

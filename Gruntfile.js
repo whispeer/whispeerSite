@@ -18,22 +18,6 @@ grunt.loadNpmTasks("grunt-contrib-clean");
 grunt.loadNpmTasks("grunt-angular-templates");
 
 grunt.initConfig({
-	requirejs: {
-		recovery: {
-			options: {
-				out: "assets/js/build/recovery.js",
-
-				name: "recovery/recoveryMain"
-			}
-		},
-		verify: {
-			options: {
-				out: "assets/js/build/verifyMail.js",
-
-				name: "verifyMail/verifyMailMain"
-			}
-		}
-	},
 	assetHash: {
 		bundles: [
 
@@ -41,9 +25,8 @@ grunt.initConfig({
 			"assets/js/build/login.bundle.js",
 			"assets/js/build/main.bundle.js",
 			"assets/js/build/register.bundle.js",
-
-			//"assets/js/build/recovery.js",
-			//"assets/js/build/verifyMail.js"
+			"assets/js/build/recovery.js",
+			"assets/js/build/verifyMail.js"
 		],
 		worker: [
 			"assets/js/build/worker.bundle.js",
