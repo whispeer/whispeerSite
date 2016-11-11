@@ -284,8 +284,15 @@ define(["step", "whispeerHelper", "asset/Progress", "asset/Queue", "services/ser
 			}), cb);
 		};
 
-		function addBlobToDB(blob) {
-			blobCache.store(blob.getBlobID(), blob._meta, blob._blobData).catch(errorService.criticalError);
+		function addBlobToDB(blob, dataString) {
+			var isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+
+			if (!!isSafari) {
+				blobCache.store(blob.getBlobID(), blob._meta, dataString);
+				return;
+			}
+
+			blobCache.store(blob.getBlobID(), blob._meta, blob._blobData);
 		}
 
 		function loadBlobFromServer(blobID) {
@@ -307,7 +314,7 @@ define(["step", "whispeerHelper", "asset/Progress", "asset/Queue", "services/ser
 						theBlob = new MyBlob(dataString, blobID, { meta: data.meta });
 					}
 
-					addBlobToDB(theBlob);
+					addBlobToDB(theBlob, dataString);
 
 					return theBlob;
 				});
@@ -319,7 +326,14 @@ define(["step", "whispeerHelper", "asset/Progress", "asset/Queue", "services/ser
 				if (typeof data.blob === "undefined" || data.blob === false) {
 					throw new Error("cache invalid!");
 				}
-				return new MyBlob(data.blob, blobID, { meta: data.data });
+
+				var blob;
+
+				if (typeof data.blob === "string") {
+					blob = h.dataURItoBlob(data.blob);
+				}
+
+				return new MyBlob(blob || data.blob, blobID, { meta: data.data });
 			});
 		}
 
