@@ -17,7 +17,8 @@
 		"File": true,
 		"indexedDB": true,
 		"WHISPEER_ENV": true,
-		"process": true
+		"process": true,
+		"jQuery": true
 	},
 	"undef": true,
 	"browser": true,

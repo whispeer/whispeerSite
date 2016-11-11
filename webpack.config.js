@@ -13,7 +13,10 @@ module.exports = {
 		}),
 		new webpack.optimize.MinChunkSizePlugin({
 			minChunkSize: 2048
-		})
+		}),
+		new webpack.DefinePlugin({
+			"WHISPEER_ENV": JSON.stringify(process.env.WHISPEER_ENV || "development")
+		}),
 	],
 	resolve: {
 		root: [

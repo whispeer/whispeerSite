@@ -34,7 +34,9 @@ var libs = [
 	"json"
 ];
 
-var env = process.env.WHISPEER_ENV || "production";
+process.env.WHISPEER_ENV = process.env.WHISPEER_ENV || "production";
+
+var env = process.env.WHISPEER_ENV;
 
 var configJson = [
 	"json!conf/" + env + ".config.json",
@@ -60,13 +62,7 @@ var baseConfig = {
 
 grunt.initConfig({
 	requirejs: {
-		worker: {
-			options: extend({}, baseConfig, {
-				out: "assets/js/build/worker.js",
 
-				include: ["requirejs"].concat(["bower/require-promise-worker.js/src/worker", "crypto/sjclWorker"])
-			})
-		},
 		lib: {
 			options: extend({}, baseConfig, {
 				out: "assets/js/build/lib.js",
@@ -78,36 +74,6 @@ grunt.initConfig({
 				wrap: {
 					start: "var WHISPEER_ENV='" + env + "';"
 				}
-			})
-		},
-		compile: {
-			options: extend({}, baseConfig, {
-				out: "assets/js/build/build.js",
-
-				name: "main",
-				insertRequire: ["main"],
-				include: ["requireConfig", "build/template"],
-				excludeShallow: libs
-			})
-		},
-		register: {
-			options: extend({}, baseConfig, {
-				out: "assets/js/build/register.js",
-
-				name: "register/registerMain",
-				insertRequire: ["register/registerMain"],
-				include: ["requireConfig"],
-				excludeShallow: libs
-			})
-		},
-		login: {
-			options: extend({}, baseConfig, {
-				out: "assets/js/build/login.js",
-
-				name: "login/loginMain",
-				insertRequire: ["login/loginMain"],
-				include: ["requireConfig"],
-				excludeShallow: libs
 			})
 		},
 		recovery: {
@@ -133,12 +99,16 @@ grunt.initConfig({
 	},
 	assetHash: {
 		compile: [
-			"assets/js/build/lib.js",
-			"assets/js/build/build.js",
-			"assets/js/build/register.js",
-			"assets/js/build/login.js",
-			"assets/js/build/recovery.js",
-			"assets/js/build/verifyMail.js"
+
+			"assets/js/build/commons.bundle.js",
+			"assets/js/build/login.bundle.js",
+			"assets/js/build/main.bundle.js",
+			"assets/js/build/register.bundle.js",
+			"assets/js/build/template.js",
+			"assets/js/build/worker.bundle.js",
+
+			//"assets/js/build/recovery.js",
+			//"assets/js/build/verifyMail.js"
 		]
 	},
 	ngtemplates:  {
@@ -164,23 +134,23 @@ grunt.initConfig({
 	},
 	includes: {
 		compile: {
-			scripts: ["lib", "build"],
+			scripts: ["commons.bundle", "main.bundle"],
 			sources: ["index.html"]
 		},
 		register: {
-			scripts: ["lib", "register"],
+			scripts: ["commons.bundle", "register.bundle"],
 			sources: ["static/en/register/index.html", "static/de/register/index.html"]
 		},
 		login: {
-			scripts: ["lib", "login"],
+			scripts: ["commons.bundle", "login.bundle"],
 			sources: ["static/en/loginframe/index.html", "static/de/loginframe/index.html", "static/en/login/index.html", "static/de/login/index.html"]
 		},
 		recovery: {
-			scripts: ["lib", "recovery"],
+			scripts: ["commons.bundle", "recovery.bundle"],
 			sources: ["static/en/recovery/index.html", "static/de/recovery/index.html"]
 		},
 		verify: {
-			scripts: ["lib", "verifyMail"],
+			scripts: ["commons.bundle", "verifyMail.bundle"],
 			sources: ["static/en/verifyMail/index.html", "static/de/verifyMail/index.html"]
 		}
 	},
@@ -330,23 +300,37 @@ grunt.task.registerTask("buildDate", function () {
 	fs.writeFileSync("./assets/js/config.js", rootController);
 });
 
+grunt.task.registerTask("workerInclude", function () {
+	var workerScriptPath = grunt.file.expand("assets/js/build/*.js").filter(function (script) {
+		return script.indexOf("worker") > -1;
+	})[0];
+
+	var conf = JSON.parse(grunt.file.read("assets/js/conf/production.config.json"));
+
+	conf.workerScript = workerScriptPath;
+
+	grunt.file.write("assets/js/conf/production.config.json", JSON.stringify(conf, null, "	"));
+});
+
 grunt.task.registerMultiTask("includes", "Add the correct script include to the index.html", function () {
 	var scripts = grunt.file.expand("assets/js/build/*.js");
 
 	var files = this.data.sources;
 	var scriptNames = this.data.scripts;
 
-	var includes = scriptNames.map(function (script) {
-		var scriptPath = scripts.filter(function (fileName) {
-			return fileName.replace("assets/js/build", "").indexOf(script) > -1;
-		})[0];
-
-		return "<script src='" + scriptPath + "'></script>";
-	}).join("");
-
 	files.forEach(function (file) {
 		var fileContent = grunt.file.read(file);
-		fileContent = fileContent.replace(/<script.*/, includes);
+
+		scriptNames.forEach(function (script) {
+			var scriptPath = scripts.filter(function (fileName) {
+				return fileName.replace("assets/js/build", "").indexOf(script) > -1;
+			})[0];
+
+			var regex = new RegExp("assets/js/build/" + script + "[^>]*\.js");
+
+			fileContent = fileContent.replace(regex, scriptPath);
+		});
+
 		grunt.file.write(file, fileContent);
 	});
 });
@@ -370,8 +354,8 @@ function getCurrentCommitHash() {
 
 grunt.task.registerTask("workerCache", "Write worker cache and commit sha", function () {
 	var cacheFiles = [
-		"assets/js/build/lib*",
-		"assets/js/build/build*",
+		"assets/js/build/commons*",
+		"assets/js/build/main*",
 		"assets/js/build/login*",
 		"assets/js/build/worker*",
 	];
@@ -500,6 +484,6 @@ grunt.task.registerMultiTask("assetHash", "Hash a file and rename the file to th
 grunt.registerTask("default", ["build:development", "browserSync", "concurrent:development"]);
 
 grunt.registerTask("build:development", ["clean", "copy", "bower-install-simple", "less", "autoprefixer", "run:buildsjcl"]);
-grunt.registerTask("build:production",  ["clean", "jshint", "copy", "bower-install-simple", "less", "autoprefixer", "ngtemplates", "webpack", "run:buildsjcl", "assetHash", "includes", "workerCache"]);
+grunt.registerTask("build:production",  ["clean", "jshint", "copy", "bower-install-simple", "less", "autoprefixer", "ngtemplates", "run:buildsjcl", "run:webpack", "assetHash", "includes", "workerInclude", "workerCache"]);
 
 grunt.registerTask("server", "Start the whispeer web server.", require("./webserver"));
