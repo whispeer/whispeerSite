@@ -49,27 +49,27 @@ define(["controllers/controllerModule", "whispeerHelper", "bluebird", "asset/sta
 		$scope.addUsers = function () {
 			addUsersToCircleState.pending();
 
-			step(function () {
-				circleService.get($scope.circleid).addPersons(usersToAdd, this);
-			}, h.sF(function () {
+			circleService.get($scope.circleid).addPersons(usersToAdd).then(function() {
 				$scope.$broadcast("resetSearch");
-				this.ne();
-			}), errorService.failOnError(addUsersToCircleState));
+			}).catch(function() {
+				errorService.failOnError(addUsersToCircleState)
+			});
 		};
 
 		$scope.removeCircle = function () {
-			step(function () {
-				var response = confirm(localize.getLocalizedString("views.circles.removeCircle"));
-				if (response) {
-					circleService.get($scope.circleid).remove(this);
-				}
-			}, h.sF(function () {
+			var response = confirm(localize.getLocalizedString("views.circles.removeCircle"));
+
+			if (!response) {
+				return;
+			}
+
+			circleService.get($scope.circleid).remove().then(function() {
 				if ($scope.mobile) {
 					$state.go("app.circles.list");
 				} else {
 					$state.go("app.circles.new");
 				}
-			}), errorService.criticalError);
+			}).catch(errorService.criticalError);
 		};
 	}
 
