@@ -353,7 +353,7 @@ define([
 
 			this.verify = function verify(cb) {
 				step(function () {
-					userService.get(meta.metaAttr("creator"), this);
+					return userService.get(meta.metaAttr("creator"));
 				}, h.sF(function (creator) {
 					if (creator.isNotExistingUser()) {
 						theTopic.data.disabled = true;
@@ -361,7 +361,7 @@ define([
 						return;
 					}
 
-					meta.verify(creator.getSignKey(), this);
+					return meta.verify(creator.getSignKey());
 				}), h.sF(function () {
 					keyStore.security.addEncryptionIdentifier(meta.metaAttr("_key"));
 					this.ne();
@@ -369,26 +369,26 @@ define([
 			};
 
 			this.loadReceiverNames = function loadRNF(cb) {
-				step(function () {
-					userService.getMultipleFormatted(receiver, this);
-				}, h.sF(function (receiverObjects) {
+				return Bluebird.try(function () {
+					return userService.getMultipleFormatted(receiver);
+				}).then(function (receiverObjects) {
 					var partners = theTopic.data.partners;
 
 					if (partners.length > 0) {
-						this.ne();
 						return;
 					}
 
-					var i;
-					for (i = 0; i < receiverObjects.length; i += 1) {
-						if (!receiverObjects[i].user.isOwn() || receiverObjects.length === 1) {
-							partners.push(receiverObjects[i]);
+					receiverObjects.forEach(function (receiverObject) {
+						if (receiverObject.user.isOwn() || receiverObjects.length === 1) {
+							partners.push(receiverObject);
 						}
-					}
+					});
 
 					theTopic.data.partnersDisplay = partners.slice(0, 2);
 					if (partners.length > 2) {
 						theTopic.data.remainingUser = partners.length - 2;
+
+						var i = 0;
 						for (i = 2; i < partners.length; i += 1) {
 							theTopic.data.remainingUserTitle += partners[i].name;
 							if (i < partners.length - 1) {
@@ -396,8 +396,7 @@ define([
 							}
 						}
 					}
-					this.ne();
-				}), cb);
+				}).nodeify(cb);
 			};
 
 			this.getReceiver = function () {
@@ -429,22 +428,25 @@ define([
 			this.loadMoreMessages = function loadMoreMessagesF(cb, max) {
 				var loadMore = new Date().getTime();
 				var remaining = 0;
+
+				if (theTopic.data.remaining === 0) {
+					return Bluebird.resolve().nodeify(cb);
+				}
+
 				step(function () {
-					if (theTopic.data.remaining > 0) {
-						socket.emit("messages.getTopicMessages", {
-							topicid: theTopic.getID(),
-							afterMessage: theTopic.getOldestID(),
-							maximum: max
-						}, this);
-					} else {
-						this.last.ne();
-					}
+					return socket.emit("messages.getTopicMessages", {
+						topicid: theTopic.getID(),
+						afterMessage: theTopic.getOldestID(),
+						maximum: max
+					});
 				}, h.sF(function (data) {
 					topicDebug("Message server took: " + (new Date().getTime() - loadMore));
 
 					remaining = data.remaining;
 
-					if (data.messages && data.messages.length > 0) {
+					var messages = data.messages || [];
+
+					if (messages.length > 0) {
 						data.messages.forEach(function (messageData) {
 							Topic.messageFromData(messageData, this.parallel());
 						}, this);
@@ -533,17 +535,13 @@ define([
 			cb = cb || h.nop;
 
 			if (messagesByID[id]) {
-				$timeout(function () {
-					cb(null, messagesByID[id]);
-				});
-
-				return;
+				return Bluebird.resolve(messagesByID[id]).nodeify(cb);
 			}
 
 			messagesByID[id] = messageToAdd;
 
 			step(function () {
-				Topic.get(messageToAdd.getTopicID(), this);
+				return Topic.get(messageToAdd.getTopicID());
 			}, h.sF(function (_theTopic) {
 				theTopic = _theTopic;
 
@@ -555,26 +553,22 @@ define([
 		};
 
 		Topic.get = function (topicid, cb) {
-			step(function () {
-				if (topics[topicid]) {
-					this.last.ne(topics[topicid]);
-				} else {
-					return initService.awaitLoading().then(function () {
-						return socket.definitlyEmit("messages.getTopic", {
-							topicid: topicid
-						});
+			if (topics[topicid]) {
+				return Bluebird.resolve(topicid).nodeify(cb);
+			}
+
+			return Bluebird.all(function () {
+				return initService.awaitLoading().then(function () {
+					return socket.definitlyEmit("messages.getTopic", {
+						topicid: topicid
 					});
-				}
-			}, h.sF(function (data) {
-				if (!data.error) {
-					return Topic.fromData(data.topic);
-				} else {
-					this.last.ne(false);
-				}
-			}), h.sF(function (theTopic) {
+				});
+			}).then(function (data) {
+				return Topic.fromData(data.topic);
+			}).then(function (theTopic) {
 				theTopic.setIgnoreAsLastTopic(true);
-				this.last.ne(theTopic);
-			}), cb);
+				return theTopic;
+			}).nodeify(cb);
 		};
 
 		Topic.createRawData = function (receiver, cb) {
@@ -592,17 +586,17 @@ define([
 				h.removeArray(receiver, sessionService.getUserID());
 
 				//get receiver objects
-				userService.getMultiple(receiver, this);
+				return userService.getMultiple(receiver);
 			}, h.sF(function (receiverO) {
 				receiverObjects = receiverO;
 
 				//generate topic key
-				keyStore.sym.generateKey(this, "topicMain");
+				return keyStore.sym.generateKey(null, "topicMain");
 			}), h.sF(function (key) {
 				topicKey = key;
 
 				//encrypt topic key with own mainkey
-				keyStore.sym.symEncryptKey(topicKey, userService.getown().getMainKey(), this);
+				return keyStore.sym.symEncryptKey(topicKey, userService.getown().getMainKey());
 			}), h.sF(function () {
 				//encrypt topic key for receiver
 				var i, crypt;
@@ -639,8 +633,7 @@ define([
 					receiverKeys: receiverKeys
 				};
 
-				this.parallel.unflatten();
-				SecuredData.create({}, topicMeta, { type: "topic" }, userService.getown().getSignKey(), topicKey, this);
+				return SecuredData.create({}, topicMeta, { type: "topic" }, userService.getown().getSignKey(), topicKey);
 			}), h.sF(function (tData) {
 				topicData.topic = tData.meta;
 
