@@ -1686,8 +1686,8 @@ define(["whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForReady", "
 				return chelper.hash(text);
 			},
 
-			hashBigBase64CodedData: function (text, cb) {
-				sjclWorkerInclude.hash(text).nodeify(cb);
+			hashBigBase64CodedData: function (text) {
+				return sjclWorkerInclude.hash(text);
 			},
 
 			hashPW: function (pw, salt) {
@@ -1998,7 +1998,7 @@ define(["whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForReady", "
 				});
 			},
 
-			decryptArrayBuffer: function (buf, realKeyID, callback) {
+			decryptArrayBuffer: function (buf, realKeyID) {
 				return SymKey.get(realKeyID).then(function (key) {
 					var buf32 = new Uint32Array(buf);
 
@@ -2011,7 +2011,7 @@ define(["whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForReady", "
 					return key.decrypt(decr);
 				}).then(function (decryptedData) {
 					return removeExpectedPrefix(decryptedData, "buf::");
-				}).nodeify(callback);
+				});
 			},
 
 			decryptBigBase64: function (bin, realKeyID, callback) {
