@@ -44,8 +44,6 @@ define(["step", "whispeerHelper", "asset/observer", "asset/securedDataWithMetaDa
 				friendShipKey = _friendShipKey;
 				var mainKey = ownUser.getMainKey();
 
-				var listData = {};
-				listData[otherUser.getID()] = friendShipKey;
 				signedList.metaSetAttr(otherUser.getID(), friendShipKey);
 
 				return Bluebird.all([
