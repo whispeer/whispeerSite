@@ -76,6 +76,7 @@ define(["whispeerHelper", "dexie", "bluebird", "services/serviceModule", "servic
 			return Promise.reject();
 		}
 
+		var theCache = this;
 		var cacheResult = db.cache.where("id").equals(this._name + "/" + id);
 
 		db.cache.where("id").equals(this._name + "/" + id).modify({ used: new Date().getTime() });
@@ -91,7 +92,7 @@ define(["whispeerHelper", "dexie", "bluebird", "services/serviceModule", "servic
 				return data;
 			}
 
-			throw new Error("cache miss");
+			throw new Error("cache miss for " + theCache._name + "/" + id);
 		}));
 	};
 

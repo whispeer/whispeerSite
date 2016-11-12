@@ -1,4 +1,4 @@
-define(["angular", "config/localizationConfig"], function (angular) {
+define(["angular", "config/localizationConfig", "runners/promiseRunner"], function (angular) {
 	"use strict";
 	return angular.module("ssn.recovery", [
 		"ssn.services",
@@ -7,7 +7,8 @@ define(["angular", "config/localizationConfig"], function (angular) {
 		"ssn.models",
 		"ssn.interceptors.config",
 		"ssn.locale.config",
-		"localization"
+		"localization",
+		"ssn.runners",
 	]).config(["ssn.sessionServiceProvider", function (sessionServiceProvider) {
 		sessionServiceProvider.noRedirect();
 	}]);

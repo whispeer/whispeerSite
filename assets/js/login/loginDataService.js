@@ -104,7 +104,6 @@ define([
 				}).then(function () {
 					loginState.success();
 					locationService.mainPage();
-					$rootScope.$apply();
 				}).catch(function (e) {
 					loginState.failed();
 
@@ -117,8 +116,6 @@ define([
 							locationService.loginPage();
 						});
 					}
-
-					$rootScope.$apply();
 				});
 			}
 		};
@@ -127,10 +124,10 @@ define([
 			res.identifier = loginStorage.get("identifier");
 			res.failureCode = parseInt(loginStorage.get("failureCode"), 10);
 
-			$rootScope.$apply();
-
 			loginStorage.remove("failureCode");
 			loginStorage.save();
+
+			return null;
 		});
 
 		return res;
