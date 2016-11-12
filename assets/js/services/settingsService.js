@@ -78,28 +78,27 @@ define(["step", "whispeerHelper", "crypto/encryptedData", "services/serviceModul
 
 		function migrateToFormat2(givenOldSettings, blockageToken, cb) {
 			console.warn("migrating settings to format 2");
-			step(function () {
+
+			return Bluebird.try(function() {
 				keyStore.security.allowPrivateActions();
 				var oldSettings = new EncryptedData(givenOldSettings);
-				oldSettings.decrypt(this);
-			}, h.sF(function (decryptedSettings) {
+				return oldSettings.decrypt();
+			}).then(function(decryptedSettings) {
 				var data = turnOldSettingsToNew(decryptedSettings);
 
 				data.meta.initialLanguage = h.getLanguageFromPath();
 
 				var ownUser = $injector.get("ssn.userService").getown();
 
-				SecuredData.create(data.content, data.meta, options, ownUser.getSignKey(), ownUser.getMainKey(), this);
-			}), h.sF(function (signedAndEncryptedSettings) {
+				return SecuredData.create(data.content, data.meta, options, ownUser.getSignKey(), ownUser.getMainKey());
+			}).then(function (signedAndEncryptedSettings) {
 				settings = SecuredData.load(signedAndEncryptedSettings.content, signedAndEncryptedSettings.meta, options);
 
-				socketService.emit("settings.setSettings", {
+				return socketService.emit("settings.setSettings", {
 					settings: signedAndEncryptedSettings,
 					blockageToken: blockageToken
-				}, this);
-			}), h.sF(function () {
-				this.ne(settings);
-			}), cb);
+				}).thenReturn(settings);
+			}).nodeify(cb);
 		}
 
 		function loadSettings(givenSettings, blockageToken) {
@@ -210,21 +209,20 @@ define(["step", "whispeerHelper", "crypto/encryptedData", "services/serviceModul
 			privacy: {
 				safetyNames: ["birthday", "location", "relationship", "education", "work", "gender", "languages"],
 				setPrivacy: function (privacy, cb, updateProfile) {
-					step(function () {
+					return Bluebird.try(function() {
 						api.updateBranch("privacy", privacy);
-						api.uploadChangedData(this);
-					}, h.sF(function () {
+						return api.uploadChangedData();
+					}).then(function() {
 						if (!updateProfile) {
-							this.last.ne();
 							return;
 						}
 
 						var userService = $injector.get("ssn.userService");
-						userService.getown().uploadChangedProfile(this);
-					}), cb);
+						return userService.getown().uploadChangedProfile();
+					}).nodeify(cb);
 				},
 				removeCircle: function (id, cb) {
-					step(function () {
+					return Bluebird.try(function() {
 						var privacy = api.getBranch("privacy");
 
 						api.privacy.safetyNames.forEach(function (safetyName) {
@@ -234,28 +232,26 @@ define(["step", "whispeerHelper", "crypto/encryptedData", "services/serviceModul
 						h.removeArray(privacy.basic.firstname.visibility, "circle:" + id);
 						h.removeArray(privacy.basic.lastname.visibility, "circle:" + id);
 
-						api.privacy.setPrivacy(privacy, this, true);
-					}, cb);
+						return api.privacy.setPrivacy(privacy, null, true);
+					}).nodeify(cb);
 				}
 			},
 			uploadChangedData: function (cb) {
-				step(function () {
-					var userService = $injector.get("ssn.userService");
+				if (!settings.isChanged()) {
+					return Bluebird.resolve(true).nodeify(cb);
+				}
 
-					if (settings.isChanged()) {
-						settings.getUpdatedData(userService.getown().getSignKey(), this);
-					} else {
-						this.last.ne(true);
-					}
-				}, h.sF(function (newEncryptedSettings) {
+				var userService = $injector.get("ssn.userService");
+
+				return settings.getUpdatedData(userService.getown().getSignKey()).then(function (newEncryptedSettings) {
 					newEncryptedSettings.server = serverSettings;
 
-					socketService.emit("settings.setSettings", {
+					return socketService.emit("settings.setSettings", {
 						settings: newEncryptedSettings
-					}, this);
-				}), h.sF(function (result) {
-					this.ne(result.success);
-				}), cb);
+					});
+				}).then(function(result) {
+					return result.success;
+				}).nodeify(cb);
 			},
 			getPrivacyAttribute: function (attr) {
 				var b = api.getBranch("privacy");
