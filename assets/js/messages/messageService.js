@@ -97,15 +97,13 @@ define([
 				}).catch(errorService);
 			},
 			getTopic: function (topicid, cb) {
-				step(function () {
+				return Bluebird.try(function () {
 					if (currentlyLoadingTopics) {
-						messageService.listenOnce(this, "loadingDone");
-					} else {
-						this.ne();
+						return messageService.listenPromise("loadingDone");
 					}
-				}, h.sF(function () {
+				}).then(function () {
 					return Topic.get(topicid);
-				}), cb);
+				}).nodeify(cb);
 			},
 			sendMessageToUserTopicIfExists: function(receiver, message, images, cb) {
 				var theTopic;
