@@ -1,4 +1,4 @@
-define(["step", "whispeerHelper", "asset/observer", "services/serviceModule"], function (step, h, Observer, serviceModule) {
+define(["bluebird", "whispeerHelper", "asset/observer", "services/serviceModule"], function (Bluebird, h, Observer, serviceModule) {
 	"use strict";
 
 	function service(localize, $state, $rootScope, settingsService, errorService) {
