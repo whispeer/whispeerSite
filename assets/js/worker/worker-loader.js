@@ -1,14 +1,3 @@
-//module uri:
-// basic/path/package/path
-// toUrl():
-// basic/path
-// worker path:
-// ../../../../basic/path
-// require path:
-// assets/bower/require.js
-// require worker path:
-// ../../../../assets/bower/require.js
-
 define([], function () {
 	"use strict";
 
