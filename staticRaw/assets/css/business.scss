@@ -247,7 +247,16 @@ h1, h2, h3, h4, h5, h6 {
 	}
 
 	@media (max-width: 1650px) {
-		width: 50%;
+		.feature__short {
+			flex-wrap: wrap;
+		}
+		.feature__polygon {
+			width: 100%;
+			height: 128px;
+
+			margin-bottom: 0;
+			order: 2;
+		}
 	}
 
 	@media (max-width: 880px) {
@@ -265,6 +274,10 @@ h1, h2, h3, h4, h5, h6 {
 	align-items: center;
 
 	height: 280px;
+
+	@media (max-width: 16650px) {
+		height: 266px;
+	}
 }
 
 .feature__description {
@@ -275,7 +288,7 @@ h1, h2, h3, h4, h5, h6 {
 	text-transform: uppercase;
 	font-size: 1em;
 
-	margin-bottom: 0;
+	margin: 1rem 0 0;
 }
 
 .feature__polygon {
@@ -346,16 +359,13 @@ h1, h2, h3, h4, h5, h6 {
 	@media (min-width: 881px) {
 		position: absolute;
 		left: 0;
-		top: 280px;
-
+		top: 297px;
+		padding: 0 160px;
 		height: 572px;
-
-		padding: 0 80px;
 	}
 
-	@media (min-width: 1640px) {
+	@media (min-width: 1651px) {
 		top: 280px;
-		padding: 0 160px;
 	}
 
 	visibility: hidden;
@@ -369,15 +379,6 @@ h1, h2, h3, h4, h5, h6 {
 	background-size: auto 100%;
 	background-repeat: no-repeat;
 	background-position: calc(100vw - 370px) 140px;
-}
-
-.feature:nth-child(3):focus,
-.feature:nth-child(4):focus {
-	@media (min-width: 881px) and (max-width: 1639px) {
-		.feature__detail {
-			top: 560px;
-		}
-	}
 }
 
 .detail__content {
