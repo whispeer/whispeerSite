@@ -1,3 +1,5 @@
+var templateUrl = require("../../views/directives/createcircle.html");
+
 define(["bluebird", "directives/directivesModule"], function (Bluebird, directivesModule) {
 	"use strict";
 
@@ -8,12 +10,12 @@ define(["bluebird", "directives/directivesModule"], function (Bluebird, directiv
 				"afterCreate": "&"
 			},
 			restrict: "E",
-			templateUrl: "assets/views/directives/createcircle.html",
+			templateUrl: templateUrl,
 			replace: false,
 			transclude: false,
 			link: function (scope) {
 				scope.createCircle = function (name) {
-					var createCircle = Bluebird.promisify(circleService.create, circleService);
+					var createCircle = Bluebird.promisify(circleService.create.bind(circleService));
 
 					createCircle(name).then(function (circle) {
 						scope.afterCreate({

@@ -1,4 +1,6 @@
-define(["step", "whispeerHelper", "directives/directivesModule"], function (step, h, directivesModule) {
+var templateUrl = require("../../views/directives/gallery.html");
+
+define(["jquery", "step", "whispeerHelper", "directives/directivesModule"], function (jQuery, step, h, directivesModule) {
 	"use strict";
 
 	function imageGallery(errorService, blobService, screenSizeService) {
@@ -47,7 +49,7 @@ define(["step", "whispeerHelper", "directives/directivesModule"], function (step
 				"images": "="
 			},
 			restrict: "E",
-			templateUrl: "assets/views/directives/gallery.html",
+			templateUrl: templateUrl,
 			link: function(scope) {
 				var previewChunk = 4;
 

@@ -162,11 +162,13 @@ define([
 				}), h.sF(function (topicData) {
 					socket.emit("messages.sendNewTopic", topicData, this);
 				}), h.sF(function (result) {
-					return Topic.multipleFromData([result.topic]);
+					return Topic.multipleFromData([result.topic]).then(function (topics) {
+						return topics[0].getID();
+					});
 				}), cb || h.nop);
 			},
 			sendMessage: function (topicID, message, images, cb) {
-				var getTopic = Bluebird.promisify(Topic.get, Topic);
+				var getTopic = Bluebird.promisify(Topic.get.bind(Topic));
 
 				var resultPromise = Bluebird.resolve(topicID).then(function (topic) {
 					if (typeof topic !== "object") {
@@ -179,7 +181,7 @@ define([
 				});
 
 				if (typeof cb === "function") {
-					step.unpromisify(resultPromise, h.addAfterHook(cb, $rootScope.$apply.bind($rootScope, null)));
+					resultPromise.nodeify(h.addAfterHook(cb, $rootScope.$apply.bind($rootScope)));
 				}
 
 				return resultPromise;

@@ -1,5 +1,10 @@
 /* Warning! This code manipulates the DOM, do only change with extra care as you might create Cross-Site-Scripting holes */
-define(["directives/directivesModule", "emojify"], function (directivesModule, EmojifyConverter) {
+
+var jQuery = require("jquery");
+var directivesModule = require("directives/directivesModule");
+var EmojifyConverter = require("emojify");
+
+var syntaxifyDirective = function ($timeout) {
 	"use strict";
 
 	var emojify = new EmojifyConverter();
@@ -131,30 +136,28 @@ define(["directives/directivesModule", "emojify"], function (directivesModule, E
 		});
 	}
 
-	var syntaxifyDirective =  function ($timeout) {
-		return {
-			restrict: "A",
-			link: function (scope, elm, attrs) {
-				if (attrs.syntaxify) {
-					scope.$watch(attrs.syntaxify, function (text) {
-						if (text) {
-							elm.html("");
-							callSyntaxifier(0, elm, text);
-						}
-					});
-				} else {
-					$timeout(function () {
-						var text = elm.text();
+	return {
+		restrict: "A",
+		link: function (scope, elm, attrs) {
+			if (attrs.syntaxify) {
+				scope.$watch(attrs.syntaxify, function (text) {
+					if (text) {
 						elm.html("");
-
 						callSyntaxifier(0, elm, text);
-					});
-				}
+					}
+				});
+			} else {
+				$timeout(function () {
+					var text = elm.text();
+					elm.html("");
+
+					callSyntaxifier(0, elm, text);
+				});
 			}
-		};
+		}
 	};
+};
 
-	syntaxifyDirective.$inject = ["$timeout"];
+syntaxifyDirective.$inject = ["$timeout"];
 
-	directivesModule.directive("syntaxify", syntaxifyDirective);
-});
+directivesModule.directive("syntaxify", syntaxifyDirective);

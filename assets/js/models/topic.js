@@ -170,7 +170,7 @@ define([
 
 					return response.messages;
 				}).map(function (messageData) {
-					var messageFromData = Bluebird.promisify(Topic.messageFromData, Topic);
+					var messageFromData = Bluebird.promisify(Topic.messageFromData.bind(Topic));
 
 					return messageFromData(messageData);
 				}).then(function (messages) {
@@ -373,12 +373,16 @@ define([
 					userService.getMultipleFormatted(receiver, this);
 				}, h.sF(function (receiverObjects) {
 					var partners = theTopic.data.partners;
-					var i, me;
+
+					if (partners.length > 0) {
+						this.ne();
+						return;
+					}
+
+					var i;
 					for (i = 0; i < receiverObjects.length; i += 1) {
 						if (!receiverObjects[i].user.isOwn() || receiverObjects.length === 1) {
 							partners.push(receiverObjects[i]);
-						} else {
-							me = receiverObjects[i];
 						}
 					}
 
@@ -480,7 +484,7 @@ define([
 			}).map(function (topic) {
 				return Topic.loadTopic(topic);
 			}).then(function (topics) {
-				$rootScope.$apply();
+				$rootScope.$applyAsync();
 				return topics;
 			});
 		};
@@ -506,7 +510,7 @@ define([
 				return Bluebird.resolve(topic);
 			}
 
-			var promise = Bluebird.promisify(topic.loadAllData, topic)().thenReturn(topic);
+			var promise = Bluebird.promisify(topic.loadAllData.bind(topic))().thenReturn(topic);
 
 			promise.then(function (id) {
 				topicDebug("Topic loaded (" + id + "):" + (new Date().getTime() - startup));
@@ -665,8 +669,8 @@ define([
 				}));
 			}
 
-			var createRawTopicData = Bluebird.promisify(Topic.createRawData, Topic);
-			var createRawMessageData = Bluebird.promisify(Message.createRawData, Message);
+			var createRawTopicData = Bluebird.promisify(Topic.createRawData.bind(Topic));
+			var createRawMessageData = Bluebird.promisify(Message.createRawData.bind(Message));
 
 			var resultPromise = Bluebird.all([createRawTopicData(receiver), imagePreparation]).spread(function (topicData, imagesMeta) {
 				var topic = new Topic({
@@ -693,11 +697,7 @@ define([
 				return topicData;
 			});
 
-			if (typeof cb === "function") {
-				step.unpromisify(resultPromise, cb);
-			}
-
-			return resultPromise;
+			return resultPromise.nodeify(cb);
 		};
 
 		Observer.call(Topic);

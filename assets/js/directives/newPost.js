@@ -1,3 +1,5 @@
+var templateUrl = require("../../views/directives/newPost.html");
+
 define(["directives/directivesModule", "whispeerHelper", "asset/state"], function (directivesModule, h, State) {
 	"use strict";
 
@@ -9,7 +11,7 @@ define(["directives/directivesModule", "whispeerHelper", "asset/state"], functio
 				"wallUserId": "="
 			},
 			restrict: "E",
-			templateUrl: "assets/views/directives/newPost.html",
+			templateUrl: templateUrl,
 			replace: false,
 			transclude: false,
 			link: {

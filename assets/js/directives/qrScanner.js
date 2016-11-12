@@ -1,4 +1,6 @@
-define(["whispeerHelper", "step", "libs/qrreader", "directives/directivesModule"], function (h, step, qrreader, directivesModule) {
+var templateUrl = require("../../views/directives/qrScanner.html");
+
+define(["whispeerHelper", "step", "directives/directivesModule"], function (h, step, directivesModule) {
 	"use strict";
 
 	function qrScannerDirective($timeout, errorService) {
@@ -8,13 +10,15 @@ define(["whispeerHelper", "step", "libs/qrreader", "directives/directivesModule"
 				state: "="
 			},
 			restrict: "E",
-			templateUrl: "assets/views/directives/qrScanner.html",
+			templateUrl: templateUrl,
 			link: function (scope, iElement) {
 				var destroyed = false, theStream;
 
 				function captureToCanvas() {
 					if (!scope.state.read && !destroyed) {
-						try {
+						step(function () {
+							require.ensure(["libs/qrreader"], this);
+						}, function (require) {
 							var width = 800;
 							var height = 600;
 
@@ -26,6 +30,11 @@ define(["whispeerHelper", "step", "libs/qrreader", "directives/directivesModule"
 							gCtx.clearRect(0, 0, width, height);
 
 							gCtx.drawImage(iElement.find("video")[0], 0, 0);
+
+	
+
+							var qrreader = require("libs/qrreader");
+
 							var code = qrreader.decodeCanvas(gCanvas);
 
 							scope.state.read = true;
@@ -34,10 +43,10 @@ define(["whispeerHelper", "step", "libs/qrreader", "directives/directivesModule"
 							} catch (e) {}
 
 							scope.callback({code: code});
-						} catch(e) {
-							console.error(e);
-							$timeout(captureToCanvas, 500);
-						}
+						}, function (e) {
+							console.error("Canvas loading failed", e);
+							$timeout(captureToCanvas, 500);							
+						});
 					}
 				}
 

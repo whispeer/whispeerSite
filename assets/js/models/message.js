@@ -148,7 +148,7 @@ define(["step",
 				var newest = this._topic.getNewest();
 
 				this._securedData.setAfterRelationShip(newest.getSecuredData());
-				var signAndEncrypt = Bluebird.promisify(this._securedData._signAndEncrypt, this._securedData);
+				var signAndEncrypt = Bluebird.promisify(this._securedData._signAndEncrypt.bind(this._securedData));
 				var signAndEncryptPromise = signAndEncrypt(userService.getown().getSignKey(), topicKey);
 
 				return Bluebird.all([signAndEncryptPromise, this.uploadImages(topicKey)]);

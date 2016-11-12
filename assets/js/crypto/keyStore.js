@@ -70,14 +70,6 @@ define(["whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForReady", "
 		keyStoreDebug(e);
 	}
 
-	function requireAsync(modules) {
-		return new Bluebird(function (resolve, reject) {
-			require(modules, function () {
-				resolve(Array.prototype.slice.call(arguments));
-			}, reject);
-		});
-	}
-
 	function fingerPrintData(data) {
 		return sjcl.codec.hex.fromBits(sjcl.hash.sha256.hash(data));
 	}
@@ -207,11 +199,11 @@ define(["whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForReady", "
 	* @param text text to encrypt
 	* @param callback callback
 	*/
-	function encryptPW(pw, text, callback) {
+	function encryptPW(pw, text) {
 		return Bluebird.try(function () {
 			var result = sjcl.json._encrypt(pw, text);
 			return chelper.sjclPacket2Object(result);
-		}).nodeify(callback);
+		});
 	}
 
 	/** our internal decryption function.
@@ -456,7 +448,7 @@ define(["whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForReady", "
 		* @param tag decryption tag
 		* @param callback callback
 		*/
-		function addAsymDecryptorF(realid, tag, callback) {
+		function addAsymDecryptorF(realid, tag) {
 			return Bluebird.try(function () {
 				var decryptorData = {
 					decryptorid: realid,
@@ -468,14 +460,14 @@ define(["whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForReady", "
 				decryptors.push(decryptorData);
 				dirtyKeys.push(superKey);
 				dirtyDecryptors.push(decryptorData);
-			}).nodeify(callback);
+			});
 		}
 
 		/** add symKey decryptor.
 		* @param realid realid of decryptor
 		* @param callback callback
 		*/
-		function addSymDecryptorF(realid, callback) {
+		function addSymDecryptorF(realid) {
 			return Bluebird.try(function () {
 				if (realid instanceof SymKey) {
 					return realid;
@@ -501,14 +493,14 @@ define(["whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForReady", "
 
 					return cryptorKey.getRealID();
 				});	
-			}).nodeify(callback);
+			});
 		}
 
 		/** add a pw decryptor
 		* @param pw password
 		* @param callback callback
 		*/
-		function addPWDecryptorF(pw, callback) {
+		function addPWDecryptorF(pw) {
 			return theKey.decryptKey().then(function () {
 				var prefix = sjcl.codec.utf8String.toBits("key::");
 				var data = sjcl.bitArray.concat(prefix, preSecret || internalSecret);
@@ -529,7 +521,7 @@ define(["whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForReady", "
 				dirtyDecryptors.push(decryptorData);
 
 				return decryptorData;
-			}).nodeify(callback);
+			});
 		}
 
 		this.addAsymDecryptor = addAsymDecryptorF;
@@ -773,7 +765,7 @@ define(["whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForReady", "
 	/** generates a symmetric key
 	* @param callback callback
 	*/
-	function symKeyGenerate(callback, comment) {
+	function symKeyGenerate(comment) {
 		return Bluebird.try(function () {
 			return new SymKey();
 		}).then(function (key) {
@@ -788,11 +780,11 @@ define(["whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForReady", "
 			key.setComment(comment);
 
 			return symKeys[key.getRealID()];
-		}).nodeify(callback);
+		});
 	}
 
 	/** load  a symkey and its keychain */
-	SymKey.get = function (realKeyID, callback) {
+	SymKey.get = function (realKeyID) {
 		return Bluebird.try(function () {
 			if (!symKeys[realKeyID]) {
 				return getKey(realKeyID);
@@ -803,7 +795,7 @@ define(["whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForReady", "
 			}
 
 			throw new errors.InvalidDataError("keychain not found (sym)");
-		}).nodeify(callback);
+		});
 	};
 
 	SymKey.generate = symKeyGenerate;
@@ -896,7 +888,7 @@ define(["whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForReady", "
 		/** create a key 
 		* param callback callback
 		*/
-		this.kem = function (callback) {
+		this.kem = function () {
 			if (privateActionsBlocked) {
 				throw new errors.SecurityError("Private Actions are blocked (kem)");
 			}
@@ -913,7 +905,7 @@ define(["whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForReady", "
 				newKeys.push(resultKey);
 				makeKeyUsableForEncryption(resultKey.getRealID());
 				return resultKey.addAsymDecryptor(realid, keyData.tag).thenReturn(resultKey.getRealID());
-			}).nodeify(callback);
+			});
 		};
 
 		if (isPrivateKey) {
@@ -953,7 +945,7 @@ define(["whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForReady", "
 	* @param realKeyID keys real id
 	* @param callback callback
 	*/
-	CryptKey.get = function (realKeyID, callback) {
+	CryptKey.get = function (realKeyID) {
 		return Bluebird.try(function () {
 			if (!cryptKeys[realKeyID]) {
 				return getKey(realKeyID);
@@ -964,14 +956,14 @@ define(["whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForReady", "
 			}
 
 			throw new errors.InvalidDataError("keychain not found");
-		}).nodeify(callback);
+		});
 	};
 
 	/** generate a crypt key
 	* @param curve curve to use
 	* @param callback callback
 	*/
-	CryptKey.generate = function (curve, callback, comment) {
+	CryptKey.generate = function (curve, comment) {
 		return waitForReady.async().then(function () {
 			var curveO = chelper.getCurve(curve), rawKey = sjcl.ecc.elGamal.generateKeys(curveO);
 
@@ -996,7 +988,7 @@ define(["whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForReady", "
 			makeKeyUsableForEncryption(key.getRealID());
 
 			return key;
-		}).nodeify(callback);
+		});
 	};
 
 	/** a signature key
@@ -1123,29 +1115,30 @@ define(["whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForReady", "
 					throw new errors.SecurityError("Private Actions are blocked (sign)");
 				}
 
-				return requireAsync(["crypto/trustManager", "crypto/signatureCache"]).spread(function (trustManager, signatureCache) {
-					return Bluebird.try(function () {
-						if (!trustManager.isLoaded) {
-							return trustManager.listenPromise("loaded");
-						}
-					}).then(function () {
-						if (!trustManager.hasKeyData(intKey.getRealID())) {
-							keyStoreDebug("key not in key database");
-							alert("key not in key database: " + intKey.getRealID() + " - please report this issue to support@whispeer.de!");
-							throw new errors.SecurityError("key not in key database");
-						}
+				var trustManager = require("./trustManager");
+				var signatureCache = require("./signatureCache");
 
-						return intKey.decryptKey();
-					}).then(function () {
-						return intKey.getSecret().sign(hash);
-						//sjclWorkerInclude.asym.sign(intKey.getSecret(), hash).nodeify(this);
-					}).then(function (signature) {
-						if (signatureCache.isLoaded()) {
-							signatureCache.addValidSignature(signature, hash, realid, type);
-						}
+				return Bluebird.try(function () {
+					if (!trustManager.isLoaded) {
+						return trustManager.listenPromise("loaded");
+					}
+				}).then(function () {
+					if (!trustManager.hasKeyData(intKey.getRealID())) {
+						keyStoreDebug("key not in key database");
+						alert("key not in key database: " + intKey.getRealID() + " - please report this issue to support@whispeer.de!");
+						throw new errors.SecurityError("key not in key database");
+					}
 
-						return signature;
-					});
+					return intKey.decryptKey();
+				}).then(function () {
+					return intKey.getSecret().sign(hash);
+					//return sjclWorkerInclude.asym.sign(intKey.getSecret(), hash).nodeify(this);
+				}).then(function (signature) {
+					if (signatureCache.isLoaded()) {
+						signatureCache.addValidSignature(signature, hash, realid, type);
+					}
+
+					return signature;
 				});
 			};
 		}
@@ -1229,40 +1222,41 @@ define(["whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForReady", "
 
 		this.getFingerPrint = getFingerPrintF;
 		this.verify = function (signature, text, type, id) {
-			return requireAsync(["crypto/trustManager", "crypto/signatureCache"]).spread(function (trustManager, signatureCache) {
-				return hash(text).then(function (hash) {
-					hash = chelper.hex2bits(hash);
+			var trustManager = require("./trustManager");
+			var signatureCache = require("./signatureCache");
 
-					if (!trustManager.hasKeyData(intKey.getRealID())) {
-						throw new errors.SecurityError("key not in key database");
-					}
+			return hash(text).then(function (hash) {
+				hash = chelper.hex2bits(hash);
 
-					if (signatureCache.isValidSignatureInCache(signature, hash, realid)) {
-						signatureCache.addValidSignature(signature, hash, realid, type, id);
-						return Bluebird.resolve(true);
-					}
+				if (!trustManager.hasKeyData(intKey.getRealID())) {
+					throw new errors.SecurityError("key not in key database");
+				}
 
-					keyStoreDebug("Slow verify of type: " + type);
-					var name = chelper.bits2hex(signature).substr(0, 10);
+				if (signatureCache.isValidSignatureInCache(signature, hash, realid)) {
+					signatureCache.addValidSignature(signature, hash, realid, type, id);
+					return Bluebird.resolve(true);
+				}
 
+				keyStoreDebug("Slow verify of type: " + type);
+				var name = chelper.bits2hex(signature).substr(0, 10);
+
+				if (debug.enabled("whispeer:keyStore")) {
+					console.time("verify-" + name);
+				}
+
+				return verify(signature, text, hash).then(function (valid) {
 					if (debug.enabled("whispeer:keyStore")) {
-						console.time("verify-" + name);
+						console.timeEnd("verify-" + name);
 					}
 
-					return verify(signature, text, hash).then(function (valid) {
-						if (debug.enabled("whispeer:keyStore")) {
-							console.timeEnd("verify-" + name);
-						}
+					if (valid) {
+						signatureCache.addValidSignature(signature, hash, realid, type, id);
+					}
 
-						if (valid) {
-							signatureCache.addValidSignature(signature, hash, realid, type, id);
-						}
-
-						return valid;
-					}).catch(function (e) {
-						console.error(e);
-						return false;
-					});
+					return valid;
+				}).catch(function (e) {
+					console.error(e);
+					return false;
 				});
 			});
 		};
@@ -1284,7 +1278,7 @@ define(["whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForReady", "
 	* @param realKeyID the real id of the sign key
 	* @param callback callback
 	*/
-	SignKey.get = function signKeyGet(realKeyID, callback) {
+	SignKey.get = function signKeyGet(realKeyID) {
 		return Bluebird.try(function () {
 			if (!signKeys[realKeyID]) {
 				return getKey(realKeyID);
@@ -1295,14 +1289,14 @@ define(["whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForReady", "
 			}
 
 			throw new errors.InvalidDataError("keychain not found (sign)");
-		}).nodeify(callback);
+		});
 	};
 
 	/** generate a sign key
 	* @param curve curve for the key
 	* @param callback callback
 	*/
-	SignKey.generate = function (curve, callback, comment) {
+	SignKey.generate = function (curve, comment) {
 		return waitForReady.async().then(function () {
 			var curveO = chelper.getCurve(curve), rawKey = sjcl.ecc.ecdsa.generateKeys(curveO);
 
@@ -1324,7 +1318,7 @@ define(["whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForReady", "
 			key.setComment(comment);
 
 			return key;
-		}).nodeify(callback);
+		});
 	};
 
 	/** make a key out of keyData. mainly checks type and calls appropriate function */
@@ -1361,14 +1355,14 @@ define(["whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForReady", "
 	ObjectPadder.prototype._padObject = function (val) {
 		return Bluebird.props(h.objectMap(val, function (value) {
 			var padder = new ObjectPadder(value, this._minLength);
-			return Bluebird.promisify(padder.pad, padder)();
+			return padder.pad();
 		}, this));
 	};
 
 	ObjectPadder.prototype._padArray = function (val) {
 		return Bluebird.resolve(val).bind(this).map(function (value) {
 			var padder = new ObjectPadder(value, this._minLength);
-			return Bluebird.promisify(padder.pad, padder)();
+			return padder.pad();
 		});
 	};
 
@@ -1407,8 +1401,8 @@ define(["whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForReady", "
 		throw new errors.InvalidDataError("could not pad value of type " + type);
 	};
 
-	ObjectPadder.prototype.pad = function (cb) {
-		return this._padAttribute(this._obj).nodeify(cb);
+	ObjectPadder.prototype.pad = function () {
+		return this._padAttribute(this._obj);
 	};
 
 	ObjectPadder.prototype._unpadObject = function (val) {
@@ -1533,14 +1527,6 @@ define(["whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForReady", "
 			} else {
 				throw new errors.ValidationError();
 			}
-		}
-	};
-
-	ObjectCryptor.prototype.decryptAttr = function (cur, cb) {
-		if (cur.iv && cur.ct) {
-			this._key.decrypt(cur).nodeify(cb);
-		} else {
-			new ObjectCryptor(this._key, this._depth-1, cur).decrypt(cb);
 		}
 	};
 
@@ -1687,10 +1673,10 @@ define(["whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForReady", "
 		},
 
 		hash: {
-			addPaddingToObject: function (obj, minLength, cb) {
+			addPaddingToObject: function (obj, minLength) {
 				minLength = minLength || 128;
 
-				return new ObjectPadder(obj, minLength).pad(cb);
+				return new ObjectPadder(obj, minLength).pad();
 			},
 			removePaddingFromObject: function (obj, padLength) {
 				padLength = padLength || 128;
@@ -1708,7 +1694,7 @@ define(["whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForReady", "
 				return chelper.hashPW(pw, salt);
 			},
 
-			hashObjectOrValueHexAsync: function (val, version, cb) {
+			hashObjectOrValueHexAsync: function (val, version) {
 				return Bluebird.try(function () {
 					if (typeof val === "object") {
 						return sjclWorkerInclude.stringify(val, version, true);
@@ -1719,7 +1705,7 @@ define(["whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForReady", "
 					return chelper.bits2hex(value);
 				}).then(function (hash) {
 					return "hash::" + hash;
-				}).nodeify(cb);
+				});
 			},
 
 			hashObjectOrValueHex: function (val, version) {
@@ -1864,7 +1850,7 @@ define(["whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForReady", "
 			*/
 			generateKey: function generateKeyF(callback, comment) {
 				return waitForReady.async().then(function () {
-					return SymKey.generate(undefined, comment);
+					return SymKey.generate(comment);
 				}).then(function (key) {
 					return key.getRealID();
 				}).nodeify(callback);
@@ -2049,7 +2035,7 @@ define(["whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForReady", "
 			* @param callback callback
 			*/
 			generateKey: function generateKeyF(callback, comment) {
-				return CryptKey.generate("256", undefined, comment).then(function (key) {
+				return CryptKey.generate("256", comment).then(function (key) {
 					return key.getRealID();
 				}).nodeify(callback);
 			},
@@ -2088,7 +2074,7 @@ define(["whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForReady", "
 			* @param callback callback
 			*/
 			generateKey: function generateKeyF(callback, comment) {
-				return SignKey.generate("256", undefined, comment).then(function (key) {
+				return SignKey.generate("256", comment).then(function (key) {
 					return key.getRealID();
 				}).nodeify(callback);
 			},
@@ -2129,11 +2115,9 @@ define(["whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForReady", "
 			verifyObject: function (signature, object, realID, version, id) {
 				signature = chelper.hex2bits(signature);
 
-				var getSignKey = Bluebird.promisify(SignKey.get, SignKey);
-
 				return Bluebird.all([
 					stringifyObject(object, version),
-					getSignKey(realID)
+					SignKey.get(realID)
 				]).spread(function (objectString, key) {
 					return key.verify(signature, objectString, object._type, id);
 				}).catch(function (e) {

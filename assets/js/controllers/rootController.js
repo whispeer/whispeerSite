@@ -2,7 +2,7 @@
 * sessionController
 **/
 
-define(["step", "whispeerHelper", "config", "controllers/controllerModule", "debug", "bluebird"], function (step, h, config, controllerModule, debug, Bluebird) {
+define(["jquery", "step", "whispeerHelper", "config", "controllers/controllerModule", "debug", "bluebird"], function (jQuery, step, h, config, controllerModule, debug, Bluebird) {
 	"use strict";
 
 	var debugName = "whispeer:rootController";
@@ -31,7 +31,7 @@ define(["step", "whispeerHelper", "config", "controllers/controllerModule", "deb
 
 		function loadUser() {
 			var user = userService.getown();
-			var loadBasicDataAsync = Bluebird.promisify(user.reLoadBasicData, user);
+			var loadBasicDataAsync = Bluebird.promisify(user.reLoadBasicData.bind(user));
 			
 			return loadBasicDataAsync().then(function () {
 				$scope.user = user.data;

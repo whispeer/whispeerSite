@@ -1,3 +1,5 @@
+var templateUrl = require("../../views/directives/filterSearch.html");
+
 define(["step", "whispeerHelper"], function (step, h) {
 	"use strict";
 
@@ -6,7 +8,7 @@ define(["step", "whispeerHelper"], function (step, h) {
 			transclude: false,
 			scope:	false,
 			restrict: "E",
-			templateUrl: "assets/views/directives/filterSearch.html",
+			templateUrl: templateUrl,
 			replace: true,
 			link: function postLink(scope, iElement, iAttrs) {
 				//how do we sort stuff?

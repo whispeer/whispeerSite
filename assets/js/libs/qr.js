@@ -1187,19 +1187,7 @@
   // -------
 
   // Export `qr` for node.js and CommonJS.
-  if (typeof exports !== 'undefined') {
-    inNode = true;
-
-    if (typeof module !== 'undefined' && module.exports) {
-      exports = module.exports = qr;
-    }
-    exports.qr = qr;
-
-    // Import required node.js modules.
-    Canvas = require('canvas');
-    Image = Canvas.Image;
-    fs = require('fs');
-  } else if (typeof define === 'function' && define.amd) {
+  if (typeof define === 'function' && define.amd) {
     define(function () {
       return qr;
     });
@@ -1212,4 +1200,4 @@
     root.qr = qr;
   }
 
-})(this);
+})(window);

@@ -21,10 +21,9 @@ define(["step", "whispeerHelper", "services/serviceModule"], function (step, h, 
 				}, h.sF(function (state) {
 					migrationState = h.parseDecimal(state) || 0;
 					if (migrationState < migrations.length) {
-						require(["migrations/" + h.pad("" + (migrationState + 1), 5) + "-" + migrations[migrationState]], this.ne, this);
+						var migration = require("migrations/" + h.pad("" + (migrationState + 1), 5) + "-" + migrations[migrationState]);
+						migration($injector, this);
 					}
-				}), h.sF(function (migration) {
-					migration($injector, this);
 				}), h.sF(function (success) {
 					if (!success) {
 						console.error("Migration failed");

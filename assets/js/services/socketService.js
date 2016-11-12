@@ -254,7 +254,7 @@ define([
 						internalObserver.notify(blobid, "uploadFinished:" + blobid);						
 					});
 
-					return step.unpromisify(uploadPromise, cb);
+					return uploadPromise.nodeify(cb);
 				},
 				blockEmitWithToken: function() {
 					blockedWithToken = true;
@@ -279,7 +279,7 @@ define([
 					socket.on(channel, function (data) {
 						socketDebug("received data on " + channel);
 						socketDebug(data);
-						$rootScope.$apply(function () {
+						$rootScope.$applyAsync(function () {
 							callback(null, data);
 						});
 					});
@@ -372,8 +372,7 @@ define([
 					});
 
 					if (typeof callback === "function") {
-						//TODO: move $rootScope.$apply to afterHook
-						step.unpromisify(resultPromise, h.addAfterHook(callback, $rootScope.$apply.bind($rootScope, null)));
+						resultPromise.nodeify(h.addAfterHook(callback, $rootScope.$applyAsync.bind($rootScope)));
 					}
 
 					return resultPromise;
