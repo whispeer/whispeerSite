@@ -84,9 +84,9 @@ define(["step", "whispeerHelper", "asset/observer", "asset/securedDataWithMetaDa
 				signedRemoval = _signedRemoval;
 				updatedSignedList = _signedList;
 
-				ownUser.generateNewFriendsKey(this);
-			}), h.sF(function (signedKeys, newFriendsKey) {
-				this.ne(signedRemoval, updatedSignedList, signedKeys, newFriendsKey);
+				return ownUser.generateNewFriendsKey();
+			}), h.sF(function (result) {
+				this.ne(signedRemoval, updatedSignedList, result.signedKeys, result.newFriendsKey);
 			}), cb);
 		}
 

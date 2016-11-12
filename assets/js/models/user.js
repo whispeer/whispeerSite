@@ -1,4 +1,4 @@
-define(["step", "whispeerHelper", "asset/state", "asset/securedDataWithMetaData", "models/modelsModule", "bluebird"], function (step, h, State, SecuredData, modelsModule, Bluebird) {
+define(["whispeerHelper", "asset/state", "asset/securedDataWithMetaData", "models/modelsModule", "bluebird"], function (h, State, SecuredData, modelsModule, Bluebird) {
 	"use strict";
 
 	var advancedBranches = ["location", "birthday", "relationship", "education", "work", "gender", "languages"];
@@ -64,6 +64,17 @@ define(["step", "whispeerHelper", "asset/state", "asset/securedDataWithMetaData"
 		}
 
 		return h.arrayUnique(profileTypes);
+	}
+
+	function deleteCache() {
+		return Bluebird.try(function () {
+			return new Bluebird(function (resolve) {
+				var deleteRequest = indexedDB.deleteDatabase("whispeerCache");
+			
+				deleteRequest.onerror = resolve;
+				deleteRequest.onsuccess = resolve;
+			});
+		});
 	}
 
 	function userModel($injector, $rootScope, blobService, keyStoreService, ProfileService, sessionService, settingsService, socketService, friendsService, errorService, initService) {
@@ -183,34 +194,43 @@ define(["step", "whispeerHelper", "asset/state", "asset/securedDataWithMetaData"
 
 			updateUser(providedData);
 
-			this.generateNewFriendsKey = function (cb) {
+			this.generateNewFriendsKey = function () {
 				var newFriendsKey;
-				step(function () {
+				return Bluebird.try(function () {
 					if (!theUser.isOwn()) {
 						throw new Error("not my own user");
 					}
 
 					//generate new key
 					return keyStoreService.sym.generateKey(null, "friends");
-				}, h.sF(function (_newFriendsKey) {
+				}).then(function (_newFriendsKey) {
 					newFriendsKey = _newFriendsKey;
 
 					//encrypt with all friendShipKeys
 					var keys = friendsService.getAllFriendShipKeys();
-					keys.forEach(function (key) {
-						keyStoreService.sym.symEncryptKey(newFriendsKey, key, this.parallel());
-					}, this);
-					keyStoreService.sym.symEncryptKey(newFriendsKey, mainKey, this.parallel());
-					//encrypt old friends key with new friends key
-					keyStoreService.sym.symEncryptKey(friendsKey, newFriendsKey, this.parallel());
-				}), h.sF(function () {
+
+					var keysPromises = keys.map(function (key) {
+						return keyStoreService.sym.symEncryptKey(newFriendsKey, key);
+					});
+
+					return Bluebird.all([
+						Bluebird.all(keysPromises),
+						keyStoreService.sym.symEncryptKey(newFriendsKey, mainKey),
+
+						//encrypt old friends key with new friends key
+						keyStoreService.sym.symEncryptKey(friendsKey, newFriendsKey),
+					]);
+				}).then(function () {
 					//update signedKeys
 					signedKeys.metaSetAttr("friends", newFriendsKey);
 					return signedKeys.getUpdatedData(signKey);
-				}), h.sF(function (updatedSignedKeys) {
+				}).then(function (updatedSignedKeys) {
 					friendsKey = newFriendsKey;
-					this.ne(updatedSignedKeys, newFriendsKey);
-				}), cb);
+					return {
+						updatedSignedKeys: updatedSignedKeys,
+						newFriendsKey: newFriendsKey
+					};
+				});
 			};
 
 			this.setFriendShipKey = function (key) {
@@ -230,9 +250,9 @@ define(["step", "whispeerHelper", "asset/state", "asset/securedDataWithMetaData"
 			* @param attribute attribute to set
 			* @param cb
 			*/
-			function getProfileAttribute(attribute, cb) {
+			function getProfileAttribute(attribute) {
 				if (myProfile) {
-					return myProfile.getAttribute(attribute).nodeify(cb);
+					return myProfile.getAttribute(attribute);
 				}
 
 				var profiles = privateProfiles.concat([publicProfile]);
@@ -255,11 +275,11 @@ define(["step", "whispeerHelper", "asset/state", "asset/securedDataWithMetaData"
 					});
 
 					return values[0];
-				}).nodeify(cb);
+				});
 			}
 
 			/** uses the me profile to generate new profiles */
-			this.rebuildProfiles = function (cb) {
+			this.rebuildProfiles = function () {
 				var scopes, privacySettings;
 				return Bluebird.try(function () {
 					if (!theUser.isOwn()) {
@@ -299,7 +319,7 @@ define(["step", "whispeerHelper", "asset/state", "asset/securedDataWithMetaData"
 						pub: pub,
 						priv: profileData
 					};
-				}).nodeify(cb);
+				});
 
 			};
 
@@ -354,8 +374,6 @@ define(["step", "whispeerHelper", "asset/state", "asset/securedDataWithMetaData"
 					return myProfile.setAttribute(branch, advancedProfile[branch]);
 				}).nodeify(cb);
 			};
-
-			this.getProfileAttribute = getProfileAttribute;
 
 			/** end profile management */
 
@@ -470,27 +488,22 @@ define(["step", "whispeerHelper", "asset/state", "asset/securedDataWithMetaData"
 			};
 
 			this.changePassword = function (newPassword, cb) {
-				step(function () {
+				Bluebird.try(function () {
 					if (!theUser.isOwn()) {
 						throw new Error("not my own user");
 					}
 
 					var ownKeys = {main: mainKey, sign: signKey};
 
-					this.parallel.unflatten();
+					return Bluebird.all([
+						keyStoreService.security.makePWVerifiable(ownKeys, newPassword),
+						keyStoreService.random.hex(16),
 
-					keyStoreService.security.makePWVerifiable(ownKeys, newPassword, this.parallel());
-					keyStoreService.random.hex(16, this.parallel());
+						keyStoreService.sym.pwEncryptKey(mainKey, newPassword),
 
-					keyStoreService.sym.pwEncryptKey(mainKey, newPassword, this.parallel());
-
-					try {	
-						var deleteRequest = indexedDB.deleteDatabase("whispeerCache");
-						var cb = this.parallel();
-						deleteRequest.onerror = function () { cb(); };
-						deleteRequest.onsuccess = function () { cb(); };
-					} catch (e) {}
-				}, h.sF(function (signedOwnKeys, salt, decryptor) {
+						deleteCache(),
+					]);	
+				}).spread(function (signedOwnKeys, salt, decryptor) {
 					return socketService.emit("user.changePassword", {
 						signedOwnKeys: signedOwnKeys,
 						password: {
@@ -499,10 +512,10 @@ define(["step", "whispeerHelper", "asset/state", "asset/securedDataWithMetaData"
 						},
 						decryptor: decryptor
 					});
-				}), h.sF(function () {
+				}).then(function () {
 					sessionService.setPassword(newPassword);
 					this.ne();
-				}), cb);
+				}).nodeify(cb);
 			};
 
 			this.loadFullData = function (cb) {
@@ -528,11 +541,9 @@ define(["step", "whispeerHelper", "asset/state", "asset/securedDataWithMetaData"
 			};
 
 			this.loadImage = function () {
-				step(function () {
-					theUser.getImage(this);
-				}, h.sF(function (imageUrl) {
+				return theUser.getImage().then(function (imageUrl) {
 					theUser.data.basic.image = imageUrl;
-				}), errorService.criticalError);
+				}).catch(errorService.criticalError);
 			};
 
 			this.reLoadBasicData = function (cb) {
@@ -656,17 +667,17 @@ define(["step", "whispeerHelper", "asset/state", "asset/securedDataWithMetaData"
 			};
 
 			this.getImage = function (cb) {
-				step(function () {
-					getProfileAttribute("imageBlob", this);
-				}, h.sF(function (imageBlob) {
-					if (imageBlob) {
-						blobService.getBlob(imageBlob.blobid, this);
-					} else {
-						this.last.ne("assets/img/user.png");
+				return Bluebird.try(function () {
+					return getProfileAttribute("imageBlob");
+				}).then(function (imageBlob) {
+					if (!imageBlob) {
+						return "assets/img/user.png";
 					}
-				}), h.sF(function (blob) {
-					blob.toURL(this);
-				}), cb);
+
+					return blobService.getBlob(imageBlob.blobid).then(function (blob) {
+						return blob.toURL();
+					});
+				}).nodeify(cb);
 			};
 
 			this.getShortName = function (cb) {
