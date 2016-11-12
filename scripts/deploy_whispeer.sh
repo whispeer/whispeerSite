@@ -12,7 +12,6 @@ rm -rf whispeer-deploy
 cp -r whispeer whispeer-deploy
 cd whispeer-deploy
 
-jekyll build
 grunt build:production
 
 cd /var/www/

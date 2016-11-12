@@ -427,10 +427,11 @@ grunt.registerTask("build:development", [
 	"less",
 	"autoprefixer",
 	"run:buildsjcl",
+	"jekyll",
+
 	"run:webpackWorker",
 	"run:webpack",
 	"includes",
-	"jekyll",
 ]);
 
 grunt.registerTask("build:production",  [
@@ -441,6 +442,7 @@ grunt.registerTask("build:production",  [
 	"less",
 	"autoprefixer",
 	"run:buildsjcl",
+	"jekyll",
 
 	"run:webpackWorker",
 	"assetHash:worker",
@@ -451,7 +453,6 @@ grunt.registerTask("build:production",  [
 
 	"includes",
 	"workerCache",
-	"jekyll",
 ]);
 
 grunt.registerTask("server", "Start the whispeer web server.", require("./webserver"));
