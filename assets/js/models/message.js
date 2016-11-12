@@ -217,7 +217,7 @@ define([
 				theMessage.data.sender = sender.data;
 				theMessage._isOwnMessage = sender.isOwn();
 
-				this.ne(sender);
+				return sender;
 			});
 		};
 

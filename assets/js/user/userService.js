@@ -208,7 +208,7 @@ define(["whispeerHelper", "user/userModule", "asset/observer", "crypto/signature
 			* @param cb called with users data.
 			*/
 			getMultipleFormatted: function getMFF(identifiers, cb) {
-				return Bluebird.all(function () {
+				return Bluebird.try(function () {
 					return userService.getMultiple(identifiers);
 				}).map(function (user) {
 					return user.loadBasicData().thenReturn(user);

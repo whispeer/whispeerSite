@@ -2,7 +2,6 @@
 * Topic Model
 **/
 define([
-	"step",
 	"whispeerHelper",
 	"validation/validator",
 	"asset/observer",
@@ -11,7 +10,7 @@ define([
 	"bluebird",
 	"debug",
 	"models/modelsModule",
-], function (step, h, validator, Observer, sortedSet, SecuredData, Bluebird, debug, modelsModule) {
+], function (h, validator, Observer, sortedSet, SecuredData, Bluebird, debug, modelsModule) {
 	"use strict";
 
 	var debugName = "whispeer:topic";
@@ -170,9 +169,7 @@ define([
 
 					return response.messages;
 				}).map(function (messageData) {
-					var messageFromData = Bluebird.promisify(Topic.messageFromData.bind(Topic));
-
-					return messageFromData(messageData);
+					return Topic.messageFromData(messageData);
 				}).then(function (messages) {
 					theTopic.addMessages(messages, false);
 				}).finally(function () {
@@ -351,21 +348,21 @@ define([
 				return this._ignoreAsLastTopic;
 			};
 
-			this.verify = function verify(cb) {
-				step(function () {
+			this.verify = function(cb) {
+				return Bluebird.try(function () {
 					return userService.get(meta.metaAttr("creator"));
-				}, h.sF(function (creator) {
+				}).then(function (creator) {
 					if (creator.isNotExistingUser()) {
 						theTopic.data.disabled = true;
-						this.last.ne();
-						return;
+						return false;
 					}
 
-					return meta.verify(creator.getSignKey());
-				}), h.sF(function () {
-					keyStore.security.addEncryptionIdentifier(meta.metaAttr("_key"));
-					this.ne();
-				}), cb);
+					return meta.verify(creator.getSignKey()).thenReturn(true);
+				}).then(function (addEncryptionIdentifier) {
+					if (addEncryptionIdentifier) {
+						keyStore.security.addEncryptionIdentifier(meta.metaAttr("_key"));
+					}
+				}).nodeify(cb);
 			};
 
 			this.loadReceiverNames = function loadRNF(cb) {
@@ -404,16 +401,15 @@ define([
 			};
 
 			this.loadAllData = function loadAllDataF(cb) {
-				step(function () {
-					theTopic.verify(this);
-				}, h.sF(function () {
-					theTopic.loadNewest(this);
-				}), h.sF(function () {
-					theTopic.loadReceiverNames(this);
-				}), h.sF(function () {
+				return Bluebird.try(function () {
+					return theTopic.verify();
+				}).then(function () {
+					return theTopic.loadNewest();
+				}).then(function () {
+					return theTopic.loadReceiverNames();
+				}).then(function () {
 					theTopic.data.loaded = true;
-					this.ne();
-				}), cb);
+				}).nodeify(cb);
 			};
 
 			this.loadInitialMessages = function loadInitialMessages(cb) {
@@ -433,48 +429,41 @@ define([
 					return Bluebird.resolve().nodeify(cb);
 				}
 
-				step(function () {
-					return socket.emit("messages.getTopicMessages", {
-						topicid: theTopic.getID(),
-						afterMessage: theTopic.getOldestID(),
-						maximum: max
-					});
-				}, h.sF(function (data) {
+				return socket.emit("messages.getTopicMessages", {
+					topicid: theTopic.getID(),
+					afterMessage: theTopic.getOldestID(),
+					maximum: max
+				}).then(function (data) {
 					topicDebug("Message server took: " + (new Date().getTime() - loadMore));
 
 					remaining = data.remaining;
 
 					var messages = data.messages || [];
 
-					if (messages.length > 0) {
-						data.messages.forEach(function (messageData) {
-							Topic.messageFromData(messageData, this.parallel());
-						}, this);
-					} else {
-						this.ne([]);
-					}
-				}), h.sF(function (messages) {
+					return Bluebird.all(messages.map(function (messageData) {
+						return Topic.messageFromData(messageData);
+					}));
+				}).then(function (messages) {
 					theTopic.addMessages(messages, false);
 
 					theTopic.data.remaining = remaining;
 
 					topicDebug("Message loading took: " + (new Date().getTime() - loadMore));
 					this.ne();
-				}), cb);
+				}).nodeify(cb);
 				//load more messages and decrypt them.
 			};
 
-			this.loadNewest = function loadNewestF(cb) {
-				step(function () {
-					if (data.newest) {
-						Topic.messageFromData(data.newest, this);
-					} else {
-						this.last.ne();
-					}
-				}, h.sF(function (message) {
+			this.loadNewest = function(cb) {
+				if (!data.newest) {
+					return Bluebird.resolve().nodeify(cb);
+				}
+
+				return Bluebird.try(function () {
+					return Topic.messageFromData(data.newest);
+				}).then(function (message) {
 					theTopic.addMessage(message, false);
-					this.ne();
-				}), cb);
+				}).nodeify(cb);
 			};
 
 			Observer.call(theTopic);
@@ -540,21 +529,19 @@ define([
 
 			messagesByID[id] = messageToAdd;
 
-			step(function () {
+			return Bluebird.try(function () {
 				return Topic.get(messageToAdd.getTopicID());
-			}, h.sF(function (_theTopic) {
+			}).then(function (_theTopic) {
 				theTopic = _theTopic;
 
 				messageToAdd.verifyParent(theTopic);
-				messageToAdd.loadFullData(this);
-			}), h.sF(function () {
-				this.ne(messageToAdd);
-			}), cb);
+				return messageToAdd.loadFullData().thenReturn(messageToAdd);
+			}).nodeify(cb);
 		};
 
 		Topic.get = function (topicid, cb) {
 			if (topics[topicid]) {
-				return Bluebird.resolve(topicid).nodeify(cb);
+				return Bluebird.resolve(topics[topicid]).nodeify(cb);
 			}
 
 			return Bluebird.all(function () {
@@ -573,7 +560,7 @@ define([
 
 		Topic.createRawData = function (receiver, cb) {
 			var receiverObjects, topicKey, topicData;
-			step(function () {
+			return Bluebird.try(function () {
 				//load receiver
 				receiver = receiver.map(function (val) {
 					if (typeof val === "object") {
@@ -587,28 +574,23 @@ define([
 
 				//get receiver objects
 				return userService.getMultiple(receiver);
-			}, h.sF(function (receiverO) {
+			}).then(function (receiverO) {
 				receiverObjects = receiverO;
 
 				//generate topic key
 				return keyStore.sym.generateKey(null, "topicMain");
-			}), h.sF(function (key) {
+			}).then(function (key) {
 				topicKey = key;
 
 				//encrypt topic key with own mainkey
 				return keyStore.sym.symEncryptKey(topicKey, userService.getown().getMainKey());
-			}), h.sF(function () {
+			}).then(function () {
 				//encrypt topic key for receiver
-				var i, crypt;
-				for (i = 0; i < receiverObjects.length; i += 1) {
-					crypt = receiverObjects[i].getCryptKey();
-					keyStore.sym.asymEncryptKey(topicKey, crypt, this.parallel());
-				}
-
-				if (receiverObjects.length === 0) {
-					this.ne([]);
-				}
-			}), h.sF(function (cryptKeys) {
+				return Bluebird.all(receiverObjects.map(function (receiverObject) {
+					var crypt = receiverObject.getCryptKey();
+					keyStore.sym.asymEncryptKey(topicKey, crypt);
+				}));
+			}).then(function (cryptKeys) {
 				var cryptKeysData = keyStore.upload.getKeys(cryptKeys);
 				var receiverKeys = {}, receiverIDs = [];
 
@@ -634,11 +616,11 @@ define([
 				};
 
 				return SecuredData.create({}, topicMeta, { type: "topic" }, userService.getown().getSignKey(), topicKey);
-			}), h.sF(function (tData) {
+			}).then(function (tData) {
 				topicData.topic = tData.meta;
 
-				this.ne(topicData);
-			}), cb);
+				return topicData;
+			}).nodeify(cb);
 		};
 
 		Topic.reset = function () {
