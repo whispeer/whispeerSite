@@ -1,7 +1,7 @@
 /**
 * postService
 **/
-define(["step", "whispeerHelper", "bluebird", "validation/validator", "services/serviceModule", "asset/observer", "asset/errors", "asset/securedDataWithMetaData", "asset/state"], function (step, h, Promise, validator, serviceModule, Observer, errors, SecuredData, State) {
+define(["step", "bluebird", "whispeerHelper", "bluebird", "validation/validator", "services/serviceModule", "asset/observer", "asset/errors", "asset/securedDataWithMetaData", "asset/state"], function (step, Bluebird, h, Promise, validator, serviceModule, Observer, errors, SecuredData, State) {
 	"use strict";
 
 	var service = function ($rootScope, $timeout, localize, socket, keyStore, errorService, userService, circleService, blobService, filterService, Comment, screenSize, initService) {
@@ -54,12 +54,14 @@ define(["step", "whispeerHelper", "bluebird", "validation/validator", "services/
 						}
 
 						commentState.pending();
-						step(function () {
-							thePost.addComment(text, this);
-						}, h.sF(function () {
+
+						return thePost.addComment(text).then(function() {
 							thePost.data.newComment.text = "";
-							this.ne();
-						}), errorService.failOnError(commentState));
+
+							return;
+						}).catch(function() {
+							errorService.failOnError(commentState);
+						});
 					}
 				},
 				comments: comments.map(function (comment) {
@@ -169,11 +171,10 @@ define(["step", "whispeerHelper", "bluebird", "validation/validator", "services/
 			};
 
 			this.addComment = function (comment, cb) {
-				step(function () {
-					Comment.create(comment, thePost, this);
-				}, h.sF(function () {
-					this.ne();
-				}), cb);
+				return Comment.create(comment, thePost).then(function() {
+					// clear promise content.
+					return;
+				}).nodeify(cb);
 			};
 
 			this.getHash = function () {
@@ -185,43 +186,29 @@ define(["step", "whispeerHelper", "bluebird", "validation/validator", "services/
 			};
 
 			this.getWallUser = function (cb) {
-					var theUser;
-					step(function () {
-						if (securedData.metaAttr("walluser")) {
-							userService.get(securedData.metaAttr("walluser"), this);
-						} else {
-							this.last();
-						}
-					}, h.sF(function (user) {
-						theUser = user;
+				if (!securedData.metaAttr("walluser")) {
+					return Bluebird.resolve().nodeify(cb);
+				}
 
-						theUser.loadBasicData(this);
-					}), h.sF(function () {
-						this.ne(theUser);
-					}), cb);
+				return userService.get(securedData.metaAttr("walluser")).then(function(user) {
+					return user.loadBasicData().thenReturn(user);
+				}).nodeify(cb);
 			};
 
 			this.getSender = function (cb) {
-				var theUser;
-				step(function () {
-					userService.get(securedData.metaAttr("sender"), this);
-				}, h.sF(function (user) {
-					theUser = user;
-
-					theUser.loadBasicData(this);
-				}), h.sF(function () {
-					this.ne(theUser);
-				}), cb);
+				return userService.get(securedData.metaAttr("sender")).then(function(user) {
+					user.loadBasicData().thenReturn(user);
+				}).nodeify(cb);
 			};
 
 			this.remove = function (cb) {
-				step(function () {
+				return Bluebird.try(function() {
 					if (thePost.data.removable) {
-						socket.emit("posts.remove", {
+						return socket.emit("posts.remove", {
 							postid: id
-						}, this);
+						});
 					}
-				}, h.sF(function () {
+				}).then(function() {
 					h.objectEach(postsByUserWall, function (key, val) {
 						h.removeArray(val.result, thePost.data);
 					});
@@ -231,24 +218,22 @@ define(["step", "whispeerHelper", "bluebird", "validation/validator", "services/
 
 					delete postsById[id];
 
-					this.ne();
-				}), cb);
+					return;
+				}).nodeify(cb);
 			};
 
 			this.getPrivate = function (cb) {
 				if (privateData) {
-					step(function () {
-						privateData.decrypt(this);
-					}, h.sF(function (visibleSelection) {
+					return privateData.decrypt().then(function(visibleSelection) {
 						return filterService.getFiltersByID(visibleSelection);
-					}), cb);
+					}).nodeify(cb);
 				} else {
-					cb();
+					return Bluebird.resolve().nodeify(cb);
 				}
 			};
 
 			this.getText = function (cb) {
-				securedData.decrypt(cb);
+				return securedData.decrypt().nodeify(cb);
 			};
 		};
 
@@ -273,16 +258,14 @@ define(["step", "whispeerHelper", "bluebird", "validation/validator", "services/
 				return;
 			}
 
-			step(function () {
-				circleService.loadAll(this);
-			}, h.sF(function () {
+			return circleService.loadAll().then(function() {
 				var i, user = [];
 				for (i = 0; i < filter.length; i += 1) {
 					user = user.concat(circleService.get(filter[i]).getUserIDs());
 				}
 
-				this.ne(h.arrayUnique(user));
-			}), cb);
+				return h.arrayUnique(user);
+			}).nodeify(cb);
 		}
 
 		var Timeline = function (filter, sortByCommentTime) {
@@ -330,7 +313,7 @@ define(["step", "whispeerHelper", "bluebird", "validation/validator", "services/
 				return;
 			}
 
-			step(function () {
+			return Bluebird.try(function() {
 				var circles = [];
 
 				that._filter.forEach(function (filterElement) {
@@ -342,14 +325,16 @@ define(["step", "whispeerHelper", "bluebird", "validation/validator", "services/
 					}
 				});
 
-				circleFiltersToUser(circles, this);
-			}, h.sF(function (users) {
-				finalFilter = finalFilter.concat(users.map(function (e) {return "user:" + e;}));
+				return circleFiltersToUser(circles);
+			}).map(function(e) {
+				return "user:" + e;
+			}).then(function(users) {
+				finalFilter = finalFilter.concat(users);
 
 				that._finalFilter = finalFilter;
 
-				this.ne();
-			}), cb);
+				return;
+			}).nodeify(cb);
 		};
 
 		Timeline.prototype.loadInitial = function (cb) {
@@ -466,23 +451,21 @@ define(["step", "whispeerHelper", "bluebird", "validation/validator", "services/
 				}), cb);
 			},
 			getPostByID: function (postid, cb) {
-				step(function () {
-					if (postsById[postid]) {
-						this.last.ne(postsById[postid]);
-					} else {
-						initService.awaitLoading(this);
-					}
-				}, h.sF(function () {
-					socket.definitlyEmit("posts.getPost", {
+				if (postsById[postid]) {
+					return Bluebird.resolve(postsById[postid]).nodeify(cb);
+				}
+
+				return initService.awaitLoading().then(function() {
+					return socket.definitlyEmit("posts.getPost", {
 						postid: postid
-					}, this);
-				}), h.sF(function (data) {
+					});
+				}).then(function(data) {
 					if (data.post) {
-						this.ne(makePost(data.post));
+						return makePost(data.post);
 					} else {
 						throw new Error("error! no post data! maybe post does not exist?");
 					}
-				}), cb);
+				}).nodeify(cb);
 			},
 			reset: function () {
 				postsById = {};
