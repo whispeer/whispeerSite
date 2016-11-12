@@ -1988,14 +1988,14 @@ define(["whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForReady", "
 				}).nodeify(callback);
 			},
 
-			encryptArrayBuffer: function (buf, realKeyID, callback, progressCallback) {
+			encryptArrayBuffer: function (buf, realKeyID, progressCallback) {
 				return SymKey.get(realKeyID).then(function (key) {
 					return key.encryptWithPrefix("buf::", buf, progressCallback, true);
 				}).then(function (result) {
 					result.iv = sjcl.codec.arrayBuffer.fromBits(result.iv, false);
 					result.ct.tag = sjcl.codec.arrayBuffer.fromBits(result.ct.tag, false);
 					return h.concatBuffers(result.iv, result.ct.ciphertext_buffer, result.ct.tag);
-				}).nodeify(callback);
+				});
 			},
 
 			decryptArrayBuffer: function (buf, realKeyID, callback) {

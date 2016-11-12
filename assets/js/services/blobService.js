@@ -69,23 +69,24 @@ define(["step", "whispeerHelper", "asset/Progress", "asset/Queue", "services/ser
 			return this._meta;
 		};
 
-		MyBlob.prototype.getArrayBuffer = function (cb) {
+		MyBlob.prototype.getArrayBuffer = function () {
 			var that = this;
-			step(function () {
+
+			return new Bluebird(function (resolve) {
 				var reader = new FileReader();
 
 				if (reader.addEventListener) {
-					reader.addEventListener("loadend", this.ne);
+					reader.addEventListener("loadend", resolve);
 				} else {
-					reader.onloadend = this.ne;
+					reader.onloadend = resolve;
 				}
 
 				reader.readAsArrayBuffer(that._blobData);
-			}, h.sF(function (event) {
+			}).then(function (event) {
 				var target = event.currentTarget || event.target;
 
-				this.ne(target.result);
-			}), cb);
+				return target.result;
+			});
 		};
 
 		MyBlob.prototype.encryptAndUpload = function (key, cb) {
@@ -105,23 +106,23 @@ define(["step", "whispeerHelper", "asset/Progress", "asset/Queue", "services/ser
 
 		MyBlob.prototype.encrypt = function (cb) {
 			var that = this;
-			step(function () {
+			return Bluebird.resolve().bind(this).then(function () {
 				if (that._uploaded || !that._decrypted) {
 					throw new Error("trying to encrypt an already encrypted or public blob. add a key decryptor if you want to give users access");
 				}
 
-				this.parallel.unflatten();
-				keyStore.sym.generateKey(this.parallel(), "blob key");
-				
-				that.getArrayBuffer(this.parallel());
-			}, h.sF(function (_key, buf) {
+				return Bluebird.all([
+					keyStore.sym.generateKey(null, "blob key"),
+					that.getArrayBuffer()
+				]);
+			}).spread(function (_key, buf) {
 				that._key = _key;
 
 				time("blobencrypt" + (that._blobID || that._preReserved));
-				keyStore.sym.encryptArrayBuffer(buf, that._key, this, function (progress) {
+				return keyStore.sym.encryptArrayBuffer(buf, that._key, function (progress) {
 					that._encryptProgress.progress(that.getSize() * progress);	
 				});
-			}), h.sF(function (encryptedData) {
+			}).then(function (encryptedData) {
 				that._encryptProgress.progress(that.getSize());
 				timeEnd("blobencrypt" + (that._blobID || that._preReserved));
 				blobServiceDebug(encryptedData.byteLength);
@@ -129,8 +130,8 @@ define(["step", "whispeerHelper", "asset/Progress", "asset/Queue", "services/ser
 
 				that._blobData = new Blob([encryptedData], {type: that._blobData.type});
 
-				this.ne(that._key);
-			}), cb);
+				return that._key;
+			}).nodeify(cb);
 		};
 
 		MyBlob.prototype.decrypt = function (cb) {
@@ -140,7 +141,7 @@ define(["step", "whispeerHelper", "asset/Progress", "asset/Queue", "services/ser
 					this.last.ne();
 				}
 
-				that.getArrayBuffer(this);
+				return that.getArrayBuffer();
 			}, h.sF(function (encryptedData) {
 				time("blobdecrypt" + that._blobID);
 				keyStore.sym.decryptArrayBuffer(encryptedData, that._key, this);
