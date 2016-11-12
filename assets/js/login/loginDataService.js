@@ -58,9 +58,9 @@ define([
 
 			loginServer: function (name, password, callback) {
 				step(function loginStartup() {
-					socketService.emit("session.token", {
+					return socketService.emit("session.token", {
 						identifier: name
-					}, this);
+					});
 				}, function hashWithToken(e, data) {
 					if (e) {
 						this.last({ failure: failureCodes.UNKNOWNNAME });
@@ -73,11 +73,11 @@ define([
 						var hash = chelper.hashPW(password, data.salt);
 
 						hash = chelper.hash(hash + data.token);
-						socketService.emit("session.login", {
+						return socketService.emit("session.login", {
 							identifier: name,
 							password: hash,
 							token: data.token
-						}, this);
+						});
 					}
 				}, function loginResults(e, data) {
 					if (e) {
@@ -88,7 +88,7 @@ define([
 						sessionStorage.set("loggedin", true);
 						sessionStorage.set("password", password);
 						
-						sessionStorage.save().then(this.ne, this);
+						return sessionStorage.save();
 					}
 				}, callback);
 			},
