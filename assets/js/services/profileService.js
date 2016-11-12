@@ -89,7 +89,7 @@ define(["whispeerHelper", "validation/validator", "services/serviceModule", "ass
 					throw new Error("no encrypt for public profiles!");
 				}
 
-				securedData._signAndEncrypt(signKey, cryptKey, cb);
+				return securedData._signAndEncrypt(signKey, cryptKey).nodeify(cb);
 			};
 
 			this.updated = function () {
