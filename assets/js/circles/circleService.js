@@ -69,35 +69,38 @@ define(["step", "whispeerHelper", "asset/observer", "services/serviceModule", "a
 			this.setUser = function (uids, cb) {
 				var newKey, oldKey = circleSec.metaAttr("circleKey"), removing = false, friendKeys;
 
-				step(function () {
+				return Bluebird.try(function () {
 					uids = uids.map(h.parseDecimal);
 					removing = h.arraySubtract(circleUsers, uids).length > 0;
 
 					if (removing) {
-						generateNewKey(this);
-					} else {
-						this.ne(oldKey);
+						return generateNewKey();
 					}
-				}, h.sF(function (_newKey) {
+
+					return oldKey;
+				}).then(function (_newKey) {
 					newKey = _newKey;
 
-					this.parallel.unflatten();
 					if (removing) {
-						encryptKeyForUsers(newKey, uids, this.parallel());
-						keyStore.sym.symEncryptKey(oldKey, newKey, this.parallel());
-					} else {
-						encryptKeyForUsers(newKey, h.arraySubtract(uids, circleUsers), this.parallel());
+						return keyStore.sym.symEncryptKey(oldKey, newKey).thenReturn(newKey);
 					}
-				}), h.sF(function (_friendKeys) {
+
+					return newKey;
+				}).then(function (newKey) {
+					if (removing) {
+						return encryptKeyForUsers(newKey, uids);
+					} else {
+						return encryptKeyForUsers(newKey, h.arraySubtract(uids, circleUsers));
+					}
+				}).then(function (_friendKeys) {
 					friendKeys = _friendKeys;
 					circleSec.metaSet({
 						users: uids,
 						circleKey: newKey
 					});
 
-					this.parallel.unflatten();
-					circleSec.getUpdatedData(userService.getown().getSignKey(), this);
-				}), h.sF(function (newData) {
+					return circleSec.getUpdatedData(userService.getown().getSignKey());
+				}).then(function (newData) {
 					var update = {
 						id: id,
 						content: newData.content,
@@ -111,8 +114,8 @@ define(["step", "whispeerHelper", "asset/observer", "services/serviceModule", "a
 						update.decryptors = keyStore.upload.getDecryptors([newKey], friendKeys);
 					}
 
-					socket.emit("circle.update", { update: update }, this);
-				}), h.sF(function () {
+					return socket.emit("circle.update", { update: update });
+				}).then(function () {
 					//emit
 					circleUsers = uids;
 					persons = persons.filter(function (user) {
@@ -122,14 +125,16 @@ define(["step", "whispeerHelper", "asset/observer", "services/serviceModule", "a
 					theCircle.data.userids = circleUsers;
 
 					if (removing) {
+						var ownUser = userService.getown();
+
+						var uploadChangedProfileAsync = Bluebird.promisify(ownUser.uploadChangedProfile.bind(ownUser));
+
 						//rebuild profiles
-						userService.getown().uploadChangedProfile(this);
-					} else {
-						this.ne();
+						return uploadChangedProfileAsync();
 					}
-				}), h.sF(function () {
-					theCircle.loadPersons(this);
-				}), cb);
+				}).then(function () {
+					return theCircle.loadPersons();
+				}).nodeify(cb);
 			};
 
 			this.removePersons = function (uids, cb) {
