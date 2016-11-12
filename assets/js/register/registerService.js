@@ -4,7 +4,6 @@
 * SessionHelper
 **/
 define([
-		"step",
 		"bluebird",
 		"whispeerHelper",
 		"crypto/trustManager",
@@ -15,7 +14,7 @@ define([
 		"services/keyStoreService",
 		"services/profileService",
 		"services/storageService"
-	], function (step, Bluebird, h, trustManager, SecuredData, registerModule) {
+], function (Bluebird, h, trustManager, SecuredData, registerModule) {
 	"use strict";
 
 	registerModule.factory("ssn.registerService", [
@@ -30,9 +29,9 @@ define([
 		var registerService = {
 			register: function (nickname, mail, password, profile, settings, inviteCode, callback) {
 				var keys;
-				step(function register1() {
+				return Bluebird.try(function register1() {
 					return registerService.startKeyGeneration();
-				}, h.sF(function register2(theKeys) {
+				}).then(function register2(theKeys) {
 					keys = theKeys;
 
 					if (nickname) {
@@ -63,23 +62,23 @@ define([
 
 					trustManager.allow(5);
 
-					this.parallel.unflatten();
+					return Bluebird.all([
+						privateProfile.signAndEncrypt(keys.sign, keys.profile),
+						privateProfileMe.signAndEncrypt(keys.sign, keys.main),
+						publicProfile.sign(keys.sign),
 
-					privateProfile.signAndEncrypt(keys.sign, keys.profile, this.parallel());
-					privateProfileMe.signAndEncrypt(keys.sign, keys.main, this.parallel());
-					publicProfile.sign(keys.sign, this.parallel());
+						SecuredData.createAsync(settings.content, settings.meta, { type: "settings" }, keys.sign, keys.main),
 
-					SecuredData.create(settings.content, settings.meta, { type: "settings" }, keys.sign, keys.main, this.parallel());
+						signedKeys.sign(keys.sign),
 
-					signedKeys.sign(keys.sign, this.parallel());
+						keyStoreService.security.makePWVerifiable(ownKeys, password),
 
-					keyStoreService.security.makePWVerifiable(ownKeys, password, this.parallel());
+						keyStoreService.random.hex(16),
 
-					keyStoreService.random.hex(16, this.parallel());
-
-					keyStoreService.sym.pwEncryptKey(keys.main, password, this.parallel());
-					keyStoreService.sym.symEncryptKey(keys.profile, keys.friends, this.parallel());
-				}), h.sF(function register3(privateProfile, privateProfileMe, publicProfile, settings, signedKeys, signedOwnKeys, salt) {
+						keyStoreService.sym.pwEncryptKey(keys.main, password),
+						keyStoreService.sym.symEncryptKey(keys.profile, keys.friends),
+					]);
+				}).spread(function register3(privateProfile, privateProfileMe, publicProfile, settings, signedKeys, signedOwnKeys, salt) {
 					keys = h.objectMap(keys, keyStoreService.correctKeyIdentifier);
 					trustManager.disallow();
 
@@ -114,8 +113,8 @@ define([
 
 					registerData.preID = clientStorage.get("preID") || "";
 
-					socketService.emit("session.register", registerData, this);
-				}), h.sF(function (result) {
+					return socketService.emit("session.register", registerData);
+				}).then(function (result) {
 					if (result.sid) {
 						sessionStorage.set("sid", result.sid);
 						sessionStorage.set("userid", result.userid);
@@ -125,8 +124,8 @@ define([
 
 					keyStoreService.security.setPassword(password);
 
-					this.ne(result);
-				}), callback);
+					return result;
+				}).nodeify(callback);
 			},
 			setPreID: function () {
 				Bluebird.try(function () {
