@@ -191,9 +191,7 @@ define(["step", "whispeerHelper", "user/userModule", "asset/observer", "crypto/s
 			* this function is asynchronous and returns immediatly. requests are also batched.
 			*/
 			get: function getF(identifier, cb) {
-				step(function () {
-					loadUser(identifier, this);
-				}, cb);
+				return loadUser(identifier).nodeify(cb);
 			},
 
 			/** load a user
