@@ -191,7 +191,7 @@ define(["step", "whispeerHelper", "asset/state", "asset/securedDataWithMetaData"
 					}
 
 					//generate new key
-					keyStoreService.sym.generateKey(this, "friends");
+					return keyStoreService.sym.generateKey(null, "friends");
 				}, h.sF(function (_newFriendsKey) {
 					newFriendsKey = _newFriendsKey;
 
@@ -261,7 +261,7 @@ define(["step", "whispeerHelper", "asset/state", "asset/securedDataWithMetaData"
 			/** uses the me profile to generate new profiles */
 			this.rebuildProfiles = function (cb) {
 				var scopes, privacySettings;
-				step(function () {
+				return Bluebird.try(function () {
 					if (!theUser.isOwn()) {
 						throw new Error("update on another user failed");
 					}
@@ -269,34 +269,37 @@ define(["step", "whispeerHelper", "asset/state", "asset/securedDataWithMetaData"
 					privacySettings = settingsService.getBranch("privacy");
 					scopes = getAllProfileTypes(privacySettings);
 
-					this.parallel.unflatten();
-					$injector.get("ssn.filterService").filterToKeys(scopes, this.parallel());
-					myProfile.getFull(this.parallel());
-				}, h.sF(function (keys, profile) {
+					return Bluebird.all([
+						$injector.get("ssn.filterService").filterToKeys(scopes),
+						myProfile.getFull()
+					]);
+				}).spread(function (keys, profile) {
 					var scopeData = h.joinArraysToObject({
 						name: scopes,
 						key: keys.slice(0, keys.length - 1)
 					});
 
 					var pub = new ProfileService({ content: applicablePublicParts(privacySettings, profile) }, { isPublicProfile: true });
-					pub.sign(theUser.getSignKey(), this.parallel());
+					var pubPromise = pub.sign(theUser.getSignKey());
 
-					scopeData.forEach(function (scope) {
-						scope.profile = new ProfileService({
+					var privatePromises = scopeData.map(function (scope) {
+						var profile = new ProfileService({
 							content: applicableParts(scope.name, privacySettings, profile)
 						}, { isDecrypted: true });
-					}, this);
 
-					scopeData.forEach(function (scope) {
-						scope.profile.signAndEncrypt(theUser.getSignKey(), scope.key, this.parallel());
-					}, this);
-				}), h.sF(function (profileData) {
-					var pub = profileData.shift();
-					this.ne({
+						return profile.signAndEncrypt(theUser.getSignKey(), scope.key);
+					});
+
+					return Bluebird.all([
+						pubPromise,
+						Bluebird.all(privatePromises)
+					]);
+				}).spread(function (pub, profileData) {
+					return {
 						pub: pub,
 						priv: profileData
-					});
-				}), cb);
+					};
+				}).nodeify(cb);
 
 			};
 
