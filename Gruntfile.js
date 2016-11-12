@@ -20,7 +20,6 @@ grunt.loadNpmTasks("grunt-angular-templates");
 grunt.initConfig({
 	assetHash: {
 		bundles: [
-
 			"assets/js/build/commons.bundle.js",
 			"assets/js/build/login.bundle.js",
 			"assets/js/build/main.bundle.js",
