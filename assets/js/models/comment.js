@@ -1,9 +1,10 @@
 define(["step",
+	"bluebird",
 	"whispeerHelper",
 	"validation/validator",
 	"asset/securedDataWithMetaData",
 	"models/modelsModule"
-], function (step, h, validator, SecuredData, modelsModule) {
+], function (step, Bluebird, h, validator, SecuredData, modelsModule) {
 	"use strict";
 	function commentModel(userService, socket) {
 		var Comment = function (data, parentPost) {
@@ -72,28 +73,30 @@ define(["step",
 		};
 
 		Comment.create = function (text, parentPost, cb) {
-			step(function () {
+			return Bluebird.try(function() {
 				var comments = parentPost.getComments();
 
-				var s = SecuredData.create({
+				var s = SecuredData.createPromisified({
 					comment: text
 				}, {
 					postID: parentPost.getID(),
 					createTime: new Date().getTime(),
 					sender: userService.getown().getID()
-				}, { type: "comment" }, userService.getown().getSignKey(), parentPost.getKey(), this);
+				}, { type: "comment" }, userService.getown().getSignKey(), parentPost.getKey());
 
-				s.setParent(parentPost.getSecured());
+				s.data.setParent(parentPost.getSecured());
 
 				if (comments.length !== 0) {
-					s.setAfterRelationShip(comments[comments.length - 1].getSecured());
+					s.data.setAfterRelationShip(comments[comments.length - 1].getSecured());
 				}
-			}, h.sF(function (commentData) {
-				socket.emit("posts.comment.create", {
+
+				return s.promise;
+			}).then(function (commentData) {
+				return socket.emit("posts.comment.create", {
 					postID: parentPost.getID(),
 					comment: commentData
-				}, this);
-			}), cb);
+				});
+			}).nodeify(cb);
 		};
 
 		return Comment;
