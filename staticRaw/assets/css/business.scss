@@ -68,6 +68,10 @@ h1, h2, h3, h4, h5, h6 {
 	font-weight: 100;
 }
 
+.landing-section--full {
+	padding: 0;
+}
+
 .landing-section--background-image {
 	background-image: url("/assets/images/rustical_office.jpg");
 	background-repeat: no-repeat;
@@ -94,6 +98,11 @@ h1, h2, h3, h4, h5, h6 {
 	max-width: 1080px;
 
 	margin: auto;
+}
+
+.landing-section__inner--full {
+	max-width: none;
+	margin: 0;
 }
 
 .landing-section--small {
@@ -195,20 +204,43 @@ h1, h2, h3, h4, h5, h6 {
 	}
 }
 
+.landing-section__upper-quote {
+	padding: 83px 0;
+
+	h2 {
+		margin-bottom: 42px;
+	}
+}
+
+.landing-section__lower-quote {
+	background: $light_grey;
+	width: 100%;
+
+	padding: 42px;
+}
+
 .landing-section__quote {
 	display: flex;
 	flex-wrap: wrap;
+
+	max-width: 1000px;
+	margin: auto;
 }
 
-.landing-section__quote__icon {
+.landing-section__quote__icon-wrap {
 	display: flex;
 
 	justify-content: center;
 	align-items: center;
 
 	flex-basis: 15%;
+	height: 120px;
 
-	font-size: 3em;
+	margin-top: 1rem;
+}
+
+.landing-section__quote__icon-wrap__icon {
+	width: 60px;
 }
 
 .landing-section__quote__text {

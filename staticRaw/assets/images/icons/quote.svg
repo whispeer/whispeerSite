@@ -1,0 +1,11 @@
+<svg id="_" data-name="&quot;" xmlns="http://www.w3.org/2000/svg" width="333" height="333" viewBox="0 0 333 333">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #788286;
+        fill-rule: evenodd;
+      }
+    </style>
+  </defs>
+  <path id="Grundform_Kopie" data-name="Grundform Kopie" class="cls-1" d="M69,0H264a69,69,0,0,1,69,69V264a69,69,0,0,1-69,69H69A69,69,0,0,1,0,264V69A69,69,0,0,1,69,0Zm89.28,133.074V84.967H117.518v61.327q-1.1,49.938-28.644,95.479l24.237,19.463q45.169-49.214,45.169-128.162h0Zm75.649-.367V84.967H193.167v59.858q-0.741,51.41-28.277,96.948l23.87,19.463q45.17-48.112,45.169-128.529h0Z"/>
+</svg>
