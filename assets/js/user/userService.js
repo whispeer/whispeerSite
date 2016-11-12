@@ -1,4 +1,4 @@
-define(["step", "whispeerHelper", "user/userModule", "asset/observer", "crypto/signatureCache", "bluebird", "crypto/trustManager"], function (step, h, userModule, Observer, signatureCache, Bluebird, trustManager) {
+define(["whispeerHelper", "user/userModule", "asset/observer", "crypto/signatureCache", "bluebird", "crypto/trustManager"], function (h, userModule, Observer, signatureCache, Bluebird, trustManager) {
 	"use strict";
 
 	var service = function ($rootScope, User, errorService, initService, socketService, keyStoreService, sessionService, CacheService, requestKeyService) {
@@ -128,12 +128,12 @@ define(["step", "whispeerHelper", "user/userModule", "asset/observer", "crypto/s
 		userService = {
 			/** search your friends */
 			queryFriends: function queryFriendsF(query, cb) {
-				step(function () {
-					socketService.emit("user.searchFriends", {
+				return Bluebird.try(function () {
+					return socketService.emit("user.searchFriends", {
 						text: query,
 						known: knownIDs
-					}, this);
-				}, h.sF(function (data) {
+					});
+				}).then(function (data) {
 					var result = [], user = data.results;
 
 					var i;
@@ -145,8 +145,8 @@ define(["step", "whispeerHelper", "user/userModule", "asset/observer", "crypto/s
 						}
 					}
 
-					this.ne(result);
-				}), cb);
+					return result;
+				}).nodeify(cb);
 			},
 
 			/** search for a user
@@ -154,14 +154,12 @@ define(["step", "whispeerHelper", "user/userModule", "asset/observer", "crypto/s
 			* @param cb user objects
 			*/
 			query: function queryF(query, cb) {
-				step(function () {
-					initService.awaitLoading(this);
-				}, h.sF(function () {
-					socketService.definitlyEmit("user.search", {
+				return initService.awaitLoading().then(function () {
+					return socketService.definitlyEmit("user.search", {
 						text: query,
 						known: knownIDs
-					}, this);
-				}), h.sF(function (data) {
+					});
+				}).then(function (data) {
 					var result = [], user = data.results;
 
 					if (user) {
@@ -175,8 +173,8 @@ define(["step", "whispeerHelper", "user/userModule", "asset/observer", "crypto/s
 						}
 					}
 
-					this.ne(result);
-				}), cb);
+					return result;
+				}).then(cb);
 			},
 
 			reset: function resetF() {
@@ -210,27 +208,15 @@ define(["step", "whispeerHelper", "user/userModule", "asset/observer", "crypto/s
 			* @param cb called with users data.
 			*/
 			getMultipleFormatted: function getMFF(identifiers, cb) {
-				var theUsers;
-				step(function () {
-					userService.getMultiple(identifiers, this);
-				}, h.sF(function (user) {
-					theUsers = user;
-					var i;
-					for (i = 0; i < user.length; i += 1) {
-						user[i].loadBasicData(this.parallel());
-					}
-
-					if (user.length === 0) {
-						this.ne([]);
-					}
-				}), h.sF(function () {
-					var i, result = [];
-					for (i = 0; i < theUsers.length; i += 1) {
-						result.push(theUsers[i].data);
-					}
-
-					this.ne(result);
-				}), cb);
+				return Bluebird.all(function () {
+					return userService.getMultiple(identifiers);
+				}).map(function (user) {
+					return user.loadBasicData().thenReturn(user);
+				}).then(function (users) {
+					return users.map(function (user) {
+						return user.data;
+					});
+				}).nodeify(cb);
 			},
 
 			verifyOwnKeysCacheDone: function () {
@@ -262,23 +248,23 @@ define(["step", "whispeerHelper", "user/userModule", "asset/observer", "crypto/s
 				improve.push(rid);
 
 				if (improve.length === 1) {
-					step(function () {
-						window.setTimeout(this.ne, 5000);
-					}, h.sF(function () {
+					Bluebird.resolve().timeout(5000).then(function () {
 						var own = userService.getown();
-						if (own && own.getNickOrMail() === identifier) {
-							improve.forEach(function (keyID) {
-								keyStoreService.sym.symEncryptKey(keyID, own.getMainKey(), this.parallel());
-							}, this);
+						if (!own || own.getNickOrMail() !== identifier) {
+							throw new Error("user changed so no improvement update!");
 						}
-					}), h.sF(function () {
+
+						return Bluebird.all(improve.map(function (keyID) {
+							return keyStoreService.sym.symEncryptKey(keyID, own.getMainKey());
+						}));
+					}).then(function () {
 						var toUpload = keyStoreService.upload.getDecryptors(improve);
-						socketService.emit("key.addFasterDecryptors", {
+						return socketService.emit("key.addFasterDecryptors", {
 							keys: toUpload
-						}, this);
-					}), h.sF(function () {
+						});
+					}).then(function () {
 						improve = [];
-					}), errorService.criticalError);
+					}).catch(errorService.criticalError);
 				}
 			});
 		}
