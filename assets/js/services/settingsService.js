@@ -1,4 +1,4 @@
-define(["step", "whispeerHelper", "crypto/encryptedData", "services/serviceModule", "asset/securedDataWithMetaData", "bluebird"], function (step, h, EncryptedData, serviceModule, SecuredData, Bluebird) {
+define(["whispeerHelper", "crypto/encryptedData", "services/serviceModule", "asset/securedDataWithMetaData", "bluebird"], function (h, EncryptedData, serviceModule, SecuredData, Bluebird) {
 	"use strict";
 
 	var service = function ($rootScope, $injector, localize, initService, socketService, keyStore) {
@@ -173,12 +173,14 @@ define(["step", "whispeerHelper", "crypto/encryptedData", "services/serviceModul
 				return settings.contentSet(content);
 			},
 			decrypt: function (cb) {
-				step(function () {
+				return Bluebird.try(function() {
 					var ownUser = $injector.get("ssn.userService").getown();
 
-					settings.decrypt(this.parallel());
-					settings.verify(ownUser.getSignKey(), this.parallel(), "settings");
-				}, cb);
+					return Bluebird.all([
+						settings.decrypt(),
+						settings.verify(ownUser.getSignKey(), null, "settings")
+					]);
+				}).nodeify(cb);
 			},
 			getBranch: function (branchName) {
 				var branchContent;
