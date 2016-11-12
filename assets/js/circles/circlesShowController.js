@@ -49,11 +49,11 @@ define(["controllers/controllerModule", "whispeerHelper", "bluebird", "asset/sta
 		$scope.addUsers = function () {
 			addUsersToCircleState.pending();
 
-			circleService.get($scope.circleid).addPersons(usersToAdd).then(function() {
+			var promise = circleService.get($scope.circleid).addPersons(usersToAdd).then(function() {
 				$scope.$broadcast("resetSearch");
-			}).catch(function() {
-				errorService.failOnError(addUsersToCircleState)
 			});
+
+			errorService.failOnErrorPromise(addUsersToCircleState, promise);
 		};
 
 		$scope.removeCircle = function () {
