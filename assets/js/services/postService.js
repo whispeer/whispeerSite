@@ -1,7 +1,7 @@
 /**
 * postService
 **/
-define(["step", "bluebird", "whispeerHelper", "bluebird", "validation/validator", "services/serviceModule", "asset/observer", "asset/errors", "asset/securedDataWithMetaData", "asset/state"], function (step, Bluebird, h, Promise, validator, serviceModule, Observer, errors, SecuredData, State) {
+define(["bluebird", "whispeerHelper", "bluebird", "validation/validator", "services/serviceModule", "asset/observer", "asset/errors", "asset/securedDataWithMetaData", "asset/state"], function (Bluebird, h, Promise, validator, serviceModule, Observer, errors, SecuredData, State) {
 	"use strict";
 
 	var service = function ($rootScope, $timeout, localize, socket, keyStore, errorService, userService, circleService, blobService, filterService, Comment, screenSize, initService) {
@@ -83,15 +83,14 @@ define(["step", "bluebird", "whispeerHelper", "bluebird", "validation/validator"
 			};
 
 			function commentListener(e, data) {
-				var comment;
-				step(function () {
-					comment = new Comment(data, thePost);
+				return Bluebird.try(function () {
+					var comment = new Comment(data, thePost);
 
-					comment.load(comments[comments.length - 1], this.parallel());
-				}, h.sF(function () {
+					return comment.load(comments[comments.length - 1]).thenReturn(comment);
+				}).then(function (comment) {
 					comments.push(comment);
 					thePost.data.comments.push(comment.data);
-				}), errorService.criticalError);
+				}).catch(errorService.criticalError);
 			}
 
 			socket.channel("post." + id + ".comment.new", commentListener);
@@ -101,11 +100,12 @@ define(["step", "bluebird", "whispeerHelper", "bluebird", "validation/validator"
 			});
 
 			this.loadData = function (cb) {
-				step(function () {
-					this.parallel.unflatten();
-					thePost.getSender(this.parallel());
-					thePost.getWallUser(this.parallel());
-				}, h.sF(function (sender, walluser) {
+				return Bluebird.try(function () {
+					return Bluebird.all([
+						thePost.getSender(),
+						thePost.getWalluser()
+					]);
+				}).spread(function (sender, walluser) {
 					var d = thePost.data;
 
 					if (walluser) {
@@ -118,19 +118,23 @@ define(["step", "bluebird", "whispeerHelper", "bluebird", "validation/validator"
 					}
 
 					d.sender = sender.data;
-					securedData.verify(sender.getSignKey(), this.parallel());
+					var promises = [
+						securedData.verify(sender.getSignKey())
+					];
 
 					if (privateData) {
-						privateData.verify(sender.getSignKey(), this.parallel());
+						promises.push(privateData.verify(sender.getSignKey()));
 					}
-				}), h.sF(function () {
-					this.parallel.unflatten();
 
+					return Bluebird.all(promises);
+				}).then(function () {
 					keyStore.security.addEncryptionIdentifier(securedData.metaAttr("_key"));
 
-					thePost.getText(this.parallel());
-					thePost.getPrivate(this.parallel());
-				}), h.sF(function (text, privateData) {
+					return Bluebird.all([
+						thePost.getText(),
+						thePost.getPrivate()
+					]);
+				}).spread(function (text, privateData) {
 					var d = thePost.data;
 
 					d.loaded = true;
@@ -141,9 +145,7 @@ define(["step", "bluebird", "whispeerHelper", "bluebird", "validation/validator"
 					d.visibleSelection = privateData;
 
 					d.images = securedData.metaAttr("images");
-
-					this.ne();
-				}), cb);
+				}).nodeify(cb);
 			};
 
 			this.getSecured = function () {
@@ -151,23 +153,21 @@ define(["step", "bluebird", "whispeerHelper", "bluebird", "validation/validator"
 			};
 
 			this.loadComments = function(cb) {
-				step(function () {
-					if (comments.length === 0) {
-						this.last.ne();
-						return;
-					}
+				if (comments.length === 0) {
+					return Bluebird.resolve().nodeify(cb);
+				}
 
+				return Bluebird.try(function () {
 					thePost.data.commentsLoading = true;
 
-					$timeout(this);
-				}, h.sF(function () {
-					comments.forEach(function (comment, i) {
-						comment.load(comments[i - 1], this.parallel());
-					}, this);
-				}), function (e) {
+					return $timeout();
+				}).then(function () {
+					return Bluebird.all(comments.map(function (comment, i) {
+						return comment.load(comments[i - 1]);
+					}));
+				}).finally(function () {
 					thePost.data.commentsLoading = false;
-					this(e);
-				}, cb);
+				}).nodeify(cb);
 			};
 
 			this.addComment = function (comment, cb) {
@@ -360,49 +360,46 @@ define(["step", "bluebird", "whispeerHelper", "bluebird", "validation/validator"
 			var that = this;
 			this.loading = true;
 
-			step(function () {
-				$timeout(this);
-			}, h.sF(function () {
-				that._expandFilter(this);
-			}), h.sF(function () {
+			return Bluebird.try(function () {
+				return $timeout();
+			}).then(function () {
+				return that._expandFilter();
+			}).then(function () {
 				return initService.awaitLoading();
-			}), h.sF(function () {
+			}).then(function () {
 				return socket.emit("posts.getTimeline", {
 					afterID: that.getOldestID(),
 					filter: that._finalFilter,
 					sortByCommentTime: that._sortByCommentTime,
 					count: screenSize.mobile ? 10 : 20
 				});
-			}), h.sF(function (results) {
-				that.displayDonateHint = results.displayDonateHint;
+			}).then(function (results) {
 				var posts = results.posts || [];
 
-				that._posts = that._posts.concat(posts.map(function (post) {
-					var thePost = makePost(post);
-					thePost.loadData(this.parallel());
+				that.displayDonateHint = results.displayDonateHint;
 
-					return thePost;
-				}, this));
 				that._requested = socket.lastRequestTime;
 
 				if (posts.length === 0) {
 					that.end = true;
 				}
 
-				this.parallel()();
-			}), function (e) {
-				that.loading = false;
+				return posts;
+			}).map(function (postData) {
+				var post = makePost(postData);
+
+				return post.loadData.thenReturn(post);
+			}).then(function (posts) {
+				that._posts = that._posts.concat(posts);
 
 				that._postsData = that._posts.map(function (post) {
 					return post.data;
 				});
-
-				if (!e) {
-					that.loaded = true;
-				}
-
-				this(e);
-			}, cb);
+			}).then(function () {
+				that.loaded = true;
+			}).finally(function () {
+				that.loading = false;
+			}).nodeify(cb);
 		};
 
 		Timeline.prototype.addPost = function (newPost) {
@@ -430,25 +427,22 @@ define(["step", "bluebird", "whispeerHelper", "bluebird", "validation/validator"
 				return timelinesCache[filterString];
 			},
 			getWallPosts: function (afterID, userid, limit, cb) {
-				var result = [];
-				step(function () {
+				return Bluebird.all(function () {
 					return socket.emit("posts.getWall", {
 						afterID: afterID,
 						userid: userid,
 						count: limit
 					});
-				}, h.sF(function (results) {
-					var thePost, i, posts = results.posts || [];
-					for (i = 0; i < posts.length; i += 1) {
-						thePost = makePost(posts[i]);
-						thePost.loadData(this.parallel());
-						result.push(thePost.data);
-					}
+				}).then(function (results) {
+					return results.posts || [];
+				}).map(function (postData) {
+					var thePost = makePost(postData);
+					thePost.loadData().thenReturn(thePost.data);
+				}).then(function (posts) {
+					postsByUserWall[userid] = posts;
 
-					postsByUserWall[userid] = result;
-
-					this.ne(result);
-				}), cb);
+					return posts;
+				}).nodeify(cb);
 			},
 			getPostByID: function (postid, cb) {
 				if (postsById[postid]) {

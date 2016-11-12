@@ -1,10 +1,10 @@
-define(["step",
+define([
 	"bluebird",
 	"whispeerHelper",
 	"validation/validator",
 	"asset/securedDataWithMetaData",
 	"models/modelsModule"
-], function (step, Bluebird, h, validator, SecuredData, modelsModule) {
+], function (Bluebird, h, validator, SecuredData, modelsModule) {
 	"use strict";
 	function commentModel(userService, socket) {
 		var Comment = function (data, parentPost) {
@@ -39,11 +39,12 @@ define(["step",
 
 		Comment.prototype.load = function (previousComment, cb) {
 			var theComment = this;
-			step(function () {
-				this.parallel.unflatten();
-				theComment._secured.decrypt(this.parallel());
-				theComment.getSender(this.parallel());
-			}, h.sF(function (content, sender) {
+			return Bluebird.try(function () {
+				return Bluebird.all([
+					theComment._secured.decrypt(),
+					theComment.getSender()
+				]);
+			}).spread(function (content, sender) {
 				theComment.data.sender = sender.data;
 				theComment.data.text = content.comment;
 
@@ -52,24 +53,16 @@ define(["step",
 				}
 
 				theComment._secured.checkParent(theComment._parentPost.getSecured());
-				theComment._secured.verify(sender.getSignKey(), this);
-			}), h.sF(function () {
+				return theComment._secured.verify(sender.getSignKey());
+			}).then(function () {
 				theComment.data.loaded = true;
-				this.ne();
-			}), cb);
+			}).nodeify(cb);
 		};
 
-		Comment.prototype.getSender = function (cb) {
-			var theUser, theComment = this;
-			step(function () {
-				userService.get(theComment._secured.metaAttr("sender"), this);
-			}, h.sF(function (user) {
-				theUser = user;
-
-				theUser.loadBasicData(this);
-			}), h.sF(function () {
-				this.ne(theUser);
-			}), cb);
+		Comment.prototype.getSender = function () {
+			return userService.get(this._secured.metaAttr("sender")).then(function (user) {
+				return user.loadBasicData().thenReturn(user);
+			});
 		};
 
 		Comment.create = function (text, parentPost, cb) {
