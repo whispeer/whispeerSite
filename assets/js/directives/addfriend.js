@@ -2,7 +2,6 @@ var templateUrl = require("../../views/directives/addFriend.html");
 var step = require("step");
 var h= require("whispeerHelper");
 var State = require("asset/state");
-var Bluebird = require("bluebird");
 var directivesModule = require("directives/directivesModule");
 
 function addFriendDirective($timeout, errorService, circleService) {
@@ -22,9 +21,8 @@ function addFriendDirective($timeout, errorService, circleService) {
 			scope.circles = {
 				initial: function () {
 					var user = h.parseDecimal(scope.user.id);
-					var loadAllCircles = Bluebird.promisify(circleService.loadAll);
 
-					return loadAllCircles().then(function () {
+					return circleService.loadAll().then(function () {
 						return circleService.inWhichCircles(user).map(function (circle) {
 							return circle.data;
 						});

@@ -1,4 +1,4 @@
-define(["controllers/controllerModule", "whispeerHelper", "step", "asset/state"], function (circlesModule, h, step, State) {
+define(["controllers/controllerModule", "whispeerHelper", "bluebird", "asset/state"], function (circlesModule, h, Bluebird, State) {
 	"use strict";
 
 	function circlesShowController($scope, circleService, errorService, localize, $stateParams, $state) {
@@ -9,15 +9,13 @@ define(["controllers/controllerModule", "whispeerHelper", "step", "asset/state"]
 		$scope.thisCircle = {};
 		$scope.circleLoading = true;
 
-		step(function () {
-			circleService.loadAll(this);
-		}, h.sF(function () {
+		circleService.loadAll().then(function() {
 			var theCircle = circleService.get($stateParams.circleid);
 			$scope.thisCircle = theCircle.data;
-			theCircle.loadPersons(this);
-		}), h.sF(function () {
+			return theCircle.loadPersons();
+		}).then(function() {
 			$scope.circleLoading = false;
-		}), errorService.criticalError);
+		}).catch(errorService.criticalError);
 
 		$scope.editingTitle = {
 			"success":		true,
