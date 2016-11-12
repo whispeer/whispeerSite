@@ -603,6 +603,8 @@ define(["whispeerHelper", "asset/state", "asset/securedDataWithMetaData", "model
 					theUser.loadImage();
 
 					$rootScope.$applyAsync();
+
+					return null;
 				}).nodeify(cb);
 			};
 
@@ -612,8 +614,8 @@ define(["whispeerHelper", "asset/state", "asset/securedDataWithMetaData", "model
 				}).nodeify(cb);
 			};
 
-			this.getMigrationState = function (cb) {
-				cb(null, migrationState);
+			this.getMigrationState = function () {
+				return Bluebird.resolve(migrationState);
 			};
 
 			this.isOwn = function () {
