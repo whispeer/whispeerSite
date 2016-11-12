@@ -150,7 +150,7 @@ define(["step", "whispeerHelper", "asset/observer", "services/serviceModule", "a
 			};
 
 			this.addPersons = function (uids, cb) {
-				return Bluebird.resolve(uids).then(function(uid) {
+				return Bluebird.resolve(uids).bind(this).filter(function(uid) {
 					return circleUsers.indexOf(uid) === -1;
 				}).then(function(uids) {
 					this.setUser(uids.concat(circleUsers), cb);
