@@ -319,20 +319,21 @@ define(["step", "whispeerHelper", "asset/state", "asset/securedDataWithMetaData"
 
 			/** uploads all profiles (also recreates them) */
 			this.uploadChangedProfile = function (cb) {
-				step(function () {
-					this.parallel.unflatten();
-					theUser.rebuildProfiles(this.parallel());
-					myProfile.getUpdatedData(theUser.getSignKey(), this.parallel());
-				}, h.sF(function (profileData, myProfile) {
+				return Bluebird.try(function () {
+					return Bluebird.all([
+						theUser.rebuildProfiles(),
+						myProfile.getUpdatedData(theUser.getSignKey())
+					]);
+				}).spread(function (profileData, myProfile) {
 					profileData.me = myProfile;
 
-					socketService.emit("user.profile.update", profileData, this);
-				}), h.sF(function () {
+					return socketService.emit("user.profile.update", profileData);
+				}).then(function () {
 					myProfile.updated();
 
 					basicDataLoaded = false;
-					theUser.loadFullData(this);
-				}), cb);
+					return theUser.loadFullData();
+				}).nodeify(cb);
 			};
 
 			/* sets a given profile attribute to value
@@ -408,12 +409,11 @@ define(["step", "whispeerHelper", "asset/state", "asset/securedDataWithMetaData"
 					return false;
 				}
 
-				step(function () {
-					$injector.get("ssn.trustService").verifyUser(theUser, this);
-				}, h.sF(function () {
+				Bluebird.try(function () {
+					return $injector.get("ssn.trustService").verifyUser(theUser);
+				}).then(function () {
 					theUser.data.trustLevel = 2;
-					this.ne();
-				}), cb);
+				}).nodeify(cb);
 
 				return true;
 			};
@@ -491,14 +491,14 @@ define(["step", "whispeerHelper", "asset/state", "asset/securedDataWithMetaData"
 						deleteRequest.onsuccess = function () { cb(); };
 					} catch (e) {}
 				}, h.sF(function (signedOwnKeys, salt, decryptor) {
-					socketService.emit("user.changePassword", {
+					return socketService.emit("user.changePassword", {
 						signedOwnKeys: signedOwnKeys,
 						password: {
 							salt: salt,
 							hash: keyStoreService.hash.hashPW(newPassword, salt),
 						},
 						decryptor: decryptor
-					}, this);
+					});
 				}), h.sF(function () {
 					sessionService.setPassword(newPassword);
 					this.ne();
