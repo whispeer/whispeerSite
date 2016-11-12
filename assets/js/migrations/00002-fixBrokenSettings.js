@@ -47,7 +47,7 @@ define(["bluebird", "whispeerHelper", "asset/errors"], function (Bluebird, h, er
 		});
 	}
 
-	return function ($injector, cb) {
+	return function ($injector) {
 		return Bluebird.try(function() {
 			var settings = $injector.get("ssn.settingsService");
 			var content = settings.getContent();
@@ -56,6 +56,6 @@ define(["bluebird", "whispeerHelper", "asset/errors"], function (Bluebird, h, er
 
 			settings.setContent(content);
 			return settings.uploadChangedData().thenReturn(true);
-		}).nodeify(cb);
+		});
 	};
 });

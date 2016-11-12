@@ -12,6 +12,20 @@ define(["bluebird", "whispeerHelper", "services/serviceModule"], function (Blueb
 	var migrations = ["regenerateFriendsKeys", "fixBrokenSettings"];
 
 	var service = function ($injector, errorService) {
+		function runMigration(ownUser, migrationState) {
+			return Bluebird.try(function () {
+				var migration = require("migrations/" + h.pad("" + (migrationState + 1), 5) + "-" + migrations[migrationState]);
+				return migration($injector);
+			}).then(function (success) {
+				if (!success) {
+					console.error("Migration failed " + migrationState, success);
+					//AUTSCH!
+				} else {
+					return ownUser.setMigrationState(migrationState + 1);
+				}
+			});
+		}
+
 		var doMigration = function () {
 			var ownUser = $injector.get("ssn.userService").getown(), migrationState;
 
@@ -19,15 +33,7 @@ define(["bluebird", "whispeerHelper", "services/serviceModule"], function (Blueb
 				ownUser.getMigrationState().then(function(state) {
 					migrationState = h.parseDecimal(state) || 0;
 					if (migrationState < migrations.length) {
-						var migration = require("migrations/" + h.pad("" + (migrationState + 1), 5) + "-" + migrations[migrationState]);
-						return migration($injector);
-					}
-				}).then(function(success) {
-					if (!success) {
-						console.error("Migration failed");
-						//AUTSCH!
-					} else {
-						return ownUser.setMigrationState(migrationState + 1);
+						return runMigration(ownUser, migrationState);
 					}
 				}).catch(errorService.criticalError);
 			}

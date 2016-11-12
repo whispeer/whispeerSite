@@ -188,7 +188,7 @@ define(["whispeerHelper", "asset/observer", "asset/securedDataWithMetaData", "se
 					return previousPromise.then(function () {
 						return checkAndRemove(friend.getID());
 					});
-				});
+				}, Bluebird.resolve());
 			});
 		}
 

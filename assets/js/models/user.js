@@ -303,11 +303,11 @@ define(["whispeerHelper", "asset/state", "asset/securedDataWithMetaData", "model
 					var pubPromise = pub.sign(theUser.getSignKey());
 
 					var privatePromises = scopeData.map(function (scope) {
-						var profile = new ProfileService({
+						var newProfile = new ProfileService({
 							content: applicableParts(scope.name, privacySettings, profile)
 						}, { isDecrypted: true });
 
-						return profile.signAndEncrypt(theUser.getSignKey(), scope.key);
+						return newProfile.signAndEncrypt(theUser.getSignKey(), scope.key);
 					});
 
 					return Bluebird.all([
