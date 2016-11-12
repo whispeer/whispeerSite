@@ -323,7 +323,7 @@ define(["step", "whispeerHelper", "asset/Progress", "asset/Queue", "services/ser
 
 		function loadBlobFromDB(blobID) {
 			return blobCache.get(blobID).then(function (data) {
-				if (typeof data.blob === "undefined") {
+				if (typeof data.blob === "undefined" || data.blob === false) {
 					throw new Error("cache invalid!");
 				}
 

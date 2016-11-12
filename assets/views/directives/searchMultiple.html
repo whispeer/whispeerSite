@@ -14,8 +14,8 @@
 			</li>
 		</ul>
 	</div>
-	<div class="search-resultsDrop" data-ng-show="isVisible()" data-ng-class="{'search-resultsDrop--addBorder': results.length > 0}" data-ng-include="'assets/views/search/' + searchTemplate + 'Search.html'">
+	<div class="search-resultsDrop" data-ng-show="isVisible()" data-ng-class="{'search-resultsDrop--addBorder': results.length > 0}" data-ng-include="'search/' + searchTemplate + 'Search.html'">
 	</div>
-	<div class="dropdown search-selectedDrop" data-ng-if="showSelectedElements" data-ng-include="'assets/views/search/' + selectDropTemplate  +'SelectDrop.html'">
+	<div class="dropdown search-selectedDrop" data-ng-if="showSelectedElements" data-ng-include="'search/' + selectDropTemplate  +'SelectDrop.html'">
 	</div>
 </div>

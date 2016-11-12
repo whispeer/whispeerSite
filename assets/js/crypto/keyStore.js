@@ -70,14 +70,6 @@ define(["whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForReady", "
 		keyStoreDebug(e);
 	}
 
-	function requireAsync(modules) {
-		return new Bluebird(function (resolve, reject) {
-			require(modules, function () {
-				resolve(Array.prototype.slice.call(arguments));
-			}, reject);
-		});
-	}
-
 	function fingerPrintData(data) {
 		return sjcl.codec.hex.fromBits(sjcl.hash.sha256.hash(data));
 	}
@@ -1123,29 +1115,30 @@ define(["whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForReady", "
 					throw new errors.SecurityError("Private Actions are blocked (sign)");
 				}
 
-				return requireAsync(["crypto/trustManager", "crypto/signatureCache"]).spread(function (trustManager, signatureCache) {
-					return Bluebird.try(function () {
-						if (!trustManager.isLoaded) {
-							return trustManager.listenPromise("loaded");
-						}
-					}).then(function () {
-						if (!trustManager.hasKeyData(intKey.getRealID())) {
-							keyStoreDebug("key not in key database");
-							alert("key not in key database: " + intKey.getRealID() + " - please report this issue to support@whispeer.de!");
-							throw new errors.SecurityError("key not in key database");
-						}
+				var trustManager = require("./trustManager");
+				var signatureCache = require("./signatureCache");
 
-						return intKey.decryptKey();
-					}).then(function () {
-						return intKey.getSecret().sign(hash);
-						//return sjclWorkerInclude.asym.sign(intKey.getSecret(), hash);
-					}).then(function (signature) {
-						if (signatureCache.isLoaded()) {
-							signatureCache.addValidSignature(signature, hash, realid, type);
-						}
+				return Bluebird.try(function () {
+					if (!trustManager.isLoaded) {
+						return trustManager.listenPromise("loaded");
+					}
+				}).then(function () {
+					if (!trustManager.hasKeyData(intKey.getRealID())) {
+						keyStoreDebug("key not in key database");
+						alert("key not in key database: " + intKey.getRealID() + " - please report this issue to support@whispeer.de!");
+						throw new errors.SecurityError("key not in key database");
+					}
 
-						return signature;
-					});
+					return intKey.decryptKey();
+				}).then(function () {
+					return intKey.getSecret().sign(hash);
+					//return sjclWorkerInclude.asym.sign(intKey.getSecret(), hash).nodeify(this);
+				}).then(function (signature) {
+					if (signatureCache.isLoaded()) {
+						signatureCache.addValidSignature(signature, hash, realid, type);
+					}
+
+					return signature;
 				});
 			};
 		}
@@ -1229,40 +1222,41 @@ define(["whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForReady", "
 
 		this.getFingerPrint = getFingerPrintF;
 		this.verify = function (signature, text, type, id) {
-			return requireAsync(["crypto/trustManager", "crypto/signatureCache"]).spread(function (trustManager, signatureCache) {
-				return hash(text).then(function (hash) {
-					hash = chelper.hex2bits(hash);
+			var trustManager = require("./trustManager");
+			var signatureCache = require("./signatureCache");
 
-					if (!trustManager.hasKeyData(intKey.getRealID())) {
-						throw new errors.SecurityError("key not in key database");
-					}
+			return hash(text).then(function (hash) {
+				hash = chelper.hex2bits(hash);
 
-					if (signatureCache.isValidSignatureInCache(signature, hash, realid)) {
-						signatureCache.addValidSignature(signature, hash, realid, type, id);
-						return Bluebird.resolve(true);
-					}
+				if (!trustManager.hasKeyData(intKey.getRealID())) {
+					throw new errors.SecurityError("key not in key database");
+				}
 
-					keyStoreDebug("Slow verify of type: " + type);
-					var name = chelper.bits2hex(signature).substr(0, 10);
+				if (signatureCache.isValidSignatureInCache(signature, hash, realid)) {
+					signatureCache.addValidSignature(signature, hash, realid, type, id);
+					return Bluebird.resolve(true);
+				}
 
+				keyStoreDebug("Slow verify of type: " + type);
+				var name = chelper.bits2hex(signature).substr(0, 10);
+
+				if (debug.enabled("whispeer:keyStore")) {
+					console.time("verify-" + name);
+				}
+
+				return verify(signature, text, hash).then(function (valid) {
 					if (debug.enabled("whispeer:keyStore")) {
-						console.time("verify-" + name);
+						console.timeEnd("verify-" + name);
 					}
 
-					return verify(signature, text, hash).then(function (valid) {
-						if (debug.enabled("whispeer:keyStore")) {
-							console.timeEnd("verify-" + name);
-						}
+					if (valid) {
+						signatureCache.addValidSignature(signature, hash, realid, type, id);
+					}
 
-						if (valid) {
-							signatureCache.addValidSignature(signature, hash, realid, type, id);
-						}
-
-						return valid;
-					}).catch(function (e) {
-						console.error(e);
-						return false;
-					});
+					return valid;
+				}).catch(function (e) {
+					console.error(e);
+					return false;
 				});
 			});
 		};

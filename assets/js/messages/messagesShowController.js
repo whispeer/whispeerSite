@@ -2,7 +2,7 @@
 * messagesController
 **/
 
-define(["step", "whispeerHelper", "asset/state", "bluebird", "messages/messagesModule"], function (step, h, State, Bluebird, messagesModule) {
+define(["jquery", "step", "whispeerHelper", "asset/state", "bluebird", "messages/messagesModule"], function (jQuery, step, h, State, Bluebird, messagesModule) {
 	"use strict";
 
 	function messagesController($scope, $element, $state, $stateParams, $timeout, localize, errorService, messageService, ImageUploadService) {

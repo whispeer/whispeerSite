@@ -1,3 +1,6 @@
+var multipleTemplateUrl = require("../../views/directives/searchMultiple.html");
+var singleTemplateUrl = require("../../views/directives/search.html");
+
 define(["whispeerHelper", "search/singleSearch", "search/multiSearch", "directives/directivesModule"], function (h, singleSearch, multiSearch, directivesModule) {
 	"use strict";
 
@@ -19,10 +22,10 @@ define(["whispeerHelper", "search/singleSearch", "search/multiSearch", "directiv
 			restrict: "E",
 			templateUrl: function (iElement, iAttrs) {
 				if (typeof iAttrs.multiple !== "undefined") {
-					return "assets/views/directives/searchMultiple.html";
+					return multipleTemplateUrl;
 				}
 
-				return "assets/views/directives/search.html";
+				return singleTemplateUrl;
 			},
 			replace: false,
 			transclude: false,

@@ -50,7 +50,7 @@ define(["workerQueue", "bluebird", "crypto/minimalHelper", "config"], function (
 	}
 
 	//Promise, numberOfWorkers, workerPath, setupMethod, requireOverRide
-	var workers = new WorkerQueue(bluebird, workerCount, "crypto/sjclWorker", {
+	var workers = new WorkerQueue(bluebird, workerCount, {
 		setupMethod: addEntropy,
 		requirePath: requirePath,
 		workerScriptOverride: config.workerScript || false

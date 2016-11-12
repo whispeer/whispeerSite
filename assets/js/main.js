@@ -1,4 +1,9 @@
-define([
+window.startup = new Date().getTime();
+window.globalErrors = [];
+
+window.jQuery = require("jquery");
+
+require([
 	"jquery",
 	"angular",
 
@@ -8,9 +13,7 @@ define([
 	"config/localizationConfig",
 
 	"asset/toBlobPolyfill",
-	"angularTouch",
-
-	"optional!build/template"
+	"angularTouch"
 ], function($, angular, app) {
 	"use strict";
 
