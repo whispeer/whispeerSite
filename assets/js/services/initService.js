@@ -1,4 +1,4 @@
-define(["services/serviceModule", "bluebird", "asset/observer", "debug"], function (serviceModule, Bluebird, Observer, debug) {
+define(["services/serviceModule", "bluebird", "asset/observer", "debug", "whispeerHelper"], function (serviceModule, Bluebird, Observer, debug, h) {
 	"use strict";
 
 	var debugName = "whispeer:initService";
@@ -81,10 +81,10 @@ define(["services/serviceModule", "bluebird", "asset/observer", "debug"], functi
 		function runCacheCallbacks(initRequests) {
 			return Bluebird.all(initRequests).map(function (request) {
 				if (!request.cache || !request.options.cacheCallback) {
-					return;
+					return !request.options.cache;
 				}
 
-				return request.options.cacheCallback(request.cache);
+				return request.options.cacheCallback(request.cache).thenReturn(true);
 			});
 		}		
 
@@ -137,8 +137,13 @@ define(["services/serviceModule", "bluebird", "asset/observer", "debug"], functi
 				return Bluebird.all([
 					runInitCacheCallbacks(),
 					runCacheCallbacks(initRequests)
-				]).then(function () {
-					initService.notify("", "initCacheDone");
+				]).spread(function (customCacheResults, simpleCacheResults) {
+					if (simpleCacheResults.reduce(h.and, true)) {
+						initService.notify("", "initCacheDone");
+					} else {
+						initServiceDebug("Could not load cache!");
+					}
+
 					return null;
 				}).catch(errorService.criticalError).thenReturn(initRequests);
 			}).then(function (initRequests) {

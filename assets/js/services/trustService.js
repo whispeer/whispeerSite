@@ -72,7 +72,9 @@ define(["whispeerHelper", "crypto/trustManager", "crypto/signatureCache", "servi
 			Bluebird.try(function () {
 				trustManager.createDatabase(userService.getown());
 
-				return uploadDatabase();
+				uploadDatabase().catch(errorService.criticalError);
+
+				return null;
 			}).nodeify(cb);
 		}
 
