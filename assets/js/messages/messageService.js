@@ -177,7 +177,7 @@ define([
 						return topic;
 					}
 				}).then(function (topic) {
-					topic.sendMessage(message, images);
+					return topic.sendMessage(message, images);
 				});
 
 				if (typeof cb === "function") {

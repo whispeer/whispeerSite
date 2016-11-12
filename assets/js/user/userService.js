@@ -174,7 +174,7 @@ define(["whispeerHelper", "user/userModule", "asset/observer", "crypto/signature
 					}
 
 					return result;
-				}).then(cb);
+				}).nodeify(cb);
 			},
 
 			reset: function resetF() {

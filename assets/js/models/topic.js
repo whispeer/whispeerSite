@@ -309,6 +309,8 @@ define([
 					console.error(e);
 					alert("An error occured sending a message!" + e.toString());
 				});
+
+				return null;
 			};
 
 			this.addMessages = function (messages, addUnread) {
@@ -449,7 +451,6 @@ define([
 					theTopic.data.remaining = remaining;
 
 					topicDebug("Message loading took: " + (new Date().getTime() - loadMore));
-					this.ne();
 				}).nodeify(cb);
 				//load more messages and decrypt them.
 			};
@@ -544,11 +545,9 @@ define([
 				return Bluebird.resolve(topics[topicid]).nodeify(cb);
 			}
 
-			return Bluebird.all(function () {
-				return initService.awaitLoading().then(function () {
-					return socket.definitlyEmit("messages.getTopic", {
-						topicid: topicid
-					});
+			return initService.awaitLoading().then(function () {
+				return socket.definitlyEmit("messages.getTopic", {
+					topicid: topicid
 				});
 			}).then(function (data) {
 				return Topic.fromData(data.topic);
@@ -588,7 +587,7 @@ define([
 				//encrypt topic key for receiver
 				return Bluebird.all(receiverObjects.map(function (receiverObject) {
 					var crypt = receiverObject.getCryptKey();
-					keyStore.sym.asymEncryptKey(topicKey, crypt);
+					return keyStore.sym.asymEncryptKey(topicKey, crypt);
 				}));
 			}).then(function (cryptKeys) {
 				var cryptKeysData = keyStore.upload.getKeys(cryptKeys);
@@ -615,7 +614,7 @@ define([
 					receiverKeys: receiverKeys
 				};
 
-				return SecuredData.create({}, topicMeta, { type: "topic" }, userService.getown().getSignKey(), topicKey);
+				return SecuredData.createAsync({}, topicMeta, { type: "topic" }, userService.getown().getSignKey(), topicKey);
 			}).then(function (tData) {
 				topicData.topic = tData.meta;
 

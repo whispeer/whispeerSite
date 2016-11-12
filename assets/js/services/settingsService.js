@@ -90,7 +90,7 @@ define(["whispeerHelper", "crypto/encryptedData", "services/serviceModule", "ass
 
 				var ownUser = $injector.get("ssn.userService").getown();
 
-				return SecuredData.create(data.content, data.meta, options, ownUser.getSignKey(), ownUser.getMainKey());
+				return SecuredData.createAsync(data.content, data.meta, options, ownUser.getSignKey(), ownUser.getMainKey());
 			}).then(function (signedAndEncryptedSettings) {
 				settings = SecuredData.load(signedAndEncryptedSettings.content, signedAndEncryptedSettings.meta, options);
 
