@@ -352,7 +352,7 @@ define(["step", "whispeerHelper", "asset/Progress", "asset/Queue", "services/ser
 					knownBlobs[blobID] = loadBlob(blobID);
 				}
 
-				step.unpromisify(knownBlobs[blobID], h.addAfterHook(cb, $rootScope.$apply.bind($rootScope, null)));
+				knownBlobs[blobID].nodeify(h.addAfterHook(cb, $rootScope.$applyAsync.bind($rootScope, null)));
 			}
 		};
 

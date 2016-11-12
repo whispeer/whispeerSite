@@ -44,7 +44,7 @@ define(["bluebird", "asset/securedDataWithMetaData", "models/modelsModule"], fun
 		};
 
 		TopicUpdate.prototype.getUser = function () {
-			var userGetAsync = Bluebird.promisify(userService.get, userService);
+			var userGetAsync = Bluebird.promisify(userService.get.bind(userService));
 			return userGetAsync(this.getUserID());
 		};
 

@@ -11,7 +11,7 @@ define(["jquery", "step", "whispeerHelper", "asset/state", "bluebird", "controll
 		var topicsLoadingState = new State();
 		$scope.topicsLoadingState = topicsLoadingState.data;
 
-		var loadMoreTopics = Bluebird.promisify(messageService.loadMoreLatest, messageService);
+		var loadMoreTopics = Bluebird.promisify(messageService.loadMoreLatest.bind(messageService));
 
 		function loadTopics() {
 			if (messageService.data.latestTopics.allTopicsLoaded) {

@@ -26,7 +26,7 @@ define(["whispeerHelper", "dexie", "bluebird", "services/serviceModule", "servic
 	};
 
 	Cache.prototype._fixBlobStorage = function (cacheEntry) {
-		var blobToDataURI = Promise.promisify(h.blobToDataURI, h);
+		var blobToDataURI = Promise.promisify(h.blobToDataURI.bind(h));
 
 		return blobToDataURI(cacheEntry.blob).then(function (blobAsUri) {
 			cacheEntry.blob = blobAsUri;

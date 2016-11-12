@@ -8,17 +8,17 @@ define(["angular", "bluebird", "whispeerHelper"], function (angular, Bluebird, h
 
 			Search.prototype.search = function (query) {
 				if (query.length < 3) {
-					return Bluebird.reject("minimum3letters");
+					return Bluebird.reject(new Error("minimum3letters"));
 				}
 
 				return this.debouncedAction(query);
 			};
 
 			Search.prototype.debouncedSearch = function (query) {
-				var action = Bluebird.promisify(userService.query, userService);
+				var action = Bluebird.promisify(userService.query.bind(userService));
 
 				return action(query).bind(this).map(function (user) {
-					var loadBasicData = Bluebird.promisify(user.loadBasicData, user);
+					var loadBasicData = Bluebird.promisify(user.loadBasicData.bind(user));
 					return loadBasicData().then(function () {
 						return user;
 					});

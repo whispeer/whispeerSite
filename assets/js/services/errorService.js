@@ -43,6 +43,12 @@ define(["services/serviceModule", "config"], function (serviceModule, config) {
 			}
 		};
 
+		window.addEventListener("unhandledrejection", function(e) {
+			var reason = e.detail.reason;
+		
+			api.criticalError(reason);
+		});
+
 		return api;
 	};
 

@@ -96,40 +96,33 @@ define(["step", "whispeerHelper", "user/userModule", "asset/observer", "crypto/s
 
 		/** loads all the users in the batch */
 		function doLoad(identifier, cb) {
-			var result = [];
-			step(function () {
-				initService.awaitLoading(this);
-			}, h.sF(function () {
-				socketService.emit("user.getMultiple", {identifiers: identifier}, this);
-			}), h.sF(function (data) {
-				if (data && data.users) {
-					result = data.users.map(function (e) {
-						return makeUser(e);
-					});
+			return initService.awaitLoading().then(function () {
+				return socketService.emit("user.getMultiple", {identifiers: identifier});
+			}).then(function (data) {
+				if (!data || !data.users) {
+					return [];
 				}
 
-				result.forEach(function (u) {
-					if (!u.isNotExistingUser()) {
-						u.verifyKeys(this.parallel());
-					}
-				}, this);
-
-				this.parallel()();
-			}), h.sF(function () {
-				this.ne(result);
-			}), cb);
+				return data.users;
+			}).map(function (userData) {
+				return makeUser(userData);
+			}).map(function (user) {
+				if (!user.isNotExistingUser()) {
+					return user.verifyKeys().thenReturn(user);
+				}				
+			}).nodeify(cb);
 		}
 
-		var delay = h.delayMultiple(THROTTLE, doLoad, 5);
+		var delay = h.delayMultiplePromise(Bluebird, THROTTLE, doLoad, 5);
 
 		function loadUser(identifier, cb) {
-			step(function () {
+			return Bluebird.try(function () {
 				if (users[identifier]) {
-					this.last.ne(users[identifier]);
+					return users[identifier];
 				} else {
-					delay(identifier, this);
+					return delay(identifier);
 				}
-			}, cb);
+			}).nodeify(cb);
 		}
 
 		userService = {
@@ -209,16 +202,9 @@ define(["step", "whispeerHelper", "user/userModule", "asset/observer", "crypto/s
 			* this function is asynchronous and returns immediatly. requests are also batched.
 			*/
 			getMultiple: function getMultipleF(identifiers, cb) {
-				step(function () {
-					var i;
-					for (i = 0; i < identifiers.length; i += 1) {
-						loadUser(identifiers[i], this.parallel());
-					}
-
-					if (identifiers.length === 0) {
-						this.ne([]);
-					}
-				}, cb);
+				return Bluebird.resolve(identifiers).map(function (id) {
+					return loadUser(id);
+				}).nodeify(cb);
 			},
 
 			/** gets multiple users and loads their basic data.
@@ -342,7 +328,7 @@ define(["step", "whispeerHelper", "user/userModule", "asset/observer", "crypto/s
 
 				return signatureCache.awaitLoading().thenReturn(user);
 			}).then(function (user) {
-				var verifyKeys = Bluebird.promisify(user.verifyKeys, user);
+				var verifyKeys = Bluebird.promisify(user.verifyKeys.bind(user));
 				return verifyKeys().thenReturn(user);
 			}).then(function (user) {
 				requestKeyService.cacheKey(user.getSignKey(), "user-sign-" + user.getID(), requestKeyService.MAXCACHETIME);
@@ -377,6 +363,7 @@ define(["step", "whispeerHelper", "user/userModule", "asset/observer", "crypto/s
 				ownUserCache.store(sessionService.getUserID(), userData);
 
 				ownUserStatus.loadedResolve();
+				return null;
 			});
 		});
 
