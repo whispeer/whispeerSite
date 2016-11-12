@@ -20,15 +20,15 @@ define([
 			if (messageData) {
 				var messageToAdd;
 
-				step(function () {
-					Topic.messageFromData(messageData, this);
-				}, h.sF(function (_messageToAdd) {
+				Bluebird.try(function () {
+					return Topic.messageFromData(messageData);
+				}).then(function (_messageToAdd) {
 					messageToAdd = _messageToAdd;
-					Topic.get(messageToAdd.getTopicID(), this);
-				}), h.sF(function (theTopic) {
+					return Topic.get(messageToAdd.getTopicID());
+				}).then(function (theTopic) {
 					theTopic.addMessage(messageToAdd, true);
 					messageService.notify(messageToAdd, "message");
-				}), errorService.criticalError);
+				}).catch(errorService.criticalError);
 			}
 		}
 
@@ -63,11 +63,9 @@ define([
 					return;
 				}
 
-				step(function () {
-					l.loading = true;
+				l.loading = true;
 
-					initService.awaitLoading(this);
-				}, h.sF(function () {
+				return initService.awaitLoading().then(function () {
 					var last, topics = Topic.all().filter(function (topic) {
 						return !topic.obj.getIgnoreAsLastTopic();
 					});
@@ -78,11 +76,10 @@ define([
 						last = 0;
 					}
 
-					socket.emit("messages.getTopics", {
+					return socket.emit("messages.getTopics", {
 						afterTopic: last
-					}, this);
-
-				}), h.sF(function (latest) {
+					});
+				}).then(function (latest) {
 					l.loaded = true;
 					l.loading = false;
 
@@ -91,13 +88,13 @@ define([
 					}
 
 					return Topic.multipleFromData(latest.topics);
-				}), h.sF(function (topics) {
+				}).then(function (topics) {
 					topics.forEach(function (topic) {
 						topic.setIgnoreAsLastTopic(false);
 					});
 
 					messageService.notify("", "loadingDone");
-				}));
+				}).catch(errorService);
 			},
 			getTopic: function (topicid, cb) {
 				step(function () {
@@ -107,16 +104,16 @@ define([
 						this.ne();
 					}
 				}, h.sF(function () {
-					Topic.get(topicid, this);
+					return Topic.get(topicid);
 				}), cb);
 			},
 			sendMessageToUserTopicIfExists: function(receiver, message, images, cb) {
 				var theTopic;
 				step(function () {
-					messageService.getUserTopic(receiver[0], this);
+					return messageService.getUserTopic(receiver[0]);
 				}, h.sF(function (topicid) {
 					if (topicid) {
-						Topic.get(topicid, this);
+						return Topic.get(topicid);
 					} else {
 						this.last.ne();
 					}
@@ -141,7 +138,7 @@ define([
 
 					this.last.ne();
 				}), h.sF(function () {
-					messageService.sendMessage(theTopic, message, images, this);
+					return messageService.sendMessage(theTopic, message, images);
 				}), h.sF(function () {
 					this.ne(theTopic);
 				}), cb);
@@ -187,19 +184,17 @@ define([
 				return resultPromise;
 			},
 			getUserTopic: function (uid, cb) {
-				step(function () {
-					initService.awaitLoading(this);
-				}, h.sF(function () {
-					socket.definitlyEmit("messages.getUserTopic", {
+				return initService.awaitLoading().then(function () {
+					return socket.definitlyEmit("messages.getUserTopic", {
 						userid: uid
-					}, this);
+					});
 				}), h.sF(function (data) {
 					if (data.topicid) {
-						this.ne(data.topicid);
-					} else {
-						this.ne(false);
+						return data.topicid;
 					}
-				}), cb);
+
+					return false;
+				}).nodeify(cb);
 			},
 			data: {
 				latestTopics: {
