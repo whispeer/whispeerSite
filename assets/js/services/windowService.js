@@ -43,13 +43,13 @@ define(["step", "whispeerHelper", "asset/observer", "services/serviceModule"], f
 				cycleTitle();
 			},
 			playMessageSound: function () {
-				step(function () {
+				return Bluebird.try(function() {
 					var sound = settingsService.getBranch("sound");
 
 					if (sound.enabled) {
 						document.getElementById("sound").play();
 					}
-				}, errorService.criticalError);
+				}).catch(errorService.criticalError);
 			},
 			createNotification: function (text, options, state, stateParams) {
 				if (window.Notification && window.Notification.permission === "granted" && notificationCount < 5) {
@@ -89,12 +89,12 @@ define(["step", "whispeerHelper", "asset/observer", "services/serviceModule"], f
 						},
 						"app.messages.show",
 						{topicid: obj.obj.getTopicID()});
-				}		
+				}
 			}
 		};
 
 		Observer.call(api);
-		
+
 		// get Permissions for Notifications
 		if (window.Notification && window.Notification.permission === "default") {
 			window.Notification.requestPermission();
