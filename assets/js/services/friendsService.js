@@ -33,35 +33,42 @@ define(["step", "whispeerHelper", "asset/observer", "asset/securedDataWithMetaDa
 			friendsService.notify(status, "online:" + uid);
 		}
 
-		function createBasicData(ownUser, otherUser, cb) {
+		function createBasicData(ownUser, otherUser) {
 			var friendShipKey;
-			step(function () {
-				//encr intermediate key w/ users cryptKey
-				keyStore.sym.asymEncryptKey(ownUser.getFriendsKey(), otherUser.getCryptKey(), this);
-			}, h.sF(function (_friendShipKey) {
+		
+			//encr intermediate key w/ users cryptKey
+			return keyStore.sym.asymEncryptKey(
+				ownUser.getFriendsKey(),
+				otherUser.getCryptKey()
+			).then(function (_friendShipKey) {
 				friendShipKey = _friendShipKey;
 				var mainKey = ownUser.getMainKey();
-
-				this.parallel.unflatten();
-				SecuredData.load(undefined, {
-					user: otherUser.getID()
-				}, { type: "friendShip" }).sign(ownUser.getSignKey(), this.parallel());
 
 				var listData = {};
 				listData[otherUser.getID()] = friendShipKey;
 				signedList.metaSetAttr(otherUser.getID(), friendShipKey);
-				signedList.sign(ownUser.getSignKey(), this.parallel());
 
-				keyStore.sym.symEncryptKey(friendShipKey, mainKey, this.parallel());
-			}), h.sF(function (securedData, signedList) {
+				return Bluebird.all([
+					SecuredData.load(undefined, {
+						user: otherUser.getID()
+					}, { type: "friendShip" }).sign(ownUser.getSignKey()),
+
+					signedList.sign(ownUser.getSignKey()),
+
+					keyStore.sym.symEncryptKey(friendShipKey, mainKey)
+				]);
+			}).spread(function (securedData, signedList) {
 				var data = {
 					signedList: signedList,
 					meta: securedData,
 					key: keyStore.upload.getKey(friendShipKey)
 				};
 
-				this.ne(data, friendShipKey);
-			}), cb);
+				return {
+					data: data,
+					key: friendShipKey
+				};
+			});
 		}
 
 		function generateRemovalData(ownUser, otherUser, cb) {
@@ -87,21 +94,21 @@ define(["step", "whispeerHelper", "asset/observer", "asset/securedDataWithMetaDa
 
 		function addAsFriend(uid, cb) {
 			var otherUser, friendShipKey, userService = $injector.get("ssn.userService");
-			step(function () {
-				friendsService.awaitLoading(this);
-			}, h.sF(function () {
-				userService.get(uid, this);
-			}), h.sF(function (u) {
+			return Bluebird.try(function () {
+				return friendsService.awaitLoading();
+			}).then(function () {
+				return userService.get(uid);
+			}).then(function (u) {
 				otherUser = u;
-				createBasicData(userService.getown(), otherUser, this);
-			}), h.sF(function (data, _friendShipKey) {
-				friendShipKey = _friendShipKey;
+				return createBasicData(userService.getown(), otherUser);
+			}).then(function (result) {
+				friendShipKey = result.friendShipKey;
 
 				var friendsKey = userService.getown().getFriendsKey();
-				data.decryptors = keyStore.upload.getDecryptors([friendsKey], [friendShipKey]);
+				result.data.decryptors = keyStore.upload.getDecryptors([friendsKey], [friendShipKey]);
 
-				socket.emit("friends.add", data, this);
-			}), h.sF(function (result) {
+				return socket.emit("friends.add", result.data);
+			}).then(function (result) {
 				if (result.success) {
 					otherUser.setFriendShipKey(friendShipKey);
 
@@ -115,10 +122,8 @@ define(["step", "whispeerHelper", "asset/observer", "asset/securedDataWithMetaDa
 					}
 
 					updateCounters();
-
-					this.ne();
 				}
-			}), cb);
+			}).nodeify(cb);
 		}
 
 		socket.channel("friendRequest", function (e, requestData) {
@@ -164,7 +169,7 @@ define(["step", "whispeerHelper", "asset/observer", "asset/securedDataWithMetaDa
 					throw new Error("invalid signed removal");
 				}
 
-				SecuredData.load(undefined, signedData, { type: "removeFriend" }).verify(user.getSignKey(), this);
+				return SecuredData.load(undefined, signedData, { type: "removeFriend" }).verify(user.getSignKey());
 			}), h.sF(function () {
 				friendsService.removeFriend(uid, this);
 			}), cb);
@@ -220,19 +225,19 @@ define(["step", "whispeerHelper", "asset/observer", "asset/securedDataWithMetaDa
 				var otherUser, ownUser = userService.getown(), circles;
 
 				step(function () {
-					userService.get(uid, this);
+					return userService.get(uid);
 				}, h.sF(function (u) {
 					otherUser = u;
 
 					generateRemovalData(ownUser, otherUser, this);
 				}), h.sF(function (signedRemoval, signedList, signedKeys, newFriendsKey) {
-					socket.emit("friends.remove", {
+					return socket.emit("friends.remove", {
 						uid: uid,
 						signedRemoval: signedRemoval,
 						signedList: signedList,
 						signedKeys: signedKeys,
 						newFriendsKey: keyStore.upload.getKey(newFriendsKey)
-					}, this);
+					});
 				}), h.sF(function (result) {
 					if (result.success) {
 						h.removeArray(friends, uid);
@@ -242,10 +247,10 @@ define(["step", "whispeerHelper", "asset/observer", "asset/securedDataWithMetaDa
 						friendsService.notify(uid, "remove");
 						userOnline(uid, -1);
 
-						circleService.loadAll(this);
-					} else {
-						throw new Error("could not remove friends");
+						return circleService.loadAll();
 					}
+
+					throw new Error("could not remove friends");
 				}), h.sF(function () {
 					//get all circles this user is in!
 					circles = circleService.inWhichCircles(uid);
@@ -258,7 +263,7 @@ define(["step", "whispeerHelper", "asset/observer", "asset/securedDataWithMetaDa
 					var scopes = circles.map(function (c) { return "circle:" + c.getID(); });
 					scopes.push("always:allfriends");
 					//update profile for new friendsKey
-					ownUser.rebuildProfiles(this);
+					return ownUser.rebuildProfiles();
 				}), cb);
 			},
 			friendship: function (uid, cb) {
