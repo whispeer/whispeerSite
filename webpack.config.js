@@ -3,6 +3,8 @@ var webpack = require("webpack");
 
 process.env.WHISPEER_ENV = process.env.WHISPEER_ENV || "development";
 
+var UnusedFilesWebpackPlugin = require("unused-files-webpack-plugin")["default"];
+
 var plugins = [
 	new webpack.optimize.CommonsChunkPlugin({
 		names: "commons",
@@ -16,6 +18,20 @@ var plugins = [
 	}),
 	new webpack.DefinePlugin({
 		"WHISPEER_ENV": JSON.stringify(process.env.WHISPEER_ENV)
+	}),
+	new UnusedFilesWebpackPlugin({
+		globOptions: {
+			ignore: [
+				"node_modules/**/*",
+				"bower/**/*",
+				"**/*.json",
+				"**/*.md",
+				"**/*.markdown",
+				"step/test/**/*",
+				"crypto/sjclWorker.js",
+				"worker/worker.js",
+			]
+		}
 	}),
 ];
 
