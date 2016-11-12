@@ -119,12 +119,10 @@ define(["whispeerHelper", "search/singleSearch", "search/multiSearch", "directiv
 
 						searchSupplier.search(scope.query).then(function (results) {
 							if (currentQuery === scope.query) {
-								scope.$apply(function () {
-									scope.searching = false;
+								scope.searching = false;
 
-									scope.unFilteredResults = results;
-									scope.results = scope.applyFilterToResults(scope.unFilteredResults);
-								});
+								scope.unFilteredResults = results;
+								scope.results = scope.applyFilterToResults(scope.unFilteredResults);
 							}
 						}).catch(function (error) {
 							if (currentQuery === scope.query) {

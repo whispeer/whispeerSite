@@ -28,7 +28,6 @@ define([
 	"directives/gallery",
 	"directives/smartDate",
 	"directives/createcircle",
-	"directives/addfriend",
 	"directives/search",
 	"directives/lazyiframe",
 	"directives/mobile",
