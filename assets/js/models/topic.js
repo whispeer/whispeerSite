@@ -376,7 +376,7 @@ define([
 					}
 
 					receiverObjects.forEach(function (receiverObject) {
-						if (receiverObject.user.isOwn() || receiverObjects.length === 1) {
+						if (!receiverObject.user.isOwn() || receiverObjects.length === 1) {
 							partners.push(receiverObject);
 						}
 					});
