@@ -103,7 +103,7 @@ define(["bluebird", "whispeerHelper", "bluebird", "validation/validator", "servi
 				return Bluebird.try(function () {
 					return Bluebird.all([
 						thePost.getSender(),
-						thePost.getWalluser()
+						thePost.getWallUser()
 					]);
 				}).spread(function (sender, walluser) {
 					var d = thePost.data;
@@ -197,7 +197,7 @@ define(["bluebird", "whispeerHelper", "bluebird", "validation/validator", "servi
 
 			this.getSender = function (cb) {
 				return userService.get(securedData.metaAttr("sender")).then(function(user) {
-					user.loadBasicData().thenReturn(user);
+					return user.loadBasicData().thenReturn(user);
 				}).nodeify(cb);
 			};
 
@@ -252,10 +252,9 @@ define(["bluebird", "whispeerHelper", "bluebird", "validation/validator", "servi
 			return p;
 		}
 
-		function circleFiltersToUser(filter, cb) {
+		function circleFiltersToUser(filter) {
 			if (filter.length === 0) {
-				cb(null, []);
-				return;
+				return Bluebird.resolve([]);
 			}
 
 			return circleService.loadAll().then(function() {
@@ -265,7 +264,7 @@ define(["bluebird", "whispeerHelper", "bluebird", "validation/validator", "servi
 				}
 
 				return h.arrayUnique(user);
-			}).nodeify(cb);
+			});
 		}
 
 		var Timeline = function (filter, sortByCommentTime) {
@@ -388,7 +387,7 @@ define(["bluebird", "whispeerHelper", "bluebird", "validation/validator", "servi
 			}).map(function (postData) {
 				var post = makePost(postData);
 
-				return post.loadData.thenReturn(post);
+				return post.loadData().thenReturn(post);
 			}).then(function (posts) {
 				that._posts = that._posts.concat(posts);
 
