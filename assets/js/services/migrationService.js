@@ -19,9 +19,7 @@ define(["bluebird", "whispeerHelper", "services/serviceModule"], function (Blueb
 				ownUser.getMigrationState().then(function(state) {
 					migrationState = h.parseDecimal(state) || 0;
 					if (migrationState < migrations.length) {
-						var migration = Bluebird.promisify(
-							require("migrations/" + h.pad("" + (migrationState + 1), 5) + "-" + migrations[migrationState])
-						);
+						var migration = require("migrations/" + h.pad("" + (migrationState + 1), 5) + "-" + migrations[migrationState]);
 						return migration($injector);
 					}
 				}).then(function(success) {

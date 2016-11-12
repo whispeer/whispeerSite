@@ -1,4 +1,4 @@
-define(["step", "whispeerHelper"], function (step, h) {
+define(["bluebird", "whispeerHelper"], function (Bluebird, h) {
 	"use strict";
 	return function ($injector, cb) {
 		var friendsService = $injector.get("ssn.friendsService");
@@ -7,30 +7,28 @@ define(["step", "whispeerHelper"], function (step, h) {
 
 		var userid, invalidKey;
 
-		step(function () {
-			friendsService.awaitLoading(this);
-		}, h.sF(function () {
+		return friendsService.awaitLoading().then(function () {
 			friendsKeys = friendsService.getAllFriendShipKeys();
-			keyStore.upload.preLoadMultiple(friendsKeys, this);
-		}), h.sF(function () {
-
+			return keyStore.upload.preLoadMultiple(friendsKeys);
+		}).then(function () {
 			var invalidKeys = friendsKeys.filter(function (realid) {
 				return !keyStore.upload.isKeyLoaded(realid);
 			});
 
 			if (invalidKeys.length === 0) {
-				this.last.ne(true);
+				return Bluebird.resolve(true)
 			} else {
-				this.ne(invalidKeys);
+				return Bluebird.resolve(invalidKeys)
+				.then(function (invalidKeys) {
+					invalidKey = invalidKeys[0];
+					userid = friendsService.getUserForKey(invalidKey);
+					return friendsService.removeFriend(userid);
+				}).then(function () {
+					return friendsService.friendship(userid);
+				}).then(function () {
+					console.log("fixed invalid key: " + invalidKey);
+				});
 			}
-		}), h.sF(function (invalidKeys) {
-			invalidKey = invalidKeys[0];
-			userid = friendsService.getUserForKey(invalidKey);
-			friendsService.removeFriend(userid, this);
-		}), h.sF(function () {
-			friendsService.friendship(userid, this);
-		}), h.sF(function () {
-			console.log("fixed invalid key: " + invalidKey);
-		}), cb);
+		}).nodeify(cb);
 	};
 });
