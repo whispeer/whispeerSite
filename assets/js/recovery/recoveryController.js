@@ -111,14 +111,14 @@ define([
 				return;
 			}
 
-			var ensure = Bluebird.promisify(require.ensure);
-
 			Bluebird.try(function () {
-				return ensure(["libs/qrreader"]);
-			}).then(function (require) {
-				var qrreader = require("libs/qrreader");
-
-				return qrreader.decode(h.toUrl(file));
+				return new Bluebird(function (resolve) {
+					require(["libs/qrreader"], resolve);
+				});
+			}).then(function (qrreader) {
+				return new Bluebird(function (resolve) {
+					qrreader.decode(h.toUrl(file), resolve);
+				});
 			}).then(function (code) {
 				doRecovery(code).catch(errorService.criticalError);
 			});
