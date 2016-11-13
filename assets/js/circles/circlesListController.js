@@ -1,4 +1,4 @@
-define(["controllers/controllerModule", "whispeerHelper", "bluebird"], function (circlesModule, h, Bluebird) {
+define(["controllers/controllerModule"], function (circlesModule) {
 	"use strict";
 
 	function circlesListController($scope, circleService, errorService) {

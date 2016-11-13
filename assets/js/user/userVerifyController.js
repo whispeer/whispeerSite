@@ -2,7 +2,7 @@
 * userController
 **/
 
-define(["step", "whispeerHelper", "bluebird", "asset/resizableImage", "asset/state", "user/userModule"], function (step, h, Promise, ResizableImage, State, userModule) {
+define(["bluebird", "asset/resizableImage", "asset/state", "user/userModule"], function (Promise, ResizableImage, State, userModule) {
 	"use strict";
 
 	function userController($scope, $stateParams, $timeout, cssService, errorService) {

@@ -358,7 +358,7 @@ define(["whispeerHelper", "asset/state", "asset/securedDataWithMetaData", "model
 			* @param cb
 			*/
 			this.setProfileAttribute = function (attribute, value, cb) {
-				return new Bluebird(function(resolve, reject) {
+				return new Bluebird(function(resolve) {
 					myProfile.setAttribute(attribute, value, resolve);
 				}).nodeify(cb);
 			};
