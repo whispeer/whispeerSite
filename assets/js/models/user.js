@@ -324,16 +324,12 @@ define(["whispeerHelper", "asset/state", "asset/securedDataWithMetaData", "model
 			};
 
 			this.setMail = function (newMail, cb) {
-				if (newMail !== mail) {
+				if (newMail === mail) {
 					return Bluebird.resolve().nodeify(cb);
 				}
 
-				return socketService.emit("user.mailChange", { mail: newMail }).then(function (response) {
-					if (response.error) {
-						throw new Error("mail not accepted");
-					} else {
-						mail = newMail;
-					}
+				return socketService.emit("user.mailChange", { mail: newMail }).then(function () {
+					mail = newMail;
 				}).nodeify(cb);
 			};
 
