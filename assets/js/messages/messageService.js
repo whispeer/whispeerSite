@@ -94,7 +94,7 @@ define([
 					});
 
 					messageService.notify("", "loadingDone");
-				}).catch(errorService);
+				}).catch(errorService.criticalError);
 			},
 			getTopic: function (topicid, cb) {
 				return Bluebird.try(function () {
