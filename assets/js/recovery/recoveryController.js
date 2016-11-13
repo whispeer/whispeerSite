@@ -98,7 +98,7 @@ define([
 					code: recoveryCode,
 					keyFingerPrint: keyID
 				});
-			}.then(function (response) {
+			}).then(function (response) {
 				sessionService.setLoginData(response.sid, response.userid, true);
 				$scope.changePassword.enabled = true;
 			}).nodeify(cb);
