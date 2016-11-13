@@ -70,7 +70,7 @@ define(["whispeerHelper", "asset/state", "asset/securedDataWithMetaData", "model
 		return Bluebird.try(function () {
 			return new Bluebird(function (resolve) {
 				var deleteRequest = indexedDB.deleteDatabase("whispeerCache");
-			
+
 				deleteRequest.onerror = resolve;
 				deleteRequest.onsuccess = resolve;
 			});
@@ -478,7 +478,7 @@ define(["whispeerHelper", "asset/state", "asset/securedDataWithMetaData", "model
 					if (trust.isWhispeerVerified() || trust.isNetworkVerified()) {
 						return 1;
 					}
-					
+
 					return 0;
 				}).nodeify(cb);
 			};
@@ -504,7 +504,7 @@ define(["whispeerHelper", "asset/state", "asset/securedDataWithMetaData", "model
 						keyStoreService.sym.pwEncryptKey(mainKey, newPassword),
 
 						deleteCache(),
-					]);	
+					]);
 				}).spread(function (signedOwnKeys, salt, decryptor) {
 					return socketService.emit("user.changePassword", {
 						signedOwnKeys: signedOwnKeys,
@@ -722,7 +722,7 @@ define(["whispeerHelper", "asset/state", "asset/securedDataWithMetaData", "model
 					friendsService.ignoreFriendShip(this.getID(), errorService.failOnError(ignoreFriendState));
 				} else {
 					ignoreFriendState.failed();
-				}				
+				}
 			};
 
 			this.acceptFriendShip = function () {
