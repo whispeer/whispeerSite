@@ -2,7 +2,7 @@
 * userWallController
 **/
 
-define(["step", "whispeerHelper", "bluebird", "asset/resizableImage", "asset/state", "user/userModule"], function (step, h, Promise, ResizableImage, State, userModule) {
+define(["bluebird", "whispeerHelper", "bluebird", "asset/resizableImage", "asset/state", "user/userModule"], function (Bluebird, h, Promise, ResizableImage, State, userModule) {
 	"use strict";
 
 	function userWallController($scope, $stateParams, errorService, userService, postService) {
@@ -49,31 +49,29 @@ define(["step", "whispeerHelper", "bluebird", "asset/resizableImage", "asset/sta
 
 			$scope.loadingPosts = true;
 
-			step(function () {
-				postService.getWallPosts(h.array.last($scope.posts).id, userObject.getID(), 5, this);
-			}, h.sF(function (posts) {
+			postService.getWallPosts(
+				// if we do not use the helper here we can drop the dependency.
+				// @Nilos decide!
+				h.array.last($scope.posts).id,
+				userObject.getID(),
+				5
+			).then(function (posts) {
 				$scope.endOfPosts = posts.length === 0;
 
 				$scope.posts = $scope.posts.concat(posts);
-				this.ne();
-			}), function () {
 				$scope.loadingPosts = false;
 			});
 		};
 
 		function startLoading() {
-			step(function () {
-				userService.get(identifier, this);
-			}, h.sF(function (user) {
+			userService.get(identifier).then(function (user) {
 				userObject = user;
 
-				postService.getWallPosts(0, userObject.getID(), 5, this);
-			}), h.sF(function (posts) {
+				return postService.getWallPosts(0, userObject.getID(), 5);
+			}).then(function (posts) {
 				$scope.endOfPosts = posts.length === 0;
 
 				$scope.posts = posts;
-				this.ne();
-			}), function () {
 				$scope.loadingPosts = false;
 			});
 		}

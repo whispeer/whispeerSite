@@ -1,6 +1,6 @@
 define([
 		"whispeerHelper",
-		"step",
+		"bluebird",
 		"asset/state",
 		"recovery/recoveryModule",
 
@@ -24,7 +24,7 @@ define([
 		"services/friendsService",
 
 		"services/trustService"
-	], function (h, step, State, controllerModule) {
+	], function (h, Bluebird, State, controllerModule) {
 	"use strict";
 
 	function recoveryController($scope, socketService, keyStore, sessionService, trustService, userService, errorService, Cache) {
@@ -75,32 +75,33 @@ define([
 				return;
 			}
 
-			step(function () {
-				userService.getown().changePassword($scope.changePassword.password, this);
-			}, h.sF(function () {
+			var savePromise = Bluebird.try(function () {
+				return userService.getown().changePassword($scope.changePassword.password);
+			}).then(function () {
 				if (window.indexedDB) {
 					window.indexedDB.deleteDatabase("whispeerCache");
 				}
 				sessionService.saveSession();
 				window.location.href = "/main";
-			}), errorService.failOnError(savePasswordState));
+			});
+
+			errorService.failOnErrorPromise(savePasswordState, savePromise);
 		};
 
 		function doRecovery(key, cb) {
-			step(function () {
+			return Bluebird.try(function () {
 				keyStore.setKeyGenIdentifier(nick);
 				var keyID = keyStore.sym.loadBackupKey(keyStore.format.unBase32(key));
 				keyStore.setKeyGenIdentifier("");
-				socketService.emit("recovery.useRecoveryCode", {
+
+				return socketService.emit("recovery.useRecoveryCode", {
 					code: recoveryCode,
 					keyFingerPrint: keyID
-				}, this);
-			}, h.sF(function (response) {
+				});
+			}.then(function (response) {
 				sessionService.setLoginData(response.sid, response.userid, true);
 				$scope.changePassword.enabled = true;
-
-				this.ne();
-			}), cb);
+			}).nodeify(cb);
 		}
 
 		$scope.fileUpload = function (e) {
@@ -110,31 +111,35 @@ define([
 				return;
 			}
 
-			step(function () {
-				require.ensure(["libs/qrreader"], this);
-			}, function (require) {
+			var ensure = Bluebird.promisify(require.ensure);
+
+			Bluebird.try(function () {
+				return ensure(["libs/qrreader"]);
+			}).then(function (require) {
 				var qrreader = require("libs/qrreader");
-				qrreader.decode(h.toUrl(file), this);
-			}, function (code) {
-				doRecovery(code, errorService.criticalError);
+
+				return qrreader.decode(h.toUrl(file));
+			}).then(function (code) {
+				doRecovery(code).catch(errorService.criticalError);
 			});
 		};
 
 		$scope.loadBackupKeyManual = function () {
 			loadBackupKeyState.pending();
 
-			doRecovery($scope.manual.code, errorService.failOnError(loadBackupKeyState));
+			var loadPromise = doRecovery($scope.manual.code);
+
+			errorService.failOnErrorPromise(loadBackupKeyState, loadPromise);
 		};
 
 		$scope.backupKeyCallback = function (key) {
-			step(function () {
-				doRecovery(key, this);
-			}, function (e) {
+			return doRecovery(key).then(function (e) {
 				if (e) {
 					$scope.qr.reset();
 				}
-				this(e);
-			}, errorService.criticalError);
+
+				return e;
+			}).catch(errorService.criticalError);
 		};
 
 		var requestState = new State();
@@ -144,9 +149,8 @@ define([
 			execute: function (identifier) {
 				requestState.pending();
 
-				step(function () {
-					socketService.emit("recovery.request", { identifier: identifier }, this);
-				}, errorService.failOnError(requestState));
+				var requestPromise = socketService.emit("recovery.request", { identifier: identifier });
+				errorService.failOnErrorPromise(requestState, requestPromise);
 			}
 		};
 	}

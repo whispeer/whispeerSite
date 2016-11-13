@@ -362,7 +362,9 @@ define(["whispeerHelper", "asset/state", "asset/securedDataWithMetaData", "model
 			* @param cb
 			*/
 			this.setProfileAttribute = function (attribute, value, cb) {
-				myProfile.setAttribute(attribute, value, cb);
+				return new Bluebird(function(resolve, reject) {
+					myProfile.setAttribute(attribute, value, resolve);
+				}).nodeify(cb);
 			};
 
 			this.getFingerPrint = function () {

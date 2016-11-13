@@ -1,9 +1,10 @@
-define(["step", "whispeerHelper"], function (step, h) {
+define(["bluebird", "whispeerHelper"], function (Bluebird, h) {
 	"use strict";
 	return function ($injector, cb) {
-		step(function () {
-		}, h.sF(function () {
-			this.ne(true);
-		}), cb);
+		return Bluebird.try(function() {
+			return;
+		}).then(function() {
+			return true;
+		}).nodeify(cb);
 	};
 });
