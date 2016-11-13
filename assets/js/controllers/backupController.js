@@ -21,7 +21,7 @@ define(["asset/state", "libs/qr", "libs/filesaver", "controllers/controllerModul
 			.then(function (_keyData) {
 				keyData = _keyData;
 
-				return Bluebird.resolve(function (resolve) {
+				return new Bluebird(function (resolve) {
 					image = new Image(100, 200);
 
 					image.onload = resolve;
