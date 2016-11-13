@@ -421,17 +421,15 @@ define(["whispeerHelper", "asset/state", "asset/securedDataWithMetaData", "model
 			};
 
 			this.verifyFingerPrint = function (fingerPrint, cb) {
-				if (fingerPrint !== keyStoreService.format.fingerPrint(theUser.getSignKey())) {
-					return false;
-				}
+				return Bluebird.try(function () {
+					if (fingerPrint !== keyStoreService.format.fingerPrint(theUser.getSignKey())) {
+						throw new Error("wrong code");
+					}
 
-				Bluebird.try(function () {
 					return $injector.get("ssn.trustService").verifyUser(theUser);
 				}).then(function () {
 					theUser.data.trustLevel = 2;
 				}).nodeify(cb);
-
-				return true;
 			};
 
 			this.update = updateUser;
