@@ -62,7 +62,7 @@ define(["bluebird", "whispeerHelper", "asset/state", "controllers/controllerModu
 
 		function updateSentInvites() {
 			var promise = initService.awaitLoading().then(function () {
-				return socketService.emit("invites.getMyInvites", {}, this);
+				return socketService.emit("invites.getMyInvites", {});
 			}).then(function (result) {
 				$scope.acceptedInvites = result.invites.filter(function (invite) {
 					return invite.usedBy.length > 0;
