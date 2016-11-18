@@ -7,7 +7,9 @@ $primary_lighter: #76a424;
 $primary_dark: #3b7b06;
 
 $accent: #ffeda5;
+
 $complementary: #788286;
+$complementary_blue: #013c4c;
 $complementary_accent: #1b676b;
 
 $light_grey: #f9f9f9;
@@ -19,6 +21,8 @@ $polygon_height: 88px;
 $polygon_small_width: 35px;
 $polygon_small_height: 40px;
 $polygon_small_font_size: 0.8em;
+
+$link_color: #1b676b;
 
 @import "mixins";
 @import "normalize";
@@ -64,7 +68,7 @@ h1, h2, h3, h4, h5, h6 {
 	box-sizing: border-box;
 
 	font-size: 24px;
-	line-height: 26px;
+	line-height: 30px;
 	font-weight: 100;
 }
 
@@ -140,6 +144,10 @@ h1, h2, h3, h4, h5, h6 {
 	text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
 }
 
+.landing-section__heading--complementary {
+	color: $complementary_blue;
+}
+
 .landing-section__heading--centered {
 	text-align: center;
 }
@@ -147,13 +155,14 @@ h1, h2, h3, h4, h5, h6 {
 .landing-section__paragraph {
 	text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.95);
 	margin: 1em auto;
+	letter-spacing: 0.3pt;
 }
 
 .landing-section__link {
-	color: $primary_light;
+	color: $link_color;
 
 	&:hover {
-		color: $primary_lighter;
+		color: $link_color;
 		text-decoration: underline;
 	}
 }
@@ -216,7 +225,7 @@ h1, h2, h3, h4, h5, h6 {
 	background: $light_grey;
 	width: 100%;
 
-	padding: 42px;
+	padding: 42px 0;
 }
 
 .landing-section__quote {
@@ -307,8 +316,12 @@ h1, h2, h3, h4, h5, h6 {
 
 	height: 280px;
 
-	@media (max-width: 16650px) {
-		height: 266px;
+	@media (max-width: 1650px) {
+		height: 321px;
+	}
+
+	@media (max-width: 880px) {
+		width: 100%;
 	}
 }
 
@@ -320,7 +333,30 @@ h1, h2, h3, h4, h5, h6 {
 	text-transform: uppercase;
 	font-size: 1em;
 
-	margin: 1rem 0 0;
+	margin: 1.5rem 0 0;
+}
+
+.feature__description__text {
+	margin: 1.5rem 0;
+	@media (max-width: 1650px) {
+		height: 90px;
+	}
+
+	@media (max-width: 1270px) {
+		height: 120px;
+	}
+
+	@media (max-width: 1160px) {
+		height: 150px;
+	}
+
+	@media (max-width: 940px) {
+		height: 180px;
+	}
+
+	@media (max-width: 880px) {
+		height: auto;
+	}
 }
 
 .feature__polygon {
@@ -391,7 +427,7 @@ h1, h2, h3, h4, h5, h6 {
 	@media (min-width: 881px) {
 		position: absolute;
 		left: 0;
-		top: 297px;
+		top: 321px;
 		padding: 0 160px;
 		height: 572px;
 	}
@@ -423,7 +459,7 @@ h1, h2, h3, h4, h5, h6 {
 
 .detail__content__headline {
 	font-size: 72px;
-	color: $primary;
+	color: $complementary_blue;
 }
 
 .detail__content__text {
@@ -533,4 +569,8 @@ h1, h2, h3, h4, h5, h6 {
 
 .text--primary {
 	color: $primary_light;
+}
+
+.text--complementary {
+	color: $complementary_blue;
 }
