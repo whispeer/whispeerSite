@@ -1,4 +1,4 @@
-define(["step", "whispeerHelper"], function (step, h) {
+define(["whispeerHelper", "bluebird"], function (h, Bluebird) {
 	"use strict";
 	var MyImage = function () { this._name = ""; };
 
@@ -37,6 +37,12 @@ define(["step", "whispeerHelper"], function (step, h) {
 			//da da dam ...
 			console.log("could not load image from file...");
 		}
+	};
+
+	MyImage.prototype.loadFileAsync = function (file) {
+		var loadFileAsync = Bluebird.promsify(this.loadFile.bind(this));
+
+		return loadFileAsync(file);
 	};
 
 	MyImage.prototype.callBackForFileLoad = function loadImageFromFileHandler(cb) {
@@ -156,23 +162,16 @@ define(["step", "whispeerHelper"], function (step, h) {
 	MyImage.callBackForMultipleFiles = function (cb) {
 		return function imageFileLoadHandler(e) {
 			var MyImages = [];
-			step(function () {
-				var files = e.target.files;
+			Bluebird.resolve(e.target.files).map(function (file) {
+				var currentImage = new MyImage();
+				MyImages.push(currentImage);
 
-				var i, file;
-				for (i = 0; i < files.length; i += 1) {
-					file = files[i];
-
-					var currentImage = new MyImage();
-					MyImages.push(currentImage);
-
-					currentImage.loadFile(file, this.parallel());
-				}
-			}, h.sF(function (loaded) {
-				this.ne(MyImages.filter(function (img, index) {
+				return currentImage.loadFileAsync(file);
+			}).then(function (loaded) {
+				return MyImages.filter(function (img, index) {
 					return loaded[index];
-				}));
-			}), cb);
+				});
+			}).nodeify(cb);
 		};
 	};
 
