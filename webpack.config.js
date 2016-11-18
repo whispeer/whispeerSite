@@ -27,7 +27,6 @@ var plugins = [
 				"**/*.json",
 				"**/*.md",
 				"**/*.markdown",
-				"step/test/**/*",
 				"build/*",
 				"crypto/sjclWorker.js",
 				"worker/worker.js",
