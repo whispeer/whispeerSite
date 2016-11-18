@@ -2,7 +2,6 @@
 * MessageService
 **/
 define([
-		"step",
 		"whispeerHelper",
 		"validation/validator",
 		"messages/messagesModule",
@@ -10,7 +9,7 @@ define([
 		"asset/sortedSet",
 		"asset/securedDataWithMetaData",
 		"bluebird"
-	], function (step, h, validator, messagesModule, Observer, sortedSet, SecuredData, Bluebird) {
+	], function (h, validator, messagesModule, Observer, sortedSet, SecuredData, Bluebird) {
 	"use strict";
 
 	var messageService;
@@ -105,62 +104,54 @@ define([
 					return Topic.get(topicid);
 				}).nodeify(cb);
 			},
-			sendMessageToUserTopicIfExists: function(receiver, message, images, cb) {
-				var theTopic;
-				step(function () {
-					return messageService.getUserTopic(receiver[0]);
-				}, h.sF(function (topicid) {
-					if (topicid) {
-						return Topic.get(topicid);
-					} else {
-						this.last.ne();
-					}
-				}), h.sF(function (topic) {
-					theTopic = topic;
-					var otherReceiver = theTopic.getReceiver();
-					otherReceiver = otherReceiver.map(h.parseDecimal);
-
-					if (otherReceiver.length === 2) {
-						if (otherReceiver.indexOf(receiver[0]) > -1 && otherReceiver.indexOf(sessionService.getUserID()) > -1) {
-							this.ne(theTopic);
-							return;
-						}
-					} else if (otherReceiver.length === 1) {
-						if (receiver[0] === otherReceiver[0]) {
-							this.ne(theTopic);
-							return;
-						}
+			sendMessageToUserTopicIfExists: function(receiver, message, images) {
+				return messageService.getUserTopic(receiver).then(function (topicid) {
+					if (!topicid) {
+						return;
 					}
 
-					console.log("send to existing user topic failed");
+					return Topic.get(topicid).then(function (topic) {
+						var otherReceiver = topic.getReceiver().map(h.parseDecimal);
 
-					this.last.ne();
-				}), h.sF(function () {
-					return messageService.sendMessage(theTopic, message, images);
-				}), h.sF(function () {
-					this.ne(theTopic);
-				}), cb);
+						if (otherReceiver.length > 2) {
+							console.log("send to existing user topic failed as more than two users in receiver list");
+							return false;
+						}
+
+						if (otherReceiver.indexOf(receiver) === -1) {
+							console.log("send to existing user topic failed as other user is not in receiver list");
+							return false;
+						}
+
+						if (otherReceiver.indexOf(sessionService.getUserID()) > -1) {
+							console.log("send to existing user topic failed as own user is not in receiver list");
+							return false;
+						}
+
+						return messageService.sendMessage(topic, message, images).thenReturn(topic);
+					});
+				});
 			},
-			sendNewTopic: function (receiver, message, images, cb) {
-				step(function () {
+			sendNewTopic: function (receiver, message, images) {
+				return Bluebird.try(function () {
 					if (receiver.length === 1) {
-						messageService.sendMessageToUserTopicIfExists(receiver, message, images, this);
-					} else {
-						this.ne(false);
+						return messageService.sendMessageToUserTopicIfExists(receiver, message, images);
 					}
-				}, h.sF(function (topic) {
+
+					return false;
+				}).then(function (topic) {
 					if (topic) {
-						this.last.ne(topic.getID());
-					} else {
-						Topic.createData(receiver, message, images, this);
+						return topic.getID();
 					}
-				}), h.sF(function (topicData) {
-					socket.emit("messages.sendNewTopic", topicData, this);
-				}), h.sF(function (result) {
-					return Topic.multipleFromData([result.topic]).then(function (topics) {
+
+					return Topic.createData(receiver, message, images).then(function (topicData) {
+						return socket.emit("messages.sendNewTopic", topicData);
+					}).then(function (result) {
+						return Topic.multipleFromData([result.topic]);
+					}).then(function (topics) {
 						return topics[0].getID();
 					});
-				}), cb || h.nop);
+				});
 			},
 			sendMessage: function (topicID, message, images, cb) {
 				var getTopic = Bluebird.promisify(Topic.get.bind(Topic));
