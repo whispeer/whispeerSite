@@ -15,9 +15,10 @@
 						<input type="password" id="password" class="inputSandwich inputSandwich-middle" placeholder="{{ i18n.login.password }}" data-ng-model="login.password" data-load-val>
 					</div>
 					<div class="errors inputSandwich inputSandwich-middle" data-ng-cloak>
-						<div class="error" data-ng-if="login.failureCode > 1" id="errorLogin">{{ i18n.login.loginFailed }}</div>
+						<div class="error" data-ng-if="login.failureCode > 2" id="errorLogin">{{ i18n.login.loginFailed }}</div>
 						<div class="error" data-ng-if="login.failureCode == 0" id="errorLogin">{{ i18n.login.unknownName }}</div>
 						<div class="error" data-ng-if="login.failureCode == 1" id="errorLogin">{{ i18n.login.wrongPassword }}</div>
+						<div class="error" data-ng-if="login.failureCode == 2" id="errorLogin">{{ i18n.login.noConnection }}</div>
 					</div>
 					<savebutton id="loginformsubmit" data-noiniticon data-state="login.state" class="btn btn--input btn--primary inputSandwich inputSandwich-bottom" type="submit" data-ng-click="login.login()">
 						<span>{{ i18n.login.link }}</span>
