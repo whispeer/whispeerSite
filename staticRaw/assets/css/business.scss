@@ -30,24 +30,24 @@ $link_color: #1b676b;
 @import "polygon";
 
 @font-face {
-  font-family: 'Roboto';
+  font-family: 'Roboto Condensed';
   font-style: normal;
   font-weight: 100;
-  src: local('Roboto Thin'), local('Roboto-Thin'), url(../fonts/Roboto-Thin.woff) format('woff');
+  src: local('Roboto Condensed'), local('RobotoCondensed-Regular'), url("../fonts/roboto-condensed-light.woff") format('woff');
 }
 @font-face {
-  font-family: 'Roboto';
+  font-family: 'Roboto Condensed';
   font-style: normal;
   font-weight: 300;
-  src: local('Roboto Light'), local('Roboto-Light'), url(../fonts/Roboto-Light.woff) format('woff');
+  src: local('Roboto Condensed'), local('RobotoCondensed-Regular'), url("../fonts/roboto-condensed-regular.woff") format('woff');
 }
 
 main {
 	display: flex;
 	flex-direction: column;
 
-	font-family: 'Roboto', sans-serif !important;
-	font-weight: 300;
+	font-family: 'Roboto Condensed', sans-serif !important;
+	font-weight: 100;
 
 	color: $complementary;
 }
