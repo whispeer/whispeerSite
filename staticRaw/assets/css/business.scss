@@ -421,25 +421,6 @@ h1, h2, h3, h4, h5, h6 {
 	display: flex;
 	flex-direction: column;
 
-	@media (max-width: 880px) {
-		position: relative;
-		display: none;
-
-		padding: 0 1em;
-	}
-
-	@media (min-width: 881px) {
-		position: absolute;
-		left: 0;
-		top: 321px;
-		padding: 0 160px;
-		height: 572px;
-	}
-
-	@media (min-width: 1651px) {
-		top: 280px;
-	}
-
 	visibility: hidden;
 	box-sizing: border-box;
 
@@ -450,7 +431,28 @@ h1, h2, h3, h4, h5, h6 {
 	background-image: url("../images/encrypt_fast.png");
 	background-size: auto 100%;
 	background-repeat: no-repeat;
-	background-position: calc(100vw - 370px) 140px;
+	background-position: -120px 120px;
+
+	@media (max-width: 880px) {
+		position: relative;
+		display: none;
+
+		padding: 0 1em;
+
+		background: none;
+	}
+
+	@media (min-width: 881px) {
+		position: absolute;
+		left: 0;
+		top: 321px;
+		padding: 0 0 0 420px;
+		height: 572px;
+	}
+
+	@media (min-width: 1651px) {
+		top: 280px;
+	}
 }
 
 .detail__content {
@@ -467,11 +469,21 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .detail__content__text {
-	max-width: 840px;
+	max-width: 1080px;
 }
 
 .detail__close {
-	margin: auto auto 34px;
+	position: absolute;
+	top: 1em;
+	right: 1em;
+
+	color: $blue_grey;
+
+	transition: 0.1s color ease-in-out;
+
+	&:hover {
+		color: darken($blue_grey, 5%);
+	}
 }
 
 .landing-footer {
