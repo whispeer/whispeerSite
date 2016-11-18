@@ -56,15 +56,17 @@ define(["whispeerHelper", "step", "directives/directivesModule", "bluebird"], fu
 					var webkit=false;
 					var moz=false;
 
-					step(function () {
+					return Bluebird.try(function () {
 						if (window.MediaStreamTrack && window.MediaStreamTrack.getSources) {
 							return new Bluebird(function (resolve) {
 								window.MediaStreamTrack.getSources(resolve);
 							});
-						} else {
-							this.ne();
 						}
-					}, h.sF(function (sources) {
+					}).then(function (sources) {
+						if (destroyed) {
+							return;
+						}
+
 						var constraints = {
 							audio: false,
 							video: true
@@ -80,10 +82,6 @@ define(["whispeerHelper", "step", "directives/directivesModule", "bluebird"], fu
 							}
 						}
 
-						if (destroyed) {
-							return;
-						}
-
 						return new Bluebird(function (resolve, reject) {
 							if(navigator.getUserMedia) {
 								navigator.getUserMedia(constraints, resolve, reject);
@@ -95,7 +93,11 @@ define(["whispeerHelper", "step", "directives/directivesModule", "bluebird"], fu
 								navigator.mozGetUserMedia(constraints, resolve, reject);
 							}
 						});
-					}), h.sF(function (stream) {
+					}).then(function (stream) {
+						if (destroyed) {
+							return;
+						}
+
 						scope.state.noDevice = false;
 						theStream = stream;
 						var v = iElement.find("video")[0];
@@ -110,15 +112,15 @@ define(["whispeerHelper", "step", "directives/directivesModule", "bluebird"], fu
 						}
 
 						$timeout(captureToCanvas, 500);
-					}), function (e) {
+					}).catch(function (e) {
+						errorService.criticalError(e);
+
 						if (e.name === "DevicesNotFoundError") {
 							scope.state.noDevice = true;
 
 							$timeout(initializeReader, 1000);
-						} else {
-							this(e);
 						}
-					}, errorService.criticalError);
+					});
 				}
 
 				scope.$on("$destroy", function() {
