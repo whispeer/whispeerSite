@@ -1,5 +1,4 @@
 define([
-	"step",
 	"asset/state",
 	"crypto/helper",
 	"login/loginModule",
@@ -8,7 +7,7 @@ define([
 	"services/locationService",
 	"services/socketService",
 	"services/storageService"
-], function (step, State, chelper, loginModule, errors, Bluebird) {
+], function (State, chelper, loginModule, errors, Bluebird) {
 	"use strict";
 
 	var service = function ($rootScope, locationService, socketService, Storage) {
