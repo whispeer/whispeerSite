@@ -1,6 +1,6 @@
 var templateUrl = require("../../views/directives/qrScanner.html");
 
-define(["whispeerHelper", "step", "directives/directivesModule", "bluebird"], function (h, step, directivesModule, Bluebird) {
+define(["directives/directivesModule", "bluebird"], function (directivesModule, Bluebird) {
 	"use strict";
 
 	function qrScannerDirective($timeout, errorService) {

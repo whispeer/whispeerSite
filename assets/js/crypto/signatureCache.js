@@ -1,4 +1,4 @@
-define (["whispeerHelper", "step", "config", "asset/observer", "asset/errors", "crypto/keyStore", "crypto/helper", "bluebird"], function (h, step, config, Observer, errors, keyStore, chelper, Bluebird) {
+define (["whispeerHelper", "config", "asset/observer", "asset/errors", "crypto/keyStore", "crypto/helper", "bluebird"], function (h, config, Observer, errors, keyStore, chelper, Bluebird) {
 	"use strict";
 	var loaded = false, changed = false, signKey, isLoaded = {};
 

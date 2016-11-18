@@ -1,7 +1,7 @@
 /**.
 * MessageService
 **/
-define(["step", "whispeerHelper", "asset/observer", "services/serviceModule", "asset/securedDataWithMetaData", "bluebird"], function (step, h, Observer, serviceModule, SecuredData, Bluebird) {
+define(["whispeerHelper", "asset/observer", "services/serviceModule", "asset/securedDataWithMetaData", "bluebird"], function (h, Observer, serviceModule, SecuredData, Bluebird) {
 	"use strict";
 
 	var service = function ($rootScope, socket, userService, friendsService, sessionService, keyStore, settingsService, initService) {

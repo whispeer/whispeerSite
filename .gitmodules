@@ -1,9 +1,6 @@
 [submodule "assets/js/helper"]
 	path = assets/js/helper
 	url = https://github.com/whispeer/whispeerHelper.git
-[submodule "assets/js/step"]
-	path = assets/js/step
-	url = https://github.com/whispeer/whispeerStep.git
 [submodule "assets/js/validation"]
 	path = assets/js/validation
 	url = https://github.com/whispeer/whispeerValidations.git

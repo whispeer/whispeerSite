@@ -1,6 +1,6 @@
 var Bluebird = require("bluebird");
 
-define(["whispeerHelper", "step", "directives/directivesModule"], function (h, step, directivesModule) {
+define(["whispeerHelper", "directives/directivesModule"], function (h, directivesModule) {
 	"use strict";
 
 	// <loader data-model="user" data-ng-repeat="user in invite.usedBy" data-id="user" data-scope-attribute="user"> 
