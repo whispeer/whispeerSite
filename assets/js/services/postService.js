@@ -144,8 +144,6 @@ define(["bluebird", "whispeerHelper", "bluebird", "validation/validator", "servi
 
 					d.visibleSelection = privateData;
 
-					debugger;
-
 					d.images = securedData.metaAttr("images");
 				}).nodeify(cb);
 			};

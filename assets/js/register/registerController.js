@@ -185,15 +185,11 @@ define([
 
 				locationService.setReturnUrl("/backup");
 				return registerService.register($scope.registerData.nickname, "", $scope.pwState.password, profile, settings, inviteCode);
-			}).then(function (e) {
-				if (!e) {
-					locationService.mainPage();
-				}
-
+			}).then(function () {
+				locationService.mainPage();
+			}).finally(function () {
 				console.timeEnd("register");
 				console.log("register done!");
-
-				return e;
 			});
 
 			errorService.failOnErrorPromise(registerState, registerPromise);
