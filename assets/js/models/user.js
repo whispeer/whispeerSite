@@ -484,7 +484,7 @@ define(["whispeerHelper", "asset/state", "asset/securedDataWithMetaData", "model
 			};
 
 			this.changePassword = function (newPassword, cb) {
-				Bluebird.try(function () {
+				return Bluebird.try(function () {
 					if (!theUser.isOwn()) {
 						throw new Error("not my own user");
 					}
@@ -510,7 +510,6 @@ define(["whispeerHelper", "asset/state", "asset/securedDataWithMetaData", "model
 					});
 				}).then(function () {
 					sessionService.setPassword(newPassword);
-					this.ne();
 				}).nodeify(cb);
 			};
 
