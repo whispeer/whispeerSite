@@ -36,10 +36,7 @@ define(["bluebird", "whispeerHelper", "bluebird", "asset/resizableImage", "asset
 			postService.createPost($scope.newPost.text, visibleSelection, wallUserID, []).then(function () {
 				$scope.newPost.text = "";
 			}).catch(sendPostState.failed.bind(sendPostState))
-			.then(sendPostState.success.bind(sendPostState))
-			.finally(function () {
-				$scope.$apply();
-			});
+			.then(sendPostState.success.bind(sendPostState));
 		};
 
 		$scope.loadMorePosts = function () {

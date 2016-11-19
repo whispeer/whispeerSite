@@ -38,7 +38,6 @@ define(["jquery", "whispeerHelper", "config", "controllers/controllerModule", "d
 				$scope.loading = false;
 
 				rootControllerDebug("Own Name loaded:" + (new Date().getTime() - startup));
-				$scope.$applyAsync();
 			});
 		}
 

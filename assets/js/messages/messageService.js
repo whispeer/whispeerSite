@@ -166,18 +166,14 @@ define([
 					return topic.sendMessage(message, images);
 				});
 
-				if (typeof cb === "function") {
-					resultPromise.nodeify(h.addAfterHook(cb, $rootScope.$apply.bind($rootScope)));
-				}
-
-				return resultPromise;
+				return resultPromise.nodeify(cb);
 			},
 			getUserTopic: function (uid, cb) {
 				return initService.awaitLoading().then(function () {
 					return socket.definitlyEmit("messages.getUserTopic", {
 						userid: uid
 					});
-				}), h.sF(function (data) {
+				}).then(function (data) {
 					if (data.topicid) {
 						return data.topicid;
 					}

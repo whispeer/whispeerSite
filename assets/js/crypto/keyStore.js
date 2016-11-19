@@ -28,7 +28,7 @@ define(["whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForReady", "
 
 	var keyStoreDebug = debug("whispeer:keyStore");
 
-	var keyGetFunction, firstVerify = true, afterAsyncCall, improvementListener = [], makeKey, keyStore, recovery = false, sjclWarning = true;
+	var keyGetFunction, firstVerify = true, improvementListener = [], makeKey, keyStore, recovery = false, sjclWarning = true;
 
 	/** dirty and new keys to upload. */
 	var dirtyKeys = [], newKeys = [];
@@ -1574,10 +1574,6 @@ define(["whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForReady", "
 			password = "";
 			keysUsableForEncryption = [];
 			firstVerify = true;
-		},
-
-		setAfterAsyncCall: function (cb) {
-			afterAsyncCall = cb;
 		},
 
 		setKeyGenIdentifier: function (identifier) {

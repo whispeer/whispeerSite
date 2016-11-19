@@ -584,8 +584,6 @@ define(["whispeerHelper", "asset/state", "asset/securedDataWithMetaData", "model
 						theUser.data.added = friendsService.didIRequest(theUser.getID());
 						theUser.data.isMyFriend = friendsService.areFriends(theUser.getID());
 
-						$rootScope.$applyAsync();
-
 						friendsService.listen(function () {
 							theUser.data.added = friendsService.didIRequest(theUser.getID());
 							theUser.data.isMyFriend = friendsService.areFriends(theUser.getID());
@@ -597,8 +595,6 @@ define(["whispeerHelper", "asset/state", "asset/securedDataWithMetaData", "model
 					theUser.data.ignoreFriendState = ignoreFriendState.data;
 
 					theUser.loadImage();
-
-					$rootScope.$applyAsync();
 
 					return null;
 				}).nodeify(cb);

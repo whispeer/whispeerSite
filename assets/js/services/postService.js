@@ -144,6 +144,8 @@ define(["bluebird", "whispeerHelper", "bluebird", "validation/validator", "servi
 
 					d.visibleSelection = privateData;
 
+					debugger;
+
 					d.images = securedData.metaAttr("images");
 				}).nodeify(cb);
 			};
@@ -426,7 +428,7 @@ define(["bluebird", "whispeerHelper", "bluebird", "validation/validator", "servi
 				return timelinesCache[filterString];
 			},
 			getWallPosts: function (afterID, userid, limit, cb) {
-				return Bluebird.all(function () {
+				return Bluebird.try(function () {
 					return socket.emit("posts.getWall", {
 						afterID: afterID,
 						userid: userid,
@@ -436,7 +438,7 @@ define(["bluebird", "whispeerHelper", "bluebird", "validation/validator", "servi
 					return results.posts || [];
 				}).map(function (postData) {
 					var thePost = makePost(postData);
-					thePost.loadData().thenReturn(thePost.data);
+					return thePost.loadData().thenReturn(thePost.data);
 				}).then(function (posts) {
 					postsByUserWall[userid] = posts;
 
@@ -487,7 +489,7 @@ define(["bluebird", "whispeerHelper", "bluebird", "validation/validator", "servi
 					return keyStore.sym.generateKey(cb, "post key");
 				});
 
-				var symEncryptKey = Promise.promisify(keyStore.sym.symEncryptKey.bind(keyStore.sym));
+				var symEncryptKey = keyStore.sym.symEncryptKey.bind(keyStore.sym);
 				var filterToKeys = Promise.promisify(filterService.filterToKeys.bind(filterService));
 				var socketEmit = Promise.promisify(socket.emit.bind(socket));
 				var data, securedData;
@@ -550,7 +552,7 @@ define(["bluebird", "whispeerHelper", "bluebird", "validation/validator", "servi
 						timeline.addPost(newPost);
 					});
 
-					return Promise.promisify(newPost.loadData.bind(newPost))();
+					return newPost.loadData();
 				});
 			}
 		};

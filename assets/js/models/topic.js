@@ -415,12 +415,12 @@ define([
 			};
 
 			this.loadInitialMessages = function loadInitialMessages(cb) {
-				if (loadInitial) {
-					theTopic.loadMoreMessages(cb, 19);
-					loadInitial = false;
-				} else {
-					cb();
-				}
+				return Bluebird.try(function () {
+					if (loadInitial) {
+						loadInitial = false;
+						return theTopic.loadMoreMessages(cb, 19);
+					}
+				}).nodeify(cb);
 			};
 
 			this.loadMoreMessages = function loadMoreMessagesF(cb, max) {
@@ -476,7 +476,6 @@ define([
 			}).map(function (topic) {
 				return Topic.loadTopic(topic);
 			}).then(function (topics) {
-				$rootScope.$applyAsync();
 				return topics;
 			});
 		};

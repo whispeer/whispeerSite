@@ -77,7 +77,7 @@ define(["jquery", "whispeerHelper", "asset/state", "bluebird", "messages/message
 
 			$scope.canSend = true;
 			$scope.newMessage = false;
-			topic.loadInitialMessages().thenReturn(topic);
+			return topic.loadInitialMessages().thenReturn(topic);
 		}).then(function (topic) {
 			$scope.topicLoaded = true;
 

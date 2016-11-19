@@ -370,11 +370,7 @@ define([
 						socketS.notify(null, "response");
 					});
 
-					if (typeof callback === "function") {
-						resultPromise.nodeify(h.addAfterHook(callback, $rootScope.$applyAsync.bind($rootScope)));
-					}
-
-					return resultPromise;
+					return resultPromise.nodeify(callback);
 				},
 				getLoadingCount: function () {
 					return loading;

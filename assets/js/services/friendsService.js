@@ -74,11 +74,11 @@ define(["whispeerHelper", "asset/observer", "asset/securedDataWithMetaData", "se
 				var signedRemovalPromise = SecuredData.load(undefined, {
 					initial: removed.indexOf(ownUser.getID()) === -1,
 					user: otherUser.getID()
-				}, { type: "removeFriend" }).sign(ownUser.getSignKey(), this.parallel());
+				}, { type: "removeFriend" }).sign(ownUser.getSignKey()	);
 
 				signedList.metaRemoveAttr(otherUser.getID());
 				
-				var signedListPromise = signedList.sign(ownUser.getSignKey(), this.parallel());
+				var signedListPromise = signedList.sign(ownUser.getSignKey());
 
 				return Bluebird.all([
 					signedRemovalPromise,
@@ -89,8 +89,8 @@ define(["whispeerHelper", "asset/observer", "asset/securedDataWithMetaData", "se
 					return {
 						signedRemoval: signedRemoval,
 						updatedSignedList: updatedSignedList,
-						signedKeys: result.signedKeys,
-						newFriendsKe: result.newFriendsKey
+						signedKeys: result.updatedSignedKeys,
+						newFriendsKey: result.newFriendsKey
 					};
 				});
 			});
@@ -106,7 +106,7 @@ define(["whispeerHelper", "asset/observer", "asset/securedDataWithMetaData", "se
 				otherUser = u;
 				return createBasicData(userService.getown(), otherUser);
 			}).then(function (result) {
-				friendShipKey = result.friendShipKey;
+				friendShipKey = result.key;
 
 				var friendsKey = userService.getown().getFriendsKey();
 				result.data.decryptors = keyStore.upload.getDecryptors([friendsKey], [friendShipKey]);

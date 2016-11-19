@@ -68,9 +68,7 @@ define(["asset/state", "bluebird", "controllers/controllerModule"], function (St
 				return Bluebird.resolve([]);
 			}
 
-			var getUserTopic = Bluebird.promisify(messageService.getUserTopic.bind(messageService));
-
-			return getUserTopic($stateParams.userid).then(function (topicid) {
+			return messageService.getUserTopic($stateParams.userid).then(function (topicid) {
 				if (topicid) {
 					$scope.goToShow(topicid);
 					return [];

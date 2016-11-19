@@ -344,7 +344,7 @@ define(["whispeerHelper", "asset/Progress", "asset/Queue", "services/serviceModu
 					knownBlobs[blobID] = loadBlob(blobID);
 				}
 
-				knownBlobs[blobID].nodeify(h.addAfterHook(cb, $rootScope.$applyAsync.bind($rootScope, null)));
+				return knownBlobs[blobID].nodeify(cb);
 			}
 		};
 
