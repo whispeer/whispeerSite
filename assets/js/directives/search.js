@@ -126,13 +126,11 @@ define(["whispeerHelper", "search/singleSearch", "search/multiSearch", "directiv
 							}
 						}).catch(function (error) {
 							if (currentQuery === scope.query) {
-								scope.$applyAsync(function () {
-									console.error(error);
-									scope.searching = false;
+								console.error(error);
+								scope.searching = false;
 
-									scope.unFilteredResults = [];
-									scope.results = [];
-								});
+								scope.unFilteredResults = [];
+								scope.results = [];
 							}
 						});
 					}

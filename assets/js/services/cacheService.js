@@ -73,7 +73,7 @@ define(["whispeerHelper", "dexie", "bluebird", "services/serviceModule", "servic
 
 	Cache.prototype.get = function (id) {
 		if (cacheDisabled) {
-			return Promise.reject();
+			return Promise.reject(new Error("Cache is disabled"));
 		}
 
 		var theCache = this;
@@ -99,7 +99,7 @@ define(["whispeerHelper", "dexie", "bluebird", "services/serviceModule", "servic
 	/** get all cache entries as a dexie collection. */
 	Cache.prototype.all = function () {
 		if (cacheDisabled) {
-			return Promise.resolve();
+			return Promise.resolve([]);
 		}
 
 		return db.cache.where("id").startsWith(this._name + "/");
