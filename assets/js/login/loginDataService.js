@@ -1,13 +1,13 @@
 define([
-	"step",
 	"asset/state",
 	"crypto/helper",
 	"login/loginModule",
+	"asset/errors",
 	"bluebird",
 	"services/locationService",
 	"services/socketService",
 	"services/storageService"
-], function (step, State, chelper, loginModule, Bluebird) {
+], function (State, chelper, loginModule, errors, Bluebird) {
 	"use strict";
 
 	var service = function ($rootScope, locationService, socketService, Storage) {
@@ -57,58 +57,63 @@ define([
 			
 
 			loginServer: function (name, password, callback) {
-				step(function loginStartup() {
-					socketService.emit("session.token", {
+				return Bluebird.try(function () {
+					return socketService.emit("session.token", {
 						identifier: name
-					}, this);
-				}, function hashWithToken(e, data) {
-					if (e) {
-						this.last({ failure: failureCodes.UNKNOWNNAME });
-					} else {
-						if (data.salt.length !== 16) {
-							this.last({ failure: failureCodes.SECURITY });
-							return;
+					});
+				}).catch(function (e) {
+					if (e.name === "disconnectedError") {
+						throw new errors.LoginError("Login failed", { failure: failureCodes.NOCONNECTION });	
+					}
+
+					console.log(e);
+					throw new errors.LoginError("Login failed", { failure: failureCodes.UNKNOWNNAME });
+				}).then(function (data) {
+					if (data.salt.length !== 16) {
+						throw new errors.LoginError("Login failed", { failure: failureCodes.SECURITY });
+					}
+
+					var hash = chelper.hashPW(password, data.salt);
+
+					hash = chelper.hash(hash + data.token);
+					return socketService.emit("session.login", {
+						identifier: name,
+						password: hash,
+						token: data.token
+					}).catch(function (e) {
+						if (e.name === "disconnectedError") {
+							throw new errors.LoginError("Login failed", { failure: failureCodes.NOCONNECTION });	
 						}
 
-						var hash = chelper.hashPW(password, data.salt);
-
-						hash = chelper.hash(hash + data.token);
-						socketService.emit("session.login", {
-							identifier: name,
-							password: hash,
-							token: data.token
-						}, this);
-					}
-				}, function loginResults(e, data) {
-					if (e) {
-						this.last({ failure: failureCodes.WRONGPASSWORD });
-					} else {
-						sessionStorage.set("sid", data.sid);
-						sessionStorage.set("userid", data.userid);
-						sessionStorage.set("loggedin", true);
-						sessionStorage.set("password", password);
-						
-						sessionStorage.save().then(this.ne, this);
-					}
-				}, callback);
+						console.log(e);
+						throw new errors.LoginError("Login failed", { failure: failureCodes.WRONGPASSWORD });
+					});
+				}).then(function (data) {
+					sessionStorage.set("sid", data.sid);
+					sessionStorage.set("userid", data.userid);
+					sessionStorage.set("loggedin", true);
+					sessionStorage.set("password", password);
+					
+					return sessionStorage.save();
+				}).catch(function (e) {
+					console.log(e);
+					throw e;
+				}).nodeify(callback);
 			},
 
 			login: function () {
-				var loginServer = Bluebird.promisify(res.loginServer.bind(res));
-
 				loginState.pending();
 
 				loginStorage.set("identifier", res.identifier || "");
 				loginStorage.save().then(function () {
-					return loginServer(res.identifier, res.password);
+					return res.loginServer(res.identifier, res.password);
 				}).then(function () {
 					loginState.success();
 					locationService.mainPage();
-					$rootScope.$apply();
 				}).catch(function (e) {
 					loginState.failed();
 
-					res.failureCode = e.failure;
+					res.failureCode = e.data.failure;
 					res.failedOnce = true;
 
 					if (!isViewForm) {
@@ -117,8 +122,6 @@ define([
 							locationService.loginPage();
 						});
 					}
-
-					$rootScope.$apply();
 				});
 			}
 		};
@@ -127,10 +130,10 @@ define([
 			res.identifier = loginStorage.get("identifier");
 			res.failureCode = parseInt(loginStorage.get("failureCode"), 10);
 
-			$rootScope.$apply();
-
 			loginStorage.remove("failureCode");
 			loginStorage.save();
+
+			return null;
 		});
 
 		return res;

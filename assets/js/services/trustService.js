@@ -72,7 +72,9 @@ define(["whispeerHelper", "crypto/trustManager", "crypto/signatureCache", "servi
 			Bluebird.try(function () {
 				trustManager.createDatabase(userService.getown());
 
-				return uploadDatabase();
+				uploadDatabase().catch(errorService.criticalError);
+
+				return null;
 			}).nodeify(cb);
 		}
 
@@ -177,9 +179,11 @@ define(["whispeerHelper", "crypto/trustManager", "crypto/signatureCache", "servi
 				return trustManager.getKeyData(keyid);
 			},
 			verifyUser: function (user, cb) {
-				var keyData = trustManager.getKeyData(user.getSignKey());
-				keyData.setTrust(trustManager.trustStates.VERIFIED);
-				uploadDatabase(cb);
+				return Bluebird.try(function () {
+					var keyData = trustManager.getKeyData(user.getSignKey());
+					keyData.setTrust(trustManager.trustStates.VERIFIED);
+					return uploadDatabase();
+				}).nodeify(cb);
 			},
 			addUser: function (user) {
 				return trustManager.addUser(user);

@@ -73,9 +73,10 @@ define(["whispeerHelper", "dexie", "bluebird", "services/serviceModule", "servic
 
 	Cache.prototype.get = function (id) {
 		if (cacheDisabled) {
-			return Promise.reject();
+			return Promise.reject(new Error("Cache is disabled"));
 		}
 
+		var theCache = this;
 		var cacheResult = db.cache.where("id").equals(this._name + "/" + id);
 
 		db.cache.where("id").equals(this._name + "/" + id).modify({ used: new Date().getTime() });
@@ -91,14 +92,14 @@ define(["whispeerHelper", "dexie", "bluebird", "services/serviceModule", "servic
 				return data;
 			}
 
-			throw new Error("cache miss");
+			throw new Error("cache miss for " + theCache._name + "/" + id);
 		}));
 	};
 
 	/** get all cache entries as a dexie collection. */
 	Cache.prototype.all = function () {
 		if (cacheDisabled) {
-			return Promise.resolve();
+			return Promise.resolve([]);
 		}
 
 		return db.cache.where("id").startsWith(this._name + "/");

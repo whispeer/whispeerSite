@@ -119,22 +119,18 @@ define(["whispeerHelper", "search/singleSearch", "search/multiSearch", "directiv
 
 						searchSupplier.search(scope.query).then(function (results) {
 							if (currentQuery === scope.query) {
-								scope.$apply(function () {
-									scope.searching = false;
+								scope.searching = false;
 
-									scope.unFilteredResults = results;
-									scope.results = scope.applyFilterToResults(scope.unFilteredResults);
-								});
+								scope.unFilteredResults = results;
+								scope.results = scope.applyFilterToResults(scope.unFilteredResults);
 							}
 						}).catch(function (error) {
 							if (currentQuery === scope.query) {
-								scope.$applyAsync(function () {
-									console.error(error);
-									scope.searching = false;
+								console.error(error);
+								scope.searching = false;
 
-									scope.unFilteredResults = [];
-									scope.results = [];
-								});
+								scope.unFilteredResults = [];
+								scope.results = [];
 							}
 						});
 					}

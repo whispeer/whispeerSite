@@ -2,7 +2,7 @@
 * inviteController
 **/
 
-define(["step", "whispeerHelper", "asset/state", "controllers/controllerModule"], function (step, h, State, controllerModule) {
+define(["bluebird", "whispeerHelper", "asset/state", "controllers/controllerModule"], function (Bluebird, h, State, controllerModule) {
 	"use strict";
 
 	function inviteController($scope, socketService, errorService, localize) {
@@ -26,23 +26,23 @@ define(["step", "whispeerHelper", "asset/state", "controllers/controllerModule"]
 		$scope.inviteUsers = function (name, mails) {
 			inviteMailState.pending();
 
-			step(function () {
-				var mailsToSend = mails.filter(function (e) {
-					return h.isMail(e);
-				});
-
-				socketService.emit("invites.byMail", {
+			var inviteMailPromise = Bluebird.resolve(mails).filter(function(e) {
+				return h.isMail(e);
+			}).then(function(mailsToSend) {
+				return socketService.emit("invites.byMail", {
 					mails: mailsToSend,
 					name: name,
 					language: localize.getLanguage()
-				}, this);
-			}, h.sF(function () {
+				});
+			}).then(function () {
+				// to too sure about changing this filter to a promise
+				// as this works on $scope.
 				$scope.inviteMails = $scope.inviteMails.filter(function (e) {
 					return !h.isMail(e);
 				});
+			});
 
-				this.ne();
-			}), errorService.failOnError(inviteMailState));
+			return errorService.failOnErrorPromise(inviteMailState, inviteMailPromise);
 		};
 
 		$scope.removeInput = function (i) {

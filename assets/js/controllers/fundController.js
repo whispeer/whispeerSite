@@ -2,7 +2,7 @@
 * setupController
 **/
 
-define(["step", "whispeerHelper", "asset/state", "libs/qr", "libs/filesaver", "controllers/controllerModule"], function (step, h, State, qr, saveAs, controllerModule) {
+define(["whispeerHelper", "asset/state", "libs/qr", "libs/filesaver", "controllers/controllerModule"], function (h, State, qr, saveAs, controllerModule) {
 	"use strict";
 
 	function fundController($scope, cssService) {

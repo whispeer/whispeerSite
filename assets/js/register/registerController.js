@@ -3,14 +3,14 @@
 **/
 
 define([
-		"step",
+		"bluebird",
 		"whispeerHelper",
 		"asset/state",
 		"register/registerModule",
 		"services/errorService",
 		"register/registerService",
 		"services/locationService"
-	], function (step, h, State, registerModule) {
+	], function (Bluebird, h, State, registerModule) {
 	"use strict";
 
 	function registerController($scope, $timeout, errorService, registerService, locationService) {
@@ -81,16 +81,14 @@ define([
 		};
 
 		$scope.nicknameChange = function () {
-			step(function nicknameCheck() {
+			Bluebird.try(function nicknameCheck() {
 				var internalNickname = $scope.registerData.nickname;
 				$scope.registerData.nicknameCheckLoading = true;
 				$scope.registerData.nicknameCheck = false;
 				$scope.registerData.nicknameCheckError = false;
 
-				registerService.nicknameUsed(internalNickname, this);
-			}, function nicknameChecked(e, nicknameUsed) {
-				errorService.criticalError(e);
-
+				return registerService.nicknameUsed(internalNickname);
+			}).then(function nicknameChecked(nicknameUsed) {
 				$scope.registerData.nicknameCheckLoading = false;
 
 				if (nicknameUsed === false) {
@@ -100,7 +98,7 @@ define([
 				} else {
 					$scope.registerData.nicknameCheckError = true;
 				}
-			});
+			}).catch(errorService.criticalError);
 		};
 
 		$timeout($scope.nicknameChange);
@@ -182,21 +180,19 @@ define([
 
 			var inviteCode = locationService.getUrlParameter("code");
 
-			step(function () {
+			var registerPromise = Bluebird.try(function () {
 				console.time("register");
 
 				locationService.setReturnUrl("/backup");
-				registerService.register($scope.registerData.nickname, "", $scope.pwState.password, profile, settings, inviteCode, this);
-			}, function (e) {
-				if (!e) {
-					locationService.mainPage();
-				}
-
+				return registerService.register($scope.registerData.nickname, "", $scope.pwState.password, profile, settings, inviteCode);
+			}).then(function () {
+				locationService.mainPage();
+			}).finally(function () {
 				console.timeEnd("register");
 				console.log("register done!");
+			});
 
-				this(e);
-			}, errorService.failOnError(registerState));
+			errorService.failOnErrorPromise(registerState, registerPromise);
 		};
 	}
 

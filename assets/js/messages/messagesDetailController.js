@@ -2,7 +2,7 @@
 * setupController
 **/
 
-define(["step", "whispeerHelper", "asset/state", "bluebird", "messages/messagesModule"], function (step, h, State, Bluebird, messagesModule) {
+define(["whispeerHelper", "asset/state", "bluebird", "messages/messagesModule"], function (h, State, Bluebird, messagesModule) {
 	"use strict";
 
 	function messagesDetailController($scope, $element, $state, $stateParams, $timeout, localize, errorService, messageService) {
@@ -22,24 +22,20 @@ define(["step", "whispeerHelper", "asset/state", "bluebird", "messages/messagesM
 			var savePromise = $scope.activeTopic.obj.setTitle($scope.topicTitle).then(function () {
 				$state.go("app.messages.show", { topicid: topicID });
 			});
+
 			errorService.failOnErrorPromise(topicDetailsSavingState, savePromise);
 		};
 
 		$scope.topicTitle = "";
 
-		var topic;
-		step(function () {
-			messageService.getTopic(topicID, this);
-		}, h.sF(function (_topic) {
-			topic = _topic;
-
+		var getTopicPromise = messageService.getTopic(topicID).then(function (topic) {
 			messageService.setActiveTopic(topicID);
 			$scope.activeTopic = topic.data;
 
-			$scope.topicTitle = topic.data.title || "";
+			$scope.topicTitle = topic.data.title || "";			
+		});
 
-			console.log(topic.data);
-		}), errorService.failOnError(topicLoadingState));
+		errorService.failOnErrorPromise(topicLoadingState, getTopicPromise);
 	}
 
 	messagesDetailController.$inject = ["$scope", "$element", "$state", "$stateParams", "$timeout", "localize", "ssn.errorService", "ssn.messageService"];

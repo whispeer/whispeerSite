@@ -2,7 +2,7 @@
 * inviteController
 **/
 
-define(["step", "whispeerHelper", "asset/state", "controllers/controllerModule"], function (step, h, State, controllerModule) {
+define(["bluebird", "asset/state", "controllers/controllerModule"], function (Bluebird, State, controllerModule) {
 	"use strict";
 
 	function inviteController($scope, socketService, errorService) {
@@ -12,13 +12,11 @@ define(["step", "whispeerHelper", "asset/state", "controllers/controllerModule"]
 		$scope.generateInvite = function () {
 			inviteGenerateState.pending();
 
-			step(function () {
-				socketService.emit("invites.generateCode", { active: true }, this);
-			}, h.sF(function (result) {
+			var generateInvitePromise = socketService.emit("invites.generateCode", { active: true }).then(function(result) {
 				$scope.inviteCode = result.inviteCode;
+			});
 
-				this.ne();
-			}), errorService.failOnError(inviteGenerateState));
+			return errorService.failOnErrorPromise(inviteGenerateState, generateInvitePromise);
 		};
 
 		$scope.generateInvite();

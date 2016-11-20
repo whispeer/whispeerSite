@@ -12,7 +12,7 @@ define([
 	"directives/savebutton",
 	"directives/passwordinput",
 	"directives/validatedForm",
-	"directives/loadVal"
+	"directives/loadVal",
 ], function(angular, app) {
 	"use strict";
 

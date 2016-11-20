@@ -1,4 +1,4 @@
-define(["controllers/controllerModule", "whispeerHelper", "step", "asset/state"], function (circlesModule, h, step, State) {
+define(["controllers/controllerModule", "whispeerHelper", "bluebird", "asset/state"], function (circlesModule, h, Bluebird, State) {
 	"use strict";
 
 	function circlesShowController($scope, circleService, errorService, localize, $stateParams, $state) {
@@ -9,15 +9,13 @@ define(["controllers/controllerModule", "whispeerHelper", "step", "asset/state"]
 		$scope.thisCircle = {};
 		$scope.circleLoading = true;
 
-		step(function () {
-			circleService.loadAll(this);
-		}, h.sF(function () {
+		circleService.loadAll().then(function() {
 			var theCircle = circleService.get($stateParams.circleid);
 			$scope.thisCircle = theCircle.data;
-			theCircle.loadPersons(this);
-		}), h.sF(function () {
+			return theCircle.loadPersons();
+		}).then(function() {
 			$scope.circleLoading = false;
-		}), errorService.criticalError);
+		}).catch(errorService.criticalError);
 
 		$scope.editingTitle = {
 			"success":		true,
@@ -51,27 +49,27 @@ define(["controllers/controllerModule", "whispeerHelper", "step", "asset/state"]
 		$scope.addUsers = function () {
 			addUsersToCircleState.pending();
 
-			step(function () {
-				circleService.get($scope.circleid).addPersons(usersToAdd, this);
-			}, h.sF(function () {
+			var promise = circleService.get($scope.circleid).addPersons(usersToAdd).then(function() {
 				$scope.$broadcast("resetSearch");
-				this.ne();
-			}), errorService.failOnError(addUsersToCircleState));
+			});
+
+			errorService.failOnErrorPromise(addUsersToCircleState, promise);
 		};
 
 		$scope.removeCircle = function () {
-			step(function () {
-				var response = confirm(localize.getLocalizedString("views.circles.removeCircle"));
-				if (response) {
-					circleService.get($scope.circleid).remove(this);
-				}
-			}, h.sF(function () {
+			var response = confirm(localize.getLocalizedString("views.circles.removeCircle"));
+
+			if (!response) {
+				return;
+			}
+
+			circleService.get($scope.circleid).remove().then(function() {
 				if ($scope.mobile) {
 					$state.go("app.circles.list");
 				} else {
 					$state.go("app.circles.new");
 				}
-			}), errorService.criticalError);
+			}).catch(errorService.criticalError);
 		};
 	}
 

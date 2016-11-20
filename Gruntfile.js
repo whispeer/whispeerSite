@@ -88,7 +88,7 @@ grunt.initConfig({
 	},
 	autoprefixer: {
 		options: {
-			browsers: ["last 2 versions", "ie 9", "> 1% in DE"],
+			browsers: ["last 2 versions", "ie >= 9", "> 0.5% in DE", "iOS > 7"],
 			remove: true
 		},
 		style: {

@@ -6,7 +6,8 @@ window.jQuery = require("jquery");
 define([
 	"angular",
 	"login/loginModule",
-	"login/loginController"
+	"login/loginController",
+	"runners/promiseRunner",
 ], function(angular, app) {
 	"use strict";
 

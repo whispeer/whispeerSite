@@ -1,4 +1,4 @@
-define(["step", "whispeerHelper", "asset/errors"], function (step, h, errors) {
+define(["bluebird", "whispeerHelper", "asset/errors"], function (Bluebird, h, errors) {
 	"use strict";
 
 	function removePadding(val) {
@@ -47,17 +47,15 @@ define(["step", "whispeerHelper", "asset/errors"], function (step, h, errors) {
 		});
 	}
 
-	return function ($injector, cb) {
-		step(function () {
+	return function ($injector) {
+		return Bluebird.try(function() {
 			var settings = $injector.get("ssn.settingsService");
 			var content = settings.getContent();
 
 			checkAndFixObject(content);
 
 			settings.setContent(content);
-			settings.uploadChangedData(this);
-		}, h.sF(function () {
-			this.ne(true);
-		}), cb);
+			return settings.uploadChangedData().thenReturn(true);
+		});
 	};
 });

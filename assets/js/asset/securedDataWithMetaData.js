@@ -107,7 +107,7 @@ define(["whispeerHelper", "crypto/keyStore", "asset/errors", "config", "bluebird
 				return this._signAndEncrypt(signKey, this._original.meta._key);
 			}
 
-			return this.sign(signKey, this);
+			return this.sign(signKey);
 		}).nodeify(cb);
 	};
 

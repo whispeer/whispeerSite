@@ -15,9 +15,7 @@ define(["bluebird", "directives/directivesModule"], function (Bluebird, directiv
 			transclude: false,
 			link: function (scope) {
 				scope.createCircle = function (name) {
-					var createCircle = Bluebird.promisify(circleService.create.bind(circleService));
-
-					createCircle(name).then(function (circle) {
+					circleService.create(name).then(function (circle) {
 						scope.afterCreate({
 							circle: circle
 						});

@@ -2,7 +2,7 @@
 * userController
 **/
 
-define(["step", "whispeerHelper", "bluebird", "asset/resizableImage", "asset/state", "user/userModule"], function (step, h, Promise, ResizableImage, State, userModule) {
+define(["bluebird", "asset/resizableImage", "asset/state", "user/userModule"], function (Promise, ResizableImage, State, userModule) {
 	"use strict";
 
 	function userController($scope, $stateParams, $timeout, cssService, errorService) {
@@ -83,13 +83,9 @@ define(["step", "whispeerHelper", "bluebird", "asset/resizableImage", "asset/sta
 				fingerPrint = fingerPrint.join("");
 			}
 
-			step(function () {
-				var ok = $scope.user.user.verifyFingerPrint(fingerPrint, this);	
+			var verifyPromise = $scope.user.user.verifyFingerPrint(fingerPrint, this);
 
-				if (!ok) {
-					this(new Error("wrong code"));
-				}
-			}, errorService.failOnError(verifyState));
+			errorService.failOnErrorPromise(verifyState, verifyPromise);
 		};
 	}
 

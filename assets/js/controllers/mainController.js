@@ -2,25 +2,27 @@
 * mainController
 **/
 
-define(["step", "whispeerHelper", "asset/state", "controllers/controllerModule"], function (step, h, State, controllerModule) {
+define(["bluebird", "whispeerHelper", "asset/state", "controllers/controllerModule"], function (Bluebird, h, State, controllerModule) {
 	"use strict";
 
 	function mainController($scope, $state, $stateParams, cssService, postService, ImageUploadService, filterService, localize, settingsService, errorService) {
 		cssService.setClass("mainView");
 
 		function reloadTimeline(cb) {
-			step(function () {
+			return Bluebird.try(function() {
 				if ($scope.filterSelection.length === 0) {
 					$scope.filterSelection = ["always:allfriends"];
 				}
 
 				$scope.currentTimeline = postService.getTimeline($scope.filterSelection, $scope.sortByCommentTime);
-				$scope.currentTimeline.loadInitial(this);
-			}, h.sF(function () {
+				return $scope.currentTimeline.loadInitial();
+			}).then(function () {
 				var donateSettings = settingsService.getBranch("donate");
 
 				$scope.showDonateHint = $scope.currentTimeline.displayDonateHint && donateSettings.later < new Date().getTime();
-			}), cb || errorService.criticalError);
+			}).catch(
+				errorService.criticalError
+			).nodeify(cb);
 		}
 
 		$scope.postActive = false;
@@ -51,12 +53,16 @@ define(["step", "whispeerHelper", "asset/state", "controllers/controllerModule"]
 		};
 
 		$scope.applyFilter = function () {
-			step(function () {
+			var filterPromise = Bluebird.try(function() {
 				settingsService.updateBranch("filterSelection", $scope.filterSelection);
 
-				reloadTimeline(this.parallel());
-				settingsService.uploadChangedData(this.parallel());
-			}, errorService.failOnError(applyFilterState));
+				return Bluebird.all([
+					reloadTimeline(),
+					settingsService.uploadChangedData()
+				]);
+			});
+
+			return errorService.failOnErrorPromise(applyFilterState, filterPromise);
 			// TODO: Save for later
 		};
 
@@ -64,16 +70,18 @@ define(["step", "whispeerHelper", "asset/state", "controllers/controllerModule"]
 		$scope.sortIcon = "fa-newspaper-o";
 
 		$scope.toggleSort = function() {
-			step(function () {
+			return Bluebird.try(function () {
 				$scope.sortByCommentTime = !$scope.sortByCommentTime;
 
 				settingsService.updateBranch("sortByCommentTime", $scope.sortByCommentTime);
 
 				$state.go(".", { sortByCommentTime: $scope.sortByCommentTime  }, { reload: false });
 
-				reloadTimeline(this.parallel());
-				settingsService.uploadChangedData(this.parallel());
-			}, errorService.criticalError);
+				return Bluebird.all([
+					reloadTimeline(),
+					settingsService.uploadChangedData()
+				]);
+			}).catch(errorService.criticalError);
 		};
 
 		$scope.togglePost = function() {

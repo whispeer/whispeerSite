@@ -27,7 +27,7 @@ var plugins = [
 				"**/*.json",
 				"**/*.md",
 				"**/*.markdown",
-				"step/test/**/*",
+				"build/*",
 				"crypto/sjclWorker.js",
 				"worker/worker.js",
 			]
@@ -50,7 +50,6 @@ module.exports = {
 			text: "bower/requirejs-plugins/lib/text",
 			json: "bower/requirejs-plugins/src/json",
 
-			step: "step/lib/step",
 			whispeerHelper: "helper/helper",
 			amanda: "bower/amanda/releases/latest/amanda",
 			angular: "bower/angular/angular",

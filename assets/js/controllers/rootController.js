@@ -2,7 +2,7 @@
 * sessionController
 **/
 
-define(["jquery", "step", "whispeerHelper", "config", "controllers/controllerModule", "debug", "bluebird"], function (jQuery, step, h, config, controllerModule, debug, Bluebird) {
+define(["jquery", "whispeerHelper", "config", "controllers/controllerModule", "debug", "bluebird"], function (jQuery, h, config, controllerModule, debug, Bluebird) {
 	"use strict";
 
 	var debugName = "whispeer:rootController";
@@ -38,7 +38,6 @@ define(["jquery", "step", "whispeerHelper", "config", "controllers/controllerMod
 				$scope.loading = false;
 
 				rootControllerDebug("Own Name loaded:" + (new Date().getTime() - startup));
-				$scope.$applyAsync();
 			});
 		}
 
