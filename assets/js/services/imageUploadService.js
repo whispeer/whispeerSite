@@ -1,7 +1,7 @@
 /**
 * imageUploadService
 **/
-define(["step", "whispeerHelper", "jquery", "bluebird", "imageLib", "asset/Progress", "asset/Queue", "services/serviceModule"], function (step, h, $, Bluebird, imageLib, Progress, Queue, serviceModule) {
+define(["whispeerHelper", "jquery", "bluebird", "imageLib", "asset/Progress", "asset/Queue", "services/serviceModule"], function (h, $, Bluebird, imageLib, Progress, Queue, serviceModule) {
 	"use strict";
 
 	var service = function ($timeout, blobService, screenSizeService) {

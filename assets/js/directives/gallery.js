@@ -1,6 +1,6 @@
 var templateUrl = require("../../views/directives/gallery.html");
 
-define(["jquery", "step", "whispeerHelper", "directives/directivesModule"], function (jQuery, step, h, directivesModule) {
+define(["jquery", "bluebird", "directives/directivesModule"], function (jQuery, Bluebird, directivesModule) {
 	"use strict";
 
 	function imageGallery(errorService, blobService, screenSizeService) {
@@ -16,22 +16,22 @@ define(["jquery", "step", "whispeerHelper", "directives/directivesModule"], func
 			data.downloading = false;
 
 			var blob;
-			step(function () {
+			Bluebird.try(function () {
 				data.downloading = true;
-				blobService.getBlob(blobid, this);
-			}, h.sF(function (_blob) {
+				return blobService.getBlob(blobid);
+			}).then(function (_blob) {
 				data.downloading = false;
 				data.decrypting = true;
 				blob = _blob;
-				blob.decrypt(this);
-			}), h.sF(function () {
-				blob.toURL(this);
-			}), h.sF(function (url) {
+				return blob.decrypt();
+			}).then(function () {
+				return blob.toURL();
+			}).then(function (url) {
 				data.loading = false;
 				data.decrypting = false;
 				data.loaded = true;
 				data.url = url;
-			}), errorService.criticalError);
+			}).catch(errorService.criticalError);
 		}
 
 		function loadImagePreviews(images) {

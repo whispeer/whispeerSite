@@ -1,10 +1,10 @@
-define(["step",
+define([
 	"whispeerHelper",
 	"validation/validator",
 	"asset/securedDataWithMetaData",
 	"bluebird",
 	"models/modelsModule",
-], function (step, h, validator, SecuredData, Bluebird, modelsModule) {
+], function (h, validator, SecuredData, Bluebird, modelsModule) {
 	"use strict";
 	function messageModel(keyStore, userService, socket) {
 		var notVerified = ["sendTime", "sender", "topicid", "messageid"];
@@ -62,7 +62,7 @@ define(["step",
 				return image.convertForGallery();
 			});
 
-			this.loadSender(h.nop);
+			this.loadSender();
 			this._prepareImages();
 		};
 
@@ -206,33 +206,32 @@ define(["step",
 			return this._isOwnMessage;
 		};
 
-		Message.prototype.loadSender = function loadSenderF(cb) {
-			var theSender, theMessage = this;
-			step(function () {
-				userService.get(theMessage._securedData.metaAttr("sender"), this);
-			}, h.sF(function loadS1(sender) {
-				this.parallel.unflatten();
+		Message.prototype.loadSender = function loadSenderF() {
+			var theMessage = this;
 
-				theSender = sender;
-				sender.loadBasicData(this);
-			}), h.sF(function loadS2() {
-				theMessage.data.sender = theSender.data;
-				theMessage._isOwnMessage = theSender.isOwn();
+			return Bluebird.try(function () {
+				return userService.get(theMessage._securedData.metaAttr("sender"));
+			}).then(function loadS1(sender) {
+				return sender.loadBasicData().thenReturn(sender);
+			}).then(function loadS2(sender) {
+				theMessage.data.sender = sender.data;
+				theMessage._isOwnMessage = sender.isOwn();
 
-				this.ne(theSender);
-			}), cb);
+				return sender;
+			});
 		};
 
 		Message.prototype.loadFullData = function loadFullDataF(cb) {
 			var theMessage = this;
-			step(function l1() {
-				theMessage.loadSender(this);
-			}, h.sF(function l2(sender) {
-				theMessage.decrypt(this.parallel());
-				theMessage.verify(sender.getSignKey(), this.parallel());
-			}), h.sF(function l3() {
-				this.ne();
-			}), cb);
+
+			return this.loadSender().then(function l2(sender) {
+				return Bluebird.all([
+					theMessage.decrypt(),
+					theMessage.verify(sender.getSignKey())
+				]);
+			}).then(function l3() {
+				return;
+			}).nodeify(cb);
 		};
 
 		Message.prototype.verifyParent = function (topic) {
@@ -244,26 +243,25 @@ define(["step",
 				throw new Error("verifying unsent message");
 			}
 
-			this._securedData.verify(signKey, cb);
+			return this._securedData.verify(signKey).nodeify(cb);
 		};
 
 		Message.prototype.decrypt = function decryptF(cb) {
 			if (this._isDecrypted) {
-				cb(null, this.data.text);
-				return;
+				return Bluebird.resolve(this.data.text).nodeify(cb);
 			}
 
 			var theMessage = this;
-			step(function () {
-				theMessage._securedData.decrypt(this);
-			}, h.sF(function () {
+			return Bluebird.try(function () {
+				return theMessage._securedData.decrypt();
+			}).then(function () {
 				theMessage.data.text = theMessage._securedData.contentGet();
-				this.ne(theMessage._securedData.contentGet());
-			}), cb);
+				return theMessage._securedData.contentGet();
+			}).nodeify(cb);
 		};
 
 		Message.createData = function (topic, message, imagesMeta, cb) {
-			step(function () {
+			return Bluebird.try(function () {
 				var newest = topic.data.latestMessage;
 
 				var meta = {
@@ -273,16 +271,16 @@ define(["step",
 
 				var mySecured = Message.createRawSecuredData(topic, message, meta);
 				mySecured.setAfterRelationShip(newest.getSecuredData());
-				mySecured._signAndEncrypt(userService.getown().getSignKey(), topic.getKey(), this);
-			}, h.sF(function (mData) {
+				return mySecured._signAndEncrypt(userService.getown().getSignKey(), topic.getKey());
+			}).then(function (mData) {
 				mData.meta.topicid = topic.getID();
 
 				var result = {
 					message: mData
 				};
 
-				this.ne(result);
-			}), cb);
+				return result;
+			}).nodeify(cb);
 		};
 
 		Message.createRawSecuredData = function (topic, message, meta) {

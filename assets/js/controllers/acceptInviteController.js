@@ -1,4 +1,5 @@
-define(["whispeerHelper", "step", "asset/state", "controllers/controllerModule"], function (h, step, State, controllerModule) {
+
+define(["bluebird", "asset/state", "controllers/controllerModule"], function (Bluebird, State, controllerModule) {
 	"use strict";
 
 	function acceptInviteController($scope, cssService, socketService, errorService) {
@@ -11,17 +12,15 @@ define(["whispeerHelper", "step", "asset/state", "controllers/controllerModule"]
 		$scope.accept = function () {
 			acceptInviteState.pending();
 
-			step(function () {
-				socketService.emit("invites.acceptRequest", {
-					code: $scope.code
-				}, this);
-			}, h.sF(function (data) {
+			var acceptInvitePromise = socketService.emit("invites.acceptRequest", {
+				code: $scope.code
+			}).then(function(data) {
 				if (!data.success) {
 					throw new Error("nope!");
-				} else {
-					this.ne();
 				}
-			}), errorService.failOnError(acceptInviteState));
+			});
+
+			return errorService.failOnErrorPromise(acceptInviteState, acceptInvitePromise);
 		};
 	}
 

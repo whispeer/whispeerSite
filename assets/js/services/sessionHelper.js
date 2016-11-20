@@ -3,14 +3,14 @@
 /**
 * SessionHelper
 **/
-define(["step", "whispeerHelper", "services/serviceModule"], function (step, h, serviceModule) {
+define(["bluebird", "whispeerHelper", "services/serviceModule"], function (Bluebird, h, serviceModule) {
 	"use strict";
 
 	var service = function (socketService) {
 		var sessionHelper = {
 			logout: function () {
-				step(function sendLogout() {
-					socketService.emit("session.logout", {logout: true}, this);
+				return Bluebird.try(function sendLogout() {
+					return socketService.emit("session.logout", {logout: true});
 				});
 			}
 		};

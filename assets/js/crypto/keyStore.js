@@ -28,7 +28,7 @@ define(["whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForReady", "
 
 	var keyStoreDebug = debug("whispeer:keyStore");
 
-	var keyGetFunction, firstVerify = true, afterAsyncCall, improvementListener = [], makeKey, keyStore, recovery = false, sjclWarning = true;
+	var keyGetFunction, firstVerify = true, improvementListener = [], makeKey, keyStore, recovery = false, sjclWarning = true;
 
 	/** dirty and new keys to upload. */
 	var dirtyKeys = [], newKeys = [];
@@ -1576,10 +1576,6 @@ define(["whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForReady", "
 			firstVerify = true;
 		},
 
-		setAfterAsyncCall: function (cb) {
-			afterAsyncCall = cb;
-		},
-
 		setKeyGenIdentifier: function (identifier) {
 			keyGenIdentifier = identifier;
 			//TODO: update all key identifiers for all keys.
@@ -1686,8 +1682,8 @@ define(["whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForReady", "
 				return chelper.hash(text);
 			},
 
-			hashBigBase64CodedData: function (text, cb) {
-				sjclWorkerInclude.hash(text).nodeify(cb);
+			hashBigBase64CodedData: function (text) {
+				return sjclWorkerInclude.hash(text);
 			},
 
 			hashPW: function (pw, salt) {
@@ -1988,17 +1984,17 @@ define(["whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForReady", "
 				}).nodeify(callback);
 			},
 
-			encryptArrayBuffer: function (buf, realKeyID, callback, progressCallback) {
+			encryptArrayBuffer: function (buf, realKeyID, progressCallback) {
 				return SymKey.get(realKeyID).then(function (key) {
 					return key.encryptWithPrefix("buf::", buf, progressCallback, true);
 				}).then(function (result) {
 					result.iv = sjcl.codec.arrayBuffer.fromBits(result.iv, false);
 					result.ct.tag = sjcl.codec.arrayBuffer.fromBits(result.ct.tag, false);
 					return h.concatBuffers(result.iv, result.ct.ciphertext_buffer, result.ct.tag);
-				}).nodeify(callback);
+				});
 			},
 
-			decryptArrayBuffer: function (buf, realKeyID, callback) {
+			decryptArrayBuffer: function (buf, realKeyID) {
 				return SymKey.get(realKeyID).then(function (key) {
 					var buf32 = new Uint32Array(buf);
 
@@ -2011,7 +2007,7 @@ define(["whispeerHelper", "crypto/helper", "libs/sjcl", "crypto/waitForReady", "
 					return key.decrypt(decr);
 				}).then(function (decryptedData) {
 					return removeExpectedPrefix(decryptedData, "buf::");
-				}).nodeify(callback);
+				});
 			},
 
 			decryptBigBase64: function (bin, realKeyID, callback) {

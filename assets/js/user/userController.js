@@ -2,7 +2,7 @@
 * userController
 **/
 
-define(["step", "whispeerHelper", "bluebird", "asset/resizableImage", "asset/state", "user/userModule"], function (step, h, Promise, ResizableImage, State, userModule) {
+define(["whispeerHelper", "bluebird", "asset/resizableImage", "asset/state", "user/userModule"], function (h, Promise, ResizableImage, State, userModule) {
 	"use strict";
 
 	function userController($scope, $stateParams, $timeout, cssService, errorService, userService, postService, circleService, blobService) {
@@ -76,24 +76,31 @@ define(["step", "whispeerHelper", "bluebird", "asset/resizableImage", "asset/sta
 			});
 		};
 
-		function setImage(cb) {
-			step(function () {
-				resizableImage.getImageBlob(ENDSIZE, this.ne);
-			}, h.sF(function (imageBlob) {
-				imageBlob = blobService.createBlob(imageBlob);
+		function setImage() {
+			return Promise.try(function () {
+				return new Promise(function (resolve) {
+					resizableImage.getImageBlob(ENDSIZE, resolve);	
+				});
+			}).then(function (rawImageBlob) {
+				var imageBlob = blobService.createBlob(rawImageBlob);
 
-				this.parallel.unflatten();
-
-				imageBlob.upload(this.parallel());
-				imageBlob.getHash(this.parallel());
-			}), h.sF(function (blobid, hash) {
-				userObject.setProfileAttribute("imageBlob", {
+				return Promise.all([
+					imageBlob.upload(),
+					imageBlob.getHash()
+				]);
+			}).spread(function (blobid, hash) {
+				var setImageBlobAttributePromise = userObject.setProfileAttribute("imageBlob", {
 					blobid: blobid,
 					imageHash: hash
-				}, this.parallel());
+				});
 
-				userObject.setProfileAttribute("image", "", this.parallel());
-			}), cb);
+				var removeImageAttributePromise = userObject.setProfileAttribute("image", "");
+
+				return Promise.all([
+					setImageBlobAttributePromise,
+					removeImageAttributePromise
+				]);
+			});
 		}
 
 		$scope.saveUser = function () {
@@ -102,13 +109,11 @@ define(["step", "whispeerHelper", "bluebird", "asset/resizableImage", "asset/sta
 			if (userObject.isOwn()) {
 				//TODO: something goes wrong here when doing it the 2nd time!
 
-				step(function () {
+				var saveUserPromise = Promise.try(function () {
 					if ($scope.changeImage) {
-						setImage(this);
-					} else {
-						this.ne();
+						return setImage();
 					}
-				}, h.sF(function () {
+				}).then(function () {
 					var adv = $scope.user.advanced;
 
 					if (adv.gender.gender !== "o") {
@@ -119,14 +124,14 @@ define(["step", "whispeerHelper", "bluebird", "asset/resizableImage", "asset/sta
 						adv.birthday.day = "";
 					}
 
-					userObject.setAdvancedProfile(adv, this);
-				}), h.sF(function () {
-					userObject.uploadChangedProfile(this);
-				}), h.sF(function () {
+					return userObject.setAdvancedProfile(adv);
+				}).then(function () {
+					return userObject.uploadChangedProfile();
+				}).then(function () {
 					$scope.edit();
+				});
 
-					$timeout(this);
-				}), errorService.failOnError(saveUserState));
+				errorService.failOnErrorPromise(saveUserState, saveUserPromise);
 			}
 		};
 
@@ -225,10 +230,9 @@ define(["step", "whispeerHelper", "bluebird", "asset/resizableImage", "asset/sta
 		};
 
 		$scope.saveCircles = function () {
-			step(function () {
+			var saveCirclesPromise = Promise.try(function () {
 				circleState.pending();
-				$timeout(this, 200);
-			}, h.sF(function () {
+			}).delay(200).then(function () {
 				var oldCircles = circleService.inWhichCircles($scope.user.id).map(function (e) {
 					return h.parseDecimal(e.getID());
 				});
@@ -237,25 +241,28 @@ define(["step", "whispeerHelper", "bluebird", "asset/resizableImage", "asset/sta
 				var toAdd = h.arraySubtract(newCircles, oldCircles);
 				var toRemove = h.arraySubtract(oldCircles, newCircles);
 
-				var i;
-				for (i = 0; i < toAdd.length; i += 1) {
-					circleService.get(toAdd[i]).addPersons([$scope.user.id], this.parallel());
-				}
+				var toAddPromises = toAdd.map(function (toAddElement) {
+					return circleService.get(toAddElement).addPersons([$scope.user.id]);
+				});
 
-				for (i = 0; i < toRemove.length; i += 1) {
-					circleService.get(toRemove[i]).removePersons([$scope.user.id], this.parallel());
-				}
-				this.parallel()();
-			}), errorService.failOnError(circleState));
+				var toRemovePromises = toRemove.map(function (toRemoveElement) {
+					return circleService.get(toRemoveElement).removePersons([$scope.user.id]);
+				});
+
+				return Promise.all([
+					Promise.all(toAddPromises),
+					Promise.all(toRemovePromises)
+				]);
+			});
+
+			errorService.failOnErrorPromise(circleState, saveCirclesPromise);
 		};
 
 		$scope.possibleStatus = ["single", "relationship", "engaged", "married", "divorced", "widowed", "complicated", "open", "inlove"];
 
 		$scope.editGeneral = false;
 
-		step(function () {
-			userService.get(identifier, this);
-		}, h.sF(function (user) {
+		userService.get(identifier).then(function (user) {
 			if (user.isNotExistingUser()) {
 				$scope.user = user.data;
 				$scope.loading = false;
@@ -264,16 +271,16 @@ define(["step", "whispeerHelper", "bluebird", "asset/resizableImage", "asset/sta
 
 			userObject = user;
 
-			var fp = user.getFingerPrint();		
+			var fp = user.getFingerPrint();
 			$scope.fingerPrint = [fp.substr(0,13), fp.substr(13,13), fp.substr(26,13), fp.substr(39,13)];
 
-			user.loadFullData(this);
-		}), h.sF(function () {
+			return user.loadFullData();
+		}).then(function () {
 			$scope.user = userObject.data;
 			$scope.adv = $scope.user.advanced;
 
 			$scope.loading = false;
-		}));
+		});
 	}
 
 	userController.$inject = ["$scope", "$stateParams", "$timeout", "ssn.cssService", "ssn.errorService", "ssn.userService", "ssn.postService", "ssn.circleService", "ssn.blobService"];

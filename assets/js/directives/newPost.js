@@ -75,7 +75,6 @@ define(["directives/directivesModule", "whispeerHelper", "asset/state"], functio
 							.finally(function () {
 								$scope.canSend = true;
 								$scope.postActive = false;
-								$scope.$apply();
 							});
 						}
 					};

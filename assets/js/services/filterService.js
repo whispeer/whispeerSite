@@ -1,12 +1,11 @@
-define(["whispeerHelper", "step", "bluebird", "asset/errors", "services/serviceModule"], function (h, step, Bluebird, errors, serviceModule) {
+define(["whispeerHelper", "bluebird", "asset/errors", "services/serviceModule"], function (h, Bluebird, errors, serviceModule) {
 	"use strict";
 
 	var service = function (localize, keyStore, userService, circleService) {
-		function alwaysFilterToKey(filter, cb) {
+		function alwaysFilterToKey(filter) {
 			switch (filter) {
 				case "allfriends":
-					cb(null, userService.getown().getFriendsKey());
-					break;
+					return userService.getown().getFriendsKey();
 				case "everyone":
 					//we do not encrypt it anyhow .... this needs to be checked in before!
 					throw new Error("should never be here");
@@ -15,55 +14,53 @@ define(["whispeerHelper", "step", "bluebird", "asset/errors", "services/serviceM
 			}
 		}
 
-		function circleFilterToKey(filter, cb) {
-			step(function () {
-				circleService.loadAll(this);
-			}, h.sF(function () {
-				this.ne(circleService.get(filter).getKey());
-			}), cb);
+		function circleFilterToKey(filter) {
+			return Bluebird.try(function () {
+				return circleService.loadAll();
+			}).then(function () {
+				return circleService.get(filter).getKey();
+			});
 		}
 
-		function userFilterToKey(user, cb) {
-			step(function () {
-				userService.get(user, this);
-			}, h.sF(function (user) {
-				this.ne(user.getContactKey());
-			}), cb);
+		function userFilterToKey(user) {
+			return Bluebird.try(function () {
+				return userService.get(user);
+			}).then(function (user) {
+				return user.getContactKey();
+			});
 		}
 
-		function friendsFilterToKey(user, cb) {
-			step(function () {
-				userService.get(user, this);
-			}, h.sF(function (user) {
-				this.ne(user.getFriendsKey());
-			}), cb);
+		function friendsFilterToKey(user) {
+			return Bluebird.try(function () {
+				return userService.get(user);
+			}).then(function (user) {
+				return user.getFriendsKey();
+			});
 		}
 
 		function filterToKeys(filters, cb) {
-			step(function () {
-				filters.forEach(function (filter) {
+			return Bluebird.try(function () {
+				var filterPromises = filters.map(function (filter) {
 					var map = filter.split(":");
 
 					switch(map[0]) {
 						case "friends":
-							friendsFilterToKey(map[1], this.parallel());
-							break;
+							return friendsFilterToKey(map[1]);
 						case "always":
-							alwaysFilterToKey(map[1], this.parallel());
-							break;
+							return alwaysFilterToKey(map[1]);
 						case "circle":
-							circleFilterToKey(map[1], this.parallel());
-							break;
+							return circleFilterToKey(map[1]);
 						case "user":
-							userFilterToKey(map[1], this.parallel());
-							break;
+							return userFilterToKey(map[1]);
 						default:
 							throw new errors.InvalidFilter("unknown group");
 					}
-				}, this);
+				});
 
-				this.parallel()(null, userService.getown().getMainKey());
-			}, cb);
+				filterPromises.push(userService.getown().getMainKey());
+
+				return Bluebird.all(filterPromises);
+			}).nodeify(cb);
 		}
 
 		function getCircleByID(id) {

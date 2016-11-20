@@ -1,4 +1,4 @@
-define(["controllers/controllerModule", "whispeerHelper", "step"], function (circlesModule, h, step) {
+define(["controllers/controllerModule", "whispeerHelper", "bluebird"], function (circlesModule, h, Bluebird) {
 	"use strict";
 
 	function circlesCreateController($scope, circleService, errorService, $state) {
@@ -10,14 +10,14 @@ define(["controllers/controllerModule", "whispeerHelper", "step"], function (cir
 		};
 
 		$scope.createNew = function (name) {
-			step(function () {
-				var ids = $scope.selectedUsers.map(h.parseDecimal);
-				circleService.create(name, this, ids);
-			}, h.sF(function (circle) {
-				$state.go("app.circles.show", {circleid: circle.getID()});
-			}), errorService.criticalError);
-
 			$scope.showCircle = !$scope.mobile;
+
+			Bluebird.try(function() {
+				var ids = $scope.selectedUsers.map(h.parseDecimal);
+				return circleService.create(name, ids);
+			}).then(function (circle) {
+				$state.go("app.circles.show", {circleid: circle.getID()});
+			}).catch(errorService.criticalError);
 		};
 	}
 

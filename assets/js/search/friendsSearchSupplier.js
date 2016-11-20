@@ -6,7 +6,7 @@ define(["angular", "bluebird"], function (angular, Bluebird) {
 
 			Search.prototype.search = function (query) {
 				if (query.length < 3) {
-					return Bluebird.reject("minimum3letters");
+					return Bluebird.reject(new Error("minimum3letters"));
 				}
 
 				var action = Bluebird.promisify(userService.queryFriends.bind(userService));

@@ -2,7 +2,7 @@
 * messagesController
 **/
 
-define(["jquery", "step", "whispeerHelper", "asset/state", "bluebird", "messages/messagesModule"], function (jQuery, step, h, State, Bluebird, messagesModule) {
+define(["jquery", "whispeerHelper", "asset/state", "bluebird", "messages/messagesModule"], function (jQuery, h, State, Bluebird, messagesModule) {
 	"use strict";
 
 	function messagesController($scope, $element, $state, $stateParams, $timeout, localize, errorService, messageService, ImageUploadService) {
@@ -71,19 +71,14 @@ define(["jquery", "step", "whispeerHelper", "asset/state", "bluebird", "messages
 			});
 		}
 
-		var topic;
-		step(function () {
-			messageService.getTopic(topicID, this);
-		}, h.sF(function (_topic) {
-			topic = _topic;
-
+		var loadTopicsPromise = messageService.getTopic(topicID).then(function (topic) {
 			messageService.setActiveTopic(topicID);
 			$scope.activeTopic = topic.data;
 
 			$scope.canSend = true;
 			$scope.newMessage = false;
-			topic.loadInitialMessages(this);
-		}), h.sF(function () {
+			return topic.loadInitialMessages().thenReturn(topic);
+		}).then(function (topic) {
 			$scope.topicLoaded = true;
 
 			if (topic.data.messages.length > 0) {
@@ -91,9 +86,9 @@ define(["jquery", "step", "whispeerHelper", "asset/state", "bluebird", "messages
 			}
 
 			loadMoreUntilFull();
+		});
 
-			this.ne();
-		}), errorService.failOnError(topicLoadingState));
+		errorService.failOnErrorPromise(topicLoadingState, loadTopicsPromise);
 
 		var sendMessageState = new State();
 		$scope.sendMessageState = sendMessageState.data;
@@ -111,20 +106,20 @@ define(["jquery", "step", "whispeerHelper", "asset/state", "bluebird", "messages
 
 			$scope.canSend = false;
 
-			step(function () {
-				messageService.sendMessage($scope.activeTopic.id, text, images, this);
-			}, h.sF(function () {
+			var sendMessagePromise = messageService.sendMessage($scope.activeTopic.id, text, images).then(function () {
 				$scope.activeTopic.newMessage = "";
 				$scope.images.images = [];
 				$scope.markRead(errorService.criticalError);
 				$timeout(function () {
 					sendMessageState.reset();
-				}, 2000);
-				this.ne();
-			}), function (e) {
+				}, 2000);				
+			});
+
+			sendMessagePromise.catch(function () {
 				$scope.canSend = true;
-				this(e);
-			}, errorService.failOnError(sendMessageState));
+			});
+
+			errorService.failOnErrorPromise(sendMessageState, sendMessagePromise);
 		};
 
 		var bursts = [], burstTopic;
