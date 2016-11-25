@@ -257,7 +257,7 @@ define([
 						previousTopicUpdate: previousTopicUpdate
 					});
 				}).then(function (topicUpdate) {
-					this._addTopicUpdates([topicUpdate]);
+					return this._addTopicUpdates([topicUpdate]);
 				});
 			};
 

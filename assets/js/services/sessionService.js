@@ -59,8 +59,10 @@ define(["services/serviceModule", "asset/observer"], function (serviceModule, Ob
 
 			$rootScope.$on("$stateChangeStart", function (scope, next) {
 				sessionStorage.awaitLoading().then(function () {
-					locationService.updateURL(loggedin, next.controller);
+					return locationService.updateURL(loggedin, next.controller);
 				});
+
+				return null;
 			});
 
 			sessionService = {

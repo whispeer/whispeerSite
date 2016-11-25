@@ -109,7 +109,11 @@ define(["bluebird", "asset/securedDataWithMetaData", "models/modelsModule", "whi
 				return socket.emit("messages.createTopicUpdate", {
 					topicID: topic.getID(),
 					topicUpdate: topicUpdateData
-				}).thenReturn(topicUpdateData);
+				}).then(function (response) {
+					topicUpdateData.id = response.id;
+
+					return topicUpdateData;
+				});
 			});
 		};
 

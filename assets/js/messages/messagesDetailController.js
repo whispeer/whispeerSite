@@ -21,6 +21,8 @@ define(["whispeerHelper", "asset/state", "bluebird", "messages/messagesModule"],
 
 			var savePromise = $scope.activeTopic.obj.setTitle($scope.topicTitle).then(function () {
 				$state.go("app.messages.show", { topicid: topicID });
+
+				return null;
 			});
 
 			errorService.failOnErrorPromise(topicDetailsSavingState, savePromise);
