@@ -1,4 +1,6 @@
-define(["whispeerHelper", "step", "libs/qrreader", "directives/directivesModule"], function (h, step, qrreader, directivesModule) {
+var templateUrl = require("../../views/directives/qrScanner.html");
+
+define(["directives/directivesModule", "bluebird"], function (directivesModule, Bluebird) {
 	"use strict";
 
 	function qrScannerDirective($timeout, errorService) {
@@ -8,13 +10,17 @@ define(["whispeerHelper", "step", "libs/qrreader", "directives/directivesModule"
 				state: "="
 			},
 			restrict: "E",
-			templateUrl: "assets/views/directives/qrScanner.html",
+			templateUrl: templateUrl,
 			link: function (scope, iElement) {
 				var destroyed = false, theStream;
 
 				function captureToCanvas() {
 					if (!scope.state.read && !destroyed) {
-						try {
+						Bluebird.try(function () {
+							return new Bluebird(function (resolve) {
+								require(["libs/qrreader"], resolve);
+							});
+						}).then(function (qrreader) {
 							var width = 800;
 							var height = 600;
 
@@ -26,6 +32,7 @@ define(["whispeerHelper", "step", "libs/qrreader", "directives/directivesModule"
 							gCtx.clearRect(0, 0, width, height);
 
 							gCtx.drawImage(iElement.find("video")[0], 0, 0);
+
 							var code = qrreader.decodeCanvas(gCanvas);
 
 							scope.state.read = true;
@@ -34,10 +41,10 @@ define(["whispeerHelper", "step", "libs/qrreader", "directives/directivesModule"
 							} catch (e) {}
 
 							scope.callback({code: code});
-						} catch(e) {
-							console.error(e);
+						}).catch(function (e) {
+							console.error("Canvas loading failed", e);
 							$timeout(captureToCanvas, 500);
-						}
+						});
 					}
 				}
 
@@ -49,13 +56,17 @@ define(["whispeerHelper", "step", "libs/qrreader", "directives/directivesModule"
 					var webkit=false;
 					var moz=false;
 
-					step(function () {
+					return Bluebird.try(function () {
 						if (window.MediaStreamTrack && window.MediaStreamTrack.getSources) {
-							window.MediaStreamTrack.getSources(this.ne);
-						} else {
-							this.ne();
+							return new Bluebird(function (resolve) {
+								window.MediaStreamTrack.getSources(resolve);
+							});
 						}
-					}, h.sF(function (sources) {
+					}).then(function (sources) {
+						if (destroyed) {
+							return;
+						}
+
 						var constraints = {
 							audio: false,
 							video: true
@@ -71,20 +82,22 @@ define(["whispeerHelper", "step", "libs/qrreader", "directives/directivesModule"
 							}
 						}
 
+						return new Bluebird(function (resolve, reject) {
+							if(navigator.getUserMedia) {
+								navigator.getUserMedia(constraints, resolve, reject);
+							} else if(navigator.webkitGetUserMedia) {
+								webkit=true;
+								navigator.webkitGetUserMedia(constraints, resolve, reject);
+							} else if(navigator.mozGetUserMedia) {
+								moz=true;
+								navigator.mozGetUserMedia(constraints, resolve, reject);
+							}
+						});
+					}).then(function (stream) {
 						if (destroyed) {
 							return;
 						}
 
-						if(navigator.getUserMedia) {
-							navigator.getUserMedia(constraints, this.ne, this);
-						} else if(navigator.webkitGetUserMedia) {
-							webkit=true;
-							navigator.webkitGetUserMedia(constraints, this.ne, this);
-						} else if(navigator.mozGetUserMedia) {
-							moz=true;
-							navigator.mozGetUserMedia(constraints, this.ne, this);
-						}
-					}), h.sF(function (stream) {
 						scope.state.noDevice = false;
 						theStream = stream;
 						var v = iElement.find("video")[0];
@@ -99,15 +112,15 @@ define(["whispeerHelper", "step", "libs/qrreader", "directives/directivesModule"
 						}
 
 						$timeout(captureToCanvas, 500);
-					}), function (e) {
+					}).catch(function (e) {
+						errorService.criticalError(e);
+
 						if (e.name === "DevicesNotFoundError") {
 							scope.state.noDevice = true;
 
 							$timeout(initializeReader, 1000);
-						} else {
-							this(e);
 						}
-					}, errorService.criticalError);
+					});
 				}
 
 				scope.$on("$destroy", function() {

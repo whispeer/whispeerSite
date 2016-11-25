@@ -1,4 +1,4 @@
-define(["step", "whispeerHelper", "services/serviceModule"], function (step, h, serviceModule) {
+define(["bluebird", "whispeerHelper", "services/serviceModule"], function (Bluebird, h, serviceModule) {
 	"use strict";
 
 	//get users migration state
@@ -12,27 +12,30 @@ define(["step", "whispeerHelper", "services/serviceModule"], function (step, h, 
 	var migrations = ["regenerateFriendsKeys", "fixBrokenSettings"];
 
 	var service = function ($injector, errorService) {
+		function runMigration(ownUser, migrationState) {
+			return Bluebird.try(function () {
+				var migration = require("migrations/" + h.pad("" + (migrationState + 1), 5) + "-" + migrations[migrationState]);
+				return migration($injector);
+			}).then(function (success) {
+				if (!success) {
+					console.error("Migration failed " + migrationState, success);
+					//AUTSCH!
+				} else {
+					return ownUser.setMigrationState(migrationState + 1);
+				}
+			});
+		}
+
 		var doMigration = function () {
 			var ownUser = $injector.get("ssn.userService").getown(), migrationState;
 
 			if (ownUser) {
-				step(function () {
-					ownUser.getMigrationState(this);
-				}, h.sF(function (state) {
+				ownUser.getMigrationState().then(function(state) {
 					migrationState = h.parseDecimal(state) || 0;
 					if (migrationState < migrations.length) {
-						require(["migrations/" + h.pad("" + (migrationState + 1), 5) + "-" + migrations[migrationState]], this.ne, this);
+						return runMigration(ownUser, migrationState);
 					}
-				}), h.sF(function (migration) {
-					migration($injector, this);
-				}), h.sF(function (success) {
-					if (!success) {
-						console.error("Migration failed");
-						//AUTSCH!
-					} else {
-						ownUser.setMigrationState(migrationState + 1, this);
-					}
-				}), errorService.criticalError);
+				}).catch(errorService.criticalError);
 			}
 		};
 

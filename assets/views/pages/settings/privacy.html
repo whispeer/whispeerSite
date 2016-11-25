@@ -34,7 +34,7 @@
 				<i class="fa fa-unlock fa-fw" data-ng-if="!safety[name].encrypt" data-i18n-attr="settings.safety.decrypted|aria-label"></i>
 			</button>
 			<div data-ng-if="safety[name].encrypt">
-				<search data-supplier="filterSearchSupplier" data-multiple data-search-template="filter"data-callback="safety[name].visibility = selected" data-initial-values="getFiltersByID(safety[name].visibility)" data-input-i18n-attr="settings.safety.whomayseeit.{{name}}|placeholder" class="settingsView-whoMaySeeIt" data-base="filter"></search>
+				<search data-supplier="filterSearchSupplier" data-multiple data-search-template="filter" data-callback="safety[name].visibility = selected" data-initial-values="getFiltersByID(safety[name].visibility)" data-input-i18n-attr="settings.safety.whomayseeit.{{name}}|placeholder" class="settingsView-whoMaySeeIt" data-base="filter"></search>
 			</div>
 		</div>
 	</section>

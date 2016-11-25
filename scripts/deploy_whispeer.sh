@@ -1,5 +1,7 @@
 #!/bin/bash
 set -e
+set -x
+
 npm install
 git submodule update --init
 bower install
@@ -14,7 +16,7 @@ jekyll build
 grunt build:production
 
 cd /var/www/
-sudo cp whispeer/assets/js/build/* whispeer-build/
+sudo cp whispeer/assets/js/build/* whispeer-build/ | true
 
 sudo rm -rf whispeer
 sudo mkdir whispeer

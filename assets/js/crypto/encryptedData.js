@@ -1,30 +1,28 @@
 
-define (["whispeerHelper", "step", "crypto/keyStore"], function (h, step, keyStore) {
-    "use strict";
+define (["whispeerHelper", "bluebird", "crypto/keyStore"], function (h, Bluebird, keyStore) {
+	"use strict";
 
-    /* jshint validthis: true */
+	/* jshint validthis: true */
 
-    var encryptedDataObject = function (data) {
-        var encryptedData = data, decryptedData;
+	var encryptedDataObject = function (data) {
+		var encryptedData = data, decryptedData;
 
-        this.decrypt = function (cb) {
-            step(function () {
-                if (decryptedData) {
-                    this.last.ne();
-                }
+		this.decrypt = function (cb) {
+			if (decryptedData) {
+				return Bluebird.resolve(decryptedData).nodeify(cb);
+			}
 
-                keyStore.sym.decryptObject(encryptedData, 0, this);
-            }, h.sF(function (decryptedObj) {
-                if (decryptedObj) {
-                    decryptedData = decryptedObj;
-                } else {
-                    throw new Error("could not decrypt");
-                }
+			return keyStore.sym.decryptObject(encryptedData, 0).then(function (decryptedObj) {
+				if (decryptedObj) {
+					decryptedData = decryptedObj;
 
-                this.ne(decryptedData);
-            }), cb);
-        };
-    };
+					return decryptedData;
+				}
 
-    return encryptedDataObject;
+				throw new Error("could not decrypt");
+			}).nodeify(cb);
+		};
+	};
+
+	return encryptedDataObject;
 });

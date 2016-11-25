@@ -1,3 +1,8 @@
+window.startup = new Date().getTime();
+window.globalErrors = [];
+
+window.jQuery = require("jquery");
+
 define([
 	"angular",
 	"register/registerModule",
@@ -7,7 +12,7 @@ define([
 	"directives/savebutton",
 	"directives/passwordinput",
 	"directives/validatedForm",
-	"directives/loadVal"
+	"directives/loadVal",
 ], function(angular, app) {
 	"use strict";
 

@@ -1,7 +1,7 @@
 /**
 * friendsService
 **/
-define(["step", "whispeerHelper", "asset/observer", "asset/securedDataWithMetaData", "services/serviceModule", "bluebird"], function (step, h, Observer, SecuredData, serviceModule, Bluebird) {
+define(["whispeerHelper", "asset/observer", "asset/securedDataWithMetaData", "services/serviceModule", "bluebird"], function (h, Observer, SecuredData, serviceModule, Bluebird) {
 	"use strict";
 
 	/*
@@ -33,75 +33,86 @@ define(["step", "whispeerHelper", "asset/observer", "asset/securedDataWithMetaDa
 			friendsService.notify(status, "online:" + uid);
 		}
 
-		function createBasicData(ownUser, otherUser, cb) {
+		function createBasicData(ownUser, otherUser) {
 			var friendShipKey;
-			step(function () {
-				//encr intermediate key w/ users cryptKey
-				keyStore.sym.asymEncryptKey(ownUser.getFriendsKey(), otherUser.getCryptKey(), this);
-			}, h.sF(function (_friendShipKey) {
+		
+			//encr intermediate key w/ users cryptKey
+			return keyStore.sym.asymEncryptKey(
+				ownUser.getFriendsKey(),
+				otherUser.getCryptKey()
+			).then(function (_friendShipKey) {
 				friendShipKey = _friendShipKey;
 				var mainKey = ownUser.getMainKey();
 
-				this.parallel.unflatten();
-				SecuredData.load(undefined, {
-					user: otherUser.getID()
-				}, { type: "friendShip" }).sign(ownUser.getSignKey(), this.parallel());
-
-				var listData = {};
-				listData[otherUser.getID()] = friendShipKey;
 				signedList.metaSetAttr(otherUser.getID(), friendShipKey);
-				signedList.sign(ownUser.getSignKey(), this.parallel());
 
-				keyStore.sym.symEncryptKey(friendShipKey, mainKey, this.parallel());
-			}), h.sF(function (securedData, signedList) {
+				return Bluebird.all([
+					SecuredData.load(undefined, {
+						user: otherUser.getID()
+					}, { type: "friendShip" }).sign(ownUser.getSignKey()),
+
+					signedList.sign(ownUser.getSignKey()),
+
+					keyStore.sym.symEncryptKey(friendShipKey, mainKey)
+				]);
+			}).spread(function (securedData, signedList) {
 				var data = {
 					signedList: signedList,
 					meta: securedData,
 					key: keyStore.upload.getKey(friendShipKey)
 				};
 
-				this.ne(data, friendShipKey);
-			}), cb);
+				return {
+					data: data,
+					key: friendShipKey
+				};
+			});
 		}
 
-		function generateRemovalData(ownUser, otherUser, cb) {
-			var signedRemoval, updatedSignedList;
-			step(function () {
-				this.parallel.unflatten();
-				SecuredData.load(undefined, {
+		function generateRemovalData(ownUser, otherUser) {
+			return Bluebird.try(function () {
+				var signedRemovalPromise = SecuredData.load(undefined, {
 					initial: removed.indexOf(ownUser.getID()) === -1,
 					user: otherUser.getID()
-				}, { type: "removeFriend" }).sign(ownUser.getSignKey(), this.parallel());
+				}, { type: "removeFriend" }).sign(ownUser.getSignKey()	);
 
 				signedList.metaRemoveAttr(otherUser.getID());
-				signedList.sign(ownUser.getSignKey(), this.parallel());
-			}, h.sF(function (_signedRemoval, _signedList) {
-				signedRemoval = _signedRemoval;
-				updatedSignedList = _signedList;
+				
+				var signedListPromise = signedList.sign(ownUser.getSignKey());
 
-				ownUser.generateNewFriendsKey(this);
-			}), h.sF(function (signedKeys, newFriendsKey) {
-				this.ne(signedRemoval, updatedSignedList, signedKeys, newFriendsKey);
-			}), cb);
+				return Bluebird.all([
+					signedRemovalPromise,
+					signedListPromise
+				]);
+			}).spread(function (signedRemoval, updatedSignedList) {
+				return ownUser.generateNewFriendsKey().then(function (result) {
+					return {
+						signedRemoval: signedRemoval,
+						updatedSignedList: updatedSignedList,
+						signedKeys: result.updatedSignedKeys,
+						newFriendsKey: result.newFriendsKey
+					};
+				});
+			});
 		}
 
-		function addAsFriend(uid, cb) {
+		function addAsFriend(uid) {
 			var otherUser, friendShipKey, userService = $injector.get("ssn.userService");
-			step(function () {
-				friendsService.awaitLoading(this);
-			}, h.sF(function () {
-				userService.get(uid, this);
-			}), h.sF(function (u) {
+			return Bluebird.try(function () {
+				return friendsService.awaitLoading();
+			}).then(function () {
+				return userService.get(uid);
+			}).then(function (u) {
 				otherUser = u;
-				createBasicData(userService.getown(), otherUser, this);
-			}), h.sF(function (data, _friendShipKey) {
-				friendShipKey = _friendShipKey;
+				return createBasicData(userService.getown(), otherUser);
+			}).then(function (result) {
+				friendShipKey = result.key;
 
 				var friendsKey = userService.getown().getFriendsKey();
-				data.decryptors = keyStore.upload.getDecryptors([friendsKey], [friendShipKey]);
+				result.data.decryptors = keyStore.upload.getDecryptors([friendsKey], [friendShipKey]);
 
-				socket.emit("friends.add", data, this);
-			}), h.sF(function (result) {
+				return socket.emit("friends.add", result.data);
+			}).then(function (result) {
 				if (result.success) {
 					otherUser.setFriendShipKey(friendShipKey);
 
@@ -115,10 +126,8 @@ define(["step", "whispeerHelper", "asset/observer", "asset/securedDataWithMetaDa
 					}
 
 					updateCounters();
-
-					this.ne();
 				}
-			}), cb);
+			});
 		}
 
 		socket.channel("friendRequest", function (e, requestData) {
@@ -149,41 +158,38 @@ define(["step", "whispeerHelper", "asset/observer", "asset/securedDataWithMetaDa
 			userOnline(requestData.uid, requestData.status);
 		});
 
-		function checkAndRemove(uid, cb) {
+		function checkAndRemove(uid) {
 			var userService = $injector.get("ssn.userService");
-			step(function () {
-				this.parallel.unflatten();
-
-				userService.get(uid, this.parallel());
-				socket.emit("friends.getSignedData", {
-					uid: uid
-				}, this.parallel());
-			}, h.sF(function (user, data) {
+			return Bluebird.try(function () {
+				return Bluebird.all([
+					userService.get(uid),
+					socket.emit("friends.getSignedData", {
+						uid: uid
+					})
+				]);
+			}).spread(function (user, data) {
 				var signedData = data.signedData;
 				if (h.parseDecimal(signedData.user) !== userService.getown().getID() || signedData.initial === "false") {
 					throw new Error("invalid signed removal");
 				}
 
-				SecuredData.load(undefined, signedData, { type: "removeFriend" }).verify(user.getSignKey(), this);
-			}), h.sF(function () {
-				friendsService.removeFriend(uid, this);
-			}), cb);
+				return SecuredData.load(undefined, signedData, { type: "removeFriend" }).verify(user.getSignKey());
+			}).then(function () {
+				return friendsService.removeFriend(uid, this);
+			});
 		}
 
-		function removeUnfriendedPersons(cb) {
+		function removeUnfriendedPersons() {
 			var userService = $injector.get("ssn.userService");
-			step(function () {
-				userService.getMultiple(removed, this);
-			}, h.sF(function (removedFriends) {
-				var toCall = removedFriends.map(function (friend) {
-					return function () {
-						checkAndRemove(friend.getID(), this);
-					};
-				});
-				toCall.push(this);
-
-				step.apply(null, toCall);
-			}), cb);
+			return Bluebird.try(function () {
+				return userService.getMultiple(removed);
+			}).then(function (removedFriends) {
+				return removedFriends.reduce(function (previousPromise, friend) {
+					return previousPromise.then(function () {
+						return checkAndRemove(friend.getID());
+					});
+				}, Bluebird.resolve());
+			});
 		}
 
 		var loadingPromise;
@@ -201,13 +207,13 @@ define(["step", "whispeerHelper", "asset/observer", "asset/securedDataWithMetaDa
 				return loadingPromise.nodeify(cb);
 			},
 			getUserFriends: function (uid, cb) {
-				step(function () {
-					socket.emit("friends.getUser", {
+				return Bluebird.try(function () {
+					return socket.emit("friends.getUser", {
 						userid: uid
-					}, this);
-				}, h.sF(function (result) {
-					this.ne(result.friends);
-				}), cb);
+					});
+				}).then(function (result) {
+					return result.friends;
+				}).nodeify(cb);
 			},
 			removeFriend: function (uid, cb) {
 				friendsService.ensureIsLoaded("removeFriend");
@@ -217,23 +223,23 @@ define(["step", "whispeerHelper", "asset/observer", "asset/securedDataWithMetaDa
 				}
 
 				var userService = $injector.get("ssn.userService"), circleService = $injector.get("ssn.circleService");
-				var otherUser, ownUser = userService.getown(), circles;
+				var otherUser, ownUser = userService.getown(), userCircles = circleService.inWhichCircles(uid);
 
-				step(function () {
-					userService.get(uid, this);
-				}, h.sF(function (u) {
+				return Bluebird.try(function () {
+					return userService.get(uid);
+				}).then(function (u) {
 					otherUser = u;
 
-					generateRemovalData(ownUser, otherUser, this);
-				}), h.sF(function (signedRemoval, signedList, signedKeys, newFriendsKey) {
-					socket.emit("friends.remove", {
+					return generateRemovalData(ownUser, otherUser, this);
+				}).then(function (result) {
+					return socket.emit("friends.remove", {
 						uid: uid,
-						signedRemoval: signedRemoval,
-						signedList: signedList,
-						signedKeys: signedKeys,
-						newFriendsKey: keyStore.upload.getKey(newFriendsKey)
-					}, this);
-				}), h.sF(function (result) {
+						signedRemoval: result.signedRemoval,
+						signedList: result.updatedSignedList,
+						signedKeys: result.signedKeys,
+						newFriendsKey: keyStore.upload.getKey(result.newFriendsKey)
+					});
+				}).then(function (result) {
 					if (result.success) {
 						h.removeArray(friends, uid);
 						h.removeArray(removed, uid);
@@ -242,51 +248,43 @@ define(["step", "whispeerHelper", "asset/observer", "asset/securedDataWithMetaDa
 						friendsService.notify(uid, "remove");
 						userOnline(uid, -1);
 
-						circleService.loadAll(this);
-					} else {
-						throw new Error("could not remove friends");
+						return circleService.loadAll();
 					}
-				}), h.sF(function () {
-					//get all circles this user is in!
-					circles = circleService.inWhichCircles(uid);
-					circles.forEach(function (circle) {
-						circle.removePersons([uid], this.parallel());
-					}, this);
-					this.parallel()();
-				}), h.sF(function () {
-					//remove user from circles
-					var scopes = circles.map(function (c) { return "circle:" + c.getID(); });
-					scopes.push("always:allfriends");
+
+					throw new Error("could not remove friends");
+				}).then(function () {
+					return Bluebird.all(userCircles.map(function (circle) {
+						return circle.removePersons([uid]);
+					}));
+				}).then(function () {
 					//update profile for new friendsKey
-					ownUser.rebuildProfiles(this);
-				}), cb);
+					return ownUser.rebuildProfiles();
+				}).nodeify(cb);
 			},
 			friendship: function (uid, cb) {
 				if (h.containsOr(uid, friends, requested)) {
-					return;
+					return Bluebird.resolve().nodeify(cb);
 				}
 
-				addAsFriend(uid, cb);
+				return addAsFriend(uid).nodeify(cb);
 			},
 			ignoreFriendShip: function (uid, cb) {
-				step(function () {
+				return Bluebird.try(function () {
 					if (requests.indexOf(uid) > -1 && !h.containsOr(uid, friends, requested)) {
-						socket.emit("friends.ignore", { uid: uid }, this);
-					} else {
-						throw new Error("no request Oo");
+						return socket.emit("friends.ignore", { uid: uid });
 					}
-				}, h.sF(function () {
+
+					throw new Error("no request Oo");
+				}).then(function () {
 					ignored.push(uid);
 					h.removeArray(requests, uid);
 					friendsService.notify(uid, "ignore");
 					updateCounters();
-
-					this.ne();
-				}), cb);
+				}).nodeify(cb);
 			},
 			acceptFriendShip: function (uid, cb) {
 				if (requests.indexOf(uid) > -1 && !h.containsOr(uid, friends, requested)) {
-					addAsFriend(uid, cb);
+					return addAsFriend(uid).nodeify(cb);
 				}
 			},
 			didIRequest: function (uid) {
@@ -402,8 +400,7 @@ define(["step", "whispeerHelper", "asset/observer", "asset/securedDataWithMetaDa
 					});
 
 					if (removed.length > 0) {
-						var removeUnfriendedPersonsAsync = Bluebird.promisify(removeUnfriendedPersons);
-						return removeUnfriendedPersonsAsync();
+						return removeUnfriendedPersons();
 					}
 				});
 			},
@@ -451,12 +448,10 @@ define(["step", "whispeerHelper", "asset/observer", "asset/securedDataWithMetaDa
 				var userService = $injector.get("ssn.userService");
 				var updatedSignedList = SecuredData.load(undefined, data, { type: "signedFriendList" });
 
-				step(function () {
-					updatedSignedList.verify(userService.getown().getSignKey(), this, "user");
-				}, h.sF(function () {
+				Bluebird.try(function () {
+					return updatedSignedList.verify(userService.getown().getSignKey(), null, "user");
+				}).then(function () {
 					signedList = updatedSignedList;
-				}), function (e) {
-					throw e;
 				});
 			}
 		});

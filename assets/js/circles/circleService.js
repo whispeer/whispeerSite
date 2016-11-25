@@ -1,7 +1,7 @@
 /**.
 * MessageService
 **/
-define(["step", "whispeerHelper", "asset/observer", "services/serviceModule", "asset/securedDataWithMetaData"], function (step, h, Observer, serviceModule, SecuredData) {
+define(["whispeerHelper", "asset/observer", "services/serviceModule", "asset/securedDataWithMetaData", "bluebird"], function (h, Observer, serviceModule, SecuredData, Bluebird) {
 	"use strict";
 
 	var service = function ($rootScope, socket, userService, friendsService, sessionService, keyStore, settingsService, initService) {
@@ -10,43 +10,23 @@ define(["step", "whispeerHelper", "asset/observer", "services/serviceModule", "a
 		var circleData = [];
 
 		function encryptKeyForUsers(key, users, cb) {
-			users = users.map(h.parseDecimal);
-			var keys;
-			step(function () {
-				if (users && users.length > 0) {
-					this.ne();
-				} else {
-					this.last.ne([]);
+			return Bluebird.resolve(users).map(h.parseDecimal).map(function (userID) {
+				if (!friendsService.getUserFriendShipKey(userID)) {
+					throw new Error("no friend key for user: " + userID);
 				}
-			}, h.sF(function () {
-				users.forEach(function (user) {
-					if (!friendsService.getUserFriendShipKey(user)) {
-						throw new Error("no friend key for user: " + user);
-					}
-				});
 
-				keys = users.map(function (user) {
-					return friendsService.getUserFriendShipKey(user);
-				});
-
-				keys.forEach(function (friendKey) {
-					keyStore.sym.symEncryptKey(key, friendKey, this.parallel());
-				}, this);
-			}), h.sF(function () {
-				this.ne(keys);
-			}), cb);
+				return friendsService.getUserFriendShipKey(userID);
+			}).map(function (friendKey) {
+				return keyStore.sym.symEncryptKey(key, friendKey).thenReturn(friendKey);
+			}).nodeify(cb);
 		}
 
 		function generateNewKey(cb) {
-			var key;
-			step(function () {
-				keyStore.sym.generateKey(this, "CircleKey");
-			}, h.sF(function (_key) {
-				key = _key;
-				keyStore.sym.symEncryptKey(key, userService.getown().getMainKey(), this);
-			}), h.sF(function () {
-				this.ne(key);
-			}), cb);
+			return keyStore.sym.generateKey(null, "CircleKey").then(function (key) {
+				var mainKey = userService.getown().getMainKey();
+
+				return keyStore.sym.symEncryptKey(key, mainKey).thenReturn(key);
+			}).nodeify(cb);
 		}
 
 		var Circle = function (data) {
@@ -89,35 +69,38 @@ define(["step", "whispeerHelper", "asset/observer", "services/serviceModule", "a
 			this.setUser = function (uids, cb) {
 				var newKey, oldKey = circleSec.metaAttr("circleKey"), removing = false, friendKeys;
 
-				step(function () {
+				return Bluebird.try(function () {
 					uids = uids.map(h.parseDecimal);
 					removing = h.arraySubtract(circleUsers, uids).length > 0;
 
 					if (removing) {
-						generateNewKey(this);
-					} else {
-						this.ne(oldKey);
+						return generateNewKey();
 					}
-				}, h.sF(function (_newKey) {
+
+					return oldKey;
+				}).then(function (_newKey) {
 					newKey = _newKey;
 
-					this.parallel.unflatten();
 					if (removing) {
-						encryptKeyForUsers(newKey, uids, this.parallel());
-						keyStore.sym.symEncryptKey(oldKey, newKey, this.parallel());
-					} else {
-						encryptKeyForUsers(newKey, h.arraySubtract(uids, circleUsers), this.parallel());
+						return keyStore.sym.symEncryptKey(oldKey, newKey).thenReturn(newKey);
 					}
-				}), h.sF(function (_friendKeys) {
+
+					return newKey;
+				}).then(function (newKey) {
+					if (removing) {
+						return encryptKeyForUsers(newKey, uids);
+					} else {
+						return encryptKeyForUsers(newKey, h.arraySubtract(uids, circleUsers));
+					}
+				}).then(function (_friendKeys) {
 					friendKeys = _friendKeys;
 					circleSec.metaSet({
 						users: uids,
 						circleKey: newKey
 					});
 
-					this.parallel.unflatten();
-					circleSec.getUpdatedData(userService.getown().getSignKey(), this);
-				}), h.sF(function (newData) {
+					return circleSec.getUpdatedData(userService.getown().getSignKey());
+				}).then(function (newData) {
 					var update = {
 						id: id,
 						content: newData.content,
@@ -131,8 +114,8 @@ define(["step", "whispeerHelper", "asset/observer", "services/serviceModule", "a
 						update.decryptors = keyStore.upload.getDecryptors([newKey], friendKeys);
 					}
 
-					socket.emit("circle.update", { update: update }, this);
-				}), h.sF(function () {
+					return socket.emit("circle.update", { update: update });
+				}).then(function () {
 					//emit
 					circleUsers = uids;
 					persons = persons.filter(function (user) {
@@ -142,14 +125,16 @@ define(["step", "whispeerHelper", "asset/observer", "services/serviceModule", "a
 					theCircle.data.userids = circleUsers;
 
 					if (removing) {
+						var ownUser = userService.getown();
+
+						var uploadChangedProfileAsync = Bluebird.promisify(ownUser.uploadChangedProfile.bind(ownUser));
+
 						//rebuild profiles
-						userService.getown().uploadChangedProfile(this);
-					} else {
-						this.ne();
+						return uploadChangedProfileAsync();
 					}
-				}), h.sF(function () {
-					theCircle.loadPersons(this);
-				}), cb);
+				}).then(function () {
+					return theCircle.loadPersons();
+				}).nodeify(cb);
 			};
 
 			this.removePersons = function (uids, cb) {
@@ -165,50 +150,44 @@ define(["step", "whispeerHelper", "asset/observer", "services/serviceModule", "a
 			};
 
 			this.addPersons = function (uids, cb) {
-				uids = uids.filter(function (u) {
-					return circleUsers.indexOf(u) === -1;
+				return Bluebird.resolve(uids).bind(this).filter(function(uid) {
+					return circleUsers.indexOf(uid) === -1;
+				}).then(function(uids) {
+					this.setUser(uids.concat(circleUsers), cb);
 				});
-
-				this.setUser(uids.concat(circleUsers), cb);
 			};
 
 			this.load = function (cb) {
-				step(function () {
-					this.parallel.unflatten();
-
-					circleSec.decrypt(this.parallel());
-					circleSec.verify(userService.getown().getSignKey(), this.parallel(), id);
-				}, h.sF(function (content) {
+				return Bluebird.all([
+					circleSec.decrypt(),
+					circleSec.verify(userService.getown().getSignKey(), undefined, id)
+				]).spread(function (content) {
 					keyStore.security.addEncryptionIdentifier(circleSec.metaAttr("circleKey"));
-					theCircle.data.name = content.name;
-
-					this.ne();
-				}), cb);
+					theCircle.data.name = content.name;					
+				}).nodeify(cb);
 			};
 
 			this.loadPersons = function (cb, limit) {
 				limit = limit || 20;
 				limit = Math.min(h.parseDecimal(limit), 20);
 
-				if (persons.length < circleUsers.length) {
-					step(function () {
-						var loadedIDs = persons.map(function (p) { return p.id; });
-						var loadableUsers = circleUsers.filter(function (user) {
-							return loadedIDs.indexOf(user) === -1;
-						});
-
-						userService.getMultiple(loadableUsers.slice(0, limit), this);
-					}, h.sF(function (users) {
-						users.forEach(function (user) {
-							persons.push(user.data);
-							user.loadBasicData(this.parallel());
-						}, this);
-					}), h.sF(function () {
-						this.ne(persons);
-					}), cb);
-				} else {
-					cb();
+				if (persons.length >= circleUsers.length) {
+					return Bluebird.resolve().nodeify(cb);
 				}
+
+				return Bluebird.try(function () {
+					var loadedIDs = persons.map(function (p) { return p.id; });
+					var loadableUsers = circleUsers.filter(function (user) {
+						return loadedIDs.indexOf(user) === -1;
+					});
+
+					return userService.getMultiple(loadableUsers.slice(0, limit));
+				}).map(function (user) {
+					persons.push(user.data);
+					return Bluebird.fromCallback(function (cb) {
+						user.loadBasicData(cb);
+					}).thenReturn(user);
+				}).nodeify(cb);
 			};
 
 			this.data = {
@@ -222,7 +201,7 @@ define(["step", "whispeerHelper", "asset/observer", "services/serviceModule", "a
 			Observer.call(this);
 		};
 
-		var loaded = false, loading = false;
+		var loaded = false, loading = false, loadingPromise;
 
 		function makeCircle(data) {
 			var circle = new Circle(data);
@@ -255,38 +234,33 @@ define(["step", "whispeerHelper", "asset/observer", "services/serviceModule", "a
 					return circle.hasUser(uid);
 				});
 			},
-			create: function (name, cb, users) {
-				var key, theCircle;
+			create: function (name, users) {
 				users = (users || []).map(h.parseDecimal);
-				step(function () {
-					generateNewKey(this);
-				}, h.sF(function (symKey) {
-					key = symKey;
-					encryptKeyForUsers(key, users, this);
-				}), h.sF(function () {
-					var own = userService.getown();
-					var mainKey = own.getMainKey();
 
-					SecuredData.create({ name: name }, {
-						users: users,
-						circleKey: key
-					}, { type: "circle" }, own.getSignKey(), mainKey, this);
-				}), h.sF(function (data) {
-					var keyData = keyStore.upload.getKey(key);
+				return generateNewKey().then(function (symKey) {
+					return encryptKeyForUsers(symKey, users).then(function () {
+						var own = userService.getown();
+						var mainKey = own.getMainKey();
 
-					socket.emit("circle.create", {
-						circle: {
-							key: keyData,
-							content: data.content,
-							meta: data.meta
-						}
-					}, this);
-				}), h.sF(function (data) {
-					theCircle = makeCircle(data.created);
-					theCircle.load(this);
-				}), h.sF(function () {
-					this.ne(theCircle);
-				}), cb);
+						return SecuredData.createAsync({ name: name }, {
+							users: users,
+							circleKey: symKey
+						}, { type: "circle" }, own.getSignKey(), mainKey);
+					}).then(function (circleData) {
+						var keyData = keyStore.upload.getKey(symKey);
+
+						return socket.emit("circle.create", {
+							circle: {
+								key: keyData,
+								content: circleData.content,
+								meta: circleData.meta
+							}
+						});
+					}).then(function (circleResponse) {
+						var theCircle = makeCircle(circleResponse.created);
+						return theCircle.load().thenReturn(theCircle);
+					});
+				});
 			},
 			reset: function () {
 				circles = {};
@@ -302,42 +276,36 @@ define(["step", "whispeerHelper", "asset/observer", "services/serviceModule", "a
 				circleService.data.loaded = false;
 			},
 			loadAll: function (cb) {
-				step(function () {
-					if (!loaded && !loading) {
+				if (!loadingPromise) {
+					loadingPromise = Bluebird.try(function () {
 						loading = true;
 						circleService.data.loading = false;
 
-						initService.awaitLoading(this);
-					} else if (loaded) {
-						this.last.ne();
-					} else {
-						circleService.listen(function () {
-							cb();
-						}, "loaded");
-					}
-				}, h.sF(function () {
-					socket.definitlyEmit("circle.all", {}, this);
-				}), h.sF(function (data) {
-					if (data.circles) {
-						data.circles.forEach(function (circle) {
-							var c = makeCircle(circle);
-							c.load(this.parallel());
-						}, this);
+						return initService.awaitLoading();
+					}).then(function () {
+						return socket.definitlyEmit("circle.all", {});
+					}).then(function (data) {
+						if (data.circles) {
+							return data.circles;
+						} else {
+							throw new Error("server did not return circles");
+						}					
+					}).map(function (circleData) {
+						var circle = makeCircle(circleData);
+						return Bluebird.fromCallback(function (cb) {
+							circle.load(cb);
+						});
+					}).then(function () {
+						loading = false;
+						loaded = true;
 
-						this.parallel()();
-					} else {
-						throw new Error("server did not return circles");
-					}
-				}), h.sF(function () {
-					loading = false;
-					loaded = true;
+						circleService.data.loading = false;
+						circleService.data.loaded = true;
+						circleService.notify("", "loaded");
+					});
+				}
 
-					circleService.data.loading = false;
-					circleService.data.loaded = true;
-					circleService.notify("", "loaded");
-
-					this.ne();
-				}), cb);
+				return loadingPromise.nodeify(cb);
 			}
 		};
 

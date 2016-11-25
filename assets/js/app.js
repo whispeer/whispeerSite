@@ -1,3 +1,11 @@
+var context = require.context(
+	"../../assets/views/", // context folder
+	true, // include subdirectories
+	/.*\.html/ // RegExp
+);
+
+context.keys().forEach(context);
+
 define([
 	"angular",
 	"config",

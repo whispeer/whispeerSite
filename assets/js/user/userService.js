@@ -1,4 +1,4 @@
-define(["step", "whispeerHelper", "user/userModule", "asset/observer", "crypto/signatureCache", "bluebird", "crypto/trustManager"], function (step, h, userModule, Observer, signatureCache, Bluebird, trustManager) {
+define(["whispeerHelper", "user/userModule", "asset/observer", "crypto/signatureCache", "bluebird", "crypto/trustManager"], function (h, userModule, Observer, signatureCache, Bluebird, trustManager) {
 	"use strict";
 
 	var service = function ($rootScope, User, errorService, initService, socketService, keyStoreService, sessionService, CacheService, requestKeyService) {
@@ -96,51 +96,44 @@ define(["step", "whispeerHelper", "user/userModule", "asset/observer", "crypto/s
 
 		/** loads all the users in the batch */
 		function doLoad(identifier, cb) {
-			var result = [];
-			step(function () {
-				initService.awaitLoading(this);
-			}, h.sF(function () {
-				socketService.emit("user.getMultiple", {identifiers: identifier}, this);
-			}), h.sF(function (data) {
-				if (data && data.users) {
-					result = data.users.map(function (e) {
-						return makeUser(e);
-					});
+			return initService.awaitLoading().then(function () {
+				return socketService.emit("user.getMultiple", {identifiers: identifier});
+			}).then(function (data) {
+				if (!data || !data.users) {
+					return [];
 				}
 
-				result.forEach(function (u) {
-					if (!u.isNotExistingUser()) {
-						u.verifyKeys(this.parallel());
-					}
-				}, this);
-
-				this.parallel()();
-			}), h.sF(function () {
-				this.ne(result);
-			}), cb);
+				return data.users;
+			}).map(function (userData) {
+				return makeUser(userData);
+			}).map(function (user) {
+				if (!user.isNotExistingUser()) {
+					return user.verifyKeys().thenReturn(user);
+				}				
+			}).nodeify(cb);
 		}
 
-		var delay = h.delayMultiple(THROTTLE, doLoad, 5);
+		var delay = h.delayMultiplePromise(Bluebird, THROTTLE, doLoad, 5);
 
 		function loadUser(identifier, cb) {
-			step(function () {
+			return Bluebird.try(function () {
 				if (users[identifier]) {
-					this.last.ne(users[identifier]);
+					return users[identifier];
 				} else {
-					delay(identifier, this);
+					return delay(identifier);
 				}
-			}, cb);
+			}).nodeify(cb);
 		}
 
 		userService = {
 			/** search your friends */
 			queryFriends: function queryFriendsF(query, cb) {
-				step(function () {
-					socketService.emit("user.searchFriends", {
+				return Bluebird.try(function () {
+					return socketService.emit("user.searchFriends", {
 						text: query,
 						known: knownIDs
-					}, this);
-				}, h.sF(function (data) {
+					});
+				}).then(function (data) {
 					var result = [], user = data.results;
 
 					var i;
@@ -152,8 +145,8 @@ define(["step", "whispeerHelper", "user/userModule", "asset/observer", "crypto/s
 						}
 					}
 
-					this.ne(result);
-				}), cb);
+					return result;
+				}).nodeify(cb);
 			},
 
 			/** search for a user
@@ -161,14 +154,12 @@ define(["step", "whispeerHelper", "user/userModule", "asset/observer", "crypto/s
 			* @param cb user objects
 			*/
 			query: function queryF(query, cb) {
-				step(function () {
-					initService.awaitLoading(this);
-				}, h.sF(function () {
-					socketService.definitlyEmit("user.search", {
+				return initService.awaitLoading().then(function () {
+					return socketService.definitlyEmit("user.search", {
 						text: query,
 						known: knownIDs
-					}, this);
-				}), h.sF(function (data) {
+					});
+				}).then(function (data) {
 					var result = [], user = data.results;
 
 					if (user) {
@@ -182,8 +173,8 @@ define(["step", "whispeerHelper", "user/userModule", "asset/observer", "crypto/s
 						}
 					}
 
-					this.ne(result);
-				}), cb);
+					return result;
+				}).nodeify(cb);
 			},
 
 			reset: function resetF() {
@@ -198,9 +189,7 @@ define(["step", "whispeerHelper", "user/userModule", "asset/observer", "crypto/s
 			* this function is asynchronous and returns immediatly. requests are also batched.
 			*/
 			get: function getF(identifier, cb) {
-				step(function () {
-					loadUser(identifier, this);
-				}, cb);
+				return loadUser(identifier).nodeify(cb);
 			},
 
 			/** load a user
@@ -209,16 +198,9 @@ define(["step", "whispeerHelper", "user/userModule", "asset/observer", "crypto/s
 			* this function is asynchronous and returns immediatly. requests are also batched.
 			*/
 			getMultiple: function getMultipleF(identifiers, cb) {
-				step(function () {
-					var i;
-					for (i = 0; i < identifiers.length; i += 1) {
-						loadUser(identifiers[i], this.parallel());
-					}
-
-					if (identifiers.length === 0) {
-						this.ne([]);
-					}
-				}, cb);
+				return Bluebird.resolve(identifiers).map(function (id) {
+					return loadUser(id);
+				}).nodeify(cb);
 			},
 
 			/** gets multiple users and loads their basic data.
@@ -226,27 +208,15 @@ define(["step", "whispeerHelper", "user/userModule", "asset/observer", "crypto/s
 			* @param cb called with users data.
 			*/
 			getMultipleFormatted: function getMFF(identifiers, cb) {
-				var theUsers;
-				step(function () {
-					userService.getMultiple(identifiers, this);
-				}, h.sF(function (user) {
-					theUsers = user;
-					var i;
-					for (i = 0; i < user.length; i += 1) {
-						user[i].loadBasicData(this.parallel());
-					}
-
-					if (user.length === 0) {
-						this.ne([]);
-					}
-				}), h.sF(function () {
-					var i, result = [];
-					for (i = 0; i < theUsers.length; i += 1) {
-						result.push(theUsers[i].data);
-					}
-
-					this.ne(result);
-				}), cb);
+				return Bluebird.try(function () {
+					return userService.getMultiple(identifiers);
+				}).map(function (user) {
+					return user.loadBasicData().thenReturn(user);
+				}).then(function (users) {
+					return users.map(function (user) {
+						return user.data;
+					});
+				}).nodeify(cb);
 			},
 
 			verifyOwnKeysCacheDone: function () {
@@ -278,23 +248,23 @@ define(["step", "whispeerHelper", "user/userModule", "asset/observer", "crypto/s
 				improve.push(rid);
 
 				if (improve.length === 1) {
-					step(function () {
-						window.setTimeout(this.ne, 5000);
-					}, h.sF(function () {
+					Bluebird.resolve().timeout(5000).then(function () {
 						var own = userService.getown();
-						if (own && own.getNickOrMail() === identifier) {
-							improve.forEach(function (keyID) {
-								keyStoreService.sym.symEncryptKey(keyID, own.getMainKey(), this.parallel());
-							}, this);
+						if (!own || own.getNickOrMail() !== identifier) {
+							throw new Error("user changed so no improvement update!");
 						}
-					}), h.sF(function () {
+
+						return Bluebird.all(improve.map(function (keyID) {
+							return keyStoreService.sym.symEncryptKey(keyID, own.getMainKey());
+						}));
+					}).then(function () {
 						var toUpload = keyStoreService.upload.getDecryptors(improve);
-						socketService.emit("key.addFasterDecryptors", {
+						return socketService.emit("key.addFasterDecryptors", {
 							keys: toUpload
-						}, this);
-					}), h.sF(function () {
+						});
+					}).then(function () {
 						improve = [];
-					}), errorService.criticalError);
+					}).catch(errorService.criticalError);
 				}
 			});
 		}
@@ -342,7 +312,7 @@ define(["step", "whispeerHelper", "user/userModule", "asset/observer", "crypto/s
 
 				return signatureCache.awaitLoading().thenReturn(user);
 			}).then(function (user) {
-				var verifyKeys = Bluebird.promisify(user.verifyKeys, user);
+				var verifyKeys = Bluebird.promisify(user.verifyKeys.bind(user));
 				return verifyKeys().thenReturn(user);
 			}).then(function (user) {
 				requestKeyService.cacheKey(user.getSignKey(), "user-sign-" + user.getID(), requestKeyService.MAXCACHETIME);
@@ -377,6 +347,7 @@ define(["step", "whispeerHelper", "user/userModule", "asset/observer", "crypto/s
 				ownUserCache.store(sessionService.getUserID(), userData);
 
 				ownUserStatus.loadedResolve();
+				return null;
 			});
 		});
 

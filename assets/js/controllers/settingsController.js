@@ -2,7 +2,7 @@
 * friendsController
 **/
 
-define(["whispeerHelper", "step", "asset/state", "libs/qr", "controllers/controllerModule"], function (h, step, State, qr, controllerModule) {
+define(["whispeerHelper", "bluebird", "asset/state", "libs/qr", "controllers/controllerModule"], function (h, Bluebird, State, qr, controllerModule) {
 	"use strict";
 
 	function settingsController($scope, $timeout, errorService, cssService, sessionHelper, settingsService, userService, filterService, localize) {
@@ -37,10 +37,8 @@ define(["whispeerHelper", "step", "asset/state", "libs/qr", "controllers/control
 
 		$scope.getFiltersByID = filterService.getFiltersByID;
 
-		step(function () {
-			userService.getown().loadBasicData(this);
-		}, h.sF(function () {
-
+		userService.getown().loadBasicData()
+		.then(function () {
 			var privacy = settingsService.getBranch("privacy");
 			var sound = settingsService.getBranch("sound");
 			var messages = settingsService.getBranch("messages");
@@ -81,12 +79,14 @@ define(["whispeerHelper", "step", "asset/state", "libs/qr", "controllers/control
 				size: 7,
 				level: "L"
 			});
-		}), errorService.criticalError);
+		}).catch(
+			errorService.criticalError
+		);
 
 		$scope.saveGeneral = function () {
 			saveGeneralState.pending();
 
-			step(function () {
+			var savePromise = Bluebird.try(function () {
 				var sound = settingsService.getBranch("sound");
 				var messages = settingsService.getBranch("messages");
 
@@ -100,30 +100,36 @@ define(["whispeerHelper", "step", "asset/state", "libs/qr", "controllers/control
 				settingsService.updateBranch("messages", messages);
 				settingsService.updateBranch("mailsEnabled", mailsEnabled);
 				settingsService.updateBranch("uiLanguage", $scope.uiLanguage);
-				settingsService.uploadChangedData(this);
-			}, errorService.failOnError(saveGeneralState));
 
+				return settingsService.uploadChangedData();
+			});
+
+			errorService.failOnErrorPromise(saveGeneralState, savePromise);
 		};
 
 		$scope.saveSafety = function () {
 			saveSafetyState.pending();
-			step(function () {
+
+			var savePromise = Bluebird.try(function () {
 				settingsService.updateBranch("privacy", $scope.safety);
-				settingsService.uploadChangedData(this);
-			}, h.sF(function () {
-				userService.getown().uploadChangedProfile(this);
-			}), errorService.failOnError(saveSafetyState));
+				return settingsService.uploadChangedData();
+			}).then(function () {
+				return userService.getown().uploadChangedProfile();
+			});
+
+			errorService.failOnErrorPromise(saveSafetyState, savePromise);
 		};
 
 		$scope.resetSafety = function () {
 			resetSafetyState.pending();
-			step(function () {
+
+			var resetPromise = Bluebird.try(function () {
 				var branch = settingsService.getBranch("privacy");
 				$scope.safety = h.deepCopyObj(branch, 4);
 				$scope.$broadcast("reloadInitialSelection");
+			});
 
-				this.ne();
-			}, errorService.failOnError(resetSafetyState));
+			errorService.failOnErrorPromise(resetSafetyState, resetPromise);
 		};
 
 		$scope.mail = userService.getown().getMail();
@@ -132,16 +138,17 @@ define(["whispeerHelper", "step", "asset/state", "libs/qr", "controllers/control
 			saveNameState.pending();
 
 			var me = userService.getown();
-			step(function () {
-				me.setProfileAttribute("basic", {
-					firstname: $scope.firstName,
-					lastname: $scope.lastName
-				}, this.parallel());
-			}, h.sF(function () {
-				me.uploadChangedProfile(this);
-			}), h.sF(function () {
-				$timeout(this);
-			}), errorService.failOnError(saveNameState));
+
+			var savePromise = me.setProfileAttribute("basic", {
+				firstname: $scope.firstName,
+				lastname: $scope.lastName
+			}).then(function () {
+				return me.uploadChangedProfile();
+			}).then(function () {
+				return $timeout();
+			});
+
+			errorService.failOnErrorPromise(saveNameState, savePromise);
 		};
 
 		$scope.checkNickName = function () {
@@ -159,9 +166,9 @@ define(["whispeerHelper", "step", "asset/state", "libs/qr", "controllers/control
 		$scope.saveMail = function () {
 			saveMailState.pending();
 
-			step(function () {
-				userService.getown().setMail($scope.mail, this);
-			}, errorService.failOnError(saveMailState));
+			var savePromise = userService.getown().setMail($scope.mail);
+
+			errorService.failOnErrorPromise(saveMailState, savePromise);
 		};
 
 		$scope.savePassword = function () {
@@ -172,9 +179,10 @@ define(["whispeerHelper", "step", "asset/state", "libs/qr", "controllers/control
 				return;
 			}
 
-			step(function () {
-				userService.getown().changePassword($scope.pwState.password, this);
-			}, errorService.failOnError(savePasswordState));
+			var savePromise = userService.getown().changePassword($scope.pwState.password);
+
+			errorService.failOnErrorPromise(savePasswordState, savePromise);
+
 			//The easy version at first!
 			//TODO: improve for more reliability against server.
 		};

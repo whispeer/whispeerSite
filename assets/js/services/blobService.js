@@ -1,7 +1,7 @@
 /**
 * MessageService
 **/
-define(["step", "whispeerHelper", "asset/Progress", "asset/Queue", "services/serviceModule", "debug", "bluebird"], function (step, h, Progress, Queue, serviceModule, debug, Bluebird) {
+define(["whispeerHelper", "asset/Progress", "asset/Queue", "services/serviceModule", "debug", "bluebird"], function (h, Progress, Queue, serviceModule, debug, Bluebird) {
 	"use strict";
 
 	var knownBlobs = {};
@@ -69,59 +69,61 @@ define(["step", "whispeerHelper", "asset/Progress", "asset/Queue", "services/ser
 			return this._meta;
 		};
 
-		MyBlob.prototype.getArrayBuffer = function (cb) {
+		MyBlob.prototype.getArrayBuffer = function () {
 			var that = this;
-			step(function () {
+
+			return new Bluebird(function (resolve) {
 				var reader = new FileReader();
 
 				if (reader.addEventListener) {
-					reader.addEventListener("loadend", this.ne);
+					reader.addEventListener("loadend", resolve);
 				} else {
-					reader.onloadend = this.ne;
+					reader.onloadend = resolve;
 				}
 
 				reader.readAsArrayBuffer(that._blobData);
-			}, h.sF(function (event) {
+			}).then(function (event) {
 				var target = event.currentTarget || event.target;
 
-				this.ne(target.result);
-			}), cb);
+				return target.result;
+			});
 		};
 
 		MyBlob.prototype.encryptAndUpload = function (key, cb) {
-
 			var that = this, blobKey;
-			step(function () {
-				that.encrypt(this);
-			}, h.sF(function (_blobKey) {
+
+			return Bluebird.try(function () {
+				return that.encrypt();
+			}).then(function (_blobKey) {
 				blobKey = _blobKey;
-				keyStore.sym.symEncryptKey(blobKey, key, this);
-			}), h.sF(function () {
-				that.upload(this);
-			}), h.sF(function () {
-				this.ne(blobKey);
-			}), cb);
+				return keyStore.sym.symEncryptKey(blobKey, key);
+			}).then(function () {
+				return that.upload();
+			}).then(function () {
+				return blobKey;
+			}).nodeify(cb);
 		};
 
 		MyBlob.prototype.encrypt = function (cb) {
 			var that = this;
-			step(function () {
+
+			return Bluebird.resolve().bind(this).then(function () {
 				if (that._uploaded || !that._decrypted) {
 					throw new Error("trying to encrypt an already encrypted or public blob. add a key decryptor if you want to give users access");
 				}
 
-				this.parallel.unflatten();
-				keyStore.sym.generateKey(this.parallel(), "blob key");
-				
-				that.getArrayBuffer(this.parallel());
-			}, h.sF(function (_key, buf) {
+				return Bluebird.all([
+					keyStore.sym.generateKey(null, "blob key"),
+					that.getArrayBuffer()
+				]);
+			}).spread(function (_key, buf) {
 				that._key = _key;
 
 				time("blobencrypt" + (that._blobID || that._preReserved));
-				keyStore.sym.encryptArrayBuffer(buf, that._key, this, function (progress) {
+				return keyStore.sym.encryptArrayBuffer(buf, that._key, function (progress) {
 					that._encryptProgress.progress(that.getSize() * progress);	
 				});
-			}), h.sF(function (encryptedData) {
+			}).then(function (encryptedData) {
 				that._encryptProgress.progress(that.getSize());
 				timeEnd("blobencrypt" + (that._blobID || that._preReserved));
 				blobServiceDebug(encryptedData.byteLength);
@@ -129,72 +131,52 @@ define(["step", "whispeerHelper", "asset/Progress", "asset/Queue", "services/ser
 
 				that._blobData = new Blob([encryptedData], {type: that._blobData.type});
 
-				this.ne(that._key);
-			}), cb);
+				return that._key;
+			}).nodeify(cb);
 		};
 
 		MyBlob.prototype.decrypt = function (cb) {
 			var that = this;
-			step(function () {
-				if (that._decrypted) {
-					this.last.ne();
-				}
 
-				that.getArrayBuffer(this);
-			}, h.sF(function (encryptedData) {
+			if (this._decrypted) {
+				return Bluebird.resolve().nodeify(cb);
+			}
+
+			return Bluebird.try(function () {
+				return that.getArrayBuffer();
+			}).then(function (encryptedData) {
 				time("blobdecrypt" + that._blobID);
-				keyStore.sym.decryptArrayBuffer(encryptedData, that._key, this);
-			}), h.sF(function (decryptedData) {
+				return keyStore.sym.decryptArrayBuffer(encryptedData, that._key);
+			}).then(function (decryptedData) {
 				timeEnd("blobdecrypt" + that._blobID);
 
 				that._decrypted = true;
 
 				that._blobData = new Blob([decryptedData], {type: that._blobData.type});
-				this.ne();
-			}), cb);
+			}).nodeify(cb);
 		};
 
-		MyBlob.prototype.getBase64Representation = function (cb) {
-			var that = this;
-			step(function () {
-				that.getStringRepresentation(this);
-			}, h.sF(function (blobValue) {
-				this.ne(blobValue.split(",")[1]);
-			}), cb);
-		};
-
-		MyBlob.prototype.getBinaryRepresentation = function (cb) {
-			var that = this;
-			step(function () {
-				that.getBase64Representation(this);
-			}, h.sF(function (base64) {
-				this.ne(keyStore.format.base64ToBits(base64));
-			}), cb);
-		};
-
-		MyBlob.prototype.getStringRepresentation = function (cb) {
-			if (this._legacy) {
-				cb(null, this._blobData);
-			} else {
-				h.blobToDataURI(this._blobData, cb);
-			}
+		MyBlob.prototype.getBase64Representation = function () {
+			return this.getStringRepresentation().then(function (blobValue) {
+				return blobValue.split(",")[1];
+			});
 		};
 
 		MyBlob.prototype.upload = function (cb) {
 			var that = this;
-			step(function () {
+			return Bluebird.try(function () {
 				if (that._uploaded) {
-					this.last.ne(that._blobID);
-				} else {
-					that.reserveID(this);
+					return that._blobID;
 				}
-			}, h.sF(function (blobid) {
-				socketService.uploadBlob(that._blobData, blobid, that._uploadProgress, this);
-			}), h.sF(function () {
+
+				return that.reserveID();
+			}).then(function (blobid) {
+				return socketService.uploadBlob(that._blobData, blobid, that._uploadProgress);
+			}).then(function () {
 				that._uploaded = true;
 
-				this.ne(that._blobID);
-			}), cb);
+				return that._blobID;
+			}).nodeify(cb);
 		};
 
 		MyBlob.prototype.getBlobID = function () {
@@ -203,85 +185,95 @@ define(["step", "whispeerHelper", "asset/Progress", "asset/Queue", "services/ser
 
 		MyBlob.prototype.reserveID = function (cb) {
 			var that = this;
-			step(function () {
+
+			return Bluebird.try(function () {
 				var meta = that._meta;
 				meta._key = that._key;
 				meta.one = 1;
 
 				if (that._preReserved) {
-					socketService.emit("blob.fullyReserveID", {
+					return socketService.emit("blob.fullyReserveID", {
 						blobid: that._preReserved,
 						meta: meta
-					}, this);
-				} else {
-					socketService.emit("blob.reserveBlobID", {
-						meta: meta
-					}, this);
+					});
 				}
-			}, h.sF(function (data) {
+
+				return socketService.emit("blob.reserveBlobID", {
+					meta: meta
+				});
+			}).then(function (data) {
 				if (data.blobid) {
 					that._blobID = data.blobid;
 
 					knownBlobs[that._blobID] = Bluebird.resolve(that);
 
-					this.ne(that._blobID);
+					return that._blobID;
 				}
-			}), cb);
+			}).nodeify(cb);
 		};
 
 		MyBlob.prototype.preReserveID = function (cb) {
 			var that = this;
-			step(function () {
-				socketService.emit("blob.preReserveID", {}, this);
-			}, h.sF(function (data) {
+			return Bluebird.try(function () {
+				return socketService.emit("blob.preReserveID", {});
+			}).then(function (data) {
 				if (data.blobid) {
 					that._preReserved = data.blobid;
 					knownBlobs[that._preReserved] = Bluebird.resolve(that);
-					this.ne(data.blobid);
-				} else {
-					throw new Error("got no blobid");
+					return data.blobid;
 				}
-			}), cb);
+
+				throw new Error("got no blobid");
+			}).nodeify(cb);
 		};
 
 		MyBlob.prototype.toURL = function (cb) {
+			var blobToDataURI = Bluebird.promisify(h.blobToDataURI.bind(h));
+
 			var that = this;
-			step(function () {
-				try {
-					if (that._legacy) {
-						this.ne(that._blobData);
-					} else if (that._blobData.localURL) {
-						this.ne(that._blobData.localURL);
-					} else if (typeof window.URL !== "undefined") {
-						this.ne(window.URL.createObjectURL(that._blobData));
-					} else if (typeof webkitURL !== "undefined") {
-						this.ne(window.webkitURL.createObjectURL(that._blobData));
-					} else {
-						h.blobToDataURI(that._blobData, this);
-					}
-				} catch (e) {
-					this.ne("");
+			return Bluebird.try(function () {
+				if (that._legacy) {
+					return that._blobData;
 				}
-			}, cb);
+
+				if (that._blobData.localURL) {
+					return that._blobData.localURL;
+				}
+
+				if (typeof window.URL !== "undefined") {
+					return window.URL.createObjectURL(that._blobData);
+				}
+
+				if (typeof webkitURL !== "undefined") {
+					return window.webkitURL.createObjectURL(that._blobData);
+				}
+
+				return blobToDataURI(that._blobData);
+			}).catch(function (e) {
+				console.error(e);
+
+				return "";
+			}).nodeify(cb);
 		};
 
-		MyBlob.prototype.getStringRepresentation = function (cb) {
-			if (this._legacy) {
-				cb(null, this._blobData);
-			} else {
-				h.blobToDataURI(this._blobData, cb);
-			}
+		MyBlob.prototype.getStringRepresentation = function () {
+			var blobToDataURI = Bluebird.promisify(h.blobToDataURI.bind(h));
+
+			return Bluebird.resolve().bind(this).then(function () {
+				if (this.legacy) {
+					return this._blobData;
+				}
+
+				return blobToDataURI(this._blobData);
+			});
 		};
 
 		MyBlob.prototype.getHash = function (cb) {
-			var that = this;
-			step(function () {
-				that.getStringRepresentation(this);
-			}, h.sF(function (blobValue) {
+			return this.getStringRepresentation().then(function (blobValue) {
 				var base64 = blobValue.split(",")[1];
 
-				keyStore.hash.hashBigBase64CodedData(base64, this);
-			}), cb);
+				return keyStore.hash.hashBigBase64CodedData(base64);
+			}).nodeify(cb);
 		};
 
 		function addBlobToDB(blob, dataString) {
@@ -323,7 +315,7 @@ define(["step", "whispeerHelper", "asset/Progress", "asset/Queue", "services/ser
 
 		function loadBlobFromDB(blobID) {
 			return blobCache.get(blobID).then(function (data) {
-				if (typeof data.blob === "undefined") {
+				if (typeof data.blob === "undefined" || data.blob === false) {
 					throw new Error("cache invalid!");
 				}
 
@@ -352,7 +344,7 @@ define(["step", "whispeerHelper", "asset/Progress", "asset/Queue", "services/ser
 					knownBlobs[blobID] = loadBlob(blobID);
 				}
 
-				step.unpromisify(knownBlobs[blobID], h.addAfterHook(cb, $rootScope.$apply.bind($rootScope, null)));
+				return knownBlobs[blobID].nodeify(cb);
 			}
 		};
 

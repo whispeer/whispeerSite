@@ -75,7 +75,6 @@ define(["whispeerHelper"], function (h) {
 						return e.id;
 					});
 
-					scope.$apply();
 					selectionUpdated();
 				});
 			}

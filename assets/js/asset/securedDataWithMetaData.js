@@ -107,7 +107,7 @@ define(["whispeerHelper", "crypto/keyStore", "asset/errors", "config", "bluebird
 				return this._signAndEncrypt(signKey, this._original.meta._key);
 			}
 
-			return this.sign(signKey, this);
+			return this.sign(signKey);
 		}).nodeify(cb);
 	};
 
@@ -367,20 +367,19 @@ define(["whispeerHelper", "crypto/keyStore", "asset/errors", "config", "bluebird
 	var api = {
 		createPromisified: function (content, meta, options, signKey, cryptKey) {
 			var securedData, securedDataPromise;
-			securedDataPromise = new Bluebird(function (resolve, reject) {
-				securedData = api.create(content, meta, options, signKey, cryptKey, function (e, res) {
-					if (e) {
-						return reject(e);
-					}
-
-					resolve(res);
-				});
+			securedDataPromise = Bluebird.fromCallback(function (cb) {
+				securedData = api.create(content, meta, options, signKey, cryptKey, cb);
 			});
 
 			return {
 				promise: securedDataPromise,
 				data: securedData
 			};
+		},
+		createAsync: function (content, meta, options, signKey, cryptKey) {
+			return Bluebird.fromCallback(function (cb) {
+				api.create(content, meta, options, signKey, cryptKey, cb);
+			});
 		},
 		create: function (content, meta, options, signKey, cryptKey, cb) {
 			var secured = new SecuredDataWithMetaData(content, meta, options, true);

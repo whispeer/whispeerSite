@@ -2,7 +2,7 @@
 * messagesController
 **/
 
-define(["step", "whispeerHelper", "asset/state", "bluebird", "controllers/controllerModule"], function (step, h, State, Bluebird, controllerModule) {
+define(["jquery", "whispeerHelper", "asset/state", "bluebird", "controllers/controllerModule"], function (jQuery, h, State, Bluebird, controllerModule) {
 	"use strict";
 
 	function messagesController($scope, $state, $stateParams, $element, errorService, messageService) {
@@ -11,7 +11,7 @@ define(["step", "whispeerHelper", "asset/state", "bluebird", "controllers/contro
 		var topicsLoadingState = new State();
 		$scope.topicsLoadingState = topicsLoadingState.data;
 
-		var loadMoreTopics = Bluebird.promisify(messageService.loadMoreLatest, messageService);
+		var loadMoreTopics = Bluebird.promisify(messageService.loadMoreLatest.bind(messageService));
 
 		function loadTopics() {
 			if (messageService.data.latestTopics.allTopicsLoaded) {

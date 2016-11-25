@@ -5,12 +5,11 @@ define([
 	"services/serviceModule",
 	"debug",
 	"socket",
-	"step",
 	"whispeerHelper",
 	"config",
 	"asset/observer",
 	"bluebird"
-], function (serviceModule, debug, io, step, h, config, Observer, Bluebird) {
+], function (serviceModule, debug, io, h, config, Observer, Bluebird) {
 	"use strict";
 
 	var APIVERSION = "0.0.3";
@@ -254,7 +253,7 @@ define([
 						internalObserver.notify(blobid, "uploadFinished:" + blobid);						
 					});
 
-					return step.unpromisify(uploadPromise, cb);
+					return uploadPromise.nodeify(cb);
 				},
 				blockEmitWithToken: function() {
 					blockedWithToken = true;
@@ -279,7 +278,7 @@ define([
 					socket.on(channel, function (data) {
 						socketDebug("received data on " + channel);
 						socketDebug(data);
-						$rootScope.$apply(function () {
+						$rootScope.$applyAsync(function () {
 							callback(null, data);
 						});
 					});
@@ -371,12 +370,7 @@ define([
 						socketS.notify(null, "response");
 					});
 
-					if (typeof callback === "function") {
-						//TODO: move $rootScope.$apply to afterHook
-						step.unpromisify(resultPromise, h.addAfterHook(callback, $rootScope.$apply.bind($rootScope, null)));
-					}
-
-					return resultPromise;
+					return resultPromise.nodeify(callback);
 				},
 				getLoadingCount: function () {
 					return loading;

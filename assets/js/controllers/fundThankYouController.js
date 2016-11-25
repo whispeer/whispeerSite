@@ -2,7 +2,7 @@
 * setupController
 **/
 
-define(["step", "whispeerHelper", "controllers/controllerModule"], function (step, h, controllerModule) {
+define(["whispeerHelper", "controllers/controllerModule"], function (h, controllerModule) {
 	"use strict";
 
 	function fundThankYouController($scope, cssService, socketService, errorService) {

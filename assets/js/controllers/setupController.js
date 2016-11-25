@@ -2,7 +2,7 @@
 * setupController
 **/
 
-define(["step", "whispeerHelper", "asset/state", "libs/qr", "libs/filesaver", "controllers/controllerModule"], function (step, h, State, qr, saveAs, controllerModule) {
+define(["bluebird", "whispeerHelper", "asset/state", "libs/qr", "libs/filesaver", "controllers/controllerModule"], function (Bluebird, h, State, qr, saveAs, controllerModule) {
 	"use strict";
 
 	function setupController($scope, $state, cssService, errorService, userService, settingsService) {
@@ -20,7 +20,7 @@ define(["step", "whispeerHelper", "asset/state", "libs/qr", "libs/filesaver", "c
 		};
 
 		function makeNamePrivate(cb) {
-			step(function () {
+			return Bluebird.try(function () {
 				var safetySettings = settingsService.getBranch("privacy");
 
 				safetySettings.basic = {
@@ -34,46 +34,47 @@ define(["step", "whispeerHelper", "asset/state", "libs/qr", "libs/filesaver", "c
 					}
 				};
 				settingsService.updateBranch("privacy", safetySettings);
-				settingsService.uploadChangedData(this);
-			}, cb);
+				return settingsService.uploadChangedData();
+			}).nodeify(cb);
 		}
 
-		step(function () {
+		Bluebird.try(function () {
 			var me = userService.getown();
 			$scope.profile.mail = me.getMail();
-			me.getName(this);
-		}, h.sF(function (names) {
+			return me.getName();
+		}).then(function (names) {
 			$scope.profile.firstName = names.firstname;
 			$scope.profile.lastName = names.lastname;
-		}), errorService.criticalError);
+		}).catch(errorService.criticalError);
 
 		$scope.saveProfile = function () {
 			saveSetupState.pending();
 
 			var me = userService.getown();
-			step(function () {
-				if ($scope.profile.privateName) {
-					makeNamePrivate(this);
-				} else {
-					this.ne();
+			var savePromise = Bluebird.try(function () {
+				if (!$scope.profile.privateName) {
+					return;
 				}
-			}, h.sF(function () {
-				me.setProfileAttribute("basic", {
+
+				return makeNamePrivate();
+			}).then(function () {
+				return me.setProfileAttribute("basic", {
 					firstname: $scope.profile.firstName,
 					lastname: $scope.profile.lastName
-				}, this);
-			}), h.sF(function () {
-				me.uploadChangedProfile(this);
-			}), h.sF(function () {
-				if (h.isMail($scope.profile.mail)) {
-					me.setMail($scope.profile.mail, this);
-				} else {
-					this.ne();
+				});
+			}).then(function () {
+				return me.uploadChangedProfile();
+			}).then(function () {
+				if (!h.isMail($scope.profile.mail)) {
+					return;
 				}
-			}), h.sF(function () {
+
+				return me.setMail($scope.profile.mail, this);
+			}).then(function () {
 				$state.go("app.main");
-				this.ne();
-			}), errorService.failOnError(saveSetupState));
+			});
+
+			errorService.failOnErrorPromise(saveSetupState, savePromise);
 		};
 	}
 

@@ -2,7 +2,7 @@
 * friendsController
 **/
 
-define(["step", "whispeerHelper", "controllers/controllerModule"], function (step, h, controllerModule) {
+define(["bluebird", "whispeerHelper", "controllers/controllerModule"], function (Bluebird, h, controllerModule) {
 	"use strict";
 
 	function friendsController($scope, cssService, friendsService, userService, localize)  {
@@ -21,22 +21,24 @@ define(["step", "whispeerHelper", "controllers/controllerModule"], function (ste
 		};
 
 		function loadFriendsUsers() {
-			step(function () {
+			return Bluebird.try(function () {
 				var friends = friendsService.getFriends();
-				userService.getMultipleFormatted(friends, this);
-			}, h.sF(function (result) {
+				return userService.getMultipleFormatted(friends);
+			}).then(function (result) {
 				$scope.friends = result;
 				$scope.friendsLoading = false;
-			}));
+			});
 		}
 
 		function loadRequestsUsers() {
-			step(function () {
+			return Bluebird.try(function () {
 				var requests = friendsService.getRequests();
-				userService.getMultipleFormatted(requests, this);
-			}, h.sF(function (result) {
+
+				var getMultipleFormatted = Bluebird.promisify(userService.getMultipleFormatted);
+				return getMultipleFormatted(requests);
+			}).then(function (result) {
 				$scope.requests = result;
-			}));
+			});
 		}
 
 		friendsService.awaitLoading().then(function () {

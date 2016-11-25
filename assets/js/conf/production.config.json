@@ -2,12 +2,9 @@
 	"https": true,
 	"ws": "data.whispeer.de",
 	"wsPort": 443,
-
 	"debug": false,
 	"production": true,
-
-	"workerScript": "/assets/js/build/worker.js",
-
+	"workerScript": "assets/js/build/worker.bundle.js",
 	"serviceWorker": {
 		"enabled": true
 	}

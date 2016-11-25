@@ -1,4 +1,4 @@
-define(["whispeerHelper", "step", "asset/state", "verifyMail/verifyMailModule", "services/socketService", "services/errorService"], function (h, step, SuccessState, controllerModule) {
+define(["bluebird", "asset/state", "verifyMail/verifyMailModule", "services/socketService", "services/errorService"], function (Bluebird, SuccessState, controllerModule) {
 	"use strict";
 
 	function verifyMailController($scope, socketService, errorService) {
@@ -22,18 +22,18 @@ define(["whispeerHelper", "step", "asset/state", "verifyMail/verifyMailModule", 
 			verifying.reset();
 			verifying.pending();
 
-			step(function () {
-				socketService.emit("verifyMail", {
-					challenge: $scope.challenge,
-					mailsEnabled: mailsEnabled
-				}, this);
-			}, h.sF(function (data) {
+			var verifyPromise = socketService.emit("verifyMail", {
+				challenge: $scope.challenge,
+				mailsEnabled: mailsEnabled
+			}).then(function (data) {
 				if (data.mailVerified) {
 					verifying.success();
 				} else {
 					$scope.verifying.failed();
 				}
-			}), errorService.failOnError(verifying));
+			});
+
+			errorService.failOnErrorPromise(verifying, verifyPromise);
 		};
 	}
 

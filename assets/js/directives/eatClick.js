@@ -2,7 +2,7 @@
 directive to eat clicks.
 stops event default, mainly necessary for links
 **/
-define(["directives/directivesModule"], function (directivesModule) {
+define(["jquery", "directives/directivesModule"], function (jQuery, directivesModule) {
 	"use strict";
 
 	function eatClickDirective() {
