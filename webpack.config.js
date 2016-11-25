@@ -42,6 +42,7 @@ if (process.env.WHISPEER_ENV !== "development") {
 module.exports = {
 	context: path.resolve("./assets/js"),
 	plugins: plugins,
+	devtool: "inline-source-map",
 	resolve: {
 		root: [
 			path.resolve("./assets/js")

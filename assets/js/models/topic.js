@@ -33,7 +33,12 @@ define([
 		var topicArray = sortedSet(sortObjGetTimeInv);
 
 		var Topic = function (data) {
-			var messages = sortedSet(sortGetTime), dataMessages = sortedSet(sortObjGetTime), theTopic = this, loadInitial = true;
+			var messages = sortedSet(sortGetTime),
+				dataMessages = sortedSet(sortObjGetTime),
+				sortedTopicUpdates = sortedSet(sortGetTime),
+				topicUpdatesById = {},
+				theTopic = this,
+				loadInitial = true;
 
 			var err = validator.validate("topic", data.meta);
 			if (err) {
@@ -71,7 +76,6 @@ define([
 			}
 
 			var receiver = meta.metaAttr("receiver");
-			var latestTopicUpdate;
 
 			this.data = {
 				loaded: false,
@@ -101,47 +105,40 @@ define([
 			});
 
 			this._addTopicUpdates = function (topicUpdatesData) {
-				return Bluebird.resolve(topicUpdatesData).bind(this).map(this._addTopicUpdate);
-			};
-
-			this._addTopicUpdate = function (topicUpdateData) {
-				if (!topicUpdateData) {
-					return Bluebird.resolve();
-				}
-
-				var topicUpdateObject = new TopicUpdate(topicUpdateData);
-
-				if (topicUpdateObject.isLaterThan(latestTopicUpdate)) {
-					latestTopicUpdate = topicUpdateObject;
-				}
-
-				return topicUpdateObject.load(this);
-			};
-
-			this._useTopicUpdate = function (topicUpdateData) {
-				if (!topicUpdateData) {
-					return Bluebird.resolve();
-				}
-
-				var previousTopicUpdate = latestTopicUpdate;
-
-				topicUpdateData = new TopicUpdate(topicUpdateData);
-
-				latestTopicUpdate = topicUpdateData;
-				return latestTopicUpdate.getTitle().bind(this).then(function (title) {
-					latestTopicUpdate.ensureParent(this);
-
-					if (previousTopicUpdate) {
-						latestTopicUpdate.ensureIsAfterTopicUpdate(previousTopicUpdate);
+				return Bluebird.resolve(topicUpdatesData).bind(this).filter(function (topicUpdateData) {
+					return !topicUpdatesById[topicUpdateData.id];
+				}).map(function (topicUpdateData) {
+					if (!topicUpdateData) {
+						return Bluebird.resolve();
 					}
 
+					var topicUpdateObject = new TopicUpdate(topicUpdateData);
+
+					topicUpdatesById[topicUpdateData.id] = topicUpdateObject;
+
+					return topicUpdateObject.load().thenReturn(topicUpdateObject);
+				}).map(function (topicUpdate) {
+					topicUpdate.ensureParent(this);
+
+					return topicUpdate;
+				}).then(function (topicUpdates) {
+					topicUpdates.sort(sortGetTime);
+
+					topicUpdates.reduce(function (prev, cur) {
+						if (prev) {
+							prev.ensureIsAfterTopicUpdate(cur);
+						}
+
+						return cur;
+					}, false);
+
+					sortedTopicUpdates.join(topicUpdates);
+
+					return sortedTopicUpdates.last().getTitle();
+				}).then(function (title) {
 					this.data.title = title;
-				}).then(function () {
-					return latestTopicUpdate;
 				});
 			};
-
-			this._useTopicUpdate(data.latestTopicUpdate);
 
 			this.refetchMessages = function () {
 				if (this.fetchingMessages) {
@@ -247,7 +244,7 @@ define([
 				return socket.definitlyEmit("messages.getLatestTopicUpdate", {
 					topicID: this.getID()
 				}).bind(this).then(function (response) {
-					return this._useTopicUpdate(response.topicUpdate);
+					return this._addTopicUpdates([response.topicUpdate]);
 				});
 			};
 
@@ -258,7 +255,7 @@ define([
 						previousTopicUpdate: previousTopicUpdate
 					});
 				}).then(function (topicUpdate) {
-					this._useTopicUpdate(topicUpdate);
+					this._addTopicUpdates([topicUpdate]);
 				});
 			};
 
@@ -421,14 +418,16 @@ define([
 			};
 
 			this.loadAllData = function loadAllDataF(cb) {
-				return Bluebird.try(function () {
-					return theTopic.verify();
+				return Bluebird.resolve().bind(this).then(function () {
+					return this.verify();
 				}).then(function () {
-					return theTopic.loadNewest();
+					return this.loadNewest();
 				}).then(function () {
-					return theTopic.loadReceiverNames();
+					return this.loadReceiverNames();
 				}).then(function () {
-					theTopic.data.loaded = true;
+					return this._addTopicUpdates(data.latestTopicUpdates);
+				}).then(function () {
+					this.data.loaded = true;
 				}).nodeify(cb);
 			};
 
@@ -453,18 +452,13 @@ define([
 					topicid: theTopic.getID(),
 					afterMessage: theTopic.getOldestID(),
 					maximum: max
-				}).then(function (data) {
+				}).bind(this).then(function (data) {
 					topicDebug("Message server took: " + (new Date().getTime() - loadMore));
 
 					remaining = data.remaining;
 
 					if (data.topicUpdates) {
-						Bluebird.resolve(data.topicUpdates).map(function (topicUpdateData) {
-							var topicUpdate = new TopicUpdate(topicUpdateData);
-							return topicUpdate.getTitle();
-						}).then(function (titles) {
-							console.warn(titles);
-						});
+						this._addTopicUpdates(data.topicUpdates);
 					}
 
 					var messages = data.messages || [];

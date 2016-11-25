@@ -1,12 +1,12 @@
 define(["bluebird", "asset/securedDataWithMetaData", "models/modelsModule", "whispeerHelper"], function (Bluebird, SecuredData, modelsModule, h) {
 	"use strict";
 
+	var deepmerge = require("deepmerge");
+
 	function topicUpdateModel(userService, socket) {
 		function TopicUpdate (updateData) {
 			var content = updateData.content,
 				meta = updateData.meta;
-
-			console.log(updateData);
 
 			this.state = {
 				title: "",
@@ -14,16 +14,29 @@ define(["bluebird", "asset/securedDataWithMetaData", "models/modelsModule", "whi
 				timestamp: h.parseDecimal(meta.time)
 			};
 
+			this._id = updateData.id;
 			this._securedData = SecuredData.load(content, meta, { type: "topicUpdate" });
 			this._userID = meta.userID;
 		}
 
 		TopicUpdate.prototype.setState = function (newState) {
+			this.state = deepmerge.all([this.state, newState]);
+		};
 
+		TopicUpdate.prototype.getID = function () {
+			return this._id;
 		};
 
 		TopicUpdate.prototype.getTime = function () {
 			return h.parseDecimal(this._securedData.metaAttr("time"));
+		};
+
+		TopicUpdate.prototype.isAfter = function (topicUpdate) {
+			if (!topicUpdate) {
+				return true;
+			}
+
+			return topicUpdate.getTime() < this.getTime();
 		};
 
 		TopicUpdate.prototype.load = function () {
@@ -42,7 +55,6 @@ define(["bluebird", "asset/securedDataWithMetaData", "models/modelsModule", "whi
 						title: content.title,
 						loading: false
 					});
-					this.data.title = content.title;
 
 					return content;
 				});
