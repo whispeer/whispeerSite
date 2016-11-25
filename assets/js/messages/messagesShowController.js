@@ -214,38 +214,7 @@ define(["jquery", "whispeerHelper", "asset/state", "bluebird", "messages/message
 			return this.firstMessage().sender;
 		};
 
-		function getMatchingBurst(bursts, message) {
-			var fittingBursts = bursts.filter(function (burst, index, bursts) {
-				var nextBurst = bursts[index + 1], previousBurst = bursts[index - 1];
-
-				if (!burst.fitsMessage(message)) {
-					return false;
-				}
-
-				if (nextBurst && nextBurst.firstMessage().timestamp < message.timestamp) {
-					return false;
-				}
-
-				if (previousBurst && previousBurst.lastMessage().timestamp > message.timestamp) {
-					return false;
-				}
-
-				return true;
-			});
-
-			if (fittingBursts.length > 1) {
-				console.warn("There should only be one fitting burst!");
-			}
-
-			if (fittingBursts.length === 0) {
-				var newBurst = new Burst();
-				bursts.push(newBurst);
-
-				return newBurst;
-			}
-
-			return fittingBursts[0];
-		}
+		var addedBursts = 0;
 
 		function getNewMessages(messages, bursts) {
 			return messages.filter(function (message) {
@@ -255,6 +224,81 @@ define(["jquery", "whispeerHelper", "asset/state", "bluebird", "messages/message
 			});
 		}
 
+		function calculateBursts(messages) {
+			var bursts = [new Burst()];
+			var currentBurst = bursts[0];
+
+			messages.sort(function (m1, m2) {
+				return m2.timestamp - m1.timestamp;
+			});
+
+			messages.forEach(function (message) {
+				if(!currentBurst.fitsMessage(message)) {
+					currentBurst = new Burst();
+					bursts.push(currentBurst);
+				}
+
+				currentBurst.addMessage(message);
+			});
+
+			return bursts;
+		}
+
+		function hasMatchingMessage(oldBurst, newBurst) {
+			var matchingMessages = newBurst.messages.filter(function (message) {
+				return oldBurst.hasMessage(message);
+			});
+
+			return matchingMessages.length > 0;
+		}
+
+		function addBurst(bursts, burst) {
+			bursts.push(burst);
+
+			bursts.sort(function (b1, b2) {
+				return b1.firstMessage().timestamp - b2.firstMessage().timestamp;
+			});
+
+			return true;
+		}
+
+		function mergeBurst(oldBurst, newBurst) {
+			var newMessages = newBurst.messages.filter(function (message) {
+				return !oldBurst.hasMessage(message);
+			});
+
+			newMessages.forEach(function (message) {
+				oldBurst.addMessage(message);
+			});
+
+			return true;
+		}
+
+		function addBurstOrMerge(bursts, burst) {
+			var possibleMatches = bursts.filter(function (oldBurst) {
+				return hasMatchingMessage(oldBurst, burst);
+			});
+
+			if (possibleMatches.length === 0) {
+				return addBurst(bursts, burst);
+			}
+
+			if (possibleMatches.length === 1) {
+				return mergeBurst(possibleMatches[0], burst);
+			}
+
+			if (possibleMatches.length > 1) {
+				errorService.criticalError(new Error("Burst merging possible matches > 1 wtf..."));
+				return false;
+			}
+		}
+
+		function mergeBursts(bursts, newBursts) {
+			return newBursts.reduce(function (prev, burst) {
+				return prev && addBurstOrMerge(bursts, burst);
+			}, true);
+		}
+
 		$scope.messageBursts = function() {
 			if (!$scope.activeTopic || $scope.activeTopic.messages.length === 0) {
 				return [];
@@ -262,16 +306,11 @@ define(["jquery", "whispeerHelper", "asset/state", "bluebird", "messages/message
 
 			var messages = $scope.activeTopic.messages;
 
-			if (getNewMessages(messages, bursts).length === 0) {
-				return bursts;
-			}
-
-			bursts.forEach(function (burst) {
-				burst.removeAllExceptLast();
-			});
-
 			if (burstTopic !== $scope.activeTopic.id) {
-				bursts = [new Burst()];
+				bursts = calculateBursts(messages);
+				burstTopic = $scope.activeTopic.id;
+
+				return bursts;
 			}
 
 			var newMessages = getNewMessages(messages, bursts);
@@ -280,20 +319,15 @@ define(["jquery", "whispeerHelper", "asset/state", "bluebird", "messages/message
 				return bursts;
 			}
 
-			newMessages.sort(function (m1, m2) {
-				return m2.timestamp - m1.timestamp;
+			bursts.forEach(function (burst) {
+				burst.removeAllExceptLast();
 			});
 
-			burstTopic = $scope.activeTopic.id;
-
-			newMessages.forEach(function(message) {
-				var burst = getMatchingBurst(bursts, message);
-				burst.addMessage(message);
-
-				bursts.sort(function (b1, b2) {
-					return b1.firstMessage().timestamp - b2.firstMessage().timestamp;
-				});
-			});
+			var newBursts = calculateBursts(messages);
+			if (!mergeBursts(bursts, newBursts)) {
+				console.warn("Rerender all bursts!");
+				bursts = newBursts;
+			}
 
 			return bursts;
 		};
