@@ -348,6 +348,10 @@ define(["whispeerHelper", "jquery", "bluebird", "imageLib", "asset/Progress", "a
 			return result;
 		};
 
+		ImageUpload.prototype.getFile = function () {
+			return this._file;
+		};
+
 		ImageUpload.prototype._resizeFile = function (sizeOptions) {
 			if (this._isGif && !sizeOptions.restrictions) {
 				return Bluebird.resolve(this._file);

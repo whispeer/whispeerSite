@@ -96,6 +96,8 @@ define(["whispeerHelper", "dexie", "bluebird", "services/serviceModule", "servic
 			if (typeof data !== "undefined") {
 				data.data = JSON.parse(data.data);
 
+				data.blobs = data.blobs || [];
+
 				data.blobs = data.blobs.map(function (blob) {
 					if (typeof blob === "string") {
 						return h.dataURItoBlob(blob);
@@ -104,7 +106,7 @@ define(["whispeerHelper", "dexie", "bluebird", "services/serviceModule", "servic
 					return blob;
 				});
 
-				if (data.blobs && data.blobs.length === 1) {
+				if (data.blobs.length === 1) {
 					data.blob = data.blobs[0];
 				}
 

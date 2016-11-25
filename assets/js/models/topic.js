@@ -16,7 +16,7 @@ define([
 	var debugName = "whispeer:topic";
 	var topicDebug = debug(debugName);
 
-	function topicModel($timeout, $rootScope, windowService, socket, userService, keyStore, sessionService, Message, initService, TopicUpdate) {
+	function topicModel($timeout, $rootScope, windowService, socket, userService, keyStore, sessionService, Message, initService, TopicUpdate, Cache, ImageUpload) {
 		function sortGetTime(a, b) {
 			return (a.getTime() - b.getTime());
 		}
@@ -300,22 +300,39 @@ define([
 				return sentMessages[sentMessages.length - 1];
 			};
 
-			this.sendMessage = function (message, images) {
-				var messageObject = new Message(this, message, images);
+			this.sendUnsentMessage = function (messageData, files) {
+				var images = files.map(function (file) {
+					return new ImageUpload(file);
+				});
+
+				return this.sendMessage(messageData.message, images, messageData.id);
+			};
+
+			this.sendMessage = function (message, images, id) {
+				var messageObject = new Message(this, message, images, id);
 				messagesByID[messageObject.getID()] = messageObject;
 				this.addMessage(messageObject);
 
-				/*
-				var messageSendCache = new Cache("messageSend", { maxEntries: -1 })
-				messageSendCache.store(messageObject.getID(), {
-					topicID: this.getID(),
-					message: message,
-					//TODO: images?!
-				})
-				*/
+				var messageSendCache = new Cache("messageSend", { maxEntries: -1, maxBlobSize: -1 });
+
+				if (!id) {
+					debugger;
+
+					messageSendCache.store(
+						messageObject.getID(),
+						{
+							topicID: this.getID(),
+							id: messageObject.getID(),
+							message: message
+						},
+						images.map(function (image) {
+							return image.getFile();
+						})
+					);
+				}
 
 				messageObject.sendContinously().then(function () {
-					//return messageSendCache.delete(messageObject.getID());
+					return messageSendCache.delete(messageObject.getID());
 				}).catch(function (e) {
 					console.error(e);
 					alert("An error occured sending a message!" + e.toString());
@@ -689,7 +706,7 @@ define([
 		return Topic;
 	}
 
-	topicModel.$inject = ["$timeout", "$rootScope", "ssn.windowService", "ssn.socketService", "ssn.userService", "ssn.keyStoreService", "ssn.sessionService", "ssn.models.message", "ssn.initService", "ssn.models.topicUpdate"];
+	topicModel.$inject = ["$timeout", "$rootScope", "ssn.windowService", "ssn.socketService", "ssn.userService", "ssn.keyStoreService", "ssn.sessionService", "ssn.models.message", "ssn.initService", "ssn.models.topicUpdate", "ssn.cacheService", "ssn.imageUploadService"];
 
 	modelsModule.factory("ssn.models.topic", topicModel);
 });
