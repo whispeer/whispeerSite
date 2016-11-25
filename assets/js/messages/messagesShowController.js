@@ -2,12 +2,12 @@
 * messagesController
 **/
 
+var Burst = require("./burst");
+
 define(["jquery", "whispeerHelper", "asset/state", "bluebird", "messages/messagesModule"], function (jQuery, h, State, Bluebird, messagesModule) {
 	"use strict";
 
 	function messagesController($scope, $element, $state, $stateParams, $timeout, localize, errorService, messageService, ImageUploadService, TopicUpdate) {
-		var MINUTE = 60 * 1000;
-
 		var topicLoadingState = new State();
 		$scope.topicLoadingState = topicLoadingState.data;
 
@@ -52,10 +52,6 @@ define(["jquery", "whispeerHelper", "asset/state", "bluebird", "messages/message
 		});
 
 		topicLoadingState.pending();
-
-		function isTopicUpdate(obj) {
-			return obj instanceof TopicUpdate;
-		}
 
 		function loadMoreUntilFull() {
 			Bluebird.delay(500).then(function () {
@@ -132,108 +128,6 @@ define(["jquery", "whispeerHelper", "asset/state", "bluebird", "messages/message
 
 		var bursts = [], burstTopic;
 
-		function Burst() {
-			this.messages = [];
-		}
-
-		Burst.prototype.hasMessage = function (message) {
-			return this.messages.indexOf(message) > -1;
-		};
-
-		Burst.prototype.addMessage = function (message) {
-			this.messages.push(message);
-
-			this.messages.sort(function (m1, m2) {
-				return m1.getTime() - m2.getTime();
-			});
-		};
-
-		Burst.prototype.removeAllExceptLast = function () {
-			this.messages.splice(0, this.messages.length - 1);
-		};
-
-		Burst.prototype.firstMessage = function () {
-			return this.messages[0];
-		};
-
-		Burst.prototype.lastMessage = function () {
-			return this.messages[this.messages.length - 1];
-		};
-
-		Burst.prototype.isMessageBurst = function () {
-			return !this.isTopicUpdate();
-		};
-
-		Burst.prototype.isTopicUpdate = function () {
-			return isTopicUpdate(this.firstMessage());
-		};
-
-		Burst.prototype.hasMessages = function () {
-			return this.messages.length > 0;
-		};
-
-		Burst.prototype.fitsMessage = function (message) {
-			if (!this.hasMessages()) {
-				return true;
-			}
-
-			if (isTopicUpdate(this.firstMessage()) || isTopicUpdate(message)) {
-				return false;
-			}
-
-			return this.sameSender(message) &&
-				this.sameDay(message) &&
-				this.timeDifference(message) < MINUTE * 10;
-
-		};
-
-		Burst.prototype.sameSender = function (message) {
-			return this.firstMessage().data.sender.id === message.data.sender.id;
-		};
-
-		Burst.prototype.sameDay = function (message) {
-			if (!message) {
-				return false;
-			}
-
-			if (message instanceof Burst) {
-				message = message.firstMessage();
-			}
-
-			var date1 = new Date(h.parseDecimal(this.firstMessage().getTime()));
-			var date2 = new Date(h.parseDecimal(message.getTime()));
-
-			if (date1.getDate() !== date2.getDate()) {
-				return false;
-			}
-
-			if (date1.getMonth() !== date2.getMonth()) {
-				return false;
-			}
-
-			if (date1.getFullYear() !== date2.getFullYear()) {
-				return false;
-			}
-
-			return true;
-		};
-
-		Burst.prototype.timeDifference = function (message) {
-			return Math.abs(h.parseDecimal(message.getTime()) - h.parseDecimal(this.firstMessage().getTime()));
-		};
-
-		Burst.prototype.isMe = function () {
-			return this.isMessageBurst() && this.firstMessage().data.sender.me;
-		};
-
-		Burst.prototype.isOther = function () {
-			return this.isMessageBurst() && !this.firstMessage().data.sender.me;
-		};
-
-		Burst.prototype.sender = function () {
-			return this.firstMessage().data.sender;
-		};
-
 		function getNewElements(messagesAndUpdates, bursts) {
 			return messagesAndUpdates.filter(function (message) {
 				return bursts.reduce(function (prev, current) {
@@ -243,7 +137,7 @@ define(["jquery", "whispeerHelper", "asset/state", "bluebird", "messages/message
 		}
 
 		function calculateBursts(messages) {
-			var bursts = [new Burst()];
+			var bursts = [new Burst(TopicUpdate)];
 			var currentBurst = bursts[0];
 
 			messages.sort(function (m1, m2) {
@@ -252,7 +146,7 @@ define(["jquery", "whispeerHelper", "asset/state", "bluebird", "messages/message
 
 			messages.forEach(function (messageOrUpdate) {
 				if(!currentBurst.fitsMessage(messageOrUpdate)) {
-					currentBurst = new Burst();
+					currentBurst = new Burst(TopicUpdate);
 					bursts.push(currentBurst);
 				}
 
@@ -333,9 +227,7 @@ define(["jquery", "whispeerHelper", "asset/state", "bluebird", "messages/message
 			}
 
 			bursts.forEach(function (burst) {
-				if (!isTopicUpdate(burst)) {
-					burst.removeAllExceptLast();
-				}
+				burst.removeAllExceptLast();
 			});
 
 			var newBursts = calculateBursts(messagesAndUpdates);
