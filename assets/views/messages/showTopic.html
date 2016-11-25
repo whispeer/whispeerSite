@@ -61,16 +61,16 @@
 				</li>
 				<li class="burst-date" id="messagesView-endOfStream">
 					<p data-i18n="messages.endOfStream" data-ng-if="activeTopic.remaining == 0" class="burst-date-text">
-						<span data-for="date">{{::messageBursts()[0].firstMessage().timestamp|date}}</span>
+						<span data-for="date">{{::messageBursts()[0].firstMessage().getTime()|date}}</span>
 					</p>
 				</li>
 				<li class="burst" data-ng-repeat="burst in (bursts = messageBursts())" data-ng-class="{me:burst.isMe(), other:burst.isOther()}">
-					<div class="burst-date" data-ng-if="::!burst.sameDay(bursts[$index - 1]) && !$first"><span class="burst-date-text">{{::burst.firstMessage().timestamp|date}}</span></div>
+					<div class="burst-date" data-ng-if="::!burst.sameDay(bursts[$index - 1]) && !$first"><span class="burst-date-text">{{::burst.firstMessage().getTime()|date}}</span></div>
 
 					<div class="burst-date" data-ng-if="burst.isTopicUpdate()">
 						<span class="burst-date-text">
-							{{ burst.firstMessage().state.user.data.name }} hat das Thema umbenannt in {{ burst.firstMessage().state.title }}
-							um <span data-smart-date="::burst.firstMessage().state.timestamp" data-smart-date-no-day>
+							{{ burst.firstMessage().state.user.data.name }} hat den Betreff zu "{{ burst.firstMessage().state.title }}" geändert - 
+							<span data-smart-date="::burst.firstMessage().state.timestamp" data-smart-date-no-day>
 						</span>
 					</div>
 

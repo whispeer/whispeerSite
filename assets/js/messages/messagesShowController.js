@@ -70,6 +70,8 @@ define(["jquery", "whispeerHelper", "asset/state", "bluebird", "messages/message
 				if (outerHeight > innerHeight) {
 					return $scope.loadMoreMessages().then(function () {
 						loadMoreUntilFull();
+
+						return null;
 					});
 				}
 			});
@@ -90,6 +92,8 @@ define(["jquery", "whispeerHelper", "asset/state", "bluebird", "messages/message
 			}
 
 			loadMoreUntilFull();
+
+			return null;
 		});
 
 		errorService.failOnErrorPromise(topicLoadingState, loadTopicsPromise);
@@ -327,8 +331,6 @@ define(["jquery", "whispeerHelper", "asset/state", "bluebird", "messages/message
 			if (newElements.length === 0) {
 				return bursts;
 			}
-
-			console.warn(bursts, newElements);
 
 			bursts.forEach(function (burst) {
 				if (!isTopicUpdate(burst)) {
