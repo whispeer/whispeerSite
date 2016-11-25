@@ -69,7 +69,7 @@
 
 					<div class="burst-date" data-ng-if="burst.isTopicUpdate()">
 						<span class="burst-date-text">
-							{{ burst.firstItem().state.user.data.name }} hat den Betreff zu "{{ burst.firstItem().state.title }}" geändert - 
+							{{ burst.firstItem().state.sender.data.name }} hat den Betreff zu "{{ burst.firstItem().state.title }}" geändert - 
 							<span data-smart-date="::burst.firstItem().state.timestamp" data-smart-date-no-day>
 						</span>
 					</div>

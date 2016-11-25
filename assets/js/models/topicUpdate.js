@@ -43,7 +43,7 @@ define(["bluebird", "asset/securedDataWithMetaData", "models/modelsModule", "whi
 			if (!this._loadPromise) {
 				this._loadPromise = this.getUser().bind(this).then(function (user) {
 					this.setState({
-						user: user
+						sender: user
 					});
 
 					return Bluebird.all([
