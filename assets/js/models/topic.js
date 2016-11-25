@@ -21,10 +21,6 @@ define([
 			return (a.getTime() - b.getTime());
 		}
 
-		function sortObjGetTime(a, b) {
-			return (a.obj.getTime() - b.obj.getTime());
-		}
-
 		function sortObjGetTimeInv(a, b) {
 			return (b.obj.getTime() - a.obj.getTime());
 		}
@@ -34,8 +30,8 @@ define([
 
 		var Topic = function (data) {
 			var messages = sortedSet(sortGetTime),
-				dataMessages = sortedSet(sortObjGetTime),
 				sortedTopicUpdates = sortedSet(sortGetTime),
+				messagesAndUpdates = sortedSet(sortGetTime),
 				topicUpdatesById = {},
 				theTopic = this,
 				loadInitial = true;
@@ -81,7 +77,7 @@ define([
 				loaded: false,
 				remaining: 1,
 
-				messages: dataMessages,
+				messagesAndUpdates: messagesAndUpdates,
 
 				partners: [],
 				partnersDisplay: [],
@@ -133,8 +129,13 @@ define([
 					}, false);
 
 					sortedTopicUpdates.join(topicUpdates);
+					messagesAndUpdates.join(topicUpdates);
 
-					return sortedTopicUpdates.last().getTitle();
+					var latestTopicUpdate = sortedTopicUpdates.last();
+
+					if (latestTopicUpdate) {
+						return latestTopicUpdate.getTitle();
+					}
 				}).then(function (title) {
 					this.data.title = title;
 				});
@@ -177,7 +178,8 @@ define([
 					if (response.clearMessages) {
 						//remove all sent messages we have!
 						messages.clear();
-						dataMessages.clear();
+						messagesAndUpdates.clear();
+						sortedTopicUpdates.clear();
 						//messages.join(unsentMessages);
 						//dataMessages.join(unsentMessages.map(:data));
 					}
@@ -291,9 +293,7 @@ define([
 				});
 
 				messages.join(messagesToAdd);
-				dataMessages.join(messagesToAdd.map(function (e) {
-					return e.data;
-				}));
+				messagesAndUpdates.join(messagesToAdd);
 
 				theTopic.data.latestMessage = messages[messages.length - 1];
 			}

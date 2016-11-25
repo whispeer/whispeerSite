@@ -5,7 +5,7 @@
 define(["jquery", "whispeerHelper", "asset/state", "bluebird", "messages/messagesModule"], function (jQuery, h, State, Bluebird, messagesModule) {
 	"use strict";
 
-	function messagesController($scope, $element, $state, $stateParams, $timeout, localize, errorService, messageService, ImageUploadService) {
+	function messagesController($scope, $element, $state, $stateParams, $timeout, localize, errorService, messageService, ImageUploadService, TopicUpdate) {
 		var MINUTE = 60 * 1000;
 
 		var topicLoadingState = new State();
@@ -53,6 +53,10 @@ define(["jquery", "whispeerHelper", "asset/state", "bluebird", "messages/message
 
 		topicLoadingState.pending();
 
+		function isTopicUpdate(obj) {
+			return obj instanceof TopicUpdate;
+		}
+
 		function loadMoreUntilFull() {
 			Bluebird.delay(500).then(function () {
 				var scroller = $element.find(".scroll-pane");
@@ -81,7 +85,7 @@ define(["jquery", "whispeerHelper", "asset/state", "bluebird", "messages/message
 		}).then(function (topic) {
 			$scope.topicLoaded = true;
 
-			if (topic.data.messages.length > 0) {
+			if (topic.data.messagesAndUpdates.length > 0) {
 				topic.markRead(errorService.criticalError);
 			}
 
@@ -136,7 +140,7 @@ define(["jquery", "whispeerHelper", "asset/state", "bluebird", "messages/message
 			this.messages.push(message);
 
 			this.messages.sort(function (m1, m2) {
-				return m1.timestamp - m2.timestamp;
+				return m1.getTime() - m2.getTime();
 			});
 		};
 
@@ -152,6 +156,14 @@ define(["jquery", "whispeerHelper", "asset/state", "bluebird", "messages/message
 			return this.messages[this.messages.length - 1];
 		};
 
+		Burst.prototype.isMessageBurst = function () {
+			return !this.isTopicUpdate();
+		};
+
+		Burst.prototype.isTopicUpdate = function () {
+			return isTopicUpdate(this.firstMessage());
+		};
+
 		Burst.prototype.hasMessages = function () {
 			return this.messages.length > 0;
 		};
@@ -161,6 +173,10 @@ define(["jquery", "whispeerHelper", "asset/state", "bluebird", "messages/message
 				return true;
 			}
 
+			if (isTopicUpdate(this.firstMessage()) || isTopicUpdate(message)) {
+				return false;
+			}
+
 			return this.sameSender(message) &&
 				this.sameDay(message) &&
 				this.timeDifference(message) < MINUTE * 10;
@@ -168,7 +184,7 @@ define(["jquery", "whispeerHelper", "asset/state", "bluebird", "messages/message
 		};
 
 		Burst.prototype.sameSender = function (message) {
-			return this.firstMessage().sender.id === message.sender.id;
+			return this.firstMessage().data.sender.id === message.data.sender.id;
 		};
 
 		Burst.prototype.sameDay = function (message) {
@@ -180,8 +196,8 @@ define(["jquery", "whispeerHelper", "asset/state", "bluebird", "messages/message
 				message = message.firstMessage();
 			}
 
-			var date1 = new Date(h.parseDecimal(this.firstMessage().timestamp));
-			var date2 = new Date(h.parseDecimal(message.timestamp));
+			var date1 = new Date(h.parseDecimal(this.firstMessage().getTime()));
+			var date2 = new Date(h.parseDecimal(message.getTime()));
 
 			if (date1.getDate() !== date2.getDate()) {
 				return false;
@@ -199,25 +215,23 @@ define(["jquery", "whispeerHelper", "asset/state", "bluebird", "messages/message
 		};
 
 		Burst.prototype.timeDifference = function (message) {
-			return Math.abs(h.parseDecimal(message.timestamp) - h.parseDecimal(this.firstMessage().timestamp));
+			return Math.abs(h.parseDecimal(message.getTime()) - h.parseDecimal(this.firstMessage().getTime()));
 		};
 
 		Burst.prototype.isMe = function () {
-			return this.firstMessage().sender.me;
+			return this.isMessageBurst() && this.firstMessage().data.sender.me;
 		};
 
 		Burst.prototype.isOther = function () {
-			return !this.firstMessage().sender.me;
+			return this.isMessageBurst() && !this.firstMessage().data.sender.me;
 		};
 
 		Burst.prototype.sender = function () {
-			return this.firstMessage().sender;
+			return this.firstMessage().data.sender;
 		};
 
-		var addedBursts = 0;
-
-		function getNewMessages(messages, bursts) {
-			return messages.filter(function (message) {
+		function getNewElements(messagesAndUpdates, bursts) {
+			return messagesAndUpdates.filter(function (message) {
 				return bursts.reduce(function (prev, current) {
 					return prev && !current.hasMessage(message);
 				}, true);
@@ -229,16 +243,16 @@ define(["jquery", "whispeerHelper", "asset/state", "bluebird", "messages/message
 			var currentBurst = bursts[0];
 
 			messages.sort(function (m1, m2) {
-				return m2.timestamp - m1.timestamp;
+				return m2.getTime() - m1.getTime();
 			});
 
-			messages.forEach(function (message) {
-				if(!currentBurst.fitsMessage(message)) {
+			messages.forEach(function (messageOrUpdate) {
+				if(!currentBurst.fitsMessage(messageOrUpdate)) {
 					currentBurst = new Burst();
 					bursts.push(currentBurst);
 				}
 
-				currentBurst.addMessage(message);
+				currentBurst.addMessage(messageOrUpdate);
 			});
 
 			return bursts;
@@ -254,10 +268,6 @@ define(["jquery", "whispeerHelper", "asset/state", "bluebird", "messages/message
 
 		function addBurst(bursts, burst) {
 			bursts.push(burst);
-
-			bursts.sort(function (b1, b2) {
-				return b1.firstMessage().timestamp - b2.firstMessage().timestamp;
-			});
 
 			return true;
 		}
@@ -299,35 +309,48 @@ define(["jquery", "whispeerHelper", "asset/state", "bluebird", "messages/message
 			}, true);
 		}
 
-		$scope.messageBursts = function() {
-			if (!$scope.activeTopic || $scope.activeTopic.messages.length === 0) {
+		function getBursts() {
+			if (!$scope.activeTopic || $scope.activeTopic.messagesAndUpdates.length === 0) {
 				return [];
 			}
 
-			var messages = $scope.activeTopic.messages;
+			var messagesAndUpdates = $scope.activeTopic.messagesAndUpdates;
 
 			if (burstTopic !== $scope.activeTopic.id) {
-				bursts = calculateBursts(messages);
+				bursts = calculateBursts(messagesAndUpdates);
 				burstTopic = $scope.activeTopic.id;
 
 				return bursts;
 			}
 
-			var newMessages = getNewMessages(messages, bursts);
-
-			if (newMessages.length === 0) {
+			var newElements = getNewElements(messagesAndUpdates, bursts);
+			if (newElements.length === 0) {
 				return bursts;
 			}
 
+			console.warn(bursts, newElements);
+
 			bursts.forEach(function (burst) {
-				burst.removeAllExceptLast();
+				if (!isTopicUpdate(burst)) {
+					burst.removeAllExceptLast();
+				}
 			});
 
-			var newBursts = calculateBursts(messages);
+			var newBursts = calculateBursts(messagesAndUpdates);
 			if (!mergeBursts(bursts, newBursts)) {
 				console.warn("Rerender all bursts!");
 				bursts = newBursts;
 			}
+
+			return bursts;			
+		}
+
+		$scope.messageBursts = function() {
+			var bursts = getBursts();
+
+			bursts.sort(function (b1, b2) {
+				return b1.firstMessage().getTime() - b2.firstMessage().getTime();
+			});
 
 			return bursts;
 		};
@@ -338,7 +361,7 @@ define(["jquery", "whispeerHelper", "asset/state", "bluebird", "messages/message
 		};
 	}
 
-	messagesController.$inject = ["$scope", "$element", "$state", "$stateParams", "$timeout", "localize", "ssn.errorService", "ssn.messageService", "ssn.imageUploadService"];
+	messagesController.$inject = ["$scope", "$element", "$state", "$stateParams", "$timeout", "localize", "ssn.errorService", "ssn.messageService", "ssn.imageUploadService", "ssn.models.topicUpdate"];
 
 	messagesModule.controller("ssn.messagesShowController", messagesController);
 });
