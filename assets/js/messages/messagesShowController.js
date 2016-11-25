@@ -131,7 +131,7 @@ define(["jquery", "whispeerHelper", "asset/state", "bluebird", "messages/message
 		function getNewElements(messagesAndUpdates, bursts) {
 			return messagesAndUpdates.filter(function (message) {
 				return bursts.reduce(function (prev, current) {
-					return prev && !current.hasMessage(message);
+					return prev && !current.hasItem(message);
 				}, true);
 			});
 		}
@@ -145,20 +145,20 @@ define(["jquery", "whispeerHelper", "asset/state", "bluebird", "messages/message
 			});
 
 			messages.forEach(function (messageOrUpdate) {
-				if(!currentBurst.fitsMessage(messageOrUpdate)) {
+				if(!currentBurst.fitsItem(messageOrUpdate)) {
 					currentBurst = new Burst(TopicUpdate);
 					bursts.push(currentBurst);
 				}
 
-				currentBurst.addMessage(messageOrUpdate);
+				currentBurst.addItem(messageOrUpdate);
 			});
 
 			return bursts;
 		}
 
 		function hasMatchingMessage(oldBurst, newBurst) {
-			var matchingMessages = newBurst.messages.filter(function (message) {
-				return oldBurst.hasMessage(message);
+			var matchingMessages = newBurst.getItems().filter(function (message) {
+				return oldBurst.hasItem(message);
 			});
 
 			return matchingMessages.length > 0;
@@ -171,12 +171,12 @@ define(["jquery", "whispeerHelper", "asset/state", "bluebird", "messages/message
 		}
 
 		function mergeBurst(oldBurst, newBurst) {
-			var newMessages = newBurst.messages.filter(function (message) {
-				return !oldBurst.hasMessage(message);
+			var newMessages = newBurst.getItems().filter(function (message) {
+				return !oldBurst.hasItem(message);
 			});
 
 			newMessages.forEach(function (message) {
-				oldBurst.addMessage(message);
+				oldBurst.addItem(message);
 			});
 
 			return true;
@@ -243,7 +243,7 @@ define(["jquery", "whispeerHelper", "asset/state", "bluebird", "messages/message
 			var bursts = getBursts();
 
 			bursts.sort(function (b1, b2) {
-				return b1.firstMessage().getTime() - b2.firstMessage().getTime();
+				return b1.firstItem().getTime() - b2.firstItem().getTime();
 			});
 
 			return bursts;
