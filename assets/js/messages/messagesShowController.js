@@ -115,7 +115,7 @@ define(["jquery", "whispeerHelper", "asset/state", "bluebird", "messages/message
 				}, 2000);				
 			});
 
-			sendMessagePromise.catch(function () {
+			sendMessagePromise.finally(function () {
 				$scope.canSend = true;
 			});
 
