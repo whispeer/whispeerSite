@@ -1,6 +1,7 @@
 assets/js/libs/**
 assets/js/app.build.js
-assets/js/step/**
 assets/js/validation/**
 assets/js/helper/**
 assets/js/cryptoWorker/**
+assets/js/build/**
+assets/js/bower/**

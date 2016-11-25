@@ -1,4 +1,5 @@
-define([], function () {
+define(["libs/sjcl"], function (sjcl) {
+	"use strict";
 	var chelper = {
 		getCurveName: function (curve) {
 			var curcurve;

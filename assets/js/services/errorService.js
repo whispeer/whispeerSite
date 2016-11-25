@@ -1,23 +1,36 @@
-define(["services/serviceModule"], function (serviceModule) {
+define(["services/serviceModule", "config"], function (serviceModule, config) {
 	"use strict";
 
-	function logError(e) {
-		if (e) {
-			console.error(e);
-			globalErrors.push({
-				e: e,
-				str: e.toString(),
-				stack: e.stack
-			});
-		}
-	}
-
-	var service = function () {
+	var service = function ($http) {
 		var api = {
 			criticalError: function (e) {
-				logError(e);
+				api.logError(e);
 			},
-			logError: logError,
+			logError: function logError(e) {
+				if (e) {
+					console.error(e);
+					$http.post(
+						(config.https ? "https://" : "http://") +
+						config.ws +
+						":" + config.wsPort +
+						"/reportError",
+					JSON.stringify({ error: e.toString() }));
+
+					globalErrors.push({
+						e: e,
+						str: e.toString(),
+						stack: e.stack
+					});
+				}
+			},
+			failOnErrorPromise: function (state, promise) {
+				return promise.then(function () {
+					state.success();
+				}).catch(function (e) {
+					state.failed();
+					api.criticalError(e);
+				});
+			},
 			failOnError: function (state) {
 				return function (e) {
 					if (e) {
@@ -30,10 +43,16 @@ define(["services/serviceModule"], function (serviceModule) {
 			}
 		};
 
+		window.addEventListener("unhandledrejection", function(e) {
+			var reason = e.detail.reason;
+		
+			api.criticalError(reason);
+		});
+
 		return api;
 	};
 
-	service.$inject = [];
+	service.$inject = ["$http"];
 
 	serviceModule.factory("ssn.errorService", service);
 });

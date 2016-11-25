@@ -177,3 +177,46 @@
 		background: rgba(255, 69, 0, .92);
 	}
 }
+
+.button-dropdown {
+	position: absolute;
+	top: 4rem;
+	right: 0;
+
+	width: 175px;
+
+	background-color: @grayLighter;
+	color: @textColorLighter;
+
+	box-shadow: -1px 1px 10px fade(@gray, 30%);
+
+	border-radius: 0 0 0 @inputBorderRadius;
+
+	z-index: 3;
+}
+
+.button-dropdown-action {
+	word-break: break-word !important;
+	white-space: normal;
+
+	line-height: @baseLineHeight;
+
+	cursor: pointer;
+
+	&:hover {
+		background: fade(#ffffff, 25%);
+	}
+
+	&:last-child {
+		border-radius: 0 0 0 @inputBorderRadius;
+	}
+}
+
+.button-dropdown-action-text {
+	display: block;
+	padding: 0.5em;
+
+	box-sizing: border-box;
+
+	color: @textColorLighter !important;
+}

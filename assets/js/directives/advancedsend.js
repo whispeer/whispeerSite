@@ -1,9 +1,9 @@
-define(["step", "whispeerHelper", "directives/directivesModule"], function (step, h, directivesModule) {
+define(["bluebird", "whispeerHelper", "directives/directivesModule"], function (Bluebird, h, directivesModule) {
     "use strict";
     var advancedsendDirective = function (settingsService, errorService) {
         return {
             link: function (scope, element, attrs) {
-                step(function () {
+                Bluebird.try(function () {
                     var messages = settingsService.getBranch("messages");
                     function send() {
                         scope.$apply(function (){
@@ -28,7 +28,7 @@ define(["step", "whispeerHelper", "directives/directivesModule"], function (step
                             }
                         }
                     });
-                }, errorService.criticalError);
+                }).catch(errorService.criticalError);
             }
         };
     };

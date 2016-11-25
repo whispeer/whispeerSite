@@ -3,12 +3,13 @@ define([], function () {
 	function extendError(ParentErrorClass, name) {
 		if (ParentErrorClass.prototype instanceof Error || ParentErrorClass === Error) {
 			var F = function(){};
-			var CustomError = function(message) {
+			var CustomError = function(message, data) {
 				var _this = this;
 
 				var tmp = new ParentErrorClass(message);
 				tmp.name = this.name = name || "Error";
 
+				_this.data = data;
 				_this.stack = tmp.stack;
 				_this.message = tmp.message;
 				_this.name = name;
@@ -35,6 +36,7 @@ define([], function () {
 	var DecryptionError = extendError(SecurityError, "DecryptionError");
 	var ValidationError = extendError(SecurityError, "ValidationError");
 
+	var LoginError = extendError(Error, "LoginError");
 
 	return {
 		SecurityError: SecurityError,
@@ -44,6 +46,8 @@ define([], function () {
 
 		InvalidDataError: InvalidDataError,
 		InvalidHexError: InvalidHexError,
-		InvalidFilter: InvalidFilter
+		InvalidFilter: InvalidFilter,
+
+		LoginError: LoginError,
 	};
 });

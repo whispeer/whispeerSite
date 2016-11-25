@@ -1,3 +1,5 @@
+var templateUrl = require("../../views/directives/userimage.html");
+
 define(["directives/directivesModule"], function (directivesModule) {
 	"use strict";
 
@@ -8,7 +10,7 @@ define(["directives/directivesModule"], function (directivesModule) {
 				userData: 	"=user"
 			},
 			restrict: "E",
-			templateUrl: "assets/views/directives/userimage.html",
+			templateUrl: templateUrl,
 			replace: true
 		};
 	}

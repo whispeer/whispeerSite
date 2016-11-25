@@ -2,7 +2,7 @@
 * sessionController
 **/
 
-define(["step", "whispeerHelper", "config", "controllers/controllerModule", "debug"], function (step, h, config, controllerModule, debug) {
+define(["jquery", "whispeerHelper", "config", "controllers/controllerModule", "debug", "bluebird"], function (jQuery, h, config, controllerModule, debug, Bluebird) {
 	"use strict";
 
 	var debugName = "whispeer:rootController";
@@ -27,20 +27,31 @@ define(["step", "whispeerHelper", "config", "controllers/controllerModule", "deb
 		$scope.friends = friendsService.data;
 		$scope.messages = messageService.data;
 
-		function afterInit() {
-			var user;
-			step(function () {
-				user = userService.getown();
-				user.loadBasicData(this);
-			}, h.sF(function () {
+		var afterInitPromise = Bluebird.resolve();
+
+		function loadUser() {
+			var user = userService.getown();
+			var loadBasicDataAsync = Bluebird.promisify(user.reLoadBasicData.bind(user));
+			
+			return loadBasicDataAsync().then(function () {
 				$scope.user = user.data;
 				$scope.loading = false;
 
 				rootControllerDebug("Own Name loaded:" + (new Date().getTime() - startup));
-			}));
+			});
 		}
 
-		initService.listen(afterInit, "initCacheDone");
+		function afterInit() {
+			afterInitPromise.finally(function () {
+				loadUser();
+			});
+		}
+
+		function afterInitCache() {
+			afterInitPromise = loadUser();
+		}
+
+		initService.listen(afterInitCache, "initCacheDone");
 		initService.listen(afterInit, "initDone");
 
 		$scope.sidebarActive = false;
@@ -83,6 +94,13 @@ define(["step", "whispeerHelper", "config", "controllers/controllerModule", "deb
 		$scope.toggleSidebar = function() {
 			$scope.sidebarActive = !$scope.sidebarActive;
 		};
+
+		function fixSafariScrolling(event) {
+			event.target.style.overflowY = "hidden";
+			setTimeout(function () { event.target.style.overflowY = "auto"; });
+		}
+
+		jQuery("#sidebar-left").on("webkitTransitionEnd", fixSafariScrolling);
 
 		function updateCssClass() {
 			if (!$scope.loading) {

@@ -34,7 +34,7 @@ define(["workerQueue", "bluebird", "crypto/minimalHelper", "config"], function (
 	}
 
 	function dirname(path) {
-		return path.match(/(.*)[\/\\]/)[1] || "";
+		return path.replace(/\#.*/, "").replace(/\/[^\/]*$/, "");
 	}
 
 	var requirePath = "/assets/js/bower/requirejs/require.js";
@@ -46,14 +46,14 @@ define(["workerQueue", "bluebird", "crypto/minimalHelper", "config"], function (
 	var workerCount = 4;
 
 	if (navigator.hardwareConcurrency) {
-		workerCount = Math.max(navigator.hardwareConcurrency, workerCount);
+		workerCount = Math.max(navigator.hardwareConcurrency - 1, workerCount);
 	}
 
 	//Promise, numberOfWorkers, workerPath, setupMethod, requireOverRide
-	var workers = new WorkerQueue(bluebird, workerCount, "crypto/sjclWorker", {
+	var workers = new WorkerQueue(bluebird, workerCount, {
 		setupMethod: addEntropy,
 		requirePath: requirePath,
-		workerScript: config.workerScript || false
+		workerScriptOverride: config.workerScript || false
 	});
 
 	var sjclWorker = {

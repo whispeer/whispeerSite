@@ -1,9 +1,21 @@
 /* Warning! This code manipulates the DOM, do only change with extra care as you might create Cross-Site-Scripting holes */
-define(["directives/directivesModule"], function (directivesModule) {
+
+var jQuery = require("jquery");
+var directivesModule = require("directives/directivesModule");
+var EmojifyConverter = require("emojify");
+
+var syntaxifyDirective = function ($timeout) {
 	"use strict";
+
+	var emojify = new EmojifyConverter();
+	emojify.img_sets.apple.sheet = "/assets/img/sheet_apple_64.png";
+	emojify.use_sheet = true;
+	emojify.include_title = true;
 
 	var ignoreAsLastCharacter = ["'", ")", "\"", "."];
 	var linkElement = jQuery("<a>").attr("target", "_blank");
+	var emojiElementOuter = jQuery("<span>").addClass("emoji-outer").addClass("emoji-sizer");
+	var emojiElementInner = jQuery("<span>").addClass("emoji-inner").css("background", "url(" + emojify.img_sets.apple.sheet + ")");
 
 	function appendUrl(elm, url, remainingTextCallback) {
 		var i, removeUntil = 0;
@@ -72,11 +84,51 @@ define(["directives/directivesModule"], function (directivesModule) {
 		}
 	}
 
+	function emojifyReplacer(elm, text, remainingTextCallback) {
+		var replaced = emojify.replace_colons(emojify.replace_unified(text));
+		replaced = replaced.replace(/<span class="emoji-outer emoji-sizer"><span class="emoji-inner"([^>]*)><\/span><\/span>/g, ":emoji:$1:emoji:");
+		var splitted = replaced.split(":emoji:");
+
+		splitted.forEach(function (text) {
+			if (text.indexOf(emojify.img_sets.apple.sheet) === -1) {
+				elm.append(remainingTextCallback(text));
+				return;
+			}
+
+			//;background-position:67.5% 27.5%;background-size:4100%" title="disappointed_relieved"
+			var positionMatch = text.match(/background-position:([^;^"]*)/);
+			var sizeMatch = text.match(/background-size:([^;^"]*)/);
+			var titleMatch = text.match(/title="([^"]*)"/);
+
+			if (!positionMatch || !sizeMatch || !titleMatch) {
+				elm.append(remainingTextCallback(text));
+				return;
+			}
+
+			var position = positionMatch[1];
+			var size = sizeMatch[1];
+			var title = titleMatch[1];
+
+			if (!position.match(/^[0-9\.% ]*$/) && !size.match(/^[0-9\.%]*$/)) {
+				elm.append(remainingTextCallback(text));
+				return;
+			}
+
+			elm.append(
+				emojiElementOuter.clone().append(
+					emojiElementInner.clone().
+						css("background-position", position).
+						css("background-size", size).attr("title", title)
+				)
+			);
+		});
+	}
+
 	function createTextNode(elm, text) {
 		elm.append(document.createTextNode(text));
 	}
 
-	var syntaxifier = [urlify, newlines, createTextNode];
+	var syntaxifier = [urlify, newlines, emojifyReplacer, createTextNode];
 
 	function callSyntaxifier(number, elm, text) {
 		syntaxifier[number](elm, text, function (text) {
@@ -84,30 +136,28 @@ define(["directives/directivesModule"], function (directivesModule) {
 		});
 	}
 
-	var syntaxifyDirective =  function ($timeout) {
-		return {
-			restrict: "A",
-			link: function (scope, elm, attrs) {
-				if (attrs.syntaxify) {
-					scope.$watch(attrs.syntaxify, function (text) {
-						if (text) {
-							elm.html("");
-							callSyntaxifier(0, elm, text);
-						}
-					});
-				} else {
-					$timeout(function () {
-						var text = elm.text();
+	return {
+		restrict: "A",
+		link: function (scope, elm, attrs) {
+			if (attrs.syntaxify) {
+				scope.$watch(attrs.syntaxify, function (text) {
+					if (text) {
 						elm.html("");
-
 						callSyntaxifier(0, elm, text);
-					});
-				}
+					}
+				});
+			} else {
+				$timeout(function () {
+					var text = elm.text();
+					elm.html("");
+
+					callSyntaxifier(0, elm, text);
+				});
 			}
-		};
+		}
 	};
+};
 
-	syntaxifyDirective.$inject = ["$timeout"];
+syntaxifyDirective.$inject = ["$timeout"];
 
-	directivesModule.directive("syntaxify", syntaxifyDirective);
-});
+directivesModule.directive("syntaxify", syntaxifyDirective);

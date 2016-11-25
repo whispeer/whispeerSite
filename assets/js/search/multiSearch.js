@@ -9,28 +9,6 @@ define(["whispeerHelper"], function (h) {
 
 		var $timeout = $injector.get("$timeout");
 
-		function loadInitialSelection() {
-			var initialPromise = scope.initialValues();
-			if (initialPromise) {
-				initialPromise.then(function (initialValues) {
-					scope.selectedElements = initialValues.map(function (e) {
-						return {
-							result: e,
-							id: e.id,
-							name: e.name
-						};
-					});
-
-					selectedIDs = initialValues.map(function (e) {
-						return e.id;
-					});
-
-					scope.$apply();
-					selectionUpdated();
-				});
-			}
-		}
-
 		function updatePreviewCount() {
 			var PLUSWIDTH = 55;
 
@@ -73,12 +51,6 @@ define(["whispeerHelper"], function (h) {
 		 /* this has to run once since the input width would not be set for searches without selected elements */
 		updatePreviewCount();
 
-		scope.filter.push(function (results) {
-			return results.filter(function (result) {
-				return selectedIDs.indexOf(result.id) === -1;
-			});
-		});
-
 		function selectionUpdated() {
 			$timeout(updatePreviewCount);
 
@@ -86,6 +58,33 @@ define(["whispeerHelper"], function (h) {
 			scope.setCurrent(scope.current);
 			scope.callback({ selected: selectedIDs });
 		}
+
+		function loadInitialSelection() {
+			var initialPromise = scope.initialValues();
+			if (initialPromise) {
+				initialPromise.then(function (initialValues) {
+					scope.selectedElements = initialValues.map(function (e) {
+						return {
+							result: e,
+							id: e.id,
+							name: e.name
+						};
+					});
+
+					selectedIDs = initialValues.map(function (e) {
+						return e.id;
+					});
+
+					selectionUpdated();
+				});
+			}
+		}
+
+		scope.filter.push(function (results) {
+			return results.filter(function (result) {
+				return selectedIDs.indexOf(result.id) === -1;
+			});
+		});
 
 		scope.selectResult = function(result) {
 			var name = result.name;

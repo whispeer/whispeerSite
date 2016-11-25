@@ -15,22 +15,23 @@
     "tests"
   ],
   "dependencies": {
-    "bluebird": "=2.5.2",
+    "bluebird": "~3.4.6",
     "amanda": "~0.4.7",
-    "requirejs": "~2.1.15",
-    "jquery": "~1.9.1",
-    "angular-touch": "*",
-    "angular-route": "*",
+    "requirejs": "~2.3.1",
+    "jquery": "~3.1.0",
+    "angular-touch": "1.5.8",
+    "angular-route": "1.5.8",
     "qtip2": "~2.2.1",
     "socket.io-client": "~1.3.2",
-    "blueimp-load-image": "~1.13.0",
+    "blueimp-load-image": "~2.6.2",
     "angular-i18n-directive": ">=0.1.5",
     "worker-queue.js": "~0.1.0",
-    "angular": "~1.4.8",
-    "dexie": "~1.0.4",
-    "visionmedia-debug": "~2.1.3",
-    "angular-ui-router": "~0.2.14",
+    "angular": "1.5.8",
+    "dexie": "~1.4.2",
+    "visionmedia-debug": "~2.2.0",
+    "angular-ui-router": "~0.3.1",
     "sjcl": "~1.0.3",
-    "requirejs-plugins": "^1.0.3"
+    "requirejs-plugins": "^1.0.3",
+    "js-emoji": "^3.0.2"
   }
 }

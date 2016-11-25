@@ -6,7 +6,6 @@
 		"webkitURL": true,
 		"URL": true,
 		"requirejs": true,
-		"jQuery": true,
 		"startup": true,
 		"confirm": true,
 		"alert": true,
@@ -14,7 +13,12 @@
 		"module": true,
 		"describe": true,
 		"it": true,
-		"expect": true
+		"expect": true,
+		"File": true,
+		"indexedDB": true,
+		"WHISPEER_ENV": true,
+		"process": true,
+		"jQuery": true
 	},
 	"undef": true,
 	"browser": true,

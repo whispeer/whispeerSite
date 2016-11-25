@@ -490,6 +490,67 @@
 	max-width: 690px;
 }
 
+#messages-editTitle {
+	background: transparent;
+	border-radius: 0;
+	border: none;
+	border-bottom: 2px solid rgba(109, 109, 109, 0.71);
+	flex-shrink: 1;
+	width: 100%;
+	margin-right: 1%;
+}
+
+#messages-addFriendsDrop {
+	width: 300px;
+	max-height: 342px;
+	top: 4rem;
+}
+
+#messages-addFriendsDrop-spinner {
+	margin: 20px 0 0;
+	text-align: center;
+}
+
+#messages-addFriendsDrop-container {
+	max-height: 300px;
+}
+
+.messages-addFriendsDrop-friend {
+	display: flex;
+	height: 3rem;
+	padding: 0.5rem;
+	width: 100%;
+	&:extend(.box-fix);
+
+	border-bottom: 1px solid #f0f0f0;
+	align-items: center;
+	justify-content: center;
+}
+
+.messages-addFriendsDrop-friend-userimage {
+	display: inline-block;
+	height: 2.5rem;
+	width: 2.5rem;
+	flex-shrink: 0;
+}
+
+.messages-addFriendsDrop-friend-username {
+	display: inline-block;
+	height: 3rem;
+	line-height: 3rem;
+	width: 100%;
+	padding-left: 1rem;
+	margin-top: -1px;
+}
+
+.messages-addFriendsDrop-friend-add {
+	min-height: 0;
+	height: 1.5rem;
+	line-height: 1.5rem;
+	padding: 0;
+	width: 4rem;
+}
+
 @media @mobile {
 	#messages > .message-mixin(
 		@form-height: 64px;
@@ -498,4 +559,9 @@
 
 @media @desktop {
 	#messages > .message-mixin();
+}
+
+.detail-chat {
+	padding: 1rem;
+	overflow: auto;
 }

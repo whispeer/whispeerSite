@@ -1,9 +1,10 @@
-define(["step",
+define([
+	"bluebird",
 	"whispeerHelper",
 	"validation/validator",
 	"asset/securedDataWithMetaData",
 	"models/modelsModule"
-], function (step, h, validator, SecuredData, modelsModule) {
+], function (Bluebird, h, validator, SecuredData, modelsModule) {
 	"use strict";
 	function commentModel(userService, socket) {
 		var Comment = function (data, parentPost) {
@@ -38,11 +39,12 @@ define(["step",
 
 		Comment.prototype.load = function (previousComment, cb) {
 			var theComment = this;
-			step(function () {
-				this.parallel.unflatten();
-				theComment._secured.decrypt(this.parallel());
-				theComment.getSender(this.parallel());
-			}, h.sF(function (content, sender) {
+			return Bluebird.try(function () {
+				return Bluebird.all([
+					theComment._secured.decrypt(),
+					theComment.getSender()
+				]);
+			}).spread(function (content, sender) {
 				theComment.data.sender = sender.data;
 				theComment.data.text = content.comment;
 
@@ -51,49 +53,43 @@ define(["step",
 				}
 
 				theComment._secured.checkParent(theComment._parentPost.getSecured());
-				theComment._secured.verify(sender.getSignKey(), this);
-			}), h.sF(function () {
+				return theComment._secured.verify(sender.getSignKey());
+			}).then(function () {
 				theComment.data.loaded = true;
-				this.ne();
-			}), cb);
+			}).nodeify(cb);
 		};
 
-		Comment.prototype.getSender = function (cb) {
-			var theUser, theComment = this;
-			step(function () {
-				userService.get(theComment._secured.metaAttr("sender"), this);
-			}, h.sF(function (user) {
-				theUser = user;
-
-				theUser.loadBasicData(this);
-			}), h.sF(function () {
-				this.ne(theUser);
-			}), cb);
+		Comment.prototype.getSender = function () {
+			return userService.get(this._secured.metaAttr("sender")).then(function (user) {
+				return user.loadBasicData().thenReturn(user);
+			});
 		};
 
 		Comment.create = function (text, parentPost, cb) {
-			step(function () {
+			return Bluebird.try(function() {
 				var comments = parentPost.getComments();
 
-				var s = SecuredData.create({
+				var s = SecuredData.createPromisified({
 					comment: text
 				}, {
 					postID: parentPost.getID(),
 					createTime: new Date().getTime(),
 					sender: userService.getown().getID()
-				}, { type: "comment" }, userService.getown().getSignKey(), parentPost.getKey(), this);
+				}, { type: "comment" }, userService.getown().getSignKey(), parentPost.getKey());
 
-				s.setParent(parentPost.getSecured());
+				s.data.setParent(parentPost.getSecured());
 
 				if (comments.length !== 0) {
-					s.setAfterRelationShip(comments[comments.length - 1].getSecured());
+					s.data.setAfterRelationShip(comments[comments.length - 1].getSecured());
 				}
-			}, h.sF(function (commentData) {
-				socket.emit("posts.comment.create", {
+
+				return s.promise;
+			}).then(function (commentData) {
+				return socket.emit("posts.comment.create", {
 					postID: parentPost.getID(),
 					comment: commentData
-				}, this);
-			}), cb);
+				});
+			}).nodeify(cb);
 		};
 
 		return Comment;

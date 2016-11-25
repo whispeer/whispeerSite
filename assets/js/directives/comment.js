@@ -1,17 +1,18 @@
-define(["directives/directivesModule"], function (directivesModule) {
+var directivesModule = require("directives/directivesModule");
+var templateUrl = require("../../views/directives/comment.html");
+
+function commentDirective() {
 	"use strict";
 
-	function commentDirective() {
-		return {
-			transclude: true,
-			scope:	{
-				comment: "=comment"
-			},
-			restrict: "E",
-			templateUrl: "assets/views/directives/comment.html",
-			replace: true
-		};			
-	}
+	return {
+		transclude: true,
+		scope:	{
+			comment: "=comment"
+		},
+		restrict: "E",
+		templateUrl: templateUrl,
+		replace: true
+	};			
+}
 
-	directivesModule.directive("comment", commentDirective);;
-});
+directivesModule.directive("comment", commentDirective);

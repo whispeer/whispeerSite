@@ -318,7 +318,7 @@
 		@include animation-iteration-count(infinite);
 	}
 	{% for lang in site.data.b2c.animation.langs %}
-		{% for message in site.data.b2c.animation[{{lang}}].data %}
+		{% for message in site.data.b2c.animation[lang].data %}
 			{% if forloop.index > 2 %}
 				{% capture doLoop %}{% cycle 'true', 'false' %}{% endcapture %}
 				{% if doLoop == 'true' %}

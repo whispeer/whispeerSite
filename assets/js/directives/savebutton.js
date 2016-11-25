@@ -1,3 +1,5 @@
+var templateUrl = require("../../views/directives/saveButton.html");
+
 define(["directives/directivesModule"], function (directivesModule) {
 	"use strict";
 
@@ -8,7 +10,7 @@ define(["directives/directivesModule"], function (directivesModule) {
 				state:		"=state"
 			},
 			restrict: "E",
-			templateUrl: "assets/views/directives/saveButton.html",
+			templateUrl: templateUrl,
 			replace: true,
 			link: function (scope, iElement, iAttrs) {
 				scope.successIcon = "fa-check-circle";

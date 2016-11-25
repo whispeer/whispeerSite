@@ -2,7 +2,7 @@
 * messagesController
 **/
 
-define(["step", "whispeerHelper", "asset/state", "bluebird", "controllers/controllerModule"], function (step, h, State, Bluebird, controllerModule) {
+define(["asset/state", "bluebird", "controllers/controllerModule"], function (State, Bluebird, controllerModule) {
 	"use strict";
 
 	function messagesController($scope, $state, $stateParams, errorService, messageService, userService, ImageUploadService) {
@@ -37,14 +37,14 @@ define(["step", "whispeerHelper", "asset/state", "bluebird", "controllers/contro
 					return;
 				}
 
-				step(function () {
-					messageService.sendNewTopic(receiver, text, images, this);
-				}, h.sF(function (id) {
+				var newTopicPromise = messageService.sendNewTopic(receiver, text, images).then(function (id) {
 					$scope.create.text = "";
 					$scope.create.selectedElements = [];
 					$scope.goToShow(id);
 					$scope.$broadcast("resetSearch");					
-				}), errorService.failOnError(sendMessageState));
+				});
+
+				errorService.failOnErrorPromise(sendMessageState, newTopicPromise);
 			}
 		};
 
@@ -52,10 +52,10 @@ define(["step", "whispeerHelper", "asset/state", "bluebird", "controllers/contro
 		$scope.topics = messageService.data.latestTopics.data;
 
 		function getUser(userid) {
-			var findUser = Bluebird.promisify(userService.get, userService);
+			var findUser = Bluebird.promisify(userService.get.bind(userService));
 
 			return findUser(userid).then(function (user) {
-				var loadBasicData = Bluebird.promisify(user.loadBasicData, user);
+				var loadBasicData = Bluebird.promisify(user.loadBasicData.bind(user));
 
 				return loadBasicData().then(function () {
 					return [user.data];
@@ -68,9 +68,7 @@ define(["step", "whispeerHelper", "asset/state", "bluebird", "controllers/contro
 				return Bluebird.resolve([]);
 			}
 
-			var getUserTopic = Bluebird.promisify(messageService.getUserTopic, messageService);
-
-			return getUserTopic($stateParams.userid).then(function (topicid) {
+			return messageService.getUserTopic($stateParams.userid).then(function (topicid) {
 				if (topicid) {
 					$scope.goToShow(topicid);
 					return [];

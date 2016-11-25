@@ -1,7 +1,9 @@
+var templateUrl = require("../../views/directives/newPost.html");
+
 define(["directives/directivesModule", "whispeerHelper", "asset/state"], function (directivesModule, h, State) {
 	"use strict";
 
-	function newPostDirective(postService, ImageUploadService, filterService, screenSize) {
+	function newPostDirective(postService, ImageUploadService, filterService) {
 		return {
 			scope: {
 				"inputI18nAttr": "@",
@@ -9,7 +11,7 @@ define(["directives/directivesModule", "whispeerHelper", "asset/state"], functio
 				"wallUserId": "="
 			},
 			restrict: "E",
-			templateUrl: "assets/views/directives/newPost.html",
+			templateUrl: templateUrl,
 			replace: false,
 			transclude: false,
 			link: {
@@ -21,6 +23,10 @@ define(["directives/directivesModule", "whispeerHelper", "asset/state"], functio
 						text: "",
 						readers: ["always:allfriends"],
 						images: [],
+						rotateImage: function (index) {
+							var image = $scope.newPost.images[index];
+							image.rotate();
+						},
 						removeImage: function (index) {
 							$scope.newPost.images.splice(index, 1);
 						},
@@ -37,16 +43,6 @@ define(["directives/directivesModule", "whispeerHelper", "asset/state"], functio
 
 					$scope.setPostReaders = function (newSelection) {
 						$scope.newPost.readers = newSelection;
-					};
-
-					var firstTimeUpload = true;
-
-					$scope.mobilePromptUser = function ($event) {
-						if (screenSize.mobile && firstTimeUpload && !window.confirm("Uploading files on mobile can drain battery. Are you sure?")) {
-							$event.preventDefault();
-						} else {
-							firstTimeUpload = false;
-						}
 					};
 
 					$scope.sendPost = function () {
@@ -79,7 +75,6 @@ define(["directives/directivesModule", "whispeerHelper", "asset/state"], functio
 							.finally(function () {
 								$scope.canSend = true;
 								$scope.postActive = false;
-								$scope.$apply();
 							});
 						}
 					};
@@ -88,7 +83,7 @@ define(["directives/directivesModule", "whispeerHelper", "asset/state"], functio
 		};
 	}
 
-	newPostDirective.$inject = ["ssn.postService", "ssn.imageUploadService", "ssn.filterService", "ssn.screenSizeService"];
+	newPostDirective.$inject = ["ssn.postService", "ssn.imageUploadService", "ssn.filterService"];
 
 	directivesModule.directive("newpost", newPostDirective);
 });

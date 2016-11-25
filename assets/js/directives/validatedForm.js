@@ -8,6 +8,14 @@ define(["whispeerHelper", "directives/directivesModule", "qtip"], function (h, d
 			link: function (scope, iElement, iAttr) {
 				var options = scope.$eval(iAttr.validatedForm);
 
+				function getElementScope(element) {
+					if (typeof element.scope() === "function" && element.scope()) {
+						return element.scope();
+					} else {
+						return element.data("scopeFallback");
+					}
+				}
+
 				var validations = [];
 				iElement.find("[validation]").each(function (i, e) {
 					var element = jQuery(e);
@@ -15,36 +23,6 @@ define(["whispeerHelper", "directives/directivesModule", "qtip"], function (h, d
 						element: element,
 						validator: element.attr("validation"),
 						validations: []
-					});
-				});
-
-				function validateOnChange(vElement, validation) {
-					vElement.element.on("keyup", h.debounce(function () {
-						if (vElement.element.scope().$eval(validation.validator)) {
-							showErrorHint(vElement.element, validation);
-						}
-					}, validation.onChange));
-				}
-
-				function registerChangeListener(vElement) {
-					vElement.validations.forEach(function (validation) {
-						if (validation.onChange) {
-							validateOnChange(vElement, validation);
-						}
-					});
-				}
-
-				//expand all validations
-				validations.forEach(function (vElement) {
-					var scope = vElement.element.scope();
-					var deregister = scope.$watch(function () {
-						return scope.$eval(vElement.validator);
-					}, function (val) {
-						if (val) {
-							vElement.validations = val;
-							registerChangeListener(vElement);
-							deregister();
-						}
 					});
 				});
 
@@ -87,6 +65,37 @@ define(["whispeerHelper", "directives/directivesModule", "qtip"], function (h, d
 					});
 				}
 
+				function validateOnChange(vElement, validation) {
+					vElement.element.on("keyup", h.debounce(function () {
+						if (getElementScope(vElement.element).$eval(validation.validator)) {
+							showErrorHint(vElement.element, validation);
+						}
+					}, validation.onChange));
+				}
+
+
+				function registerChangeListener(vElement) {
+					vElement.validations.forEach(function (validation) {
+						if (validation.onChange) {
+							validateOnChange(vElement, validation);
+						}
+					});
+				}
+
+				//expand all validations
+				validations.forEach(function (vElement) {
+					var scope = getElementScope(vElement.element);
+					var deregister = scope.$watch(function () {
+						return scope.$eval(vElement.validator);
+					}, function (val) {
+						if (val) {
+							vElement.validations = val;
+							registerChangeListener(vElement);
+							deregister();
+						}
+					});
+				});
+
 				function checkValidations() {
 					var invalidValidationFound = false;
 
@@ -95,7 +104,7 @@ define(["whispeerHelper", "directives/directivesModule", "qtip"], function (h, d
 					validations.forEach(function (vElement) {
 						if (invalidValidationFound) { return; }
 
-						var scope = vElement.element.scope();
+						var scope = getElementScope(vElement.element);
 						vElement.validations.forEach(function (validation) {
 							if (invalidValidationFound) { return; }
 
@@ -135,4 +144,14 @@ define(["whispeerHelper", "directives/directivesModule", "qtip"], function (h, d
 	validatedForm.$inject = ["localize"];
 
 	directivesModule.directive("validatedForm", validatedForm);
+
+	directivesModule.directive("validation", function () {
+		return {
+			scope:	false,
+			restrict: "A",
+			link: function (scope, iElement) {
+				iElement.data("scopeFallback", scope);
+			}
+		};
+	});
 });

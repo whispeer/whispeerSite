@@ -4,7 +4,7 @@
 * SessionHelper
 **/
 define([
-		"step",
+		"bluebird",
 		"whispeerHelper",
 		"crypto/trustManager",
 		"asset/securedDataWithMetaData",
@@ -14,7 +14,7 @@ define([
 		"services/keyStoreService",
 		"services/profileService",
 		"services/storageService"
-	], function (step, h, trustManager, SecuredData, registerModule) {
+], function (Bluebird, h, trustManager, SecuredData, registerModule) {
 	"use strict";
 
 	registerModule.factory("ssn.registerService", [
@@ -24,16 +24,14 @@ define([
 		"ssn.storageService",
 		"ssn.errorService",
 	function (socketService, keyStoreService, ProfileService, Storage, errorService) {
-		var keyGenerationStarted = false, keys = {}, keyGenListener = [], keyGenDone, sessionStorage = Storage.withPrefix("whispeer.session"), clientStorage = Storage.withPrefix("whispeer.client");
+		var keyGenPromise, sessionStorage = Storage.withPrefix("whispeer.session"), clientStorage = Storage.withPrefix("whispeer.client");
 
 		var registerService = {
 			register: function (nickname, mail, password, profile, settings, inviteCode, callback) {
 				var keys;
-				step(function register1() {
-					this.parallel.unflatten();
-
-					registerService.startKeyGeneration(this);
-				}, h.sF(function register2(theKeys) {
+				return Bluebird.try(function register1() {
+					return registerService.startKeyGeneration();
+				}).then(function register2(theKeys) {
 					keys = theKeys;
 
 					if (nickname) {
@@ -64,23 +62,23 @@ define([
 
 					trustManager.allow(5);
 
-					this.parallel.unflatten();
+					return Bluebird.all([
+						privateProfile.signAndEncrypt(keys.sign, keys.profile),
+						privateProfileMe.signAndEncrypt(keys.sign, keys.main),
+						publicProfile.sign(keys.sign),
 
-					privateProfile.signAndEncrypt(keys.sign, keys.profile, this.parallel());
-					privateProfileMe.signAndEncrypt(keys.sign, keys.main, this.parallel());
-					publicProfile.sign(keys.sign, this.parallel());
+						SecuredData.createAsync(settings.content, settings.meta, { type: "settings" }, keys.sign, keys.main),
 
-					SecuredData.create(settings.content, settings.meta, { type: "settings" }, keys.sign, keys.main, this.parallel());
+						signedKeys.sign(keys.sign),
 
-					signedKeys.sign(keys.sign, this.parallel());
+						keyStoreService.security.makePWVerifiable(ownKeys, password),
 
-					keyStoreService.security.makePWVerifiable(ownKeys, password, this.parallel());
+						keyStoreService.random.hex(16),
 
-					keyStoreService.random.hex(16, this.parallel());
-
-					keyStoreService.sym.pwEncryptKey(keys.main, password, this.parallel());
-					keyStoreService.sym.symEncryptKey(keys.profile, keys.friends, this.parallel());
-				}), h.sF(function register3(privateProfile, privateProfileMe, publicProfile, settings, signedKeys, signedOwnKeys, salt) {
+						keyStoreService.sym.pwEncryptKey(keys.main, password),
+						keyStoreService.sym.symEncryptKey(keys.profile, keys.friends),
+					]);
+				}).spread(function register3(privateProfile, privateProfileMe, publicProfile, settings, signedKeys, signedOwnKeys, salt) {
 					keys = h.objectMap(keys, keyStoreService.correctKeyIdentifier);
 					trustManager.disallow();
 
@@ -115,8 +113,8 @@ define([
 
 					registerData.preID = clientStorage.get("preID") || "";
 
-					socketService.emit("session.register", registerData, this);
-				}), h.sF(function (result) {
+					return socketService.emit("session.register", registerData);
+				}).then(function (result) {
 					if (result.sid) {
 						sessionStorage.set("sid", result.sid);
 						sessionStorage.set("userid", result.userid);
@@ -126,32 +124,28 @@ define([
 
 					keyStoreService.security.setPassword(password);
 
-					this.ne(result);
-				}), callback);
+					return result;
+				}).nodeify(callback);
 			},
 			setPreID: function () {
-				step(function () {
-					if (socketService.isConnected()) {
-						this();
-					} else {
-						socketService.once("connect", this.ne);
-					}
-				}, h.sF(function () {
+				Bluebird.try(function () {
+					return socketService.awaitConnection();
+				}).then(function () {
 					if (clientStorage.get("preID")) {
-						this.ne(clientStorage.get("preID"));
-					} else {
-						keyStoreService.random.hex(40, this);
+						return clientStorage.get("preID");
 					}
-				}), h.sF(function (preID) {
+
+					return keyStoreService.random.hex(40);
+				}).then(function (preID) {
 					clientStorage.set("preID", preID);
 
-					socketService.emit("preRegisterID", {
+					return socketService.emit("preRegisterID", {
 						id: preID
-					}, this);
-				}), errorService.criticalError);
+					});
+				}).catch(errorService.criticalError);
 			},
 
-			startKeyGeneration: function startKeyGen(callback) {
+			startKeyGeneration: function () {
 				var toGenKeys = [
 					["main", "sym"],
 					["sign", "sign"],
@@ -160,88 +154,75 @@ define([
 					["friends", "sym"]
 				];
 
-				function getCorrectKeystore(index) {
-					return ks[toGenKeys[index][1]];
+				var ks = keyStoreService;
+
+				function getCorrectKeystore(key) {
+					return ks[key[1]];
 				}
 
-				var ks = keyStoreService;
-				step(function keyGen1() {
-					if (typeof callback === "function") {
-						if (keyGenDone) {
-							callback(null, keys);
-							return;
-						}
+				if (!keyGenPromise) {
+					keyGenPromise = Bluebird.try(function () {
+						return Bluebird.all(toGenKeys.map(function (key) {
+							return getCorrectKeystore(key).generateKey(null, key[0]);
+						})).then(function (resultKeys) {
+							var keys = {};
 
-						keyGenListener.push(callback);
-					}
+							return Bluebird.all(toGenKeys.map(function (key, index) {
+								var resultKey = resultKeys[index];
 
-					if (!keyGenerationStarted) {
-						this.ne();
-					}
-				}, h.sF(function keyGenStart() {
-					keyGenerationStarted = true;
-					var i;
-					for (i = 0; i < toGenKeys.length; i += 1) {
-						getCorrectKeystore(i).generateKey(this.parallel(), toGenKeys[i][0]);
-					}
-				}), h.sF(function keyGen2(resultKeys) {
-					var i;
-					for (i = 0; i < toGenKeys.length; i += 1) {
-						keys[toGenKeys[i][0]] = resultKeys[i];
+								keys[key[0]] = resultKey;
 
-						if (i > 0) {
-							getCorrectKeystore(i).symEncryptKey(resultKeys[i], resultKeys[0], this.parallel());
-						}
-					}
-				}), function keyGen3(e) {
-					if (!e) {
-						keyGenDone = true;
-					}
+								if (index > 0) {
+									return getCorrectKeystore(key).symEncryptKey(resultKey, resultKeys[0]);
+								}
+							})).thenReturn(keys);
+						});
+					});
+				}
 
-					h.callEach(keyGenListener, [e, keys]);
-				});
+				return keyGenPromise;
 			},
 
 			mailUsed: function (mail, callback) {
-				step(function mailCheck() {
-					if (mail === "" || !h.isMail(mail)) {
-						this.last.ne(true);
-					} else {
-						socketService.emit("mailFree", {
-							mail: mail
-						}, this);
-					}
-				}, h.sF(function mailResult(data) {
+				if (mail === "" || !h.isMail(mail)) {
+					return Bluebird.resolve(true).nodeify(callback);
+				}
+
+				return Bluebird.try(function mailCheck() {
+					return socketService.emit("mailFree", {
+						mail: mail
+					});
+				}).then(function mailResult(data) {
 					if (data.mailUsed === true) {
-						this.ne(true);
-					} else if (data.mailUsed === false) {
-						this.ne(false);
-					} else {
-						this.ne(new Error());
+						return true;
 					}
-				}), callback);
+
+					if (data.mailUsed === false) {
+						return false;
+					}
+
+					throw new Error("invalid server response");
+				}).nodeify(callback);
 			},
 
 			nicknameUsed: function (nickname, callback) {
-				step(function nicknameCheck() {
-					if (nickname === "" || !h.isNickname(nickname)) {
-						this.last.ne(true);
-					} else {
-						socketService.awaitConnection().then(this, this.ne);
-					}
-				}, h.sF(function () {
-					socketService.emit("nicknameFree", {
+				if (nickname === "" || !h.isNickname(nickname)) {
+					return Bluebird.resolve(true).nodeify(callback);
+				}
+
+				return socketService.awaitConnection().then(function () {
+					return socketService.emit("nicknameFree", {
 						nickname: nickname
-					}, this);
-				}), h.sF(function nicknameResult(data) {
+					});
+				}).then(function nicknameResult(data) {
 					if (data.nicknameUsed === true) {
-						this.ne(true);
+						return true;
 					} else if (data.nicknameUsed === false) {
-						this.ne(false);
-					} else {
-						this.ne(new Error());
+						return false;
 					}
-				}), callback);
+
+					throw new Error("invalid server response");
+				}).nodeify(callback);
 			}
 		};
 

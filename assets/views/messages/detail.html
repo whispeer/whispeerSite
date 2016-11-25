@@ -1,0 +1,43 @@
+<div class="box-rightWrap">
+	<div class="box-header box-header--padding">
+		<span class="box-header-title box-header-title--full-noExtras">
+			<span data-ng-if="activeTopic.title">
+				{{activeTopic.title}}
+			</span>
+			<span data-ng-if="!activeTopic.title">
+				<span data-i18n="messages.chat"></span>
+				<span data-ng-repeat="partner in activeTopic.partners">
+					<span class="status" data-status="{{partner.online}}" data-ng-if="::!partner.notExisting"></span>
+					<a whispeer-sref="app.user.info({identifier: partner.names.nickname})" data-ng-if="::!partner.notExisting">
+						<span data-ng-if="::activeTopic.partners.length>2">{{partner.basic.shortname}}</span>
+						<span data-ng-if="activeTopic.partners.length<=2">{{partner.name}}</span>
+					</a>
+
+					<span data-ng-if="::partner.notExisting">{{partner.name}}</span>
+					{{::($last?"":", ")}}
+				</span>
+			</span>
+		</span>
+		<div class="box-header-buttons--right">
+			<a whispeer-sref="app.messages.show({topicid: activeTopic.id})" class="box-header-button box-header-button--right">
+				<i class="fa fa-times-circle"></i>
+			</a>
+			<a data-ng-click="saveTitle()" class="box-header-button box-header-button--right">
+				<i class="fa fa-check" data-ng-if="topicDetailsSavingState.init || topicDetailsSavingState.success"></i>
+				<i class="fa fa-times" data-ng-if="topicDetailsSavingState.failed"></i>
+				<i class="fa fa-spinner fa-spin" data-ng-if="topicDetailsSavingState.pending"></i>
+			</a>
+		</div>
+	</span>
+
+	<div id="topicWrap" data-topicID="{{activeTopic.id}}" class="detail-chat">
+		<input id="messages-editTitle" type="text" placeholder="Konversationstitel" data-ng-model="topicTitle">
+		<h2 data-i18n="messages.chatPersons"></h2>
+		<ul>
+			<li class="friendsView-friend" data-ng-repeat="partner in activeTopic.partners">
+				<person data-user="partner" data-type="friend">
+				</person>
+			</li>
+		</ul>
+	</div>
+</div>

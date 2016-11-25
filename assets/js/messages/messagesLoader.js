@@ -3,5 +3,6 @@ define([
 	"messages/messagesRedirectController",
 	"messages/messagesCreateController",
 	"messages/messagesShowController",
-	"messages/messagesListController"
+	"messages/messagesListController",
+	"messages/messagesDetailController"
 ], function () {});

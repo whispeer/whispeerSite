@@ -1,3 +1,8 @@
+window.startup = new Date().getTime();
+window.globalErrors = [];
+
+window.jQuery = require("jquery");
+
 define([
 	"angular",
 	"register/registerModule",
@@ -7,13 +12,13 @@ define([
 	"directives/savebutton",
 	"directives/passwordinput",
 	"directives/validatedForm",
-	"directives/loadVal"
+	"directives/loadVal",
 ], function(angular, app) {
 	"use strict";
 
 	angular.element(document).ready(function () {
 		var $html = angular.element("html");
-		angular.bootstrap($html, [app.name]);
+		angular.bootstrap($html, [app.name], { strictDi: true });
 		// Because of RequireJS we need to bootstrap the app app manually
 		// and Angular Scenario runner won"t be able to communicate with our app
 		// unless we explicitely mark the container as app holder

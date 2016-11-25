@@ -1,15 +1,13 @@
-define(["controllers/controllerModule", "whispeerHelper", "step", "asset/state"], function (circlesModule, h, step, State) {
+define(["controllers/controllerModule"], function (circlesModule) {
 	"use strict";
 
 	function circlesListController($scope, circleService, errorService) {
 		$scope.loadingCircleList = true;
 		$scope.circles = circleService.data.circles;
 
-		step(function () {
-			circleService.loadAll(this);
-		}, h.sF(function () {
+		circleService.loadAll().then(function() {
 			$scope.loadingCircleList = false;
-		}), errorService.criticalError);
+		}).catch(errorService.criticalError);
 	}
 
 

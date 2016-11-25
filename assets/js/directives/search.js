@@ -1,3 +1,6 @@
+var multipleTemplateUrl = require("../../views/directives/searchMultiple.html");
+var singleTemplateUrl = require("../../views/directives/search.html");
+
 define(["whispeerHelper", "search/singleSearch", "search/multiSearch", "directives/directivesModule"], function (h, singleSearch, multiSearch, directivesModule) {
 	"use strict";
 
@@ -19,10 +22,10 @@ define(["whispeerHelper", "search/singleSearch", "search/multiSearch", "directiv
 			restrict: "E",
 			templateUrl: function (iElement, iAttrs) {
 				if (typeof iAttrs.multiple !== "undefined") {
-					return "assets/views/directives/searchMultiple.html";
+					return multipleTemplateUrl;
 				}
 
-				return "assets/views/directives/search.html";
+				return singleTemplateUrl;
 			},
 			replace: false,
 			transclude: false,
@@ -116,22 +119,18 @@ define(["whispeerHelper", "search/singleSearch", "search/multiSearch", "directiv
 
 						searchSupplier.search(scope.query).then(function (results) {
 							if (currentQuery === scope.query) {
-								scope.$apply(function () {
-									scope.searching = false;
+								scope.searching = false;
 
-									scope.unFilteredResults = results;
-									scope.results = scope.applyFilterToResults(scope.unFilteredResults);
-								});
+								scope.unFilteredResults = results;
+								scope.results = scope.applyFilterToResults(scope.unFilteredResults);
 							}
 						}).catch(function (error) {
 							if (currentQuery === scope.query) {
-								scope.$apply(function () {
-									console.error(error);
-									scope.searching = false;
+								console.error(error);
+								scope.searching = false;
 
-									scope.unFilteredResults = [];
-									scope.results = [];
-								});
+								scope.unFilteredResults = [];
+								scope.results = [];
 							}
 						});
 					}

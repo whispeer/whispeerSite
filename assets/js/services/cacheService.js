@@ -1,7 +1,7 @@
 define(["whispeerHelper", "dexie", "bluebird", "services/serviceModule", "services/errorService"], function (h, Dexie, Promise, serviceModule) {
 	"use strict";
 
-	var db, errorService;
+	var db, errorService, cacheDisabled = false;
 
 	function Cache(name, options) {
 		this._name = name;
@@ -11,15 +11,23 @@ define(["whispeerHelper", "dexie", "bluebird", "services/serviceModule", "servic
 	}
 
 	Cache.prototype.entries = function () {
+		if (cacheDisabled) {
+			return Promise.resolve();
+		}
+
 		return db.cache.where("type").equals(this._name);
 	};
 
 	Cache.prototype.entryCount = function () {
+		if (cacheDisabled) {
+			return Promise.reject();
+		}
+
 		return Promise.resolve(db.cache.where("type").equals(this._name).count());
 	};
 
 	Cache.prototype._fixBlobStorage = function (cacheEntry) {
-		var blobToDataURI = Promise.promisify(h.blobToDataURI, h);
+		var blobToDataURI = Promise.promisify(h.blobToDataURI.bind(h));
 
 		return Promise.resolve(cacheEntry.blobs).map(blobToDataURI).then(function (blobsAsUri) {
 			cacheEntry.blobs = blobsAsUri;
@@ -34,6 +42,10 @@ define(["whispeerHelper", "dexie", "bluebird", "services/serviceModule", "servic
 	};
 
 	Cache.prototype.store = function (id, data, blobs) {
+		if (cacheDisabled) {
+			return Promise.resolve();
+		}
+
 		if (blobs && !h.array.isArray(blobs)) {
 			blobs = [blobs];
 		}
@@ -71,6 +83,11 @@ define(["whispeerHelper", "dexie", "bluebird", "services/serviceModule", "servic
 	};
 
 	Cache.prototype.get = function (id) {
+		if (cacheDisabled) {
+			return Promise.reject(new Error("Cache is disabled"));
+		}
+
+		var theCache = this;
 		var cacheResult = db.cache.where("id").equals(this._name + "/" + id);
 
 		db.cache.where("id").equals(this._name + "/" + id).modify({ used: new Date().getTime() });
@@ -94,12 +111,16 @@ define(["whispeerHelper", "dexie", "bluebird", "services/serviceModule", "servic
 				return data;
 			}
 
-			throw new Error("cache miss");
+			throw new Error("cache miss for " + theCache._name + "/" + id);
 		}));
 	};
 
 	/** get all cache entries as a dexie collection. */
 	Cache.prototype.all = function () {
+		if (cacheDisabled) {
+			return Promise.resolve([]);
+		}
+
 		return db.cache.where("id").startsWith(this._name + "/");
 	};
 
@@ -107,10 +128,18 @@ define(["whispeerHelper", "dexie", "bluebird", "services/serviceModule", "servic
 	* id: id of the entry
 	*/
 	Cache.prototype.delete = function (id) {
+		if (cacheDisabled) {
+			return Promise.resolve();
+		}
+
 		return db.cache.where("id").equals(this._name + "/" + id).delete();
 	};
 
 	Cache.prototype.cleanUp = function () {
+		if (cacheDisabled) {
+			return Promise.resolve();
+		}
+
 		if (this._options.maxEntries === -1) {
 			return;
 		}
@@ -125,22 +154,12 @@ define(["whispeerHelper", "dexie", "bluebird", "services/serviceModule", "servic
 		}));
 	};
 
-	function NoCache() {}
-
-	NoCache.prototype.entryCount = function () {
-		return Promise.reject();
+	Cache.disable = function () {
+		cacheDisabled = true;
 	};
 
-	NoCache.prototype.store = function () {
-		return Promise.resolve();
-	};
-
-	NoCache.prototype.get = function () {
-		return Promise.reject();
-	};
-
-	NoCache.prototype.cleanUp = function () {
-		return Promise.resolve();
+	Cache.enable = function () {
+		cacheDisabled = false;
 	};
 
 	try {
@@ -163,11 +182,11 @@ define(["whispeerHelper", "dexie", "bluebird", "services/serviceModule", "servic
 	function service (_errorService) {
 		errorService = _errorService;
 
-		if (!db) {
-			return NoCache;
+		if (db) {
+			db.on("blocked", errorService.logError);
+		} else {
+			Cache.disable();
 		}
-
-		db.on("blocked", errorService.logError);
 
 		return Cache;
 	}

@@ -1,7 +1,8 @@
-define(["services/serviceModule", "bluebird", "asset/observer", "debug"], function (serviceModule, Bluebird, Observer, debug) {
+define(["services/serviceModule", "bluebird", "asset/observer", "debug", "whispeerHelper"], function (serviceModule, Bluebird, Observer, debug, h) {
 	"use strict";
 
 	var debugName = "whispeer:initService";
+	var initServiceDebug = debug(debugName);
 
 	function time(name) {
 		if (debug.enabled(debugName)) {
@@ -15,7 +16,7 @@ define(["services/serviceModule", "bluebird", "asset/observer", "debug"], functi
 		}
 	}
 
-	var service = function ($timeout, $rootScope, errorService, socketService, sessionService, migrationService, CacheService, keyStore) {
+	var service = function ($timeout, $rootScope, errorService, socketService, sessionService, migrationService, CacheService, keyStore, requestKeyService) {
 		var initRequestsList = [], initCallbacks = [], initCacheCallbacks = [], initService, blockageToken;
 
 		function getCache(initRequest) {
@@ -30,7 +31,7 @@ define(["services/serviceModule", "bluebird", "asset/observer", "debug"], functi
 
 		function setCache(initResponse, transformedData) {
 			if (!transformedData) {
-				return Promise.resolve(initResponse);
+				return Bluebird.resolve(initResponse);
 			}
 
 			return new CacheService(initResponse.domain)
@@ -80,10 +81,10 @@ define(["services/serviceModule", "bluebird", "asset/observer", "debug"], functi
 		function runCacheCallbacks(initRequests) {
 			return Bluebird.all(initRequests).map(function (request) {
 				if (!request.cache || !request.options.cacheCallback) {
-					return;
+					return !request.options.cache;
 				}
 
-				return request.options.cacheCallback(request.cache);
+				return request.options.cacheCallback(request.cache).thenReturn(true);
 			});
 		}		
 
@@ -92,7 +93,8 @@ define(["services/serviceModule", "bluebird", "asset/observer", "debug"], functi
 				var callback = response.callback;
 
 				if (response.options.cache) {
-					return callback(response.data.content).then(function (transformedData) {
+					return callback(response.data.content, blockageToken).then(function (transformedData) {
+						initServiceDebug("Callback done:" + response.domain);
 						if (!transformedData) {
 							return;
 						}
@@ -109,12 +111,18 @@ define(["services/serviceModule", "bluebird", "asset/observer", "debug"], functi
 			return func(blockageToken);
 		}
 
+		function runInitCacheCallbacks() {
+			return Bluebird.all(initCacheCallbacks.map(runFunction));
+		}
+
 		function loadData() {
 			keyStore.security.blockPrivateActions();
 			blockageToken = socketService.blockEmitWithToken();
 
+			requestKeyService.setBlockageToken(blockageToken);
+
 			var runningInitCallbacks;
-			return Bluebird.resolve().then(function () {
+			var promise = Bluebird.resolve().then(function () {
 
 				time("cacheInitGet");
 				return initRequestsList;
@@ -127,10 +135,16 @@ define(["services/serviceModule", "bluebird", "asset/observer", "debug"], functi
 			}).then(function (initRequests) {
 				timeEnd("cacheInitGet");
 				return Bluebird.all([
-					initCacheCallbacks.map(runFunction),
+					runInitCacheCallbacks(),
 					runCacheCallbacks(initRequests)
-				]).then(function () {
-					initService.notify("", "initCacheDone");
+				]).spread(function (customCacheResults, simpleCacheResults) {
+					if (simpleCacheResults.reduce(h.and, true)) {
+						initService.notify("", "initCacheDone");
+					} else {
+						initServiceDebug("Could not load cache!");
+					}
+
+					return null;
 				}).catch(errorService.criticalError).thenReturn(initRequests);
 			}).then(function (initRequests) {
 				runningInitCallbacks = initCallbacks.map(runFunction);
@@ -142,6 +156,7 @@ define(["services/serviceModule", "bluebird", "asset/observer", "debug"], functi
 				time("init");
 				return runCallbacks(initResponses);
 			}).then(function () {
+				initServiceDebug("Callbacks done!");
 				return Bluebird.all(runningInitCallbacks);
 			}).then(function () {
 				timeEnd("init");
@@ -150,7 +165,12 @@ define(["services/serviceModule", "bluebird", "asset/observer", "debug"], functi
 
 				migrationService();
 				initService.notify("", "initDone");
-			}).catch(errorService.criticalError);
+				return null;
+			});
+
+			promise.catch(errorService.criticalError);
+
+			return promise;
 		}
 
 		var loadingPromise = sessionService.listenPromise("ssn.login").then(function () {
@@ -184,7 +204,7 @@ define(["services/serviceModule", "bluebird", "asset/observer", "debug"], functi
 		return initService;
 	};
 
-	service.$inject = ["$timeout", "$rootScope", "ssn.errorService", "ssn.socketService", "ssn.sessionService", "ssn.migrationService", "ssn.cacheService", "ssn.keyStoreService"];
+	service.$inject = ["$timeout", "$rootScope", "ssn.errorService", "ssn.socketService", "ssn.sessionService", "ssn.migrationService", "ssn.cacheService", "ssn.keyStoreService", "ssn.requestKeyService"];
 
 	serviceModule.factory("ssn.initService", service);
 });

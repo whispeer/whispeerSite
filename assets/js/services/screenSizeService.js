@@ -1,7 +1,7 @@
 /**
 * imageUploadService
 **/
-define(["angular", "step", "whispeerHelper", "asset/observer", "services/serviceModule"], function (angular, step, h, Observer, serviceModule) {
+define(["angular", "whispeerHelper", "asset/observer", "services/serviceModule"], function (angular, h, Observer, serviceModule) {
 	"use strict";
 
 	var service = function ($timeout) {

@@ -1,3 +1,5 @@
+var templateUrl = require("../../views/directives/post.html");
+
 define(["directives/directivesModule"], function (directivesModule) {
 	"use strict";
 
@@ -8,7 +10,7 @@ define(["directives/directivesModule"], function (directivesModule) {
 				post: "=post"
 			},
 			restrict: "E",
-			templateUrl: "assets/views/directives/post.html",
+			templateUrl: templateUrl,
 			replace: true,
 			link: function (scope) {
 				scope.showComments = false;

@@ -38,6 +38,17 @@
 		border-right-color: transparent;
 	}
 }
+.dropdown--right {
+	right: 5px;
+	&:before, &:after {
+		float: right;
+		left: auto;
+		right: 1.5em;
+	}
+	&:after {
+		margin-right: 1px;
+	}
+}
 .dropdown-header {
 	float: left;
 	border-bottom: 1px solid @btnBorder;
@@ -51,12 +62,12 @@
 }
 .dropdown-header-title {
 	float: left;
-	padding-left: 1%;
+	padding-left: 5px;
 	&:extend(.box-fix);
 }
 .dropdown-header-close {
 	float: right;
-	padding-right: 1%;
+	padding-right: 5px;
 	&:extend(.box-fix);
 	cursor: pointer;
 	&:hover {

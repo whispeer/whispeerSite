@@ -2,7 +2,6 @@
 * Topic Model
 **/
 define([
-	"step",
 	"whispeerHelper",
 	"validation/validator",
 	"asset/observer",
@@ -11,13 +10,13 @@ define([
 	"bluebird",
 	"debug",
 	"models/modelsModule",
-], function (step, h, validator, Observer, sortedSet, SecuredData, Bluebird, debug, modelsModule) {
+], function (h, validator, Observer, sortedSet, SecuredData, Bluebird, debug, modelsModule) {
 	"use strict";
 
 	var debugName = "whispeer:topic";
 	var topicDebug = debug(debugName);
 
-	function topicModel($timeout, windowService, socket, userService, keyStore, sessionService, Message, initService) {
+	function topicModel($timeout, $rootScope, windowService, socket, userService, keyStore, sessionService, Message, initService, TopicUpdate) {
 		function sortGetTime(a, b) {
 			return (a.getTime() - b.getTime());
 		}
@@ -72,8 +71,10 @@ define([
 			}
 
 			var receiver = meta.metaAttr("receiver");
+			var latestTopicUpdate;
 
 			this.data = {
+				loaded: false,
 				remaining: 1,
 
 				messages: dataMessages,
@@ -98,6 +99,31 @@ define([
 					theTopic.refetchMessages();
 				}, h.randomIntFromInterval(500, 5000));
 			});
+
+			this._useTopicUpdate = function (topicUpdateData) {
+				if (!topicUpdateData) {
+					return Bluebird.resolve();
+				}
+
+				var previousTopicUpdate = latestTopicUpdate;
+
+				topicUpdateData = new TopicUpdate(topicUpdateData);
+
+				latestTopicUpdate = topicUpdateData;
+				return latestTopicUpdate.getTitle().bind(this).then(function (title) {
+					latestTopicUpdate.ensureParent(this);
+
+					if (previousTopicUpdate) {
+						latestTopicUpdate.ensureIsAfterTopicUpdate(previousTopicUpdate);
+					}
+
+					this.data.title = title;
+				}).then(function () {
+					return latestTopicUpdate;
+				});
+			};
+
+			this._useTopicUpdate(data.latestTopicUpdate);
 
 			this.refetchMessages = function () {
 				if (this.fetchingMessages) {
@@ -143,9 +169,7 @@ define([
 
 					return response.messages;
 				}).map(function (messageData) {
-					var messageFromData = Bluebird.promisify(Topic.messageFromData, Topic);
-
-					return messageFromData(messageData);
+					return Topic.messageFromData(messageData);
 				}).then(function (messages) {
 					theTopic.addMessages(messages, false);
 				}).finally(function () {
@@ -199,6 +223,25 @@ define([
 
 			this.wasReadOnOtherClient = function () {
 				setUnread([]);
+			};
+
+			this.getLatestTopicUpdate = function () {
+				return socket.definitlyEmit("messages.getLatestTopicUpdate", {
+					topicID: this.getID()
+				}).bind(this).then(function (response) {
+					return this._useTopicUpdate(response.topicUpdate);
+				});
+			};
+
+			this.setTitle = function (title) {
+				return this.getLatestTopicUpdate().bind(this).then(function (previousTopicUpdate) {
+					return TopicUpdate.create(this, {
+						title: title,
+						previousTopicUpdate: previousTopicUpdate
+					});
+				}).then(function (topicUpdate) {
+					this._useTopicUpdate(topicUpdate);
+				});
 			};
 
 			this.markRead = function markMessagesRead(cb) {
@@ -277,12 +320,14 @@ define([
 					console.error(e);
 					alert("An error occured sending a message!" + e.toString());
 				});
+
+				return null;
 			};
 
 			this.addMessages = function (messages, addUnread) {
 				messages.forEach(function (message) {
 					var id = message.getID();
-					data.newestTime = Math.max(message.getTime(), data.newestTime);
+					data.newestTime = Math.max(message.getTime(), data.newestTime || 0);
 
 					message.verifyParent(theTopic);
 
@@ -308,40 +353,52 @@ define([
 				this.addMessages([message], addUnread);
 			};
 
-			this.verify = function verify(cb) {
-				step(function () {
-					userService.get(meta.metaAttr("creator"), this);
-				}, h.sF(function (creator) {
+			this.setIgnoreAsLastTopic = function (val) {
+				this._ignoreAsLastTopic = val;
+			};
+
+			this.getIgnoreAsLastTopic = function () {
+				return this._ignoreAsLastTopic;
+			};
+
+			this.verify = function(cb) {
+				return Bluebird.try(function () {
+					return userService.get(meta.metaAttr("creator"));
+				}).then(function (creator) {
 					if (creator.isNotExistingUser()) {
 						theTopic.data.disabled = true;
-						this.last.ne();
-						return;
+						return false;
 					}
 
-					meta.verify(creator.getSignKey(), this);
-				}), h.sF(function () {
-					keyStore.security.addEncryptionIdentifier(meta.metaAttr("_key"));
-					this.ne();
-				}), cb);
+					return meta.verify(creator.getSignKey()).thenReturn(true);
+				}).then(function (addEncryptionIdentifier) {
+					if (addEncryptionIdentifier) {
+						keyStore.security.addEncryptionIdentifier(meta.metaAttr("_key"));
+					}
+				}).nodeify(cb);
 			};
 
 			this.loadReceiverNames = function loadRNF(cb) {
-				step(function () {
-					userService.getMultipleFormatted(receiver, this);
-				}, h.sF(function (receiverObjects) {
+				return Bluebird.try(function () {
+					return userService.getMultipleFormatted(receiver);
+				}).then(function (receiverObjects) {
 					var partners = theTopic.data.partners;
-					var i, me;
-					for (i = 0; i < receiverObjects.length; i += 1) {
-						if (!receiverObjects[i].user.isOwn() || receiverObjects.length === 1) {
-							partners.push(receiverObjects[i]);
-						} else {
-							me = receiverObjects[i];
-						}
+
+					if (partners.length > 0) {
+						return;
 					}
+
+					receiverObjects.forEach(function (receiverObject) {
+						if (!receiverObject.user.isOwn() || receiverObjects.length === 1) {
+							partners.push(receiverObject);
+						}
+					});
 
 					theTopic.data.partnersDisplay = partners.slice(0, 2);
 					if (partners.length > 2) {
 						theTopic.data.remainingUser = partners.length - 2;
+
+						var i = 0;
 						for (i = 2; i < partners.length; i += 1) {
 							theTopic.data.remainingUserTitle += partners[i].name;
 							if (i < partners.length - 1) {
@@ -349,8 +406,7 @@ define([
 							}
 						}
 					}
-					this.ne();
-				}), cb);
+				}).nodeify(cb);
 			};
 
 			this.getReceiver = function () {
@@ -358,103 +414,118 @@ define([
 			};
 
 			this.loadAllData = function loadAllDataF(cb) {
-				step(function () {
-					theTopic.verify(this);
-				}, h.sF(function () {
-					theTopic.loadReceiverNames(this);
-				}), h.sF(function () {
-					theTopic.loadNewest(this);
-				}), cb);
+				return Bluebird.try(function () {
+					return theTopic.verify();
+				}).then(function () {
+					return theTopic.loadNewest();
+				}).then(function () {
+					return theTopic.loadReceiverNames();
+				}).then(function () {
+					theTopic.data.loaded = true;
+				}).nodeify(cb);
 			};
 
 			this.loadInitialMessages = function loadInitialMessages(cb) {
-				if (loadInitial) {
-					theTopic.loadMoreMessages(cb, 19);
-					loadInitial = false;
-				} else {
-					cb();
-				}
+				return Bluebird.try(function () {
+					if (loadInitial) {
+						loadInitial = false;
+						return theTopic.loadMoreMessages(cb, 19);
+					}
+				}).nodeify(cb);
 			};
 
 			this.loadMoreMessages = function loadMoreMessagesF(cb, max) {
 				var loadMore = new Date().getTime();
 				var remaining = 0;
-				step(function () {
-					if (theTopic.data.remaining > 0) {
-						socket.emit("messages.getTopicMessages", {
-							topicid: theTopic.getID(),
-							afterMessage: theTopic.getOldestID(),
-							maximum: max
-						}, this);
-					} else {
-						this.last.ne();
-					}
-				}, h.sF(function (data) {
+
+				if (theTopic.data.remaining === 0) {
+					return Bluebird.resolve().nodeify(cb);
+				}
+
+				return socket.emit("messages.getTopicMessages", {
+					topicid: theTopic.getID(),
+					afterMessage: theTopic.getOldestID(),
+					maximum: max
+				}).then(function (data) {
 					topicDebug("Message server took: " + (new Date().getTime() - loadMore));
 
 					remaining = data.remaining;
 
-					if (data.messages && data.messages.length > 0) {
-						data.messages.forEach(function (messageData) {
-							Topic.messageFromData(messageData, this.parallel());
-						}, this);
-					} else {
-						this.ne([]);
-					}
-				}), h.sF(function (messages) {
+					var messages = data.messages || [];
+
+					return Bluebird.all(messages.map(function (messageData) {
+						return Topic.messageFromData(messageData);
+					}));
+				}).then(function (messages) {
 					theTopic.addMessages(messages, false);
 
 					theTopic.data.remaining = remaining;
 
 					topicDebug("Message loading took: " + (new Date().getTime() - loadMore));
-					this.ne();
-				}), cb);
+				}).nodeify(cb);
 				//load more messages and decrypt them.
 			};
 
-			this.loadNewest = function loadNewestF(cb) {
-				step(function () {
-					if (data.newest) {
-						Topic.messageFromData(data.newest, this);
-					} else {
-						this.last.ne();
-					}
-				}, h.sF(function (message) {
+			this.loadNewest = function(cb) {
+				if (!data.newest) {
+					return Bluebird.resolve().nodeify(cb);
+				}
+
+				return Bluebird.try(function () {
+					return Topic.messageFromData(data.newest);
+				}).then(function (message) {
 					theTopic.addMessage(message, false);
-					this.ne();
-				}), cb);
+				}).nodeify(cb);
 			};
 
 			Observer.call(theTopic);
 		};
 
-		Topic.fromData = function (data, cb) {
-			cb = cb || h.nop;
+		Topic.multipleFromData = function (topicsData) {
+			return Bluebird.resolve(topicsData).map(function (topicData) {
+				return Topic.createTopicAndAdd(topicData);
+			}).map(function (topic) {
+				return Topic.loadTopic(topic);
+			}).then(function (topics) {
+				return topics;
+			});
+		};
 
-			var t = new Topic(data);
+		Topic.createTopicAndAdd = function (topicData) {
+			var topic = new Topic(topicData);
 
-			var id = t.getID();
+			var id = topic.getID();
 
 			if (topics[id]) {
-				$timeout(function () {
-					cb(null, t.getID());
-				});
 				return topics[id];
 			}
 
-			topics[id] = t;
+			topics[id] = topic;
 
-			step(function () {
-				t.loadAllData(this);
-			}, h.sF(function () {
-				//add to topic list
-				topicArray.push(t.data);
+			topicArray.push(topic.data);
 
-				topicDebug("Topic loaded:" + (new Date().getTime() - startup));
-				this.ne(t.getID());
-			}), cb);
+			return topic;
+		};
 
-			return t;
+		Topic.loadTopic = function (topic) {
+			if (topic.data.loaded) {
+				return Bluebird.resolve(topic);
+			}
+
+			var promise = Bluebird.promisify(topic.loadAllData.bind(topic))().thenReturn(topic);
+
+			promise.then(function (id) {
+				topicDebug("Topic loaded (" + id + "):" + (new Date().getTime() - startup));
+			});
+
+			return promise;
+		};
+
+		Topic.fromData = function (topicData) {
+			return Bluebird.resolve(topicData).then(function (topicData) {
+				var topic = Topic.createTopicAndAdd(topicData);
+				return Topic.loadTopic(topic);
+			});
 		};
 
 		Topic.messageFromData = function (data, cb) {
@@ -464,53 +535,41 @@ define([
 			cb = cb || h.nop;
 
 			if (messagesByID[id]) {
-				$timeout(function () {
-					cb(null, messagesByID[id]);
-				});
-
-				return;
+				return Bluebird.resolve(messagesByID[id]).nodeify(cb);
 			}
 
 			messagesByID[id] = messageToAdd;
 
-			step(function () {
-				Topic.get(messageToAdd.getTopicID(), this);
-			}, h.sF(function (_theTopic) {
+			return Bluebird.try(function () {
+				return Topic.get(messageToAdd.getTopicID());
+			}).then(function (_theTopic) {
 				theTopic = _theTopic;
 
 				messageToAdd.verifyParent(theTopic);
-				messageToAdd.loadFullData(this);
-			}), h.sF(function () {
-				this.ne(messageToAdd);
-			}), cb);
+				return messageToAdd.loadFullData().thenReturn(messageToAdd);
+			}).nodeify(cb);
 		};
 
 		Topic.get = function (topicid, cb) {
-			var theTopic;
-			step(function () {
-				if (topics[topicid]) {
-					this.last.ne(topics[topicid]);
-				} else {
-					return initService.awaitLoading().then(function () {
-						return socket.definitlyEmit("messages.getTopic", {
-							topicid: topicid
-						});
-					});
-				}
-			}, h.sF(function (data) {
-				if (!data.error) {
-					theTopic = Topic.fromData(data.topic, this);
-				} else {
-					this.last.ne(false);
-				}
-			}), h.sF(function () {
-				this.last.ne(theTopic);
-			}), cb);
+			if (topics[topicid]) {
+				return Bluebird.resolve(topics[topicid]).nodeify(cb);
+			}
+
+			return initService.awaitLoading().then(function () {
+				return socket.definitlyEmit("messages.getTopic", {
+					topicid: topicid
+				});
+			}).then(function (data) {
+				return Topic.fromData(data.topic);
+			}).then(function (theTopic) {
+				theTopic.setIgnoreAsLastTopic(true);
+				return theTopic;
+			}).nodeify(cb);
 		};
 
 		Topic.createRawData = function (receiver, cb) {
 			var receiverObjects, topicKey, topicData;
-			step(function () {
+			return Bluebird.try(function () {
 				//load receiver
 				receiver = receiver.map(function (val) {
 					if (typeof val === "object") {
@@ -523,29 +582,24 @@ define([
 				h.removeArray(receiver, sessionService.getUserID());
 
 				//get receiver objects
-				userService.getMultiple(receiver, this);
-			}, h.sF(function (receiverO) {
+				return userService.getMultiple(receiver);
+			}).then(function (receiverO) {
 				receiverObjects = receiverO;
 
 				//generate topic key
-				keyStore.sym.generateKey(this, "topicMain");
-			}), h.sF(function (key) {
+				return keyStore.sym.generateKey(null, "topicMain");
+			}).then(function (key) {
 				topicKey = key;
 
 				//encrypt topic key with own mainkey
-				keyStore.sym.symEncryptKey(topicKey, userService.getown().getMainKey(), this);
-			}), h.sF(function () {
+				return keyStore.sym.symEncryptKey(topicKey, userService.getown().getMainKey());
+			}).then(function () {
 				//encrypt topic key for receiver
-				var i, crypt;
-				for (i = 0; i < receiverObjects.length; i += 1) {
-					crypt = receiverObjects[i].getCryptKey();
-					keyStore.sym.asymEncryptKey(topicKey, crypt, this.parallel());
-				}
-
-				if (receiverObjects.length === 0) {
-					this.ne([]);
-				}
-			}), h.sF(function (cryptKeys) {
+				return Bluebird.all(receiverObjects.map(function (receiverObject) {
+					var crypt = receiverObject.getCryptKey();
+					return keyStore.sym.asymEncryptKey(topicKey, crypt);
+				}));
+			}).then(function (cryptKeys) {
 				var cryptKeysData = keyStore.upload.getKeys(cryptKeys);
 				var receiverKeys = {}, receiverIDs = [];
 
@@ -570,13 +624,12 @@ define([
 					receiverKeys: receiverKeys
 				};
 
-				this.parallel.unflatten();
-				SecuredData.create({}, topicMeta, { type: "topic" }, userService.getown().getSignKey(), topicKey, this);
-			}), h.sF(function (tData) {
+				return SecuredData.createAsync({}, topicMeta, { type: "topic" }, userService.getown().getSignKey(), topicKey);
+			}).then(function (tData) {
 				topicData.topic = tData.meta;
 
-				this.ne(topicData);
-			}), cb);
+				return topicData;
+			}).nodeify(cb);
 		};
 
 		Topic.reset = function () {
@@ -600,8 +653,8 @@ define([
 				}));
 			}
 
-			var createRawTopicData = Bluebird.promisify(Topic.createRawData, Topic);
-			var createRawMessageData = Bluebird.promisify(Message.createRawData, Message);
+			var createRawTopicData = Bluebird.promisify(Topic.createRawData.bind(Topic));
+			var createRawMessageData = Bluebird.promisify(Message.createRawData.bind(Message));
 
 			var resultPromise = Bluebird.all([createRawTopicData(receiver), imagePreparation]).spread(function (topicData, imagesMeta) {
 				var topic = new Topic({
@@ -628,11 +681,7 @@ define([
 				return topicData;
 			});
 
-			if (typeof cb === "function") {
-				step.unpromisify(resultPromise, cb);
-			}
-
-			return resultPromise;
+			return resultPromise.nodeify(cb);
 		};
 
 		Observer.call(Topic);
@@ -640,7 +689,7 @@ define([
 		return Topic;
 	}
 
-	topicModel.$inject = ["$timeout", "ssn.windowService", "ssn.socketService", "ssn.userService", "ssn.keyStoreService", "ssn.sessionService", "ssn.models.message", "ssn.initService"];
+	topicModel.$inject = ["$timeout", "$rootScope", "ssn.windowService", "ssn.socketService", "ssn.userService", "ssn.keyStoreService", "ssn.sessionService", "ssn.models.message", "ssn.initService", "ssn.models.topicUpdate"];
 
 	modelsModule.factory("ssn.models.topic", topicModel);
 });

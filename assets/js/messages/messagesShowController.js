@@ -2,7 +2,7 @@
 * messagesController
 **/
 
-define(["step", "whispeerHelper", "asset/state", "bluebird", "messages/messagesModule"], function (step, h, State, Bluebird, messagesModule) {
+define(["jquery", "whispeerHelper", "asset/state", "bluebird", "messages/messagesModule"], function (jQuery, h, State, Bluebird, messagesModule) {
 	"use strict";
 
 	function messagesController($scope, $element, $state, $stateParams, $timeout, localize, errorService, messageService, ImageUploadService) {
@@ -39,7 +39,7 @@ define(["step", "whispeerHelper", "asset/state", "bluebird", "messages/messagesM
 		};
 
 		$scope.loadMoreMessages = function () {
-			var loadMore = Bluebird.promisify($scope.activeTopic.obj.loadMoreMessages, $scope.activeTopic.obj);
+			var loadMore = Bluebird.promisify($scope.activeTopic.obj.loadMoreMessages.bind($scope.activeTopic.obj));
 
 			$scope.loadingMessages = true;
 			return loadMore().then(function () {
@@ -71,19 +71,14 @@ define(["step", "whispeerHelper", "asset/state", "bluebird", "messages/messagesM
 			});
 		}
 
-		var topic;
-		step(function () {
-			messageService.getTopic(topicID, this);
-		}, h.sF(function (_topic) {
-			topic = _topic;
-
+		var loadTopicsPromise = messageService.getTopic(topicID).then(function (topic) {
 			messageService.setActiveTopic(topicID);
 			$scope.activeTopic = topic.data;
 
 			$scope.canSend = true;
 			$scope.newMessage = false;
-			topic.loadInitialMessages(this);
-		}), h.sF(function () {
+			return topic.loadInitialMessages().thenReturn(topic);
+		}).then(function (topic) {
 			$scope.topicLoaded = true;
 
 			if (topic.data.messages.length > 0) {
@@ -91,9 +86,9 @@ define(["step", "whispeerHelper", "asset/state", "bluebird", "messages/messagesM
 			}
 
 			loadMoreUntilFull();
+		});
 
-			this.ne();
-		}), errorService.failOnError(topicLoadingState));
+		errorService.failOnErrorPromise(topicLoadingState, loadTopicsPromise);
 
 		var sendMessageState = new State();
 		$scope.sendMessageState = sendMessageState.data;
@@ -111,20 +106,20 @@ define(["step", "whispeerHelper", "asset/state", "bluebird", "messages/messagesM
 
 			$scope.canSend = false;
 
-			step(function () {
-				messageService.sendMessage($scope.activeTopic.id, text, images, this);
-			}, h.sF(function () {
+			var sendMessagePromise = messageService.sendMessage($scope.activeTopic.id, text, images).then(function () {
 				$scope.activeTopic.newMessage = "";
 				$scope.images.images = [];
 				$scope.markRead(errorService.criticalError);
 				$timeout(function () {
 					sendMessageState.reset();
-				}, 2000);
-				this.ne();
-			}), function (e) {
+				}, 2000);				
+			});
+
+			sendMessagePromise.finally(function () {
 				$scope.canSend = true;
-				this(e);
-			}, errorService.failOnError(sendMessageState));
+			});
+
+			errorService.failOnErrorPromise(sendMessageState, sendMessagePromise);
 		};
 
 		var bursts = [], burstTopic;
@@ -302,8 +297,12 @@ define(["step", "whispeerHelper", "asset/state", "bluebird", "messages/messagesM
 
 			return bursts;
 		};
-	}
 
+		$scope.showMessageOptions = false;
+		$scope.toggleMessageOptions = function() {
+			$scope.showMessageOptions = !$scope.showMessageOptions;
+		};
+	}
 
 	messagesController.$inject = ["$scope", "$element", "$state", "$stateParams", "$timeout", "localize", "ssn.errorService", "ssn.messageService", "ssn.imageUploadService"];
 
