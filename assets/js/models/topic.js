@@ -316,8 +316,6 @@ define([
 				var messageSendCache = new Cache("messageSend", { maxEntries: -1, maxBlobSize: -1 });
 
 				if (!id) {
-					debugger;
-
 					messageSendCache.store(
 						messageObject.getID(),
 						{
