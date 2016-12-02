@@ -40,7 +40,22 @@
 			"link":	"Registrieren",
 			"newaccount": "Komm' zu uns!",
 			"repeatPassword": "Passwort wiederholen",
-			"createAccount": "Account erstellen"
+			"createAccount": "Account erstellen",
+			"initialRegisterDescription": "Die Registration bei whispeer ist ganz einfach. Geb' einfach einen Benutzernamen ein und klick auf weiter!",
+			"initialWelcome": "Hallo",
+			"passwordHeadline": "Alles klar,",
+			"passwordDescription": "Du musst jetzt noch ein möglichst starkes Passwort wählen.<br>Wir empfehlen mindestens 12 Zeichen, darunter groß- und kleingeschriebene Buchstaben sowie Zahlen und Sonderzeichen.<br>",
+			"passwordTip": "Tipp: An der rechten Seite des Eingabefeldes findest du eine kleine Anzeige, die dir die Stärke deines Passworts anzeigt.",
+			"agbHeadline": "Der letzte Schritt",
+			"agbText1": "Ein paar Formalitäten müssen dann leider doch sein:",
+			"agbText2": "Wir bitten dich, unsere",
+			"agbText3": "und unsere",
+			"agbText4": "zu lesen und zu akzeptieren.",
+			"agbNote": "Wir haben versucht, diese so kurz und simpel wie möglich zu halten, aber ganz ohne geht leider nicht."
+		},
+		"general": {
+			"next": "Weiter",
+			"previous": "Zurück"
 		},
 		"legal": {
 			"header": "Rechtliche Informationen",

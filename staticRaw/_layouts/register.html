@@ -43,27 +43,26 @@
 					<section class="register-body" data-ng-show="nicknameForm">
 						<header id="register-guide">
 							<h1 class="register-headline">
-								Hallo<span data-ng-if="registerData.nickname.length > 0"> {% raw %}{{registerData.nickname}}{% endraw %}</span>!
+								{{ i18n.register.initialWelcome }}<span data-ng-if="registerData.nickname.length > 0"> {% raw %}{{registerData.nickname}}{% endraw %}</span>!
 							</h1>
 							<p class="register-headline">
-								Die Registration bei whispeer ist ganz einfach. Geb' einfach einen Benutzernamen ein und klick auf weiter!
+								{{ i18n.register.initialRegisterDescription }}
 							</p>
 						</header>
 						<div class="annotatedInput-container">
 							<input class="annotatedInput-input" type="text" id="register-nickname" placeholder="{{i18n.login.username}}" data-ng-model="registerData.nickname" data-load-val data-ng-model-onblur data-ng-change="nicknameChange()" validation="nicknameValidations" autofocus="nicknameForm">
 							<span class="annotatedInput-icon fa" data-ng-class="acceptIconNicknameFree()" data-ng-if="!empty(registerData.nickname)"></span>
 						</div>
-						<button class="btn" id="register-nextStep" data-ng-class="{'btn--disabled': !nicknameValid, 'btn--primary': nicknameValid}" data-ng-click="goToNextForm(); registerFormClick();">Weiter <i class="fa fa-arrow-right"></i></button>
+						<button class="btn" id="register-nextStep" data-ng-class="{'btn--disabled': !nicknameValid, 'btn--primary': nicknameValid}" data-ng-click="goToNextForm(); registerFormClick();">{{ i18n.general.next }} <i class="fa fa-arrow-right"></i></button>
 					</section>
 					<section class="register-body" data-ng-show="passwordForm">
 						<header id="register-guide">
 							<h1 class="register-headline">
-								Alles klar, {% raw %}{{registerData.nickname}}{% endraw %}</span>!
+								{{ i18n.register.passwordHeadline }} {% raw %}{{registerData.nickname}}{% endraw %}</span>!
 							</h1>
 							<p class="register-headline">
-								Du musst jetzt noch ein möglichst starkes Passwort wählen.<br>
-								Wir empfehlen mindestens 12 Zeichen, darunter groß- und kleingeschriebene Buchstaben sowie Zahlen und Sonderzeichen.<br>
-								<small>Tipp: An der rechten Seite des Eingabefeldes findest du eine kleine Anzeige, die dir die Stärke deines Passworts anzeigt.</small>
+								{{ i18n.register.passwordDescription }}
+								<small>{{ i18n.register.passwordTip }}</small>
 							</p>
 						</header>
 						<passwordinput state="pwState">
@@ -76,19 +75,23 @@
 								<span class='annotatedInput-icon fa' data-ng-class='acceptIcon(state.password, state.password2)' data-ng-if='!empty(state.password) && !empty(state.password2)'></span>
 							</div>
 						</passwordinput>
-						<button class="btn btn--gray" id="register-prevStep" type="button" data-ng-click="goToNicknameForm()"><i class="fa fa-arrow-left"></i> Zurück</button>
+						<button class="btn btn--gray" id="register-prevStep" type="button" data-ng-click="goToNicknameForm()"><i class="fa fa-arrow-left"></i> {{ i18n.general.previous }}</button>
 						<!-- TODO: Really disable this thing when the expression is false. -->
-						<button class="btn" id="register-nextStep" type="submit" data-ng-class="{'btn--disabled': !passwordsValid, 'btn--primary': passwordsValid}" data-ng-click="goToNextForm()">Weiter <i class="fa fa-arrow-right"></i></button>
+						<button class="btn" id="register-nextStep" type="submit" data-ng-class="{'btn--disabled': !passwordsValid, 'btn--primary': passwordsValid}" data-ng-click="goToNextForm()">{{ i18n.general.next }} <i class="fa fa-arrow-right"></i></button>
 					</section>
 					<section class="register-body" id="register-accept-agb" data-ng-show="agbForm">
 						<header id="register-guide">
 							<h1 class="register-headline">
-								Der letzte Schritt</span>!
+								{{ i18n.register.agbHeadline }}</span>!
 							</h1>
 							<p class="register-headline">
-								Ein paar Formalitäten müssen dann leider doch sein:<br>
-								Wir bitten dich, unsere <a href="/{{page.lang}}/agb" data-for="agb" target="_blank">{{i18n.legal.terms}}</a> und unsere <a href="/{{page.lang}}/privacyPolicy" data-for="privacyPolicy" target="_blank">{{i18n.legal.data}}</a> zu lesen und zu akzeptieren.<br>
-								<small>Wir haben versucht, diese so kurz und simpel wie möglich zu halten, aber ganz ohne geht leider nicht.</small>
+								{{ i18n.register.agbText1 }}<br>
+								{{ i18n.register.agbText2 }}
+								<a href="/{{page.lang}}/agb" data-for="agb" target="_blank">{{i18n.legal.terms}}</a>
+								{{ i18n.register.agbText3 }}
+								<a href="/{{page.lang}}/privacyPolicy" data-for="privacyPolicy" target="_blank">{{i18n.legal.data}}</a>
+								{{ i18n.register.agbText4 }}<br>
+								<small>{{ i18n.register.agbNote }}</small>
 							</p>
 						</header>
 						<label class="register-agb btn btn--primary btn--big" for="checkAGB" validation="agbValidations">
@@ -99,7 +102,7 @@
 							</span>
 						</label>
 						<br>
-						<button class="btn btn--gray" id="register-prevStep" type="button" data-ng-click="goToPasswordForm()"><i class="fa fa-arrow-left"></i> Zurück</button>
+						<button class="btn btn--gray" id="register-prevStep" type="button" data-ng-click="goToPasswordForm()"><i class="fa fa-arrow-left"></i> {{ i18n.general.previous }}</button>
 						<!-- TODO: Really disable this thing when the expression is false. -->
 						<savebutton class="btn btn--primary" id="register-nextStep" type="submit" data-noiniticon data-state="registerState" type="submit"  data-ng-click="register()"><span>{{i18n.register.link}}</span></savebutton>
 					</section>
