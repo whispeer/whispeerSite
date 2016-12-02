@@ -10,11 +10,11 @@ var State = function () {
 		success: false,
 		failed: false
 	};
-};	
+};
 
 State.prototype._turnOneDataTrue = function () {
 	states.symbols().forEach(function (symbol) {
-		var name = symbol.name.toLowerCase();
+		var name : string = symbol.name.toLowerCase();
 		if (this._state === symbol) {
 			this.data[name] = true;
 		} else {
@@ -45,16 +45,16 @@ State.prototype.pending = function () {
 	this._turnOneDataTrue();
 };
 
-State.prototype.isPending = function () {
+State.prototype.isPending = function () : boolean {
 	return this._state === states.PENDING;
 };
-State.prototype.isSuccess = function () {
+State.prototype.isSuccess = function () : boolean {
 	return this._state === states.SUCCESS;
 };
-State.prototype.isFailed = function () {
+State.prototype.isFailed = function () : boolean {
 	return this._state === states.FAILED;
 };
-State.prototype.isInit = function () {
+State.prototype.isInit = function () : boolean {
 	return this._state === states.INIT;
 };
 
