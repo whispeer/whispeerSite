@@ -29,10 +29,15 @@
 }
 .button--green {
 	background: #52a01a;
-	color: #fff;
 }
-.button--green:hover {
-	color: #fff;
+.button--primary {
+	background: $primary;
+}
+.button--green,
+.button--primary,
+.button--green:hover,
+.button--primary:hover {
+	color: #fff
 }
 .button--more {
 	border: none;
@@ -50,6 +55,13 @@
 }
 .button--center {
 	text-align: center;
+}
+.button--landing {
+	color: #fff;
+}
+.button--landing:hover {
+	color: #fff;
+	box-shadow: none;
 }
 
 .button--shareButton--fb,

@@ -44,13 +44,9 @@
 						</div>
 					{% endif %}
 					{% if data.teaser.registerForm %}
-					<iframe class="landing-registerFrame" src="/{{page.lang}}/register/"></iframe>
+						<a href="/{{page.lang}}/register/" class="button button--noBorder button--primary button--landing button--radius">{{lang.registerAd}}</a>
 					{% endif %}
 				</div>
-				<a href="#content" class="section-next">
-					<span class="section-next-text">{{lang.learnMore}}</span>
-					<i class="fa fa-section-next fa-arrow-down"></i>
-				</a>
 			</section>
 			<a id="content"></a>
 			{% for section in data.sections %}
@@ -83,7 +79,7 @@
 								</ul>
 							{% endif %}
 							{% if section.registerAd %}
-								<a class="button button--more register--ad{% if thecycle == 'even' %} button--green{% endif %}" href="#registerNow">{{lang.registerAd}}</a>
+								<a class="button button--more register--ad{% if thecycle == 'even' %} button--green{% endif %}" href="/{{page.lang}}/register/">{{lang.registerAd}}</a>
 							{% endif %}
 						</div>
 						{% if thecycle == 'odd' %}
@@ -130,8 +126,7 @@
 					</div>
 					{% endif %}
 					{% if section.registerForm %}
-					<a id="registerNow"></a>
-					<iframe class="landing-registerFrame" id="registerFrame-main" src="/{{page.lang}}/register/"></iframe>
+						<a class="button button--more register--ad{% if thecycle == 'even' %} button--green{% endif %}" href="/{{page.lang}}/register/">{{lang.registerAd}}</a>
 					{% endif %}
 				</div>
 			</section>

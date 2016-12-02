@@ -1,78 +1,135 @@
-.startView-register {
-	text-align: center;
-	.registerHeader {
-		font-size: 1.3rem;
-		line-height: 50px;
-		margin-bottom: 20px;
-		color: #222;
-		background: @white;
-		height: 50px;
-		margin: 0;
-		border: 1px solid @inputBorder;
-		&:extend(.box-fix);
-	}
-	input:not([type="submit"])
-	:not([type="reset"])
-	:not([type="button"])
-	:not([type="file"])
-	:not([type="radio"])
-	:not([type="checkbox"]),
-	.annotatedInput-container {
-		@media @desktop {
-			width: 300px;
-		}
-		height: 50px;
-		margin: 0 auto;
-	}
+#register-loading {
+	display: flex;
+	justify-content: center;
+	algin-items: center;
 
-	.inputSandwich-middle,
-	.inputSandwich-bottom {
-		&:focus {
-			height: 51px !important;
-		}
-	}
+	position: absolute;
+	top: 0;
+	left: 0;
 
-	.annotatedInput-input {
-		width: 100%;
-		height: 100% !important;
-	}
+	height: 100%;
+	width: 100%;
+	background: @primary;
+	z-index: 3;
+}
 
-	p {
-		text-align: left;
-		padding-left: 32px;
-		padding-right: 32px;
-	}
-	.registerAGB {
-		display: inline-block;
-		background: @white;
-		border: solid 1px @inputBorder;
-		border-top: none;
-		border-bottom: none;
-		width: 100%;
-		min-height: 50px;
-		text-indent: -16px;
-		font-size: 12px;
-		margin:	0;
-		padding: 15px 10px 15px 26px;
-		.box-fix;
-		@media @desktop {
-			box-shadow: inset 0px 0px 5px @inputBorder;
-		}
-	}
-	.submitWrap {
-		width: 100%;
-	}
-	.register-submitButton {
-		width: 100%;
-		height: 50px;
-		line-height: 48px;
-		margin-top: 0;
-		border: solid 1px @inputBorder;
-		border-top: none;
-		font-size: 24px;
-		line-height: normal;
+#register-loading-loader {
+	margin: auto;
+}
+
+.loaded #register-loading {
+	display: none !important;
+}
+
+#register-container {
+	display: flex;
+	height: 100%;
+	@media @mobile {
+		flex-wrap: wrap;
 	}
 }
-.qtip {
-	margin-top: 3px; // give it some air to breathe...
+
+.register-sidebar-left {
+	@media @desktop {
+		position: relative !important;
+		flex-shrink: 0 !important;
+		&:after {
+			content: " ";
+			position: absolute;
+
+			top: 0;
+			left: 0;
+
+			width: 100%;
+			height: 100%;
+			background: fade(#000, 35%);
+			z-index: 2;
+		}
+	}
+	@media @mobile {
+		display: none;
+	}
+}
+
+.registerView,
+.registerView body {
+	height: 100%;
+}
+
+#register-main {
+	width: 100%;
+	@media @desktop { flex-shrink: 1 !important; }
+	padding: 0 2em;
+	box-sizing: border-box;
+
+	display: flex;
+}
+
+.register-mobile-logo {
+	@media @desktop {
+		display: none;
+	}
+
+	@media @mobile {
+		display: block;
+		position: absolute;
+		width: 100%;
+		text-align: center;
+		margin-top: 2em;
+	}
+}
+
+.register-userpanel-me {
+	display: flex !important;
+
+	text-align: left !important;
+	padding: 0 1em;
+	box-sizing: border-box;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+
+.register-userpanel-me-image {
+	position: relative;
+	margin: auto;
+	flex-shrink: 0;
+	z-index: 1;
+}
+
+.register-userpanel-me-name {
+	display: inline-block;
+	width: 100%;
+	text-align: center;
+	flex-shrink: 1;
+}
+
+#startView-register {
+	margin: auto;
+}
+
+#register-nextStep,
+#register-prevStep {
+	margin: 1em 0 0 0;
+}
+
+#register-prevStep {
+	float: left;
+}
+
+#register-nextStep {
+	float: right;
+}
+
+.register-body {
+	width: 100%;
+	max-width: 780px;
+}
+
+#register-guide {
+	text-align: left;
+}
+
+#register-accept-agb {
+	text-align: center;
 }

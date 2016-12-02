@@ -9,6 +9,7 @@ define([
 	"register/registerController",
 
 	"directives/mobile",
+	"directives/autofocus",
 	"directives/savebutton",
 	"directives/passwordinput",
 	"directives/validatedForm",

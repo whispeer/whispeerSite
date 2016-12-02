@@ -48,6 +48,8 @@ define([
 			android: isAndroid()
 		};
 
+		$scope.loading = false;
+
 		registerService.setPreID();
 
 		if (isTwitterBrowser()) {
@@ -79,6 +81,59 @@ define([
 		$scope.startKeyGeneration = function startKeyGen1() {
 			registerService.startKeyGeneration();
 		};
+
+		function disableAllForms() {
+			$scope.nicknameForm = false;
+			$scope.passwordForm = false;
+			$scope.agbForm = false;	
+		}
+
+		$scope.nicknameValid = false;
+		$scope.passwordsValid = false;
+
+		$scope.$watch(function () {
+			return $scope.validationOptions.checkValidations && !$scope.validationOptions.checkValidations(["register-nickname"], true);
+		}, function (nicknameValid) {
+			$scope.nicknameValid = nicknameValid;
+		});
+
+		$scope.$watch(function () {
+			return $scope.passwordForm && !$scope.validationOptions.checkValidations(["password1", "password2"], true);
+		}, function (passwordsValid) {
+			$scope.passwordsValid = passwordsValid;
+		});
+
+		$scope.goToNextForm = function () {
+			if ($scope.nicknameForm) {
+				return $scope.goToPasswordForm();
+			}
+
+			if ($scope.passwordForm) {
+				return $scope.goToAGBForm();
+			}
+		};
+
+		$scope.goToNicknameForm = function () {
+			disableAllForms();
+
+			$scope.nicknameForm = true;
+		};
+
+		$scope.goToPasswordForm = function () {
+			if (!$scope.validationOptions.checkValidations(["register-nickname"])) {
+				disableAllForms();
+				$scope.passwordForm = true;
+			}
+		};
+
+		$scope.goToAGBForm = function () {
+			if (!$scope.validationOptions.checkValidations(["password1", "password2"])) {
+				disableAllForms();
+				$scope.agbForm = true;
+			}
+		};
+
+		$scope.goToNicknameForm();
 
 		$scope.nicknameChange = function () {
 			Bluebird.try(function nicknameCheck() {
@@ -115,8 +170,12 @@ define([
 			return !$scope.empty($scope.registerData.nickname) && !h.isNickname($scope.registerData.nickname);
 		};
 
+		$scope.nicknameLoading = function () {
+			return !$scope.empty($scope.registerData.nickname) && h.isNickname($scope.registerData.nickname) && $scope.registerData.nicknameCheckLoading;
+		};
+
 		$scope.nicknameUsed = function () {
-			return !$scope.empty($scope.registerData.nickname) && h.isNickname($scope.registerData.nickname) && !$scope.registerData.nicknameCheck && !$scope.registerData.nicknameCheckLoading;
+			return !$scope.empty($scope.registerData.nickname) && h.isNickname($scope.registerData.nickname) && !$scope.registerData.nicknameCheckLoading && !$scope.registerData.nicknameCheck;
 		};
 
 		$scope.isAgbError = function () {
@@ -147,6 +206,7 @@ define([
 		$scope.nicknameValidations = [
 			{ validator: "nicknameEmpty()", translation: "login.register.errors.nickEmpty" },
 			{ validator: "nicknameInvalid()", translation: "login.register.errors.nickInvalid", onChange: 500 },
+			{ validator: "nicknameLoading()", onChange: 500 },
 			{ validator: "nicknameUsed()", translation: "login.register.errors.nickUsed", onChange: 500 }
 		];
 
