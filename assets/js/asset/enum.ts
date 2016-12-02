@@ -1,12 +1,12 @@
 "use strict";
-function copyOwnFrom(target, source) {
+function copyOwnFrom(target : any, source : any) {
     Object.getOwnPropertyNames(source).forEach(function (propName) {
         Object.defineProperty(target, propName, Object.getOwnPropertyDescriptor(source, propName));
     });
     return target;
 }
 
-function InternalSymbol(name : string, props?) {
+function InternalSymbol(name : string, props? : any) {
     this.name = name;
     if (props) {
         copyOwnFrom(this, props);
@@ -23,10 +23,10 @@ InternalSymbol.prototype.toString = function () {
 if (Object.freeze) {
     Object.freeze(InternalSymbol.prototype);
 }
-var Enum = function (obj) {
+var Enum = function (obj : any) {
     this._symbols = [];
     if (Array.isArray(obj)) {
-        obj.forEach(function (name) {
+        obj.forEach(function (name : string) {
             this[name] = new InternalSymbol(name);
             this._symbols.push(this[name]);
         }, this);
