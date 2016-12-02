@@ -246,7 +246,9 @@ define([
 				return socket.definitlyEmit("messages.getLatestTopicUpdate", {
 					topicID: this.getID()
 				}).bind(this).then(function (response) {
-					return this._addTopicUpdates([response.topicUpdate]);
+					if (response.topicUpdate) {
+						return this._addTopicUpdates([response.topicUpdate]);
+					}
 				});
 			};
 
@@ -348,7 +350,7 @@ define([
 
 				topicArray.resort();
 
-				if (theTopic.data.latestMessage.isOwn()) {
+				if (theTopic.data.latestMessage && theTopic.data.latestMessage.isOwn()) {
 					this.markRead();
 				}
 			};
