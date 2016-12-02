@@ -81,7 +81,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .landing-section--background-image {
-	background-image: url("/assets/images/rustical_office.jpg");
+	background-image: url("/assets/images/business_landing_background.jpg");
 	background-repeat: no-repeat;
 	background-size: cover;
 	background-position: top right;
@@ -529,6 +529,10 @@ h1, h2, h3, h4, h5, h6 {
 	&:hover {
 		color: $primary_light;
 	}
+}
+
+#landing-footer__logo {
+	height: 48px;
 }
 
 @import "animation";
