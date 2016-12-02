@@ -66,13 +66,13 @@
 							</p>
 						</header>
 						<passwordinput state="pwState">
-							<div class='annotatedInput-container'>
-								<input class='annotatedInput-input strenghInput password inputSandwich inputSandwich-top' type='password' id="password1" placeholder='{{i18n.login.password}}' data-ng-model='state.password' data-load-val validation='passwordValidations' autofocus="$parent.passwordForm">
-								<span class='annotatedInput-icon' data-strength='{{ "{{ passwordStrength() " }}}}'></span>
+							<div class="annotatedInput-container">
+								<input class="annotatedInput-input strenghInput password inputSandwich inputSandwich-top" type="password" id="password1" placeholder="{{i18n.login.password}}" data-ng-model="state.password" data-load-val validation="passwordValidations" autofocus="$parent.passwordForm">
+								<span class="annotatedInput-icon" data-strength="{{ '{{ passwordStrength() }}' }}"></span>
 							</div>
-							<div class='annotatedInput-container'>
-								<input type='password' class='annotatedInput-input password2 inputSandwich inputSandwich-bottom' id="password2" placeholder='{{i18n.register.repeatPassword}}' data-ng-model='state.password2' data-load-val validation='password2Validations'>
-								<span class='annotatedInput-icon fa' data-ng-class='acceptIcon(state.password, state.password2)' data-ng-if='!empty(state.password) && !empty(state.password2)'></span>
+							<div class="annotatedInput-container">
+								<input type="password" class="annotatedInput-input password2 inputSandwich inputSandwich-bottom" id="password2" placeholder="{{i18n.register.repeatPassword}}" data-ng-model="state.password2" data-load-val validation="password2Validations">
+								<span class="annotatedInput-icon fa" data-ng-class="acceptIcon(state.password, state.password2)" data-ng-if="!empty(state.password) && !empty(state.password2)"></span>
 							</div>
 						</passwordinput>
 						<button class="btn btn--gray" id="register-prevStep" type="button" data-ng-click="goToNicknameForm()"><i class="fa fa-arrow-left"></i> {{ i18n.general.previous }}</button>
