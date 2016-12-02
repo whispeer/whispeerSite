@@ -21,10 +21,6 @@ define([
 			return (a.getTime() - b.getTime());
 		}
 
-		function sortObjGetTime(a, b) {
-			return (a.obj.getTime() - b.obj.getTime());
-		}
-
 		function sortObjGetTimeInv(a, b) {
 			return (b.obj.getTime() - a.obj.getTime());
 		}
@@ -33,7 +29,12 @@ define([
 		var topicArray = sortedSet(sortObjGetTimeInv);
 
 		var Topic = function (data) {
-			var messages = sortedSet(sortGetTime), dataMessages = sortedSet(sortObjGetTime), theTopic = this, loadInitial = true;
+			var messages = sortedSet(sortGetTime),
+				sortedTopicUpdates = sortedSet(sortGetTime),
+				messagesAndUpdates = sortedSet(sortGetTime),
+				topicUpdatesById = {},
+				theTopic = this,
+				loadInitial = true;
 
 			var err = validator.validate("topic", data.meta);
 			if (err) {
@@ -71,13 +72,12 @@ define([
 			}
 
 			var receiver = meta.metaAttr("receiver");
-			var latestTopicUpdate;
 
 			this.data = {
 				loaded: false,
 				remaining: 1,
 
-				messages: dataMessages,
+				messagesAndUpdates: messagesAndUpdates,
 
 				partners: [],
 				partnersDisplay: [],
@@ -100,30 +100,46 @@ define([
 				}, h.randomIntFromInterval(500, 5000));
 			});
 
-			this._useTopicUpdate = function (topicUpdateData) {
-				if (!topicUpdateData) {
-					return Bluebird.resolve();
-				}
-
-				var previousTopicUpdate = latestTopicUpdate;
-
-				topicUpdateData = new TopicUpdate(topicUpdateData);
-
-				latestTopicUpdate = topicUpdateData;
-				return latestTopicUpdate.getTitle().bind(this).then(function (title) {
-					latestTopicUpdate.ensureParent(this);
-
-					if (previousTopicUpdate) {
-						latestTopicUpdate.ensureIsAfterTopicUpdate(previousTopicUpdate);
+			this._addTopicUpdates = function (topicUpdatesData) {
+				return Bluebird.resolve(topicUpdatesData).bind(this).filter(function (topicUpdateData) {
+					return !topicUpdatesById[topicUpdateData.id];
+				}).map(function (topicUpdateData) {
+					if (!topicUpdateData) {
+						return Bluebird.resolve();
 					}
 
+					var topicUpdateObject = new TopicUpdate(topicUpdateData);
+
+					topicUpdatesById[topicUpdateData.id] = topicUpdateObject;
+
+					return topicUpdateObject.load().thenReturn(topicUpdateObject);
+				}).map(function (topicUpdate) {
+					topicUpdate.ensureParent(this);
+
+					return topicUpdate;
+				}).then(function (topicUpdates) {
+					topicUpdates.sort(sortGetTime);
+
+					topicUpdates.reduce(function (prev, cur) {
+						if (prev) {
+							prev.ensureIsAfterTopicUpdate(cur);
+						}
+
+						return cur;
+					}, false);
+
+					sortedTopicUpdates.join(topicUpdates);
+					messagesAndUpdates.join(topicUpdates);
+
+					var latestTopicUpdate = sortedTopicUpdates.last();
+
+					if (latestTopicUpdate) {
+						return latestTopicUpdate.getTitle();
+					}
+				}).then(function (title) {
 					this.data.title = title;
-				}).then(function () {
-					return latestTopicUpdate;
 				});
 			};
-
-			this._useTopicUpdate(data.latestTopicUpdate);
 
 			this.refetchMessages = function () {
 				if (this.fetchingMessages) {
@@ -162,7 +178,8 @@ define([
 					if (response.clearMessages) {
 						//remove all sent messages we have!
 						messages.clear();
-						dataMessages.clear();
+						messagesAndUpdates.clear();
+						sortedTopicUpdates.clear();
 						//messages.join(unsentMessages);
 						//dataMessages.join(unsentMessages.map(:data));
 					}
@@ -229,7 +246,9 @@ define([
 				return socket.definitlyEmit("messages.getLatestTopicUpdate", {
 					topicID: this.getID()
 				}).bind(this).then(function (response) {
-					return this._useTopicUpdate(response.topicUpdate);
+					if (response.topicUpdate) {
+						return this._addTopicUpdates([response.topicUpdate]);
+					}
 				});
 			};
 
@@ -240,7 +259,7 @@ define([
 						previousTopicUpdate: previousTopicUpdate
 					});
 				}).then(function (topicUpdate) {
-					this._useTopicUpdate(topicUpdate);
+					return this._addTopicUpdates([topicUpdate]);
 				});
 			};
 
@@ -276,9 +295,7 @@ define([
 				});
 
 				messages.join(messagesToAdd);
-				dataMessages.join(messagesToAdd.map(function (e) {
-					return e.data;
-				}));
+				messagesAndUpdates.join(messagesToAdd);
 
 				theTopic.data.latestMessage = messages[messages.length - 1];
 			}
@@ -359,7 +376,7 @@ define([
 
 				topicArray.resort();
 
-				if (theTopic.data.latestMessage.isOwn()) {
+				if (theTopic.data.latestMessage && theTopic.data.latestMessage.isOwn()) {
 					this.markRead();
 				}
 			};
@@ -429,14 +446,16 @@ define([
 			};
 
 			this.loadAllData = function loadAllDataF(cb) {
-				return Bluebird.try(function () {
-					return theTopic.verify();
+				return Bluebird.resolve().bind(this).then(function () {
+					return this.verify();
 				}).then(function () {
-					return theTopic.loadNewest();
+					return this.loadNewest();
 				}).then(function () {
-					return theTopic.loadReceiverNames();
+					return this.loadReceiverNames();
 				}).then(function () {
-					theTopic.data.loaded = true;
+					return this._addTopicUpdates(data.latestTopicUpdates);
+				}).then(function () {
+					this.data.loaded = true;
 				}).nodeify(cb);
 			};
 
@@ -461,10 +480,14 @@ define([
 					topicid: theTopic.getID(),
 					afterMessage: theTopic.getOldestID(),
 					maximum: max
-				}).then(function (data) {
+				}).bind(this).then(function (data) {
 					topicDebug("Message server took: " + (new Date().getTime() - loadMore));
 
 					remaining = data.remaining;
+
+					if (data.topicUpdates) {
+						this._addTopicUpdates(data.topicUpdates);
+					}
 
 					var messages = data.messages || [];
 
