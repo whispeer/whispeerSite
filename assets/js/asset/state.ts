@@ -1,6 +1,6 @@
-import Enum from "./enum.js";
+import Enum from "./enum";
 
-var states = new Enum("INIT", "PENDING", "SUCCESS", "FAILED");
+var states = new Enum(["INIT", "PENDING", "SUCCESS", "FAILED"]);
 
 var State = function () {
 	this._state = states.INIT;
