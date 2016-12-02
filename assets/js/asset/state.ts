@@ -1,6 +1,6 @@
-import Enum from "./enum";
+import Enum, { InternalSymbol } from "./enum";
 
-var states = new Enum(["INIT", "PENDING", "SUCCESS", "FAILED"]);
+var states : any = new Enum(["INIT", "PENDING", "SUCCESS", "FAILED"]);
 
 var State = function () {
 	this._state = states.INIT;
@@ -13,7 +13,7 @@ var State = function () {
 };
 
 State.prototype._turnOneDataTrue = function () {
-	states.symbols().forEach(function (symbol) {
+	states.symbols().forEach(function (symbol : InternalSymbol) {
 		var name : string = symbol.name.toLowerCase();
 		if (this._state === symbol) {
 			this.data[name] = true;

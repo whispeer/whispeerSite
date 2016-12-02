@@ -1,4 +1,3 @@
-"use strict";
 function copyOwnFrom(target : any, source : any) {
     Object.getOwnPropertyNames(source).forEach(function (propName) {
         Object.defineProperty(target, propName, Object.getOwnPropertyDescriptor(source, propName));
@@ -6,7 +5,10 @@ function copyOwnFrom(target : any, source : any) {
     return target;
 }
 
-function InternalSymbol(name : string, props? : any) {
+export class InternalSymbol {
+  name : string;
+
+  constructor(name : string, props? : any) {
     this.name = name;
     if (props) {
         copyOwnFrom(this, props);
@@ -14,17 +16,17 @@ function InternalSymbol(name : string, props? : any) {
     if (Object.freeze) {
         Object.freeze(this);
     }
-}
-InternalSymbol.prototype = Object.create(null);
-InternalSymbol.prototype.constructor = InternalSymbol;
-InternalSymbol.prototype.toString = function () {
+  }
+
+  toString() {
     return "|" + this.name + "|";
-};
-if (Object.freeze) {
-    Object.freeze(InternalSymbol.prototype);
+  }
 }
-var Enum = function (obj : any) {
-    this._symbols = [];
+
+export default class Enum {
+  _symbols: InternalSymbol[];
+
+  constructor(obj: any) {
     if (Array.isArray(obj)) {
         obj.forEach(function (name : string) {
             this[name] = new InternalSymbol(name);
@@ -37,36 +39,33 @@ var Enum = function (obj : any) {
             this._symbols.push(this[name]);
         }, this);
     }
-    if (Object.freeze) {
-        Object.freeze(this);
-    }
-};
-Enum.prototype.toString = function (symbol) : string {
-    if (this.contains(symbol)) {
-        return symbol.toString();
-    }
+  }
 
-    throw new Error("symbol not part of this enum");
-};
-Enum.prototype.fromString = function (name : string) {
-    if (name.substr(0, 1) === "|" && name.substr(-1, 1) === "|") {
-        return this[name.substring(1, name.length - 1)];
-    }
+  toString (symbol : InternalSymbol) : string {
+      if (this.contains(symbol)) {
+          return symbol.toString();
+      }
 
-    return null;
-};
-Enum.prototype.symbols = function () {
-    return this._symbols;
-};
-Enum.prototype.symbolPosition = function (symbol) {
-    return this._symbols.indexOf(symbol);
-};
-Enum.prototype.contains = function (sym) : boolean {
-    if (!(sym instanceof InternalSymbol)) {
-        return false;
-    }
-    return this[sym.name] === sym;
-};
-Enum.prototype.Symbol = InternalSymbol;
+      throw new Error("symbol not part of this enum");
+  };
 
-export default Enum;
+  fromString (name : string) : InternalSymbol {
+      if (name.substr(0, 1) === "|" && name.substr(-1, 1) === "|") {
+          return this[name.substring(1, name.length - 1)];
+      }
+
+      return null;
+  };
+
+  symbols () : InternalSymbol[] {
+      return this._symbols;
+  };
+
+  symbolPosition (symbol : InternalSymbol) : number {
+      return this._symbols.indexOf(symbol);
+  };
+
+  contains (sym : InternalSymbol) : boolean {
+      return this[sym.name] === sym;
+  };
+}
