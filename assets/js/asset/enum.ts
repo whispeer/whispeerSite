@@ -5,7 +5,8 @@ function copyOwnFrom(target, source) {
     });
     return target;
 }
-function InternalSymbol(name, props?) {
+
+function InternalSymbol(name : string, props?) {
     this.name = name;
     if (props) {
         copyOwnFrom(this, props);
@@ -40,21 +41,19 @@ var Enum = function (obj) {
         Object.freeze(this);
     }
 };
-Enum.prototype.toString = function (symbol) {
+Enum.prototype.toString = function (symbol) : string {
     if (this.contains(symbol)) {
         return symbol.toString();
     }
-    else {
-        throw new Error("symbol not part of this enum");
-    }
+
+    throw new Error("symbol not part of this enum");
 };
-Enum.prototype.fromString = function (name) {
+Enum.prototype.fromString = function (name : string) {
     if (name.substr(0, 1) === "|" && name.substr(-1, 1) === "|") {
         return this[name.substring(1, name.length - 1)];
     }
-    else {
-        return null;
-    }
+
+    return null;
 };
 Enum.prototype.symbols = function () {
     return this._symbols;
@@ -62,7 +61,7 @@ Enum.prototype.symbols = function () {
 Enum.prototype.symbolPosition = function (symbol) {
     return this._symbols.indexOf(symbol);
 };
-Enum.prototype.contains = function (sym) {
+Enum.prototype.contains = function (sym) : boolean {
     if (!(sym instanceof InternalSymbol)) {
         return false;
     }
