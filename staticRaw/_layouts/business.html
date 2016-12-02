@@ -84,6 +84,7 @@
 			<section class="landing-section landing-section--background-primary">
 				<div class="landing-section__inner landing-section__inner--centered">
 					<h2 class="landing-section__heading landing-section__heading--centered">Die Basics für Jedermann/-frau.</h2>
+					<div class="animation-box">
 						{% for message in site.data.b2b.animation[page.lang].data %}
 							<div class="message message-s{{message.sender | plus: 1}} message-{{page.lang}}--i{{forloop.index}}{% if forloop.last == true or forloop.rindex0 == 1 %} message--infinity{% endif %}">
 								<span class="message-sender">{{site.data.b2b.animation[page.lang].senders[message.sender]}}</span>
