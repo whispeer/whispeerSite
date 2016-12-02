@@ -300,6 +300,22 @@ h1, h2, h3, h4, h5, h6 {
 		border-right: 1px solid rgba(0, 0, 0, 0.035);
 	}
 
+	.feature__detail {
+		background-position: calc(100vw - 380px) 120px;
+		@media (min-width: 881px) {
+			padding: 0 420px 0 2em;
+		}
+	}
+
+	&:nth-child(-n + 2) {
+		.feature__detail {
+			background-position: -120px 120px;
+			@media (min-width: 881px) {
+				padding: 0 0 0 420px;
+			}
+		}
+	}
+
 	@media (max-width: 1650px) {
 		.feature__short {
 			flex-wrap: wrap;
@@ -385,6 +401,15 @@ h1, h2, h3, h4, h5, h6 {
 	flex-shrink: 0;
 
 	background-color: $blue_grey;
+
+	transition: .2s background-color ease-in-out;
+}
+
+.feature:focus,
+.feature:hover {
+	.feature__polygon {
+		background-color: $primary_light;
+	}
 }
 
 .feature:focus {
@@ -395,8 +420,6 @@ h1, h2, h3, h4, h5, h6 {
 	}
 
 	.feature__polygon {
-		background-color: $primary_light;
-
 		&:after {
 			content: " ";
 
@@ -440,7 +463,6 @@ h1, h2, h3, h4, h5, h6 {
 	background-image: url("../images/encrypt_fast.png");
 	background-size: auto 100%;
 	background-repeat: no-repeat;
-	background-position: -120px 120px;
 
 	@media (max-width: 880px) {
 		position: relative;
@@ -455,7 +477,6 @@ h1, h2, h3, h4, h5, h6 {
 		position: absolute;
 		left: 0;
 		top: 321px;
-		padding: 0 0 0 420px;
 		height: 572px;
 	}
 
