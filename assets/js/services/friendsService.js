@@ -35,7 +35,7 @@ define(["whispeerHelper", "asset/observer", "asset/securedDataWithMetaData", "se
 
 		function createBasicData(ownUser, otherUser) {
 			var friendShipKey;
-		
+
 			//encr intermediate key w/ users cryptKey
 			return keyStore.sym.asymEncryptKey(
 				ownUser.getFriendsKey(),
@@ -77,7 +77,7 @@ define(["whispeerHelper", "asset/observer", "asset/securedDataWithMetaData", "se
 				}, { type: "removeFriend" }).sign(ownUser.getSignKey()	);
 
 				signedList.metaRemoveAttr(otherUser.getID());
-				
+
 				var signedListPromise = signedList.sign(ownUser.getSignKey());
 
 				return Bluebird.all([
@@ -175,7 +175,7 @@ define(["whispeerHelper", "asset/observer", "asset/securedDataWithMetaData", "se
 
 				return SecuredData.load(undefined, signedData, { type: "removeFriend" }).verify(user.getSignKey());
 			}).then(function () {
-				return friendsService.removeFriend(uid, this);
+				return friendsService.removeFriend(uid, null, true);
 			});
 		}
 
@@ -215,8 +215,10 @@ define(["whispeerHelper", "asset/observer", "asset/securedDataWithMetaData", "se
 					return result.friends;
 				}).nodeify(cb);
 			},
-			removeFriend: function (uid, cb) {
-				friendsService.ensureIsLoaded("removeFriend");
+			removeFriend: function (uid, cb, ignoreIsLoadedCheck) {
+				if (!ignoreIsLoadedCheck) {
+					friendsService.ensureIsLoaded("removeFriend");
+				}
 
 				if (friends.indexOf(uid) === -1 && removed.indexOf(uid) === -1) {
 					throw new Error("not a friend!");
