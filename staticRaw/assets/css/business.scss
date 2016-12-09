@@ -24,6 +24,9 @@ $polygon_small_font_size: 0.8em;
 
 $link_color: #1b676b;
 
+$large_heading_font: 48px;
+$large_heading_font_height: 48px;
+
 @import "mixins";
 @import "normalize";
 @import "caret-elements";
@@ -129,10 +132,10 @@ h1, h2, h3, h4, h5, h6 {
 .landing-section__heading {
 	margin: 24px 0;
 
-	font-size: 48px;
+	font-size: $large_heading_font;
 	font-weight: 100;
 
-	line-height: 48px;
+	line-height: $large_heading_font_height;
 
 	font-family: 'Roboto Condensed', sans-serif;
 
@@ -494,7 +497,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .detail__content__headline {
-	font-size: 72px;
+	font-size: $large_heading_font;
 	color: $complementary_blue;
 }
 
