@@ -317,13 +317,6 @@ h1, h2, h3, h4, h5, h6 {
 	}
 }
 
-@media (min-width: 1500px) {
-	.feature__detail {
-		background-position: calc(100vw - 380px) 120px;
-		padding-right: 420px;
-	}
-}
-
 .feature__short {
 	display: flex;
 	align-items: center;
@@ -468,6 +461,12 @@ h1, h2, h3, h4, h5, h6 {
 	}
 }
 
+@media (min-width: 1500px) {
+	.feature__detail {
+		background-position: calc(100vw - 380px) 120px;
+		padding-right: 420px;
+	}
+}
 
 .feature__detail {
 	display: flex;
