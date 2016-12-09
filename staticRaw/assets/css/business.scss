@@ -303,42 +303,24 @@ h1, h2, h3, h4, h5, h6 {
 		border-right: 1px solid rgba(0, 0, 0, 0.035);
 	}
 
-	.feature__detail {
-		background-position: calc(100vw - 380px) 120px;
-		@media (min-width: 881px) {
-			padding: 0 420px 0 2em;
-		}
-	}
-
 	&:nth-child(-n + 2) {
 		.feature__detail {
-			background-position: -120px 120px;
 			@media (min-width: 881px) {
-				padding: 0 0 0 420px;
+				background-position: -220px calc(100% + 120px);
+				padding: 0 2em 0 320px;
+			}
+			@media (min-width: 1500px) {
+				background-position: -120px 120px;
+				padding-left: 420px;
 			}
 		}
 	}
+}
 
-	@media (max-width: 1650px) {
-		.feature__short {
-			flex-wrap: wrap;
-		}
-		.feature__polygon {
-			width: 100%;
-			height: 128px;
-
-			margin-bottom: 0;
-			order: 2;
-		}
-	}
-
-	@media (max-width: 880px) {
-		width: 100%;
-		flex-wrap: wrap;
-	}
-
-	@media (min-width: 881px) {
-		height: 280px;
+@media (min-width: 1500px) {
+	.feature__detail {
+		background-position: calc(100vw - 380px) 120px;
+		padding-right: 420px;
 	}
 }
 
@@ -347,14 +329,6 @@ h1, h2, h3, h4, h5, h6 {
 	align-items: center;
 
 	height: 280px;
-
-	@media (max-width: 1650px) {
-		height: 321px;
-	}
-
-	@media (max-width: 880px) {
-		width: 100%;
-	}
 }
 
 .feature__description {
@@ -370,25 +344,6 @@ h1, h2, h3, h4, h5, h6 {
 
 .feature__description__text {
 	margin: 1.5rem 0;
-	@media (max-width: 1650px) {
-		height: 90px;
-	}
-
-	@media (max-width: 1270px) {
-		height: 120px;
-	}
-
-	@media (max-width: 1160px) {
-		height: 150px;
-	}
-
-	@media (max-width: 940px) {
-		height: 180px;
-	}
-
-	@media (max-width: 880px) {
-		height: auto;
-	}
 }
 
 .feature__polygon {
@@ -406,6 +361,165 @@ h1, h2, h3, h4, h5, h6 {
 	background-color: $blue_grey;
 
 	transition: .2s background-color ease-in-out;
+}
+
+@media (max-width: 1650px) {
+	.feature, .feature__short {
+		height: 321px;
+	}
+
+	.feature__detail {
+		top: 321px;
+	}
+
+	.feature__short {
+		flex-wrap: wrap;
+	}
+
+	.feature__polygon {
+		width: 100%;
+		height: 128px;
+
+		margin-bottom: 0;
+		order: 2;
+	}
+
+	.feature__description__text {
+		height: 90px;
+	}
+}
+
+@media (min-width: 1161px) and (max-width: 1270px) {
+	.feature, .feature__short {
+		height: 351px;
+	}
+
+	.feature__detail {
+		top: 351px;
+	}
+
+	.feature__description__text {
+		height: 120px;
+	}
+}
+
+@media (min-width: 941px) and (max-width: 1160px) {
+	.feature, .feature__short {
+		height: 381px;
+	}
+
+	.feature__detail {
+		top: 381px;
+	}
+
+	.feature__description__text {
+		height: 150px;
+	}
+}
+
+@media (min-width: 881px) and (max-width: 940px) {
+	.feature, .feature__short {
+		height: 411px;
+	}
+
+	.feature__detail {
+		top: 411px;
+	}
+
+	.feature__description__text {
+		height: 180px;
+	}
+}
+
+@media (max-width: 880px) {
+	.feature {
+		height: auto;
+		width: 100%;
+		flex-wrap: wrap;
+	}
+
+	.feature__short {
+		width: 100%;
+	}
+
+	.feature__description__text {
+		height: auto;
+	}
+}
+
+@media (min-width: 881px) {
+	.feature__detail {
+		background-position: calc(100vw - 280px) calc(100% + 120px);
+		padding: 0 320px 0 2em;
+	}
+}
+
+
+.feature__detail {
+	display: flex;
+	flex-direction: column;
+
+	visibility: hidden;
+	box-sizing: border-box;
+
+	width: 100%;
+
+	background-color: $light_grey;
+
+	background-image: url("../images/encrypt_fast.png");
+	background-size: auto 100%;
+	background-repeat: no-repeat;
+
+	@media (max-width: 880px) {
+		position: relative;
+		display: none;
+		top: 0;
+
+		padding: 0 1em;
+
+		background: none;
+	}
+
+	@media (min-width: 881px) {
+		position: absolute;
+		left: 0;
+		height: 572px;
+	}
+
+	@media (min-width: 1651px) {
+		top: 280px;
+	}
+}
+
+.detail__content {
+	margin: auto 0;
+
+	@media (max-width: 880px) {
+		margin-bottom: 34px;
+	}
+}
+
+.detail__content__headline {
+	font-size: $large_heading_font;
+	color: $complementary_blue;
+}
+
+.detail__content__text {
+	max-width: 1080px;
+}
+
+.detail__close {
+	position: absolute;
+	top: 1em;
+	right: 1em;
+
+	color: $blue_grey;
+
+	transition: 0.1s color ease-in-out;
+
+	&:hover {
+		color: darken($blue_grey, 5%);
+	}
 }
 
 .feature:focus,
@@ -449,73 +563,6 @@ h1, h2, h3, h4, h5, h6 {
 		@media (max-width: 880px) {
 			display: flex;
 		}
-	}
-}
-
-.feature__detail {
-	display: flex;
-	flex-direction: column;
-
-	visibility: hidden;
-	box-sizing: border-box;
-
-	width: 100%;
-
-	background-color: $light_grey;
-
-	background-image: url("../images/encrypt_fast.png");
-	background-size: auto 100%;
-	background-repeat: no-repeat;
-
-	@media (max-width: 880px) {
-		position: relative;
-		display: none;
-
-		padding: 0 1em;
-
-		background: none;
-	}
-
-	@media (min-width: 881px) {
-		position: absolute;
-		left: 0;
-		top: 321px;
-		height: 572px;
-	}
-
-	@media (min-width: 1651px) {
-		top: 280px;
-	}
-}
-
-.detail__content {
-	margin: auto 0;
-
-	@media (max-width: 880px) {
-		margin-bottom: 34px;
-	}
-}
-
-.detail__content__headline {
-	font-size: $large_heading_font;
-	color: $complementary_blue;
-}
-
-.detail__content__text {
-	max-width: 1080px;
-}
-
-.detail__close {
-	position: absolute;
-	top: 1em;
-	right: 1em;
-
-	color: $blue_grey;
-
-	transition: 0.1s color ease-in-out;
-
-	&:hover {
-		color: darken($blue_grey, 5%);
 	}
 }
 
