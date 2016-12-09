@@ -363,6 +363,24 @@ h1, h2, h3, h4, h5, h6 {
 	transition: .2s background-color ease-in-out;
 }
 
+@media (max-width: 2495px) {
+	.feature__description__text {
+		height: 90px;
+	}
+}
+
+@media (min-width: 1800px) and (max-width: 1910px) {
+	.feature__description__text {
+		height: 120px;
+	}
+}
+
+@media (min-width: 1651px) and (max-width: 1799px) {
+	.feature__description__text {
+		height: 150px;
+	}
+}
+
 @media (max-width: 1650px) {
 	.feature, .feature__short {
 		height: 321px;
@@ -382,10 +400,6 @@ h1, h2, h3, h4, h5, h6 {
 
 		margin-bottom: 0;
 		order: 2;
-	}
-
-	.feature__description__text {
-		height: 90px;
 	}
 }
 
