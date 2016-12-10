@@ -35,18 +35,23 @@ var plugins = [
 	}),
 ];
 
+var bail = false;
+
 if (process.env.WHISPEER_ENV !== "development") {
 	plugins.push(new webpack.optimize.UglifyJsPlugin());
+	bail = true;
 }
 
-module.exports = {
+var config = {
 	context: path.resolve("./assets/js"),
 	plugins: plugins,
 	devtool: "inline-source-map",
+	bail: bail,
 	resolve: {
 		root: [
 			path.resolve("./assets/js")
 		],
+		extensions: ["", ".webpack.js", ".web.js", ".ts", ".tsx", ".js"],
 		alias: {
 			text: "bower/requirejs-plugins/lib/text",
 			json: "bower/requirejs-plugins/src/json",
@@ -73,7 +78,9 @@ module.exports = {
 		loaders: [
 			{ test: /angular/, loader: "exports?angular!imports?jquery" },
 			{ test: /localizationModule/, loader: "imports?jquery" },
-			{ test: /\.html$/, loader: "ngtemplate?relativeTo=assets/views/!html?-attrs" }
+			{ test: /\.html$/, loader: "ngtemplate?relativeTo=assets/views/!html?-attrs" },
+			// all files with a `.ts` or `.tsx` extension will be handled by `ts-loader`
+			{ test: /\.tsx?$/, loader: "ts-loader" }
 		]
 	},
 	entry: {
@@ -89,3 +96,5 @@ module.exports = {
 		filename: "[name].bundle.js"
 	}
 };
+
+module.exports = config;
