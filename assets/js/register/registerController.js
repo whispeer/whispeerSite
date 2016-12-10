@@ -14,7 +14,7 @@ define([
 	"use strict";
 
 	function registerController($scope, $timeout, errorService, registerService, locationService) {
-		var registerState = new State();
+		var registerState = new State.default();
 
 		function hasLocalStorage() {
 			try {

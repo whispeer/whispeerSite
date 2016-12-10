@@ -8,22 +8,22 @@ define(["whispeerHelper", "bluebird", "asset/state", "libs/qr", "controllers/con
 	function settingsController($scope, $timeout, errorService, cssService, sessionHelper, settingsService, userService, filterService, localize) {
 		cssService.setClass("settingsView", true);
 
-		var saveSafetyState = new State();
+		var saveSafetyState = new State.default();
 		$scope.saveSafetyState = saveSafetyState.data;
 
-		var resetSafetyState = new State();
+		var resetSafetyState = new State.default();
 		$scope.resetSafetyState = resetSafetyState.data;
 
-		var saveNameState = new State();
+		var saveNameState = new State.default();
 		$scope.saveNameState = saveNameState.data;
 
-		var saveMailState = new State();
+		var saveMailState = new State.default();
 		$scope.saveMailState = saveMailState.data;
 
-		var savePasswordState = new State();
+		var savePasswordState = new State.default();
 		$scope.savePasswordState = savePasswordState.data;
 
-		var saveGeneralState = new State();
+		var saveGeneralState = new State.default();
 		$scope.saveGeneralState = saveGeneralState.data;
 
 		$scope.safetySorted = ["birthday", "location", "relationship", "education", "work", "gender", "languages"];

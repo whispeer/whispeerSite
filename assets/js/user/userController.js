@@ -13,7 +13,7 @@ define(["whispeerHelper", "bluebird", "asset/resizableImage", "asset/state", "us
 
 		var resizableImage = new ResizableImage();
 
-		var saveUserState = new State();
+		var saveUserState = new State.default();
 		$scope.saveUserState = saveUserState.data;
 
 		$scope.user = {};
@@ -209,7 +209,7 @@ define(["whispeerHelper", "bluebird", "asset/resizableImage", "asset/state", "us
 			}
 		};
 
-		var circleState = new State();
+		var circleState = new State.default();
 
 		$scope.circles = {
 			initial: function () {

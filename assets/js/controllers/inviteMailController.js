@@ -8,7 +8,7 @@ define(["bluebird", "whispeerHelper", "asset/state", "controllers/controllerModu
 	function inviteController($scope, socketService, errorService, localize) {
 		$scope.inviteMails = [""];
 
-		var inviteMailState = new State();
+		var inviteMailState = new State.default();
 		$scope.inviteMailState = inviteMailState.data;
 
 		$scope.addInviteMail = function () {

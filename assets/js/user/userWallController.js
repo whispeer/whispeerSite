@@ -15,7 +15,7 @@ define(["bluebird", "whispeerHelper", "bluebird", "asset/resizableImage", "asset
 			text: ""
 		};
 
-		var sendPostState = new State();
+		var sendPostState = new State.default();
 		$scope.sendPostState = sendPostState.data;
 
 		$scope.sendPost = function () {

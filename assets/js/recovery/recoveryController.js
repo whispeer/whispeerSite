@@ -51,10 +51,10 @@ define([
 			enabled: $scope.codeProvided
 		};
 
-		var savePasswordState = new State();
+		var savePasswordState = new State.default();
 		$scope.savePasswordState = savePasswordState.data;
 
-		var loadBackupKeyState = new State();
+		var loadBackupKeyState = new State.default();
 		$scope.loadBackupKeyState = loadBackupKeyState.data;
 
 		$scope.pwValidationOptions = {
@@ -142,7 +142,7 @@ define([
 			}).catch(errorService.criticalError);
 		};
 
-		var requestState = new State();
+		var requestState = new State.default();
 		$scope.request = {
 			identifier: "",
 			state: requestState.data,

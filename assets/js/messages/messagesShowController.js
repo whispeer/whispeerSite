@@ -8,7 +8,7 @@ define(["jquery", "whispeerHelper", "asset/state", "bluebird", "messages/message
 	"use strict";
 
 	function messagesController($scope, $element, $state, $stateParams, $timeout, localize, errorService, messageService, ImageUploadService, TopicUpdate) {
-		var topicLoadingState = new State();
+		var topicLoadingState = new State.default();
 		$scope.topicLoadingState = topicLoadingState.data;
 
 		var topicID = h.parseDecimal($stateParams.topicid);
@@ -94,7 +94,7 @@ define(["jquery", "whispeerHelper", "asset/state", "bluebird", "messages/message
 
 		errorService.failOnErrorPromise(topicLoadingState, loadTopicsPromise);
 
-		var sendMessageState = new State();
+		var sendMessageState = new State.default();
 		$scope.sendMessageState = sendMessageState.data;
 
 		$scope.sendMessage = function () {

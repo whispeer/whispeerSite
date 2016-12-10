@@ -4,7 +4,7 @@ define(["bluebird", "asset/state", "verifyMail/verifyMailModule", "services/sock
 	function verifyMailController($scope, socketService, errorService) {
 		$scope.mails = true;
 
-		var verifying = new SuccessState();
+		var verifying = new SuccessState.default();
 		$scope.verifying = verifying;
 
 		var parts = window.location.pathname.split("/");

@@ -30,7 +30,7 @@ define(["bluebird", "whispeerHelper", "asset/state", "controllers/controllerModu
 
 		$scope.showDonateHint = false;
 
-		var applyFilterState = new State();
+		var applyFilterState = new State.default();
 		$scope.applyFilterState = applyFilterState.data;
 
 		$scope.filterSelection = settingsService.getBranch("filterSelection");

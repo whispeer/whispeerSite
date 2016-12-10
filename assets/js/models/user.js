@@ -82,8 +82,8 @@ define(["whispeerHelper", "asset/state", "asset/securedDataWithMetaData", "model
 			var theUser = this, mainKey, signKey, cryptKey, friendShipKey, friendsKey, migrationState, signedKeys, signedOwnKeys;
 			var id, mail, nickname, publicProfile, privateProfiles = [], myProfile, mutualFriends;
 
-			var addFriendState = new State();
-			var ignoreFriendState = new State();
+			var addFriendState = new State.default();
+			var ignoreFriendState = new State.default();
 
 			var basicDataLoaded = false;
 

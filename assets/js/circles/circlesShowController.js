@@ -2,7 +2,7 @@ define(["controllers/controllerModule", "whispeerHelper", "bluebird", "asset/sta
 	"use strict";
 
 	function circlesShowController($scope, circleService, errorService, localize, $stateParams, $state) {
-		var addUsersToCircleState = new State();
+		var addUsersToCircleState = new State.default();
 		$scope.addUsersToCircle = addUsersToCircleState.data;
 
 		$scope.circleid = $stateParams.circleid;

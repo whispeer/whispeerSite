@@ -5,7 +5,7 @@ define(["bluebird", "asset/state", "controllers/controllerModule"], function (Bl
 	function acceptInviteController($scope, cssService, socketService, errorService) {
 		cssService.setClass("acceptInviteView");
 
-		var acceptInviteState = new State();
+		var acceptInviteState = new State.default();
 		$scope.acceptInviteState = acceptInviteState.data;
 
 		$scope.code = "";

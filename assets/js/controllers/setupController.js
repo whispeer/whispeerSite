@@ -8,7 +8,7 @@ define(["bluebird", "whispeerHelper", "asset/state", "libs/qr", "libs/filesaver"
 	function setupController($scope, $state, cssService, errorService, userService, settingsService) {
 		cssService.setClass("setupView");
 
-		var saveSetupState = new State();
+		var saveSetupState = new State.default();
 		$scope.saveSetupState = saveSetupState.data;
 
 		$scope.profileSaved = false;
