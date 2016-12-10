@@ -24,7 +24,7 @@ export class InternalSymbol {
 }
 
 export default class Enum {
-  _symbols: InternalSymbol[];
+  _symbols: InternalSymbol[] = [];
 
   constructor(obj: any) {
     if (Array.isArray(obj)) {
