@@ -239,6 +239,18 @@ h1, h2, h3, h4, h5, h6 {
 	}
 }
 
+.form__checkbox-label {
+	display: block;
+	width: 100%;
+}
+
+.form__checkbox {
+	float: left;
+	margin-top: 21px;
+	width: 28px;
+	transform: scale(2);
+}
+
 .landing-section__upper-quote {
 	padding: 83px 0;
 
