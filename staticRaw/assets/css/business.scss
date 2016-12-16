@@ -490,7 +490,6 @@ h1, h2, h3, h4, h5, h6 {
 
 	background-color: $light_grey;
 
-	background-image: url("../images/encrypt_fast.png");
 	background-size: auto 572px;
 	background-repeat: no-repeat;
 
@@ -521,6 +520,19 @@ h1, h2, h3, h4, h5, h6 {
 	@media (min-width: 1651px) {
 		top: 280px;
 	}
+}
+
+#feature__detail--easy {
+	background-image: url("../images/features/easy.svg");
+}
+#feature__detail--secure {
+	background-image: url("../images/features/fast_secure.svg");
+}
+#feature__detail--flexbile {
+	background-image: url("../images/features/flexbile.svg");
+}
+#feature__detail--representative {
+	background-image: url("../images/features/representative.svg");
 }
 
 .detail__content {
