@@ -60,6 +60,16 @@ h1, h2, h3, h4, h5, h6 {
 	font-family: 'Roboto Condensed', sans-serif;
 }
 
+.header-brand--normal {
+	display: inline-block;
+	height: 30px;
+	line-height: 36px;
+	margin: auto 0;
+
+	font-family: 'Roboto Condensed', sans-serif !important;
+	font-weight: 100;
+}
+
 #landing-section__logo {
 	width: 350px;
 }
