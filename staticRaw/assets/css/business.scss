@@ -566,10 +566,14 @@ h1, h2, h3, h4, h5, h6 {
 	}
 }
 
-.feature:focus,
 .feature:hover {
 	.feature__polygon {
 		background-color: $primary_light;
+	}
+}
+.feature:hover {
+	.feature__polygon {
+		background-color: #5ab70d;
 	}
 }
 
