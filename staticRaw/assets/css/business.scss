@@ -306,12 +306,13 @@ h1, h2, h3, h4, h5, h6 {
 	&:nth-child(-n + 2) {
 		.feature__detail {
 			@media (min-width: 881px) {
-				background-position: -220px calc(100% + 120px);
-				padding: 0 2em 0 320px;
+				background-position: calc(100vw - 280px) calc(100% + 120px);
+				padding: 0 320px 0 2em;
 			}
+
 			@media (min-width: 1500px) {
-				background-position: -120px 120px;
-				padding-left: 420px;
+				background-position: calc(100vw - 380px) 120px;
+				padding-right: 420px;
 			}
 		}
 	}
@@ -456,15 +457,15 @@ h1, h2, h3, h4, h5, h6 {
 
 @media (min-width: 881px) {
 	.feature__detail {
-		background-position: calc(100vw - 280px) calc(100% + 120px);
-		padding: 0 320px 0 2em;
+		background-position: -220px calc(100% + 120px);
+		padding: 0 2em 0 320px;
 	}
 }
 
 @media (min-width: 1500px) {
 	.feature__detail {
-		background-position: calc(100vw - 380px) 120px;
-		padding-right: 420px;
+		background-position: -120px 120px;
+		padding-left: 420px;
 	}
 }
 
