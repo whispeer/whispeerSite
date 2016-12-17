@@ -4,7 +4,7 @@ define (["whispeerHelper", "asset/observer", "asset/securedDataWithMetaData", "a
 
 	var sortedTrustStates = ["BROKEN", "UNTRUSTED", "TIMETRUSTED", "WHISPEERVERIFIED", "NETWORKVERIFIED", "VERIFIED", "OWN"];
 
-	var trustStates = new Enum(sortedTrustStates);
+	var trustStates = new Enum.default(sortedTrustStates);
 
 	sortedTrustStates = sortedTrustStates.map(function (trustLevel) {
 		return trustStates.fromString("|" + trustLevel + "|");
