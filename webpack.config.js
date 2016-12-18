@@ -5,6 +5,21 @@ process.env.WHISPEER_ENV = process.env.WHISPEER_ENV || "development";
 
 var UnusedFilesWebpackPlugin = require("unused-files-webpack-plugin")["default"];
 
+var unusedFiles = new UnusedFilesWebpackPlugin({
+	globOptions: {
+		ignore: [
+			"node_modules/**/*",
+			"bower/**/*",
+			"**/*.json",
+			"**/*.md",
+			"**/*.markdown",
+			"build/*",
+			"crypto/sjclWorker.js",
+			"worker/worker.js",
+		]
+	}
+});
+
 var plugins = [
 	new webpack.optimize.CommonsChunkPlugin({
 		names: "commons",
@@ -19,20 +34,7 @@ var plugins = [
 	new webpack.DefinePlugin({
 		"WHISPEER_ENV": JSON.stringify(process.env.WHISPEER_ENV)
 	}),
-	new UnusedFilesWebpackPlugin({
-		globOptions: {
-			ignore: [
-				"node_modules/**/*",
-				"bower/**/*",
-				"**/*.json",
-				"**/*.md",
-				"**/*.markdown",
-				"build/*",
-				"crypto/sjclWorker.js",
-				"worker/worker.js",
-			]
-		}
-	}),
+	unusedFiles
 ];
 
 var bail = false;

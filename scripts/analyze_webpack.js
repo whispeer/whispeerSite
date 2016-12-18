@@ -23,7 +23,7 @@ function analyze(data) {
 		return {
 			identifier: m.identifier,
 			size: bytes.format(m.size),
-			percent: Math.floor(m.size / bundleSize * 100)
+			percent: m.size / bundleSize * 100
 		};
 	});
 
