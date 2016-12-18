@@ -55,7 +55,7 @@ grunt.initConfig({
 	},
 	concurrent: {
 		development: {
-			tasks: ["server", "watch", "run:webpackWatch", "run:webpackWorkerWatch"],
+			tasks: ["server", "watch"],
 			options: {
 				logConcurrentOutput: true
 			}
@@ -167,20 +167,6 @@ grunt.initConfig({
 		}
 	},
 	run: {
-		webpackWatch: {
-			cmd: "webpack",
-			args: [
-				"--watch"
-			]	
-		},
-		webpackWorkerWatch: {
-			cmd: "webpack",
-			args: [
-				"--watch",
-				"--config",
-				"webpack.worker.config.js"
-			]	
-		},
 		webpack: {
 			cmd: "webpack"
 		},
@@ -189,7 +175,7 @@ grunt.initConfig({
 			args: [
 				"--config",
 				"webpack.worker.config.js"
-			]	
+			]
 		},
 		buildsjcl: {
 			cmd: "./scripts/build-sjcl.sh"
@@ -253,18 +239,6 @@ grunt.task.registerMultiTask("includes", "Add the correct script include to the 
 
 		grunt.file.write(file, fileContent);
 	});
-});
-
-grunt.task.registerTask("scriptInclude", "Add the correct script include to the index.html", function () {
-	var include = grunt.file.expand("assets/js/build/*.js");
-	if(include.length === 1) {
-		var index = grunt.file.read("index.html");
-
-		index = index.replace(/<script.*/, "<script src='" + include[0] + "'></script>");
-		grunt.file.write("index.html", index);
-	} else {
-		throw new Error("No build file!");
-	}
 });
 
 function getCurrentCommitHash() {
@@ -402,15 +376,19 @@ grunt.task.registerMultiTask("assetHash", "Hash a file and rename the file to th
 });
 
 
-grunt.registerTask("default", ["build:development", "browserSync", "concurrent:development"]);
+grunt.registerTask("default", ["build:pre", "browserSync", "concurrent:development"]);
 
-grunt.registerTask("build:development", [
+grunt.registerTask("build:pre", [
 	"clean",
 	"copy",
 	"bower-install-simple",
 	"less",
 	"autoprefixer",
 	"run:buildsjcl",
+]);
+
+grunt.registerTask("build:development", [
+	"build:pre",
 	"run:webpackWorker",
 	"run:webpack",
 	"includes",

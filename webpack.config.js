@@ -11,7 +11,7 @@ var plugins = [
 		filename: "commons.bundle.js",
 
 		minChunks: 2,
-		chunks: ["login", "register", "main"]
+		chunks: ["login", "register", "main", "recovery", "verifyMail"]
 	}),
 	new webpack.optimize.MinChunkSizePlugin({
 		minChunkSize: 2048
@@ -38,7 +38,11 @@ var plugins = [
 var bail = false;
 
 if (process.env.WHISPEER_ENV !== "development") {
-	plugins.push(new webpack.optimize.UglifyJsPlugin());
+	plugins.push(new webpack.optimize.UglifyJsPlugin({
+		compress: {
+			warnings: false
+		}
+	}));
 	bail = true;
 }
 
@@ -81,6 +85,11 @@ var config = {
 			{ test: /\.html$/, loader: "ngtemplate?relativeTo=assets/views/!html?-attrs" },
 			// all files with a `.ts` or `.tsx` extension will be handled by `ts-loader`
 			{ test: /\.tsx?$/, loader: "ts-loader" }
+		],
+		noParse: [
+			/sjcl\.js$/,
+			/socket\.io\.js$/,
+			/visionmedia-debug\/.*debug\.js$/,
 		]
 	},
 	entry: {
