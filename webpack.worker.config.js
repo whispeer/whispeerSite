@@ -6,7 +6,11 @@ process.env.WHISPEER_ENV = process.env.WHISPEER_ENV || "development";
 var plugins = [];
 
 if (process.env.WHISPEER_ENV !== "development") {
-	plugins.push(new webpack.optimize.UglifyJsPlugin());
+	plugins.push(new webpack.optimize.UglifyJsPlugin({
+		compress: {
+			warnings: false
+		}
+	}));
 }
 
 module.exports = {
