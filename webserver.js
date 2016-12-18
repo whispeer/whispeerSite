@@ -57,11 +57,28 @@ function buildCSPConfig() {
 	return csp;
 }
 
+var locales = ["en", "de"];
+
+function getPossibleLocale(acceptLanguageHeader) {
+	var languages = acceptLanguageHeader.split(",").map(function (lang) {
+		return lang.split(";")[0].split("-")[0];
+	}).filter(function (lang) {
+		return locales.indexOf(lang) !== -1;
+	});
+
+	return languages[0] || locales[0];
+}
+
 function run() {
 	/* jshint validthis: true */
 
 	"use strict";
-	var nstatic = require("node-static");
+	var express = require('express');
+	var app = express();
+	var router = express.Router();
+	var webpack = require("webpack");
+	var webpackConfig = require("./webpack.config.js");
+	var webpackWorkerConfig = require("./webpack.worker.config.js");
 
 	var WHISPEER_PORT = process.env.WHISPEER_PORT || 8080;
 
@@ -84,20 +101,6 @@ function run() {
 		csp = "";
 	}
 
-	var staticServer = new nstatic.Server("./static", {
-		"headers": {
-			"Cache-Control": "no-cache, must-revalidate",
-			"Content-Security-Policy": csp
-		}
-	});
-
-	var mainServer = new nstatic.Server(".", {
-		"headers": {
-			"Cache-Control": "no-cache, must-revalidate",
-			"Content-Security-Policy": csp
-		}
-	});
-
 	var angular = [
 		"user",
 		"messages",
@@ -117,51 +120,21 @@ function run() {
 
 	grunt.log.writeln("Starting webserver...");
 
-	var locales = ["en", "de"];
+	var webpackMiddleware = require("webpack-dev-middleware");
+	app.use(webpackMiddleware(webpack(webpackConfig), {
+		publicPath: "/assets/js/build/",
+	}));
 
-	function Responder(request, response) {
-		this._request = request;
-		this._response = response;
-	}
+	app.use(webpackMiddleware(webpack(webpackWorkerConfig), {
+		publicPath: "/assets/js/build/",
+	}));
 
-	Responder.prototype.ifError = function (cb) {
-		return function (e) {
-			if (e && (e.status === 404)) {
-				cb.apply(this, arguments);
-			}
-		}.bind(this);
-	};
+	router.use("/assets", express.static('assets'))
+	router.use("/", express.static('static'))
+	router.all("*", function (req, res, next) {
+		var paths = req.originalUrl.split(/\/|\?/);
 
-	Responder.prototype.serveStatic = function () {
-		staticServer.serve(this._request, this._response, this.ifError(this.serveMain));
-	};
-
-	Responder.prototype.serveMain = function () {
-		mainServer.serve(this._request, this._response, this.ifError(this.serveAngular));
-	};
-
-	Responder.prototype.getPossibleLocale = function () {
-		var languages = this._request.headers["accept-language"].split(",").map(function (lang) {
-			return lang.split(";")[0];
-		}).filter(function (lang) {
-			return locales.indexOf(lang) !== -1;
-		});
-
-		return languages[0] || locales[0];
-	};
-
-	Responder.prototype.redirectLocale = function () {
-		var redirectUrl = "/" + this.getPossibleLocale() + this._request.url;
-
-		this._response.writeHead(302, {
-			Location: redirectUrl
-		});
-		this._response.write("Found - Redirecting");
-		this._response.end();
-	};
-
-	Responder.prototype.serveAngular = function () {
-		var paths = this._request.url.split(/\/|\?/);
+		var redirectLocale = getPossibleLocale(req.get("accept-language"));
 
 		paths = paths.filter(function (path) {
 			return path !== "";
@@ -175,29 +148,20 @@ function run() {
 		}
 
 		if (!hasLocale) {
-			this.redirectLocale();
+			res.redirect("/" + redirectLocale + req.originalUrl);
 		} else if (paths[0] === "recovery") {
-			staticServer.serveFile(possibleLocale + "/recovery/index.html", 200, {}, this._request, this._response);
+			res.sendFile(__dirname + possibleLocale + "/recovery/index.html");
 		} else if (paths.length === 0 || angular.indexOf(paths[0]) > -1) {
-			mainServer.serveFile("/index.html", 200, {}, this._request, this._response);
+			res.sendFile(__dirname + "/index.html");
 		} else if (paths[0] === "verifyMail") {
-			staticServer.serveFile(possibleLocale + "/verifyMail/index.html", 200, {}, this._request, this._response);
+			res.sendFile(__dirname + possibleLocale + "/verifyMail/index.html");
 		} else {
-			this.write404.apply(this, arguments);
+			next();
 		}
-	};
+	});
 
-	Responder.prototype.write404 = function (e) {
-		this._response.writeHead(e.status, e.headers);
-		this._response.write("Not found");
-		this._response.end();
-	};
-
-	require("http").createServer(function (request, response) {
-		var responder = new Responder(request, response);
-
-		request.addListener("end", responder.serveStatic.bind(responder)).resume();
-	}).listen(WHISPEER_PORT);
+	app.use(router);
+	app.listen(WHISPEER_PORT);
 
 	grunt.log.writeln("Whispeer web server started on port " + WHISPEER_PORT);
 

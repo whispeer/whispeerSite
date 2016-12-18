@@ -5,13 +5,28 @@ process.env.WHISPEER_ENV = process.env.WHISPEER_ENV || "development";
 
 var UnusedFilesWebpackPlugin = require("unused-files-webpack-plugin")["default"];
 
+var unusedFiles = new UnusedFilesWebpackPlugin({
+	globOptions: {
+		ignore: [
+			"node_modules/**/*",
+			"bower/**/*",
+			"**/*.json",
+			"**/*.md",
+			"**/*.markdown",
+			"build/*",
+			"crypto/sjclWorker.js",
+			"worker/worker.js",
+		]
+	}
+});
+
 var plugins = [
 	new webpack.optimize.CommonsChunkPlugin({
 		names: "commons",
 		filename: "commons.bundle.js",
 
 		minChunks: 2,
-		chunks: ["login", "register", "main"]
+		chunks: ["login", "register", "main", "recovery", "verifyMail"]
 	}),
 	new webpack.optimize.MinChunkSizePlugin({
 		minChunkSize: 2048
@@ -19,33 +34,26 @@ var plugins = [
 	new webpack.DefinePlugin({
 		"WHISPEER_ENV": JSON.stringify(process.env.WHISPEER_ENV)
 	}),
-	new UnusedFilesWebpackPlugin({
-		globOptions: {
-			ignore: [
-				"node_modules/**/*",
-				"bower/**/*",
-				"**/*.json",
-				"**/*.md",
-				"**/*.markdown",
-				"build/*",
-				"crypto/sjclWorker.js",
-				"worker/worker.js",
-			]
-		}
-	}),
+	unusedFiles
 ];
 
 var bail = false;
+var devtool = "inline-source-map";
 
 if (process.env.WHISPEER_ENV !== "development") {
-	plugins.push(new webpack.optimize.UglifyJsPlugin());
+	plugins.push(new webpack.optimize.UglifyJsPlugin({
+		compress: {
+			warnings: false
+		}
+	}));
 	bail = true;
+	devtool = "source-map";
 }
 
 var config = {
 	context: path.resolve("./assets/js"),
 	plugins: plugins,
-	devtool: "inline-source-map",
+	devtool: devtool,
 	bail: bail,
 	resolve: {
 		root: [
@@ -76,11 +84,16 @@ var config = {
 	},
 	module: {
 		loaders: [
-			{ test: /angular/, loader: "exports?angular!imports?jquery" },
+			{ test: /angular/, loader: "imports?jquery!exports?angular" },
 			{ test: /localizationModule/, loader: "imports?jquery" },
 			{ test: /\.html$/, loader: "ngtemplate?relativeTo=assets/views/!html?-attrs" },
 			// all files with a `.ts` or `.tsx` extension will be handled by `ts-loader`
 			{ test: /\.tsx?$/, loader: "ts-loader" }
+		],
+		noParse: [
+			/sjcl\.js$/,
+			/socket\.io\.js$/,
+			/visionmedia-debug\/.*debug\.js$/,
 		]
 	},
 	entry: {
