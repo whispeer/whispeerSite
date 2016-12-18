@@ -61,7 +61,7 @@ var locales = ["en", "de"];
 
 function getPossibleLocale(acceptLanguageHeader) {
 	var languages = acceptLanguageHeader.split(",").map(function (lang) {
-		return lang.split(";")[0];
+		return lang.split(";")[0].split("-")[0];
 	}).filter(function (lang) {
 		return locales.indexOf(lang) !== -1;
 	});
