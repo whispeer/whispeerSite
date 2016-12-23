@@ -9,7 +9,7 @@
 
 		if(event.srcElement.checkValidity()) {
 			var data = {
-				"username": document.getElementById("signup_name").value,
+				"name": document.getElementById("signup_name").value,
 				"mail": document.getElementById("signup_mail").value
 			};
 
