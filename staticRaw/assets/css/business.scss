@@ -799,6 +799,20 @@ h1, h2, h3, h4, h5, h6 {
 	display: none;
 }
 
+@keyframes fade {
+	0% {
+		opacity: 1;
+	}
+	99% {
+		opacity: 0;
+	}
+	100% {
+		opacity: 0;
+		height: 0;
+		overflow: hidden;
+	}
+}
+
 @-webkit-keyframes fade {
 	0% {
 		opacity: 1;

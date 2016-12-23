@@ -7,7 +7,7 @@
 	form.addEventListener("submit", function(event) {
 		event.preventDefault();
 
-		if(event.srcElement.checkValidity()) {
+		if(this.checkValidity()) {
 			var data = {
 				"name": document.getElementById("signup_name").value,
 				"mail": document.getElementById("signup_mail").value
@@ -15,7 +15,7 @@
 
 			document.getElementById("account_teaser").classList.add("fade-out");
 
-			event.srcElement.classList.add("fade-out");
+			this.classList.add("fade-out");
 
 			document.getElementById("mail_signup-after-send").classList.add("fade-in");
 
