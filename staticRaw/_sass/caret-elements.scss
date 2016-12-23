@@ -64,6 +64,12 @@
 		background: $primary_light;
 
 		color: #ffffff;
+
+		cursor: pointer;
+
+		&:focus, &:active {
+			outline: none !important;
+		}
 	}
 
 	&:before, &:after,

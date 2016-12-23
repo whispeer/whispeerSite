@@ -239,16 +239,65 @@ h1, h2, h3, h4, h5, h6 {
 	}
 }
 
-.form__checkbox-label {
-	display: block;
-	width: 100%;
+.form__row {
+	margin: 2em 0;
 }
 
+.form__checkbox-label {
+	display: flex;
+	width: 100%;
+
+	align-items: center;
+}
+
+// ugly hack required for firefox to work...
 .form__checkbox {
-	float: left;
-	margin-top: 21px;
-	width: 28px;
-	transform: scale(2);
+	opacity: 0;
+}
+
+.form__checkbox-style {
+	margin: auto;
+
+	appearance: none;
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	width: 2em;
+	height: 2em;
+
+	background-size: 100%;
+	background-repeat: no-repeat;
+	background-position: center center;
+
+	background-image: url("/assets/images/icons/checkbox_empty.svg");
+
+	outline: none !important;
+}
+
+.form__checkbox:checked + .form__checkbox-style {
+	background-image: url("/assets/images/icons/checkbox_checked.svg");
+}
+
+.form__label-text {
+	margin: auto auto auto 1em;
+}
+
+.landing-section__after-send {
+	display: none;
+}
+
+.after-send__finished {
+	display: flex;
+
+	height: 72px;
+	align-items: center;
+}
+
+.after-send__finished__icon {
+	width: 3em;
+}
+
+.after-send__finished__text {
+	margin-left: 1em;
 }
 
 .landing-section__upper-quote {
@@ -733,4 +782,33 @@ h1, h2, h3, h4, h5, h6 {
 
 .text--complementary {
 	color: $complementary_blue;
+}
+
+.fade-out {
+	animation: fade 1s forwards;
+}
+
+.fade-in {
+	animation: fade 1s forwards;
+	animation-direction: reverse;
+
+	display: flex;
+}
+
+.hide {
+	display: none;
+}
+
+@-webkit-keyframes fade {
+	0% {
+		opacity: 1;
+	}
+	99% {
+		opacity: 0;
+	}
+	100% {
+		opacity: 0;
+		height: 0;
+		overflow: hidden;
+	}
 }
