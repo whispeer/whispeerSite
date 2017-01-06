@@ -4,7 +4,7 @@ lang: en
 title: Terms and conditions
 ---
 1. Contractual partners and scope of application
-	1. Contractual partners are whispeer UG (haftungsbeschränkt), Rosenthaler Straße 72a, 10119 Berlin (hereinafter referred to as "whispeer") and the user.
+	1. Contractual partners are mindpost GmbH, Schmargendorfer Straße 34, 12159 Berlin, Germany (hereinafter referred to as "whispeer") and the user.
 	2. The here presented terms and conditions determine the users use of the social network run by whispeer and all services provided by whispeer (hereinafter referred to as "whispeer-services"), including but not limited to the software provided by whispeer (hereinafter: "software"). Not included in the software are Open-Source Libraries, which are required for the use of the software, even if the software reloads libraries automatically if necessary; only the respective open-source license and terms thereof apply for these libraries.
 	3. Deviating agreements in individual cases precede the regulations of these terms and conditions.
 2. User obligations, abuse, user liabilities

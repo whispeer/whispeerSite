@@ -4,14 +4,14 @@ lang: en
 title: Site notice
 ---
 ##Angaben gemäß § 5 TMG:
-whispeer UG (haftungsbeschränkt)<br>
+mindpost GmbH<br>
 Register: AG Charlottenburg, HRB 162914 B<br>
-Director: Nils Kenneweg
+Director: Nils Kenneweg, Sebastian Reck
 
 ##Address
-Rosenthaler Straße 72 a<br>
-10119 Berlin, Germany
+Schmargendorfer Straße 34<br>
+12159 Berlin, Germany
 
 ##Contact
 Mail: support@whispeer.de<br>
-Phone: +49 - 152 - 27369080
+Phone: +49 - 30 - 55597624
