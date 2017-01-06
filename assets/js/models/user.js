@@ -532,7 +532,7 @@ define(["whispeerHelper", "asset/state", "asset/securedDataWithMetaData", "model
 			};
 
 			this.getFriends = function (cb) {
-				friendsService.getUserFriends(this.getID(), cb);
+				return friendsService.getUserFriends(this.getID(), cb);
 			};
 
 			this.loadImage = function () {
