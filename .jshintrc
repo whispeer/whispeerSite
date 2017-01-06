@@ -34,7 +34,7 @@
 	"nonew": true,
 	"quotmark": "double",
 	"unused": true,
-	"strict": true,
+	"strict": false,
 	"trailing": true,
 	"latedef": true,
 	"maxstatements": false
