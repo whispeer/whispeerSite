@@ -420,7 +420,7 @@ h1, h2, h3, h4, h5, h6 {
 		.feature__detail {
 			@media (min-width: 881px) {
 				background-position: calc(100vw - 280px) calc(100% + 120px);
-				padding: 0 320px 0 2em;
+				padding: 0 320px 0 3em;
 			}
 
 			@media (min-width: 1500px) {
@@ -571,7 +571,7 @@ h1, h2, h3, h4, h5, h6 {
 @media (min-width: 881px) {
 	.feature__detail {
 		background-position: -220px calc(100% + 120px);
-		padding: 0 2em 0 320px;
+		padding: 0 3em 0 320px;
 	}
 }
 
