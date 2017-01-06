@@ -150,11 +150,11 @@ function run() {
 		if (!hasLocale) {
 			res.redirect("/" + redirectLocale + req.originalUrl);
 		} else if (paths[0] === "recovery") {
-			res.sendFile(__dirname + possibleLocale + "/recovery/index.html");
+			res.sendFile(__dirname + "/static/" + possibleLocale + "/recovery/index.html");
 		} else if (paths.length === 0 || angular.indexOf(paths[0]) > -1) {
 			res.sendFile(__dirname + "/index.html");
 		} else if (paths[0] === "verifyMail") {
-			res.sendFile(__dirname + possibleLocale + "/verifyMail/index.html");
+			res.sendFile(__dirname + "/static/" + possibleLocale + "/verifyMail/index.html");
 		} else {
 			next();
 		}
