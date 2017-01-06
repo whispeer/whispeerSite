@@ -38,7 +38,7 @@ define(["directives/directivesModule", "whispeerHelper", "asset/state"], functio
 					};
 
 
-					var sendPostState = new State();
+					var sendPostState = new State.default();
 					$scope.sendPostState = sendPostState.data;
 
 					$scope.setPostReaders = function (newSelection) {

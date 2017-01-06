@@ -40,3 +40,4 @@ assets/less/base/addons/font-awesome.less
 assets/less/base/addons/normalize.less
 
 assets/js/build/*.js
+assets/js/build/*.js.map

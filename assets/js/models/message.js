@@ -9,11 +9,11 @@ define([
 	function messageModel(keyStore, userService, socket) {
 		var notVerified = ["sendTime", "sender", "topicid", "messageid"];
 
-		var Message = function (topic, message, images) {
+		var Message = function (topic, message, images, id) {
 			if (arguments.length === 1) {
 				this.fromSecuredData(topic);
 			} else {
-				this.fromDecryptedData(topic, message, images);
+				this.fromDecryptedData(topic, message, images, id);
 			}
 		};
 
@@ -33,7 +33,7 @@ define([
 			this.setData();
 		};
 
-		Message.prototype.fromDecryptedData = function (topic, message, images) {
+		Message.prototype.fromDecryptedData = function (topic, message, images, id) {
 			this._hasBeenSent = false;
 			this._isDecrypted = true;
 			this._isOwnMessage = true;
@@ -41,7 +41,7 @@ define([
 			this._topic = topic;
 			this._images = images;
 
-			this._messageID = h.generateUUID();
+			this._messageID = id || h.generateUUID();
 
 			var meta = {
 				createTime: new Date().getTime(),

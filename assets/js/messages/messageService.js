@@ -14,7 +14,7 @@ define([
 
 	var messageService;
 
-	var service = function ($rootScope, errorService, socket, sessionService, initService, windowService, Topic) {
+	var service = function ($rootScope, errorService, socket, sessionService, initService, windowService, Topic, Cache) {
 		function addSocketMessage(messageData) {
 			if (messageData) {
 				var messageToAdd;
@@ -94,6 +94,17 @@ define([
 
 					messageService.notify("", "loadingDone");
 				}).catch(errorService.criticalError);
+			},
+			sendUnsentMessages: function () {
+				var messageSendCache = new Cache("messageSend", { maxEntries: -1, maxBlobSize: -1 });
+
+				return Bluebird.resolve(messageSendCache.all().toArray()).map(function (unsentMessage) {
+					var data = JSON.parse(unsentMessage.data);
+
+					return messageService.getTopic(data.topicID).then(function (topic) {
+						return topic.sendUnsentMessage(data, unsentMessage.blobs);
+					});
+				});
 			},
 			getTopic: function (topicid, cb) {
 				return Bluebird.try(function () {
@@ -294,6 +305,7 @@ define([
 
 		initService.listen(function () {
 			loadUnreadTopicIDs();
+			messageService.sendUnsentMessages();
 		}, "initDone");
 
 		$rootScope.$on("ssn.reset", function () {
@@ -303,7 +315,7 @@ define([
 		return messageService;
 	};
 
-	service.$inject = ["$rootScope", "ssn.errorService", "ssn.socketService", "ssn.sessionService", "ssn.initService", "ssn.windowService", "ssn.models.topic"];
+	service.$inject = ["$rootScope", "ssn.errorService", "ssn.socketService", "ssn.sessionService", "ssn.initService", "ssn.windowService", "ssn.models.topic", "ssn.cacheService"];
 
 	messagesModule.factory("ssn.messageService", service);
 });

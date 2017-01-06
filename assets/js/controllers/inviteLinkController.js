@@ -6,7 +6,7 @@ define(["bluebird", "asset/state", "controllers/controllerModule"], function (Bl
 	"use strict";
 
 	function inviteController($scope, socketService, errorService) {
-		var inviteGenerateState = new State();
+		var inviteGenerateState = new State.default();
 		$scope.inviteGenerateState = inviteGenerateState.data;
 
 		$scope.generateInvite = function () {

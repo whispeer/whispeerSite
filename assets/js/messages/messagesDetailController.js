@@ -6,14 +6,14 @@ define(["whispeerHelper", "asset/state", "bluebird", "messages/messagesModule"],
 	"use strict";
 
 	function messagesDetailController($scope, $element, $state, $stateParams, $timeout, localize, errorService, messageService) {
-		var topicLoadingState = new State();
+		var topicLoadingState = new State.default();
 		$scope.topicLoadingState = topicLoadingState.data;
 
 		topicLoadingState.pending();
 
 		var topicID = h.parseDecimal($stateParams.topicid);
 
-		var topicDetailsSavingState = new State();
+		var topicDetailsSavingState = new State.default();
 		$scope.topicDetailsSavingState = topicDetailsSavingState.data;
 
 		$scope.saveTitle = function () {
@@ -21,6 +21,8 @@ define(["whispeerHelper", "asset/state", "bluebird", "messages/messagesModule"],
 
 			var savePromise = $scope.activeTopic.obj.setTitle($scope.topicTitle).then(function () {
 				$state.go("app.messages.show", { topicid: topicID });
+
+				return null;
 			});
 
 			errorService.failOnErrorPromise(topicDetailsSavingState, savePromise);

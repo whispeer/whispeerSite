@@ -15,7 +15,17 @@ define(["whispeerHelper", "asset/observer", "asset/securedDataWithMetaData", "se
 	//we need locking here!
 
 	var service = function ($rootScope, $injector, socket, sessionService, keyStore, initService) {
-		var friends = [], requests = [], requested = [], ignored = [], removed = [], deleted = [], signedList, onlineFriends = {}, friendsService;
+		var friends = [],
+				requests = [],
+				requested = [],
+				ignored = [],
+				removed = [],
+				deleted = [],
+				signedList,
+				onlineFriends = {},
+				friendsService,
+				friendsServiceLoaded = false;
+
 		var friendsData = {
 			requestsCount: 0,
 			friendsCount: 0,
@@ -35,7 +45,7 @@ define(["whispeerHelper", "asset/observer", "asset/securedDataWithMetaData", "se
 
 		function createBasicData(ownUser, otherUser) {
 			var friendShipKey;
-		
+
 			//encr intermediate key w/ users cryptKey
 			return keyStore.sym.asymEncryptKey(
 				ownUser.getFriendsKey(),
@@ -77,7 +87,7 @@ define(["whispeerHelper", "asset/observer", "asset/securedDataWithMetaData", "se
 				}, { type: "removeFriend" }).sign(ownUser.getSignKey()	);
 
 				signedList.metaRemoveAttr(otherUser.getID());
-				
+
 				var signedListPromise = signedList.sign(ownUser.getSignKey());
 
 				return Bluebird.all([
@@ -175,7 +185,7 @@ define(["whispeerHelper", "asset/observer", "asset/securedDataWithMetaData", "se
 
 				return SecuredData.load(undefined, signedData, { type: "removeFriend" }).verify(user.getSignKey());
 			}).then(function () {
-				return friendsService.removeFriend(uid, this);
+				return friendsService.removeFriend(uid);
 			});
 		}
 
@@ -196,7 +206,7 @@ define(["whispeerHelper", "asset/observer", "asset/securedDataWithMetaData", "se
 
 		friendsService = {
 			isLoaded: function () {
-				return loadingPromise.isFulfilled();
+				return friendsServiceLoaded;
 			},
 			ensureIsLoaded: function (method) {
 				if (!friendsService.isLoaded()) {
@@ -394,6 +404,8 @@ define(["whispeerHelper", "asset/observer", "asset/securedDataWithMetaData", "se
 						return signedList.verify(userService.getown().getSignKey(), "user");
 					}
 				}).then(function () {
+					friendsServiceLoaded = true;
+
 					var requestedOrFriends = signedList.metaKeys().map(h.parseDecimal);
 					requestedOrFriends.forEach(function (uid) {
 						keyStore.security.addEncryptionIdentifier(signedList.metaAttr(uid));

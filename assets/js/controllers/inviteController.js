@@ -13,10 +13,10 @@ define(["bluebird", "whispeerHelper", "asset/state", "controllers/controllerModu
 		$scope.domain = $location.protocol() + "://" + $location.host() + ( window.location.port ? ":" + window.location.port : "" ) + "/" + localize.getLanguage();
 		$scope.anonymous = false;
 
-		var inviteGenerateState = new State();
+		var inviteGenerateState = new State.default();
 		$scope.inviteGenerateState = inviteGenerateState.data;
 
-		var inviteDisplayState = new State();
+		var inviteDisplayState = new State.default();
 		$scope.inviteDisplayState = inviteDisplayState.data;
 
 		var code;

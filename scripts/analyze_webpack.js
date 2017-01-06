@@ -7,9 +7,13 @@ var bytes = require("bytes");
 function analyze(data) {
 	console.log("analyzing bundle");
 
+	data = data.replace(/[^{]*/, "");
+
 	console.log(data.substr(0, 6));
 
 	var parsed = JSON.parse(data);
+
+	var bundleSize = parsed.chunks[0].size;
 
 	parsed.modules.sort(function (m1, m2) {
 		return m1.size - m2.size;
@@ -18,7 +22,8 @@ function analyze(data) {
 	var smaller = parsed.modules.map(function (m) {
 		return {
 			identifier: m.identifier,
-			size: bytes.format(m.size)
+			size: bytes.format(m.size),
+			percent: m.size / bundleSize * 100
 		};
 	});
 

@@ -9,7 +9,7 @@ define(["asset/state", "bluebird", "controllers/controllerModule"], function (St
 		$scope.canSend = false;
 		$scope.topicLoaded = false;
 
-		var sendMessageState = new State();
+		var sendMessageState = new State.default();
 		$scope.sendMessageState = sendMessageState.data;
 
 		$scope.create = {

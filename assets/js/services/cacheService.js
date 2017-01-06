@@ -7,6 +7,7 @@ define(["whispeerHelper", "dexie", "bluebird", "services/serviceModule", "servic
 		this._name = name;
 		this._options = options || {};
 		this._options.maxEntries = this._options.maxEntries || 100;
+		this._options.maxBlobSize = this._options.maxBlobSize || 1*1024*1024;
 	}
 
 	Cache.prototype.entries = function () {
@@ -28,18 +29,28 @@ define(["whispeerHelper", "dexie", "bluebird", "services/serviceModule", "servic
 	Cache.prototype._fixBlobStorage = function (cacheEntry) {
 		var blobToDataURI = Promise.promisify(h.blobToDataURI.bind(h));
 
-		return blobToDataURI(cacheEntry.blob).then(function (blobAsUri) {
-			cacheEntry.blob = blobAsUri;
+		return Promise.resolve(cacheEntry.blobs).map(blobToDataURI).then(function (blobsAsUri) {
+			cacheEntry.blobs = blobsAsUri;
 			return db.cache.add(cacheEntry);
 		});
 	};
 
-	Cache.prototype.store = function (id, data, blob) {
+	Cache.sumSize = function (arr) {
+		return arr.reduce(function (prev, cur) {
+			return prev + cur.size;
+		}, 0);
+	};
+
+	Cache.prototype.store = function (id, data, blobs) {
 		if (cacheDisabled) {
 			return Promise.resolve();
 		}
 
-		if (blob && blob.size > 1*1024*1024) {
+		if (blobs && !h.array.isArray(blobs)) {
+			blobs = [blobs];
+		}
+
+		if (blobs && this._options.maxBlobSize !== -1 && Cache.sumSize(blobs) > this._options.maxBlobSize) {
 			return Promise.resolve();
 		}
 
@@ -56,9 +67,9 @@ define(["whispeerHelper", "dexie", "bluebird", "services/serviceModule", "servic
 			size: 0
 		}, that = this;
 
-		if (blob) {
-			cacheEntry.blob = blob;
-			cacheEntry.size = blob.size;
+		if (blobs) {
+			cacheEntry.blobs = blobs;
+			cacheEntry.size = Cache.sumSize(blobs);
 		}
 
 		return Promise.resolve(db.cache.put(cacheEntry).catch(function (e) {
@@ -85,8 +96,18 @@ define(["whispeerHelper", "dexie", "bluebird", "services/serviceModule", "servic
 			if (typeof data !== "undefined") {
 				data.data = JSON.parse(data.data);
 
-				if (typeof data.blob === "string") {
-					data.blob = h.dataURItoBlob(data.blob);
+				data.blobs = data.blobs || [];
+
+				data.blobs = data.blobs.map(function (blob) {
+					if (typeof blob === "string") {
+						return h.dataURItoBlob(blob);
+					}
+
+					return blob;
+				});
+
+				if (data.blobs.length === 1) {
+					data.blob = data.blobs[0];
 				}
 
 				return data;

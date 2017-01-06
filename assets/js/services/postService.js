@@ -23,7 +23,7 @@ define(["bluebird", "whispeerHelper", "bluebird", "validation/validator", "servi
 				return new Comment(comment, this);
 			}, this);
 
-			var commentState = new State();
+			var commentState = new State.default();
 
 			this.data = {
 				loaded: false,

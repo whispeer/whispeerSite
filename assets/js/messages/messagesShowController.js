@@ -2,13 +2,13 @@
 * messagesController
 **/
 
+var Burst = require("./burst");
+
 define(["jquery", "whispeerHelper", "asset/state", "bluebird", "messages/messagesModule"], function (jQuery, h, State, Bluebird, messagesModule) {
 	"use strict";
 
-	function messagesController($scope, $element, $state, $stateParams, $timeout, localize, errorService, messageService, ImageUploadService) {
-		var MINUTE = 60 * 1000;
-
-		var topicLoadingState = new State();
+	function messagesController($scope, $element, $state, $stateParams, $timeout, localize, errorService, messageService, ImageUploadService, TopicUpdate) {
+		var topicLoadingState = new State.default();
 		$scope.topicLoadingState = topicLoadingState.data;
 
 		var topicID = h.parseDecimal($stateParams.topicid);
@@ -66,6 +66,8 @@ define(["jquery", "whispeerHelper", "asset/state", "bluebird", "messages/message
 				if (outerHeight > innerHeight) {
 					return $scope.loadMoreMessages().then(function () {
 						loadMoreUntilFull();
+
+						return null;
 					});
 				}
 			});
@@ -81,16 +83,18 @@ define(["jquery", "whispeerHelper", "asset/state", "bluebird", "messages/message
 		}).then(function (topic) {
 			$scope.topicLoaded = true;
 
-			if (topic.data.messages.length > 0) {
+			if (topic.data.messagesAndUpdates.length > 0) {
 				topic.markRead(errorService.criticalError);
 			}
 
 			loadMoreUntilFull();
+
+			return null;
 		});
 
 		errorService.failOnErrorPromise(topicLoadingState, loadTopicsPromise);
 
-		var sendMessageState = new State();
+		var sendMessageState = new State.default();
 		$scope.sendMessageState = sendMessageState.data;
 
 		$scope.sendMessage = function () {
@@ -115,7 +119,7 @@ define(["jquery", "whispeerHelper", "asset/state", "bluebird", "messages/message
 				}, 2000);				
 			});
 
-			sendMessagePromise.catch(function () {
+			sendMessagePromise.finally(function () {
 				$scope.canSend = true;
 			});
 
@@ -124,145 +128,101 @@ define(["jquery", "whispeerHelper", "asset/state", "bluebird", "messages/message
 
 		var bursts = [], burstTopic;
 
-		function Burst() {
-			this.messages = [];
-		}
-
-		Burst.prototype.hasMessage = function (message) {
-			return this.messages.indexOf(message) > -1;
-		};
-
-		Burst.prototype.addMessage = function (message) {
-			this.messages.push(message);
-
-			this.messages.sort(function (m1, m2) {
-				return m1.timestamp - m2.timestamp;
-			});
-		};
-
-		Burst.prototype.removeAllExceptLast = function () {
-			this.messages.splice(0, this.messages.length - 1);
-		};
-
-		Burst.prototype.firstMessage = function () {
-			return this.messages[0];
-		};
-
-		Burst.prototype.lastMessage = function () {
-			return this.messages[this.messages.length - 1];
-		};
-
-		Burst.prototype.hasMessages = function () {
-			return this.messages.length > 0;
-		};
-
-		Burst.prototype.fitsMessage = function (message) {
-			if (!this.hasMessages()) {
-				return true;
-			}
-
-			return this.sameSender(message) &&
-				this.sameDay(message) &&
-				this.timeDifference(message) < MINUTE * 10;
-
-		};
-
-		Burst.prototype.sameSender = function (message) {
-			return this.firstMessage().sender.id === message.sender.id;
-		};
-
-		Burst.prototype.sameDay = function (message) {
-			if (!message) {
-				return false;
-			}
-
-			if (message instanceof Burst) {
-				message = message.firstMessage();
-			}
-
-			var date1 = new Date(h.parseDecimal(this.firstMessage().timestamp));
-			var date2 = new Date(h.parseDecimal(message.timestamp));
-
-			if (date1.getDate() !== date2.getDate()) {
-				return false;
-			}
-
-			if (date1.getMonth() !== date2.getMonth()) {
-				return false;
-			}
-
-			if (date1.getFullYear() !== date2.getFullYear()) {
-				return false;
-			}
-
-			return true;
-		};
-
-		Burst.prototype.timeDifference = function (message) {
-			return Math.abs(h.parseDecimal(message.timestamp) - h.parseDecimal(this.firstMessage().timestamp));
-		};
-
-		Burst.prototype.isMe = function () {
-			return this.firstMessage().sender.me;
-		};
-
-		Burst.prototype.isOther = function () {
-			return !this.firstMessage().sender.me;
-		};
-
-		Burst.prototype.sender = function () {
-			return this.firstMessage().sender;
-		};
-
-		function getMatchingBurst(bursts, message) {
-			var fittingBursts = bursts.filter(function (burst, index, bursts) {
-				var nextBurst = bursts[index + 1], previousBurst = bursts[index - 1];
-
-				if (!burst.fitsMessage(message)) {
-					return false;
-				}
-
-				if (nextBurst && nextBurst.firstMessage().timestamp < message.timestamp) {
-					return false;
-				}
-
-				if (previousBurst && previousBurst.lastMessage().timestamp > message.timestamp) {
-					return false;
-				}
-
-				return true;
-			});
-
-			if (fittingBursts.length > 1) {
-				console.warn("There should only be one fitting burst!");
-			}
-
-			if (fittingBursts.length === 0) {
-				var newBurst = new Burst();
-				bursts.push(newBurst);
-
-				return newBurst;
-			}
-
-			return fittingBursts[0];
-		}
-
-		function getNewMessages(messages, bursts) {
-			return messages.filter(function (message) {
+		function getNewElements(messagesAndUpdates, bursts) {
+			return messagesAndUpdates.filter(function (message) {
 				return bursts.reduce(function (prev, current) {
-					return prev && !current.hasMessage(message);
+					return prev && !current.hasItem(message);
 				}, true);
 			});
 		}
 
-		$scope.messageBursts = function() {
-			if (!$scope.activeTopic || $scope.activeTopic.messages.length === 0) {
+		function calculateBursts(messages) {
+			var bursts = [new Burst(TopicUpdate)];
+			var currentBurst = bursts[0];
+
+			messages.sort(function (m1, m2) {
+				return m2.getTime() - m1.getTime();
+			});
+
+			messages.forEach(function (messageOrUpdate) {
+				if(!currentBurst.fitsItem(messageOrUpdate)) {
+					currentBurst = new Burst(TopicUpdate);
+					bursts.push(currentBurst);
+				}
+
+				currentBurst.addItem(messageOrUpdate);
+			});
+
+			return bursts;
+		}
+
+		function hasMatchingMessage(oldBurst, newBurst) {
+			var matchingMessages = newBurst.getItems().filter(function (message) {
+				return oldBurst.hasItem(message);
+			});
+
+			return matchingMessages.length > 0;
+		}
+
+		function addBurst(bursts, burst) {
+			bursts.push(burst);
+
+			return true;
+		}
+
+		function mergeBurst(oldBurst, newBurst) {
+			var newMessages = newBurst.getItems().filter(function (message) {
+				return !oldBurst.hasItem(message);
+			});
+
+			newMessages.forEach(function (message) {
+				oldBurst.addItem(message);
+			});
+
+			return true;
+		}
+
+		function addBurstOrMerge(bursts, burst) {
+			var possibleMatches = bursts.filter(function (oldBurst) {
+				return hasMatchingMessage(oldBurst, burst);
+			});
+
+			if (possibleMatches.length === 0) {
+				return addBurst(bursts, burst);
+			}
+
+			if (possibleMatches.length === 1) {
+				return mergeBurst(possibleMatches[0], burst);
+			}
+
+			if (possibleMatches.length > 1) {
+				errorService.criticalError(new Error("Burst merging possible matches > 1 wtf..."));
+				return false;
+			}
+		}
+
+		function mergeBursts(bursts, newBursts) {
+			return newBursts.reduce(function (prev, burst) {
+				return prev && addBurstOrMerge(bursts, burst);
+			}, true);
+		}
+
+		function getBursts() {
+			if (!$scope.activeTopic || $scope.activeTopic.messagesAndUpdates.length === 0) {
 				return [];
 			}
 
-			var messages = $scope.activeTopic.messages;
+			var messagesAndUpdates = $scope.activeTopic.messagesAndUpdates;
 
-			if (getNewMessages(messages, bursts).length === 0) {
+			if (burstTopic !== $scope.activeTopic.id) {
+				bursts = calculateBursts(messagesAndUpdates);
+				burstTopic = $scope.activeTopic.id;
+
+				return bursts;
+			}
+
+			var newElements = getNewElements(messagesAndUpdates, bursts);
+			if (newElements.length === 0) {
 				return bursts;
 			}
 
@@ -270,29 +230,20 @@ define(["jquery", "whispeerHelper", "asset/state", "bluebird", "messages/message
 				burst.removeAllExceptLast();
 			});
 
-			if (burstTopic !== $scope.activeTopic.id) {
-				bursts = [new Burst()];
+			var newBursts = calculateBursts(messagesAndUpdates);
+			if (!mergeBursts(bursts, newBursts)) {
+				console.warn("Rerender all bursts!");
+				bursts = newBursts;
 			}
 
-			var newMessages = getNewMessages(messages, bursts);
+			return bursts;			
+		}
 
-			if (newMessages.length === 0) {
-				return bursts;
-			}
+		$scope.messageBursts = function() {
+			var bursts = getBursts();
 
-			newMessages.sort(function (m1, m2) {
-				return m2.timestamp - m1.timestamp;
-			});
-
-			burstTopic = $scope.activeTopic.id;
-
-			newMessages.forEach(function(message) {
-				var burst = getMatchingBurst(bursts, message);
-				burst.addMessage(message);
-
-				bursts.sort(function (b1, b2) {
-					return b1.firstMessage().timestamp - b2.firstMessage().timestamp;
-				});
+			bursts.sort(function (b1, b2) {
+				return b1.firstItem().getTime() - b2.firstItem().getTime();
 			});
 
 			return bursts;
@@ -304,7 +255,7 @@ define(["jquery", "whispeerHelper", "asset/state", "bluebird", "messages/message
 		};
 	}
 
-	messagesController.$inject = ["$scope", "$element", "$state", "$stateParams", "$timeout", "localize", "ssn.errorService", "ssn.messageService", "ssn.imageUploadService"];
+	messagesController.$inject = ["$scope", "$element", "$state", "$stateParams", "$timeout", "localize", "ssn.errorService", "ssn.messageService", "ssn.imageUploadService", "ssn.models.topicUpdate"];
 
 	messagesModule.controller("ssn.messagesShowController", messagesController);
 });

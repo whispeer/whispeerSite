@@ -37,6 +37,18 @@ html {
 	overflow: hidden !important;
 }
 
+.logo {
+	background: url('../img/logo.svg') no-repeat;
+	background-position: center top;
+	background-size: 100%;
+
+	width: 250px;
+	height: 53px;
+	filter: url(#drop-shadow);
+	filter: drop-shadow(1px 1px 1px rgba(20,20,20,0.5));
+	-ms-filter: "progid:DXImageTransform.Microsoft.Dropshadow(OffX=1, OffY=1, Color='#282828')";
+}
+
 body {
 	background-color: #f9f9f9;
 	&:extend(.box-fix);

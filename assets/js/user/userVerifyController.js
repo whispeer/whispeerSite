@@ -6,7 +6,7 @@ define(["bluebird", "asset/resizableImage", "asset/state", "user/userModule"], f
 	"use strict";
 
 	function userController($scope, $stateParams, $timeout, cssService, errorService) {
-		var verifyState = new State();
+		var verifyState = new State.default();
 		$scope.verifyingUser = verifyState.data;
 
 		$scope.qr = {

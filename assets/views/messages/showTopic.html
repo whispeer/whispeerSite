@@ -61,27 +61,41 @@
 				</li>
 				<li class="burst-date" id="messagesView-endOfStream">
 					<p data-i18n="messages.endOfStream" data-ng-if="activeTopic.remaining == 0" class="burst-date-text">
-						<span data-for="date">{{::messageBursts()[0].firstMessage().timestamp|date}}</span>
+						<span data-for="date">{{::messageBursts()[0].firstItem().getTime()|date}}</span>
 					</p>
 				</li>
 				<li class="burst" data-ng-repeat="burst in (bursts = messageBursts())" data-ng-class="{me:burst.isMe(), other:burst.isOther()}">
-					<div class="burst-date" data-ng-if="::!burst.sameDay(bursts[$index - 1]) && !$first"><span class="burst-date-text">{{::burst.firstMessage().timestamp|date}}</span></div>
+					<div class="burst-date" data-ng-if="::!burst.sameDay(bursts[$index - 1]) && !$first"><span class="burst-date-text">{{::burst.firstItem().getTime()|date}}</span></div>
 
-					<a whispeer-sref="app.user.info({identifier: burst.sender().names.nickname})" class="username">{{burst.sender().name}}</a>
-					<div class="userimg">
-						<a whispeer-sref="app.user.info({identifier: burst.sender().names.nickname})">
-							<userimage data-userID="sender{{burst.sender().id}}" data-user="burst.sender()" data-trustlevel="0"></userimage>
-						</a>
+					<div class="burst-date" data-ng-if="burst.isTopicUpdate()">
+						<span class="burst-date-text">
+							{{ burst.firstItem().state.sender.data.name }} hat den Betreff zu "{{ burst.firstItem().state.title }}" geändert - 
+							<span data-smart-date="::burst.firstItem().state.timestamp" data-smart-date-no-day>
+						</span>
 					</div>
-					<ul class="messages">
-						<li data-ng-cloak data-ng-repeat="message in burst.messages" data-messageID="{{::message.id}}" class="message">
-							<div class="messageContent">
-								<div class="messageText {{::message.type}}" data-ng-class="{{::message.type}}" data-syntaxify="::message.text"></div>
-								<gallery class="message-images" data-ng-if="::message.images.length > 0" data-images="::message.images"></gallery>
-								<div class="time"><i class="fa" data-ng-class="{'fa-circle-o-notch fa-spin': !message.sent, 'fa-clock-o': message.sent}"></i> <span data-smart-date="::message.timestamp" data-smart-date-no-day></span></div>
-							</div>
-						</li>
-					</ul>
+
+					<span data-ng-if="burst.isMessageBurst()">
+						<a whispeer-sref="app.user.info({identifier: burst.sender().names.nickname})" class="username">{{burst.sender().name}}</a>
+						<div class="userimg">
+							<a whispeer-sref="app.user.info({identifier: burst.sender().names.nickname})">
+								<userimage data-userID="sender{{burst.sender().id}}" data-user="burst.sender()" data-trustlevel="0"></userimage>
+							</a>
+						</div>
+						<ul class="messages">
+							<li
+								data-ng-cloak
+								data-ng-repeat="messageObj in burst.getItems()"
+								data-ng-init="message=messageObj.data"
+								data-messageID="{{::message.id}}"
+								class="message">
+									<div class="messageContent">
+										<div class="messageText {{::message.type}}" data-ng-class="{{::message.type}}" data-syntaxify="::message.text"></div>
+										<gallery class="message-images" data-ng-if="::message.images.length > 0" data-images="::message.images"></gallery>
+										<div class="time"><i class="fa" data-ng-class="{'fa-circle-o-notch fa-spin': !message.sent, 'fa-clock-o': message.sent}"></i> <span data-smart-date="::message.timestamp" data-smart-date-no-day></span></div>
+									</div>
+							</li>
+						</ul>
+					</span>
 				</li>
 			</ul>
 			<form id="inputWrap" data-ng-if="!activeTopic.disabled">

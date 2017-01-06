@@ -8,7 +8,7 @@ define(["jquery", "whispeerHelper", "asset/state", "bluebird", "controllers/cont
 	function messagesController($scope, $state, $stateParams, $element, errorService, messageService) {
 		$scope.topics = messageService.data.latestTopics.data;
 
-		var topicsLoadingState = new State();
+		var topicsLoadingState = new State.default();
 		$scope.topicsLoadingState = topicsLoadingState.data;
 
 		var loadMoreTopics = Bluebird.promisify(messageService.loadMoreLatest.bind(messageService));

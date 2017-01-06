@@ -24,6 +24,10 @@ define ([], function () {
 			this.sort(sortFunction);
 		};
 
+		arr.last = function () {
+			return arr[arr.length - 1];
+		};
+
 		return arr;
 	};
 

@@ -11,7 +11,7 @@ define([
 	"use strict";
 
 	var service = function ($rootScope, locationService, socketService, Storage) {
-		var loginState = new State();
+		var loginState = new State.default();
 
 		var failureCodes = {
 			UNKNOWNNAME: 0,

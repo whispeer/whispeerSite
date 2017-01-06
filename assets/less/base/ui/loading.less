@@ -11,17 +11,12 @@
 	}
 	&:after {
 		content: ' ';
-		background: url('../img/logo.svg') no-repeat;
-		background-position: center top;
-		background-size: 100%;
 		position: absolute;
-		width: 300px;
-		height: 65px;
 		margin-left: -150px;
 		left: 50%;
-		filter: url(#drop-shadow);
-		filter: drop-shadow(1px 1px 1px rgba(20,20,20,0.5));
-		-ms-filter: "progid:DXImageTransform.Microsoft.Dropshadow(OffX=1, OffY=1, Color='#282828')";
+		width: 300px;
+		height: 65px;
+		.logo;
 		@media @desktop {
 			top: 50%;
 			margin-top: -114px;

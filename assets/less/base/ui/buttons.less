@@ -85,6 +85,12 @@
 .btn--primary,
 .btn-saveButton--success {
 	.buttonBackground(@btnGreenBackground, @btnGreenBackgroundHover, @btnGreenBackgroundFocus, @btnGreenBackgroundActive);
+	a {
+		color: @grayLighter;
+		&:hover {
+			color: @grayLight;
+		}
+	}
 }
 .btn--primaryLight {
 	.buttonBackground(@btnGreenLightBackground, @btnGreenLightBackgroundHover, @btnGreenLightBackgroundFocus, @btnGreenLightBackgroundActive);
@@ -138,14 +144,15 @@
 	margin-top: 3px;
 }
 .btn[disabled],
+.btn--disabled,
 .btn-saveButton--operation,
 .btn-saveButton--operation:hover { // disabled should overwrite all other styles so it goes down here
 	background: @btnBackgroundHover;
 	color: @grayLight !important; // this has to be important...
 	cursor: not-allowed;
-	border: 1px solid @btnBorder;
 	line-height: 38px;
 	text-shadow: none;
+	pointer-events: none;
 }
 .shareButton--fb,
 .shareButton--tw,
