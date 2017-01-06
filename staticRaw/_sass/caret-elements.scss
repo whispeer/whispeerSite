@@ -145,6 +145,10 @@
 
 	background: #fff;
 	border: none !important;
+
+	@media (max-width: 880px) {
+		padding: 0 !important;
+	}
 }
 
 .caret-wrapped__button--overlaying-left {
