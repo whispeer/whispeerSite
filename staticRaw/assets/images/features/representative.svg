@@ -1,5 +1,33 @@
 <svg id="Repräsentativ" xmlns="http://www.w3.org/2000/svg" width="333" height="333" viewBox="0 0 333 333">
-  <defs>
+  <metadata><?xpacket begin="﻿" id="W5M0MpCehiHzreSzNTczkc9d"?>
+<x:xmpmeta xmlns:x="adobe:ns:meta/" x:xmptk="Adobe XMP Core 5.6-c138 79.159824, 2016/09/14-01:09:01        ">
+   <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+      <rdf:Description rdf:about=""/>
+   </rdf:RDF>
+</x:xmpmeta>
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                           
+<?xpacket end="w"?></metadata>
+<defs>
     <style>
       .cls-1 {
         fill: #fff;
@@ -7,5 +35,7 @@
       }
     </style>
   </defs>
-  <path id="Abgerundetes_Rechteck_1" data-name="Abgerundetes Rechteck 1" class="cls-1" d="M263.587,203.329L205.11,77.939,238.619,52,305,194.336ZM202.7,216.55l0.812,3.655a22.962,22.962,0,0,1-17.444,27.39l-29.592,6.566a22.965,22.965,0,0,1-27.394-17.442l-0.886-3.992-26.58,5.771L74.049,179.4,197.663,83.7l56.721,121.623Zm-47.224,20.9L179,232.227c6.185-1.372,10.747-6.547,12.609-13.271l-53.359,11.586C142.795,235.987,149.2,238.839,155.471,237.449ZM71.081,273l-43.09-92.4,37.529,2.237,27.971,59.976Z"/>
+  <g id="Inv">
+    <path id="Rechteck_5_Kopie" data-name="Rechteck 5 Kopie" class="cls-1" d="M252,249H195.276l0.215,0.216L166.5,291.207l-28.991-41.991,0.215-.216H81a25,25,0,0,1-25-25V67A25,25,0,0,1,81,42H252a25,25,0,0,1,25,25V224A25,25,0,0,1,252,249Zm-84.99-27.006-22.8-53.2-53.2-22.8,53.2-22.8,22.8-53.2,22.8,53.2,53.2,22.8-53.2,22.8Z"/>
+  </g>
 </svg>

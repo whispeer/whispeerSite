@@ -1,5 +1,33 @@
-<svg id="Sicherheit_-_schnell" data-name="Sicherheit - schnell" xmlns="http://www.w3.org/2000/svg" width="333" height="333" viewBox="0 0 333 333">
-  <defs>
+<svg id="Sicherheit" xmlns="http://www.w3.org/2000/svg" width="333" height="333" viewBox="0 0 333 333">
+  <metadata><?xpacket begin="﻿" id="W5M0MpCehiHzreSzNTczkc9d"?>
+<x:xmpmeta xmlns:x="adobe:ns:meta/" x:xmptk="Adobe XMP Core 5.6-c138 79.159824, 2016/09/14-01:09:01        ">
+   <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+      <rdf:Description rdf:about=""/>
+   </rdf:RDF>
+</x:xmpmeta>
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                           
+<?xpacket end="w"?></metadata>
+<defs>
     <style>
       .cls-1 {
         fill: #fff;
@@ -7,5 +35,7 @@
       }
     </style>
   </defs>
-  <path id="Grundform_Kopie_2" data-name="Grundform Kopie 2" class="cls-1" d="M232,92a50,50,0,0,0-50-50H151a50,50,0,0,0-50,50v19h28V95a25,25,0,0,1,25-25h25a25,25,0,0,1,25,25v16h28V92Zm45,58a25,25,0,0,0-25-25H81a25,25,0,0,0-25,25V266a25,25,0,0,0,25,25H252a25,25,0,0,0,25-25V150ZM209.523,264.992L195.655,251.12,236.764,210l-41.109-41.12,13.868-13.872,41.109,41.12L264.5,210l-13.868,13.872Zm-59.331,0L136.324,251.12,177.433,210l-41.109-41.12,13.868-13.872L205.169,210Zm-58.827,0L77.5,251.12,118.606,210,77.5,168.88l13.868-13.872L146.342,210Z"/>
+  <g id="Inv">
+    <path id="Grundform_Kopie_7" data-name="Grundform Kopie 7" class="cls-1" d="M81,125H252a25,25,0,0,1,25,25V266a25,25,0,0,1-25,25H81a25,25,0,0,1-25-25V150A25,25,0,0,1,81,125Zm123-14V95a25,25,0,0,0-25-25H154a25,25,0,0,0-25,25v16H101V92a50,50,0,0,1,50-50h31a50,50,0,0,1,50,50v19H204Zm26.015,71.75L171.44,241.272l-19.76,19.743-19.76-19.743-28.935-28.908,19.761-19.743L151.68,221.53l58.574-58.522Z"/>
+  </g>
 </svg>

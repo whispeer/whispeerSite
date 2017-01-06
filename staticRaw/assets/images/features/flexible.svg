@@ -1,4 +1,4 @@
-<svg id="Einfach" xmlns="http://www.w3.org/2000/svg" width="333" height="333" viewBox="0 0 333 333">
+<svg id="Flexibel" xmlns="http://www.w3.org/2000/svg" width="333" height="333" viewBox="0 0 333 333">
   <metadata><?xpacket begin="﻿" id="W5M0MpCehiHzreSzNTczkc9d"?>
 <x:xmpmeta xmlns:x="adobe:ns:meta/" x:xmptk="Adobe XMP Core 5.6-c138 79.159824, 2016/09/14-01:09:01        ">
    <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
@@ -36,6 +36,6 @@
     </style>
   </defs>
   <g id="Inv">
-    <path id="Rechteck_4_Kopie" data-name="Rechteck 4 Kopie" class="cls-1" d="M56,42H167V153H56V42Zm138,0h83V153H194V42ZM56,180h55V291H56V180Zm83,0H277V291H139V180Z"/>
+    <path id="Grundform_Kopie_8" data-name="Grundform Kopie 8" class="cls-1" d="M291,97H222v14H194V97H42V69H194V55h28V69h69V97ZM166,69h28V97H166V69ZM291,180H139v14H111V180H42V152h69V138h28v14H291v28ZM139,152h28v28H139V152ZM291,264H195v14H167V264H42V236H167V222h28v14h96v28ZM139,236h28v28H139V236Z"/>
   </g>
 </svg>
