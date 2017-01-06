@@ -724,6 +724,12 @@ h1, h2, h3, h4, h5, h6 {
 	}
 }
 
+#animation-section {
+	@media (max-width: 1010px) {
+		display: none;
+	}
+}
+
 #landing-footer__logo {
 	height: 48px;
 }
