@@ -61,6 +61,8 @@ main {
 	font-weight: 100;
 
 	color: $complementary;
+
+	overflow-x: hidden;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -91,6 +93,11 @@ h1, h2, h3, h4, h5, h6 {
 #landing-section__logo {
 	width: 350px;
 	max-width: 100%;
+
+	@media (max-width: 880px) {
+		margin-top: 240px;
+		margin-bottom: 40px;
+	}
 }
 
 .landing-section {
@@ -117,6 +124,12 @@ h1, h2, h3, h4, h5, h6 {
 	background-repeat: no-repeat;
 	background-size: cover;
 	background-position: top right;
+
+	@media (max-width: 880px) {
+		background-position: top right;
+		background-size: 880px 440px;
+		background-color: $primary_light;
+	}
 
 	color: #fff;
 }
@@ -169,10 +182,15 @@ h1, h2, h3, h4, h5, h6 {
 	font-family: 'Roboto Condensed', sans-serif;
 
 	//text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.6);
+
+	@media (max-width: 880px) {
+		font-size: 32px;
+		line-height: 32px !important;
+	}
 }
 
 .landing-section__heading--low-profile {
-	line-height: 24px;
+	line-height: 48px;
 }
 
 .landing-section__heading--primary {
