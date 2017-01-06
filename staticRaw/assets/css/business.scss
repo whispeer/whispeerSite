@@ -27,6 +27,14 @@ $link_color: #1b676b;
 $large_heading_font: 48px;
 $large_heading_font_height: 48px;
 
+$smallerMobile: "screen and (max-width: 666px)";
+$mobile: "screen and (max-width: 1024px)";
+$desktop: "screen and (min-width: 1025px)";
+
+$iconSizeLarge: 15em;
+$iconLineHeightLarge: 10em;
+
+@import "misc";
 @import "mixins";
 @import "normalize";
 @import "caret-elements";
