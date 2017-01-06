@@ -1,5 +1,3 @@
-"use strict";
-
 var h = require("whispeerHelper");
 var MINUTE = 60 * 1000;
 
