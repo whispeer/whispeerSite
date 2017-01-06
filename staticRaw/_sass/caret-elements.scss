@@ -2,6 +2,7 @@
 	position: relative;
 	display: inline-block;
 	margin: 24px 0 0 24px;
+	width: 237px;
 
 	&:before {
 		position: absolute;
@@ -36,19 +37,36 @@
 
 		z-index: 3;
 	}
+
+	@media (max-width: 880px) {
+		width: calc(100% - 50px);
+		align-self: flex-start;
+	}
 }
 
 .caret-wrapped-overlapping {
 	display: flex;
 	align-items: center;
+
+	@media (max-width: 880px) {
+		flex-direction: column;
+
+		.caret-wrapped--button {
+			text-align: center;
+			width: calc(100% - 50px);
+			margin: 1.5em auto;
+		}
+	}
 }
 
 .caret-wrapped--no-left {
-	&:before {
-		display: none;
-	}
+	@media (min-width: 880px) {
+		&:before {
+			display: none;
+		}
 
-	margin-left: 0;
+		margin-left: 0;
+	}
 }
 
 .caret-wrapped--primary {
@@ -104,10 +122,14 @@
 
 .caret-wrapped--button {
 	cursor: pointer;
+
+	@media (min-width: 881px) {
+		width: 100px;
+	}
 }
 
 .caret-wrapped__input {
-	width: 237px;
+	width: 100%;
 	height: 72px !important;
 	line-height: 28px !important;
 
@@ -119,6 +141,7 @@
 	-webkit-appearance: none;
 
 	height: 72px;
+	width: 100%;
 
 	background: #fff;
 	border: none !important;

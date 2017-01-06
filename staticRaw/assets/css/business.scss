@@ -329,6 +329,11 @@ h1, h2, h3, h4, h5, h6 {
 
 	max-width: 1000px;
 	margin: auto;
+
+	@media (max-width: 880px) {
+		display: block;
+		padding: 0 1em;
+	}
 }
 
 .landing-section__quote__icon-wrap {
