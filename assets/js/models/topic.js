@@ -346,9 +346,13 @@ define([
 					);
 				}
 
-				messageObject.sendContinously().then(function () {
+				var sendMessagePromise = messageObject.sendContinously();
+
+				sendMessagePromise.then(function () {
 					return messageSendCache.delete(messageObject.getID());
-				}).catch(function (e) {
+				});
+
+				sendMessagePromise.catch(function (e) {
 					console.error(e);
 					alert("An error occured sending a message!" + e.toString());
 				});
