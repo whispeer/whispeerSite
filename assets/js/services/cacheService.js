@@ -79,7 +79,7 @@ define(["whispeerHelper", "dexie", "bluebird", "services/serviceModule", "servic
 			} else {
 				return Promise.reject(e);
 			}
-		}));
+		})).catch(errorService.criticalError);
 	};
 
 	Cache.prototype.get = function (id) {
