@@ -199,22 +199,27 @@
 	}
 
 	function runCountdown() {
-		var t, days, hours, minutes, seconds;
-		t = endtime - Date.now();
-		seconds = formatNum(Math.floor((t / 1000) % 60));
-		minutes = formatNum(Math.floor((t / 60000) % 60));
-		hours = formatNum(Math.floor((t / 3600000) % 24));
-		days = formatNum(Math.floor(t / 86400000));
+		var t = endtime - Date.now();
 
-		counter.textContent = days + ":" + hours + ":" + minutes + ":" + seconds;
+		counter.seconds.textContent = formatNum(Math.floor((t / 1000) % 60));
+		counter.minutes.textContent = formatNum(Math.floor((t / 60000) % 60));
+		counter.hours.textContent = formatNum(Math.floor((t / 3600000) % 24));
+		counter.days.textContent = formatNum(Math.floor(t / 86400000));
 	}
 
 	var handler = debounce(onVisibilityChange(), 50);
 	var counter;
 	var endtime = Date.parse("2017-02-21");
 	function contentLoaded() {
-		counter = document.getElementById("countdown__counter");
-		if(counter) {
+		counter = {
+			days: document.querySelector("#counter__days .digit"),
+			hours: document.querySelector("#counter__hours .digit"),
+			minutes: document.querySelector("#counter__minutes .digit"),
+			seconds: document.querySelector("#counter__seconds .digit")
+		}
+
+		// check if all elements exist
+		if(counter.days && counter.hours && counter.minutes && counter.seconds) {
 			setInterval(runCountdown, 1000);
 		}
 

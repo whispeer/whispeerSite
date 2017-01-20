@@ -44,7 +44,24 @@
 						</div>
 					{% endif %}
 					{% if data.teaser.countdown %}
-						<h1 class="section-header {% if data.teaser.textShadow %}textShadow{% endif %} {% if data.teaser.darkBlur %}darkBlur{% endif %} {% if data.teaser.lightBlur %}lightBlur{% endif %}" id="countdown__counter"></h1>
+						<h1 class="section-header {% if data.teaser.textShadow %}textShadow{% endif %} {% if data.teaser.darkBlur %}darkBlur{% endif %} {% if data.teaser.lightBlur %}lightBlur{% endif %}" id="countdown__counter">
+							<span id="counter__days" class="counter__digit">
+								<span class="digit">--</span>
+								<span class="digit-description">Tage</span>
+							</span>
+							<span id="counter__hours" class="counter__digit">
+								<span class="digit">--</span>
+								<span class="digit-description">Stunden</span>
+							</span>
+							<span id="counter__minutes" class="counter__digit">
+								<span class="digit">--</span>
+								<span class="digit-description">Minuten</span>
+							</span>
+							<span id="counter__seconds" class="counter__digit">
+								<span class="digit">--</span>
+								<span class="digit-description">Sekunden</span>
+							</span>
+						</h1>
 						<p class="section-paragraph {% if data.teaser.textShadow %}textShadow{% endif %} {% if data.teaser.darkBlur %}darkBlur{% endif %} {% if data.teaser.lightBlur %}lightBlur{% endif %}">
 							{{data.teaser.countdown.text}}
 						</p>

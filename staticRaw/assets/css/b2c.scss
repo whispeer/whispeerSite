@@ -104,6 +104,40 @@
 	min-height: 76px;
 }
 
+.counter__digit {
+	display: inline-block;
+	line-height: 36px;
+}
+
+#counter__days {
+	width: 76px;
+}
+
+#counter__hours {
+	width: 90px;
+}
+
+#counter__minutes {
+	width: 83px;
+}
+
+#counter__seconds {
+	width: 103px;
+}
+
+.digit-description {
+	display: inline-block;
+	width: 100%;
+
+	text-align: center;
+
+	font-size: 16px;
+	letter-spacing: 0px;
+	font-weight: 300;
+
+	text-transform: uppercase;
+}
+
 .landing-section-video {
 	display: block;
 	position: relative;
