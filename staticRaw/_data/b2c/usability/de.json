@@ -21,7 +21,7 @@
 	},
 	sections: [
 		{
-			headline: "Es ist total einfach!",
+			headline: "Einfach sicher kommunizieren",
 			details: "whispeer verschlüsselt alle deine Daten, damit du sicher bist und dich um nichts sorgen musst. Da das alles im Hintergrund passiert, ist whispeer trotzdem einfach zu nutzen! Plus: Registrieren dauert weniger als eine Minute und ist für die private Nutzung kostenfrei!",
 			icon: "fa-lock",
 			registerAd: true,
