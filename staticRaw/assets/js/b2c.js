@@ -209,7 +209,7 @@
 
 	var handler = debounce(onVisibilityChange(), 50);
 	var counter;
-	var endtime = Date.parse("2017-02-21");
+	var endtime = Date.parse("2017-02-14");
 	function contentLoaded() {
 		counter = {
 			days: document.querySelector("#counter__days .digit"),
