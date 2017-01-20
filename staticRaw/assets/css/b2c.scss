@@ -109,6 +109,11 @@
 	line-height: 36px;
 }
 
+.digit {
+	display: inline-block;
+	width: 100%;
+}
+
 #counter__days {
 	width: 76px;
 	@media #{$mobile} {
