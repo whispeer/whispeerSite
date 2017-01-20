@@ -111,6 +111,10 @@
 
 #counter__days {
 	width: 76px;
+	@media #{$mobile} {
+		width: 100%;
+		margin-bottom: 10px;
+	}
 }
 
 #counter__hours {
