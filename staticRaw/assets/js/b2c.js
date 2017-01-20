@@ -194,15 +194,40 @@
 		};
 	}
 
+	function formatNum(num) {
+		return ("0" + num).slice(-2);
+	}
+
+	function runCountdown() {
+		var t, days, hours, minutes, seconds;
+		t = endtime - Date.now();
+		seconds = formatNum(Math.floor((t / 1000) % 60));
+		minutes = formatNum(Math.floor((t / 60000) % 60));
+		hours = formatNum(Math.floor((t / 3600000) % 24));
+		days = formatNum(Math.floor(t / 86400000));
+
+		counter.textContent = days + ":" + hours + ":" + minutes + ":" + seconds;
+	}
+
 	var handler = debounce(onVisibilityChange(), 50);
+	var counter;
+	var endtime = Date.parse("2017-02-21");
+	function contentLoaded() {
+		counter = document.getElementById("countdown__counter");
+		if(counter) {
+			setInterval(runCountdown, 1000);
+		}
+
+		handler();
+	}
 
 	if (window.addEventListener) {
-		addEventListener("DOMContentLoaded", handler, false);
+		addEventListener("DOMContentLoaded", contentLoaded, false);
 		addEventListener("load", handler, false);
 		addEventListener("scroll", handler, false);
 		addEventListener("resize", handler, false);
 	} else if (window.attachEvent)  {
-		attachEvent("onDOMContentLoaded", handler);
+		attachEvent("onDOMContentLoaded", contentLoaded);
 		attachEvent("onload", handler);
 		attachEvent("onscroll", handler);
 		attachEvent("onresize", handler);

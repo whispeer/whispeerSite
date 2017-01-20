@@ -43,6 +43,12 @@
 							</div>
 						</div>
 					{% endif %}
+					{% if data.teaser.countdown %}
+						<h1 class="section-header {% if data.teaser.textShadow %}textShadow{% endif %} {% if data.teaser.darkBlur %}darkBlur{% endif %} {% if data.teaser.lightBlur %}lightBlur{% endif %}" id="countdown__counter"></h1>
+						<p class="section-paragraph {% if data.teaser.textShadow %}textShadow{% endif %} {% if data.teaser.darkBlur %}darkBlur{% endif %} {% if data.teaser.lightBlur %}lightBlur{% endif %}">
+							{{data.teaser.countdown.text}}
+						</p>
+					{% endif %}
 					{% if data.teaser.registerForm %}
 						<a href="/{{page.lang}}/register/" class="button button--noBorder button--primary button--landing button--radius">{{lang.registerAd}}</a>
 					{% endif %}

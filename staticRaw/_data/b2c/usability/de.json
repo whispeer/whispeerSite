@@ -5,14 +5,19 @@
 		description: "whispeer ist ein sicheres soziales Netzwerk, dass deine Privatsphäre durch Ende-zu-Ende Verschlüsselung schützt."
 	},
 	teaser: {
-		headline: "Sich auf Freunde konzentrieren",
-		details: "Das ist wofür whispeer steht. Keine extra Funktionen, keine verwirrenden Optionen, keine Ablenkungen. Wir konzentrieren uns auf das, was wirklich wichtig ist: Kommunikation und Privatsphäre.",
+		headline: "Etwas passiert.",
+		headline_old: "Sich auf Freunde konzentrieren",
+		details: "Lange haben wir geforscht, gebastelt, geträumt.<br>Jetzt zählen wir mit euch die Tage.",
+		details_old: "Das ist wofür whispeer steht. Keine extra Funktionen, keine verwirrenden Optionen, keine Ablenkungen. Wir konzentrieren uns auf das, was wirklich wichtig ist: Kommunikation und Privatsphäre.",
 		imageIdeas: "",
 		image: "lighthouse.jpg",
-		registerForm: true,
+		registerForm: false,
 		textShadow: true,
-		video: true,
-		mailForm: true
+		video: false,
+		mailForm: false,
+		countdown: {
+			text: "Uns steht eine sichere Zukunft bevor!"
+		}
 	},
 	sections: [
 		{
