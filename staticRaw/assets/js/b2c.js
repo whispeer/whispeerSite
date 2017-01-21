@@ -194,15 +194,45 @@
 		};
 	}
 
+	function formatNum(num) {
+		return ("0" + num).slice(-2);
+	}
+
+	function runCountdown() {
+		var t = endtime - Date.now();
+
+		counter.seconds.textContent = formatNum(Math.floor((t / 1000) % 60));
+		counter.minutes.textContent = formatNum(Math.floor((t / 60000) % 60));
+		counter.hours.textContent = formatNum(Math.floor((t / 3600000) % 24));
+		counter.days.textContent = formatNum(Math.floor(t / 86400000));
+	}
+
 	var handler = debounce(onVisibilityChange(), 50);
+	var counter;
+	var endtime = Date.parse("2017-02-14");
+	function contentLoaded() {
+		counter = {
+			days: document.querySelector("#counter__days .digit"),
+			hours: document.querySelector("#counter__hours .digit"),
+			minutes: document.querySelector("#counter__minutes .digit"),
+			seconds: document.querySelector("#counter__seconds .digit")
+		}
+
+		// check if all elements exist
+		if(counter.days && counter.hours && counter.minutes && counter.seconds) {
+			setInterval(runCountdown, 1000);
+		}
+
+		handler();
+	}
 
 	if (window.addEventListener) {
-		addEventListener("DOMContentLoaded", handler, false);
+		addEventListener("DOMContentLoaded", contentLoaded, false);
 		addEventListener("load", handler, false);
 		addEventListener("scroll", handler, false);
 		addEventListener("resize", handler, false);
 	} else if (window.attachEvent)  {
-		attachEvent("onDOMContentLoaded", handler);
+		attachEvent("onDOMContentLoaded", contentLoaded);
 		attachEvent("onload", handler);
 		attachEvent("onscroll", handler);
 		attachEvent("onresize", handler);
