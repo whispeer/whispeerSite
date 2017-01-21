@@ -11,7 +11,7 @@
 		details_old: "Das ist wofür whispeer steht. Keine extra Funktionen, keine verwirrenden Optionen, keine Ablenkungen. Wir konzentrieren uns auf das, was wirklich wichtig ist: Kommunikation und Privatsphäre.",
 		imageIdeas: "",
 		image: "lighthouse.jpg",
-		registerForm: false,
+		registerForm: true,
 		textShadow: true,
 		video: false,
 		mailForm: false,
