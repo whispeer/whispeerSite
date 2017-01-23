@@ -8,7 +8,7 @@
 		headline: "Share private thoughts with friends",
 		details: "Send any image or text to your friends. We can't read anything you share! Speak freely about politics, health or black humour. ",
 		imageIdeas: "",
-		image: "lighthouse.jpg",
+		image: "private_landing_lowQual_big.jpg",
 		registerForm: true,
 		textShadow: true,
 		video: false,
