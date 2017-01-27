@@ -5,15 +5,20 @@
 		description: "whispeer is a secure social network offering high privacy standards by using end-to-end encryption."
 	},
 	teaser: {
-		headline: "Share private thoughts with friends",
-		details: "Send any image or text to your friends. We can't read anything you share! Speak freely about politics, health or black humour. ",
+		headline: "It's happening.",
+		details: "We investigated, tinkered and dreamed for a long time.<br>Now we count the days - with you.",
+		headline_old: "Share private thoughts with friends",
+		details_old: "Send any image or text to your friends. We can't read anything you share! Speak freely about politics, health or black humour. ",
 		imageIdeas: "",
 		image: "private_landing_lowQual_big.jpg",
-		registerForm: true,
+		registerForm: false,
 		textShadow: true,
 		video: false,
 		videoSubtitles: true,
-		mailForm: true
+		mailForm: true,
+		countdown: {
+			text: "A secure future is just around the corner."
+		}
 	},
 	sections: [
 		{
