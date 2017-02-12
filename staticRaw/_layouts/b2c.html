@@ -20,7 +20,7 @@
 			</div>
 		</header>
 		<main>
-			<section class="landing-section{% if data.teaser.image != null %} landing-section--background{% endif %}" id="heading">
+			<section class="heading heading1 landing-section{% if data.teaser.image != null %} landing-section--background{% endif %}">
 				<div class="landing-section--inner">
 					<h1 class="section-header {% if data.teaser.textShadow %}textShadow{% endif %} {% if data.teaser.darkBlur %}darkBlur{% endif %} {% if data.teaser.lightBlur %}lightBlur{% endif %}">{{ data.teaser.headline }}</h1>
 					{% if data.teaser.details != null %}
@@ -67,6 +67,34 @@
 						</p>
 					{% endif %}
 					{% if data.teaser.registerForm %}
+						<a href="/{{page.lang}}/register/" class="button button--noBorder button--primary button--landing button--radius">{{lang.registerAd}}</a>
+					{% endif %}
+				</div>
+			</section>
+			<section class="heading heading2 landing-section{% if data.teaser2.image != null %} landing-section--background2{% endif %}" style="display: none;">
+				<div class="landing-section--inner">
+					<h1 class="section-header {% if data.teaser2.textShadow %}textShadow{% endif %} {% if data.teaser2.darkBlur %}darkBlur{% endif %} {% if data.teaser2.lightBlur %}lightBlur{% endif %}">{{ data.teaser2.headline }}</h1>
+					{% if data.teaser2.details != null %}
+						<p class="section-paragraph {% if data.teaser2.textShadow %}textShadow{% endif %} {% if data.teaser2.darkBlur %}darkBlur{% endif %} {% if data.teaser2.lightBlur %}lightBlur{% endif %}">
+							{{ data.teaser2.details }}
+						</p>
+					{% endif %}
+					{% if data.teaser2.detailsList != null %}
+						<ul class="section-ul fa-ul {% if data.teaser2.darkBlur %} darkBlur {% endif %} {% if data.teaser2.lightBlur %} lightBlur {% endif %}">
+						{% for item in data.teaser2.detailsList %}
+							<li class="section-li"><i class="fa fa-li {{item.icon}}"></i> {{item.text}}</li>
+						{% endfor %}
+						</ul>
+					{% endif %}
+					{% if data.teaser2.video == true %}
+						<div class="landing-section-video" id="video-overlay-open">
+							<img class="landing-section-video-image" src="/assets/images/videoThumb.jpg" alt="Start Video!">
+							<div class="landing-section-video-icon-wrap">
+								<i class="fa fa-2x fa-play landing-section-video-icon"></i>
+							</div>
+						</div>
+					{% endif %}
+					{% if data.teaser2.registerForm %}
 						<a href="/{{page.lang}}/register/" class="button button--noBorder button--primary button--landing button--radius">{{lang.registerAd}}</a>
 					{% endif %}
 				</div>

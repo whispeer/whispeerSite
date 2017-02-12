@@ -90,10 +90,10 @@
 		height: 318px;
 	}
 }
-#heading {
+.heading {
 	padding-bottom: 0;
 }
-#heading .landing-registerFrame {
+.heading .landing-registerFrame {
 	padding-bottom: 32px;
 	@media #{$mobile} {
 		padding-bottom: 16px;

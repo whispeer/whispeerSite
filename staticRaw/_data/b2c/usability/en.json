@@ -20,6 +20,21 @@
 			text: "A secure future is just around the corner."
 		}
 	},
+	teaser2: {
+		logo: true,
+		headline: "It's just like super secure whispering.",
+		details: "",
+		imageIdeas: "",
+		image: true,
+		registerForm: false,
+		appLink: {
+			google: "http://google.com",
+			apple: "http://apple.com"
+		},
+		textShadow: true,
+		video: false,
+		mailForm: false
+	},
 	sections: [
 		{
 			headline: "It's so simple! ",

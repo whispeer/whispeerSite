@@ -199,13 +199,13 @@
 	}
 
 	var counter;
-	var endtime = Date.parse("Feb 14 2017 18:00:00 GMT+0100 (CET)");
+	var endtime = Date.parse("Feb 11 2017 18:00:00 GMT+0100 (CET)");
 	function runCountdown() {
 		var t = endtime - Date.now();
 
 		if (t < 0) {
-			document.getElementById("countdown__counter").style.display = "none";
-			document.getElementById("countdown__text").style.display = "none";
+			document.getElementsByClassName("heading")[0].style.display = "none";
+			document.getElementsByClassName("heading2")[0].style.display = "";
 		}
 
 		counter.seconds.textContent = formatNum(Math.floor((t / 1000) % 60));
