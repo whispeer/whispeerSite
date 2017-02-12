@@ -22,13 +22,14 @@
 	teaser2: {
 		logo: true,
 		headline: "It's just like super secure whispering.",
-		details: "",
+		headingColor: "primary",
+		app: "Get the <strong class='text--primary'>BETA</strong> here:",
 		imageIdeas: "",
 		image: true,
 		registerForm: false,
 		appLink: {
-			google: "http://google.com",
-			apple: "http://apple.com"
+			google: "https://google.com",
+			apple: "https://apple.com"
 		},
 		textShadow: true,
 		video: false,

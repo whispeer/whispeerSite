@@ -32,8 +32,16 @@
 	background-color: #ffffff;
 }
 .landing-section--background2 {
-	background-image: url("/assets/images/private_landing_lowQual_big.jpg");
-	background-color: #ffffff;
+	background-image: url("/assets/images/app-release.jpg");
+	background-color: #edf1f4;
+	background-size: 100% auto;
+	background-position: center 55vh !important;
+	@media #{$smallerMobile} {
+		background-position: center 500px !important;
+	}
+	@media #{$smallerMobile} and (orientation: landscape) {
+		min-height: calc(100vh + 500px) !important;
+	}
 }
 .landing-section--background--night {
 	background-image: url("/assets/images/lighthouse_night.jpg");
@@ -107,6 +115,11 @@
 	letter-spacing: -2px;
 	width: auto;
 }
+
+.section-header--large {
+	max-width: 80% !important;
+}
+
 .section-paragraph {
 	@media #{$desktop} {
 		@include normalFont;

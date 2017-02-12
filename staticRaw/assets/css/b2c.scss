@@ -100,6 +100,39 @@
 	}
 }
 
+.landing-section__logo {
+	width: 502px;
+	max-width: 80%;
+
+	@media #{$desktop} {
+		margin: 6em auto 2em;
+	}
+}
+
+.landing-section__appstore {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+
+	font-size: 1.5rem;
+	color: #788286;
+	text-transform: uppercase;
+}
+
+.landing-section__appstore__icon {
+	&:first-child {
+		margin-right: 11px;
+	}
+	&:last-child {
+		margin-left: 11px;
+	}
+
+	&:first-child:last-child {
+		margin: 0;
+	}
+}
+
 #countdown__counter {
 	min-height: 76px;
 }

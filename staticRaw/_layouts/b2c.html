@@ -72,8 +72,26 @@
 				</div>
 			</section>
 			<section class="heading heading2 landing-section{% if data.teaser2.image != null %} landing-section--background2{% endif %}" style="display: none;">
-				<div class="landing-section--inner">
-					<h1 class="section-header {% if data.teaser2.textShadow %}textShadow{% endif %} {% if data.teaser2.darkBlur %}darkBlur{% endif %} {% if data.teaser2.lightBlur %}lightBlur{% endif %}">{{ data.teaser2.headline }}</h1>
+				<div class="landing-section--inner" style="margin-top: 0;">
+					<img src="/assets/images/logo_grey.svg" class="landing-section__logo">
+					<h1 class="section-header section-header--large {% if data.teaser2.headingColor %} text--{{data.teaser2.headingColor}} {%endif%}{% if data.teaser2.textShadow %}textShadow{% endif %} {% if data.teaser2.darkBlur %}darkBlur{% endif %} {% if data.teaser2.lightBlur %}lightBlur{% endif %}">{{ data.teaser2.headline }}</h1>
+					{% if data.teaser2.app != null %}
+						<div class="landing-section__appstore">
+							<p>{{ data.teaser2.app }}</p>
+							<div>
+								{% if data.teaser2.appLink.google %}
+									<a href="{{data.teaser2.appLink.google}}" class="landing-section__appstore__icon">
+										<img src="/assets/images/icons/playstore.png">
+									</a>
+								{% endif %}
+								{% if data.teaser2.appLink.apple %}
+									<a href="{{data.teaser2.appLink.apple}}" class="landing-section__appstore__icon">
+										<img src="/assets/images/icons/appstore.svg">
+									</a>
+								{% endif %}
+							</div>
+						</div>
+					{% endif %}
 					{% if data.teaser2.details != null %}
 						<p class="section-paragraph {% if data.teaser2.textShadow %}textShadow{% endif %} {% if data.teaser2.darkBlur %}darkBlur{% endif %} {% if data.teaser2.lightBlur %}lightBlur{% endif %}">
 							{{ data.teaser2.details }}
