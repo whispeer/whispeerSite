@@ -262,6 +262,12 @@
 	}
 	white-space: nowrap;
 }
+.legal-stuff {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	width: 100%;
+}
 .video-overlay {
 	display: none;
 	position: fixed;

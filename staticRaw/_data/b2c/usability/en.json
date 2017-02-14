@@ -32,6 +32,10 @@
 		appLink: {
 			google: "https://play.google.com/store/apps/details?id=whispeer.app"
 		},
+		legal: {
+			google: "Google Play and the Google Play logo are trademarks of Google Inc.",
+			apple: "Apple and the Apple logo are trademarks of Apple Inc., registered in the U.S. and other countries. App Store is a service mark of Apple Inc., registered in the U.S. and other countries."
+		},
 		textShadow: true,
 		video: false,
 		mailForm: false

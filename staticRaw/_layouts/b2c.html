@@ -116,6 +116,16 @@
 						<a href="/{{page.lang}}/register/" class="button button--noBorder button--primary button--landing button--radius">{{lang.registerAd}}</a>
 					{% endif %}
 				</div>
+				<div class="legal-stuff">
+					<p>
+						{% if data.teaser2.appLink.google and data.teaser2.legal.google %}
+							<small>{{data.teaser2.legal.google}}</small>
+						{% endif %}
+						{% if data.teaser2.appLink.apple and data.teaser2.legal.apple %}
+							<br><small>{{data.teaser2.legal.apple}}</small>
+						{% endif %}
+					</p>
+				</div>
 			</section>
 			<a id="content"></a>
 			{% for section in data.sections %}
