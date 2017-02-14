@@ -103,9 +103,10 @@
 .landing-section__logo {
 	width: 502px;
 	max-width: 80%;
+	margin-top: 25px;
 
 	@media #{$desktop} {
-		margin: 6em auto 2em;
+		margin: 3em auto 2em;
 	}
 }
 
