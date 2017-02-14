@@ -22,7 +22,9 @@
 	},
 	teaser2: {
 		logo: true,
-		headline: "It's just like super secure whispering.",
+		headline: "Be a secret valentine. Super secret.",
+		headingColor: "white",
+		app: "Get the <strong class='text--white'>BETA</strong> here:",
 		details: "",
 		imageIdeas: "",
 		image: true,
