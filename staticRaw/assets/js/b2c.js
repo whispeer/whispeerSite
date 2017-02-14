@@ -160,10 +160,6 @@
 		var visibleClass = "backToTop--visible";
 		var el = document.getElementsByClassName("backToTop")[0];
 
-		if (!el) {
-			return;
-		}
-
 		if (isElementInViewport(headingElement)) {
 			if (el.className.indexOf(visibleClass) !== -1) {
 				removeClass(el, visibleClass);
