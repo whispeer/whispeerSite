@@ -35,9 +35,17 @@
 	background-image: url("/assets/images/app-release.jpg");
 	background-color: #eef2f5;
 	background-size: 100% auto;
-	background-position: center 55vh !important;
+	background-position: center 50vh !important;
+	@media #{$large} {
+		background-position: center 450px !important;
+	}
+	@media #{$mobile} {
+		background-position: center bottom !important;
+		min-height: 0 !important;
+		padding-bottom: 500px !important;
+	}
 	@media #{$smallerMobile} {
-		background-position: center 500px !important;
+		padding-bottom: 350px !important;
 	}
 	@media #{$smallerMobile} and (orientation: landscape) {
 		min-height: calc(100vh + 500px) !important;
@@ -117,7 +125,7 @@
 }
 
 .section-header--large {
-	max-width: 80% !important;
+	max-width: 85% !important;
 }
 
 .section-paragraph {
