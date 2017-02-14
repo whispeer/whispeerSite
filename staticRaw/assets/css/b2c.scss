@@ -90,13 +90,47 @@
 		height: 318px;
 	}
 }
-#heading {
+.heading {
 	padding-bottom: 0;
 }
-#heading .landing-registerFrame {
+.heading .landing-registerFrame {
 	padding-bottom: 32px;
 	@media #{$mobile} {
 		padding-bottom: 16px;
+	}
+}
+
+.landing-section__logo {
+	width: 502px;
+	max-width: 80%;
+	margin-top: 25px;
+
+	@media #{$desktop} {
+		margin: 3em auto 2em;
+	}
+}
+
+.landing-section__appstore {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+
+	font-size: 1.5rem;
+	color: #788286;
+	text-transform: uppercase;
+}
+
+.landing-section__appstore__icon {
+	&:first-child {
+		margin-right: 11px;
+	}
+	&:last-child {
+		margin-left: 11px;
+	}
+
+	&:first-child:last-child {
+		margin: 0;
 	}
 }
 
