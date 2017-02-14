@@ -80,12 +80,12 @@
 							<p>{{ data.teaser2.app }}</p>
 							<div>
 								{% if data.teaser2.appLink.google %}
-									<a href="{{data.teaser2.appLink.google}}" class="landing-section__appstore__icon">
+									<a href="{{data.teaser2.appLink.google}}" target="_blank" class="landing-section__appstore__icon">
 										<img src="/assets/images/icons/playstore.png">
 									</a>
 								{% endif %}
 								{% if data.teaser2.appLink.apple %}
-									<a href="{{data.teaser2.appLink.apple}}" class="landing-section__appstore__icon">
+									<a href="{{data.teaser2.appLink.apple}}" target="_blank" class="landing-section__appstore__icon">
 										<img src="/assets/images/icons/appstore.svg">
 									</a>
 								{% endif %}

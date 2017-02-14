@@ -28,8 +28,7 @@
 		image: true,
 		registerForm: false,
 		appLink: {
-			google: "https://google.com",
-			apple: "https://apple.com"
+			google: "https://play.google.com/store/apps/details?id=whispeer.app"
 		},
 		textShadow: true,
 		video: false,
