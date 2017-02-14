@@ -216,17 +216,18 @@
 
 	var handler = debounce(onVisibilityChange(), 50);
 	function contentLoaded() {
-		counter = {
-			days: document.querySelector("#counter__days .digit"),
-			hours: document.querySelector("#counter__hours .digit"),
-			minutes: document.querySelector("#counter__minutes .digit"),
-			seconds: document.querySelector("#counter__seconds .digit")
-		};
+		// keeping the coutner - who knows if we are gonna use this again?
+		// counter = {
+		// 	days: document.querySelector("#counter__days .digit"),
+		// 	hours: document.querySelector("#counter__hours .digit"),
+		// 	minutes: document.querySelector("#counter__minutes .digit"),
+		// 	seconds: document.querySelector("#counter__seconds .digit")
+		// };
 
-		// check if all elements exist
-		if(counter.days && counter.hours && counter.minutes && counter.seconds) {
-			setInterval(runCountdown, 1000);
-		}
+		// // check if all elements exist
+		// if(counter.days && counter.hours && counter.minutes && counter.seconds) {
+		// 	setInterval(runCountdown, 1000);
+		// }
 
 		handler();
 	}
