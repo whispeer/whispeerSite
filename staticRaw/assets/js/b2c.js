@@ -135,6 +135,10 @@
 	overlay.addEventListener("click", close);
 
 	function isElementInViewport (el) {
+		if(!el) {
+			return false;
+		}
+
 		var rect = el.getBoundingClientRect();
 
 		var windowHeight = window.innerHeight || document.documentElement.clientHeight;
