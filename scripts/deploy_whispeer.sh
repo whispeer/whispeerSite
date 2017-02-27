@@ -13,6 +13,8 @@ npm install
 git submodule update --init
 bower install
 
+grunt copy
+
 bundle install
 jekyll build
 grunt build:production
