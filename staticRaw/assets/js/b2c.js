@@ -50,7 +50,7 @@
 		var inputs = Array.prototype.slice.call(e.srcElement.contentWindow.document.getElementsByTagName("input"));
 		inputs.forEach(function (input) {
 			input.addEventListener("click", function () {
-				whispeerStopAutoFocus = true;
+				window.whispeerStopAutoFocus = true;
 			});
 		});
 	}
