@@ -39,6 +39,9 @@ define(["bluebird", "whispeerHelper", "asset/state", "controllers/controllerModu
 
 		$scope.donateType = "donatePage.";
 
+		$scope.showFullText = false;
+		$scope.infoHidden = false;
+
 		$scope.focusNewPost = function () {
 			var textarea = jQuery("#newsfeedView-postForm textarea");
 			var scope = textarea.scope();
@@ -83,6 +86,14 @@ define(["bluebird", "whispeerHelper", "asset/state", "controllers/controllerModu
 				]);
 			}).catch(errorService.criticalError);
 		};
+
+		$scope.toggleText = function() {
+			$scope.showFullText = !$scope.showFullText;
+		}
+
+		$scope.hideInfo = function() {
+			$scope.infoHidden = true;
+		}
 
 		$scope.togglePost = function() {
 			$scope.postActive = !$scope.postActive;
