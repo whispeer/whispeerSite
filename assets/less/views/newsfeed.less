@@ -14,11 +14,12 @@
 	width: 100%;
 	@media @desktop { padding-top: 1rem; }
 }
+
 .newsfeedView__info {
 	position: relative;
 	width: ~"calc(80% + 2em)";
 
-	padding: 0.5em 2em 0.5em 16em;
+	padding: 0.5em 2em 0.5em 14em;
 	margin: 3em auto 6em;
 
 	box-sizing: border-box;
@@ -29,15 +30,30 @@
 	// using it only here as converting to Roboto would destroy
 	// the layout
 	font-family: "Roboto Condensed", "Roboto", sans-serif;
+
+	@media @mobile {
+		width: 100%;
+		padding: 0.5em 2em 0.5em 8em;
+
+		margin: 6em auto 2em;
+	}
 }
 
 .newsfeedView__info__icon-wrap {
 	position: absolute;
-	left: 2em;
-	top: -2.5em;
+	left: 1em;
 	width: 12em;
 
-	transition: top 1s ease-in-out;
+	@media @desktop {
+		top: -1em;
+		transition: top 1s ease-in-out;
+	}
+
+	@media @mobile {
+		top: 50%;
+		margin-top: -3em;
+		width: 6em;
+	}
 }
 
 .newsfeedView__info__icon {
@@ -56,7 +72,9 @@
 
 	opacity: 0;
 
-	transition: opacity 0.1s ease-in-out;
+	@media @desktop {
+		transition: opacity 0.1s ease-in-out;
+	}
 }
 
 .newsfeedView__info__close {
@@ -101,14 +119,22 @@
 	}
 
 	.newsfeedView__info__icon-wrap {
-		top: 1em;
+		@media @desktop {
+			top: 1em;
+		}
+
+		@media @mobile {
+			margin-top: -6em;
+		}
 	}
 
 	.newsfeedView__info__icon-text {
 		opacity: 1;
 
-		transition-delay: 0.5s;
-		transition-duration: 1s;
+		@media @desktop {
+			transition-delay: 0.5s;
+			transition-duration: 1s;
+		}
 	}
 }
 
