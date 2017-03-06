@@ -45,7 +45,7 @@
 }
 
 .newsfeedView__info__icon-text {
-	display: none;
+	display: block;
 
 	padding-top: 1em;
 
@@ -53,6 +53,10 @@
 
 	font-size: 20px;
 	font-weight: 100;
+
+	opacity: 0;
+
+	transition: opacity 0.1s ease-in-out;
 }
 
 .newsfeedView__info__close {
@@ -101,7 +105,10 @@
 	}
 
 	.newsfeedView__info__icon-text {
-		display: block;
+		opacity: 1;
+
+		transition-delay: 0.5s;
+		transition-duration: 1s;
 	}
 }
 
