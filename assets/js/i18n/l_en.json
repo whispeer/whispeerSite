@@ -501,8 +501,8 @@
 					"what": "working as {what}",
 					"where": "working at {where}",
 					"placeholders": {
-						"what":		"Job",
-						"where":	"Company"
+						"what":		"position",
+						"where":	"institution"
 					}
 				},
 				"gender":	{
