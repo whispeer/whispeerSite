@@ -1,11 +1,8 @@
-define(["angular", "i18n/localizationConfig", "runners/promiseRunner"], function (angular) {
-	"use strict";
-	return angular.module("ssn.recovery", [
-		"ssn.services",
-		"ssn.user",
-		"ssn.directives",
-		"ssn.models",
-		"localization",
-		"ssn.runners",
-	]);
-});
+var angular = require("angular")
+
+require("i18n/localizationConfig")
+require("directives/savebutton");
+require("runners/promiseRunner")
+require("localizationModule")
+
+module.exports = angular.module("ssn.recovery", ["ssn.directives", "ssn.runners", "localization"]);

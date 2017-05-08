@@ -22,12 +22,13 @@ try {
 	console.error("Dexie failed to initialize...");
 }
 
+let cacheDisabled = false
+
 export default class Cache {
 	private _name: string;
 	private _options: any;
 
 	private _db: any; // Once open the db has attributes for tables which are not defined in the class.
-	private _cacheDisabled: boolean = false;
 
 	constructor(name : string, options?: any) {
 		this._name = name;
@@ -45,7 +46,7 @@ export default class Cache {
 	}
 
 	entries() {
-		if (this._cacheDisabled) {
+		if (cacheDisabled) {
 			return Bluebird.resolve();
 		}
 
@@ -53,7 +54,7 @@ export default class Cache {
 	}
 
 	entryCount() : Bluebird<any> {
-		if (this._cacheDisabled) {
+		if (cacheDisabled) {
 			return Bluebird.reject("");
 		}
 
@@ -78,7 +79,7 @@ export default class Cache {
 	}
 
 	store(id: string, data: any, blobs?: any): Bluebird<any> {
-		if (this._cacheDisabled) {
+		if (cacheDisabled) {
 			return Bluebird.resolve();
 		}
 
@@ -123,7 +124,7 @@ export default class Cache {
 	}
 
 	get(id: string): Bluebird<any> {
-		if (this._cacheDisabled) {
+		if (cacheDisabled) {
 			return Bluebird.reject(new Error("Cache is disabled"));
 		}
 
@@ -162,7 +163,7 @@ export default class Cache {
 	 * @return {Bluebird<any>} Promise containing all cache entries as a dexie collection.
 	 */
 	all(): Bluebird<any> {
-		if (this._cacheDisabled) {
+		if (cacheDisabled) {
 			return Bluebird.resolve([]);
 		}
 
@@ -175,7 +176,7 @@ export default class Cache {
 	 * @return {Bluebird<any>}    [description]
 	 */
 	delete(id: string): Bluebird<any> {
-		if (this._cacheDisabled) {
+		if (cacheDisabled) {
 			return Bluebird.resolve();
 		}
 
@@ -183,7 +184,7 @@ export default class Cache {
 	}
 
 	cleanUp() {
-		if (this._cacheDisabled) {
+		if (cacheDisabled) {
 			return Bluebird.resolve();
 		}
 
@@ -204,6 +205,10 @@ export default class Cache {
 	};
 
 	private disable() {
-		this._cacheDisabled = true;
+		cacheDisabled = true;
+	}
+
+	static disable() {
+		cacheDisabled = true;
 	}
 }

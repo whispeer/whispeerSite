@@ -10,8 +10,6 @@ define([
 		"bluebird",
 		"asset/state",
 		"recovery/recoveryModule",
-
-		"models/user"
 	], function (h, Bluebird, State, controllerModule) {
 	"use strict";
 

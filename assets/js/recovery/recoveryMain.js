@@ -7,19 +7,16 @@ require("interceptors/addKeysInterceptor");
 require("interceptors/sessionServiceInterceptor");
 
 define([
-	"jquery",
 	"angular",
 	"recovery/recoveryModule",
 	"recovery/recoveryController",
 
 	"directives/directives",
-
-	"localizationModule"
-], function($, angular, app) {
+], function(angular, app) {
 	"use strict";
 
-	$(document).ready(function () {
-		var $html = $("html");
+	angular.element(document).ready(function () {
+		var $html = angular.element(document.documentElement);
 		angular.bootstrap($html, [app.name], { strictDi: true });
 		// Because of RequireJS we need to bootstrap the app app manually
 		// and Angular Scenario runner won"t be able to communicate with our app
