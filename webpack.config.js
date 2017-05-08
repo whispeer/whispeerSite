@@ -20,6 +20,9 @@ var unusedFiles = new UnusedFilesWebpackPlugin({
 	}
 });
 
+var BundleAnalyzerPlugin = require("webpack-bundle-analyzer").BundleAnalyzerPlugin
+var WebpackBundleSizeAnalyzerPlugin = require("webpack-bundle-size-analyzer").WebpackBundleSizeAnalyzerPlugin
+
 var plugins = [
 	new webpack.optimize.CommonsChunkPlugin({
 		names: "commons",
@@ -34,7 +37,13 @@ var plugins = [
 	new webpack.DefinePlugin({
 		"WHISPEER_ENV": JSON.stringify(process.env.WHISPEER_ENV)
 	}),
-	unusedFiles
+	new BundleAnalyzerPlugin({
+		analyzerMode: "static",
+		reportFilename: "report-chunks.html",
+		openAnalyzer: false
+	}),
+	new WebpackBundleSizeAnalyzerPlugin("./report-size.txt"),
+	unusedFiles,
 ];
 
 var bail = false;
