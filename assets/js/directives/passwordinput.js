@@ -1,4 +1,4 @@
-var passwordStrengthService = require("services/passwordStrength.service.ts");
+var passwordStrength = require("services/passwordStrength.service.ts").default;
 
 define(["whispeerHelper", "directives/directivesModule"], function (h, directivesModule) {
 	"use strict";
@@ -50,7 +50,7 @@ define(["whispeerHelper", "directives/directivesModule"], function (h, directive
 
 
 				scope.passwordStrength = function () {
-					return passwordStrengthService.passwordStrength(scope.state.password);
+					return passwordStrength(scope.state.password);
 				};
 
 				scope.empty = function (val) {

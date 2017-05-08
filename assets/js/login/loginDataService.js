@@ -4,12 +4,12 @@ var loginModule = require("login/loginModule");
 var errors = require("asset/errors");
 var Bluebird = require("bluebird");
 
-var socketService = require("services/socket.service.ts");
+var socketService = require("services/socket.service.ts").default;
 var Storage = require("services/storage.service.ts");
 
-require("angularServices/locationService");
+var locationService = require("services/location.manager.ts");
 
-var service = function (locationService) {
+var service = function () {
 	var loginState = new State.default();
 
 	var failureCodes = {
@@ -137,7 +137,5 @@ var service = function (locationService) {
 
 	return res;
 };
-
-service.$inject = ["ssn.locationService"]
 
 loginModule.factory("ssn.loginDataService", service);

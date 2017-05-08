@@ -3,7 +3,7 @@
 **/
 
 var locationService = require("services/location.manager");
-var errorService = require("services/error.service");
+var errorService = require("services/error.service.ts").default;
 var registerService = require("register/registerService");
 
 define([
