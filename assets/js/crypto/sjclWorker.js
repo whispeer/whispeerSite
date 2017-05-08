@@ -1,4 +1,4 @@
-define(["libs/sjcl", "crypto/minimalHelper", "crypto/objectHasher"], function (sjcl, chelper, ObjectHasher) {
+define(["sjcl", "crypto/minimalHelper", "crypto/objectHasher"], function (sjcl, chelper, ObjectHasher) {
 	"use strict";
 
 	function nop() {}

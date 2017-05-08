@@ -1,7 +1,9 @@
+var circleService = require("circles/circleService");
+
 define(["angular", "bluebird"], function (angular, Promise) {
 	"use strict";
 	return function () {
-		angular.module("ssn.search").factory("circleSearchSupplier", ["ssn.circleService", function (circleService) {
+		angular.module("ssn.search").factory("circleSearchSupplier", [function () {
 			var Search = function () {};
 
 			Search.prototype.search = function (query) {

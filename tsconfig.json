@@ -1,6 +1,33 @@
 {
-  "compilerOptions": {
-    "noImplicitAny": false
-  },
-  "compileOnSave": false
+	"compilerOptions": {
+		"target": "es5",
+		"module": "commonjs",
+		"moduleResolution": "node",
+		"emitDecoratorMetadata": true,
+		"experimentalDecorators": true,
+		"lib": [ "es2015", "dom" ],
+		"noImplicitAny": true,
+		"outDir": "./build",
+		"suppressImplicitAnyIndexErrors": true,
+		"types" : ["node", "webpack", "jquery"],
+		"noUnusedLocals": true,
+		"noUnusedParameters": true
+	},
+	"compileOnSave": false,
+	"filesGlob" :[
+		"**/*.ts",
+		"**/*.js",
+		"!node_modules/**"
+	],
+	"exclude": [
+		"node_modules",
+		"vendor",
+		"**/login.ts",
+		"**/*.ngfactory.ts",
+		"**/*.shim.ts"
+	],
+	"angularCompilerOptions": {
+		"genDir": "aot",
+		"entryModule": "assets/js/login/loginMain.module#LoginModule"
+	}
 }

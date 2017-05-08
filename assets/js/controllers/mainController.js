@@ -1,11 +1,17 @@
 /**
 * mainController
 **/
+var filterService = require("services/filter.service.ts").default;
+var cssService = require("services/css.service").default;
+var errorService = require("services/error.service").errorServiceInstance;
+var localize = require("i18n/localizationConfig");
+var postService = require("services/postService");
+var settingsService = require("services/settings.service").default;
 
 define(["bluebird", "whispeerHelper", "asset/state", "controllers/controllerModule"], function (Bluebird, h, State, controllerModule) {
 	"use strict";
 
-	function mainController($scope, $state, $stateParams, cssService, postService, ImageUploadService, filterService, localize, settingsService, errorService) {
+	function mainController($scope, $state, $stateParams) {
 		cssService.setClass("mainView");
 
 		function reloadTimeline(cb) {
@@ -128,7 +134,7 @@ define(["bluebird", "whispeerHelper", "asset/state", "controllers/controllerModu
 		reloadTimeline();
 	}
 
-	mainController.$inject = ["$scope", "$state", "$stateParams", "ssn.cssService", "ssn.postService", "ssn.imageUploadService", "ssn.filterService", "localize", "ssn.settingsService", "ssn.errorService"];
+	mainController.$inject = ["$scope", "$state", "$stateParams"];
 
 	controllerModule.controller("ssn.mainController", mainController);
 });

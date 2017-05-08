@@ -2,10 +2,12 @@
 * userController
 **/
 
+var errorService = require("services/error.service").errorServiceInstance;
+
 define(["bluebird", "asset/resizableImage", "asset/state", "user/userModule"], function (Promise, ResizableImage, State, userModule) {
 	"use strict";
 
-	function userController($scope, $stateParams, $timeout, cssService, errorService) {
+	function userController($scope) {
 		var verifyState = new State.default();
 		$scope.verifyingUser = verifyState.data;
 
@@ -89,7 +91,7 @@ define(["bluebird", "asset/resizableImage", "asset/state", "user/userModule"], f
 		};
 	}
 
-	userController.$inject = ["$scope", "$stateParams", "$timeout", "ssn.cssService", "ssn.errorService", "ssn.userService"];
+	userController.$inject = ["$scope"];
 
 	userModule.controller("ssn.userVerifyController", userController);
 });

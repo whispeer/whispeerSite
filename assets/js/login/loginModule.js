@@ -1,10 +1,16 @@
-define(["angular", "config", "config/localizationConfig", "directives/savebutton", "directives/mobile", "directives/loadVal", "directives/isIframe", "localizationModule", "runners/promiseRunner"], function (angular, config) {
-	"use strict";
-	return angular.module("ssn.login", ["ssn.services", "ssn.directives", "ssn.locale.config", "localization", "ssn.runners"],
-		["$compileProvider", function ($compileProvider) {
-			if (!config.debug) {
-				$compileProvider.debugInfoEnabled(false);
-			}
-		}]
-	);
-});
+var angular = require("angular")
+var config = require("config");
+require("i18n/localizationConfig");
+require("directives/savebutton");
+require("directives/mobile");
+require("directives/loadVal");
+require("localizationModule");
+
+"use strict";
+module.exports = angular.module("ssn.login", ["ssn.services", "ssn.directives", "ssn.runners"],
+	["$compileProvider", function ($compileProvider) {
+		if (!config.debug) {
+			$compileProvider.debugInfoEnabled(false);
+		}
+	}]
+);

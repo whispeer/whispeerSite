@@ -38,7 +38,7 @@ var plugins = [
 ];
 
 var bail = false;
-var devtool = "inline-source-map";
+var devtool = "cheap-inline-source-map";
 
 if (process.env.WHISPEER_ENV !== "development") {
 	plugins.push(new webpack.optimize.UglifyJsPlugin({
@@ -61,34 +61,26 @@ var config = {
 		],
 		extensions: ["", ".webpack.js", ".web.js", ".ts", ".tsx", ".js"],
 		alias: {
-			text: "bower/requirejs-plugins/lib/text",
-			json: "bower/requirejs-plugins/src/json",
-
 			whispeerHelper: "helper/helper",
-			amanda: "bower/amanda/releases/latest/amanda",
 			angular: "bower/angular/angular",
 			angularUiRouter: "bower/angular-ui-router/release/angular-ui-router",
 			angularTouch: "bower/angular-touch/angular-touch",
-			bluebird: "bower/bluebird/js/browser/bluebird",
-			jquery: "bower/jquery/dist/jquery",
-			socket: "bower/socket.io-client/socket.io",
-			qtip: "bower/qtip2/basic/jquery.qtip",
+			socket: "socket.io-client",
 			imageLib: "bower/blueimp-load-image/js/load-image",
-			localizationModule: "bower/angular-i18n-directive/src/localizationModule",
+			localizationModule: "i18n/localizationModule",
 			workerQueue: "worker/worker-queue",
 			PromiseWorker: "worker/worker-loader",
-			dexie: "bower/dexie/dist/dexie",
 			debug: "bower/visionmedia-debug/dist/debug",
 			emojify: "bower/js-emoji/lib/emoji",
+			qtip: "qtip2"
 		}
 	},
 	module: {
 		loaders: [
-			{ test: /angular/, loader: "imports?jquery!exports?angular" },
-			{ test: /localizationModule/, loader: "imports?jquery" },
-			{ test: /\.html$/, loader: "ngtemplate?relativeTo=assets/views/!html?-attrs" },
+			{ test: /angular\.js/, loader: "imports-loader?jquery!exports-loader?angular" },
+			{ test: /\.html$/, loader: "ngtemplate-loader?relativeTo=assets/views/!html-loader?-attrs" },
 			// all files with a `.ts` or `.tsx` extension will be handled by `ts-loader`
-			{ test: /\.tsx?$/, loader: "ts-loader" }
+			{ test: /\.tsx?$/, loader: "ts-loader", exclude: /node_modules/ }
 		],
 		noParse: [
 			/sjcl\.js$/,

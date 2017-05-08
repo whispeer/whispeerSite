@@ -3,13 +3,14 @@ window.globalErrors = [];
 
 window.jQuery = require("jquery");
 
+require("interceptors/addKeysInterceptor");
+require("interceptors/sessionServiceInterceptor");
+
 define([
 	"jquery",
 	"angular",
 	"recovery/recoveryModule",
 	"recovery/recoveryController",
-
-	"config/interceptorsConfig",
 
 	"directives/directives",
 

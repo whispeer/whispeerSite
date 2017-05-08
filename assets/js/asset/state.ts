@@ -2,68 +2,72 @@ import Enum, { InternalSymbol } from "./enum";
 
 var states : any = new Enum(["INIT", "PENDING", "SUCCESS", "FAILED"]);
 
-var State = function () {
-	this._state = states.INIT;
-	this.data = {
+export default class State {
+	_state = states.INIT;
+	data = {
 		init: true,
 		pending: false,
 		success: false,
 		failed: false
 	};
-};
 
-State.prototype._turnOneDataTrue = function () {
-	states.symbols().forEach(function (symbol : InternalSymbol) {
-		var name : string = symbol.name.toLowerCase();
-		if (this._state === symbol) {
-			this.data[name] = true;
-		} else {
-			this.data[name] = false;
+	_turnOneDataTrue () {
+		states.symbols().forEach(function (symbol : InternalSymbol) {
+			var name : string = symbol.name.toLowerCase();
+			if (this._state === symbol) {
+				this.data[name] = true;
+			} else {
+				this.data[name] = false;
+			}
+		}, this);
+	};
+
+	success () {
+		if (this._state === states.PENDING) {
+			this._state = states.SUCCESS;
+			this._turnOneDataTrue();
 		}
-	}, this);
-};
+	};
 
-State.prototype.success = function () {
-	if (this._state === states.PENDING) {
-		this._state = states.SUCCESS;
+	failed () {
+		if (this._state === states.PENDING) {
+			this._state = states.FAILED;
+			this._turnOneDataTrue();
+		}
+	};
+
+	reset () {
+		this._state = states.INIT;
 		this._turnOneDataTrue();
-	}
-};
-State.prototype.failed = function () {
-	if (this._state === states.PENDING) {
-		this._state = states.FAILED;
+	};
+
+	pending () {
+		this._state = states.PENDING;
 		this._turnOneDataTrue();
-	}
-};
-State.prototype.reset = function () {
-	this._state = states.INIT;
-	this._turnOneDataTrue();
-};
+	};
 
-State.prototype.pending = function () {
-	this._state = states.PENDING;
-	this._turnOneDataTrue();
-};
+	isPending () : boolean {
+		return this._state === states.PENDING;
+	};
 
-State.prototype.isPending = function () : boolean {
-	return this._state === states.PENDING;
-};
-State.prototype.isSuccess = function () : boolean {
-	return this._state === states.SUCCESS;
-};
-State.prototype.isFailed = function () : boolean {
-	return this._state === states.FAILED;
-};
-State.prototype.isInit = function () : boolean {
-	return this._state === states.INIT;
-};
+	isSuccess () : boolean {
+		return this._state === states.SUCCESS;
+	};
 
-State.prototype.getState = function () {
-	return this._state;
-};
+	isFailed () : boolean {
+		return this._state === states.FAILED;
+	};
 
-State.prototype.getPossibleStates = function () {
-	return states;
-};
+	isInit () : boolean {
+		return this._state === states.INIT;
+	};
 
-export default State;
+	getState () {
+		return this._state;
+	};
+
+	getPossibleStates () {
+		return states;
+	};
+
+}

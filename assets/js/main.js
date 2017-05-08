@@ -10,7 +10,7 @@ require([
 	"app",
 
 	"config/routesConfig",
-	"config/localizationConfig",
+	"i18n/localizationConfig",
 
 	"asset/toBlobPolyfill",
 	"angularTouch"

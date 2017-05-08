@@ -4,10 +4,15 @@
 
 var Burst = require("./burst");
 
+var errorService = require("services/error.service").errorServiceInstance;
+var ImageUploadService = require("services/imageUploadService");
+var messageService = require("messages/messageService");
+var TopicUpdate = require("models/topicUpdate");
+
 define(["jquery", "whispeerHelper", "asset/state", "bluebird", "messages/messagesModule"], function (jQuery, h, State, Bluebird, messagesModule) {
 	"use strict";
 
-	function messagesController($scope, $element, $state, $stateParams, $timeout, localize, errorService, messageService, ImageUploadService, TopicUpdate) {
+	function messagesController($scope, $element, $state, $stateParams, $timeout) {
 		var topicLoadingState = new State.default();
 		$scope.topicLoadingState = topicLoadingState.data;
 
@@ -116,7 +121,7 @@ define(["jquery", "whispeerHelper", "asset/state", "bluebird", "messages/message
 				$scope.markRead(errorService.criticalError);
 				$timeout(function () {
 					sendMessageState.reset();
-				}, 2000);				
+				}, 2000);
 			});
 
 			sendMessagePromise.finally(function () {
@@ -236,7 +241,7 @@ define(["jquery", "whispeerHelper", "asset/state", "bluebird", "messages/message
 				bursts = newBursts;
 			}
 
-			return bursts;			
+			return bursts;
 		}
 
 		$scope.messageBursts = function() {
@@ -255,7 +260,7 @@ define(["jquery", "whispeerHelper", "asset/state", "bluebird", "messages/message
 		};
 	}
 
-	messagesController.$inject = ["$scope", "$element", "$state", "$stateParams", "$timeout", "localize", "ssn.errorService", "ssn.messageService", "ssn.imageUploadService", "ssn.models.topicUpdate"];
+	messagesController.$inject = ["$scope", "$element", "$state", "$stateParams", "$timeout"];
 
 	messagesModule.controller("ssn.messagesShowController", messagesController);
 });

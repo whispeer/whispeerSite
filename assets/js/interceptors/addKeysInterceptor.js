@@ -1,26 +1,18 @@
-/**
-* SocketService
-**/
-define([
-	"interceptors/interceptorsModule"
-], function (interceptorModule) {
-	"use strict";
+var keyStore = require("services/keyStore.service").default;
+var socketService = require("services/socket.service").default;
 
-	var interceptor = function (keyStore) {
-		return {
-			transformResponse: function (response) {
-				if (!response.keys) {
-					return response;
-				}
+var interceptor = {
+	transformResponse: function (response) {
+		if (!response.keys) {
+			return response;
+		}
 
-				response.keys.forEach(function (key) {
-					keyStore.upload.addKey(key);
-				});
+		response.keys.forEach(function (key) {
+			keyStore.upload.addKey(key);
+		});
 
-				return response;
-			}
-		};
-	};
+		return response;
+	}
+};
 
-	interceptorModule.service("ssn.interceptors.addKeys", ["ssn.keyStoreService", interceptor]);
-});
+socketService.addInterceptor(interceptor);

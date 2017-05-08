@@ -2,10 +2,12 @@
 * setupController
 **/
 
+var cssService = require("services/css.service").default;
+
 define(["whispeerHelper", "asset/state", "libs/qr", "libs/filesaver", "controllers/controllerModule"], function (h, State, qr, saveAs, controllerModule) {
 	"use strict";
 
-	function fundController($scope, cssService) {
+	function fundController($scope) {
 		cssService.setClass("fundView");
 
 		$scope.paypal = false;
@@ -22,7 +24,7 @@ define(["whispeerHelper", "asset/state", "libs/qr", "libs/filesaver", "controlle
 		};
 	}
 
-	fundController.$inject = ["$scope", "ssn.cssService"];
+	fundController.$inject = ["$scope"];
 
 	controllerModule.controller("ssn.fundController", fundController);
 });

@@ -1,4 +1,4 @@
-define(["crypto/minimalHelper", "libs/sjcl"], function (chelper, sjcl) {
+define(["crypto/minimalHelper", "sjcl"], function (chelper, sjcl) {
 	"use strict";
 
 	var ObjectHasher = function (data, version) {
@@ -38,7 +38,7 @@ define(["crypto/minimalHelper", "libs/sjcl"], function (chelper, sjcl) {
 		if (allowedTypes.indexOf(type) > -1) {
 			return this._hashProperty(val);
 		}
-		
+
 		throw new Error("can not hash objects with " + type);
 	};
 
@@ -125,7 +125,7 @@ define(["crypto/minimalHelper", "libs/sjcl"], function (chelper, sjcl) {
 				ObjectHasher.getType(val),
 				key,
 				ObjectHasher.transformVal(val)
-			];			
+			];
 		}
 
 		return [

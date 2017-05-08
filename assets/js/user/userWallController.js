@@ -2,10 +2,13 @@
 * userWallController
 **/
 
+var postService = require("services/postService");
+var userService = require("user/userService");
+
 define(["bluebird", "whispeerHelper", "bluebird", "asset/resizableImage", "asset/state", "user/userModule"], function (Bluebird, h, Promise, ResizableImage, State, userModule) {
 	"use strict";
 
-	function userWallController($scope, $stateParams, errorService, userService, postService) {
+	function userWallController($scope, $stateParams) {
 		var userObject, identifier = $stateParams.identifier;
 
 		$scope.posts = [];
@@ -82,7 +85,7 @@ define(["bluebird", "whispeerHelper", "bluebird", "asset/resizableImage", "asset
 		});
 	}
 
-	userWallController.$inject = ["$scope", "$stateParams", "ssn.errorService", "ssn.userService", "ssn.postService"];
+	userWallController.$inject = ["$scope", "$stateParams"];
 
 	userModule.controller("ssn.userWallController", userWallController);
 });

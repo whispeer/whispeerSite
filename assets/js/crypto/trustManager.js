@@ -258,7 +258,7 @@ define (["whispeerHelper", "asset/observer", "asset/securedDataWithMetaData", "a
 		}
 	};
 
-	Observer.call(trustManager);
+	Observer.extend(trustManager);
 
 	return trustManager;
 });

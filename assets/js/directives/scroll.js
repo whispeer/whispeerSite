@@ -20,7 +20,7 @@ define(["directives/directivesModule"], function (directivesModule) {
 							nativeElement = document.body;
 						}
 
-						var scrollInfo, previousScrollInfo;
+						var scrollInfo;
 
 						function getScrollHeight() {
 							return nativeElement.scrollHeight;
@@ -31,8 +31,6 @@ define(["directives/directivesModule"], function (directivesModule) {
 						}
 
 						function updateScrollInfo() {
-							previousScrollInfo = scrollInfo;
-
 							var scrollTop = getScrollTop();
 							var scrollHeight = getScrollHeight();
 							var scrollBottom = nativeElement.scrollHeight -  elm.innerHeight() - scrollTop;

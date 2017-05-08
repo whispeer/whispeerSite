@@ -2,18 +2,19 @@
 * loginController
 **/
 
+var locationService = require("services/location.manager");
+var errorService = require("services/error.service");
+var registerService = require("register/registerService");
+
 define([
 		"bluebird",
 		"whispeerHelper",
 		"asset/state",
 		"register/registerModule",
-		"services/errorService",
-		"register/registerService",
-		"services/locationService"
 	], function (Bluebird, h, State, registerModule) {
 	"use strict";
 
-	function registerController($scope, $timeout, errorService, registerService, locationService) {
+	function registerController($scope, $timeout) {
 		var registerState = new State.default();
 
 		function hasLocalStorage() {
@@ -85,7 +86,7 @@ define([
 		function disableAllForms() {
 			$scope.nicknameForm = false;
 			$scope.passwordForm = false;
-			$scope.agbForm = false;	
+			$scope.agbForm = false;
 		}
 
 		$scope.nicknameValid = false;
@@ -256,7 +257,7 @@ define([
 		};
 	}
 
-	registerController.$inject = ["$scope", "$timeout", "ssn.errorService", "ssn.registerService", "ssn.locationService", "ssn.socketService"];
+	registerController.$inject = ["$scope", "$timeout"];
 
 	registerModule.controller("ssn.registerController", registerController);
 });

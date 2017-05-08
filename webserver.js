@@ -70,10 +70,8 @@ function getPossibleLocale(acceptLanguageHeader) {
 }
 
 function run() {
-	/* jshint validthis: true */
-
 	"use strict";
-	var express = require('express');
+	var express = require("express");
 	var app = express();
 	var router = express.Router();
 	var webpack = require("webpack");
@@ -129,8 +127,8 @@ function run() {
 		publicPath: "/assets/js/build/",
 	}));
 
-	router.use("/assets", express.static('assets'))
-	router.use("/", express.static('static'))
+	router.use("/assets", express.static("assets"))
+	router.use("/", express.static("static"))
 	router.all("*", function (req, res, next) {
 		var paths = req.originalUrl.split(/\/|\?/);
 

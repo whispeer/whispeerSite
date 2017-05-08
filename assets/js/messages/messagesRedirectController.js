@@ -2,10 +2,12 @@
 * messagesController
 **/
 
+var cssService = require("services/css.service").default;
+
 define(["messages/messagesModule"], function (messagesModule) {
 	"use strict";
 
-	function messagesController($scope, $rootScope, $state, cssService) {
+	function messagesController($scope, $rootScope, $state) {
 		cssService.setClass("messagesView", true);
 
 		function checkState() {
@@ -32,7 +34,7 @@ define(["messages/messagesModule"], function (messagesModule) {
 		}, checkState);
 	}
 
-	messagesController.$inject = ["$scope", "$rootScope", "$state", "ssn.cssService"];
+	messagesController.$inject = ["$scope", "$rootScope", "$state"];
 
 	messagesModule.controller("ssn.messagesRedirectController", messagesController);
 });

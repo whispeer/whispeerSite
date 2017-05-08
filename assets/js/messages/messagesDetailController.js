@@ -2,10 +2,13 @@
 * setupController
 **/
 
+var errorService = require("services/error.service").errorServiceInstance;
+var messageService = require("messages/messageService");
+
 define(["whispeerHelper", "asset/state", "bluebird", "messages/messagesModule"], function (h, State, Bluebird, messagesModule) {
 	"use strict";
 
-	function messagesDetailController($scope, $element, $state, $stateParams, $timeout, localize, errorService, messageService) {
+	function messagesDetailController($scope, $element, $state, $stateParams) {
 		var topicLoadingState = new State.default();
 		$scope.topicLoadingState = topicLoadingState.data;
 
@@ -34,13 +37,13 @@ define(["whispeerHelper", "asset/state", "bluebird", "messages/messagesModule"],
 			messageService.setActiveTopic(topicID);
 			$scope.activeTopic = topic.data;
 
-			$scope.topicTitle = topic.data.title || "";			
+			$scope.topicTitle = topic.data.title || "";
 		});
 
 		errorService.failOnErrorPromise(topicLoadingState, getTopicPromise);
 	}
 
-	messagesDetailController.$inject = ["$scope", "$element", "$state", "$stateParams", "$timeout", "localize", "ssn.errorService", "ssn.messageService"];
+	messagesDetailController.$inject = ["$scope", "$element", "$state", "$stateParams"];
 
 	messagesModule.controller("ssn.messagesDetailController", messagesDetailController);
 });

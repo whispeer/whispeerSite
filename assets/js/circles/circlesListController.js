@@ -1,7 +1,10 @@
+var circleService = require("circles/circleService");
+var errorService = require("services/error.service").errorServiceInstance;
+
 define(["controllers/controllerModule"], function (circlesModule) {
 	"use strict";
 
-	function circlesListController($scope, circleService, errorService) {
+	function circlesListController($scope) {
 		$scope.loadingCircleList = true;
 		$scope.circles = circleService.data.circles;
 
@@ -11,7 +14,7 @@ define(["controllers/controllerModule"], function (circlesModule) {
 	}
 
 
-	circlesListController.$inject = ["$scope", "ssn.circleService", "ssn.errorService"];
+	circlesListController.$inject = ["$scope"];
 
 	circlesModule.controller("ssn.circlesListController", circlesListController);
 

@@ -8,6 +8,8 @@
 *log.txt
 tmp/*
 
+build/
+
 # editors
 
 codekit-config.json

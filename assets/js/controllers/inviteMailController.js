@@ -2,10 +2,14 @@
 * inviteController
 **/
 
+var socketService = require("services/socket.service").default;
+var errorService = require("services/error.service").errorServiceInstance;
+var localize = require("i18n/localizationConfig");
+
 define(["bluebird", "whispeerHelper", "asset/state", "controllers/controllerModule"], function (Bluebird, h, State, controllerModule) {
 	"use strict";
 
-	function inviteController($scope, socketService, errorService, localize) {
+	function inviteController($scope) {
 		$scope.inviteMails = [""];
 
 		var inviteMailState = new State.default();
@@ -50,7 +54,7 @@ define(["bluebird", "whispeerHelper", "asset/state", "controllers/controllerModu
 		};
 	}
 
-	inviteController.$inject = ["$scope", "ssn.socketService", "ssn.errorService", "localize"];
+	inviteController.$inject = ["$scope"];
 
 	controllerModule.controller("ssn.inviteMailController", inviteController);
 });

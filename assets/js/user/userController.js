@@ -2,10 +2,16 @@
 * userController
 **/
 
+var blobService = require("services/blobService");
+var circleService = require("circles/circleService");
+var cssService = require("services/css.service").default;
+var errorService = require("services/error.service").errorServiceInstance;
+var userService = require("user/userService");
+
 define(["whispeerHelper", "bluebird", "asset/resizableImage", "asset/state", "user/userModule"], function (h, Promise, ResizableImage, State, userModule) {
 	"use strict";
 
-	function userController($scope, $stateParams, $timeout, cssService, errorService, userService, postService, circleService, blobService) {
+	function userController($scope, $stateParams) {
 		cssService.setClass("profileView", true);
 
 		var identifier = $stateParams.identifier;
@@ -79,7 +85,7 @@ define(["whispeerHelper", "bluebird", "asset/resizableImage", "asset/state", "us
 		function setImage() {
 			return Promise.try(function () {
 				return new Promise(function (resolve) {
-					resizableImage.getImageBlob(ENDSIZE, resolve);	
+					resizableImage.getImageBlob(ENDSIZE, resolve);
 				});
 			}).then(function (rawImageBlob) {
 				var imageBlob = blobService.createBlob(rawImageBlob);
@@ -283,7 +289,7 @@ define(["whispeerHelper", "bluebird", "asset/resizableImage", "asset/state", "us
 		});
 	}
 
-	userController.$inject = ["$scope", "$stateParams", "$timeout", "ssn.cssService", "ssn.errorService", "ssn.userService", "ssn.postService", "ssn.circleService", "ssn.blobService"];
+	userController.$inject = ["$scope", "$stateParams"];
 
 	userModule.controller("ssn.userController", userController);
 });
