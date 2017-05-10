@@ -2,10 +2,14 @@
 * setupController
 **/
 
+var cssService = require("services/css.service").default;
+var errorService = require("services/error.service").errorServiceInstance;
+var userService = require("user/userService");
+
 define(["asset/state", "libs/qr", "libs/filesaver", "controllers/controllerModule", "bluebird"], function (State, qr, saveAs, controllerModule, Bluebird) {
 	"use strict";
 
-	function setupController($scope, $location, cssService, errorService, userService) {
+	function setupController($scope, $location) {
 		cssService.setClass("setupView");
 
 		$scope.backupFailed = false;
@@ -96,7 +100,7 @@ define(["asset/state", "libs/qr", "libs/filesaver", "controllers/controllerModul
 		};
 	}
 
-	setupController.$inject = ["$scope", "$location", "ssn.cssService", "ssn.errorService", "ssn.userService", "ssn.settingsService"];
+	setupController.$inject = ["$scope", "$location"];
 
 	controllerModule.controller("ssn.backupController", setupController);
 });

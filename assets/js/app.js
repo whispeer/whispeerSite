@@ -6,12 +6,14 @@ var context = require.context(
 
 context.keys().forEach(context);
 
+require("interceptors/addKeysInterceptor");
+require("interceptors/sessionServiceInterceptor");
+
 define([
 	"angular",
 	"config",
 	"angularUiRouter",
 	"controllers/controllers",
-	"services/services",
 	"runners/runners",
 	"filter/filter",
 	"directives/directives",
@@ -20,7 +22,6 @@ define([
 	"user/userLoader",
 	"search/loader",
 	"models/models",
-	"config/interceptorsConfig",
 	"localizationModule",
 	"emptyInclude"
 ], function (angular, config) {
@@ -34,8 +35,6 @@ define([
 		"ssn.filter",
 		"ssn.search",
 		"ssn.runners",
-		"ssn.interceptors.config",
-		"ssn.locale.config",
 		"ssn.messages",
 		"ssn.circles",
 		"ssn.user",

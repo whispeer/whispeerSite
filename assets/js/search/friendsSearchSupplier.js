@@ -1,7 +1,9 @@
+var userService = require("user/userService");
+
 define(["angular", "bluebird"], function (angular, Bluebird) {
 	"use strict";
 	return function () {
-		angular.module("ssn.search").factory("friendsSearchSupplier", ["ssn.userService", function (userService) {
+		angular.module("ssn.search").factory("friendsSearchSupplier", [function () {
 			var Search = function () {};
 
 			Search.prototype.search = function (query) {
@@ -19,7 +21,7 @@ define(["angular", "bluebird"], function (angular, Bluebird) {
 				}).then(function (users) {
 					return users.map(function (e) {
 						return e.data;
-					});						
+					});
 				});
 			};
 

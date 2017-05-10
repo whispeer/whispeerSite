@@ -1,7 +1,10 @@
+var userService = require("user/userService");
+var errorService = require("services/error.service").errorServiceInstance;
+
 define(["angular", "bluebird", "whispeerHelper"], function (angular, Bluebird, h) {
 	"use strict";
 	return function () {
-		angular.module("ssn.search").factory("userSearchSupplier", ["ssn.userService", "ssn.errorService", function (userService, errorService) {
+		angular.module("ssn.search").factory("userSearchSupplier", [function () {
 			var Search = function () {
 				this.debouncedAction = h.debouncePromise(Bluebird, this.debouncedSearch.bind(this), 500);
 			};

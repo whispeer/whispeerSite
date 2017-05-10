@@ -3,7 +3,7 @@ var templateUrl = require("../../views/directives/post.html");
 define(["directives/directivesModule"], function (directivesModule) {
 	"use strict";
 
-	function postDirective() {
+	function postDirective(localize) {
 		return {
 			transclude: true,
 			scope:	{
@@ -18,9 +18,15 @@ define(["directives/directivesModule"], function (directivesModule) {
 					scope.showComments = !scope.showComments;
 					scope.post.loadComments();
 				};
+
+				scope.removePost = function () {
+					if (confirm(localize.getLocalizedString("wall.confirmRemovePost"))) {
+						scope.post.remove();
+					}
+				};
 			}
-		};			
+		};
 	}
 
-	directivesModule.directive("post", postDirective);
+	directivesModule.directive("post", ["localize", postDirective]);
 });

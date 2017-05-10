@@ -1,9 +1,12 @@
 var templateUrl = require("../../views/directives/gallery.html");
+var blobService = require("services/blobService");
+var errorService = require("services/error.service").errorServiceInstance;
+var screenSizeService = require("services/screenSize.service.ts").default;
 
 define(["jquery", "bluebird", "directives/directivesModule"], function (jQuery, Bluebird, directivesModule) {
 	"use strict";
 
-	function imageGallery(errorService, blobService, screenSizeService) {
+	function imageGallery() {
 		function loadImage(data) {
 			var blobid = data.blobID;
 
@@ -133,7 +136,7 @@ define(["jquery", "bluebird", "directives/directivesModule"], function (jQuery, 
 		};
 	}
 
-	imageGallery.$inject = ["ssn.errorService", "ssn.blobService", "ssn.screenSizeService"];
+	imageGallery.$inject = [];
 
 	directivesModule.directive("gallery", imageGallery);
 });

@@ -1,9 +1,10 @@
 var templateUrl = require("../../views/directives/qrScanner.html");
+var errorService = require("services/error.service").errorServiceInstance;
 
 define(["directives/directivesModule", "bluebird"], function (directivesModule, Bluebird) {
 	"use strict";
 
-	function qrScannerDirective($timeout, errorService) {
+	function qrScannerDirective($timeout) {
 		return {
 			scope:	{
 				callback: "&",
@@ -38,7 +39,9 @@ define(["directives/directivesModule", "bluebird"], function (directivesModule, 
 							scope.state.read = true;
 							try {
 								theStream.stop();
-							} catch (e) {}
+							} catch (e) {
+								console.error(e);
+							}
 
 							scope.callback({code: code});
 						}).catch(function (e) {
@@ -155,7 +158,7 @@ define(["directives/directivesModule", "bluebird"], function (directivesModule, 
 		};
 	}
 
-	qrScannerDirective.$inject = ["$timeout", "ssn.errorService"];
+	qrScannerDirective.$inject = ["$timeout"];
 
 	directivesModule.directive("qrScanner", qrScannerDirective);
 });

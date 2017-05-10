@@ -2,10 +2,12 @@
 * userController
 **/
 
+var userService = require("user/userService");
+
 define(["bluebird", "bluebird", "asset/resizableImage", "asset/state", "user/userModule"], function (Bluebird, Promise, ResizableImage, State, userModule) {
 	"use strict";
 
-	function userFriendsController($scope, $stateParams, $timeout, cssService, errorService, userService) {
+	function userFriendsController($scope, $stateParams) {
 		var identifier = $stateParams.identifier;
 
 		$scope.loadingFriends = true;
@@ -32,7 +34,7 @@ define(["bluebird", "bluebird", "asset/resizableImage", "asset/state", "user/use
 		$scope.friends = [];
 	}
 
-	userFriendsController.$inject = ["$scope", "$stateParams", "$timeout", "ssn.cssService", "ssn.errorService", "ssn.userService", "ssn.postService", "ssn.circleService", "ssn.blobService"];
+	userFriendsController.$inject = ["$scope", "$stateParams"];
 
 	userModule.controller("ssn.userFriendsController", userFriendsController);
 });

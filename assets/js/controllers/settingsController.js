@@ -2,10 +2,17 @@
 * friendsController
 **/
 
+var cssService = require("services/css.service").default;
+var errorService = require("services/error.service").errorServiceInstance;
+var userService = require("user/userService");
+var filterService = require("services/filter.service.ts").default;
+var localize = require("i18n/localizationConfig");
+var settingsService = require("services/settings.service").default;
+
 define(["whispeerHelper", "bluebird", "asset/state", "libs/qr", "controllers/controllerModule"], function (h, Bluebird, State, qr, controllerModule) {
 	"use strict";
 
-	function settingsController($scope, $timeout, errorService, cssService, sessionHelper, settingsService, userService, filterService, localize) {
+	function settingsController($scope, $timeout) {
 		cssService.setClass("settingsView", true);
 
 		var saveSafetyState = new State.default();
@@ -188,7 +195,7 @@ define(["whispeerHelper", "bluebird", "asset/state", "libs/qr", "controllers/con
 		};
 	}
 
-	settingsController.$inject = ["$scope", "$timeout", "ssn.errorService", "ssn.cssService", "ssn.sessionHelper", "ssn.settingsService", "ssn.userService", "ssn.filterService", "localize"];
+	settingsController.$inject = ["$scope", "$timeout"];
 
 	controllerModule.controller("ssn.settingsController", settingsController);
 });

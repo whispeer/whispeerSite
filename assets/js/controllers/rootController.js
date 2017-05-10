@@ -2,13 +2,22 @@
 * sessionController
 **/
 
+var localize = require("i18n/localizationConfig");
+var initService = require("services/initService");
+var socketService = require("services/socket.service").default;
+var sessionHelper = require("services/session.helper").default;
+var userService = require("user/userService");
+var cssService = require("services/css.service").default;
+var messageService = require("messages/messageService");
+var friendsService = require("services/friendsService");
+
 define(["jquery", "whispeerHelper", "config", "controllers/controllerModule", "debug", "bluebird"], function (jQuery, h, config, controllerModule, debug, Bluebird) {
 	"use strict";
 
 	var debugName = "whispeer:rootController";
 	var rootControllerDebug = debug(debugName);
 
-	function rootController($scope, $http, $interval, localize, initService, socketService, sessionService, sessionHelper, userService, cssService, messageService, trustService, friendsService) {
+	function rootController($scope, $http, $interval) {
 		$scope.loading = true;
 
 		var nullUser = {
@@ -32,7 +41,7 @@ define(["jquery", "whispeerHelper", "config", "controllers/controllerModule", "d
 		function loadUser() {
 			var user = userService.getown();
 			var loadBasicDataAsync = Bluebird.promisify(user.reLoadBasicData.bind(user));
-			
+
 			return loadBasicDataAsync().then(function () {
 				$scope.user = user.data;
 				$scope.loading = false;
@@ -108,6 +117,8 @@ define(["jquery", "whispeerHelper", "config", "controllers/controllerModule", "d
 			} else {
 				$scope.cssClass = "loading";
 			}
+
+			jQuery("html").attr("class", $scope.cssClass);
 		}
 
 		$scope.mobileActivateView = function() {
@@ -129,7 +140,7 @@ define(["jquery", "whispeerHelper", "config", "controllers/controllerModule", "d
 		};
 	}
 
-	rootController.$inject = ["$scope", "$http", "$interval", "localize", "ssn.initService", "ssn.socketService", "ssn.sessionService", "ssn.sessionHelper", "ssn.userService", "ssn.cssService", "ssn.messageService", "ssn.trustService", "ssn.friendsService"];
+	rootController.$inject = ["$scope", "$http", "$interval"];
 
 	controllerModule.controller("ssn.rootController", rootController);
 });

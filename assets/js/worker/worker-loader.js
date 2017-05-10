@@ -89,7 +89,9 @@ define([], function () {
 		this._freeListener.forEach(function (listener) {
 			try {
 				listener();
-			} catch (e) {}
+			} catch (e) {
+				console.error(e);
+			}
 		});
 	};
 
@@ -114,7 +116,7 @@ define([], function () {
 
 	/** run a task as soon as the worker is free
 		@param data data to sent to worker task
-		@param metaListener callback for meta information	
+		@param metaListener callback for meta information
 	*/
 	PromiseWorker.prototype.runTask = function (data, metaListener) {
 		return this._lockFree().then(this._run.bind(this, data, metaListener));

@@ -4,5 +4,7 @@
 define([
 	"runners/localizationRunner",
 	"runners/promiseRunner",
-	"runners/serviceWorkerRunner"
+	"runners/serviceWorkerRunner",
+	"runners/loadLoginRunner",
+	"runners/messageNotificationsRunner"
 ], function () {});

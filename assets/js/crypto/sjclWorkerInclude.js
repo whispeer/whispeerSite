@@ -18,7 +18,9 @@ define(["workerQueue", "bluebird", "crypto/minimalHelper", "config"], function (
 
 				return ab;
 			}
-		} catch (e) {}
+		} catch (e) {
+			console.error(e);
+		}
 
 		return false;
 	}

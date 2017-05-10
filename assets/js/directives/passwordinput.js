@@ -1,7 +1,9 @@
-define(["whispeerHelper", "directives/directivesModule", "services/passwordStrengthService"], function (h, directivesModule) {
+var passwordStrength = require("services/passwordStrength.service.ts").default;
+
+define(["whispeerHelper", "directives/directivesModule"], function (h, directivesModule) {
 	"use strict";
 
-	function passwordSaver(passwordStrengthService) {
+	function passwordSaver() {
 		return {
 			scope:	{
 				state: "=state"
@@ -48,7 +50,7 @@ define(["whispeerHelper", "directives/directivesModule", "services/passwordStren
 
 
 				scope.passwordStrength = function () {
-					return passwordStrengthService.passwordStrength(scope.state.password);
+					return passwordStrength(scope.state.password);
 				};
 
 				scope.empty = function (val) {
@@ -74,7 +76,7 @@ define(["whispeerHelper", "directives/directivesModule", "services/passwordStren
 		};
 	}
 
-	passwordSaver.$inject = ["ssn.passwordStrengthService"];
+	passwordSaver.$inject = [];
 
 	directivesModule.directive("passwordinput", passwordSaver);
 });

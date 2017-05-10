@@ -1,7 +1,10 @@
+var circleService = require("circles/circleService");
+var errorService = require("services/error.service").errorServiceInstance;
+
 define(["controllers/controllerModule", "whispeerHelper", "bluebird"], function (circlesModule, h, Bluebird) {
 	"use strict";
 
-	function circlesCreateController($scope, circleService, errorService, $state) {
+	function circlesCreateController($scope, $state) {
 		$scope.circleName = "";
 		$scope.selectedUsers = [];
 
@@ -22,7 +25,7 @@ define(["controllers/controllerModule", "whispeerHelper", "bluebird"], function 
 	}
 
 
-	circlesCreateController.$inject = ["$scope", "ssn.circleService", "ssn.errorService", "$state"];
+	circlesCreateController.$inject = ["$scope", "$state"];
 
 	circlesModule.controller("ssn.circlesCreateController", circlesCreateController);
 

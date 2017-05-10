@@ -1,7 +1,9 @@
-define(["directives/directivesModule", "services/screenSizeService"], function (directivesModule) {
+var screenSizeService = require("services/screenSize.service.ts").default;
+
+define(["directives/directivesModule"], function (directivesModule) {
 	"use strict";
 
-	function mobileDirective(screenSizeService) {
+	function mobileDirective() {
 		return {
 			scope:	false,
 			restrict: "A",
@@ -14,5 +16,5 @@ define(["directives/directivesModule", "services/screenSizeService"], function (
 		};
 	}
 
-	directivesModule.directive("mobile", ["ssn.screenSizeService", mobileDirective]);
+	directivesModule.directive("mobile", [mobileDirective]);
 });

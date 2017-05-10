@@ -2,10 +2,12 @@
 * messagesController
 **/
 
+var messageService = require("messages/messageService");
+
 define(["jquery", "whispeerHelper", "asset/state", "bluebird", "controllers/controllerModule"], function (jQuery, h, State, Bluebird, controllerModule) {
 	"use strict";
 
-	function messagesController($scope, $state, $stateParams, $element, errorService, messageService) {
+	function messagesController($scope, $state, $stateParams, $element) {
 		$scope.topics = messageService.data.latestTopics.data;
 
 		var topicsLoadingState = new State.default();
@@ -76,7 +78,7 @@ define(["jquery", "whispeerHelper", "asset/state", "bluebird", "controllers/cont
 	}
 
 
-	messagesController.$inject = ["$scope", "$state", "$stateParams", "$element", "ssn.errorService", "ssn.messageService"];
+	messagesController.$inject = ["$scope", "$state", "$stateParams", "$element"];
 
 	controllerModule.controller("ssn.messagesListController", messagesController);
 });
