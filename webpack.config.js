@@ -23,6 +23,8 @@ var unusedFiles = new UnusedFilesWebpackPlugin({
 var BundleAnalyzerPlugin = require("webpack-bundle-analyzer").BundleAnalyzerPlugin
 var WebpackBundleSizeAnalyzerPlugin = require("webpack-bundle-size-analyzer").WebpackBundleSizeAnalyzerPlugin
 
+var data = require(path.resolve("package.json"))
+
 var plugins = [
 	new webpack.optimize.CommonsChunkPlugin({
 		names: "commons",
@@ -35,7 +37,11 @@ var plugins = [
 		minChunkSize: 2048
 	}),
 	new webpack.DefinePlugin({
-		"WHISPEER_ENV": JSON.stringify(process.env.WHISPEER_ENV)
+		"WHISPEER_ENV": JSON.stringify(process.env.WHISPEER_ENV),
+		"CLIENT_INFO": JSON.stringify({
+			type: "browser",
+			version: data.version
+		})
 	}),
 	new BundleAnalyzerPlugin({
 		analyzerMode: "static",
