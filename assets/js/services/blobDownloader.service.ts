@@ -6,6 +6,10 @@ interface SocketService {
 import * as Bluebird from "bluebird";
 import Observer from "../asset/observer";
 
+import { ServerError } from "./socket.service";
+
+var h = require("whispeerHelper")
+
 export default class BlobDownloader extends Observer {
 	static MAXIMUMPARTSIZE = 1000 * 1000;
 	static STARTPARTSIZE = 5 * 1000;
@@ -87,6 +91,14 @@ export default class BlobDownloader extends Observer {
 
 			this.notify(this.doneBytes, "progress");
 		}).catch((e: any) => {
+			if (e instanceof ServerError) {
+				const response = e.extra.response
+
+				if (h.hasErrorId(response, 71)) {
+					return Bluebird.reject(e)
+				}
+			}
+
 			console.error(e);
 			this.halfSize();
 			return Bluebird.delay(5000);

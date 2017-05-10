@@ -12,8 +12,8 @@ import BlobUploader from "./blobUploader.service"
 const socketDebug = debug("whispeer:socket");
 const socketError = debug("whispeer:socket:error");
 
-const DisconnectError = h.createErrorType("disconnectedError");
-const ServerError = h.createErrorType("serverError");
+export const DisconnectError = h.createErrorType("disconnectedError");
+export const ServerError = h.createErrorType("serverError");
 
 const SOCKET_TIMEOUT = 60000;
 
@@ -208,7 +208,7 @@ class SocketService extends Observer {
 
 			if (response.error) {
 				socketError(response);
-				throw new ServerError("server returned an error!");
+				throw new ServerError("server returned an error!", { response });
 			}
 
 			socketDebug(response);
