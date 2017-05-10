@@ -263,7 +263,7 @@ ImageUpload.prototype.rotate = function () {
 
 		this.rotation = newDegree;
 
-		this._url = h.toUrl(previews[newDegree]);
+		this._previewUrl = h.toUrl(previews[newDegree]);
 
 		return previews[newDegree];
 	});
@@ -285,7 +285,7 @@ ImageUpload.prototype.generatePreviews = function () {
 				canvasToBlob(ImageUpload.rotate270(img), "image/jpeg")
 			]);
 		}).spread(function (preview0, preview90, preview180, preview270) {
-			this._url = h.toUrl(preview0);
+			this._previewUrl = h.toUrl(preview0);
 
 			var previews = {};
 
@@ -305,12 +305,17 @@ ImageUpload.prototype.getName = function () {
 	return this._file.name;
 };
 
+ImageUpload.prototype.getPreviewUrl = function () {
+	return this._previewUrl || this.getUrl()
+}
+
 ImageUpload.prototype.getUrl = function () {
 	if (!PREVIEWSDISABLED) {
 		this.generatePreviews();
 	}
 
 	this._url = this._url || h.toUrl(this._file);
+	this._previewUrl = this._previewUrl || this._url
 	return this._url;
 };
 
