@@ -3,7 +3,7 @@ var socketService = require("services/socket.service").default;
 
 var interceptor = {
 	transformResponse: function (response) {
-		if (!response.logedin) {
+		if (!response.pong && !response.logedin) {
 			sessionService.logout();
 		}
 
