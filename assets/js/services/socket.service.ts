@@ -15,6 +15,8 @@ const socketError = debug("whispeer:socket:error");
 const DisconnectError = h.createErrorType("disconnectedError");
 const ServerError = h.createErrorType("serverError");
 
+const SOCKET_TIMEOUT = 60000;
+
 interface Interceptor {
 	transformRequest: Function
 	transformResponse: Function
@@ -180,6 +182,7 @@ class SocketService extends Observer {
 		var timer = log.timer("request on " + channel);
 
 		request.version = APIVERSION;
+		request.clientInfo = CLIENT_INFO;
 
 		socketDebug("Request on " + channel);
 		socketDebug(request);
@@ -193,9 +196,13 @@ class SocketService extends Observer {
 		this._loading++;
 		this.notify(null, "request");
 
-		var resultPromise = this._emit(channel, request).then((response) => {
+		var resultPromise = this._emit(channel, request).timeout(SOCKET_TIMEOUT).then((response) => {
 			socketDebug("Answer on " + channel);
 			log.timerEnd(timer);
+
+			if (response.alert) {
+				alert(response.alert)
+			}
 
 			this._lastRequestTime = response.serverTime;
 
