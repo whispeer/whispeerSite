@@ -17,5 +17,9 @@
 	terms: "Terms and conditions",
 	privacyPolicy: "Privacy policy",
 	imprint: "Site notice",
-	contact: "Contact"
+	contact: "Contact",
+	days: "Days",
+	hours: "Hours",
+	minutes: "Minutes",
+	seconds: "Seconds"
 }

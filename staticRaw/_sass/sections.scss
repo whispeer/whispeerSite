@@ -20,7 +20,7 @@
 		padding: 4rem 0;
 	}
 }
-.landing-section:nth-child(2n):not(#heading) {
+.landing-section:nth-child(2n):not(.heading) {
 	background-color: #fff;
 	color: #222;
 	.textShadow {
@@ -28,8 +28,28 @@
 	}
 }
 .landing-section--background {
-	background-image: url("/assets/images/lighthouse.jpg");
+	background-image: url("/assets/images/private_landing_lowQual_big.jpg");
 	background-color: #ffffff;
+}
+.landing-section--background2 {
+	background-image: url("/assets/images/app-release.jpg");
+	background-color: #eef2f5;
+	background-size: 100% auto;
+	background-position: center 50vh !important;
+	@media #{$large} {
+		background-position: center 450px !important;
+	}
+	@media #{$mobile} {
+		background-position: center bottom !important;
+		min-height: 0 !important;
+		padding-bottom: 500px !important;
+	}
+	@media #{$smallerMobile} {
+		padding-bottom: 350px !important;
+	}
+	@media #{$smallerMobile} and (orientation: landscape) {
+		min-height: calc(100vh + 500px) !important;
+	}
 }
 .landing-section--background--night {
 	background-image: url("/assets/images/lighthouse_night.jpg");
@@ -47,10 +67,10 @@
 	width: 100%;
 	margin: 0;
 }
-#heading .section-header {
+.heading .section-header {
 	width: 100%;
 }
-#heading {
+.heading {
 	height: auto;
 	min-height: 100vh;
 	padding-bottom: 0;
@@ -64,7 +84,7 @@
 		padding-top: 62px;
 	}
 }
-#heading {
+.heading {
 	@media #{$desktop} {
 		padding-top: 50px;
 	}
@@ -103,6 +123,11 @@
 	letter-spacing: -2px;
 	width: auto;
 }
+
+.section-header--large {
+	max-width: 85% !important;
+}
+
 .section-paragraph {
 	@media #{$desktop} {
 		@include normalFont;
@@ -114,12 +139,12 @@
 	margin-top: 1rem;
 	margin-bottom: 1rem;
 }
-#heading .section-header {
+.heading .section-header {
 	@media #{$mobile} {
 		max-width: 300px;
 	}
 }
-#heading .section-paragraph {
+.heading .section-paragraph {
 	margin-top: -16px;
 	margin-bottom: 1.5rem;
 	padding-bottom: 0;

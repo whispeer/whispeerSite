@@ -5,7 +5,7 @@ title: Kontakt
 ---
 
 Via E-Mail: [support@whispeer.de](mailto:support@whispeer.de)  
-Via whispeer: [Support](/user/support)
+Via whispeer: [Feedback](/user/feedback)
 
 PGP-Key [hier](/assets/support_whispeer_pub.asc) herunterladen.
 

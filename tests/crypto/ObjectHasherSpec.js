@@ -1,8 +1,6 @@
 define(["crypto/objectHasher", "text!../../tests/crypto/bigObject.txt", "text!../../tests/crypto/bigObjectV3.txt", "text!../../tests/crypto/bigObjectV4.txt"], function (ObjectHasher, bigObjectString, bigObjectStringV3, bigObjectStringV4) {
 	"use strict";
 
-	/* jshint quotmark: false */
-
 	bigObjectString  = bigObjectString.replace("\n", "");
 	bigObjectStringV3 = bigObjectStringV3.replace("\n", "");
 	bigObjectStringV4 = bigObjectStringV4.replace("\n", "");

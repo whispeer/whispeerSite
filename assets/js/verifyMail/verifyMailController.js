@@ -1,7 +1,10 @@
-define(["bluebird", "asset/state", "verifyMail/verifyMailModule", "services/socketService", "services/errorService"], function (Bluebird, SuccessState, controllerModule) {
+var errorService = require("services/error.service").errorServiceInstance;
+var socketService = require("services/socket.service").default;
+
+define(["bluebird", "asset/state", "verifyMail/verifyMailModule"], function (Bluebird, SuccessState, controllerModule) {
 	"use strict";
 
-	function verifyMailController($scope, socketService, errorService) {
+	function verifyMailController($scope) {
 		$scope.mails = true;
 
 		var verifying = new SuccessState.default();
@@ -37,7 +40,7 @@ define(["bluebird", "asset/state", "verifyMail/verifyMailModule", "services/sock
 		};
 	}
 
-	verifyMailController.$inject = ["$scope", "ssn.socketService", "ssn.errorService"];
+	verifyMailController.$inject = ["$scope"];
 
 	controllerModule.controller("ssn.verifyMailController", verifyMailController);
 });

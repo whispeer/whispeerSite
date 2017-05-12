@@ -315,7 +315,7 @@ define (["whispeerHelper", "config", "asset/observer", "asset/errors", "crypto/k
 		}
 	};
 
-	Observer.call(signatureCache);
+	Observer.extend(signatureCache);
 
 	return signatureCache;
 });

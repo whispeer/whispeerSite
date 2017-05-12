@@ -50,7 +50,7 @@
 		var inputs = Array.prototype.slice.call(e.srcElement.contentWindow.document.getElementsByTagName("input"));
 		inputs.forEach(function (input) {
 			input.addEventListener("click", function () {
-				whispeerStopAutoFocus = true;
+				window.whispeerStopAutoFocus = true;
 			});
 		});
 	}
@@ -135,6 +135,10 @@
 	overlay.addEventListener("click", close);
 
 	function isElementInViewport (el) {
+		if(!el) {
+			return false;
+		}
+
 		var rect = el.getBoundingClientRect();
 
 		var windowHeight = window.innerHeight || document.documentElement.clientHeight;
@@ -194,17 +198,53 @@
 		};
 	}
 
+	function formatNum(num) {
+		return ("0" + num).slice(-2);
+	}
+
+	var counter;
+	var endtime = Date.parse("Feb 14 2017 18:00:00 GMT+0100 (CET)");
+	function runCountdown() {
+		var t = endtime - Date.now();
+
+		if (t < 0) {
+			document.getElementsByClassName("heading")[0].style.display = "none";
+			document.getElementsByClassName("heading2")[0].style.display = "";
+		}
+
+		counter.seconds.textContent = formatNum(Math.floor((t / 1000) % 60));
+		counter.minutes.textContent = formatNum(Math.floor((t / 60000) % 60));
+		counter.hours.textContent = formatNum(Math.floor((t / 3600000) % 24));
+		counter.days.textContent = formatNum(Math.floor(t / 86400000));
+	}
+
 	var handler = debounce(onVisibilityChange(), 50);
+	function contentLoaded() {
+		// keeping the coutner - who knows if we are gonna use this again?
+		// counter = {
+		// 	days: document.querySelector("#counter__days .digit"),
+		// 	hours: document.querySelector("#counter__hours .digit"),
+		// 	minutes: document.querySelector("#counter__minutes .digit"),
+		// 	seconds: document.querySelector("#counter__seconds .digit")
+		// };
+
+		// // check if all elements exist
+		// if(counter.days && counter.hours && counter.minutes && counter.seconds) {
+		// 	setInterval(runCountdown, 1000);
+		// }
+
+		handler();
+	}
 
 	if (window.addEventListener) {
-		addEventListener("DOMContentLoaded", handler, false);
-		addEventListener("load", handler, false);
-		addEventListener("scroll", handler, false);
-		addEventListener("resize", handler, false);
+		window.addEventListener("DOMContentLoaded", contentLoaded, false);
+		window.addEventListener("load", handler, false);
+		window.addEventListener("scroll", handler, false);
+		window.addEventListener("resize", handler, false);
 	} else if (window.attachEvent)  {
-		attachEvent("onDOMContentLoaded", handler);
-		attachEvent("onload", handler);
-		attachEvent("onscroll", handler);
-		attachEvent("onresize", handler);
+		window.attachEvent("onDOMContentLoaded", contentLoaded);
+		window.attachEvent("onload", handler);
+		window.attachEvent("onscroll", handler);
+		window.attachEvent("onresize", handler);
 	}
 })();

@@ -1,33 +1,19 @@
+var Cache = require("services/Cache.ts").default;
+var errorService = require("services/error.service").errorServiceInstance;
+var keyStore = require("services/keyStore.service").default;
+var sessionService = require("services/session.service").default;
+var socketService = require("services/socket.service").default;
+var userService = require("user/userService");
+
 define([
 		"whispeerHelper",
 		"bluebird",
 		"asset/state",
 		"recovery/recoveryModule",
-
-		"models/user",
-
-		"services/socketService",
-		"services/keyStoreService",
-		"services/sessionService",
-		"user/userService",
-		"services/errorService",
-
-		//sub dependencies.
-		"services/locationService",
-		"services/storageService",
-		"services/blobService",
-		"services/cacheService",
-		"services/profileService",
-		"services/settingsService",
-		"services/initService",
-		"services/migrationService",
-		"services/friendsService",
-
-		"services/trustService"
 	], function (h, Bluebird, State, controllerModule) {
 	"use strict";
 
-	function recoveryController($scope, socketService, keyStore, sessionService, trustService, userService, errorService, Cache) {
+	function recoveryController($scope) {
 		var parts = window.location.pathname.split("/");
 		var nick, recoveryCode;
 
@@ -155,7 +141,7 @@ define([
 		};
 	}
 
-	recoveryController.$inject = ["$scope", "ssn.socketService", "ssn.keyStoreService", "ssn.sessionService", "ssn.trustService", "ssn.userService", "ssn.errorService", "ssn.cacheService"];
+	recoveryController.$inject = ["$scope"];
 
 	controllerModule.controller("ssn.recoveryController", recoveryController);
 });

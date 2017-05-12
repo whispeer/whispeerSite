@@ -1,7 +1,11 @@
+var circleService = require("circles/circleService");
+var errorService = require("services/error.service").errorServiceInstance;
+var localize = require("i18n/localizationConfig");
+
 define(["controllers/controllerModule", "whispeerHelper", "bluebird", "asset/state"], function (circlesModule, h, Bluebird, State) {
 	"use strict";
 
-	function circlesShowController($scope, circleService, errorService, localize, $stateParams, $state) {
+	function circlesShowController($scope, $stateParams, $state) {
 		var addUsersToCircleState = new State.default();
 		$scope.addUsersToCircle = addUsersToCircleState.data;
 
@@ -74,7 +78,7 @@ define(["controllers/controllerModule", "whispeerHelper", "bluebird", "asset/sta
 	}
 
 
-	circlesShowController.$inject = ["$scope", "ssn.circleService", "ssn.errorService", "localize", "$stateParams", "$state"];
+	circlesShowController.$inject = ["$scope", "$stateParams", "$state"];
 
 	circlesModule.controller("ssn.circlesShowController", circlesShowController);
 

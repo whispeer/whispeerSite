@@ -1,4 +1,5 @@
 var app = require("app");
+var sessionHelper = require("services/session.helper").default;
 
 module.exports = app.config(["$stateProvider", "$urlRouterProvider", "$provide", "$locationProvider", function ($stateProvider, $urlRouterProvider, $provide, $locationProvider) {
 	"use strict";
@@ -116,7 +117,7 @@ module.exports = app.config(["$stateProvider", "$urlRouterProvider", "$provide",
 
 	$stateProvider.state("app.logout", {
 		url: "/logout",
-		controller: ["ssn.sessionHelper", function (sessionHelper) {
+		controller: [function () {
 			sessionHelper.logout();
 		}]
 	});

@@ -5,15 +5,38 @@
 		description: "whispeer is a secure social network offering high privacy standards by using end-to-end encryption."
 	},
 	teaser: {
-		headline: "Share private thoughts with friends",
-		details: "Send any image or text to your friends. We can't read anything you share! Speak freely about politics, health or black humour. ",
+		headline: "It's happening.",
+		details: "We investigated, tinkered and dreamed for a long time.<br>Now we count the days - with you.",
+		headline_old: "Share private thoughts with friends",
+		details_old: "Send any image or text to your friends. We can't read anything you share! Speak freely about politics, health or black humour. ",
 		imageIdeas: "",
-		image: "lighthouse.jpg",
-		registerForm: true,
+		image: "private_landing_lowQual_big.jpg",
+		registerForm: false,
 		textShadow: true,
 		video: false,
 		videoSubtitles: true,
-		mailForm: true
+		mailForm: true,
+		countdown: {
+			text: "A secure future is just around the corner."
+		}
+	},
+	teaser2: {
+		logo: true,
+		headline: "It's just like super secure whispering.",
+		details: "",
+		imageIdeas: "",
+		image: true,
+		registerForm: false,
+		appLink: {
+			google: "https://play.google.com/store/apps/details?id=whispeer.app"
+		},
+		legal: {
+			google: "Google Play and the Google Play logo are trademarks of Google Inc.",
+			apple: "Apple and the Apple logo are trademarks of Apple Inc., registered in the U.S. and other countries. App Store is a service mark of Apple Inc., registered in the U.S. and other countries."
+		},
+		textShadow: true,
+		video: false,
+		mailForm: false
 	},
 	sections: [
 		{

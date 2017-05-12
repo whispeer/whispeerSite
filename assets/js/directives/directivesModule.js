@@ -1,4 +1,3 @@
-define(["angular"], function (angular) {
-	"use strict";
-	return angular.module("ssn.directives",[]);
-});
+var angular = require("angular");
+
+module.exports = angular.module("ssn.directives",[]);

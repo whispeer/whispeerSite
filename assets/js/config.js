@@ -1,11 +1,5 @@
-if (typeof define === "function") {
-	define([
-		"whispeerHelper",
-		"json!conf/base.config.json",
-		"json!conf/" + WHISPEER_ENV + ".config.json"
-	], function (h, baseConfig, config) {
-		"use strict";
+var h = require("whispeerHelper");
+var baseConfig =require("json-loader!conf/base.config.json");
+var config = require("json-loader!conf/" + WHISPEER_ENV + ".config.json");
 
-		return h.extend(h.extend({}, baseConfig), config);
-	});
-}
+module.exports = h.extend(h.extend({}, baseConfig), config);

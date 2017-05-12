@@ -1,10 +1,8 @@
-/* jshint -W097 */
 "use strict";
 
 var Bluebird = require("bluebird");
 var grunt = require("grunt");
 
-grunt.loadNpmTasks("grunt-contrib-jshint");
 grunt.loadNpmTasks("grunt-contrib-less");
 grunt.loadNpmTasks("grunt-autoprefixer");
 grunt.loadNpmTasks("grunt-contrib-watch");
@@ -59,15 +57,6 @@ grunt.initConfig({
 			tasks: ["server", "watch"],
 			options: {
 				logConcurrentOutput: true
-			}
-		}
-	},
-	jshint: {
-		all: {
-			src: ["Gruntfile.js", "assets/js/**/*.js"],
-			options: {
-				reporterOutput: "",
-				jshintrc: true
 			}
 		}
 	},
@@ -175,6 +164,13 @@ grunt.initConfig({
 		}
 	},
 	run: {
+		lint: {
+			cmd: "npm",
+			args: [
+				"run",
+				"lint"
+			]
+		},
 		webpack: {
 			cmd: "webpack"
 		},
@@ -184,9 +180,6 @@ grunt.initConfig({
 				"--config",
 				"webpack.worker.config.js"
 			]
-		},
-		buildsjcl: {
-			cmd: "./scripts/build-sjcl.sh"
 		}
 	},
 	"bower-install-simple": {
@@ -400,8 +393,6 @@ grunt.registerTask("build:pre", [
 	"bower-install-simple",
 	"less",
 	"autoprefixer",
-	"run:buildsjcl",
-	"jekyll"
 ]);
 
 grunt.registerTask("build:development", [
@@ -413,13 +404,11 @@ grunt.registerTask("build:development", [
 
 grunt.registerTask("build:production",  [
 	"clean",
-	"jshint",
+	"run:lint",
 	"copy",
 	"bower-install-simple",
 	"less",
 	"autoprefixer",
-	"run:buildsjcl",
-	"jekyll",
 
 	"run:webpackWorker",
 	"assetHash:worker",

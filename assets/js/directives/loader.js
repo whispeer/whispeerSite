@@ -1,11 +1,13 @@
 var Bluebird = require("bluebird");
+var userService = require("user/userService");
+var errorService = require("services/error.service").errorServiceInstance;
 
 define(["whispeerHelper", "directives/directivesModule"], function (h, directivesModule) {
 	"use strict";
 
-	// <loader data-model="user" data-ng-repeat="user in invite.usedBy" data-id="user" data-scope-attribute="user"> 
+	// <loader data-model="user" data-ng-repeat="user in invite.usedBy" data-id="user" data-scope-attribute="user">
 
-	function loaderDirective(userService, errorService) {
+	function loaderDirective() {
 		return {
 			restrict: "E",
 			scope: {
@@ -36,8 +38,8 @@ define(["whispeerHelper", "directives/directivesModule"], function (h, directive
 				});
 			}
 		};
-	}	
+	}
 
-	directivesModule.directive("loader", ["ssn.userService", "ssn.errorService", loaderDirective]);
+	directivesModule.directive("loader", [loaderDirective]);
 
 });

@@ -4,7 +4,7 @@ lang: de
 title: Allgemeine Geschäftsbedingungen
 ---
 1. Vertragspartner und Geltungsbereich dieser AGB
-	1. Vertragspartner sind die whispeer UG (haftungsbeschränkt), Rosenthaler Straße 72a, 10119 Berlin (nachfolgend „whispeer“ genannt) und der Nutzer.
+	1. Vertragspartner sind die mindpost GmbH, Schmargendorfer Straße 34, 12159 Berlin, Germany (nachfolgend „whispeer“ genannt) und der Nutzer.
 	2. Die vorliegenden Allgemeinen Geschäftsbedingungen (AGB) regeln die Nutzung des von whispeer betriebenen sozialen Netzwerkes mit allen hierfür von whispeer zur Verfügung gestellten Leistungen (nachfolgend: „whispeer-Leistungen“) einschließlich hierfür durch whispeer zur Verfügung gestellter Software (nachfolgend: „Software“) durch den Nutzer. Nicht zur Software gehören Open-Source-Programm-Bibliotheken, die Voraussetzung zur Nutzung der Software sind, auch wenn die Software diese ggf. automatisch nachlädt; für diese gelten ausschließlich die jeweiligen Open-Source-Lizenzbedingungen.
 	3. Abweichende Vereinbarungen im Einzelfall gehen den Regelungen dieser AGB vor.
 2. Pflichten des Nutzers, Missbrauch, Haftung des Nutzers

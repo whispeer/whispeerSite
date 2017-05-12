@@ -4,6 +4,15 @@ lang: de
 title: Versionshistorie
 ---
 
+## 0.3.3
+
+* Neues Registrierungsformular
+* Nachrichtenthemen Aktualisierungen werden angezeigt
+* unter der Haube: promises, webpack und typescript eingebaut
+* Bugfix: Nachrichten: Nutzerbilder wurden teilweise nicht angezeigt
+* Bugfix: Freundesliste geht nicht mehr kaputt wenn ein Freund entfernt wurde
+* Bugfix: Nutzerprofil Anzeigefehler behoben
+
 ## 0.3.2
 
 * Bugfix: Das eigene Profil aktualisiert sich nun lokal

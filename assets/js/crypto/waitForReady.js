@@ -1,4 +1,4 @@
-define(["libs/sjcl", "bluebird"], function (sjcl, Bluebird) {
+define(["sjcl", "bluebird"], function (sjcl, Bluebird) {
 	"use strict";
 
 	/**

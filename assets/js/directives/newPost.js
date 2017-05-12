@@ -1,9 +1,12 @@
 var templateUrl = require("../../views/directives/newPost.html");
+var filterService = require("services/filter.service.ts").default;
+var ImageUploadService = require("services/imageUploadService");
+var postService = require("services/postService");
 
 define(["directives/directivesModule", "whispeerHelper", "asset/state"], function (directivesModule, h, State) {
 	"use strict";
 
-	function newPostDirective(postService, ImageUploadService, filterService) {
+	function newPostDirective() {
 		return {
 			scope: {
 				"inputI18nAttr": "@",
@@ -83,7 +86,7 @@ define(["directives/directivesModule", "whispeerHelper", "asset/state"], functio
 		};
 	}
 
-	newPostDirective.$inject = ["ssn.postService", "ssn.imageUploadService", "ssn.filterService"];
+	newPostDirective.$inject = [];
 
 	directivesModule.directive("newpost", newPostDirective);
 });

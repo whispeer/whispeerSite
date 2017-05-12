@@ -1,0 +1,62 @@
+{
+  "env": {
+    "browser": true
+  },
+  "globals": {
+    "define": true,
+    "console": true,
+    "require": true,
+    "webkitURL": true,
+    "URL": true,
+    "requirejs": true,
+    "startup": true,
+    "confirm": true,
+    "alert": true,
+    "globalErrors": true,
+    "module": true,
+    "describe": true,
+    "it": true,
+    "expect": true,
+    "File": true,
+    "indexedDB": true,
+    "WHISPEER_ENV": true,
+    "process": true,
+    "jQuery": true,
+    "Uint8Array": true,
+    "ArrayBuffer": true,
+    "DataView": true,
+    "Uint32Array": true
+  },
+  "rules": {
+    "no-undef": 2,
+    "no-bitwise": 2,
+    "curly": 2,
+    "eqeqeq": 2,
+    "guard-for-in": 2,
+    "no-extend-native": 2,
+    "wrap-iife": [
+      2,
+      "any"
+    ],
+    "new-cap": [
+      "error",
+      { "properties": false }
+    ],
+    "no-caller": 2,
+    "no-empty": 2,
+    "no-new": 2,
+    "quotes": [
+      2,
+      "double"
+    ],
+    "no-unused-vars": 2,
+    "strict": 0,
+    "no-use-before-define": [
+      2,
+      {
+        "functions": false
+      }
+    ],
+    "max-statements": 0
+  }
+}

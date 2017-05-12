@@ -2,9 +2,6 @@
 set -e
 set -x
 
-npm install
-git submodule update --init
-bower install
 cd ..
 
 
@@ -12,6 +9,14 @@ rm -rf whispeer-deploy
 cp -r whispeer whispeer-deploy
 cd whispeer-deploy
 
+npm install
+git submodule update --init
+bower install
+
+grunt copy
+
+bundle install
+jekyll build
 grunt build:production
 
 cd /var/www/

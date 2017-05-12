@@ -2,10 +2,16 @@
 * inviteController
 **/
 
+var cssService = require("services/css.service").default;
+var errorService = require("services/error.service").errorServiceInstance;
+var initService = require("services/initService");
+var localize = require("i18n/localizationConfig");
+var socketService = require("services/socket.service").default;
+
 define(["bluebird", "whispeerHelper", "asset/state", "controllers/controllerModule"], function (Bluebird, h, State, controllerModule) {
 	"use strict";
 
-	function inviteController($scope, $location, $state, socketService, errorService, cssService, localize, initService) {
+	function inviteController($scope, $location, $state) {
 		if ($state.current.name.indexOf("app.invite") > -1) {
 			cssService.setClass("inviteView");
 		}
@@ -95,7 +101,7 @@ define(["bluebird", "whispeerHelper", "asset/state", "controllers/controllerModu
 		};
 	}
 
-	inviteController.$inject = ["$scope", "$location", "$state", "ssn.socketService", "ssn.errorService", "ssn.cssService", "localize", "ssn.initService"];
+	inviteController.$inject = ["$scope", "$location", "$state"];
 
 	controllerModule.controller("ssn.inviteController", inviteController);
 });

@@ -1,8 +1,11 @@
+var cssService = require("services/css.service").default;
+var errorService = require("services/error.service").errorServiceInstance;
+var socketService = require("services/socket.service").default;
 
 define(["bluebird", "asset/state", "controllers/controllerModule"], function (Bluebird, State, controllerModule) {
 	"use strict";
 
-	function acceptInviteController($scope, cssService, socketService, errorService) {
+	function acceptInviteController($scope) {
 		cssService.setClass("acceptInviteView");
 
 		var acceptInviteState = new State.default();
@@ -24,7 +27,7 @@ define(["bluebird", "asset/state", "controllers/controllerModule"], function (Bl
 		};
 	}
 
-	acceptInviteController.$inject = ["$scope", "ssn.cssService", "ssn.socketService", "ssn.errorService"];
+	acceptInviteController.$inject = ["$scope"];
 
 	controllerModule.controller("ssn.acceptInviteController", acceptInviteController);
 });

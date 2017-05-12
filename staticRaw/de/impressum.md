@@ -4,14 +4,14 @@ lang: de
 title: Impressum
 ---
 ##Angaben gemäß § 5 TMG:
-whispeer UG (haftungsbeschränkt)<br>
+mindpost GmbH<br>
 Handelsregister: AG Charlottenburg, HRB 162914 B<br>
-Geschäftsführer: Nils Kenneweg
+Geschäftsführer: Nils Kenneweg, Sebastian Reck
 
 ##Anschrift
-Rosenthaler Straße 72 a<br>
-10119 Berlin, Germany
+Schmargendorfer Straße 34<br>
+12159 Berlin, Deutschland
 
 ##Kontakt
 Mail: support@whispeer.de<br>
-Telefon: +49 - 152 - 27369080
+Telefon: +49 - 30 - 55597624

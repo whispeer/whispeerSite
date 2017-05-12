@@ -17,5 +17,9 @@
 	terms: "AGB",
 	privacyPolicy: "Datenschutzbestimmungen",
 	imprint: "Impressum",
-	contact: "Kontakt"
+	contact: "Kontakt",
+	days: "Tage",
+	hours: "Stunden",
+	minutes: "Minuten",
+	seconds: "Sekunden"
 }
