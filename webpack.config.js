@@ -35,7 +35,8 @@ var plugins = [
 		minChunkSize: 2048
 	}),
 	new webpack.DefinePlugin({
-		"WHISPEER_ENV": JSON.stringify(process.env.WHISPEER_ENV)
+		"WHISPEER_ENV": JSON.stringify(process.env.WHISPEER_ENV),
+		"WHISPEER_BUSINESS": JSON.stringify(!!process.env.WHISPEER_BUSINESS)
 	}),
 	new BundleAnalyzerPlugin({
 		analyzerMode: "static",

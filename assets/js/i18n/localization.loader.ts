@@ -1,8 +1,10 @@
 import 'whatwg-fetch';
 
+declare var WHISPEER_BUSINESS : boolean
+
 class LocalizationLoader {
 	fallBackLanguage: string = "en-US";
-	location: string = "assets/js/i18n/l_";
+	location: string = (WHISPEER_BUSINESS ? "assets/js/i18n/l_business_" : "assets/js/i18n/l_");
 	availableLanguages: string[] = [];
 	loadedLanguage: string;
 
