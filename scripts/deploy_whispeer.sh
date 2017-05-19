@@ -13,6 +13,9 @@ if [ -n "$WHISPEER_BUSINESS" ]; then
   echo "Building business version"
   mv staticRaw/de/business.html staticRaw/de/index.html
   mv staticRaw/en/business.html staticRaw/en/index.html
+else
+  rm staticRaw/de/business.html
+  rm staticRaw/en/business.html
 fi
 
 npm install
