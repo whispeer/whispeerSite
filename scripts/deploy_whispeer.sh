@@ -9,6 +9,12 @@ rm -rf whispeer-deploy
 cp -r whispeer whispeer-deploy
 cd whispeer-deploy
 
+if [ -n "$WHISPEER_BUSINESS" ]; then
+  echo "Building business version"
+  mv staticRaw/de/business.html staticRaw/de/index.html
+  mv staticRaw/en/business.html staticRaw/en/index.html
+fi
+
 npm install
 git submodule update --init
 bower install
