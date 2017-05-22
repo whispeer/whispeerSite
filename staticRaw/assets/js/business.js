@@ -24,7 +24,9 @@
 			req.open("POST", api, true);
 
 			req.onreadystatechange = function() {
-				if(req.readyState != 4 || req.status != 200) return;
+				if (req.readyState != 4 || req.status != 200) {
+					return;
+				}
 
 				document.getElementById("mail_signup-after-send__loading").classList.add("hide");
 				document.getElementById("mail_signup-after-send__finished").classList.remove("hide");

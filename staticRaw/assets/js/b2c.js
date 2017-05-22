@@ -37,11 +37,6 @@
 		addClass(globalNot, "globalNotificationWrap--visible");
 	}
 
-	function focusRegister() {
-		var frame = document.getElementById("registerFrame-main");
-		frame.contentWindow.document.getElementsByTagName("input")[0].focus();
-	}
-
 	var headingElement = document.getElementById("heading");
 
 	var iframes = Array.prototype.slice.call(document.getElementsByTagName("iframe"));
@@ -78,61 +73,6 @@
 	updateImage();
 	window.setInterval(updateImage, 60);
 */
-
-	var overlayOpen = document.getElementById("video-overlay-open");
-	var overlayClose = document.getElementById("video-overlay-close");
-	var overlay = document.getElementById("video-overlay");
-	var videoElement = document.getElementById("video-overlay-video-element");
-
-	var registerAds = Array.prototype.slice.call(document.getElementsByClassName("register--ad"));
-	registerAds.forEach(function (element) {
-		element.addEventListener("click", focusRegister);
-	});
-
-	var isOpen = false;
-
-	function close() {
-		removeClass(overlay, "video-overlay--visible");
-		videoElement.pause();
-
-		isOpen = false;
-	}
-
-	function open() {
-		addClass(overlay, "video-overlay--visible");
-		videoElement.play();
-		videoElement.focus();
-
-		isOpen = true;
-	}
-
-	function togglePlayback() {
-		if (videoElement.paused) {
-			videoElement.play();
-		} else {
-			videoElement.pause();
-		}
-	}
-
-	document.body.addEventListener("keypress", function (e) {
-		if (e.keyCode === 32 && isOpen) {
-			togglePlayback();
-			e.preventDefault();
-		}
-	});
-
-	videoElement.addEventListener("click", function (e) {
-		e.stopPropagation();
-
-		togglePlayback();
-	});
-
-	if (overlayOpen) {
-		overlayOpen.addEventListener("click", open);
-	}
-
-	overlayClose.addEventListener("click", close);
-	overlay.addEventListener("click", close);
 
 	function isElementInViewport (el) {
 		if(!el) {
