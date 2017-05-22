@@ -70,7 +70,7 @@ export const loginPage = () => {
 }
 
 export const goToBusiness = () => {
-	setTopLocation(config.businessUrl)
+	window.top.location.href = config.businessUrl
 }
 
 export const isBlockedReturnUrl = (url: string) => {
