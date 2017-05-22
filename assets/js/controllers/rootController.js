@@ -36,6 +36,8 @@ define(["jquery", "whispeerHelper", "config", "controllers/controllerModule", "d
 		$scope.friends = friendsService.data;
 		$scope.messages = messageService.data;
 
+		$scope.noBusiness = !WHISPEER_BUSINESS
+
 		var afterInitPromise = Bluebird.resolve();
 
 		function loadUser() {
