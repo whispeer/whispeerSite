@@ -73,6 +73,10 @@ export const goToBusiness = () => {
 	window.top.location.href = config.businessUrl
 }
 
+export const goToSalesPage = () => {
+	window.top.location.href = config.salesUrl
+}
+
 export const isBlockedReturnUrl = (url: string) => {
 	return blockedReturnUrls.filter((blockedUrl: string) => {
 		return url.indexOf(blockedUrl) !== -1;
