@@ -7,7 +7,7 @@
 	},
 
 	"businessUrl": "https://business.whispeer.de",
-	"salesUrl": "https://business.whispeer.de/sales",
+	"businessUrl": "https://business.whispeer.de/business",
 
 	"serviceWorker": {
 		"enabled": false
