@@ -95,6 +95,10 @@ var Topic = function (data) {
 
 		newMessage: "",
 
+		latestMessage: {
+			data: {}
+		},
+
 		id: data.topicid,
 		type: (receiver.length <= 2 ? "peerChat" : "groupChat"),
 		obj: this
@@ -151,7 +155,7 @@ var Topic = function (data) {
 
 	this.refetchMessages = function () {
 		if (this.fetchingMessages) {
-			return;
+			return this.refetchPromise;
 		}
 
 		this.fetchingMessages = true;
@@ -170,19 +174,25 @@ var Topic = function (data) {
 		var sentMessages = this.getSentMessages().map(function (message) {
 			return message.getServerID();
 		});
-		var oldest = sentMessages.shift();
-		var newest = sentMessages.pop();
+
+		var oldest = sentMessages[0];
+		var newest = sentMessages[sentMessages.length - 1];
 
 		var request = {
 			topicid: this.getID(),
 			oldest: oldest,
 			newest: newest,
-			inBetween: sentMessages,
+			inBetween: sentMessages.slice(1, -1),
 			maximum: 20,
 			messageCountOnFlush: 10
 		};
 
-		return socket.emit("messages.refetch", request).bind(this).then(function (response) {
+		if (sentMessages.length === 0) {
+			this.refetchPromise = this.loadMoreMessages()
+			return this.refetchPromise
+		}
+
+		this.refetchPromise = socket.definitlyEmit("messages.refetch", request).bind(this).then(function (response) {
 			if (response.clearMessages) {
 				//remove all sent messages we have!
 				messages.clear();
@@ -200,6 +210,8 @@ var Topic = function (data) {
 		}).finally(function () {
 			this.fetchingMessages = false;
 		});
+
+		return this.refetchPromise;
 	};
 
 	this.awaitEarlierSend = function (time) {
@@ -368,6 +380,10 @@ var Topic = function (data) {
 		return null;
 	};
 
+	this.getUnreadCount = function () {
+		return unreadMessages.length
+	}
+
 	this.addMessages = function (messages, addUnread) {
 		messages.forEach(function (message) {
 			var id = message.getID();
@@ -423,27 +439,28 @@ var Topic = function (data) {
 	};
 
 	this.loadReceiverNames = function loadRNF(cb) {
-		return Bluebird.try(function () {
+		if (this._loadReceiverNamesPromise) {
+			return this._loadReceiverNamesPromise
+		}
+
+		this._loadReceiverNamesPromise = Bluebird.try(function () {
 			return userService.getMultipleFormatted(receiver);
 		}).then(function (receiverObjects) {
-			var partners = theTopic.data.partners;
-
-			if (partners.length > 0) {
-				return;
-			}
-
-			receiverObjects.forEach(function (receiverObject) {
-				if (!receiverObject.user.isOwn() || receiverObjects.length === 1) {
-					partners.push(receiverObject);
-				}
+			var partners = receiverObjects.filter(function (receiverObject) {
+				return !receiverObject.user.isOwn() || receiverObjects.length === 1
 			});
 
-			theTopic.data.partnersDisplay = partners.slice(0, 2);
-			if (partners.length > 2) {
-				theTopic.data.remainingUser = partners.length - 2;
+			var maxDisplay = 3;
+			var displayCount = (partners.length > maxDisplay) ? 2 : partners.length;
+
+			theTopic.data.partnersDisplay = partners.slice(0, displayCount);
+			theTopic.data.partners = partners
+
+			if (partners.length > displayCount) {
+				theTopic.data.remainingUser = partners.length - displayCount;
 
 				var i = 0;
-				for (i = 2; i < partners.length; i += 1) {
+				for (i = displayCount; i < partners.length; i += 1) {
 					theTopic.data.remainingUserTitle += partners[i].name;
 					if (i < partners.length - 1) {
 						theTopic.data.remainingUserTitle += ", ";
@@ -451,6 +468,8 @@ var Topic = function (data) {
 				}
 			}
 		}).nodeify(cb);
+
+		return this._loadReceiverNamesPromise
 	};
 
 	this.getReceiver = function () {
@@ -458,13 +477,11 @@ var Topic = function (data) {
 	};
 
 	this.loadAllData = function loadAllDataF(cb) {
-		return Bluebird.resolve().bind(this).then(function () {
-			return this.verify();
-		}).then(function () {
-			return this.loadNewest();
-		}).then(function () {
-			return this.loadReceiverNames();
-		}).then(function () {
+		return Bluebird.all([
+			this.verify(),
+			this.loadNewest(),
+			this.loadReceiverNames(),
+		]).bind(this).then(function () {
 			return this._addTopicUpdates(data.latestTopicUpdates);
 		}).then(function () {
 			this.data.loaded = true;
@@ -480,7 +497,7 @@ var Topic = function (data) {
 		}).nodeify(cb);
 	};
 
-	this.loadMoreMessages = function loadMoreMessagesF(cb, max) {
+	this.loadMoreMessages = function(cb, max) {
 		var loadMore = new Date().getTime();
 		var remaining = 0;
 
@@ -535,11 +552,26 @@ Topic.multipleFromData = function (topicsData) {
 	return Bluebird.resolve(topicsData).map(function (topicData) {
 		return Topic.createTopicAndAdd(topicData);
 	}).map(function (topic) {
-		return Topic.loadTopic(topic);
+		return Topic.loadTopic(topic)
 	}).then(function (topics) {
 		return topics;
 	});
 };
+
+Topic.loadInChunks = function (topicsData, count) {
+	var load = topicsData.slice(0, count)
+	var remaining = topicsData.slice(count)
+
+	if (topicsData.length === 0) {
+		return Bluebird.resolve([])
+	}
+
+	return Topic.multipleFromData(load).then(function (topics) {
+		return Topic.loadInChunks(remaining, count).then(function (otherTopics) {
+			return topics.concat(otherTopics)
+		})
+	})
+}
 
 Topic.createTopicAndAdd = function (topicData) {
 	var topic = new Topic(topicData);
@@ -562,13 +594,10 @@ Topic.loadTopic = function (topic) {
 		return Bluebird.resolve(topic);
 	}
 
-	var promise = Bluebird.promisify(topic.loadAllData.bind(topic))().thenReturn(topic);
-
-	promise.then(function (id) {
-		topicDebug("Topic loaded (" + id + "):" + (new Date().getTime() - startup));
+	return topic.loadAllData().thenReturn(topic).then(function (topic) {
+		topicDebug("Topic loaded (" + topic.getID() + "):" + (new Date().getTime() - startup));
+		return topic
 	});
-
-	return promise;
 };
 
 Topic.fromData = function (topicData) {

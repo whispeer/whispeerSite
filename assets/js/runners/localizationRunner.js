@@ -24,7 +24,7 @@ define(["runners/runnerModule", "bluebird"], function (runnerModule, Bluebird) {
 		settingsService.listen(function () {
 			var language = settingsService.getBranch("uiLanguage");
 
-			if (language) {
+			if (language && typeof language === "string") {
 				localize.setLanguage(language);
 			}
 		}, "loaded");

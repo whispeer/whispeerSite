@@ -10,107 +10,115 @@ var trustManager = require("crypto/trustManager");
 var SecuredData = require("asset/securedDataWithMetaData");
 
 var keyGenPromise, sessionStorage = Storage.withPrefix("whispeer.session"), clientStorage = Storage.withPrefix("whispeer.client");
+var registerPromise;
 
 var registerService = {
-	register: function (nickname, mail, password, profile, settings, inviteCode, callback) {
+	register: function (nickname, mail, password, profile, settings, inviteCode) {
 		var keys;
-		return Bluebird.try(function register1() {
-			return registerService.startKeyGeneration();
-		}).then(function register2(theKeys) {
-			keys = theKeys;
 
-			if (nickname) {
-				keyStoreService.setKeyGenIdentifier(nickname);
-			} else {
-				throw new Error("need nickname");
-			}
+		if (!registerPromise) {
+			registerPromise = Bluebird.try(function register1() {
+				return registerService.startKeyGeneration();
+			}).then(function register2(theKeys) {
+				keys = theKeys;
 
-			var privateProfile = new ProfileService({
-				content: profile.priv
-			}, { isDecrypted: true });
+				if (nickname) {
+					keyStoreService.setKeyGenIdentifier(nickname);
+				} else {
+					throw new Error("need nickname");
+				}
 
-			var privateProfileMe = new ProfileService({
-				content: h.objectJoin(h.objectJoin(profile.priv, profile.pub), profile.nobody),
-				meta: { myProfile: true }
-			}, { isDecrypted: true });
+				var privateProfile = new ProfileService({
+					content: profile.priv
+				}, { isDecrypted: true });
 
-			var publicProfile = new ProfileService({
-				content: profile.pub || {}
-			}, { isPublicProfile: true });
+				var privateProfileMe = new ProfileService({
+					content: h.objectJoin(h.objectJoin(profile.priv, profile.pub), profile.nobody),
+					meta: { myProfile: true }
+				}, { isDecrypted: true });
 
-			var correctKeys = h.objectMap(keys, keyStoreService.correctKeyIdentifier);
-			var ownKeys = {main: correctKeys.main, sign: correctKeys.sign};
-			delete correctKeys.main;
-			delete correctKeys.profile;
+				var publicProfile = new ProfileService({
+					content: profile.pub || {}
+				}, { isPublicProfile: true });
 
-			var signedKeys = SecuredData.load(undefined, correctKeys, { type: "signedKeys" });
+				var correctKeys = h.objectMap(keys, keyStoreService.correctKeyIdentifier);
+				var ownKeys = {main: correctKeys.main, sign: correctKeys.sign};
+				delete correctKeys.main;
+				delete correctKeys.profile;
 
-			trustManager.allow(5);
+				var signedKeys = SecuredData.load(undefined, correctKeys, { type: "signedKeys" });
 
-			return Bluebird.all([
-				privateProfile.signAndEncrypt(keys.sign, keys.profile),
-				privateProfileMe.signAndEncrypt(keys.sign, keys.main),
-				publicProfile.sign(keys.sign),
+				trustManager.allow(5);
 
-				SecuredData.createAsync(settings.content, settings.meta, { type: "settings" }, keys.sign, keys.main),
+				return Bluebird.all([
+					privateProfile.signAndEncrypt(keys.sign, keys.profile),
+					privateProfileMe.signAndEncrypt(keys.sign, keys.main),
+					publicProfile.sign(keys.sign),
 
-				signedKeys.sign(keys.sign),
+					SecuredData.createAsync(settings.content, settings.meta, { type: "settings" }, keys.sign, keys.main),
 
-				keyStoreService.security.makePWVerifiable(ownKeys, password),
+					signedKeys.sign(keys.sign),
 
-				keyStoreService.random.hex(16),
+					keyStoreService.security.makePWVerifiable(ownKeys, password),
 
-				keyStoreService.sym.pwEncryptKey(keys.main, password),
-				keyStoreService.sym.symEncryptKey(keys.profile, keys.friends),
-			]);
-		}).spread(function register3(privateProfile, privateProfileMe, publicProfile, settings, signedKeys, signedOwnKeys, salt) {
-			keys = h.objectMap(keys, keyStoreService.correctKeyIdentifier);
-			trustManager.disallow();
+					keyStoreService.random.hex(16),
 
-			var registerData = {
-				password: {
-					salt: salt,
-					hash: keyStoreService.hash.hashPW(password, salt),
-				},
-				keys: h.objectMap(keys, keyStoreService.upload.getKey),
-				signedKeys: signedKeys,
-				signedOwnKeys: signedOwnKeys,
-				inviteCode: "whispeerfj",
-				profile: {
-					pub: publicProfile,
-					priv: [privateProfile],
-					me: privateProfileMe
-				},
-				settings: settings
-			};
+					keyStoreService.sym.pwEncryptKey(keys.main, password),
+					keyStoreService.sym.symEncryptKey(keys.profile, keys.friends),
+				]);
+			}).spread(function register3(privateProfile, privateProfileMe, publicProfile, settings, signedKeys, signedOwnKeys, salt) {
+				keys = h.objectMap(keys, keyStoreService.correctKeyIdentifier);
+				trustManager.disallow();
 
-			if (mail) {
-				registerData.mail = mail;
-			}
+				var registerData = {
+					password: {
+						salt: salt,
+						hash: keyStoreService.hash.hashPW(password, salt),
+					},
+					keys: h.objectMap(keys, keyStoreService.upload.getKey),
+					signedKeys: signedKeys,
+					signedOwnKeys: signedOwnKeys,
+					inviteCode: "whispeerfj",
+					profile: {
+						pub: publicProfile,
+						priv: [privateProfile],
+						me: privateProfileMe
+					},
+					settings: settings
+				};
 
-			if (nickname) {
-				registerData.nickname = nickname;
-			}
+				if (mail) {
+					registerData.mail = mail;
+				}
 
-			if (inviteCode) {
-				registerData.inviteCode = inviteCode;
-			}
+				if (nickname) {
+					registerData.nickname = nickname;
+				}
 
-			registerData.preID = clientStorage.get("preID") || "";
+				if (inviteCode) {
+					registerData.inviteCode = inviteCode;
+				}
 
-			return socketService.emit("session.register", registerData);
-		}).then(function (result) {
-			if (result.sid) {
-				sessionStorage.set("sid", result.sid);
-				sessionStorage.set("userid", result.userid);
-				sessionStorage.set("loggedin", true);
-				sessionStorage.set("password", password);
-			}
+				registerData.preID = clientStorage.get("preID") || "";
 
-			keyStoreService.security.setPassword(password);
+				return socketService.emit("session.register", registerData);
+			}).then(function (result) {
+				if (result.sid) {
+					sessionStorage.set("sid", result.sid);
+					sessionStorage.set("userid", result.userid);
+					sessionStorage.set("loggedin", true);
+					sessionStorage.set("password", password);
+				}
 
-			return result;
-		}).nodeify(callback);
+				keyStoreService.security.setPassword(password);
+
+				return result;
+			}).finally(function () {
+				registerPromise = null;
+			});
+		}
+
+		return registerPromise;
 	},
 	setPreID: function () {
 		Bluebird.try(function () {
