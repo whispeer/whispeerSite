@@ -41,6 +41,8 @@ sudo cp /home/nilos/whispeer-deploy/sw.js /var/www/whispeer
 sudo cp -r /home/nilos/whispeer-deploy/assets /var/www/whispeer
 sudo cp -r /home/nilos/whispeer-deploy/static /var/www/whispeer
 
+sudo cp -r /home/nilos/whispeer-deploy/node_modules/bluebird/js/browser /var/www/whispeer/assets/bluebird
+
 if [ -d "/home/nilos/whispeer-app" ]; then
   sudo cp -r /home/nilos/whispeer-app/versions /var/www/whispeer/app
 fi
