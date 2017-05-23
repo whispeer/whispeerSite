@@ -1,6 +1,5 @@
 var Bluebird = require("bluebird");
 var SecuredData = require("asset/securedDataWithMetaData");
-var modelsModule = require("models/modelsModule");
 var h = require("whispeerHelper");
 
 var userService = require("user/userService");
@@ -120,9 +119,5 @@ TopicUpdate.create = function (topic, options) {
 		});
 	});
 };
-
-modelsModule.factory("ssn.models.topicUpdate", [function () {
-	return TopicUpdate;
-}]);
 
 module.exports = TopicUpdate;

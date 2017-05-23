@@ -11,11 +11,12 @@ var keyStore = require("crypto/keyStore");
 var Cache = require("services/Cache.ts").default;
 
 var socketService = require("services/socket.service.ts").default;
+var BlobDownloader = require("services/blobDownloader.service.ts").default;
 
 var initService = require("services/initService");
 
 var knownBlobs = {};
-var downloadBlobQueue = new Queue(1);
+var downloadBlobQueue = new Queue(5);
 downloadBlobQueue.start();
 
 var debugName = "whispeer:blobService";
@@ -285,39 +286,16 @@ MyBlob.prototype.getHash = function (cb) {
 	}).nodeify(cb);
 };
 
-function addBlobToDB(blob, dataString) {
-	var isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
-
-	if (!!isSafari) {
-		blobCache.store(blob.getBlobID(), blob._meta, dataString);
-		return;
-	}
-
-	blobCache.store(blob.getBlobID(), blob._meta, blob._blobData);
-}
-
 function loadBlobFromServer(blobID) {
 	return downloadBlobQueue.enqueue(1, function () {
-		return Bluebird.all([
-			socketService.awaitNoRequests(),
-			initService.awaitLoading()
-		]).then(function () {
-			return socketService.emit("blob.getBlob", {
-				blobid: blobID
-			});
+		return initService.awaitLoading().then(function () {
+			return new BlobDownloader(socketService, blobID).download()
 		}).then(function (data) {
-			var dataString = "data:image/png;base64," + data.blob;
-			var blob = h.dataURItoBlob(dataString), theBlob;
+			var blob = new MyBlob(data.blob, blobID, { meta: data.meta });
 
-			if (blob) {
-				theBlob = new MyBlob(blob, blobID, { meta: data.meta });
-			} else {
-				theBlob = new MyBlob(dataString, blobID, { meta: data.meta });
-			}
+			blobCache.store(blob.getBlobID(), blob._meta, blob._blobData);
 
-			addBlobToDB(theBlob, dataString);
-
-			return theBlob;
+			return blob;
 		});
 	});
 }

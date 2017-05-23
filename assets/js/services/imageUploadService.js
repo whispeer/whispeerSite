@@ -14,6 +14,8 @@ var blobService = require("services/blobService");
 
 var canvasToBlob = Bluebird.promisify(h.canvasToBlob.bind(h));
 
+var PREVIEWSDISABLED = false;
+
 var defaultOptions = {
 	minimumSizeDifference: 1024,
 	sizes: [
@@ -52,6 +54,7 @@ var defaultOptions = {
 		}
 	],
 	gif: true,
+	encrypt: true,
 	original: false
 };
 
@@ -86,7 +89,7 @@ function sizeSorter(a, b) {
 var ImageUpload = function (file, options) {
 	this.rotation = "0";
 	this._file = file;
-	this._options = $.extend({}, defaultOptions, options);
+	this._options = options || defaultOptions;
 	this._progress = new Progress();
 	this._progress.listen(this._maybeApply.bind(this), "progress");
 	this._previousProgress = 0;
@@ -117,10 +120,12 @@ ImageUpload.prototype.convertForGallery = function () {
 		upload: this,
 		highest: {
 			loading: false,
+			loaded: true,
 			url: this.getUrl()
 		},
 		lowest: {
 			loading: false,
+			loaded: true,
 			url: this.getUrl()
 		}
 	};
@@ -136,16 +141,19 @@ ImageUpload.prototype.getProgress = function () {
 	return this._progress.getProgress();
 };
 
-ImageUpload.prototype._uploadPreparedBlob = function (encryptionKey, blobMeta) {
+ImageUpload.prototype._uploadAndEncryptPreparedBlob = function (encryptionKey, blobMeta) {
 	this._progress.addDepend(blobMeta.blob._uploadProgress);
 	this._progress.addDepend(blobMeta.blob._encryptProgress);
 
 	return encryptionQueue.enqueue(blobMeta.blob.getSize(), function () {
-		var encryptAndUpload = Bluebird.promisify(blobMeta.blob.encryptAndUpload.bind(blobMeta.blob));
-		return encryptAndUpload(encryptionKey).then(function (blobKey) {
-			return blobKey;
-		});
+		return blobMeta.blob.encryptAndUpload(encryptionKey);
 	});
+};
+
+ImageUpload.prototype._uploadPreparedBlob = function (blobMeta) {
+	this._progress.addDepend(blobMeta.blob._uploadProgress);
+
+	return blobMeta.blob.upload();
 };
 
 ImageUpload.blobToDataSet = function (blob) {
@@ -262,8 +270,12 @@ ImageUpload.prototype.rotate = function () {
 };
 
 ImageUpload.prototype.generatePreviews = function () {
+	if (PREVIEWSDISABLED) {
+		return Bluebird.reject(new Error("Previews are disabled"))
+	}
+
 	if (!this._generatePreviewsPromise) {
-		this._generatePreviewsPromise = ImageUpload.imageLibLoad(this._file, {
+		this._generatePreviewsPromise = ImageUpload.imageLibLoad(h.toUrl(this._file), {
 			maxHeight: 200, canvas: true
 		}).bind(this).then(function (img) {
 			return Bluebird.all([
@@ -294,7 +306,9 @@ ImageUpload.prototype.getName = function () {
 };
 
 ImageUpload.prototype.getUrl = function () {
-	this.generatePreviews();
+	if (!PREVIEWSDISABLED) {
+		this.generatePreviews();
+	}
 
 	this._url = this._url || h.toUrl(this._file);
 	return this._url;
@@ -309,7 +323,11 @@ ImageUpload.prototype.upload = function (encryptionKey) {
 	return uploadQueue.enqueue(1, function () {
 		return Bluebird.resolve(_this._blobs).bind(_this).map(function (blobWithMetaData) {
 			console.info("Uploading blob");
-			return _this._uploadPreparedBlob(encryptionKey, blobWithMetaData);
+			if (_this._options.encrypt) {
+				return _this._uploadAndEncryptPreparedBlob(encryptionKey, blobWithMetaData);
+			}
+
+			return _this._uploadPreparedBlob(blobWithMetaData);
 		});
 	});
 };
@@ -330,10 +348,14 @@ ImageUpload.prototype.prepare = function () {
 
 	var sizes = this._isGif ? this._options.gifSizes : this._options.sizes;
 
-	return Bluebird.resolve(sizes)
-		.bind(this)
-		.map(this._createSizeData)
-		.then(this._removeUnnededBlobs);
+	if (!this.preparePromise) {
+		this._preparePromise = Bluebird.resolve(sizes)
+			.bind(this)
+			.map(this._createSizeData)
+			.then(this._removeUnnededBlobs);
+	}
+
+	return this._preparePromise
 };
 
 ImageUpload.prototype._removeUnnededBlobs = function (blobs) {
@@ -358,6 +380,14 @@ ImageUpload.prototype.getFile = function () {
 	return this._file;
 };
 
+ImageUpload.prototype._getImage = function () {
+	if (!this._getImagePromise) {
+		this._getImagePromise = ImageUpload.imageLibLoad(this.getUrl());
+	}
+
+	return this._getImagePromise;
+}
+
 ImageUpload.prototype._resizeFile = function (sizeOptions) {
 	if (this._isGif && !sizeOptions.restrictions) {
 		return Bluebird.resolve(this._file);
@@ -365,7 +395,15 @@ ImageUpload.prototype._resizeFile = function (sizeOptions) {
 
 	var options = $.extend({}, sizeOptions.restrictions || {}, { canvas: true });
 
-	return ImageUpload.imageLibLoad(this._file, options).bind(this).then(function (canvas) {
+	return this._getImage().bind(this).then(function (img) {
+		if (options.square) {
+			img = imageLib.scale(img, {
+				contain: true,
+				aspectRatio: 1
+			})
+		}
+
+		var canvas = imageLib.scale(img, options);
 		return canvasToBlob(ImageUpload.rotate(canvas, this.rotation), "image/jpeg");
 	});
 };

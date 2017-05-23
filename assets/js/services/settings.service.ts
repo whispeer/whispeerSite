@@ -187,14 +187,14 @@ class SettingsService extends Observer {
 		});
 	}
 
-	loadFromCache = (cacheEntry: any) => {
+	loadFromCache = (cacheEntry: any, blockageToken: any) => {
 		var userService = require("user/userService");
 
 		this.loadCachePromise = Bluebird.race([
 			userService.ownLoadedCache(),
 			userService.ownLoaded()
 		]).then(() => {
-			return this.loadSettings(cacheEntry.data);
+			return this.loadSettings(cacheEntry.data, blockageToken);
 		});
 
 		return this.loadCachePromise;

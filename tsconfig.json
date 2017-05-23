@@ -6,9 +6,8 @@
 		"emitDecoratorMetadata": true,
 		"experimentalDecorators": true,
 		"lib": [ "es2015", "dom" ],
-		"noImplicitAny": true,
+		"noImplicitAny": false,
 		"outDir": "./build",
-		"suppressImplicitAnyIndexErrors": true,
 		"types" : ["node", "webpack", "jquery"],
 		"noUnusedLocals": true,
 		"noUnusedParameters": true

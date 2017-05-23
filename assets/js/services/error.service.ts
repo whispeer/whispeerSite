@@ -19,7 +19,7 @@ class ErrorService {
 		});
 	}
 
-	criticalError (e : Error) {
+	criticalError (e : any) {
 		this.logError(e);
 	};
 
