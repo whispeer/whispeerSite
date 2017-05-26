@@ -1,0 +1,156 @@
+.caret-wrapped {
+	position: relative;
+	display: inline-block;
+	margin: 24px 0 0 24px;
+	width: 237px;
+
+	&:before {
+		position: absolute;
+		top: 0;
+		left: -24px;
+
+		content: " ";
+
+		width: 0;
+		height: 0;
+
+		border-style: solid;
+		border-width: 36px 24px 36px 0;
+		border-color: transparent #fff transparent transparent;
+
+		z-index: 3;
+	}
+
+	&:after {
+		position: absolute;
+		top: 0;
+		right: -24px;
+
+		content: " ";
+
+		width: 0;
+		height: 0;
+
+		border-style: solid;
+		border-width: 36px 0 36px 24px;
+		border-color: transparent transparent transparent #fff;
+
+		z-index: 3;
+	}
+
+	@media (max-width: 880px) {
+		width: calc(100% - 50px);
+		align-self: flex-start;
+	}
+}
+
+.caret-wrapped-overlapping {
+	display: flex;
+	align-items: center;
+
+	@media (max-width: 880px) {
+		flex-direction: column;
+
+		.caret-wrapped--button {
+			text-align: center;
+			width: calc(100% - 50px);
+			margin: 1.5em auto;
+		}
+	}
+}
+
+.caret-wrapped--no-left {
+	@media (min-width: 880px) {
+		&:before {
+			display: none;
+		}
+
+		margin-left: 0;
+	}
+}
+
+.caret-wrapped--primary {
+	&:before {
+		border-color: transparent $primary_light transparent transparent;
+	}
+
+	&:after {
+		border-color: transparent transparent transparent $primary_light;
+	}
+
+	.caret-wrapped__button {
+		background: $primary_light;
+
+		color: #ffffff;
+
+		cursor: pointer;
+
+		&:focus, &:active {
+			outline: none !important;
+		}
+	}
+
+	&:before, &:after,
+	.caret-wrapped__button {
+		transition: 0.15s ease-in-out;
+	}
+
+	&:hover {
+		&:before {
+			border-color: transparent $primary transparent transparent;
+		}
+
+		&:after {
+			border-color: transparent transparent transparent $primary;
+		}
+
+		.caret-wrapped__button {
+			background: $primary !important;
+		}
+	}
+}
+
+.caret-wrapped--complementary {
+	&:before {
+		border-color: transparent $light_grey transparent transparent;
+	}
+
+	&:after {
+		border-color: transparent transparent transparent $light_grey;
+	}
+}
+
+.caret-wrapped--button {
+	cursor: pointer;
+
+	@media (min-width: 881px) {
+		width: 100px;
+	}
+}
+
+.caret-wrapped__input {
+	width: 100%;
+	height: 72px !important;
+	line-height: 28px !important;
+
+	border-radius: 0 !important;
+	border: none !important;
+}
+
+.caret-wrapped__button {
+	-webkit-appearance: none;
+
+	height: 72px;
+	width: 100%;
+
+	background: #fff;
+	border: none !important;
+
+	@media (max-width: 880px) {
+		padding: 0 !important;
+	}
+}
+
+.caret-wrapped__button--overlaying-left {
+	padding-left: 36px;
+}

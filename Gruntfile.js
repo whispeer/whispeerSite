@@ -11,9 +11,9 @@ grunt.loadNpmTasks("grunt-contrib-copy");
 grunt.loadNpmTasks("grunt-concurrent");
 grunt.loadNpmTasks("grunt-bower-install-simple");
 grunt.loadNpmTasks("grunt-run");
-grunt.loadNpmTasks("grunt-contrib-requirejs");
 grunt.loadNpmTasks("grunt-contrib-clean");
 grunt.loadNpmTasks("grunt-angular-templates");
+grunt.loadNpmTasks("grunt-jekyll");
 
 grunt.initConfig({
 	assetHash: {
@@ -142,6 +142,13 @@ grunt.initConfig({
 			options: {
 				spawn: false
 			}
+		},
+		jekyll: {
+			files: ["staticRaw/**/*.*"],
+			tasks: ["jekyll"],
+			options: {
+				spawn: false
+			}
 		}
 	},
 	browserSync: {
@@ -179,6 +186,14 @@ grunt.initConfig({
 	},
 	clean: {
 		build: ["assets/js/build/*.js", "manifest.mf", "assets/commit.sha", "assets/files.json"]
+	},
+	jekyll: {
+		options: {
+			bundleExec: true
+		},
+		dist: {
+			config: "_config.yml"
+		}
 	}
 });
 
@@ -248,8 +263,6 @@ grunt.task.registerTask("workerCache", "Write worker cache and commit sha", func
 	];
 
 	var preload = [
-		"assets/js/bower/requirejs/require.js",
-
 		"assets/img/logo.svg",
 		"assets/data/newMessage.ogg",
 
@@ -402,7 +415,7 @@ grunt.registerTask("build:production",  [
 	"assetHash:bundles",
 
 	"includes",
-	"workerCache"
+	"workerCache",
 ]);
 
 grunt.registerTask("server", "Start the whispeer web server.", require("./webserver"));

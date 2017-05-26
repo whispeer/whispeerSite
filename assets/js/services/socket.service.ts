@@ -1,3 +1,5 @@
+declare var WHISPEER_BUSINESS : boolean
+
 const APIVERSION = "0.0.3";
 
 const debug = require("debug");
@@ -8,6 +10,8 @@ const config = require('../config.js');
 import * as Bluebird from "bluebird";
 import Observer from "../asset/observer";
 import BlobUploader from "./blobUploader.service"
+
+import { goToBusiness, goToBusinessPage } from "./location.manager";
 
 const socketDebug = debug("whispeer:socket");
 const socketError = debug("whispeer:socket:error");
@@ -209,6 +213,18 @@ class SocketService extends Observer {
 			if (response.error) {
 				socketError(response);
 				throw new ServerError("server returned an error!", { response });
+			}
+
+			if (!WHISPEER_BUSINESS) {
+				if (response.isBusiness) {
+					goToBusiness()
+				}
+			}
+
+			if (WHISPEER_BUSINESS) {
+				if (response.logedin && !response.isBusiness) {
+					goToBusinessPage()
+				}
 			}
 
 			socketDebug(response);

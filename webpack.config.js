@@ -38,6 +38,7 @@ var plugins = [
 	}),
 	new webpack.DefinePlugin({
 		"WHISPEER_ENV": JSON.stringify(process.env.WHISPEER_ENV),
+		"WHISPEER_BUSINESS": JSON.stringify(!!process.env.WHISPEER_BUSINESS),
 		"CLIENT_INFO": JSON.stringify({
 			type: "browser",
 			version: data.version

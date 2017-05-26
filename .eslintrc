@@ -20,6 +20,7 @@
     "File": true,
     "indexedDB": true,
     "WHISPEER_ENV": true,
+    "WHISPEER_BUSINESS": true,
     "process": true,
     "jQuery": true,
     "Uint8Array": true,
