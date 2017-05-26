@@ -1,0 +1,303 @@
+<!doctype html>
+<html itemscope itemtype="http://schema.org/Product" prefix="my_namespace: http://ogp.me/ns/website#">
+	{% assign data = site.data.b2c.[page.dataSet].[page.lang] %}
+	{% assign lang = site.data.langs[page.lang] %}
+	{% assign i18n = site.data.whispeerI18n[page.lang] %}
+	<head>
+		{% include head.html %}
+		<link rel="stylesheet" href="{{ "/assets/css/static.css" | prepend: site.baseurl }}">
+		<link rel="stylesheet" href="{{ "/assets/css/business.css" | prepend: site.baseurl }}">
+
+		<link rel="shortcut icon" href="/assets/images/icons/b2b_favicon.ico" />
+	</head>
+	<body>
+		{% include noscript.html %}
+		<header class="header">
+			<div class="header-inner">
+				<a data-ng-href="/{{page.lang}}/" class="header-brand" data-ng-click="mobileActivateView()">
+					<img src="/assets/images/logo.svg" class="header-brand__logo"><span class="header-brand--normal header-brand__business">Business</span>
+				</a>
+				<a href="/login/" target="_self" class="header-toggle header-toggle-login helper-showMobile">Login</a>
+				<iframe id="header-login" class="helper-hideMobile" src="/{{page.lang}}/loginframe/"></iframe>
+			</div>
+		</header>
+		<main>
+			<section class="landing-section landing-section--background-image landing-section--first">
+				<div class="landing-section__inner">
+					<img src="/assets/images/logo_b2b.svg" id="landing-section__logo">
+
+					<h2 class="landing-section__heading landing-section__heading--low-profile">Unternehmen entwickeln sich.</h2>
+					<h2 class="landing-section__heading landing-section__heading--low-profile">Seien Sie Vorreiter.</h2>
+
+					<p class="landing-section__paragraph landing-section__paragraph--large">
+						Kommunizieren. Organisieren. Teilen. Alles digital & sicher.<br>
+						Bringen Sie Ihr Unternehmen in Sekunden auf das nächste Level.<br>
+						Und wir kümmern uns um den Rest - sorgenfrei für Sie.
+					</p>
+					<!-- <a href="#" class="landing-section__link landing-secition__link--shadow landing-section__link--accent">Entdecken Sie die Services von whispeer ></a> -->
+<!--
+					<form name="quickRegister" class="landing-section__form caret-wrapped-overlapping">
+						<div class="caret-wrapped">
+							<input type="text" placeholder="Name Ihres Unternehmens" class="caret-wrapped__input landing-section__input--primary">
+						</div>
+						<div class="caret-wrapped caret-wrapped--button caret-wrapped--primary caret-wrapped--no-left">
+							<button type="submit" class="caret-wrapped__button caret-wrapped__button--overlaying-left">weiter</button>
+						</div>
+					</form> -->
+				</div>
+			</section>
+			<section class="landing-section landing-section--full">
+				<div class="landing-section__inner landing-section__inner--centered landing-section__inner--full">
+					<div class="landing-section__upper-quote">
+						<h2 class="landing-section__heading landing-section__heading--centered landing-section__heading--complementary">
+							Wir beschützen den wichtigsten Teil<br>
+							Ihres Unternehmens. Ihre Kommunikation.
+						</h2>
+
+						<blockquote class="landing-section__quote">
+							<div class="landing-section__quote__icon-wrap">
+								<img src="/assets/images/icons/lock.svg" class="landing-section__quote__icon-wrap__icon">
+							</div>
+							<div class="landing-section__quote__text">
+								<p>
+									Wir verschlüsseln jede einzelne Nachricht von Ihnen, egal wohin sie geht. Das geht dabei so schnell, dass es Ihnen gar nicht auffallen wird. Und alles passiert direkt auf Ihrem Gerät. Kein Industriespion, kein Geheimdienst, wirklich niemand - uns eingeschlossen - wird Einsicht in Ihre Unternehmenskommunikation erlangen.
+								</p>
+								<!-- <a href="#" class="landing-section__link">Erfahren Sie mehr über unsere Verschlüsselung ></a> -->
+							</div>
+						</blockquote>
+					</div>
+					<div class="landing-section__lower-quote">
+						<blockquote class="landing-section__quote">
+							<div class="landing-section__quote__icon-wrap">
+								<img src="/assets/images/icons/quote.svg" class="landing-section__quote__icon-wrap__icon">
+							</div>
+							<div class="landing-section__quote__text">
+								<p>
+									Auf die deutsche Gesamtwirtschaft gerechnet war jedes zweite Unternehmen in den vergangenen zwei Jahren von einem Angriff betroffen. Das führt nach konservativen Berechnungen des Bitkom zu wirtschaftlichen Schäden in Höhe von rund 51 Milliarden Euro pro Jahr.
+								</p>
+							</div>
+							<cite class="landing-section__quote__cite">
+								&ndash; Dr. Rohleder, Geschäftsführer <a href="https://www.bitkom.org" target="_blank" class="landing-section__link">Bitkom</a>
+							</cite>
+						</blockquote>
+					</div>
+				</div>
+			</section>
+			<section class="landing-section landing-section--background-primary" id="animation-section">
+				<div class="landing-section__inner landing-section__inner--centered">
+					<h2 class="landing-section__heading landing-section__heading--centered">Die Basics für Jedermann/-frau.</h2>
+					<div class="animation-box">
+						{% for message in site.data.b2b.animation[page.lang].data %}
+							<div class="message message-s{{message.sender | plus: 1}} message-{{page.lang}}--i{{forloop.index}}{% if forloop.last == true or forloop.rindex0 == 1 %} message--infinity{% endif %}">
+								<span class="message-sender">{{site.data.b2b.animation[page.lang].senders[message.sender]}}</span>
+								<span class="message-text">{{message.messageText}}</span>
+							</div>
+						{% endfor %}
+						<div class="animation-node s1">
+							<i class="fa fa-user fa-l fa-bottom textShadow"></i>
+							<span class="animation-node-description">{{site.data.b2b.animation[page.lang].senders[0]}}</span>
+						</div>
+						<div class="animation-node s1Pc">
+							<i class="fa fa-desktop fa-xl fa-fw fa-middle textShadow"></i>
+							<span class="animation-node-description">{{site.data.b2b.animation[page.lang].senders[0]}}' Arbeitsplatz</span>
+						</div>
+						<div class="animation-node server">
+							<i class="fa fa-server fa-xl fa-middle textShadow"></i>
+							<span class="animation-node-description">whispeer Server</span>
+						</div>
+						<div class="animation-node s2Pc">
+							<i class="fa fa-desktop fa-xl fa-fw fa-middle textShadow"></i>
+							<span class="animation-node-description">{{site.data.b2b.animation[page.lang].senders[1]}}s Arbeitsplatz</span>
+						</div>
+						<div class="animation-node s2">
+							<i class="fa fa-user fa-l fa-bottom textShadow"></i>
+							<span class="animation-node-description">{{site.data.b2b.animation[page.lang].senders[1]}}</span>
+						</div>
+					</div>
+				</div>
+			</section>
+			<a name="features"></a> <!-- We'll jump here if the close button is clicked. -->
+			<section class="landing-section landing-section--small landing-section--wrap">
+				<div class="features">
+					<div class="feature" tabindex="0">
+						<div class="feature__short">
+							<div class="feature__polygon">
+									<div class="polygon">
+										<i class="fa fa-plus polygon__icon"></i>
+									</div>
+								</div>
+								<div class="feature__description">
+									<h4 class="feature__description__headline">Einfach</h4>
+									<p class="feature__description__text">Klares Design und präzise Werkzeuge machen Ihre Workflows effizienter.</p>
+							</div>
+						</div>
+						<div class="feature__detail" id="feature__detail--easy">
+							<div class="detail__content">
+								<h1 class="detail__content__headline">Unsere Software richtet sich nach Ihnen - nicht andersherum!</h1>
+								<p class="detail__content__text">
+									Wir bauen leicht-verständliche Werkzeuge für den Alltag, trotz extra Verschlüsselung. Legen Sie das Kryptographiehandbuch zur Seite und nutzen Sie Ihre Zeit für das Wesentliche. Dabei ist und bleibt höchste Benutzerfreundlichkeit unser Anspruch. Wir sind der nächste Schritt in eine sichere digitale Kommunikation.
+								</p>
+								<!-- <a href="#" class="landing-section__link">Probieren Sie es direkt aus ></a> -->
+							</div>
+							<a href="#features" class="detail__close">
+								<i class="fa fa-times"></i>
+							</a>
+						</div>
+					</div>
+					<div class="feature feature--active" tabindex="0">
+						<div class="feature__short">
+							<div class="feature__polygon">
+								<div class="polygon">
+									<i class="fa fa-plus polygon__icon"></i>
+								</div>
+							</div>
+							<div class="feature__description">
+								<h4 class="feature__description__headline">Sicher</h4>
+								<p class="feature__description__text">Unsere Sicherheitsstandards sind höher und ausgereifter als im Finanzwesen.</p>
+							</div>
+						</div>
+						<div class="feature__detail" id="feature__detail--secure">
+							<div class="detail__content">
+								<h1 class="detail__content__headline">Sicherheit von der Stange? Nicht mit uns.</h1>
+								<p class="detail__content__text">
+									Die einzigartige Kombination verschiedener Verschlüsselungstechnologien ist unser Meisterstück.<br>
+									Ein Smoothie handverlesener, sonnengereifter Südfrüchte der Informatik. Und Mann, sind wir stolz darauf!<br>
+									Wir verschlüsseln jede einzelne Nachricht schon bevor sie Ihr Gerät verlässt. Sender und Empfänger tauschen dabei auf einer sicheren Ebene gleichzeitig Schlüssel aus. Mit diesen Schlüsseln wird Ihre Verbindung gegen Angriffe gefestigt. Der whispeer-Server dient dabei lediglich als „Postbote“. Damit stellen wir sicher, dass Ihre Nachricht nur auf dem Gerät des Empfängers landet und auch nur dort wieder geöffnet werden kann.
+								</p>
+								<!-- <a href="#" class="landing-section__link">Fragen & Antworten zu den technischen Details ></a> -->
+							</div>
+							<a href="#features" class="detail__close">
+								<i class="fa fa-times"></i>
+							</a>
+						</div>
+					</div>
+					<div class="feature" tabindex="0">
+						<div class="feature__short">
+							<div class="feature__polygon">
+								<div class="polygon">
+									<i class="fa fa-plus polygon__icon"></i>
+								</div>
+							</div>
+							<div class="feature__description">
+								<h4 class="feature__description__headline">Flexibel</h4>
+								<p class="feature__description__text">Sie greifen zum Smartphone, Tablet, PC oder Laptop - Ihre Daten warten schon auf Sie.</p>
+							</div>
+						</div>
+						<div class="feature__detail" id="feature__detail--flexible">
+							<div class="detail__content">
+								<h1 class="detail__content__headline">Sie haben den neuesten Stand immer dabei.</h1>
+								<p class="detail__content__text">
+									Flexibilität und Sicherheit bilden endlich keinen Widerspruch mehr. Endgeräte übergreifend stehen alle unsere Services jederzeit vollumfänglich und mit Ihrem persönlichen, synchronisierten Arbeitsstand bereit. Nie wieder auf den USB-Stick vom Team warten. Nie wieder mit dem falschen Gerät keinen Zugriff haben. Und nie wieder den IT-Support anrufen. Diese Dinge gehören von nun der Vergangenheit an.
+								</p>
+								<!-- <a href="#" class="landing-section__link">Erfahren Sie mehr über unsere umfangreiche Kompatibilität ></a> -->
+							</div>
+							<a href="#features" class="detail__close">
+								<i class="fa fa-times"></i>
+							</a>
+						</div>
+					</div>
+					<div class="feature" tabindex="0">
+						<div class="feature__short">
+							<div class="feature__polygon">
+								<div class="polygon">
+									<i class="fa fa-plus polygon__icon"></i>
+								</div>
+							</div>
+							<div class="feature__description">
+								<h4 class="feature__description__headline">Repräsentativ</h4>
+								<p class="feature__description__text">Präsentieren Sie Ihr Unternehmen einer neuen fortschrittlichen Community</p>
+							</div>
+						</div>
+						<div class="feature__detail" id="feature__detail--representative">
+							<div class="detail__content">
+								<h1 class="detail__content__headline">Wir sind mehr als ein Soziales Netzwerk.</h1>
+								<p class="detail__content__text">
+									Wir beheimaten die Generation, für die Facebook & Co zum alten Eisen gehören. Die Generation, die zukunftsweisend an Datenschutz und Privatsphäre im Internet glaubt. Die Generation von morgen.<br>
+									Verleihen Sie Ihrem eigenen Anspruch auf Integrität Nachdruck: Behandeln Sie sensible Daten Ihrer Geschäftspartner in einer sicheren Umgebung und seien Sie parallel mit Ihrem Unternehmen in unserer Community präsent. Seien Sie Vorreiter und Vorbild für diese neue Generation.
+								</p>
+								<!-- <a href="#" class="landing-section__link">Präsenz und Datenschutz, geht das? ></a> -->
+							</div>
+							<a href="#features" class="detail__close">
+								<i class="fa fa-times"></i>
+							</a>
+						</div>
+					</div>
+				</div>
+			</section>
+			<section class="landing-section">
+				<div class="landing-section__inner landing-section__inner--centered">
+					<h2 class="landing-section__heading landing-section__heading--centered landing-section__heading--complementary">
+						Ihr Account.<br>
+						Für eine sichere Zukunft.
+					</h2>
+
+					<p class="text--center" id="account_teaser">
+						Machen Sie Ihr Unternehmen fit für das digitale Zeitalter.<br>
+						Erstellen Sie in Sekunden den ersten Account. Um alles Weitere kümmern wir uns!
+					</p>
+
+<!-- 					<p class="text--center text--complementary">
+						Schritt 1 von 3
+					</p> -->
+
+					<form id="mail_signup" name="register" class="landing-section__form landing-section__form--multi-input">
+						<div class="caret-wrapped caret-wrapped--complementary">
+							<input type="text" id="signup_name" placeholder="Ihr Name" class="caret-wrapped__input landing-section__input--complementary" pattern="(\w(\s)?)*\w" required>
+						</div>
+						<div class="caret-wrapped-overlapping">
+							<div class="caret-wrapped caret-wrapped--complementary">
+								<input type="email" id="signup_mail" placeholder="Ihre E-Mail Adresse" class="caret-wrapped__input landing-section__input--complementary" required>
+							</div>
+							<div class="caret-wrapped caret-wrapped--button caret-wrapped--primary caret-wrapped--no-left">
+								<button type="submit" class="caret-wrapped__button caret-wrapped__button--overlaying-left">Absenden</button>
+							</div>
+						</div>
+						<div class="form__row">
+							<div class="form__checkbox-label">
+								<input type="checkbox" name="accept" class="form__checkbox" id="betaTest" required>
+								<label for="betaTest" class="form__checkbox-style"></label>
+								<p class="form__label-text">Ich akzeptiere die <a href="/de/agb">Allgemeinen Geschäftsbedingungen</a> und <a href="/agb/privacyPolicy">Datenschutzbestimmungen.</a></p>
+							</div>
+						</div>
+					</form>
+					<div class="landing-section__after-send" id="mail_signup-after-send">
+						<div class="after-send__loading" id="mail_signup-after-send__loading">
+							Loading...
+						</div>
+						<div class="after-send__finished hide" id="mail_signup-after-send__finished">
+							<img class="after-send__finished__icon" src="/assets/images/icons/check.svg">
+							<p class="after-send__finished__text">Es steht uns eine spannende Zukunft bevor!<br>
+							Schön Sie mit an Bord zu haben. Wir melden uns bald zurück.</p>
+						</div>
+					</div>
+				</div>
+			</section>
+		</main>
+		<footer class="landing-footer">
+			<span class="landing-footer__part landing-footer__left">
+				<a href="/"><img src="/assets/images/logo_b2b_grey.svg" id="landing-footer__logo"></a>
+			</span>
+			<span class="landing-footer__part landing-footer__right">
+				<a class="landing-footer__link" href="/{{page.lang}}/agb">
+					<i class="fa fa-briefcase fa-fw"></i>
+					{{lang.terms}}
+				</a>
+				<a class="landing-footer__link" href="/{{page.lang}}/privacyPolicy">
+					<i class="fa fa-lock fa-fw"></i>
+					{{lang.privacyPolicy}}
+				</a>
+				<a class="landing-footer__link" href="/{{page.lang}}/contact">
+					<i class="fa fa-envelope fa-fw"></i>
+					{{lang.contact}}
+				</a>
+				<a class="landing-footer__link" href="/{{page.lang}}/impressum">
+					<i class="fa fa-book fa-fw"></i>
+					{{lang.imprint}}
+				</a>
+			</span>
+		</footer>
+		<!-- <a class="backToTop" href="#heading"><i class="fa fa-arrow-circle-o-up fa-2x"></i></a> -->
+		<script src="/assets/js/common.js" type="text/javascript"></script>
+		<script src="/assets/js/business.js" type="text/javascript"></script>
+	</body>
+</html>

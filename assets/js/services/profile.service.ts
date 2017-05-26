@@ -125,11 +125,17 @@ export default class ProfileService extends Observer {
 		}).nodeify(cb);
 	};
 
-	setAttribute = (attr: string, value: any, cb?: Function) => {
+	setAttribute = (attr: string, value: any) => {
 		return this.decrypt().then(() => {
 			this.securedData.contentSetAttr(attr, value);
-		}).nodeify(cb);
+		})
 	};
+
+	removeAttribute = (attr: string) => {
+		return this.decrypt().then(() => {
+			this.securedData.contentRemoveAttr(attr);
+		})
+	}
 
 	getFull = (cb?: Function) => {
 		return this.decrypt().then(() => {

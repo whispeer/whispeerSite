@@ -2,7 +2,7 @@
 
 "use strict";
 
-self.importScripts("/assets/js/bower/bluebird/js/browser/bluebird.js");
+self.importScripts("/assets/bluebird/bluebird.min.js");
 
 var CACHEPREFIX = "whispeer-";
 var FILESCONFIGURL = "/assets/files.json";

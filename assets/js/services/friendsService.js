@@ -289,7 +289,7 @@ friendsService = {
 		}).nodeify(cb);
 	},
 	acceptFriendShip: function (uid, cb) {
-		if (requests.indexOf(uid) > -1 && !h.containsOr(uid, friends, requested)) {
+		if (requests.indexOf(uid) > -1 && !h.containsOr(uid, friends)) {
 			return addAsFriend(uid).nodeify(cb);
 		}
 	},

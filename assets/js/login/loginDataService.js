@@ -16,6 +16,7 @@ var service = function () {
 		UNKNOWNNAME: 0,
 		WRONGPASSWORD: 1,
 		NOCONNECTION: 2,
+		NOBUSINESSLICENSE: 3,
 		UNKNOWN: 5
 	};
 
@@ -93,7 +94,11 @@ var service = function () {
 				sessionStorage.set("loggedin", true);
 				sessionStorage.set("password", password);
 
-				return sessionStorage.save();
+				return sessionStorage.save().thenReturn(data);
+			}).then(function (data) {
+				if (!data.business && WHISPEER_BUSINESS) {
+					throw new errors.LoginError("Login failed", { failure: failureCodes.NOBUSINESSLICENSE})
+				}
 			}).catch(function (e) {
 				console.log(e);
 				throw e;

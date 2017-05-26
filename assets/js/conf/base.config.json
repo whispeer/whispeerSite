@@ -6,6 +6,9 @@
 		"autoReconnect": true
 	},
 
+	"businessUrl": "https://business.whispeer.de",
+	"businessUrl": "https://business.whispeer.de/business",
+
 	"serviceWorker": {
 		"enabled": false
 	}

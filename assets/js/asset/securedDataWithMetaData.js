@@ -298,6 +298,15 @@ define(["whispeerHelper", "crypto/keyStore", "asset/errors", "config", "bluebird
 		this._changed = true;
 	};
 
+	SecuredDataWithMetaData.prototype.contentRemoveAttr = function (attr) {
+		if (typeof this._updated.content !== "object") {
+			throw new Error("our content is not an object");
+		}
+
+		delete this._updated.content[attr];
+		this._changed = true;
+	}
+
 	/** sets the whole metaData to the given data
 		@param newMetaData new value for this objects metaData
 	*/

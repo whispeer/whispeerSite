@@ -147,9 +147,11 @@ function determineLength(object) {
 function stringifyObject(object, version) {
 	var length = determineLength(object);
 
-	if (h.parseDecimal(version) > 2 && length < 500) {
-		return Bluebird.resolve(new ObjectHasher(object, version).stringify());
+	if (length < 50) {
+		return new ObjectHasher(object, version).stringify();
 	}
+
+	console.warn("Length too long for stringify ", object._type, version, length)
 
 	return sjclWorkerInclude.stringify(object, version);
 }
@@ -1287,11 +1289,11 @@ function makeSignKey(keyData) {
 * @param callback callback
 */
 SignKey.get = function signKeyGet(realKeyID) {
-	return Bluebird.try(function () {
-		if (!signKeys[realKeyID]) {
-			return getKey(realKeyID);
-		}
-	}).then(function () {
+	if (signKeys[realKeyID]) {
+		return Bluebird.resolve(signKeys[realKeyID])
+	}
+
+	return getKey(realKeyID).then(function () {
 		if (signKeys[realKeyID]) {
 			return signKeys[realKeyID];
 		}

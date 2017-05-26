@@ -5,7 +5,6 @@ var keyStore = require("services/keyStore.service").default;
 var h = require("whispeerHelper");
 var SecuredData = require("asset/securedDataWithMetaData");
 var Bluebird = require("bluebird");
-var modelsModule = require("models/modelsModule");
 
 var notVerified = ["sendTime", "sender", "topicid", "messageid"];
 
@@ -76,6 +75,7 @@ Message.prototype.setData = function () {
 	this.data = {
 		text: "",
 		timestamp: this.getTime(),
+		date: new Date(this.getTime()),
 
 		loading: true,
 		loaded: false,
@@ -136,7 +136,7 @@ Message.prototype.send = function () {
 	}
 
 	return socket.awaitConnection().bind(this).then(function () {
-		return this._topic.refetchMessages();
+		return [this._topic.refetchMessages(), this._topic.loadNewest()];
 	}).then(function () {
 		return this._topic.awaitEarlierSend(this.getTime());
 	}).then(function () {
@@ -297,9 +297,5 @@ Message.createRawData = function (topic, message, meta, cb) {
 	var secured = Message.createRawSecuredData(topic, message, meta);
 	secured._signAndEncrypt(userService.getown().getSignKey(), topic.getKey(), cb);
 };
-
-modelsModule.factory("ssn.models.message", [function () {
-	return Message;
-}]);
 
 module.exports = Message;

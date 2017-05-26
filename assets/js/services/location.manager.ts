@@ -1,7 +1,9 @@
 import * as StorageService from "./storage.service";
 import Storage from "./Storage";
 import "jquery";
-const h = require("../helper/helper.js");
+const h = require("../helper/helper");
+
+var config = require("config")
 
 
 const loginStorage: Storage = StorageService.withPrefix("whispeer.login");
@@ -65,6 +67,14 @@ export const isLoginPage = () => {
 
 export const loginPage = () => {
 	setTopLocation("/login");
+}
+
+export const goToBusiness = () => {
+	window.top.location.href = config.businessUrl
+}
+
+export const goToBusinessPage = () => {
+	window.top.location.href = config.businessUrl
 }
 
 export const isBlockedReturnUrl = (url: string) => {
