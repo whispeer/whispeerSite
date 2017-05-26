@@ -69,6 +69,10 @@
 @headingsColor:         inherit; // empty to use BS default, @textColor
 @headingsSmallColor:    lighten(@textColor, 30%); // empty to use BS default, @textColor
 
+@text-color-dark: @davysgrey;
+@text-color-light: @darkgrey;
+@text-color: @text-color-dark;
+@detail-color: @text-color-light;
 
 // Tables
 // -------------------------
@@ -80,10 +84,10 @@
 
 // Buttons
 // -------------------------
-@btnBackground:                     @white;
-@btnBackgroundHover:            	darken(@btnBackground, 5%);
-@btnBackgroundFocus:            	darken(@btnBackground, 10%);
-@btnBackgroundActive:            	darken(@btnBackground, 10%);
+@btnBackground:                     @isabelline;
+@btnBackgroundHover:            	@ghostwhite;
+@btnBackgroundFocus:            	@btnBackgroundHover;
+@btnBackgroundActive:            	@btnBackgroundHover;
 @btnBorder:                         @gainsboro;
 
 @btnGreenBackground:              	@kellygreen;
@@ -116,7 +120,7 @@
 // -------------------------
 @inputBackground:               @white;
 @inputBorder:                   @btnBorder;
-@inputBorderFocus:				@primary;
+@inputBorderFocus:				@kellygreen;
 @inputBorderRadius:             3px;
 @inputDisabledBackground:       @darkgrey;
 @formActionsBackground:         #f5f5f5;
