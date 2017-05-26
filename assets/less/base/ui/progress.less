@@ -11,7 +11,7 @@ progress[role] {
 
 	border: none;
 
-	color: @green;
+	color: @primary;
 }
 
 progress[role]:after {
@@ -25,43 +25,43 @@ progress[role] strong {
 progress,
 progress[role][aria-valuenow],
 progress::-webkit-progress-bar {
-	background: #ccc !important;
+	background: @isabelline !important;
 }
 
 // this has to stand alone for some reason...
 
 progress[aria-valuenow]:before {
-	background: @green;
+	background: @primary;
 }
 
 progress::-webkit-progress-value {
-	background: @green;
+	background: @primary;
 }
 
 progress::-moz-progress-bar {
-	background: @green;
+	background: @primary;
 }
 
 progress:not([value]) {
-	background: #ccc;
+	background: @isabelline;
 }
 
 progress:not([value])::-moz-progress-bar {
-	background: #ccc;
+	background: @isabelline;
 }
 
 progress:not([value])::-webkit-progress-bar {
-	background: #ccc;
+	background: @isabelline;
 }
 
 /* Circular Progress */
 
 .radial-progress {
 	@circle-size: 30px;
-	@circle-background: fade(@gray, 80%);
+	@circle-background: fade(@grey, 80%);
 	@circle-color: @white;
 	@inset-size: 24px;
-	@inset-color: @gray;
+	@inset-color: @grey;
 	@transition-length: 1s;
 
 	width:  @circle-size;

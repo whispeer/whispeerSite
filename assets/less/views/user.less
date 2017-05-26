@@ -106,7 +106,7 @@
 
 	&:hover,
 	&.box-header-link--active {
-		background: fade(@gray, 10%)
+		background: @davysgrey;
 	}
 }
 #userView-trustlevel {
@@ -144,13 +144,13 @@
 		}
 	}
 	&[data-trustlevel="1"] {
-		color: @orange;
+		color: @warning;
 	}
 	&[data-trustlevel="2"] {
-		color: @green;
+		color: @primary;
 	}
 	&[data-trustlevel="3"] {
-		color: @green;
+		color: @primary;
 	}
 }
 .userView-trustlevel-digit {
@@ -270,9 +270,9 @@
 #userView-section-info-header-edit {
 	float: right;
 	margin-top: -2.213rem;
-	color: @grayLight;
+	color: @darkgrey;
 	&:hover {
-		color: @gray;
+		color: @isabelline;
 	}
 }
 .userView-info-inputs {

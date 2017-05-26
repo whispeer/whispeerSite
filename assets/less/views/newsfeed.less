@@ -2,7 +2,7 @@
 	overflow: visible;
 	body {
 		overflow: visible;
-		background: #f9f9f9;
+		background: @ghostwhite;
 	}
 }
 #newsfeedView-wall {
@@ -105,7 +105,7 @@
 	overflow-y: hidden;
 	white-space: nowrap;
 	text-align: left;
-	background: #f9f9f9;
+	background: @ghostwhite;
 	box-shadow: inset 0 0 6px #f0f0f0;
 	&:extend(.box-fix);
 	animation-delay: 1s;
@@ -208,26 +208,6 @@
 		margin: 0;
 	}
 }
-#newsfeedView-sortForm-dropdown {
-	width: 197px;
-}
-#newsfeedView-sortForm-dropdown-title {
-	padding-left: 0.5em;
-}
-.newsfeedView-sortForm-dropdown-item {
-	padding: 0 0.25em;
-	height: 50px;
-	line-height: 49px;
-	border-bottom: 1px solid #ccc;
-	cursor: pointer;
-
-	&:hover {
-		background: fade(@grayLighter, 40%);
-	}
-	&:last-child {
-		border-bottom: none;
-	}
-}
 #newsfeedView-loading {
 	width: 100%;
 	display: inline-block;
@@ -253,9 +233,9 @@
 .please-donate-hide {
 	display: inline-block;
 	margin: 1em 0 0;
-	color: @gray;
+	color: @grey;
 	&:hover {
-		color: @grayLight;
+		color: @darkgrey;
 	}
 }
 .please-donate-inner {

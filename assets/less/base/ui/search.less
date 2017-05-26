@@ -41,6 +41,9 @@
 	border-right: 1px solid @btnBorder;
 	line-height: 50px;
 }
+.search-result-name {
+	color: @primary;
+}
 .search-result-image {
 	width: 2rem;
 	margin-bottom: 4px;
@@ -175,7 +178,7 @@
 }
 .search-suggestion-name,
 .search-suggestion-nickname {
-	color: @gray;
+	color: @davysgrey;
 }
 .search-suggestion-relationship::first-letter {
 	text-transform: uppercase;
@@ -302,12 +305,12 @@
 	line-height: 49px;
 
 	border: none;
-	border-bottom: 1px solid #ccc;
+	border-bottom: 1px solid @isabelline;
 
 	&:extend(.box-fix);
 }
 .search-selectedDrop-result:hover {
-	background: rgba(red(@grayLighter), green(@grayLighter), blue(@grayLighter), 0.4);
+	background: @isabelline;
 }
 .search-selectedDrop-result:last-child {
 	border: none;
@@ -340,7 +343,7 @@
 	width: 18px;
 }
 .search-selectedDrop-result-remove:hover {
-	color: @grayDark;
+	color: @davysgrey;
 }
 
 .search--navbar {
