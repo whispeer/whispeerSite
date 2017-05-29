@@ -69,7 +69,8 @@ grunt.initConfig({
 			},
 			files: {
 				"assets/css/style.css": "assets/less/style.less",
-				"assets/css/business.css": "assets/less/business.less",
+				// use this for business version
+				//"assets/css/style.css": "assets/less/business.less",
 				"assets/css/static.css": "assets/less/static.less",
 			}
 		}
