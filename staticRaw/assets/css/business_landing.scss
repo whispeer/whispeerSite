@@ -1,8 +1,35 @@
 ---
 ---
 
-$primary: #3a8100;
-$primary_light: #54ab0c;
+$kellygreen: #5AB70D;
+$napiergreen: #3A8100;
+$kellygreenhighlight: #6CC117;
+
+$prussianblue: #013C4C;
+$midnightblue: #124958;
+$darkcerulean: #1B5C6D;
+
+$red: #FE3824;
+$seashell: #FFEDEC;
+$deepcoffee: #673C41;
+$mediumchampagne: #FFEDA5;
+$white: #FFFFFF;
+
+$davysgrey: #545B5E;
+$grey: #788286;
+$darkgrey: #A0A7AA;
+$gainsboro: #D5D8DA;
+$isabelline: #EBECED;
+$ghostwhite: #F9F9FA;
+
+@text-color-dark: @davysgrey;
+@text-color-light: @darkgrey;
+@text-color: @text-color-dark;
+@detail-color: @text-color-light;
+
+
+$primary: $prussianblue;
+$primary_light: $midnightblue;
 $primary_lighter: #76a424;
 $primary_dark: #3b7b06;
 
