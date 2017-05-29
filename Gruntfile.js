@@ -3,6 +3,8 @@
 var Bluebird = require("bluebird");
 var grunt = require("grunt");
 
+var business = !!process.env.WHISPEER_BUSINESS
+
 grunt.loadNpmTasks("grunt-contrib-less");
 grunt.loadNpmTasks("grunt-autoprefixer");
 grunt.loadNpmTasks("grunt-contrib-watch");
@@ -68,11 +70,8 @@ grunt.initConfig({
 				sourceMapRootpath: "/"
 			},
 			files: {
-				"assets/css/style.css": "assets/less/style.less",
-				"assets/css/static.css": "assets/less/static.less",
-				// use this for business version
-				//"assets/css/style.css": "assets/less/business.less",
-				//"assets/css/static.css": "assets/less/static_business.less",
+				"assets/css/style.css": business ? "assets/less/business.less" : "assets/less/style.less",
+				"assets/css/static.css": business ? "assets/less/static_business.less" : "assets/less/static.less",
 			}
 		}
 	},
