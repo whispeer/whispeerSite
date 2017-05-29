@@ -12,7 +12,8 @@
 @import "misc";
 
 .header {
-	background: rgba(red($primary), green($primary), blue($primary), 0.98);
+	background: $primary;
+	border: none;
 	font-family: ubuntulight, 'Helvetica Neue Light', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
