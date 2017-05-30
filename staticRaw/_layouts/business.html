@@ -240,36 +240,8 @@
 						Schritt 1 von 3
 					</p> -->
 
-					<form id="mail_signup" name="register" class="landing-section__form landing-section__form--multi-input">
-						<div class="caret-wrapped caret-wrapped--complementary">
-							<input type="text" id="signup_name" placeholder="Ihr Name" class="caret-wrapped__input landing-section__input--complementary" pattern="(\w(\s)?)*\w" required>
-						</div>
-						<div class="caret-wrapped-overlapping">
-							<div class="caret-wrapped caret-wrapped--complementary">
-								<input type="email" id="signup_mail" placeholder="Ihre E-Mail Adresse" class="caret-wrapped__input landing-section__input--complementary" required>
-							</div>
-							<div class="caret-wrapped caret-wrapped--button caret-wrapped--primary caret-wrapped--no-left">
-								<button type="submit" class="caret-wrapped__button caret-wrapped__button--overlaying-left">Absenden</button>
-							</div>
-						</div>
-						<div class="form__row">
-							<div class="form__checkbox-label">
-								<input type="checkbox" name="accept" class="form__checkbox" id="betaTest" required>
-								<label for="betaTest" class="form__checkbox-style"></label>
-								<p class="form__label-text">Ich akzeptiere die <a href="/de/agb">Allgemeinen Geschäftsbedingungen</a> und <a href="/agb/privacyPolicy">Datenschutzbestimmungen.</a></p>
-							</div>
-						</div>
-					</form>
-					<div class="landing-section__after-send" id="mail_signup-after-send">
-						<div class="after-send__loading" id="mail_signup-after-send__loading">
-							Loading...
-						</div>
-						<div class="after-send__finished hide" id="mail_signup-after-send__finished">
-							<img class="after-send__finished__icon" src="/assets/images/icons/check.svg">
-							<p class="after-send__finished__text">Es steht uns eine spannende Zukunft bevor!<br>
-							Schön Sie mit an Bord zu haben. Wir melden uns bald zurück.</p>
-						</div>
-					</div>
+					<a href="/{{page.lang}}/register/" class="button button--noBorder button--primary button--landing button--radius">Jetzt Account anlegen</a>
+
 				</div>
 			</section>
 		</main>
