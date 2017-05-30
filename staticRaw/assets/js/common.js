@@ -67,8 +67,14 @@ window.whispeerCommon = (function () {
 
 	function checkAnimationVisibility() {
 		var el = document.getElementsByClassName("animation-box")[0];
-		if (isElementInViewport(el) && el.className.indexOf("animation-start") === -1) {
-			addClass(el, "animation-start");
+		if (isElementInViewport(el)) {
+			if (el.className.indexOf("animation-start") === -1) {
+				addClass(el, "animation-start");
+			}
+		} else {
+			if (el.className.indexOf("animation-start") !== -1) {
+				removeClass(el, "animation-start")
+			}
 		}
 	}
 
