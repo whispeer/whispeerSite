@@ -23,8 +23,8 @@
 		"data": [
 			{ "sender": 0, "messageText": "Wo finde ich die Blaupause?" },
 			{ "sender": 1, "messageText": "Einen Moment, bekommst du gleich." },
-			{ "sender": 0, "messageText": "@file attached" },
-			{ "sender": 1, "messageText": "Danke dir!" },
+			{ "sender": 1, "messageText": "@file attached" },
+			{ "sender": 0, "messageText": "Danke dir!" },
 
 			{ "sender": 0, "messageText": "Was macht Bauteil CE-87b?" },
 			{ "sender": 1, "messageText": "Status: Assemblierung Sind im Zeitplan!" },
