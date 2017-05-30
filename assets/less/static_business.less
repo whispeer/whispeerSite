@@ -1,0 +1,77 @@
+// CSS-Reset
+@import "base/addons/normalize";
+
+// Load other Libraries
+@import "base/addons/angular-csp.less";
+@import "base/addons/jquery.qtip.less";
+@import "base/addons/font-awesome";
+
+// Grid
+@import "base/grid";
+
+// Core Variables / Mixins
+@import "base/variables_business";
+@import "base/mixins";
+
+// Basic Stuff
+@import "base/ui/typography";
+@import "base/ui/header";
+@import "base/ui/forms";
+@import "base/ui/buttons";
+@import "base/ui/box";
+@import "base/ui/posts";
+@import "base/addons/utilities";
+
+body {
+	background: transparent;
+}
+.hasTopBar {
+	padding-top: 50px;
+}
+.box {
+	display: block;
+	position: relative;
+	padding: 0;
+	margin-bottom: 1rem;
+
+	background: #fbfbfb;
+	box-sizing: border-box;
+	border-radius: 3px;
+	box-shadow: 0 0 5px #f0f0f0;
+
+	text-align: left;
+}
+
+.contentFallBack {
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+
+	height: 100vh;
+	width: 100%;
+	border: 0;
+}
+
+// Views
+
+// Register
+@import "staticLess/register";
+
+// Login
+@import "staticLess/login";
+
+// Recovery
+@import "staticLess/recovery";
+
+// Verify Mail
+@import "staticLess/mail";
+
+// StaticBox
+@import "staticLess/staticBox";
+
+// Help
+@import "views/help";
+
+// Version history
+@import "views/version";

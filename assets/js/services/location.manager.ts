@@ -65,6 +65,10 @@ export const isLoginPage = () => {
 	return (<any>window).top.location.pathname.indexOf("/login") !== -1;
 }
 
+export const isSalesPage = () => {
+	return window.top.location.href.indexOf(config.salesUrl) > -1
+}
+
 export const loginPage = () => {
 	setTopLocation("/login");
 }
@@ -73,8 +77,12 @@ export const goToBusiness = () => {
 	window.top.location.href = config.businessUrl
 }
 
-export const goToBusinessPage = () => {
-	window.top.location.href = config.businessUrl
+export const goToSalesPage = () => {
+	if (isSalesPage()) {
+		return
+	}
+
+	window.top.location.href = config.salesUrl
 }
 
 export const isBlockedReturnUrl = (url: string) => {

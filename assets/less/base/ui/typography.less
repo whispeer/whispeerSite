@@ -7,12 +7,6 @@
 @large-font-size: 1.786em;
 @large-line-height: 1.426em;
 
-@text-color-dark: #242424;
-@text-color-light: #fcfcfc;
-@text-color: @text-color-dark;
-@detail-color: #888888;
-
-
 body {
 	font-family: 'Helvetica Neue Light', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 	color: @text-color;
@@ -78,6 +72,13 @@ a:hover {
 }
 a[data-ng-click] {
 	cursor: pointer;
+}
+
+.link--grey {
+	color: @mediumchampagne;
+	&:hover {
+		color: darken(@mediumchampagne, 10%);
+	}
 }
 
 p {

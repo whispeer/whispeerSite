@@ -88,7 +88,7 @@
 
 		#topicList {
 			.topic {
-				border-bottom: 1px solid #ddd;
+				border-bottom: 1px solid @gainsboro;
 				cursor: pointer;
 				position: relative;
 				padding-right: @extended-padding;
@@ -185,7 +185,7 @@
 			}
 			.inviteFriends-link {
 				width: 100%;
-				border-bottom: 1px solid #ccc;
+				border-bottom: 1px solid @gainsboro;
 				border-radius: 0;
 			}
 		}
@@ -269,7 +269,7 @@
 
 				color: #fff;
 				font-weight: 400;
-				background: #a5a5a5;
+				background: @darkgrey;
 				box-shadow: 0 1px 1px rgba(164, 164, 164, 0.15);
 
 				border-radius: 8px;
@@ -358,7 +358,7 @@
 			}
 
 			.me .messages a {
-				color: @gray;
+				color: @darkgrey;
 			}
 
 			.time {
@@ -564,4 +564,8 @@
 .detail-chat {
 	padding: 1rem;
 	overflow: auto;
+}
+
+.other .username {
+	color: @davysgrey;
 }

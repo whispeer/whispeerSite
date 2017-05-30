@@ -34,6 +34,9 @@ $grayLight:             #999;
 $grayLighter:           #eee;
 $white:                 #fff;
 
+$kellygreen: #5AB70D;
+$napiergreen: #3A8100;
+$kellygreenhighlight: #6CC117;
 
 // Accent colors
 // -------------------------
@@ -45,10 +48,10 @@ $orange:				#f7b311;
 $orangeDark:			#f7bf10;
 $pink:                  #c3325f;
 $purple:                #7a43b6;
-$green:					#54AB0C;
+$green:					$kellygreen;
 
-$primary:	 #3A8100;
-$primaryLighter: #54AB0C;
+$primary:	 $kellygreen;
+$primaryLighter: $kellygreenhighlight;
 $primaryLightest: #59B40E;
-$primaryDarker: #3B7B06;
+$primaryDarker: $napiergreen;
 $primaryDarkest: #377900;
