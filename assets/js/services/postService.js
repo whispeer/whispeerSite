@@ -311,12 +311,11 @@ Timeline.prototype.getOldestID = function () {
 	return this._posts[this._posts.length - 1].getID();
 };
 
-Timeline.prototype._expandFilter = function(cb) {
+Timeline.prototype._expandFilter = function() {
 	var that = this, finalFilter = [];
 
 	if (this._finalFilter) {
-		cb();
-		return;
+		return Bluebird.resolve();
 	}
 
 	return Bluebird.try(function() {
@@ -340,7 +339,7 @@ Timeline.prototype._expandFilter = function(cb) {
 		that._finalFilter = finalFilter;
 
 		return;
-	}).nodeify(cb);
+	})
 };
 
 Timeline.prototype.loadInitial = function (cb) {
