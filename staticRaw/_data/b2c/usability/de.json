@@ -28,7 +28,8 @@
 		image: true,
 		registerForm: false,
 		appLink: {
-			google: "https://play.google.com/store/apps/details?id=whispeer.app"
+			google: "https://play.google.com/store/apps/details?id=whispeer.app",
+			apple: "https://itunes.apple.com/de/app/whispeer/id1031025741"
 		},
 		legal: {
 			google: "Google Play und das Google Play-Logo sind Marken von Google Inc.",

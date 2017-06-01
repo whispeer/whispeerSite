@@ -264,7 +264,9 @@ grunt.task.registerTask("workerCache", "Write worker cache and commit sha", func
 	];
 
 	var preload = [
-		"assets/img/logo.svg",
+		"assets/img/logo/grey.svg",
+		"assets/img/logo/white.svg",
+		"assets/img/logo/white_darker.svg",
 		"assets/data/newMessage.ogg",
 
 		"assets/css/style.css",
