@@ -55,7 +55,7 @@ grunt.initConfig({
 	},
 	concurrent: {
 		development: {
-			tasks: ["server", "watch"],
+			tasks: ["server", "watch", "run:jekyllWatch"],
 			options: {
 				logConcurrentOutput: true
 			}
@@ -143,13 +143,6 @@ grunt.initConfig({
 			options: {
 				spawn: false
 			}
-		},
-		jekyll: {
-			files: ["staticRaw/**/*.*"],
-			tasks: ["jekyll"],
-			options: {
-				spawn: false
-			}
 		}
 	},
 	browserSync: {
@@ -173,6 +166,13 @@ grunt.initConfig({
 		},
 		webpack: {
 			cmd: "webpack"
+		},
+		jekyllWatch: {
+			cmd: "jekyll",
+			args: [
+				"build",
+				"--watch"
+			]
 		},
 		webpackWorker: {
 			cmd: "webpack",
