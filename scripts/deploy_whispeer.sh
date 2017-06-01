@@ -14,16 +14,12 @@ if [ -n "$WHISPEER_BUSINESS" ]; then
   mv staticRaw/de/business.html staticRaw/de/index.html
   mv staticRaw/en/business.html staticRaw/en/index.html
 
-  mv assets/img/logo/grey_business.svg assets/img/logo/grey.svg
-  mv assets/img/logo/white_business.svg assets/img/logo/white.svg
-  mv assets/img/logo/white_darker_business.svg assets/img/logo/white_darker.svg
+  cp assets/img/logo/grey_business.svg assets/img/logo/grey.svg
+  cp assets/img/logo/white_business.svg assets/img/logo/white.svg
+  cp assets/img/logo/white_business.svg assets/img/logo/white_darker.svg
 else
   rm staticRaw/de/business.html
   rm staticRaw/en/business.html
-
-  rm assets/img/logo/grey_business.svg
-  rm assets/img/logo/white_business.svg
-  rm assets/img/logo/white_darker_business.svg
 fi
 
 npm install
