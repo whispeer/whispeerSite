@@ -57,7 +57,7 @@ define(["directives/directivesModule", "whispeerHelper", "asset/state"], functio
 							return;
 						}
 
-						var visibleSelection = $scope.newPost.readers;
+						var visibleSelection = $scope.newPost.readers.slice();
 
 						if ($scope.wallUserId) {
 							wallUserId = $scope.wallUserId;
