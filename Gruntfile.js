@@ -171,7 +171,8 @@ grunt.initConfig({
 			cmd: "jekyll",
 			args: [
 				"build",
-				"--watch"
+				"--watch",
+				"--incremental"
 			]
 		},
 		webpackWorker: {
