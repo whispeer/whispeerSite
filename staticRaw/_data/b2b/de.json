@@ -1,41 +1,59 @@
 {
-	"section1": {
-		"heading1": "Unternehmen entwickeln sich.",
-		"heading2": "Seien Sie Vorreiter.",
-		"text": "Kommunizieren. Organisieren. Teilen. Alles digital & sicher.<br> Bringen Sie Ihr Unternehmen in Sekunden auf das nächste Level.<br> Und wir kümmern uns um den Rest - sorgenfrei für Sie."
-	},
-	"section2": {
-		"heading1": "Wir beschützen den wichtigsten Teil<br> Ihres Unternehmens. Ihre Kommunikation.",
-		"quotes": [
-			{
-				"icon": "/assets/images/icons/lock.svg",
-				"text": "Wir verschlüsseln jede einzelne Nachricht von Ihnen, egal wohin sie geht. Das geht dabei so schnell, dass es Ihnen gar nicht auffallen wird. Und alles passiert direkt auf Ihrem Gerät. Kein Industriespion, kein Geheimdienst, wirklich niemand - uns eingeschlossen - wird Einsicht in Ihre Unternehmenskommunikation erlangen."
-			},
-			{
-				"icon": "/assets/images/icons/quote.svg",
-				"text": "Auf die deutsche Gesamtwirtschaft gerechnet war jedes zweite Unternehmen in den vergangenen zwei Jahren von einem Angriff betroffen. Das führt nach konservativen Berechnungen des Bitkom zu wirtschaftlichen Schäden in Höhe von rund 51 Milliarden Euro pro Jahr.",
-				"source": "&ndash; Dr. Rohleder, Geschäftsführer <a href='https://www.bitkom.org' target='_blank' class='landing-section__link'>Bitkom</a>"
-			}
-		]
-	},
-	"section3": {
-		"heading1": "Die Basics für Jedermann/-frau."
-	},
-	"section4": {
-		"features": [
-			{
-				"id": "feature__detail--easy",
-				"previewTitle": "Einfach",
-				"previewText": "Klares Design und präzise Werkzeuge machen Ihre Workflows effizienter.",
-				"title": "Unsere Software richtet sich nach Ihnen - nicht andersherum!",
-				"text": "Wir bauen leicht-verständliche Werkzeuge für den Alltag, trotz extra Verschlüsselung. Legen Sie das Kryptographiehandbuch zur Seite und nutzen Sie Ihre Zeit für das Wesentliche. Dabei ist und bleibt höchste Benutzerfreundlichkeit unser Anspruch. Wir sind der nächste Schritt in eine sichere digitale Kommunikation."
-			}, {
-				"id": "feature__detail--secure",
-				"previewTitle": "Sicher",
-				"previewText": "Unsere Sicherheitsstandards sind höher und ausgereifter als im Finanzwesen.",
-				"title": "Sicherheit von der Stange? Nicht mit uns.",
-				"text": "Die einzigartige Kombination verschiedener Verschlüsselungstechnologien ist unser Meisterstück.<br> Ein Smoothie handverlesener, sonnengereifter Südfrüchte der Informatik. Und Mann, sind wir stolz darauf!<br> Wir verschlüsseln jede einzelne Nachricht schon bevor sie Ihr Gerät verlässt. Sender und Empfänger tauschen dabei auf einer sicheren Ebene gleichzeitig Schlüssel aus. Mit diesen Schlüsseln wird Ihre Verbindung gegen Angriffe gefestigt. Der whispeer-Server dient dabei lediglich als „Postbote“. Damit stellen wir sicher, dass Ihre Nachricht nur auf dem Gerät des Empfängers landet und auch nur dort wieder geöffnet werden kann."
-			}
-		]
-	}
+	"sections": [
+		{
+			"heading1": "Unternehmen entwickeln sich.",
+			"heading2": "Seien Sie Vorreiter.",
+			"text": "Kommunizieren. Organisieren. Teilen. Alles digital & sicher.<br> Bringen Sie Ihr Unternehmen in Sekunden auf das nächste Level.<br> Und wir kümmern uns um den Rest - sorgenfrei für Sie."
+		},{
+			"heading1": "Wir beschützen den wichtigsten Teil<br> Ihres Unternehmens. Ihre Kommunikation.",
+			"quotes": [
+				{
+					"icon": "/assets/images/icons/lock.svg",
+					"text": "Wir verschlüsseln jede einzelne Nachricht von Ihnen, egal wohin sie geht. Das geht dabei so schnell, dass es Ihnen gar nicht auffallen wird. Und alles passiert direkt auf Ihrem Gerät. Kein Industriespion, kein Geheimdienst, wirklich niemand - uns eingeschlossen - wird Einsicht in Ihre Unternehmenskommunikation erlangen."
+				},
+				{
+					"icon": "/assets/images/icons/quote.svg",
+					"text": "Auf die deutsche Gesamtwirtschaft gerechnet war jedes zweite Unternehmen in den vergangenen zwei Jahren von einem Angriff betroffen. Das führt nach konservativen Berechnungen des Bitkom zu wirtschaftlichen Schäden in Höhe von rund 51 Milliarden Euro pro Jahr.",
+					"source": "&ndash; Dr. Rohleder, Geschäftsführer <a href='https://www.bitkom.org' target='_blank' class='landing-section__link'>Bitkom</a>"
+				}
+			]
+		}, {
+			"heading1": "Die Basics für Jedermann/-frau.",
+			"animationName": "~",
+			"animationWorkplace": "~'s Arbeitsplatz",
+			"serverName": "whispeer Server"
+		}, {
+			"features": [
+				{
+					"id": "feature__detail--easy",
+					"previewTitle": "Einfach",
+					"previewText": "Klares Design und präzise Werkzeuge machen Ihre Workflows effizienter.",
+					"title": "Unsere Software richtet sich nach Ihnen - nicht andersherum!",
+					"text": "Wir bauen leicht-verständliche Werkzeuge für den Alltag, trotz extra Verschlüsselung. Legen Sie das Kryptographiehandbuch zur Seite und nutzen Sie Ihre Zeit für das Wesentliche. Dabei ist und bleibt höchste Benutzerfreundlichkeit unser Anspruch. Wir sind der nächste Schritt in eine sichere digitale Kommunikation."
+				}, {
+					"id": "feature__detail--secure",
+					"previewTitle": "Sicher",
+					"previewText": "Unsere Sicherheitsstandards sind höher und ausgereifter als im Finanzwesen.",
+					"title": "Sicherheit von der Stange? Nicht mit uns.",
+					"text": "Die einzigartige Kombination verschiedener Verschlüsselungstechnologien ist unser Meisterstück.<br> Ein Smoothie handverlesener, sonnengereifter Südfrüchte der Informatik. Und Mann, sind wir stolz darauf!<br> Wir verschlüsseln jede einzelne Nachricht schon bevor sie Ihr Gerät verlässt. Sender und Empfänger tauschen dabei auf einer sicheren Ebene gleichzeitig Schlüssel aus. Mit diesen Schlüsseln wird Ihre Verbindung gegen Angriffe gefestigt. Der whispeer-Server dient dabei lediglich als „Postbote“. Damit stellen wir sicher, dass Ihre Nachricht nur auf dem Gerät des Empfängers landet und auch nur dort wieder geöffnet werden kann."
+				}, {
+					"id": "feature__detail--flexible",
+					"previewTitle": "Flexibel",
+					"previewText": "Sie greifen zum Smartphone, Tablet, PC oder Laptop - Ihre Daten warten schon auf Sie.",
+					"title": "Sie haben den neuesten Stand immer dabei.",
+					"text": "Flexibilität und Sicherheit bilden endlich keinen Widerspruch mehr. Endgeräte übergreifend stehen alle unsere Services jederzeit vollumfänglich und mit Ihrem persönlichen, synchronisierten Arbeitsstand bereit. Nie wieder auf den USB-Stick vom Team warten. Nie wieder mit dem falschen Gerät keinen Zugriff haben. Und nie wieder den IT-Support anrufen. Diese Dinge gehören von nun der Vergangenheit an."
+				}, {
+					"id": "feature__detail--representative",
+					"previewTitle": "Repräsentativ",
+					"previewText": "Präsentieren Sie Ihr Unternehmen einer neuen fortschrittlichen Community",
+					"title": "Wir sind mehr als ein Soziales Netzwerk.",
+					"text": "Wir beheimaten die Generation, für die Facebook & Co zum alten Eisen gehören. Die Generation, die zukunftsweisend an Datenschutz und Privatsphäre im Internet glaubt. Die Generation von morgen.<br> Verleihen Sie Ihrem eigenen Anspruch auf Integrität Nachdruck: Behandeln Sie sensible Daten Ihrer Geschäftspartner in einer sicheren Umgebung und seien Sie parallel mit Ihrem Unternehmen in unserer Community präsent. Seien Sie Vorreiter und Vorbild für diese neue Generation."
+				}
+			]
+		}, {
+			"heading1": "Ihr Account.<br> Für eine sichere Zukunft.",
+			"text1": "Machen Sie Ihr Unternehmen fit für das digitale Zeitalter.<br> Erstellen Sie in Sekunden den ersten Account. Um alles Weitere kümmern wir uns!",
+			"createAccountText": "Jetzt Account anlegen"
+		}
+	]
 }

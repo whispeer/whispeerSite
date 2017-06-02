@@ -26,11 +26,11 @@
 				<div class="landing-section__inner">
 					<img src="/assets/img/logo/white_business.svg" id="landing-section__logo">
 
-					<h2 class="landing-section__heading landing-section__heading--low-profile">{{ data.section1.heading1 }}</h2>
-					<h2 class="landing-section__heading landing-section__heading--low-profile">{{ data.section1.heading2 }}</h2>
+					<h2 class="landing-section__heading landing-section__heading--low-profile">{{ data.sections[0].heading1 }}</h2>
+					<h2 class="landing-section__heading landing-section__heading--low-profile">{{ data.sections[0].heading2 }}</h2>
 
 					<p class="landing-section__paragraph landing-section__paragraph--large">
-						{{ data.section1.text }}
+						{{ data.sections[0].text }}
 					</p>
 					<!-- <a href="#" class="landing-section__link landing-secition__link--shadow landing-section__link--accent">Entdecken Sie die Services von whispeer ></a> -->
 <!--
@@ -48,16 +48,16 @@
 				<div class="landing-section__inner landing-section__inner--centered landing-section__inner--full">
 					<div class="landing-section__upper-quote">
 						<h2 class="landing-section__heading landing-section__heading--centered landing-section__heading--complementary">
-							{{ data.section2.heading1 }}
+							{{ data.sections[1].heading1 }}
 						</h2>
 
 						<blockquote class="landing-section__quote">
 							<div class="landing-section__quote__icon-wrap">
-								<img src="{{ data.section2.quotes[0].icon }}" class="landing-section__quote__icon-wrap__icon">
+								<img src="{{ data.sections[1].quotes[0].icon }}" class="landing-section__quote__icon-wrap__icon">
 							</div>
 							<div class="landing-section__quote__text">
 								<p>
-									{{ data.section2.quotes[0].text }}
+									{{ data.sections[1].quotes[0].text }}
 								</p>
 								<!-- <a href="#" class="landing-section__link">Erfahren Sie mehr über unsere Verschlüsselung ></a> -->
 							</div>
@@ -66,15 +66,15 @@
 					<div class="landing-section__lower-quote">
 						<blockquote class="landing-section__quote">
 							<div class="landing-section__quote__icon-wrap">
-								<img src="{{ data.section2.quotes[1].icon }}" class="landing-section__quote__icon-wrap__icon">
+								<img src="{{ data.sections[1].quotes[1].icon }}" class="landing-section__quote__icon-wrap__icon">
 							</div>
 							<div class="landing-section__quote__text">
 								<p>
-									{{ data.section2.quotes[1].text }}
+									{{ data.sections[1].quotes[1].text }}
 								</p>
 							</div>
 							<cite class="landing-section__quote__cite">
-								{{ data.section2.quotes[1].source }}
+								{{ data.sections[1].quotes[1].source }}
 							</cite>
 						</blockquote>
 					</div>
@@ -82,7 +82,7 @@
 			</section>
 			<section class="landing-section landing-section--background-primary" id="animation-section">
 				<div class="landing-section__inner landing-section__inner--centered">
-					<h2 class="landing-section__heading landing-section__heading--centered">{{ data.section3.heading1 }}</h2>
+					<h2 class="landing-section__heading landing-section__heading--centered">{{ data.sections[2].heading1 }}</h2>
 					<div class="animation-box">
 						{% for message in site.data.b2b.animation[page.lang].data %}
 							<div class="message message-s{{message.sender | plus: 1}} message-{{page.lang}}--i{{forloop.index}}{% if forloop.last == true or forloop.rindex0 == 1 %} message--infinity{% endif %}">
@@ -92,23 +92,23 @@
 						{% endfor %}
 						<div class="animation-node s1">
 							<i class="fa fa-user fa-l fa-bottom textShadow"></i>
-							<span class="animation-node-description">{{site.data.b2b.animation[page.lang].senders[0]}}</span>
+							<span class="animation-node-description">{{ data.sections[2].animationName | replace: '~', site.data.b2b.animation[page.lang].senders[0] }}</span>
 						</div>
 						<div class="animation-node s1Pc">
 							<i class="fa fa-desktop fa-xl fa-fw fa-middle textShadow"></i>
-							<span class="animation-node-description">{{site.data.b2b.animation[page.lang].senders[0]}}'s Arbeitsplatz</span>
+							<span class="animation-node-description">{{ data.sections[2].animationWorkplace | replace: '~', site.data.b2b.animation[page.lang].senders[0] }}</span>
 						</div>
 						<div class="animation-node server">
 							<i class="fa fa-server fa-xl fa-middle textShadow"></i>
-							<span class="animation-node-description">whispeer Server</span>
+							<span class="animation-node-description">{{ data.sections[2].serverName }}</span>
 						</div>
 						<div class="animation-node s2Pc">
 							<i class="fa fa-desktop fa-xl fa-fw fa-middle textShadow"></i>
-							<span class="animation-node-description">{{site.data.b2b.animation[page.lang].senders[1]}}'s Arbeitsplatz</span>
+							<span class="animation-node-description">{{ data.sections[2].animationWorkplace | replace: '~', site.data.b2b.animation[page.lang].senders[1] }}</span>
 						</div>
 						<div class="animation-node s2">
 							<i class="fa fa-user fa-l fa-bottom textShadow"></i>
-							<span class="animation-node-description">{{site.data.b2b.animation[page.lang].senders[1]}}</span>
+							<span class="animation-node-description">{{ data.sections[2].animationName | replace: '~', site.data.b2b.animation[page.lang].senders[1] }}</span>
 						</div>
 					</div>
 				</div>
@@ -116,126 +116,50 @@
 			<a name="features"></a> <!-- We'll jump here if the close button is clicked. -->
 			<section class="landing-section landing-section--small landing-section--wrap">
 				<div class="features">
-					<div class="feature" tabindex="0">
-						<div class="feature__short">
-							<div class="feature__polygon">
+					{% for feature in data.sections[3].features %}
+						<div class="feature" tabindex="0">
+							<div class="feature__short">
+								<div class="feature__polygon">
 									<div class="polygon">
 										<i class="fa fa-plus polygon__icon"></i>
 									</div>
 								</div>
 								<div class="feature__description">
-									<h4 class="feature__description__headline">{{ data.section4.features[0].previewTitle }}</h4>
-									<p class="feature__description__text">{{ data.section4.features[0].previewText }}</p>
-							</div>
-						</div>
-						<div class="feature__detail" id="{{ data.section4.features[0].id }}">
-							<div class="detail__content">
-								<h1 class="detail__content__headline">{{ data.section4.features[0].title }}</h1>
-								<p class="detail__content__text">
-									{{ data.section4.features[0].text }}
-								</p>
-								<!-- <a href="#" class="landing-section__link">Probieren Sie es direkt aus ></a> -->
-							</div>
-							<a href="#features" class="detail__close">
-								<i class="fa fa-times"></i>
-							</a>
-						</div>
-					</div>
-					<div class="feature feature--active" tabindex="0">
-						<div class="feature__short">
-							<div class="feature__polygon">
-								<div class="polygon">
-									<i class="fa fa-plus polygon__icon"></i>
+									<h4 class="feature__description__headline">{{ feature.previewTitle }}</h4>
+									<p class="feature__description__text">{{ feature.previewText }}</p>
 								</div>
 							</div>
-							<div class="feature__description">
-								<h4 class="feature__description__headline">{{ data.section4.features[1].previewTitle }}</h4>
-								<p class="feature__description__text">{{ data.section4.features[1].previewText }}</p>
-							</div>
-						</div>
-						<div class="feature__detail" id="{{ data.section4.features[1].id }}">
-							<div class="detail__content">
-								<h1 class="detail__content__headline">{{ data.section4.features[1].title }}</h1>
-								<p class="detail__content__text">
-									{{ data.section4.features[1].text }}
-								</p>
-								<!-- <a href="#" class="landing-section__link">Fragen & Antworten zu den technischen Details ></a> -->
-							</div>
-							<a href="#features" class="detail__close">
-								<i class="fa fa-times"></i>
-							</a>
-						</div>
-					</div>
-					<div class="feature" tabindex="0">
-						<div class="feature__short">
-							<div class="feature__polygon">
-								<div class="polygon">
-									<i class="fa fa-plus polygon__icon"></i>
+							<div class="feature__detail" id="{{ feature.id }}">
+								<div class="detail__content">
+									<h1 class="detail__content__headline">{{ feature.title }}</h1>
+									<p class="detail__content__text">
+										{{ feature.text }}
+									</p>
+									<!-- <a href="#" class="landing-section__link">Probieren Sie es direkt aus ></a> -->
 								</div>
-							</div>
-							<div class="feature__description">
-								<h4 class="feature__description__headline">Flexibel</h4>
-								<p class="feature__description__text">Sie greifen zum Smartphone, Tablet, PC oder Laptop - Ihre Daten warten schon auf Sie.</p>
-							</div>
-						</div>
-						<div class="feature__detail" id="feature__detail--flexible">
-							<div class="detail__content">
-								<h1 class="detail__content__headline">Sie haben den neuesten Stand immer dabei.</h1>
-								<p class="detail__content__text">
-									Flexibilität und Sicherheit bilden endlich keinen Widerspruch mehr. Endgeräte übergreifend stehen alle unsere Services jederzeit vollumfänglich und mit Ihrem persönlichen, synchronisierten Arbeitsstand bereit. Nie wieder auf den USB-Stick vom Team warten. Nie wieder mit dem falschen Gerät keinen Zugriff haben. Und nie wieder den IT-Support anrufen. Diese Dinge gehören von nun der Vergangenheit an.
-								</p>
-								<!-- <a href="#" class="landing-section__link">Erfahren Sie mehr über unsere umfangreiche Kompatibilität ></a> -->
-							</div>
-							<a href="#features" class="detail__close">
-								<i class="fa fa-times"></i>
-							</a>
-						</div>
-					</div>
-					<div class="feature" tabindex="0">
-						<div class="feature__short">
-							<div class="feature__polygon">
-								<div class="polygon">
-									<i class="fa fa-plus polygon__icon"></i>
-								</div>
-							</div>
-							<div class="feature__description">
-								<h4 class="feature__description__headline">Repräsentativ</h4>
-								<p class="feature__description__text">Präsentieren Sie Ihr Unternehmen einer neuen fortschrittlichen Community</p>
+								<a href="#features" class="detail__close">
+									<i class="fa fa-times"></i>
+								</a>
 							</div>
 						</div>
-						<div class="feature__detail" id="feature__detail--representative">
-							<div class="detail__content">
-								<h1 class="detail__content__headline">Wir sind mehr als ein Soziales Netzwerk.</h1>
-								<p class="detail__content__text">
-									Wir beheimaten die Generation, für die Facebook & Co zum alten Eisen gehören. Die Generation, die zukunftsweisend an Datenschutz und Privatsphäre im Internet glaubt. Die Generation von morgen.<br>
-									Verleihen Sie Ihrem eigenen Anspruch auf Integrität Nachdruck: Behandeln Sie sensible Daten Ihrer Geschäftspartner in einer sicheren Umgebung und seien Sie parallel mit Ihrem Unternehmen in unserer Community präsent. Seien Sie Vorreiter und Vorbild für diese neue Generation.
-								</p>
-								<!-- <a href="#" class="landing-section__link">Präsenz und Datenschutz, geht das? ></a> -->
-							</div>
-							<a href="#features" class="detail__close">
-								<i class="fa fa-times"></i>
-							</a>
-						</div>
-					</div>
+					{% endfor %}
 				</div>
 			</section>
 			<section class="landing-section">
 				<div class="landing-section__inner landing-section__inner--centered">
 					<h2 class="landing-section__heading landing-section__heading--centered landing-section__heading--complementary">
-						Ihr Account.<br>
-						Für eine sichere Zukunft.
+						{{ data.sections[4].heading1 }}
 					</h2>
 
 					<p class="text--center" id="account_teaser">
-						Machen Sie Ihr Unternehmen fit für das digitale Zeitalter.<br>
-						Erstellen Sie in Sekunden den ersten Account. Um alles Weitere kümmern wir uns!
+						{{ data.sections[4].text1 }}
 					</p>
 
 <!-- 					<p class="text--center text--complementary">
 						Schritt 1 von 3
 					</p> -->
 
-					<a href="/{{page.lang}}/register/" class="button button--noBorder button--primary button--landing button--radius">Jetzt Account anlegen</a>
+					<a href="/{{page.lang}}/register/" class="button button--noBorder button--primary button--landing button--radius">{{ data.sections[4].createAccountText }}</a>
 
 				</div>
 			</section>
