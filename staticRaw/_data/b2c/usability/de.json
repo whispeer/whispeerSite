@@ -12,7 +12,7 @@
 		imageIdeas: "",
 		image: "private_landing_lowQual_big.jpg",
 		registerForm: false,
-		textShadow: true,
+		textShadow: false,
 		video: false,
 		mailForm: false,
 		countdown: {
@@ -35,7 +35,7 @@
 			google: "Google Play und das Google Play-Logo sind Marken von Google Inc.",
 			apple: "Apple und das Apple-Logo sind Marken der Apple Inc., die in den USA und weiteren Ländern eingetragen sind. App Store ist eine Dienstleistungsmarke der Apple Inc."
 		},
-		textShadow: true,
+		textShadow: false,
 		video: false,
 		mailForm: false
 	},
