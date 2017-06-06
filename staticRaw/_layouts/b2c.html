@@ -145,7 +145,7 @@
 						{% endif %}
 						<div class="landing-section-text{% if section.icon == null and section.image == null %} landing-section--center{% endif %}">
 							{% if section.headline != null %}
-								<h1 class="section-header{% if section.icon == null %} section-header--noTopMargin{% endif %}{% if section.darkBlur %} darkBlur{% elsif section.lightBlur %} lightBlur{% else %} textShadow{% endif %}">{{ section.headline }}</h1>
+								<h1 class="section-header{% if section.icon == null %} section-header--noTopMargin{% endif %}{% if section.darkBlur %} darkBlur{% elsif section.lightBlur %} lightBlur{% endif %}">{{ section.headline }}</h1>
 							{% endif %}
 							{% if section.details != null %}
 								<p class="section-paragraph">{{ section.details }}</p>
