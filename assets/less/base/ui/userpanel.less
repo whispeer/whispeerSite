@@ -26,7 +26,8 @@
 
 #userpanel {
 	text-align: center;
-	display: block;
+	display: flex;
+	flex-direction: column;
 	margin: 0;
 	height: 100%;
 	@media @mobile {
@@ -114,7 +115,7 @@
 #userpanel-menu {
 	width: 100%;
 	@media @desktop {
-		height: ~"calc(100% - 12rem)";
+		flex: 1 0 auto;
 		overflow: auto;
 	}
 	z-index: 3;

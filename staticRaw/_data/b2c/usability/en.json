@@ -12,7 +12,7 @@
 		imageIdeas: "",
 		image: "private_landing_lowQual_big.jpg",
 		registerForm: false,
-		textShadow: true,
+		textShadow: false,
 		video: false,
 		videoSubtitles: true,
 		mailForm: true,
@@ -28,13 +28,14 @@
 		image: true,
 		registerForm: false,
 		appLink: {
-			google: "https://play.google.com/store/apps/details?id=whispeer.app"
+			google: "https://play.google.com/store/apps/details?id=whispeer.app",
+			apple: "https://itunes.apple.com/us/app/whispeer/id1031025741"
 		},
 		legal: {
 			google: "Google Play and the Google Play logo are trademarks of Google Inc.",
 			apple: "Apple and the Apple logo are trademarks of Apple Inc., registered in the U.S. and other countries. App Store is a service mark of Apple Inc., registered in the U.S. and other countries."
 		},
-		textShadow: true,
+		textShadow: false,
 		video: false,
 		mailForm: false
 	},

@@ -470,6 +470,8 @@ var postService = {
 		timelinesCache = {};
 	},
 	createPost: function (content, visibleSelection, wallUserID, images) {
+		visibleSelection = visibleSelection.slice()
+
 		/*
 				meta: {
 					contentHash,

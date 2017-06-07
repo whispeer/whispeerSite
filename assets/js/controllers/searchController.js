@@ -8,7 +8,7 @@ define(["controllers/controllerModule"], function (controllerModule) {
 
 		$scope.visitUserProfile = function (user) {
 			$state.go("app.user.info", {
-				identifier: user.getNickname()
+				identifier: user.user.getNickname()
 			});
 			$scope.closeSidebar();
 		};
