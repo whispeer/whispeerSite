@@ -1,24 +1,24 @@
 {
 	"sections": [
 		{
-			"heading1": "Unternehmen entwickeln sich.",
-			"heading2": "Seien Sie Vorreiter.",
-			"text": "Kommunizieren. Organisieren. Teilen. Alles digital & sicher.<br> Bringen Sie Ihr Unternehmen in Sekunden auf das nächste Level.<br> Und wir kümmern uns um den Rest - sorgenfrei für Sie."
+			"heading1": "Companies evolve.",
+			"heading2": "Be a pioneer.",
+			"text": "Communicate. Organize. Share. Everything digitally & securely.<br> Upgrade your company to the next level in seconds.<br> And we look after everything else - carefree for you."
 		},{
-			"heading1": "Wir beschützen den wichtigsten Teil<br> Ihres Unternehmens. Ihre Kommunikation.",
+			"heading1": "We guard the most important part<br> of your company. Your Communication.",
 			"quotes": [
 				{
 					"icon": "/assets/images/icons/lock.svg",
-					"text": "Wir verschlüsseln jede einzelne Nachricht von Ihnen, egal wohin sie geht. Das geht dabei so schnell, dass es Ihnen gar nicht auffallen wird. Und alles passiert direkt auf Ihrem Gerät. Kein Industriespion, kein Geheimdienst, wirklich niemand - uns eingeschlossen - wird Einsicht in Ihre Unternehmenskommunikation erlangen."
+					"text": "We encrypt every single message from you to anywhere. The process is so fast you won't even notice it. And everything happens right on your device. No industrial spy, no intelligence, absolutely nobody - us included - will get access to your internal company communication."
 				},
 				{
 					"icon": "/assets/images/icons/quote.svg",
-					"text": "Auf die deutsche Gesamtwirtschaft gerechnet war jedes zweite Unternehmen in den vergangenen zwei Jahren von einem Angriff betroffen. Das führt nach konservativen Berechnungen des Bitkom zu wirtschaftlichen Schäden in Höhe von rund 51 Milliarden Euro pro Jahr.",
-					"source": "&ndash; Dr. Rohleder, Geschäftsführer <a href='https://www.bitkom.org' target='_blank' class='landing-section__link'>Bitkom</a>"
+					"text": "Arguing that you don't care about the right to privacy because you have nothing to hide is no different than saying you don't care about free speech because you have nothing to say.",
+					"source": "&ndash; Edward Snowden, Whistleblower"
 				}
 			]
 		}, {
-			"heading1": "Die Basics für Jedermann/-frau.",
+			"heading1": "The basics for everybody.",
 			"animationName": "~",
 			"animationWorkplace": "~'s Arbeitsplatz",
 			"serverName": "whispeer Server"
@@ -26,34 +26,34 @@
 			"features": [
 				{
 					"id": "feature__detail--easy",
-					"previewTitle": "Einfach",
-					"previewText": "Klares Design und präzise Werkzeuge machen Ihre Workflows effizienter.",
-					"title": "Unsere Software richtet sich nach Ihnen - nicht andersherum!",
-					"text": "Wir bauen leicht-verständliche Werkzeuge für den Alltag, trotz extra Verschlüsselung. Legen Sie das Kryptographiehandbuch zur Seite und nutzen Sie Ihre Zeit für das Wesentliche. Dabei ist und bleibt höchste Benutzerfreundlichkeit unser Anspruch. Wir sind der nächste Schritt in eine sichere digitale Kommunikation."
+					"previewTitle": "Simple",
+					"previewText": "A distinct design and precise tools make your workflows far more efficient.",
+					"title": "Our software adapts to you - not vice versa!",
+					"text": "We create easy-to-understand tools for day-to-day work; despite the extra encryption. Get rid of your cryptography manuals and use your time for the essentials. Our ambition is and always will be the best usability. We are the next step into a strong, digitally secure, communication."
 				}, {
 					"id": "feature__detail--secure",
-					"previewTitle": "Sicher",
-					"previewText": "Unsere Sicherheitsstandards sind höher und ausgereifter als im Finanzwesen.",
-					"title": "Sicherheit von der Stange? Nicht mit uns.",
-					"text": "Die einzigartige Kombination verschiedener Verschlüsselungstechnologien ist unser Meisterstück.<br> Ein Smoothie handverlesener, sonnengereifter Südfrüchte der Informatik. Und Mann, sind wir stolz darauf!<br> Wir verschlüsseln jede einzelne Nachricht schon bevor sie Ihr Gerät verlässt. Sender und Empfänger tauschen dabei auf einer sicheren Ebene gleichzeitig Schlüssel aus. Mit diesen Schlüsseln wird Ihre Verbindung gegen Angriffe gefestigt. Der whispeer-Server dient dabei lediglich als „Postbote“. Damit stellen wir sicher, dass Ihre Nachricht nur auf dem Gerät des Empfängers landet und auch nur dort wieder geöffnet werden kann."
+					"previewTitle": "Secure",
+					"previewText": "Our security standards are higher and more mature than in financial systems.",
+					"title": "Security off the rack? Not with us!",
+					"text": "The unique combination of different encryption algorithms is our masterpiece.<br> It's a smoothie of hand-picked, sun-ripened tropical fruits of informatics. And yeah, we are proud of it!<br><br> We encrypt every single message before it even leaves your device. Sender and receiver then swap their keys in a safe environment. With these keys we toughen your connection against attacks. The whispeer server is solely the \"mailman\" here. With this we ensure that your message is send exclusively to the device of the receiver. Only then we allow this device to decrypt your message."
 				}, {
 					"id": "feature__detail--flexible",
-					"previewTitle": "Flexibel",
-					"previewText": "Sie greifen zum Smartphone, Tablet, PC oder Laptop - Ihre Daten warten schon auf Sie.",
-					"title": "Sie haben den neuesten Stand immer dabei.",
-					"text": "Flexibilität und Sicherheit bilden endlich keinen Widerspruch mehr. Endgeräte übergreifend stehen alle unsere Services jederzeit vollumfänglich und mit Ihrem persönlichen, synchronisierten Arbeitsstand bereit. Nie wieder auf den USB-Stick vom Team warten. Nie wieder mit dem falschen Gerät keinen Zugriff haben. Und nie wieder den IT-Support anrufen. Diese Dinge gehören von nun der Vergangenheit an."
+					"previewTitle": "Flexible",
+					"previewText": "You reach for your smartphone, tablet or computer - your data are already waiting there for you.",
+					"title": "You are always up-to-date at work.",
+					"text": "Flexibility and security don't contradict each other any longer. Our services are available at all times and across all devices - comprehensive and with your personal, synced data.<br><br>No more waiting for the team member's flash drive. No more having no access with the wrong device.<br>And no more calling the IT support. All of those are things of the past with whispeer."
 				}, {
 					"id": "feature__detail--representative",
-					"previewTitle": "Repräsentativ",
-					"previewText": "Präsentieren Sie Ihr Unternehmen einer neuen fortschrittlichen Community",
-					"title": "Wir sind mehr als ein Soziales Netzwerk.",
-					"text": "Wir beheimaten die Generation, für die Facebook & Co zum alten Eisen gehören. Die Generation, die zukunftsweisend an Datenschutz und Privatsphäre im Internet glaubt. Die Generation von morgen.<br> Verleihen Sie Ihrem eigenen Anspruch auf Integrität Nachdruck: Behandeln Sie sensible Daten Ihrer Geschäftspartner in einer sicheren Umgebung und seien Sie parallel mit Ihrem Unternehmen in unserer Community präsent. Seien Sie Vorreiter und Vorbild für diese neue Generation."
+					"previewTitle": "Representative",
+					"previewText": "Present your company to a new forward-thinking community.",
+					"title": "We are more than a social network.",
+					"text": "We are home to the generation, who think Facebook & Co's days are counted. The generation who look forward for data protection and privacy online. Tomorrow's generation.<br><br>Lend weight to your own claim to integrity:<br>Treat sensible data of your business partners in a secure environment and represent your company easily in our community at the same time.<br>Be a pioneer and a role model for this generation."
 				}
 			]
 		}, {
-			"heading1": "Ihr Account.<br> Für eine sichere Zukunft.",
-			"text1": "Machen Sie Ihr Unternehmen fit für das digitale Zeitalter.<br> Erstellen Sie in Sekunden den ersten Account. Um alles Weitere kümmern wir uns!",
-			"createAccountText": "Jetzt Account anlegen"
+			"heading1": "Your account.<br>For a stable future.",
+			"text1": "Prepare your company for the digital age.<br>Create your first account in seconds and speak with us!",
+			"createAccountText": "Create Account"
 		}
 	]
 }
