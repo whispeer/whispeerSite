@@ -6,8 +6,8 @@
 	},
 	teaser: {
 		headline: "Etwas passiert.",
-		headline_old: "Sich auf Freunde konzentrieren",
 		details: "Lange haben wir geforscht, gebastelt, geträumt.<br>Jetzt zählen wir mit euch die Tage.",
+		headline_old: "Sich auf Freunde konzentrieren",
 		details_old: "Das ist wofür whispeer steht. Keine extra Funktionen, keine verwirrenden Optionen, keine Ablenkungen. Wir konzentrieren uns auf das, was wirklich wichtig ist: Kommunikation und Privatsphäre.",
 		imageIdeas: "",
 		image: "private_landing_lowQual_big.jpg",

@@ -14,8 +14,7 @@
 		registerForm: false,
 		textShadow: false,
 		video: false,
-		videoSubtitles: true,
-		mailForm: true,
+		mailForm: false,
 		countdown: {
 			text: "A secure future is just around the corner."
 		}
@@ -23,7 +22,8 @@
 	teaser2: {
 		logo: true,
 		headline: "It's just like super secure whispering.",
-		details: "",
+		headingColor: "primary",
+		app: "Get the <strong class='text--primary'>BETA</strong> here:",
 		imageIdeas: "",
 		image: true,
 		registerForm: false,
