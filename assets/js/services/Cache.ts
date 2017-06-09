@@ -131,7 +131,10 @@ export default class Cache {
 		var theCache = this;
 		var cacheResult = this._db.cache.where("id").equals(this._name + "/" + id);
 
-		this._db.cache.where("id").equals(this._name + "/" + id).modify({ used: new Date().getTime() });
+		// updating the used time breaks safari. Failed locking? Disabled for now in safari!
+		if (!/^((?!chrome|android).)*safari/i.test(navigator.userAgent)) {
+			this._db.cache.where("id").equals(this._name + "/" + id).modify({ used: new Date().getTime() });
+		}
 
 		return Bluebird.resolve(cacheResult.first().then((data: any) => {
 			if (typeof data !== "undefined") {
