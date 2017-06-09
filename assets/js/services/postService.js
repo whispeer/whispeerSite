@@ -68,13 +68,15 @@ var Post = function (data) {
 
 				commentState.pending();
 
-				return thePost.addComment(text).then(function() {
+				var promise = thePost.addComment(text).then(function() {
 					thePost.data.newComment.text = "";
 
 					return;
-				}).catch(function() {
-					errorService.failOnError(commentState);
-				});
+				})
+
+				errorService.failOnErrorPromise(commentState, promise)
+
+				return promise
 			}
 		},
 		comments: comments.map(function (comment) {
@@ -344,11 +346,10 @@ Timeline.prototype._expandFilter = function() {
 
 Timeline.prototype.loadInitial = function (cb) {
 	if (this.loaded) {
-		cb();
-		return;
+		return Bluebird.resolve().nodeify(cb);
 	}
 
-	this.loadMorePosts(cb);
+	return this.loadMorePosts(cb);
 };
 
 Timeline.prototype.loadMorePosts = function (cb) {

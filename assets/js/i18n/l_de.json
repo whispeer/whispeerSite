@@ -294,7 +294,7 @@
 				"mailInvalid": "Ungültige E-Mail",
 				"mailUsed": "Diese E-Mail ist schon vergeben",
 				"nickEmpty": "Bitte gib einen Accountnamen an",
-				"nickInvalid": "Der Accountname darf nur Buchstaben und Zahlen beinhalten",
+				"nickInvalid": "Der Benutzername darf keine Umlaute, Leer- oder Sonderzeichen enthalten!",
 				"nickUsed": "Dieser Accountname ist schon vergeben",
 				"password2Empty": "Bitte wiederhole dein Passwort",
 				"passwordEmpty": "Bitte gib ein Passwort ein",
