@@ -25,14 +25,16 @@
 	-webkit-overflow-scrolling: touch;
 }
 .circleView-circleList-item {
-	width: 100%;
-	height: 89px;
-	border: none;
-	border-bottom: 1px solid #ccc;
-	padding: 0;
+	border-bottom: 1px solid @gainsboro;
 	cursor: pointer;
+	position: relative;
+	padding-right: 12px;
 	transition: 0.5s ease;
-	outline: none;
+	height: 89px;
+
+	&:hover {
+		background-color: #e4e4e4;
+	}
 }
 .circleView-circleList-item a {
     display: block;
@@ -69,15 +71,6 @@
 }
 .circleView-circleList-item:last-child {
 	border-bottom: none;
-}
-.circleView-circleList-item:hover {
-	background-color: @primary;
-	.circleView-circleList-item-listname {
-		color: #ececec;
-	}
-	.circleView-circleList-item-personCount {
-		color: #eee;
-	}
 }
 .circleView-circleList-item--active {
 	background-color: @primary;
