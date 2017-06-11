@@ -65,7 +65,7 @@
 					</p>
 				</li>
 				<li class="burst" data-ng-repeat="burst in (bursts = messageBursts())" data-ng-class="{me:burst.isMe(), other:burst.isOther()}">
-					<div class="burst-date" data-ng-if="::!burst.sameDay(bursts[$index - 1]) && !$first"><span class="burst-date-text">{{::burst.firstItem().getTime()|date}}</span></div>
+					<div class="burst-date" data-ng-if="!burst.sameDay(bursts[$index - 1]) && !$first"><span class="burst-date-text">{{::burst.firstItem().getTime()|date}}</span></div>
 
 					<div class="burst-date" data-ng-if="burst.isTopicUpdate()">
 						<span class="burst-date-text">
