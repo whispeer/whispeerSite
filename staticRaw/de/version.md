@@ -4,6 +4,14 @@ lang: de
 title: Versionshistorie
 ---
 
+## 0.3.7
+
+* Geschäftskundenversion
+* Modulsystem überarbeitet
+* Neue Farben (wie in der App)
+* Verbessertes Laden von Bildern
+* Fehlerbehebungen
+
 ## 0.3.3
 
 * Neues Registrierungsformular
