@@ -1,9 +1,10 @@
 var templateUrl = require("../../views/directives/createcircle.html");
+var circleService = require("circles/circleService");
 
 define(["bluebird", "directives/directivesModule"], function (Bluebird, directivesModule) {
 	"use strict";
 
-	function createcircle(circleService) {
+	function createcircle() {
 		return {
 			scope: {
 				"name": "=",
@@ -25,7 +26,7 @@ define(["bluebird", "directives/directivesModule"], function (Bluebird, directiv
 		};
 	}
 
-	createcircle.$inject = ["ssn.circleService"];
+	createcircle.$inject = [];
 
 	directivesModule.directive("createcircle", createcircle);
 });

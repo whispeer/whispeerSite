@@ -1,9 +1,9 @@
+var filterService = require("services/filter.service.ts").default;
+
 define(["angular", "bluebird"], function (angular) {
 	"use strict";
 	return function () {
-		angular.module("ssn.search").factory("filterSearchSupplier", [
-				"localize", "ssn.keyStoreService", "ssn.filterService",
-				function (localize, keyStore, filterService) {
+		angular.module("ssn.search").factory("filterSearchSupplier", [function () {
 			var Search = function () {};
 
 			//how do we sort stuff?

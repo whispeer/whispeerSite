@@ -38,19 +38,19 @@ html {
 }
 
 .logo {
-	background: url('../img/logo.svg') no-repeat;
+	background: url('../img/logo/white_darker.svg') no-repeat;
 	background-position: center top;
 	background-size: 100%;
 
 	width: 250px;
-	height: 53px;
+	height: 75px;
 	filter: url(#drop-shadow);
 	filter: drop-shadow(1px 1px 1px rgba(20,20,20,0.5));
 	-ms-filter: "progid:DXImageTransform.Microsoft.Dropshadow(OffX=1, OffY=1, Color='#282828')";
 }
 
 body {
-	background-color: #f9f9f9;
+	background-color: @ghostwhite;
 	&:extend(.box-fix);
 	*zoom: 1;
 }
@@ -109,7 +109,7 @@ noscript {
 	z-index: 8;
 	text-align: center;
 	padding: 0;
-	background: @primary;
+	background: @primaryDark;
 	border: none;
 	outline: none;
 	&:extend(.box-fix);
@@ -124,7 +124,7 @@ noscript {
 }
 
 #sidebar-left {
-	background: @primaryDarkest;
+	background: @primaryDark;
 	@media @desktop {
 		width: 17rem;
 		position: fixed;
@@ -146,7 +146,7 @@ noscript {
 		overflow: hidden;
 		&:extend(.box-fix);
 		height: 100%;
-		background: @primary;
+		background: @primaryDark;
 		&.sidebarLeft-show {
 			transform: translate3d(0, 0, 0);
 		}

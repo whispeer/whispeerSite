@@ -20,15 +20,15 @@
 .box {
 	overflow: hidden;
 	height: 100%;
-	background-color: @btnBackgroundHover;
+	background-color: @ghostwhite;
 	&:extend(.box-fix);
 }
 .box-header {
 	display: flex;
 	height: 4rem;
-	background: @btnBackgroundHover;
+	background: @ghostwhite;
 	border: none;
-	border-bottom: 1px solid @btnBorder;
+	border-bottom: 1px solid @gainsboro;
 	overflow: hidden;
 	&:extend(.box-fix);
 
@@ -78,7 +78,7 @@
 	width: 100%;
 	flex-shrink: 1;
 
-	border-bottom: 1px solid #ccc;
+	border-bottom: 1px solid @gainsboro;
 
 	@media @desktop { height: @box-header-height-desktop; }
 	@media @mobile { height: @box-header-height-mobile; }
@@ -115,7 +115,7 @@
 		color: #000;
 	}
 	&:focus {
-		box-shadow: inset 0px 0px 2px @grayLight;
+		box-shadow: inset 0px 0px 2px @gainsboro;
 	}
 	@media @mobile {
 		padding: 0;
@@ -198,7 +198,7 @@
 	@media @desktop { width: 20rem; }
 	@media @mobile { width: 100%; }
 
-	border-right: 1px solid #ccc;
+	border-right: 1px solid @gainsboro;
 	height: 100%;
 
 	// nice scrolling for iOS.

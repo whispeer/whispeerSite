@@ -1,11 +1,8 @@
 define(["whispeerHelper"], function (h) {
 	"use strict";
-	var theOptions;
 	var Resizable = function (options) {
-		theOptions = options;
-
 		var wrapper = jQuery(".resizableWrapper");
-		
+
 		var element = jQuery("<div class='resizable'></div>");
 
 		var body = jQuery(document.body);

@@ -2,10 +2,13 @@
 * inviteController
 **/
 
+var socketService = require("services/socket.service").default;
+var errorService = require("services/error.service").errorServiceInstance;
+
 define(["bluebird", "asset/state", "controllers/controllerModule"], function (Bluebird, State, controllerModule) {
 	"use strict";
 
-	function inviteController($scope, socketService, errorService) {
+	function inviteController($scope) {
 		var inviteGenerateState = new State.default();
 		$scope.inviteGenerateState = inviteGenerateState.data;
 
@@ -22,7 +25,7 @@ define(["bluebird", "asset/state", "controllers/controllerModule"], function (Bl
 		$scope.generateInvite();
 	}
 
-	inviteController.$inject = ["$scope", "ssn.socketService", "ssn.errorService"];
+	inviteController.$inject = ["$scope"];
 
 	controllerModule.controller("ssn.inviteLinkController", inviteController);
 });

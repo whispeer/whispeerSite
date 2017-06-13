@@ -2,10 +2,15 @@
 * messagesController
 **/
 
+var ImageUploadService = require("services/imageUploadService");
+var errorService = require("services/error.service").errorServiceInstance;
+var messageService = require("messages/messageService");
+var userService = require("user/userService");
+
 define(["asset/state", "bluebird", "controllers/controllerModule"], function (State, Bluebird, controllerModule) {
 	"use strict";
 
-	function messagesController($scope, $state, $stateParams, errorService, messageService, userService, ImageUploadService) {
+	function messagesController($scope, $state, $stateParams) {
 		$scope.canSend = false;
 		$scope.topicLoaded = false;
 
@@ -41,7 +46,7 @@ define(["asset/state", "bluebird", "controllers/controllerModule"], function (St
 					$scope.create.text = "";
 					$scope.create.selectedElements = [];
 					$scope.goToShow(id);
-					$scope.$broadcast("resetSearch");					
+					$scope.$broadcast("resetSearch");
 				});
 
 				errorService.failOnErrorPromise(sendMessageState, newTopicPromise);
@@ -93,7 +98,7 @@ define(["asset/state", "bluebird", "controllers/controllerModule"], function (St
 	}
 
 
-	messagesController.$inject = ["$scope", "$state", "$stateParams", "ssn.errorService", "ssn.messageService", "ssn.userService", "ssn.imageUploadService"];
+	messagesController.$inject = ["$scope", "$state", "$stateParams"];
 
 	controllerModule.controller("ssn.messagesCreateController", messagesController);
 });

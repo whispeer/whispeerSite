@@ -18,7 +18,9 @@ define(["workerQueue", "bluebird", "crypto/minimalHelper", "config"], function (
 
 				return ab;
 			}
-		} catch (e) {}
+		} catch (e) {
+			console.error(e);
+		}
 
 		return false;
 	}
@@ -33,16 +35,6 @@ define(["workerQueue", "bluebird", "crypto/minimalHelper", "config"], function (
 		}
 	}
 
-	function dirname(path) {
-		return path.replace(/\#.*/, "").replace(/\/[^\/]*$/, "");
-	}
-
-	var requirePath = "/assets/js/bower/requirejs/require.js";
-
-	if (window.location.href.indexOf("file://") > -1) {
-		requirePath = dirname(window.location.href) + requirePath;
-	}
-
 	var workerCount = 4;
 
 	if (navigator.hardwareConcurrency) {
@@ -52,7 +44,6 @@ define(["workerQueue", "bluebird", "crypto/minimalHelper", "config"], function (
 	//Promise, numberOfWorkers, workerPath, setupMethod, requireOverRide
 	var workers = new WorkerQueue(bluebird, workerCount, {
 		setupMethod: addEntropy,
-		requirePath: requirePath,
 		workerScriptOverride: config.workerScript || false
 	});
 

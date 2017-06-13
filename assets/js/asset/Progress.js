@@ -2,7 +2,7 @@ define(["whispeerHelper", "asset/observer"], function (h, Observer) {
 	"use strict";
 
 	var Progress = function (options) {
-		Observer.call(this);
+		Observer.extend(this);
 
 		this._init = false;
 		this._done = 0;

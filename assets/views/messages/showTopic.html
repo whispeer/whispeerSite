@@ -65,11 +65,11 @@
 					</p>
 				</li>
 				<li class="burst" data-ng-repeat="burst in (bursts = messageBursts())" data-ng-class="{me:burst.isMe(), other:burst.isOther()}">
-					<div class="burst-date" data-ng-if="::!burst.sameDay(bursts[$index - 1]) && !$first"><span class="burst-date-text">{{::burst.firstItem().getTime()|date}}</span></div>
+					<div class="burst-date" data-ng-if="!burst.sameDay(bursts[$index - 1]) && !$first"><span class="burst-date-text">{{::burst.firstItem().getTime()|date}}</span></div>
 
 					<div class="burst-date" data-ng-if="burst.isTopicUpdate()">
 						<span class="burst-date-text">
-							{{ burst.firstItem().state.sender.data.name }} hat den Betreff zu "{{ burst.firstItem().state.title }}" geändert - 
+							{{ burst.firstItem().state.sender.data.name }} hat den Betreff zu "{{ burst.firstItem().state.title }}" geändert -
 							<span data-smart-date="::burst.firstItem().state.timestamp" data-smart-date-no-day>
 						</span>
 					</div>
@@ -112,7 +112,7 @@
 				<div id="messagesView-newMessageImages" data-ng-class="{'messagesView-newMessageImages--active animate-heightAndOverflow animate--fill': images.images.length > 0}">
 					<div class="newsfeed-newPostImagePreview" data-ng-repeat="image in images.images">
 						<button class="newsfeed-newPostImageRemove fa fa-times-circle" data-ng-click='images.removeImage($index)'></button>
-						<img class="newsfeed-newPostImage" alt="{{image.getName()}}" data-ng-src="{{image.getUrl()}}">
+						<img class="newsfeed-newPostImage" alt="{{image.getName()}}" data-ng-src="{{image.getPreviewUrl()}}">
 					</div>
 				</div>
 			</form>

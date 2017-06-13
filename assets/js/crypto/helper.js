@@ -1,4 +1,4 @@
-define(["libs/sjcl", "whispeerHelper", "asset/errors"], function (sjcl, h, errors) {
+define(["sjcl", "whispeerHelper", "asset/errors"], function (sjcl, h, errors) {
 	"use strict";
 	var helper = {
 		hash: function (text) {

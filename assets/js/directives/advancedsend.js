@@ -1,6 +1,9 @@
+var errorService = require("services/error.service").errorServiceInstance;
+var settingsService = require("services/settings.service").default;
+
 define(["bluebird", "whispeerHelper", "directives/directivesModule"], function (Bluebird, h, directivesModule) {
     "use strict";
-    var advancedsendDirective = function (settingsService, errorService) {
+    var advancedsendDirective = function () {
         return {
             link: function (scope, element, attrs) {
                 Bluebird.try(function () {
@@ -33,7 +36,7 @@ define(["bluebird", "whispeerHelper", "directives/directivesModule"], function (
         };
     };
 
-    advancedsendDirective.$inject = ["ssn.settingsService", "ssn.errorService"];
+    advancedsendDirective.$inject = [];
 
     directivesModule.directive("advancedsend", advancedsendDirective);
 });

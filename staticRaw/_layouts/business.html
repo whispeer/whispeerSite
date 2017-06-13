@@ -1,0 +1,194 @@
+<!doctype html>
+<html itemscope itemtype="http://schema.org/Product" prefix="my_namespace: http://ogp.me/ns/website#">
+	{% assign data = site.data.b2b.[page.lang] %}
+	{% assign lang = site.data.langs[page.lang] %}
+	{% assign i18n = site.data.whispeerI18n[page.lang] %}
+	<head>
+		{% include head.html %}
+		<link rel="stylesheet" href="{{ "/assets/css/static.css" | prepend: site.baseurl }}">
+		<link rel="stylesheet" href="{{ "/assets/css/business_landing.css" | prepend: site.baseurl }}">
+
+		<link rel="shortcut icon" href="/assets/images/icons/b2b_favicon.ico" />
+	</head>
+	<body>
+		{% include noscript.html %}
+		<header class="header">
+			<div class="header-inner">
+				<a data-ng-href="/{{page.lang}}/" class="header-brand" data-ng-click="mobileActivateView()">
+					<img src="/assets/img/logo/white_business.svg" class="header-brand__logo">
+				</a>
+				<a href="/login/" target="_self" class="header-toggle header-toggle-login helper-showMobile">Login</a>
+				<iframe id="header-login" class="helper-hideMobile" src="/{{page.lang}}/loginframe/"></iframe>
+			</div>
+		</header>
+		<main>
+			<section class="landing-section landing-section--background-image landing-section--first">
+				<div class="landing-section__inner">
+					<img src="/assets/img/logo/white_business.svg" id="landing-section__logo">
+
+					<h2 class="landing-section__heading landing-section__heading--low-profile">{{ data.sections[0].heading1 }}</h2>
+					<h2 class="landing-section__heading landing-section__heading--low-profile">{{ data.sections[0].heading2 }}</h2>
+
+					<p class="landing-section__paragraph landing-section__paragraph--large">
+						{{ data.sections[0].text }}
+					</p>
+					<!-- <a href="#" class="landing-section__link landing-secition__link--shadow landing-section__link--accent">Entdecken Sie die Services von whispeer ></a> -->
+<!--
+					<form name="quickRegister" class="landing-section__form caret-wrapped-overlapping">
+						<div class="caret-wrapped">
+							<input type="text" placeholder="Name Ihres Unternehmens" class="caret-wrapped__input landing-section__input--primary">
+						</div>
+						<div class="caret-wrapped caret-wrapped--button caret-wrapped--primary caret-wrapped--no-left">
+							<button type="submit" class="caret-wrapped__button caret-wrapped__button--overlaying-left">weiter</button>
+						</div>
+					</form> -->
+				</div>
+			</section>
+			<section class="landing-section landing-section--full">
+				<div class="landing-section__inner landing-section__inner--centered landing-section__inner--full">
+					<div class="landing-section__upper-quote">
+						<h2 class="landing-section__heading landing-section__heading--centered landing-section__heading--complementary">
+							{{ data.sections[1].heading1 }}
+						</h2>
+
+						<blockquote class="landing-section__quote">
+							<div class="landing-section__quote__icon-wrap">
+								<img src="{{ data.sections[1].quotes[0].icon }}" class="landing-section__quote__icon-wrap__icon">
+							</div>
+							<div class="landing-section__quote__text">
+								<p>
+									{{ data.sections[1].quotes[0].text }}
+								</p>
+								<!-- <a href="#" class="landing-section__link">Erfahren Sie mehr über unsere Verschlüsselung ></a> -->
+							</div>
+						</blockquote>
+					</div>
+					<div class="landing-section__lower-quote">
+						<blockquote class="landing-section__quote">
+							<div class="landing-section__quote__icon-wrap">
+								<img src="{{ data.sections[1].quotes[1].icon }}" class="landing-section__quote__icon-wrap__icon">
+							</div>
+							<div class="landing-section__quote__text">
+								<p>
+									{{ data.sections[1].quotes[1].text }}
+								</p>
+							</div>
+							<cite class="landing-section__quote__cite">
+								{{ data.sections[1].quotes[1].source }}
+							</cite>
+						</blockquote>
+					</div>
+				</div>
+			</section>
+			<section class="landing-section landing-section--background-primary" id="animation-section">
+				<div class="landing-section__inner landing-section__inner--centered">
+					<h2 class="landing-section__heading landing-section__heading--centered">{{ data.sections[2].heading1 }}</h2>
+					<div class="animation-box">
+						{% for message in site.data.b2b.animation[page.lang].data %}
+							<div class="message message-s{{message.sender | plus: 1}} message-{{page.lang}}--i{{forloop.index}}{% if forloop.last == true or forloop.rindex0 == 1 %} message--infinity{% endif %}">
+								<span class="message-sender">{{site.data.b2b.animation[page.lang].senders[message.sender]}}</span>
+								<span class="message-text">{{message.messageText}}</span>
+							</div>
+						{% endfor %}
+						<div class="animation-node s1">
+							<i class="fa fa-user fa-l fa-bottom textShadow"></i>
+							<span class="animation-node-description">{{ data.sections[2].animationName | replace: '~', site.data.b2b.animation[page.lang].senders[0] }}</span>
+						</div>
+						<div class="animation-node s1Pc">
+							<i class="fa fa-desktop fa-xl fa-fw fa-middle textShadow"></i>
+							<span class="animation-node-description">{{ data.sections[2].animationWorkplace | replace: '~', site.data.b2b.animation[page.lang].senders[0] }}</span>
+						</div>
+						<div class="animation-node server">
+							<i class="fa fa-server fa-xl fa-middle textShadow"></i>
+							<span class="animation-node-description">{{ data.sections[2].serverName }}</span>
+						</div>
+						<div class="animation-node s2Pc">
+							<i class="fa fa-desktop fa-xl fa-fw fa-middle textShadow"></i>
+							<span class="animation-node-description">{{ data.sections[2].animationWorkplace | replace: '~', site.data.b2b.animation[page.lang].senders[1] }}</span>
+						</div>
+						<div class="animation-node s2">
+							<i class="fa fa-user fa-l fa-bottom textShadow"></i>
+							<span class="animation-node-description">{{ data.sections[2].animationName | replace: '~', site.data.b2b.animation[page.lang].senders[1] }}</span>
+						</div>
+					</div>
+				</div>
+			</section>
+			<a name="features"></a> <!-- We'll jump here if the close button is clicked. -->
+			<section class="landing-section landing-section--small landing-section--wrap">
+				<div class="features">
+					{% for feature in data.sections[3].features %}
+						<div class="feature" tabindex="0">
+							<div class="feature__short">
+								<div class="feature__polygon">
+									<div class="polygon">
+										<i class="fa fa-plus polygon__icon"></i>
+									</div>
+								</div>
+								<div class="feature__description">
+									<h4 class="feature__description__headline">{{ feature.previewTitle }}</h4>
+									<p class="feature__description__text">{{ feature.previewText }}</p>
+								</div>
+							</div>
+							<div class="feature__detail" id="{{ feature.id }}">
+								<div class="detail__content">
+									<h1 class="detail__content__headline">{{ feature.title }}</h1>
+									<p class="detail__content__text">
+										{{ feature.text }}
+									</p>
+									<!-- <a href="#" class="landing-section__link">Probieren Sie es direkt aus ></a> -->
+								</div>
+								<a href="#features" class="detail__close">
+									<i class="fa fa-times"></i>
+								</a>
+							</div>
+						</div>
+					{% endfor %}
+				</div>
+			</section>
+			<section class="landing-section">
+				<div class="landing-section__inner landing-section__inner--centered">
+					<h2 class="landing-section__heading landing-section__heading--centered landing-section__heading--complementary">
+						{{ data.sections[4].heading1 }}
+					</h2>
+
+					<p class="text--center" id="account_teaser">
+						{{ data.sections[4].text1 }}
+					</p>
+
+<!-- 					<p class="text--center text--complementary">
+						Schritt 1 von 3
+					</p> -->
+
+					<a href="/{{page.lang}}/register/" class="button button--noBorder button--primary button--landing button--radius">{{ data.sections[4].createAccountText }}</a>
+
+				</div>
+			</section>
+		</main>
+		<footer class="landing-footer">
+			<span class="landing-footer__part landing-footer__left">
+				<a href="/"><img src="/assets/img/logo/grey_business.svg" id="landing-footer__logo"></a>
+			</span>
+			<span class="landing-footer__part landing-footer__right">
+				<a class="landing-footer__link" href="/{{page.lang}}/agb">
+					<i class="fa fa-briefcase fa-fw"></i>
+					{{lang.terms}}
+				</a>
+				<a class="landing-footer__link" href="/{{page.lang}}/privacyPolicy">
+					<i class="fa fa-lock fa-fw"></i>
+					{{lang.privacyPolicy}}
+				</a>
+				<a class="landing-footer__link" href="/{{page.lang}}/contact">
+					<i class="fa fa-envelope fa-fw"></i>
+					{{lang.contact}}
+				</a>
+				<a class="landing-footer__link" href="/{{page.lang}}/impressum">
+					<i class="fa fa-book fa-fw"></i>
+					{{lang.imprint}}
+				</a>
+			</span>
+		</footer>
+		<!-- <a class="backToTop" href="#heading"><i class="fa fa-arrow-circle-o-up fa-2x"></i></a> -->
+		<script src="/assets/js/common.js" type="text/javascript"></script>
+		<script src="/assets/js/business.js" type="text/javascript"></script>
+	</body>
+</html>

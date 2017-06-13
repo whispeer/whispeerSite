@@ -1,8 +1,6 @@
 define ([], function () {
 	"use strict";
 
-	/* jshint validthis: true */
-
 	var sortedSet = function (sortFunction) {
 		var arr = [];
 

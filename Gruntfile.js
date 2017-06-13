@@ -1,10 +1,10 @@
-/* jshint -W097 */
 "use strict";
 
 var Bluebird = require("bluebird");
 var grunt = require("grunt");
 
-grunt.loadNpmTasks("grunt-contrib-jshint");
+var business = !!process.env.WHISPEER_BUSINESS
+
 grunt.loadNpmTasks("grunt-contrib-less");
 grunt.loadNpmTasks("grunt-autoprefixer");
 grunt.loadNpmTasks("grunt-contrib-watch");
@@ -13,9 +13,9 @@ grunt.loadNpmTasks("grunt-contrib-copy");
 grunt.loadNpmTasks("grunt-concurrent");
 grunt.loadNpmTasks("grunt-bower-install-simple");
 grunt.loadNpmTasks("grunt-run");
-grunt.loadNpmTasks("grunt-contrib-requirejs");
 grunt.loadNpmTasks("grunt-contrib-clean");
 grunt.loadNpmTasks("grunt-angular-templates");
+grunt.loadNpmTasks("grunt-jekyll");
 
 grunt.initConfig({
 	assetHash: {
@@ -55,18 +55,9 @@ grunt.initConfig({
 	},
 	concurrent: {
 		development: {
-			tasks: ["server", "watch"],
+			tasks: ["server", "watch", "run:jekyllWatch"],
 			options: {
 				logConcurrentOutput: true
-			}
-		}
-	},
-	jshint: {
-		all: {
-			src: ["Gruntfile.js", "assets/js/**/*.js"],
-			options: {
-				reporterOutput: "",
-				jshintrc: true
 			}
 		}
 	},
@@ -79,9 +70,8 @@ grunt.initConfig({
 				sourceMapRootpath: "/"
 			},
 			files: {
-				"assets/css/style.css": "assets/less/style.less",
-				"assets/css/static.css": "assets/less/static.less",
-				"assets/css/style-b2b.css": "assets/less/style-b2b.less"
+				"assets/css/style.css": business ? "assets/less/business.less" : "assets/less/style.less",
+				"assets/css/static.css": business ? "assets/less/static_business.less" : "assets/less/static.less",
 			}
 		}
 	},
@@ -167,8 +157,22 @@ grunt.initConfig({
 		}
 	},
 	run: {
+		lint: {
+			cmd: "npm",
+			args: [
+				"run",
+				"lint"
+			]
+		},
 		webpack: {
 			cmd: "webpack"
+		},
+		jekyllWatch: {
+			cmd: "jekyll",
+			args: [
+				"build",
+				"--watch"
+			]
 		},
 		webpackWorker: {
 			cmd: "webpack",
@@ -176,9 +180,6 @@ grunt.initConfig({
 				"--config",
 				"webpack.worker.config.js"
 			]
-		},
-		buildsjcl: {
-			cmd: "./scripts/build-sjcl.sh"
 		}
 	},
 	"bower-install-simple": {
@@ -186,6 +187,14 @@ grunt.initConfig({
 	},
 	clean: {
 		build: ["assets/js/build/*.js", "manifest.mf", "assets/commit.sha", "assets/files.json"]
+	},
+	jekyll: {
+		options: {
+			bundleExec: true
+		},
+		dist: {
+			config: "_config.yml"
+		}
 	}
 });
 
@@ -255,9 +264,9 @@ grunt.task.registerTask("workerCache", "Write worker cache and commit sha", func
 	];
 
 	var preload = [
-		"assets/js/bower/requirejs/require.js",
-
-		"assets/img/logo.svg",
+		"assets/img/logo/grey.svg",
+		"assets/img/logo/white.svg",
+		"assets/img/logo/white_darker.svg",
 		"assets/data/newMessage.ogg",
 
 		"assets/css/style.css",
@@ -384,7 +393,6 @@ grunt.registerTask("build:pre", [
 	"bower-install-simple",
 	"less",
 	"autoprefixer",
-	"run:buildsjcl",
 ]);
 
 grunt.registerTask("build:development", [
@@ -396,12 +404,11 @@ grunt.registerTask("build:development", [
 
 grunt.registerTask("build:production",  [
 	"clean",
-	"jshint",
+	"run:lint",
 	"copy",
 	"bower-install-simple",
 	"less",
 	"autoprefixer",
-	"run:buildsjcl",
 
 	"run:webpackWorker",
 	"assetHash:worker",
@@ -411,7 +418,7 @@ grunt.registerTask("build:production",  [
 	"assetHash:bundles",
 
 	"includes",
-	"workerCache"
+	"workerCache",
 ]);
 
 grunt.registerTask("server", "Start the whispeer web server.", require("./webserver"));

@@ -1,0 +1,971 @@
+{
+	"generalWords": {
+		"at":	"bei",
+		"with":	"mit"
+	},
+	"trustLevel": {
+		"deleted": "Nutzer wurde gelöscht",
+		"unVerified": "Die Identität dieser Person wurde noch nicht verifiziert. Du kannst sie auf ihrem Profil verifizieren!",
+		"groupVerified": "Ein Kontakt hat diese Person verifiziert.",
+		"selfVerified": "Du hast diese Person verifiziert."
+	},
+	"window": {
+		"title": {
+			"newmessage": "{data}: Neue Nachricht",
+			"basic": "whispeer",
+			"terms": "AGB",
+			"data": "Datenschutzbestimmungen",
+			"contact": "Kontakt",
+			"notice": "Impressum"
+		}
+	},
+	"inviteFriends": "Neu bei whispeer? Lade jetzt deine Kontakte ein!",
+	"views": {
+		"fund": {
+			"heading": "whispeer unterstützen",
+			"content": "whispeer ist für dich kostenlos, uns entstehen aber trotzdem Kosten (zum Beispiel Servermiete und Entwicklungskosten). Wenn du whispeer unterstützen möchtest, würden wir uns über deine Spende freuen!",
+			"methods": {
+				"paypal": "Mit Paypal spenden",
+				"bank": "Mit Banküberweisung spenden",
+				"shop": "Fan-Shop"
+			},
+			"details": {
+				"bankContent": "Überweise uns einen Betrag deiner Wahl!",
+				"paypal": "Spende einen Betrag deiner Wahl mit Paypal!",
+				"altTextPaypal": "Jetzt einfach, schnell und sicher online bezahlen – mit PayPal.",
+				"iban": "IBAN:",
+				"bic": "BIC:",
+				"bank": "Bank:",
+				"usage": "Verwendungszweck:",
+				"usageContent": "Spende Nutzer {userid}"
+			},
+			"thanks": {
+				"heading": "Vielen Dank für deine Spende!",
+				"content": "Danke das du Entwicklung und Betrieb von whispeer unterstützt!",
+				"back": "Zurück zum Newsfeed",
+				"badge": "Not available yet -> remove"
+			}
+		},
+		"recovery": {
+			"or": "oder",
+			"title": "Accountwiederherstellung",
+			"explanation": "Eine automatische Accountwiederherstellung ist noch nicht vorhanden. {br} Solltest du dein Passwort vergessen haben, sende uns bitte eine E-Mail an {mail}. {br} Gib deinen Wiederherstellungs-Schlüssel niemals weiter, auch nicht an uns!",
+			"byMail": "Wiederherstellung per E-Mail",
+			"requestRecovery": "Wiederherstellung anfordern",
+			"uploadKey": "Lade deinen Backup-Schlüssel hoch",
+			"manualKey": "Gib den Backup-Schlüssel manuell ein",
+			"typeKey": "Hier Backup-Schlüssel eintippen",
+			"scanKey": "Scanne den ausgedruckten QR-Code"
+		},
+		"invite": {
+			"anonymous": "Einladung anonym Versenden",
+			"title": "whispeer macht mehr Spaß mit deinen Kontakten! Lade jetzt deine Kontakte ein!",
+			"invite": "Einladen",
+			"viaMail": "Einladung via E-Mail",
+			"viaMailExplanation": "Gib die E-Mail Adressen deiner Kontakte ein, um sie einzuladen:",
+			"mail": "E-Mail",
+			"addMail": "Weitere Person per E-Mail einladen",
+			"viaLink": "Einladung via Link",
+			"viaLinkExplanation": "Generiere einen Einladungs-Link, den du weitergeben kannst:",
+			"generateLink": "Neuen Einladungslink generieren",
+			"code": "Einladungscode:",
+			"link": "Einladungslink:",
+			"yourName": "Lass deine Kontakte wissen, wer sie einlädt (freiwillig):",
+			"name": "Name",
+			"shareText": "Teile deine privaten Gedanken auf whispeer!",
+			"shareHashTags": "Privatsphäre,whispeer",
+			"invited": "Von dir eingeladene Personen:",
+			"sentInvites": "Gesendete Einladungen",
+			"reference": "Referenz: {referrer}"
+		},
+		"setup": {
+			"welcomeHeader": "Willkommen bei whispeer!",
+			"backup": {
+				"header": "Sichere jetzt deinen Schlüssel",
+				"why": "Warum?",
+				"explanation": "Wenn du dein whispeer-Passwort vergisst, hast du keinen Zugang mehr zu deinem Account. Um dein Passwort zurückzusetzen, brauchst du einen für dich speziellen Code, der in der Datei steht. Speichere sie oder drucke sie aus, damit wir dir im Notfall wieder Zugriff auf deinen Account geben können.",
+				"impossible": "Du kannst mit dem aktuellen Gerät deine Schlüssel-Datei nicht herunterladen! Wenn du dein whispeer-Passwort vergisst, hast du keinen Zugang mehr zu deinem Account. Bitte benutze ein anderes Gerät um deinen Schlüssel zu sichern!",
+				"downloadKey": "Schlüssel herunterladen",
+				"or": "oder",
+				"printKey": "Schlüssel ausdrucken",
+				"ignore": "Schlüssel nicht sichern"
+			},
+			"optionalData": {
+				"header": "Freiwillige Angaben:",
+				"nameExplanation": "Nenne uns deinen Vor- und Nachnamen, damit Kontakte dich einfacher finden:",
+				"mailExplanation": "Nenne uns deine E-Mail, damit wir dich bei Neuigkeiten benachrichtigen können:",
+				"mail": "E-Mail",
+				"firstName": "Vorname",
+				"lastName": "Nachname",
+				"privateName": "Mache meinen Namen privat (Deine Kontakte können dich dann schwieriger finden)",
+				"dismiss": "Überspringen"
+			},
+			"save": "Name und E-Mail speichern"
+		},
+		"mail": {
+			"verify": "E-Mail bestätigen",
+			"updateMe": "Ich möchte Updates per E-Mail erhalten",
+			"verifying": "E-Mail wird verifiziert.",
+			"verified": "Deine E-Mail Adresse wurde bestätigt.",
+			"backToLogin": "Zurück zum Login",
+			"failed": "Aktivierung fehlgeschlagen!\n Möglicherweise ist dein Aktivierungscode abgelaufen."
+		},
+		"circles": {
+			"searchFriends": "Kontakte zum Kreis hinzufügen",
+			"titleForNew": "Kreistitel ändern",
+			"header": {
+				"title": {
+					"loaded": "Kreis anzeigen:",
+					"create": "Neuen Kreis erstellen"
+				},
+				"createGroup": "Als Gruppe kopieren",
+				"sendMessage": "Nachricht an Kreis",
+				"edit":	"Kreis bearbeiten",
+				"save":	"Kreis speichern",
+				"remove":	"Kreis löschen"
+			},
+			"removeCircle":	"Möchtest du diesen Kreis wirklich entfernen?",
+			"newCircle":	"Neuen Kreis anlegen",
+			"new": "Neuer Kreis",
+			"createCircle": "Kreis erstellen",
+			"personCount":	"Es befinden sich {count} Personen in diesem Kreis",
+			"personsInCircle":"Personen im Kreis \"{name}\"",
+			"nocircle": "Keine Kreise gefunden",
+			"addUsers": "Nutzer hinzufügen",
+			"removeUser": "Aus Kreis entfernen",
+			"loading": "Kreis wird geladen",
+			"loadingCircles": "Kreise werden geladen"
+		}
+	},
+	"start": {
+		"welcome": "Willkommen bei whispeer - dem sicheren sozialen Netzwerk!",
+		"more": "Mehr Info",
+		"moreInfo": "Mehr Informationen zu whispeer",
+		"regnow": "Jetzt anmelden!",
+		"loading": "Laden..."
+	},
+	"landingpage": {
+		"oldBrowser": {
+			"old": "Dein aktuell verwendeter Browser unterstützt whispeer nicht. Bitte aktualisiere ihn verwende einen anderen Browser.",
+			"twitter": "whispeer funktioniert im Twitter-Browser nicht, bitte öffne es in einem eigenständigen Browser.",
+			"uiview": "whispeer funktioniert in In-App Browsern nicht, bitte öffne es in einem eigenständigen Browser.",
+			"supported": "Unterstützte Browser:"
+		},
+		"heading": "Deine Privatsphäre - unser Auftrag!",
+		"paragraphOne": "whispeer ist ein soziales Netzwerk, dass sich auf die Sicherheit deiner Daten spezialisiert hat. Mit vollständiger Verschlüsselung sämtlicher Kommunikation von Ende zu Ende.",
+		"paragraphTwo": "Um einen Account bei whispeer zu registrieren, brauchen wir nur einen Accountnamen und ein Passwort von dir. Alles andere ist optional.",
+		"featureOne": "Verschlüsselt",
+		"featureOneProse": "Alles wird auf Nutzerseite ver- und entschlüsselt. Nur die ausgewählten Empfänger können Nachrichten lesen, kein Mitlesen durch Dritte",
+		"featureTwo": "Offen",
+		"featureTwoProse": "Alle Angaben sind freiwillig, jeder kann so viele Accounts erstellen, wie gewünscht, und Verwendung vom Pseudonymen ist ausdrücklich erlaubt",
+		"featureThree": "Werbefrei",
+		"featureThreeProse": "Es gibt keine Werbung, das Bezahlen ist freiwillig und Premium-Features sind zusätzlich käuflich",
+		"legal": "Ich akzeptiere die {agb} und {privacyPolicy}",
+		"inviteExplain": "Du benötigst eine Einladung, um dich bei whispeer registrieren zu können. Wir haben uns zu diesem Schritt entschieden, damit wir einen optimalen Service bereit stellen können — auf kurze und auf lange Sicht. Bald wird whispeer dann auch ohne Einladung für jeden zugänglich sein. Nutze die Zeit bis dahin, um deine Familie und Kontakte zu whispeer einzuladen!",
+		"more": {
+			"headingOne": "Warum whispeer?",
+			"headingTwo": "Wie registriere ich mich?",
+			"paragraphOne": "Bei jedem üblichen Dienst musst du darauf vertrauen, dass der Betreiber deine Daten schützt. Bei whispeer geben wir dir die Kontrolle über deine Daten zurück. Die Verschlüsselung schützt deine Daten vor ungewünschten Augen, auch unseren.",
+			"paragraphTwo": "Wir geben dir gerne so viel Sicherheit wie möglich. Deswegen muss dein Passwort mindestens acht Zeichen lang sein. Wir empfehlen eine Passwortlänge von über 12 Zeichen mit einer Kombination aus Groß- und Kleinschreibung, Sonderzeichen und Zahlen.",
+			"paragraphThree": "Dein Vorname und Nachname ist optional und kann direkt nach dem Registrieren auf der Setup-Seite angegeben werden. Hier kann auch eine E-Mail Adresse eingetragen werden. Diese benutzen wir, um dir Neuigkeiten mitzuteilen. Deine E-Mail Adresse ist nur für das whispeer-Team sichtbar.",
+			"paragraphFour": "Weiterhin kannst du dein Profil um andere Daten ergänzen, wie zum Beispiel dein Geburtsdatum, deinen Wohnort, deinen Beziehungsstatus. Jede dieser Angaben ist anfangs verschlüsselt und nur für dich selbst sichtbar. Du kannst für jede einzelne Angabe auswählen, wer genau sie sehen kann. Deine Kontakte sollen dein Geburtsdatum wissen, aber nicht deinen Wohnort? Kein Problem. Dein selbst erstellter Kreis „Kollegen“ soll sehen wo du arbeitet, aber nicht was dein Beziehungsstatus ist? Auch das ist ganz einfach. Unter den Einstellungen kannst du angeben, ob alle Kontakte oder nur einer (oder mehrere) deiner Kreise diese Information sehen darf. So behälst du den Überblick und die Kontrolle!"
+		}
+	},
+	"directives": {
+		"allfriends": "Alle Kontakte",
+		"friendsOf": "Kontakte von {name}"
+	},
+	"usersearch": {
+		"mutualFriends": "gemeinsame Kontakte",
+		"mutualFriend": "gemeinsamer Kontakt",
+		"location": "Wohnt in {town}{country}",
+		"age": "{day}{month}{year}",
+		"relation":	"{relationType}{name}",
+		"work":	"{what}{where}",
+		"message": "Nachricht senden",
+		"add": "Als Kontakt hinzufügen"
+	},
+	"general": {
+		"send":	"Absenden",
+		"cancel":	"Abbrechen",
+		"disconnected":	"Verbindung verloren",
+		"zeroContent": {
+			"findFriends": "Finde deine Kontakte auf whispeer",
+			"inviteFriends": "Lade deine Kontakte ein",
+			"firstPost": "Schreibe deinen ersten Post",
+			"firstPostText": "Mein erster whispeer Beitrag! Vollständig verschlüsselt!"
+		}
+	},
+	"notification": {
+		"newmessage":	"Neue Nachricht von {user}"
+	},
+	"version": {
+		"heading":		"Versions-Historie"
+	},
+	"date": {
+		"month": {
+			"1": "Januar",
+			"2": "Februar",
+			"3": "März",
+			"4": "April",
+			"5": "Mai",
+			"6": "Juni",
+			"7": "Juli",
+			"8": "August",
+			"9": "September",
+			"10": "Oktober",
+			"11": "November",
+			"12": "Dezember",
+			"january": "Januar",
+			"february": "Februar",
+			"march": "März",
+			"april": "April",
+			"may": "Mai",
+			"june": "Juni",
+			"july": "Juli",
+			"august": "August",
+			"september": "September",
+			"october": "Oktober",
+			"november": "November",
+			"december": "Dezember"
+		},
+		"time": {
+			"justNow": "gerade eben",
+			"oneMinuteAgo":	"vor einer Minute",
+			"minutesAgo":	"vor {minutes} Minuten",
+			"oneHourAgo":	"vor einer Stunde und {minutes} Minuten",
+			"hoursAgo":		"vor {hours} Stunden und {minutes} Minuten"
+		}
+	},
+	"notimplemented": "Noch nicht implementiert :(",
+	"search": {
+		"searching": "Suche läuft",
+		"user": {
+			"selected": "Ausgewählte Personen ({count})",
+			"emptyselection": "Keine Personen ausgewählt!",
+			"select": "Person auswählen ({count})",
+			"mutualFriends": "gemeinsame Kontakte",
+			"from": "aus",
+			"age": "Alter:",
+			"message": "Nachricht senden",
+			"add": "Als Kontakt hinzufügen"
+		},
+		"circle": {
+			"selected": "Ausgewählte Kreise ({count})",
+			"emptyselection": "Keine Kreise ausgewählt!",
+			"select": "Kreise auswählen ({count})"
+		},
+		"filter": {
+			"selected": "Ausgewählte Kreise ({count})",
+			"emptyselection": "Kein Kreis ausgewählt",
+			"select": "Kreis auswählen ({count})"
+		}
+	},
+	"menu": {
+		"newsfeed":	"Newsfeed",
+		"profil": "Profil",
+		"friends": "Kontakte ({count})",
+		"messages": "Nachrichten",
+		"media": "Medien",
+		"circles": "Kreise",
+		"settings": "Einstellungen",
+		"help": "Hilfe",
+		"logout": "Logout",
+		"search": "Suchen...",
+		"legal":	"Rechtliche Informationen",
+		"notifications":	"Mitteilungen ({count})",
+		"fund": "Unterstütze whispeer",
+		"invite": "Lade deine Kontakte ein"
+	},
+	"login": {
+		"forgotName": "Accountname vergessen",
+		"forgotPassword": "Passwort vergessen",
+		"header": "Login",
+		"link": "Einloggen",
+		"loginFailed": "Accountname und Passwort stimmen nicht überein!",
+		"moreInfo":	"Mehr Info",
+		"password": "Passwort",
+		"unknownName": "Unbekannter Accountname",
+		"username": "Accountname",
+		"wrongPassword": "Falsches Passwort",
+		"register": {
+			"errors": {
+				"agb": "Bitte akzeptiere die AGB",
+				"mailInvalid": "Ungültige E-Mail",
+				"mailUsed": "Diese E-Mail ist schon vergeben",
+				"nickEmpty": "Bitte gib einen Accountnamen an",
+				"nickInvalid": "Der Benutzername darf keine Umlaute, Leer- oder Sonderzeichen enthalten!",
+				"nickUsed": "Dieser Accountname ist schon vergeben",
+				"password2Empty": "Bitte wiederhole dein Passwort",
+				"passwordEmpty": "Bitte gib ein Passwort ein",
+				"passwordNoMatch": "Passwörter stimmen nicht überein",
+				"passwordWeak": "Passwort zu schwach"
+			},
+			"invite": {
+				"enterCode": "Gib deinen Einladungscode ein!",
+				"code": "Einladungscode",
+				"request": "Einladung anfordern:",
+				"mail": "E-Mail",
+				"submit": "Einladung anfordern",
+				"thanks": "Vielen Dank für dein Interesse!"
+			},
+			"link":	"Registrieren",
+			"next": "Weiter",
+			"previous": "Zurück",
+			"repeatPassword":	"Passwort wiederholen",
+			"passwordstrength":	"Punkte für dein Passwort: ",
+			"email":	"E-Mail Adresse",
+			"repeatEmail":	"E-Mail Adresse wiederholen",
+
+			"firstname": "Vorname",
+			"lastname": "Nachname",
+
+			"country":	"Land",
+			"location":	"Wohnort",
+			"uploadImage":	"Profilbild hochladen",
+			"more": "Weitere Informationen",
+			"intro": "Teil uns dein Geschlecht, deinen Namen, dein Geburtsdatum und deinen Wohnort mit. Dies ermöglicht deinen Kontakten bei whispeer, dich zu finden. Selbstverständlich zwingen wir dich nicht dazu, diese Angaben zu machen!",
+			"newaccount": "Jetzt registrieren!"
+		}
+	},
+	"wall": {
+		"confirmRemovePost": "Post wirklich löschen?",
+		"remove": "Post löschen",
+		"loading": "Beiträge werden geladen",
+		"createPost": "Einen Post verfassen",
+		"postit": {
+			"receiver": "Wer soll deinen Beitrag lesen können?",
+			"text": "Was möchtest du den Leuten mitteilen?",
+			"send": "Senden"
+		},
+		"filter": {
+			"title": "Filter deinen Newsfeed",
+			"placeholder": "Wessen Posts möchtest du im News-Feed sehen?",
+			"save":	"Filter anwenden"
+		},
+		"sort": {
+			"timeSort": "Neueste Posts",
+			"commentSort": "Neueste Interaktionen"
+		},
+		"info": {
+			"with": "Mit {name}",
+			"awesome":	"Awesomeness: {count}",
+			"comments":	{
+				"count":	"{count} Kommentare",
+				"showem":	"Kommentare anzeigen",
+				"hideem":	"Kommentare verbergen"
+			}
+		},
+		"post": {
+			"sender": {
+				"name":	"{{sender}}:"
+			},
+			"content": "{{content}}",
+			"visible": "Sichtbar für"
+		},
+		"zeroContent": {
+			"headline": "Hallo {name}! Das hier ist dein Newsfeed.",
+			"subhead": "Leider ist er aktuell noch leer. Das sollten wir schleunigst ändern!"
+		},
+		"newComment": "Schreibe einen Kommentar!",
+		"comments": "Kommentare",
+		"commentsLoading": "Kommentare werden geladen!",
+		"removeComment": "Kommentar löschen"
+	},
+	"messages": {
+		"chatPersons": "Personen in diesem Chat",
+		"details": "Chat Info",
+		"endOfStream": "Konversation gestartet am {date}",
+		"remaining": "Nachrichten werden geladen. {count} verbleibend",
+		"title": "Nachrichten",
+		"chat" :"Chat mit",
+		"newMessage": "Neue Nachricht",
+		"search": "Wer soll diese Nachricht empfangen?",
+		"start": {
+			"header": "Keine Nachricht ausgewählt",
+			"info": "Um mit deinen Kontakten zu chatten wähle im linken Menü einen Chat aus oder starte einen Neuen indem du oben links auf den Button \"Neue Nachricht\" klickst."
+		},
+		"sendMessage": {
+			"text": "Gib deine Nachricht ein!",
+			"send": "Senden"
+		},
+		"loadingTopics": "Konversationen werden geladen",
+		"deleted": {
+			"peerChat": "Der Account deines Chatpartners wurde gelöscht. Daher wirst du nurnoch deine Nachrichten in dieser Unterhaltung lesen können. Ein Verfassen neuer Nachrichten ist in dieser Unterhaltung nicht möglich.",
+			"groupChat": "Der Account eines Teilnehmers dieses Chats wurde gelöscht. Daher können dessen verfasste Nachrichten nicht mehr abgerufen werden. Ein Verfassen neuer Nachrichten in dieser Unterhaltung ist nicht möglich. Bitte starte stattdessen eine neue Unterhaltung mit den verbleibenden Mitgliedern",
+			"ok": "Alles klar"
+		}
+	},
+	"profile": {
+		"notFound": "Dieser Nutzer existiert nicht!",
+		"trustlevel": {
+			"0": "Nicht verifiziert",
+			"2": "Verifiziert"
+		},
+		"edit":	{
+			"false":	"Profil bearbeiten",
+			"true":		"Fertigstellen"
+		},
+		"head":	{
+			"info":	"Info",
+			"wall":	"Pinnwand",
+			"friends":	"Kontakte"
+		},
+		"actions": {
+			"addFriend":	"{user} als Kontakt hinzufügen",
+			"addToCircle":	"Zu welchen Kreisen möchtest du {user} hinzufügen?",
+			"sendMessage": "{user} eine Nachricht senden"
+		},
+		"trustmanager" : {
+			"part1": "Part 1",
+			"part2": "Part 2",
+			"part3": "Part 3",
+			"part4": "Part 4",
+			"back": "Zurück",
+			"verifyTitle":	"Benutzerverifizierung",
+			"verifyInfo": {
+				"code":	"Bitte gib den Fingerprint von {user} ein. [br] Dieser ist in den Einstellungen zu finden. [br] Fingerprints sollten nicht über das Internet getauscht werden, da dies unsicher ist.[br] Am besten ist es, sich persönlich zu treffen!",
+				"qr":	"Halte den QR-Code von {user} in deine Kamera, sodass dieser im unteren Fenster sichtbar ist. Der QR-Code ist in den Einstellungen abrufbar. Sobald der Code erkannt wurde, wird die verifizierung automatisch durchgeführt."
+			},
+			"nodevice": "Es konnte keine Kamera erkannt werden!",
+			"verifyUser":	"Verifiziere {user}",
+			"verifyWithCode":	"Manuelle Eingabe",
+			"verifyWithQr":		"QR-Code",
+			"chooseVerifyMethod":	"Verifiziere die Identität von {user}. Wähle eine Verifizierungsmethode:",
+			"qrSaveButton":	{
+				"failed":	"Der Fingerprint stimmt nicht! Klicke hier, um es erneut zu probieren!",
+				"pending":	"Der Fingerprint wird überprüft!"
+			}
+		},
+		"section":	{
+			"general": {
+				"headers":	{
+					"title":	"Allgemein",
+					"education":	"Ausbildung",
+					"location":	"Orte",
+					"family":	"Familie",
+					"music":	"Musik",
+					"quotes":	"Zitate",
+					"contact":	"Kontakt"
+				},
+				"changeImage": "Profilbild ändern",
+				"birthday": {
+					"text":	"Geboren am {day} {month} {year}",
+					"day":	"Tag",
+					"month":	"Monat",
+					"year":	"Jahr",
+					"info": "Geburtstag"
+				},
+				"location": {
+					"": "Wohnt in {town}, {country}",
+					"country": "Wohnt in {country}",
+					"town": "Wohnt in {town}",
+					"countrytown": "Wohnt in {town}, {country}",
+					"placeholders": {
+						"city":		"Stadt",
+						"country":	"Land"
+					}
+				},
+				"relation":	{
+					"": "",
+					"namesincetype": "seit {since} {relationType} mit {name}",
+					"sincetype": "seit {since} {relationType}",
+					"nametype": "{relationType} mit {name}",
+					"name": "mit {name}",
+					"type": "{relationType}",
+
+					"default": "{relationType} mit {partner}",
+					"noPartner": "{relationType}",
+					"placeholder":	"Partner",
+					"status": {
+						"": "",
+						"single":	"single",
+						"relationship":	"in einer Beziehung",
+						"engaged":	"verlobt",
+						"married":	"verheiratet",
+						"divorced":	"geschieden",
+						"widowed":	"verwitwet",
+						"complicated":	"kompliziert",
+						"open":	"in einer offenen Beziehung",
+						"inlove":	"verliebt"
+					}
+				},
+				"education": {
+					"display":	"schulische Ausbildung: {school}",
+					"edit":		"Schule / Uni"
+				},
+				"work":	{
+					"whatwhere": "arbeitet als {what} bei {where}",
+					"what": "arbeitet als {what}",
+					"where": "arbeitet bei {where}",
+					"placeholders":	{
+						"what":	"Beruf",
+						"where":	"Arbeitgeber"
+					}
+				},
+				"gender":	{
+					"": "",
+					"gender": "Geschlecht",
+					"default":	"{gender}",
+					"m":	"männlich",
+					"f":	"weiblich",
+					"none":	"Keine Angabe",
+					"other":"Individuell",
+					"otherInput": "Dein Geschlecht"
+				},
+				"languages": {
+					"display":	"{language}",
+					"edit":		"Sprache"
+				}
+			},
+			"wall": {
+				"title":	"Pinnwand von {user}",
+				"postIt":	"Schreibe etwas an die Pinnwand von {user}",
+				"loading":  "Beiträge werden geladen!",
+				"more": "Mehr Beiträge laden"
+			},
+			"friends": {
+				"info":	"Kontakte von {user}",
+				"zeroContent": {
+					"headline": {
+						"true": "Hallo {name}! Das hier ist deine Kontaktestliste.",
+						"false": "{name} hat noch keine Kontakte auf whispeer."
+					},
+					"subhead": {
+						"true": "Leider ist sie aktuell noch leer. Das werden wir jetzt ändern!",
+						"false": "Füge {name} jetzt als Kontakt hinzu!"
+					}
+				}
+			}
+		}
+	},
+	"friends": {
+		"message": "Nachricht senden",
+		"remove": "Kontakt entfernen",
+		"mutualFriends":	"{count} gemeinsame Kontakte",
+		"title":			"Kontaktliste",
+		"loading":			"Kontakte werden geladen",
+		"search": "Kontakte durchsuchen",
+		"zeroContent": {
+			"headline": "Hallo {name}! Das hier ist deine Kontaktliste.",
+			"subhead": "Leider ist sie aktuell noch leer. Das werden wir jetzt ändern!"
+		}
+	},
+	"help": {
+		"headers": {
+			"newQuestion":	"Stelle eine Frage"
+		},
+		"askQuestion": "Stelle deine Frage!"
+	},
+	"settings": {
+		"categories": {
+			"general": "Allgemein",
+			"account": "Account",
+			"safety": "Privatsphäre"
+		},
+		"safety": {
+			"encrypted": "verschlüsselt",
+			"decrypted": "entschlüsselt",
+			"title": "Sicherheit - Welche deiner Profildaten sollen verschlüsselt werden?",
+			"reset": "Zurücksetzen",
+			"attributes": {
+				"location": "Wohnort",
+				"birthday": "Geburtstag",
+				"relationship": "Beziehungsstatus",
+				"education": "Ausbildung",
+				"work": "Arbeit",
+				"gender": "Geschlecht",
+				"languages": "Sprache",
+				"names": {
+					"header": "Name",
+					"firstname": "Vorname",
+					"lastname": "Nachname",
+					"username": "Accountname"
+				}
+			},
+			"whomayseeit": {
+				"firstname":	"Wer darf deinen Vornamen sehen?",
+				"lastname":		"Wer darf deinen Nachnamen sehen?",
+				"birthday":		"Wer darf dein Geburtsdatum sehen?",
+				"location":		"Wer darf deinen Wohnort sehen?",
+				"relationship":	"Wer darf deinen Beziehungsstatus sehen?",
+				"education":	"Wer darf deine Ausbildung sehen?",
+				"work":			"Wer darf deine Arbeitsstelle sehen?",
+				"gender":		"Wer darf dein Geschlecht sehen?",
+				"languages":	"Wer darf sehen, welche Sprachen du sprichst?"
+			}
+		},
+		"header": {
+			"title":	"Einstellungen"
+		},
+		"changes": {
+			"general": {
+				"title": "Allgemein",
+				"mailCount": {
+					"title":	"Möchtest du per Mail über neue Interaktionen informiert werden?",
+					"all":		"Ja",
+					"none":		"Nein"
+				},
+				"sendMethod": {
+					"title":		"Wie möchtest du Nachrichten absenden?",
+					"enter":		"Enter",
+					"ctrlEnter":	"STRG Enter"
+				},
+				"notificationSounds": {
+					"title":		"Benachrichtigungstöne",
+					"on":			"An",
+					"off":			"Aus"
+				},
+				"fingerprints": {
+					"title":	"Dein Fingerprint"
+				},
+				"uiLanguage": {
+					"title":	"Sprache der Oberfläche",
+					"langs": {
+						"de":		"Deutsch",
+						"en":		"Englisch"
+					}
+				}
+			},
+			"account":	"Benutzerkonto",
+			"changeName": "Namen ändern",
+			"changeUsername": "Accountnamen ändern",
+			"changeMail": "E-Mail Adresse ändern",
+			"changePassword": "Passwort ändern",
+			"save": "Speichern",
+			"mail": "E-Mail Adresse"
+		}
+	},
+	"donateHint": {
+		"donatePage": {
+			"heading": "Dir gefällt whispeer?",
+			"subHeading": "Dann unterstütze uns bitte mit einer kleinen Spende.",
+			"detailText": "Bei whispeer zeigen wir dir weder Werbung noch verkaufen wir deine Daten.\nDeshalb sind wir auf deine Spende angewiesen!\nWenn es dir möglich ist, möchten wir dich deshalb bitten uns zu helfen whispeer auch in Zukunft noch weiter betreiben zu können.\nVielen Dank!\nDein whispeer Team",
+			"actionText": "Jetzt Spenden",
+			"refusalText": "Ich möchte nicht spenden."
+		}
+	},
+	"magicbar": {
+		"close": "Schließen",
+		"messages": {
+			"none": "Keine Nachrichten vorhanden!",
+			"title": "Nachrichten"
+		},
+		"requests":{
+			"none": "Keine Anfragen vorhanden!",
+			"title": "Anfragen",
+			"mutuals": "{count} gemeinsame Kontakte",
+			"accept":	"Annehmen",
+			"decline":	"Ignorieren",
+			"confirmRemove": "{user} wirklich von der Kontaktliste entfernen?"
+		},
+		"settings": {
+			"title": "Optionen"
+		},
+		"news": {
+			"title": "Neuigkeiten",
+			"none": "Keine Neuigkeiten vorhanden!",
+			"action": {
+				"comment": {
+					"photo": {
+						"you": {
+							"own": "{user} hat dein Foto kommentiert: \"{what}\"",
+							"commented": "{user} hat ein Foto von {owner} kommentiert, das du auch kommentiert hast: \"{what}\"",
+							"awesomed":	"{user} hat ein Foto von {owner} kommentiert, das du awesome findest: \"{what}\"",
+							"shared":	"{user} hat dein geteiltes Foto kommentiert: \"{what}\""
+						},
+						"his": {
+							"commented": "{user} hat sein eigenes Foto kommentiert, das du auch kommentiert hast: \"{what}\"",
+							"awesomed":	"{user} hat sein eigenes Foto kommentiert, das du awesome findest: \"{what}\"",
+							"tagged": "{user} hat sein eigenes Foto kommentierst, auf dem du verlinkt bist: \"{what}\""
+						},
+						"her": {
+							"commented": "{user} hat ihr eigenes Foto kommentiert, das du auch kommentiert hast: \"{what}\"",
+							"awesomed":	"{user} hat ihr eigenes Foto kommentiert, das du awesome findest: \"{what}\"",
+							"tagged": "{user} hat ihr eigenes Foto kommentierst, auf dem du verlinkt bist: \"{what}\""
+						}
+					},
+					"post": {
+						"you": {
+							"own": "{user} hat deinen Status kommentiert: \"{what}\"",
+							"commented": "{user} hat einen Status von {owner} kommentiert, den du auch kommentiert hast: \"{what}\"",
+							"awesomed":	"{user} hat einen Status von {owner} kommentiert, den du awesome findest: \"{what}\"",
+							"shared":	"{user} hat deinen geteilten Status kommentiert: \"{what}\""
+						},
+						"his": {
+							"commented": "{user} hat seinen eigenen Status kommentiert, den du auch kommentiert hast: \"{what}\"",
+							"awesomed":	"{user} hat seinen eigenen Status kommentiert, den du awesome findest: \"{what}\"",
+							"tagged": "{user} hat seinen eigenen Status kommentierst, in dem du verlinkt bist!"
+						},
+						"her": {
+							"commented": "{user} hat ihren eigenen Status kommentiert, den du auch kommentiert hast: \"{what}\"",
+							"awesomed":	"{user} hat ihren eigenen Status kommentiert, den du awesome findest: \"{what}\"",
+							"tagged": "{user} hat ihren eigenen Status kommentierst, in dem du verlinkt bist: \"{what}\""
+						}
+					},
+					"wallpost": {
+						"you": {
+							"own": "{user} hat deinen Pinnwandeintrag kommentiert: \"{what}\"",
+							"commented": "{user} hat einen Pinnwandeintrag von {owner} kommentiert, den du auch kommentiert hast: \"{what}\"",
+							"awesomed":	"{user} hat einen Pinnwandeintrag von {owner} kommentiert, den du awesome findest: \"{what}\"",
+							"shared":	"{user} hat deinen geteilten Pinnwandeintrag kommentiert: \"{what}\""
+						},
+						"his": {
+							"commented": "{user} hat seinen eigenen Pinnwandeintrag kommentiert, den du auch kommentiert hast: \"{what}\"",
+							"awesomed":	"{user} hat seinen eigenen Pinnwandeintrag kommentiert, den du awesome findest: \"{what}\"",
+							"tagged": "{user} hat seinen eigenen Pinnwandeintrag kommentierst, in dem du verlinkt bist!"
+						},
+						"her": {
+							"commented": "{user} hat ihren eigenen Pinnwandeintrag kommentiert, den du auch kommentiert hast: \"{what}\"",
+							"awesomed":	"{user} hat ihren eigenen Pinnwandeintrag kommentiert, den du awesome findest: \"{what}\"",
+							"tagged": "{user} hat ihren eigenen Pinnwandeintrag kommentierst, in dem du verlinkt bist: \"{what}\""
+						}
+					},
+					"link": {
+						"you": {
+							"own": "{user} hat deinen Link kommentiert!",
+							"commented": "{user} hat einen Link von {owner} kommentiert, den du kommentiert hast: \"{what}\"",
+							"awesomed":	"{user} hat einen Link von {owner} kommentiert, den du awesome findest: \"{what}\"",
+							"shared":	"{user} hat deinen geteilten Link kommentiert: \"{what}\""
+						},
+						"his": {
+							"commented": "{user} hat seinen eigenen Link kommentiert, den du auch kommentiert hast: \"{what}\"",
+							"awesomed":	"{user} hat seinen eigenen Link kommentiert, den du awesome findest: \"{what}\"",
+							"tagged": "{user} hat seinen eigenen Link kommentierst, in dem du verlinkt bist: \"{what}\""
+						},
+						"her": {
+							"commented": "{user} hat ihren eigenen Link kommentiert, den du auch kommentiert hast: \"{what}\"",
+							"awesomed":	"{user} hat ihren eigenen Link kommentiert, den du awesome findest: \"{what}\"",
+							"tagged": "{user} hat ihren eigenen Link kommentierst, in dem du verlinkt bist: \"{what}\""
+						}
+					}
+				},
+				"awesome": {
+					"photo": {
+						"you": {
+							"own": "{user} findet dein Foto awesome!",
+							"commented": "{user} findet ein Foto von {owner} awesome, das du kommentiert hast!",
+							"awesomed":	"{user} findet ein Foto von {owner} awesome, das du auch awesome findest!",
+							"shared":	"{user} findet dein geteiltes Foto awesome!"
+						},
+						"his": {
+							"commented": "{user} findet sein eigenes Foto awesome, das du kommentiert hast!",
+							"awesomed":	"{user} findet sein eigenes Foto awesome, das du auch awesome findest!",
+							"tagged": "{user} findet sein eigenes Foto awesome, auf dem du verlinkt bist!"
+						},
+						"her": {
+							"commented": "{user} findet ihr eigenes Foto awesome, das du kommentiert hast!",
+							"awesomed":	"{user} findet ihr eigenes Foto awesome, das du auch awesome findest!",
+							"tagged": "{user} findet ihr eigenes Foto awesome, auf dem du verlinkt bist!"
+						}
+					},
+					"post": {
+						"you": {
+							"own": "{user} findet deinen Status awesome!",
+							"commented": "{user} findet einen Status von {owner} awesome, den du kommentiert hast!",
+							"awesomed":	"{user} findet einen Status von {owner} awesome, den du auch awesome findest!",
+							"shared":	"{user} findet deinen geteilten Status awesome!"
+						},
+						"his": {
+							"commented": "{user} findet seinen eigenen Status awesome, den du kommentiert hast!",
+							"awesomed":	"{user} findet seinen eigenen Status awesome, den du auch awesome findest!",
+							"tagged": "{user} findet seinen eigenen Status awesome, in dem du verlinkt bist!"
+						},
+						"her": {
+							"commented": "{user} findet ihren eigenen Status awesome, den du kommentiert hast!",
+							"awesomed":	"{user} findet ihren eigenen Status awesome, den du auch awesome findest!",
+							"tagged": "{user} findet ihren eigenen Status awesome, in dem du verlinkt bist!"
+						}
+					},
+					"wallpost": {
+						"you": {
+							"own": "{user} findet deinen Pinnwandeintrag awesome!",
+							"commented": "{user} findet einen Pinnwandeintrag von {owner} awesome, den du kommentiert hast!",
+							"awesomed":	"{user} findet einen Pinnwandeintrag von {owner} awesome, den du auch awesome findest!",
+							"shared":	"{user} findet deinen geteilten Pinnwandeintrag awesome!"
+						},
+						"his": {
+							"commented": "{user} findet seinen eigenen Pinnwandeintrag awesome, den du kommentiert hast!",
+							"awesomed":	"{user} findet seinen eigenen Pinnwandeintrag awesome, den du auch awesome findest!",
+							"tagged": "{user} findet seinen eigenen Pinnwandeintrag awesome, in dem du verlinkt bist!"
+						},
+						"her": {
+							"commented": "{user} findet ihren eigenen Pinnwandeintrag awesome, den du kommentiert hast!",
+							"awesomed":	"{user} findet ihren eigenen Pinnwandeintrag awesome, den du auch awesome findest!",
+							"tagged": "{user} findet ihren eigenen Pinnwandeintrag awesome, in dem du verlinkt bist!"
+						}
+					},
+					"comment": {
+						"you": {
+							"own": "{user} findet deinen Kommentar awesome!",
+							"commented": "{user} findet einen Kommentar von {owner} awesome, den du kommentiert hast!",
+							"awesomed":	"{user} findet einen Kommentar von {owner} awesome, den du auch awesome findest!"
+						},
+						"his": {
+							"commented": "{user} findet seinen eigenen Kommentar awesome, den du kommentiert hast!",
+							"awesomed":	"{user} findet seinen eigenen Kommentar awesome, den du auch awesome findest!",
+							"tagged": "{user} findet seinen eigenen Kommentar awesome, in dem du verlinkt bist!"
+						},
+						"her": {
+							"commented": "{user} findet ihren eigenen Kommentar awesome, den du kommentiert hast!",
+							"awesomed":	"{user} findet ihren eigenen Kommentar awesome, den du auch awesome findest!",
+							"tagged": "{user} findet ihren eigenen Kommentar awesome, in dem du verlinkt bist!"
+						}
+					}
+				},
+				"share": {
+					"photo": {
+						"you": {
+							"own": "{user} hat dein Foto geteilt!",
+							"commented": "{user} hat ein Foto von {owner} geteilt, das du kommentiert hast!",
+							"awesomed":	"{user} hat ein Foto von {owner} geteilt, das du awesome findest!",
+							"shared":	"{user} hat dein geteiltes Foto geteilt!"
+						},
+						"his": {
+							"commented": "{user} hat sein eigenes Foto geteilt, das du kommentiert hast!",
+							"awesomed":	"{user} hat sein eigenes Foto geteilt, das du awesome findest!",
+							"tagged": "{user} hat sein eigenes Foto geteilt, auf dem du verlinkt bist!"
+						},
+						"her": {
+							"commented": "{user} hat ihr eigenes Foto geteilt, das du kommentiert hast!",
+							"awesomed":	"{user} hat ihr eigenes Foto geteilt, das du awesome findest!",
+							"tagged": "{user} hat ihr eigenes Foto geteilt, auf dem du verlinkt bist!"
+						}
+					},
+					"post": {
+						"you": {
+							"own": "{user} hat deinen Status geteilt!",
+							"commented": "{user} hat einen Status von {owner} geteilt, den du kommentiert hast!",
+							"awesomed":	"{user} hat einen Status von {owner} geteilt, den du awesome findest!",
+							"shared":	"{user} hat deinen geteilten Status geteilt!"
+						},
+						"his": {
+							"commented": "{user} hat seinen eigenen Status geteilt, den du kommentiert hast!",
+							"awesomed":	"{user} hat seinen eigenen Status geteilt, den du awesome findest!",
+							"tagged": "{user} hat seinen eigenen Status geteilt, in dem du verlinkt bist!"
+						},
+						"her": {
+							"commented": "{user} hat ihren eigenen Status geteilt, den du kommentiert hast!",
+							"awesomed":	"{user} hat ihren eigenen Status geteilt, den du awesome findest!",
+							"tagged": "{user} hat ihren eigenen Status geteilt, in dem du verlinkt bist!"
+						}
+					},
+					"wallpost": {
+						"you": {
+							"own": "{user} hat deinen Pinnwandeintrag geteilt!",
+							"commented": "{user} hat einen Pinnwandeintrag von {owner} geteilt, den du kommentiert hast!",
+							"awesomed":	"{user} hat einen Pinnwandeintrag von {owner} geteilt, den du awesome findest!",
+							"shared":	"{user} hat deinen geteilten Pinnwandeintrag geteilt!"
+						},
+						"his": {
+							"commented": "{user} hat seinen eigenen Pinnwandeintrag geteilt, den du kommentiert hast!",
+							"awesomed":	"{user} hat seinen eigenen Pinnwandeintrag geteilt, den du awesome findest!",
+							"tagged": "{user} hat seinen eigenen Pinnwandeintrag geteilt, in dem du verlinkt bist!"
+						},
+						"her": {
+							"commented": "{user} hat ihren eigenen Pinnwandeintrag geteilt, den du kommentiert hast!",
+							"awesomed":	"{user} hat ihren eigenen Pinnwandeintrag geteilt, den du awesome findest!",
+							"tagged": "{user} hat ihren eigenen Pinnwandeintrag geteilt, in dem du verlinkt bist!"
+						}
+					},
+					"link": {
+						"you": {
+							"own": "{user} hat deinen Link geteilt!",
+							"commented": "{user} hat einen Link von {owner} geteilt, den du kommentiert hast!",
+							"awesomed":	"{user} hat einen Link von {owner} geteilt, den du awesome findest!",
+							"shared":	"{user} hat deinen geteilten Link geteilt!"
+						},
+						"his": {
+							"commented": "{user} hat seinen eigenen Link geteilt, den du kommentiert hast!",
+							"awesomed":	"{user} hat seinen eigenen Link geteilt, den du awesome findest!",
+							"tagged": "{user} hat seinen eigenen Link geteilt, in dem du verlinkt bist!"
+						},
+						"her": {
+							"commented": "{user} hat ihren eigenen Link geteilt, den du kommentiert hast!",
+							"awesomed":	"{user} hat ihren eigenen Link geteilt, den du awesome findest!",
+							"tagged": "{user} hat ihren eigenen Link geteilt, in dem du verlinkt bist!"
+						}
+					}
+				},
+				"whatever": {
+					"photo": {
+						"you": {
+							"own": "{user} hat bei deinem Foto auf whatever geklickt.",
+							"shared":	"{user} hat bei deinem geteilten Foto auf whatever geklickt.",
+							"tagged": "{user} hat bei einem Foto, auf dem du verlinkt bist, auf whatever geklickt."
+						}
+					},
+					"post": {
+						"you": {
+							"own": "{user} hat bei deinem Status auf whatever geklickt.",
+							"shared":	"{user} hat bei deinem geteilten Status auf whatever geklickt.",
+							"tagged": "{user} hat bei einem Status, auf dem du verlinkt bist, auf whatever geklickt."
+						}
+					},
+					"wallpost": {
+						"you": {
+							"own": "{user} hat bei deinem Pinnwandeintrag auf whatever geklickt.",
+							"shared":	"{user} hat bei deinem geteilten Pinnwandeintrag auf whatever geklickt.",
+							"tagged": "{user} hat bei einem Pinnwandeintrag, auf dem du verlinkt bist, auf whatever geklickt."
+						}
+					},
+					"link": {
+						"you": {
+							"own": "{user} hat bei deinem Link auf whatever geklickt.",
+							"shared":	"{user} hat bei deinem geteilten Link auf whatever geklickt.",
+							"tagged": "{user} hat bei einem Link, auf dem du verlinkt bist, auf whatever geklickt."
+						}
+					},
+					"comment": {
+						"you": {
+							"own": "{user} hat bei deinem Kommentar auf whatever geklickt.",
+							"tagged": "{user} hat bei einem Foto, auf dem du verlinkt bist, auf whatever geklickt."
+						}
+					}
+				},
+				"newfriend": {
+					"you": {
+						"own": "{user} ist jetzt ein Kontakt!"
+					}
+				},
+				"posted": {
+					"wallpost": {
+						"you": {
+							"own": {
+								"post": "{user} hat etwas an deine Pinnwand gepostet: \"{what}\"",
+								"photo": "{user} hat ein Foto an deine Pinnwand gepostet.",
+								"link": "{user} hat einen Link an deine Pinnwand gepostet: \"{what}\""
+							}
+						}
+					}
+				},
+				"tagged": {
+					"photo": {
+						"you": {
+							"own": "{user} hat dich in deinem Foto markiert.",
+							"else": "{user} hat dich in einem Foto von {owner} markiert."
+						},
+						"somebody": {
+							"own": "{user} hat {somebody} in deinem Foto markiert."
+						}
+					},
+					"post": {
+						"you": {
+							"tagged": "{user} hat dich in einem Status markiert: \"{what}\""
+						}
+					},
+					"wallpost": {
+						"you": {
+							"tagged": "{user} hat dich in einem Pinnwandeintrag markiert: \"{what}\""
+						}
+					},
+					"comment": {
+						"you": {
+							"tagged": "{user} hat dich in einem Kommentar markiert: \"{what}\""
+						}
+					}
+				}
+			}
+		}
+	}
+}

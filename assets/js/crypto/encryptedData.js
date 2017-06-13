@@ -2,8 +2,6 @@
 define (["whispeerHelper", "bluebird", "crypto/keyStore"], function (h, Bluebird, keyStore) {
 	"use strict";
 
-	/* jshint validthis: true */
-
 	var encryptedDataObject = function (data) {
 		var encryptedData = data, decryptedData;
 

@@ -7,6 +7,9 @@
 *complexity.txt
 *log.txt
 tmp/*
+.jekyll-metadata
+
+build/
 
 # editors
 

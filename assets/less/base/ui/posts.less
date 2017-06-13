@@ -12,7 +12,7 @@
 	position: relative;
 	@media @desktop { width: 80%; margin: 0.5rem 10%; }
 	@media @mobile { width: 97%; margin: 0.5rem 1.5%; }
-	background: #fbfbfb;
+	background: #fdfdfd;
 	border-radius: 3px;
 	box-shadow: 0 0 3px #f0f0f0;
 	padding: @default-padding;
@@ -39,8 +39,6 @@
 	white-space: nowrap;
 	.fa { color: @linkColor; }
 }
-
-.post-username { text-shadow: 1px 1px 1px #e2e2e2; }
 
 .post-content {
 	max-width: @column-width;
@@ -77,16 +75,22 @@
 
 .post-action-visibility-button {
 	margin: 0 3px;
+	a {
+		color: @primary;
+		&:hover {
+			color: @primary;
+		}
+	}
 }
 
 .post-link {
 	position: absolute;
 	top: @minor-padding;
 	right: @minor-padding;
-	color: @grayLight;
+	color: @darkgrey;
 	font-size: 1.1rem;
 	&:hover {
-		color: @gray;
+		color: @isabelline;
 	}
 }
 

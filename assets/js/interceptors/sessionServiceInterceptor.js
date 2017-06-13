@@ -1,28 +1,20 @@
-/**
-* SocketService
-**/
-define([
-	"interceptors/interceptorsModule"
-], function (interceptorModule) {
-	"use strict";
+var sessionService = require("services/session.service").default;
+var socketService = require("services/socket.service").default;
 
-	var interceptor = function (sessionService) {
-		return {
-			transformResponse: function (response) {
-				if (!response.logedin) {
-					sessionService.logout();
-				}
+var interceptor = {
+	transformResponse: function (response) {
+		if (!response.pong && !response.logedin) {
+			sessionService.logout();
+		}
 
-				return response;
-			},
+		return response;
+	},
 
-			transformRequest: function(request) {
-				request.sid = sessionService.getSID();
+	transformRequest: function(request) {
+		request.sid = sessionService.getSID();
 
-				return request;
-			}
-		};
-	};
+		return request;
+	}
+};
 
-	interceptorModule.service("ssn.interceptors.sessionService", ["ssn.sessionService", interceptor]);
-});
+socketService.addInterceptor(interceptor);

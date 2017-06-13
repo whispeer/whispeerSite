@@ -13,7 +13,7 @@
 		<header class="header">
 			<div class="header-inner">
 				<a data-ng-href="/{{page.lang}}/" class="header-brand" data-ng-click="mobileActivateView()">
-					<span class="header-brand--normal">whis</span><span class="header-brand--inverse">peer</span>
+					<img src="/assets/img/logo/white_darker.svg" alt="whispeer" class="header-brand__logo">
 				</a>
 				<a href="/login/" target="_self" class="header-toggle header-toggle-login helper-showMobile">Login</a>
 				<iframe id="header-login" class="helper-hideMobile" src="/{{page.lang}}/loginframe/" scrolling="no"></iframe>
@@ -73,7 +73,7 @@
 			</section> -->
 			<section id="heading" class="heading heading2 landing-section{% if data.teaser2.image != null %} landing-section--background2{% endif %}">
 				<div class="landing-section--inner" style="margin-top: 0;">
-					<img src="/assets/images/logo_grey.svg" class="landing-section__logo">
+					<img src="/assets/img/logo/grey.svg" class="landing-section__logo">
 					<h1 class="section-header section-header--large {% if data.teaser2.headingColor %} text--{{data.teaser2.headingColor}} {%endif%}{% if data.teaser2.textShadow %}textShadow{% endif %} {% if data.teaser2.darkBlur %}darkBlur{% endif %} {% if data.teaser2.lightBlur %}lightBlur{% endif %}">{{ data.teaser2.headline }}</h1>
 					{% if data.teaser2.app != null %}
 						<div class="landing-section__appstore">
@@ -145,7 +145,7 @@
 						{% endif %}
 						<div class="landing-section-text{% if section.icon == null and section.image == null %} landing-section--center{% endif %}">
 							{% if section.headline != null %}
-								<h1 class="section-header{% if section.icon == null %} section-header--noTopMargin{% endif %}{% if section.darkBlur %} darkBlur{% elsif section.lightBlur %} lightBlur{% else %} textShadow{% endif %}">{{ section.headline }}</h1>
+								<h1 class="section-header{% if section.icon == null %} section-header--noTopMargin{% endif %}{% if section.darkBlur %} darkBlur{% elsif section.lightBlur %} lightBlur{% endif %}">{{ section.headline }}</h1>
 							{% endif %}
 							{% if section.details != null %}
 								<p class="section-paragraph">{{ section.details }}</p>
@@ -244,6 +244,7 @@
 				</div>
 			</div>
 		</div>
+		<script src="/assets/js/common.js" type="text/javascript"></script>
 		<script src="/assets/js/b2c.js" type="text/javascript"></script>
 	</body>
 </html>

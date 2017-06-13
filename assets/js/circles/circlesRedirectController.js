@@ -2,10 +2,12 @@
 * circlesRedirectController
 **/
 
+var cssService = require("services/css.service").default;
+
 define(["circles/circlesModule"], function (circlesModule) {
 	"use strict";
 
-	function circlesRedirectController($scope, $rootScope, $state, cssService) {
+	function circlesRedirectController($scope, $rootScope, $state) {
 		cssService.setClass("circlesView", true);
 
 		function checkState() {
@@ -32,7 +34,7 @@ define(["circles/circlesModule"], function (circlesModule) {
 		}, checkState);
 	}
 
-	circlesRedirectController.$inject = ["$scope", "$rootScope", "$state", "ssn.cssService"];
+	circlesRedirectController.$inject = ["$scope", "$rootScope", "$state"];
 
 	circlesModule.controller("ssn.circlesRedirectController", circlesRedirectController);
 });

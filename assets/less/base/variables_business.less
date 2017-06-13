@@ -1,0 +1,161 @@
+//
+// Variables
+// --------------------------------------------------------
+
+// Global Variables
+// --------------------------------------------------------
+
+@import "colors";
+
+@primaryLighter: @midnightblue;
+@primary: @prussianblue;
+@primaryDark: #013C4C;
+@accent: #013c4c;
+@accentlight: #ffeda5;
+
+@white: #fff;
+@black: #000;
+
+@warning: @mediumchampagne;
+
+// Responsive Breakpoints
+// -------------------------
+@screen: ~"only screen";
+@mobile: ~"(max-width : 1024px)";
+@desktop: ~"(min-width: 1025px)";
+
+// Scaffolding
+// -------------------------
+@bodyBackground:        @white;
+@textColor:             @davysgrey;
+@textColorLighter:      #505050;
+
+// Z-index master list
+// -------------------------
+// Used for a bird's eye view of components dependent on the z-axis
+// Try to avoid customizing these :)
+@zIndex-1: 1;
+@zIndex-2: 2;
+@zIndex-3: 3;
+@zIndex-4: 4;
+@zIndex-5: 5;
+@zIndex-6: 6;
+@zIndex-7: 7;
+@zIndex-8: 8;
+@zIndex-9: 9;
+
+// Z-index slave list
+// ------------------------
+// Set the Z-Indexes for Page-Elements here.
+
+@zIndex-body:	@zIndex-1;
+@zIndex-navbar: @zIndex-8;
+@zIndex-dropdown: @zIndex-7;
+@zIndex-navSearchDrop: @zIndex-9;
+@zIndex-modal:	@zIndex-9;
+@zIndex-image: @zIndex-2;
+
+// Links
+// -------------------------
+@linkColor:             @napiergreen;
+@linkColorHover:        lighten(@linkColor, 5%);
+
+
+// Typography
+// -------------------------
+
+@baseLineHeight:        20px;
+
+@headingsColor:         inherit; // empty to use BS default, @textColor
+@headingsSmallColor:    lighten(@textColor, 30%); // empty to use BS default, @textColor
+
+@text-color-dark: @davysgrey;
+@text-color-light: @darkgrey;
+@text-color: @text-color-dark;
+@detail-color: @text-color-light;
+
+// Tables
+// -------------------------
+@tableBackground:                   transparent; // overall background-color
+@tableBackgroundAccent:             #f9f9f9; // for striping
+@tableBackgroundHover:              #f5f5f5; // for hover
+@tableBorder:                       @isabelline; // table and cell border
+
+
+// Buttons
+// -------------------------
+@btnBackground:                     @isabelline;
+@btnBackgroundHover:            	@ghostwhite;
+@btnBackgroundFocus:            	@btnBackgroundHover;
+@btnBackgroundActive:            	@btnBackgroundHover;
+@btnBorder:                         @gainsboro;
+
+@btnGreenBackground:              	@kellygreen;
+@btnGreenBackgroundHover:    	    @kellygreenhighlight;
+@btnGreenBackgroundFocus:        	@btnGreenBackgroundHover;
+@btnGreenBackgroundActive:        	@btnGreenBackgroundHover;
+
+// @btnGreenLightBackground:           @primaryLighter;
+// @btnGreenLightBackgroundHover:    	@primaryLightest;
+// @btnGreenLightBackgroundFocus:      @primaryLightest;
+// @btnGreenLightBackgroundActive:     @primaryLightest;
+
+@btnRedBackground:              	lighten(@red, 15%);
+@btnRedBackgroundHover:     		lighten(@red, 7.5%);
+@btnRedBackgroundFocus:        		lighten(@red, 3%);
+@btnRedBackgroundActive:        	lighten(@red, 3%);
+
+@btnInverseBackground:              #444;
+@btnInverseBackgroundHover:     	darken(#444, 4%);
+@btnInverseBackgroundFocus:        	darken(#444, 8%);
+@btnInverseBackgroundActive:        darken(#444, 8%);
+
+@btnGrayBackground:					@isabelline;
+@btnGrayBackgroundHover:			darken(@btnGrayBackground, 4%);
+@btnGrayBackgroundFocus:			darken(@btnGrayBackground, 8%);
+@btnGrayBackgroundActive:			darken(@btnGrayBackground, 8%);
+
+
+// Forms
+// -------------------------
+@inputBackground:               @white;
+@inputBorder:                   @btnBorder;
+@inputBorderFocus:				@kellygreen;
+@inputBorderRadius:             3px;
+@inputDisabledBackground:       @darkgrey;
+@formActionsBackground:         #f5f5f5;
+
+// Dropdowns
+// -------------------------
+@dropdownHeaderHeight:			40px;
+@dropdownBackground:            @white;
+@dropdownBorder:                rgba(0,0,0,.2);
+@dropdownDividerTop:            #e5e5e5;
+@dropdownDividerBottom:         @white;
+
+@dropdownLinkColor:             @davysgrey;
+
+@dropdownLinkColorHover:        @white;
+@dropdownLinkBackgroundHover:   @dropdownLinkBackgroundActive;
+
+@dropdownLinkColorActive:       @dropdownLinkColor;
+@dropdownLinkBackgroundActive:  @linkColor;
+@dropdownWidth: 				3;
+
+// Navbar
+// -------------------------
+@navbarHeight:					50px;
+@mobileNavWidth:				20em;
+@mobileNavTransitionTime:		.3s;
+
+// Search
+// -------------------------
+@searchDropdownHeight: 300px;
+
+// Userpanel
+@userpanel-highlight-background: @kellygreen;
+@userpanel-highlight-hover-background: @kellygreenhighlight;
+@userpanel-highlight-border: rgba(60, 60, 60, 0.2);
+
+@userpanel-menu-link-background: @prussianblue;
+@userpanel-menu-link-hover-background: @midnightblue;

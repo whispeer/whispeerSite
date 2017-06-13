@@ -1,0 +1,35 @@
+{
+	"langs": ["en", "de"],
+	"en": {
+		"senders": [
+			"Alice",
+			"Bob"
+		],
+		"data": [
+			{
+				"sender": 0,
+				"messageText": "Spam!"
+			}, {
+				"sender": 1,
+				"messageText": "Spam back!"
+			}
+		]
+	},
+	"de": {
+		"senders": [
+			"Alice",
+			"Bob"
+		],
+		"data": [
+			{ "sender": 0, "messageText": "Wo finde ich die Blaupause?" },
+			{ "sender": 1, "messageText": "Einen Moment, bekommst du gleich." },
+			{ "sender": 1, "messageText": "@file attached" },
+			{ "sender": 0, "messageText": "Danke dir!" },
+
+			{ "sender": 0, "messageText": "Was macht Bauteil CE-87b?" },
+			{ "sender": 1, "messageText": "Status: Assemblierung Sind im Zeitplan!" },
+			{ "sender": 0, "messageText": "Sehr gute Arbeit! Pizza nachher?" },
+
+		]
+	}
+}

@@ -26,7 +26,8 @@
 
 #userpanel {
 	text-align: center;
-	display: block;
+	display: flex;
+	flex-direction: column;
 	margin: 0;
 	height: 100%;
 	@media @mobile {
@@ -43,13 +44,14 @@
 	height: 4rem;
 	line-height: 4rem;
 
-	background: rgba(60, 60, 60, 0.2);
+	background: @userpanel-highlight-background;
+	border-bottom: 1px solid @userpanel-highlight-border;
 
 	font-size: 1.25rem;
 	font-weight: 400;
 	text-align: center;
 	&:hover {
-		background: rgba(60, 60, 60, 0.25);
+		background: @userpanel-highlight-hover-background;
 	}
 }
 #userpanel-me-image {
@@ -64,7 +66,7 @@
 	vertical-align: middle;
 }
 .brand {
-	display: inline-block;
+	display: flex;
 	width: 100%;
 
 	.large-text();
@@ -77,21 +79,20 @@
 
 	height: 4rem;
 	line-height: 4rem;
+
+	justify-content: center;
+	align-content: center;
 }
-.brand--normal {
-	height: 30px;
-	color: #fff;
-	text-shadow: 0px 0px 2px @primaryDarkest;
+
+#userpanel__logo {
+	height: 3rem;
+	margin: auto;
 }
-.brand--inverse {
-	color: @primaryLighter;
-	text-shadow: 0px 0px 2px @primaryDarkest;
-}
+
 #userpanel-shortcuts {
 	height: 4rem;
 	line-height: 4rem;
 	width: 100%;
-	border-bottom: 1px solid #366c17;
 	&:extend(.box-fix);
 }
 .userpanel-shortcut {
@@ -99,19 +100,22 @@
 	float: left;
 	width: 100% / 3;
 	height: 4rem;
-	border-left: 1px solid #366c17;
+	border-left: 1px solid @userpanel-highlight-border;
 	line-height: 4rem;
 	font-size: 1.213em;
+
+	background: @userpanel-highlight-background;
+
 	&:extend(.box-fix);
 	&:first-child { border-left: none; }
 	&:hover {
-		background: rgba(60, 60, 60, 0.1)
+		background: @userpanel-highlight-hover-background;
 	}
 }
 #userpanel-menu {
 	width: 100%;
 	@media @desktop {
-		height: ~"calc(100% - 12rem)";
+		flex: 1 0 auto;
 		overflow: auto;
 	}
 	z-index: 3;
@@ -127,9 +131,11 @@
 	height: 4rem;
 	line-height: 4rem;
 	overflow: hidden;
-	//border-bottom: 1px solid @primary;
+
+	background: @userpanel-menu-link-background;
+
 	&:hover {
-		background: rgba(60, 60, 60, 0.1)
+		background: @userpanel-menu-link-hover-background;
 	}
 
 	padding: 0 2rem;

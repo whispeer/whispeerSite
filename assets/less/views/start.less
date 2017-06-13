@@ -36,8 +36,8 @@
 
 	.footer {
 		color: white;
-		background-color: @primary;
-		border-top: 24px solid @primaryLighter;
+		background-color: @primaryDark;
+		border-top: 24px solid @primary;
 		margin: 0;
 		.normal-text();
 
@@ -84,7 +84,7 @@
 		margin: 0 !important;
 
 		@media @desktop {
-			background-color: @primaryLighter;
+			background-color: @primary;
 			min-height: 750px;
 		}
 		@media @mobile {
@@ -215,8 +215,8 @@
 		}
 
 		.icon {
-			&.fa-check { color: @green; }
-			&.fa-warning { color: @orange; }
+			&.fa-check { color: @primary; }
+			&.fa-warning { color: @warning; }
 			&.fa-times { color: @red; }
 		}
 	}

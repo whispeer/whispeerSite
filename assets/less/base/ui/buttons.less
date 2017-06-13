@@ -12,8 +12,6 @@
 // .btn--input					- This button will be as big as a normal input element
 // .btn--primary				- This button indicates that it is the primary feature / clickable thing of the form
 // .btn--danger					- This button indicates that it might do something harmfull, like deleting items etc
-// .btn--warning				- This button indicates that it might do something unwanted. Still the operation executed should be less harmfull than the danger button
-// .btn--info					- This button indicates that further information will be shown when clicked
 // .btn--inverse				- Inversed Default
 // :hover						- Buttons get highlighted when hovered
 // :disabled					- This button indicated that it is disabled and therefore not usable
@@ -41,7 +39,7 @@
 
 	background-image: none;
 	border-radius: @inputBorderRadius;
-	.buttonBackground(@btnBackground, @btnBackgroundHover, @btnBackgroundFocus, @btnBackgroundActive, @grayDark, 0 1px 1px rgba(255,255,255,.75));
+	.buttonBackground(@btnBackground, @btnBackgroundHover, @btnBackgroundFocus, @btnBackgroundActive, @grey, 0 1px 1px rgba(255,255,255,.75));
 	border: none;
 	text-decoration: none !important;
 	text-align: center;
@@ -86,27 +84,21 @@
 .btn-saveButton--success {
 	.buttonBackground(@btnGreenBackground, @btnGreenBackgroundHover, @btnGreenBackgroundFocus, @btnGreenBackgroundActive);
 	a {
-		color: @grayLighter;
+		color: @white;
 		&:hover {
-			color: @grayLight;
+			color: @white;
 		}
 	}
 }
-.btn--primaryLight {
-	.buttonBackground(@btnGreenLightBackground, @btnGreenLightBackgroundHover, @btnGreenLightBackgroundFocus, @btnGreenLightBackgroundActive);
-	&:focus, &:active {
-		box-shadow: inset 2px 2px 1px rgba(0, 0, 0, 0.18);
-	}
-}
+// .btn--primaryLight {
+// 	.buttonBackground(@btnGreenLightBackground, @btnGreenLightBackgroundHover, @btnGreenLightBackgroundFocus, @btnGreenLightBackgroundActive);
+// 	&:focus, &:active {
+// 		box-shadow: inset 2px 2px 1px rgba(0, 0, 0, 0.18);
+// 	}
+// }
 .btn--danger,
 .btn-saveButton--failure {
 	.buttonBackground(@btnRedBackground, @btnRedBackgroundHover, @btnRedBackgroundFocus, @btnRedBackgroundActive);
-}
-.btn--warning {
-	.buttonBackground(@btnOrangeBackground, @btnOrangeBackgroundHover, @btnOrangeBackgroundFocus, @btnOrangeBackgroundActive);
-}
-.btn--info {
-	.buttonBackground(@btnBlueBackground, @btnBlueBackgroundHover, @btnBlueBackgroundFocus, @btnBlueBackgroundActive);
 }
 .btn--inverse,
 .btn-saveButton--operation {
@@ -148,7 +140,7 @@
 .btn-saveButton--operation,
 .btn-saveButton--operation:hover { // disabled should overwrite all other styles so it goes down here
 	background: @btnBackgroundHover;
-	color: @grayLight !important; // this has to be important...
+	color: @grey !important; // this has to be important...
 	cursor: not-allowed;
 	line-height: 38px;
 	text-shadow: none;
@@ -192,10 +184,10 @@
 
 	width: 175px;
 
-	background-color: @grayLighter;
+	background-color: @isabelline;
 	color: @textColorLighter;
 
-	box-shadow: -1px 1px 10px fade(@gray, 30%);
+	box-shadow: -1px 1px 10px fade(@gainsboro, 30%);
 
 	border-radius: 0 0 0 @inputBorderRadius;
 

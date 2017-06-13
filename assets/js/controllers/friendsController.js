@@ -2,10 +2,15 @@
 * friendsController
 **/
 
+var cssService = require("services/css.service").default;
+var friendsService = require("services/friendsService");
+var localize = require("i18n/localizationConfig");
+var userService = require("user/userService");
+
 define(["bluebird", "whispeerHelper", "controllers/controllerModule"], function (Bluebird, h, controllerModule) {
 	"use strict";
 
-	function friendsController($scope, cssService, friendsService, userService, localize)  {
+	function friendsController($scope)  {
 		cssService.setClass("friendsView");
 		$scope.friends = [];
 		$scope.requests = [];
@@ -57,7 +62,7 @@ define(["bluebird", "whispeerHelper", "controllers/controllerModule"], function 
 		};
 	}
 
-	friendsController.$inject = ["$scope", "ssn.cssService", "ssn.friendsService", "ssn.userService", "localize"];
+	friendsController.$inject = ["$scope"];
 
 	controllerModule.controller("ssn.friendsController", friendsController);
 });
