@@ -2,13 +2,13 @@
 
 var jQuery = require("jquery");
 var directivesModule = require("directives/directivesModule");
-var EmojifyConverter = require("emojify");
+var EmojifyConverter = require("emoji-js");
 
 var syntaxifyDirective = function ($timeout) {
 	"use strict";
 
 	var emojify = new EmojifyConverter();
-	emojify.img_sets.apple.sheet = "/assets/img/sheet_apple_64.png";
+	emojify.img_sets.apple.sheet = "/assets/img/sheet_apple_16.png";
 	emojify.use_sheet = true;
 	emojify.include_title = true;
 

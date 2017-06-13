@@ -21,7 +21,6 @@
     "worker-queue.js": "~0.1.0",
     "angular": "1.5.8",
     "visionmedia-debug": "~2.2.0",
-    "angular-ui-router": "~0.3.1",
-    "js-emoji": "^3.0.2"
+    "angular-ui-router": "~0.3.1"
   }
 }

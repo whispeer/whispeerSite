@@ -87,7 +87,6 @@ var config = {
 			workerQueue: "worker/worker-queue",
 			PromiseWorker: "worker/worker-loader",
 			debug: "bower/visionmedia-debug/dist/debug",
-			emojify: "bower/js-emoji/lib/emoji",
 			qtip: "qtip2"
 		}
 	},
