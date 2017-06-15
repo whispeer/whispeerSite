@@ -32,7 +32,7 @@
 	font-family: "Roboto Condensed", "Roboto", sans-serif;
 
 	@media @mobile {
-		width: 100%;
+		width: ~"calc(100% - 2em)";
 		padding: 0.5em 2em 0.5em 8em;
 
 		margin: 6em auto 2em;
@@ -45,7 +45,7 @@
 	width: 12em;
 
 	@media @desktop {
-		top: -1em;
+		top: -23px;
 		transition: top 1s ease-in-out;
 	}
 
@@ -82,10 +82,10 @@
 	top: 6px;
 	right: 6px;
 
-	color: @grayLight;
+	color: @darkgrey;
 
 	&:hover {
-		color: @gray;
+		color: @grey;
 	}
 }
 
