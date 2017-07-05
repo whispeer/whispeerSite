@@ -1,6 +1,6 @@
 var Bluebird = require("bluebird");
 var SecuredData = require("asset/securedDataWithMetaData");
-var h = require("whispeerHelper");
+var h = require("whispeerHelper").default;
 
 var userService = require("user/userService");
 var socket = require("services/socket.service").default;

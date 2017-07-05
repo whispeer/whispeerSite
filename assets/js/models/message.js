@@ -2,7 +2,7 @@ var userService = require("user/userService");
 var socket = require("services/socket.service").default;
 var keyStore = require("services/keyStore.service").default;
 
-var h = require("whispeerHelper");
+var h = require("whispeerHelper").default;
 var SecuredData = require("asset/securedDataWithMetaData");
 var Bluebird = require("bluebird");
 

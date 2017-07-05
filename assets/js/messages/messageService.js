@@ -2,7 +2,7 @@
 * MessageService
 **/
 
-var h = require("whispeerHelper");
+var h = require("whispeerHelper").default;
 var Observer = require("asset/observer");
 var Bluebird = require("bluebird");
 

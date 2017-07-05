@@ -24,7 +24,7 @@
 }
 */
 
-var h = require("whispeerHelper");
+var h = require("whispeerHelper").default;
 var chelper = require("crypto/helper");
 var sjcl = require("sjcl");
 var waitForReady = require("crypto/waitForReady");

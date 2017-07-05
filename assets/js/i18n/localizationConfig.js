@@ -1,5 +1,5 @@
 var localizationLoader = require("./localization.loader").default;
-var h = require("whispeerHelper");
+var h = require("whispeerHelper").default;
 var Localize = require("./localize").default;
 
 var availableLanguages = ["en", "de"];

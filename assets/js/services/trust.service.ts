@@ -10,7 +10,7 @@ import sessionService from "./session.service";
 
 const initService = require("services/initService");
 
-const h = require("whispeerHelper");
+const h = require("whispeerHelper").default;
 const trustManager = require("crypto/trustManager");
 const signatureCache = require("crypto/signatureCache");
 

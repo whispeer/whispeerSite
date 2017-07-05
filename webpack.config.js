@@ -72,10 +72,11 @@ var config = {
 	devtool: devtool,
 	bail: bail,
 	resolve: {
-		root: [
-			path.resolve("./assets/js")
+		modules: [
+			path.resolve("./assets/js"),
+			"node_modules"
 		],
-		extensions: ["", ".webpack.js", ".web.js", ".ts", ".tsx", ".js"],
+		extensions: [".webpack.js", ".web.js", ".ts", ".tsx", ".js"],
 		alias: {
 			whispeerHelper: "helper/helper",
 			angular: "bower/angular/angular",
@@ -91,7 +92,7 @@ var config = {
 		}
 	},
 	module: {
-		loaders: [
+		rules: [
 			{ test: /angular\.js/, loader: "imports-loader?jquery!exports-loader?angular" },
 			{ test: /\.html$/, loader: "ngtemplate-loader?relativeTo=assets/views/!html-loader?-attrs" },
 			// all files with a `.ts` or `.tsx` extension will be handled by `ts-loader`

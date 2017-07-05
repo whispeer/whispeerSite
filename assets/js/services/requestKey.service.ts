@@ -3,7 +3,7 @@ import * as Bluebird from 'bluebird';
 import socketService from './socket.service';
 import CacheService from './Cache';
 
-const h = require("whispeerHelper");
+import h from "../helper/helper";
 const debug = require("debug");
 const keyStore = require("crypto/keyStore");
 

@@ -1,4 +1,4 @@
-const h = require("whispeerHelper");
+const h = require("whispeerHelper").default;
 const validator = require("validation/validator");
 const SecuredData = require("asset/securedDataWithMetaData")
 

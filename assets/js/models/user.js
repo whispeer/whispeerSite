@@ -2,7 +2,7 @@ var errorServiceInstance = require("services/error.service.ts").errorServiceInst
 var keyStoreService = require("crypto/keyStore");
 var socketService = require("services/socket.service.ts").default;
 
-var h = require("whispeerHelper");
+var h = require("whispeerHelper").default;
 var State = require("asset/state");
 var SecuredData = require("asset/securedDataWithMetaData");
 var Bluebird = require("bluebird");

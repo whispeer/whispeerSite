@@ -1,7 +1,7 @@
 /**
 * imageUploadService
 **/
-var h = require("whispeerHelper");
+var h = require("whispeerHelper").default;
 var Progress = require("asset/Progress");
 var Queue = require("asset/Queue");
 var Bluebird = require("bluebird");

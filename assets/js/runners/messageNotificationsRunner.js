@@ -8,8 +8,9 @@ var messageService = require("messages/messageService");
 
 runnerModule.run(["ssn.notificationService", function (notificationService) {
 	"use strict";
+	// TODO CH
 
-	messageService.listen(function(m) {
+	/*messageService.listen(function(m) {
 		if (!m.isOwn()) {
 			if (!messageService.isActiveTopic(m.getTopicID()) || !windowService.isVisible) {
 				windowService.playMessageSound();
@@ -24,5 +25,5 @@ runnerModule.run(["ssn.notificationService", function (notificationService) {
 		if (messageService.data.unread === 0) {
 			titleService.removeAdvancedTitle("newmessage");
 		}
-	}, "updateUnread");
+	}, "updateUnread");*/
 }]);

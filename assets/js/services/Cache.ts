@@ -1,7 +1,7 @@
 import { errorServiceInstance } from "./error.service";
 import * as Bluebird from "bluebird";
 import Dexie from "dexie";
-const h = require("../helper/helper");
+import h from "../helper/helper";
 
 var db: Dexie;
 
@@ -170,7 +170,7 @@ export default class Cache {
 			return Bluebird.resolve([]);
 		}
 
-		return this._db.cache.where("id").startsWith(this._name + "/");
+		return Bluebird.resolve(this._db.cache.where("id").startsWith(this._name + "/").toArray());
 	}
 
 	/**
