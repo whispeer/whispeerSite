@@ -62,7 +62,7 @@ messageService = {
 			}
 
 			return socket.definitlyEmit("chat.getMultiple", {
-				ids: unloadedChatIDs.slice(0, 20)
+				ids: unloadedChatIDs.slice(0, 10)
 			})
 		}).then(function (latest) {
 			return Bluebird.all(latest.chats.map(function (chatData) {
