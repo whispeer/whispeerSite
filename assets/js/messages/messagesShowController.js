@@ -2,19 +2,20 @@
 * messagesController
 **/
 
+"use strict";
+
+const jQuery = require("jquery");
+const h = require("whispeerHelper").default;
+const Bluebird = require("bluebird");
+
 const Burst = require("./burst");
 
 const errorService = require("services/error.service").errorServiceInstance;
 const ImageUploadService = require("services/imageUploadService");
 const messageService = require("messages/messageService");
 const TopicUpdate = require("models/topicUpdate");
-
-"use strict";
-
-const jQuery = require("jquery");
-const h = require("whispeerHelper").default;
 const State = require("asset/state");
-const Bluebird = require("bluebird");
+
 const messagesModule = require("messages/messagesModule");
 
 function messagesController($scope, $element, $state, $stateParams, $timeout) {
