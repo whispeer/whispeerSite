@@ -5,7 +5,7 @@ var localize = require("i18n/localizationConfig");
 "use strict";
 
 const circlesModule = require('controllers/controllerModule');
-const h = require('whispeerHelper');
+const h = require("whispeerHelper").default;
 const Bluebird = require('bluebird');
 const State = require('asset/state');
 

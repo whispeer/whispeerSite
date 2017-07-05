@@ -7,7 +7,7 @@ var messageService = require("messages/messageService");
 "use strict";
 
 const jQuery = require('jquery');
-const h = require('whispeerHelper');
+const h = require("whispeerHelper").default;
 const State = require('asset/state');
 const Bluebird = require('bluebird');
 const controllerModule = require('controllers/controllerModule');

@@ -10,7 +10,7 @@ var userService = require("user/userService");
 "use strict";
 
 const Bluebird = require('bluebird');
-const h = require('whispeerHelper');
+const h = require("whispeerHelper").default;
 const controllerModule = require('controllers/controllerModule');
 
 function friendsController($scope)  {

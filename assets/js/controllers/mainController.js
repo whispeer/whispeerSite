@@ -11,7 +11,7 @@ var settingsService = require("services/settings.service").default;
 "use strict";
 
 const Bluebird = require('bluebird');
-const h = require('whispeerHelper');
+const h = require("whispeerHelper").default;
 const State = require('asset/state');
 const controllerModule = require('controllers/controllerModule');
 

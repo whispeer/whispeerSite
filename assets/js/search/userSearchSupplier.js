@@ -4,7 +4,7 @@ var errorService = require("services/error.service").errorServiceInstance;
 "use strict";
 const angular = require('angular');
 const Bluebird = require('bluebird');
-const h = require('whispeerHelper');
+const h = require("whispeerHelper").default;
 
 module.exports = function () {
     angular.module("ssn.search").factory("userSearchSupplier", [function () {

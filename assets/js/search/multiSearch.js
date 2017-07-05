@@ -1,6 +1,6 @@
 "use strict";
 
-const h = require('whispeerHelper');
+const h = require("whispeerHelper").default;
 
 module.exports = function ($injector, scope, iElement) {
     var selectedIDs = [];

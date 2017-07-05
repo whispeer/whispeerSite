@@ -14,7 +14,7 @@ var friendsService = require("services/friendsService");
 "use strict";
 
 const jQuery = require('jquery');
-const h = require('whispeerHelper');
+const h = require("whispeerHelper").default;
 const config = require('config');
 const controllerModule = require('controllers/controllerModule');
 const debug = require('debug');

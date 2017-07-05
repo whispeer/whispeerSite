@@ -1,7 +1,7 @@
 
 "use strict";
 
-const h = require('whispeerHelper');
+const h = require("whispeerHelper").default;
 const Bluebird = require('bluebird');
 const keyStore = require('crypto/keyStore');
 

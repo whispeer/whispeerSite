@@ -1,6 +1,6 @@
 "use strict";
 
-const h = require('whispeerHelper');
+const h = require("whispeerHelper").default;
 const Observer = require('asset/observer');
 
 var Progress = function (options) {

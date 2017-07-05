@@ -1,5 +1,5 @@
 "use strict";
-const h = require('whispeerHelper');
+const h = require("whispeerHelper").default;
 var Resizable = function (options) {
     var wrapper = jQuery(".resizableWrapper");
 

@@ -1,6 +1,6 @@
 "use strict";
 
-const h = require('whispeerHelper');
+const h = require("whispeerHelper").default;
 const directivesModule = require('directives/directivesModule');
 require('qtip');
 

@@ -8,7 +8,7 @@ var socketService = require("services/socket.service").default;
 
 "use strict";
 
-const h = require('whispeerHelper');
+const h = require("whispeerHelper").default;
 const controllerModule = require('controllers/controllerModule');
 
 function fundThankYouController() {

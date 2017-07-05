@@ -10,7 +10,7 @@ var userService = require("user/userService");
 "use strict";
 
 const Bluebird = require('bluebird');
-const h = require('whispeerHelper');
+const h = require("whispeerHelper").default;
 const State = require('asset/state');
 const qr = require('libs/qr');
 const saveAs = require('libs/filesaver');

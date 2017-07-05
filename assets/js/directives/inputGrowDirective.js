@@ -1,7 +1,7 @@
 "use strict";
 
 const directivesModule = require('directives/directivesModule');
-const h = require('whispeerHelper');
+const h = require("whispeerHelper").default;
 
 var BOTTOM_PADDING = 10;
 

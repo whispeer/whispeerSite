@@ -1,12 +1,14 @@
 "use strict";
-const angular = require('angular');
-require('search/filterSearchSupplier');
-require('search/userSearchSupplier');
-require('search/circleSearchSupplier');
-require('search/friendsSearchSupplier');
+
+const angular = require("angular");
+const filterSearchSupplier = require("search/filterSearchSupplier");
+const userSearchSupplier = require("search/userSearchSupplier");
+const circleSearchSupplier = require("search/circleSearchSupplier");
+const friendsSearchSupplier = require("search/friendsSearchSupplier");
+
 angular.module("ssn.search", []);
 
-var i;
-for (i = 1; i < arguments.length; i += 1) {
-    arguments[i]();
-}
+filterSearchSupplier()
+userSearchSupplier()
+circleSearchSupplier()
+friendsSearchSupplier()

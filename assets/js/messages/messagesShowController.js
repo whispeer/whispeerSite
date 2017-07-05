@@ -12,7 +12,7 @@ var TopicUpdate = require("models/topicUpdate");
 "use strict";
 
 const jQuery = require('jquery');
-const h = require('whispeerHelper');
+const h = require("whispeerHelper").default;
 const State = require('asset/state');
 const Bluebird = require('bluebird');
 const messagesModule = require('messages/messagesModule');
