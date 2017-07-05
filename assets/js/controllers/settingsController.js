@@ -9,193 +9,197 @@ var filterService = require("services/filter.service.ts").default;
 var localize = require("i18n/localizationConfig");
 var settingsService = require("services/settings.service").default;
 
-define(["whispeerHelper", "bluebird", "asset/state", "libs/qr", "controllers/controllerModule"], function (h, Bluebird, State, qr, controllerModule) {
-	"use strict";
+"use strict";
 
-	function settingsController($scope, $timeout) {
-		cssService.setClass("settingsView", true);
+const h = require('whispeerHelper');
+const Bluebird = require('bluebird');
+const State = require('asset/state');
+const qr = require('libs/qr');
+const controllerModule = require('controllers/controllerModule');
 
-		var saveSafetyState = new State.default();
-		$scope.saveSafetyState = saveSafetyState.data;
+function settingsController($scope, $timeout) {
+    cssService.setClass("settingsView", true);
 
-		var resetSafetyState = new State.default();
-		$scope.resetSafetyState = resetSafetyState.data;
+    var saveSafetyState = new State.default();
+    $scope.saveSafetyState = saveSafetyState.data;
 
-		var saveNameState = new State.default();
-		$scope.saveNameState = saveNameState.data;
+    var resetSafetyState = new State.default();
+    $scope.resetSafetyState = resetSafetyState.data;
 
-		var saveMailState = new State.default();
-		$scope.saveMailState = saveMailState.data;
+    var saveNameState = new State.default();
+    $scope.saveNameState = saveNameState.data;
 
-		var savePasswordState = new State.default();
-		$scope.savePasswordState = savePasswordState.data;
+    var saveMailState = new State.default();
+    $scope.saveMailState = saveMailState.data;
 
-		var saveGeneralState = new State.default();
-		$scope.saveGeneralState = saveGeneralState.data;
+    var savePasswordState = new State.default();
+    $scope.savePasswordState = savePasswordState.data;
 
-		$scope.safetySorted = ["birthday", "location", "relationship", "education", "work", "gender", "languages"];
-		$scope.languages = ["de", "en"];
+    var saveGeneralState = new State.default();
+    $scope.saveGeneralState = saveGeneralState.data;
 
-		$scope.pwState = { password: "" };
-		$scope.pwValidationOptions = {
-			validateOnCallback: true,
-			hideOnInteraction: true
-		};
+    $scope.safetySorted = ["birthday", "location", "relationship", "education", "work", "gender", "languages"];
+    $scope.languages = ["de", "en"];
 
-		$scope.getFiltersByID = filterService.getFiltersByID;
+    $scope.pwState = { password: "" };
+    $scope.pwValidationOptions = {
+        validateOnCallback: true,
+        hideOnInteraction: true
+    };
 
-		userService.getown().loadBasicData()
-		.then(function () {
-			var privacy = settingsService.getBranch("privacy");
-			var sound = settingsService.getBranch("sound");
-			var messages = settingsService.getBranch("messages");
-			var uiLanguage = settingsService.getBranch("uiLanguage");
+    $scope.getFiltersByID = filterService.getFiltersByID;
 
-			$scope.safety = h.deepCopyObj(privacy, 4);
+    userService.getown().loadBasicData()
+    .then(function () {
+        var privacy = settingsService.getBranch("privacy");
+        var sound = settingsService.getBranch("sound");
+        var messages = settingsService.getBranch("messages");
+        var uiLanguage = settingsService.getBranch("uiLanguage");
 
-			$scope.notificationSound = "on";
-			$scope.sendShortCut = "enter";
+        $scope.safety = h.deepCopyObj(privacy, 4);
 
-			$scope.uiLanguage = localize.getLanguage();
+        $scope.notificationSound = "on";
+        $scope.sendShortCut = "enter";
 
-			if (sound) {
-				$scope.notificationSound = (sound.enabled ? "on" : "off");
-			}
-			if (messages) {
-				$scope.sendShortCut = messages.sendShortCut || "enter";
-			}
-			if (uiLanguage && uiLanguage.data) {
-				$scope.uiLanguage = uiLanguage.data;
-			}
+        $scope.uiLanguage = localize.getLanguage();
 
-			$scope.mails = {
-				available: typeof settingsService.getBranch("mailsEnabled") !== "undefined",
-				enabled: (settingsService.getBranch("mailsEnabled") ? "true": "false")
-			};
+        if (sound) {
+            $scope.notificationSound = (sound.enabled ? "on" : "off");
+        }
+        if (messages) {
+            $scope.sendShortCut = messages.sendShortCut || "enter";
+        }
+        if (uiLanguage && uiLanguage.data) {
+            $scope.uiLanguage = uiLanguage.data;
+        }
 
-			var names = userService.getown().data.names || {};
-			$scope.firstName = names.firstname;
-			$scope.lastName = names.lastname;
-			$scope.nickName = names.nickname;
-			var fp = userService.getown().data.fingerprint;
-			$scope.fingerprint = [fp.substr(0,13), fp.substr(13,13), fp.substr(26,13), fp.substr(39,13)];
+        $scope.mails = {
+            available: typeof settingsService.getBranch("mailsEnabled") !== "undefined",
+            enabled: (settingsService.getBranch("mailsEnabled") ? "true": "false")
+        };
 
-			qr.image({
-				image: document.getElementById("fingerPrintQR"),
-				value: fp,
-				size: 7,
-				level: "L"
-			});
-		}).catch(
-			errorService.criticalError
-		);
+        var names = userService.getown().data.names || {};
+        $scope.firstName = names.firstname;
+        $scope.lastName = names.lastname;
+        $scope.nickName = names.nickname;
+        var fp = userService.getown().data.fingerprint;
+        $scope.fingerprint = [fp.substr(0,13), fp.substr(13,13), fp.substr(26,13), fp.substr(39,13)];
 
-		$scope.saveGeneral = function () {
-			saveGeneralState.pending();
+        qr.image({
+            image: document.getElementById("fingerPrintQR"),
+            value: fp,
+            size: 7,
+            level: "L"
+        });
+    }).catch(
+        errorService.criticalError
+    );
 
-			var savePromise = Bluebird.try(function () {
-				var sound = settingsService.getBranch("sound");
-				var messages = settingsService.getBranch("messages");
+    $scope.saveGeneral = function () {
+        saveGeneralState.pending();
 
-				sound.enabled = ($scope.notificationSound === "on" ? true : false);
-				var mailsEnabled = ($scope.mails.enabled === "true" ? true : false);
-				messages.sendShortCut = $scope.sendShortCut;
+        var savePromise = Bluebird.try(function () {
+            var sound = settingsService.getBranch("sound");
+            var messages = settingsService.getBranch("messages");
 
-				localize.setLanguage($scope.uiLanguage);
+            sound.enabled = ($scope.notificationSound === "on" ? true : false);
+            var mailsEnabled = ($scope.mails.enabled === "true" ? true : false);
+            messages.sendShortCut = $scope.sendShortCut;
 
-				settingsService.updateBranch("sound", sound);
-				settingsService.updateBranch("messages", messages);
-				settingsService.updateBranch("mailsEnabled", mailsEnabled);
-				settingsService.updateBranch("uiLanguage", $scope.uiLanguage);
+            localize.setLanguage($scope.uiLanguage);
 
-				return settingsService.uploadChangedData();
-			});
+            settingsService.updateBranch("sound", sound);
+            settingsService.updateBranch("messages", messages);
+            settingsService.updateBranch("mailsEnabled", mailsEnabled);
+            settingsService.updateBranch("uiLanguage", $scope.uiLanguage);
 
-			errorService.failOnErrorPromise(saveGeneralState, savePromise);
-		};
+            return settingsService.uploadChangedData();
+        });
 
-		$scope.saveSafety = function () {
-			saveSafetyState.pending();
+        errorService.failOnErrorPromise(saveGeneralState, savePromise);
+    };
 
-			var savePromise = Bluebird.try(function () {
-				settingsService.updateBranch("privacy", $scope.safety);
-				return settingsService.uploadChangedData();
-			}).then(function () {
-				return userService.getown().uploadChangedProfile();
-			});
+    $scope.saveSafety = function () {
+        saveSafetyState.pending();
 
-			errorService.failOnErrorPromise(saveSafetyState, savePromise);
-		};
+        var savePromise = Bluebird.try(function () {
+            settingsService.updateBranch("privacy", $scope.safety);
+            return settingsService.uploadChangedData();
+        }).then(function () {
+            return userService.getown().uploadChangedProfile();
+        });
 
-		$scope.resetSafety = function () {
-			resetSafetyState.pending();
+        errorService.failOnErrorPromise(saveSafetyState, savePromise);
+    };
 
-			var resetPromise = Bluebird.try(function () {
-				var branch = settingsService.getBranch("privacy");
-				$scope.safety = h.deepCopyObj(branch, 4);
-				$scope.$broadcast("reloadInitialSelection");
-			});
+    $scope.resetSafety = function () {
+        resetSafetyState.pending();
 
-			errorService.failOnErrorPromise(resetSafetyState, resetPromise);
-		};
+        var resetPromise = Bluebird.try(function () {
+            var branch = settingsService.getBranch("privacy");
+            $scope.safety = h.deepCopyObj(branch, 4);
+            $scope.$broadcast("reloadInitialSelection");
+        });
 
-		$scope.mail = userService.getown().getMail();
+        errorService.failOnErrorPromise(resetSafetyState, resetPromise);
+    };
 
-		$scope.saveName = function () {
-			saveNameState.pending();
+    $scope.mail = userService.getown().getMail();
 
-			var me = userService.getown();
+    $scope.saveName = function () {
+        saveNameState.pending();
 
-			var savePromise = me.setProfileAttribute("basic", {
-				firstname: $scope.firstName,
-				lastname: $scope.lastName
-			}).then(function () {
-				return me.uploadChangedProfile();
-			}).then(function () {
-				return $timeout();
-			});
+        var me = userService.getown();
 
-			errorService.failOnErrorPromise(saveNameState, savePromise);
-		};
+        var savePromise = me.setProfileAttribute("basic", {
+            firstname: $scope.firstName,
+            lastname: $scope.lastName
+        }).then(function () {
+            return me.uploadChangedProfile();
+        }).then(function () {
+            return $timeout();
+        });
 
-		$scope.checkNickName = function () {
+        errorService.failOnErrorPromise(saveNameState, savePromise);
+    };
 
-		};
+    $scope.checkNickName = function () {
 
-		$scope.saveNickName = function () {
+    };
 
-		};
+    $scope.saveNickName = function () {
 
-		$scope.checkMail = function () {
+    };
 
-		};
+    $scope.checkMail = function () {
 
-		$scope.saveMail = function () {
-			saveMailState.pending();
+    };
 
-			var savePromise = userService.getown().setMail($scope.mail);
+    $scope.saveMail = function () {
+        saveMailState.pending();
 
-			errorService.failOnErrorPromise(saveMailState, savePromise);
-		};
+        var savePromise = userService.getown().setMail($scope.mail);
 
-		$scope.savePassword = function () {
-			savePasswordState.pending();
+        errorService.failOnErrorPromise(saveMailState, savePromise);
+    };
 
-			if ($scope.pwValidationOptions.checkValidations()) {
-				savePasswordState.failed();
-				return;
-			}
+    $scope.savePassword = function () {
+        savePasswordState.pending();
 
-			var savePromise = userService.getown().changePassword($scope.pwState.password);
+        if ($scope.pwValidationOptions.checkValidations()) {
+            savePasswordState.failed();
+            return;
+        }
 
-			errorService.failOnErrorPromise(savePasswordState, savePromise);
+        var savePromise = userService.getown().changePassword($scope.pwState.password);
 
-			//The easy version at first!
-			//TODO: improve for more reliability against server.
-		};
-	}
+        errorService.failOnErrorPromise(savePasswordState, savePromise);
 
-	settingsController.$inject = ["$scope", "$timeout"];
+        //The easy version at first!
+        //TODO: improve for more reliability against server.
+    };
+}
 
-	controllerModule.controller("ssn.settingsController", settingsController);
-});
+settingsController.$inject = ["$scope", "$timeout"];
+
+controllerModule.controller("ssn.settingsController", settingsController);

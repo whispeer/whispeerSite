@@ -1,39 +1,40 @@
 var filterService = require("services/filter.service.ts").default;
 
-define(["angular", "bluebird"], function (angular) {
-	"use strict";
-	return function () {
-		angular.module("ssn.search").factory("filterSearchSupplier", [function () {
-			var Search = function () {};
+"use strict";
+const angular = require('angular');
+require('bluebird');
 
-			//how do we sort stuff?
-			//first: alwaysAvailableFilter
-			//second: circles
-			//third: specific user
+module.exports = function () {
+    angular.module("ssn.search").factory("filterSearchSupplier", [function () {
+        var Search = function () {};
 
-			function matchesQuery(query, val) {
-				if (query === "") {
-					return true;
-				}
+        //how do we sort stuff?
+        //first: alwaysAvailableFilter
+        //second: circles
+        //third: specific user
 
-				if (val.toLowerCase().indexOf(query) > -1) {
-					return true;
-				}
+        function matchesQuery(query, val) {
+            if (query === "") {
+                return true;
+            }
 
-				return false;
-			}
+            if (val.toLowerCase().indexOf(query) > -1) {
+                return true;
+            }
 
-			Search.prototype.search = function (query) {
-				query = query.toLowerCase();
+            return false;
+        }
 
-				return filterService.getAllFilters().then(function (filters) {
-					return filters.filter(function (filter) {
-						return matchesQuery(query, filter.name);
-					});
-				});
-			};
+        Search.prototype.search = function (query) {
+            query = query.toLowerCase();
 
-			return Search;
-		}]);
-	};
-});
+            return filterService.getAllFilters().then(function (filters) {
+                return filters.filter(function (filter) {
+                    return matchesQuery(query, filter.name);
+                });
+            });
+        };
+
+        return Search;
+    }]);
+};

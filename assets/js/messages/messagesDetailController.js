@@ -5,45 +5,48 @@
 var errorService = require("services/error.service").errorServiceInstance;
 var messageService = require("messages/messageService");
 
-define(["whispeerHelper", "asset/state", "bluebird", "messages/messagesModule"], function (h, State, Bluebird, messagesModule) {
-	"use strict";
+"use strict";
 
-	function messagesDetailController($scope, $element, $state, $stateParams) {
-		var topicLoadingState = new State.default();
-		$scope.topicLoadingState = topicLoadingState.data;
+const h = require('whispeerHelper');
+const State = require('asset/state');
+const Bluebird = require('bluebird');
+const messagesModule = require('messages/messagesModule');
 
-		topicLoadingState.pending();
+function messagesDetailController($scope, $element, $state, $stateParams) {
+    var topicLoadingState = new State.default();
+    $scope.topicLoadingState = topicLoadingState.data;
 
-		var topicID = h.parseDecimal($stateParams.topicid);
+    topicLoadingState.pending();
 
-		var topicDetailsSavingState = new State.default();
-		$scope.topicDetailsSavingState = topicDetailsSavingState.data;
+    var topicID = h.parseDecimal($stateParams.topicid);
 
-		$scope.saveTitle = function () {
-			topicDetailsSavingState.pending();
+    var topicDetailsSavingState = new State.default();
+    $scope.topicDetailsSavingState = topicDetailsSavingState.data;
 
-			var savePromise = $scope.activeTopic.obj.setTitle($scope.topicTitle).then(function () {
-				$state.go("app.messages.show", { topicid: topicID });
+    $scope.saveTitle = function () {
+        topicDetailsSavingState.pending();
 
-				return null;
-			});
+        var savePromise = $scope.activeTopic.obj.setTitle($scope.topicTitle).then(function () {
+            $state.go("app.messages.show", { topicid: topicID });
 
-			errorService.failOnErrorPromise(topicDetailsSavingState, savePromise);
-		};
+            return null;
+        });
 
-		$scope.topicTitle = "";
+        errorService.failOnErrorPromise(topicDetailsSavingState, savePromise);
+    };
 
-		var getTopicPromise = messageService.getTopic(topicID).then(function (topic) {
-			messageService.setActiveTopic(topicID);
-			$scope.activeTopic = topic.data;
+    $scope.topicTitle = "";
 
-			$scope.topicTitle = topic.data.title || "";
-		});
+    var getTopicPromise = messageService.getTopic(topicID).then(function (topic) {
+        messageService.setActiveTopic(topicID);
+        $scope.activeTopic = topic.data;
 
-		errorService.failOnErrorPromise(topicLoadingState, getTopicPromise);
-	}
+        $scope.topicTitle = topic.data.title || "";
+    });
 
-	messagesDetailController.$inject = ["$scope", "$element", "$state", "$stateParams"];
+    errorService.failOnErrorPromise(topicLoadingState, getTopicPromise);
+}
 
-	messagesModule.controller("ssn.messagesDetailController", messagesDetailController);
-});
+messagesDetailController.$inject = ["$scope", "$element", "$state", "$stateParams"];
+
+messagesModule.controller("ssn.messagesDetailController", messagesDetailController);

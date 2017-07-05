@@ -1,166 +1,168 @@
-define(["whispeerHelper", "directives/directivesModule", "qtip"], function (h, directivesModule) {
-	"use strict";
+"use strict";
 
-	function validatedForm(localize) {
-		return {
-			scope:	false,
-			restrict: "A",
-			link: function (scope, iElement, iAttr) {
-				var options = scope.$eval(iAttr.validatedForm);
+const h = require('whispeerHelper');
+const directivesModule = require('directives/directivesModule');
+require('qtip');
 
-				function getElementScope(element) {
-					if (typeof element.scope() === "function" && element.scope()) {
-						return element.scope();
-					} else {
-						return element.data("scopeFallback");
-					}
-				}
+function validatedForm(localize) {
+    return {
+        scope:	false,
+        restrict: "A",
+        link: function (scope, iElement, iAttr) {
+            var options = scope.$eval(iAttr.validatedForm);
 
-				var validations = [];
-				iElement.find("[validation]").each(function (i, e) {
-					var element = jQuery(e);
-					validations.push({
-						element: element,
-						validator: element.attr("validation"),
-						validations: []
-					});
-				});
+            function getElementScope(element) {
+                if (typeof element.scope() === "function" && element.scope()) {
+                    return element.scope();
+                } else {
+                    return element.data("scopeFallback");
+                }
+            }
 
-				var activeFailedValidation = false;
+            var validations = [];
+            iElement.find("[validation]").each(function (i, e) {
+                var element = jQuery(e);
+                validations.push({
+                    element: element,
+                    validator: element.attr("validation"),
+                    validations: []
+                });
+            });
 
-				function removeErrorHints(e) {
-					if (e && e.keyCode === 13) {
-						return;
-					}
+            var activeFailedValidation = false;
 
-					activeFailedValidation = false;
-					validations.forEach(function (vElement) {
-						vElement.element.qtip("destroy", true);
-					});
-				}
+            function removeErrorHints(e) {
+                if (e && e.keyCode === 13) {
+                    return;
+                }
 
-				function showErrorHint(element, failedValidation) {
-					if (failedValidation === activeFailedValidation) {
-						return;
-					} else if (activeFailedValidation) {
-						removeErrorHints();
-					}
+                activeFailedValidation = false;
+                validations.forEach(function (vElement) {
+                    vElement.element.qtip("destroy", true);
+                });
+            }
 
-					if (!failedValidation.translation) {
-						return;
-					}
+            function showErrorHint(element, failedValidation) {
+                if (failedValidation === activeFailedValidation) {
+                    return;
+                } else if (activeFailedValidation) {
+                    removeErrorHints();
+                }
 
-					activeFailedValidation = failedValidation;
+                if (!failedValidation.translation) {
+                    return;
+                }
 
-					var showWhen = {
-						ready: true
-					};
-					var hideWhen = false;
+                activeFailedValidation = failedValidation;
 
-					element.qtip({
-						content: {
-							text: localize.getLocalizedString(failedValidation.translation),
-						},
-						style: {
-							classes: "qtip-bootstrap"
-						},
-						position: {
-							my: "top center",
-							at: "bottom center"
-						},
-						show: showWhen,
-						hide: hideWhen
-					});
-				}
+                var showWhen = {
+                    ready: true
+                };
+                var hideWhen = false;
 
-				function validateOnChange(vElement, validation) {
-					vElement.element.on("keyup", h.debounce(function () {
-						if (getElementScope(vElement.element).$eval(validation.validator)) {
-							showErrorHint(vElement.element, validation);
-						}
-					}, validation.onChange));
-				}
+                element.qtip({
+                    content: {
+                        text: localize.getLocalizedString(failedValidation.translation),
+                    },
+                    style: {
+                        classes: "qtip-bootstrap"
+                    },
+                    position: {
+                        my: "top center",
+                        at: "bottom center"
+                    },
+                    show: showWhen,
+                    hide: hideWhen
+                });
+            }
+
+            function validateOnChange(vElement, validation) {
+                vElement.element.on("keyup", h.debounce(function () {
+                    if (getElementScope(vElement.element).$eval(validation.validator)) {
+                        showErrorHint(vElement.element, validation);
+                    }
+                }, validation.onChange));
+            }
 
 
-				function registerChangeListener(vElement) {
-					vElement.validations.forEach(function (validation) {
-						if (validation.onChange) {
-							validateOnChange(vElement, validation);
-						}
-					});
-				}
+            function registerChangeListener(vElement) {
+                vElement.validations.forEach(function (validation) {
+                    if (validation.onChange) {
+                        validateOnChange(vElement, validation);
+                    }
+                });
+            }
 
-				//expand all validations
-				validations.forEach(function (vElement) {
-					var scope = getElementScope(vElement.element);
-					var deregister = scope.$watch(function () {
-						return scope.$eval(vElement.validator);
-					}, function (val) {
-						if (val) {
-							vElement.validations = val;
-							registerChangeListener(vElement);
-							deregister();
-						}
-					});
-				});
+            //expand all validations
+            validations.forEach(function (vElement) {
+                var scope = getElementScope(vElement.element);
+                var deregister = scope.$watch(function () {
+                    return scope.$eval(vElement.validator);
+                }, function (val) {
+                    if (val) {
+                        vElement.validations = val;
+                        registerChangeListener(vElement);
+                        deregister();
+                    }
+                });
+            });
 
-				function checkValidations(ids, skipHints) {
-					var invalidValidationFound = false;
+            function checkValidations(ids, skipHints) {
+                var invalidValidationFound = false;
 
-					//run all validations and show errors in qtips.
+                //run all validations and show errors in qtips.
 
-					validations.forEach(function (vElement) {
-						if (ids && ids.indexOf(vElement.element.attr("id")) === -1) { return; }
-						if (invalidValidationFound) { return; }
+                validations.forEach(function (vElement) {
+                    if (ids && ids.indexOf(vElement.element.attr("id")) === -1) { return; }
+                    if (invalidValidationFound) { return; }
 
-						var scope = getElementScope(vElement.element);
-						vElement.validations.forEach(function (validation) {
-							if (invalidValidationFound) { return; }
+                    var scope = getElementScope(vElement.element);
+                    vElement.validations.forEach(function (validation) {
+                        if (invalidValidationFound) { return; }
 
-							if (scope.$eval(validation.validator)) {
-								invalidValidationFound = true;
-								if (!skipHints) {
-									showErrorHint(vElement.element, validation);
-								}
-							}
-						});
-					});
+                        if (scope.$eval(validation.validator)) {
+                            invalidValidationFound = true;
+                            if (!skipHints) {
+                                showErrorHint(vElement.element, validation);
+                            }
+                        }
+                    });
+                });
 
-					if (!invalidValidationFound && !skipHints) {
-						removeErrorHints();
-					}
+                if (!invalidValidationFound && !skipHints) {
+                    removeErrorHints();
+                }
 
-					return invalidValidationFound;
-				}
+                return invalidValidationFound;
+            }
 
-				if (options.validateOnCallback) {
-					options.checkValidations = checkValidations;
-				} else {
-					scope.$watch(function () {
-						checkValidations();
+            if (options.validateOnCallback) {
+                options.checkValidations = checkValidations;
+            } else {
+                scope.$watch(function () {
+                    checkValidations();
 
-						return "";
-					}, function () {});
-				}
+                    return "";
+                }, function () {});
+            }
 
-				if (options.hideOnInteraction) {
-					iElement.on("click keydown", "input", removeErrorHints);
-				}
-			}
-		};
-	}
+            if (options.hideOnInteraction) {
+                iElement.on("click keydown", "input", removeErrorHints);
+            }
+        }
+    };
+}
 
-	validatedForm.$inject = ["localize"];
+validatedForm.$inject = ["localize"];
 
-	directivesModule.directive("validatedForm", validatedForm);
+directivesModule.directive("validatedForm", validatedForm);
 
-	directivesModule.directive("validation", function () {
-		return {
-			scope:	false,
-			restrict: "A",
-			link: function (scope, iElement) {
-				iElement.data("scopeFallback", scope);
-			}
-		};
-	});
+directivesModule.directive("validation", function () {
+    return {
+        scope:	false,
+        restrict: "A",
+        link: function (scope, iElement) {
+            iElement.data("scopeFallback", scope);
+        }
+    };
 });

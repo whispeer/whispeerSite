@@ -4,37 +4,37 @@
 
 var cssService = require("services/css.service").default;
 
-define(["messages/messagesModule"], function (messagesModule) {
-	"use strict";
+"use strict";
 
-	function messagesController($scope, $rootScope, $state) {
-		cssService.setClass("messagesView", true);
+const messagesModule = require('messages/messagesModule');
 
-		function checkState() {
-			var stateName = $state.current.name;
-			if (stateName === "app.messages.list" && !$scope.mobile) {
-				$state.go("app.messages.start");
-			}
+function messagesController($scope, $rootScope, $state) {
+    cssService.setClass("messagesView", true);
 
-			if (stateName === "app.messages") {
-				if ($scope.mobile) {
-					$state.go("app.messages.list");
-				} else {
-					$state.go("app.messages.start");
-				}
-			}
-		}
+    function checkState() {
+        var stateName = $state.current.name;
+        if (stateName === "app.messages.list" && !$scope.mobile) {
+            $state.go("app.messages.start");
+        }
 
-		checkState();
+        if (stateName === "app.messages") {
+            if ($scope.mobile) {
+                $state.go("app.messages.list");
+            } else {
+                $state.go("app.messages.start");
+            }
+        }
+    }
 
-		$rootScope.$on("$stateChangeSuccess", checkState);
+    checkState();
 
-		$scope.$watch(function () {
-			return $scope.mobile;
-		}, checkState);
-	}
+    $rootScope.$on("$stateChangeSuccess", checkState);
 
-	messagesController.$inject = ["$scope", "$rootScope", "$state"];
+    $scope.$watch(function () {
+        return $scope.mobile;
+    }, checkState);
+}
 
-	messagesModule.controller("ssn.messagesRedirectController", messagesController);
-});
+messagesController.$inject = ["$scope", "$rootScope", "$state"];
+
+messagesModule.controller("ssn.messagesRedirectController", messagesController);

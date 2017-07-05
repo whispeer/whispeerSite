@@ -1,34 +1,34 @@
-define(["directives/directivesModule"], function (directivesModule) {
-	"use strict";
+"use strict";
 
-	function accessibleClick() {
-		return {
-			restrict: "A",
-			replace: false,
-			scope: {
-				accessibleClick: "&"
-			},
-			link: function link(scope,element) {
-				var SELECT = [13];
-				element.on("click", function () {
-					scope.accessibleClick();
-				});
+const directivesModule = require('directives/directivesModule');
 
-				element.on("keypress", function (e) {
-					if (SELECT.indexOf(e.keyCode) > -1) {
-						scope.$apply(function () {
-							scope.accessibleClick();
-						});
-					}
-				});
+function accessibleClick() {
+    return {
+        restrict: "A",
+        replace: false,
+        scope: {
+            accessibleClick: "&"
+        },
+        link: function link(scope,element) {
+            var SELECT = [13];
+            element.on("click", function () {
+                scope.accessibleClick();
+            });
 
-				element.attr("tabIndex", "0");
-				element.attr("role", "button");
-			}
-		};
-	}
+            element.on("keypress", function (e) {
+                if (SELECT.indexOf(e.keyCode) > -1) {
+                    scope.$apply(function () {
+                        scope.accessibleClick();
+                    });
+                }
+            });
 
-	accessibleClick.$inject = [];
+            element.attr("tabIndex", "0");
+            element.attr("role", "button");
+        }
+    };
+}
 
-	directivesModule.directive("accessibleClick", accessibleClick);
-});
+accessibleClick.$inject = [];
+
+directivesModule.directive("accessibleClick", accessibleClick);

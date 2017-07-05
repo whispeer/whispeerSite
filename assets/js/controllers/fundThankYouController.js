@@ -6,16 +6,17 @@ var cssService = require("services/css.service").default;
 var errorService = require("services/error.service").errorServiceInstance;
 var socketService = require("services/socket.service").default;
 
-define(["whispeerHelper", "controllers/controllerModule"], function (h, controllerModule) {
-	"use strict";
+"use strict";
 
-	function fundThankYouController() {
-		cssService.setClass("fundView");
+const h = require('whispeerHelper');
+const controllerModule = require('controllers/controllerModule');
 
-		socketService.emit("user.donated", {}, errorService.criticalError);
-	}
+function fundThankYouController() {
+    cssService.setClass("fundView");
 
-	fundThankYouController.$inject = [];
+    socketService.emit("user.donated", {}, errorService.criticalError);
+}
 
-	controllerModule.controller("ssn.fundThankYouController", fundThankYouController);
-});
+fundThankYouController.$inject = [];
+
+controllerModule.controller("ssn.fundThankYouController", fundThankYouController);

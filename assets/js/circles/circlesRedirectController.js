@@ -4,37 +4,37 @@
 
 var cssService = require("services/css.service").default;
 
-define(["circles/circlesModule"], function (circlesModule) {
-	"use strict";
+"use strict";
 
-	function circlesRedirectController($scope, $rootScope, $state) {
-		cssService.setClass("circlesView", true);
+const circlesModule = require('circles/circlesModule');
 
-		function checkState() {
-			var stateName = $state.current.name;
-			if (stateName === "app.circles.list" && !$scope.mobile) {
-				$state.go("app.circles.new");
-			}
+function circlesRedirectController($scope, $rootScope, $state) {
+    cssService.setClass("circlesView", true);
 
-			if (stateName === "app.circles") {
-				if ($scope.mobile) {
-					$state.go("app.circles.list");
-				} else {
-					$state.go("app.circles.new");
-				}
-			}
-		}
+    function checkState() {
+        var stateName = $state.current.name;
+        if (stateName === "app.circles.list" && !$scope.mobile) {
+            $state.go("app.circles.new");
+        }
 
-		checkState();
+        if (stateName === "app.circles") {
+            if ($scope.mobile) {
+                $state.go("app.circles.list");
+            } else {
+                $state.go("app.circles.new");
+            }
+        }
+    }
 
-		$rootScope.$on("$stateChangeSuccess", checkState);
+    checkState();
 
-		$scope.$watch(function () {
-			return $scope.mobile;
-		}, checkState);
-	}
+    $rootScope.$on("$stateChangeSuccess", checkState);
 
-	circlesRedirectController.$inject = ["$scope", "$rootScope", "$state"];
+    $scope.$watch(function () {
+        return $scope.mobile;
+    }, checkState);
+}
 
-	circlesModule.controller("ssn.circlesRedirectController", circlesRedirectController);
-});
+circlesRedirectController.$inject = ["$scope", "$rootScope", "$state"];
+
+circlesModule.controller("ssn.circlesRedirectController", circlesRedirectController);

@@ -1,202 +1,205 @@
 var multipleTemplateUrl = require("../../views/directives/searchMultiple.html");
 var singleTemplateUrl = require("../../views/directives/search.html");
 
-define(["whispeerHelper", "search/singleSearch", "search/multiSearch", "directives/directivesModule"], function (h, singleSearch, multiSearch, directivesModule) {
-	"use strict";
+"use strict";
 
-	var lastSearchOpened = 0;
+const h = require('whispeerHelper');
+const singleSearch = require('search/singleSearch');
+const multiSearch = require('search/multiSearch');
+const directivesModule = require('directives/directivesModule');
 
-	function searchDirective($injector) {
-		return {
-			scope: {
-				"callback": "&",
-				"inputI18nAttr": "@",
-				"searchTemplate": "@",
-				"addClasses": "@",
-				//multi-search
-				"selectDropTemplate": "@",
-				"base": "@",
-				"initialValues": "&"
-			},
-			/* this is an element */
-			restrict: "E",
-			templateUrl: function (iElement, iAttrs) {
-				if (typeof iAttrs.multiple !== "undefined") {
-					return multipleTemplateUrl;
-				}
+var lastSearchOpened = 0;
 
-				return singleTemplateUrl;
-			},
-			replace: false,
-			transclude: false,
-			link: function (scope, iElement, iAttrs) {
-				var thisSearchOpened = 0;
-				var SearchSupplierClass = $injector.get(iAttrs.supplier);
-				var searchSupplier = new SearchSupplierClass();
-				scope.selectDropTemplate = scope.selectDropTemplate || "default";
+function searchDirective($injector) {
+    return {
+        scope: {
+            "callback": "&",
+            "inputI18nAttr": "@",
+            "searchTemplate": "@",
+            "addClasses": "@",
+            //multi-search
+            "selectDropTemplate": "@",
+            "base": "@",
+            "initialValues": "&"
+        },
+        /* this is an element */
+        restrict: "E",
+        templateUrl: function (iElement, iAttrs) {
+            if (typeof iAttrs.multiple !== "undefined") {
+                return multipleTemplateUrl;
+            }
 
-				scope.filter = [];
-				scope.filter.push(function (results) {
-					if (!iAttrs.filter) {
-						return results;
-					}
+            return singleTemplateUrl;
+        },
+        replace: false,
+        transclude: false,
+        link: function (scope, iElement, iAttrs) {
+            var thisSearchOpened = 0;
+            var SearchSupplierClass = $injector.get(iAttrs.supplier);
+            var searchSupplier = new SearchSupplierClass();
+            scope.selectDropTemplate = scope.selectDropTemplate || "default";
 
-					var filter = scope.$parent.$eval(iAttrs.filter);
+            scope.filter = [];
+            scope.filter.push(function (results) {
+                if (!iAttrs.filter) {
+                    return results;
+                }
 
-					return results.filter(function (result) {
-						return filter.indexOf(result.id) === -1;
-					});
-				});
+                var filter = scope.$parent.$eval(iAttrs.filter);
 
-				scope.applyFilterToResults = function (results) {
-					scope.filter.forEach(function (filter) {
-						results = filter(results);
-					});
+                return results.filter(function (result) {
+                    return filter.indexOf(result.id) === -1;
+                });
+            });
 
-					return results;
-				};
+            scope.applyFilterToResults = function (results) {
+                scope.filter.forEach(function (filter) {
+                    results = filter(results);
+                });
 
-				var oldQuery = "";
-				/* attribute to define if we want multiple results or one */
-				scope.query = "";
-				scope.results = [];
-				scope.unFilteredResults = [];
+                return results;
+            };
 
-				/** open search element or not **/
-				var isVisible = false, initialized = false;
+            var oldQuery = "";
+            /* attribute to define if we want multiple results or one */
+            scope.query = "";
+            scope.results = [];
+            scope.unFilteredResults = [];
 
-				function initialize() {
-					if (!initialized) {
-						initialized = true;
-						scope.queryChange(true);
-					}
-				}
+            /** open search element or not **/
+            var isVisible = false, initialized = false;
 
-				/* close on body click */
-				jQuery(document.body).click(function () {
-					scope.$apply(function () {
-						scope.hide();
-					});
-				});
+            function initialize() {
+                if (!initialized) {
+                    initialized = true;
+                    scope.queryChange(true);
+                }
+            }
 
-				var noAutoClose = typeof iAttrs.noAutoClose !== "undefined";
+            /* close on body click */
+            jQuery(document.body).click(function () {
+                scope.$apply(function () {
+                    scope.hide();
+                });
+            });
 
-				scope.isVisible = function () {
-					return isVisible && (noAutoClose || lastSearchOpened === thisSearchOpened);
-				};
+            var noAutoClose = typeof iAttrs.noAutoClose !== "undefined";
 
-				scope.hide = function () {
-					isVisible = false;
+            scope.isVisible = function () {
+                return isVisible && (noAutoClose || lastSearchOpened === thisSearchOpened);
+            };
 
-					initialize();
-				};
+            scope.hide = function () {
+                isVisible = false;
 
-				scope.show = function ($event) {
-					if ($event) {
-						$event.stopPropagation();
-					}
+                initialize();
+            };
 
-					if (!noAutoClose) {
-						lastSearchOpened = thisSearchOpened = new Date().getTime();
-					}
-					isVisible = true;
-					initialize();
-				};
+            scope.show = function ($event) {
+                if ($event) {
+                    $event.stopPropagation();
+                }
 
-				/** suchergebnisse laden */
-				scope.searching = false;
+                if (!noAutoClose) {
+                    lastSearchOpened = thisSearchOpened = new Date().getTime();
+                }
+                isVisible = true;
+                initialize();
+            };
 
-				scope.queryChange = function (noDiffNecessary) {
-					var currentQuery = scope.query;
+            /** suchergebnisse laden */
+            scope.searching = false;
 
-					if (oldQuery !== currentQuery) {
-						scope.show();
-					}
+            scope.queryChange = function (noDiffNecessary) {
+                var currentQuery = scope.query;
 
-					if (noDiffNecessary || oldQuery !== currentQuery) {
-						oldQuery = scope.query;
-						scope.searching = true;
+                if (oldQuery !== currentQuery) {
+                    scope.show();
+                }
 
-						searchSupplier.search(scope.query).then(function (results) {
-							if (currentQuery === scope.query) {
-								scope.searching = false;
+                if (noDiffNecessary || oldQuery !== currentQuery) {
+                    oldQuery = scope.query;
+                    scope.searching = true;
 
-								scope.unFilteredResults = results;
-								scope.results = scope.applyFilterToResults(scope.unFilteredResults);
-							}
-						}).catch(function (error) {
-							if (currentQuery === scope.query) {
-								console.error(error);
-								scope.searching = false;
+                    searchSupplier.search(scope.query).then(function (results) {
+                        if (currentQuery === scope.query) {
+                            scope.searching = false;
 
-								scope.unFilteredResults = [];
-								scope.results = [];
-							}
-						});
-					}
-				};
+                            scope.unFilteredResults = results;
+                            scope.results = scope.applyFilterToResults(scope.unFilteredResults);
+                        }
+                    }).catch(function (error) {
+                        if (currentQuery === scope.query) {
+                            console.error(error);
+                            scope.searching = false;
 
-				scope.$on("hide", function () {
-					scope.hide();
-				});
+                            scope.unFilteredResults = [];
+                            scope.results = [];
+                        }
+                    });
+                }
+            };
 
-				scope.$on("resetSearch", function () {
-					scope.query = "";
-					scope.queryChange(true);
-				});
+            scope.$on("hide", function () {
+                scope.hide();
+            });
 
-				/** suchergebnisse markieren */
-				scope.current = 0;
+            scope.$on("resetSearch", function () {
+                scope.query = "";
+                scope.queryChange(true);
+            });
 
-				function addCurrent(val) {
-					scope.setCurrent(scope.current + val);
-				}
+            /** suchergebnisse markieren */
+            scope.current = 0;
 
-				scope.setCurrent = function (val) {
-					scope.current = val;
+            function addCurrent(val) {
+                scope.setCurrent(scope.current + val);
+            }
 
-					scope.current = Math.min(scope.current, scope.results.length - 1);
-					scope.current = Math.max(0, scope.current);
-				};
+            scope.setCurrent = function (val) {
+                scope.current = val;
 
-				/** key stuff */
+                scope.current = Math.min(scope.current, scope.results.length - 1);
+                scope.current = Math.max(0, scope.current);
+            };
 
-				var UP = [38, 33];
-				var DOWN = [40, 34];
-				var SELECT = [13];
-				var CLOSE = [27];
+            /** key stuff */
 
-				scope.keydown = function (e) {
-					if (CLOSE.indexOf(e.keyCode) > -1) {
-						scope.hide();
-					}
+            var UP = [38, 33];
+            var DOWN = [40, 34];
+            var SELECT = [13];
+            var CLOSE = [27];
 
-					if (UP.indexOf(e.keyCode) > -1) {
-						addCurrent(-1);
-						e.preventDefault();
-					}
+            scope.keydown = function (e) {
+                if (CLOSE.indexOf(e.keyCode) > -1) {
+                    scope.hide();
+                }
 
-					if (DOWN.indexOf(e.keyCode) > -1) {
-						addCurrent(1);
-						e.preventDefault();
-					}
+                if (UP.indexOf(e.keyCode) > -1) {
+                    addCurrent(-1);
+                    e.preventDefault();
+                }
 
-					if (SELECT.indexOf(e.keyCode) > -1) {
-						scope.selectResult(scope.results[scope.current]);
-						e.preventDefault();
-					}
-				};
+                if (DOWN.indexOf(e.keyCode) > -1) {
+                    addCurrent(1);
+                    e.preventDefault();
+                }
 
-				if (typeof iAttrs.multiple !== "undefined") {
-					multiSearch($injector, scope, iElement, iAttrs);
-				} else {
-					singleSearch($injector, scope, iElement, iAttrs);
-				}
-			}
-		};
-	}
+                if (SELECT.indexOf(e.keyCode) > -1) {
+                    scope.selectResult(scope.results[scope.current]);
+                    e.preventDefault();
+                }
+            };
 
-	searchDirective.$inject = ["$injector"];
+            if (typeof iAttrs.multiple !== "undefined") {
+                multiSearch($injector, scope, iElement, iAttrs);
+            } else {
+                singleSearch($injector, scope, iElement, iAttrs);
+            }
+        }
+    };
+}
 
-	directivesModule.directive("search", searchDirective);
-});
+searchDirective.$inject = ["$injector"];
+
+directivesModule.directive("search", searchDirective);

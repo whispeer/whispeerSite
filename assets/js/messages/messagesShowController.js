@@ -9,258 +9,262 @@ var ImageUploadService = require("services/imageUploadService");
 var messageService = require("messages/messageService");
 var TopicUpdate = require("models/topicUpdate");
 
-define(["jquery", "whispeerHelper", "asset/state", "bluebird", "messages/messagesModule"], function (jQuery, h, State, Bluebird, messagesModule) {
-	"use strict";
+"use strict";
 
-	function messagesController($scope, $element, $state, $stateParams, $timeout) {
-		var topicLoadingState = new State.default();
-		$scope.topicLoadingState = topicLoadingState.data;
+const jQuery = require('jquery');
+const h = require('whispeerHelper');
+const State = require('asset/state');
+const Bluebird = require('bluebird');
+const messagesModule = require('messages/messagesModule');
 
-		var topicID = h.parseDecimal($stateParams.topicid);
+function messagesController($scope, $element, $state, $stateParams, $timeout) {
+    var topicLoadingState = new State.default();
+    $scope.topicLoadingState = topicLoadingState.data;
 
-		$scope.canSend = false;
-		$scope.topicLoaded = false;
+    var topicID = h.parseDecimal($stateParams.topicid);
 
-		$scope.hideOverlay = false;
+    $scope.canSend = false;
+    $scope.topicLoaded = false;
 
-		$scope.doHideOverlay = function () {
-			$scope.hideOverlay = true;
-		};
+    $scope.hideOverlay = false;
 
-		$scope.images = {
-			images: [],
-			removeImage: function (index) {
-				$scope.images.images.splice(index, 1);
-			},
-			addImages: ImageUploadService.fileCallback(function (newImages) {
-				$scope.$apply(function () {
-					$scope.images.images = $scope.images.images.concat(newImages);
-				});
-			})
-		};
+    $scope.doHideOverlay = function () {
+        $scope.hideOverlay = true;
+    };
 
-		$scope.markRead = function () {
-			$scope.activeTopic.obj.markRead(errorService.criticalError);
-		};
+    $scope.images = {
+        images: [],
+        removeImage: function (index) {
+            $scope.images.images.splice(index, 1);
+        },
+        addImages: ImageUploadService.fileCallback(function (newImages) {
+            $scope.$apply(function () {
+                $scope.images.images = $scope.images.images.concat(newImages);
+            });
+        })
+    };
 
-		$scope.loadMoreMessages = function () {
-			var loadMore = Bluebird.promisify($scope.activeTopic.obj.loadMoreMessages.bind($scope.activeTopic.obj));
+    $scope.markRead = function () {
+        $scope.activeTopic.obj.markRead(errorService.criticalError);
+    };
 
-			$scope.loadingMessages = true;
-			return loadMore().then(function () {
-				$scope.loadingMessages = false;
-			});
-		};
+    $scope.loadMoreMessages = function () {
+        var loadMore = Bluebird.promisify($scope.activeTopic.obj.loadMoreMessages.bind($scope.activeTopic.obj));
 
-		$scope.$on("$destroy", function () {
-			messageService.setActiveTopic(0);
-		});
+        $scope.loadingMessages = true;
+        return loadMore().then(function () {
+            $scope.loadingMessages = false;
+        });
+    };
 
-		topicLoadingState.pending();
+    $scope.$on("$destroy", function () {
+        messageService.setActiveTopic(0);
+    });
 
-		function loadMoreUntilFull() {
-			Bluebird.delay(500).then(function () {
-				var scroller = $element.find(".scroll-pane");
+    topicLoadingState.pending();
 
-				var outerHeight = scroller.height();
-				var innerHeight = 0;
-				scroller.children().each(function(){
-					innerHeight = innerHeight + jQuery(this).outerHeight(true);
-				});
+    function loadMoreUntilFull() {
+        Bluebird.delay(500).then(function () {
+            var scroller = $element.find(".scroll-pane");
 
-				if (outerHeight > innerHeight) {
-					return $scope.loadMoreMessages().then(function () {
-						loadMoreUntilFull();
+            var outerHeight = scroller.height();
+            var innerHeight = 0;
+            scroller.children().each(function(){
+                innerHeight = innerHeight + jQuery(this).outerHeight(true);
+            });
 
-						return null;
-					});
-				}
-			});
-		}
+            if (outerHeight > innerHeight) {
+                return $scope.loadMoreMessages().then(function () {
+                    loadMoreUntilFull();
 
-		var loadTopicsPromise = messageService.getTopic(topicID).then(function (topic) {
-			messageService.setActiveTopic(topicID);
-			$scope.activeTopic = topic.data;
+                    return null;
+                });
+            }
+        });
+    }
 
-			$scope.canSend = true;
-			$scope.newMessage = false;
-			return topic.loadInitialMessages().thenReturn(topic);
-		}).then(function (topic) {
-			$scope.topicLoaded = true;
+    var loadTopicsPromise = messageService.getTopic(topicID).then(function (topic) {
+        messageService.setActiveTopic(topicID);
+        $scope.activeTopic = topic.data;
 
-			if (topic.data.messagesAndUpdates.length > 0) {
-				topic.markRead(errorService.criticalError);
-			}
+        $scope.canSend = true;
+        $scope.newMessage = false;
+        return topic.loadInitialMessages().thenReturn(topic);
+    }).then(function (topic) {
+        $scope.topicLoaded = true;
 
-			loadMoreUntilFull();
+        if (topic.data.messagesAndUpdates.length > 0) {
+            topic.markRead(errorService.criticalError);
+        }
 
-			return null;
-		});
+        loadMoreUntilFull();
 
-		errorService.failOnErrorPromise(topicLoadingState, loadTopicsPromise);
+        return null;
+    });
 
-		var sendMessageState = new State.default();
-		$scope.sendMessageState = sendMessageState.data;
+    errorService.failOnErrorPromise(topicLoadingState, loadTopicsPromise);
 
-		$scope.sendMessage = function () {
-			sendMessageState.pending();
+    var sendMessageState = new State.default();
+    $scope.sendMessageState = sendMessageState.data;
 
-			var images = $scope.images.images;
-			var text = $scope.activeTopic.newMessage;
+    $scope.sendMessage = function () {
+        sendMessageState.pending();
 
-			if (text === "" && images.length === 0) {
-				sendMessageState.failed();
-				return;
-			}
+        var images = $scope.images.images;
+        var text = $scope.activeTopic.newMessage;
 
-			$scope.canSend = false;
+        if (text === "" && images.length === 0) {
+            sendMessageState.failed();
+            return;
+        }
 
-			var sendMessagePromise = messageService.sendMessage($scope.activeTopic.id, text, images).then(function () {
-				$scope.activeTopic.newMessage = "";
-				$scope.images.images = [];
-				$scope.markRead(errorService.criticalError);
-				$timeout(function () {
-					sendMessageState.reset();
-				}, 2000);
-			});
+        $scope.canSend = false;
 
-			sendMessagePromise.finally(function () {
-				$scope.canSend = true;
-			});
+        var sendMessagePromise = messageService.sendMessage($scope.activeTopic.id, text, images).then(function () {
+            $scope.activeTopic.newMessage = "";
+            $scope.images.images = [];
+            $scope.markRead(errorService.criticalError);
+            $timeout(function () {
+                sendMessageState.reset();
+            }, 2000);
+        });
 
-			errorService.failOnErrorPromise(sendMessageState, sendMessagePromise);
-		};
+        sendMessagePromise.finally(function () {
+            $scope.canSend = true;
+        });
 
-		var bursts = [], burstTopic;
+        errorService.failOnErrorPromise(sendMessageState, sendMessagePromise);
+    };
 
-		function getNewElements(messagesAndUpdates, bursts) {
-			return messagesAndUpdates.filter(function (message) {
-				return bursts.reduce(function (prev, current) {
-					return prev && !current.hasItem(message);
-				}, true);
-			});
-		}
+    var bursts = [], burstTopic;
 
-		function calculateBursts(messages) {
-			var bursts = [new Burst(TopicUpdate)];
-			var currentBurst = bursts[0];
+    function getNewElements(messagesAndUpdates, bursts) {
+        return messagesAndUpdates.filter(function (message) {
+            return bursts.reduce(function (prev, current) {
+                return prev && !current.hasItem(message);
+            }, true);
+        });
+    }
 
-			messages.sort(function (m1, m2) {
-				return m2.getTime() - m1.getTime();
-			});
+    function calculateBursts(messages) {
+        var bursts = [new Burst(TopicUpdate)];
+        var currentBurst = bursts[0];
 
-			messages.forEach(function (messageOrUpdate) {
-				if(!currentBurst.fitsItem(messageOrUpdate)) {
-					currentBurst = new Burst(TopicUpdate);
-					bursts.push(currentBurst);
-				}
+        messages.sort(function (m1, m2) {
+            return m2.getTime() - m1.getTime();
+        });
 
-				currentBurst.addItem(messageOrUpdate);
-			});
+        messages.forEach(function (messageOrUpdate) {
+            if(!currentBurst.fitsItem(messageOrUpdate)) {
+                currentBurst = new Burst(TopicUpdate);
+                bursts.push(currentBurst);
+            }
 
-			return bursts;
-		}
+            currentBurst.addItem(messageOrUpdate);
+        });
 
-		function hasMatchingMessage(oldBurst, newBurst) {
-			var matchingMessages = newBurst.getItems().filter(function (message) {
-				return oldBurst.hasItem(message);
-			});
+        return bursts;
+    }
 
-			return matchingMessages.length > 0;
-		}
+    function hasMatchingMessage(oldBurst, newBurst) {
+        var matchingMessages = newBurst.getItems().filter(function (message) {
+            return oldBurst.hasItem(message);
+        });
 
-		function addBurst(bursts, burst) {
-			bursts.push(burst);
+        return matchingMessages.length > 0;
+    }
 
-			return true;
-		}
+    function addBurst(bursts, burst) {
+        bursts.push(burst);
 
-		function mergeBurst(oldBurst, newBurst) {
-			var newMessages = newBurst.getItems().filter(function (message) {
-				return !oldBurst.hasItem(message);
-			});
+        return true;
+    }
 
-			newMessages.forEach(function (message) {
-				oldBurst.addItem(message);
-			});
+    function mergeBurst(oldBurst, newBurst) {
+        var newMessages = newBurst.getItems().filter(function (message) {
+            return !oldBurst.hasItem(message);
+        });
 
-			return true;
-		}
+        newMessages.forEach(function (message) {
+            oldBurst.addItem(message);
+        });
 
-		function addBurstOrMerge(bursts, burst) {
-			var possibleMatches = bursts.filter(function (oldBurst) {
-				return hasMatchingMessage(oldBurst, burst);
-			});
+        return true;
+    }
 
-			if (possibleMatches.length === 0) {
-				return addBurst(bursts, burst);
-			}
+    function addBurstOrMerge(bursts, burst) {
+        var possibleMatches = bursts.filter(function (oldBurst) {
+            return hasMatchingMessage(oldBurst, burst);
+        });
 
-			if (possibleMatches.length === 1) {
-				return mergeBurst(possibleMatches[0], burst);
-			}
+        if (possibleMatches.length === 0) {
+            return addBurst(bursts, burst);
+        }
 
-			if (possibleMatches.length > 1) {
-				errorService.criticalError(new Error("Burst merging possible matches > 1 wtf..."));
-				return false;
-			}
-		}
+        if (possibleMatches.length === 1) {
+            return mergeBurst(possibleMatches[0], burst);
+        }
 
-		function mergeBursts(bursts, newBursts) {
-			return newBursts.reduce(function (prev, burst) {
-				return prev && addBurstOrMerge(bursts, burst);
-			}, true);
-		}
+        if (possibleMatches.length > 1) {
+            errorService.criticalError(new Error("Burst merging possible matches > 1 wtf..."));
+            return false;
+        }
+    }
 
-		function getBursts() {
-			if (!$scope.activeTopic || $scope.activeTopic.messagesAndUpdates.length === 0) {
-				return [];
-			}
+    function mergeBursts(bursts, newBursts) {
+        return newBursts.reduce(function (prev, burst) {
+            return prev && addBurstOrMerge(bursts, burst);
+        }, true);
+    }
 
-			var messagesAndUpdates = $scope.activeTopic.messagesAndUpdates;
+    function getBursts() {
+        if (!$scope.activeTopic || $scope.activeTopic.messagesAndUpdates.length === 0) {
+            return [];
+        }
 
-			if (burstTopic !== $scope.activeTopic.id) {
-				bursts = calculateBursts(messagesAndUpdates);
-				burstTopic = $scope.activeTopic.id;
+        var messagesAndUpdates = $scope.activeTopic.messagesAndUpdates;
 
-				return bursts;
-			}
+        if (burstTopic !== $scope.activeTopic.id) {
+            bursts = calculateBursts(messagesAndUpdates);
+            burstTopic = $scope.activeTopic.id;
 
-			var newElements = getNewElements(messagesAndUpdates, bursts);
-			if (newElements.length === 0) {
-				return bursts;
-			}
+            return bursts;
+        }
 
-			bursts.forEach(function (burst) {
-				burst.removeAllExceptLast();
-			});
+        var newElements = getNewElements(messagesAndUpdates, bursts);
+        if (newElements.length === 0) {
+            return bursts;
+        }
 
-			var newBursts = calculateBursts(messagesAndUpdates);
-			if (!mergeBursts(bursts, newBursts)) {
-				console.warn("Rerender all bursts!");
-				bursts = newBursts;
-			}
+        bursts.forEach(function (burst) {
+            burst.removeAllExceptLast();
+        });
 
-			return bursts;
-		}
+        var newBursts = calculateBursts(messagesAndUpdates);
+        if (!mergeBursts(bursts, newBursts)) {
+            console.warn("Rerender all bursts!");
+            bursts = newBursts;
+        }
 
-		$scope.messageBursts = function() {
-			var bursts = getBursts();
+        return bursts;
+    }
 
-			bursts.sort(function (b1, b2) {
-				return b1.firstItem().getTime() - b2.firstItem().getTime();
-			});
+    $scope.messageBursts = function() {
+        var bursts = getBursts();
 
-			return bursts;
-		};
+        bursts.sort(function (b1, b2) {
+            return b1.firstItem().getTime() - b2.firstItem().getTime();
+        });
 
-		$scope.showMessageOptions = false;
-		$scope.toggleMessageOptions = function() {
-			$scope.showMessageOptions = !$scope.showMessageOptions;
-		};
-	}
+        return bursts;
+    };
 
-	messagesController.$inject = ["$scope", "$element", "$state", "$stateParams", "$timeout"];
+    $scope.showMessageOptions = false;
+    $scope.toggleMessageOptions = function() {
+        $scope.showMessageOptions = !$scope.showMessageOptions;
+    };
+}
 
-	messagesModule.controller("ssn.messagesShowController", messagesController);
-});
+messagesController.$inject = ["$scope", "$element", "$state", "$stateParams", "$timeout"];
+
+messagesModule.controller("ssn.messagesShowController", messagesController);

@@ -1,17 +1,14 @@
-define([
-		"angular",
-		"config",
+"use strict";
+const angular = require('angular');
+const config = require('config');
+require('i18n/localizationConfig');
+require('localizationModule');
+require('runners/promiseRunner');
 
-		"i18n/localizationConfig",
-		"localizationModule",
-		"runners/promiseRunner",
-	], function (angular, config) {
-	"use strict";
-	return angular.module("ssn.register", ["ssn.directives", "localization", "ssn.runners"],
-		["$compileProvider", function ($compileProvider) {
-			if (!config.debug) {
-				$compileProvider.debugInfoEnabled(false);
-			}
-		}]
-	);
-});
+module.exports = angular.module("ssn.register", ["ssn.directives", "localization", "ssn.runners"],
+    ["$compileProvider", function ($compileProvider) {
+        if (!config.debug) {
+            $compileProvider.debugInfoEnabled(false);
+        }
+    }]
+);

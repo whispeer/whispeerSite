@@ -1,4 +1,3 @@
-define(["angular"], function (angular) {
-	"use strict";
-	return angular.module("ssn.runners", []);
-});
+"use strict";
+const angular = require('angular');
+module.exports = angular.module("ssn.runners", []);

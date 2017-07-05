@@ -1,8 +1,6 @@
-define([
-	"messages/messageService",
-	"messages/messagesRedirectController",
-	"messages/messagesCreateController",
-	"messages/messagesShowController",
-	"messages/messagesListController",
-	"messages/messagesDetailController"
-], function () {});
+require('messages/messageService');
+require('messages/messagesRedirectController');
+require('messages/messagesCreateController');
+require('messages/messagesShowController');
+require('messages/messagesListController');
+require('messages/messagesDetailController');

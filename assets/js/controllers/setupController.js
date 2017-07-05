@@ -7,83 +7,88 @@ var errorService = require("services/error.service").errorServiceInstance;
 var settingsService = require("services/settings.service").default;
 var userService = require("user/userService");
 
-define(["bluebird", "whispeerHelper", "asset/state", "libs/qr", "libs/filesaver", "controllers/controllerModule"], function (Bluebird, h, State, qr, saveAs, controllerModule) {
-	"use strict";
+"use strict";
 
-	function setupController($scope, $state) {
-		cssService.setClass("setupView");
+const Bluebird = require('bluebird');
+const h = require('whispeerHelper');
+const State = require('asset/state');
+const qr = require('libs/qr');
+const saveAs = require('libs/filesaver');
+const controllerModule = require('controllers/controllerModule');
 
-		var saveSetupState = new State.default();
-		$scope.saveSetupState = saveSetupState.data;
+function setupController($scope, $state) {
+    cssService.setClass("setupView");
 
-		$scope.profileSaved = false;
-		$scope.profile = {
-			privateName: false,
-			firstName: "",
-			lastName: "",
-			mail: ""
-		};
+    var saveSetupState = new State.default();
+    $scope.saveSetupState = saveSetupState.data;
 
-		function makeNamePrivate(cb) {
-			return Bluebird.try(function () {
-				var safetySettings = settingsService.getBranch("privacy");
+    $scope.profileSaved = false;
+    $scope.profile = {
+        privateName: false,
+        firstName: "",
+        lastName: "",
+        mail: ""
+    };
 
-				safetySettings.basic = {
-					firstname: {
-						encrypt: true,
-						visibility: ["always:allfriends"]
-					},
-					lastname: {
-						encrypt: true,
-						visibility: ["always:allfriends"]
-					}
-				};
-				settingsService.updateBranch("privacy", safetySettings);
-				return settingsService.uploadChangedData();
-			}).nodeify(cb);
-		}
+    function makeNamePrivate(cb) {
+        return Bluebird.try(function () {
+            var safetySettings = settingsService.getBranch("privacy");
 
-		Bluebird.try(function () {
-			var me = userService.getown();
-			$scope.profile.mail = me.getMail();
-			return me.getName();
-		}).then(function (names) {
-			$scope.profile.firstName = names.firstname;
-			$scope.profile.lastName = names.lastname;
-		}).catch(errorService.criticalError);
+            safetySettings.basic = {
+                firstname: {
+                    encrypt: true,
+                    visibility: ["always:allfriends"]
+                },
+                lastname: {
+                    encrypt: true,
+                    visibility: ["always:allfriends"]
+                }
+            };
+            settingsService.updateBranch("privacy", safetySettings);
+            return settingsService.uploadChangedData();
+        }).nodeify(cb);
+    }
 
-		$scope.saveProfile = function () {
-			saveSetupState.pending();
+    Bluebird.try(function () {
+        var me = userService.getown();
+        $scope.profile.mail = me.getMail();
+        return me.getName();
+    }).then(function (names) {
+        $scope.profile.firstName = names.firstname;
+        $scope.profile.lastName = names.lastname;
+    }).catch(errorService.criticalError);
 
-			var me = userService.getown();
-			var savePromise = Bluebird.try(function () {
-				if (!$scope.profile.privateName) {
-					return;
-				}
+    $scope.saveProfile = function () {
+        saveSetupState.pending();
 
-				return makeNamePrivate();
-			}).then(function () {
-				return me.setProfileAttribute("basic", {
-					firstname: $scope.profile.firstName,
-					lastname: $scope.profile.lastName
-				});
-			}).then(function () {
-				return me.uploadChangedProfile();
-			}).then(function () {
-				if (!h.isMail($scope.profile.mail)) {
-					return;
-				}
+        var me = userService.getown();
+        var savePromise = Bluebird.try(function () {
+            if (!$scope.profile.privateName) {
+                return;
+            }
 
-				return me.setMail($scope.profile.mail, this);
-			}).then(function () {
-				$state.go("app.main");
-			});
+            return makeNamePrivate();
+        }).then(function () {
+            return me.setProfileAttribute("basic", {
+                firstname: $scope.profile.firstName,
+                lastname: $scope.profile.lastName
+            });
+        }).then(function () {
+            return me.uploadChangedProfile();
+        }).then(function () {
+            if (!h.isMail($scope.profile.mail)) {
+                return;
+            }
 
-			errorService.failOnErrorPromise(saveSetupState, savePromise);
-		};
-	}
+            return me.setMail($scope.profile.mail, this);
+        }).then(function () {
+            $state.go("app.main");
+        });
 
-	setupController.$inject = ["$scope", "$state"];
+        errorService.failOnErrorPromise(saveSetupState, savePromise);
+    };
+}
 
-	controllerModule.controller("ssn.setupController", setupController);
-});
+setupController.$inject = ["$scope", "$state"];
+
+controllerModule.controller("ssn.setupController", setupController);

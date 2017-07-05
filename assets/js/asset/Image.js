@@ -1,179 +1,179 @@
-define(["whispeerHelper", "bluebird"], function (h, Bluebird) {
-	"use strict";
-	var MyImage = function () { this._name = ""; };
+"use strict";
+const h = require('whispeerHelper');
+const Bluebird = require('bluebird');
+var MyImage = function () { this._name = ""; };
 
-	MyImage.prototype.loadImage = function loadImage(src, cb) {
-		this._image = new Image();
-		this._image.addEventListener("load", function () {
-			cb(null, true);
-		});
+MyImage.prototype.loadImage = function loadImage(src, cb) {
+    this._image = new Image();
+    this._image.addEventListener("load", function () {
+        cb(null, true);
+    });
 
-		this._image.src = src;
-	};
+    this._image.src = src;
+};
 
-	MyImage.prototype.loadFile = function (file, cb) {
-		if (!file.type.match(/image.*/i)) {
-			cb(null, false);
-			return;
-		}
+MyImage.prototype.loadFile = function (file, cb) {
+    if (!file.type.match(/image.*/i)) {
+        cb(null, false);
+        return;
+    }
 
-		this._name = file.name;
+    this._name = file.name;
 
-		var url;
+    var url;
 
-		if (typeof URL !== "undefined") {
-			url = URL.createObjectURL(file);
-			this.loadImage(url, cb);
-		} else if (typeof webkitURL !== "undefined") {
-			url = webkitURL.createObjectURL(file);
-			this.loadImage(url, cb);
-		} else if (typeof FileReader !== "undefined") {
-			var reader = new FileReader();
-			reader.onload = function (e) {
-				this.loadImage(e.target.result, cb);
-			};
-			reader.readAsDataURL(file);
-		} else {
-			//da da dam ...
-			console.log("could not load image from file...");
-		}
-	};
+    if (typeof URL !== "undefined") {
+        url = URL.createObjectURL(file);
+        this.loadImage(url, cb);
+    } else if (typeof webkitURL !== "undefined") {
+        url = webkitURL.createObjectURL(file);
+        this.loadImage(url, cb);
+    } else if (typeof FileReader !== "undefined") {
+        var reader = new FileReader();
+        reader.onload = function (e) {
+            this.loadImage(e.target.result, cb);
+        };
+        reader.readAsDataURL(file);
+    } else {
+        //da da dam ...
+        console.log("could not load image from file...");
+    }
+};
 
-	MyImage.prototype.loadFileAsync = function (file) {
-		var loadFileAsync = Bluebird.promsify(this.loadFile.bind(this));
+MyImage.prototype.loadFileAsync = function (file) {
+    var loadFileAsync = Bluebird.promsify(this.loadFile.bind(this));
 
-		return loadFileAsync(file);
-	};
+    return loadFileAsync(file);
+};
 
-	MyImage.prototype.callBackForFileLoad = function loadImageFromFileHandler(cb) {
-		var that = this;
-		return function imageFileLoadHandler(e) {
-			var file = e.target.files[0];
-			that.loadFile(file, cb);
-		};
-	};
+MyImage.prototype.callBackForFileLoad = function loadImageFromFileHandler(cb) {
+    var that = this;
+    return function imageFileLoadHandler(e) {
+        var file = e.target.files[0];
+        that.loadFile(file, cb);
+    };
+};
 
-	MyImage.prototype.downSize = function (maxSize) {
-		if (this._image) {
-			var canvas = document.createElement("canvas");
-			var canvasContext = canvas.getContext("2d"), size;
+MyImage.prototype.downSize = function (maxSize) {
+    if (this._image) {
+        var canvas = document.createElement("canvas");
+        var canvasContext = canvas.getContext("2d"), size;
 
-			if (!maxSize || (this._image.width < maxSize && this._image.height < maxSize)) {
-				canvas.width = this._image.width;
-				canvas.height = this._image.height;
+        if (!maxSize || (this._image.width < maxSize && this._image.height < maxSize)) {
+            canvas.width = this._image.width;
+            canvas.height = this._image.height;
 
-				size = {
-					width: this._image.width,
-					height: this._image.height
-				};
-			} else {
-				var paintRatio = Math.min(maxSize / this._image.width, maxSize / this._image.height);
-				size = {
-					width: paintRatio * this._image.width,
-					height: paintRatio * this._image.height
-				};
-			}
+            size = {
+                width: this._image.width,
+                height: this._image.height
+            };
+        } else {
+            var paintRatio = Math.min(maxSize / this._image.width, maxSize / this._image.height);
+            size = {
+                width: paintRatio * this._image.width,
+                height: paintRatio * this._image.height
+            };
+        }
 
-			canvas.width = size.width;
-			canvas.height = size.height;
+        canvas.width = size.width;
+        canvas.height = size.height;
 
-			canvasContext.drawImage(this._image, 0, 0, this._image.width, this._image.height, 0, 0, size.width, size.height);
+        canvasContext.drawImage(this._image, 0, 0, this._image.width, this._image.height, 0, 0, size.width, size.height);
 
-			return canvas;
-		}
-	};
+        return canvas;
+    }
+};
 
-	MyImage.prototype.paintImageOnCanvas = function paintImageOnCanvas(canvas, canvaswidth, canvasheight) {
-		if (this._image) {
-			var canvasContext = canvas.getContext("2d"), offset;
-			var imageSize, paintRatio, size, relativePos, pos;
+MyImage.prototype.paintImageOnCanvas = function paintImageOnCanvas(canvas, canvaswidth, canvasheight) {
+    if (this._image) {
+        var canvasContext = canvas.getContext("2d"), offset;
+        var imageSize, paintRatio, size, relativePos, pos;
 
-			canvas.width = canvaswidth;
-			canvas.height = canvasheight;
+        canvas.width = canvaswidth;
+        canvas.height = canvasheight;
 
-			canvasContext.clearRect (0, 0, canvaswidth, canvasheight);
+        canvasContext.clearRect (0, 0, canvaswidth, canvasheight);
 
-			imageSize = {
-				width: this._image.width,
-				height: this._image.height
-			};
+        imageSize = {
+            width: this._image.width,
+            height: this._image.height
+        };
 
-			paintRatio = Math.min(canvaswidth / imageSize.width, canvasheight / imageSize.height);
-			size = {
-				width: paintRatio * imageSize.width,
-				height: paintRatio * imageSize.height
-			};
+        paintRatio = Math.min(canvaswidth / imageSize.width, canvasheight / imageSize.height);
+        size = {
+            width: paintRatio * imageSize.width,
+            height: paintRatio * imageSize.height
+        };
 
-			relativePos = {
-				left: (canvaswidth - size.width) / 2,
-				top: (canvasheight - size.height) / 2
-			};
+        relativePos = {
+            left: (canvaswidth - size.width) / 2,
+            top: (canvasheight - size.height) / 2
+        };
 
-			offset = jQuery(canvas).offset();
+        offset = jQuery(canvas).offset();
 
-			pos = {
-				top: offset.top + relativePos.top,
-				left: offset.left + relativePos.left
-			};
+        pos = {
+            top: offset.top + relativePos.top,
+            left: offset.left + relativePos.left
+        };
 
-			canvasContext.drawImage(this._image, 0, 0, imageSize.width, imageSize.height, relativePos.left, relativePos.top, size.width, size.height);
+        canvasContext.drawImage(this._image, 0, 0, imageSize.width, imageSize.height, relativePos.left, relativePos.top, size.width, size.height);
 
-			var paintedImageProperties = {
-				ratio: paintRatio,
-				pos: pos,
-				relativePos: relativePos,
-				size: size
-			};
+        var paintedImageProperties = {
+            ratio: paintRatio,
+            pos: pos,
+            relativePos: relativePos,
+            size: size
+        };
 
-			return paintedImageProperties;
-		}
-	};
+        return paintedImageProperties;
+    }
+};
 
-	MyImage.prototype.getResizedImage = function(size, pos) {
-		var doneCanvasE = document.createElement("canvas");
+MyImage.prototype.getResizedImage = function(size, pos) {
+    var doneCanvasE = document.createElement("canvas");
 
-		doneCanvasE.width = size;
-		doneCanvasE.height = size;
+    doneCanvasE.width = size;
+    doneCanvasE.height = size;
 
-		var doneCanvas = doneCanvasE.getContext("2d");
+    var doneCanvas = doneCanvasE.getContext("2d");
 
-		pos.left = Math.floor(pos.left);
-		pos.top = Math.floor(pos.top);
-		pos.width = Math.floor(pos.width);
-		size = Math.floor(size);
+    pos.left = Math.floor(pos.left);
+    pos.top = Math.floor(pos.top);
+    pos.width = Math.floor(pos.width);
+    size = Math.floor(size);
 
-		doneCanvas.drawImage(this._image, pos.left, pos.top, pos.width, pos.width, 0, 0, size, size);
+    doneCanvas.drawImage(this._image, pos.left, pos.top, pos.width, pos.width, 0, 0, size, size);
 
-		return doneCanvasE;
-	};
+    return doneCanvasE;
+};
 
-	MyImage.prototype.getResizedImageData = function getResizedImageData(size, pos) {
-		var doneCanvasE = this.getResizedImage(size, pos);
+MyImage.prototype.getResizedImageData = function getResizedImageData(size, pos) {
+    var doneCanvasE = this.getResizedImage(size, pos);
 
-		return doneCanvasE.toDataURL();
-	};
+    return doneCanvasE.toDataURL();
+};
 
-	MyImage.prototype.getResizedImageBlob = function getResizedImageData(size, pos, cb) {
-		var doneCanvasE = this.getResizedImage(size, pos);
+MyImage.prototype.getResizedImageBlob = function getResizedImageData(size, pos, cb) {
+    var doneCanvasE = this.getResizedImage(size, pos);
 
-		doneCanvasE.toBlob(cb);
-	};
+    doneCanvasE.toBlob(cb);
+};
 
-	MyImage.callBackForMultipleFiles = function (cb) {
-		return function imageFileLoadHandler(e) {
-			var MyImages = [];
-			Bluebird.resolve(e.target.files).map(function (file) {
-				var currentImage = new MyImage();
-				MyImages.push(currentImage);
+MyImage.callBackForMultipleFiles = function (cb) {
+    return function imageFileLoadHandler(e) {
+        var MyImages = [];
+        Bluebird.resolve(e.target.files).map(function (file) {
+            var currentImage = new MyImage();
+            MyImages.push(currentImage);
 
-				return currentImage.loadFileAsync(file);
-			}).then(function (loaded) {
-				return MyImages.filter(function (img, index) {
-					return loaded[index];
-				});
-			}).nodeify(cb);
-		};
-	};
+            return currentImage.loadFileAsync(file);
+        }).then(function (loaded) {
+            return MyImages.filter(function (img, index) {
+                return loaded[index];
+            });
+        }).nodeify(cb);
+    };
+};
 
-	return MyImage;
-});
+module.exports = MyImage;

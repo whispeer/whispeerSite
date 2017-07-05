@@ -5,87 +5,92 @@
 var postService = require("services/postService");
 var userService = require("user/userService");
 
-define(["bluebird", "whispeerHelper", "bluebird", "asset/resizableImage", "asset/state", "user/userModule"], function (Bluebird, h, Promise, ResizableImage, State, userModule) {
-	"use strict";
+"use strict";
 
-	function userWallController($scope, $stateParams) {
-		var userObject, identifier = $stateParams.identifier;
+const Bluebird = require('bluebird');
+const h = require('whispeerHelper');
+const Promise = require('bluebird');
+const ResizableImage = require('asset/resizableImage');
+const State = require('asset/state');
+const userModule = require('user/userModule');
 
-		$scope.posts = [];
-		$scope.loadingPosts = true;
-		$scope.endOfPosts = false;
-		$scope.newPost = {
-			text: ""
-		};
+function userWallController($scope, $stateParams) {
+    var userObject, identifier = $stateParams.identifier;
 
-		var sendPostState = new State.default();
-		$scope.sendPostState = sendPostState.data;
+    $scope.posts = [];
+    $scope.loadingPosts = true;
+    $scope.endOfPosts = false;
+    $scope.newPost = {
+        text: ""
+    };
 
-		$scope.sendPost = function () {
-			sendPostState.pending();
+    var sendPostState = new State.default();
+    $scope.sendPostState = sendPostState.data;
 
-			var visibleSelection = ["always:allfriends"], wallUserID = 0;
+    $scope.sendPost = function () {
+        sendPostState.pending();
 
-			if ($scope.newPost.text === "") {
-				sendPostState.failed();
-				return;
-			}
+        var visibleSelection = ["always:allfriends"], wallUserID = 0;
 
-			if (!$scope.user.me) {
-				wallUserID = $scope.user.id;
-				visibleSelection.push("friends:" + $scope.user.id);
-			}
+        if ($scope.newPost.text === "") {
+            sendPostState.failed();
+            return;
+        }
 
-			postService.createPost($scope.newPost.text, visibleSelection, wallUserID, []).then(function () {
-				$scope.newPost.text = "";
-			}).catch(sendPostState.failed.bind(sendPostState))
-			.then(sendPostState.success.bind(sendPostState));
-		};
+        if (!$scope.user.me) {
+            wallUserID = $scope.user.id;
+            visibleSelection.push("friends:" + $scope.user.id);
+        }
 
-		$scope.loadMorePosts = function () {
-			if ($scope.loadingPosts) {
-				return;
-			}
+        postService.createPost($scope.newPost.text, visibleSelection, wallUserID, []).then(function () {
+            $scope.newPost.text = "";
+        }).catch(sendPostState.failed.bind(sendPostState))
+        .then(sendPostState.success.bind(sendPostState));
+    };
 
-			$scope.loadingPosts = true;
+    $scope.loadMorePosts = function () {
+        if ($scope.loadingPosts) {
+            return;
+        }
 
-			postService.getWallPosts(
-				// if we do not use the helper here we can drop the dependency.
-				// @Nilos decide!
-				h.array.last($scope.posts).id,
-				userObject.getID(),
-				5
-			).then(function (posts) {
-				$scope.endOfPosts = posts.length === 0;
+        $scope.loadingPosts = true;
 
-				$scope.posts = $scope.posts.concat(posts);
-				$scope.loadingPosts = false;
-			});
-		};
+        postService.getWallPosts(
+            // if we do not use the helper here we can drop the dependency.
+            // @Nilos decide!
+            h.array.last($scope.posts).id,
+            userObject.getID(),
+            5
+        ).then(function (posts) {
+            $scope.endOfPosts = posts.length === 0;
 
-		function startLoading() {
-			userService.get(identifier).then(function (user) {
-				userObject = user;
+            $scope.posts = $scope.posts.concat(posts);
+            $scope.loadingPosts = false;
+        });
+    };
 
-				return postService.getWallPosts(0, userObject.getID(), 5);
-			}).then(function (posts) {
-				$scope.endOfPosts = posts.length === 0;
+    function startLoading() {
+        userService.get(identifier).then(function (user) {
+            userObject = user;
 
-				$scope.posts = posts;
-				$scope.loadingPosts = false;
-			});
-		}
+            return postService.getWallPosts(0, userObject.getID(), 5);
+        }).then(function (posts) {
+            $scope.endOfPosts = posts.length === 0;
 
-		$scope.$watch(function () {
-			return $scope.loading;
-		}, function (isUserLoading) {
-			if (!isUserLoading) {
-				startLoading();
-			}
-		});
-	}
+            $scope.posts = posts;
+            $scope.loadingPosts = false;
+        });
+    }
 
-	userWallController.$inject = ["$scope", "$stateParams"];
+    $scope.$watch(function () {
+        return $scope.loading;
+    }, function (isUserLoading) {
+        if (!isUserLoading) {
+            startLoading();
+        }
+    });
+}
 
-	userModule.controller("ssn.userWallController", userWallController);
-});
+userWallController.$inject = ["$scope", "$stateParams"];
+
+userModule.controller("ssn.userWallController", userWallController);

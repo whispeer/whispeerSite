@@ -1,10 +1,10 @@
-define(["bluebird"], function (Bluebird) {
-	"use strict";
-	return function ($injector, cb) {
-		return Bluebird.try(function() {
-			return;
-		}).then(function() {
-			return true;
-		}).nodeify(cb);
-	};
-});
+"use strict";
+const Bluebird = require('bluebird');
+
+module.exports = function ($injector, cb) {
+    return Bluebird.try(function() {
+        return;
+    }).then(function() {
+        return true;
+    }).nodeify(cb);
+};

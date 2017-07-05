@@ -1,22 +1,22 @@
-define(["directives/directivesModule"], function (directivesModule) {
-	"use strict";
+"use strict";
 
-	function focusMeDirective($timeout) {
-		return {
-			scope: { trigger: "=focusMe" },
-			link: function(scope, element) {
-				scope.$watch("trigger", function(value) {
-					if(value === true) { 
-						$timeout(function() {
-							element[0].focus(); 
-						});
-					}
-				});
-			}
-		};
-	}
+const directivesModule = require('directives/directivesModule');
 
-	focusMeDirective.$inject = ["$timeout"];
+function focusMeDirective($timeout) {
+    return {
+        scope: { trigger: "=focusMe" },
+        link: function(scope, element) {
+            scope.$watch("trigger", function(value) {
+                if(value === true) { 
+                    $timeout(function() {
+                        element[0].focus(); 
+                    });
+                }
+            });
+        }
+    };
+}
 
-	directivesModule.directive("focusMe", focusMeDirective);
-});
+focusMeDirective.$inject = ["$timeout"];
+
+directivesModule.directive("focusMe", focusMeDirective);

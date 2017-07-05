@@ -6,258 +6,256 @@ var locationService = require("services/location.manager");
 var errorService = require("services/error.service.ts").default;
 var registerService = require("register/registerService");
 
-define([
-		"bluebird",
-		"whispeerHelper",
-		"asset/state",
-		"register/registerModule",
-	], function (Bluebird, h, State, registerModule) {
-	"use strict";
+"use strict";
 
-	function registerController($scope, $timeout) {
-		var registerState = new State.default();
+const Bluebird = require('bluebird');
+const h = require('whispeerHelper');
+const State = require('asset/state');
+const registerModule = require('register/registerModule');
 
-		function hasLocalStorage() {
-			try {
-				localStorage.setItem("localStorageTest", "localStorageTest");
-				localStorage.removeItem("localStorageTest");
-				return true;
-			} catch (e) {
-				return !!window.indexedDB;
-			}
-		}
+function registerController($scope, $timeout) {
+    var registerState = new State.default();
 
-		function hasWebWorker() {
-			return !!window.Worker;
-		}
+    function hasLocalStorage() {
+        try {
+            localStorage.setItem("localStorageTest", "localStorageTest");
+            localStorage.removeItem("localStorageTest");
+            return true;
+        } catch (e) {
+            return !!window.indexedDB;
+        }
+    }
 
-		function isAndroid() {
-			return navigator.userAgent.toLowerCase().indexOf("android") > -1;
-		}
+    function hasWebWorker() {
+        return !!window.Worker;
+    }
 
-		function isUIView() {
-			return /(iPhone|iPod|iPad).*AppleWebKit(?!.*Safari)/i.test(navigator.userAgent);
-		}
+    function isAndroid() {
+        return navigator.userAgent.toLowerCase().indexOf("android") > -1;
+    }
 
-		function isTwitterBrowser() {
-			 return !!window.navigator.userAgent.match(/twitter/gi);
-		}
+    function isUIView() {
+        return /(iPhone|iPod|iPad).*AppleWebKit(?!.*Safari)/i.test(navigator.userAgent);
+    }
 
-		$scope.browser = {
-			old: !hasLocalStorage() || !hasWebWorker(),
-			specific: "old",
-			android: isAndroid()
-		};
+    function isTwitterBrowser() {
+         return !!window.navigator.userAgent.match(/twitter/gi);
+    }
 
-		$scope.loading = false;
+    $scope.browser = {
+        old: !hasLocalStorage() || !hasWebWorker(),
+        specific: "old",
+        android: isAndroid()
+    };
 
-		registerService.setPreID();
+    $scope.loading = false;
 
-		if (isTwitterBrowser()) {
-			$scope.browser.specific = "twitter";
-		} else if (isUIView()) {
-			$scope.browser.specific = "uiview";
-		}
+    registerService.setPreID();
 
-		$scope.registerState = registerState.data;
+    if (isTwitterBrowser()) {
+        $scope.browser.specific = "twitter";
+    } else if (isUIView()) {
+        $scope.browser.specific = "uiview";
+    }
 
-		$scope.pwState = { password: "" };
+    $scope.registerState = registerState.data;
 
-		$scope.registerData = {
-			nicknameCheckLoading: false,
-			nicknameCheck: false,
-			nicknameCheckError: false,
+    $scope.pwState = { password: "" };
 
-			nickNameError: true
-		};
+    $scope.registerData = {
+        nicknameCheckLoading: false,
+        nicknameCheck: false,
+        nicknameCheckError: false,
 
-		window.setTimeout(function () {
-			jQuery("#rnickname").focus();
-		}, 50);
+        nickNameError: true
+    };
 
-		$scope.registerFormClick = function formClickF() {
-			registerService.startKeyGeneration();
-		};
+    window.setTimeout(function () {
+        jQuery("#rnickname").focus();
+    }, 50);
 
-		$scope.startKeyGeneration = function startKeyGen1() {
-			registerService.startKeyGeneration();
-		};
+    $scope.registerFormClick = function formClickF() {
+        registerService.startKeyGeneration();
+    };
 
-		function disableAllForms() {
-			$scope.nicknameForm = false;
-			$scope.passwordForm = false;
-			$scope.agbForm = false;
-		}
+    $scope.startKeyGeneration = function startKeyGen1() {
+        registerService.startKeyGeneration();
+    };
 
-		$scope.nicknameValid = false;
-		$scope.passwordsValid = false;
+    function disableAllForms() {
+        $scope.nicknameForm = false;
+        $scope.passwordForm = false;
+        $scope.agbForm = false;
+    }
 
-		$scope.$watch(function () {
-			return $scope.validationOptions.checkValidations && !$scope.validationOptions.checkValidations(["register-nickname"], true);
-		}, function (nicknameValid) {
-			$scope.nicknameValid = nicknameValid;
-		});
+    $scope.nicknameValid = false;
+    $scope.passwordsValid = false;
 
-		$scope.$watch(function () {
-			return $scope.passwordForm && !$scope.validationOptions.checkValidations(["password1", "password2"], true);
-		}, function (passwordsValid) {
-			$scope.passwordsValid = passwordsValid;
-		});
+    $scope.$watch(function () {
+        return $scope.validationOptions.checkValidations && !$scope.validationOptions.checkValidations(["register-nickname"], true);
+    }, function (nicknameValid) {
+        $scope.nicknameValid = nicknameValid;
+    });
 
-		$scope.goToNextForm = function () {
-			if ($scope.nicknameForm) {
-				return $scope.goToPasswordForm();
-			}
+    $scope.$watch(function () {
+        return $scope.passwordForm && !$scope.validationOptions.checkValidations(["password1", "password2"], true);
+    }, function (passwordsValid) {
+        $scope.passwordsValid = passwordsValid;
+    });
 
-			if ($scope.passwordForm) {
-				return $scope.goToAGBForm();
-			}
-		};
+    $scope.goToNextForm = function () {
+        if ($scope.nicknameForm) {
+            return $scope.goToPasswordForm();
+        }
 
-		$scope.goToNicknameForm = function () {
-			disableAllForms();
+        if ($scope.passwordForm) {
+            return $scope.goToAGBForm();
+        }
+    };
 
-			$scope.nicknameForm = true;
-		};
+    $scope.goToNicknameForm = function () {
+        disableAllForms();
 
-		$scope.goToPasswordForm = function () {
-			if (!$scope.validationOptions.checkValidations(["register-nickname"])) {
-				disableAllForms();
-				$scope.passwordForm = true;
-			}
-		};
+        $scope.nicknameForm = true;
+    };
 
-		$scope.goToAGBForm = function () {
-			if (!$scope.validationOptions.checkValidations(["password1", "password2"])) {
-				disableAllForms();
-				$scope.agbForm = true;
-			}
-		};
+    $scope.goToPasswordForm = function () {
+        if (!$scope.validationOptions.checkValidations(["register-nickname"])) {
+            disableAllForms();
+            $scope.passwordForm = true;
+        }
+    };
 
-		$scope.goToNicknameForm();
+    $scope.goToAGBForm = function () {
+        if (!$scope.validationOptions.checkValidations(["password1", "password2"])) {
+            disableAllForms();
+            $scope.agbForm = true;
+        }
+    };
 
-		$scope.nicknameChange = function () {
-			Bluebird.try(function nicknameCheck() {
-				var internalNickname = $scope.registerData.nickname;
-				$scope.registerData.nicknameCheckLoading = true;
-				$scope.registerData.nicknameCheck = false;
-				$scope.registerData.nicknameCheckError = false;
+    $scope.goToNicknameForm();
 
-				return registerService.nicknameUsed(internalNickname);
-			}).then(function nicknameChecked(nicknameUsed) {
-				$scope.registerData.nicknameCheckLoading = false;
+    $scope.nicknameChange = function () {
+        Bluebird.try(function nicknameCheck() {
+            var internalNickname = $scope.registerData.nickname;
+            $scope.registerData.nicknameCheckLoading = true;
+            $scope.registerData.nicknameCheck = false;
+            $scope.registerData.nicknameCheckError = false;
 
-				if (nicknameUsed === false) {
-					$scope.registerData.nicknameCheck = true;
-				} else if (nicknameUsed === true) {
-					$scope.registerData.nicknameCheck = false;
-				} else {
-					$scope.registerData.nicknameCheckError = true;
-				}
-			}).catch(errorService.criticalError);
-		};
+            return registerService.nicknameUsed(internalNickname);
+        }).then(function nicknameChecked(nicknameUsed) {
+            $scope.registerData.nicknameCheckLoading = false;
 
-		$timeout($scope.nicknameChange);
+            if (nicknameUsed === false) {
+                $scope.registerData.nicknameCheck = true;
+            } else if (nicknameUsed === true) {
+                $scope.registerData.nicknameCheck = false;
+            } else {
+                $scope.registerData.nicknameCheckError = true;
+            }
+        }).catch(errorService.criticalError);
+    };
 
-		$scope.empty = function (val) {
-			return val === "" || !h.isset(val);
-		};
+    $timeout($scope.nicknameChange);
 
-		$scope.nicknameEmpty = function () {
-			return $scope.empty($scope.registerData.nickname);
-		};
+    $scope.empty = function (val) {
+        return val === "" || !h.isset(val);
+    };
 
-		$scope.nicknameInvalid = function () {
-			return !$scope.empty($scope.registerData.nickname) && !h.isNickname($scope.registerData.nickname);
-		};
+    $scope.nicknameEmpty = function () {
+        return $scope.empty($scope.registerData.nickname);
+    };
 
-		$scope.nicknameLoading = function () {
-			return !$scope.empty($scope.registerData.nickname) && h.isNickname($scope.registerData.nickname) && $scope.registerData.nicknameCheckLoading;
-		};
+    $scope.nicknameInvalid = function () {
+        return !$scope.empty($scope.registerData.nickname) && !h.isNickname($scope.registerData.nickname);
+    };
 
-		$scope.nicknameUsed = function () {
-			return !$scope.empty($scope.registerData.nickname) && h.isNickname($scope.registerData.nickname) && !$scope.registerData.nicknameCheckLoading && !$scope.registerData.nicknameCheck;
-		};
+    $scope.nicknameLoading = function () {
+        return !$scope.empty($scope.registerData.nickname) && h.isNickname($scope.registerData.nickname) && $scope.registerData.nicknameCheckLoading;
+    };
 
-		$scope.isAgbError = function () {
-			return !$scope.registerData.agb;
-		};
+    $scope.nicknameUsed = function () {
+        return !$scope.empty($scope.registerData.nickname) && h.isNickname($scope.registerData.nickname) && !$scope.registerData.nicknameCheckLoading && !$scope.registerData.nicknameCheck;
+    };
 
-		$scope.validationOptions = {
-			validateOnCallback: true,
-			hideOnInteraction: true
-		};
+    $scope.isAgbError = function () {
+        return !$scope.registerData.agb;
+    };
 
-		$scope.acceptIconNicknameFree = function acceptIconNickname() {
-			if ($scope.registerData.nicknameCheckLoading) {
-				return "fa-spinner";
-			}
+    $scope.validationOptions = {
+        validateOnCallback: true,
+        hideOnInteraction: true
+    };
 
-			if ($scope.registerData.nicknameCheckError === true) {
-				return "fa-warning";
-			}
+    $scope.acceptIconNicknameFree = function acceptIconNickname() {
+        if ($scope.registerData.nicknameCheckLoading) {
+            return "fa-spinner";
+        }
 
-			if ($scope.registerData.nicknameCheck) {
-				return "fa-check";
-			}
+        if ($scope.registerData.nicknameCheckError === true) {
+            return "fa-warning";
+        }
 
-			return "fa-times";
-		};
+        if ($scope.registerData.nicknameCheck) {
+            return "fa-check";
+        }
 
-		$scope.nicknameValidations = [
-			{ validator: "nicknameEmpty()", translation: "login.register.errors.nickEmpty" },
-			{ validator: "nicknameInvalid()", translation: "login.register.errors.nickInvalid", onChange: 500 },
-			{ validator: "nicknameLoading()", onChange: 500 },
-			{ validator: "nicknameUsed()", translation: "login.register.errors.nickUsed", onChange: 500 }
-		];
+        return "fa-times";
+    };
 
-		$scope.agbValidations = [
-			{ validator: "isAgbError()", translation: "login.register.errors.agb" }
-		];
+    $scope.nicknameValidations = [
+        { validator: "nicknameEmpty()", translation: "login.register.errors.nickEmpty" },
+        { validator: "nicknameInvalid()", translation: "login.register.errors.nickInvalid", onChange: 500 },
+        { validator: "nicknameLoading()", onChange: 500 },
+        { validator: "nicknameUsed()", translation: "login.register.errors.nickUsed", onChange: 500 }
+    ];
+
+    $scope.agbValidations = [
+        { validator: "isAgbError()", translation: "login.register.errors.agb" }
+    ];
 
 
-		$scope.register = function doRegisterC() {
-			registerState.pending();
-			if ($scope.validationOptions.checkValidations()) {
-				registerState.failed();
-				return;
-			}
+    $scope.register = function doRegisterC() {
+        registerState.pending();
+        if ($scope.validationOptions.checkValidations()) {
+            registerState.failed();
+            return;
+        }
 
-			var settings = {
-				meta: {
-					initialLanguage: h.getLanguageFromPath()
-				},
-				content: {}
-			};
+        var settings = {
+            meta: {
+                initialLanguage: h.getLanguageFromPath()
+            },
+            content: {}
+        };
 
-			var profile = {
-				pub: {},
-				priv: {},
-				nobody: {},
-				metaData: {
-					scope: "always:allfriends"
-				}
-			};
+        var profile = {
+            pub: {},
+            priv: {},
+            nobody: {},
+            metaData: {
+                scope: "always:allfriends"
+            }
+        };
 
-			var inviteCode = locationService.getUrlParameter("code");
+        var inviteCode = locationService.getUrlParameter("code");
 
-			var registerPromise = Bluebird.try(function () {
-				console.time("register");
+        var registerPromise = Bluebird.try(function () {
+            console.time("register");
 
-				locationService.setReturnUrl("/backup");
-				return registerService.register($scope.registerData.nickname, "", $scope.pwState.password, profile, settings, inviteCode);
-			}).then(function () {
-				locationService.mainPage();
-			}).finally(function () {
-				console.timeEnd("register");
-				console.log("register done!");
-			});
+            locationService.setReturnUrl("/backup");
+            return registerService.register($scope.registerData.nickname, "", $scope.pwState.password, profile, settings, inviteCode);
+        }).then(function () {
+            locationService.mainPage();
+        }).finally(function () {
+            console.timeEnd("register");
+            console.log("register done!");
+        });
 
-			errorService.failOnErrorPromise(registerState, registerPromise);
-		};
-	}
+        errorService.failOnErrorPromise(registerState, registerPromise);
+    };
+}
 
-	registerController.$inject = ["$scope", "$timeout"];
+registerController.$inject = ["$scope", "$timeout"];
 
-	registerModule.controller("ssn.registerController", registerController);
-});
+registerModule.controller("ssn.registerController", registerController);

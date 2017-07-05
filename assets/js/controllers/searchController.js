@@ -1,20 +1,20 @@
 var cssService = require("services/css.service").default;
 
-define(["controllers/controllerModule"], function (controllerModule) {
-	"use strict";
+"use strict";
 
-	function searchController($scope, $state) {
-		cssService.setClass("searchView", true);
+const controllerModule = require('controllers/controllerModule');
 
-		$scope.visitUserProfile = function (user) {
-			$state.go("app.user.info", {
-				identifier: user.user.getNickname()
-			});
-			$scope.closeSidebar();
-		};
-	}
+function searchController($scope, $state) {
+    cssService.setClass("searchView", true);
 
-	searchController.$inject = ["$scope", "$state"];
+    $scope.visitUserProfile = function (user) {
+        $state.go("app.user.info", {
+            identifier: user.user.getNickname()
+        });
+        $scope.closeSidebar();
+    };
+}
 
-	controllerModule.controller("ssn.searchController", searchController);
-});
+searchController.$inject = ["$scope", "$state"];
+
+controllerModule.controller("ssn.searchController", searchController);

@@ -8,133 +8,136 @@ var localize = require("i18n/localizationConfig");
 var postService = require("services/postService");
 var settingsService = require("services/settings.service").default;
 
-define(["bluebird", "whispeerHelper", "asset/state", "controllers/controllerModule"], function (Bluebird, h, State, controllerModule) {
-	"use strict";
+"use strict";
 
-	function mainController($scope, $state, $stateParams) {
-		cssService.setClass("mainView");
+const Bluebird = require('bluebird');
+const h = require('whispeerHelper');
+const State = require('asset/state');
+const controllerModule = require('controllers/controllerModule');
 
-		function reloadTimeline(cb) {
-			return Bluebird.try(function() {
-				if ($scope.filterSelection.length === 0) {
-					$scope.filterSelection = ["always:allfriends"];
-				}
+function mainController($scope, $state, $stateParams) {
+    cssService.setClass("mainView");
 
-				$scope.currentTimeline = postService.getTimeline($scope.filterSelection, $scope.sortByCommentTime);
-				return $scope.currentTimeline.loadInitial();
-			}).then(function () {
-				var donateSettings = settingsService.getBranch("donate");
+    function reloadTimeline(cb) {
+        return Bluebird.try(function() {
+            if ($scope.filterSelection.length === 0) {
+                $scope.filterSelection = ["always:allfriends"];
+            }
 
-				$scope.showDonateHint = $scope.currentTimeline.displayDonateHint && donateSettings.later < new Date().getTime();
-			}).catch(
-				errorService.criticalError
-			).nodeify(cb);
-		}
+            $scope.currentTimeline = postService.getTimeline($scope.filterSelection, $scope.sortByCommentTime);
+            return $scope.currentTimeline.loadInitial();
+        }).then(function () {
+            var donateSettings = settingsService.getBranch("donate");
 
-		$scope.postActive = false;
-		$scope.filterActive = false;
+            $scope.showDonateHint = $scope.currentTimeline.displayDonateHint && donateSettings.later < new Date().getTime();
+        }).catch(
+            errorService.criticalError
+        ).nodeify(cb);
+    }
 
-		$scope.showDonateHint = false;
+    $scope.postActive = false;
+    $scope.filterActive = false;
 
-		var applyFilterState = new State.default();
-		$scope.applyFilterState = applyFilterState.data;
+    $scope.showDonateHint = false;
 
-		$scope.filterSelection = settingsService.getBranch("filterSelection");
+    var applyFilterState = new State.default();
+    $scope.applyFilterState = applyFilterState.data;
 
-		$scope.getFiltersByID = filterService.getFiltersByID;
+    $scope.filterSelection = settingsService.getBranch("filterSelection");
 
-		$scope.donateType = "donatePage.";
+    $scope.getFiltersByID = filterService.getFiltersByID;
 
-		$scope.focusNewPost = function () {
-			var textarea = jQuery("#newsfeedView-postForm textarea");
-			var scope = textarea.scope();
+    $scope.donateType = "donatePage.";
 
-			textarea.focus();
-			scope.newPost.text = localize.getLocalizedString("general.zeroContent.firstPostText", {});
-			scope.$apply();
-		};
+    $scope.focusNewPost = function () {
+        var textarea = jQuery("#newsfeedView-postForm textarea");
+        var scope = textarea.scope();
 
-		$scope.setTimelineFilter = function (newSelection) {
-			$scope.filterSelection = newSelection;
-		};
+        textarea.focus();
+        scope.newPost.text = localize.getLocalizedString("general.zeroContent.firstPostText", {});
+        scope.$apply();
+    };
 
-		$scope.applyFilter = function () {
-			var filterPromise = Bluebird.try(function() {
-				settingsService.updateBranch("filterSelection", $scope.filterSelection);
+    $scope.setTimelineFilter = function (newSelection) {
+        $scope.filterSelection = newSelection;
+    };
 
-				return Bluebird.all([
-					reloadTimeline(),
-					settingsService.uploadChangedData()
-				]);
-			});
+    $scope.applyFilter = function () {
+        var filterPromise = Bluebird.try(function() {
+            settingsService.updateBranch("filterSelection", $scope.filterSelection);
 
-			return errorService.failOnErrorPromise(applyFilterState, filterPromise);
-			// TODO: Save for later
-		};
+            return Bluebird.all([
+                reloadTimeline(),
+                settingsService.uploadChangedData()
+            ]);
+        });
 
-		$scope.sortByCommentTime = $stateParams.sortByCommentTime === "true" || settingsService.getBranch("sortByCommentTime");
-		$scope.sortIcon = "fa-newspaper-o";
+        return errorService.failOnErrorPromise(applyFilterState, filterPromise);
+        // TODO: Save for later
+    };
 
-		$scope.toggleSort = function() {
-			return Bluebird.try(function () {
-				$scope.sortByCommentTime = !$scope.sortByCommentTime;
+    $scope.sortByCommentTime = $stateParams.sortByCommentTime === "true" || settingsService.getBranch("sortByCommentTime");
+    $scope.sortIcon = "fa-newspaper-o";
 
-				settingsService.updateBranch("sortByCommentTime", $scope.sortByCommentTime);
+    $scope.toggleSort = function() {
+        return Bluebird.try(function () {
+            $scope.sortByCommentTime = !$scope.sortByCommentTime;
 
-				$state.go(".", { sortByCommentTime: $scope.sortByCommentTime  }, { reload: false });
+            settingsService.updateBranch("sortByCommentTime", $scope.sortByCommentTime);
 
-				return Bluebird.all([
-					reloadTimeline(),
-					settingsService.uploadChangedData()
-				]);
-			}).catch(errorService.criticalError);
-		};
+            $state.go(".", { sortByCommentTime: $scope.sortByCommentTime  }, { reload: false });
 
-		$scope.togglePost = function() {
-			$scope.postActive = !$scope.postActive;
-		};
+            return Bluebird.all([
+                reloadTimeline(),
+                settingsService.uploadChangedData()
+            ]);
+        }).catch(errorService.criticalError);
+    };
 
-		$scope.loadMorePosts = function () {
-			$scope.currentTimeline.loadMorePosts(errorService.criticalError);
-		};
+    $scope.togglePost = function() {
+        $scope.postActive = !$scope.postActive;
+    };
 
-		$scope.toggleFilter = function() {
-			$scope.filterActive = !$scope.filterActive;
-		};
+    $scope.loadMorePosts = function () {
+        $scope.currentTimeline.loadMorePosts(errorService.criticalError);
+    };
 
-		$scope.currentTimeline = null;
+    $scope.toggleFilter = function() {
+        $scope.filterActive = !$scope.filterActive;
+    };
 
-		$scope.dontWantToDonate = function () {
-			//90 days
-			var DONATELATERDIFF = 90 * 24 * 60 * 60 * 1000;
+    $scope.currentTimeline = null;
 
-			$scope.showDonateHint = false;
+    $scope.dontWantToDonate = function () {
+        //90 days
+        var DONATELATERDIFF = 90 * 24 * 60 * 60 * 1000;
 
-			var donateSettings = settingsService.getBranch("donate");
-			donateSettings.refused = true;
-			donateSettings.later = new Date().getTime() + DONATELATERDIFF;
-			settingsService.updateBranch("donate", donateSettings);
+        $scope.showDonateHint = false;
 
-			settingsService.uploadChangedData(errorService.criticalError);
-		};
+        var donateSettings = settingsService.getBranch("donate");
+        donateSettings.refused = true;
+        donateSettings.later = new Date().getTime() + DONATELATERDIFF;
+        settingsService.updateBranch("donate", donateSettings);
 
-		$scope.donateLater = function () {
-			//2 Days
-			var DONATELATERDIFF = 2 * 24 * 60 * 60 * 1000;
+        settingsService.uploadChangedData(errorService.criticalError);
+    };
 
-			$scope.showDonateHint = false;
+    $scope.donateLater = function () {
+        //2 Days
+        var DONATELATERDIFF = 2 * 24 * 60 * 60 * 1000;
 
-			var donateSettings = settingsService.getBranch("donate");
-			donateSettings.later = new Date().getTime() + DONATELATERDIFF;
-			settingsService.updateBranch("donate", donateSettings);
+        $scope.showDonateHint = false;
 
-			settingsService.uploadChangedData(errorService.criticalError);
-		};
+        var donateSettings = settingsService.getBranch("donate");
+        donateSettings.later = new Date().getTime() + DONATELATERDIFF;
+        settingsService.updateBranch("donate", donateSettings);
 
-		reloadTimeline();
-	}
+        settingsService.uploadChangedData(errorService.criticalError);
+    };
 
-	mainController.$inject = ["$scope", "$state", "$stateParams"];
+    reloadTimeline();
+}
 
-	controllerModule.controller("ssn.mainController", mainController);
-});
+mainController.$inject = ["$scope", "$state", "$stateParams"];
+
+controllerModule.controller("ssn.mainController", mainController);

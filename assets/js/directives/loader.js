@@ -2,44 +2,44 @@ var Bluebird = require("bluebird");
 var userService = require("user/userService");
 var errorService = require("services/error.service").errorServiceInstance;
 
-define(["whispeerHelper", "directives/directivesModule"], function (h, directivesModule) {
-	"use strict";
+"use strict";
 
-	// <loader data-model="user" data-ng-repeat="user in invite.usedBy" data-id="user" data-scope-attribute="user">
+const h = require('whispeerHelper');
+const directivesModule = require('directives/directivesModule');
 
-	function loaderDirective() {
-		return {
-			restrict: "E",
-			scope: {
-				model: "@",
-				id: "=",
-				scopeAttribute: "@"
-			},
-			transclude: true,
+// <loader data-model="user" data-ng-repeat="user in invite.usedBy" data-id="user" data-scope-attribute="user">
 
-			link: function(scope, element, attrs, ctrl, transclude) {
-				scope.loading = true;
-				scope.loaded = false;
+function loaderDirective() {
+    return {
+        restrict: "E",
+        scope: {
+            model: "@",
+            id: "=",
+            scopeAttribute: "@"
+        },
+        transclude: true,
 
-				if (scope.model === "user") {
-					Bluebird.try(function () {
-						return userService.get(scope.id);
-					}).then(function (user) {
-						return user.loadBasicData().thenReturn(user);
-					}).then(function (user) {
-						scope[scope.scopeAttribute] = user.data;
-						scope.loaded = true;
-						scope.loading = false;
-					}).catch(errorService.criticalError);
-				}
+        link: function(scope, element, attrs, ctrl, transclude) {
+            scope.loading = true;
+            scope.loaded = false;
 
-				transclude(scope, function(clone) {
-					element.append(clone);
-				});
-			}
-		};
-	}
+            if (scope.model === "user") {
+                Bluebird.try(function () {
+                    return userService.get(scope.id);
+                }).then(function (user) {
+                    return user.loadBasicData().thenReturn(user);
+                }).then(function (user) {
+                    scope[scope.scopeAttribute] = user.data;
+                    scope.loaded = true;
+                    scope.loading = false;
+                }).catch(errorService.criticalError);
+            }
 
-	directivesModule.directive("loader", [loaderDirective]);
+            transclude(scope, function(clone) {
+                element.append(clone);
+            });
+        }
+    };
+}
 
-});
+directivesModule.directive("loader", [loaderDirective]);

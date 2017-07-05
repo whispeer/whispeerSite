@@ -2,32 +2,34 @@ var cssService = require("services/css.service").default;
 var errorService = require("services/error.service").errorServiceInstance;
 var socketService = require("services/socket.service").default;
 
-define(["bluebird", "asset/state", "controllers/controllerModule"], function (Bluebird, State, controllerModule) {
-	"use strict";
+"use strict";
 
-	function acceptInviteController($scope) {
-		cssService.setClass("acceptInviteView");
+const Bluebird = require('bluebird');
+const State = require('asset/state');
+const controllerModule = require('controllers/controllerModule');
 
-		var acceptInviteState = new State.default();
-		$scope.acceptInviteState = acceptInviteState.data;
+function acceptInviteController($scope) {
+    cssService.setClass("acceptInviteView");
 
-		$scope.code = "";
-		$scope.accept = function () {
-			acceptInviteState.pending();
+    var acceptInviteState = new State.default();
+    $scope.acceptInviteState = acceptInviteState.data;
 
-			var acceptInvitePromise = socketService.emit("invites.acceptRequest", {
-				code: $scope.code
-			}).then(function(data) {
-				if (!data.success) {
-					throw new Error("nope!");
-				}
-			});
+    $scope.code = "";
+    $scope.accept = function () {
+        acceptInviteState.pending();
 
-			return errorService.failOnErrorPromise(acceptInviteState, acceptInvitePromise);
-		};
-	}
+        var acceptInvitePromise = socketService.emit("invites.acceptRequest", {
+            code: $scope.code
+        }).then(function(data) {
+            if (!data.success) {
+                throw new Error("nope!");
+            }
+        });
 
-	acceptInviteController.$inject = ["$scope"];
+        return errorService.failOnErrorPromise(acceptInviteState, acceptInvitePromise);
+    };
+}
 
-	controllerModule.controller("ssn.acceptInviteController", acceptInviteController);
-});
+acceptInviteController.$inject = ["$scope"];
+
+controllerModule.controller("ssn.acceptInviteController", acceptInviteController);

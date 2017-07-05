@@ -1,31 +1,32 @@
-define(["sjcl", "bluebird"], function (sjcl, Bluebird) {
-	"use strict";
+"use strict";
 
-	/**
-	* Wait until randomizer is ready.
-	* calls callback if randomizer is ready.
-	*/
-	var waitForReady = function (callback) {
-		if (sjcl.random.isReady()) {
-			callback();
-			return true;
-		}
+const sjcl = require('sjcl');
+const Bluebird = require('bluebird');
 
-		waitForReady.waiting = true;
+/**
+* Wait until randomizer is ready.
+* calls callback if randomizer is ready.
+*/
+var waitForReady = function (callback) {
+    if (sjcl.random.isReady()) {
+        callback();
+        return true;
+    }
 
-		sjcl.random.addEventListener("seeded", function () {
-			waitForReady.waiting = false;
-			waitForReady.ready = true;
-			callback();
-		});
+    waitForReady.waiting = true;
 
-		return false;
-	};
+    sjcl.random.addEventListener("seeded", function () {
+        waitForReady.waiting = false;
+        waitForReady.ready = true;
+        callback();
+    });
 
-	waitForReady.async = Bluebird.promisify(waitForReady);
+    return false;
+};
 
-	waitForReady.ready = false;
-	waitForReady.waiting = false;
+waitForReady.async = Bluebird.promisify(waitForReady);
 
-	return waitForReady;
-});
+waitForReady.ready = false;
+waitForReady.waiting = false;
+
+module.exports = waitForReady;

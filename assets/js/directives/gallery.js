@@ -3,140 +3,142 @@ var blobService = require("services/blobService");
 var errorService = require("services/error.service").errorServiceInstance;
 var screenSizeService = require("services/screenSize.service.ts").default;
 
-define(["jquery", "bluebird", "directives/directivesModule"], function (jQuery, Bluebird, directivesModule) {
-	"use strict";
+"use strict";
 
-	function imageGallery() {
-		function loadImage(data) {
-			var blobid = data.blobID;
+const jQuery = require('jquery');
+const Bluebird = require('bluebird');
+const directivesModule = require('directives/directivesModule');
 
-			if (data.loaded) {
-				return;
-			}
+function imageGallery() {
+    function loadImage(data) {
+        var blobid = data.blobID;
 
-			data.loading = true;
-			data.decrypting = false;
-			data.downloading = false;
+        if (data.loaded) {
+            return;
+        }
 
-			var blob;
-			Bluebird.try(function () {
-				data.downloading = true;
-				return blobService.getBlob(blobid);
-			}).then(function (_blob) {
-				data.downloading = false;
-				data.decrypting = true;
-				blob = _blob;
-				return blob.decrypt();
-			}).then(function () {
-				return blob.toURL();
-			}).then(function (url) {
-				data.loading = false;
-				data.decrypting = false;
-				data.loaded = true;
-				data.url = url;
-			}).catch(errorService.criticalError);
-		}
+        data.loading = true;
+        data.decrypting = false;
+        data.downloading = false;
 
-		function loadImagePreviews(images) {
-			images.forEach(function (image) {
-				if (image.upload) {
-					return;
-				}
+        var blob;
+        Bluebird.try(function () {
+            data.downloading = true;
+            return blobService.getBlob(blobid);
+        }).then(function (_blob) {
+            data.downloading = false;
+            data.decrypting = true;
+            blob = _blob;
+            return blob.decrypt();
+        }).then(function () {
+            return blob.toURL();
+        }).then(function (url) {
+            data.loading = false;
+            data.decrypting = false;
+            data.loaded = true;
+            data.url = url;
+        }).catch(errorService.criticalError);
+    }
 
-				loadImage(image.lowest);
-			});
-		}
+    function loadImagePreviews(images) {
+        images.forEach(function (image) {
+            if (image.upload) {
+                return;
+            }
 
-		return {
-			scope: {
-				"images": "="
-			},
-			restrict: "E",
-			templateUrl: templateUrl,
-			link: function(scope) {
-				var previewChunk = 4;
+            loadImage(image.lowest);
+        });
+    }
 
-				if (screenSizeService.mobile) {
-					previewChunk = 2;
-				}
+    return {
+        scope: {
+            "images": "="
+        },
+        restrict: "E",
+        templateUrl: templateUrl,
+        link: function(scope) {
+            var previewChunk = 4;
 
-				scope.preview = previewChunk;
+            if (screenSizeService.mobile) {
+                previewChunk = 2;
+            }
 
-				scope.$watch("images", function () {
-					if (scope.images && scope.images.length > 0) {
-						loadImagePreviews(scope.images.slice(0, scope.preview));
-					}
-				});
+            scope.preview = previewChunk;
 
-				scope.loadMoreImages = function () {
-					scope.preview = parseInt(scope.preview, 10);
+            scope.$watch("images", function () {
+                if (scope.images && scope.images.length > 0) {
+                    loadImagePreviews(scope.images.slice(0, scope.preview));
+                }
+            });
 
-					loadImagePreviews(scope.images.slice(scope.preview, scope.preview + previewChunk));
-					scope.preview += previewChunk;
-				};
+            scope.loadMoreImages = function () {
+                scope.preview = parseInt(scope.preview, 10);
 
-				var runningGifs = false;
+                loadImagePreviews(scope.images.slice(scope.preview, scope.preview + previewChunk));
+                scope.preview += previewChunk;
+            };
 
-				scope.modal = false;
-				scope.runGif = function (index) {
-					return index === scope.imageIndex && runningGifs;
-				};
+            var runningGifs = false;
 
-				scope.viewImage = function (index) {
-					scope.modalImage = scope.images[index];
+            scope.modal = false;
+            scope.runGif = function (index) {
+                return index === scope.imageIndex && runningGifs;
+            };
 
-					if (scope.modalImage.lowest.gif) {
-						runningGifs = scope.imageIndex !== index || !runningGifs;
-					} else if (screenSizeService.mobile) {
-						return;
-					} else {
-						runningGifs = false;
-						scope.modal = true;
-					}
+            scope.viewImage = function (index) {
+                scope.modalImage = scope.images[index];
 
-					scope.imageIndex = index;
+                if (scope.modalImage.lowest.gif) {
+                    runningGifs = scope.imageIndex !== index || !runningGifs;
+                } else if (screenSizeService.mobile) {
+                    return;
+                } else {
+                    runningGifs = false;
+                    scope.modal = true;
+                }
 
-					if (!scope.modalImage.highest) {
-						scope.modalImage.highest = scope.modalImage.middle || scope.modalImage.lowest;
-					}
+                scope.imageIndex = index;
 
-					if (!scope.modalImage.upload) {
-						loadImage(scope.modalImage.highest);
-					}
-				};
+                if (!scope.modalImage.highest) {
+                    scope.modalImage.highest = scope.modalImage.middle || scope.modalImage.lowest;
+                }
 
-				var KEYS = {
-					LEFT: 37,
-					RIGHT: 39,
-					J: 74,
-					K: 75,
-					UP: 38,
-					DOWN: 40
-				};
+                if (!scope.modalImage.upload) {
+                    loadImage(scope.modalImage.highest);
+                }
+            };
 
-				var NEXTKEYS = [KEYS.DOWN, KEYS.J, KEYS.RIGHT];
-				var PREVKEYS = [KEYS.UP, KEYS.K, KEYS.LEFT];
+            var KEYS = {
+                LEFT: 37,
+                RIGHT: 39,
+                J: 74,
+                K: 75,
+                UP: 38,
+                DOWN: 40
+            };
 
-				jQuery(document).keyup(function (e) {
-					if (scope.modal) {
-						scope.$apply(function () {
-							if (NEXTKEYS.indexOf(e.keyCode) > -1) {
-								scope.imageIndex = Math.min(scope.imageIndex + 1, scope.images.length - 1);
-								e.preventDefault();
-							}
-							if (PREVKEYS.indexOf(e.keyCode) > -1) {
-								scope.imageIndex = Math.max(scope.imageIndex - 1, 0);
-								e.preventDefault();
-							}
-							scope.viewImage(scope.imageIndex);
-						});
-					}
-				});
-			}
-		};
-	}
+            var NEXTKEYS = [KEYS.DOWN, KEYS.J, KEYS.RIGHT];
+            var PREVKEYS = [KEYS.UP, KEYS.K, KEYS.LEFT];
 
-	imageGallery.$inject = [];
+            jQuery(document).keyup(function (e) {
+                if (scope.modal) {
+                    scope.$apply(function () {
+                        if (NEXTKEYS.indexOf(e.keyCode) > -1) {
+                            scope.imageIndex = Math.min(scope.imageIndex + 1, scope.images.length - 1);
+                            e.preventDefault();
+                        }
+                        if (PREVKEYS.indexOf(e.keyCode) > -1) {
+                            scope.imageIndex = Math.max(scope.imageIndex - 1, 0);
+                            e.preventDefault();
+                        }
+                        scope.viewImage(scope.imageIndex);
+                    });
+                }
+            });
+        }
+    };
+}
 
-	directivesModule.directive("gallery", imageGallery);
-});
+imageGallery.$inject = [];
+
+directivesModule.directive("gallery", imageGallery);

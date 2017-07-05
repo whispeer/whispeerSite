@@ -6,101 +6,105 @@ var cssService = require("services/css.service").default;
 var errorService = require("services/error.service").errorServiceInstance;
 var userService = require("user/userService");
 
-define(["asset/state", "libs/qr", "libs/filesaver", "controllers/controllerModule", "bluebird"], function (State, qr, saveAs, controllerModule, Bluebird) {
-	"use strict";
+"use strict";
 
-	function setupController($scope, $location) {
-		cssService.setClass("setupView");
+const State = require('asset/state');
+const qr = require('libs/qr');
+const saveAs = require('libs/filesaver');
+const controllerModule = require('controllers/controllerModule');
+const Bluebird = require('bluebird');
 
-		$scope.backupFailed = false;
+function setupController($scope, $location) {
+    cssService.setClass("setupView");
 
-		$scope.goToNext = function () {
-			$location.path("/setup");
-		};
+    $scope.backupFailed = false;
 
-		function createBackup() {
-			var image, keyData;
+    $scope.goToNext = function () {
+        $location.path("/setup");
+    };
 
-			return userService.getown().createBackupKey()
-			.then(function (_keyData) {
-				keyData = _keyData;
+    function createBackup() {
+        var image, keyData;
 
-				return new Bluebird(function (resolve) {
-					image = new Image(100, 200);
+        return userService.getown().createBackupKey()
+        .then(function (_keyData) {
+            keyData = _keyData;
 
-					image.onload = resolve;
+            return new Bluebird(function (resolve) {
+                image = new Image(100, 200);
 
-					qr.image({
-						image: image,
-						value: keyData,
-						size: 7,
-						level: "L"
-					});
-				});
-			}).then(function () {
-				var c=document.createElement("canvas");
-				c.width = image.width + 200;
-				c.height = image.height + 200;
+                image.onload = resolve;
 
-				var ctx=c.getContext("2d");
+                qr.image({
+                    image: image,
+                    value: keyData,
+                    size: 7,
+                    level: "L"
+                });
+            });
+        }).then(function () {
+            var c=document.createElement("canvas");
+            c.width = image.width + 200;
+            c.height = image.height + 200;
 
-				ctx.fillStyle = "white";
-				ctx.fillRect(0,0,c.width,c.height);
+            var ctx=c.getContext("2d");
 
-				ctx.drawImage(image,0,0);
+            ctx.fillStyle = "white";
+            ctx.fillRect(0,0,c.width,c.height);
 
-				ctx.fillStyle = "black";
-				ctx.font="20px Arial";
-				ctx.fillText(keyData.substr(0, 26), 10, image.height + 50);
-				ctx.fillText(keyData.substr(26), 10, image.height + 75);
+            ctx.drawImage(image,0,0);
 
-				ctx.fillText("whispeer-Passwort vergessen?", 10, image.height + 125);
-				ctx.fillText("https://whispeer.de/recovery", 10, image.height + 150);
+            ctx.fillStyle = "black";
+            ctx.font="20px Arial";
+            ctx.fillText(keyData.substr(0, 26), 10, image.height + 50);
+            ctx.fillText(keyData.substr(26), 10, image.height + 75);
 
-				return c;
-			});
-		}
+            ctx.fillText("whispeer-Passwort vergessen?", 10, image.height + 125);
+            ctx.fillText("https://whispeer.de/recovery", 10, image.height + 150);
 
-		var backupBlob;
-		var backupCanvas;
+            return c;
+        });
+    }
 
-		var loadBackupPromise = Bluebird.try(function () {
-			return createBackup();
-		}).then(function (canvas) {
-			backupCanvas = canvas;
+    var backupBlob;
+    var backupCanvas;
 
-			return new Bluebird(function (resolve) {
-				canvas.toBlob(resolve);
-			});
-		}).then(function (blob) {
-			backupBlob = blob;
-		}).catch(function (e) {
-			errorService.criticalError(e);
-			$scope.backupFailed = true;
+    var loadBackupPromise = Bluebird.try(function () {
+        return createBackup();
+    }).then(function (canvas) {
+        backupCanvas = canvas;
 
-			throw e;
-		});
+        return new Bluebird(function (resolve) {
+            canvas.toBlob(resolve);
+        });
+    }).then(function (blob) {
+        backupBlob = blob;
+    }).catch(function (e) {
+        errorService.criticalError(e);
+        $scope.backupFailed = true;
 
-		$scope.downloadBackup = function () {
-			loadBackupPromise.then(function () {
-				saveAs(backupBlob, "whispeer-backup-" + userService.getown().getNickname() + ".png");
+        throw e;
+    });
 
-				$scope.goToNext();
-			}).catch(errorService.criticalError);
-		};
+    $scope.downloadBackup = function () {
+        loadBackupPromise.then(function () {
+            saveAs(backupBlob, "whispeer-backup-" + userService.getown().getNickname() + ".png");
 
-		$scope.printBackup = function () {
-			loadBackupPromise.then(function () {
-				backupCanvas.className = "printCanvas";
-				document.body.appendChild(backupCanvas);
+            $scope.goToNext();
+        }).catch(errorService.criticalError);
+    };
 
-				window.print();
-				$scope.goToNext();
-			}).catch(errorService.criticalError);
-		};
-	}
+    $scope.printBackup = function () {
+        loadBackupPromise.then(function () {
+            backupCanvas.className = "printCanvas";
+            document.body.appendChild(backupCanvas);
 
-	setupController.$inject = ["$scope", "$location"];
+            window.print();
+            $scope.goToNext();
+        }).catch(errorService.criticalError);
+    };
+}
 
-	controllerModule.controller("ssn.backupController", setupController);
-});
+setupController.$inject = ["$scope", "$location"];
+
+controllerModule.controller("ssn.backupController", setupController);

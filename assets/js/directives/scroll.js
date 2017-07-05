@@ -1,146 +1,146 @@
-define(["directives/directivesModule"], function (directivesModule) {
-	"use strict";
+"use strict";
 
-	var scrollDirective = function () {
-		return {
-			compile: function () {
-				return {
-					post: function (scope, elm, attrs) {
-						var PUFFER = 30;
+const directivesModule = require('directives/directivesModule');
 
-						var keepBottom = (typeof attrs.keepbottom !== "undefined");
-						var bottomRelative = (typeof attrs.bottomRelative !== "undefined");
+var scrollDirective = function () {
+    return {
+        compile: function () {
+            return {
+                post: function (scope, elm, attrs) {
+                    var PUFFER = 30;
 
-						var scrollWindow = (typeof attrs.scrollWindow !== "undefined");
+                    var keepBottom = (typeof attrs.keepbottom !== "undefined");
+                    var bottomRelative = (typeof attrs.bottomRelative !== "undefined");
 
-						var nativeElement = elm[0];
+                    var scrollWindow = (typeof attrs.scrollWindow !== "undefined");
 
-						if (nativeElement.tagName === "BODY" || scrollWindow) {
-							elm = jQuery(window);
-							nativeElement = document.body;
-						}
+                    var nativeElement = elm[0];
 
-						var scrollInfo;
+                    if (nativeElement.tagName === "BODY" || scrollWindow) {
+                        elm = jQuery(window);
+                        nativeElement = document.body;
+                    }
 
-						function getScrollHeight() {
-							return nativeElement.scrollHeight;
-						}
+                    var scrollInfo;
 
-						function getScrollTop() {
-							return elm.scrollTop();
-						}
+                    function getScrollHeight() {
+                        return nativeElement.scrollHeight;
+                    }
 
-						function updateScrollInfo() {
-							var scrollTop = getScrollTop();
-							var scrollHeight = getScrollHeight();
-							var scrollBottom = nativeElement.scrollHeight -  elm.innerHeight() - scrollTop;
+                    function getScrollTop() {
+                        return elm.scrollTop();
+                    }
 
-							scrollInfo = {
-								atBottom: scrollBottom <= PUFFER,
-								atTop: scrollTop <= PUFFER,
-								scrollHeight: scrollHeight,
-								scrollTop: scrollTop,
-								scrollBottom: scrollBottom
-							};
-						}
+                    function updateScrollInfo() {
+                        var scrollTop = getScrollTop();
+                        var scrollHeight = getScrollHeight();
+                        var scrollBottom = nativeElement.scrollHeight -  elm.innerHeight() - scrollTop;
 
-						function scrollTop(scrollTo) {
-							elm.scrollTop(scrollTo);
-						}
+                        scrollInfo = {
+                            atBottom: scrollBottom <= PUFFER,
+                            atTop: scrollTop <= PUFFER,
+                            scrollHeight: scrollHeight,
+                            scrollTop: scrollTop,
+                            scrollBottom: scrollBottom
+                        };
+                    }
 
-						function reSyncBottomScroll(previousBottom) {
-							var scrollTo = getScrollHeight() -  elm.innerHeight() - previousBottom;
-							scrollTop(scrollTo);
-						}
+                    function scrollTop(scrollTo) {
+                        elm.scrollTop(scrollTo);
+                    }
 
-						function addDOMListener() {
-							if (!keepBottom && !bottomRelative) {
-								return;
-							}
+                    function reSyncBottomScroll(previousBottom) {
+                        var scrollTo = getScrollHeight() -  elm.innerHeight() - previousBottom;
+                        scrollTop(scrollTo);
+                    }
 
-							var runningTimer = false;
-							elm.bind("DOMSubtreeModified", function () {
-								if (runningTimer) {
-									return;
-								}
+                    function addDOMListener() {
+                        if (!keepBottom && !bottomRelative) {
+                            return;
+                        }
 
-								var preModifyScrollInfo = scrollInfo;
+                        var runningTimer = false;
+                        elm.bind("DOMSubtreeModified", function () {
+                            if (runningTimer) {
+                                return;
+                            }
 
-								window.setTimeout(function () {
-									runningTimer = false;
+                            var preModifyScrollInfo = scrollInfo;
 
-									updateScrollInfo();
+                            window.setTimeout(function () {
+                                runningTimer = false;
 
-									var heightDifference = preModifyScrollInfo.scrollHeight - scrollInfo.scrollHeight;
+                                updateScrollInfo();
 
-									if (heightDifference === 0) {
-										return;
-									}
+                                var heightDifference = preModifyScrollInfo.scrollHeight - scrollInfo.scrollHeight;
 
-									if (preModifyScrollInfo.atBottom && keepBottom) {
-										console.info("Scroll to bottom");
-										scrollTop(nativeElement.scrollHeight);
-										return;
-									}
+                                if (heightDifference === 0) {
+                                    return;
+                                }
 
-									if (bottomRelative) {
-										console.info("reSync Bottom Scroll");
-										reSyncBottomScroll(preModifyScrollInfo.scrollBottom);
-									}
-								}, 25);
+                                if (preModifyScrollInfo.atBottom && keepBottom) {
+                                    console.info("Scroll to bottom");
+                                    scrollTop(nativeElement.scrollHeight);
+                                    return;
+                                }
 
-								runningTimer = true;
-							});
-						}
+                                if (bottomRelative) {
+                                    console.info("reSync Bottom Scroll");
+                                    reSyncBottomScroll(preModifyScrollInfo.scrollBottom);
+                                }
+                            }, 25);
 
-						addDOMListener();
+                            runningTimer = true;
+                        });
+                    }
 
-						updateScrollInfo();
+                    addDOMListener();
 
-						var wasCalled = false;
+                    updateScrollInfo();
 
-						function evaluateCustomRule() {
-							if (!attrs.custom || !attrs.atCustom) {
-								return;
-							}
+                    var wasCalled = false;
 
-							var scrollHeight = nativeElement.scrollHeight - elm.innerHeight();
-							var scrollState = {
-								scrollHeight: scrollHeight,
-								scrolledHeight: elm.scrollTop(),
-								height: elm.innerHeight(),
-								percentage: elm.scrollTop() / scrollHeight,
-								distance: (scrollHeight - elm.scrollTop()),
-								distancePercentage: (scrollHeight - elm.scrollTop()) / elm.innerHeight(),
-								distanceTopPercentage: (elm.scrollTop() / elm.innerHeight())
-							};
+                    function evaluateCustomRule() {
+                        if (!attrs.custom || !attrs.atCustom) {
+                            return;
+                        }
 
-							if (scope.$eval(attrs.custom, scrollState)) {
-								if (!wasCalled) {
-									scope.$eval(attrs.atCustom);
-									wasCalled = true;
-								}
-							} else {
-								wasCalled = false;
-							}
-						}
+                        var scrollHeight = nativeElement.scrollHeight - elm.innerHeight();
+                        var scrollState = {
+                            scrollHeight: scrollHeight,
+                            scrolledHeight: elm.scrollTop(),
+                            height: elm.innerHeight(),
+                            percentage: elm.scrollTop() / scrollHeight,
+                            distance: (scrollHeight - elm.scrollTop()),
+                            distancePercentage: (scrollHeight - elm.scrollTop()) / elm.innerHeight(),
+                            distanceTopPercentage: (elm.scrollTop() / elm.innerHeight())
+                        };
 
-						elm.bind("scroll", function() {
-							updateScrollInfo();
+                        if (scope.$eval(attrs.custom, scrollState)) {
+                            if (!wasCalled) {
+                                scope.$eval(attrs.atCustom);
+                                wasCalled = true;
+                            }
+                        } else {
+                            wasCalled = false;
+                        }
+                    }
 
-							if (scrollInfo.atBottom) {
-								if (attrs.onbottom) {
-									scope.$eval(attrs.onbottom);
-								}
-							}
+                    elm.bind("scroll", function() {
+                        updateScrollInfo();
 
-							evaluateCustomRule();
-						});
-					}
-				};
-			}
-		};
-	};
+                        if (scrollInfo.atBottom) {
+                            if (attrs.onbottom) {
+                                scope.$eval(attrs.onbottom);
+                            }
+                        }
 
-	directivesModule.directive("scroll", scrollDirective);
-});
+                        evaluateCustomRule();
+                    });
+                }
+            };
+        }
+    };
+};
+
+directivesModule.directive("scroll", scrollDirective);

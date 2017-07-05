@@ -1,10 +1,8 @@
 /**
 * BaseService
 **/
-define([
-	"runners/localizationRunner",
-	"runners/promiseRunner",
-	"runners/serviceWorkerRunner",
-	"runners/loadLoginRunner",
-	"runners/messageNotificationsRunner"
-], function () {});
+require('runners/localizationRunner');
+require('runners/promiseRunner');
+require('runners/serviceWorkerRunner');
+require('runners/loadLoginRunner');
+require('runners/messageNotificationsRunner');

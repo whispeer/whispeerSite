@@ -1,31 +1,32 @@
 var userService = require("user/userService");
 
-define(["angular", "bluebird"], function (angular, Bluebird) {
-	"use strict";
-	return function () {
-		angular.module("ssn.search").factory("friendsSearchSupplier", [function () {
-			var Search = function () {};
+"use strict";
+const angular = require('angular');
+const Bluebird = require('bluebird');
 
-			Search.prototype.search = function (query) {
-				if (query.length < 3) {
-					return Bluebird.reject(new Error("minimum3letters"));
-				}
+module.exports = function () {
+    angular.module("ssn.search").factory("friendsSearchSupplier", [function () {
+        var Search = function () {};
 
-				var action = Bluebird.promisify(userService.queryFriends.bind(userService));
+        Search.prototype.search = function (query) {
+            if (query.length < 3) {
+                return Bluebird.reject(new Error("minimum3letters"));
+            }
 
-				return action(query).bind(this).map(function (user) {
-					var loadBasicData = Bluebird.promisify(user.loadBasicData.bind(user));
-					return loadBasicData().then(function () {
-						return user;
-					});
-				}).then(function (users) {
-					return users.map(function (e) {
-						return e.data;
-					});
-				});
-			};
+            var action = Bluebird.promisify(userService.queryFriends.bind(userService));
 
-			return Search;
-		}]);
-	};
-});
+            return action(query).bind(this).map(function (user) {
+                var loadBasicData = Bluebird.promisify(user.loadBasicData.bind(user));
+                return loadBasicData().then(function () {
+                    return user;
+                });
+            }).then(function (users) {
+                return users.map(function (e) {
+                    return e.data;
+                });
+            });
+        };
+
+        return Search;
+    }]);
+};

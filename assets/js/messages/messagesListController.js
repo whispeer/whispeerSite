@@ -4,81 +4,85 @@
 
 var messageService = require("messages/messageService");
 
-define(["jquery", "whispeerHelper", "asset/state", "bluebird", "controllers/controllerModule"], function (jQuery, h, State, Bluebird, controllerModule) {
-	"use strict";
+"use strict";
 
-	function messagesController($scope, $state, $stateParams, $element) {
-		$scope.topics = messageService.data.latestTopics.data;
+const jQuery = require('jquery');
+const h = require('whispeerHelper');
+const State = require('asset/state');
+const Bluebird = require('bluebird');
+const controllerModule = require('controllers/controllerModule');
 
-		var topicsLoadingState = new State.default();
-		$scope.topicsLoadingState = topicsLoadingState.data;
+function messagesController($scope, $state, $stateParams, $element) {
+    $scope.topics = messageService.data.latestTopics.data;
 
-		var loadMoreTopics = Bluebird.promisify(messageService.loadMoreLatest.bind(messageService));
+    var topicsLoadingState = new State.default();
+    $scope.topicsLoadingState = topicsLoadingState.data;
 
-		function loadTopics() {
-			if (messageService.data.latestTopics.allTopicsLoaded) {
-				return;
-			}
+    var loadMoreTopics = Bluebird.promisify(messageService.loadMoreLatest.bind(messageService));
 
-			if (topicsLoadingState.isPending()) {
-				return;
-			}
+    function loadTopics() {
+        if (messageService.data.latestTopics.allTopicsLoaded) {
+            return;
+        }
 
-			topicsLoadingState.pending();
-			return loadMoreTopics().then(function () {
-				topicsLoadingState.success();
-			}).catch(function () {
-				topicsLoadingState.failed();
-			});
-		}
+        if (topicsLoadingState.isPending()) {
+            return;
+        }
 
-		function loadMoreUntilFull() {
-			if (messageService.data.latestTopics.allTopicsLoaded) {
-				return;
-			}
+        topicsLoadingState.pending();
+        return loadMoreTopics().then(function () {
+            topicsLoadingState.success();
+        }).catch(function () {
+            topicsLoadingState.failed();
+        });
+    }
 
-			Bluebird.delay(500).then(function () {
-				var scroller = $element.find("#topicListWrap");
+    function loadMoreUntilFull() {
+        if (messageService.data.latestTopics.allTopicsLoaded) {
+            return;
+        }
 
-				var outerHeight = scroller.height();
-				var innerHeight = 0;
-				scroller.children().each(function(){
-					innerHeight = innerHeight + jQuery(this).outerHeight(true);
-				});
+        Bluebird.delay(500).then(function () {
+            var scroller = $element.find("#topicListWrap");
 
-				if (outerHeight > innerHeight) {
-					return $scope.loadMoreTopics().then(function () {
-						loadMoreUntilFull();
-					});
-				}
-			});
-		}
+            var outerHeight = scroller.height();
+            var innerHeight = 0;
+            scroller.children().each(function(){
+                innerHeight = innerHeight + jQuery(this).outerHeight(true);
+            });
 
-		loadMoreUntilFull();
+            if (outerHeight > innerHeight) {
+                return $scope.loadMoreTopics().then(function () {
+                    loadMoreUntilFull();
+                });
+            }
+        });
+    }
 
-		$scope.loadMoreTopics = function () {
-			return loadTopics();
-		};
+    loadMoreUntilFull();
 
-		$scope.isActiveTopic = function (topic) {
-			return (messageService.isActiveTopic(parseInt(topic.id, 10)));
-		};
+    $scope.loadMoreTopics = function () {
+        return loadTopics();
+    };
 
-		$scope.shortenMessage = function (string) {
-			if (!string) {
-				return "";
-			}
+    $scope.isActiveTopic = function (topic) {
+        return (messageService.isActiveTopic(parseInt(topic.id, 10)));
+    };
 
-			if(string.length > 100) {
-				return string.substr(0, 97) + "...";
-			} else {
-				return string;
-			}
-		};
-	}
+    $scope.shortenMessage = function (string) {
+        if (!string) {
+            return "";
+        }
+
+        if(string.length > 100) {
+            return string.substr(0, 97) + "...";
+        } else {
+            return string;
+        }
+    };
+}
 
 
-	messagesController.$inject = ["$scope", "$state", "$stateParams", "$element"];
+messagesController.$inject = ["$scope", "$state", "$stateParams", "$element"];
 
-	controllerModule.controller("ssn.messagesListController", messagesController);
-});
+controllerModule.controller("ssn.messagesListController", messagesController);

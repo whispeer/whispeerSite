@@ -4,37 +4,41 @@
 
 var userService = require("user/userService");
 
-define(["bluebird", "bluebird", "asset/resizableImage", "asset/state", "user/userModule"], function (Bluebird, Promise, ResizableImage, State, userModule) {
-	"use strict";
+"use strict";
 
-	function userFriendsController($scope, $stateParams) {
-		var identifier = $stateParams.identifier;
+const Bluebird = require('bluebird');
+const Promise = require('bluebird');
+const ResizableImage = require('asset/resizableImage');
+const State = require('asset/state');
+const userModule = require('user/userModule');
 
-		$scope.loadingFriends = true;
+function userFriendsController($scope, $stateParams) {
+    var identifier = $stateParams.identifier;
 
-		userService.get(identifier).then(function (user) {
-			return user.getFriends();
-		}).then(function (friends) {
-			return userService.getMultiple(friends);
-		}).then(function (friends) {
-			var i;
-			$scope.friends = [];
-			var parallel = [];
+    $scope.loadingFriends = true;
 
-			for (i = 0; i < friends.length; i += 1) {
-				$scope.friends.push(friends[i].data);
-				parallel.push(friends[i].loadBasicData());
-			}
+    userService.get(identifier).then(function (user) {
+        return user.getFriends();
+    }).then(function (friends) {
+        return userService.getMultiple(friends);
+    }).then(function (friends) {
+        var i;
+        $scope.friends = [];
+        var parallel = [];
 
-			return Bluebird.all(parallel);
-		}).then(function () {
-			$scope.loadingFriends = false;
-		});
+        for (i = 0; i < friends.length; i += 1) {
+            $scope.friends.push(friends[i].data);
+            parallel.push(friends[i].loadBasicData());
+        }
 
-		$scope.friends = [];
-	}
+        return Bluebird.all(parallel);
+    }).then(function () {
+        $scope.loadingFriends = false;
+    });
 
-	userFriendsController.$inject = ["$scope", "$stateParams"];
+    $scope.friends = [];
+}
 
-	userModule.controller("ssn.userFriendsController", userFriendsController);
-});
+userFriendsController.$inject = ["$scope", "$stateParams"];
+
+userModule.controller("ssn.userFriendsController", userFriendsController);
