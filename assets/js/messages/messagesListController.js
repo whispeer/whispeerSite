@@ -112,10 +112,10 @@ function messagesController($scope, $state, $stateParams, $element) {
 				});
 		}
 
-		loadTopics();
+		loadMoreUntilFull();
 
 		$scope.loadMoreTopics = function () {
-			// return loadTopics();
+			return loadTopics();
 		};
 
 		$scope.isActiveTopic = function (chat) {
