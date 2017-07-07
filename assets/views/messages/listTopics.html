@@ -2,10 +2,10 @@
 	<a class="box-header-button box-header-button--full box-header-title--push" whispeer-sref="app.messages.new">
 		<i class="fa fa-plus-circle fa-fw" id="plusBtn"></i><span data-i18n="messages.newMessage"></span>
 	</a>
-	<div id="topicListWrap" data-scroll data-custom="distancePercentage < 0.5" data-at-custom="loadMoreTopics()">
+	<div id="topicListWrap" data-scroll data-custom="distancePercentage < 0.5" data-at-custom="loadMoreChats()">
 		<ul id="topicList">
 			<div id="topicListScroll">
-				<li data-ng-repeat="chat in getChats()" id="{{chat.id}}" class="topic {{::chat.type}}" data-ng-class="{'unread': chat.unread, 'active': isActiveTopic(chat)}">
+				<li data-ng-repeat="chat in getChats()" id="{{chat.id}}" class="topic {{::chat.type}}" data-ng-class="{'unread': chat.unread, 'active': isActiveChat(chat)}">
 					<a whispeer-sref="app.messages.show({topicid: chat.id})">
 						<div class="left">
 							<div class="imgWrap" data-ng-if="::(chat.type == 'groupChat')">
@@ -31,7 +31,7 @@
 						<div class="clear-fix"></div>
 					</a>
 				</li>
-				<li class="loadingSpinner" data-ng-if="topicsLoadingState.pending">
+				<li class="loadingSpinner" data-ng-if="chatsLoadingState.pending">
 					<loadingindicator></loadingindicator>
 					<p data-i18n="messages.loadingTopics"></p>
 				</li>

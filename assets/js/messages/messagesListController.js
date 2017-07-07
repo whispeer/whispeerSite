@@ -66,27 +66,27 @@ const memoizer = new Memoizer([
 })
 
 function messagesController($scope, $state, $stateParams, $element) {
-		const topicsLoadingState = new State.default();
-		$scope.topicsLoadingState = topicsLoadingState.data;
+		const chatsLoadingState = new State.default();
+		$scope.chatsLoadingState = chatsLoadingState.data;
 
 		$scope.getChats = () => {
 			return memoizer.getValue()
 		}
 
-		function loadTopics() {
+		function loadChats() {
 				if (messageService.allChatsLoaded) {
 						return;
 				}
 
-				if (topicsLoadingState.isPending()) {
+				if (chatsLoadingState.isPending()) {
 						return;
 				}
 
-				topicsLoadingState.pending();
+				chatsLoadingState.pending();
 				return messageService.loadMoreChats().then(function () {
-						topicsLoadingState.success();
+						chatsLoadingState.success();
 				}).catch(function () {
-						topicsLoadingState.failed();
+						chatsLoadingState.failed();
 				});
 		}
 
@@ -105,7 +105,7 @@ function messagesController($scope, $state, $stateParams, $element) {
 						});
 
 						if (outerHeight > innerHeight) {
-								return $scope.loadMoreTopics().then(function () {
+								return loadChats().then(function () {
 										loadMoreUntilFull();
 								});
 						}
@@ -114,13 +114,12 @@ function messagesController($scope, $state, $stateParams, $element) {
 
 		loadMoreUntilFull();
 
-		$scope.loadMoreTopics = function () {
-			return loadTopics();
+		$scope.loadMoreChats = function () {
+			return loadChats();
 		};
 
-		$scope.isActiveTopic = function (chat) {
-			return false
-			// return (messageService.isActiveTopic(parseInt(chat.id, 10)));
+		$scope.isActiveChat = function (chat) {
+			return (messageService.isActiveChat(parseInt(chat.id, 10)));
 		};
 
 		$scope.shortenMessage = function (string) {

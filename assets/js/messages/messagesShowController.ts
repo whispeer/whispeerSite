@@ -141,7 +141,7 @@ function messagesController($scope, $element, $state, $stateParams, $timeout) {
     };
 
     $scope.$on("$destroy", function () {
-        messageService.setActiveTopic(0);
+        messageService.setActiveChat(0);
     });
 
     topicLoadingState.pending();
@@ -173,7 +173,7 @@ function messagesController($scope, $element, $state, $stateParams, $timeout) {
     var loadTopicsPromise = initService.awaitLoading().then(() =>
       ChatLoader.get(chatID)
     ).then(function (chat) {
-        messageService.setActiveTopic(chatID);
+        messageService.setActiveChat(chatID);
         $scope.activeChat = chat;
 
         $scope.canSend = true;
