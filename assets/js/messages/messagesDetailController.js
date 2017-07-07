@@ -5,43 +5,48 @@ const State = require("asset/state");
 const messagesModule = require("messages/messagesModule");
 
 const errorService = require("services/error.service").errorServiceInstance;
-const messageService = require("messages/messageService");
+const initService = require("services/initService")
+const messageService = require("messages/messageService").default
+
+const ChatLoader = require("messages/chat").default
 
 function messagesDetailController($scope, $element, $state, $stateParams) {
-	var topicLoadingState = new State.default();
-	$scope.topicLoadingState = topicLoadingState.data;
+	var chatLoadingState = new State.default();
+	$scope.topicLoadingState = chatLoadingState.data;
 
-	topicLoadingState.pending();
+	chatLoadingState.pending();
 
-	var topicID = h.parseDecimal($stateParams.topicid);
+	var chatID = h.parseDecimal($stateParams.topicid);
 
-	var topicDetailsSavingState = new State.default();
-	$scope.topicDetailsSavingState = topicDetailsSavingState.data;
+	var chatDetailsSavingState = new State.default();
+	$scope.chatDetailsSavingState = chatDetailsSavingState.data;
 
 	$scope.saveTitle = function() {
-		topicDetailsSavingState.pending();
+		chatDetailsSavingState.pending();
 
-		var savePromise = $scope.activeTopic.obj.setTitle($scope.topicTitle).then(function() {
+		var savePromise = $scope.activeChat.setTitle($scope.chatTitle).then(function() {
 			$state.go("app.messages.show", {
-				topicid: topicID
+				topicid: chatID
 			});
 
 			return null;
 		});
 
-		errorService.failOnErrorPromise(topicDetailsSavingState, savePromise);
+		errorService.failOnErrorPromise(chatDetailsSavingState, savePromise);
 	};
 
-	$scope.topicTitle = "";
+	$scope.chatTitle = "";
 
-	var getTopicPromise = messageService.getTopic(topicID).then(function(topic) {
-		messageService.setActiveTopic(topicID);
-		$scope.activeTopic = topic.data;
+	var getChatPromise = initService.awaitLoading().then(() =>
+		ChatLoader.get(chatID)
+	).then(function(chat) {
+		messageService.setActiveChat(chatID);
+		$scope.activeChat = chat;
 
-		$scope.topicTitle = topic.data.title || "";
+		$scope.chatTitle = chat.getTitle() || "";
 	});
 
-	errorService.failOnErrorPromise(topicLoadingState, getTopicPromise);
+	errorService.failOnErrorPromise(chatLoadingState, getChatPromise);
 }
 
 messagesDetailController.$inject = ["$scope", "$element", "$state", "$stateParams"];
