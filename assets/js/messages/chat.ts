@@ -413,6 +413,8 @@ function loadUnreadChatIDs() {
 		return socketService.emit("chat.getUnreadIDs", {});
 	}).then(function (data) {
 		unreadChatIDs = data.chatIDs
+
+		const chats = ChatLoader.getAll()
 		//TODO: updateUnreadIDs(data.unread);
 	});
 }

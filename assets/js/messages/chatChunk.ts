@@ -342,6 +342,7 @@ export class Chunk extends Observer {
 				createTime: new Date().getTime(),
 				receiver: receiverIDs,
 				creator: userService.getown().getID(),
+				// TODO: previousChunk admins or me if new chunk // admins: []
 			}
 
 			//create data
