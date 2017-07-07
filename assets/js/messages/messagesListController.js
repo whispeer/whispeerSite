@@ -66,73 +66,73 @@ const memoizer = new Memoizer([
 })
 
 function messagesController($scope, $state, $stateParams, $element) {
-		const chatsLoadingState = new State.default();
-		$scope.chatsLoadingState = chatsLoadingState.data;
+	const chatsLoadingState = new State.default();
+	$scope.chatsLoadingState = chatsLoadingState.data;
 
-		$scope.getChats = () => {
-			return memoizer.getValue()
+	$scope.getChats = () => {
+		return memoizer.getValue()
+	}
+
+	function loadChats() {
+		if (messageService.allChatsLoaded) {
+			return;
 		}
 
-		function loadChats() {
-				if (messageService.allChatsLoaded) {
-						return;
-				}
+		if (chatsLoadingState.isPending()) {
+			return;
+		}
 
-				if (chatsLoadingState.isPending()) {
-						return;
-				}
+		chatsLoadingState.pending();
+		return messageService.loadMoreChats().then(function() {
+			chatsLoadingState.success();
+		}).catch(function() {
+			chatsLoadingState.failed();
+		});
+	}
 
-				chatsLoadingState.pending();
-				return messageService.loadMoreChats().then(function () {
-						chatsLoadingState.success();
-				}).catch(function () {
-						chatsLoadingState.failed();
+	function loadMoreUntilFull() {
+		if (messageService.allChatsLoaded) {
+			return;
+		}
+
+		Bluebird.delay(500).then(function() {
+			var scroller = $element.find("#topicListWrap");
+
+			var outerHeight = scroller.height();
+			var innerHeight = 0;
+			scroller.children().each(function() {
+				innerHeight = innerHeight + jQuery(this).outerHeight(true);
+			});
+
+			if (outerHeight > innerHeight) {
+				return loadChats().then(function() {
+					loadMoreUntilFull();
 				});
+			}
+		});
+	}
+
+	loadMoreUntilFull();
+
+	$scope.loadMoreChats = function() {
+		return loadChats();
+	};
+
+	$scope.isActiveChat = function(chat) {
+		return (messageService.isActiveChat(parseInt(chat.id, 10)));
+	};
+
+	$scope.shortenMessage = function(string) {
+		if (!string) {
+			return "";
 		}
 
-		function loadMoreUntilFull() {
-				if (messageService.allChatsLoaded) {
-						return;
-				}
-
-				Bluebird.delay(500).then(function () {
-						var scroller = $element.find("#topicListWrap");
-
-						var outerHeight = scroller.height();
-						var innerHeight = 0;
-						scroller.children().each(function(){
-								innerHeight = innerHeight + jQuery(this).outerHeight(true);
-						});
-
-						if (outerHeight > innerHeight) {
-								return loadChats().then(function () {
-										loadMoreUntilFull();
-								});
-						}
-				});
+		if (string.length > 100) {
+			return string.substr(0, 97) + "...";
+		} else {
+			return string;
 		}
-
-		loadMoreUntilFull();
-
-		$scope.loadMoreChats = function () {
-			return loadChats();
-		};
-
-		$scope.isActiveChat = function (chat) {
-			return (messageService.isActiveChat(parseInt(chat.id, 10)));
-		};
-
-		$scope.shortenMessage = function (string) {
-				if (!string) {
-						return "";
-				}
-
-				if(string.length > 100) {
-						return string.substr(0, 97) + "...";
-				} else {
-						return string;
-				}
-		};
+	};
 }
 
 
