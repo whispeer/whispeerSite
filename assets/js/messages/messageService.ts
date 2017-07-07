@@ -16,6 +16,7 @@ import MessageLoader from "../messages/message"
 var messageService;
 
 let chatIDs
+let activeTopic = 0
 
 messageService = {
 	addSocketMessage: function (messageData) {
@@ -44,6 +45,9 @@ messageService = {
 	},
 	getChatIDs: function () {
 		return chatIDs || []
+	},
+	setActiveTopic: (_activeTopic) => {
+		activeTopic = _activeTopic
 	},
 	loadMoreChats: h.cacheUntilSettled(() => {
 		return initService.awaitLoading().then(function () {
