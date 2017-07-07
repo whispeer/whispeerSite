@@ -30,11 +30,11 @@
 		</div>
 	</span>
 
-	<div id="topicWrap" data-topicID="{{activeTopic.id}}" class="detail-chat">
+	<div id="topicWrap" data-topicID="{{activeChat.getID()}}" class="detail-chat">
 		<input id="messages-editTitle" type="text" placeholder="Konversationstitel" data-ng-model="chatTitle">
 		<h2 data-i18n="messages.chatPersons"></h2>
 		<ul>
-			<li class="friendsView-friend" data-ng-repeat="partner in activeChat.getPartners()">
+			<li class="friendsView-friend" data-ng-repeat="partner in activeChat.getReceivers()">
 				<person data-user="partner" data-type="friend">
 				</person>
 			</li>
