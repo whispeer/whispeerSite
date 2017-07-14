@@ -1,5 +1,5 @@
 var Bluebird = require("bluebird");
-var h = require("whispeerHelper");
+var h = require("whispeerHelper").default;
 
 var errorService = require("services/error.service").errorServiceInstance;
 

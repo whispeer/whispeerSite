@@ -1,18 +1,18 @@
 <div class="box-rightWrap">
 	<div class="box-header box-header--padding">
 		<span class="box-header-title box-header-title--full-noExtras" data-ng-if="!editingTitle">
-			<span data-ng-if="activeTopic.title">
-				<a whispeer-sref="app.messages.detail({topicid: activeTopic.id})">
-					{{activeTopic.title}}
+			<span data-ng-if="activeChat.getTitle()">
+				<a whispeer-sref="app.messages.detail({topicid: activeChat.getID()})">
+					{{activeChat.getTitle()}}
 				</a>
 			</span>
-			<span data-ng-if="!activeTopic.title">
+			<span data-ng-if="!activeChat.getTitle()">
 				<span data-i18n="messages.chat"></span>
-				<span data-ng-repeat="partner in activeTopic.partners">
+				<span data-ng-repeat="partner in activeChat.getPartners()">
 					<span class="status" data-status="{{partner.online}}" data-ng-if="::!partner.notExisting"></span>
 					<a whispeer-sref="app.user.info({identifier: partner.names.nickname})" data-ng-if="::!partner.notExisting">
-						<span data-ng-if="::activeTopic.partners.length>2">{{partner.basic.shortname}}</span>
-						<span data-ng-if="activeTopic.partners.length<=2">{{partner.name}}</span>
+						<span data-ng-if="::activeChat.getPartners().length>2">{{partner.basic.shortname}}</span>
+						<span data-ng-if="activeChat.getPartners().length<=2">{{partner.name}}</span>
 					</a>
 
 					<span data-ng-if="::partner.notExisting">{{partner.name}}</span>
@@ -27,19 +27,19 @@
 				</a>
 				<ul class="button-dropdown" data-ng-if="showMessageOptions">
 					<li class="button-dropdown-action">
-						<a whispeer-sref="app.messages.detail({topicid: activeTopic.id})" class="button-dropdown-action-text" data-i18n="messages.details"></a>
+						<a whispeer-sref="app.messages.detail({topicid: activeChat.getID()})" class="button-dropdown-action-text" data-i18n="messages.details"></a>
 					</li>
 					<li class="button-dropdown-action" data-ng-if="doNotShow">
 						<a class="button-dropdown-action-text" data-ng-click="toggleMessageOptions()">
 							Archivieren
 						</a>
 					</li>
-					<li class="button-dropdown-action" data-ng-if="activeTopic.partners.length <= 2 && doNotShow">
+					<li class="button-dropdown-action" data-ng-if="activeChat.getPartners().length <= 2 && doNotShow">
 						<a class="button-dropdown-action-text" data-ng-click="toggleMessageOptions()">
 							Nutzer blockieren
 						</a>
 					</li>
-					<li class="button-dropdown-action" data-ng-if="activeTopic.partners.length <= 2 && doNotShow">
+					<li class="button-dropdown-action" data-ng-if="activeChat.getPartners().length <= 2 && doNotShow">
 						<a class="button-dropdown-action-text" data-ng-click="toggleMessageOptions()">
 							Als Freund hinzufügen
 						</a>
@@ -52,15 +52,15 @@
 		</div>
 	</span>
 
-	<div id="topicWrap" data-topicID="{{activeTopic.id}}" class="{{activeTopic.type}}">
+	<div id="topicWrap" data-topicID="{{activeChat.getID()}}" class="{{activeTopic.type}}">
 		<div id="messageWrap">
 			<ul class="scroll-pane" id="messageList" data-ng-class="{'messageList--reduce': images.images.length > 0}" data-scroll data-keepBottom data-bottom-relative data-custom="distanceTopPercentage < 0.5" data-at-custom="loadMoreMessages()" data-onbottom="markRead()">
-				<li class="messageView-loadingText" data-ng-if="activeTopic.remaining > 0">
+				<li class="messageView-loadingText" data-ng-if="remainingMessagesCount > 0">
 					<i class="fa fa-fw fa-circle-o-notch fa-spin" id="messageView-loadingIcon" data-ng-if="loadingMessages"></i>
-					<span data-i18n="messages.remaining|count={{activeTopic.remaining}}"></span>
+					<span data-i18n="messages.remaining|count={{remainingMessagesCount}}"></span>
 				</li>
 				<li class="burst-date" id="messagesView-endOfStream">
-					<p data-i18n="messages.endOfStream" data-ng-if="activeTopic.remaining == 0" class="burst-date-text">
+					<p data-i18n="messages.endOfStream" data-ng-if="remainingMessagesCount == 0" class="burst-date-text">
 						<span data-for="date">{{::messageBursts()[0].firstItem().getTime()|date}}</span>
 					</p>
 				</li>
@@ -104,9 +104,9 @@
 						<button class="uploadForm-button btn"><i class="fa fa-upload"></i></button>
 						<input class="uploadForm-theForm" type="file" multiple data-file="images.addImages" width="4000">
 					</div>
-					<textarea focus-me="canSend" id="messageView-messageInput" class="annotatedInput-input" data-advancedsend="sendMessage(activeTopic.newMessage)" type="text" data-ng-model="activeTopic.newMessage" data-ng-disabled="!canSend" data-i18n-attr="messages.sendMessage.text|placeholder"></textarea>
+					<textarea focus-me="canSend" id="messageView-messageInput" class="annotatedInput-input" data-advancedsend="sendMessage(activeChat.newMessage)" type="text" data-ng-model="activeChat.newMessage" data-ng-disabled="!canSend" data-i18n-attr="messages.sendMessage.text|placeholder"></textarea>
 				</div>
-				<savebutton id="sendmessage" data-ng-click="sendMessage(activeTopic.newMessage)" data-state="sendMessageState" data-noiniticon>
+				<savebutton id="sendmessage" data-ng-click="sendMessage(activeChat.newMessage)" data-state="sendMessageState" data-noiniticon>
 					<span data-i18n="messages.sendMessage.send"></span>
 				</savebutton>
 				<div id="messagesView-newMessageImages" data-ng-class="{'messagesView-newMessageImages--active animate-heightAndOverflow animate--fill': images.images.length > 0}">

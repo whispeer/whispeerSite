@@ -47,7 +47,7 @@ interface IPrivacyAPI {
 	removeCircle: Function
 }
 
-const h = require("whispeerHelper");
+const h = require("whispeerHelper").default;
 const EncryptedData = require("crypto/encryptedData");
 const SecuredData = require("asset/securedDataWithMetaData");
 

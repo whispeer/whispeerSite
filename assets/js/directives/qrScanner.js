@@ -1,164 +1,165 @@
 var templateUrl = require("../../views/directives/qrScanner.html");
 var errorService = require("services/error.service").errorServiceInstance;
 
-define(["directives/directivesModule", "bluebird"], function (directivesModule, Bluebird) {
-	"use strict";
+"use strict";
 
-	function qrScannerDirective($timeout) {
-		return {
-			scope:	{
-				callback: "&",
-				state: "="
-			},
-			restrict: "E",
-			templateUrl: templateUrl,
-			link: function (scope, iElement) {
-				var destroyed = false, theStream;
+const directivesModule = require('directives/directivesModule');
+const Bluebird = require('bluebird');
 
-				function captureToCanvas() {
-					if (!scope.state.read && !destroyed) {
-						Bluebird.try(function () {
-							return new Bluebird(function (resolve) {
-								require(["libs/qrreader"], resolve);
-							});
-						}).then(function (qrreader) {
-							var width = 800;
-							var height = 600;
+function qrScannerDirective($timeout) {
+    return {
+        scope:	{
+            callback: "&",
+            state: "="
+        },
+        restrict: "E",
+        templateUrl: templateUrl,
+        link: function (scope, iElement) {
+            var destroyed = false, theStream;
 
-							var gCanvas = document.createElement("canvas");
-							gCanvas.width = width;
-							gCanvas.height = height;
+            function captureToCanvas() {
+                if (!scope.state.read && !destroyed) {
+                    Bluebird.try(function () {
+                        return new Bluebird(function (resolve) {
+                            require(["libs/qrreader"], resolve);
+                        });
+                    }).then(function (qrreader) {
+                        var width = 800;
+                        var height = 600;
 
-							var gCtx = gCanvas.getContext("2d");
-							gCtx.clearRect(0, 0, width, height);
+                        var gCanvas = document.createElement("canvas");
+                        gCanvas.width = width;
+                        gCanvas.height = height;
 
-							gCtx.drawImage(iElement.find("video")[0], 0, 0);
+                        var gCtx = gCanvas.getContext("2d");
+                        gCtx.clearRect(0, 0, width, height);
 
-							var code = qrreader.decodeCanvas(gCanvas);
+                        gCtx.drawImage(iElement.find("video")[0], 0, 0);
 
-							scope.state.read = true;
-							try {
-								theStream.stop();
-							} catch (e) {
-								console.error(e);
-							}
+                        var code = qrreader.decodeCanvas(gCanvas);
 
-							scope.callback({code: code});
-						}).catch(function (e) {
-							console.error("Canvas loading failed", e);
-							$timeout(captureToCanvas, 500);
-						});
-					}
-				}
+                        scope.state.read = true;
+                        try {
+                            theStream.stop();
+                        } catch (e) {
+                            console.error(e);
+                        }
 
-				function initializeReader() {
-					if (destroyed) {
-						return;
-					}
+                        scope.callback({code: code});
+                    }).catch(function (e) {
+                        console.error("Canvas loading failed", e);
+                        $timeout(captureToCanvas, 500);
+                    });
+                }
+            }
 
-					var webkit=false;
-					var moz=false;
+            function initializeReader() {
+                if (destroyed) {
+                    return;
+                }
 
-					return Bluebird.try(function () {
-						if (window.MediaStreamTrack && window.MediaStreamTrack.getSources) {
-							return new Bluebird(function (resolve) {
-								window.MediaStreamTrack.getSources(resolve);
-							});
-						}
-					}).then(function (sources) {
-						if (destroyed) {
-							return;
-						}
+                var webkit=false;
+                var moz=false;
 
-						var constraints = {
-							audio: false,
-							video: true
-						};
+                return Bluebird.try(function () {
+                    if (window.MediaStreamTrack && window.MediaStreamTrack.getSources) {
+                        return new Bluebird(function (resolve) {
+                            window.MediaStreamTrack.getSources(resolve);
+                        });
+                    }
+                }).then(function (sources) {
+                    if (destroyed) {
+                        return;
+                    }
 
-						if (sources) {
-							var environmentSources = sources.filter(function (data) {
-								return data.kind === "video" && data.facing === "environment";
-							});
+                    var constraints = {
+                        audio: false,
+                        video: true
+                    };
 
-							if (environmentSources.length === 1) {
-								constraints.video = { optional: [{sourceId: environmentSources[0].id}] };
-							}
-						}
+                    if (sources) {
+                        var environmentSources = sources.filter(function (data) {
+                            return data.kind === "video" && data.facing === "environment";
+                        });
 
-						return new Bluebird(function (resolve, reject) {
-							if(navigator.getUserMedia) {
-								navigator.getUserMedia(constraints, resolve, reject);
-							} else if(navigator.webkitGetUserMedia) {
-								webkit=true;
-								navigator.webkitGetUserMedia(constraints, resolve, reject);
-							} else if(navigator.mozGetUserMedia) {
-								moz=true;
-								navigator.mozGetUserMedia(constraints, resolve, reject);
-							}
-						});
-					}).then(function (stream) {
-						if (destroyed) {
-							return;
-						}
+                        if (environmentSources.length === 1) {
+                            constraints.video = { optional: [{sourceId: environmentSources[0].id}] };
+                        }
+                    }
 
-						scope.state.noDevice = false;
-						theStream = stream;
-						var v = iElement.find("video")[0];
+                    return new Bluebird(function (resolve, reject) {
+                        if(navigator.getUserMedia) {
+                            navigator.getUserMedia(constraints, resolve, reject);
+                        } else if(navigator.webkitGetUserMedia) {
+                            webkit=true;
+                            navigator.webkitGetUserMedia(constraints, resolve, reject);
+                        } else if(navigator.mozGetUserMedia) {
+                            moz=true;
+                            navigator.mozGetUserMedia(constraints, resolve, reject);
+                        }
+                    });
+                }).then(function (stream) {
+                    if (destroyed) {
+                        return;
+                    }
 
-						if(webkit) {
-							v.src = window.webkitURL.createObjectURL(stream);
-						} else if(moz) {
-							v.mozSrcObject = stream;
-							v.play();
-						} else {
-							v.src = stream;
-						}
+                    scope.state.noDevice = false;
+                    theStream = stream;
+                    var v = iElement.find("video")[0];
 
-						$timeout(captureToCanvas, 500);
-					}).catch(function (e) {
-						errorService.criticalError(e);
+                    if(webkit) {
+                        v.src = window.webkitURL.createObjectURL(stream);
+                    } else if(moz) {
+                        v.mozSrcObject = stream;
+                        v.play();
+                    } else {
+                        v.src = stream;
+                    }
 
-						if (e.name === "DevicesNotFoundError") {
-							scope.state.noDevice = true;
+                    $timeout(captureToCanvas, 500);
+                }).catch(function (e) {
+                    errorService.criticalError(e);
 
-							$timeout(initializeReader, 1000);
-						}
-					});
-				}
+                    if (e.name === "DevicesNotFoundError") {
+                        scope.state.noDevice = true;
 
-				scope.$on("$destroy", function() {
-					if (theStream) {
-						theStream.stop();
-					}
-					destroyed = true;
-				});
+                        $timeout(initializeReader, 1000);
+                    }
+                });
+            }
 
-				scope.state = scope.state || {};
+            scope.$on("$destroy", function() {
+                if (theStream) {
+                    theStream.stop();
+                }
+                destroyed = true;
+            });
 
-				scope.state.available = !!(navigator.getUserMedia || navigator.mozGetUserMedia || navigator.webkitGetUserMedia);
-				scope.state.noDevice = false;
-				scope.state.read = false;
-				scope.state.reset = function () {
-					if (scope.state.read) {
-						scope.state.read = false;
-						initializeReader();
-					}
-				};
+            scope.state = scope.state || {};
 
-				if (scope.state.enabled) {
-					initializeReader();
-				} else {
-					scope.$watch(function () { return scope.state.enabled; }, function (isEnabled) {
-						if (isEnabled) {
-							initializeReader();
-						}
-					});
-				}
-			}
-		};
-	}
+            scope.state.available = !!(navigator.getUserMedia || navigator.mozGetUserMedia || navigator.webkitGetUserMedia);
+            scope.state.noDevice = false;
+            scope.state.read = false;
+            scope.state.reset = function () {
+                if (scope.state.read) {
+                    scope.state.read = false;
+                    initializeReader();
+                }
+            };
 
-	qrScannerDirective.$inject = ["$timeout"];
+            if (scope.state.enabled) {
+                initializeReader();
+            } else {
+                scope.$watch(function () { return scope.state.enabled; }, function (isEnabled) {
+                    if (isEnabled) {
+                        initializeReader();
+                    }
+                });
+            }
+        }
+    };
+}
 
-	directivesModule.directive("qrScanner", qrScannerDirective);
-});
+qrScannerDirective.$inject = ["$timeout"];
+
+directivesModule.directive("qrScanner", qrScannerDirective);

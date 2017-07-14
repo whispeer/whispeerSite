@@ -1,4 +1,4 @@
-var h = require("whispeerHelper");
+var h = require("whispeerHelper").default;
 var validator = require("validation/validator");
 var Observer = require("asset/observer");
 var sortedSet = require("asset/sortedSet");

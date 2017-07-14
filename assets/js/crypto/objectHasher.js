@@ -1,144 +1,145 @@
-define(["crypto/minimalHelper", "sjcl"], function (chelper, sjcl) {
-	"use strict";
+"use strict";
 
-	var ObjectHasher = function (data, version) {
-		this._data = data;
-		this._version = parseInt(version, 10);
-	};
+const chelper = require('crypto/minimalHelper');
+const sjcl = require('sjcl');
 
-	ObjectHasher.prototype.sjclHash = function (data) {
-		return "hash::" + chelper.bits2hex(sjcl.hash.sha256.hash(data));
-	};
+var ObjectHasher = function (data, version) {
+    this._data = data;
+    this._version = parseInt(version, 10);
+};
 
-	ObjectHasher.prototype._hashProperty = function (val) {
-		return (this._version >= 2 ? val.toString() : this.sjclHash("data::" + val.toString()));
-	};
+ObjectHasher.prototype.sjclHash = function (data) {
+    return "hash::" + chelper.bits2hex(sjcl.hash.sha256.hash(data));
+};
 
-	ObjectHasher.prototype._doHashNewObject = function (val) {
-		var hasher = new ObjectHasher(val, this._version);
-		if (this._version === 3) {
-			return hasher.stringify();
-		}
+ObjectHasher.prototype._hashProperty = function (val) {
+    return (this._version >= 2 ? val.toString() : this.sjclHash("data::" + val.toString()));
+};
 
-		return this.sjclHash(hasher.stringify());
-	};
+ObjectHasher.prototype._doHashNewObject = function (val) {
+    var hasher = new ObjectHasher(val, this._version);
+    if (this._version === 3) {
+        return hasher.stringify();
+    }
 
-	ObjectHasher.prototype._doHash = function (val, attr) {
-		var allowedTypes = ["number", "string", "boolean"];
+    return this.sjclHash(hasher.stringify());
+};
 
-		if (attr === "hash") {
-			throw new Error("object can not have hash attributes");
-		}
+ObjectHasher.prototype._doHash = function (val, attr) {
+    var allowedTypes = ["number", "string", "boolean"];
 
-		var type = typeof val;
-		if (type === "object") {
-			return this._doHashNewObject(val);
-		}
+    if (attr === "hash") {
+        throw new Error("object can not have hash attributes");
+    }
 
-		if (allowedTypes.indexOf(type) > -1) {
-			return this._hashProperty(val);
-		}
+    var type = typeof val;
+    if (type === "object") {
+        return this._doHashNewObject(val);
+    }
 
-		throw new Error("can not hash objects with " + type);
-	};
+    if (allowedTypes.indexOf(type) > -1) {
+        return this._hashProperty(val);
+    }
 
-	ObjectHasher.prototype._stringifyArray = function () {
-		var i, result = [];
-		for (i = 0; i < this._data.length; i += 1) {
-			result.push(this._doHash(this._data[i]), i);
-		}
+    throw new Error("can not hash objects with " + type);
+};
 
-		return JSON.stringify(result);
-	};
+ObjectHasher.prototype._stringifyArray = function () {
+    var i, result = [];
+    for (i = 0; i < this._data.length; i += 1) {
+        result.push(this._doHash(this._data[i]), i);
+    }
 
-	ObjectHasher.prototype._jsonifyUnique = function (obj) {
-		var sortation = Object.keys(obj).sort();
-		return JSON.stringify(obj, sortation);
-	};
+    return JSON.stringify(result);
+};
 
-	ObjectHasher.prototype._stringifyObject = function () {
-		var attr, hashObj = {};
-		for (attr in this._data) {
-			if (this._data.hasOwnProperty(attr)) {
-				hashObj[attr] = this._doHash(this._data[attr], attr);
-			}
-		}
+ObjectHasher.prototype._jsonifyUnique = function (obj) {
+    var sortation = Object.keys(obj).sort();
+    return JSON.stringify(obj, sortation);
+};
 
-		return this._jsonifyUnique(hashObj);
-	};
+ObjectHasher.prototype._stringifyObject = function () {
+    var attr, hashObj = {};
+    for (attr in this._data) {
+        if (this._data.hasOwnProperty(attr)) {
+            hashObj[attr] = this._doHash(this._data[attr], attr);
+        }
+    }
 
-	ObjectHasher.prototype._stringifyObjectOrArray = function () {
-		if (this._data instanceof Array) {
-			return this._stringifyArray();
-		} else {
-			return this._stringifyObject();
-		}
-	};
+    return this._jsonifyUnique(hashObj);
+};
 
-	ObjectHasher.prototype.stringify = function() {
-		if (typeof this._data !== "object") {
-			throw new Error("this is not an object!");
-		}
+ObjectHasher.prototype._stringifyObjectOrArray = function () {
+    if (this._data instanceof Array) {
+        return this._stringifyArray();
+    } else {
+        return this._stringifyObject();
+    }
+};
 
-		if (this._version === 4) {
-			return JSON.stringify(ObjectHasher.handleVal(this._data));
-		}
+ObjectHasher.prototype.stringify = function() {
+    if (typeof this._data !== "object") {
+        throw new Error("this is not an object!");
+    }
 
-		return this._stringifyObjectOrArray();
-	};
+    if (this._version === 4) {
+        return JSON.stringify(ObjectHasher.handleVal(this._data));
+    }
 
-	ObjectHasher.prototype.hash = function () {
-		return chelper.bits2hex(this.hashBits());
-	};
+    return this._stringifyObjectOrArray();
+};
 
-	ObjectHasher.prototype.hashBits = function () {
-		return sjcl.hash.sha256.hash(this.stringify());
-	};
+ObjectHasher.prototype.hash = function () {
+    return chelper.bits2hex(this.hashBits());
+};
 
-	ObjectHasher.getType = function (val) {
-		if (typeof val === "object") {
-			if (val instanceof Array) {
-				return "arr";
-			} else {
-				return "obj";
-			}
-		}
+ObjectHasher.prototype.hashBits = function () {
+    return sjcl.hash.sha256.hash(this.stringify());
+};
 
-		return "val";
-	};
+ObjectHasher.getType = function (val) {
+    if (typeof val === "object") {
+        if (val instanceof Array) {
+            return "arr";
+        } else {
+            return "obj";
+        }
+    }
 
-	ObjectHasher.transformVal = function (val) {
-		if (typeof val === "object") {
-			if (val instanceof Array) {
-				return val.map(ObjectHasher.handleVal);
-			} else {
-				return ObjectHasher.mapToArray(val);
-			}
-		}
+    return "val";
+};
 
-		return val.toString();
-	};
+ObjectHasher.transformVal = function (val) {
+    if (typeof val === "object") {
+        if (val instanceof Array) {
+            return val.map(ObjectHasher.handleVal);
+        } else {
+            return ObjectHasher.mapToArray(val);
+        }
+    }
 
-	ObjectHasher.handleVal = function (val, key) {
-		if (key) {
-			return [
-				ObjectHasher.getType(val),
-				key,
-				ObjectHasher.transformVal(val)
-			];
-		}
+    return val.toString();
+};
 
-		return [
-			ObjectHasher.getType(val),
-			ObjectHasher.transformVal(val)
-		];
-	};
+ObjectHasher.handleVal = function (val, key) {
+    if (key) {
+        return [
+            ObjectHasher.getType(val),
+            key,
+            ObjectHasher.transformVal(val)
+        ];
+    }
 
-	ObjectHasher.mapToArray = function (obj) {
-		return Object.keys(obj).sort().map(function (key) {
-			return ObjectHasher.handleVal(obj[key], key);
-		});
-	};
+    return [
+        ObjectHasher.getType(val),
+        ObjectHasher.transformVal(val)
+    ];
+};
 
-	return ObjectHasher;
-});
+ObjectHasher.mapToArray = function (obj) {
+    return Object.keys(obj).sort().map(function (key) {
+        return ObjectHasher.handleVal(obj[key], key);
+    });
+};
+
+module.exports = ObjectHasher;

@@ -1,9 +1,14 @@
-define(["angular", "search/filterSearchSupplier", "search/userSearchSupplier", "search/circleSearchSupplier", "search/friendsSearchSupplier"], function (angular) {
-	"use strict";
-	angular.module("ssn.search", []);
+"use strict";
 
-	var i;
-	for (i = 1; i < arguments.length; i += 1) {
-		arguments[i]();
-	}
-});
+const angular = require("angular");
+const filterSearchSupplier = require("search/filterSearchSupplier");
+const userSearchSupplier = require("search/userSearchSupplier");
+const circleSearchSupplier = require("search/circleSearchSupplier");
+const friendsSearchSupplier = require("search/friendsSearchSupplier");
+
+angular.module("ssn.search", []);
+
+filterSearchSupplier()
+userSearchSupplier()
+circleSearchSupplier()
+friendsSearchSupplier()

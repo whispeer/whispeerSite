@@ -1,5 +1,5 @@
 import * as Bluebird from "bluebird";
-const h = require("whispeerHelper");
+import h from "../helper/helper";
 
 const afterHooks: Function[] = [];
 
@@ -64,13 +64,17 @@ export default class Observer {
 
 			return result;
 	}
+
+	static extend(obj: any) {
+		const internalObserver = new Observer();
+
+		obj.notify = internalObserver.notify.bind(internalObserver);
+		obj.listenOnce = internalObserver.listenOnce.bind(internalObserver);
+		obj.listenPromise = internalObserver.listenPromise.bind(internalObserver);
+		obj.listen = internalObserver.listen.bind(internalObserver);
+	}
 }
 
 export const extend = function (obj: any) {
-	const internalObserver = new Observer();
-
-	obj.notify = internalObserver.notify.bind(internalObserver);
-	obj.listenOnce = internalObserver.listenOnce.bind(internalObserver);
-	obj.listenPromise = internalObserver.listenPromise.bind(internalObserver);
-	obj.listen = internalObserver.listen.bind(internalObserver);
+	Observer.extend(obj)
 }

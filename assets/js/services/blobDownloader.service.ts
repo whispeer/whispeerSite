@@ -8,7 +8,7 @@ import Observer from "../asset/observer";
 
 import { ServerError } from "./socket.service";
 
-var h = require("whispeerHelper")
+import h from "../helper/helper"
 
 export default class BlobDownloader extends Observer {
 	static MAXIMUMPARTSIZE = 1000 * 1000;

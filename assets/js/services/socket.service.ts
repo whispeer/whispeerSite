@@ -3,7 +3,7 @@ declare var WHISPEER_BUSINESS : boolean
 const APIVERSION = "0.0.3";
 
 const debug = require("debug");
-const h = require("whispeerHelper");
+import h from "../helper/helper";
 import { connect } from "socket.io-client";
 
 const config = require('../config.js');
@@ -277,7 +277,7 @@ class SocketService extends Observer {
 	}
 
 	/** definitly emits the request. might emit it multiple times! **/
-	definitlyEmit (channel: string, request: any, callback?: Function) : Bluebird<void> {
+	definitlyEmit (channel: string, request: any, callback?: Function) : Bluebird<any> {
 		var SOCKET_TIMEOUT = 10000;
 
 		return this.awaitConnection().then(() => {

@@ -1,20 +1,20 @@
 var templateUrl = require("../../views/directives/inviteButtons.html");
 
-define(["directives/directivesModule"], function (directivesModule) {
-	"use strict";
+"use strict";
 
-	function newPostDirective() {
-		return {
-			scope: {},
-			restrict: "E",
-			templateUrl: templateUrl,
-			replace: false,
-			transclude: false,
-			controller: "ssn.inviteController"
-		};
-	}
+const directivesModule = require('directives/directivesModule');
 
-	newPostDirective.$inject = [];
+function newPostDirective() {
+    return {
+        scope: {},
+        restrict: "E",
+        templateUrl: templateUrl,
+        replace: false,
+        transclude: false,
+        controller: "ssn.inviteController"
+    };
+}
 
-	directivesModule.directive("invitebuttons", newPostDirective);
-});
+newPostDirective.$inject = [];
+
+directivesModule.directive("invitebuttons", newPostDirective);

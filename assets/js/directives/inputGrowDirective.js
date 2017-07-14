@@ -1,66 +1,67 @@
-define(["directives/directivesModule", "whispeerHelper"], function (directivesModule, h) {
-	"use strict";
+"use strict";
 
-	var BOTTOM_PADDING = 10;
+const directivesModule = require('directives/directivesModule');
+const h = require("whispeerHelper").default;
 
-	function growDirective($timeout) {
-		return {
-			restrict: "A",
-			link: function (scope, element, attributes) {
-				var parent = element.parent();
-				var initialHeight = parent.innerHeight;
+var BOTTOM_PADDING = 10;
 
-				function ensureSafeCSS() {
-					element.css({
-						overflow: "hidden",
-						resize: "none",
-						transition: "none"
-					});
-				}
+function growDirective($timeout) {
+    return {
+        restrict: "A",
+        link: function (scope, element, attributes) {
+            var parent = element.parent();
+            var initialHeight = parent.innerHeight;
 
-				var resetCSS = h.debounce(function () {
-					element.css({
-						overflow: "",
-						resize: "",
-						transition: ""
-					});
-				}, 50);
+            function ensureSafeCSS() {
+                element.css({
+                    overflow: "hidden",
+                    resize: "none",
+                    transition: "none"
+                });
+            }
 
-				/* this does not work with transitions */
-				function updateHeight() {
-					ensureSafeCSS();
+            var resetCSS = h.debounce(function () {
+                element.css({
+                    overflow: "",
+                    resize: "",
+                    transition: ""
+                });
+            }, 50);
 
-					parent.height(0);
-					var height = element[0].scrollHeight;
+            /* this does not work with transitions */
+            function updateHeight() {
+                ensureSafeCSS();
 
-					if (height >= initialHeight) {
-						height = height + BOTTOM_PADDING;
-					}
+                parent.height(0);
+                var height = element[0].scrollHeight;
 
-					height = Math.max(height, initialHeight);
-					height = Math.min(parseInt(attributes.maximumHeight, 10), height);
-					parent.innerHeight(height);
+                if (height >= initialHeight) {
+                    height = height + BOTTOM_PADDING;
+                }
 
-					resetCSS();
-				}
+                height = Math.max(height, initialHeight);
+                height = Math.min(parseInt(attributes.maximumHeight, 10), height);
+                parent.innerHeight(height);
 
-				element.on("keydown keyup paste", updateHeight);
+                resetCSS();
+            }
 
-				scope.$watch(function () {
-					return scope[attributes.grow];
-				}, function (isActive) {
-					if (isActive) {
-						$timeout(function () {
-							initialHeight = parent.innerHeight();
-							updateHeight();
-						});
-					} else if (isActive === false) {
-						parent.innerHeight("");
-					}
-				});
-			}
-		};
-	}
+            element.on("keydown keyup paste", updateHeight);
 
-	directivesModule.directive("grow", ["$timeout", growDirective]);
-});
+            scope.$watch(function () {
+                return scope[attributes.grow];
+            }, function (isActive) {
+                if (isActive) {
+                    $timeout(function () {
+                        initialHeight = parent.innerHeight();
+                        updateHeight();
+                    });
+                } else if (isActive === false) {
+                    parent.innerHeight("");
+                }
+            });
+        }
+    };
+}
+
+directivesModule.directive("grow", ["$timeout", growDirective]);

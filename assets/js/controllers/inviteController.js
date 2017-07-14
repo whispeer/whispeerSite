@@ -8,100 +8,103 @@ var initService = require("services/initService");
 var localize = require("i18n/localizationConfig");
 var socketService = require("services/socket.service").default;
 
-define(["bluebird", "whispeerHelper", "asset/state", "controllers/controllerModule"], function (Bluebird, h, State, controllerModule) {
-	"use strict";
+"use strict";
 
-	function inviteController($scope, $location, $state) {
-		if ($state.current.name.indexOf("app.invite") > -1) {
-			cssService.setClass("inviteView");
-		}
+const Bluebird = require('bluebird');
+const h = require("whispeerHelper").default;
+const State = require('asset/state');
+const controllerModule = require('controllers/controllerModule');
 
-		$scope.domain = $location.protocol() + "://" + $location.host() + ( window.location.port ? ":" + window.location.port : "" ) + "/" + localize.getLanguage();
-		$scope.anonymous = false;
+function inviteController($scope, $location, $state) {
+    if ($state.current.name.indexOf("app.invite") > -1) {
+        cssService.setClass("inviteView");
+    }
 
-		var inviteGenerateState = new State.default();
-		$scope.inviteGenerateState = inviteGenerateState.data;
+    $scope.domain = $location.protocol() + "://" + $location.host() + ( window.location.port ? ":" + window.location.port : "" ) + "/" + localize.getLanguage();
+    $scope.anonymous = false;
 
-		var inviteDisplayState = new State.default();
-		$scope.inviteDisplayState = inviteDisplayState.data;
+    var inviteGenerateState = new State.default();
+    $scope.inviteGenerateState = inviteGenerateState.data;
 
-		var code;
+    var inviteDisplayState = new State.default();
+    $scope.inviteDisplayState = inviteDisplayState.data;
 
-		function generateCode() {
-			inviteGenerateState.pending();
+    var code;
 
-			var generateCodePromise = socketService.emit("invites.generateCode", {}).then(function(result) {
-				code = result.inviteCode;
-			});
+    function generateCode() {
+        inviteGenerateState.pending();
 
-			return errorService.failOnErrorPromise(inviteGenerateState, generateCodePromise);
-		}
-		generateCode();
+        var generateCodePromise = socketService.emit("invites.generateCode", {}).then(function(result) {
+            code = result.inviteCode;
+        });
 
-		function activateCode(code, reference) {
-			socketService.emit("invites.activateCode", {
-				code: code,
-				reference: reference
-			});
-		}
+        return errorService.failOnErrorPromise(inviteGenerateState, generateCodePromise);
+    }
+    generateCode();
 
-		function getUrl(name) {
-			var params = {};
+    function activateCode(code, reference) {
+        socketService.emit("invites.activateCode", {
+            code: code,
+            reference: reference
+        });
+    }
 
-			if (code && !$scope.anonymous) {
-				params.code = code;
-			}
+    function getUrl(name) {
+        var params = {};
 
-			if (name) {
-				params[name] = null;
-			}
+        if (code && !$scope.anonymous) {
+            params.code = code;
+        }
 
-			return encodeURIComponent($scope.domain + "/" + h.encodeParameters(params));
-		}
+        if (name) {
+            params[name] = null;
+        }
 
-		var urls = {
-			"facebook": "'http://www.facebook.com/sharer.php?u=' + url('fb')",
-			"twitter": "'https://twitter.com/intent/tweet?url=' + url() + '&text=' + text + '&hashtags=' + hashtags",
-			"google": "'https://plus.google.com/share?url=' + url('gp')",
-			"reddit": "'http://reddit.com/submit?url=' + url() + '&title=' + text",
-		};
+        return encodeURIComponent($scope.domain + "/" + h.encodeParameters(params));
+    }
 
-		function updateSentInvites() {
-			var promise = initService.awaitLoading().then(function () {
-				return socketService.emit("invites.getMyInvites", {});
-			}).then(function (result) {
-				$scope.acceptedInvites = result.invites.filter(function (invite) {
-					return invite.usedBy.length > 0;
-				});
+    var urls = {
+        "facebook": "'http://www.facebook.com/sharer.php?u=' + url('fb')",
+        "twitter": "'https://twitter.com/intent/tweet?url=' + url() + '&text=' + text + '&hashtags=' + hashtags",
+        "google": "'https://plus.google.com/share?url=' + url('gp')",
+        "reddit": "'http://reddit.com/submit?url=' + url() + '&title=' + text",
+    };
 
-				$scope.unacceptedInvites = result.invites.filter(function (invite) {
-					return invite.usedBy.length === 0;
-				});
-			});
+    function updateSentInvites() {
+        var promise = initService.awaitLoading().then(function () {
+            return socketService.emit("invites.getMyInvites", {});
+        }).then(function (result) {
+            $scope.acceptedInvites = result.invites.filter(function (invite) {
+                return invite.usedBy.length > 0;
+            });
 
-			errorService.failOnErrorPromise(inviteDisplayState, promise);
-		}
+            $scope.unacceptedInvites = result.invites.filter(function (invite) {
+                return invite.usedBy.length === 0;
+            });
+        });
 
-		updateSentInvites();
+        errorService.failOnErrorPromise(inviteDisplayState, promise);
+    }
 
-		$scope.open = function (type) {
-			var url = $scope.$eval(urls[type], {
-				url: getUrl.bind(null),
-				text: localize.getLocalizedString("views.invite.shareText", {}),
-				hashtags: localize.getLocalizedString("views.invite.shareHashTags", {})
-			});
-			window.open(url);
+    updateSentInvites();
 
-			if (!$scope.anonymous) {
-				activateCode(code, type);
-				generateCode();
-			}
+    $scope.open = function (type) {
+        var url = $scope.$eval(urls[type], {
+            url: getUrl.bind(null),
+            text: localize.getLocalizedString("views.invite.shareText", {}),
+            hashtags: localize.getLocalizedString("views.invite.shareHashTags", {})
+        });
+        window.open(url);
 
-			updateSentInvites();
-		};
-	}
+        if (!$scope.anonymous) {
+            activateCode(code, type);
+            generateCode();
+        }
 
-	inviteController.$inject = ["$scope", "$location", "$state"];
+        updateSentInvites();
+    };
+}
 
-	controllerModule.controller("ssn.inviteController", inviteController);
-});
+inviteController.$inject = ["$scope", "$location", "$state"];
+
+controllerModule.controller("ssn.inviteController", inviteController);

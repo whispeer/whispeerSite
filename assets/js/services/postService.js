@@ -3,7 +3,7 @@
 **/
 
 var Bluebird = require("bluebird");
-var h = require("whispeerHelper");
+var h = require("whispeerHelper").default;
 var Promise = require("bluebird");
 var validator = require("validation/validator");
 var Observer = require("asset/observer");

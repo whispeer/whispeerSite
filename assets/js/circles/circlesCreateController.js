@@ -1,32 +1,33 @@
 var circleService = require("circles/circleService");
 var errorService = require("services/error.service").errorServiceInstance;
 
-define(["controllers/controllerModule", "whispeerHelper", "bluebird"], function (circlesModule, h, Bluebird) {
-	"use strict";
+"use strict";
 
-	function circlesCreateController($scope, $state) {
-		$scope.circleName = "";
-		$scope.selectedUsers = [];
+const circlesModule = require('controllers/controllerModule');
+const h = require("whispeerHelper").default;
+const Bluebird = require('bluebird');
 
-		$scope.setCreateNewUsers = function (selected) {
-			$scope.selectedUsers = selected;
-		};
+function circlesCreateController($scope, $state) {
+    $scope.circleName = "";
+    $scope.selectedUsers = [];
 
-		$scope.createNew = function (name) {
-			$scope.showCircle = !$scope.mobile;
+    $scope.setCreateNewUsers = function (selected) {
+        $scope.selectedUsers = selected;
+    };
 
-			Bluebird.try(function() {
-				var ids = $scope.selectedUsers.map(h.parseDecimal);
-				return circleService.create(name, ids);
-			}).then(function (circle) {
-				$state.go("app.circles.show", {circleid: circle.getID()});
-			}).catch(errorService.criticalError);
-		};
-	}
+    $scope.createNew = function (name) {
+        $scope.showCircle = !$scope.mobile;
+
+        Bluebird.try(function() {
+            var ids = $scope.selectedUsers.map(h.parseDecimal);
+            return circleService.create(name, ids);
+        }).then(function (circle) {
+            $state.go("app.circles.show", {circleid: circle.getID()});
+        }).catch(errorService.criticalError);
+    };
+}
 
 
-	circlesCreateController.$inject = ["$scope", "$state"];
+circlesCreateController.$inject = ["$scope", "$state"];
 
-	circlesModule.controller("ssn.circlesCreateController", circlesCreateController);
-
-});
+circlesModule.controller("ssn.circlesCreateController", circlesCreateController);

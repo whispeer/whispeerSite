@@ -1,10 +1,8 @@
 /**
 * BaseService
 **/
-define([
-	"models/user",
-	"models/message",
-	"models/comment",
-	"models/topic",
-	"models/topicUpdate"
-], function () {});
+require('models/user');
+require('models/message');
+require('models/comment');
+require('models/topic');
+require('models/topicUpdate');

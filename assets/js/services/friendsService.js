@@ -2,7 +2,7 @@
 * friendsService
 **/
 
-var h = require("whispeerHelper");
+var h = require("whispeerHelper").default;
 var Observer = require("asset/observer");
 var SecuredData = require("asset/securedDataWithMetaData");
 var Bluebird = require("bluebird");
