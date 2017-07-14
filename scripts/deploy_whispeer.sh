@@ -22,7 +22,9 @@ else
   rm staticRaw/en/business.html
 fi
 
-npm install
+npm install -g yarn
+
+yarn
 git submodule update --init
 
 grunt copy
