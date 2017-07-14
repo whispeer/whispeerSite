@@ -13,12 +13,12 @@ var friendsService = require("services/friendsService");
 
 "use strict";
 
-const jQuery = require('jquery');
+const jQuery = require("jquery");
 const h = require("whispeerHelper").default;
-const config = require('config');
-const controllerModule = require('controllers/controllerModule');
-const debug = require('debug');
-const Bluebird = require('bluebird');
+const config = require("config");
+const controllerModule = require("controllers/controllerModule");
+const debug = require("debug");
+const Bluebird = require("bluebird");
 
 var debugName = "whispeer:rootController";
 var rootControllerDebug = debug(debugName);

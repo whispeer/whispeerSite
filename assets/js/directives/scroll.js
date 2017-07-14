@@ -1,6 +1,6 @@
 "use strict";
 
-const directivesModule = require('directives/directivesModule');
+const directivesModule = require("directives/directivesModule");
 
 var scrollDirective = function () {
     return {

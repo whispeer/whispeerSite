@@ -1,9 +1,9 @@
 "use strict";
-const angular = require('angular');
-const config = require('config');
-require('i18n/localizationConfig');
-require('localizationModule');
-require('runners/promiseRunner');
+const angular = require("angular");
+const config = require("config");
+require("i18n/localizationConfig");
+require("localizationModule");
+require("runners/promiseRunner");
 
 module.exports = angular.module("ssn.register", ["ssn.directives", "localization", "ssn.runners"],
     ["$compileProvider", function ($compileProvider) {

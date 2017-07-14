@@ -7,8 +7,8 @@ var localize = require("i18n/localizationConfig");
 
 "use strict";
 
-const runnerModule = require('runners/runnerModule');
-const Bluebird = require('bluebird');
+const runnerModule = require("runners/runnerModule");
+const Bluebird = require("bluebird");
 
 runnerModule.run(["$rootScope", "$state", function ($rootScope, $state) {
     var firstStateChange = new Bluebird(function (resolve) {

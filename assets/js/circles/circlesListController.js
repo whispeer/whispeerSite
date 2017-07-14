@@ -3,7 +3,7 @@ var errorService = require("services/error.service").errorServiceInstance;
 
 "use strict";
 
-const circlesModule = require('controllers/controllerModule');
+const circlesModule = require("controllers/controllerModule");
 
 function circlesListController($scope) {
     $scope.loadingCircleList = true;

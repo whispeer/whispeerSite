@@ -1,9 +1,9 @@
 "use strict";
 
-const WorkerQueue = require('workerQueue');
-const bluebird = require('bluebird');
-const chelper = require('crypto/minimalHelper');
-const config = require('config');
+const WorkerQueue = require("workerQueue");
+const bluebird = require("bluebird");
+const chelper = require("crypto/minimalHelper");
+const config = require("config");
 
 function getEntropy() {
     try {

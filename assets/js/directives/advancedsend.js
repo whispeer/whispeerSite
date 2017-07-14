@@ -2,9 +2,9 @@ var errorService = require("services/error.service").errorServiceInstance;
 var settingsService = require("services/settings.service").default;
 
 "use strict";
-const Bluebird = require('bluebird');
+const Bluebird = require("bluebird");
 const h = require("whispeerHelper").default;
-const directivesModule = require('directives/directivesModule');
+const directivesModule = require("directives/directivesModule");
 var advancedsendDirective = function () {
     return {
         link: function (scope, element, attrs) {

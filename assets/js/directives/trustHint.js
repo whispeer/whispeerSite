@@ -1,9 +1,9 @@
 var ENABLE_TRUST_HINTS = false;
 
 "use strict";
-const directivesModule = require('directives/directivesModule');
-require('jquery');
-require('qtip');
+const directivesModule = require("directives/directivesModule");
+require("jquery");
+require("qtip");
 var directive =  function(localize) {
     return {
         restrict: "A",

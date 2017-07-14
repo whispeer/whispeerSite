@@ -3,8 +3,8 @@
 /**
 directive to update href references
 **/
-const directivesModule = require('directives/directivesModule');
-const angular = require('angular');
+const directivesModule = require("directives/directivesModule");
+const angular = require("angular");
 
 function whispeerSref($state, $rootScope, localize) {
     return {

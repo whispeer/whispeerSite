@@ -6,7 +6,7 @@ var cssService = require("services/css.service").default;
 
 "use strict";
 
-const circlesModule = require('circles/circlesModule');
+const circlesModule = require("circles/circlesModule");
 
 function circlesRedirectController($scope, $rootScope, $state) {
     cssService.setClass("circlesView", true);

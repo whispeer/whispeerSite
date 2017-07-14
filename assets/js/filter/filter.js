@@ -1,4 +1,4 @@
 /**
 * Base Controller
 **/
-require('filter/filterModule');
+require("filter/filterModule");

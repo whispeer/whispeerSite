@@ -11,10 +11,10 @@ var userService = require("user/userService");
 "use strict";
 
 const h = require("whispeerHelper").default;
-const Promise = require('bluebird');
-const ResizableImage = require('asset/resizableImage');
-const State = require('asset/state');
-const userModule = require('user/userModule');
+const Promise = require("bluebird");
+const ResizableImage = require("asset/resizableImage");
+const State = require("asset/state");
+const userModule = require("user/userModule");
 
 function userController($scope, $stateParams) {
     cssService.setClass("profileView", true);

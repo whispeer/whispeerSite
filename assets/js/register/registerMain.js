@@ -5,15 +5,15 @@ window.jQuery = require("jquery");
 
 "use strict";
 
-const angular = require('angular');
-const app = require('register/registerModule');
-require('register/registerController');
-require('directives/mobile');
-require('directives/autofocus');
-require('directives/savebutton');
-require('directives/passwordinput');
-require('directives/validatedForm');
-require('directives/loadVal');
+const angular = require("angular");
+const app = require("register/registerModule");
+require("register/registerController");
+require("directives/mobile");
+require("directives/autofocus");
+require("directives/savebutton");
+require("directives/passwordinput");
+require("directives/validatedForm");
+require("directives/loadVal");
 
 angular.element(document).ready(function () {
     var $html = angular.element("html");

@@ -12,10 +12,10 @@ var settingsService = require("services/settings.service").default;
 "use strict";
 
 const h = require("whispeerHelper").default;
-const Bluebird = require('bluebird');
-const State = require('asset/state');
-const qr = require('libs/qr');
-const controllerModule = require('controllers/controllerModule');
+const Bluebird = require("bluebird");
+const State = require("asset/state");
+const qr = require("libs/qr");
+const controllerModule = require("controllers/controllerModule");
 
 function settingsController($scope, $timeout) {
     cssService.setClass("settingsView", true);

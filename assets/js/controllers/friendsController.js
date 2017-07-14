@@ -9,9 +9,9 @@ var userService = require("user/userService");
 
 "use strict";
 
-const Bluebird = require('bluebird');
+const Bluebird = require("bluebird");
 const h = require("whispeerHelper").default;
-const controllerModule = require('controllers/controllerModule');
+const controllerModule = require("controllers/controllerModule");
 
 function friendsController($scope)  {
     cssService.setClass("friendsView");

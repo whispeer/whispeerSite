@@ -1,8 +1,8 @@
 "use strict";
 
 const h = require("whispeerHelper").default;
-const directivesModule = require('directives/directivesModule');
-require('qtip');
+const directivesModule = require("directives/directivesModule");
+require("qtip");
 
 function validatedForm(localize) {
     return {

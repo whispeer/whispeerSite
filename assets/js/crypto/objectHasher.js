@@ -1,7 +1,7 @@
 "use strict";
 
-const chelper = require('crypto/minimalHelper');
-const sjcl = require('sjcl');
+const chelper = require("crypto/minimalHelper");
+const sjcl = require("sjcl");
 
 var ObjectHasher = function (data, version) {
     this._data = data;

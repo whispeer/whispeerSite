@@ -5,9 +5,9 @@ var screenSizeService = require("services/screenSize.service.ts").default;
 
 "use strict";
 
-const jQuery = require('jquery');
-const Bluebird = require('bluebird');
-const directivesModule = require('directives/directivesModule');
+const jQuery = require("jquery");
+const Bluebird = require("bluebird");
+const directivesModule = require("directives/directivesModule");
 
 function imageGallery() {
     function loadImage(data) {

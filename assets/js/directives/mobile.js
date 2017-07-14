@@ -2,7 +2,7 @@ var screenSizeService = require("services/screenSize.service.ts").default;
 
 "use strict";
 
-const directivesModule = require('directives/directivesModule');
+const directivesModule = require("directives/directivesModule");
 
 function mobileDirective() {
     return {

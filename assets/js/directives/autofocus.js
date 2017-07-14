@@ -1,5 +1,5 @@
 "use strict";
-const directivesModule = require('directives/directivesModule');
+const directivesModule = require("directives/directivesModule");
 var autofocusDirective = function() {
     return {
         link: function(scope, elm, attr) {

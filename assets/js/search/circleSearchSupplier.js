@@ -1,8 +1,8 @@
 var circleService = require("circles/circleService");
 
 "use strict";
-const angular = require('angular');
-const Promise = require('bluebird');
+const angular = require("angular");
+const Promise = require("bluebird");
 
 module.exports = function () {
     angular.module("ssn.search").factory("circleSearchSupplier", [function () {

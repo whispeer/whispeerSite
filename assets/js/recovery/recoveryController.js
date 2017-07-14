@@ -8,9 +8,9 @@ var userService = require("user/userService");
 "use strict";
 
 const h = require("whispeerHelper").default;
-const Bluebird = require('bluebird');
-const State = require('asset/state');
-const controllerModule = require('recovery/recoveryModule');
+const Bluebird = require("bluebird");
+const State = require("asset/state");
+const controllerModule = require("recovery/recoveryModule");
 
 function recoveryController($scope) {
     var parts = window.location.pathname.split("/");

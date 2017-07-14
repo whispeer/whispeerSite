@@ -1,7 +1,7 @@
 "use strict";
 
 const h = require("whispeerHelper").default;
-const Observer = require('asset/observer');
+const Observer = require("asset/observer");
 
 var Progress = function (options) {
     Observer.extend(this);

@@ -2,7 +2,7 @@ var templateUrl = require("../../views/directives/post.html");
 
 "use strict";
 
-const directivesModule = require('directives/directivesModule');
+const directivesModule = require("directives/directivesModule");
 
 function postDirective(localize) {
     return {

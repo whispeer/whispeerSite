@@ -1,6 +1,6 @@
 "use strict";
-const MyImage = require('asset/Image');
-const Resizable = require('asset/resizable');
+const MyImage = require("asset/Image");
+const Resizable = require("asset/resizable");
 var ResizableImage = function (initSize, minSize) {
     this._initSize = initSize;
     this._minSize = minSize;

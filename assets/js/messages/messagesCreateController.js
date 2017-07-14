@@ -9,9 +9,9 @@ var userService = require("user/userService");
 
 "use strict";
 
-const State = require('asset/state');
-const Bluebird = require('bluebird');
-const controllerModule = require('controllers/controllerModule');
+const State = require("asset/state");
+const Bluebird = require("bluebird");
+const controllerModule = require("controllers/controllerModule");
 
 function messagesController($scope, $state, $stateParams) {
     $scope.canSend = false;

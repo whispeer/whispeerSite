@@ -21,7 +21,7 @@
     "@types/webpack": "^2.0.0",
     "amanda": "~0.4.7",
     "babel-core": "^6.20.0",
-    "babel-loader": "^6.2.9",
+    "babel-loader": "^7.1.1",
     "babel-preset-es2015": "^6.18.0",
     "bluebird": "^3.4.7",
     "deepmerge": "^1.3.0",
@@ -41,7 +41,7 @@
     "sjcl": "git+https://github.com/whispeer/sjcl.git#custom-build",
     "socket.io-client": "~1.3.2",
     "ts-loader": "^1.2.2",
-    "webpack": "^2.6.1",
+    "webpack": "^3.0.0",
     "whatwg-fetch": "^2.0.1",
     "angular-touch": "1.5.11",
     "angular": "1.5.11",
@@ -90,6 +90,7 @@
   "scripts": {
     "build": "grunt build:development",
     "test": "karma start --single-run --browsers PhantomJS",
-    "lint": "eslint assets/js"
+    "lint": "eslint assets/js",
+    "lint:fix": "eslint --fix assets/js"
   }
 }

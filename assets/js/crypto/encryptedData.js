@@ -2,8 +2,8 @@
 "use strict";
 
 const h = require("whispeerHelper").default;
-const Bluebird = require('bluebird');
-const keyStore = require('crypto/keyStore');
+const Bluebird = require("bluebird");
+const keyStore = require("crypto/keyStore");
 
 var encryptedDataObject = function (data) {
     var encryptedData = data, decryptedData;

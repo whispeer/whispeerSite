@@ -1,5 +1,5 @@
 "use strict";
-const directivesModule = require('directives/directivesModule');
+const directivesModule = require("directives/directivesModule");
 var stopEventDirective = function () {
     return {
         restrict: "A",

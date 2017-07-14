@@ -2,7 +2,7 @@ var templateUrl = require("../../views/directives/saveButton.html");
 
 "use strict";
 
-const directivesModule = require('directives/directivesModule');
+const directivesModule = require("directives/directivesModule");
 
 function savebuttonDirective() {
     return {

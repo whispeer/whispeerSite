@@ -2,8 +2,8 @@ var userService = require("user/userService");
 var errorService = require("services/error.service").errorServiceInstance;
 
 "use strict";
-const angular = require('angular');
-const Bluebird = require('bluebird');
+const angular = require("angular");
+const Bluebird = require("bluebird");
 const h = require("whispeerHelper").default;
 
 module.exports = function () {

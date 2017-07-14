@@ -11,20 +11,20 @@ require("interceptors/sessionServiceInterceptor");
 
 "use strict";
 
-const angular = require('angular');
-const config = require('config');
-require('angularUiRouter');
-require('controllers/controllers');
-require('runners/runners');
-require('filter/filter');
-require('directives/directives');
-require('messages/messagesLoader');
-require('circles/circlesLoader');
-require('user/userLoader');
-require('search/loader');
-require('models/models');
-require('localizationModule');
-require('emptyInclude');
+const angular = require("angular");
+const config = require("config");
+require("angularUiRouter");
+require("controllers/controllers");
+require("runners/runners");
+require("filter/filter");
+require("directives/directives");
+require("messages/messagesLoader");
+require("circles/circlesLoader");
+require("user/userLoader");
+require("search/loader");
+require("models/models");
+require("localizationModule");
+require("emptyInclude");
 
 module.exports = angular.module("ssn", [
     "ssn.controllers",

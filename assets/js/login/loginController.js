@@ -3,8 +3,8 @@
 /**
 * loginController
 **/
-const loginModule = require('login/loginModule');
-require('login/loginDataService');
+const loginModule = require("login/loginModule");
+require("login/loginDataService");
 
 function loginController($scope, $location, loginDataService) {
     $scope.$watch(function () {

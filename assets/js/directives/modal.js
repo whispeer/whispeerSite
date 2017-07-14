@@ -1,8 +1,8 @@
 var templateUrl = require("../../views/directives/modal.html");
 
 "use strict";
-const jQuery = require('jquery');
-const directivesModule = require('directives/directivesModule');
+const jQuery = require("jquery");
+const directivesModule = require("directives/directivesModule");
 directivesModule.directive("modal", function () {
     return {
         scope: {

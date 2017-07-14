@@ -8,9 +8,9 @@ var postService = require("services/postService");
 
 "use strict";
 
-const Bluebird = require('bluebird');
-const State = require('asset/state');
-const controllerModule = require('controllers/controllerModule');
+const Bluebird = require("bluebird");
+const State = require("asset/state");
+const controllerModule = require("controllers/controllerModule");
 
 function postController($scope, $stateParams) {
     cssService.setClass("mainView");

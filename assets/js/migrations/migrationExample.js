@@ -1,5 +1,5 @@
 "use strict";
-const Bluebird = require('bluebird');
+const Bluebird = require("bluebird");
 
 module.exports = function ($injector, cb) {
     return Bluebird.try(function() {

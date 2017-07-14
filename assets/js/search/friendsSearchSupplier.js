@@ -1,8 +1,8 @@
 var userService = require("user/userService");
 
 "use strict";
-const angular = require('angular');
-const Bluebird = require('bluebird');
+const angular = require("angular");
+const Bluebird = require("bluebird");
 
 module.exports = function () {
     angular.module("ssn.search").factory("friendsSearchSupplier", [function () {

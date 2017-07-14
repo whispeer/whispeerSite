@@ -5,9 +5,9 @@ window.jQuery = require("jquery");
 
 "use strict";
 
-const angular = require('angular');
-const app = require('verifyMail/verifyMailModule');
-require('verifyMail/verifyMailController');
+const angular = require("angular");
+const app = require("verifyMail/verifyMailModule");
+require("verifyMail/verifyMailController");
 
 angular.element(document).ready(function () {
     var $html = angular.element(document.documentElement);

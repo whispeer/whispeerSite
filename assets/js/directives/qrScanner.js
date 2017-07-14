@@ -3,8 +3,8 @@ var errorService = require("services/error.service").errorServiceInstance;
 
 "use strict";
 
-const directivesModule = require('directives/directivesModule');
-const Bluebird = require('bluebird');
+const directivesModule = require("directives/directivesModule");
+const Bluebird = require("bluebird");
 
 function qrScannerDirective($timeout) {
     return {

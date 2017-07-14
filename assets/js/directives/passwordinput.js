@@ -3,7 +3,7 @@ var passwordStrength = require("services/passwordStrength.service.ts").default;
 "use strict";
 
 const h = require("whispeerHelper").default;
-const directivesModule = require('directives/directivesModule');
+const directivesModule = require("directives/directivesModule");
 
 function passwordSaver() {
     return {

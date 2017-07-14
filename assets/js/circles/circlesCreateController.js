@@ -3,9 +3,9 @@ var errorService = require("services/error.service").errorServiceInstance;
 
 "use strict";
 
-const circlesModule = require('controllers/controllerModule');
+const circlesModule = require("controllers/controllerModule");
 const h = require("whispeerHelper").default;
-const Bluebird = require('bluebird');
+const Bluebird = require("bluebird");
 
 function circlesCreateController($scope, $state) {
     $scope.circleName = "";

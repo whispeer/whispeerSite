@@ -8,10 +8,10 @@ require("interceptors/sessionServiceInterceptor");
 
 "use strict";
 
-const angular = require('angular');
-const app = require('recovery/recoveryModule');
-require('recovery/recoveryController');
-require('directives/directives');
+const angular = require("angular");
+const app = require("recovery/recoveryModule");
+require("recovery/recoveryController");
+require("directives/directives");
 
 angular.element(document).ready(function () {
     var $html = angular.element(document.documentElement);

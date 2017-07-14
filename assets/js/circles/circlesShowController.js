@@ -4,10 +4,10 @@ var localize = require("i18n/localizationConfig");
 
 "use strict";
 
-const circlesModule = require('controllers/controllerModule');
+const circlesModule = require("controllers/controllerModule");
 const h = require("whispeerHelper").default;
-const Bluebird = require('bluebird');
-const State = require('asset/state');
+const Bluebird = require("bluebird");
+const State = require("asset/state");
 
 function circlesShowController($scope, $stateParams, $state) {
     var addUsersToCircleState = new State.default();

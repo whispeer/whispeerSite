@@ -2,7 +2,7 @@ var templateUrl = require("../../views/directives/userimage.html");
 
 "use strict";
 
-const directivesModule = require('directives/directivesModule');
+const directivesModule = require("directives/directivesModule");
 
 function userimage() {
     return {

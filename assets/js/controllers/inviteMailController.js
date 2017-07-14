@@ -8,10 +8,10 @@ var localize = require("i18n/localizationConfig");
 
 "use strict";
 
-const Bluebird = require('bluebird');
+const Bluebird = require("bluebird");
 const h = require("whispeerHelper").default;
-const State = require('asset/state');
-const controllerModule = require('controllers/controllerModule');
+const State = require("asset/state");
+const controllerModule = require("controllers/controllerModule");
 
 function inviteController($scope) {
     $scope.inviteMails = [""];

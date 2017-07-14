@@ -5,10 +5,10 @@ window.jQuery = require("jquery");
 
 "use strict";
 
-const angular = require('angular');
-const app = require('login/loginModule');
-require('login/loginController');
-require('runners/promiseRunner');
+const angular = require("angular");
+const app = require("login/loginModule");
+require("login/loginController");
+require("runners/promiseRunner");
 
 angular.element(document).ready(function () {
     var $html = angular.element(document.documentElement);

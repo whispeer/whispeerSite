@@ -7,9 +7,9 @@ var errorService = require("services/error.service").errorServiceInstance;
 
 "use strict";
 
-const Bluebird = require('bluebird');
-const State = require('asset/state');
-const controllerModule = require('controllers/controllerModule');
+const Bluebird = require("bluebird");
+const State = require("asset/state");
+const controllerModule = require("controllers/controllerModule");
 
 function inviteController($scope) {
     var inviteGenerateState = new State.default();

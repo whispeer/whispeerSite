@@ -2,7 +2,7 @@ var cssService = require("services/css.service").default;
 
 "use strict";
 
-const controllerModule = require('controllers/controllerModule');
+const controllerModule = require("controllers/controllerModule");
 
 function searchController($scope, $state) {
     cssService.setClass("searchView", true);

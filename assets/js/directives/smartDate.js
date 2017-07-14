@@ -1,6 +1,6 @@
 "use strict";
 const h = require("whispeerHelper").default;
-const directivesModule = require('directives/directivesModule');
+const directivesModule = require("directives/directivesModule");
 var directive = function ($window, localize) {
     var ONEHOUR = 60*60*1000;
     var HALFHOUR = ONEHOUR / 2;

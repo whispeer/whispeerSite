@@ -1,5 +1,5 @@
 "use strict";
-const Promise = require('bluebird');
+const Promise = require("bluebird");
 function Queue(maxWeight) {
     this._queue = [];
     this._maxWeight = maxWeight;

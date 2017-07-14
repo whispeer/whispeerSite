@@ -6,11 +6,11 @@ var userService = require("user/userService");
 
 "use strict";
 
-const Bluebird = require('bluebird');
-const Promise = require('bluebird');
-const ResizableImage = require('asset/resizableImage');
-const State = require('asset/state');
-const userModule = require('user/userModule');
+const Bluebird = require("bluebird");
+const Promise = require("bluebird");
+const ResizableImage = require("asset/resizableImage");
+const State = require("asset/state");
+const userModule = require("user/userModule");
 
 function userFriendsController($scope, $stateParams) {
     var identifier = $stateParams.identifier;

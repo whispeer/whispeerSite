@@ -1,7 +1,7 @@
 "use strict";
 
-const sjcl = require('sjcl');
-const Bluebird = require('bluebird');
+const sjcl = require("sjcl");
+const Bluebird = require("bluebird");
 
 /**
 * Wait until randomizer is ready.

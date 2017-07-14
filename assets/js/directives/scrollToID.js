@@ -1,5 +1,5 @@
 "use strict";
-const directivesModule = require('directives/directivesModule');
+const directivesModule = require("directives/directivesModule");
 function scrollToIDDirective() {
     return {
         restrict: "A",

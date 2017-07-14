@@ -3,7 +3,7 @@
 /**
 * SessionService
 **/
-const config = require('config');
+const config = require("config");
 
 if ("serviceWorker" in navigator) {
     if (config.serviceWorker.enabled) {

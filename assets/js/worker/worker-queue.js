@@ -1,6 +1,6 @@
 "use strict";
 
-const PromiseWorker = require('PromiseWorker');
+const PromiseWorker = require("PromiseWorker");
 
 /** constructor for promiseQueue
 *   @param Promise a promise implementation

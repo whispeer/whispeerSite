@@ -1,10 +1,10 @@
 "use strict";
 const h = require("whispeerHelper").default;
-const Observer = require('asset/observer');
-const SecuredData = require('asset/securedDataWithMetaData');
-const Enum = require('asset/enum');
-const errors = require('asset/errors');
-const Bluebird = require('bluebird');
+const Observer = require("asset/observer");
+const SecuredData = require("asset/securedDataWithMetaData");
+const Enum = require("asset/enum");
+const errors = require("asset/errors");
+const Bluebird = require("bluebird");
 var database, loaded = false, trustManager;
 
 var sortedTrustStates = ["BROKEN", "UNTRUSTED", "TIMETRUSTED", "WHISPEERVERIFIED", "NETWORKVERIFIED", "VERIFIED", "OWN"];

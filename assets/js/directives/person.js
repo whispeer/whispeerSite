@@ -2,7 +2,7 @@ var templateUrl = require("../../views/directives/person.html");
 
 "use strict";
 
-const directivesModule = require('directives/directivesModule');
+const directivesModule = require("directives/directivesModule");
 
 function personDirective() {
     return {

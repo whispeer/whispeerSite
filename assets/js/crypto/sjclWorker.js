@@ -1,8 +1,8 @@
 "use strict";
 
-const sjcl = require('sjcl');
-const chelper = require('crypto/minimalHelper');
-const ObjectHasher = require('crypto/objectHasher');
+const sjcl = require("sjcl");
+const chelper = require("crypto/minimalHelper");
+const ObjectHasher = require("crypto/objectHasher");
 
 function nop() {}
 

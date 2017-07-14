@@ -10,10 +10,10 @@ var socketService = require("services/socket.service").default;
 
 "use strict";
 
-const Bluebird = require('bluebird');
+const Bluebird = require("bluebird");
 const h = require("whispeerHelper").default;
-const State = require('asset/state');
-const controllerModule = require('controllers/controllerModule');
+const State = require("asset/state");
+const controllerModule = require("controllers/controllerModule");
 
 function inviteController($scope, $location, $state) {
     if ($state.current.name.indexOf("app.invite") > -1) {

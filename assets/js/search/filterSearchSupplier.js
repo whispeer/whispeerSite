@@ -1,8 +1,8 @@
 var filterService = require("services/filter.service.ts").default;
 
 "use strict";
-const angular = require('angular');
-require('bluebird');
+const angular = require("angular");
+require("bluebird");
 
 module.exports = function () {
     angular.module("ssn.search").factory("filterSearchSupplier", [function () {

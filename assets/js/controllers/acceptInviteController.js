@@ -4,9 +4,9 @@ var socketService = require("services/socket.service").default;
 
 "use strict";
 
-const Bluebird = require('bluebird');
-const State = require('asset/state');
-const controllerModule = require('controllers/controllerModule');
+const Bluebird = require("bluebird");
+const State = require("asset/state");
+const controllerModule = require("controllers/controllerModule");
 
 function acceptInviteController($scope) {
     cssService.setClass("acceptInviteView");

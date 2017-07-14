@@ -3,8 +3,8 @@ var circleService = require("circles/circleService");
 
 "use strict";
 
-const Bluebird = require('bluebird');
-const directivesModule = require('directives/directivesModule');
+const Bluebird = require("bluebird");
+const directivesModule = require("directives/directivesModule");
 
 function createcircle() {
     return {

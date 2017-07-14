@@ -1,5 +1,5 @@
 "use strict";
-const sjcl = require('sjcl');
+const sjcl = require("sjcl");
 var chelper = {
     getCurveName: function (curve) {
         var curcurve;

@@ -6,7 +6,7 @@ var cssService = require("services/css.service").default;
 
 "use strict";
 
-const messagesModule = require('messages/messagesModule');
+const messagesModule = require("messages/messagesModule");
 
 function messagesController($scope, $rootScope, $state) {
     cssService.setClass("messagesView", true);
