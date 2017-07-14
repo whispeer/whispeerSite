@@ -43,6 +43,7 @@ var plugins = [
 			version: data.version
 		})
 	}),
+	new webpack.optimize.ModuleConcatenationPlugin(),
 	new BundleAnalyzerPlugin({
 		analyzerMode: "static",
 		reportFilename: "report-chunks.html",

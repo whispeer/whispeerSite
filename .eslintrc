@@ -61,6 +61,7 @@
         "functions": false
       }
     ],
+    "indent": ["error", "tab"],
     "max-statements": 0
   }
 }

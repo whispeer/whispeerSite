@@ -1,12 +1,11 @@
-var runnerModule = require("runners/runnerModule");
-var windowService = require("services/windowService");
-var titleService = require("services/titleService");
+const runnerModule = require("runners/runnerModule");
+/* TODO CH const windowService = require("services/windowService");
+const titleService = require("services/titleService");
+const messageService = require("messages/messageService");*/
 
 require("angularServices/notificationService");
 
-var messageService = require("messages/messageService");
-
-runnerModule.run(["ssn.notificationService", function (notificationService) {
+runnerModule.run(["ssn.notificationService", function (/*notificationService*/) {
 	"use strict";
 	// TODO CH
 
