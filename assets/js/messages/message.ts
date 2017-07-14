@@ -170,7 +170,25 @@ export class Message {
 			this._securedData.metaSetAttr("images", imagesMeta);
 
 			const chunkKey = chunk.getKey();
-			const newest = await MessageLoader.get(this.chat.getLatestMessage())
+
+			const messageIDs = this.chat.getMessages()
+
+			const messages = messageIDs.filter(({ id }) =>
+				MessageLoader.isLoaded(id)
+			).map(({ id }) =>
+				MessageLoader.getLoaded(id)
+			)
+
+			const sentMessages = messages.filter((m) => m.hasBeenSent())
+			const unsentMessages = messages.filter((m) => !m.hasBeenSent())
+
+			const messageIndex = unsentMessages.findIndex((m) => m === this)
+
+			if (unsentMessages[messageIndex - 1]) {
+				await unsentMessages[messageIndex - 1].sendContinously()
+			}
+
+			const newest = h.array.last(sentMessages)
 
 			if (newest && newest.getChunkID() === this.chat.getLatestChunk()) {
 				this._securedData.setAfterRelationShip(newest.getSecuredData());
@@ -197,6 +215,7 @@ export class Message {
 			if (response.server) {
 				this.sendTime = h.parseDecimal(response.server.sendTime)
 				this._serverID = h.parseDecimal(response.server.id)
+				this.chunkID = h.parseDecimal(response.server.chunkID)
 				this.data.timestamp = this.getTime();
 			}
 
