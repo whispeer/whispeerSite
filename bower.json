@@ -15,8 +15,6 @@
     "tests"
   ],
   "dependencies": {
-    "angular-touch": "1.5.8",
-    "angular": "1.5.8",
     "blueimp-load-image": "~2.6.2",
     "visionmedia-debug": "~2.2.0",
     "angular-ui-router": "~0.3.1"

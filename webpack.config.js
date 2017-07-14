@@ -79,9 +79,9 @@ var config = {
 		extensions: [".webpack.js", ".web.js", ".ts", ".tsx", ".js"],
 		alias: {
 			whispeerHelper: "helper/helper",
-			angular: "bower/angular/angular",
+			angular: "angular",
 			angularUiRouter: "bower/angular-ui-router/release/angular-ui-router",
-			angularTouch: "bower/angular-touch/angular-touch",
+			angularTouch: "angular-touch",
 			socket: "socket.io-client",
 			imageLib: "bower/blueimp-load-image/js/load-image",
 			localizationModule: "i18n/localizationModule",
