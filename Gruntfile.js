@@ -163,8 +163,11 @@ grunt.initConfig({
 				"lint"
 			]
 		},
-		webpack: {
-			cmd: "webpack"
+		webpackProduction: {
+			cmd: "webpack",
+			args: [
+				"-p"
+			]
 		},
 		jekyllWatch: {
 			cmd: "jekyll",
@@ -408,7 +411,7 @@ grunt.registerTask("build:production",  [
 	"assetHash:worker",
 	"workerInclude",
 
-	"run:webpack",
+	"run:webpackProduction",
 	"assetHash:bundles",
 
 	"includes",

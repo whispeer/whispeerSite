@@ -57,11 +57,6 @@ var bail = false;
 var devtool = "cheap-inline-source-map";
 
 if (process.env.WHISPEER_ENV !== "development") {
-	plugins.push(new webpack.optimize.UglifyJsPlugin({
-		compress: {
-			warnings: false
-		}
-	}));
 	bail = true;
 	devtool = "source-map";
 }
@@ -96,7 +91,8 @@ var config = {
 			{ test: /angular\.js/, loader: "imports-loader?jquery!exports-loader?angular" },
 			{ test: /\.html$/, loader: "ngtemplate-loader?relativeTo=assets/views/!html-loader?-attrs" },
 			// all files with a `.ts` or `.tsx` extension will be handled by `ts-loader`
-			{ test: /\.tsx?$/, loader: "ts-loader", exclude: /node_modules/ }
+			{ test: /\.tsx?$/, loader: "ts-loader", exclude: /node_modules/ },
+			{ test: /\.js$/, loader: "babel-loader", exclude: /(node_modules|bower_components)/ },
 		],
 		noParse: [
 			/sjcl\.js$/,
