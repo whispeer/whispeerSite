@@ -24,7 +24,6 @@ fi
 
 npm install
 git submodule update --init
-bower install
 
 grunt copy
 

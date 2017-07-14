@@ -9,7 +9,6 @@ var unusedFiles = new UnusedFilesWebpackPlugin({
 	globOptions: {
 		ignore: [
 			"node_modules/**/*",
-			"bower/**/*",
 			"**/*.json",
 			"**/*.md",
 			"**/*.markdown",
@@ -80,14 +79,14 @@ var config = {
 		alias: {
 			whispeerHelper: "helper/helper",
 			angular: "angular",
-			angularUiRouter: "bower/angular-ui-router/release/angular-ui-router",
+			angularUiRouter: "angular-ui-router",
 			angularTouch: "angular-touch",
 			socket: "socket.io-client",
-			imageLib: "bower/blueimp-load-image/js/load-image",
+			imageLib: "blueimp-load-image",
 			localizationModule: "i18n/localizationModule",
 			workerQueue: "worker/worker-queue",
 			PromiseWorker: "worker/worker-loader",
-			debug: "bower/visionmedia-debug/dist/debug",
+			debug: "debug",
 			qtip: "qtip2"
 		}
 	},

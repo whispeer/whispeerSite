@@ -36,7 +36,6 @@ manifest.mf
 
 node_modules/*
 assets/vendor
-assets/js/bower
 staticRaw/_sass/normalize.scss
 staticRaw/_sass/font-awesome.scss
 assets/less/base/addons/font-awesome.less
