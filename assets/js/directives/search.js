@@ -3,7 +3,6 @@ var singleTemplateUrl = require("../../views/directives/search.html");
 
 "use strict";
 
-const h = require("whispeerHelper").default;
 const singleSearch = require("search/singleSearch");
 const multiSearch = require("search/multiSearch");
 const directivesModule = require("directives/directivesModule");

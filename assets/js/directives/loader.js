@@ -4,7 +4,6 @@ var errorService = require("services/error.service").errorServiceInstance;
 
 "use strict";
 
-const h = require("whispeerHelper").default;
 const directivesModule = require("directives/directivesModule");
 
 // <loader data-model="user" data-ng-repeat="user in invite.usedBy" data-id="user" data-scope-attribute="user">

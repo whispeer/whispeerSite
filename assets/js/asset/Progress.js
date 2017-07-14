@@ -1,6 +1,5 @@
 "use strict";
 
-const h = require("whispeerHelper").default;
 const Observer = require("asset/observer");
 
 var Progress = function (options) {
@@ -28,7 +27,7 @@ Progress.prototype._parseOptions = function () {
 };
 
 Progress.prototype._listenDepends = function (depends) {
-    this._depends = depends;	
+    this._depends = depends;
 
     depends.forEach(function (depend) {
         depend.listen(this._recalculate.bind(this), "progress");

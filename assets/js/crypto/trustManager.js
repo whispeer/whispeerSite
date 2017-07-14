@@ -1,5 +1,4 @@
 "use strict";
-const h = require("whispeerHelper").default;
 const Observer = require("asset/observer");
 const SecuredData = require("asset/securedDataWithMetaData");
 const Enum = require("asset/enum");

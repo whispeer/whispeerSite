@@ -3,7 +3,6 @@ var settingsService = require("services/settings.service").default;
 
 "use strict";
 const Bluebird = require("bluebird");
-const h = require("whispeerHelper").default;
 const directivesModule = require("directives/directivesModule");
 var advancedsendDirective = function () {
     return {

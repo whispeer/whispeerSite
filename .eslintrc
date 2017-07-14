@@ -54,6 +54,7 @@
     ],
     "no-unused-vars": 2,
     "strict": 0,
+    "no-console": 0,
     "no-use-before-define": [
       2,
       {

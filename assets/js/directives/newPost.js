@@ -6,7 +6,6 @@ var postService = require("services/postService");
 "use strict";
 
 const directivesModule = require("directives/directivesModule");
-const h = require("whispeerHelper").default;
 const State = require("asset/state");
 
 function newPostDirective() {

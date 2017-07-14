@@ -1,16 +1,11 @@
-/**
-* inviteController
-**/
-
-var cssService = require("services/css.service").default;
-var errorService = require("services/error.service").errorServiceInstance;
-var initService = require("services/initService");
-var localize = require("i18n/localizationConfig");
-var socketService = require("services/socket.service").default;
-
 "use strict";
 
-const Bluebird = require("bluebird");
+const cssService = require("services/css.service").default;
+const errorService = require("services/error.service").errorServiceInstance;
+const initService = require("services/initService");
+const localize = require("i18n/localizationConfig");
+const socketService = require("services/socket.service").default;
+
 const h = require("whispeerHelper").default;
 const State = require("asset/state");
 const controllerModule = require("controllers/controllerModule");

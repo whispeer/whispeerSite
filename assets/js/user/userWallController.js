@@ -7,10 +7,7 @@ var userService = require("user/userService");
 
 "use strict";
 
-const Bluebird = require("bluebird");
 const h = require("whispeerHelper").default;
-const Promise = require("bluebird");
-const ResizableImage = require("asset/resizableImage");
 const State = require("asset/state");
 const userModule = require("user/userModule");
 

@@ -189,6 +189,7 @@ SecuredDataWithMetaData.prototype.verifyAsync = function (signKey, id) {
 				});
 
 				if (!this.hasType(metaCopy._type)) {
+						// eslint-disable-next-line no-debugger
 						debugger
 						throw new errors.SecurityError("invalid object type. is: " + metaCopy._type + " should be: " + this._type);
 				}

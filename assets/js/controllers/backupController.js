@@ -8,7 +8,6 @@ var userService = require("user/userService");
 
 "use strict";
 
-const State = require("asset/state");
 const qr = require("libs/qr");
 const saveAs = require("libs/filesaver");
 const controllerModule = require("controllers/controllerModule");

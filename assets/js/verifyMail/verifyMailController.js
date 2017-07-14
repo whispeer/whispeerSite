@@ -3,7 +3,6 @@ var socketService = require("services/socket.service").default;
 
 "use strict";
 
-const Bluebird = require("bluebird");
 const SuccessState = require("asset/state");
 const controllerModule = require("verifyMail/verifyMailModule");
 

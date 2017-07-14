@@ -1,5 +1,4 @@
 "use strict";
-const h = require("whispeerHelper").default;
 const Bluebird = require("bluebird");
 var MyImage = function () { this._name = ""; };
 

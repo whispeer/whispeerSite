@@ -12,8 +12,6 @@ var userService = require("user/userService");
 const Bluebird = require("bluebird");
 const h = require("whispeerHelper").default;
 const State = require("asset/state");
-const qr = require("libs/qr");
-const saveAs = require("libs/filesaver");
 const controllerModule = require("controllers/controllerModule");
 
 function setupController($scope, $state) {

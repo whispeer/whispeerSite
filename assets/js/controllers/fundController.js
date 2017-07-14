@@ -6,10 +6,6 @@ var cssService = require("services/css.service").default;
 
 "use strict";
 
-const h = require("whispeerHelper").default;
-const State = require("asset/state");
-const qr = require("libs/qr");
-const saveAs = require("libs/filesaver");
 const controllerModule = require("controllers/controllerModule");
 
 function fundController($scope) {

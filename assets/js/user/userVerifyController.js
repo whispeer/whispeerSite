@@ -6,8 +6,6 @@ var errorService = require("services/error.service").errorServiceInstance;
 
 "use strict";
 
-const Promise = require("bluebird");
-const ResizableImage = require("asset/resizableImage");
 const State = require("asset/state");
 const userModule = require("user/userModule");
 
