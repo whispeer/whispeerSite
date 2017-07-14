@@ -40,8 +40,8 @@
     "ts-loader": "^1.2.2",
     "webpack": "^3.0.0",
     "whatwg-fetch": "^2.0.1",
-    "angular-touch": "1.5.11",
-    "angular": "1.5.11",
+    "angular-touch": "1.6.5",
+    "angular": "1.6.5",
     "blueimp-load-image": "~2.6.2",
     "debug": "~2.2.0",
     "angular-ui-router": "~0.3.1"
