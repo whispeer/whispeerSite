@@ -5,16 +5,16 @@ var screenSizeService = require("services/screenSize.service.ts").default;
 const directivesModule = require("directives/directivesModule");
 
 function mobileDirective() {
-    return {
-        scope:	false,
-        restrict: "A",
-        link: function (scope) {
-            scope.mobile = screenSizeService.mobile;
-            screenSizeService.listen(function (mobile) {
-                scope.mobile = mobile;
-            });
-        }
-    };
+	return {
+		scope:	false,
+		restrict: "A",
+		link: function (scope) {
+			scope.mobile = screenSizeService.mobile;
+			screenSizeService.listen(function (mobile) {
+				scope.mobile = mobile;
+			});
+		}
+	};
 }
 
 directivesModule.directive("mobile", [mobileDirective]);

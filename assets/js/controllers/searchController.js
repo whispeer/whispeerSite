@@ -5,14 +5,14 @@ var cssService = require("services/css.service").default;
 const controllerModule = require("controllers/controllerModule");
 
 function searchController($scope, $state) {
-    cssService.setClass("searchView", true);
+	cssService.setClass("searchView", true);
 
-    $scope.visitUserProfile = function (user) {
-        $state.go("app.user.info", {
-            identifier: user.user.getNickname()
-        });
-        $scope.closeSidebar();
-    };
+	$scope.visitUserProfile = function (user) {
+		$state.go("app.user.info", {
+			identifier: user.user.getNickname()
+		});
+		$scope.closeSidebar();
+	};
 }
 
 searchController.$inject = ["$scope", "$state"];

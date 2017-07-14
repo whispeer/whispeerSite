@@ -618,7 +618,7 @@ function User (providedData) {
 
 	this.setMigrationState = function (migrationState, cb) {
 		return socketService.emit("user.setMigrationState", {
-				migrationState: migrationState
+			migrationState: migrationState
 		}).nodeify(cb);
 	};
 

@@ -14,48 +14,48 @@ const State = require("asset/state");
 const controllerModule = require("controllers/controllerModule");
 
 function inviteController($scope) {
-    $scope.inviteMails = [""];
+	$scope.inviteMails = [""];
 
-    var inviteMailState = new State.default();
-    $scope.inviteMailState = inviteMailState.data;
+	var inviteMailState = new State.default();
+	$scope.inviteMailState = inviteMailState.data;
 
-    $scope.addInviteMail = function () {
-        $scope.inviteMails.push("");
-    };
+	$scope.addInviteMail = function () {
+		$scope.inviteMails.push("");
+	};
 
-    $scope.empty = function (val) {
-        return val === "" || !h.isset(val);
-    };
+	$scope.empty = function (val) {
+		return val === "" || !h.isset(val);
+	};
 
-    $scope.isMail = function (mail) {
-        return h.isMail(mail);
-    };
+	$scope.isMail = function (mail) {
+		return h.isMail(mail);
+	};
 
-    $scope.inviteUsers = function (name, mails) {
-        inviteMailState.pending();
+	$scope.inviteUsers = function (name, mails) {
+		inviteMailState.pending();
 
-        var inviteMailPromise = Bluebird.resolve(mails).filter(function(e) {
-            return h.isMail(e);
-        }).then(function(mailsToSend) {
-            return socketService.emit("invites.byMail", {
-                mails: mailsToSend,
-                name: name,
-                language: localize.getLanguage()
-            });
-        }).then(function () {
+		var inviteMailPromise = Bluebird.resolve(mails).filter(function(e) {
+			return h.isMail(e);
+		}).then(function(mailsToSend) {
+			return socketService.emit("invites.byMail", {
+				mails: mailsToSend,
+				name: name,
+				language: localize.getLanguage()
+			});
+		}).then(function () {
             // to too sure about changing this filter to a promise
             // as this works on $scope.
-            $scope.inviteMails = $scope.inviteMails.filter(function (e) {
-                return !h.isMail(e);
-            });
-        });
+			$scope.inviteMails = $scope.inviteMails.filter(function (e) {
+				return !h.isMail(e);
+			});
+		});
 
-        return errorService.failOnErrorPromise(inviteMailState, inviteMailPromise);
-    };
+		return errorService.failOnErrorPromise(inviteMailState, inviteMailPromise);
+	};
 
-    $scope.removeInput = function (i) {
-        $scope.inviteMails.splice(i, 1);
-    };
+	$scope.removeInput = function (i) {
+		$scope.inviteMails.splice(i, 1);
+	};
 }
 
 inviteController.$inject = ["$scope"];

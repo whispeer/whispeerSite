@@ -27,25 +27,25 @@ require("localizationModule");
 require("emptyInclude");
 
 module.exports = angular.module("ssn", [
-    "ssn.controllers",
-    "ssn.models",
-    "ssn.services",
-    "ssn.directives",
-    "ssn.filter",
-    "ssn.search",
-    "ssn.runners",
-    "ssn.messages",
-    "ssn.circles",
-    "ssn.user",
+	"ssn.controllers",
+	"ssn.models",
+	"ssn.services",
+	"ssn.directives",
+	"ssn.filter",
+	"ssn.search",
+	"ssn.runners",
+	"ssn.messages",
+	"ssn.circles",
+	"ssn.user",
 
-    "localization",
-    "ui.router",
-    "ngTouch"
+	"localization",
+	"ui.router",
+	"ngTouch"
 ], ["$compileProvider", function ($compileProvider) {
-    $compileProvider.imgSrcSanitizationWhitelist(/^\s*(https?|ftp|file|blob|app):|data:image\//);
-    $compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|ftp|mailto|tel|file|app):/);
+	$compileProvider.imgSrcSanitizationWhitelist(/^\s*(https?|ftp|file|blob|app):|data:image\//);
+	$compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|ftp|mailto|tel|file|app):/);
 
-    if (!config.debug) {
-        $compileProvider.debugInfoEnabled(false);
-    }
+	if (!config.debug) {
+		$compileProvider.debugInfoEnabled(false);
+	}
 }]);

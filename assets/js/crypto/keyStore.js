@@ -56,16 +56,16 @@ var Key, SymKey, CryptKey, SignKey;
 sjcl.random.startCollectors();
 
 var MAXSPEED = 99999999999, SPEEDS = {
-	symKey: {
-		loaded: 3,
-		unloaded: 50
-	},
-	cryptKey: {
-		loaded: 100,
-		unloaded: 150
-	},
-	pw: 3
-};
+		symKey: {
+			loaded: 3,
+			unloaded: 50
+		},
+		cryptKey: {
+			loaded: 100,
+			unloaded: 150
+		},
+		pw: 3
+	};
 
 try {
 	if (localStorage) {
@@ -247,10 +247,10 @@ function internalDecrypt(decryptorid, decryptortype, ctext, iv, salt) {
 		} else if (decryptortype === "pw") {
 			return Bluebird.try(function () {
 				var jsonData = chelper.Object2sjclPacket({
-					ct: ctext,
-					iv: iv,
-					salt: salt
-				}), result;
+						ct: ctext,
+						iv: iv,
+						salt: salt
+					}), result;
 				if (password !== "") {
 					result = sjcl.decrypt(password, jsonData, { raw: 1 });
 
@@ -866,16 +866,16 @@ CryptKey = function (keyData) {
 
 		this.getUploadData = function (includeAllDecryptors) {
 			var p = publicKey._point, data = {
-				realid: intKey.getRealID(),
-				point: {
-					x: chelper.bits2hex(p.x.toBits()),
-					y: chelper.bits2hex(p.y.toBits())
-				},
-				curve: chelper.getCurveName(publicKey._curve),
-				type: "crypt",
-				decryptors: this.getDecryptorData(includeAllDecryptors),
-				comment: comment
-			};
+					realid: intKey.getRealID(),
+					point: {
+						x: chelper.bits2hex(p.x.toBits()),
+						y: chelper.bits2hex(p.y.toBits())
+					},
+					curve: chelper.getCurveName(publicKey._curve),
+					type: "crypt",
+					decryptors: this.getDecryptorData(includeAllDecryptors),
+					comment: comment
+				};
 
 			return data;
 		};
@@ -979,15 +979,15 @@ CryptKey.generate = function (curve, comment) {
 
 		/*jslint nomen: true*/
 		var p = rawKey.pub._point, data = {
-			point: {
-				x: chelper.bits2hex(p.x.toBits()),
-				y: chelper.bits2hex(p.y.toBits())
-			},
-			exponent: rawKey.sec._exponent.toBits(),
-			realid: generateid(fingerPrintPublicKey(rawKey.pub)),
-			curve: chelper.getCurveName(rawKey.pub._curve),
-			comment: comment
-		};
+				point: {
+					x: chelper.bits2hex(p.x.toBits()),
+					y: chelper.bits2hex(p.y.toBits())
+				},
+				exponent: rawKey.sec._exponent.toBits(),
+				realid: generateid(fingerPrintPublicKey(rawKey.pub)),
+				curve: chelper.getCurveName(rawKey.pub._curve),
+				comment: comment
+			};
 		/*jslint nomen: false*/
 
 		var key = makeCryptKey(data);
@@ -1082,16 +1082,16 @@ SignKey = function (keyData) {
 
 		this.getUploadData = function (includeAllDecryptors) {
 			var p = publicKey._point, data = {
-				realid: intKey.getRealID(),
-				point: {
-					x: chelper.bits2hex(p.x.toBits()),
-					y: chelper.bits2hex(p.y.toBits())
-				},
-				curve: chelper.getCurveName(publicKey._curve),
-				type: "sign",
-				decryptors: this.getDecryptorData(includeAllDecryptors),
-				comment: comment
-			};
+					realid: intKey.getRealID(),
+					point: {
+						x: chelper.bits2hex(p.x.toBits()),
+						y: chelper.bits2hex(p.y.toBits())
+					},
+					curve: chelper.getCurveName(publicKey._curve),
+					type: "sign",
+					decryptors: this.getDecryptorData(includeAllDecryptors),
+					comment: comment
+				};
 
 			return data;
 		};
@@ -1312,14 +1312,14 @@ SignKey.generate = function (curve, comment) {
 
 		/*jslint nomen: true*/
 		var p = rawKey.pub._point, data = {
-			point: {
-				x: chelper.bits2hex(p.x.toBits()),
-				y: chelper.bits2hex(p.y.toBits())
-			},
-			exponent: rawKey.sec._exponent.toBits(),
-			realid: generateid(fingerPrintPublicKey(rawKey.pub)),
-			curve: chelper.getCurveName(rawKey.pub._curve)
-		};
+				point: {
+					x: chelper.bits2hex(p.x.toBits()),
+					y: chelper.bits2hex(p.y.toBits())
+				},
+				exponent: rawKey.sec._exponent.toBits(),
+				realid: generateid(fingerPrintPublicKey(rawKey.pub)),
+				curve: chelper.getCurveName(rawKey.pub._curve)
+			};
 		/*jslint nomen: false*/
 
 		var key = makeSignKey(data);

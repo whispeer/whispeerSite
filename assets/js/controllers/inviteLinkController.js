@@ -11,20 +11,20 @@ const State = require("asset/state");
 const controllerModule = require("controllers/controllerModule");
 
 function inviteController($scope) {
-    var inviteGenerateState = new State.default();
-    $scope.inviteGenerateState = inviteGenerateState.data;
+	var inviteGenerateState = new State.default();
+	$scope.inviteGenerateState = inviteGenerateState.data;
 
-    $scope.generateInvite = function () {
-        inviteGenerateState.pending();
+	$scope.generateInvite = function () {
+		inviteGenerateState.pending();
 
-        var generateInvitePromise = socketService.emit("invites.generateCode", { active: true }).then(function(result) {
-            $scope.inviteCode = result.inviteCode;
-        });
+		var generateInvitePromise = socketService.emit("invites.generateCode", { active: true }).then(function(result) {
+			$scope.inviteCode = result.inviteCode;
+		});
 
-        return errorService.failOnErrorPromise(inviteGenerateState, generateInvitePromise);
-    };
+		return errorService.failOnErrorPromise(inviteGenerateState, generateInvitePromise);
+	};
 
-    $scope.generateInvite();
+	$scope.generateInvite();
 }
 
 inviteController.$inject = ["$scope"];

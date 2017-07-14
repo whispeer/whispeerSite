@@ -7,39 +7,39 @@ const SuccessState = require("asset/state");
 const controllerModule = require("verifyMail/verifyMailModule");
 
 function verifyMailController($scope) {
-    $scope.mails = true;
+	$scope.mails = true;
 
-    var verifying = new SuccessState.default();
-    $scope.verifying = verifying;
+	var verifying = new SuccessState.default();
+	$scope.verifying = verifying;
 
-    var parts = window.location.pathname.split("/");
-    parts = parts.filter(function (v) {
-        return v !== "";
-    });
+	var parts = window.location.pathname.split("/");
+	parts = parts.filter(function (v) {
+		return v !== "";
+	});
 
-    $scope.challenge = "";
+	$scope.challenge = "";
 
-    if (parts.length > 2) {
-        $scope.challenge = parts.pop();
-    }
+	if (parts.length > 2) {
+		$scope.challenge = parts.pop();
+	}
 
-    $scope.verify = function (mailsEnabled) {
-        verifying.reset();
-        verifying.pending();
+	$scope.verify = function (mailsEnabled) {
+		verifying.reset();
+		verifying.pending();
 
-        var verifyPromise = socketService.emit("verifyMail", {
-            challenge: $scope.challenge,
-            mailsEnabled: mailsEnabled
-        }).then(function (data) {
-            if (data.mailVerified) {
-                verifying.success();
-            } else {
-                $scope.verifying.failed();
-            }
-        });
+		var verifyPromise = socketService.emit("verifyMail", {
+			challenge: $scope.challenge,
+			mailsEnabled: mailsEnabled
+		}).then(function (data) {
+			if (data.mailVerified) {
+				verifying.success();
+			} else {
+				$scope.verifying.failed();
+			}
+		});
 
-        errorService.failOnErrorPromise(verifying, verifyPromise);
-    };
+		errorService.failOnErrorPromise(verifying, verifyPromise);
+	};
 }
 
 verifyMailController.$inject = ["$scope"];

@@ -6,9 +6,9 @@ require("localizationModule");
 require("runners/promiseRunner");
 
 module.exports = angular.module("ssn.register", ["ssn.directives", "localization", "ssn.runners"],
-    ["$compileProvider", function ($compileProvider) {
-        if (!config.debug) {
-            $compileProvider.debugInfoEnabled(false);
-        }
-    }]
+	["$compileProvider", function ($compileProvider) {
+		if (!config.debug) {
+			$compileProvider.debugInfoEnabled(false);
+		}
+	}]
 );

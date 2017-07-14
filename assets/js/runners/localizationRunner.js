@@ -11,23 +11,23 @@ const runnerModule = require("runners/runnerModule");
 const Bluebird = require("bluebird");
 
 runnerModule.run(["$rootScope", "$state", function ($rootScope, $state) {
-    var firstStateChange = new Bluebird(function (resolve) {
-        $rootScope.$on("$stateChangeSuccess", resolve);
-    });
+	var firstStateChange = new Bluebird(function (resolve) {
+		$rootScope.$on("$stateChangeSuccess", resolve);
+	});
 
-    $rootScope.$on("localizeResourcesUpdates", function () {
-        firstStateChange.then(function () {
-            $state.go($state.current, { locale: localize.getLanguage() });
-        });
-    });
+	$rootScope.$on("localizeResourcesUpdates", function () {
+		firstStateChange.then(function () {
+			$state.go($state.current, { locale: localize.getLanguage() });
+		});
+	});
 
-    settingsService.setDefaultLanguage(localize.getLanguage());
+	settingsService.setDefaultLanguage(localize.getLanguage());
 
-    settingsService.listen(function () {
-        var language = settingsService.getBranch("uiLanguage");
+	settingsService.listen(function () {
+		var language = settingsService.getBranch("uiLanguage");
 
-        if (language && typeof language === "string") {
-            localize.setLanguage(language);
-        }
-    }, "loaded");
+		if (language && typeof language === "string") {
+			localize.setLanguage(language);
+		}
+	}, "loaded");
 }]);

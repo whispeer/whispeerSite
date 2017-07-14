@@ -11,9 +11,9 @@ var socketService = require("services/socket.service").default;
 const controllerModule = require("controllers/controllerModule");
 
 function fundThankYouController() {
-    cssService.setClass("fundView");
+	cssService.setClass("fundView");
 
-    socketService.emit("user.donated", {}, errorService.criticalError);
+	socketService.emit("user.donated", {}, errorService.criticalError);
 }
 
 fundThankYouController.$inject = [];

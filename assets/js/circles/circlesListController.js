@@ -6,12 +6,12 @@ var errorService = require("services/error.service").errorServiceInstance;
 const circlesModule = require("controllers/controllerModule");
 
 function circlesListController($scope) {
-    $scope.loadingCircleList = true;
-    $scope.circles = circleService.data.circles;
+	$scope.loadingCircleList = true;
+	$scope.circles = circleService.data.circles;
 
-    circleService.loadAll().then(function() {
-        $scope.loadingCircleList = false;
-    }).catch(errorService.criticalError);
+	circleService.loadAll().then(function() {
+		$scope.loadingCircleList = false;
+	}).catch(errorService.criticalError);
 }
 
 

@@ -11,17 +11,17 @@ var postService = require("services/postService");
 const controllerModule = require("controllers/controllerModule");
 
 function postController($scope, $stateParams) {
-    cssService.setClass("mainView");
+	cssService.setClass("mainView");
 
-    function loadPost(postID) {
-        return postService.getPostByID(postID).then(function (post) {
-            $scope.post = post.data;
+	function loadPost(postID) {
+		return postService.getPostByID(postID).then(function (post) {
+			$scope.post = post.data;
 
-            return post.loadData();
-        }).catch(errorService.criticalError);
-    }
+			return post.loadData();
+		}).catch(errorService.criticalError);
+	}
 
-    loadPost($stateParams.postID);
+	loadPost($stateParams.postID);
 }
 
 postController.$inject = ["$scope", "$stateParams"];

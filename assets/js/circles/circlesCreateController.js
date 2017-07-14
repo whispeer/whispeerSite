@@ -8,23 +8,23 @@ const h = require("whispeerHelper").default;
 const Bluebird = require("bluebird");
 
 function circlesCreateController($scope, $state) {
-    $scope.circleName = "";
-    $scope.selectedUsers = [];
+	$scope.circleName = "";
+	$scope.selectedUsers = [];
 
-    $scope.setCreateNewUsers = function (selected) {
-        $scope.selectedUsers = selected;
-    };
+	$scope.setCreateNewUsers = function (selected) {
+		$scope.selectedUsers = selected;
+	};
 
-    $scope.createNew = function (name) {
-        $scope.showCircle = !$scope.mobile;
+	$scope.createNew = function (name) {
+		$scope.showCircle = !$scope.mobile;
 
-        Bluebird.try(function() {
-            var ids = $scope.selectedUsers.map(h.parseDecimal);
-            return circleService.create(name, ids);
-        }).then(function (circle) {
-            $state.go("app.circles.show", {circleid: circle.getID()});
-        }).catch(errorService.criticalError);
-    };
+		Bluebird.try(function() {
+			var ids = $scope.selectedUsers.map(h.parseDecimal);
+			return circleService.create(name, ids);
+		}).then(function (circle) {
+			$state.go("app.circles.show", {circleid: circle.getID()});
+		}).catch(errorService.criticalError);
+	};
 }
 
 

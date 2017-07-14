@@ -5,14 +5,14 @@ var templateUrl = require("../../views/directives/inviteButtons.html");
 const directivesModule = require("directives/directivesModule");
 
 function newPostDirective() {
-    return {
-        scope: {},
-        restrict: "E",
-        templateUrl: templateUrl,
-        replace: false,
-        transclude: false,
-        controller: "ssn.inviteController"
-    };
+	return {
+		scope: {},
+		restrict: "E",
+		templateUrl: templateUrl,
+		replace: false,
+		transclude: false,
+		controller: "ssn.inviteController"
+	};
 }
 
 newPostDirective.$inject = [];

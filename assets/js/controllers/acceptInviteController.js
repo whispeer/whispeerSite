@@ -8,25 +8,25 @@ const State = require("asset/state");
 const controllerModule = require("controllers/controllerModule");
 
 function acceptInviteController($scope) {
-    cssService.setClass("acceptInviteView");
+	cssService.setClass("acceptInviteView");
 
-    var acceptInviteState = new State.default();
-    $scope.acceptInviteState = acceptInviteState.data;
+	var acceptInviteState = new State.default();
+	$scope.acceptInviteState = acceptInviteState.data;
 
-    $scope.code = "";
-    $scope.accept = function () {
-        acceptInviteState.pending();
+	$scope.code = "";
+	$scope.accept = function () {
+		acceptInviteState.pending();
 
-        var acceptInvitePromise = socketService.emit("invites.acceptRequest", {
-            code: $scope.code
-        }).then(function(data) {
-            if (!data.success) {
-                throw new Error("nope!");
-            }
-        });
+		var acceptInvitePromise = socketService.emit("invites.acceptRequest", {
+			code: $scope.code
+		}).then(function(data) {
+			if (!data.success) {
+				throw new Error("nope!");
+			}
+		});
 
-        return errorService.failOnErrorPromise(acceptInviteState, acceptInvitePromise);
-    };
+		return errorService.failOnErrorPromise(acceptInviteState, acceptInvitePromise);
+	};
 }
 
 acceptInviteController.$inject = ["$scope"];

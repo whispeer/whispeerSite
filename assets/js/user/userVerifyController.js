@@ -10,87 +10,87 @@ const State = require("asset/state");
 const userModule = require("user/userModule");
 
 function userController($scope) {
-    var verifyState = new State.default();
-    $scope.verifyingUser = verifyState.data;
+	var verifyState = new State.default();
+	$scope.verifyingUser = verifyState.data;
 
-    $scope.qr = {
-        enabled: false
-    };
+	$scope.qr = {
+		enabled: false
+	};
 
-    $scope.verifyCode = false;
-    $scope.$watch(function () { return $scope.qr.available; }, function (isAvailable) {
-        if (isAvailable === false) {
-            $scope.verifyCode = true;
-        }
-    });
+	$scope.verifyCode = false;
+	$scope.$watch(function () { return $scope.qr.available; }, function (isAvailable) {
+		if (isAvailable === false) {
+			$scope.verifyCode = true;
+		}
+	});
 
-    $scope.verifyWithCode = function () {
-        $scope.verifyCode = true;
-    };
+	$scope.verifyWithCode = function () {
+		$scope.verifyCode = true;
+	};
 
-    $scope.resetVerifcationMethod = function () {
-        $scope.verifyCode = false;
-        $scope.qr.enabled = false;
-    };
+	$scope.resetVerifcationMethod = function () {
+		$scope.verifyCode = false;
+		$scope.qr.enabled = false;
+	};
 
-    $scope.verifyWithQrCode = function () {
-        $scope.qr.enabled = true;
-    };
+	$scope.verifyWithQrCode = function () {
+		$scope.qr.enabled = true;
+	};
 
-    $scope.givenPrint = ["", "", "", ""];
-    $scope.faEqual = function (val1, val2) {
-        if (val1.length < val2.length) {
-            return "";
-        }
+	$scope.givenPrint = ["", "", "", ""];
+	$scope.faEqual = function (val1, val2) {
+		if (val1.length < val2.length) {
+			return "";
+		}
 
-        if (val1 === val2) {
-            return "fa-check";
-        } else {
-            return "fa-times";
-        }
-    };
+		if (val1 === val2) {
+			return "fa-check";
+		} else {
+			return "fa-times";
+		}
+	};
 
-    function partitionInput() {
-        var fpLength = $scope.fingerPrint[0].length, i;
-        var given = $scope.givenPrint.join("");
+	function partitionInput() {
+		var fpLength = $scope.fingerPrint[0].length, i;
+		var given = $scope.givenPrint.join("");
 
-        for (i = 0; i < $scope.fingerPrint.length - 1; i += 1) {
-            $scope.givenPrint[i] = given.substr(i * fpLength, fpLength);
-        }
+		for (i = 0; i < $scope.fingerPrint.length - 1; i += 1) {
+			$scope.givenPrint[i] = given.substr(i * fpLength, fpLength);
+		}
 
-        $scope.givenPrint[$scope.fingerPrint.length - 1] = given.substr(i * fpLength);
-    }
+		$scope.givenPrint[$scope.fingerPrint.length - 1] = given.substr(i * fpLength);
+	}
 
-    function focusMissingField() {
-        var fpLength = $scope.fingerPrint[0].length, i;
+	function focusMissingField() {
+		var fpLength = $scope.fingerPrint[0].length, i;
 
-        for (i = 0; i < $scope.givenPrint.length; i += 1) {
-            if ($scope.givenPrint[i].length < fpLength) {
-                jQuery(".verify input")[i].focus();
-                return;
-            }
-        }
+		for (i = 0; i < $scope.givenPrint.length; i += 1) {
+			if ($scope.givenPrint[i].length < fpLength) {
+				jQuery(".verify input")[i].focus();
+				return;
+			}
+		}
 
-        jQuery(".verify input")[$scope.givenPrint.length - 1].focus();
-    }
+		jQuery(".verify input")[$scope.givenPrint.length - 1].focus();
+	}
 
-    $scope.nextInput = function (index) {
-        $scope.givenPrint[index] = $scope.givenPrint[index].toUpperCase().replace(/[^A-Z0-9]/g, "");
+	$scope.nextInput = function (index) {
+		$scope.givenPrint[index] = $scope.givenPrint[index].toUpperCase().replace(/[^A-Z0-9]/g, "");
 
-        partitionInput();
-        focusMissingField();
-    };
+		partitionInput();
+		focusMissingField();
+	};
 
-    $scope.verify = function (fingerPrint) {
-        verifyState.pending();
-        if (typeof fingerPrint.join === "function") {
-            fingerPrint = fingerPrint.join("");
-        }
+	$scope.verify = function (fingerPrint) {
+		verifyState.pending();
+		if (typeof fingerPrint.join === "function") {
+			fingerPrint = fingerPrint.join("");
+		}
 
-        var verifyPromise = $scope.user.user.verifyFingerPrint(fingerPrint, this);
+		var verifyPromise = $scope.user.user.verifyFingerPrint(fingerPrint, this);
 
-        errorService.failOnErrorPromise(verifyState, verifyPromise);
-    };
+		errorService.failOnErrorPromise(verifyState, verifyPromise);
+	};
 }
 
 userController.$inject = ["$scope"];

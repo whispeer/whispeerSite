@@ -191,14 +191,14 @@ ImageUpload.fileCallback = function (cb, config, single) {
 
 ImageUpload.rotate = function (img, angle) {
 	switch (angle) {
-		case "0":
-			return img;
-		case "90":
-			return ImageUpload.rotate90(img);
-		case "180":
-			return ImageUpload.rotate180(img);
-		case "270":
-			return ImageUpload.rotate270(img);
+	case "0":
+		return img;
+	case "90":
+		return ImageUpload.rotate90(img);
+	case "180":
+		return ImageUpload.rotate180(img);
+	case "270":
+		return ImageUpload.rotate270(img);
 	}
 
 	return img;
@@ -250,15 +250,15 @@ ImageUpload.prototype.rotate = function () {
 	return this.generatePreviews().bind(this).then(function (previews) {
 		var newDegree = "0";
 		switch(this.rotation) {
-			case "0":
-				newDegree = "90";
-				break;
-			case "90":
-				newDegree = "180";
-				break;
-			case "180":
-				newDegree = "270";
-				break;
+		case "0":
+			newDegree = "90";
+			break;
+		case "90":
+			newDegree = "180";
+			break;
+		case "180":
+			newDegree = "270";
+			break;
 		}
 
 		this.rotation = newDegree;

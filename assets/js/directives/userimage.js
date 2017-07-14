@@ -5,15 +5,15 @@ var templateUrl = require("../../views/directives/userimage.html");
 const directivesModule = require("directives/directivesModule");
 
 function userimage() {
-    return {
-        transclude: false,
-        scope:	{
-            userData: 	"=user"
-        },
-        restrict: "E",
-        templateUrl: templateUrl,
-        replace: true
-    };
+	return {
+		transclude: false,
+		scope:	{
+			userData: 	"=user"
+		},
+		restrict: "E",
+		templateUrl: templateUrl,
+		replace: true
+	};
 }
 
 directivesModule.directive("userimage", userimage);
