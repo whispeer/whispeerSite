@@ -331,7 +331,11 @@ export class Chunk extends Observer {
 				} else {
 					return h.parseDecimal(val);
 				}
-			});
+			})
+
+			if (receiverIDs.indexOf(sessionService.getUserID()) === -1) {
+				receiverIDs.push(sessionService.getUserID())
+			}
 
 			const receiverObjects = await userService.getMultiple(receiverIDs);
 
@@ -372,68 +376,6 @@ export class Chunk extends Observer {
 				receiverKeys: receiverKeys,
 				chunk: cData,
 			}
-		})
-
-		var receiverObjects, chunkKey;
-		return Bluebird.try(() => {
-			//load receiver
-			receiver = receiver.map((val) => {
-				if (typeof val === "object") {
-					return val.getID();
-				} else {
-					return h.parseDecimal(val);
-				}
-			});
-
-			h.removeArray(receiver, sessionService.getUserID());
-
-			//get receiver objects
-			return userService.getMultiple(receiver);
-		}).then((receiverO) => {
-			receiverObjects = receiverO;
-
-			return Chunk.createChunkKey()
-		}).then((key) => {
-			chunkKey = key
-
-			//encrypt chunk key for receiver
-			return Bluebird.all(receiverObjects.map((receiverObject) => {
-				var crypt = receiverObject.getCryptKey();
-				return keyStore.sym.asymEncryptKey(chunkKey, crypt);
-			}));
-		}).then((cryptKeys) => {
-			var cryptKeysData = keyStore.upload.getKeys(cryptKeys);
-			var receiverKeys = {}, receiverIDs = [];
-
-			receiverObjects.forEach((receiver, index) => {
-				receiverIDs.push(receiver.getID());
-				receiverKeys[receiver.getID()] = cryptKeys[index];
-			});
-
-			receiverIDs.push(userService.getown().getID());
-			receiverIDs.sort();
-
-			// chunk signable data.
-			var chunkMeta = {
-				createTime: new Date().getTime(),
-				receiver: receiverIDs,
-				creator: userService.getown().getID(),
-				// TODO: previousChunk admins or me if new chunk // admins: []
-			}
-
-			var secured = SecuredData.createRaw(content, chunkMeta, { type: "topic" })
-
-			if (predecessorChunk) {
-				secured.setParent(predecessorChunk.getSecuredData())
-			}
-
-			return secured.signAndEncrypt(userService.getown().getSignKey(), chunkKey).then((cData) => {
-				return {
-					keys: cryptKeysData.concat([keyStore.upload.getKey(chunkKey)]),
-					receiverKeys: receiverKeys,
-					chunk: cData,
-				}
-			})
 		})
 	};
 
