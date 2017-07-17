@@ -4,7 +4,7 @@
 
 var ImageUploadService = require("services/imageUploadService");
 var errorService = require("services/error.service").errorServiceInstance;
-var messageService = require("messages/messageService");
+var messageService = require("messages/messageService").default
 var userService = require("user/userService");
 
 "use strict";
@@ -45,7 +45,7 @@ function messagesController($scope, $state, $stateParams) {
 				return;
 			}
 
-			var newTopicPromise = messageService.sendNewTopic(receiver, text, images).then(function (id) {
+			var newTopicPromise = messageService.sendNewChat(receiver, text, images).then(function (id) {
 				$scope.create.text = "";
 				$scope.create.selectedElements = [];
 				$scope.goToShow(id);
@@ -55,9 +55,6 @@ function messagesController($scope, $state, $stateParams) {
 			errorService.failOnErrorPromise(sendMessageState, newTopicPromise);
 		}
 	};
-
-
-	$scope.topics = messageService.data.latestTopics.data;
 
 	function getUser(userid) {
 		var findUser = Bluebird.promisify(userService.get.bind(userService));
@@ -76,9 +73,9 @@ function messagesController($scope, $state, $stateParams) {
 			return Bluebird.resolve([]);
 		}
 
-		return messageService.getUserTopic($stateParams.userid).then(function (topicid) {
-			if (topicid) {
-				$scope.goToShow(topicid);
+		return messageService.getUserChat($stateParams.userid).then(function (chatID) {
+			if (chatID) {
+				$scope.goToShow(chatID);
 				return [];
 			} else {
 				return getUser($stateParams.userid);
