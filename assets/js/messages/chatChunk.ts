@@ -12,6 +12,7 @@ const keyStore = require("services/keyStore.service").default;
 const sessionService = require("services/session.service").default;
 
 import { Message } from "./message"
+import ChatTitleUpdate from "./chatTitleUpdate"
 
 const debugName = "whispeer:chunk";
 const chunkDebug = debug(debugName);
@@ -29,6 +30,7 @@ export class Chunk extends Observer {
 	private chatID: number
 	private title: string = ""
 	private admins: number[]
+	private titleUpdate: ChatTitleUpdate
 
 	constructor(data) {
 		super()
@@ -97,6 +99,10 @@ export class Chunk extends Observer {
 	getKey = () => {
 		return this.securedData.metaAttr("_key");
 	};
+
+	setLatestTitleUpdate = (titleUpdate: ChatTitleUpdate) => {
+		this.titleUpdate = titleUpdate
+	}
 
 	ensureChunkChain = (predecessor) => {
 		if (this.getID() === predecessor.getID()) {
@@ -189,6 +195,10 @@ export class Chunk extends Observer {
 	}
 
 	getTitle = () => {
+		if (this.titleUpdate) {
+			return this.titleUpdate.state.title
+		}
+
 		return this.title
 	}
 
@@ -469,10 +479,24 @@ export class Chunk extends Observer {
 
 Observer.extend(Chunk);
 
-const loadHook = (chunkResponse) => {
+const loadLegacyTitle = (latestTitleUpdateResponse) => {
+	if (!latestTitleUpdateResponse) {
+		return Bluebird.resolve()
+	}
+
+	const latestTitleUpdate = new ChatTitleUpdate(latestTitleUpdateResponse)
+	return latestTitleUpdate.getTitle().thenReturn(latestTitleUpdate)
+}
+
+const loadHook = (chunkResponse) : Bluebird<Chunk> => {
 	const chunk = new Chunk(chunkResponse)
 
-	return chunk.load().thenReturn(chunk)
+	return Bluebird.all<any>([
+		loadLegacyTitle(chunkResponse.latestTitleUpdate),
+		chunk.load()
+	]).then(([latestTitleUpdate]) => {
+		chunk.setLatestTitleUpdate(latestTitleUpdate)
+	}).thenReturn(chunk)
 }
 
 const downloadHook = (id) => {
