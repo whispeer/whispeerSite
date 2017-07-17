@@ -22,7 +22,7 @@ else
   rm staticRaw/en/business.html
 fi
 
-npm install -g yarn
+sudo npm install -g yarn
 
 yarn
 git submodule update --init
