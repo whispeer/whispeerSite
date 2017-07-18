@@ -13,7 +13,30 @@ var canvasToBlob : any = Bluebird.promisify(h.canvasToBlob.bind(h));
 
 var PREVIEWSDISABLED = false;
 
-var defaultOptions = {
+type previewType = {
+	"0": string,
+	"90": string,
+	"180": string,
+	"270": string,
+}
+
+type size = {
+	name: string,
+	restrictions?: {
+		maxWidth: number,
+		maxHeight: number
+	}
+}
+
+type options = {
+	minimumSizeDifference: number,
+	sizes: size[],
+	gifSizes: size[],
+	gif: boolean,
+	encrypt: boolean,
+}
+
+var defaultOptions: options = {
 	minimumSizeDifference: 1024,
 	sizes: [
 		{
@@ -51,8 +74,7 @@ var defaultOptions = {
 		}
 	],
 	gif: true,
-	encrypt: true,
-	original: false
+	encrypt: true
 };
 
 /* TODO:
@@ -61,25 +83,25 @@ var defaultOptions = {
 */
 
 if (screenSizeService.mobile) {
-	defaultOptions.sizes = defaultOptions.sizes.filter(function (size) {
+	defaultOptions.sizes = defaultOptions.sizes.filter((size) => {
 		return size.name !== "highest";
 	});
 }
 
-var uploadQueue = new Queue(3);
+const uploadQueue = new Queue(3);
 uploadQueue.start();
 
-var encryptionQueue = new Queue(500 * 1000);
+const encryptionQueue = new Queue(500 * 1000);
 encryptionQueue.start();
 
-var resizeQueue = new Queue(1);
+const resizeQueue = new Queue(1);
 resizeQueue.start();
 
-function sizeDiff(a, b) {
+const sizeDiff = (a, b) => {
 	return a.blob.getSize() - b.blob.getSize();
 }
 
-function sizeSorter(a, b) {
+const sizeSorter = (a, b) => {
 	return sizeDiff(b, a);
 }
 
@@ -87,16 +109,12 @@ class ImageUpload {
 	rotation = "0"
 	private previousProgress: number = 0
 	private file
-	private options
+	private options: options
 	private progress: Progress
 	private url: string
 	private previewUrl: string
 	private blobs: any[]
 	private isGif: boolean
-
-	private _preparePromise
-	private _getImagePromise
-	private _generatePreviewsPromise
 
 	constructor(file, options?) {
 		this.file = file;
@@ -114,8 +132,8 @@ class ImageUpload {
 	}
 
 	static imageLibLoad(file, options?) {
-		return new Bluebird(function (resolve, reject) {
-			imageLib(file, function (canvas) {
+		return new Bluebird((resolve, reject) => {
+			imageLib(file, (canvas) => {
 				if(canvas.type === "error") {
 					reject(canvas);
 				} else {
@@ -155,7 +173,7 @@ class ImageUpload {
 		this.progress.addDepend(blobMeta.blob._uploadProgress);
 		this.progress.addDepend(blobMeta.blob._encryptProgress);
 
-		return encryptionQueue.enqueue(blobMeta.blob.getSize(), function () {
+		return encryptionQueue.enqueue(blobMeta.blob.getSize(), () => {
 			return blobMeta.blob.encryptAndUpload(encryptionKey);
 		});
 	};
@@ -169,7 +187,7 @@ class ImageUpload {
 	static blobToDataSet(blob) {
 		var preReserveID = Bluebird.promisify(blob.preReserveID.bind(blob));
 		var getHash = Bluebird.promisify(blob.getHash.bind(blob));
-		return Bluebird.all([preReserveID(), getHash()]).spread(function (blobID, hash) {
+		return Bluebird.all([preReserveID(), getHash()]).spread((blobID, hash) => {
 			return {
 				blob: blob,
 				meta: {
@@ -181,12 +199,12 @@ class ImageUpload {
 	};
 
 	static fileCallback(cb, config?, single?) {
-		return function imageFileLoadHandler(e) {
+		return (e) => {
 			var files = Array.prototype.slice.call(e.target.files);
 			if (single) {
 				cb(new ImageUpload(files[0], config));
 			} else {
-				cb(files.map(function (file) {
+				cb(files.map((file) => {
 					return new ImageUpload(file, config);
 				}));
 			}
@@ -214,50 +232,48 @@ class ImageUpload {
 		return img;
 	};
 
-	static rotate90270 = function (angle, img) {
+	static rotateInternal(angle, img, flipRatio: boolean) {
 		var canvas = document.createElement("canvas");
-		canvas.width  = img.height;
-		canvas.height = img.width;
-		var diff = canvas.width-canvas.height;
+
+		if (flipRatio) {
+			canvas.width  = img.height;
+			canvas.height = img.width;
+		} else {
+			canvas.width  = img.width;
+			canvas.height = img.height;
+		}
+
+		var diff = canvas.width - canvas.height;
+
 		var newCtx = canvas.getContext("2d");
 		newCtx.translate(canvas.width/2, canvas.height/2);
 		newCtx.rotate(angle);
 		newCtx.translate(-canvas.width/2, -canvas.height/2);
-		newCtx.drawImage(img, diff/2, -diff/2);
+		newCtx.drawImage(img, flipRatio ? diff/2 : 0, flipRatio ? -diff/2 : 0);
 
 		return canvas;
 	};
 
-	static rotate90 = function (img) {
+	static rotate90(img) {
 		var angle = Math.PI/2;
 
-		return ImageUpload.rotate90270(angle, img);
+		return ImageUpload.rotateInternal(angle, img, true);
 	};
 
-	static rotate180 = function (img) {
+	static rotate180(img) {
 		var angle = Math.PI;
 
-		var canvas = document.createElement("canvas");
-		canvas.width  = img.width;
-		canvas.height = img.height;
-
-		var newCtx = canvas.getContext("2d");
-		newCtx.translate(canvas.width/2, canvas.height/2);
-		newCtx.rotate(angle);
-		newCtx.translate(-canvas.width/2, -canvas.height/2);
-		newCtx.drawImage(img, 0, 0);
-
-		return canvas;
+		return ImageUpload.rotateInternal(angle, img, false)
 	};
 
-	static rotate270 = function (img) {
+	static rotate270(img) {
 		var angle = 3 * Math.PI/2;
 
-		return ImageUpload.rotate90270(angle, img);
+		return ImageUpload.rotateInternal(angle, img, true);
 	};
 
 	rotate = () => {
-		return this.generatePreviews().bind(this).then(function (previews) {
+		return this.generatePreviews().then((previews) => {
 			var newDegree = "0";
 			switch(this.rotation) {
 			case "0":
@@ -279,37 +295,31 @@ class ImageUpload {
 		});
 	};
 
-	generatePreviews = () => {
+	generatePreviews = h.cacheResult<Bluebird<previewType>>(() => {
 		if (PREVIEWSDISABLED) {
 			return Bluebird.reject(new Error("Previews are disabled"))
 		}
 
-		if (!this._generatePreviewsPromise) {
-			this._generatePreviewsPromise = ImageUpload.imageLibLoad(h.toUrl(this.file), {
-				maxHeight: 200, canvas: true
-			}).bind(this).then(function (img) {
-				return Bluebird.all([
-					canvasToBlob(img, "image/jpeg"),
-					canvasToBlob(ImageUpload.rotate90(img), "image/jpeg"),
-					canvasToBlob(ImageUpload.rotate180(img), "image/jpeg"),
-					canvasToBlob(ImageUpload.rotate270(img), "image/jpeg")
-				]);
-			}).spread(function (preview0, preview90, preview180, preview270) {
-				this.previewUrl = h.toUrl(preview0);
+		return ImageUpload.imageLibLoad(h.toUrl(this.file), {
+			maxHeight: 200, canvas: true
+		}).then((img) => {
+			return Bluebird.all([
+				canvasToBlob(img, "image/jpeg"),
+				canvasToBlob(ImageUpload.rotate90(img), "image/jpeg"),
+				canvasToBlob(ImageUpload.rotate180(img), "image/jpeg"),
+				canvasToBlob(ImageUpload.rotate270(img), "image/jpeg")
+			]);
+		}).spread((preview0, preview90, preview180, preview270) => {
+			this.previewUrl = h.toUrl(preview0);
 
-				var previews = {};
-
-				previews["0"] = preview0;
-				previews["90"] = preview90;
-				previews["180"] = preview180;
-				previews["270"] = preview270;
-
-				return previews;
-			});
-		}
-
-		return this._generatePreviewsPromise;
-	};
+			return {
+				"0": preview0,
+				"90": preview90,
+				"180": preview180,
+				"270": preview270,
+			}
+		})
+	})
 
 	getName = () => {
 		return this.file.name;
@@ -346,36 +356,31 @@ class ImageUpload {
 		});
 	};
 
-	private _createSizeData = (size) => {
-		return resizeQueue.enqueue(1, function () {
-			return this._resizeFile(size).bind(this).then(function (resizedImage) {
+	private _createSizeData = (size: size) => {
+		return resizeQueue.enqueue(1, () => {
+			return this._resizeFile(size).then((resizedImage) => {
 				return ImageUpload.blobToDataSet(blobService.createBlob(resizedImage));
-			}).then(function (data) {
+			}).then((data: any) => {
 				data.meta.gif = this.isGif;
 				return $.extend({}, data, { size: size });
 			});
 		}, this);
 	};
 
-	prepare = () => {
+	prepare = h.cacheResult(() => {
 		this.isGif = !!this.file.type.match(/image.gif/i);
 
 		var sizes = this.isGif ? this.options.gifSizes : this.options.sizes;
 
-		if (!this._preparePromise) {
-			this._preparePromise = Bluebird.resolve(sizes)
-				.bind(this)
-				.map(this._createSizeData)
-				.then(this._removeUnnededBlobs);
-		}
-
-		return this._preparePromise
-	};
+		return Bluebird.resolve(sizes)
+			.map(this._createSizeData)
+			.then(this._removeUnnededBlobs);
+	})
 
 	private _removeUnnededBlobs = (blobs) => {
 		var lastBlob, result = {};
 
-		this.blobs = blobs.sort(sizeSorter).filter(function (blob) {
+		this.blobs = blobs.sort(sizeSorter).filter((blob) => {
 			var keep = !lastBlob || this.isGif || sizeDiff(lastBlob, blob) > this.options.minimumSizeDifference;
 
 			if (keep) {
@@ -385,7 +390,7 @@ class ImageUpload {
 			result[blob.size.name] = lastBlob.meta;
 
 			return keep;
-		}, this);
+		});
 
 		return result;
 	};
@@ -394,22 +399,18 @@ class ImageUpload {
 		return this.file;
 	};
 
-	private _getImage = () => {
-		if (!this._getImagePromise) {
-			this._getImagePromise = ImageUpload.imageLibLoad(this.getUrl());
-		}
+	private _getImage = h.cacheResult<Bluebird<any>>(() => {
+		return ImageUpload.imageLibLoad(this.getUrl());
+	})
 
-		return this._getImagePromise;
-	}
-
-	private _resizeFile = (sizeOptions) => {
+	private _resizeFile = (sizeOptions: size) => {
 		if (this.isGif && !sizeOptions.restrictions) {
 			return Bluebird.resolve(this.file);
 		}
 
 		var options = $.extend({}, sizeOptions.restrictions || {}, { canvas: true });
 
-		return this._getImage().bind(this).then(function (img) {
+		return this._getImage().then((img) => {
 			if (options.square) {
 				img = imageLib.scale(img, {
 					contain: true,
@@ -417,7 +418,7 @@ class ImageUpload {
 				})
 			}
 
-			var canvas = imageLib.scale(img, options);
+			const canvas = imageLib.scale(img, options);
 			return canvasToBlob(ImageUpload.rotate(canvas, this.rotation), "image/jpeg");
 		});
 	};
