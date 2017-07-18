@@ -1,14 +1,14 @@
 "use strict";
 
-const jQuery = require("jquery");
-const h = require("whispeerHelper").default;
-const Bluebird = require("bluebird");
+import jQuery from "jquery"
+import * as Bluebird from "bluebird"
 
 import Burst from "./burst"
 import ChatLoader from "./chat"
 import MessageLoader from "./message"
 
 import ImageUploadService from "../services/imageUpload.service"
+import h from "../helper/helper";
 
 const errorService = require("services/error.service").errorServiceInstance;
 const messageService = require("messages/messageService").default;
