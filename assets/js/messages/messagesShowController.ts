@@ -5,17 +5,16 @@ const h = require("whispeerHelper").default;
 const Bluebird = require("bluebird");
 
 import Burst from "./burst"
+import ChatLoader from "./chat"
+import MessageLoader from "./message"
+
+import ImageUploadService from "../services/imageUpload.service"
 
 const errorService = require("services/error.service").errorServiceInstance;
-const ImageUploadService = require("services/imageUploadService");
 const messageService = require("messages/messageService").default;
-const TopicUpdate = require("models/topicUpdate");
 const State = require("asset/state");
 
 const initService = require("services/initService");
-
-import ChatLoader from "./chat"
-import MessageLoader from "./message"
 
 const messagesModule = require("messages/messagesModule");
 

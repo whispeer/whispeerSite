@@ -1,14 +1,9 @@
-/**
-* messagesController
-**/
-
-var ImageUploadService = require("services/imageUploadService");
-var errorService = require("services/error.service").errorServiceInstance;
-var messageService = require("messages/messageService").default
-var userService = require("user/userService");
-
 "use strict";
 
+const ImageUploadService = require("services/imageUpload.service").default
+const errorService = require("services/error.service").errorServiceInstance;
+const messageService = require("messages/messageService").default
+const userService = require("user/userService");
 const State = require("asset/state");
 const Bluebird = require("bluebird");
 const controllerModule = require("controllers/controllerModule");

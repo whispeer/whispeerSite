@@ -2,7 +2,7 @@ import h from "../helper/helper";
 var Observer = require("asset/observer");
 import * as Bluebird from "bluebird";
 
-import errorService from "services/error.service"
+import errorService from "../services/error.service"
 import socket from "../services/socket.service"
 import Cache from "../services/Cache"
 

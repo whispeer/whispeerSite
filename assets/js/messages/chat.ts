@@ -11,8 +11,8 @@ import h from "../helper/helper"
 
 import Cache from "../services/Cache";
 import keyStore from "../services/keyStore.service"
+import ImageUpload from "../services/imageUpload.service"
 
-const ImageUpload = require("services/imageUploadService");
 const initService = require("services/initService");
 
 let unreadChatIDs = []

@@ -1,11 +1,11 @@
-var templateUrl = require("../../views/directives/newPost.html");
-var filterService = require("services/filter.service.ts").default;
-var ImageUploadService = require("services/imageUploadService");
-var postService = require("services/postService");
-
 "use strict";
 
-const directivesModule = require("directives/directivesModule");
+import filterService from "services/filter.service.ts"
+import ImageUploadService from "services/imageUpload.service"
+
+const templateUrl = require("../../views/directives/newPost.html")
+const postService = require("services/postService")
+const directivesModule = require("directives/directivesModule")
 const State = require("asset/state");
 
 function newPostDirective() {

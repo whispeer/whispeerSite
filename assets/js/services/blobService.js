@@ -2,7 +2,7 @@
 * MessageService
 **/
 var h = require("whispeerHelper").default;
-var Progress = require("asset/Progress");
+var Progress = require("asset/Progress.ts").default;
 var Queue = require("asset/Queue");
 var debug = require("debug");
 var Bluebird = require("bluebird");
