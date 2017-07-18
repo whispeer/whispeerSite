@@ -1,6 +1,5 @@
 var Bluebird = require("bluebird");
 var SecuredData = require("asset/securedDataWithMetaData");
-var modelsModule = require("models/modelsModule");
 
 var userService = require("user/userService");
 var socket = require("services/socket.service").default;
@@ -89,9 +88,5 @@ CommentModel.create = function (text, parentPost, cb) {
 		});
 	}).nodeify(cb);
 };
-
-modelsModule.factory("ssn.models.comment", [function () {
-	return CommentModel;
-}]);
 
 module.exports = CommentModel;

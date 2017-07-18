@@ -22,13 +22,11 @@ require("messages/messagesLoader");
 require("circles/circlesLoader");
 require("user/userLoader");
 require("search/loader");
-require("models/models");
 require("localizationModule");
 require("emptyInclude");
 
 module.exports = angular.module("ssn", [
 	"ssn.controllers",
-	"ssn.models",
 	"ssn.services",
 	"ssn.directives",
 	"ssn.filter",
