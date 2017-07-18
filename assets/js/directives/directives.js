@@ -18,7 +18,6 @@ require("directives/savebutton");
 require("directives/focusMe");
 require("directives/advancedsend");
 require("directives/userimage");
-require("directives/trustHint");
 require("directives/accessibleClick");
 require("directives/qrScanner");
 require("directives/validatedForm");

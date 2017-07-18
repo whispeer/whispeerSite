@@ -84,8 +84,7 @@ var config = {
 			localizationModule: "i18n/localizationModule",
 			workerQueue: "worker/worker-queue",
 			PromiseWorker: "worker/worker-loader",
-			debug: "debug",
-			qtip: "qtip2"
+			debug: "debug"
 		}
 	},
 	module: {

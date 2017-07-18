@@ -2,7 +2,7 @@
 
 const h = require("whispeerHelper").default;
 const directivesModule = require("directives/directivesModule");
-require("qtip");
+require("qtip2");
 
 function validatedForm(localize) {
 	return {
