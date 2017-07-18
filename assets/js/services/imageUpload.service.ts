@@ -198,25 +198,6 @@ class ImageUpload {
 		});
 	};
 
-	static fileCallback(cb, config?, single?) {
-		return (e) => {
-			var files = Array.prototype.slice.call(e.target.files);
-			if (single) {
-				cb(new ImageUpload(files[0], config));
-			} else {
-				cb(files.map((file) => {
-					return new ImageUpload(file, config);
-				}));
-			}
-
-			try {
-				e.target.value = null;
-			} catch (ex) {
-				console.log(ex);
-			}
-		};
-	};
-
 	static rotate(img, angle) {
 		switch (angle) {
 		case "0":
@@ -232,7 +213,7 @@ class ImageUpload {
 		return img;
 	};
 
-	static rotateInternal(angle, img, flipRatio: boolean) {
+	private static rotateInternal(angle, img, flipRatio: boolean) {
 		var canvas = document.createElement("canvas");
 
 		if (flipRatio) {
@@ -254,19 +235,19 @@ class ImageUpload {
 		return canvas;
 	};
 
-	static rotate90(img) {
+	private static rotate90(img) {
 		var angle = Math.PI/2;
 
 		return ImageUpload.rotateInternal(angle, img, true);
 	};
 
-	static rotate180(img) {
+	private static rotate180(img) {
 		var angle = Math.PI;
 
 		return ImageUpload.rotateInternal(angle, img, false)
 	};
 
-	static rotate270(img) {
+	private static rotate270(img) {
 		var angle = 3 * Math.PI/2;
 
 		return ImageUpload.rotateInternal(angle, img, true);
@@ -421,6 +402,25 @@ class ImageUpload {
 			const canvas = imageLib.scale(img, options);
 			return canvasToBlob(ImageUpload.rotate(canvas, this.rotation), "image/jpeg");
 		});
+	}
+
+	static fileCallback(cb, config?, single?) {
+		return (e) => {
+			var files = Array.prototype.slice.call(e.target.files);
+			if (single) {
+				cb(new ImageUpload(files[0], config));
+			} else {
+				cb(files.map((file) => {
+					return new ImageUpload(file, config);
+				}));
+			}
+
+			try {
+				e.target.value = null;
+			} catch (ex) {
+				console.log(ex);
+			}
+		};
 	};
 }
 
