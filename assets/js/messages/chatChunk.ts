@@ -321,9 +321,32 @@ export class Chunk extends Observer {
 		})
 	}
 
-	static createRawData(receiver, { content = {}, meta = {}, predecessorChunk } : { content: any, meta?: any, predecessorChunk?: Chunk}) {
+	static cryptInfo = async (receiverObjectsExceptOwn) => {
+		const receiverKeys = {}
+
+		const chunkKey = await Chunk.createChunkKey()
+
+		const cryptKeys = await Bluebird.all(receiverObjectsExceptOwn.map((receiverObject) => {
+			const crypt = receiverObject.getCryptKey();
+			return keyStore.sym.asymEncryptKey(chunkKey, crypt);
+		}));
+
+		const cryptKeysData = keyStore.upload.getKeys(cryptKeys);
+
+		receiverObjectsExceptOwn.forEach((receiver, index) => {
+			receiverKeys[receiver.getID()] = cryptKeys[index];
+		});
+
+		const cryptInfo = {
+			keys: cryptKeysData.concat([keyStore.upload.getKey(chunkKey)]),
+			receiverKeys,
+		}
+
+		return { cryptInfo, chunkKey }
+	}
+
+	static createRawData(receiver, { content = {}, meta = {}, givenKey, predecessorChunk } : { content: any, givenKey?: any, meta?: any, predecessorChunk?: Chunk}) {
 		return Bluebird.try(async () => {
-			const receiverKeys = {}
 
 			const receiverIDs = receiver.map((val) => {
 				if (typeof val === "object") {
@@ -339,31 +362,22 @@ export class Chunk extends Observer {
 
 			const receiverObjects = await userService.getMultiple(receiverIDs);
 
-			const chunkKey = await Chunk.createChunkKey()
-
 			const receiverObjectsExceptOwn = receiverObjects.filter((receiver) => !receiver.isOwn())
 
-			const cryptKeys = await Bluebird.all(receiverObjectsExceptOwn.map((receiverObject) => {
-				var crypt = receiverObject.getCryptKey();
-				return keyStore.sym.asymEncryptKey(chunkKey, crypt);
-			}));
+			const givenInfo = { cryptInfo: { receiverKeys: {} }, chunkKey: givenKey}
 
-			var cryptKeysData = keyStore.upload.getKeys(cryptKeys);
-
-			receiverObjectsExceptOwn.forEach((receiver, index) => {
-				receiverKeys[receiver.getID()] = cryptKeys[index];
-			});
+			const { cryptInfo, chunkKey } = givenKey ? givenInfo : await Chunk.cryptInfo(receiverObjectsExceptOwn)
 
 			receiverIDs.sort();
 
-			var chunkMeta = {
+			const chunkMeta = {
 				...meta,
 				createTime: new Date().getTime(),
 				receiver: receiverIDs,
 				creator: userService.getown().getID(),
 			}
 
-			var secured = SecuredData.createRaw(content, chunkMeta, { type: "topic" })
+			const secured = SecuredData.createRaw(content, chunkMeta, { type: "topic" })
 
 			if (predecessorChunk) {
 				secured.setParent(predecessorChunk.getSecuredData())
@@ -371,11 +385,9 @@ export class Chunk extends Observer {
 
 			const cData = await secured.signAndEncrypt(userService.getown().getSignKey(), chunkKey)
 
-			return {
-				keys: cryptKeysData.concat([keyStore.upload.getKey(chunkKey)]),
-				receiverKeys: receiverKeys,
+			return Object.assign({
 				chunk: cData,
-			}
+			}, cryptInfo)
 		})
 	};
 

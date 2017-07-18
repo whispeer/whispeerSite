@@ -370,7 +370,14 @@ export class Chat {
 			const content = { title }
 			const meta = { admins }
 
-			return Chunk.createRawData(receiver, { content, meta, predecessorChunk: latestChunk })
+			const newKey = addedReceiver.length > 0 && removedReceiver.length > 0
+
+			return Chunk.createRawData(receiver, {
+				content,
+				meta,
+				predecessorChunk: latestChunk,
+				givenKey: !newKey && latestChunk ? latestChunk.getKey() : null
+			})
 		}).then((chunkData) => {
 			if (!canReadOldMessages || addedReceiver.length === 0) {
 				return chunkData
