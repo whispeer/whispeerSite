@@ -11,6 +11,8 @@ import ObjectLoader from "../services/objectLoader"
 import ChunkLoader, { Chunk } from "./chatChunk"
 import { Chat } from "./chat"
 
+type attachments = { images: any[], files: any[] }
+
 export class Message {
 	private _hasBeenSent: boolean
 	private _isDecrypted: boolean
@@ -19,7 +21,7 @@ export class Message {
 	private _serverID: number
 	private _clientID: any
 	private _securedData: any
-	private _images: any[]
+	private attachments: attachments
 
 	private sendTime: number
 	private senderID: number
@@ -30,13 +32,13 @@ export class Message {
 
 	private chat: Chat
 
-	constructor(messageData, chat?: Chat, images?, id?) {
+	constructor(messageData, chat?: Chat, attachments?: attachments, id?) {
 		if (!chat) {
 			this.fromSecuredData(messageData);
 			return
 		}
 
-		this.fromDecryptedData(chat, messageData, images, id);
+		this.fromDecryptedData(chat, messageData, attachments, id);
 	}
 
 	fromSecuredData = (data) => {
@@ -63,13 +65,13 @@ export class Message {
 		this.setData();
 	};
 
-	fromDecryptedData = (chat: Chat, message, images, id) => {
+	fromDecryptedData = (chat: Chat, message, attachments, id) => {
 		this._hasBeenSent = false;
 		this._isDecrypted = true;
 		this._isOwnMessage = true;
 
 		this.chat = chat;
-		this._images = images;
+		this.attachments = attachments
 
 		this._clientID = id || h.generateUUID();
 
@@ -85,7 +87,7 @@ export class Message {
 		this.setData();
 
 		this.data.text = message;
-		this.data.images = images.map((image) => {
+		this.data.images = attachments.images.map((image) => {
 			if (!image.convertForGallery) {
 				return image;
 			}
@@ -93,12 +95,16 @@ export class Message {
 			return image.convertForGallery();
 		});
 
+		this.data.files = attachments.files.map((file) => {
+			debugger
+		})
+
 		this.loadSender();
 		this._prepareImages();
 	};
 
 	_prepareImages = h.cacheResult<Bluebird<any>>(() => {
-		return Bluebird.resolve(this._images).map((image: any) => {
+		return Bluebird.resolve(this.attachments.images).map((image: any) => {
 			return image.prepare();
 		});
 	})
@@ -137,7 +143,7 @@ export class Message {
 
 	uploadImages = h.cacheResult<Bluebird<any>>((chunkKey) => {
 		return this._prepareImages().then(() => {
-			return Bluebird.all(this._images.map((image) => {
+			return Bluebird.all(this.attachments.images.map((image) => {
 				return image.upload(chunkKey);
 			}));
 		}).then((imageKeys) => {
@@ -317,7 +323,7 @@ export class Message {
 	}
 
 	static createRawSecuredData(message, meta, chunk?: Chunk) {
-		var secured = SecuredData.createRaw(message, meta, {
+		var secured = SecuredData.createRaw({ message }, meta, {
 			type: "message",
 		});
 

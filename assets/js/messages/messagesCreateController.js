@@ -1,6 +1,6 @@
 "use strict";
 
-const ImageUploadService = require("services/imageUpload.service").default
+const ImageUpload = require("services/imageUpload.service").default
 const errorService = require("services/error.service").errorServiceInstance;
 const messageService = require("messages/messageService").default
 const userService = require("user/userService");
@@ -25,10 +25,10 @@ function messagesController($scope, $state, $stateParams) {
 		removeImage: function (index) {
 			$scope.create.images.splice(index, 1);
 		},
-		addImages: ImageUploadService.fileCallback(function (newImages) {
-			$scope.$apply(function () {
-				$scope.create.images = $scope.create.images.concat(newImages);
-			});
+		addImages: ImageUpload.fileCallback((files) => {
+			$scope.$apply(() => {
+				$scope.create.images = $scope.create.images.concat(files.map((file) => new ImageUpload(file)))
+			})
 		}),
 		send: function (receiver, text, images) {
 			images = images || [];

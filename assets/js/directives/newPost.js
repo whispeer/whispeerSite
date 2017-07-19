@@ -1,7 +1,7 @@
 "use strict";
 
 import filterService from "services/filter.service.ts"
-import ImageUploadService from "services/imageUpload.service"
+import ImageUpload from "services/imageUpload.service"
 
 const templateUrl = require("../../views/directives/newPost.html")
 const postService = require("services/postService")
@@ -35,9 +35,9 @@ function newPostDirective() {
 					removeImage: function (index) {
 						$scope.newPost.images.splice(index, 1);
 					},
-					addImages: ImageUploadService.fileCallback(function (newImages) {
-						$scope.$apply(function () {
-							$scope.newPost.images = $scope.newPost.images.concat(newImages);
+					addImages: ImageUpload.fileCallback(function (files) {
+						$scope.$apply(() => {
+							$scope.newPost.images = $scope.newPost.images.concat(files.map((file) => new ImageUpload(file)));
 						});
 					})
 				};

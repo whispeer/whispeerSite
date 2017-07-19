@@ -418,16 +418,19 @@ export class Chat {
 		return this.sendMessage(messageData.message, images, messageData.id);
 	};
 
-	sendMessage = (message, images, id?) => {
-		var messageObject = new Message(message, this, images, id)
+	sendMessage = (message, attachments, id?) => {
+		var messageObject = new Message(message, this, attachments, id)
 
 		var messageSendCache = new Cache("messageSend", { maxEntries: -1, maxBlobSize: -1 });
 
 		if (!id) {
 			Bluebird.try(async () => {
-				await Bluebird.all(images.map((img) => img.prepare()))
+				// TODO FU store unsent messages
+				return
 
-				const imagesBlobs = images.map((img) => img._blobs[0].blob._blobData)
+				await Bluebird.all(attachments.images.map((img) => img.prepare()))
+
+				const imagesBlobs = attachments.images.map((img) => img._blobs[0].blob._blobData)
 
 				await messageSendCache.store(
 					messageObject.getClientID(),

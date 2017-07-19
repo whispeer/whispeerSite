@@ -350,22 +350,6 @@ class ImageUpload extends FileUpload {
 			return canvasToBlob(ImageUpload.rotate(canvas, this.rotation), "image/jpeg");
 		});
 	}
-
-	static fileCallback(cb, config?) {
-		return (e) => {
-			var files = Array.prototype.slice.call(e.target.files);
-
-			cb(files.map((file) => {
-				return new ImageUpload(file, config);
-			}));
-
-			try {
-				e.target.value = null;
-			} catch (ex) {
-				console.log(ex);
-			}
-		};
-	}
 }
 
 export default ImageUpload

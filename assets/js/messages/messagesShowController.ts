@@ -7,7 +7,8 @@ import Burst from "./burst"
 import ChatLoader from "./chat"
 import MessageLoader from "./message"
 
-import ImageUploadService from "../services/imageUpload.service"
+import ImageUpload from "../services/imageUpload.service"
+import FileUpload from "../services/fileUpload.service"
 import h from "../helper/helper";
 
 const errorService = require("services/error.service").errorServiceInstance;
@@ -114,14 +115,22 @@ function messagesController($scope, $element, $stateParams, $timeout) {
 		$scope.hideOverlay = true;
 	};
 
-	$scope.images = {
+	$scope.attachments = {
 		images: [],
-		removeImage: function(index) {
-			$scope.images.images.splice(index, 1);
+		files: [],
+		removeImage: (index) => {
+			$scope.attachments.images.splice(index, 1);
 		},
-		addImages: ImageUploadService.fileCallback(function(newImages) {
-			$scope.$apply(function() {
-				$scope.images.images = $scope.images.images.concat(newImages);
+		removeFile: (index) => {
+			$scope.attachments.files.splice(index, 1);
+		},
+		addImages: ImageUpload.fileCallback((files) => {
+			$scope.$apply(() => {
+				const imageUploads = files.filter((file) => ImageUpload.isImage(file)).map((file) => new ImageUpload(file))
+				const fileUploads = files.filter((file) => !ImageUpload.isImage(file)).map((file) => new FileUpload(file))
+
+				$scope.attachments.fileUploads = $scope.attachments.fileUploads.concat(fileUploads)
+				$scope.attachments.images = $scope.attachments.images.concat(imageUploads)
 			});
 		})
 	};
@@ -197,8 +206,9 @@ function messagesController($scope, $element, $stateParams, $timeout) {
 	$scope.sendMessage = function() {
 		sendMessageState.pending();
 
-		var images = $scope.images.images;
-		var text = $scope.activeChat.newMessage;
+		const images = $scope.attachments.images;
+		const files = $scope.attachments.files
+		const text = $scope.activeChat.newMessage;
 
 		if (text === "" && images.length === 0) {
 			sendMessageState.failed();
@@ -207,9 +217,9 @@ function messagesController($scope, $element, $stateParams, $timeout) {
 
 		$scope.canSend = false;
 
-		var sendMessagePromise = messageService.sendMessage($scope.activeChat.id, text, images).then(function() {
+		var sendMessagePromise = messageService.sendMessage($scope.activeChat.id, text, { images, files }).then(function() {
 			$scope.activeChat.newMessage = "";
-			$scope.images.images = [];
+			$scope.attachments.images = [];
 			$scope.markRead(errorService.criticalError);
 			$timeout(function() {
 				sendMessageState.reset();
