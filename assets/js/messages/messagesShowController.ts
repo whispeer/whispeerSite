@@ -99,7 +99,7 @@ namespace BurstHelper {
 	}
 }
 
-function messagesController($scope, $element, $state, $stateParams, $timeout) {
+function messagesController($scope, $element, $stateParams, $timeout) {
 	var topicLoadingState = new State.default();
 	$scope.topicLoadingState = topicLoadingState.data;
 
@@ -284,6 +284,6 @@ function messagesController($scope, $element, $state, $stateParams, $timeout) {
 	};
 }
 
-(<any>messagesController).$inject = ["$scope", "$element", "$state", "$stateParams", "$timeout"];
+(<any>messagesController).$inject = ["$scope", "$element", "$stateParams", "$timeout"];
 
 messagesModule.controller("ssn.messagesShowController", messagesController);

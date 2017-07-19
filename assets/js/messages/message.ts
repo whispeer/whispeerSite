@@ -223,7 +223,7 @@ export class Message {
 		}).catch(socket.errors.Disconnect, (e) => {
 			console.warn(e);
 			return false;
-		}).catch(socket.errors.Server, (e) => {
+		}).catch(socket.errors.Server, () => {
 			return false
 		});
 	};

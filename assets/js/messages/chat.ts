@@ -18,6 +18,10 @@ const initService = require("services/initService");
 let unreadChatIDs = []
 
 socketService.channel("unreadChats", (e, data) => {
+	if (e) {
+		console.warn(e)
+	}
+
 	if (!data.unreadChatIDs) {
 		console.warn("got no chat ids from socket channel")
 		return
