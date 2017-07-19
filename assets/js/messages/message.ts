@@ -304,8 +304,15 @@ export class Message {
 		return Bluebird.try(() => {
 			return this._securedData.decrypt();
 		}).then(() => {
-			this.data.text = this._securedData.contentGet();
-			return this._securedData.contentGet();
+			const content = this._securedData.contentGet()
+
+			if (typeof content === "string") {
+				this.data.text = content
+			} else {
+				this.data.text = content.message
+			}
+
+			return content
 		})
 	}
 
