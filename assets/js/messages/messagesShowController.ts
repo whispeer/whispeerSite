@@ -207,7 +207,7 @@ function messagesController($scope, $element, $stateParams, $timeout) {
 		sendMessageState.pending();
 
 		const images = $scope.attachments.imageUploads;
-		const files = $scope.attachments.fileUploads
+		const files = $scope.attachments.fileUploads;
 		const text = $scope.activeChat.newMessage;
 
 		if (text === "" && images.length === 0) {
