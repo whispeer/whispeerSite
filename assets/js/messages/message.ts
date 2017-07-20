@@ -95,12 +95,12 @@ export class Message {
 			return image.convertForGallery();
 		});
 
-		this.data.files = attachments.files.map((file) => {
-			debugger
-		})
+		this.data.files = attachments.files.map((file) =>
+			file.getInfo()
+		)
 
 		this.loadSender();
-		this.prepareImages();
+		this.prepareAttachments();
 	};
 
 	private prepareImages = h.cacheResult<Bluebird<any>>(() => {
@@ -108,6 +108,16 @@ export class Message {
 			return image.prepare();
 		});
 	})
+
+	private prepareFiles = h.cacheResult<Bluebird<any>>(() => {
+		return Bluebird.resolve(this.attachments.files).map((file: any) => {
+			return file.prepare();
+		});
+	})
+
+	private prepareAttachments = () => {
+		return Bluebird.all([this.prepareFiles(), this.prepareImages()])
+	}
 
 	setData = () => {
 		this.data = {
@@ -141,10 +151,12 @@ export class Message {
 		return this._hasBeenSent;
 	};
 
-	uploadImages = h.cacheResult<Bluebird<any>>((chunkKey) => {
-		return this.prepareImages().then(() => {
-			return Bluebird.all(this.attachments.images.map((image) => {
-				return image.upload(chunkKey);
+	uploadAttachments = h.cacheResult<Bluebird<any>>((chunkKey) => {
+		return this.prepareAttachments().then(() => {
+			const attachments = [...this.attachments.images, ...this.attachments.files]
+
+			return Bluebird.all(attachments.map((attachment) => {
+				return attachment.upload(chunkKey);
 			}));
 		}).then((imageKeys) => {
 			return h.array.flatten(imageKeys);
@@ -172,10 +184,15 @@ export class Message {
 			await chunk.awaitEarlierSend(this.getTime());
 
 			const imagesMeta = await this.prepareImages()
+			const filesMeta = await this.prepareFiles()
 
-			debugger
+			const filesPrivateInfo = this.attachments.files.map((file) =>
+				file.getInfo()
+			)
 
 			this._securedData.metaSetAttr("images", imagesMeta);
+			this._securedData.metaSetAttr("files", filesMeta);
+			this._securedData.contentSetAttr("files", filesPrivateInfo);
 
 			const chunkKey = chunk.getKey();
 
@@ -204,11 +221,11 @@ export class Message {
 
 			const signAndEncryptPromise = this._securedData._signAndEncrypt(userService.getown().getSignKey(), chunkKey);
 
-			const imageKeys = await this.uploadImages(chunkKey)
+			const keys = await this.uploadAttachments(chunkKey)
 
 			const request = await signAndEncryptPromise
 
-			request.imageKeys = imageKeys.map(keyStore.upload.getKey);
+			request.keys = keys.map(keyStore.upload.getKey);
 
 			const response = await socket.emit("chat.message.create", {
 				chunkID: chunk.getID(),
@@ -318,6 +335,10 @@ export class Message {
 				this.data.text = content
 			} else {
 				this.data.text = content.message
+
+				if (content.files) {
+					this.data.files = content.files
+				}
 			}
 
 			return content

@@ -1,5 +1,6 @@
 import * as Bluebird from "bluebird"
 
+import h from "../helper/helper"
 import Progress from "../asset/Progress"
 var Queue = require("asset/Queue");
 
@@ -59,6 +60,18 @@ class FileUpload {
 
 			return this.uploadPreparedBlob(this.blob)
 		})
+	}
+
+	prepare = h.cacheResult(() => {
+		return FileUpload.blobToDataSet(this.blob).then(({ meta }) => meta)
+	})
+
+	getInfo = () => {
+		return {
+			name: this.file.name,
+			size: this.file.size,
+			type: this.file.type
+		}
 	}
 
 	getFile = () => {
