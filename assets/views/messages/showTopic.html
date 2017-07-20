@@ -93,6 +93,11 @@
 										<gallery class="message-images" data-ng-if="::message.images.length > 0" data-images="::message.images"></gallery>
 										<div class="message-files">
 											<display-file data-file="file" data-ng-repeat="file in message.files">
+												<button class="radial-progress" data-ng-click="file.save()">
+													<div class="circle circle-with-icon">
+														<i class="fa fa-fw fa-download"></i>
+													</div>
+												</button>
 												<upload-process data-upload="file.progress()"></upload-process>
 											</display-file>
 										</div>
