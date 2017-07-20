@@ -64,7 +64,7 @@ class TrustService {
 	}
 
 	private waitForLogin() {
-		sessionService.listenPromise("ssn.login").then(() => {
+		sessionService.awaitLogin().then(() => {
 			time("getSignatureCache");
 			return this.signatureCacheObject.get(sessionService.getUserID().toString()).catch(function () {
 				return;

@@ -2,7 +2,6 @@ var SecuredData = require("asset/securedDataWithMetaData");
 import h from "../helper/helper"
 
 var userService = require("user/userService");
-var socket = require("services/socket.service").default;
 
 import * as Bluebird from "bluebird"
 

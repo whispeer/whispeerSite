@@ -2,8 +2,8 @@ import * as Bluebird from "bluebird"
 import $ from "jquery"
 import h from "../helper/helper"
 import screenSizeService from "./screenSize.service"
+import FileUpload from "./fileUpload.service"
 
-import Progress from "../asset/Progress"
 var Queue = require("asset/Queue");
 var imageLib = require("imageLib");
 
@@ -91,9 +91,6 @@ if (screenSizeService.mobile) {
 const uploadQueue = new Queue(3);
 uploadQueue.start();
 
-const encryptionQueue = new Queue(500 * 1000);
-encryptionQueue.start();
-
 const resizeQueue = new Queue(1);
 resizeQueue.start();
 
@@ -105,30 +102,27 @@ const sizeSorter = (a, b) => {
 	return sizeDiff(b, a);
 }
 
-class ImageUpload {
+class ImageUpload extends FileUpload {
 	rotation = "0"
-	private previousProgress: number = 0
-	private file
-	private options: options
-	private progress: Progress
 	private url: string
 	private previewUrl: string
 	private blobs: any[]
 	private isGif: boolean
 
 	constructor(file, options?) {
-		this.file = file;
-		this.options = options || defaultOptions;
-		this.progress = new Progress();
-		this.progress.listen(this._maybeApply, "progress");
+		super(file, options || defaultOptions)
 
-		if (!file.type.match(/image.*/)) {
+		if (!ImageUpload.isImage(file)) {
 			throw new Error("not an image!");
 		}
 
 		if (file.type.match(/image.gif/) && !this.options.gif) {
 			throw new Error("no gifs supported!");
 		}
+	}
+
+	static isImage(file) {
+		return file.type.match(/image.*/)
 	}
 
 	static imageLibLoad(file, options?) {
@@ -157,45 +151,6 @@ class ImageUpload {
 				url: this.getUrl()
 			}
 		};
-	};
-
-	private _maybeApply = (progress) => {
-		if (progress - this.previousProgress > 0.01) {
-			this.previousProgress = progress;
-		}
-	};
-
-	getProgress = () => {
-		return this.progress.getProgress();
-	};
-
-	private _uploadAndEncryptPreparedBlob = (encryptionKey, blobMeta) => {
-		this.progress.addDepend(blobMeta.blob._uploadProgress);
-		this.progress.addDepend(blobMeta.blob._encryptProgress);
-
-		return encryptionQueue.enqueue(blobMeta.blob.getSize(), () => {
-			return blobMeta.blob.encryptAndUpload(encryptionKey);
-		});
-	};
-
-	private _uploadPreparedBlob = (blobMeta) => {
-		this.progress.addDepend(blobMeta.blob._uploadProgress);
-
-		return blobMeta.blob.upload();
-	};
-
-	static blobToDataSet(blob) {
-		var preReserveID = Bluebird.promisify(blob.preReserveID.bind(blob));
-		var getHash = Bluebird.promisify(blob.getHash.bind(blob));
-		return Bluebird.all([preReserveID(), getHash()]).spread((blobID, hash) => {
-			return {
-				blob: blob,
-				meta: {
-					blobID: blobID,
-					blobHash: hash
-				}
-			};
-		});
 	};
 
 	static rotate(img, angle) {
@@ -302,10 +257,6 @@ class ImageUpload {
 		})
 	})
 
-	getName = () => {
-		return this.file.name;
-	};
-
 	getPreviewUrl = () => {
 		return this.previewUrl || this.getUrl()
 	}
@@ -326,13 +277,13 @@ class ImageUpload {
 		}
 
 		return uploadQueue.enqueue(1, () => {
-			return Bluebird.resolve(this.blobs).bind(this).map((blobWithMetaData) => {
+			return Bluebird.resolve(this.blobs).bind(this).map((blobWithMetaData: any) => {
 				console.info("Uploading blob");
 				if (this.options.encrypt) {
-					return this._uploadAndEncryptPreparedBlob(encryptionKey, blobWithMetaData);
+					return this.uploadAndEncryptPreparedBlob(encryptionKey, blobWithMetaData.blob);
 				}
 
-				return this._uploadPreparedBlob(blobWithMetaData);
+				return this.uploadPreparedBlob(blobWithMetaData.blob);
 			});
 		});
 	};
@@ -376,10 +327,6 @@ class ImageUpload {
 		return result;
 	};
 
-	getFile = () => {
-		return this.file;
-	};
-
 	private _getImage = h.cacheResult<Bluebird<any>>(() => {
 		return ImageUpload.imageLibLoad(this.getUrl());
 	})
@@ -404,16 +351,13 @@ class ImageUpload {
 		});
 	}
 
-	static fileCallback(cb, config?, single?) {
+	static fileCallback(cb, config?) {
 		return (e) => {
 			var files = Array.prototype.slice.call(e.target.files);
-			if (single) {
-				cb(new ImageUpload(files[0], config));
-			} else {
-				cb(files.map((file) => {
-					return new ImageUpload(file, config);
-				}));
-			}
+
+			cb(files.map((file) => {
+				return new ImageUpload(file, config);
+			}));
 
 			try {
 				e.target.value = null;
@@ -421,7 +365,7 @@ class ImageUpload {
 				console.log(ex);
 			}
 		};
-	};
+	}
 }
 
 export default ImageUpload

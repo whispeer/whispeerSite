@@ -61,6 +61,8 @@ export class Chunk extends Observer {
 	}
 
 	awaitEarlierSend = (time) => {
+		console.log(time)
+
 		/*
 		var previousMessages = this.getNotSentMessages().filter((message) => {
 			return message.getTime() < time;

@@ -25,6 +25,11 @@ require("search/loader");
 require("localizationModule");
 require("emptyInclude");
 
+/* ensure loading of all init modules */
+require("services/trust.service")
+require("user/userService")
+require("services/settings.service")
+
 module.exports = angular.module("ssn", [
 	"ssn.controllers",
 	"ssn.services",

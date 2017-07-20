@@ -1,19 +1,19 @@
-var h = require("../helper/helper").default;
-var Observer = require("asset/observer");
-var signatureCache = require("crypto/signatureCache");
-var Bluebird = require("bluebird");
-var trustManager = require("crypto/trustManager");
+const h = require("../helper/helper").default;
+const Observer = require("asset/observer");
+const signatureCache = require("crypto/signatureCache");
+const Bluebird = require("bluebird");
+const trustManager = require("crypto/trustManager");
 
-var sjcl = require("sjcl");
+const sjcl = require("sjcl");
 
-var errorService = require("services/error.service").errorServiceInstance;
-var keyStoreService = require("crypto/keyStore");
-var socketService = require("services/socket.service").default;
-var requestKeyService = require("services/requestKey.service").default;
-var CacheService = require("services/Cache").default;
-var initService = require("services/initService");
+const errorService = require("services/error.service").errorServiceInstance;
+const keyStoreService = require("crypto/keyStore");
+const socketService = require("services/socket.service").default;
+const requestKeyService = require("services/requestKey.service").default;
+const CacheService = require("services/Cache").default;
+const initService = require("services/initService");
 
-var sessionService = require("services/session.service").default;
+const sessionService = require("services/session.service").default;
 
 var userService, knownIDs = [], users = {}, ownUserStatus = {};
 
@@ -75,8 +75,8 @@ function makeUser(data) {
 		return new NotExistingUser();
 	}
 
-	var User = require("models/user");
-	var theUser = new User(data);
+	const User = require("models/user");
+	const theUser = new User(data);
 
 	var id = theUser.getID();
 	var mail = theUser.getMail();
