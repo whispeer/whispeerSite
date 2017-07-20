@@ -170,8 +170,10 @@ grunt.initConfig({
 			]
 		},
 		jekyllWatch: {
-			cmd: "jekyll",
+			cmd: "bundle",
 			args: [
+				"exec",
+				"jekyll",
 				"build",
 				"--watch"
 			]
