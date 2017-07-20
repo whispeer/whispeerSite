@@ -100,10 +100,10 @@ export class Message {
 		})
 
 		this.loadSender();
-		this._prepareImages();
+		this.prepareImages();
 	};
 
-	_prepareImages = h.cacheResult<Bluebird<any>>(() => {
+	private prepareImages = h.cacheResult<Bluebird<any>>(() => {
 		return Bluebird.resolve(this.attachments.images).map((image: any) => {
 			return image.prepare();
 		});
@@ -142,7 +142,7 @@ export class Message {
 	};
 
 	uploadImages = h.cacheResult<Bluebird<any>>((chunkKey) => {
-		return this._prepareImages().then(() => {
+		return this.prepareImages().then(() => {
 			return Bluebird.all(this.attachments.images.map((image) => {
 				return image.upload(chunkKey);
 			}));
@@ -171,7 +171,9 @@ export class Message {
 
 			await chunk.awaitEarlierSend(this.getTime());
 
-			const imagesMeta = await this._prepareImages()
+			const imagesMeta = await this.prepareImages()
+
+			debugger
 
 			this._securedData.metaSetAttr("images", imagesMeta);
 

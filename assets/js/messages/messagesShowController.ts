@@ -116,21 +116,21 @@ function messagesController($scope, $element, $stateParams, $timeout) {
 	};
 
 	$scope.attachments = {
-		images: [],
-		files: [],
+		imageUploads: [],
+		fileUploads: [],
 		removeImage: (index) => {
-			$scope.attachments.images.splice(index, 1);
+			$scope.attachments.imageUploads.splice(index, 1);
 		},
 		removeFile: (index) => {
-			$scope.attachments.files.splice(index, 1);
+			$scope.attachments.fileUploads.splice(index, 1);
 		},
-		addImages: ImageUpload.fileCallback((files) => {
+		addFiles: ImageUpload.fileCallback((files) => {
 			$scope.$apply(() => {
 				const imageUploads = files.filter((file) => ImageUpload.isImage(file)).map((file) => new ImageUpload(file))
 				const fileUploads = files.filter((file) => !ImageUpload.isImage(file)).map((file) => new FileUpload(file))
 
 				$scope.attachments.fileUploads = $scope.attachments.fileUploads.concat(fileUploads)
-				$scope.attachments.images = $scope.attachments.images.concat(imageUploads)
+				$scope.attachments.imageUploads = $scope.attachments.imageUploads.concat(imageUploads)
 			});
 		})
 	};
@@ -206,8 +206,8 @@ function messagesController($scope, $element, $stateParams, $timeout) {
 	$scope.sendMessage = function() {
 		sendMessageState.pending();
 
-		const images = $scope.attachments.images;
-		const files = $scope.attachments.files
+		const images = $scope.attachments.imageUploads;
+		const files = $scope.attachments.fileUploads
 		const text = $scope.activeChat.newMessage;
 
 		if (text === "" && images.length === 0) {
@@ -219,7 +219,8 @@ function messagesController($scope, $element, $stateParams, $timeout) {
 
 		var sendMessagePromise = messageService.sendMessage($scope.activeChat.id, text, { images, files }).then(function() {
 			$scope.activeChat.newMessage = "";
-			$scope.attachments.images = [];
+			$scope.attachments.imageUploads = []
+			$scope.attachments.fileUploads = []
 			$scope.markRead(errorService.criticalError);
 			$timeout(function() {
 				sendMessageState.reset();
