@@ -91,6 +91,11 @@
 									<div class="messageContent">
 										<div class="messageText {{::message.type}}" data-ng-class="{{::message.type}}" data-syntaxify="::message.text"></div>
 										<gallery class="message-images" data-ng-if="::message.images.length > 0" data-images="::message.images"></gallery>
+										<div class="message-files">
+											<display-file data-file="file" data-ng-repeat="file in message.files">
+												<upload-process data-upload="file.progress()"></upload-process>
+											</display-file>
+										</div>
 										<div class="time"><i class="fa" data-ng-class="{'fa-circle-o-notch fa-spin': !message.sent, 'fa-clock-o': message.sent}"></i> <span data-smart-date="::message.timestamp" data-smart-date-no-day></span></div>
 									</div>
 							</li>
@@ -111,19 +116,12 @@
 				</savebutton>
 				<div id="messagesView-newMessageImages" data-ng-class="{'messagesView-newMessageImages--active animate-heightAndOverflow animate--fill': attachments.imageUploads.length > 0 || attachments.fileUploads.length > 0}">
 					<div class="newsfeed-newPostImagePreview" data-ng-repeat="image in attachments.imageUploads">
-						<button class="newsfeed-newPostImageRemove fa fa-times-circle" data-ng-click='attachments.removeImage($index)'></button>
+						<button class="newsfeed-newPostImageRemove fa fa-times-circle" data-ng-click="attachments.removeImage($index)"></button>
 						<img class="newsfeed-newPostImage" alt="{{image.getName()}}" data-ng-src="{{image.getPreviewUrl()}}">
 					</div>
-					<div class="newsfeed-newPostImagePreview" data-ng-repeat="file in attachments.fileUploads">
+					<display-file data-file="file.file" class="newsfeed-newPostImagePreview" data-ng-repeat="file in attachments.fileUploads">
 						<button class="newsfeed-newPostImageRemove fa fa-times-circle" data-ng-click="attachments.removeFile($index)"></button>
-						<span class="newsfeed-newPostFile" data-ng-switch="file.file.type">
-							<i class="fa fa-file-pdf-o fa-5x" data-ng-switch-when="application/pdf"></i>
-							<i class="fa fa-file-o fa-5x" data-ng-switch-default></i>
-						</span>
-						<p class="newsfeed-newsPostFileName">
-							{{file.file.name}}
-						</p>
-					</div>
+					</display-file>
 				</div>
 			</form>
 		</div>
