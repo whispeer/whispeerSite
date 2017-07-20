@@ -45,7 +45,7 @@ function messagesDetailController($scope, $element, $state, $stateParams, locali
 	$scope.promote = (user) => {
 		$scope.saving = true
 
-		return $scope.chat.addAdmin(user).then(() => {
+		return $scope.activeChat.addAdmin(user).then(() => {
 			$scope.saving = false
 		})
 	};
@@ -53,18 +53,18 @@ function messagesDetailController($scope, $element, $state, $stateParams, locali
 	$scope.remove = (user) => {
 		$scope.saving = true
 
-		return $scope.chat.removeReceiver(user).then(() => {
+		return $scope.activeChat.removeReceiver(user).then(() => {
 			$scope.saving = false
 		})
 	};
 
-	$scope.isAdmin = (user) => $scope.chat.isAdmin(user)
+	$scope.isAdmin = (user) => $scope.activeChat.isAdmin(user)
 
-	$scope.amIAdmin = () => $scope.chat.amIAdmin()
+	$scope.amIAdmin = () => $scope.activeChat.amIAdmin()
 
 	$scope.report = () => {
 		if(confirm(localize.getLocalizedString("messages.reportConfirm"))) {
-			reportService.sendReport("chat", $scope.chat.getID());
+			reportService.sendReport("chat", $scope.activeChat.getID());
 		}
 	}
 

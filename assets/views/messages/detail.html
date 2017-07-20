@@ -36,6 +36,10 @@
 		<ul>
 			<li class="friendsView-friend" data-ng-repeat="partner in activeChat.getReceivers()">
 				<person data-user="partner" data-type="friend">
+					<div data-ng-if="amIAdmin() && !partner.user.isOwn()">
+						<button class="btn" data-ng-click="toggleAdmin(partner.user)" data-i18n="{{isAdmin(partner.user) ? 'messages.user.demote' : 'messages.user.promote'}}"></button>
+						<button class="btn btn--danger" data-ng-click="remove(partner.user)" data-i18n="messages.user.remove"></button>
+					</div>
 				</person>
 			</li>
 		</ul>

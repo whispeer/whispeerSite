@@ -399,7 +399,12 @@
 		},
 		"searchFriends": "Add Friends to Conversation",
 		"report": "Report this chat",
-		"reportConfirm": "Please confirm that you want to report this chat. We'll then get in touch with you."
+		"reportConfirm": "Please confirm that you want to report this chat. We'll then get in touch with you.",
+		"user": {
+			"promote": "Promote admin",
+			"demote": "Demote admin",
+			"remove": "Remove from chat"
+		}
 	},
 	"profile": {
 		"notFound": "User not found!",
