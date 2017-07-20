@@ -39,5 +39,8 @@
 				</person>
 			</li>
 		</ul>
+		<search class="circleView-addUsers-search"  data-supplier="friendsSearchSupplier" callback="setUsersToAdd(selected)" data-search-template="userSimple" data-filter="activeChat.getReceiverIDs()" data-multiple data-input-i18n-attr="messages.searchFriends|placeholder" data-base="user"></search>
+
+		<button class="btn btn--danger" id="message-details__report" data-ng-click="report()" data-i18n="messages.report"></button>
 	</div>
 </div>

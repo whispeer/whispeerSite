@@ -7,10 +7,11 @@ const messagesModule = require("messages/messagesModule");
 const errorService = require("services/error.service").errorServiceInstance;
 const initService = require("services/initService")
 const messageService = require("messages/messageService").default
+const reportService = require("services/report.service").default
 
 const ChatLoader = require("messages/chat").default
 
-function messagesDetailController($scope, $element, $state, $stateParams) {
+function messagesDetailController($scope, $element, $state, $stateParams, localize) {
 	var chatLoadingState = new State.default();
 	$scope.topicLoadingState = chatLoadingState.data;
 
@@ -37,6 +38,36 @@ function messagesDetailController($scope, $element, $state, $stateParams) {
 
 	$scope.chatTitle = "";
 
+	$scope.setUsersToAdd = function(selected) {
+		console.log(selected);
+	};
+
+	$scope.promote = (user) => {
+		$scope.saving = true
+
+		return $scope.chat.addAdmin(user).then(() => {
+			$scope.saving = false
+		})
+	};
+
+	$scope.remove = (user) => {
+		$scope.saving = true
+
+		return $scope.chat.removeReceiver(user).then(() => {
+			$scope.saving = false
+		})
+	};
+
+	$scope.isAdmin = (user) => $scope.chat.isAdmin(user)
+
+	$scope.amIAdmin = () => $scope.chat.amIAdmin()
+
+	$scope.report = () => {
+		if(confirm(localize.getLocalizedString("messages.reportConfirm"))) {
+			reportService.sendReport("chat", $scope.chat.getID());
+		}
+	}
+
 	var getChatPromise = initService.awaitLoading().then(() =>
 		ChatLoader.get(chatID)
 	).then(function(chat) {
@@ -49,6 +80,6 @@ function messagesDetailController($scope, $element, $state, $stateParams) {
 	errorService.failOnErrorPromise(chatLoadingState, getChatPromise);
 }
 
-messagesDetailController.$inject = ["$scope", "$element", "$state", "$stateParams"];
+messagesDetailController.$inject = ["$scope", "$element", "$state", "$stateParams", "localize"];
 
 messagesModule.controller("ssn.messagesDetailController", messagesDetailController);
