@@ -95,9 +95,12 @@ export class Message {
 			return image.convertForGallery();
 		});
 
-		this.data.files = attachments.files.map((file) =>
-			file.getInfo()
-		)
+		this.data.files = attachments.files.map((file) => ({
+			...file.getInfo(),
+			getUpload: () => {
+				return file
+			}
+		}))
 
 		this.loadSender();
 		this.prepareAttachments();
@@ -220,16 +223,13 @@ export class Message {
 			}
 
 			const signAndEncryptPromise = this._securedData._signAndEncrypt(userService.getown().getSignKey(), chunkKey);
-
 			const keys = await this.uploadAttachments(chunkKey)
-
 			const request = await signAndEncryptPromise
-
-			request.keys = keys.map(keyStore.upload.getKey);
 
 			const response = await socket.emit("chat.message.create", {
 				chunkID: chunk.getID(),
-				message: request
+				message: request,
+				keys: keys.map(keyStore.upload.getKey)
 			});
 
 			if (response.success) {
@@ -323,7 +323,7 @@ export class Message {
 
 	decrypt = () => {
 		if (this._isDecrypted) {
-			return Bluebird.resolve(this.data.text)
+			return Bluebird.resolve(this._securedData.contentGet())
 		}
 
 		return Bluebird.try(() => {
@@ -337,7 +337,10 @@ export class Message {
 				this.data.text = content.message
 
 				if (content.files) {
-					this.data.files = content.files
+					this.data.files = content.files.map((file, index) => ({
+						...file,
+						...this._securedData.metaAttr("files")[index]
+					}))
 				}
 			}
 

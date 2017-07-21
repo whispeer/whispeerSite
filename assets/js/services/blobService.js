@@ -15,6 +15,8 @@ var BlobDownloader = require("services/blobDownloader.service.ts").default;
 
 var initService = require("services/initService");
 
+const saveAs = require("libs/filesaver");
+
 var knownBlobs = {};
 var downloadBlobQueue = new Queue(5);
 downloadBlobQueue.start();
@@ -60,6 +62,10 @@ var MyBlob = function (blobData, blobID, options) {
 	this._uploadProgress = new Progress({ total: this.getSize() });
 	this._encryptProgress = new Progress({ total: this.getSize() });
 };
+
+MyBlob.prototype.download = function (filename) {
+	saveAs(this._blobData, filename);
+}
 
 MyBlob.prototype.isUploaded = function () {
 	return this._uploaded;

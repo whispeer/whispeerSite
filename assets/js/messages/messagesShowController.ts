@@ -11,6 +11,8 @@ import ImageUpload from "../services/imageUpload.service"
 import FileUpload from "../services/fileUpload.service"
 import h from "../helper/helper";
 
+const blobService = require("../services/blobService")
+
 const errorService = require("services/error.service").errorServiceInstance;
 const messageService = require("messages/messageService").default;
 const State = require("asset/state");
@@ -115,6 +117,14 @@ function messagesController($scope, $element, $stateParams, $timeout) {
 		$scope.hideOverlay = true;
 	};
 
+	$scope.downloadFile = (file) => {
+		blobService.getBlob(file.blobID).then((blob) => {
+			return blob.decrypt().thenReturn(blob)
+		}).then((blob) => {
+			blob.download(file.name)
+		})
+	}
+
 	$scope.attachments = {
 		imageUploads: [],
 		fileUploads: [],
@@ -210,7 +220,7 @@ function messagesController($scope, $element, $stateParams, $timeout) {
 		const files = $scope.attachments.fileUploads;
 		const text = $scope.activeChat.newMessage;
 
-		if (text === "" && images.length === 0) {
+		if (text === "" && images.length === 0 && files.length === 0) {
 			sendMessageState.failed();
 			return;
 		}
