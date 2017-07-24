@@ -351,6 +351,21 @@ export class Message {
 						...this._securedData.metaAttr("files")[index]
 					}))
 				}
+
+				if (content.images) {
+					this.data.images = content.images.map((imageContent, index) => {
+						const imageMeta = this._securedData.metaAttr("images")[index]
+
+						const data =  h.objectMap(imageMeta, (val, key) => {
+							return {
+								...val,
+								...imageContent[key]
+							}
+						})
+
+						return data
+					})
+				}
 			}
 
 			return content
