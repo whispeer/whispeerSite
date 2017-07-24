@@ -63,7 +63,14 @@ class FileUpload {
 	}
 
 	prepare = h.cacheResult(() => {
-		return FileUpload.blobToDataSet(this.blob).then(({ meta }) => meta)
+		return FileUpload.blobToDataSet(this.blob).then((data) => {
+			data.content = {
+				...data.content,
+				...this.getInfo()
+			}
+
+			return data
+		})
 	})
 
 	getInfo = () => {
@@ -86,9 +93,11 @@ class FileUpload {
 		return Bluebird.all([blob.preReserveID(), blob.getHash()]).spread((blobID, hash) => {
 			return {
 				blob: blob,
-				meta: {
-					blobID: blobID,
+				content: {
 					blobHash: hash
+				},
+				meta: {
+					blobID: blobID
 				}
 			}
 		})

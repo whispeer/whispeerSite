@@ -186,16 +186,25 @@ export class Message {
 
 			await chunk.awaitEarlierSend(this.getTime());
 
-			const imagesMeta = await this.prepareImages()
-			const filesMeta = await this.prepareFiles()
+			const imagesInfo = await this.prepareImages()
+			const filesInfo = await this.prepareFiles()
 
-			const filesPrivateInfo = this.attachments.files.map((file) =>
-				file.getInfo()
-			)
+			const extractImagesInfo = (infos, key) => {
+				return infos.map((info) =>
+					h.objectMap(info, (val) => val[key])
+				)
+			}
 
-			this._securedData.metaSetAttr("images", imagesMeta);
-			this._securedData.metaSetAttr("files", filesMeta);
-			this._securedData.contentSetAttr("files", filesPrivateInfo);
+			const filesContent = filesInfo.map((info) => info.content)
+			const filesMeta = filesInfo.map((info) => info.meta)
+
+			const imagesContent = extractImagesInfo(imagesInfo, "content")
+			const imagesMeta = extractImagesInfo(imagesInfo, "meta")
+
+			this._securedData.metaSetAttr("images", imagesMeta)
+			this._securedData.contentSetAttr("images", imagesContent)
+			this._securedData.metaSetAttr("files", filesMeta)
+			this._securedData.contentSetAttr("files", filesContent)
 
 			const chunkKey = chunk.getKey();
 

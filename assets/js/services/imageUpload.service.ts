@@ -291,12 +291,15 @@ class ImageUpload extends FileUpload {
 	private _createSizeData = (size: size) => {
 		return resizeQueue.enqueue(1, () => {
 			return this._resizeFile(size).then((resizedImage) => {
-				return ImageUpload.blobToDataSet(blobService.createBlob(resizedImage));
-			}).then((data: any) => {
-				data.meta.gif = this.isGif;
-				return $.extend({}, data, { size: size });
-			});
-		}, this);
+				return ImageUpload.blobToDataSet(blobService.createBlob(resizedImage.blob)).then((data: any) => {
+					data.content.gif = this.isGif;
+					data.content.width = resizedImage.width
+					data.content.height = resizedImage.height
+
+					return $.extend({}, data, { size: size });
+				})
+			})
+		});
 	};
 
 	prepare = h.cacheResult(() => {
@@ -319,7 +322,7 @@ class ImageUpload extends FileUpload {
 				lastBlob = blob;
 			}
 
-			result[blob.size.name] = lastBlob.meta;
+			result[blob.size.name] = lastBlob
 
 			return keep;
 		});
@@ -346,8 +349,15 @@ class ImageUpload extends FileUpload {
 				})
 			}
 
-			const canvas = imageLib.scale(img, options);
-			return canvasToBlob(ImageUpload.rotate(canvas, this.rotation), "image/jpeg");
+			const canvas = ImageUpload.rotate(imageLib.scale(img, options), this.rotation);
+
+			return canvasToBlob(canvas, "image/jpeg").then((blob) => {
+				return {
+					blob,
+					width: canvas.width,
+					height: canvas.height
+				}
+			})
 		});
 	}
 }
