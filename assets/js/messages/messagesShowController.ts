@@ -8,8 +8,9 @@ import ChatLoader from "./chat"
 import MessageLoader from "./message"
 
 import ImageUpload from "../services/imageUpload.service"
-import FileUpload from "../services/fileUpload.service"
+import FileUpload from "../services/blobUpload.service"
 import h from "../helper/helper";
+import Progress from "../asset/Progress"
 
 const blobService = require("../services/blobService")
 
@@ -118,7 +119,17 @@ function messagesController($scope, $element, $stateParams, $timeout) {
 	};
 
 	$scope.downloadFile = (file) => {
-		blobService.getBlob(file.blobID).then((blob) => {
+		const decryptProgressStub = new Progress({ total: file.size })
+		const downloadProgress = new Progress({ total: file.size })
+
+		const loadProgress = new Progress({ depends: [ downloadProgress, decryptProgressStub ] })
+
+		file.getProgress = () => loadProgress.getProgress()
+
+		blobService.getBlob(file.blobID, downloadProgress).then((blob) => {
+			loadProgress.removeDepend(decryptProgressStub)
+			loadProgress.addDepend(blob._decryptProgress)
+
 			return blob.decrypt().thenReturn(blob)
 		}).then((blob) => {
 			blob.download(file.name)

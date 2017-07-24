@@ -97,8 +97,8 @@ export class Message {
 
 		this.data.files = attachments.files.map((file) => ({
 			...file.getInfo(),
-			getUpload: () => {
-				return file
+			getProgress: () => {
+				return file.getProgress()
 			}
 		}))
 

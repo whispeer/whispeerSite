@@ -160,7 +160,7 @@ var sjclWorker = {
 
 			return workers.schedule(data, progressListener);
 		},
-		decrypt: function (key, message) {
+		decrypt: function (key, message, progressListener) {
 			var data = {
 				"key": key,
 				"message": message,
@@ -169,7 +169,7 @@ var sjclWorker = {
 				"encrypt": false
 			};
 
-			return workers.schedule(data);
+			return workers.schedule(data, progressListener);
 		}
 	}
 };

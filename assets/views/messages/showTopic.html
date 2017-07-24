@@ -98,7 +98,7 @@
 														<i class="fa fa-fw fa-download"></i>
 													</div>
 												</button>
-												<upload-process data-upload="file.getUpload()"></upload-process>
+												<loading-progress data-get-progress="file.getProgress"></loading-progress>
 											</display-file>
 										</div>
 										<div class="time"><i class="fa" data-ng-class="{'fa-circle-o-notch fa-spin': !message.sent, 'fa-clock-o': message.sent}"></i> <span data-smart-date="::message.timestamp" data-smart-date-no-day></span></div>

@@ -36,4 +36,4 @@ require("directives/inviteButtons");
 require("directives/closeSidebar");
 require("directives/loadingindicator");
 require("directives/displayFile");
-require("directives/uploadProcess");
+require("directives/loadingProgress");

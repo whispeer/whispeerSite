@@ -1,5 +1,5 @@
-<div data-ng-if="upload && upload.getProgress() < 1">
-	<div class="radial-progress" data-progress="{{upload.getProgress() * 100 | number: 0}}">
+<div data-ng-if="getProgress && getProgress() < 1">
+	<div class="radial-progress" data-progress="{{getProgress() * 100 | number: 0}}">
 		<div class="circle">
 			<div class="mask full">
 				<div class="fill"></div>

@@ -721,7 +721,7 @@ SymKey = function (keyData) {
 	* @param callback called with results
 	* @param optional iv initialization vector
 	*/
-	this.decrypt = function (ctext, iv) {
+	this.decrypt = function (ctext, iv, progressCallback) {
 		return intKey.decryptKey().then(function () {
 			if (typeof ctext !== "object") {
 				if (h.isHex(ctext)) {
@@ -749,7 +749,7 @@ SymKey = function (keyData) {
 			if (ctext.ct.length < 500) {
 				return sjcl.json._decrypt(intKey.getSecret(), ctext, {raw: 1});
 			} else {
-				return sjclWorkerInclude.sym.decrypt(intKey.getSecret(), ctext);
+				return sjclWorkerInclude.sym.decrypt(intKey.getSecret(), ctext, progressCallback);
 			}
 		});
 	};
@@ -2004,7 +2004,7 @@ keyStore = {
 			});
 		},
 
-		decryptArrayBuffer: function (buf, realKeyID) {
+		decryptArrayBuffer: function (buf, realKeyID, progressCallback) {
 			return SymKey.get(realKeyID).then(function (key) {
 				var buf32 = new Uint32Array(buf);
 
@@ -2014,7 +2014,7 @@ keyStore = {
 					tag: sjcl.codec.arrayBuffer.toBits(new Uint32Array(buf32.subarray(buf32.byteLength/4-2)).buffer)
 				};
 
-				return key.decrypt(decr);
+				return key.decrypt(decr, null, progressCallback);
 			}).then(function (decryptedData) {
 				return removeExpectedPrefix(decryptedData, "buf::");
 			});
