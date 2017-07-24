@@ -59,6 +59,7 @@ messageService = {
 				chat.addUnreadMessage(message.getServerID())
 
 				messageService.prependChatID(chat.getID())
+				messageService.notify({ message, chat, chunk }, "message")
 			}
 
 			await Bluebird.resolve()

@@ -12,23 +12,11 @@ import h from "../helper/helper"
 import Cache from "../services/Cache";
 import keyStore from "../services/keyStore.service"
 import ImageUpload from "../services/imageUpload.service"
+import Observer from "../asset/observer"
 
 const initService = require("services/initService");
 
 let unreadChatIDs = []
-
-socketService.channel("unreadChats", (e, data) => {
-	if (e) {
-		console.warn(e)
-	}
-
-	if (!data.unreadChatIDs) {
-		console.warn("got no chat ids from socket channel")
-		return
-	}
-
-	unreadChatIDs = data.unreadChatIDs
-})
 
 const addAfterTime = (arr:timeArray, id: any, time: number) => {
 	const firstLaterIndex = arr.findIndex((ele) => ele.time > time)
@@ -52,7 +40,7 @@ type timeArray = {
 	time: number
 }[]
 
-export class Chat {
+export class Chat extends Observer {
 	//Sorted IDs
 	private messages:timeArray = []
 	private chatUpdates:timeArray = []
@@ -73,6 +61,8 @@ export class Chat {
 	public newMessage = ""
 
 	constructor({ id, latestMessageID, latestChunkID, unreadMessageIDs }) {
+		super()
+
 		this.id = id
 
 		this.loadingInfo = {
@@ -214,9 +204,19 @@ export class Chat {
 		}
 	}
 
-	markRead() {
+	localMarkRead() {
+		if (this.unreadMessageIDs.length === 0 && unreadChatIDs.indexOf(this.id) === -1) {
+			return
+		}
+
 		this.unreadMessageIDs = []
 		unreadChatIDs = unreadChatIDs.filter((id) => id !== this.id)
+
+		this.notify(this.getID(), "read")
+	}
+
+	markRead() {
+		this.localMarkRead()
 
 		return socketService.definitlyEmit("chat.markRead", { id: this.id })
 	}
@@ -460,6 +460,10 @@ export class Chat {
 
 		return null;
 	};
+
+	static getUnreadChatIDs() {
+		return unreadChatIDs
+	}
 }
 
 const loadHook = (chatResponse) => {
@@ -493,7 +497,36 @@ export default class ChatLoader extends ObjectLoader(hooks) {}
 
 let lastLoaded = 0
 
-function loadUnreadChatIDs() {
+const localMarkChatsRead = (unreadIDs) => {
+	const chats = ChatLoader.getAll()
+
+	Object.keys(chats).forEach((id) => {
+		const chat = chats[id]
+
+		if (unreadIDs.indexOf(chat.getID()) !== -1) {
+			return
+		}
+
+		chat.localMarkRead()
+	})
+
+	unreadChatIDs = unreadIDs
+}
+
+socketService.channel("unreadChats", (e, data) => {
+	if (e) {
+		console.warn(e)
+	}
+
+	if (!data.unreadChatIDs) {
+		console.warn("got no chat ids from socket channel")
+		return
+	}
+
+	localMarkChatsRead(data.unreadChatIDs)
+})
+
+const loadUnreadChatIDs = () => {
 	if (new Date().getTime() - lastLoaded < 5 * 1000) {
 		return
 	}
@@ -510,8 +543,7 @@ function loadUnreadChatIDs() {
 			return
 		}
 
-		unreadChatIDs = data.chatIDs
-		//TODO: updateUnreadIDs(data.unread);
+		localMarkChatsRead(data.chatIDs);
 	});
 }
 

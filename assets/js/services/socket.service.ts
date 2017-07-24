@@ -1,6 +1,6 @@
 declare var WHISPEER_BUSINESS : boolean
 
-const APIVERSION = "0.0.3";
+const APIVERSION = "0.0.4";
 
 const debug = require("debug");
 import h from "../helper/helper";
