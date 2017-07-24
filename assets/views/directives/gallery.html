@@ -5,7 +5,7 @@
 </modal>
 <div class="post-images">
 	<div class="post-imageWrap" data-ng-click="viewImage($index)" data-image-gallery="images" data-ng-repeat="image in images" data-ng-if="$index < preview">
-		<upload-progress data-upload="image.upload.getProgress"></upload-progress>
+		<loading-progress data-get-progress="image.upload.getProgress"></loading-progress>
 		<img class="post-image" data-ng-if="!runGif($index)" data-ng-src="{{image.lowest.url}}">
 		<span class="post-image--play fa fa-play fa-2x" data-ng-if="image.lowest.gif && !runGif($index)"></span>
 		<div data-ng-if="runGif($index)">
