@@ -1,28 +1,28 @@
-const runnerModule = require("runners/runnerModule");
-/* TODO CH const windowService = require("services/windowService");
-const titleService = require("services/titleService");
-const messageService = require("messages/messageService");*/
+const runnerModule = require("runners/runnerModule")
+const windowService = require("services/windowService")
+const titleService = require("services/titleService")
+const messageService = require("messages/messageService").default
+const localize = require("i18n/localizationConfig");
 
 require("angularServices/notificationService");
 
-runnerModule.run(["ssn.notificationService", function (/*notificationService*/) {
+runnerModule.run(["ssn.notificationService", function (notificationService) {
 	"use strict";
-	// TODO CH
 
-	/*messageService.listen(function(m) {
-		if (!m.isOwn()) {
-			if (!messageService.isActiveTopic(m.getTopicID()) || !windowService.isVisible) {
+	messageService.listen(function({ message, chat }) {
+		if (!message.isOwn()) {
+			if (!messageService.isActiveChat(chat.getID()) || !windowService.isVisible) {
 				windowService.playMessageSound();
-				notificationService.sendLocalNotification("message", m.data);
+				notificationService.sendLocalNotification("message", message.data);
 			}
 
-			titleService.setAdvancedTitle("newmessage", m.data.sender.basic.shortname);
+			const title = localize.getLocalizedString("window.title.newmessage").replace("{data}", message.data.sender.basic.shortname)
+
+			titleService.addTitle(title, chat.getID());
+
+			chat.listen(() => {
+				titleService.removeTitle(chat.getID())
+			}, "read")
 		}
 	}, "message");
-
-	messageService.listen(function () {
-		if (messageService.data.unread === 0) {
-			titleService.removeAdvancedTitle("newmessage");
-		}
-	}, "updateUnread");*/
 }]);

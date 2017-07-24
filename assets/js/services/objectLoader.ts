@@ -10,6 +10,18 @@ function createLoader<ObjectType>({ downloadHook, loadHook, idHook }: hookType<O
 	let loading: { [s: string]: Bluebird<ObjectType> } = {}
 	let byId: { [s: string]: ObjectType } = {}
 
+	const hooks = []
+
+	const notifyLoaded = (instance) => {
+		hooks.forEach((hook) => {
+			try {
+				hook(instance)
+			} catch (e) {
+				console.error("Hook failed", e)
+			}
+		})
+	}
+
 	return class ObjectLoader {
 		static getLoaded(id): ObjectType {
 			if (!ObjectLoader.isLoaded(id)) {
@@ -44,6 +56,8 @@ function createLoader<ObjectType>({ downloadHook, loadHook, idHook }: hookType<O
 					loading = { ...loading }
 					delete loading[id]
 
+					notifyLoaded(instance)
+
 					return instance
 				}).finally(() => {
 					delete loading[id]
@@ -73,6 +87,8 @@ function createLoader<ObjectType>({ downloadHook, loadHook, idHook }: hookType<O
 					loading = { ...loading }
 					delete loading[id]
 
+					notifyLoaded(instance)
+
 					return instance
 				}).finally(() => {
 					delete loading[id]
@@ -93,6 +109,10 @@ function createLoader<ObjectType>({ downloadHook, loadHook, idHook }: hookType<O
 
 		static addLoaded = (id, obj: ObjectType) => {
 			byId[id] = obj
+		}
+
+		static loadListener = (hook: Function) => {
+			hooks.push(hook)
 		}
 	}
 }

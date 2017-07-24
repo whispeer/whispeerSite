@@ -1,42 +1,51 @@
 
 var localize = require("i18n/localizationConfig");
 
-var advancedTitle = {}, count = 0, topicInternalCount = 0;
+var titles = [], currentTitleIndex = 0;
+
+/* warning: side effects */
+const getTitle = () => {
+	if (titles.length === 0) {
+		return localize.getLocalizedString("window.title.basic");
+	}
+
+	if (currentTitleIndex >= titles.length) {
+		currentTitleIndex = 0
+
+		return localize.getLocalizedString("window.title.basic");
+	}
+
+	currentTitleIndex += 1
+
+	return titles[currentTitleIndex - 1].title
+}
 
 function cycleTitle() {
-	var titles = Object.keys(advancedTitle);
-
-	if (count >= titles.length) {
-		count = 0;
-		document.title = localize.getLocalizedString("window.title.basic");
-	} else {
-		var data = advancedTitle[titles[count]];
-		document.title = localize.getLocalizedString("window.title." + titles[count]).replace("{data}", data[topicInternalCount]);
-
-		topicInternalCount += 1;
-
-		if (topicInternalCount >= data.length) {
-			count += 1;
-			topicInternalCount = 0;
-		}
-	}
+	document.title = getTitle()
 }
 
 window.setInterval(cycleTitle, 3000);
 
 var api = {
-	setAdvancedTitle: function (topic, data) {
-		advancedTitle[topic] = advancedTitle[topic] || [];
-
-		if (advancedTitle[topic].indexOf(data) === -1) {
-			advancedTitle[topic].push(data);
-			cycleTitle();
+	addTitle: (title, reference) => {
+		if (titles.some((d) => d.title === title && d.reference === reference)) {
+			return
 		}
+
+		titles.push({ title, reference })
+
+		cycleTitle()
 	},
-	removeAdvancedTitle: function (topic) {
-		delete advancedTitle[topic];
-		cycleTitle();
+	removeTitle: (ref) => {
+		titles = titles.filter(({ reference }) => reference !== ref)
+
+		cycleTitle()
+	},
+	resetTitles: () => {
+		titles = []
+
+		cycleTitle()
 	}
-};
+}
 
 module.exports = api;

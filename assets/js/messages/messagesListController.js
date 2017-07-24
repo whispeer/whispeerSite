@@ -10,6 +10,8 @@ const ChatLoader = require("messages/chat").default
 const ChunkLoader = require("messages/chatChunk").default
 const MessageLoader = require("messages/message").default
 
+const Chat = require("messages/chat").Chat
+
 const Memoizer = require("asset/memoizer").default
 
 const getMessageInfo = (latestMessageID) => {
@@ -30,6 +32,7 @@ const getMessageInfo = (latestMessageID) => {
 const memoizer = new Memoizer([
 	() => messageService.getChatIDs(),
 	() => ChatLoader.getAll(),
+	() => Chat.getUnreadChatIDs()
 ], (chatIDs) => {
 	let loaded = true
 
