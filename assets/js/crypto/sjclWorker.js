@@ -95,15 +95,6 @@ function transformAsymData(data) {
 	}
 }
 
-function hashText(text) {
-	var i, h = new sjcl.hash.sha256(), PART = 8 * 50;
-	for (i = 0; i < text.length / PART; i+= 1) {
-		h.update(sjcl.codec.base64.toBits(text.substr(i*PART, PART)));
-	}
-
-	return chelper.bits2hex(h.finalize());
-}
-
 function hashBuf(buf) {
 	var i, h1 = new sjcl.hash.sha256(), PART = 8 * 64;
 
@@ -119,19 +110,7 @@ function hashBuf(buf) {
 }
 
 function handleHash(data) {
-	var buf = data.toHash.buf
-	var text = data.toHash.text
-
-	const h1 = hashBuf(buf)
-	const h2 = hashText(text.split(",")[1])
-
-	console.warn("HASH", h1, h2)
-
-	if (h1 !== h2) {
-		throw new Error("not the same hash")
-	}
-
-	return h2
+	return hashBuf(data.toHash)
 }
 
 function handleAsym(data) {

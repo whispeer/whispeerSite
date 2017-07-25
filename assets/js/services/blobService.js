@@ -287,9 +287,9 @@ MyBlob.prototype.getStringRepresentation = function () {
 };
 
 MyBlob.prototype.getHash = function (cb) {
-	return Bluebird.all([this.getArrayBuffer(), this.getStringRepresentation()]).then(function ([buf, text]) {
-		return keyStore.hash.hashArrayBuffer({ buf, text });
-	}).nodeify(cb);
+	return this.getArrayBuffer().then(function (buf) {
+		return keyStore.hash.hashArrayBuffer(buf)
+	}).nodeify(cb)
 };
 
 function loadBlobFromServer(blobID, downloadProgress) {
