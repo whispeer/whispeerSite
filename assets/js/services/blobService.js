@@ -15,6 +15,8 @@ var BlobDownloader = require("services/blobDownloader.service.ts").default;
 
 var initService = require("services/initService");
 
+const saveAs = require("libs/filesaver");
+
 var knownBlobs = {};
 var downloadBlobQueue = new Queue(5);
 downloadBlobQueue.start();
@@ -59,7 +61,12 @@ var MyBlob = function (blobData, blobID, options) {
 
 	this._uploadProgress = new Progress({ total: this.getSize() });
 	this._encryptProgress = new Progress({ total: this.getSize() });
+	this._decryptProgress = new Progress({ total: this.getSize() });
 };
+
+MyBlob.prototype.download = function (filename) {
+	saveAs(this._blobData, filename);
+}
 
 MyBlob.prototype.isUploaded = function () {
 	return this._uploaded;
@@ -146,23 +153,24 @@ MyBlob.prototype.encrypt = function (cb) {
 };
 
 MyBlob.prototype.decrypt = function (cb) {
-	var that = this;
-
 	if (this._decrypted) {
 		return Bluebird.resolve().nodeify(cb);
 	}
 
-	return Bluebird.try(function () {
-		return that.getArrayBuffer();
-	}).then(function (encryptedData) {
-		time("blobdecrypt" + that._blobID);
-		return keyStore.sym.decryptArrayBuffer(encryptedData, that._key);
-	}).then(function (decryptedData) {
-		timeEnd("blobdecrypt" + that._blobID);
+	return Bluebird.try(() => {
+		return this.getArrayBuffer();
+	}).then((encryptedData) => {
+		time("blobdecrypt" + this._blobID);
+		return keyStore.sym.decryptArrayBuffer(encryptedData, this._key, (progress) => {
+			this._decryptProgress.progress(this.getSize() * progress)
+		})
+	}).then((decryptedData) => {
+		this._decryptProgress.progress(this.getSize())
+		timeEnd("blobdecrypt" + this._blobID);
 
-		that._decrypted = true;
+		this._decrypted = true;
 
-		that._blobData = new Blob([decryptedData], {type: that._blobData.type});
+		this._blobData = new Blob([decryptedData], {type: this._blobData.type});
 	}).nodeify(cb);
 };
 
@@ -286,10 +294,10 @@ MyBlob.prototype.getHash = function (cb) {
 	}).nodeify(cb);
 };
 
-function loadBlobFromServer(blobID) {
+function loadBlobFromServer(blobID, downloadProgress) {
 	return downloadBlobQueue.enqueue(1, function () {
 		return initService.awaitLoading().then(function () {
-			return new BlobDownloader(socketService, blobID).download()
+			return new BlobDownloader(socketService, blobID, downloadProgress).download()
 		}).then(function (data) {
 			var blob = new MyBlob(data.blob, blobID, { meta: data.meta });
 
@@ -316,9 +324,9 @@ function loadBlobFromDB(blobID) {
 	});
 }
 
-function loadBlob(blobID) {
+function loadBlob(blobID, downloadProgress) {
 	return loadBlobFromDB(blobID).catch(function () {
-		return loadBlobFromServer(blobID);
+		return loadBlobFromServer(blobID, downloadProgress);
 	});
 }
 
@@ -326,12 +334,12 @@ var blobService = {
 	createBlob: function (blob) {
 		return new MyBlob(blob);
 	},
-	getBlob: function (blobID, cb) {
+	getBlob: function (blobID, downloadProgress) {
 		if (!knownBlobs[blobID]) {
-			knownBlobs[blobID] = loadBlob(blobID);
+			knownBlobs[blobID] = loadBlob(blobID, downloadProgress)
 		}
 
-		return knownBlobs[blobID].nodeify(cb);
+		return knownBlobs[blobID]
 	}
 };
 

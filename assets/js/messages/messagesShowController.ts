@@ -7,8 +7,12 @@ import Burst from "./burst"
 import ChatLoader from "./chat"
 import MessageLoader from "./message"
 
-import ImageUploadService from "../services/imageUpload.service"
+import ImageUpload from "../services/imageUpload.service"
+import FileUpload from "../services/blobUpload.service"
 import h from "../helper/helper";
+import Progress from "../asset/Progress"
+
+const blobService = require("../services/blobService")
 
 const errorService = require("services/error.service").errorServiceInstance;
 const messageService = require("messages/messageService").default;
@@ -114,14 +118,40 @@ function messagesController($scope, $element, $stateParams, $timeout) {
 		$scope.hideOverlay = true;
 	};
 
-	$scope.images = {
-		images: [],
-		removeImage: function(index) {
-			$scope.images.images.splice(index, 1);
+	$scope.downloadFile = (file) => {
+		const decryptProgressStub = new Progress({ total: file.size })
+		const downloadProgress = new Progress({ total: file.size })
+
+		const loadProgress = new Progress({ depends: [ downloadProgress, decryptProgressStub ] })
+
+		file.getProgress = () => loadProgress.getProgress()
+
+		blobService.getBlob(file.blobID, downloadProgress).then((blob) => {
+			loadProgress.removeDepend(decryptProgressStub)
+			loadProgress.addDepend(blob._decryptProgress)
+
+			return blob.decrypt().thenReturn(blob)
+		}).then((blob) => {
+			blob.download(file.name)
+		})
+	}
+
+	$scope.attachments = {
+		imageUploads: [],
+		fileUploads: [],
+		removeImage: (index) => {
+			$scope.attachments.imageUploads.splice(index, 1);
 		},
-		addImages: ImageUploadService.fileCallback(function(newImages) {
-			$scope.$apply(function() {
-				$scope.images.images = $scope.images.images.concat(newImages);
+		removeFile: (index) => {
+			$scope.attachments.fileUploads.splice(index, 1);
+		},
+		addFiles: ImageUpload.fileCallback((files) => {
+			$scope.$apply(() => {
+				const imageUploads = files.filter((file) => ImageUpload.isImage(file)).map((file) => new ImageUpload(file))
+				const fileUploads = files.filter((file) => !ImageUpload.isImage(file)).map((file) => new FileUpload(file))
+
+				$scope.attachments.fileUploads = $scope.attachments.fileUploads.concat(fileUploads)
+				$scope.attachments.imageUploads = $scope.attachments.imageUploads.concat(imageUploads)
 			});
 		})
 	};
@@ -197,19 +227,21 @@ function messagesController($scope, $element, $stateParams, $timeout) {
 	$scope.sendMessage = function() {
 		sendMessageState.pending();
 
-		var images = $scope.images.images;
-		var text = $scope.activeChat.newMessage;
+		const images = $scope.attachments.imageUploads;
+		const files = $scope.attachments.fileUploads;
+		const text = $scope.activeChat.newMessage;
 
-		if (text === "" && images.length === 0) {
+		if (text === "" && images.length === 0 && files.length === 0) {
 			sendMessageState.failed();
 			return;
 		}
 
 		$scope.canSend = false;
 
-		var sendMessagePromise = messageService.sendMessage($scope.activeChat.id, text, images).then(function() {
+		var sendMessagePromise = messageService.sendMessage($scope.activeChat.id, text, { images, files }).then(function() {
 			$scope.activeChat.newMessage = "";
-			$scope.images.images = [];
+			$scope.attachments.imageUploads = []
+			$scope.attachments.fileUploads = []
 			$scope.markRead(errorService.criticalError);
 			$timeout(function() {
 				sendMessageState.reset();

@@ -1,17 +1,18 @@
 "use strict";
 
 import Observer from "./observer"
+import h from "../helper/helper"
 
 class Progress extends Observer {
 	private done: number = 0
 	private donePercentage: number = 0
-	private options: { total: number, depends: Progress[] }
+	private options: { total?: number, depends?: Progress[] }
 	private total: number
 	private depends: Progress[]
 
 	data = { progress: 0 }
 
-	constructor (options?: { total: number, depends: Progress[] }) {
+	constructor (options?: { total?: number, depends?: Progress[] }) {
 		super()
 
 		this.options = options;
@@ -30,10 +31,20 @@ class Progress extends Observer {
 	private _listenDepends = (depends) => {
 		this.depends = depends;
 
-		depends.forEach(function (depend) {
+		depends.forEach((depend) => {
 			depend.listen(this.recalculate.bind(this), "progress");
 		});
 	};
+
+	removeDepend = (depend) => {
+		if (!this.depends && this.total) {
+			throw new Error("trying to mix depending progress and manual progress");
+		}
+
+		h.removeArray(this.depends, depend)
+
+		this.recalculate();
+	}
 
 	addDepend = (depend) => {
 		if (!this.depends && this.total) {
@@ -82,7 +93,7 @@ class Progress extends Observer {
 
 	private joinDepends = () => {
 		var done = 0, total = 0;
-		this.depends.forEach(function (depend) {
+		this.depends.forEach((depend) => {
 			done += depend.getDone();
 			total += depend.getTotal() || 0;
 		});

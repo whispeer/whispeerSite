@@ -46,6 +46,15 @@ function imageGallery() {
 				return;
 			}
 
+			if (image.lowest.width && image.lowest.height) {
+				const canvas = document.createElement("canvas");
+
+				canvas.width = image.lowest.width
+				canvas.height = image.lowest.height
+
+				image.lowest.url = canvas.toDataURL()
+			}
+
 			loadImage(image.lowest);
 		});
 	}

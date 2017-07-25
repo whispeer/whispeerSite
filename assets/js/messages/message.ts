@@ -11,6 +11,8 @@ import ObjectLoader from "../services/objectLoader"
 import ChunkLoader, { Chunk } from "./chatChunk"
 import { Chat } from "./chat"
 
+type attachments = { images: any[], files: any[] }
+
 export class Message {
 	private _hasBeenSent: boolean
 	private _isDecrypted: boolean
@@ -19,7 +21,7 @@ export class Message {
 	private _serverID: number
 	private _clientID: any
 	private _securedData: any
-	private _images: any[]
+	private attachments: attachments
 
 	private sendTime: number
 	private senderID: number
@@ -30,13 +32,13 @@ export class Message {
 
 	private chat: Chat
 
-	constructor(messageData, chat?: Chat, images?, id?) {
+	constructor(messageData, chat?: Chat, attachments?: attachments, id?) {
 		if (!chat) {
 			this.fromSecuredData(messageData);
 			return
 		}
 
-		this.fromDecryptedData(chat, messageData, images, id);
+		this.fromDecryptedData(chat, messageData, attachments, id);
 	}
 
 	fromSecuredData = (data) => {
@@ -63,13 +65,13 @@ export class Message {
 		this.setData();
 	};
 
-	fromDecryptedData = (chat: Chat, message, images, id) => {
+	fromDecryptedData = (chat: Chat, message, attachments, id) => {
 		this._hasBeenSent = false;
 		this._isDecrypted = true;
 		this._isOwnMessage = true;
 
 		this.chat = chat;
-		this._images = images;
+		this.attachments = attachments
 
 		this._clientID = id || h.generateUUID();
 
@@ -85,7 +87,7 @@ export class Message {
 		this.setData();
 
 		this.data.text = message;
-		this.data.images = images.map((image) => {
+		this.data.images = attachments.images.map((image) => {
 			if (!image.convertForGallery) {
 				return image;
 			}
@@ -93,15 +95,36 @@ export class Message {
 			return image.convertForGallery();
 		});
 
+		this.data.files = attachments.files.map((file) => ({
+			...file.getInfo(),
+			getProgress: () => {
+				return file.getProgress()
+			}
+		}))
+
 		this.loadSender();
-		this._prepareImages();
+		this.prepareAttachments();
 	};
 
-	_prepareImages = h.cacheResult<Bluebird<any>>(() => {
-		return Bluebird.resolve(this._images).map((image: any) => {
+	private prepareImages = h.cacheResult<Bluebird<any>>(() => {
+		return Bluebird.resolve(this.attachments.images).map((image: any) => {
 			return image.prepare();
 		});
 	})
+
+	private prepareFiles = h.cacheResult<Bluebird<any>>(() => {
+		return Bluebird.resolve(this.attachments.files).map((file: any) => {
+			return file.prepare();
+		});
+	})
+
+	hasAttachments = () => {
+		return this.attachments.images.length !== 0 || this.attachments.files.length !== 0
+	}
+
+	private prepareAttachments = () => {
+		return Bluebird.all([this.prepareFiles(), this.prepareImages()])
+	}
 
 	setData = () => {
 		this.data = {
@@ -135,10 +158,12 @@ export class Message {
 		return this._hasBeenSent;
 	};
 
-	uploadImages = h.cacheResult<Bluebird<any>>((chunkKey) => {
-		return this._prepareImages().then(() => {
-			return Bluebird.all(this._images.map((image) => {
-				return image.upload(chunkKey);
+	uploadAttachments = h.cacheResult<Bluebird<any>>((chunkKey) => {
+		return this.prepareAttachments().then(() => {
+			const attachments = [...this.attachments.images, ...this.attachments.files]
+
+			return Bluebird.all(attachments.map((attachment) => {
+				return attachment.upload(chunkKey);
 			}));
 		}).then((imageKeys) => {
 			return h.array.flatten(imageKeys);
@@ -163,11 +188,25 @@ export class Message {
 
 			this._securedData.setParent(chunk.getSecuredData());
 
-			await chunk.awaitEarlierSend(this.getTime());
+			const imagesInfo = await this.prepareImages()
+			const filesInfo = await this.prepareFiles()
 
-			const imagesMeta = await this._prepareImages()
+			const extractImagesInfo = (infos, key) => {
+				return infos.map((info) =>
+					h.objectMap(info, (val) => val[key])
+				)
+			}
 
-			this._securedData.metaSetAttr("images", imagesMeta);
+			const filesContent = filesInfo.map((info) => info.content)
+			const filesMeta = filesInfo.map((info) => info.meta)
+
+			const imagesContent = extractImagesInfo(imagesInfo, "content")
+			const imagesMeta = extractImagesInfo(imagesInfo, "meta")
+
+			this._securedData.metaSetAttr("images", imagesMeta)
+			this._securedData.contentSetAttr("images", imagesContent)
+			this._securedData.metaSetAttr("files", filesMeta)
+			this._securedData.contentSetAttr("files", filesContent)
 
 			const chunkKey = chunk.getKey();
 
@@ -195,16 +234,13 @@ export class Message {
 			}
 
 			const signAndEncryptPromise = this._securedData._signAndEncrypt(userService.getown().getSignKey(), chunkKey);
-
-			const imageKeys = await this.uploadImages(chunkKey)
-
+			const keys = await this.uploadAttachments(chunkKey)
 			const request = await signAndEncryptPromise
-
-			request.imageKeys = imageKeys.map(keyStore.upload.getKey);
 
 			const response = await socket.emit("chat.message.create", {
 				chunkID: chunk.getID(),
-				message: request
+				message: request,
+				keys: keys.map(keyStore.upload.getKey)
 			});
 
 			if (response.success) {
@@ -298,7 +334,7 @@ export class Message {
 
 	decrypt = () => {
 		if (this._isDecrypted) {
-			return Bluebird.resolve(this.data.text)
+			return Bluebird.resolve(this._securedData.contentGet())
 		}
 
 		return Bluebird.try(() => {
@@ -310,6 +346,28 @@ export class Message {
 				this.data.text = content
 			} else {
 				this.data.text = content.message
+
+				if (content.files) {
+					this.data.files = content.files.map((file, index) => ({
+						...file,
+						...this._securedData.metaAttr("files")[index]
+					}))
+				}
+
+				if (content.images) {
+					this.data.images = content.images.map((imageContent, index) => {
+						const imageMeta = this._securedData.metaAttr("images")[index]
+
+						const data =  h.objectMap(imageMeta, (val, key) => {
+							return {
+								...val,
+								...imageContent[key]
+							}
+						})
+
+						return data
+					})
+				}
 			}
 
 			return content
@@ -317,7 +375,7 @@ export class Message {
 	}
 
 	static createRawSecuredData(message, meta, chunk?: Chunk) {
-		var secured = SecuredData.createRaw(message, meta, {
+		var secured = SecuredData.createRaw({ message }, meta, {
 			type: "message",
 		});
 

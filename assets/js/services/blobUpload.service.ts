@@ -1,5 +1,6 @@
 import * as Bluebird from "bluebird"
 
+import h from "../helper/helper"
 import Progress from "../asset/Progress"
 var Queue = require("asset/Queue");
 
@@ -61,6 +62,25 @@ class FileUpload {
 		})
 	}
 
+	prepare = h.cacheResult(() => {
+		return FileUpload.blobToDataSet(this.blob).then((data) => {
+			data.content = {
+				...data.content,
+				...this.getInfo()
+			}
+
+			return data
+		})
+	})
+
+	getInfo = () => {
+		return {
+			name: this.file.name,
+			size: this.file.size,
+			type: this.file.type
+		}
+	}
+
 	getFile = () => {
 		return this.file
 	}
@@ -73,9 +93,11 @@ class FileUpload {
 		return Bluebird.all([blob.preReserveID(), blob.getHash()]).spread((blobID, hash) => {
 			return {
 				blob: blob,
-				meta: {
-					blobID: blobID,
+				content: {
 					blobHash: hash
+				},
+				meta: {
+					blobID: blobID
 				}
 			}
 		})

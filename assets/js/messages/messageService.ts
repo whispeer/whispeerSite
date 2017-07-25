@@ -180,7 +180,7 @@ messageService = {
 			});
 		});
 	},
-	sendMessage: function (chatID, message, images) {
+	sendMessage: function (chatID, message, attachments) {
 		return Bluebird.resolve(chatID).then(function (chat) {
 			if (typeof chat !== "object") {
 				return ChatLoader.get(chat);
@@ -188,7 +188,7 @@ messageService = {
 				return chat;
 			}
 		}).then(function (chat) {
-			return chat.sendMessage(message, images);
+			return chat.sendMessage(message, attachments);
 		});
 	},
 	getUserChat: function (uid, cb) {

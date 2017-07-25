@@ -60,22 +60,6 @@ export class Chunk extends Observer {
 		this.admins = (metaAdmins ? metaAdmins : [creator]).map(h.parseDecimal)
 	}
 
-	awaitEarlierSend = (time) => {
-		console.log(time)
-
-		/*
-		var previousMessages = this.getNotSentMessages().filter((message) => {
-			return message.getTime() < time;
-		});
-
-		if (previousMessages.length === 0) {
-			return Bluebird.resolve();
-		}
-
-		return previousMessages[previousMessages.length - 1].sendContinously();
-		*/
-	}
-
 	getChatID = () => this.chatID
 
 	getSecuredData = () => {

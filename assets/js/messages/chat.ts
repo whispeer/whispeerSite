@@ -11,7 +11,6 @@ import h from "../helper/helper"
 
 import Cache from "../services/Cache";
 import keyStore from "../services/keyStore.service"
-import ImageUpload from "../services/imageUpload.service"
 import Observer from "../asset/observer"
 
 const initService = require("services/initService");
@@ -39,6 +38,26 @@ type timeArray = {
 	id: any,
 	time: number
 }[]
+
+const getUnstoredMessages = () => {
+	const messagesMap = MessageLoader.getAll() || {}
+
+	const messages = Object.keys(messagesMap).map((id) => messagesMap[id])
+
+	return messages.filter((m) => !m.hasBeenSent()).filter((m) => m.hasAttachments())
+}
+
+window.addEventListener("beforeunload", function (e) {
+	const confirmationMessage = "Unsent files and images. Leave page anyway?"
+
+	if (getUnstoredMessages().length > 0) {
+		const event = e || window.event
+		event.returnValue = confirmationMessage //Gecko + IE
+		return confirmationMessage //Gecko + Webkit, Safari, Chrome etc.
+	}
+
+	return
+});
 
 export class Chat extends Observer {
 	//Sorted IDs
@@ -411,23 +430,23 @@ export class Chat extends Observer {
 	}
 
 	sendUnsentMessage = (messageData, files) => {
-		var images = files.map((file) => {
-			return new ImageUpload(file);
-		});
+		if (files.length > 0) {
+			return
+		}
 
-		return this.sendMessage(messageData.message, images, messageData.id);
+		return this.sendMessage(messageData.message, { images: [], files: [] }, messageData.id);
 	};
 
-	sendMessage = (message, images, id?) => {
-		var messageObject = new Message(message, this, images, id)
+	sendMessage = (message, attachments, id?) => {
+		var messageObject = new Message(message, this, attachments, id)
 
 		var messageSendCache = new Cache("messageSend", { maxEntries: -1, maxBlobSize: -1 });
 
 		if (!id) {
 			Bluebird.try(async () => {
-				await Bluebird.all(images.map((img) => img.prepare()))
-
-				const imagesBlobs = images.map((img) => img._blobs[0].blob._blobData)
+				if (attachments.images.length > 0 && attachments.files.length > 0) {
+					return
+				}
 
 				await messageSendCache.store(
 					messageObject.getClientID(),
@@ -435,8 +454,7 @@ export class Chat extends Observer {
 						chatID: this.getID(),
 						id: messageObject.getClientID(),
 						message: message
-					},
-					imagesBlobs
+					}
 				);
 			})
 		}
