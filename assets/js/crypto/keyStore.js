@@ -1692,8 +1692,8 @@ keyStore = {
 			return chelper.hash(text);
 		},
 
-		hashBigBase64CodedData: function (text) {
-			return sjclWorkerInclude.hash(text);
+		hashArrayBuffer: function (buf) {
+			return sjclWorkerInclude.hash(buf);
 		},
 
 		hashPW: function (pw, salt) {

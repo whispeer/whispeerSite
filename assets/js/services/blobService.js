@@ -287,10 +287,8 @@ MyBlob.prototype.getStringRepresentation = function () {
 };
 
 MyBlob.prototype.getHash = function (cb) {
-	return this.getStringRepresentation().then(function (blobValue) {
-		var base64 = blobValue.split(",")[1];
-
-		return keyStore.hash.hashBigBase64CodedData(base64);
+	return Bluebird.all([this.getArrayBuffer(), this.getStringRepresentation()]).then(function ([buf, text]) {
+		return keyStore.hash.hashArrayBuffer({ buf, text });
 	}).nodeify(cb);
 };
 
