@@ -244,8 +244,11 @@ export class Message {
 			});
 
 			if (response.success) {
-				this._hasBeenSent = true;
-				this.data.sent = true;
+				this._hasBeenSent = true
+				this.data.sent = true
+
+				this.setFilesInfo()
+				this.setImagesInfo()
 			}
 
 			if (response.server) {
@@ -332,6 +335,54 @@ export class Message {
 		return this.data.text
 	}
 
+	private setFilesInfo = () => {
+		const content = this._securedData.contentGet()
+
+		if (typeof content === "string") {
+			return
+		}
+
+		const filesContent = content.files
+		const filesMeta = this._securedData.metaAttr("files")
+
+		if (!filesContent) {
+			return
+		}
+
+		this.data.files = filesContent.map((file, index) => ({
+			...file,
+			...filesMeta[index]
+		}))
+	}
+
+	private setImagesInfo = () => {
+		const content = this._securedData.contentGet()
+
+		if (typeof content === "string") {
+			return
+		}
+
+		const imagesContent = content.images
+		const imagesMeta = this._securedData.metaAttr("images")
+
+		if (!imagesContent) {
+			return
+		}
+
+		this.data.images = imagesContent.map((imageContent, index) => {
+			const imageMeta = imagesMeta[index]
+
+			const data =  h.objectMap(imageMeta, (val, key) => {
+				return {
+					...val,
+					...imageContent[key]
+				}
+			})
+
+			return data
+		})
+	}
+
 	decrypt = () => {
 		if (this._isDecrypted) {
 			return Bluebird.resolve(this._securedData.contentGet())
@@ -346,29 +397,10 @@ export class Message {
 				this.data.text = content
 			} else {
 				this.data.text = content.message
-
-				if (content.files) {
-					this.data.files = content.files.map((file, index) => ({
-						...file,
-						...this._securedData.metaAttr("files")[index]
-					}))
-				}
-
-				if (content.images) {
-					this.data.images = content.images.map((imageContent, index) => {
-						const imageMeta = this._securedData.metaAttr("images")[index]
-
-						const data =  h.objectMap(imageMeta, (val, key) => {
-							return {
-								...val,
-								...imageContent[key]
-							}
-						})
-
-						return data
-					})
-				}
 			}
+
+			this.setFilesInfo()
+			this.setImagesInfo()
 
 			return content
 		})

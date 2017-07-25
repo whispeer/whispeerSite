@@ -15,6 +15,8 @@ import Observer from "../asset/observer"
 
 const initService = require("services/initService");
 
+const messageSendCache = new Cache("messageSend", { maxEntries: -1, maxBlobSize: -1 });
+
 let unreadChatIDs = []
 
 const addAfterTime = (arr:timeArray, id: any, time: number) => {
@@ -437,44 +439,48 @@ export class Chat extends Observer {
 		return this.sendMessage(messageData.message, { images: [], files: [] }, messageData.id);
 	};
 
+	private storeMessage = (messageObject, message, attachments, id) => {
+		if (!id) {
+			return Bluebird.resolve()
+		}
+
+		if (attachments.images.length > 0 && attachments.files.length > 0) {
+			return Bluebird.resolve()
+		}
+
+		return Bluebird.try(() =>
+			messageSendCache.store(
+				messageObject.getClientID(),
+				{
+					chatID: this.getID(),
+					id: messageObject.getClientID(),
+					message: message
+				}
+			)
+		)
+	}
+
 	sendMessage = (message, attachments, id?) => {
 		var messageObject = new Message(message, this, attachments, id)
 
-		var messageSendCache = new Cache("messageSend", { maxEntries: -1, maxBlobSize: -1 });
+		this.storeMessage(messageObject, message, attachments, id).finally(() => {
+			var sendMessagePromise = messageObject.sendContinously();
 
-		if (!id) {
-			Bluebird.try(async () => {
-				if (attachments.images.length > 0 && attachments.files.length > 0) {
-					return
-				}
+			sendMessagePromise.then(() => {
+				this.removeMessageID(messageObject.getClientID())
+				this.addMessageID(messageObject.getClientID(), messageObject.getTime())
 
-				await messageSendCache.store(
-					messageObject.getClientID(),
-					{
-						chatID: this.getID(),
-						id: messageObject.getClientID(),
-						message: message
-					}
-				);
-			})
-		}
+				return messageSendCache.delete(messageObject.getClientID());
+			});
 
-		var sendMessagePromise = messageObject.sendContinously();
+			sendMessagePromise.catch((e) => {
+				console.error(e);
+				alert("An error occured sending a message!" + e.toString());
+			});
 
-		sendMessagePromise.then(() => {
-			this.removeMessageID(messageObject.getClientID())
-			this.addMessageID(messageObject.getClientID(), messageObject.getTime())
-
-			return messageSendCache.delete(messageObject.getClientID());
-		});
-
-		sendMessagePromise.catch((e) => {
-			console.error(e);
-			alert("An error occured sending a message!" + e.toString());
-		});
-
-		MessageLoader.addLoaded(messageObject.getClientID(), messageObject)
-		this.addMessageID(messageObject.getClientID(), Number.MAX_SAFE_INTEGER)
+			MessageLoader.addLoaded(messageObject.getClientID(), messageObject)
+			this.addMessageID(messageObject.getClientID(), Number.MAX_SAFE_INTEGER)
+		})
 
 		return null;
 	};

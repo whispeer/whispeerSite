@@ -127,6 +127,8 @@ function messagesController($scope, $element, $stateParams, $timeout) {
 		file.getProgress = () => loadProgress.getProgress()
 
 		blobService.getBlob(file.blobID, downloadProgress).then((blob) => {
+			downloadProgress.progress(downloadProgress.getTotal())
+
 			loadProgress.removeDepend(decryptProgressStub)
 			loadProgress.addDepend(blob._decryptProgress)
 
