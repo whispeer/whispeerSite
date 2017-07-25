@@ -118,6 +118,10 @@ export class Message {
 		});
 	})
 
+	hasAttachments = () => {
+		return this.attachments.images.length !== 0 || this.attachments.files.length !== 0
+	}
+
 	private prepareAttachments = () => {
 		return Bluebird.all([this.prepareFiles(), this.prepareImages()])
 	}
@@ -183,8 +187,6 @@ export class Message {
 			const chunk = await ChunkLoader.get(this.chat.getLatestChunk())
 
 			this._securedData.setParent(chunk.getSecuredData());
-
-			await chunk.awaitEarlierSend(this.getTime());
 
 			const imagesInfo = await this.prepareImages()
 			const filesInfo = await this.prepareFiles()
