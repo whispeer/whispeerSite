@@ -8,7 +8,7 @@ import ChatLoader from "./chat"
 import MessageLoader from "./message"
 
 import ImageUpload from "../services/imageUpload.service"
-import FileUpload from "../services/blobUpload.service"
+import FileUpload from "../services/fileUpload.service"
 import h from "../helper/helper";
 import Progress from "../asset/Progress"
 

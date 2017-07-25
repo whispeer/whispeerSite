@@ -2,7 +2,7 @@ import * as Bluebird from "bluebird"
 import $ from "jquery"
 import h from "../helper/helper"
 import screenSizeService from "./screenSize.service"
-import FileUpload from "./blobUpload.service"
+import FileUpload from "./fileUpload.service"
 
 var Queue = require("asset/Queue");
 var imageLib = require("imageLib");
