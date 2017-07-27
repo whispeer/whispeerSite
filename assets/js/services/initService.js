@@ -4,7 +4,7 @@ var socketService = require("services/socket.service.ts").default;
 var requestKeyService = require("services/requestKey.service.ts").default;
 var CacheService = require("./Cache.ts").default;
 
-var h = require("whispeerHelper");
+var h = require("whispeerHelper").default;
 var debug = require("debug");
 var Observer = require("asset/observer");
 var Bluebird = require("bluebird");
@@ -16,13 +16,13 @@ var initServiceDebug = debug(debugName);
 
 function time(name) {
 	if (debug.enabled(debugName)) {
-		console.time(name);
+		console.time("init: " + name);
 	}
 }
 
 function timeEnd(name) {
 	if (debug.enabled(debugName)) {
-		console.timeEnd(name);
+		console.timeEnd("init: " + name);
 	}
 }
 
@@ -134,7 +134,7 @@ function loadData() {
 	var runningInitCallbacks;
 	var promise = Bluebird.resolve().then(function () {
 
-		time("cacheInitGet");
+		time("getCache");
 		return initRequestsList;
 	}).map(function (initRequest) {
 		if (initRequest.options.cache) {
@@ -143,7 +143,9 @@ function loadData() {
 			return initRequest;
 		}
 	}).then(function (initRequests) {
-		timeEnd("cacheInitGet");
+		timeEnd("getCache");
+		time("runCacheCallbacks")
+
 		return Bluebird.all([
 			runInitCacheCallbacks(),
 			runCacheCallbacks(initRequests)
@@ -157,19 +159,20 @@ function loadData() {
 			return null;
 		}).catch(errorService.criticalError).thenReturn(initRequests);
 	}).then(function (initRequests) {
+		timeEnd("runCacheCallbacks")
 		runningInitCallbacks = initCallbacks.map(runFunction);
 
-		time("serverInitGet");
+		time("getServer");
 		return getServerData(initRequests);
 	}).then(function (initResponses) {
-		timeEnd("serverInitGet");
-		time("init");
+		timeEnd("getServer");
+		time("runMainCallbacks");
 		return runCallbacks(initResponses);
 	}).then(function () {
 		initServiceDebug("Callbacks done!");
 		return Bluebird.all(runningInitCallbacks);
 	}).then(function () {
-		timeEnd("init");
+		timeEnd("runMainCallbacks");
 		keyStore.security.allowPrivateActions();
 		socketService.allowEmit(blockageToken);
 
@@ -184,7 +187,7 @@ function loadData() {
 	return promise;
 }
 
-var loadingPromise = sessionService.listenPromise("ssn.login").then(function () {
+var loadingPromise = sessionService.awaitLogin().then(function () {
 	return loadData();
 });
 

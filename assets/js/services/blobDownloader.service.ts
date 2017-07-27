@@ -8,28 +8,31 @@ import Observer from "../asset/observer";
 
 import { ServerError } from "./socket.service";
 
-var h = require("whispeerHelper")
+import h from "../helper/helper"
+import Progress from "../asset/Progress"
 
 export default class BlobDownloader extends Observer {
-	static MAXIMUMPARTSIZE = 1000 * 1000;
-	static STARTPARTSIZE = 5 * 1000;
-	static MINIMUMPARTSIZE = 1 * 1000;
-	static MAXIMUMTIME = 2 * 1000;
+	static MAXIMUMPARTSIZE = 1000 * 1000
+	static STARTPARTSIZE = 5 * 1000
+	static MINIMUMPARTSIZE = 1 * 1000
+	static MAXIMUMTIME = 2 * 1000
 
-	private blobParts: ArrayBuffer[] = [];
-	private blobid: string;
-	private downloadPromise: Bluebird<void>;
-	private socket: SocketService;
-	private partSize: number = BlobDownloader.STARTPARTSIZE;
-	private doneBytes: number = 0;
+	private blobParts: ArrayBuffer[] = []
+	private blobid: string
+	private downloadPromise: Bluebird<void>
+	private socket: SocketService
+	private partSize: number = BlobDownloader.STARTPARTSIZE
+	private doneBytes: number = 0
 	private done: boolean = false
-	private meta: any;
+	private meta: any
+	private progress: Progress
 
-	constructor(socket: SocketService, blobid: string) {
+	constructor(socket: SocketService, blobid: string, progress?: Progress) {
 		super();
 
 		this.blobid = blobid;
 		this.socket = socket;
+		this.progress = progress || new Progress()
 	}
 
 	download = () => {
@@ -57,6 +60,9 @@ export default class BlobDownloader extends Observer {
 
 	private downloadPartsUntilDone = () : Bluebird<any> => {
 		if (this.done) {
+			this.progress.setTotal(this.doneBytes)
+			this.progress.progress(this.doneBytes)
+
 			return this.concatParts()
 		}
 
@@ -79,6 +85,8 @@ export default class BlobDownloader extends Observer {
 
 			this.blobParts.push(response.part)
 			this.doneBytes += response.part.byteLength
+
+			this.progress.progress(this.doneBytes)
 
 			if (uploadTook > BlobDownloader.MAXIMUMTIME) {
 				this.halfSize();

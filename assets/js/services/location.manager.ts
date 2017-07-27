@@ -1,7 +1,7 @@
 import * as StorageService from "./storage.service";
 import Storage from "./Storage";
 import "jquery";
-const h = require("../helper/helper");
+const h = require("../helper/helper").default;
 
 var config = require("config")
 

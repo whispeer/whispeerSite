@@ -1,41 +1,39 @@
 /**
 * BaseDirective
 **/
-
-define([
-	"directives/modal",
-	"directives/eatClick",
-	"directives/person",
-	"directives/strgEnter",
-	"directives/onfocus",
-	"directives/comment",
-	"directives/post",
-	"directives/scroll",
-	"directives/file",
-	"directives/stopEvent",
-	"directives/syntaxify",
-	"directives/autofocus",
-	"directives/scrollToID",
-	"directives/savebutton",
-	"directives/focusMe",
-	"directives/advancedsend",
-	"directives/userimage",
-	"directives/trustHint",
-	"directives/accessibleClick",
-	"directives/qrScanner",
-	"directives/validatedForm",
-	"directives/passwordinput",
-	"directives/gallery",
-	"directives/smartDate",
-	"directives/createcircle",
-	"directives/search",
-	"directives/lazyiframe",
-	"directives/mobile",
-	"directives/whispeerSref",
-	"directives/loader",
-	"directives/inputGrowDirective",
-	"directives/newPost",
-	"directives/inviteButtons",
-	"directives/closeSidebar",
-	"directives/loadingindicator"
-], function () {});
+require("directives/modal");
+require("directives/eatClick");
+require("directives/person");
+require("directives/strgEnter");
+require("directives/onfocus");
+require("directives/comment");
+require("directives/post");
+require("directives/scroll");
+require("directives/file");
+require("directives/stopEvent");
+require("directives/syntaxify");
+require("directives/autofocus");
+require("directives/scrollToID");
+require("directives/savebutton");
+require("directives/focusMe");
+require("directives/advancedsend");
+require("directives/userimage");
+require("directives/accessibleClick");
+require("directives/qrScanner");
+require("directives/validatedForm");
+require("directives/passwordinput");
+require("directives/gallery");
+require("directives/smartDate");
+require("directives/createcircle");
+require("directives/search");
+require("directives/lazyiframe");
+require("directives/mobile");
+require("directives/whispeerSref");
+require("directives/loader");
+require("directives/inputGrowDirective");
+require("directives/newPost");
+require("directives/inviteButtons");
+require("directives/closeSidebar");
+require("directives/loadingindicator");
+require("directives/displayFile");
+require("directives/loadingProgress");

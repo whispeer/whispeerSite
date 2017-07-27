@@ -1,11 +1,9 @@
-define([], function () {
-	"use strict";
+"use strict";
 
-	return function ($injector, scope) {
-		scope.selectResult = function(result) {
-			scope.hide();
+module.exports = function ($injector, scope) {
+	scope.selectResult = function(result) {
+		scope.hide();
 
-			scope.callback({ selected: result });
-		};
+		scope.callback({ selected: result });
 	};
-});
+};

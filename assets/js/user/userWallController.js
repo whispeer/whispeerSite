@@ -5,87 +5,89 @@
 var postService = require("services/postService");
 var userService = require("user/userService");
 
-define(["bluebird", "whispeerHelper", "bluebird", "asset/resizableImage", "asset/state", "user/userModule"], function (Bluebird, h, Promise, ResizableImage, State, userModule) {
-	"use strict";
+"use strict";
 
-	function userWallController($scope, $stateParams) {
-		var userObject, identifier = $stateParams.identifier;
+const h = require("whispeerHelper").default;
+const State = require("asset/state");
+const userModule = require("user/userModule");
 
-		$scope.posts = [];
-		$scope.loadingPosts = true;
-		$scope.endOfPosts = false;
-		$scope.newPost = {
-			text: ""
-		};
+function userWallController($scope, $stateParams) {
+	var userObject, identifier = $stateParams.identifier;
 
-		var sendPostState = new State.default();
-		$scope.sendPostState = sendPostState.data;
+	$scope.posts = [];
+	$scope.loadingPosts = true;
+	$scope.endOfPosts = false;
+	$scope.newPost = {
+		text: ""
+	};
 
-		$scope.sendPost = function () {
-			sendPostState.pending();
+	var sendPostState = new State.default();
+	$scope.sendPostState = sendPostState.data;
 
-			var visibleSelection = ["always:allfriends"], wallUserID = 0;
+	$scope.sendPost = function () {
+		sendPostState.pending();
 
-			if ($scope.newPost.text === "") {
-				sendPostState.failed();
-				return;
-			}
+		var visibleSelection = ["always:allfriends"], wallUserID = 0;
 
-			if (!$scope.user.me) {
-				wallUserID = $scope.user.id;
-				visibleSelection.push("friends:" + $scope.user.id);
-			}
-
-			postService.createPost($scope.newPost.text, visibleSelection, wallUserID, []).then(function () {
-				$scope.newPost.text = "";
-			}).catch(sendPostState.failed.bind(sendPostState))
-			.then(sendPostState.success.bind(sendPostState));
-		};
-
-		$scope.loadMorePosts = function () {
-			if ($scope.loadingPosts) {
-				return;
-			}
-
-			$scope.loadingPosts = true;
-
-			postService.getWallPosts(
-				// if we do not use the helper here we can drop the dependency.
-				// @Nilos decide!
-				h.array.last($scope.posts).id,
-				userObject.getID(),
-				5
-			).then(function (posts) {
-				$scope.endOfPosts = posts.length === 0;
-
-				$scope.posts = $scope.posts.concat(posts);
-				$scope.loadingPosts = false;
-			});
-		};
-
-		function startLoading() {
-			userService.get(identifier).then(function (user) {
-				userObject = user;
-
-				return postService.getWallPosts(0, userObject.getID(), 5);
-			}).then(function (posts) {
-				$scope.endOfPosts = posts.length === 0;
-
-				$scope.posts = posts;
-				$scope.loadingPosts = false;
-			});
+		if ($scope.newPost.text === "") {
+			sendPostState.failed();
+			return;
 		}
 
-		$scope.$watch(function () {
-			return $scope.loading;
-		}, function (isUserLoading) {
-			if (!isUserLoading) {
-				startLoading();
-			}
+		if (!$scope.user.me) {
+			wallUserID = $scope.user.id;
+			visibleSelection.push("friends:" + $scope.user.id);
+		}
+
+		postService.createPost($scope.newPost.text, visibleSelection, wallUserID, []).then(function () {
+			$scope.newPost.text = "";
+		}).catch(sendPostState.failed.bind(sendPostState))
+        .then(sendPostState.success.bind(sendPostState));
+	};
+
+	$scope.loadMorePosts = function () {
+		if ($scope.loadingPosts) {
+			return;
+		}
+
+		$scope.loadingPosts = true;
+
+		postService.getWallPosts(
+            // if we do not use the helper here we can drop the dependency.
+            // @Nilos decide!
+            h.array.last($scope.posts).id,
+            userObject.getID(),
+            5
+        ).then(function (posts) {
+	$scope.endOfPosts = posts.length === 0;
+
+	$scope.posts = $scope.posts.concat(posts);
+	$scope.loadingPosts = false;
+});
+	};
+
+	function startLoading() {
+		userService.get(identifier).then(function (user) {
+			userObject = user;
+
+			return postService.getWallPosts(0, userObject.getID(), 5);
+		}).then(function (posts) {
+			$scope.endOfPosts = posts.length === 0;
+
+			$scope.posts = posts;
+			$scope.loadingPosts = false;
 		});
 	}
 
-	userWallController.$inject = ["$scope", "$stateParams"];
+	$scope.$watch(function () {
+		return $scope.loading;
+	}, function (isUserLoading) {
+		if (!isUserLoading) {
+			startLoading();
+		}
+	});
+}
 
-	userModule.controller("ssn.userWallController", userWallController);
-});
+userWallController.$inject = ["$scope", "$stateParams"];
+
+userModule.controller("ssn.userWallController", userWallController);

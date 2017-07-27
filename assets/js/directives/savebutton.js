@@ -1,40 +1,40 @@
 var templateUrl = require("../../views/directives/saveButton.html");
 
-define(["directives/directivesModule"], function (directivesModule) {
-	"use strict";
+"use strict";
 
-	function savebuttonDirective() {
-		return {
-			transclude: true,
-			scope:	{
-				state:		"=state"
-			},
-			restrict: "E",
-			templateUrl: templateUrl,
-			replace: true,
-			link: function (scope, iElement, iAttrs) {
-				scope.successIcon = "fa-check-circle";
-				scope.initIcon = "fa-check-circle";
-				scope.failureIcon = "fa-times-circle";
+const directivesModule = require("directives/directivesModule");
 
-				if (iAttrs.initicon) {
-					scope.initIcon = iAttrs.initicon;
-				}
+function savebuttonDirective() {
+	return {
+		transclude: true,
+		scope:	{
+			state:		"=state"
+		},
+		restrict: "E",
+		templateUrl: templateUrl,
+		replace: true,
+		link: function (scope, iElement, iAttrs) {
+			scope.successIcon = "fa-check-circle";
+			scope.initIcon = "fa-check-circle";
+			scope.failureIcon = "fa-times-circle";
 
-				if (iAttrs.successicon) {
-					scope.successIcon = iAttrs.successicon;
-				}
-
-				if (iAttrs.failureicon) {
-					scope.failureIcon = iAttrs.failureicon;
-				}
-
-				if (typeof iAttrs.noiniticon !== "undefined") {
-					delete scope.initIcon;
-				}
+			if (iAttrs.initicon) {
+				scope.initIcon = iAttrs.initicon;
 			}
-		};
-	}
 
-	directivesModule.directive("savebutton", savebuttonDirective);
-});
+			if (iAttrs.successicon) {
+				scope.successIcon = iAttrs.successicon;
+			}
+
+			if (iAttrs.failureicon) {
+				scope.failureIcon = iAttrs.failureicon;
+			}
+
+			if (typeof iAttrs.noiniticon !== "undefined") {
+				delete scope.initIcon;
+			}
+		}
+	};
+}
+
+directivesModule.directive("savebutton", savebuttonDirective);

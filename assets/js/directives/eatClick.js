@@ -1,17 +1,18 @@
+"use strict";
+
 /**
 directive to eat clicks.
 stops event default, mainly necessary for links
 **/
-define(["jquery", "directives/directivesModule"], function (jQuery, directivesModule) {
-	"use strict";
+const jQuery = require("jquery");
+const directivesModule = require("directives/directivesModule");
 
-	function eatClickDirective() {
-		return function(scope, element) {
-			jQuery(element).click(function(event) {
-				event.preventDefault();
-			});
-		};
-	}
+function eatClickDirective() {
+	return function(scope, element) {
+		jQuery(element).click(function(event) {
+			event.preventDefault();
+		});
+	};
+}
 
-	directivesModule.directive("eatClick", eatClickDirective);
-});
+directivesModule.directive("eatClick", eatClickDirective);

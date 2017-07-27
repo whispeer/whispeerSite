@@ -2,7 +2,7 @@ var errorServiceInstance = require("services/error.service.ts").errorServiceInst
 var keyStoreService = require("crypto/keyStore");
 var socketService = require("services/socket.service.ts").default;
 
-var h = require("whispeerHelper");
+var h = require("whispeerHelper").default;
 var State = require("asset/state");
 var SecuredData = require("asset/securedDataWithMetaData");
 var Bluebird = require("bluebird");
@@ -11,7 +11,6 @@ var sessionService = require("services/session.service").default;
 var initService = require("services/initService");
 var blobService = require("services/blobService");
 var ProfileService = require("services/profile.service").default;
-var trustService = require("services/trust.service").default;
 var settingsService = require("services/settings.service").default;
 var friendsService = require("services/friendsService");
 var filterService = require("services/filter.service.ts").default;
@@ -446,6 +445,8 @@ function User (providedData) {
 				throw new Error("wrong code");
 			}
 
+			const trustService = require("services/trust.service").default;
+
 			return trustService.verifyUser(theUser);
 		}).then(function () {
 			theUser.data.trustLevel = 2;
@@ -498,6 +499,8 @@ function User (providedData) {
 	};
 
 	this.getTrustData = function () {
+		const trustService = require("services/trust.service").default;
+
 		return Bluebird.resolve(
 			trustService.getKey(theUser.getSignKey())
 		);
@@ -618,7 +621,7 @@ function User (providedData) {
 
 	this.setMigrationState = function (migrationState, cb) {
 		return socketService.emit("user.setMigrationState", {
-				migrationState: migrationState
+			migrationState: migrationState
 		}).nodeify(cb);
 	};
 

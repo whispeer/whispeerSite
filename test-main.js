@@ -25,7 +25,6 @@ require.config({
 		whispeerHelper: "helper/helper",
 		amanda: "bower/amanda/releases/latest/amanda",
 		angular: "bower/angular/angular",
-		angularRoute: "bower/angular-route/angular-route",
 		angularUiRouter: "bower/angular-ui-router/release/angular-ui-router",
 		angularTouch: "bower/angular-touch/angular-touch",
 		bluebird: "bower/bluebird/js/browser/bluebird",
@@ -35,7 +34,6 @@ require.config({
 		qtip: "bower/qtip2/basic/jquery.qtip",
 		imageLib: "bower/blueimp-load-image/js/load-image",
 		localizationModule: "bower/angular-i18n-directive/src/localizationModule",
-		workerQueue: "bower/worker-queue.js/src/index",
 		PromiseWorker: "bower/require-promise-worker.js/src/index",
 		dexie: "bower/dexie/dist/latest/Dexie",
 		debug: "bower/visionmedia-debug/dist/debug"

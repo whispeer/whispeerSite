@@ -1,49 +1,54 @@
-/**
-* setupController
-**/
+"use strict";
 
-var errorService = require("services/error.service").errorServiceInstance;
-var messageService = require("messages/messageService");
+const h = require("whispeerHelper").default;
+const State = require("asset/state");
+const messagesModule = require("messages/messagesModule");
 
-define(["whispeerHelper", "asset/state", "bluebird", "messages/messagesModule"], function (h, State, Bluebird, messagesModule) {
-	"use strict";
+const errorService = require("services/error.service").errorServiceInstance;
+const initService = require("services/initService")
+const messageService = require("messages/messageService").default
 
-	function messagesDetailController($scope, $element, $state, $stateParams) {
-		var topicLoadingState = new State.default();
-		$scope.topicLoadingState = topicLoadingState.data;
+const ChatLoader = require("messages/chat").default
 
-		topicLoadingState.pending();
+function messagesDetailController($scope, $element, $state, $stateParams) {
+	var chatLoadingState = new State.default();
+	$scope.topicLoadingState = chatLoadingState.data;
 
-		var topicID = h.parseDecimal($stateParams.topicid);
+	chatLoadingState.pending();
 
-		var topicDetailsSavingState = new State.default();
-		$scope.topicDetailsSavingState = topicDetailsSavingState.data;
+	var chatID = h.parseDecimal($stateParams.topicid);
 
-		$scope.saveTitle = function () {
-			topicDetailsSavingState.pending();
+	var chatDetailsSavingState = new State.default();
+	$scope.chatDetailsSavingState = chatDetailsSavingState.data;
 
-			var savePromise = $scope.activeTopic.obj.setTitle($scope.topicTitle).then(function () {
-				$state.go("app.messages.show", { topicid: topicID });
+	$scope.saveTitle = function() {
+		chatDetailsSavingState.pending();
 
-				return null;
+		var savePromise = $scope.activeChat.setTitle($scope.chatTitle).then(function() {
+			$state.go("app.messages.show", {
+				topicid: chatID
 			});
 
-			errorService.failOnErrorPromise(topicDetailsSavingState, savePromise);
-		};
-
-		$scope.topicTitle = "";
-
-		var getTopicPromise = messageService.getTopic(topicID).then(function (topic) {
-			messageService.setActiveTopic(topicID);
-			$scope.activeTopic = topic.data;
-
-			$scope.topicTitle = topic.data.title || "";
+			return null;
 		});
 
-		errorService.failOnErrorPromise(topicLoadingState, getTopicPromise);
-	}
+		errorService.failOnErrorPromise(chatDetailsSavingState, savePromise);
+	};
 
-	messagesDetailController.$inject = ["$scope", "$element", "$state", "$stateParams"];
+	$scope.chatTitle = "";
 
-	messagesModule.controller("ssn.messagesDetailController", messagesDetailController);
-});
+	var getChatPromise = initService.awaitLoading().then(() =>
+		ChatLoader.get(chatID)
+	).then(function(chat) {
+		messageService.setActiveChat(chatID);
+		$scope.activeChat = chat;
+
+		$scope.chatTitle = chat.getTitle() || "";
+	});
+
+	errorService.failOnErrorPromise(chatLoadingState, getChatPromise);
+}
+
+messagesDetailController.$inject = ["$scope", "$element", "$state", "$stateParams"];
+
+messagesModule.controller("ssn.messagesDetailController", messagesDetailController);

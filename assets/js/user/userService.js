@@ -1,17 +1,19 @@
-var h = require("whispeerHelper");
-var Observer = require("asset/observer");
-var signatureCache = require("crypto/signatureCache");
-var Bluebird = require("bluebird");
-var trustManager = require("crypto/trustManager");
+const h = require("../helper/helper").default;
+const Observer = require("asset/observer");
+const signatureCache = require("crypto/signatureCache");
+const Bluebird = require("bluebird");
+const trustManager = require("crypto/trustManager");
 
-var errorService = require("services/error.service.ts").errorServiceInstance;
-var keyStoreService = require("crypto/keyStore");
-var socketService = require("services/socket.service.ts").default;
-var requestKeyService = require("services/requestKey.service.ts").default;
-var CacheService = require("services/Cache.ts").default;
-var initService = require("services/initService");
+const sjcl = require("sjcl");
 
-var sessionService = require("services/session.service").default;
+const errorService = require("services/error.service").errorServiceInstance;
+const keyStoreService = require("crypto/keyStore");
+const socketService = require("services/socket.service").default;
+const requestKeyService = require("services/requestKey.service").default;
+const CacheService = require("services/Cache").default;
+const initService = require("services/initService");
+
+const sessionService = require("services/session.service").default;
 
 var userService, knownIDs = [], users = {}, ownUserStatus = {};
 
@@ -48,15 +50,15 @@ var NotExistingUser = function (identifier) {
 	};
 
 	this.loadBasicData = function (cb) {
-		cb();
+		return Bluebird.resolve().nodeify(cb)
 	};
 
 	this.reLoadBasicData = function (cb) {
-		cb();
+		return Bluebird.resolve().nodeify(cb)
 	};
 
 	this.loadFullData = function (cb) {
-		cb();
+		return Bluebird.resolve().nodeify(cb)
 	};
 
 	this.isOwn = function () {
@@ -73,8 +75,8 @@ function makeUser(data) {
 		return new NotExistingUser();
 	}
 
-	var User = require("models/user");
-	var theUser = new User(data);
+	const User = require("models/user");
+	const theUser = new User(data);
 
 	var id = theUser.getID();
 	var mail = theUser.getMail();
@@ -122,10 +124,12 @@ function doLoad(identifier, cb) {
 		if (!user.isNotExistingUser()) {
 			return user.verifyKeys().thenReturn(user);
 		}
+
+		return user
 	}).nodeify(cb);
 }
 
-var delay = h.delayMultiplePromise(Bluebird, THROTTLE, doLoad, 5);
+var delay = h.delayMultiplePromise(Bluebird, THROTTLE, doLoad, 10);
 
 function loadUser(identifier, cb) {
 	return Bluebird.try(function () {
@@ -213,7 +217,7 @@ userService = {
 	* @param identifiers identifier of users to load
 	* @param cb called with users data.
 	*/
-	getMultipleFormatted: function getMFF(identifiers, cb) {
+	getMultipleFormatted: function (identifiers, cb) {
 		return Bluebird.try(function () {
 			return userService.getMultiple(identifiers);
 		}).map(function (user) {
@@ -323,6 +327,16 @@ function loadOwnUser(data, server) {
 	}).then(function (user) {
 		requestKeyService.cacheKey(user.getSignKey(), "user-sign-" + user.getID(), requestKeyService.MAXCACHETIME);
 		requestKeyService.cacheKey(user.getMainKey(), "user-main-" + user.getID(), requestKeyService.MAXCACHETIME);
+	}).catch(function (e) {
+		if (e instanceof sjcl.exception.corrupt) {
+			alert("Password did not match. Logging out")
+
+			sessionService.logout();
+
+			return new Bluebird(function () {});
+		}
+
+		return Bluebird.reject(e)
 	});
 }
 

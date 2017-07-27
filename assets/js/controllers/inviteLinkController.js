@@ -5,27 +5,28 @@
 var socketService = require("services/socket.service").default;
 var errorService = require("services/error.service").errorServiceInstance;
 
-define(["bluebird", "asset/state", "controllers/controllerModule"], function (Bluebird, State, controllerModule) {
-	"use strict";
+"use strict";
 
-	function inviteController($scope) {
-		var inviteGenerateState = new State.default();
-		$scope.inviteGenerateState = inviteGenerateState.data;
+const State = require("asset/state");
+const controllerModule = require("controllers/controllerModule");
 
-		$scope.generateInvite = function () {
-			inviteGenerateState.pending();
+function inviteController($scope) {
+	var inviteGenerateState = new State.default();
+	$scope.inviteGenerateState = inviteGenerateState.data;
 
-			var generateInvitePromise = socketService.emit("invites.generateCode", { active: true }).then(function(result) {
-				$scope.inviteCode = result.inviteCode;
-			});
+	$scope.generateInvite = function () {
+		inviteGenerateState.pending();
 
-			return errorService.failOnErrorPromise(inviteGenerateState, generateInvitePromise);
-		};
+		var generateInvitePromise = socketService.emit("invites.generateCode", { active: true }).then(function(result) {
+			$scope.inviteCode = result.inviteCode;
+		});
 
-		$scope.generateInvite();
-	}
+		return errorService.failOnErrorPromise(inviteGenerateState, generateInvitePromise);
+	};
 
-	inviteController.$inject = ["$scope"];
+	$scope.generateInvite();
+}
 
-	controllerModule.controller("ssn.inviteLinkController", inviteController);
-});
+inviteController.$inject = ["$scope"];
+
+controllerModule.controller("ssn.inviteLinkController", inviteController);

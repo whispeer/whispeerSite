@@ -1,19 +1,17 @@
 /**
 * Base Controller
 **/
-define([
-	"controllers/rootController",
-	"controllers/mainController",
-	"controllers/friendsController",
-	"controllers/settingsController",
-	"controllers/setupController",
-	"controllers/backupController",
-	"controllers/inviteController",
-	"controllers/inviteMailController",
-	"controllers/inviteLinkController",
-	"controllers/acceptInviteController",
-	"controllers/postController",
-	"controllers/fundController",
-	"controllers/fundThankYouController",
-	"controllers/searchController"
-], function () {});
+require("controllers/rootController");
+require("controllers/mainController");
+require("controllers/friendsController");
+require("controllers/settingsController");
+require("controllers/setupController");
+require("controllers/backupController");
+require("controllers/inviteController");
+require("controllers/inviteMailController");
+require("controllers/inviteLinkController");
+require("controllers/acceptInviteController");
+require("controllers/postController");
+require("controllers/fundController");
+require("controllers/fundThankYouController");
+require("controllers/searchController");

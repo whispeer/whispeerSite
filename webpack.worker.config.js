@@ -22,8 +22,9 @@ module.exports = {
 		]
 	},
 	resolve: {
-		root: [
-			path.resolve("./assets/js")
+		modules: [
+			path.resolve("./assets/js"),
+			"node_modules"
 		]
 	},
 	entry: {

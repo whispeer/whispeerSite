@@ -1,19 +1,19 @@
 var templateUrl = require("../../views/directives/person.html");
 
-define(["directives/directivesModule"], function (directivesModule) {
-	"use strict";
+"use strict";
 
-	function personDirective() {
-		return {
-			transclude: true,
-			scope:	{
-				userData: "=user"
-			},
-			restrict: "E",
-			templateUrl: templateUrl,
-			replace: true
-		};
-	}
+const directivesModule = require("directives/directivesModule");
 
-	directivesModule.directive("person", personDirective);
-});
+function personDirective() {
+	return {
+		transclude: true,
+		scope:	{
+			userData: "=user"
+		},
+		restrict: "E",
+		templateUrl: templateUrl,
+		replace: true
+	};
+}
+
+directivesModule.directive("person", personDirective);

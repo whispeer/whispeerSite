@@ -11,7 +11,6 @@ grunt.loadNpmTasks("grunt-contrib-watch");
 grunt.loadNpmTasks("grunt-browser-sync");
 grunt.loadNpmTasks("grunt-contrib-copy");
 grunt.loadNpmTasks("grunt-concurrent");
-grunt.loadNpmTasks("grunt-bower-install-simple");
 grunt.loadNpmTasks("grunt-run");
 grunt.loadNpmTasks("grunt-contrib-clean");
 grunt.loadNpmTasks("grunt-angular-templates");
@@ -164,12 +163,17 @@ grunt.initConfig({
 				"lint"
 			]
 		},
-		webpack: {
-			cmd: "webpack"
+		webpackProduction: {
+			cmd: "webpack",
+			args: [
+				"-p"
+			]
 		},
 		jekyllWatch: {
-			cmd: "jekyll",
+			cmd: "bundle",
 			args: [
+				"exec",
+				"jekyll",
 				"build",
 				"--watch"
 			]
@@ -181,9 +185,6 @@ grunt.initConfig({
 				"webpack.worker.config.js"
 			]
 		}
-	},
-	"bower-install-simple": {
-		prod: {}
 	},
 	clean: {
 		build: ["assets/js/build/*.js", "manifest.mf", "assets/commit.sha", "assets/files.json"]
@@ -390,7 +391,6 @@ grunt.registerTask("default", ["build:pre", "browserSync", "concurrent:developme
 grunt.registerTask("build:pre", [
 	"clean",
 	"copy",
-	"bower-install-simple",
 	"less",
 	"autoprefixer",
 ]);
@@ -406,7 +406,6 @@ grunt.registerTask("build:production",  [
 	"clean",
 	"run:lint",
 	"copy",
-	"bower-install-simple",
 	"less",
 	"autoprefixer",
 
@@ -414,7 +413,7 @@ grunt.registerTask("build:production",  [
 	"assetHash:worker",
 	"workerInclude",
 
-	"run:webpack",
+	"run:webpackProduction",
 	"assetHash:bundles",
 
 	"includes",

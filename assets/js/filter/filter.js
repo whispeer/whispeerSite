@@ -1,6 +1,4 @@
 /**
 * Base Controller
 **/
-define([
-	"filter/filterModule"
-], function () {});
+require("filter/filterModule");

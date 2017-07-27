@@ -1,0 +1,15 @@
+<div data-ng-if="getProgress && getProgress() < 1">
+	<div class="radial-progress" data-progress="{{getProgress() * 100 | number: 0}}">
+		<div class="circle">
+			<div class="mask full">
+				<div class="fill"></div>
+			</div>
+			<div class="mask half">
+				<div class="fill"></div>
+				<div class="fill fix"></div>
+			</div>
+			<div class="shadow"></div>
+			<div class="inset"></div>
+		</div>
+	</div>
+</div>

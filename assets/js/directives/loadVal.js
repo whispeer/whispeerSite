@@ -1,27 +1,27 @@
-define(["directives/directivesModule"], function (directivesModule) {
-	"use strict";
+"use strict";
 
-	function loadVal($parse) {
-		return {
-			restrict: "A",
-			link: function ($scope, $element, $attrs) {
-				var getter, setter, val, elementValue;
+const directivesModule = require("directives/directivesModule");
 
-				if ($element.attr("type") === "checkbox") {
-					elementValue = $element.is(":checked");
-				} else {
-					elementValue = $element.val();
-				}
+function loadVal($parse) {
+	return {
+		restrict: "A",
+		link: function ($scope, $element, $attrs) {
+			var getter, setter, val, elementValue;
 
-				val = $attrs.loadVal || elementValue;
-				getter = $parse($attrs.ngModel);
-				setter = getter.assign;
-				setter($scope, val);
+			if ($element.attr("type") === "checkbox") {
+				elementValue = $element.is(":checked");
+			} else {
+				elementValue = $element.val();
 			}
-		};
-	}
 
-	loadVal.$inject = ["$parse"];
+			val = $attrs.loadVal || elementValue;
+			getter = $parse($attrs.ngModel);
+			setter = getter.assign;
+			setter($scope, val);
+		}
+	};
+}
 
-	directivesModule.directive("loadVal", loadVal);
-});
+loadVal.$inject = ["$parse"];
+
+directivesModule.directive("loadVal", loadVal);

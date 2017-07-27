@@ -11,138 +11,141 @@ var cssService = require("services/css.service").default;
 var messageService = require("messages/messageService");
 var friendsService = require("services/friendsService");
 
-define(["jquery", "whispeerHelper", "config", "controllers/controllerModule", "debug", "bluebird"], function (jQuery, h, config, controllerModule, debug, Bluebird) {
-	"use strict";
+"use strict";
 
-	var debugName = "whispeer:rootController";
-	var rootControllerDebug = debug(debugName);
+const jQuery = require("jquery");
+const controllerModule = require("controllers/controllerModule");
+const debug = require("debug");
+const Bluebird = require("bluebird");
 
-	function rootController($scope, $http, $interval) {
-		$scope.loading = true;
+var debugName = "whispeer:rootController";
+var rootControllerDebug = debug(debugName);
 
-		var nullUser = {
-			name: "",
-			basic: {
-				image: "assets/img/user.png"
-			},
-			id: 0
-		};
+function rootController($scope, $http, $interval) {
+	$scope.loading = true;
 
-		$scope.addLocale = function (url) {
-			return "/" + localize.getLanguage() + url;
-		};
+	var nullUser = {
+		name: "",
+		basic: {
+			image: "assets/img/user.png"
+		},
+		id: 0
+	};
 
-		$scope.user = nullUser;
-		$scope.friends = friendsService.data;
-		$scope.messages = messageService.data;
+	$scope.addLocale = function (url) {
+		return "/" + localize.getLanguage() + url;
+	};
 
-		$scope.noBusiness = !WHISPEER_BUSINESS
+	$scope.user = nullUser;
+	$scope.friends = friendsService.data;
+	$scope.messages = messageService.data;
 
-		var afterInitPromise = Bluebird.resolve();
+	$scope.noBusiness = !WHISPEER_BUSINESS
 
-		function loadUser() {
-			var user = userService.getown();
-			var loadBasicDataAsync = Bluebird.promisify(user.reLoadBasicData.bind(user));
+	var afterInitPromise = Bluebird.resolve();
 
-			return loadBasicDataAsync().then(function () {
-				$scope.user = user.data;
-				$scope.loading = false;
+	function loadUser() {
+		var user = userService.getown();
+		var loadBasicDataAsync = Bluebird.promisify(user.reLoadBasicData.bind(user));
 
-				rootControllerDebug("Own Name loaded:" + (new Date().getTime() - startup));
-			});
-		}
+		return loadBasicDataAsync().then(function () {
+			$scope.user = user.data;
+			$scope.loading = false;
 
-		function afterInit() {
-			afterInitPromise.finally(function () {
-				loadUser();
-			});
-		}
-
-		function afterInitCache() {
-			afterInitPromise = loadUser();
-		}
-
-		initService.listen(afterInitCache, "initCacheDone");
-		initService.listen(afterInit, "initDone");
-
-		$scope.sidebarActive = false;
-		$scope.showMenu = true;
-
-		$scope.lostConnection = false;
-
-		$interval(function () {
-			$scope.lostConnection = !socketService.isConnected();
-		}, 2000);
-
-		socketService.on("disconnect", function () {
-			$scope.$apply(function () {
-				$scope.lostConnection = true;
-			});
+			rootControllerDebug("Own Name loaded:" + (new Date().getTime() - startup));
 		});
-
-		socketService.on("connect", function () {
-			$scope.$apply(function () {
-				$scope.lostConnection = false;
-			});
-		});
-
-		$scope.activateSidebar = function () {
-			if (!$scope.sidebarActive) {
-				$scope.toggleSidebar();
-			}
-		};
-
-		$scope.deactivateSidebar = function () {
-			if ($scope.sidebarActive) {
-				$scope.toggleSidebar();
-			}
-		};
-
-		$scope.closeSidebar = function() {
-			$scope.sidebarActive = false;
-		};
-
-		$scope.toggleSidebar = function() {
-			$scope.sidebarActive = !$scope.sidebarActive;
-		};
-
-		function fixSafariScrolling(event) {
-			event.target.style.overflowY = "hidden";
-			setTimeout(function () { event.target.style.overflowY = "auto"; });
-		}
-
-		jQuery("#sidebar-left").on("webkitTransitionEnd", fixSafariScrolling);
-
-		function updateCssClass() {
-			if (!$scope.loading) {
-				$scope.cssClass = cssService.getClass();
-			} else {
-				$scope.cssClass = "loading";
-			}
-
-			jQuery("html").attr("class", $scope.cssClass);
-		}
-
-		$scope.mobileActivateView = function() {
-			$scope.closeSidebar();
-			updateCssClass();
-		};
-
-		cssService.addListener(function (newClass, isBox) {
-			updateCssClass();
-			$scope.isBox = isBox;
-		});
-
-		jQuery(document.body).removeClass("loading");
-
-		updateCssClass();
-
-		$scope.logout = function () {
-			sessionHelper.logout();
-		};
 	}
 
-	rootController.$inject = ["$scope", "$http", "$interval"];
+	function afterInit() {
+		afterInitPromise.finally(function () {
+			loadUser();
+		});
+	}
 
-	controllerModule.controller("ssn.rootController", rootController);
-});
+	function afterInitCache() {
+		afterInitPromise = loadUser();
+	}
+
+	initService.listen(afterInitCache, "initCacheDone");
+	initService.listen(afterInit, "initDone");
+
+	$scope.sidebarActive = false;
+	$scope.showMenu = true;
+
+	$scope.lostConnection = false;
+
+	$interval(function () {
+		$scope.lostConnection = !socketService.isConnected();
+	}, 2000);
+
+	socketService.on("disconnect", function () {
+		$scope.$apply(function () {
+			$scope.lostConnection = true;
+		});
+	});
+
+	socketService.on("connect", function () {
+		$scope.$apply(function () {
+			$scope.lostConnection = false;
+		});
+	});
+
+	$scope.activateSidebar = function () {
+		if (!$scope.sidebarActive) {
+			$scope.toggleSidebar();
+		}
+	};
+
+	$scope.deactivateSidebar = function () {
+		if ($scope.sidebarActive) {
+			$scope.toggleSidebar();
+		}
+	};
+
+	$scope.closeSidebar = function() {
+		$scope.sidebarActive = false;
+	};
+
+	$scope.toggleSidebar = function() {
+		$scope.sidebarActive = !$scope.sidebarActive;
+	};
+
+	function fixSafariScrolling(event) {
+		event.target.style.overflowY = "hidden";
+		setTimeout(function () { event.target.style.overflowY = "auto"; });
+	}
+
+	jQuery("#sidebar-left").on("webkitTransitionEnd", fixSafariScrolling);
+
+	function updateCssClass() {
+		if (!$scope.loading) {
+			$scope.cssClass = cssService.getClass();
+		} else {
+			$scope.cssClass = "loading";
+		}
+
+		jQuery("html").attr("class", $scope.cssClass);
+	}
+
+	$scope.mobileActivateView = function() {
+		$scope.closeSidebar();
+		updateCssClass();
+	};
+
+	cssService.addListener(function (newClass, isBox) {
+		updateCssClass();
+		$scope.isBox = isBox;
+	});
+
+	jQuery(document.body).removeClass("loading");
+
+	updateCssClass();
+
+	$scope.logout = function () {
+		sessionHelper.logout();
+	};
+}
+
+rootController.$inject = ["$scope", "$http", "$interval"];
+
+controllerModule.controller("ssn.rootController", rootController);

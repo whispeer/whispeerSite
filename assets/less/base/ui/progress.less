@@ -69,11 +69,13 @@ progress:not([value])::-webkit-progress-bar {
 
 	background-color: @circle-background;
 	border-radius: 50%;
+	border: none;
 
 	position: absolute;
 	top: 50%;
 	left: 50%;
 	margin: (@circle-size / -2) 0 0 (@circle-size / -2);
+
 	.circle {
 		.mask, .fill {
 			width:    @circle-size;
@@ -96,6 +98,17 @@ progress:not([value])::-webkit-progress-bar {
 		}
 	}
 
+	.circle-with-icon {
+		height: 30px;
+		line-height: 28px;
+		.fa {
+			color: @isabelline;
+			&:hover {
+				color: @gainsboro;
+			}
+		}
+	}
+
 	.inset {
 		width:       @inset-size;
 		height:      @inset-size;
@@ -105,6 +118,10 @@ progress:not([value])::-webkit-progress-bar {
 
 		background-color: @inset-color;
 		border-radius: 50%;
+	}
+
+	&:focus {
+		outline: none;
 	}
 
 	@i: 0;

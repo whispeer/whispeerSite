@@ -2,84 +2,84 @@ var circleService = require("circles/circleService");
 var errorService = require("services/error.service").errorServiceInstance;
 var localize = require("i18n/localizationConfig");
 
-define(["controllers/controllerModule", "whispeerHelper", "bluebird", "asset/state"], function (circlesModule, h, Bluebird, State) {
-	"use strict";
+"use strict";
 
-	function circlesShowController($scope, $stateParams, $state) {
-		var addUsersToCircleState = new State.default();
-		$scope.addUsersToCircle = addUsersToCircleState.data;
+const circlesModule = require("controllers/controllerModule");
+const State = require("asset/state");
 
-		$scope.circleid = $stateParams.circleid;
-		$scope.thisCircle = {};
-		$scope.circleLoading = true;
+function circlesShowController($scope, $stateParams, $state) {
+	var addUsersToCircleState = new State.default();
+	$scope.addUsersToCircle = addUsersToCircleState.data;
 
-		circleService.loadAll().then(function() {
-			var theCircle = circleService.get($stateParams.circleid);
-			$scope.thisCircle = theCircle.data;
-			return theCircle.loadPersons();
-		}).then(function() {
-			$scope.circleLoading = false;
-		}).catch(errorService.criticalError);
+	$scope.circleid = $stateParams.circleid;
+	$scope.thisCircle = {};
+	$scope.circleLoading = true;
 
-		$scope.editingTitle = {
-			"success":		true,
-			"failure":		false,
-			"operation":	false,
-			"active":		false
-		};
+	circleService.loadAll().then(function() {
+		var theCircle = circleService.get($stateParams.circleid);
+		$scope.thisCircle = theCircle.data;
+		return theCircle.loadPersons();
+	}).then(function() {
+		$scope.circleLoading = false;
+	}).catch(errorService.criticalError);
 
-		$scope.editTitle = function () {
-			$scope.editingTitle.active = true;
-		};
+	$scope.editingTitle = {
+		"success":		true,
+		"failure":		false,
+		"operation":	false,
+		"active":		false
+	};
 
-		$scope.saveTitle = function () {
-			$scope.editingTitle.success = true;
-			$scope.editingTitle.active = false;
-		};
+	$scope.editTitle = function () {
+		$scope.editingTitle.active = true;
+	};
 
-		$scope.getLength = function(obj) {
-			return obj.length;
-		};
+	$scope.saveTitle = function () {
+		$scope.editingTitle.success = true;
+		$scope.editingTitle.active = false;
+	};
 
-		$scope.removeUser = function (user) {
-			circleService.get($scope.circleid).removePersons([user.id], errorService.criticalError);
-		};
+	$scope.getLength = function(obj) {
+		return obj.length;
+	};
 
-		var usersToAdd;
-		$scope.setUsersToAdd = function (users) {
-			usersToAdd = users;
-		};
+	$scope.removeUser = function (user) {
+		circleService.get($scope.circleid).removePersons([user.id], errorService.criticalError);
+	};
 
-		$scope.addUsers = function () {
-			addUsersToCircleState.pending();
+	var usersToAdd;
+	$scope.setUsersToAdd = function (users) {
+		usersToAdd = users;
+	};
 
-			var promise = circleService.get($scope.circleid).addPersons(usersToAdd).then(function() {
-				$scope.$broadcast("resetSearch");
-			});
+	$scope.addUsers = function () {
+		addUsersToCircleState.pending();
 
-			errorService.failOnErrorPromise(addUsersToCircleState, promise);
-		};
+		var promise = circleService.get($scope.circleid).addPersons(usersToAdd).then(function() {
+			$scope.$broadcast("resetSearch");
+		});
 
-		$scope.removeCircle = function () {
-			var response = confirm(localize.getLocalizedString("views.circles.removeCircle"));
+		errorService.failOnErrorPromise(addUsersToCircleState, promise);
+	};
 
-			if (!response) {
-				return;
+	$scope.removeCircle = function () {
+		var response = confirm(localize.getLocalizedString("views.circles.removeCircle"));
+
+		if (!response) {
+			return;
+		}
+
+		circleService.get($scope.circleid).remove().then(function() {
+			if ($scope.mobile) {
+				$state.go("app.circles.list");
+			} else {
+				$state.go("app.circles.new");
 			}
-
-			circleService.get($scope.circleid).remove().then(function() {
-				if ($scope.mobile) {
-					$state.go("app.circles.list");
-				} else {
-					$state.go("app.circles.new");
-				}
-			}).catch(errorService.criticalError);
-		};
-	}
+		}).catch(errorService.criticalError);
+	};
+}
 
 
-	circlesShowController.$inject = ["$scope", "$stateParams", "$state"];
+circlesShowController.$inject = ["$scope", "$stateParams", "$state"];
 
-	circlesModule.controller("ssn.circlesShowController", circlesShowController);
-
-});
+circlesModule.controller("ssn.circlesShowController", circlesShowController);

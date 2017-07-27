@@ -4,94 +4,95 @@
 
 var errorService = require("services/error.service").errorServiceInstance;
 
-define(["bluebird", "asset/resizableImage", "asset/state", "user/userModule"], function (Promise, ResizableImage, State, userModule) {
-	"use strict";
+"use strict";
 
-	function userController($scope) {
-		var verifyState = new State.default();
-		$scope.verifyingUser = verifyState.data;
+const State = require("asset/state");
+const userModule = require("user/userModule");
 
-		$scope.qr = {
-			enabled: false
-		};
+function userController($scope) {
+	var verifyState = new State.default();
+	$scope.verifyingUser = verifyState.data;
 
-		$scope.verifyCode = false;
-		$scope.$watch(function () { return $scope.qr.available; }, function (isAvailable) {
-			if (isAvailable === false) {
-				$scope.verifyCode = true;
-			}
-		});
+	$scope.qr = {
+		enabled: false
+	};
 
-		$scope.verifyWithCode = function () {
+	$scope.verifyCode = false;
+	$scope.$watch(function () { return $scope.qr.available; }, function (isAvailable) {
+		if (isAvailable === false) {
 			$scope.verifyCode = true;
-		};
+		}
+	});
 
-		$scope.resetVerifcationMethod = function () {
-			$scope.verifyCode = false;
-			$scope.qr.enabled = false;
-		};
+	$scope.verifyWithCode = function () {
+		$scope.verifyCode = true;
+	};
 
-		$scope.verifyWithQrCode = function () {
-			$scope.qr.enabled = true;
-		};
+	$scope.resetVerifcationMethod = function () {
+		$scope.verifyCode = false;
+		$scope.qr.enabled = false;
+	};
 
-		$scope.givenPrint = ["", "", "", ""];
-		$scope.faEqual = function (val1, val2) {
-			if (val1.length < val2.length) {
-				return "";
-			}
+	$scope.verifyWithQrCode = function () {
+		$scope.qr.enabled = true;
+	};
 
-			if (val1 === val2) {
-				return "fa-check";
-			} else {
-				return "fa-times";
-			}
-		};
-
-		function partitionInput() {
-			var fpLength = $scope.fingerPrint[0].length, i;
-			var given = $scope.givenPrint.join("");
-
-			for (i = 0; i < $scope.fingerPrint.length - 1; i += 1) {
-				$scope.givenPrint[i] = given.substr(i * fpLength, fpLength);
-			}
-
-			$scope.givenPrint[$scope.fingerPrint.length - 1] = given.substr(i * fpLength);
+	$scope.givenPrint = ["", "", "", ""];
+	$scope.faEqual = function (val1, val2) {
+		if (val1.length < val2.length) {
+			return "";
 		}
 
-		function focusMissingField() {
-			var fpLength = $scope.fingerPrint[0].length, i;
+		if (val1 === val2) {
+			return "fa-check";
+		} else {
+			return "fa-times";
+		}
+	};
 
-			for (i = 0; i < $scope.givenPrint.length; i += 1) {
-				if ($scope.givenPrint[i].length < fpLength) {
-					jQuery(".verify input")[i].focus();
-					return;
-				}
-			}
+	function partitionInput() {
+		var fpLength = $scope.fingerPrint[0].length, i;
+		var given = $scope.givenPrint.join("");
 
-			jQuery(".verify input")[$scope.givenPrint.length - 1].focus();
+		for (i = 0; i < $scope.fingerPrint.length - 1; i += 1) {
+			$scope.givenPrint[i] = given.substr(i * fpLength, fpLength);
 		}
 
-		$scope.nextInput = function (index) {
-			$scope.givenPrint[index] = $scope.givenPrint[index].toUpperCase().replace(/[^A-Z0-9]/g, "");
-
-			partitionInput();
-			focusMissingField();
-		};
-
-		$scope.verify = function (fingerPrint) {
-			verifyState.pending();
-			if (typeof fingerPrint.join === "function") {
-				fingerPrint = fingerPrint.join("");
-			}
-
-			var verifyPromise = $scope.user.user.verifyFingerPrint(fingerPrint, this);
-
-			errorService.failOnErrorPromise(verifyState, verifyPromise);
-		};
+		$scope.givenPrint[$scope.fingerPrint.length - 1] = given.substr(i * fpLength);
 	}
 
-	userController.$inject = ["$scope"];
+	function focusMissingField() {
+		var fpLength = $scope.fingerPrint[0].length, i;
 
-	userModule.controller("ssn.userVerifyController", userController);
-});
+		for (i = 0; i < $scope.givenPrint.length; i += 1) {
+			if ($scope.givenPrint[i].length < fpLength) {
+				jQuery(".verify input")[i].focus();
+				return;
+			}
+		}
+
+		jQuery(".verify input")[$scope.givenPrint.length - 1].focus();
+	}
+
+	$scope.nextInput = function (index) {
+		$scope.givenPrint[index] = $scope.givenPrint[index].toUpperCase().replace(/[^A-Z0-9]/g, "");
+
+		partitionInput();
+		focusMissingField();
+	};
+
+	$scope.verify = function (fingerPrint) {
+		verifyState.pending();
+		if (typeof fingerPrint.join === "function") {
+			fingerPrint = fingerPrint.join("");
+		}
+
+		var verifyPromise = $scope.user.user.verifyFingerPrint(fingerPrint, this);
+
+		errorService.failOnErrorPromise(verifyState, verifyPromise);
+	};
+}
+
+userController.$inject = ["$scope"];
+
+userModule.controller("ssn.userVerifyController", userController);

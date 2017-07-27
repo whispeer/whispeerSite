@@ -1,28 +1,29 @@
 var circleService = require("circles/circleService");
 
-define(["angular", "bluebird"], function (angular, Promise) {
-	"use strict";
-	return function () {
-		angular.module("ssn.search").factory("circleSearchSupplier", [function () {
-			var Search = function () {};
+"use strict";
+const angular = require("angular");
+const Promise = require("bluebird");
 
-			Search.prototype.search = function (query) {
-				var action = Promise.promisify(circleService.loadAll.bind(circleService));
+module.exports = function () {
+	angular.module("ssn.search").factory("circleSearchSupplier", [function () {
+		var Search = function () {};
 
-				return action().bind(this).then(function () {
-					var circles = circleService.data.circles;
+		Search.prototype.search = function (query) {
+			var action = Promise.promisify(circleService.loadAll.bind(circleService));
 
-					if (query === "") {
-						return circles;
-					}
+			return action().bind(this).then(function () {
+				var circles = circleService.data.circles;
 
-					return circles.filter(function (circle) {
-						return circle.name.toLowerCase().indexOf(query.toLowerCase()) > -1;
-					});
+				if (query === "") {
+					return circles;
+				}
+
+				return circles.filter(function (circle) {
+					return circle.name.toLowerCase().indexOf(query.toLowerCase()) > -1;
 				});
-			};
+			});
+		};
 
-			return Search;
-		}]);
-	};
-});
+		return Search;
+	}]);
+};

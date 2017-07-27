@@ -4,7 +4,6 @@ whispeer
 Initial installation:
 
 ```
-npm install -g bower
 npm install -g grunt-cli
 git clone <repo-url>
 ```

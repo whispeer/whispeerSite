@@ -4,27 +4,27 @@
 
 var cssService = require("services/css.service").default;
 
-define(["whispeerHelper", "asset/state", "libs/qr", "libs/filesaver", "controllers/controllerModule"], function (h, State, qr, saveAs, controllerModule) {
-	"use strict";
+"use strict";
 
-	function fundController($scope) {
-		cssService.setClass("fundView");
+const controllerModule = require("controllers/controllerModule");
 
-		$scope.paypal = false;
+function fundController($scope) {
+	cssService.setClass("fundView");
+
+	$scope.paypal = false;
+	$scope.bank = false;
+
+	$scope.togglePaypal = function() {
+		$scope.paypal = !$scope.paypal;
 		$scope.bank = false;
+	};
 
-		$scope.togglePaypal = function() {
-			$scope.paypal = !$scope.paypal;
-			$scope.bank = false;
-		};
+	$scope.toggleBank = function() {
+		$scope.bank = !$scope.bank;
+		$scope.paypal = false;
+	};
+}
 
-		$scope.toggleBank = function() {
-			$scope.bank = !$scope.bank;
-			$scope.paypal = false;
-		};
-	}
+fundController.$inject = ["$scope"];
 
-	fundController.$inject = ["$scope"];
-
-	controllerModule.controller("ssn.fundController", fundController);
-});
+controllerModule.controller("ssn.fundController", fundController);

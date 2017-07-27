@@ -22,9 +22,10 @@ else
   rm staticRaw/en/business.html
 fi
 
-npm install
+sudo npm install -g yarn
+
+yarn
 git submodule update --init
-bower install
 
 grunt copy
 

@@ -1,7 +1,12 @@
 {
   "env": {
-    "browser": true
+    "browser": true,
+    "es6": true
   },
+  "parserOptions": {
+    sourceType: "module"
+  },
+  "extends": "eslint:recommended",
   "globals": {
     "define": true,
     "console": true,
@@ -52,12 +57,14 @@
     ],
     "no-unused-vars": 2,
     "strict": 0,
+    "no-console": 0,
     "no-use-before-define": [
       2,
       {
         "functions": false
       }
     ],
+    "indent": ["error", "tab"],
     "max-statements": 0
   }
 }

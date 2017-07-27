@@ -24,7 +24,7 @@
 }
 */
 
-var h = require("whispeerHelper");
+var h = require("whispeerHelper").default;
 var chelper = require("crypto/helper");
 var sjcl = require("sjcl");
 var waitForReady = require("crypto/waitForReady");
@@ -56,16 +56,16 @@ var Key, SymKey, CryptKey, SignKey;
 sjcl.random.startCollectors();
 
 var MAXSPEED = 99999999999, SPEEDS = {
-	symKey: {
-		loaded: 3,
-		unloaded: 50
-	},
-	cryptKey: {
-		loaded: 100,
-		unloaded: 150
-	},
-	pw: 3
-};
+		symKey: {
+			loaded: 3,
+			unloaded: 50
+		},
+		cryptKey: {
+			loaded: 100,
+			unloaded: 150
+		},
+		pw: 3
+	};
 
 try {
 	if (localStorage) {
@@ -76,6 +76,24 @@ try {
 	}
 } catch (e) {
 	keyStoreDebug(e);
+}
+
+function bufferToHex(buffer) {
+	var hexCodes = [];
+	var view = new DataView(buffer);
+	for (var i = 0; i < view.byteLength; i += 4) {
+		// Using getUint32 reduces the number of iterations needed (we process 4 bytes each time)
+		var value = view.getUint32(i)
+		// toString(16) will give the hex representation of the number without padding
+		var stringValue = value.toString(16)
+		// We use concatenation and slice for padding
+		var padding = "00000000"
+		var paddedValue = (padding + stringValue).slice(-padding.length)
+		hexCodes.push(paddedValue);
+	}
+
+	// Join all the hex strings into one
+	return hexCodes.join("");
 }
 
 function fingerPrintData(data) {
@@ -247,10 +265,10 @@ function internalDecrypt(decryptorid, decryptortype, ctext, iv, salt) {
 		} else if (decryptortype === "pw") {
 			return Bluebird.try(function () {
 				var jsonData = chelper.Object2sjclPacket({
-					ct: ctext,
-					iv: iv,
-					salt: salt
-				}), result;
+						ct: ctext,
+						iv: iv,
+						salt: salt
+					}), result;
 				if (password !== "") {
 					result = sjcl.decrypt(password, jsonData, { raw: 1 });
 
@@ -721,7 +739,7 @@ SymKey = function (keyData) {
 	* @param callback called with results
 	* @param optional iv initialization vector
 	*/
-	this.decrypt = function (ctext, iv) {
+	this.decrypt = function (ctext, iv, progressCallback) {
 		return intKey.decryptKey().then(function () {
 			if (typeof ctext !== "object") {
 				if (h.isHex(ctext)) {
@@ -749,7 +767,7 @@ SymKey = function (keyData) {
 			if (ctext.ct.length < 500) {
 				return sjcl.json._decrypt(intKey.getSecret(), ctext, {raw: 1});
 			} else {
-				return sjclWorkerInclude.sym.decrypt(intKey.getSecret(), ctext);
+				return sjclWorkerInclude.sym.decrypt(intKey.getSecret(), ctext, progressCallback);
 			}
 		});
 	};
@@ -866,16 +884,16 @@ CryptKey = function (keyData) {
 
 		this.getUploadData = function (includeAllDecryptors) {
 			var p = publicKey._point, data = {
-				realid: intKey.getRealID(),
-				point: {
-					x: chelper.bits2hex(p.x.toBits()),
-					y: chelper.bits2hex(p.y.toBits())
-				},
-				curve: chelper.getCurveName(publicKey._curve),
-				type: "crypt",
-				decryptors: this.getDecryptorData(includeAllDecryptors),
-				comment: comment
-			};
+					realid: intKey.getRealID(),
+					point: {
+						x: chelper.bits2hex(p.x.toBits()),
+						y: chelper.bits2hex(p.y.toBits())
+					},
+					curve: chelper.getCurveName(publicKey._curve),
+					type: "crypt",
+					decryptors: this.getDecryptorData(includeAllDecryptors),
+					comment: comment
+				};
 
 			return data;
 		};
@@ -979,15 +997,15 @@ CryptKey.generate = function (curve, comment) {
 
 		/*jslint nomen: true*/
 		var p = rawKey.pub._point, data = {
-			point: {
-				x: chelper.bits2hex(p.x.toBits()),
-				y: chelper.bits2hex(p.y.toBits())
-			},
-			exponent: rawKey.sec._exponent.toBits(),
-			realid: generateid(fingerPrintPublicKey(rawKey.pub)),
-			curve: chelper.getCurveName(rawKey.pub._curve),
-			comment: comment
-		};
+				point: {
+					x: chelper.bits2hex(p.x.toBits()),
+					y: chelper.bits2hex(p.y.toBits())
+				},
+				exponent: rawKey.sec._exponent.toBits(),
+				realid: generateid(fingerPrintPublicKey(rawKey.pub)),
+				curve: chelper.getCurveName(rawKey.pub._curve),
+				comment: comment
+			};
 		/*jslint nomen: false*/
 
 		var key = makeCryptKey(data);
@@ -1082,16 +1100,16 @@ SignKey = function (keyData) {
 
 		this.getUploadData = function (includeAllDecryptors) {
 			var p = publicKey._point, data = {
-				realid: intKey.getRealID(),
-				point: {
-					x: chelper.bits2hex(p.x.toBits()),
-					y: chelper.bits2hex(p.y.toBits())
-				},
-				curve: chelper.getCurveName(publicKey._curve),
-				type: "sign",
-				decryptors: this.getDecryptorData(includeAllDecryptors),
-				comment: comment
-			};
+					realid: intKey.getRealID(),
+					point: {
+						x: chelper.bits2hex(p.x.toBits()),
+						y: chelper.bits2hex(p.y.toBits())
+					},
+					curve: chelper.getCurveName(publicKey._curve),
+					type: "sign",
+					decryptors: this.getDecryptorData(includeAllDecryptors),
+					comment: comment
+				};
 
 			return data;
 		};
@@ -1312,14 +1330,14 @@ SignKey.generate = function (curve, comment) {
 
 		/*jslint nomen: true*/
 		var p = rawKey.pub._point, data = {
-			point: {
-				x: chelper.bits2hex(p.x.toBits()),
-				y: chelper.bits2hex(p.y.toBits())
-			},
-			exponent: rawKey.sec._exponent.toBits(),
-			realid: generateid(fingerPrintPublicKey(rawKey.pub)),
-			curve: chelper.getCurveName(rawKey.pub._curve)
-		};
+				point: {
+					x: chelper.bits2hex(p.x.toBits()),
+					y: chelper.bits2hex(p.y.toBits())
+				},
+				exponent: rawKey.sec._exponent.toBits(),
+				realid: generateid(fingerPrintPublicKey(rawKey.pub)),
+				curve: chelper.getCurveName(rawKey.pub._curve)
+			};
 		/*jslint nomen: false*/
 
 		var key = makeSignKey(data);
@@ -1692,8 +1710,14 @@ keyStore = {
 			return chelper.hash(text);
 		},
 
-		hashBigBase64CodedData: function (text) {
-			return sjclWorkerInclude.hash(text);
+		hashArrayBuffer: function (buf) {
+			return Bluebird.try(() => {
+				return getSubtle().digest("SHA-256", buf)
+			}).then((bufHash) => {
+				return bufferToHex(bufHash)
+			}).catch(() => {
+				return sjclWorkerInclude.hash(buf);
+			})
 		},
 
 		hashPW: function (pw, salt) {
@@ -2004,7 +2028,7 @@ keyStore = {
 			});
 		},
 
-		decryptArrayBuffer: function (buf, realKeyID) {
+		decryptArrayBuffer: function (buf, realKeyID, progressCallback) {
 			return SymKey.get(realKeyID).then(function (key) {
 				var buf32 = new Uint32Array(buf);
 
@@ -2014,7 +2038,7 @@ keyStore = {
 					tag: sjcl.codec.arrayBuffer.toBits(new Uint32Array(buf32.subarray(buf32.byteLength/4-2)).buffer)
 				};
 
-				return key.decrypt(decr);
+				return key.decrypt(decr, null, progressCallback);
 			}).then(function (decryptedData) {
 				return removeExpectedPrefix(decryptedData, "buf::");
 			});

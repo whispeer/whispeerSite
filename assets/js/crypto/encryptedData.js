@@ -1,26 +1,27 @@
 
-define (["whispeerHelper", "bluebird", "crypto/keyStore"], function (h, Bluebird, keyStore) {
-	"use strict";
+"use strict";
 
-	var encryptedDataObject = function (data) {
-		var encryptedData = data, decryptedData;
+const Bluebird = require("bluebird");
+const keyStore = require("crypto/keyStore");
 
-		this.decrypt = function (cb) {
-			if (decryptedData) {
-				return Bluebird.resolve(decryptedData).nodeify(cb);
+var encryptedDataObject = function (data) {
+	var encryptedData = data, decryptedData;
+
+	this.decrypt = function (cb) {
+		if (decryptedData) {
+			return Bluebird.resolve(decryptedData).nodeify(cb);
+		}
+
+		return keyStore.sym.decryptObject(encryptedData, 0).then(function (decryptedObj) {
+			if (decryptedObj) {
+				decryptedData = decryptedObj;
+
+				return decryptedData;
 			}
 
-			return keyStore.sym.decryptObject(encryptedData, 0).then(function (decryptedObj) {
-				if (decryptedObj) {
-					decryptedData = decryptedObj;
-
-					return decryptedData;
-				}
-
-				throw new Error("could not decrypt");
-			}).nodeify(cb);
-		};
+			throw new Error("could not decrypt");
+		}).nodeify(cb);
 	};
+};
 
-	return encryptedDataObject;
-});
+module.exports = encryptedDataObject;

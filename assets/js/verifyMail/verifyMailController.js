@@ -1,46 +1,47 @@
 var errorService = require("services/error.service").errorServiceInstance;
 var socketService = require("services/socket.service").default;
 
-define(["bluebird", "asset/state", "verifyMail/verifyMailModule"], function (Bluebird, SuccessState, controllerModule) {
-	"use strict";
+"use strict";
 
-	function verifyMailController($scope) {
-		$scope.mails = true;
+const SuccessState = require("asset/state");
+const controllerModule = require("verifyMail/verifyMailModule");
 
-		var verifying = new SuccessState.default();
-		$scope.verifying = verifying;
+function verifyMailController($scope) {
+	$scope.mails = true;
 
-		var parts = window.location.pathname.split("/");
-		parts = parts.filter(function (v) {
-			return v !== "";
-		});
+	var verifying = new SuccessState.default();
+	$scope.verifying = verifying;
 
-		$scope.challenge = "";
+	var parts = window.location.pathname.split("/");
+	parts = parts.filter(function (v) {
+		return v !== "";
+	});
 
-		if (parts.length > 2) {
-			$scope.challenge = parts.pop();
-		}
+	$scope.challenge = "";
 
-		$scope.verify = function (mailsEnabled) {
-			verifying.reset();
-			verifying.pending();
-
-			var verifyPromise = socketService.emit("verifyMail", {
-				challenge: $scope.challenge,
-				mailsEnabled: mailsEnabled
-			}).then(function (data) {
-				if (data.mailVerified) {
-					verifying.success();
-				} else {
-					$scope.verifying.failed();
-				}
-			});
-
-			errorService.failOnErrorPromise(verifying, verifyPromise);
-		};
+	if (parts.length > 2) {
+		$scope.challenge = parts.pop();
 	}
 
-	verifyMailController.$inject = ["$scope"];
+	$scope.verify = function (mailsEnabled) {
+		verifying.reset();
+		verifying.pending();
 
-	controllerModule.controller("ssn.verifyMailController", verifyMailController);
-});
+		var verifyPromise = socketService.emit("verifyMail", {
+			challenge: $scope.challenge,
+			mailsEnabled: mailsEnabled
+		}).then(function (data) {
+			if (data.mailVerified) {
+				verifying.success();
+			} else {
+				$scope.verifying.failed();
+			}
+		});
+
+		errorService.failOnErrorPromise(verifying, verifyPromise);
+	};
+}
+
+verifyMailController.$inject = ["$scope"];
+
+controllerModule.controller("ssn.verifyMailController", verifyMailController);

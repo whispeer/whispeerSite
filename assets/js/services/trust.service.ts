@@ -10,7 +10,7 @@ import sessionService from "./session.service";
 
 const initService = require("services/initService");
 
-const h = require("whispeerHelper");
+const h = require("whispeerHelper").default;
 const trustManager = require("crypto/trustManager");
 const signatureCache = require("crypto/signatureCache");
 
@@ -64,7 +64,7 @@ class TrustService {
 	}
 
 	private waitForLogin() {
-		sessionService.listenPromise("ssn.login").then(() => {
+		sessionService.awaitLogin().then(() => {
 			time("getSignatureCache");
 			return this.signatureCacheObject.get(sessionService.getUserID().toString()).catch(function () {
 				return;

@@ -6,24 +6,24 @@ var cssService = require("services/css.service").default;
 var errorService = require("services/error.service").errorServiceInstance;
 var postService = require("services/postService");
 
-define(["bluebird", "asset/state", "controllers/controllerModule"], function (Bluebird, State, controllerModule) {
-	"use strict";
+"use strict";
 
-	function postController($scope, $stateParams) {
-		cssService.setClass("mainView");
+const controllerModule = require("controllers/controllerModule");
 
-		function loadPost(postID) {
-			return postService.getPostByID(postID).then(function (post) {
-				$scope.post = post.data;
+function postController($scope, $stateParams) {
+	cssService.setClass("mainView");
 
-				return post.loadData();
-			}).catch(errorService.criticalError);
-		}
+	function loadPost(postID) {
+		return postService.getPostByID(postID).then(function (post) {
+			$scope.post = post.data;
 
-		loadPost($stateParams.postID);
+			return post.loadData();
+		}).catch(errorService.criticalError);
 	}
 
-	postController.$inject = ["$scope", "$stateParams"];
+	loadPost($stateParams.postID);
+}
 
-	controllerModule.controller("ssn.postController", postController);
-});
+postController.$inject = ["$scope", "$stateParams"];
+
+controllerModule.controller("ssn.postController", postController);

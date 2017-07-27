@@ -1,19 +1,19 @@
 var templateUrl = require("../../views/directives/userimage.html");
 
-define(["directives/directivesModule"], function (directivesModule) {
-	"use strict";
+"use strict";
 
-	function userimage() {
-		return {
-			transclude: false,
-			scope:	{
-				userData: 	"=user"
-			},
-			restrict: "E",
-			templateUrl: templateUrl,
-			replace: true
-		};
-	}
+const directivesModule = require("directives/directivesModule");
 
-	directivesModule.directive("userimage", userimage);
-});
+function userimage() {
+	return {
+		transclude: false,
+		scope:	{
+			userData: 	"=user"
+		},
+		restrict: "E",
+		templateUrl: templateUrl,
+		replace: true
+	};
+}
+
+directivesModule.directive("userimage", userimage);

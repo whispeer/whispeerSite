@@ -1,7 +1,5 @@
-define([
-	"user/userService",
-	"user/userController",
-	"user/userVerifyController",
-	"user/userWallController",
-	"user/userFriendsController"
-], function () {});
+require("user/userService");
+require("user/userController");
+require("user/userVerifyController");
+require("user/userWallController");
+require("user/userFriendsController");
