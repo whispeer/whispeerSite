@@ -14,7 +14,7 @@ const Bluebird = require("bluebird");
 const State = require("asset/state");
 const controllerModule = require("controllers/controllerModule");
 
-function mainController($scope, $state, $stateParams) {
+function mainController($scope, $state, $stateParams, $sce) {
 	cssService.setClass("mainView");
 
 	function reloadTimeline(cb) {
@@ -50,6 +50,8 @@ function mainController($scope, $state, $stateParams) {
 	$scope.infoHidden = false;
 
 	$scope.donateType = "donatePage.";
+
+	$scope.wallInformTranslation = $sce.trustAsHtml(localize.getLocalizedString("wall.user_inform", {}))
 
 	$scope.focusNewPost = function () {
 		var textarea = jQuery("#newsfeedView-postForm textarea");
@@ -148,6 +150,6 @@ function mainController($scope, $state, $stateParams) {
 	reloadTimeline();
 }
 
-mainController.$inject = ["$scope", "$state", "$stateParams"];
+mainController.$inject = ["$scope", "$state", "$stateParams", "$sce"];
 
 controllerModule.controller("ssn.mainController", mainController);

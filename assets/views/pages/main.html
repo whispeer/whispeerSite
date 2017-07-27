@@ -8,7 +8,7 @@
 			<a class="newsfeedView__info__close" data-ng-click="hideInfo()">
 				<i class="fa fa-times"></i>
 			</a>
-			<div class="newsfeedView__info__content" data-i18n="wall.user_inform">
+			<div class="newsfeedView__info__content" ng-bind-html="wallInformTranslation">
 			</div>
 			<a data-ng-click="toggleText()" class="newsfeedView__info__continue">
 				<span data-ng-if="!showFullText">Weiterlesen</span>
