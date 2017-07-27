@@ -1,18 +1,15 @@
-/**
-* mainController
-**/
-var filterService = require("services/filter.service.ts").default;
-var cssService = require("services/css.service").default;
-var errorService = require("services/error.service").errorServiceInstance;
-var localize = require("i18n/localizationConfig");
-var postService = require("services/postService");
-var settingsService = require("services/settings.service").default;
-
 "use strict";
 
 const Bluebird = require("bluebird");
 const State = require("asset/state");
 const controllerModule = require("controllers/controllerModule");
+const filterService = require("services/filter.service.ts").default;
+const cssService = require("services/css.service").default;
+const errorService = require("services/error.service").errorServiceInstance;
+const localize = require("i18n/localizationConfig");
+const postService = require("services/postService");
+const settingsService = require("services/settings.service").default;
+
 
 function mainController($scope, $state, $stateParams, $sce) {
 	cssService.setClass("mainView");
@@ -48,6 +45,12 @@ function mainController($scope, $state, $stateParams, $sce) {
 
 	$scope.showFullText = false;
 	$scope.infoHidden = false;
+
+	try {
+		if (localStorage.getItem("wall.info.hidden")) {
+			$scope.infoHidden = true
+		}
+	} catch (e) { console.warn(e) }
 
 	$scope.donateType = "donatePage.";
 
@@ -89,6 +92,7 @@ function mainController($scope, $state, $stateParams, $sce) {
 
 	$scope.hideInfo = function() {
 		$scope.infoHidden = true;
+		localStorage.setItem("wall.info.hidden", true)
 	}
 
 	$scope.toggleSort = function() {
