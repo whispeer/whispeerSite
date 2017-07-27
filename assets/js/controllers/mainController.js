@@ -89,10 +89,6 @@ function mainController($scope, $state, $stateParams) {
 		$scope.infoHidden = true;
 	}
 
-	$scope.togglePost = function() {
-		$scope.postActive = !$scope.postActive;
-	};
-
 	$scope.toggleSort = function() {
 		return Bluebird.try(function () {
 			$scope.sortByCommentTime = !$scope.sortByCommentTime;
