@@ -3,7 +3,7 @@
 		<div class="newsfeedView__info" data-ng-class="{'newsfeedView__info--extend': showFullText, 'newsfeedView__info--hide': infoHidden}">
 			<div class="newsfeedView__info__icon-wrap">
 				<img src="/assets/img/icon.svg" class="newsfeedView__info__icon">
-				<a href="" class="newsfeedView__info__icon-text">Jetzt <strong>Android Beta</strong><br>testen!</a>
+				<a href="" class="newsfeedView__info__icon-text" ng-bind-html="testAndroidBetaTranslation"></a>
 			</div>
 			<a class="newsfeedView__info__close" data-ng-click="hideInfo()">
 				<i class="fa fa-times"></i>
@@ -11,8 +11,8 @@
 			<div class="newsfeedView__info__content" ng-bind-html="wallInformTranslation">
 			</div>
 			<a data-ng-click="toggleText()" class="newsfeedView__info__continue">
-				<span data-ng-if="!showFullText">Weiterlesen</span>
-				<span data-ng-if="showFullText">Weniger anzeigen</span>
+				<span data-ng-if="!showFullText" data-i18n="wall.inform.more"></span>
+				<span data-ng-if="showFullText" data-i18n="wall.inform.less"></span>
 			</a>
 		</div>
 		<h1 id="newsfeedView-wall-header-title" data-i18n="menu.newsfeed"></h1>

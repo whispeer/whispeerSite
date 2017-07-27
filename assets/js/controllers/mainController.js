@@ -54,7 +54,8 @@ function mainController($scope, $state, $stateParams, $sce) {
 
 	$scope.donateType = "donatePage.";
 
-	$scope.wallInformTranslation = $sce.trustAsHtml(localize.getLocalizedString("wall.user_inform", {}))
+	$scope.wallInformTranslation = $sce.trustAsHtml(localize.getLocalizedString("wall.inform.text", {}))
+	$scope.testAndroidBetaTranslation = $sce.trustAsHtml(localize.getLocalizedString("wall.inform.androidBeta", {}))
 
 	$scope.focusNewPost = function () {
 		var textarea = jQuery("#newsfeedView-postForm textarea");
