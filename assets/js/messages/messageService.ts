@@ -121,7 +121,7 @@ messageService = {
 			return ChatLoader.get(chatID);
 		}).nodeify(cb);
 	},
-	sendMessageToUserChatIfExists: function(receiver, message, images) {
+	sendMessageToUserChatIfExists: function(receiver, message, attachments) {
 		return Bluebird.try(async () => {
 			const chatid = await messageService.getUserChat(receiver)
 
@@ -149,7 +149,7 @@ messageService = {
 				return false;
 			}
 
-			await messageService.sendMessage(chat, message, images)
+			await messageService.sendMessage(chat, message, attachments)
 
 			return chat.getID()
 		});

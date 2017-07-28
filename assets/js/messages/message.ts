@@ -208,6 +208,10 @@ export class Message {
 			this._securedData.metaSetAttr("files", filesMeta)
 			this._securedData.contentSetAttr("files", filesContent)
 
+			if (filesContent.length === 0 && imagesContent.length === 0) {
+				this._securedData.contentSet(this._securedData.contentGet().message)
+			}
+
 			const chunkKey = chunk.getKey();
 
 			const messageIDs = this.chat.getMessages()
