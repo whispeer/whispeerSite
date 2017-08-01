@@ -4,7 +4,7 @@ import h from "../helper/helper"
 import Progress from "../asset/Progress"
 var Queue = require("asset/Queue");
 
-var blobService = require("services/blobService");
+import blobService from "./blobService"
 
 const defaultUploadOptions = {
 	encrypt: true

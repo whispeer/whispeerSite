@@ -1,5 +1,5 @@
 var templateUrl = require("../../views/directives/gallery.html");
-var blobService = require("services/blobService");
+var blobService = require("services/blobService").default
 var errorService = require("services/error.service").errorServiceInstance;
 var screenSizeService = require("services/screenSize.service.ts").default;
 

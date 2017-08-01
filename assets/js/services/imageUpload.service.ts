@@ -7,7 +7,7 @@ import FileUpload from "./fileUpload.service"
 var Queue = require("asset/Queue");
 var imageLib = require("imageLib");
 
-var blobService = require("services/blobService");
+import blobService from "./blobService"
 
 var canvasToBlob : any = Bluebird.promisify(h.canvasToBlob.bind(h));
 
@@ -291,7 +291,7 @@ class ImageUpload extends FileUpload {
 	private _createSizeData = (size: size) => {
 		return resizeQueue.enqueue(1, () => {
 			return this._resizeFile(size).then((resizedImage) => {
-				return ImageUpload.blobToDataSet(blobService.createBlob(resizedImage.blob)).then((data: any) => {
+				return FileUpload.blobToDataSet(blobService.createBlob(resizedImage.blob)).then((data: any) => {
 					data.content.gif = this.isGif;
 					data.content.width = resizedImage.width
 					data.content.height = resizedImage.height

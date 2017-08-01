@@ -12,7 +12,7 @@ import FileUpload from "../services/fileUpload.service"
 import h from "../helper/helper";
 import Progress from "../asset/Progress"
 
-const blobService = require("../services/blobService")
+import blobService from "../services/blobService"
 
 const errorService = require("services/error.service").errorServiceInstance;
 const messageService = require("messages/messageService").default;

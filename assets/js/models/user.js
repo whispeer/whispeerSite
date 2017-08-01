@@ -9,7 +9,7 @@ var Bluebird = require("bluebird");
 
 var sessionService = require("services/session.service").default;
 var initService = require("services/initService");
-var blobService = require("services/blobService");
+var blobService = require("services/blobService").default
 var ProfileService = require("services/profile.service").default;
 var settingsService = require("services/settings.service").default;
 var friendsService = require("services/friendsService");
