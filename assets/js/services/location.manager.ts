@@ -3,8 +3,9 @@ import Storage from "./Storage";
 import "jquery";
 const h = require("../helper/helper").default;
 
-var config = require("config")
+const config = require("config")
 
+const MS_YEAR = 365 * 24 * 60 * 60 * 1000
 
 const loginStorage: Storage = StorageService.withPrefix("whispeer.login");
 
@@ -75,6 +76,15 @@ export const loginPage = () => {
 
 export const goToBusiness = () => {
 	window.top.location.href = config.businessUrl
+
+	if ("serviceWorker" in navigator && navigator.serviceWorker.controller) {
+		navigator.serviceWorker.controller.postMessage({ command: "clear" })
+
+		const expires = new Date(Date.now() + MS_YEAR)
+		document.cookie = `business=1;path=/;expires=${expires.toUTCString()}`
+
+		window.top.location.reload()
+	}
 }
 
 export const goToSalesPage = () => {
