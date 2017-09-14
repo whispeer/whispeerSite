@@ -14,7 +14,6 @@ grunt.loadNpmTasks("grunt-concurrent");
 grunt.loadNpmTasks("grunt-run");
 grunt.loadNpmTasks("grunt-contrib-clean");
 grunt.loadNpmTasks("grunt-angular-templates");
-grunt.loadNpmTasks("grunt-jekyll");
 
 grunt.initConfig({
 	assetHash: {
@@ -188,14 +187,6 @@ grunt.initConfig({
 	},
 	clean: {
 		build: ["assets/js/build/*.js", "manifest.mf", "assets/commit.sha", "assets/files.json"]
-	},
-	jekyll: {
-		options: {
-			bundleExec: true
-		},
-		dist: {
-			config: "_config.yml"
-		}
 	}
 });
 

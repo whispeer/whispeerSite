@@ -12,25 +12,15 @@ cd whispeer-deploy
 
 if [ -n "$WHISPEER_BUSINESS" ]; then
   echo "Building business version"
-  mv staticRaw/de/business.html staticRaw/de/index.html
-  mv staticRaw/en/business.html staticRaw/en/index.html
+  mv b2b/de/index.html staticRaw/de/index.html
+  mv b2b/en/index.html staticRaw/en/index.html
 
-  cp assets/img/logo/grey_business.svg assets/img/logo/grey.svg
-  cp assets/img/logo/white_business.svg assets/img/logo/white.svg
-  cp assets/img/logo/white_business.svg assets/img/logo/white_darker.svg
-else
-  rm staticRaw/de/business.html
-  rm staticRaw/en/business.html
+  cp b2b/grey.svg assets/img/logo/grey.svg
+  cp b2b/white.svg assets/img/logo/white.svg
+  cp b2b/white.svg assets/img/logo/white_darker.svg
 fi
 
-yarn
-git submodule update --init
-
-grunt copy
-
-bundle install
-jekyll build
-grunt build:production
+./build_whispeer.sh
 
 cd /var/www/
 sudo cp whispeer/assets/js/build/* whispeer-build/ | true
