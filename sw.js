@@ -242,3 +242,17 @@ self.addEventListener("activate", function() {
 self.addEventListener("install", function() {
 	console.log("install sw:" + timestamp());
 });
+
+self.addEventListener("message", function(event) {
+	console.log("Handling message event:", event);
+
+	if (event.data.command === "clear") {
+		caches.keys().then(function(cacheNames) {
+			return Promise.all(
+				cacheNames.map(function(cacheName) {
+					return caches.delete(cacheName);
+				})
+			);
+		})
+	}
+})
