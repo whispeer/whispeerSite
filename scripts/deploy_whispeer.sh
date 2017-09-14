@@ -12,8 +12,8 @@ cd whispeer-deploy
 
 if [ -n "$WHISPEER_BUSINESS" ]; then
   echo "Building business version"
-  mv b2b/de/index.html staticRaw/de/index.html
-  mv b2b/en/index.html staticRaw/en/index.html
+  cp b2b/de/index.html staticRaw/de/index.html
+  cp b2b/en/index.html staticRaw/en/index.html
 
   cp b2b/grey.svg assets/img/logo/grey.svg
   cp b2b/white.svg assets/img/logo/white.svg
