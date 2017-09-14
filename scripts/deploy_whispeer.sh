@@ -50,7 +50,7 @@ sudo mkdir whispeer
 sudo ln -s ../whispeer-build whispeer/oldBuild
 
 sudo cp -r /home/nilos/whispeer-build/b2b /var/www/whispeer
-sudo cp -r /home/nilos/whispeer-deploy/b2c /var/www/whispeer
+sudo cp -r /home/nilos/whispeer-build/b2c /var/www/whispeer
 
 if [ -d "/home/nilos/whispeer-app" ]; then
   sudo cp -r /home/nilos/whispeer-app/versions /var/www/whispeer/app
