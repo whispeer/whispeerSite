@@ -2,8 +2,9 @@
 set -e
 set -x
 
-cd ..
+sudo npm install -g yarn
 
+cd ..
 
 rm -rf whispeer-deploy
 cp -r whispeer whispeer-deploy
@@ -21,8 +22,6 @@ else
   rm staticRaw/de/business.html
   rm staticRaw/en/business.html
 fi
-
-sudo npm install -g yarn
 
 yarn
 git submodule update --init
