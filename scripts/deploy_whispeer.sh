@@ -17,7 +17,7 @@ mkdir b2c
 cp -r ../whispeer deploy
 cd deploy
 
-./build_whispeer.sh
+./scripts/build_whispeer.sh
 
 cp ./index.html ../b2c
 cp ./sw.js ../b2c
@@ -33,7 +33,7 @@ cp b2b/grey.svg assets/img/logo/grey.svg
 cp b2b/white.svg assets/img/logo/white.svg
 cp b2b/white.svg assets/img/logo/white_darker.svg
 
-WHISPEER_BUSINESS=true ./build_whispeer.sh
+WHISPEER_BUSINESS=true ./scripts/build_whispeer.sh
 
 cp ./index.html ../b2b
 cp ./sw.js ../b2b
