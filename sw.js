@@ -19,7 +19,7 @@ function isOurCacheName(name) {
 function getAndCache(cache, url) {
 	return cache.match(url).then(function (response) {
 		if (!response) {
-			return fetch(url);
+			return fetch(url, { credentials: "include" });
 		}
 
 		return response;
@@ -177,7 +177,7 @@ function checkForUpdate() {
 	lastUpdated = timestamp();
 
 	return deleteOldCaches().then(function () {
-		return fetch(COMMITHASHURL);
+		return fetch(COMMITHASHURL, { credentials: "include" });
 	}).then(function (response) {
 		if (response.ok) {
 			return response.text();
@@ -247,6 +247,8 @@ self.addEventListener("message", function(event) {
 	console.log("Handling message event:", event);
 
 	if (event.data.command === "clear") {
+		lastUpdated = 0
+
 		caches.keys().then(function(cacheNames) {
 			return Promise.all(
 				cacheNames.map(function(cacheName) {
