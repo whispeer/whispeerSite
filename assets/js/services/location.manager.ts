@@ -74,17 +74,50 @@ export const loginPage = () => {
 	setTopLocation("/login");
 }
 
-export const goToBusiness = () => {
-	window.top.location.href = config.businessUrl
-
+const clearServiceWorkerCache = () => {
 	if ("serviceWorker" in navigator && navigator.serviceWorker.controller) {
 		navigator.serviceWorker.controller.postMessage({ command: "clear" })
-
-		const expires = new Date(Date.now() + MS_YEAR)
-		document.cookie = `business=1;path=/;expires=${expires.toUTCString()}`
-
-		window.top.location.reload()
 	}
+}
+
+const insertParam = (key, value) => {
+	const currentSearch = document.location.search.substr(1).split('&');
+
+	const newSearch = currentSearch.filter((val) => val.split("=")[0] === key)
+
+	newSearch.push([key,value].join("="))
+	document.location.search = newSearch.join('&');
+}
+
+const getParam = (key) => {
+	const currentSearch = document.location.search.substr(1).split('&');
+
+	return currentSearch.map((search) => search.split("=")).find(([k]) => k === key)
+}
+
+export const goToBusiness = () => {
+	if (getParam("redirect")) {
+		return
+	}
+
+	clearServiceWorkerCache()
+
+	const expires = new Date(Date.now() + MS_YEAR)
+	document.cookie = `business=1;path=/;expires=${expires.toUTCString()}`
+
+	insertParam("redirect", "true")
+}
+
+export const goToPrivate = () => {
+	if (getParam("redirect")) {
+		return
+	}
+
+	clearServiceWorkerCache()
+
+	document.cookie = `business=;path=/;expires=Thu, 01 Jan 1970 00:00:01 GMT;`
+
+	insertParam("redirect", "true")
 }
 
 export const goToSalesPage = () => {
