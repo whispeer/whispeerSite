@@ -5,6 +5,10 @@
 **/
 const config = require("config");
 
+console.log("CONFIG", config)
+
+debugger
+
 if ("serviceWorker" in navigator) {
 	if (config.serviceWorker.enabled) {
 		navigator.serviceWorker.register("/sw.js").then(function(registration) {
