@@ -36,18 +36,28 @@
 					<p class="landing-section__paragraph landing-section__paragraph--large">
 						Kontaktieren Sie uns einfach: <a class="link--grey" href="tel:+493055597624">+49 - 30 - 55597624</a> oder <a class="link--grey" href="mailto:business@whispeer.de">business@whispeer.de</a>.
 					</p>
-					<!-- <a href="#" class="landing-section__link landing-secition__link--shadow landing-section__link--accent">Entdecken Sie die Services von whispeer ></a> -->
-<!--
-					<form name="quickRegister" class="landing-section__form caret-wrapped-overlapping">
-						<div class="caret-wrapped">
-							<input type="text" placeholder="Name Ihres Unternehmens" class="caret-wrapped__input landing-section__input--primary">
-						</div>
-						<div class="caret-wrapped caret-wrapped--button caret-wrapped--primary caret-wrapped--no-left">
-							<button type="submit" class="caret-wrapped__button caret-wrapped__button--overlaying-left">weiter</button>
-						</div>
-					</form> -->
+					<p>
+						<button id="switchToPrivate" class="button button--business">
+							whispeer für den persönlichen Gebrauch
+						</button>
+					</p>
+					<p>
+						<button id="trial" class="button button--business">
+							Kostenfrei whispeer Business testen
+						</button>
+					</p>
 				</div>
 			</section>
 		</main>
+
+		<script>
+			document.getElementById("switchToPrivate").addEventListener("click", function () {
+				alert("private")
+			});
+
+			document.getElementById("trial").addEventListener("click", function () {
+				alert("trial")
+			})
+		</script>
 	</body>
 </html>
