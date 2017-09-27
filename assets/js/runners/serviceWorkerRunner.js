@@ -7,6 +7,7 @@ const config = require("config");
 
 console.log("CONFIG", config)
 
+// eslint-disable-next-line no-debugger
 debugger
 
 if ("serviceWorker" in navigator) {
