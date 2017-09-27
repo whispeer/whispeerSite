@@ -1,7 +1,8 @@
 import { goToPrivate } from "../services/location.manager"
 
+require("../runners/serviceWorkerRunner")
+
 document.getElementById("switchToPrivate").addEventListener("click", function () {
-	debugger
 	goToPrivate()
 });
 
