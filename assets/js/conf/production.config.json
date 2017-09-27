@@ -6,6 +6,6 @@
 	"production": true,
 	"workerScript": "assets/js/build/worker.bundle.js",
 	"serviceWorker": {
-		"enabled": true
+		"enabled": false
 	}
 }
