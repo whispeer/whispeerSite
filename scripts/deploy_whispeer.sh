@@ -50,6 +50,7 @@ sudo mkdir whispeer
 sudo ln -s ../whispeer-build whispeer/oldBuild
 
 sudo cp -r /home/nilos/whispeer-build/b2b /var/www/whispeer
+sleep 5
 sudo cp -r /home/nilos/whispeer-build/b2c /var/www/whispeer
 
 if [ -d "/home/nilos/whispeer-app" ]; then
