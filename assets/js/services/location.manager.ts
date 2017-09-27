@@ -74,12 +74,6 @@ export const loginPage = () => {
 	setTopLocation("/login");
 }
 
-const clearServiceWorkerCache = () => {
-	if ("serviceWorker" in navigator && navigator.serviceWorker.controller) {
-		navigator.serviceWorker.controller.postMessage({ command: "clear" })
-	}
-}
-
 const insertParam = (key, value) => {
 	const currentSearch = document.location.search.substr(1).split('&');
 
@@ -100,8 +94,6 @@ export const goToBusiness = () => {
 		return
 	}
 
-	clearServiceWorkerCache()
-
 	const expires = new Date(Date.now() + MS_YEAR)
 	document.cookie = `business=1;path=/;expires=${expires.toUTCString()}`
 
@@ -112,8 +104,6 @@ export const goToPrivate = () => {
 	if (getParam("redirect")) {
 		return
 	}
-
-	clearServiceWorkerCache()
 
 	document.cookie = `business=;path=/;expires=Thu, 01 Jan 1970 00:00:01 GMT;`
 
