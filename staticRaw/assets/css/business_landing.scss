@@ -122,7 +122,9 @@ h1, h2, h3, h4, h5, h6 {
 	font-size: 24px;
 	line-height: 30px;
 	font-weight: 100;
+}
 
+.landing-section--first {
 	text-shadow: 0px 1px 5px #545B5E;
 }
 
@@ -138,7 +140,7 @@ h1, h2, h3, h4, h5, h6 {
 
 	@media (max-width: 500px) {
 		background-position: top right;
-		background-size: 500px 377px;
+		background-size: auto 377px;
 		background-color: $primary_light;
 	}
 
