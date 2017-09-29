@@ -370,7 +370,13 @@
 		"newComment": "Schreibe einen Kommentar!",
 		"comments": "Kommentare",
 		"commentsLoading": "Kommentare werden geladen!",
-		"removeComment": "Kommentar löschen"
+		"removeComment": "Kommentar löschen",
+		"inform": {
+			"more": "Weiterlesen",
+			"less": "Weniger anzeigen",
+			"androidBeta": "Jetzt <strong>die Beta</strong><br>testen!",
+			"text": "<p><strong>Herzlich Willkommen!</strong>whispeer Business befindet sich aktuell in der Pilotphase.Und Sie sind dabei!<br>Als Dankeschön möchten wir Ihnen das sicherste und beste Kommunikationsnetzwerk weltweit zur Verfügung stellen.<br>Bereit?</p><p>Das Team hinter whispeer arbeitet mit Hochdruck an stetigen Verbesserungen des Netzwerks. Die Beta-App für Android und iOS finden Sie im Android Play Store und im iOS App Store - vom Smartphone, Tablet oder PC greifen Sie so jederzeit auf Ihre Daten zu.</p><p>Die Grundfunktionalität umfasst Messaging, Verwaltung der Kontakte und Profile. Doch die Reise beginnt erst. Begleiten Sie uns auf dem Weg zu einem umfassenden Tool zur unternehmensinternen als auch -externen Kommunikation.<br>Der erste Schritt ist getan: Sie sind ab heute Vorreiter. Und erfahren natürlich als Erstes von allen Neuerungen! Grow and thrive with Privacy!</p><p>Ihr Team bei whispeer.</p>"
+		}
 	},
 	"messages": {
 		"chatPersons": "Personen in diesem Chat",
