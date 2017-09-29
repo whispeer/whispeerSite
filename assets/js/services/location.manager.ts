@@ -89,23 +89,15 @@ const getParam = (key) => {
 	return currentSearch.map((search) => search.split("=")).find(([k]) => k === key)
 }
 
+const redirect = getParam("redirect")
+
 export const goToBusiness = () => {
-	if (getParam("redirect")) {
+	if (redirect) {
 		return
 	}
 
 	const expires = new Date(Date.now() + MS_YEAR)
 	document.cookie = `business=1;path=/;expires=${expires.toUTCString()}`
-
-	insertParam("redirect", "true")
-}
-
-export const goToPrivate = () => {
-	if (getParam("redirect")) {
-		return
-	}
-
-	document.cookie = `business=;path=/;expires=Thu, 01 Jan 1970 00:00:01 GMT;`
 
 	insertParam("redirect", "true")
 }
