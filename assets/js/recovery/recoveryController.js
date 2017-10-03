@@ -3,7 +3,7 @@ var errorService = require("services/error.service").errorServiceInstance;
 var keyStore = require("services/keyStore.service").default;
 var sessionService = require("services/session.service").default;
 var socketService = require("services/socket.service").default;
-var userService = require("user/userService");
+var userService = require("users/userService").default;
 
 "use strict";
 

@@ -1,4 +1,4 @@
-var userService = require("user/userService");
+var userService = require("users/userService").default;
 
 "use strict";
 const angular = require("angular");

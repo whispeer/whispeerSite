@@ -5,7 +5,7 @@
 var cssService = require("services/css.service").default;
 var friendsService = require("services/friendsService");
 var localize = require("i18n/localizationConfig");
-var userService = require("user/userService");
+var userService = require("users/userService").default;
 
 "use strict";
 

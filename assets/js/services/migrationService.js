@@ -21,7 +21,7 @@ function runMigration(ownUser, migrationState) {
 
 
 var doMigration = function () {
-	var ownUser = require("user/userService").getown(), migrationState;
+	var ownUser = require("users/userService").default.getown(), migrationState;
 
 	if (ownUser) {
 		ownUser.getMigrationState().then(function(state) {

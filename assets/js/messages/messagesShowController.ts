@@ -14,6 +14,7 @@ import Progress from "../asset/Progress"
 
 import blobService from "../services/blobService"
 
+const saveAs = require("libs/filesaver");
 const errorService = require("services/error.service").errorServiceInstance;
 const messageService = require("messages/messageService").default;
 const State = require("asset/state");
@@ -119,22 +120,12 @@ function messagesController($scope, $element, $stateParams, $timeout) {
 	};
 
 	$scope.downloadFile = (file) => {
-		const decryptProgressStub = new Progress({ total: file.size })
-		const downloadProgress = new Progress({ total: file.size })
-
-		const loadProgress = new Progress({ depends: [ downloadProgress, decryptProgressStub ] })
+		const loadProgress = new Progress()
 
 		file.getProgress = () => loadProgress.getProgress()
 
-		blobService.getBlob(file.blobID, downloadProgress).then((blob) => {
-			downloadProgress.progress(downloadProgress.getTotal())
-
-			loadProgress.removeDepend(decryptProgressStub)
-			loadProgress.addDepend(blob._decryptProgress)
-
-			return blob.decrypt().thenReturn(blob)
-		}).then((blob) => {
-			blob.download(file.name)
+		blobService.getBlobUrl(file.blobID, loadProgress, file.size).then((blobUrl) => {
+			saveAs(blobUrl, file.name)
 		})
 	}
 

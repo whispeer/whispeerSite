@@ -1,4 +1,4 @@
-require("user/userService");
+require("users/userService").default;
 require("user/userController");
 require("user/userVerifyController");
 require("user/userWallController");

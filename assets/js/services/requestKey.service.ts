@@ -10,7 +10,6 @@ const keyStore = require("crypto/keyStore");
 const MAXCACHETIME  = 7 * 24 * 60 * 60 * 1000;
 
 const keyStoreDebug = debug("whispeer:keyStore");
-let blockageToken = "";
 
 const THROTTLE = 20;
 
@@ -67,24 +66,19 @@ class RequestKeyService {
 			}
 
 			return socketService.definitlyEmit("key.getMultiple", {
-				blockageToken: blockageToken,
 				loaded: [],
 				realids: identifiers
 			}).thenReturn(identifiers);
 		}).nodeify(cb);
 	}
 
-	setBlockageToken (_blockageToken: string) {
-		blockageToken = _blockageToken;
-	}
-
-	getKey = (keyID: string, callback: Function) => {
+	getKey = (keyID: string, cb?: Function) => {
 		if (typeof keyID !== "string") {
 			throw new Error("not a valid key realid: " + keyID);
 		}
 
 		if (keyStore.upload.isKeyLoaded(keyID)) {
-			callback();
+			return Bluebird.resolve().nodeify(cb);
 		}
 
 		keyStoreDebug("loading key: " + keyID);
@@ -100,7 +94,7 @@ class RequestKeyService {
 			keyStoreDebug("key cache miss: " + keyID);
 
 			return this.delayAsync(keyID);
-		}).nodeify(callback);
+		}).nodeify(cb);
 	}
 
 	cacheKey = (realID: string, objectID: string, time: number) => {

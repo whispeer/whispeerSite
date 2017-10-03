@@ -3,18 +3,19 @@ const errors = require("../asset/errors.js");
 
 import keyStore from "./keyStore.service";
 
-var userService = require("user/userService");
 const circleService = require("circles/circleService");
 
-var localize = require("i18n/localizationConfig");
+const localize = require("i18n/localizationConfig");
 
 class FilterService {
 	private alwaysAvailableFilter = ["allfriends"];
 
 	alwaysFilterToKey(filter: any) {
+		const userService = require("../users/userService").default;
+
 		switch (filter) {
 			case "allfriends":
-				return userService.getown().getFriendsKey();
+				return userService.getOwn().getFriendsKey();
 			case "everyone":
 				//we do not encrypt it anyhow .... this needs to be checked in before!
 				throw new Error("should never be here");
@@ -33,6 +34,7 @@ class FilterService {
 
 	userFilterToKey(user: any) {
 		return Bluebird.try(() => {
+			const userService = require("../users/userService").default;
 			return userService.get(user);
 		}).then((user) => {
 			return user.getContactKey();
@@ -41,14 +43,17 @@ class FilterService {
 
 	friendsFilterToKey(user: any) {
 		return Bluebird.try(() => {
+			const userService = require("../users/userService").default;
 			return userService.get(user);
 		}).then((user) => {
 			return user.getFriendsKey();
 		});
 	}
 
-	public filterToKeys(filters: any, cb: any) {
+	public filterToKeys(filters: any, cb?: any) {
 		return Bluebird.try(() => {
+			const userService = require("../users/userService").default;
+
 			var filterPromises = filters.map((filter: any) => {
 				var map = filter.split(":");
 
@@ -66,7 +71,7 @@ class FilterService {
 				}
 			});
 
-			filterPromises.push(userService.getown().getMainKey());
+			filterPromises.push(userService.getOwn().getMainKey());
 
 			return Bluebird.all(filterPromises);
 		}).nodeify(cb);
@@ -85,6 +90,7 @@ class FilterService {
 	}
 
 	getFriendsFilterByID(id: any) {
+		const userService = require("../users/userService").default;
 		return userService.get(id).then((user: any) => {
 			return {
 				name: localize.getLocalizedString("directives.friendsOf", {name: user.data.name}),
@@ -95,11 +101,12 @@ class FilterService {
 	}
 
 	public getAlwaysByID(id: any) {
+		const userService = require("../users/userService").default;
 		if (id !== "allfriends") {
 			throw new Error("Invalid Always id");
 		}
 
-		var key = userService.getown().getFriendsKey();
+		var key = userService.getOwn().getFriendsKey();
 
 		return {
 			name: localize.getLocalizedString("directives.allfriends"),

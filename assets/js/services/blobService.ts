@@ -3,7 +3,8 @@ interface MyWindow extends Window {
 }
 
 interface deviceBlob extends Blob {
-	localURL?: string
+	localURL?: string,
+	originalUrl?: string
 }
 
 declare var window: MyWindow
@@ -24,7 +25,7 @@ const initService = require("services/initService");
 const Queue = require("asset/Queue");
 const keyStore = require("crypto/keyStore");
 
-const knownBlobs = {};
+const knownBlobURLs = {};
 const downloadBlobQueue = new Queue(5);
 downloadBlobQueue.start();
 
@@ -45,6 +46,15 @@ const timeEnd = (name) => {
 	}
 }
 
+export const unpath = (path: string): { name: string, directory: string } => {
+	const index = Math.max(path.lastIndexOf("/"), path.lastIndexOf("\\")) + 1
+
+	return {
+		directory: path.substr(0, index),
+		name: path.substr(index)
+	}
+}
+
 class MyBlob {
 	private blobData: deviceBlob
 	private blobID: string
@@ -54,11 +64,11 @@ class MyBlob {
 	private decrypted: boolean
 	private preReservedID: string
 
-	private uploadProgress
-	private encryptProgress
-	private decryptProgress
+	public uploadProgress
+	public encryptProgress
+	public decryptProgress
 
-	constructor(blobData, blobID?, options?) {
+	constructor(blobData, blobID?, options?: { meta?, decrypted? }) {
 		this.blobData = blobData;
 		options = options || {};
 
@@ -70,22 +80,20 @@ class MyBlob {
 		}
 
 		this.meta = options.meta || {};
-		this.key = this.meta.key;
-		this.decrypted = !this.key;
+		this.key = this.meta._key || this.meta.key;
+		this.decrypted = options.decrypted || !this.key;
 
 		this.uploadProgress = new Progress({ total: this.getSize() });
 		this.encryptProgress = new Progress({ total: this.getSize() });
 		this.decryptProgress = new Progress({ total: this.getSize() });
 	}
 
-	isUploaded() {
-		return this.uploaded;
+	isDecrypted() {
+		return this.decrypted
 	}
 
-	setMeta (meta) {
-		if (!this.isUploaded()) {
-			this.meta = meta;
-		}
+	isUploaded() {
+		return this.uploaded;
 	}
 
 	getSize() {
@@ -96,7 +104,13 @@ class MyBlob {
 		return this.meta;
 	}
 
-	getArrayBuffer() {
+	private getArrayBuffer() {
+		if (this.blobData.originalUrl) {
+			const { directory, name } = unpath(this.blobData.originalUrl)
+
+			return blobCache.readFileAsArrayBuffer(directory, name)
+		}
+
 		return new Bluebird((resolve) => {
 			const reader = new FileReader();
 
@@ -114,17 +128,17 @@ class MyBlob {
 		});
 	}
 
-	encryptAndUpload (key, cb) {
+	encryptAndUpload (key) {
 		return Bluebird.try(async () => {
 			const blobKey = await this.encrypt();
 			await keyStore.sym.symEncryptKey(blobKey, key);
 			await this.upload();
 
 			return blobKey;
-		}).nodeify(cb);
+		})
 	}
 
-	encrypt (cb?) {
+	encrypt () {
 		return Bluebird.resolve().then(() => {
 			if (this.uploaded || !this.decrypted) {
 				throw new Error("trying to encrypt an already encrypted or public blob. add a key decryptor if you want to give users access");
@@ -150,12 +164,12 @@ class MyBlob {
 			this.blobData = new Blob([encryptedData], {type: this.blobData.type});
 
 			return this.key;
-		}).nodeify(cb);
+		})
 	}
 
-	decrypt (cb) {
+	decrypt () {
 		if (this.decrypted) {
-			return Bluebird.resolve().nodeify(cb);
+			return Bluebird.resolve()
 		}
 
 		return Bluebird.try(() => {
@@ -172,78 +186,12 @@ class MyBlob {
 			this.decrypted = true;
 
 			this.blobData = new Blob([decryptedData], {type: this.blobData.type});
-		}).nodeify(cb);
-	}
 
-	getBase64Representation() {
-		return this.getStringRepresentation().then((blobValue) => {
-			return blobValue.split(",")[1];
-		});
-	}
-
-	upload (cb?) {
-		return Bluebird.try(() => {
-			if (this.uploaded) {
-				return this.blobID;
-			}
-
-			return this.reserveID();
-		}).then((blobid) => {
-			return socketService.uploadBlob(this.blobData, blobid, this.uploadProgress);
-		}).then(() => {
-			this.uploaded = true;
-
-			return this.blobID;
-		}).nodeify(cb);
-	}
-
-	getBlobID() {
-		return this.blobID
-	}
-
-	getBlobData() {
-		return this.blobData
-	}
-
-	reserveID () {
-		return Bluebird.try(() => {
-			const meta = this.meta;
-			meta.key = this.key;
-			meta.one = 1;
-
-			if (this.preReservedID) {
-				return socketService.emit("blob.fullyReserveID", {
-					blobid: this.preReservedID,
-					meta: meta
-				});
-			}
-
-			return socketService.emit("blob.reserveBlobID", {
-				meta: meta
-			});
-		}).then((data) => {
-			if (data.blobid) {
-				this.blobID = data.blobid;
-
-				knownBlobs[this.blobID] = Bluebird.resolve(this);
-
-				return this.blobID;
-			}
+			return blobCache.store(this).catch((e) => {
+				console.log("Could not store blob", e)
+				return this.toURL()
+			})
 		})
-	}
-
-	preReserveID (cb) {
-		return Bluebird.try(() => {
-			return socketService.emit("blob.preReserveID", {});
-		}).then((data) => {
-			if (data.blobid) {
-				this.preReservedID = data.blobid;
-				knownBlobs[this.preReservedID] = Bluebird.resolve(this);
-				return data.blobid;
-			}
-
-			throw new Error("got no blobid");
-		}).nodeify(cb);
 	}
 
 	toURL() {
@@ -268,12 +216,67 @@ class MyBlob {
 		})
 	}
 
-	getStringRepresentation() {
+
+	upload () {
 		return Bluebird.try(() => {
-			return Bluebird.fromCallback((cb) => {
-				h.blobToDataURI(this.blobData, cb)
-			})
-		});
+			if (this.uploaded) {
+				return this.blobID;
+			}
+
+			return this.reserveID();
+		}).then((blobid) => {
+			return socketService.uploadBlob(this.blobData, blobid, this.uploadProgress);
+		}).then(() => {
+			this.uploaded = true;
+
+			return this.blobID;
+		})
+	}
+
+	getBlobID() {
+		return this.blobID
+	}
+
+	getBlobData() {
+		return this.blobData
+	}
+
+	private reserveID () {
+		return Bluebird.try(() => {
+			const meta = this.meta;
+			meta._key = this.key;
+			meta.one = 1;
+
+			if (this.preReservedID) {
+				return socketService.emit("blob.fullyReserveID", {
+					blobid: this.preReservedID,
+					meta: meta
+				});
+			}
+
+			return socketService.emit("blob.reserveBlobID", {
+				meta: meta
+			});
+		}).then((data) => {
+			if (data.blobid) {
+				this.blobID = data.blobid;
+
+				return this.blobID;
+			}
+		})
+	}
+
+	preReserveID () {
+		return Bluebird.try(() => {
+			return socketService.emit("blob.preReserveID", {});
+		}).then((data) => {
+			if (data.blobid) {
+				this.preReservedID = data.blobid;
+				return data.blobid;
+			}
+
+			throw new Error("got no blobid");
+		})
 	}
 
 	getHash() {
@@ -283,43 +286,54 @@ class MyBlob {
 	}
 }
 
-const loadBlobFromServer = (blobID, downloadProgress) => {
-	return downloadBlobQueue.enqueue(1, () => {
-		return initService.awaitLoading().then(() => {
-			return new BlobDownloader(socketService, blobID, downloadProgress).download()
-		}).then((data) => {
-			const blob = new MyBlob(data.blob, blobID, { meta: data.meta });
+const loadBlob = (blobID, progress, estimatedSize) => {
+	const decryptProgressStub = new Progress({ total: estimatedSize })
+	const downloadProgress = new Progress({ total: estimatedSize })
 
-			blobCache.store(blob)
+	progress.addDepend(downloadProgress)
+	progress.addDepend(decryptProgressStub)
 
-			return blob;
-		});
-	});
+	return downloadBlobQueue.enqueue(1, () => Bluebird.try(async () => {
+		await initService.awaitLoading()
+		const data = await new BlobDownloader(socketService, blobID, downloadProgress).download()
+
+		const blob = new MyBlob(data.blob, blobID, { meta: data.meta });
+
+		if (blob.isDecrypted()) {
+			return blobCache.store(blob).catch(() => blob.toURL())
+		}
+
+		downloadProgress.progress(downloadProgress.getTotal())
+
+		progress.removeDepend(decryptProgressStub)
+		progress.addDepend(blob.decryptProgress)
+
+		return blob.decrypt()
+	}))
 }
 
-const loadBlobFromDB = (blobID) => {
-	return blobCache.get(blobID).then(({ blob, blobID, meta }) => {
-		return new MyBlob(blob, blobID, { meta });
-	});
-}
+const getBlob = (blobID, downloadProgress: Progress, estimatedSize: number) => {
+	if (!knownBlobURLs[blobID]) {
+		knownBlobURLs[blobID] = loadBlob(blobID, downloadProgress, estimatedSize)
+	}
 
-const loadBlob = (blobID, downloadProgress) => {
-	return loadBlobFromDB(blobID).catch(() => {
-		return loadBlobFromServer(blobID, downloadProgress);
-	});
+	return knownBlobURLs[blobID]
 }
 
 const blobService = {
 	createBlob: (blob) => {
 		return new MyBlob(blob);
 	},
-	getBlob: (blobID, downloadProgress?: Progress) => {
-		if (!knownBlobs[blobID]) {
-			knownBlobs[blobID] = loadBlob(blobID, downloadProgress)
-		}
-
-		return knownBlobs[blobID]
-	}
+	isBlobLoaded: (blobID) => {
+		return blobCache.isLoaded(blobID)
+	},
+	getBlobUrl: (blobID, progress: Progress = new Progress(), estimatedSize = 0): Bluebird<string> => {
+		return blobCache.getBlobUrl(blobID).catch(() => {
+			return getBlob(blobID, progress, estimatedSize)
+		})
+	},
 }
+
+export type BlobType = MyBlob
 
 export default blobService

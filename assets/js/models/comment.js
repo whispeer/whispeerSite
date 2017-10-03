@@ -1,7 +1,7 @@
 var Bluebird = require("bluebird");
 var SecuredData = require("asset/securedDataWithMetaData");
 
-var userService = require("user/userService");
+var userService = require("users/userService").default;
 var socket = require("services/socket.service").default;
 
 var CommentModel = function (data, parentPost) {

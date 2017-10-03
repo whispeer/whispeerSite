@@ -4,7 +4,7 @@
 
 var cssService = require("services/css.service").default;
 var errorService = require("services/error.service").errorServiceInstance;
-var userService = require("user/userService");
+var userService = require("users/userService").default;
 var filterService = require("services/filter.service.ts").default;
 var localize = require("i18n/localizationConfig");
 var settingsService = require("services/settings.service").default;

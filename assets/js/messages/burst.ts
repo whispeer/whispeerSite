@@ -1,11 +1,10 @@
 import h from "../helper/helper"
-
-import TopicUpdate from "./chatTitleUpdate"
+import { Message } from "../messages/message"
 
 const MINUTE = 60 * 1000;
 
 export default class Burst {
-	private items
+	private items: Message[]
 	private chunkID
 
 	constructor () {
@@ -44,48 +43,39 @@ export default class Burst {
 		return this.items[this.items.length - 1];
 	}
 
-	isMessageBurst = () => {
-		return !this.isChatUpdate();
-	}
-
-	private _isItemChunkUpdate = (item) => {
-		return item instanceof TopicUpdate;
-	}
-
-	isChatUpdate = () => {
-		return this._isItemChunkUpdate(this.firstItem());
-	}
-
 	hasItems = () => {
 		return this.items.length > 0;
 	}
 
-	fitsItem = (item) => {
+	continousMessage(item: Message) {
+		if (this.items.findIndex((m) => m.getClientID() === item.getPreviousID()) !== -1) {
+			return true
+		}
+
+		return this.items.findIndex((m) => m.getPreviousID() === item.getClientID()) !== -1
+	}
+
+	fitsItem = (item: Message) => {
 		if (!this.hasItems()) {
 			return true;
 		}
 
-		if (this._isItemChunkUpdate(this.firstItem()) || this._isItemChunkUpdate(item)) {
-			return false;
-		}
-
 		return this.sameChunk(item) &&
 			this.sameSender(item) &&
+			this.continousMessage(item) &&
 			this.sameDay(item) &&
-			this.timeDifference(item) < MINUTE * 10;
+			this.timeDifference(item) < MINUTE * 10
 
 	}
 
-	getChunkID = () => {
-		return this.chunkID
-	}
+	getChunkID = () => this.chunkID
 
-	sameChunk = (burst: Burst) => {
-		if (!burst) {
+	sameChunk = (item: Message | Burst) => {
+		if (!item) {
 			return false;
 		}
 
-		return this.getChunkID() === burst.getChunkID();
+		return this.getChunkID() === item.getChunkID();
 	}
 
 	sameSender = (message) => {
@@ -124,11 +114,11 @@ export default class Burst {
 	}
 
 	isMe = () => {
-		return this.isMessageBurst() && this.firstItem().data.sender.me;
+		return this.firstItem().data.sender.me;
 	}
 
 	isOther = () => {
-		return this.isMessageBurst() && !this.firstItem().data.sender.me;
+		return !this.firstItem().data.sender.me;
 	}
 
 	sender = () => {

@@ -27,7 +27,7 @@ require("emptyInclude");
 
 /* ensure loading of all init modules */
 require("services/trust.service")
-require("user/userService")
+require("users/userService")
 require("services/settings.service")
 
 module.exports = angular.module("ssn", [
