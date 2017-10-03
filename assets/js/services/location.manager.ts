@@ -3,8 +3,9 @@ import Storage from "./Storage";
 import "jquery";
 const h = require("../helper/helper").default;
 
-var config = require("config")
+const config = require("config")
 
+const MS_YEAR = 365 * 24 * 60 * 60 * 1000
 
 const loginStorage: Storage = StorageService.withPrefix("whispeer.login");
 
@@ -73,8 +74,32 @@ export const loginPage = () => {
 	setTopLocation("/login");
 }
 
+const insertParam = (key, value) => {
+	const currentSearch = document.location.search.substr(1).split('&');
+
+	const newSearch = currentSearch.filter((val) => val.split("=")[0] === key)
+
+	newSearch.push([key,value].join("="))
+	document.location.search = newSearch.join('&');
+}
+
+const getParam = (key) => {
+	const currentSearch = document.location.search.substr(1).split('&');
+
+	return currentSearch.map((search) => search.split("=")).find(([k]) => k === key)
+}
+
+const redirect = getParam("redirect")
+
 export const goToBusiness = () => {
-	window.top.location.href = config.businessUrl
+	if (redirect) {
+		return
+	}
+
+	const expires = new Date(Date.now() + MS_YEAR)
+	document.cookie = `business=1;path=/;expires=${expires.toUTCString()}`
+
+	insertParam("redirect", "true")
 }
 
 export const goToSalesPage = () => {

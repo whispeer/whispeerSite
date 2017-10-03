@@ -12,7 +12,7 @@ var displayFileDirective = function () {
 		transclude: true,
 		restrict: "E",
 		templateUrl: templateUrl,
-		link: function (scope, elm, attrs) {}
+		link: function () {}
 	};
 };
 

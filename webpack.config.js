@@ -106,7 +106,8 @@ var config = {
 		register: "./register/registerMain.js",
 		main: "./main.js",
 		recovery: "./recovery/recoveryMain.js",
-		verifyMail: "./verifyMail/verifyMailMain.js"
+		verifyMail: "./verifyMail/verifyMailMain.js",
+		sales: "./sales/salesMain.ts"
 	},
 	output: {
 		path: path.resolve("./assets/js/build/"),
