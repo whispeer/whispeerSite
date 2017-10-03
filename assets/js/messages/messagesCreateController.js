@@ -52,12 +52,8 @@ function messagesController($scope, $state, $stateParams) {
 	};
 
 	function getUser(userid) {
-		var findUser = Bluebird.promisify(userService.get.bind(userService));
-
-		return findUser(userid).then(function (user) {
-			var loadBasicData = Bluebird.promisify(user.loadBasicData.bind(user));
-
-			return loadBasicData().then(function () {
+		return userService.get(userid).then(function (user) {
+			return user.loadBasicData().then(function () {
 				return [user.data];
 			});
 		});

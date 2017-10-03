@@ -140,10 +140,8 @@ var Circle = function (data) {
 				const userService = require("users/userService").default;
 				var ownUser = userService.getOwn();
 
-				var uploadChangedProfileAsync = Bluebird.promisify(ownUser.uploadChangedProfile.bind(ownUser));
-
 				//rebuild profiles
-				return uploadChangedProfileAsync();
+				return ownUser.uploadChangedProfile();
 			}
 		}).then(function () {
 			return theCircle.loadPersons();

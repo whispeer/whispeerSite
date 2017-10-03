@@ -22,10 +22,7 @@ module.exports = function () {
 
 		Search.prototype.debouncedSearch = function (query) {
 			return userService.query(query).bind(this).map(function (user) {
-				var loadBasicData = Bluebird.promisify(user.loadBasicData.bind(user));
-				return loadBasicData().then(function () {
-					return user;
-				});
+				return user.loadBasicData().thenReturn(user)
 			}).then(function (users) {
 				return users.map(function (user) {
 					user.loadFullData(errorService.criticalError);

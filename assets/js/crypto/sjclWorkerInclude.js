@@ -9,7 +9,7 @@ function getEntropy() {
 	try {
 		var ab;
 
-        // get cryptographically strong entropy depending on runtime environment
+		// get cryptographically strong entropy depending on runtime environment
 		if (window && Uint32Array) {
 			ab = new Uint32Array(32);
 			if (window.crypto && window.crypto.getRandomValues) {

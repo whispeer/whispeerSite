@@ -40,9 +40,7 @@ function friendsController($scope)  {
 	function loadRequestsUsers() {
 		return Bluebird.try(function () {
 			var requests = friendsService.getRequests();
-
-			var getMultipleFormatted = Bluebird.promisify(userService.getMultipleFormatted);
-			return getMultipleFormatted(requests);
+			return userService.getMultipleFormatted(requests);
 		}).then(function (result) {
 			$scope.requests = result;
 		});

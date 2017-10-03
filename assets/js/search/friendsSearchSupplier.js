@@ -13,13 +13,8 @@ module.exports = function () {
 				return Bluebird.reject(new Error("minimum3letters"));
 			}
 
-			var action = Bluebird.promisify(userService.queryFriends.bind(userService));
-
-			return action(query).bind(this).map(function (user) {
-				var loadBasicData = Bluebird.promisify(user.loadBasicData.bind(user));
-				return loadBasicData().then(function () {
-					return user;
-				});
+			return userService.queryFriends(query).bind(this).map(function (user) {
+				return user.loadBasicData().thenReturn(user);
 			}).then(function (users) {
 				return users.map(function (e) {
 					return e.data;

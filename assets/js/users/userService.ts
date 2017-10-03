@@ -15,7 +15,7 @@ function loadUser(identifier) {
 
 userService = {
 	/** search your friends */
-	queryFriends: function (query, cb) {
+	queryFriends: function (query) {
 		return Bluebird.try(function () {
 			return socketService.emit("user.searchFriends", {
 				text: query,
@@ -25,7 +25,7 @@ userService = {
 			return data.results
 		}).map((user: any) => {
 			return UserLoader.load(user)
-		}).nodeify(cb)
+		})
 	},
 
 	/** search for a user
