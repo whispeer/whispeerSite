@@ -4,7 +4,7 @@ import jQuery from "jquery"
 import * as Bluebird from "bluebird"
 
 import Burst from "./burst"
-import ChatLoader from "./chat"
+import ChatLoader, { Chat } from "./chat"
 import MessageLoader from "./message"
 
 import ImageUpload from "../services/imageUpload.service"
@@ -193,18 +193,18 @@ function messagesController($scope, $element, $stateParams, $timeout) {
 
 	var loadTopicsPromise = initService.awaitLoading().then(() =>
 		ChatLoader.get(chatID)
-	).then(function(chat) {
+	).then(function(chat: Chat) {
 		messageService.setActiveChat(chatID);
 		$scope.activeChat = chat;
 
 		$scope.canSend = true;
 		$scope.newMessage = false;
 		return chat.loadInitialMessages().thenReturn(chat);
-	}).then(function(chat) {
+	}).then(function(chat: Chat) {
 		$scope.topicLoaded = true;
 
-		if (chat.getMessagesAndUpdates().length > 0) {
-			chat.markRead(errorService.criticalError);
+		if (chat.getMessages().length > 0) {
+			chat.markRead().catch(errorService.criticalError);
 		}
 
 		loadMoreUntilFull();
@@ -251,21 +251,11 @@ function messagesController($scope, $element, $stateParams, $timeout) {
 	let bursts = [], burstTopic;
 
 	function getBursts() {
-		if (!$scope.activeChat || $scope.activeChat.getMessagesAndUpdates().length === 0) {
+		if (!$scope.activeChat || $scope.activeChat.getMessages().length === 0) {
 			return { changed: false, bursts: [] };
 		}
 
-		const messagesAndUpdates = $scope.activeChat.getMessagesAndUpdates().map(({ id: { id, type }}) => {
-			if (type === "message") {
-				return MessageLoader.getLoaded(id)
-			}
-
-			if (type === "topicUpdate") {
-				throw new Error("not yet implemented")
-			}
-
-			throw new Error("invalid type for message or update")
-		})
+		const messagesAndUpdates = $scope.activeChat.getMessages().map(({ id }) => MessageLoader.getLoaded(id))
 
 		if (burstTopic !== $scope.activeChat.getID()) {
 			bursts = BurstHelper.calculateBursts(messagesAndUpdates);
